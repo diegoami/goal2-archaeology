@@ -1,0 +1,12 @@
+; GOAL.DAT sha256 bc5e5c04434d31f350eb7803afc3810333393e049d50dde559797a5b068c60ca (44,040 bytes); sizes are the loader's, GOAL.EXE 1771:018A
+block	file_offset	size	record_size	records	loader_destination
+country_names	0x0000	2064	16	129	[9B68] heap
+player_names	0x0810	33671	11	3061	[9B6C] heap
+player_initials	0x8B97	3061	1	3061	[9B70] heap
+manager_names	0x978C	1755	13	135	[9B74] heap
+manager_initials	0x9E67	135	1	135	[9B78] heap
+per_country_3	0x9EEE	387	3	129	DS:9D80
+per_country_a	0xA071	129	1	129	DS:9B7C
+per_country_b	0xA0F2	129	1	129	DS:9BFD
+per_country_c	0xA173	129	1	129	DS:9C7E
+squad_20	0xA1F4	2580	20	129	DS:9F03

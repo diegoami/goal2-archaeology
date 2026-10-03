@@ -1,0 +1,1361 @@
+; GOAL.EXE (goal (version 2), artifact set goal2-a949da2f), strings (ASCII runs of 4 or more printable bytes, in code gaps and the data segment)
+; packed GOAL.EXE sha256 a6928b0bb7cda0303ac8daf8690efc56ef1792dddaccb5c6f3d85af1f68d3664 (92,391 bytes, LZEXE 0.91)
+; unpacked (tools/static/unlzexe.py) sha256 6fd8c5ef995358ff8e5e47d60de61dccd7bdf8e73f2f584018fcfe4c8c713188
+; tool: tools/static/listing.py
+; addresses are SEGMENT:OFFSET with SEGMENT the image paragraph before relocation; image offset = SEGMENT*16+OFFSET
+; kind pstr = length-prefixed (Pascal) string, ascii = anything else; heuristic, not a parse
+segment:offset	image_offset	kind	text
+000E:055F	0063F	pstr	BEST PLACE YET  !!
+000E:083B	0091B	pstr	Assistant says:
+000E:084B	0092B	pstr	Physio says:
+000E:0858	00938	pstr	Coach comments:
+000E:0C07	00CE7	pstr	HACKER
+000E:0C0E	00CEE	pstr	SENT OFF
+000E:0C17	00CF7	pstr	MARCHING ORDERS
+000E:0C27	00D07	pstr	FOR 
+000E:0C2D	00D0D	pstr	RED CARD FOR
+000E:0CCF	00DAF	pstr	WORLD CHAMPIONS!
+000E:0CE4	00DC4	pstr	a national hero
+000E:0CF4	00DD4	pstr	WE ARE THE
+000E:0CFF	00DDF	pstr	CHAMPIONS!
+000E:0D0B	00DEB	pstr	HERE WE GO 
+000E:0D17	00DF7	pstr	HERE WE GO!
+000E:0D28	00E08	pstr	UTTER MAGIC!
+000E:0D35	00E15	pstr	CAN DO IT!
+000E:0D40	00E20	pstr	 TOO CLOSE
+000E:0D4B	00E2B	pstr	FOR COMFORT
+000E:0D57	00E37	pstr	TRIUMPH IN
+000E:0D62	00E42	pstr	PENALTY SHOOTOUT
+000E:0D73	00E53	pstr	IS USELESS
+000E:0D7E	00E5E	pstr	SCRAPE A WIN
+000E:0D8B	00E6B	pstr	LOOK RAGGED
+000E:0D97	00E77	pstr	FAIL TO
+000E:0D9F	00E7F	pstr	CONVINCE
+000E:0DA8	00E88	pstr	LOOK ORDINARY
+000E:0DB6	00E96	pstr	BELOW PAR
+000E:0DC0	00EA0	pstr	PERFORMANCE
+000E:0DD0	00EB0	pstr	STRUGGLE
+000E:0DD9	00EB9	pstr	MUST IMPROVE
+000E:0DE6	00EC6	pstr	DO THE JOB
+000E:0DF1	00ED1	pstr	JUST
+000E:0DFA	00EDA	pstr	NERVE TINGLER
+000E:0E08	00EE8	pstr	A REAL NAIL-BITER
+000E:0E1A	00EFA	pstr	FROM 
+000E:0E20	00F00	pstr	A CRACKER
+000E:0E2A	00F0A	pstr	OF A MATCH
+000E:0E35	00F15	pstr	SHOULD HAVE
+000E:0E41	00F21	pstr	BEEN MORE
+000E:0E4B	00F2B	pstr	IN TRAINING
+000E:0E57	00F37	pstr	EXCERCISE
+000E:0E61	00F41	pstr	WIN AS
+000E:0E68	00F48	pstr	EXPECTED
+000E:0E71	00F51	pstr	NEED TO PLAY
+000E:0E7E	00F5E	pstr	BETTER
+000E:0E85	00F65	pstr	LOOKING GOOD
+000E:0E92	00F72	pstr	DOING FINE
+000E:0E9D	00F7D	pstr	A GRITTY
+000E:0EA6	00F86	pstr	WIN COMFORTABLY
+000E:0EB6	00F96	pstr	CONFIDENCE
+000E:0EC1	00FA1	pstr	BOOST FOR
+000E:0ECB	00FAB	pstr	IN IMPRESSIVE
+000E:0ED9	00FB9	pstr	FORM
+000E:0EDE	00FBE	pstr	DO THEIR STUFF
+000E:0EED	00FCD	pstr	SHOW THEM
+000E:0EF7	00FD7	pstr	DO IT IN STYLE
+000E:0F06	00FE6	pstr	WIN IN STYLE
+000E:0F13	00FF3	pstr	A GOOD RESULT
+000E:0F21	01001	pstr	FOR 
+000E:0F26	01006	pstr	THIS IS WHAT
+000E:0F33	01013	pstr	WE WANT ,
+000E:0F3D	0101D	pstr	TRIUMPH!
+000E:0F46	01026	pstr	HIT THE BIG TIME
+000E:0F57	01037	pstr	DESTROY
+000E:0F5F	0103F	pstr	STORM TO VICTORY
+000E:0F70	01050	pstr	IMPRESS
+000E:0F78	01058	pstr	SIMPLY STUNNING!
+000E:0F89	01069	pstr	STANDING OVATION
+000E:0F9A	0107A	pstr	FOR OUR LADS
+000E:0FA7	01087	pstr	 GOAL BONANZA
+000E:0FB5	01095	pstr	GOALS GALORE
+000E:0FC2	010A2	pstr	ROMP HOME
+000E:0FCC	010AC	pstr	WALKS ON WATER
+000E:0FDB	010BB	pstr	SO NEAR
+000E:0FE3	010C3	pstr	AND YET
+000E:0FEB	010CB	pstr	SO FAR!
+000E:0FF3	010D3	pstr	BETTER LUCK
+000E:0FFF	010DF	pstr	NEXT TIME
+000E:1009	010E9	pstr	WORLD CUP
+000E:1013	010F3	pstr	HOPES DASHED!
+000E:1021	01101	pstr	TRIP UP!
+000E:102A	0110A	pstr	DISAPPOINTING
+000E:1038	01118	pstr	LACKING
+000E:1040	01120	pstr	HOLD ON
+000E:1048	01128	pstr	FORCE A DRAW
+000E:1055	01135	pstr	GAMES
+000E:105B	0113B	pstr	WITHOUT A WIN
+000E:1069	01149	pstr	IS LUCKY TO
+000E:1075	01155	pstr	KEEP HIS JOB
+000E:1082	01162	pstr	IS OUT OF
+000E:108C	0116C	pstr	HIS DEPTH
+000E:1096	01176	pstr	THIS MUST BE
+000E:10A3	01183	pstr	THE END FOR
+000E:10AF	0118F	pstr	GOODBYE
+000E:10B7	01197	pstr	,AND
+000E:10BC	0119C	pstr	GOOD RIDDANCE!
+000E:10CB	011AB	pstr	DISGRACEFUL
+000E:10D7	011B7	pstr	SHOWING BY
+000E:10E2	011C2	pstr	FANS WALK OUT
+000E:10F0	011D0	pstr	MUST DO BETTER
+000E:10FF	011DF	pstr	BLACK DAY FOR
+000E:110D	011ED	pstr	SCRAPPY
+000E:1115	011F5	pstr	PERFORMANCE BY
+000E:1124	01204	pstr	FALL APART
+000E:112F	0120F	pstr	DISMAL EFFORT BY
+000E:1140	01220	pstr	FAIL MISERABLY
+000E:114F	0122F	pstr	GUTSY
+000E:1155	01235	pstr	UNLUCKY TO LOSE
+000E:1165	01245	pstr	FIGHT HARD
+000E:1170	01250	pstr	LOSE TOUGH
+000E:117B	0125B	pstr	BATTLE
+000E:1182	01262	pstr	UNHAPPY WITH
+000E:118F	0126F	pstr	WHAT A LOAD
+000E:119B	0127B	pstr	OF RUBBISH
+000E:11A6	01286	pstr	SLAUGHTERED
+000E:11B6	01296	pstr	NOT GOOD ENOUGH
+000E:11C6	012A6	pstr	THRASHED
+000E:11CF	012AF	pstr	DESTROYED
+000E:2018	020F8	pstr	GET RID OF
+000E:2023	02103	pstr	 AND
+000E:2028	02108	pstr	TRY 
+000E:2031	02111	pstr	MUCH BETTER THAN
+000E:2042	02122	pstr	MUST GO !
+000E:204C	0212C	pstr	DESERVES
+000E:2055	02135	pstr	A GAME
+000E:205C	0213C	pstr	MUST GET
+000E:2065	02145	pstr	IN THE TEAM
+000E:238A	0246A	pstr	WORLD CUP VICTORS
+000E:239C	0247C	pstr	AND 
+000E:23A1	02481	pstr	ARE READY TO TAKE
+000E:23B3	02493	pstr	ON THE WORLD
+000E:23C0	024A0	pstr	 TAKES
+000E:23C7	024A7	pstr	TO THE FINAL
+000E:23D4	024B4	pstr	WE REMAIN TO BE
+000E:23E4	024C4	pstr	CONVINCED
+000E:23EE	024CE	pstr	A VICTORY FOR
+000E:23FF	024DF	pstr	DO IT AGAIN
+000E:240B	024EB	pstr	IS ON THE
+000E:2415	024F5	pstr	WINNING TRACK
+000E:2423	02503	pstr	NOT BAD
+000E:242B	0250B	pstr	TWO IN A ROW!
+000E:2439	02519	pstr	KEEP IT UP
+000E:2444	02524	pstr	THINGS ARE LOOKING
+000E:2457	02537	pstr	UP FOR
+000E:245E	0253E	pstr	IS PERFORMING
+000E:246C	0254C	pstr	WELL, WE SAY
+000E:2479	02559	pstr	ARE LOOKING GOOD
+000E:248A	0256A	pstr	IS ON THE RIGHT
+000E:249A	0257A	pstr	TRACK
+000E:24A0	02580	pstr	MAKES IT LOOK
+000E:24AE	0258E	pstr	SO EASY
+000E:24B6	02596	pstr	GENIUS OF
+000E:24C0	025A0	pstr	CONTINUES TO SHOW
+000E:24D2	025B2	pstr	IS OUR MAN
+000E:24DD	025BD	pstr	IS THE BEST
+000E:24E9	025C9	pstr	WE'VE SEEN
+000E:24F4	025D4	pstr	WE LOVE YOU
+000E:2500	025E0	pstr	 WINS
+000E:2506	025E6	pstr	IT JUST GOES ON!
+000E:2517	025F7	pstr	 CONSECUTIVE
+000E:2524	02604	pstr	WINS CANNOT
+000E:2530	02610	pstr	BE BAD
+000E:2537	02617	pstr	 GLORIOUS WINS!
+000E:2547	02627	pstr	THANK YOU 
+000E:2552	02632	pstr	WHO WILL REPLACE
+000E:2565	02645	pstr	WHAT ARE YOU
+000E:2572	02652	pstr	DOING?
+000E:2579	02659	pstr	BETTER GET YOUR
+000E:2589	02669	pstr	TACTICS WORKED OUT
+000E:259C	0267C	pstr	WE COULD DO MUCH
+000E:25AD	0268D	pstr	BETTER
+000E:25B4	02694	pstr	NEED A DEFENCE
+000E:25C3	026A3	pstr	WHERE WAS THE
+000E:25D1	026B1	pstr	DEFENCE, WE ASK?
+000E:25E2	026C2	pstr	COULD DO WITH A
+000E:25F2	026D2	pstr	FOOTBALL TEAM
+000E:2600	026E0	pstr	NEED TO
+000E:2608	026E8	pstr	CREATE CHANCES
+000E:2617	026F7	pstr	LOOK WEAK
+000E:2621	02701	pstr	IN ATTACK
+000E:262B	0270B	pstr	NEED A STRIKE
+000E:2639	02719	pstr	FORCE
+000E:263F	0271F	pstr	NEED A GOALKEEPER
+000E:2651	02731	pstr	GET A NEW KEEPER
+000E:2662	02742	pstr	SHILTON WOULD BE
+000E:2673	02753	pstr	BETTER IN GOALS
+000E:2683	02763	pstr	TRY A BIT HARDER
+000E:2694	02774	pstr	WE ARE WATCHING YOU
+000E:26A8	02788	pstr	WE ARE NOT
+000E:26B3	02793	pstr	DESERVE BETTER
+000E:26C2	027A2	pstr	NOTHING BUT A WIN
+000E:26D4	027B4	pstr	WILL DO
+000E:26DC	027BC	pstr	DO BETTER 
+000E:26E7	027C7	pstr	OR GIVE UP
+000E:2E94	02F74	pstr	WIN THE WORLD CUP
+000E:2EA7	02F87	pstr	 ARE
+000E:2EAC	02F8C	pstr	CHAMPIONS OF
+000E:2EB9	02F99	pstr	REACH THE WORLD
+000E:2EC9	02FA9	pstr	CUP FINAL
+000E:2ED7	02FB7	pstr	FINAL
+000E:2EDD	02FBD	pstr	REACH THE
+000E:2EE7	02FC7	pstr	SEMI FINALS
+000E:2EF3	02FD3	pstr	BEAT 
+000E:2EF9	02FD9	pstr	ON PENALTIES
+000E:2F06	02FE6	pstr	DESERVED VICTORY
+000E:2F17	02FF7	pstr	FOR RAMPANT
+000E:2F23	03003	pstr	BATTLE HARD
+000E:2F2F	0300F	pstr	SHOW TRUE
+000E:2F39	03019	pstr	SUPERIORITY
+000E:2F45	03025	pstr	HAS GOT IT RIGHT
+000E:2F56	03036	pstr	LUCKY TO WIN
+000E:2F63	03043	pstr	WIN AGAINST THE
+000E:2F73	03053	pstr	RUN OF PLAY
+000E:2F7F	0305F	pstr	LACKLUSTRE
+000E:2F8A	0306A	pstr	TAKE THE DAY
+000E:2F97	03077	pstr	HAVE ALL
+000E:2FA0	03080	pstr	THE LUCK!
+000E:2FAA	0308A	pstr	WINS THE DAY
+000E:2FB7	03097	pstr	FOR 
+000E:2FBC	0309C	pstr	SHOOTS
+000E:2FC3	030A3	pstr	 DEAD
+000E:2FC9	030A9	pstr	GLORY DAY FOR
+000E:2FD7	030B7	pstr	AND 
+000E:2FDC	030BC	pstr	CERTAINLY KNOWS
+000E:2FEC	030CC	pstr	WHERE THE NET IS
+000E:2FFD	030DD	pstr	HAT TRICK FROM
+000E:300C	030EC	pstr	HITS THE JACKPOT
+000E:301D	030FD	pstr	WITH 
+000E:3023	03103	pstr	 GOALS
+000E:302A	0310A	pstr	SHOULD HAVE WON
+000E:303A	0311A	pstr	WERE THE BETTER
+000E:304A	0312A	pstr	TEAM
+000E:304F	0312F	pstr	SCRAPE A DRAW
+000E:305D	0313D	pstr	LET OFF THE HOOK
+000E:306E	0314E	pstr	PENALTY SHOOT OUT
+000E:3080	03160	pstr	DRAMA
+000E:3086	03166	pstr	THINGS LOOK GRIM
+000E:3097	03177	pstr	YOUR JOB IS
+000E:30A3	03183	pstr	ON THE LINE!
+000E:30B0	03190	pstr	IS SACKED!!!!
+000E:30BE	0319E	pstr	UNLUCKY TO LOSE
+000E:30CE	031AE	pstr	DESERVED BETTER
+000E:30DE	031BE	pstr	POOR FINISHING
+000E:30ED	031CD	pstr	LETS DOWN
+000E:30F7	031D7	pstr	UNFORTUNATE
+000E:3103	031E3	pstr	MUST SORT THINGS
+000E:3118	031F8	pstr	THIS ONE
+000E:3121	03201	pstr	MUST GO
+000E:3129	03209	pstr	MISERABLE DAY
+000E:313B	0321B	pstr	FAILS TO IMPRESS
+000E:314C	0322C	pstr	FAIL TO IMPRESS
+000E:315C	0323C	pstr	OUTCLASSED
+000E:316B	0324B	pstr	WERE NEVER IN IT
+000E:317C	0325C	pstr	HAS PROBLEMS
+000E:3189	03269	pstr	LOOK DOWN AND OUT
+000E:3A32	03B12	pstr	Fans say:
+000E:3A3C	03B1C	pstr	Supporters say:
+000E:3A4C	03B2C	pstr	Spectators say:
+000E:3AF1	03BD1	pstr	we rule the world!
+000E:3B04	03BE4	pstr	this is heaven!
+000E:3B14	03BF4	pstr	we can do it!
+000E:3B22	03C02	pstr	no problem!
+000E:3B2E	03C0E	pstr	 is ace
+000E:3B36	03C16	pstr	we gubbed them!
+000E:3B46	03C26	pstr	demolition job!
+000E:3B56	03C36	pstr	brilliant!
+000E:3B61	03C41	pstr	incredible!
+000E:3B6D	03C4D	pstr	glad we're through
+000E:3B80	03C60	pstr	just what we want
+000E:3B92	03C72	pstr	we are the boys
+000E:3BA2	03C82	pstr	enjoyable
+000E:3BAC	03C8C	pstr	entertaining
+000E:3BB9	03C99	pstr	good stuff
+000E:3BC4	03CA4	pstr	give us some goals
+000E:3BD7	03CB7	pstr	we want a refund
+000E:3BE8	03CC8	pstr	boring!
+000E:3BF0	03CD0	pstr	sack 
+000E:3BF6	03CD6	pstr	 must go
+000E:3BFF	03CDF	pstr	this is a nightmare
+000E:3C13	03CF3	pstr	we're delighted
+000E:3C23	03D03	pstr	total crap
+000E:3C2E	03D0E	pstr	a load of bollocks
+000E:3C41	03D21	pstr	chronic
+000E:3C49	03D29	pstr	sickening
+000E:3C53	03D33	pstr	humiliating
+000E:3C5F	03D3F	pstr	disappointing
+000E:3C6D	03D4D	pstr	we were robbed
+000E:3C7C	03D5C	pstr	it's no joke
+000E:3C89	03D69	pstr	no use
+000E:3C90	03D70	pstr	next time we win
+000E:3CA1	03D81	pstr	could've been worse
+000E:3CB5	03D95	pstr	should've had them
+000E:408B	0416B	pstr	"the boys
+000E:4095	04175	pstr	done great"
+000E:40A1	04181	pstr	"I'm proud of all
+000E:40B3	04193	pstr	the lads"
+000E:40BD	0419D	pstr	"different class!"
+000E:40D1	041B1	pstr	"a close game"
+000E:40E0	041C0	pstr	"200 percent
+000E:40ED	041CD	pstr	for effort"
+000E:40F9	041D9	pstr	"a grand display
+000E:410A	041EA	pstr	by the lads"
+000E:4117	041F7	pstr	"the lads done well"
+000E:412C	0420C	pstr	"We're all quietly
+000E:413F	0421F	pstr	confident"
+000E:414A	0422A	pstr	"I'm glad
+000E:4154	04234	pstr	for the fans"
+000E:4162	04242	pstr	"it was a good game"
+000E:4177	04257	pstr	"yes, we were
+000E:4185	04265	pstr	the better team"
+000E:4196	04276	pstr	"we scored
+000E:41A1	04281	pstr	the more goals"
+000E:41B1	04291	pstr	"I'm happy with
+000E:41C1	042A1	pstr	our performance"
+000E:41D2	042B2	pstr	"I'm happy
+000E:41DD	042BD	pstr	for the lads"
+000E:41EB	042CB	pstr	"it was a fair
+000E:41FA	042DA	pstr	result"
+000E:4202	042E2	pstr	"we got the result"
+000E:4216	042F6	pstr	"we showed more
+000E:4226	04306	pstr	commitment"
+000E:4232	04312	pstr	"we got to the
+000E:4241	04321	pstr	loose ball first"
+000E:4253	04333	pstr	"it was a game
+000E:4262	04342	pstr	of two halves"
+000E:4271	04351	pstr	"we were robbed"
+000E:4282	04362	pstr	"at the end of the
+000E:4295	04375	pstr	day, a fair result"
+000E:42A9	04389	pstr	"tomorrow is
+000E:42B6	04396	pstr	another day"
+000E:42C3	043A3	pstr	"they gave us
+000E:42D1	043B1	pstr	a hard game"
+000E:42DE	043BE	pstr	"it's only a game"
+000E:42F1	043D1	pstr	gave 110 percent"
+000E:4303	043E3	pstr	"winning
+000E:430C	043EC	pstr	is never easy"
+000E:431B	043FB	pstr	"the fans
+000E:4325	04405	pstr	were marvellous"
+000E:4336	04416	pstr	"we tried"
+000E:4341	04421	pstr	"you win some
+000E:434F	0442F	pstr	you lose some"
+000E:435E	0443E	pstr	"you have to be
+000E:436E	0444E	pstr	philosophical"
+000E:437D	0445D	pstr	"you have to
+000E:438A	0446A	pstr	score goals to win"
+000E:439E	0447E	pstr	"we could have
+000E:43AD	0448D	pstr	done better"
+000E:43BA	0449A	pstr	"you're only as good
+000E:43CF	044AF	pstr	as your last result"
+000E:43E6	044C6	pstr	 got
+000E:43EB	044CB	pstr	the better result"
+000E:43FE	044DE	pstr	"they showed
+000E:440B	044EB	pstr	more commitment"
+000E:441C	044FC	pstr	"there were some
+000E:442D	0450D	pstr	good performances"
+000E:47BC	0489C	pstr	President of FA says
+000E:47D1	048B1	pstr	Football Assoc. say:
+000E:48D9	049B9	pstr	 is not
+000E:48E1	049C1	pstr	up to scratch"
+000E:48F0	049D0	pstr	 must
+000E:48F6	049D6	pstr	win some games
+000E:4905	049E5	pstr	"we are considering
+000E:4919	049F9	pstr	a new manager"
+000E:4928	04A08	pstr	simply had to go"
+000E:493A	04A1A	pstr	"this dirty play
+000E:494B	04A2B	pstr	destroys the game"
+000E:495E	04A3E	pstr	"friendly matches
+000E:4970	04A50	pstr	should be friendly"
+000E:4984	04A64	pstr	"a disgraceful lack
+000E:4998	04A78	pstr	of sportsmanship"
+000E:49AA	04A8A	pstr	"it would be nice
+000E:49BC	04A9C	pstr	to see fair play"
+000E:49CE	04AAE	pstr	"football came
+000E:49DD	04ABD	pstr	second best"
+000E:49EA	04ACA	pstr	"keep up the good
+000E:49FC	04ADC	pstr	work 
+000E:4A02	04AE2	pstr	"a satisfactory
+000E:4A12	04AF2	pstr	result"
+000E:4A1A	04AFA	pstr	is doing the job"
+000E:4A2C	04B0C	pstr	"an enjoyable match"
+000E:4A42	04B22	pstr	has done very well"
+000E:4A56	04B36	pstr	"a disappointing
+000E:4A67	04B47	pstr	exit"
+000E:4A6D	04B4D	pstr	"this is
+000E:4A76	04B56	pstr	not good enough"
+000E:4F99	05079	pstr	retires from the
+000E:4FAA	0508A	pstr	international scene
+000E:4FBE	0509E	pstr	is to retire
+000E:4FCB	050AB	pstr	at the age of 
+000E:4FDA	050BA	pstr	quits international
+000E:4FEE	050CE	pstr	football
+000E:4FF7	050D7	pstr	with 
+000E:4FFD	050DD	pstr	 caps
+000E:5003	050E3	pstr	and 
+000E:5008	050E8	pstr	 goals
+000E:500F	050EF	pstr	"he will be missed"
+000E:5024	05104	pstr	"he distinguished
+000E:5036	05116	pstr	himself"
+000E:503F	0511F	pstr	"a great player"
+000E:5050	05130	pstr	"one of the best"
+000E:5062	05142	pstr	HAS GONE !
+000E:506D	0514D	pstr	GIVES UP !
+000E:5078	05158	pstr	HAS HAD ENOUGH !
+000E:5089	05169	pstr	SHOULD HAVE BEEN
+000E:509A	0517A	pstr	CAPPED
+000E:50A1	05181	pstr	SHOULD HAVE HAD
+000E:50B1	05191	pstr	MORE CAPS
+000E:50BB	0519B	pstr	WILL MISS
+000E:50C5	051A5	pstr	SAD TO SEE
+000E:5429	05509	pstr	SHOWS PROMISE
+000E:5438	05518	pstr	DESERVES A CAP
+000E:5447	05527	pstr	NEEDS
+000E:5955	05A35	pstr	THE WORLD CUP
+000E:5963	05A43	pstr	THE 
+000E:596A	05A4A	pstr	CHAMPIONSHIPS
+000E:5A1D	05AFD	pstr	PREPARE TO
+000E:5A28	05B08	pstr	GET READY TO
+000E:5A35	05B15	pstr	GET ORGANISED TO
+000E:5A46	05B26	pstr	HOST
+000E:5A4B	05B2B	pstr	LEAVE FOR
+000E:5A55	05B35	pstr	SET OFF TO
+000E:5A60	05B40	pstr	TRAVEL TO
+000E:5A6A	05B4A	pstr	 FOR
+000E:5A6F	05B4F	pstr	THE FINALS OF
+000E:5A7D	05B5D	pstr	SQUAD FOR
+000E:5A87	05B67	pstr	TO BE ANNOUNCED
+000E:5A97	05B77	pstr	THOUGHT ABOUT THE
+000E:5AA9	05B89	pstr	FOUND THE BEST
+000E:5AB8	05B98	pstr	HAS 
+000E:5ABD	05B9D	pstr	SQUAD ?
+000E:5DA7	05E87	pstr	TO TOUR
+000E:5E1F	05EFF	pstr	FAIL TO QUALIFY FOR
+000E:5E33	05F13	pstr	BOO HISS
+000E:5E3C	05F1C	pstr	SACK
+000E:5E41	05F21	pstr	GET RID OF
+000E:5E4D	05F2D	pstr	TRIED HARD FOR
+000E:5E5C	05F3C	pstr	LETS DOWN
+000E:5E66	05F46	pstr	FAILS
+000E:5FDE	060BE	pstr	IS TO HOST
+000E:5FE9	060C9	pstr	GROUPS ARE ANNOUNCED
+000E:5FFE	060DE	pstr	QUALIFIES FOR
+000E:600C	060EC	pstr	THE FINALS OF
+000E:601A	060FA	pstr	FOR QUALIFYING FOR
+000E:6031	06111	pstr	play
+000E:6036	06116	pstr	face
+000E:603F	0611F	pstr	and 
+000E:6044	06124	pstr	BIG CHANCE FOR
+000E:6054	06134	pstr	GETS THE HOME
+000E:6062	06142	pstr	ADVANTAGE
+000E:606C	0614C	pstr	HAS AN EASY RIDE
+000E:607D	0615D	pstr	HAS A FAIR CHANCE
+000E:608F	0616F	pstr	TOUGH TASK FOR
+000E:609E	0617E	pstr	FAVOURITE TO WIN
+000E:60AF	0618F	pstr	THE BEST TEAM IN
+000E:60C4	061A4	pstr	GROUP 
+000E:663B	0671B	pstr	TOP SCORER WITH
+000E:664B	0672B	pstr	 GOALS
+000E:6652	06732	pstr	 WINS
+000E:6659	06739	pstr	PIPPED AT
+000E:6663	06743	pstr	THE POST
+000E:666C	0674C	pstr	LOSE OUT TO
+000E:6678	06758	pstr	TRIUMPH OVER
+000E:6869	06949	pstr	APPOINT A NEW
+000E:6877	06957	pstr	MANAGER
+000E:687F	0695F	pstr	WELCOME
+000E:6887	06967	pstr	ABOARD
+000E:6891	06971	pstr	CAN 
+000E:6896	06976	pstr	DO THE JOB ?
+000E:696A	06A4A	pstr	PAUSE
+0791:0B67	08477	pstr	Do you want 
+0791:0B74	08484	pstr	? (Y/N)
+0791:0C42	08552	pstr	an action replay
+0791:0C53	08563	pstr	to save this goal
+0791:A0F8	11A08	pstr	penalty shoot out
+0791:CC73	14583	pstr	       
+0791:DBDB	154EB	pstr	 during finals
+0791:DBEA	154FA	pstr	 whilst on tour
+0791:DFDF	158EF	pstr	There is no player here
+0791:DFF7	15907	pstr	Illegal substitution
+0791:E00C	1591C	pstr	 cannot play
+0791:E019	15929	pstr	Nice try
+0791:E9A2	162B2	pstr	 has an ineligible player in the first team
+0791:E9CE	162DE	pstr	 has too many 
+0791:E9E0	162F0	ascii	 has no   has a vacancy in the first team
+0791:ED57	16667	pstr	exit
+0791:ED7C	1668C	pstr	Not available
+0791:F1D4	16AE4	pstr	to save the match summary to disk
+16D6:0489	171E9	pstr	Do you want a print out of the help file
+16D6:04B2	17212	pstr	Printing....
+16D6:08A4	17604	pstr	GOAL.HLP
+16D6:08AD	1760D	pstr	 "GOAL.HLP" not found..
+16D6:08FE	1765E	pstr	not enough memory
+1771:00EE	177FE	pstr	Cannot load file "
+1771:0101	17811	pstr	" - program terminated - 
+1771:0181	17891	pstr	goal.dat
+1771:0272	17982	pstr	 game...
+1771:0460	17B70	pstr	Finding saved games...
+1771:0477	17B87	pstr	*.GL
+1771:07C4	17ED4	pstr	Do you want to load a saved game? (Y/N)
+1771:08D3	17FE3	pstr	Are you sure you want to quit
+1771:08F1	18001	pstr	Do you want to save this game
+1771:0999	180A9	pstr	Player
+1771:0AF0	18200	pstr	unknown
+1771:100A	1871A	pstr	 already exists
+1771:26A8	19DB8	pstr	post unavailable
+1771:3AD5	1B1E5	pstr	Protect zone
+1771:3B30	1B240	pstr	Protect zone P
+1771:425D	1B96D	pstr	two footed
+1771:426A	1B97A	pstr	suspended
+1771:4274	1B984	pstr	injured
+1771:427C	1B98C	pstr	booked
+1771:4283	1B993	pstr	sent off
+1771:428C	1B99C	pstr	substituted
+1771:4298	1B9A8	pstr	ready to play
+1771:42A6	1B9B6	pstr	selected
+1771:42AF	1B9BF	pstr	on the bench
+1771:4F72	1C682	pstr	 has too many 
+1771:4F81	1C691	pstr	s in 1st team
+1771:4F8F	1C69F	pstr	 has no keeper in 1st team
+1771:577F	1CE8F	pstr	CANCELLED
+1771:5789	1CE99	pstr	friendly
+1771:5792	1CEA2	pstr	qualifying
+1771:579D	1CEAD	pstr	play-off
+1771:57A6	1CEB6	pstr	group stage
+1771:57B2	1CEC2	pstr	qtr-final
+1771:57BC	1CECC	pstr	semi-final
+1771:57C7	1CED7	pstr	final
+1771:57CD	1CEDD	pstr	3rd place
+1771:57D7	1CEE7	pstr	last 16
+1771:57DF	1CEEF	pstr	fourth
+1771:57E6	1CEF6	pstr	third
+1771:57EC	1CEFC	pstr	runners-up
+1771:57F7	1CF07	pstr	winners
+1771:57FF	1CF0F	pstr	final round
+1771:7A7C	1F18C	pstr	 have too many games arranged
+214B:0348	217F8	pstr	? (Y/N)
+214B:04E7	21997	pstr	  PRESS ANY KEY 
+214B:055E	21A0E	pstr	? (Y/N)
+214B:07A9	21C59	pstr	Type EXIT to return...
+214B:07C0	21C70	pstr	COMSPEC
+214B:07C9	21C79	pstr	Not enough memory
+214B:07DB	21C8B	pstr	Cannot find "COMMAND.COM"
+214B:07F5	21CA5	pstr	Error trying to run DOS shell
+214B:0A3F	21EEF	pstr	Insufficient memory to run program
+214B:0AB0	21F60	pstr	Printer 
+214B:0B3D	21FED	pstr	Printing...
+214B:1366	22816	pstr	BAMI
+214B:17B1	22C61	pstr	Illegal file name or file not found
+214B:17D5	22C85	pstr	Path not found
+214B:17E4	22C94	pstr	Read only/hidden file
+214B:17FA	22CAA	pstr	No such drive
+214B:1808	22CB8	pstr	Disk is full
+214B:1815	22CC5	pstr	No disk in drive
+214B:1826	22CD6	pstr	Bad disk sector
+214B:1836	22CE6	pstr	Incompatible file
+214B:1848	22CF8	pstr	File handling error
+214B:185C	22D0C	pstr	 - try again
+214B:2062	23512	pstr	BAMI
+2382:05A2	23DC2	ascii	tcQRW
+23E4:00BC	23EFC	ascii	X[YZ^_]
+23E4:01E0	24020	ascii	#$456789:;<=>?uRuntime error 
+23E4:01FE	2403E	ascii	 at 
+23E4:0250	24090	ascii	;6^{r
+23E4:0DDC	24C1C	ascii	<lr\
+23E4:0F87	24DC7	ascii	`1pF,
+23E4:0F94	24DD4	ascii	!wS<
+23E4:0FA4	24DE4	ascii	FXc~
+2581:0024	25834	pstr	TRY OUT
+2581:0034	25844	pstr	WE RECOMMEND
+2581:0044	25854	pstr	WE WANT
+2581:0054	25864	pstr	HAVE A LOOK AT
+2581:0064	25874	pstr	CONSIDER
+2581:007A	2588A	pstr	HAPPY
+2581:008A	2589A	pstr	CONGRATULATIONS
+2581:009A	258AA	pstr	VICTORIOUS
+2581:00C0	258D0	ascii	on for
+2581:00D4	258E4	ascii	pass by
+2581:00EA	258FA	ascii	makes a pass
+2581:00FF	2590F	ascii	throws the ball
+2581:0113	25923	ascii	kick by
+2581:0128	25938	ascii	long kick from
+2581:013E	2594E	ascii	makes a run
+2581:0152	25962	ascii	poor touch from
+2581:0167	25977	ascii	good ball for
+2581:017C	2598C	ascii	long ball towards
+2581:0191	259A1	ascii	high ball towards
+2581:01A6	259B6	ascii	tackle by
+2581:01BB	259CB	ascii	dodged by
+2581:01D1	259E1	ascii	dives
+2581:01E6	259F6	ascii	wins the ball
+2581:01FA	25A0A	ascii	cross from
+2581:020F	25A1F	ascii	cross from
+2581:0224	25A34	ascii	shot from
+2581:0239	25A49	ascii	volley from
+2581:024E	25A5E	ascii	snap-shot from
+2581:0263	25A73	ascii	header from
+2581:0278	25A88	ascii	cleared by
+2581:028D	25A9D	ascii	headed clear by
+2581:02A2	25AB2	ascii	punted away by
+2581:02B7	25AC7	ascii	headed away by
+2581:02CD	25ADD	ascii	on the ball
+2581:02E2	25AF2	ascii	hits the post
+2581:02F7	25B07	ascii	hits the bar
+2581:030C	25B1C	ascii	has the ball
+2581:0320	25B30	ascii	saved by
+2581:0335	25B45	ascii	blocked by
+2581:034A	25B5A	ascii	deflected by
+2581:035F	25B6F	ascii	headed on by
+2581:0374	25B84	ascii	knocked on by
+2581:038A	25B9A	ascii	intercepts
+2581:039F	25BAF	ascii	collects
+2581:03B4	25BC4	ascii	beaten
+2581:03C9	25BD9	ascii	has no chance
+2581:03DD	25BED	ascii	**** GOAL **** by
+2581:03F2	25C02	ascii	** OWN GOAL ** by
+2581:0406	25C16	pstr	over the bar
+2581:041B	25C2B	pstr	just wide of post
+2581:0432	25C42	ascii	to take throw in
+2581:0445	25C55	pstr	*** THROW IN ***
+2581:045C	25C6C	ascii	to take corner
+2581:046F	25C7F	pstr	*** CORNER ***
+2581:0486	25C96	ascii	to take goal kick
+2581:049B	25CAB	ascii	to take penalty
+2581:04B0	25CC0	ascii	to take free kick
+2581:04C5	25CD5	ascii	to take kick off
+2581:04DA	25CEA	ascii	BOOKED
+2581:04EF	25CFF	ascii	SENT OFF
+2581:0504	25D14	ascii	INJURED
+2581:0518	25D28	ascii	FOUL by
+2581:052E	25D3E	ascii	is OFFSIDE
+2581:0543	25D53	ascii	is brought down
+2581:0556	25D66	pstr	*** GOAL KICK ***
+2581:056B	25D7B	pstr	*** PENALTY ***
+2581:0580	25D90	pstr	*** FREE KICK ***
+2581:0597	25DA7	ascii	wins the toss
+2581:05AC	25DBC	ascii	to shoot
+2581:05BF	25DCF	pstr	---- PENALTIES ----
+2581:05D4	25DE4	pstr	---- EXTRA TIME ----
+2581:05E9	25DF9	pstr	---- FULL TIME ----
+2581:05FE	25E0E	pstr	---- HALF TIME ----
+2581:0614	25E24	ascii	challenge by
+2581:0628	25E38	pstr	** LINESMAN FLAGS **
+2581:06D6	25EE6	pstr	.HIL
+2581:06DB	25EEB	pstr	.SUM
+2581:06E6	25EF6	ascii	Please enter name of file 
+2581:08B5	260C5	ascii	ZZZ(ZZ
+2581:08C3	260D3	ascii	ZZZ8
+2581:0A34	26244	pstr	 CAPTAIN
+2581:0A3F	2624F	pstr	 CORNER
+2581:0A4A	2625A	pstr	PENALTY
+2581:0A55	26265	pstr	FREE KICK
+2581:0A60	26270	pstr	GOAL KICK
+2581:0A9C	262AC	pstr	cannot alter squad
+2581:0ADA	262EA	ascii	##&-/##&
+2581:0AFD	2630D	ascii	 use 
+2581:0B0A	2631A	ascii	 to move, 
+2581:0B19	26329	ascii	 to find word, 
+2581:0B2E	2633E	ascii	for print-out, 
+2581:0B44	26354	ascii	 to exit 
+2581:0B5C	2636C	ascii	enter word to find
+2581:0B82	26392	ascii	max 20 characters
+2581:0BA7	263B7	pstr	use 
+2581:0BAE	263BE	ascii	spacebar
+2581:0BB8	263C8	ascii	 to find next entry
+2581:0BDF	263EF	ascii	 no match found - press any key
+2581:0C04	26414	pstr	SOCCER
+2581:0C22	26432	pstr	Saving
+2581:0C2D	2643D	pstr	Loading
+2581:0C38	26448	pstr	ABCDEFGHIJKLMNOPRSTVW
+2581:0C50	26460	ascii	+-/135
+2581:0C64	26474	ascii	loading 
+2581:0C72	26482	pstr	SAVED
+2581:0CCA	264DA	ascii	Please enter name of saved game :
+2581:0D6A	2657A	pstr	---------------
+2581:0DA4	265B4	ascii	BFJN*
+2581:0DAF	265BF	ascii	2*:AE
+2581:0DB7	265C7	pstr	IMPOSSIBLE
+2581:0DC2	265D2	pstr	VERY HARD
+2581:0DCD	265DD	pstr	A STRUGGLE
+2581:0DD8	265E8	pstr	HARD TASK
+2581:0DE3	265F3	pstr	DIFFICULT
+2581:0DEE	265FE	pstr	CHALLENGE
+2581:0DF9	26609	pstr	AVERAGE
+2581:0E04	26614	pstr	POSSIBLE
+2581:0E0F	2661F	pstr	QUITE EASY
+2581:0E1A	2662A	pstr	EASY TASK
+2581:0E25	26635	pstr	VERY EASY
+2581:0E30	26640	pstr	SIMPLE
+2581:0E3B	2664B	pstr	TOO EASY
+2581:0E46	26656	ascii	GDGCCCDCCCAAGC
+2581:0E86	26696	pstr	*********
+2581:0E90	266A0	pstr	zonal
+2581:0E9B	266AB	pstr	man to man
+2581:0EA6	266B6	pstr	stay in box
+2581:0EB6	266C6	pstr	leave box
+2581:0EC6	266D6	pstr	throw the ball
+2581:0ED6	266E6	pstr	kick from hand
+2581:0EE6	266F6	ascii	GSCbBD
+2581:0EED	266FD	ascii	mMFwW
+2581:0F2C	2673C	pstr	left
+2581:0F32	26742	pstr	right
+2581:0F5E	2676E	pstr	QUALIFYING
+2581:0F69	26779	pstr	FINALS
+2581:1166	26976	ascii	,,@@
+2581:1182	26992	ascii	++++??NN
+2581:11A2	269B2	ascii	1994
+2581:12C9	26AD9	ascii	1992
+2581:1332	26B42	ascii	1992
+2581:1396	26BA6	ascii	1992
+2581:13F2	26C02	ascii	1992
+2581:14B7	26CC7	ascii	hit any key
+2581:14D6	26CE6	ascii	  MAN OF THE MATCH 
+2581:14FD	26D0D	ascii	Player 
+2581:1506	26D16	ascii	: PLEASE SELECT YOUR COUNTRY 
+2581:152F	26D3F	ascii	Use 
+2581:153A	26D4A	pstr	 keys
+2581:1545	26D55	ascii	to browse, then hit
+2581:1560	26D70	ascii	to select
+2581:157D	26D8D	ascii	  level of difficulty :
+2581:170A	26F1A	ascii	tactics and 
+2581:1718	26F28	ascii	substitutions 
+2581:1772	26F82	ascii	TOP SCORERS 
+2581:17B1	26FC1	ascii	use 
+2581:17BC	26FCC	ascii	 to 
+2581:17C4	26FD4	ascii	swap between 
+2581:17D5	26FE5	ascii	world and 
+2581:17E3	26FF3	ascii	continental 
+2581:17F3	27003	ascii	rankings 
+2581:18B0	270C0	ascii	to choose number, 
+2581:18C9	270D9	ascii	to select 
+2581:18FC	2710C	ascii	Use 
+2581:1909	27119	ascii	to select 
+2581:1924	27134	ascii	  Check out  
+2581:194D	2715D	ascii	all the 
+2581:196A	2717A	ascii	for fixtures 
+2581:1987	27197	ascii	 competitors 
+2581:19BF	271CF	ascii	 to exit 
+2581:19E8	271F8	ascii	 GOAL  
+2581:19FD	2720D	ascii	 NE'92 
+2581:1A22	27232	ascii	 On shareware. 
+2581:1A3C	2724C	ascii	 register this 
+2581:1A51	27261	ascii	 game to play  
+2581:1A66	27276	ascii	 for unlimited 
+2581:1A7B	2728B	ascii	 seasons with  
+2581:1A90	272A0	ascii	 load and save 
+2581:1AA5	272B5	ascii	 game facility 
+2581:1AC7	272D7	ascii	select place to move team to
+2581:1AE7	272F7	ascii	$Esc-
+2581:1AEE	272FE	ascii	abort 
+2581:1B01	27311	ascii	Esc-
+2581:1B06	27316	pstr	exit 
+2581:1B1C	2732C	ascii	How many players  
+2581:1B30	27340	ascii	1 2 3 4 5 6  ? 
+2581:1B4D	2735D	ascii	move player
+2581:1D45	27555	ascii	Use 
+2581:1D52	27562	ascii	to select 
+2581:1DA6	275B6	ascii	for team history 
+2581:1DF4	27604	ascii	 to exit 
+2581:1E17	27627	ascii	change tactic 
+2581:1E3F	2764F	ascii	Esc-
+2581:1E45	27655	ascii	exit 
+2581:1EBA	276CA	ascii	use 
+2581:1EC5	276D5	ascii	to move 
+2581:1FC6	277D6	ascii	  use 
+2581:1FD2	277E2	ascii	 to move 
+2581:1FFB	2780B	ascii	 Hit
+2581:2011	27821	ascii	 cancel match   
+2581:2029	27839	ascii	 Hit
+2581:203F	2784F	ascii	 arrange match  
+2581:2059	27869	ascii	 Hit
+2581:206F	2787F	ascii	 watch match  
+2581:2087	27897	ascii	 Hit
+2581:2093	278A3	ascii	for 
+2581:209E	278AE	ascii	 auto result  
+2581:2103	27913	pstr	 Use 
+2581:210F	2791F	ascii	 to scroll
+2581:21B6	279C6	ascii	and results
+2581:23D5	27BE5	ascii	PLEASE SELECT YOUR OPPONENTS 
+2581:23FE	27C0E	ascii	Use 
+2581:2409	27C19	pstr	 keys
+2581:2414	27C24	ascii	to browse, then hit
+2581:242F	27C3F	ascii	to select
+2581:2548	27D58	ascii	no more substitutes
+2581:2578	27D88	ascii	  action replay 
+2581:259E	27DAE	ascii	Hit 
+2581:25A9	27DB9	ascii	 to turn automatic action replay
+2581:267D	27E8D	ascii	put here
+2581:2694	27EA4	ascii	tactics
+2581:26A7	27EB7	ascii	new name 
+2581:26B2	27EC2	ascii	R,C-
+2581:26B8	27EC8	ascii	reposition
+2581:26D6	27EE6	ascii	 Esc-
+2581:26DC	27EEC	pstr	exit 
+2581:26EA	27EFA	ascii	HANG ON 
+2581:26F8	27F08	ascii	 (c) NE'93
+2581:275A	27F6A	ascii	 v.2 
+2581:277F	27F8F	ascii	hit any key
+2581:278F	27F9F	ascii	Esc,
+2581:2797	27FA7	pstr	bench
+2581:27AD	27FBD	ascii	display 
+2581:27BB	27FCB	pstr	speed
+2581:27C8	27FD8	ascii	spacebar-
+2581:27D3	27FE3	ascii	commentary  
+2581:27EB	27FFB	ascii	Esc,
+2581:27F3	28003	pstr	bench
+2581:2806	28016	ascii	tactics
+2581:2866	28076	ascii	Use 
+2581:2871	28081	ascii	to move 
+2581:28F9	28109	ascii	  use 
+2581:2905	28115	ascii	 to move 
+2581:292F	2813F	ascii	  hit 
+2581:293B	2814B	ascii	 to select 
+2581:2957	28167	ascii	saved game 
+2581:297C	2818C	ascii	hit 
+2581:2987	28197	ascii	 to 
+2581:2996	281A6	ascii	  type in a name 
+2581:29F3	28203	ascii	(c) 
+2581:2A1D	2822D	ascii	  new 
+2581:2A3E	2824E	ascii	  era 
+2581:2A62	28272	ascii	software
+2581:2A96	282A6	ascii	1993
+2581:2AD9	282E9	ascii	 THE international soccer management game
+2581:2B19	28329	pstr	design and coding :
+2581:2B2F	2833F	ascii	 Mantra 
+2581:2B3E	2834E	ascii	 L.B.
+2581:2B57	28367	ascii	testing and feedback :
+2581:2B6F	2837F	ascii	 Celtic Ray
+2581:2B80	28390	ascii	Mr Scott
+2581:2B8D	2839D	ascii	 Big Mac
+2581:2B96	283A6	pstr	 and 
+2581:2B9E	283AE	ascii	Carl Wilky 
+2581:2BBC	283CC	ascii	distribution : 
+2581:2BCD	283DD	ascii	Silverwitch 
+2581:2BE0	283F0	ascii	 Tom de Notre Dame 
+2581:2C14	28424	ascii	winner
+2581:2C31	28441	ascii	second
+2581:2C4E	2845E	ascii	third 
+2581:2C81	28491	pstr	Europe 
+2581:2C93	284A3	ascii	Africa
+2581:2CBE	284CE	ascii	spacebar
+2581:2CDD	284ED	ascii	to select  
+2581:2CF0	28500	ascii	Americas
+2581:2D06	28516	ascii	 Asia
+2581:2D16	28526	ascii	continent
+2581:2D42	28552	ascii	Use 
+2581:2D4C	2855C	ascii	 to see groups
+2581:2D60	28570	ascii	Use 
+2581:2D6A	2857A	ascii	 to select group
+2581:2D98	285A8	ascii	 Qualifying 
+2581:2DAB	285BB	ascii	 Finals 
+2581:2DBE	285CE	ascii	 Championship 
+2581:2DEF	285FF	ascii	 Ins 
+2581:2DF6	28606	ascii	for World Cup results
+2581:2E17	28627	ascii	 Ins 
+2581:2E1E	2862E	ascii	for Championship results
+2581:2E5F	2866F	ascii	  Use 
+2581:2E6B	2867B	ascii	 to select display
+2581:2E87	28697	ascii	-exit 
+2581:2EFF	2870F	ascii	winner:group A
+2581:2F27	28737	ascii	second:group H
+2581:2F5E	2876E	ascii	winner:group B
+2581:2F88	28798	ascii	second:group G
+2581:2FCB	287DB	ascii	winner:group C
+2581:301B	2882B	ascii	second:group F
+2581:3051	28861	ascii	winner:group D
+2581:3094	288A4	ascii	second:group E
+2581:30E3	288F3	ascii	winner:group E
+2581:3132	28942	ascii	second:group D
+2581:3182	28992	ascii	winner:group F
+2581:31BF	289CF	ascii	second:group C
+2581:3217	28A27	ascii	winner:group G
+2581:3266	28A76	ascii	second:group B
+2581:329C	28AAC	ascii	winner:group H
+2581:32E0	28AF0	ascii	second:group A
+2581:3311	28B21	ascii	winner:group A 
+2581:333E	28B4E	ascii	 second:group B 
+2581:339D	28BAD	ascii	winner
+2581:340D	28C1D	ascii	second
+2581:344D	28C5D	ascii	winner:group B 
+2581:3488	28C98	ascii	third 
+2581:34A5	28CB5	ascii	 second:group A 
+2581:3544	28D54	ascii	 Group 
+2581:3558	28D68	ascii	P W D L
+2581:3565	28D75	ascii	F  A
+2581:36FB	28F0B	ascii	aggregate 
+2581:370F	28F1F	ascii	score
+2581:3724	28F34	ascii	winner:group A 
+2581:374C	28F5C	ascii	winner:group H 
+2581:3770	28F80	ascii	winner:group B 
+2581:3794	28FA4	ascii	winner:group G 
+2581:37BC	28FCC	ascii	winner:group C 
+2581:37E4	28FF4	ascii	winner:group F 
+2581:3808	29018	ascii	winner:group D
+2581:382E	2903E	ascii	winner:group E
+2581:3896	290A6	ascii	 Group 
+2581:38AA	290BA	ascii	P W D L
+2581:38B7	290C7	ascii	F  A
+2581:3A7D	2928D	ascii	Do you want to watch this match ?
+2581:3AE5	292F5	ascii	 yes 
+2581:3AF1	29301	ascii	 no 
+2581:3B42	29352	ascii	Hit Y for yes, N for no 
+2581:3BA3	293B3	ascii	,Pgup,Pgdn,Home,End-
+2581:3BB9	293C9	ascii	view commentary
+2581:3BCC	293DC	ascii	 Esc-
+2581:3BD2	293E2	pstr	play 
+2581:3BE9	293F9	ascii	home
+2581:3BF5	29405	ascii	away
+2581:3C17	29427	ascii	STATISTICS
+2581:3C5B	2946B	ascii	SUCCESSES
+2581:3C74	29484	ascii	consecutive wins 
+2581:3CD1	294E1	ascii	consecutive defeats 
+2581:3D23	29533	ascii	games without a win 
+2581:3D71	29581	ascii	games without defeat
+2581:3DF0	29600	pstr	RESULTS
+2581:3E24	29634	ascii	best
+2581:3E2D	2963D	ascii	place
+2581:3E40	29650	ascii	SCORERS
+2581:3E57	29667	ascii	CAPS
+2581:4055	29865	pstr	RECORDS
+2581:4065	29875	ascii	wins
+2581:4070	29880	pstr	defeats
+2581:4085	29895	ascii	home 
+2581:40B9	298C9	ascii	away 
+2581:40F3	29903	ascii	neutral
+2581:41D8	299E8	ascii	  Corners 
+2581:41EA	299FA	ascii	  Corners 
+2581:4223	29A33	ascii	 Scorers 
+2581:423A	29A4A	ascii	  Free kicks 
+2581:424F	29A5F	ascii	  Free kicks 
+2581:426C	29A7C	ascii	 Scorers 
+2581:429E	29AAE	ascii	  Penalties 
+2581:42B2	29AC2	ascii	  Penalties 
+2581:42E0	29AF0	ascii	  Shots 
+2581:42F0	29B00	ascii	  Shots 
+2581:4310	29B20	ascii	  On target 
+2581:4324	29B34	ascii	  On target 
+2581:4348	29B58	ascii	  Saves 
+2581:4358	29B68	ascii	  Saves 
+2581:4378	29B88	ascii	  Fouls 
+2581:4388	29B98	ascii	  Fouls 
+2581:43A8	29BB8	ascii	  Bookings 
+2581:43BB	29BCB	ascii	  Bookings 
+2581:43DE	29BEE	ascii	  Red cards 
+2581:43F2	29C02	ascii	  Red cards 
+2581:4449	29C59	ascii	  Possession:
+2581:4470	29C80	ascii	  Territory :
+2581:44D4	29CE4	ascii	 MATCH 
+2581:4552	29D62	ascii	 pool of players 
+2581:46D6	29EE6	ascii	select
+2581:46E8	29EF8	ascii	alter tactic 
+2581:4711	29F21	ascii	Esc-
+2581:4717	29F27	ascii	exit
+2581:472B	29F3B	ascii	take off this player
+2581:474B	29F5B	ascii	put on this player  
+2581:476B	29F7B	ascii	request substitution
+2581:4789	29F99	ascii	use 
+2581:4793	29FA3	ascii	 then 
+2581:479F	29FAF	ascii	 to select the order 
+2581:47B6	29FC6	ascii	Hit 
+2581:47C1	29FD1	ascii	 to undo 
+2581:47E7	29FF7	ascii	substitutions left
+2581:4821	2A031	ascii	substitution requested
+2581:484F	2A05F	ascii	make substitutions now
+2581:4876	2A086	pstr	name
+2581:488A	2A09A	pstr	caps
+2581:4894	2A0A4	ascii	goals
+2581:489E	2A0AE	ascii	height
+2581:48A9	2A0B9	pstr	bias
+2581:48B6	2A0C6	ascii	performance
+2581:48E6	2A0F6	ascii	  '  " 
+2581:48F1	2A101	ascii	foot
+2581:490D	2A11D	ascii	position
+2581:4920	2A130	pstr	club
+2581:492A	2A13A	ascii	position
+2581:493A	2A14A	ascii	cards
+2581:4979	2A189	ascii	skills
+2581:49A6	2A1B6	ascii	tactics
+2581:49B4	2A1C4	ascii	keeping
+2581:49C9	2A1D9	ascii	position
+2581:49DB	2A1EB	ascii	kicking
+2581:49F0	2A200	ascii	possession
+2581:4A04	2A214	ascii	tackling
+2581:4A19	2A229	ascii	passing
+2581:4A2A	2A23A	ascii	heading
+2581:4A3F	2A24F	ascii	tackling
+2581:4A51	2A261	ascii	marking
+2581:4A66	2A276	ascii	mark
+2581:4A74	2A284	ascii	passing
+2581:4A8F	2A29F	ascii	crossing
+2581:4AA7	2A2B7	ascii	characteristics
+2581:4ABD	2A2CD	ascii	feinting
+2581:4AD2	2A2E2	ascii	hardness
+2581:4AEA	2A2FA	ascii	control
+2581:4AFF	2A30F	ascii	fitness
+2581:4B17	2A327	ascii	dribbling
+2581:4B29	2A339	pstr	energy
+2581:4B41	2A351	ascii	shooting
+2581:4B55	2A365	pstr	morale
+2581:4B6D	2A37D	ascii	penalties
+2581:4B80	2A390	ascii	leadership
+2581:4BC5	2A3D5	ascii	team
+2581:4BD0	2A3E0	ascii	tactics
+2581:4BE1	2A3F1	ascii	status 
+2581:4BF3	2A403	ascii	team
+2581:4BF8	2A408	ascii	tactics
+2581:4C02	2A412	ascii	manager
+2581:4C0F	2A41F	ascii	defence
+2581:4C1A	2A42A	pstr	system
+2581:4C2E	2A43E	ascii	 skill  
+2581:4C3E	2A44E	ascii	protection
+2581:4C50	2A460	ascii	ranking
+2581:4C66	2A476	ascii	offside
+2581:4C75	2A485	ascii	World 
+2581:4C80	2A490	ascii	formation
+2581:4C98	2A4A8	ascii	player
+2581:4C9F	2A4AF	ascii	defaults
+2581:4CB0	2A4C0	ascii	strips 
+2581:4CC6	2A4D6	ascii	positioning
+2581:4CD9	2A4E9	ascii	skills
+2581:4CF7	2A507	ascii	possession
+2581:4D0A	2A51A	pstr	keeper
+2581:4D1F	2A52F	ascii	passing
+2581:4D30	2A540	ascii	defence
+2581:4D44	2A554	ascii	tackling
+2581:4D56	2A566	ascii	midfield
+2581:4D68	2A578	ascii	marking
+2581:4D78	2A588	pstr	attack
+2581:4D8E	2A59E	ascii	characteristics
+2581:4DA0	2A5B0	ascii	performance
+2581:4DC0	2A5D0	ascii	average
+2581:4DCC	2A5DC	ascii	caps
+2581:4DE3	2A5F3	pstr	keeper
+2581:4DF8	2A608	ascii	hardness
+2581:4E10	2A620	ascii	defence
+2581:4E24	2A634	ascii	fitness
+2581:4E3C	2A64C	ascii	midfield
+2581:4E4D	2A65D	pstr	energy
+2581:4E64	2A674	pstr	attack
+2581:4E78	2A688	pstr	morale
+2581:4EBD	2A6CD	ascii	cancel substitution request
+2581:4F4B	2A75B	ascii	THE SOCCER BULLETIN 
+2581:4F98	2A7A8	ascii	t D A I L Y  R A G 
+2581:4FD3	2A7E3	ascii	 Sporting Times 
+2581:535F	2AB6F	ascii	location:
+2581:542A	2AC3A	ascii	team tactics
+2581:5448	2AC58	ascii	team tactics
+2581:54B7	2ACC7	pstr	players
+2581:54D2	2ACE2	pstr	players
+2581:5558	2AD68	ascii	Use 
+2581:556B	2AD7B	ascii	tournament 
+2581:559B	2ADAB	ascii	then
+2581:55E1	2ADF1	ascii	to select
+2581:55F3	2AE03	ascii	match stats
+2581:5623	2AE33	ascii	option 
+2581:566B	2AE7B	ascii	play 
+2581:5792	2AFA2	ascii	save
+2581:579C	2AFAC	ascii	 (c) NE'93
+2581:57E4	2AFF4	ascii	 v.2 
+2581:57FC	2B00C	ascii	SELECT YOUR TEAM 
+2581:5819	2B029	pstr	- Use
+2581:5827	2B037	ascii	to toggle between your squad and 
+2581:5858	2B068	ascii	 the pool of other players available to you. 
+2581:5896	2B0A6	ascii	Use 
+2581:58A1	2B0B1	ascii	to find player, 
+2581:58B7	2B0C7	ascii	 to select.
+2581:58F6	2B106	ascii	 Ins 
+2581:58FD	2B10D	ascii	for assistant's recommended 20 
+2581:5930	2B140	ascii	 GOAL  
+2581:5945	2B155	ascii	 NE'93 
+2581:5965	2B175	ascii	  Tough luck.  
+2581:5982	2B192	ascii	You have 
+2581:59A1	2B1B1	ascii	been  
+2581:59C9	2B1D9	ascii	 SACKED  
+2581:59F4	2B204	ascii	for 
+2581:5A04	2B214	ascii	 incompetence 
+2581:5A39	2B249	ascii	use 
+2581:5A43	2B253	ascii	 to find 
+2581:5AC4	2B2D4	ascii	help 
+2581:5AD0	2B2E0	ascii	load goal 
+2581:5AE1	2B2F1	ascii	load summary  
+2581:5AF5	2B305	ascii	print screen 
+2581:5B0B	2B31B	ascii	quit
+2581:5B16	2B326	ascii	(half time 
+2581:5B35	2B345	ascii	p SUBSTITUTION OPPORTUNITY 
+2581:5B57	2B367	ascii	press any key  
+2581:5B6F	2B37F	ascii	HAS NO GOALKEEPER 
+2581:5B85	2B395	ascii	press any key  
+2581:5BC8	2B3D8	ascii	 Congratulations !!
+2581:5EFC	2B70C	ascii	 spacebar
+2581:5F09	2B719	pstr	pause
+2581:5F1D	2B72D	pstr	speed
+2581:5F47	2B757	ascii	next player
+2581:5F6C	2B77C	ascii	spacebar-
+2581:5F77	2B787	ascii	players
+2581:5F95	2B7A5	ascii	p SUBSTITUTION 
+2581:5FA9	2B7B9	ascii	on for 
+2581:5FB4	2B7C4	ascii	press any key 
+2581:608C	2B89C	ascii	:  1 
+2581:6093	2B8A3	ascii	:  2 
+2581:609A	2B8AA	ascii	:  3 
+2581:60A1	2B8B1	ascii	:  4 
+2581:60A8	2B8B8	ascii	:  5 
+2581:60AF	2B8BF	ascii	:  6 
+2581:60B6	2B8C6	ascii	:  7 
+2581:60BD	2B8CD	ascii	:  8 
+2581:60C4	2B8D4	ascii	:  9 
+2581:60CB	2B8DB	ascii	: 10 
+2581:60D2	2B8E2	ascii	: 11
+2581:60DC	2B8EC	ascii	spacebar-
+2581:60E6	2B8F6	pstr	pitch
+2581:60F7	2B907	ascii	select 
+2581:6100	2B910	ascii	taker 
+2581:610E	2B91E	ascii	computer select 
+2581:612A	2B93A	ascii	result
+2581:6136	2B946	ascii	REPLAY  E
+2581:61D2	2B9E2	ascii	versus
+2581:643D	2BC4D	ascii	display 
+2581:644C	2BC5C	ascii	speed 
+2581:645A	2BC6A	ascii	result 
+2581:6465	2BC75	ascii	spacebar-
+2581:6470	2BC80	ascii	commentary  
+2581:6488	2BC98	ascii	Esc,
+2581:6490	2BCA0	pstr	bench
+2581:64A7	2BCB7	ascii	name
+2581:64B3	2BCC3	ascii	rating
+2581:6525	2BD35	ascii	team info
+2581:6568	2BD78	ascii	team
+2581:657E	2BD8E	ascii	managers
+2581:65E8	2BDF8	ascii	fixture list
+2581:6605	2BE15	ascii	rankings
+2581:6645	2BE55	ascii	World
+2581:66B7	2BEC7	ascii	tournament
+2581:670A	2BF1A	ascii	next
+2581:6713	2BF23	ascii	opponents
+2581:6774	2BF84	ascii	history
+2581:678C	2BF9C	ascii	rankings
+2581:67D1	2BFE1	ascii	World
+2581:67EF	2BFFF	ascii	find option
+2581:682D	2C03D	ascii	select squad
+2581:685C	2C06C	ascii	Hit 
+2581:6895	2C0A5	ascii	select
+2581:68C5	2C0D5	ascii	option
+2581:68D9	2C0E9	ascii	play next game
+2581:690A	2C11A	pstr	EUROPEAN
+2581:6915	2C125	pstr	AMERICAN
+2581:6920	2C130	pstr	AFRICAN
+2581:692B	2C13B	pstr	ASIAN
+2581:69A8	2C1B8	ascii	GSCBBD
+2581:69AF	2C1BF	ascii	MMFWW
+2581:69B6	2C1C6	pstr	goalkeeper
+2581:69C9	2C1D9	pstr	sweeper
+2581:69DC	2C1EC	pstr	centre back
+2581:69EF	2C1FF	pstr	left back
+2581:6A02	2C212	pstr	right back
+2581:6A15	2C225	pstr	defensive midfield
+2581:6A28	2C238	pstr	central midfield
+2581:6A3B	2C24B	pstr	left midfield
+2581:6A4E	2C25E	pstr	right midfield
+2581:6A61	2C271	pstr	forward midfield
+2581:6A74	2C284	pstr	left winger
+2581:6A87	2C297	pstr	right winger
+2581:6A9A	2C2AA	pstr	centre forward
+2581:6AAD	2C2BD	pstr	striker
+2581:6AC0	2C2D0	pstr	stay back
+2581:6AD0	2C2E0	pstr	push forward
+2581:6AE0	2C2F0	pstr	keep ball
+2581:6AF0	2C300	pstr	quick pass
+2581:6B00	2C310	pstr	short passes
+2581:6B10	2C320	pstr	long passes
+2581:6B20	2C330	pstr	avoid injury
+2581:6B30	2C340	pstr	go in hard
+2581:6B40	2C350	pstr	half pitch
+2581:6B50	2C360	pstr	full pitch
+2581:6B60	2C370	pstr	sag back to box
+2581:6B70	2C380	pstr	stand ground
+2581:6B80	2C390	pstr	play safe
+2581:6B90	2C3A0	pstr	offside trap
+2581:6BA0	2C3B0	pstr	zonal
+2581:6BB0	2C3C0	pstr	man to man
+2581:6E9A	2C6AA	pstr	Europe
+2581:6EA2	2C6B2	pstr	America
+2581:6EAA	2C6BA	pstr	Africa
+2581:6EB2	2C6C2	pstr	Asia
+2581:6EBA	2C6CA	pstr	away
+2581:6EBF	2C6CF	pstr	home
+2581:6EC4	2C6D4	pstr	none
+2581:6ED4	2C6E4	pstr	demoralised
+2581:6EE4	2C6F4	pstr	overawed
+2581:6EF4	2C704	pstr	terrified
+2581:6F04	2C714	pstr	tearful
+2581:6F14	2C724	pstr	scared
+2581:6F24	2C734	pstr	worried
+2581:6F34	2C744	pstr	nervous
+2581:6F44	2C754	pstr	anxious
+2581:6F54	2C764	pstr	shaky
+2581:6F64	2C774	pstr	concerned
+2581:6F74	2C784	pstr	lacking
+2581:6F84	2C794	pstr	tentative
+2581:6F94	2C7A4	pstr	below par
+2581:6FA4	2C7B4	pstr	could be worse
+2581:6FC4	2C7D4	pstr	not bad
+2581:6FD4	2C7E4	pstr	average
+2581:6FE4	2C7F4	pstr	fine
+2581:6FF4	2C804	pstr	acceptable
+2581:7004	2C814	pstr	positive
+2581:7014	2C824	pstr	assured
+2581:7024	2C834	pstr	confident
+2581:7034	2C844	pstr	jocular
+2581:7044	2C854	pstr	very confident
+2581:7054	2C864	pstr	bold
+2581:7064	2C874	pstr	ebullient
+2581:7074	2C884	pstr	brimming
+2581:7084	2C894	pstr	sky high
+2581:7094	2C8A4	pstr	phenomenal
+2581:70A4	2C8B4	pstr	unbeatable
+2581:70B4	2C8C4	pstr	over-confident
+2581:70C4	2C8D4	pstr	wimpy
+2581:70D4	2C8E4	pstr	soft
+2581:70E4	2C8F4	pstr	weak
+2581:70F4	2C904	pstr	gentle
+2581:7104	2C914	pstr	passive
+2581:7114	2C924	pstr	calm
+2581:7124	2C934	pstr	mild
+2581:7134	2C944	pstr	assertive
+2581:7144	2C954	pstr	tough
+2581:7154	2C964	pstr	aggressive
+2581:7164	2C974	pstr	pushy
+2581:7174	2C984	pstr	hard
+2581:7184	2C994	pstr	rough
+2581:7194	2C9A4	pstr	dangerous
+2581:71A4	2C9B4	pstr	thuggish
+2581:71B4	2C9C4	pstr	rubbish
+2581:71E4	2C9F4	pstr	poor
+2581:71F4	2CA04	pstr	fair
+2581:7204	2CA14	pstr	good
+2581:7214	2CA24	pstr	very good
+2581:7224	2CA34	pstr	talented
+2581:7234	2CA44	pstr	excellent
+2581:7244	2CA54	pstr	superb
+2581:7254	2CA64	pstr	supremo
+2581:7274	2CA84	pstr	GENIUS
+2581:7284	2CA94	pstr	pretty dire
+2581:7294	2CAA4	pstr	very bad
+2581:72A4	2CAB4	pstr	so-so
+2581:72B4	2CAC4	pstr	eclectic
+2581:72C4	2CAD4	pstr	incompetent
+2581:72D4	2CAE4	pstr	amateurish
+2581:72E4	2CAF4	pstr	uninformed
+2581:72F4	2CB04	pstr	sensible
+2581:7304	2CB14	pstr	useful
+2581:7314	2CB24	pstr	helpful
+2581:7324	2CB34	pstr	exceptional
+2581:7334	2CB44	pstr	professional
+2581:7344	2CB54	pstr	blind
+2581:7354	2CB64	pstr	myopic
+2581:7364	2CB74	pstr	pathetic
+2581:7374	2CB84	pstr	unselective
+2581:7384	2CB94	pstr	capable
+2581:7394	2CBA4	pstr	middling
+2581:73A4	2CBB4	pstr	keen
+2581:73B4	2CBC4	pstr	observant
+2581:73C4	2CBD4	pstr	vigilant
+2581:73D4	2CBE4	pstr	prophetic
+2581:73E4	2CBF4	pstr	clairvoyant
+2581:73F4	2CC04	pstr	flat broke
+2581:7404	2CC14	pstr	miserly
+2581:7414	2CC24	pstr	penny-pinching
+2581:7424	2CC34	pstr	solvent
+2581:7434	2CC44	pstr	well-off
+2581:7444	2CC54	pstr	rich
+2581:7454	2CC64	pstr	generous
+2581:7464	2CC74	pstr	sympathetic
+2581:7474	2CC84	pstr	opulent
+2581:7484	2CC94	pstr	tycoon
+2581:7494	2CCA4	pstr	filthy rich
+2581:74A4	2CCB4	pstr	injured
+2581:74B4	2CCC4	pstr	big problems
+2581:74C4	2CCD4	pstr	problems
+2581:74D4	2CCE4	pstr	unfit
+2581:74E4	2CCF4	pstr	adequate
+2581:74F4	2CD04	pstr	no problems
+2581:7504	2CD14	pstr	above average
+2581:7514	2CD24	pstr	reasonable
+2581:7524	2CD34	pstr	not quite fit
+2581:7534	2CD44	pstr	quite fit
+2581:7554	2CD64	pstr	very fit
+2581:7564	2CD74	pstr	match fit
+2581:7574	2CD84	pstr	supreme
+2581:7584	2CD94	pstr	total
+2581:7594	2CDA4	pstr	can't play
+2581:75A4	2CDB4	pstr	nearly dead
+2581:75B4	2CDC4	pstr	exhausted
+2581:75C4	2CDD4	pstr	knackered
+2581:75D4	2CDE4	pstr	can just walk
+2581:75E4	2CDF4	pstr	can just walk
+2581:75F4	2CE04	pstr	can hardly run
+2581:7604	2CE14	pstr	can just run
+2581:7614	2CE24	pstr	done in
+2581:7624	2CE34	pstr	very tired
+2581:7634	2CE44	pstr	tired
+2581:7644	2CE54	pstr	fairly tired
+2581:7654	2CE64	pstr	likely to tire
+2581:7664	2CE74	pstr	active
+2581:7674	2CE84	pstr	lively
+2581:7684	2CE94	pstr	mobile
+2581:7694	2CEA4	pstr	animated
+2581:76A4	2CEB4	pstr	very lively
+2581:76B4	2CEC4	pstr	energetic
+2581:76C4	2CED4	pstr	vivacious
+2581:76D4	2CEE4	pstr	full of life
+2581:76E4	2CEF4	pstr	full of zip
+2581:76F4	2CF04	pstr	electrified
+2581:7704	2CF14	pstr	galvanised
+2581:7714	2CF24	pstr	hyperactive
+2581:7724	2CF34	pstr	hyperactive
+2581:7734	2CF44	pstr	negligible
+2581:7744	2CF54	pstr	limited
+2581:7754	2CF64	pstr	organiser
+2581:7764	2CF74	pstr	director
+2581:7774	2CF84	pstr	motivator
+2581:7784	2CF94	pstr	captain
+2581:7794	2CFA4	pstr	tiny
+2581:77A4	2CFB4	pstr	very small
+2581:77B4	2CFC4	pstr	massive
+2581:77C4	2CFD4	pstr	huge
+2581:77E4	2CFF4	pstr	very big
+2581:77F4	2D004	pstr	small
+2581:7804	2D014	pstr	no hoper
+2581:7814	2D024	pstr	very poor
+2581:7824	2D034	pstr	minnow
+2581:7834	2D044	pstr	minor
+2581:7844	2D054	pstr	medium
+2581:7854	2D064	pstr	contender
+2581:7864	2D074	pstr	major
+2581:7874	2D084	pstr	giant
+2581:789B	2D0AB	ascii	3Mf5E78G@
+2581:78C5	2D0D5	ascii	!"#$%&'
+2581:78CD	2D0DD	ascii	()*+,-./_`ab123
+2581:78E8	2D0F8	ascii	defghijk89lGmmnopqrstuvwxy
+2581:7909	2D119	ascii	d{|}~
+2581:79B0	2D1C0	pstr	not connected
+2581:79C0	2D1D0	pstr	off line
+2581:79DE	2D1EE	ascii	Type in characters (maximum 
+2581:7A08	2D218	ascii	accept 
+2581:7A19	2D229	ascii	abort 
+2581:7A2C	2D23C	ascii	 (c) NE'93
+2581:7A41	2D251	ascii	 thank you 
+2581:7A65	2D275	ascii	 for playing 
+2581:7A91	2D2A1	ascii	 the ultimate
+2581:7AB5	2D2C5	ascii	 World Cup 
+2581:7ACA	2D2DA	ascii	 v.2 
+2581:7ADB	2D2EB	ascii	 game.
+2581:7B09	2D319	ascii	HANG ON A TICK 
