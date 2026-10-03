@@ -1,0 +1,103 @@
+{
+ "versions": {
+  "dosbox-x": "DOSBox-X version 2024.03.01 SDL2, copyright 2011-2024 The DOSBox-X Team.",
+  "xdotool": "xdotool version 3.20160805.1",
+  "python": "3.12.3",
+  "code_commit": "fc00e8c",
+  "runtime_spike_uncommitted_changes": false
+ },
+ "base": "0x86024",
+ "mem_header": "0x78",
+ "rows": [
+  {
+   "machine": "svga_s3",
+   "memsize": 16,
+   "png_size": [
+    720,
+    400
+   ],
+   "mode": [
+    3,
+    80,
+    25
+   ],
+   "cells_differing": 0,
+   "screen_digest": "cd7f15fbf853b40471d05bad51cb6e6c14cbc8a7307893dba8f5f36c2315c612"
+  },
+  {
+   "machine": "svga_s3",
+   "memsize": 8,
+   "png_size": [
+    720,
+    400
+   ],
+   "mode": [
+    3,
+    80,
+    25
+   ],
+   "cells_differing": 2,
+   "screen_digest": "cd7f15fbf853b40471d05bad51cb6e6c14cbc8a7307893dba8f5f36c2315c612"
+  },
+  {
+   "machine": "svga_s3",
+   "memsize": 32,
+   "png_size": [
+    720,
+    400
+   ],
+   "mode": [
+    3,
+    80,
+    25
+   ],
+   "cells_differing": 2,
+   "screen_digest": "cd7f15fbf853b40471d05bad51cb6e6c14cbc8a7307893dba8f5f36c2315c612"
+  },
+  {
+   "machine": "vgaonly",
+   "memsize": 16,
+   "png_size": [
+    720,
+    400
+   ],
+   "mode": [
+    3,
+    80,
+    25
+   ],
+   "cells_differing": 2,
+   "screen_digest": "cd7f15fbf853b40471d05bad51cb6e6c14cbc8a7307893dba8f5f36c2315c612"
+  },
+  {
+   "machine": "vgaonly",
+   "memsize": 4,
+   "png_size": [
+    720,
+    400
+   ],
+   "mode": [
+    3,
+    80,
+    25
+   ],
+   "cells_differing": 2,
+   "screen_digest": "cd7f15fbf853b40471d05bad51cb6e6c14cbc8a7307893dba8f5f36c2315c612"
+  },
+  {
+   "machine": "svga_et4000",
+   "memsize": 16,
+   "png_size": [
+    720,
+    400
+   ],
+   "mode": [
+    3,
+    80,
+    25
+   ],
+   "cells_differing": 0,
+   "screen_digest": "cd7f15fbf853b40471d05bad51cb6e6c14cbc8a7307893dba8f5f36c2315c612"
+  }
+ ]
+}

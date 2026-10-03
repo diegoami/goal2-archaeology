@@ -1,0 +1,618 @@
+{
+ "versions": {
+  "dosbox-x": "DOSBox-X version 2024.03.01 SDL2, copyright 2011-2024 The DOSBox-X Team.",
+  "xdotool": "xdotool version 3.20160805.1",
+  "python": "3.12.3",
+  "code_commit": "fc00e8c",
+  "runtime_spike_uncommitted_changes": false
+ },
+ "sessions": [
+  {
+   "session": "w0_no_save",
+   "note": "restore main.sav, Esc to the main menu, no save: folder after the session",
+   "before": {
+    "ALTER.EXE": {
+     "bytes": 25622,
+     "sha256": "902e768c33731f4ed8be658dd4801c79418c5247dc7c3500f24757bac8cbeb3c"
+    },
+    "ALTER.PIF": {
+     "bytes": 967,
+     "sha256": "b558ea4bad0364809208d8f5443f0ffe0abc5f84bbfa2efaf5e40eb291a67fe9"
+    },
+    "GOAL.DAT": {
+     "bytes": 44040,
+     "sha256": "bc5e5c04434d31f350eb7803afc3810333393e049d50dde559797a5b068c60ca"
+    },
+    "GOAL.EXE": {
+     "bytes": 92391,
+     "sha256": "a6928b0bb7cda0303ac8daf8690efc56ef1792dddaccb5c6f3d85af1f68d3664"
+    },
+    "GOAL.HLP": {
+     "bytes": 32569,
+     "sha256": "2f3be8648a52045b6f7af1f41cba020d6a662229e5db499e203c5d0957308f60"
+    },
+    "GOAL.PIF": {
+     "bytes": 967,
+     "sha256": "2754392f5381dd41db0cd67385305720d2d64060a0c3954eb9d57933b42880e4"
+    },
+    "INSTALL.EXE": {
+     "bytes": 18544,
+     "sha256": "58bd3d0ae98ad12ee96b58fdb5c7f2f6c6b614e7b8ec4d54a1b839d8fb9399c9"
+    },
+    "RUN.BAT": {
+     "bytes": 7,
+     "sha256": "98a09e9b45a1bc3f6d5d0388e2eae39d259d588abc2d42e90f0550d7e21470fe"
+    },
+    "RUN.PIF": {
+     "bytes": 967,
+     "sha256": "6c4dcc917ef8d11cb786b22229cb6a73f36e0ce078e719c54fea87a2f2b25085"
+    },
+    "Y.HIL": {
+     "bytes": 3989,
+     "sha256": "fdeb00640de6ba7554416494c135852ea808ee5e688e0ac5488dadb6859f6415"
+    }
+   },
+   "after": {
+    "ALTER.EXE": {
+     "bytes": 25622,
+     "sha256": "902e768c33731f4ed8be658dd4801c79418c5247dc7c3500f24757bac8cbeb3c"
+    },
+    "ALTER.PIF": {
+     "bytes": 967,
+     "sha256": "b558ea4bad0364809208d8f5443f0ffe0abc5f84bbfa2efaf5e40eb291a67fe9"
+    },
+    "GOAL.DAT": {
+     "bytes": 44040,
+     "sha256": "bc5e5c04434d31f350eb7803afc3810333393e049d50dde559797a5b068c60ca"
+    },
+    "GOAL.EXE": {
+     "bytes": 92391,
+     "sha256": "a6928b0bb7cda0303ac8daf8690efc56ef1792dddaccb5c6f3d85af1f68d3664"
+    },
+    "GOAL.HLP": {
+     "bytes": 32569,
+     "sha256": "2f3be8648a52045b6f7af1f41cba020d6a662229e5db499e203c5d0957308f60"
+    },
+    "GOAL.PIF": {
+     "bytes": 967,
+     "sha256": "2754392f5381dd41db0cd67385305720d2d64060a0c3954eb9d57933b42880e4"
+    },
+    "INSTALL.EXE": {
+     "bytes": 18544,
+     "sha256": "58bd3d0ae98ad12ee96b58fdb5c7f2f6c6b614e7b8ec4d54a1b839d8fb9399c9"
+    },
+    "RUN.BAT": {
+     "bytes": 7,
+     "sha256": "98a09e9b45a1bc3f6d5d0388e2eae39d259d588abc2d42e90f0550d7e21470fe"
+    },
+    "RUN.PIF": {
+     "bytes": 967,
+     "sha256": "6c4dcc917ef8d11cb786b22229cb6a73f36e0ce078e719c54fea87a2f2b25085"
+    },
+    "Y.HIL": {
+     "bytes": 3989,
+     "sha256": "fdeb00640de6ba7554416494c135852ea808ee5e688e0ac5488dadb6859f6415"
+    }
+   },
+   "dosbox_exited_by_itself": false,
+   "exit_code": null,
+   "changed_or_new": [],
+   "removed": []
+  },
+  {
+   "session": "w1_F7_default_name",
+   "note": "F7, accept the default name SAVED, continue playing",
+   "before": {
+    "ALTER.EXE": {
+     "bytes": 25622,
+     "sha256": "902e768c33731f4ed8be658dd4801c79418c5247dc7c3500f24757bac8cbeb3c"
+    },
+    "ALTER.PIF": {
+     "bytes": 967,
+     "sha256": "b558ea4bad0364809208d8f5443f0ffe0abc5f84bbfa2efaf5e40eb291a67fe9"
+    },
+    "GOAL.DAT": {
+     "bytes": 44040,
+     "sha256": "bc5e5c04434d31f350eb7803afc3810333393e049d50dde559797a5b068c60ca"
+    },
+    "GOAL.EXE": {
+     "bytes": 92391,
+     "sha256": "a6928b0bb7cda0303ac8daf8690efc56ef1792dddaccb5c6f3d85af1f68d3664"
+    },
+    "GOAL.HLP": {
+     "bytes": 32569,
+     "sha256": "2f3be8648a52045b6f7af1f41cba020d6a662229e5db499e203c5d0957308f60"
+    },
+    "GOAL.PIF": {
+     "bytes": 967,
+     "sha256": "2754392f5381dd41db0cd67385305720d2d64060a0c3954eb9d57933b42880e4"
+    },
+    "INSTALL.EXE": {
+     "bytes": 18544,
+     "sha256": "58bd3d0ae98ad12ee96b58fdb5c7f2f6c6b614e7b8ec4d54a1b839d8fb9399c9"
+    },
+    "RUN.BAT": {
+     "bytes": 7,
+     "sha256": "98a09e9b45a1bc3f6d5d0388e2eae39d259d588abc2d42e90f0550d7e21470fe"
+    },
+    "RUN.PIF": {
+     "bytes": 967,
+     "sha256": "6c4dcc917ef8d11cb786b22229cb6a73f36e0ce078e719c54fea87a2f2b25085"
+    },
+    "Y.HIL": {
+     "bytes": 3989,
+     "sha256": "fdeb00640de6ba7554416494c135852ea808ee5e688e0ac5488dadb6859f6415"
+    }
+   },
+   "screens": [
+    "Please enter name of saved game :  SAVED▒▒▒▒.GL      ■■■■■■■■■■■■■■■■■■■■■■■■■■■",
+    "F1help  F3load goal  F4load summary  F5print screen F7save               F10quit"
+   ],
+   "after": {
+    "ALTER.EXE": {
+     "bytes": 25622,
+     "sha256": "902e768c33731f4ed8be658dd4801c79418c5247dc7c3500f24757bac8cbeb3c"
+    },
+    "ALTER.PIF": {
+     "bytes": 967,
+     "sha256": "b558ea4bad0364809208d8f5443f0ffe0abc5f84bbfa2efaf5e40eb291a67fe9"
+    },
+    "GOAL.DAT": {
+     "bytes": 44040,
+     "sha256": "bc5e5c04434d31f350eb7803afc3810333393e049d50dde559797a5b068c60ca"
+    },
+    "GOAL.EXE": {
+     "bytes": 92391,
+     "sha256": "a6928b0bb7cda0303ac8daf8690efc56ef1792dddaccb5c6f3d85af1f68d3664"
+    },
+    "GOAL.HLP": {
+     "bytes": 32569,
+     "sha256": "2f3be8648a52045b6f7af1f41cba020d6a662229e5db499e203c5d0957308f60"
+    },
+    "GOAL.PIF": {
+     "bytes": 967,
+     "sha256": "2754392f5381dd41db0cd67385305720d2d64060a0c3954eb9d57933b42880e4"
+    },
+    "INSTALL.EXE": {
+     "bytes": 18544,
+     "sha256": "58bd3d0ae98ad12ee96b58fdb5c7f2f6c6b614e7b8ec4d54a1b839d8fb9399c9"
+    },
+    "RUN.BAT": {
+     "bytes": 7,
+     "sha256": "98a09e9b45a1bc3f6d5d0388e2eae39d259d588abc2d42e90f0550d7e21470fe"
+    },
+    "RUN.PIF": {
+     "bytes": 967,
+     "sha256": "6c4dcc917ef8d11cb786b22229cb6a73f36e0ce078e719c54fea87a2f2b25085"
+    },
+    "SAVED.GL": {
+     "bytes": 169553,
+     "sha256": "2f5bdbc5dd12b8e605abffef0fde9135b434f7d474b884eebe9203acc36bf626"
+    },
+    "Y.HIL": {
+     "bytes": 3989,
+     "sha256": "fdeb00640de6ba7554416494c135852ea808ee5e688e0ac5488dadb6859f6415"
+    }
+   },
+   "dosbox_exited_by_itself": false,
+   "exit_code": null,
+   "changed_or_new": [
+    "SAVED.GL"
+   ],
+   "removed": []
+  },
+  {
+   "session": "w2_F7_named",
+   "note": "F7, type zz over the default name, Enter",
+   "before": {
+    "ALTER.EXE": {
+     "bytes": 25622,
+     "sha256": "902e768c33731f4ed8be658dd4801c79418c5247dc7c3500f24757bac8cbeb3c"
+    },
+    "ALTER.PIF": {
+     "bytes": 967,
+     "sha256": "b558ea4bad0364809208d8f5443f0ffe0abc5f84bbfa2efaf5e40eb291a67fe9"
+    },
+    "GOAL.DAT": {
+     "bytes": 44040,
+     "sha256": "bc5e5c04434d31f350eb7803afc3810333393e049d50dde559797a5b068c60ca"
+    },
+    "GOAL.EXE": {
+     "bytes": 92391,
+     "sha256": "a6928b0bb7cda0303ac8daf8690efc56ef1792dddaccb5c6f3d85af1f68d3664"
+    },
+    "GOAL.HLP": {
+     "bytes": 32569,
+     "sha256": "2f3be8648a52045b6f7af1f41cba020d6a662229e5db499e203c5d0957308f60"
+    },
+    "GOAL.PIF": {
+     "bytes": 967,
+     "sha256": "2754392f5381dd41db0cd67385305720d2d64060a0c3954eb9d57933b42880e4"
+    },
+    "INSTALL.EXE": {
+     "bytes": 18544,
+     "sha256": "58bd3d0ae98ad12ee96b58fdb5c7f2f6c6b614e7b8ec4d54a1b839d8fb9399c9"
+    },
+    "RUN.BAT": {
+     "bytes": 7,
+     "sha256": "98a09e9b45a1bc3f6d5d0388e2eae39d259d588abc2d42e90f0550d7e21470fe"
+    },
+    "RUN.PIF": {
+     "bytes": 967,
+     "sha256": "6c4dcc917ef8d11cb786b22229cb6a73f36e0ce078e719c54fea87a2f2b25085"
+    },
+    "Y.HIL": {
+     "bytes": 3989,
+     "sha256": "fdeb00640de6ba7554416494c135852ea808ee5e688e0ac5488dadb6859f6415"
+    }
+   },
+   "screens": [
+    "Please enter name of saved game :  SAVED▒▒▒▒.GL      ■■■■■■■■■■■■■■■■■■■■■■■■■■■",
+    "Please enter name of saved game :  Zz☻▒▒▒▒▒▒.GL      ■■■■■■■■■■■■■■■■■■■■■■■■■■■",
+    "F1help  F3load goal  F4load summary  F5print screen F7save               F10quit"
+   ],
+   "after": {
+    "ALTER.EXE": {
+     "bytes": 25622,
+     "sha256": "902e768c33731f4ed8be658dd4801c79418c5247dc7c3500f24757bac8cbeb3c"
+    },
+    "ALTER.PIF": {
+     "bytes": 967,
+     "sha256": "b558ea4bad0364809208d8f5443f0ffe0abc5f84bbfa2efaf5e40eb291a67fe9"
+    },
+    "GOAL.DAT": {
+     "bytes": 44040,
+     "sha256": "bc5e5c04434d31f350eb7803afc3810333393e049d50dde559797a5b068c60ca"
+    },
+    "GOAL.EXE": {
+     "bytes": 92391,
+     "sha256": "a6928b0bb7cda0303ac8daf8690efc56ef1792dddaccb5c6f3d85af1f68d3664"
+    },
+    "GOAL.HLP": {
+     "bytes": 32569,
+     "sha256": "2f3be8648a52045b6f7af1f41cba020d6a662229e5db499e203c5d0957308f60"
+    },
+    "GOAL.PIF": {
+     "bytes": 967,
+     "sha256": "2754392f5381dd41db0cd67385305720d2d64060a0c3954eb9d57933b42880e4"
+    },
+    "INSTALL.EXE": {
+     "bytes": 18544,
+     "sha256": "58bd3d0ae98ad12ee96b58fdb5c7f2f6c6b614e7b8ec4d54a1b839d8fb9399c9"
+    },
+    "RUN.BAT": {
+     "bytes": 7,
+     "sha256": "98a09e9b45a1bc3f6d5d0388e2eae39d259d588abc2d42e90f0550d7e21470fe"
+    },
+    "RUN.PIF": {
+     "bytes": 967,
+     "sha256": "6c4dcc917ef8d11cb786b22229cb6a73f36e0ce078e719c54fea87a2f2b25085"
+    },
+    "Y.HIL": {
+     "bytes": 3989,
+     "sha256": "fdeb00640de6ba7554416494c135852ea808ee5e688e0ac5488dadb6859f6415"
+    },
+    "ZZ.GL": {
+     "bytes": 169553,
+     "sha256": "2f5bdbc5dd12b8e605abffef0fde9135b434f7d474b884eebe9203acc36bf626"
+    }
+   },
+   "dosbox_exited_by_itself": false,
+   "exit_code": null,
+   "changed_or_new": [
+    "ZZ.GL"
+   ],
+   "removed": []
+  },
+  {
+   "session": "w3_F10_save",
+   "note": "F10, y (quit), y (save), default name; the game then ends and DOSBox-X's `exit` follows",
+   "before": {
+    "ALTER.EXE": {
+     "bytes": 25622,
+     "sha256": "902e768c33731f4ed8be658dd4801c79418c5247dc7c3500f24757bac8cbeb3c"
+    },
+    "ALTER.PIF": {
+     "bytes": 967,
+     "sha256": "b558ea4bad0364809208d8f5443f0ffe0abc5f84bbfa2efaf5e40eb291a67fe9"
+    },
+    "GOAL.DAT": {
+     "bytes": 44040,
+     "sha256": "bc5e5c04434d31f350eb7803afc3810333393e049d50dde559797a5b068c60ca"
+    },
+    "GOAL.EXE": {
+     "bytes": 92391,
+     "sha256": "a6928b0bb7cda0303ac8daf8690efc56ef1792dddaccb5c6f3d85af1f68d3664"
+    },
+    "GOAL.HLP": {
+     "bytes": 32569,
+     "sha256": "2f3be8648a52045b6f7af1f41cba020d6a662229e5db499e203c5d0957308f60"
+    },
+    "GOAL.PIF": {
+     "bytes": 967,
+     "sha256": "2754392f5381dd41db0cd67385305720d2d64060a0c3954eb9d57933b42880e4"
+    },
+    "INSTALL.EXE": {
+     "bytes": 18544,
+     "sha256": "58bd3d0ae98ad12ee96b58fdb5c7f2f6c6b614e7b8ec4d54a1b839d8fb9399c9"
+    },
+    "RUN.BAT": {
+     "bytes": 7,
+     "sha256": "98a09e9b45a1bc3f6d5d0388e2eae39d259d588abc2d42e90f0550d7e21470fe"
+    },
+    "RUN.PIF": {
+     "bytes": 967,
+     "sha256": "6c4dcc917ef8d11cb786b22229cb6a73f36e0ce078e719c54fea87a2f2b25085"
+    },
+    "Y.HIL": {
+     "bytes": 3989,
+     "sha256": "fdeb00640de6ba7554416494c135852ea808ee5e688e0ac5488dadb6859f6415"
+    }
+   },
+   "screens": [
+    "■■■■■■■■■■■■■■■■■■■■■ Are you sure you want to quit? (Y/N) ■■■■■■■■■■■■■■■■■■■■■",
+    "■■■■■■■■■■■■■■■■■■■■■ Do you want to save this game? (Y/N) ■■■■■■■■■■■■■■■■■■■■■",
+    "Please enter name of saved game :  SAVED▒▒▒▒.GL      ■■■■■■■■■■■■■■■■■■■■■■■■■■■",
+    "(process ended)"
+   ],
+   "exit_wait_seconds": 0.0,
+   "after": {
+    "ALTER.EXE": {
+     "bytes": 25622,
+     "sha256": "902e768c33731f4ed8be658dd4801c79418c5247dc7c3500f24757bac8cbeb3c"
+    },
+    "ALTER.PIF": {
+     "bytes": 967,
+     "sha256": "b558ea4bad0364809208d8f5443f0ffe0abc5f84bbfa2efaf5e40eb291a67fe9"
+    },
+    "GOAL.DAT": {
+     "bytes": 44040,
+     "sha256": "bc5e5c04434d31f350eb7803afc3810333393e049d50dde559797a5b068c60ca"
+    },
+    "GOAL.EXE": {
+     "bytes": 92391,
+     "sha256": "a6928b0bb7cda0303ac8daf8690efc56ef1792dddaccb5c6f3d85af1f68d3664"
+    },
+    "GOAL.HLP": {
+     "bytes": 32569,
+     "sha256": "2f3be8648a52045b6f7af1f41cba020d6a662229e5db499e203c5d0957308f60"
+    },
+    "GOAL.PIF": {
+     "bytes": 967,
+     "sha256": "2754392f5381dd41db0cd67385305720d2d64060a0c3954eb9d57933b42880e4"
+    },
+    "INSTALL.EXE": {
+     "bytes": 18544,
+     "sha256": "58bd3d0ae98ad12ee96b58fdb5c7f2f6c6b614e7b8ec4d54a1b839d8fb9399c9"
+    },
+    "RUN.BAT": {
+     "bytes": 7,
+     "sha256": "98a09e9b45a1bc3f6d5d0388e2eae39d259d588abc2d42e90f0550d7e21470fe"
+    },
+    "RUN.PIF": {
+     "bytes": 967,
+     "sha256": "6c4dcc917ef8d11cb786b22229cb6a73f36e0ce078e719c54fea87a2f2b25085"
+    },
+    "SAVED.GL": {
+     "bytes": 169553,
+     "sha256": "2f5bdbc5dd12b8e605abffef0fde9135b434f7d474b884eebe9203acc36bf626"
+    },
+    "Y.HIL": {
+     "bytes": 3989,
+     "sha256": "fdeb00640de6ba7554416494c135852ea808ee5e688e0ac5488dadb6859f6415"
+    }
+   },
+   "dosbox_exited_by_itself": true,
+   "exit_code": 0,
+   "changed_or_new": [
+    "SAVED.GL"
+   ],
+   "removed": []
+  },
+  {
+   "session": "w4_F10_nosave",
+   "note": "F10, y (quit), n (do not save)",
+   "before": {
+    "ALTER.EXE": {
+     "bytes": 25622,
+     "sha256": "902e768c33731f4ed8be658dd4801c79418c5247dc7c3500f24757bac8cbeb3c"
+    },
+    "ALTER.PIF": {
+     "bytes": 967,
+     "sha256": "b558ea4bad0364809208d8f5443f0ffe0abc5f84bbfa2efaf5e40eb291a67fe9"
+    },
+    "GOAL.DAT": {
+     "bytes": 44040,
+     "sha256": "bc5e5c04434d31f350eb7803afc3810333393e049d50dde559797a5b068c60ca"
+    },
+    "GOAL.EXE": {
+     "bytes": 92391,
+     "sha256": "a6928b0bb7cda0303ac8daf8690efc56ef1792dddaccb5c6f3d85af1f68d3664"
+    },
+    "GOAL.HLP": {
+     "bytes": 32569,
+     "sha256": "2f3be8648a52045b6f7af1f41cba020d6a662229e5db499e203c5d0957308f60"
+    },
+    "GOAL.PIF": {
+     "bytes": 967,
+     "sha256": "2754392f5381dd41db0cd67385305720d2d64060a0c3954eb9d57933b42880e4"
+    },
+    "INSTALL.EXE": {
+     "bytes": 18544,
+     "sha256": "58bd3d0ae98ad12ee96b58fdb5c7f2f6c6b614e7b8ec4d54a1b839d8fb9399c9"
+    },
+    "RUN.BAT": {
+     "bytes": 7,
+     "sha256": "98a09e9b45a1bc3f6d5d0388e2eae39d259d588abc2d42e90f0550d7e21470fe"
+    },
+    "RUN.PIF": {
+     "bytes": 967,
+     "sha256": "6c4dcc917ef8d11cb786b22229cb6a73f36e0ce078e719c54fea87a2f2b25085"
+    },
+    "Y.HIL": {
+     "bytes": 3989,
+     "sha256": "fdeb00640de6ba7554416494c135852ea808ee5e688e0ac5488dadb6859f6415"
+    }
+   },
+   "screens": [
+    "■■■■■■■■■■■■■■■■■■■■■ Are you sure you want to quit? (Y/N) ■■■■■■■■■■■■■■■■■■■■■",
+    "■■■■■■■■■■■■■■■■■■■■■ Do you want to save this game? (Y/N) ■■■■■■■■■■■■■■■■■■■■■",
+    "(process ended)"
+   ],
+   "exit_wait_seconds": 0.0,
+   "after": {
+    "ALTER.EXE": {
+     "bytes": 25622,
+     "sha256": "902e768c33731f4ed8be658dd4801c79418c5247dc7c3500f24757bac8cbeb3c"
+    },
+    "ALTER.PIF": {
+     "bytes": 967,
+     "sha256": "b558ea4bad0364809208d8f5443f0ffe0abc5f84bbfa2efaf5e40eb291a67fe9"
+    },
+    "GOAL.DAT": {
+     "bytes": 44040,
+     "sha256": "bc5e5c04434d31f350eb7803afc3810333393e049d50dde559797a5b068c60ca"
+    },
+    "GOAL.EXE": {
+     "bytes": 92391,
+     "sha256": "a6928b0bb7cda0303ac8daf8690efc56ef1792dddaccb5c6f3d85af1f68d3664"
+    },
+    "GOAL.HLP": {
+     "bytes": 32569,
+     "sha256": "2f3be8648a52045b6f7af1f41cba020d6a662229e5db499e203c5d0957308f60"
+    },
+    "GOAL.PIF": {
+     "bytes": 967,
+     "sha256": "2754392f5381dd41db0cd67385305720d2d64060a0c3954eb9d57933b42880e4"
+    },
+    "INSTALL.EXE": {
+     "bytes": 18544,
+     "sha256": "58bd3d0ae98ad12ee96b58fdb5c7f2f6c6b614e7b8ec4d54a1b839d8fb9399c9"
+    },
+    "RUN.BAT": {
+     "bytes": 7,
+     "sha256": "98a09e9b45a1bc3f6d5d0388e2eae39d259d588abc2d42e90f0550d7e21470fe"
+    },
+    "RUN.PIF": {
+     "bytes": 967,
+     "sha256": "6c4dcc917ef8d11cb786b22229cb6a73f36e0ce078e719c54fea87a2f2b25085"
+    },
+    "Y.HIL": {
+     "bytes": 3989,
+     "sha256": "fdeb00640de6ba7554416494c135852ea808ee5e688e0ac5488dadb6859f6415"
+    }
+   },
+   "dosbox_exited_by_itself": true,
+   "exit_code": 0,
+   "changed_or_new": [],
+   "removed": []
+  },
+  {
+   "session": "w5_match_summary",
+   "note": "restore main.sav, play a match in real time at cycles=10000 (game speed x5), Enter after FULL TIME until the match-summary prompt, y, default name, Enter",
+   "before": {
+    "ALTER.EXE": {
+     "bytes": 25622,
+     "sha256": "902e768c33731f4ed8be658dd4801c79418c5247dc7c3500f24757bac8cbeb3c"
+    },
+    "ALTER.PIF": {
+     "bytes": 967,
+     "sha256": "b558ea4bad0364809208d8f5443f0ffe0abc5f84bbfa2efaf5e40eb291a67fe9"
+    },
+    "GOAL.DAT": {
+     "bytes": 44040,
+     "sha256": "bc5e5c04434d31f350eb7803afc3810333393e049d50dde559797a5b068c60ca"
+    },
+    "GOAL.EXE": {
+     "bytes": 92391,
+     "sha256": "a6928b0bb7cda0303ac8daf8690efc56ef1792dddaccb5c6f3d85af1f68d3664"
+    },
+    "GOAL.HLP": {
+     "bytes": 32569,
+     "sha256": "2f3be8648a52045b6f7af1f41cba020d6a662229e5db499e203c5d0957308f60"
+    },
+    "GOAL.PIF": {
+     "bytes": 967,
+     "sha256": "2754392f5381dd41db0cd67385305720d2d64060a0c3954eb9d57933b42880e4"
+    },
+    "INSTALL.EXE": {
+     "bytes": 18544,
+     "sha256": "58bd3d0ae98ad12ee96b58fdb5c7f2f6c6b614e7b8ec4d54a1b839d8fb9399c9"
+    },
+    "RUN.BAT": {
+     "bytes": 7,
+     "sha256": "98a09e9b45a1bc3f6d5d0388e2eae39d259d588abc2d42e90f0550d7e21470fe"
+    },
+    "RUN.PIF": {
+     "bytes": 967,
+     "sha256": "6c4dcc917ef8d11cb786b22229cb6a73f36e0ce078e719c54fea87a2f2b25085"
+    },
+    "Y.HIL": {
+     "bytes": 3989,
+     "sha256": "fdeb00640de6ba7554416494c135852ea808ee5e688e0ac5488dadb6859f6415"
+    }
+   },
+   "match": {
+    "half_time_after_s": 29.63,
+    "second_half_started_after_s": 30.28,
+    "full_time_after_s": 63.82,
+    "phase_at_end": "done",
+    "polls": 116
+   },
+   "prompt_rows": [
+    "■■■■■■■■■■■■■ Do you want to save the match summary to disk? (Y/N) ■■■■■■■■■■■■■"
+   ],
+   "name_prompt_row": "Please enter name of file       :  ☻-1▒▒▒▒▒▒.SUM     ■■■■■■■■■■■■■■■■■■■■■■■■■■■",
+   "after": {
+    "ALTER.EXE": {
+     "bytes": 25622,
+     "sha256": "902e768c33731f4ed8be658dd4801c79418c5247dc7c3500f24757bac8cbeb3c"
+    },
+    "ALTER.PIF": {
+     "bytes": 967,
+     "sha256": "b558ea4bad0364809208d8f5443f0ffe0abc5f84bbfa2efaf5e40eb291a67fe9"
+    },
+    "GOAL.DAT": {
+     "bytes": 44040,
+     "sha256": "bc5e5c04434d31f350eb7803afc3810333393e049d50dde559797a5b068c60ca"
+    },
+    "GOAL.EXE": {
+     "bytes": 92391,
+     "sha256": "a6928b0bb7cda0303ac8daf8690efc56ef1792dddaccb5c6f3d85af1f68d3664"
+    },
+    "GOAL.HLP": {
+     "bytes": 32569,
+     "sha256": "2f3be8648a52045b6f7af1f41cba020d6a662229e5db499e203c5d0957308f60"
+    },
+    "GOAL.PIF": {
+     "bytes": 967,
+     "sha256": "2754392f5381dd41db0cd67385305720d2d64060a0c3954eb9d57933b42880e4"
+    },
+    "INSTALL.EXE": {
+     "bytes": 18544,
+     "sha256": "58bd3d0ae98ad12ee96b58fdb5c7f2f6c6b614e7b8ec4d54a1b839d8fb9399c9"
+    },
+    "RUN.BAT": {
+     "bytes": 7,
+     "sha256": "98a09e9b45a1bc3f6d5d0388e2eae39d259d588abc2d42e90f0550d7e21470fe"
+    },
+    "RUN.PIF": {
+     "bytes": 967,
+     "sha256": "6c4dcc917ef8d11cb786b22229cb6a73f36e0ce078e719c54fea87a2f2b25085"
+    },
+    "S-1.SUM": {
+     "bytes": 3989,
+     "sha256": "18fde8134b781ffe01c376d175e9f2f1ee0bd78223325464e4339eeeb223c4a0"
+    },
+    "Y.HIL": {
+     "bytes": 3989,
+     "sha256": "fdeb00640de6ba7554416494c135852ea808ee5e688e0ac5488dadb6859f6415"
+    }
+   },
+   "changed_or_new": [
+    "S-1.SUM"
+   ]
+  }
+ ],
+ "release_files_unchanged_in_cache": true
+}
