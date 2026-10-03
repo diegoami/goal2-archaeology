@@ -89,28 +89,21 @@ def check_release(manifests: list[tuple[str, dict]], release: str, repo: str,
     assets = release_assets(release, repo)
     cache.mkdir(parents=True, exist_ok=True)
     wanted = []
-    distinct = {}
     for name, manifest in manifests:
         for entry in manifest.get("files", []):
-            asset = expected_asset(entry)
-            wanted.append((name, asset, entry.get("sha256")))
-            distinct.setdefault(asset, entry.get("sha256"))
+            wanted.append((name, expected_asset(entry), entry.get("sha256")))
     downloaded = {}
-    for asset in sorted(distinct):
+    for asset in sorted({asset for _, asset, _ in wanted}):
         if asset in assets:
             downloaded[asset] = download_asset(asset, release, repo, cache)
     for name, asset, sha in wanted:
         if asset not in assets:
             problems.append(f"{name}: {asset}: not an asset of release {release}")
             continue
-        if not downloaded.get(asset):
+        if not downloaded[asset]:
             problems.append(f"{name}: {asset}: download failed from release {release}")
             continue
-        path = cache / asset
-        if not path.is_file():
-            problems.append(f"{name}: {asset}: missing after download from release {release}")
-            continue
-        actual = sha256_file(path)
+        actual = sha256_file(cache / asset)
         if actual != sha:
             problems.append(f"{name}: {asset}: sha256 {actual}, manifest says {sha}")
     return problems
