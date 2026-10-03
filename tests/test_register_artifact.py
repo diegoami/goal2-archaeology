@@ -1,6 +1,7 @@
 """register_artifact prints an artifact-set/1 manifest whose id is the canonical manifest's prefix."""
 from __future__ import annotations
 
+import hashlib
 import json
 import subprocess
 import sys
@@ -31,9 +32,17 @@ class RegisterArtifactTest(unittest.TestCase):
             self.assertTrue(manifest["id"].startswith("goal2-test-"))
             body = {key: value for key, value in manifest.items() if key not in ("id", "acquired")}
             self.assertEqual(ga.canonical_set_hash(body)[:8], manifest["id"].rsplit("-", 1)[1])
-            self.assertEqual(
-                [{"path": "one.txt"}, {"path": "sub/two.bin"}],
-                [{"path": entry["path"]} for entry in manifest["files"]])
+            # Every file entry asserts the bytes and sha256 of the fixture contents written above,
+            # derived here independently of the tool's own output (R2).
+            expected = {
+                "one.txt": {"path": "one.txt", "bytes": 3,
+                            "sha256": hashlib.sha256(b"one").hexdigest()},
+                "sub/two.bin": {"path": "sub/two.bin", "bytes": 3,
+                                "sha256": hashlib.sha256(b"\x00\x01\x02").hexdigest()},
+            }
+            self.assertEqual(sorted(expected), sorted(entry["path"] for entry in manifest["files"]))
+            for entry in manifest["files"]:
+                self.assertEqual(expected[entry["path"]], entry, entry["path"])
             self.assertEqual(["*.sav"], manifest["runtime_writes"])
             self.assertEqual([], ga.validate(manifest, ga.schema("artifact-set/1")))
             self.assertEqual([], ga.semantic_errors("artifact-set/1", manifest))

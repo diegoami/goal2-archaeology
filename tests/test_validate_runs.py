@@ -1,6 +1,8 @@
 """The record tools use the checker fetched from game-archaeologist at the pinned commit (DW5)."""
 from __future__ import annotations
 
+import hashlib
+import json
 import subprocess
 import sys
 import unittest
@@ -58,6 +60,13 @@ class ValidateRunsTest(unittest.TestCase):
         }
         digest = ga.canonical_set_hash(manifest)
         self.assertRegex(digest, r"^[0-9a-f]{64}$")
+        # The digest is the sha256 of the canonical form built here from the documented rules
+        # (without id and acquired, files sorted by path, sorted keys, ',', ':' separators), so a
+        # constant or content-blind implementation fails (R2 sweep).
+        canonical = {k: v for k, v in manifest.items() if k not in ("id", "acquired")}
+        canonical["files"] = sorted(canonical["files"], key=lambda f: f["path"])
+        text = json.dumps(canonical, sort_keys=True, separators=(",", ":"), ensure_ascii=False)
+        self.assertEqual(hashlib.sha256(text.encode("utf-8")).hexdigest(), digest)
         # id and acquired are excluded from the canonical form.
         self.assertEqual(digest, ga.canonical_set_hash({**manifest, "id": "x-" + digest[:8]}))
 

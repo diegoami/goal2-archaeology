@@ -6,8 +6,10 @@ listed file against release `E<nnn>`: its asset name (`<sha256[:16]>-<name>`) an
 `--local <dir>` it checks a directory instead of the release (the bundle already downloaded).
 
 The release is listed once and each distinct asset is downloaded once, however many manifests share
-it (toy-archaeology#11). A missing asset is reported by name, and a download that leaves no file is
-retried once before it is reported, so a silent drop is never taken for success.
+it (toy-archaeology#11). A missing asset is reported by name, and a download that fails or leaves no
+file is retried once before it is reported. A file already in the cache is never accepted in place
+of this run's download: it is removed before each attempt, so a stale copy cannot stand in for a
+download that fails or silently produces nothing.
 
 Exit 0 when every file matches, 1 otherwise. `--evidence-dir` overrides where the manifests live.
 
@@ -62,14 +64,18 @@ def release_assets(release: str, repo: str) -> list[str]:
 
 
 def download_asset(asset: str, release: str, repo: str, cache: Path) -> bool:
-    """Download one asset into the cache, retrying once when it leaves no file."""
+    """Download one asset into the cache, retrying once when it fails or leaves no file.
+
+    A file already in the cache is not a result: it is removed before each attempt, so only a file
+    this run's `gh release download` produced and returned 0 for counts (toy-archaeology#11)."""
     destination = cache / asset
     for _ in range(2):
-        subprocess.run(
+        destination.unlink(missing_ok=True)
+        result = subprocess.run(
             ["gh", "release", "download", release, "--repo", repo, "-p", asset, "-D", str(cache),
              "--clobber"],
             check=False, capture_output=True)
-        if destination.is_file():
+        if result.returncode == 0 and destination.is_file():
             return True
     return False
 
@@ -89,12 +95,16 @@ def check_release(manifests: list[tuple[str, dict]], release: str, repo: str,
             asset = expected_asset(entry)
             wanted.append((name, asset, entry.get("sha256")))
             distinct.setdefault(asset, entry.get("sha256"))
+    downloaded = {}
     for asset in sorted(distinct):
         if asset in assets:
-            download_asset(asset, release, repo, cache)
+            downloaded[asset] = download_asset(asset, release, repo, cache)
     for name, asset, sha in wanted:
         if asset not in assets:
             problems.append(f"{name}: {asset}: not an asset of release {release}")
+            continue
+        if not downloaded.get(asset):
+            problems.append(f"{name}: {asset}: download failed from release {release}")
             continue
         path = cache / asset
         if not path.is_file():
