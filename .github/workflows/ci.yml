@@ -11,6 +11,8 @@ permissions:
 jobs:
   checks:
     runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -23,5 +25,9 @@ jobs:
       - run: python3 tools/check_links.py
       # The copied harness tools run here (harness.lock pins them).
       - run: node tools/harness/review.mjs --self-test
+      # G2: the artifact is a release asset; the workflow's token fetches it (never committed).
+      - run: python3 tools/fetch_artifact.py goal2-a949da2f
+      # The record tools, their tests and fixtures (the fetched checker and artifact stay in .cache/).
+      - run: python3 -m unittest discover -s tests -v
       # No original file is ever in the tree (U17: they are release assets only).
       - run: "! git ls-files | grep -iE '\\.(exe|dat|hlp|hil|pif|bat)$'"
