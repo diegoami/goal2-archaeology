@@ -1,0 +1,13 @@
+{
+  "game-archaeologist": {
+    "repo": "diegoami/game-archaeologist",
+    "tag": "formats-v1",
+    "commit": "33653435545f65c930bdca9bd4f4bd56e79dfa84",
+    "uses": [
+      "formats/*.schema.json",
+      "formats/templates/",
+      "vocabulary/",
+      "method/research-protocol.md"
+    ]
+  }
+}
