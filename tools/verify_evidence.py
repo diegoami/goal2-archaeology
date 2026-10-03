@@ -60,7 +60,7 @@ def release_assets(release: str, repo: str) -> list[str]:
     out = subprocess.run(
         ["gh", "release", "view", release, "--repo", repo, "--json", "assets", "-q", ".assets[].name"],
         check=True, capture_output=True, text=True)
-    return [name for name in out.stdout.splitlines() if name]
+    return out.stdout.splitlines()
 
 
 def download_asset(asset: str, release: str, repo: str, cache: Path) -> bool:

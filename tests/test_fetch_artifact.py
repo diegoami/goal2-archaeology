@@ -35,6 +35,8 @@ with open(os.environ["FAKE_GH_LOG"], "a", encoding="utf-8") as log:
     log.write(" ".join(args) + "\\n")
 if args[:2] != ["release", "download"]:
     sys.exit(2)
+if os.environ.get("FAKE_GH_FAIL"):
+    sys.exit(1)
 name = args[args.index("-p") + 1]
 dest = Path(args[args.index("-D") + 1])
 dest.mkdir(parents=True, exist_ok=True)
@@ -116,6 +118,12 @@ class FakeReleaseTest(unittest.TestCase):
             fetch_artifact.download("no-such-set-00000000")
         self.assertIn("no-such-set-00000000: unknown artifact set", str(raised.exception))
         self.assertEqual([], self.calls())
+
+    def test_failing_gh_stops_the_download(self):
+        with mock.patch.dict(os.environ, {"FAKE_GH_FAIL": "1"}):
+            with self.assertRaises(subprocess.CalledProcessError):
+                fetch_artifact.download(SET_ID)
+        self.assertEqual(1, len(self.calls()))
 
     def test_missing_file_is_reported(self):
         fetch_artifact.download(SET_ID)

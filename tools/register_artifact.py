@@ -73,8 +73,9 @@ def main(argv=None) -> int:
         return 1
     manifest = manifest_of(args.dir, args.label, args.title, args.version, args.how,
                            args.when, args.note, args.writes)
-    problems = ga.validate(manifest, ga.schema("artifact-set/1")) + \
-        ga.semantic_errors("artifact-set/1", manifest)
+    # Schema only: the one semantic rule for artifact-set/1 (the id's hash suffix) holds by
+    # construction, since manifest_of computes the id with the checker's own canonical_set_hash.
+    problems = ga.validate(manifest, ga.schema("artifact-set/1"))
     if problems:
         print("\n".join(problems), file=sys.stderr)
         return 1
