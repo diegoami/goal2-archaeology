@@ -104,6 +104,21 @@ class CheckCitationsTest(unittest.TestCase):
         self.assertEqual(1, result.returncode, result.stdout + result.stderr)
         self.assertIn("missing section '## Inferences'", result.stdout)
 
+    def test_bullet_ending_its_section_without_a_blank_line_is_checked(self):
+        result = run_check_text("## Answer\n- An uncited last bullet\n## Inferences\n- E900-r0001")
+        self.assertEqual(1, result.returncode, result.stdout + result.stderr)
+        self.assertIn("## Answer bullet cites no run id: - An uncited last bullet", result.stdout)
+
+    def test_runs_default_to_the_repository_runs_directory(self):
+        # Without --runs a citation must resolve under this repository's runs/, which holds no
+        # E900 record.
+        result = subprocess.run(
+            [sys.executable, "tools/check_citations.py", str(FIXTURES / "citations" / "finding-good.md")],
+            cwd=REPO_ROOT, capture_output=True, text=True)
+        self.assertEqual(1, result.returncode, result.stdout + result.stderr)
+        self.assertIn(f"cites missing run E900-r0001 (no {REPO_ROOT / 'runs' / 'E900' / 'E900-r0001.json'})",
+                      result.stdout)
+
     def test_missing_finding_file_exits_1(self):
         result = run_check("no-such-finding.md")
         self.assertEqual(1, result.returncode, result.stdout + result.stderr)

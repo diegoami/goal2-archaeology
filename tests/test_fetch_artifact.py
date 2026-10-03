@@ -96,6 +96,27 @@ class FakeReleaseTest(unittest.TestCase):
         self.assertIn(f"{SET_ID}: verified", out.getvalue())
         self.assertEqual(len(self.files()), len(self.calls()))
 
+    def test_fetch_exits_when_the_download_does_not_verify(self):
+        # The release serves the first file with one byte changed: fetch must not return the set.
+        corrupt = Path(tempfile.mkdtemp())
+        self.addCleanup(shutil.rmtree, corrupt, True)
+        for path in self.release.iterdir():
+            shutil.copy(path, corrupt / path.name)
+        first = corrupt / self.files()[0]["path"]
+        changed = bytearray(first.read_bytes())
+        changed[0] ^= 0xFF
+        first.write_bytes(bytes(changed))
+        with mock.patch.dict(os.environ, {"FAKE_GH_RELEASE": str(corrupt)}):
+            with self.assertRaises(SystemExit) as raised:
+                fetch_artifact.fetch(SET_ID)
+        self.assertIn(f"{self.files()[0]['path']}: sha256", str(raised.exception))
+
+    def test_download_of_an_unknown_set_exits_naming_it(self):
+        with self.assertRaises(SystemExit) as raised:
+            fetch_artifact.download("no-such-set-00000000")
+        self.assertIn("no-such-set-00000000: unknown artifact set", str(raised.exception))
+        self.assertEqual([], self.calls())
+
     def test_missing_file_is_reported(self):
         fetch_artifact.download(SET_ID)
         first = self.files()[0]["path"]

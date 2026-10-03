@@ -45,7 +45,8 @@ if args[:2] == ["release", "view"]:
 if args[:2] == ["release", "download"]:
     asset = args[args.index("-p") + 1]
     dest = Path(args[args.index("-D") + 1])
-    dest.mkdir(parents=True, exist_ok=True)
+    if not dest.is_dir():
+        sys.exit(1)  # the caller makes the directory
     if mode == "fail":
         sys.exit(1)
     if mode == "empty":
