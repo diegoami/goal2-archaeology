@@ -8,3 +8,4 @@ exists.
 | Task | Title | Issue | Merge after |
 | --- | --- | --- | --- |
 | T01 | The GOAL2 research repository: layout, the artifact by hash, the plan (G0) | #1 | — |
+| T02 | Runtime feasibility: launch, act, observe, reset GOAL2 under DOSBox-X (G1) | #3 | T01 |
