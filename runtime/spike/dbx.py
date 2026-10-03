@@ -40,6 +40,7 @@ class Session:
         self.core, self.cputype = core, cputype
         self.conf_extra = conf_extra
         self.savefile = os.path.join(self.workdir, savefile_name)
+        self.extra_args = []  # more dosbox-x command-line arguments (probes only)
         self.load_state = load_state
         self.xvfb = self.dbx = None
         self.display = None
@@ -99,8 +100,8 @@ exit
             raise RuntimeError("no Xvfb display could be started")
         self.log(f"Xvfb {self.display} answering")
         env = dict(os.environ, DISPLAY=self.display, SDL_AUDIODRIVER="dummy")
-        args = ["dosbox-x", "-conf", conf, "-fastlaunch", "-nogui", "-nomenu",
-                "-savedir", self.workdir, "-set", f"dosbox savefile={self.savefile}"]
+        args = [os.environ.get("DOSBOX_X", "dosbox-x"), "-conf", conf, "-fastlaunch", "-nogui", "-nomenu",
+                "-savedir", self.workdir, "-set", f"dosbox savefile={self.savefile}"] + self.extra_args
         self.dbx = subprocess.Popen(args, env=env, stdout=open(os.path.join(self.workdir, "dosbox.out"), "w"),
                                     stderr=subprocess.STDOUT, start_new_session=True)
         self.log("dosbox-x started")
@@ -151,16 +152,22 @@ exit
         self._x("keyup", "F12")
 
     # ---- observe ------------------------------------------------------------------------
-    def savestate(self, timeout=15):
+    def savestate(self, timeout=15, resend_after=3.0):
         """Host+S; poll until a complete savestate zip (all members readable) is on disk.
-        Returns the file's bytes. I1: reading emulator state."""
+        Returns the file's bytes. I1: reading emulator state. Host+S is idempotent, so it is sent
+        again (and logged) if no file appears within `resend_after` seconds; a dead process fails at once."""
         if os.path.exists(self.savefile):
             os.remove(self.savefile)
         self.hostkey("s")
-        end = time.monotonic() + timeout
+        t0 = time.monotonic()
+        end = t0 + timeout
+        sent = t0
         polls = 0
         while time.monotonic() < end:
             polls += 1
+            if self.dbx.poll() is not None:
+                raise RuntimeError(f"dosbox-x exited with code {self.dbx.returncode} during a savestate; "
+                                   f"last log line: {self._last_log_line()}")
             if os.path.exists(self.savefile):
                 try:
                     with zipfile.ZipFile(self.savefile) as z:
@@ -170,8 +177,19 @@ exit
                             return data
                 except (zipfile.BadZipFile, OSError):
                     pass
+            if time.monotonic() - sent > resend_after:
+                self.log("Host+S sent again: no savestate after %.1fs" % (time.monotonic() - sent))
+                self.hostkey("s")
+                sent = time.monotonic()
             time.sleep(0.05)
         raise RuntimeError("savestate not complete within %ss" % timeout)
+
+    def _last_log_line(self):
+        try:
+            lines = open(os.path.join(self.workdir, "dosbox.out"), errors="replace").read().strip().splitlines()
+            return lines[-1][:200]
+        except OSError:
+            return "no log"
 
     def screen(self):
         """Take a savestate, return Screen(chars, attrs, mode) from the Vga and Memory components."""
