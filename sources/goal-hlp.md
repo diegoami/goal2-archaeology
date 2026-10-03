@@ -83,12 +83,12 @@ games will ever be the same twice.
 **Candidate research questions**
 
 - **Q01.1** The country-selection screen offers 128 countries. ([P01](#p01), [P03](#p03), [P36](#p36))
-- **Q01.2** The 128 countries fall into 4 continents of 32 teams each, numbered Europe, America, Africa, Asia. ([P03](#p03), [P34](#p34))
+- **Q01.2** The 128 countries are split over 4 continents (Europe, America, Africa, Asia), each with 32 nations eligible for its continental championship and for World Cup qualifying. ([P03](#p03), [P34](#p34))
 - **Q01.3** Concacaf and South American teams are listed under America, and Oceania teams under Asia. ([P34](#p34))
-- **Q01.4** Averaged over each continent's teams, the team-info skills are highest for Europe, then America, then Africa, then Asia. ([P35](#p35))
-- **Q01.5** For teams of equal skill, the rate of winning the continental championship is highest in Asia, then Africa, then America, lowest in Europe. ([P36](#p36))
-- **Q01.6** Germany's team-info skills are among the highest of the 128 teams, and a human-managed Germany wins the World Cup more often than the average team does. ([P37](#p37))
-- **Q01.7** Two games started from the same country with the same selections and tactics do not produce the same results in every match. ([P37](#p37))
+- **Q01.4** On the whole, European teams are better than American teams, American better than African, and African better than Asian: this order shows in the team-info skills, or in results between teams of different continents, or in both. ([P35](#p35))
+- **Q01.5** The continental championship is easiest to win in Asia, then Africa, then America, and hardest in Europe: championship win rates of comparable teams fall in that order. ([P36](#p36))
+- **Q01.6** A game started as Germany is at the easy end of the 128 games (the help file calls it "too easy"): a human-managed Germany does better in the competitions than a typical country. ([P37](#p37))
+- **Q01.7** Two games started from the same country do not run identically throughout. ([P37](#p37))
 
 ## A02 The player pool and the squad
 
@@ -142,10 +142,10 @@ squad -  his selection will be based on the team's current formation.
 
 - **Q02.1** The player pool of the chosen country shows 100 players. ([P07](#p07))
 - **Q02.2** The squad of the chosen country holds 20 players. ([P07](#p07))
-- **Q02.3** The squad can be changed between any two matches, except during the finals of a competition and while on tour abroad, where changes are refused. ([P57](#p57))
+- **Q02.3** Squad changes are possible between matches, and are not possible during the finals of a competition or while on tour abroad. ([P57](#p57))
 - **Q02.4** Players who are injured, suspended or unfit can be taken out of the squad and replaced from the pool between matches. ([P57](#p57))
-- **Q02.5** The assistant offers a recommended squad on request, and the recommendation changes when the team's formation changes. ([P58](#p58))
-- **Q02.6** New players appear in the pool over the years, and some are better than any player in the squad. ([P38](#p38))
+- **Q02.5** The assistant recommends a squad on request, and bases the selection on the team's current formation: the recommended squad can differ between two formations. ([P58](#p58))
+- **Q02.6** In a country whose results beat expectations, talented new players gradually appear in the pool, often better than any player in the squad. ([P38](#p38))
 - **Q02.7** Substitutions during a match are taken from the squad of 20 and never from the pool. ([P48](#p48))
 
 ## A03 Player attributes and skills
@@ -314,17 +314,17 @@ consideration).
 
 **Candidate research questions**
 
-- **Q03.1** A player's detail screen shows skills, fitness, energy, hardness, age, caps, confidence, position, leadership, height, foot and performance. ([P08](#p08))
-- **Q03.2** A player's skills are shown as 12 values. The help file counts 12 skill categories (lines 39 and 92) and describes 13 skills by name (keeping, goal kicking, kicking, tackling, heading, marking, passing, crossing, feinting, control, dribbling, shooting, penalties); which names appear on the screen decides which description is not a separate category. ([P08](#p08), [P18](#p18), [P63](#p63))
-- **Q03.3** Keeping skill matters only for goalkeepers: changing an outfield player's keeping value changes no match outcome. ([P63](#p63))
-- **Q03.4** A tackle's outcome depends on the tackler's tackling skill against the agility of the player on the ball; which displayed attribute plays the part of agility is observable by varying each. ([P66](#p66))
-- **Q03.5** Raising hardness, with tackling skill held fixed, raises the success rate of tackles made while going in hard; raising tackling skill alone does not. ([P66](#p66))
-- **Q03.6** A man-marker's marking skill is compared with the marked player's feinting skill: a marker with higher marking than the opponent's feinting stays closer to him (practically on top of him) while the team defends. ([P68](#p68), [P71](#p71))
+- **Q03.1** The detailed analysis of each player includes skills, fitness and energy, hardness, age, caps, confidence, position, leadership, height, foot (left, right or two footed) and performance. ([P08](#p08))
+- **Q03.2** The player analysis shows 12 skill categories (lines 39 and 92), while the skill section describes 13 skills by name (keeping, goal kicking, kicking, tackling, heading, marking, passing, crossing, feinting, control, dribbling, shooting, penalties); the skill categories actually shown say how the 13 names map to 12. ([P08](#p08), [P18](#p18), [P63](#p63))
+- **Q03.3** Keeping skill is relevant only to goalkeepers: an outfield player's keeping value has no effect on his play. ([P63](#p63))
+- **Q03.4** A tackle is a contest between the tackler's tackling skill and the agility of the player on the ball; the help file does not say which attribute is agility. ([P66](#p66))
+- **Q03.5** The gain in tackling success from going in hard depends on the tackler's hardness and not on his tackling skill: with tackling skill held fixed, a harder player gains more from going in hard. ([P66](#p66))
+- **Q03.6** A man-marker's marking skill is compared with the feinting skill of the man he marks, and a good man-to-man marker is practically on top of his opponent whenever his team is defending. ([P68](#p68), [P71](#p71))
 - **Q03.7** A penalty's outcome depends on the taker's penalties skill against the goalkeeper's penalty stopping, which belongs to his keeping skill. ([P63](#p63), [P75](#p75))
-- **Q03.8** Players with higher heading skill win more high balls, and are more accurate with headed passes and headed shots. ([P67](#p67))
-- **Q03.9** The computer's default captain is the player it considers best, and that choice is predicted by the leadership value: it is the highest-leadership player, or the choice does not follow leadership. ([P109](#p109))
-- **Q03.10** A player's performance value on the detail screen changes after each fully watched match, being updated for each tackle, shot and dribble he makes. ([P111](#p111))
-- **Q03.11** Version 2 shows 12 skills, 14 positions, leadership, a performance rating and a two-footed foot value, where version 1 showed 8 skills and 13 positions. ([P18](#p18))
+- **Q03.8** Players with higher heading skill intercept more high balls, and pass and shoot more accurately with the head. ([P67](#p67))
+- **Q03.9** The computer proposes as captain the player it considers best; the player's leadership value is what to check when accepting him or choosing another. ([P109](#p109))
+- **Q03.10** Each player has a performance rating, which is updated during the game for every tackle, shot and dribble he makes. ([P111](#p111))
+- **Q03.11** Version 2 has 12 skills (8 in version 1), 14 positions (13 in version 1), extra fitness and confidence categories, leadership, a performance rating and two-footed players. ([P18](#p18))
 
 ## A04 Ageing, peak age and new talent
 
@@ -369,13 +369,13 @@ seen as a player's ability to utilise his skill.
 
 **Candidate research questions**
 
-- **Q04.1** A player's skills rise with age up to his peak age and fall after it until he retires, so the sum of a player's skills, followed year by year, is non-decreasing up to a peak and non-increasing afterwards. ([P19](#p19), [P59](#p59))
+- **Q04.1** A player's skill improves until he reaches his peak age, where it is at its maximum, and then tapers off until he retires. ([P19](#p19), [P59](#p59))
 - **Q04.2** Players have different peak ages. ([P59](#p59))
-- **Q04.3** Players retire, and leave the squad and pool when they do. ([P38](#p38), [P59](#p59))
-- **Q04.4** After years in which a country's results beat expectations drawn from its skill ratings, talented new players appear in its pool more often than after years in which results match the expectations. ([P38](#p38))
-- **Q04.5** After years in which a country falls short of expectations, the new players who replace retirees are worse than the retirees. ([P38](#p38))
-- **Q04.6** Success is measured in points in the qualifying and final groups and in how far the team goes in the knockout stage; two histories with the same points and different knockout results lead to different talent changes. ([P38](#p38))
-- **Q04.7** A strong country and a weak country with identical results change differently, because the comparison is with the country's own skill ratings. ([P38](#p38))
+- **Q04.3** Players retire after their skills have tapered off, and new players are found to replace them. ([P38](#p38), [P59](#p59))
+- **Q04.4** Where a country's results are better than expected from its skill ratings, talented new players gradually appear in its pool. ([P38](#p38))
+- **Q04.5** Where a country's results fail to match expectations, replacements for retiring players are seldom as good as the players who retire. ([P38](#p38))
+- **Q04.6** The effect of results on a country's new talent is measured from the points achieved in the qualifying and final groups and from success in the knockout stages. ([P38](#p38))
+- **Q04.7** "Better than expected" is judged from the country's own skill ratings, so the same results count for more in a lowly country than in a strong one. ([P38](#p38))
 
 ## A05 Fitness, energy, confidence and morale
 
@@ -413,14 +413,14 @@ result of every match, including friendlies, is important.
 
 **Candidate research questions**
 
-- **Q05.1** During a match a player's energy declines in direct proportion to his activity, so players with more movement lose energy faster. ([P60](#p60))
+- **Q05.1** During a match a player's energy declines in direct proportion to his activity. ([P60](#p60))
 - **Q05.2** Tactics that reduce a player's movement reduce his energy loss. ([P60](#p60))
-- **Q05.3** A substitute brought on late has more energy than the players who started, at the same minute. ([P60](#p60))
-- **Q05.4** Winning or drawing a match raises the confidence of the players involved; scoring a goal raises it too. ([P61](#p61))
+- **Q05.3** Players brought on towards the end of a game are fresh (their energy is high) and can often outplay the opposition. ([P60](#p60))
+- **Q05.4** Winning or even drawing a match can raise the confidence of the players involved, and so can scoring goals. ([P61](#p61))
 - **Q05.5** The confidence change depends on the margin compared with the margin expected from the two teams: if Germany are expected to beat India by 3, a German win by more than 3 raises their confidence and a win by fewer than 3 lowers it. ([P61](#p61))
 - **Q05.6** In the same fixture, India's confidence rises when they lose by 2. ([P61](#p61))
-- **Q05.7** Injuries, bookings and sendings off lower the confidence of the player concerned. ([P61](#p61))
-- **Q05.8** Friendlies change player confidence in the same way competition matches do. ([P61](#p61))
+- **Q05.7** Injuries, bookings and sendings off damage player confidence. ([P61](#p61))
+- **Q05.8** The results of friendlies also affect player confidence. ([P61](#p61))
 - **Q05.9** Team morale rises when the confidence of the players rises. ([P09](#p09), [P61](#p61))
 - **Q05.10** At equal skill, a player with higher fitness and confidence performs better in a match (fitness and confidence together stand for form). ([P59](#p59))
 
@@ -472,10 +472,10 @@ pitch.
 **Candidate research questions**
 
 - **Q06.1** The team-info screen shows the formation; attacking, midfield, defence and keeping skills; average fitness, hardness, age, caps and performance; morale; and world and continental rankings. ([P09](#p09))
-- **Q06.2** The team skills shown follow the current team of 11: changing one of the eleven changes them, changing a player who is not among the eleven does not. ([P41](#p41))
-- **Q06.3** The team skills shown change when the formation changes with the same eleven players. ([P41](#p41))
-- **Q06.4** The world and continental rankings show how the team did in the last World Cup or continental championship: the last winner has the best ranking whatever its skills. ([P41](#p41))
-- **Q06.5** The rankings change only when a competition finishes. ([P41](#p41))
+- **Q06.2** The team skills shown follow the current team of 11, not the entire squad: changing one of the eleven can change them, changing a player who is not among the eleven leaves them unchanged. ([P41](#p41))
+- **Q06.3** The team skills shown can change when the formation changes with the same eleven players. ([P41](#p41))
+- **Q06.4** The world and continental rankings indicate how the team did in the last World Cup or continental championship and are not directly related to its skill: a team's ranking can differ from the order of the teams' skills. ([P41](#p41))
+- **Q06.5** After a World Cup or a continental championship, the rankings reflect how each team did in it. ([P41](#p41))
 - **Q06.6** The team-info screen shows a performance rating, and a team's performance is based on the performances of the 11 players on the pitch. ([P20](#p20), [P112](#p112))
 
 ## A07 Positions and formation
@@ -610,12 +610,12 @@ advised to play a left footer on the right flank or vice versa.
 - **Q07.1** The position choice offers 14 positions: striker, centre forward, left winger, right winger, forward midfielder, left midfielder, right midfielder, central midfielder, defensive midfielder, left back, right back, centre back, sweeper, goalkeeper. ([P08](#p08), [P76](#p76))
 - **Q07.2** Any player can be placed in any position, and his first (original) position is usually but not always the one that suits him best. ([P87](#p87))
 - **Q07.3** Players can be repositioned during a match. ([P87](#p87))
-- **Q07.4** A two-footed player plays equally well on either flank, while a left-footed player on the right flank (or the reverse) plays worse. ([P88](#p88))
-- **Q07.5** A sweeper cannot be assigned an opponent to mark, and moves into midfield when the defence is not under pressure. ([P85](#p85))
-- **Q07.6** Centre forwards have higher heading and lower shooting accuracy and agility than strikers, and strikers move around more. ([P76](#p76), [P77](#p77))
+- **Q07.4** A two-footed player plays equally well on either flank; playing a one-footed player on the flank opposite to his foot is not advised, so he is expected to do worse there. ([P88](#p88))
+- **Q07.5** A sweeper cannot be assigned an opponent to mark, and often moves into midfield when the defence is not under pressure. ([P85](#p85))
+- **Q07.6** Centre forwards are taller than strikers and good at heading; they are generally less agile than strikers and have a less accurate shot; strikers roam around more. ([P76](#p76), [P77](#p77))
 - **Q07.7** Wingers have skills similar to strikers, with better passing. ([P78](#p78))
 - **Q07.8** The central midfielder is usually the best player in the team. ([P81](#p81))
-- **Q07.9** Full backs that push forward (overlap) go to the by-line and cross. ([P83](#p83))
+- **Q07.9** Full backs that push forward (overlap) attempt to get to the by-line and send a cross into the box. ([P83](#p83))
 
 ## A08 Tactics
 
@@ -778,24 +778,24 @@ team tactic.
 
 **Also informs this area** (quoted under another area): [P60](#p60) (lines 334–340), [P66](#p66) (lines 367–372), [P68](#p68) (lines 378–380), [P85](#p85) (lines 451–454), [P103](#p103) (lines 583–585).
 
-**Not stated by the help file**: any numeric effect of a tactic, and which of the team tactics other than positioning, possession, passing and tackling can be set for a single player.
+**Not stated by the help file**: any numeric effect of a tactic, and which tactics can be set at team level only or at player level only (line 472 says "for certain tactics" about the team level).
 
 **Candidate research questions**
 
 - **Q08.1** The tactics screen offers eight tactics, each with two options: positioning (stay back or push forward), possession (stay on the ball or one touch passing), passing (short or long), defence (half or full pitch), system (zonal or man to man), protection (sag back or stand ground), offside (defensive safety or offside trap), tackling (avoid heavy tackles or go in hard). ([P91](#p91))
 - **Q08.2** At the individual level each tactic that can be set has three options: the two options (with the letter P) and the team default. ([P101](#p101))
-- **Q08.3** Tactics can be set before the match and at any point during it, at team and at player level, and only some tactics can be set per player. ([P10](#p10), [P89](#p89))
-- **Q08.4** Pushing forward raises the number of players in the attacking half; staying back keeps possession and holds a stronger defence. ([P91](#p91))
-- **Q08.5** Long passing completes fewer passes than short passing, gains territory faster, and short passing keeps possession longer. ([P93](#p93))
-- **Q08.6** Full pitch defence gives the team more of the possession and territory but concedes more space to the opposition than half pitch defence. ([P94](#p94))
-- **Q08.7** Man-to-man marking costs players more movement (energy) and restricts the opposition more than the zonal system does; the zonal system gives players more space and freedom when switching from defence to attack. ([P95](#p95))
+- **Q08.3** Tactics can be set at team level (for certain tactics) and at individual player level, before the match and at any point during it. ([P10](#p10), [P89](#p89))
+- **Q08.4** Under push forward, players are more willing to press forward when the team attacks; under stay back the team retains possession and keeps a strong defence. ([P91](#p91))
+- **Q08.5** Long passing is riskier than short passing but its rewards come sooner: the long ball game gains territory, and short passing retains possession. ([P93](#p93))
+- **Q08.6** Full pitch defence needs more overall ability than half pitch defence: for a team up to it, it can give dominance of the whole pitch, but it leaves much more space for the opposition to exploit. ([P94](#p94))
+- **Q08.7** Man-to-man marking requires more movement (hence fitness) from the players and generally stifles the opposition more effectively than the zonal system, while the zonal system allows players more space and freedom, particularly when switching from defence to attack. ([P95](#p95))
 - **Q08.8** Under man-to-man marking, every player except the sweeper and the goalkeeper is assigned an opponent. ([P85](#p85), [P95](#p95))
-- **Q08.9** Under man-to-man marking, the half or full pitch and the sag back or stand ground options are overridden where they conflict. ([P95](#p95))
+- **Q08.9** Man-to-man marking overrides the other tactical options when there is a conflict, for example full or half pitch and sag back or stand ground. ([P95](#p95))
 - **Q08.10** Marking assignments are made automatically and are updated when either team changes its team. ([P96](#p96))
 - **Q08.11** A manually assigned player and his opponent are left out of the automatic assignments for the rest of the team, and the manual assignments return to zonal at the end of the match. ([P97](#p97))
 - **Q08.12** Sag back sends players towards the box when the goal is under threat, and they tire more quickly than players who stand ground. ([P98](#p98))
-- **Q08.13** The offside trap moves the defenders forward and catches more opponents offside, and exposes the team to more chances when it fails. ([P99](#p99))
-- **Q08.14** Hard players have difficulty avoiding heavy tackles even when told to; going in hard raises the chance of winning a tackle; weaker players who go in hard are more often injured; hard players more often injure opponents and are sent off. ([P100](#p100))
+- **Q08.13** Under the offside trap the defenders move forward in the hope of catching the attackers offside; when it fails, the goalkeeper is left exposed. ([P99](#p99))
+- **Q08.14** Players try to tackle cleanly unless told otherwise; the harder the player, the more difficulty he has avoiding heavy tackles even when told to; going in hard improves the chance of winning a tackle; weaker players who go in hard are likely to be injured; hard players are more likely to injure opponents and/or be sent off. ([P100](#p100))
 
 ## A09 The match engine
 
@@ -905,9 +905,9 @@ player taking the free kick will not always have a pot at goal.
 **Candidate research questions**
 
 - **Q09.1** The match statistics include possession, territory, shots on target and the man of the match. ([P25](#p25))
-- **Q09.2** Zonal marking is part of the match engine: under the zonal system each player defends his own zone, which is based on his playing position. ([P26](#p26), [P95](#p95))
-- **Q09.3** Goals can be disallowed for offside and own goals can be scored. ([P27](#p27), [P28](#p28))
-- **Q09.4** The host nation of a competition wins more of its finals matches, and with a better goal difference, than the same teams do in their other matches. ([P56](#p56))
+- **Q09.2** Under the zonal system each player defends his own zone, based on his playing position; version 2 improved zonal marking. ([P26](#p26), [P95](#p95))
+- **Q09.3** The match engine has "offside goals" and "own goals" (both added in version 2); the help file does not say what an offside goal is, for example whether it is a goal disallowed for offside. ([P27](#p27), [P28](#p28))
+- **Q09.4** A team playing at home has a considerable advantage over the same team away, and the host nation of a competition has that advantage in the finals. ([P56](#p56))
 - **Q09.5** Goals can be replayed after they are scored; the INS key switches the replay facility on or off, and with it off no goal can be saved. ([P29](#p29), [P104](#p104))
 - **Q09.6** The commentary key (spacebar) shows the commentary for the match, up to the last 200 comments. ([P105](#p105))
 - **Q09.7** Pressing R computes the result: goals, bookings, sendings off and injuries are listed in the commentary, there is a break at half time for substitutions, and also after any injury. ([P106](#p106))
@@ -915,7 +915,7 @@ player taking the free kick will not always have a pot at goal.
 - **Q09.9** The scoreboard shows the home team first, if there is one. ([P107](#p107))
 - **Q09.10** Injury time is played at the end of a match when appropriate. ([P108](#p108))
 - **Q09.11** During a match the player can nominate penalty, free kick, goal kick and corner takers, and after 10 seconds without a key press the computer accepts the nominated player. ([P110](#p110))
-- **Q09.12** Free kick takers are chosen only from within shooting range, and a free kick taker does not always shoot at goal. ([P110](#p110))
+- **Q09.12** Free kick selection is always within shooting range, although the player taking a free kick will not always have a shot at goal; the help file does not say whether it is the nomination prompt or the free kicks that are within range. ([P110](#p110))
 - **Q09.13** The man of the match is the player with the highest performance rating, which is updated for every tackle, shot and dribble. ([P111](#p111))
 
 ## A10 Discipline, injuries and substitutions
@@ -958,8 +958,8 @@ wait for a suitable break in play to put on a substitute).
 - **Q10.2** A manager has 2 substitutions in competition matches and 5 in friendlies. ([P48](#p48))
 - **Q10.3** Substitutes are taken from any of the 20 in the squad, and substitutes need not be named before the match. ([P48](#p48))
 - **Q10.4** The team can be rearranged in any way before kick-off. ([P48](#p48))
-- **Q10.5** During a match, Esc or Enter opens the bench screen, where substitutions and tactics can be changed; a substitute may only come on at a suitable break in play. ([P103](#p103))
-- **Q10.6** Injuries, bookings and sendings off lower a player's confidence. ([P61](#p61))
+- **Q10.5** During a match, Esc or Enter opens the bench screen, where substitutions and tactics can be changed; the player may have to wait for a suitable break in play to put on a substitute. ([P103](#p103))
+- **Q10.6** Injuries, bookings and sendings off damage a player's confidence. ([P61](#p61))
 
 ## A11 Competitions and fixtures
 
@@ -1121,18 +1121,18 @@ the groups: effectively teams are seeded according to rankings.
 - **Q11.2** Depending on the year the game is started in, years 3 and 4 come before years 1 and 2. ([P32](#p32))
 - **Q11.3** There are 5 competitions: four continental championships and the World Cup. ([P04](#p04), [P44](#p44))
 - **Q11.4** Continental qualifying: 8 groups of 4 teams, each team playing every other over two legs (6 matches); group winners qualify for the finals. ([P49](#p49))
-- **Q11.5** Continental finals: 2 groups of 4 teams, each team playing the others once; the winner and runner-up of each group meet in the semi-finals; then a third place play-off and the final. ([P49](#p49))
+- **Q11.5** Continental finals: 2 groups of 4 teams, each team playing the others once; the winner and second placed play in the semi-finals; the knockout stage is semi-finals, third place play-off and final. ([P49](#p49))
 - **Q11.6** The 32 World Cup final places are shared Europe 16, America 8, Africa 4, Asia 4. ([P50](#p50))
 - **Q11.7** World Cup qualifying: the top two of each European group, and the winner of each American group, qualify; the winners of the African and Asian groups play off over two legs for the 4 places of each of those continents. ([P51](#p51))
 - **Q11.8** World Cup finals: 8 groups of 4 teams playing each other once; the winner and runner-up of each group go to the last 16 knockout stage. ([P52](#p52))
 - **Q11.9** A knockout match that is level goes to extra time and then a penalty shoot-out; shoot-outs are best of five, then sudden death. ([P53](#p53))
 - **Q11.10** An African or Asian qualifying play-off that is level on aggregate after two legs is decided by a coin toss. ([P53](#p53))
-- **Q11.11** Group places are decided by points, then goal difference, then goals scored, then a coin toss. ([P53](#p53))
+- **Q11.11** The group winner and second placed are decided first on points, then on goal difference, then on goals scored, and finally by a coin toss. ([P53](#p53))
 - **Q11.12** The current title holders and the host nations play qualifying like every other team. ([P54](#p54))
 - **Q11.13** The host of a competition is chosen after the qualifying stage, from the teams that qualified, so the host is always in the finals. ([P54](#p54))
-- **Q11.14** Groups are drawn so that major teams are spread over the groups, in effect seeded by the rankings: the top-ranked teams never share a group. ([P55](#p55))
+- **Q11.14** Group draws spread the major teams among the groups, in effect seeding teams according to the rankings. ([P55](#p55))
 - **Q11.15** The fixture list lists every arranged fixture and fills in results as games are played; the tournament screen shows all results of the current or most recent occurrence of each of the 5 competitions. ([P43](#p43), [P44](#p44))
-- **Q11.16** PLAY moves the game on to the next match, beginning with the latest-results service, from which a pre-selected match can be watched. ([P47](#p47))
+- **Q11.16** PLAY generally moves the game on to the next match, beginning with the latest-results service, from which a pre-selected match can be watched. ([P47](#p47))
 - **Q11.17** Each continent has 32 nations in its championship and World Cup qualifying. ([P34](#p34))
 - **Q11.18** Tournament top scorers are recorded. ([P24](#p24))
 
@@ -1169,9 +1169,8 @@ friendlies.
 
 - **Q12.1** The game has friendlies and continental tours, and the friendlies of year 4 are inter-continental, including tours. ([P05](#p05), [P32](#p32))
 - **Q12.2** From the team-info fixtures option, the manager can cancel or rearrange his own friendlies, and can select which matches to watch. ([P42](#p42))
-- **Q12.3** The option to cancel or rearrange is offered only for the manager's own friendlies, and not for competition matches or other teams' fixtures. ([P42](#p42))
-- **Q12.4** Squad changes are refused while the team is on tour abroad. ([P57](#p57))
-- **Q12.5** Results of friendlies change player confidence, and a friendly allows 5 substitutions. ([P48](#p48), [P61](#p61))
+- **Q12.3** Squad changes are not allowed while the team is on tour abroad. ([P57](#p57))
+- **Q12.4** The results of friendlies affect player confidence, and a friendly allows 5 substitutions. ([P48](#p48), [P61](#p61))
 
 ## A13 The other managers
 
@@ -1184,13 +1183,13 @@ team managers
 
 **Also informs this area** (quoted under another area): [P22](#p22) (lines 106), [P90](#p90) (lines 477–481), [P96](#p96) (lines 515–522), [P118](#p118) (lines 668–670).
 
-**Not stated by the help file**: how computer-run teams pick their squads or their tactics before a match. The lines the knowledge map cited (104 and 106) are two feature labels ("team managers", "assistant auto-squad selection") that predict nothing observable alone; the area is documented only through the statement that opponents change tactics during a match.
+**Not stated by the help file**: how computer-run teams pick their squads or their tactics before a match, and whether "your opponents" (line 480) are all computer-run in a game with several human players. The lines the knowledge map cited (104 and 106) are two feature labels ("team managers", "assistant auto-squad selection") that predict nothing observable alone; the area is documented only through the statement that opponents may change tactics during a match.
 
 **Candidate research questions**
 
-- **Q13.1** A computer-run opponent changes its team tactics and its positioning during a match: its settings differ between the first minute and later minutes in some matches. ([P90](#p90))
-- **Q13.2** When the opponent changes its team, the man-to-man marking assignments are recomputed. ([P96](#p96))
-- **Q13.3** Each team has a manager with a name, shown on a team screen, and the ALTER utility can rename managers. ([P21](#p21), [P118](#p118))
+- **Q13.1** The opposing team may change its tactics and positioning during a match; when the opponent is a computer-run team, its settings differ between the first minute and later minutes in some matches. ([P90](#p90))
+- **Q13.2** When an opponent changes its team, the automatic marking assignments are updated. ([P96](#p96))
+- **Q13.3** Version 2 has "team managers" (line 104) and the ALTER utility can rename managers (line 669): teams have managers with names; where they are shown is not stated. ([P21](#p21), [P118](#p118))
 
 ## A14 Sacking and the end of the game
 
@@ -1207,8 +1206,8 @@ sacked if your performance is very poor.
 
 **Candidate research questions**
 
-- **Q14.1** In a shareware release, play stops after one 4-year cycle; in a registered release play goes on past year 4. Which behaviour the files of this artifact show is observable by playing to the end of year 4. ([P33](#p33))
-- **Q14.2** A very poor run of results can end the game with the manager sacked. ([P33](#p33))
+- **Q14.1** In a shareware release play is limited to one 4-year cycle; in a registered release play can go on past year 4. Which behaviour the files of this artifact show is observable by playing to the end of year 4. ([P33](#p33))
+- **Q14.2** A manager whose performance is very poor may be sacked. ([P33](#p33))
 
 ## A15 Several human players
 
@@ -1226,14 +1225,11 @@ Lines 84
 6 player game
 ```
 
-**Also informs this area** (quoted under another area): [P117](#p117) (lines 666).
-
 **Not stated by the help file**: the turn order, how each player picks a country, and what the screen does between players.
 
 **Candidate research questions**
 
 - **Q15.1** The game can be started with up to 6 human players (the player and up to 5 friends). ([P02](#p02), [P16](#p16))
-- **Q15.2** Each human player can change his own name with F2 on the main screen. ([P117](#p117))
 
 ## A16 Data files and saves
 
@@ -1272,10 +1268,10 @@ F10: quits game (and saves it if requested).
 **Candidate research questions**
 
 - **Q16.1** F7 saves the game and play continues; F10 quits and saves if the player asks to. ([P40](#p40))
-- **Q16.2** Saving and reloading a game works only in a full registered version; in other versions the save option is refused or absent. ([P14](#p14))
+- **Q16.2** Saving and reloading a game is available only in a full registered version. ([P14](#p14))
 - **Q16.3** F3 replays a saved goal and F4 loads a saved match summary; goals and match summaries can be saved and loaded. ([P30](#p30), [P40](#p40))
 - **Q16.4** A goal can be saved only while the action replay facility is on (INS toggles it). ([P104](#p104))
-- **Q16.5** ALTER writes its changes to the file GOAL.DAT when asked on exit, and a game saved before the change keeps the old names and values. ([P119](#p119))
+- **Q16.5** ALTER offers to save its changes to the file GOAL.DAT on exit, and a game saved before the change keeps its old names, strips and rankings. ([P119](#p119))
 
 ## A17 Customisation (ALTER.EXE)
 
@@ -1298,7 +1294,7 @@ the registered version of GOAL).
 ```
 
 #### P117
-Lines 666 · also informs: A15
+Lines 666
 
 ```text
 Hit F2 on the main screen, and you can alter your own name!
@@ -1331,7 +1327,7 @@ Note that any previously saved game will be unaffected.
 - **Q17.1** F2 on a player-information screen changes that player's name for the current game only. ([P116](#p116))
 - **Q17.2** Permanent changes to names and strips need the ALTER utility, which comes only with the registered version. ([P15](#p15), [P116](#p116))
 - **Q17.3** F2 on the main screen changes the manager's own name. ([P117](#p117))
-- **Q17.4** ALTER lets the user change all team names, manager names and player names, team strips, and the continental and world rankings of each team; skills are not among the fields. ([P118](#p118))
+- **Q17.4** ALTER lets the user change team, manager and player names, team strips, and the continental and world rankings of each team, permanently. ([P118](#p118))
 - **Q17.5** In ALTER, F10 exits and asks whether to save the changes to GOAL.DAT; a previously saved game is not affected. ([P119](#p119))
 
 ## Passages outside the 17 areas
