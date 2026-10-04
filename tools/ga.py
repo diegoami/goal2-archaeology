@@ -1,15 +1,19 @@
 #!/usr/bin/env python3
-"""Fetch game-archaeologist's record-format checker at the commit `archaeology.json` pins.
+"""Fetch game-archaeologist's pinned record tools at the commit `archaeology.json` pins.
 
 The files land in `.cache/game-archaeologist/<commit>/` (git-ignored) with `gh api`; nothing is
-copied into the repository. game-archaeologist#10: a game repository uses the pinned checker by
-fetching it, never by copying and editing it.
+copied into the repository. ADR-009 and formats/README.md ("The validator"): a game repository uses
+the pinned validator and artifact tool by fetching them, never by copying or editing them.
 
-The checker (`tests/formats/check_examples.py`, stdlib only) is imported and its `validate`,
-`semantic_errors` and `canonical_set_hash` are exposed here for the record tools.
+`tools/validate_records.py` (stdlib only) is imported and its `validate`, `semantic_errors`,
+`canonical_set_hash` and `unknown_keywords` are exposed here with their signatures unchanged; the
+module finds the schemas in the `formats/` tree fetched beside it, so `validate_document` and
+`load_file` run on the pinned schemas too. `tools/register_artifact.py` is fetched beside the
+validator for the repository's thin wrapper `tools/register_artifact.py` to run; it is never
+imported here, so the wrapper and the tool stay two processes.
 
 Adapted from diegoami/toy-archaeology tools/ga.py at a3056ff (this repository is the second
-consumer; game-archaeologist#10 will extract the shared tool).
+consumer; game-archaeologist#10 extracted the shared tools).
 """
 from __future__ import annotations
 
@@ -24,9 +28,14 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 CACHE = REPO_ROOT / ".cache" / "game-archaeologist"
 ARCHAEOLOGY = REPO_ROOT / "archaeology.json"
 
-# The checker itself, plus the whole formats/ tree (schemas, examples, expected-errors.json).
-NEEDED_FILES = ("tests/formats/check_examples.py",)
+# The pinned validator and artifact tool, plus the whole formats/ tree (schemas, examples,
+# expected-errors.json). The validator finds the schemas relative to its own path and the artifact
+# tool imports the validator beside it, so the fetched layout must keep tools/ beside formats/.
+NEEDED_FILES = ("tools/validate_records.py", "tools/register_artifact.py")
 NEEDED_PREFIXES = ("formats/",)
+
+VALIDATOR = NEEDED_FILES[0]
+ARTIFACT_TOOL = NEEDED_FILES[1]
 
 SCHEMA_FILES = {
     "run/1": "run-1.schema.json",
@@ -56,12 +65,12 @@ def _gh_api(path: str):
 
 
 def fetch(commit: str | None = None) -> Path:
-    """Download the checker and the formats/ tree into the cache, once; return its root."""
+    """Download the pinned tools and the formats/ tree into the cache, once; return its root."""
     repo, pinned = pin()
     if commit is None:
         commit = pinned
     dest = root(commit)
-    if (dest / NEEDED_FILES[0]).exists():
+    if (dest / VALIDATOR).exists():
         return dest
     tree = _gh_api(f"repos/{repo}/git/trees/{commit}?recursive=1")
     wanted = {}
@@ -79,34 +88,50 @@ def fetch(commit: str | None = None) -> Path:
     return dest
 
 
-_checker = None
+_validator = None
 
 
-def checker():
-    """The imported checker module, at the pinned commit."""
-    global _checker
-    if _checker is None:
-        path = fetch() / NEEDED_FILES[0]
-        spec = importlib.util.spec_from_file_location("ga_check_examples", path)
+def validator():
+    """The imported pinned validator module (`tools/validate_records.py`)."""
+    global _validator
+    if _validator is None:
+        path = fetch() / VALIDATOR
+        spec = importlib.util.spec_from_file_location("ga_validate_records", path)
         module = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(module)
-        _checker = module
-    return _checker
+        _validator = module
+    return _validator
 
 
 def validate(value, schema, path: str = "$"):
-    """Errors for `value` against `schema`, as `path: message` strings (the checker's own)."""
-    return checker().validate(value, schema, path)
+    """Errors for `value` against `schema`, as `path: message` strings (the validator's own)."""
+    return validator().validate(value, schema, path)
 
 
 def semantic_errors(schema_id, doc):
-    """The rules no schema can express, as checked on the examples (the checker's own)."""
-    return checker().semantic_errors(schema_id, doc)
+    """The rules no schema can express, as checked on the examples (the validator's own)."""
+    return validator().semantic_errors(schema_id, doc)
 
 
 def canonical_set_hash(manifest):
     """sha256 of the canonical manifest: without id and acquired, files sorted by path."""
-    return checker().canonical_set_hash(manifest)
+    return validator().canonical_set_hash(manifest)
+
+
+def unknown_keywords(schema):
+    """Keywords the pinned validator does not implement, anywhere in the schema."""
+    return validator().unknown_keywords(schema)
+
+
+def validate_document(doc):
+    """Errors for one parsed record document, as `path: message` strings (the validator's own)."""
+    return validator().validate_document(doc)
+
+
+def load_file(path):
+    """The parsed document at `path`, by the pinned loader (NaN/Infinity, a duplicate key, and a
+    lone surrogate's missing canonical form are value or key errors, never silently read)."""
+    return validator().load_file(path)
 
 
 def schema(schema_id: str):

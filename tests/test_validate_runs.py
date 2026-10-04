@@ -1,7 +1,8 @@
-"""The record tools use the checker fetched from game-archaeologist at the pinned commit (DW5).
+"""The record tools use the validator fetched from game-archaeologist at the pinned commit (DW5).
 
-validate_runs checks every `*.json` of a directory, applies the semantic rules as well as the
-schema, and reports a missing path, invalid JSON and an unknown schema."""
+validate_runs checks every `*.json` of a directory with the pinned validator: the schema, the rules
+no schema can express, and the loader that rejects NaN/Infinity and a duplicate key. It reports a
+missing path, invalid JSON and an unknown schema."""
 from __future__ import annotations
 
 import base64
@@ -74,9 +75,32 @@ class ValidateRunsTest(unittest.TestCase):
             absent = Path(tmp) / "absent.json"
             result = run_validate(broken, unknown, absent)
             self.assertEqual(1, result.returncode, result.stdout + result.stderr)
-            self.assertEqual([f"{broken}: invalid JSON", f"{unknown}: unknown schema 'nope/1'",
+            self.assertEqual([f"{broken}: invalid JSON",
+                              f"{unknown}: $.schema: unknown schema 'nope/1'",
                               f"{absent}: no such file or directory"],
                              [line.split(": Expecting")[0] for line in result.stdout.splitlines()])
+
+    def test_duplicate_json_key_is_invalid(self):
+        # The pinned validator's loader rejects a duplicate key (which value counts would depend on
+        # the reader); the document is otherwise the valid manifest built below.
+        manifest = {
+            "schema": "artifact-set/1",
+            "title": "x",
+            "version": "1",
+            "acquired": {"how": "generated", "when": "2000-01-01"},
+            "files": [{"path": "a", "bytes": 1, "sha256": "0" * 64}],
+            "runtime_writes": [],
+        }
+        manifest["id"] = "x-" + ga.canonical_set_hash(manifest)[:8]
+        text = json.dumps(manifest, indent=2)
+        duplicated = text.replace('"title": "x"', '"title": "x", "title": "x"', 1)
+        self.assertNotEqual(text, duplicated)  # the key really is named twice
+        with tempfile.TemporaryDirectory() as tmp:
+            dupe = Path(tmp) / "dupe.json"
+            dupe.write_text(duplicated, encoding="utf-8")
+            result = run_validate(dupe)
+            self.assertEqual(1, result.returncode, result.stdout + result.stderr)
+            self.assertIn("duplicate key 'title'", result.stdout)
 
     def test_valid_evidence_manifest_exits_0(self):
         example = ga.example("valid/evidence-manifest-1--toy-run.json")
@@ -129,7 +153,7 @@ else:
 
 
 class GaFetchTest(unittest.TestCase):
-    """ga.fetch takes the checker and formats/ at the pinned commit, once, and nothing else."""
+    """ga.fetch takes the pinned validator and artifact tool with formats/, once, and nothing else."""
 
     def test_pin_is_archaeology_json(self):
         pinned = json.loads((REPO_ROOT / "archaeology.json").read_text(encoding="utf-8"))
@@ -137,15 +161,16 @@ class GaFetchTest(unittest.TestCase):
                          ga.pin())
         self.assertEqual(ga.CACHE / pinned["game-archaeologist"]["commit"], ga.root())
 
-    def test_fetch_takes_only_the_checker_and_formats_once(self):
+    def test_fetch_takes_only_the_pinned_tools_and_formats_once(self):
         tree = [
-            {"path": "tests/formats/check_examples.py", "type": "blob", "sha": "c1"},
+            {"path": "tools/validate_records.py", "type": "blob", "sha": "c1"},
+            {"path": "tools/register_artifact.py", "type": "blob", "sha": "c2"},
             {"path": "formats/run-1.schema.json", "type": "blob", "sha": "f1"},
             {"path": "formats/examples", "type": "tree", "sha": "t1"},
             {"path": "method/research-protocol.md", "type": "blob", "sha": "m1"},
             {"path": "tests/formats/other.py", "type": "blob", "sha": "o1"},
         ]
-        blobs = {"c1": "checker", "f1": "{}", "m1": "method", "o1": "other"}
+        blobs = {"c1": "validator", "c2": "artifact tool", "f1": "{}", "m1": "method", "o1": "other"}
         tmp = Path(tempfile.mkdtemp())
         self.addCleanup(shutil.rmtree, tmp, True)
         (tmp / "tree.json").write_text(json.dumps({"tree": tree, "blobs": blobs}), encoding="utf-8")
@@ -160,11 +185,13 @@ class GaFetchTest(unittest.TestCase):
             dest = ga.fetch()
             self.assertEqual(tmp / "cache" / commit, dest)
             written = sorted(p.relative_to(dest).as_posix() for p in dest.rglob("*") if p.is_file())
-            self.assertEqual(["formats/run-1.schema.json", "tests/formats/check_examples.py"], written)
-            self.assertEqual("checker", (dest / "tests/formats/check_examples.py").read_text())
+            self.assertEqual(["formats/run-1.schema.json", "tools/register_artifact.py",
+                              "tools/validate_records.py"], written)
+            self.assertEqual("validator", (dest / "tools/validate_records.py").read_text())
             calls = log.read_text(encoding="utf-8").splitlines()
             self.assertEqual(f"api repos/{repo}/git/trees/{commit}?recursive=1", calls[0])
-            self.assertEqual(sorted([f"api repos/{repo}/git/blobs/c1", f"api repos/{repo}/git/blobs/f1"]),
+            self.assertEqual(sorted([f"api repos/{repo}/git/blobs/c1", f"api repos/{repo}/git/blobs/c2",
+                                     f"api repos/{repo}/git/blobs/f1"]),
                              sorted(calls[1:]))
             ga.fetch()
             self.assertEqual(calls, log.read_text(encoding="utf-8").splitlines())
