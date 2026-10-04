@@ -26,6 +26,10 @@ jobs:
       # The copied harness tools run here (harness.lock pins them).
       - run: node tools/harness/review.mjs --self-test
       # G2: the artifact is a release asset; the workflow's token fetches it (never committed).
+      # goal2-67cf27d6 is the set the driver and new runs name (it declares the runtime writes,
+      # F001); goal2-a949da2f stays fetched for tests/static, whose released-file tests read its
+      # cache path. The files are identical (T11).
+      - run: python3 tools/fetch_artifact.py goal2-67cf27d6
       - run: python3 tools/fetch_artifact.py goal2-a949da2f
       # The static tools need capstone, and the released-file tests the artifact fetched above.
       - run: pip install -r tools/static/requirements.txt

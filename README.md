@@ -6,9 +6,11 @@ text-mode international football team-management game. It follows the method of
 a faithful rebuild and a bot that maximises the World Cup win rate, in the private `goal2`. The
 owner's decisions are U14–U20 there.
 
-- **The artifact**: set `goal2-a949da2f` in [artifacts/known.json](artifacts/known.json). The ten
-  original files are assets of this private repository's release `goal2-original`, and are never
-  committed.
+- **The artifact**: sets in [artifacts/known.json](artifacts/known.json): `goal2-a949da2f` and its
+  successor `goal2-67cf27d6`, which declares what the runtime writes (F001, U21) — the same ten
+  files, so every run stays valid against the set it names. CI, `setup/goal2-runtime.sh` and the
+  driver fetch and verify the successor. The ten original files are assets of this private
+  repository's release `goal2-original`, and are never committed.
 - **What is known**: [knowledge-map.md](knowledge-map.md). **What is established**: [spec/](spec/README.md).
 - **The plan**: [docs/plan.md](docs/plan.md). **The process**: [docs/process.md](docs/process.md); tasks
   are in [docs/tasks/](docs/tasks/README.md).
