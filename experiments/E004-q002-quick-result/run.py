@@ -42,6 +42,9 @@ _spec.loader.exec_module(e003)
 EXPERIMENT = "E004"
 HERE = Path(__file__).resolve().parent
 OUT = ROOT / "runs" / EXPERIMENT
+# The script's sha256 as loaded, for every record of this process: a record written after the file
+# changed on disk would otherwise name code it did not run (E004-r0231, amendment 2).
+SCRIPT_SHA = driver.sha256(Path(__file__).read_bytes())
 IDS = driver.SCRATCH / "e004" / "ids"   # run-id reservations (mkdir is atomic), so two slots never share an id
 # Fixed cycles: DOSBox-X then runs a set number of instructions per emulated millisecond, so the
 # guest's own timing does not follow the host's speed (`max` adapts to the host); 30000 is F001
@@ -131,6 +134,7 @@ class Run:
 
     def on_read(self, label, times, state):
         self.step += 1
+        self.reads += 1  # counted here too, so an aborted match's record has its reads
         self.obs.extend(match_observations(self.step, label, times, state))
         self.tracker.add(commentary.Snapshot(state), label)
         self.final = (times, state)
@@ -162,7 +166,7 @@ class Run:
                 self.add_full("captain screen", self.d.last)
             if not at_captain(sc):
                 raise RuntimeError("not at the captain screen before the match: " + sc.lines()[-1].strip())
-            self.keys, self.reads, self.seconds = match.play(self.d, self.arm, self.on_read)
+            _, self.reads, self.seconds = match.play(self.d, self.arm, self.on_read, keys=self.keys)
             self.step += 1
             self.add_full("full time", self.final)
         except Exception as e:  # noqa: BLE001
@@ -245,7 +249,7 @@ class Run:
                         "platform": f"python-{platform.python_version()}/{cycle.machine_id()}",
                         "fingerprint": cycle.fingerprint(d, conf_sha)},
             "interventions": inter, "start_state": start, "seed": None,
-            "actions": {"script": "experiments/E004-q002-quick-result/run.py", "sha256": driver.sha256(Path(__file__).read_bytes()),
+            "actions": {"script": "experiments/E004-q002-quick-result/run.py", "sha256": SCRIPT_SHA,
                         "args": [self.kind, "--arm", self.arm] + (["--state", self.st.name] if self.st else ["--dos-time", self.dos_time, "--dos-date", self.dos_date])
                         + ["--batch", self.args.batch, "starting keys: " + " ".join(match.START_KEYS[self.arm])]},
             "observations": obs, "outputs": [],
