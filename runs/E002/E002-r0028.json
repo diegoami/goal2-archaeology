@@ -1,0 +1,262 @@
+{
+  "schema": "run/1",
+  "run_id": "E002-r0028",
+  "experiment": "E002",
+  "arm": "restore-title-key-n",
+  "rep": 28,
+  "code_commit": "f8c32f3",
+  "machine": "ubuntu-24-04-wsl2",
+  "artifact": {
+    "set": "goal2-a949da2f",
+    "variant": null
+  },
+  "runtime": {
+    "driver": "runtime/driver/driver.py@f8c32f3",
+    "platform": "python-3.12.3/ubuntu-24-04-wsl2",
+    "fingerprint": {
+      "dosbox-x": "2024.03.01 SDL2",
+      "xvfb": "2:21.1.12-1ubuntu1.8",
+      "xdotool": "xdotool version 3.20160805.1",
+      "python": "3.12.3",
+      "kernel": "6.18.40.1-microsoft-standard-WSL2",
+      "config_sha256": "31a261689a0b030c98faf6ce9d7e48eb1973e5920e10862a0769ed71319c4e56",
+      "machine": "svga_s3",
+      "memsize": "16",
+      "cycles": "max",
+      "core": "auto",
+      "cputype": "auto"
+    }
+  },
+  "interventions": [
+    {
+      "level": "I1",
+      "what": "text screen and BIOS data area (0040:0049, 0040:006C) read from DOSBox-X savestates (Host+S; components Vga and Memory)"
+    },
+    {
+      "level": "I2",
+      "what": "a savestate is written at each read, and one is loaded (Host+L) at the start and at the reset (vocabulary/interventions.md lists save and load of state as I2; neutrality not tested)"
+    }
+  ],
+  "start_state": {
+    "id": "title",
+    "sha256": "5bd22b20911b3f76c1ee8721dca0aca48cf2d696056fe4c3fc988703ce863e94",
+    "restore": "fresh DOSBox-X process (config sha256 31a261689a0b030c98faf6ce9d7e48eb1973e5920e10862a0769ed71319c4e56) with C: mounted from the folder the savestate was made with, recreated from the verified release copy; GOAL run to its title screen; key n to change the screen; then Host+L (host key F12+L) loads the savestate whose sha256 is given; polled until the screen digest equals the one stored with it (cd7f15fbf853b40471d05bad51cb6e6c14cbc8a7307893dba8f5f36c2315c612); host clock and seed not controlled"
+  },
+  "seed": null,
+  "actions": {
+    "script": "runtime/driver/cycle.py",
+    "sha256": "37c466bd510aea4cf6987dd39d56a7e479a34ce9ccb1aa737ea29988e0c37653",
+    "args": [
+      "--start-state",
+      "title",
+      "--key",
+      "n"
+    ]
+  },
+  "observations": [
+    {
+      "step": 0,
+      "source": "log",
+      "field": "host UTC time at launch",
+      "value": "2026-10-04T07:31:34.948Z"
+    },
+    {
+      "step": 0,
+      "source": "log",
+      "field": "host local time at launch, with UTC offset, and zone name",
+      "value": "2026-10-04T09:31:34.948+02:00 CEST"
+    },
+    {
+      "step": 0,
+      "source": "log",
+      "field": "before restore (title screen displaced by the key): host UTC time just before the savestate was requested",
+      "value": "2026-10-04T07:31:37.396Z"
+    },
+    {
+      "step": 0,
+      "source": "log",
+      "field": "before restore (title screen displaced by the key): host local time with UTC offset, and zone name, at the same instant",
+      "value": "2026-10-04T09:31:37.396+02:00 CEST"
+    },
+    {
+      "step": 0,
+      "source": "screen",
+      "field": "before restore (title screen displaced by the key): text screen 80x25, chars+attributes (4000 bytes), sha256",
+      "value": "487df15f2d57c3acb753f9b43d2bf81001147cfdd18b8b88e5b427f9403b39e2"
+    },
+    {
+      "step": 0,
+      "source": "ui-text",
+      "field": "before restore (title screen displaced by the key): text screen rows 0-24, CP437 decoded, trailing blanks trimmed",
+      "value": " (c) NE'93│ │                                                    │     (c)\n ┌─┐┌─┐┌─┐│ │                                                    │     new\n │ ││ ││ ││ │                                                    │     era\n └─┤└─┘└─┤│ │                                                    │   software\n───┘ v.2    │                                                    │     1993\n────────────┘                                                    └──────────────\n\n\n\n\n\n\n────────────────────────────────────────────────────────────────────────────────\n                        How many players  1 2 3 4 5 6  ?\n────────────────────────────────────────────────────────────────────────────────\n\n────────────────────────────────────────────────────────────────────────────────\n                    design and coding : Mantra and L.B.\n────────────────────────────────────────────────────────────────────────────────\n     testing and feedback : Celtic Ray, Mr Scott, Big Mac and Carl Wilky\n────────────────────────────────────────────────────────────────────────────────\n               distribution : Silverwitch and Tom de Notre Dame\n────────────────────────────────────────────────────────────────────────────────\n\n                     Use ←→ to choose number, ◄┘ to select"
+    },
+    {
+      "step": 0,
+      "source": "memory",
+      "addr": "0x449",
+      "field": "before restore (title screen displaced by the key): 1 byte at 0040:0049 (BIOS video mode), guest memory from the savestate, hex",
+      "value": "03"
+    },
+    {
+      "step": 0,
+      "source": "memory",
+      "addr": "0x46c",
+      "field": "before restore (title screen displaced by the key): 4 bytes at 0040:006C (BIOS timer tick count), guest memory from the savestate, as a little-endian dword (bytes in memory order)",
+      "value": "0x0009872d (2d 87 09 00)"
+    },
+    {
+      "step": 0,
+      "source": "save",
+      "field": "screen sha256 stored with the start state",
+      "value": "cd7f15fbf853b40471d05bad51cb6e6c14cbc8a7307893dba8f5f36c2315c612"
+    },
+    {
+      "step": 0,
+      "source": "log",
+      "field": "before: host UTC time just before the savestate was requested",
+      "value": "2026-10-04T07:31:38.437Z"
+    },
+    {
+      "step": 0,
+      "source": "log",
+      "field": "before: host local time with UTC offset, and zone name, at the same instant",
+      "value": "2026-10-04T09:31:38.437+02:00 CEST"
+    },
+    {
+      "step": 0,
+      "source": "screen",
+      "field": "before: text screen 80x25, chars+attributes (4000 bytes), sha256",
+      "value": "cd7f15fbf853b40471d05bad51cb6e6c14cbc8a7307893dba8f5f36c2315c612"
+    },
+    {
+      "step": 0,
+      "source": "ui-text",
+      "field": "before: text screen rows 0-24, CP437 decoded, trailing blanks trimmed",
+      "value": " (c) NE'93│ │                                                    │     (c)\n ┌─┐┌─┐┌─┐│ │                                                    │     new\n │ ││ ││ ││ │                                                    │     era\n └─┤└─┘└─┤│ │                                                    │   software\n───┘ v.2    │                                                    │     1993\n────────────┘                                                    └──────────────\n\n\n\n\n\n\n────────────────────────────────────────────────────────────────────────────────\n                   THE international soccer management game\n────────────────────────────────────────────────────────────────────────────────\n\n────────────────────────────────────────────────────────────────────────────────\n                    design and coding : Mantra and L.B.\n────────────────────────────────────────────────────────────────────────────────\n     testing and feedback : Celtic Ray, Mr Scott, Big Mac and Carl Wilky\n────────────────────────────────────────────────────────────────────────────────\n               distribution : Silverwitch and Tom de Notre Dame\n────────────────────────────────────────────────────────────────────────────────\n\n■■■■■■■■■■■■■■■■■■■ Do you want to load a saved game? (Y/N) ■■■■■■■■■■■■■■■■■■■■"
+    },
+    {
+      "step": 0,
+      "source": "memory",
+      "addr": "0x449",
+      "field": "before: 1 byte at 0040:0049 (BIOS video mode), guest memory from the savestate, hex",
+      "value": "03"
+    },
+    {
+      "step": 0,
+      "source": "memory",
+      "addr": "0x46c",
+      "field": "before: 4 bytes at 0040:006C (BIOS timer tick count), guest memory from the savestate, as a little-endian dword (bytes in memory order)",
+      "value": "0x00093e7c (7c 3e 09 00)"
+    },
+    {
+      "step": 0,
+      "source": "file",
+      "field": "DOSBox-X config of the session, host paths replaced by <work> and <game>",
+      "value": "[sdl]\nfullscreen=false\noutput=surface\nmapperfile=<work>/mapper.map\n[mixer]\nnosound=true\n[midi]\nmididevice=none\n[dosbox]\nmachine=svga_s3\nmemsize=16\nsaveremark=false\ncaptures=<work>/cap\n[cpu]\ncore=auto\ncputype=auto\ncycles=max\n[autoexec]\nmount c <game>\nc:\ngoal\nexit\n"
+    },
+    {
+      "step": 0,
+      "source": "file",
+      "field": "sha256 of that config text (UTF-8)",
+      "value": "31a261689a0b030c98faf6ce9d7e48eb1973e5920e10862a0769ed71319c4e56"
+    },
+    {
+      "step": 1,
+      "source": "log",
+      "field": "after: host UTC time just before the savestate was requested",
+      "value": "2026-10-04T07:31:39.607Z"
+    },
+    {
+      "step": 1,
+      "source": "log",
+      "field": "after: host local time with UTC offset, and zone name, at the same instant",
+      "value": "2026-10-04T09:31:39.607+02:00 CEST"
+    },
+    {
+      "step": 1,
+      "source": "screen",
+      "field": "after: text screen 80x25, chars+attributes (4000 bytes), sha256",
+      "value": "487df15f2d57c3acb753f9b43d2bf81001147cfdd18b8b88e5b427f9403b39e2"
+    },
+    {
+      "step": 1,
+      "source": "ui-text",
+      "field": "after: text screen rows 0-24, CP437 decoded, trailing blanks trimmed",
+      "value": " (c) NE'93│ │                                                    │     (c)\n ┌─┐┌─┐┌─┐│ │                                                    │     new\n │ ││ ││ ││ │                                                    │     era\n └─┤└─┘└─┤│ │                                                    │   software\n───┘ v.2    │                                                    │     1993\n────────────┘                                                    └──────────────\n\n\n\n\n\n\n────────────────────────────────────────────────────────────────────────────────\n                        How many players  1 2 3 4 5 6  ?\n────────────────────────────────────────────────────────────────────────────────\n\n────────────────────────────────────────────────────────────────────────────────\n                    design and coding : Mantra and L.B.\n────────────────────────────────────────────────────────────────────────────────\n     testing and feedback : Celtic Ray, Mr Scott, Big Mac and Carl Wilky\n────────────────────────────────────────────────────────────────────────────────\n               distribution : Silverwitch and Tom de Notre Dame\n────────────────────────────────────────────────────────────────────────────────\n\n                     Use ←→ to choose number, ◄┘ to select"
+    },
+    {
+      "step": 1,
+      "source": "memory",
+      "addr": "0x449",
+      "field": "after: 1 byte at 0040:0049 (BIOS video mode), guest memory from the savestate, hex",
+      "value": "03"
+    },
+    {
+      "step": 1,
+      "source": "memory",
+      "addr": "0x46c",
+      "field": "after: 4 bytes at 0040:006C (BIOS timer tick count), guest memory from the savestate, as a little-endian dword (bytes in memory order)",
+      "value": "0x00093e8e (8e 3e 09 00)"
+    },
+    {
+      "step": 2,
+      "source": "log",
+      "field": "reset (Host+L again): host UTC time just before the savestate was requested",
+      "value": "2026-10-04T07:31:40.653Z"
+    },
+    {
+      "step": 2,
+      "source": "log",
+      "field": "reset (Host+L again): host local time with UTC offset, and zone name, at the same instant",
+      "value": "2026-10-04T09:31:40.653+02:00 CEST"
+    },
+    {
+      "step": 2,
+      "source": "screen",
+      "field": "reset (Host+L again): text screen 80x25, chars+attributes (4000 bytes), sha256",
+      "value": "cd7f15fbf853b40471d05bad51cb6e6c14cbc8a7307893dba8f5f36c2315c612"
+    },
+    {
+      "step": 2,
+      "source": "ui-text",
+      "field": "reset (Host+L again): text screen rows 0-24, CP437 decoded, trailing blanks trimmed",
+      "value": " (c) NE'93│ │                                                    │     (c)\n ┌─┐┌─┐┌─┐│ │                                                    │     new\n │ ││ ││ ││ │                                                    │     era\n └─┤└─┘└─┤│ │                                                    │   software\n───┘ v.2    │                                                    │     1993\n────────────┘                                                    └──────────────\n\n\n\n\n\n\n────────────────────────────────────────────────────────────────────────────────\n                   THE international soccer management game\n────────────────────────────────────────────────────────────────────────────────\n\n────────────────────────────────────────────────────────────────────────────────\n                    design and coding : Mantra and L.B.\n────────────────────────────────────────────────────────────────────────────────\n     testing and feedback : Celtic Ray, Mr Scott, Big Mac and Carl Wilky\n────────────────────────────────────────────────────────────────────────────────\n               distribution : Silverwitch and Tom de Notre Dame\n────────────────────────────────────────────────────────────────────────────────\n\n■■■■■■■■■■■■■■■■■■■ Do you want to load a saved game? (Y/N) ■■■■■■■■■■■■■■■■■■■■"
+    },
+    {
+      "step": 2,
+      "source": "memory",
+      "addr": "0x449",
+      "field": "reset (Host+L again): 1 byte at 0040:0049 (BIOS video mode), guest memory from the savestate, hex",
+      "value": "03"
+    },
+    {
+      "step": 2,
+      "source": "memory",
+      "addr": "0x46c",
+      "field": "reset (Host+L again): 4 bytes at 0040:006C (BIOS timer tick count), guest memory from the savestate, as a little-endian dword (bytes in memory order)",
+      "value": "0x00093e7c (7c 3e 09 00)"
+    },
+    {
+      "step": 3,
+      "source": "log",
+      "field": "lines of DOSBox-X's own output (dosbox.out) that mention save, load or corrupt (Save_Remark lines left out), in order",
+      "value": "LOG: Active save slot: 1 [Empty]\nLOG: [09:31:35]: Saved. (Slot 1)\nLOG: [09:31:35]: Saved. (Slot 1)\nLOG: [09:31:36]: Saved. (Slot 1)\nLOG: [09:31:37]: Saved. (Slot 1)\nLOG: [09:31:37]: Saved. (Slot 1)\nLOG: Loading state from slot: 1\nLOG: [09:31:38]: Loaded. (Slot 1)\nLOG: [09:31:38]: Saved. (Slot 1)\nLOG: [09:31:39]: Saved. (Slot 1)\nLOG: [09:31:39]: Saved. (Slot 1)\nLOG: Loading state from slot: 1\nLOG: [09:31:40]: Loaded. (Slot 1)\nLOG: [09:31:40]: Saved. (Slot 1)"
+    },
+    {
+      "step": 3,
+      "source": "process",
+      "field": "dosbox-x and Xvfb after SIGTERM to their process groups (SIGKILL after 10 s, see log)",
+      "value": "both exited"
+    },
+    {
+      "step": 3,
+      "source": "log",
+      "field": "waits, polls and key holds, seconds since launch",
+      "value": "[[0.106,\"Xvfb poll: answered after 2 polls of 0.1s\"],[0.106,\"Xvfb :858 answering\"],[0.107,\"dosbox-x started\"],[0.223,\"window found after 2 polls of 0.1s\"],[0.224,\"window focused\"],[0.732,\"host key F12+s, each step held 0.15s\"],[0.733,\"savestate complete after 1 polls of 0.05s\"],[1.262,\"host key F12+s, each step held 0.15s\"],[1.263,\"savestate complete after 1 polls of 0.05s\"],[1.792,\"host key F12+s, each step held 0.15s\"],[1.793,\"savestate complete after 1 polls of 0.05s\"],[1.804,\"title screen: matched after 3 savestate polls\"],[1.916,\"key n held 0.08s\"],[2.431,\"host key F12+s, each step held 0.15s\"],[2.432,\"savestate complete after 1 polls of 0.05s\"],[2.961,\"host key F12+s, each step held 0.15s\"],[2.962,\"savestate complete after 1 polls of 0.05s\"],[2.974,\"displaced by n: changed and stable after 2 savestate polls\"],[3.489,\"host key F12+l, each step held 0.15s\"],[3.489,\"Host+L sent (title)\"],[4.004,\"host key F12+s, each step held 0.15s\"],[4.005,\"savestate complete after 1 polls of 0.05s\"],[4.019,\"restore title: matched after 1 savestate polls\"],[4.132,\"key n held 0.08s\"],[4.644,\"host key F12+s, each step held 0.15s\"],[4.644,\"savestate complete after 1 polls of 0.05s\"],[5.173,\"host key F12+s, each step held 0.15s\"],[5.174,\"savestate complete after 1 polls of 0.05s\"],[5.187,\"after key n: changed and stable after 2 savestate polls\"],[5.704,\"host key F12+l, each step held 0.15s\"],[5.704,\"Host+L sent (title)\"],[6.215,\"host key F12+s, each step held 0.15s\"],[6.216,\"savestate complete after 1 polls of 0.05s\"],[6.226,\"restore title: matched after 1 savestate polls\"],[16.227,\"dosbox-x pid 673504 still running 10s after SIGTERM: SIGKILL to its group\"],[16.238,\"terminated\"]]"
+    }
+  ],
+  "outputs": [],
+  "started": "2026-10-04T07:31:34.948Z",
+  "ended": "2026-10-04T07:31:51.202Z",
+  "status": "completed"
+}
