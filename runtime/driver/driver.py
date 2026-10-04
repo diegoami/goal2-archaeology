@@ -17,6 +17,7 @@ import argparse
 import hashlib
 import json
 import os
+import re
 import shutil
 import signal
 import subprocess
@@ -107,9 +108,15 @@ exit
 
     def clock_lines(self):
         """Autoexec lines that set the DOS date and time before GOAL runs (I3, T08), when the config
-        has `dos_date` (MM-DD-YYYY, DOSBox-X's US format) or `dos_time` (HH:MM:SS); else nothing,
-        and the guest clock starts from the host's as before."""
+        has `dos_date` (MM/DD/YYYY) or `dos_time` (HH:MM:SS); else nothing, and the guest clock
+        starts from the host's as before. DOSBox-X 2024.03.01's DATE takes MM/DD/YYYY only: given
+        10-04-1993 it prints the current date and changes nothing (E003-r0030, r0031; F004), so any
+        other form is refused here."""
         c = self.config
+        forms = {"dos_date": r"\d\d/\d\d/\d{4}", "dos_time": r"\d\d:\d\d:\d\d"}
+        for k, form in forms.items():
+            if c.get(k) and not re.fullmatch(form, c[k]):
+                raise ValueError(f"{k}={c[k]!r}: DOSBox-X needs {'MM/DD/YYYY' if k == 'dos_date' else 'HH:MM:SS'}")
         return "".join(f"{cmd} {c[k]}\n" for cmd, k in (("date", "dos_date"), ("time", "dos_time")) if c.get(k))
 
     def conf_public(self):

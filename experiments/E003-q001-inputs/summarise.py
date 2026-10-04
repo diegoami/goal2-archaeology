@@ -64,16 +64,19 @@ def field(rec, name):
     return next((o["value"] for o in rec["observations"] if o.get("field") == name), "")
 
 
-DEFAULT_DATE = "10-04-2026"
+DEFAULT_DATES = ("10-04-2026", "10/04/2026")
 
 
 def dos_time(rec):
-    """The DOS time the record set (with its date when not the default), or "free"."""
+    """The DOS time the record set (with its date when not the default), or "free". A date given as
+    MM-DD-YYYY (r0001 … r0033) was ignored by DOSBox-X's DATE (README, amendment 2): marked so."""
     a = rec["actions"]["args"]
     if "--dos-time" not in a:
         return "free"
     t, d = a[a.index("--dos-time") + 1], a[a.index("--dos-date") + 1]
-    return t if d == DEFAULT_DATE else f"{t} on {d}"
+    if d in DEFAULT_DATES:
+        return t
+    return f"{t} (date {d} not applied)" if "-" in d else f"{t} on {d}"
 
 
 def labels_of(r, prefix):
@@ -88,7 +91,7 @@ def main(argv):
     s8 = lambda x: (x or "-")[:8]  # noqa: E731
 
     print("== d0: fresh launch, F001's D0 keys (11) to the main menu")
-    print("run | status | batch | launch local | DOS time set | clock at title | main-screen digest | DS:7B62 | DS:7B64 | LCG steps from hh:mm")
+    print("run | status | batch | launch local | DOS time set | clock at title | main-screen digest | DS:7B62 | DS:7B64 | LCG steps from hh:mm | DS:A9FD")
     groups = defaultdict(set)
     for rec in d0:
         r = reads(rec)
@@ -97,7 +100,7 @@ def main(argv):
         t = dos_time(rec)
         w62, w64 = word(r, last, "7B62"), word(r, last, "7B64")
         n = "-"
-        if t != "free" and w62 != "-":
+        if t != "free" and w62 != "-" and w62.startswith("0x"):
             hh, mm = int(t[:2]), int(t[3:5])
             n = lcg_steps(hh * 256 + mm, int(w62, 16))
         complete = rec["status"] == "completed" and last and last.startswith("after key 11")
@@ -106,7 +109,7 @@ def main(argv):
         print(" | ".join([rec["run_id"], rec["status"][:30], field(rec, "batch label given on the command line"),
                           field(rec, "host local time at launch, with UTC offset, and zone name")[:23], t,
                           clock(get(r, "title (fresh launch)", "0040:006C") or "0x0"), get(r, last, "sha256") or "-",
-                          w62, w64, str(n)]))
+                          w62, w64, str(n), word(r, last, "A9FD")]))
     print("distinct main-screen digests per DOS time (completed launches):")
     for t, ds in sorted(groups.items()):
         print(f"  {t}: {len(ds)} distinct: {', '.join(s8(d) for d in sorted(ds))}")

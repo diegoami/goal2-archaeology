@@ -93,9 +93,15 @@ class DataSegment(unittest.TestCase):
 
 class ClockOption(unittest.TestCase):
     def test_date_and_time_lines_before_goal(self):
-        d = driver.Driver({"dos_time": "10:00:00", "dos_date": "10-04-2026"})
+        d = driver.Driver({"dos_time": "10:00:00", "dos_date": "10/04/1993"})
         tail = d.conf_text().split("[autoexec]\n", 1)[1]
-        self.assertEqual(tail.splitlines()[2:5], ["date 10-04-2026", "time 10:00:00", "goal"])
+        self.assertEqual(tail.splitlines()[2:5], ["date 10/04/1993", "time 10:00:00", "goal"])
+
+    def test_forms_dosbox_ignores_are_refused(self):
+        # DOSBox-X 2024.03.01's DATE ignores 10-04-1993 (E003-r0030, r0031): refused, not written
+        for cfg in ({"dos_date": "10-04-1993"}, {"dos_date": "1993/10/04"}, {"dos_time": "10:00"}):
+            with self.assertRaises(ValueError):
+                driver.Driver(cfg).conf_text()
 
     def test_no_lines_by_default(self):
         tail = driver.Driver().conf_text().split("[autoexec]\n", 1)[1]

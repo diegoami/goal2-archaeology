@@ -43,3 +43,7 @@ Added arms, appended here; the design above is unchanged. The d3 records of batc
 - `d3b-time-free` (`run.py d3b`): as `d3`, but the Enter on the captain screen that starts the match and `r` are sent together (`Enter+r`: two key presses, no poll between), then the settle poll; the remaining keys `Enter Enter r`. n: 3 in batch A and 3 in batch B.
 - `d0-time-100000-date-10041993`: as `d0-time-100000` with the DOS date 10-04-1993 instead of 10-04-2026 (the year GetDate gives at `214B:1C63`). n: 2.
 - `d0-time-free`: as `d0`, DOS date and time not set (F001's D0 condition), as a control. n: 2.
+
+## Amendment 2 (2026-10-04, after E003-r0033)
+
+DOSBox-X 2024.03.01's `DATE` takes `MM/DD/YYYY` only: given `10-04-1993` (the form `run.py` passed in r0001 … r0033 and in `make-main`) it prints the current date and changes nothing (a check outside the records: `date 10-04-1993`, then `date /t`, printed `10/04/2026`; `date /?` names the form `MM/DD/YYYY`). So in r0001 … r0033 and in the `main` state the DOS date was not set: it was the host's date, 2026-10-04 (each record's launch time), and the records' I3 text naming the date is wrong about the date; their DOS time was set (read back from the BIOS ticks). The arm `d0-time-100000-date-10041993` (r0030, r0031) therefore did not test the date. From r0034 the date is passed as `MM/DD/YYYY` (`runtime/driver/driver.py` refuses other forms), and each read also records the word at `DS:A9FD` (the year GetDate returned, `214B:1C63`). Added arm: `d0-time-100000-date-10041993` repeated with `--dos-date 10/04/1993`, n: 2.

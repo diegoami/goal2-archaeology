@@ -2,8 +2,8 @@
 """E003 (T08, Q001): fresh launches and restored quick results with the DOS time fixed (I3) or free,
 reading the seed words of GOAL.EXE's data segment from every savestate. One run/1 record per run.
 
-    python3 experiments/E003-q001-inputs/run.py make-main [--dos-time 10:00:00 --dos-date 10-04-2026]
-    python3 experiments/E003-q001-inputs/run.py d0 --runs 2 [--dos-time HH:MM:SS --dos-date MM-DD-YYYY] --batch b1
+    python3 experiments/E003-q001-inputs/run.py make-main [--dos-time 10:00:00 --dos-date 10/04/2026]
+    python3 experiments/E003-q001-inputs/run.py d0 --runs 2 [--dos-time HH:MM:SS --dos-date MM/DD/YYYY] --batch b1
     python3 experiments/E003-q001-inputs/run.py d3 --runs 3 [--dos-time ... --dos-date ...] --batch b1
 
 Arms (F001's D0 and D3, keys copied from runtime/spike/probe.py TO_MAIN, SEQ_MENU, SEQ_B):
@@ -47,11 +47,12 @@ DELAY_AFTER = {"c": 2.0}  # F001 SEQ_B: ("c", 2.0); the match screen animates an
 # screen's select, which starts the match) and then r with no poll between, so r is in the keyboard
 # buffer before the match loop polls it; then the settle poll.
 SEQ_B_BUFFERED = SEQ_A + ["Enter", "Enter+r", "Enter", "Enter", "r"]
-DEFAULT_DATE = "10-04-2026"
+DEFAULT_DATE = "10/04/2026"  # MM/DD/YYYY; r0001 … r0033 passed MM-DD-YYYY, which DOSBox-X ignored (README, amendment 2)
 
 # Data-segment words read at every read (static leads of T06): TP RandSeed low and high words
 # (23E4:11D7 stores CX and DX of INT 21h AH=2Ch there), and the second stream's seed (0791:F3F2).
-DS_WORDS = (0x7B62, 0x7B64, 0x8336)
+# DS:A9FD (added in amendment 2): the year GetDate returned at startup (214B:1C63).
+DS_WORDS = (0x7B62, 0x7B64, 0x8336, 0xA9FD)
 # Known bytes of the initialised data segment (static/goal-exe/data/ds_2581_01.hex), read once per
 # record to show that the located base is GOAL.EXE's DS: a Pascal string "TRY OUT" and "on for".
 DS_CHECKS = ((0x0024, b"\x07TRY OUT"), (0x00C0, b"on for"))
@@ -191,7 +192,7 @@ class Run:
                                  f"{'set to ' + self.args.dos_time + ' on ' + self.args.dos_date + ' before GOAL ran' if self.args.dos_time else 'not controlled (the guest clock starts from the host clock)'}")}
         arm = f"{self.arm}-{'time-' + self.args.dos_time.replace(':', '') if self.args.dos_time else 'time-free'}"
         if self.args.dos_time and self.args.dos_date != DEFAULT_DATE:
-            arm += "-date-" + self.args.dos_date.replace("-", "")
+            arm += "-date-" + self.args.dos_date.replace("/", "").replace("-", "")
         record = {
             "schema": "run/1", "run_id": self.run_id, "experiment": EXPERIMENT, "arm": arm, "rep": self.n,
             "code_commit": self.commit, "machine": cycle.machine_id(),
@@ -251,7 +252,7 @@ def main(argv=None):
     ap.add_argument("arm", choices=["d0", "d3", "d3b", "make-main"])
     ap.add_argument("--runs", type=int, default=1)
     ap.add_argument("--dos-time", help="HH:MM:SS, set by `time` in the autoexec (I3)")
-    ap.add_argument("--dos-date", default=DEFAULT_DATE, help="MM-DD-YYYY, set with --dos-time")
+    ap.add_argument("--dos-date", default=DEFAULT_DATE, help="MM/DD/YYYY, set with --dos-time")
     ap.add_argument("--batch", default="", help="a label written into each record")
     a = ap.parse_args(argv)
     if a.arm == "make-main":
