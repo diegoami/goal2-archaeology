@@ -1,0 +1,258 @@
+#!/usr/bin/env python3
+"""E005 (T12, Q003): tabulate the records of runs/E005 and F001's probe re-run. Interprets nothing
+beyond the recorded values.
+
+    python3 experiments/E005-q003-cycles/summarise.py [runs/E005]
+
+1. Calibration: DS:A9FF at the title screen per fresh launch, per `cycles` setting.
+2. Runs: per match record the start route (restore of a state, or a fresh launch at its DOS time),
+   `cycles`, arm, final score (the full-time scoreboard), events, DS:7B62 at full time and DS:A9FF,
+   and whether the run is identical (score, events, every commentary line, DS:7B62 at full time) to
+   the same state's and arm's first completed restore at 30000.
+3. Halves: for every watched run, the host seconds from the starting burst to the first read whose
+   commentary rows hold HALF TIME, from there to the first read holding FULL TIME, and from the
+   half-time team-screen Enter to FULL TIME; the guest seconds of the first and second half from the
+   BIOS ticks; the ratio first half / second half (host, from the team-screen Enter); whether F001's
+   unequal halves reproduce at `max` (ratio under UNEQUAL).
+4. Cycles in effect after a restore: the guest seconds of the first half against the same state's and
+   arm's 30000 restores (the restored DS:A9FF is fixed, so a busy-wait's guest time scales as 1/cycles).
+5. F001's probe re-run (`measurements/match-speed*.json`): its halves, and per poll the BIOS ticks,
+   DS:A9FF and the delay byte.
+6. Checks: every record names its `cycles` setting (an observation, the fingerprint and the arm agree),
+   and every record that sets the DOS clock declares I3. Exit 1 when a check fails."""
+import json
+import statistics
+import sys
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[2]
+HERE = Path(__file__).resolve().parent
+RUNS = ROOT / "runs" / "E005"
+TICKS_PER_S = 1193182 / 65536   # the PIT's 1.193182 MHz over 65536: 18.2065 BIOS ticks per second
+# [designed] F001's halves (first / second, host s; second from the team-screen Enter, M:match-speed):
+# 0.10 and 0.14 at 60000 and max, 0.93 ... 0.96 at auto, 5000, 10000 and 30000. Under 0.5 is unequal.
+UNEQUAL = 0.5
+REFERENCE_CYCLES = "30000"
+CYCLES_FIELD = "cycles setting of the session"
+
+
+def field(rec, start, step=None):
+    for o in rec["observations"]:
+        if o["field"].startswith(start) and (step is None or o["step"] == step):
+            return o["value"]
+    return None
+
+
+def fields(rec, contains):
+    """{label: value} of every observation whose field holds `contains` after `<label>: `."""
+    out = {}
+    for o in rec["observations"]:
+        if contains in o["field"] and ": " in o["field"]:
+            out[o["field"].split(": ", 1)[0]] = o["value"]
+    return out
+
+
+def scoreboard(text):
+    """('DENMARK', 0, 'ENGLAND', 2) from rows 1 and 3 of the match screen (columns 13-27 the team, 29-30 the goals)."""
+    rows = text.split("\n")
+
+    def side(r):
+        line = rows[r].ljust(40) if r < len(rows) else " " * 40
+        return line[13:28].rstrip("-").strip(), int(line[29:31]) if line[29:31].strip().isdigit() else None
+    a, b = side(1), side(3)
+    return a[0], a[1], b[0], b[1]
+
+
+def config_sets_clock(rec):
+    """True when the session's autoexec set the DOS date or time (a `date MM/DD/YYYY` or `time HH:MM:SS`
+    line in the config the record carries)."""
+    conf = field(rec, "DOSBox-X config of the session") or ""
+    return any(l.startswith(("date ", "time ")) and "/t" not in l for l in conf.splitlines())
+
+
+def check(rec):
+    """Problems with one record: its `cycles` setting not named, or named inconsistently; the clock set
+    without I3 declared."""
+    out = []
+    rid = rec.get("run_id", "?")
+    named = field(rec, CYCLES_FIELD)
+    fp = rec.get("runtime", {}).get("fingerprint", {}).get("cycles")
+    conf = field(rec, "DOSBox-X config of the session") or ""
+    in_conf = [l.split("=", 1)[1] for l in conf.splitlines() if l.startswith("cycles=")]
+    if not named:
+        out.append(f"{rid}: no observation names the cycles setting")
+    elif fp != named or in_conf != [named] or not rec.get("arm", "").endswith(f"cycles-{named}"):
+        out.append(f"{rid}: cycles named {named!r}, fingerprint {fp!r}, config {in_conf}, arm {rec.get('arm')!r} disagree")
+    if config_sets_clock(rec) and not any(i.get("level") == "I3" for i in rec.get("interventions", [])):
+        out.append(f"{rid}: the config sets the DOS clock but no I3 intervention is declared")
+    return out
+
+
+def reads(rec):
+    """The match reads in order: (host s since the burst, ticks, a9ff, commentary rows text)."""
+    timing = fields(rec, "host seconds since the starting burst")
+    rows = fields(rec, "commentary rows (rows 1-3")
+    out = []
+    for label, v in timing.items():
+        since, ticks, a9 = v.split()
+        out.append((float(since), int(ticks, 16), int(a9, 16), rows.get(label, "")))
+    return sorted(out, key=lambda r: r[0])
+
+
+def first(rs, text):
+    return next((r for r in rs if text in r[3]), None)
+
+
+def ticks_of(rec, label):
+    v = field(rec, f"{label}: 4 bytes at 0040:006C")
+    return int(v.split()[0], 16) if v else None
+
+
+def halves(r):
+    """Host and guest seconds of each half of a match record, or None when a half was not seen."""
+    rs, keys = r["reads"], r["keys"]
+    ht, ft = first(rs, "HALF TIME"), first(rs, "FULL TIME")
+    if not (ht and ft and r["ticks_ko"] is not None):
+        return None
+    team = [k[0] for k in keys if k[2] == "team screen"]
+    t2 = team[-1] if team else None
+    after = next((x for x in rs if t2 is not None and x[0] > t2), None)
+    h = {"host_first": ht[0], "host_ht_to_ft": round(ft[0] - ht[0], 2),
+         "host_second": round(ft[0] - t2, 2) if t2 is not None else None,
+         "guest_first": round((ht[1] - r["ticks_ko"]) / TICKS_PER_S, 2),
+         "guest_second": round((ft[1] - after[1]) / TICKS_PER_S, 2) if after else None}
+    h["ratio"] = round(h["host_first"] / h["host_second"], 3) if h["host_second"] else None
+    return h
+
+
+def reproduced(ratios):
+    """The verdict on F001's unequal halves from the first/second ratios of the watched runs at max."""
+    if not ratios:
+        return "F001's unequal halves at max: no completed watched run at max"
+    n = sum(1 for x in ratios if x < UNEQUAL)
+    verdict = "reproduced" if n == len(ratios) else ("not reproduced" if n == 0 else "reproduced in part")
+    return (f"F001's unequal halves at max (ratio under {UNEQUAL}): {verdict}, in {n} of {len(ratios)} watched runs at max "
+            f"(ratios {', '.join(str(x) for x in ratios)})")
+
+
+def load(path):
+    rec = json.loads(path.read_text())
+    args = rec["actions"]["args"]
+    r = {"id": rec["run_id"], "kind": args[0], "status": rec["status"], "cycles": field(rec, CYCLES_FIELD),
+         "arm": args[args.index("--arm") + 1] if "--arm" in args else None,
+         "state": args[args.index("--state") + 1] if "--state" in args else None, "problems": check(rec),
+         "procs": field(rec, "other DOSBox-X and Xvfb processes on the host at launch"), "load": field(rec, "/proc/loadavg at launch")}
+    if r["kind"] == "calibrate":
+        v = field(rec, "title (fresh launch): dword DS:A9FF")
+        r["a9ff"] = int(v.split()[0], 16) if v else None
+        return r
+    if r["status"] != "completed":
+        return r
+    text = field(rec, "full time: text screen rows 0-24")
+    r["score"] = scoreboard(text)
+    r["seed"] = field(rec, "full time: word at DS:7B62").split()[0]
+    r["a9ff"] = int(field(rec, "full time: dword DS:A9FF").split()[0], 16)
+    r["events"] = json.loads(field(rec, "events among them"))
+    r["lines"] = json.loads(field(rec, "commentary lines of the match"))
+    r["keys"] = json.loads(field(rec, "keys sent from the key"))
+    r["seconds"] = field(rec, "match: savestate reads")
+    r["reads"] = reads(rec)
+    r["ticks_ko"] = ticks_of(rec, "restored" if r["kind"] == "restores" else "captain screen")
+    r["halves"] = halves(r)
+    return r
+
+
+def same(a, b):
+    return all(a[k] == b[k] for k in ("score", "events", "seed", "lines"))
+
+
+def short(events):
+    return "; ".join(f"{k} {t} {x}" for k, t, x in events) or "none"
+
+
+def reference(runs, r):
+    """The same state's and arm's first completed restore at 30000."""
+    return next((x for x in runs if x["kind"] == "restores" and x["status"] == "completed" and x["state"] == r["state"]
+                 and x["arm"] == r["arm"] and x["cycles"] == REFERENCE_CYCLES), None)
+
+
+def probe_rows(folder):
+    out = []
+    for p in sorted(folder.glob("match-speed*.json")):
+        res = json.loads(p.read_text())
+        for row in res.get("rows", []):
+            out.append((p.name, row))
+    return out
+
+
+def main(argv=None):
+    argv = sys.argv[1:] if argv is None else argv
+    folder = Path(argv[0]) if argv else RUNS
+    recs = [load(p) for p in sorted(folder.glob("E005-r*.json"))]
+    problems = [x for r in recs for x in r["problems"]]
+
+    print("## Calibration: DS:A9FF at the title screen of a fresh launch")
+    for c in ("5000", "30000", "max"):
+        vals = [r for r in recs if r["kind"] == "calibrate" and r["cycles"] == c and r.get("a9ff") is not None]
+        print(f"cycles {c}: " + ", ".join(f"{r['id']} 0x{r['a9ff']:x} ({r['a9ff']})" for r in vals))
+
+    runs = [r for r in recs if r["kind"] != "calibrate"]
+    print("\n## Runs (identical: score, events, every commentary line and DS:7B62 at full time, against the same state's and arm's first restore at 30000)")
+    for r in runs:
+        if r["status"] != "completed":
+            print(f"{r['id']} {r['kind']} {r['state']} cycles {r['cycles']} {r['arm']}: {r['status']}")
+            continue
+        ref = reference(runs, r)
+        ident = "reference" if ref is r else ("no reference" if ref is None else ("identical to " + ref["id"] if same(r, ref) else "DIFFERS from " + ref["id"]))
+        a, ga, b, gb = r["score"]
+        print(f"{r['id']} {'restore' if r['kind'] == 'restores' else 'fresh'} {r['state']} cycles {r['cycles']} {r['arm']}: "
+              f"{a} {ga} {b} {gb}; DS:7B62 {r['seed']}; DS:A9FF 0x{r['a9ff']:x}; {ident}; events: {short(r['events'])}")
+
+    print("\n## Halves of the watched runs (host s from the starting burst; guest s from the BIOS ticks)")
+    print("run | route | state | cycles | DS:A9FF | host: burst→HALF TIME, HALF TIME→FULL TIME, team-screen Enter→FULL TIME | guest: 1st, 2nd | ratio 1st/2nd (host) | match s")
+    for r in runs:
+        if r["status"] != "completed" or r["arm"] != "watched":
+            continue
+        h = r["halves"]
+        if not h:
+            print(f"{r['id']} | halves not seen")
+            continue
+        print(f"{r['id']} | {r['kind']} | {r['state']} | {r['cycles']} | 0x{r['a9ff']:x} | {h['host_first']}, {h['host_ht_to_ft']}, {h['host_second']} | "
+              f"{h['guest_first']}, {h['guest_second']} | {h['ratio']} | {r['seconds']}")
+    at_max = [r["halves"]["ratio"] for r in runs if r["status"] == "completed" and r["arm"] == "watched" and r["cycles"] == "max"
+              and r["halves"] and r["halves"]["ratio"] is not None]
+    print(reproduced(at_max))
+
+    print("\n## Cycles in effect after a restore (first-half guest seconds against the 30000 restores of the same state and arm)")
+    for r in runs:
+        if r["kind"] != "restores" or r["status"] != "completed" or not r["halves"]:
+            continue
+        refs = [x["halves"]["guest_first"] for x in runs if x["kind"] == "restores" and x["status"] == "completed" and x["halves"]
+                and x["state"] == r["state"] and x["arm"] == r["arm"] and x["cycles"] == REFERENCE_CYCLES]
+        g = r["halves"]["guest_first"]
+        implied = round(int(REFERENCE_CYCLES) * statistics.fmean(refs) / g) if refs and g > 0 else None
+        print(f"{r['id']} {r['state']} {r['arm']} cycles {r['cycles']}: first half {g} guest s; implied cycles {implied}")
+
+    print("\n## F001's probe re-run (runtime/spike/probe.py match, its own keys)")
+    for name, row in probe_rows(HERE / "measurements"):
+        ht, s2, ft = row.get("half_time_after_s"), row.get("second_half_started_after_s"), row.get("full_time_after_s")
+        ratio = round(ht / (ft - s2), 3) if None not in (ht, s2, ft) and ft > s2 else None
+        print(f"{name} cycles {row.get('cycles')}: HALF TIME {ht} s, second half started {s2} s, FULL TIME {ft} s; "
+              f"ratio 1st/2nd {ratio} ({'unequal' if ratio is not None and ratio < UNEQUAL else 'not unequal'}); polls {row.get('polls')}; "
+              f"phase {row.get('phase_at_end')}")
+        for p in row.get("e005_polls", []):
+            print(f"  poll {p['poll']}: {p['since']} s, ticks 0x{p['ticks']:08x}, DS:A9FF 0x{p['a9ff']:x}, delay byte {p['delay']}, rows {p['rows']}")
+
+    print("\n## Checks")
+    print(f"{len(recs)} records; {sum(r['status'] == 'completed' for r in recs)} completed")
+    for r in recs:
+        if r["status"] != "completed":
+            print(f"not completed: {r['id']} {r['status']}")
+    others = sorted({(p[0], p[2]) for r in recs for p in json.loads(r["procs"] or "[]")})
+    print("other DOSBox-X/Xvfb processes at any launch (pid name): " + ", ".join(f"{p} {n}" for p, n in others))
+    print("\n".join(problems) if problems else "every record names its cycles setting; every record that sets the clock declares I3")
+    return 1 if problems else 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

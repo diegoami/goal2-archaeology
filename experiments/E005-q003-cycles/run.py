@@ -45,6 +45,12 @@ OUT = ROOT / "runs" / EXPERIMENT
 SCRIPT_SHA = driver.sha256(Path(__file__).read_bytes())  # as loaded (E004 amendment 2, r0231)
 IDS = driver.SCRATCH / "e005" / "ids"
 CYCLES = ("5000", "30000", "max")   # the task's three settings (T12 Scope)
+# Bound of one match, seconds from the starting keys to full time, in place of match.py's 900 s (E004's
+# watched matches at 30000). Evidence: the smoke run of this script before E005-r0001 (records kept in
+# scratch, not runs/) played e004-1001 watched at 30000 in 209.8 host s, its halves 75.0 and 73.7 guest
+# s by the BIOS ticks; every guest instruction takes 6 times the guest time at 5000, so about 900 guest s
+# there, longer than 900 host s with the reads. [designed] three times that.
+MATCH_TIMEOUT = 2700
 A9FF = 0xA9FF   # the calibrated delay count, a dword (DS:A9FF low word, DS:AA01 high word): seg_214B_04.asm:44-69
 
 
@@ -166,7 +172,7 @@ class Run:
                 self.add_full("captain screen", self.d.last)
             if not e004.at_captain(sc):
                 raise RuntimeError("not at the captain screen before the match: " + sc.lines()[-1].strip())
-            _, self.reads, self.seconds = match.play(self.d, self.arm, self.on_read, clock=self.clock, keys=self.keys)
+            _, self.reads, self.seconds = match.play(self.d, self.arm, self.on_read, timeout=MATCH_TIMEOUT, clock=self.clock, keys=self.keys)
             self.step += 1
             self.add_full("full time", self.final)
         except Exception as e:  # noqa: BLE001
