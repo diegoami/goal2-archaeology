@@ -347,6 +347,27 @@ class ProbeWrapperTest(unittest.TestCase):
         self.assertEqual(row["e005_polls"], [{"poll": 1, "data": b"data"}, {"poll": 2, "data": b"data"}])
         self.assertEqual(row["full_time_after_s"], 1.0)
 
+    def test_the_pre_read_is_poll_0_before_the_probes_first_key(self):
+        order = []
+
+        def screen(self):
+            order.append("screen")
+            return "sc", b"data"
+
+        def play(s, row, timeout):
+            order.append("key c")             # probe.play_to_full_time's first act is s.key("c")
+            s.screen()
+            return "sc"
+
+        with mock.patch.object(pf.probe, "play_to_full_time", play), mock.patch.object(pf.probe.dbx.Session, "screen", screen), \
+                mock.patch.object(pf, "decode", side_effect=lambda data, since, n: {"poll": n}):
+            pf.instrument(pre_read=True)
+            s = pf.probe.dbx.Session.__new__(pf.probe.dbx.Session)
+            row = {}
+            pf.probe.play_to_full_time(s, row, 5)
+        self.assertEqual(order, ["screen", "key c", "screen"])
+        self.assertEqual(row["e005_polls"], [{"poll": 0}, {"poll": 1}])
+
 
 if __name__ == "__main__":
     unittest.main()

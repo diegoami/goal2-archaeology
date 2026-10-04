@@ -62,3 +62,7 @@ python3 tools/validate_runs.py runs/E005
 ## Amendment 4 (2026-10-04, after E005-r0042): e004-1001 restored at 5000
 
 The owner's decision, T12's Done-when 2 as amended on main at `e70b1a6`: for `e004-1001` restored at 5000, the restores E005-r0030, r0031 and r0032 (2 quick, 1 watched) stand in for the 3 per arm. The `restores --state e004-1001 --cycles 5000 --reps 2` invocation announced in amendment 2 is not run. E005-r0033 stays reserved and unused, as amendment 2 says. Every other part of the design is unchanged.
+
+## Amendment 5 (2026-10-04, after F001's probe re-run, `measurements/match-speed.json`)
+
+The re-run at `max` with F001's keys reproduced the unequal halves: HALF TIME 1.0 s, second half started 3.28 s, FULL TIME 13.53 s, a ratio of 0.098. Its first poll, 1.05 s after the start, already showed `---- HALF TIME ----`, so nothing of the first half was read. To find out whether that half ran faster or did less work, `probe_f001.py --pre-read` runs the probe once more, unchanged in its keys and its `main.sav`. It reads one savestate just before the probe's key `c` (poll 0, giving the BIOS ticks and `DS:80EE` at kick-off) and decodes the commentary counter `DS:80EE` at every poll. It runs at `max`, at fixed 60000 (where F001 also saw the anomaly) and at 30000 (where F001 did not), one match each, written to `measurements/match-speed-2.json`.

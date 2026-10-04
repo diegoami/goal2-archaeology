@@ -41,22 +41,25 @@ def decode(data, since, n):
     out = {"poll": n, "since": since, "ticks": st.ticks()[0]}
     try:
         out["a9ff"] = int.from_bytes(st.ds_bytes(A9FF, 4), "little")
-        out["delay"] = commentary.Snapshot(st).speed
+        snap = commentary.Snapshot(st)
+        out["delay"], out["counter"] = snap.speed, snap.counter
     except ValueError as e:  # GOAL.EXE not located in this savestate
-        out["a9ff"], out["delay"] = None, f"not read: {e}"
+        out["a9ff"], out["delay"], out["counter"] = None, f"not read: {e}", None
     out["rows"] = " / ".join(match.commentary_rows(savestate.Savestate(data).screen()))
     return out
 
 
-def instrument():
-    """Wrap probe.play_to_full_time so that every Session.screen() inside it is decoded too."""
+def instrument(pre_read=False):
+    """Wrap probe.play_to_full_time so that every Session.screen() inside it is decoded too. With
+    `pre_read`, one savestate more is read at its start, before the probe's key `c` (poll 0: the BIOS
+    ticks and the commentary counter at kick-off; an I2 read, not a key)."""
     original_play, original_screen = probe.play_to_full_time, probe.dbx.Session.screen
     polls = None
 
     def screen(self):
         sc, data = original_screen(self)
         if polls is not None:
-            polls.append(decode(data, round(time.monotonic() - polls_t0[0], 3), len(polls) + 1))
+            polls.append(decode(data, round(time.monotonic() - polls_t0[0], 3), len(polls) + (0 if pre_read else 1)))
         return sc, data
 
     polls_t0 = [0.0]
@@ -64,6 +67,8 @@ def instrument():
     def play(s, row, timeout):
         nonlocal polls
         polls, polls_t0[0] = [], time.monotonic()
+        if pre_read:
+            s.screen()   # poll 0
         try:
             return original_play(s, row, timeout)
         finally:
@@ -78,9 +83,10 @@ def main(argv=None):
     ap.add_argument("--cycles", nargs="*", default=["max"])
     ap.add_argument("--reps", type=int, default=1)
     ap.add_argument("--timeout", type=float, default=180)  # probe.py's own default for `match`
+    ap.add_argument("--pre-read", action="store_true", help="one savestate read before the probe's key `c` (poll 0)")
     a = ap.parse_args(argv)
     probe.OUT = HERE / "measurements"
-    instrument()
+    instrument(a.pre_read)
     probe.probe_match(argparse.Namespace(cycles=a.cycles, reps=a.reps, timeout=a.timeout, tag=""))
     print(json.dumps(probe.load_states()))
     return 0
