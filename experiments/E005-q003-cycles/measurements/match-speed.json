@@ -1,0 +1,218 @@
+{
+ "versions": {
+  "dosbox-x": "DOSBox-X version 2024.03.01 SDL2, copyright 2011-2024 The DOSBox-X Team.",
+  "xdotool": "xdotool version 3.20160805.1",
+  "python": "3.12.3",
+  "code_commit": "4c8e6e8",
+  "runtime_spike_uncommitted_changes": false
+ },
+ "states": {
+  "title": {
+   "screen": "cd7f15fbf853b40471d05bad51cb6e6c14cbc8a7307893dba8f5f36c2315c612",
+   "file_sha256": "3a04380b4081d998c611ec92b4d0a762347904b7d2b3170b22812f6af794abb6"
+  },
+  "main": {
+   "screen": "18190236ee20f9eb0573e82714034e41226a92a62efb4c119d8648e06a9a1b67",
+   "file_sha256": "012bcd3d531d0e9b86430bebbb133d89f3e9d99bfb4b4553d808de65c90a6128"
+  }
+ },
+ "fixed_delays_seconds": {
+  "after_each_enter_after_full_time": 1.5
+ },
+ "rows": [
+  {
+   "cycles": "max",
+   "rep": 0,
+   "half_time_after_s": 1.0,
+   "second_half_started_after_s": 3.28,
+   "full_time_after_s": 13.53,
+   "phase_at_end": "done",
+   "polls": 21,
+   "e005_polls": [
+    {
+     "poll": 1,
+     "since": 1.053,
+     "ticks": 1381245,
+     "a9ff": 423,
+     "delay": 1,
+     "rows": "│Sivebaek wins the ball / ┤Sivebaek makes a run / │---- HALF TIME ----"
+    },
+    {
+     "poll": 2,
+     "since": 1.764,
+     "ticks": 1381256,
+     "a9ff": 423,
+     "delay": 1,
+     "rows": "│Sivebaek wins the ball / ┤Sivebaek makes a run / │---- HALF TIME ----"
+    },
+    {
+     "poll": 3,
+     "since": 2.572,
+     "ticks": 1381266,
+     "a9ff": 423,
+     "delay": 1,
+     "rows": "│Sivebaek wins the ball / ┤Sivebaek makes a run / │---- HALF TIME ----"
+    },
+    {
+     "poll": 4,
+     "since": 3.337,
+     "ticks": 1381278,
+     "a9ff": 423,
+     "delay": 1,
+     "rows": "│Sivebaek wins the ball / ┤Sivebaek makes a run / │---- HALF TIME ----"
+    },
+    {
+     "poll": 5,
+     "since": 4.044,
+     "ticks": 1381289,
+     "a9ff": 423,
+     "delay": 1,
+     "rows": "│tackle by Angloma / ┤Andersen is brought down / │FOUL by Angloma"
+    },
+    {
+     "poll": 6,
+     "since": 4.634,
+     "ticks": 1381296,
+     "a9ff": 423,
+     "delay": 1,
+     "rows": "│pass by Boli / ┤Sivebaek intercepts / │Sivebaek makes a run"
+    },
+    {
+     "poll": 7,
+     "since": 5.222,
+     "ticks": 1381305,
+     "a9ff": 423,
+     "delay": 1,
+     "rows": "│** LINESMAN FLAGS ** / ┤headed on by Cocard / │Povlsen is OFFSIDE"
+    },
+    {
+     "poll": 8,
+     "since": 5.809,
+     "ticks": 1381314,
+     "a9ff": 423,
+     "delay": 1,
+     "rows": "│tackle by Blanc / ┤Blanc wins the ball / │Blanc makes a pass"
+    },
+    {
+     "poll": 9,
+     "since": 6.397,
+     "ticks": 1381322,
+     "a9ff": 423,
+     "delay": 1,
+     "rows": "│Cantona makes a run / ┤good ball for Papin / │Papin on the ball"
+    },
+    {
+     "poll": 10,
+     "since": 6.987,
+     "ticks": 1381331,
+     "a9ff": 423,
+     "delay": 1,
+     "rows": "│tackle by Larsen / ┤Larsen wins the ball / │good ball for Povlsen"
+    },
+    {
+     "poll": 11,
+     "since": 7.577,
+     "ticks": 1381340,
+     "a9ff": 423,
+     "delay": 1,
+     "rows": "│tackle by Martini / ┤saved by Martini / │cleared by Martini"
+    },
+    {
+     "poll": 12,
+     "since": 8.232,
+     "ticks": 1381349,
+     "a9ff": 423,
+     "delay": 1,
+     "rows": "│tackle by Papin / ┤Papin wins the ball / │punted away by Papin"
+    },
+    {
+     "poll": 13,
+     "since": 8.877,
+     "ticks": 1381359,
+     "a9ff": 423,
+     "delay": 1,
+     "rows": "│Blanc is brought down / ┤FOUL by Laudrup / │Laudrup SENT OFF"
+    },
+    {
+     "poll": 14,
+     "since": 9.471,
+     "ticks": 1381368,
+     "a9ff": 423,
+     "delay": 1,
+     "rows": "│tackle by Blanc / ┤Povlsen is brought down / │FOUL by Blanc"
+    },
+    {
+     "poll": 15,
+     "since": 10.069,
+     "ticks": 1381377,
+     "a9ff": 423,
+     "delay": 1,
+     "rows": "│tackle by Casoni / ┤dodged by Povlsen / │Povlsen makes a pass"
+    },
+    {
+     "poll": 16,
+     "since": 10.663,
+     "ticks": 1381385,
+     "a9ff": 423,
+     "delay": 1,
+     "rows": "│tackle by Deschamps / ┤Deschamps wins the ball / │knocked on by Deschamps"
+    },
+    {
+     "poll": 17,
+     "since": 11.249,
+     "ticks": 1381394,
+     "a9ff": 423,
+     "delay": 1,
+     "rows": "│headed on by Deschamps / ┤Povlsen is OFFSIDE / │*** FREE KICK ***"
+    },
+    {
+     "poll": 18,
+     "since": 11.832,
+     "ticks": 1381403,
+     "a9ff": 423,
+     "delay": 1,
+     "rows": "│knocked on by Papin / ┤** LINESMAN FLAGS ** / │Angloma is OFFSIDE"
+    },
+    {
+     "poll": 19,
+     "since": 12.413,
+     "ticks": 1381411,
+     "a9ff": 423,
+     "delay": 1,
+     "rows": "│Piechnik to take throw in / ┤Piechnik throws the ball / │Christofte on the ball"
+    },
+    {
+     "poll": 20,
+     "since": 13.006,
+     "ticks": 1381420,
+     "a9ff": 423,
+     "delay": 1,
+     "rows": "│Cantona wins the ball / ┤good ball for Papin / │Papin makes a pass"
+    },
+    {
+     "poll": 21,
+     "since": 13.595,
+     "ticks": 1381429,
+     "a9ff": 423,
+     "delay": 1,
+     "rows": "│Sivebaek intercepts / ┤Sivebaek makes a run / │---- FULL TIME ----"
+    }
+   ],
+   "after_full_time": [
+    {
+     "first_row": " (c) NE'93│ ┌───────────────┬──┬FRIENDLY────────────────────",
+     "last_row": " └──────────────────Hit INS to turn automatic action replay OFF───────────────┘",
+     "prompt_words": [
+      "replay"
+     ]
+    },
+    {
+     "first_row": " (c) NE'93│ │ ──────────────────────────────────────────────",
+     "last_row": "                                  hit any key",
+     "prompt_words": []
+    }
+   ],
+   "folder_changes": []
+  }
+ ]
+}
