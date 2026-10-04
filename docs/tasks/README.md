@@ -19,3 +19,4 @@ exists.
 | T10 | Q002: does the quick result run the same engine as a watched match (G5 Q002) | #26 | T08 |
 | T11 | Register the successor of goal2-a949da2f that declares the runtime writes (U21) | #14 | T09 |
 | T12 | Q003: do `cycles`, the host speed or wall-clock time change a match (G5 Q003) | #33 | T10 |
+| T13 | Savestates as evidence bundles: publish start states to a release (ADR-008) | #37 | T12 |
