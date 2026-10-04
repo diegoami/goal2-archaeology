@@ -101,9 +101,16 @@ cycles={c['cycles']}
 [autoexec]
 mount c {self.game_dir}
 c:
-goal
+{self.clock_lines()}goal
 exit
 """
+
+    def clock_lines(self):
+        """Autoexec lines that set the DOS date and time before GOAL runs (I3, T08), when the config
+        has `dos_date` (MM-DD-YYYY, DOSBox-X's US format) or `dos_time` (HH:MM:SS); else nothing,
+        and the guest clock starts from the host's as before."""
+        c = self.config
+        return "".join(f"{cmd} {c[k]}\n" for cmd, k in (("date", "dos_date"), ("time", "dos_time")) if c.get(k))
 
     def conf_public(self):
         """The config with host paths replaced by <work> and <game>, and its sha256 (what a record carries)."""
