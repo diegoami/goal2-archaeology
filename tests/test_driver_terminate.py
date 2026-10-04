@@ -9,12 +9,15 @@ DOSBox-X and run on CI. Every signal goes to a process group the driver started
 (start_new_session=True), by PID, never pkill.
 
 R1: launch()'s parenthetical says a restore into a session booted to the DOS prompt (GOAL never
-started) failed with "Save state corrupted! ... Memory_Size" and no savestate afterwards; that test
-needs DOSBox-X, Xvfb and xdotool, so it skips everywhere they are absent (CI) and runs locally.
+started) failed with "Save state corrupted! ... Memory_Size" and no savestate afterwards; the
+driver's guard is launch()'s own title-screen wait and displace key before any restore. The test
+boots a prompt session through Driver.launch() itself (a subclass whose autoexec omits `goal`) and
+asserts the guard holds there: launch ends in its own "title screen: not seen" timeout and no
+restore is attempted. It needs DOSBox-X, Xvfb and xdotool, so it skips everywhere they are absent
+(CI), runs locally, and fails if the guard is removed (see the class docstring).
 """
 import os
 import shutil
-import signal
 import subprocess
 import sys
 import tempfile
@@ -123,82 +126,58 @@ class Terminate(unittest.TestCase):
 
 @unittest.skipUnless(LOCAL, "dosbox-x/Xvfb/xdotool not on PATH (CI): the edge needs DOSBox-X")
 class DosPromptRestoreEdge(unittest.TestCase):
-    """R1 (T07 review): launch()'s parenthetical documents that restoring a savestate into a session
-    booted to the DOS prompt (GOAL never started) failed once with "Save state corrupted! Program in
-    inconsistent state! - Memory_Size" and no savestate afterwards; the driver therefore boots GOAL
-    to the title screen before any restore. This test visits that edge: it builds the guard-removed
-    session itself (launch()'s autoexec without `goal`), drives the driver's own restore, and asserts
-    the documented failure. Local only; skipped on CI."""
+    """R1 (T07 review): the DOS-prompt restore edge must be exercised through Driver.launch() and
+    its own guard, so that removing the guard makes this test fail.
+
+    launch()'s parenthetical documents that restoring a savestate into a session booted to the DOS
+    prompt (GOAL never started) failed once with "Save state corrupted! Program in inconsistent
+    state! - Memory_Size" and no savestate afterwards; the guard is launch()'s wait for the title
+    screen plus the displace key before any restore. The test boots a prompt session through
+    launch() itself -- PromptBoot below omits only `goal` from the autoexec -- and asserts the
+    guard holds there: launch ends in its own "title screen: not seen" timeout and sends no
+    Host+L. With the guard removed, launch() goes straight from a focused window to restore() at
+    the prompt: "Host+L sent" is logged and launch raises restore's own timeout instead of the
+    guard's -- the test fails. Needs DOSBox-X, Xvfb and xdotool: skipped on CI, run locally."""
+
+    # The prompt session never shows the title, so this wait is the guard's full bound, run each
+    # time the test executes; 8 s keeps the local run short and is what launch() is asked for.
+    TITLE_WAIT = 8
 
     def setUp(self):
         try:
             self.st = driver.StartState("title")
         except FileNotFoundError:
             self.st = driver.make_state("title")
+        self.d = None
 
-    def session_at_the_dos_prompt(self):
-        """launch()'s mechanics minus the guard: the autoexec mounts C: and stops at the prompt."""
-        d = driver.Driver(workdir=driver.SCRATCH / "test-dosprompt")
-        d.workdir.mkdir(parents=True, exist_ok=True)
-        (d.workdir / "cap").mkdir(exist_ok=True)
-        driver.verify_release(driver.CACHE)
-        shutil.rmtree(d.game_dir, ignore_errors=True)
-        shutil.copytree(driver.CACHE, d.game_dir)
-        conf = d.conf_text().replace("goal\nexit\n", "")  # the guard: launch() runs GOAL to the title
-        (d.workdir / "dosbox.conf").write_text(conf)
-        d.t0 = time.monotonic()
-        d._start_xvfb()
-        d.env = dict(os.environ, DISPLAY=d.display, SDL_AUDIODRIVER="dummy")
-        args = [os.environ.get("DOSBOX_X", "dosbox-x"), "-conf", str(d.workdir / "dosbox.conf"),
-                "-fastlaunch", "-nogui", "-nomenu", "-savedir", str(d.workdir),
-                "-set", f"dosbox savefile={d.savefile}"]
-        d.dbx_out = open(d.workdir / "dosbox.out", "w")  # closed by the test, after terminate()
-        d.dbx = subprocess.Popen(args, env=d.env, stdout=d.dbx_out,
-                                 stderr=subprocess.STDOUT, start_new_session=True)
-        d.log("dosbox-x started")
-        d.wid = d._wait_window(15)
-        d._x("windowfocus", d.wid)
-        return d
+    def tearDown(self):
+        if self.d:
+            self.d.terminate()  # only the groups this driver started; a no-op when launch never got there
 
-    def wait_prompt(self, d, timeout=15):
-        """Poll savestates until the screen shows a DOS prompt (Host+S works before the load)."""
-        end = time.monotonic() + timeout
-        while time.monotonic() < end:
-            text = d.screen().text()
-            if ">" in text:
-                return text
-            time.sleep(0.3)
-        raise RuntimeError("no DOS prompt seen within 15s")
+    def prompt_boot_driver(self):
+        """The driver's own launch path from a DOS-prompt boot: the guard's edge. Only the autoexec
+        differs from Driver's (no `goal`); window wait, focus, title wait and restore are launch()'s."""
+        class PromptBoot(driver.Driver):
+            def conf_text(self):
+                return super().conf_text().replace("goal\nexit\n", "")
+        self.d = PromptBoot(workdir=driver.SCRATCH / "test-dosprompt")
+        return self.d
 
-    def test_restore_into_a_dos_prompt_session_fails_as_documented(self):
-        d = self.session_at_the_dos_prompt()
-        out = ""
-        try:
-            prompt = self.wait_prompt(d)
-            self.assertIn("C:\\>", prompt)  # the session sits at the prompt, GOAL never started
-            with self.assertRaises(RuntimeError):
-                d.restore(self.st, timeout=8)
-            # and no savestate afterwards (F003 Method), while Host+S worked at the prompt above
-            with self.assertRaises(RuntimeError):
-                d.save_state(timeout=5, resend_after=2.0)
-            # DOSBox-X's stdout is block-buffered and the corruption line only reaches the file when
-            # it handles a SIGTERM (measured 0.16 s after the signal, twice, scratch probes of
-            # 2026-10-04; the delay varies, so poll). SIGTERM to the group the driver started here;
-            # terminate() in the finally sends its own, and no SIGKILL has happened yet.
-            if d.dbx.poll() is None:
-                os.killpg(d.dbx.pid, signal.SIGTERM)
-            deadline = time.monotonic() + 10
-            while time.monotonic() < deadline:
-                out = (d.workdir / "dosbox.out").read_text(errors="replace")
-                if "Save state corrupted!" in out and "Memory_Size" in out:
-                    break
-                time.sleep(0.1)
-        finally:
-            gone = d.terminate()
-            d.dbx_out.close()
-        self.assertTrue(gone)
-        self.assertIn("Save state corrupted!", out)
-        self.assertIn("Memory_Size", out)
+    def test_launch_never_restores_into_a_dos_prompt_session(self):
+        d = self.prompt_boot_driver()
+        with self.assertRaisesRegex(RuntimeError, r"title screen: not seen"):  # the guard's own timeout
+            d.launch(self.st, timeout=self.TITLE_WAIT)
+        # the guard fired before any restore: the driver's own log has no Host+L. This and the
+        # timeout message above are the assertions that fail when the guard is removed (launch()
+        # then goes straight to restore(), logs Host+L and raises restore's own timeout).
+        self.assertNotIn("Host+L sent", events_log(d))
+        # The corruption launch()'s parenthetical documents never happens here: no "Save state
+        # corrupted!" in DOSBox-X's output. ("Memory_Size" alone is no marker: each Host+S logs a
+        # benign "Memory_Size is 4 bytes" line, as this healthy prompt session's log shows. The
+        # check is also weak in the other direction -- the corruption line is buffered and can be
+        # lost to terminate()'s SIGKILL -- which is why the two assertions above carry the test.)
+        out = (d.workdir / "dosbox.out").read_text(errors="replace")
+        self.assertNotIn("Save state corrupted!", out)
 
 
 if __name__ == "__main__":
