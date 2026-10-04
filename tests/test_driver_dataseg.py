@@ -162,6 +162,36 @@ class ClockApplied(unittest.TestCase):
         with self.assertRaises(driver.ClockNotApplied):
             driver.check_clock("10/04/1993", "10:00:00", None)
 
+    def _launch(self, readback):
+        """Driver.launch with DOSBox-X, Xvfb and xdotool replaced: the fake process writes CLOCK.TXT
+        as DOS would (or nothing, readback None), and the title screen appears at once."""
+        with tempfile.TemporaryDirectory() as tmp:
+            d = driver.Driver({"dos_time": "10:00:00", "dos_date": "10/04/1993"},
+                              workdir=Path(tmp) / "work", game_dir=Path(tmp) / "game")
+
+            def popen(*a, **k):
+                if readback is not None:
+                    (d.workdir / driver.CLOCK_DIR / "CLOCK.TXT").write_text(readback)
+                return mock.Mock()
+            screen = mock.Mock()
+            screen.text.return_value = driver.TITLE_TEXT
+            with mock.patch.object(driver, "verify_release"), mock.patch.object(driver.shutil, "copytree"), \
+                    mock.patch.object(driver.subprocess, "Popen", popen), \
+                    mock.patch.object(driver.Driver, "_start_xvfb"), \
+                    mock.patch.object(driver.Driver, "_wait_window", return_value="1"), \
+                    mock.patch.object(driver.Driver, "_x"), \
+                    mock.patch.object(driver.Driver, "wait_screen", return_value=screen):
+                d.display = ":0"
+                d.launch(None)
+            return d
+
+    def test_launch_checks_the_read_back(self):
+        self.assertEqual(self._launch("10/04/1993\r\n 9:59:59\r\n").clock_applied.split(), ["10/04/1993", "9:59:59"])
+        with self.assertRaises(driver.ClockNotApplied):
+            self._launch("10/04/2026\r\n 9:59:59\r\n")   # DOS kept the host's year (review R1's case)
+        with self.assertRaises(driver.ClockNotApplied):
+            self._launch(None)                            # no read-back at all
+
     def _record(self, readback, error):
         args = argparse.Namespace(dos_time="10:00:00", dos_date="10/04/1993", batch="t")
         with tempfile.TemporaryDirectory() as tmp, \
