@@ -32,6 +32,10 @@ import savestate  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[2]
 CACHE = ROOT / ".cache" / "goal2"            # the verified release copy (setup/goal2-runtime.sh)
+# The registered set every launch verifies and every record names (artifacts/known.json): the
+# successor goal2-67cf27d6, which declares the runtime writes F001 observed; runs recorded before
+# it name its predecessor goal2-a949da2f, whose ten files are identical (U21, T11).
+SET_ID = "goal2-67cf27d6"
 STATES = ROOT / ".cache" / "states" / "driver"  # start states: <name>.sav and <name>.json, git-ignored
 SCRATCH = ROOT / "scratch" / "driver"
 # F001 Anomalies: a savestate keeps the host folder drive C: was mounted from, so every session
@@ -516,11 +520,13 @@ def make_state(name, config=None, states=STATES):
 
 
 def verify_release(cache):
-    m = json.loads((ROOT / "artifacts/known.json").read_text())["sets"][0]["manifest"]
+    known = json.loads((ROOT / "artifacts/known.json").read_text())["sets"]
+    m = next(e["manifest"] for e in known if e["manifest"]["id"] == SET_ID)
     bad = [f["path"] for f in m["files"]
            if not (Path(cache) / f["path"]).is_file() or sha256((Path(cache) / f["path"]).read_bytes()) != f["sha256"]]
     if bad:
-        raise SystemExit(f"{cache} does not match artifacts/known.json for: {', '.join(bad)} (run setup/goal2-runtime.sh)")
+        raise SystemExit(f"{cache} does not match artifacts/known.json set {SET_ID} for: "
+                         f"{', '.join(bad)} (run setup/goal2-runtime.sh)")
     return m["id"]
 
 

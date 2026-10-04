@@ -7,6 +7,11 @@ cd "$(dirname "${BASH_SOURCE[0]}")/.." || exit 1
 ROOT=$PWD
 REPO=diegoami/goal2-archaeology
 TAG=goal2-original
+# The registered set this script verifies and the driver runs (artifacts/known.json): the successor
+# goal2-67cf27d6 declares the runtime writes (F001); its predecessor goal2-a949da2f holds the same
+# ten files (T11).
+SET=goal2-67cf27d6
+export SET
 WANT_DOSBOX=2024.03.01
 missing=()
 
@@ -40,10 +45,11 @@ fi
 
 # gh, only needed to download the release when .cache/goal2 is not complete
 python3 - "$ROOT" <<'PY' >/dev/null 2>&1
-import hashlib, json, sys
+import hashlib, json, os, sys
 root = sys.argv[1]
-files = json.load(open(root + "/artifacts/known.json"))["sets"][0]["manifest"]["files"]
-for f in files:
+m = next(e["manifest"] for e in json.load(open(root + "/artifacts/known.json"))["sets"]
+         if e["manifest"]["id"] == os.environ["SET"])
+for f in m["files"]:
     if hashlib.sha256(open(root + "/.cache/goal2/" + f["path"], "rb").read()).hexdigest() != f["sha256"]:
         sys.exit(1)
 PY
@@ -63,7 +69,8 @@ if [ -d .cache/goal2 ]; then
   out=$(python3 - "$ROOT" <<'PY'
 import hashlib, json, os, sys
 root = sys.argv[1]
-m = json.load(open(root + "/artifacts/known.json"))["sets"][0]["manifest"]
+m = next(e["manifest"] for e in json.load(open(root + "/artifacts/known.json"))["sets"]
+         if e["manifest"]["id"] == os.environ["SET"])
 bad = []
 for f in m["files"]:
     p = root + "/.cache/goal2/" + f["path"]
@@ -73,8 +80,8 @@ print("; ".join(bad) if bad else "OK %d files" % len(m["files"]))
 PY
 )
   case "$out" in
-    OK*) echo "artifact    $out match set $(python3 -c "import json;print(json.load(open('artifacts/known.json'))['sets'][0]['manifest']['id'])")" ;;
-    *) missing+=("release files that match artifacts/known.json: $out") ;;
+    OK*) echo "artifact    $out match set $SET" ;;
+    *) missing+=("release files that match artifacts/known.json set $SET: $out") ;;
   esac
 else
   missing+=("release files in .cache/goal2")

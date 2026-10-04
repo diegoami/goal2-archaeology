@@ -65,7 +65,77 @@
     "runtime_writes": [],
     "id": "goal2-a949da2f"
    },
-   "notes": "goal (version 2), the owner's copy; its files are the assets of this repository's release goal2-original"
+   "notes": "goal (version 2), the owner's copy; its files are the assets of this repository's release goal2-original; superseded by goal2-67cf27d6, which declares what the runtime writes (F001, from E001)"
+  },
+  {
+   "manifest": {
+    "schema": "artifact-set/1",
+    "title": "goal (version 2), New Era Software",
+    "version": "2",
+    "acquired": {
+     "how": "user-supplied install",
+     "when": "2026-10-03",
+     "note": "the owner's full-version copy, from the folder C:\\wizard\\Goal2 on the owner's machine; treated as abandonware (game-archaeologist U17)"
+    },
+    "files": [
+     {
+      "path": "ALTER.EXE",
+      "bytes": 25622,
+      "sha256": "902e768c33731f4ed8be658dd4801c79418c5247dc7c3500f24757bac8cbeb3c"
+     },
+     {
+      "path": "ALTER.PIF",
+      "bytes": 967,
+      "sha256": "b558ea4bad0364809208d8f5443f0ffe0abc5f84bbfa2efaf5e40eb291a67fe9"
+     },
+     {
+      "path": "GOAL.DAT",
+      "bytes": 44040,
+      "sha256": "bc5e5c04434d31f350eb7803afc3810333393e049d50dde559797a5b068c60ca"
+     },
+     {
+      "path": "GOAL.EXE",
+      "bytes": 92391,
+      "sha256": "a6928b0bb7cda0303ac8daf8690efc56ef1792dddaccb5c6f3d85af1f68d3664"
+     },
+     {
+      "path": "GOAL.HLP",
+      "bytes": 32569,
+      "sha256": "2f3be8648a52045b6f7af1f41cba020d6a662229e5db499e203c5d0957308f60"
+     },
+     {
+      "path": "GOAL.PIF",
+      "bytes": 967,
+      "sha256": "2754392f5381dd41db0cd67385305720d2d64060a0c3954eb9d57933b42880e4"
+     },
+     {
+      "path": "INSTALL.EXE",
+      "bytes": 18544,
+      "sha256": "58bd3d0ae98ad12ee96b58fdb5c7f2f6c6b614e7b8ec4d54a1b839d8fb9399c9"
+     },
+     {
+      "path": "RUN.BAT",
+      "bytes": 7,
+      "sha256": "98a09e9b45a1bc3f6d5d0388e2eae39d259d588abc2d42e90f0550d7e21470fe"
+     },
+     {
+      "path": "RUN.PIF",
+      "bytes": 967,
+      "sha256": "6c4dcc917ef8d11cb786b22229cb6a73f36e0ce078e719c54fea87a2f2b25085"
+     },
+     {
+      "path": "Y.HIL",
+      "bytes": 3989,
+      "sha256": "fdeb00640de6ba7554416494c135852ea808ee5e688e0ac5488dadb6859f6415"
+     }
+    ],
+    "runtime_writes": [
+     "*.GL",
+     "*.SUM"
+    ],
+    "id": "goal2-67cf27d6"
+   },
+   "notes": "Successor of goal2-a949da2f, same ten files (no shipped file was seen change, F001 M:writes): declares what the runtime writes, observed by F001 in E001 - `<NAME>.GL` 169,553 B written by F7 or by F10 with save; `<NAME>.SUM` 3,989 B written when a match summary is saved. `.HIL` (same size as `S-1.SUM`) waits for a behavioural observation. Runs recorded before this set name goal2-a949da2f and stay valid: the files that ran were the same."
   }
  ]
 }
