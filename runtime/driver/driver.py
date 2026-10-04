@@ -45,6 +45,57 @@ HOSTKEY_HOLD = 0.15   # each step of a DOSBox-X host-key (F12) combination
 POLL = 0.05           # savestate file poll interval
 X_POLL = 0.1          # Xvfb and window poll interval
 
+CLOCK_DIR = "dosclock"  # session subfolder mounted as D: for the clock read-back (clock option only)
+CLOCK_SLACK = 5        # seconds a read-back time may run past the time set (written right after `time`)
+
+
+class ClockNotApplied(RuntimeError):
+    """DOS reported another date or time than the one set: the I3 intervention did not take effect."""
+
+
+def clock_values(dos_date, dos_time):
+    """Parse and range-check a requested DOS date (MM/DD/YYYY, years 1980-2099: DOS's range) and time
+    (HH:MM:SS); raise ValueError for anything DOSBox-X could not apply. Returns (date, time) or None each."""
+    d = t = None
+    if dos_date:
+        if not re.fullmatch(r"\d\d/\d\d/\d{4}", dos_date):
+            raise ValueError(f"dos_date={dos_date!r}: DOSBox-X needs MM/DD/YYYY")
+        try:
+            d = datetime.strptime(dos_date, "%m/%d/%Y").date()
+        except ValueError as e:
+            raise ValueError(f"dos_date={dos_date!r}: no such date ({e})") from None
+        if not 1980 <= d.year <= 2099:
+            raise ValueError(f"dos_date={dos_date!r}: DOS dates run from 1980 to 2099")
+    if dos_time:
+        if not re.fullmatch(r"\d\d:\d\d:\d\d", dos_time):
+            raise ValueError(f"dos_time={dos_time!r}: DOSBox-X needs HH:MM:SS")
+        try:
+            t = datetime.strptime(dos_time, "%H:%M:%S").time()
+        except ValueError as e:
+            raise ValueError(f"dos_time={dos_time!r}: no such time ({e})") from None
+    return d, t
+
+
+def check_clock(dos_date, dos_time, readback):
+    """Compare the requested clock with DOS's own read-back (`date /t` then `time /t` output, e.g.
+    "10/04/1993\n10:00:00\n"): the date must be equal, the time within CLOCK_SLACK seconds after.
+    Raises ClockNotApplied otherwise; returns the (date, time) DOS reported."""
+    d, t = clock_values(dos_date, dos_time)
+    m_d = re.search(r"(\d\d)/(\d\d)/(\d{4})", readback or "")
+    m_t = re.search(r"(\d{1,2}):(\d\d):(\d\d)", readback or "")
+    if not (m_d and m_t):
+        raise ClockNotApplied(f"no DOS date and time in the read-back {readback!r}")
+    got_d = datetime(int(m_d[3]), int(m_d[1]), int(m_d[2])).date()
+    got_t = int(m_t[1]) * 3600 + int(m_t[2]) * 60 + int(m_t[3])
+    if d and got_d != d:
+        raise ClockNotApplied(f"DOS date set to {dos_date}, DOS reports {m_d[0]}")
+    if t:
+        want = t.hour * 3600 + t.minute * 60 + t.second
+        if not 0 <= got_t - want <= CLOCK_SLACK:
+            raise ClockNotApplied(f"DOS time set to {dos_time}, DOS reports {m_t[0]}")
+    return m_d[0], m_t[0]
+
+
 KEYMAP = {"Enter": "Return", "Esc": "Escape", "Space": "space", "Up": "Up", "Down": "Down",
           "Left": "Left", "Right": "Right", "Backspace": "BackSpace", "Tab": "Tab"}
 
@@ -75,6 +126,7 @@ class Driver:
         self.last = self.pre_restore = None  # (host times, Savestate) of the latest read; the read before a restore
         self.t0 = time.monotonic()
         self.launched = None
+        self.clock_applied = None  # CLOCK.TXT as DOS wrote it after setting the clock (clock option only)
 
     def log(self, what):
         self.events.append((round(time.monotonic() - self.t0, 3), what))
@@ -111,13 +163,23 @@ exit
         has `dos_date` (MM/DD/YYYY) or `dos_time` (HH:MM:SS); else nothing, and the guest clock
         starts from the host's as before. DOSBox-X 2024.03.01's DATE takes MM/DD/YYYY only: given
         10-04-1993 it prints the current date and changes nothing (E003-r0030, r0031; F004), so any
-        other form is refused here."""
+        other form, and any date or time no calendar or DOS has (99/99/1993, a year outside DOS's
+        1980-2099, 24:00:00), is refused here (clock_values). After setting, the lines write DOS's own
+        date and time (`date /t`, `time /t`) to CLOCK.TXT on a drive D: mounted from the session folder,
+        so launch() can read back what DOSBox-X applied (check_clock) before GOAL runs."""
         c = self.config
-        forms = {"dos_date": r"\d\d/\d\d/\d{4}", "dos_time": r"\d\d:\d\d:\d\d"}
-        for k, form in forms.items():
-            if c.get(k) and not re.fullmatch(form, c[k]):
-                raise ValueError(f"{k}={c[k]!r}: DOSBox-X needs {'MM/DD/YYYY' if k == 'dos_date' else 'HH:MM:SS'}")
-        return "".join(f"{cmd} {c[k]}\n" for cmd, k in (("date", "dos_date"), ("time", "dos_time")) if c.get(k))
+        if not (c.get("dos_date") or c.get("dos_time")):
+            return ""
+        clock_values(c.get("dos_date"), c.get("dos_time"))
+        lines = "".join(f"{cmd} {c[k]}\n" for cmd, k in (("date", "dos_date"), ("time", "dos_time")) if c.get(k))
+        return (lines + f"mount d {self.workdir / CLOCK_DIR}\ndate /t > d:\\clock.txt\ntime /t >> d:\\clock.txt\nc:\n")
+
+    def clock_readback(self):
+        """The text DOS wrote to CLOCK.TXT after the date and time were set, or None (no clock option)."""
+        for f in (self.workdir / CLOCK_DIR).glob("*"):
+            if f.name.lower() == "clock.txt":
+                return f.read_text(errors="replace")
+        return None
 
     def conf_public(self):
         """The config with host paths replaced by <work> and <game>, and its sha256 (what a record carries)."""
@@ -139,6 +201,8 @@ exit
                                f"({start_state.game_dir}); restoring it here would write there (F001 Anomalies)")
         self.workdir.mkdir(parents=True, exist_ok=True)
         (self.workdir / "cap").mkdir(exist_ok=True)
+        shutil.rmtree(self.workdir / CLOCK_DIR, ignore_errors=True)
+        (self.workdir / CLOCK_DIR).mkdir()
         verify_release(CACHE)
         shutil.rmtree(self.game_dir, ignore_errors=True)
         shutil.copytree(CACHE, self.game_dir)
@@ -156,6 +220,11 @@ exit
         self._x("windowfocus", self.wid)
         self.log("window focused")
         sc = self.wait_screen(lambda sc: TITLE_TEXT in sc.text(), timeout, "title screen")
+        if self.clock_lines():
+            # I3 verified, not assumed: what DOS reported right after `date`/`time`, before GOAL ran
+            self.clock_applied = self.clock_readback()
+            self.log(f"DOS clock read back: {(self.clock_applied or 'no CLOCK.TXT').strip()!r}")
+            check_clock(self.config.get("dos_date"), self.config.get("dos_time"), self.clock_applied)
         if start_state is None:
             return sc
         if sc.digest() == start_state.screen_digest:

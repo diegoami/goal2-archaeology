@@ -102,6 +102,7 @@ class Run:
         self.d = driver.Driver(cfg, workdir=driver.SCRATCH / "e003" / self.run_id)
         self.obs, self.recorded, self.step = [], set(), 0
         self.located = False
+        self.clock_error = None  # driver.ClockNotApplied's message when the read-back disagreed
 
     def add(self, label, read=None):
         read = read or self.d.last
@@ -143,6 +144,8 @@ class Run:
             for k in keys:
                 self.press(k)
         except Exception as e:  # noqa: BLE001
+            if isinstance(e, driver.ClockNotApplied):
+                self.clock_error = str(e)
             status = f"aborted: {type(e).__name__}: {e}".splitlines()[0][:300]
             traceback.print_exc()
             self.step += 1
@@ -159,6 +162,9 @@ class Run:
                     {"step": 0, "source": "log", "field": "host local time at launch, with UTC offset, and zone name",
                      "value": f"{d.launched['local']} {d.launched['tz']}"}]
         conf_text, conf_sha = d.conf_public() if getattr(d, "conf", None) else ("not written", "0" * 64)
+        if self.args.dos_time:
+            head.append({"step": 0, "source": "file", "field": "DOS clock read back: CLOCK.TXT as DOS wrote it (`date /t`, then `time /t`) right after setting the date and time, before GOAL",
+                         "value": d.clock_applied if d.clock_applied is not None else "not read"})
         tail = [
             {"step": 0, "source": "file", "field": "DOSBox-X config of the session, host paths replaced by <work> and <game>", "value": conf_text},
             {"step": 0, "source": "file", "field": "sha256 of that config text (UTF-8)", "value": conf_sha},
@@ -176,8 +182,14 @@ class Run:
                  {"level": "I2", "what": "a savestate is written at each read" + (", and one is loaded (Host+L) at the start" if self.st else "")
                   + " (vocabulary/interventions.md lists save and load of state as I2; neutrality not tested)"}]
         if self.args.dos_time:
-            inter.append({"level": "I3", "what": f"DOS date set to {self.args.dos_date} and DOS time set to {self.args.dos_time} by the DOSBox-X "
-                          f"commands `date {self.args.dos_date}` and `time {self.args.dos_time}` in the autoexec, before GOAL runs"})
+            # From the rework round: what DOS reported after setting the clock decides what is declared.
+            back = (d.clock_applied or "").split()
+            if self.clock_error is None and d.clock_applied is not None:
+                applied = f"applied: DOS reported date {back[0]} and time {back[1]} right after (`date /t`, `time /t`)"
+            else:
+                applied = f"NOT verified as applied: {self.clock_error or 'no read-back'}"
+            inter.append({"level": "I3", "what": f"DOS date {self.args.dos_date} and DOS time {self.args.dos_time} requested with the DOSBox-X "
+                          f"commands `date {self.args.dos_date}` and `time {self.args.dos_time}` in the autoexec, before GOAL runs; {applied}"})
         keys = TO_MAIN + SEQ_MENU if self.arm == "d0" else SEQ_B if self.arm == "d3" else SEQ_B_BUFFERED
         if self.st:
             start = {"id": self.st.name, "sha256": self.st.sha256,
@@ -257,6 +269,8 @@ def main(argv=None):
     a = ap.parse_args(argv)
     if a.arm == "make-main":
         return make_main(a) or 0
+    if a.dos_time:
+        driver.clock_values(a.dos_date, a.dos_time)  # refuse, before any run, a clock DOSBox-X cannot apply
     dirty = git("status", "--porcelain", "--", "runtime/driver", str(HERE.relative_to(ROOT)))
     if dirty:
         raise SystemExit("uncommitted changes under runtime/driver/ or the experiment: commit them first\n" + dirty)

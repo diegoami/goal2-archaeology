@@ -3,7 +3,8 @@
 
     python3 experiments/E003-q001-inputs/summarise.py [runs/E003/E003-r0001.json ...]
 
-Per d0 launch: the DOS time set, the guest clock read back at the title (BIOS ticks as HH:MM:SS.s),
+Per d0 launch: the DOS clock requested and the date and time applied (DOS's read-back where the record
+has one, else the best evidence it has: applied_clock), the guest clock at the title (BIOS ticks as HH:MM:SS.s),
 the main-screen digest, and the words DS:7B62 and DS:7B64 at the main screen. Per d3 or d3b run: the batch,
 the DOS time set, the clock after the restore, the result screen digests (after the first `r` and at
 the end), and the three seed words before and after `r`. Then the distinct values per group.
@@ -68,15 +69,35 @@ DEFAULT_DATES = ("10-04-2026", "10/04/2026")
 
 
 def dos_time(rec):
-    """The DOS time the record set (with its date when not the default), or "free". A date given as
-    MM-DD-YYYY (r0001 … r0033) was ignored by DOSBox-X's DATE (README, amendment 2): marked so."""
+    """The DOS clock the record requested: its time (with the date when not the default), or "free".
+    What was applied is applied_clock's: a request is not evidence that it took effect."""
     a = rec["actions"]["args"]
     if "--dos-time" not in a:
         return "free"
     t, d = a[a.index("--dos-time") + 1], a[a.index("--dos-date") + 1]
-    if d in DEFAULT_DATES:
-        return t
-    return f"{t} (date {d} not applied)" if "-" in d else f"{t} on {d}"
+    return t if d in DEFAULT_DATES else f"{t} on {d}"
+
+
+READBACK = "DOS clock read back"
+
+
+def applied_clock(rec, r, last):
+    """The DOS date actually in effect, from the best evidence the record has:
+    - records from the rework round: DOS's own `date /t`/`time /t` read-back (CLOCK.TXT);
+    - earlier records: the year GOAL.EXE stored at DS:A9FD (r0034 …), or, for a date given as
+      MM-DD-YYYY (r0001 … r0033), the host's date: DOSBox-X ignored that form (README, amendment 2);
+    - free launches: the host clock (not set)."""
+    back = next((o["value"] for o in rec["observations"] if o.get("field", "").startswith(READBACK)), None)
+    if back is not None:
+        return "read back " + " ".join(back.split()) if back != "not read" else "NOT read back"
+    a = rec["actions"]["args"]
+    if "--dos-time" not in a:
+        return "host clock"
+    y = word(r, last, "A9FD")
+    if y.startswith("0x"):
+        return f"not read back; year {int(y, 16)} at DS:A9FD"
+    d = a[a.index("--dos-date") + 1]
+    return "not read back; date not applied (host's)" if "-" in d else "not read back"
 
 
 def labels_of(r, prefix):
@@ -91,7 +112,7 @@ def main(argv):
     s8 = lambda x: (x or "-")[:8]  # noqa: E731
 
     print("== d0: fresh launch, F001's D0 keys (11) to the main menu")
-    print("run | status | batch | launch local | DOS time set | clock at title | main-screen digest | DS:7B62 | DS:7B64 | LCG steps from hh:mm | DS:A9FD")
+    print("run | status | batch | launch local | DOS clock requested | DOS date/time applied | clock at title | main-screen digest | DS:7B62 | DS:7B64 | LCG steps from hh:mm | DS:A9FD")
     groups = defaultdict(set)
     for rec in d0:
         r = reads(rec)
@@ -104,13 +125,14 @@ def main(argv):
             hh, mm = int(t[:2]), int(t[3:5])
             n = lcg_steps(hh * 256 + mm, int(w62, 16))
         complete = rec["status"] == "completed" and last and last.startswith("after key 11")
+        ap = applied_clock(rec, r, last)
         if complete:
-            groups[t].add(get(r, last, "sha256"))
+            groups[f"{t} [{ap}]"].add(get(r, last, "sha256"))
         print(" | ".join([rec["run_id"], rec["status"][:30], field(rec, "batch label given on the command line"),
-                          field(rec, "host local time at launch, with UTC offset, and zone name")[:23], t,
+                          field(rec, "host local time at launch, with UTC offset, and zone name")[:23], t, ap,
                           clock(get(r, "title (fresh launch)", "0040:006C") or "0x0"), get(r, last, "sha256") or "-",
                           w62, w64, str(n), word(r, last, "A9FD")]))
-    print("distinct main-screen digests per DOS time (completed launches):")
+    print("distinct main-screen digests per DOS clock requested [applied] (completed launches):")
     for t, ds in sorted(groups.items()):
         print(f"  {t}: {len(ds)} distinct: {', '.join(s8(d) for d in sorted(ds))}")
 
