@@ -144,8 +144,9 @@ How a ranking is set (the world and continental tables) is **not placed**.
 | `0791:1829` | builds one line of match commentary | for event `n` it reads the record at `DS:7C38 + 6n` (`shl 1`, times 3), takes byte 0 as the text number (0xFF = none), copies the string at `DS:0xBE + 0x15 * number` (`mul 0x15`, `add di, 0xBE`), and inserts the player's name from `[9B6C] + 11 * word at +1` | observed |
 | `DS:00C0` | the commentary texts, about 21 bytes apart | "on for", "pass by", "makes a pass", "tackle by", "dodged by", "shot from", "hits the post", "saved by", "**** GOAL **** by", "** OWN GOAL ** by" | observed |
 | `0791:A10A` | the penalty shoot-out | string "penalty shoot out" beside it | observed |
+| `0791:97D0` | the per-tick loop of a match | calls the watched engine `0791:9564`, or `0791:D733` when the quick-result flag `DS:9A3E` is set; the clock `0791:970C` (F005) | observed |
 | `0791:0C65` | action replay | strings "an action replay", "to save this goal"; 1,038 bytes | inferred |
-| `0791:A4A1` | one step of a match | calls `0791:1073`, `0791:230C`, `0791:2FB1`, `0791:A2E6`, `0791:A375`, `0791:A3B6`, `0791:A3DE`, `0791:A841` | inferred |
+| `0791:A4A1` | the set-up at the start of every match (F005; earlier read as one step of a match) | zeroes the commentary counter, draws the kick-off side, clears `DS:9A3E`; called once by `0791:F1F6` before `0791:F098`; calls `0791:1073`, `0791:230C`, `0791:2FB1`, `0791:A2E6`, `0791:A375`, `0791:A3B6`, `0791:A3DE`, `0791:A841` | inferred |
 
 The match state lives in `DS:80E8..8337` and `DS:7B7E..7C3E` (`datarefs.tsv`: 59 routines refer to `DS:830B`, 27 to `DS:82F6`, nearly all in `0791`),
 so the in-match code is in `0791`, but the moving simulation itself (positions of the players and the ball, marking, passing, tackling,
