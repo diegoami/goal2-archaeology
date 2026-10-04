@@ -89,10 +89,14 @@ def check(rec):
 
 
 def reads(rec):
-    """The match reads in order: (host s since the burst, ticks, a9ff, commentary rows text). Two forms
-    (README amendment 1): one observation per read, a JSON list (run.py READ_FIELDS); or, in the first
-    records, E004's observations per read plus one holding `since ticks a9ff`."""
+    """The match reads in order: (host s since the burst, ticks, a9ff, commentary rows text). Three forms:
+    every read in one observation, a JSON list of lists (README amendment 2, run.py READ_FIELDS); one
+    observation per read, a JSON list (amendment 1); or, in the first records, E004's observations per
+    read plus one holding `since ticks a9ff`."""
     out = []
+    for v in fields(rec, "one list per read").values():   # amendment 2: all reads in one observation
+        for x in json.loads(v):
+            out.append((float(x[2]), int(x[3], 16), int(x[4], 16), x[10]))
     for label, v in fields(rec, "[host UTC time, host s since the starting burst").items():
         x = json.loads(v)
         out.append((float(x[1]), int(x[2], 16), int(x[3], 16), x[9]))

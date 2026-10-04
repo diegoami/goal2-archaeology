@@ -122,6 +122,7 @@ class Run:
         self.final = None
         self.pre_keys = list(e004.TO_MAIN + e004.TO_CAPTAIN)
         self.host = {}
+        self.read_rows = []   # every match read, kept in one observation (README amendment 2)
 
     def add_full(self, label, read):
         times, state = read[0], read[1]
@@ -135,7 +136,7 @@ class Run:
     def on_read(self, label, times, state):
         self.step += 1
         self.reads += 1
-        self.obs.append(read_observation(self.step, label, times, self.clock.since(), state))
+        self.read_rows.append(read_row(self.step, times, self.clock.since(), state))
         self.tracker.add(commentary.Snapshot(state), label)
         self.final = (times, state)
 
@@ -199,7 +200,7 @@ class Run:
                      "value": d.clock_applied if d.clock_applied is not None else "not read"})
         head.append(cycles_observation(self.cycles))
         last = self.step + 1
-        tail = host_observations(self.host, last) + [
+        tail = host_observations(self.host, last) + [reads_observation(self.read_rows, last)] + [
             {"step": 0, "source": "file", "field": "DOSBox-X config of the session, host paths replaced by <work> and <game>", "value": conf_text},
             {"step": 0, "source": "file", "field": "sha256 of that config text (UTF-8)", "value": conf_sha},
             {"step": 0, "source": "log", "field": "batch label given on the command line", "value": self.args.batch},
@@ -277,20 +278,25 @@ def a9ff_observation(step, label, state):
             "value": f"0x{int.from_bytes(raw, 'little'):08x} ({raw.hex(' ')})"}
 
 
-def read_observation(step, label, times, since, state):
-    """One match read in one observation (a record stays under T07's 1 MB with the thousands of reads
-    of a match at 5000): host UTC time just before the savestate was requested, host seconds since the
-    starting burst (monotonic, the clock match.play measures with, taken after the read), the BIOS tick
-    count 0040:006C, the dword DS:A9FF, the screen's sha256 (chars+attributes), DS:80EE, DS:7B62, the
-    score bytes DS:9B3C and DS:9B3D, and the commentary rows (rows 1-3, columns 31-66)."""
+def read_row(step, times, since, state):
+    """One match read as a list: its step, host UTC time just before the savestate was requested, host
+    seconds since the starting burst (monotonic, the clock match.play measures with, taken after the
+    read), the BIOS tick count 0040:006C, the dword DS:A9FF, the screen's sha256 (chars+attributes),
+    DS:80EE, DS:7B62, the score bytes DS:9B3C and DS:9B3D, and the commentary rows (rows 1-3, columns 31-66)."""
     sc = state.screen()
     snap = commentary.Snapshot(state)
-    value = [times["utc"], since, f"0x{state.ticks()[0]:08x}", f"0x{a9ff(state):08x}", sc.digest(), f"0x{snap.counter:04x}",
-             f"0x{state.ds_word(0x7B62):04x}", snap.score[0], snap.score[1], " / ".join(match.commentary_rows(sc))]
-    return {"step": step, "source": "memory", "field": f"{label}: {READ_FIELDS}", "value": json.dumps(value, ensure_ascii=False)}
+    return [step, times["utc"], since, f"0x{state.ticks()[0]:08x}", f"0x{a9ff(state):08x}", sc.digest(), f"0x{snap.counter:04x}",
+            f"0x{state.ds_word(0x7B62):04x}", snap.score[0], snap.score[1], " / ".join(match.commentary_rows(sc))]
 
 
-READ_FIELDS = ("[host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, "
+def reads_observation(rows, step):
+    """Every match read in one observation (a record of a match at 5000 stays under T07's 1 MB: E005-r0031,
+    one observation per read, is 1.48 MB)."""
+    return {"step": step, "source": "memory", "field": f"match reads, one list per read: {READ_FIELDS}",
+            "value": json.dumps(rows, ensure_ascii=False, separators=(",", ":"))}
+
+
+READ_FIELDS = ("[step, host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, "
                "DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]")
 
 

@@ -79,12 +79,14 @@ class DelayCountTest(unittest.TestCase):
         st.screen = lambda: SCREEN
         st.ds_word = lambda off: {0x7B62: 0xF3AB}[off]
         with mock.patch.object(e005.commentary, "Snapshot", return_value=mock.Mock(counter=0x2A, score=(1, 2))):
-            t = e005.read_observation(4, "match read 1", {"utc": "2026-10-04T19:00:00.000Z"}, 1.25, st)
-        self.assertTrue(t["field"].startswith("match read 1: [host UTC time, host s since"))
-        self.assertEqual(json.loads(t["value"]), ["2026-10-04T19:00:00.000Z", 1.25, "0x000a1234", "0x000002c5", SCREEN.digest(),
-                                                  "0x002a", "0xf3ab", 1, 2, "a / ---- HALF TIME ---- / c"])
-        # summarise reads it back: (since, ticks, count, rows)
-        self.assertEqual(summ.reads({"observations": [t]}), [(1.25, 0x000A1234, 0x2C5, "a / ---- HALF TIME ---- / c")])
+            row = e005.read_row(4, {"utc": "2026-10-04T19:00:00.000Z"}, 1.25, st)
+        self.assertEqual(row, [4, "2026-10-04T19:00:00.000Z", 1.25, "0x000a1234", "0x000002c5", SCREEN.digest(),
+                               "0x002a", "0xf3ab", 1, 2, "a / ---- HALF TIME ---- / c"])
+        t = e005.reads_observation([row, [5, "u", 2.5, "0x000a1240", "0x000002c5", "d", "0x002b", "0xf3ab", 1, 2, "x"]], 9)
+        self.assertTrue(t["field"].startswith("match reads, one list per read: [step, host UTC time"))
+        # summarise reads them back, in order: (since, ticks, count, rows)
+        self.assertEqual(summ.reads({"observations": [t]}), [(1.25, 0x000A1234, 0x2C5, "a / ---- HALF TIME ---- / c"),
+                                                             (2.5, 0x000A1240, 0x2C5, "x")])
 
     def test_the_savestate_lines_of_dosbox_out_are_counted_not_kept(self):
         out = ("LOG: Loading state from slot: 1\nLOG: File : <work>/IntTimer10 is 161 bytes\nLOG: [19:26:25]: Saved. (Slot 1)\n"
@@ -148,6 +150,17 @@ class RunTest(unittest.TestCase):
         self.assertIs(seen["clock"], r.clock)
         self.assertIs(seen["keys"], r.keys)
         self.assertEqual(seen["arm"], "watched")
+
+    def test_each_read_is_one_row_of_one_observation(self):
+        r = e005.Run("restores", "watched", 1, self.args, "abc", "5000", StartState())
+        r.tracker = mock.Mock()
+        with mock.patch.object(e005, "read_row", side_effect=lambda step, times, since, state: [step]), \
+                mock.patch.object(e005.commentary, "Snapshot"):
+            r.on_read("match read 1", {"utc": "u"}, object())
+            r.on_read("match read 2", {"utc": "u"}, object())
+        self.assertEqual(r.read_rows, [[1], [2]])
+        self.assertEqual(r.obs, [])          # no observation per read (amendment 2)
+        self.assertEqual(r.reads, 2)
 
     def test_arm_names_route_state_and_cycles(self):
         self.assertEqual(e005.arm_name("quick", "restores", "e004-1001", "5000"), "quick-restore-e004-1001-cycles-5000")
@@ -228,7 +241,10 @@ class HalvesTest(unittest.TestCase):
         reads = [(9.0, 100 + round(30 * t), "b / ---- HALF TIME ---- / x"), (12.0, 100 + round(34 * t), "kick off"),
                  (30.0, 100 + round(64 * t), "y / z / ---- FULL TIME ----")]
         obs = [{"step": 0, "field": "restored: 4 bytes at 0040:006C (BIOS timer tick count)", "value": "0x00000064 (..)"}]
-        obs += [{"step": i, "field": f"match read {i}: {e005.READ_FIELDS}", "value": json.dumps(["u", s, f"0x{k:08x}", "0x10b3", "d", "0x1", "0x2", 0, 0, rows])}
+        # amendment 1's form: one observation per read, its field as the records of that form carry it
+        legend = ("[host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, "
+                  "DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]")
+        obs += [{"step": i, "field": f"match read {i}: {legend}", "value": json.dumps(["u", s, f"0x{k:08x}", "0x10b3", "d", "0x1", "0x2", 0, 0, rows])}
                 for i, (s, k, rows) in enumerate(reads, 1)]
         rec = {"observations": obs}
         h = summ.halves({"reads": summ.reads(rec), "keys": self.KEYS, "ticks_ko": summ.ticks_of(rec, "restored")})
