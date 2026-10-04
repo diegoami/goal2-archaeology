@@ -1,0 +1,98 @@
+# F005 The quick result (`R`) does not run the watched match's engine: from one seeded start state the two give different matches, each deterministic, and their goal, booking, sending-off and injury distributions differ
+
+- **Status**: proposed
+- **Question**: Does the quick result (`R`) run the same engine as a watched match? (G5 Q002, `docs/backlog.md`; T10)
+- **Tests claims**: none (no spec row exists yet); bears on G-M4's distributions and G-M5's checks (whether the original can be sampled with quick results), and on Q011, Q024, Q029, Q033 (which plan quick results "after Q002")
+- **Experiment and runs**: E004; E004-r0001 … E004-r0242 (pairs and replays: E004-r0001, r0003, r0005, r0007, r0009, r0012, r0015, r0017, r0019, r0020, r0022, r0024, r0030, r0032, r0039, r0040, r0048, r0049, r0056, r0057, r0064, r0066, r0068, r0071, r0073, r0075, r0078, r0080, r0083, r0085, r0089, r0090, r0095, r0097, r0104, r0105, r0110, r0113, r0118, r0119; the sample: the other 201 records, 100 quick results and 101 watched matches of which E004-r0200 aborted; r0008 is unused, E004 README amendment 1)
+- **Artifact**: set `goal2-a949da2f` (170 records) and its successor `goal2-67cf27d6` (71 records), the same ten files (E004 README, amendment 2)
+- **Max intervention**: I3 (the DOS date and time set in the autoexec before GOAL runs, verified by DOS's read-back, for the four start states and every sample record; savestates written at every read and, for pairs, loaded, I2; memory read from them, I1)
+- **Tier reached**: V2
+- **Confidence**: unreviewed (status `proposed`) — behavioural (20 pairs from 4 start states, 0 identical; 32 replays, all identical to their first; 100 + 100 sample matches over 100 DOS minutes) and static (the listing: `R` sets the quick flag `DS:9A3E`, with which the per-tick loop calls `0791:D733` instead of the watched engine `0791:9564`); both routes agree, so corroborated once reviewed
+
+## Answer
+
+No. A quick result is computed by another routine than a watched match, and from the same start state it gives another match:
+
+| Claim | Behavioural | Static (`static/goal-exe/code/`) |
+| --- | --- | --- |
+| From one seeded start state, a quick result and a watched match give different matches | 20 pairs from 4 start states, 0 identical in score, events and `DS:7B62` at full time; the scores differ in 15 of 20 (e004-1000: 0-1 against 0-2; e004-1001: 0-0 against 0-2; e004-1337: 1-0 against 2-3) and agree in 5 (e004-1002: 2-1 both, other scorers) (E004-r0001 … r0119, `summarise.py` "Pairs") | the two arms run different code per tick (next row) |
+| Each arm is deterministic from one state, so the difference is the arm, not noise | each arm replayed 4 times per state: 32 of 32 replays identical to their first in score, every commentary line, `DS:7B62` and the full-time screen (E004-r0001 … r0119, "Replays"); a fresh launch at the state's DOS minute gives the state's match again, quick and watched (E004-r0002, r0004, r0006, r0010, r0014, r0025 against E004-r0001, r0022, r0064, r0003, r0024, r0066; Observations, Pairs) | the tick loop draws only from `DS:7B62` (LCG `214B:0688`, F004) and the BIOS-tick seed `DS:8336` that feeds the speaker; no routine of the match reads the BIOS tick count (Observations) |
+| `R` makes the match quick by setting `DS:9A3E` | quick results run on `Enter r` sent together (F004's d3b); the quick arm's commentary grows by at most 6 lines between reads, the watched arm's by up to 101 (E004 records, "Checks") | `0791:9372` calls `0791:92FC` on `R` (`seg_0791_15.asm:864`–`867`) and again while `DS:7C38` is set (`:871`–`874`); `92FC` returns at once when `DS:9A3E` is set or no minutes are left (`:681`–`690`), defers (sets `DS:7C38`, `:701`–`711`) while the match clock is not running, else sets `DS:9A3E` and `DS:9A3F`, clears `DS:7C38` (`:714`–`716`) and redraws the status bar (`:720`) |
+| With `DS:9A3E` set, each tick calls `0791:D733` instead of the watched engine `0791:9564` | — | the tick loop `0791:97D0`: `cmp [9A3E], 0` and, when set, `call D733` and on to the clock `970C` (`seg_0791_16.asm:98`–`100`, `:131`); when clear, the replay handling, `call 9564`, then `8CF5` and `9119` unless `DS:9A3E` was set meanwhile (`:118`–`128`); `9564` itself stops its player loop when `R` is taken mid-tick (`seg_0791_15.asm:1134`–`1137`) |
+| `0791:D733` is a once-per-minute statistical routine that never calls the watched engine | quick results have no bookings, sendings off or injuries at all (0 in 120: the 100 sample matches and 20 pair matches), and 1.32 goals per match against 1.98 for watched (sample) | `D733` (`seg_0791_21.asm:794`) zeroes the sub-tick counter `DS:831D` (`:811`) that `970C` counts down from 0x24 per minute (`seg_0791_16.asm:15`–`17`, `:48`), so one call per game minute; it draws through `214B:06D0` (`seg_0791_21.asm:876`, `:906`) and `214B:06B1` (`:988`, `:1053`) and calls the key poll at its end (`:1206`); in `calls.tsv` no path leads from `0791:D733` to `0791:9564`, nor from `9564` to `D733` |
+| `0791:A4A1` is not "one step of a match" (the lead of the backlog) but the start of every match | — | `A4A1` zeroes the commentary counter and fills the ring with 0xFF (`seg_0791_17.asm:272`–`280`), draws the kick-off side through `214B:06FA` (`:330`–`331`), clears `DS:9A3E`, `DS:9A3F`, `DS:7C38` (`:440`–`444`); `0791:F1F6` calls it once (`seg_0791_23.asm:1043`) before the match proper `0791:F098` (`:1133`) |
+| The two arms' distributions differ | 100 quick results and 100 watched matches over the DOS minutes 10:00 … 11:39 (table below): goals 1.32 against 1.98 per match (permutation test of means p = 0.0001; paired sign-flip p = 0.0001); bookings 0.00 against 1.49, sendings off 0.00 against 0.31, injuries 0.00 against 0.41 (p < 0.0001 each) | — |
+
+So a quick result cannot stand in for a watched match when sampling the original: statistics of watched matches (G-M4, G-M5) need watched matches; quick results are a sample of the quick routine only.
+
+## Method
+
+- Machine and tools: as F004 (Ubuntu 24.04 in WSL2, DOSBox-X 2024.03.01, Xvfb, xdotool, Python 3.12.3; each record's `runtime.fingerprint`), `cycles=30000` (fixed; F001 M:match-speed's fastest fixed setting; Q003 asks whether cycles change a match), `svga_s3`, memsize 16. Driver `runtime/driver/driver.py`; the match player `runtime/driver/match.py`; the commentary reader `runtime/driver/commentary.py`; the runner `experiments/E004-q002-quick-result/run.py`; `code_commit` in each record (`ac37bbb`, `428a051`, `b6f1c96`, `6ed687a`, `c3bfb59`; the code differs between them only in the merge of T09 and T11, the match bound and the abort handling of E004 README amendment 2).
+- Start states (`run.py make-state`): fresh launches at DOS time 10:00, 10:01, 10:02 and 13:37 on 10/04/2026, DOS read-back `9:59:59`, `10:00:59`, `10:01:59`, `13:36:59` (DOS's truncation, F004); F001's keys to the main screen, then `Esc Up Enter Enter`, plus an Enter on the team screen where it came first (10:02, 13:37); Host+S at the captain screen. Fixtures (friendlies): Denmark v Sweden (`e004-1000`, sha256 `e41cffc0…`), Denmark v England (`e004-1001`, `26a9a4d9…`), Denmark v Wales (`e004-1002`, `eeb3054b…`), Sweden v Denmark (`e004-1337`, `120ccba1…`); `DS:7B62` at the captain screen `0xf3ab`, `0xf3ab`, `0x6d08`, `0xfabd`.
+- Arms (`match.py`): quick: `Enter r` in one burst; watched: `Enter Right Right Right Right Right` in one burst (the game's delay byte `[DS:A923]+0x3F` read 0 at full time in every watched record: the top speed). After the burst, an Enter only on a stable screen that shows `hit any key` before full time (half time) or the team screen (its default ` play `), never another key; the match ends at the first stable screen whose commentary rows hold `FULL TIME`. Every record lists the keys sent in the match with their moments and reasons: in every completed record, the burst, then one Enter on `hit any key` and one on the team screen at half time.
+- Pairs (`run.py pairs`): per start state 5 × (a quick result, a watched match), each a fresh process with the state restored by Host+L. Sample (`run.py sample`): one quick result and one watched match per DOS minute 10:00 … 11:39 on 10/04/2026, each a fresh launch at that minute; up to three sessions ran at once.
+- Reads: a savestate at every poll of the match (25 … 535 per match), each giving the screen, `DS:80EE` (the commentary counter), `DS:7B62`, the score bytes `DS:9B3C`/`DS:9B3D`, and the commentary records added since the previous read from the ring `DS:7C38 + 6n` (`commentary.py`: layout from `seg_0791_03.asm:292`–`306`, `:318`–`321`, `:862`–`926`, `:944`; templates from `static/goal-exe/data/ds_2581_01.hex`). Events are templates 0 (substitution), 38 (goal), 39 (own goal), 50 (booking), 51 (sending off), 52 (injury); goals per match are the score bytes, which equal the scoreboard in every record (E004 README, amendment 2).
+- The test of the sample (`summarise.py`): per measure, a two-sided permutation test of the difference of means (arm labels shuffled 20000 times, `random.Random(20261004)`) and a two-sided paired sign-flip test over the 100 minutes both arms have.
+
+## Observations
+
+### Pairs (`summarise.py`, "Pairs"; per state the 5 pairs are equal, so one row each)
+
+| State | Quick runs | Watched runs | Quick: score (scoreboard), `DS:7B62` at full time, events | Watched: score, `DS:7B62`, events |
+| --- | --- | --- | --- | --- |
+| `e004-1000` | E004-r0001, r0005, r0009, r0015, r0019 | E004-r0003, r0007, r0012, r0017, r0020 | Denmark 0 Sweden 1, `0x63d7`; 5 Swedish substitutions, goal Nilsson | Denmark 0 Sweden 2, `0x8f7f`; bookings Jansson, Andersen, Laudrup; goals Ekstrom, Schwarz; 2 substitutions |
+| `e004-1001` | E004-r0022, r0030, r0039, r0048, r0056 | E004-r0024, r0032, r0040, r0049, r0057 | Denmark 0 England 0, `0xe081`; 5 English substitutions | Denmark 0 England 2, `0x1d0e`; bookings Laudrup, Povlsen, Vilfort; sent off Laudrup, Dorigo; injury Sivebaek; goals Ferdinand ×2 (a Vilfort goal disallowed for offside) |
+| `e004-1002` | E004-r0064, r0068, r0073, r0078, r0083 | E004-r0066, r0071, r0075, r0080, r0085 | Denmark 2 Wales 1, `0xfa68`; goals Laudrup, Bodin, Sivebaek; 5 Welsh substitutions | Denmark 2 Wales 1, `0xdc62`; goals Povlsen, Laudrup, Rush (a Vilfort goal disallowed); injury Bodin; 2 substitutions |
+| `e004-1337` | E004-r0089, r0095, r0104, r0110, r0118 | E004-r0090, r0097, r0105, r0113, r0119 | Sweden 1 Denmark 0, `0x5109`; goal Schwarz; 5 Swedish substitutions | Sweden 2 Denmark 3, `0xa621`; goals Povlsen ×3, Ekstrom ×2; booking Olsen; 3 substitutions |
+
+Pairs identical: 0 of 20. Replays identical to their first: 32 of 32 (4 per state and arm). The sample's fresh launches at 10:00, 10:01 and 10:02 repeat the states' matches in both arms (E004-r0002, r0004, r0006 quick; E004-r0010, r0014, r0025 watched; identical in score, every commentary line, `DS:7B62` and the full-time screen to E004-r0001, r0022, r0064, r0003, r0024, r0066).
+
+### Sample (`summarise.py`, "Sample"; 100 quick results, E004 quick-fresh records, and 100 watched matches, the watched-fresh records with E004-r0242 in place of the aborted E004-r0200)
+
+| Measure (per match) | Quick mean (sd) | Watched mean (sd) | Quick 0/1/2/3/4+ | Watched 0/1/2/3/4+ | Permutation p | Paired sign-flip p (n = 100) |
+| --- | --- | --- | --- | --- | --- | --- |
+| goals | 1.32 (0.92) | 1.98 (1.37) | 20/39/30/11/0 | 14/27/20/30/9 | 0.0001 | 0.0001 |
+| bookings | 0.00 (0.00) | 1.49 (1.44) | 100/0/0/0/0 | 31/24/24/13/8 | 0.0000 | 0.0000 |
+| sendings off | 0.00 (0.00) | 0.31 (0.56) | 100/0/0/0/0 | 74/21/5/0/0 | 0.0000 | 0.0000 |
+| injuries | 0.00 (0.00) | 0.41 (0.62) | 100/0/0/0/0 | 66/27/7/0/0 | 0.0000 | 0.0000 |
+
+`0.0000` is p < 1/20001. Minutes where the quick result and the watched match are identical: 0 of 100. The `DS:7B62` word at the captain screen takes 29 values over the 100 minutes; with the fixture, 93 distinct start conditions per arm (some minutes repeat another's match exactly), so the effective sample is 93 per arm.
+
+### Checks (`summarise.py`, "Checks")
+
+- 241 records, 240 completed; E004-r0200 aborted at the first match bound, 300 s (E004 README, amendment 2), and its minute repeated (E004-r0242).
+- Commentary: the largest number of new lines between two reads is 6 in quick results and 101 in watched matches (one flag, E004-r0232's first read, under the ring's 200: nothing lost); the bookings and red cards of 120 watched full-time statistics screens equal the commentary's in all 120; the score bytes equal the scoreboard in 240 of 240.
+- Goal lines: 24 followed by `… is OFFSIDE` (not counted; the score bytes leave them out); in two quick results the goal lines are fewer than the goals (E004-r0053: 1 line, 2 goals; r0198: 2 lines, 3 goals), consistent with `0791:1C78` refusing a record equal to the newest (`seg_0791_03.asm:817`–`835`, `:849`–`855`).
+- Watched matches took 25.1 … 288.7 s from the starting keys to full time, quick results 20.3 … 44.7 s; none received a key other than those listed.
+
+### Static (beyond the Answer)
+
+- The watched path draws from `DS:7B62` in display code too: `0791:9119`, called every watched tick (`seg_0791_16.asm:128`), calls `214B:06B1` (`seg_0791_15.asm:546`, `:564`); so the same match drawn without display would already consume the seed differently.
+- `214B:0D90` (key wait), `214B:1DA7` (delay calibration) and `0791:F3F2` (seed `DS:8336`) are the only readers of the BIOS tick count (F004); none is called from `0791:D733`, `0791:9564` or `0791:A4A1` (`calls.tsv`).
+
+## Inferences
+
+- The quick result is a different engine: on the behavioural route, one state gives two different, each reproducible, matches (20 of 20 pairs differ; 32 of 32 replays equal: E004-r0001 … r0119, Observations, Pairs), and the quick routine never produced a booking, sending off or injury in 120 matches (the pairs and the quick sample, E004-r0002 … r0230); on the static route, `R` sets `DS:9A3E` and the tick loop then calls `0791:D733` in place of `0791:9564`, with no path between them (Answer). Both routes: corroborated once reviewed.
+- The watched match, at `cycles=30000` with the keys of `match.py`, depends on nothing the host varies: 16 watched replays (E004-r0007 … r0119) and 3 fresh-launch repeats (E004-r0010, r0014, r0025) are identical to their first although the savestate reads (I2) fell at other moments of the match in each, with one to three sessions running at once. The reads did not change the match (consistent with F004: only the moment a key arrives does).
+- `GOAL.HLP` P106 says the quick result lists "goals, bookings, sendings-off and injuries" in the commentary; in 120 quick results of this release no booking, sending off or injury appears (E004-r0001 … r0230, the quick records; Observations, Sample). Whether `0791:D733` can produce one at all is not established statically (`calls.tsv` lets `D733` reach the commentary writers, through the key poll among others).
+
+## Alternatives considered
+
+- "The quick result is the watched engine with the display off": refuted on the static route (`D733` replaces `9564` in the tick loop; no call path between them) and on the behavioural route (different matches from one state, 20 of 20; different distributions).
+- "The pairs differ because the arms are not deterministic": refuted (32 of 32 replays identical; fresh launches repeat the states' matches).
+- "The pairs differ because of the speed keys of the watched arm": not excluded by a run, but the speed byte only reaches `0791:94E8` (sound and delay, `seg_0791_15.asm:908`–`929`, F004) and the delay routine, not a draw on `DS:7B62`; the watched arm without speed keys was not run.
+- "The savestate reads change the watched match": not supported (Inferences).
+
+## What this does not establish
+
+- Whether the quick result can produce bookings, sendings off or injuries at all, and what `0791:D733` computes (Q029, Q033).
+- Matches other than friendlies, a match quickened after some watched minutes (the result then depends on the tick at which `R` is taken, `seg_0791_15.asm:1134`–`1137`), cup matches with extra time or penalties (`0791:A10A` plays penalties watched, not tested).
+- Other `cycles` settings (Q003), other machines, other DOSBox-X versions.
+
+## Where the evidence is
+
+`runs/E004/E004-r0001.json` … `E004-r0242.json` (r0008 unused); no evidence bundle and no release: the start states and savestates stay in `.cache/` and `scratch/` (git-ignored), since they hold the game.
+
+## Reproduction
+
+`bash setup/goal2-runtime.sh` (prints `ready`), then the commands of `experiments/E004-q002-quick-result/README.md` (`make-state` ×4, `pairs` ×4, `sample` per arm), `python3 experiments/E004-q002-quick-result/summarise.py`, and `python3 tools/validate_runs.py runs/E004`.
