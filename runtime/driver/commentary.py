@@ -81,8 +81,6 @@ class Tracker:
 
     def add(self, snap, label=""):
         delta = (snap.counter - self.last) % SIZE
-        if snap.counter == self.last:
-            delta = 0
         if delta >= GAP_LIMIT:
             self.gaps.append(f"{label}: counter {self.last} -> {snap.counter} ({delta} lines)")
         self.deltas.append(delta)

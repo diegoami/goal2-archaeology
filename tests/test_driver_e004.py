@@ -159,5 +159,45 @@ class GoTest(unittest.TestCase):
         play.assert_not_called()
 
 
+_sspec = importlib.util.spec_from_file_location("e004_summarise", ROOT / "experiments" / "E004-q002-quick-result" / "summarise.py")
+summ = importlib.util.module_from_spec(_sspec)
+_sspec.loader.exec_module(summ)
+
+
+class SummariseTest(unittest.TestCase):
+    """The parts of summarise.py that decide what is printed as identical, counted or tested."""
+
+    def test_scoreboard(self):
+        rows = [""] * 25
+        rows[1] = " ┌─┐┌─┐┌─┐│ │DENMARK--------│ 0│Jansson wins the toss"
+        rows[3] = " └─┤└─┘└─┤│ │SWEDEN---------│12│---- FULL TIME ----"
+        self.assertEqual(summ.scoreboard("\n".join(rows)), ("DENMARK", 0, "SWEDEN", 12))
+
+    def test_stats_screen(self):
+        text = "│  Bookings     1  ││  Bookings     3  │\n│  Red cards    0  └┘  Red cards    2  │"
+        self.assertEqual(summ.stats_screen(text), {"Bookings": (1, 3), "Red cards": (0, 2)})
+        self.assertEqual(summ.stats_screen("no statistics"), {})
+
+    def test_disallowed_goal_is_the_one_followed_by_offside(self):
+        lines = [[1, 66, 1, "** LINESMAN FLAGS **"], [2, 38, 1, "GOAL by Vilfort"], [3, 54, 1, "Andersen is OFFSIDE"],
+                 [4, 38, 0, "GOAL by Rush"], [5, 49, 1, "Laudrup to take kick off"]]
+        self.assertEqual(summ.disallowed(lines), [[2, 38, 1, "GOAL by Vilfort"]])
+
+    def test_same(self):
+        a = {"score": ("A", 1, "B", 0), "events": [["goal", 0, "x"]], "seed": "0x1", "lines": [[1]]}
+        self.assertTrue(summ.same(a, dict(a)))
+        for k, v in (("score", ("A", 1, "B", 1)), ("events", []), ("seed", "0x2")):
+            self.assertFalse(summ.same(a, dict(a, **{k: v})), k)
+        self.assertTrue(summ.same(a, dict(a, lines=[[2]])))
+        self.assertFalse(summ.same(a, dict(a, lines=[[2]]), lines=True))
+
+    def test_tests_separate_equal_from_different_samples(self):
+        import random
+        self.assertGreater(summ.perm_test([1, 2, 1, 2] * 10, [2, 1, 2, 1] * 10, random.Random(1)), 0.5)
+        self.assertLess(summ.perm_test([0] * 30, [3] * 30, random.Random(1)), 0.001)
+        self.assertLess(summ.sign_flip([2] * 30, random.Random(1)), 0.001)
+        self.assertGreater(summ.sign_flip([1, -1] * 15, random.Random(1)), 0.5)
+
+
 if __name__ == "__main__":
     unittest.main()
