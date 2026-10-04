@@ -209,6 +209,8 @@ def debugger():
 
 
 def main():
+    if any(x in ("-h", "--help") for x in sys.argv[1:]):
+        sys.exit("usage: routes.py [b-headless|c-procmem|f-png|debugger ...]  (default: all four)")
     which = sys.argv[1:] or ["b-headless", "c-procmem", "f-png", "debugger"]
     git = lambda *x: subprocess.run(["git", "-C", str(ROOT), *x], capture_output=True, text=True).stdout.strip()  # noqa: E731
     res = {"dosbox-x": (subprocess.run(["dosbox-x", "-version"], capture_output=True, text=True).stderr or "").strip().splitlines()[:1],
@@ -217,7 +219,9 @@ def main():
     for w in which:
         res[w] = {"b-headless": b_headless, "c-procmem": c_procmem, "f-png": f_png, "debugger": debugger}[w]()
     OUT.mkdir(exist_ok=True)
-    p = OUT / "routes.json"
+    p, k = OUT / "routes.json", 2
+    while p.exists():  # an earlier measurement is never replaced (L207)
+        p, k = OUT / f"routes-{k}.json", k + 1
     text = json.dumps(res, indent=1, ensure_ascii=False) + "\n"
     p.write_text(text.replace(str(ROOT), "<repo>").replace(os.path.expanduser("~"), "~"), encoding="utf-8")
     print("wrote", p.relative_to(ROOT))

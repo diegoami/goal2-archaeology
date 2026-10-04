@@ -45,9 +45,22 @@ def sha(b):
     return hashlib.sha256(b).hexdigest()
 
 
+_PATHS = {}  # name -> the file this process writes; a measurement file is never overwritten by a later run (L207)
+
+
+def free_path(out, name):
+    """<name>.json if no such file exists, else <name>-2.json, -3, ...: an earlier measurement is never replaced."""
+    p, k = out / f"{name}.json", 2
+    while p.exists():
+        p, k = out / f"{name}-{k}.json", k + 1
+    return p
+
+
 def write_json(name, obj):
     OUT.mkdir(exist_ok=True)
-    p = OUT / f"{name}.json"
+    if name not in _PATHS:
+        _PATHS[name] = free_path(OUT, name)
+    p = _PATHS[name]  # the same run rewrites its own file as rows arrive
     text = json.dumps(obj, indent=1, ensure_ascii=False) + "\n"
     text = text.replace(str(ROOT), "<repo>").replace(os.path.expanduser("~"), "~")  # no host paths in committed files
     p.write_text(text, encoding="utf-8")
@@ -303,7 +316,7 @@ def probe_match(a):
     holds HALF TIME and to one that holds FULL TIME, with the game's own speed raised (Right x5 after the start).
     Between the halves it presses Enter on the team screen, waits until ' play ' is the highlighted option, and Enter."""
     info = load_states()
-    res = {"versions": versions(), "rows": []}
+    res = {"versions": versions(), "states": info, "rows": []}
     for cycles in a.cycles:
         for rep in range(a.reps):
             s, game = new_session(f"match_{cycles.replace(' ', '_')}_{rep}", cycles=cycles)
@@ -336,7 +349,7 @@ def probe_match(a):
                 s.stop()
             res["rows"].append(row)
             print(row)
-    write_json("match-speed", res)
+            write_json("match-speed" + a.tag, res)  # after every row, so an interrupted run keeps what it measured
 
 
 # ---------------------------------------------------------------------------------------------
@@ -514,7 +527,7 @@ def probe_timing(a):
     """Does the delay between a restore and the first key change what follows? From main.sav, wait x seconds after
     the restore is verified, then the same keys (SEQ_A: Esc, Up, Enter = the results of the other matches)."""
     info = load_states()
-    res = {"versions": versions(), "rows": []}
+    res = {"versions": versions(), "states": info, "rows": []}
     for x in a.delays:
         s, _ = new_session(f"tm_{x}")
         row = {"extra_wait_s": x}
@@ -533,7 +546,7 @@ def probe_timing(a):
             s.stop()
         res["rows"].append(row)
         print(x, row.get("digests"), row.get("error", ""))
-    write_json("timing", res)
+        write_json("timing" + a.tag, res)
 
 
 def probe_terminate(a):
