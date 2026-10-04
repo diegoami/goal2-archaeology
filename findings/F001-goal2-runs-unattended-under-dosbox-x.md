@@ -23,7 +23,18 @@
 - Machine: Ubuntu 24.04 in WSL2, kernel 6.18.40.1-microsoft-standard-WSL2; DOSBox-X 2024.03.01 SDL2 (apt), xdotool 3.20160805.1, Xvfb 2:21.1.12-1ubuntu1.8, Python 3.12.3 (standard library only); each measurement file and record names its versions and the commit of the code that ran (`versions`, `code_commit`). Code: `runtime/spike/` (`dbx.py`, `cycle.py`, `probe.py`, `routes.py`).
 - The game ran from a copy of the ten release files (verified against `artifacts/known.json` by `setup/goal2-runtime.sh` and by `cycle.py`), never from the owner's folder; each session copied them into a folder under `scratch/` (git-ignored).
 - Config: machine `svga_s3`, memsize 16, cycles `auto` unless a probe sets it, core and cputype `auto`, `output=surface`, sound off; autoexec mounts the copy, runs `goal`, then `exit`.
-- Recorded delays: key held 0.08 s, DOSBox-X host key (F12) combinations held 0.15 s; savestate file polled every 0.05 s; every wait for a screen is a bounded poll, and the waits of each run are in its `log` observation. The `match` probe sampled the screens after FULL TIME 1.5 s after each Enter (a recorded delay); the `timing` probe waited 0, 0.3, 0.6 or 0.9 s after a verified restore.
+- Delays: key held 0.08 s, DOSBox-X host key (F12) combinations held 0.15 s; savestate file polled every 0.05 s. In the cycle (E001) and in the `determinism`, `timing`, `speed` and `layout` probes every wait for a screen is a bounded poll or a delay written into the record or measurement (the waits of each run are in its `log` observation; `timing` writes its extra wait of 0, 0.3, 0.6 or 0.9 s after a verified restore). Not every wait is a poll: the `writes`, `terminate` and `match` probes also used the fixed delays in the table below, which their measurement files do not record; `machines` used a delay of 3.0 s before each capture, recorded as `delay_seconds_before_capture`.
+
+| Fixed delay | Where (`probe.py`) | Measurement affected |
+| --- | --- | --- |
+| 0.15 s after each typed character, then 0.3 s before the screen read | `probe_writes`, session w2 (typing `zz`) | M:writes |
+| 1.0 s after the last key, before the folder is listed (`after`) | `probe_writes`, sessions w0 … w4 | M:writes |
+| 1.5 s after each Enter while looking for the summary prompt, 1.5 s after `y`, 1.5 s after the final Enter before the folder is listed | `probe_writes`, session w5 | M:writes |
+| 1.0 s after each of F10, y, n | `probe_terminate`, the in-game quit row | M:terminate (its `seconds_after_last_key` includes the last 1.0 s) |
+| 1.5 s after each Enter after FULL TIME, before the screen is sampled | `probe_match` | M:match-speed (`after_full_time`, `folder_changes`) |
+
+From this round the code writes these values into each new measurement as `fixed_delays_seconds`; the files above were not re-run.
+
 - Screen read: Host+S writes a zip; its component `Vga` (one zlib stream) holds the text page at stream offset 0x86024, 8 bytes per cell (character, attribute, other planes); component `Memory` holds guest memory from offset 0x78 (BIOS data area). The offset was found by matching a DOSBox-X PNG capture (M:layout `base`, `mem_header`). This layout is specific to DOSBox-X 2024.03.01.
 - Start state of the E001 records: a fresh process, nothing restored (`start_state.sha256` is that of the configuration with paths replaced). The probes' start states are `title.sav` (title screen) and `main.sav` (after the keys `TO_MAIN` of `probe.py`), kept under `.cache/states/` (git-ignored, never committed); their sha256 and screen digests are in the `states` field of M:determinism, M:determinism-b, M:timing and M:match-speed.
 - During the probes of 2026-10-04 another project's DOSBox-X and Xvfb sessions ran on the same machine (seen at 08:31); wall-clock times may carry that load.
@@ -71,7 +82,7 @@ The ten release files were unchanged in the game folder after the sessions (M:wr
 
 D1 (restore `main.sav`, no keys) has no steps to compare; its restores matched the saved digest (3 of 3 per batch). M:timing (8 runs: the D2 keys after 0, 0.3, 0.6 or 0.9 s of extra wait, twice each): the three screens identical in 8 of 8, with the digests of D2 (`fa8613ef`, `536079ad`, `065ad6c4`).
 
-### Speed (M:speed, code `fc00e8c`; M:match-speed, code `f8cdb14`)
+### Speed (M:speed, code `fc00e8c`; M:match-speed, code `6959db9`)
 
 | cycles | seconds to title (M:speed) | title and main digests = reference (M:speed) | match, kick-off to HALF TIME, s (2 runs) | kick-off to FULL TIME, s (2 runs) |
 | --- | --- | --- | --- | --- |
@@ -110,6 +121,7 @@ The key-paced path from the title to the main screen took 13.6 to 14.7 s at ever
 - **Untried routes**: F (the clipboard read through X; no selection reader installed); B's reset (no load control without a mapper hotkey); D in any build with a debugger (only apt's build was tried); other DOSBox-X versions, a Windows DOSBox-X, `output` values other than `surface`, other `core` and `cputype` values; `hercules` was not diagnosed; text equality on `ega`, `cga` and `tandy` was not compared.
 - **Observations made once only**: each write session w0 … w5 (one session each, M:writes), so the file sizes and names of `runtime_writes` rest on one save per kind; routes B to E (one probe run, M:routes, with 2 or 3 repetitions inside it); the time to the title and the key path per cycles setting (one run per setting, M:speed); each machine and memory configuration (one run each, M:machines, M:layout); SIGTERM and in-game quit termination (one each, M:terminate); the DOSBox-X abort and the unacted F7 (one each, earlier round, no raw file); the drive-folder behaviour of a savestate (one session, earlier round, no raw file).
 - **Observed in two batches only**: determinism (M:determinism, M:determinism-b) and the match times (2 runs per setting, M:match-speed). What varies between batches, and its source, is not established.
+- Whether the outcomes of M:writes, M:terminate and the post-full-time screens of M:match-speed hold at other values of the fixed delays listed under Method: each was measured at one value only (for example, whether a save is complete 1.0 s after the key, or whether the summary prompt at 30000, 60000 and `max` was passed within one 1.5 s step).
 - Whether the quick result and a played match depend on `cycles`, on the savestate polling, or on wall-clock time.
 - The format and content of `.GL` and `.SUM` files, and whether other paths (replays F3, summaries F4, printing F5, the editor `ALTER.EXE`, the end of a tournament) write other files: `runtime_writes` is complete only for the sessions in the Writes table.
 

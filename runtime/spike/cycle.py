@@ -154,7 +154,6 @@ def main():
     ap.add_argument("--key", default="n")
     ap.add_argument("--cache", default=".cache/goal2")
     ap.add_argument("--dry", action="store_true", help="do not write a record")
-    ap.add_argument("--allow-dirty", action="store_true", help="skip the clean-tree check (the record is then refused)")
     a = ap.parse_args()
 
     cache = ROOT / a.cache

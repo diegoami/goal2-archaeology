@@ -8,7 +8,10 @@ otherwise, and writes its raw measurements to runtime/spike/measurements/<probe>
 interprets a screen; the finding does, citing these files. Savestates made here are the game's
 memory: they go to .cache/states/ (git-ignored) and are never committed.
 
-Every wait is a bounded poll for a screen (settle) or a delay that is written into the record."""
+Every wait in run_steps is a bounded poll for a screen (settle) or a delay written into the step it belongs to.
+`writes`, `terminate` and `match` also use fixed delays (WRITES_DELAYS, TERMINATE_DELAYS, MATCH_DELAYS), and
+`machines` its --delay. writes.json, terminate.json and match-speed.json were written before these delays were
+recorded and do not carry them (F001 lists them); later runs write them as `fixed_delays_seconds`."""
 import argparse
 import hashlib
 import json
@@ -39,6 +42,12 @@ SEQ_A = [("Esc", "settle"), ("Up", "settle"), ("Enter", "settle")]  # main menu 
 SEQ_B = SEQ_A + [("Enter", "settle"), ("Enter", "settle"), ("c", 2.0), ("r", "settle"),
                  ("Enter", "settle"), ("Enter", "settle"), ("r", "settle")]  # ... -> match -> quick result -> bulletin
 SEQ_MENU = [("Esc", "settle")]  # main menu with the next opponent shown
+
+# Fixed delays (seconds), not polls; written into each measurement that uses them (F001 lists them).
+WRITES_DELAYS = {"per_typed_char": 0.15, "after_typing": 0.3, "before_after_tree": 1.0,
+                 "w5_after_each_enter_seeking_summary_prompt": 1.5, "w5_after_y": 1.5, "w5_before_after_tree": 1.5}
+TERMINATE_DELAYS = {"between_F10_y_n": 1.0}
+MATCH_DELAYS = {"after_each_enter_after_full_time": 1.5}
 
 
 def sha(b):
@@ -316,7 +325,7 @@ def probe_match(a):
     holds HALF TIME and to one that holds FULL TIME, with the game's own speed raised (Right x5 after the start).
     Between the halves it presses Enter on the team screen, waits until ' play ' is the highlighted option, and Enter."""
     info = load_states()
-    res = {"versions": versions(), "states": info, "rows": []}
+    res = {"versions": versions(), "states": info, "fixed_delays_seconds": MATCH_DELAYS, "rows": []}
     for cycles in a.cycles:
         for rep in range(a.reps):
             s, game = new_session(f"match_{cycles.replace(' ', '_')}_{rep}", cycles=cycles)
@@ -334,7 +343,7 @@ def probe_match(a):
                     row["after_full_time"] = []
                     for _ in range(6):
                         s.key("Enter")
-                        time.sleep(1.5)
+                        time.sleep(MATCH_DELAYS["after_each_enter_after_full_time"])
                         sc, _ = s.screen()
                         row["after_full_time"].append({"first_row": sc.text().split("\n")[0][:60], "last_row": sc.text().split("\n")[-1][:80],
                                                        "prompt_words": [w for w in ("save", "Save", "goal", "summary", "replay") if w in sc.text()]})
@@ -361,7 +370,8 @@ def tree(d):
 def probe_writes(a):
     """File set of the game folder before and after sessions that save."""
     info = load_states()
-    res = {"versions": versions(), "sessions": []}
+    res = {"versions": versions(), "fixed_delays_seconds": WRITES_DELAYS, "sessions": []}
+    D = WRITES_DELAYS
     base = {p.name: sha(p.read_bytes()) for p in sorted(CACHE.iterdir())}
 
     def session(name, seq_keys, note, from_state=True):
@@ -378,8 +388,8 @@ def probe_writes(a):
                 if key.startswith("type:"):
                     for ch in key[5:]:
                         s.key(ch)
-                        time.sleep(0.15)
-                    time.sleep(0.3)
+                        time.sleep(D["per_typed_char"])
+                    time.sleep(D["after_typing"])
                     sc = s.screen()[0]
                     rec.setdefault("screens", []).append(sc.text().split("\n")[-1])
                     continue
@@ -399,7 +409,7 @@ def probe_writes(a):
                 else:
                     raise RuntimeError(f"{key}: did not see {expect!r}")
                 rec.setdefault("screens", []).append(sc.text().split("\n")[-1])
-            time.sleep(1.0)
+            time.sleep(D["before_after_tree"])
             rec["after"] = tree(game)
             rec["dosbox_exited_by_itself"] = s.dbx.poll() is not None
             rec["exit_code"] = s.dbx.poll()
@@ -437,7 +447,7 @@ def probe_writes(a):
         rec["match"] = match
         for i in range(8):
             s.key("Enter")
-            time.sleep(1.5)
+            time.sleep(D["w5_after_each_enter_seeking_summary_prompt"])
             sc, _ = s.screen()
             if "save the match summary" in sc.text():
                 break
@@ -445,11 +455,11 @@ def probe_writes(a):
             raise RuntimeError("the match-summary prompt did not appear in 8 Enter presses")
         rec["prompt_rows"] = [r.strip() for r in sc.text().split("\n") if "Do you want" in r]
         s.key("y")
-        time.sleep(1.5)
+        time.sleep(D["w5_after_y"])
         sc, _ = s.screen()
         rec["name_prompt_row"] = sc.text().split("\n")[-1].strip()
         s.key("Enter")
-        time.sleep(1.5)
+        time.sleep(D["w5_before_after_tree"])
         rec["after"] = tree(game)
     except Exception as e:  # noqa: BLE001
         rec["error"] = f"{type(e).__name__}: {e}"[:700]
@@ -551,7 +561,7 @@ def probe_timing(a):
 
 def probe_terminate(a):
     info = load_states()
-    res = {"versions": versions(), "rows": []}
+    res = {"versions": versions(), "fixed_delays_seconds": TERMINATE_DELAYS, "rows": []}
     # (1) the game's own quit; DOSBox-X's autoexec ends with `exit`
     s, _ = new_session("t_quit")
     row = {"route": "F10, y, n inside the game; autoexec `exit` follows"}
@@ -561,13 +571,13 @@ def probe_terminate(a):
         sc, _ = run_steps(s, sc, [("Esc", "settle")])
         for key in ("F10", "y", "n"):
             s.key(key)
-            time.sleep(1.0)
+            time.sleep(TERMINATE_DELAYS["between_F10_y_n"])
         t = time.monotonic()
         while s.dbx.poll() is None and time.monotonic() - t < 15:
             time.sleep(0.1)
         row["exited_by_itself"] = s.dbx.poll() is not None
         row["exit_code"] = s.dbx.poll()
-        row["seconds_after_last_key"] = round(time.monotonic() - t + 1.0, 1)
+        row["seconds_after_last_key"] = round(time.monotonic() - t + TERMINATE_DELAYS["between_F10_y_n"], 1)
     except Exception as e:  # noqa: BLE001
         row["error"] = f"{type(e).__name__}: {e}"[:700]
     finally:

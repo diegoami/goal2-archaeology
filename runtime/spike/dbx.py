@@ -15,7 +15,8 @@ ROWS, COLS = 25, 80
 # F001 "Where the screen is in a savestate": in DOSBox-X 2024.03.01, machine svga_s3 (vmemsize 2),
 # the savestate component `Vga` is one zlib stream; the text page sits in it with 8 bytes per
 # cell (char, attribute, 6 bytes of other planes). The offset was calibrated once by matching a
-# DOSBox-X PNG capture and checked on every read by `check_layout`.
+# DOSBox-X PNG capture; it is checked against the PNG capture at every read of the cycle (`observe()` in
+# cycle.py, the "cells differing" observation) and per machine and memsize by `probe_layout` in probe.py.
 VGA_TEXT_BASE = 0x86024  # calibrated on svga_s3, memsize 16: 0 cells differ from the PNG capture (F001)
 # F001: component `Memory` is one zlib stream whose guest physical address 0 is at offset 0x78;
 # the BIOS data area (mode at 0x449, columns 0x44A, rows-1 0x484) is read from it.
