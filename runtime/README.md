@@ -1,3 +1,8 @@
 # runtime/
 
 The GOAL2 driver (G1): DOSBox-X in WSL, headless, driven by keystrokes; screens read from text-mode video memory; savestates, and memory read from them (apt's DOSBox-X 2024.03.01 has no debugger: G1's spike reads the screen and memory from savestates). It drives the released original as a black box.
+
+- `spike/`: T02's spike (F001), kept unchanged; its probes wrote measurements, not run records.
+- `driver/`: the reusable driver (T07, F003). `driver.py` is the library (`Driver.launch(start_state)`, `keys(...)`, `screen()`, `memory(addr, n)`, `save_state()`, `restore(state)`, `terminate()`; `StartState`, `make_state`) and a CLI (`make-state title`, `read <file.sav>`); `savestate.py` parses a DOSBox-X 2024.03.01 savestate (text page and guest memory, offsets from F001); `cycle.py` runs restore → key → screen read → reset and writes one `run/1` record per cycle to `runs/E002/`.
+
+Start states live in `.cache/states/driver/` (git-ignored) with the folder drive C: was mounted from; every session mounts `scratch/driver/game`, recreated from the verified release copy. Each wait is a bounded poll or a logged key hold, and each record carries the host UTC and local time of every read; the clock is recorded, not controlled. `bash setup/goal2-runtime.sh` first; then `python3 runtime/driver/cycle.py --runs 10 --start-state title`.
