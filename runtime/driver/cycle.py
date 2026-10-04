@@ -93,24 +93,36 @@ def one_cycle(n, st, key, out_dir, commit, dry):
     run_id = f"{EXPERIMENT}-r{n:04d}"
     d = driver.Driver(st.config, workdir=driver.SCRATCH / "cycle" / run_id)  # per run: its dosbox.out is kept in scratch/
     obs, status = [], "completed"
+    recorded = set()  # ids of the reads already in obs
+
+    def add(step, label, read):
+        recorded.add(id(read))
+        obs.extend(read_observations(step, label, *read))
+
     try:
         d.launch(st, displace_key=key)
-        obs += [{"step": 0, "source": "log", "field": "host UTC time at launch", "value": d.launched["utc"]},
-                {"step": 0, "source": "log", "field": "host local time at launch, with UTC offset, and zone name",
-                 "value": f"{d.launched['local']} {d.launched['tz']}"}]
-        obs += read_observations(0, "before restore (title screen displaced by the key)", *d.pre_restore)
+        add(0, "before restore (title screen displaced by the key)", d.pre_restore)
         obs.append({"step": 0, "source": "save", "field": "screen sha256 stored with the start state", "value": st.screen_digest})
-        obs += read_observations(0, "before", *d.last)  # the read whose digest matched after Host+L
+        add(0, "before", d.last)  # the read whose digest matched after Host+L
         before = d.last[1].screen()
         d.keys(key)
         d.settle(before.digest(), what=f"after key {key}")
-        obs += read_observations(1, "after", *d.last)
+        add(1, "after", d.last)
         d.restore(st)
-        obs += read_observations(2, "reset (Host+L again)", *d.last)
+        add(2, "reset (Host+L again)", d.last)
     except Exception as e:  # noqa: BLE001
         status = f"aborted: {type(e).__name__}: {e}".splitlines()[0][:300]
         traceback.print_exc()
+        # an aborted record keeps the reads it made: the one before the restore and the last complete one
+        if d.pre_restore is not None and id(d.pre_restore) not in recorded:
+            add(0, "before restore (title screen displaced by the key)", d.pre_restore)
+        if d.last is not None and id(d.last) not in recorded:
+            add(3, "last complete read before the abort", d.last)
     finally:
+        if d.launched:
+            obs[:0] = [{"step": 0, "source": "log", "field": "host UTC time at launch", "value": d.launched["utc"]},
+                       {"step": 0, "source": "log", "field": "host local time at launch, with UTC offset, and zone name",
+                        "value": f"{d.launched['local']} {d.launched['tz']}"}]
         gone = d.terminate()
     conf_text, conf_sha = d.conf_public() if getattr(d, "conf", None) else ("not written", "0" * 64)
     obs += [

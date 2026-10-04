@@ -12,6 +12,7 @@ import unittest
 import zipfile
 import zlib
 from pathlib import Path
+from unittest import mock
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "runtime" / "driver"))
@@ -110,6 +111,44 @@ class RecordObservations(unittest.TestCase):
         t = driver.host_times()
         self.assertRegex(t["utc"], r"^\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d\.\d{3}Z$")
         self.assertRegex(t["local"], r"^\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d\.\d{3}[+-]\d\d:\d\d$")
+
+
+class FakeDriver:
+    """Stands in for driver.Driver: launches, makes one read before the restore, then the restore fails."""
+
+    def __init__(self, config=None, workdir=None):
+        self.config, self.workdir, self.game_dir = dict(driver.DEFAULT_CONFIG), Path(workdir), Path("/g")
+        self.events, self.launched, self.last, self.pre_restore = [], None, None, None
+        self.conf = "[cpu]\ncycles=max\n"
+
+    def launch(self, st, displace_key="n"):
+        self.launched = {"utc": "2026-10-04T07:00:00.000Z", "local": "2026-10-04T09:00:00.000+02:00", "tz": "CEST"}
+        self.last = self.pre_restore = (dict(self.launched), savestate.Savestate(synthetic_savestate()))
+        raise RuntimeError("savestate not complete within 15s")
+
+    def conf_public(self):
+        return self.conf, driver.sha256(self.conf.encode())
+
+    def terminate(self):
+        return True
+
+
+class AbortedCycle(unittest.TestCase):
+    def test_an_aborted_record_keeps_launch_time_and_the_reads_made(self):
+        class St:
+            name, sha256, screen_digest, config = "title", "0" * 64, "x", {}
+        out = io.StringIO()
+        with mock.patch.object(cycle.driver, "Driver", FakeDriver), \
+                mock.patch.object(cycle.driver, "verify_release", lambda c: "goal2-a949da2f"), \
+                mock.patch("sys.stdout", out), mock.patch("sys.stderr", io.StringIO()):
+            ok = cycle.one_cycle(1, St(), "n", None, "abcdef0", dry=True)
+        self.assertFalse(ok)
+        rec = json.loads(out.getvalue())
+        self.assertTrue(rec["status"].startswith("aborted: RuntimeError"))
+        values = {o.get("addr", o.get("field")): o["value"] for o in rec["observations"]}
+        self.assertEqual(values["host UTC time at launch"], "2026-10-04T07:00:00.000Z")
+        self.assertEqual(values["0x449"], "03")
+        self.assertEqual(values["0x46c"], "0x000f3a6c (6c 3a 0f 00)")
 
 
 class StartStates(unittest.TestCase):
