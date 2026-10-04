@@ -9,3 +9,6 @@ exists.
 | --- | --- | --- | --- |
 | T01 | The GOAL2 research repository: layout, the artifact by hash, the plan (G0) | #1 | — |
 | T02 | Runtime feasibility: launch, act, observe, reset GOAL2 under DOSBox-X (G1) | #3 | T01 |
+| T03 | The record tools, adapted from toy-archaeology (G2) | #4 | T01 |
+| T04 | Static inventory: unpack GOAL.EXE, map its code, propose GOAL.DAT's structure (G3) | #5 | T01 |
+| T05 | The documentation map: GOAL.HLP passages as sources (G4) | #6 | T01 |

@@ -49,6 +49,9 @@ indexed in `docs/tasks/README.md`.
     unpacked and decompiled. `corroborated` needs both a behavioural and a static finding.
 20. **Research follows game-archaeologist ADR-007/008 and `method/research-protocol.md`.** Run records
     are raw and immutable, evidence bundles are release assets, and findings start `proposed`. Only
-    the main session writes `spec/`, after review. Research PRs merge with a merge commit.
+    the main session writes `spec/`, after review. Research PRs merge with a merge commit. Every
+    measured output (run records, probe logs, timings) lives under a tracked path the task owns, is
+    committed and pushed after each batch of runs and at least every 30 minutes, and is never deleted
+    or overwritten (game-archaeologist L207).
 21. **Routing by difficulty** (U13): game-archaeologist's `docs/models.md`. Game rules, formulas or
     constants from evidence are hard. Rule 11 has no effect: this repository builds no playable game.

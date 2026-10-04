@@ -1,0 +1,734 @@
+; GOAL.EXE (goal (version 2), artifact set goal2-a949da2f), routines found (a routine runs to the next routine start in its segment)
+; packed GOAL.EXE sha256 a6928b0bb7cda0303ac8daf8690efc56ef1792dddaccb5c6f3d85af1f68d3664 (92,391 bytes, LZEXE 0.91)
+; unpacked (tools/static/unlzexe.py) sha256 6fd8c5ef995358ff8e5e47d60de61dccd7bdf8e73f2f584018fcfe4c8c713188
+; tool: capstone 5.0.9 (pip package; core library 5.0.1280) (CS_ARCH_X86, CS_MODE_16), recursive descent from the entry point, far calls and near calls/jumps, then routine prologues (55 89 E5 / 55 8B EC) in what remains; tools/static/listing.py
+; addresses are SEGMENT:OFFSET with SEGMENT the image paragraph before relocation; image offset = SEGMENT*16+OFFSET
+; int21_ah is AH from the nearest preceding mov in the same routine (?? = not seen);
+; string_refs: `mov di, imm16 / push ds|cs / push di` whose imm16 points into an ASCII run (>= 4 printable bytes)
+segment:offset	size	instructions	found_by	callers	int21_ah	other_int	ds_direct_operands	string_refs (first 4)
+0000:0000	223	73	entry	0			12	
+000E:0000	506	190	call	1			10	
+000E:01FA	404	141	call	1			10	
+000E:038E	52	26	call	6			0	
+000E:03C4	153	67	call	7			0	
+000E:045D	152	54	call	2			2	
+000E:04F5	106	39	call	3			1	
+000E:0572	132	56	call	1			2	CS:055F=BEST PLACE YET  !!
+000E:05F6	57	23	call	6			2	
+000E:062F	220	102	call	93			0	
+000E:070B	84	39	call	60			0	
+000E:075F	220	102	call	64			0	
+000E:0868	145	66	call	5			0	CS:083B=Assistant says: | CS:084B=Physio says: | CS:0858=Coach comments:
+000E:08F9	81	32	call	6			2	
+000E:094A	145	55	call	3			3	
+000E:09DB	120	48	call	7			0	
+000E:0A53	120	47	call	5			0	
+000E:0ACB	63	25	call	60			1	
+000E:0B0A	67	29	call	9			1	
+000E:0B4D	42	19	call	96			1	
+000E:0B77	144	49	call	5			4	
+000E:0C3A	149	64	call	2			0	CS:0C07=HACKER | CS:0C0E=SENT OFF | CS:0C17=MARCHING ORDERS | CS:0C27=FOR 
+000E:11D9	3444	1516	call	1			1	CS:0CCF=WORLD CHAMPIONS! | CS:0CE4=a national hero | CS:0CF4=WE ARE THE | CS:0CFF=CHAMPIONS!
+000E:1F4D	199	83	call	3			0	
+000E:2071	793	291	call	2			14	CS:2018=GET RID OF | CS:2023= AND | CS:2028=TRY  | CS:2031=MUCH BETTER THAN
+000E:26F2	1837	807	call	1			1	CS:238A=WORLD CUP VICTORS | CS:239C=AND  | CS:23A1=ARE READY TO TAKE | CS:23B3=ON THE WORLD
+000E:2E1F	117	55	call	42			0	
+000E:319B	2199	932	call	1			1	CS:2E94=WIN THE WORLD CUP | CS:2EA7= ARE | CS:2EAC=CHAMPIONS OF | CS:2EB9=REACH THE WORLD
+000E:3A5E	147	64	call	34			0	CS:3A32=Fans say: | CS:3A3C=Supporters say: | CS:3A4C=Spectators say:
+000E:3CC8	893	387	call	1			1	CS:3AF1=we rule the world! | CS:3B04=this is heaven! | CS:3B14=we can do it! | CS:3B22=no problem!
+000E:4045	70	33	call	36			0	
+000E:4440	892	434	call	2			0	CS:408B="the boys | CS:4095=done great" | CS:40A1="I'm proud of all | CS:40B3=the lads"
+000E:47E6	127	58	call	16			0	CS:47BC=President of FA says | CS:47D1=Football Assoc. say:
+000E:4865	114	41	call	1			0	
+000E:4A87	816	341	call	2			4	CS:48D9= is not | CS:48E1=up to scratch" | CS:48F0= must | CS:48F6=win some games
+000E:4DB7	55	28	call	1			0	
+000E:4E0E	395	155	call	1			4	
+000E:50D4	853	364	call	1			10	CS:4F99=retires from the | CS:4FAA=international scene | CS:4FBE=is to retire | CS:4FCB=at the age of 
+000E:544D	163	70	call	1			4	CS:5429=SHOWS PROMISE | CS:5438=DESERVES A CAP | CS:5447=NEEDS
+000E:54F0	515	184	call	1			7	
+000E:56F3	242	86	call	2			4	
+000E:57E5	368	132	call	1			6	
+000E:5978	165	65	call	5			2	CS:5955=THE WORLD CUP | CS:5963=THE  | CS:596A=CHAMPIONSHIPS
+000E:5AC5	527	220	call	1			5	CS:5A1D=PREPARE TO | CS:5A28=GET READY TO | CS:5A35=GET ORGANISED TO | CS:5A46=HOST
+000E:5CF4	179	63	call	1			4	
+000E:5DAF	112	44	call	3			4	CS:5DA7=TO TOUR
+000E:5E6C	370	152	call	1			3	CS:5E1F=FAIL TO QUALIFY FOR | CS:5E33=BOO HISS | CS:5E3C=SACK | CS:5E41=GET RID OF
+000E:60CB	1386	562	call,far	2			15	CS:5FDE=IS TO HOST | CS:5FE9=GROUPS ARE ANNOUNCED | CS:5FFE=QUALIFIES FOR | CS:600C=THE FINALS OF
+000E:6685	484	204	call	1			5	CS:663B=TOP SCORER WITH | CS:664B= GOALS | CS:6652= WINS | CS:6659=PIPPED AT
+000E:68A4	198	90	far	1			2	CS:6869=APPOINT A NEW | CS:6877=MANAGER | CS:687F=WELCOME | CS:6887=ABOARD
+000E:6970	689	256	call	1			20	CS:696A=PAUSE
+000E:6C21	102	39	call	3			2	
+000E:6CA7	971	356	call	1			16	
+000E:7072	39	17	call	3			1	
+000E:70B9	165	61	call	1			2	
+000E:715E	192	82	call	2			2	
+000E:721E	42	18	call	2			0	
+000E:724A	495	199	call	1			7	
+000E:7439	997	370	far	1			21	
+0791:0000	108	51	call	1			3	
+0791:006C	149	58	call	2			4	
+0791:0106	799	332	call	5			14	
+0791:0425	28	10	call	6			1	
+0791:0441	28	10	call	7			1	
+0791:045D	36	15	call	31			0	
+0791:0481	72	26	call	1			0	
+0791:04C9	131	50	call	2			0	
+0791:054C	122	53	call	4			1	DS:613E=REPLAY  E
+0791:05C6	203	84	call	1			4	
+0791:0691	129	56	call	2			0	
+0791:0712	100	47	call,far	6			2	
+0791:0776	64	24	call	23			0	
+0791:07BA	411	202	call	1			3	
+0791:0955	111	53	call	1			3	
+0791:09C4	165	63	call	2			4	
+0791:0A6B	252	102	call	2			4	
+0791:0B7C	143	57	call	3			1	CS:0B67=Do you want  | CS:0B74=? (Y/N)
+0791:0C0B	55	19	call	2			1	
+0791:0C65	1038	407	call	2			45	CS:0C42=an action replay | CS:0C53=to save this goal
+0791:1073	185	64	call	2			25	
+0791:112C	1165	439	far	1			47	
+0791:15B9	622	257	call	2			22	
+0791:1829	443	180	call	2			3	
+0791:1A04	628	254	call	1			16	
+0791:1C78	210	75	call	1			2	
+0791:1D4A	265	100	call	1			4	
+0791:1E53	98	36	call	1			1	
+0791:1EB5	135	56	call	6			6	
+0791:1F3C	161	59	call	3			1	
+0791:1FDD	262	108	call	4			0	
+0791:20E3	309	117	call	1			3	
+0791:2218	244	97	call	2			1	
+0791:230C	782	305	call	7			18	
+0791:261A	46	16	call	13			4	
+0791:2648	88	31	call	1			4	
+0791:26A0	34	11	call	4			3	
+0791:26C2	21	11	call	3			1	
+0791:26D7	147	56	call	19			3	
+0791:278A	242	87	call	24			3	
+0791:287C	54	25	call	9			0	
+0791:28B2	119	47	call	4			2	
+0791:2929	45	17	call	12			0	
+0791:2956	30	11	call	12			0	
+0791:2974	34	14	call	28			0	
+0791:2996	29	13	call	35			1	
+0791:29B3	98	45	call	1			3	
+0791:2A15	88	40	call	4			2	
+0791:2A6D	54	24	call	2			2	
+0791:2AA3	49	24	call	42			1	
+0791:2AD4	59	28	call	5			2	
+0791:2B0F	25	14	call	5			0	
+0791:2B28	41	23	call	9			0	
+0791:2B51	42	21	call	23			0	
+0791:2B7B	54	21	call	1			1	
+0791:2BB1	52	19	call	14			0	
+0791:2BE5	68	34	call	59			2	
+0791:2C29	43	17	call	2			2	
+0791:2C54	50	24	call	6			0	
+0791:2C86	63	31	call	11			0	
+0791:2CC5	39	16	call	12			0	
+0791:2CEC	36	15	call	4			1	
+0791:2D10	93	49	call	7			1	
+0791:2D6D	93	49	call	3			1	
+0791:2DCA	54	25	call	4			0	
+0791:2E00	54	25	call	1			0	
+0791:2E36	76	37	call	3			0	
+0791:2E82	54	25	call	2			0	
+0791:2EB8	56	27	call	15			0	
+0791:2EF0	56	27	call	4			0	
+0791:2F28	137	60	call	5			1	
+0791:2FB1	313	127	call	5			4	
+0791:30EA	39	18	call	6			0	
+0791:3111	530	223	call	1			0	
+0791:3323	28	16	call	7			0	
+0791:333F	322	129	call	1			7	
+0791:34C1	907	377	call	10			52	
+0791:384C	713	288	call	6			38	
+0791:3B15	137	62	call	2			5	
+0791:3B9E	80	37	call	1			2	
+0791:3BEE	50	23	call	1			1	
+0791:3C20	31	13	call	2			1	
+0791:3C3F	217	91	call	4			7	
+0791:3D38	190	73	call	1			1	
+0791:3DF6	207	87	call	2			4	
+0791:3EC5	26	14	call	4			0	
+0791:3EDF	25	14	call	3			0	
+0791:3EF8	181	84	call	2			3	
+0791:3FAD	225	93	call	4			1	
+0791:408E	46	23	call	2			0	
+0791:40BC	149	68	call	2			1	
+0791:4151	75	33	call	1			1	
+0791:419C	303	115	call	1			1	
+0791:42CB	137	57	call	6			1	
+0791:4354	228	82	call	5			1	
+0791:4438	137	58	call	1			1	
+0791:44C1	113	50	call	1			1	
+0791:4532	279	128	call	1			0	
+0791:4649	260	116	call	1			1	
+0791:474D	120	52	call	2			1	
+0791:47C5	609	241	call	1			1	
+0791:4A28	284	127	call	2			6	
+0791:4B64	475	217	call	5			3	
+0791:4D3F	106	41	call	6			0	
+0791:4DA9	127	51	call	2			1	
+0791:4E28	484	207	call	2			1	
+0791:500C	61	27	call	2			0	
+0791:5049	754	303	call	1			11	
+0791:533B	100	34	call	1			4	
+0791:539F	213	89	call	2			6	
+0791:5474	159	69	call	1			4	
+0791:5513	82	31	call	1			0	
+0791:5565	372	155	call	1			9	
+0791:56D9	80	33	call	1			4	
+0791:5729	131	57	call	1			1	
+0791:57AC	309	131	call	1			13	
+0791:58E1	90	31	call	1			2	
+0791:593B	120	47	call	1			9	
+0791:59B3	128	56	call	1			7	
+0791:5A33	91	33	call	3			6	
+0791:5A8E	104	46	call	3			2	
+0791:5B36	777	339	call	2			28	
+0791:5E41	106	45	call	2			1	
+0791:5EAB	59	27	call	1			2	
+0791:5F06	132	54	call	2			3	
+0791:5F8A	510	223	call	1			9	
+0791:6188	100	41	call	2			4	
+0791:61EC	84	34	call	2			5	
+0791:6240	247	106	call	1			3	
+0791:6337	268	109	call	2			5	
+0791:6443	353	138	call	2			10	
+0791:65A4	90	35	call	1			0	
+0791:65FE	343	146	call	2			7	
+0791:6755	97	41	call	2			5	
+0791:67B6	310	130	call	1			12	
+0791:690C	130	54	call	2			8	
+0791:698E	47	19	call	1			3	
+0791:69BD	240	88	call	1			7	
+0791:6AAD	74	33	call	1			4	
+0791:6AF7	110	42	call	1			4	
+0791:6B65	108	42	call	5			1	
+0791:6BF1	349	142	call	5			26	
+0791:6D4E	156	64	call	4			0	
+0791:6DEA	39	19	call	4			0	
+0791:6E11	93	43	call	1			3	
+0791:6E6E	97	45	call	2			5	
+0791:6ECF	50	23	call	1			2	
+0791:6F01	61	27	call	3			2	
+0791:6F3E	120	57	call	1			3	
+0791:6FB6	56	27	call	2			2	
+0791:6FEE	123	50	call	1			3	
+0791:7069	141	63	call	1			3	
+0791:70F6	100	39	call	1			3	
+0791:715A	37	17	call	1			1	
+0791:717F	105	41	call	1			2	
+0791:71E8	159	61	call	1			6	
+0791:7287	107	47	call	1			2	
+0791:72F2	200	79	call	1			8	
+0791:73BA	264	112	call	1			5	
+0791:74C2	319	121	call	1			7	
+0791:7621	608	269	call	1			19	
+0791:7881	268	94	call	2			15	
+0791:798D	182	72	call	1			6	
+0791:7A43	225	89	call	2			1	
+0791:7B24	83	33	call	1			1	
+0791:7B77	334	142	call	2			7	
+0791:7CC5	145	64	call	6			1	
+0791:7D56	266	115	call	2			6	
+0791:7E60	143	58	call	2			6	
+0791:7EEF	224	95	call	2			6	
+0791:7FCF	147	57	call	1			3	
+0791:8062	420	156	call	8			11	
+0791:8206	229	91	call	2			9	
+0791:82EB	116	51	call	6			9	
+0791:835F	67	27	call	6			0	
+0791:83A2	405	164	call	1			9	
+0791:8537	360	138	call	6			14	
+0791:869F	49	15	call	7			7	
+0791:86D0	409	135	call	1			6	
+0791:8889	608	247	call	1			4	
+0791:8AE9	382	167	call	3			11	
+0791:8C67	99	41	call	2			0	
+0791:8CCA	43	19	call	1			6	
+0791:8CF5	303	121	call	1			3	
+0791:8E24	204	75	call	5			4	
+0791:8F10	361	136	call	3			8	
+0791:9079	76	30	call	5			6	
+0791:90C5	84	34	call	3			1	
+0791:9119	483	190	call	2			7	
+0791:92FC	118	40	call	2			13	
+0791:9372	343	132	call	2			15	
+0791:94C9	31	13	call	2			0	
+0791:94E8	92	37	call	2			5	
+0791:9564	424	177	call	5			14	
+0791:970C	196	72	call	1			19	
+0791:97D0	111	40	call	2			9	
+0791:983F	133	49	call	4			9	
+0791:98C4	145	58	call	1			4	
+0791:9955	55	21	call	2			4	
+0791:998C	102	42	call	1			7	
+0791:9A32	218	84	call	1			11	
+0791:9B0C	79	28	call	1			9	
+0791:9B5B	56	23	call	1			4	
+0791:9B93	832	319	call	1			8	
+0791:9ED3	307	124	call	1			0	
+0791:A006	242	96	call	1			6	
+0791:A10A	342	136	call	1			17	CS:A0F8=penalty shoot out
+0791:A260	134	52	call	2			2	
+0791:A2E6	143	56	call	2			2	
+0791:A375	65	21	call	1			1	
+0791:A3B6	40	14	call	3			1	
+0791:A3DE	195	75	call	2			8	
+0791:A4A1	504	192	call	3			33	
+0791:A699	75	33	call	4			5	
+0791:A6E4	121	43	call	3			2	
+0791:A75D	228	93	call	2			2	
+0791:A841	223	99	call	3			4	DS:613E=REPLAY  E
+0791:A920	152	57	call	1			4	
+0791:A9B8	304	112	call	2			2	
+0791:AAE8	383	142	call	2			1	
+0791:AC67	168	60	call	2			2	
+0791:AD8F	532	196	call	3			10	
+0791:AFA3	380	132	call	1			7	
+0791:B11F	64	26	call	1			0	
+0791:B15F	62	25	call	1			2	
+0791:B19D	226	91	call	3			0	
+0791:B27F	229	90	call	2			1	
+0791:B364	83	29	call	6			1	
+0791:B3B7	587	221	call	2			13	
+0791:B602	202	75	far	1			2	
+0791:B6CC	80	28	call,far	2			1	
+0791:B71C	222	87	call,far	3			0	
+0791:B7FA	596	218	far	2			3	
+0791:BA4E	225	82	call	2			7	
+0791:BB2F	208	79	far	1			2	
+0791:BBFF	94	33	call	7			1	
+0791:BC5D	166	58	call,far	5			3	
+0791:BD03	128	47	call	2			2	
+0791:BD83	292	115	call	3			2	
+0791:BEC7	164	61	call	2			2	
+0791:BF6B	143	55	call	2			1	
+0791:C01A	197	76	call	1			2	
+0791:C0DF	148	57	call	1			1	
+0791:C173	218	97	call	1			2	
+0791:C24D	91	32	call	1			1	
+0791:C2A8	318	114	call	1			3	
+0791:C406	135	48	call	1			2	
+0791:C48D	127	55	call	2			2	
+0791:C50C	208	84	call	1			6	
+0791:C5DC	527	194	call	2			9	
+0791:C7EB	162	58	call	1			1	
+0791:C88D	547	220	call	2			6	
+0791:CAB0	205	72	call	1			3	
+0791:CB7D	177	64	call	1			2	
+0791:CC2E	67	25	call	4			0	
+0791:CC7B	923	365	call	2			15	DS:1ECC=to move  | CS:CC73=       
+0791:D016	28	11	call	4			0	
+0791:D032	30	11	call	6			0	
+0791:D050	1020	384	call,far	2			4	
+0791:D44C	50	21	call	2			0	
+0791:D47E	323	117	far	1			5	
+0791:D5C1	370	157	call	1			2	
+0791:D733	965	377	call	1			23	
+0791:DAF8	64	26	call,far	2			2	
+0791:DB38	163	62	call,far	2			4	
+0791:DBFA	132	53	call	2			1	DS:0A9C=cannot alter squad | CS:DBDB= during finals | CS:DBEA= whilst on tour
+0791:DC7E	333	122	call	1			8	
+0791:DDCB	92	34	call	2			1	
+0791:DE27	42	16	call	8			1	
+0791:DE51	85	33	call	8			2	
+0791:DEA6	313	108	call	1			2	
+0791:E022	638	250	call	1			7	CS:DFDF=There is no player here | CS:DFF7=Illegal substitution | CS:E00C= cannot play | CS:E019=Nice try
+0791:E2A0	70	31	call	1			2	
+0791:E2E6	361	138	call	1			5	
+0791:E44F	926	352	call,far	3			32	
+0791:E80D	284	115	far	1			9	
+0791:E929	32	13	call,far	3			1	
+0791:E949	89	31	call	2			2	
+0791:EA09	814	315	call	1			8	CS:E9A2=+ has an ineligible player in the fi | CS:E9CE= has too many  | DS:69B6=goalkeeper | CS:E9DF= has no   has a vacancy in the first
+0791:ED8A	782	311	call	8			23	CS:ED57=exit | CS:ED7C=Not available
+0791:F098	284	94	call	1			9	
+0791:F1F6	508	191	far	1			20	CS:F1D4=!to save the match summary to disk
+0791:F3F2	92	35	far	1			13	
+16D6:0000	37	17	call	1			0	
+16D6:0025	67	32	call	1			0	
+16D6:0068	91	36	call	1			0	
+16D6:00C3	59	28	call	5			0	
+16D6:00FE	190	81	call	1			9	
+16D6:01BC	58	22	call	3			4	
+16D6:01F6	112	50	call	4			7	
+16D6:0266	149	61	call	3			7	
+16D6:02FB	52	22	call	2			4	
+16D6:032F	26	12	call	3			1	
+16D6:0349	36	17	call	3			3	
+16D6:036D	90	36	call	5			3	
+16D6:03C7	50	21	call	2			2	
+16D6:03F9	144	55	call	1			16	
+16D6:04C3	155	68	call	1			2	CS:0489=(Do you want a print out of the help | CS:04B2=Printing....
+16D6:055E	137	69	call	1			0	
+16D6:05E7	120	51	call	1			2	DS:0C04=SOCCER
+16D6:065F	136	56	call	1			3	DS:0C04=SOCCER
+16D6:06E7	141	55	call	1			5	
+16D6:0774	31	17	call	1			0	
+16D6:0793	149	67	call	1			2	
+16D6:0828	26	12	call	2			0	
+16D6:0842	98	43	call	1			6	
+16D6:08C5	57	27	call	1			0	CS:08A4=GOAL.HLP | CS:08AD= "GOAL.HLP" not found..
+16D6:0910	53	21	call	1			0	CS:08FE=not enough memory
+16D6:0945	95	35	far	2			8	
+1771:0000	33	14	call,far	3			1	
+1771:0021	205	80	call	1			11	
+1771:011B	102	44	call	1			0	CS:00EE=Cannot load file " | CS:0101=" - program terminated - 
+1771:018A	168	71	call	1			5	CS:0181=goal.dat
+1771:0232	64	24	call	22			0	
+1771:027B	384	187	call	1			16	CS:0272= game...
+1771:03FF	97	48	call	2			2	DS:0C72=SAVED
+1771:0480	467	196	call	1			12	CS:0460=Finding saved games... | CS:0477=*.GL | DS:0C72=SAVED
+1771:0657	156	57	call	2			2	DS:0C72=SAVED
+1771:06F3	189	67	call	1			6	
+1771:07B4	16	8	call	1			0	
+1771:080C	169	74	far	1			3	CS:07C4='Do you want to load a saved game? (
+1771:08B5	30	16	call,far	2			0	
+1771:090F	54	25	far	1			0	CS:08D3=Are you sure you want to quit | CS:08F1=Do you want to save this game
+1771:0947	82	33	call,far	10			2	
+1771:09A0	263	110	call,far	3			6	CS:0999=Player
+1771:0AA7	73	28	call,far	2			2	
+1771:0AF8	127	54	call,far	2			1	CS:0AF0=unknown
+1771:0B77	45	18	call,far	58			1	
+1771:0BC4	608	232	call,far	5			3	
+1771:0E24	70	27	call	2			1	
+1771:0E6C	236	92	call,far	2			2	
+1771:0F58	89	41	call,far	23			2	DS:0D6A=---------------
+1771:0FB1	89	41	call	3			2	DS:0D6A=---------------
+1771:101A	205	85	call	1			5	CS:100A= already exists
+1771:10E7	100	40	call,far	18			1	
+1771:114B	150	52	call	3			5	
+1771:11E1	168	63	call	2			0	
+1771:1289	327	121	call	1			3	
+1771:13D0	343	118	call	1			28	
+1771:1527	84	37	call	1			1	
+1771:157D	951	414	call	2			15	
+1771:1934	77	33	call	2			1	
+1771:1981	252	98	call,far	4			10	
+1771:1A7D	177	68	call	1			1	
+1771:1B2E	341	127	call,far	6			5	
+1771:1C85	208	82	call	1			2	
+1771:1D5C	2190	864	call	2			17	
+1771:25EA	158	59	call	1			9	
+1771:26B9	1628	645	call,far	4			106	CS:26A8=post unavailable
+1771:2D15	267	99	far	1			5	
+1771:2E20	113	42	call,far	5			1	
+1771:2E93	82	33	call,far	12			2	
+1771:2EE5	82	35	call,far	4			1	
+1771:2F37	118	46	call,far	7			1	
+1771:2FAD	78	31	call,far	3			1	
+1771:2FFB	70	28	call,far	11			1	
+1771:3041	71	28	call,far	4			1	
+1771:3088	81	32	call,far	4			1	
+1771:30D9	96	37	call,far	5			1	
+1771:3179	157	59	call,far	3			1	
+1771:3216	123	48	call,far	39			1	
+1771:3291	90	36	call	1			1	
+1771:32EB	226	83	call,far	6			1	
+1771:33CD	68	27	call,far	3			1	
+1771:3431	182	71	call,far	4			1	
+1771:34E7	113	41	far	1			2	
+1771:3558	249	96	call,far	5			1	
+1771:3651	301	114	far	3			1	
+1771:377E	169	65	call,far	14			1	
+1771:3827	288	99	call	1			5	DS:0E86=*********
+1771:3947	191	71	call	1			4	
+1771:3A06	124	47	far	1			1	
+1771:3A82	83	31	call,far	9			1	
+1771:3AE2	78	37	call	1			1	CS:3AD5=Protect zone
+1771:3B3F	143	58	call	2			2	CS:3B30=Protect zone P
+1771:3BD3	604	243	call	1			6	DS:6AC0=stay back | DS:0EA6=stay in box | DS:0EC6=throw the ball | DS:6B00=short passes
+1771:3E2F	201	72	call	5			0	
+1771:3EF8	869	336	call,far	4			9	
+1771:42BC	1437	651	call,far	5			3	CS:425D=two footed | CS:426A=suspended | CS:4274=injured | CS:427C=booked
+1771:4859	204	86	call,far	2			3	
+1771:4925	45	17	call	1			2	
+1771:4952	102	37	far	1			5	
+1771:49B8	425	164	call	1			5	
+1771:4B61	406	148	far	1			20	
+1771:4CF7	147	53	far	1			2	
+1771:4D8A	152	61	call,far	2			1	
+1771:4E22	336	147	call,far	2			6	
+1771:4FAA	327	125	call	1			4	CS:4F72= has too many  | CS:4F81=s in 1st team | CS:4F8F= has no keeper in 1st team
+1771:50F1	137	57	call,far	2			4	
+1771:517A	338	124	call	3			4	
+1771:52CC	284	104	far	4			3	
+1771:53E8	330	122	call	3			10	
+1771:5532	202	73	call,far	2			6	
+1771:55FC	232	84	far	3			12	
+1771:56E4	27	12	call	1			0	
+1771:56FF	128	47	call	1			2	
+1771:580B	429	193	call,far	4			0	CS:577F=CANCELLED | CS:5789=friendly | CS:5792=qualifying | CS:579D=play-off
+1771:59D8	43	19	call,far	13			1	
+1771:5A03	53	22	call,far	6			0	
+1771:5A38	87	32	call,far	3			2	
+1771:5A8F	53	26	far	2			0	
+1771:5AC4	306	130	call	4			1	
+1771:5BF6	106	44	far	2			3	
+1771:5C60	52	22	far	13			0	
+1771:5C94	55	22	call,far	19			0	
+1771:5CCB	55	22	call,far	11			0	
+1771:5D02	146	53	call	2			5	
+1771:5D94	166	55	call	10			5	
+1771:5E3A	95	33	call	11			2	
+1771:5E99	72	27	call	3			1	
+1771:5EE1	240	89	call	4			8	
+1771:5FD1	92	34	call	8			1	
+1771:602D	214	93	call	1			5	
+1771:6103	245	103	call	1			6	
+1771:61F8	428	161	call	1			5	
+1771:63A4	627	226	call	1			14	
+1771:6617	281	106	call	3			5	
+1771:6730	1061	397	call	1			9	
+1771:6B55	772	287	call	1			7	
+1771:6E59	402	152	call	1			8	
+1771:6FEB	165	60	call	2			6	
+1771:7090	290	109	call	1			6	
+1771:71B2	780	292	call	1			9	
+1771:74BE	499	200	call	1			11	
+1771:76B1	71	32	far	2			1	
+1771:76FA	201	83	call	3			2	
+1771:77C3	77	31	call	2			0	
+1771:7812	168	68	call,far	3			2	
+1771:78BA	133	52	call	2			4	
+1771:793F	317	124	call	1			20	
+1771:7A9A	264	94	call	1			11	CS:7A7C= have too many games arranged
+1771:7BA2	680	264	call	1			12	DS:2020= cancel match   
+1771:7E4A	54	21	call	1			1	
+1771:7E80	192	74	call	1			2	
+1771:7F40	113	43	call,far	3			1	
+1771:7FB1	46	17	call	2			1	
+1771:7FDF	219	82	call	1			2	
+1771:80DA	270	102	call	1			2	
+1771:8208	181	71	far	1			1	
+1771:82BD	826	315	call	1			5	
+1771:85F7	320	115	call	1			7	
+1771:8757	232	94	far	4			2	
+1771:883F	250	97	call	2			3	
+1771:8939	136	56	call	1			1	
+1771:89C1	61	25	call	2			0	
+1771:89FE	95	36	call	1			1	
+1771:8A5D	42	18	call	3			0	
+1771:8A87	539	222	call	2			2	
+1771:8CA2	43	18	call	3			1	
+1771:8CCF	181	72	call	3			2	
+1771:8D84	278	108	call	1			3	
+1771:8E9A	398	152	call	1			2	
+1771:9028	422	158	call	1			4	
+1771:91CE	398	157	call	1			7	
+1771:937C	397	154	call	1			5	
+1771:9509	100	40	call	1			3	
+1771:958D	326	130	far	2			5	
+1771:96D3	249	91	call,far	4			1	
+1771:97CC	167	61	call	3			3	
+1771:9873	81	30	call	3			2	
+1771:98C4	380	139	call	1			8	
+1771:9A40	317	111	call	1			5	
+1771:9B85	230	81	far	1			3	
+2138:0000	7	5	far	1			0	
+2139:0000	277	121	far	1			0	
+214B:0000	24	10	far	2			0	
+214B:0018	36	16	call,far	34			0	
+214B:003C	63	32	call,far	25			0	
+214B:007B	33	16	far	25			0	
+214B:009C	63	32	call,far	12			0	
+214B:00DB	36	17	call,far	9			0	
+214B:00FF	36	17	call	2			0	
+214B:0123	36	17	call	2			0	
+214B:0147	92	52	call	1			0	
+214B:01A3	98	43	far	40			1	
+214B:0205	104	45	call,far	15			2	
+214B:026D	91	41	call,far	47			1	
+214B:02C8	97	43	call,far	45			2	
+214B:0329	26	14	call,far	142			0	
+214B:0350	407	188	call,far	9			3	CS:0348=? (Y/N)
+214B:04F8	102	46	call,far	10			4	CS:04E7=  PRESS ANY KEY 
+214B:0566	117	53	call,far	4			2	CS:055E=? (Y/N)
+214B:05DB	21	13	call,far	5			0	
+214B:05F0	53	25	far	2			0	
+214B:0625	30	16	call,far	7			1	
+214B:0643	30	16	call,far	7			1	
+214B:0661	39	16	call	3			0	
+214B:0688	41	22	call,far	4			0	
+214B:06B1	31	14	far	157			1	
+214B:06D0	42	19	far	23			1	
+214B:06FA	41	20	far	46			1	
+214B:0723	50	22	call,far	15			0	
+214B:0755	84	27	call	2			6	
+214B:0813	202	88	call	1			10	CS:07A9=Type EXIT to return... | CS:07C0=COMSPEC | CS:07C9=Not enough memory | CS:07DB=Cannot find "COMMAND.COM"
+214B:08DD	166	64	call,far	31			8	
+214B:0983	16	8	call	1			1	
+214B:0993	20	8	far	1			2	
+214B:09A7	51	24	call	1			1	
+214B:09DA	54	25	call,far	59			0	
+214B:0A10	47	22	call,far	2			0	
+214B:0A62	78	34	call,far	19			0	CS:0A3F="Insufficient memory to run program
+214B:0AB9	132	55	call,far	2			0	CS:0AB0=Printer 
+214B:0B4D	266	114	call	1			1	CS:0B3D=Printing...
+214B:0C57	34	15	far	46			0	
+214B:0C79	40	18	call,far	21			0	
+214B:0CA1	42	19	call,far	15			0	
+214B:0CCB	41	20	far	1			0	
+214B:0CF4	40	18	far	1			0	
+214B:0D1C	58	24	call,far	13			0	
+214B:0D56	58	24	call,far	14			0	
+214B:0D90	175	67	call	1			4	
+214B:0E41	372	149	call	2			1	
+214B:0FB5	177	61	call	3			1	
+214B:1086	736	310	far	6			7	
+214B:136B	90	42	prologue	0			2	CS:1366=BAMI
+214B:13C5	49	22	far	29			1	
+214B:13F6	92	38	call	1			1	
+214B:1452	90	37	far	2			1	
+214B:14AC	91	37	call	1			1	
+214B:1507	89	36	call,far	5			1	
+214B:1560	46	22	far	8			2	
+214B:158E	35	13	call	12			0	
+214B:15B1	436	193	far	4			1	
+214B:1765	55	25	far	17			0	
+214B:179C	21	13	far	1			0	
+214B:1869	330	142	far	4			3	CS:17B1=#Illegal file name or file not found | CS:17D5=Path not found | CS:17E4=Read only/hidden file | CS:17FA=No such drive
+214B:19B3	65	31	call	1			0	
+214B:19F4	66	25	call	1			4	
+214B:1A36	39	16	far	4			2	
+214B:1A5F	114	49	call	2			1	
+214B:1AD1	118	43	far	2			3	
+214B:1B47	112	41	far	13			5	
+214B:1BB7	62	28	far	2			1	
+214B:1BF5	62	28	far	4			1	
+214B:1C33	48	20	far	1			0	
+214B:1C63	35	19	call	1			0	
+214B:1C86	233	106	call,far	12			0	
+214B:1D6F	56	25	far	4			0	
+214B:1DA7	98	36	call	1			2	
+214B:1E09	81	30	call,far	8			2	
+214B:1E5A	27	13	far	1			2	
+214B:1E75	24	12	call,far	4			1	
+214B:1E8D	20	10	call,far	16			1	
+214B:1EA1	27	13	far	2			0	
+214B:1EBC	53	21	call,far	2			1	
+214B:1EF1	150	58	call,far	5			3	
+214B:1F87	121	49	far	1			2	
+214B:2000	49	19	far	1			0	
+214B:2031	49	19	far	4			0	
+214B:206A	165	71	far	1			5	CS:2062=BAMI
+235C:0000	11	10	far	5			0	
+235C:000B	58	40	far	4			0	
+235C:0048	36	26	prologue	0			0	
+235C:006C	34	18	far	1	2A:1		0	
+235C:008E	20	9	prologue	0	2B:1		0	
+235C:00A2	37	19	prologue	0	2C:1		0	
+235C:00C7	23	10	prologue	0	2D:1		0	
+235C:00DE	62	33	far	1	1A:1,4E:1		0	
+235C:011C	26	13	far	1	1A:1,4F:1		0	
+235C:0136	35	21	call	2			1	
+235C:0159	148	65	far	1	29:2,4B:1		7	
+235C:01F2	110	59	far	1			2	
+2382:0000	48	24	far	1			0	
+2382:0030	105	45	call	1	25:1		7	
+2382:0099	78	31	call	2			0	
+2382:00E7	72	30	call	2			6	
+2382:0145	40	16	call	1		16:2,23:1	2	
+2382:016D	21	7	far	1			2	
+2382:0215	44	15	far	2			4	
+2382:02BE	8	4	call	1			0	
+2382:030C	34	14	call	1		16:1	3	
+2382:032E	43	13	call	2			0	
+2382:0391	173	76	prologue	0			2	
+2382:0474	7	3	call	2			0	
+2382:047B	89	43	call	8			5	
+2382:04D4	33	14	call	1			4	
+2382:04F5	7	3	call	1			0	
+2382:04FC	7	3	call	2			0	
+2382:0608	11	10	call,jump	12		10:1	0	
+23E4:0000	161	75	far	1	25:4,35:1		8	
+23E4:00D8	188	79	far	8	25:1,4C:1		15	
+23E4:0194	14	7	call,jump	3			0	
+23E4:01A2	12	5	call	1			0	
+23E4:01AE	14	8	call	2			0	
+23E4:01BC	7	4	call	2			0	
+23E4:01C3	11	6	call	1			0	
+23E4:01CE	8	4	call	1			0	
+23E4:01D6	7	4	call,jump	3	06:1		0	
+23E4:0207	7	3	far	2			1	
+23E4:025D	24	9	far	71			0	
+23E4:0279	27	16	far	12			0	
+23E4:0294	110	55	far	4			0	
+23E4:0329	24	9	far	2			0	
+23E4:0341	26	9	far	1			0	
+23E4:038C	68	26	far	1			3	
+23E4:03D0	77	31	far	1			3	
+23E4:041D	187	79	call,jump	1			10	
+23E4:04D8	179	66	call	1			9	
+23E4:058B	36	15	call	1			4	
+23E4:05AF	21	9	call	2			2	
+23E4:05C4	73	27	call	3			9	
+23E4:060D	14	7	call	2			0	
+23E4:061B	15	7	call	2			0	
+23E4:062A	26	12	far	78			0	
+23E4:0644	36	16	call,far	126			0	
+23E4:0676	65	29	call,far	8			0	
+23E4:06B7	44	19	call,far	146			0	
+23E4:06E3	76	39	far	10			0	
+23E4:072F	43	20	far	7			0	
+23E4:075A	18	8	far	24			0	
+23E4:0787	84	43	far	1			0	
+23E4:07DB	86	43	far	4			0	
+23E4:0831	42	18	far	2			0	
+23E4:08BF	32	13	far	2			0	
+23E4:08DF	33	13	far	62			0	
+23E4:0900	28	12	far	2			0	
+23E4:098B	4	1	call	4			0	
+23E4:098F	195	97	call	8			0	
+23E4:0A52	260	122	call,jump	7			0	
+23E4:0B57	119	58	call	7			0	
+23E4:0BCE	23	14	call	3			0	
+23E4:0BE5	19	10	call,jump	1			0	
+23E4:0BF8	63	30	call	3			0	
+23E4:0C37	92	44	call	2			0	
+23E4:0C93	6	3	far	1			0	
+23E4:0CA5	6	3	far	1			0	
+23E4:0CAB	10	5	far	1			0	
+23E4:0CB9	4	2	far	2			0	
+23E4:0CC5	26	10	far	1			0	
+23E4:0CDF	10	8	call	2			0	
+23E4:0CE9	10	8	call	1			0	
+23E4:0CFD	10	8	call	1			0	
+23E4:0D6C	93	43	prologue	0			0	
+23E4:0E67	133	62	far	1			0	
+23E4:0F10	115	56	far	1			0	
+23E4:0FB3	225	98	prologue	0			0	
+23E4:10E2	6	2	call	2			0	
+23E4:10E8	25	16	call	1			0	
+23E4:1101	63	27	call	2			0	
+23E4:11D7	13	5	far	1	2C:1		2	
+23E4:11E4	82	37	call	1			0	
+23E4:125E	152	74	call	1			0	
+23E4:12F6	75	39	far	2			0	
+23E4:1341	49	22	far	1			0	
+23E4:1372	69	37	call	2			0	
+23E4:13E2	5	2	call,far	2			0	
+23E4:13E7	77	28	call,far	2			1	
+23E4:143B	59	19	call	3			1	
+23E4:1476	17	11	call	3			1	
+23E4:15F1	36	10	call	1			2	
+23E4:1615	28	14	call	1			0	
+23E4:1631	36	10	call	2			2	
+23E4:1655	15	7	call	4			0	
+23E4:1664	49	24	call	1			1	
+23E4:16BE	63	26	far	1			2	
+23E4:1703	56	29	prologue	0			0	
+23E4:173B	62	32	far	1			0	
+23E4:1779	46	23	far	2			0	
+23E4:17B0	92	38	far	2	??:1		2	
+23E4:1828	37	13	call,far	4	3E:1		1	
+23E4:184D	15	4	call	4			1	
+23E4:1868	42	20	prologue	0	??:1		1	
+23E4:1899	97	42	far	5	??:1		2	
+23E4:18FA	48	19	prologue	0	42:1		1	
+23E4:192A	79	38	far	3	30:1		1	
+23E4:1980	50	24	call	1			1	
+23E4:19B2	19	8	far	16			0	

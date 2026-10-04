@@ -24,7 +24,7 @@ holds no status; the labels do.
 
 | Milestone | It proves | Exit check |
 | --- | --- | --- |
-| **G-M1 Runtime** | an agent can launch → act → observe → reset the original | G1's driver repeats a launch, keystroke, screen read and reset cycle 10 times with the same before-state hash; a savestate restores; a memory read through the debugger is recorded as an I1 observation |
+| **G-M1 Runtime** | an agent can launch → act → observe → reset the original | G1's driver repeats a launch, keystroke, screen read and reset cycle 10 times with the same before-state hash; a savestate restores; a memory read (from a savestate: apt's DOSBox-X has no debugger) is recorded as an I1 observation |
 | **G-M2 Static base** | the executable and the data file can be read | `GOAL.EXE` unpacked and its unpacked hash recorded; the routines indexed by area; `GOAL.DAT`'s layout proposed as representation claims, one confirmed by a run |
 | **G-M3 Simulatable spec** | the spec covers what a simulator needs | every knowledge-map area the rebuild needs (the match engine, attributes and their changes, competitions, the other managers) is `supported` or better, each by static and behavioural findings where it touches the match |
 | **G-M4 Faithful rebuild** (`goal2`) | the simulator behaves like the original | on matched start states, the rebuild's result distributions (goals, possession, shots, bookings, injuries) agree with the original's within stated tolerances over a stated n; a 4-year cycle's competition structure is reproduced exactly |
@@ -38,7 +38,7 @@ All start after G0 (this repository, T01). G1–G4 can run in parallel.
 | Task | Plan label | What | Difficulty |
 | --- | --- | --- | --- |
 | T01 | G0 | the repository, the artifact by hash, this plan | hard (Jev) |
-| — | G1 | **DOSBox-X runtime spike, then the driver**: headless DOSBox-X in WSL; keystrokes in; the text screen read from video memory (`B800:0000`); savestates; the debugger's memory reads; what the game writes (completes `runtime_writes`); timing and determinism (does a fixed start state replay identically?) | hard: a new external dependency |
+| — | G1 | **DOSBox-X runtime spike, then the driver**: headless DOSBox-X in WSL; keystrokes in; the text screen read from video memory (`B800:0000`); savestates; memory reads (from savestates: apt's DOSBox-X has no debugger); what the game writes (completes `runtime_writes`); timing and determinism (does a fixed start state replay identically?) | hard: a new external dependency |
 | — | G2 | **The record tools**, adapted from toy-archaeology's (`fetch_artifact`, `validate_runs`, `verify_evidence`, `check_citations`, `register_artifact`), with `verify_evidence` downloading in bulk (toy-archaeology#11) and citations checked across wrapped bullets (toy-archaeology#12). This is their second consumer, so game-archaeologist#10 (a shared validator) is due. | by Jev |
 | — | G3 | **Static inventory**: unpack LZEXE (an open-source unpacker, named with its version); a disassembly of the 16-bit code (tool named and pinned); the routines indexed by area; `GOAL.DAT`'s structure proposed | hard: the evidence format of every static finding |
 | — | G4 | **The documentation map**: `GOAL.HLP` passages recorded as sources, moving knowledge-map cells to `documented` | by Jev |
