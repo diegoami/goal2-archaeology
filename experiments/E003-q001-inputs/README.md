@@ -35,3 +35,11 @@ python3 experiments/E003-q001-inputs/run.py d3 --runs 3 --batch A
 # 20 minutes later: the same two with --batch B
 python3 experiments/E003-q001-inputs/summarise.py
 ```
+
+## Amendment (2026-10-04, after E003-r0026)
+
+Added arms, appended here; the design above is unchanged. The d3 records of batch A (r0001 … r0006) showed the seed word before `r` differing between runs of one batch, and two screens after the key that starts the match (the kick-off pause, or a later moment of the live match, depending on when the settle poll found two equal reads); the static route found the in-match key poll `0791:9372` and GetDate's year at `DS:A9FD`. To test those leads:
+
+- `d3b-time-free` (`run.py d3b`): as `d3`, but the Enter on the captain screen that starts the match and `r` are sent together (`Enter+r`: two key presses, no poll between), then the settle poll; the remaining keys `Enter Enter r`. n: 3 in batch A and 3 in batch B.
+- `d0-time-100000-date-10041993`: as `d0-time-100000` with the DOS date 10-04-1993 instead of 10-04-2026 (the year GetDate gives at `214B:1C63`). n: 2.
+- `d0-time-free`: as `d0`, DOS date and time not set (F001's D0 condition), as a control. n: 2.

@@ -4,7 +4,7 @@
     python3 experiments/E003-q001-inputs/summarise.py [runs/E003/E003-r0001.json ...]
 
 Per d0 launch: the DOS time set, the guest clock read back at the title (BIOS ticks as HH:MM:SS.s),
-the main-screen digest, and the words DS:7B62 and DS:7B64 at the main screen. Per d3 run: the batch,
+the main-screen digest, and the words DS:7B62 and DS:7B64 at the main screen. Per d3 or d3b run: the batch,
 the DOS time set, the clock after the restore, the result screen digests (after the first `r` and at
 the end), and the three seed words before and after `r`. Then the distinct values per group.
 Reads the records only. The one computation beyond the recorded values: how many steps of the LCG
@@ -64,9 +64,16 @@ def field(rec, name):
     return next((o["value"] for o in rec["observations"] if o.get("field") == name), "")
 
 
+DEFAULT_DATE = "10-04-2026"
+
+
 def dos_time(rec):
+    """The DOS time the record set (with its date when not the default), or "free"."""
     a = rec["actions"]["args"]
-    return a[a.index("--dos-time") + 1] if "--dos-time" in a else "free"
+    if "--dos-time" not in a:
+        return "free"
+    t, d = a[a.index("--dos-time") + 1], a[a.index("--dos-date") + 1]
+    return t if d == DEFAULT_DATE else f"{t} on {d}"
 
 
 def labels_of(r, prefix):
@@ -104,25 +111,30 @@ def main(argv):
     for t, ds in sorted(groups.items()):
         print(f"  {t}: {len(ds)} distinct: {', '.join(s8(d) for d in sorted(ds))}")
 
-    print("\n== d3: restore `main`, F001's D3 keys; seeds before and after the first `r` (key 7)")
-    print("run | status | batch | launch local | DOS time set | clock after restore | after r (key 7) | end (key 10) | "
+    print("\n== d3 / d3b: restore `main`, F001's D3 keys (d3) or with Enter+r sent together (d3b); seeds before and after the first `r`")
+    print("run | arm | status | batch | launch local | DOS time set | clock after restore | after r | end | "
           "before r: 7B62 7B64 8336 | after r: 7B62 7B64 8336")
     g3 = defaultdict(list)
     for rec in d3:
         r = reads(rec)
-        before, after, end = "after key 6 (c)", "after key 7 (r)", "after key 10 (r)"
+        steps = labels_of(r, "after key ")
+        ir = next((i for i, lb in enumerate(steps) if lb.endswith("(r)") or lb.endswith("+r)")), None)
+        after = steps[ir] if ir is not None else None
+        before = (steps[ir - 1] if ir else "restored") if ir is not None else None
+        end = steps[-1] if steps else None
+        kind = rec["arm"].split("-")[0]
         b = " ".join(word(r, before, o) for o in ("7B62", "7B64", "8336"))
         a = " ".join(word(r, after, o) for o in ("7B62", "7B64", "8336"))
         batch = field(rec, "batch label given on the command line")
         if rec["status"] == "completed":
-            g3[(dos_time(rec), batch)].append((get(r, after, "sha256"), get(r, end, "sha256"), b, a))
-        print(" | ".join([rec["run_id"], rec["status"][:30], batch,
+            g3[(kind, dos_time(rec), batch)].append((get(r, after, "sha256"), get(r, end, "sha256"), b, a))
+        print(" | ".join([rec["run_id"], kind, rec["status"][:30], batch,
                           field(rec, "host local time at launch, with UTC offset, and zone name")[:23], dos_time(rec),
                           clock(get(r, "restored", "0040:006C") or "0x0"), get(r, after, "sha256") or "-",
                           get(r, end, "sha256") or "-", b, a]))
-    print("per (DOS time, batch), completed runs: distinct after-r digests / end digests / seeds before r / seeds after r")
+    print("per (arm, DOS time, batch), completed runs: distinct after-r digests / end digests / seeds before r / seeds after r")
     for k, rows in sorted(g3.items()):
-        print(f"  {k[0]} {k[1]}: {len(rows)} runs; " + " / ".join(
+        print(f"  {' '.join(k)}: {len(rows)} runs; " + " / ".join(
             f"{len(set(c))}: {', '.join(sorted(set(s8(x) if len(x) == 64 else x for x in c)))}" for c in zip(*rows)))
     return 0
 

@@ -9,7 +9,8 @@ reading the seed words of GOAL.EXE's data segment from every savestate. One run/
 Arms (F001's D0 and D3, keys copied from runtime/spike/probe.py TO_MAIN, SEQ_MENU, SEQ_B):
 - d0: a fresh launch (nothing restored), GOAL to its title, then the 11 D0 keys to the main menu;
 - d3: a fresh launch, the `main` start state restored with Host+L (polled until its screen digest
-  returns), then the 10 D3 keys: into a match, `c`, a logged 2.0 s delay, the quick result `r`, ...
+  returns), then the 10 D3 keys: into a match, `c`, a logged 2.0 s delay, the quick result `r`, ...;
+- d3b (added after r0026): as d3, but the Enter that starts the match and `r` are sent together.
 Each key is followed by a settle poll (the screen changed and two reads agree), except `c`, followed by
 a 2.0 s delay as in F001. Every read (a savestate) records the host clock, the screen, the BIOS tick
 count and, from GOAL.EXE's data segment located through its MCB (runtime/driver/savestate.py), the
@@ -42,6 +43,11 @@ SEQ_MENU = ["Esc"]
 SEQ_A = ["Esc", "Up", "Enter"]
 SEQ_B = SEQ_A + ["Enter", "Enter", "c", "r", "Enter", "Enter", "r"]
 DELAY_AFTER = {"c": 2.0}  # F001 SEQ_B: ("c", 2.0); the match screen animates and never settles
+# Arm d3b (added after r0026): D3 without the live-match wait. "Enter+r" sends Enter (the captain
+# screen's select, which starts the match) and then r with no poll between, so r is in the keyboard
+# buffer before the match loop polls it; then the settle poll.
+SEQ_B_BUFFERED = SEQ_A + ["Enter", "Enter+r", "Enter", "Enter", "r"]
+DEFAULT_DATE = "10-04-2026"
 
 # Data-segment words read at every read (static leads of T06): TP RandSeed low and high words
 # (23E4:11D7 stores CX and DX of INT 21h AH=2Ch there), and the second stream's seed (0791:F3F2).
@@ -112,7 +118,7 @@ class Run:
     def press(self, key):
         self.step += 1
         prev = self.d.last[1].screen().digest()
-        self.d.keys(key)
+        self.d.keys(*key.split("+"))
         if key in DELAY_AFTER:
             time.sleep(DELAY_AFTER[key])  # recorded delay (F001 SEQ_B), logged below
             self.d.log(f"delay {DELAY_AFTER[key]}s after key {key} (the screen animates)")
@@ -132,7 +138,7 @@ class Run:
                 self.d.launch(self.st, displace_key="n")
                 self.add("before restore (title screen displaced by n)", self.d.pre_restore)
                 self.add("restored")
-                keys = SEQ_B
+                keys = SEQ_B if self.arm == "d3" else SEQ_B_BUFFERED
             for k in keys:
                 self.press(k)
         except Exception as e:  # noqa: BLE001
@@ -171,7 +177,7 @@ class Run:
         if self.args.dos_time:
             inter.append({"level": "I3", "what": f"DOS date set to {self.args.dos_date} and DOS time set to {self.args.dos_time} by the DOSBox-X "
                           f"commands `date {self.args.dos_date}` and `time {self.args.dos_time}` in the autoexec, before GOAL runs"})
-        keys = TO_MAIN + SEQ_MENU if self.arm == "d0" else SEQ_B
+        keys = TO_MAIN + SEQ_MENU if self.arm == "d0" else SEQ_B if self.arm == "d3" else SEQ_B_BUFFERED
         if self.st:
             start = {"id": self.st.name, "sha256": self.st.sha256,
                      "restore": (f"fresh DOSBox-X process (config sha256 {conf_sha}) with C: mounted from the folder the savestate was made with, "
@@ -184,6 +190,8 @@ class Run:
                                  f"game folder recreated from the verified release copy, nothing restored; DOS time "
                                  f"{'set to ' + self.args.dos_time + ' on ' + self.args.dos_date + ' before GOAL ran' if self.args.dos_time else 'not controlled (the guest clock starts from the host clock)'}")}
         arm = f"{self.arm}-{'time-' + self.args.dos_time.replace(':', '') if self.args.dos_time else 'time-free'}"
+        if self.args.dos_time and self.args.dos_date != DEFAULT_DATE:
+            arm += "-date-" + self.args.dos_date.replace("-", "")
         record = {
             "schema": "run/1", "run_id": self.run_id, "experiment": EXPERIMENT, "arm": arm, "rep": self.n,
             "code_commit": self.commit, "machine": cycle.machine_id(),
@@ -240,10 +248,10 @@ def make_main(args):
 
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
-    ap.add_argument("arm", choices=["d0", "d3", "make-main"])
+    ap.add_argument("arm", choices=["d0", "d3", "d3b", "make-main"])
     ap.add_argument("--runs", type=int, default=1)
     ap.add_argument("--dos-time", help="HH:MM:SS, set by `time` in the autoexec (I3)")
-    ap.add_argument("--dos-date", default="10-04-2026", help="MM-DD-YYYY, set with --dos-time")
+    ap.add_argument("--dos-date", default=DEFAULT_DATE, help="MM-DD-YYYY, set with --dos-time")
     ap.add_argument("--batch", default="", help="a label written into each record")
     a = ap.parse_args(argv)
     if a.arm == "make-main":
@@ -252,7 +260,7 @@ def main(argv=None):
     if dirty:
         raise SystemExit("uncommitted changes under runtime/driver/ or the experiment: commit them first\n" + dirty)
     commit = git("rev-parse", "--short", "HEAD")
-    st = driver.StartState("main") if a.arm == "d3" else None
+    st = driver.StartState("main") if a.arm in ("d3", "d3b") else None
     first = 1 + max((int(p.stem.split("-r")[1]) for p in OUT.glob(f"{EXPERIMENT}-r*.json")), default=0)
     ok = sum(Run(a.arm, first + i, a, commit, st).go() for i in range(a.runs))
     print(f"{ok} of {a.runs} runs completed")
