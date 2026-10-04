@@ -14,3 +14,4 @@ exists.
 | T05 | The documentation map: GOAL.HLP passages as sources (G4) | #6 | T01 |
 | T06 | The research backlog: falsifiable questions per area (G5) | #15 | T02, T04, T05 |
 | T07 | The G1 driver: launch, act, observe, reset, with run records (G1) | #16 | T02 |
+| T08 | Q001: what inputs beyond the start state and the keys does GOAL2 use (G5 Q001) | #21 | T06, T07 |
