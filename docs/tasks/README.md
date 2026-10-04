@@ -15,3 +15,5 @@ exists.
 | T06 | The research backlog: falsifiable questions per area (G5) | #15 | T02, T04, T05 |
 | T07 | The G1 driver: launch, act, observe, reset, with run records (G1) | #16 | T02 |
 | T08 | Q001: what inputs beyond the start state and the keys does GOAL2 use (G5 Q001) | #21 | T06, T07 |
+| T09 | Use game-archaeologist's pinned validator and register_artifact.py (ADR-009) | #22 | T08 |
+| T10 | Q002: does the quick result run the same engine as a watched match (G5 Q002) | #26 | T08 |
