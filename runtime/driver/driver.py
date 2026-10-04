@@ -17,6 +17,7 @@ import argparse
 import hashlib
 import json
 import os
+import re
 import shutil
 import signal
 import subprocess
@@ -50,6 +51,82 @@ X_POLL = 0.1          # Xvfb and window poll interval
 # die on the SIGKILL 0.5 s later, and Xvfb still ends by SIGTERM alone.
 TERM_GRACE = 0.5
 
+# Session subfolder mounted as D: for the clock read-back, in every launch, clock option or not: a
+# savestate keeps the mounted drives, and one made with D: crashed DOSBox-X (code -11 during a
+# savestate) when restored in a session without D: (review round 2 R1; the reviewer's local runs).
+CLOCK_DIR = "dosclock"
+# Upper bound of the read-back time, seconds after the time set. Evidence: the read-back is written
+# before `goal` starts, and the BIOS ticks read at GOAL's title screen, later still, are 0.7 ... 1.1 s
+# past the time set in every fixed-time launch (E003-r0007 ... r0026, r0030, r0031, r0043, r0044,
+# r0047, r0048: `summarise.py`, "clock at title"), so the read-back moment is under 1.1 s and the
+# truncated second at most +1; the read-backs measured are all 1 s early (E003-r0045 ... r0048).
+# [designed] one more second of margin for a loaded host, which E003 did not measure.
+CLOCK_SLACK = 2
+# DOSBox-X keeps DOS time as BIOS ticks (18.2/s) and `time /t` truncates: 10:00:00 set reads back as
+# 9:59:59 (E003-r0045, r0046; the ticks 0x000A004A = 35999.98 s of E003-r0007 … agree), so a read-back
+# up to 1 s before the time set is the same time.
+CLOCK_EARLY = 1
+
+
+# How to remake each known start state when its drive layout is refused (StateLayoutMismatch).
+REMAKE = {"title": "python3 runtime/driver/driver.py make-state title",
+          "main": "python3 experiments/E003-q001-inputs/run.py make-main --dos-time 10:00:00 --dos-date 10/04/2026"}
+
+
+class StateLayoutMismatch(RuntimeError):
+    """A start state was made with other DOS drives mounted than this driver mounts: refused before any
+    restore. A state made without D: (T07, and T08 before rework round 3) stalled DOSBox-X's restore
+    under a driver that mounts D: ("savestate not complete within 15s", PR #24 review round 3)."""
+
+
+class ClockNotApplied(RuntimeError):
+    """DOS reported another date or time than the one set: the I3 intervention did not take effect."""
+
+
+def clock_values(dos_date, dos_time):
+    """Parse and range-check a requested DOS date (MM/DD/YYYY, years 1980-2099: DOS's range) and time
+    (HH:MM:SS); raise ValueError for anything DOSBox-X could not apply. Returns (date, time) or None each."""
+    d = t = None
+    if dos_date:
+        if not re.fullmatch(r"\d\d/\d\d/\d{4}", dos_date):
+            raise ValueError(f"dos_date={dos_date!r}: DOSBox-X needs MM/DD/YYYY")
+        try:
+            d = datetime.strptime(dos_date, "%m/%d/%Y").date()
+        except ValueError as e:
+            raise ValueError(f"dos_date={dos_date!r}: no such date ({e})") from None
+        if not 1980 <= d.year <= 2099:
+            raise ValueError(f"dos_date={dos_date!r}: DOS dates run from 1980 to 2099")
+    if dos_time:
+        if not re.fullmatch(r"\d\d:\d\d:\d\d", dos_time):
+            raise ValueError(f"dos_time={dos_time!r}: DOSBox-X needs HH:MM:SS")
+        try:
+            t = datetime.strptime(dos_time, "%H:%M:%S").time()
+        except ValueError as e:
+            raise ValueError(f"dos_time={dos_time!r}: no such time ({e})") from None
+    return d, t
+
+
+def check_clock(dos_date, dos_time, readback):
+    """Compare the requested clock with DOS's own read-back (`date /t` then `time /t` output, e.g.
+    "10/04/1993\n9:59:59\n"): the date must be equal, the time from CLOCK_EARLY s before to
+    CLOCK_SLACK s after the time set.
+    Raises ClockNotApplied otherwise; returns the (date, time) DOS reported."""
+    d, t = clock_values(dos_date, dos_time)
+    m_d = re.search(r"(\d\d)/(\d\d)/(\d{4})", readback or "")
+    m_t = re.search(r"(\d{1,2}):(\d\d):(\d\d)", readback or "")
+    if not (m_d and m_t):
+        raise ClockNotApplied(f"no DOS date and time in the read-back {readback!r}")
+    got_d = datetime(int(m_d[3]), int(m_d[1]), int(m_d[2])).date()
+    got_t = int(m_t[1]) * 3600 + int(m_t[2]) * 60 + int(m_t[3])
+    if d and got_d != d:
+        raise ClockNotApplied(f"DOS date set to {dos_date}, DOS reports {m_d[0]}")
+    if t:
+        want = t.hour * 3600 + t.minute * 60 + t.second
+        if not -CLOCK_EARLY <= got_t - want <= CLOCK_SLACK:
+            raise ClockNotApplied(f"DOS time set to {dos_time}, DOS reports {m_t[0]}")
+    return m_d[0], m_t[0]
+
+
 KEYMAP = {"Enter": "Return", "Esc": "Escape", "Space": "space", "Up": "Up", "Down": "Down",
           "Left": "Left", "Right": "Right", "Backspace": "BackSpace", "Tab": "Tab"}
 
@@ -80,6 +157,7 @@ class Driver:
         self.last = self.pre_restore = None  # (host times, Savestate) of the latest read; the read before a restore
         self.t0 = time.monotonic()
         self.launched = None
+        self.clock_applied = None  # CLOCK.TXT as DOS wrote it after setting the clock (clock option only)
 
     def log(self, what):
         self.events.append((round(time.monotonic() - self.t0, 3), what))
@@ -107,9 +185,51 @@ cycles={c['cycles']}
 [autoexec]
 mount c {self.game_dir}
 c:
-goal
+{self.clock_lines()}goal
 exit
 """
+
+    def clock_lines(self):
+        """Autoexec lines that set the DOS date and time before GOAL runs (I3, T08), when the config
+        has `dos_date` (MM/DD/YYYY) or `dos_time` (HH:MM:SS); else none, and the guest clock
+        starts from the host's as before. DOSBox-X 2024.03.01's DATE takes MM/DD/YYYY only: given
+        10-04-1993 it prints the current date and changes nothing (E003-r0030, r0031; F004), so any
+        other form, and any date or time no calendar or DOS has (99/99/1993, a year outside DOS's
+        1980-2099, 24:00:00), is refused here (clock_values). Then, in every launch (clock option or
+        not, so a savestate's drives are the same either way: CLOCK_DIR), the lines write DOS's own date
+        and time (`date /t`, `time /t`) to CLOCK.TXT on a drive D: mounted from the session folder, so
+        launch() can read back the clock GOAL starts with (and check_clock it when one was set)."""
+        c = self.config
+        lines = ""
+        if c.get("dos_date") or c.get("dos_time"):
+            clock_values(c.get("dos_date"), c.get("dos_time"))
+            lines = "".join(f"{cmd} {c[k]}\n" for cmd, k in (("date", "dos_date"), ("time", "dos_time")) if c.get(k))
+        return (lines + f"mount d {self.workdir / CLOCK_DIR}\ndate /t > d:\\clock.txt\ntime /t >> d:\\clock.txt\nc:\n")
+
+    def drive_layout(self):
+        """The DOS drives this driver's autoexec mounts, host paths as <game> and <work>: what a savestate
+        keeps and a restore needs again. Stored with each start state (make_state, run.py make-main)."""
+        lines = [x for x in self.conf_text().splitlines() if x.startswith("mount ")]
+        return [x.replace(str(self.game_dir), "<game>").replace(str(self.workdir), "<work>") for x in lines]
+
+    def check_start_state(self, st):
+        """Refuse, before DOSBox-X starts, a start state whose stored drive layout is not this driver's,
+        or which stored none (made before T08 rework round 4)."""
+        mine = self.drive_layout()
+        if st.drive_layout != mine:
+            made = st.drive_layout if st.drive_layout is not None else "none recorded (made before T08 rework round 4)"
+            how = REMAKE.get(st.name, f"remake it as {st.name} was made")
+            raise StateLayoutMismatch(
+                f"start state {st.name} ({st.path}) was made with drive layout {made}; this driver mounts {mine}, and "
+                f"restoring a state made with other drives stalls or crashes DOSBox-X. Recreate it: move {st.path.name} "
+                f"and {st.path.stem}.json out of {st.path.parent}, then run `{how}`")
+
+    def clock_readback(self):
+        """The text DOS wrote to CLOCK.TXT before GOAL ran (after the date and time, when set), or None."""
+        for f in (self.workdir / CLOCK_DIR).glob("*"):
+            if f.name.lower() == "clock.txt":
+                return f.read_text(errors="replace")
+        return None
 
     def conf_public(self):
         """The config with host paths replaced by <work> and <game>, and its sha256 (what a record carries)."""
@@ -132,8 +252,12 @@ exit
         if start_state is not None and Path(start_state.game_dir) != self.game_dir:
             raise RuntimeError(f"start state {start_state.name} was saved with C: mounted from another folder "
                                f"({start_state.game_dir}); restoring it here would write there (F001 Anomalies)")
+        if start_state is not None:
+            self.check_start_state(start_state)  # its drives must be this driver's (StateLayoutMismatch)
         self.workdir.mkdir(parents=True, exist_ok=True)
         (self.workdir / "cap").mkdir(exist_ok=True)
+        shutil.rmtree(self.workdir / CLOCK_DIR, ignore_errors=True)
+        (self.workdir / CLOCK_DIR).mkdir()
         verify_release(CACHE)
         shutil.rmtree(self.game_dir, ignore_errors=True)
         shutil.copytree(CACHE, self.game_dir)
@@ -151,6 +275,11 @@ exit
         self._x("windowfocus", self.wid)
         self.log("window focused")
         sc = self.wait_screen(lambda sc: TITLE_TEXT in sc.text(), timeout, "title screen")
+        # the clock GOAL starts with, as DOS reported it before GOAL ran; when one was set (I3), verified
+        self.clock_applied = self.clock_readback()
+        self.log(f"DOS clock read back: {(self.clock_applied or 'no CLOCK.TXT').strip()!r}")
+        if self.config.get("dos_date") or self.config.get("dos_time"):
+            check_clock(self.config.get("dos_date"), self.config.get("dos_time"), self.clock_applied)
         if start_state is None:
             return sc
         if sc.digest() == start_state.screen_digest:
@@ -304,7 +433,10 @@ exit
     # poll, 4.00 ... 4.11 s after launch, in 29 of 29 completed E002 records; the one slow session
     # (E002-r0009) failed in the savestate write after its Host+L, not at this bound. [designed]
     def restore(self, state, timeout=15):
-        """Host+L loads state's savestate; poll until the screen digest equals the one stored with it."""
+        """Host+L loads state's savestate; poll until the screen digest equals the one stored with it.
+        Every restore passes here, so the drive-layout check is here, before the copy and Host+L
+        (T08 rework round 5); launch(), cycle.py and run.py check earlier only to refuse before a record."""
+        self.check_start_state(state)
         shutil.copy(state.path, self.savefile)
         self._hostkey("l")
         self.log(f"Host+L sent ({state.name})")
@@ -355,6 +487,7 @@ class StartState:
         self.path = Path(states) / f"{name}.sav"
         meta = json.loads((Path(states) / f"{name}.json").read_text())
         self.screen_digest, self.game_dir, self.config = meta["screen_digest"], meta["game_dir"], meta["config"]
+        self.drive_layout = meta.get("drive_layout")  # None: made before T08 rework round 4 (refused by launch)
         self.sha256 = sha256(self.path.read_bytes())
         if self.sha256 != meta["sha256"]:
             raise RuntimeError(f"{self.path} changed since it was stored")
@@ -376,7 +509,7 @@ def make_state(name, config=None, states=STATES):
     finally:
         d.terminate()
     (states / f"{name}.sav").write_bytes(data)
-    meta = {"sha256": sha256(data), "screen_digest": sc.digest(), "game_dir": str(d.game_dir),
+    meta = {"sha256": sha256(data), "screen_digest": sc.digest(), "game_dir": str(d.game_dir), "drive_layout": d.drive_layout(),
             "config": d.config, "made": host_times(), "events": d.events}
     (states / f"{name}.json").write_text(json.dumps(meta, indent=1))
     return StartState(name, states)

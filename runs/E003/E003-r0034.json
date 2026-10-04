@@ -1,0 +1,933 @@
+{
+  "schema": "run/1",
+  "run_id": "E003-r0034",
+  "experiment": "E003",
+  "arm": "d3-time-100000",
+  "rep": 34,
+  "code_commit": "df0dee7",
+  "machine": "ubuntu-24-04-wsl2",
+  "artifact": {
+    "set": "goal2-a949da2f",
+    "variant": null
+  },
+  "runtime": {
+    "driver": "runtime/driver/driver.py@df0dee7",
+    "platform": "python-3.12.3/ubuntu-24-04-wsl2",
+    "fingerprint": {
+      "dosbox-x": "2024.03.01 SDL2",
+      "xvfb": "2:21.1.12-1ubuntu1.8",
+      "xdotool": "xdotool version 3.20160805.1",
+      "python": "3.12.3",
+      "kernel": "6.18.40.1-microsoft-standard-WSL2",
+      "config_sha256": "d42e9a5d3dab0406591ec12770c680a8e0ad67f40e61da8d3b054d9b6a3939f5",
+      "machine": "svga_s3",
+      "memsize": "16",
+      "cycles": "auto",
+      "core": "auto",
+      "cputype": "auto",
+      "dos_time": "10:00:00",
+      "dos_date": "10-04-2026"
+    }
+  },
+  "interventions": [
+    {
+      "level": "I1",
+      "what": "text screen, BIOS data area (0040:0049, 0040:006C) and GOAL.EXE data-segment words (DS:7B62, DS:7B64, DS:8336, and two known strings) read from DOSBox-X savestates (Host+S; components Vga and Memory)"
+    },
+    {
+      "level": "I2",
+      "what": "a savestate is written at each read, and one is loaded (Host+L) at the start (vocabulary/interventions.md lists save and load of state as I2; neutrality not tested)"
+    },
+    {
+      "level": "I3",
+      "what": "DOS date set to 10/04/2026 and DOS time set to 10:00:00 by the DOSBox-X commands `date 10/04/2026` and `time 10:00:00` in the autoexec, before GOAL runs"
+    }
+  ],
+  "start_state": {
+    "id": "main",
+    "sha256": "20c5bd8b46f8b0b6a3e9c24f7f6fbed6eec2095f50ecced00767f59833d8aa26",
+    "restore": "fresh DOSBox-X process (config sha256 d42e9a5d3dab0406591ec12770c680a8e0ad67f40e61da8d3b054d9b6a3939f5) with C: mounted from the folder the savestate was made with, recreated from the verified release copy; GOAL run to its title screen; key n to change the screen; then Host+L loads the savestate whose sha256 is given; polled until the screen digest equals the one stored with it (18190236ee20f9eb0573e82714034e41226a92a62efb4c119d8648e06a9a1b67); DOS time set to 10:00:00 before GOAL ran"
+  },
+  "seed": null,
+  "actions": {
+    "script": "experiments/E003-q001-inputs/run.py",
+    "sha256": "985103225c0c56ee3b3e263a3b7f01dc8bf6b335675db3edb07661921a470b82",
+    "args": [
+      "d3",
+      "--dos-time",
+      "10:00:00",
+      "--dos-date",
+      "10/04/2026",
+      "--batch",
+      "B",
+      "keys: Esc Up Enter Enter Enter c r Enter Enter r"
+    ]
+  },
+  "observations": [
+    {
+      "step": 0,
+      "source": "log",
+      "field": "host UTC time at launch",
+      "value": "2026-10-04T09:10:01.122Z"
+    },
+    {
+      "step": 0,
+      "source": "log",
+      "field": "host local time at launch, with UTC offset, and zone name",
+      "value": "2026-10-04T11:10:01.122+02:00 CEST"
+    },
+    {
+      "step": 0,
+      "source": "log",
+      "field": "before restore (title screen displaced by n): host UTC time just before the savestate was requested",
+      "value": "2026-10-04T09:10:03.496Z"
+    },
+    {
+      "step": 0,
+      "source": "log",
+      "field": "before restore (title screen displaced by n): host local time with UTC offset, and zone name, at the same instant",
+      "value": "2026-10-04T11:10:03.496+02:00 CEST"
+    },
+    {
+      "step": 0,
+      "source": "screen",
+      "field": "before restore (title screen displaced by n): text screen 80x25, chars+attributes (4000 bytes), sha256",
+      "value": "cd7f15fbf853b40471d05bad51cb6e6c14cbc8a7307893dba8f5f36c2315c612"
+    },
+    {
+      "step": 0,
+      "source": "ui-text",
+      "field": "before restore (title screen displaced by n): text screen rows 0-24, CP437 decoded, trailing blanks trimmed",
+      "value": " (c) NE'93│ │                                                    │     (c)\n ┌─┐┌─┐┌─┐│ │                                                    │     new\n │ ││ ││ ││ │                                                    │     era\n └─┤└─┘└─┤│ │                                                    │   software\n───┘ v.2    │                                                    │     1993\n────────────┘                                                    └──────────────\n\n\n\n\n\n\n────────────────────────────────────────────────────────────────────────────────\n                   THE international soccer management game\n────────────────────────────────────────────────────────────────────────────────\n\n────────────────────────────────────────────────────────────────────────────────\n                    design and coding : Mantra and L.B.\n────────────────────────────────────────────────────────────────────────────────\n     testing and feedback : Celtic Ray, Mr Scott, Big Mac and Carl Wilky\n────────────────────────────────────────────────────────────────────────────────\n               distribution : Silverwitch and Tom de Notre Dame\n────────────────────────────────────────────────────────────────────────────────\n\n■■■■■■■■■■■■■■■■■■■ Do you want to load a saved game? (Y/N) ■■■■■■■■■■■■■■■■■■■■"
+    },
+    {
+      "step": 0,
+      "source": "memory",
+      "addr": "0x449",
+      "field": "before restore (title screen displaced by n): 1 byte at 0040:0049 (BIOS video mode), guest memory from the savestate, hex",
+      "value": "03"
+    },
+    {
+      "step": 0,
+      "source": "memory",
+      "addr": "0x46c",
+      "field": "before restore (title screen displaced by n): 4 bytes at 0040:006C (BIOS timer tick count), guest memory from the savestate, as a little-endian dword (bytes in memory order)",
+      "value": "0x000a0059 (59 00 0a 00)"
+    },
+    {
+      "step": 0,
+      "source": "memory",
+      "addr": "0x8120",
+      "field": "GOAL.EXE located: its MCB (owner = the next segment, name GOAL), PSP, load segment and data segment",
+      "value": "MCB at segment 0812 (owner 0813, name GOAL), PSP 0813, load segment 0823 = PSP + 10h, DS 2DA4 = load + 2581h, linear base 0x2DA40"
+    },
+    {
+      "step": 0,
+      "source": "memory",
+      "addr": "0x2da64",
+      "field": "8 bytes at DS:0024, hex (static/goal-exe/data/ds_2581_01.hex has 07 54 52 59 20 4f 55 54)",
+      "value": "07 54 52 59 20 4f 55 54"
+    },
+    {
+      "step": 0,
+      "source": "memory",
+      "addr": "0x2db00",
+      "field": "6 bytes at DS:00C0, hex (static/goal-exe/data/ds_2581_01.hex has 6f 6e 20 66 6f 72)",
+      "value": "6f 6e 20 66 6f 72"
+    },
+    {
+      "step": 0,
+      "source": "memory",
+      "addr": "0x355a2",
+      "field": "before restore (title screen displaced by n): word at DS:7B62 of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+      "value": "0x0000 (00 00)"
+    },
+    {
+      "step": 0,
+      "source": "memory",
+      "addr": "0x355a4",
+      "field": "before restore (title screen displaced by n): word at DS:7B64 of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+      "value": "0x0000 (00 00)"
+    },
+    {
+      "step": 0,
+      "source": "memory",
+      "addr": "0x35d76",
+      "field": "before restore (title screen displaced by n): word at DS:8336 of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+      "value": "0x0057 (57 00)"
+    },
+    {
+      "step": 0,
+      "source": "memory",
+      "addr": "0x3843d",
+      "field": "before restore (title screen displaced by n): word at DS:A9FD of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+      "value": "0x07ea (ea 07)"
+    },
+    {
+      "step": 0,
+      "source": "log",
+      "field": "restored: host UTC time just before the savestate was requested",
+      "value": "2026-10-04T09:10:04.541Z"
+    },
+    {
+      "step": 0,
+      "source": "log",
+      "field": "restored: host local time with UTC offset, and zone name, at the same instant",
+      "value": "2026-10-04T11:10:04.541+02:00 CEST"
+    },
+    {
+      "step": 0,
+      "source": "screen",
+      "field": "restored: text screen 80x25, chars+attributes (4000 bytes), sha256",
+      "value": "18190236ee20f9eb0573e82714034e41226a92a62efb4c119d8648e06a9a1b67"
+    },
+    {
+      "step": 0,
+      "source": "ui-text",
+      "field": "restored: text screen rows 0-24, CP437 decoded, trailing blanks trimmed",
+      "value": " (c) NE'93│ │  ┌─────────────┐     Use ←→↑↓ to select             use INS to\n ┌─┐┌─┐┌─┐│ │  │  Check out  │                                   swap between\n │ ││ ││ ││ │  │   all the   │     Hit ◄┘ for fixtures             world and\n └─┤└─┘└─┤│ │  │ competitors │                                    continental\n───┘ v.2    │  └─────────────┘     Esc to exit                     rankings\n────────────┘\n┌team─────────────────────────────┬───────────────────tactics┐ ┌───────────────┐\n│Denmark-------- status major     ├──────────────team─tactics┤ │Denmark--------│\n├manager──────────────────────────┤defence─system──half pitch┤ │Germany--------│\n│B Ob            skill unknown    ├protection─sag back to box┤ │Holland--------│\n├ranking─now─top┬─────────────────┼offside──────────play safe┤ │Sweden---------│\n│World    29  29│formation  5-4-1 ├───────────player─defaults┤ │Scotland-------│\n│Europe    1   1│strips     ☻ ☻ ☻ │positioning───push forward┤ │France---------│\n├skills──────┬──┴─┬────┬────┬────┬┼possession──────quick pass┤ │England--------│\n├keeper──■■■■■■■■■■■■■■■■■■■■■■■■■┼passing───────short passes┤ │Russia---------│\n├defence─■■■■■■■■■■■■■■■■■■■■■■■■■┼tackling────────go in hard┤ │Yugoslavia-----│\n├midfield■■■■■■■■■■■■■■■■■■■■■■■■■┼marking─────────man to man┤ │Switzerland----│\n├attack──■■■■■■■■■■■■■■■■■■■■■■■■■┼───────────characteristics┤ │R.C.S----------│\n├performance─┼────┼────┼────┼────┼┤average─caps─0─────age─29─┤ │Wales----------│\n├keeper──■■■■■■■■■■■■■■■■■■■■■■■■■┼hardness──tough■■■■■■■■■■■┤ │Eire-----------│\n├defence─■■■■■■■■■■■■■■■■■■■■■■■■■┼fitness───very fit■■■■■■■■┤ │Portugal-------│\n├midfield■■■■■■■■■■■■■■■■■■■■■■■■■┼energy────energetic■■■■■■■┤ │Italy----------│\n├attack──■■■■■■■■■■■■■■■■■■■■■■■■■┼morale────not bad■■■■■■■■■┤ │Romania--------│\n└────────────┴────┴────┴────┴────┴┴──────────────┴────┴────┴─┘ └───────────────┘\nspacebar-players T-tactics"
+    },
+    {
+      "step": 0,
+      "source": "memory",
+      "addr": "0x449",
+      "field": "restored: 1 byte at 0040:0049 (BIOS video mode), guest memory from the savestate, hex",
+      "value": "03"
+    },
+    {
+      "step": 0,
+      "source": "memory",
+      "addr": "0x46c",
+      "field": "restored: 4 bytes at 0040:006C (BIOS timer tick count), guest memory from the savestate, as a little-endian dword (bytes in memory order)",
+      "value": "0x000a0135 (35 01 0a 00)"
+    },
+    {
+      "step": 0,
+      "source": "memory",
+      "addr": "0x355a2",
+      "field": "restored: word at DS:7B62 of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+      "value": "0xee42 (42 ee)"
+    },
+    {
+      "step": 0,
+      "source": "memory",
+      "addr": "0x355a4",
+      "field": "restored: word at DS:7B64 of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+      "value": "0x0935 (35 09)"
+    },
+    {
+      "step": 0,
+      "source": "memory",
+      "addr": "0x35d76",
+      "field": "restored: word at DS:8336 of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+      "value": "0x0057 (57 00)"
+    },
+    {
+      "step": 0,
+      "source": "memory",
+      "addr": "0x3843d",
+      "field": "restored: word at DS:A9FD of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+      "value": "0x07ea (ea 07)"
+    },
+    {
+      "step": 0,
+      "source": "file",
+      "field": "DOSBox-X config of the session, host paths replaced by <work> and <game>",
+      "value": "[sdl]\nfullscreen=false\noutput=surface\nmapperfile=<work>/mapper.map\n[mixer]\nnosound=true\n[midi]\nmididevice=none\n[dosbox]\nmachine=svga_s3\nmemsize=16\nsaveremark=false\ncaptures=<work>/cap\n[cpu]\ncore=auto\ncputype=auto\ncycles=auto\n[autoexec]\nmount c <game>\nc:\ndate 10/04/2026\ntime 10:00:00\ngoal\nexit\n"
+    },
+    {
+      "step": 0,
+      "source": "file",
+      "field": "sha256 of that config text (UTF-8)",
+      "value": "d42e9a5d3dab0406591ec12770c680a8e0ad67f40e61da8d3b054d9b6a3939f5"
+    },
+    {
+      "step": 0,
+      "source": "log",
+      "field": "batch label given on the command line",
+      "value": "B"
+    },
+    {
+      "step": 1,
+      "source": "log",
+      "field": "after key 1 (Esc): host UTC time just before the savestate was requested",
+      "value": "2026-10-04T09:10:05.751Z"
+    },
+    {
+      "step": 1,
+      "source": "log",
+      "field": "after key 1 (Esc): host local time with UTC offset, and zone name, at the same instant",
+      "value": "2026-10-04T11:10:05.751+02:00 CEST"
+    },
+    {
+      "step": 1,
+      "source": "screen",
+      "field": "after key 1 (Esc): text screen 80x25, chars+attributes (4000 bytes), sha256",
+      "value": "ebd64dad75355e15f870685a876bf109f74f39bded64944e2444ffd97873e347"
+    },
+    {
+      "step": 1,
+      "source": "ui-text",
+      "field": "after key 1 (Esc): text screen rows 0-24, CP437 decoded, trailing blanks trimmed",
+      "value": " (c) NE'93│ │ ┌────────────────────────────────┬────┐           Denmark--------\n ┌─┐┌─┐┌─┐│ │ ├─  ┬  ┬┌──┌──┐┬──┐┌▄▄ ┌──┐┌──┐  │2028│          ┌────────────┬─┐\n │ ││ ││ ││ │ └───└──┘┴  └──┘├──┘└───└──┴┴  ┴  └────┘          │P Schmeichel│G│\n └─┤└─┘└─┤│ │┌──┬────────────QUALIFYING───────┬────────        │L Olsen     │S│\n───┘ v.2    ││  ├──┐┌──┐┌─┬─┐┬──┐┬┌──┐┌──┐┌▄──├──┐┬┬──┐        │T Piechnik  │C│\n────────────┘└──┴  ┴└──┴┴ ┴ ┴├──┘┴└──┘┴  ┴──▀┘┴  ┴┴├──┘        │K Christofte│C│\n──┌name──────────┬rating─────────┐ ───────  ─┌─────────┐────── │H Andersen  │B│\n──│B Ob          │unknown        │ ───────  ─│team info│────── │J Sivebaek  │B│\n──└──────────────┴───────────────┘ ───────  ─└─────────┘────── │K Vilfort   │D│\n─┌team───────────┐────┌─┬managers──────┐──  ─┌────────────┐─── │H Larsen    │M│\n─│Denmark--------│────│1│B Ob          │──  ─│fixture list│─── │J Jensen    │M│\n─├rankings───┬───┘────│2│              │──  ─└────────────┘─── │B Laudrup   │F│\n─│World  : 29│────────│3│              │──  ─┌──────────┐───── │F Povlsen   │$│\n─│Europe :  1│────────│4│              │──  ─│tournament│───── ├────────────┼─┤\n─└───────────┘────────│5│              │──  ─└──────────┘───── │M Krogh     │G│\n─┌next─opponents─┐────│6│              │──  ─┌───────┐──────── │P Nielsen   │S│\n─│Sweden---------│────└─┴──────────────┘──  ─│history│──────── │K Nielsen   │C│\n─├rankings───┬───┘──────── Use ↑↓ to ─────  ─└───────┘──────── │C Kristensen│B│\n─│World  : 19│─────────── find option ────  ─┌────────────┐─── │J Molby     │D│\n─│Europe :  4│────────────────────────────  ─│select squad│─── │M Bruun     │W│\n─├───────────┴───┐───────── Hit ◄┘ to ────  ─└────────────┘─── │L Elstrup   │¢│\n─│friendly home  │───────── select ───────  ─┌──────────────┐─ │T Frank     │$│\n─└───────────────┘───────── option ───────  ─│play next game│─ │B Kristensen│$│\n──────────────────────────────────────────  ─└──────────────┘─ └────────────┴─┘\nF1help  F3load goal  F4load summary  F5print screen F7save               F10quit"
+    },
+    {
+      "step": 1,
+      "source": "memory",
+      "addr": "0x449",
+      "field": "after key 1 (Esc): 1 byte at 0040:0049 (BIOS video mode), guest memory from the savestate, hex",
+      "value": "03"
+    },
+    {
+      "step": 1,
+      "source": "memory",
+      "addr": "0x46c",
+      "field": "after key 1 (Esc): 4 bytes at 0040:006C (BIOS timer tick count), guest memory from the savestate, as a little-endian dword (bytes in memory order)",
+      "value": "0x000a0146 (46 01 0a 00)"
+    },
+    {
+      "step": 1,
+      "source": "memory",
+      "addr": "0x355a2",
+      "field": "after key 1 (Esc): word at DS:7B62 of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+      "value": "0xee42 (42 ee)"
+    },
+    {
+      "step": 1,
+      "source": "memory",
+      "addr": "0x355a4",
+      "field": "after key 1 (Esc): word at DS:7B64 of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+      "value": "0x0935 (35 09)"
+    },
+    {
+      "step": 1,
+      "source": "memory",
+      "addr": "0x35d76",
+      "field": "after key 1 (Esc): word at DS:8336 of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+      "value": "0x0057 (57 00)"
+    },
+    {
+      "step": 1,
+      "source": "memory",
+      "addr": "0x3843d",
+      "field": "after key 1 (Esc): word at DS:A9FD of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+      "value": "0x07ea (ea 07)"
+    },
+    {
+      "step": 2,
+      "source": "log",
+      "field": "after key 2 (Up): host UTC time just before the savestate was requested",
+      "value": "2026-10-04T09:10:06.936Z"
+    },
+    {
+      "step": 2,
+      "source": "log",
+      "field": "after key 2 (Up): host local time with UTC offset, and zone name, at the same instant",
+      "value": "2026-10-04T11:10:06.936+02:00 CEST"
+    },
+    {
+      "step": 2,
+      "source": "screen",
+      "field": "after key 2 (Up): text screen 80x25, chars+attributes (4000 bytes), sha256",
+      "value": "b3cabd4ec98e2212338fb77718968900da7190350353ef571600fc8b556ac788"
+    },
+    {
+      "step": 2,
+      "source": "ui-text",
+      "field": "after key 2 (Up): text screen rows 0-24, CP437 decoded, trailing blanks trimmed",
+      "value": " (c) NE'93│ │ ┌────────────────────────────────┬────┐           Denmark--------\n ┌─┐┌─┐┌─┐│ │ ├─  ┬  ┬┌──┌──┐┬──┐┌▄▄ ┌──┐┌──┐  │2028│          ┌────────────┬─┐\n │ ││ ││ ││ │ └───└──┘┴  └──┘├──┘└───└──┴┴  ┴  └────┘          │P Schmeichel│G│\n └─┤└─┘└─┤│ │┌──┬────────────QUALIFYING───────┬────────        │L Olsen     │S│\n───┘ v.2    ││  ├──┐┌──┐┌─┬─┐┬──┐┬┌──┐┌──┐┌▄──├──┐┬┬──┐        │T Piechnik  │C│\n────────────┘└──┴  ┴└──┴┴ ┴ ┴├──┘┴└──┘┴  ┴──▀┘┴  ┴┴├──┘        │K Christofte│C│\n──┌name──────────┬rating─────────┐ ───────  ─┌─────────┐────── │H Andersen  │B│\n──│B Ob          │unknown        │ ───────  ─│team info│────── │J Sivebaek  │B│\n──└──────────────┴───────────────┘ ───────  ─└─────────┘────── │K Vilfort   │D│\n─┌team───────────┐────┌─┬managers──────┐──  ─┌────────────┐─── │H Larsen    │M│\n─│Denmark--------│────│1│B Ob          │──  ─│fixture list│─── │J Jensen    │M│\n─├rankings───┬───┘────│2│              │──  ─└────────────┘─── │B Laudrup   │F│\n─│World  : 29│────────│3│              │──  ─┌──────────┐───── │F Povlsen   │$│\n─│Europe :  1│────────│4│              │──  ─│tournament│───── ├────────────┼─┤\n─└───────────┘────────│5│              │──  ─└──────────┘───── │M Krogh     │G│\n─┌next─opponents─┐────│6│              │──  ─┌───────┐──────── │P Nielsen   │S│\n─│Sweden---------│────└─┴──────────────┘──  ─│history│──────── │K Nielsen   │C│\n─├rankings───┬───┘──────── Use ↑↓ to ─────  ─└───────┘──────── │C Kristensen│B│\n─│World  : 19│─────────── find option ────  ─┌────────────┐─── │J Molby     │D│\n─│Europe :  4│────────────────────────────  ─│select squad│─── │M Bruun     │W│\n─├───────────┴───┐───────── Hit ◄┘ to ────  ─└────────────┘─── │L Elstrup   │¢│\n─│friendly home  │───────── select ───────  ─┌──────────────┐─ │T Frank     │$│\n─└───────────────┘───────── option ───────  ─│play next game│─ │B Kristensen│$│\n──────────────────────────────────────────  ─└──────────────┘─ └────────────┴─┘\nF1help  F3load goal  F4load summary  F5print screen F7save               F10quit"
+    },
+    {
+      "step": 2,
+      "source": "memory",
+      "addr": "0x449",
+      "field": "after key 2 (Up): 1 byte at 0040:0049 (BIOS video mode), guest memory from the savestate, hex",
+      "value": "03"
+    },
+    {
+      "step": 2,
+      "source": "memory",
+      "addr": "0x46c",
+      "field": "after key 2 (Up): 4 bytes at 0040:006C (BIOS timer tick count), guest memory from the savestate, as a little-endian dword (bytes in memory order)",
+      "value": "0x000a0157 (57 01 0a 00)"
+    },
+    {
+      "step": 2,
+      "source": "memory",
+      "addr": "0x355a2",
+      "field": "after key 2 (Up): word at DS:7B62 of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+      "value": "0xee42 (42 ee)"
+    },
+    {
+      "step": 2,
+      "source": "memory",
+      "addr": "0x355a4",
+      "field": "after key 2 (Up): word at DS:7B64 of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+      "value": "0x0935 (35 09)"
+    },
+    {
+      "step": 2,
+      "source": "memory",
+      "addr": "0x35d76",
+      "field": "after key 2 (Up): word at DS:8336 of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+      "value": "0x0057 (57 00)"
+    },
+    {
+      "step": 2,
+      "source": "memory",
+      "addr": "0x3843d",
+      "field": "after key 2 (Up): word at DS:A9FD of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+      "value": "0x07ea (ea 07)"
+    },
+    {
+      "step": 3,
+      "source": "log",
+      "field": "after key 3 (Enter): host UTC time just before the savestate was requested",
+      "value": "2026-10-04T09:10:08.128Z"
+    },
+    {
+      "step": 3,
+      "source": "log",
+      "field": "after key 3 (Enter): host local time with UTC offset, and zone name, at the same instant",
+      "value": "2026-10-04T11:10:08.128+02:00 CEST"
+    },
+    {
+      "step": 3,
+      "source": "screen",
+      "field": "after key 3 (Enter): text screen 80x25, chars+attributes (4000 bytes), sha256",
+      "value": "2b5a65ef9b86c0a08aba326b3b411acab06f2314e49d4e5adc90b56accb3ee0c"
+    },
+    {
+      "step": 3,
+      "source": "ui-text",
+      "field": "after key 3 (Enter): text screen rows 0-24, CP437 decoded, trailing blanks trimmed",
+      "value": " (c) NE'93│ ┌───────────────┬──┬FRIENDLY───────────────────────────┐┌───┐ ┌───┐\n ┌─┐┌─┐┌─┐│ │DENMARK--------│ 0│                                   ││   │ │   │\n │ ││ ││ ││ ├versus─────────┼──┤                                   │├───┤ ├───┤\n └─┤└─┘└─┤│ │SWEDEN---------│ 0│                                   ││   │ │   │\n───┘ v.2    └───────────────┴──┴───────────────────────────────────┘└───┘ └───┘\n\n        ┌─────────────────┐ location:Denmark-------- ┌─────────────────┐\n ┌──────│ Denmark-------- │────────────┐┌────────────│ Sweden--------- │──────┐\n │      └─────────────────┘            ││            └─────────────────┘      │\n │┌───────────┐      ┌──────────────┐  ││  ┌──────────────┐      ┌───────────┐│\n ││    5-4-1  │      │ team tactics │  ││  │ team tactics │      │    4-5-1  ││\n┌─┴───────────┼─┐    └──┬─────────┬─┘  ││  └─┬─────────┬──┘    ┌─┴───────────┼─┐\n│ P Schmeichel│G│       │ players │    ││    │ players │       │ L Eriksson  │G│\n│ L Olsen     │S│       └─────────┘          └─────────┘       │ R Nilsson   │C│\n│ T Piechnik  │C│                ┌────────────┐                │ M Erlingmark│C│\n│ K Christofte│C│   Use ↑↓←→     │ tournament │                │ J Bjorklund │B│\n│ H Andersen  │B│   then ◄┘      ├────────────┤                │ R Ljung     │B│\n│ J Sivebaek  │B│   to select    │ match stats│                │ S Schwarz   │D│\n│ K Vilfort   │D│   option       └──┬──────┬──┘                │ S Rehn      │Ç│\n│ H Larsen    │M│           │       │ play │           │       │ J Jansson   │M│\n│ J Jensen    │M│           │       └──────┘           │       │ K Ingesson  │M│\n│ B Laudrup   │F│           ├─────┐┌─────┐┌────┐┌───── ├─────┐ │ T Brolin    │F│\n│ F Povlsen   │$│           │     │├─────┘│    ││      │     │ │ J Ekstrom   │$│\n└─────────────┴─┘           └─────┘└───── ┴    ┴└───── ┴     ┴ └─────────────┴─┘\n └──────────────────Hit INS to turn automatic action replay OFF───────────────┘"
+    },
+    {
+      "step": 3,
+      "source": "memory",
+      "addr": "0x449",
+      "field": "after key 3 (Enter): 1 byte at 0040:0049 (BIOS video mode), guest memory from the savestate, hex",
+      "value": "03"
+    },
+    {
+      "step": 3,
+      "source": "memory",
+      "addr": "0x46c",
+      "field": "after key 3 (Enter): 4 bytes at 0040:006C (BIOS timer tick count), guest memory from the savestate, as a little-endian dword (bytes in memory order)",
+      "value": "0x000a0168 (68 01 0a 00)"
+    },
+    {
+      "step": 3,
+      "source": "memory",
+      "addr": "0x355a2",
+      "field": "after key 3 (Enter): word at DS:7B62 of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+      "value": "0xf3ab (ab f3)"
+    },
+    {
+      "step": 3,
+      "source": "memory",
+      "addr": "0x355a4",
+      "field": "after key 3 (Enter): word at DS:7B64 of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+      "value": "0x0935 (35 09)"
+    },
+    {
+      "step": 3,
+      "source": "memory",
+      "addr": "0x35d76",
+      "field": "after key 3 (Enter): word at DS:8336 of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+      "value": "0x0057 (57 00)"
+    },
+    {
+      "step": 3,
+      "source": "memory",
+      "addr": "0x3843d",
+      "field": "after key 3 (Enter): word at DS:A9FD of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+      "value": "0x07ea (ea 07)"
+    },
+    {
+      "step": 4,
+      "source": "log",
+      "field": "after key 4 (Enter): host UTC time just before the savestate was requested",
+      "value": "2026-10-04T09:10:09.305Z"
+    },
+    {
+      "step": 4,
+      "source": "log",
+      "field": "after key 4 (Enter): host local time with UTC offset, and zone name, at the same instant",
+      "value": "2026-10-04T11:10:09.305+02:00 CEST"
+    },
+    {
+      "step": 4,
+      "source": "screen",
+      "field": "after key 4 (Enter): text screen 80x25, chars+attributes (4000 bytes), sha256",
+      "value": "98df44907bf1ee76cc06434830b3f9f7db0aa3b2e5832c931a0cb3827d49001b"
+    },
+    {
+      "step": 4,
+      "source": "ui-text",
+      "field": "after key 4 (Enter): text screen rows 0-24, CP437 decoded, trailing blanks trimmed",
+      "value": " (c) NE'93│ ┌───────────────┬──┬FRIENDLY───────────────────────────┐┌───┐ ┌───┐\n ┌─┐┌─┐┌─┐│ │DENMARK--------│ 0│                                   ││   │ │   │\n │ ││ ││ ││ ├versus─────────┼──┤                                   │├───┤ ├───┤\n └─┤└─┘└─┤│ │SWEDEN---------│ 0│                                   ││   │ │   │\n───┘ v.2    └───────────────┴──┴───────────────────────────────────┘└───┘ └───┘\n\n┌name──────────┬age┬caps┬goals┬height─┬bias──────┬performance┐ ┌────────────┬─┐\n│T Piechnik    │ 28│   0│    0│ 6' 0\" │right foot│           │ │P Schmeichel│G│\n├position──────┴───┼club┴position─────┼cards┬────┴─┴─┴─┴─┴─┴─┤ │L Olsen     │S│\n│centre back       │centre back       │     │        selected│ │T Piechnik  │C│\n├skills───┬────┬───┴┬────┬────┬────┬┬─┴─────┴─────────tactics┤ │K Christofte│C│\n├keeping──■■■■■■■■■■■■■■■■■■■■■■■■■■┼position─────stay back P┤ │H Andersen  │B│\n├kicking──■■■■■■■■■■■■■■■■■■■■■■■■■■┼possession──quick pass P┤ │J Sivebaek  │B│\n├tackling─■■■■■■■■■■■■■■■■■■■■■■■■■■┼passing─────short passes┤ │K Vilfort   │D│\n├heading──■■■■■■■■■■■■■■■■■■■■■■■■■■┼tackling──avoid injury P┤ │H Larsen    │M│\n├marking──■■■■■■■■■■■■■■■■■■■■■■■■■■┼mark─J Ekstrom──────────┤ │J Jensen    │M│\n├passing──■■■■■■■■■■■■■■■■■■■■■■■■■■┤     striker            │ │B Laudrup   │F│\n├crossing─■■■■■■■■■■■■■■■■■■■■■■■■■■┼─────────characteristics┤ │F Povlsen   │$│\n├feinting─■■■■■■■■■■■■■■■■■■■■■■■■■■┼hardness──wimpy■■■■■■■■■┤ └────────────┴─┘\n├control──■■■■■■■■■■■■■■■■■■■■■■■■■■┼fitness───total■■■■■■■■■┤   use ↑↓ to move\n├dribbling■■■■■■■■■■■■■■■■■■■■■■■■■■┼energy────hyperactive■■■┤\n├shooting─■■■■■■■■■■■■■■■■■■■■■■■■■■┼morale────very confident┤ ╔═══════════════╗\n├penalties■■■■■■■■■■■■■■■■■■■■■■■■■■┼leadershipcaptain■■■■■■■┤ ║Denmark--------║\n└─────────┴────┴────┴────┴────┴────┴┴──────────┴────┴────┴───┘ ╚═══════════════╝\n◄┘-select  CAPTAIN                                         C-computer select"
+    },
+    {
+      "step": 4,
+      "source": "memory",
+      "addr": "0x449",
+      "field": "after key 4 (Enter): 1 byte at 0040:0049 (BIOS video mode), guest memory from the savestate, hex",
+      "value": "03"
+    },
+    {
+      "step": 4,
+      "source": "memory",
+      "addr": "0x46c",
+      "field": "after key 4 (Enter): 4 bytes at 0040:006C (BIOS timer tick count), guest memory from the savestate, as a little-endian dword (bytes in memory order)",
+      "value": "0x000a0179 (79 01 0a 00)"
+    },
+    {
+      "step": 4,
+      "source": "memory",
+      "addr": "0x355a2",
+      "field": "after key 4 (Enter): word at DS:7B62 of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+      "value": "0xf3ab (ab f3)"
+    },
+    {
+      "step": 4,
+      "source": "memory",
+      "addr": "0x355a4",
+      "field": "after key 4 (Enter): word at DS:7B64 of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+      "value": "0x0935 (35 09)"
+    },
+    {
+      "step": 4,
+      "source": "memory",
+      "addr": "0x35d76",
+      "field": "after key 4 (Enter): word at DS:8336 of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+      "value": "0x0057 (57 00)"
+    },
+    {
+      "step": 4,
+      "source": "memory",
+      "addr": "0x3843d",
+      "field": "after key 4 (Enter): word at DS:A9FD of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+      "value": "0x07ea (ea 07)"
+    },
+    {
+      "step": 5,
+      "source": "log",
+      "field": "after key 5 (Enter): host UTC time just before the savestate was requested",
+      "value": "2026-10-04T09:10:22.784Z"
+    },
+    {
+      "step": 5,
+      "source": "log",
+      "field": "after key 5 (Enter): host local time with UTC offset, and zone name, at the same instant",
+      "value": "2026-10-04T11:10:22.784+02:00 CEST"
+    },
+    {
+      "step": 5,
+      "source": "screen",
+      "field": "after key 5 (Enter): text screen 80x25, chars+attributes (4000 bytes), sha256",
+      "value": "6bfe549a0510e10959e16c69a365f86e090fedc2dd5951c5c95761fb07311f64"
+    },
+    {
+      "step": 5,
+      "source": "ui-text",
+      "field": "after key 5 (Enter): text screen rows 0-24, CP437 decoded, trailing blanks trimmed",
+      "value": " (c) NE'93│ ┌───────────────┬──┬FRIENDLY───────────────────────────┐▄▀▀▀▄ ┌▀▀▀▄\n ┌─┐┌─┐┌─┐│ │DENMARK--------│ 0│pass by Olsen                      │█   █ │   █\n │ ││ ││ ││ ├versus─────────┼──┤** LINESMAN FLAGS **               │▄▀▀▀▄ ├───▄\n └─┤└─┘└─┤│ │SWEDEN---------│ 0│Povlsen is OFFSIDE                 │█   █ │   █\n───┘ v.2    └───────────────┴──┴───────────────────────────────────┘└▀▀▀▀ └───┘\n░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░○░░░░▀▀▀░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░\n░░┌────────────────────────────────────┬────────────☺───────────────────────┐░░\n░░│                             M      │                                    │░░\n░░│                                    B  B                                 │░░\n░░├───────────┐                        │  M                     ┌───────────┤░░\n░░│           │                        │                        │           │░░\n░░│           │                        │                        │           │░░\n░░├───┐       │            C           │        $               │       ┌───┤░░\n░┌┘   │       │                        │   F  D     C           │       │   └┐░\n░│☺   │       │         $             D○   ☺Ç    S              │       │   ☺│░\n░└┐   │       │                        │                        │       │   ┌┘░\n░░├───┘       │                      C │          C             │       └───┤░░\n░░│           │                        F                        │           │░░\n░░│           │                     B  │                        │           │░░\n░░├───────────┘             M          │                        └───────────┤░░\n░░│                                  M │                                    │░░\n░░│                                    │                                    │░░\n░░└────────────────────────☺»──────────┴──B─────────────────────────────────┘░░\n░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░\n  ↓↑-display ←→-speed»»»»»   R-result   spacebar-commentary  F9-♫  Esc,◄┘-bench"
+    },
+    {
+      "step": 5,
+      "source": "memory",
+      "addr": "0x449",
+      "field": "after key 5 (Enter): 1 byte at 0040:0049 (BIOS video mode), guest memory from the savestate, hex",
+      "value": "03"
+    },
+    {
+      "step": 5,
+      "source": "memory",
+      "addr": "0x46c",
+      "field": "after key 5 (Enter): 4 bytes at 0040:006C (BIOS timer tick count), guest memory from the savestate, as a little-endian dword (bytes in memory order)",
+      "value": "0x000a0236 (36 02 0a 00)"
+    },
+    {
+      "step": 5,
+      "source": "memory",
+      "addr": "0x355a2",
+      "field": "after key 5 (Enter): word at DS:7B62 of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+      "value": "0x129d (9d 12)"
+    },
+    {
+      "step": 5,
+      "source": "memory",
+      "addr": "0x355a4",
+      "field": "after key 5 (Enter): word at DS:7B64 of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+      "value": "0x0935 (35 09)"
+    },
+    {
+      "step": 5,
+      "source": "memory",
+      "addr": "0x35d76",
+      "field": "after key 5 (Enter): word at DS:8336 of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+      "value": "0xcbd7 (d7 cb)"
+    },
+    {
+      "step": 5,
+      "source": "memory",
+      "addr": "0x3843d",
+      "field": "after key 5 (Enter): word at DS:A9FD of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+      "value": "0x07ea (ea 07)"
+    },
+    {
+      "step": 6,
+      "source": "log",
+      "field": "after key 6 (c): host UTC time just before the savestate was requested",
+      "value": "2026-10-04T09:10:25.445Z"
+    },
+    {
+      "step": 6,
+      "source": "log",
+      "field": "after key 6 (c): host local time with UTC offset, and zone name, at the same instant",
+      "value": "2026-10-04T11:10:25.445+02:00 CEST"
+    },
+    {
+      "step": 6,
+      "source": "screen",
+      "field": "after key 6 (c): text screen 80x25, chars+attributes (4000 bytes), sha256",
+      "value": "7b148f4cd183c7b212d97a144c8b02635ea5916ad1658d31082731c8ac380e28"
+    },
+    {
+      "step": 6,
+      "source": "ui-text",
+      "field": "after key 6 (c): text screen rows 0-24, CP437 decoded, trailing blanks trimmed",
+      "value": " (c) NE'93│ ┌───────────────┬──┬FRIENDLY───────────────────────────┐▄▀▀▀▄ ▄───┐\n ┌─┐┌─┐┌─┐│ │DENMARK--------│ 0│tackle by Povlsen                  │█   █ █   │\n │ ││ ││ ││ ├versus─────────┼──┤Povlsen wins the ball              │▄▀▀▀▄ ▄▀▀▀▄\n └─┤└─┘└─┤│ │SWEDEN---------│ 0│good ball for Laudrup              │█   █ █   █\n───┘ v.2    └───────────────┴──┴───────────────────────────────────┘└▀▀▀▀ └▀▀▀▀\n░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░▀▀▀░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░\n░░┌────────────────────────────────────┬─────────────────────────────☺──────┐░░\n░░│                                    │              M                     │░░\n░░│                                    │      B           B                 │░░\n░░├───────────┐                        │                 $      ┌───────────┤░░\n░░│           │                        │                   D    │           │░░\n░░│           │                        │ M               C      │           │░░\n░░├───┐       │               C        │ $         C       Ç    │       ┌───┤░░\n░┌┘   │       │                        │            F           │       │   └┐░\n░│☺   │       │                        ○C    •                  │    S  │   ☺│░\n░└┐   │       │                        │          F   D         │       │   ┌┘░\n░░├───┘       │                        │  ☺                     │       └───┤░░\n░░│           │                        │                        │           │░░\n░░│           │                        │                M       │           │░░\n░░├───────────┘                        │                        └───────────┤░░\n░░│                                    │              B                     │░░\n░░│                                    │   B      M                         │░░\n░░└───────────────────────────☺────────┴────────────────────────────────────┘░░\n░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░\n  ↓↑-display ←→-speed»»»»»   R-result   spacebar-commentary  F9-♫  Esc,◄┘-bench"
+    },
+    {
+      "step": 6,
+      "source": "memory",
+      "addr": "0x449",
+      "field": "after key 6 (c): 1 byte at 0040:0049 (BIOS video mode), guest memory from the savestate, hex",
+      "value": "03"
+    },
+    {
+      "step": 6,
+      "source": "memory",
+      "addr": "0x46c",
+      "field": "after key 6 (c): 4 bytes at 0040:006C (BIOS timer tick count), guest memory from the savestate, as a little-endian dword (bytes in memory order)",
+      "value": "0x000a0264 (64 02 0a 00)"
+    },
+    {
+      "step": 6,
+      "source": "memory",
+      "addr": "0x355a2",
+      "field": "after key 6 (c): word at DS:7B62 of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+      "value": "0x41fc (fc 41)"
+    },
+    {
+      "step": 6,
+      "source": "memory",
+      "addr": "0x355a4",
+      "field": "after key 6 (c): word at DS:7B64 of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+      "value": "0x0935 (35 09)"
+    },
+    {
+      "step": 6,
+      "source": "memory",
+      "addr": "0x35d76",
+      "field": "after key 6 (c): word at DS:8336 of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+      "value": "0xcbd7 (d7 cb)"
+    },
+    {
+      "step": 6,
+      "source": "memory",
+      "addr": "0x3843d",
+      "field": "after key 6 (c): word at DS:A9FD of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+      "value": "0x07ea (ea 07)"
+    },
+    {
+      "step": 7,
+      "source": "log",
+      "field": "after key 7 (r): host UTC time just before the savestate was requested",
+      "value": "2026-10-04T09:10:26.636Z"
+    },
+    {
+      "step": 7,
+      "source": "log",
+      "field": "after key 7 (r): host local time with UTC offset, and zone name, at the same instant",
+      "value": "2026-10-04T11:10:26.636+02:00 CEST"
+    },
+    {
+      "step": 7,
+      "source": "screen",
+      "field": "after key 7 (r): text screen 80x25, chars+attributes (4000 bytes), sha256",
+      "value": "670fed4f8f453fc6c258738e66af390fee0da672c3c9462419a3c26ee0b9b2b9"
+    },
+    {
+      "step": 7,
+      "source": "ui-text",
+      "field": "after key 7 (r): text screen rows 0-24, CP437 decoded, trailing blanks trimmed",
+      "value": " (c) NE'93│ ┌───────────────┬──┬FRIENDLY───────────────────────────┐┌▀▀▀▄ ▄───┐\n ┌─┐┌─┐┌─┐│ │DENMARK--------│ 1│Laudrup on the ball                ││   █ █   │\n │ ││ ││ ││ ├versus─────────┼──┤good ball for Povlsen              │├───▄ ▄▀▀▀▄\n └─┤└─┘└─┤│ │SWEDEN---------│ 0│**** GOAL **** by Laudrup          ││   █ █   █\n───┘ v.2    └───────────────┴──┴───────────────────────────────────┘└───┘ └▀▀▀▀\n                   ┌─────────────────┐    ┌─────────────────┐\n ┌─────────────────│ Denmark-------- │─┐┌─│ Sweden--------- │─────────────────┐\n │                 └─────────────────┘ ││ └─────────────────┘                 │\n │ ┌─────────┐        ┌──────────────────────────────────┐    ┌─────────┐     │\n │ │ Scorers │        ├──────────────────────────────────┤    │ Scorers │     │\n┌──┴─────────┴──┬min┐ │   ┌────┐ ┬    ┬ ┬ ┌──── ┬   ┬    │ ┌──┴─────────┴──┬min┐\n│B Laudrup      │ 15│ │   │    │ │    │ │ │     │   │    │ │               │   │\n│               │   │ │   │    │ │    │ │ │     ├───┴┐   │ │               │   │\n│               │   │ │   │    │ │    │ │ │     │    │   │ │               │   │\n│               │   │ │   └───┼┘ └────┤ ┴ └──── ┴    ┴   │ │               │   │\n│               │   │ │                                  │ │               │   │\n│               │   │ │ ┌────┐┌──── ┌──── ┬   ┬ ┬  ──┬── │ │               │   │\n│               │   │ │ │    ││     │     │   │ │    │   │ │               │   │\n│               │   │ │ ├───┬┘├───  └───┐ │   │ │    │   │ │               │   │\n│               │   │ │ │   │ │         │ │   │ │    │   │ │               │   │\n│               │   │ │ ┴   ┴ └──── ────┘ └───┤ └─── ┴   │ │               │   │\n│               │   │ ├──────────────────────────────────┤ │               │   │\n└───────────────┴───┘ └──────────────────────────────────┘ └───────────────┴───┘\n └────────────────────────────────────────────────────────────────────────────┘\n  ↓↑-display ←→-speed                   spacebar-commentary  F9-♫  Esc,◄┘-bench"
+    },
+    {
+      "step": 7,
+      "source": "memory",
+      "addr": "0x449",
+      "field": "after key 7 (r): 1 byte at 0040:0049 (BIOS video mode), guest memory from the savestate, hex",
+      "value": "03"
+    },
+    {
+      "step": 7,
+      "source": "memory",
+      "addr": "0x46c",
+      "field": "after key 7 (r): 4 bytes at 0040:006C (BIOS timer tick count), guest memory from the savestate, as a little-endian dword (bytes in memory order)",
+      "value": "0x000a0275 (75 02 0a 00)"
+    },
+    {
+      "step": 7,
+      "source": "memory",
+      "addr": "0x355a2",
+      "field": "after key 7 (r): word at DS:7B62 of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+      "value": "0xb099 (99 b0)"
+    },
+    {
+      "step": 7,
+      "source": "memory",
+      "addr": "0x355a4",
+      "field": "after key 7 (r): word at DS:7B64 of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+      "value": "0x0935 (35 09)"
+    },
+    {
+      "step": 7,
+      "source": "memory",
+      "addr": "0x35d76",
+      "field": "after key 7 (r): word at DS:8336 of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+      "value": "0xcbd7 (d7 cb)"
+    },
+    {
+      "step": 7,
+      "source": "memory",
+      "addr": "0x3843d",
+      "field": "after key 7 (r): word at DS:A9FD of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+      "value": "0x07ea (ea 07)"
+    },
+    {
+      "step": 8,
+      "source": "log",
+      "field": "after key 8 (Enter): host UTC time just before the savestate was requested",
+      "value": "2026-10-04T09:10:27.825Z"
+    },
+    {
+      "step": 8,
+      "source": "log",
+      "field": "after key 8 (Enter): host local time with UTC offset, and zone name, at the same instant",
+      "value": "2026-10-04T11:10:27.825+02:00 CEST"
+    },
+    {
+      "step": 8,
+      "source": "screen",
+      "field": "after key 8 (Enter): text screen 80x25, chars+attributes (4000 bytes), sha256",
+      "value": "50b5b133776bb2fcd909bd78a9a58cb13a8d7766dab6d900288d681016d231d8"
+    },
+    {
+      "step": 8,
+      "source": "ui-text",
+      "field": "after key 8 (Enter): text screen rows 0-24, CP437 decoded, trailing blanks trimmed",
+      "value": " (c) NE'93│ ┌───────────────┬──┬FRIENDLY───────────────────────────┐┌▀▀▀▄ ▄───┐\n ┌─┐┌─┐┌─┐│ │DENMARK--------│ 1│Laudrup on the ball                ││   █ █   │\n │ ││ ││ ││ ├versus─────────┼──┤good ball for Povlsen              │├───▄ ▄▀▀▀▄\n └─┤└─┘└─┤│ │SWEDEN---------│ 0│**** GOAL **** by Laudrup          ││   █ █   █\n───┘ v.2    └───────────────┴──┴───────────────────────────────────┘└───┘ └▀▀▀▀\n\n        ┌─────────────────┐ location:Denmark-------- ┌─────────────────┐\n ┌──────│ Denmark-------- │────────────┐┌────────────│ Sweden--------- │──────┐\n │      └─────────────────┘            ││            └─────────────────┘      │\n │┌───────────┐      ┌──────────────┐  ││  ┌──────────────┐      ┌───────────┐│\n ││    5-4-1  │      │ team tactics │  ││  │ team tactics │      │    4-5-1  ││\n┌─┴───────────┼─┐    └──┬─────────┬─┘  ││  └─┬─────────┬──┘    ┌─┴───────────┼─┐\n│ P Schmeichel│G│       │ players │    ││    │ players │       │ L Eriksson  │G│\n│ L Olsen     │S│       └─────────┘          └─────────┘       │ R Nilsson   │C│\n│ T Piechnik  │C│                ┌────────────┐                │ M Erlingmark│C│\n│ K Christofte│C│   Use ↑↓←→     │ tournament │                │ J Bjorklund │B│\n│ H Andersen  │B│   then ◄┘      ├────────────┤                │ R Ljung     │B│\n│ J Sivebaek  │B│   to select    │ match stats│                │ S Schwarz   │D│\n│ K Vilfort   │D│   option       └──┬──────┬──┘                │ S Rehn      │Ç│\n│ H Larsen    │M│           │       │ play │           │       │ J Jansson   │M│\n│ J Jensen    │M│           │       └──────┘           │       │ K Ingesson  │M│\n│ B Laudrup   │F│           ├─────┐┌─────┐┌────┐┌───── ├─────┐ │ T Brolin    │F│\n│ F Povlsen   │$│           │     │├─────┘│    ││      │     │ │ J Ekstrom   │$│\n└─────────────┴─┘           └─────┘└───── ┴    ┴└───── ┴     ┴ └─────────────┴─┘\n └──────────────────Hit INS to turn automatic action replay OFF───────────────┘"
+    },
+    {
+      "step": 8,
+      "source": "memory",
+      "addr": "0x449",
+      "field": "after key 8 (Enter): 1 byte at 0040:0049 (BIOS video mode), guest memory from the savestate, hex",
+      "value": "03"
+    },
+    {
+      "step": 8,
+      "source": "memory",
+      "addr": "0x46c",
+      "field": "after key 8 (Enter): 4 bytes at 0040:006C (BIOS timer tick count), guest memory from the savestate, as a little-endian dword (bytes in memory order)",
+      "value": "0x000a0287 (87 02 0a 00)"
+    },
+    {
+      "step": 8,
+      "source": "memory",
+      "addr": "0x355a2",
+      "field": "after key 8 (Enter): word at DS:7B62 of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+      "value": "0x5403 (03 54)"
+    },
+    {
+      "step": 8,
+      "source": "memory",
+      "addr": "0x355a4",
+      "field": "after key 8 (Enter): word at DS:7B64 of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+      "value": "0x0935 (35 09)"
+    },
+    {
+      "step": 8,
+      "source": "memory",
+      "addr": "0x35d76",
+      "field": "after key 8 (Enter): word at DS:8336 of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+      "value": "0xcbd7 (d7 cb)"
+    },
+    {
+      "step": 8,
+      "source": "memory",
+      "addr": "0x3843d",
+      "field": "after key 8 (Enter): word at DS:A9FD of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+      "value": "0x07ea (ea 07)"
+    },
+    {
+      "step": 9,
+      "source": "log",
+      "field": "after key 9 (Enter): host UTC time just before the savestate was requested",
+      "value": "2026-10-04T09:10:29.562Z"
+    },
+    {
+      "step": 9,
+      "source": "log",
+      "field": "after key 9 (Enter): host local time with UTC offset, and zone name, at the same instant",
+      "value": "2026-10-04T11:10:29.562+02:00 CEST"
+    },
+    {
+      "step": 9,
+      "source": "screen",
+      "field": "after key 9 (Enter): text screen 80x25, chars+attributes (4000 bytes), sha256",
+      "value": "cfbe099562368adb9f7b0c09461e7e2054a116bbde27ae27db7dbdfc5c1f69f4"
+    },
+    {
+      "step": 9,
+      "source": "ui-text",
+      "field": "after key 9 (Enter): text screen rows 0-24, CP437 decoded, trailing blanks trimmed",
+      "value": " (c) NE'93│ ┌───────────────┬──┬FRIENDLY───────────────────────────┐▄───▄ ▄▀▀▀▀\n ┌─┐┌─┐┌─┐│ │DENMARK--------│ 1│good ball for Povlsen              │█   █ █   │\n │ ││ ││ ││ ├versus─────────┼──┤**** GOAL **** by Laudrup          │├▀▀▀▄ ├▀▀▀▄\n └─┤└─┘└─┤│ │SWEDEN---------│ 0│---- HALF TIME ----                ││   █ │   █\n───┘ v.2    └───────────────┴──┴───────────────────────────────────┘└───┘ └▀▀▀▀\n                   ┌─────────────────┐    ┌─────────────────┐\n ┌─────────────────│ Denmark-------- │─┐┌─│ Sweden--------- │─────────────────┐\n │                 └─────────────────┘ ││ └─────────────────┘                 │\n │ ┌─────────┐        ┌──────────────────────────────────┐    ┌─────────┐     │\n │ │ Scorers │        ├──────────────────────────────────┤    │ Scorers │     │\n┌──┴─────────┴──┬min┐ │   ┌────┐ ┬    ┬ ┬ ┌──── ┬   ┬    │ ┌──┴─────────┴──┬min┐\n│B Laudrup      │ 15│ │   │    │ │    │ │ │     │   │    │ │               │   │\n│               │   │ │   │    │ │    │ │ │     ├───┴┐   │ │               │   │\n│               │   │ │   │    │ │    │ │ │     │    │   │ │               │   │\n│               │   │ │   └───┼┘ └────┤ ┴ └──── ┴    ┴   │ │               │   │\n│               │   │ │                                  │ │               │   │\n│               │   │ │ ┌────┐┌──── ┌──── ┬   ┬ ┬  ──┬── │ │               │   │\n│               │   │ │ │    ││     │     │   │ │    │   │ │               │   │\n│               │   │ │ ├───┬┘├───  └───┐ │   │ │    │   │ │               │   │\n│               │   │ │ │   │ │         │ │   │ │    │   │ │               │   │\n│               │   │ │ ┴   ┴ └──── ────┘ └───┤ └─── ┴   │ │               │   │\n│               │   │ ├──────────────────────────────────┤ │               │   │\n└───────────────┴───┘ └──────────────────────────────────┘ └───────────────┴───┘\n └────────────────────────────────────────────────────────────────────────────┘\n  ↓↑-display ←→-speed»»»»»              spacebar-commentary  F9-♫  Esc,◄┘-bench"
+    },
+    {
+      "step": 9,
+      "source": "memory",
+      "addr": "0x449",
+      "field": "after key 9 (Enter): 1 byte at 0040:0049 (BIOS video mode), guest memory from the savestate, hex",
+      "value": "03"
+    },
+    {
+      "step": 9,
+      "source": "memory",
+      "addr": "0x46c",
+      "field": "after key 9 (Enter): 4 bytes at 0040:006C (BIOS timer tick count), guest memory from the savestate, as a little-endian dword (bytes in memory order)",
+      "value": "0x000a02a0 (a0 02 0a 00)"
+    },
+    {
+      "step": 9,
+      "source": "memory",
+      "addr": "0x355a2",
+      "field": "after key 9 (Enter): word at DS:7B62 of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+      "value": "0xda32 (32 da)"
+    },
+    {
+      "step": 9,
+      "source": "memory",
+      "addr": "0x355a4",
+      "field": "after key 9 (Enter): word at DS:7B64 of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+      "value": "0x0935 (35 09)"
+    },
+    {
+      "step": 9,
+      "source": "memory",
+      "addr": "0x35d76",
+      "field": "after key 9 (Enter): word at DS:8336 of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+      "value": "0xcbd7 (d7 cb)"
+    },
+    {
+      "step": 9,
+      "source": "memory",
+      "addr": "0x3843d",
+      "field": "after key 9 (Enter): word at DS:A9FD of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+      "value": "0x07ea (ea 07)"
+    },
+    {
+      "step": 10,
+      "source": "log",
+      "field": "after key 10 (r): host UTC time just before the savestate was requested",
+      "value": "2026-10-04T09:10:32.360Z"
+    },
+    {
+      "step": 10,
+      "source": "log",
+      "field": "after key 10 (r): host local time with UTC offset, and zone name, at the same instant",
+      "value": "2026-10-04T11:10:32.360+02:00 CEST"
+    },
+    {
+      "step": 10,
+      "source": "screen",
+      "field": "after key 10 (r): text screen 80x25, chars+attributes (4000 bytes), sha256",
+      "value": "227768c6f2200cfea2a35fa746ef3f2a045387d73431a202ae282e51420de855"
+    },
+    {
+      "step": 10,
+      "source": "ui-text",
+      "field": "after key 10 (r): text screen rows 0-24, CP437 decoded, trailing blanks trimmed",
+      "value": " (c) NE'93│ ┌───────────────┬──┬FRIENDLY───────────────────────────┐▄───▄ ▄▀▀▀▀\n ┌─┐┌─┐┌─┐│ │DENMARK--------│ 1│good ball for Povlsen              │█   █ █   │\n │ ││ ││ ││ ├versus─────────┼──┤**** GOAL **** by Laudrup          │├▀▀▀▄ ├▀▀▀▄\n └─┤└─┘└─┤│ │SWEDEN---------│ 0│---- HALF TIME ----                ││   █ │   █\n───┘ v.2    └───────────────┴──┴───────────────────────────────────┘└───┘ └▀▀▀▀\n\n        ┌─────────────────┐ location:Denmark-------- ┌─────────────────┐\n ┌──────│ Denmark-------- │────────────┐┌────────────│ Sweden--------- │──────┐\n │      └─────────────────┘            ││            └─────────────────┘      │\n │┌───────────┐      ┌──────────────┐  ││  ┌──────────────┐      ┌───────────┐│\n ││    5-4-1  │      │ team tactics │  ││  │ team tactics │      │    4-5-1  ││\n┌─┴───────────┼─┐    └──┬─────────┬─┘  ││  └─┬─────────┬──┘    ┌─┴───────────┼─┐\n│ P Schmeichel│G│       │ players │    ││    │ players │       │ L Eriksson  │G│\n│ L Olsen     │S│       └─────────┘          └─────────┘       │ R Nilsson   │C│\n│ T Piechnik  │C│                ┌────────────┐                │ M Erlingmark│C│\n│ K Christofte│C│   Use ↑↓←→     │ tournament │                │ J Bjorklund │B│\n│ H Andersen  │B│   then ◄┘      ├────────────┤                │ R Ljung     │B│\n│ J Sivebaek  │B│   to select    │ match stats│                │ S Schwarz   │D│\n│ K Vilfort   │D│   option       └──┬──────┬──┘                │ S Rehn      │Ç│\n│ H Larsen    │M│           │       │ play │           │       │ J Jansson   │M│\n│ J Jensen    │M│           │       └──────┘           │       │ K Ingesson  │M│\n│ B Laudrup   │F│           ├─────┐┌─────┐┌────┐┌───── ├─────┐ │ T Brolin    │F│\n│ F Povlsen   │$│           │     │├─────┘│    ││      │     │ │ J Ekstrom   │$│\n└─────────────┴─┘           └─────┘└───── ┴    ┴└───── ┴     ┴ └─────────────┴─┘\n └──────────────────Hit INS to turn automatic action replay OFF───────────────┘"
+    },
+    {
+      "step": 10,
+      "source": "memory",
+      "addr": "0x449",
+      "field": "after key 10 (r): 1 byte at 0040:0049 (BIOS video mode), guest memory from the savestate, hex",
+      "value": "03"
+    },
+    {
+      "step": 10,
+      "source": "memory",
+      "addr": "0x46c",
+      "field": "after key 10 (r): 4 bytes at 0040:006C (BIOS timer tick count), guest memory from the savestate, as a little-endian dword (bytes in memory order)",
+      "value": "0x000a02c7 (c7 02 0a 00)"
+    },
+    {
+      "step": 10,
+      "source": "memory",
+      "addr": "0x355a2",
+      "field": "after key 10 (r): word at DS:7B62 of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+      "value": "0xda32 (32 da)"
+    },
+    {
+      "step": 10,
+      "source": "memory",
+      "addr": "0x355a4",
+      "field": "after key 10 (r): word at DS:7B64 of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+      "value": "0x0935 (35 09)"
+    },
+    {
+      "step": 10,
+      "source": "memory",
+      "addr": "0x35d76",
+      "field": "after key 10 (r): word at DS:8336 of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+      "value": "0xcbd7 (d7 cb)"
+    },
+    {
+      "step": 10,
+      "source": "memory",
+      "addr": "0x3843d",
+      "field": "after key 10 (r): word at DS:A9FD of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+      "value": "0x07ea (ea 07)"
+    },
+    {
+      "step": 10,
+      "source": "log",
+      "field": "lines of DOSBox-X's own output (dosbox.out) that mention save, load, corrupt, date or time (Save_Remark and Time_Stamp lines left out), in order",
+      "value": "LOG: Active save slot: 1 [Empty]\nLOG: File : <work>/IntTimer10 is 142 bytes\nLOG: [11:10:01]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 141 bytes\nLOG: [11:10:02]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 141 bytes\nLOG: [11:10:02]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 141 bytes\nLOG: [11:10:03]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 165 bytes\nLOG: [11:10:03]: Saved. (Slot 1)\nLOG: Loading state from slot: 1\nLOG:  Extracting: IntTimer10\nLOG: [11:10:04]: Loaded. (Slot 1)\nLOG: File : <work>/IntTimer10 is 160 bytes\nLOG: [11:10:04]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 162 bytes\nLOG: [11:10:05]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 162 bytes\nLOG: [11:10:06]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 162 bytes\nLOG: [11:10:06]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 162 bytes\nLOG: [11:10:07]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 161 bytes\nLOG: [11:10:07]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 162 bytes\nLOG: [11:10:08]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 159 bytes\nLOG: [11:10:09]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 159 bytes\nLOG: [11:10:09]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 159 bytes\nLOG: [11:10:10]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 160 bytes\nLOG: [11:10:10]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 160 bytes\nLOG: [11:10:11]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 154 bytes\nLOG: [11:10:11]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 154 bytes\nLOG: [11:10:12]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 158 bytes\nLOG: [11:10:12]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 159 bytes\nLOG: [11:10:13]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 159 bytes\nLOG: [11:10:14]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 162 bytes\nLOG: [11:10:14]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 162 bytes\nLOG: [11:10:15]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 160 bytes\nLOG: [11:10:15]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 161 bytes\nLOG: [11:10:16]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 159 bytes\nLOG: [11:10:16]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 160 bytes\nLOG: [11:10:17]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 159 bytes\nLOG: [11:10:17]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 159 bytes\nLOG: [11:10:18]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 160 bytes\nLOG: [11:10:18]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 160 bytes\nLOG: [11:10:19]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 159 bytes\nLOG: [11:10:19]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 160 bytes\nLOG: [11:10:20]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 161 bytes\nLOG: [11:10:20]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 160 bytes\nLOG: [11:10:21]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 158 bytes\nLOG: [11:10:22]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 162 bytes\nLOG: [11:10:22]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 162 bytes\nLOG: [11:10:23]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 161 bytes\nLOG: [11:10:25]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 158 bytes\nLOG: [11:10:26]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 161 bytes\nLOG: [11:10:26]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 152 bytes\nLOG: [11:10:27]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 153 bytes\nLOG: [11:10:28]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 153 bytes\nLOG: [11:10:28]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 154 bytes\nLOG: [11:10:29]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 160 bytes\nLOG: [11:10:29]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 150 bytes\nLOG: [11:10:30]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 152 bytes\nLOG: [11:10:31]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 161 bytes\nLOG: [11:10:31]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 150 bytes\nLOG: [11:10:32]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 150 bytes\nLOG: [11:10:32]: Saved. (Slot 1)"
+    },
+    {
+      "step": 10,
+      "source": "process",
+      "field": "dosbox-x and Xvfb after SIGTERM to their process groups (SIGKILL after 10 s, see log)",
+      "value": "both exited"
+    },
+    {
+      "step": 10,
+      "source": "log",
+      "field": "waits, polls and key holds, seconds since launch",
+      "value": "[[0.108,\"Xvfb poll: answered after 2 polls of 0.1s\"],[0.108,\"Xvfb :571 answering\"],[0.109,\"dosbox-x started\"],[0.229,\"window found after 2 polls of 0.1s\"],[0.231,\"window focused\"],[0.745,\"host key F12+s, each step held 0.15s\"],[0.746,\"savestate complete after 1 polls of 0.05s\"],[1.284,\"host key F12+s, each step held 0.15s\"],[1.284,\"savestate complete after 1 polls of 0.05s\"],[1.821,\"host key F12+s, each step held 0.15s\"],[1.822,\"savestate complete after 1 polls of 0.05s\"],[2.356,\"host key F12+s, each step held 0.15s\"],[2.357,\"savestate complete after 1 polls of 0.05s\"],[2.89,\"host key F12+s, each step held 0.15s\"],[2.891,\"savestate complete after 1 polls of 0.05s\"],[2.902,\"title screen: matched after 5 savestate polls\"],[3.419,\"host key F12+l, each step held 0.15s\"],[3.419,\"Host+L sent (main)\"],[3.936,\"host key F12+s, each step held 0.15s\"],[3.937,\"savestate complete after 1 polls of 0.05s\"],[3.955,\"restore main: matched after 1 savestate polls\"],[4.101,\"key Esc held 0.08s\"],[4.614,\"host key F12+s, each step held 0.15s\"],[4.616,\"savestate complete after 1 polls of 0.05s\"],[5.143,\"host key F12+s, each step held 0.15s\"],[5.144,\"savestate complete after 1 polls of 0.05s\"],[5.162,\"after key Esc: changed and stable after 2 savestate polls\"],[5.285,\"key Up held 0.08s\"],[5.798,\"host key F12+s, each step held 0.15s\"],[5.799,\"savestate complete after 1 polls of 0.05s\"],[6.331,\"host key F12+s, each step held 0.15s\"],[6.332,\"savestate complete after 1 polls of 0.05s\"],[6.351,\"after key Up: changed and stable after 2 savestate polls\"],[6.472,\"key Enter held 0.08s\"],[6.989,\"host key F12+s, each step held 0.15s\"],[6.99,\"savestate complete after 1 polls of 0.05s\"],[7.519,\"host key F12+s, each step held 0.15s\"],[7.52,\"savestate complete after 1 polls of 0.05s\"],[7.529,\"after key Enter: changed and stable after 2 savestate polls\"],[7.653,\"key Enter held 0.08s\"],[8.17,\"host key F12+s, each step held 0.15s\"],[8.171,\"savestate complete after 1 polls of 0.05s\"],[8.702,\"host key F12+s, each step held 0.15s\"],[8.704,\"savestate complete after 1 polls of 0.05s\"],[8.725,\"after key Enter: changed and stable after 2 savestate polls\"],[8.848,\"key Enter held 0.08s\"],[9.365,\"host key F12+s, each step held 0.15s\"],[9.367,\"savestate complete after 1 polls of 0.05s\"],[9.902,\"host key F12+s, each step held 0.15s\"],[9.903,\"savestate complete after 1 polls of 0.05s\"],[10.432,\"host key F12+s, each step held 0.15s\"],[10.434,\"savestate complete after 1 polls of 0.05s\"],[10.967,\"host key F12+s, each step held 0.15s\"],[10.968,\"savestate complete after 1 polls of 0.05s\"],[11.504,\"host key F12+s, each step held 0.15s\"],[11.506,\"savestate complete after 1 polls of 0.05s\"],[12.039,\"host key F12+s, each step held 0.15s\"],[12.04,\"savestate complete after 1 polls of 0.05s\"],[12.578,\"host key F12+s, each step held 0.15s\"],[12.579,\"savestate complete after 1 polls of 0.05s\"],[13.113,\"host key F12+s, each step held 0.15s\"],[13.114,\"savestate complete after 1 polls of 0.05s\"],[13.64,\"host key F12+s, each step held 0.15s\"],[13.641,\"savestate complete after 1 polls of 0.05s\"],[14.193,\"host key F12+s, each step held 0.15s\"],[14.194,\"savestate complete after 1 polls of 0.05s\"],[14.724,\"host key F12+s, each step held 0.15s\"],[14.725,\"savestate complete after 1 polls of 0.05s\"],[15.249,\"host key F12+s, each step held 0.15s\"],[15.251,\"savestate complete after 1 polls of 0.05s\"],[15.782,\"host key F12+s, each step held 0.15s\"],[15.783,\"savestate complete after 1 polls of 0.05s\"],[16.313,\"host key F12+s, each step held 0.15s\"],[16.315,\"savestate complete after 1 polls of 0.05s\"],[16.846,\"host key F12+s, each step held 0.15s\"],[16.847,\"savestate complete after 1 polls of 0.05s\"],[17.38,\"host key F12+s, each step held 0.15s\"],[17.381,\"savestate complete after 1 polls of 0.05s\"],[17.912,\"host key F12+s, each step held 0.15s\"],[17.913,\"savestate complete after 1 polls of 0.05s\"],[18.447,\"host key F12+s, each step held 0.15s\"],[18.448,\"savestate complete after 1 polls of 0.05s\"],[18.984,\"host key F12+s, each step held 0.15s\"],[18.985,\"savestate complete after 1 polls of 0.05s\"],[19.516,\"host key F12+s, each step held 0.15s\"],[19.517,\"savestate complete after 1 polls of 0.05s\"],[20.046,\"host key F12+s, each step held 0.15s\"],[20.047,\"savestate complete after 1 polls of 0.05s\"],[20.579,\"host key F12+s, each step held 0.15s\"],[20.58,\"savestate complete after 1 polls of 0.05s\"],[21.113,\"host key F12+s, each step held 0.15s\"],[21.114,\"savestate complete after 1 polls of 0.05s\"],[21.642,\"host key F12+s, each step held 0.15s\"],[21.643,\"savestate complete after 1 polls of 0.05s\"],[22.176,\"host key F12+s, each step held 0.15s\"],[22.178,\"savestate complete after 1 polls of 0.05s\"],[22.198,\"after key Enter: changed and stable after 25 savestate polls\"],[22.323,\"key c held 0.08s\"],[24.323,\"delay 2.0s after key c (the screen animates)\"],[24.836,\"host key F12+s, each step held 0.15s\"],[24.837,\"savestate complete after 1 polls of 0.05s\"],[24.977,\"key r held 0.08s\"],[25.494,\"host key F12+s, each step held 0.15s\"],[25.495,\"savestate complete after 1 polls of 0.05s\"],[26.028,\"host key F12+s, each step held 0.15s\"],[26.029,\"savestate complete after 1 polls of 0.05s\"],[26.047,\"after key r: changed and stable after 2 savestate polls\"],[26.173,\"key Enter held 0.08s\"],[26.688,\"host key F12+s, each step held 0.15s\"],[26.69,\"savestate complete after 1 polls of 0.05s\"],[27.221,\"host key F12+s, each step held 0.15s\"],[27.223,\"savestate complete after 1 polls of 0.05s\"],[27.242,\"after key Enter: changed and stable after 2 savestate polls\"],[27.366,\"key Enter held 0.08s\"],[27.888,\"host key F12+s, each step held 0.15s\"],[27.889,\"savestate complete after 1 polls of 0.05s\"],[28.423,\"host key F12+s, each step held 0.15s\"],[28.425,\"savestate complete after 1 polls of 0.05s\"],[28.954,\"host key F12+s, each step held 0.15s\"],[28.955,\"savestate complete after 1 polls of 0.05s\"],[28.973,\"after key Enter: changed and stable after 3 savestate polls\"],[29.095,\"key r held 0.08s\"],[29.607,\"host key F12+s, each step held 0.15s\"],[29.608,\"savestate complete after 1 polls of 0.05s\"],[30.144,\"host key F12+s, each step held 0.15s\"],[30.145,\"savestate complete after 1 polls of 0.05s\"],[30.676,\"host key F12+s, each step held 0.15s\"],[30.678,\"savestate complete after 1 polls of 0.05s\"],[31.216,\"host key F12+s, each step held 0.15s\"],[31.217,\"savestate complete after 1 polls of 0.05s\"],[31.751,\"host key F12+s, each step held 0.15s\"],[31.752,\"savestate complete after 1 polls of 0.05s\"],[31.768,\"after key r: changed and stable after 5 savestate polls\"],[41.78,\"dosbox-x pid 1380782 still running 10s after SIGTERM: SIGKILL to its group\"],[41.795,\"terminated\"]]"
+    }
+  ],
+  "outputs": [],
+  "started": "2026-10-04T09:10:01.122Z",
+  "ended": "2026-10-04T09:10:42.941Z",
+  "status": "completed"
+}

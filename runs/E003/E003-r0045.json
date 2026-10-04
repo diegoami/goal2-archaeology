@@ -1,0 +1,213 @@
+{
+  "schema": "run/1",
+  "run_id": "E003-r0045",
+  "experiment": "E003",
+  "arm": "d0-time-100000-date-10041993",
+  "rep": 45,
+  "code_commit": "7b397c1",
+  "machine": "ubuntu-24-04-wsl2",
+  "artifact": {
+    "set": "goal2-a949da2f",
+    "variant": null
+  },
+  "runtime": {
+    "driver": "runtime/driver/driver.py@7b397c1",
+    "platform": "python-3.12.3/ubuntu-24-04-wsl2",
+    "fingerprint": {
+      "dosbox-x": "2024.03.01 SDL2",
+      "xvfb": "2:21.1.12-1ubuntu1.8",
+      "xdotool": "xdotool version 3.20160805.1",
+      "python": "3.12.3",
+      "kernel": "6.18.40.1-microsoft-standard-WSL2",
+      "config_sha256": "a4063814aeec4ee5384ca91a01bd0e1e5a1215cc01365939f764ed35bc8e2a3c",
+      "machine": "svga_s3",
+      "memsize": "16",
+      "cycles": "auto",
+      "core": "auto",
+      "cputype": "auto",
+      "dos_time": "10:00:00",
+      "dos_date": "10-04-1993"
+    }
+  },
+  "interventions": [
+    {
+      "level": "I1",
+      "what": "text screen, BIOS data area (0040:0049, 0040:006C) and GOAL.EXE data-segment words (DS:7B62, DS:7B64, DS:8336, and two known strings) read from DOSBox-X savestates (Host+S; components Vga and Memory)"
+    },
+    {
+      "level": "I2",
+      "what": "a savestate is written at each read (vocabulary/interventions.md lists save and load of state as I2; neutrality not tested)"
+    },
+    {
+      "level": "I3",
+      "what": "DOS date 10/04/1993 and DOS time 10:00:00 requested with the DOSBox-X commands `date 10/04/1993` and `time 10:00:00` in the autoexec, before GOAL runs; NOT verified as applied: DOS time set to 10:00:00, DOS reports 9:59:59"
+    }
+  ],
+  "start_state": {
+    "id": "fresh-launch",
+    "sha256": "a4063814aeec4ee5384ca91a01bd0e1e5a1215cc01365939f764ed35bc8e2a3c",
+    "restore": "fresh DOSBox-X process (config sha256 a4063814aeec4ee5384ca91a01bd0e1e5a1215cc01365939f764ed35bc8e2a3c, the hash of the config text with host paths replaced), game folder recreated from the verified release copy, nothing restored; DOS time set to 10:00:00 on 10/04/1993 before GOAL ran"
+  },
+  "seed": null,
+  "actions": {
+    "script": "experiments/E003-q001-inputs/run.py",
+    "sha256": "2175fa3b29ef1b6f66b5916cde284682ea125499a200e946c11880f2ef40b96a",
+    "args": [
+      "d0",
+      "--dos-time",
+      "10:00:00",
+      "--dos-date",
+      "10/04/1993",
+      "--batch",
+      "rework",
+      "keys: n Enter Enter b o b Enter Enter Enter Enter Esc"
+    ]
+  },
+  "observations": [
+    {
+      "step": 0,
+      "source": "log",
+      "field": "host UTC time at launch",
+      "value": "2026-10-04T09:39:31.338Z"
+    },
+    {
+      "step": 0,
+      "source": "log",
+      "field": "host local time at launch, with UTC offset, and zone name",
+      "value": "2026-10-04T11:39:31.338+02:00 CEST"
+    },
+    {
+      "step": 0,
+      "source": "file",
+      "field": "DOS clock read back: CLOCK.TXT as DOS wrote it (`date /t`, then `time /t`) right after setting the date and time, before GOAL",
+      "value": "10/04/1993\n9:59:59\n"
+    },
+    {
+      "step": 0,
+      "source": "file",
+      "field": "DOSBox-X config of the session, host paths replaced by <work> and <game>",
+      "value": "[sdl]\nfullscreen=false\noutput=surface\nmapperfile=<work>/mapper.map\n[mixer]\nnosound=true\n[midi]\nmididevice=none\n[dosbox]\nmachine=svga_s3\nmemsize=16\nsaveremark=false\ncaptures=<work>/cap\n[cpu]\ncore=auto\ncputype=auto\ncycles=auto\n[autoexec]\nmount c <game>\nc:\ndate 10/04/1993\ntime 10:00:00\nmount d <work>/dosclock\ndate /t > d:\\clock.txt\ntime /t >> d:\\clock.txt\nc:\ngoal\nexit\n"
+    },
+    {
+      "step": 0,
+      "source": "file",
+      "field": "sha256 of that config text (UTF-8)",
+      "value": "a4063814aeec4ee5384ca91a01bd0e1e5a1215cc01365939f764ed35bc8e2a3c"
+    },
+    {
+      "step": 0,
+      "source": "log",
+      "field": "batch label given on the command line",
+      "value": "rework"
+    },
+    {
+      "step": 1,
+      "source": "log",
+      "field": "last complete read before the abort: host UTC time just before the savestate was requested",
+      "value": "2026-10-04T09:39:33.724Z"
+    },
+    {
+      "step": 1,
+      "source": "log",
+      "field": "last complete read before the abort: host local time with UTC offset, and zone name, at the same instant",
+      "value": "2026-10-04T11:39:33.724+02:00 CEST"
+    },
+    {
+      "step": 1,
+      "source": "screen",
+      "field": "last complete read before the abort: text screen 80x25, chars+attributes (4000 bytes), sha256",
+      "value": "cd7f15fbf853b40471d05bad51cb6e6c14cbc8a7307893dba8f5f36c2315c612"
+    },
+    {
+      "step": 1,
+      "source": "ui-text",
+      "field": "last complete read before the abort: text screen rows 0-24, CP437 decoded, trailing blanks trimmed",
+      "value": " (c) NE'93│ │                                                    │     (c)\n ┌─┐┌─┐┌─┐│ │                                                    │     new\n │ ││ ││ ││ │                                                    │     era\n └─┤└─┘└─┤│ │                                                    │   software\n───┘ v.2    │                                                    │     1993\n────────────┘                                                    └──────────────\n\n\n\n\n\n\n────────────────────────────────────────────────────────────────────────────────\n                   THE international soccer management game\n────────────────────────────────────────────────────────────────────────────────\n\n────────────────────────────────────────────────────────────────────────────────\n                    design and coding : Mantra and L.B.\n────────────────────────────────────────────────────────────────────────────────\n     testing and feedback : Celtic Ray, Mr Scott, Big Mac and Carl Wilky\n────────────────────────────────────────────────────────────────────────────────\n               distribution : Silverwitch and Tom de Notre Dame\n────────────────────────────────────────────────────────────────────────────────\n\n■■■■■■■■■■■■■■■■■■■ Do you want to load a saved game? (Y/N) ■■■■■■■■■■■■■■■■■■■■"
+    },
+    {
+      "step": 1,
+      "source": "memory",
+      "addr": "0x449",
+      "field": "last complete read before the abort: 1 byte at 0040:0049 (BIOS video mode), guest memory from the savestate, hex",
+      "value": "03"
+    },
+    {
+      "step": 1,
+      "source": "memory",
+      "addr": "0x46c",
+      "field": "last complete read before the abort: 4 bytes at 0040:006C (BIOS timer tick count), guest memory from the savestate, as a little-endian dword (bytes in memory order)",
+      "value": "0x000a005a (5a 00 0a 00)"
+    },
+    {
+      "step": 1,
+      "source": "memory",
+      "addr": "0x8120",
+      "field": "GOAL.EXE located: its MCB (owner = the next segment, name GOAL), PSP, load segment and data segment",
+      "value": "MCB at segment 0812 (owner 0813, name GOAL), PSP 0813, load segment 0823 = PSP + 10h, DS 2DA4 = load + 2581h, linear base 0x2DA40"
+    },
+    {
+      "step": 1,
+      "source": "memory",
+      "addr": "0x2da64",
+      "field": "8 bytes at DS:0024, hex (static/goal-exe/data/ds_2581_01.hex has 07 54 52 59 20 4f 55 54)",
+      "value": "07 54 52 59 20 4f 55 54"
+    },
+    {
+      "step": 1,
+      "source": "memory",
+      "addr": "0x2db00",
+      "field": "6 bytes at DS:00C0, hex (static/goal-exe/data/ds_2581_01.hex has 6f 6e 20 66 6f 72)",
+      "value": "6f 6e 20 66 6f 72"
+    },
+    {
+      "step": 1,
+      "source": "memory",
+      "addr": "0x355a2",
+      "field": "last complete read before the abort: word at DS:7B62 of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+      "value": "0x0000 (00 00)"
+    },
+    {
+      "step": 1,
+      "source": "memory",
+      "addr": "0x355a4",
+      "field": "last complete read before the abort: word at DS:7B64 of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+      "value": "0x0000 (00 00)"
+    },
+    {
+      "step": 1,
+      "source": "memory",
+      "addr": "0x35d76",
+      "field": "last complete read before the abort: word at DS:8336 of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+      "value": "0x0057 (57 00)"
+    },
+    {
+      "step": 1,
+      "source": "memory",
+      "addr": "0x3843d",
+      "field": "last complete read before the abort: word at DS:A9FD of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+      "value": "0x07c9 (c9 07)"
+    },
+    {
+      "step": 1,
+      "source": "log",
+      "field": "lines of DOSBox-X's own output (dosbox.out) that mention save, load, corrupt, date or time (Save_Remark and Time_Stamp lines left out), in order",
+      "value": "LOG: Active save slot: 1 [Empty]\nLOG: File : <work>/IntTimer10 is 142 bytes\nLOG: [11:39:31]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 141 bytes\nLOG: [11:39:32]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 141 bytes\nLOG: [11:39:32]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 141 bytes\nLOG: [11:39:33]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 161 bytes\nLOG: [11:39:34]: Saved. (Slot 1)"
+    },
+    {
+      "step": 1,
+      "source": "process",
+      "field": "dosbox-x and Xvfb after SIGTERM to their process groups (SIGKILL after 10 s, see log)",
+      "value": "both exited"
+    },
+    {
+      "step": 1,
+      "source": "log",
+      "field": "waits, polls and key holds, seconds since launch",
+      "value": "[[0.109,\"Xvfb poll: answered after 2 polls of 0.1s\"],[0.109,\"Xvfb :455 answering\"],[0.11,\"dosbox-x started\"],[0.235,\"window found after 2 polls of 0.1s\"],[0.237,\"window focused\"],[0.753,\"host key F12+s, each step held 0.15s\"],[0.754,\"savestate complete after 1 polls of 0.05s\"],[1.292,\"host key F12+s, each step held 0.15s\"],[1.293,\"savestate complete after 1 polls of 0.05s\"],[1.83,\"host key F12+s, each step held 0.15s\"],[1.831,\"savestate complete after 1 polls of 0.05s\"],[2.366,\"host key F12+s, each step held 0.15s\"],[2.368,\"savestate complete after 1 polls of 0.05s\"],[2.901,\"host key F12+s, each step held 0.15s\"],[2.903,\"savestate complete after 1 polls of 0.05s\"],[2.916,\"title screen: matched after 5 savestate polls\"],[2.916,\"DOS clock read back: '10/04/1993\\\\n9:59:59'\"],[12.93,\"dosbox-x pid 1605377 still running 10s after SIGTERM: SIGKILL to its group\"],[12.942,\"terminated\"]]"
+    }
+  ],
+  "outputs": [],
+  "started": "2026-10-04T09:39:31.338Z",
+  "ended": "2026-10-04T09:39:44.305Z",
+  "status": "aborted: ClockNotApplied: DOS time set to 10:00:00, DOS reports 9:59:59"
+}

@@ -188,6 +188,10 @@ def main(argv=None):
     except FileNotFoundError:
         print(f"start state {a.start_state} not stored yet: making it", file=sys.stderr)
         st = driver.make_state(a.start_state)
+    try:
+        driver.Driver(st.config).check_start_state(st)  # refuse an incompatible state before any record
+    except driver.StateLayoutMismatch as e:
+        raise SystemExit(f"refused: {e}") from None
     out_dir = ROOT / a.out
     out_dir.mkdir(parents=True, exist_ok=True)
     first = 1 + max((int(p.stem.split("-r")[1]) for p in out_dir.glob(f"{EXPERIMENT}-r*.json")), default=0)
