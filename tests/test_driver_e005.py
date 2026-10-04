@@ -278,35 +278,128 @@ class IdentityTest(unittest.TestCase):
             self.assertFalse(summ.same(a, dict(a, **{k: v})), k)
 
 
-class LostByReaderTest(unittest.TestCase):
-    """E005-r0035's case: one line missing where the reader flagged record 12 as the end marker."""
-    REF = {"score": ("S", 2, "D", 3), "events": [["goal", 0, "g"]], "seed": "0xa621", "counter": "0x005e", "gaps": [],
-           "lines": [[10, 17, 0, "shot"], [11, 31, 1, "deflected"], [12, 54, 0, "Vilfort is OFFSIDE"], [13, 58, 1, "FREE KICK"]]}
+ctest = _load("e005_commentary_fixture", ROOT / "tests" / "test_driver_commentary.py")
 
-    def run_(self, **kw):
-        r = dict(self.REF, lines=[l for l in self.REF["lines"] if l[0] != 12],
-                 gaps=["match read 425: record 12 is the end marker 0xFF"])
-        r.update(kw)
-        return r
 
-    def test_a_line_lost_at_a_flagged_record_is_the_readers(self):
-        self.assertEqual(summ.lost_by_reader(self.run_(), self.REF), [(12, 54, 0, "Vilfort is OFFSIDE")])
-        self.assertIn("but for 1 commentary line(s) the reader lost", summ.identity(dict(self.run_(), id="b"), dict(self.REF, id="a")))
+def tracked(snapshots):
+    """A run's commentary as summarise.load gives it, from the real Tracker fed successive snapshots."""
+    t = e005.commentary.Tracker()
+    for k, st in enumerate(snapshots, 1):
+        t.add(e005.commentary.Snapshot(st), f"match read {k}")
+    return {"lines": [[x["n"], x["template"], x["team"], x["text"]] for x in t.lines], "gaps": t.gaps, "deltas": t.deltas}
+
+
+class RecordIntegrityTest(unittest.TestCase):
+    """Review R3: the runner never writes a host path, never replaces a record, and refuses to run on
+    uncommitted sources."""
+    REC = {"run_id": "E005-r9999", "arm": "quick-restore-e004-1001-cycles-5000", "status": "completed", "x": "<work>"}
+
+    def setUp(self):
+        import tempfile
+        self.tmp = tempfile.TemporaryDirectory()
+        self.out = Path(self.tmp.name) / "runs"
+        self.addCleanup(self.tmp.cleanup)
+
+    def test_a_record_holding_a_host_path_is_refused_unwritten(self):
+        leaked = dict(self.REC, x=f"conf at {e005.ROOT}/scratch/driver")
+        with mock.patch.object(e005, "OUT", self.out), self.assertRaises(SystemExit) as cm:
+            e005.write_record(leaked)
+        self.assertIn("host path", str(cm.exception))
+        self.assertFalse((self.out / "E005-r9999.json").exists())
+
+    def test_a_record_is_never_replaced(self):
+        with mock.patch.object(e005, "OUT", self.out):
+            self.assertTrue(e005.write_record(self.REC))
+            first = (self.out / "E005-r9999.json").read_text()
+            with self.assertRaises(FileExistsError):
+                e005.write_record(dict(self.REC, status="aborted: second"))
+        self.assertEqual((self.out / "E005-r9999.json").read_text(), first)
+        self.assertEqual(json.loads(first)["status"], "completed")
+
+    def test_uncommitted_sources_stop_the_runner_before_any_run(self):
+        def git(*a):
+            return " M experiments/E005-q003-cycles/run.py" if a[0] == "status" else "abc1234"
+        for kind in (["calibrate", "--cycles", "5000"], ["restores", "--cycles", "5000", "--state", "e004-1001"],
+                     ["fresh", "--cycles", "max", "--state", "e004-1337"]):
+            with mock.patch.object(e005, "git", side_effect=git) as g, mock.patch.object(e005, "calibrate") as cal, \
+                    mock.patch.object(e005, "Run") as run, mock.patch.object(e005, "load_state") as ls, \
+                    self.assertRaises(SystemExit) as cm:
+                e005.main(kind)
+            self.assertIn("uncommitted changes", str(cm.exception), kind)
+            self.assertEqual(g.call_args_list[0].args[:2], ("status", "--porcelain"))
+            for m in (cal, run, ls):
+                m.assert_not_called()
+
+    def test_a_clean_tree_runs(self):
+        with mock.patch.object(e005, "git", side_effect=lambda *a: "" if a[0] == "status" else "abc1234"), \
+                mock.patch.object(e005, "calibrate", return_value=True) as cal, mock.patch.object(e005, "reserve_id", return_value=7):
+            self.assertEqual(e005.main(["calibrate", "--cycles", "5000", "--reps", "2"]), 0)
+        self.assertEqual(cal.call_count, 2)
+
+
+class UnreadLinesTest(unittest.TestCase):
+    """Review R1 and R2: a line the reader never read leaves the run's identity undetermined; it is never
+    counted as identical, and a flag covers only the occurrence it names."""
+    BASE = {"score": ("S", 2, "D", 3), "events": [["booking", 1, "Brolin BOOKED"]], "seed": "0xa621", "counter": "0x0005"}
+    ALL = {1: (2, 5, 0, 0), 2: (50, 6, 0, 1), 3: (2, 7, 0, 0), 4: (2, 5, 0, 0), 5: (2, 6, 0, 1)}
+
+    def ref(self):
+        return dict(self.BASE, id="ref", **tracked([ctest.make_state(5, self.ALL)]))
+
+    def test_a_line_the_reader_never_read_is_undetermined_whatever_it_held(self):
+        # Sol's case: record 3 is the end marker at read 1, and at read 2 holds another line than the
+        # reference's (Ekstrom makes a pass there; here Nilsson's). The run is not identical.
+        first = dict(self.ALL)
+        first[3] = (0xFF, 0, 0, 0)
+        later = dict(self.ALL)
+        later[3] = (2, 5, 0, 0)
+        run = dict(self.BASE, id="run", **tracked([ctest.make_state(3, first), ctest.make_state(5, later)]))
+        self.assertEqual(run["gaps"], ["match read 1: record 3 is the end marker 0xFF"])
+        self.assertEqual(summ.unread_occurrences(run), [3])
+        self.assertEqual(summ.unread_only(run, self.ref()), [3])
+        v = summ.identity(run, self.ref())
+        self.assertTrue(v.startswith("IDENTITY UNDETERMINED"), v)
+        self.assertNotIn("identical to", v)
+
+    def test_the_occurrence_is_the_flagged_reads_not_any_with_that_record_number(self):
+        # 205 lines: record 3 occurs twice (occurrences 3 and 203). The flag of read 2 names occurrence 203.
+        ref = dict(self.BASE, id="ref", counter="0x0005", gaps=[], deltas=[200, 5],
+                   lines=[[(i - 1) % 200 + 1, 2, 0, f"line {i}"] for i in range(1, 206)])
+        flag = ["match read 2: record 3 is the end marker 0xFF"]
+        run = dict(ref, id="run", gaps=flag, lines=[x for i, x in enumerate(ref["lines"], 1) if i != 203])
+        self.assertEqual(summ.unread_occurrences(run), [203])
+        self.assertEqual(summ.unread_only(run, ref), [203])
+        other = dict(run, lines=[x for i, x in enumerate(ref["lines"], 1) if i != 3])       # the other occurrence of record 3
+        self.assertIsNone(summ.unread_only(other, ref))
+        self.assertTrue(summ.identity(other, ref).startswith("DIFFERS"))
+        both = dict(run, lines=[x for i, x in enumerate(ref["lines"], 1) if i not in (3, 203)])   # one flag, two losses
+        self.assertIsNone(summ.unread_only(both, ref))
+        self.assertTrue(summ.identity(both, ref).startswith("DIFFERS"))
 
     def test_anything_else_differs(self):
-        self.assertIsNone(summ.lost_by_reader(self.run_(gaps=[]), self.REF))                       # not flagged
-        self.assertIsNone(summ.lost_by_reader(self.run_(gaps=["r: record 13 is the end marker 0xFF"]), self.REF))  # another record
-        self.assertIsNone(summ.lost_by_reader(self.run_(counter="0x005d"), self.REF))              # the game wrote fewer
-        self.assertIsNone(summ.lost_by_reader(self.run_(seed="0x0001"), self.REF))
-        self.assertIsNone(summ.lost_by_reader(self.run_(score=("S", 2, "D", 2)), self.REF))
-        self.assertIsNone(summ.lost_by_reader(self.run_(events=[]), self.REF))
-        changed = self.run_(lines=[[10, 17, 0, "shot"], [11, 31, 1, "deflected"], [13, 58, 1, "OTHER"]])
-        self.assertIsNone(summ.lost_by_reader(changed, self.REF))                                  # a line replaced
-        other_at_12 = self.run_(lines=[[10, 17, 0, "shot"], [11, 31, 1, "deflected"], [12, 50, 0, "Vilfort BOOKED"], [13, 58, 1, "FREE KICK"]])
-        self.assertIsNone(summ.lost_by_reader(other_at_12, self.REF))                              # replaced at the flagged record itself
-        self.assertIsNone(summ.lost_by_reader(dict(self.REF, gaps=["x: record 12 is the end marker 0xFF"]), self.REF))  # nothing lost
-        self.assertTrue(summ.identity(dict(self.run_(gaps=[]), id="b"), dict(self.REF, id="a")).startswith("DIFFERS"))
+        ref = dict(self.BASE, id="ref", counter="0x0005", gaps=[], deltas=[5],
+                   lines=[[i, 2, 0, f"line {i}"] for i in range(1, 6)])
+        run = dict(ref, id="run", gaps=["match read 1: record 3 is the end marker 0xFF"],
+                   lines=[x for x in ref["lines"] if x[0] != 3])
+        self.assertEqual(summ.unread_only(run, ref), [3])
+        for k, v in (("counter", "0x0004"), ("seed", "0x0001"), ("score", ("S", 2, "D", 2)), ("events", [])):
+            self.assertIsNone(summ.unread_only(dict(run, **{k: v}), ref), k)
+        self.assertIsNone(summ.unread_only(dict(run, gaps=[]), ref))                                   # not flagged
+        self.assertIsNone(summ.unread_only(dict(run, gaps=["match read 1: record 4 is the end marker 0xFF"]), ref))  # another record
+        self.assertIsNone(summ.unread_only(dict(run, gaps=run["gaps"] + ["match read 1: counter 0 -> 150 (150 lines)"]), ref))
+        self.assertIsNone(summ.unread_only(run, dict(ref, gaps=["match read 1: record 2 is the end marker 0xFF"])))  # reference incomplete
+        self.assertIsNone(summ.unread_only(dict(run, lines=run["lines"][:2] + [[4, 2, 0, "other"]] + run["lines"][3:]), ref))
+        self.assertIsNone(summ.unread_only(dict(run, gaps=run["gaps"] * 2), ref))                     # one occurrence, two flags
+        self.assertTrue(summ.identity(dict(run, gaps=[]), ref).startswith("DIFFERS"))
 
+    def test_a_flag_outside_its_reads_range_is_refused(self):
+        r = {"gaps": ["match read 2: record 9 is the end marker 0xFF"], "deltas": [5, 3]}   # read 2 covers records 6-8
+        self.assertIsNone(summ.unread_occurrences(r))
+        self.assertEqual(summ.unread_occurrences(dict(r, gaps=["match read 2: record 8 is the end marker 0xFF"])), [8])
+        self.assertIsNone(summ.unread_occurrences(dict(r, gaps=["match read 3: record 8 is the end marker 0xFF"])))
+
+
+class LastCounterTest(unittest.TestCase):
     def test_last_counter_in_each_form(self):
         legend = "match reads, one list per read: " + e005.READ_FIELDS
         one = {"observations": [{"step": 9, "field": legend, "value": json.dumps([[1, "u", 1.0, "t", "a", "d", "0x0001", "s", 0, 0, ""],

@@ -8,7 +8,9 @@ beyond the recorded values.
 2. Runs: per match record the start route (restore of a state, or a fresh launch at its DOS time),
    `cycles`, arm, final score (the full-time scoreboard), events, DS:7B62 at full time and DS:A9FF,
    and whether the run is identical (score, events, every commentary line, DS:7B62 at full time) to
-   the same state's and arm's first completed restore at 30000.
+   the same state's and arm's first completed restore at 30000; a run whose only difference is lines its
+   reader never read (flagged, each at its own occurrence) is "identity undetermined", never identical;
+   then the counts of each verdict.
 3. Halves: for every watched run, the host seconds from the starting burst to the first read whose
    commentary rows hold HALF TIME, from there to the first read holding FULL TIME, and from the
    half-time team-screen Enter to FULL TIME; the guest seconds of the first and second half from the
@@ -20,7 +22,6 @@ beyond the recorded values.
    DS:A9FF and the delay byte.
 6. Checks: every record names its `cycles` setting (an observation, the fingerprint and the arm agree),
    and every record that sets the DOS clock declares I3. Exit 1 when a check fails."""
-import difflib
 import json
 import re
 import statistics
@@ -179,7 +180,8 @@ def load(path):
     r["keys"] = json.loads(field(rec, "keys sent from the key"))
     r["seconds"] = field(rec, "match: savestate reads")
     r["reads"] = reads(rec)
-    r["gaps"] = json.loads(field(rec, "commentary lines between successive reads"))["gaps"]
+    g = json.loads(field(rec, "commentary lines between successive reads"))
+    r["gaps"], r["deltas"] = g["gaps"], g["deltas"]
     r["counter"] = last_counter(rec)
     r["ticks_ko"] = ticks_of(rec, "restored" if r["kind"] == "restores" else "captain screen")
     r["halves"] = halves(r)
@@ -190,28 +192,49 @@ def same(a, b):
     return all(a[k] == b[k] for k in ("score", "events", "seed", "lines"))
 
 
-def lost_by_reader(r, ref):
-    """The lines of `ref` that `r` lacks only because the reader lost them, or None when the runs differ
-    otherwise. runtime/driver/commentary.py's Tracker skips a record that is still the end marker 0xFF when
-    a read falls between the game raising DS:80EE and writing the record, and flags it ("record n is the
-    end marker 0xFF"); it does not read it again (E005-r0035, read 425). So: the same score, events,
-    DS:7B62 and DS:80EE at full time, and `r`'s lines are `ref`'s with only deletions, each of a record
-    number `r` flagged."""
-    if not all(r[k] == ref[k] for k in ("score", "events", "seed", "counter")) or r["counter"] is None:
-        return None
-    flagged = {int(m) for g in r["gaps"] for m in re.findall(r"record (\d+) is the end marker", g)}
-    a = [tuple(x) for x in ref["lines"]]
-    b = [tuple(x) for x in r["lines"]]
-    lost = []
-    for op, i1, i2, j1, j2 in difflib.SequenceMatcher(a=a, b=b, autojunk=False).get_opcodes():
-        if op == "equal":
-            continue
-        if op != "delete":
+RING = 200   # commentary records in the ring DS:7C38 (runtime/driver/commentary.py SIZE)
+UNREAD = re.compile(r"^match read (\d+): record (\d+) is the end marker 0xFF$")
+
+
+def unread_occurrences(r):
+    """The commentary lines a run's reader never read, as absolute occurrences in the match (1-based):
+    for each flag `match read k: record n is the end marker 0xFF` (runtime/driver/commentary.py
+    Tracker.add), the lines before read k (the sum of the deltas of reads 1 .. k-1, DS:80EE starting at 0,
+    0791:A4A1) plus n's place in read k's range. One occurrence per flag. None when a gap flag of another
+    kind (lines possibly lost between reads) is present, or a flag does not fall inside its read's range."""
+    out = []
+    for g in r["gaps"]:
+        m = UNREAD.match(g)
+        if not m:
             return None
-        lost += a[i1:i2]
-    if not lost or any(x[0] not in flagged for x in lost):
+        k, n = int(m[1]), int(m[2])
+        if not 1 <= k <= len(r["deltas"]):
+            return None
+        before = sum(r["deltas"][:k - 1])
+        j = (n - 1 - before % RING) % RING + 1
+        if j > r["deltas"][k - 1]:
+            return None
+        out.append(before + j)
+    return sorted(out)
+
+
+def unread_only(r, ref):
+    """The occurrences of `ref`'s lines that `r` does not have because its reader never read them, when that
+    is the whole difference; else None. The content of an unread line is unknown: a flag shows that the
+    reader did not see the record, not what it held (review R1). So a run whose only difference is unread
+    lines is reported as identity undetermined, never as identical. Each unread occurrence is the one its
+    flag names, counted (review R2): `r`'s lines must be `ref`'s with exactly those occurrences removed."""
+    if ref["gaps"] or not all(r[k] == ref[k] for k in ("score", "events", "seed", "counter")) or r["counter"] is None:
         return None
-    return lost
+    occ = unread_occurrences(r)
+    if not occ:
+        return None
+    if len(set(occ)) != len(occ) or occ[-1] > len(ref["lines"]):
+        return None
+    keep = [x for i, x in enumerate(ref["lines"], 1) if i not in set(occ)]
+    if [tuple(x) for x in keep] != [tuple(x) for x in r["lines"]]:
+        return None
+    return occ
 
 
 def short(events):
@@ -225,10 +248,11 @@ def identity(r, ref):
         return "no reference"
     if same(r, ref):
         return "identical to " + ref["id"]
-    lost = lost_by_reader(r, ref)
-    if lost:
-        return (f"identical to {ref['id']} but for {len(lost)} commentary line(s) the reader lost (its gap flags: "
-                + "; ".join(f"record {x[0]} {x[3]!r}" for x in lost) + f"; DS:80EE at full time {r['counter']} in both)")
+    occ = unread_only(r, ref)
+    if occ:
+        return (f"IDENTITY UNDETERMINED against {ref['id']}: its reader never read {len(occ)} commentary line(s) "
+                f"(occurrence {', '.join(map(str, occ))} of the match; gap flags: {'; '.join(r['gaps'])}); every line it read, "
+                f"the score, the events, DS:7B62 and DS:80EE at full time ({r['counter']}) equal the reference's")
     return "DIFFERS from " + ref["id"]
 
 
@@ -281,6 +305,11 @@ def main(argv=None):
         a, ga, b, gb = r["score"]
         print(f"{r['id']} {'restore' if r['kind'] == 'restores' else 'fresh'} {r['state']} cycles {r['cycles']} {r['arm']}: "
               f"{a} {ga} {b} {gb}; DS:7B62 {r['seed']}; DS:A9FF 0x{r['a9ff']:x}; {ident}; events: {short(r['events'])}")
+
+    verdicts = [identity(r, reference(runs, r)) for r in runs if r["status"] == "completed"]
+    print(f"identical: {sum(v.startswith('identical') for v in verdicts)}; identity undetermined: "
+          f"{sum(v.startswith('IDENTITY UNDETERMINED') for v in verdicts)}; differ: {sum(v.startswith('DIFFERS') for v in verdicts)}; "
+          f"references: {sum(v == 'reference' for v in verdicts)}; no reference: {sum(v == 'no reference' for v in verdicts)}")
 
     print("\n## Halves of the watched runs (host s from the starting burst; guest s from the BIOS ticks)")
     print("run | route | state | cycles | DS:A9FF | host: burst→HALF TIME, HALF TIME→FULL TIME, team-screen Enter→FULL TIME | guest: 1st, 2nd | ratio 1st/2nd (host) | match s")
