@@ -130,7 +130,7 @@ def one_cycle(n, st, key, out_dir, commit, dry):
         {"step": 0, "source": "file", "field": "sha256 of that config text (UTF-8)", "value": conf_sha},
         {"step": 3, "source": "log", "field": "lines of DOSBox-X's own output (dosbox.out) that mention save, load or corrupt (Save_Remark lines left out), in order",
          "value": "\n".join(l for l in dosbox_out(d).splitlines() if any(w in l.lower() for w in ("save", "load", "corrupt")) and "Save_Remark" not in l)},
-        {"step": 3, "source": "process", "field": "dosbox-x and Xvfb after SIGTERM to their process groups (SIGKILL after 10 s, see log)",
+        {"step": 3, "source": "process", "field": "dosbox-x and Xvfb after SIGTERM to their process groups (SIGKILL to the group after 0.5 s when SIGTERM is ignored, see log)",
          "value": "both exited" if gone else "a process remained"},
         {"step": 3, "source": "log", "field": "waits, polls and key holds, seconds since launch", "value": json.dumps(d.events, separators=(",", ":"))},
     ]
