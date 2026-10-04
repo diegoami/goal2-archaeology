@@ -12,3 +12,5 @@ exists.
 | T03 | The record tools, adapted from toy-archaeology (G2) | #4 | T01 |
 | T04 | Static inventory: unpack GOAL.EXE, map its code, propose GOAL.DAT's structure (G3) | #5 | T01 |
 | T05 | The documentation map: GOAL.HLP passages as sources (G4) | #6 | T01 |
+| T06 | The research backlog: falsifiable questions per area (G5) | #15 | T02, T04, T05 |
+| T07 | The G1 driver: launch, act, observe, reset, with run records (G1) | #16 | T02 |
