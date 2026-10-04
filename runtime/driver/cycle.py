@@ -81,9 +81,17 @@ def read_observations(step, label, times, state):
     ]
 
 
+def dosbox_out(d):
+    try:
+        text = (d.workdir / "dosbox.out").read_text(errors="replace")
+        return text.replace(str(d.workdir), "<work>").replace(str(d.game_dir), "<game>").replace(str(ROOT), "<repo>")
+    except OSError:
+        return ""
+
+
 def one_cycle(n, st, key, out_dir, commit, dry):
     run_id = f"{EXPERIMENT}-r{n:04d}"
-    d = driver.Driver(st.config, workdir=driver.SCRATCH / "cycle")
+    d = driver.Driver(st.config, workdir=driver.SCRATCH / "cycle" / run_id)  # per run: its dosbox.out is kept in scratch/
     obs, status = [], "completed"
     try:
         d.launch(st, displace_key=key)
@@ -108,6 +116,8 @@ def one_cycle(n, st, key, out_dir, commit, dry):
     obs += [
         {"step": 0, "source": "file", "field": "DOSBox-X config of the session, host paths replaced by <work> and <game>", "value": conf_text},
         {"step": 0, "source": "file", "field": "sha256 of that config text (UTF-8)", "value": conf_sha},
+        {"step": 3, "source": "log", "field": "lines of DOSBox-X's own output (dosbox.out) that mention save, load or corrupt (Save_Remark lines left out), in order",
+         "value": "\n".join(l for l in dosbox_out(d).splitlines() if any(w in l.lower() for w in ("save", "load", "corrupt")) and "Save_Remark" not in l)},
         {"step": 3, "source": "process", "field": "dosbox-x and Xvfb after SIGTERM to their process groups (SIGKILL after 10 s, see log)",
          "value": "both exited" if gone else "a process remained"},
         {"step": 3, "source": "log", "field": "waits, polls and key holds, seconds since launch", "value": json.dumps(d.events, separators=(",", ":"))},
