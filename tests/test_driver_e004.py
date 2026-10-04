@@ -68,6 +68,25 @@ class ReserveTest(unittest.TestCase):
                 self.assertEqual(e004.reserve_id(), 10)
 
 
+    def test_an_id_taken_meanwhile_is_skipped(self):
+        """Another slot reserves the same number between the scan and the mkdir: the next is taken."""
+        with tempfile.TemporaryDirectory() as tmp:
+            out, ids = Path(tmp) / "runs", Path(tmp) / "ids"
+            out.mkdir()
+            real_mkdir = Path.mkdir
+            raced = []
+
+            def racing_mkdir(path, *a, **kw):
+                if path.parent == ids and not raced:
+                    raced.append(path.name)
+                    real_mkdir(path)  # the other slot's reservation lands first
+                return real_mkdir(path, *a, **kw)
+            with mock.patch.object(e004, "OUT", out), mock.patch.object(e004, "IDS", ids), \
+                    mock.patch.object(Path, "mkdir", racing_mkdir):
+                self.assertEqual(e004.reserve_id(), 2)
+            self.assertEqual(raced, ["1"])
+
+
 class LoadStateTest(unittest.TestCase):
     def test_a_state_with_another_layout_is_refused_with_the_remake_command(self):
         with tempfile.TemporaryDirectory() as tmp:

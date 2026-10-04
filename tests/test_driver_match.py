@@ -110,8 +110,11 @@ class PlayTest(unittest.TestCase):
         self.assertEqual(reads, 5)
 
     def test_a_key_not_acted_on_aborts(self):
-        with self.assertRaises(match.MatchError):
-            self.play("quick", [LIVE1] + [HALF] * 40)
+        d = FakeDriver([LIVE1] + [HALF] * 40)
+        with self.assertRaises(match.MatchError) as cm:
+            match.play(d, "quick", clock=Clock())
+        self.assertIn("not acted on", str(cm.exception))
+        self.assertEqual(len(d.sent), 2)  # the starting burst and one Enter, never a second
 
     def test_no_second_key_while_the_first_is_pending(self):
         screens = [LIVE1] + [HALF] * (match.KEY_TAKEN_READS + 1) + [TEAM, TEAM, SECOND, FULL, FULL]
