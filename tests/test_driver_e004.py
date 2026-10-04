@@ -191,6 +191,42 @@ class SummariseTest(unittest.TestCase):
         self.assertTrue(summ.same(a, dict(a, lines=[[2]])))
         self.assertFalse(summ.same(a, dict(a, lines=[[2]]), lines=True))
 
+    def record(self, score_bytes, events, lines):
+        """A completed run/1 record with the fields load() reads (field names as run.py writes them)."""
+        rows = [""] * 25
+        rows[1] = " ┌─┐┌─┐┌─┐│ │DENMARK--------│ %d│x" % score_bytes[1]
+        rows[3] = " └─┤└─┘└─┤│ │SPAIN----------│ %d│---- FULL TIME ----" % score_bytes[0]
+        obs = [("full time: text screen rows 0-24, CP437", "\n".join(rows)),
+               ("full time: text screen 80x25, chars+attributes", "d" * 64),
+               ("full time: word at DS:7B62 of GOAL.EXE", "0x1234 (34 12)"),
+               ("full time: score bytes DS:9B3C, DS:9B3D (engine teams 0 and 1)", f"{score_bytes[0]} {score_bytes[1]}"),
+               ("events among them (templates ...)", json.dumps(events)),
+               ("commentary lines of the match in order", json.dumps(lines)),
+               ("commentary lines between successive reads", json.dumps({"deltas": [len(lines)], "gaps": []})),
+               ("keys sent from the key that starts the match", "[]"),
+               ("match: savestate reads from the starting keys", "3 reads, 20.0 s")]
+        return {"run_id": "E004-r9999", "arm": "quick-fresh-time-102300", "status": "completed",
+                "actions": {"args": ["sample", "--arm", "quick", "--dos-time", "10:23:00"]},
+                "observations": [{"step": 1, "source": "memory", "field": f, "value": v} for f, v in obs]}
+
+    def test_load_takes_goals_from_the_score_bytes_and_the_rest_from_the_commentary(self):
+        # E004-r0053's case, and more: Laudrup scores three times with no line between, so `0791:1C78`
+        # keeps one goal line; the score bytes say 3 (the event list holds 2 goal lines, one disallowed,
+        # so neither the lines nor the lines less the disallowed one give 3). One booking, one sending off and one injury come from the commentary
+        # (the score bytes cannot give them), and a goal line followed by an offside line is not counted.
+        lines = [[1, 59, 1, "Piechnik wins the toss"], [2, 38, 1, "**** GOAL **** by Laudrup"],
+                 [3, 50, 0, "Hierro BOOKED"], [4, 51, 0, "Hierro SENT OFF"], [5, 52, 1, "Olsen INJURED"],
+                 [6, 38, 1, "**** GOAL **** by Vilfort"], [7, 54, 1, "Vilfort is OFFSIDE"]]
+        events = [["goal", 1, "**** GOAL **** by Laudrup"], ["booking", 0, "Hierro BOOKED"], ["sending off", 0, "Hierro SENT OFF"],
+                  ["injury", 1, "Olsen INJURED"], ["goal", 1, "**** GOAL **** by Vilfort"]]
+        with tempfile.TemporaryDirectory() as tmp:
+            p = Path(tmp) / "E004-r9999.json"
+            p.write_text(json.dumps(self.record((0, 3), events, lines)))
+            r = summ.load(p)
+        self.assertEqual(r["counts"], {"goals": 3, "bookings": 1, "sendings off": 1, "injuries": 1})
+        self.assertEqual(r["commentary_goals"], 1)   # two goal lines, one disallowed
+        self.assertEqual(r["score"], ("DENMARK", 3, "SPAIN", 0))
+
     def test_tests_separate_equal_from_different_samples(self):
         import random
         self.assertGreater(summ.perm_test([1, 2, 1, 2] * 10, [2, 1, 2, 1] * 10, random.Random(1)), 0.5)
