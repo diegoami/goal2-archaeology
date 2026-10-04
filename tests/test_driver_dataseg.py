@@ -288,6 +288,70 @@ class StartStateLayout(unittest.TestCase):
             driver.Driver({}, workdir=Path(tmp) / "work").check_start_state(st)  # no exception
             self.assertEqual(st.drive_layout, ["mount c <game>", "mount d <work>/dosclock"])
 
+    def _session(self, tmp):
+        """A driver as if launched: DOSBox-X, the copy and the host keys replaced by spies."""
+        d = driver.Driver({}, workdir=Path(tmp) / "work", game_dir=Path(tmp) / "game")
+        d.workdir.mkdir(parents=True)
+        return d
+
+    def test_direct_restore_refused_before_copy_and_host_l(self):
+        # review round 4 R1: Driver.restore() itself, called on a running session
+        for layout in ("absent", ["mount c <game>"]):
+            with tempfile.TemporaryDirectory() as tmp:
+                st = self._state(tmp, layout)
+                d = self._session(tmp)
+                hostkey, copy = mock.Mock(), mock.Mock()
+                with mock.patch.object(driver.Driver, "_hostkey", hostkey), mock.patch.object(driver.shutil, "copy", copy):
+                    with self.assertRaises(driver.StateLayoutMismatch, msg=layout):
+                        d.restore(st)
+                hostkey.assert_not_called()
+                copy.assert_not_called()
+                self.assertNotIn("Host+L sent", json.dumps(d.events))
+
+    def test_cycle_reset_restore_refused(self):
+        # cycle.py's second restore (the reset) goes through Driver.restore, past launch's check
+        import cycle
+        sys.path.insert(0, str(ROOT / "tests"))
+        from test_driver_savestate import synthetic_savestate
+        read = (driver.host_times(), savestate.Savestate(synthetic_savestate()))
+        with tempfile.TemporaryDirectory() as tmp:
+            st = self._state(tmp)
+            hostkey = mock.Mock()
+
+            def launch(self, *a, **k):  # a session that got past launch (as if launch had no check)
+                self.launched, self.pre_restore, self.last = driver.host_times(), read, read
+
+            def settle(self, *a, **k):
+                self.last = read
+            with mock.patch.object(driver.Driver, "launch", launch), mock.patch.object(driver.Driver, "keys"), \
+                    mock.patch.object(driver.Driver, "settle", settle), mock.patch.object(driver.Driver, "_hostkey", hostkey), \
+                    mock.patch.object(driver.Driver, "terminate", return_value=True), \
+                    mock.patch.object(driver, "verify_release", return_value="goal2-a949da2f"), \
+                    mock.patch("traceback.print_exc"), mock.patch("builtins.print") as out:
+                ok = cycle.one_cycle(1, st, "n", None, "abcdef0", dry=True)
+            self.assertFalse(ok)
+            hostkey.assert_not_called()
+            rec = json.loads(out.call_args_list[0].args[0])
+            self.assertTrue(rec["status"].startswith("aborted: StateLayoutMismatch"), rec["status"])
+
+    def _run_main(self, arm, layout):
+        with tempfile.TemporaryDirectory() as tmp:
+            st = self._state(tmp, layout)
+            with mock.patch.object(driver, "StartState", return_value=st), mock.patch.object(run, "git", return_value=""), \
+                    mock.patch.object(run, "Run", side_effect=AssertionError("a run started")), \
+                    mock.patch.object(run, "OUT", Path(tmp) / "out"):
+                with self.assertRaises(SystemExit) as cm:
+                    run.main([arm, "--runs", "1"])
+            self.assertIn("refused: start state title", str(cm.exception))
+            self.assertFalse((Path(tmp) / "out").exists())
+
+    def test_run_d3_and_d3b_refuse_before_any_run(self):
+        # review round 4 R2: run.py's own check, for both restoring arms and both kinds of old state
+        for arm in ("d3", "d3b"):
+            for layout in ("absent", ["mount c <game>"]):
+                with self.subTest(arm=arm, layout=layout):
+                    self._run_main(arm, layout)
+
     def test_cycle_refuses_before_any_record(self):
         import cycle
         with tempfile.TemporaryDirectory() as tmp:

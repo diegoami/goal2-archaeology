@@ -433,7 +433,10 @@ exit
     # poll, 4.00 ... 4.11 s after launch, in 29 of 29 completed E002 records; the one slow session
     # (E002-r0009) failed in the savestate write after its Host+L, not at this bound. [designed]
     def restore(self, state, timeout=15):
-        """Host+L loads state's savestate; poll until the screen digest equals the one stored with it."""
+        """Host+L loads state's savestate; poll until the screen digest equals the one stored with it.
+        Every restore passes here, so the drive-layout check is here, before the copy and Host+L
+        (T08 rework round 5); launch(), cycle.py and run.py check earlier only to refuse before a record."""
+        self.check_start_state(state)
         shutil.copy(state.path, self.savefile)
         self._hostkey("l")
         self.log(f"Host+L sent ({state.name})")
