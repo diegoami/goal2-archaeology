@@ -1,0 +1,123 @@
+{
+  "schema": "run/1",
+  "run_id": "E001-r0005",
+  "experiment": "E001",
+  "arm": "fresh-launch",
+  "rep": 5,
+  "code_commit": "c8fffd9",
+  "machine": "ubuntu-24-04-wsl2",
+  "artifact": {
+    "set": "goal2-a949da2f",
+    "variant": null
+  },
+  "runtime": {
+    "driver": "runtime/spike/cycle.py@c8fffd9",
+    "platform": "python-3.12.3/ubuntu-24-04-wsl2",
+    "fingerprint": {
+      "dosbox-x": "2024.03.01 SDL2",
+      "dosbox-x-build": "Commit 02f36ba (Linux SDL2 64-bit)",
+      "sdl": "version 2.30.0, Video x11",
+      "xvfb": "2:21.1.12-1ubuntu1.8",
+      "xdotool": "xdotool version 3.20160805.1",
+      "python": "3.12.3",
+      "kernel": "6.18.40.1-microsoft-standard-WSL2",
+      "machine": "svga_s3",
+      "memsize": "16",
+      "cycles": "auto",
+      "core": "auto",
+      "cputype": "auto"
+    }
+  },
+  "interventions": [
+    {
+      "level": "I1",
+      "what": "text screen and BIOS data area read from DOSBox-X savestates (Host+S, components Vga and Memory); screenshot (Host+P) taken once per screen"
+    },
+    {
+      "level": "I2",
+      "what": "a savestate is written at each read (listed I2 in vocabulary/interventions.md, claimed neutral: not tested here, see F001)"
+    }
+  ],
+  "start_state": {
+    "id": "fresh-launch",
+    "sha256": "5d1ae7d5f3fc06833ac4155f0a5f09b769368395181aad2c86a2ac94de182583",
+    "restore": "fresh DOSBox-X process from the configuration whose sha256 is given (paths replaced by <work> and <game>), mounting a copy of the release files; nothing restored; seed not controlled"
+  },
+  "seed": null,
+  "actions": {
+    "script": "runtime/spike/cycle.py",
+    "sha256": "4e0e674ebdc70318c57cb8c510c93a3383b8ed6ccb3701a1bb91f6cea1cdef4b",
+    "args": [
+      "--key",
+      "n"
+    ]
+  },
+  "observations": [
+    {
+      "step": 0,
+      "source": "screen",
+      "field": "before: text screen 80x25, chars+attributes (4000 bytes), sha256",
+      "value": "cd7f15fbf853b40471d05bad51cb6e6c14cbc8a7307893dba8f5f36c2315c612"
+    },
+    {
+      "step": 0,
+      "source": "ui-text",
+      "field": "before: text screen rows 0-24, CP437 decoded, trailing blanks trimmed",
+      "value": " (c) NE'93│ │                                                    │     (c)\n ┌─┐┌─┐┌─┐│ │                                                    │     new\n │ ││ ││ ││ │                                                    │     era\n └─┤└─┘└─┤│ │                                                    │   software\n───┘ v.2    │                                                    │     1993\n────────────┘                                                    └──────────────\n\n\n\n\n\n\n────────────────────────────────────────────────────────────────────────────────\n                   THE international soccer management game\n────────────────────────────────────────────────────────────────────────────────\n\n────────────────────────────────────────────────────────────────────────────────\n                    design and coding : Mantra and L.B.\n────────────────────────────────────────────────────────────────────────────────\n     testing and feedback : Celtic Ray, Mr Scott, Big Mac and Carl Wilky\n────────────────────────────────────────────────────────────────────────────────\n               distribution : Silverwitch and Tom de Notre Dame\n────────────────────────────────────────────────────────────────────────────────\n\n■■■■■■■■■■■■■■■■■■■ Do you want to load a saved game? (Y/N) ■■■■■■■■■■■■■■■■■■■■"
+    },
+    {
+      "step": 0,
+      "source": "memory",
+      "addr": "0x449",
+      "field": "before: BIOS data area video mode, columns, rows (guest memory from savestate)",
+      "value": "mode=03 cols=80 rows=25"
+    },
+    {
+      "step": 0,
+      "source": "screen",
+      "field": "before: cells differing between DOSBox-X PNG capture (720x400, 9x16 cells) and non-blank text cells",
+      "value": "0"
+    },
+    {
+      "step": 1,
+      "source": "screen",
+      "field": "after: text screen 80x25, chars+attributes (4000 bytes), sha256",
+      "value": "487df15f2d57c3acb753f9b43d2bf81001147cfdd18b8b88e5b427f9403b39e2"
+    },
+    {
+      "step": 1,
+      "source": "ui-text",
+      "field": "after: text screen rows 0-24, CP437 decoded, trailing blanks trimmed",
+      "value": " (c) NE'93│ │                                                    │     (c)\n ┌─┐┌─┐┌─┐│ │                                                    │     new\n │ ││ ││ ││ │                                                    │     era\n └─┤└─┘└─┤│ │                                                    │   software\n───┘ v.2    │                                                    │     1993\n────────────┘                                                    └──────────────\n\n\n\n\n\n\n────────────────────────────────────────────────────────────────────────────────\n                        How many players  1 2 3 4 5 6  ?\n────────────────────────────────────────────────────────────────────────────────\n\n────────────────────────────────────────────────────────────────────────────────\n                    design and coding : Mantra and L.B.\n────────────────────────────────────────────────────────────────────────────────\n     testing and feedback : Celtic Ray, Mr Scott, Big Mac and Carl Wilky\n────────────────────────────────────────────────────────────────────────────────\n               distribution : Silverwitch and Tom de Notre Dame\n────────────────────────────────────────────────────────────────────────────────\n\n                     Use ←→ to choose number, ◄┘ to select"
+    },
+    {
+      "step": 1,
+      "source": "memory",
+      "addr": "0x449",
+      "field": "after: BIOS data area video mode, columns, rows (guest memory from savestate)",
+      "value": "mode=03 cols=80 rows=25"
+    },
+    {
+      "step": 1,
+      "source": "screen",
+      "field": "after: cells differing between DOSBox-X PNG capture (720x400, 9x16 cells) and non-blank text cells",
+      "value": "0"
+    },
+    {
+      "step": 2,
+      "source": "process",
+      "field": "dosbox-x and Xvfb after SIGTERM to their process groups, waited",
+      "value": "both exited"
+    },
+    {
+      "step": 2,
+      "source": "log",
+      "field": "waits and polls, seconds since launch (recorded delays and bounded polls)",
+      "value": "[[0.106,\"Xvfb :221 answering\"],[0.107,\"dosbox-x started\"],[0.225,\"window found after 2 polls\"],[0.227,\"window focused\"],[0.741,\"savestate complete after 1 polls\"],[1.271,\"savestate complete after 1 polls\"],[1.802,\"savestate complete after 1 polls\"],[1.818,\"title screen: matched after 3 polls\"],[2.337,\"savestate complete after 1 polls\"],[2.915,\"png capture after 1 polls\"],[3.15,\"key n pressed (held 0.08s)\"],[3.664,\"savestate complete after 1 polls\"],[4.194,\"savestate complete after 1 polls\"],[4.21,\"after key n: screen changed and stable after 2 polls\"],[4.724,\"savestate complete after 1 polls\"],[5.302,\"png capture after 1 polls\"],[5.436,\"terminated\"]]"
+    }
+  ],
+  "outputs": [],
+  "started": "2026-10-04T06:32:01.802Z",
+  "ended": "2026-10-04T06:32:07.238Z",
+  "status": "completed"
+}
