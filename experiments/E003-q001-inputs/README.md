@@ -51,3 +51,13 @@ DOSBox-X 2024.03.01's `DATE` takes `MM/DD/YYYY` only: given `10-04-1993` (the fo
 ## Amendment 3 (2026-10-04, after E003-r0044)
 
 Added script: `static_refs.py <unpacked GOAL.EXE>` (the static route's search for every reference to the Dos unit's clock routines in segment 235C, through the relocation table, and for every `mov ah, 2Ch`); it writes no record. No run follows.
+
+## Amendment 4 (2026-10-04, review rework round, after E003-r0044)
+
+Review R1 showed that a date with the right form but no meaning (`99/99/1993`, a local run of the reviewer, numbered 51, not in this repository) was accepted and declared set, while DOS kept the host's date. From E003-r0045:
+
+- `runtime/driver/driver.py` refuses a date or time that no calendar or DOS has (a real date, years 1980–2099; a real time), before any run (`run.py` checks first).
+- After `date` and `time`, the autoexec writes DOS's own `date /t` and `time /t` to `CLOCK.TXT` on a drive D: mounted from the session folder (not the game folder); `Driver.launch` reads it back when the title screen is up and raises `ClockNotApplied` unless the date is equal and the time is within −1 … +5 s of the one set. The record carries the read-back (`file` observation "DOS clock read back"), and its I3 text says either "applied: DOS reported date … and time …" or "NOT verified as applied: …", and the run is aborted in the second case.
+- `summarise.py` prints the clock requested and the clock applied: the read-back where a record has one; else the year at `DS:A9FD` (r0034 … r0044), or "date not applied (host's)" for the `MM-DD-YYYY` records (r0001 … r0033).
+- E003-r0045 and r0046 (arm `d0-time-100000-date-10041993`) aborted on the first version of the check: DOS read 10:00:00 back as `9:59:59` (DOS time is BIOS ticks, and `time /t` truncates; the 10:00:00 ticks `0x000A004A` are 35999.98 s), outside the 0 … +5 s first allowed; their I3 text says "NOT verified as applied". The check now allows 1 s early. E003-r0047 and r0048 (same arm) completed with the read-back `10/04/1993 9:59:59`.
+- The `main` start state is unchanged (made with the ignored `10-04-2026`, so with the host's date, 2026-10-04, and a DOS time read back from its ticks); d3 and d3b runs from it set no clock that matters, since the restore brings its own ticks.

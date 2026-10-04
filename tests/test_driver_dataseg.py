@@ -129,7 +129,7 @@ class ClockApplied(unittest.TestCase):
     """Review R1: a requested clock is declared applied only when DOS reports it back."""
 
     def test_impossible_dates_and_times_refused(self):
-        # E003-r0051 (the reviewer's, not in the repository): 99/99/1993 validated and was declared set
+        # review R1: a local run of the reviewer (numbered 51, not in the repository): 99/99/1993 validated and was declared set
         for cfg in ({"dos_time": "10:00:00", "dos_date": "99/99/1993"}, {"dos_date": "02/30/1993"},
                     {"dos_date": "01/01/1979"}, {"dos_date": "01/01/2100"}, {"dos_time": "24:00:00"},
                     {"dos_time": "10:60:00"}):
