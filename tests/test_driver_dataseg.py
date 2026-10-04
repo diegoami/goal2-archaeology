@@ -243,6 +243,62 @@ class ClockApplied(unittest.TestCase):
         self.assertEqual(summarise.applied_clock(rec, summarise.reads(rec), None), "read back 10/04/2026 10:00:00")
 
 
+class StartStateLayout(unittest.TestCase):
+    """Review round 3 R1: a start state made without the drive layout this driver mounts (every T07-era
+    state: no D:, no layout recorded) stalled DOSBox-X's restore; it is refused before DOSBox-X starts."""
+
+    def _state(self, tmp, layout="absent"):
+        states = Path(tmp)
+        data = b"not a real savestate"
+        (states / "title.sav").write_bytes(data)
+        meta = {"sha256": driver.sha256(data), "screen_digest": "0" * 64,
+                "game_dir": str(Path(tmp) / "game"), "config": {}}
+        if layout != "absent":
+            meta["drive_layout"] = layout
+        (states / "title.json").write_text(json.dumps(meta))
+        return driver.StartState("title", states)
+
+    def _launch(self, st, tmp):
+        d = driver.Driver({}, workdir=Path(tmp) / "work", game_dir=Path(tmp) / "game")
+        popen = mock.Mock(side_effect=AssertionError("DOSBox-X started for a refused state"))
+        with mock.patch.object(driver.subprocess, "Popen", popen), \
+                mock.patch.object(driver, "verify_release", side_effect=AssertionError("launch went past the check")):
+            d.launch(st)
+
+    def test_state_without_layout_refused_before_restore(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            st = self._state(tmp)
+            self.assertIsNone(st.drive_layout)
+            with self.assertRaises(driver.StateLayoutMismatch) as cm:
+                self._launch(st, tmp)
+            msg = str(cm.exception)
+            self.assertIn("start state title", msg)
+            self.assertIn("none recorded", msg)
+            self.assertIn("python3 runtime/driver/driver.py make-state title", msg)
+
+    def test_state_made_without_d_refused(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            st = self._state(tmp, ["mount c <game>"])
+            with self.assertRaises(driver.StateLayoutMismatch):
+                self._launch(st, tmp)
+
+    def test_state_with_this_layout_passes_the_check(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            st = self._state(tmp, driver.Driver().drive_layout())
+            driver.Driver({}, workdir=Path(tmp) / "work").check_start_state(st)  # no exception
+            self.assertEqual(st.drive_layout, ["mount c <game>", "mount d <work>/dosclock"])
+
+    def test_cycle_refuses_before_any_record(self):
+        import cycle
+        with tempfile.TemporaryDirectory() as tmp:
+            st = self._state(tmp)
+            with mock.patch.object(driver, "StartState", return_value=st), \
+                    mock.patch.object(cycle, "one_cycle", side_effect=AssertionError("a cycle ran")):
+                with self.assertRaises(SystemExit) as cm:
+                    cycle.main(["--runs", "1", "--start-state", "title", "--dry"])
+            self.assertIn("refused: start state title", str(cm.exception))
+
+
 class Summarise(unittest.TestCase):
     def test_lcg_of_214B_0688(self):
         # 214B:0694..069F: seed = seed * 0x7ABD + 0x1B0F, 16 bits

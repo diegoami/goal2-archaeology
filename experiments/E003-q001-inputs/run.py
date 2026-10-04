@@ -253,7 +253,8 @@ def make_main(args):
         d.terminate()
     (states / "main.sav").write_bytes(data)
     words = {f"DS:{o:04X}": f"0x{st.ds_word(o):04x}" for o in DS_WORDS}
-    meta = {"sha256": driver.sha256(data), "screen_digest": sc.digest(), "game_dir": str(d.game_dir), "config": d.config,
+    meta = {"sha256": driver.sha256(data), "screen_digest": sc.digest(), "game_dir": str(d.game_dir),
+            "drive_layout": d.drive_layout(), "config": d.config,
             "made": driver.host_times(), "keys": TO_MAIN, "ticks": st.ticks()[0], "ds_words": words, "events": d.events}
     (states / "main.json").write_text(json.dumps(meta, indent=1))
     print(f"main.sav sha256 {meta['sha256']}, screen {sc.digest()}, ticks {meta['ticks']}, {words}")
@@ -276,6 +277,11 @@ def main(argv=None):
         raise SystemExit("uncommitted changes under runtime/driver/ or the experiment: commit them first\n" + dirty)
     commit = git("rev-parse", "--short", "HEAD")
     st = driver.StartState("main") if a.arm in ("d3", "d3b") else None
+    if st is not None:
+        try:
+            driver.Driver({"cycles": CYCLES}).check_start_state(st)  # refuse an incompatible state before any record
+        except driver.StateLayoutMismatch as e:
+            raise SystemExit(f"refused: {e}") from None
     first = 1 + max((int(p.stem.split("-r")[1]) for p in OUT.glob(f"{EXPERIMENT}-r*.json")), default=0)
     ok = sum(Run(a.arm, first + i, a, commit, st).go() for i in range(a.runs))
     print(f"{ok} of {a.runs} runs completed")

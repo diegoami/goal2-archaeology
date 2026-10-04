@@ -68,6 +68,17 @@ CLOCK_SLACK = 2
 CLOCK_EARLY = 1
 
 
+# How to remake each known start state when its drive layout is refused (StateLayoutMismatch).
+REMAKE = {"title": "python3 runtime/driver/driver.py make-state title",
+          "main": "python3 experiments/E003-q001-inputs/run.py make-main --dos-time 10:00:00 --dos-date 10/04/2026"}
+
+
+class StateLayoutMismatch(RuntimeError):
+    """A start state was made with other DOS drives mounted than this driver mounts: refused before any
+    restore. A state made without D: (T07, and T08 before rework round 3) stalled DOSBox-X's restore
+    under a driver that mounts D: ("savestate not complete within 15s", PR #24 review round 3)."""
+
+
 class ClockNotApplied(RuntimeError):
     """DOS reported another date or time than the one set: the I3 intervention did not take effect."""
 
@@ -195,6 +206,24 @@ exit
             lines = "".join(f"{cmd} {c[k]}\n" for cmd, k in (("date", "dos_date"), ("time", "dos_time")) if c.get(k))
         return (lines + f"mount d {self.workdir / CLOCK_DIR}\ndate /t > d:\\clock.txt\ntime /t >> d:\\clock.txt\nc:\n")
 
+    def drive_layout(self):
+        """The DOS drives this driver's autoexec mounts, host paths as <game> and <work>: what a savestate
+        keeps and a restore needs again. Stored with each start state (make_state, run.py make-main)."""
+        lines = [x for x in self.conf_text().splitlines() if x.startswith("mount ")]
+        return [x.replace(str(self.game_dir), "<game>").replace(str(self.workdir), "<work>") for x in lines]
+
+    def check_start_state(self, st):
+        """Refuse, before DOSBox-X starts, a start state whose stored drive layout is not this driver's,
+        or which stored none (made before T08 rework round 4)."""
+        mine = self.drive_layout()
+        if st.drive_layout != mine:
+            made = st.drive_layout if st.drive_layout is not None else "none recorded (made before T08 rework round 4)"
+            how = REMAKE.get(st.name, f"remake it as {st.name} was made")
+            raise StateLayoutMismatch(
+                f"start state {st.name} ({st.path}) was made with drive layout {made}; this driver mounts {mine}, and "
+                f"restoring a state made with other drives stalls or crashes DOSBox-X. Recreate it: move {st.path.name} "
+                f"and {st.path.stem}.json out of {st.path.parent}, then run `{how}`")
+
     def clock_readback(self):
         """The text DOS wrote to CLOCK.TXT before GOAL ran (after the date and time, when set), or None."""
         for f in (self.workdir / CLOCK_DIR).glob("*"):
@@ -223,6 +252,8 @@ exit
         if start_state is not None and Path(start_state.game_dir) != self.game_dir:
             raise RuntimeError(f"start state {start_state.name} was saved with C: mounted from another folder "
                                f"({start_state.game_dir}); restoring it here would write there (F001 Anomalies)")
+        if start_state is not None:
+            self.check_start_state(start_state)  # its drives must be this driver's (StateLayoutMismatch)
         self.workdir.mkdir(parents=True, exist_ok=True)
         (self.workdir / "cap").mkdir(exist_ok=True)
         shutil.rmtree(self.workdir / CLOCK_DIR, ignore_errors=True)
@@ -453,6 +484,7 @@ class StartState:
         self.path = Path(states) / f"{name}.sav"
         meta = json.loads((Path(states) / f"{name}.json").read_text())
         self.screen_digest, self.game_dir, self.config = meta["screen_digest"], meta["game_dir"], meta["config"]
+        self.drive_layout = meta.get("drive_layout")  # None: made before T08 rework round 4 (refused by launch)
         self.sha256 = sha256(self.path.read_bytes())
         if self.sha256 != meta["sha256"]:
             raise RuntimeError(f"{self.path} changed since it was stored")
@@ -474,7 +506,7 @@ def make_state(name, config=None, states=STATES):
     finally:
         d.terminate()
     (states / f"{name}.sav").write_bytes(data)
-    meta = {"sha256": sha256(data), "screen_digest": sc.digest(), "game_dir": str(d.game_dir),
+    meta = {"sha256": sha256(data), "screen_digest": sc.digest(), "game_dir": str(d.game_dir), "drive_layout": d.drive_layout(),
             "config": d.config, "made": host_times(), "events": d.events}
     (states / f"{name}.json").write_text(json.dumps(meta, indent=1))
     return StartState(name, states)
