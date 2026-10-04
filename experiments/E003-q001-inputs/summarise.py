@@ -21,10 +21,10 @@ TICKS_PER_SECOND = 1193182 / 65536  # PIT input clock / 65536: the BIOS tick rat
 
 
 def clock(ticks_value):
-    t = int(ticks_value.split()[0], 16) / TICKS_PER_SECOND
-    h, rem = divmod(t, 3600)
-    m, s = divmod(rem, 60)
-    return f"{int(h):02d}:{int(m):02d}:{s:04.1f}"
+    tenths = round(int(ticks_value.split()[0], 16) / TICKS_PER_SECOND * 10)
+    h, rem = divmod(tenths, 36000)
+    m, s = divmod(rem, 600)
+    return f"{h:02d}:{m:02d}:{s // 10:02d}.{s % 10}"
 
 
 def lcg_steps(start, target, limit=5000):
