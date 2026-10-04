@@ -34,3 +34,7 @@ python3 experiments/E004-q002-quick-result/run.py sample --arm quick --minutes 1
 python3 experiments/E004-q002-quick-result/run.py sample --arm watched --minutes 10:00-11:39 --batch s1 --slot 2
 python3 experiments/E004-q002-quick-result/summarise.py
 ```
+
+## Amendment 1 (2026-10-04, after E004-r0007)
+
+The first watched sample (`sample --arm watched --minutes 10:00-11:39`) was stopped by hand (SIGINT) during its first run, because one invocation of 100 watched matches would outlast the 2-hour bound of the session that runs it; the driver terminated its DOSBox-X and Xvfb, and no record was written. Its run id E004-r0008 was reserved and is not used. The watched sample is run in chunks of minutes instead (10:00-10:39, then the rest); the design is unchanged.
