@@ -47,3 +47,7 @@ Added arms, appended here; the design above is unchanged. The d3 records of batc
 ## Amendment 2 (2026-10-04, after E003-r0033)
 
 DOSBox-X 2024.03.01's `DATE` takes `MM/DD/YYYY` only: given `10-04-1993` (the form `run.py` passed in r0001 … r0033 and in `make-main`) it prints the current date and changes nothing (a check outside the records: `date 10-04-1993`, then `date /t`, printed `10/04/2026`; `date /?` names the form `MM/DD/YYYY`). So in r0001 … r0033 and in the `main` state the DOS date was not set: it was the host's date, 2026-10-04 (each record's launch time), and the records' I3 text naming the date is wrong about the date; their DOS time was set (read back from the BIOS ticks). The arm `d0-time-100000-date-10041993` (r0030, r0031) therefore did not test the date. From r0034 the date is passed as `MM/DD/YYYY` (`runtime/driver/driver.py` refuses other forms), and each read also records the word at `DS:A9FD` (the year GetDate returned, `214B:1C63`). Added arm: `d0-time-100000-date-10041993` repeated with `--dos-date 10/04/1993`, n: 2.
+
+## Amendment 3 (2026-10-04, after E003-r0044)
+
+Added script: `static_refs.py <unpacked GOAL.EXE>` (the static route's search for every reference to the Dos unit's clock routines in segment 235C, through the relocation table, and for every `mov ah, 2Ch`); it writes no record. No run follows.
