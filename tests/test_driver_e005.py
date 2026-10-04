@@ -278,6 +278,49 @@ class IdentityTest(unittest.TestCase):
             self.assertFalse(summ.same(a, dict(a, **{k: v})), k)
 
 
+class LostByReaderTest(unittest.TestCase):
+    """E005-r0035's case: one line missing where the reader flagged record 12 as the end marker."""
+    REF = {"score": ("S", 2, "D", 3), "events": [["goal", 0, "g"]], "seed": "0xa621", "counter": "0x005e", "gaps": [],
+           "lines": [[10, 17, 0, "shot"], [11, 31, 1, "deflected"], [12, 54, 0, "Vilfort is OFFSIDE"], [13, 58, 1, "FREE KICK"]]}
+
+    def run_(self, **kw):
+        r = dict(self.REF, lines=[l for l in self.REF["lines"] if l[0] != 12],
+                 gaps=["match read 425: record 12 is the end marker 0xFF"])
+        r.update(kw)
+        return r
+
+    def test_a_line_lost_at_a_flagged_record_is_the_readers(self):
+        self.assertEqual(summ.lost_by_reader(self.run_(), self.REF), [(12, 54, 0, "Vilfort is OFFSIDE")])
+        self.assertIn("but for 1 commentary line(s) the reader lost", summ.identity(dict(self.run_(), id="b"), dict(self.REF, id="a")))
+
+    def test_anything_else_differs(self):
+        self.assertIsNone(summ.lost_by_reader(self.run_(gaps=[]), self.REF))                       # not flagged
+        self.assertIsNone(summ.lost_by_reader(self.run_(gaps=["r: record 13 is the end marker 0xFF"]), self.REF))  # another record
+        self.assertIsNone(summ.lost_by_reader(self.run_(counter="0x005d"), self.REF))              # the game wrote fewer
+        self.assertIsNone(summ.lost_by_reader(self.run_(seed="0x0001"), self.REF))
+        self.assertIsNone(summ.lost_by_reader(self.run_(score=("S", 2, "D", 2)), self.REF))
+        self.assertIsNone(summ.lost_by_reader(self.run_(events=[]), self.REF))
+        changed = self.run_(lines=[[10, 17, 0, "shot"], [11, 31, 1, "deflected"], [13, 58, 1, "OTHER"]])
+        self.assertIsNone(summ.lost_by_reader(changed, self.REF))                                  # a line replaced
+        other_at_12 = self.run_(lines=[[10, 17, 0, "shot"], [11, 31, 1, "deflected"], [12, 50, 0, "Vilfort BOOKED"], [13, 58, 1, "FREE KICK"]])
+        self.assertIsNone(summ.lost_by_reader(other_at_12, self.REF))                              # replaced at the flagged record itself
+        self.assertIsNone(summ.lost_by_reader(dict(self.REF, gaps=["x: record 12 is the end marker 0xFF"]), self.REF))  # nothing lost
+        self.assertTrue(summ.identity(dict(self.run_(gaps=[]), id="b"), dict(self.REF, id="a")).startswith("DIFFERS"))
+
+    def test_last_counter_in_each_form(self):
+        legend = "match reads, one list per read: " + e005.READ_FIELDS
+        one = {"observations": [{"step": 9, "field": legend, "value": json.dumps([[1, "u", 1.0, "t", "a", "d", "0x0001", "s", 0, 0, ""],
+                                                                                [2, "u", 2.0, "t", "a", "d", "0x005e", "s", 0, 0, ""]])}]}
+        self.assertEqual(summ.last_counter(one), "0x005e")
+        per = {"observations": [{"step": s, "field": f"match read {s}: [host UTC time, host s since the starting burst, ...]",
+                                 "value": json.dumps(["u", 1.0, "t", "a", "d", c, "s", 0, 0, ""])} for s, c in ((3, "0x0001"), (4, "0x005e"))]}
+        self.assertEqual(summ.last_counter(per), "0x005e")
+        old = {"observations": [{"step": s, "field": f"match read {s}: words DS:80EE (commentary counter) and DS:7B62 (seed), ...",
+                                 "value": f"{c} 0xa621 2 3"} for s, c in ((5, "0x005e"), (4, "0x0001"))]}
+        self.assertEqual(summ.last_counter(old), "0x005e")
+        self.assertIsNone(summ.last_counter({"observations": []}))
+
+
 class ProbeWrapperTest(unittest.TestCase):
     def test_polls_are_decoded_only_inside_the_match_and_the_keys_are_the_probes(self):
         calls = []

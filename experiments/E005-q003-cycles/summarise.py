@@ -20,7 +20,9 @@ beyond the recorded values.
    DS:A9FF and the delay byte.
 6. Checks: every record names its `cycles` setting (an observation, the fingerprint and the arm agree),
    and every record that sets the DOS clock declares I3. Exit 1 when a check fails."""
+import difflib
 import json
+import re
 import statistics
 import sys
 from pathlib import Path
@@ -107,6 +109,18 @@ def reads(rec):
     return sorted(out, key=lambda r: r[0])
 
 
+def last_counter(rec):
+    """DS:80EE at the last match read (the full-time read), in any of the three forms, or None."""
+    for v in fields(rec, "one list per read").values():
+        return json.loads(v)[-1][6]
+    reads_ = sorted((o["step"], o["value"]) for o in rec["observations"] if o["field"].startswith("match read")
+                    and ("[host UTC time" in o["field"] or "words DS:80EE" in o["field"]))
+    if not reads_:
+        return None
+    step, v = reads_[-1]
+    return json.loads(v)[5] if v.startswith("[") else v.split()[0]
+
+
 def first(rs, text):
     return next((r for r in rs if text in r[3]), None)
 
@@ -165,6 +179,8 @@ def load(path):
     r["keys"] = json.loads(field(rec, "keys sent from the key"))
     r["seconds"] = field(rec, "match: savestate reads")
     r["reads"] = reads(rec)
+    r["gaps"] = json.loads(field(rec, "commentary lines between successive reads"))["gaps"]
+    r["counter"] = last_counter(rec)
     r["ticks_ko"] = ticks_of(rec, "restored" if r["kind"] == "restores" else "captain screen")
     r["halves"] = halves(r)
     return r
@@ -174,8 +190,46 @@ def same(a, b):
     return all(a[k] == b[k] for k in ("score", "events", "seed", "lines"))
 
 
+def lost_by_reader(r, ref):
+    """The lines of `ref` that `r` lacks only because the reader lost them, or None when the runs differ
+    otherwise. runtime/driver/commentary.py's Tracker skips a record that is still the end marker 0xFF when
+    a read falls between the game raising DS:80EE and writing the record, and flags it ("record n is the
+    end marker 0xFF"); it does not read it again (E005-r0035, read 425). So: the same score, events,
+    DS:7B62 and DS:80EE at full time, and `r`'s lines are `ref`'s with only deletions, each of a record
+    number `r` flagged."""
+    if not all(r[k] == ref[k] for k in ("score", "events", "seed", "counter")) or r["counter"] is None:
+        return None
+    flagged = {int(m) for g in r["gaps"] for m in re.findall(r"record (\d+) is the end marker", g)}
+    a = [tuple(x) for x in ref["lines"]]
+    b = [tuple(x) for x in r["lines"]]
+    lost = []
+    for op, i1, i2, j1, j2 in difflib.SequenceMatcher(a=a, b=b, autojunk=False).get_opcodes():
+        if op == "equal":
+            continue
+        if op != "delete":
+            return None
+        lost += a[i1:i2]
+    if not lost or any(x[0] not in flagged for x in lost):
+        return None
+    return lost
+
+
 def short(events):
     return "; ".join(f"{k} {t} {x}" for k, t, x in events) or "none"
+
+
+def identity(r, ref):
+    if ref is r:
+        return "reference"
+    if ref is None:
+        return "no reference"
+    if same(r, ref):
+        return "identical to " + ref["id"]
+    lost = lost_by_reader(r, ref)
+    if lost:
+        return (f"identical to {ref['id']} but for {len(lost)} commentary line(s) the reader lost (its gap flags: "
+                + "; ".join(f"record {x[0]} {x[3]!r}" for x in lost) + f"; DS:80EE at full time {r['counter']} in both)")
+    return "DIFFERS from " + ref["id"]
 
 
 def reference(runs, r):
@@ -211,7 +265,7 @@ def main(argv=None):
             print(f"{r['id']} {r['kind']} {r['state']} cycles {r['cycles']} {r['arm']}: {r['status']}")
             continue
         ref = reference(runs, r)
-        ident = "reference" if ref is r else ("no reference" if ref is None else ("identical to " + ref["id"] if same(r, ref) else "DIFFERS from " + ref["id"]))
+        ident = identity(r, ref)
         a, ga, b, gb = r["score"]
         print(f"{r['id']} {'restore' if r['kind'] == 'restores' else 'fresh'} {r['state']} cycles {r['cycles']} {r['arm']}: "
               f"{a} {ga} {b} {gb}; DS:7B62 {r['seed']}; DS:A9FF 0x{r['a9ff']:x}; {ident}; events: {short(r['events'])}")
