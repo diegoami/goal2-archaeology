@@ -21,11 +21,11 @@ import time
 COMMENTARY_ROWS = (1, 2, 3)            # the three newest commentary lines, columns 31-66 of rows 1-3
 COMMENTARY_COLS = slice(31, 66)
 START_KEYS = {"quick": ("Enter", "r"), "watched": ("Enter",) + ("Right",) * 5}
-# [designed] bound of one match, seconds from the starting keys to full time. Searched: F001
-# M:match-speed (kick-off to FULL TIME 20.27, 20.35 s at cycles 30000, speed raised, half-time keys
-# sent at once); E004's own records give each match's duration (summarise.py, `seconds`). The bound
-# leaves room for the waits the game makes by itself (half-time and action-replay pauses).
-MATCH_TIMEOUT = 300
+# Bound of one match, seconds from the starting keys to full time. Measured: E004's watched matches
+# took 25.1 ... 288.7 s (summarise.py; the longest, E004-r0133, with three sessions running at once),
+# and E004-r0200 was still in its second half when the first bound, 300 s, ran out (amendment 2 of
+# the E004 README). [designed] about three times the longest measured.
+MATCH_TIMEOUT = 900
 # [designed] reads after a key during which the screen must change, else the key was not acted on
 # and the match is aborted rather than the key sent again.
 KEY_TAKEN_READS = 10
@@ -53,12 +53,14 @@ def wants_key(sc):
     return None
 
 
-def play(d, arm, on_read=None, timeout=MATCH_TIMEOUT, clock=time.monotonic):
+def play(d, arm, on_read=None, timeout=MATCH_TIMEOUT, clock=time.monotonic, keys=None):
     """Send the arm's starting keys, then poll until full time. `on_read(label, times, state)` is called
-    for every read. Returns (keys, reads, seconds): keys = [(seconds since the start, key, reason)]."""
+    for every read. Returns (keys, reads, seconds): keys = [(seconds since the start, key, reason)].
+    Each key is appended to `keys` (a list the caller may pass) as it is sent, so a caller holds every
+    key sent even when the match aborts."""
     if arm not in START_KEYS:
         raise ValueError(f"unknown arm {arm!r}")
-    keys = []
+    keys = [] if keys is None else keys
     t0 = clock()
     d.keys(*START_KEYS[arm])
     keys.extend((0.0, k, "starting burst, no poll between") for k in START_KEYS[arm])

@@ -121,6 +121,12 @@ class PlayTest(unittest.TestCase):
         d, keys, _ = self.play("quick", screens)
         self.assertEqual([why for _, _, why in keys[2:]], ["hit any key", "team screen"])
 
+    def test_keys_sent_are_held_by_the_caller_when_the_match_aborts(self):
+        held = []
+        with self.assertRaises(match.MatchError):
+            match.play(FakeDriver([LIVE1, LIVE2] * 100), "watched", clock=Clock(), timeout=20, keys=held)
+        self.assertEqual([k for _, k, _ in held], ["Enter"] + ["Right"] * 5)
+
     def test_timeout(self):
         with self.assertRaises(match.MatchError):
             self.play("quick", [LIVE1, LIVE2] * 100, timeout=20)
