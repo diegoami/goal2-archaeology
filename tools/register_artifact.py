@@ -1,21 +1,27 @@
 #!/usr/bin/env python3
-"""Print an `artifact-set/1` manifest of a directory, with the canonical id.
+"""Run game-archaeologist's pinned artifact tool on this repository's behalf (ADR-009).
 
-`python3 tools/register_artifact.py <dir> --label <label> --title <title> --version <version>
---how <how>` hashes every file under `<dir>` and prints the manifest `artifacts/known.json` holds,
-its `id` being `<label>-<first 8 hex of the canonical manifest's sha256>` (formats/README.md).
+`tools/ga.py` fetches the tool at the commit `archaeology.json` pins into
+`.cache/game-archaeologist/<commit>/`, beside the pinned `tools/validate_records.py` and
+`formats/`; this wrapper is a subprocess pass-through, never a copy: arguments, standard streams
+and the exit code go through unchanged, so the identity rule is the pinned one and only theirs.
 
-`--how` is the acquisition kind (`generated`, `purchased download`, `user-supplied install`,
-`archive item <name>`); `--when` defaults to today.
+    python3 tools/register_artifact.py manifest <dir> --label … --title … --version … --how …
+        [--when <date>] [--note …] [--writes GLOB]… [--exclude GLOB]…
+        Print the artifact-set/1 manifest for <dir>; `--when` defaults to today; a file matching a
+        `runtime_writes` glob or an `--exclude` glob leaves `files` (U21).
+    python3 tools/register_artifact.py check (<dir> | --list <file>) <set-id> [--strict]
+        [--known artifacts/known.json]
+        Re-hash a copy (or a `<sha256>  <bytes>  <path>` listing) against the known.json entry.
+    python3 tools/register_artifact.py validate [--known artifacts/known.json]
+        Check every known.json entry against the schema and recompute its id.
 
-Adapted from diegoami/toy-archaeology tools/register_artifact.py at a3056ff.
+`--known` defaults to `artifacts/known.json` relative to the working directory. Errors are named
+lines and exit 1; usage errors exit 2.
 """
 from __future__ import annotations
 
-import argparse
-import datetime
-import hashlib
-import json
+import subprocess
 import sys
 from pathlib import Path
 
@@ -25,62 +31,13 @@ sys.path.insert(0, str(REPO_ROOT))
 from tools import ga  # noqa: E402
 
 
-def file_entries(directory: Path) -> list[dict]:
-    entries = []
-    for path in sorted(directory.rglob("*")):
-        if not path.is_file():
-            continue
-        data = path.read_bytes()
-        entries.append({
-            "path": path.relative_to(directory).as_posix(),
-            "bytes": len(data),
-            "sha256": hashlib.sha256(data).hexdigest(),
-        })
-    return entries
-
-
-def manifest_of(directory: Path, label: str, title: str, version: str, how: str,
-                when: str, note: str | None, writes: list[str]) -> dict:
-    acquired = {"how": how, "when": when}
-    if note:
-        acquired["note"] = note
-    body = {
-        "schema": "artifact-set/1",
-        "title": title,
-        "version": version,
-        "acquired": acquired,
-        "files": file_entries(directory),
-        "runtime_writes": writes,
-    }
-    body["id"] = f"{label}-{ga.canonical_set_hash(body)[:8]}"
-    return body
-
-
 def main(argv=None) -> int:
-    parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("dir", type=Path)
-    parser.add_argument("--label", required=True)
-    parser.add_argument("--title", required=True)
-    parser.add_argument("--version", required=True)
-    parser.add_argument("--how", required=True)
-    parser.add_argument("--when", default=datetime.date.today().isoformat())
-    parser.add_argument("--note")
-    parser.add_argument("--writes", action="append", default=[],
-                        help="a glob of files the runtime creates or changes; repeatable")
-    args = parser.parse_args(argv)
-    if not args.dir.is_dir():
-        print(f"{args.dir}: not a directory", file=sys.stderr)
-        return 1
-    manifest = manifest_of(args.dir, args.label, args.title, args.version, args.how,
-                           args.when, args.note, args.writes)
-    # Schema only: the one semantic rule for artifact-set/1 (the id's hash suffix) holds by
-    # construction, since manifest_of computes the id with the checker's own canonical_set_hash.
-    problems = ga.validate(manifest, ga.schema("artifact-set/1"))
-    if problems:
-        print("\n".join(problems), file=sys.stderr)
-        return 1
-    print(json.dumps(manifest, indent=2))
-    return 0
+    """Exit with the pinned tool's own exit code for the same arguments."""
+    if argv is None:
+        argv = sys.argv[1:]
+    tool = ga.fetch() / ga.ARTIFACT_TOOL
+    completed = subprocess.run([sys.executable, str(tool), *argv])
+    return completed.returncode
 
 
 if __name__ == "__main__":

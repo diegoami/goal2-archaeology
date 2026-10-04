@@ -2,12 +2,14 @@
   "game-archaeologist": {
     "repo": "diegoami/game-archaeologist",
     "tag": "formats-v1",
-    "commit": "33653435545f65c930bdca9bd4f4bd56e79dfa84",
+    "commit": "69566be655fc35c36d19277db9b94f8300055c7b",
     "uses": [
       "formats/*.schema.json",
       "formats/templates/",
       "vocabulary/",
-      "method/research-protocol.md"
+      "method/research-protocol.md",
+      "tools/validate_records.py",
+      "tools/register_artifact.py"
     ]
   }
 }
