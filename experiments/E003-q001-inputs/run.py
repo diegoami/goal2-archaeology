@@ -162,8 +162,8 @@ class Run:
                     {"step": 0, "source": "log", "field": "host local time at launch, with UTC offset, and zone name",
                      "value": f"{d.launched['local']} {d.launched['tz']}"}]
         conf_text, conf_sha = d.conf_public() if getattr(d, "conf", None) else ("not written", "0" * 64)
-        if self.args.dos_time:
-            head.append({"step": 0, "source": "file", "field": "DOS clock read back: CLOCK.TXT as DOS wrote it (`date /t`, then `time /t`) right after setting the date and time, before GOAL",
+        if d.clock_applied is not None or self.args.dos_time:  # every launch from rework round 3
+            head.append({"step": 0, "source": "file", "field": "DOS clock read back: CLOCK.TXT as DOS wrote it (`date /t`, then `time /t`) before GOAL, right after setting the date and time when they were set",
                          "value": d.clock_applied if d.clock_applied is not None else "not read"})
         tail = [
             {"step": 0, "source": "file", "field": "DOSBox-X config of the session, host paths replaced by <work> and <game>", "value": conf_text},

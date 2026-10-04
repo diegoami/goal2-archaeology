@@ -51,8 +51,17 @@ X_POLL = 0.1          # Xvfb and window poll interval
 # die on the SIGKILL 0.5 s later, and Xvfb still ends by SIGTERM alone.
 TERM_GRACE = 0.5
 
-CLOCK_DIR = "dosclock"  # session subfolder mounted as D: for the clock read-back (clock option only)
-CLOCK_SLACK = 5        # seconds a read-back time may run past the time set (written right after `time`)
+# Session subfolder mounted as D: for the clock read-back, in every launch, clock option or not: a
+# savestate keeps the mounted drives, and one made with D: crashed DOSBox-X (code -11 during a
+# savestate) when restored in a session without D: (review round 2 R1; the reviewer's local runs).
+CLOCK_DIR = "dosclock"
+# Upper bound of the read-back time, seconds after the time set. Evidence: the read-back is written
+# before `goal` starts, and the BIOS ticks read at GOAL's title screen, later still, are 0.7 ... 1.1 s
+# past the time set in every fixed-time launch (E003-r0007 ... r0026, r0030, r0031, r0043, r0044,
+# r0047, r0048: `summarise.py`, "clock at title"), so the read-back moment is under 1.1 s and the
+# truncated second at most +1; the read-backs measured are all 1 s early (E003-r0045 ... r0048).
+# [designed] one more second of margin for a loaded host, which E003 did not measure.
+CLOCK_SLACK = 2
 # DOSBox-X keeps DOS time as BIOS ticks (18.2/s) and `time /t` truncates: 10:00:00 set reads back as
 # 9:59:59 (E003-r0045, r0046; the ticks 0x000A004A = 35999.98 s of E003-r0007 … agree), so a read-back
 # up to 1 s before the time set is the same time.
@@ -171,22 +180,23 @@ exit
 
     def clock_lines(self):
         """Autoexec lines that set the DOS date and time before GOAL runs (I3, T08), when the config
-        has `dos_date` (MM/DD/YYYY) or `dos_time` (HH:MM:SS); else nothing, and the guest clock
+        has `dos_date` (MM/DD/YYYY) or `dos_time` (HH:MM:SS); else none, and the guest clock
         starts from the host's as before. DOSBox-X 2024.03.01's DATE takes MM/DD/YYYY only: given
         10-04-1993 it prints the current date and changes nothing (E003-r0030, r0031; F004), so any
         other form, and any date or time no calendar or DOS has (99/99/1993, a year outside DOS's
-        1980-2099, 24:00:00), is refused here (clock_values). After setting, the lines write DOS's own
-        date and time (`date /t`, `time /t`) to CLOCK.TXT on a drive D: mounted from the session folder,
-        so launch() can read back what DOSBox-X applied (check_clock) before GOAL runs."""
+        1980-2099, 24:00:00), is refused here (clock_values). Then, in every launch (clock option or
+        not, so a savestate's drives are the same either way: CLOCK_DIR), the lines write DOS's own date
+        and time (`date /t`, `time /t`) to CLOCK.TXT on a drive D: mounted from the session folder, so
+        launch() can read back the clock GOAL starts with (and check_clock it when one was set)."""
         c = self.config
-        if not (c.get("dos_date") or c.get("dos_time")):
-            return ""
-        clock_values(c.get("dos_date"), c.get("dos_time"))
-        lines = "".join(f"{cmd} {c[k]}\n" for cmd, k in (("date", "dos_date"), ("time", "dos_time")) if c.get(k))
+        lines = ""
+        if c.get("dos_date") or c.get("dos_time"):
+            clock_values(c.get("dos_date"), c.get("dos_time"))
+            lines = "".join(f"{cmd} {c[k]}\n" for cmd, k in (("date", "dos_date"), ("time", "dos_time")) if c.get(k))
         return (lines + f"mount d {self.workdir / CLOCK_DIR}\ndate /t > d:\\clock.txt\ntime /t >> d:\\clock.txt\nc:\n")
 
     def clock_readback(self):
-        """The text DOS wrote to CLOCK.TXT after the date and time were set, or None (no clock option)."""
+        """The text DOS wrote to CLOCK.TXT before GOAL ran (after the date and time, when set), or None."""
         for f in (self.workdir / CLOCK_DIR).glob("*"):
             if f.name.lower() == "clock.txt":
                 return f.read_text(errors="replace")
@@ -234,10 +244,10 @@ exit
         self._x("windowfocus", self.wid)
         self.log("window focused")
         sc = self.wait_screen(lambda sc: TITLE_TEXT in sc.text(), timeout, "title screen")
-        if self.clock_lines():
-            # I3 verified, not assumed: what DOS reported right after `date`/`time`, before GOAL ran
-            self.clock_applied = self.clock_readback()
-            self.log(f"DOS clock read back: {(self.clock_applied or 'no CLOCK.TXT').strip()!r}")
+        # the clock GOAL starts with, as DOS reported it before GOAL ran; when one was set (I3), verified
+        self.clock_applied = self.clock_readback()
+        self.log(f"DOS clock read back: {(self.clock_applied or 'no CLOCK.TXT').strip()!r}")
+        if self.config.get("dos_date") or self.config.get("dos_time"):
             check_clock(self.config.get("dos_date"), self.config.get("dos_time"), self.clock_applied)
         if start_state is None:
             return sc

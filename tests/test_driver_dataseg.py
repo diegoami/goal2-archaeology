@@ -120,9 +120,23 @@ class ClockOption(unittest.TestCase):
             with self.assertRaises(ValueError):
                 driver.Driver(cfg).conf_text()
 
-    def test_no_lines_by_default(self):
-        tail = driver.Driver().conf_text().split("[autoexec]\n", 1)[1]
-        self.assertEqual(tail.splitlines()[2:4], ["goal", "exit"])
+    def test_no_clock_setting_by_default(self):
+        # free clock: nothing sets the date or time; only the read-back runs before GOAL
+        lines = driver.Driver().conf_text().split("[autoexec]\n", 1)[1].splitlines()
+        self.assertFalse([x for x in lines if x.split()[:1] in (["date"], ["time"]) and "/t" not in x])
+        self.assertEqual(lines[2:], [f"mount d {driver.SCRATCH / 'session' / driver.CLOCK_DIR}",
+                                     "date /t > d:\\clock.txt", "time /t >> d:\\clock.txt", "c:", "goal", "exit"])
+
+    def test_same_drives_with_and_without_the_clock_option(self):
+        # review round 2 R1: a state made with the clock option (drive D: mounted) crashed DOSBox-X when
+        # restored in a session without it; every launch must mount the same drives
+        def mounts(cfg):
+            conf = driver.Driver(cfg, workdir="/w", game_dir="/g").conf_text()
+            return [x for x in conf.splitlines() if x.startswith("mount ")]
+        made_with = mounts({"dos_time": "10:00:00", "dos_date": "10/04/2026"})
+        restored_without = mounts({})
+        self.assertEqual(made_with, restored_without)
+        self.assertEqual(made_with, ["mount c /g", "mount d /w/dosclock"])
 
 
 class ClockApplied(unittest.TestCase):
@@ -132,7 +146,10 @@ class ClockApplied(unittest.TestCase):
         # review R1: a local run of the reviewer (numbered 51, not in the repository): 99/99/1993 validated and was declared set
         for cfg in ({"dos_time": "10:00:00", "dos_date": "99/99/1993"}, {"dos_date": "02/30/1993"},
                     {"dos_date": "01/01/1979"}, {"dos_date": "01/01/2100"}, {"dos_time": "24:00:00"},
-                    {"dos_time": "10:60:00"}):
+                    {"dos_time": "10:60:00"},
+                    # review round 2 R2: real dates and times in a form other than MM/DD/YYYY, HH:MM:SS
+                    {"dos_date": "1/1/1993"}, {"dos_date": "10/4/1993"}, {"dos_date": "10/04/93"},
+                    {"dos_time": "9:00:00"}, {"dos_time": "10:0:00"}):
             with self.assertRaises(ValueError, msg=cfg):
                 driver.Driver(cfg).conf_text()
 
