@@ -44,13 +44,11 @@ All start after G0 (this repository, T01). G1–G4 can run in parallel.
 | — | G4 | **The documentation map**: `GOAL.HLP` passages recorded as sources, moving knowledge-map cells to `documented` | by Jev |
 | — | G5 | **The research backlog**: falsifiable questions per area, ordered by what G-M3 needs, each naming its behavioural and static routes | — (an architecture task, main session) |
 
-## Before G1
+## Runtime prerequisites
 
-DOSBox-X is not installed in WSL yet. The owner installs it (installing software is the owner's step):
-
-```
-sudo apt install dosbox-x
-```
+The owner installs DOSBox-X, Xvfb and xdotool (installing software is the owner's step).
+`bash setup/goal2-runtime.sh` checks the tools and versions, unpacks the release into `.cache/`, and
+prints `ready` or what is missing (F001).
 
 ## Risks
 
