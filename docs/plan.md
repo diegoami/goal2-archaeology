@@ -42,7 +42,7 @@ All start after G0 (this repository, T01). G1–G4 can run in parallel.
 | — | G2 | **The record tools**, adapted from toy-archaeology's (`fetch_artifact`, `validate_runs`, `verify_evidence`, `check_citations`, `register_artifact`), with `verify_evidence` downloading in bulk (toy-archaeology#11) and citations checked across wrapped bullets (toy-archaeology#12). This is their second consumer, so game-archaeologist#10 (a shared validator) is due. | by Jev |
 | — | G3 | **Static inventory**: unpack LZEXE (an open-source unpacker, named with its version); a disassembly of the 16-bit code (tool named and pinned); the routines indexed by area; `GOAL.DAT`'s structure proposed | hard: the evidence format of every static finding |
 | — | G4 | **The documentation map**: `GOAL.HLP` passages recorded as sources, moving knowledge-map cells to `documented` | by Jev |
-| — | G5 | **The research backlog**: falsifiable questions per area, ordered by what G-M3 needs, each naming its behavioural and static routes | — (an architecture task, main session) |
+| T06 | G5 | **The research backlog** ([backlog.md](backlog.md)): falsifiable questions per area, ordered by what G-M3 needs, each naming its behavioural and static routes | — (an architecture task, main session) |
 
 ## Runtime prerequisites
 
