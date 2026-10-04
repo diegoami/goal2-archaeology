@@ -47,6 +47,17 @@ class FakeState:
         return mock.Mock(ds_base=DS_BASE)
 
 
+def _screen():
+    import savestate
+    rows = [" " * 80 for _ in range(25)]
+    for r, text in ((1, "a"), (2, "---- HALF TIME ----"), (3, "c")):
+        rows[r] = (" " * 31 + text).ljust(80)
+    return savestate.Screen("".join(rows).encode("cp437"), bytes([7] * 2000))
+
+
+SCREEN = _screen()
+
+
 def state_with_count(count, ticks=0):
     st = FakeState(ticks)
     st.put_ds(0xA9FD, b"\xee\xee")          # DS:A9FD (the year), just below
@@ -65,8 +76,21 @@ class DelayCountTest(unittest.TestCase):
         st = state_with_count(0x2C5, ticks=0x000A1234)
         o = e005.a9ff_observation(3, "full time", st)
         self.assertTrue(o["value"].startswith("0x000002c5 (c5 02 00 00)"))
-        t = e005.timing_observation(4, "match read 1", 1.25, st)
-        self.assertEqual(t["value"], "1.25 0x000a1234 0x000002c5")
+        st.screen = lambda: SCREEN
+        st.ds_word = lambda off: {0x7B62: 0xF3AB}[off]
+        with mock.patch.object(e005.commentary, "Snapshot", return_value=mock.Mock(counter=0x2A, score=(1, 2))):
+            t = e005.read_observation(4, "match read 1", {"utc": "2026-10-04T19:00:00.000Z"}, 1.25, st)
+        self.assertTrue(t["field"].startswith("match read 1: [host UTC time, host s since"))
+        self.assertEqual(json.loads(t["value"]), ["2026-10-04T19:00:00.000Z", 1.25, "0x000a1234", "0x000002c5", SCREEN.digest(),
+                                                  "0x002a", "0xf3ab", 1, 2, "a / ---- HALF TIME ---- / c"])
+        # summarise reads it back: (since, ticks, count, rows)
+        self.assertEqual(summ.reads({"observations": [t]}), [(1.25, 0x000A1234, 0x2C5, "a / ---- HALF TIME ---- / c")])
+
+    def test_the_savestate_lines_of_dosbox_out_are_counted_not_kept(self):
+        out = ("LOG: Loading state from slot: 1\nLOG: File : <work>/IntTimer10 is 161 bytes\nLOG: [19:26:25]: Saved. (Slot 1)\n"
+               "LOG: File : <work>/IntTimer10 is 161 bytes\nLOG: [19:26:26]: Saved. (Slot 1)\nLOG: Save_Remark x\nLOG: Time_Stamp y\n"
+               "LOG: unrelated\nLOG: Save state corrupted! Memory_Size\n")
+        self.assertEqual(e005.dosbox_lines(out), (["LOG: Loading state from slot: 1", "LOG: Save state corrupted! Memory_Size"], [2, 2]))
 
 
 class ClockTest(unittest.TestCase):
@@ -179,7 +203,7 @@ def match_record(reads, keys, ko_ticks):
     obs = [{"step": 0, "source": "memory", "field": "restored: 4 bytes at 0040:006C (BIOS timer tick count), as a dword", "value": f"0x{ko_ticks:08x} (..)"}]
     for i, (since, ticks, rows) in enumerate(reads, 1):
         obs.append({"step": i, "source": "ui-text", "field": f"match read {i}: commentary rows (rows 1-3, columns 31-66)", "value": rows})
-        obs.append({"step": i, "source": "memory", "field": f"match read {i}: host seconds since the starting burst (...)", "value": f"{since} 0x{ticks:08x} 0x000010b3"})
+        obs.append({"step": i, "source": "memory", "field": f"match read {i}: host seconds since the starting burst (monotonic, the clock match.play measures with, taken after the savestate was read), BIOS tick count 0040:006C, dword DS:A9FF", "value": f"{since} 0x{ticks:08x} 0x000010b3"})
     rec = {"observations": obs}
     return {"reads": summ.reads(rec), "keys": keys, "ticks_ko": summ.ticks_of(rec, "restored")}
 
@@ -198,6 +222,18 @@ class HalvesTest(unittest.TestCase):
         self.assertAlmostEqual(h["guest_first"], 30.0, delta=0.05)
         self.assertAlmostEqual(h["guest_second"], 30.0, delta=0.05)
         self.assertEqual(h["ratio"], round(9.0 / 19.0, 3))
+
+    def test_the_compact_form_gives_the_same_halves(self):
+        t = summ.TICKS_PER_S
+        reads = [(9.0, 100 + round(30 * t), "b / ---- HALF TIME ---- / x"), (12.0, 100 + round(34 * t), "kick off"),
+                 (30.0, 100 + round(64 * t), "y / z / ---- FULL TIME ----")]
+        obs = [{"step": 0, "field": "restored: 4 bytes at 0040:006C (BIOS timer tick count)", "value": "0x00000064 (..)"}]
+        obs += [{"step": i, "field": f"match read {i}: {e005.READ_FIELDS}", "value": json.dumps(["u", s, f"0x{k:08x}", "0x10b3", "d", "0x1", "0x2", 0, 0, rows])}
+                for i, (s, k, rows) in enumerate(reads, 1)]
+        rec = {"observations": obs}
+        h = summ.halves({"reads": summ.reads(rec), "keys": self.KEYS, "ticks_ko": summ.ticks_of(rec, "restored")})
+        self.assertEqual((h["host_first"], h["host_second"]), (9.0, 19.0))
+        self.assertAlmostEqual(h["guest_second"], 30.0, delta=0.05)
 
     def test_no_halves_without_half_time(self):
         r = match_record([(2.0, 110, "a"), (30.0, 900, "---- FULL TIME ----")], self.KEYS, 100)

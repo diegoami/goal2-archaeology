@@ -135,8 +135,7 @@ class Run:
     def on_read(self, label, times, state):
         self.step += 1
         self.reads += 1
-        self.obs.extend(e004.match_observations(self.step, label, times, state))
-        self.obs.append(timing_observation(self.step, label, self.clock.since(), state))
+        self.obs.append(read_observation(self.step, label, times, self.clock.since(), state))
         self.tracker.add(commentary.Snapshot(state), label)
         self.final = (times, state)
 
@@ -213,10 +212,11 @@ class Run:
              "value": json.dumps(self.tracker.events(), ensure_ascii=False)},
             {"step": last, "source": "memory", "field": "commentary lines between successive reads (deltas of DS:80EE modulo 200), and reads where lines may have been lost",
              "value": json.dumps({"deltas": self.tracker.deltas, "gaps": self.tracker.gaps})},
-            {"step": last, "source": "log", "field": "lines of DOSBox-X's own output (dosbox.out) that mention save, load, corrupt, date, time or cycle (Save_Remark and Time_Stamp lines left out), in order",
-             "value": "\n".join(l for l in cycle.dosbox_out(d).splitlines()
-                                if any(w in l.lower() for w in ("save", "load", "corrupt", "date", "time", "cycle"))
-                                and "Save_Remark" not in l and "Time_Stamp" not in l)},
+            {"step": last, "source": "log", "field": "lines of DOSBox-X's own output (dosbox.out) that mention save, load, corrupt, date, time or cycle, in order, "
+             "except the two lines every savestate writes (counted in the next observation)",
+             "value": "\n".join(dosbox_lines(cycle.dosbox_out(d))[0])},
+            {"step": last, "source": "log", "field": "count of the lines left out of the previous observation: [`LOG: File : <work>/... is N bytes`, `Saved. (Slot`]",
+             "value": json.dumps(dosbox_lines(cycle.dosbox_out(d))[1])},
             {"step": last, "source": "process", "field": "dosbox-x and Xvfb after SIGTERM to their process groups (SIGKILL after TERM_GRACE, see log)",
              "value": "both exited" if gone else "a process remained"},
             {"step": last, "source": "log", "field": "waits, polls and key holds, seconds since launch", "value": json.dumps(d.events, separators=(",", ":"))},
@@ -277,11 +277,38 @@ def a9ff_observation(step, label, state):
             "value": f"0x{int.from_bytes(raw, 'little'):08x} ({raw.hex(' ')})"}
 
 
-def timing_observation(step, label, since, state):
-    ticks, _ = state.ticks()
-    return {"step": step, "source": "memory",
-            "field": f"{label}: host seconds since the starting burst (monotonic, the clock match.play measures with, taken after the savestate was read), BIOS tick count 0040:006C, dword DS:A9FF",
-            "value": f"{since} 0x{ticks:08x} 0x{a9ff(state):08x}"}
+def read_observation(step, label, times, since, state):
+    """One match read in one observation (a record stays under T07's 1 MB with the thousands of reads
+    of a match at 5000): host UTC time just before the savestate was requested, host seconds since the
+    starting burst (monotonic, the clock match.play measures with, taken after the read), the BIOS tick
+    count 0040:006C, the dword DS:A9FF, the screen's sha256 (chars+attributes), DS:80EE, DS:7B62, the
+    score bytes DS:9B3C and DS:9B3D, and the commentary rows (rows 1-3, columns 31-66)."""
+    sc = state.screen()
+    snap = commentary.Snapshot(state)
+    value = [times["utc"], since, f"0x{state.ticks()[0]:08x}", f"0x{a9ff(state):08x}", sc.digest(), f"0x{snap.counter:04x}",
+             f"0x{state.ds_word(0x7B62):04x}", snap.score[0], snap.score[1], " / ".join(match.commentary_rows(sc))]
+    return {"step": step, "source": "memory", "field": f"{label}: {READ_FIELDS}", "value": json.dumps(value, ensure_ascii=False)}
+
+
+READ_FIELDS = ("[host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, "
+               "DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]")
+
+
+def dosbox_lines(text):
+    """The DOSBox-X output lines a record keeps (save, load, corrupt, date, time, cycle; not Save_Remark or
+    Time_Stamp), less the two each savestate writes, and the counts of those two: ([lines], [n, n])."""
+    keep, files, saved = [], 0, 0
+    for line in text.splitlines():
+        low = line.lower()
+        if not any(w in low for w in ("save", "load", "corrupt", "date", "time", "cycle")) or "Save_Remark" in line or "Time_Stamp" in line:
+            continue
+        if line.startswith("LOG: File : <work>/"):
+            files += 1
+        elif "Saved. (Slot" in line:
+            saved += 1
+        else:
+            keep.append(line)
+    return keep, [files, saved]
 
 
 def host_observations(host, last):

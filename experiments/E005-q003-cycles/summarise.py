@@ -89,11 +89,15 @@ def check(rec):
 
 
 def reads(rec):
-    """The match reads in order: (host s since the burst, ticks, a9ff, commentary rows text)."""
-    timing = fields(rec, "host seconds since the starting burst")
-    rows = fields(rec, "commentary rows (rows 1-3")
+    """The match reads in order: (host s since the burst, ticks, a9ff, commentary rows text). Two forms
+    (README amendment 1): one observation per read, a JSON list (run.py READ_FIELDS); or, in the first
+    records, E004's observations per read plus one holding `since ticks a9ff`."""
     out = []
-    for label, v in timing.items():
+    for label, v in fields(rec, "[host UTC time, host s since the starting burst").items():
+        x = json.loads(v)
+        out.append((float(x[1]), int(x[2], 16), int(x[3], 16), x[9]))
+    rows = fields(rec, "commentary rows (rows 1-3")
+    for label, v in fields(rec, "host seconds since the starting burst (monotonic").items():
         since, ticks, a9 = v.split()
         out.append((float(since), int(ticks, 16), int(a9, 16), rows.get(label, "")))
     return sorted(out, key=lambda r: r[0])

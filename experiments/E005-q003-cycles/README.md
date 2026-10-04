@@ -41,3 +41,9 @@ python3 experiments/E005-q003-cycles/probe_f001.py
 python3 experiments/E005-q003-cycles/summarise.py
 python3 tools/validate_runs.py runs/E005
 ```
+
+## Amendment 1 (2026-10-04, after E005-r0011)
+
+- **One observation per match read.** T07's Done-when 7 keeps every tracked file under 1 MB. A watched match at 5000 makes thousands of reads, and E004's five observations a read (about 1.2 KB) would pass that. From the commit after `e5280ff`, each read is one observation: a JSON list of host UTC time, host seconds since the starting burst, BIOS ticks, `DS:A9FF`, screen sha256, `DS:80EE`, `DS:7B62`, the score bytes and the commentary rows (`run.py` `read_observation`). The values measured are E004's, plus the timing ones; only their form changes.
+- **The savestate lines of DOSBox-X's output.** Every savestate writes two lines to `dosbox.out` (`LOG: File : <work>/IntTimer10 is N bytes`, `Saved. (Slot 1)`). They are now counted in their own observation rather than copied.
+- **Records before the change.** The records written by processes started from `e5280ff` keep the first form: calibration E005-r0001 … r0009 and the first b1 runs. `summarise.py` reads both forms.
