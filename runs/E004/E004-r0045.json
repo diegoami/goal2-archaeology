@@ -1,0 +1,1643 @@
+{
+ "schema": "run/1",
+ "run_id": "E004-r0045",
+ "experiment": "E004",
+ "arm": "quick-fresh-time-101900",
+ "rep": 45,
+ "code_commit": "ac37bbb",
+ "machine": "ubuntu-24-04-wsl2",
+ "artifact": {
+  "set": "goal2-a949da2f",
+  "variant": null
+ },
+ "runtime": {
+  "driver": "runtime/driver/driver.py@ac37bbb",
+  "platform": "python-3.12.3/ubuntu-24-04-wsl2",
+  "fingerprint": {
+   "dosbox-x": "2024.03.01 SDL2",
+   "xvfb": "2:21.1.12-1ubuntu1.8",
+   "xdotool": "xdotool version 3.20160805.1",
+   "python": "3.12.3",
+   "kernel": "6.18.40.1-microsoft-standard-WSL2",
+   "config_sha256": "7a4ff786e9f140970d8f5f36e414e630e1172e2f739e136cb0f42818c07cbcb2",
+   "machine": "svga_s3",
+   "memsize": "16",
+   "cycles": "30000",
+   "core": "auto",
+   "cputype": "auto",
+   "dos_time": "10:19:00",
+   "dos_date": "10-04-2026"
+  }
+ },
+ "interventions": [
+  {
+   "level": "I1",
+   "what": "text screen, BIOS data area (0040:0049, 0040:006C) and GOAL.EXE data-segment memory (DS:7B62, DS:7B64, DS:8336, DS:A9FD, the commentary ring DS:7C38 and counter DS:80EE, the score DS:9B3C, the names at [DS:9B6C], the delay byte at [DS:A923]+0x3F, two known strings) read from DOSBox-X savestates (Host+S; components Vga and Memory)"
+  },
+  {
+   "level": "I2",
+   "what": "a savestate is written at each read, including every read during the match (vocabulary/interventions.md lists save and load of state as I2; neutrality tested by the replays of E004, not assumed)"
+  },
+  {
+   "level": "I3",
+   "what": "DOS date 10/04/2026 and DOS time 10:19:00 requested with the DOSBox-X commands `date 10/04/2026` and `time 10:19:00` in the autoexec, before GOAL runs; applied: DOS reported date 10/04/2026 and time 10:18:59 right after (`date /t`, `time /t`), checked by Driver.launch"
+  }
+ ],
+ "start_state": {
+  "id": "fresh-launch",
+  "sha256": "7a4ff786e9f140970d8f5f36e414e630e1172e2f739e136cb0f42818c07cbcb2",
+  "restore": "fresh DOSBox-X process (config sha256 7a4ff786e9f140970d8f5f36e414e630e1172e2f739e136cb0f42818c07cbcb2), game folder recreated from the verified release copy, nothing restored; DOS time set to 10:19:00 on 10/04/2026 before GOAL ran; then the keys n Enter Enter b o b Enter Enter Enter Enter Esc Up Enter Enter Enter, each followed by a settle poll, to the captain screen (an Enter after the last only when the team screen came first)"
+ },
+ "seed": null,
+ "actions": {
+  "script": "experiments/E004-q002-quick-result/run.py",
+  "sha256": "68cc4f44da8cdd329378e936d2d7aa34eec9998e72447ed844448e476cb3bc8a",
+  "args": [
+   "sample",
+   "--arm",
+   "quick",
+   "--dos-time",
+   "10:19:00",
+   "--dos-date",
+   "10/04/2026",
+   "--batch",
+   "s1",
+   "starting keys: Enter r"
+  ]
+ },
+ "observations": [
+  {
+   "step": 0,
+   "source": "log",
+   "field": "host UTC time at launch",
+   "value": "2026-10-04T12:04:39.751Z"
+  },
+  {
+   "step": 0,
+   "source": "log",
+   "field": "host local time at launch, with UTC offset, and zone name",
+   "value": "2026-10-04T14:04:39.751+02:00 CEST"
+  },
+  {
+   "step": 0,
+   "source": "file",
+   "field": "DOS clock read back: CLOCK.TXT as DOS wrote it (`date /t`, then `time /t`) before GOAL, right after setting the date and time when they were set",
+   "value": "10/04/2026\n10:18:59\n"
+  },
+  {
+   "step": 0,
+   "source": "log",
+   "field": "title (fresh launch): host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:04:41.576Z"
+  },
+  {
+   "step": 0,
+   "source": "log",
+   "field": "title (fresh launch): host local time with UTC offset, and zone name, at the same instant",
+   "value": "2026-10-04T14:04:41.576+02:00 CEST"
+  },
+  {
+   "step": 0,
+   "source": "screen",
+   "field": "title (fresh launch): text screen 80x25, chars+attributes (4000 bytes), sha256",
+   "value": "cd7f15fbf853b40471d05bad51cb6e6c14cbc8a7307893dba8f5f36c2315c612"
+  },
+  {
+   "step": 0,
+   "source": "ui-text",
+   "field": "title (fresh launch): text screen rows 0-24, CP437 decoded, trailing blanks trimmed",
+   "value": " (c) NE'93│ │                                                    │     (c)\n ┌─┐┌─┐┌─┐│ │                                                    │     new\n │ ││ ││ ││ │                                                    │     era\n └─┤└─┘└─┤│ │                                                    │   software\n───┘ v.2    │                                                    │     1993\n────────────┘                                                    └──────────────\n\n\n\n\n\n\n────────────────────────────────────────────────────────────────────────────────\n                   THE international soccer management game\n────────────────────────────────────────────────────────────────────────────────\n\n────────────────────────────────────────────────────────────────────────────────\n                    design and coding : Mantra and L.B.\n────────────────────────────────────────────────────────────────────────────────\n     testing and feedback : Celtic Ray, Mr Scott, Big Mac and Carl Wilky\n────────────────────────────────────────────────────────────────────────────────\n               distribution : Silverwitch and Tom de Notre Dame\n────────────────────────────────────────────────────────────────────────────────\n\n■■■■■■■■■■■■■■■■■■■ Do you want to load a saved game? (Y/N) ■■■■■■■■■■■■■■■■■■■■"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x449",
+   "field": "title (fresh launch): 1 byte at 0040:0049 (BIOS video mode), guest memory from the savestate, hex",
+   "value": "03"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x46c",
+   "field": "title (fresh launch): 4 bytes at 0040:006C (BIOS timer tick count), guest memory from the savestate, as a little-endian dword (bytes in memory order)",
+   "value": "0x000a5165 (65 51 0a 00)"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x355a2",
+   "field": "title (fresh launch): word at DS:7B62 of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+   "value": "0x0000 (00 00)"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x355a4",
+   "field": "title (fresh launch): word at DS:7B64 of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+   "value": "0x0000 (00 00)"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x35d76",
+   "field": "title (fresh launch): word at DS:8336 of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+   "value": "0x5161 (61 51)"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x3843d",
+   "field": "title (fresh launch): word at DS:A9FD of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+   "value": "0x07ea (ea 07)"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "field": "title (fresh launch): score bytes DS:9B3C, DS:9B3D (engine teams 0 and 1)",
+   "value": "0 0"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "field": "title (fresh launch): match delay byte at the far pointer DS:A923 + 0x3F (0 fastest)",
+   "value": "0"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x8120",
+   "field": "GOAL.EXE located: its MCB (owner = the next segment, name GOAL), PSP, load segment and data segment",
+   "value": "MCB at segment 0812 (owner 0813, name GOAL), PSP 0813, load segment 0823 = PSP + 10h, DS 2DA4 = load + 2581h, linear base 0x2DA40"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x2da64",
+   "field": "8 bytes at DS:0024, hex (static/goal-exe/data/ds_2581_01.hex has 07 54 52 59 20 4f 55 54)",
+   "value": "07 54 52 59 20 4f 55 54"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x2db00",
+   "field": "6 bytes at DS:00C0, hex (static/goal-exe/data/ds_2581_01.hex has 6f 6e 20 66 6f 72)",
+   "value": "6f 6e 20 66 6f 72"
+  },
+  {
+   "step": 0,
+   "source": "file",
+   "field": "DOSBox-X config of the session, host paths replaced by <work> and <game>",
+   "value": "[sdl]\nfullscreen=false\noutput=surface\nmapperfile=<work>/mapper.map\n[mixer]\nnosound=true\n[midi]\nmididevice=none\n[dosbox]\nmachine=svga_s3\nmemsize=16\nsaveremark=false\ncaptures=<work>/cap\n[cpu]\ncore=auto\ncputype=auto\ncycles=30000\n[autoexec]\nmount c <game>\nc:\ndate 10/04/2026\ntime 10:19:00\nmount d <work>/dosclock\ndate /t > d:\\clock.txt\ntime /t >> d:\\clock.txt\nc:\ngoal\nexit\n"
+  },
+  {
+   "step": 0,
+   "source": "file",
+   "field": "sha256 of that config text (UTF-8)",
+   "value": "7a4ff786e9f140970d8f5f36e414e630e1172e2f739e136cb0f42818c07cbcb2"
+  },
+  {
+   "step": 0,
+   "source": "log",
+   "field": "batch label given on the command line",
+   "value": "s1"
+  },
+  {
+   "step": 10,
+   "source": "log",
+   "field": "after key 10 (Enter): host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:04:55.402Z"
+  },
+  {
+   "step": 10,
+   "source": "log",
+   "field": "after key 10 (Enter): host local time with UTC offset, and zone name, at the same instant",
+   "value": "2026-10-04T14:04:55.402+02:00 CEST"
+  },
+  {
+   "step": 10,
+   "source": "screen",
+   "field": "after key 10 (Enter): text screen 80x25, chars+attributes (4000 bytes), sha256",
+   "value": "18190236ee20f9eb0573e82714034e41226a92a62efb4c119d8648e06a9a1b67"
+  },
+  {
+   "step": 10,
+   "source": "ui-text",
+   "field": "after key 10 (Enter): text screen rows 0-24, CP437 decoded, trailing blanks trimmed",
+   "value": " (c) NE'93│ │  ┌─────────────┐     Use ←→↑↓ to select             use INS to\n ┌─┐┌─┐┌─┐│ │  │  Check out  │                                   swap between\n │ ││ ││ ││ │  │   all the   │     Hit ◄┘ for fixtures             world and\n └─┤└─┘└─┤│ │  │ competitors │                                    continental\n───┘ v.2    │  └─────────────┘     Esc to exit                     rankings\n────────────┘\n┌team─────────────────────────────┬───────────────────tactics┐ ┌───────────────┐\n│Denmark-------- status major     ├──────────────team─tactics┤ │Denmark--------│\n├manager──────────────────────────┤defence─system──half pitch┤ │Germany--------│\n│B Ob            skill unknown    ├protection─sag back to box┤ │Holland--------│\n├ranking─now─top┬─────────────────┼offside──────────play safe┤ │Sweden---------│\n│World    29  29│formation  5-4-1 ├───────────player─defaults┤ │Scotland-------│\n│Europe    1   1│strips     ☻ ☻ ☻ │positioning───push forward┤ │France---------│\n├skills──────┬──┴─┬────┬────┬────┬┼possession──────quick pass┤ │England--------│\n├keeper──■■■■■■■■■■■■■■■■■■■■■■■■■┼passing───────short passes┤ │Russia---------│\n├defence─■■■■■■■■■■■■■■■■■■■■■■■■■┼tackling────────go in hard┤ │Yugoslavia-----│\n├midfield■■■■■■■■■■■■■■■■■■■■■■■■■┼marking─────────man to man┤ │Switzerland----│\n├attack──■■■■■■■■■■■■■■■■■■■■■■■■■┼───────────characteristics┤ │R.C.S----------│\n├performance─┼────┼────┼────┼────┼┤average─caps─0─────age─29─┤ │Wales----------│\n├keeper──■■■■■■■■■■■■■■■■■■■■■■■■■┼hardness──tough■■■■■■■■■■■┤ │Eire-----------│\n├defence─■■■■■■■■■■■■■■■■■■■■■■■■■┼fitness───very fit■■■■■■■■┤ │Portugal-------│\n├midfield■■■■■■■■■■■■■■■■■■■■■■■■■┼energy────energetic■■■■■■■┤ │Italy----------│\n├attack──■■■■■■■■■■■■■■■■■■■■■■■■■┼morale────not bad■■■■■■■■■┤ │Romania--------│\n└────────────┴────┴────┴────┴────┴┴──────────────┴────┴────┴─┘ └───────────────┘\nspacebar-players T-tactics"
+  },
+  {
+   "step": 10,
+   "source": "memory",
+   "addr": "0x449",
+   "field": "after key 10 (Enter): 1 byte at 0040:0049 (BIOS video mode), guest memory from the savestate, hex",
+   "value": "03"
+  },
+  {
+   "step": 10,
+   "source": "memory",
+   "addr": "0x46c",
+   "field": "after key 10 (Enter): 4 bytes at 0040:006C (BIOS timer tick count), guest memory from the savestate, as a little-endian dword (bytes in memory order)",
+   "value": "0x000a5232 (32 52 0a 00)"
+  },
+  {
+   "step": 10,
+   "source": "memory",
+   "addr": "0x355a2",
+   "field": "after key 10 (Enter): word at DS:7B62 of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+   "value": "0x7aed (ed 7a)"
+  },
+  {
+   "step": 10,
+   "source": "memory",
+   "addr": "0x355a4",
+   "field": "after key 10 (Enter): word at DS:7B64 of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+   "value": "0x0906 (06 09)"
+  },
+  {
+   "step": 10,
+   "source": "memory",
+   "addr": "0x35d76",
+   "field": "after key 10 (Enter): word at DS:8336 of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+   "value": "0x5161 (61 51)"
+  },
+  {
+   "step": 10,
+   "source": "memory",
+   "addr": "0x3843d",
+   "field": "after key 10 (Enter): word at DS:A9FD of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+   "value": "0x07ea (ea 07)"
+  },
+  {
+   "step": 10,
+   "source": "memory",
+   "field": "after key 10 (Enter): score bytes DS:9B3C, DS:9B3D (engine teams 0 and 1)",
+   "value": "0 0"
+  },
+  {
+   "step": 10,
+   "source": "memory",
+   "field": "after key 10 (Enter): match delay byte at the far pointer DS:A923 + 0x3F (0 fastest)",
+   "value": "1"
+  },
+  {
+   "step": 15,
+   "source": "log",
+   "field": "captain screen: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:05:01.275Z"
+  },
+  {
+   "step": 15,
+   "source": "log",
+   "field": "captain screen: host local time with UTC offset, and zone name, at the same instant",
+   "value": "2026-10-04T14:05:01.275+02:00 CEST"
+  },
+  {
+   "step": 15,
+   "source": "screen",
+   "field": "captain screen: text screen 80x25, chars+attributes (4000 bytes), sha256",
+   "value": "765a8c8550502dcd03dac0154005f0287136dfac99975ce3eeeac82597258682"
+  },
+  {
+   "step": 15,
+   "source": "ui-text",
+   "field": "captain screen: text screen rows 0-24, CP437 decoded, trailing blanks trimmed",
+   "value": " (c) NE'93│ ┌───────────────┬──┬FRIENDLY───────────────────────────┐┌───┐ ┌───┐\n ┌─┐┌─┐┌─┐│ │DENMARK--------│ 0│                                   ││   │ │   │\n │ ││ ││ ││ ├versus─────────┼──┤                                   │├───┤ ├───┤\n └─┤└─┘└─┤│ │BULGARIA-------│ 0│                                   ││   │ │   │\n───┘ v.2    └───────────────┴──┴───────────────────────────────────┘└───┘ └───┘\n\n┌name──────────┬age┬caps┬goals┬height─┬bias──────┬performance┐ ┌────────────┬─┐\n│T Piechnik    │ 28│   0│    0│ 6' 0\" │right foot│           │ │P Schmeichel│G│\n├position──────┴───┼club┴position─────┼cards┬────┴─┴─┴─┴─┴─┴─┤ │L Olsen     │S│\n│centre back       │centre back       │     │        selected│ │T Piechnik  │C│\n├skills───┬────┬───┴┬────┬────┬────┬┬─┴─────┴─────────tactics┤ │K Christofte│C│\n├keeping──■■■■■■■■■■■■■■■■■■■■■■■■■■┼position─────stay back P┤ │H Andersen  │B│\n├kicking──■■■■■■■■■■■■■■■■■■■■■■■■■■┼possession──quick pass P┤ │J Sivebaek  │B│\n├tackling─■■■■■■■■■■■■■■■■■■■■■■■■■■┼passing─────short passes┤ │K Vilfort   │D│\n├heading──■■■■■■■■■■■■■■■■■■■■■■■■■■┼tackling──avoid injury P┤ │H Larsen    │M│\n├marking──■■■■■■■■■■■■■■■■■■■■■■■■■■┼mark─S Mladenov─────────┤ │J Jensen    │M│\n├passing──■■■■■■■■■■■■■■■■■■■■■■■■■■┤     striker            │ │B Laudrup   │F│\n├crossing─■■■■■■■■■■■■■■■■■■■■■■■■■■┼─────────characteristics┤ │F Povlsen   │$│\n├feinting─■■■■■■■■■■■■■■■■■■■■■■■■■■┼hardness──wimpy■■■■■■■■■┤ └────────────┴─┘\n├control──■■■■■■■■■■■■■■■■■■■■■■■■■■┼fitness───total■■■■■■■■■┤   use ↑↓ to move\n├dribbling■■■■■■■■■■■■■■■■■■■■■■■■■■┼energy────hyperactive■■■┤\n├shooting─■■■■■■■■■■■■■■■■■■■■■■■■■■┼morale────very confident┤ ╔═══════════════╗\n├penalties■■■■■■■■■■■■■■■■■■■■■■■■■■┼leadershipcaptain■■■■■■■┤ ║Denmark--------║\n└─────────┴────┴────┴────┴────┴────┴┴──────────┴────┴────┴───┘ ╚═══════════════╝\n◄┘-select  CAPTAIN                                         C-computer select"
+  },
+  {
+   "step": 15,
+   "source": "memory",
+   "addr": "0x449",
+   "field": "captain screen: 1 byte at 0040:0049 (BIOS video mode), guest memory from the savestate, hex",
+   "value": "03"
+  },
+  {
+   "step": 15,
+   "source": "memory",
+   "addr": "0x46c",
+   "field": "captain screen: 4 bytes at 0040:006C (BIOS timer tick count), guest memory from the savestate, as a little-endian dword (bytes in memory order)",
+   "value": "0x000a528a (8a 52 0a 00)"
+  },
+  {
+   "step": 15,
+   "source": "memory",
+   "addr": "0x355a2",
+   "field": "captain screen: word at DS:7B62 of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+   "value": "0xe903 (03 e9)"
+  },
+  {
+   "step": 15,
+   "source": "memory",
+   "addr": "0x355a4",
+   "field": "captain screen: word at DS:7B64 of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+   "value": "0x0906 (06 09)"
+  },
+  {
+   "step": 15,
+   "source": "memory",
+   "addr": "0x35d76",
+   "field": "captain screen: word at DS:8336 of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+   "value": "0x5161 (61 51)"
+  },
+  {
+   "step": 15,
+   "source": "memory",
+   "addr": "0x3843d",
+   "field": "captain screen: word at DS:A9FD of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+   "value": "0x07ea (ea 07)"
+  },
+  {
+   "step": 15,
+   "source": "memory",
+   "field": "captain screen: score bytes DS:9B3C, DS:9B3D (engine teams 0 and 1)",
+   "value": "0 0"
+  },
+  {
+   "step": 15,
+   "source": "memory",
+   "field": "captain screen: match delay byte at the far pointer DS:A923 + 0x3F (0 fastest)",
+   "value": "1"
+  },
+  {
+   "step": 16,
+   "source": "log",
+   "field": "match read 1: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:05:02.034Z"
+  },
+  {
+   "step": 16,
+   "source": "screen",
+   "field": "match read 1: text screen 80x25, chars+attributes, sha256",
+   "value": "01fdd7925195366deeacef5fee0fa356e7d2e7f730434058d45756f437fc76de"
+  },
+  {
+   "step": 16,
+   "source": "ui-text",
+   "field": "match read 1: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│ / ┤Tzvetanev wins the toss / │Stoichkov to take kick off"
+  },
+  {
+   "step": 16,
+   "source": "memory",
+   "field": "match read 1: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0002 0xb09b 0 0"
+  },
+  {
+   "step": 17,
+   "source": "log",
+   "field": "match read 2: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:05:02.582Z"
+  },
+  {
+   "step": 17,
+   "source": "screen",
+   "field": "match read 2: text screen 80x25, chars+attributes, sha256",
+   "value": "f473d3cb5eb59615d1ec57f0d5cf56a6c125d4395eb12e34a66c6e266c6ec521"
+  },
+  {
+   "step": 17,
+   "source": "ui-text",
+   "field": "match read 2: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│ / ┤Tzvetanev wins the toss / │Stoichkov to take kick off"
+  },
+  {
+   "step": 17,
+   "source": "memory",
+   "field": "match read 2: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0002 0x7b86 0 0"
+  },
+  {
+   "step": 18,
+   "source": "log",
+   "field": "match read 3: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:05:03.129Z"
+  },
+  {
+   "step": 18,
+   "source": "screen",
+   "field": "match read 3: text screen 80x25, chars+attributes, sha256",
+   "value": "b65ba3e64b2a67b0e5c52b1f4bd33c2168b1f1aa454b4707e4bd6d8b440957f0"
+  },
+  {
+   "step": 18,
+   "source": "ui-text",
+   "field": "match read 3: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│ / ┤Tzvetanev wins the toss / │Stoichkov to take kick off"
+  },
+  {
+   "step": 18,
+   "source": "memory",
+   "field": "match read 3: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0002 0x79c1 0 0"
+  },
+  {
+   "step": 19,
+   "source": "log",
+   "field": "match read 4: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:05:03.669Z"
+  },
+  {
+   "step": 19,
+   "source": "screen",
+   "field": "match read 4: text screen 80x25, chars+attributes, sha256",
+   "value": "bb5d4afdb5293348cb7f075ba39a9d17e4e518de2968d04336b46e8a2dda1a95"
+  },
+  {
+   "step": 19,
+   "source": "ui-text",
+   "field": "match read 4: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│ / ┤Tzvetanev wins the toss / │Stoichkov to take kick off"
+  },
+  {
+   "step": 19,
+   "source": "memory",
+   "field": "match read 4: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0002 0x4f2f 0 0"
+  },
+  {
+   "step": 20,
+   "source": "log",
+   "field": "match read 5: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:05:04.211Z"
+  },
+  {
+   "step": 20,
+   "source": "screen",
+   "field": "match read 5: text screen 80x25, chars+attributes, sha256",
+   "value": "bb5d4afdb5293348cb7f075ba39a9d17e4e518de2968d04336b46e8a2dda1a95"
+  },
+  {
+   "step": 20,
+   "source": "ui-text",
+   "field": "match read 5: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│ / ┤Tzvetanev wins the toss / │Stoichkov to take kick off"
+  },
+  {
+   "step": 20,
+   "source": "memory",
+   "field": "match read 5: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0002 0x4f2f 0 0"
+  },
+  {
+   "step": 21,
+   "source": "log",
+   "field": "match read 6: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:05:04.757Z"
+  },
+  {
+   "step": 21,
+   "source": "screen",
+   "field": "match read 6: text screen 80x25, chars+attributes, sha256",
+   "value": "bb5d4afdb5293348cb7f075ba39a9d17e4e518de2968d04336b46e8a2dda1a95"
+  },
+  {
+   "step": 21,
+   "source": "ui-text",
+   "field": "match read 6: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│ / ┤Tzvetanev wins the toss / │Stoichkov to take kick off"
+  },
+  {
+   "step": 21,
+   "source": "memory",
+   "field": "match read 6: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0002 0x4f2f 0 0"
+  },
+  {
+   "step": 22,
+   "source": "log",
+   "field": "match read 7: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:05:05.304Z"
+  },
+  {
+   "step": 22,
+   "source": "screen",
+   "field": "match read 7: text screen 80x25, chars+attributes, sha256",
+   "value": "bb5d4afdb5293348cb7f075ba39a9d17e4e518de2968d04336b46e8a2dda1a95"
+  },
+  {
+   "step": 22,
+   "source": "ui-text",
+   "field": "match read 7: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│ / ┤Tzvetanev wins the toss / │Stoichkov to take kick off"
+  },
+  {
+   "step": 22,
+   "source": "memory",
+   "field": "match read 7: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0002 0x4f2f 0 0"
+  },
+  {
+   "step": 23,
+   "source": "log",
+   "field": "match read 8: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:05:05.848Z"
+  },
+  {
+   "step": 23,
+   "source": "screen",
+   "field": "match read 8: text screen 80x25, chars+attributes, sha256",
+   "value": "bb5d4afdb5293348cb7f075ba39a9d17e4e518de2968d04336b46e8a2dda1a95"
+  },
+  {
+   "step": 23,
+   "source": "ui-text",
+   "field": "match read 8: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│ / ┤Tzvetanev wins the toss / │Stoichkov to take kick off"
+  },
+  {
+   "step": 23,
+   "source": "memory",
+   "field": "match read 8: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0002 0x4f2f 0 0"
+  },
+  {
+   "step": 24,
+   "source": "log",
+   "field": "match read 9: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:05:06.392Z"
+  },
+  {
+   "step": 24,
+   "source": "screen",
+   "field": "match read 9: text screen 80x25, chars+attributes, sha256",
+   "value": "08cd3a8bc7c92cb18c5019f96bb73b2fefa1796eb3fc2bfbe0765fd9ead9674f"
+  },
+  {
+   "step": 24,
+   "source": "ui-text",
+   "field": "match read 9: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│Tzvetanev wins the toss / ┤Stoichkov to take kick off / │**** GOAL **** by Alexandrov"
+  },
+  {
+   "step": 24,
+   "source": "memory",
+   "field": "match read 9: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0003 0x9065 1 0"
+  },
+  {
+   "step": 25,
+   "source": "log",
+   "field": "match read 10: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:05:06.933Z"
+  },
+  {
+   "step": 25,
+   "source": "screen",
+   "field": "match read 10: text screen 80x25, chars+attributes, sha256",
+   "value": "08cd3a8bc7c92cb18c5019f96bb73b2fefa1796eb3fc2bfbe0765fd9ead9674f"
+  },
+  {
+   "step": 25,
+   "source": "ui-text",
+   "field": "match read 10: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│Tzvetanev wins the toss / ┤Stoichkov to take kick off / │**** GOAL **** by Alexandrov"
+  },
+  {
+   "step": 25,
+   "source": "memory",
+   "field": "match read 10: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0003 0x9065 1 0"
+  },
+  {
+   "step": 26,
+   "source": "log",
+   "field": "match read 11: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:05:07.480Z"
+  },
+  {
+   "step": 26,
+   "source": "screen",
+   "field": "match read 11: text screen 80x25, chars+attributes, sha256",
+   "value": "08cd3a8bc7c92cb18c5019f96bb73b2fefa1796eb3fc2bfbe0765fd9ead9674f"
+  },
+  {
+   "step": 26,
+   "source": "ui-text",
+   "field": "match read 11: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│Tzvetanev wins the toss / ┤Stoichkov to take kick off / │**** GOAL **** by Alexandrov"
+  },
+  {
+   "step": 26,
+   "source": "memory",
+   "field": "match read 11: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0003 0x9065 1 0"
+  },
+  {
+   "step": 27,
+   "source": "log",
+   "field": "match read 12: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:05:08.028Z"
+  },
+  {
+   "step": 27,
+   "source": "screen",
+   "field": "match read 12: text screen 80x25, chars+attributes, sha256",
+   "value": "08cd3a8bc7c92cb18c5019f96bb73b2fefa1796eb3fc2bfbe0765fd9ead9674f"
+  },
+  {
+   "step": 27,
+   "source": "ui-text",
+   "field": "match read 12: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│Tzvetanev wins the toss / ┤Stoichkov to take kick off / │**** GOAL **** by Alexandrov"
+  },
+  {
+   "step": 27,
+   "source": "memory",
+   "field": "match read 12: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0003 0x9065 1 0"
+  },
+  {
+   "step": 28,
+   "source": "log",
+   "field": "match read 13: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:05:08.568Z"
+  },
+  {
+   "step": 28,
+   "source": "screen",
+   "field": "match read 13: text screen 80x25, chars+attributes, sha256",
+   "value": "08cd3a8bc7c92cb18c5019f96bb73b2fefa1796eb3fc2bfbe0765fd9ead9674f"
+  },
+  {
+   "step": 28,
+   "source": "ui-text",
+   "field": "match read 13: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│Tzvetanev wins the toss / ┤Stoichkov to take kick off / │**** GOAL **** by Alexandrov"
+  },
+  {
+   "step": 28,
+   "source": "memory",
+   "field": "match read 13: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0003 0x9065 1 0"
+  },
+  {
+   "step": 29,
+   "source": "log",
+   "field": "match read 14: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:05:09.111Z"
+  },
+  {
+   "step": 29,
+   "source": "screen",
+   "field": "match read 14: text screen 80x25, chars+attributes, sha256",
+   "value": "08cd3a8bc7c92cb18c5019f96bb73b2fefa1796eb3fc2bfbe0765fd9ead9674f"
+  },
+  {
+   "step": 29,
+   "source": "ui-text",
+   "field": "match read 14: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│Tzvetanev wins the toss / ┤Stoichkov to take kick off / │**** GOAL **** by Alexandrov"
+  },
+  {
+   "step": 29,
+   "source": "memory",
+   "field": "match read 14: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0003 0x9065 1 0"
+  },
+  {
+   "step": 30,
+   "source": "log",
+   "field": "match read 15: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:05:09.650Z"
+  },
+  {
+   "step": 30,
+   "source": "screen",
+   "field": "match read 15: text screen 80x25, chars+attributes, sha256",
+   "value": "08cd3a8bc7c92cb18c5019f96bb73b2fefa1796eb3fc2bfbe0765fd9ead9674f"
+  },
+  {
+   "step": 30,
+   "source": "ui-text",
+   "field": "match read 15: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│Tzvetanev wins the toss / ┤Stoichkov to take kick off / │**** GOAL **** by Alexandrov"
+  },
+  {
+   "step": 30,
+   "source": "memory",
+   "field": "match read 15: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0003 0x9065 1 0"
+  },
+  {
+   "step": 31,
+   "source": "log",
+   "field": "match read 16: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:05:10.190Z"
+  },
+  {
+   "step": 31,
+   "source": "screen",
+   "field": "match read 16: text screen 80x25, chars+attributes, sha256",
+   "value": "08cd3a8bc7c92cb18c5019f96bb73b2fefa1796eb3fc2bfbe0765fd9ead9674f"
+  },
+  {
+   "step": 31,
+   "source": "ui-text",
+   "field": "match read 16: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│Tzvetanev wins the toss / ┤Stoichkov to take kick off / │**** GOAL **** by Alexandrov"
+  },
+  {
+   "step": 31,
+   "source": "memory",
+   "field": "match read 16: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0003 0x9065 1 0"
+  },
+  {
+   "step": 32,
+   "source": "log",
+   "field": "match read 17: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:05:10.731Z"
+  },
+  {
+   "step": 32,
+   "source": "screen",
+   "field": "match read 17: text screen 80x25, chars+attributes, sha256",
+   "value": "08cd3a8bc7c92cb18c5019f96bb73b2fefa1796eb3fc2bfbe0765fd9ead9674f"
+  },
+  {
+   "step": 32,
+   "source": "ui-text",
+   "field": "match read 17: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│Tzvetanev wins the toss / ┤Stoichkov to take kick off / │**** GOAL **** by Alexandrov"
+  },
+  {
+   "step": 32,
+   "source": "memory",
+   "field": "match read 17: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0003 0x9065 1 0"
+  },
+  {
+   "step": 33,
+   "source": "log",
+   "field": "match read 18: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:05:11.269Z"
+  },
+  {
+   "step": 33,
+   "source": "screen",
+   "field": "match read 18: text screen 80x25, chars+attributes, sha256",
+   "value": "08cd3a8bc7c92cb18c5019f96bb73b2fefa1796eb3fc2bfbe0765fd9ead9674f"
+  },
+  {
+   "step": 33,
+   "source": "ui-text",
+   "field": "match read 18: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│Tzvetanev wins the toss / ┤Stoichkov to take kick off / │**** GOAL **** by Alexandrov"
+  },
+  {
+   "step": 33,
+   "source": "memory",
+   "field": "match read 18: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0003 0x9065 1 0"
+  },
+  {
+   "step": 34,
+   "source": "log",
+   "field": "match read 19: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:05:11.807Z"
+  },
+  {
+   "step": 34,
+   "source": "screen",
+   "field": "match read 19: text screen 80x25, chars+attributes, sha256",
+   "value": "08cd3a8bc7c92cb18c5019f96bb73b2fefa1796eb3fc2bfbe0765fd9ead9674f"
+  },
+  {
+   "step": 34,
+   "source": "ui-text",
+   "field": "match read 19: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│Tzvetanev wins the toss / ┤Stoichkov to take kick off / │**** GOAL **** by Alexandrov"
+  },
+  {
+   "step": 34,
+   "source": "memory",
+   "field": "match read 19: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0003 0x9065 1 0"
+  },
+  {
+   "step": 35,
+   "source": "log",
+   "field": "match read 20: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:05:12.349Z"
+  },
+  {
+   "step": 35,
+   "source": "screen",
+   "field": "match read 20: text screen 80x25, chars+attributes, sha256",
+   "value": "5c290816d733bd915910992ddfa26e8217d33a2f19c56399bad18ebc165313ff"
+  },
+  {
+   "step": 35,
+   "source": "ui-text",
+   "field": "match read 20: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│Stoichkov to take kick off / ┤**** GOAL **** by Alexandrov / │---- HALF TIME ----"
+  },
+  {
+   "step": 35,
+   "source": "memory",
+   "field": "match read 20: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0004 0x87c1 1 0"
+  },
+  {
+   "step": 36,
+   "source": "log",
+   "field": "match read 21: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:05:12.884Z"
+  },
+  {
+   "step": 36,
+   "source": "screen",
+   "field": "match read 21: text screen 80x25, chars+attributes, sha256",
+   "value": "5c290816d733bd915910992ddfa26e8217d33a2f19c56399bad18ebc165313ff"
+  },
+  {
+   "step": 36,
+   "source": "ui-text",
+   "field": "match read 21: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│Stoichkov to take kick off / ┤**** GOAL **** by Alexandrov / │---- HALF TIME ----"
+  },
+  {
+   "step": 36,
+   "source": "memory",
+   "field": "match read 21: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0004 0x87c1 1 0"
+  },
+  {
+   "step": 37,
+   "source": "log",
+   "field": "match read 22: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:05:13.423Z"
+  },
+  {
+   "step": 37,
+   "source": "screen",
+   "field": "match read 22: text screen 80x25, chars+attributes, sha256",
+   "value": "5c290816d733bd915910992ddfa26e8217d33a2f19c56399bad18ebc165313ff"
+  },
+  {
+   "step": 37,
+   "source": "ui-text",
+   "field": "match read 22: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│Stoichkov to take kick off / ┤**** GOAL **** by Alexandrov / │---- HALF TIME ----"
+  },
+  {
+   "step": 37,
+   "source": "memory",
+   "field": "match read 22: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0004 0x87c1 1 0"
+  },
+  {
+   "step": 38,
+   "source": "log",
+   "field": "match read 23: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:05:13.966Z"
+  },
+  {
+   "step": 38,
+   "source": "screen",
+   "field": "match read 23: text screen 80x25, chars+attributes, sha256",
+   "value": "5c290816d733bd915910992ddfa26e8217d33a2f19c56399bad18ebc165313ff"
+  },
+  {
+   "step": 38,
+   "source": "ui-text",
+   "field": "match read 23: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│Stoichkov to take kick off / ┤**** GOAL **** by Alexandrov / │---- HALF TIME ----"
+  },
+  {
+   "step": 38,
+   "source": "memory",
+   "field": "match read 23: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0004 0x87c1 1 0"
+  },
+  {
+   "step": 39,
+   "source": "log",
+   "field": "match read 24: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:05:14.506Z"
+  },
+  {
+   "step": 39,
+   "source": "screen",
+   "field": "match read 24: text screen 80x25, chars+attributes, sha256",
+   "value": "5c290816d733bd915910992ddfa26e8217d33a2f19c56399bad18ebc165313ff"
+  },
+  {
+   "step": 39,
+   "source": "ui-text",
+   "field": "match read 24: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│Stoichkov to take kick off / ┤**** GOAL **** by Alexandrov / │---- HALF TIME ----"
+  },
+  {
+   "step": 39,
+   "source": "memory",
+   "field": "match read 24: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0004 0x87c1 1 0"
+  },
+  {
+   "step": 40,
+   "source": "log",
+   "field": "match read 25: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:05:15.045Z"
+  },
+  {
+   "step": 40,
+   "source": "screen",
+   "field": "match read 25: text screen 80x25, chars+attributes, sha256",
+   "value": "5c290816d733bd915910992ddfa26e8217d33a2f19c56399bad18ebc165313ff"
+  },
+  {
+   "step": 40,
+   "source": "ui-text",
+   "field": "match read 25: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│Stoichkov to take kick off / ┤**** GOAL **** by Alexandrov / │---- HALF TIME ----"
+  },
+  {
+   "step": 40,
+   "source": "memory",
+   "field": "match read 25: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0004 0x87c1 1 0"
+  },
+  {
+   "step": 41,
+   "source": "log",
+   "field": "match read 26: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:05:15.588Z"
+  },
+  {
+   "step": 41,
+   "source": "screen",
+   "field": "match read 26: text screen 80x25, chars+attributes, sha256",
+   "value": "5c290816d733bd915910992ddfa26e8217d33a2f19c56399bad18ebc165313ff"
+  },
+  {
+   "step": 41,
+   "source": "ui-text",
+   "field": "match read 26: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│Stoichkov to take kick off / ┤**** GOAL **** by Alexandrov / │---- HALF TIME ----"
+  },
+  {
+   "step": 41,
+   "source": "memory",
+   "field": "match read 26: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0004 0x87c1 1 0"
+  },
+  {
+   "step": 42,
+   "source": "log",
+   "field": "match read 27: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:05:16.132Z"
+  },
+  {
+   "step": 42,
+   "source": "screen",
+   "field": "match read 27: text screen 80x25, chars+attributes, sha256",
+   "value": "5c290816d733bd915910992ddfa26e8217d33a2f19c56399bad18ebc165313ff"
+  },
+  {
+   "step": 42,
+   "source": "ui-text",
+   "field": "match read 27: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│Stoichkov to take kick off / ┤**** GOAL **** by Alexandrov / │---- HALF TIME ----"
+  },
+  {
+   "step": 42,
+   "source": "memory",
+   "field": "match read 27: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0004 0x87c1 1 0"
+  },
+  {
+   "step": 43,
+   "source": "log",
+   "field": "match read 28: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:05:16.673Z"
+  },
+  {
+   "step": 43,
+   "source": "screen",
+   "field": "match read 28: text screen 80x25, chars+attributes, sha256",
+   "value": "5c290816d733bd915910992ddfa26e8217d33a2f19c56399bad18ebc165313ff"
+  },
+  {
+   "step": 43,
+   "source": "ui-text",
+   "field": "match read 28: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│Stoichkov to take kick off / ┤**** GOAL **** by Alexandrov / │---- HALF TIME ----"
+  },
+  {
+   "step": 43,
+   "source": "memory",
+   "field": "match read 28: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0004 0x87c1 1 0"
+  },
+  {
+   "step": 44,
+   "source": "log",
+   "field": "match read 29: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:05:17.211Z"
+  },
+  {
+   "step": 44,
+   "source": "screen",
+   "field": "match read 29: text screen 80x25, chars+attributes, sha256",
+   "value": "5c290816d733bd915910992ddfa26e8217d33a2f19c56399bad18ebc165313ff"
+  },
+  {
+   "step": 44,
+   "source": "ui-text",
+   "field": "match read 29: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│Stoichkov to take kick off / ┤**** GOAL **** by Alexandrov / │---- HALF TIME ----"
+  },
+  {
+   "step": 44,
+   "source": "memory",
+   "field": "match read 29: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0004 0x87c1 1 0"
+  },
+  {
+   "step": 45,
+   "source": "log",
+   "field": "match read 30: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:05:17.751Z"
+  },
+  {
+   "step": 45,
+   "source": "screen",
+   "field": "match read 30: text screen 80x25, chars+attributes, sha256",
+   "value": "5c290816d733bd915910992ddfa26e8217d33a2f19c56399bad18ebc165313ff"
+  },
+  {
+   "step": 45,
+   "source": "ui-text",
+   "field": "match read 30: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│Stoichkov to take kick off / ┤**** GOAL **** by Alexandrov / │---- HALF TIME ----"
+  },
+  {
+   "step": 45,
+   "source": "memory",
+   "field": "match read 30: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0004 0x87c1 1 0"
+  },
+  {
+   "step": 46,
+   "source": "log",
+   "field": "match read 31: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:05:18.289Z"
+  },
+  {
+   "step": 46,
+   "source": "screen",
+   "field": "match read 31: text screen 80x25, chars+attributes, sha256",
+   "value": "5c290816d733bd915910992ddfa26e8217d33a2f19c56399bad18ebc165313ff"
+  },
+  {
+   "step": 46,
+   "source": "ui-text",
+   "field": "match read 31: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│Stoichkov to take kick off / ┤**** GOAL **** by Alexandrov / │---- HALF TIME ----"
+  },
+  {
+   "step": 46,
+   "source": "memory",
+   "field": "match read 31: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0004 0x87c1 1 0"
+  },
+  {
+   "step": 47,
+   "source": "log",
+   "field": "match read 32: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:05:18.829Z"
+  },
+  {
+   "step": 47,
+   "source": "screen",
+   "field": "match read 32: text screen 80x25, chars+attributes, sha256",
+   "value": "5c290816d733bd915910992ddfa26e8217d33a2f19c56399bad18ebc165313ff"
+  },
+  {
+   "step": 47,
+   "source": "ui-text",
+   "field": "match read 32: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│Stoichkov to take kick off / ┤**** GOAL **** by Alexandrov / │---- HALF TIME ----"
+  },
+  {
+   "step": 47,
+   "source": "memory",
+   "field": "match read 32: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0004 0x87c1 1 0"
+  },
+  {
+   "step": 48,
+   "source": "log",
+   "field": "match read 33: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:05:19.369Z"
+  },
+  {
+   "step": 48,
+   "source": "screen",
+   "field": "match read 33: text screen 80x25, chars+attributes, sha256",
+   "value": "5c290816d733bd915910992ddfa26e8217d33a2f19c56399bad18ebc165313ff"
+  },
+  {
+   "step": 48,
+   "source": "ui-text",
+   "field": "match read 33: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│Stoichkov to take kick off / ┤**** GOAL **** by Alexandrov / │---- HALF TIME ----"
+  },
+  {
+   "step": 48,
+   "source": "memory",
+   "field": "match read 33: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0004 0x87c1 1 0"
+  },
+  {
+   "step": 49,
+   "source": "log",
+   "field": "match read 34: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:05:19.909Z"
+  },
+  {
+   "step": 49,
+   "source": "screen",
+   "field": "match read 34: text screen 80x25, chars+attributes, sha256",
+   "value": "5c290816d733bd915910992ddfa26e8217d33a2f19c56399bad18ebc165313ff"
+  },
+  {
+   "step": 49,
+   "source": "ui-text",
+   "field": "match read 34: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│Stoichkov to take kick off / ┤**** GOAL **** by Alexandrov / │---- HALF TIME ----"
+  },
+  {
+   "step": 49,
+   "source": "memory",
+   "field": "match read 34: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0004 0x87c1 1 0"
+  },
+  {
+   "step": 50,
+   "source": "log",
+   "field": "match read 35: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:05:20.452Z"
+  },
+  {
+   "step": 50,
+   "source": "screen",
+   "field": "match read 35: text screen 80x25, chars+attributes, sha256",
+   "value": "5c290816d733bd915910992ddfa26e8217d33a2f19c56399bad18ebc165313ff"
+  },
+  {
+   "step": 50,
+   "source": "ui-text",
+   "field": "match read 35: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│Stoichkov to take kick off / ┤**** GOAL **** by Alexandrov / │---- HALF TIME ----"
+  },
+  {
+   "step": 50,
+   "source": "memory",
+   "field": "match read 35: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0004 0x87c1 1 0"
+  },
+  {
+   "step": 51,
+   "source": "log",
+   "field": "match read 36: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:05:20.991Z"
+  },
+  {
+   "step": 51,
+   "source": "screen",
+   "field": "match read 36: text screen 80x25, chars+attributes, sha256",
+   "value": "5c290816d733bd915910992ddfa26e8217d33a2f19c56399bad18ebc165313ff"
+  },
+  {
+   "step": 51,
+   "source": "ui-text",
+   "field": "match read 36: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│Stoichkov to take kick off / ┤**** GOAL **** by Alexandrov / │---- HALF TIME ----"
+  },
+  {
+   "step": 51,
+   "source": "memory",
+   "field": "match read 36: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0004 0x87c1 1 0"
+  },
+  {
+   "step": 52,
+   "source": "log",
+   "field": "match read 37: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:05:21.534Z"
+  },
+  {
+   "step": 52,
+   "source": "screen",
+   "field": "match read 37: text screen 80x25, chars+attributes, sha256",
+   "value": "5c290816d733bd915910992ddfa26e8217d33a2f19c56399bad18ebc165313ff"
+  },
+  {
+   "step": 52,
+   "source": "ui-text",
+   "field": "match read 37: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│Stoichkov to take kick off / ┤**** GOAL **** by Alexandrov / │---- HALF TIME ----"
+  },
+  {
+   "step": 52,
+   "source": "memory",
+   "field": "match read 37: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0004 0x87c1 1 0"
+  },
+  {
+   "step": 53,
+   "source": "log",
+   "field": "match read 38: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:05:22.074Z"
+  },
+  {
+   "step": 53,
+   "source": "screen",
+   "field": "match read 38: text screen 80x25, chars+attributes, sha256",
+   "value": "5c290816d733bd915910992ddfa26e8217d33a2f19c56399bad18ebc165313ff"
+  },
+  {
+   "step": 53,
+   "source": "ui-text",
+   "field": "match read 38: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│Stoichkov to take kick off / ┤**** GOAL **** by Alexandrov / │---- HALF TIME ----"
+  },
+  {
+   "step": 53,
+   "source": "memory",
+   "field": "match read 38: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0004 0x87c1 1 0"
+  },
+  {
+   "step": 54,
+   "source": "log",
+   "field": "match read 39: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:05:22.613Z"
+  },
+  {
+   "step": 54,
+   "source": "screen",
+   "field": "match read 39: text screen 80x25, chars+attributes, sha256",
+   "value": "5c290816d733bd915910992ddfa26e8217d33a2f19c56399bad18ebc165313ff"
+  },
+  {
+   "step": 54,
+   "source": "ui-text",
+   "field": "match read 39: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│Stoichkov to take kick off / ┤**** GOAL **** by Alexandrov / │---- HALF TIME ----"
+  },
+  {
+   "step": 54,
+   "source": "memory",
+   "field": "match read 39: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0004 0x87c1 1 0"
+  },
+  {
+   "step": 55,
+   "source": "log",
+   "field": "match read 40: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:05:23.149Z"
+  },
+  {
+   "step": 55,
+   "source": "screen",
+   "field": "match read 40: text screen 80x25, chars+attributes, sha256",
+   "value": "5c290816d733bd915910992ddfa26e8217d33a2f19c56399bad18ebc165313ff"
+  },
+  {
+   "step": 55,
+   "source": "ui-text",
+   "field": "match read 40: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│Stoichkov to take kick off / ┤**** GOAL **** by Alexandrov / │---- HALF TIME ----"
+  },
+  {
+   "step": 55,
+   "source": "memory",
+   "field": "match read 40: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0004 0x87c1 1 0"
+  },
+  {
+   "step": 56,
+   "source": "log",
+   "field": "match read 41: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:05:23.690Z"
+  },
+  {
+   "step": 56,
+   "source": "screen",
+   "field": "match read 41: text screen 80x25, chars+attributes, sha256",
+   "value": "5c290816d733bd915910992ddfa26e8217d33a2f19c56399bad18ebc165313ff"
+  },
+  {
+   "step": 56,
+   "source": "ui-text",
+   "field": "match read 41: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│Stoichkov to take kick off / ┤**** GOAL **** by Alexandrov / │---- HALF TIME ----"
+  },
+  {
+   "step": 56,
+   "source": "memory",
+   "field": "match read 41: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0004 0x87c1 1 0"
+  },
+  {
+   "step": 57,
+   "source": "log",
+   "field": "match read 42: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:05:24.227Z"
+  },
+  {
+   "step": 57,
+   "source": "screen",
+   "field": "match read 42: text screen 80x25, chars+attributes, sha256",
+   "value": "5c290816d733bd915910992ddfa26e8217d33a2f19c56399bad18ebc165313ff"
+  },
+  {
+   "step": 57,
+   "source": "ui-text",
+   "field": "match read 42: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│Stoichkov to take kick off / ┤**** GOAL **** by Alexandrov / │---- HALF TIME ----"
+  },
+  {
+   "step": 57,
+   "source": "memory",
+   "field": "match read 42: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0004 0x87c1 1 0"
+  },
+  {
+   "step": 58,
+   "source": "log",
+   "field": "match read 43: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:05:24.766Z"
+  },
+  {
+   "step": 58,
+   "source": "screen",
+   "field": "match read 43: text screen 80x25, chars+attributes, sha256",
+   "value": "f3d0de78be093490d2f6ca3a0a2a9023fd367380155092585182343af0e47ca4"
+  },
+  {
+   "step": 58,
+   "source": "ui-text",
+   "field": "match read 43: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│Stoichkov to take kick off / ┤**** GOAL **** by Alexandrov / │---- HALF TIME ----"
+  },
+  {
+   "step": 58,
+   "source": "memory",
+   "field": "match read 43: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0004 0x87c1 1 0"
+  },
+  {
+   "step": 59,
+   "source": "log",
+   "field": "match read 44: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:05:25.298Z"
+  },
+  {
+   "step": 59,
+   "source": "screen",
+   "field": "match read 44: text screen 80x25, chars+attributes, sha256",
+   "value": "f3d0de78be093490d2f6ca3a0a2a9023fd367380155092585182343af0e47ca4"
+  },
+  {
+   "step": 59,
+   "source": "ui-text",
+   "field": "match read 44: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│Stoichkov to take kick off / ┤**** GOAL **** by Alexandrov / │---- HALF TIME ----"
+  },
+  {
+   "step": 59,
+   "source": "memory",
+   "field": "match read 44: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0004 0x87c1 1 0"
+  },
+  {
+   "step": 60,
+   "source": "log",
+   "field": "match read 45: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:05:25.950Z"
+  },
+  {
+   "step": 60,
+   "source": "screen",
+   "field": "match read 45: text screen 80x25, chars+attributes, sha256",
+   "value": "c4721f47ad06b0c8540b3b29fa8a1b31c28021e31191a15dc36eb01dc4e1ac1b"
+  },
+  {
+   "step": 60,
+   "source": "ui-text",
+   "field": "match read 45: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│Stoichkov to take kick off / ┤**** GOAL **** by Alexandrov / │---- HALF TIME ----"
+  },
+  {
+   "step": 60,
+   "source": "memory",
+   "field": "match read 45: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0004 0x87c1 1 0"
+  },
+  {
+   "step": 61,
+   "source": "log",
+   "field": "match read 46: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:05:26.491Z"
+  },
+  {
+   "step": 61,
+   "source": "screen",
+   "field": "match read 46: text screen 80x25, chars+attributes, sha256",
+   "value": "c4721f47ad06b0c8540b3b29fa8a1b31c28021e31191a15dc36eb01dc4e1ac1b"
+  },
+  {
+   "step": 61,
+   "source": "ui-text",
+   "field": "match read 46: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│Stoichkov to take kick off / ┤**** GOAL **** by Alexandrov / │---- HALF TIME ----"
+  },
+  {
+   "step": 61,
+   "source": "memory",
+   "field": "match read 46: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0004 0x87c1 1 0"
+  },
+  {
+   "step": 62,
+   "source": "log",
+   "field": "match read 47: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:05:27.143Z"
+  },
+  {
+   "step": 62,
+   "source": "screen",
+   "field": "match read 47: text screen 80x25, chars+attributes, sha256",
+   "value": "fd1fed125c7ea1d8612ac159f1e654ae58ee95bd9df6477507fcda70fe542a31"
+  },
+  {
+   "step": 62,
+   "source": "ui-text",
+   "field": "match read 47: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│Sadov on for Iliev / ┤Petrov on for Balakov / │---- FULL TIME ----"
+  },
+  {
+   "step": 62,
+   "source": "memory",
+   "field": "match read 47: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x000a 0x2b46 1 0"
+  },
+  {
+   "step": 63,
+   "source": "log",
+   "field": "match read 48: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:05:27.677Z"
+  },
+  {
+   "step": 63,
+   "source": "screen",
+   "field": "match read 48: text screen 80x25, chars+attributes, sha256",
+   "value": "fd1fed125c7ea1d8612ac159f1e654ae58ee95bd9df6477507fcda70fe542a31"
+  },
+  {
+   "step": 63,
+   "source": "ui-text",
+   "field": "match read 48: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│Sadov on for Iliev / ┤Petrov on for Balakov / │---- FULL TIME ----"
+  },
+  {
+   "step": 63,
+   "source": "memory",
+   "field": "match read 48: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x000a 0x2b46 1 0"
+  },
+  {
+   "step": 64,
+   "source": "log",
+   "field": "full time: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:05:27.677Z"
+  },
+  {
+   "step": 64,
+   "source": "log",
+   "field": "full time: host local time with UTC offset, and zone name, at the same instant",
+   "value": "2026-10-04T14:05:27.677+02:00 CEST"
+  },
+  {
+   "step": 64,
+   "source": "screen",
+   "field": "full time: text screen 80x25, chars+attributes (4000 bytes), sha256",
+   "value": "fd1fed125c7ea1d8612ac159f1e654ae58ee95bd9df6477507fcda70fe542a31"
+  },
+  {
+   "step": 64,
+   "source": "ui-text",
+   "field": "full time: text screen rows 0-24, CP437 decoded, trailing blanks trimmed",
+   "value": " (c) NE'93│ ┌───────────────┬──┬FRIENDLY───────────────────────────┐┌───┐ ▄▀▀▀▄\n ┌─┐┌─┐┌─┐│ │DENMARK--------│ 0│Sadov on for Iliev                 ││   │ █   █\n │ ││ ││ ││ ├versus─────────┼──┤Petrov on for Balakov              │├───┤ ▄───▄\n └─┤└─┘└─┤│ │BULGARIA-------│ 1│---- FULL TIME ----                ││   │ █   █\n───┘ v.2    └───────────────┴──┴───────────────────────────────────┘└───┘ └▀▀▀▀\n                   ┌─────────────────┐    ┌─────────────────┐\n ┌─────────────────│ Denmark-------- │─┐┌─│ Bulgaria------- │─────────────────┐\n │                 └─────────────────┘ ││ └─────────────────┘                 │\n │ ┌─────────┐        ┌──────────────────────────────────┐    ┌─────────┐     │\n │ │ Scorers │        ├──────────────────────────────────┤    │ Scorers │     │\n┌──┴─────────┴──┬min┐ │   ┌────┐ ┬    ┬ ┬ ┌──── ┬   ┬    │ ┌──┴─────────┴──┬min┐\n│               │   │ │   │    │ │    │ │ │     │   │    │ │R Alexandrov   │ 16│\n│               │   │ │   │    │ │    │ │ │     ├───┴┐   │ │               │   │\n│               │   │ │   │    │ │    │ │ │     │    │   │ │               │   │\n│               │   │ │   └───┼┘ └────┤ ┴ └──── ┴    ┴   │ │               │   │\n│               │   │ │                                  │ │               │   │\n│               │   │ │ ┌────┐┌──── ┌──── ┬   ┬ ┬  ──┬── │ │               │   │\n│               │   │ │ │    ││     │     │   │ │    │   │ │               │   │\n│               │   │ │ ├───┬┘├───  └───┐ │   │ │    │   │ │               │   │\n│               │   │ │ │   │ │         │ │   │ │    │   │ │               │   │\n│               │   │ │ ┴   ┴ └──── ────┘ └───┤ └─── ┴   │ │               │   │\n│               │   │ ├──────────────────────────────────┤ │               │   │\n└───────────────┴───┘ └──────────────────────────────────┘ └───────────────┴───┘\n └────────────────────────────────────────────────────────────────────────────┘\n  ↓↑-display ←→-speed»»»»»              spacebar-commentary  F9-♫  Esc,◄┘-bench"
+  },
+  {
+   "step": 64,
+   "source": "memory",
+   "addr": "0x449",
+   "field": "full time: 1 byte at 0040:0049 (BIOS video mode), guest memory from the savestate, hex",
+   "value": "03"
+  },
+  {
+   "step": 64,
+   "source": "memory",
+   "addr": "0x46c",
+   "field": "full time: 4 bytes at 0040:006C (BIOS timer tick count), guest memory from the savestate, as a little-endian dword (bytes in memory order)",
+   "value": "0x000a5407 (07 54 0a 00)"
+  },
+  {
+   "step": 64,
+   "source": "memory",
+   "addr": "0x355a2",
+   "field": "full time: word at DS:7B62 of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+   "value": "0x2b46 (46 2b)"
+  },
+  {
+   "step": 64,
+   "source": "memory",
+   "addr": "0x355a4",
+   "field": "full time: word at DS:7B64 of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+   "value": "0x0906 (06 09)"
+  },
+  {
+   "step": 64,
+   "source": "memory",
+   "addr": "0x35d76",
+   "field": "full time: word at DS:8336 of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+   "value": "0x0777 (77 07)"
+  },
+  {
+   "step": 64,
+   "source": "memory",
+   "addr": "0x3843d",
+   "field": "full time: word at DS:A9FD of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+   "value": "0x07ea (ea 07)"
+  },
+  {
+   "step": 64,
+   "source": "memory",
+   "field": "full time: score bytes DS:9B3C, DS:9B3D (engine teams 0 and 1)",
+   "value": "1 0"
+  },
+  {
+   "step": 64,
+   "source": "memory",
+   "field": "full time: match delay byte at the far pointer DS:A923 + 0x3F (0 fastest)",
+   "value": "1"
+  },
+  {
+   "step": 65,
+   "source": "log",
+   "field": "keys sent from the key that starts the match to full time: [seconds since the starting burst, key, why] (runtime/driver/match.py)",
+   "value": "[[0.0, \"Enter\", \"starting burst, no poll between\"], [0.0, \"r\", \"starting burst, no poll between\"], [24.14, \"Enter\", \"hit any key\"], [25.33, \"Enter\", \"team screen\"]]"
+  },
+  {
+   "step": 65,
+   "source": "log",
+   "field": "match: savestate reads from the starting keys to full time, and seconds",
+   "value": "48 reads, 26.4 s"
+  },
+  {
+   "step": 65,
+   "source": "memory",
+   "field": "commentary lines of the match in order, accumulated over the reads from the ring DS:7C38 (runtime/driver/commentary.py): [n, template, team, text]",
+   "value": "[[1, 59, 0, \"Tzvetanev wins the toss\"], [2, 49, 0, \"Stoichkov to take kick off\"], [3, 38, 0, \"**** GOAL **** by Alexandrov\"], [4, 64, 1, \"---- HALF TIME ----\"], [5, 0, 0, \"Penev on for Mladenov\"], [6, 0, 0, \"Karashev on for Stoichkov\"], [7, 0, 0, \"Yankov on for Yordanov\"], [8, 0, 0, \"Sadov on for Iliev\"], [9, 0, 0, \"Petrov on for Balakov\"], [10, 63, 1, \"---- FULL TIME ----\"]]"
+  },
+  {
+   "step": 65,
+   "source": "memory",
+   "field": "events among them (templates 0 substitution, 38 goal, 39 own goal, 50 booking, 51 sending off, 52 injury): [kind, team, text]",
+   "value": "[[\"goal\", 0, \"**** GOAL **** by Alexandrov\"], [\"substitution\", 0, \"Penev on for Mladenov\"], [\"substitution\", 0, \"Karashev on for Stoichkov\"], [\"substitution\", 0, \"Yankov on for Yordanov\"], [\"substitution\", 0, \"Sadov on for Iliev\"], [\"substitution\", 0, \"Petrov on for Balakov\"]]"
+  },
+  {
+   "step": 65,
+   "source": "memory",
+   "field": "commentary lines between successive reads (deltas of DS:80EE modulo 200), and reads where lines may have been lost",
+   "value": "{\"deltas\": [2, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 0], \"gaps\": []}"
+  },
+  {
+   "step": 65,
+   "source": "log",
+   "field": "lines of DOSBox-X's own output (dosbox.out) that mention save, load, corrupt, date or time (Save_Remark and Time_Stamp lines left out), in order",
+   "value": "LOG: Active save slot: 1 [Empty]\nLOG: File : <work>/IntTimer10 is 141 bytes\nLOG: [14:04:40]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 141 bytes\nLOG: [14:04:40]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 140 bytes\nLOG: [14:04:41]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 162 bytes\nLOG: [14:04:41]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 163 bytes\nLOG: [14:04:42]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 163 bytes\nLOG: [14:04:43]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 163 bytes\nLOG: [14:04:43]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 163 bytes\nLOG: [14:04:44]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 163 bytes\nLOG: [14:04:44]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 163 bytes\nLOG: [14:04:45]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 162 bytes\nLOG: [14:04:45]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 164 bytes\nLOG: [14:04:46]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 163 bytes\nLOG: [14:04:47]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 163 bytes\nLOG: [14:04:47]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 163 bytes\nLOG: [14:04:48]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 164 bytes\nLOG: [14:04:48]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 163 bytes\nLOG: [14:04:49]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 163 bytes\nLOG: [14:04:49]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 163 bytes\nLOG: [14:04:50]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 162 bytes\nLOG: [14:04:51]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 163 bytes\nLOG: [14:04:51]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 163 bytes\nLOG: [14:04:52]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 163 bytes\nLOG: [14:04:52]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 162 bytes\nLOG: [14:04:53]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 162 bytes\nLOG: [14:04:53]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 163 bytes\nLOG: [14:04:54]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 163 bytes\nLOG: [14:04:55]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 162 bytes\nLOG: [14:04:55]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 164 bytes\nLOG: [14:04:56]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 163 bytes\nLOG: [14:04:56]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 162 bytes\nLOG: [14:04:57]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 163 bytes\nLOG: [14:04:58]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 163 bytes\nLOG: [14:04:58]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 163 bytes\nLOG: [14:04:59]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 163 bytes\nLOG: [14:04:59]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 163 bytes\nLOG: [14:05:00]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 161 bytes\nLOG: [14:05:01]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 161 bytes\nLOG: [14:05:01]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 152 bytes\nLOG: [14:05:02]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 153 bytes\nLOG: [14:05:02]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 159 bytes\nLOG: [14:05:03]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 159 bytes\nLOG: [14:05:03]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 156 bytes\nLOG: [14:05:04]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 153 bytes\nLOG: [14:05:05]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 161 bytes\nLOG: [14:05:05]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 152 bytes\nLOG: [14:05:06]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 151 bytes\nLOG: [14:05:06]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 157 bytes\nLOG: [14:05:07]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 154 bytes\nLOG: [14:05:07]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 153 bytes\nLOG: [14:05:08]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 153 bytes\nLOG: [14:05:08]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 160 bytes\nLOG: [14:05:09]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 164 bytes\nLOG: [14:05:09]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 158 bytes\nLOG: [14:05:10]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 158 bytes\nLOG: [14:05:11]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 161 bytes\nLOG: [14:05:11]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 159 bytes\nLOG: [14:05:12]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 158 bytes\nLOG: [14:05:12]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 161 bytes\nLOG: [14:05:13]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 156 bytes\nLOG: [14:05:13]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 154 bytes\nLOG: [14:05:14]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 159 bytes\nLOG: [14:05:14]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 159 bytes\nLOG: [14:05:15]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 158 bytes\nLOG: [14:05:15]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 157 bytes\nLOG: [14:05:16]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 158 bytes\nLOG: [14:05:16]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 153 bytes\nLOG: [14:05:17]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 158 bytes\nLOG: [14:05:18]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 154 bytes\nLOG: [14:05:18]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 156 bytes\nLOG: [14:05:19]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 161 bytes\nLOG: [14:05:19]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 159 bytes\nLOG: [14:05:20]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 158 bytes\nLOG: [14:05:20]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 153 bytes\nLOG: [14:05:21]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 156 bytes\nLOG: [14:05:21]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 162 bytes\nLOG: [14:05:22]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 154 bytes\nLOG: [14:05:22]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 158 bytes\nLOG: [14:05:23]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 162 bytes\nLOG: [14:05:23]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 154 bytes\nLOG: [14:05:24]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 150 bytes\nLOG: [14:05:25]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 152 bytes\nLOG: [14:05:25]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 152 bytes\nLOG: [14:05:26]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 152 bytes\nLOG: [14:05:26]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 160 bytes\nLOG: [14:05:27]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 153 bytes\nLOG: [14:05:27]: Saved. (Slot 1)"
+  },
+  {
+   "step": 65,
+   "source": "process",
+   "field": "dosbox-x and Xvfb after SIGTERM to their process groups (SIGKILL after TERM_GRACE, see log)",
+   "value": "both exited"
+  },
+  {
+   "step": 65,
+   "source": "log",
+   "field": "waits, polls and key holds, seconds since launch",
+   "value": "[[0.106,\"Xvfb poll: answered after 2 polls of 0.1s\"],[0.106,\"Xvfb :836 answering\"],[0.107,\"dosbox-x started\"],[0.227,\"window found after 2 polls of 0.1s\"],[0.229,\"window focused\"],[0.743,\"host key F12+s, each step held 0.15s\"],[0.744,\"savestate complete after 1 polls of 0.05s\"],[1.279,\"host key F12+s, each step held 0.15s\"],[1.28,\"savestate complete after 1 polls of 0.05s\"],[1.811,\"host key F12+s, each step held 0.15s\"],[1.812,\"savestate complete after 1 polls of 0.05s\"],[2.337,\"host key F12+s, each step held 0.15s\"],[2.338,\"savestate complete after 1 polls of 0.05s\"],[2.351,\"title screen: matched after 4 savestate polls\"],[2.351,\"DOS clock read back: '10/04/2026\\\\n10:18:59'\"],[2.472,\"key n held 0.08s\"],[2.984,\"host key F12+s, each step held 0.15s\"],[2.985,\"savestate complete after 1 polls of 0.05s\"],[3.508,\"host key F12+s, each step held 0.15s\"],[3.509,\"savestate complete after 1 polls of 0.05s\"],[3.524,\"after key n: changed and stable after 2 savestate polls\"],[3.637,\"key Enter held 0.08s\"],[4.149,\"host key F12+s, each step held 0.15s\"],[4.15,\"savestate complete after 1 polls of 0.05s\"],[4.675,\"host key F12+s, each step held 0.15s\"],[4.676,\"savestate complete after 1 polls of 0.05s\"],[4.688,\"after key Enter: changed and stable after 2 savestate polls\"],[4.798,\"key Enter held 0.08s\"],[5.313,\"host key F12+s, each step held 0.15s\"],[5.314,\"savestate complete after 1 polls of 0.05s\"],[5.842,\"host key F12+s, each step held 0.15s\"],[5.843,\"savestate complete after 1 polls of 0.05s\"],[6.371,\"host key F12+s, each step held 0.15s\"],[6.373,\"savestate complete after 1 polls of 0.05s\"],[6.384,\"after key Enter: changed and stable after 3 savestate polls\"],[6.495,\"key b held 0.08s\"],[7.007,\"host key F12+s, each step held 0.15s\"],[7.009,\"savestate complete after 1 polls of 0.05s\"],[7.538,\"host key F12+s, each step held 0.15s\"],[7.54,\"savestate complete after 1 polls of 0.05s\"],[7.558,\"after key b: changed and stable after 2 savestate polls\"],[7.671,\"key o held 0.08s\"],[8.184,\"host key F12+s, each step held 0.15s\"],[8.186,\"savestate complete after 1 polls of 0.05s\"],[8.711,\"host key F12+s, each step held 0.15s\"],[8.712,\"savestate complete after 1 polls of 0.05s\"],[9.243,\"host key F12+s, each step held 0.15s\"],[9.244,\"savestate complete after 1 polls of 0.05s\"],[9.775,\"host key F12+s, each step held 0.15s\"],[9.776,\"savestate complete after 1 polls of 0.05s\"],[9.789,\"after key o: changed and stable after 4 savestate polls\"],[9.901,\"key b held 0.08s\"],[10.416,\"host key F12+s, each step held 0.15s\"],[10.418,\"savestate complete after 1 polls of 0.05s\"],[10.948,\"host key F12+s, each step held 0.15s\"],[10.949,\"savestate complete after 1 polls of 0.05s\"],[11.478,\"host key F12+s, each step held 0.15s\"],[11.479,\"savestate complete after 1 polls of 0.05s\"],[11.492,\"after key b: changed and stable after 3 savestate polls\"],[11.606,\"key Enter held 0.08s\"],[12.119,\"host key F12+s, each step held 0.15s\"],[12.12,\"savestate complete after 1 polls of 0.05s\"],[12.651,\"host key F12+s, each step held 0.15s\"],[12.652,\"savestate complete after 1 polls of 0.05s\"],[12.668,\"after key Enter: changed and stable after 2 savestate polls\"],[12.78,\"key Enter held 0.08s\"],[13.291,\"host key F12+s, each step held 0.15s\"],[13.292,\"savestate complete after 1 polls of 0.05s\"],[13.816,\"host key F12+s, each step held 0.15s\"],[13.818,\"savestate complete after 1 polls of 0.05s\"],[13.834,\"after key Enter: changed and stable after 2 savestate polls\"],[13.948,\"key Enter held 0.08s\"],[14.461,\"host key F12+s, each step held 0.15s\"],[14.463,\"savestate complete after 1 polls of 0.05s\"],[14.996,\"host key F12+s, each step held 0.15s\"],[14.998,\"savestate complete after 1 polls of 0.05s\"],[15.01,\"after key Enter: changed and stable after 2 savestate polls\"],[15.122,\"key Enter held 0.08s\"],[15.634,\"host key F12+s, each step held 0.15s\"],[15.635,\"savestate complete after 1 polls of 0.05s\"],[16.163,\"host key F12+s, each step held 0.15s\"],[16.165,\"savestate complete after 1 polls of 0.05s\"],[16.182,\"after key Enter: changed and stable after 2 savestate polls\"],[16.307,\"key Esc held 0.08s\"],[16.82,\"host key F12+s, each step held 0.15s\"],[16.821,\"savestate complete after 1 polls of 0.05s\"],[17.348,\"host key F12+s, each step held 0.15s\"],[17.349,\"savestate complete after 1 polls of 0.05s\"],[17.365,\"after key Esc: changed and stable after 2 savestate polls\"],[17.475,\"key Up held 0.08s\"],[17.987,\"host key F12+s, each step held 0.15s\"],[17.988,\"savestate complete after 1 polls of 0.05s\"],[18.517,\"host key F12+s, each step held 0.15s\"],[18.519,\"savestate complete after 1 polls of 0.05s\"],[18.532,\"after key Up: changed and stable after 2 savestate polls\"],[18.643,\"key Enter held 0.08s\"],[19.156,\"host key F12+s, each step held 0.15s\"],[19.158,\"savestate complete after 1 polls of 0.05s\"],[19.687,\"host key F12+s, each step held 0.15s\"],[19.689,\"savestate complete after 1 polls of 0.05s\"],[19.705,\"after key Enter: changed and stable after 2 savestate polls\"],[19.816,\"key Enter held 0.08s\"],[20.328,\"host key F12+s, each step held 0.15s\"],[20.33,\"savestate complete after 1 polls of 0.05s\"],[20.86,\"host key F12+s, each step held 0.15s\"],[20.861,\"savestate complete after 1 polls of 0.05s\"],[20.878,\"after key Enter: changed and stable after 2 savestate polls\"],[20.993,\"key Enter held 0.08s\"],[21.506,\"host key F12+s, each step held 0.15s\"],[21.508,\"savestate complete after 1 polls of 0.05s\"],[22.037,\"host key F12+s, each step held 0.15s\"],[22.038,\"savestate complete after 1 polls of 0.05s\"],[22.049,\"after key Enter (team screen: play): changed and stable after 2 savestate polls\"],[22.172,\"key Enter held 0.08s\"],[22.283,\"key r held 0.08s\"],[22.283,\"match quick: starting keys Enter r sent in one burst\"],[22.801,\"host key F12+s, each step held 0.15s\"],[22.802,\"savestate complete after 1 polls of 0.05s\"],[23.348,\"host key F12+s, each step held 0.15s\"],[23.35,\"savestate complete after 1 polls of 0.05s\"],[23.895,\"host key F12+s, each step held 0.15s\"],[23.896,\"savestate complete after 1 polls of 0.05s\"],[24.436,\"host key F12+s, each step held 0.15s\"],[24.437,\"savestate complete after 1 polls of 0.05s\"],[24.978,\"host key F12+s, each step held 0.15s\"],[24.979,\"savestate complete after 1 polls of 0.05s\"],[25.521,\"host key F12+s, each step held 0.15s\"],[25.522,\"savestate complete after 1 polls of 0.05s\"],[26.07,\"host key F12+s, each step held 0.15s\"],[26.071,\"savestate complete after 1 polls of 0.05s\"],[26.615,\"host key F12+s, each step held 0.15s\"],[26.616,\"savestate complete after 1 polls of 0.05s\"],[27.158,\"host key F12+s, each step held 0.15s\"],[27.159,\"savestate complete after 1 polls of 0.05s\"],[27.701,\"host key F12+s, each step held 0.15s\"],[27.702,\"savestate complete after 1 polls of 0.05s\"],[28.248,\"host key F12+s, each step held 0.15s\"],[28.249,\"savestate complete after 1 polls of 0.05s\"],[28.791,\"host key F12+s, each step held 0.15s\"],[28.792,\"savestate complete after 1 polls of 0.05s\"],[29.331,\"host key F12+s, each step held 0.15s\"],[29.333,\"savestate complete after 1 polls of 0.05s\"],[29.873,\"host key F12+s, each step held 0.15s\"],[29.875,\"savestate complete after 1 polls of 0.05s\"],[30.413,\"host key F12+s, each step held 0.15s\"],[30.415,\"savestate complete after 1 polls of 0.05s\"],[30.953,\"host key F12+s, each step held 0.15s\"],[30.955,\"savestate complete after 1 polls of 0.05s\"],[31.492,\"host key F12+s, each step held 0.15s\"],[31.494,\"savestate complete after 1 polls of 0.05s\"],[32.031,\"host key F12+s, each step held 0.15s\"],[32.032,\"savestate complete after 1 polls of 0.05s\"],[32.57,\"host key F12+s, each step held 0.15s\"],[32.571,\"savestate complete after 1 polls of 0.05s\"],[33.111,\"host key F12+s, each step held 0.15s\"],[33.113,\"savestate complete after 1 polls of 0.05s\"],[33.645,\"host key F12+s, each step held 0.15s\"],[33.647,\"savestate complete after 1 polls of 0.05s\"],[34.187,\"host key F12+s, each step held 0.15s\"],[34.188,\"savestate complete after 1 polls of 0.05s\"],[34.729,\"host key F12+s, each step held 0.15s\"],[34.73,\"savestate complete after 1 polls of 0.05s\"],[35.269,\"host key F12+s, each step held 0.15s\"],[35.27,\"savestate complete after 1 polls of 0.05s\"],[35.81,\"host key F12+s, each step held 0.15s\"],[35.812,\"savestate complete after 1 polls of 0.05s\"],[36.353,\"host key F12+s, each step held 0.15s\"],[36.354,\"savestate complete after 1 polls of 0.05s\"],[36.895,\"host key F12+s, each step held 0.15s\"],[36.896,\"savestate complete after 1 polls of 0.05s\"],[37.436,\"host key F12+s, each step held 0.15s\"],[37.437,\"savestate complete after 1 polls of 0.05s\"],[37.973,\"host key F12+s, each step held 0.15s\"],[37.974,\"savestate complete after 1 polls of 0.05s\"],[38.512,\"host key F12+s, each step held 0.15s\"],[38.513,\"savestate complete after 1 polls of 0.05s\"],[39.052,\"host key F12+s, each step held 0.15s\"],[39.053,\"savestate complete after 1 polls of 0.05s\"],[39.591,\"host key F12+s, each step held 0.15s\"],[39.592,\"savestate complete after 1 polls of 0.05s\"],[40.131,\"host key F12+s, each step held 0.15s\"],[40.133,\"savestate complete after 1 polls of 0.05s\"],[40.674,\"host key F12+s, each step held 0.15s\"],[40.675,\"savestate complete after 1 polls of 0.05s\"],[41.215,\"host key F12+s, each step held 0.15s\"],[41.216,\"savestate complete after 1 polls of 0.05s\"],[41.755,\"host key F12+s, each step held 0.15s\"],[41.757,\"savestate complete after 1 polls of 0.05s\"],[42.297,\"host key F12+s, each step held 0.15s\"],[42.298,\"savestate complete after 1 polls of 0.05s\"],[42.836,\"host key F12+s, each step held 0.15s\"],[42.837,\"savestate complete after 1 polls of 0.05s\"],[43.374,\"host key F12+s, each step held 0.15s\"],[43.375,\"savestate complete after 1 polls of 0.05s\"],[43.914,\"host key F12+s, each step held 0.15s\"],[43.915,\"savestate complete after 1 polls of 0.05s\"],[44.452,\"host key F12+s, each step held 0.15s\"],[44.453,\"savestate complete after 1 polls of 0.05s\"],[44.989,\"host key F12+s, each step held 0.15s\"],[44.991,\"savestate complete after 1 polls of 0.05s\"],[45.525,\"host key F12+s, each step held 0.15s\"],[45.526,\"savestate complete after 1 polls of 0.05s\"],[46.06,\"host key F12+s, each step held 0.15s\"],[46.061,\"savestate complete after 1 polls of 0.05s\"],[46.199,\"key Enter held 0.08s\"],[46.199,\"match quick: Enter (hit any key)\"],[46.713,\"host key F12+s, each step held 0.15s\"],[46.714,\"savestate complete after 1 polls of 0.05s\"],[47.255,\"host key F12+s, each step held 0.15s\"],[47.256,\"savestate complete after 1 polls of 0.05s\"],[47.392,\"key Enter held 0.08s\"],[47.392,\"match quick: Enter (team screen)\"],[47.904,\"host key F12+s, each step held 0.15s\"],[47.905,\"savestate complete after 1 polls of 0.05s\"],[48.44,\"host key F12+s, each step held 0.15s\"],[48.442,\"savestate complete after 1 polls of 0.05s\"],[48.465,\"match quick: full time after 48 reads\"],[48.966,\"dosbox-x pid 2202733 alive 0.5s after SIGTERM (grace 0.5s): SIGKILL to its group\"],[48.975,\"dosbox-x pid 2202733 ended by SIGKILL 0.509s after the first signal\"],[48.978,\"Xvfb pid 2202726 ended by SIGTERM 0.003s after the first signal\"],[48.978,\"terminated\"]]"
+  }
+ ],
+ "outputs": [],
+ "started": "2026-10-04T12:04:39.751Z",
+ "ended": "2026-10-04T12:05:28.750Z",
+ "status": "completed"
+}
