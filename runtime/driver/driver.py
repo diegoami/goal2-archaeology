@@ -43,6 +43,12 @@ KEY_HOLD = 0.08       # a game key: press, hold, release
 HOSTKEY_HOLD = 0.15   # each step of a DOSBox-X host-key (F12) combination
 POLL = 0.05           # savestate file poll interval
 X_POLL = 0.1          # Xvfb and window poll interval
+# Seconds to wait for exit after SIGTERM before SIGKILL to the group (issue #19): F001 M:terminate
+# measured a clean exit 0.02 s after SIGTERM, F003 measured DOSBox-X ignore SIGTERM for the whole
+# 10 s wait in 30 of 30 E002 records after a restore. 0.5 s is 25x the measured clean exit, a
+# [designed] margin; the driver's own scratch sessions (2026-10-04) saw DOSBox-X flush its log and
+# die on the SIGKILL 0.5 s later, and Xvfb still ends by SIGTERM alone.
+TERM_GRACE = 0.5
 
 KEYMAP = {"Enter": "Return", "Esc": "Escape", "Space": "space", "Up": "Up", "Down": "Down",
           "Left": "Left", "Right": "Right", "Backspace": "BackSpace", "Tab": "Tab"}
@@ -111,6 +117,9 @@ exit
         return text, sha256(text.encode())
 
     # ---- launch ---------------------------------------------------------------------------
+    # launch timeout 30 s (R2): F003 Timings -- the title screen after 1.80 ... 1.87 s in 29 of 30
+    # E002 records, 13.07 s in the one outlier (E002-r0009, machine load); F001 M:speed saw
+    # 0.77 ... 1.87 s across cycles settings. 30 s bounds the outlier with margin. [designed]
     def launch(self, start_state=None, timeout=30, displace_key="n"):
         """Start Xvfb and DOSBox-X, run GOAL and poll for the title screen. With a StartState, then
         press `displace_key` and poll until the screen settles on another digest (so the restore is
@@ -272,6 +281,10 @@ exit
                 return sc
         raise RuntimeError(f"{what}: not seen within {timeout}s ({polls} polls)")
 
+    # settle timeout 15 s (R2): no per-settle duration is recorded, but the key's screen change
+    # settled in every completed E002 record (F003 Observations), and the same poll loop matched a
+    # Host+L restore 4.00 ... 4.11 s after launch (F003 Timings); 15 s is a margin of about 3.7x.
+    # [designed]
     def settle(self, prev_digest, timeout=15, what="settle"):
         """Poll until the screen differs from prev_digest and two consecutive reads agree."""
         end = time.monotonic() + timeout
@@ -287,6 +300,9 @@ exit
         raise RuntimeError(f"{what}: no settled change within {timeout}s")
 
     # ---- reset ----------------------------------------------------------------------------
+    # restore timeout 15 s (R2): F003 Timings -- a Host+L restore matched at the first savestate
+    # poll, 4.00 ... 4.11 s after launch, in 29 of 29 completed E002 records; the one slow session
+    # (E002-r0009) failed in the savestate write after its Host+L, not at this bound. [designed]
     def restore(self, state, timeout=15):
         """Host+L loads state's savestate; poll until the screen digest equals the one stored with it."""
         shutil.copy(state.path, self.savefile)
@@ -296,21 +312,34 @@ exit
 
     # ---- terminate ------------------------------------------------------------------------
     def _kill(self, p):
-        if p and p.poll() is None:
+        """SIGTERM to one process group this driver started (start_new_session), then SIGKILL to the
+        same group if it is still alive TERM_GRACE later (F003: DOSBox-X ignores SIGTERM after a
+        restore). Logs the method (SIGTERM or SIGKILL) and the time to `events`; a record's log
+        observation carries them (Done-when of #19)."""
+        if not p:
+            return
+        what = "dosbox-x" if p is self.dbx else "Xvfb"
+        t0 = time.monotonic()
+        if p.poll() is None:
             try:
                 os.killpg(p.pid, signal.SIGTERM)  # the process group this driver started (start_new_session)
             except ProcessLookupError:
                 pass
-        if p:
-            try:
-                p.wait(timeout=10)
-            except subprocess.TimeoutExpired:
-                self.log(f"{'dosbox-x' if p is self.dbx else 'Xvfb'} pid {p.pid} still running 10s after SIGTERM: SIGKILL to its group")
-                os.killpg(p.pid, signal.SIGKILL)
-                p.wait()
+        method = "SIGTERM"
+        try:
+            p.wait(timeout=TERM_GRACE)
+        except subprocess.TimeoutExpired:
+            self.log(f"{what} pid {p.pid} alive {round(time.monotonic() - t0, 3)}s after SIGTERM (grace "
+                     f"{TERM_GRACE}s): SIGKILL to its group")
+            os.killpg(p.pid, signal.SIGKILL)
+            p.wait()
+            method = "SIGKILL"
+        self.log(f"{what} pid {p.pid} ended by {method} {round(time.monotonic() - t0, 3)}s after the first signal")
 
     def terminate(self):
-        """SIGTERM to the DOSBox-X and Xvfb process groups this driver started; returns True when both are gone."""
+        """SIGTERM to the DOSBox-X and Xvfb process groups this driver started, SIGKILL to any group
+        still alive TERM_GRACE after it (F003: DOSBox-X ignores SIGTERM after a restore); returns
+        True when both are gone."""
         pids = [p.pid for p in (self.dbx, self.xvfb) if p]
         for p in (self.dbx, self.xvfb):
             self._kill(p)
