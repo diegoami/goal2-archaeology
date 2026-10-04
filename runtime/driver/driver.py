@@ -47,6 +47,10 @@ X_POLL = 0.1          # Xvfb and window poll interval
 
 CLOCK_DIR = "dosclock"  # session subfolder mounted as D: for the clock read-back (clock option only)
 CLOCK_SLACK = 5        # seconds a read-back time may run past the time set (written right after `time`)
+# DOSBox-X keeps DOS time as BIOS ticks (18.2/s) and `time /t` truncates: 10:00:00 set reads back as
+# 9:59:59 (E003-r0045, r0046; the ticks 0x000A004A = 35999.98 s of E003-r0007 … agree), so a read-back
+# up to 1 s before the time set is the same time.
+CLOCK_EARLY = 1
 
 
 class ClockNotApplied(RuntimeError):
@@ -78,7 +82,8 @@ def clock_values(dos_date, dos_time):
 
 def check_clock(dos_date, dos_time, readback):
     """Compare the requested clock with DOS's own read-back (`date /t` then `time /t` output, e.g.
-    "10/04/1993\n10:00:00\n"): the date must be equal, the time within CLOCK_SLACK seconds after.
+    "10/04/1993\n9:59:59\n"): the date must be equal, the time from CLOCK_EARLY s before to
+    CLOCK_SLACK s after the time set.
     Raises ClockNotApplied otherwise; returns the (date, time) DOS reported."""
     d, t = clock_values(dos_date, dos_time)
     m_d = re.search(r"(\d\d)/(\d\d)/(\d{4})", readback or "")
@@ -91,7 +96,7 @@ def check_clock(dos_date, dos_time, readback):
         raise ClockNotApplied(f"DOS date set to {dos_date}, DOS reports {m_d[0]}")
     if t:
         want = t.hour * 3600 + t.minute * 60 + t.second
-        if not 0 <= got_t - want <= CLOCK_SLACK:
+        if not -CLOCK_EARLY <= got_t - want <= CLOCK_SLACK:
             raise ClockNotApplied(f"DOS time set to {dos_time}, DOS reports {m_t[0]}")
     return m_d[0], m_t[0]
 

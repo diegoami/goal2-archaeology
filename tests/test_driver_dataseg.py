@@ -149,13 +149,16 @@ class ClockApplied(unittest.TestCase):
     def test_check_clock(self):
         self.assertEqual(driver.check_clock("10/04/1993", "10:00:00", "10/04/1993\r\n10:00:01\r\n"),
                          ("10/04/1993", "10:00:01"))
+        # DOSBox-X's tick-truncated read-back of 10:00:00 (E003-r0045, r0046)
+        self.assertEqual(driver.check_clock("10/04/1993", "10:00:00", "10/04/1993\r\n 9:59:59\r\n"),
+                         ("10/04/1993", "9:59:59"))
         # DOS kept the host's date: the reviewer's case, where the year stayed 2026
         with self.assertRaises(driver.ClockNotApplied):
             driver.check_clock("10/04/1993", "10:00:00", "10/04/2026\n10:00:00\n")
         with self.assertRaises(driver.ClockNotApplied):
             driver.check_clock("10/04/1993", "10:00:00", "10/04/1993\n10:00:30\n")   # beyond CLOCK_SLACK
         with self.assertRaises(driver.ClockNotApplied):
-            driver.check_clock("10/04/1993", "10:00:00", "10/04/1993\n09:59:59\n")   # before the time set
+            driver.check_clock("10/04/1993", "10:00:00", "10/04/1993\n9:59:58\n")   # 2 s before the time set
         with self.assertRaises(driver.ClockNotApplied):
             driver.check_clock("10/04/1993", "10:00:00", None)
 
