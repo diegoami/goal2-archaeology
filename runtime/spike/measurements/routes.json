@@ -1,0 +1,352 @@
+{
+ "dosbox-x": [
+  "DOSBox-X version 2024.03.01 SDL2, copyright 2011-2024 The DOSBox-X Team."
+ ],
+ "code_commit": "e525f97",
+ "runtime_spike_uncommitted_changes": false,
+ "b-headless": {
+  "setup": "SDL_VIDEODRIVER=dummy, no DISPLAY; autotype -w 2 -p 0.5 n; autosave=2 1-12; -time-limit 14",
+  "runs": [
+   {
+    "rep": 0,
+    "return_code": 0,
+    "seconds": 14.67,
+    "autosaves": [
+     {
+      "slot_file": "1.sav",
+      "mtime_offset_s": 0.0,
+      "digest": "cd7f15fbf853b40471d05bad51cb6e6c14cbc8a7307893dba8f5f36c2315c612",
+      "mode": [
+       3,
+       80,
+       25
+      ],
+      "last_row": "■■■■■■■■■■■■■■■■■■■ Do you want to load a saved game? (Y/N) ■■■■■■■■■■"
+     },
+     {
+      "slot_file": "2.sav",
+      "mtime_offset_s": 2.0,
+      "digest": "487df15f2d57c3acb753f9b43d2bf81001147cfdd18b8b88e5b427f9403b39e2",
+      "mode": [
+       3,
+       80,
+       25
+      ],
+      "last_row": "Use ←→ to choose number, ◄┘ to select"
+     },
+     {
+      "slot_file": "3.sav",
+      "mtime_offset_s": 4.0,
+      "digest": "487df15f2d57c3acb753f9b43d2bf81001147cfdd18b8b88e5b427f9403b39e2",
+      "mode": [
+       3,
+       80,
+       25
+      ],
+      "last_row": "Use ←→ to choose number, ◄┘ to select"
+     },
+     {
+      "slot_file": "4.sav",
+      "mtime_offset_s": 6.0,
+      "digest": "487df15f2d57c3acb753f9b43d2bf81001147cfdd18b8b88e5b427f9403b39e2",
+      "mode": [
+       3,
+       80,
+       25
+      ],
+      "last_row": "Use ←→ to choose number, ◄┘ to select"
+     },
+     {
+      "slot_file": "5.sav",
+      "mtime_offset_s": 8.0,
+      "digest": "487df15f2d57c3acb753f9b43d2bf81001147cfdd18b8b88e5b427f9403b39e2",
+      "mode": [
+       3,
+       80,
+       25
+      ],
+      "last_row": "Use ←→ to choose number, ◄┘ to select"
+     },
+     {
+      "slot_file": "6.sav",
+      "mtime_offset_s": 10.0,
+      "digest": "487df15f2d57c3acb753f9b43d2bf81001147cfdd18b8b88e5b427f9403b39e2",
+      "mode": [
+       3,
+       80,
+       25
+      ],
+      "last_row": "Use ←→ to choose number, ◄┘ to select"
+     },
+     {
+      "slot_file": "7.sav",
+      "mtime_offset_s": 12.0,
+      "digest": "487df15f2d57c3acb753f9b43d2bf81001147cfdd18b8b88e5b427f9403b39e2",
+      "mode": [
+       3,
+       80,
+       25
+      ],
+      "last_row": "Use ←→ to choose number, ◄┘ to select"
+     }
+    ]
+   },
+   {
+    "rep": 1,
+    "return_code": 0,
+    "seconds": 14.68,
+    "autosaves": [
+     {
+      "slot_file": "1.sav",
+      "mtime_offset_s": 0.0,
+      "digest": "cd7f15fbf853b40471d05bad51cb6e6c14cbc8a7307893dba8f5f36c2315c612",
+      "mode": [
+       3,
+       80,
+       25
+      ],
+      "last_row": "■■■■■■■■■■■■■■■■■■■ Do you want to load a saved game? (Y/N) ■■■■■■■■■■"
+     },
+     {
+      "slot_file": "2.sav",
+      "mtime_offset_s": 2.0,
+      "digest": "487df15f2d57c3acb753f9b43d2bf81001147cfdd18b8b88e5b427f9403b39e2",
+      "mode": [
+       3,
+       80,
+       25
+      ],
+      "last_row": "Use ←→ to choose number, ◄┘ to select"
+     },
+     {
+      "slot_file": "3.sav",
+      "mtime_offset_s": 4.0,
+      "digest": "487df15f2d57c3acb753f9b43d2bf81001147cfdd18b8b88e5b427f9403b39e2",
+      "mode": [
+       3,
+       80,
+       25
+      ],
+      "last_row": "Use ←→ to choose number, ◄┘ to select"
+     },
+     {
+      "slot_file": "4.sav",
+      "mtime_offset_s": 6.0,
+      "digest": "487df15f2d57c3acb753f9b43d2bf81001147cfdd18b8b88e5b427f9403b39e2",
+      "mode": [
+       3,
+       80,
+       25
+      ],
+      "last_row": "Use ←→ to choose number, ◄┘ to select"
+     },
+     {
+      "slot_file": "5.sav",
+      "mtime_offset_s": 8.0,
+      "digest": "487df15f2d57c3acb753f9b43d2bf81001147cfdd18b8b88e5b427f9403b39e2",
+      "mode": [
+       3,
+       80,
+       25
+      ],
+      "last_row": "Use ←→ to choose number, ◄┘ to select"
+     },
+     {
+      "slot_file": "6.sav",
+      "mtime_offset_s": 10.1,
+      "digest": "487df15f2d57c3acb753f9b43d2bf81001147cfdd18b8b88e5b427f9403b39e2",
+      "mode": [
+       3,
+       80,
+       25
+      ],
+      "last_row": "Use ←→ to choose number, ◄┘ to select"
+     },
+     {
+      "slot_file": "7.sav",
+      "mtime_offset_s": 12.1,
+      "digest": "487df15f2d57c3acb753f9b43d2bf81001147cfdd18b8b88e5b427f9403b39e2",
+      "mode": [
+       3,
+       80,
+       25
+      ],
+      "last_row": "Use ←→ to choose number, ◄┘ to select"
+     }
+    ]
+   },
+   {
+    "rep": 2,
+    "return_code": 0,
+    "seconds": 14.62,
+    "autosaves": [
+     {
+      "slot_file": "1.sav",
+      "mtime_offset_s": 0.0,
+      "digest": "cd7f15fbf853b40471d05bad51cb6e6c14cbc8a7307893dba8f5f36c2315c612",
+      "mode": [
+       3,
+       80,
+       25
+      ],
+      "last_row": "■■■■■■■■■■■■■■■■■■■ Do you want to load a saved game? (Y/N) ■■■■■■■■■■"
+     },
+     {
+      "slot_file": "2.sav",
+      "mtime_offset_s": 2.0,
+      "digest": "487df15f2d57c3acb753f9b43d2bf81001147cfdd18b8b88e5b427f9403b39e2",
+      "mode": [
+       3,
+       80,
+       25
+      ],
+      "last_row": "Use ←→ to choose number, ◄┘ to select"
+     },
+     {
+      "slot_file": "3.sav",
+      "mtime_offset_s": 4.0,
+      "digest": "487df15f2d57c3acb753f9b43d2bf81001147cfdd18b8b88e5b427f9403b39e2",
+      "mode": [
+       3,
+       80,
+       25
+      ],
+      "last_row": "Use ←→ to choose number, ◄┘ to select"
+     },
+     {
+      "slot_file": "4.sav",
+      "mtime_offset_s": 6.0,
+      "digest": "487df15f2d57c3acb753f9b43d2bf81001147cfdd18b8b88e5b427f9403b39e2",
+      "mode": [
+       3,
+       80,
+       25
+      ],
+      "last_row": "Use ←→ to choose number, ◄┘ to select"
+     },
+     {
+      "slot_file": "5.sav",
+      "mtime_offset_s": 8.0,
+      "digest": "487df15f2d57c3acb753f9b43d2bf81001147cfdd18b8b88e5b427f9403b39e2",
+      "mode": [
+       3,
+       80,
+       25
+      ],
+      "last_row": "Use ←→ to choose number, ◄┘ to select"
+     },
+     {
+      "slot_file": "6.sav",
+      "mtime_offset_s": 10.0,
+      "digest": "487df15f2d57c3acb753f9b43d2bf81001147cfdd18b8b88e5b427f9403b39e2",
+      "mode": [
+       3,
+       80,
+       25
+      ],
+      "last_row": "Use ←→ to choose number, ◄┘ to select"
+     },
+     {
+      "slot_file": "7.sav",
+      "mtime_offset_s": 12.0,
+      "digest": "487df15f2d57c3acb753f9b43d2bf81001147cfdd18b8b88e5b427f9403b39e2",
+      "mode": [
+       3,
+       80,
+       25
+      ],
+      "last_row": "Use ←→ to choose number, ◄┘ to select"
+     }
+    ]
+   }
+  ]
+ },
+ "c-procmem": {
+  "capability": "/usr/bin/dosbox-x cap_net_raw=ep",
+  "runs": [
+   {
+    "binary": "installed binary",
+    "rep": 0,
+    "read": "fails: [Errno 13] Permission denied: '/proc/53469/maps'"
+   },
+   {
+    "binary": "installed binary",
+    "rep": 1,
+    "read": "fails: [Errno 13] Permission denied: '/proc/53538/maps'"
+   },
+   {
+    "binary": "copy without capability",
+    "rep": 0,
+    "scan_seconds": 0.12,
+    "read": {
+     "heap_region": "[heap]",
+     "equals_savestate_read": true
+    }
+   },
+   {
+    "binary": "copy without capability",
+    "rep": 1,
+    "scan_seconds": 0.12,
+    "read": {
+     "heap_region": "[heap]",
+     "equals_savestate_read": true
+    }
+   }
+  ],
+  "copy_sha256_equals_original": true
+ },
+ "f-png": {
+  "runs": [
+   {
+    "rep": 0,
+    "delay_s": 3.0,
+    "png_sha256": "b86f3b900c932f3fe8ba5ee171ab5d0e506c28e61377ad7edfcc94cd0c1515a0",
+    "pixels_sha256": "784b8ab2c9a9c11787a57bd231f92d7c765b6f55cb0c1d5670a58da221557646",
+    "size": [
+     720,
+     400
+    ],
+    "lit_cells": 811
+   },
+   {
+    "rep": 1,
+    "delay_s": 3.0,
+    "png_sha256": "b86f3b900c932f3fe8ba5ee171ab5d0e506c28e61377ad7edfcc94cd0c1515a0",
+    "pixels_sha256": "784b8ab2c9a9c11787a57bd231f92d7c765b6f55cb0c1d5670a58da221557646",
+    "size": [
+     720,
+     400
+    ],
+    "lit_cells": 811
+   },
+   {
+    "rep": 2,
+    "delay_s": 3.0,
+    "png_sha256": "b86f3b900c932f3fe8ba5ee171ab5d0e506c28e61377ad7edfcc94cd0c1515a0",
+    "pixels_sha256": "784b8ab2c9a9c11787a57bd231f92d7c765b6f55cb0c1d5670a58da221557646",
+    "size": [
+     720,
+     400
+    ],
+    "lit_cells": 811
+   }
+  ]
+ },
+ "debugger": {
+  "strings_counts_in_binary": {
+   "DEBUGBOX": 1,
+   "debugger": 4,
+   "Breakpoint": 0,
+   "breakpoint": 0,
+   "MEMDUMP": 0,
+   "Enter Debugger Command": 1
+  },
+  "help_line": [],
+  "break_start_run": {
+   "seconds": 9,
+   "output_bytes": 2836,
+   "escape_sequences": 0,
+   "lines_not_starting_with_LOG": []
+  }
+ }
+}

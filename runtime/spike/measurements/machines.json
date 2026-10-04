@@ -1,0 +1,134 @@
+{
+ "versions": {
+  "dosbox-x": "DOSBox-X version 2024.03.01 SDL2, copyright 2011-2024 The DOSBox-X Team.",
+  "xdotool": "xdotool version 3.20160805.1",
+  "python": "3.12.3",
+  "code_commit": "fc00e8c",
+  "runtime_spike_uncommitted_changes": false
+ },
+ "rows": [
+  {
+   "machine": "svga_s3",
+   "memsize": 16,
+   "png_size": [
+    720,
+    400
+   ],
+   "lit_cells_title": 813,
+   "title_mask_equals_svga_s3": true,
+   "lit_cells_after_n": 758,
+   "mask_changed_by_key": true,
+   "alive": true
+  },
+  {
+   "machine": "vgaonly",
+   "memsize": 16,
+   "png_size": [
+    720,
+    400
+   ],
+   "lit_cells_title": 813,
+   "title_mask_equals_svga_s3": true,
+   "lit_cells_after_n": 758,
+   "mask_changed_by_key": true,
+   "alive": true
+  },
+  {
+   "machine": "svga_et4000",
+   "memsize": 16,
+   "png_size": [
+    720,
+    400
+   ],
+   "lit_cells_title": 813,
+   "title_mask_equals_svga_s3": true,
+   "lit_cells_after_n": 758,
+   "mask_changed_by_key": true,
+   "alive": true
+  },
+  {
+   "machine": "ega",
+   "memsize": 16,
+   "png_size": [
+    640,
+    350
+   ],
+   "lit_cells_title": 699,
+   "title_mask_equals_svga_s3": false,
+   "lit_cells_after_n": 655,
+   "mask_changed_by_key": true,
+   "alive": true
+  },
+  {
+   "machine": "cga",
+   "memsize": 16,
+   "png_size": [
+    640,
+    400
+   ],
+   "lit_cells_title": 764,
+   "title_mask_equals_svga_s3": false,
+   "lit_cells_after_n": 719,
+   "mask_changed_by_key": true,
+   "alive": true
+  },
+  {
+   "machine": "hercules",
+   "memsize": 16,
+   "error": "RuntimeError: no capture within 10s"
+  },
+  {
+   "machine": "tandy",
+   "memsize": 16,
+   "png_size": [
+    640,
+    400
+   ],
+   "lit_cells_title": 764,
+   "title_mask_equals_svga_s3": false,
+   "lit_cells_after_n": 719,
+   "mask_changed_by_key": true,
+   "alive": true
+  },
+  {
+   "machine": "vgaonly",
+   "memsize": 1,
+   "png_size": [
+    720,
+    400
+   ],
+   "lit_cells_title": 813,
+   "title_mask_equals_svga_s3": true,
+   "lit_cells_after_n": 758,
+   "mask_changed_by_key": true,
+   "alive": true
+  },
+  {
+   "machine": "vgaonly",
+   "memsize": 2,
+   "png_size": [
+    720,
+    400
+   ],
+   "lit_cells_title": 813,
+   "title_mask_equals_svga_s3": true,
+   "lit_cells_after_n": 758,
+   "mask_changed_by_key": true,
+   "alive": true
+  },
+  {
+   "machine": "vgaonly",
+   "memsize": 4,
+   "png_size": [
+    720,
+    400
+   ],
+   "lit_cells_title": 813,
+   "title_mask_equals_svga_s3": true,
+   "lit_cells_after_n": 758,
+   "mask_changed_by_key": true,
+   "alive": true
+  }
+ ],
+ "delay_seconds_before_capture": 3.0
+}

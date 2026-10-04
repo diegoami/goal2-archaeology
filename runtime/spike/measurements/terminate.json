@@ -1,0 +1,23 @@
+{
+ "versions": {
+  "dosbox-x": "DOSBox-X version 2024.03.01 SDL2, copyright 2011-2024 The DOSBox-X Team.",
+  "xdotool": "xdotool version 3.20160805.1",
+  "python": "3.12.3",
+  "code_commit": "fc00e8c",
+  "runtime_spike_uncommitted_changes": false
+ },
+ "rows": [
+  {
+   "route": "F10, y, n inside the game; autoexec `exit` follows",
+   "exited_by_itself": true,
+   "exit_code": 0,
+   "seconds_after_last_key": 1.0
+  },
+  {
+   "route": "SIGTERM to the dosbox-x and Xvfb process groups",
+   "seconds": 0.02,
+   "dosbox_return_code": 1,
+   "xvfb_return_code": 0
+  }
+ ]
+}

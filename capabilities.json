@@ -1,1 +1,12 @@
-{}
+{
+  "tool:dosbox-x@2024.03.01": {
+    "check": "dosbox-x -version 2>&1 | grep -q '^DOSBox-X version 2024.03.01'",
+    "describes": "DOSBox-X 2024.03.01 (apt, SDL2): the runtime GOAL2 is driven under; other versions are untested (F001)",
+    "cost": "cheap"
+  },
+  "facility:goal2-runtime": {
+    "check": "bash setup/goal2-runtime.sh | tail -n 1 | grep -qx ready",
+    "describes": "everything the GOAL2 spike needs on this machine: dosbox-x 2024.03.01, Xvfb, xdotool, python >= 3.11, and the release goal2-original unpacked in .cache/goal2 and verified against artifacts/known.json (downloads the release when it is missing)",
+    "cost": "slow"
+  }
+}

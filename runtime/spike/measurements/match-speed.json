@@ -1,0 +1,405 @@
+{
+ "versions": {
+  "dosbox-x": "DOSBox-X version 2024.03.01 SDL2, copyright 2011-2024 The DOSBox-X Team.",
+  "xdotool": "xdotool version 3.20160805.1",
+  "python": "3.12.3",
+  "code_commit": "6959db9",
+  "runtime_spike_uncommitted_changes": false
+ },
+ "states": {
+  "title": {
+   "screen": "cd7f15fbf853b40471d05bad51cb6e6c14cbc8a7307893dba8f5f36c2315c612",
+   "file_sha256": "e39b08086dba7df21bfd2515ba6b0422604956ca047e76cc14d3fc93098dc0da"
+  },
+  "main": {
+   "screen": "18190236ee20f9eb0573e82714034e41226a92a62efb4c119d8648e06a9a1b67",
+   "file_sha256": "d75e66c91daf8358a624fe15fd48aa5039d1e1858d2c0356215207a8b92a1868"
+  }
+ },
+ "rows": [
+  {
+   "cycles": "max",
+   "rep": 0,
+   "half_time_after_s": 0.93,
+   "second_half_started_after_s": 2.86,
+   "full_time_after_s": 9.34,
+   "phase_at_end": "done",
+   "polls": 16,
+   "after_full_time": [
+    {
+     "first_row": " (c) NE'93│ ┌───────────────┬──┬FRIENDLY────────────────────",
+     "last_row": " └──────────────────Hit INS to turn automatic action replay OFF───────────────┘",
+     "prompt_words": [
+      "replay"
+     ]
+    },
+    {
+     "first_row": " (c) NE'93│ │ ──────────────────────────────────────────────",
+     "last_row": "                                  hit any key",
+     "prompt_words": []
+    }
+   ],
+   "folder_changes": []
+  },
+  {
+   "cycles": "max",
+   "rep": 1,
+   "half_time_after_s": 0.94,
+   "second_half_started_after_s": 2.86,
+   "full_time_after_s": 9.37,
+   "phase_at_end": "done",
+   "polls": 16,
+   "after_full_time": [
+    {
+     "first_row": " (c) NE'93│ ┌───────────────┬──┬FRIENDLY────────────────────",
+     "last_row": " └──────────────────Hit INS to turn automatic action replay OFF───────────────┘",
+     "prompt_words": [
+      "replay"
+     ]
+    },
+    {
+     "first_row": " (c) NE'93│ │ ──────────────────────────────────────────────",
+     "last_row": "                                  hit any key",
+     "prompt_words": []
+    }
+   ],
+   "folder_changes": []
+  },
+  {
+   "cycles": "60000",
+   "rep": 0,
+   "half_time_after_s": 0.92,
+   "second_half_started_after_s": 2.85,
+   "full_time_after_s": 12.49,
+   "phase_at_end": "done",
+   "polls": 22,
+   "after_full_time": [
+    {
+     "first_row": " (c) NE'93│ ┌───────────────┬──┬FRIENDLY────────────────────",
+     "last_row": " └──────────────────Hit INS to turn automatic action replay OFF───────────────┘",
+     "prompt_words": [
+      "replay"
+     ]
+    },
+    {
+     "first_row": " (c) NE'93│ │ ──────────────────────────────────────────────",
+     "last_row": "                                  hit any key",
+     "prompt_words": []
+    }
+   ],
+   "folder_changes": []
+  },
+  {
+   "cycles": "60000",
+   "rep": 1,
+   "half_time_after_s": 0.93,
+   "second_half_started_after_s": 2.87,
+   "full_time_after_s": 12.58,
+   "phase_at_end": "done",
+   "polls": 22,
+   "after_full_time": [
+    {
+     "first_row": " (c) NE'93│ ┌───────────────┬──┬FRIENDLY────────────────────",
+     "last_row": " └──────────────────Hit INS to turn automatic action replay OFF───────────────┘",
+     "prompt_words": [
+      "replay"
+     ]
+    },
+    {
+     "first_row": " (c) NE'93│ │ ──────────────────────────────────────────────",
+     "last_row": "                                  hit any key",
+     "prompt_words": []
+    }
+   ],
+   "folder_changes": []
+  },
+  {
+   "cycles": "30000",
+   "rep": 0,
+   "half_time_after_s": 9.43,
+   "second_half_started_after_s": 10.08,
+   "full_time_after_s": 20.27,
+   "phase_at_end": "done",
+   "polls": 37,
+   "after_full_time": [
+    {
+     "first_row": " (c) NE'93│ ┌───────────────┬──┬FRIENDLY────────────────────",
+     "last_row": " └──────────────────Hit INS to turn automatic action replay OFF───────────────┘",
+     "prompt_words": [
+      "replay"
+     ]
+    },
+    {
+     "first_row": " (c) NE'93│ │ ──────────────────────────────────────────────",
+     "last_row": "                                  hit any key",
+     "prompt_words": []
+    }
+   ],
+   "folder_changes": []
+  },
+  {
+   "cycles": "30000",
+   "rep": 1,
+   "half_time_after_s": 9.46,
+   "second_half_started_after_s": 10.11,
+   "full_time_after_s": 20.35,
+   "phase_at_end": "done",
+   "polls": 37,
+   "after_full_time": [
+    {
+     "first_row": " (c) NE'93│ ┌───────────────┬──┬FRIENDLY────────────────────",
+     "last_row": " └──────────────────Hit INS to turn automatic action replay OFF───────────────┘",
+     "prompt_words": [
+      "replay"
+     ]
+    },
+    {
+     "first_row": " (c) NE'93│ │ ──────────────────────────────────────────────",
+     "last_row": "                                  hit any key",
+     "prompt_words": []
+    }
+   ],
+   "folder_changes": []
+  },
+  {
+   "cycles": "10000",
+   "rep": 0,
+   "half_time_after_s": 28.24,
+   "second_half_started_after_s": 28.89,
+   "full_time_after_s": 58.42,
+   "phase_at_end": "done",
+   "polls": 108,
+   "after_full_time": [
+    {
+     "first_row": " (c) NE'93│ ┌───────────────┬──┬FRIENDLY────────────────────",
+     "last_row": " └──────────────────Hit INS to turn automatic action replay OFF───────────────┘",
+     "prompt_words": [
+      "replay"
+     ]
+    },
+    {
+     "first_row": " (c) NE'93│ ┌───────────────┬──┬FRIENDLY────────────────────",
+     "last_row": "■■■■■■■■■■■■■ Do you want to save the match summary to disk? (Y/N) ■■■■■■■■■■■■■",
+     "prompt_words": [
+      "save",
+      "Save",
+      "summary"
+     ]
+    },
+    {
+     "first_row": " (c) NE'93│ │ ──────────────────────────────────────────────",
+     "last_row": "                                  hit any key",
+     "prompt_words": []
+    }
+   ],
+   "folder_changes": []
+  },
+  {
+   "cycles": "10000",
+   "rep": 1,
+   "half_time_after_s": 28.17,
+   "second_half_started_after_s": 28.81,
+   "full_time_after_s": 59.69,
+   "phase_at_end": "done",
+   "polls": 110,
+   "after_full_time": [
+    {
+     "first_row": " (c) NE'93│ ┌───────────────┬──┬FRIENDLY────────────────────",
+     "last_row": " └──────────────────Hit INS to turn automatic action replay OFF───────────────┘",
+     "prompt_words": [
+      "replay"
+     ]
+    },
+    {
+     "first_row": " (c) NE'93│ ┌───────────────┬──┬FRIENDLY────────────────────",
+     "last_row": "■■■■■■■■■■■■■ Do you want to save the match summary to disk? (Y/N) ■■■■■■■■■■■■■",
+     "prompt_words": [
+      "save",
+      "Save",
+      "summary"
+     ]
+    },
+    {
+     "first_row": " (c) NE'93│ │ ──────────────────────────────────────────────",
+     "last_row": "                                  hit any key",
+     "prompt_words": []
+    }
+   ],
+   "folder_changes": []
+  },
+  {
+   "cycles": "5000",
+   "rep": 0,
+   "half_time_after_s": 55.3,
+   "second_half_started_after_s": 55.94,
+   "full_time_after_s": 114.4,
+   "phase_at_end": "done",
+   "polls": 214,
+   "after_full_time": [
+    {
+     "first_row": " (c) NE'93│ ┌───────────────┬──┬FRIENDLY────────────────────",
+     "last_row": " └──────────────────Hit INS to turn automatic action replay OFF───────────────┘",
+     "prompt_words": [
+      "replay"
+     ]
+    },
+    {
+     "first_row": " (c) NE'93│ ┌───────────────┬──┬FRIENDLY────────────────────",
+     "last_row": "■■■■■■■■■■■■■ Do you want to save the match summary to disk? (Y/N) ■■■■■■■■■■■■■",
+     "prompt_words": [
+      "save",
+      "Save",
+      "summary"
+     ]
+    },
+    {
+     "first_row": " (c) NE'93│ │ ──────────────────────────────────────────────",
+     "last_row": "                                  hit any key",
+     "prompt_words": []
+    }
+   ],
+   "folder_changes": []
+  },
+  {
+   "cycles": "5000",
+   "rep": 1,
+   "half_time_after_s": 55.19,
+   "second_half_started_after_s": 55.83,
+   "full_time_after_s": 115.08,
+   "phase_at_end": "done",
+   "polls": 215,
+   "after_full_time": [
+    {
+     "first_row": " (c) NE'93│ ┌───────────────┬──┬FRIENDLY────────────────────",
+     "last_row": " └──────────────────Hit INS to turn automatic action replay OFF───────────────┘",
+     "prompt_words": [
+      "replay"
+     ]
+    },
+    {
+     "first_row": " (c) NE'93│ ┌───────────────┬──┬FRIENDLY────────────────────",
+     "last_row": "                                  hit any key                      Esc,◄┘-bench",
+     "prompt_words": [
+      "Save"
+     ]
+    },
+    {
+     "first_row": " (c) NE'93│ ┌───────────────┬──┬FRIENDLY────────────────────",
+     "last_row": " └──────────────────Hit INS to turn automatic action replay OFF───────────────┘",
+     "prompt_words": [
+      "replay"
+     ]
+    },
+    {
+     "first_row": " (c) NE'93│ ┌───────────────┬──┬FRIENDLY────────────────────",
+     "last_row": "■■■■■■■■■■■■■ Do you want to save the match summary to disk? (Y/N) ■■■■■■■■■■■■■",
+     "prompt_words": [
+      "save",
+      "Save",
+      "summary"
+     ]
+    },
+    {
+     "first_row": " (c) NE'93│ │ ──────────────────────────────────────────────",
+     "last_row": "                                  hit any key",
+     "prompt_words": []
+    }
+   ],
+   "folder_changes": []
+  },
+  {
+   "cycles": "auto",
+   "rep": 0,
+   "half_time_after_s": 89.07,
+   "second_half_started_after_s": 89.71,
+   "full_time_after_s": 185.23,
+   "phase_at_end": "done",
+   "polls": 348,
+   "after_full_time": [
+    {
+     "first_row": " (c) NE'93│ ┌───────────────┬──┬FRIENDLY────────────────────",
+     "last_row": " └──────────────────Hit INS to turn automatic action replay OFF───────────────┘",
+     "prompt_words": [
+      "replay"
+     ]
+    },
+    {
+     "first_row": " (c) NE'93│ ┌───────────────┬──┬FRIENDLY────────────────────",
+     "last_row": "                                  hit any key                      Esc,◄┘-bench",
+     "prompt_words": [
+      "Save"
+     ]
+    },
+    {
+     "first_row": " (c) NE'93│ ┌───────────────┬──┬FRIENDLY────────────────────",
+     "last_row": " └──────────────────Hit INS to turn automatic action replay OFF───────────────┘",
+     "prompt_words": [
+      "replay"
+     ]
+    },
+    {
+     "first_row": " (c) NE'93│ ┌───────────────┬──┬FRIENDLY────────────────────",
+     "last_row": "■■■■■■■■■■■■■ Do you want to save the match summary to disk? (Y/N) ■■■■■■■■■■■■■",
+     "prompt_words": [
+      "save",
+      "Save",
+      "summary"
+     ]
+    },
+    {
+     "first_row": " (c) NE'93│ │ ──────────────────────────────────────────────",
+     "last_row": "                                  hit any key",
+     "prompt_words": []
+    }
+   ],
+   "folder_changes": []
+  },
+  {
+   "cycles": "auto",
+   "rep": 1,
+   "half_time_after_s": 87.9,
+   "second_half_started_after_s": 88.54,
+   "full_time_after_s": 182.04,
+   "phase_at_end": "done",
+   "polls": 342,
+   "after_full_time": [
+    {
+     "first_row": " (c) NE'93│ ┌───────────────┬──┬FRIENDLY────────────────────",
+     "last_row": " └──────────────────Hit INS to turn automatic action replay OFF───────────────┘",
+     "prompt_words": [
+      "replay"
+     ]
+    },
+    {
+     "first_row": " (c) NE'93│ ┌───────────────┬──┬FRIENDLY────────────────────",
+     "last_row": "                                  hit any key                      Esc,◄┘-bench",
+     "prompt_words": [
+      "Save"
+     ]
+    },
+    {
+     "first_row": " (c) NE'93│ ┌───────────────┬──┬FRIENDLY────────────────────",
+     "last_row": " └──────────────────Hit INS to turn automatic action replay OFF───────────────┘",
+     "prompt_words": [
+      "replay"
+     ]
+    },
+    {
+     "first_row": " (c) NE'93│ ┌───────────────┬──┬FRIENDLY────────────────────",
+     "last_row": "■■■■■■■■■■■■■ Do you want to save the match summary to disk? (Y/N) ■■■■■■■■■■■■■",
+     "prompt_words": [
+      "save",
+      "Save",
+      "summary"
+     ]
+    },
+    {
+     "first_row": " (c) NE'93│ │ ──────────────────────────────────────────────",
+     "last_row": "                                  hit any key",
+     "prompt_words": []
+    }
+   ],
+   "folder_changes": []
+  }
+ ]
+}
