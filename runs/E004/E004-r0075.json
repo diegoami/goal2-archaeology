@@ -1,0 +1,3309 @@
+{
+ "schema": "run/1",
+ "run_id": "E004-r0075",
+ "experiment": "E004",
+ "arm": "watched-state-e004-1002",
+ "rep": 75,
+ "code_commit": "428a051",
+ "machine": "ubuntu-24-04-wsl2",
+ "artifact": {
+  "set": "goal2-a949da2f",
+  "variant": null
+ },
+ "runtime": {
+  "driver": "runtime/driver/driver.py@428a051",
+  "platform": "python-3.12.3/ubuntu-24-04-wsl2",
+  "fingerprint": {
+   "dosbox-x": "2024.03.01 SDL2",
+   "xvfb": "2:21.1.12-1ubuntu1.8",
+   "xdotool": "xdotool version 3.20160805.1",
+   "python": "3.12.3",
+   "kernel": "6.18.40.1-microsoft-standard-WSL2",
+   "config_sha256": "083897d321ed9fe50ca93bbf03ff45765c03c0f2a6e5e5df57aede499ebdc147",
+   "machine": "svga_s3",
+   "memsize": "16",
+   "cycles": "30000",
+   "core": "auto",
+   "cputype": "auto"
+  }
+ },
+ "interventions": [
+  {
+   "level": "I1",
+   "what": "text screen, BIOS data area (0040:0049, 0040:006C) and GOAL.EXE data-segment memory (DS:7B62, DS:7B64, DS:8336, DS:A9FD, the commentary ring DS:7C38 and counter DS:80EE, the score DS:9B3C, the names at [DS:9B6C], the delay byte at [DS:A923]+0x3F, two known strings) read from DOSBox-X savestates (Host+S; components Vga and Memory)"
+  },
+  {
+   "level": "I2",
+   "what": "a savestate is written at each read, including every read during the match, and one is loaded (Host+L) at the start (vocabulary/interventions.md lists save and load of state as I2; neutrality tested by the replays of E004, not assumed)"
+  }
+ ],
+ "start_state": {
+  "id": "e004-1002",
+  "sha256": "eeb3054b8ba332fa1fb0f84dd343d5c4956d004e593f8676c65b434d2ac9a30a",
+  "restore": "fresh DOSBox-X process (config sha256 083897d321ed9fe50ca93bbf03ff45765c03c0f2a6e5e5df57aede499ebdc147) with C: mounted from the folder the savestate was made with, recreated from the verified release copy; GOAL run to its title screen; key n to change the screen; then Host+L loads the savestate whose sha256 is given (made by `run.py make-state` at DOS time 10:02:00 on 10/04/2026, DOS read-back '10/04/2026\\n10:01:59\\n': the captain screen of the next match); polled until the screen digest equals the one stored with it (aa572cf7fca9442f0df10a36a08f5a8f41057e833895ab1ac8c5df0e91bf2000); DOS clock of this session not set (the restore brings the state's own BIOS ticks, F004)"
+ },
+ "seed": null,
+ "actions": {
+  "script": "experiments/E004-q002-quick-result/run.py",
+  "sha256": "68cc4f44da8cdd329378e936d2d7aa34eec9998e72447ed844448e476cb3bc8a",
+  "args": [
+   "pairs",
+   "--arm",
+   "watched",
+   "--state",
+   "e004-1002",
+   "--batch",
+   "p1",
+   "starting keys: Enter Right Right Right Right Right"
+  ]
+ },
+ "observations": [
+  {
+   "step": 0,
+   "source": "log",
+   "field": "host UTC time at launch",
+   "value": "2026-10-04T12:17:10.343Z"
+  },
+  {
+   "step": 0,
+   "source": "log",
+   "field": "host local time at launch, with UTC offset, and zone name",
+   "value": "2026-10-04T14:17:10.343+02:00 CEST"
+  },
+  {
+   "step": 0,
+   "source": "file",
+   "field": "DOS clock read back: CLOCK.TXT as DOS wrote it (`date /t`, then `time /t`) before GOAL, right after setting the date and time when they were set",
+   "value": "10/04/2026\n14:17:09\n"
+  },
+  {
+   "step": 0,
+   "source": "log",
+   "field": "before restore (title screen displaced by n): host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:17:10.572Z"
+  },
+  {
+   "step": 0,
+   "source": "log",
+   "field": "before restore (title screen displaced by n): host local time with UTC offset, and zone name, at the same instant",
+   "value": "2026-10-04T14:17:10.572+02:00 CEST"
+  },
+  {
+   "step": 0,
+   "source": "screen",
+   "field": "before restore (title screen displaced by n): text screen 80x25, chars+attributes (4000 bytes), sha256",
+   "value": "cd7f15fbf853b40471d05bad51cb6e6c14cbc8a7307893dba8f5f36c2315c612"
+  },
+  {
+   "step": 0,
+   "source": "ui-text",
+   "field": "before restore (title screen displaced by n): text screen rows 0-24, CP437 decoded, trailing blanks trimmed",
+   "value": " (c) NE'93│ │                                                    │     (c)\n ┌─┐┌─┐┌─┐│ │                                                    │     new\n │ ││ ││ ││ │                                                    │     era\n └─┤└─┘└─┤│ │                                                    │   software\n───┘ v.2    │                                                    │     1993\n────────────┘                                                    └──────────────\n\n\n\n\n\n\n────────────────────────────────────────────────────────────────────────────────\n                   THE international soccer management game\n────────────────────────────────────────────────────────────────────────────────\n\n────────────────────────────────────────────────────────────────────────────────\n                    design and coding : Mantra and L.B.\n────────────────────────────────────────────────────────────────────────────────\n     testing and feedback : Celtic Ray, Mr Scott, Big Mac and Carl Wilky\n────────────────────────────────────────────────────────────────────────────────\n               distribution : Silverwitch and Tom de Notre Dame\n────────────────────────────────────────────────────────────────────────────────\n\n■■■■■■■■■■■■■■■■■■■ Do you want to load a saved game? (Y/N) ■■■■■■■■■■■■■■■■■■■■"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x449",
+   "field": "before restore (title screen displaced by n): 1 byte at 0040:0049 (BIOS video mode), guest memory from the savestate, hex",
+   "value": "03"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x46c",
+   "field": "before restore (title screen displaced by n): 4 bytes at 0040:006C (BIOS timer tick count), guest memory from the savestate, as a little-endian dword (bytes in memory order)",
+   "value": "0x000e49ac (ac 49 0e 00)"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x355a2",
+   "field": "before restore (title screen displaced by n): word at DS:7B62 of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+   "value": "0x0000 (00 00)"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x355a4",
+   "field": "before restore (title screen displaced by n): word at DS:7B64 of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+   "value": "0x0000 (00 00)"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x35d76",
+   "field": "before restore (title screen displaced by n): word at DS:8336 of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+   "value": "0x49ab (ab 49)"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x3843d",
+   "field": "before restore (title screen displaced by n): word at DS:A9FD of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+   "value": "0x07ea (ea 07)"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "field": "before restore (title screen displaced by n): score bytes DS:9B3C, DS:9B3D (engine teams 0 and 1)",
+   "value": "0 0"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "field": "before restore (title screen displaced by n): match delay byte at the far pointer DS:A923 + 0x3F (0 fastest)",
+   "value": "0"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x8120",
+   "field": "GOAL.EXE located: its MCB (owner = the next segment, name GOAL), PSP, load segment and data segment",
+   "value": "MCB at segment 0812 (owner 0813, name GOAL), PSP 0813, load segment 0823 = PSP + 10h, DS 2DA4 = load + 2581h, linear base 0x2DA40"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x2da64",
+   "field": "8 bytes at DS:0024, hex (static/goal-exe/data/ds_2581_01.hex has 07 54 52 59 20 4f 55 54)",
+   "value": "07 54 52 59 20 4f 55 54"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x2db00",
+   "field": "6 bytes at DS:00C0, hex (static/goal-exe/data/ds_2581_01.hex has 6f 6e 20 66 6f 72)",
+   "value": "6f 6e 20 66 6f 72"
+  },
+  {
+   "step": 0,
+   "source": "log",
+   "field": "restored: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:17:11.614Z"
+  },
+  {
+   "step": 0,
+   "source": "log",
+   "field": "restored: host local time with UTC offset, and zone name, at the same instant",
+   "value": "2026-10-04T14:17:11.614+02:00 CEST"
+  },
+  {
+   "step": 0,
+   "source": "screen",
+   "field": "restored: text screen 80x25, chars+attributes (4000 bytes), sha256",
+   "value": "aa572cf7fca9442f0df10a36a08f5a8f41057e833895ab1ac8c5df0e91bf2000"
+  },
+  {
+   "step": 0,
+   "source": "ui-text",
+   "field": "restored: text screen rows 0-24, CP437 decoded, trailing blanks trimmed",
+   "value": " (c) NE'93│ ┌───────────────┬──┬FRIENDLY───────────────────────────┐┌───┐ ┌───┐\n ┌─┐┌─┐┌─┐│ │DENMARK--------│ 0│                                   ││   │ │   │\n │ ││ ││ ││ ├versus─────────┼──┤                                   │├───┤ ├───┤\n └─┤└─┘└─┤│ │WALES----------│ 0│                                   ││   │ │   │\n───┘ v.2    └───────────────┴──┴───────────────────────────────────┘└───┘ └───┘\n\n┌name──────────┬age┬caps┬goals┬height─┬bias──────┬performance┐ ┌────────────┬─┐\n│T Piechnik    │ 28│   0│    0│ 6' 0\" │right foot│           │ │P Schmeichel│G│\n├position──────┴───┼club┴position─────┼cards┬────┴─┴─┴─┴─┴─┴─┤ │L Olsen     │S│\n│centre back       │centre back       │     │        selected│ │T Piechnik  │C│\n├skills───┬────┬───┴┬────┬────┬────┬┬─┴─────┴─────────tactics┤ │K Christofte│C│\n├keeping──■■■■■■■■■■■■■■■■■■■■■■■■■■┼position─────stay back P┤ │H Andersen  │B│\n├kicking──■■■■■■■■■■■■■■■■■■■■■■■■■■┼possession──quick pass P┤ │J Sivebaek  │B│\n├tackling─■■■■■■■■■■■■■■■■■■■■■■■■■■┼passing─────short passes┤ │K Vilfort   │D│\n├heading──■■■■■■■■■■■■■■■■■■■■■■■■■■┼tackling──avoid injury P┤ │H Larsen    │M│\n├marking──■■■■■■■■■■■■■■■■■■■■■■■■■■┼mark─I Rush─────────────┤ │J Jensen    │M│\n├passing──■■■■■■■■■■■■■■■■■■■■■■■■■■┤     striker            │ │B Laudrup   │F│\n├crossing─■■■■■■■■■■■■■■■■■■■■■■■■■■┼─────────characteristics┤ │F Povlsen   │$│\n├feinting─■■■■■■■■■■■■■■■■■■■■■■■■■■┼hardness──wimpy■■■■■■■■■┤ └────────────┴─┘\n├control──■■■■■■■■■■■■■■■■■■■■■■■■■■┼fitness───total■■■■■■■■■┤   use ↑↓ to move\n├dribbling■■■■■■■■■■■■■■■■■■■■■■■■■■┼energy────hyperactive■■■┤\n├shooting─■■■■■■■■■■■■■■■■■■■■■■■■■■┼morale────very confident┤ ╔═══════════════╗\n├penalties■■■■■■■■■■■■■■■■■■■■■■■■■■┼leadershipcaptain■■■■■■■┤ ║Denmark--------║\n└─────────┴────┴────┴────┴────┴────┴┴──────────┴────┴────┴───┘ ╚═══════════════╝\n◄┘-select  CAPTAIN                                         C-computer select"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x449",
+   "field": "restored: 1 byte at 0040:0049 (BIOS video mode), guest memory from the savestate, hex",
+   "value": "03"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x46c",
+   "field": "restored: 4 bytes at 0040:006C (BIOS timer tick count), guest memory from the savestate, as a little-endian dword (bytes in memory order)",
+   "value": "0x000a0a06 (06 0a 0a 00)"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x355a2",
+   "field": "restored: word at DS:7B62 of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+   "value": "0x6d08 (08 6d)"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x355a4",
+   "field": "restored: word at DS:7B64 of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+   "value": "0x075f (5f 07)"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x35d76",
+   "field": "restored: word at DS:8336 of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+   "value": "0x08d7 (d7 08)"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x3843d",
+   "field": "restored: word at DS:A9FD of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+   "value": "0x07ea (ea 07)"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "field": "restored: score bytes DS:9B3C, DS:9B3D (engine teams 0 and 1)",
+   "value": "0 0"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "field": "restored: match delay byte at the far pointer DS:A923 + 0x3F (0 fastest)",
+   "value": "1"
+  },
+  {
+   "step": 0,
+   "source": "file",
+   "field": "DOSBox-X config of the session, host paths replaced by <work> and <game>",
+   "value": "[sdl]\nfullscreen=false\noutput=surface\nmapperfile=<work>/mapper.map\n[mixer]\nnosound=true\n[midi]\nmididevice=none\n[dosbox]\nmachine=svga_s3\nmemsize=16\nsaveremark=false\ncaptures=<work>/cap\n[cpu]\ncore=auto\ncputype=auto\ncycles=30000\n[autoexec]\nmount c <game>\nc:\nmount d <work>/dosclock\ndate /t > d:\\clock.txt\ntime /t >> d:\\clock.txt\nc:\ngoal\nexit\n"
+  },
+  {
+   "step": 0,
+   "source": "file",
+   "field": "sha256 of that config text (UTF-8)",
+   "value": "083897d321ed9fe50ca93bbf03ff45765c03c0f2a6e5e5df57aede499ebdc147"
+  },
+  {
+   "step": 0,
+   "source": "log",
+   "field": "batch label given on the command line",
+   "value": "p1"
+  },
+  {
+   "step": 1,
+   "source": "log",
+   "field": "match read 1: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:17:12.844Z"
+  },
+  {
+   "step": 1,
+   "source": "screen",
+   "field": "match read 1: text screen 80x25, chars+attributes, sha256",
+   "value": "300d7aaa768d7932dbe5f374b1ca72705d1cdd72de8ac5be9630edd9d243dcee"
+  },
+  {
+   "step": 1,
+   "source": "ui-text",
+   "field": "match read 1: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│good ball for Povlsen / ┤Povlsen on the ball / │Povlsen makes a run"
+  },
+  {
+   "step": 1,
+   "source": "memory",
+   "field": "match read 1: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0039 0x12d4 0 0"
+  },
+  {
+   "step": 2,
+   "source": "log",
+   "field": "match read 2: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:17:13.390Z"
+  },
+  {
+   "step": 2,
+   "source": "screen",
+   "field": "match read 2: text screen 80x25, chars+attributes, sha256",
+   "value": "2160a7305d90ed88ab66710e88d1c69679188e07e62a62d4d1b23f7b33a299aa"
+  },
+  {
+   "step": 2,
+   "source": "ui-text",
+   "field": "match read 2: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│Andersen makes a run / ┤tackle by Ratcliffe / │Ratcliffe wins the ball"
+  },
+  {
+   "step": 2,
+   "source": "memory",
+   "field": "match read 2: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x006a 0xeb6f 0 0"
+  },
+  {
+   "step": 3,
+   "source": "log",
+   "field": "match read 3: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:17:13.932Z"
+  },
+  {
+   "step": 3,
+   "source": "screen",
+   "field": "match read 3: text screen 80x25, chars+attributes, sha256",
+   "value": "198eb2380e4614c52af0d7e14c1cde62f63973c27b7d2d4debadb28d238c73b5"
+  },
+  {
+   "step": 3,
+   "source": "ui-text",
+   "field": "match read 3: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│high ball towards Rush / ┤Sivebaek intercepts / │high ball towards Povlsen"
+  },
+  {
+   "step": 3,
+   "source": "memory",
+   "field": "match read 3: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0088 0xba83 0 0"
+  },
+  {
+   "step": 4,
+   "source": "log",
+   "field": "match read 4: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:17:14.471Z"
+  },
+  {
+   "step": 4,
+   "source": "screen",
+   "field": "match read 4: text screen 80x25, chars+attributes, sha256",
+   "value": "19ecb9c66a94e484658ad3819aa746d4d7542a8846e7b50554af8559b3ce03c2"
+  },
+  {
+   "step": 4,
+   "source": "ui-text",
+   "field": "match read 4: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│dodged by Nicholas / ┤good ball for Rush / │Rush on the ball"
+  },
+  {
+   "step": 4,
+   "source": "memory",
+   "field": "match read 4: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x00b4 0xbc65 0 0"
+  },
+  {
+   "step": 5,
+   "source": "log",
+   "field": "match read 5: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:17:15.014Z"
+  },
+  {
+   "step": 5,
+   "source": "screen",
+   "field": "match read 5: text screen 80x25, chars+attributes, sha256",
+   "value": "14d123f99c74e472ac5e0f5b3cc6154a66b617f285f1b9642de756d23033a746"
+  },
+  {
+   "step": 5,
+   "source": "ui-text",
+   "field": "match read 5: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│good ball for Povlsen / ┤Southall beaten / │**** GOAL **** by Povlsen"
+  },
+  {
+   "step": 5,
+   "source": "memory",
+   "field": "match read 5: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0002 0x2a65 0 1"
+  },
+  {
+   "step": 6,
+   "source": "log",
+   "field": "match read 6: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:17:15.549Z"
+  },
+  {
+   "step": 6,
+   "source": "screen",
+   "field": "match read 6: text screen 80x25, chars+attributes, sha256",
+   "value": "14d123f99c74e472ac5e0f5b3cc6154a66b617f285f1b9642de756d23033a746"
+  },
+  {
+   "step": 6,
+   "source": "ui-text",
+   "field": "match read 6: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│good ball for Povlsen / ┤Southall beaten / │**** GOAL **** by Povlsen"
+  },
+  {
+   "step": 6,
+   "source": "memory",
+   "field": "match read 6: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0002 0x2a65 0 1"
+  },
+  {
+   "step": 7,
+   "source": "log",
+   "field": "match read 7: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:17:16.089Z"
+  },
+  {
+   "step": 7,
+   "source": "screen",
+   "field": "match read 7: text screen 80x25, chars+attributes, sha256",
+   "value": "14d123f99c74e472ac5e0f5b3cc6154a66b617f285f1b9642de756d23033a746"
+  },
+  {
+   "step": 7,
+   "source": "ui-text",
+   "field": "match read 7: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│good ball for Povlsen / ┤Southall beaten / │**** GOAL **** by Povlsen"
+  },
+  {
+   "step": 7,
+   "source": "memory",
+   "field": "match read 7: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0002 0x2a65 0 1"
+  },
+  {
+   "step": 8,
+   "source": "log",
+   "field": "match read 8: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:17:16.628Z"
+  },
+  {
+   "step": 8,
+   "source": "screen",
+   "field": "match read 8: text screen 80x25, chars+attributes, sha256",
+   "value": "14d123f99c74e472ac5e0f5b3cc6154a66b617f285f1b9642de756d23033a746"
+  },
+  {
+   "step": 8,
+   "source": "ui-text",
+   "field": "match read 8: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│good ball for Povlsen / ┤Southall beaten / │**** GOAL **** by Povlsen"
+  },
+  {
+   "step": 8,
+   "source": "memory",
+   "field": "match read 8: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0002 0x2a65 0 1"
+  },
+  {
+   "step": 9,
+   "source": "log",
+   "field": "match read 9: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:17:17.165Z"
+  },
+  {
+   "step": 9,
+   "source": "screen",
+   "field": "match read 9: text screen 80x25, chars+attributes, sha256",
+   "value": "14d123f99c74e472ac5e0f5b3cc6154a66b617f285f1b9642de756d23033a746"
+  },
+  {
+   "step": 9,
+   "source": "ui-text",
+   "field": "match read 9: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│good ball for Povlsen / ┤Southall beaten / │**** GOAL **** by Povlsen"
+  },
+  {
+   "step": 9,
+   "source": "memory",
+   "field": "match read 9: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0002 0x2a65 0 1"
+  },
+  {
+   "step": 10,
+   "source": "log",
+   "field": "match read 10: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:17:17.703Z"
+  },
+  {
+   "step": 10,
+   "source": "screen",
+   "field": "match read 10: text screen 80x25, chars+attributes, sha256",
+   "value": "14d123f99c74e472ac5e0f5b3cc6154a66b617f285f1b9642de756d23033a746"
+  },
+  {
+   "step": 10,
+   "source": "ui-text",
+   "field": "match read 10: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│good ball for Povlsen / ┤Southall beaten / │**** GOAL **** by Povlsen"
+  },
+  {
+   "step": 10,
+   "source": "memory",
+   "field": "match read 10: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0002 0x2a65 0 1"
+  },
+  {
+   "step": 11,
+   "source": "log",
+   "field": "match read 11: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:17:18.245Z"
+  },
+  {
+   "step": 11,
+   "source": "screen",
+   "field": "match read 11: text screen 80x25, chars+attributes, sha256",
+   "value": "14d123f99c74e472ac5e0f5b3cc6154a66b617f285f1b9642de756d23033a746"
+  },
+  {
+   "step": 11,
+   "source": "ui-text",
+   "field": "match read 11: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│good ball for Povlsen / ┤Southall beaten / │**** GOAL **** by Povlsen"
+  },
+  {
+   "step": 11,
+   "source": "memory",
+   "field": "match read 11: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0002 0x2a65 0 1"
+  },
+  {
+   "step": 12,
+   "source": "log",
+   "field": "match read 12: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:17:18.783Z"
+  },
+  {
+   "step": 12,
+   "source": "screen",
+   "field": "match read 12: text screen 80x25, chars+attributes, sha256",
+   "value": "14d123f99c74e472ac5e0f5b3cc6154a66b617f285f1b9642de756d23033a746"
+  },
+  {
+   "step": 12,
+   "source": "ui-text",
+   "field": "match read 12: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│good ball for Povlsen / ┤Southall beaten / │**** GOAL **** by Povlsen"
+  },
+  {
+   "step": 12,
+   "source": "memory",
+   "field": "match read 12: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0002 0x2a65 0 1"
+  },
+  {
+   "step": 13,
+   "source": "log",
+   "field": "match read 13: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:17:19.323Z"
+  },
+  {
+   "step": 13,
+   "source": "screen",
+   "field": "match read 13: text screen 80x25, chars+attributes, sha256",
+   "value": "14d123f99c74e472ac5e0f5b3cc6154a66b617f285f1b9642de756d23033a746"
+  },
+  {
+   "step": 13,
+   "source": "ui-text",
+   "field": "match read 13: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│good ball for Povlsen / ┤Southall beaten / │**** GOAL **** by Povlsen"
+  },
+  {
+   "step": 13,
+   "source": "memory",
+   "field": "match read 13: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0002 0x2a65 0 1"
+  },
+  {
+   "step": 14,
+   "source": "log",
+   "field": "match read 14: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:17:19.879Z"
+  },
+  {
+   "step": 14,
+   "source": "screen",
+   "field": "match read 14: text screen 80x25, chars+attributes, sha256",
+   "value": "14d123f99c74e472ac5e0f5b3cc6154a66b617f285f1b9642de756d23033a746"
+  },
+  {
+   "step": 14,
+   "source": "ui-text",
+   "field": "match read 14: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│good ball for Povlsen / ┤Southall beaten / │**** GOAL **** by Povlsen"
+  },
+  {
+   "step": 14,
+   "source": "memory",
+   "field": "match read 14: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0002 0x2a65 0 1"
+  },
+  {
+   "step": 15,
+   "source": "log",
+   "field": "match read 15: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:17:20.435Z"
+  },
+  {
+   "step": 15,
+   "source": "screen",
+   "field": "match read 15: text screen 80x25, chars+attributes, sha256",
+   "value": "14d123f99c74e472ac5e0f5b3cc6154a66b617f285f1b9642de756d23033a746"
+  },
+  {
+   "step": 15,
+   "source": "ui-text",
+   "field": "match read 15: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│good ball for Povlsen / ┤Southall beaten / │**** GOAL **** by Povlsen"
+  },
+  {
+   "step": 15,
+   "source": "memory",
+   "field": "match read 15: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0002 0x2a65 0 1"
+  },
+  {
+   "step": 16,
+   "source": "log",
+   "field": "match read 16: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:17:20.989Z"
+  },
+  {
+   "step": 16,
+   "source": "screen",
+   "field": "match read 16: text screen 80x25, chars+attributes, sha256",
+   "value": "14d123f99c74e472ac5e0f5b3cc6154a66b617f285f1b9642de756d23033a746"
+  },
+  {
+   "step": 16,
+   "source": "ui-text",
+   "field": "match read 16: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│good ball for Povlsen / ┤Southall beaten / │**** GOAL **** by Povlsen"
+  },
+  {
+   "step": 16,
+   "source": "memory",
+   "field": "match read 16: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0002 0x2a65 0 1"
+  },
+  {
+   "step": 17,
+   "source": "log",
+   "field": "match read 17: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:17:21.529Z"
+  },
+  {
+   "step": 17,
+   "source": "screen",
+   "field": "match read 17: text screen 80x25, chars+attributes, sha256",
+   "value": "14d123f99c74e472ac5e0f5b3cc6154a66b617f285f1b9642de756d23033a746"
+  },
+  {
+   "step": 17,
+   "source": "ui-text",
+   "field": "match read 17: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│good ball for Povlsen / ┤Southall beaten / │**** GOAL **** by Povlsen"
+  },
+  {
+   "step": 17,
+   "source": "memory",
+   "field": "match read 17: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0002 0x2a65 0 1"
+  },
+  {
+   "step": 18,
+   "source": "log",
+   "field": "match read 18: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:17:22.071Z"
+  },
+  {
+   "step": 18,
+   "source": "screen",
+   "field": "match read 18: text screen 80x25, chars+attributes, sha256",
+   "value": "14d123f99c74e472ac5e0f5b3cc6154a66b617f285f1b9642de756d23033a746"
+  },
+  {
+   "step": 18,
+   "source": "ui-text",
+   "field": "match read 18: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│good ball for Povlsen / ┤Southall beaten / │**** GOAL **** by Povlsen"
+  },
+  {
+   "step": 18,
+   "source": "memory",
+   "field": "match read 18: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0002 0x2a65 0 1"
+  },
+  {
+   "step": 19,
+   "source": "log",
+   "field": "match read 19: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:17:22.610Z"
+  },
+  {
+   "step": 19,
+   "source": "screen",
+   "field": "match read 19: text screen 80x25, chars+attributes, sha256",
+   "value": "14d123f99c74e472ac5e0f5b3cc6154a66b617f285f1b9642de756d23033a746"
+  },
+  {
+   "step": 19,
+   "source": "ui-text",
+   "field": "match read 19: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│good ball for Povlsen / ┤Southall beaten / │**** GOAL **** by Povlsen"
+  },
+  {
+   "step": 19,
+   "source": "memory",
+   "field": "match read 19: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0002 0x2a65 0 1"
+  },
+  {
+   "step": 20,
+   "source": "log",
+   "field": "match read 20: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:17:23.149Z"
+  },
+  {
+   "step": 20,
+   "source": "screen",
+   "field": "match read 20: text screen 80x25, chars+attributes, sha256",
+   "value": "14d123f99c74e472ac5e0f5b3cc6154a66b617f285f1b9642de756d23033a746"
+  },
+  {
+   "step": 20,
+   "source": "ui-text",
+   "field": "match read 20: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│good ball for Povlsen / ┤Southall beaten / │**** GOAL **** by Povlsen"
+  },
+  {
+   "step": 20,
+   "source": "memory",
+   "field": "match read 20: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0002 0x2a65 0 1"
+  },
+  {
+   "step": 21,
+   "source": "log",
+   "field": "match read 21: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:17:23.685Z"
+  },
+  {
+   "step": 21,
+   "source": "screen",
+   "field": "match read 21: text screen 80x25, chars+attributes, sha256",
+   "value": "8116d615f01ac58d5b02a73638e167e12a77c59f5cbda653eff60919fff0cecb"
+  },
+  {
+   "step": 21,
+   "source": "ui-text",
+   "field": "match read 21: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│tackle by Olsen / ┤Olsen wins the ball / │knocked on by Olsen"
+  },
+  {
+   "step": 21,
+   "source": "memory",
+   "field": "match read 21: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0027 0x3ded 0 1"
+  },
+  {
+   "step": 22,
+   "source": "log",
+   "field": "match read 22: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:17:24.226Z"
+  },
+  {
+   "step": 22,
+   "source": "screen",
+   "field": "match read 22: text screen 80x25, chars+attributes, sha256",
+   "value": "f06c673da349569b4520acbc4f842e3b12ba1c30042f418e1d974d4b662a42b0"
+  },
+  {
+   "step": 22,
+   "source": "ui-text",
+   "field": "match read 22: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│Rush throws the ball / ┤Nicholas on the ball / │pass by Nicholas"
+  },
+  {
+   "step": 22,
+   "source": "memory",
+   "field": "match read 22: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x005a 0xd462 0 1"
+  },
+  {
+   "step": 23,
+   "source": "log",
+   "field": "match read 23: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:17:24.770Z"
+  },
+  {
+   "step": 23,
+   "source": "screen",
+   "field": "match read 23: text screen 80x25, chars+attributes, sha256",
+   "value": "8a14f48d990139c0c2d0f1d440b6b7388fd3e4fa0bff385779e7bd66ee3458e5"
+  },
+  {
+   "step": 23,
+   "source": "ui-text",
+   "field": "match read 23: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│Christofte intercepts / ┤Christofte makes a pass / │*** THROW IN ***"
+  },
+  {
+   "step": 23,
+   "source": "memory",
+   "field": "match read 23: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0087 0x398a 0 1"
+  },
+  {
+   "step": 24,
+   "source": "log",
+   "field": "match read 24: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:17:25.315Z"
+  },
+  {
+   "step": 24,
+   "source": "screen",
+   "field": "match read 24: text screen 80x25, chars+attributes, sha256",
+   "value": "f5b111e848f7c2a9aa3ca97950959d2d853f6c371ad587c4c8af0d88364d4c01"
+  },
+  {
+   "step": 24,
+   "source": "ui-text",
+   "field": "match read 24: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│punted away by Povlsen / ┤Pembridge intercepts / │Pembridge makes a run"
+  },
+  {
+   "step": 24,
+   "source": "memory",
+   "field": "match read 24: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x00ad 0xc7ee 0 1"
+  },
+  {
+   "step": 25,
+   "source": "log",
+   "field": "match read 25: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:17:25.864Z"
+  },
+  {
+   "step": 25,
+   "source": "screen",
+   "field": "match read 25: text screen 80x25, chars+attributes, sha256",
+   "value": "c59c299ad855ce36ca871f2aeedba594800501ae728439e02a97691e888ad66f"
+  },
+  {
+   "step": 25,
+   "source": "ui-text",
+   "field": "match read 25: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│good ball for Laudrup / ┤Laudrup on the ball / │good ball for Olsen"
+  },
+  {
+   "step": 25,
+   "source": "memory",
+   "field": "match read 25: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0013 0xffbc 0 1"
+  },
+  {
+   "step": 26,
+   "source": "log",
+   "field": "match read 26: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:17:26.401Z"
+  },
+  {
+   "step": 26,
+   "source": "screen",
+   "field": "match read 26: text screen 80x25, chars+attributes, sha256",
+   "value": "31b1d5e9a5546fea6ac7aeeec69bc00dc7fc8c95830b38964f81bc9fcfaca620"
+  },
+  {
+   "step": 26,
+   "source": "ui-text",
+   "field": "match read 26: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│good ball for Piechnik / ┤Piechnik on the ball / │good ball for Olsen"
+  },
+  {
+   "step": 26,
+   "source": "memory",
+   "field": "match read 26: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0041 0x2303 0 1"
+  },
+  {
+   "step": 27,
+   "source": "log",
+   "field": "match read 27: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:17:26.942Z"
+  },
+  {
+   "step": 27,
+   "source": "screen",
+   "field": "match read 27: text screen 80x25, chars+attributes, sha256",
+   "value": "dbea0f8941686f1b4a813e23eb834db4a76e15a8a70bebbda1d1c27dba298e52"
+  },
+  {
+   "step": 27,
+   "source": "ui-text",
+   "field": "match read 27: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│Andersen wins the ball / ┤Andersen makes a run / │---- HALF TIME ----"
+  },
+  {
+   "step": 27,
+   "source": "memory",
+   "field": "match read 27: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x005f 0x25be 0 1"
+  },
+  {
+   "step": 28,
+   "source": "log",
+   "field": "match read 28: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:17:27.503Z"
+  },
+  {
+   "step": 28,
+   "source": "screen",
+   "field": "match read 28: text screen 80x25, chars+attributes, sha256",
+   "value": "dbea0f8941686f1b4a813e23eb834db4a76e15a8a70bebbda1d1c27dba298e52"
+  },
+  {
+   "step": 28,
+   "source": "ui-text",
+   "field": "match read 28: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│Andersen wins the ball / ┤Andersen makes a run / │---- HALF TIME ----"
+  },
+  {
+   "step": 28,
+   "source": "memory",
+   "field": "match read 28: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x005f 0x25be 0 1"
+  },
+  {
+   "step": 29,
+   "source": "log",
+   "field": "match read 29: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:17:28.169Z"
+  },
+  {
+   "step": 29,
+   "source": "screen",
+   "field": "match read 29: text screen 80x25, chars+attributes, sha256",
+   "value": "b72ab479e843c5c3529d0422801e70e18eb21eb9db553c463af650440adb94a8"
+  },
+  {
+   "step": 29,
+   "source": "ui-text",
+   "field": "match read 29: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│Andersen wins the ball / ┤Andersen makes a run / │---- HALF TIME ----"
+  },
+  {
+   "step": 29,
+   "source": "memory",
+   "field": "match read 29: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x005f 0x25be 0 1"
+  },
+  {
+   "step": 30,
+   "source": "log",
+   "field": "match read 30: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:17:28.712Z"
+  },
+  {
+   "step": 30,
+   "source": "screen",
+   "field": "match read 30: text screen 80x25, chars+attributes, sha256",
+   "value": "b72ab479e843c5c3529d0422801e70e18eb21eb9db553c463af650440adb94a8"
+  },
+  {
+   "step": 30,
+   "source": "ui-text",
+   "field": "match read 30: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│Andersen wins the ball / ┤Andersen makes a run / │---- HALF TIME ----"
+  },
+  {
+   "step": 30,
+   "source": "memory",
+   "field": "match read 30: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x005f 0x25be 0 1"
+  },
+  {
+   "step": 31,
+   "source": "log",
+   "field": "match read 31: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:17:29.374Z"
+  },
+  {
+   "step": 31,
+   "source": "screen",
+   "field": "match read 31: text screen 80x25, chars+attributes, sha256",
+   "value": "e63cd7ca6de4dcff3b936e5aee830a6822e26ccfe78c8a43def1abe3961907b5"
+  },
+  {
+   "step": 31,
+   "source": "ui-text",
+   "field": "match read 31: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│Andersen wins the ball / ┤pass by Andersen / │Larsen collects"
+  },
+  {
+   "step": 31,
+   "source": "memory",
+   "field": "match read 31: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x007b 0x43cc 0 1"
+  },
+  {
+   "step": 32,
+   "source": "log",
+   "field": "match read 32: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:17:29.932Z"
+  },
+  {
+   "step": 32,
+   "source": "screen",
+   "field": "match read 32: text screen 80x25, chars+attributes, sha256",
+   "value": "2e9d81a9509d3d31aa34b2dc7636a1f38a28b542764490ff7ffc125a1325f246"
+  },
+  {
+   "step": 32,
+   "source": "ui-text",
+   "field": "match read 32: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│pass by Povlsen / ┤Laudrup collects / │good ball for Povlsen"
+  },
+  {
+   "step": 32,
+   "source": "memory",
+   "field": "match read 32: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x009f 0xa57d 0 1"
+  },
+  {
+   "step": 33,
+   "source": "log",
+   "field": "match read 33: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:17:30.469Z"
+  },
+  {
+   "step": 33,
+   "source": "screen",
+   "field": "match read 33: text screen 80x25, chars+attributes, sha256",
+   "value": "42aacc0272905af4c4704707f5d40d94f77050cea98d7123ee6f3ba3792c074a"
+  },
+  {
+   "step": 33,
+   "source": "ui-text",
+   "field": "match read 33: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│Povlsen wins the ball / ┤Povlsen makes a run / │tackle by Young"
+  },
+  {
+   "step": 33,
+   "source": "memory",
+   "field": "match read 33: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x00c2 0x6b21 0 1"
+  },
+  {
+   "step": 34,
+   "source": "log",
+   "field": "match read 34: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:17:31.014Z"
+  },
+  {
+   "step": 34,
+   "source": "screen",
+   "field": "match read 34: text screen 80x25, chars+attributes, sha256",
+   "value": "94c980e9499a953fd52740264da4915d0dc6c419ea8defc9f97165125787c525"
+  },
+  {
+   "step": 34,
+   "source": "ui-text",
+   "field": "match read 34: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│deflected by Jensen / ┤Young intercepts / │high ball towards Blackmore"
+  },
+  {
+   "step": 34,
+   "source": "memory",
+   "field": "match read 34: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0029 0xab12 0 1"
+  },
+  {
+   "step": 35,
+   "source": "log",
+   "field": "match read 35: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:17:31.565Z"
+  },
+  {
+   "step": 35,
+   "source": "screen",
+   "field": "match read 35: text screen 80x25, chars+attributes, sha256",
+   "value": "676390157edf606c8e445107d18b10b61cacb699515d82e2e0b72bb2ae18c9c5"
+  },
+  {
+   "step": 35,
+   "source": "ui-text",
+   "field": "match read 35: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│shot from Laudrup / ┤Southall beaten / │**** GOAL **** by Laudrup"
+  },
+  {
+   "step": 35,
+   "source": "memory",
+   "field": "match read 35: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0033 0x2fd9 0 2"
+  },
+  {
+   "step": 36,
+   "source": "log",
+   "field": "match read 36: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:17:32.122Z"
+  },
+  {
+   "step": 36,
+   "source": "screen",
+   "field": "match read 36: text screen 80x25, chars+attributes, sha256",
+   "value": "676390157edf606c8e445107d18b10b61cacb699515d82e2e0b72bb2ae18c9c5"
+  },
+  {
+   "step": 36,
+   "source": "ui-text",
+   "field": "match read 36: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│shot from Laudrup / ┤Southall beaten / │**** GOAL **** by Laudrup"
+  },
+  {
+   "step": 36,
+   "source": "memory",
+   "field": "match read 36: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0033 0x2fd9 0 2"
+  },
+  {
+   "step": 37,
+   "source": "log",
+   "field": "match read 37: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:17:32.703Z"
+  },
+  {
+   "step": 37,
+   "source": "screen",
+   "field": "match read 37: text screen 80x25, chars+attributes, sha256",
+   "value": "676390157edf606c8e445107d18b10b61cacb699515d82e2e0b72bb2ae18c9c5"
+  },
+  {
+   "step": 37,
+   "source": "ui-text",
+   "field": "match read 37: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│shot from Laudrup / ┤Southall beaten / │**** GOAL **** by Laudrup"
+  },
+  {
+   "step": 37,
+   "source": "memory",
+   "field": "match read 37: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0033 0x2fd9 0 2"
+  },
+  {
+   "step": 38,
+   "source": "log",
+   "field": "match read 38: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:17:33.248Z"
+  },
+  {
+   "step": 38,
+   "source": "screen",
+   "field": "match read 38: text screen 80x25, chars+attributes, sha256",
+   "value": "676390157edf606c8e445107d18b10b61cacb699515d82e2e0b72bb2ae18c9c5"
+  },
+  {
+   "step": 38,
+   "source": "ui-text",
+   "field": "match read 38: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│shot from Laudrup / ┤Southall beaten / │**** GOAL **** by Laudrup"
+  },
+  {
+   "step": 38,
+   "source": "memory",
+   "field": "match read 38: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0033 0x2fd9 0 2"
+  },
+  {
+   "step": 39,
+   "source": "log",
+   "field": "match read 39: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:17:33.792Z"
+  },
+  {
+   "step": 39,
+   "source": "screen",
+   "field": "match read 39: text screen 80x25, chars+attributes, sha256",
+   "value": "676390157edf606c8e445107d18b10b61cacb699515d82e2e0b72bb2ae18c9c5"
+  },
+  {
+   "step": 39,
+   "source": "ui-text",
+   "field": "match read 39: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│shot from Laudrup / ┤Southall beaten / │**** GOAL **** by Laudrup"
+  },
+  {
+   "step": 39,
+   "source": "memory",
+   "field": "match read 39: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0033 0x2fd9 0 2"
+  },
+  {
+   "step": 40,
+   "source": "log",
+   "field": "match read 40: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:17:34.336Z"
+  },
+  {
+   "step": 40,
+   "source": "screen",
+   "field": "match read 40: text screen 80x25, chars+attributes, sha256",
+   "value": "676390157edf606c8e445107d18b10b61cacb699515d82e2e0b72bb2ae18c9c5"
+  },
+  {
+   "step": 40,
+   "source": "ui-text",
+   "field": "match read 40: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│shot from Laudrup / ┤Southall beaten / │**** GOAL **** by Laudrup"
+  },
+  {
+   "step": 40,
+   "source": "memory",
+   "field": "match read 40: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0033 0x2fd9 0 2"
+  },
+  {
+   "step": 41,
+   "source": "log",
+   "field": "match read 41: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:17:34.878Z"
+  },
+  {
+   "step": 41,
+   "source": "screen",
+   "field": "match read 41: text screen 80x25, chars+attributes, sha256",
+   "value": "676390157edf606c8e445107d18b10b61cacb699515d82e2e0b72bb2ae18c9c5"
+  },
+  {
+   "step": 41,
+   "source": "ui-text",
+   "field": "match read 41: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│shot from Laudrup / ┤Southall beaten / │**** GOAL **** by Laudrup"
+  },
+  {
+   "step": 41,
+   "source": "memory",
+   "field": "match read 41: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0033 0x2fd9 0 2"
+  },
+  {
+   "step": 42,
+   "source": "log",
+   "field": "match read 42: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:17:35.422Z"
+  },
+  {
+   "step": 42,
+   "source": "screen",
+   "field": "match read 42: text screen 80x25, chars+attributes, sha256",
+   "value": "676390157edf606c8e445107d18b10b61cacb699515d82e2e0b72bb2ae18c9c5"
+  },
+  {
+   "step": 42,
+   "source": "ui-text",
+   "field": "match read 42: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│shot from Laudrup / ┤Southall beaten / │**** GOAL **** by Laudrup"
+  },
+  {
+   "step": 42,
+   "source": "memory",
+   "field": "match read 42: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0033 0x2fd9 0 2"
+  },
+  {
+   "step": 43,
+   "source": "log",
+   "field": "match read 43: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:17:35.967Z"
+  },
+  {
+   "step": 43,
+   "source": "screen",
+   "field": "match read 43: text screen 80x25, chars+attributes, sha256",
+   "value": "676390157edf606c8e445107d18b10b61cacb699515d82e2e0b72bb2ae18c9c5"
+  },
+  {
+   "step": 43,
+   "source": "ui-text",
+   "field": "match read 43: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│shot from Laudrup / ┤Southall beaten / │**** GOAL **** by Laudrup"
+  },
+  {
+   "step": 43,
+   "source": "memory",
+   "field": "match read 43: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0033 0x2fd9 0 2"
+  },
+  {
+   "step": 44,
+   "source": "log",
+   "field": "match read 44: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:17:36.509Z"
+  },
+  {
+   "step": 44,
+   "source": "screen",
+   "field": "match read 44: text screen 80x25, chars+attributes, sha256",
+   "value": "676390157edf606c8e445107d18b10b61cacb699515d82e2e0b72bb2ae18c9c5"
+  },
+  {
+   "step": 44,
+   "source": "ui-text",
+   "field": "match read 44: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│shot from Laudrup / ┤Southall beaten / │**** GOAL **** by Laudrup"
+  },
+  {
+   "step": 44,
+   "source": "memory",
+   "field": "match read 44: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0033 0x2fd9 0 2"
+  },
+  {
+   "step": 45,
+   "source": "log",
+   "field": "match read 45: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:17:37.053Z"
+  },
+  {
+   "step": 45,
+   "source": "screen",
+   "field": "match read 45: text screen 80x25, chars+attributes, sha256",
+   "value": "676390157edf606c8e445107d18b10b61cacb699515d82e2e0b72bb2ae18c9c5"
+  },
+  {
+   "step": 45,
+   "source": "ui-text",
+   "field": "match read 45: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│shot from Laudrup / ┤Southall beaten / │**** GOAL **** by Laudrup"
+  },
+  {
+   "step": 45,
+   "source": "memory",
+   "field": "match read 45: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0033 0x2fd9 0 2"
+  },
+  {
+   "step": 46,
+   "source": "log",
+   "field": "match read 46: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:17:37.597Z"
+  },
+  {
+   "step": 46,
+   "source": "screen",
+   "field": "match read 46: text screen 80x25, chars+attributes, sha256",
+   "value": "676390157edf606c8e445107d18b10b61cacb699515d82e2e0b72bb2ae18c9c5"
+  },
+  {
+   "step": 46,
+   "source": "ui-text",
+   "field": "match read 46: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│shot from Laudrup / ┤Southall beaten / │**** GOAL **** by Laudrup"
+  },
+  {
+   "step": 46,
+   "source": "memory",
+   "field": "match read 46: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0033 0x2fd9 0 2"
+  },
+  {
+   "step": 47,
+   "source": "log",
+   "field": "match read 47: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:17:38.139Z"
+  },
+  {
+   "step": 47,
+   "source": "screen",
+   "field": "match read 47: text screen 80x25, chars+attributes, sha256",
+   "value": "676390157edf606c8e445107d18b10b61cacb699515d82e2e0b72bb2ae18c9c5"
+  },
+  {
+   "step": 47,
+   "source": "ui-text",
+   "field": "match read 47: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│shot from Laudrup / ┤Southall beaten / │**** GOAL **** by Laudrup"
+  },
+  {
+   "step": 47,
+   "source": "memory",
+   "field": "match read 47: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0033 0x2fd9 0 2"
+  },
+  {
+   "step": 48,
+   "source": "log",
+   "field": "match read 48: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:17:38.682Z"
+  },
+  {
+   "step": 48,
+   "source": "screen",
+   "field": "match read 48: text screen 80x25, chars+attributes, sha256",
+   "value": "676390157edf606c8e445107d18b10b61cacb699515d82e2e0b72bb2ae18c9c5"
+  },
+  {
+   "step": 48,
+   "source": "ui-text",
+   "field": "match read 48: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│shot from Laudrup / ┤Southall beaten / │**** GOAL **** by Laudrup"
+  },
+  {
+   "step": 48,
+   "source": "memory",
+   "field": "match read 48: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0033 0x2fd9 0 2"
+  },
+  {
+   "step": 49,
+   "source": "log",
+   "field": "match read 49: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:17:39.224Z"
+  },
+  {
+   "step": 49,
+   "source": "screen",
+   "field": "match read 49: text screen 80x25, chars+attributes, sha256",
+   "value": "676390157edf606c8e445107d18b10b61cacb699515d82e2e0b72bb2ae18c9c5"
+  },
+  {
+   "step": 49,
+   "source": "ui-text",
+   "field": "match read 49: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│shot from Laudrup / ┤Southall beaten / │**** GOAL **** by Laudrup"
+  },
+  {
+   "step": 49,
+   "source": "memory",
+   "field": "match read 49: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0033 0x2fd9 0 2"
+  },
+  {
+   "step": 50,
+   "source": "log",
+   "field": "match read 50: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:17:39.771Z"
+  },
+  {
+   "step": 50,
+   "source": "screen",
+   "field": "match read 50: text screen 80x25, chars+attributes, sha256",
+   "value": "676390157edf606c8e445107d18b10b61cacb699515d82e2e0b72bb2ae18c9c5"
+  },
+  {
+   "step": 50,
+   "source": "ui-text",
+   "field": "match read 50: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│shot from Laudrup / ┤Southall beaten / │**** GOAL **** by Laudrup"
+  },
+  {
+   "step": 50,
+   "source": "memory",
+   "field": "match read 50: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0033 0x2fd9 0 2"
+  },
+  {
+   "step": 51,
+   "source": "log",
+   "field": "match read 51: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:17:40.316Z"
+  },
+  {
+   "step": 51,
+   "source": "screen",
+   "field": "match read 51: text screen 80x25, chars+attributes, sha256",
+   "value": "26b243bc4c2d95f7cf1bf22814299d70fc46647f1ee5e119507b8184258f78db"
+  },
+  {
+   "step": 51,
+   "source": "ui-text",
+   "field": "match read 51: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│shot from Laudrup / ┤Southall beaten / │**** GOAL **** by Laudrup"
+  },
+  {
+   "step": 51,
+   "source": "memory",
+   "field": "match read 51: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0033 0x3318 0 2"
+  },
+  {
+   "step": 52,
+   "source": "log",
+   "field": "match read 52: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:17:40.853Z"
+  },
+  {
+   "step": 52,
+   "source": "screen",
+   "field": "match read 52: text screen 80x25, chars+attributes, sha256",
+   "value": "3a1e4ceaf61b132fdf60a585433517a498d889ff7e293ed088d80a8abfdb2539"
+  },
+  {
+   "step": 52,
+   "source": "ui-text",
+   "field": "match read 52: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│shot from Laudrup / ┤Southall beaten / │**** GOAL **** by Laudrup"
+  },
+  {
+   "step": 52,
+   "source": "memory",
+   "field": "match read 52: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0033 0x02f5 0 2"
+  },
+  {
+   "step": 53,
+   "source": "log",
+   "field": "match read 53: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:17:41.388Z"
+  },
+  {
+   "step": 53,
+   "source": "screen",
+   "field": "match read 53: text screen 80x25, chars+attributes, sha256",
+   "value": "3a1e4ceaf61b132fdf60a585433517a498d889ff7e293ed088d80a8abfdb2539"
+  },
+  {
+   "step": 53,
+   "source": "ui-text",
+   "field": "match read 53: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│shot from Laudrup / ┤Southall beaten / │**** GOAL **** by Laudrup"
+  },
+  {
+   "step": 53,
+   "source": "memory",
+   "field": "match read 53: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0033 0x02f5 0 2"
+  },
+  {
+   "step": 54,
+   "source": "log",
+   "field": "match read 54: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:17:41.927Z"
+  },
+  {
+   "step": 54,
+   "source": "screen",
+   "field": "match read 54: text screen 80x25, chars+attributes, sha256",
+   "value": "3a1e4ceaf61b132fdf60a585433517a498d889ff7e293ed088d80a8abfdb2539"
+  },
+  {
+   "step": 54,
+   "source": "ui-text",
+   "field": "match read 54: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│shot from Laudrup / ┤Southall beaten / │**** GOAL **** by Laudrup"
+  },
+  {
+   "step": 54,
+   "source": "memory",
+   "field": "match read 54: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0033 0x02f5 0 2"
+  },
+  {
+   "step": 55,
+   "source": "log",
+   "field": "match read 55: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:17:42.469Z"
+  },
+  {
+   "step": 55,
+   "source": "screen",
+   "field": "match read 55: text screen 80x25, chars+attributes, sha256",
+   "value": "3a1e4ceaf61b132fdf60a585433517a498d889ff7e293ed088d80a8abfdb2539"
+  },
+  {
+   "step": 55,
+   "source": "ui-text",
+   "field": "match read 55: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│shot from Laudrup / ┤Southall beaten / │**** GOAL **** by Laudrup"
+  },
+  {
+   "step": 55,
+   "source": "memory",
+   "field": "match read 55: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0033 0x02f5 0 2"
+  },
+  {
+   "step": 56,
+   "source": "log",
+   "field": "match read 56: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:17:43.013Z"
+  },
+  {
+   "step": 56,
+   "source": "screen",
+   "field": "match read 56: text screen 80x25, chars+attributes, sha256",
+   "value": "3a1e4ceaf61b132fdf60a585433517a498d889ff7e293ed088d80a8abfdb2539"
+  },
+  {
+   "step": 56,
+   "source": "ui-text",
+   "field": "match read 56: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│shot from Laudrup / ┤Southall beaten / │**** GOAL **** by Laudrup"
+  },
+  {
+   "step": 56,
+   "source": "memory",
+   "field": "match read 56: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0033 0x02f5 0 2"
+  },
+  {
+   "step": 57,
+   "source": "log",
+   "field": "match read 57: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:17:43.552Z"
+  },
+  {
+   "step": 57,
+   "source": "screen",
+   "field": "match read 57: text screen 80x25, chars+attributes, sha256",
+   "value": "3a1e4ceaf61b132fdf60a585433517a498d889ff7e293ed088d80a8abfdb2539"
+  },
+  {
+   "step": 57,
+   "source": "ui-text",
+   "field": "match read 57: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│shot from Laudrup / ┤Southall beaten / │**** GOAL **** by Laudrup"
+  },
+  {
+   "step": 57,
+   "source": "memory",
+   "field": "match read 57: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0033 0x02f5 0 2"
+  },
+  {
+   "step": 58,
+   "source": "log",
+   "field": "match read 58: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:17:44.091Z"
+  },
+  {
+   "step": 58,
+   "source": "screen",
+   "field": "match read 58: text screen 80x25, chars+attributes, sha256",
+   "value": "3a1e4ceaf61b132fdf60a585433517a498d889ff7e293ed088d80a8abfdb2539"
+  },
+  {
+   "step": 58,
+   "source": "ui-text",
+   "field": "match read 58: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│shot from Laudrup / ┤Southall beaten / │**** GOAL **** by Laudrup"
+  },
+  {
+   "step": 58,
+   "source": "memory",
+   "field": "match read 58: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0033 0x02f5 0 2"
+  },
+  {
+   "step": 59,
+   "source": "log",
+   "field": "match read 59: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:17:44.629Z"
+  },
+  {
+   "step": 59,
+   "source": "screen",
+   "field": "match read 59: text screen 80x25, chars+attributes, sha256",
+   "value": "38bb4ff7e7b02c1152ad6e17da3164586e9fd982bbbc35cf210e0497adf1100a"
+  },
+  {
+   "step": 59,
+   "source": "ui-text",
+   "field": "match read 59: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│Southall beaten / ┤**** GOAL **** by Laudrup / │Phillips on for Blackmore"
+  },
+  {
+   "step": 59,
+   "source": "memory",
+   "field": "match read 59: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0034 0x02f5 0 2"
+  },
+  {
+   "step": 60,
+   "source": "log",
+   "field": "match read 60: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:17:45.169Z"
+  },
+  {
+   "step": 60,
+   "source": "screen",
+   "field": "match read 60: text screen 80x25, chars+attributes, sha256",
+   "value": "0c5773d2c55235d29371f89b895da06d87baf871abb507d0b12164e37c445951"
+  },
+  {
+   "step": 60,
+   "source": "ui-text",
+   "field": "match read 60: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│*** FREE KICK *** / ┤Sivebaek to take free kick / │Sivebaek makes a pass"
+  },
+  {
+   "step": 60,
+   "source": "memory",
+   "field": "match read 60: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x005b 0x8b84 0 2"
+  },
+  {
+   "step": 61,
+   "source": "log",
+   "field": "match read 61: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:17:45.705Z"
+  },
+  {
+   "step": 61,
+   "source": "screen",
+   "field": "match read 61: text screen 80x25, chars+attributes, sha256",
+   "value": "f4a94fce2c1f74c64f12bdc566b9d2a769d0c3347995962be6118ebb3ed8e52e"
+  },
+  {
+   "step": 61,
+   "source": "ui-text",
+   "field": "match read 61: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│Speed wins the ball / ┤knocked on by Speed / │Ratcliffe collects"
+  },
+  {
+   "step": 61,
+   "source": "memory",
+   "field": "match read 61: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0082 0xb29e 0 2"
+  },
+  {
+   "step": 62,
+   "source": "log",
+   "field": "match read 62: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:17:46.253Z"
+  },
+  {
+   "step": 62,
+   "source": "screen",
+   "field": "match read 62: text screen 80x25, chars+attributes, sha256",
+   "value": "e41ac9dc8c452b3424cf6c3e3f57a274bf9774631be6e7dc2aca130e1d936d02"
+  },
+  {
+   "step": 62,
+   "source": "ui-text",
+   "field": "match read 62: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│Bodin is brought down / ┤FOUL by Jensen / │Bodin INJURED"
+  },
+  {
+   "step": 62,
+   "source": "memory",
+   "field": "match read 62: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x009e 0xe87b 0 2"
+  },
+  {
+   "step": 63,
+   "source": "log",
+   "field": "match read 63: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:17:46.790Z"
+  },
+  {
+   "step": 63,
+   "source": "screen",
+   "field": "match read 63: text screen 80x25, chars+attributes, sha256",
+   "value": "fe5a36ae3fc00354054e1e74e543ae67d5eb769099548103d20fc34152aa072c"
+  },
+  {
+   "step": 63,
+   "source": "ui-text",
+   "field": "match read 63: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│Bodin is brought down / ┤FOUL by Jensen / │Bodin INJURED"
+  },
+  {
+   "step": 63,
+   "source": "memory",
+   "field": "match read 63: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x009e 0xb543 0 2"
+  },
+  {
+   "step": 64,
+   "source": "log",
+   "field": "match read 64: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:17:47.333Z"
+  },
+  {
+   "step": 64,
+   "source": "screen",
+   "field": "match read 64: text screen 80x25, chars+attributes, sha256",
+   "value": "fe5a36ae3fc00354054e1e74e543ae67d5eb769099548103d20fc34152aa072c"
+  },
+  {
+   "step": 64,
+   "source": "ui-text",
+   "field": "match read 64: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│Bodin is brought down / ┤FOUL by Jensen / │Bodin INJURED"
+  },
+  {
+   "step": 64,
+   "source": "memory",
+   "field": "match read 64: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x009e 0xb543 0 2"
+  },
+  {
+   "step": 65,
+   "source": "log",
+   "field": "match read 65: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:17:47.872Z"
+  },
+  {
+   "step": 65,
+   "source": "screen",
+   "field": "match read 65: text screen 80x25, chars+attributes, sha256",
+   "value": "fe5a36ae3fc00354054e1e74e543ae67d5eb769099548103d20fc34152aa072c"
+  },
+  {
+   "step": 65,
+   "source": "ui-text",
+   "field": "match read 65: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│Bodin is brought down / ┤FOUL by Jensen / │Bodin INJURED"
+  },
+  {
+   "step": 65,
+   "source": "memory",
+   "field": "match read 65: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x009e 0xb543 0 2"
+  },
+  {
+   "step": 66,
+   "source": "log",
+   "field": "match read 66: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:17:48.407Z"
+  },
+  {
+   "step": 66,
+   "source": "screen",
+   "field": "match read 66: text screen 80x25, chars+attributes, sha256",
+   "value": "fe5a36ae3fc00354054e1e74e543ae67d5eb769099548103d20fc34152aa072c"
+  },
+  {
+   "step": 66,
+   "source": "ui-text",
+   "field": "match read 66: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│Bodin is brought down / ┤FOUL by Jensen / │Bodin INJURED"
+  },
+  {
+   "step": 66,
+   "source": "memory",
+   "field": "match read 66: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x009e 0xb543 0 2"
+  },
+  {
+   "step": 67,
+   "source": "log",
+   "field": "match read 67: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:17:48.949Z"
+  },
+  {
+   "step": 67,
+   "source": "screen",
+   "field": "match read 67: text screen 80x25, chars+attributes, sha256",
+   "value": "fe5a36ae3fc00354054e1e74e543ae67d5eb769099548103d20fc34152aa072c"
+  },
+  {
+   "step": 67,
+   "source": "ui-text",
+   "field": "match read 67: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│Bodin is brought down / ┤FOUL by Jensen / │Bodin INJURED"
+  },
+  {
+   "step": 67,
+   "source": "memory",
+   "field": "match read 67: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x009e 0xb543 0 2"
+  },
+  {
+   "step": 68,
+   "source": "log",
+   "field": "match read 68: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:17:49.491Z"
+  },
+  {
+   "step": 68,
+   "source": "screen",
+   "field": "match read 68: text screen 80x25, chars+attributes, sha256",
+   "value": "fe5a36ae3fc00354054e1e74e543ae67d5eb769099548103d20fc34152aa072c"
+  },
+  {
+   "step": 68,
+   "source": "ui-text",
+   "field": "match read 68: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│Bodin is brought down / ┤FOUL by Jensen / │Bodin INJURED"
+  },
+  {
+   "step": 68,
+   "source": "memory",
+   "field": "match read 68: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x009e 0xb543 0 2"
+  },
+  {
+   "step": 69,
+   "source": "log",
+   "field": "match read 69: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:17:50.031Z"
+  },
+  {
+   "step": 69,
+   "source": "screen",
+   "field": "match read 69: text screen 80x25, chars+attributes, sha256",
+   "value": "fe5a36ae3fc00354054e1e74e543ae67d5eb769099548103d20fc34152aa072c"
+  },
+  {
+   "step": 69,
+   "source": "ui-text",
+   "field": "match read 69: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│Bodin is brought down / ┤FOUL by Jensen / │Bodin INJURED"
+  },
+  {
+   "step": 69,
+   "source": "memory",
+   "field": "match read 69: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x009e 0xb543 0 2"
+  },
+  {
+   "step": 70,
+   "source": "log",
+   "field": "match read 70: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:17:50.569Z"
+  },
+  {
+   "step": 70,
+   "source": "screen",
+   "field": "match read 70: text screen 80x25, chars+attributes, sha256",
+   "value": "fe5a36ae3fc00354054e1e74e543ae67d5eb769099548103d20fc34152aa072c"
+  },
+  {
+   "step": 70,
+   "source": "ui-text",
+   "field": "match read 70: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│Bodin is brought down / ┤FOUL by Jensen / │Bodin INJURED"
+  },
+  {
+   "step": 70,
+   "source": "memory",
+   "field": "match read 70: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x009e 0xb543 0 2"
+  },
+  {
+   "step": 71,
+   "source": "log",
+   "field": "match read 71: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:17:51.108Z"
+  },
+  {
+   "step": 71,
+   "source": "screen",
+   "field": "match read 71: text screen 80x25, chars+attributes, sha256",
+   "value": "b8261d78a99cc40af65349e391d8827fa785b74d2de0d4993e527be890183875"
+  },
+  {
+   "step": 71,
+   "source": "ui-text",
+   "field": "match read 71: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│*** FREE KICK *** / ┤Hughes to take free kick / │high ball towards Rush"
+  },
+  {
+   "step": 71,
+   "source": "memory",
+   "field": "match read 71: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x00a2 0x9e41 0 2"
+  },
+  {
+   "step": 72,
+   "source": "log",
+   "field": "match read 72: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:17:51.640Z"
+  },
+  {
+   "step": 72,
+   "source": "screen",
+   "field": "match read 72: text screen 80x25, chars+attributes, sha256",
+   "value": "73d1013ac4e77c9e5541f09827dd25a0e485d544f544d690286616bd89b27232"
+  },
+  {
+   "step": 72,
+   "source": "ui-text",
+   "field": "match read 72: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│dodged by Andersen / ┤Andersen makes a run / │deflected by Southall"
+  },
+  {
+   "step": 72,
+   "source": "memory",
+   "field": "match read 72: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0001 0x54ba 0 2"
+  },
+  {
+   "step": 73,
+   "source": "log",
+   "field": "match read 73: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:17:52.175Z"
+  },
+  {
+   "step": 73,
+   "source": "screen",
+   "field": "match read 73: text screen 80x25, chars+attributes, sha256",
+   "value": "73d1013ac4e77c9e5541f09827dd25a0e485d544f544d690286616bd89b27232"
+  },
+  {
+   "step": 73,
+   "source": "ui-text",
+   "field": "match read 73: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│dodged by Andersen / ┤Andersen makes a run / │deflected by Southall"
+  },
+  {
+   "step": 73,
+   "source": "memory",
+   "field": "match read 73: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0001 0x54ba 0 2"
+  },
+  {
+   "step": 74,
+   "source": "log",
+   "field": "match read 74: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:17:52.712Z"
+  },
+  {
+   "step": 74,
+   "source": "screen",
+   "field": "match read 74: text screen 80x25, chars+attributes, sha256",
+   "value": "73d1013ac4e77c9e5541f09827dd25a0e485d544f544d690286616bd89b27232"
+  },
+  {
+   "step": 74,
+   "source": "ui-text",
+   "field": "match read 74: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│dodged by Andersen / ┤Andersen makes a run / │deflected by Southall"
+  },
+  {
+   "step": 74,
+   "source": "memory",
+   "field": "match read 74: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0001 0x54ba 0 2"
+  },
+  {
+   "step": 75,
+   "source": "log",
+   "field": "match read 75: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:17:53.252Z"
+  },
+  {
+   "step": 75,
+   "source": "screen",
+   "field": "match read 75: text screen 80x25, chars+attributes, sha256",
+   "value": "73d1013ac4e77c9e5541f09827dd25a0e485d544f544d690286616bd89b27232"
+  },
+  {
+   "step": 75,
+   "source": "ui-text",
+   "field": "match read 75: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│dodged by Andersen / ┤Andersen makes a run / │deflected by Southall"
+  },
+  {
+   "step": 75,
+   "source": "memory",
+   "field": "match read 75: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0001 0x54ba 0 2"
+  },
+  {
+   "step": 76,
+   "source": "log",
+   "field": "match read 76: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:17:53.788Z"
+  },
+  {
+   "step": 76,
+   "source": "screen",
+   "field": "match read 76: text screen 80x25, chars+attributes, sha256",
+   "value": "73d1013ac4e77c9e5541f09827dd25a0e485d544f544d690286616bd89b27232"
+  },
+  {
+   "step": 76,
+   "source": "ui-text",
+   "field": "match read 76: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│dodged by Andersen / ┤Andersen makes a run / │deflected by Southall"
+  },
+  {
+   "step": 76,
+   "source": "memory",
+   "field": "match read 76: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0001 0x54ba 0 2"
+  },
+  {
+   "step": 77,
+   "source": "log",
+   "field": "match read 77: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:17:54.327Z"
+  },
+  {
+   "step": 77,
+   "source": "screen",
+   "field": "match read 77: text screen 80x25, chars+attributes, sha256",
+   "value": "73d1013ac4e77c9e5541f09827dd25a0e485d544f544d690286616bd89b27232"
+  },
+  {
+   "step": 77,
+   "source": "ui-text",
+   "field": "match read 77: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│dodged by Andersen / ┤Andersen makes a run / │deflected by Southall"
+  },
+  {
+   "step": 77,
+   "source": "memory",
+   "field": "match read 77: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0001 0x54ba 0 2"
+  },
+  {
+   "step": 78,
+   "source": "log",
+   "field": "match read 78: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:17:54.865Z"
+  },
+  {
+   "step": 78,
+   "source": "screen",
+   "field": "match read 78: text screen 80x25, chars+attributes, sha256",
+   "value": "73d1013ac4e77c9e5541f09827dd25a0e485d544f544d690286616bd89b27232"
+  },
+  {
+   "step": 78,
+   "source": "ui-text",
+   "field": "match read 78: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│dodged by Andersen / ┤Andersen makes a run / │deflected by Southall"
+  },
+  {
+   "step": 78,
+   "source": "memory",
+   "field": "match read 78: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0001 0x54ba 0 2"
+  },
+  {
+   "step": 79,
+   "source": "log",
+   "field": "match read 79: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:17:55.403Z"
+  },
+  {
+   "step": 79,
+   "source": "screen",
+   "field": "match read 79: text screen 80x25, chars+attributes, sha256",
+   "value": "73d1013ac4e77c9e5541f09827dd25a0e485d544f544d690286616bd89b27232"
+  },
+  {
+   "step": 79,
+   "source": "ui-text",
+   "field": "match read 79: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│dodged by Andersen / ┤Andersen makes a run / │deflected by Southall"
+  },
+  {
+   "step": 79,
+   "source": "memory",
+   "field": "match read 79: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0001 0x54ba 0 2"
+  },
+  {
+   "step": 80,
+   "source": "log",
+   "field": "match read 80: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:17:55.940Z"
+  },
+  {
+   "step": 80,
+   "source": "screen",
+   "field": "match read 80: text screen 80x25, chars+attributes, sha256",
+   "value": "73d1013ac4e77c9e5541f09827dd25a0e485d544f544d690286616bd89b27232"
+  },
+  {
+   "step": 80,
+   "source": "ui-text",
+   "field": "match read 80: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│dodged by Andersen / ┤Andersen makes a run / │deflected by Southall"
+  },
+  {
+   "step": 80,
+   "source": "memory",
+   "field": "match read 80: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0001 0x54ba 0 2"
+  },
+  {
+   "step": 81,
+   "source": "log",
+   "field": "match read 81: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:17:56.484Z"
+  },
+  {
+   "step": 81,
+   "source": "screen",
+   "field": "match read 81: text screen 80x25, chars+attributes, sha256",
+   "value": "73d1013ac4e77c9e5541f09827dd25a0e485d544f544d690286616bd89b27232"
+  },
+  {
+   "step": 81,
+   "source": "ui-text",
+   "field": "match read 81: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│dodged by Andersen / ┤Andersen makes a run / │deflected by Southall"
+  },
+  {
+   "step": 81,
+   "source": "memory",
+   "field": "match read 81: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0001 0x54ba 0 2"
+  },
+  {
+   "step": 82,
+   "source": "log",
+   "field": "match read 82: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:17:57.022Z"
+  },
+  {
+   "step": 82,
+   "source": "screen",
+   "field": "match read 82: text screen 80x25, chars+attributes, sha256",
+   "value": "73d1013ac4e77c9e5541f09827dd25a0e485d544f544d690286616bd89b27232"
+  },
+  {
+   "step": 82,
+   "source": "ui-text",
+   "field": "match read 82: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│dodged by Andersen / ┤Andersen makes a run / │deflected by Southall"
+  },
+  {
+   "step": 82,
+   "source": "memory",
+   "field": "match read 82: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0001 0x54ba 0 2"
+  },
+  {
+   "step": 83,
+   "source": "log",
+   "field": "match read 83: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:17:57.563Z"
+  },
+  {
+   "step": 83,
+   "source": "screen",
+   "field": "match read 83: text screen 80x25, chars+attributes, sha256",
+   "value": "73d1013ac4e77c9e5541f09827dd25a0e485d544f544d690286616bd89b27232"
+  },
+  {
+   "step": 83,
+   "source": "ui-text",
+   "field": "match read 83: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│dodged by Andersen / ┤Andersen makes a run / │deflected by Southall"
+  },
+  {
+   "step": 83,
+   "source": "memory",
+   "field": "match read 83: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0001 0x54ba 0 2"
+  },
+  {
+   "step": 84,
+   "source": "log",
+   "field": "match read 84: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:17:58.098Z"
+  },
+  {
+   "step": 84,
+   "source": "screen",
+   "field": "match read 84: text screen 80x25, chars+attributes, sha256",
+   "value": "73d1013ac4e77c9e5541f09827dd25a0e485d544f544d690286616bd89b27232"
+  },
+  {
+   "step": 84,
+   "source": "ui-text",
+   "field": "match read 84: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│dodged by Andersen / ┤Andersen makes a run / │deflected by Southall"
+  },
+  {
+   "step": 84,
+   "source": "memory",
+   "field": "match read 84: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0001 0x54ba 0 2"
+  },
+  {
+   "step": 85,
+   "source": "log",
+   "field": "match read 85: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:17:58.639Z"
+  },
+  {
+   "step": 85,
+   "source": "screen",
+   "field": "match read 85: text screen 80x25, chars+attributes, sha256",
+   "value": "73d1013ac4e77c9e5541f09827dd25a0e485d544f544d690286616bd89b27232"
+  },
+  {
+   "step": 85,
+   "source": "ui-text",
+   "field": "match read 85: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│dodged by Andersen / ┤Andersen makes a run / │deflected by Southall"
+  },
+  {
+   "step": 85,
+   "source": "memory",
+   "field": "match read 85: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0001 0x54ba 0 2"
+  },
+  {
+   "step": 86,
+   "source": "log",
+   "field": "match read 86: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:17:59.182Z"
+  },
+  {
+   "step": 86,
+   "source": "screen",
+   "field": "match read 86: text screen 80x25, chars+attributes, sha256",
+   "value": "73d1013ac4e77c9e5541f09827dd25a0e485d544f544d690286616bd89b27232"
+  },
+  {
+   "step": 86,
+   "source": "ui-text",
+   "field": "match read 86: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│dodged by Andersen / ┤Andersen makes a run / │deflected by Southall"
+  },
+  {
+   "step": 86,
+   "source": "memory",
+   "field": "match read 86: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0001 0x54ba 0 2"
+  },
+  {
+   "step": 87,
+   "source": "log",
+   "field": "match read 87: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:17:59.730Z"
+  },
+  {
+   "step": 87,
+   "source": "screen",
+   "field": "match read 87: text screen 80x25, chars+attributes, sha256",
+   "value": "73d1013ac4e77c9e5541f09827dd25a0e485d544f544d690286616bd89b27232"
+  },
+  {
+   "step": 87,
+   "source": "ui-text",
+   "field": "match read 87: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│dodged by Andersen / ┤Andersen makes a run / │deflected by Southall"
+  },
+  {
+   "step": 87,
+   "source": "memory",
+   "field": "match read 87: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0001 0x54ba 0 2"
+  },
+  {
+   "step": 88,
+   "source": "log",
+   "field": "match read 88: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:18:00.268Z"
+  },
+  {
+   "step": 88,
+   "source": "screen",
+   "field": "match read 88: text screen 80x25, chars+attributes, sha256",
+   "value": "73d1013ac4e77c9e5541f09827dd25a0e485d544f544d690286616bd89b27232"
+  },
+  {
+   "step": 88,
+   "source": "ui-text",
+   "field": "match read 88: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│dodged by Andersen / ┤Andersen makes a run / │deflected by Southall"
+  },
+  {
+   "step": 88,
+   "source": "memory",
+   "field": "match read 88: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0001 0x54ba 0 2"
+  },
+  {
+   "step": 89,
+   "source": "log",
+   "field": "match read 89: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:18:00.809Z"
+  },
+  {
+   "step": 89,
+   "source": "screen",
+   "field": "match read 89: text screen 80x25, chars+attributes, sha256",
+   "value": "73d1013ac4e77c9e5541f09827dd25a0e485d544f544d690286616bd89b27232"
+  },
+  {
+   "step": 89,
+   "source": "ui-text",
+   "field": "match read 89: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│dodged by Andersen / ┤Andersen makes a run / │deflected by Southall"
+  },
+  {
+   "step": 89,
+   "source": "memory",
+   "field": "match read 89: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0001 0x54ba 0 2"
+  },
+  {
+   "step": 90,
+   "source": "log",
+   "field": "match read 90: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:18:01.352Z"
+  },
+  {
+   "step": 90,
+   "source": "screen",
+   "field": "match read 90: text screen 80x25, chars+attributes, sha256",
+   "value": "73d1013ac4e77c9e5541f09827dd25a0e485d544f544d690286616bd89b27232"
+  },
+  {
+   "step": 90,
+   "source": "ui-text",
+   "field": "match read 90: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│dodged by Andersen / ┤Andersen makes a run / │deflected by Southall"
+  },
+  {
+   "step": 90,
+   "source": "memory",
+   "field": "match read 90: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0001 0x54ba 0 2"
+  },
+  {
+   "step": 91,
+   "source": "log",
+   "field": "match read 91: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:18:01.892Z"
+  },
+  {
+   "step": 91,
+   "source": "screen",
+   "field": "match read 91: text screen 80x25, chars+attributes, sha256",
+   "value": "73d1013ac4e77c9e5541f09827dd25a0e485d544f544d690286616bd89b27232"
+  },
+  {
+   "step": 91,
+   "source": "ui-text",
+   "field": "match read 91: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│dodged by Andersen / ┤Andersen makes a run / │deflected by Southall"
+  },
+  {
+   "step": 91,
+   "source": "memory",
+   "field": "match read 91: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0001 0x54ba 0 2"
+  },
+  {
+   "step": 92,
+   "source": "log",
+   "field": "match read 92: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:18:02.433Z"
+  },
+  {
+   "step": 92,
+   "source": "screen",
+   "field": "match read 92: text screen 80x25, chars+attributes, sha256",
+   "value": "73d1013ac4e77c9e5541f09827dd25a0e485d544f544d690286616bd89b27232"
+  },
+  {
+   "step": 92,
+   "source": "ui-text",
+   "field": "match read 92: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│dodged by Andersen / ┤Andersen makes a run / │deflected by Southall"
+  },
+  {
+   "step": 92,
+   "source": "memory",
+   "field": "match read 92: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0001 0x54ba 0 2"
+  },
+  {
+   "step": 93,
+   "source": "log",
+   "field": "match read 93: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:18:02.976Z"
+  },
+  {
+   "step": 93,
+   "source": "screen",
+   "field": "match read 93: text screen 80x25, chars+attributes, sha256",
+   "value": "73d1013ac4e77c9e5541f09827dd25a0e485d544f544d690286616bd89b27232"
+  },
+  {
+   "step": 93,
+   "source": "ui-text",
+   "field": "match read 93: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│dodged by Andersen / ┤Andersen makes a run / │deflected by Southall"
+  },
+  {
+   "step": 93,
+   "source": "memory",
+   "field": "match read 93: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0001 0x54ba 0 2"
+  },
+  {
+   "step": 94,
+   "source": "log",
+   "field": "match read 94: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:18:03.519Z"
+  },
+  {
+   "step": 94,
+   "source": "screen",
+   "field": "match read 94: text screen 80x25, chars+attributes, sha256",
+   "value": "73d1013ac4e77c9e5541f09827dd25a0e485d544f544d690286616bd89b27232"
+  },
+  {
+   "step": 94,
+   "source": "ui-text",
+   "field": "match read 94: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│dodged by Andersen / ┤Andersen makes a run / │deflected by Southall"
+  },
+  {
+   "step": 94,
+   "source": "memory",
+   "field": "match read 94: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0001 0x54ba 0 2"
+  },
+  {
+   "step": 95,
+   "source": "log",
+   "field": "match read 95: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:18:04.058Z"
+  },
+  {
+   "step": 95,
+   "source": "screen",
+   "field": "match read 95: text screen 80x25, chars+attributes, sha256",
+   "value": "73d1013ac4e77c9e5541f09827dd25a0e485d544f544d690286616bd89b27232"
+  },
+  {
+   "step": 95,
+   "source": "ui-text",
+   "field": "match read 95: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│dodged by Andersen / ┤Andersen makes a run / │deflected by Southall"
+  },
+  {
+   "step": 95,
+   "source": "memory",
+   "field": "match read 95: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0001 0x54ba 0 2"
+  },
+  {
+   "step": 96,
+   "source": "log",
+   "field": "match read 96: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:18:04.601Z"
+  },
+  {
+   "step": 96,
+   "source": "screen",
+   "field": "match read 96: text screen 80x25, chars+attributes, sha256",
+   "value": "73d1013ac4e77c9e5541f09827dd25a0e485d544f544d690286616bd89b27232"
+  },
+  {
+   "step": 96,
+   "source": "ui-text",
+   "field": "match read 96: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│dodged by Andersen / ┤Andersen makes a run / │deflected by Southall"
+  },
+  {
+   "step": 96,
+   "source": "memory",
+   "field": "match read 96: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0001 0x54ba 0 2"
+  },
+  {
+   "step": 97,
+   "source": "log",
+   "field": "match read 97: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:18:05.140Z"
+  },
+  {
+   "step": 97,
+   "source": "screen",
+   "field": "match read 97: text screen 80x25, chars+attributes, sha256",
+   "value": "73d1013ac4e77c9e5541f09827dd25a0e485d544f544d690286616bd89b27232"
+  },
+  {
+   "step": 97,
+   "source": "ui-text",
+   "field": "match read 97: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│dodged by Andersen / ┤Andersen makes a run / │deflected by Southall"
+  },
+  {
+   "step": 97,
+   "source": "memory",
+   "field": "match read 97: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0001 0x54ba 0 2"
+  },
+  {
+   "step": 98,
+   "source": "log",
+   "field": "match read 98: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:18:05.677Z"
+  },
+  {
+   "step": 98,
+   "source": "screen",
+   "field": "match read 98: text screen 80x25, chars+attributes, sha256",
+   "value": "73d1013ac4e77c9e5541f09827dd25a0e485d544f544d690286616bd89b27232"
+  },
+  {
+   "step": 98,
+   "source": "ui-text",
+   "field": "match read 98: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│dodged by Andersen / ┤Andersen makes a run / │deflected by Southall"
+  },
+  {
+   "step": 98,
+   "source": "memory",
+   "field": "match read 98: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0001 0x54ba 0 2"
+  },
+  {
+   "step": 99,
+   "source": "log",
+   "field": "match read 99: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:18:06.216Z"
+  },
+  {
+   "step": 99,
+   "source": "screen",
+   "field": "match read 99: text screen 80x25, chars+attributes, sha256",
+   "value": "97ff7844a37875ed402fa1569fbfb92b83f473a9853c65e5557de26e1bd49223"
+  },
+  {
+   "step": 99,
+   "source": "ui-text",
+   "field": "match read 99: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│good ball for Povlsen / ┤Povlsen on the ball / │good ball for Laudrup"
+  },
+  {
+   "step": 99,
+   "source": "memory",
+   "field": "match read 99: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x000c 0xd3f3 0 2"
+  },
+  {
+   "step": 100,
+   "source": "log",
+   "field": "match read 100: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:18:06.756Z"
+  },
+  {
+   "step": 100,
+   "source": "screen",
+   "field": "match read 100: text screen 80x25, chars+attributes, sha256",
+   "value": "9a5b46a0518190563b5beed60ae1a243ded3acd0b7de75b9942c074a33fd20cd"
+  },
+  {
+   "step": 100,
+   "source": "ui-text",
+   "field": "match read 100: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│tackle by Speed / ┤Speed wins the ball / │Speed makes a run"
+  },
+  {
+   "step": 100,
+   "source": "memory",
+   "field": "match read 100: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0039 0x6fcd 0 2"
+  },
+  {
+   "step": 101,
+   "source": "log",
+   "field": "match read 101: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:18:07.294Z"
+  },
+  {
+   "step": 101,
+   "source": "screen",
+   "field": "match read 101: text screen 80x25, chars+attributes, sha256",
+   "value": "352f99664a6db4820d6937c4625849e1a52b4395e28354130f72a44e994b6550"
+  },
+  {
+   "step": 101,
+   "source": "ui-text",
+   "field": "match read 101: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│Povlsen makes a run / ┤good ball for Vilfort / │Vilfort on the ball"
+  },
+  {
+   "step": 101,
+   "source": "memory",
+   "field": "match read 101: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x005b 0xae53 0 2"
+  },
+  {
+   "step": 102,
+   "source": "log",
+   "field": "match read 102: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:18:07.833Z"
+  },
+  {
+   "step": 102,
+   "source": "screen",
+   "field": "match read 102: text screen 80x25, chars+attributes, sha256",
+   "value": "39bbb3a7196d37f712474e143274a46b2439ae6e409dc0bcebe2ef8bee96ca91"
+  },
+  {
+   "step": 102,
+   "source": "ui-text",
+   "field": "match read 102: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│tackle by Olsen / ┤Olsen wins the ball / │Olsen makes a pass"
+  },
+  {
+   "step": 102,
+   "source": "memory",
+   "field": "match read 102: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x008e 0x9283 0 2"
+  },
+  {
+   "step": 103,
+   "source": "log",
+   "field": "match read 103: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:18:08.371Z"
+  },
+  {
+   "step": 103,
+   "source": "screen",
+   "field": "match read 103: text screen 80x25, chars+attributes, sha256",
+   "value": "0108b01c8c818b58481eea36cf82fce2d9ef8309b88ce064ac2998206e3d74da"
+  },
+  {
+   "step": 103,
+   "source": "ui-text",
+   "field": "match read 103: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│shot from Rush / ┤Schmeichel has no chance / │**** GOAL **** by Rush"
+  },
+  {
+   "step": 103,
+   "source": "memory",
+   "field": "match read 103: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x009e 0xaf41 1 2"
+  },
+  {
+   "step": 104,
+   "source": "log",
+   "field": "match read 104: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:18:08.910Z"
+  },
+  {
+   "step": 104,
+   "source": "screen",
+   "field": "match read 104: text screen 80x25, chars+attributes, sha256",
+   "value": "0108b01c8c818b58481eea36cf82fce2d9ef8309b88ce064ac2998206e3d74da"
+  },
+  {
+   "step": 104,
+   "source": "ui-text",
+   "field": "match read 104: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│shot from Rush / ┤Schmeichel has no chance / │**** GOAL **** by Rush"
+  },
+  {
+   "step": 104,
+   "source": "memory",
+   "field": "match read 104: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x009e 0xaf41 1 2"
+  },
+  {
+   "step": 105,
+   "source": "log",
+   "field": "match read 105: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:18:09.452Z"
+  },
+  {
+   "step": 105,
+   "source": "screen",
+   "field": "match read 105: text screen 80x25, chars+attributes, sha256",
+   "value": "0108b01c8c818b58481eea36cf82fce2d9ef8309b88ce064ac2998206e3d74da"
+  },
+  {
+   "step": 105,
+   "source": "ui-text",
+   "field": "match read 105: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│shot from Rush / ┤Schmeichel has no chance / │**** GOAL **** by Rush"
+  },
+  {
+   "step": 105,
+   "source": "memory",
+   "field": "match read 105: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x009e 0xaf41 1 2"
+  },
+  {
+   "step": 106,
+   "source": "log",
+   "field": "match read 106: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:18:09.993Z"
+  },
+  {
+   "step": 106,
+   "source": "screen",
+   "field": "match read 106: text screen 80x25, chars+attributes, sha256",
+   "value": "0108b01c8c818b58481eea36cf82fce2d9ef8309b88ce064ac2998206e3d74da"
+  },
+  {
+   "step": 106,
+   "source": "ui-text",
+   "field": "match read 106: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│shot from Rush / ┤Schmeichel has no chance / │**** GOAL **** by Rush"
+  },
+  {
+   "step": 106,
+   "source": "memory",
+   "field": "match read 106: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x009e 0xaf41 1 2"
+  },
+  {
+   "step": 107,
+   "source": "log",
+   "field": "match read 107: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:18:10.532Z"
+  },
+  {
+   "step": 107,
+   "source": "screen",
+   "field": "match read 107: text screen 80x25, chars+attributes, sha256",
+   "value": "0108b01c8c818b58481eea36cf82fce2d9ef8309b88ce064ac2998206e3d74da"
+  },
+  {
+   "step": 107,
+   "source": "ui-text",
+   "field": "match read 107: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│shot from Rush / ┤Schmeichel has no chance / │**** GOAL **** by Rush"
+  },
+  {
+   "step": 107,
+   "source": "memory",
+   "field": "match read 107: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x009e 0xaf41 1 2"
+  },
+  {
+   "step": 108,
+   "source": "log",
+   "field": "match read 108: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:18:11.069Z"
+  },
+  {
+   "step": 108,
+   "source": "screen",
+   "field": "match read 108: text screen 80x25, chars+attributes, sha256",
+   "value": "0108b01c8c818b58481eea36cf82fce2d9ef8309b88ce064ac2998206e3d74da"
+  },
+  {
+   "step": 108,
+   "source": "ui-text",
+   "field": "match read 108: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│shot from Rush / ┤Schmeichel has no chance / │**** GOAL **** by Rush"
+  },
+  {
+   "step": 108,
+   "source": "memory",
+   "field": "match read 108: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x009e 0xaf41 1 2"
+  },
+  {
+   "step": 109,
+   "source": "log",
+   "field": "match read 109: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:18:11.609Z"
+  },
+  {
+   "step": 109,
+   "source": "screen",
+   "field": "match read 109: text screen 80x25, chars+attributes, sha256",
+   "value": "0108b01c8c818b58481eea36cf82fce2d9ef8309b88ce064ac2998206e3d74da"
+  },
+  {
+   "step": 109,
+   "source": "ui-text",
+   "field": "match read 109: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│shot from Rush / ┤Schmeichel has no chance / │**** GOAL **** by Rush"
+  },
+  {
+   "step": 109,
+   "source": "memory",
+   "field": "match read 109: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x009e 0xaf41 1 2"
+  },
+  {
+   "step": 110,
+   "source": "log",
+   "field": "match read 110: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:18:12.149Z"
+  },
+  {
+   "step": 110,
+   "source": "screen",
+   "field": "match read 110: text screen 80x25, chars+attributes, sha256",
+   "value": "0108b01c8c818b58481eea36cf82fce2d9ef8309b88ce064ac2998206e3d74da"
+  },
+  {
+   "step": 110,
+   "source": "ui-text",
+   "field": "match read 110: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│shot from Rush / ┤Schmeichel has no chance / │**** GOAL **** by Rush"
+  },
+  {
+   "step": 110,
+   "source": "memory",
+   "field": "match read 110: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x009e 0xaf41 1 2"
+  },
+  {
+   "step": 111,
+   "source": "log",
+   "field": "match read 111: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:18:12.687Z"
+  },
+  {
+   "step": 111,
+   "source": "screen",
+   "field": "match read 111: text screen 80x25, chars+attributes, sha256",
+   "value": "0108b01c8c818b58481eea36cf82fce2d9ef8309b88ce064ac2998206e3d74da"
+  },
+  {
+   "step": 111,
+   "source": "ui-text",
+   "field": "match read 111: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│shot from Rush / ┤Schmeichel has no chance / │**** GOAL **** by Rush"
+  },
+  {
+   "step": 111,
+   "source": "memory",
+   "field": "match read 111: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x009e 0xaf41 1 2"
+  },
+  {
+   "step": 112,
+   "source": "log",
+   "field": "match read 112: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:18:13.229Z"
+  },
+  {
+   "step": 112,
+   "source": "screen",
+   "field": "match read 112: text screen 80x25, chars+attributes, sha256",
+   "value": "0108b01c8c818b58481eea36cf82fce2d9ef8309b88ce064ac2998206e3d74da"
+  },
+  {
+   "step": 112,
+   "source": "ui-text",
+   "field": "match read 112: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│shot from Rush / ┤Schmeichel has no chance / │**** GOAL **** by Rush"
+  },
+  {
+   "step": 112,
+   "source": "memory",
+   "field": "match read 112: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x009e 0xaf41 1 2"
+  },
+  {
+   "step": 113,
+   "source": "log",
+   "field": "match read 113: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:18:13.772Z"
+  },
+  {
+   "step": 113,
+   "source": "screen",
+   "field": "match read 113: text screen 80x25, chars+attributes, sha256",
+   "value": "0108b01c8c818b58481eea36cf82fce2d9ef8309b88ce064ac2998206e3d74da"
+  },
+  {
+   "step": 113,
+   "source": "ui-text",
+   "field": "match read 113: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│shot from Rush / ┤Schmeichel has no chance / │**** GOAL **** by Rush"
+  },
+  {
+   "step": 113,
+   "source": "memory",
+   "field": "match read 113: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x009e 0xaf41 1 2"
+  },
+  {
+   "step": 114,
+   "source": "log",
+   "field": "match read 114: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:18:14.372Z"
+  },
+  {
+   "step": 114,
+   "source": "screen",
+   "field": "match read 114: text screen 80x25, chars+attributes, sha256",
+   "value": "0108b01c8c818b58481eea36cf82fce2d9ef8309b88ce064ac2998206e3d74da"
+  },
+  {
+   "step": 114,
+   "source": "ui-text",
+   "field": "match read 114: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│shot from Rush / ┤Schmeichel has no chance / │**** GOAL **** by Rush"
+  },
+  {
+   "step": 114,
+   "source": "memory",
+   "field": "match read 114: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x009e 0xaf41 1 2"
+  },
+  {
+   "step": 115,
+   "source": "log",
+   "field": "match read 115: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:18:14.911Z"
+  },
+  {
+   "step": 115,
+   "source": "screen",
+   "field": "match read 115: text screen 80x25, chars+attributes, sha256",
+   "value": "0108b01c8c818b58481eea36cf82fce2d9ef8309b88ce064ac2998206e3d74da"
+  },
+  {
+   "step": 115,
+   "source": "ui-text",
+   "field": "match read 115: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│shot from Rush / ┤Schmeichel has no chance / │**** GOAL **** by Rush"
+  },
+  {
+   "step": 115,
+   "source": "memory",
+   "field": "match read 115: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x009e 0xaf41 1 2"
+  },
+  {
+   "step": 116,
+   "source": "log",
+   "field": "match read 116: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:18:15.454Z"
+  },
+  {
+   "step": 116,
+   "source": "screen",
+   "field": "match read 116: text screen 80x25, chars+attributes, sha256",
+   "value": "0108b01c8c818b58481eea36cf82fce2d9ef8309b88ce064ac2998206e3d74da"
+  },
+  {
+   "step": 116,
+   "source": "ui-text",
+   "field": "match read 116: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│shot from Rush / ┤Schmeichel has no chance / │**** GOAL **** by Rush"
+  },
+  {
+   "step": 116,
+   "source": "memory",
+   "field": "match read 116: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x009e 0xaf41 1 2"
+  },
+  {
+   "step": 117,
+   "source": "log",
+   "field": "match read 117: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:18:16.038Z"
+  },
+  {
+   "step": 117,
+   "source": "screen",
+   "field": "match read 117: text screen 80x25, chars+attributes, sha256",
+   "value": "0108b01c8c818b58481eea36cf82fce2d9ef8309b88ce064ac2998206e3d74da"
+  },
+  {
+   "step": 117,
+   "source": "ui-text",
+   "field": "match read 117: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│shot from Rush / ┤Schmeichel has no chance / │**** GOAL **** by Rush"
+  },
+  {
+   "step": 117,
+   "source": "memory",
+   "field": "match read 117: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x009e 0xaf41 1 2"
+  },
+  {
+   "step": 118,
+   "source": "log",
+   "field": "match read 118: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:18:16.642Z"
+  },
+  {
+   "step": 118,
+   "source": "screen",
+   "field": "match read 118: text screen 80x25, chars+attributes, sha256",
+   "value": "0108b01c8c818b58481eea36cf82fce2d9ef8309b88ce064ac2998206e3d74da"
+  },
+  {
+   "step": 118,
+   "source": "ui-text",
+   "field": "match read 118: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│shot from Rush / ┤Schmeichel has no chance / │**** GOAL **** by Rush"
+  },
+  {
+   "step": 118,
+   "source": "memory",
+   "field": "match read 118: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x009e 0xaf41 1 2"
+  },
+  {
+   "step": 119,
+   "source": "log",
+   "field": "match read 119: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:18:17.204Z"
+  },
+  {
+   "step": 119,
+   "source": "screen",
+   "field": "match read 119: text screen 80x25, chars+attributes, sha256",
+   "value": "71aafbf092c7619c883fabf5cc5951f20890c187bfec25e4cf06abe2b94f9fc5"
+  },
+  {
+   "step": 119,
+   "source": "ui-text",
+   "field": "match read 119: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│good ball for Laudrup / ┤Laudrup on the ball / │tackle by Nicholas"
+  },
+  {
+   "step": 119,
+   "source": "memory",
+   "field": "match read 119: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x00af 0x5543 1 2"
+  },
+  {
+   "step": 120,
+   "source": "log",
+   "field": "match read 120: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:18:17.743Z"
+  },
+  {
+   "step": 120,
+   "source": "screen",
+   "field": "match read 120: text screen 80x25, chars+attributes, sha256",
+   "value": "cdc48b6fe05b02c10ccd73a7ec57f5e898f3d428a2d50edf8961389738ebea8d"
+  },
+  {
+   "step": 120,
+   "source": "ui-text",
+   "field": "match read 120: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│Rush wins the ball / ┤Rush makes a run / │---- FULL TIME ----"
+  },
+  {
+   "step": 120,
+   "source": "memory",
+   "field": "match read 120: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0011 0xdc62 1 2"
+  },
+  {
+   "step": 121,
+   "source": "log",
+   "field": "match read 121: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:18:18.282Z"
+  },
+  {
+   "step": 121,
+   "source": "screen",
+   "field": "match read 121: text screen 80x25, chars+attributes, sha256",
+   "value": "cdc48b6fe05b02c10ccd73a7ec57f5e898f3d428a2d50edf8961389738ebea8d"
+  },
+  {
+   "step": 121,
+   "source": "ui-text",
+   "field": "match read 121: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│Rush wins the ball / ┤Rush makes a run / │---- FULL TIME ----"
+  },
+  {
+   "step": 121,
+   "source": "memory",
+   "field": "match read 121: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0011 0xdc62 1 2"
+  },
+  {
+   "step": 122,
+   "source": "log",
+   "field": "full time: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T12:18:18.282Z"
+  },
+  {
+   "step": 122,
+   "source": "log",
+   "field": "full time: host local time with UTC offset, and zone name, at the same instant",
+   "value": "2026-10-04T14:18:18.282+02:00 CEST"
+  },
+  {
+   "step": 122,
+   "source": "screen",
+   "field": "full time: text screen 80x25, chars+attributes (4000 bytes), sha256",
+   "value": "cdc48b6fe05b02c10ccd73a7ec57f5e898f3d428a2d50edf8961389738ebea8d"
+  },
+  {
+   "step": 122,
+   "source": "ui-text",
+   "field": "full time: text screen rows 0-24, CP437 decoded, trailing blanks trimmed",
+   "value": " (c) NE'93│ ┌───────────────┬──┬FRIENDLY───────────────────────────┐┌───┐ ▄▀▀▀▄\n ┌─┐┌─┐┌─┐│ │DENMARK--------│ 2│Rush wins the ball                 ││   │ █   █\n │ ││ ││ ││ ├versus─────────┼──┤Rush makes a run                   │├───┤ ▄───▄\n └─┤└─┘└─┤│ │WALES----------│ 1│---- FULL TIME ----                ││   │ █   █\n───┘ v.2    └───────────────┴──┴───────────────────────────────────┘└───┘ └▀▀▀▀\n (half time  1:0 ) ┌─────────────────┐    ┌─────────────────┐\n ┌─────────────────│ Denmark-------- │─┐┌─│ Wales---------- │─────────────────┐\n │                 └─────────────────┘ ││ └─────────────────┘                 │\n │ ┌─────────┐         Corners      1  ││  Corners      0     ┌─────────┐     │\n │ │ Scorers │         Free kicks   5  ││  Free kicks   8     │ Scorers │     │\n┌──┴─────────┴──┬min┐  Penalties    0  ││  Penalties    0  ┌──┴─────────┴──┬min┐\n│F Povlsen      │ 20│  Shots        4  ││  Shots        2  │I Rush         │ 88│\n│B Laudrup      │ 58│  On target    3  ││  On target    2  │               │   │\n│               │   │  Saves        2  ││  Saves        2  │               │   │\n│               │   │  Fouls        4  ││  Fouls        1  │               │   │\n│               │   │  Bookings     0  ││  Bookings     0  │               │   │\n│               │   │  Red cards    0  └┘  Red cards    0  │               │   │\n│               │   │            ┌───┬───┬───50───┬───┬───┐│               │   │\n│               │   │  Possession:■■■■■■■■■■■■■■■■■■■■■■■■:│               │   │\n│               │   │  Territory :■■■■■■■■■■■■■■■■■■■■■■■■:│               │   │\n│               │   │ ┌──────────────────────────────────┐ │               │   │\n│               │   │ │  MAN OF THE MATCH F Povlsen      │ │               │   │\n└───────────────┴───┘ └──────────────────────────────────┘ └───────────────┴───┘\n └────────────────────────────────────────────────────────────────────────────┘\n                                  hit any key                      Esc,◄┘-bench"
+  },
+  {
+   "step": 122,
+   "source": "memory",
+   "addr": "0x449",
+   "field": "full time: 1 byte at 0040:0049 (BIOS video mode), guest memory from the savestate, hex",
+   "value": "03"
+  },
+  {
+   "step": 122,
+   "source": "memory",
+   "addr": "0x46c",
+   "field": "full time: 4 bytes at 0040:006C (BIOS timer tick count), guest memory from the savestate, as a little-endian dword (bytes in memory order)",
+   "value": "0x000a0dbe (be 0d 0a 00)"
+  },
+  {
+   "step": 122,
+   "source": "memory",
+   "addr": "0x355a2",
+   "field": "full time: word at DS:7B62 of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+   "value": "0xdc62 (62 dc)"
+  },
+  {
+   "step": 122,
+   "source": "memory",
+   "addr": "0x355a4",
+   "field": "full time: word at DS:7B64 of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+   "value": "0x075f (5f 07)"
+  },
+  {
+   "step": 122,
+   "source": "memory",
+   "addr": "0x35d76",
+   "field": "full time: word at DS:8336 of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+   "value": "0x28d2 (d2 28)"
+  },
+  {
+   "step": 122,
+   "source": "memory",
+   "addr": "0x3843d",
+   "field": "full time: word at DS:A9FD of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+   "value": "0x07ea (ea 07)"
+  },
+  {
+   "step": 122,
+   "source": "memory",
+   "field": "full time: score bytes DS:9B3C, DS:9B3D (engine teams 0 and 1)",
+   "value": "1 2"
+  },
+  {
+   "step": 122,
+   "source": "memory",
+   "field": "full time: match delay byte at the far pointer DS:A923 + 0x3F (0 fastest)",
+   "value": "0"
+  },
+  {
+   "step": 123,
+   "source": "log",
+   "field": "keys sent from the key that starts the match to full time: [seconds since the starting burst, key, why] (runtime/driver/match.py)",
+   "value": "[[0.0, \"Enter\", \"starting burst, no poll between\"], [0.0, \"Right\", \"starting burst, no poll between\"], [0.0, \"Right\", \"starting burst, no poll between\"], [0.0, \"Right\", \"starting burst, no poll between\"], [0.0, \"Right\", \"starting burst, no poll between\"], [0.0, \"Right\", \"starting burst, no poll between\"], [16.0, \"Enter\", \"hit any key\"], [17.2, \"Enter\", \"team screen\"]]"
+  },
+  {
+   "step": 123,
+   "source": "log",
+   "field": "match: savestate reads from the starting keys to full time, and seconds",
+   "value": "121 reads, 66.65 s"
+  },
+  {
+   "step": 123,
+   "source": "memory",
+   "field": "commentary lines of the match in order, accumulated over the reads from the ring DS:7C38 (runtime/driver/commentary.py): [n, template, team, text]",
+   "value": "[[1, 59, 1, \"Piechnik wins the toss\"], [2, 49, 1, \"Laudrup to take kick off\"], [3, 35, 1, \"Povlsen collects\"], [4, 6, 1, \"Povlsen makes a run\"], [5, 11, 0, \"tackle by Nicholas\"], [6, 12, 1, \"dodged by Povlsen\"], [7, 11, 0, \"tackle by Pembridge\"], [8, 14, 0, \"Pembridge wins the ball\"], [9, 33, 0, \"knocked on by Pembridge\"], [10, 35, 0, \"Young collects\"], [11, 2, 0, \"Young makes a pass\"], [12, 35, 0, \"Nicholas collects\"], [13, 10, 0, \"high ball towards Rush\"], [14, 66, 1, \"** LINESMAN FLAGS **\"], [15, 32, 1, \"headed on by Olsen\"], [16, 54, 0, \"Hughes is OFFSIDE\"], [17, 58, 1, \"*** FREE KICK ***\"], [18, 48, 1, \"Christofte to take free kick\"], [19, 10, 1, \"high ball towards Povlsen\"], [20, 32, 1, \"headed on by Povlsen\"], [21, 25, 1, \"Vilfort on the ball\"], [22, 11, 0, \"tackle by Horne\"], [23, 14, 0, \"Horne wins the ball\"], [24, 23, 0, \"punted away by Horne\"], [25, 34, 1, \"Christofte intercepts\"], [26, 2, 1, \"Christofte makes a pass\"], [27, 43, 0, \"*** THROW IN ***\"], [28, 42, 0, \"Rush to take throw in\"], [29, 3, 0, \"Rush throws the ball\"], [30, 25, 0, \"Speed on the ball\"], [31, 6, 0, \"Speed makes a run\"], [32, 11, 1, \"tackle by Laudrup\"], [33, 14, 1, \"Laudrup wins the ball\"], [34, 8, 1, \"good ball for Povlsen\"], [35, 25, 1, \"Povlsen on the ball\"], [36, 10, 1, \"high ball towards Laudrup\"], [37, 35, 1, \"Jensen collects\"], [38, 8, 1, \"good ball for Povlsen\"], [39, 25, 1, \"Povlsen on the ball\"], [40, 6, 1, \"Povlsen makes a run\"], [41, 11, 0, \"tackle by Ratcliffe\"], [42, 14, 0, \"Ratcliffe wins the ball\"], [43, 10, 0, \"high ball towards Rush\"], [44, 34, 1, \"Piechnik intercepts\"], [45, 10, 1, \"high ball towards Povlsen\"], [46, 32, 1, \"headed on by Vilfort\"], [47, 25, 1, \"Larsen on the ball\"], [48, 8, 1, \"good ball for Laudrup\"], [49, 25, 1, \"Laudrup on the ball\"], [50, 11, 0, \"tackle by Bodin\"], [51, 12, 1, \"dodged by Laudrup\"], [52, 8, 1, \"good ball for Larsen\"], [53, 25, 1, \"Larsen on the ball\"], [54, 6, 1, \"Larsen makes a run\"], [55, 8, 1, \"good ball for Povlsen\"], [56, 25, 1, \"Povlsen on the ball\"], [57, 6, 1, \"Povlsen makes a run\"], [58, 11, 0, \"tackle by Young\"], [59, 14, 0, \"Young wins the ball\"], [60, 33, 0, \"knocked on by Young\"], [61, 43, 1, \"*** THROW IN ***\"], [62, 42, 1, \"Larsen to take throw in\"], [63, 3, 1, \"Larsen throws the ball\"], [64, 25, 1, \"Laudrup on the ball\"], [65, 8, 1, \"good ball for Povlsen\"], [66, 66, 1, \"** LINESMAN FLAGS **\"], [67, 25, 1, \"Povlsen on the ball\"], [68, 54, 1, \"Vilfort is OFFSIDE\"], [69, 58, 0, \"*** FREE KICK ***\"], [70, 48, 0, \"Bodin to take free kick\"], [71, 2, 0, \"Bodin makes a pass\"], [72, 32, 1, \"headed on by Larsen\"], [73, 25, 1, \"Vilfort on the ball\"], [74, 11, 0, \"tackle by Ratcliffe\"], [75, 14, 0, \"Ratcliffe wins the ball\"], [76, 11, 1, \"tackle by Larsen\"], [77, 14, 1, \"Larsen wins the ball\"], [78, 11, 0, \"tackle by Pembridge\"], [79, 14, 0, \"Pembridge wins the ball\"], [80, 11, 1, \"tackle by Jensen\"], [81, 14, 1, \"Jensen wins the ball\"], [82, 6, 1, \"Jensen makes a run\"], [83, 11, 0, \"tackle by Ratcliffe\"], [84, 14, 0, \"Ratcliffe wins the ball\"], [85, 11, 1, \"tackle by Larsen\"], [86, 55, 0, \"Ratcliffe is brought down\"], [87, 53, 1, \"FOUL by Larsen\"], [88, 58, 0, \"*** FREE KICK ***\"], [89, 48, 0, \"Nicholas to take free kick\"], [90, 1, 0, \"pass by Nicholas\"], [91, 32, 1, \"headed on by Vilfort\"], [92, 25, 1, \"Larsen on the ball\"], [93, 6, 1, \"Larsen makes a run\"], [94, 11, 0, \"tackle by Ratcliffe\"], [95, 14, 0, \"Ratcliffe wins the ball\"], [96, 8, 0, \"good ball for Rush\"], [97, 25, 0, \"Rush on the ball\"], [98, 11, 1, \"tackle by Piechnik\"], [99, 14, 1, \"Piechnik wins the ball\"], [100, 23, 1, \"punted away by Piechnik\"], [101, 34, 0, \"Young intercepts\"], [102, 2, 0, \"Young makes a pass\"], [103, 34, 1, \"Andersen intercepts\"], [104, 6, 1, \"Andersen makes a run\"], [105, 11, 0, \"tackle by Ratcliffe\"], [106, 14, 0, \"Ratcliffe wins the ball\"], [107, 10, 0, \"high ball towards Rush\"], [108, 35, 0, \"Hughes collects\"], [109, 11, 1, \"tackle by Olsen\"], [110, 14, 1, \"Olsen wins the ball\"], [111, 23, 1, \"punted away by Olsen\"], [112, 34, 0, \"Ratcliffe intercepts\"], [113, 10, 0, \"high ball towards Hughes\"], [114, 32, 0, \"headed on by Nicholas\"], [115, 25, 0, \"Rush on the ball\"], [116, 11, 1, \"tackle by Piechnik\"], [117, 14, 1, \"Piechnik wins the ball\"], [118, 10, 1, \"high ball towards Povlsen\"], [119, 32, 1, \"headed on by Povlsen\"], [120, 25, 1, \"Laudrup on the ball\"], [121, 1, 1, \"pass by Laudrup\"], [122, 35, 1, \"Povlsen collects\"], [123, 8, 1, \"good ball for Laudrup\"], [124, 25, 1, \"Laudrup on the ball\"], [125, 2, 1, \"Laudrup makes a pass\"], [126, 34, 0, \"Young intercepts\"], [127, 11, 1, \"tackle by Larsen\"], [128, 14, 1, \"Larsen wins the ball\"], [129, 33, 1, \"knocked on by Larsen\"], [130, 35, 1, \"Jensen collects\"], [131, 6, 1, \"Jensen makes a run\"], [132, 11, 0, \"tackle by Speed\"], [133, 14, 0, \"Speed wins the ball\"], [134, 10, 0, \"high ball towards Rush\"], [135, 34, 1, \"Sivebaek intercepts\"], [136, 10, 1, \"high ball towards Povlsen\"], [137, 35, 1, \"Povlsen collects\"], [138, 6, 1, \"Povlsen makes a run\"], [139, 11, 0, \"tackle by Young\"], [140, 14, 0, \"Young wins the ball\"], [141, 2, 0, \"Young makes a pass\"], [142, 35, 0, \"Nicholas collects\"], [143, 1, 0, \"pass by Nicholas\"], [144, 34, 1, \"Piechnik intercepts\"], [145, 10, 1, \"high ball towards Povlsen\"], [146, 34, 0, \"Young intercepts\"], [147, 10, 0, \"high ball towards Rush\"], [148, 32, 1, \"headed on by Sivebaek\"], [149, 25, 1, \"Christofte on the ball\"], [150, 1, 1, \"pass by Christofte\"], [151, 34, 0, \"Nicholas intercepts\"], [152, 8, 0, \"good ball for Rush\"], [153, 25, 0, \"Rush on the ball\"], [154, 6, 0, \"Rush makes a run\"], [155, 8, 0, \"good ball for Hughes\"], [156, 25, 0, \"Hughes on the ball\"], [157, 11, 1, \"tackle by Sivebaek\"], [158, 14, 1, \"Sivebaek wins the ball\"], [159, 11, 0, \"tackle by Blackmore\"], [160, 14, 0, \"Blackmore wins the ball\"], [161, 33, 0, \"knocked on by Blackmore\"], [162, 34, 1, \"Christofte intercepts\"], [163, 8, 1, \"good ball for Piechnik\"], [164, 25, 1, \"Piechnik on the ball\"], [165, 2, 1, \"Piechnik makes a pass\"], [166, 34, 0, \"Bodin intercepts\"], [167, 11, 1, \"tackle by Larsen\"], [168, 14, 1, \"Larsen wins the ball\"], [169, 6, 1, \"Larsen makes a run\"], [170, 11, 0, \"tackle by Ratcliffe\"], [171, 14, 0, \"Ratcliffe wins the ball\"], [172, 33, 0, \"knocked on by Ratcliffe\"], [173, 43, 1, \"*** THROW IN ***\"], [174, 42, 1, \"Laudrup to take throw in\"], [175, 3, 1, \"Laudrup throws the ball\"], [176, 34, 0, \"Nicholas intercepts\"], [177, 11, 1, \"tackle by Andersen\"], [178, 12, 0, \"dodged by Nicholas\"], [179, 8, 0, \"good ball for Rush\"], [180, 25, 0, \"Rush on the ball\"], [181, 6, 0, \"Rush makes a run\"], [182, 11, 1, \"tackle by Olsen\"], [183, 14, 1, \"Olsen wins the ball\"], [184, 8, 1, \"good ball for Piechnik\"], [185, 25, 1, \"Piechnik on the ball\"], [186, 10, 1, \"high ball towards Povlsen\"], [187, 34, 0, \"Bodin intercepts\"], [188, 23, 0, \"punted away by Bodin\"], [189, 32, 1, \"headed on by Andersen\"], [190, 34, 0, \"Hughes intercepts\"], [191, 11, 1, \"tackle by Piechnik\"], [192, 14, 1, \"Piechnik wins the ball\"], [193, 10, 1, \"high ball towards Povlsen\"], [194, 32, 0, \"headed on by Bodin\"], [195, 25, 0, \"Speed on the ball\"], [196, 11, 1, \"tackle by Vilfort\"], [197, 14, 1, \"Vilfort wins the ball\"], [198, 8, 1, \"good ball for Povlsen\"], [199, 25, 1, \"Povlsen on the ball\"], [200, 17, 1, \"shot from Povlsen\"], [1, 36, 0, \"Southall beaten\"], [2, 38, 1, \"**** GOAL **** by Povlsen\"], [3, 49, 0, \"Hughes to take kick off\"], [4, 35, 0, \"Rush collects\"], [5, 11, 1, \"tackle by Povlsen\"], [6, 14, 1, \"Povlsen wins the ball\"], [7, 33, 1, \"knocked on by Povlsen\"], [8, 35, 1, \"Laudrup collects\"], [9, 1, 1, \"pass by Laudrup\"], [10, 35, 1, \"Povlsen collects\"], [11, 6, 1, \"Povlsen makes a run\"], [12, 11, 0, \"tackle by Horne\"], [13, 14, 0, \"Horne wins the ball\"], [14, 8, 0, \"good ball for Rush\"], [15, 25, 0, \"Rush on the ball\"], [16, 6, 0, \"Rush makes a run\"], [17, 11, 1, \"tackle by Piechnik\"], [18, 14, 1, \"Piechnik wins the ball\"], [19, 10, 1, \"high ball towards Povlsen\"], [20, 34, 0, \"Nicholas intercepts\"], [21, 11, 1, \"tackle by Larsen\"], [22, 14, 1, \"Larsen wins the ball\"], [23, 6, 1, \"Larsen makes a run\"], [24, 11, 0, \"tackle by Young\"], [25, 14, 0, \"Young wins the ball\"], [26, 10, 0, \"high ball towards Hughes\"], [27, 32, 1, \"headed on by Piechnik\"], [28, 25, 1, \"Christofte on the ball\"], [29, 2, 1, \"Christofte makes a pass\"], [30, 35, 1, \"Jensen collects\"], [31, 11, 0, \"tackle by Young\"], [32, 14, 0, \"Young wins the ball\"], [33, 10, 0, \"high ball towards Rush\"], [34, 34, 1, \"Christofte intercepts\"], [35, 11, 0, \"tackle by Hughes\"], [36, 14, 0, \"Hughes wins the ball\"], [37, 11, 1, \"tackle by Olsen\"], [38, 14, 1, \"Olsen wins the ball\"], [39, 33, 1, \"knocked on by Olsen\"], [40, 34, 0, \"Hughes intercepts\"], [41, 6, 0, \"Hughes makes a run\"], [42, 11, 1, \"tackle by Olsen\"], [43, 14, 1, \"Olsen wins the ball\"], [44, 23, 1, \"punted away by Olsen\"], [45, 34, 0, \"Horne intercepts\"], [46, 11, 1, \"tackle by Sivebaek\"], [47, 14, 1, \"Sivebaek wins the ball\"], [48, 10, 1, \"high ball towards Larsen\"], [49, 32, 0, \"headed on by Bodin\"], [50, 25, 0, \"Young on the ball\"], [51, 11, 1, \"tackle by Povlsen\"], [52, 14, 1, \"Povlsen wins the ball\"], [53, 33, 1, \"knocked on by Povlsen\"], [54, 35, 1, \"Laudrup collects\"], [55, 2, 1, \"Laudrup makes a pass\"], [56, 35, 1, \"Vilfort collects\"], [57, 8, 1, \"good ball for Povlsen\"], [58, 25, 1, \"Povlsen on the ball\"], [59, 6, 1, \"Povlsen makes a run\"], [60, 1, 1, \"pass by Povlsen\"], [61, 35, 1, \"Vilfort collects\"], [62, 1, 1, \"pass by Vilfort\"], [63, 35, 1, \"Povlsen collects\"], [64, 8, 1, \"good ball for Laudrup\"], [65, 25, 1, \"Laudrup on the ball\"], [66, 8, 1, \"good ball for Povlsen\"], [67, 25, 1, \"Povlsen on the ball\"], [68, 6, 1, \"Povlsen makes a run\"], [69, 11, 0, \"tackle by Ratcliffe\"], [70, 14, 0, \"Ratcliffe wins the ball\"], [71, 23, 0, \"punted away by Ratcliffe\"], [72, 34, 1, \"Andersen intercepts\"], [73, 1, 1, \"pass by Andersen\"], [74, 34, 0, \"Rush intercepts\"], [75, 11, 1, \"tackle by Olsen\"], [76, 14, 1, \"Olsen wins the ball\"], [77, 8, 1, \"good ball for Piechnik\"], [78, 25, 1, \"Piechnik on the ball\"], [79, 2, 1, \"Piechnik makes a pass\"], [80, 35, 1, \"Olsen collects\"], [81, 11, 0, \"tackle by Hughes\"], [82, 14, 0, \"Hughes wins the ball\"], [83, 11, 1, \"tackle by Piechnik\"], [84, 14, 1, \"Piechnik wins the ball\"], [85, 2, 1, \"Piechnik makes a pass\"], [86, 43, 0, \"*** THROW IN ***\"], [87, 42, 0, \"Rush to take throw in\"], [88, 3, 0, \"Rush throws the ball\"], [89, 25, 0, \"Nicholas on the ball\"], [90, 1, 0, \"pass by Nicholas\"], [91, 35, 0, \"Rush collects\"], [92, 11, 1, \"tackle by Olsen\"], [93, 14, 1, \"Olsen wins the ball\"], [94, 8, 1, \"good ball for Povlsen\"], [95, 25, 1, \"Povlsen on the ball\"], [96, 8, 1, \"good ball for Andersen\"], [97, 25, 1, \"Andersen on the ball\"], [98, 6, 1, \"Andersen makes a run\"], [99, 11, 0, \"tackle by Ratcliffe\"], [100, 14, 0, \"Ratcliffe wins the ball\"], [101, 10, 0, \"high ball towards Rush\"], [102, 32, 1, \"headed on by Larsen\"], [103, 25, 1, \"Vilfort on the ball\"], [104, 8, 1, \"good ball for Povlsen\"], [105, 25, 1, \"Povlsen on the ball\"], [106, 8, 1, \"good ball for Laudrup\"], [107, 25, 1, \"Laudrup on the ball\"], [108, 11, 0, \"tackle by Bodin\"], [109, 14, 0, \"Bodin wins the ball\"], [110, 33, 0, \"knocked on by Bodin\"], [111, 35, 0, \"Nicholas collects\"], [112, 11, 1, \"tackle by Vilfort\"], [113, 14, 1, \"Vilfort wins the ball\"], [114, 8, 1, \"good ball for Povlsen\"], [115, 25, 1, \"Povlsen on the ball\"], [116, 6, 1, \"Povlsen makes a run\"], [117, 11, 0, \"tackle by Young\"], [118, 14, 0, \"Young wins the ball\"], [119, 1, 0, \"pass by Young\"], [120, 32, 0, \"headed on by Horne\"], [121, 25, 0, \"Blackmore on the ball\"], [122, 11, 1, \"tackle by Sivebaek\"], [123, 14, 1, \"Sivebaek wins the ball\"], [124, 8, 1, \"good ball for Povlsen\"], [125, 25, 1, \"Povlsen on the ball\"], [126, 6, 1, \"Povlsen makes a run\"], [127, 8, 1, \"good ball for Jensen\"], [128, 25, 1, \"Jensen on the ball\"], [129, 6, 1, \"Jensen makes a run\"], [130, 11, 0, \"tackle by Ratcliffe\"], [131, 14, 0, \"Ratcliffe wins the ball\"], [132, 10, 0, \"high ball towards Rush\"], [133, 34, 1, \"Christofte intercepts\"], [134, 2, 1, \"Christofte makes a pass\"], [135, 43, 0, \"*** THROW IN ***\"], [136, 42, 0, \"Pembridge to take throw in\"], [137, 3, 0, \"Pembridge throws the ball\"], [138, 25, 0, \"Horne on the ball\"], [139, 10, 0, \"high ball towards Rush\"], [140, 34, 1, \"Piechnik intercepts\"], [141, 10, 1, \"high ball towards Povlsen\"], [142, 2, 1, \"Povlsen makes a pass\"], [143, 35, 1, \"Laudrup collects\"], [144, 11, 0, \"tackle by Nicholas\"], [145, 12, 1, \"dodged by Laudrup\"], [146, 8, 1, \"good ball for Povlsen\"], [147, 25, 1, \"Povlsen on the ball\"], [148, 8, 1, \"good ball for Laudrup\"], [149, 25, 1, \"Laudrup on the ball\"], [150, 8, 1, \"good ball for Povlsen\"], [151, 25, 1, \"Povlsen on the ball\"], [152, 6, 1, \"Povlsen makes a run\"], [153, 2, 1, \"Povlsen makes a pass\"], [154, 34, 0, \"Ratcliffe intercepts\"], [155, 10, 0, \"high ball towards Rush\"], [156, 65, 1, \"challenge by Olsen\"], [157, 14, 1, \"Olsen wins the ball\"], [158, 33, 1, \"knocked on by Olsen\"], [159, 35, 1, \"Sivebaek collects\"], [160, 1, 1, \"pass by Sivebaek\"], [161, 43, 0, \"*** THROW IN ***\"], [162, 42, 0, \"Horne to take throw in\"], [163, 3, 0, \"Horne throws the ball\"], [164, 25, 0, \"Blackmore on the ball\"], [165, 2, 0, \"Blackmore makes a pass\"], [166, 20, 0, \"header from Hughes\"], [167, 26, 0, \"Hughes hits the post\"], [168, 29, 1, \"saved by Schmeichel\"], [169, 3, 1, \"Schmeichel throws the ball\"], [170, 25, 1, \"Povlsen on the ball\"], [171, 23, 1, \"punted away by Povlsen\"], [172, 34, 0, \"Pembridge intercepts\"], [173, 6, 0, \"Pembridge makes a run\"], [174, 11, 1, \"tackle by Andersen\"], [175, 14, 1, \"Andersen wins the ball\"], [176, 6, 1, \"Andersen makes a run\"], [177, 1, 1, \"pass by Andersen\"], [178, 35, 1, \"Larsen collects\"], [179, 6, 1, \"Larsen makes a run\"], [180, 8, 1, \"good ball for Vilfort\"], [181, 66, 1, \"** LINESMAN FLAGS **\"], [182, 25, 1, \"Vilfort on the ball\"], [183, 17, 1, \"shot from Vilfort\"], [184, 36, 0, \"Southall beaten\"], [185, 38, 1, \"**** GOAL **** by Vilfort\"], [186, 54, 1, \"Vilfort is OFFSIDE\"], [187, 58, 0, \"*** FREE KICK ***\"], [188, 48, 0, \"Speed to take free kick\"], [189, 1, 0, \"pass by Speed\"], [190, 32, 1, \"headed on by Laudrup\"], [191, 35, 1, \"Vilfort collects\"], [192, 8, 1, \"good ball for Laudrup\"], [193, 25, 1, \"Laudrup on the ball\"], [194, 8, 1, \"good ball for Jensen\"], [195, 25, 1, \"Jensen on the ball\"], [196, 11, 0, \"tackle by Bodin\"], [197, 14, 0, \"Bodin wins the ball\"], [198, 6, 0, \"Bodin makes a run\"], [199, 11, 1, \"tackle by Laudrup\"], [200, 14, 1, \"Laudrup wins the ball\"], [1, 11, 0, \"tackle by Hughes\"], [2, 12, 1, \"dodged by Laudrup\"], [3, 1, 1, \"pass by Laudrup\"], [4, 35, 1, \"Olsen collects\"], [5, 8, 1, \"good ball for Povlsen\"], [6, 25, 1, \"Povlsen on the ball\"], [7, 6, 1, \"Povlsen makes a run\"], [8, 11, 0, \"tackle by Horne\"], [9, 12, 1, \"dodged by Povlsen\"], [10, 6, 1, \"Povlsen makes a run\"], [11, 11, 0, \"tackle by Nicholas\"], [12, 14, 0, \"Nicholas wins the ball\"], [13, 11, 1, \"tackle by Larsen\"], [14, 14, 1, \"Larsen wins the ball\"], [15, 8, 1, \"good ball for Vilfort\"], [16, 25, 1, \"Vilfort on the ball\"], [17, 8, 1, \"good ball for Laudrup\"], [18, 25, 1, \"Laudrup on the ball\"], [19, 8, 1, \"good ball for Olsen\"], [20, 25, 1, \"Olsen on the ball\"], [21, 1, 1, \"pass by Olsen\"], [22, 35, 1, \"Povlsen collects\"], [23, 6, 1, \"Povlsen makes a run\"], [24, 2, 1, \"Povlsen makes a pass\"], [25, 34, 0, \"Young intercepts\"], [26, 10, 0, \"high ball towards Rush\"], [27, 32, 1, \"headed on by Vilfort\"], [28, 25, 1, \"Olsen on the ball\"], [29, 11, 0, \"tackle by Horne\"], [30, 14, 0, \"Horne wins the ball\"], [31, 33, 0, \"knocked on by Horne\"], [32, 35, 0, \"Hughes collects\"], [33, 8, 0, \"good ball for Rush\"], [34, 25, 0, \"Rush on the ball\"], [35, 6, 0, \"Rush makes a run\"], [36, 11, 1, \"tackle by Andersen\"], [37, 12, 0, \"dodged by Rush\"], [38, 6, 0, \"Rush makes a run\"], [39, 11, 1, \"tackle by Piechnik\"], [40, 14, 1, \"Piechnik wins the ball\"], [41, 10, 1, \"high ball towards Povlsen\"], [42, 34, 0, \"Ratcliffe intercepts\"], [43, 10, 0, \"high ball towards Hughes\"], [44, 32, 1, \"headed on by Olsen\"], [45, 25, 1, \"Vilfort on the ball\"], [46, 11, 0, \"tackle by Nicholas\"], [47, 14, 0, \"Nicholas wins the ball\"], [48, 8, 0, \"good ball for Rush\"], [49, 25, 0, \"Rush on the ball\"], [50, 11, 1, \"tackle by Piechnik\"], [51, 14, 1, \"Piechnik wins the ball\"], [52, 10, 1, \"high ball towards Povlsen\"], [53, 32, 1, \"headed on by Laudrup\"], [54, 34, 0, \"Bodin intercepts\"], [55, 23, 0, \"punted away by Bodin\"], [56, 34, 1, \"Sivebaek intercepts\"], [57, 6, 1, \"Sivebaek makes a run\"], [58, 11, 0, \"tackle by Blackmore\"], [59, 14, 0, \"Blackmore wins the ball\"], [60, 6, 0, \"Blackmore makes a run\"], [61, 11, 1, \"tackle by Olsen\"], [62, 14, 1, \"Olsen wins the ball\"], [63, 8, 1, \"good ball for Piechnik\"], [64, 25, 1, \"Piechnik on the ball\"], [65, 8, 1, \"good ball for Olsen\"], [66, 25, 1, \"Olsen on the ball\"], [67, 8, 1, \"good ball for Piechnik\"], [68, 25, 1, \"Piechnik on the ball\"], [69, 1, 1, \"pass by Piechnik\"], [70, 35, 1, \"Olsen collects\"], [71, 10, 1, \"high ball towards Larsen\"], [72, 34, 0, \"Ratcliffe intercepts\"], [73, 1, 0, \"pass by Ratcliffe\"], [74, 32, 0, \"headed on by Hughes\"], [75, 25, 0, \"Blackmore on the ball\"], [76, 1, 0, \"pass by Blackmore\"], [77, 34, 1, \"Olsen intercepts\"], [78, 10, 1, \"high ball towards Povlsen\"], [79, 34, 0, \"Young intercepts\"], [80, 2, 0, \"Young makes a pass\"], [81, 43, 1, \"*** THROW IN ***\"], [82, 42, 1, \"Andersen to take throw in\"], [83, 3, 1, \"Andersen throws the ball\"], [84, 25, 1, \"Sivebaek on the ball\"], [85, 11, 0, \"tackle by Blackmore\"], [86, 12, 1, \"dodged by Sivebaek\"], [87, 6, 1, \"Sivebaek makes a run\"], [88, 11, 0, \"tackle by Nicholas\"], [89, 14, 0, \"Nicholas wins the ball\"], [90, 8, 0, \"good ball for Rush\"], [91, 25, 0, \"Rush on the ball\"], [92, 11, 1, \"tackle by Andersen\"], [93, 14, 1, \"Andersen wins the ball\"], [94, 6, 1, \"Andersen makes a run\"], [95, 64, 1, \"---- HALF TIME ----\"], [96, 49, 0, \"Hughes to take kick off\"], [97, 35, 0, \"Rush collects\"], [98, 11, 1, \"tackle by Povlsen\"], [99, 14, 1, \"Povlsen wins the ball\"], [100, 6, 1, \"Povlsen makes a run\"], [101, 2, 1, \"Povlsen makes a pass\"], [102, 34, 0, \"Rush intercepts\"], [103, 11, 1, \"tackle by Larsen\"], [104, 14, 1, \"Larsen wins the ball\"], [105, 2, 1, \"Larsen makes a pass\"], [106, 35, 1, \"Laudrup collects\"], [107, 8, 1, \"good ball for Povlsen\"], [108, 25, 1, \"Povlsen on the ball\"], [109, 2, 1, \"Povlsen makes a pass\"], [110, 34, 0, \"Pembridge intercepts\"], [111, 8, 0, \"good ball for Rush\"], [112, 25, 0, \"Rush on the ball\"], [113, 11, 1, \"tackle by Piechnik\"], [114, 14, 1, \"Piechnik wins the ball\"], [115, 8, 1, \"good ball for Povlsen\"], [116, 25, 1, \"Povlsen on the ball\"], [117, 6, 1, \"Povlsen makes a run\"], [118, 11, 0, \"tackle by Pembridge\"], [119, 14, 0, \"Pembridge wins the ball\"], [120, 11, 1, \"tackle by Andersen\"], [121, 14, 1, \"Andersen wins the ball\"], [122, 1, 1, \"pass by Andersen\"], [123, 35, 1, \"Larsen collects\"], [124, 6, 1, \"Larsen makes a run\"], [125, 8, 1, \"good ball for Povlsen\"], [126, 25, 1, \"Povlsen on the ball\"], [127, 6, 1, \"Povlsen makes a run\"], [128, 8, 1, \"good ball for Andersen\"], [129, 25, 1, \"Andersen on the ball\"], [130, 6, 1, \"Andersen makes a run\"], [131, 66, 1, \"** LINESMAN FLAGS **\"], [132, 54, 1, \"Jensen is OFFSIDE\"], [133, 58, 0, \"*** FREE KICK ***\"], [134, 48, 0, \"Speed to take free kick\"], [135, 10, 0, \"high ball towards Blackmore\"], [136, 34, 1, \"Sivebaek intercepts\"], [137, 2, 1, \"Sivebaek makes a pass\"], [138, 34, 0, \"Blackmore intercepts\"], [139, 6, 0, \"Blackmore makes a run\"], [140, 2, 0, \"Blackmore makes a pass\"], [141, 35, 0, \"Pembridge collects\"], [142, 11, 1, \"tackle by Andersen\"], [143, 14, 1, \"Andersen wins the ball\"], [144, 1, 1, \"pass by Andersen\"], [145, 35, 1, \"Sivebaek collects\"], [146, 8, 1, \"good ball for Povlsen\"], [147, 25, 1, \"Povlsen on the ball\"], [148, 8, 1, \"good ball for Laudrup\"], [149, 25, 1, \"Laudrup on the ball\"], [150, 8, 1, \"good ball for Povlsen\"], [151, 25, 1, \"Povlsen on the ball\"], [152, 1, 1, \"pass by Povlsen\"], [153, 34, 0, \"Ratcliffe intercepts\"], [154, 11, 1, \"tackle by Povlsen\"], [155, 14, 1, \"Povlsen wins the ball\"], [156, 6, 1, \"Povlsen makes a run\"], [157, 1, 1, \"pass by Povlsen\"], [158, 35, 1, \"Laudrup collects\"], [159, 8, 1, \"good ball for Povlsen\"], [160, 25, 1, \"Povlsen on the ball\"], [161, 8, 1, \"good ball for Laudrup\"], [162, 25, 1, \"Laudrup on the ball\"], [163, 8, 1, \"good ball for Povlsen\"], [164, 25, 1, \"Povlsen on the ball\"], [165, 11, 0, \"tackle by Young\"], [166, 14, 0, \"Young wins the ball\"], [167, 11, 1, \"tackle by Laudrup\"], [168, 14, 1, \"Laudrup wins the ball\"], [169, 11, 0, \"tackle by Bodin\"], [170, 14, 0, \"Bodin wins the ball\"], [171, 6, 0, \"Bodin makes a run\"], [172, 2, 0, \"Bodin makes a pass\"], [173, 35, 0, \"Horne collects\"], [174, 11, 1, \"tackle by Jensen\"], [175, 55, 0, \"Horne is brought down\"], [176, 53, 1, \"FOUL by Jensen\"], [177, 58, 0, \"*** FREE KICK ***\"], [178, 48, 0, \"Young to take free kick\"], [179, 2, 0, \"Young makes a pass\"], [180, 34, 1, \"Vilfort intercepts\"], [181, 8, 1, \"good ball for Povlsen\"], [182, 25, 1, \"Povlsen on the ball\"], [183, 6, 1, \"Povlsen makes a run\"], [184, 11, 0, \"tackle by Young\"], [185, 14, 0, \"Young wins the ball\"], [186, 10, 0, \"high ball towards Rush\"], [187, 32, 1, \"headed on by Vilfort\"], [188, 23, 1, \"punted away by Vilfort\"], [189, 32, 0, \"headed on by Young\"], [190, 35, 0, \"Ratcliffe collects\"], [191, 11, 1, \"tackle by Povlsen\"], [192, 14, 1, \"Povlsen wins the ball\"], [193, 6, 1, \"Povlsen makes a run\"], [194, 11, 0, \"tackle by Young\"], [195, 14, 0, \"Young wins the ball\"], [196, 33, 0, \"knocked on by Young\"], [197, 34, 1, \"Laudrup intercepts\"], [198, 8, 1, \"good ball for Larsen\"], [199, 25, 1, \"Larsen on the ball\"], [200, 8, 1, \"good ball for Povlsen\"], [1, 25, 1, \"Povlsen on the ball\"], [2, 11, 0, \"tackle by Young\"], [3, 14, 0, \"Young wins the ball\"], [4, 10, 0, \"high ball towards Rush\"], [5, 65, 1, \"challenge by Piechnik\"], [6, 1, 0, \"pass by Rush\"], [7, 34, 1, \"Christofte intercepts\"], [8, 11, 0, \"tackle by Hughes\"], [9, 14, 0, \"Hughes wins the ball\"], [10, 33, 0, \"knocked on by Hughes\"], [11, 66, 1, \"** LINESMAN FLAGS **\"], [12, 34, 1, \"Olsen intercepts\"], [13, 54, 0, \"Rush is OFFSIDE\"], [14, 58, 1, \"*** FREE KICK ***\"], [15, 48, 1, \"Olsen to take free kick\"], [16, 10, 1, \"high ball towards Larsen\"], [17, 32, 0, \"headed on by Bodin\"], [18, 35, 0, \"Nicholas collects\"], [19, 8, 0, \"good ball for Rush\"], [20, 25, 0, \"Rush on the ball\"], [21, 10, 0, \"high ball towards Hughes\"], [22, 8, 0, \"good ball for Rush\"], [23, 25, 0, \"Rush on the ball\"], [24, 11, 1, \"tackle by Piechnik\"], [25, 14, 1, \"Piechnik wins the ball\"], [26, 33, 1, \"knocked on by Piechnik\"], [27, 35, 1, \"Andersen collects\"], [28, 6, 1, \"Andersen makes a run\"], [29, 10, 1, \"high ball towards Povlsen\"], [30, 32, 0, \"headed on by Nicholas\"], [31, 25, 0, \"Ratcliffe on the ball\"], [32, 11, 1, \"tackle by Jensen\"], [33, 14, 1, \"Jensen wins the ball\"], [34, 8, 1, \"good ball for Povlsen\"], [35, 25, 1, \"Povlsen on the ball\"], [36, 11, 0, \"tackle by Young\"], [37, 14, 0, \"Young wins the ball\"], [38, 2, 0, \"Young makes a pass\"], [39, 31, 1, \"deflected by Jensen\"], [40, 34, 0, \"Young intercepts\"], [41, 10, 0, \"high ball towards Blackmore\"], [42, 35, 0, \"Hughes collects\"], [43, 11, 1, \"tackle by Christofte\"], [44, 14, 1, \"Christofte wins the ball\"], [45, 10, 1, \"high ball towards Povlsen\"], [46, 35, 1, \"Povlsen collects\"], [47, 8, 1, \"good ball for Laudrup\"], [48, 25, 1, \"Laudrup on the ball\"], [49, 17, 1, \"shot from Laudrup\"], [50, 36, 0, \"Southall beaten\"], [51, 38, 1, \"**** GOAL **** by Laudrup\"], [52, 0, 0, \"Phillips on for Blackmore\"], [53, 49, 0, \"Hughes to take kick off\"], [54, 35, 0, \"Rush collects\"], [55, 11, 1, \"tackle by Povlsen\"], [56, 14, 1, \"Povlsen wins the ball\"], [57, 8, 1, \"good ball for Laudrup\"], [58, 25, 1, \"Laudrup on the ball\"], [59, 8, 1, \"good ball for Povlsen\"], [60, 25, 1, \"Povlsen on the ball\"], [61, 6, 1, \"Povlsen makes a run\"], [62, 11, 0, \"tackle by Young\"], [63, 12, 1, \"dodged by Povlsen\"], [64, 6, 1, \"Povlsen makes a run\"], [65, 11, 0, \"tackle by Nicholas\"], [66, 12, 1, \"dodged by Povlsen\"], [67, 6, 1, \"Povlsen makes a run\"], [68, 2, 1, \"Povlsen makes a pass\"], [69, 34, 0, \"Young intercepts\"], [70, 8, 0, \"good ball for Rush\"], [71, 25, 0, \"Rush on the ball\"], [72, 11, 1, \"tackle by Vilfort\"], [73, 14, 1, \"Vilfort wins the ball\"], [74, 33, 1, \"knocked on by Vilfort\"], [75, 34, 0, \"Bodin intercepts\"], [76, 6, 0, \"Bodin makes a run\"], [77, 11, 1, \"tackle by Olsen\"], [78, 14, 1, \"Olsen wins the ball\"], [79, 33, 1, \"knocked on by Olsen\"], [80, 34, 0, \"Hughes intercepts\"], [81, 11, 1, \"tackle by Sivebaek\"], [82, 14, 1, \"Sivebaek wins the ball\"], [83, 6, 1, \"Sivebaek makes a run\"], [84, 11, 0, \"tackle by Bodin\"], [85, 14, 0, \"Bodin wins the ball\"], [86, 6, 0, \"Bodin makes a run\"], [87, 66, 1, \"** LINESMAN FLAGS **\"], [88, 54, 0, \"Phillips is OFFSIDE\"], [89, 58, 1, \"*** FREE KICK ***\"], [90, 48, 1, \"Sivebaek to take free kick\"], [91, 2, 1, \"Sivebaek makes a pass\"], [92, 34, 0, \"Bodin intercepts\"], [93, 23, 0, \"punted away by Bodin\"], [94, 34, 1, \"Christofte intercepts\"], [95, 10, 1, \"high ball towards Laudrup\"], [96, 32, 0, \"headed on by Speed\"], [97, 35, 0, \"Horne collects\"], [98, 10, 0, \"high ball towards Rush\"], [99, 32, 1, \"headed on by Olsen\"], [100, 34, 0, \"Phillips intercepts\"], [101, 11, 1, \"tackle by Olsen\"], [102, 14, 1, \"Olsen wins the ball\"], [103, 11, 0, \"tackle by Hughes\"], [104, 14, 0, \"Hughes wins the ball\"], [105, 11, 1, \"tackle by Sivebaek\"], [106, 14, 1, \"Sivebaek wins the ball\"], [107, 6, 1, \"Sivebaek makes a run\"], [108, 11, 0, \"tackle by Nicholas\"], [109, 14, 0, \"Nicholas wins the ball\"], [110, 8, 0, \"good ball for Rush\"], [111, 25, 0, \"Rush on the ball\"], [112, 11, 1, \"tackle by Christofte\"], [113, 14, 1, \"Christofte wins the ball\"], [114, 2, 1, \"Christofte makes a pass\"], [115, 34, 0, \"Bodin intercepts\"], [116, 6, 0, \"Bodin makes a run\"], [117, 11, 1, \"tackle by Sivebaek\"], [118, 14, 1, \"Sivebaek wins the ball\"], [119, 6, 1, \"Sivebaek makes a run\"], [120, 11, 0, \"tackle by Ratcliffe\"], [121, 12, 1, \"dodged by Sivebaek\"], [122, 11, 0, \"tackle by Young\"], [123, 14, 0, \"Young wins the ball\"], [124, 11, 1, \"tackle by Jensen\"], [125, 14, 1, \"Jensen wins the ball\"], [126, 6, 1, \"Jensen makes a run\"], [127, 11, 0, \"tackle by Speed\"], [128, 14, 0, \"Speed wins the ball\"], [129, 33, 0, \"knocked on by Speed\"], [130, 35, 0, \"Ratcliffe collects\"], [131, 23, 0, \"punted away by Ratcliffe\"], [132, 34, 1, \"Olsen intercepts\"], [133, 10, 1, \"high ball towards Larsen\"], [134, 32, 0, \"headed on by Speed\"], [135, 25, 0, \"Phillips on the ball\"], [136, 2, 0, \"Phillips makes a pass\"], [137, 32, 0, \"headed on by Hughes\"], [138, 25, 0, \"Phillips on the ball\"], [139, 11, 1, \"tackle by Sivebaek\"], [140, 14, 1, \"Sivebaek wins the ball\"], [141, 6, 1, \"Sivebaek makes a run\"], [142, 11, 0, \"tackle by Phillips\"], [143, 14, 0, \"Phillips wins the ball\"], [144, 11, 1, \"tackle by Christofte\"], [145, 14, 1, \"Christofte wins the ball\"], [146, 2, 1, \"Christofte makes a pass\"], [147, 32, 0, \"headed on by Horne\"], [148, 35, 0, \"Hughes collects\"], [149, 11, 1, \"tackle by Christofte\"], [150, 14, 1, \"Christofte wins the ball\"], [151, 10, 1, \"high ball towards Povlsen\"], [152, 32, 0, \"headed on by Ratcliffe\"], [153, 25, 0, \"Bodin on the ball\"], [154, 6, 0, \"Bodin makes a run\"], [155, 11, 1, \"tackle by Jensen\"], [156, 55, 0, \"Bodin is brought down\"], [157, 53, 1, \"FOUL by Jensen\"], [158, 52, 0, \"Bodin INJURED\"], [159, 0, 0, \"Bowen on for Bodin\"], [160, 58, 0, \"*** FREE KICK ***\"], [161, 48, 0, \"Hughes to take free kick\"], [162, 10, 0, \"high ball towards Rush\"], [163, 30, 1, \"blocked by Schmeichel\"], [164, 35, 1, \"Olsen collects\"], [165, 10, 1, \"high ball towards Povlsen\"], [166, 32, 1, \"headed on by Povlsen\"], [167, 25, 1, \"Laudrup on the ball\"], [168, 8, 1, \"good ball for Povlsen\"], [169, 25, 1, \"Povlsen on the ball\"], [170, 1, 1, \"pass by Povlsen\"], [171, 35, 1, \"Jensen collects\"], [172, 1, 1, \"pass by Jensen\"], [173, 35, 1, \"Povlsen collects\"], [174, 11, 0, \"tackle by Hughes\"], [175, 12, 1, \"dodged by Povlsen\"], [176, 6, 1, \"Povlsen makes a run\"], [177, 1, 1, \"pass by Povlsen\"], [178, 35, 1, \"Laudrup collects\"], [179, 8, 1, \"good ball for Povlsen\"], [180, 25, 1, \"Povlsen on the ball\"], [181, 6, 1, \"Povlsen makes a run\"], [182, 11, 0, \"tackle by Young\"], [183, 14, 0, \"Young wins the ball\"], [184, 10, 0, \"high ball towards Rush\"], [185, 32, 1, \"headed on by Olsen\"], [186, 25, 1, \"Vilfort on the ball\"], [187, 8, 1, \"good ball for Povlsen\"], [188, 25, 1, \"Povlsen on the ball\"], [189, 11, 0, \"tackle by Ratcliffe\"], [190, 14, 0, \"Ratcliffe wins the ball\"], [191, 10, 0, \"high ball towards Rush\"], [192, 34, 1, \"Christofte intercepts\"], [193, 10, 1, \"high ball towards Povlsen\"], [194, 32, 1, \"headed on by Povlsen\"], [195, 35, 1, \"Andersen collects\"], [196, 6, 1, \"Andersen makes a run\"], [197, 11, 0, \"tackle by Ratcliffe\"], [198, 12, 1, \"dodged by Andersen\"], [199, 6, 1, \"Andersen makes a run\"], [200, 17, 1, \"shot from Andersen\"], [1, 31, 0, \"deflected by Southall\"], [2, 45, 1, \"*** CORNER ***\"], [3, 44, 1, \"Larsen to take corner\"], [4, 15, 1, \"cross from Larsen\"], [5, 29, 0, \"saved by Southall\"], [6, 5, 0, \"long kick from Southall\"], [7, 34, 1, \"Piechnik intercepts\"], [8, 1, 1, \"pass by Piechnik\"], [9, 35, 1, \"Andersen collects\"], [10, 8, 1, \"good ball for Povlsen\"], [11, 25, 1, \"Povlsen on the ball\"], [12, 8, 1, \"good ball for Laudrup\"], [13, 25, 1, \"Laudrup on the ball\"], [14, 8, 1, \"good ball for Povlsen\"], [15, 25, 1, \"Povlsen on the ball\"], [16, 8, 1, \"good ball for Laudrup\"], [17, 25, 1, \"Laudrup on the ball\"], [18, 1, 1, \"pass by Laudrup\"], [19, 34, 0, \"Ratcliffe intercepts\"], [20, 11, 1, \"tackle by Vilfort\"], [21, 14, 1, \"Vilfort wins the ball\"], [22, 8, 1, \"good ball for Povlsen\"], [23, 25, 1, \"Povlsen on the ball\"], [24, 8, 1, \"good ball for Jensen\"], [25, 25, 1, \"Jensen on the ball\"], [26, 11, 0, \"tackle by Speed\"], [27, 14, 0, \"Speed wins the ball\"], [28, 6, 0, \"Speed makes a run\"], [29, 11, 1, \"tackle by Vilfort\"], [30, 14, 1, \"Vilfort wins the ball\"], [31, 8, 1, \"good ball for Laudrup\"], [32, 25, 1, \"Laudrup on the ball\"], [33, 2, 1, \"Laudrup makes a pass\"], [34, 34, 0, \"Horne intercepts\"], [35, 11, 1, \"tackle by Vilfort\"], [36, 14, 1, \"Vilfort wins the ball\"], [37, 33, 1, \"knocked on by Vilfort\"], [38, 35, 1, \"Povlsen collects\"], [39, 2, 1, \"Povlsen makes a pass\"], [40, 35, 1, \"Laudrup collects\"], [41, 1, 1, \"pass by Laudrup\"], [42, 34, 0, \"Young intercepts\"], [43, 2, 0, \"Young makes a pass\"], [44, 34, 1, \"Olsen intercepts\"], [45, 1, 1, \"pass by Olsen\"], [46, 34, 0, \"Speed intercepts\"], [47, 6, 0, \"Speed makes a run\"], [48, 11, 1, \"tackle by Olsen\"], [49, 14, 1, \"Olsen wins the ball\"], [50, 10, 1, \"high ball towards Povlsen\"], [51, 34, 0, \"Young intercepts\"], [52, 2, 0, \"Young makes a pass\"], [53, 34, 1, \"Sivebaek intercepts\"], [54, 6, 1, \"Sivebaek makes a run\"], [55, 11, 0, \"tackle by Speed\"], [56, 14, 0, \"Speed wins the ball\"], [57, 6, 0, \"Speed makes a run\"], [58, 10, 0, \"high ball towards Pembridge\"], [59, 34, 1, \"Andersen intercepts\"], [60, 2, 1, \"Andersen makes a pass\"], [61, 32, 1, \"headed on by Povlsen\"], [62, 25, 1, \"Piechnik on the ball\"], [63, 8, 1, \"good ball for Povlsen\"], [64, 25, 1, \"Povlsen on the ball\"], [65, 11, 0, \"tackle by Ratcliffe\"], [66, 12, 1, \"dodged by Povlsen\"], [67, 8, 1, \"good ball for Laudrup\"], [68, 25, 1, \"Laudrup on the ball\"], [69, 2, 1, \"Laudrup makes a pass\"], [70, 35, 1, \"Povlsen collects\"], [71, 6, 1, \"Povlsen makes a run\"], [72, 11, 0, \"tackle by Young\"], [73, 14, 0, \"Young wins the ball\"], [74, 10, 0, \"high ball towards Rush\"], [75, 32, 0, \"headed on by Rush\"], [76, 8, 0, \"good ball for Rush\"], [77, 25, 0, \"Rush on the ball\"], [78, 11, 1, \"tackle by Piechnik\"], [79, 14, 1, \"Piechnik wins the ball\"], [80, 10, 1, \"high ball towards Povlsen\"], [81, 32, 0, \"headed on by Horne\"], [82, 25, 0, \"Phillips on the ball\"], [83, 11, 1, \"tackle by Sivebaek\"], [84, 14, 1, \"Sivebaek wins the ball\"], [85, 1, 1, \"pass by Sivebaek\"], [86, 35, 1, \"Christofte collects\"], [87, 8, 1, \"good ball for Povlsen\"], [88, 25, 1, \"Povlsen on the ball\"], [89, 6, 1, \"Povlsen makes a run\"], [90, 8, 1, \"good ball for Vilfort\"], [91, 25, 1, \"Vilfort on the ball\"], [92, 8, 1, \"good ball for Povlsen\"], [93, 25, 1, \"Povlsen on the ball\"], [94, 6, 1, \"Povlsen makes a run\"], [95, 8, 1, \"good ball for Vilfort\"], [96, 25, 1, \"Vilfort on the ball\"], [97, 8, 1, \"good ball for Povlsen\"], [98, 25, 1, \"Povlsen on the ball\"], [99, 2, 1, \"Povlsen makes a pass\"], [100, 66, 1, \"** LINESMAN FLAGS **\"], [101, 34, 0, \"Young intercepts\"], [102, 54, 1, \"Vilfort is OFFSIDE\"], [103, 58, 0, \"*** FREE KICK ***\"], [104, 48, 0, \"Horne to take free kick\"], [105, 10, 0, \"high ball towards Hughes\"], [106, 32, 1, \"headed on by Sivebaek\"], [107, 25, 1, \"Piechnik on the ball\"], [108, 2, 1, \"Piechnik makes a pass\"], [109, 35, 1, \"Vilfort collects\"], [110, 2, 1, \"Vilfort makes a pass\"], [111, 35, 1, \"Povlsen collects\"], [112, 6, 1, \"Povlsen makes a run\"], [113, 11, 0, \"tackle by Ratcliffe\"], [114, 14, 0, \"Ratcliffe wins the ball\"], [115, 33, 0, \"knocked on by Ratcliffe\"], [116, 35, 0, \"Bowen collects\"], [117, 6, 0, \"Bowen makes a run\"], [118, 11, 1, \"tackle by Vilfort\"], [119, 14, 1, \"Vilfort wins the ball\"], [120, 33, 1, \"knocked on by Vilfort\"], [121, 35, 1, \"Larsen collects\"], [122, 1, 1, \"pass by Larsen\"], [123, 35, 1, \"Vilfort collects\"], [124, 8, 1, \"good ball for Povlsen\"], [125, 25, 1, \"Povlsen on the ball\"], [126, 6, 1, \"Povlsen makes a run\"], [127, 8, 1, \"good ball for Larsen\"], [128, 25, 1, \"Larsen on the ball\"], [129, 6, 1, \"Larsen makes a run\"], [130, 11, 0, \"tackle by Young\"], [131, 55, 1, \"Larsen is brought down\"], [132, 53, 0, \"FOUL by Young\"], [133, 58, 1, \"*** FREE KICK ***\"], [134, 48, 1, \"Vilfort to take free kick\"], [135, 8, 1, \"good ball for Olsen\"], [136, 25, 1, \"Olsen on the ball\"], [137, 2, 1, \"Olsen makes a pass\"], [138, 34, 0, \"Hughes intercepts\"], [139, 6, 0, \"Hughes makes a run\"], [140, 11, 1, \"tackle by Olsen\"], [141, 14, 1, \"Olsen wins the ball\"], [142, 2, 1, \"Olsen makes a pass\"], [143, 35, 1, \"Vilfort collects\"], [144, 1, 1, \"pass by Vilfort\"], [145, 35, 1, \"Sivebaek collects\"], [146, 11, 0, \"tackle by Bowen\"], [147, 12, 1, \"dodged by Sivebaek\"], [148, 6, 1, \"Sivebaek makes a run\"], [149, 11, 0, \"tackle by Phillips\"], [150, 14, 0, \"Phillips wins the ball\"], [151, 10, 0, \"high ball towards Rush\"], [152, 25, 0, \"Rush on the ball\"], [153, 6, 0, \"Rush makes a run\"], [154, 11, 1, \"tackle by Schmeichel\"], [155, 12, 0, \"dodged by Rush\"], [156, 17, 0, \"shot from Rush\"], [157, 37, 1, \"Schmeichel has no chance\"], [158, 38, 0, \"**** GOAL **** by Rush\"], [159, 49, 1, \"Laudrup to take kick off\"], [160, 35, 1, \"Povlsen collects\"], [161, 11, 0, \"tackle by Rush\"], [162, 14, 0, \"Rush wins the ball\"], [163, 11, 1, \"tackle by Laudrup\"], [164, 14, 1, \"Laudrup wins the ball\"], [165, 33, 1, \"knocked on by Laudrup\"], [166, 34, 0, \"Hughes intercepts\"], [167, 6, 0, \"Hughes makes a run\"], [168, 11, 1, \"tackle by Laudrup\"], [169, 14, 1, \"Laudrup wins the ball\"], [170, 2, 1, \"Laudrup makes a pass\"], [171, 35, 1, \"Povlsen collects\"], [172, 6, 1, \"Povlsen makes a run\"], [173, 8, 1, \"good ball for Laudrup\"], [174, 25, 1, \"Laudrup on the ball\"], [175, 11, 0, \"tackle by Nicholas\"], [176, 14, 0, \"Nicholas wins the ball\"], [177, 11, 1, \"tackle by Povlsen\"], [178, 55, 0, \"Nicholas is brought down\"], [179, 53, 1, \"FOUL by Povlsen\"], [180, 58, 0, \"*** FREE KICK ***\"], [181, 48, 0, \"Phillips to take free kick\"], [182, 10, 0, \"high ball towards Rush\"], [183, 32, 1, \"headed on by Larsen\"], [184, 35, 1, \"Laudrup collects\"], [185, 8, 1, \"good ball for Povlsen\"], [186, 25, 1, \"Povlsen on the ball\"], [187, 8, 1, \"good ball for Laudrup\"], [188, 25, 1, \"Laudrup on the ball\"], [189, 2, 1, \"Laudrup makes a pass\"], [190, 35, 1, \"Povlsen collects\"], [191, 8, 1, \"good ball for Laudrup\"], [192, 25, 1, \"Laudrup on the ball\"], [193, 1, 1, \"pass by Laudrup\"], [194, 35, 1, \"Povlsen collects\"], [195, 6, 1, \"Povlsen makes a run\"], [196, 8, 1, \"good ball for Laudrup\"], [197, 25, 1, \"Laudrup on the ball\"], [198, 8, 1, \"good ball for Povlsen\"], [199, 25, 1, \"Povlsen on the ball\"], [200, 8, 1, \"good ball for Laudrup\"], [1, 25, 1, \"Laudrup on the ball\"], [2, 1, 1, \"pass by Laudrup\"], [3, 35, 1, \"Povlsen collects\"], [4, 11, 0, \"tackle by Young\"], [5, 14, 0, \"Young wins the ball\"], [6, 33, 0, \"knocked on by Young\"], [7, 66, 1, \"** LINESMAN FLAGS **\"], [8, 34, 1, \"Vilfort intercepts\"], [9, 54, 0, \"Hughes is OFFSIDE\"], [10, 58, 1, \"*** FREE KICK ***\"], [11, 48, 1, \"Piechnik to take free kick\"], [12, 1, 1, \"pass by Piechnik\"], [13, 35, 1, \"Olsen collects\"], [14, 11, 0, \"tackle by Rush\"], [15, 14, 0, \"Rush wins the ball\"], [16, 6, 0, \"Rush makes a run\"], [17, 63, 1, \"---- FULL TIME ----\"]]"
+  },
+  {
+   "step": 123,
+   "source": "memory",
+   "field": "events among them (templates 0 substitution, 38 goal, 39 own goal, 50 booking, 51 sending off, 52 injury): [kind, team, text]",
+   "value": "[[\"goal\", 1, \"**** GOAL **** by Povlsen\"], [\"goal\", 1, \"**** GOAL **** by Vilfort\"], [\"goal\", 1, \"**** GOAL **** by Laudrup\"], [\"substitution\", 0, \"Phillips on for Blackmore\"], [\"injury\", 0, \"Bodin INJURED\"], [\"substitution\", 0, \"Bowen on for Bodin\"], [\"goal\", 0, \"**** GOAL **** by Rush\"]]"
+  },
+  {
+   "step": 123,
+   "source": "memory",
+   "field": "commentary lines between successive reads (deltas of DS:80EE modulo 200), and reads where lines may have been lost",
+   "value": "{\"deltas\": [57, 49, 30, 44, 22, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 37, 51, 45, 38, 46, 46, 30, 0, 0, 0, 28, 36, 35, 47, 10, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 39, 39, 28, 0, 0, 0, 0, 0, 0, 0, 0, 4, 39, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 11, 45, 34, 51, 16, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 17, 42, 0], \"gaps\": []}"
+  },
+  {
+   "step": 123,
+   "source": "log",
+   "field": "lines of DOSBox-X's own output (dosbox.out) that mention save, load, corrupt, date or time (Save_Remark and Time_Stamp lines left out), in order",
+   "value": "LOG: Active save slot: 1 [Empty]\nLOG: File : <work>/IntTimer10 is 166 bytes\nLOG: [14:17:10]: Saved. (Slot 1)\nLOG: Loading state from slot: 1\nLOG:  Extracting: IntTimer10\nLOG: [14:17:11]: Loaded. (Slot 1)\nLOG: File : <work>/IntTimer10 is 161 bytes\nLOG: [14:17:11]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 158 bytes\nLOG: [14:17:13]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 162 bytes\nLOG: [14:17:13]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 160 bytes\nLOG: [14:17:14]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 158 bytes\nLOG: [14:17:14]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 160 bytes\nLOG: [14:17:15]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 160 bytes\nLOG: [14:17:15]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 160 bytes\nLOG: [14:17:16]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 159 bytes\nLOG: [14:17:16]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 160 bytes\nLOG: [14:17:17]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 160 bytes\nLOG: [14:17:17]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 160 bytes\nLOG: [14:17:18]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 159 bytes\nLOG: [14:17:19]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 159 bytes\nLOG: [14:17:19]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 160 bytes\nLOG: [14:17:20]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 160 bytes\nLOG: [14:17:20]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 160 bytes\nLOG: [14:17:21]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 160 bytes\nLOG: [14:17:21]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 160 bytes\nLOG: [14:17:22]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 159 bytes\nLOG: [14:17:22]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 160 bytes\nLOG: [14:17:23]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 158 bytes\nLOG: [14:17:23]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 159 bytes\nLOG: [14:17:24]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 161 bytes\nLOG: [14:17:25]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 159 bytes\nLOG: [14:17:25]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 159 bytes\nLOG: [14:17:26]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 159 bytes\nLOG: [14:17:26]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 161 bytes\nLOG: [14:17:27]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 161 bytes\nLOG: [14:17:27]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 162 bytes\nLOG: [14:17:28]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 161 bytes\nLOG: [14:17:29]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 159 bytes\nLOG: [14:17:29]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 159 bytes\nLOG: [14:17:30]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 157 bytes\nLOG: [14:17:30]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 160 bytes\nLOG: [14:17:31]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 159 bytes\nLOG: [14:17:31]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 159 bytes\nLOG: [14:17:32]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 158 bytes\nLOG: [14:17:33]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 159 bytes\nLOG: [14:17:33]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 159 bytes\nLOG: [14:17:34]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 160 bytes\nLOG: [14:17:34]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 159 bytes\nLOG: [14:17:35]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 158 bytes\nLOG: [14:17:35]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 159 bytes\nLOG: [14:17:36]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 159 bytes\nLOG: [14:17:36]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 160 bytes\nLOG: [14:17:37]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 158 bytes\nLOG: [14:17:37]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 160 bytes\nLOG: [14:17:38]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 159 bytes\nLOG: [14:17:38]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 159 bytes\nLOG: [14:17:39]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 159 bytes\nLOG: [14:17:40]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 159 bytes\nLOG: [14:17:40]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 163 bytes\nLOG: [14:17:41]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 161 bytes\nLOG: [14:17:41]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 163 bytes\nLOG: [14:17:42]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 162 bytes\nLOG: [14:17:42]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 162 bytes\nLOG: [14:17:43]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 162 bytes\nLOG: [14:17:43]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 163 bytes\nLOG: [14:17:44]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 163 bytes\nLOG: [14:17:44]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 160 bytes\nLOG: [14:17:45]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 161 bytes\nLOG: [14:17:45]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 159 bytes\nLOG: [14:17:46]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 160 bytes\nLOG: [14:17:47]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 162 bytes\nLOG: [14:17:47]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 160 bytes\nLOG: [14:17:48]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 162 bytes\nLOG: [14:17:48]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 161 bytes\nLOG: [14:17:49]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 161 bytes\nLOG: [14:17:49]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 162 bytes\nLOG: [14:17:50]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 162 bytes\nLOG: [14:17:50]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 159 bytes\nLOG: [14:17:51]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 159 bytes\nLOG: [14:17:51]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 160 bytes\nLOG: [14:17:52]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 159 bytes\nLOG: [14:17:52]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 160 bytes\nLOG: [14:17:53]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 160 bytes\nLOG: [14:17:54]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 160 bytes\nLOG: [14:17:54]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 160 bytes\nLOG: [14:17:55]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 159 bytes\nLOG: [14:17:55]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 159 bytes\nLOG: [14:17:56]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 160 bytes\nLOG: [14:17:56]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 160 bytes\nLOG: [14:17:57]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 160 bytes\nLOG: [14:17:57]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 160 bytes\nLOG: [14:17:58]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 160 bytes\nLOG: [14:17:58]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 159 bytes\nLOG: [14:17:59]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 160 bytes\nLOG: [14:18:00]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 160 bytes\nLOG: [14:18:00]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 160 bytes\nLOG: [14:18:01]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 159 bytes\nLOG: [14:18:01]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 160 bytes\nLOG: [14:18:02]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 160 bytes\nLOG: [14:18:02]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 160 bytes\nLOG: [14:18:03]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 158 bytes\nLOG: [14:18:03]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 160 bytes\nLOG: [14:18:04]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 160 bytes\nLOG: [14:18:04]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 159 bytes\nLOG: [14:18:05]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 160 bytes\nLOG: [14:18:05]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 159 bytes\nLOG: [14:18:06]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 159 bytes\nLOG: [14:18:07]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 158 bytes\nLOG: [14:18:07]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 159 bytes\nLOG: [14:18:08]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 160 bytes\nLOG: [14:18:08]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 159 bytes\nLOG: [14:18:09]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 159 bytes\nLOG: [14:18:09]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 159 bytes\nLOG: [14:18:10]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 160 bytes\nLOG: [14:18:10]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 159 bytes\nLOG: [14:18:11]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 160 bytes\nLOG: [14:18:11]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 160 bytes\nLOG: [14:18:12]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 160 bytes\nLOG: [14:18:12]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 160 bytes\nLOG: [14:18:13]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 161 bytes\nLOG: [14:18:14]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 161 bytes\nLOG: [14:18:14]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 160 bytes\nLOG: [14:18:15]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 161 bytes\nLOG: [14:18:15]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 161 bytes\nLOG: [14:18:16]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 160 bytes\nLOG: [14:18:17]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 159 bytes\nLOG: [14:18:17]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 159 bytes\nLOG: [14:18:18]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 160 bytes\nLOG: [14:18:18]: Saved. (Slot 1)"
+  },
+  {
+   "step": 123,
+   "source": "process",
+   "field": "dosbox-x and Xvfb after SIGTERM to their process groups (SIGKILL after TERM_GRACE, see log)",
+   "value": "both exited"
+  },
+  {
+   "step": 123,
+   "source": "log",
+   "field": "waits, polls and key holds, seconds since launch",
+   "value": "[[0.107,\"Xvfb poll: answered after 2 polls of 0.1s\"],[0.107,\"Xvfb :400 answering\"],[0.108,\"dosbox-x started\"],[0.226,\"window found after 2 polls of 0.1s\"],[0.229,\"window focused\"],[0.739,\"host key F12+s, each step held 0.15s\"],[0.739,\"savestate complete after 1 polls of 0.05s\"],[0.757,\"title screen: matched after 1 savestate polls\"],[0.758,\"DOS clock read back: '10/04/2026\\\\n14:17:09'\"],[1.271,\"host key F12+l, each step held 0.15s\"],[1.271,\"Host+L sent (e004-1002)\"],[1.787,\"host key F12+s, each step held 0.15s\"],[1.788,\"savestate complete after 1 polls of 0.05s\"],[1.806,\"restore e004-1002: matched after 1 savestate polls\"],[1.94,\"key Enter held 0.08s\"],[2.052,\"key Right held 0.08s\"],[2.163,\"key Right held 0.08s\"],[2.276,\"key Right held 0.08s\"],[2.388,\"key Right held 0.08s\"],[2.5,\"key Right held 0.08s\"],[2.501,\"match watched: starting keys Enter Right Right Right Right Right sent in one burst\"],[3.015,\"host key F12+s, each step held 0.15s\"],[3.016,\"savestate complete after 1 polls of 0.05s\"],[3.563,\"host key F12+s, each step held 0.15s\"],[3.564,\"savestate complete after 1 polls of 0.05s\"],[4.104,\"host key F12+s, each step held 0.15s\"],[4.105,\"savestate complete after 1 polls of 0.05s\"],[4.643,\"host key F12+s, each step held 0.15s\"],[4.645,\"savestate complete after 1 polls of 0.05s\"],[5.183,\"host key F12+s, each step held 0.15s\"],[5.184,\"savestate complete after 1 polls of 0.05s\"],[5.719,\"host key F12+s, each step held 0.15s\"],[5.721,\"savestate complete after 1 polls of 0.05s\"],[6.259,\"host key F12+s, each step held 0.15s\"],[6.26,\"savestate complete after 1 polls of 0.05s\"],[6.796,\"host key F12+s, each step held 0.15s\"],[6.797,\"savestate complete after 1 polls of 0.05s\"],[7.334,\"host key F12+s, each step held 0.15s\"],[7.336,\"savestate complete after 1 polls of 0.05s\"],[7.878,\"host key F12+s, each step held 0.15s\"],[7.879,\"savestate complete after 1 polls of 0.05s\"],[8.415,\"host key F12+s, each step held 0.15s\"],[8.416,\"savestate complete after 1 polls of 0.05s\"],[8.954,\"host key F12+s, each step held 0.15s\"],[8.955,\"savestate complete after 1 polls of 0.05s\"],[9.492,\"host key F12+s, each step held 0.15s\"],[9.493,\"savestate complete after 1 polls of 0.05s\"],[10.051,\"host key F12+s, each step held 0.15s\"],[10.052,\"savestate complete after 1 polls of 0.05s\"],[10.606,\"host key F12+s, each step held 0.15s\"],[10.607,\"savestate complete after 1 polls of 0.05s\"],[11.16,\"host key F12+s, each step held 0.15s\"],[11.161,\"savestate complete after 1 polls of 0.05s\"],[11.703,\"host key F12+s, each step held 0.15s\"],[11.704,\"savestate complete after 1 polls of 0.05s\"],[12.24,\"host key F12+s, each step held 0.15s\"],[12.241,\"savestate complete after 1 polls of 0.05s\"],[12.779,\"host key F12+s, each step held 0.15s\"],[12.78,\"savestate complete after 1 polls of 0.05s\"],[13.317,\"host key F12+s, each step held 0.15s\"],[13.318,\"savestate complete after 1 polls of 0.05s\"],[13.859,\"host key F12+s, each step held 0.15s\"],[13.861,\"savestate complete after 1 polls of 0.05s\"],[14.404,\"host key F12+s, each step held 0.15s\"],[14.405,\"savestate complete after 1 polls of 0.05s\"],[14.945,\"host key F12+s, each step held 0.15s\"],[14.947,\"savestate complete after 1 polls of 0.05s\"],[15.492,\"host key F12+s, each step held 0.15s\"],[15.494,\"savestate complete after 1 polls of 0.05s\"],[16.035,\"host key F12+s, each step held 0.15s\"],[16.036,\"savestate complete after 1 polls of 0.05s\"],[16.574,\"host key F12+s, each step held 0.15s\"],[16.575,\"savestate complete after 1 polls of 0.05s\"],[17.121,\"host key F12+s, each step held 0.15s\"],[17.123,\"savestate complete after 1 polls of 0.05s\"],[17.682,\"host key F12+s, each step held 0.15s\"],[17.683,\"savestate complete after 1 polls of 0.05s\"],[17.826,\"key Enter held 0.08s\"],[17.826,\"match watched: Enter (hit any key)\"],[18.344,\"host key F12+s, each step held 0.15s\"],[18.345,\"savestate complete after 1 polls of 0.05s\"],[18.886,\"host key F12+s, each step held 0.15s\"],[18.888,\"savestate complete after 1 polls of 0.05s\"],[19.031,\"key Enter held 0.08s\"],[19.031,\"match watched: Enter (team screen)\"],[19.549,\"host key F12+s, each step held 0.15s\"],[19.551,\"savestate complete after 1 polls of 0.05s\"],[20.101,\"host key F12+s, each step held 0.15s\"],[20.103,\"savestate complete after 1 polls of 0.05s\"],[20.645,\"host key F12+s, each step held 0.15s\"],[20.647,\"savestate complete after 1 polls of 0.05s\"],[21.187,\"host key F12+s, each step held 0.15s\"],[21.189,\"savestate complete after 1 polls of 0.05s\"],[21.741,\"host key F12+s, each step held 0.15s\"],[21.743,\"savestate complete after 1 polls of 0.05s\"],[22.298,\"host key F12+s, each step held 0.15s\"],[22.3,\"savestate complete after 1 polls of 0.05s\"],[22.876,\"host key F12+s, each step held 0.15s\"],[22.878,\"savestate complete after 1 polls of 0.05s\"],[23.419,\"host key F12+s, each step held 0.15s\"],[23.421,\"savestate complete after 1 polls of 0.05s\"],[23.965,\"host key F12+s, each step held 0.15s\"],[23.967,\"savestate complete after 1 polls of 0.05s\"],[24.506,\"host key F12+s, each step held 0.15s\"],[24.507,\"savestate complete after 1 polls of 0.05s\"],[25.051,\"host key F12+s, each step held 0.15s\"],[25.053,\"savestate complete after 1 polls of 0.05s\"],[25.595,\"host key F12+s, each step held 0.15s\"],[25.597,\"savestate complete after 1 polls of 0.05s\"],[26.14,\"host key F12+s, each step held 0.15s\"],[26.141,\"savestate complete after 1 polls of 0.05s\"],[26.681,\"host key F12+s, each step held 0.15s\"],[26.682,\"savestate complete after 1 polls of 0.05s\"],[27.224,\"host key F12+s, each step held 0.15s\"],[27.225,\"savestate complete after 1 polls of 0.05s\"],[27.768,\"host key F12+s, each step held 0.15s\"],[27.769,\"savestate complete after 1 polls of 0.05s\"],[28.309,\"host key F12+s, each step held 0.15s\"],[28.311,\"savestate complete after 1 polls of 0.05s\"],[28.854,\"host key F12+s, each step held 0.15s\"],[28.855,\"savestate complete after 1 polls of 0.05s\"],[29.398,\"host key F12+s, each step held 0.15s\"],[29.399,\"savestate complete after 1 polls of 0.05s\"],[29.946,\"host key F12+s, each step held 0.15s\"],[29.948,\"savestate complete after 1 polls of 0.05s\"],[30.487,\"host key F12+s, each step held 0.15s\"],[30.488,\"savestate complete after 1 polls of 0.05s\"],[31.022,\"host key F12+s, each step held 0.15s\"],[31.023,\"savestate complete after 1 polls of 0.05s\"],[31.558,\"host key F12+s, each step held 0.15s\"],[31.56,\"savestate complete after 1 polls of 0.05s\"],[32.097,\"host key F12+s, each step held 0.15s\"],[32.099,\"savestate complete after 1 polls of 0.05s\"],[32.642,\"host key F12+s, each step held 0.15s\"],[32.643,\"savestate complete after 1 polls of 0.05s\"],[33.182,\"host key F12+s, each step held 0.15s\"],[33.184,\"savestate complete after 1 polls of 0.05s\"],[33.723,\"host key F12+s, each step held 0.15s\"],[33.724,\"savestate complete after 1 polls of 0.05s\"],[34.26,\"host key F12+s, each step held 0.15s\"],[34.262,\"savestate complete after 1 polls of 0.05s\"],[34.801,\"host key F12+s, each step held 0.15s\"],[34.802,\"savestate complete after 1 polls of 0.05s\"],[35.339,\"host key F12+s, each step held 0.15s\"],[35.34,\"savestate complete after 1 polls of 0.05s\"],[35.879,\"host key F12+s, each step held 0.15s\"],[35.88,\"savestate complete after 1 polls of 0.05s\"],[36.423,\"host key F12+s, each step held 0.15s\"],[36.425,\"savestate complete after 1 polls of 0.05s\"],[36.959,\"host key F12+s, each step held 0.15s\"],[36.96,\"savestate complete after 1 polls of 0.05s\"],[37.504,\"host key F12+s, each step held 0.15s\"],[37.505,\"savestate complete after 1 polls of 0.05s\"],[38.039,\"host key F12+s, each step held 0.15s\"],[38.041,\"savestate complete after 1 polls of 0.05s\"],[38.577,\"host key F12+s, each step held 0.15s\"],[38.579,\"savestate complete after 1 polls of 0.05s\"],[39.12,\"host key F12+s, each step held 0.15s\"],[39.121,\"savestate complete after 1 polls of 0.05s\"],[39.661,\"host key F12+s, each step held 0.15s\"],[39.663,\"savestate complete after 1 polls of 0.05s\"],[40.202,\"host key F12+s, each step held 0.15s\"],[40.203,\"savestate complete after 1 polls of 0.05s\"],[40.74,\"host key F12+s, each step held 0.15s\"],[40.741,\"savestate complete after 1 polls of 0.05s\"],[41.275,\"host key F12+s, each step held 0.15s\"],[41.276,\"savestate complete after 1 polls of 0.05s\"],[41.81,\"host key F12+s, each step held 0.15s\"],[41.811,\"savestate complete after 1 polls of 0.05s\"],[42.343,\"host key F12+s, each step held 0.15s\"],[42.344,\"savestate complete after 1 polls of 0.05s\"],[42.883,\"host key F12+s, each step held 0.15s\"],[42.884,\"savestate complete after 1 polls of 0.05s\"],[43.42,\"host key F12+s, each step held 0.15s\"],[43.421,\"savestate complete after 1 polls of 0.05s\"],[43.958,\"host key F12+s, each step held 0.15s\"],[43.959,\"savestate complete after 1 polls of 0.05s\"],[44.497,\"host key F12+s, each step held 0.15s\"],[44.498,\"savestate complete after 1 polls of 0.05s\"],[45.034,\"host key F12+s, each step held 0.15s\"],[45.035,\"savestate complete after 1 polls of 0.05s\"],[45.572,\"host key F12+s, each step held 0.15s\"],[45.573,\"savestate complete after 1 polls of 0.05s\"],[46.114,\"host key F12+s, each step held 0.15s\"],[46.116,\"savestate complete after 1 polls of 0.05s\"],[46.655,\"host key F12+s, each step held 0.15s\"],[46.656,\"savestate complete after 1 polls of 0.05s\"],[47.194,\"host key F12+s, each step held 0.15s\"],[47.195,\"savestate complete after 1 polls of 0.05s\"],[47.73,\"host key F12+s, each step held 0.15s\"],[47.731,\"savestate complete after 1 polls of 0.05s\"],[48.27,\"host key F12+s, each step held 0.15s\"],[48.271,\"savestate complete after 1 polls of 0.05s\"],[48.813,\"host key F12+s, each step held 0.15s\"],[48.814,\"savestate complete after 1 polls of 0.05s\"],[49.352,\"host key F12+s, each step held 0.15s\"],[49.354,\"savestate complete after 1 polls of 0.05s\"],[49.9,\"host key F12+s, each step held 0.15s\"],[49.901,\"savestate complete after 1 polls of 0.05s\"],[50.44,\"host key F12+s, each step held 0.15s\"],[50.441,\"savestate complete after 1 polls of 0.05s\"],[50.983,\"host key F12+s, each step held 0.15s\"],[50.984,\"savestate complete after 1 polls of 0.05s\"],[51.521,\"host key F12+s, each step held 0.15s\"],[51.523,\"savestate complete after 1 polls of 0.05s\"],[52.063,\"host key F12+s, each step held 0.15s\"],[52.064,\"savestate complete after 1 polls of 0.05s\"],[52.604,\"host key F12+s, each step held 0.15s\"],[52.605,\"savestate complete after 1 polls of 0.05s\"],[53.147,\"host key F12+s, each step held 0.15s\"],[53.149,\"savestate complete after 1 polls of 0.05s\"],[53.689,\"host key F12+s, each step held 0.15s\"],[53.691,\"savestate complete after 1 polls of 0.05s\"],[54.231,\"host key F12+s, each step held 0.15s\"],[54.233,\"savestate complete after 1 polls of 0.05s\"],[54.771,\"host key F12+s, each step held 0.15s\"],[54.773,\"savestate complete after 1 polls of 0.05s\"],[55.306,\"host key F12+s, each step held 0.15s\"],[55.308,\"savestate complete after 1 polls of 0.05s\"],[55.848,\"host key F12+s, each step held 0.15s\"],[55.849,\"savestate complete after 1 polls of 0.05s\"],[56.389,\"host key F12+s, each step held 0.15s\"],[56.39,\"savestate complete after 1 polls of 0.05s\"],[56.928,\"host key F12+s, each step held 0.15s\"],[56.929,\"savestate complete after 1 polls of 0.05s\"],[57.465,\"host key F12+s, each step held 0.15s\"],[57.466,\"savestate complete after 1 polls of 0.05s\"],[58.005,\"host key F12+s, each step held 0.15s\"],[58.006,\"savestate complete after 1 polls of 0.05s\"],[58.542,\"host key F12+s, each step held 0.15s\"],[58.544,\"savestate complete after 1 polls of 0.05s\"],[59.084,\"host key F12+s, each step held 0.15s\"],[59.085,\"savestate complete after 1 polls of 0.05s\"],[59.622,\"host key F12+s, each step held 0.15s\"],[59.624,\"savestate complete after 1 polls of 0.05s\"],[60.164,\"host key F12+s, each step held 0.15s\"],[60.165,\"savestate complete after 1 polls of 0.05s\"],[60.702,\"host key F12+s, each step held 0.15s\"],[60.703,\"savestate complete after 1 polls of 0.05s\"],[61.241,\"host key F12+s, each step held 0.15s\"],[61.242,\"savestate complete after 1 polls of 0.05s\"],[61.778,\"host key F12+s, each step held 0.15s\"],[61.779,\"savestate complete after 1 polls of 0.05s\"],[62.319,\"host key F12+s, each step held 0.15s\"],[62.32,\"savestate complete after 1 polls of 0.05s\"],[62.859,\"host key F12+s, each step held 0.15s\"],[62.861,\"savestate complete after 1 polls of 0.05s\"],[63.401,\"host key F12+s, each step held 0.15s\"],[63.403,\"savestate complete after 1 polls of 0.05s\"],[63.946,\"host key F12+s, each step held 0.15s\"],[63.948,\"savestate complete after 1 polls of 0.05s\"],[64.541,\"host key F12+s, each step held 0.15s\"],[64.543,\"savestate complete after 1 polls of 0.05s\"],[65.083,\"host key F12+s, each step held 0.15s\"],[65.084,\"savestate complete after 1 polls of 0.05s\"],[65.626,\"host key F12+s, each step held 0.15s\"],[65.628,\"savestate complete after 1 polls of 0.05s\"],[66.212,\"host key F12+s, each step held 0.15s\"],[66.215,\"savestate complete after 1 polls of 0.05s\"],[66.818,\"host key F12+s, each step held 0.15s\"],[66.82,\"savestate complete after 1 polls of 0.05s\"],[67.378,\"host key F12+s, each step held 0.15s\"],[67.379,\"savestate complete after 1 polls of 0.05s\"],[67.915,\"host key F12+s, each step held 0.15s\"],[67.917,\"savestate complete after 1 polls of 0.05s\"],[68.458,\"host key F12+s, each step held 0.15s\"],[68.459,\"savestate complete after 1 polls of 0.05s\"],[68.482,\"match watched: full time after 121 reads\"],[68.983,\"dosbox-x pid 2257217 alive 0.5s after SIGTERM (grace 0.5s): SIGKILL to its group\"],[68.992,\"dosbox-x pid 2257217 ended by SIGKILL 0.508s after the first signal\"],[68.995,\"Xvfb pid 2257209 ended by SIGTERM 0.003s after the first signal\"],[68.995,\"terminated\"]]"
+  }
+ ],
+ "outputs": [],
+ "started": "2026-10-04T12:17:10.343Z",
+ "ended": "2026-10-04T12:18:19.362Z",
+ "status": "completed"
+}
