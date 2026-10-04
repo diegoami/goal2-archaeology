@@ -321,6 +321,15 @@ class LostByReaderTest(unittest.TestCase):
         self.assertIsNone(summ.last_counter({"observations": []}))
 
 
+class BeforeFirstKeyTest(unittest.TestCase):
+    def test_half_time_before_the_probes_first_key(self):
+        row = {"e005_polls": [{"poll": 0, "rows": "a / ---- HALF TIME ---- / b", "counter": 154}, {"poll": 1, "rows": "x", "counter": 154}]}
+        self.assertIn("the first half was played before the probe's clock started", summ.before_first_key(row))
+        row = {"e005_polls": [{"poll": 0, "rows": "a / b / c", "counter": 0}, {"poll": 1, "rows": "---- HALF TIME ----", "counter": 154}]}
+        self.assertEqual(summ.before_first_key(row), "before the probe's key c: no HALF TIME, DS:80EE 0")
+        self.assertEqual(summ.before_first_key({"e005_polls": [{"poll": 1, "rows": "---- HALF TIME ----"}]}), "no read before the probe's key c")
+
+
 class ProbeWrapperTest(unittest.TestCase):
     def test_polls_are_decoded_only_inside_the_match_and_the_keys_are_the_probes(self):
         calls = []

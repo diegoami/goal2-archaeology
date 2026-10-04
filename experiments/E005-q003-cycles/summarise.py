@@ -238,6 +238,18 @@ def reference(runs, r):
                  and x["arm"] == r["arm"] and x["cycles"] == REFERENCE_CYCLES), None)
 
 
+def before_first_key(row):
+    """What the read before the probe's key `c` (poll 0, `probe_f001.py --pre-read`) shows: whether the
+    first half had already been played when the probe's clock started."""
+    p0 = next((p for p in row.get("e005_polls", []) if p["poll"] == 0), None)
+    if p0 is None:
+        return "no read before the probe's key c"
+    if "HALF TIME" in p0["rows"]:
+        return (f"before the probe's key c: HALF TIME already on screen, DS:80EE {p0.get('counter')}: the first half was played "
+                "before the probe's clock started")
+    return f"before the probe's key c: no HALF TIME, DS:80EE {p0.get('counter')}"
+
+
 def probe_rows(folder):
     out = []
     for p in sorted(folder.glob("match-speed*.json")):
@@ -302,6 +314,7 @@ def main(argv=None):
         print(f"{name} cycles {row.get('cycles')}: HALF TIME {ht} s, second half started {s2} s, FULL TIME {ft} s; "
               f"ratio 1st/2nd {ratio} ({'unequal' if ratio is not None and ratio < UNEQUAL else 'not unequal'}); polls {row.get('polls')}; "
               f"phase {row.get('phase_at_end')}")
+        print("  " + before_first_key(row))
         for p in row.get("e005_polls", []):
             print(f"  poll {p['poll']}: {p['since']} s, ticks 0x{p['ticks']:08x}, DS:A9FF 0x{p['a9ff']:x}, delay byte {p['delay']}, DS:80EE {p.get('counter', 'not read')}, rows {p['rows']}")
 
