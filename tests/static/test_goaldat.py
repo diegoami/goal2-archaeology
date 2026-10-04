@@ -39,10 +39,10 @@ def synthetic():
     o, s, rec, n = offs["per_country_a"]
     for i in range(1, 129):
         d[o + i] = 50 + i
-    for name, mult in (("per_country_b", 1), ("per_country_c", 1)):
+    for name in ("per_country_b", "per_country_c"):
         o, s, rec, n = offs[name]
         for i in range(129):
-            d[o + i] = (i * 5) % 129 if mult else i  # 5 and 129 are coprime: a permutation
+            d[o + i] = (i * 5) % 129  # 5 and 129 are coprime: a permutation
     o, s, rec, n = offs["squad_20"]
     first = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 13]
     second = [0, 2, 4, 6, 8, 10, 11, 12, 13]

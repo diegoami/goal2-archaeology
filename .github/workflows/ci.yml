@@ -27,6 +27,9 @@ jobs:
       - run: node tools/harness/review.mjs --self-test
       # G2: the artifact is a release asset; the workflow's token fetches it (never committed).
       - run: python3 tools/fetch_artifact.py goal2-a949da2f
+      # The static tools need capstone, and the released-file tests the artifact fetched above.
+      - run: pip install -r tools/static/requirements.txt
+      - run: python3 -m unittest discover -s tests/static -v
       # The record tools, their tests and fixtures (the fetched checker and artifact stay in .cache/).
       - run: python3 -m unittest discover -s tests -v
       # No original file is ever in the tree (U17: they are release assets only).

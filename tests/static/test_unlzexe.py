@@ -146,10 +146,11 @@ class UnlzexeTests(unittest.TestCase):
             self.assertEqual(r.returncode, 1)  # an unpacked file is not LZEXE
 
 
-RELEASED = os.path.join(ROOT, ".cache", "goal2", "GOAL.EXE")
+RELEASED = os.path.join(ROOT, ".cache", "artifacts", "goal2-a949da2f", "GOAL.EXE")
 
 
-@unittest.skipUnless(os.path.exists(RELEASED), "the released GOAL.EXE is not in .cache/goal2")
+@unittest.skipUnless(os.path.exists(RELEASED),
+                     "the released GOAL.EXE is not in .cache/artifacts/goal2-a949da2f")
 class ReleasedFileTests(unittest.TestCase):
     """Runs only where the private release was downloaded; the original is never in the tree."""
 
