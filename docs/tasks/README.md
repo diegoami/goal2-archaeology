@@ -17,3 +17,4 @@ exists.
 | T08 | Q001: what inputs beyond the start state and the keys does GOAL2 use (G5 Q001) | #21 | T06, T07 |
 | T09 | Use game-archaeologist's pinned validator and register_artifact.py (ADR-009) | #22 | T08 |
 | T10 | Q002: does the quick result run the same engine as a watched match (G5 Q002) | #26 | T08 |
+| T11 | Register the successor of goal2-a949da2f that declares the runtime writes (U21) | #14 | T09 |
