@@ -115,6 +115,9 @@ class PlayTest(unittest.TestCase):
             match.play(d, "quick", clock=Clock())
         self.assertIn("not acted on", str(cm.exception))
         self.assertEqual(len(d.sent), 2)  # the starting burst and one Enter, never a second
+        # read 3 is the second equal HALF (Enter sent); the abort comes at the first read more than
+        # KEY_TAKEN_READS reads after it, not later
+        self.assertEqual(d.i, 3 + match.KEY_TAKEN_READS + 1)
 
     def test_no_second_key_while_the_first_is_pending(self):
         screens = [LIVE1] + [HALF] * (match.KEY_TAKEN_READS + 1) + [TEAM, TEAM, SECOND, FULL, FULL]
@@ -130,6 +133,44 @@ class PlayTest(unittest.TestCase):
     def test_timeout(self):
         with self.assertRaises(match.MatchError):
             self.play("quick", [LIVE1, LIVE2] * 100, timeout=20)
+
+    def test_the_deadline_and_nothing_else_ends_a_match_without_full_time(self):
+        """Review round 2 R2: the match ends by the clock passing the deadline, not by any read count.
+        The fake driver refuses more than READ_CAP reads, so a loop that ignores the clock fails with
+        another error; the clock records every value it returned, so the test sees it pass the deadline."""
+        READ_CAP = 500
+
+        class CappedDriver(FakeDriver):
+            def read(self):
+                if self.i >= READ_CAP:
+                    raise AssertionError("read past the cap: the loop did not stop at the deadline")
+                return super().read()
+
+        class StepClock:
+            def __init__(self, step):
+                self.t, self.step, self.seen = 0.0, step, []
+
+            def __call__(self):
+                self.seen.append(self.t)
+                self.t += self.step
+                return self.seen[-1]
+
+        clock = StepClock(0.25)   # 0.25 s per call: the 60 s deadline falls after about 240 reads, past 200
+        d = CappedDriver([LIVE1, LIVE2])
+        with self.assertRaises(match.MatchError) as cm:
+            match.play(d, "quick", clock=clock, timeout=60)
+        self.assertIn("no full time within 60s", str(cm.exception))
+        t0 = clock.seen[0]
+        self.assertGreaterEqual(clock.seen[-1] - t0, 60)          # the last value consulted is past the deadline
+        self.assertTrue(all(t - t0 < 60 for t in clock.seen[1:-1]))  # every earlier one was before it
+        self.assertEqual(d.i, len(clock.seen) - 2)                # one read per check that passed
+        self.assertGreater(d.i, 200)
+
+    def test_a_long_match_inside_the_deadline_is_not_cut_short(self):
+        """300 reads of play, then full time, well inside the deadline: completed, every read made."""
+        d = FakeDriver([LIVE1, LIVE2] * 150 + [FULL, FULL])
+        keys, reads, _ = match.play(d, "watched", clock=Clock(), timeout=10_000)
+        self.assertEqual(reads, 302)
 
 
 class WantsKeyTest(unittest.TestCase):

@@ -46,7 +46,7 @@ class MinutesTest(unittest.TestCase):
         self.assertEqual(len(e004.minutes("10:00-11:39")), 100)
 
     def test_refusals(self):
-        for bad in ("10:00", "10:00-9:00", "11:00-10:59", "1000-1100"):
+        for bad in ("10:00", "10:00-9:00", "11:00-10:59", "1000-1100", "x10:00-10:03", "10:00-10:03x"):
             with self.assertRaises(ValueError, msg=bad):
                 e004.minutes(bad)
 
@@ -210,22 +210,26 @@ class SummariseTest(unittest.TestCase):
                 "observations": [{"step": 1, "source": "memory", "field": f, "value": v} for f, v in obs]}
 
     def test_load_takes_goals_from_the_score_bytes_and_the_rest_from_the_commentary(self):
-        # E004-r0053's case, and more: Laudrup scores three times with no line between, so `0791:1C78`
-        # keeps one goal line; the score bytes say 3 (the event list holds 2 goal lines, one disallowed,
-        # so neither the lines nor the lines less the disallowed one give 3). One booking, one sending off and one injury come from the commentary
+        # E004-r0053's case, and more: Laudrup scores three times and Hierro twice, each with no line
+        # between, so `0791:1C78` keeps one goal line each; the score bytes say 2 (Spain) and 3. The
+        # event list holds 4 goal lines, 2 disallowed (followed by an offside line), so neither the
+        # lines (4), the lines less the disallowed (2) nor either score byte alone gives the 5 goals. One booking, one sending off and one injury come from the commentary
         # (the score bytes cannot give them), and a goal line followed by an offside line is not counted.
         lines = [[1, 59, 1, "Piechnik wins the toss"], [2, 38, 1, "**** GOAL **** by Laudrup"],
                  [3, 50, 0, "Hierro BOOKED"], [4, 51, 0, "Hierro SENT OFF"], [5, 52, 1, "Olsen INJURED"],
-                 [6, 38, 1, "**** GOAL **** by Vilfort"], [7, 54, 1, "Vilfort is OFFSIDE"]]
+                 [6, 38, 1, "**** GOAL **** by Vilfort"], [7, 54, 1, "Vilfort is OFFSIDE"],
+                 [8, 38, 0, "**** GOAL **** by Hierro"], [9, 49, 1, "Laudrup to take kick off"],
+                 [10, 38, 0, "**** GOAL **** by Salinas"], [11, 54, 0, "Salinas is OFFSIDE"]]
         events = [["goal", 1, "**** GOAL **** by Laudrup"], ["booking", 0, "Hierro BOOKED"], ["sending off", 0, "Hierro SENT OFF"],
-                  ["injury", 1, "Olsen INJURED"], ["goal", 1, "**** GOAL **** by Vilfort"]]
+                  ["injury", 1, "Olsen INJURED"], ["goal", 1, "**** GOAL **** by Vilfort"],
+                  ["goal", 0, "**** GOAL **** by Hierro"], ["goal", 0, "**** GOAL **** by Salinas"]]
         with tempfile.TemporaryDirectory() as tmp:
             p = Path(tmp) / "E004-r9999.json"
-            p.write_text(json.dumps(self.record((0, 3), events, lines)))
+            p.write_text(json.dumps(self.record((2, 3), events, lines)))
             r = summ.load(p)
-        self.assertEqual(r["counts"], {"goals": 3, "bookings": 1, "sendings off": 1, "injuries": 1})
-        self.assertEqual(r["commentary_goals"], 1)   # two goal lines, one disallowed
-        self.assertEqual(r["score"], ("DENMARK", 3, "SPAIN", 0))
+        self.assertEqual(r["counts"], {"goals": 5, "bookings": 1, "sendings off": 1, "injuries": 1})
+        self.assertEqual(r["commentary_goals"], 2)   # four goal lines, two disallowed
+        self.assertEqual(r["score"], ("DENMARK", 3, "SPAIN", 2))
 
     def test_tests_separate_equal_from_different_samples(self):
         import random
