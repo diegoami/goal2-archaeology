@@ -22,7 +22,7 @@ Tag capability jumps, not phases. Release notes come from GitHub when the tag is
 | --- | --- | --- |
 | Main session | Claude, the session the user talks to | Plans, writes task files, runs `/run-task`, triages, merges, reports |
 | Implementer | OpenCode DeepSeek V4.1 Flash via `tools/harness/implement.mjs`, then a Claude Sonnet agent (L27) | One task, one branch, one PR, in its own worktree |
-| Reviewer | OpenCode GPT-6 Luna (direct OpenAI) via `tools/harness/review.mjs`, then a Claude Opus agent; never the implementer's family (L27). Exit 3: Opus reviews; exit 4: the main session reads the flagged review and decides (L28) | Re-runs the Done-when, audits scope and evidence, posts one PR comment, applies the label |
+| Reviewer | OpenCode via `tools/harness/review.mjs`: GPT-6.1 Sol (`gpt-6.1-sol`, effort low, medium if justified, never high) for complex tasks (guards, harness or driver changes, measurement integrity, research deliverables, plans with many acceptance lines); GPT-6 Luna only for small, simple PRs (L101); then a Claude Opus agent; never the implementer's family (L27). Exit 3: Opus reviews; exit 4: the main session reads the flagged review and decides (L28) | Re-runs the Done-when, audits scope and evidence, posts one PR comment, applies the label |
 | Decider | Jev via `tools/harness/jev.mjs` (the `/jev` skill) | Repeated yes/no decisions over many items, at the confident ends only (§12) |
 | Generator | Models on OpenRouter (images, other families) and ElevenLabs (speech, sound, music) | Assets, each committed with a sidecar naming provider, model, prompt, date and cost |
 
@@ -87,11 +87,49 @@ You review PR #<n> at <sha>. You did not write it. The task file follows.
 4. Every changed file is needed for the task; docs the change makes wrong are updated.
 5. Sweep the diff: tests that pass with the behaviour deleted (mutate, rebuild clean, re-take any
    negative result), branches no input reaches, edge comments without a test, <project classes>.
+
+Blocking means (any one is enough; a blocking finding means rework, never approve):
+1. A Done-when line fails, or cannot be run as written.
+2. What this task protects can be got past: <name it, from the task's Scope line; on a guard task,
+   list the forbidden actions or results>. A bypass you proved is blocking, even when it looks like
+   an edge case. Do not rate it "follow-up hardening" or "outside the threat model" unless the task
+   says so; if it does, quote the line.
+3. Behaviour the task forbids, or behaviour nobody asked for, inside a file the task requires.
+4. A constant with no evidence; a test that passes with the behaviour deleted; a comment asserting
+   behaviour at an edge with no test visiting it; a status written into a document; a measurement
+   deleted or overwritten; a conclusion called corroborated from one route.
+Not blocking: wording, style, and defects in code the PR did not change. File those as follow-ups.
+When unsure, rate it blocking and say why. An approve with a proven bypass is the costliest mistake
+a review can make.
+
+## Report every blocking finding in this one review
+
+This review is your only pass before the author fixes. Do not stop at the first blocking
+finding: finish reading the whole diff and the task file, check every Done-when line and
+every item under "Blocking means", and report all blocking findings together.
+
+- Before you write the verdict, make one last pass over the full diff for anything you have
+  not yet rated, and say "Final pass done" as the last line before the verdict.
+- Number the findings R1, R2, … in order of severity. A finding you held back because an
+  earlier one was already blocking is a review defect: if two problems share a cause, list
+  both and say so.
+- Do not rely on a later round. The author fixes everything you list, and the next review
+  checks those fixes and new code only, not anything you saw but did not report.
+- If you ran out of time or context before covering the whole diff, say which files or
+  sections you did not cover. Do not approve in that case.
+
 Prove each finding (run it, or delete the behaviour and name the test that fails) or label it
 unverified. Post one PR comment: line 1 the header, line 2 the verdict (approve | approve after
 named fixes | rework | user decision), the findings R1..Rn (file:line, blocking or not), the
 verdict again last. Apply status:approved or status:rework to issue #<issue>.
+Run mechanics: the session is killed after 600 s without activity; keep every shell command under
+5 minutes, and work only inside the review worktree.
 ```
+
+Both sections are pasted into every brief in full, written for the task; never a pointer (L100,
+L101). If a reviewer still reports one blocker per round, stop after the second such round: the
+main session goes through the whole diff for the same class of problem before the next review,
+and records the pattern in `docs/model-trials.md` (L101).
 
 For a Claude reviewer, the main session also runs `/code-review <pr>` on architecture tasks,
 always with the PR number: a bare invocation from an agent reviews the wrong tree. (L8)
