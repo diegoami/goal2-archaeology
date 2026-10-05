@@ -73,7 +73,10 @@ class Snapshot:
 class Tracker:
     """Accumulates the commentary of one match over successive reads. Each read adds the records
     after the previous read's counter, up to this read's; a read whose distance from the previous one
-    is GAP_LIMIT or more (modulo SIZE) is noted in `gaps`, since lines may have been lost."""
+    is GAP_LIMIT or more (modulo SIZE) is noted in `gaps`, since lines may have been lost. A read that
+    lands after the game raised the counter but before it wrote the newest record sees that record
+    still 0xFF: the read stops there and the next read takes the record (its note in `gaps` is marked
+    pending; a note left at the match's last read is that record's unread report)."""
 
     def __init__(self):
         self.lines, self.gaps, self.deltas = [], [], []
@@ -84,14 +87,20 @@ class Tracker:
         if delta >= GAP_LIMIT:
             self.gaps.append(f"{label}: counter {self.last} -> {snap.counter} ({delta} lines)")
         self.deltas.append(delta)
+        stop = snap.counter
         for k in range(1, delta + 1):
             n = (self.last + k - 1) % SIZE + 1
             rec = snap.record(n)
             if rec["template"] == 0xFF:
-                self.gaps.append(f"{label}: record {n} is the end marker 0xFF")
-                continue
+                # The counter (`214B:1C86`) has passed n but `0791:1D4A` has not written the record yet:
+                # this read fell between the two. Stop at n and leave `last` at n-1, so the next read
+                # reads the record instead of skipping it for good (E005-r0035); if the match ends
+                # first, the note stays as the record's unread report.
+                self.gaps.append(f"{label}: record {n} is the end marker 0xFF (pending)")
+                stop = n - 1
+                break
             self.lines.append(dict(rec, n=n, text=snap.text(rec)))
-        self.last = snap.counter
+        self.last = stop
         return delta
 
     def events(self):

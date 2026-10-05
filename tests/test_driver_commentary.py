@@ -101,12 +101,41 @@ class TrackerTest(unittest.TestCase):
         t2.add(commentary.Snapshot(make_state(commentary.GAP_LIMIT - 1, recs)), "r1")
         self.assertEqual(t2.gaps, [])
 
-    def test_an_end_marker_inside_the_new_lines_is_noted(self):
+    def test_an_end_marker_stops_the_read_until_the_record_is_written(self):
+        # read 1 lands after the game raised the counter to 3 and before it wrote record 2 (still 0xFF):
+        # the read stops at record 2 and does not advance past it, and the next read takes the record
         t = commentary.Tracker()
         t.add(commentary.Snapshot(make_state(3, {1: (2, 5, 0, 0), 3: (2, 5, 0, 0)})), "r1")  # record 2 is 0xFF
-        self.assertEqual(len(t.lines), 2)
-        self.assertEqual(len(t.gaps), 1)
-        self.assertIn("0xFF", t.gaps[0])
+        self.assertEqual([x["n"] for x in t.lines], [1])
+        self.assertEqual(t.gaps, ["r1: record 2 is the end marker 0xFF (pending)"])
+        t.add(commentary.Snapshot(make_state(3, {1: (2, 5, 0, 0), 2: (50, 6, 0, 1), 3: (2, 5, 0, 0)})), "r2")
+        self.assertEqual([x["n"] for x in t.lines], [1, 2, 3])
+        self.assertEqual(t.deltas, [3, 2])
+
+    def test_a_read_between_the_counters_increment_and_the_write_keeps_the_line(self):
+        # E005-r0035's case: the read lands after `214B:1C86` raised DS:80EE to 3 and before `0791:1D4A`
+        # wrote record 3, so record 3 is still 0xFF; the next read has the record and the line is kept,
+        # in order, with no duplicate
+        t = commentary.Tracker()
+        t.add(commentary.Snapshot(make_state(3, {1: (2, 5, 0, 0), 2: (50, 6, 0, 1)})), "r1")
+        self.assertEqual([x["n"] for x in t.lines], [1, 2])
+        self.assertEqual(t.gaps, ["r1: record 3 is the end marker 0xFF (pending)"])
+        t.add(commentary.Snapshot(make_state(5, {1: (2, 5, 0, 0), 2: (50, 6, 0, 1), 3: (38, 7, 0, 1),
+                                                 4: (2, 6, 0, 0), 5: (63, 0, 0, 1)})), "r2")
+        self.assertEqual([x["n"] for x in t.lines], [1, 2, 3, 4, 5])
+        self.assertEqual(t.lines[2]["text"], "**** GOAL **** by Ekstrom")
+        self.assertEqual(t.deltas, [3, 3])
+
+    def test_a_record_still_unwritten_at_the_last_read_is_reported_unread(self):
+        # the match ends with record 3 still unwritten: every read to the end notes it, and the note
+        # stands as the record's unread report
+        t = commentary.Tracker()
+        t.add(commentary.Snapshot(make_state(3, {1: (2, 5, 0, 0), 2: (50, 6, 0, 1)})), "r1")
+        t.add(commentary.Snapshot(make_state(3, {1: (2, 5, 0, 0), 2: (50, 6, 0, 1)})), "r2")
+        self.assertEqual([x["n"] for x in t.lines], [1, 2])
+        self.assertEqual(len(t.gaps), 2)
+        self.assertTrue(all("record 3 is the end marker 0xFF" in g for g in t.gaps), t.gaps)
+        self.assertEqual(t.deltas, [3, 1])
 
     def test_no_new_line(self):
         t = commentary.Tracker()
