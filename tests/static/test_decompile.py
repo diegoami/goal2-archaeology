@@ -6,9 +6,12 @@
   functions, and that DS-relative operands land in the data segment 2581. Skipped where Ghidra or
   the released file is missing (CI).
 - RewriteTests and RenderTests check tools/static/decompiled.py on small made-up inputs.
+- RetryConditionTests read tools/static/ghidra/GoalDecompile.java and check that its retry loop
+  retries only a dead decompiler process.
 - CommittedOutputTests check the committed static/goal-exe/decompiled/ against routines.tsv.
 """
 import glob
+import re
 import os
 import shutil
 import subprocess
@@ -186,6 +189,67 @@ class RenderTests(unittest.TestCase):
         files, rows = decompiled.render(decompiled.parse_raw(raw), [], segmap())
         self.assertEqual(sorted(files), ["seg_0791_01.c", "seg_0791_02.c", "seg_0791_03.c"])
         self.assertTrue(all(len(t.encode()) <= decompiled.MAX_FILE_BYTES for t in files.values()))
+
+
+def brace_block(text: str, open_idx: int) -> str:
+    """The {...} block of text that opens at open_idx, braces included.
+
+    GoalDecompile.java keeps braces out of its string literals and comments, so counting
+    them is enough to find a block's end.
+    """
+    depth = 0
+    for i in range(open_idx, len(text)):
+        if text[i] == "{":
+            depth += 1
+        elif text[i] == "}":
+            depth -= 1
+            if depth == 0:
+                return text[open_idx:i + 1]
+    raise AssertionError(f"no closing brace for the block opening at {open_idx}")
+
+
+class RetryConditionTests(unittest.TestCase):
+    """GoalDecompile.java retries only a dead decompiler process (PR #54 review, round 2).
+
+    The test reads tools/static/ghidra/GoalDecompile.java and checks the retry loop: after a
+    failed attempt it must break out of the loop unless the result's error message says the
+    decompiler process died, so any other unsuccessful result is written as a failure at
+    once and only a dead process gets a fresh decompiler and another attempt.
+    """
+
+    @classmethod
+    def setUpClass(cls):
+        cls.source = (ROOT / "tools" / "static" / "ghidra" / "GoalDecompile.java").read_text()
+
+    def retry_loop(self) -> str:
+        at = self.source.index("for (int attempt")
+        return brace_block(self.source, self.source.index("{", at))
+
+    def test_retry_happens_only_when_the_error_message_says_the_process_died(self):
+        loop = self.retry_loop()
+        # a null result is logged as "no result", a message no retry condition can match
+        self.assertIn('r == null ? "no result"', loop)
+        # the guard: a failure whose message does not say "process died" leaves the loop
+        died = loop.index('msg.contains("process died")')
+        cond_at = loop.rindex("if (", 0, died)
+        cond = loop[cond_at:loop.index("{", cond_at)]
+        self.assertEqual(re.sub(r"\s+", " ", cond).strip(),
+                         'if (msg == null || !msg.contains("process died"))')
+        self.assertEqual(re.sub(r"\s+", " ", brace_block(loop, loop.index("{", cond_at))),
+                         "{ break; }")
+        # the fresh decompiler is opened only after that guard, and nowhere else in the loop
+        self.assertEqual(loop.count("openDecompiler()"), 1)
+        self.assertGreater(loop.index("openDecompiler()"), died)
+
+    def test_any_other_unsuccessful_result_is_written_as_a_failure_at_once(self):
+        loop = self.retry_loop()
+        # a successful decompile leaves the loop before the guard is reached
+        self.assertLess(loop.index("decompileCompleted"), loop.index('msg.contains("process died")'))
+        at = self.source.index("for (int attempt")
+        after = self.source[at + len(loop):]
+        # the last attempt's result is written as ok or failed, with no further attempt
+        written = after.index('head + " failed "')
+        self.assertNotIn("decompileFunction", after[:written])
 
 
 class CommittedOutputTests(unittest.TestCase):
