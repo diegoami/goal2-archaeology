@@ -80,10 +80,12 @@ class Names(unittest.TestCase):
         self.assertEqual(players.full_name(s, i, 2), "L Olsen")        # the bytes after the string are not read
         self.assertEqual(players.full_name(s, i, 3060), "T Frank")     # the last record
 
-    def test_a_length_byte_beyond_the_record_is_clamped(self):
+    def test_a_length_byte_beyond_the_record_stays_in_the_record(self):
+        # a Pascal string of 11 bytes holds 10 characters; a length byte of 0xFF reads no further than the record
         s = bytearray(self.s)
         s[1 * 11] = 0xFF
         self.assertEqual(len(players.full_name(bytes(s), self.i, 1)), 2 + 10)
+        self.assertEqual(players.full_name(bytes(s), self.i, 2), "L Olsen")   # the next record is not read
 
 
 class Screens(unittest.TestCase):
@@ -210,6 +212,44 @@ class Formulas(unittest.TestCase):
         self.assertEqual(summarise.status_class(self.rec(f10=0x04, fE=5)), "substituted")  # bit 3
         self.assertEqual(summarise.status_class(self.rec(f10=0x00, fE=5)), "ready")
 
+    def model_tables(self):
+        t = summarise.Tables()
+        for lo, hi in ((0x0E40, 0x0E90), (0x0F20, 0x0F80), (0x6990, 0x6AC0), (0x6D20, 0x7940)):
+            t.add(lo, bytes(hi - lo))
+        return t
+
+    def plant_pstr(self, t, off, text):
+        for k, b in enumerate(bytes([len(text)]) + text.encode("cp437")):
+            t.mem[off + k] = b
+
+    def test_position_is_plus_6_and_club_position_plus_7_and_the_height_and_skills_follow_plus_7(self):
+        # the edge the 80 players cannot visit: +6 = +7 in all of them (F007)
+        t = self.model_tables()
+        self.plant_pstr(t, 0x69B6 + 0x13 * 3, "AAA")
+        self.plant_pstr(t, 0x69B6 + 0x13 * 5, "BBBBB")
+        t.mem[0x0E46 + 5], t.mem[0x0E46 + 3], t.mem[0x0E54 + 4] = 70, 60, 2     # n = 4 mod 12
+        m = summarise.model(self.rec(f6=3, f7=5), 4, t)
+        self.assertEqual((m["position"], m["club_position"], m["height_in"]), ("AAA", "BBBBB", 72))
+
+    def test_fitness_follows_plus_0xD_and_energy_plus_0xE(self):
+        t = self.model_tables()
+        t.mem[0x78D5 + 7], t.mem[0x78F6 + 9] = 3, 4
+        self.plant_pstr(t, 0x6EB4 + 16 * 3, "three")
+        self.plant_pstr(t, 0x6EB4 + 16 * 4, "four")
+        m = summarise.model(self.rec(fD=7, fE=9), 1, t)
+        self.assertEqual((m["fitness"], m["energy"]), (("three", 7 * 14 // 32), ("four", 9 * 14 // 32)))
+        injured = summarise.model(self.rec(fD=7, fE=0), 1, t)      # +0xE = 0: the word of index DS:78D5[0], no bar
+        self.assertEqual(injured["fitness"][1], 0)
+
+    def test_morale_index_stops_at_0x20_and_the_bar_is_drawn_below_it(self):
+        t = self.model_tables()
+        t.mem[0x78A3 + 0x1F], t.mem[0x78A3 + 0x20], t.mem[0x78A3 + 0x21] = 5, 6, 7
+        self.plant_pstr(t, 0x6EB4 + 16 * 5, "five")
+        self.plant_pstr(t, 0x6EB4 + 16 * 6, "six")
+        self.assertEqual(summarise.model(self.rec(fC=0x1F), 1, t)["morale"], ("five", 0x1F * 14 // 32))
+        self.assertEqual(summarise.model(self.rec(fC=0x20), 1, t)["morale"], ("six", 0))
+        self.assertEqual(summarise.model(self.rec(fC=0x21), 1, t)["morale"], ("six", 0))   # min(+0xC, 0x20): not reachable in a new game
+
     def test_tables_refuse_a_byte_two_records_give_differently(self):
         t = summarise.Tables()
         t.add(0x10, b"\x01\x02")
@@ -285,6 +325,9 @@ class Runner(unittest.TestCase):
         self.assertEqual(run.candidates(s, i, "P Nielsen"), [1, 3])
         self.assertEqual(run.candidates(s, i, "K Nielsen"), [2])
         self.assertEqual(run.candidates(s, i, "P Olsen"), [])
+        # player 0 is no player (1771:42BC returns at once for 0, `42D2`): never a candidate
+        s0, i0 = name_arrays({0: ("P", "Nielsen"), 1: ("P", "Nielsen")})
+        self.assertEqual(run.candidates(s0, i0, "P Nielsen"), [1])
 
     def test_the_player_is_found_by_name_and_age(self):
         s, i = name_arrays({1: ("P", "Nielsen"), 2: ("P", "Nielsen"), 3: ("L", "Olsen")})

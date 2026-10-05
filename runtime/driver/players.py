@@ -98,4 +98,4 @@ def initials(state):
 def full_name(surname_array, initial_array, n):
     """The name `1771:2E93` builds for player n: the initial, a space, the Pascal string of 11 bytes."""
     rec = surname_array[n * NAME_SIZE:(n + 1) * NAME_SIZE]
-    return chr(initial_array[n]) + " " + rec[1:1 + min(rec[0], NAME_SIZE - 1)].decode("cp437")
+    return chr(initial_array[n]) + " " + rec[1:1 + rec[0]].decode("cp437")
