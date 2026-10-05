@@ -265,6 +265,10 @@ def summary(games, dat):
             varying.append(f)
     w = [int.from_bytes(g["players"][p * 20 + 0x12:p * 20 + 0x14], "little") for g in games for p in NAMED]
     pr(f"  +0x12 as a word: named players {min(w)}..{max(w)}")
+    cdiff = sorted({(c, o) for g in games for c in range(P.N_COUNTRIES) for o in range(P.COUNTRY_SIZE)
+                    if g["countries"][c * P.COUNTRY_SIZE + o] != ref["countries"][c * P.COUNTRY_SIZE + o]})
+    pr(f"Country array at [DS:A917] (129 records of 0xBF bytes): (country, offset) pairs differing between any two games: {len(cdiff)}"
+       + (f", first {cdiff[:6]}" if cdiff else ""))
     pr("")
     r = per_country(dat)
     r8 = [P.record(ref["countries"], P.COUNTRY_SIZE, c)[0x2D] for c in range(1, P.SQUAD_COUNTRIES + 1)]
