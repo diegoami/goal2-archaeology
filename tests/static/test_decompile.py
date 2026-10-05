@@ -233,7 +233,7 @@ class RetryConditionTests(unittest.TestCase):
         died = loop.index('msg.contains("process died")')
         cond_at = loop.rindex("if (", 0, died)
         cond = loop[cond_at:loop.index("{", cond_at)]
-        self.assertEqual(re.sub(r"\s+", " ", cond),
+        self.assertEqual(re.sub(r"\s+", " ", cond).strip(),
                          'if (msg == null || !msg.contains("process died"))')
         self.assertEqual(re.sub(r"\s+", " ", brace_block(loop, loop.index("{", cond_at))),
                          "{ break; }")
