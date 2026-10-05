@@ -143,6 +143,11 @@ class TrackerTest(unittest.TestCase):
         self.assertEqual([x["n"] for x in t.lines], [1, 2])
         self.assertEqual(t.gaps, ["match read 1: record 3 is the end marker 0xFF"])
         self.assertEqual(t.deltas, [3, 0])
+        # the reads stopped at record 3 twice (read 2 revisits it, still 0xFF), so `last` ends at 2:
+        # the reader's position never advances past a record the game has not written, so a later
+        # counter move would still read record 3 — the old `continue` left `last` at the counter
+        # (3) although record 3 was never read, and the line was lost to any later read
+        self.assertEqual(t.last, 2)
 
     def test_no_new_line(self):
         t = commentary.Tracker()
