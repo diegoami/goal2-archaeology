@@ -778,9 +778,10 @@ void __stdcall16far f_0791_A3B6(undefined2 *param_1)
 }
 
 
-// ---- 0791:A3DE  f_0791_A3DE  (f_0791_A3DE; Ghidra 2000:A3DE, __stdcall16near; found by routines.tsv)
+// ---- 0791:A3DE  prepare_computer_sides  (f_0791_A3DE; Ghidra 2000:A3DE, __stdcall16near; found by routines.tsv)
+// match set-up for the computer sides: for t = 0 then 1, only when 0B77 is zero for the team, calls 0791:B11F, then 1771:34E7 (clear the players' +0xF and re-derive it), then 0791:BD83(t), in that order; a managed side is skipped  [established; F010]
 
-void f_0791_A3DE(undefined4 param_1)
+void prepare_computer_sides(undefined4 param_1)
 
 {
   undefined4 uVar1;
@@ -811,8 +812,8 @@ void f_0791_A3DE(undefined4 param_1)
     cVar3 = is_managed(*(undefined2 *)(iVar2 + local_3 * 2 + 4));
     if (cVar3 == '\0') {
       f_0791_B11F(*(undefined2 *)(iVar2 + local_3 * 2 + 4));
-      f_1771_34E7(*(undefined2 *)(iVar2 + local_3 * 2 + 4));
-      f_0791_BD83(CONCAT11(extraout_AH,local_3));
+      reset_own_tactics(*(undefined2 *)(iVar2 + local_3 * 2 + 4));
+      computer_tactic_change(CONCAT11(extraout_AH,local_3));
     }
     if (local_3 == '\x01') break;
     local_3 = local_3 + '\x01';
@@ -822,7 +823,7 @@ void f_0791_A3DE(undefined4 param_1)
 
 
 // ---- 0791:A4A1  match_setup  (f_0791_A4A1; Ghidra 2000:A4A1, __stdcall16near; found by routines.tsv)
-// per-match set-up: clears the commentary ring and the quick flags, draws the kick-off side  [established; F005]
+// per-match set-up: clears the commentary ring and the quick flags, draws the kick-off side; also clears the tactic-change flags DS:8332 + t and DS:8334 + t  [established; F005; F010]
 
 void match_setup(undefined4 param_1)
 
@@ -833,7 +834,7 @@ void match_setup(undefined4 param_1)
   int local_4;
   
   uVar2 = (undefined2)((ulong)param_1 >> 0x10);
-  f_0791_A3DE((int)param_1,uVar2);
+  prepare_computer_sides((int)param_1,uVar2);
   DS:832C = 0xffff;
   f_0791_1073();
   u214b_fill_bytes(0,0x28,0x9b08,0xb000);

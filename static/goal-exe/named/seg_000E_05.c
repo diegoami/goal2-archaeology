@@ -368,9 +368,10 @@ void __stdcall16far f_000E_68A4(int param_1)
 }
 
 
-// ---- 000E:6970  f_000E_6970  (f_000E_6970; Ghidra 1000:6970, __stdcall16near; found by routines.tsv)
+// ---- 000E:6970  simulate_fixture  (f_000E_6970; Ghidra 1000:6970, __stdcall16near; found by routines.tsv)
+// plays a fixture without a watched match: 0791:D47E (a result without display), then 0791:B7FA, B602 and D050, in that order, then reset_team_tactics (0791:BC5D) for both teams with no test of 0B77; the fixture router sends the fixtures that are not watched here  [established; F010]
 
-void f_000E_6970(int param_1)
+void simulate_fixture(int param_1)
 
 {
   char cVar1;
@@ -395,7 +396,7 @@ void f_000E_6970(int param_1)
   pcVar6 = (char *)(iVar5 + -8);
   local_c = (char *)CONCAT22(uVar8,pcVar6);
   cVar1 = *local_c;
-  f_0791_D47E((int)DS:A92B + *(int *)(iVar4 + 0x26) * 8 + -8,uVar8);
+  quick_result_silent((int)DS:A92B + *(int *)(iVar4 + 0x26) * 8 + -8,uVar8);
   f_0791_B7FA((int)DS:A92B + *(int *)(iVar4 + 0x26) * 8 + -8,
               (int)((ulong)DS:A92B >> 0x10));
   f_0791_B602((int)DS:A92B + *(int *)(iVar4 + 0x26) * 8 + -8,
@@ -480,9 +481,10 @@ void f_000E_6970(int param_1)
 }
 
 
-// ---- 000E:6C21  f_000E_6C21  (f_000E_6C21; Ghidra 1000:6C21, __stdcall16near; found by routines.tsv)
+// ---- 000E:6C21  maybe_ask_watch_match  (f_000E_6C21; Ghidra 1000:6C21, __stdcall16near; found by routines.tsv)
+// the fixture router's gate: returns 1 without calling 0791:E80D when its flag argument is 0, else returns what E80D (ask_watch_match) returns  [established; F010]
 
-undefined2 f_000E_6C21(int param_1,char param_2)
+undefined2 maybe_ask_watch_match(int param_1,char param_2)
 
 {
   int iVar1;
@@ -497,17 +499,18 @@ undefined2 f_000E_6C21(int param_1,char param_2)
     u214b_read_key();
   }
   if ((param_2 != '\0') &&
-     (cVar3 = f_0791_E80D((int)DS:A92B + *(int *)(iVar1 + 0x26) * 8 + -8,
-                          (int)((ulong)DS:A92B >> 0x10)), cVar3 == '\0')) {
+     (cVar3 = ask_watch_match((int)DS:A92B + *(int *)(iVar1 + 0x26) * 8 + -8,
+                              (int)((ulong)DS:A92B >> 0x10)), cVar3 == '\0')) {
     return 0;
   }
   return 1;
 }
 
 
-// ---- 000E:6CA7  f_000E_6CA7  (f_000E_6CA7; Ghidra 1000:6CA7, __cdecl16near; found by routines.tsv)
+// ---- 000E:6CA7  route_fixture  (f_000E_6CA7; Ghidra 1000:6CA7, __cdecl16near; found by routines.tsv)
+// routes one fixture by its first byte: 0xFE goes to the gate 000E:6C21 with flag 1 only when both teams are unmanaged (1771:0B77), and on a returned 1 to 000E:6E15, where fixture byte +2 = 0 calls 0791:BB2F and otherwise 0791:F1F6; any other first byte, or a 0 from the gate, goes to 000E:6DAE, where membership in the set at 0x695A, or in the set at 0x697A with a nonzero continent flag, can call the gate with flag 1 (and 6E15 on a 1), and otherwise the fixture goes to 000E:6970; so a fixture with a managed team and first byte 0xFE never reaches E80D or 6970  [established; F010]
 
-void __cdecl16near f_000E_6CA7(void)
+void __cdecl16near route_fixture(void)
 
 {
   byte bVar1;
@@ -568,7 +571,7 @@ void __cdecl16near f_000E_6CA7(void)
         uVar8 = 0;
       }
       uVar10 = 0x4000;
-      cVar2 = f_000E_6C21(&stack0xfffe,uVar8);
+      cVar2 = maybe_ask_watch_match(&stack0xfffe,uVar8);
       bVar12 = false;
       bVar11 = true;
       if (cVar2 == '\0') goto LAB_000E_6DAE;
@@ -601,7 +604,8 @@ LAB_000E_6E15:
       uVar8 = (undefined2)((ulong)local_12 >> 0x10);
       uVar10 = (undefined2)((ulong)DS:A92B >> 0x10);
       if (*(char *)(iVar6 + -6) == '\0') {
-        f_0791_BB2F((int)DS:A92B + *(int *)((byte *)local_12 + 0x26) * 8 + -8,uVar10);
+        prepare_unplayed_match
+                  ((int)DS:A92B + *(int *)((byte *)local_12 + 0x26) * 8 + -8,uVar10);
       }
       else {
         run_match((int)DS:A92B + *(int *)((byte *)local_12 + 0x26) * 8 + -8,uVar10);
@@ -644,7 +648,7 @@ LAB_000E_6DAE:
       uVar10 = 0xa000;
       sys_set_bit_mask_08DF(0x695a,0xb000,*(undefined1 *)(iVar6 + -6));
       if (!bVar11) {
-        cVar2 = f_000E_6C21(&stack0xfffe,CONCAT11(extraout_AH,1));
+        cVar2 = maybe_ask_watch_match(&stack0xfffe,CONCAT11(extraout_AH,1));
         bVar12 = cVar2 == '\0';
         if (!bVar12) goto LAB_000E_6E15;
       }
@@ -653,12 +657,12 @@ LAB_000E_6DAE:
         uVar10 = 0xa000;
         sys_set_bit_mask_08DF(0x697a,0xb000,*(undefined1 *)(iVar6 + -6));
         if (!bVar11) {
-          cVar2 = f_000E_6C21(&stack0xfffe,CONCAT11(extraout_AH_00,1));
+          cVar2 = maybe_ask_watch_match(&stack0xfffe,CONCAT11(extraout_AH_00,1));
           bVar12 = cVar2 == '\0';
           if (!bVar12) goto LAB_000E_6E15;
         }
       }
-      f_000E_6970(&stack0xfffe);
+      simulate_fixture(&stack0xfffe);
     }
     if ((*(char *)(iVar6 + -6) == -0x35) ||
        ((*(char *)(iVar6 + -6) == 'g' &&
@@ -701,7 +705,7 @@ void __cdecl16near play_round(void)
   uVar5 = (undefined2)((ulong)DS:A923 >> 0x10);
   pbVar2 = (byte *)DS:A923;
   pbVar2[1] = 1;
-  f_000E_6CA7();
+  route_fixture();
   if (*(int *)(pbVar2 + 0x26) == *(int *)(pbVar2 + 0x28)) {
     f_1771_8208();
     cVar4 = f_000E_7072();
@@ -935,7 +939,7 @@ void main_menu_loop(void)
         }
         if ((DS:A976 != 't') && (DS:A976 != 'T')) break;
         if (pbVar3[pbVar3[1] + 0x47] == 0) {
-          f_1771_1981(*(undefined1 *)(iVar4 + (pbVar3[1] + 0x80) * 3));
+          edit_team_tactics(*(undefined1 *)(iVar4 + (pbVar3[1] + 0x80) * 3));
         }
       }
       if (DS:A976 == '\r') break;

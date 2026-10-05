@@ -224,7 +224,7 @@ void __cdecl16near f_0791_65FE(void)
     else {
       iVar3 = (uint)extraout_AH << 8;
     }
-    f_0791_C173(iVar3);
+    update_computer_tactics(iVar3);
     local_4 = 1;
     while( true ) {
       iVar3 = local_4 * 0x16 + -0x7f18;

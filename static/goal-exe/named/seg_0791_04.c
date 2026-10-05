@@ -43,7 +43,7 @@ undefined2 __stdcall16far f_0791_4DA9(undefined4 param_1)
   iVar5 = (int)param_1;
   uVar3 = player_hardness(*(undefined2 *)(iVar5 + 0xd));
   cVar1 = u214b_random_is_one(0x12 - (uVar3 & 0xff));
-  if ((cVar1 != '\0') || (cVar1 = f_0791_26D7(iVar5,uVar6,4), cVar1 != '\0')) {
+  if ((cVar1 != '\0') || (cVar1 = player_effective_tactic(iVar5,uVar6,4), cVar1 != '\0')) {
     uVar2 = player_hardness(*(undefined2 *)((uint)DS:830B * 0x16 + -0x7f0b));
     iVar4 = u214b_random_1_to_n(uVar2);
     uVar2 = player_hardness(*(undefined2 *)(iVar5 + 0xd));
@@ -99,8 +99,9 @@ void f_0791_4E28(int param_1)
   else {
     bVar1 = ppVar6[iVar2].position;
     if ((bVar1 == 3) || (bVar1 == 4)) {
-      cVar3 = f_0791_26D7((int)*(undefined4 *)(param_1 + 6),
-                          (int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10),1);
+      cVar3 = player_effective_tactic
+                        ((int)*(undefined4 *)(param_1 + 6),
+                         (int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10),1);
       if (cVar3 == '\0') {
         f_0791_3323((int)*(undefined4 *)(param_1 + 6),
                     (int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10));
@@ -112,8 +113,9 @@ void f_0791_4E28(int param_1)
       }
     }
     else if ((bVar1 == 7) || (bVar1 == 8)) {
-      cVar3 = f_0791_26D7((int)*(undefined4 *)(param_1 + 6),
-                          (int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10),1);
+      cVar3 = player_effective_tactic
+                        ((int)*(undefined4 *)(param_1 + 6),
+                         (int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10),1);
       if ((cVar3 == '\0') || (cVar3 = u214b_random_is_one(3), cVar3 != '\0')) {
         f_0791_3323((int)*(undefined4 *)(param_1 + 6),
                     (int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10));
@@ -258,8 +260,9 @@ undefined1 f_0791_5049(int param_1)
       f_0791_4E28(param_1);
       return 1;
     }
-    cVar1 = f_0791_26D7((int)*(undefined4 *)(param_1 + 6),
-                        (int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10),2);
+    cVar1 = player_effective_tactic
+                      ((int)*(undefined4 *)(param_1 + 6),
+                       (int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10),2);
     if (((cVar1 == '\0') || (cVar1 = u214b_random_coin_flip(), cVar1 == '\0')) &&
        (cVar1 = u214b_random_is_one((int)(char)((player *)players)
                                                [*(int *)((int)*(undefined4 *)(param_1 + 6) + 0xd)].
@@ -579,8 +582,9 @@ undefined2 f_0791_5729(int param_1)
                     *(undefined2 *)*(undefined4 *)(param_1 + 6));
         uVar2 = extraout_AH_02;
         if (extraout_AL_02 == '\0') {
-          f_0791_26D7((int)*(undefined4 *)(param_1 + 6),
-                      (int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10),6);
+          player_effective_tactic
+                    ((int)*(undefined4 *)(param_1 + 6),
+                     (int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10),6);
           uVar2 = extraout_AH_03;
           if (extraout_AL_03 != '\0') goto LAB_0791_579A;
         }

@@ -170,7 +170,7 @@ void __stdcall16far f_0791_B11F(undefined2 param_1)
     local_6 = local_6 + 1;
   }
   f_0791_AFA3(&stack0xfffe);
-  f_1771_52CC(param_1);
+  sort_squad_by_position(param_1);
   return;
 }
 
@@ -197,7 +197,7 @@ undefined2 f_0791_B15F(undefined4 param_1)
 
 
 // ---- 0791:B19D  roll_quick_goals  (f_0791_B19D; Ghidra 2000:B19D, __stdcall16near; found by routines.tsv)
-// for each side, n tries; each try is three random contests, own strength vs the opponent's from the DS:9B45 table (9B4D vs 9B4D, 9B51 vs 2*9B49, 9B51 vs 9B45); winning all three adds 1 to DS:9B3C[side]  [likely; read decompiled/seg_0791_07.c; read decompiled/seg_0791_08.c]
+// for each side, makes the given number of attempts (none when it is 0) and adds each goal to DS:9B3C[side]; each attempt has up to three contests of two draws each, the opponent's draw first - own line vs the opponent's from the DS:9B45 table (9B4D vs 9B4D, 9B51 vs 2*9B49, 9B51 vs 9B45; keeper, defence, midfield and attack are inferred, about 75%) - each comparison signed and a contest drawn only when the one before it was won; winning all three is a goal  [established; F010; read decompiled/seg_0791_07.c; read decompiled/seg_0791_08.c]
 
 void roll_quick_goals(int param_1)
 
@@ -610,9 +610,10 @@ void f_0791_BA4E(int param_1)
 }
 
 
-// ---- 0791:BB2F  f_0791_BB2F  (f_0791_BB2F; Ghidra 2000:BB2F, __stdcall16far; found by routines.tsv)
+// ---- 0791:BB2F  prepare_unplayed_match  (f_0791_BB2F; Ghidra 2000:BB2F, __stdcall16far; found by routines.tsv)
+// prepares a fixture without playing it: match set-up 0791:A4A1, then per player 1771:3558 and 0791:B364, then per team 0791:BC5D when 0B77 is zero for it, else 0791:BA4E (which touches neither +0x2D nor +0xF); it reaches neither match engine by a direct call edge; the fixture router sends a fixture with first byte 0xFE and byte +2 = 0 here instead of 0791:F1F6  [established; F010]
 
-void __stdcall16far f_0791_BB2F(undefined1 *param_1)
+void __stdcall16far prepare_unplayed_match(undefined1 *param_1)
 
 {
   int iVar1;
@@ -658,7 +659,7 @@ void __stdcall16far f_0791_BB2F(undefined1 *param_1)
 
 
 // ---- 0791:BBFF  set_team_tactics  (f_0791_BBFF; Ghidra 2000:BBFF, __stdcall16near; found by routines.tsv)
-// stores its first argument as country +0x2D (team tactics) and calls 1771:3431 for each of the country's 20 players  [likely; read decompiled/seg_0791_07.c]
+// stores its first argument as country +0x2D (the default team tactic set) and calls 1771:3431 for each of the country's 20 squad words that is nonzero, without clearing the players' +0xF; called by 0791:BC5D and the computer's in-match tactic changes 0791:BD83, BF6B, C01A and C0DF  [established; F010; read decompiled/seg_0791_07.c]
 
 void set_team_tactics(byte param_1,int param_2)
 
@@ -669,7 +670,7 @@ void set_team_tactics(byte param_1,int param_2)
   
   uVar2 = (undefined2)((ulong)countries >> 0x10);
   pcVar1 = (country *)countries;
-  pcVar1[param_2].team_tactics = param_1;
+  pcVar1[param_2].default_team_tactic_set = param_1;
   local_4 = 1;
   while( true ) {
     if (pcVar1[param_2].squad[local_4 + -1] != 0) {
@@ -683,7 +684,7 @@ void set_team_tactics(byte param_1,int param_2)
 
 
 // ---- 0791:BC5D  reset_team_tactics  (f_0791_BC5D; Ghidra 2000:BC5D, __stdcall16far; found by routines.tsv)
-// clears +0x0F of the country's 20 players, sets +0x2D from DS:9B7C + country (via 0791:BBFF), then the players' +6 from a table  [likely; read decompiled/seg_0791_07.c]
+// per country: 1. clears +0xF of all 20 squad words, zero or not; 2. writes R008 (DS:9B7C + country) to +0x2D through 0791:BBFF, so the default set returns and the overrides are re-derived; 3. sorts the squad (1771:52CC, whose unavailable-sorts-last rule applies while 0B77 is nonzero at that moment); 4. sets +6 of slots 1..11 from R011 (DS:9F02 + 20 country + slot); called by 000E:01FA, 000E:6970 and 0791:E80D for both teams with no test of 0B77, and by 0791:BB2F and 0791:F1F6 only for a team 0B77 calls unmanaged (a managed team gets 0791:BA4E)  [established; F010; read decompiled/seg_0791_07.c]
 
 void __stdcall16far reset_team_tactics(int param_1)
 
@@ -698,12 +699,12 @@ void __stdcall16far reset_team_tactics(int param_1)
   local_4 = 1;
   while( true ) {
     wVar1 = pcVar2[param_1].squad[local_4 + -1];
-    ((player *)players)[wVar1].tactics = 0;
+    ((player *)players)[wVar1].own_tactic_set = 0;
     if (local_4 == 0x14) break;
     local_4 = local_4 + 1;
   }
   set_team_tactics(CONCAT11((char)(wVar1 * 0x14 >> 8),*(undefined1 *)(param_1 + -0x6484)),param_1);
-  f_1771_52CC(param_1);
+  sort_squad_by_position(param_1);
   for (local_4 = 1;
       ((player *)players)[pcVar2[param_1].squad[local_4 + -1]].position =
            *(byte *)(param_1 * 0x14 + local_4 + -0x60fe), local_4 != 0xb; local_4 = local_4 + 1) {
@@ -712,9 +713,10 @@ void __stdcall16far reset_team_tactics(int param_1)
 }
 
 
-// ---- 0791:BD03  f_0791_BD03  (f_0791_BD03; Ghidra 2000:BD03, __stdcall16near; found by routines.tsv)
+// ---- 0791:BD03  team_strength_greater  (f_0791_BD03; Ghidra 2000:BD03, __stdcall16near; found by routines.tsv)
+// 1 when the sum of 1771:377E over a's first 11 squad words exceeds b's (unsigned; the first team is the deeper stack argument); the comparison 0791:BD83 acts on  [established; F010]
 
-undefined2 f_0791_BD03(int param_1,int param_2)
+undefined2 team_strength_greater(int param_1,int param_2)
 
 {
   int iVar1;
@@ -737,11 +739,12 @@ undefined2 f_0791_BD03(int param_1,int param_2)
 }
 
 
-// ---- 0791:BD83  f_0791_BD83  (f_0791_BD83; Ghidra 2000:BD83, __stdcall16near; found by routines.tsv)
+// ---- 0791:BD83  computer_tactic_change  (f_0791_BD83; Ghidra 2000:BD83, __stdcall16near; found by routines.tsv)
+// the computer's in-match tactic change for team t: writes the country's R008 (DS:9B7C + country) to +0x2D through 0791:BBFF, so the default set returns and the overrides are re-derived without clearing +0xF; then, only when t = 1, DS:80FC is nonzero and 0791:BD03 says team 1's eleven outsums team 0's, it includes element 1 and writes +0x2D again; then, when the team's eleven outsums its opponent's, it includes rand(6) twice and writes again; in every case it clears DS:8332 + t and DS:8334 + t; called by the match set-up 0791:A3DE, by 0791:BF6B and by 0791:C173  [established; F010]
 
 /* WARNING: Removing unreachable block (0791:BDE9) */
 
-void f_0791_BD83(char param_1)
+void computer_tactic_change(char param_1)
 
 {
   int iVar1;
@@ -758,21 +761,22 @@ void f_0791_BD83(char param_1)
                             *(undefined1 *)(((undefined2 *)&DS:9B34)[param_1] + -0x6484)),
                    ((undefined2 *)&DS:9B34)[param_1]);
   if (((param_1 == '\x01') && (DS:80FC != '\0')) &&
-     (cVar2 = f_0791_BD03(DS:9B34,DS:9B36), cVar2 != '\0')) {
-    u214b_set_include_bit(&pcVar4[iVar1].team_tactics,uVar5,1);
-    set_team_tactics(pcVar4[iVar1].team_tactics,DS:9B36);
+     (cVar2 = team_strength_greater(DS:9B34,DS:9B36), cVar2 != '\0')) {
+    u214b_set_include_bit(&pcVar4[iVar1].default_team_tactic_set,uVar5,1);
+    set_team_tactics(pcVar4[iVar1].default_team_tactic_set,DS:9B36);
   }
-  cVar2 = f_0791_BD03(((undefined2 *)&DS:9B34)[param_1 == '\0'],
-                      ((undefined2 *)&DS:9B34)[param_1]);
+  cVar2 = team_strength_greater
+                    (((undefined2 *)&DS:9B34)[param_1 == '\0'],
+                     ((undefined2 *)&DS:9B34)[param_1]);
   if (cVar2 != '\0') {
     local_4 = 1;
     while( true ) {
       uVar3 = u214b_random_1_to_n(6);
-      u214b_set_include_bit(&pcVar4[iVar1].team_tactics,uVar5,uVar3);
+      u214b_set_include_bit(&pcVar4[iVar1].default_team_tactic_set,uVar5,uVar3);
       if (local_4 == 2) break;
       local_4 = local_4 + 1;
     }
-    set_team_tactics(CONCAT11(param_1 >> 7,pcVar4[iVar1].team_tactics),
+    set_team_tactics(CONCAT11(param_1 >> 7,pcVar4[iVar1].default_team_tactic_set),
                      ((undefined2 *)&DS:9B34)[param_1]);
   }
   *(undefined1 *)((int)(undefined2 *)&DS:8332 + (int)param_1) = 0;
@@ -825,9 +829,10 @@ void f_0791_BEC7(undefined4 param_1)
 }
 
 
-// ---- 0791:BF6B  f_0791_BF6B  (f_0791_BF6B; Ghidra 2000:BF6B, __stdcall16near; found by routines.tsv)
+// ---- 0791:BF6B  computer_tactic_shift  (f_0791_BF6B; Ghidra 2000:BF6B, __stdcall16near; found by routines.tsv)
+// calls 0791:BD83(t), so +0x2D goes back to R008 and the overrides are re-derived, then includes rand(6) three times through 0791:BBFF when the team is behind, or excludes them when it is ahead; 0791:C173 calls it for a score gap of exactly 2  [established; F010]
 
-void f_0791_BF6B(undefined2 param_1,char param_2,char param_3)
+void computer_tactic_shift(undefined2 param_1,char param_2,char param_3)
 
 {
   int iVar1;
@@ -839,29 +844,30 @@ void f_0791_BF6B(undefined2 param_1,char param_2,char param_3)
   iVar1 = ((undefined2 *)&DS:9B34)[param_2];
   uVar4 = (undefined2)((ulong)countries >> 0x10);
   pcVar3 = (country *)countries;
-  f_0791_BD83(CONCAT11((char)((uint)(iVar1 * 0xbf) >> 8),param_2));
+  computer_tactic_change(CONCAT11((char)((uint)(iVar1 * 0xbf) >> 8),param_2));
   local_4 = 1;
   while( true ) {
     if (param_3 == '\0') {
       uVar2 = u214b_random_1_to_n(6);
-      u214b_set_exclude_bit(&pcVar3[iVar1].team_tactics,uVar4,uVar2);
+      u214b_set_exclude_bit(&pcVar3[iVar1].default_team_tactic_set,uVar4,uVar2);
     }
     else {
       uVar2 = u214b_random_1_to_n(6);
-      u214b_set_include_bit(&pcVar3[iVar1].team_tactics,uVar4,uVar2);
+      u214b_set_include_bit(&pcVar3[iVar1].default_team_tactic_set,uVar4,uVar2);
     }
     if (local_4 == 3) break;
     local_4 = local_4 + 1;
   }
-  set_team_tactics(CONCAT11(param_2 >> 7,pcVar3[iVar1].team_tactics),
+  set_team_tactics(CONCAT11(param_2 >> 7,pcVar3[iVar1].default_team_tactic_set),
                    ((undefined2 *)&DS:9B34)[param_2]);
   return;
 }
 
 
-// ---- 0791:C01A  f_0791_C01A  (f_0791_C01A; Ghidra 2000:C01A, __stdcall16near; found by routines.tsv)
+// ---- 0791:C01A  computer_include_tactics  (f_0791_C01A; Ghidra 2000:C01A, __stdcall16near; found by routines.tsv)
+// only while DS:8332 + t is 0: includes rand(5) five times, then element 6, writes +0x2D through 0791:BBFF and sets DS:8332 + t to 1, so at most once per stretch without a 0791:BD83 call; then tests the position of the slot-9 player against a set and may call 0791:BEC7 and 0791:230C (not read); 0791:C173 calls it for a team more than 2 goals behind  [established; F010]
 
-void f_0791_C01A(undefined2 param_1,char param_2)
+void computer_include_tactics(undefined2 param_1,char param_2)
 
 {
   undefined2 uVar1;
@@ -876,12 +882,12 @@ void f_0791_C01A(undefined2 param_1,char param_2)
     local_4 = 1;
     while( true ) {
       uVar1 = u214b_random_1_to_n(5);
-      u214b_set_include_bit(&pcVar2->team_tactics,uVar3,uVar1);
+      u214b_set_include_bit(&pcVar2->default_team_tactic_set,uVar3,uVar1);
       if (local_4 == 5) break;
       local_4 = local_4 + 1;
     }
-    u214b_set_include_bit(&pcVar2->team_tactics,uVar3,6);
-    set_team_tactics(CONCAT11(param_2 >> 7,pcVar2->team_tactics),
+    u214b_set_include_bit(&pcVar2->default_team_tactic_set,uVar3,6);
+    set_team_tactics(CONCAT11(param_2 >> 7,pcVar2->default_team_tactic_set),
                      ((undefined2 *)&DS:9B34)[param_2]);
     *(undefined1 *)((int)(undefined2 *)&DS:8332 + (int)param_2) = 1;
     bVar4 = (player *)players + pcVar2->squad[8] == (player *)0x0;
@@ -898,9 +904,10 @@ void f_0791_C01A(undefined2 param_1,char param_2)
 }
 
 
-// ---- 0791:C0DF  f_0791_C0DF  (f_0791_C0DF; Ghidra 2000:C0DF, __stdcall16near; found by routines.tsv)
+// ---- 0791:C0DF  computer_exclude_tactics  (f_0791_C0DF; Ghidra 2000:C0DF, __stdcall16near; found by routines.tsv)
+// only while DS:8334 + t is 0: excludes rand(5) five times, then element 6, writes +0x2D through 0791:BBFF and sets DS:8334 + t to 1, so at most once per stretch without a 0791:BD83 call; 0791:C173 calls it for a team more than 2 goals ahead  [established; F010]
 
-void f_0791_C0DF(undefined2 param_1,char param_2)
+void computer_exclude_tactics(undefined2 param_1,char param_2)
 
 {
   int iVar1;
@@ -916,12 +923,12 @@ void f_0791_C0DF(undefined2 param_1,char param_2)
     local_4 = 1;
     while( true ) {
       uVar2 = u214b_random_1_to_n(5);
-      u214b_set_exclude_bit(&pcVar3[iVar1].team_tactics,uVar4,uVar2);
+      u214b_set_exclude_bit(&pcVar3[iVar1].default_team_tactic_set,uVar4,uVar2);
       if (local_4 == 5) break;
       local_4 = local_4 + 1;
     }
-    u214b_set_exclude_bit(&pcVar3[iVar1].team_tactics,uVar4,6);
-    set_team_tactics(CONCAT11(param_2 >> 7,pcVar3[iVar1].team_tactics),
+    u214b_set_exclude_bit(&pcVar3[iVar1].default_team_tactic_set,uVar4,6);
+    set_team_tactics(CONCAT11(param_2 >> 7,pcVar3[iVar1].default_team_tactic_set),
                      ((undefined2 *)&DS:9B34)[param_2]);
     *(undefined1 *)((int)(undefined2 *)&DS:8334 + (int)param_2) = 1;
   }
@@ -929,9 +936,10 @@ void f_0791_C0DF(undefined2 param_1,char param_2)
 }
 
 
-// ---- 0791:C173  f_0791_C173  (f_0791_C173; Ghidra 2000:C173, __stdcall16near; found by routines.tsv)
+// ---- 0791:C173  update_computer_tactics  (f_0791_C173; Ghidra 2000:C173, __stdcall16near; found by routines.tsv)
+// the computer sides' in-match tactic updates: takes d = DS:9B3C - DS:9B3D and acts on each team that 1771:0B77 says is not managed, so a managed team is never changed: |d| < 2 calls 0791:BD83; |d| = 2 calls 0791:BF6B; |d| > 2 calls 0791:C0DF when the team is ahead, else 0791:C01A; reached from 0791:65FE, which 0791:D733 calls when a goal fell and 9564 reaches through 83A2, 690C and 67B6  [established; F010]
 
-void f_0791_C173(void)
+void update_computer_tactics(void)
 
 {
   char cVar1;
@@ -949,7 +957,7 @@ void f_0791_C173(void)
         iVar3 = -iVar3;
       }
       if (iVar3 < 2) {
-        f_0791_BD83(CONCAT11((char)((uint)iVar3 >> 8),local_4));
+        computer_tactic_change(CONCAT11((char)((uint)iVar3 >> 8),local_4));
       }
       else {
         iVar3 = (int)cVar1;
@@ -959,18 +967,18 @@ void f_0791_C173(void)
         if (iVar3 == 2) {
           if (*(byte *)((int)(undefined2 *)&DS:9B3C + (int)(local_4 == '\0')) <
               *(byte *)((int)(undefined2 *)&DS:9B3C + (int)local_4)) {
-            f_0791_BF6B(&stack0xfffe,(int)local_4,(uint)(byte)(local_4 >> 7) << 8);
+            computer_tactic_shift(&stack0xfffe,(int)local_4,(uint)(byte)(local_4 >> 7) << 8);
           }
           else {
-            f_0791_BF6B(&stack0xfffe,(int)local_4,CONCAT11(local_4 >> 7,1));
+            computer_tactic_shift(&stack0xfffe,(int)local_4,CONCAT11(local_4 >> 7,1));
           }
         }
         else if (*(byte *)((int)(undefined2 *)&DS:9B3C + (int)(local_4 == '\0')) <
                  *(byte *)((int)(undefined2 *)&DS:9B3C + (int)local_4)) {
-          f_0791_C0DF(&stack0xfffe,(int)local_4);
+          computer_exclude_tactics(&stack0xfffe,(int)local_4);
         }
         else {
-          f_0791_C01A(&stack0xfffe,(int)local_4);
+          computer_include_tactics(&stack0xfffe,(int)local_4);
         }
       }
     }
@@ -1151,106 +1159,5 @@ void f_0791_C50C(int param_1,int param_2)
     u214b_read_key();
   }
   u214b_restore_bottom_line();
-  return;
-}
-
-
-// ---- 0791:C5DC  f_0791_C5DC  (f_0791_C5DC; Ghidra 2000:C5DC, __stdcall16near; found by routines.tsv)
-
-void f_0791_C5DC(undefined2 param_1,int param_2,char param_3)
-
-{
-  int iVar1;
-  char cVar2;
-  uint uVar3;
-  undefined2 unaff_SS;
-  char local_8 [4];
-  undefined2 local_4;
-  
-  iVar1 = param_2 * 0x16;
-  u214b_set_include_bit
-            (&((player *)players)[*(int *)(iVar1 + -0x7f0b)].status,(int)((ulong)players >> 0x10),3)
-  ;
-  local_8[3] = is_managed(((undefined2 *)&DS:9B34)[param_3]);
-  if (local_8[3] == '\0') {
-    u214b_speaker_off();
-    cVar2 = is_managed(((undefined2 *)&DS:9B34)[param_3 == '\0']);
-    if ((cVar2 != '\0') && (DS:9A3E == '\0')) {
-      f_0791_C50C(*(undefined2 *)(iVar1 + -0x7f0b),
-                  *(undefined2 *)
-                   ((int)(country *)countries +
-                   (param_2 - (uint)*(byte *)(param_3 + 0x668)) * 2 +
-                   ((undefined2 *)&DS:9B34)[param_3] * 0xbf + -2));
-    }
-    uVar3 = param_2 - (uint)*(byte *)(param_3 + 0x668);
-    f_0791_1EB5(uVar3 & 0xff00,param_1,uVar3,param_3);
-  }
-  if (*(int *)(iVar1 + -0x7f16) == DS:0640) {
-    local_4 = DS:0644;
-  }
-  else {
-    local_4 = *(undefined2 *)(iVar1 + -0x7f16);
-  }
-  f_0791_A2E6(iVar1 + -0x7f18,0xb000,param_2);
-  ((player *)players)[*(int *)(iVar1 + -0x7f0b)].performance = 0x2747;
-  if (local_8[3] == '\0') {
-    ((player *)players)[*(int *)(iVar1 + -0x7f0b)].tactics = 0;
-    set_player_tactics(*(undefined2 *)(iVar1 + -0x7f0b));
-  }
-  *(undefined2 *)(iVar1 + -0x7f16) = local_4;
-  local_8[0] = '\0';
-  local_8[1] = '\0';
-  local_8[2] = '\0';
-  while( true ) {
-    cVar2 = is_managed(((undefined2 *)&DS:9B34)[local_8[2]]);
-    if ((cVar2 != '\0') &&
-       (cVar2 = player_unavailable(*(undefined2 *)(local_8[2] * 10 + -0x6688)), cVar2 != '\0')) {
-      local_8[local_8[2]] = '\x01';
-      *(word *)(local_8[2] * 10 + -0x6688) =
-           ((country *)countries + ((undefined2 *)&DS:9B34)[local_8[2]])->squad[0];
-    }
-    if (local_8[2] == '\x01') break;
-    local_8[2] = local_8[2] + '\x01';
-  }
-  f_0791_230C();
-  local_8[2] = '\0';
-  while( true ) {
-    if (local_8[local_8[2]] != '\0') {
-      *(undefined2 *)(local_8[2] * 10 + -0x6688) = 0;
-    }
-    if (local_8[2] == '\x01') break;
-    local_8[2] = local_8[2] + '\x01';
-  }
-  ((undefined1 *)&DS:9B3A)[param_3] = ((undefined1 *)&DS:9B3A)[param_3] + -1;
-  DS:9B55 = 1;
-  return;
-}
-
-
-// ---- 0791:C7EB  f_0791_C7EB  (f_0791_C7EB; Ghidra 2000:C7EB, __stdcall16near; found by routines.tsv)
-
-void f_0791_C7EB(int param_1)
-
-{
-  char cVar1;
-  undefined2 unaff_SS;
-  int local_4;
-  
-  local_4 = 0xc;
-  while( true ) {
-    if (*(int *)((int)*(undefined4 *)(param_1 + 10) + local_4 * 2 + -2) !=
-        *(int *)((*(int *)(param_1 + 8) - (uint)*(byte *)(*(char *)(param_1 + 6) + 0x668)) * 0x16 +
-                -0x7f0b)) {
-      cVar1 = player_unavailable(*(undefined2 *)
-                                  ((int)*(undefined4 *)(param_1 + 10) + local_4 * 2 + -2));
-      if (cVar1 == '\0') {
-        *(undefined1 *)
-         (((player *)players)[*(int *)((int)*(undefined4 *)(param_1 + 10) + local_4 * 2 + -2)].
-          club_position + 0x99a2) = (undefined1)local_4;
-      }
-    }
-    if (local_4 == 0x14) break;
-    local_4 = local_4 + 1;
-  }
   return;
 }

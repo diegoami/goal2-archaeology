@@ -580,7 +580,7 @@ undefined4 __stdcall16far is_managed(uint param_1)
 
 
 // ---- 1771:0BC4  compute_team_line_strengths  (f_1771_0BC4; Ghidra 4000:0BC4, __stdcall16far; found by routines.tsv)
-// (flag, side, country): for squad entries 1..11 adds the player's strength (377E, plus 1771:0AA7 from +0x2E) to DS:9B45[side + line*2], line from table DS:0D4E[+6] (above 3 it is split over two lines); for tactic bits 1..6 (player +0x0F bits 5..8 override the country's +0x2D) adds to 9B49 or 9B51; flag adds 1/8  [likely; read decompiled/seg_1771_01.c; read decompiled/seg_1771_02.c]
+// (flag, side, country): for squad entries 1..11 with a nonzero squad word it adds the player's strength (377E, plus 1771:0AA7 from +0x2E when nonzero) to DS:9B45 + 2 side + 4 k, line k from table DS:0D4E[+6] (k = 0..3 are keeper, defence, midfield and attack, inferred about 75%; above 3 the value splits over two lines); it acts only on the effective tactic elements 1, 5 and 6 (the set constant 0x62 at 1771:0BA4): the player's effective element e is +0xF element e when e < 5 and +0xF element e + 4 is set, else element e of +0x2D of the country in the player's byte 0; each set one adds 0AA7 div 8 to the attack sum and each clear one to the defence sum (9B49 + 2 side), and the flag adds sum/8 (signed) to each of the four sums  [likely; F010; read decompiled/seg_1771_01.c; read decompiled/seg_1771_02.c]
 
 void __stdcall16far compute_team_line_strengths(char param_1,char param_2,int param_3)
 
@@ -627,12 +627,12 @@ void __stdcall16far compute_team_line_strengths(char param_1,char param_2,int pa
           sys_set_bit_mask_08DF(0xba4,uVar8,local_a & 0xff);
           if (!bVar10) {
             if ((local_a < 5) &&
-               (cVar2 = u214b_set_test_bit(ppVar5->tactics,local_a + 4), cVar2 != '\0')) {
-              local_b = u214b_set_test_bit(ppVar5->tactics,local_a);
+               (cVar2 = u214b_set_test_bit(ppVar5->own_tactic_set,local_a + 4), cVar2 != '\0')) {
+              local_b = u214b_set_test_bit(ppVar5->own_tactic_set,local_a);
             }
             else {
-              local_b = u214b_set_test_bit(((country *)countries)[local_13->country].team_tactics,
-                                           local_a);
+              local_b = u214b_set_test_bit(((country *)countries)[local_13->country].
+                                           default_team_tactic_set,local_a);
             }
             uVar9 = 0x7000;
             if (local_b == '\0') {
@@ -1061,7 +1061,7 @@ void f_1771_1527(undefined1 param_1,undefined1 param_2,undefined2 param_3)
 
 
 // ---- 1771:157D  draw_team_panel  (f_1771_157D; Ghidra 4000:157D, __stdcall16near; found by routines.tsv)
-// a country's information panel (template DS:4BBE): name, manager, ranks (world_rank, continent_rank, +0x28, +0x29), line counts (1771:0E6C), word bars DS:9B5A..9B60, the 8 team-tactic flags of +0x2D, line strengths (1771:0BC4), continent  [likely; F008; read decompiled/seg_1771_01.c]
+// a country's information panel (template DS:4BBE): name, manager, ranks (world_rank, continent_rank, +0x28, +0x29), line counts (1771:0E6C), word bars DS:9B5A..9B60, the 8 team-tactic flags of +0x2D, line strengths (1771:0BC4), continent  [likely; F008; F010; read decompiled/seg_1771_01.c]
 
 void draw_team_panel(int param_1)
 
@@ -1158,7 +1158,7 @@ void draw_team_panel(int param_1)
              CONCAT11(extraout_AH_06,0x13),puVar4,unaff_SS);
   local_4 = 1;
   while( true ) {
-    cVar1 = u214b_set_test_bit(local_8->team_tactics,*(undefined1 *)(local_4 + 0x6bbf));
+    cVar1 = u214b_set_test_bit(local_8->default_team_tactic_set,*(undefined1 *)(local_4 + 0x6bbf));
     iVar2 = local_4 + 8 + (uint)(3 < local_4);
     u214b_write_string_at_attr_var
               ((undefined4 *)&DS:A96E,0xb000,CONCAT11((char)((uint)iVar2 >> 8),0x3d),iVar2,

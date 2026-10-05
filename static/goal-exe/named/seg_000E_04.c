@@ -471,7 +471,7 @@ LAB_000E_4F47:
   }
   f_000E_05F6(iVar3,iVar1,iVar2);
   if (local_4 != '\0') {
-    f_000E_01FA(((country *)countries)[param_2].manager - 0x80);
+    unmanage_country(((country *)countries)[param_2].manager - 0x80);
   }
   return;
 }
