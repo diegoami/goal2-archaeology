@@ -1,0 +1,42 @@
+{
+  "schema": "run/1",
+  "run_id": "E902-r0001",
+  "experiment": "E902",
+  "arm": "test",
+  "rep": 1,
+  "code_commit": "0000000",
+  "machine": "test",
+  "artifact": {
+    "set": "goal2-a949da2f",
+    "variant": null
+  },
+  "runtime": {
+    "driver": "test@0000000",
+    "platform": "python-3.12/test",
+    "fingerprint": {
+      "python": "3.12.3"
+    }
+  },
+  "interventions": [
+    {
+      "level": "I1",
+      "what": "fixture: publish_evidence.py reads only this record's artifact"
+    }
+  ],
+  "start_state": {
+    "id": "fresh-launch",
+    "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+    "restore": "fixture: a fresh process, nothing restored"
+  },
+  "seed": null,
+  "actions": {
+    "script": "tests/test_publish_evidence.py",
+    "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+    "args": []
+  },
+  "observations": [],
+  "outputs": [],
+  "started": "2026-10-05T00:00:00Z",
+  "ended": "2026-10-05T00:00:01Z",
+  "status": "aborted: fixture only, nothing ran"
+}

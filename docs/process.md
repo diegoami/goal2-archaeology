@@ -149,6 +149,11 @@ run, or the owner's decision with its basis. Plausible rules without either stay
   document claim it touches. Each finding is a doc fix, a bug, a task-file edit, or a question for the user; research never decides design. (L16)
 - The original files never enter the repository. CI fetches them from a private fixtures
   repository holding the whole corpus; tests find fixtures by name; local tests skip without them. (L17)
+- A start state a run record names by sha256 outlives the worktree that made it: it is published
+  to the experiment's release as an evidence bundle (`tools/publish_evidence.py`: asset
+  `<sha256[:16]>-<name>`, manifest under `evidence/E<nnn>/`, re-verified by
+  `tools/verify_evidence.py`; ADR-008). A savestate holds the game's memory: release assets of
+  this private repository only, never in the tree; an asset is never deleted or replaced.
 
 ## 12. Delegating decisions to Jev
 
