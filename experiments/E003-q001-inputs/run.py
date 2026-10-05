@@ -35,6 +35,9 @@ import savestate  # noqa: E402
 EXPERIMENT = "E003"
 HERE = Path(__file__).resolve().parent
 OUT = ROOT / "runs" / EXPERIMENT
+# The script's sha256 as loaded, for every record of this process: a record written after the file
+# changed on disk would otherwise name code it did not run (E004-r0231, as E004's run.py does).
+SCRIPT_SHA = driver.sha256(Path(__file__).read_bytes())
 CYCLES = "auto"   # F001's determinism probes ran at cycles=auto (runtime/spike/dbx.py default)
 
 # F001 (runtime/spike/probe.py): TO_MAIN reaches the screen main.sav was taken at; SEQ_MENU is D0's last key.
@@ -213,7 +216,7 @@ class Run:
                         "platform": f"python-{platform.python_version()}/{cycle.machine_id()}",
                         "fingerprint": cycle.fingerprint(d, conf_sha)},
             "interventions": inter, "start_state": start, "seed": None,
-            "actions": {"script": "experiments/E003-q001-inputs/run.py", "sha256": driver.sha256(Path(__file__).read_bytes()),
+            "actions": {"script": "experiments/E003-q001-inputs/run.py", "sha256": SCRIPT_SHA,
                         "args": [self.arm] + (["--dos-time", self.args.dos_time, "--dos-date", self.args.dos_date] if self.args.dos_time else [])
                         + ["--batch", self.args.batch, "keys: " + " ".join(keys)]},
             "observations": obs, "outputs": [],
