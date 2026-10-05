@@ -88,7 +88,9 @@ How strong each country is, and where the 128 differ, is **not placed**: no rout
 
 | Address | Entry | Evidence | Marked |
 | --- | --- | --- | --- |
-| `1771:97CC` | creates the 20 players of one country | calls `1771:96D3` for slots 1..20 with the player number, the country, a byte of `DS:9F03` (`mov al, [di-0x60FE]` after `mul 0x14`) and 1 | inferred |
+| `1771:97CC` | creates the 20 players of one country | first writes the country number into the seed word `DS:7B62` (`seg_1771_14.asm:18`–`20`; F007), then calls `1771:96D3` for slots 1..20 with the player number, the country, a byte of `DS:9F03` (`mov al, [di-0x60FE]` after `mul 0x14`) and 1 | observed (F007) |
+| `1771:98C4` | makes the managed country's 80 extra players (2561..2640) | through `1771:9873` → `1771:96D3(…, 0)`: positions 0..13 four times, one per squad slot 1..20 (age redrawn), then slots 6..9 again (`seg_1771_14.asm:146`–`253`; F007) | observed (F007) |
+| `1771:10E7` | a country's rating | `((5 − [+0x2C]) · (0x21 − [+0x2A]) + (0x81 − [+0x2B])) idiv 2` over the country record (`seg_1771_02.asm:710`–`733`); player field +3 is it + 0x7F (F007) | observed (F007) |
 | `0791:BC5D` | sets up a country's team | clears field +0xF of its 20 players, calls `0791:BBFF` with the country and `DS:9B7C[country]`, calls `1771:52CC`, then copies the byte of `DS:9F03` of slots 1..11 into field +6 of the 20-byte record at `[A91B]` | observed |
 | `0791:DBFA` | refuses a change of squad | strings "cannot alter squad" (`DS:0A9C`), " during finals" and " whilst on tour" | observed |
 | `0791:E022` | refuses a substitution | strings "There is no player here", "Illegal substitution", " cannot play", "Nice try" | observed |
