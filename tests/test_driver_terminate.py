@@ -14,7 +14,12 @@ driver's guard is launch()'s own title-screen wait and displace key before any r
 boots a prompt session through Driver.launch() itself (a subclass whose autoexec omits `goal`) and
 asserts the guard holds there: launch ends in its own "title screen: not seen" timeout and no
 restore is attempted. It needs DOSBox-X, Xvfb and xdotool, so it skips everywhere they are absent
-(CI), runs locally, and fails if the guard is removed (see the class docstring).
+(CI), and it needs the driver's verified release (.cache/goal2): where the driver's own release
+check (verify_release, the first thing launch() does) fails, it skips with that reason, which names
+setup/goal2-runtime.sh (#63) -- before the fix it errored there. It runs locally, and fails if the
+guard is removed (see the class docstring). ReleaseGuard pins the skip to the driver's own check
+and, where the release verifies, pins that the edge test's own setUp does not skip (R1 rework: an
+always-skip regression fails there instead of hiding the guard test).
 """
 import os
 import shutil
@@ -32,6 +37,19 @@ sys.path.insert(0, str(ROOT / "runtime" / "driver"))
 import driver  # noqa: E402
 
 LOCAL = all(shutil.which(t) for t in ("dosbox-x", "Xvfb", "xdotool"))
+
+
+def release_problem(cache=None):
+    """The failure message of the driver's own release check (verify_release, the first thing
+    launch() does before it starts anything), or None when it passes. DosPromptRestoreEdge skips
+    with this as its reason (#63): the skip is decided by the same check the driver makes, not by a
+    hard-coded path or file list. `cache` overrides the cache checked (ReleaseGuard points it at an
+    empty directory to visit the no-release edge)."""
+    try:
+        driver.verify_release(driver.CACHE if cache is None else cache)
+    except SystemExit as e:  # the driver's own refusal, naming setup/goal2-runtime.sh
+        return str(e)
+    return None
 
 POLITE = "import time; print('up', flush=True); time.sleep(60)"
 IGNORES_SIGTERM = ("import signal, time; signal.signal(signal.SIGTERM, signal.SIG_IGN); "
@@ -136,14 +154,25 @@ class DosPromptRestoreEdge(unittest.TestCase):
     launch() itself -- PromptBoot below omits only `goal` from the autoexec -- and asserts the
     guard holds there: launch ends in its own "title screen: not seen" timeout and sends no
     Host+L. With the guard removed, launch() goes straight from a focused window to restore() at
-    the prompt: "Host+L sent" is logged and launch raises restore's own timeout instead of the
-    guard's -- the test fails. Needs DOSBox-X, Xvfb and xdotool: skipped on CI, run locally."""
+    the prompt: "Host+L sent" is logged and launch fails inside restore's poll instead of at the
+    guard's timeout -- the test fails. (Observed on the 2026-10-05 mutation run: DOSBox-X logs
+    "Save state corrupted! ... Memory_Size" and writes no savestate afterwards, so the poll dies in
+    save_state's "savestate not complete within 15s" and never reaches restore's digest timeout.)
+    Needs DOSBox-X, Xvfb and xdotool, and the driver's verified release
+    (.cache/goal2): skipped on CI and wherever the driver's release check fails (run
+    setup/goal2-runtime.sh; before #63 it ERRORED there), run locally."""
 
     # The prompt session never shows the title, so this wait is the guard's full bound, run each
     # time the test executes; 8 s keeps the local run short and is what launch() is asked for.
     TITLE_WAIT = 8
 
     def setUp(self):
+        # The driver's own release check, before setUp touches anything: launch() would refuse with
+        # this very message (verify_release), and before #63 the fallback make_state below leaked it
+        # as a SystemExit error. Skipped with the driver's reason, which names setup/goal2-runtime.sh.
+        problem = release_problem()
+        if problem:
+            self.skipTest(f"the driver's release check failed: {problem}")
         try:
             self.st = driver.StartState("title")
         except FileNotFoundError:
@@ -178,6 +207,56 @@ class DosPromptRestoreEdge(unittest.TestCase):
         # lost to terminate()'s SIGKILL -- which is why the two assertions above carry the test.)
         out = (d.workdir / "dosbox.out").read_text(errors="replace")
         self.assertNotIn("Save state corrupted!", out)
+
+
+class ReleaseGuard(unittest.TestCase):
+    """#63 Done-when 3: the edge test's skip is decided by the driver's own release check --
+    verify_release, the very call launch() makes -- not by a hard-coded path or file list. The
+    third test (R1 rework) calls the edge test's own setUp where the release verifies and fails
+    when it would skip, so the guard test cannot be hidden behind a skip."""
+
+    def test_with_an_unverified_cache_the_edge_test_skips_instead_of_erroring(self):
+        """Done-when 1 with the driver's cache pointed at an empty directory, so this runs wherever
+        the suite runs: the edge test must skip, its reason naming setup/goal2-runtime.sh -- before
+        the fix it ERRORED there (SystemExit out of make_state's launch). The class's own tools skip
+        is cleared so the release check is what fires, whether or not the tools are installed."""
+        empty = Path(tempfile.mkdtemp(prefix="edge-unverified-"))
+        self.addCleanup(shutil.rmtree, empty, True)
+        suite = unittest.TestSuite((DosPromptRestoreEdge(
+            "test_launch_never_restores_into_a_dos_prompt_session"),))
+        result = unittest.TestResult()
+        with mock.patch.object(driver, "CACHE", empty), \
+                mock.patch.object(DosPromptRestoreEdge, "__unittest_skip__", False, create=True), \
+                mock.patch.object(DosPromptRestoreEdge, "__unittest_skip_why__", "", create=True):
+            suite.run(result)
+        self.assertEqual([], result.errors, f"the edge test errored: {result.errors}")
+        self.assertEqual(1, len(result.skipped), f"expected the edge test skipped, got {result.skipped}")
+        self.assertIn("setup/goal2-runtime.sh", result.skipped[0][1])
+
+    def test_where_the_release_verifies_the_skip_condition_is_false(self):
+        """Done-when 3: after setup/goal2-runtime.sh, the same check the driver makes passes, so the
+        skip condition is false and the edge test runs; skipped where no release is set up (CI)."""
+        try:
+            driver.verify_release(driver.CACHE)  # the driver's own check, as launch() makes it
+        except SystemExit as e:
+            self.skipTest(f"no verified release here (CI); this half needs one: {e}")
+        self.assertIsNone(release_problem())
+
+    def test_where_the_release_verifies_the_edge_tests_own_setUp_does_not_skip(self):
+        """R1 rework (#63 review): the test above re-reads release_problem(), so a regression that
+        made setUp skip unconditionally would still leave this suite OK -- the guard test silently
+        skipped instead of run. This check calls the edge test's own setUp, the very code whose
+        decision it is, and fails when it would skip: with the release verified the guard test must
+        run. Skipped where no release is set up (CI), like every check that needs one."""
+        try:
+            driver.verify_release(driver.CACHE)  # the driver's own check, as launch() makes it
+        except SystemExit as e:
+            self.skipTest(f"no verified release here (CI); this half needs one: {e}")
+        edge = DosPromptRestoreEdge("test_launch_never_restores_into_a_dos_prompt_session")
+        try:
+            edge.setUp()  # the skip decision itself, not a recomputation of its condition
+        except unittest.SkipTest as e:
+            self.fail(f"the edge test would be skipped where the release verifies: {e}")
 
 
 if __name__ == "__main__":
