@@ -152,8 +152,11 @@ class DosPromptRestoreEdge(unittest.TestCase):
     launch() itself -- PromptBoot below omits only `goal` from the autoexec -- and asserts the
     guard holds there: launch ends in its own "title screen: not seen" timeout and sends no
     Host+L. With the guard removed, launch() goes straight from a focused window to restore() at
-    the prompt: "Host+L sent" is logged and launch raises restore's own timeout instead of the
-    guard's -- the test fails. Needs DOSBox-X, Xvfb and xdotool, and the driver's verified release
+    the prompt: "Host+L sent" is logged and launch fails inside restore's poll instead of at the
+    guard's timeout -- the test fails. (Observed on the 2026-10-05 mutation run: DOSBox-X logs
+    "Save state corrupted! ... Memory_Size" and writes no savestate afterwards, so the poll dies in
+    save_state's "savestate not complete within 15s" and never reaches restore's digest timeout.)
+    Needs DOSBox-X, Xvfb and xdotool, and the driver's verified release
     (.cache/goal2): skipped on CI and wherever the driver's release check fails (run
     setup/goal2-runtime.sh; before #63 it ERRORED there), run locally."""
 
