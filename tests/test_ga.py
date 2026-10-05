@@ -1,0 +1,223 @@
+"""`tools/ga.py` fetches the four pinned tools and the `formats/` tree for the commit
+`archaeology.json` pins; a cached copy is used only when every needed file is present and its git
+blob sha matches the pinned tree, so a partial cache is fetched again and an edited file is a named
+`GaError`, never silently replaced (ADR-009).
+
+`tools/verify_evidence.py` and `tools/check_citations.py` are pass-through wrappers: they run the
+pinned tool from the working directory with the same arguments, streams and exit code.
+
+The fake `gh` serves one git tree and its blobs from a JSON file; the cache is patched into a
+temporary directory, so no test here touches the network or the repository's real cache. The
+wrappers are driven in-process with a stub tool in that fake cache, again without network.
+"""
+from __future__ import annotations
+
+import contextlib
+import io
+import json
+import os
+import subprocess
+import sys
+import tempfile
+import unittest
+from pathlib import Path
+from unittest import mock
+
+REPO_ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(REPO_ROOT))
+
+from tools import check_citations, ga, verify_evidence  # noqa: E402
+
+# The pinned files the fake tree serves, and the bytes each holds. The blob sha the tree lists is
+# `ga.git_blob_sha` of these bytes, so a real download passes the same check a real tree would.
+CONTENTS = {
+    "tools/validate_records.py": "validator body\n",
+    "tools/register_artifact.py": "artifact body\n",
+    "tools/verify_evidence.py": "verifier body\n",
+    "tools/check_citations.py": "citations body\n",
+    "formats/run-1.schema.json": '{"schema": "run/1"}\n',
+}
+
+# A fake `gh api`: print the git tree, or one blob, from FAKE_GH_TREE ({"tree": [...],
+# "blobs": {sha: text}}); every call is appended to FAKE_GH_LOG. A tree entry, a blob outside the
+# tree and a non-needed path exercise ga.py's filtering.
+FAKE_GH = """#!/usr/bin/env python3
+import base64
+import json
+import os
+import sys
+
+args = sys.argv[1:]
+with open(os.environ["FAKE_GH_LOG"], "a", encoding="utf-8") as log:
+    log.write(" ".join(args) + "\\n")
+data = json.loads(open(os.environ["FAKE_GH_TREE"], encoding="utf-8").read())
+path = args[1]
+if "/git/trees/" in path:
+    print(json.dumps({"tree": data["tree"]}))
+elif "/git/blobs/" in path:
+    text = data["blobs"][path.rsplit("/", 1)[1]]
+    print(json.dumps({"content": base64.b64encode(text.encode()).decode()}))
+else:
+    sys.exit(2)
+"""
+
+# A stub pinned tool: it records its own arguments beside itself and exits 7, so a wrapper that
+# changes its arguments or its exit code is caught.
+STUB_TOOL = '''#!/usr/bin/env python3
+import sys
+from pathlib import Path
+
+Path(__file__).with_name(Path(__file__).name + ".args").write_text(
+    "\\n".join(sys.argv[1:]), encoding="utf-8")
+sys.exit(7)
+'''
+
+
+def tree_fixture(contents: dict[str, str] | None = None) -> dict:
+    contents = CONTENTS if contents is None else contents
+    tree = [{"path": path, "type": "blob", "sha": ga.git_blob_sha(text.encode())}
+            for path, text in contents.items()]
+    # Files the fetch must not take: a tree, a file outside the needed set.
+    tree.append({"path": "formats/examples", "type": "tree", "sha": "t"})
+    tree.append({"path": "tests/formats/other.py", "type": "blob", "sha": "0" * 40})
+    blobs = {ga.git_blob_sha(text.encode()): text for text in contents.values()}
+    return {"tree": tree, "blobs": blobs}
+
+
+class GaFetchTest(unittest.TestCase):
+    def setUp(self):
+        self._tmp = tempfile.TemporaryDirectory()
+        self.addCleanup(self._tmp.cleanup)
+        self.tmp = Path(self._tmp.name)
+        fakebin = self.tmp / "bin"
+        fakebin.mkdir()
+        gh = fakebin / "gh"
+        gh.write_text(FAKE_GH, encoding="utf-8")
+        gh.chmod(0o755)
+        (self.tmp / "tree.json").write_text(json.dumps(tree_fixture()), encoding="utf-8")
+        self.log = self.tmp / "gh.log"
+        self.env = {"PATH": f"{fakebin}{os.pathsep}{os.environ['PATH']}",
+                    "FAKE_GH_LOG": str(self.log), "FAKE_GH_TREE": str(self.tmp / "tree.json")}
+        self.cache = self.tmp / "cache"
+        self.pinner = mock.patch.object(ga, "CACHE", self.cache)
+
+    def calls(self) -> list[str]:
+        if not self.log.exists():
+            return []
+        return self.log.read_text(encoding="utf-8").splitlines()
+
+    def seed(self, dest: Path, contents: dict[str, str] | None = None) -> None:
+        for path, text in (CONTENTS if contents is None else contents).items():
+            target = dest / path
+            target.parent.mkdir(parents=True, exist_ok=True)
+            target.write_text(text, encoding="utf-8")
+
+    def blob_calls(self) -> list[str]:
+        return [call for call in self.calls() if "git/blobs" in call]
+
+    def test_root_is_the_cache_path_for_that_commit(self):
+        # A cache for another commit can never satisfy this pin: root() keys the folder by commit.
+        self.assertEqual(ga.CACHE / "deadbeef", ga.root("deadbeef"))
+        self.assertEqual(ga.CACHE / ga.pin()[1], ga.root())
+
+    def test_git_blob_sha_is_the_sha_git_gives_the_blob(self):
+        # The mix-up this guards against is using the sha256 of the content; git names a blob by
+        # sha1 of `blob <len>\0<bytes>`, checked here against git itself.
+        data = b"the pinned bytes\n"
+        with tempfile.NamedTemporaryFile() as handle:
+            handle.write(data)
+            handle.flush()
+            hashed = subprocess.run(["git", "hash-object", handle.name],
+                                    capture_output=True, text=True)
+        self.assertEqual(0, hashed.returncode, hashed.stderr)
+        self.assertEqual(hashed.stdout.strip(), ga.git_blob_sha(data))
+
+    def test_complete_cache_is_used_and_nothing_is_downloaded(self):
+        repo, commit = ga.pin()
+        dest = self.cache / commit
+        self.seed(dest)
+        with self.pinner, mock.patch.dict(os.environ, self.env):
+            self.assertEqual(dest, ga.fetch())
+        self.assertEqual([], self.blob_calls())
+        self.assertTrue(any(f"git/trees/{commit}" in call for call in self.calls()))
+
+    def test_partial_cache_is_fetched_again(self):
+        # The cache holds one needed file only: it is never used, and the whole set is fetched.
+        repo, commit = ga.pin()
+        dest = self.cache / commit
+        self.seed(dest, {"tools/validate_records.py": CONTENTS["tools/validate_records.py"]})
+        with self.pinner, mock.patch.dict(os.environ, self.env):
+            self.assertEqual(dest, ga.fetch())
+        for path, text in CONTENTS.items():
+            self.assertEqual(text, (dest / path).read_text(encoding="utf-8"), path)
+        self.assertEqual(len(CONTENTS), len(self.blob_calls()))
+
+    def test_edited_cached_tool_is_a_named_blob_sha_error(self):
+        # A file that was changed after the fetch is left alone: fetch fails by name, it is not
+        # silently re-downloaded over.
+        repo, commit = ga.pin()
+        dest = self.cache / commit
+        self.seed(dest)
+        edited = dest / "tools" / "check_citations.py"
+        edited.write_text(CONTENTS["tools/check_citations.py"] + "# edited\n", encoding="utf-8")
+        with self.pinner, mock.patch.dict(os.environ, self.env):
+            with self.assertRaises(ga.GaError) as raised:
+                ga.fetch()
+        self.assertIn("blob sha mismatch", str(raised.exception))
+        self.assertIn("tools/check_citations.py", str(raised.exception))
+        self.assertEqual([], self.blob_calls())
+
+    def test_gh_failure_is_a_named_error(self):
+        # gh failing is a named error, never a traceback from _gh_api.
+        with self.pinner, mock.patch.dict(os.environ, self.env):
+            (self.tmp / "tree.json").unlink()
+            with self.assertRaises(ga.GaError) as raised:
+                ga.fetch()
+        self.assertIn("gh api", str(raised.exception))
+
+
+class WrapperPassThroughTest(unittest.TestCase):
+    def setUp(self):
+        self._tmp = tempfile.TemporaryDirectory()
+        self.addCleanup(self._tmp.cleanup)
+        self.tmp = Path(self._tmp.name)
+
+    def stub_cache(self, tool: str) -> Path:
+        cache = self.tmp / "cache"
+        target = cache / tool
+        target.parent.mkdir(parents=True, exist_ok=True)
+        target.write_text(STUB_TOOL, encoding="utf-8")
+        return cache
+
+    def recorded(self, cache: Path, tool: str) -> str:
+        return (cache / tool).with_name(Path(tool).name + ".args").read_text(encoding="utf-8")
+
+    def test_verify_evidence_passes_arguments_and_exit_code(self):
+        cache = self.stub_cache(ga.VERIFY_EVIDENCE)
+        with mock.patch.object(ga, "fetch", return_value=cache):
+            code = verify_evidence.main(["E900", "--local", "somewhere"])
+        self.assertEqual(7, code)
+        self.assertEqual("E900\n--local\nsomewhere",
+                         self.recorded(cache, ga.VERIFY_EVIDENCE))
+
+    def test_check_citations_passes_arguments_and_exit_code(self):
+        cache = self.stub_cache(ga.CHECK_CITATIONS)
+        with mock.patch.object(ga, "fetch", return_value=cache):
+            code = check_citations.main(["findings/F001.md", "--runs", "runs"])
+        self.assertEqual(7, code)
+        self.assertEqual("findings/F001.md\n--runs\nruns",
+                         self.recorded(cache, ga.CHECK_CITATIONS))
+
+    def test_wrapper_reports_the_ga_error_by_name_and_exits_1(self):
+        for module in (verify_evidence, check_citations):
+            buffer = io.StringIO()
+            with mock.patch.object(ga, "fetch",
+                                   side_effect=ga.GaError("blob sha mismatch for x: cache has a")):
+                with contextlib.redirect_stdout(buffer):
+                    code = module.main(["E900"])
+            self.assertEqual(1, code, module.__name__)
+            self.assertIn("blob sha mismatch", buffer.getvalue())
+
+
+if __name__ == "__main__":
+    unittest.main()

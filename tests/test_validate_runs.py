@@ -5,17 +5,13 @@ no schema can express, and the loader that rejects NaN/Infinity and a duplicate 
 missing path, invalid JSON and an unknown schema."""
 from __future__ import annotations
 
-import base64
 import hashlib
 import json
-import os
-import shutil
 import subprocess
 import sys
 import tempfile
 import unittest
 from pathlib import Path
-from unittest import mock
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 FIXTURES = REPO_ROOT / "tests" / "fixtures"
@@ -127,74 +123,6 @@ class ValidateRunsTest(unittest.TestCase):
         self.assertEqual(hashlib.sha256(text.encode("utf-8")).hexdigest(), digest)
         # id and acquired are excluded from the canonical form.
         self.assertEqual(digest, ga.canonical_set_hash({**manifest, "id": "x-" + digest[:8]}))
-
-
-# A fake `gh api` serving one git tree and its blobs from FAKE_GH_TREE (a JSON file:
-# {"tree": [...], "blobs": {sha: text}}); every call is logged to FAKE_GH_LOG.
-FAKE_GH = """#!/usr/bin/env python3
-import base64
-import json
-import os
-import sys
-
-args = sys.argv[1:]
-with open(os.environ["FAKE_GH_LOG"], "a", encoding="utf-8") as log:
-    log.write(" ".join(args) + "\\n")
-data = json.loads(open(os.environ["FAKE_GH_TREE"], encoding="utf-8").read())
-path = args[1]
-if "/git/trees/" in path:
-    print(json.dumps({"tree": data["tree"]}))
-elif "/git/blobs/" in path:
-    text = data["blobs"][path.rsplit("/", 1)[1]]
-    print(json.dumps({"content": base64.b64encode(text.encode()).decode()}))
-else:
-    sys.exit(2)
-"""
-
-
-class GaFetchTest(unittest.TestCase):
-    """ga.fetch takes the pinned validator and artifact tool with formats/, once, and nothing else."""
-
-    def test_pin_is_archaeology_json(self):
-        pinned = json.loads((REPO_ROOT / "archaeology.json").read_text(encoding="utf-8"))
-        self.assertEqual((pinned["game-archaeologist"]["repo"], pinned["game-archaeologist"]["commit"]),
-                         ga.pin())
-        self.assertEqual(ga.CACHE / pinned["game-archaeologist"]["commit"], ga.root())
-
-    def test_fetch_takes_only_the_pinned_tools_and_formats_once(self):
-        tree = [
-            {"path": "tools/validate_records.py", "type": "blob", "sha": "c1"},
-            {"path": "tools/register_artifact.py", "type": "blob", "sha": "c2"},
-            {"path": "formats/run-1.schema.json", "type": "blob", "sha": "f1"},
-            {"path": "formats/examples", "type": "tree", "sha": "t1"},
-            {"path": "method/research-protocol.md", "type": "blob", "sha": "m1"},
-            {"path": "tests/formats/other.py", "type": "blob", "sha": "o1"},
-        ]
-        blobs = {"c1": "validator", "c2": "artifact tool", "f1": "{}", "m1": "method", "o1": "other"}
-        tmp = Path(tempfile.mkdtemp())
-        self.addCleanup(shutil.rmtree, tmp, True)
-        (tmp / "tree.json").write_text(json.dumps({"tree": tree, "blobs": blobs}), encoding="utf-8")
-        (tmp / "bin").mkdir()
-        (tmp / "bin" / "gh").write_text(FAKE_GH, encoding="utf-8")
-        (tmp / "bin" / "gh").chmod(0o755)
-        log = tmp / "gh.log"
-        env = {"PATH": f"{tmp / 'bin'}{os.pathsep}{os.environ['PATH']}",
-               "FAKE_GH_LOG": str(log), "FAKE_GH_TREE": str(tmp / "tree.json")}
-        with mock.patch.object(ga, "CACHE", tmp / "cache"), mock.patch.dict(os.environ, env):
-            repo, commit = ga.pin()
-            dest = ga.fetch()
-            self.assertEqual(tmp / "cache" / commit, dest)
-            written = sorted(p.relative_to(dest).as_posix() for p in dest.rglob("*") if p.is_file())
-            self.assertEqual(["formats/run-1.schema.json", "tools/register_artifact.py",
-                              "tools/validate_records.py"], written)
-            self.assertEqual("validator", (dest / "tools/validate_records.py").read_text())
-            calls = log.read_text(encoding="utf-8").splitlines()
-            self.assertEqual(f"api repos/{repo}/git/trees/{commit}?recursive=1", calls[0])
-            self.assertEqual(sorted([f"api repos/{repo}/git/blobs/c1", f"api repos/{repo}/git/blobs/c2",
-                                     f"api repos/{repo}/git/blobs/f1"]),
-                             sorted(calls[1:]))
-            ga.fetch()
-            self.assertEqual(calls, log.read_text(encoding="utf-8").splitlines())
 
 
 if __name__ == "__main__":
