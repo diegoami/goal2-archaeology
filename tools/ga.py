@@ -28,13 +28,13 @@ from __future__ import annotations
 import base64
 import binascii
 import hashlib
-import importlib.util
 import json
 import os
 import shutil
 import signal
 import subprocess
 import sys
+import types
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
@@ -167,9 +167,11 @@ def _drop_bytecode(dest: Path) -> None:
 
     Python accepts a cached `.pyc` when the source's size and mtime match its header, and a
     same-length edit restored within the same second slips past that check: the verified source
-    would be ignored for stale bytecode. Removing the bytecode closes that hole; the wrappers also
-    launch the fetched tools with `-B` and the direct import sets `sys.dont_write_bytecode`, so
-    nothing writes new bytecode for the cache either."""
+    would be ignored for stale bytecode. Removing the bytecode closes that hole for the default
+    location; bytecode redirected by `PYTHONPYCACHEPREFIX` lives outside the cache, so the wrappers
+    launch the fetched tools with that variable cleared and with `-B`, and `validator()` compiles
+    the verified source text itself instead of importing it. Nothing reads or writes bytecode for
+    the cache."""
     try:
         pycaches = sorted(dest.rglob("__pycache__"))
         for pycache in pycaches:
@@ -208,21 +210,29 @@ def run_tool(rel: str, argv: list[str]) -> int:
     tool's own exit code, with death by signal re-raised in this process rather than mangled.
 
     The tool always runs from the caller's working directory, never from the cache folder that
-    holds it, so it serves the repository it is run in."""
+    holds it, so it serves the repository it is run in. `PYTHONPYCACHEPREFIX` is cleared for the
+    child: with it set, the tool's own `import validate_records` would read bytecode from that
+    prefix, which `fetch()` cannot see or delete, instead of the verified source beside it."""
     tool = fetch() / rel
+    env = {key: value for key, value in os.environ.items() if key != "PYTHONPYCACHEPREFIX"}
     try:
-        completed = subprocess.run([sys.executable, "-B", str(tool), *argv])
+        completed = subprocess.run([sys.executable, "-B", str(tool), *argv], env=env)
     except OSError as e:  # the interpreter or the tool cannot be launched
         raise GaError(f"cannot run {tool}: {e.strerror or e}") from None
     code = completed.returncode
     if code < 0:
         # The tool was killed by signal -code; sys.exit(code) would report 241 for SIGTERM, so
         # the same signal is re-raised here to preserve the termination as it happened.
+        # SIGKILL (and SIGSTOP) refuse a new disposition with ValueError but are always fatal
+        # by default, so the reset is attempted alone and the signal is delivered regardless.
         sig = -code
         try:
             signal.signal(sig, signal.SIG_DFL)
+        except (OSError, ValueError):
+            pass
+        try:
             os.kill(os.getpid(), sig)
-        except (OSError, ValueError, KeyError):
+        except OSError:
             pass
         return 128 + sig
     return code
@@ -232,22 +242,21 @@ _validator = None
 
 
 def validator():
-    """The imported pinned validator module (`tools/validate_records.py`).
+    """The pinned validator module (`tools/validate_records.py`), loaded from verified source.
 
-    `fetch()` has just deleted any cached bytecode and the import runs with
-    `sys.dont_write_bytecode`, so the module executed is the verified source and no `.pyc` is
-    written for the cache."""
+    The module is built from the source text `fetch()` has just verified: the bytes are compiled
+    and executed here, never imported, so no `.pyc` is read (from `__pycache__` or from a
+    `PYTHONPYCACHEPREFIX` / `sys.pycache_prefix` tree) and none is written."""
     global _validator
     if _validator is None:
         path = fetch() / VALIDATOR
-        previous = sys.dont_write_bytecode
-        sys.dont_write_bytecode = True
         try:
-            spec = importlib.util.spec_from_file_location("ga_validate_records", path)
-            module = importlib.util.module_from_spec(spec)
-            spec.loader.exec_module(module)
-        finally:
-            sys.dont_write_bytecode = previous
+            source = path.read_bytes()
+        except OSError as e:
+            raise GaError(f"cannot read {path}: {e.strerror or e}") from None
+        module = types.ModuleType("ga_validate_records")
+        module.__file__ = str(path)
+        exec(compile(source, str(path), "exec", dont_inherit=True), module.__dict__)
         _validator = module
     return _validator
 

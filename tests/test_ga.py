@@ -27,7 +27,7 @@ from unittest import mock
 REPO_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO_ROOT))
 
-from tools import check_citations, ga, verify_evidence  # noqa: E402
+from tools import check_citations, ga, register_artifact, verify_evidence  # noqa: E402
 
 # The pinned files the fake tree serves, and the bytes each holds. The blob sha the tree lists is
 # `ga.git_blob_sha` of these bytes, so a real download passes the same check a real tree would.
@@ -239,6 +239,35 @@ class GaFetchTest(unittest.TestCase):
         self.assertEqual([], list(dest.rglob("__pycache__")))
         self.assertEqual([], list(dest.rglob("*.pyc")))
 
+    def test_stale_pyc_under_a_pycache_prefix_is_never_run(self):
+        # Round 3 R1: bytecode redirected by PYTHONPYCACHEPREFIX (sys.pycache_prefix) lies
+        # outside the cache, where fetch() cannot delete it. A same-length edit of the cached
+        # validator, compiled under such a prefix and then restored to the pinned bytes with the
+        # original mtime, must still not run: the validator is executed from its verified source.
+        good = "def validate(value, schema, path='$'):\n    return [path + ': real error']\n"
+        bad = "def validate(value, schema, path='$'):\n    return [][0:0] + [][0:0]      \n"
+        self.assertEqual(len(good), len(bad))
+        contents = dict(CONTENTS)
+        contents["tools/validate_records.py"] = good
+        (self.tmp / "tree.json").write_text(json.dumps(tree_fixture(contents)), encoding="utf-8")
+        repo, commit = ga.pin()
+        dest = self.cache / commit
+        self.seed(dest, contents)
+        target = dest / "tools" / "validate_records.py"
+        prefix = self.tmp / "pycache-prefix"
+        with mock.patch.object(sys, "pycache_prefix", str(prefix)):
+            stat = target.stat()
+            target.write_text(bad, encoding="utf-8")
+            py_compile.compile(str(target))  # the stale .pyc lands under the prefix
+            target.write_text(good, encoding="utf-8")
+            os.utime(target, (stat.st_atime, stat.st_mtime))  # the .pyc now looks fresh
+            self.assertEqual(1, len(list(prefix.rglob("validate_records*.pyc"))))
+            ga._validator = None
+            self.addCleanup(setattr, ga, "_validator", None)
+            with self.pinner, mock.patch.dict(os.environ, self.env):
+                errors = ga.validate(-1, {"type": "integer", "minimum": 0})
+        self.assertEqual(["$: real error"], errors)
+
 
 class WrapperPassThroughTest(unittest.TestCase):
     def setUp(self):
@@ -298,13 +327,53 @@ class WrapperPassThroughTest(unittest.TestCase):
                 self.assertEqual(1, code, (module.__name__, failure))
                 self.assertIn("cannot run", buffer.getvalue())
 
+    def test_fetched_tool_never_runs_stale_pyc_under_a_pycache_prefix(self):
+        # Round 3 R1: a fetched tool imports the validator beside it. With PYTHONPYCACHEPREFIX
+        # set, that import would read bytecode from the prefix, outside the cache fetch() cleans;
+        # a same-length edit compiled there and then restored must not run through any wrapper.
+        cache = (self.tmp / "cache").resolve()
+        tools_dir = cache / "tools"
+        tools_dir.mkdir(parents=True)
+        importer = (
+            "import sys\n"
+            "from pathlib import Path\n"
+            "sys.path.insert(0, str(Path(__file__).resolve().parent))\n"
+            "import validate_records\n"
+            "sys.exit(validate_records.CODE)\n"
+        )
+        for tool in (ga.VERIFY_EVIDENCE, ga.CHECK_CITATIONS, ga.ARTIFACT_TOOL):
+            (cache / tool).write_text(importer, encoding="utf-8")
+        validator = cache / ga.VALIDATOR
+        validator.write_text("CODE = 3\n", encoding="utf-8")
+        stat = validator.stat()
+        validator.write_text("CODE = 4\n", encoding="utf-8")
+        prefix = self.tmp / "pycache-prefix"
+        compiled = subprocess.run(
+            [sys.executable, "-c", "import py_compile, sys; py_compile.compile(sys.argv[1])",
+             str(validator)],
+            env={**os.environ, "PYTHONPYCACHEPREFIX": str(prefix)},
+            capture_output=True, text=True, timeout=60)
+        self.assertEqual(0, compiled.returncode, compiled.stderr)
+        validator.write_text("CODE = 3\n", encoding="utf-8")
+        os.utime(validator, (stat.st_atime, stat.st_mtime))  # the .pyc now looks fresh
+        self.assertEqual(1, len(list(prefix.rglob("validate_records*.pyc"))))
+        self.assertEqual([], list(cache.rglob("__pycache__")))
+        for module in (verify_evidence, check_citations, register_artifact):
+            with mock.patch.object(ga, "fetch", return_value=cache), \
+                    mock.patch.dict(os.environ, {"PYTHONPYCACHEPREFIX": str(prefix)}):
+                code = module.main([])
+            self.assertEqual(3, code, module.__name__)
+
     def test_a_tool_killed_by_a_signal_terminates_the_wrapper_with_it(self):
-        # R4: a negative return code must not become 241 through sys.exit(); the wrapper process
-        # itself dies of the same signal. Driven through a real subprocess per wrapper.
+        # R4: a negative return code must not become 241 (SIGTERM) or 137 (SIGKILL) through
+        # sys.exit(); the wrapper process itself dies of the same signal, SIGKILL included, whose
+        # disposition cannot be reset (round 3 R2). Driven through a real subprocess per wrapper.
         signal_tool = (
             "import os, signal, sys\n"
-            "signal.signal(signal.SIGTERM, signal.SIG_DFL)\n"
-            "os.kill(os.getpid(), signal.SIGTERM)\n"
+            "sig = signal.{sig}\n"
+            "if sig != signal.SIGKILL:\n"
+            "    signal.signal(sig, signal.SIG_DFL)\n"
+            "os.kill(os.getpid(), sig)\n"
         )
         driver = (
             "import importlib, sys\n"
@@ -316,17 +385,20 @@ class WrapperPassThroughTest(unittest.TestCase):
             "with mock.patch.object(ga, 'fetch', return_value=Path({cache!r})):\n"
             "    sys.exit(module.main([]))\n"
         )
-        for module, tool in ((verify_evidence, ga.VERIFY_EVIDENCE),
-                             (check_citations, ga.CHECK_CITATIONS)):
-            cache = self.stub_cache(tool)
-            (cache / tool).write_text(signal_tool, encoding="utf-8")
-            child = subprocess.run(
-                [sys.executable, "-c",
-                 driver.format(root=str(REPO_ROOT), name=module.__name__, cache=str(cache))],
-                capture_output=True, text=True, timeout=60)
-            self.assertEqual(-15, child.returncode, (module.__name__, child.stderr))
-            self.assertTrue(child.stderr.strip() == "" or
-                            "Traceback" not in child.stderr, module.__name__)
+        for sig, expected in (("SIGTERM", -15), ("SIGKILL", -9)):
+            for module, tool in ((verify_evidence, ga.VERIFY_EVIDENCE),
+                                 (check_citations, ga.CHECK_CITATIONS),
+                                 (register_artifact, ga.ARTIFACT_TOOL)):
+                cache = self.stub_cache(tool)
+                (cache / tool).write_text(signal_tool.format(sig=sig), encoding="utf-8")
+                child = subprocess.run(
+                    [sys.executable, "-c",
+                     driver.format(root=str(REPO_ROOT), name=module.__name__, cache=str(cache))],
+                    capture_output=True, text=True, timeout=60)
+                self.assertEqual(expected, child.returncode,
+                                 (sig, module.__name__, child.stderr))
+                self.assertTrue(child.stderr.strip() == "" or
+                                "Traceback" not in child.stderr, (sig, module.__name__))
 
 
 if __name__ == "__main__":
