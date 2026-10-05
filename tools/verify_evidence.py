@@ -11,7 +11,7 @@ repository it is run in.
     python3 tools/verify_evidence.py E<nnn> [--local DIR] [--evidence-dir DIR] [--repo OWNER/NAME]
         Read `evidence/E<nnn>/*.manifest.json`, validate each as `evidence-manifest/1` with the
         pinned validator, download release `E<nnn>` into a fresh `.cache/evidence/<E<nnn>>/` in one
-        `gh release download` call, and check every listed asset there by sha256. `--local DIR`
+        bulk call, and check every listed asset there by sha256. `--local DIR`
         checks an already-downloaded bundle instead of the release. Exit 0 prints
         `ok: <n> manifest(s) verified`; any problem is a named line and exit 1.
 """

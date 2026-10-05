@@ -162,6 +162,12 @@ def fetch(commit: str | None = None) -> Path:
     if commit is None:
         commit = pinned
     dest = root(commit)
+    # The cache is a plain directory under the working tree. A symlinked cache root (or commit
+    # folder) could point elsewhere, so it is refused by name rather than written through.
+    if CACHE.is_symlink():
+        raise GaError(f"cache root {CACHE} is a symlink, not a directory")
+    if dest.is_symlink():
+        raise GaError(f"cache for {commit} is a symlink: {dest}")
     wanted = _wanted(repo, commit)
     if _missing(dest, wanted):
         _download(repo, dest, wanted)

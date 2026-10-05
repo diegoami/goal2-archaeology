@@ -120,6 +120,27 @@ class GaFetchTest(unittest.TestCase):
         self.assertEqual(ga.CACHE / "deadbeef", ga.root("deadbeef"))
         self.assertEqual(ga.CACHE / ga.pin()[1], ga.root())
 
+    def test_symlinked_cache_root_or_commit_is_a_named_error(self):
+        # A cache root that is a symlink is refused before anything is fetched or written.
+        real = self.tmp / "real"
+        real.mkdir()
+        link = self.tmp / "link"
+        link.symlink_to(real)
+        with mock.patch.object(ga, "CACHE", link):
+            with self.assertRaises(ga.GaError) as raised:
+                ga.fetch()
+        self.assertIn("symlink", str(raised.exception))
+        # So is a commit folder that is a symlink, which could point at another commit's cache.
+        dest = self.cache / ga.pin()[1]
+        dest.parent.mkdir(parents=True)
+        other = self.tmp / "other"
+        other.mkdir()
+        dest.symlink_to(other, target_is_directory=True)
+        with self.pinner:
+            with self.assertRaises(ga.GaError) as raised:
+                ga.fetch()
+        self.assertIn("symlink", str(raised.exception))
+
     def test_git_blob_sha_is_the_sha_git_gives_the_blob(self):
         # The mix-up this guards against is using the sha256 of the content; git names a blob by
         # sha1 of `blob <len>\0<bytes>`, checked here against git itself.
