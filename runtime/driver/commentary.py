@@ -73,25 +73,50 @@ class Snapshot:
 class Tracker:
     """Accumulates the commentary of one match over successive reads. Each read adds the records
     after the previous read's counter, up to this read's; a read whose distance from the previous one
-    is GAP_LIMIT or more (modulo SIZE) is noted in `gaps`, since lines may have been lost."""
+    is GAP_LIMIT or more (modulo SIZE) is noted in `gaps`, since lines may have been lost. A read that
+    lands after the game raised the counter but before it wrote the newest record sees that record
+    still 0xFF: the read stops there and the next read takes the record, so the line is not lost
+    (E005-r0035). The record is noted once, at the read that first sees it unwritten, in the exact
+    form E005's summarise.py parses (`match read N: record R is the end marker 0xFF`); if no later
+    read recovers it the note stands as its unread report, and a recovered record leaves no note at
+    all — its line was read, and any other note would make E005's unread_occurrences call the run's
+    lines unlocatable. `deltas` measures DS:80EE's moves (the game's lines, an unwritten record in the
+    read that first saw it), so the deltas sum to the lines the game wrote."""
 
     def __init__(self):
         self.lines, self.gaps, self.deltas = [], [], []
-        self.last = 0  # A4A1 zeroes the counter at the start of every match
+        self.last = 0          # records read; A4A1 zeroes the counter at the start of every match
+        self.prev_counter = 0  # DS:80EE at the previous read: the deltas measure the game, not the reader's lag
+        self.pending = None    # (index in gaps, record n): a record seen unwritten, noted at its first read
 
     def add(self, snap, label=""):
-        delta = (snap.counter - self.last) % SIZE
+        delta = (snap.counter - self.prev_counter) % SIZE
         if delta >= GAP_LIMIT:
-            self.gaps.append(f"{label}: counter {self.last} -> {snap.counter} ({delta} lines)")
+            self.gaps.append(f"{label}: counter {self.prev_counter} -> {snap.counter} ({delta} lines)")
         self.deltas.append(delta)
-        for k in range(1, delta + 1):
-            n = (self.last + k - 1) % SIZE + 1
+        stop = snap.counter
+        for k in range((snap.counter - self.last) % SIZE):
+            n = (self.last + k) % SIZE + 1
             rec = snap.record(n)
             if rec["template"] == 0xFF:
-                self.gaps.append(f"{label}: record {n} is the end marker 0xFF")
-                continue
+                # The counter (`214B:1C86`) has passed n but `0791:1D4A` has not written the record yet:
+                # this read fell between the two. Stop at n and leave `last` at n-1, so the next read
+                # reads the record instead of skipping it for good (E005-r0035); if the match ends
+                # first, the note stays as the record's unread report. It is always this record the
+                # pending note is about: records are written in order, so the loop stopped here before.
+                if self.pending is None:
+                    self.pending = (len(self.gaps), n)
+                    self.gaps.append(f"{label}: record {n} is the end marker 0xFF")
+                stop = n - 1
+                break
+            if self.pending is not None:
+                # n is the pending record, written since: its line is read, so the note of its first
+                # read is withdrawn — a recovered record leaves no flag, its line was not lost
+                self.gaps.pop(self.pending[0])
+                self.pending = None
             self.lines.append(dict(rec, n=n, text=snap.text(rec)))
-        self.last = snap.counter
+        self.last = stop
+        self.prev_counter = snap.counter
         return delta
 
     def events(self):

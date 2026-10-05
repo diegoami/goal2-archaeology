@@ -357,18 +357,19 @@ class VerdictPathsTest(unittest.TestCase):
     BASE = {"score": ("S", 2, "D", 3), "events": [], "seed": "0xa621", "counter": "0x0005"}
     ALL = {1: (2, 5, 0, 0), 2: (2, 6, 0, 1), 3: (2, 7, 0, 0), 4: (2, 5, 0, 0), 5: (2, 6, 0, 1)}
 
-    def missed_3_then(self, rec3):
-        """A run whose reader saw record 3 as the end marker at read 1, and rec3 there at read 2."""
+    def missed_3(self):
+        """A run whose reader's last read saw record 3 still unwritten (0xFF), so the line stayed unread:
+        built through the real Tracker, which since it stops at an unwritten record makes a flagged
+        record unread only when no later read exists."""
         first = dict(self.ALL)
         first[3] = (0xFF, 0, 0, 0)
-        later = dict(self.ALL)
-        later[3] = rec3
-        return tracked([ctest.make_state(3, first), ctest.make_state(5, later)])
+        return tracked([ctest.make_state(5, first)])
 
     def test_both_sides_missed_the_same_line_is_never_identical(self):
-        # Sol's round-2 case: both readers miss record 3; the hidden lines differ (Ekstrom against Nilsson).
-        ref = dict(self.BASE, id="ref", **self.missed_3_then((2, 7, 0, 0)))
-        run = dict(self.BASE, id="run", **self.missed_3_then((2, 5, 0, 0)))
+        # Sol's round-2 case: both readers' last read saw record 3 still unwritten, so neither side's
+        # lines can be placed against the match's occurrences and the pair is never identical.
+        ref = dict(self.BASE, id="ref", **self.missed_3())
+        run = dict(self.BASE, id="run", **self.missed_3())
         self.assertEqual(run["lines"], ref["lines"])
         self.assertEqual(summ.compare(run, ref)[0], "IDENTITY UNDETERMINED")
         v = summ.identity(run, ref)
@@ -377,14 +378,31 @@ class VerdictPathsTest(unittest.TestCase):
         self.assertIn("the reference's reader never read occurrence(s) 3", v)
 
     def test_a_line_the_run_never_read_is_undetermined_whatever_it_held(self):
-        # Sol's round-1 case: the reference is complete, the run missed record 3.
+        # Sol's round-1 case: the reference is complete, the run's reader never read record 3.
         ref = dict(self.BASE, id="ref", **tracked([ctest.make_state(5, self.ALL)]))
-        run = dict(self.BASE, id="run", **self.missed_3_then((2, 5, 0, 0)))
+        run = dict(self.BASE, id="run", **self.missed_3())
         self.assertEqual(run["gaps"], ["match read 1: record 3 is the end marker 0xFF"])
         self.assertEqual(summ.compare(run, ref)[0], "IDENTITY UNDETERMINED")
 
+    def recovered_3(self):
+        """A run whose reader saw record 3 unwritten at read 1 (the counter already at 3) and read it
+        at read 2, which also brought records 4 and 5: fix #38's recovered case, through the real
+        Tracker."""
+        first = dict(self.ALL)
+        first[3] = (0xFF, 0, 0, 0)
+        return tracked([ctest.make_state(3, first), ctest.make_state(5, self.ALL)])
+
+    def test_a_recovered_record_is_counted_once_and_leaves_no_flag(self):
+        # R1 of fix #38's rework: the deltas sum to the lines the game wrote — the recovered record
+        # once, not once per read (round 0 counted it twice: `DIFFERS: lines counted 6 against 5`) —
+        # and R2: recovered, the record leaves no gap note, so the run locates and compares clean.
+        ref = dict(self.BASE, id="ref", **tracked([ctest.make_state(5, self.ALL)]))
+        run = dict(self.BASE, id="run", **self.recovered_3())
+        self.assertEqual((run["deltas"], run["gaps"], len(run["lines"])), ([3, 2], [], 5))
+        self.assertEqual(summ.compare(run, ref), (summ.NO_DIFFERENCE, ""))
+
     def test_an_incomplete_reference_makes_a_complete_run_undetermined(self):
-        ref = dict(self.BASE, id="ref", **self.missed_3_then((2, 7, 0, 0)))
+        ref = dict(self.BASE, id="ref", **self.missed_3())
         run = dict(self.BASE, id="run", **tracked([ctest.make_state(5, self.ALL)]))
         v = summ.identity(run, ref)
         self.assertTrue(v.startswith("IDENTITY UNDETERMINED"), v)
