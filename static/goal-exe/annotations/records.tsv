@@ -1,0 +1,3 @@
+record	size	purpose	basis
+player	0x14	one player, 20 bytes, of the array at [DS:A91B]	F007
+country	0xBF	one country, 0xBF bytes, of the array at [DS:A917]	F007

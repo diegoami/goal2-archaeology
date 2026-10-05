@@ -50,7 +50,8 @@ public class GoalDecompile extends GhidraScript {
 		}
 		int renamed = 0;
 		for (Function f : functions) {
-			if (f.getName().startsWith("f_")) {
+			// a name GoalAnnotate.java gave (USER_DEFINED, T20) stays; without it only f_ names are
+			if (f.getName().startsWith("f_") || f.getSymbol().getSource() == SourceType.USER_DEFINED) {
 				continue;
 			}
 			SegmentedAddress a = (SegmentedAddress) f.getEntryPoint();

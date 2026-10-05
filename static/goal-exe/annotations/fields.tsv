@@ -1,0 +1,15 @@
+record	offset	name	type	purpose	confidence	basis
+player	0x00	country	byte	the player's country, 1..128	established	F007
+player	0x01	age	byte	age (22..37 at a new game)	likely	F007
+player	0x02	peak_age	byte	inferred peak age: +4 equals +3 while +1 lies in +2 .. +2+3	likely	F007
+player	0x03	rating	byte	the country's rating (1771:10E7) + 0x7F at creation, the player's ceiling	established	F007
+player	0x04	ability	byte	current ability, +3 reduced by the distance of +1 from +2 .. +2+3	likely	F007
+player	0x06	position	byte	the position code (0 the goalkeeper); the player screen's mark row reads it	established	F007; F008
+player	0x07	position_2	byte	the position code too: written first, then copied to +6	established	F007
+player	0x0F	tactics	byte	a Pascal set of tactic bits; the player screen's tactics panel reads bits 1..4 and 5..8	established	F007; F008
+country	0x00	squad	word[20]	the 20 player indices (into the player array) of the country's squad	established	F007
+country	0x2A	continent_rank	byte	rank in its continent, one of the three rating inputs	likely	F007
+country	0x2B	world_rank	byte	world rank, one of the three rating inputs	likely	F007
+country	0x2C	continent	byte	the continent, one of the three rating inputs	likely	F007
+country	0x2D	team_tactics	byte	R008, the team tactics bits; bit 8 picks the player screen's mark text	established	F007; F008
+country	0x2E	manager	byte	0x80 + the manager's number when a human manages the country	established	F007

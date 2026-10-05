@@ -2,6 +2,11 @@
 # Decompile the released GOAL.EXE with Ghidra into pseudo-C per routine (T18).
 #
 #   bash tools/static/decompile.sh <released GOAL.EXE> <output directory>
+#   bash tools/static/decompile.sh --annotations <annotations directory> <released GOAL.EXE> <output directory>
+#
+# The second form (T20) writes the named view, static/goal-exe/named/: before decompiling it applies
+# the annotations (tools/static/ghidra/GoalAnnotate.java, after tools/static/check_annotations.py
+# passes) and writes with tools/static/named.py. The first form never reads the annotations.
 #
 # Unpacks GOAL.EXE with tools/static/unlzexe.py and checks the unpacked sha256, imports it with
 # Ghidra's MZ loader (x86 real mode) in a throw-away project, places each listing segment at a
@@ -14,13 +19,21 @@
 # ~/tools/jdk-21*), python3 >= 3.11. One Ghidra instance,
 # two CPUs (the machine is shared). KEEP_WORK=1 keeps the work directory (Ghidra's log, raw output).
 set -eu
+annotations=
+if [ "${1:-}" = --annotations ] && [ $# -eq 4 ]; then
+  annotations=$(cd "$2" && pwd)
+  shift 2
+fi
 if [ $# -ne 2 ]; then
-  echo "usage: $0 <released GOAL.EXE> <output directory>" >&2
+  echo "usage: $0 [--annotations <annotations directory>] <released GOAL.EXE> <output directory>" >&2
   exit 2
 fi
 exe=$1
 out=$2
 root=$(cd "$(dirname "$0")/../.." && pwd)
+if [ -n "$annotations" ]; then
+  python3 "$root/tools/static/check_annotations.py" --annotations "$annotations" > /dev/null
+fi
 
 GHIDRA_VERSION=12.1.4
 JDK_MAJOR=21
@@ -51,6 +64,10 @@ esac
 export JAVA_HOME
 
 work=$(mktemp -d)
+annotate=
+if [ -n "$annotations" ]; then
+  annotate="-postScript GoalAnnotate.java $work/segmap.tsv $annotations"
+fi
 if [ "${KEEP_WORK:-0}" = 1 ]; then
   echo "decompile.sh: work directory $work" >&2
 else
@@ -69,6 +86,7 @@ if ! "$GHIDRA_HOME/support/analyzeHeadless" "$work/project" goal \
     -import "$work/goal.exe" -loader MzLoader -processor 'x86:LE:16:Real Mode' \
     -scriptPath "$root/tools/static/ghidra" \
     -preScript GoalSetup.java "$root/static/goal-exe/routines.tsv" "$work/segmap.tsv" \
+    $annotate \
     -postScript GoalDecompile.java "$work/segmap.tsv" "$work/raw.txt" "$TIMEOUT_PER_FUNCTION" \
     -deleteProject -max-cpu 2 > "$work/ghidra.log" 2>&1 \
   || grep -q 'SCRIPT ERROR' "$work/ghidra.log" || [ ! -s "$work/raw.txt" ]; then
@@ -77,9 +95,16 @@ if ! "$GHIDRA_HOME/support/analyzeHeadless" "$work/project" goal \
   exit 1
 fi
 grep 'GOALRETRY' "$work/ghidra.log" | sed 's/.*> GOALRETRY /decompile.sh: decompiler failed, retrying with a fresh one: /; s/ (GhidraScript).*//' >&2 || true
-grep -E 'GOALSETUP|GOALDECOMPILE' "$work/ghidra.log" | sed 's/.*> //; s/ (GhidraScript).*//' > "$work/summary.txt"
+grep -E 'GOALSETUP|GOALANNOTATE|GOALDECOMPILE' "$work/ghidra.log" | sed 's/.*> //; s/ (GhidraScript).*//' > "$work/summary.txt"
 
-python3 "$root/tools/static/decompiled.py" \
+writer=decompiled.py
+extra=
+if [ -n "$annotations" ]; then
+  writer=named.py
+  extra="--annotations $annotations"
+fi
+# shellcheck disable=SC2086 # $extra is empty or two words without spaces
+python3 "$root/tools/static/$writer" $extra \
   --raw "$work/raw.txt" --segmap "$work/segmap.tsv" --summary "$work/summary.txt" \
   --routines "$root/static/goal-exe/routines.tsv" \
   --ghidra "$ghidra_version (revision $ghidra_revision)" --jdk "$java_version" \
