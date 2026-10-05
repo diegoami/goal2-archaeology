@@ -15,6 +15,10 @@ indexed in `docs/tasks/README.md`.
    with quota-tracker and skip an exhausted one for the next of the chain with quota, saying so
    (L50, `docs/environment.md`); the light OpenAI reviewer `luna` is GPT-5.6 Luna on its own weekly
    pool (L51). Heavy models run at effort low, medium only when justified.
+   Before retrying, re-routing or calling a delegated run a failure, read what it returned: its
+   final message (for OpenCode, the last text part of its session in the harness's `opencode.db`;
+   the log's tail shows only the last tool output). A run that stopped and reported gets an answer
+   to its report, never a blind retry (the owner, 2026-10-05, T23).
 2. Nobody works in the main checkout but the main session: OpenCode runs in the worktree the script
    makes, Claude agents run with worktree isolation. Never `git stash`.
 3. Status lives in GitHub labels. No document carries a status snapshot.
