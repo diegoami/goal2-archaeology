@@ -12,7 +12,7 @@ under the size limit, index.tsv, README.md) and rewrites addresses the same way.
     confidence and basis;
   - a call Ghidra left unresolved (func_SSSS_OOOO after the rewrite) to an annotated routine gets
     the routine's name;
-  - index.tsv gains the name, confidence and basis; README.md the coverage per segment.
+  - index.tsv gains the name and confidence; README.md the coverage per segment.
 The output depends only on its inputs.
 """
 from __future__ import annotations
@@ -78,7 +78,7 @@ def render(functions: list[raw.Function], routines: list[str], segmap: raw.SegMa
         f = by_listing.get(addr)
         source = "routines.tsv" if addr in known else "ghidra"
         a = names.get(addr, {})
-        ann = [a.get("name", ""), a.get("confidence", ""), a.get("basis", "")]
+        ann = [a.get("name", ""), a.get("confidence", "")]
         if f is None:
             rows.append([addr] + ann + ["missing", "", "", "", source, "Ghidra made no function here"])
         elif f.ok:
@@ -104,7 +104,7 @@ def readme(files: dict[str, str], rows: list[list[str]], summary: str, ghidra: s
            annotations: Path) -> str:
     segs: dict[str, list[int]] = {}
     for r in rows:
-        if r[8] != "routines.tsv":
+        if r[7] != "routines.tsv":
             continue
         c = segs.setdefault(r[0][:4], [0, 0])
         c[1] += 1
@@ -145,7 +145,8 @@ def readme(files: dict[str, str], rows: list[list[str]], summary: str, ghidra: s
         lines.append(f"| {seg}{tag} | {segs[seg][0]} | {segs[seg][1]} |")
     lines += ["", "- The scripts' own report: " + "; ".join(summary.strip().splitlines()) + ".", ""]
     lines += ["| File | What |", "| --- | --- |",
-              "| `index.tsv` | per function: listing address, annotated name, confidence and basis, "
+              "| `index.tsv` | per function: listing address, annotated name and confidence (the basis is "
+              "in the heading and in `../annotations/routines.tsv`), "
               "decompiled or not, file and line of its heading, Ghidra address, found in `routines.tsv` "
               "or by Ghidra, why it failed |"]
     for name in sorted(files):
@@ -173,7 +174,7 @@ def main() -> int:
         old.unlink(missing_ok=True)
     for name, text in files.items():
         (a.out / name).write_text(text, encoding="utf-8")
-    index = ["address\tname\tconfidence\tbasis\tstatus\tfile\tline\tghidra_address\tfound_in\tnote"]
+    index = ["address\tname\tconfidence\tstatus\tfile\tline\tghidra_address\tfound_in\tnote"]
     index += ["\t".join(r) for r in rows]
     (a.out / "index.tsv").write_text("\n".join(index) + "\n", encoding="utf-8")
     (a.out / "README.md").write_text(
