@@ -1080,7 +1080,7 @@ void __stdcall16far f_0791_90C5(undefined1 *param_1,undefined2 param_2,undefined
 
 
 // ---- 0791:9119  move_referee  (f_0791_9119; Ghidra 2000:9119, __stdcall16far; found by routines.tsv)
-// moves the sprite record it is given (DS:82EE, the referee: row +0, column +1, glyph word +4, target row +6, column +7) one cell toward a target from the ball DS:82F6: with param 2 = 0 the ball's column +-1 kept within +-(30 + rand 2) and the row column/4 + 1 clamped to +-5, else the ball's cell itself; redraws through 0791:8E24 in the buffer DS:7C16  [likely; F005; F006; read decompiled/seg_0791_06.c]
+// moves the sprite record it is given (DS:82EE, the referee: row +0, column +1, glyph word +4, target row +6, column +7) one cell toward a target from the ball DS:82F6: with param 2 = 0 the ball's column +-1 kept within +-(30 + rand 2) and the row column/4 + 1 clamped to +-5, else the cell one row beyond the ball (the ball's row + 1, its column); redraws through 0791:8E24 in the buffer DS:7C16  [likely; F005; F006; read decompiled/seg_0791_06.c]
 
 void __stdcall16far move_referee(char *param_1,char param_2)
 
@@ -1255,17 +1255,4 @@ void __cdecl16near match_key_poll(void)
     u214b_speaker_off();
   }
   return;
-}
-
-
-// ---- 0791:94C9  speaker_rng_step  (f_0791_94C9; Ghidra 2000:94C9, __stdcall16near; found by routines.tsv)
-// steps the LCG 214B:0688 on the second seed DS:8336 (set from the BIOS tick at start-up)  [established; F004; F006]
-
-undefined2 speaker_rng_step(undefined2 param_1)
-
-{
-  undefined2 uVar1;
-  
-  uVar1 = u214b_lcg_step(param_1,(undefined2 *)&DS:8336,0xb000);
-  return uVar1;
 }

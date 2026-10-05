@@ -596,7 +596,7 @@ void play_match(int param_1)
 
 
 // ---- 0791:F1F6  run_match  (f_0791_F1F6; Ghidra 2000:F1F6, __stdcall16far; found by routines.tsv)
-// runs one fixture: set-up 0791:A4A1, the team screen ED8A, saves the screen, copies the players' morale and sets performance 0x37 for slots 1..11, plays 0791:F098, then the summary (0106), the replay offer (0B7C/0A6B) when not quick, post-match updates (CB7D, E929, D050, BA4E per managed side) and reset_team_tactics for computer sides  [established; F005; F009; read decompiled/seg_0791_09.c]
+// runs one fixture: set-up 0791:A4A1, the team screen ED8A, saves the screen, copies the players' morale and sets performance 0x37 for slots 1..11, plays 0791:F098, then the summary (0106), the offer to save the match summary to disk (0B7C with the prompt at F1D4, then save_goal_file 0A6B on yes) when not quick, post-match updates (CB7D, E929, D050, BA4E per managed side) and reset_team_tactics for computer sides  [established; F005; F009; read decompiled/seg_0791_09.c]
 
 void __stdcall16far run_match(undefined4 param_1)
 
