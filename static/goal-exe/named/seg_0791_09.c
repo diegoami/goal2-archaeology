@@ -868,7 +868,7 @@ void __cdecl16near f_0791_DC7E(void)
   
   uVar8 = (undefined2)((ulong)DS:A923 >> 0x10);
   iVar1 = (int)DS:A923;
-  uVar3 = (uint)*(byte *)((int)DS:A91F + (*(byte *)(iVar1 + 1) + 0x80) * 3);
+  uVar3 = (uint)((byte *)manager_countries)[(*(byte *)(iVar1 + 1) + 0x80) * 3];
   cVar2 = f_0791_DBFA(uVar3);
   if (cVar2 != '\0') {
     local_8 = 1;
@@ -877,20 +877,19 @@ void __cdecl16near f_0791_DC7E(void)
       pcVar7 = (country *)countries;
       local_6 = 1;
       while( true ) {
-        uVar4 = *(int *)((uint)*(byte *)(iVar1 + 1) * 2 + 0x6d18) + 0x4f;
-        local_4 = *(uint *)((uint)*(byte *)(iVar1 + 1) * 2 + 0x6d18);
+        uVar4 = ((word *)pool_base_table)[*(byte *)(iVar1 + 1)] + 0x4f;
+        local_4 = ((word *)pool_base_table)[*(byte *)(iVar1 + 1)];
         if (local_4 <= uVar4) {
           while( true ) {
-            uVar10 = (undefined2)((ulong)DS:A927 >> 0x10);
+            uVar10 = (undefined2)((ulong)pool_indices >> 0x10);
             uVar11 = (undefined2)((ulong)players >> 0x10);
             if (((player *)players)[pcVar7[uVar3].squad[local_6 + -1]].position ==
-                ((player *)players)[*(int *)((int)DS:A927 + local_4 * 2)].position) {
-              uVar5 = player_strength(*(undefined2 *)((int)DS:A927 + local_4 * 2));
+                ((player *)players)[((word *)pool_indices)[local_4]].position) {
+              uVar5 = player_strength(((word *)pool_indices)[local_4]);
               uVar6 = player_strength(pcVar7[uVar3].squad[local_6 + -1]);
               if (uVar6 < uVar5) {
-                u214b_swap_bytes(2,(int)DS:A927 + local_4 * 2,
-                                 (int)((ulong)DS:A927 >> 0x10),
-                                 pcVar7[uVar3].squad + local_6 + -1,uVar9);
+                u214b_swap_bytes(2,(word *)pool_indices + local_4,(int)((ulong)pool_indices >> 0x10)
+                                 ,pcVar7[uVar3].squad + local_6 + -1,uVar9);
               }
             }
             if (local_4 == uVar4) break;
@@ -908,9 +907,10 @@ void __cdecl16near f_0791_DC7E(void)
 }
 
 
-// ---- 0791:DDCB  f_0791_DDCB  (f_0791_DDCB; Ghidra 2000:DDCB, __stdcall16near; found by routines.tsv)
+// ---- 0791:DDCB  pool_selection_index  (f_0791_DDCB; Ghidra 2000:DDCB, __stdcall16near; found by routines.tsv)
+// the A927 index of the highlighted pool player: [DS:A923]+manager*2+0x52 + [DS:A923]+manager*2+0x5E + DS:6D18 + 2*manager - 2  [likely; F011; read decompiled/seg_0791_09.c; read code/seg_0791_22.asm]
 
-int f_0791_DDCB(void)
+int pool_selection_index(void)
 
 {
   int iVar1;
@@ -920,7 +920,7 @@ int f_0791_DDCB(void)
   iVar1 = (int)DS:A923;
   return *(int *)(iVar1 + (uint)*(byte *)(iVar1 + 1) * 2 + 0x52) +
          *(int *)(iVar1 + (uint)*(byte *)(iVar1 + 1) * 2 + 0x5e) +
-         *(int *)((uint)*(byte *)(iVar1 + 1) * 2 + 0x6d18) + -2;
+         ((word *)pool_base_table)[*(byte *)(iVar1 + 1)] + -2;
 }
 
 
@@ -936,7 +936,7 @@ undefined2 f_0791_DE27(int param_1)
     local_4 = DS:0C1B;
   }
   else {
-    local_4 = f_0791_DDCB(param_1);
+    local_4 = pool_selection_index(param_1);
   }
   return local_4;
 }
@@ -948,17 +948,17 @@ word * f_0791_DE51(int param_1,int param_2,int param_3)
 
 {
   undefined2 unaff_SS;
-  undefined4 local_6;
+  word *local_6;
+  undefined2 uStack_4;
   
   if (param_3 == 1) {
-    local_6 = (word *)CONCAT22((int)((ulong)countries >> 0x10),
-                               ((country *)countries)[*(int *)(param_1 + 6)].squad + param_2 + -1);
+    _local_6 = (word *)CONCAT22((int)((ulong)countries >> 0x10),
+                                ((country *)countries)[*(int *)(param_1 + 6)].squad + param_2 + -1);
   }
   else {
-    local_6 = (word *)CONCAT22((int)((ulong)DS:A927 >> 0x10),
-                               (word *)((int)DS:A927 + param_2 * 2));
+    _local_6 = (word *)CONCAT22((int)((ulong)pool_indices >> 0x10),(word *)pool_indices + param_2);
   }
-  return local_6;
+  return _local_6;
 }
 
 
@@ -1111,9 +1111,10 @@ void f_0791_E2A0(void)
 }
 
 
-// ---- 0791:E2E6  f_0791_E2E6  (f_0791_E2E6; Ghidra 2000:E2E6, __stdcall16near; found by routines.tsv)
+// ---- 0791:E2E6  draw_pool_view  (f_0791_E2E6; Ghidra 2000:E2E6, __stdcall16near; found by routines.tsv)
+// the pool view of the SELECT TEAM screen: rows top..top+20 of the pool as 1771:2F37 for A927[DS:6D18 + 2*manager + row - 1], then the card of the selected pool player (0791:DDCB, 0791:DE51, 1771:42BC)  [established; F011; read decompiled/seg_0791_09.c; read code/seg_0791_22.asm]
 
-void f_0791_E2E6(int param_1)
+void draw_pool_view(int param_1)
 
 {
   int iVar1;
@@ -1138,9 +1139,8 @@ void f_0791_E2E6(int param_1)
     while( true ) {
       local_6 = local_6 + 1;
       draw_squad_row(0x41,local_6,
-                     *(undefined2 *)
-                      ((int)DS:A927 +
-                      (*(int *)((uint)*(byte *)(iVar1 + 1) * 2 + 0x6d18) + local_4 + -1) * 2));
+                     ((word *)pool_indices)
+                     [((word *)pool_base_table)[*(byte *)(iVar1 + 1)] + local_4 + -1]);
       if (local_4 == *(uint *)(param_1 + -0xb)) {
         u214b_fill_attr_bytes
                   (0xc,0x8f,(int)DS:A96E + local_6 * 0xa0 + -0x20,
@@ -1155,7 +1155,7 @@ void f_0791_E2E6(int param_1)
     u214b_unpack_screen_to_buffer((undefined4 *)&DS:A96E,0xb000,0x268a,0xb000);
   }
   uVar6 = *(undefined2 *)(param_1 + -5);
-  uVar3 = f_0791_DDCB(param_1,uVar6);
+  uVar3 = pool_selection_index(param_1,uVar6);
   puVar5 = (undefined2 *)f_0791_DE51(param_1,uVar3,uVar6);
   draw_player_screen(*puVar5);
   u214b_fill_back_attr_70(0xc,0x41,*(int *)(iVar1 + (uint)*(byte *)(iVar1 + 1) * 2 + 0x5e) + 2);

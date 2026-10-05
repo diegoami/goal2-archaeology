@@ -73,7 +73,7 @@ void f_1771_6FEB(void)
       uVar5 = (undefined2)((ulong)DS:A92B >> 0x10);
       if (((country *)countries)
           [*(int *)((int)DS:A92B + (*(int *)(pbVar2 + 0x28) + -1) * 8 + -2)].continent ==
-          ((country *)countries)[*(byte *)((int)DS:A91F + (local_4 + 0x80) * 3)].continent) {
+          ((country *)countries)[((byte *)manager_countries)[(local_4 + 0x80) * 3]].continent) {
         *(undefined1 *)((int)DS:A92B + (*(int *)(pbVar2 + 0x28) + -1) * 8 + -8) = 0xfe;
       }
       if (local_4 == bVar1) break;
@@ -773,11 +773,11 @@ void f_1771_7FDF(int param_1)
     }
   }
   else {
-    uVar2 = *(int *)((pcVar3[param_1].manager - 0x80) * 2 + 0x6d18) + 0x4f;
-    local_4 = *(uint *)((pcVar3[param_1].manager - 0x80) * 2 + 0x6d18);
+    uVar2 = ((word *)pool_base_table)[pcVar3[param_1].manager - 0x80] + 0x4f;
+    local_4 = ((word *)pool_base_table)[pcVar3[param_1].manager - 0x80];
     if (local_4 <= uVar2) {
-      for (; f_1771_7FB1(&stack0xfffe,*(undefined2 *)((int)DS:A927 + local_4 * 2)),
-          local_4 != uVar2; local_4 = local_4 + 1) {
+      for (; f_1771_7FB1(&stack0xfffe,((word *)pool_indices)[local_4]), local_4 != uVar2;
+          local_4 = local_4 + 1) {
       }
     }
   }

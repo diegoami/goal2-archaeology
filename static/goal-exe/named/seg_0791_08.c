@@ -414,20 +414,18 @@ void __stdcall16far f_0791_B602(undefined4 param_1)
 void __stdcall16far f_0791_B6CC(int param_1,int param_2)
 
 {
-  int iVar1;
-  undefined2 uVar2;
-  undefined2 local_4;
+  undefined2 uVar1;
+  int local_4;
   
-  uVar2 = (undefined2)((ulong)DS:A91F >> 0x10);
-  iVar1 = (int)DS:A91F + param_2 * 3;
-  local_4 = *(char *)(iVar1 + 2) + param_1;
+  uVar1 = (undefined2)((ulong)manager_countries >> 0x10);
+  local_4 = (char)((byte *)manager_countries)[param_2 * 3 + 2] + param_1;
   if (local_4 < -0x7f) {
     local_4 = -0x7f;
   }
   else if (0x7f < local_4) {
     local_4 = 0x7f;
   }
-  *(undefined1 *)(iVar1 + 2) = (undefined1)local_4;
+  ((byte *)manager_countries)[param_2 * 3 + 2] = (byte)local_4;
   return;
 }
 
@@ -580,27 +578,27 @@ void f_0791_BA4E(int param_1)
   int iVar3;
   int iVar4;
   undefined2 uVar5;
+  word wVar6;
   uint local_4;
   
-  local_4 = *(uint *)((((country *)countries)[param_1].manager - 0x80) * 2 + 0x6d18);
+  local_4 = ((word *)pool_base_table)[((country *)countries)[param_1].manager - 0x80];
   cVar1 = f_1771_5A8F((int)DS:7C2A,(int)((ulong)DS:7C2A >> 0x10),param_1);
   uVar2 = local_4 + 0x4f;
   if (local_4 <= uVar2) {
     while( true ) {
-      uVar5 = (undefined2)((ulong)DS:A927 >> 0x10);
+      uVar5 = (undefined2)((ulong)pool_indices >> 0x10);
       if (cVar1 == '\0') {
-        roll_fitness_energy(*(undefined2 *)((int)DS:A927 + local_4 * 2));
+        roll_fitness_energy(((word *)pool_indices)[local_4]);
       }
       else {
-        f_1771_3651(((local_4 & 0x7fff) >> 7) << 8,*(undefined2 *)((int)DS:A927 + local_4 * 2)
-                   );
+        f_1771_3651(((local_4 & 0x7fff) >> 7) << 8,((word *)pool_indices)[local_4]);
       }
-      uVar5 = *(undefined2 *)((int)DS:A927 + local_4 * 2);
+      wVar6 = ((word *)pool_indices)[local_4];
       iVar3 = u214b_random_1_to_n(4);
       iVar4 = u214b_random_1_to_n(4);
-      f_0791_B364(iVar4 - iVar3,uVar5);
+      f_0791_B364(iVar4 - iVar3,wVar6);
       if (*(char *)((int)DS:7C2A + 2) != '\0') {
-        f_0791_B27F(*(undefined2 *)((int)DS:A927 + local_4 * 2));
+        f_0791_B27F(((word *)pool_indices)[local_4]);
       }
       if (local_4 == uVar2) break;
       local_4 = local_4 + 1;

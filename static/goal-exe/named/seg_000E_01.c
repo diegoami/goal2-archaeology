@@ -93,22 +93,22 @@ void f_000E_01FA(int param_1)
   uint local_6;
   uint local_4;
   
-  uVar4 = (undefined2)((ulong)DS:A91F >> 0x10);
-  pbVar3 = (byte *)((int)DS:A91F + (param_1 + 0x80) * 3);
-  local_e = (byte *)CONCAT22(uVar4,pbVar3);
+  uVar4 = (undefined2)((ulong)manager_countries >> 0x10);
+  pbVar3 = (byte *)manager_countries;
+  local_e = (byte *)CONCAT22(uVar4,pbVar3 + (param_1 + 0x80) * 3);
   *(undefined1 *)((int)DS:A923 + param_1 + 0x47) = 1;
-  pbVar3[1] = 1;
+  (pbVar3 + (param_1 + 0x80) * 3)[1] = 1;
   reset_team_tactics(*local_e);
   for (local_6 = 0xc; wVar1 = ((country *)countries)[*local_e].squad[local_6 + -1],
       uVar4 = (undefined2)((ulong)players >> 0x10),
       ((player *)players)[wVar1].position = ((player *)players)[wVar1].club_position,
       local_6 != 0x14; local_6 = local_6 + 1) {
   }
-  uVar2 = *(int *)(param_1 * 2 + 0x6d18) + 0x4f;
-  local_6 = *(uint *)(param_1 * 2 + 0x6d18);
+  uVar2 = ((word *)pool_base_table)[param_1] + 0x4f;
+  local_6 = ((word *)pool_base_table)[param_1];
   if (local_6 <= uVar2) {
-    for (; ((player *)players + *(int *)((int)DS:A927 + local_6 * 2))->country = 0,
-        local_6 != uVar2; local_6 = local_6 + 1) {
+    for (; ((player *)players + ((word *)pool_indices)[local_6])->country = 0, local_6 != uVar2;
+        local_6 = local_6 + 1) {
     }
   }
   ((country *)countries)[*local_e].manager = *local_e;
@@ -613,7 +613,7 @@ int f_000E_0B77(int param_1)
       ((cVar2 = f_1771_59D8(), cVar2 == '\0' ||
        (*(char *)((int)DS:A923 + (uint)pcVar3[iVar1].manager + -0x7f) == '\0')))) &&
      (pcVar3[iVar1].field_0xbe == '\0')) {
-    return (int)*(char *)((int)DS:A91F + (uint)pcVar3[iVar1].manager * 3 + 2);
+    return (int)(char)((byte *)manager_countries)[(uint)pcVar3[iVar1].manager * 3 + 2];
   }
   return 0;
 }

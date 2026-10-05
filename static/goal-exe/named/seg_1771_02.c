@@ -369,13 +369,12 @@ void f_1771_1D5C(int param_1)
   }
   cVar1 = is_managed(param_1);
   if (cVar1 != '\0') {
-    uVar2 = *(int *)(local_e * 2 + 0x6d18) + 0x4f;
-    local_6 = *(uint *)(local_e * 2 + 0x6d18);
+    uVar2 = ((word *)pool_base_table)[local_e] + 0x4f;
+    local_6 = ((word *)pool_base_table)[local_e];
     local_a4._2_2_ = uVar2;
     if (local_6 <= uVar2) {
       while (f_1771_1B2E(CONCAT11((char)(local_6 * 2 >> 8),1),local_e,
-                         *(undefined2 *)((int)DS:A927 + local_6 * 2)),
-            local_6 != local_a4._2_2_) {
+                         ((word *)pool_indices)[local_6]), local_6 != local_a4._2_2_) {
         local_6 = local_6 + 1;
       }
     }
@@ -421,12 +420,11 @@ void f_1771_1D5C(int param_1)
   }
   cVar1 = is_managed(param_1);
   if (cVar1 != '\0') {
-    uVar2 = *(int *)(local_e * 2 + 0x6d18) + 0x4f;
-    local_6 = *(uint *)(local_e * 2 + 0x6d18);
+    uVar2 = ((word *)pool_base_table)[local_e] + 0x4f;
+    local_6 = ((word *)pool_base_table)[local_e];
     local_a4._2_2_ = uVar2;
     if (local_6 <= uVar2) {
-      while (f_1771_1B2E(((local_6 & 0x7fff) >> 7) << 8,local_e,
-                         *(undefined2 *)((int)DS:A927 + local_6 * 2)),
+      while (f_1771_1B2E(((local_6 & 0x7fff) >> 7) << 8,local_e,((word *)pool_indices)[local_6]),
             local_6 != local_a4._2_2_) {
         local_6 = local_6 + 1;
       }
@@ -503,7 +501,7 @@ void f_1771_25EA(int param_1,uint param_2)
 
 
 // ---- 1771:26B9  country_list_screen  (f_1771_26B9; Ghidra 4000:26B9, __stdcall16far; found by routines.tsv)
-// the country-list screen (8 columns of 16, by continent or world rank, one key toggles); by mode: 2 picks the current manager's country into DS:A91F (refused if managed), 4 sets DS:9B66, 1 and 3 act on the highlighted country (1771:7BA2, 1771:1D5C; T edits a managed country's tactics in mode 1)  [likely; F002; F007; read decompiled/seg_1771_02.c]
+// the country-list screen (8 columns of 16, by continent or world rank, one key toggles); by mode: 2 picks the current manager's country into DS:A91F (refused if managed), 4 sets DS:9B66, 1 and 3 act on the highlighted country (1771:7BA2, 1771:1D5C; T edits a managed country's tactics in mode 1)  [likely; F002; F007; F011; read decompiled/seg_1771_02.c; read code/seg_1771_04.asm]
 
 /* WARNING: Removing unreachable block (1771:2A17) */
 /* WARNING: Removing unreachable block (1771:2A1D) */
@@ -543,8 +541,7 @@ void __stdcall16far country_list_screen(uint param_1)
   sys_set_bit_mask_08DF(0x2688,0x4000,param_1 & 0xff);
   if (bVar7) {
     f_1771_25EA(&stack0xfffe,
-                *(undefined1 *)((int)DS:A91F + (*(byte *)((int)DS:A923 + 1) + 0x80) * 3)
-               );
+                ((byte *)manager_countries)[(*(byte *)((int)DS:A923 + 1) + 0x80) * 3]);
   }
   if (param_1 == 3) {
     f_1771_1D5C(*(undefined1 *)((int)DS:9B56 + DS:0DB6 + DS:0DB4 + -1));
@@ -661,7 +658,8 @@ void __stdcall16far country_list_screen(uint param_1)
     }
     if ((local_3 == '\0') || (DS:A976 != '\x1b')) {
       if (DS:A976 == ' ') {
-        f_1771_50F1(1,*(undefined1 *)((int)DS:9B56 + DS:0DB6 + DS:0DB4 + -1));
+        view_squad_screen(1,*(undefined1 *)((int)DS:9B56 + DS:0DB6 + DS:0DB4 + -1)
+                         );
       }
       else if (DS:A976 == -0x4a) {
         local_5 = local_5 == '\0';
@@ -684,8 +682,8 @@ void __stdcall16far country_list_screen(uint param_1)
               cVar1 = u214b_message_if_flag(0x26a8,uVar6,uVar3);
               local_4 = cVar1 == '\0';
               if ((bool)local_4) {
-                *(undefined1 *)((int)DS:A91F + (*(byte *)((int)DS:A923 + 1) + 0x80) * 3)
-                     = (undefined1)local_9;
+                ((byte *)manager_countries)[(*(byte *)((int)DS:A923 + 1) + 0x80) * 3] =
+                     (byte)local_9;
               }
             }
             else if (param_1 == 4) {
@@ -752,14 +750,14 @@ void __cdecl16far set_managed_countries(void)
     while( true ) {
       pbVar4[1] = (byte)local_4;
       country_list_screen(2);
-      if (*(char *)((int)DS:A91F + (local_4 + 0x80) * 3) == '\0') {
+      if (((byte *)manager_countries)[(local_4 + 0x80) * 3] == 0) {
         sys_halt_00D8();
       }
-      bVar2 = *(byte *)((int)DS:A91F + (local_4 + 0x80) * 3);
+      bVar2 = ((byte *)manager_countries)[(local_4 + 0x80) * 3];
       uVar7 = (undefined2)((ulong)countries >> 0x10);
       pcVar5 = (country *)countries;
       pcVar5[bVar2].manager = (byte)(local_4 + 0x80);
-      bVar3 = f_1771_114B(*(undefined1 *)((int)DS:A91F + (uint)pcVar5[bVar2].manager * 3));
+      bVar3 = f_1771_114B(((byte *)manager_countries)[(uint)pcVar5[bVar2].manager * 3]);
       pbVar4[pbVar4[1] + 0xd] = bVar3;
       pbVar4[pbVar4[1] + 7] = pcVar5[bVar2].continent_rank;
       f_1771_09A0(2,10,local_4 + 0x80);

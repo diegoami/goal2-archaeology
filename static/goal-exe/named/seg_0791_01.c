@@ -724,8 +724,8 @@ void __cdecl16near action_replay(void)
       iVar1 = ((undefined2 *)&DS:9B34)[local_3];
       uVar5 = (undefined2)((ulong)countries >> 0x10);
       pcVar4 = (country *)countries;
-      sys_move_025D(3,(int)DS:A91F + (uint)pcVar4[iVar1].manager * 3,
-                    (int)((ulong)DS:A91F >> 0x10),local_3 * 3 + -0x66d0,0xb000);
+      sys_move_025D(3,(byte *)manager_countries + (uint)pcVar4[iVar1].manager * 3,
+                    (int)((ulong)manager_countries >> 0x10),local_3 * 3 + -0x66d0,0xb000);
       sys_str_store_max_0644
                 (0xc,(int)DS:9B74 + (uint)pcVar4[iVar1].manager * 0xd,
                  (int)((ulong)DS:9B74 >> 0x10),local_3 * 0xd + -0x66c4,0xb000);
@@ -889,8 +889,8 @@ void __cdecl16far f_0791_112C(void)
         iVar6 = local_3 * 0xbf;
         iVar7 = iVar6 + -0x73cc;
         sys_move_025D(3,local_3 * 3 + -0x66ca,0xb000,
-                      (int)DS:A91F + (uint)*(byte *)(iVar6 + -0x739e) * 3,
-                      (int)((ulong)DS:A91F >> 0x10));
+                      (byte *)manager_countries + (uint)*(byte *)(iVar6 + -0x739e) * 3,
+                      (int)((ulong)manager_countries >> 0x10));
         sys_str_store_max_0644
                   (0xc,local_3 * 0xd + -0x66aa,0xb000,
                    (int)DS:9B74 + (uint)*(byte *)(iVar6 + -0x739e) * 0xd,
@@ -943,8 +943,8 @@ void __cdecl16far f_0791_112C(void)
                       (int)((ulong)countries >> 0x10),local_3 * 0xbf + -0x724e,0xb000);
         iVar6 = local_3 * 0xbf;
         iVar7 = iVar6 + -0x73cc;
-        sys_move_025D(3,(int)DS:A91F + (uint)*(byte *)(iVar6 + -0x739e) * 3,
-                      (int)((ulong)DS:A91F >> 0x10),local_3 * 3 + -0x66ca,0xb000);
+        sys_move_025D(3,(byte *)manager_countries + (uint)*(byte *)(iVar6 + -0x739e) * 3,
+                      (int)((ulong)manager_countries >> 0x10),local_3 * 3 + -0x66ca,0xb000);
         sys_str_store_max_0644
                   (0xc,(int)DS:9B74 + (uint)*(byte *)(iVar6 + -0x739e) * 0xd,
                    (int)((ulong)DS:9B74 >> 0x10),local_3 * 0xd + -0x66aa,0xb000);
@@ -1004,8 +1004,8 @@ void __cdecl16near f_0791_15B9(void)
     sys_move_025D(0xbf,local_3 * 0xbf + -0x73cc,0xb000,
                   pcVar2 + ((undefined2 *)&DS:9B34)[local_3],uVar3);
     sys_move_025D(3,local_3 * 3 + -0x66d0,0xb000,
-                  (int)DS:A91F + (uint)pcVar2[iVar1].manager * 3,
-                  (int)((ulong)DS:A91F >> 0x10));
+                  (byte *)manager_countries + (uint)pcVar2[iVar1].manager * 3,
+                  (int)((ulong)manager_countries >> 0x10));
     sys_str_store_max_0644
               (0xc,local_3 * 0xd + -0x66c4,0xb000,
                (int)DS:9B74 + (uint)pcVar2[iVar1].manager * 0xd,

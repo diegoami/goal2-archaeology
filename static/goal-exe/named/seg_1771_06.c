@@ -572,7 +572,7 @@ void __stdcall16far make_player(char param_1,byte param_2,undefined2 param_3,int
 void __stdcall16far make_squad(int param_1)
 
 {
-  undefined1 uVar1;
+  byte bVar1;
   country *pcVar2;
   undefined2 uVar3;
   int local_4;
@@ -582,8 +582,8 @@ void __stdcall16far make_squad(int param_1)
   *DS:A978 = param_1;
   pcVar2[param_1].field_0x29 = pcVar2[param_1].world_rank;
   pcVar2[param_1].field_0x28 = pcVar2[param_1].continent_rank;
-  uVar1 = country_rating(param_1);
-  *(undefined1 *)((int)DS:A91F + (uint)pcVar2[param_1].manager * 3 + 1) = uVar1;
+  bVar1 = country_rating(param_1);
+  ((byte *)manager_countries)[(uint)pcVar2[param_1].manager * 3 + 1] = bVar1;
   local_4 = 1;
   while( true ) {
     make_player(1,*(undefined1 *)(param_1 * 0x14 + local_4 + -0x60fe),param_1,
@@ -596,7 +596,7 @@ void __stdcall16far make_squad(int param_1)
 
 
 // ---- 1771:9873  make_pool_player  (f_1771_9873; Ghidra 4000:9873, __stdcall16near; found by routines.tsv)
-// makes the next extra player of position p2 through 1771:96D3(..., 0), numbered 0xA00 + n in DS:A927[n] (n is the caller's counter)  [likely; F007; read decompiled/seg_1771_06.c]
+// makes the next extra pool player of position p2 through 1771:96D3(..., 0): increments the caller's counter, stores the player number 0xA00 + counter in DS:A927[counter], then draws the record  [established; F011; F007; read decompiled/seg_1771_06.c; read code/seg_1771_14.asm]
 
 void make_pool_player(int param_1,undefined2 param_2)
 
@@ -604,36 +604,37 @@ void make_pool_player(int param_1,undefined2 param_2)
   undefined2 unaff_SS;
   
   *(int *)(param_1 + -2) = *(int *)(param_1 + -2) + 1;
-  *(int *)((int)DS:A927 + *(int *)(param_1 + -2) * 2) = *(int *)(param_1 + -2) + 0xa00;
+  ((word *)pool_indices)[*(int *)(param_1 + -2)] = *(int *)(param_1 + -2) + 0xa00;
   make_player(((*(uint *)(param_1 + -2) & 0x7fff) >> 7) << 8,param_2,*(undefined2 *)(param_1 + -8),
-              *(undefined2 *)((int)DS:A927 + *(uint *)(param_1 + -2) * 2));
+              ((word *)pool_indices)[*(uint *)(param_1 + -2)]);
   return;
 }
 
 
 // ---- 1771:98C4  make_managed_pool  (f_1771_98C4; Ghidra 4000:98C4, __cdecl16far; found by routines.tsv)
-// makes the current manager's 80 extra players: positions 0..13 four times (56), one per squad slot 1..20 (age DS:118C[gk] + rand 3, then 1771:32EB), then slots 6..9 again (4); then 1771:5532  [established; F007; read decompiled/seg_1771_06.c]
+// makes the current manager's 80 extra players: positions 0..13 four times (56), one per squad slot 1..20 (age DS:118C[gk] + rand 3, then 1771:32EB), then slots 6..9 again (4); then sort_pool_by_position  [established; F007; F011; read decompiled/seg_1771_06.c; read code/seg_1771_14.asm]
 
 void __cdecl16far make_managed_pool(void)
 
 {
   byte bVar1;
-  int iVar2;
-  char cVar3;
-  int iVar4;
-  country *pcVar5;
-  player *ppVar6;
-  undefined2 uVar7;
+  word wVar2;
+  int iVar3;
+  char cVar4;
+  int iVar5;
+  country *pcVar6;
+  player *ppVar7;
   undefined2 uVar8;
+  undefined2 uVar9;
   int local_8;
   int local_6;
   
-  uVar7 = (undefined2)((ulong)DS:A923 >> 0x10);
-  iVar2 = (int)DS:A923;
-  *(undefined2 *)(iVar2 + (uint)*(byte *)(iVar2 + 1) * 2 + 0x5e) = 1;
-  *(undefined2 *)(iVar2 + (uint)*(byte *)(iVar2 + 1) * 2 + 0x52) = 1;
-  iVar4 = *(int *)((uint)*(byte *)(iVar2 + 1) * 2 + 0x6d18) + -1;
-  bVar1 = *(byte *)((int)DS:A91F + (*(byte *)(iVar2 + 1) + 0x80) * 3);
+  uVar8 = (undefined2)((ulong)DS:A923 >> 0x10);
+  iVar3 = (int)DS:A923;
+  *(undefined2 *)(iVar3 + (uint)*(byte *)(iVar3 + 1) * 2 + 0x5e) = 1;
+  *(undefined2 *)(iVar3 + (uint)*(byte *)(iVar3 + 1) * 2 + 0x52) = 1;
+  iVar5 = ((word *)pool_base_table)[*(byte *)(iVar3 + 1)] - 1;
+  bVar1 = ((byte *)manager_countries)[(*(byte *)(iVar3 + 1) + 0x80) * 3];
   local_6 = 0;
   while( true ) {
     for (local_8 = 1; make_pool_player(&stack0xfffe,local_6), local_8 != 4; local_8 = local_8 + 1) {
@@ -641,27 +642,27 @@ void __cdecl16far make_managed_pool(void)
     if (local_6 == 0xd) break;
     local_6 = local_6 + 1;
   }
-  uVar7 = (undefined2)((ulong)countries >> 0x10);
-  pcVar5 = (country *)countries;
+  uVar8 = (undefined2)((ulong)countries >> 0x10);
+  pcVar6 = (country *)countries;
   local_6 = 1;
   while( true ) {
     make_pool_player(&stack0xfffe,
-                     ((player *)players)[pcVar5[bVar1].squad[local_6 + -1]].club_position);
-    iVar2 = *(int *)((int)DS:A927 + iVar4 * 2);
-    uVar8 = (undefined2)((ulong)players >> 0x10);
-    ppVar6 = (player *)players;
-    cVar3 = u214b_random_1_to_n(3);
-    ppVar6[iVar2].age = ((undefined1 *)&DS:118C)[ppVar6[iVar2].club_position == 0] + cVar3;
-    compute_ability(*(undefined2 *)((int)DS:A927 + iVar4 * 2));
+                     ((player *)players)[pcVar6[bVar1].squad[local_6 + -1]].club_position);
+    wVar2 = ((word *)pool_indices)[iVar5];
+    uVar9 = (undefined2)((ulong)players >> 0x10);
+    ppVar7 = (player *)players;
+    cVar4 = u214b_random_1_to_n(3);
+    ppVar7[wVar2].age = ((undefined1 *)&DS:118C)[ppVar7[wVar2].club_position == 0] + cVar4;
+    compute_ability(((word *)pool_indices)[iVar5]);
     if (local_6 == 0x14) break;
     local_6 = local_6 + 1;
   }
   for (local_6 = 6;
       make_pool_player(&stack0xfffe,
-                       ((player *)players)[pcVar5[bVar1].squad[local_6 + -1]].club_position),
+                       ((player *)players)[pcVar6[bVar1].squad[local_6 + -1]].club_position),
       local_6 != 9; local_6 = local_6 + 1) {
   }
-  f_1771_5532();
+  sort_pool_by_position();
   return;
 }
 
@@ -699,7 +700,7 @@ void __cdecl16near load_countries(void)
   local_6 = 1;
   while( true ) {
     ((country *)countries)[local_6].manager = (byte)local_6;
-    *(byte *)((int)DS:A91F + local_6 * 3) = (byte)local_6;
+    ((byte *)manager_countries)[local_6 * 3] = (byte)local_6;
     if (local_6 == 0x80) break;
     local_6 = local_6 + 1;
   }

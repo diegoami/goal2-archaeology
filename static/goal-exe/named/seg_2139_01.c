@@ -18,9 +18,9 @@ void __cdecl16far u2139_alloc_arrays(void)
   u214b_get_mem_zeroed(0x87,(undefined4 *)&DS:9B78,0xb000);
   u214b_get_mem_zeroed(0x603f,(country **)&countries,0xb000);
   u214b_get_mem_zeroed(0xef24,(player **)&players,0xb000);
-  u214b_get_mem_zeroed(0x195,(undefined4 *)&DS:A91F,0xb000);
+  u214b_get_mem_zeroed(0x195,(byte **)&manager_countries,0xb000);
   u214b_get_mem_zeroed(0x10e,(undefined4 *)&DS:A923,0xb000);
-  u214b_get_mem_zeroed(0x3c2,(undefined4 *)&DS:A927,0xb000);
+  u214b_get_mem_zeroed(0x3c2,(word **)&pool_indices,0xb000);
   u214b_get_mem_zeroed(0x4b48,(undefined4 *)&DS:A92B,0xb000);
   u214b_get_mem_zeroed(0x2448,(undefined4 *)&DS:A92F,0xb000);
   u214b_get_mem_zeroed(0x1c00,(undefined4 *)&DS:A933,0xb000);

@@ -711,7 +711,7 @@ undefined1 f_000E_2071(int param_1)
   uint uStack_11;
   country *local_f;
   undefined2 uStack_d;
-  undefined2 local_b;
+  word local_b;
   word local_9;
   uint local_7;
   uint local_5;
@@ -738,19 +738,18 @@ undefined1 f_000E_2071(int param_1)
       local_7 = local_7 + 1;
     }
     if (local_5 != 0xffff) {
-      uStack_11 = *(int *)((local_f->manager - 0x80) * 2 + 0x6d18) + 0x4f;
-      uVar2 = *(uint *)((local_f->manager - 0x80) * 2 + 0x6d18);
-      if (uVar2 <= uStack_11) {
+      uStack_11 = ((word *)pool_base_table)[local_f->manager - 0x80] + 0x4f;
+      uVar2 = ((word *)pool_base_table)[local_f->manager - 0x80];
+      if (((word *)pool_base_table)[local_f->manager - 0x80] <= uStack_11) {
         while( true ) {
           local_7 = uVar2;
-          uVar5 = (undefined2)((ulong)DS:A927 >> 0x10);
+          uVar5 = (undefined2)((ulong)pool_indices >> 0x10);
           ppStack_13 = (player *)((ulong)players >> 0x10);
-          local_15 = (player *)players + *(int *)((int)DS:A927 + local_7 * 2);
+          local_15 = (player *)players + ((word *)pool_indices)[local_7];
           if ((local_15->club_position == DS:0022) &&
-             (uVar2 = player_strength(*(undefined2 *)((int)DS:A927 + local_7 * 2)),
-             local_5 < uVar2)) {
-            local_5 = player_strength(*(undefined2 *)((int)DS:A927 + local_7 * 2));
-            local_b = *(undefined2 *)((int)DS:A927 + local_7 * 2);
+             (uVar2 = player_strength(((word *)pool_indices)[local_7]), local_5 < uVar2)) {
+            local_5 = player_strength(((word *)pool_indices)[local_7]);
+            local_b = ((word *)pool_indices)[local_7];
           }
           if (local_7 == uStack_11) break;
           uVar2 = local_7 + 1;
