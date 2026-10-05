@@ -7,9 +7,10 @@ beyond the recorded values.
 1. Calibration: DS:A9FF at the title screen per fresh launch, per `cycles` setting.
 2. Runs: per match record the start route (restore of a state, or a fresh launch at its DOS time),
    `cycles`, arm, final score (the full-time scoreboard), events, DS:7B62 at full time and DS:A9FF,
-   and whether the run is identical (score, events, every commentary line, DS:7B62 at full time) to
-   the same state's and arm's first completed restore at 30000; a run whose only difference is lines its
-   reader never read (flagged, each at its own occurrence) is "identity undetermined", never identical;
+   and its verdict against the same state's and arm's first completed restore at 30000 (`compare`):
+   DIFFERS, IDENTITY UNDETERMINED (a reader flag marks a line it never read), or "no observed difference"
+   (the same score, DS:7B62 and DS:80EE at full time, and every commentary occurrence both readers saw
+   equal; completeness of the commentary is not claimed, issue #40);
    then the counts of each verdict.
 3. Halves: for every watched run, the host seconds from the starting burst to the first read whose
    commentary rows hold HALF TIME, from there to the first read holding FULL TIME, and from the
@@ -194,7 +195,7 @@ UNREAD = re.compile(r"^match read (\d+): record (\d+) is the end marker 0xFF$")
 # of them (fewer than RING), so no line of that read is unread; the flag warns that 200 or more lines may
 # have passed, which the counter, modulo 200, would hide (E004 README amendment 2).
 STRIDE = re.compile(r"^match read (\d+): counter \d+ -> \d+ \(\d+ lines\)$")
-MEMORY = ("score", "seed", "counter")   # read whole from memory at full time: never incomplete
+MEMORY = ("score", "seed", "counter")   # read whole from memory at full time, not from the ring
 
 
 def unread_occurrences(r):
@@ -228,26 +229,10 @@ def strides(r):
     return [g for g in r["gaps"] if STRIDE.match(g)]
 
 
-def complete(r):
-    """True when the run carries no flag of any kind and read as many lines as the counter advanced over its
-    reads (the sum of the deltas). That a flag-free run missed no 200-line stride is the Tracker's own
-    assumption (GAP_LIMIT; E004 README amendment 2): the 30000 references read at most 79 lines between reads."""
-    return not r["gaps"] and len(r["lines"]) == sum(r["deltas"])
-
-
-def complete_against(r, other):
-    """True when `r` is complete, or its only flags are stride flags, it read every line of every read's range,
-    and its total equals that of `other`, a complete run (`complete`) of the same match: a hidden stride
-    of 200 or more lines would leave `r` 200 lines short of it."""
-    if complete(r):
-        return True
-    return (len(strides(r)) == len(r["gaps"]) and len(r["lines"]) == sum(r["deltas"])
-            and complete(other) and sum(r["deltas"]) == sum(other["deltas"]))
-
-
 def located(r):
-    """{absolute occurrence: line} for every line the run read, and the number of lines it counted; None when
-    the losses cannot be located or the lines read do not fit the occurrences left."""
+    """{absolute occurrence: line} for every line the run read, and the number of lines it counted (the sum
+    of the deltas); None when its unread lines cannot be located or the lines read do not fit the
+    occurrences left."""
     occ = unread_occurrences(r)
     if occ is None:
         return None
@@ -258,37 +243,38 @@ def located(r):
     return {i: tuple(x) for i, x in zip(places, r["lines"])}, total
 
 
+NO_DIFFERENCE = "no observed difference"
+
+
 def compare(r, ref):
-    """The verdict on a run against its reference, and why. The only path that can say `identical`
-    (review round 3: equality of what was read proves nothing about what was not):
-    - DIFFERS when what both read already differs: the score, DS:7B62 or DS:80EE at full time (memory, read
-      whole), the number of lines counted (unless a side has a stride flag, which may hide 200), or any
-      occurrence both readers read;
-    - identical only when each side is complete (`complete_against` the other), which with the checks above
-      means every line, the score, DS:7B62 and DS:80EE are equal;
-    - IDENTITY UNDETERMINED otherwise: a side has lines its reader never read, losses that cannot be located,
-      or a stride flag not settled by a complete other side, and nothing read differs."""
+    """The verdict on a run against its reference, and why (review round 4: no claim of completeness).
+    Completeness of the commentary cannot be shown from the reads: the counter and the ring are both modulo
+    200, so a whole lap of the ring between two reads leaves no trace (issue #40). So:
+    - DIFFERS when something observed differs: the score, DS:7B62 or DS:80EE at full time (memory, read
+      whole), the number of lines counted, or a line at an occurrence both readers saw;
+    - IDENTITY UNDETERMINED when a reader flag marks a line that side never read (an end marker), or a
+      side's unread lines cannot be located, and nothing observed differs;
+    - `no observed difference` otherwise: the same score, DS:7B62 and DS:80EE at full time, and every
+      occurrence both readers saw equal. Stride flags are reported (`identity`), not decided on: they name
+      no unread line, and their absence would not show completeness either."""
     if any(r[k] != ref[k] for k in MEMORY) or r["counter"] is None:
         return "DIFFERS", "score, DS:7B62 or DS:80EE at full time"
     a, b = located(r), located(ref)
     if a is not None and b is not None:
-        if a[1] != b[1] and not (strides(r) or strides(ref)):
-            return "DIFFERS", f"lines written {a[1]} against {b[1]}"
-        if a[1] == b[1]:
-            both = sorted(set(a[0]) & set(b[0]))
-            diff = [i for i in both if a[0][i] != b[0][i]]
-            if diff:
-                return "DIFFERS", f"occurrence {diff[0]} of the match ({len(diff)} occurrence(s) read by both differ)"
-    if complete_against(r, ref) and complete_against(ref, r):
-        # Both sides read every line: `located` placed all of them, the totals are equal, and every occurrence
-        # was compared just above (the events are lines of certain templates, so they were compared too).
-        return "identical", ""
-    sides = [(name, x, y) for name, x, y in (("run", r, ref), ("reference", ref, r)) if not complete_against(x, y)]
-    why = "; ".join(f"the {name}'s reader "
-                    + (f"never read occurrence(s) {', '.join(map(str, unread_occurrences(x)))}" if unread_occurrences(x)
-                       else "may have missed lines it cannot locate")
-                    + f" (gap flags: {'; '.join(x['gaps']) or 'none, but fewer lines than counted'})" for name, x, y in sides)
-    return "IDENTITY UNDETERMINED", why
+        if a[1] != b[1]:
+            return "DIFFERS", f"lines counted {a[1]} against {b[1]}"
+        both = sorted(set(a[0]) & set(b[0]))
+        diff = [i for i in both if a[0][i] != b[0][i]]
+        if diff:
+            return "DIFFERS", f"occurrence {diff[0]} of the match ({len(diff)} occurrence(s) seen by both differ)"
+    unread = [(name, x) for name, x in (("run", r), ("reference", ref)) if unread_occurrences(x) or located(x) is None]
+    if unread:
+        why = "; ".join(f"the {name}'s reader "
+                        + (f"never read occurrence(s) {', '.join(map(str, unread_occurrences(x)))}" if unread_occurrences(x)
+                           else "has lines it cannot locate")
+                        + f" (gap flags: {'; '.join(x['gaps']) or 'none'})" for name, x in unread)
+        return "IDENTITY UNDETERMINED", why
+    return NO_DIFFERENCE, ""
 
 
 def short(events):
@@ -299,24 +285,21 @@ def identity(r, ref):
     if ref is None:
         return "no reference"
     if ref is r:
-        return "reference" if complete(r) else "reference, INCOMPLETE: " + "; ".join(r["gaps"] or ["fewer lines than written"])
+        return "reference" if not unread_occurrences(r) and located(r) is not None else "reference, with unread lines: " + "; ".join(r["gaps"])
     verdict, why = compare(r, ref)
-    if verdict == "identical":
-        if strides(r) or strides(ref):
-            n = len(strides(r)) + len(strides(ref))
-            return (f"identical to {ref['id']} ({n} stride flag(s) settled: {sum(r['deltas'])} lines counted on both sides, "
-                    f"the other side complete)")
-        return "identical to " + ref["id"]
+    if verdict == NO_DIFFERENCE:
+        n = len(strides(r)) + len(strides(ref))
+        return f"{NO_DIFFERENCE} from {ref['id']}" + (f" ({n} stride flag(s) reported)" if n else "")
     if verdict == "IDENTITY UNDETERMINED":
-        return (f"IDENTITY UNDETERMINED against {ref['id']}: {why}; every occurrence both read, the score, DS:7B62 and "
+        return (f"IDENTITY UNDETERMINED against {ref['id']}: {why}; every occurrence both saw, the score, DS:7B62 and "
                 f"DS:80EE at full time ({r['counter']}) are equal")
     return f"DIFFERS from {ref['id']}: {why}"
 
 
 def verdict_counts(verdicts):
     """How many of each verdict `identity` gave, by the start each verdict string has."""
-    starts = {"identical": "identical to ", "identity undetermined": "IDENTITY UNDETERMINED", "differ": "DIFFERS",
-              "references": None, "incomplete references": "reference, INCOMPLETE", "no reference": None}
+    starts = {NO_DIFFERENCE: NO_DIFFERENCE + " from ", "identity undetermined": "IDENTITY UNDETERMINED", "differ": "DIFFERS",
+              "references": None, "references with unread lines": "reference, with unread lines", "no reference": None}
     out = {}
     for name, start in starts.items():
         if name == "references":
@@ -367,7 +350,8 @@ def main(argv=None):
         print(f"cycles {c}: " + ", ".join(f"{r['id']} 0x{r['a9ff']:x} ({r['a9ff']})" for r in vals))
 
     runs = [r for r in recs if r["kind"] != "calibrate"]
-    print("\n## Runs (identical: score, events, every commentary line and DS:7B62 at full time, against the same state's and arm's first restore at 30000)")
+    print("\n## Runs (verdict against the same state's and arm's first restore at 30000: DIFFERS, IDENTITY UNDETERMINED, or no observed difference: "
+          "the same score, DS:7B62 and DS:80EE at full time and every commentary occurrence both readers saw)")
     for r in runs:
         if r["status"] != "completed":
             print(f"{r['id']} {r['kind']} {r['state']} cycles {r['cycles']} {r['arm']}: {r['status']}")

@@ -274,7 +274,7 @@ class IdentityTest(unittest.TestCase):
     def test_identical_needs_score_events_seed_counter_and_every_line(self):
         a = {"id": "a", "score": ("A", 1, "B", 0), "events": [["goal", 0, "x"]], "seed": "0x1", "counter": "0x0001",
              "lines": [[1, 38, 0, "x"]], "gaps": [], "deltas": [1]}
-        self.assertEqual(summ.compare(dict(a, id="b"), a), ("identical", ""))
+        self.assertEqual(summ.compare(dict(a, id="b"), a), (summ.NO_DIFFERENCE, ""))
         # the events are the lines of certain templates (commentary.Tracker.events), so a line decides them too
         for k, v in (("score", ("A", 1, "B", 1)), ("seed", "0x2"), ("counter", "0x0002"), ("lines", [[1, 38, 0, "y"]])):
             self.assertEqual(summ.compare(dict(a, id="b", **{k: v}), a)[0], "DIFFERS", k)
@@ -350,7 +350,8 @@ LINES = [[i, 2, 0, f"line {i}"] for i in range(1, 6)]
 
 
 class VerdictPathsTest(unittest.TestCase):
-    """Review rounds 1-3: nothing is identical while any line is unread on either side; a flag stands for the
+    """Review rounds 1-4: no verdict claims more than was observed; a line a flag marks unread makes the pair
+    undetermined; a flag stands for the
     one occurrence it names; what both sides read and differs makes DIFFERS. Every path of `compare`,
     `identity` and the verdict counts."""
     BASE = {"score": ("S", 2, "D", 3), "events": [], "seed": "0xa621", "counter": "0x0005"}
@@ -388,12 +389,12 @@ class VerdictPathsTest(unittest.TestCase):
         v = summ.identity(run, ref)
         self.assertTrue(v.startswith("IDENTITY UNDETERMINED"), v)
         self.assertIn("the reference's reader never read occurrence(s) 3", v)
-        self.assertEqual(summ.identity(ref, ref), "reference, INCOMPLETE: match read 1: record 3 is the end marker 0xFF")
+        self.assertEqual(summ.identity(ref, ref), "reference, with unread lines: match read 1: record 3 is the end marker 0xFF")
 
     def test_what_both_read_and_differs_makes_differs_even_when_incomplete(self):
         ref = run_of(LINES)
         run = run_of([LINES[0], LINES[1], LINES[3], [5, 2, 0, "other"]], gaps=["match read 1: record 3 is the end marker 0xFF"])
-        self.assertEqual(summ.compare(run, ref), ("DIFFERS", "occurrence 5 of the match (1 occurrence(s) read by both differ)"))
+        self.assertEqual(summ.compare(run, ref), ("DIFFERS", "occurrence 5 of the match (1 occurrence(s) seen by both differ)"))
 
     def test_the_occurrence_is_the_flagged_reads_not_any_with_that_record_number(self):
         # 205 lines: record 3 occurs twice (occurrences 3 and 203). The flag of read 2 names occurrence 203.
@@ -407,7 +408,7 @@ class VerdictPathsTest(unittest.TestCase):
         self.assertEqual(summ.compare(other, ref)[0], "DIFFERS")
         both = dict(run, lines=[x for i, x in enumerate(lines, 1) if i not in (3, 203)])  # one flag, two losses
         self.assertEqual(summ.compare(both, ref)[0], "IDENTITY UNDETERMINED")             # the losses do not fit: unlocatable
-        self.assertNotEqual(summ.compare(both, ref)[0], "identical")
+        self.assertNotEqual(summ.compare(both, ref)[0], summ.NO_DIFFERENCE)
 
     def test_memory_read_at_full_time_differs_whatever_the_lines(self):
         ref = run_of(LINES)
@@ -425,37 +426,77 @@ class VerdictPathsTest(unittest.TestCase):
             run = run_of(LINES[:2] + LINES[3:], gaps=gaps, deltas=[5])
             self.assertEqual(summ.compare(run, ref)[0], "IDENTITY UNDETERMINED", gaps)
         short = run_of(LINES[:4], deltas=[5])                                            # no flag, one line fewer than counted
-        self.assertFalse(summ.complete(short))
+        self.assertIsNone(summ.located(short))
         self.assertEqual(summ.compare(short, ref)[0], "IDENTITY UNDETERMINED")
 
-    def test_a_stride_flag_is_settled_only_by_a_complete_other_side_with_the_same_total(self):
+    def test_a_stride_flag_is_reported_and_does_not_decide(self):
         stride = ["match read 1: counter 0 -> 150 (150 lines)"]
         lines = [[(i - 1) % 200 + 1, 2, 0, f"line {i}"] for i in range(1, 151)]
         ref = run_of(lines, deltas=[60, 90])
         run = run_of(lines, gaps=stride, deltas=[150])
-        self.assertEqual(summ.compare(run, ref), ("identical", ""))
-        self.assertIn("stride flag(s) settled", summ.identity(run, ref))
-        self.assertEqual(summ.compare(run, dict(run, id="ref2"))[0], "IDENTITY UNDETERMINED")       # both sides strided
-        shorter = run_of(lines[:-1], gaps=stride, deltas=[149], counter="0x0005")                     # one line fewer counted
-        self.assertEqual(summ.compare(shorter, ref)[0], "IDENTITY UNDETERMINED")
+        self.assertEqual(summ.compare(run, ref), (summ.NO_DIFFERENCE, ""))
+        self.assertEqual(summ.identity(run, ref), "no observed difference from run (1 stride flag(s) reported)")
+        self.assertEqual(summ.compare(run, dict(run, id="ref2"))[0], summ.NO_DIFFERENCE)              # both sides strided
+        self.assertEqual(summ.identity(dict(ref, id="plain"), dict(run, id="strided")),
+                         "no observed difference from strided (1 stride flag(s) reported)")             # the reference's flag is reported too
+        shorter = run_of(lines[:-1], gaps=stride, deltas=[149])                                         # one line fewer counted
+        self.assertEqual(summ.compare(shorter, ref), ("DIFFERS", "lines counted 149 against 150"))
         self.assertEqual(summ.unread_occurrences(run), [])
+
+    def ring_run(self, writes, reads_after):
+        """The commentary of a run as the real Tracker reads it from a simulated ring of 200 records:
+        `writes` in order, each into the next record (1 … 200, then 1 again), the record after the newest
+        holding the end marker 0xFF, and a snapshot after each count of writes in `reads_after`."""
+        snaps = []
+        for w in reads_after:
+            recs = {(k - 1) % 200 + 1: writes[k - 1] for k in range(1, w + 1)}
+            recs[w % 200 + 1] = (0xFF, 0, 0, 0)
+            snaps.append(ctest.make_state(w % 200, recs))
+        return dict(self.BASE, counter=f"0x{reads_after[-1] % 200:04x}", **tracked(snaps))
+
+    def test_sols_hidden_laps_get_no_claim_of_completeness(self):
+        # Review round 3: a lap of the 200-record ring between two reads leaves no trace in the reads. Both
+        # runs below wrote 200 lines more than the reference, all different and never seen. Under round 4's
+        # wording they get "no observed difference": true of what was seen, and it claims nothing more. No
+        # verdict says identical or complete, which is what would have been false.
+        same = [(2, 5 + i % 3, 0, i % 2) for i in range(150)]          # the reference's 150 lines
+        hidden = [(50, 5 + i % 3, 0, 1) for i in range(200)]            # 200 other lines (bookings)
+        ref = dict(self.ring_run(same, [60, 150]), id="ref")
+        self.assertEqual((ref["deltas"], ref["gaps"]), ([60, 90], []))
+        # R1: 350 writes, the first 200 hidden, read once: a stride flag, 150 lines seen, all equal
+        r1 = dict(self.ring_run(hidden + same, [350]), id="r1")
+        self.assertEqual((r1["deltas"], r1["gaps"]), ([150], ["match read 1: counter 0 -> 150 (150 lines)"]))
+        # R2: 60 lines, 200 hidden, 90 lines, read after 60, 260 and 350: a delta of 0 and no flag at all
+        r2 = dict(self.ring_run(same[:60] + hidden + same[60:], [60, 260, 350]), id="r2")
+        self.assertEqual((r2["deltas"], r2["gaps"]), ([60, 0, 90], []))
+        for run in (r1, r2):
+            self.assertEqual(run["lines"], ref["lines"])
+            self.assertEqual(summ.compare(run, ref), (summ.NO_DIFFERENCE, ""))
+            v = summ.identity(run, ref)
+            self.assertTrue(v.startswith("no observed difference from ref"), v)
+            for word in ("identical", "complete"):
+                self.assertNotIn(word, v.lower())
+        self.assertEqual(summ.verdict_counts([summ.identity(r1, ref), summ.identity(r2, ref)])[summ.NO_DIFFERENCE], 2)
+        self.assertFalse(hasattr(summ, "complete") or hasattr(summ, "complete_against"))
 
     def test_more_lines_written_is_differs_even_with_a_side_incomplete(self):
         ref = run_of(LINES)                                                         # 5 lines, complete
         run = run_of(LINES, gaps=["match read 1: record 6 is the end marker 0xFF"], deltas=[6])   # 6 written, the 6th unread
-        self.assertEqual(summ.compare(run, ref), ("DIFFERS", "lines written 6 against 5"))
+        self.assertEqual(summ.compare(run, ref), ("DIFFERS", "lines counted 6 against 5"))
 
-    def test_a_stride_flag_beside_an_unknown_flag_is_not_settled(self):
+    def test_a_stride_flag_beside_an_unknown_flag_is_undetermined(self):
         lines = [[i, 2, 0, f"line {i}"] for i in range(1, 151)]
         ref = run_of(lines, deltas=[60, 90])
         run = run_of(lines, gaps=["match read 1: counter 0 -> 150 (150 lines)", "match read 1: something else"], deltas=[150])
-        self.assertFalse(summ.complete_against(run, ref))
+        self.assertIsNone(summ.located(run))                                       # the unknown flag cannot be located
         self.assertEqual(summ.compare(run, ref)[0], "IDENTITY UNDETERMINED")
 
-    def test_a_reference_with_a_stride_flag_is_marked_incomplete(self):
+    def test_a_reference_with_only_stride_flags_has_no_unread_lines(self):
         lines = [[i, 2, 0, f"line {i}"] for i in range(1, 151)]
         ref = run_of(lines, gaps=["match read 1: counter 0 -> 150 (150 lines)"], deltas=[150])
-        self.assertEqual(summ.identity(ref, ref), "reference, INCOMPLETE: match read 1: counter 0 -> 150 (150 lines)")
+        self.assertEqual(summ.identity(ref, ref), "reference")
+        unknown = dict(ref, gaps=["match read 1: something else"])
+        self.assertEqual(summ.identity(unknown, unknown), "reference, with unread lines: match read 1: something else")
 
     def test_unread_occurrences(self):
         r = {"gaps": ["match read 2: record 7 is the end marker 0xFF"], "deltas": [5, 3]}       # read 2 covers records 6-8
@@ -473,10 +514,10 @@ class VerdictPathsTest(unittest.TestCase):
         undet = dict(same, id="r3", lines=LINES[:2] + LINES[3:], gaps=["match read 1: record 3 is the end marker 0xFF"])
         diff = dict(same, id="r4", seed="0x0000")
         verdicts = [summ.identity(r, summ.reference([ref, same, undet, diff], r)) for r in (ref, same, undet, diff)]
-        self.assertEqual([v.split(" ")[0] for v in verdicts], ["reference", "identical", "IDENTITY", "DIFFERS"])
+        self.assertEqual([v.split(" ")[0] for v in verdicts], ["reference", "no", "IDENTITY", "DIFFERS"])
         verdicts += [summ.identity(undet, undet), summ.identity(dict(undet, id="r5"), ref), summ.identity(same, None)]
-        self.assertEqual(summ.verdict_counts(verdicts), {"identical": 1, "identity undetermined": 2, "differ": 1, "references": 1,
-                                                         "incomplete references": 1, "no reference": 1})
+        self.assertEqual(summ.verdict_counts(verdicts), {"no observed difference": 1, "identity undetermined": 2, "differ": 1,
+                                                         "references": 1, "references with unread lines": 1, "no reference": 1})
 
 
 class LastCounterTest(unittest.TestCase):
