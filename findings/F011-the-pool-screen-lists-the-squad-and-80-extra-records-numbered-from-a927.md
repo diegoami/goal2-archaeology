@@ -103,7 +103,13 @@
 
 ## Observations
 
-- `summarise.py` (E009-r0001): TODO — filled after the run.
+- `summarise.py` (E009-r0001, the one record): `DS:A927[0]` is 0, `DS:A927[1..80]` is exactly the set
+  {2561..2640}, and `DS:A927[81..480]` is all zero; `DS:6D18` words 1..6 are 1, 81, 161, 241, 321, 401.
+- The 80 pool records 2561..2640 hold country 7 (Denmark) in byte 0; records 2641 and 2642 are all zero.
+- The pool view lists the names of `DS:A927[1..20]` (first three: B Gathergood, O Dyke, T Barrow), and
+  the positions (+6) of `A927[1..80]` in `A927` order are non-decreasing — the pool is position-sorted
+  (`sorted ascending: True`), 6 goalkeepers first.
+- The squad view lists Denmark's 20 squad records 121..140 (first three: P Schmeichel, L Olsen, T Piechnik).
 
 ## Inferences
 

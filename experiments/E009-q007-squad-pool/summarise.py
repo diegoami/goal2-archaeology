@@ -63,7 +63,7 @@ def records_obs(record):
     out = {}
     for o in record["observations"]:
         f = o.get("field", "")
-        if "bytes of player record " in f and "at [DS:A91B]" in f:
+        if "bytes of player record " in f:
             n = int(f.split("record ")[1].split(" ")[0])
             out[n] = bytes.fromhex(o["value"])
     return out
