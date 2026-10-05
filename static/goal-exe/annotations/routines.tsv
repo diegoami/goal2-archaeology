@@ -1,0 +1,294 @@
+address	name	purpose	confidence	basis
+0000:0000	main_program	the entry point: unit start-ups (incl. 0791:F3F2), then unless 1771:080C returns non-zero: 214B:179C, 1771:9B85, 1771:2D15, 000E:68A4 per manager, 1771:76B1, 000E:60CB per manager; always ends in the main menu 000E:7439, then halts	established	F002; F004; F007; read code/seg_0000_01.asm
+000E:70B9	play_round	item 6's action when the last manager continues: sets [DS:A923]+1 = 1, plays fixtures through 000E:6CA7; when the fixture index +0x26 reaches the count +0x28, calls 1771:8208 and the stage dispatch 1771:76B1 (000E:7072 always returns 0), then, if the stage byte +0x3C is in the set at CS:7099, 000E:60CB for each manager whose +0x47 flag is clear	likely	F004; read decompiled/seg_000E_05.c
+000E:7439	main_menu_loop	the main-menu loop (the top-level screens); on Enter with item 6 it can reach 000E:70B9	likely	F002; F004; read decompiled/seg_000E_05.c
+0791:0106	draw_match_summary	builds a board in DS:A96E: header via A699 (0x27A0/0x276E chosen by the argument), score (0712), 9 statistics per side from DS:7B7E (10 bytes per side), counters DS:80F2/80F6, team names, scorers from DS:7BD1 with minutes (a different mark when byte >= 0x81); then copies it to DS:A96A	likely	read decompiled/seg_0791_01.c
+0791:0425	match_delay	match_delay(n): calls 214B:1E09(n) only when the speed byte [DS:A923]+0x3F is above 0	established	F006; read decompiled/seg_0791_01.c
+0791:0441	match_whistle	the whistle(n): plays a sound only when the speed byte [DS:A923]+0x3F is above 0, like 0791:0425; called at the end of each half	established	F006; read decompiled/seg_0791_01.c
+0791:054C	draw_big_digits	formats arg2 (DS:831B in D733) as decimal and draws its digits as 7-segment shapes (table DS:0644) at columns 0x45/0x4B of the screen at DS:A96A	guess	read decompiled/seg_0791_01.c
+0791:0712	draw_score	draws the goals byte DS:9B3C+1 at (0x1F,2) and DS:9B3C at (0x1F,4), attribute 0x70, into the given screen buffer	likely	read decompiled/seg_0791_01.c
+0791:0A6B	save_goal_file	saves the goal to a file: builds a file name (214B:09DA number to string, concatenation), calls 0791:09C4 with mode 0 (create, through 214B:1BB7), retries on a DOS file error (214B:1869), closes the handle (214B:1A36)	likely	read code/seg_0791_02.asm
+0791:0B7C	ask_do_you_want	a timed Y/N prompt: shows "Do you want " + its string argument + "? (Y/N)" on the bottom line, waits 0791:CC2E(600), returns 1 only when a key is waiting and it is Y, 0 with no key; the action-replay and save-goal questions both use it	established	F005; F006; read code/seg_0791_02.asm
+0791:0C65	action_replay	the action replay after a goal (tick loop, when DS:7C37 is set): when [DS:A923]+0x41 and DS:0C1E are set, asks "Do you want an action replay?" (0791:0B7C) and skips on no, then asks "to save this goal" and on yes calls 0791:0A6B; the rest (from 0CB2, not read for this row) is what F005 calls the replay code	likely	F005; read code/seg_0791_02.asm
+0791:1C78	commentary_record_is_new	a predicate: compares a proposed commentary record (code and two player words, side) with the newest entry of the ring at DS:7C38 + 6 * DS:80EE and returns whether they differ; it stores nothing (its caller 0791:1D4A advances the ring and writes)	likely	F005; read code/seg_0791_03.asm
+0791:2956	player_unavailable_on_pitch	takes a pitch-slot record (DS:80E8 + slot*0x16) and returns 1771:3216 for its player index at +0xD, so 1 when that player cannot play	likely	read decompiled/seg_0791_02.c; read decompiled/seg_1771_02.c
+0791:2996	ball_holder_is_side0	returns DS:830B < 0x0C, i.e. the slot on the ball is one of slots 1..11 (the side whose base in the table at DS:0668 is 0); used as a 0/1 side index everywhere	likely	read decompiled/seg_0791_02.c
+0791:2BE5	attack_direction	returns DS:7920[team ^ half] (a sign, multiplied by 5/6/0x27/'$' at call sites); team = slot<0x0C via 2974, half flag = DS:8319 < DS:831B	likely	read decompiled/seg_0791_02.c; read decompiled/seg_0791_04.c
+0791:2CEC	player_at_ball	returns 1 when the record's position word (+0 x, +1 y) equals the ball position word DS:82F6	likely	read decompiled/seg_0791_02.c; read decompiled/seg_0791_06.c
+0791:2E36	in_own_goal_area	with position p: true when y*attack_direction < 0 (own end), abs(y) > 0x20 and abs(x) < 3; 9564 calls it on the side's slot-1 (keeper) record with DS:82F6	guess	read decompiled/seg_0791_02.c; read decompiled/seg_0791_06.c
+0791:2FB1	find_nearest_to_ball	for each side, over slots base+2..base+11 that can play, are not DS:830B and are not in state 13: nearest to the ball by Manhattan distance goes to DS:8311[side]; nearest that is goal-side of the ball goes to DS:830F[side]	likely	read decompiled/seg_0791_02.c
+0791:59B3	check_woodwork	when the ball is moving (DS:8300 != 0), the holder is not a keeper (045D: slot 1 or 12), abs(y) = 0x25 and abs(x) < 2: 593B may bounce it back (velocities DS:82FC/82FE negated, speed /4, commentary from table DS:07FA) and the routine then returns 1	guess	read decompiled/seg_0791_04.c; read decompiled/seg_0791_01.c
+0791:6188	handle_player_at_ball	watched match only (DS:9A3E = 0), state +0x12 not 13, player on the ball square (2CEC): a keeper calls 5B36, another player not already holding (DS:830B) calls 5F8A	likely	read decompiled/seg_0791_04.c
+0791:6443	record_goal	(minute, slot, side): commentary 0x26 (0x27 when DS:7C39 is set, and then the other side is credited), adds 1 to the scorer's player word +0x0A, adds 1 to the count DS:80F0[side] (up to 11), stores the player and minute in the scorer list DS:7BD1 + side*0x21 + n*3 (+0x80 when DS:8324 or 7C39 is set)	likely	read decompiled/seg_0791_04.c
+0791:7881	walk_player_off	walks pitch record n (DS:80E8 + 0x16 n) to the point DS:0642 with the clock stopped (DS:8325 and DS:9B41 saved and cleared): per pass update_player, then each of the 22 records steps (0791:8537) with 214B:1E09(2) at speed 0 or (1) at speed 1, until 0791:2CC5; then sets its position to DS:0640 (the off-pitch value); does nothing if it is already there	likely	F006; read decompiled/seg_0791_05.c
+0791:7FCF	timed_notice	saves the bottom line, shows screen DS:5B30 or (p2 set: keeper unavailable) DS:5B66 with the side's country name on row 25, waits 0791:CC2E(DS:087C[p2]), reads a waiting key, else writes Esc to DS:A977; restores the bottom line	likely	F005; F006; read decompiled/seg_0791_05.c
+0791:8062	check_substitutions	per side: a computer side (1771:0B77 = 0) with DS:9B3A[side] != 0 scans slots 11..2 and calls C88D (player +0x12 word < 0x5A - DS:831B, +0x0E > 0, bit 6 of +0x10 clear); a managed side calls the prompt 7FCF/ED8A when its keeper cannot play (3216) or other conditions on DS:9B40 hold	guess	read decompiled/seg_0791_05.c
+0791:83A2	move_ball	adds the velocity (+6, +8) to the ball record at DS:82F6, counts the timer at +0x0A down, redraws (8F10); when out of bounds (2DCA: abs(x)<9, abs(y)<0x26 is in play) it picks the restart: abs(x)<2 calls 698E/690C, else abs(y)<0x26 calls 6E11, else 6E6E or 6F01, depending on which end	likely	read decompiled/seg_0791_06.c; read decompiled/seg_0791_02.c
+0791:8AE9	update_player	runs a handler chosen by the state byte +0x12 (1,2,3,5,6,7,8,9,10,11,13); then 8889, 8537 (draw); counts +0x14 and, past 0xB4 in a quick result (DS:8325), decrements the player's +0xE (not below 1)	likely	read decompiled/seg_0791_06.c
+0791:8F10	draw_ball	restores the old cell of the ball in the screen buffer (DS:7C16 from the background DS:7C1E, rows 0xA0 bytes, +0x90E), picks the glyph from table DS:0880 by height (835F >= 3 when +0x0D is set) and writes the new cell	likely	read decompiled/seg_0791_06.c
+0791:9119	move_referee	moves the sprite record it is given (DS:82EE, the referee: row +0, column +1, glyph word +4, target row +6, column +7) one cell toward a target from the ball DS:82F6: with param 2 = 0 the ball's column +-1 kept within +-(30 + rand 2) and the row column/4 + 1 clamped to +-5, else the cell one row beyond the ball (the ball's row + 1, its column); redraws through 0791:8E24 in the buffer DS:7C16	likely	F005; F006; read decompiled/seg_0791_06.c
+0791:92FC	switch_to_quick_result	the R key's action: returns when DS:9A3E, DS:8326 or DS:0C21 is set or no minutes are left (DS:831B = 0); defers (sets DS:7C38, the first time unpacking screen DS:26E4) when the clock is stopped (DS:8325 = 0) or DS:0C20, DS:7C37 or DS:9B55 is set; else sets DS:9A3E and DS:9A3F, clears DS:7C38 and calls 0791:0106(0) (the match board)	established	F004; F005; read decompiled/seg_0791_06.c
+0791:9372	match_key_poll	the in-match key poll: on R (or while DS:7C38 is set) calls 0791:92FC, returns when no key waits	established	F004; F005
+0791:94C9	speaker_rng_step	steps the LCG 214B:0688 on the second seed DS:8336 (set from the BIOS tick at start-up)	established	F004; F006
+0791:94E8	speaker_noise	sounds the speaker at a pitch drawn from 0791:94C9; that stream's only caller	established	F004; F006
+0791:9564	watched_match_engine	the watched match engine, called by the tick loop when DS:9A3E is clear	established	F005
+0791:970C	match_clock	the match clock, while DS:8325 is set: counts DS:831D down to 0, then reloads it with 0x24 and takes a minute from DS:831B (then from DS:8321), shows it (draw_big_digits); at the half's end (DS:831B = DS:8319, or none left: DS:8326) calls 0791:2B0F, whistle(3), delay(4), whistle(6) and returns 1	established	F005; F006; read decompiled/seg_0791_06.c
+0791:97D0	match_tick_loop	the match tick loop: calls 0791:D733 when DS:9A3E is set, else 0791:9564, then the clock	established	F005
+0791:A10A	penalty_shootout	plays a penalty shoot-out watched (static only, not tested)	likely	F005
+0791:A4A1	match_setup	per-match set-up: clears the commentary ring and the quick flags, draws the kick-off side	established	F005
+0791:B19D	roll_quick_goals	for each side, n tries; each try is three random contests, own strength vs the opponent's from the DS:9B45 table (9B4D vs 9B4D, 9B51 vs 2*9B49, 9B51 vs 9B45); winning all three adds 1 to DS:9B3C[side]	likely	read decompiled/seg_0791_07.c; read decompiled/seg_0791_08.c
+0791:BBFF	set_team_tactics	stores its first argument as country +0x2D (team tactics) and calls 1771:3431 for each of the country's 20 players	likely	read decompiled/seg_0791_07.c
+0791:BC5D	reset_team_tactics	clears +0x0F of the country's 20 players, sets +0x2D from DS:9B7C + country (via 0791:BBFF), then the players' +6 from a table	likely	read decompiled/seg_0791_07.c
+0791:CC2E	wait_or_key	turns the speaker off (214B), then up to n times: stops if a key is pressed (214B:0723), else 214B:1E09(10)	established	F006; read decompiled/seg_0791_08.c
+0791:D5C1	roll_quick_foul	picks one random outfield slot per side; if both can play, distance and random tests (278A, 26D7) and a hardness contest (1771:2FFB = +5 - (+3&1)) can set DS:830C/830B and call 7EEF, which picks a booking (798D) or sending off (7B77) by bit 5 of +0x10 and an injury (7D56)	guess	read decompiled/seg_0791_08.c; read decompiled/seg_0791_05.c; read decompiled/seg_1771_02.c
+0791:D733	quick_match_engine	the quick-result engine, one call per tick while DS:9A3E is set	established	F005
+0791:ED8A	in_match_menu	the in-match menu (screen DS:2598), with the left and right side items: 1/6 team tactics (1771:1981; sets DS:9B55 if +0x2D changed), 2/7 and Space 0791:E949, 3/8 0791:E929 (unless DS:0C21), 4/9 the match board 0791:0106, 5/10 leave (confirmed by 0791:EA09); one key toggles [DS:A923]+0x41; loops until left	likely	F005; F006; read decompiled/seg_0791_09.c
+0791:F098	play_match	the match proper: 0791:998C, 9955, 9A32; stores the score DS:9B3C in the fixture's word +0 and the result byte +3 (2 draw, else home < away); if DS:7C36 and drawn, extra time (9B0C, 9B5B) and then penalty_shootout; if not quick and the scores differ, 0791:98C4	likely	F005; F009; read decompiled/seg_0791_09.c
+0791:F1F6	run_match	runs one fixture: set-up 0791:A4A1, the team screen ED8A, saves the screen, copies the players' morale and sets performance 0x37 for slots 1..11, plays 0791:F098, then the summary (0106), the offer to save the match summary to disk (0B7C with the prompt at F1D4, then save_goal_file 0A6B on yes) when not quick, post-match updates (CB7D, E929, D050, BA4E per managed side) and reset_team_tactics for computer sides	established	F005; F009; read decompiled/seg_0791_09.c
+0791:F3F2	unit_0791_init	the start-up of unit 0791: sets the screen-buffer pointers DS:7C16/7C26 (from DS:A96A), DS:7C1A (A96E) and DS:7C22 (A972), allocates 4000 zeroed bytes at DS:7C1E (214B:0A62), and stores the BIOS tick count's low word at DS:8336	established	F004; F006; read decompiled/seg_0791_09.c
+1771:027B	save_or_load_game	saves (mode 0, "Saving game...", 214B:1AD1 writes; a failure clears the result) or loads (mode non-zero, "Loading game...", 214B:1B47 reads) the game's 22 blocks: names, countries, players, the state [DS:A923], fixtures and others; closes the file and returns the success flag	likely	F002; F007; read decompiled/seg_1771_01.c
+1771:0B77	is_managed	returns whether the country is managed by a human: its +0x2E > 0x80	established	F007; F008; read decompiled/seg_1771_01.c
+1771:0BC4	compute_team_line_strengths	(flag, side, country): for squad entries 1..11 adds the player's strength (377E, plus 1771:0AA7 from +0x2E) to DS:9B45[side + line*2], line from table DS:0D4E[+6] (above 3 it is split over two lines); for tactic bits 1..6 (player +0x0F bits 5..8 override the country's +0x2D) adds to 9B49 or 9B51; flag adds 1/8	likely	read decompiled/seg_1771_01.c; read decompiled/seg_1771_02.c
+1771:0E24	country_colour	the colour of a country's name: 0x0F when managed (1771:0B77), else DS:6905[country +0x2C]	established	F008; read decompiled/seg_1771_01.c
+1771:0F58	draw_country_name	writes at (column p1, row p2) 15 dashes (DS:0D6A) in colour DS:0D7A[[DS:A964]], then, unless the country is 0, its name DS:9B68 + 16 n in 1771:0E24's colour	likely	F008; read decompiled/seg_1771_01.c
+1771:10E7	country_rating	((5 - continent) * (0x21 - continent rank) + (0x81 - world rank)) idiv 2 over the country record	established	F007
+1771:157D	draw_team_panel	a country's information panel (template DS:4BBE): name, manager, ranks (world_rank, continent_rank, +0x28, +0x29), line counts (1771:0E6C), word bars DS:9B5A..9B60, the 8 team-tactic flags of +0x2D, line strengths (1771:0BC4), continent	likely	F008; read decompiled/seg_1771_01.c
+1771:26B9	country_list_screen	the country-list screen (8 columns of 16, by continent or world rank, one key toggles); by mode: 2 picks the current manager's country into DS:A91F (refused if managed), 4 sets DS:9B66, 1 and 3 act on the highlighted country (1771:7BA2, 1771:1D5C; T edits a managed country's tactics in mode 1)	likely	F002; F007; read decompiled/seg_1771_02.c
+1771:2D15	set_managed_countries	for each manager 1..[DS:A923]+0: picks a country (1771:26B9 mode 2; halts if none), sets its +0x2E = 0x80 + manager, stores 1771:114B and the continent rank in the state, draws via 1771:09A0 and makes the extra players (1771:98C4); then sets the current manager back to 1	established	F007; read decompiled/seg_1771_02.c
+1771:2E20	player_name_colour	the colour of a player's name: 6 when +0x0E = 0 (injured), 5 when +0x10 bit 8 or 6 is set, else DS:699A[+6]	established	F008; read decompiled/seg_1771_02.c
+1771:2E93	player_name	a player's name: initial and surname, from [DS:9B70] + n and 11 bytes at [DS:9B6C] + 11 n	established	F008; read decompiled/seg_1771_02.c
+1771:2EE5	draw_player_name	draws a player's name (1771:2E93, 12 characters at most) at (column p1, row p2) in 1771:2E20's colour	established	F008; read decompiled/seg_1771_02.c
+1771:2F37	draw_squad_row	one row of the squad list: the name (1771:2E93) in 1771:2E20's colour and the position glyph DS:69A8[+6]	established	F008; read decompiled/seg_1771_02.c
+1771:2FAD	player_height	a player's height, not stored: DS:0E46[+7] + DS:0E54[n mod 12] inches	established	F008; read decompiled/seg_1771_02.c
+1771:2FFB	player_hardness	hardness = +5 - (+3 and 1)	established	F007; F008; read decompiled/seg_1771_02.c
+1771:3041	is_two_footed	true when +5 + +2 = 30 (the screen then shows "two footed")	established	F008; read decompiled/seg_1771_02.c
+1771:3088	foot_index	returns the foot index DS:0E60[14 * DS:0E7C[n mod 3] + (+7)]; the player screen shows the word DS:0F2C + 6 * index	established	F008; read decompiled/seg_1771_02.c
+1771:30D9	player_leadership	leadership v = ((+3) - (+5)) mod 8, halved when +1 < 0x15	established	F008; read decompiled/seg_1771_02.c
+1771:3216	player_unavailable	returns 0 only when player +0x0E > 0 and bits 8, 6 and 3 of +0x10 are clear, else 1; 377E then gives strength 0 and D733 rerolls a scorer	likely	read decompiled/seg_1771_02.c; read decompiled/seg_0791_08.c
+1771:3291	roll_peak_age	draws +2: DS:0E80[gk] + b - a with a then b = rand(3)	established	F007; read decompiled/seg_1771_02.c
+1771:32EB	compute_ability	computes +4 from +1, +2, +3: +3 inside the peak band, else (+3 * k) div 16	established	F007; F009; read decompiled/seg_1771_02.c
+1771:33CD	force_tactic4_off	sets set element 8 (bit 7, the override of tactic 4) and clears element 4 (bit 3) of the player's +0x0F, unconditionally	established	F007; read decompiled/seg_1771_02.c
+1771:3431	set_player_tactics	sets the player's +0x0F tactic bits (Pascal set, 214B:0C79 / 0CA1), from its hardness and position	established	F007; read decompiled/seg_1771_02.c
+1771:3558	roll_fitness_energy	draws +0x0D and +0x0E: T = DS:0E82[+1 > +2 + 4], then a managed or an unmanaged draw around T	established	F007; read decompiled/seg_1771_02.c
+1771:377E	player_strength	a player's match strength: (+4 - 0x3E) + (+0x0E), plus +0x0C when it is below 32 else minus a sixteenth, clamped 0..256, halved when 1771:3179 is true; 0 when 1771:3216 says unavailable	likely	F002; F007; read decompiled/seg_1771_02.c
+1771:3827	performance_text	draws the performance text at (p1, p2): blank when +0x12 is 0x7FFF, else sets the length of the string DS:0E86 to bucket 1..9 of (+0x12, minus 10000 when above 5000) - 0x37, in 1771:2E20's colour, or 0x0F during a match for slots 1..11 and for booked players	likely	F008; read decompiled/seg_1771_02.c
+1771:3947	draw_skill_bars	the player screen's skill bars, from player +4, +5 and +7	established	F008
+1771:3A82	squad_slot_of_player	(country, player index): returns the slot 1..20 of that player in the country's word list at +0..+0x27, or 0 when absent	likely	read decompiled/seg_1771_02.c
+1771:3AE2	draw_mark_text	writes the mark row text, DS:0E90 + 11 * its argument (the Pascal string table of mark names)	established	F008
+1771:3B3F	draw_mark_row	the mark row: blank when +6 < 2, "Protect zone" when +0x10 bit 7, else bit 8 of the country's +0x2D through 1771:3AE2	established	F008
+1771:3BD3	draw_tactics_panel	the player screen's tactics panel, from player +0x0F (and the country's +0x2D)	established	F008
+1771:42BC	draw_player_screen	the player screen (the card): expands the template DS:486E into [DS:A96E] and draws every value from the player's record	established	F008; read decompiled/seg_1771_03.c
+1771:4D8A	draw_squad_list	the squad list: template DS:15A4, the country's name (1771:0F58 at 0x41,1), then 1771:2F37 for slots 1..11 (rows 3..13) and 12..20 (rows 15..23)	established	F008; read decompiled/seg_1771_03.c
+1771:4E22	draw_squad_screen	draws the squad list (1771:4D8A) and frames, then the card of the selected player DS:0C1B (1771:42BC) and its highlight	likely	F008; read decompiled/seg_1771_03.c
+1771:6730	stage_qualifying	the stage routine for stage code 2 or 5 ("qualifying"); reads the DOS time through 23E4:11D7 and seeds DS:7B62 from it	established	F004; F007
+1771:76B1	run_stage	dispatches on the stage byte [DS:A923]+0x3C: 2 or 5 to 1771:6730, 3..8 to other routines	likely	F004; read decompiled/seg_1771_04.c
+1771:96D3	make_player	draws one player's record (country, position, age, rating, ...) from the LCG	established	F007
+1771:97CC	make_squad	seeds the LCG with the country number and makes its 20 players through 1771:96D3	established	F007
+1771:9873	make_pool_player	makes the next extra player of position p2 through 1771:96D3(..., 0), numbered 0xA00 + n in DS:A927[n] (n is the caller's counter)	likely	F007; read decompiled/seg_1771_06.c
+1771:98C4	make_managed_pool	makes the current manager's 80 extra players: positions 0..13 four times (56), one per squad slot 1..20 (age DS:118C[gk] + rand 3, then 1771:32EB), then slots 6..9 again (4); then 1771:5532	established	F007; read decompiled/seg_1771_06.c
+1771:9A40	load_countries	copies GOAL.DAT blocks into the country records, then makes the squads through 1771:97CC	established	F007
+1771:9B85	init_new_game	at a new game: 1771:9A40 (country records and squads), then the state [DS:A923]: year +0x3A = DS:A9FD + 1 made even, +0x38 = 0, +0x40 = (+0x3A mod 4 = 2), stage byte +0x3C = DS:118E[+0x40], options +0x3D = 1, +0x3E = 2, +0x3F = 1, +0x41 = 1, two 80-char strings from DS:9B7D/9B81, and an empty fixture list (A92B+0x4B40 = 0xFF)	established	F007; read decompiled/seg_1771_06.c
+2138:0000	u2138_empty_stub	7-byte routine, decompiled body only a RETF; no operation (empty unit init)	likely	read decompiled/seg_2138_01.c
+2139:0000	u2139_alloc_arrays	16 calls to 214B:0A62 with sizes (0x810,0x8387,0xBF5,...) storing far pointers into DS:9B68..9B78 and A917..A93F (the player and country arrays), then 23E4 file/text calls; array allocation and unit init	likely	read decompiled/seg_2139_01.c; F007
+214B:0000	u214b_fill_words	Fills param_2 16-bit words at a far pointer with a word value (rep stosw loop); Pascal FillChar/FillWord-style fill	likely	read decompiled/seg_214B_01.c
+214B:0018	u214b_fill_bytes	Fills N bytes with one byte value, words first then odd byte (FillChar-style); called with 0xFE/0xB1/0 fill values	likely	read decompiled/seg_214B_01.c
+214B:003C	u214b_move_bytes	Overlap-safe memory copy of N bytes (forward or backward by pointer order), Move-style; used on screen buffers (0xA0 = one text row)	likely	read decompiled/seg_214B_01.c
+214B:007B	u214b_swap_bytes	Swaps N bytes between two far buffers (xchg loop)	likely	read decompiled/seg_214B_01.c
+214B:009C	u214b_upcase_string	Copies a Pascal string upper-casing a-z (subtract 0x20); length from a string-copy helper in 23E4	likely	read decompiled/seg_214B_01.c
+214B:00DB	u214b_fill_attr_bytes	Writes one byte into every second byte (odd offsets, i.e. attribute bytes) of N text cells; screen attribute fill	likely	read decompiled/seg_214B_01.c
+214B:00FF	u214b_put_chars_forward	Copies N string chars into consecutive text cells, char byte with the attribute byte, ascending (cell = 2 bytes)	likely	read decompiled/seg_214B_01.c
+214B:0123	u214b_put_chars_backward	Same as 00FF but with both pointers descending (near, called by 01A3 and 0205 with the end of the string)	likely	read decompiled/seg_214B_01.c
+214B:0147	u214b_unpack_screen_rle	Decodes a run-length packed text screen (FF escape, 00 = repeat previous value count times) into 80-column word cells; compressed screen unpacker	likely	read decompiled/seg_214B_01.c
+214B:01A3	u214b_write_string_at_attr_var	Writes a Pascal string at column/row into the text-screen buffer (0xA0 bytes per row, 2 per cell) using the current attribute DS:AAB2, via 0123	likely	read decompiled/seg_214B_01.c
+214B:0205	u214b_write_string_at_set_attr	Same as 01A3 but takes the attribute as a parameter and stores it in DS:AAB2	likely	read decompiled/seg_214B_01.c
+214B:026D	u214b_write_string_at_fwd	Writes a Pascal string at column/row into the text buffer with attribute DS:AAB2, via 00FF	likely	read decompiled/seg_214B_01.c
+214B:02C8	u214b_write_string_at_fwd_set_attr	As 026D with an attribute parameter stored in DS:AAB2	likely	read decompiled/seg_214B_01.c
+214B:0329	u214b_unpack_screen_to_buffer	Thin wrapper: calls the unpacker 0147 with source (second arg) and destination far pointer (first arg, a pointer variable)	likely	read decompiled/seg_214B_01.c
+214B:0350	u214b_draw_centered_message_line	Centres a text message (padding with 0xFE via 0018, Move) and draws it at a row with attributes, with literal '? (Y/N)' tested by a Pos; marks the Y/N parts; screen text	likely	read decompiled/seg_214B_01.c
+214B:04F8	u214b_message_wait_key	Saves bottom screen line, shows the message via 0350 with ' PRESS ANY KEY ', waits for a key (0983) and restores the line	likely	read decompiled/seg_214B_01.c
+214B:0566	u214b_ask_yes_no	Shows a prompt line with '? (Y/N)', reads a key (set of allowed keys, 09A7), returns true if upper-cased key is 'Y'; restores the line	likely	read decompiled/seg_214B_01.c
+214B:05DB	u214b_unpack_screen_796a_to_back	Unpacks the packed screen at DS:796A into the buffer whose far pointer is DS:A96E (back/offscreen screen)	likely	read decompiled/seg_214B_01.c
+214B:05F0	u214b_unpack_screen_row_record	Builds a one-word record at DS:79A4 = (param-1)*80+1 and unpacks it with 0329 to the buffer at DS:A96E; failed to decompile, listing read; purpose of the record uncertain	guess	read code/seg_214B_01.asm
+214B:0625	u214b_save_bottom_line	Copies 0xA0 bytes (one text row) at row offset 0xF00 of the screen buffer DS:A96A to a save area at DS:AA04	likely	read decompiled/seg_214B_01.c
+214B:0643	u214b_restore_bottom_line	Copies 0xA0 bytes from the save area DS:AA04 back to row offset 0xF00 of the screen buffer DS:A96A	likely	read decompiled/seg_214B_01.c
+214B:0661	u214b_hide_cursor	INT 10h (via 235C:000B Intr, int number 0x10) AH=2 set cursor position to column 1, row 0x1A (off screen), hiding the text cursor	likely	read decompiled/seg_214B_01.c; read code/seg_214B_01.asm
+214B:0688	u214b_lcg_step	one step of the linear congruential generator (the game's random stream)	established	F004
+214B:06B1	u214b_random_1_to_n	a random value 1..n from the generator whose seed pointer is at DS:A978	established	F004; F007
+214B:06D0	u214b_random_is_one	Draws random 1..n from DS:A978 and returns whether it equals 1 (chance 1 in n)	likely	F005; read decompiled/seg_214B_01.c
+214B:06FA	u214b_random_coin_flip	Draws random 1..2 from DS:A978 and returns whether it equals 1 (a coin flip)	likely	F005; read decompiled/seg_214B_01.c
+214B:0723	u214b_key_pressed	Keypressed: INT 16h AH=1 via 235C:000B, returns true when zero flag clear (no ZF bit 0x40)	likely	read decompiled/seg_214B_01.c; read code/seg_214B_02.asm
+214B:0755	u214b_video_mode_setup	Reads BIOS video mode at 0040:0049; mono (7) gives segment B000, else forces mode 3 and uses B800; stores text screen pointer DS:A96A and a mono flag DS:A964	likely	read decompiled/seg_214B_01.c
+214B:0813	u214b_shell_to_dos	Shell to DOS: saves screen, shows 'Type EXIT to return', reads COMSPEC, executes COMMAND.COM, shows memory/file error messages, restores screen and cursor	likely	read decompiled/seg_214B_01.c
+214B:08DD	u214b_read_key	Waits for a key (INT 16h AH=0 via Intr), maps cursor-pad scancodes to codes >0x80 (non-ASCII key mapping), stores in DS:A976/DS:A977; handles a pushed-back key DS:79AE; a code 0xA3 triggers screen print 0B4D	likely	read decompiled/seg_214B_01.c; read code/seg_214B_02.asm
+214B:0983	u214b_wait_key_and_clear	Calls the key read 08DD, then clears DS:A976	likely	read decompiled/seg_214B_01.c
+214B:0993	u214b_push_back_key	Stores a key code in DS:A976 and sets the pushed-back flag DS:79AE so the next 08DD returns it without waiting	likely	read decompiled/seg_214B_01.c
+214B:09A7	u214b_wait_key_in_set	Copies a 32-byte set from a far pointer and loops 08DD until the key code is a member of the set	likely	read decompiled/seg_214B_01.c
+214B:09DA	u214b_number_to_string	Converts a number to a 20-char string (Str-style call in 23E4:12F6) and copies it to the result	guess	read decompiled/seg_214B_01.c
+214B:0A10	u214b_fatal_message_halt	Shows a message with press-any-key (04F8) then calls a 23E4 routine (probably Halt)	guess	read decompiled/seg_214B_01.c
+214B:0A62	u214b_get_mem_zeroed	Checks memory with 23E4:03D0 (MaxAvail), shows 'Insufficient memory to run program' if short, GetMem via 23E4:0329, zero-fills the block with 0018	likely	read decompiled/seg_214B_01.c
+214B:0AB9	u214b_printer_status	INT 17h AH=2 via Intr (printer status); status bits 0x40 / 0x08 give code 1 or 2, shows 'Printer ' message line and returns true when the printer is ready	likely	read decompiled/seg_214B_01.c; read code/seg_214B_02.asm
+214B:0B4D	u214b_print_screen	Prints the 80x25 text screen to the printer file (text file calls in 23E4), chars outside 0x20..0x80 become spaces; 'Printing...' message; triggered by key code 0xA3 in 08DD	likely	read decompiled/seg_214B_01.c
+214B:0C57	u214b_set_test_bit	Returns bit (k-1) of a byte/word for element k (Pascal set membership test, shift right and mask)	likely	read decompiled/seg_214B_01.c
+214B:0C79	u214b_set_include_bit	Sets bit k-1 of a byte for Pascal set element k (Include)	established	F007
+214B:0CA1	u214b_set_exclude_bit	Clears bit k-1 of a byte for Pascal set element k (Exclude)	established	F007
+214B:0CCB	u214b_set_assign_bit	Sets or clears bit k-1 depending on a boolean argument (calls 0C79 or 0CA1)	likely	read decompiled/seg_214B_01.c
+214B:0CF4	u214b_set_toggle_bit	Toggles bit k-1 of a byte (xor), set element toggle	likely	read decompiled/seg_214B_01.c
+214B:0D1C	u214b_min_longint	Returns the smaller of two 32-bit signed integers	likely	read decompiled/seg_214B_01.c
+214B:0D56	u214b_max_longint	Returns the larger of two 32-bit signed integers	likely	read decompiled/seg_214B_01.c
+214B:0D90	u214b_blink_cursor_wait_key	Near, nested: loops until a key is pressed (0723); meanwhile toggles one screen cell's colours on BIOS tick count 0040:006C divided by 3 parity (blinking cell); restores the cell	likely	F004; read decompiled/seg_214B_01.c
+214B:0E41	u214b_edit_line_redraw	Nested helper of the line editor 1086: redraws the input field (text, padding, scroll via uppercase conversion 19B2) at the field's position	likely	read decompiled/seg_214B_01.c
+214B:0FB5	u214b_edit_line_store_char	Nested helper of 1086: stores a character into the edit string at the cursor (insert shifts the rest, else overwrite), updates length byte	likely	read decompiled/seg_214B_01.c
+214B:1086	u214b_edit_string_input	Text-line input editor: cursor keys, Home/End, backspace, Esc restores original, insert/overwrite toggle, word jumps, max length; reads keys via 08DD, draws via 0E41	likely	read decompiled/seg_214B_01.c
+214B:136B	u214b_exit_proc_restore_screen	Exit procedure (address stored at DS:7B52/7B54 by 206A): resets the text file, shows the exit/message and restores the saved screen with attribute 0x19 after unpacking	likely	read decompiled/seg_214B_01.c
+214B:13C5	u214b_fill_back_attr_70	Writes attribute 0x70 (reverse video) into N cells of the back buffer DS:A96E at column/row; highlight bar	likely	read decompiled/seg_214B_01.c
+214B:13F6	u214b_menu_move_byte_clamp	Updates a byte selection from the key in DS:A976: home/end keys set 1 or max, up/down codes step with clamping at both ends	likely	read decompiled/seg_214B_01.c
+214B:1452	u214b_menu_move_byte_wrap	Like 13F6 for a byte selection but up/down codes wrap around (1 to max, max to 1)	likely	read decompiled/seg_214B_01.c
+214B:14AC	u214b_menu_move_word_clamp	Like 13F6 but for a 16-bit selection variable: clamp at ends, home/end to 1 or max	likely	read decompiled/seg_214B_01.c
+214B:1507	u214b_menu_move_word_wrap	Like 1452 for a 16-bit selection variable: up/down wrap, other keys go to 14AC	likely	read decompiled/seg_214B_01.c
+214B:1560	u214b_menu_read_key_and_move	Restores the screen from the back buffer (4000 bytes), reads a key (08DD) and moves a selection with 1507	likely	read decompiled/seg_214B_01.c
+214B:158E	u214b_set_list_position_pair	Nested helper of 15B1: stores two 16-bit values (list top and cursor) through two pointers of the parent frame	likely	read decompiled/seg_214B_01.c
+214B:15B1	u214b_list_scroll_by_key	Scrolling list navigation: down/up arrows, page up/down, home/end update list top and cursor within the visible page and the item count	likely	read decompiled/seg_214B_01.c
+214B:1765	u214b_message_if_flag	Copies a message string and, if the flag argument is nonzero, shows it with the press-any-key box (04F8); returns the flag	likely	read decompiled/seg_214B_01.c
+214B:179C	u214b_unpack_screen_7aec	Unpacks the packed screen at DS:7AEC into the screen buffer DS:A96A	likely	read decompiled/seg_214B_02.c
+214B:1869	u214b_report_dos_file_error	Looks at DOS error code DS:A965 and shows its text (illegal file name or file not found, path not found, read only/hidden, no such drive, others), asks to retry (Y/N) via 0566, else halts or returns	likely	read decompiled/seg_214B_02.c
+214B:19B3	u214b_pascal_to_asciiz	Copies a Pascal string into a buffer and terminates it with a zero byte (DOS path string)	likely	read decompiled/seg_214B_02.c
+214B:19F4	u214b_dos_result_to_error	After an int 21h call: if carry set DS:A965 = error code in AX and handle DS:AAA4 = 0, else DS:A965 = 0 and DS:AAA4 = handle	likely	read decompiled/seg_214B_02.c
+214B:1A36	u214b_dos_close_handle	DOS call (235C:0000 MsDos) with AH=3Eh close file for handle DS:AAA4 if open	likely	read decompiled/seg_214B_02.c
+214B:1A5F	u214b_dos_open_or_create	Copies a name string, converts to ASCIIZ (19B3), calls DOS (AH/AL passed in: 3C00 create, 3D02 open) via 235C:0000, records result with 19F4; name equal to a literal sets error 2	likely	read decompiled/seg_214B_02.c
+214B:1AD1	u214b_dos_write_checked	DOS write (AH=40h) of N bytes from a buffer to handle DS:AAA4; returns true if no carry and all bytes written, else error 0x65 in DS:A965	likely	read decompiled/seg_214B_02.c
+214B:1B47	u214b_dos_read_file	DOS read (AH=3Fh) of N bytes into a buffer from handle DS:AAA4; stores bytes read in DS:A967, error code in DS:A965 on carry	likely	read decompiled/seg_214B_02.c
+214B:1BB7	u214b_dos_create_file	Creates a file by name: calls 1A5F with AX=3C00 (DOS create); returns true if DS:A965 = 0	likely	read decompiled/seg_214B_02.c
+214B:1BF5	u214b_dos_open_file_rw	Opens a file by name: calls 1A5F with AX=3D02 (DOS open read/write); returns true if DS:A965 = 0	likely	read decompiled/seg_214B_02.c
+214B:1C33	u214b_dos_drive_not_cd	DOS call AH=19h (get current drive); returns true when the drive code is not 2 or 3 (outside C: and D:)	guess	read decompiled/seg_214B_02.c
+214B:1C63	u214b_get_date	Calls 235C:006C (Dos GetDate-style) writing the year to DS:A9FD and discarding month and day	likely	F004; read decompiled/seg_214B_02.c
+214B:1C86	u214b_wrap_add_in_range	Adds a signed delta to a value and wraps it around inside the range [lo, hi] (cyclic increment/decrement)	likely	read decompiled/seg_214B_02.c
+214B:1D6F	u214b_wrap_add_in_range_byte	Byte wrapper of 1C86: wraps a byte variable by a delta inside [lo, hi]	likely	read decompiled/seg_214B_02.c
+214B:1DA7	u214b_calibrate_delay	Counts loop passes during one BIOS tick (0040:006C), divides by 55 and stores at DS:A9FF (delay calibration)	likely	F004; read code/seg_214B_04.asm
+214B:1E09	u214b_delay_ms	Calibrated busy-wait: param_1 times a loop of [DS:A9FF] counts (per millisecond)	established	F005
+214B:1E5A	u214b_sound_toggle_mute	Turns the speaker off (1E8D) and flips the sound-disabled flag DS:A9FC	likely	read decompiled/seg_214B_02.c
+214B:1E75	u214b_speaker_on	If sound enabled (DS:A9FC = 0): out 43h,B6h (PIT channel 2 square wave) and sets port 61h bits 0 and 1 (gate and speaker on)	likely	read decompiled/seg_214B_02.c
+214B:1E8D	u214b_speaker_off	If sound enabled: clears port 61h bits 0 and 1 (speaker off)	likely	read decompiled/seg_214B_02.c
+214B:1EA1	u214b_beep_tone_delay	Sets a tone with 1EBC, delays param_1 ms with 1E09, then speaker off (one beep)	likely	read decompiled/seg_214B_02.c
+214B:1EBC	u214b_speaker_set_frequency	Speaker routine: turns speaker on and writes a 16-bit divisor (from a 23E4 helper) to PIT port 42h low then high byte	likely	F004; read decompiled/seg_214B_02.c
+214B:1EF1	u214b_play_note	Plays a note: note number plus transposition DS:7968 reduced mod 12 into a PIT divisor by real-number (23E4 float) arithmetic, writes it to port 42h, then delays param*DS:7966 ms	likely	read decompiled/seg_214B_02.c
+214B:1F87	u214b_play_jingle	Speaker on, repeats a two-note pattern (notes 9 and 7) a count times via 1EF1 with tempo DS:7966 = 1, then speaker off	likely	read decompiled/seg_214B_02.c
+214B:2000	u214b_clamp_int	Clamps an integer variable into [lo, hi] (16-bit)	likely	read decompiled/seg_214B_02.c
+214B:2031	u214b_clamp_byte	Clamps a byte variable into [lo, hi] (signed char compare)	likely	read decompiled/seg_214B_02.c
+214B:206A	u214b_unit_init	Unit start-up: reads the exe name/args (009C), sets sound flag DS:A9FC=1, video setup (0755), calibration (1DA7), allocates two 4000-byte screen buffers (A96E, A972), hides the cursor, sets seed pointer DS:A978 = DS:7B62, sets ExitProc DS:7B52 = 214B:136B, reads the date (1C63)	likely	F004; read decompiled/seg_214B_02.c
+235C:0000	dos_msdos	pops return and args, sets AL=21h, re-pushes, falls into 235C:000B: MsDos(var regs) wrapper	likely	read code/seg_235C_01.asm; read decompiled/seg_235C_01.c
+235C:000B	dos_intr	loads regs record (AX,BX,CX,DX,BP,SI,DI,DS,ES) and calls the interrupt vector chosen by byte param from IVT at 0000:n*4; Intr(num, regs)	likely	read code/seg_235C_01.asm
+235C:0048	dos_store_registers	continuation of Intr: stores AX,BX,CX,DX,BP,SI,DI,DS,ES,flags into the caller's Registers record after the interrupt	likely	read decompiled/seg_235C_01.c; read code/seg_235C_01.asm
+235C:006C	dos_get_date	INT 21h AH=2Ah; AL -> weekday, DL day, DH month, CX year via 4 var params; GetDate	likely	read decompiled/seg_235C_01.c; read code/seg_235C_01.asm
+235C:008E	dos_set_date	INT 21h AH=2Bh (set date, args via stack regs); SetDate	likely	read code/seg_235C_01.asm
+235C:00A2	dos_get_time	INT 21h AH=2Ch; DL hundredths, DH second, CL minute, CH hour via 4 var params; GetTime	likely	read decompiled/seg_235C_01.c; read code/seg_235C_01.asm
+235C:00C7	dos_set_time	INT 21h AH=2Dh (set time); SetTime	likely	read code/seg_235C_01.asm
+235C:00DE	dos_find_first	copies Pascal string path (max 79 chars) to ASCIIZ, INT 21h AH=1Ah set DTA, AH=4Eh find first, then 235C:0136 (sets DosError; copies name)	likely	read decompiled/seg_235C_01.c; read code/seg_235C_01.asm
+235C:011C	dos_find_next	INT 21h AH=1Ah set DTA, AH=4Fh find next, then 235C:0136; FindNext	likely	read code/seg_235C_01.asm
+235C:0136	dos_find_result	if no carry: converts DTA name (at +1Eh) to a Pascal string; stores AX (0 on success) in DS:AAA6 (DosError); helper for FindFirst/FindNext	likely	read decompiled/seg_235C_01.c
+235C:0159	dos_exec	copies path (max 79) and command tail (max 126, CR terminated), saves SS:SP in DS:AAA8/AAAA, INT 21h AH=29h parse FCB twice, AH=4Bh exec (AX=4B00h), AH=4Dh wait for return code; sets DS:AAA6 (DosError); Exec(path, cmdline)	likely	read decompiled/seg_235C_01.c; read code/seg_235C_01.asm
+235C:01F2	dos_get_env	upper-cases Pascal string name (max 31), appends '=', scans the environment block at ES:0 for it, returns the value as Pascal string; GetEnv	likely	read decompiled/seg_235C_01.c
+2382:0000	crt_unit_init	CRT unit initialisation: calls 2382:0030 (video detect), 2382:032E twice (AssignCrt-style, at DS:AAC0 and DS:ABC0) then System 23E4:13E2/13E7 (Reset/Rewrite-like); the two text-file variables Input and Output	likely	read decompiled/seg_2382_01.c; read code/seg_2382_01.asm
+2382:0030	crt_init_video	reads video mode via 2382:0608 (INT 10h), if not 7 and above 3 calls 2382:0099, then 00E7; ends in Ghidra's endless loop (listing trailing code not decoded)	guess	read decompiled/seg_2382_01.c
+2382:0099	crt_set_video_mode	clears bit0 of BIOS byte 0040:0087 (ABS 0487), forces mode 3 unless 7 or at most 3, INT 10h; if rows nonzero, further INT 10h calls and sets bit0 when the char is '*' (EGA/VGA cursor emulation or 43/50-line fix)	guess	read decompiled/seg_2382_01.c
+2382:00E7	crt_init_window_state	INT 10h calls (mode, cursor); fills CRT variables DS:AAAF (CheckSnow-like flag), AAB0, AABA (window max X/Y, 0x18 = row 24), AAAE, AAB4 (WindMin=0), AAB6 (WindMax)	likely	read decompiled/seg_2382_01.c
+2382:0145	crt_exit_restore	if DS:AABE set: clears it, drains the keyboard buffer via INT 16h AH=1/AH=0 until empty, writes CR/LF via 047B/0474, raises INT 23h (Ctrl-Break), resets video via 0099/00E7, sets DS:AAB2=DS:AABC (TextAttr from saved)	likely	read decompiled/seg_2382_01.c; read code/seg_2382_01.asm
+2382:016D	crt_text_mode	far routine: set video mode 0099 then 00E7 then DS:AAB2 = DS:AABC; TextMode(mode) shape	likely	read decompiled/seg_2382_01.c
+2382:0215	crt_goto_xy	far, params (x,y): bound-check against WindMin/WindMax (DS:AAB4/AAB6) then call 04FC (INT 10h AH=2 set cursor); GotoXY	likely	read decompiled/seg_2382_01.c; read code/seg_2382_01.asm
+2382:02BE	crt_compare_bytes_loop	repe scasb-like loop comparing AL to ES:[DI] CX times; Pascal helper fragment (followed by 70 bytes of undecoded data: sound/Delay timing, 8253 port 42h/43h/61h code)	guess	read decompiled/seg_2382_01.c; read code/seg_2382_01.asm
+2382:030C	crt_read_key	INT 16h AH=0 (wait key) with DS:AABD pending-scancode buffer (extended key second byte), then calls 0145; ReadKey	likely	read decompiled/seg_2382_01.c; read code/seg_2382_01.asm
+2382:032E	crt_assign_crt	far, one pointer param: fills a Pascal TextRec (mode D7B0 = fmClosed-style, buffer size 0x80, buffer ptr at +0x80, handlers at 9000:0359, +0x30 byte 0); AssignCrt/text-file setup	likely	read decompiled/seg_2382_01.c
+2382:0391	crt_read_line	far, TextRec param: line editor reading keys via 030C, handling BS(8), ^S(0x13), ^D(4), ^F(6), ^Z(0x1A), Enter(0xD) with echo via 047B, fills buffer, appends CR LF; CRT text-file read (ReadLn) input handler	likely	read decompiled/seg_2382_01.c
+2382:0474	crt_write_crlf	writes CR (0xD) then LF (0xA) via 047B then 04F5/04D4/04FC	likely	read decompiled/seg_2382_01.c; read code/seg_2382_01.asm
+2382:047B	crt_write_char	AL char: get cursor (04F5, INT 10h AH=3), handles BEL(7), BS(8), CR(0xD), LF(0xA), else writes via INT 10h and advances/wraps, set cursor 04FC	likely	read decompiled/seg_2382_01.c
+2382:04D4	crt_scroll_check	compares cursor row (DH+1) to DS:AAB6 high byte (WindMax Y), calls INT 10h (scroll up) when beyond	likely	read decompiled/seg_2382_01.c
+2382:04F5	crt_get_cursor	mov ah,3; xor bh,bh; jmp 0608: INT 10h AH=3 read cursor position	likely	read code/seg_2382_01.asm
+2382:04FC	crt_set_cursor	mov ah,2; xor bh,bh; jmp 0608: INT 10h AH=2 set cursor position	likely	read code/seg_2382_01.asm
+2382:0608	crt_int10	INT 10h stub (callers set AH, others); used everywhere in the unit	likely	read decompiled/seg_2382_01.c; read code/seg_2382_01.asm
+23E4:0000	sys_init_0000	System start-up: sets stack/heap vars at DS:7B34..7B5C, 18x INT 21h (AH=35 get vector), then assigns+resets Input (1372,13E2) and assigns+rewrites Output (1372,13E7)	likely	read decompiled/seg_23E4_01.c; read code/seg_23E4_01.asm
+23E4:00D8	sys_halt_00D8	Halt: sets ExitCode=AX and ErrorAddr=0, closes Input/Output (143B), restores 18 vectors (INT 21h AH=25), prints 'Runtime error' text if error addr set, ends with INT 21h AH=4Ch	likely	read decompiled/seg_23E4_01.c; read code/seg_23E4_01.asm
+23E4:0194	sys_print_cs_asciiz_0194	Prints a NUL-terminated string at CS:BX one char at a time via 01D6	likely	read decompiled/seg_23E4_01.c; read code/seg_23E4_01.asm
+23E4:01A2	sys_print_dec3_01A2	Prints AL as 3 decimal digits (divides by 100, 10 via 01AE), used for the runtime error number	likely	read decompiled/seg_23E4_01.c; read code/seg_23E4_01.asm
+23E4:01AE	sys_print_dec_digit_01AE	AL/CL as one decimal digit (adds '0') printed via 01D6, remainder left in AL	likely	read decompiled/seg_23E4_01.c; read code/seg_23E4_01.asm
+23E4:01BC	sys_print_hex_word_01BC	Prints AX as 4 hex digits (high byte via 01C3, then low byte)	likely	read decompiled/seg_23E4_01.c; read code/seg_23E4_01.asm
+23E4:01C3	sys_print_hex_byte_01C3	Prints AL as 2 hex digits (high nibble then 01CE)	likely	read decompiled/seg_23E4_01.c; read code/seg_23E4_01.asm
+23E4:01CE	sys_print_hex_nibble_01CE	Converts low nibble in AL to ASCII hex ('0'-'9','A'-'F') and prints via 01D6	likely	read code/seg_23E4_01.asm
+23E4:01D6	sys_put_char_dos_01D6	INT 21h AH=06h: direct console output of the char in AL (DL)	likely	read code/seg_23E4_01.asm
+23E4:0207	sys_ioresult_0207	Returns DS:7B60 and zeroes it (xchg with 0): IOResult	likely	read decompiled/seg_23E4_01.c; read code/seg_23E4_01.asm
+23E4:025D	sys_move_025D	Forward byte copy of count bytes from source to dest pointers: Move	likely	read decompiled/seg_23E4_01.c
+23E4:0279	sys_long_mul_0279	32-bit integer multiply (DX:AX by BX:CX, partial 16-bit mul products added): LongInt multiplication	likely	read decompiled/seg_23E4_01.c; read code/seg_23E4_01.asm
+23E4:0294	sys_long_div_0294	Signed 32-bit shift-subtract division (33 iterations); divisor 0 jumps to runtime error 00D1; quotient in DX:AX, remainder left in registers	likely	read decompiled/seg_23E4_01.c
+23E4:0329	sys_getmem_0329	Calls heap allocate 041D; on carry runtime error AX=00CBh (203 heap overflow); returns pointer in DX:AX/BX:CX: GetMem	likely	read decompiled/seg_23E4_01.c; read code/seg_23E4_01.asm
+23E4:0341	sys_freemem_0341	Calls heap release 04D8 with size and pointer; on carry runtime error 00CCh (204 invalid pointer): FreeMem	likely	read decompiled/seg_23E4_01.c; read code/seg_23E4_01.asm
+23E4:038C	sys_memavail_038C	Walks the heap free list (DS:7B48) accumulating block sizes: total free memory, MemAvail-like	guess	read decompiled/seg_23E4_01.c
+23E4:03D0	sys_maxavail_03D0	Walks the heap free list (DS:7B48) keeping the largest block: MaxAvail-like	guess	read decompiled/seg_23E4_01.c
+23E4:041D	sys_heap_alloc_041D	Heap allocator: searches free list (DS:7B48) for a block big enough, shrinks/removes it, else extends the heap top (DS:7B44/7B46) or calls the HeapError function at DS:7B4E; CF on failure	likely	read decompiled/seg_23E4_01.c
+23E4:04D8	sys_heap_free_04D8	Heap release: validates the block lies in the heap, inserts it into the sorted free list, merging neighbours (calls 058B/05AF), or lowers heap top	likely	read decompiled/seg_23E4_01.c
+23E4:058B	sys_heap_free_list_pop_058B	Moves free list base (DS:7B48) back by 8 bytes when still above heap top: grow free-list table	guess	read decompiled/seg_23E4_01.c
+23E4:05AF	sys_heap_free_list_remove_05AF	Copies a 4-word free-list entry and advances the free list base by 4 words: drop an entry	guess	read decompiled/seg_23E4_01.c
+23E4:05C4	sys_heap_free_list_check_05C4	Tests whether the free list (DS:7B48/7B4C) is empty; no other effect shown	guess	read decompiled/seg_23E4_01.c
+23E4:060D	sys_ptr_to_para_060D	Splits a byte count into paragraphs and remainder (AX>>4, AX&0F) for heap arithmetic	likely	read decompiled/seg_23E4_01.c
+23E4:061B	sys_para_to_bytes_061B	Combines paragraph:offset back into a 32-bit byte count (AX | DX<<4, DX>>12)	likely	read decompiled/seg_23E4_01.c
+23E4:062A	sys_str_store_062A	Copies a Pascal string (length byte + chars), no length limit: string assignment	likely	read decompiled/seg_23E4_01.c
+23E4:0644	sys_str_store_max_0644	Copies a Pascal string truncating to a maximum length given in param 1: string assignment to a shorter string var	likely	read decompiled/seg_23E4_01.c
+23E4:0676	sys_str_copy_0676	Copy(s, index, count): index clamped to >=1, count limited to remaining chars, result length byte then chars	likely	read decompiled/seg_23E4_01.c
+23E4:06B7	sys_str_concat_06B7	Appends one Pascal string to another, length saturating at 255: string concatenation	likely	read decompiled/seg_23E4_01.c
+23E4:06E3	sys_str_pos_06E3	Searches for a substring in a Pascal string (repe cmpsb scan), returns 1-based index or 0: Pos	likely	read decompiled/seg_23E4_01.c
+23E4:072F	sys_str_compare_072F	Compares two Pascal strings over the shorter length (repe cmpsb, result in flags): string comparison	likely	read decompiled/seg_23E4_01.c
+23E4:075A	sys_char_to_str_075A	Builds a 1-char Pascal string (length 1, char in byte 2)	likely	read decompiled/seg_23E4_01.c
+23E4:0787	sys_str_insert_0787	Insert(src, s, index): Copy(s,1,idx-1)+src+Copy(s,idx,255) built in two 256-byte temporaries then stored with max length	likely	read decompiled/seg_23E4_01.c
+23E4:07DB	sys_str_delete_07DB	Delete(s, index, count): Copy(s,1,idx-1)+Copy(s,idx+count,255) in temporaries, stored back; no-op if count<=0	likely	read decompiled/seg_23E4_01.c
+23E4:0831	sys_set_expand_0831	Builds a 32-byte set: zero-fills a leading offset, copies a small set's bytes, zero-fills the rest	likely	read decompiled/seg_23E4_01.c
+23E4:08BF	sys_set_compact_08BF	Copies a byte range (offset, count) out of a 32-byte set into a smaller set	guess	read decompiled/seg_23E4_01.c
+23E4:08DF	sys_set_bit_mask_08DF	Returns 1 << (n & 7): bit mask of a set element within its byte	guess	read decompiled/seg_23E4_01.c
+23E4:0900	sys_set_union_0900	ORs 16 words (32 bytes) of one set into another: set union	likely	read decompiled/seg_23E4_01.c
+23E4:098B	sys_real_sub_098B	6-byte Real subtraction: flips sign bit of second operand (xor DI,8000h) then falls into the addition 098F	likely	read decompiled/seg_23E4_01.c
+23E4:098F	sys_real_add_098F	6-byte Real addition: exponent in AL/CL, align mantissas by shifting, add or subtract by sign, normalize and round	likely	read decompiled/seg_23E4_01.c
+23E4:0A52	sys_real_mul_0A52	6-byte Real multiplication: adds exponents (bias 7F7Fh), multiplies mantissas, normalizes, underflow gives 0	likely	read decompiled/seg_23E4_01.c
+23E4:0B57	sys_real_div_0B57	6-byte Real division: bitwise shift-subtract mantissa division, exponent subtract; zero numerator gives 0	likely	read decompiled/seg_23E4_02.c
+23E4:0BCE	sys_real_compare_0BCE	6-byte Real compare helper: tests sign difference then calls magnitude compare 0BE5	likely	read decompiled/seg_23E4_02.c; read code/seg_23E4_02.asm
+23E4:0BE5	sys_real_compare_mag_0BE5	6-byte Real magnitude compare (cmp AL,CL exponents then mantissa words DX/DI, BX/SI)	likely	read code/seg_23E4_02.asm
+23E4:0BF8	sys_long_to_real_0BF8	Converts a signed 32-bit integer (DX:AX) to 6-byte Real: abs, left-shift until top bit set to normalize	likely	read decompiled/seg_23E4_02.c
+23E4:0C37	sys_real_to_long_0C37	Converts a 6-byte Real to a 32-bit integer by shifting mantissa by exponent; CH nonzero selects rounding, else truncation; out of range gives carry	likely	read decompiled/seg_23E4_02.c
+23E4:0C93	sys_real_add_chk_0C93	Far entry: calls real add 098F, on carry (overflow) runtime error 00D1	likely	read decompiled/seg_23E4_02.c
+23E4:0CA5	sys_real_mul_chk_0CA5	Far entry: calls real multiply 0A52, on carry runtime error 00D1	likely	read decompiled/seg_23E4_02.c
+23E4:0CAB	sys_real_div_chk_0CAB	Far entry: divisor exponent CL=0 gives runtime error 00D1, else calls real divide 0B57, carry gives error	likely	read decompiled/seg_23E4_02.c
+23E4:0CB9	sys_long_to_real_far_0CB9	Far entry: calls long-to-real conversion 0BF8	likely	read decompiled/seg_23E4_02.c
+23E4:0CC5	sys_real_to_long_chk_0CC5	Far entry: calls real-to-long 0C37, on carry runtime error 00D1	likely	read decompiled/seg_23E4_02.c
+23E4:0CDF	sys_real_add_near_0CDF	Near wrapper that calls real add 098F	likely	read decompiled/seg_23E4_02.c
+23E4:0CE9	sys_real_sub_near_0CE9	Near wrapper that calls real subtract 098B	likely	read decompiled/seg_23E4_02.c
+23E4:0CFD	sys_real_div_near_0CFD	Near wrapper that calls real divide 0B57	likely	read decompiled/seg_23E4_02.c
+23E4:0D6C	sys_real_sqrt_0D6C	Real function: negative argument gives runtime error 00D1, else Newton loop (divide, add, halve exponent) until converged: square root	guess	read decompiled/seg_23E4_02.c; read code/seg_23E4_02.asm
+23E4:0E67	sys_real_ln_0E67	Real function: argument <=0 gives runtime error 00D1, else splits exponent, polynomial via 10E8, multiplies by constants: natural logarithm	guess	read decompiled/seg_23E4_02.c
+23E4:0F10	sys_real_exp_0F10	Real function: rejects exponent >=0x88 with runtime error 00D1, splits into integer (0C37) and fraction, polynomial 1101, rescales exponent: exponential	guess	read decompiled/seg_23E4_02.c
+23E4:0FB3	sys_real_arctan_0FB3	Real function: sign handling, compares against constant table at 1094h, polynomial via 10E2 with real add/mul; no error exit: probably arctangent (could be another trig function)	guess	read decompiled/seg_23E4_02.c
+23E4:10E2	sys_real_poly_helper_10E2	Real helper: multiplies by constant at 10C4h, evaluates polynomial of 5 terms (1101), multiplies again	guess	read decompiled/seg_23E4_02.c
+23E4:10E8	sys_real_poly_helper_10E8	Real helper: multiply, polynomial evaluation 1101, multiply	guess	read decompiled/seg_23E4_02.c
+23E4:1101	sys_real_horner_1101	Horner polynomial evaluation: loops CX times multiply (0A52) then add next 6-byte coefficient (098F)	likely	read decompiled/seg_23E4_02.c
+23E4:11D7	sys_get_time	INT 21h AH=2Ch, DOS get time: stores CX (hour, minute) and DX at DS:7B62/7B64, the main random seed	established	F004; read decompiled/seg_23E4_02.c
+23E4:11E4	sys_long_to_digits_11E4	Writes a signed 32-bit integer as decimal ASCII at ES:DI ('-' if negative) using table of powers of ten at 1236h	likely	read decompiled/seg_23E4_02.c
+23E4:125E	sys_val_long_125E	Parses a string at ES:DI (CX chars) into a 32-bit integer: optional +/-, '$' hex or decimal digits, overflow check; returns value in DX:AX	likely	read decompiled/seg_23E4_02.c
+23E4:12F6	sys_str_of_long_12F6	Str(value:width, s): converts via 11E4 into a 32-byte buffer, pads with leading spaces to width, stores as Pascal string	likely	read decompiled/seg_23E4_02.c
+23E4:1341	sys_val_1341	Val(s, code): skips leading spaces, parses with 125E, stores error position (0 if all consumed) in the code variable	likely	read decompiled/seg_23E4_02.c
+23E4:1372	sys_assign_text_1372	Assign(text file, name): clears Handle, sets Mode=D7B0 (closed), BufSize=0x80, BufPtr to internal buffer, InOutFunc=1487h, copies name up to 79 chars NUL-terminated	likely	read decompiled/seg_23E4_02.c
+23E4:13E2	sys_reset_text_13E2	Reset of a text file (called for Input at start-up): calls open routine 13EF	guess	read decompiled/seg_23E4_02.c
+23E4:13E7	sys_rewrite_text_13E7	Rewrite of a text file (called for Output at start-up): calls open routine 13EF	guess	read decompiled/seg_23E4_02.c
+23E4:143B	sys_close_text_143B	Close(text file): needs mode D7B1/D7B2 else InOutRes 0x67; calls FlushFunc/CloseFunc via 1476, sets mode D7B0	likely	read decompiled/seg_23E4_02.c
+23E4:1476	sys_call_file_func_1476	Calls a function pointer in the file record (BX+DI), nonzero result stored in InOutRes DS:7B60	likely	read decompiled/seg_23E4_02.c
+23E4:15F1	sys_check_text_input_15F1	If InOutRes is 0 and mode is not D7B1 (input) sets InOutRes 0x68 (file not open for input)	likely	read decompiled/seg_23E4_02.c
+23E4:1615	sys_text_get_char_1615	Returns next char from text buffer; at buffer end calls refill 1664, returns 1Ah (Ctrl-Z) when at EOF	likely	read decompiled/seg_23E4_02.c
+23E4:1631	sys_check_text_output_1631	If InOutRes is 0 and mode is not D7B2 (output) sets InOutRes 0x69 (file not open for output)	likely	read decompiled/seg_23E4_02.c
+23E4:1655	sys_text_put_char_1655	Stores a char in the text buffer; when buffer position hits end calls the InOutFunc (offset 0x14) to flush	likely	read decompiled/seg_23E4_02.c
+23E4:1664	sys_text_call_inout_1664	Stores buffer pos and calls the text file InOutFunc at offset 0x14 (refill/flush), errors to InOutRes, returns buffer end and pointer	likely	read decompiled/seg_23E4_02.c
+23E4:16BE	sys_writeln_end_16BE	End of WriteLn: checks output mode, appends CR and LF (1655 twice), then calls FlushFunc (offset 0x18) if present	likely	read decompiled/seg_23E4_02.c
+23E4:1703	sys_read_string_1703	Read(string) from a text file: checks input mode, copies chars until CR, Ctrl-Z or max length, stores length byte	likely	read decompiled/seg_23E4_02.c
+23E4:173B	sys_write_string_173B	Write(string:width) to a text file: checks output mode, pads with spaces to width (1655), writes the chars	likely	read decompiled/seg_23E4_02.c
+23E4:1779	sys_assign_file_1779	Assign(untyped/typed file, name): clears record, sets Mode=D7B0 (closed), copies name up to 79 chars at offset 0x30	likely	read decompiled/seg_23E4_02.c; read code/seg_23E4_03.asm
+23E4:17B0	sys_rewrite_file_17B0	Rewrite of a binary file: INT 21h AH=3Ch create at name +0x30 (a data-byte entry at 17A7 does AH=3Dh open), sets Mode=D7B3 and record size; empty name uses handle 1; closes first if already open	likely	read code/seg_23E4_03.asm; read decompiled/seg_23E4_02.c
+23E4:1828	sys_close_file_1828	Close(binary file): INT 21h AH=3Eh when handle>4, sets mode D7B0, error to InOutRes	likely	read code/seg_23E4_03.asm
+23E4:184D	sys_check_file_open_184D	If file Mode is not D7B3 (open) sets InOutRes 0x67 (file not open)	likely	read code/seg_23E4_03.asm
+23E4:1868	sys_file_rec_io_1868	Binary file one-record transfer: INT 21h read/write (AH 3Fh/40h set by data-byte entries) of RecSize bytes, short count gives error in InOutRes	likely	read code/seg_23E4_03.asm
+23E4:1899	sys_blockrw_1899	BlockRead/BlockWrite: count*RecSize bytes via INT 21h AH=3Fh/40h (BL set by entry), records transferred stored via result var or compared with count (error 100/101)	likely	read code/seg_23E4_03.asm
+23E4:18FA	sys_seek_18FA	Seek(file, n): offset = n*RecSize, INT 21h AX=4200h (move file pointer from start)	likely	read code/seg_23E4_03.asm
+23E4:192A	sys_paramstr_192A	ParamStr(n): n=0 gets program path from environment block (after DOS version >=3 check, INT 21h AH=30h), n>0 uses 1980 on the command tail; result as Pascal string	likely	read decompiled/seg_23E4_02.c; read code/seg_23E4_03.asm
+23E4:1980	sys_param_locate_1980	Scans the command tail (PSP) skipping blanks/tokens to find the n-th parameter	likely	read decompiled/seg_23E4_02.c
+23E4:19B2	sys_upcase_19B2	UpCase: subtracts 0x20 from chars 'a'..'z'	likely	read decompiled/seg_23E4_02.c

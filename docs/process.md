@@ -71,7 +71,9 @@ You implement <T<nn>>. The task file above is the contract.
 - If you measure: every output a finding or the PR may cite goes under a tracked path the task owns,
   pushed per batch and every 30 min, never deleted or overwritten; originals out, hashes recorded. (L40)
 - A comment that asserts behaviour at an edge comes with the test that visits that edge.
-- [research] Static first (U32, CLAUDE.md rule 22): read the decompiled and disassembled code first;
+- [research] Static first (U32, CLAUDE.md rule 22): read the decompiled and disassembled code first,
+  the named view `static/goal-exe/named/` before the raw `decompiled/` and `code/`; add or correct the
+  annotation rows for what the task establishes and regenerate `named/` in the PR (§13);
   run the game only where static analysis cannot answer, or to corroborate. The finding's Method says
   what static analysis was tried and why it was or was not enough. A missing tool: install it, or stop.
 - A defect you find outside the task: report it. A one-file mechanical fix that blocks you may
@@ -168,3 +170,17 @@ Jev takes a decision only when it recurs over many items, its answers are known 
 trial against labels has set its cutoffs, recorded in `harness.json` with the numbers. It answers
 the confident ends and the main session the middle; a person's decision outranks both. Without its
 key it is off. `/jev` has the procedure. (L24)
+
+## 13. The named view
+
+`static/goal-exe/named/` is `decompiled/` with names: routines, the `player` and `country` records
+typed on their array pointers, globals. The names live as tracked rows in `static/goal-exe/annotations/`
+(`routines.tsv`, `records.tsv`, `fields.tsv`, `globals.tsv`), each with its purpose, confidence
+(`established` for a finding's claim, `likely`, `guess`) and basis (a finding id, or `read <file>`
+for the lines read). Names are claims: no name without reading the routine; a name read from one
+routine without its callers is at most `likely`; no row beats a wrong one. `decompiled/` stays the
+raw baseline; where the two views disagree, the listing decides.
+
+Each research task adds or corrects the rows for what it establishes, with its finding as basis,
+runs `python3 tools/static/check_annotations.py`, and regenerates `named/` in its PR with the command
+in `static/goal-exe/named/README.md`. Only rows change by hand; `named/` never does.

@@ -60,8 +60,8 @@ indexed in `docs/tasks/README.md`.
     rule 1 (L50). Game rules, formulas or
     constants from evidence are hard. Rule 11 has no effect: this repository builds no playable game.
 22. **Static first** (game-archaeologist U32, the owner, 2026-10-05). A research question is answered
-    by reading the decompiled and disassembled `GOAL.EXE` first (`static/goal-exe/decompiled/`,
-    `static/goal-exe/code/`; Ghidra as `docs/environment.md` says). Runs of the game are made only
+    by reading the decompiled and disassembled `GOAL.EXE` first (the named view
+    `static/goal-exe/named/`, then the raw `static/goal-exe/decompiled/` and `static/goal-exe/code/`; Ghidra as `docs/environment.md` says). Runs of the game are made only
     when static analysis cannot answer, or to corroborate a static answer (rule 19). A finding that
     rests on runs says in its Method what static analysis was tried and why it was not enough. A
     missing tool is never the reason: install it, or stop and report. A review treats runs made

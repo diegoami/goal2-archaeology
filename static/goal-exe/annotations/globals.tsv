@@ -1,0 +1,3 @@
+address	name	type	purpose	confidence	basis
+DS:A917	countries	country far*	far pointer to the country array (0xBF-byte records, 0x603F bytes allocated)	established	F007
+DS:A91B	players	player far*	far pointer to the player array (20-byte records, 0xEF24 bytes allocated)	established	F007
