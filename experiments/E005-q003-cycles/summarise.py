@@ -188,22 +188,26 @@ def load(path):
     return r
 
 
-def same(a, b):
-    return all(a[k] == b[k] for k in ("score", "events", "seed", "lines"))
-
-
 RING = 200   # commentary records in the ring DS:7C38 (runtime/driver/commentary.py SIZE)
 UNREAD = re.compile(r"^match read (\d+): record (\d+) is the end marker 0xFF$")
+# Tracker.add's other flag: a read whose counter advanced GAP_LIMIT (100) or more records. It reads every one
+# of them (fewer than RING), so no line of that read is unread; the flag warns that 200 or more lines may
+# have passed, which the counter, modulo 200, would hide (E004 README amendment 2).
+STRIDE = re.compile(r"^match read (\d+): counter \d+ -> \d+ \(\d+ lines\)$")
+MEMORY = ("score", "seed", "counter")   # read whole from memory at full time: never incomplete
 
 
 def unread_occurrences(r):
     """The commentary lines a run's reader never read, as absolute occurrences in the match (1-based):
     for each flag `match read k: record n is the end marker 0xFF` (runtime/driver/commentary.py
     Tracker.add), the lines before read k (the sum of the deltas of reads 1 .. k-1, DS:80EE starting at 0,
-    0791:A4A1) plus n's place in read k's range. One occurrence per flag. None when a gap flag of another
-    kind (lines possibly lost between reads) is present, or a flag does not fall inside its read's range."""
+    0791:A4A1) plus n's place in read k's range. One occurrence per flag. Stride flags (STRIDE) name no
+    unread line and are skipped here. None when the losses cannot be located: a flag of an unknown kind, an
+    end-marker flag outside its read's range, or two flags for one occurrence."""
     out = []
     for g in r["gaps"]:
+        if STRIDE.match(g):
+            continue
         m = UNREAD.match(g)
         if not m:
             return None
@@ -215,26 +219,76 @@ def unread_occurrences(r):
         if j > r["deltas"][k - 1]:
             return None
         out.append(before + j)
+    if len(set(out)) != len(out):
+        return None
     return sorted(out)
 
 
-def unread_only(r, ref):
-    """The occurrences of `ref`'s lines that `r` does not have because its reader never read them, when that
-    is the whole difference; else None. The content of an unread line is unknown: a flag shows that the
-    reader did not see the record, not what it held (review R1). So a run whose only difference is unread
-    lines is reported as identity undetermined, never as identical. Each unread occurrence is the one its
-    flag names, counted (review R2): `r`'s lines must be `ref`'s with exactly those occurrences removed."""
-    if ref["gaps"] or not all(r[k] == ref[k] for k in ("score", "events", "seed", "counter")) or r["counter"] is None:
-        return None
+def strides(r):
+    return [g for g in r["gaps"] if STRIDE.match(g)]
+
+
+def complete(r):
+    """True when the run carries no flag of any kind and read as many lines as the counter advanced over its
+    reads (the sum of the deltas). That a flag-free run missed no 200-line stride is the Tracker's own
+    assumption (GAP_LIMIT; E004 README amendment 2): the 30000 references read at most 79 lines between reads."""
+    return not r["gaps"] and len(r["lines"]) == sum(r["deltas"])
+
+
+def complete_against(r, other):
+    """True when `r` is complete, or its only flags are stride flags, it read every line of every read's range,
+    and its total equals that of `other`, a complete run (`complete`) of the same match: a hidden stride
+    of 200 or more lines would leave `r` 200 lines short of it."""
+    if complete(r):
+        return True
+    return (len(strides(r)) == len(r["gaps"]) and len(r["lines"]) == sum(r["deltas"])
+            and complete(other) and sum(r["deltas"]) == sum(other["deltas"]))
+
+
+def located(r):
+    """{absolute occurrence: line} for every line the run read, and the number of lines it counted; None when
+    the losses cannot be located or the lines read do not fit the occurrences left."""
     occ = unread_occurrences(r)
-    if not occ:
+    if occ is None:
         return None
-    if len(set(occ)) != len(occ) or occ[-1] > len(ref["lines"]):
+    total = sum(r["deltas"])
+    places = [i for i in range(1, total + 1) if i not in set(occ)]
+    if len(places) != len(r["lines"]):
         return None
-    keep = [x for i, x in enumerate(ref["lines"], 1) if i not in set(occ)]
-    if [tuple(x) for x in keep] != [tuple(x) for x in r["lines"]]:
-        return None
-    return occ
+    return {i: tuple(x) for i, x in zip(places, r["lines"])}, total
+
+
+def compare(r, ref):
+    """The verdict on a run against its reference, and why. The only path that can say `identical`
+    (review round 3: equality of what was read proves nothing about what was not):
+    - DIFFERS when what both read already differs: the score, DS:7B62 or DS:80EE at full time (memory, read
+      whole), the number of lines counted (unless a side has a stride flag, which may hide 200), or any
+      occurrence both readers read;
+    - identical only when each side is complete (`complete_against` the other), which with the checks above
+      means every line, the score, DS:7B62 and DS:80EE are equal;
+    - IDENTITY UNDETERMINED otherwise: a side has lines its reader never read, losses that cannot be located,
+      or a stride flag not settled by a complete other side, and nothing read differs."""
+    if any(r[k] != ref[k] for k in MEMORY) or r["counter"] is None:
+        return "DIFFERS", "score, DS:7B62 or DS:80EE at full time"
+    a, b = located(r), located(ref)
+    if a is not None and b is not None:
+        if a[1] != b[1] and not (strides(r) or strides(ref)):
+            return "DIFFERS", f"lines written {a[1]} against {b[1]}"
+        if a[1] == b[1]:
+            both = sorted(set(a[0]) & set(b[0]))
+            diff = [i for i in both if a[0][i] != b[0][i]]
+            if diff:
+                return "DIFFERS", f"occurrence {diff[0]} of the match ({len(diff)} occurrence(s) read by both differ)"
+    if complete_against(r, ref) and complete_against(ref, r):
+        # Both sides read every line: `located` placed all of them, the totals are equal, and every occurrence
+        # was compared just above (the events are lines of certain templates, so they were compared too).
+        return "identical", ""
+    sides = [(name, x, y) for name, x, y in (("run", r, ref), ("reference", ref, r)) if not complete_against(x, y)]
+    why = "; ".join(f"the {name}'s reader "
+                    + (f"never read occurrence(s) {', '.join(map(str, unread_occurrences(x)))}" if unread_occurrences(x)
+                       else "may have missed lines it cannot locate")
+                    + f" (gap flags: {'; '.join(x['gaps']) or 'none, but fewer lines than counted'})" for name, x, y in sides)
+    return "IDENTITY UNDETERMINED", why
 
 
 def short(events):
@@ -242,18 +296,36 @@ def short(events):
 
 
 def identity(r, ref):
-    if ref is r:
-        return "reference"
     if ref is None:
         return "no reference"
-    if same(r, ref):
+    if ref is r:
+        return "reference" if complete(r) else "reference, INCOMPLETE: " + "; ".join(r["gaps"] or ["fewer lines than written"])
+    verdict, why = compare(r, ref)
+    if verdict == "identical":
+        if strides(r) or strides(ref):
+            n = len(strides(r)) + len(strides(ref))
+            return (f"identical to {ref['id']} ({n} stride flag(s) settled: {sum(r['deltas'])} lines counted on both sides, "
+                    f"the other side complete)")
         return "identical to " + ref["id"]
-    occ = unread_only(r, ref)
-    if occ:
-        return (f"IDENTITY UNDETERMINED against {ref['id']}: its reader never read {len(occ)} commentary line(s) "
-                f"(occurrence {', '.join(map(str, occ))} of the match; gap flags: {'; '.join(r['gaps'])}); every line it read, "
-                f"the score, the events, DS:7B62 and DS:80EE at full time ({r['counter']}) equal the reference's")
-    return "DIFFERS from " + ref["id"]
+    if verdict == "IDENTITY UNDETERMINED":
+        return (f"IDENTITY UNDETERMINED against {ref['id']}: {why}; every occurrence both read, the score, DS:7B62 and "
+                f"DS:80EE at full time ({r['counter']}) are equal")
+    return f"DIFFERS from {ref['id']}: {why}"
+
+
+def verdict_counts(verdicts):
+    """How many of each verdict `identity` gave, by the start each verdict string has."""
+    starts = {"identical": "identical to ", "identity undetermined": "IDENTITY UNDETERMINED", "differ": "DIFFERS",
+              "references": None, "incomplete references": "reference, INCOMPLETE", "no reference": None}
+    out = {}
+    for name, start in starts.items():
+        if name == "references":
+            out[name] = sum(v == "reference" for v in verdicts)
+        elif name == "no reference":
+            out[name] = sum(v == "no reference" for v in verdicts)
+        else:
+            out[name] = sum(v.startswith(start) for v in verdicts)
+    return out
 
 
 def reference(runs, r):
@@ -307,9 +379,7 @@ def main(argv=None):
               f"{a} {ga} {b} {gb}; DS:7B62 {r['seed']}; DS:A9FF 0x{r['a9ff']:x}; {ident}; events: {short(r['events'])}")
 
     verdicts = [identity(r, reference(runs, r)) for r in runs if r["status"] == "completed"]
-    print(f"identical: {sum(v.startswith('identical') for v in verdicts)}; identity undetermined: "
-          f"{sum(v.startswith('IDENTITY UNDETERMINED') for v in verdicts)}; differ: {sum(v.startswith('DIFFERS') for v in verdicts)}; "
-          f"references: {sum(v == 'reference' for v in verdicts)}; no reference: {sum(v == 'no reference' for v in verdicts)}")
+    print("; ".join(f"{k}: {v}" for k, v in verdict_counts(verdicts).items()))
 
     print("\n## Halves of the watched runs (host s from the starting burst; guest s from the BIOS ticks)")
     print("run | route | state | cycles | DS:A9FF | host: burst→HALF TIME, HALF TIME→FULL TIME, team-screen Enter→FULL TIME | guest: 1st, 2nd | ratio 1st/2nd (host) | match s")

@@ -46,6 +46,11 @@ Under other conditions the host's speed does matter. F004 showed that the moment
 - **Reads**: every read during a match keeps the host UTC time and the host seconds since the starting burst, on the same monotonic clock `match.play` uses. It also keeps the BIOS ticks, `DS:A9FF`, the screen digest, `DS:80EE`, `DS:7B62`, the score bytes and the commentary rows. From E005-r0034 on, all reads are one observation (README amendments 1, 2).
 - **Order**: the 5000 and 30000 runs came first; fresh launches in a second game folder sometimes ran alongside restores. The `max` runs (E005-r0040 … r0055) ran with no other run of E005, then F001's probe.
 - **Host conditions**: each record lists the other DOSBox-X and Xvfb processes and `/proc/loadavg`, at launch and at the end.
+- **Identity** (`summarise.py` `compare`, review rounds 1–3). A run is called identical to its reference only when both are complete and every line, the score, `DS:7B62` and `DS:80EE` are equal.
+  - A run is complete when it carries no reader flag and read as many lines as its counter advanced over its reads.
+  - What both sides read and differs makes `DIFFERS`. Anything else is `IDENTITY UNDETERMINED`.
+  - The reader's stride flag (`counter a -> b (n lines)`, a read that took 100 to 199 lines) names no unread line, since every record of that read is read. It warns that 200 or more lines may have passed unseen. It is settled when the flagged run counted as many lines as its complete reference, because a hidden stride would leave it 200 short. The 8 watched runs at `max` carry such flags (1 to 6 each) and are identical on that ground: 1307 lines counted on both sides for e004-1001, 1094 for e004-1337 (E005-r0041 … r0055).
+  - A flag-free run is taken as complete on the reader's own assumption that no 200-line stride passes between two reads without a flag. The 30000 references read at most 79 lines between reads.
 - **Halves** (`summarise.py` "Halves"):
   - host: from the starting burst to the first read holding HALF TIME, and from the team-screen Enter to the first read holding FULL TIME;
   - guest: from the BIOS ticks (18.2065 per s), the first half from the read before the burst, the second from the first read after the team-screen Enter.
@@ -65,7 +70,10 @@ Under other conditions the host's speed does matter. F004 showed that the moment
   - e004-1337's first half is longer than its second at every setting and on both routes, but not by a fixed ratio: host 1.39 … 1.69, guest 1.37 … 1.71 (the fresh launch at 5000, E005-r0025, lowest in both).
   - So a match's halves can differ by its content, in the same direction at every setting, with a ratio that varies with the setting and the route. Which part of the content does this is not settled. The listing's candidates are the event-driven waits: the substitution notice `7FCF` (`CC2E` of 400 or 1000 calibrated × 10 ms, `seg_0791_13.asm:890`–`898`), the action-replay prompt `0B7C` (`CC2E(600)`, `seg_0791_02.asm:284`–`286`) and the ball-flight loop `7881` (`seg_0791_13.asm:55`–`68`).
 - At `max`, guest seconds vary by run (e004-1001 first half 28.5 … 35.5), as `max` runs at another speed each time. The matches do not vary.
-- Host time per match: 77 … 128 s at `max`, 201 … 211 s at 30000, 1254.9 s for a watched restore at 5000 (E005-r0031). The reads add host time; the guest seconds exclude it.
+- Host time per watched match, from the starting burst to full time (`summarise.py`, "match s"):
+  - e004-1001: 77.2 … 128.1 s at `max`, 201.6 … 210.6 s at 30000, 265.5 s for the fresh launch at 5000 and 1254.9 s for the restore at 5000 (E005-r0031);
+  - e004-1337: 35.3 … 40.1 s at `max`, 108.7 … 112.4 s at 30000, 180.2 s for the fresh launch at 5000 and 619.3 … 631.5 s for the restores at 5000.
+  - The reads add host time; the guest seconds exclude it.
 
 ### F001's probe re-run (`measurements/`)
 
