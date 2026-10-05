@@ -406,7 +406,7 @@ void __cdecl16near f_0791_230C(void)
     if (local_3 == '\x01') break;
     local_3 = local_3 + '\x01';
   }
-  f_1771_3EF8();
+  set_marking_words();
   f_0791_0691();
   f_0791_20E3();
   f_0791_419C();
@@ -484,9 +484,10 @@ void __cdecl16near f_0791_26C2(void)
 }
 
 
-// ---- 0791:26D7  f_0791_26D7  (f_0791_26D7; Ghidra 2000:26D7, __stdcall16far; found by routines.tsv)
+// ---- 0791:26D7  player_effective_tactic  (f_0791_26D7; Ghidra 2000:26D7, __stdcall16far; found by routines.tsv)
+// returns the player's effective tactic element k: element k of the player's +0xF (own_tactic_set) when k < 5 and +0xF element k + 4 is set (the player's own setting), else element k of +0x2D (default_team_tactic_set) of the country in the player's byte 0; the watched engine reaches it through its event routines (3111 asks k 3, 42CB k 1, 4532 k 7 and 1, 4649 k 6 and 5, 4A28 k 5 and 1, 4B64 k 6, 5 and 7, 4DA9 k 4, 4E28 k 1, 5049 k 2, 5729 k 6), the quick result through 0791:D5C1  [established; F010]
 
-undefined1 __stdcall16far f_0791_26D7(undefined4 param_1,uint param_2)
+undefined1 __stdcall16far player_effective_tactic(undefined4 param_1,uint param_2)
 
 {
   char cVar1;
@@ -497,14 +498,14 @@ undefined1 __stdcall16far f_0791_26D7(undefined4 param_1,uint param_2)
   iVar3 = (int)param_1;
   uVar4 = (undefined2)((ulong)param_1 >> 0x10);
   if ((param_2 < 5) &&
-     (cVar1 = u214b_set_test_bit(((player *)players)[*(int *)(iVar3 + 0xd)].tactics,param_2 + 4),
-     cVar1 != '\0')) {
-    uVar2 = u214b_set_test_bit(((player *)players)[*(int *)(iVar3 + 0xd)].tactics,param_2);
+     (cVar1 = u214b_set_test_bit(((player *)players)[*(int *)(iVar3 + 0xd)].own_tactic_set,
+                                 param_2 + 4), cVar1 != '\0')) {
+    uVar2 = u214b_set_test_bit(((player *)players)[*(int *)(iVar3 + 0xd)].own_tactic_set,param_2);
     return uVar2;
   }
   cVar1 = f_0791_2974(iVar3,uVar4);
   uVar2 = u214b_set_test_bit(((country *)countries)[((undefined2 *)&DS:9B34)[cVar1]].
-                             team_tactics,param_2);
+                             default_team_tactic_set,param_2);
   return uVar2;
 }
 
@@ -1255,7 +1256,7 @@ char __stdcall16far f_0791_3111(char *param_1)
   
   uVar8 = (undefined2)((ulong)param_1 >> 0x10);
   pcVar7 = (char *)param_1;
-  cVar1 = f_0791_26D7(pcVar7,uVar8,3);
+  cVar1 = player_effective_tactic(pcVar7,uVar8,3);
   if ((cVar1 == '\0') &&
      ((cVar1 = f_0791_2C54(pcVar7,uVar8), cVar1 == '\0' ||
       (cVar1 = f_0791_045D(pcVar7[6]), cVar1 != '\0')))) {

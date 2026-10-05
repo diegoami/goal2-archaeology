@@ -79,9 +79,10 @@ void __cdecl16near f_000E_0000(void)
 }
 
 
-// ---- 000E:01FA  f_000E_01FA  (f_000E_01FA; Ghidra 1000:01FA, __stdcall16near; found by routines.tsv)
+// ---- 000E:01FA  unmanage_country  (f_000E_01FA; Ghidra 1000:01FA, __stdcall16near; found by routines.tsv)
+// the reset when a manager's country is released (a manager's leaving, inferred): before any test it writes 1 to two bytes of manager m's records, then calls reset_team_tactics (0791:BC5D) for m's country while it is still managed (so 52CC sorts with the managed rule); then it copies +7 to +6 for slots 12..20, clears byte 0 of the manager's 80 extra players, writes the country's own number to +0x2E, after which 0B77 no longer reports it managed, and turns the country's fixtures with first byte 0xFE into 0xFF  [established; F010]
 
-void f_000E_01FA(int param_1)
+void unmanage_country(int param_1)
 
 {
   word wVar1;

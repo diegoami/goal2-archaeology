@@ -105,7 +105,7 @@ void __stdcall16far u214b_move_bytes(uint param_1,undefined2 *param_2,undefined2
 
 
 // ---- 214B:007B  u214b_swap_bytes  (f_214B_007B; Ghidra 7000:007B, __stdcall16far; found by routines.tsv)
-// Swaps N bytes between two far buffers (xchg loop)  [likely; read decompiled/seg_214B_01.c]
+// Swaps N bytes between two far buffers (xchg loop); 1771:517A swaps the squad words' saved position bytes with them in the squad sort (F010)  [likely; F010; read decompiled/seg_214B_01.c]
 
 void __stdcall16far u214b_swap_bytes(int param_1,undefined1 *param_2,undefined1 *param_3)
 
@@ -963,7 +963,7 @@ void __cdecl16far u214b_print_screen(void)
 
 
 // ---- 214B:0C57  u214b_set_test_bit  (f_214B_0C57; Ghidra 7000:0C57, __stdcall16far; found by routines.tsv)
-// Returns bit (k-1) of a byte/word for element k (Pascal set membership test, shift right and mask)  [likely; read decompiled/seg_214B_01.c]
+// Returns bit (k-1) of a byte/word for element k (Pascal set membership test, shift right and mask); F010's tactic sets (country +0x2D, player +0xF) are read with it  [likely; F010; read decompiled/seg_214B_01.c]
 
 byte __stdcall16far u214b_set_test_bit(uint param_1,char param_2)
 
@@ -973,7 +973,7 @@ byte __stdcall16far u214b_set_test_bit(uint param_1,char param_2)
 
 
 // ---- 214B:0C79  u214b_set_include_bit  (f_214B_0C79; Ghidra 7000:0C79, __stdcall16far; found by routines.tsv)
-// Sets bit k-1 of a byte for Pascal set element k (Include)  [established; F007]
+// Sets bit k-1 of a byte for Pascal set element k (Include)  [established; F007; F010]
 
 void __stdcall16far u214b_set_include_bit(byte *param_1,char param_2)
 
@@ -984,7 +984,7 @@ void __stdcall16far u214b_set_include_bit(byte *param_1,char param_2)
 
 
 // ---- 214B:0CA1  u214b_set_exclude_bit  (f_214B_0CA1; Ghidra 7000:0CA1, __stdcall16far; found by routines.tsv)
-// Clears bit k-1 of a byte for Pascal set element k (Exclude)  [established; F007]
+// Clears bit k-1 of a byte for Pascal set element k (Exclude)  [established; F007; F010]
 
 void __stdcall16far u214b_set_exclude_bit(byte *param_1,char param_2)
 
@@ -995,7 +995,7 @@ void __stdcall16far u214b_set_exclude_bit(byte *param_1,char param_2)
 
 
 // ---- 214B:0CCB  u214b_set_assign_bit  (f_214B_0CCB; Ghidra 7000:0CCB, __stdcall16far; found by routines.tsv)
-// Sets or clears bit k-1 depending on a boolean argument (calls 0C79 or 0CA1)  [likely; read decompiled/seg_214B_01.c]
+// Sets or clears bit k-1 depending on a boolean argument (calls 0C79 or 0CA1); includes or excludes by value, as 1771:4B61's third state uses it (F010)  [likely; F010; read decompiled/seg_214B_01.c]
 
 void __stdcall16far u214b_set_assign_bit(char param_1,undefined4 param_2,undefined2 param_3)
 
@@ -1014,7 +1014,7 @@ void __stdcall16far u214b_set_assign_bit(char param_1,undefined4 param_2,undefin
 
 
 // ---- 214B:0CF4  u214b_set_toggle_bit  (f_214B_0CF4; Ghidra 7000:0CF4, __stdcall16far; found by routines.tsv)
-// Toggles bit k-1 of a byte (xor), set element toggle  [likely; read decompiled/seg_214B_01.c]
+// Toggles bit k-1 of a byte (xor), set element toggle; the team-tactics screen 1771:1981 toggles an element of +0x2D with it (F010)  [likely; F010; read decompiled/seg_214B_01.c]
 
 void __stdcall16far u214b_set_toggle_bit(byte *param_1,char param_2)
 

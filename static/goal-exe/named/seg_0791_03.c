@@ -835,7 +835,7 @@ undefined4 __stdcall16far f_0791_42CB(undefined4 param_1)
   }
   else {
     if (((&ppVar6->position)[iVar3] < 0xc) &&
-       ((cVar2 = f_0791_26D7(iVar5,uVar7,1), cVar2 == '\0' ||
+       ((cVar2 = player_effective_tactic(iVar5,uVar7,1), cVar2 == '\0' ||
         (cVar2 = f_0791_2B51(iVar5,uVar7), cVar2 == '\0')))) {
       cVar2 = '\0';
     }
@@ -978,8 +978,9 @@ undefined1 f_0791_4532(int param_1)
   local_3 = 0;
   iVar2 = f_0791_42CB((int)*(undefined4 *)(param_1 + 6),
                       (int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10));
-  cVar1 = f_0791_26D7((int)*(undefined4 *)(param_1 + 6),
-                      (int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10),7);
+  cVar1 = player_effective_tactic
+                    ((int)*(undefined4 *)(param_1 + 6),
+                     (int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10),7);
   if ((int)*(char *)((int)*(undefined4 *)(param_1 + 6) + 0xc) <
       (int)(uint)*(byte *)(cVar1 * 4 + iVar2 + 0x7db)) {
     iVar2 = f_0791_42CB((int)*(undefined4 *)(param_1 + 6),
@@ -988,9 +989,10 @@ undefined1 f_0791_4532(int param_1)
       cVar1 = f_0791_2D10((int)*(undefined4 *)(param_1 + 6),
                           (int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10),0);
       if (((cVar1 == '\0') &&
-          (cVar1 = f_0791_26D7((int)*(undefined4 *)(param_1 + 6),
-                               (int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10),1), cVar1 == '\0')
-          ) && (cVar1 = u214b_random_coin_flip(), cVar1 == '\0')) {
+          (cVar1 = player_effective_tactic
+                             ((int)*(undefined4 *)(param_1 + 6),
+                              (int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10),1), cVar1 == '\0'))
+         && (cVar1 = u214b_random_coin_flip(), cVar1 == '\0')) {
         local_3 = 0;
       }
       else {
@@ -1001,8 +1003,9 @@ undefined1 f_0791_4532(int param_1)
       cVar1 = f_0791_2D10((int)*(undefined4 *)(param_1 + 6),
                           (int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10),0);
       if ((cVar1 == '\0') &&
-         (cVar1 = f_0791_26D7((int)*(undefined4 *)(param_1 + 6),
-                              (int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10),1), cVar1 == '\0'))
+         (cVar1 = player_effective_tactic
+                            ((int)*(undefined4 *)(param_1 + 6),
+                             (int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10),1), cVar1 == '\0'))
       {
         local_3 = 0;
       }
@@ -1014,8 +1017,9 @@ undefined1 f_0791_4532(int param_1)
       cVar1 = f_0791_2D10((int)*(undefined4 *)(param_1 + 6),
                           (int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10),0x1e);
       if ((cVar1 == '\0') &&
-         (cVar1 = f_0791_26D7((int)*(undefined4 *)(param_1 + 6),
-                              (int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10),7), cVar1 == '\0'))
+         (cVar1 = player_effective_tactic
+                            ((int)*(undefined4 *)(param_1 + 6),
+                             (int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10),7), cVar1 == '\0'))
       {
         local_3 = 0;
       }
@@ -1042,11 +1046,13 @@ undefined1 f_0791_4649(int param_1)
   local_3 = 0;
   iVar2 = f_0791_42CB((int)*(undefined4 *)(param_1 + 6),
                       (int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10));
-  cVar1 = f_0791_26D7((int)*(undefined4 *)(param_1 + 6),
-                      (int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10),6);
+  cVar1 = player_effective_tactic
+                    ((int)*(undefined4 *)(param_1 + 6),
+                     (int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10),6);
   iVar3 = (int)cVar1 << 2;
-  cVar1 = f_0791_26D7((int)*(undefined4 *)(param_1 + 6),
-                      (int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10),5);
+  cVar1 = player_effective_tactic
+                    ((int)*(undefined4 *)(param_1 + 6),
+                     (int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10),5);
   if ((int)(uint)*(byte *)(cVar1 * 8 + iVar3 + iVar2 + 0x7cb) <
       (int)*(char *)((int)*(undefined4 *)(param_1 + 6) + 0xc)) {
     iVar2 = f_0791_42CB((int)*(undefined4 *)(param_1 + 6),
@@ -1216,7 +1222,7 @@ void __stdcall16far f_0791_4A28(undefined4 param_1)
       if ((cVar2 != '\0') &&
          (((DS:8325 != '\0' || (DS:830B != local_6)) &&
           (iVar3 = u214b_random_1_to_n(6), iVar3 < (char)ppVar5[iVar1].energy)))) {
-        cVar2 = f_0791_26D7(iVar4,uVar6,5);
+        cVar2 = player_effective_tactic(iVar4,uVar6,5);
         if (cVar2 == '\0') {
           cVar2 = attack_direction(iVar4,uVar6);
           if (-1 < (int)local_4._1_1_ * (int)cVar2) {
@@ -1228,7 +1234,7 @@ void __stdcall16far f_0791_4A28(undefined4 param_1)
     }
     else if ((DS:8325 != '\0') &&
             ((cVar2 = in_own_goal_area(iVar4,uVar6,DS:82F6), cVar2 != '\0' ||
-             ((cVar2 = f_0791_26D7(iVar4,uVar6,1), cVar2 != '\0' &&
+             ((cVar2 = player_effective_tactic(iVar4,uVar6,1), cVar2 != '\0' &&
               (cVar2 = f_0791_40BC(), cVar2 != '\0')))))) {
       *(undefined2 *)(iVar4 + 7) = DS:82F6;
     }
@@ -1297,9 +1303,9 @@ void __stdcall16far f_0791_4B64(undefined4 param_1)
       cVar1 = f_0791_2B51(iVar7,uVar9);
       if (cVar1 == '\0') {
         uVar6 = f_0791_42CB(iVar7,uVar9);
-        cVar1 = f_0791_26D7(iVar7,uVar9,6);
+        cVar1 = player_effective_tactic(iVar7,uVar9,6);
         iVar5 = (int)cVar1 << 2;
-        cVar1 = f_0791_26D7(iVar7,uVar9,5);
+        cVar1 = player_effective_tactic(iVar7,uVar9,5);
         *(undefined1 *)(iVar7 + 0xc) = *(undefined1 *)(cVar1 * 8 + iVar5 + uVar6 + 0x7cb);
         iVar8 = iVar7 + 0xc;
         uVar6 = uVar6 & 0xff00;
@@ -1315,7 +1321,7 @@ void __stdcall16far f_0791_4B64(undefined4 param_1)
         uVar11 = 0;
         uVar4 = 0x14;
         iVar5 = f_0791_42CB(iVar7,uVar9);
-        cVar1 = f_0791_26D7(iVar7,uVar9,7);
+        cVar1 = player_effective_tactic(iVar7,uVar9,7);
         uVar3 = u214b_max_longint(*(undefined1 *)(cVar1 * 4 + iVar5 + 0x7db),0,uVar4,uVar11);
         *(undefined1 *)(iVar7 + 0xc) = uVar3;
         cVar1 = f_0791_2D6D(iVar7,uVar9,0x28);
