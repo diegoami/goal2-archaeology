@@ -1,0 +1,165 @@
+# F010 R008 is each country's default team tactics, eight on/off settings in one byte; both match engines read it, and the continental means of the rating fall in the help file's order
+
+- **Status**: proposed
+- **Question**: What does R008 (country byte +0x2D) set, does it reach a match, and do continental means of the rating `1771:10E7` fall in the help file's order Europe > America > Africa > Asia? (G5 Q005, its open part, `docs/backlog.md`; T19)
+- **Tests claims**: R008 (F002: `GOAL.DAT` block 7, 129 bytes, copied to country +0x2D by `1771:9A40`); the help file's continental order (`GOAL.HLP` 171–173); bears on F007 (+0xF "flags, meaning not established"), F008 (the tactics panel), Q010–Q012 (what a tactic changes in a contest: not answered here); no spec row exists yet
+- **Experiment and runs**: E008; E008-r0001 … r0010 (quick results from four of E006's published main-screen states, `e006-1000-r0001` r0001 … r0003, `e006-1337-r0004` r0004 … r0006, `e006-2100-r0005` r0007, r0008, `e006-0630-r0008` r0009, r0010)
+- **Artifact**: set `goal2-67cf27d6`, variant none
+- **Max intervention**: I3 (in the `edited` arm, one byte of guest memory, Denmark's +0x2D, XOR 0x31, written into the captain-screen savestate before it is loaded: r0002, r0005, r0008, r0010); I2 (savestates written and loaded); I1 (memory and text page read from them)
+- **Tier reached**: V2
+- **Confidence**: unreviewed (status `proposed`). Static: every claim below is read from the decompiled view (`static/goal-exe/decompiled/`) or the listing (`static/goal-exe/code/`), the listing where the decompiled view hits a trust limit of F009 (flags returned by the set-membership test `23E4:08DF`). Behavioural: one static claim is tested by runs, that the quick result reads the managed team's +0x2D; and the continental means are compared with E006's measured values. Each claim says which routes it rests on.
+
+## Answer
+
+- **+0x2D is a Pascal set of eight team tactics, element k at bit k − 1** (static). The set helpers are `214B:0C57` (test), `0C79` (include) and `0CA1` (exclude), each on bit `k − 1` (`seg_214B_01.c:913`–`934`). The tactics screen prints all eight elements in the order `DS:6BC0` = 5, 6, 7, 1, 2, 3, 4, 8, each as the word `DS:6AA0 + 32 k + 16 · bit` (`seg_1771_01.c:1112`–`1119`, data `ds_2581_03.hex` row 6BC0). F008's tactics panel prints elements 1..4 and 8 the same way. About 95% for the bits and words; the screen labels of elements 5..7 are not read here.
+
+| Element (bit, mask) | Clear | Set | Readers in a match (below) |
+| --- | --- | --- | --- |
+| 1 (bit 0, 0x01) "position" | stay back | push forward | quick: `0791:D733`, `1771:0BC4`; watched: `0791:26D7` from `42CB`, `4532`, `4A28`, `4E28` |
+| 2 (bit 1, 0x02) "possession" | keep ball | quick pass | watched: `26D7` from `5049` |
+| 3 (bit 2, 0x04) "passing" | short passes | long passes | watched: `26D7` from `3111` |
+| 4 (bit 3, 0x08) "tackling" | avoid injury | go in hard | quick: `0791:D5C1`; watched: `26D7` from `4DA9` |
+| 5 (bit 4, 0x10) | half pitch | full pitch | quick: `D733`, `0BC4`; watched: `26D7` from `4649`, `4A28`, `4B64` |
+| 6 (bit 5, 0x20) | sag back to box | stand ground | quick: `0BC4`; watched: `26D7` from `4649`, `4B64`, `5729` |
+| 7 (bit 6, 0x40) | play safe | offside trap | watched: `26D7` from `4532`, `4B64` |
+| 8 (bit 7, 0x80) "mark" | zonal | man to man | both: `1771:3EF8` (man-marking pairs), reached through `0791:230C` |
+
+  The words are at `DS:6AC0` … `DS:6BB0` (`static/goal-exe/strings.tsv`). For a goalkeeper the player screen swaps element 1's and 3's words for `stay in box`/`leave box` and `throw the ball`/`kick from hand` (`DS:0EA6`, `DS:0EC6`; `1771:3BD3`, `seg_1771_03.c:31`–`35`; F008). Denmark's R008 is 0x8B: push forward, quick pass, go in hard, man to man (`GOAL.DAT` 0xA078; E008-r0001's read of +0x2D).
+- **Player +0xF holds per-player overrides of elements 1..4** (static, about 90%). Element i + 4 of +0xF says the player has his own setting for tactic i (i = 1..4), and element i of +0xF is that setting. Otherwise the team's +0x2D element i applies. Three readers apply this rule: the match's `0791:26D7` (`seg_0791_02.c:313`–`324`), `1771:0BC4` (`seg_1771_02.asm:218`–`242`) and the player screen `1771:3BD3` (F008; the ` P` suffix). Elements 5..8 have no override: `26D7` reads them from +0x2D alone, because it tests `param_2 < 5` first.
+- **What `1771:3431` derives: overrides from the player's own fields, not from +0x2D** (static, about 90%; F007 traced the same writes). `3431` reads no byte of the country record (`seg_1771_05.asm:405`–`482`). First, when `2FFB` (= +5 − (+3 and 1)) < 4 (`3452`, unsigned `jae` past the call), it calls `33CD`. `33CD` sets element 8 of +0xF, then clears element 4 (`:384`–`397`). That is an override of tackling to "avoid injury". Then the position byte +6 decides; the two branches exclude each other:
+    - **Positions {0, 1, 3, 4}** (goalkeeper, sweeper, left and right back; set byte 0x1B at `1771:3411`, `je` = not a member, `:429`–`433`): it sets element 5, then element 1, and returns (`3471`–`3495`, `:434`–`448`). That is an override of position to "push forward", or "leave box" for a goalkeeper.
+    - **Any other position**: `349A` compares +6 with 2, and `349F` returns for every position but 2 (`:450`–`455`). Only a centre back (position 2) goes on:
+      - when +5 < 14 (`34A4`, `jae` past it), it sets element 5;
+      - then, in all cases, it sets element 6, then element 2 (`34AB`–`34DC`, `:456`–`477`).
+
+      So a centre back always gets the override of possession to "quick pass". A centre back with +5 < 14 also gets an override of position whose value is element 1 as it stands, which is "stay back" once +0xF has been cleared, because `3431` never sets element 1 for position 2. No other position gets that override: for example position 5 with +5 = 10 gets none. `3431` only sets bits (and `33CD` clears element 4), so the callers that want a fresh derivation clear +0xF first: `0791:BC5D` (`seg_0791_08.c:17`–`22`), `1771:34E7` (`seg_1771_02.c:948`–`966`) and `0791:C5DC` (`seg_0791_08.c:512`–`514`). `0791:BBFF` does not clear it (`seg_0791_07.c:1351`–`1358`).
+- **What `1771:52CC` does: the squad order, not the tactics** (static, about 85%). It sorts the country's squad words in slots 1..11 and 12..20 (`DS:0F3A`/`DS:0F3C` = 1, 11 and 12, 20; `ds_2581_01.hex` row 0F20) by position byte +6, ascending, through `1771:517A`, a quicksort (`seg_1771_03.c:873`–`919`). For a managed country, players `1771:3216` reports unavailable sort as position 0x0E (last). Before sorting, `52CC` saves each slot's +6 and replaces it by 0x0E for those players. `517A` swaps the saved bytes along with the squad words (`214B:007B`), so afterwards each player gets his own position byte back (`seg_1771_03.c:921`–`968`). It reads neither +0x2D nor +0xF.
+- **The quick result reads +0x2D three ways** (both routes for "reads"; static for "how"). Static, about 90%:
+  - **The order inside `0791:D733`** (`seg_0791_21.asm:799`–`1215`):
+    1. It saves the score word `DS:9B3C` and clears it (`D75C`–`D77B`).
+    2. It calls `1771:0BC4` for team 1 (country `DS:9B36`, with `DS:80FC` as the flag below), then for team 0 (country `DS:9B34`, flag 0) (`D77E`–`D798`).
+    3. It calls `0791:B19D` with `DS:0A8A[DS:8319 = 0x0F]` attempts per team: 12, or 16 when `DS:8319` is 0x0F (data `ds_2581_01.hex` row 0A80; `D79D`–`D7B4`).
+    4. For t = 0, then t = 1, it tests element 5, then element 1, of team t's +0x2D (`D7C0`–`D86E`):
+       - with chance 1/`DS:0A90[bit]` (1/60 clear, 1/30 set; `D7EA`, `214B:06D0` is rand(n) = 1), it adds 1 to the statistics byte `DS:7B7E + 10 t`;
+       - with chance 1/`DS:0A8E[bit]` (1/33 clear, 1/10 set; `D833`), it adds 1 to `DS:7B82 + 10 t` and to the other team's `DS:7B83`.
+
+       These are counters of the statistics screen `0791:0106` (`seg_0791_01.c:100`–`110`); which statistic each is was not read.
+    5. It makes minute draws, rand(`DS:0A8C[DS:8319 = 0x0F]`) = rand(90) or rand(120), whose number depends on the goal counts `B19D` returned. A goal whose minute equals `DS:831F` is scored, at most one per call (`D873`–`DA4C`).
+    6. When `DS:9A3D` is nonzero and no goal was scored in the call, it calls `D5C1` (`DACB`–`DAD9`).
+    7. Then it calls `0791:8062` when no goal was scored, or `0106` and `65FE` when one was, and last `9372` (`DADC`–`DAF1`).
+  - `0BC4` in step 2 (`seg_1771_02.asm:124`–`375`): `0BC4` sums each line's strength into `DS:9B45 + 2 t + 4 k`, for k = 0..3. That k = 0..3 are keeper, defence, midfield and attack is inferred, about 75%. The position-to-line table `DS:0D4E` (`ds_2581_01.hex` row 0D40) maps position 0 (goalkeeper) to k = 0, 1..2 to 1, 5..8 to 2 and 12..13 to 3, and splits positions 3, 4, 9, 10 and 11 in halves between two lines (`seg_1771_01.c:638`–`650`). The tactics screen's template also holds the words `keeper`, `defence`, `midfield` and `attack` (`DS:4D0A`…`4D78`); which cells they label was not read. The steps are:
+    1. It clears the four sums of team t (`0BED`–`0C0B`).
+    2. For each of slots 1..11 whose squad word is nonzero (`0C21`, `0DD1`), it takes v = `1771:377E(player)`, plus `0AA7(country)` when v ≠ 0 (`0C59`–`0C68`).
+    3. When the player's position byte +6 is not 0 (`0C6E`; a goalkeeper skips this step), it goes through elements e = 1..6 and acts only on e in {1, 5, 6} (set constant 0x62 at `1771:0BA4`, tested at `0C86`–`0C90`, a member when `jne` is taken). The player's effective element e is +0xF element e when e < 5 and +0xF element e + 4 is set (`0C95`–`0CC7`). Otherwise it is element e of +0x2D of the country in the player's byte 0 (`0CCC`–`0CEE`). Each set one adds `0AA7(country) div 8` to the attack sum (`0D0B`), and each clear one adds it to the defence sum (`DS:9B49 + 2 t`, `0D25`).
+    4. It adds v to line `DS:0D4E[+6]` when that is below 4. Otherwise it adds v/2 to the two lines `DS:0D4E[+6]` − 3 and − 2 (`0D32`–`0DCD`).
+    5. After the 11 slots, when the flag is nonzero, it adds sum/8 (signed) to each of the four sums (`0DDA`–`0E1C`).
+
+    So each of elements 1, 5 and 6 that is set moves that amount from the defence sum to the attack sum.
+  - `B19D` in step 3 (`seg_0791_07.c:889`–`925`; listing `seg_0791_18.asm:417`–`524`, `B1D6`–`B261`) adds goals to `DS:9B3C + t`, for t = 0 then 1. It makes the given number of attempts per team, none when that number is 0 (`B1B5`). Each attempt of team t has up to three contests of two draws each, the opponent's draw first:
+    1. rand(the opponent's midfield) < rand(own midfield);
+    2. rand(2 · the opponent's defence) < rand(own attack);
+    3. rand(the opponent's keeper) < rand(own attack).
+
+    Each comparison is signed: `jle` skips the goal when own ≤ opponent's. A contest's draws are made only when the contest before it was won. Winning all three is a goal.
+  - `D5C1` in step 6 (`seg_0791_21.asm:621`–`792`):
+    1. It draws r = rand(10) + 1, which selects pitch slot r of team 1 and slot `DS:0A90[r]` of team 0, each offset by `DS:0668[t]` (`D5C7`–`D602`).
+    2. It returns when `0791:2956` is nonzero for either slot (`D619`–`D63B`; `2956` not read).
+    3. It draws the own team t with `214B:06FA` (`D63E`).
+    4. It goes on only when `278A(own, 3)` < `278A(other, 10)` (unsigned `jb`, `D69A`).
+    5. It goes on when the own player's effective element 4 (go in hard) is set (`26D7`, `D6AB`), or otherwise only with chance 1/20 (`D6B2`–`D6BD`).
+    6. It draws rand(`2FFB(other)`), then rand(`2FFB(own)`). Only when the own draw is greater (signed `jle`, `D701`) does it store the two slots at `DS:830C` (own) and `DS:830B` (other) and call `0791:7EEF` (`D705`–`D72A`).
+
+    What `278A`, `2956` and `7EEF` compute was not read, and that this is a tackle is not established.
+
+  **Behavioural**: from four start states, the quick result with Denmark's +0x2D XOR 0x31 (elements 1, 5, 6 flipped, 0x8B → 0xBA) differs from the unchanged arm in three. The full-time score bytes and seed word `DS:7B62` (the word at the far pointer `DS:A978`, `2DA4:7B62` in all ten records) read:
+
+| Start state | unchanged | edited | unchanged again |
+| --- | --- | --- | --- |
+| `e006-1000-r0001` | 1 0, 0x63d7 (r0001) | 0 1, 0xf6a9 (r0002) | 1 0, 0x63d7 (r0003) |
+| `e006-1337-r0004` | 0 1, 0x5109 (r0004) | 0 1, 0x5109 (r0005) | 0 1, 0x5109 (r0006) |
+| `e006-2100-r0005` | 0 0, 0xf970 (r0007) | 0 1, 0x543a (r0008) | — |
+| `e006-0630-r0008` | 1 3, 0x7dfd (r0009) | 1 0, 0x5aeb (r0010) | — |
+
+  The unchanged arm repeats exactly in both states where it was run twice, as F006 found for any one state. For the other two states the repeat is assumed from F006, not measured. The edited byte reads back as 0xBA after the load in all four edited runs, and it is the only byte in which the arms differ. In one state of four the edit leaves the score and the seed word unchanged; why was not traced. An equal seed word does not mean a fixed number of draws. `B19D` draws a contest only after the one before it was won, and the number of `D733`'s minute draws depends on the goal counts (step 5 above). So the edit could change the number of draws, and here it did not. I put "the quick result depends on the managed team's +0x2D" at about 95% (both routes). How much each tactic shifts the odds is Q010–Q012.
+- **The watched match reads +0x2D through each player's effective setting** (static, about 85%). `0791:26D7(player, k)` returns the player's effective element k (`seg_0791_02.c:304`–`324`). The watched engine `0791:9564` reaches it through its event routines: `3111` (k = 3), `42CB` (1), `4532` (7, 1), `4649` (6, 5), `4A28` (5, 1), `4B64` (6, 5, 7), `4DA9` (4), `4E28` (1), `5049` (2), `5729` (6). For example 9564 → `8AE9` → `57AC` → `474D` → `4532` (direct call edges, `static/goal-exe/calls.tsv`). `D733` also reaches these routines by direct edges (for example `D733` → `D5C1` → `7EEF` → … → `8AE9`); which paths a quick result takes at run time was not traced. Element 8 drives `1771:3EF8` (`seg_1771_03.c:224`–`238`). Its last loop (`seg_1771_06.asm:712`–`819`) goes over slots 2..11 of each team. A slot whose player has +0x10 element 7 (the player screen's "Protect zone P", F008) keeps its word (`41B5`–`41BE`). Otherwise the word `DS:9A3E + 0x28 t + 2 slot` is set to 0 (`4176`–`418B`), and then, when the team's element 8 is set (man to man, `41C1`–`41D6`), to the opponent's squad word picked earlier by `1771:3E2F`, or left at 0 if `3E2F` picked none (`41DB`). The earlier part of `3EF8`, which builds the choices `3E2F` makes, was not traced. That the word names the player to mark is inferred from the word `mark` beside it on the player screen (`1771:3B3F`, F008), about 75%. `0791:230C` calls it, which both engines reach. `0BC4`'s line sums are not reached from `9564` except through the team menu (`9372` → `ED8A` → `1771:1981` → `157D`). The watched engine is not run here, so this claim is static only.
+- **Every reader and writer of +0x2D, and of player +0xF** (static; `readers.py` lists the routines by listing access, filtered on a load of the array pointer; `summarise.py` part 2 prints them with direct-call reachability; the routines below were each read in the decompiled view. Through screens and menus almost everything is reachable from both engines, so "in a match" below means reached without the team menu `ED8A`):
+  - `1771:9A40` writes R008 to +0x2D at a new game (`seg_1771_06.c:110`–`112`). Not in a match.
+  - `0791:BBFF(value, c)` writes +0x2D, then calls `3431` for each of c's 20 squad words that is nonzero, without clearing +0xF (`seg_0791_19.asm:426`–`463`: `BC1F`, `BC37`, `BC4C`). Callers: `BC5D` and the computer's in-match tactic changes `BD83`, `BF6B`, `C01A`, `C0DF`.
+  - `0791:BD83(t)` is called from the match set-up `A3DE`, from `BF6B` and from `C173`. Its comparison is `0791:BD03(a, b)`: 1 when the sum of `1771:377E` over a's first 11 exceeds b's (unsigned `ja`; a is pushed first and read at `[bp + 6]`; `seg_0791_19.asm:530`–`582`). In order (`seg_0791_19.asm:584`–`708`; `seg_0791_08.c:59`–`99`):
+    1. `BBFF(R008[c], c)` for team t's country c (`BDAE`–`BDC3`): +0x2D goes back to R008 and the overrides are re-derived.
+    2. Only when t = 1, `DS:80FC` is nonzero, and team 1's sum exceeds team 0's (`BDC6`–`BDF9`; `BDDB` pushes team 1, `BDF0` team 0): it includes element 1, then calls `BBFF(+0x2D, DS:9B36)` (`BDFB`–`BE21`).
+    3. When team t's sum exceeds its opponent's (`BE24`–`BE4A`; `BE2C` pushes t, `BE41` the opponent): it includes rand(6) twice, then calls `BBFF` (`BE4C`–`BE88`).
+    4. In every case it clears `DS:8332 + t` and `DS:8334 + t` (`BE8B`–`BE9C`).
+
+    `0791:C173` is called from `65FE`. `D733` calls `65FE` when a goal falls in the call, and `9564` reaches it through `83A2` → `690C` → `67B6`. `C173` takes d = `DS:9B3C` − `DS:9B3D` and acts on each team that `0B77` says is not managed (`seg_0791_19.asm:996`–`1110`; `seg_0791_08.c:142`–`297`):
+    - |d| < 2: it calls `BD83`;
+    - |d| = 2: it calls `BF6B`, which calls `BD83`. Then `BF6B` excludes rand(6) three times when the team is ahead (flag 0 pushed, `C1F1`), or includes them when it is behind (flag 1, `C1FE`; `BF9F`–`BFD2`);
+    - |d| > 2: it calls `C0DF` when the team is ahead, or `C01A` when it is behind.
+      - `C0DF` (`:932`–`994`), only while `DS:8334 + t` is 0: excludes rand(5) five times, then element 6, calls `BBFF`, and sets `DS:8334 + t` to 1.
+      - `C01A` (`:848`–`930`), only while `DS:8332 + t` is 0: includes rand(5) five times, then element 6, calls `BBFF`, and sets `DS:8332 + t` to 1. It then tests the position of the player in slot 9 against a set and may call `0791:BEC7` and `230C` (`C0C5`–`C0D6`; not read).
+
+      Those flags are cleared by `A4A1` at the match set-up and by every `BD83` for that team (step 4 above), so they allow each routine once per stretch without a call of `BD83`, not once per match.
+
+    These never change a managed team. `C173` skips a team for which `0B77` is nonzero (`C19D`–`C1A6`). `A3DE`, for t = 0 then 1, calls `B11F`, `1771:34E7` and `BD83(t)`, in that order, only for a team for which `0B77` is zero (`seg_0791_17.asm:208`–`241`: `A45E`–`A492`).
+  - `0791:D733`, `1771:0BC4`, `0791:D5C1`, `0791:26D7`, `1771:3EF8`: the readers above.
+  - `1771:3BD3`, `3B3F`: the player screen (F008). `1771:157D`/`1981`: the tactics screen, which shows +0x2D and edits it by toggling element `DS:6BBF[row]` (`214B:0CF4` XORs the bit, `seg_214B_01.c`; `seg_1771_01.c:1196`). It is reached from the main menu (`000E:7439`) and from the match's team menu `0791:ED8A`, which sets `DS:9B55` when +0x2D changed (`seg_0791_09.c:929`–`935`). Not in a match except through that menu.
+  - `1771:4B61`: the player's own tactics (`seg_1771_07.asm:347`–`503`; `seg_1771_03.c:612`–`650`). Enter on row i = 1..4 cycles the row through three states:
+    - no override → override with value clear: sets element i + 4, clears element i (`4C3F`–`4C6A`);
+    - override clear → override set: sets element i (`4C7F`–`4C95`);
+    - override set → no override: clears element i + 4, then copies the team's element i into +0xF element i (`4CAC`–`4CE2`; `214B:0CCB` includes or excludes by value).
+
+    Row 5 calls `49B8` instead (`4C20`–`4C28`). Reached from `0791:E44F` and the main menu only.
+  - Writers of +0xF: `1771:3431`, `33CD` (above). `0791:BC5D`, `1771:34E7` (match set-up `A3DE`, computer teams) and `0791:C5DC` clear it and re-derive it. `C5DC(slot s, team t)` runs in this order (`seg_0791_20.asm:385`–`515`):
+    1. It sets +0x10 element 3 of the player in pitch slot s (`C5F6`–`C612`).
+    2. When `0B77` is zero for team t (`C61F`–`C631`), it calls `1E8D`, then `C50C` (only when the other team is managed and `DS:9A3E` is 0), then `1EB5`.
+    3. It calls `A2E6` (`C6E5`).
+    4. When `0B77` is zero for team t, it clears +0xF of the player then in slot s and calls `3431` (`C700`–`C724`).
+
+    What +0x10 element 3 means, and whether `A2E6` puts another player in the slot, were not read. The +0xF hits in `0791:86D0` and `8AE9` are byte +0xF of another record, the on-pitch object at `[param + 6]` (`seg_0791_06.c:270`–`416`), not the player's.
+- **When `0791:BC5D` runs, and whether a managed team's tactics survive it** (static; about 70% for survival, below). `BC5D(c)` runs in this order (`seg_0791_19.asm:465`–`528`):
+    1. It clears +0xF for each of c's 20 squad words, zero or not (`BC7E`–`BCA3`).
+    2. It calls `BBFF(R008[c], c)` (`BCB0`), so c's tactics go back to the default and the overrides are re-derived.
+    3. It calls `52CC(c)` (`BCB6`), whose "unavailable sorts last" rule applies when `0B77(c)` is nonzero at that moment.
+    4. It sets +6 of slots 1..11 from R011 (`DS:9F02 + 20 c + slot`; `BCC2`–`BCFB`).
+
+  Its callers, each with the guards on the path to the call:
+  - `000E:01FA(m)` (`seg_000E_01.asm:210`–`363`). Before any test, it writes 1 to two bytes of manager m's records (`0229`, `0231`) and calls `BC5D` for m's country (`023F`, line 236). Only afterwards does it:
+    - copy +7 to +6 for slots 12..20 (`024B`–`0298`);
+    - clear byte 0 of m's 80 extra players (`02BC`–`02E2`);
+    - write the country's own number to +0x2E (`02FD`, line 306), after which `0B77` (+0x2E > 0x80) no longer reports it managed;
+    - turn the country's fixtures with first byte 0xFE into 0xFF (`0375`–`037E`).
+
+    So this reset runs while the country is still managed: `52CC` in step 3 sorts with the managed rule. That `01FA` is a manager leaving is inferred.
+  - `000E:6970` (`seg_000E_08.asm:931`–`1160`): `0791:D47E`, `B7FA`, `B602` and `D050`, in that order, then `BC5D` for both teams, with no test of `0B77` (`69C5`–`6A36`). `D47E` calls `A3DE`, `0BC4` and `B19D`: a result without display.
+  - `0791:E80D` (`seg_0791_09.c:590`–`638`; listing `E80D`–`E926`). First it calls the match set-up `A4A1` (`E818`). Then it shows the template `DS:3A36` (its text `Do you want to watch this match ?` is at `DS:3A7D`) and loops until Y, N or Esc. Then, for both teams, with no test of `0B77`, it calls `BC5D` (`E8F2`–`E909`). On N or Esc it writes 0xFE to the fixture's first byte and returns 0; on Y it returns 1 (`E90B`–`E920`).
+  - `0791:BB2F` and `0791:F1F6` call it only for a team for which `0B77` is zero, and the managed team gets `0791:BA4E` instead, which touches neither byte. `BB2F` (`seg_0791_19.asm:345`–`417`) calls `A4A1`, then per player `1771:3558` and `B364`, then `BC5D` or `BA4E` per team (`BBBA`–`BBE1`); it reaches neither engine by direct edges. `F1F6` (`seg_0791_23.asm:1035`–`1240`, `F201`–`F3DA`) calls `A4A1` and the team menu `ED8A`, then `F098`, which reaches the tick loop `0791:97D0` (`F098` → `9A32` → `983F` → `97D0`), then `BC5D` for teams with `0B77` zero (`F379`–`F38F`), then `D050`, then `BA4E` for managed teams (`F3C5`–`F3DA`).
+
+  **How `000E:6CA7` routes a fixture** (`seg_000E_09.asm:54`–`446`):
+  - **First byte 0xFE** (`6D79`): the flag is 1 when `0B77` is zero for both teams and 0 otherwise (`6D86`–`6DA3`). `6C21(flag)` returns 1 without calling `E80D` when the flag is 0, and otherwise returns what `E80D` returns (`seg_000E_09.asm:6`–`49`). When it returns 1, the fixture goes to `6E15`. There, `BB2F` is called when the fixture's byte +2 is 0 and `F1F6` otherwise (`6EDB`–`6F18`).
+  - **Any other first byte, or a 0 from `6C21`**, goes to `6DAE`. Two tests on the fixture's byte +2 can each call `6C21(1)`, and so `E80D`, and go to `6E15` when it returns 1: membership in set `0x695A` (`6DBB`–`6DCB`), and membership in set `0x697A` together with a nonzero continent flag (`6DE7`–`6E10`). Otherwise the fixture goes to `6970` (`7013`–`7014`).
+
+  A fixture with a managed team and first byte 0xFE therefore never reaches `E80D` or `6970`; it goes to `BB2F` or `F1F6`, which leave the managed team's +0x2D alone. A fixture with a managed team and another first byte could reach either, and both reset both teams. The code shows that `E80D` writes 0xFE to a computer-only fixture that is not watched, and that `01FA` turns a released country's 0xFE fixtures into 0xFF. Whether a managed team's fixtures always carry 0xFE was not established. So "a managed team's edited tactics persist from match to match until `01FA`" rests on that, about 70%. The runs bear on one match only. The edit changed three quick results, which it could not have done had +0x2D been put back to R008 before `D733` and `0BC4` read it.
+- **Continental means of the rating fall in the help file's order; single countries do not** (both routes). From `GOAL.DAT` blocks 8 and 9 alone (`summarise.py` part 1; `1771:9A40` sets +0x2B, +0x2C, +0x2A as F007 says, `seg_1771_06.c:85`–`99`), the rating `1771:10E7` over the 32 countries of each continent is:
+
+| Continent (+0x2C) | Mean | Min | Max | E006 measured mean of +3 − 0x7F (E006-r0001) |
+| --- | --- | --- | --- | --- |
+| 1 Europe | 82.656 | 30 | 126 | 82.656 |
+| 2 America | 53.062 | 6 | 111 | 53.062 |
+| 3 Africa | 41.906 | 4 | 92 | 41.906 |
+| 4 Asia | 32.812 | 1 | 67 | 32.812 |
+
+  The means fall in the order of `GOAL.HLP` 171–173 ("European teams are on the whole better then American teams, which in turn are better than African teams, with Asian teams being the most lowly"). The help file says "on the whole", and the ranges overlap: Europe's weakest country (30) rates below the best of every other continent, Asia's best is 67. The measured +3 (rating + 0x7F, F007) gives the same four means to three decimals. The help file numbers the continents 1 Europe, 2 America, 3 Africa, 4 Asia (`GOAL.HLP` 163–166), and `DS:690A` holds EUROPEAN, AMERICAN, AFRICAN, ASIAN in that order. I put the order at about 95%, and the naming of +0x2C as the continent at F007's 85%.
+
+## Method
+
+- **Static first** (CLAUDE.md rule 22). Every claim above was first read in the decompiled view. Each rule it states, meaning each condition, guard and order of calls and stores, was then traced in the listing from the routine's entry to the statement, and the listing addresses are given with the rule. The decompiled view's argument order and branch directions were not relied on (review rounds 1 and 2 found two misreadings of it). The places where the view hits F009's trust limits are the membership tests `23E4:08DF` in `3431` (`seg_1771_05.asm:429`–`433`, `je` = not a member) and `0BC4` (`seg_1771_02.asm:206`–`210`, `jne` = member), and the 0x2D accesses of `D733` (`seg_0791_21.asm:867`, `:897`). The string and data tables are from `static/goal-exe/strings.tsv` and `static/goal-exe/data/`. `experiments/E008-q005-r008-tactics/readers.py` lists every routine whose listing accesses `es:[di + 0x2d]` (or `add di, 0x2d`) and loads `[0xa917]`, or accesses `+0xf` and loads `[0xa91b]`, and computes reachability from `0791:9564` and `0791:D733` over `calls.tsv`'s direct edges. That is a filter, so each listed routine was read, and two false positives are named above. An access through a pointer the routine did not load itself would escape it. No such reader turned up in the decompiled view's grep for `0x2d` (`static/goal-exe/decompiled/*.c`).
+- **Why runs were made**: static analysis answered every claim. The runs corroborate one of them, "the quick result reads the managed team's +0x2D", as rule 19 needs for `corroborated` and as the task's scope asks. No run was made for a missing tool.
+- **Runs** (`experiments/E008-q005-r008-tactics/run.py`, README and amendment 1): E006's published main-screen states (release E006, sha256 in each record), restored in a fresh DOSBox-X 2024.03.01 process (`cycles=30000`, as E004 and E006). Then E004's keys `Esc Up Enter Enter` to the captain screen, and a savestate there. The arm's state is loaded with Host+L: the same savestate (`unchanged`), or a copy with the one byte edited (`edited`; `runtime/driver/savestate.py` `with_memory`; I3, declared in the record). The byte is read back, then E004's quick result (`Enter r`, `runtime/driver/match.py`) runs to full time. Records are under `runs/E008/`, `python3 tools/validate_runs.py runs/E008` passes, and `summarise.py` part 3 prints the table.
+- **Continental table**: `summarise.py` part 1 computes +0x2A..+0x2C from `GOAL.DAT` (`.cache/goal2/GOAL.DAT`, verified against set `goal2-67cf27d6`; the block offsets from `static/goal-dat/blocks.tsv`). It compares the rating with the mean of field +3 of each continent's squad players in E006-r0001 (F007: all 12 E006 games are identical). No new run was made for it.
+
+## Limits
+
+- The watched-match claims are static only. No watched match was run with an edited byte.
+- What each statistics counter (`DS:7B7E`, `DS:7B82`, `DS:7B83`) is, and the screen labels of elements 5..7, were not read.
+- How large the shift of `0BC4` is next to the line sums (`0AA7` reads the manager table `[DS:A91F]`), and what each element does in a watched contest, are Q010–Q012.
+- One managed country (Denmark) and one byte value (0xBA) were tested. The fixtures are each start state's next match.

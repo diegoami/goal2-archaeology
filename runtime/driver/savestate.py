@@ -150,3 +150,27 @@ def find_program(mem_reader, name=b"GOAL", ds_paragraph=GOAL_DS_PARAGRAPH):
         raise ValueError(f"{len(found)} MCBs of {name!r} with a PSP behind them in conventional memory")
     return found[0]
 
+
+
+# ---- an edited copy (T19, E008) -----------------------------------------------------------------
+def with_memory(data, addr, new):
+    """The savestate zip `data` with guest memory at addr replaced by the bytes `new`: an I3 edit,
+    to be declared in the record that loads it. Only the `Memory` component changes: its zlib stream
+    is inflated, edited and deflated again, and the bytes DOSBox-X writes after the stream are kept;
+    every other component, and the order and compression of the zip entries, are copied unchanged."""
+    import io
+    src = zipfile.ZipFile(io.BytesIO(data))
+    out = io.BytesIO()
+    with zipfile.ZipFile(out, "w") as dst:
+        for info in src.infolist():
+            body = src.read(info.filename)
+            if info.filename == "Memory":
+                d = zlib.decompressobj()
+                mem = bytearray(d.decompress(body))
+                o = MEM_BASE + addr
+                if addr < 0 or o + len(new) > len(mem):
+                    raise ValueError(f"guest memory 0x{addr:x}+{len(new)} outside the Memory component ({len(mem)} bytes)")
+                mem[o:o + len(new)] = new
+                body = zlib.compress(bytes(mem), 1) + d.unused_data
+            dst.writestr(info, body, compress_type=info.compress_type)
+    return out.getvalue()
