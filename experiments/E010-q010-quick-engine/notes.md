@@ -248,3 +248,39 @@ to check** (they look like display/commentary writers; 2bb1 = ball-side test, no
 - Confirm which of those the quick path actually reaches (fouls may never fire → 7B77/798D/7D56 unused).
 - The pitch record at DS:80E8 + slot*0x16: which bytes matter (0xD player index, 6 side, 0x12 state,
   0xE energy is in the PLAYER record, 0x11, 0x13).
+
+## Batch 2 (2026-10-05, third run): the half-time boundary, verified
+
+- `9955` half time, quick mode (seg_0791_16.asm:267-292): only DS:8325=0, DS:8302=0, 214B:1E8D; no
+  key wait, no RNG. The half-time wait is `ED8A(0)` inside `9A32` (seg_0791_16.asm:417, gated by
+  DS:80FD!=0 = a team managed, else by key [A977] in set CS:9A12).
+- `ED8A` menu loop (seg_0791_23.asm:562-...): callees A75D/EA09/E949/E929/1230C/1771:0F58/1981; the
+  only rand caller reachable is 1771:3EF8 (via 1981, the tactics submenu, Enter on options 1/6);
+  the wait loop itself (A75D key read + redraw) draws nothing. 214B:1E8D is a display flip.
+- `9A32` before the wait: energy +2 per pitch slot whose player +0xE is in set CS:99F2 (elements
+  1..30, i.e. every +0xE except 0), `0106(1)` draws the half-time screen. **So a savestate taken at
+  the stall already contains the +2 energy.** After the key: DS:830B = DS:0668[831A==0] + 10 (note
+  the inverted index vs 998C), DS:832A=0x50, then 983F → 97D0 tick loop.
+- Clock `970C` (seg_0791_16.asm:6-91): D733 zeroes DS:831D, so one D733 per 97D0 iteration and the
+  minute advances in the same iteration. First half 46 calls (831F=0..45, ends 831B==8319=45),
+  second half 46 calls (831F=46..91, ends 831B+8321==0 → 8326=1, whistle 2B0F(0x3F)). Goal minutes
+  can match 831F in 1..45 / 46..90.
+- Probe (scratch, e010-probe, 2026-10-05): from e006-1000-r0001, quick result; at the half-time
+  stall the game sat blocked ~40 s (68 polls) with DS:7B62=0xa797 and DS:8336=0x51a8 unchanged, and
+  E008-r0001's per-read seeds show the same 0xa797 from its read 9 to 35: **the half-time wait and
+  the two Enters that leave it consume no RNG** (corroborates the static claim; the "two waits of
+  different length" test is trivially covered by 68 polls over ~38 s).
+- Same probe: half-time words 831A=00, 9A3D=00 (D5C1 fouls unreachable in this fixture),
+  7C36=00 (no extra time), 9B34=27, 9B36=7. DS:8336=0x51a8 at half time equals E008-r0001's at
+  full time: 8336 does not move in these quick matches (94E8 reached only via walk-offs from D5C1).
+- Post-match tail: F1F6 after F098 draws the result screen `0106(1)`, then 8757/ED8A?/CB7D/E929/
+  D050/BA4E (per managed team; BA4E draws: 1771:3558 or 3651 + 2×rand(4) per squad-pool player),
+  then returns to 000E:6CA7, which plays the round's remaining fixtures (6970 → D47E/B7FA/B602).
+  Whether any of that runs before the game blocks at the settled result screen (where the driver's
+  full-time read lands, seeds frozen) is to be settled by comparing the model's last-D733 seeds
+  with the recorded full-time seeds (E008-r0001: half-time a797 → full time 63d7).
+- RNG-consumer closure (calls.tsv, all direct callers of 214B:0688/06B1/06D0/06FA and 0791:94C9):
+  in the quick second half only D733, B19D, D5C1 (9A3D!=0), 7EEF (1/32 chance), 6337 (one rand(10)
+  at most, after a goal), the C173 tree (BD83/BF6B/C01A/C0DF), and 94C9 via 7881 (walk-off, only
+  from 7B77/7D56 inside 7EEF). Display, commentary, substitution (C88D) and menu routines draw
+  nothing.
