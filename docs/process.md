@@ -37,6 +37,11 @@ Scope, Done when, Hazards, Implementer, Reviewer, Merge after. Rules:
 - **Owns** names directories or files. Go finer only when two tasks run at once in one file: function-level Owns made one project open 27 PRs that only widened a list. (L5)
 - **Done when**: each line is one check a command can run. The main session runs each line before dispatch: it fails on `main` and passes on a mock fix. (L45)
 - The main session edits task files directly on `main`, the reason in the commit; the reviewer sees it. (L6)
+- **Milestones.** A task likely to outlast one implementer run (about an hour), or whose Done-when is all
+  or nothing (an exact match, a whole model), is split into tasks that each merge on their own: the
+  static reading (a finding's first part), any tool that produces ground truth, then the deliverable
+  piece by piece. A milestone's Done-when measures progress as a number (the first divergent minute,
+  the records matched), committed with each push, so a resumed run starts from it. (L102)
 
 ## 3. The loop
 
@@ -55,6 +60,15 @@ What the implementer script guarantees, and why:
   moves on only after an infrastructure failure that left no work. (L12)
 - Exit 0: a PR is open. 1: the main session reads the log (a stop and report, or an early end).
   3: OpenCode unavailable, its model not listed, or not logged in; Claude Sonnet takes the task.
+
+How the main session launches and watches a run (L103):
+- Detached from its own session, so a restart of Claude Code does not kill the run: `systemd-run --user
+  --unit=goal2-<task> --collect -E PATH="$PATH" -p WorkingDirectory=<repo> bash -lc '<implement.mjs or
+  review.mjs command> > <log> 2>&1'` (`bash -lc` loads the keys of `~/.profile`).
+- The watch follows the unit (`systemctl --user is-active goal2-<task>`), and when a run's worktree holds
+  uncommitted work more than 20 minutes newer than its last commit, it archives it outside the worktree,
+  read-only (it never touches the run's index).
+- An implementer's PR may be a draft; the main session runs `gh pr ready <pr>` before the review.
 
 ## 4. The implementer brief
 
@@ -79,6 +93,9 @@ You implement <T<nn>>. The task file above is the contract.
 - A defect you find outside the task: report it. A one-file mechanical fix that blocks you may
   ride this PR, declared under Scope in the PR body.
 - Update any document your change makes wrong, in this PR. Never write status into a document.
+- Commit and push after each step, at least every 20 minutes and before any command that runs longer
+  than 5 minutes; after your first push, open the PR as a draft (`gh pr create --draft`). A crash then
+  loses one step, and the branch shows where you are. (L103)
 - PR body: Closes #<issue>; Scope (files and why); a fenced block with each Done-when command and
   the tail of its output; Docs changed.
 ```
