@@ -4,8 +4,13 @@ address	name	purpose	confidence	basis
 000E:7439	main_menu_loop	the main-menu loop (the top-level screens); on Enter with item 6 it can reach 000E:70B9	likely	F002; F004
 0791:0106	draw_match_summary	builds a board in DS:A96E: header via A699 (0x27A0/0x276E chosen by the argument), score (0712), 9 statistics per side from DS:7B7E (10 bytes per side), counters DS:80F2/80F6, team names, scorers from DS:7BD1 with minutes (a different mark when byte >= 0x81); then copies it to DS:A96A	likely	read decompiled/seg_0791_01.c
 0791:0425	match_delay	match_delay(n): calls 214B:1E09(n) only when the speed byte [DS:A923]+0x3F is above 0	established	F006
+0791:0441	match_whistle	the whistle(n): plays a sound only when the speed byte [DS:A923]+0x3F is above 0, like 0791:0425; called at the end of each half	established	F006
 0791:054C	draw_big_digits	formats arg2 (DS:831B in D733) as decimal and draws its digits as 7-segment shapes (table DS:0644) at columns 0x45/0x4B of the screen at DS:A96A	guess	read decompiled/seg_0791_01.c
 0791:0712	draw_score	draws the goals byte DS:9B3C+1 at (0x1F,2) and DS:9B3C at (0x1F,4), attribute 0x70, into the given screen buffer	likely	read decompiled/seg_0791_01.c
+0791:0A6B	action_replay	the replay code that 0791:0C65 runs when 0791:0B7C returns 1 (reaches the line editor 214B:1086 through 09C4 and 0955); not run	likely	F005
+0791:0B7C	ask_action_replay	the action-replay prompt: waits 0791:CC2E(600), returns 1 only when a key is waiting and it is Y, 0 with no key	established	F005; F006
+0791:0C65	offer_action_replay	the replay route of the tick loop (when DS:7C37 is set): if [DS:A923]+0x41 and DS:0C1E are not 0, asks 0791:0B7C and on yes runs 0791:0A6B	likely	F005
+0791:1C78	add_commentary_record	adds a record to the commentary ring at DS:7C38 (6 bytes each); refuses one equal to the newest (F005: "consistent with" the goal lines seen)	likely	F005; read decompiled/seg_0791_01.c
 0791:2956	player_unavailable_on_pitch	takes a pitch-slot record (DS:80E8 + slot*0x16) and returns 1771:3216 for its player index at +0xD, so 1 when that player cannot play	likely	read decompiled/seg_0791_02.c; read decompiled/seg_1771_02.c
 0791:2996	ball_holder_is_side0	returns DS:830B < 0x0C, i.e. the slot on the ball is one of slots 1..11 (the side whose base in the table at DS:0668 is 0); used as a 0/1 side index everywhere	likely	read decompiled/seg_0791_02.c
 0791:2BE5	attack_direction	returns DS:7920[team ^ half] (a sign, multiplied by 5/6/0x27/'$' at call sites); team = slot<0x0C via 2974, half flag = DS:8319 < DS:831B	likely	read decompiled/seg_0791_02.c; read decompiled/seg_0791_04.c
@@ -16,6 +21,7 @@ address	name	purpose	confidence	basis
 0791:6188	handle_player_at_ball	watched match only (DS:9A3E = 0), state +0x12 not 13, player on the ball square (2CEC): a keeper calls 5B36, another player not already holding (DS:830B) calls 5F8A	likely	read decompiled/seg_0791_04.c
 0791:6443	record_goal	(minute, slot, side): commentary 0x26 (0x27 when DS:7C39 is set, and then the other side is credited), adds 1 to the scorer's player word +0x0A, adds 1 to the count DS:80F0[side] (up to 11), stores the player and minute in the scorer list DS:7BD1 + side*0x21 + n*3 (+0x80 when DS:8324 or 7C39 is set)	likely	read decompiled/seg_0791_04.c
 0791:7881	ball_flight_loop	the ball-flight loop: 214B:1E09(2) per pass at speed 0, 214B:1E09(1) at speed 1	likely	F006
+0791:7FCF	substitution_notice	the substitution notice: waits 0791:CC2E (400 or 1000), reads a waiting key, else writes Esc to DS:A977	established	F005; F006
 0791:8062	check_substitutions	per side: a computer side (1771:0B77 = 0) with DS:9B3A[side] != 0 scans slots 11..2 and calls C88D (player +0x12 word < 0x5A - DS:831B, +0x0E > 0, bit 6 of +0x10 clear); a managed side calls the prompt 7FCF/ED8A when its keeper cannot play (3216) or other conditions on DS:9B40 hold	guess	read decompiled/seg_0791_05.c
 0791:83A2	move_ball	adds the velocity (+6, +8) to the ball record at DS:82F6, counts the timer at +0x0A down, redraws (8F10); when out of bounds (2DCA: abs(x)<9, abs(y)<0x26 is in play) it picks the restart: abs(x)<2 calls 698E/690C, else abs(y)<0x26 calls 6E11, else 6E6E or 6F01, depending on which end	likely	read decompiled/seg_0791_06.c; read decompiled/seg_0791_02.c
 0791:8AE9	update_player	runs a handler chosen by the state byte +0x12 (1,2,3,5,6,7,8,9,10,11,13); then 8889, 8537 (draw); counts +0x14 and, past 0xB4 in a quick result (DS:8325), decrements the player's +0xE (not below 1)	likely	read decompiled/seg_0791_06.c
@@ -36,6 +42,7 @@ address	name	purpose	confidence	basis
 0791:CC2E	wait_or_key	n times: keypressed (214B:0723), else 214B:1E09(10)	established	F006
 0791:D5C1	roll_quick_foul	picks one random outfield slot per side; if both can play, distance and random tests (278A, 26D7) and a hardness contest (1771:2FFB = +5 - (+3&1)) can set DS:830C/830B and call 7EEF, which picks a booking (798D) or sending off (7B77) by bit 5 of +0x10 and an injury (7D56)	guess	read decompiled/seg_0791_08.c; read decompiled/seg_0791_05.c; read decompiled/seg_1771_02.c
 0791:D733	quick_match_engine	the quick-result engine, one call per tick while DS:9A3E is set	established	F005
+0791:ED8A	match_team_screen	the in-match team screen: opens it and waits for a key (at half time, from the key poll on Enter or Esc, or after 0791:7FCF)	established	F005; F006
 0791:F098	play_match	the match proper, called by 0791:F1F6 after 0791:A4A1	likely	F005; F009
 0791:F1F6	run_match	calls the per-match set-up 0791:A4A1 once, then the match proper 0791:F098	established	F005; F009
 0791:F3F2	unit_0791_init	the start-up of unit 0791: stores the BIOS tick count's low word at DS:8336 (the speaker stream's seed)	established	F004; F006
@@ -50,6 +57,7 @@ address	name	purpose	confidence	basis
 1771:2D15	set_managed_country	writes the managed country's +0x2E = 0x80 + manager and calls 1771:98C4 for its extra players	established	F007
 1771:2E20	player_name_colour	the colour of a player's name: 6 when +0x0E = 0 (injured), 5 when +0x10 bit 8 or 6 is set, else DS:699A[+6]	established	F008
 1771:2E93	player_name	a player's name: initial and surname, from [DS:9B70] + n and 11 bytes at [DS:9B6C] + 11 n	established	F008
+1771:2EE5	draw_player_name	draws a player's name (1771:2E93, 12 characters at most) on the squad list, in 1771:2E20's colour	established	F008
 1771:2F37	draw_squad_row	one row of the squad list: the name (1771:2E93) in 1771:2E20's colour and the position glyph DS:69A8[+6]	established	F008
 1771:2FAD	player_height	a player's height, not stored: DS:0E46[+7] + DS:0E54[n mod 12] inches	established	F008
 1771:2FFB	player_hardness	hardness = +5 - (+3 and 1)	established	F007; F008

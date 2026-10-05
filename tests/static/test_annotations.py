@@ -39,6 +39,12 @@ FINDING_CITED = [
     "1771:0E24", "1771:0F58", "1771:2D15", "1771:2E20", "1771:2E93", "1771:2F37", "1771:2FAD",
     "1771:2FFB", "1771:3041", "1771:3088", "1771:30D9", "1771:3291", "1771:32EB", "1771:3431",
     "1771:3558", "1771:42BC", "1771:4D8A", "1771:98C4", "1771:9B85",
+    # round 2: the finding-backed routines F004..F008 cite by bare offset, and every other routine
+    # row added in rounds 1 and 2
+    "0791:0441", "0791:0A6B", "0791:0B7C", "0791:0C65", "0791:1C78", "0791:7FCF", "0791:ED8A",
+    "1771:2EE5", "0000:0000", "000E:70B9", "000E:7439", "0791:7881", "0791:9119", "0791:F098",
+    "1771:027B", "1771:157D", "1771:26B9", "1771:33CD", "1771:377E", "1771:3827", "1771:4E22",
+    "1771:9873",
 ]
 # The fields F007 and F008 establish, by offset: every player byte but +0x09, +0x0B and +0x13 (the
 # high bytes of the words at +8, +0xA, +0x12) and +0x11 (read by no screen routine; F008).
