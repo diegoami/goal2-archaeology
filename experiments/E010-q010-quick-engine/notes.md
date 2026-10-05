@@ -284,3 +284,81 @@ to check** (they look like display/commentary writers; 2bb1 = ball-side test, no
   at most, after a goal), the C173 tree (BD83/BF6B/C01A/C0DF), and 94C9 via 7881 (walk-off, only
   from 7B77/7D56 inside 7EEF). Display, commentary, substitution (C88D) and menu routines draw
   nothing.
+
+## Batch 3 (2026-10-05, fourth run): the substitution tree and the exact D733/B19D/tactics decode
+
+- **`214B:007B(count, a, b)` is a byte SWAP** (decompiled seg_214B_01.c:104-130: exchanges count bytes),
+  not a move. `214B:0018` = fill; `214B:0C57(n,set)` = element n (bit n-1) member; `0C79` set; `0CA1` clear.
+- **`B19D` both draws of each contest use the SAME side's sums**: the side index is computed once as
+  `1 - t` and reused for both `rand` calls (seg_0791_18.asm: B1C5-B1EC, B1F6-B220, B236-B251). So for
+  team t's attempt: c1 = rand(mid[s]) vs rand(mid[s]); c2 = rand(2*def[s]) then rand(atk[s]), win iff
+  2nd > 1st; c3 = rand(gk[s]) then rand(atk[s]), win iff 2nd > 1st; s = 1-t, all signed `jle` on fail.
+  Team t = score byte 9B3C+t = country 9B34+2t (side s of 0BC4 = country 9B34+2s: D77E-D798 pairs
+  side 1 with 9B36, side 0 with 9B34). So a team's goals are drawn from the OTHER side's sums
+  (E008-r0001's screen: 9B3C=1 = Sweden, 9B34=27 = Sweden).
+- **`D733` exact** (seg_0791_21.asm:794-DAF7): saved = word copy of 9B3C; 9B3C=0; the two 0BC4 calls;
+  B19D(0A8A[8319==0x0F]); 4 stat draws (element 5 → 1/0A90[bit] → 7B7E+10t; element 1 → 1/0A8E[bit] →
+  7B82+10t and 7B83+10*(1-t)); then per side t: if fresh[9B3C+t] > saved[t]: fresh -= saved; draw that
+  many minutes rand(0A8C[..]) into local[t*16+j]; then per side t, per j: goal iff minute == 831F and
+  saved[t] < 0xF and no goal yet this call; scorer slot = DS:0xA6B[rand(0x1E)] (so bytes 0xA6C..0xA89,
+  values 2..11), redrawn while 3216(country[2*(slot-1)]) (unavailable); saved[t]++; 830B =
+  DS:0668[t] + 3A82(country, squad word); 6443(minute, 830B, t); side loop forced to end. Restore
+  9B3C = saved. Energy: for pitch slot 1..22, if 831B unsigned % 5 == 0 and player(pitch+0xD).+0xE > 1
+  → dec +0xE. Then: if 9A3D != 0 and no goal → D5C1; goal → 0106(0)+65FE; else 8062; then 9372.
+  DS:0668 bytes = [11, 0] (side t's pitch slots = 0668[t]+1 .. 0668[t]+11: t=0 → 12..22, t=1 → 1..11).
+- **`8062`** (seg_0791_13.asm:905-8205): managed team (0B77: country+0x2E > 0x80 unsigned) → nothing
+  in a quick match (9B40=0). Unmanaged team with 9B3A[t] > 0: squad slot s = 11 down to 2, pitch slot
+  0668[t]+s, player = pitch+0xD; sub iff: player+0x10 element 6 clear AND +0xE > 0 AND 831B > 1 AND
+  s > 1 AND 831B < 0x23 AND signed word +0x12 < 0x5A - 831B. After a sub at s: if 9B3A[t]==0 → s = 1
+  (stop scanning). DS:066B bytes = [5, 2]; 9B3A[t] = 066B[9A3D] at A4A1 → 5 per team in a friendly
+  (9A3D=0): substitutions are live in quick friendlies (E008-r0001 saw 5).
+- **`C88D(0, t, slot, country)`** (seg_0791_20.asm:661-CAAA): 9B3A[t]==0 → only a forced C48D when the
+  outgoing player's +0xE < 1. Else: fill 14 bytes at DS:99A2 with 0; `c7eb` walks squad slots 12..20
+  filling 99A2[+7 of first available candidate] = squad slot (skips the outgoing player's word and
+  3216-unavailable ones); `aae8(outgoing)` picks the bench squad slot from the formation table
+  DS:0x99A + 8*(outgoing+6) (byte 0 = count; entries are +7 roles; candidate taken iff 99A2[role] != 0
+  and (3041 two-footed or 3088 == (count>3 ? 1 : 0))); if 0 and the outgoing player is the keeper
+  (+6 == 0) → `a9b8(20, +6, country)` = best bench slot 12..20 by DS:0x8D5[14*(+7) + (+6)] value
+  (halved when 3041==0 and 3088 != (setcount>3 ? 1 : 0)). If still 0 → no sub. Else: bench player's +6
+  := outgoing's +6; `007B` SWAPs the squad words of slots s and chosen; swaps the words at
+  DS:9A3E + 0x28*t + 2*s and + 2*chosen (shadow squad); swaps bytes at DS:9B07 + 0x14*t + s and
+  + chosen; then `c5dc(chosen, slot, t)`.
+- **`c5dc(chosen, slot, t)`**: 0C79(3, player(outgoing)+0x10) (set element 3 = "substituted" mark);
+  quick mode skips the display paths (C50C, 1E8D gated); `11eb5(0, chosen, s, t)` = substitution
+  commentary (1D4A ring write, no RNG); pitch+2 word swap with [DS:640]/[DS:644]; player(outgoing)
+  +0x12 := 0x2747, +0xF := 0, then 3431(outgoing); a2e6 re-derives the pitch record from the squad
+  word (a260: pitch+6, pitch+0xD := country squad word of 2bb1(pitch)); the DS:9978 + 10*side marking
+  games (managed teams only); dec 9B3A[t]; 9B55 := 1.
+- **`65FE`/`65A4`/`6337`**: 65FE: 8325=1, 0441(4) (whistle, no RNG), pitch[k]+7(word) := pitch[k]+0;
+  if 8326==0: 65A4 (per slot 1..22: pitch+0x12 := (2b51(pitch) != 0 and not keeper slot) ? 6 : 0;
+  then 6337); C173((7C39==0) ? 1 : 0); display; 832A; if 9A3E → 9B55=1. `6337`: if 045D(830B)
+  (keeper slots {1,12}): one rand(0xA); 830B := rand + 1 + 0668[2996()] (2996 = (830B < 12) ? 1 : 0);
+  2a15 (display). In quick mode 6337 draws nothing else (63C3 branch is watched-only).
+- **`C173(flag)`** exact (seg_0791_19.asm:997-C24A): d = signed(9B3C - 9B3D). Per team t with
+  0B77(country[t])==0 (unmanaged): ad = |d|; ad < 2 → BD83(t); ad == 2 → BF6B(flag2, t) with flag2 =
+  (score[t] > score[1-t]) ? 0 : 1; ad > 2 → score[t] > score[1-t] ? C0DF(t) : C01A(t).
+  - `BD83(t)`: BBFF(9B7C[country[t]], country[t]) (reset +0x2D to R008, 3431 per player); if t==1 and
+    80FC != 0 and BD03(t stronger): 0C79(1, +0x2D) + BBFF; then (any t) if BD03(t stronger): 2×
+    { 0C79(rand(6), +0x2D) } + BBFF; clear 8332+t, 8334+t.
+  - `BF6B(flag2, t)`: BD83(t); 3× { flag2 ? 0C79(rand(6)) : 0CA1(rand(6)) }; BBFF.
+  - `C01A(t)`: only if 8332+t == 0: 5× 0C79(rand(5)); 0C79(6); BBFF; 8332+t := 1; then if the +6 of
+    the player at country word +0x10 is in the set at CS:0xBFFA (bytes 00 30) → BEC7(country) + 230C.
+  - `C0DF(t)`: only if 8334+t == 0: 5× 0CA1(rand(5)); 0CA1(6); BBFF; 8334+t := 1.
+  - The rand RESULT is the element number: 0C79(r)/0CA1(r), r ∈ 1..6 or 1..5 (bits r-1).
+  - `BBFF(value, c)`: +0x2D := value; per nonzero squad word 3431. `BD03(a,b)`: sum of 377E over the
+    first 11 squad words, unsigned >. `BEC7`: per slot 1..11, player+6 in set CS:0xBEA7 (0E 00 ...) and
+    available and 2FAD < 0x48 → +6 := DS:0xA28[(2FAD >= 0x48) ? 1 : 0]. `230C` (the `call 0x1230c`
+    target, seg_0791_04.asm:357): rebuilds pitch placement from positions — read if the C01A branch
+    ever fires in a run.
+- `1EB5` (c5dc's commentary) = 1E53 + 1D4A + 1829 (ring write; no RNG). `a2e6`/`a260` re-derive pitch
+  fields from the squad words. `2996` = (830B < 12) ? 1 : 0. `045D` = slot ∈ {1,12} (keeper).
+  `1771:0B77` = country+0x2E > 0x80 (unsigned). `1771:2FAD` = table lookup DS:0xE54[player % 12] /
+  DS:0xE46[+7] product-ish (only reached from BEC7).
+- `D5C1` foul path (9A3D != 0 only) and its 7EEF branch stay as batch 1 traced them; our friendly runs
+  have 9A3D = 0, so the model implements D5C1's draws up to `7EEF` and raises if the walk-off branch
+  (which steps DS:8336) would fire — no E010 run may reach it without the model being extended first.
+- Tables dumped from the e006-1000-r0001 savestate (DS bytes): 0668 = 0b 00; 066B = 05 02;
+  0A6C..0A89 (scorer slots, indexed 0xA6B+rand(30)) = 02 03 04 05 05 06 06 07 07 08 08 08 09 09 09
+  09 09 09 0a 0a 0a 0a 0a 0a 0b 0b 0b 0b 0b 0b; 0A8A = 0c 10; 0A8C = 5a 78; 0A8E = 21 0a;
+  0A90 = 3c 1e; 0D4E (pos→line) = 00 01 01 04 04 02 02 02 02 05 05 05 03 03 00 01;
+  0A90[2..11] = 0b 0a 09 08 07 06 05 04 03 02 (D5C1's slot map).
