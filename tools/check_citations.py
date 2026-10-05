@@ -15,7 +15,6 @@ repository it is run in: `runs/` and the repository root come from there.
 """
 from __future__ import annotations
 
-import subprocess
 import sys
 from pathlib import Path
 
@@ -26,16 +25,17 @@ from tools import ga  # noqa: E402
 
 
 def main(argv=None) -> int:
-    """Exit with the pinned tool's own exit code for the same arguments."""
+    """Exit with the pinned tool's own exit code for the same arguments.
+
+    Fetching or launching failures are named lines and exit 1; a tool killed by a signal
+    terminates this process with that same signal."""
     if argv is None:
         argv = sys.argv[1:]
     try:
-        tool = ga.fetch() / ga.CHECK_CITATIONS
+        return ga.run_tool(ga.CHECK_CITATIONS, list(argv))
     except ga.GaError as e:
         print(f"check_citations.py: {e}")
         return 1
-    completed = subprocess.run([sys.executable, str(tool), *argv])
-    return completed.returncode
 
 
 if __name__ == "__main__":

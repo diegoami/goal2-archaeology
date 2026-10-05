@@ -30,6 +30,9 @@ import binascii
 import hashlib
 import importlib.util
 import json
+import os
+import shutil
+import signal
 import subprocess
 import sys
 from pathlib import Path
@@ -114,9 +117,17 @@ def _wanted(repo: str, commit: str) -> dict[str, str]:
     return wanted
 
 
+def _probe(path: Path, what: str) -> bool:
+    """A filesystem probe (`is_file`, `is_symlink`) as a named `GaError`, never a traceback."""
+    try:
+        return bool(what == "file" and path.is_file() or what == "symlink" and path.is_symlink())
+    except OSError as e:
+        raise GaError(f"cannot stat {path}: {e.strerror or e}") from None
+
+
 def _missing(dest: Path, wanted: dict[str, str]) -> list[str]:
     """The needed files the cache does not hold; a non-empty list makes the cache untrusted."""
-    return [path for path in sorted(wanted) if not (dest / path).is_file()]
+    return [path for path in sorted(wanted) if not _probe(dest / path, "file")]
 
 
 def _download(repo: str, dest: Path, wanted: dict[str, str]) -> None:
@@ -139,7 +150,7 @@ def _check(dest: Path, wanted: dict[str, str]) -> None:
     """A named `GaError` unless every wanted file is present and holds its pinned bytes."""
     for path, sha in sorted(wanted.items()):
         target = dest / path
-        if not target.is_file():
+        if not _probe(target, "file"):
             raise GaError(f"{path}: missing from the pinned cache {dest}")
         try:
             content = target.read_bytes()
@@ -149,6 +160,22 @@ def _check(dest: Path, wanted: dict[str, str]) -> None:
         if actual != sha:
             raise GaError(
                 f"blob sha mismatch for {path}: cache has {actual}, pinned tree says {sha}")
+
+
+def _drop_bytecode(dest: Path) -> None:
+    """Delete every `__pycache__` under the cache, so only verified source can ever run.
+
+    Python accepts a cached `.pyc` when the source's size and mtime match its header, and a
+    same-length edit restored within the same second slips past that check: the verified source
+    would be ignored for stale bytecode. Removing the bytecode closes that hole; the wrappers also
+    launch the fetched tools with `-B` and the direct import sets `sys.dont_write_bytecode`, so
+    nothing writes new bytecode for the cache either."""
+    try:
+        pycaches = sorted(dest.rglob("__pycache__"))
+        for pycache in pycaches:
+            shutil.rmtree(pycache)
+    except OSError as e:
+        raise GaError(f"cannot remove bytecode under {dest}: {e.strerror or e}") from None
 
 
 def fetch(commit: str | None = None) -> Path:
@@ -164,28 +191,63 @@ def fetch(commit: str | None = None) -> Path:
     dest = root(commit)
     # The cache is a plain directory under the working tree. A symlinked cache root (or commit
     # folder) could point elsewhere, so it is refused by name rather than written through.
-    if CACHE.is_symlink():
+    if _probe(CACHE, "symlink"):
         raise GaError(f"cache root {CACHE} is a symlink, not a directory")
-    if dest.is_symlink():
+    if _probe(dest, "symlink"):
         raise GaError(f"cache for {commit} is a symlink: {dest}")
     wanted = _wanted(repo, commit)
     if _missing(dest, wanted):
         _download(repo, dest, wanted)
+    _drop_bytecode(dest)
     _check(dest, wanted)
     return dest
+
+
+def run_tool(rel: str, argv: list[str]) -> int:
+    """Run one fetched tool as a subprocess: `-B` (no bytecode), named launch errors, and the
+    tool's own exit code, with death by signal re-raised in this process rather than mangled.
+
+    The tool always runs from the caller's working directory, never from the cache folder that
+    holds it, so it serves the repository it is run in."""
+    tool = fetch() / rel
+    try:
+        completed = subprocess.run([sys.executable, "-B", str(tool), *argv])
+    except OSError as e:  # the interpreter or the tool cannot be launched
+        raise GaError(f"cannot run {tool}: {e.strerror or e}") from None
+    code = completed.returncode
+    if code < 0:
+        # The tool was killed by signal -code; sys.exit(code) would report 241 for SIGTERM, so
+        # the same signal is re-raised here to preserve the termination as it happened.
+        sig = -code
+        try:
+            signal.signal(sig, signal.SIG_DFL)
+            os.kill(os.getpid(), sig)
+        except (OSError, ValueError, KeyError):
+            pass
+        return 128 + sig
+    return code
 
 
 _validator = None
 
 
 def validator():
-    """The imported pinned validator module (`tools/validate_records.py`)."""
+    """The imported pinned validator module (`tools/validate_records.py`).
+
+    `fetch()` has just deleted any cached bytecode and the import runs with
+    `sys.dont_write_bytecode`, so the module executed is the verified source and no `.pyc` is
+    written for the cache."""
     global _validator
     if _validator is None:
         path = fetch() / VALIDATOR
-        spec = importlib.util.spec_from_file_location("ga_validate_records", path)
-        module = importlib.util.module_from_spec(spec)
-        spec.loader.exec_module(module)
+        previous = sys.dont_write_bytecode
+        sys.dont_write_bytecode = True
+        try:
+            spec = importlib.util.spec_from_file_location("ga_validate_records", path)
+            module = importlib.util.module_from_spec(spec)
+            spec.loader.exec_module(module)
+        finally:
+            sys.dont_write_bytecode = previous
         _validator = module
     return _validator
 

@@ -16,6 +16,7 @@ import contextlib
 import io
 import json
 import os
+import py_compile
 import subprocess
 import sys
 import tempfile
@@ -196,6 +197,48 @@ class GaFetchTest(unittest.TestCase):
                 ga.fetch()
         self.assertIn("gh api", str(raised.exception))
 
+    def test_unreadable_tools_directory_is_a_named_error(self):
+        # A tools/ directory without search permission makes the filesystem probes fail; that is
+        # a named GaError with exit 1, never a raw PermissionError traceback (R2).
+        repo, commit = ga.pin()
+        dest = self.cache / commit
+        self.seed(dest)
+        tools_dir = dest / "tools"
+        tools_dir.chmod(0o000)
+        self.addCleanup(tools_dir.chmod, 0o755)
+        wanted = {path: ga.git_blob_sha(text.encode()) for path, text in CONTENTS.items()}
+        with self.pinner, mock.patch.object(ga, "_wanted", return_value=wanted):
+            with self.assertRaises(ga.GaError) as raised:
+                ga.fetch()
+        self.assertIn("cannot stat", str(raised.exception))
+
+    def test_stale_cached_pyc_is_never_run(self):
+        # R1: a same-length edit of the cached validator, byte-compiled and then restored to the
+        # pinned bytes with the original mtime, must not run through its stale .pyc.
+        good = "def validate(value, schema, path='$'):\n    return [path + ': real error']\n"
+        bad = "def validate(value, schema, path='$'):\n    return [][0:0] + [][0:0]      \n"
+        self.assertEqual(len(good), len(bad))
+        contents = dict(CONTENTS)
+        contents["tools/validate_records.py"] = good
+        (self.tmp / "tree.json").write_text(json.dumps(tree_fixture(contents)), encoding="utf-8")
+        repo, commit = ga.pin()
+        dest = self.cache / commit
+        self.seed(dest, contents)
+        target = dest / "tools" / "validate_records.py"
+        stat = target.stat()
+        target.write_text(bad, encoding="utf-8")
+        py_compile.compile(str(target))  # writes tools/__pycache__ for the edited source
+        target.write_text(good, encoding="utf-8")
+        os.utime(target, (stat.st_atime, stat.st_mtime))  # the .pyc now looks fresh
+        ga._validator = None
+        self.addCleanup(setattr, ga, "_validator", None)
+        with self.pinner, mock.patch.dict(os.environ, self.env):
+            errors = ga.validate(-1, {"type": "integer", "minimum": 0})
+        self.assertEqual(["$: real error"], errors)
+        # Nothing left or written: the cache holds source only.
+        self.assertEqual([], list(dest.rglob("__pycache__")))
+        self.assertEqual([], list(dest.rglob("*.pyc")))
+
 
 class WrapperPassThroughTest(unittest.TestCase):
     def setUp(self):
@@ -238,6 +281,52 @@ class WrapperPassThroughTest(unittest.TestCase):
                     code = module.main(["E900"])
             self.assertEqual(1, code, module.__name__)
             self.assertIn("blob sha mismatch", buffer.getvalue())
+
+    def test_launch_failure_is_a_named_error_and_exits_1(self):
+        # R3: the subprocess failing to start (PermissionError, FileNotFoundError) is a named
+        # error with exit 1, never a traceback from either wrapper's main().
+        for module, tool in ((verify_evidence, ga.VERIFY_EVIDENCE),
+                             (check_citations, ga.CHECK_CITATIONS)):
+            cache = self.stub_cache(tool)
+            for failure in (PermissionError(13, "Permission denied"),
+                            FileNotFoundError(2, "No such file or directory")):
+                buffer = io.StringIO()
+                with mock.patch.object(ga, "fetch", return_value=cache), \
+                        mock.patch.object(ga.subprocess, "run", side_effect=failure), \
+                        contextlib.redirect_stdout(buffer):
+                    code = module.main(["E900"])
+                self.assertEqual(1, code, (module.__name__, failure))
+                self.assertIn("cannot run", buffer.getvalue())
+
+    def test_a_tool_killed_by_a_signal_terminates_the_wrapper_with_it(self):
+        # R4: a negative return code must not become 241 through sys.exit(); the wrapper process
+        # itself dies of the same signal. Driven through a real subprocess per wrapper.
+        signal_tool = (
+            "import os, signal, sys\n"
+            "signal.signal(signal.SIGTERM, signal.SIG_DFL)\n"
+            "os.kill(os.getpid(), signal.SIGTERM)\n"
+        )
+        driver = (
+            "import importlib, sys\n"
+            "from pathlib import Path\n"
+            "from unittest import mock\n"
+            "sys.path.insert(0, {root!r})\n"
+            "from tools import ga\n"
+            "module = importlib.import_module({name!r})\n"
+            "with mock.patch.object(ga, 'fetch', return_value=Path({cache!r})):\n"
+            "    sys.exit(module.main([]))\n"
+        )
+        for module, tool in ((verify_evidence, ga.VERIFY_EVIDENCE),
+                             (check_citations, ga.CHECK_CITATIONS)):
+            cache = self.stub_cache(tool)
+            (cache / tool).write_text(signal_tool, encoding="utf-8")
+            child = subprocess.run(
+                [sys.executable, "-c",
+                 driver.format(root=str(REPO_ROOT), name=module.__name__, cache=str(cache))],
+                capture_output=True, text=True, timeout=60)
+            self.assertEqual(-15, child.returncode, (module.__name__, child.stderr))
+            self.assertTrue(child.stderr.strip() == "" or
+                            "Traceback" not in child.stderr, module.__name__)
 
 
 if __name__ == "__main__":
