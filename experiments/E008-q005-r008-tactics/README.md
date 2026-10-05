@@ -54,3 +54,15 @@ python3 experiments/E008-q005-r008-tactics/run.py quick --state e006-1000-r0001 
 python3 experiments/E008-q005-r008-tactics/run.py quick --state e006-1337-r0004 --arms unchanged,edited,unchanged --batch b1
 python3 experiments/E008-q005-r008-tactics/summarise.py
 ```
+
+## Amendment 1 (2026-10-05, after E008-r0006)
+
+- E008-r0001 carries the batch label `b0`: it was run alone, as a first check of the runner, and is
+  the first `unchanged` arm of `e006-1000-r0001` as designed; r0002 and r0003 (batch `b1`) are that
+  state's `edited` and repeated `unchanged` arms.
+- On `e006-1000-r0001` the edited arm differs from both unchanged arms (score and seed word); on
+  `e006-1337-r0004` it gives the same score and seed word as both. One state each way does not show
+  how often the edit changes a quick result, so two more of E006's published states are run, each
+  `unchanged` then `edited` (no repeat: the four runs above already show the unchanged arm
+  repeating): `e006-2100-r0005` and `e006-0630-r0008`. Batch `b2`. With them the experiment has 4
+  start states and 10 runs, inside the task's bound of 5 states x 2 arms.
