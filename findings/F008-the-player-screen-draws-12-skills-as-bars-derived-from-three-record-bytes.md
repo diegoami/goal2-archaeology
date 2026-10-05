@@ -1,0 +1,77 @@
+# F008 The player screen draws 12 skills as bars computed from three record bytes (+4, +5, +7); no skill is stored, and `goal kicking` is not shown
+
+- **Status**: proposed
+- **Question**: Which skills does the player screen show, on what scale, and from which record fields? (G5 Q009, `docs/backlog.md`; T16)
+- **Tests claims**: F007's inferred field meanings (+1, +2, +3, +4); bears on `GOAL.HLP` lines 39 and 92 and its 13 named skills; on Q010–Q012 (what a skill does in a match: not tested here) and Q013–Q016 (how values change: not tested here); no spec row exists yet
+- **Experiment and runs**: E007; E007-r0001 … r0012 (the player screens of 20 players of each of four countries, read three times: r0001 … r0004, r0005 … r0008 and r0009 … r0012 are the same four country-list positions 0, 1, 2, 3). The analysed batch is r0009 … r0012 (80 players, countries 7, 12, 20, 27; 8 goalkeepers; all 14 position codes). The other two read the same 160 screens again, byte for byte identical to it (`summarise.py`, "the earlier records' screens", 160 of 160); they lack parts of the measurement (README amendments 1 and 2)
+- **Artifact**: set `goal2-67cf27d6`, variant none
+- **Max intervention**: I2 (a savestate written at every screen and one loaded at the start; the DOS clock of the session is not set; memory and text page read from the savestates, I1)
+- **Tier reached**: V2
+- **Confidence**: unreviewed (status `proposed`). Static: the routine, its template and every formula below are read from the listing (`static/goal-exe/code/`). Behavioural: all 80 transcribed players × 37 values match the formulas, 0 differences (`summarise.py`). Claims marked "both" have both routes; claims marked "static only" or "not shown here" say so.
+
+## Answer
+
+- **The routine** (static, then corroborated by the runs): the player screen is drawn by `1771:42BC(player)` (`seg_1771_06.asm:842`). It expands the template at `DS:486E` into the text buffer at `[DS:A96E]` with `214B:0329` → `214B:0147` (`:845`–`852`; the template's header `E1 01 12 3F` is the cell 481 = row 6, column 0, 18 rows of 63 columns; the template runs to `DS:4EB1`, `DS:4EB2` being the next one). The names at `DS:4979..4E78` are split over two templates: `DS:486E..4BBD` is this screen (`keeping` … `leadership`, `DS:4979` is its `skills` header), `DS:4BBE..4EB1` is the team panel of the main screen (`1771:157D`, `seg_1771_03.asm:60`: `keeper`, `defence`, `midfield`, `attack`, `performance`, `characteristics`). The runs show the template on every screen (240 of 240 screens have the same labels, `summarise.py`). I put this at about 97% (E007-r0009 … r0012).
+- **Twelve skills, one scale: bars, not numbers or words** (both). The left panel rows 11..22 are `keeping`, `kicking`, `tackling`, `heading`, `marking`, `passing`, `crossing`, `feinting`, `control`, `dribbling`, `shooting`, `penalties`. Each is a bar of cells whose attribute is 0x70, painted by `1771:3947` (`seg_1771_05.asm:957`) over a field of 26 cells (the template's `FE 00 19` fill) with `214B:00DB` (`seg_214B_01.asm:00DB`: `inc di / stosb`, the attribute byte). The loop runs i = 1..12 and stops at 12 (`cmp [bp-2], 0xc` at `39F7`, `seg_1771_05.asm:1024`); there is no thirteenth. The length is 0..25 (26 · 254 div 256 = 25 is the largest the formula can give); seen 3..25 over 80 players. No number and no word is shown for a skill. The backlog's "one numeric or word scale" is refuted for the skills: they have a bar scale; the characteristics (below) have a word and a bar (E007-r0009 … r0012).
+- **Each skill is derived, none is stored** (both). Skill row i is `DS:6DCD[12 · (+5) + c] · ((+4) + 1) div 256`, with `c = DS:6D25[12 · (+7) + i]` (`seg_1771_05.asm:3969`–`39C4`: `inc [bp-4]` after loading +4; `39A1`–`39B0` the profile row of +5; `3996` the class of position +7). The class table (14 positions × 12 rows) and the profile table (profiles 1..16 × 12 classes: 26 down to 5, a different curve per profile) are in every record's `DS:6D20..6EB3` and printed by `summarise.py --tables`. So a player's twelve skills are fixed by three bytes: +7 (which skill is strong: a goalkeeper's keeping and kicking are classes 1 and 2), +5 (how steep the curve) and +4 (the scale). 960 of 960 bars match (80 players × 12). With +3 in place of +4, 644 of 960 match, and 31 of the 80 players have +4 < +3. F007's finding that the record holds no twelve skills is explained: they are computed on the screen. I put this at about 95% (E007-r0009 … r0012).
+- **`kicking` and `goal kicking` are one skill, as far as the screen goes** (both, about 90%). The screen has one `kicking` row and no `goal kicking` row: the template holds the name `kicking` once and `goal kicking` nowhere (`DS:4979..4E78`), `3947` computes 12 values, and the twelve labels are the same on all 240 screens. `GOAL.HLP` lists 13 names (`sources/goal-hlp.md` P63–P65, Q03.2: `keeping`, `goal kicking`, `kicking`, …); the 12 shown are those 13 without `goal kicking`. Whether the match engine has its own goal-kicking value is not decided by the screen (Q010–Q012) (E007-r0009 … r0012).
+- **The other shown values, their scale and source** (both unless noted; `summarise.py` prints the table, match counts over 80 players): (E007-r0009 … r0012)
+  - name: initial and surname, 12 characters, `[DS:9B70] + n` and 11 bytes at `[DS:9B6C] + 11 n` (`1771:2E93`, `seg_1771_04.asm:943`–`962`); the player number is not shown; the name identifies one player on 80 of 80 screens (E007-r0009 … r0012);
+  - age: number, 22..34, byte +1 (`:874`), 80/80 (E007-r0009 … r0012);
+  - caps and goals: numbers, words at +8 and +0xA (`:892`, `:909`); 0 for all 80 (new game), so the source is static only (E007-r0009 … r0012);
+  - height: feet and inches, 66..76 inches, not in the record: `DS:0E46[+7] + DS:0E54[n mod 12]` (`1771:2FAD`, `seg_1771_04.asm:1084`, `:1091`), 80/80; n is the player number (E007-r0009 … r0012);
+  - bias: `left  foot` x30, `right foot` x48, `two footed` x2; not stored: `two footed` when +5 + +2 = 30 (`1771:3041`, `seg_1771_05.asm:19`–`26`), else the 5-character word at `DS:0F2C + 6 · DS:0E60[14 · DS:0E7C[n mod 3] + (+7)]` (`1771:3088`), 80/80 (E007-r0009 … r0012);
+  - position (+6) and club position (+7): 14 words from `DS:69B6 + 0x13 · byte` (`:1005`, `:1022`), 80/80; +6 = +7 in all 80, so which byte feeds which cell is static only (and +7, not +6, feeds height, foot and the skills, by the listing) (E007-r0009 … r0012);
+  - status: `ready to play` for all 80 (DS:0C1E = 0, `:1453`), and the other branches (`suspended`, `injured` when +0xE = 0, `booked`, `sent off`, `substituted`, `selected`, `on the bench`) static only; cards: blank for all 80, static only (+0x10 bits 3..5, `:1260`–`1330`); performance: blank for all 80, static only: +0x12 = 0x7FFF is blank, otherwise a string of 1..9 characters by bucket (`1771:3827`, `seg_1771_05.asm:851`–`905`) (E007-r0009 … r0012);
+  - the right panel, each a word and a bar of up to 14 cells (the bar is the number of 0x70 cells in 14, `214B:13C5`): hardness = +5 − (+3 and 1) (`1771:2FFB`), word `DS:6EB4 + 16 · DS:78C4[v]` (17 words, `none` … `thuggish`), bar v · 14 div 16, all of v 0..16 seen; fitness = +0xD, word `DS:78D5[+0xD]` (`injured` … `total`, 32 steps), bar +0xD · 14 div 32; energy = +0xE, word `DS:78F6[+0xE]` (`can't play` … `hyperactive`), bar +0xE · 14 div 32; morale = +0xC, word `DS:78A3[min(+0xC, 0x20)]` (`none` … `over-confident`), bar +0xC · 14 div 32 only when +0xC < 0x20 (+0xC = 32 seen: no bar); leadership v = ((+3) − (+5)) mod 8, halved when +1 < 0x15 (`1771:30D9`), word `DS:7917[v]` (`none`, `negligible`, `lacking`, `limited`, `organiser`, `director`, `motivator`, `captain`), bar v · 14 div 7. Each 80/80 for word and bar. The listing lines: `seg_1771_06.asm:1043`–`1160` (words), `:1173`–`1252` (bars). +0xD = +0xE in all 80, so which feeds fitness and which energy is static only (E007-r0009 … r0012);
+  - the tactics panel (rows 11..15, `position`, `possession`, `passing`, `tackling`, `mark`; a screen block the backlog did not name): from `1771:3BD3` (`seg_1771_06.asm:118`–`358`). Row i = 1..4 is bit i of the player's +0xF when bit i + 4 of +0xF is set (the text then ends in ` P`), else bit i of the country's byte +0x2D (R008), word `DS:6AA0 + 32 i + 16 · bit`; a goalkeeper (+6 = 0) reads `DS:0EA6` and `DS:0EC6` for rows 1 and 3 (`:129`–`156`). `mark` is blank when +6 < 2, `Protect zone P` when +0x10 bit 7, else `DS:0E90 + 11 · (bit 8 of +0x2D)` (`1771:3B3F`, `3AE2`). All five rows 80/80 (country records of E007-r0009 … r0012); this is the first reader of R008 found (F007 found none in the player-value routines).
+- **F007's inferred meanings against the screen**: (E007-r0009 … r0012)
+  - +1, the age (F007 about 75%): confirmed, the shown age is byte +1 on 80 of 80 screens; about 97% (E007-r0009 … r0012);
+  - +4, the current ability (about 75%): supported, as the scale of all twelve skills (960 of 960 bars) and as the byte F007 found reduced by distance from the peak: the 31 players with +4 < +3 have lower bars. Its name "ability" is the reading; about 85% (E007-r0009 … r0012);
+  - +2, the peak age (about 70%): not shown, neither confirmed nor refuted. The screen uses +2 only in the two-footed test (+5 + +2 = 30, 2 of 80 players) and through +4; I leave it at about 70% from F007 (E007-r0009 … r0012);
+  - +3, the potential (about 70%): not shown, neither confirmed nor refuted. The screen uses +3 only through its low bit (hardness) and (+3 − +5) mod 8 (leadership), which looks like a noise source, not a displayed potential; F007's evidence (the country's rating + 0x7F) stands and the screen adds nothing (E007-r0009 … r0012);
+  - the "not established" fields of F007 now placed: +5 (profile 1..16, hardness, leadership, two-footed), +6 and +7 (position, club position), +8 and +0xA (caps, goals), +0xC (morale), +0xD (fitness), +0xE (energy; 0 is injured), +0xF (the player's own tactics: bits 0..3 the values, 4..7 the flags), +0x10 (status and card bits), +0x12 (performance). Their meaning is "static, corroborated where the new game exercises it" as marked above; +0x11, +0x13 and +9, +0xB are not read by this screen (E007-r0009 … r0012).
+
+## Method
+
+- **Static first** (owner rule U32). The question was put to the listing first: the names at `DS:4979..4E78` have no `mov di, imm` reference (`grep` for the offsets finds none; `static/goal-exe/datarefs.tsv` lists none), so a plain search of immediates fails. What settled it: reading the data bytes `DS:4860..4EA0` (`static/goal-exe/data/ds_2581_02.hex`) showed they are a screen template (control bytes `FF attr`, `00 n` repeat, `FE` filler), the template pointer `mov di, 0x486e` at `seg_1771_06.asm:845` is the only reference to its start (`datarefs.tsv`: `DS:486E` … `1771:42BC`), and `1771:42BC` reads the record fields. The listing was enough for: the routine, the template, the 12 skills and their formula (`3947`), every other shown value's source, and `goal kicking` (absent from the template). It was not enough for the values themselves (no table is a constant in the listing: the tables are initialised data, read from the savestates), for which bytes of the record equal each other on a new game (+6 = +7, +0xD = +0xE, so the listing alone fixes which feeds which), for the 4 unexercised branches (status, cards, performance, caps and goals), and for the 3AE2 / 3A82 branches with DS:0C1E not 0 (not modelled).
+- **Runs corroborate and measure.** E007: a fresh DOSBox-X launch, E006's published main-screen savestate of a new game (E006-r0001, sha256 `e0afff67…`, release E006) restored with Host+L, Down to the country, Space for its player list, Down per player; a savestate at each of the 20 screens per country. Each read keeps the text page (characters and attributes), the 20 bytes of the player the screen names (found by name and age; 80 of 80 unique) and, from r0005, the player's country record; once per record the data-segment tables the formulas index. `playerscreen.parse` transcribes a screen (bars are the 0x70 cells); `summarise.py` evaluates the listing's formulas on the record and the tables of the same record and compares value by value (0 differ). No run was added where the listing answered; the runs were taken to place which bytes feed which and to check the formulas. Their costs: r0001 … r0004 kept DS ranges one table short and r0005 … r0008 six bytes short of the goalkeeper's tactic words (README amendments 1 and 2); the analysis uses r0009 … r0012.
+- Machine and tools: as F007; driver `runtime/driver/driver.py`, `players.py` (names), `playerscreen.py`, runner `experiments/E007-q009-player-screen/run.py`.
+
+## Observations
+
+- `summarise.py`: 240 player screens in 12 records, 80 analysed; 8 goalkeepers; position codes 0..13 all seen; four countries; "values that differ from the model: 0"; the earlier records' screens: 160 of 160 identical to the byte; skill, panel and tactics labels identical on every screen.
+- Ranges seen (80 players): +4 180..253; +5 1..16; +0xC 1..32 (30 values); +0xD, +0xE 14, 17..32; hardness v 0..16, leadership v 0..7; +0xF in {0, 17, 34, 50, 128, 145, 178}; country byte +0x2D of countries 7, 12, 20, 27: 0x8b, 0xfe, 0xf1, 0x66; +0x10 = 0 and +0x12 = 0x7FFF in all.
+- Tables (from the records, 14 positions × 12 rows and 16 profiles × 12 classes): `python3 experiments/E007-q009-player-screen/summarise.py --tables`.
+
+## Inferences
+
+- A rebuild shows the same values by storing only the record bytes (+1, +4 … +0x10, +0x12) and the player number and country, and computing skills, height, foot, words and tactics with the tables above. The names of the 12 skills are the template's (E007-r0009 … r0012).
+- "The player's skill" in the match engine (Q010–Q012) may read the same derivation or a stored value; the screen cannot tell (E007-r0009 … r0012).
+
+## Alternatives considered
+
+1. *The skills are stored somewhere other than the 20-byte record.* Excluded for the screen: the screen's values are computed from +4, +5, +7 on 960 of 960 bars, from the table in the data segment; the match engine is not tested.
+2. *`goal kicking` is the 13th, hidden, row.* Not seen: the template, the 12-value loop and 240 screens have no such row; I cannot exclude a value the match uses (above).
+3. *+6 or +7 for height and skill rows.* Not told apart by the runs (+6 = +7 in all 80); the listing says +7 (`seg_1771_05.asm:3996` reads `es:[di+7]`).
+
+## What this does not establish
+
+- Anything for a player after a match or a season: caps, goals, cards, injuries, performance, `selected` and `on the bench`, the `mark` text when DS:0C1E is not 0.
+- The right-hand squad list beside the card (`1771:2F37`: a name and a position glyph per player) is not transcribed.
+- Another managed country, another start state: all four countries come from one new game of E006 (F007's caveats).
+
+## Where the evidence is
+
+- `runs/E007/E007-r0001.json` … `E007-r0012.json`; the start state is E006-r0001's (`evidence/E006/E006-r0001.manifest.json`, release E006).
+
+## Reproduction
+
+```
+bash setup/goal2-runtime.sh
+python3 experiments/E007-q009-player-screen/run.py adopt --from E006-r0001
+python3 experiments/E007-q009-player-screen/run.py countries --state e006-1000-r0001 --list-positions 0,1,2,3 --batch b4
+python3 experiments/E007-q009-player-screen/summarise.py
+python3 experiments/E007-q009-player-screen/summarise.py --tables
+python3 tools/verify_evidence.py E006
+```
