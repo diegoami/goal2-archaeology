@@ -5,6 +5,14 @@ The questions research has to answer before the spec covers what the rebuild and
 static (U16): `corroborated` needs both. A question becomes a task when it is scheduled; its status
 lives in that task's issue, never here.
 
+**Static first** (U32, CLAUDE.md rule 22, from 2026-10-05). Every question is answered from the code
+first: the **Static** cell is the primary route, read in the decompiled view
+(`static/goal-exe/decompiled/`, T18) and the listing. The **Behavioural** cell becomes the
+corroboration, or the fallback where the code cannot answer, and its sample size shrinks to what
+corroborating a static prediction needs. A task for a question whose Static cell says *Not placed*
+starts by placing it in the decompiled code (searching strings, data references and callers) before
+any run.
+
 ## How to read a row
 
 - **ID**: `Q001…`, stable. Rows are ordered by what G-M3 needs: first the questions every
