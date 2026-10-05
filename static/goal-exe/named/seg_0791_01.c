@@ -189,7 +189,7 @@ void __stdcall16far draw_match_summary(char param_1)
 
 
 // ---- 0791:0425  match_delay  (f_0791_0425; Ghidra 2000:0425, __stdcall16near; found by routines.tsv)
-// match_delay(n): calls 214B:1E09(n) only when the speed byte [DS:A923]+0x3F is above 0  [established; F006]
+// match_delay(n): calls 214B:1E09(n) only when the speed byte [DS:A923]+0x3F is above 0  [established; F006; read decompiled/seg_0791_01.c]
 
 void match_delay(undefined2 param_1)
 
@@ -202,7 +202,7 @@ void match_delay(undefined2 param_1)
 
 
 // ---- 0791:0441  match_whistle  (f_0791_0441; Ghidra 2000:0441, __stdcall16near; found by routines.tsv)
-// the whistle(n): plays a sound only when the speed byte [DS:A923]+0x3F is above 0, like 0791:0425; called at the end of each half  [established; F006]
+// the whistle(n): plays a sound only when the speed byte [DS:A923]+0x3F is above 0, like 0791:0425; called at the end of each half  [established; F006; read decompiled/seg_0791_01.c]
 
 void match_whistle(undefined2 param_1)
 
@@ -563,10 +563,10 @@ char f_0791_09C4(undefined4 param_1,char param_2)
 }
 
 
-// ---- 0791:0A6B  action_replay  (f_0791_0A6B; Ghidra 2000:0A6B, __cdecl16near; found by routines.tsv)
-// the replay code that 0791:0C65 runs when 0791:0B7C returns 1 (reaches the line editor 214B:1086 through 09C4 and 0955); not run  [likely; F005]
+// ---- 0791:0A6B  save_goal_file  (f_0791_0A6B; Ghidra 2000:0A6B, __cdecl16near; found by routines.tsv)
+// saves the goal to a file: builds a file name (214B:09DA number to string, concatenation), calls 0791:09C4 with mode 0 (create, through 214B:1BB7), retries on a DOS file error (214B:1869), closes the handle (214B:1A36)  [likely; read code/seg_0791_02.asm]
 
-void __cdecl16near action_replay(void)
+void __cdecl16near save_goal_file(void)
 
 {
   byte *pbVar1;
@@ -628,10 +628,10 @@ void __cdecl16near action_replay(void)
 }
 
 
-// ---- 0791:0B7C  ask_action_replay  (f_0791_0B7C; Ghidra 2000:0B7C, __stdcall16near; found by routines.tsv)
-// the action-replay prompt: waits 0791:CC2E(600), returns 1 only when a key is waiting and it is Y, 0 with no key  [established; F005; F006]
+// ---- 0791:0B7C  ask_do_you_want  (f_0791_0B7C; Ghidra 2000:0B7C, __stdcall16near; found by routines.tsv)
+// a timed Y/N prompt: shows "Do you want " + its string argument + "? (Y/N)" on the bottom line, waits 0791:CC2E(600), returns 1 only when a key is waiting and it is Y, 0 with no key; the action-replay and save-goal questions both use it  [established; F005; F006; read code/seg_0791_02.asm]
 
-undefined1 ask_action_replay(undefined4 param_1)
+undefined1 ask_do_you_want(undefined4 param_1)
 
 {
   char cVar1;
@@ -687,12 +687,12 @@ void __cdecl16near f_0791_0C0B(void)
 }
 
 
-// ---- 0791:0C65  offer_action_replay  (f_0791_0C65; Ghidra 2000:0C65, __cdecl16near; found by routines.tsv)
-// the replay route of the tick loop (when DS:7C37 is set): if [DS:A923]+0x41 and DS:0C1E are not 0, asks 0791:0B7C and on yes runs 0791:0A6B  [likely; F005]
+// ---- 0791:0C65  action_replay  (f_0791_0C65; Ghidra 2000:0C65, __cdecl16near; found by routines.tsv)
+// the action replay after a goal (tick loop, when DS:7C37 is set): when [DS:A923]+0x41 and DS:0C1E are set, asks "Do you want an action replay?" (0791:0B7C) and skips on no, then asks "to save this goal" and on yes calls 0791:0A6B; the rest (from 0CB2, not read for this row) is what F005 calls the replay code  [likely; F005; read code/seg_0791_02.asm]
 
 /* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
 
-void __cdecl16near offer_action_replay(void)
+void __cdecl16near action_replay(void)
 
 {
   int iVar1;
@@ -706,10 +706,10 @@ void __cdecl16near offer_action_replay(void)
   
   DS:9B55 = 0;
   if ((*(char *)((int)DS:A923 + 0x41) != '\0') &&
-     ((DS:0C1E == '\0' || (cVar2 = ask_action_replay(0xc42,0x2000), cVar2 != '\0')))) {
+     ((DS:0C1E == '\0' || (cVar2 = ask_do_you_want(0xc42,0x2000), cVar2 != '\0')))) {
     if ((*(char *)((int)DS:A923 + 0x41) != '\0') &&
-       ((DS:0C1E != '\0' && (cVar2 = ask_action_replay(0xc53,0x2000), cVar2 != '\0')))) {
-      action_replay();
+       ((DS:0C1E != '\0' && (cVar2 = ask_do_you_want(0xc53,0x2000), cVar2 != '\0')))) {
+      save_goal_file();
     }
     DS:0C20 = 1;
     DS:7C3C = *(undefined1 *)((int)DS:A923 + 0x3f);
@@ -917,7 +917,7 @@ void __cdecl16far f_0791_112C(void)
       }
       DS:0C1E = 0;
       DS:7C2A = 0xb0007c2e;
-      offer_action_replay();
+      action_replay();
       sys_set_bit_mask_08DF
                 (0x693a,0xb000,CONCAT11(extraout_AH,*(undefined1 *)((int)DS:7C2A + 2)));
       DS:7C36 = !(bool)uVar9;
@@ -930,7 +930,7 @@ void __cdecl16far f_0791_112C(void)
       DS:9A3E = 0;
       DS:7C38 = 0;
       DS:9A3F = 0;
-      match_team_screen(CONCAT11(extraout_AH_00,1));
+      in_match_menu(CONCAT11(extraout_AH_00,1));
       if (DS:066D == '\0') {
         match_tick_loop(CONCAT11(extraout_AH_01,1));
         u214b_speaker_off();
@@ -1112,56 +1112,4 @@ void f_0791_1829(undefined1 param_1,uint param_2,int param_3)
     }
   }
   return;
-}
-
-
-// ---- 0791:1C78  add_commentary_record  (f_0791_1C78; Ghidra 2000:1C78, __stdcall16near; found by routines.tsv)
-// adds a record to the commentary ring at DS:7C38 (6 bytes each); refuses one equal to the newest (F005: "consistent with" the goal lines seen)  [likely; F005; read decompiled/seg_0791_01.c]
-
-undefined4 add_commentary_record(int param_1)
-
-{
-  long lVar1;
-  int iVar2;
-  undefined1 uVar3;
-  int iVar4;
-  undefined1 uVar5;
-  undefined2 uVar6;
-  undefined2 unaff_SS;
-  undefined4 local_b;
-  int local_7;
-  int local_5;
-  
-  iVar2 = DS:80EE * 6;
-  local_b = (char *)CONCAT22(0xb000,(undefined1 *)&DS:7C38 + iVar2);
-  lVar1 = (ulong)(uint)((undefined2 *)&DS:9B34)[*(char *)(param_1 + 10)] * 0xbf;
-  iVar4 = (int)lVar1;
-  uVar6 = (undefined2)((ulong)countries >> 0x10);
-  if (*(int *)(param_1 + 8) == 0) {
-    local_5 = 0;
-  }
-  else {
-    local_5 = *(int *)((int)((country *)countries)->squad + *(int *)(param_1 + 8) * 2 + iVar4 + -2);
-  }
-  if (*(int *)(param_1 + 6) == 0) {
-    local_7 = 0;
-  }
-  else {
-    local_7 = *(int *)((int)((country *)countries)->squad + *(int *)(param_1 + 6) * 2 + iVar4 + -2);
-  }
-  uVar5 = (undefined1)((uint)local_7 >> 8);
-  iVar4 = CONCAT11(uVar5,*(char *)(param_1 + 4));
-  if (((*(char *)(param_1 + 4) == *local_b) &&
-      (iVar4 = local_5, local_5 == *(int *)((undefined1 *)&DS:7C39 + iVar2))) &&
-     (iVar4 = local_7, local_7 == *(int *)((int)(undefined2 *)&DS:7C3A + iVar2 + 1))) {
-    iVar4 = CONCAT11(uVar5,*(char *)(iVar2 + 0x7c3d));
-    if (*(char *)(iVar2 + 0x7c3d) == *(char *)(param_1 + 10)) {
-      uVar3 = 0;
-      goto LAB_0791_1D3E;
-    }
-  }
-  uVar5 = (undefined1)((uint)iVar4 >> 8);
-  uVar3 = 1;
-LAB_0791_1D3E:
-  return CONCAT22((int)((ulong)lVar1 >> 0x10),CONCAT11(uVar5,uVar3));
 }

@@ -380,7 +380,7 @@ void f_1771_77C3(int param_1,undefined2 param_2,undefined4 param_3)
   uVar2 = (undefined2)((ulong)param_3 >> 0x10);
   iVar1 = (int)param_3;
   f_1771_0FB1(param_1 + -4,param_2,*(undefined2 *)(iVar1 + 6));
-  draw_country_header(param_1 + 4,param_2,*(undefined2 *)(iVar1 + 4));
+  draw_country_name(param_1 + 4,param_2,*(undefined2 *)(iVar1 + 4));
   f_1771_76FA(param_1,param_2,iVar1,uVar2);
   return;
 }
@@ -503,7 +503,7 @@ void f_1771_7A9A(int param_1)
   undefined4 local_6;
   
   DS:9B66 = 0;
-  new_game_selection(4);
+  country_list_screen(4);
   if ((DS:9B66 != 0) && (DS:9B66 != *(int *)(param_1 + 6))) {
     iVar2 = *(int *)((int)DS:A92F + DS:9B66 * 0x48) * 8;
     bVar3 = (byte)((uint)iVar2 >> 8);

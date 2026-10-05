@@ -682,10 +682,10 @@ undefined1 __cdecl16near f_000E_7072(void)
 }
 
 
-// ---- 000E:70B9  start_later_stage  (f_000E_70B9; Ghidra 1000:70B9, __cdecl16near; found by routines.tsv)
-// reseeds through 1771:76B1 at the start of a later qualifying stage (static; that path not run)  [likely; F004]
+// ---- 000E:70B9  play_round  (f_000E_70B9; Ghidra 1000:70B9, __cdecl16near; found by routines.tsv)
+// item 6's action when the last manager continues: sets [DS:A923]+1 = 1, plays fixtures through 000E:6CA7; when the fixture index +0x26 reaches the count +0x28, calls 1771:8208 and the stage dispatch 1771:76B1 (000E:7072 always returns 0), then, if the stage byte +0x3C is in the set at CS:7099, 000E:60CB for each manager whose +0x47 flag is clear  [likely; F004; read decompiled/seg_000E_05.c]
 
-void __cdecl16near start_later_stage(void)
+void __cdecl16near play_round(void)
 
 {
   byte bVar1;
@@ -805,7 +805,7 @@ void __cdecl16near f_000E_724A(void)
   local_1f = (int)DS:A923;
   local_4 = (uint)*(byte *)((int)DS:A91F + (*(byte *)(local_1f + 1) + 0x80) * 3);
   if (*(char *)(local_1f + (uint)*(byte *)(local_1f + 1) + 0x47) == '\0') {
-    draw_country_header(3,0xb,local_4);
+    draw_country_name(3,0xb,local_4);
   }
   else {
     DS:AAB2 = 0xf;
@@ -830,7 +830,7 @@ void __cdecl16near f_000E_724A(void)
       iVar3 = (int)DS:A92B + DS:9B43 * 8;
       local_23 = iVar3 + -8;
       local_6 = *(undefined2 *)(local_23 + (*(uint *)(iVar3 + -2) != local_4) * 2 + 4);
-      draw_country_header(3,0x11,local_6);
+      draw_country_name(3,0x11,local_6);
       f_000E_715E(&stack0xfffe,0x13,local_6);
       puVar4 = local_123;
       uVar2 = unaff_SS;
@@ -854,7 +854,7 @@ void __cdecl16near f_000E_724A(void)
 
 
 // ---- 000E:7439  main_menu_loop  (f_000E_7439; Ghidra 1000:7439, __stdcall16near; found by routines.tsv)
-// the main-menu loop (the top-level screens); on Enter with item 6 it can reach 000E:70B9  [likely; F002; F004]
+// the main-menu loop (the top-level screens); on Enter with item 6 it can reach 000E:70B9  [likely; F002; F004; read decompiled/seg_000E_05.c]
 
 void main_menu_loop(void)
 
@@ -956,7 +956,7 @@ void main_menu_loop(void)
       }
     }
     if (DS:00B0 == 1) {
-      new_game_selection(1);
+      country_list_screen(1);
     }
     else if (DS:00B0 == 2) {
       f_000E_0000();
@@ -965,7 +965,7 @@ void main_menu_loop(void)
       f_1771_958D(*(undefined1 *)(iVar4 + (pbVar3[1] + 0x80) * 3),pbVar3[pbVar3[1] + 1],1);
     }
     else if (DS:00B0 == 4) {
-      new_game_selection(3);
+      country_list_screen(3);
     }
     else if (DS:00B0 == 5) {
       if (pbVar3[pbVar3[1] + 0x47] == 0) {
@@ -985,7 +985,7 @@ void main_menu_loop(void)
             cVar2 == '\0')))) {
           uVar6 = (undefined2)((ulong)local_8 >> 0x10);
           if (((byte *)local_8)[1] == *local_8) {
-            start_later_stage();
+            play_round();
           }
           else {
             pbVar1 = (byte *)local_8 + 1;

@@ -93,7 +93,7 @@ void __stdcall16far f_0791_7B77(undefined4 param_1)
     f_0791_90C5(0x8304,0xb000,DS:82EE,0xcfe);
     uVar2 = f_0791_2974(iVar3,uVar6);
     f_0791_7B24(*(undefined2 *)(iVar3 + 0xd),uVar2);
-    ball_flight_loop(*(undefined1 *)(iVar3 + 6));
+    walk_player_off(*(undefined1 *)(iVar3 + 6));
     if (DS:8321 < 5) {
       DS:8321 = DS:8321 + 1;
     }
@@ -187,7 +187,7 @@ void __stdcall16far f_0791_7D56(undefined4 param_1)
     if (cVar3 != '\0') {
       f_0791_2B28(iVar6,uVar8,0x34);
       ((player *)players)[*(int *)(iVar6 + 0xd)].energy = 0;
-      ball_flight_loop(*(undefined1 *)(iVar6 + 6));
+      walk_player_off(*(undefined1 *)(iVar6 + 6));
       f_0791_7CC5(iVar6,uVar8,0xff01,0xfffe);
       if (DS:8321 < 5) {
         DS:8321 = DS:8321 + 1;
@@ -233,7 +233,7 @@ void f_0791_7E60(undefined1 param_1)
     match_delay((uint)*(byte *)((int)DS:A923 + 0x3f) << 2);
     f_0791_8537((uint)DS:830C * 0x16 + -0x7f18,0xb000);
     match_delay((uint)*(byte *)((int)DS:A923 + 0x3f) << 2);
-    watched_tick_display((undefined2 *)&DS:82EE,0xb000,CONCAT11(extraout_AH,param_1));
+    move_referee((undefined2 *)&DS:82EE,0xb000,CONCAT11(extraout_AH,param_1));
     if (local_4 == 10) break;
     local_4 = local_4 + 1;
   }
@@ -288,10 +288,10 @@ void __cdecl16near f_0791_7EEF(void)
 }
 
 
-// ---- 0791:7FCF  substitution_notice  (f_0791_7FCF; Ghidra 2000:7FCF, __stdcall16near; found by routines.tsv)
-// the substitution notice: waits 0791:CC2E (400 or 1000), reads a waiting key, else writes Esc to DS:A977  [established; F005; F006]
+// ---- 0791:7FCF  timed_notice  (f_0791_7FCF; Ghidra 2000:7FCF, __stdcall16near; found by routines.tsv)
+// saves the bottom line, shows screen DS:5B30 or (p2 set: keeper unavailable) DS:5B66 with the side's country name on row 25, waits 0791:CC2E(DS:087C[p2]), reads a waiting key, else writes Esc to DS:A977; restores the bottom line  [likely; F005; F006; read decompiled/seg_0791_05.c]
 
-void substitution_notice(char param_1,char param_2)
+void timed_notice(char param_1,char param_2)
 
 {
   char cVar1;
@@ -302,7 +302,7 @@ void substitution_notice(char param_1,char param_2)
   }
   else {
     u214b_unpack_screen_to_buffer((undefined4 *)&DS:A96E,0xb000,0x5b66,0xb000);
-    draw_country_header(1,0x19,((undefined2 *)&DS:9B34)[param_1]);
+    draw_country_name(1,0x19,((undefined2 *)&DS:9B34)[param_1]);
   }
   u214b_move_bytes(0xa0,(int)DS:A96A + 0xf00,(int)((ulong)DS:A96A >> 0x10),
                    (int)DS:A96E + 0xf00,(int)((ulong)DS:A96E >> 0x10));
@@ -375,9 +375,9 @@ void __cdecl16near check_substitutions(void)
           DS:9B41 = 1;
         }
         u214b_speaker_off();
-        substitution_notice(CONCAT11(extraout_AH,local_3),CONCAT11(extraout_AH,cVar3));
+        timed_notice(CONCAT11(extraout_AH,local_3),CONCAT11(extraout_AH,cVar3));
         if ((DS:A977 != '\x1b') || (cVar3 != '\0')) {
-          match_team_screen(CONCAT11(extraout_AH_00,1));
+          in_match_menu(CONCAT11(extraout_AH_00,1));
         }
         DS:9B41 = 0;
       }
@@ -420,7 +420,7 @@ void f_0791_8206(byte param_1)
       cVar1 = is_managed(((player *)players + *(int *)((uint)DS:830C * 0x16 + -0x7f0b))->
                          country);
       if (cVar1 == '\0') {
-        tactics_from_hardness(*(undefined2 *)((uint)DS:830C * 0x16 + -0x7f0b));
+        force_tactic4_off(*(undefined2 *)((uint)DS:830C * 0x16 + -0x7f0b));
       }
       f_0791_6ECF();
     }
@@ -1079,10 +1079,10 @@ void __stdcall16far f_0791_90C5(undefined1 *param_1,undefined2 param_2,undefined
 }
 
 
-// ---- 0791:9119  watched_tick_display  (f_0791_9119; Ghidra 2000:9119, __stdcall16far; found by routines.tsv)
-// display code called every watched tick; draws through 214B:06B1  [likely; F005; F006]
+// ---- 0791:9119  move_referee  (f_0791_9119; Ghidra 2000:9119, __stdcall16far; found by routines.tsv)
+// moves the sprite record it is given (DS:82EE, the referee: row +0, column +1, glyph word +4, target row +6, column +7) one cell toward a target from the ball DS:82F6: with param 2 = 0 the ball's column +-1 kept within +-(30 + rand 2) and the row column/4 + 1 clamped to +-5, else the ball's cell itself; redraws through 0791:8E24 in the buffer DS:7C16  [likely; F005; F006; read decompiled/seg_0791_06.c]
 
-void __stdcall16far watched_tick_display(char *param_1,char param_2)
+void __stdcall16far move_referee(char *param_1,char param_2)
 
 {
   char cVar1;
@@ -1147,7 +1147,7 @@ void __stdcall16far watched_tick_display(char *param_1,char param_2)
 
 
 // ---- 0791:92FC  switch_to_quick_result  (f_0791_92FC; Ghidra 2000:92FC, __stdcall16near; found by routines.tsv)
-// the R key's action: returns when DS:9A3E is set or no minutes are left, defers (DS:7C38) while the clock is stopped, else sets DS:9A3E and DS:9A3F, clears DS:7C38 and redraws the status bar  [established; F004; F005]
+// the R key's action: returns when DS:9A3E, DS:8326 or DS:0C21 is set or no minutes are left (DS:831B = 0); defers (sets DS:7C38, the first time unpacking screen DS:26E4) when the clock is stopped (DS:8325 = 0) or DS:0C20, DS:7C37 or DS:9B55 is set; else sets DS:9A3E and DS:9A3F, clears DS:7C38 and calls 0791:0106(0) (the match board)  [established; F004; F005; read decompiled/seg_0791_06.c]
 
 void switch_to_quick_result(void)
 
@@ -1231,7 +1231,7 @@ void __cdecl16near match_key_poll(void)
           f_0791_0691();
         }
         else if ((cVar1 == '\r') || (cVar1 == '\x1b')) {
-          match_team_screen(CONCAT11(bVar3,1));
+          in_match_menu(CONCAT11(bVar3,1));
         }
         else if (cVar1 == -0x61) {
           if (DS:9A3E == '\0') {

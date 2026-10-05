@@ -490,7 +490,7 @@ void f_1771_5AC4(int param_1,byte param_2,char param_3)
   }
   uVar4 = (undefined2)((ulong)local_8 >> 0x10);
   if (*(int *)((int)local_8 + local_4 * 2 + 0x2c) != 0) {
-    draw_country_header(0x13,1,*(undefined2 *)((int)local_8 + local_4 * 2 + 0x2c));
+    draw_country_name(0x13,1,*(undefined2 *)((int)local_8 + local_4 * 2 + 0x2c));
   }
   return;
 }

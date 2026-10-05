@@ -124,10 +124,10 @@ void f_1771_0232(int param_1,undefined2 param_2,undefined4 param_3)
 }
 
 
-// ---- 1771:027B  load_saved_arrays  (f_1771_027B; Ghidra 4000:027B, __stdcall16near; found by routines.tsv)
-// a loaded game takes the player and country arrays from its file here (F002 map; not run)  [likely; F002; F007]
+// ---- 1771:027B  save_or_load_game  (f_1771_027B; Ghidra 4000:027B, __stdcall16near; found by routines.tsv)
+// saves (mode 0, "Saving game...", 214B:1AD1 writes; a failure clears the result) or loads (mode non-zero, "Loading game...", 214B:1B47 reads) the game's 22 blocks: names, countries, players, the state [DS:A923], fixtures and others; closes the file and returns the success flag  [likely; F002; F007; read decompiled/seg_1771_01.c]
 
-undefined1 load_saved_arrays(char param_1)
+undefined1 save_or_load_game(char param_1)
 
 {
   undefined2 uVar1;
@@ -310,7 +310,7 @@ LAB_1771_0675:
     local_4 = u214b_dos_open_file_rw(puVar2,unaff_SS);
   }
   if (local_4 != '\0') {
-    local_4 = load_saved_arrays(param_1);
+    local_4 = save_or_load_game(param_1);
   }
   return local_4;
 }
@@ -564,7 +564,7 @@ void __stdcall16far f_1771_0AF8(undefined1 param_1,undefined1 param_2,int param_
 
 
 // ---- 1771:0B77  is_managed  (f_1771_0B77; Ghidra 4000:0B77, __stdcall16far; found by routines.tsv)
-// returns whether the country is managed by a human: its +0x2E > 0x80  [established; F007; F008]
+// returns whether the country is managed by a human: its +0x2E > 0x80  [established; F007; F008; read decompiled/seg_1771_01.c]
 
 undefined4 __stdcall16far is_managed(uint param_1)
 
@@ -614,7 +614,7 @@ void __stdcall16far compute_team_line_strengths(char param_1,char param_2,int pa
       uVar7 = (undefined2)((ulong)players >> 0x10);
       ppVar5 = (player *)players + pcVar4[param_3].squad[local_4 + -1];
       local_13 = (player *)CONCAT22(uVar7,ppVar5);
-      local_8 = player_value(pcVar4[param_3].squad[local_4 + -1]);
+      local_8 = player_strength(pcVar4[param_3].squad[local_4 + -1]);
       if (local_8 != 0) {
         local_8 = local_8 + uVar3;
       }
@@ -680,7 +680,7 @@ void __stdcall16far compute_team_line_strengths(char param_1,char param_2,int pa
 
 
 // ---- 1771:0E24  country_colour  (f_1771_0E24; Ghidra 4000:0E24, __stdcall16near; found by routines.tsv)
-// the colour of a country's name: 0x0F when managed (1771:0B77), else DS:6905[country +0x2C]  [established; F008]
+// the colour of a country's name: 0x0F when managed (1771:0B77), else DS:6905[country +0x2C]  [established; F008; read decompiled/seg_1771_01.c]
 
 undefined1 country_colour(int param_1)
 
@@ -761,10 +761,10 @@ void __stdcall16far f_1771_0E6C(int param_1,undefined4 param_2)
 }
 
 
-// ---- 1771:0F58  draw_country_header  (f_1771_0F58; Ghidra 4000:0F58, __stdcall16far; found by routines.tsv)
-// the header above the squad list: 15 dashes in DS:0D7A[[DS:A964]], then the country's name in 1771:0E24's colour  [established; F008]
+// ---- 1771:0F58  draw_country_name  (f_1771_0F58; Ghidra 4000:0F58, __stdcall16far; found by routines.tsv)
+// writes at (column p1, row p2) 15 dashes (DS:0D6A) in colour DS:0D7A[[DS:A964]], then, unless the country is 0, its name DS:9B68 + 16 n in 1771:0E24's colour  [likely; F008; read decompiled/seg_1771_01.c]
 
-void __stdcall16far draw_country_header(undefined1 param_1,undefined1 param_2,int param_3)
+void __stdcall16far draw_country_name(undefined1 param_1,undefined1 param_2,int param_3)
 
 {
   char cVar2;
@@ -1061,7 +1061,7 @@ void f_1771_1527(undefined1 param_1,undefined1 param_2,undefined2 param_3)
 
 
 // ---- 1771:157D  draw_team_panel  (f_1771_157D; Ghidra 4000:157D, __stdcall16near; found by routines.tsv)
-// the team panel of the main screen (keeper, defence, midfield, attack, performance, characteristics), from the template DS:4BBE  [likely; F008]
+// a country's information panel (template DS:4BBE): name, manager, ranks (world_rank, continent_rank, +0x28, +0x29), line counts (1771:0E6C), word bars DS:9B5A..9B60, the 8 team-tactic flags of +0x2D, line strengths (1771:0BC4), continent  [likely; F008; read decompiled/seg_1771_01.c]
 
 void draw_team_panel(int param_1)
 
@@ -1089,7 +1089,7 @@ void draw_team_panel(int param_1)
   uStack_6 = (undefined2)((ulong)countries >> 0x10);
   local_8 = (country *)countries + param_1;
   u214b_unpack_screen_to_buffer((undefined4 *)&DS:A96E,0xb000,0x4bbe,0xb000);
-  draw_country_header(2,8,param_1);
+  draw_country_name(2,8,param_1);
   f_1771_1527(0x19,8,param_1);
   puVar4 = local_108;
   uVar5 = unaff_SS;
@@ -1201,8 +1201,8 @@ void f_1771_1934(int param_1)
   u214b_unpack_screen_to_buffer((undefined4 *)&DS:A96E,0xb000,0x17a8,0xb000);
   local_4 = 1;
   while( true ) {
-    draw_country_header(0x41,local_4 + 7,
-                        *(undefined1 *)((int)DS:9B56 + local_4 + param_1 + -1));
+    draw_country_name(0x41,local_4 + 7,*(undefined1 *)((int)DS:9B56 + local_4 + param_1 + -1))
+    ;
     if (local_4 == 0x10) break;
     local_4 = local_4 + 1;
   }

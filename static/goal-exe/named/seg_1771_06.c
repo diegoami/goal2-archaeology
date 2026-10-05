@@ -37,7 +37,7 @@ void f_1771_8A87(int param_1,char param_2)
                        ((int)DS:A933 + *(char *)(param_1 + -9) * 0xe00 + param_2 * 0x700 +
                         (uint)((country *)_local_8)->continent * 0x1c0 +
                         *(int *)(param_1 + -4) * 0x38 + local_4 * 8 + -0x200));
-    draw_country_header(4,local_4 + 10,*local_c);
+    draw_country_name(4,local_4 + 10,*local_c);
     puVar3 = local_10c;
     uVar2 = (undefined2)((ulong)local_c >> 0x10);
     puVar1 = (undefined2 *)local_c;
@@ -170,8 +170,8 @@ void f_1771_8D84(int param_1)
         pbVar4 = (byte *)(iVar3 + -8);
         local_e = (byte *)CONCAT22(uVar6,pbVar4);
         if (*local_e < 0xfe) {
-          draw_country_header(0x18,*(undefined1 *)((local_4 + 1U) / 2 + 0x1131),
-                              *(undefined2 *)(pbVar4 + *(char *)(iVar3 + -5) * 2 + 4));
+          draw_country_name(0x18,*(undefined1 *)((local_4 + 1U) / 2 + 0x1131),
+                            *(undefined2 *)(pbVar4 + *(char *)(iVar3 + -5) * 2 + 4));
         }
       }
       if (local_4 == 8) break;
@@ -364,13 +364,13 @@ void f_1771_91CE(int param_1)
       uVar3 = (undefined2)((ulong)DS:A92B >> 0x10);
       if (*(byte *)((int)DS:A92B + *(int *)(iVar1 + 0x572) * 8 + -8) < 0xfe) {
         uVar3 = f_1771_5C94((int)DS:A92B + *(int *)(iVar1 + 0x572) * 8 + -8,uVar3);
-        draw_country_header(0x3c,10,uVar3);
+        draw_country_name(0x3c,10,uVar3);
         uVar3 = f_1771_5CCB((int)DS:A92B + *(int *)(iVar1 + 0x572) * 8 + -8,
                             (int)((ulong)DS:A92B >> 0x10));
-        draw_country_header(0x3c,0xc,uVar3);
+        draw_country_name(0x3c,0xc,uVar3);
         uVar2 = f_1771_5C94((int)DS:A92B + *(int *)(iVar1 + 0x570) * 8 + -8,
                             (int)((ulong)DS:A92B >> 0x10));
-        draw_country_header(0x3c,0xe,uVar2);
+        draw_country_name(0x3c,0xe,uVar2);
       }
     }
   }
@@ -421,13 +421,13 @@ void f_1771_937C(int param_1)
       u214b_unpack_screen_to_buffer((undefined4 *)&DS:A96E,0xb000,0x2c02,0xb000);
       uVar2 = f_1771_5C94((int)DS:A92B + (*(int *)(iVar1 + 0x2a) + 0xf) * 8 + -8,
                           (int)((ulong)DS:A92B >> 0x10));
-      draw_country_header(0x41,2,uVar2);
+      draw_country_name(0x41,2,uVar2);
       uVar2 = f_1771_5CCB((int)DS:A92B + (*(int *)(iVar1 + 0x2a) + 0xf) * 8 + -8,
                           (int)((ulong)DS:A92B >> 0x10));
-      draw_country_header(0x41,4,uVar2);
+      draw_country_name(0x41,4,uVar2);
       uVar4 = f_1771_5C94((int)DS:A92B + (*(int *)(iVar1 + 0x2a) + 0xe) * 8 + -8,
                           (int)((ulong)DS:A92B >> 0x10));
-      draw_country_header(0x41,6,uVar4);
+      draw_country_name(0x41,6,uVar4);
     }
   }
   return;
@@ -546,7 +546,7 @@ void __stdcall16far make_player(char param_1,byte param_2,undefined2 param_3,int
   cVar2 = u214b_random_1_to_n(7);
   cVar3 = u214b_random_1_to_n(7);
   ppVar4->age = (((undefined1 *)&DS:118A)[ppVar4->club_position == 0] - cVar3) + cVar2;
-  draw_peak_age(param_4);
+  roll_peak_age(param_4);
   if (param_1 == '\0') {
     cVar2 = u214b_random_1_to_n(10);
     cVar3 = country_rating(param_3);
@@ -560,7 +560,7 @@ void __stdcall16far make_player(char param_1,byte param_2,undefined2 param_3,int
   bVar1 = u214b_random_1_to_n(0x20);
   ppVar4->morale = bVar1;
   set_player_tactics(param_4);
-  draw_fitness_energy(param_4);
+  roll_fitness_energy(param_4);
   ppVar4->performance = 0x7fff;
   return;
 }
@@ -596,7 +596,7 @@ void __stdcall16far make_squad(int param_1)
 
 
 // ---- 1771:9873  make_pool_player  (f_1771_9873; Ghidra 4000:9873, __stdcall16near; found by routines.tsv)
-// makes one of the managed country's 80 extra players through 1771:96D3(..., 0)  [likely; F007]
+// makes the next extra player of position p2 through 1771:96D3(..., 0), numbered 0xA00 + n in DS:A927[n] (n is the caller's counter)  [likely; F007; read decompiled/seg_1771_06.c]
 
 void make_pool_player(int param_1,undefined2 param_2)
 
@@ -612,7 +612,7 @@ void make_pool_player(int param_1,undefined2 param_2)
 
 
 // ---- 1771:98C4  make_managed_pool  (f_1771_98C4; Ghidra 4000:98C4, __cdecl16far; found by routines.tsv)
-// makes the managed country's 80 extra players: positions 0..13 four times, then one per squad slot  [established; F007]
+// makes the current manager's 80 extra players: positions 0..13 four times (56), one per squad slot 1..20 (age DS:118C[gk] + rand 3, then 1771:32EB), then slots 6..9 again (4); then 1771:5532  [established; F007; read decompiled/seg_1771_06.c]
 
 void __cdecl16far make_managed_pool(void)
 
@@ -720,10 +720,10 @@ void __cdecl16near load_countries(void)
 }
 
 
-// ---- 1771:9B85  new_game_players  (f_1771_9B85; Ghidra 4000:9B85, __cdecl16far; found by routines.tsv)
-// at a new game: 1771:9A40 (country records and squads) for countries 1..128  [established; F007]
+// ---- 1771:9B85  init_new_game  (f_1771_9B85; Ghidra 4000:9B85, __cdecl16far; found by routines.tsv)
+// at a new game: 1771:9A40 (country records and squads), then the state [DS:A923]: year +0x3A = DS:A9FD + 1 made even, +0x38 = 0, +0x40 = (+0x3A mod 4 = 2), stage byte +0x3C = DS:118E[+0x40], options +0x3D = 1, +0x3E = 2, +0x3F = 1, +0x41 = 1, two 80-char strings from DS:9B7D/9B81, and an empty fixture list (A92B+0x4B40 = 0xFF)  [established; F007; read decompiled/seg_1771_06.c]
 
-void __cdecl16far new_game_players(void)
+void __cdecl16far init_new_game(void)
 
 {
   int iVar1;

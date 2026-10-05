@@ -123,7 +123,7 @@ LAB_0791_9599:
 
 
 // ---- 0791:970C  match_clock  (f_0791_970C; Ghidra 2000:970C, __stdcall16near; found by routines.tsv)
-// the match clock: counts DS:831D down from 0x24 per game minute; at the end of a half sounds and delays  [established; F005; F006]
+// the match clock, while DS:8325 is set: counts DS:831D down to 0, then reloads it with 0x24 and takes a minute from DS:831B (then from DS:8321), shows it (draw_big_digits); at the half's end (DS:831B = DS:8319, or none left: DS:8326) calls 0791:2B0F, whistle(3), delay(4), whistle(6) and returns 1  [established; F005; F006; read decompiled/seg_0791_06.c]
 
 undefined1 match_clock(void)
 
@@ -186,7 +186,7 @@ void match_tick_loop(char param_1)
         }
       }
       else {
-        offer_action_replay();
+        action_replay();
       }
       if (DS:9B55 != '\0') {
         DS:0C20 = '\0';
@@ -196,7 +196,7 @@ void match_tick_loop(char param_1)
       watched_match_engine();
       if (DS:9A3E == '\0') {
         f_0791_8CF5();
-        watched_tick_display((undefined2 *)&DS:82EE,0xb000,(uint)extraout_AH << 8);
+        move_referee((undefined2 *)&DS:82EE,0xb000,(uint)extraout_AH << 8);
       }
     }
     else {
@@ -372,7 +372,7 @@ void __cdecl16near f_0791_9A32(void)
   if ((!bVar6) ||
      (sys_set_bit_mask_08DF(0x9a12,0xa000,CONCAT11(extraout_AH_00,DS:A977)),
      bVar2 = extraout_AH_01, !bVar6)) {
-    match_team_screen((uint)bVar2 << 8);
+    in_match_menu((uint)bVar2 << 8);
   }
   DS:830B = *(char *)((DS:831A == '\0') + 0x668) + '\n';
   DS:832A = 0x50;
@@ -396,7 +396,7 @@ void __cdecl16near f_0791_9B0C(void)
   f_0791_2B0F(0x3e);
   DS:9B41 = 1;
   if (DS:80FD != '\0') {
-    match_team_screen(CONCAT11(extraout_AH,1));
+    in_match_menu(CONCAT11(extraout_AH,1));
   }
   DS:830B = *(char *)(DS:831A + 0x668) + '\n';
   f_0791_983F();
@@ -411,7 +411,7 @@ void __cdecl16near f_0791_9B5B(void)
 {
   DS:9B41 = 1;
   if (DS:80FD != '\0') {
-    match_team_screen(1);
+    in_match_menu(1);
   }
   DS:830B = *(char *)((DS:831A == '\0') + 0x668) + '\n';
   f_0791_983F();
@@ -462,7 +462,7 @@ void f_0791_9B93(int param_1)
     local_4 = local_4 + 1;
   }
   u214b_unpack_screen_to_buffer((undefined4 *)&DS:A96E,0xb000,0x4780,0xb000);
-  draw_country_header(1,0x19,((undefined2 *)&DS:9B34)[*(char *)(param_1 + -0x1f)]);
+  draw_country_name(1,0x19,((undefined2 *)&DS:9B34)[*(char *)(param_1 + -0x1f)]);
   u214b_unpack_screen_to_buffer((undefined4 *)&DS:A96E,0xb000,0x245e,0xb000);
   do {
     u214b_unpack_screen_to_buffer((undefined4 *)&DS:A96E,0xb000,0x5fc4,0xb000);
@@ -966,7 +966,7 @@ void __cdecl16near f_0791_A75D(void)
     _local_9 = (country *)
                CONCAT22((int)((ulong)countries >> 0x10),
                         (country *)countries + ((undefined2 *)&DS:9B34)[local_3]);
-    draw_country_header(*(undefined1 *)(local_3 + 0x8c6),8,((undefined2 *)&DS:9B34)[local_3]);
+    draw_country_name(*(undefined1 *)(local_3 + 0x8c6),8,((undefined2 *)&DS:9B34)[local_3]);
     uVar1 = CONCAT11(extraout_AH,7);
     puVar3 = local_109;
     uVar2 = unaff_SS;
@@ -986,7 +986,7 @@ void __cdecl16near f_0791_A75D(void)
     local_3 = local_3 + '\x01';
   }
   uVar2 = f_0791_A6E4((int)DS:7C2A,(int)((ulong)DS:7C2A >> 0x10));
-  draw_country_header(0x26,7,uVar2);
+  draw_country_name(0x26,7,uVar2);
   return;
 }
 
@@ -1115,7 +1115,7 @@ uint f_0791_A9B8(uint param_1,uint param_2,int param_3)
                                  0x8d5);
         if (((local_e != 0) &&
             (cVar1 = is_two_footed(((country *)_local_12)->squad[local_8 - 1]), cVar1 == '\0')) &&
-           (cVar1 = foot_word(((country *)_local_12)->squad[local_8 - 1]),
+           (cVar1 = foot_index(((country *)_local_12)->squad[local_8 - 1]),
            3 < local_e != (bool)cVar1)) {
           local_c = local_c / 2;
         }
@@ -1187,9 +1187,9 @@ uint f_0791_AAE8(undefined4 param_1,int param_2)
                                  ((int)param_1 +
                                   (uint)*(byte *)(((byte *)local_8)[local_a] + 0x99a2) * 2 + -2));
           if ((cVar1 != '\0') ||
-             (cVar1 = foot_word(*(undefined2 *)
-                                 ((int)param_1 +
-                                  (uint)*(byte *)(((byte *)local_8)[local_a] + 0x99a2) * 2 + -2)),
+             (cVar1 = foot_index(*(undefined2 *)
+                                  ((int)param_1 +
+                                   (uint)*(byte *)(((byte *)local_8)[local_a] + 0x99a2) * 2 + -2)),
              cVar1 == local_f)) {
             local_c = (uint)*(byte *)(((byte *)local_8)[local_a] + 0x99a2);
           }
@@ -1228,107 +1228,14 @@ void f_0791_AC67(int param_1,int param_2)
   cVar3 = player_unavailable(wVar2);
   if (cVar3 == '\0') {
     if (*(char *)(ppVar7[wVar2].club_position + 0x99a2) != '\0') {
-      uVar4 = player_value(pcVar6[iVar1].squad[*(byte *)(ppVar7[wVar2].club_position + 0x99a2) - 1])
-      ;
-      uVar5 = player_value(wVar2);
+      uVar4 = player_strength(pcVar6[iVar1].squad
+                              [*(byte *)(ppVar7[wVar2].club_position + 0x99a2) - 1]);
+      uVar5 = player_strength(wVar2);
       if (uVar5 <= uVar4) {
         return;
       }
     }
     *(undefined1 *)(ppVar7[wVar2].club_position + 0x99a2) = (undefined1)param_2;
   }
-  return;
-}
-
-
-// ---- 0791:AD8F  f_0791_AD8F  (f_0791_AD8F; Ghidra 2000:AD8F, __stdcall16near; found by routines.tsv)
-
-void f_0791_AD8F(int param_1,int param_2)
-
-{
-  int iVar1;
-  undefined1 extraout_AH;
-  undefined1 extraout_AH_00;
-  undefined1 uVar2;
-  undefined1 extraout_AH_01;
-  undefined1 extraout_AH_02;
-  undefined1 extraout_AH_03;
-  undefined1 extraout_AH_04;
-  country *pcVar3;
-  player *ppVar4;
-  undefined2 uVar5;
-  undefined2 uVar6;
-  undefined2 uVar7;
-  undefined2 unaff_SS;
-  bool bVar8;
-  undefined1 uVar9;
-  
-  iVar1 = *(int *)(param_1 + 6);
-  uVar5 = (undefined2)((ulong)countries >> 0x10);
-  pcVar3 = (country *)countries;
-  *(undefined1 *)
-   (((player *)players)[pcVar3[iVar1].squad[*(int *)(param_1 + -2) + -1]].club_position + 0x99a2) =
-       0;
-  u214b_swap_bytes(2,pcVar3[iVar1].squad + param_2 + -1,uVar5,
-                   pcVar3[iVar1].squad + *(int *)(param_1 + -2) + -1,uVar5);
-  uVar6 = (undefined2)((ulong)players >> 0x10);
-  ppVar4 = (player *)players + pcVar3[iVar1].squad[*(int *)(param_1 + -2) + -1];
-  bVar8 = ppVar4 == (player *)0x0;
-  sys_set_bit_mask_08DF
-            (0xad0f,0x7000,
-             CONCAT11((char)(pcVar3[iVar1].squad[*(int *)(param_1 + -2) + -1] * 0x14 >> 8),
-                      ppVar4->position));
-  uVar2 = extraout_AH;
-  if (bVar8) {
-LAB_0791_AE68:
-    uVar9 = true;
-    sys_set_bit_mask_08DF(0xad2f,0xa000,CONCAT11(uVar2,ppVar4->position));
-    uVar2 = extraout_AH_01;
-    if (!(bool)uVar9) {
-      uVar9 = (player *)players + pcVar3[iVar1].squad[param_2 + -1] == (player *)0x0;
-      sys_set_bit_mask_08DF
-                (0xad2f,0xa000,
-                 CONCAT11((char)(pcVar3[iVar1].squad[param_2 + -1] * 0x14 >> 8),
-                          ((player *)players)[pcVar3[iVar1].squad[param_2 + -1]].club_position));
-      uVar2 = extraout_AH_02;
-      if (!(bool)uVar9) goto LAB_0791_AF22;
-    }
-    sys_set_bit_mask_08DF(0xad4f,0xa000,CONCAT11(uVar2,ppVar4->position));
-    uVar2 = extraout_AH_03;
-    if (!(bool)uVar9) {
-      uVar9 = (player *)players + pcVar3[iVar1].squad[param_2 + -1] == (player *)0x0;
-      sys_set_bit_mask_08DF
-                (0xad4f,0xa000,
-                 CONCAT11((char)(pcVar3[iVar1].squad[param_2 + -1] * 0x14 >> 8),
-                          ((player *)players)[pcVar3[iVar1].squad[param_2 + -1]].club_position));
-      uVar2 = extraout_AH_04;
-      if (!(bool)uVar9) goto LAB_0791_AF22;
-    }
-    sys_set_bit_mask_08DF(0xad6f,0xa000,CONCAT11(uVar2,ppVar4->position));
-    if (!(bool)uVar9) {
-      bVar8 = (player *)players + pcVar3[iVar1].squad[param_2 + -1] == (player *)0x0;
-      sys_set_bit_mask_08DF
-                (0xad6f,0xa000,
-                 CONCAT11((char)(pcVar3[iVar1].squad[param_2 + -1] * 0x14 >> 8),
-                          ((player *)players)[pcVar3[iVar1].squad[param_2 + -1]].club_position));
-      if (!bVar8) goto LAB_0791_AF22;
-    }
-    ((player *)players)[pcVar3[iVar1].squad[param_2 + -1]].position = ppVar4->position;
-  }
-  else {
-    bVar8 = (player *)players + pcVar3[iVar1].squad[param_2 + -1] == (player *)0x0;
-    sys_set_bit_mask_08DF
-              (0xad0f,0xa000,
-               CONCAT11((char)(pcVar3[iVar1].squad[param_2 + -1] * 0x14 >> 8),
-                        ((player *)players)[pcVar3[iVar1].squad[param_2 + -1]].club_position));
-    uVar2 = extraout_AH_00;
-    if (bVar8) goto LAB_0791_AE68;
-LAB_0791_AF22:
-    uVar7 = (undefined2)((ulong)players >> 0x10);
-    ((player *)players)[pcVar3[iVar1].squad[param_2 + -1]].position =
-         ((player *)players)[pcVar3[iVar1].squad[param_2 + -1]].club_position;
-  }
-  ppVar4->position = ppVar4->club_position;
-  f_0791_AC67(param_1,*(undefined2 *)(param_1 + -2));
   return;
 }

@@ -730,8 +730,8 @@ undefined1 f_000E_2071(int param_1)
       ppStack_13 = (player *)players + local_f->squad[local_7 - 1];
       if (((ppStack_13->position == DS:0022) &&
           (cVar1 = player_unavailable(local_f->squad[local_7 - 1]), cVar1 == '\0')) &&
-         (uVar2 = player_value(local_f->squad[local_7 - 1]), uVar2 < local_5)) {
-        local_5 = player_value(local_f->squad[local_7 - 1]);
+         (uVar2 = player_strength(local_f->squad[local_7 - 1]), uVar2 < local_5)) {
+        local_5 = player_strength(local_f->squad[local_7 - 1]);
         local_9 = local_f->squad[local_7 - 1];
       }
       if (local_7 == 0x14) break;
@@ -747,9 +747,9 @@ undefined1 f_000E_2071(int param_1)
           ppStack_13 = (player *)((ulong)players >> 0x10);
           local_15 = (player *)players + *(int *)((int)DS:A927 + local_7 * 2);
           if ((local_15->club_position == DS:0022) &&
-             (uVar2 = player_value(*(undefined2 *)((int)DS:A927 + local_7 * 2)),
+             (uVar2 = player_strength(*(undefined2 *)((int)DS:A927 + local_7 * 2)),
              local_5 < uVar2)) {
-            local_5 = player_value(*(undefined2 *)((int)DS:A927 + local_7 * 2));
+            local_5 = player_strength(*(undefined2 *)((int)DS:A927 + local_7 * 2));
             local_b = *(undefined2 *)((int)DS:A927 + local_7 * 2);
           }
           if (local_7 == uStack_11) break;
@@ -758,7 +758,7 @@ undefined1 f_000E_2071(int param_1)
       }
       uStack_11 = (uint)((ulong)players >> 0x10);
       ppStack_13 = (player *)players + local_9;
-      uVar2 = player_value(local_9);
+      uVar2 = player_strength(local_9);
       if (uVar2 < local_5) {
         local_5 = u214b_random_1_to_n(10);
         if ((local_5 == 0) || (5 < local_5)) {

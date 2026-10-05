@@ -1305,10 +1305,10 @@ void __stdcall16far f_0791_7621(undefined4 param_1)
 }
 
 
-// ---- 0791:7881  ball_flight_loop  (f_0791_7881; Ghidra 2000:7881, __stdcall16near; found by routines.tsv)
-// the ball-flight loop: 214B:1E09(2) per pass at speed 0, 214B:1E09(1) at speed 1  [likely; F006]
+// ---- 0791:7881  walk_player_off  (f_0791_7881; Ghidra 2000:7881, __stdcall16near; found by routines.tsv)
+// walks pitch record n (DS:80E8 + 0x16 n) to the point DS:0642 with the clock stopped (DS:8325 and DS:9B41 saved and cleared): per pass update_player, then each of the 22 records steps (0791:8537) with 214B:1E09(2) at speed 0 or (1) at speed 1, until 0791:2CC5; then sets its position to DS:0640 (the off-pitch value); does nothing if it is already there  [likely; F006; read decompiled/seg_0791_05.c]
 
-void ball_flight_loop(int param_1)
+void walk_player_off(int param_1)
 
 {
   undefined1 uVar1;
@@ -1395,7 +1395,7 @@ void __stdcall16far f_0791_798D(undefined4 param_1)
   }
   cVar2 = is_managed(((player *)players + *(int *)(iVar3 + 0xd))->country);
   if (cVar2 == '\0') {
-    tactics_from_hardness(*(undefined2 *)(iVar3 + 0xd));
+    force_tactic4_off(*(undefined2 *)(iVar3 + 0xd));
   }
   return;
 }

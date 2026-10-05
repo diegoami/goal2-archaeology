@@ -188,7 +188,7 @@ void f_1771_1D5C(int param_1)
   u214b_unpack_screen_to_buffer((undefined4 *)&DS:A96E,0xb000,0x3bd8,0xb000);
   u214b_unpack_screen_to_buffer((undefined4 *)&DS:A96E,0xb000,0x26f2,0xb000);
   u214b_unpack_screen_to_buffer((undefined4 *)&DS:A96E,0xb000,0x1af6,0xb000);
-  draw_country_header(0x41,0x14,param_1);
+  draw_country_name(0x41,0x14,param_1);
   DS:AAB2 = *(undefined1 *)(local_a0->continent + 0x6905);
   local_f = '\0';
   while( true ) {
@@ -298,8 +298,8 @@ void f_1771_1D5C(int param_1)
         while( true ) {
           uVar4 = (undefined2)((ulong)local_a4 >> 0x10);
           if (*(int *)((int)local_a4 + local_10 * 2 + 4) != param_1) {
-            draw_country_header(*(byte *)(local_f + 0xda8) + 4,*(undefined1 *)(local_6 + 0xdaa),
-                                *(undefined2 *)((int)local_a4 + local_10 * 2 + 4));
+            draw_country_name(*(byte *)(local_f + 0xda8) + 4,*(undefined1 *)(local_6 + 0xdaa),
+                              *(undefined2 *)((int)local_a4 + local_10 * 2 + 4));
           }
           if (local_10 == '\x01') break;
           local_10 = local_10 + '\x01';
@@ -502,8 +502,8 @@ void f_1771_25EA(int param_1,uint param_2)
 }
 
 
-// ---- 1771:26B9  new_game_selection  (f_1771_26B9; Ghidra 4000:26B9, __stdcall16far; found by routines.tsv)
-// the new game's selection screens (post and option menus); may regenerate two countries with 1771:97CC  [likely; F002; F007]
+// ---- 1771:26B9  country_list_screen  (f_1771_26B9; Ghidra 4000:26B9, __stdcall16far; found by routines.tsv)
+// the country-list screen (8 columns of 16, by continent or world rank, one key toggles); by mode: 2 picks the current manager's country into DS:A91F (refused if managed), 4 sets DS:9B66, 1 and 3 act on the highlighted country (1771:7BA2, 1771:1D5C; T edits a managed country's tactics in mode 1)  [likely; F002; F007; read decompiled/seg_1771_02.c]
 
 /* WARNING: Removing unreachable block (1771:2A17) */
 /* WARNING: Removing unreachable block (1771:2A1D) */
@@ -514,7 +514,7 @@ void f_1771_25EA(int param_1,uint param_2)
 /* WARNING: Removing unreachable block (1771:2A3B) */
 /* WARNING: Removing unreachable block (1771:2A24) */
 
-void __stdcall16far new_game_selection(uint param_1)
+void __stdcall16far country_list_screen(uint param_1)
 
 {
   char cVar1;
@@ -729,10 +729,10 @@ void __stdcall16far new_game_selection(uint param_1)
 }
 
 
-// ---- 1771:2D15  set_managed_country  (f_1771_2D15; Ghidra 4000:2D15, __cdecl16far; found by routines.tsv)
-// writes the managed country's +0x2E = 0x80 + manager and calls 1771:98C4 for its extra players  [established; F007]
+// ---- 1771:2D15  set_managed_countries  (f_1771_2D15; Ghidra 4000:2D15, __cdecl16far; found by routines.tsv)
+// for each manager 1..[DS:A923]+0: picks a country (1771:26B9 mode 2; halts if none), sets its +0x2E = 0x80 + manager, stores 1771:114B and the continent rank in the state, draws via 1771:09A0 and makes the extra players (1771:98C4); then sets the current manager back to 1  [established; F007; read decompiled/seg_1771_02.c]
 
-void __cdecl16far set_managed_country(void)
+void __cdecl16far set_managed_countries(void)
 
 {
   byte bVar1;
@@ -751,7 +751,7 @@ void __cdecl16far set_managed_country(void)
     local_4 = 1;
     while( true ) {
       pbVar4[1] = (byte)local_4;
-      new_game_selection(2);
+      country_list_screen(2);
       if (*(char *)((int)DS:A91F + (local_4 + 0x80) * 3) == '\0') {
         sys_halt_00D8();
       }
@@ -774,7 +774,7 @@ void __cdecl16far set_managed_country(void)
 
 
 // ---- 1771:2E20  player_name_colour  (f_1771_2E20; Ghidra 4000:2E20, __stdcall16far; found by routines.tsv)
-// the colour of a player's name: 6 when +0x0E = 0 (injured), 5 when +0x10 bit 8 or 6 is set, else DS:699A[+6]  [established; F008]
+// the colour of a player's name: 6 when +0x0E = 0 (injured), 5 when +0x10 bit 8 or 6 is set, else DS:699A[+6]  [established; F008; read decompiled/seg_1771_02.c]
 
 undefined1 __stdcall16far player_name_colour(int param_1,int param_2)
 
@@ -801,7 +801,7 @@ undefined1 __stdcall16far player_name_colour(int param_1,int param_2)
 
 
 // ---- 1771:2E93  player_name  (f_1771_2E93; Ghidra 4000:2E93, __stdcall16far; found by routines.tsv)
-// a player's name: initial and surname, from [DS:9B70] + n and 11 bytes at [DS:9B6C] + 11 n  [established; F008]
+// a player's name: initial and surname, from [DS:9B70] + n and 11 bytes at [DS:9B6C] + 11 n  [established; F008; read decompiled/seg_1771_02.c]
 
 void __stdcall16far player_name(int param_1,undefined4 param_2)
 
@@ -820,7 +820,7 @@ void __stdcall16far player_name(int param_1,undefined4 param_2)
 
 
 // ---- 1771:2EE5  draw_player_name  (f_1771_2EE5; Ghidra 4000:2EE5, __stdcall16far; found by routines.tsv)
-// draws a player's name (1771:2E93, 12 characters at most) on the squad list, in 1771:2E20's colour  [established; F008]
+// draws a player's name (1771:2E93, 12 characters at most) at (column p1, row p2) in 1771:2E20's colour  [established; F008; read decompiled/seg_1771_02.c]
 
 void __stdcall16far draw_player_name(undefined1 param_1,undefined1 param_2,int param_3)
 
@@ -846,7 +846,7 @@ void __stdcall16far draw_player_name(undefined1 param_1,undefined1 param_2,int p
 
 
 // ---- 1771:2F37  draw_squad_row  (f_1771_2F37; Ghidra 4000:2F37, __stdcall16far; found by routines.tsv)
-// one row of the squad list: the name (1771:2E93) in 1771:2E20's colour and the position glyph DS:69A8[+6]  [established; F008]
+// one row of the squad list: the name (1771:2E93) in 1771:2E20's colour and the position glyph DS:69A8[+6]  [established; F008; read decompiled/seg_1771_02.c]
 
 void __stdcall16far draw_squad_row(int param_1,undefined2 param_2,int param_3)
 
@@ -875,7 +875,7 @@ void __stdcall16far draw_squad_row(int param_1,undefined2 param_2,int param_3)
 
 
 // ---- 1771:2FAD  player_height  (f_1771_2FAD; Ghidra 4000:2FAD, __stdcall16far; found by routines.tsv)
-// a player's height, not stored: DS:0E46[+7] + DS:0E54[n mod 12] inches  [established; F008]
+// a player's height, not stored: DS:0E46[+7] + DS:0E54[n mod 12] inches  [established; F008; read decompiled/seg_1771_02.c]
 
 int __stdcall16far player_height(uint param_1)
 
@@ -886,7 +886,7 @@ int __stdcall16far player_height(uint param_1)
 
 
 // ---- 1771:2FFB  player_hardness  (f_1771_2FFB; Ghidra 4000:2FFB, __stdcall16far; found by routines.tsv)
-// hardness = +5 - (+3 and 1)  [established; F007; F008]
+// hardness = +5 - (+3 and 1)  [established; F007; F008; read decompiled/seg_1771_02.c]
 
 int __stdcall16far player_hardness(int param_1)
 
@@ -900,7 +900,7 @@ int __stdcall16far player_hardness(int param_1)
 
 
 // ---- 1771:3041  is_two_footed  (f_1771_3041; Ghidra 4000:3041, __stdcall16far; found by routines.tsv)
-// true when +5 + +2 = 30 (the screen then shows "two footed")  [established; F008]
+// true when +5 + +2 = 30 (the screen then shows "two footed")  [established; F008; read decompiled/seg_1771_02.c]
 
 undefined2 __stdcall16far is_two_footed(int param_1)
 
@@ -915,10 +915,10 @@ undefined2 __stdcall16far is_two_footed(int param_1)
 }
 
 
-// ---- 1771:3088  foot_word  (f_1771_3088; Ghidra 4000:3088, __stdcall16far; found by routines.tsv)
-// the 5-character foot word DS:0F2C + 6 * DS:0E60[14 * DS:0E7C[n mod 3] + (+7)]  [established; F008]
+// ---- 1771:3088  foot_index  (f_1771_3088; Ghidra 4000:3088, __stdcall16far; found by routines.tsv)
+// returns the foot index DS:0E60[14 * DS:0E7C[n mod 3] + (+7)]; the player screen shows the word DS:0F2C + 6 * index  [established; F008; read decompiled/seg_1771_02.c]
 
-undefined2 __stdcall16far foot_word(uint param_1)
+undefined2 __stdcall16far foot_index(uint param_1)
 
 {
   long lVar1;
@@ -931,7 +931,7 @@ undefined2 __stdcall16far foot_word(uint param_1)
 
 
 // ---- 1771:30D9  player_leadership  (f_1771_30D9; Ghidra 4000:30D9, __stdcall16far; found by routines.tsv)
-// leadership v = ((+3) - (+5)) mod 8, halved when +1 < 0x15  [established; F008]
+// leadership v = ((+3) - (+5)) mod 8, halved when +1 < 0x15  [established; F008; read decompiled/seg_1771_02.c]
 
 uint __stdcall16far player_leadership(int param_1)
 
@@ -970,7 +970,7 @@ undefined2 __stdcall16far f_1771_3179(int param_1)
   uVar6 = 0x4000;
   uVar5 = (undefined2)((ulong)players >> 0x10);
   ppVar4 = (player *)players;
-  cVar1 = foot_word(param_1);
+  cVar1 = foot_index(param_1);
   is_two_footed(param_1);
   uVar3 = extraout_AH;
   if ((extraout_AL != '\0') || (bVar7 = cVar1 == '\0', bVar7)) {
@@ -1022,10 +1022,10 @@ undefined2 __stdcall16far player_unavailable(int param_1)
 }
 
 
-// ---- 1771:3291  draw_peak_age  (f_1771_3291; Ghidra 4000:3291, __stdcall16near; found by routines.tsv)
-// draws +2: DS:0E80[gk] + b - a with a then b = rand(3)  [established; F007]
+// ---- 1771:3291  roll_peak_age  (f_1771_3291; Ghidra 4000:3291, __stdcall16near; found by routines.tsv)
+// draws +2: DS:0E80[gk] + b - a with a then b = rand(3)  [established; F007; read decompiled/seg_1771_02.c]
 
-void draw_peak_age(int param_1)
+void roll_peak_age(int param_1)
 
 {
   char cVar1;
@@ -1044,7 +1044,7 @@ void draw_peak_age(int param_1)
 
 
 // ---- 1771:32EB  compute_ability  (f_1771_32EB; Ghidra 4000:32EB, __stdcall16far; found by routines.tsv)
-// computes +4 from +1, +2, +3: +3 inside the peak band, else (+3 * k) div 16  [established; F007; F009]
+// computes +4 from +1, +2, +3: +3 inside the peak band, else (+3 * k) div 16  [established; F007; F009; read decompiled/seg_1771_02.c]
 
 void __stdcall16far compute_ability(int param_1)
 
@@ -1075,10 +1075,10 @@ void __stdcall16far compute_ability(int param_1)
 }
 
 
-// ---- 1771:33CD  tactics_from_hardness  (f_1771_33CD; Ghidra 4000:33CD, __stdcall16far; found by routines.tsv)
-// sets bit 7 and clears bit 3 of +0x0F when 1771:2FFB < 4 (part of the tactics set-up)  [likely; F007]
+// ---- 1771:33CD  force_tactic4_off  (f_1771_33CD; Ghidra 4000:33CD, __stdcall16far; found by routines.tsv)
+// sets set element 8 (bit 7, the override of tactic 4) and clears element 4 (bit 3) of the player's +0x0F, unconditionally  [established; F007; read decompiled/seg_1771_02.c]
 
-void __stdcall16far tactics_from_hardness(int param_1)
+void __stdcall16far force_tactic4_off(int param_1)
 
 {
   player *ppVar1;
@@ -1093,7 +1093,7 @@ void __stdcall16far tactics_from_hardness(int param_1)
 
 
 // ---- 1771:3431  set_player_tactics  (f_1771_3431; Ghidra 4000:3431, __stdcall16far; found by routines.tsv)
-// sets the player's +0x0F tactic bits (Pascal set, 214B:0C79 / 0CA1), from its hardness and position  [established; F007]
+// sets the player's +0x0F tactic bits (Pascal set, 214B:0C79 / 0CA1), from its hardness and position  [established; F007; read decompiled/seg_1771_02.c]
 
 void __stdcall16far set_player_tactics(int param_1)
 
@@ -1108,7 +1108,7 @@ void __stdcall16far set_player_tactics(int param_1)
   bVar1 = player_hardness(param_1);
   uVar4 = bVar1 == 4;
   if (bVar1 < 4) {
-    tactics_from_hardness(param_1);
+    force_tactic4_off(param_1);
   }
   sys_set_bit_mask_08DF(0x3411,0x4000,ppVar2[param_1].position);
   if ((bool)uVar4) {
