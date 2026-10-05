@@ -47,7 +47,8 @@ TABLES = [
     (0x0E40, 0x0E90, "heights and feet (1771:2FAD at DS:0E46, DS:0E54; 1771:3088 at DS:0E60, DS:0E7C; DS:0E86)"),
     (0x0F20, 0x0F80, "the foot strings (1771:42BC: DS:0F2C + 6 * k)"),
     (0x6990, 0x6AC0, "position names (1771:42BC: DS:69B6 + 0x13 * position; DS:699A, DS:69A8)"),
-    (0x6D20, 0x6E90, "the skill tables (1771:3947: DS:6D25 and DS:6DCD)"),
+    (0x6D20, 0x6EB4, "the skill tables (1771:3947: DS:6D25 + 12 * position + i and DS:6DCD + 12 * (+5) + class, up to DS:6E98)"),
+    (0x0C10, 0x0C30, "the flags 1771:42BC tests at DS:0C1E and 1771:3827 at DS:0C1F"),
     (0x6EB4, 0x7940, "the words (1771:42BC: DS:6EB4 + 16 * i) and the word indexes (DS:78A3, DS:78C4, DS:78D5, DS:78F6, DS:7917)"),
 ]
 STATE_CONFIG = {"cycles": CYCLES}
