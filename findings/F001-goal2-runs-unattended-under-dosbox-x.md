@@ -18,7 +18,7 @@
 ## Method
 
 - Machine: Ubuntu 24.04 in WSL2, kernel 6.18.40.1-microsoft-standard-WSL2; DOSBox-X 2024.03.01 SDL2 (apt), xdotool 3.20160805.1, Xvfb 2:21.1.12-1ubuntu1.8, Python 3.12.3 (standard library only); each measurement file and record names its versions and the commit of the code that ran (`versions`, `code_commit`). Code: `runtime/spike/` (`dbx.py`, `cycle.py`, `probe.py`, `routes.py`).
-- The game ran from a copy of the ten release files (verified against `artifacts/known.json` by `setup/goal2-runtime.sh` and by `cycle.py`), never from the owner's folder; each session copied them into a folder under `scratch/` (git-ignored).
+- The game ran from a copy of the ten release files (verified against `artifacts/known.json` by `setup/goal2-runtime.sh` and by `cycle.py`), never from the owner's folder; each sessgition copied them into a folder under `scratch/` (git-ignored).
 - Config: machine `svga_s3`, memsize 16, cycles `auto` unless a probe sets it, core and cputype `auto`, `output=surface`, sound off; autoexec mounts the copy, runs `goal`, then `exit`.
 - Delays: key held 0.08 s, DOSBox-X host key (F12) combinations held 0.15 s; savestate file polled every 0.05 s. In the cycle (E001) and in the `determinism`, `timing`, `speed` and `layout` probes every wait for a screen is a bounded poll or a delay written into the record or measurement (the waits of each run are in its `log` observation; `timing` writes its extra wait of 0, 0.3, 0.6 or 0.9 s after a verified restore). Not every wait is a poll: the `writes`, `terminate` and `match` probes also used the fixed delays in the table below, which their measurement files do not record; `machines` used a delay of 3.0 s before each capture, recorded as `delay_seconds_before_capture`.
 
