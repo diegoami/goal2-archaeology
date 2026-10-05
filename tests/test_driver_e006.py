@@ -7,6 +7,7 @@ F002 / static/goal-exe-map.md (2139:0000: [A917] 0x603F bytes, [A91B] 0xEF24 byt
 array are non-zero, so a pointer offset, a record size or an array size off by one fails a test here.
 The fixtures of the model tests are bytes of E006-r0001 (players 1, 2, 12 and 2561; country 1's
 record bytes +0x28..+0x2F) and GOAL.DAT block squad_20 record 1."""
+import importlib.util
 import sys
 import unittest
 from pathlib import Path
@@ -14,11 +15,14 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "runtime" / "driver"))
 sys.path.insert(0, str(ROOT / "tests"))
-sys.path.insert(0, str(ROOT / "experiments" / "E006-q004-skills"))
 
 import players  # noqa: E402
-import summarise  # noqa: E402
 from test_driver_dataseg import DS_BASE, memory_image, savestate_of  # noqa: E402
+
+# Loaded by path under its own name: other experiments' summarise.py share the module name `summarise`.
+_spec = importlib.util.spec_from_file_location("e006_summarise", ROOT / "experiments" / "E006-q004-skills" / "summarise.py")
+summarise = importlib.util.module_from_spec(_spec)
+_spec.loader.exec_module(summarise)
 
 PLAYERS_AT = (0x4E5B, 0x000D)    # segment, offset as E006-r0001 read them
 COUNTRIES_AT = (0x4857, 0x000E)
