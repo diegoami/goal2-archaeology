@@ -56,3 +56,13 @@ python3 experiments/E007-q009-player-screen/summarise.py
   E007-r0009 … r0012 are the same four list positions a third time, and the batch `summarise.py` analyses
   (the records that hold the country record and a range reaching `DS:0EE5`). The earlier records are kept
   as written (L207).
+
+## Amendment 3 (2026-10-05, rework round 1 of PR #49; no run added)
+
+- **The squad list and its header are transcribed and compared.** Sol's review found that the list beside
+  the card (a name and a position glyph per player, `1771:4D8A` / `1771:2F37`) was excluded, so a changed
+  name there went unnoticed. `playerscreen.parse` now reads its 20 rows and the country header, and
+  `summarise.py` models them (`2E20`, `2F37`, `0F58`, `0E24`, the highlight of `4E22`) from the records
+  already committed. The bytes the records lack (`DS:0D6A`, `DS:0D7A`, `DS:6905`) come from the static data
+  image (`static/goal-exe/data/`). `summarise.py` also checks that no cell outside the transcribed ones
+  changes between screens, and which record bytes the shown values need (each set to 0x00, then 0xFF).

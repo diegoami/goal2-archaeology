@@ -9,6 +9,11 @@ savestate. `playerscreen.parse` transcribes the screen; `model` evaluates the fo
 (`1771:42BC` and its callees, F008) on the record bytes and the tables; the two are compared value by
 value over every transcribed player. A line says, per shown value: its name, its scale (numbers or
 words, the range seen) and its source: a record field, a formula with the match count, or "not found".
+
+Rework round 1 (Sol's review of PR #49): the squad list beside the card and the country header above it are
+transcribed and modelled too (`1771:4D8A`, `2F37`, `2E20`, `0F58`, `0E24`, `4E22`); every cell outside the
+transcribed ones is checked to be the same on every screen; and each record byte is fixed in turn to show which
+bytes the shown values need (`needed_bytes`).
 """
 import json
 import re
@@ -25,6 +30,46 @@ RUNS = ROOT / "runs" / "E007"
 SKILL_ROW_FIELD = "text screen 80x25 as the 4000 bytes B800:0000 holds them"
 TABLE_RE = re.compile(r"DS:([0-9A-F]{4})\.\.([0-9A-F]{4}), (\d+) bytes")
 STEP_LABEL = re.compile(r"^(player screen \d+ of the list)")
+LIST_POSITION = re.compile(r"^player screen (\d+) of the list")
+STATIC_DATA = sorted((ROOT / "static" / "goal-exe" / "data").glob("ds_2581_*.hex"))
+STATIC_ROW = re.compile(r"^([0-9A-F]{4})  ((?:[0-9A-F]{2} ){31}[0-9A-F]{2})")
+
+
+class StaticImage:
+    """The initialised data segment as GOAL.EXE's image holds it (static/goal-exe/data/ds_2581_*.hex: 32 bytes a
+    row, '*' repeating the row above up to the next row's offset). The few bytes the squad list's header reads and
+    the records did not keep (DS:0D6A, DS:0D7A, DS:6905) come from here; `main` prints how many of the bytes the
+    records kept the image gives the same."""
+
+    def __init__(self, paths=STATIC_DATA):
+        self.mem, prev, repeat = {}, None, False
+        for path in paths:
+            for line in Path(path).read_text().splitlines():
+                if line.startswith("*"):
+                    repeat = True
+                    continue
+                m = STATIC_ROW.match(line)
+                if not m:
+                    continue
+                off, data = int(m.group(1), 16), bytes.fromhex(m.group(2))
+                if repeat and prev is not None:
+                    for o in range(prev[0] + 32, off, 32):
+                        for i, b in enumerate(prev[1]):
+                            self.mem[o + i] = b
+                repeat = False
+                for i, b in enumerate(data):
+                    self.mem[off + i] = b
+                prev = (off, data)
+
+    def byte(self, off):
+        try:
+            return self.mem[off]
+        except KeyError:
+            raise KeyError(f"DS:{off:04X} is not in the static data image") from None
+
+    def pstr(self, off, size):
+        n = self.byte(off)
+        return bytes(self.byte(off + 1 + i) for i in range(min(n, size - 1))).decode("cp437")
 
 
 class Tables:
@@ -173,6 +218,60 @@ def model(rec, n, t):
     return m
 
 
+# ---- the squad list beside the card and its header (1771:4E22 -> 1771:4D8A; rework R1) ----------------------
+
+SQUAD_KINDS = ("name", "name colour", "background after the name", "glyph", "glyph colour")
+
+
+def squad_numbers(country):
+    """1771:4D8A: the player of list row i = 1..20 is the country record's word i - 1 (`4DCC`-`4DD6`: es:[di - 2]
+    with di = record + 2 i)."""
+    return [int.from_bytes(country[2 * j:2 * j + 2], "little") for j in range(20)]
+
+
+def name_colour(rec, t):
+    """1771:2E20(+6, n), the attribute 2EE5 prints the name with: 6 when +0xE = 0 (`2E3D`), 5 when bit 8 or bit 6
+    of +0x10 is set (`2E4A`-`2E76`), else DS:699A[+6] (`2E7E`)."""
+    if rec[0xE] == 0:
+        return 6
+    if bit(rec[0x10], 8) or bit(rec[0x10], 6):
+        return 5
+    return t.byte(0x699A + rec[6])
+
+
+def glyph(rec, t):
+    """1771:2F37: the character DS:69A8[+6] (`2F80`-`2F88`) in the attribute DS:699A[+6] (`2F6A`-`2F72`)."""
+    return bytes([t.byte(0x69A8 + rec[6])]).decode("cp437"), t.byte(0x699A + rec[6])
+
+
+def squad_slot(name, rec, highlighted, t):
+    """What 2F37 and 4E22 leave in one row of the list: the name (at most 12 characters) in 2E20's colour, the cells
+    after it blank on black (2F37 writes only the name's characters over the template's blanks), the 12 name
+    cells at 0x70 on the row of [DS:0C1B] (214B:13C5 paints attributes only), and the glyph."""
+    g, ga = glyph(rec, t)
+    a = playerscreen.BAR_ATTR if highlighted else name_colour(rec, t)
+    return {"name": name, "name colour": (a,) * len(name),
+            "background after the name": ((7 if highlighted else 0),) * (playerscreen.SQUAD_NAME_LEN - len(name)),
+            "glyph": g, "glyph colour": ga}
+
+
+def country_colour(country, image):
+    """1771:0E24(country): 0x0F when 1771:0B77 holds (country byte +0x2E > 0x80, `0B8B`), else DS:6905[+0x2C]
+    (`0E52`-`0E5A`; DS:6905 from the static data image)."""
+    return 0x0F if country[0x2E] > 0x80 else image.byte(0x6905 + country[0x2C])
+
+
+def fixed(rec, fix):
+    """The record with the bytes of `fix` ({offset: value}) set: what a rebuild that kept only the other bytes and
+    stored these as constants would show."""
+    if not fix:
+        return rec
+    r = bytearray(rec)
+    for off, v in fix.items():
+        r[off] = v
+    return bytes(r)
+
+
 # ---- the records ----------------------------------------------------------------------------------------
 
 def load(runs=RUNS):
@@ -200,6 +299,7 @@ def load(runs=RUNS):
             rec = next((o for o in steps[step] if "the 20 bytes of player n's record" in o["field"]), None)
             m = re.match(r"n=(\d+|unresolved)", ident["value"])
             out.append({"run": r["run_id"], "arm": r["arm"], "full": full, "step": step, "raw": bytes.fromhex(raw["value"]),
+                        "k": int(LIST_POSITION.match(raw["field"]).group(1)),
                         "shown": playerscreen.parse(playerscreen.screen_of_raw(bytes.fromhex(raw["value"]))),
                         "n": int(m.group(1)) if m.group(1) != "unresolved" else None,
                         "named": json.loads(re.search(r"named=(\[[^\]]*\])", ident["value"]).group(1)),
@@ -209,36 +309,114 @@ def load(runs=RUNS):
     return out
 
 
-def compare(p):
-    """{shown value name: (shown, modelled)} for one transcribed player; None where the player is unresolved."""
-    s, m = p["shown"], model(p["rec"], p["n"], p["tables"])
-    pairs = {"name": None, "age": (s["age"], m["age"]), "caps": (s["caps"], m["caps"]), "goals": (s["goals"], m["goals"]),
+def context(players):
+    """What a screen's model reads besides its own player: the country records by country number (the screen's
+    country is its player's byte +0: `1771:3BD3` `3B9A`, `3CB0`), the screens of each record by player number (the
+    squad list shows the other 19 players of the country, each the player of another screen of the same record),
+    and the static data image. Refuses two screens that give one country two different records."""
+    countries, by_n = {}, {}
+    for p in players:
+        if p["rec"] is None or p["n"] is None:
+            continue
+        by_n[(p["run"], p["n"])] = p
+        if p["country"] is not None and countries.setdefault(p["rec"][0], p["country"]) != p["country"]:
+            raise ValueError(f"country {p['rec'][0]} has two records ({p['run']})")
+    return {"countries": countries, "by_n": by_n, "image": StaticImage()}
+
+
+def compare(p, ctx, fix=None):
+    """{shown value name: (shown, modelled)} for one transcribed player, the model reading the records with `fix`
+    applied (see `fixed`). KeyError when a record the model needs is missing or a fixed byte points out of
+    every kept table; ValueError where the model refuses a value (leadership's negative remainder)."""
+    rec = fixed(p["rec"], fix)
+    country = ctx["countries"][rec[0]]
+    s, m = p["shown"], model(rec, p["n"], p["tables"])
+    pairs = {"name": (s["name"], s["name"] if p["n"] in p["named"] else f"1771:2E93({p['n']}) is another name"),
+             "age": (s["age"], m["age"]), "caps": (s["caps"], m["caps"]), "goals": (s["goals"], m["goals"]),
              "height": (s["height_in"], m["height_in"]), "bias": (s["bias"], m["bias"] if m["bias"] == "two footed" else m["bias"].ljust(5) + " foot"),
              "position": (s["position"], m["position"]), "club position": (s["club_position"], m["club_position"]),
              "status": (s["status"], m["status"]),
              "performance": (s["performance"] or "blank", "blank" if m["performance_blank"] else "not blank"),
-             "cards": (s["cards"] or "blank", "blank" if p["rec"][0x10] & 0x38 == 0 else "not blank")}
+             "cards": (s["cards"] or "blank", "blank" if rec[0x10] & 0x38 == 0 else "not blank")}
     for i, (label, bar) in enumerate(s["skills"].items()):
         pairs[f"skill {i + 1:2d} {label}"] = (bar, m["skill_bars"][i])
     for label, (w, bar) in ((k, (v["word"], v["bar"])) for k, v in s["panel"].items()):
         pairs[f"{label} word"] = (w, m[label][0])
         pairs[f"{label} bar"] = (bar, m[label][1])
-    del pairs["name"]
-    if p["country"] is not None:
-        for label, text in tactics(p["rec"], p["country"], p["tables"]).items():
-            pairs[f"tactics {label}"] = (s["tactics"][label], text)
+    for label, text in tactics(rec, country, p["tables"]).items():
+        pairs[f"tactics {label}"] = (s["tactics"][label], text)
+    # the squad list (1771:4D8A) and the highlight of the card's player (1771:4E22, [DS:0C1B] = the list position k)
+    numbers = squad_numbers(country)
+    pairs["card player = list row [DS:0C1B]"] = (p["n"], numbers[p["k"] - 1])
+    for i, (n, shown) in enumerate(zip(numbers, s["squad"]), 1):
+        q = ctx["by_n"][(p["run"], n)]
+        name = q["shown"]["name"] if n in q["named"] else f"1771:2E93({n})"
+        want = squad_slot(name, fixed(q["rec"], fix), i == p["k"], p["tables"])
+        for kind in SQUAD_KINDS:
+            got = shown[{"name colour": "name_attrs", "background after the name": "tail_background",
+                         "glyph colour": "glyph_attr"}.get(kind, kind)]
+            pairs[f"squad {i:2d} {kind}"] = (got, want[kind])
+    # the header (1771:0F58): the 15 '-' of DS:0D6A, the country's name over them in 0E24's colour. The name, and so
+    # the '-' left after it, cannot be compared: the names at [DS:9B68] were not kept (main prints both)
+    head = s["country"]
+    pairs["country name colour"] = (head["name_attrs"], (country_colour(country, ctx["image"]),) * len(head["name"]))
     return pairs
+
+
+def untranscribed(players):
+    """[(row, col)]: the cells outside playerscreen.TRANSCRIBED whose character or attribute is not the same on
+    every screen. Empty means the parser reads every cell that changes between player screens."""
+    inside = {r * playerscreen.COLS + c for r, lo, hi in playerscreen.TRANSCRIBED for c in range(lo, hi)}
+    first = players[0]["raw"]
+    out = []
+    for cell in range(playerscreen.ROWS * playerscreen.COLS):
+        if cell in inside:
+            continue
+        if any(p["raw"][2 * cell:2 * cell + 2] != first[2 * cell:2 * cell + 2] for p in players):
+            out.append(divmod(cell, playerscreen.COLS))
+    return out
+
+
+def differ_with(ok, ctx, fix):
+    """(comparisons that differ, comparisons, screens the model cannot evaluate) over `ok` with the bytes of `fix`
+    set in every player's record. A screen the model cannot evaluate counts all its comparisons as differing."""
+    differ = total = failed = 0
+    for p in ok:
+        base = compare(p, ctx)
+        total += len(base)
+        try:
+            differ += sum(1 for a, b in compare(p, ctx, fix).values() if a != b)
+        except (KeyError, ValueError):
+            differ += len(base)
+            failed += 1
+    return differ, total, failed
+
+
+def needed_bytes(ok, ctx):
+    """{offset: (differ with the byte 0x00, differ with 0xFF)} for each of the record's 20 bytes, set in every
+    player's record: a byte whose two counts are both 0 is one the shown values do not need, over these players.
+    The listing's reads (`es:[di + k]` in 1771:2E20..3215, 3827..4845, 4D8A..4F6C) agree: every offset is read
+    but +0x11; +9, +0xB and +0x13 as the high bytes of the words at +8 (`432F`), +0xA (`4355`) and +0x12 (`3844`)."""
+    return {off: (differ_with(ok, ctx, {off: 0x00})[0], differ_with(ok, ctx, {off: 0xFF})[0]) for off in range(20)}
 
 
 def scale(values):
     vs = list(values)
     if all(isinstance(v, int) for v in vs):
         return f"numbers {min(vs)}..{max(vs)}"
+    if all(isinstance(v, tuple) for v in vs):
+        return "per cell: " + ", ".join(f"0x{a:02x}" for a in sorted({a for v in vs for a in v}))
     c = Counter(vs)
+    if len(c) > 20:
+        return f"text, {len(c)} different, e.g. " + ", ".join(repr(w) for w in sorted(c)[:3])
     return f"words ({len(c)} seen): " + ", ".join(f"{w!r} x{n}" for w, n in sorted(c.items()))
 
 
 SOURCES = {
+    "name": "names array: [DS:9B70] + n, a space, 11 bytes at [DS:9B6C] + 11 n, 12 characters at most (1771:2E93); the arrays are not kept, "
+            "the run compared 1771:2E93(n) with the shown name from the savestate (the record's identity observation); the number n is not shown",
+    "card player = list row [DS:0C1B]": "1771:4E22 `4F33`-`4F42`: the card is 1771:42BC(country word [DS:0C1B] - 1), [DS:0C1B] the list position (1..20) the Down keys reached",
+    "country name colour": "1771:0E24(country): 0x0F when country byte +0x2E > 0x80 (1771:0B77), else DS:6905[country byte +0x2C] (static data image)",
     "age": "record field +1 (1771:42BC `4307`)",
     "caps": "record word +8 (`432F`)", "goals": "record word +0xA (`4355`)",
     "height": "formula: DS:0E46[+7] + DS:0E54[player number mod 12], inches (1771:2FAD)",
@@ -259,9 +437,21 @@ TACTIC_SOURCES = {
 }
 
 
+SQUAD_SOURCES = {
+    "name": "1771:2E93(n) of n = the country record's word i - 1 (1771:4D8A `4DCC`-`4DE6`), printed by 1771:2EE5 at row i + 2 (i > 11: i + 3), column 0x41; "
+            "the expected text is the card of the same record's screen of player n, which the run found equal to 2E93(n)",
+    "name colour": "1771:2E20: 6 when +0xE = 0, 5 when +0x10 bit 8 or bit 6, else DS:699A[+6], of player n; the 12 cells at 0x70 on row [DS:0C1B] (1771:4E22 `4F67`: 214B:13C5)",
+    "background after the name": "the template's blanks on black (1771:2F37 writes only the name's characters); 0x70 on row [DS:0C1B]",
+    "glyph": "DS:69A8[+6] of player n, one character at column 0x41 + 0xD (1771:2F37 `2F7D`-`2FA2`)",
+    "glyph colour": "DS:699A[+6] of player n (1771:2F37 `2F67`-`2F72`)",
+}
+
+
 def source_of(name):
     if name in SOURCES:
         return SOURCES[name]
+    if name.startswith("squad"):
+        return "formula: " + SQUAD_SOURCES[name.split(" ", 1)[1]]
     if name.startswith("tactics"):
         return "formula: " + TACTIC_SOURCES[name.split(" ", 1)[1]] + " (1771:3BD3)"
     if name.startswith("skill"):
@@ -337,15 +527,41 @@ def main(argv=None):
     print(f"skill labels (rows 11..22) identical on every screen: {len(labels) == 1}: {', '.join(next(iter(labels)))}")
     print(f"panel labels (rows 18..22) identical on every screen: {len(panel) == 1}: {', '.join(next(iter(panel)))}")
     print(f"tactics labels (rows 11..15) identical on every screen: {len(tactic) == 1}: {', '.join(next(iter(tactic)))}")
-    pairs = [compare(p) for p in ok]
+    ctx = context(players)
+    pairs = [compare(p, ctx) for p in ok]
     print()
-    print(f"{'shown value':<26} {'scale (over ' + str(len(ok)) + ' players)':<70} source")
-    print(f"{'name':<26} {'initial and surname, 12 characters':<70} names array: [DS:9B70] + n, a space, 11 bytes at [DS:9B6C] + 11 n (1771:2E93); the number n is not shown; "
-          f"the shown name names exactly one player on {sum(1 for p in ok if len(p['named']) == 1)}/{len(ok)} screens")
-    for name in pairs[0]:
+    print(f"{'shown value':<34} {'scale (over ' + str(len(ok)) + ' players)':<70} source")
+    print(f"{'(the card)':<34} the shown name names exactly one player on {sum(1 for p in ok if len(p['named']) == 1)}/{len(ok)} screens")
+    for name in (k for k in pairs[0] if not k.startswith("squad")):
         shown = [pr[name][0] for pr in pairs]
         match = sum(1 for pr in pairs if pr[name][0] == pr[name][1])
-        print(f"{name:<26} {scale(shown):<70} {source_of(name)}; match {match}/{len(pairs)}")
+        print(f"{name:<34} {scale(shown):<70} {source_of(name)}; match {match}/{len(pairs)}")
+    for kind in SQUAD_KINDS:
+        both = [pr[f"squad {i:2d} {kind}"] for pr in pairs for i in range(1, 21)]
+        match = sum(1 for a, b in both if a == b)
+        print(f"{'squad list ' + kind:<34} {scale([a for a, _ in both]):<70} {source_of('squad ' + kind)}; match {match}/{len(both)} (20 rows x {len(pairs)} screens)")
+    names = {}
+    for p in ok:
+        names.setdefault(p["run"], set()).add(p["shown"]["country"]["name"])
+    fills = sorted({a for p in ok for a in p["shown"]["country"]["fill_attrs"]})
+    print(f"{'country name':<34} {scale([p['shown']['country']['name'] for p in ok]):<70} not compared: [DS:9B68] + 16 * country (1771:0F58 `0F8A`-`0FA6`) is not kept; "
+          f"one name on every screen of a record in {sum(1 for v in names.values() if len(v) == 1)}/{len(names)} records, {len(set().union(*names.values()))} names in all")
+    print(f"{'country name fill':<34} {scale([p['shown']['country']['fill'] for p in ok]):<70} not compared (it is what the name leaves): the Pascal string DS:0D6A "
+          f"({ctx['image'].pstr(0x0D6A, 16)!r} in the static data image) printed first, the name over it (1771:0F58 `0F5B`-`0F78`)")
+    print(f"{'country name fill colour':<34} {'attributes ' + ', '.join(f'0x{a:02x}' for a in fills):<70} not compared: DS:0D7A[[DS:A964]] (1771:0F58 `0F5B`-`0F65`), [DS:A964] not kept; "
+          f"DS:0D7A[0] = 0x{ctx['image'].byte(0x0D7A):02x} in the static data image")
+    t, image = ok[0]["tables"], ctx["image"]
+    common = [o for o in t.mem if o in image.mem]
+    print(f"\nthe static data image against the bytes the records kept: {sum(1 for o in common if t.mem[o] == image.mem[o])} of {len(common)} equal "
+          f"(it gives DS:0D6A, DS:0D7A and DS:6905, which the records did not keep)")
+    loose = untranscribed(players)
+    print(f"cells outside the transcribed ones (playerscreen.TRANSCRIBED) that differ between the {len(players)} screens: {len(loose)} {loose[:10]}")
+    need = needed_bytes(ok, ctx)
+    print("record bytes the shown values need: each byte set to 0x00, then 0xFF, in every player's record; "
+          f"the comparisons that then differ, of {sum(len(pr) for pr in pairs)}:")
+    print("  " + "; ".join(f"+{off:X}: {a}, {b}" for off, (a, b) in need.items()))
+    print(f"  not needed by these screens: {['+%X' % o for o, ab in need.items() if ab == (0, 0)] or 'none'}; "
+          f"+2 = 0 and +3 = 128 in every record: {differ_with(ok, ctx, {2: 0, 3: 128})[0]} differ")
     alt = alternative_counts(ok)
     print()
     print("F007's inferred meanings against the screen:")

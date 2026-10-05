@@ -172,6 +172,43 @@ class Screens(unittest.TestCase):
         with self.assertRaises(ValueError):
             playerscreen.screen_of_raw(b"\0" * 3999)
 
+    # the squad list and its header (rework R1); the cells are the screen's own: P Schmeichel's (Denmark, list row 1)
+    def test_squad_list_rows_names_glyphs_and_the_highlight(self):
+        squad = playerscreen.parse(self.screen(121))["squad"]
+        self.assertEqual(len(squad), 20)
+        # row 1 (0-based screen row 2) is the card's player: all 12 name cells at 0x70
+        self.assertEqual(squad[0], {"name": "P Schmeichel", "name_attrs": (0x70,) * 12, "tail_background": (),
+                                    "glyph": "G", "glyph_attr": 0x02})
+        self.assertEqual(squad[1], {"name": "L Olsen", "name_attrs": (0x0C,) * 7, "tail_background": (0,) * 5,
+                                    "glyph": "S", "glyph_attr": 0x0C})
+        # the edge: list row 11 is screen row 12, row 12 is screen row 14 (row 13 is the line between the two groups)
+        self.assertEqual((squad[10]["name"], squad[10]["glyph"]), ("F Povlsen", "$"))
+        self.assertEqual((squad[11]["name"], squad[11]["glyph"]), ("M Krogh", "G"))
+        self.assertEqual((squad[19]["name"], squad[19]["glyph"]), ("B Kristensen", "$"))   # row 20, screen row 22
+        self.assertEqual(playerscreen.parse(self.screen(122))["squad"][1]["name_attrs"], (0x70,) * 7)   # L Olsen's own screen
+
+    def test_squad_list_name_is_cols_64_to_75_and_the_glyph_col_77(self):
+        # a 12-character name fills the field to col 75; col 76 is the frame, col 77 the glyph
+        edits = {(3, 64 + k): (ord(c), None) for k, c in enumerate("ABCDEFGHIJKL")}
+        edits[(3, 77)] = (ord("Q"), 0x0E)
+        got = playerscreen.parse(self.edited(121, edits))["squad"][1]
+        self.assertEqual((got["name"], got["tail_background"], got["glyph"], got["glyph_attr"]), ("ABCDEFGHIJKL", (), "Q", 0x0E))
+        # a character at col 63 or 76 is not the name's
+        got = playerscreen.parse(self.edited(121, {(3, 63): (ord("x"), None), (3, 76): (ord("y"), None)}))["squad"][1]
+        self.assertEqual(got["name"], "L Olsen")
+
+    def test_squad_list_background_after_the_name(self):
+        got = playerscreen.parse(self.edited(121, {(3, 75): (None, 0x4C)}))["squad"][1]
+        self.assertEqual(got["tail_background"], (0, 0, 0, 0, 4))
+
+    def test_country_header(self):
+        self.assertEqual(playerscreen.parse(self.screen(121))["country"],
+                         {"name": "Denmark", "name_attrs": (0x0F,) * 7, "fill": "-" * 8, "fill_attrs": (0x09,) * 8})
+        self.assertEqual(playerscreen.parse(self.screen(221))["country"]["name_attrs"], (0x0E,) * 7)   # Germany
+        # the edge: the header is cols 64..78; col 79 is not read
+        self.assertEqual(playerscreen.parse(self.edited(121, {(0, 78): (ord("x"), None)}))["country"]["name"], "Denmark" + "-" * 7 + "x")
+        self.assertEqual(playerscreen.parse(self.edited(121, {(0, 79): (ord("y"), None)}))["country"]["fill"], "-" * 8)
+
 
 class Formulas(unittest.TestCase):
     def tables(self, **kv):
@@ -331,25 +368,147 @@ class Formulas(unittest.TestCase):
         with self.assertRaises(KeyError):
             t.byte(0x13)
 
+    # the squad list (rework R1): 1771:2E20, 2F37, 0E24
+    def test_name_colour_injured_then_suspended_or_sent_off_then_the_position(self):
+        t = self.tables(x699A=[0x02, 0x0C, 0x0C, 0x0C, 0x0C, 0x03, 0x03, 0x03, 0x03, 0x03, 0x03, 0x03, 0x0E, 0x0E])
+        self.assertEqual(summarise.name_colour(self.rec(fE=0, f10=0x80, f6=12), t), 6)    # +0xE = 0 first
+        self.assertEqual(summarise.name_colour(self.rec(fE=1, f10=0x80, f6=12), t), 5)    # bit 8 of +0x10
+        self.assertEqual(summarise.name_colour(self.rec(fE=1, f10=0x20, f6=12), t), 5)    # bit 6
+        self.assertEqual(summarise.name_colour(self.rec(fE=1, f10=0x5F, f6=12), t), 0x0E)  # bits 1..5 and 7: DS:699A[+6]
+        self.assertEqual(summarise.name_colour(self.rec(fE=1, f6=1), t), 0x0C)
+
+    def test_glyph_is_ds_69a8_and_its_colour_ds_699a_by_plus_6(self):
+        t = self.tables(x699A=[0x02, 0x0C], x69A8=[0x47, 0x80])
+        self.assertEqual(summarise.glyph(self.rec(f6=1, f7=0), t), ("Ç", 0x0C))
+        self.assertEqual(summarise.glyph(self.rec(f6=0, f7=1), t), ("G", 0x02))
+
+    def test_squad_slot_highlight_paints_the_twelve_name_cells(self):
+        t = self.tables(x699A=[0x02], x69A8=[0x47])
+        self.assertEqual(summarise.squad_slot("P Olsen", self.rec(fE=1), False, t),
+                         {"name": "P Olsen", "name colour": (0x02,) * 7, "background after the name": (0,) * 5, "glyph": "G", "glyph colour": 0x02})
+        self.assertEqual(summarise.squad_slot("P Olsen", self.rec(fE=1), True, t)["name colour"], (0x70,) * 7)
+        self.assertEqual(summarise.squad_slot("P Olsen", self.rec(fE=1), True, t)["background after the name"], (7,) * 5)
+
+    def test_squad_numbers_are_the_country_records_first_20_words(self):
+        country = bytes(range(40)) + b"\xff" * 0x97
+        self.assertEqual(summarise.squad_numbers(country)[0], 0x0100)
+        self.assertEqual(summarise.squad_numbers(country)[19], 0x2726)
+        self.assertEqual(len(summarise.squad_numbers(country)), 20)
+
+    def test_country_colour_is_0x0f_above_0x80_else_ds_6905(self):
+        image = summarise.StaticImage([])
+        image.mem.update({0x6905: 0x00, 0x6906: 0x0E, 0x6907: 0x03})
+        c = bytearray(0xBF)
+        c[0x2C], c[0x2E] = 2, 0x81
+        self.assertEqual(summarise.country_colour(bytes(c), image), 0x0F)
+        c[0x2E] = 0x80                         # the edge: 0B77 is `ja`, above 0x80
+        self.assertEqual(summarise.country_colour(bytes(c), image), 0x03)
+        c[0x2C] = 1
+        self.assertEqual(summarise.country_colour(bytes(c), image), 0x0E)
+
+    def test_static_image_rows_and_repeats(self):
+        path = Path(self.id().replace(".", "_") + ".hex")
+        tmp = Path(__import__("tempfile").mkdtemp()) / path
+        row = " ".join(f"{i:02X}" for i in range(32))
+        tmp.write_text("; a comment\n" f"0000  {row}  |x|\n" "*\n" f"0080  {' '.join(['AA'] * 32)}  |x|\n")
+        image = summarise.StaticImage([tmp])
+        self.assertEqual((image.byte(0x00), image.byte(0x1F), image.byte(0x20), image.byte(0x7F), image.byte(0x80)), (0, 31, 0, 31, 0xAA))
+        with self.assertRaises(KeyError):
+            image.byte(0xA0)
+
+    def test_the_static_image_has_the_header_bytes(self):
+        image = summarise.StaticImage()
+        self.assertEqual(image.pstr(0x0D6A, 16), "-" * 15)
+        self.assertEqual((image.byte(0x0D7A), image.byte(0x6906)), (0x09, 0x0E))
+
 
 class Records(unittest.TestCase):
     """The model against every transcribed player of every committed record."""
 
     @classmethod
     def setUpClass(cls):
-        cls.ps = [p for p in summarise.load() if p["full"] and p["n"] is not None]
+        cls.every = summarise.load()
+        cls.ps = [p for p in cls.every if p["full"] and p["n"] is not None]
+        cls.ctx = summarise.context(cls.every)
 
     def test_80_players_from_4_countries_every_value_as_the_model_says(self):
         self.assertEqual((len(self.ps), len({p["rec"][0] for p in self.ps})), (80, 4))
-        bad = [(p["n"], k) for p in self.ps for k, (a, b) in summarise.compare(p).items() if a != b]
+        bad = [(p["n"], k) for p in self.ps for k, (a, b) in summarise.compare(p, self.ctx).items() if a != b]
         self.assertEqual(bad, [])
 
     def test_the_comparison_visits_every_shown_value(self):
-        names = list(summarise.compare(self.ps[0]))
-        # the ten of the card (age, caps, goals, height, bias, position, club position, status, performance, cards),
-        # the 12 skill bars, the word and the bar of each of the 5 panel rows, the 5 tactics rows
-        self.assertEqual(len(names), 10 + 12 + 5 * 2 + 5)
+        names = list(summarise.compare(self.ps[0], self.ctx))
+        # the card's name and its ten others (age, caps, goals, height, bias, position, club position, status,
+        # performance, cards), the 12 skill bars, the word and the bar of each of the 5 panel rows, the 5 tactics rows,
+        # the card's list row, 5 values in each of the 20 rows of the squad list, the colour of the header's name
+        # (its text and the '-' after it are not compared: the names at [DS:9B68] were not kept)
+        self.assertEqual(len(names), 11 + 12 + 5 * 2 + 5 + 1 + 20 * 5 + 1)
         self.assertEqual(sum(n.startswith("skill") for n in names), 12)
+        self.assertEqual(sum(n.startswith("squad") for n in names), 100)
+
+    def screen_edited(self, p, edits):
+        raw = bytearray(p["raw"])
+        for (row, col), (ch, attr) in edits.items():
+            if ch is not None:
+                raw[(row * 80 + col) * 2] = ch
+            if attr is not None:
+                raw[(row * 80 + col) * 2 + 1] = attr
+        return dict(p, raw=bytes(raw), shown=playerscreen.parse(playerscreen.screen_of_raw(bytes(raw))))
+
+    def differs(self, p):
+        return sorted(k for k, (a, b) in summarise.compare(p, self.ctx).items() if a != b)
+
+    def test_a_changed_squad_list_value_is_seen(self):
+        # Sol's case: a visible name in the squad list, row 7, col 65 (P Schmeichel's screen: J Sivebaek, list row 6)
+        p = next(q for q in self.ps if q["n"] == 121)
+        self.assertEqual(self.differs(p), [])
+        self.assertEqual(self.differs(self.screen_edited(p, {(7, 65): (ord("X"), None)})), ["squad  6 name"])
+        self.assertEqual(self.differs(self.screen_edited(p, {(7, 66): (None, 0x0E)})), ["squad  6 name colour"])
+        self.assertEqual(self.differs(self.screen_edited(p, {(7, 77): (ord("S"), None)})), ["squad  6 glyph"])
+        self.assertEqual(self.differs(self.screen_edited(p, {(7, 77): (None, 0x0E)})), ["squad  6 glyph colour"])
+        self.assertEqual(self.differs(self.screen_edited(p, {(7, 75): (None, 0x10)})), ["squad  6 background after the name"])
+        self.assertEqual(self.differs(self.screen_edited(p, {(22, 75): (ord("x"), None)})), ["squad 20 name"])   # the last row
+        # the highlight moved from row 1 to row 2
+        moved = {(2, c): (None, 0x02) for c in range(64, 76)}
+        moved.update({(3, c): (None, 0x70) for c in range(64, 76)})
+        self.assertEqual(self.differs(self.screen_edited(p, moved)),
+                         ["squad  1 name colour", "squad  2 background after the name", "squad  2 name colour"])
+
+    def test_a_changed_header_is_seen(self):
+        p = next(q for q in self.ps if q["n"] == 121)
+        self.assertEqual(self.differs(self.screen_edited(p, {(0, 64): (None, 0x0E)})), ["country name colour"])
+        self.assertEqual(self.differs(self.screen_edited(p, {(0, 70): (None, 0x09)})), ["country name colour"])   # its last cell
+        # Germany's colour comes from DS:6905[+0x2C], not 0x0F
+        g = next(q for q in self.ps if q["n"] == 221)
+        self.assertEqual(self.differs(self.screen_edited(g, {(0, 64 + k): (None, 0x0F) for k in range(7)})), ["country name colour"])
+
+    def test_the_card_is_the_highlighted_list_row(self):
+        p = next(q for q in self.ps if q["n"] == 121)
+        # with [DS:0C1B] = 2 the card would be L Olsen's and his row the highlighted one (P Schmeichel's 12
+        # characters leave no cell after the name in row 1)
+        self.assertEqual(self.differs(dict(p, k=2)), ["card player = list row [DS:0C1B]", "squad  1 name colour",
+                                                      "squad  2 background after the name", "squad  2 name colour"])
+
+    def test_every_cell_that_changes_between_screens_is_transcribed(self):
+        self.assertEqual(summarise.untranscribed(self.every), [])
+        p = self.every[0]
+        outside = dict(p, raw=p["raw"][:2 * (24 * 80 + 67)] + b"X" + p["raw"][2 * (24 * 80 + 67) + 1:])   # the 'E' of Esc-exit
+        self.assertEqual(summarise.untranscribed([outside] + self.every[1:]), [(24, 67)])
+        attr = dict(p, raw=p["raw"][:2 * (1 * 80 + 64) + 1] + b"\x4f" + p["raw"][2 * (1 * 80 + 64) + 2:])   # the list's frame
+        self.assertEqual(summarise.untranscribed([attr] + self.every[1:]), [(1, 64)])
+        inside = dict(p, raw=p["raw"][:2 * (7 * 80 + 65)] + b"X" + p["raw"][2 * (7 * 80 + 65) + 1:])   # a squad name
+        self.assertEqual(summarise.untranscribed([inside] + self.every[1:]), [])
+
+    def test_every_record_byte_but_0x11_is_needed(self):
+        # R2 and R3: fixing any byte but +0x11 in every record makes comparisons fail: +2 and +3 (two footed,
+        # hardness, leadership) and the high bytes +9, +0xB, +0x13 of the caps, goals and performance words
+        need = summarise.needed_bytes(self.ps, self.ctx)
+        self.assertEqual([off for off, ab in need.items() if ab == (0, 0)], [0x11])
+        for off in (2, 3, 9, 0xB, 0x13):
+            self.assertGreater(max(need[off]), 0, f"+{off:X}")
+        # Sol's check: +2 = 0 and +3 = 128 in every record
+        self.assertEqual(summarise.differ_with(self.ps, self.ctx, {2: 0, 3: 128})[0], 197)
+        self.assertEqual(summarise.differ_with(self.ps, self.ctx, {0x11: 0x55}), (0, sum(len(summarise.compare(p, self.ctx)) for p in self.ps), 0))
 
     def test_a_wrong_formula_is_seen(self):
         # the model with +3 where the listing has +4 differs on some of the 960 bars (summarise.py prints the count)
