@@ -108,7 +108,7 @@ Not placed in code. The vocabularies are in the data segment (**observed**, stri
 ("keeping", "kicking", "possession", "tackling", "passing", "heading", "marking", "crossing", "feinting", "hardness", "control", "fitness", "dribbling",
 "energy", "shooting", "morale", "penalties", "leadership", "height", "foot", "performance", "caps", "goals", "cards", in `DS:4979..4E78`); the words for confidence and mood
 (`DS:6ED4..6FF4`: "demoralised" ... "acceptable"; "confident", "over-confident"); for fitness and energy (`DS:74D4` "unfit", "very fit", "match fit"; `DS:7624` "very tired").
-Which routine turns a number into one of these words, and the numbers' ranges, are not found.
+The names are two screen templates (control bytes `FF attr`, `00 n`, filler `FE`): `DS:486E..4BBD` is the player screen, drawn by `1771:42BC` (the card and the right panel; `1771:3947` draws the 12 skill bars as `DS:6DCD[12 * +5 + DS:6D25[12 * +7 + i]] * (+4 + 1) div 256`; `1771:3BD3` the tactics rows; `1771:2FAD` height, `1771:3088` foot, `1771:3041` two footed, `1771:2FFB` hardness, `1771:30D9` leadership, `1771:3827` performance; the squad list beside it is `1771:4D8A`'s, template `DS:15A4`), and `DS:4BBE..4EB1`, which follows it, is the team panel drawn by `1771:157D`. Fields and ranges: F008 (inferred, corroborated by E007's screens).
 
 ## Team analysis and rankings
 

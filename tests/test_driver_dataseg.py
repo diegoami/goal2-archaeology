@@ -327,7 +327,8 @@ class StartStateLayout(unittest.TestCase):
                     mock.patch.object(driver.Driver, "settle", settle), mock.patch.object(driver.Driver, "_hostkey", hostkey), \
                     mock.patch.object(driver.Driver, "terminate", return_value=True), \
                     mock.patch.object(driver, "verify_release", return_value="goal2-a949da2f"), \
-                    mock.patch("traceback.print_exc"), mock.patch("builtins.print") as out:
+                    mock.patch("traceback.print_exc"), mock.patch("builtins.print") as out, \
+                    mock.patch.object(cycle, "ROOT", Path("/nonexistent-repo-root")):  # tmp may lie inside the repo (a reviewer's confinement); the host-path guard is not under test here
                 ok = cycle.one_cycle(1, st, "n", None, "abcdef0", dry=True)
             self.assertFalse(ok)
             hostkey.assert_not_called()
