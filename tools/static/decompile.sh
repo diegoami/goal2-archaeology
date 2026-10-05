@@ -1,0 +1,77 @@
+#!/bin/sh
+# Decompile the released GOAL.EXE with Ghidra into pseudo-C per routine (T18).
+#
+#   bash tools/static/decompile.sh <released GOAL.EXE> <output directory>
+#
+# Unpacks GOAL.EXE with tools/static/unlzexe.py and checks the unpacked sha256, imports it with
+# Ghidra's MZ loader (x86 real mode) in a throw-away project, places each listing segment at a
+# 64K-aligned Ghidra segment and makes one function per routine of static/goal-exe/routines.tsv
+# (tools/static/ghidra/GoalSetup.java), runs Ghidra's default auto-analysis, decompiles every
+# function (tools/static/ghidra/GoalDecompile.java) and writes the files of
+# static/goal-exe/decompiled/ into the output directory (tools/static/decompiled.py), byte for byte.
+#
+# Needs GHIDRA_HOME (Ghidra 12.1.4) and JAVA_HOME (a JDK 21), python3 >= 3.11. One Ghidra instance,
+# two CPUs (the machine is shared). KEEP_WORK=1 keeps the work directory (Ghidra's log, raw output).
+set -eu
+if [ $# -ne 2 ]; then
+  echo "usage: $0 <released GOAL.EXE> <output directory>" >&2
+  exit 2
+fi
+exe=$1
+out=$2
+root=$(cd "$(dirname "$0")/../.." && pwd)
+
+GHIDRA_VERSION=12.1.4
+JDK_MAJOR=21
+UNPACKED_SHA256=6fd8c5ef995358ff8e5e47d60de61dccd7bdf8e73f2f584018fcfe4c8c713188
+TIMEOUT_PER_FUNCTION=600
+
+: "${GHIDRA_HOME:?set GHIDRA_HOME to a Ghidra $GHIDRA_VERSION install}"
+: "${JAVA_HOME:?set JAVA_HOME to a JDK $JDK_MAJOR}"
+props="$GHIDRA_HOME/Ghidra/application.properties"
+ghidra_version=$(sed -n 's/^application.version=//p' "$props")
+ghidra_revision=$(sed -n 's/^application.revision.ghidra=//p' "$props")
+if [ "$ghidra_version" != "$GHIDRA_VERSION" ]; then
+  echo "decompile.sh: Ghidra $GHIDRA_VERSION needed, $GHIDRA_HOME is '$ghidra_version'" >&2
+  exit 1
+fi
+java_version=$("$JAVA_HOME/bin/java" -version 2>&1 | sed -n '1s/.*version "\([^"]*\)".*/\1/p')
+case "$java_version" in
+  "$JDK_MAJOR".*|"$JDK_MAJOR") ;;
+  *) echo "decompile.sh: JDK $JDK_MAJOR needed, $JAVA_HOME is '$java_version'" >&2; exit 1 ;;
+esac
+export JAVA_HOME
+
+work=$(mktemp -d)
+if [ "${KEEP_WORK:-0}" = 1 ]; then
+  echo "decompile.sh: work directory $work" >&2
+else
+  trap 'rm -rf "$work"' EXIT
+fi
+
+python3 "$root/tools/static/unlzexe.py" "$exe" "$work/goal.exe" > /dev/null
+sha=$(sha256sum "$work/goal.exe" | cut -d' ' -f1)
+if [ "$sha" != "$UNPACKED_SHA256" ]; then
+  echo "decompile.sh: unpacked sha256 $sha, expected $UNPACKED_SHA256" >&2
+  exit 1
+fi
+
+mkdir "$work/project"
+if ! "$GHIDRA_HOME/support/analyzeHeadless" "$work/project" goal \
+    -import "$work/goal.exe" -loader MzLoader -processor 'x86:LE:16:Real Mode' \
+    -scriptPath "$root/tools/static/ghidra" \
+    -preScript GoalSetup.java "$root/static/goal-exe/routines.tsv" "$work/segmap.tsv" \
+    -postScript GoalDecompile.java "$work/segmap.tsv" "$work/raw.txt" "$TIMEOUT_PER_FUNCTION" \
+    -deleteProject -max-cpu 2 > "$work/ghidra.log" 2>&1 \
+  || grep -q 'SCRIPT ERROR' "$work/ghidra.log" || [ ! -s "$work/raw.txt" ]; then
+  tail -30 "$work/ghidra.log" >&2
+  echo "decompile.sh: Ghidra failed (log above)" >&2
+  exit 1
+fi
+grep -E 'GOALSETUP|GOALDECOMPILE' "$work/ghidra.log" | sed 's/.*> //; s/ (GhidraScript).*//' > "$work/summary.txt"
+
+python3 "$root/tools/static/decompiled.py" \
+  --raw "$work/raw.txt" --segmap "$work/segmap.tsv" --summary "$work/summary.txt" \
+  --routines "$root/static/goal-exe/routines.tsv" \
+  --ghidra "$ghidra_version (revision $ghidra_revision)" --jdk "$java_version" \
+  --out "$out"
