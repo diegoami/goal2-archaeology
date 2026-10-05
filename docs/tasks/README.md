@@ -30,3 +30,4 @@ exists.
 | T21 | F010's fields and routines into the named view's annotations | #66 | T19, T20 |
 | T22 | Q007: the squad pool, 100 players and which (G5 Q007) | #67 | T20 |
 | T23 | Q010 (quick engine): how strengths and tactics meet in the quick result's contests (G5 Q010) | #68 | T20, T21 |
+| T24 | Q010 (quick engine) milestone 2: r0010's divergence, model tests, F012 and the annotations | #75 | T23 |
