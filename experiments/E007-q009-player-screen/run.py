@@ -15,7 +15,8 @@ country.
   country's player list, and with it the first player's screen), then Down per player; a savestate
   (Host+S) at every player screen. Each read keeps the screen (text and the 4000 raw bytes with the
   attributes the bars are painted in), the host clock, and the 20-byte record of the player the screen
-  names, found by the name `1771:2E93` builds (runtime/driver/players.py).
+  names, found by the name `1771:2E93` builds (runtime/driver/players.py), and (from E007-r0005) the
+  0xBF-byte record of that player's country, which the tactics rows read.
 A record is written only when runtime/driver/ and this folder have no uncommitted change, and never
 over an existing one (L207)."""
 import argparse
@@ -44,9 +45,9 @@ PLAYERS_PER_COUNTRY = 20     # a country's list shows its squad: 20 players (the
 # Data-segment ranges kept in every record, so the analysis needs no file of the original: the tables the
 # routines of F008 index. Each range is named by the listing line that reads it.
 TABLES = [
-    (0x0E40, 0x0E90, "heights and feet (1771:2FAD at DS:0E46, DS:0E54; 1771:3088 at DS:0E60, DS:0E7C; DS:0E86)"),
+    (0x0E40, 0x0EE0, "heights and feet (1771:2FAD at DS:0E46, DS:0E54; 1771:3088 at DS:0E60, DS:0E7C), the performance string (DS:0E86), the mark words (1771:3AE2: DS:0E90 + 11 * b) and the goalkeeper's tactic words (1771:3BD3: DS:0EA6, DS:0EC6)"),
     (0x0F20, 0x0F80, "the foot strings (1771:42BC: DS:0F2C + 6 * k)"),
-    (0x6990, 0x6AC0, "position names (1771:42BC: DS:69B6 + 0x13 * position; DS:699A, DS:69A8)"),
+    (0x6990, 0x6BC0, "position names (1771:42BC: DS:69B6 + 0x13 * position; DS:699A, DS:69A8) and the tactic words (1771:3BD3: DS:6AA0 + 32 * i + 16 * bit)"),
     (0x6D20, 0x6EB4, "the skill tables (1771:3947: DS:6D25 + 12 * position + i and DS:6DCD + 12 * (+5) + class, up to DS:6E98)"),
     (0x0C10, 0x0C30, "the flags 1771:42BC tests at DS:0C1E and 1771:3827 at DS:0C1F"),
     (0x6EB4, 0x7940, "the words (1771:42BC: DS:6EB4 + 16 * i) and the word indexes (DS:78A3, DS:78C4, DS:78D5, DS:78F6, DS:7917)"),
@@ -120,6 +121,11 @@ def player_observations(step, label, state, shown, surnames, initials):
         obs.append({"step": step, "source": "memory", "addr": f"0x{lin + players.PLAYER_SIZE * n:x}",
                     "field": f"{label}: the 20 bytes of player n's record at [DS:A91B] + 0x14 n, hex, guest memory from the same savestate",
                     "value": players.record(arr, players.PLAYER_SIZE, n).hex()})
+        c = players.record(arr, players.PLAYER_SIZE, n)[0]
+        clin = players.far_pointer(state, players.COUNTRIES_PTR)[2]
+        obs.append({"step": step, "source": "memory", "addr": f"0x{clin + players.COUNTRY_SIZE * c:x}",
+                    "field": f"{label}: the 0xBF bytes of the record of the player's country (byte 0 of the player's record) at [DS:A917] + 0xBF c, hex, guest memory from the same savestate",
+                    "value": players.record(players.countries(state), players.COUNTRY_SIZE, c).hex()})
     return obs
 
 

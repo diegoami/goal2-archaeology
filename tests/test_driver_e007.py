@@ -36,6 +36,7 @@ run = load_by_path("e007_run", "experiments/E007-q009-player-screen/run.py")
 
 SURNAMES_AT = (0x5000, 0x0010)   # segment, offset
 INITIALS_AT = (0x5900, 0x0003)
+COUNTRIES_AT = (0x7400, 0x0030)
 
 
 def lin(at):
@@ -334,20 +335,26 @@ class Runner(unittest.TestCase):
         recs = bytearray(players.PLAYERS_BYTES)
         recs[1 * 20 + 1], recs[2 * 20 + 1], recs[3 * 20 + 1] = 28, 31, 25
         recs[2 * 20 + 5] = 0x5A
-        state = self.with_players(bytes(recs), s, i)
+        recs[2 * 20] = 5                                     # player 2 is of country 5
+        cs = bytearray((k * 3 + 1) % 247 for k in range(players.COUNTRIES_BYTES))
+        state = self.with_players(bytes(recs), s, i, bytes(cs))
         got = run.player_observations(1, "x", state, {"name": "P Nielsen", "age": 31}, s, i)
         self.assertIn("n=2 named=[1, 2] named_and_aged=[2]", got[0]["value"])
         self.assertEqual(got[1]["value"], bytes(recs[40:60]).hex())
         self.assertEqual(got[1]["value"][10:12], "5a")
+        self.assertEqual(len(got), 3)
+        self.assertEqual(got[2]["value"], bytes(cs[5 * 0xBF:6 * 0xBF]).hex())              # country 5's record, not 4's or 6's
+        self.assertEqual(got[2]["addr"], hex(lin(COUNTRIES_AT) + 5 * 0xBF))
         both = run.player_observations(1, "x", state, {"name": "P Nielsen", "age": 99}, s, i)
         self.assertIn("n=unresolved", both[0]["value"])
         self.assertEqual(len(both), 1)                       # no record for an unresolved player
 
-    def with_players(self, p, s, i):
+    def with_players(self, p, s, i, c):
         mem = bytearray(memory_image())
-        for ptr, at in ((0x9B6C, SURNAMES_AT), (0x9B70, INITIALS_AT), (0xA91B, (0x6200, 0x0020))):
+        for ptr, at in ((0x9B6C, SURNAMES_AT), (0x9B70, INITIALS_AT), (0xA91B, (0x6200, 0x0020)), (0xA917, COUNTRIES_AT)):
             mem[DS_BASE + ptr:DS_BASE + ptr + 4] = at[1].to_bytes(2, "little") + at[0].to_bytes(2, "little")
         mem[lin((0x6200, 0x0020)):lin((0x6200, 0x0020)) + len(p)] = p
+        mem[lin(COUNTRIES_AT):lin(COUNTRIES_AT) + len(c)] = c
         for at, data in ((SURNAMES_AT, s), (INITIALS_AT, i)):
             mem[lin(at):lin(at) + len(data)] = data
         return savestate_of(bytes(mem))
