@@ -22,3 +22,4 @@ exists.
 | T13 | Savestates as evidence bundles: publish start states to a release (ADR-008) | #37 | T12 |
 | T14 | Use game-archaeologist's shared verify_evidence.py and check_citations.py (ADR-009) | #36 | T13 |
 | T15 | Q004: where and how are player skills and attributes made (G5 Q004) | #43 | T12, T13 |
+| T16 | Q009: which skills the player screen shows, on what scale, from which fields (G5 Q009) | #48 | T15 |
