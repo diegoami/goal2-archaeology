@@ -89,3 +89,7 @@ Decompiled view: `decompiled/` holds Ghidra's pseudo-C of every routine here, he
 `SEGMENT:OFFSET`, with `decompiled/index.tsv` giving each routine's file and line
 (`tools/static/decompile.sh`, not run by this script). What it can be trusted for, checked against
 hand-traced claims, is in `findings/F009-*.md`; where it and this listing differ, the listing decides.
+
+Named view: `named/` is the same pseudo-C with the names of `annotations/` applied (routines, the player
+and country records, globals), each with its confidence and basis (`tools/static/decompile.sh --annotations`,
+T20; `tools/static/check_annotations.py` checks the rows). Read it first; `decompiled/` stays the raw view.
