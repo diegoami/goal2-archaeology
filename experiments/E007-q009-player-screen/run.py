@@ -45,7 +45,7 @@ PLAYERS_PER_COUNTRY = 20     # a country's list shows its squad: 20 players (the
 # Data-segment ranges kept in every record, so the analysis needs no file of the original: the tables the
 # routines of F008 index. Each range is named by the listing line that reads it.
 TABLES = [
-    (0x0E40, 0x0EE0, "heights and feet (1771:2FAD at DS:0E46, DS:0E54; 1771:3088 at DS:0E60, DS:0E7C), the performance string (DS:0E86), the mark words (1771:3AE2: DS:0E90 + 11 * b) and the goalkeeper's tactic words (1771:3BD3: DS:0EA6, DS:0EC6)"),
+    (0x0E40, 0x0EF0, "heights and feet (1771:2FAD at DS:0E46, DS:0E54; 1771:3088 at DS:0E60, DS:0E7C), the performance string (DS:0E86), the mark words (1771:3AE2: DS:0E90 + 11 * b) and the goalkeeper's tactic words (1771:3BD3: DS:0EA6, DS:0EC6)"),
     (0x0F20, 0x0F80, "the foot strings (1771:42BC: DS:0F2C + 6 * k)"),
     (0x6990, 0x6BC0, "position names (1771:42BC: DS:69B6 + 0x13 * position; DS:699A, DS:69A8) and the tactic words (1771:3BD3: DS:6AA0 + 32 * i + 16 * bit)"),
     (0x6D20, 0x6EB4, "the skill tables (1771:3947: DS:6D25 + 12 * position + i and DS:6DCD + 12 * (+5) + class, up to DS:6E98)"),

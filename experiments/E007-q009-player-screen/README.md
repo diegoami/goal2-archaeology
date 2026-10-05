@@ -41,3 +41,18 @@ python3 experiments/E007-q009-player-screen/summarise.py
   bytes of all records.
 - **One more country.** E007-r0004 (country list position 3, Sweden) was run for that reason, not because
   a position code was missing (all 14 were seen in r0001 … r0003). It adds 20 players: 80 in all, from 4 countries.
+
+## Amendment 2 (2026-10-05, after E007-r0008)
+
+- **The player screen has a block the design did not list: the tactics panel.** Rows 11..15 of the right
+  half (`position`, `possession`, `passing`, `tackling`, `mark`) are drawn by `1771:3BD3` from byte +0xF of
+  the player's record and byte +0x2D of the country's record (`DS:9B7C`, R008). E007-r0001 … r0004 kept
+  neither the country record nor the words of that panel. `run.py` now keeps the 0xBF-byte record of each
+  player's country (`[DS:A917] + 0xBF * (record byte +0)`) and the tactic and mark words (`DS:6990..6BBF`,
+  `DS:0E40..`). E007-r0005 … r0008 are the same four list positions read again with them. They show the
+  same 80 screens to the byte as r0001 … r0004 (the replication line of `summarise.py`).
+- **The kept range was short again.** r0005 … r0008 keep `DS:0E40..0EDF`, but the goalkeeper's `passing`
+  words are at `DS:0EC6 + 16 * bit`, and the second ends at `DS:0EE5`. The range is now `DS:0E40..0EEF`;
+  E007-r0009 … r0012 are the same four list positions a third time, and the batch `summarise.py` analyses
+  (the records that hold the country record and a range reaching `DS:0EE5`). The earlier records are kept
+  as written (L207).

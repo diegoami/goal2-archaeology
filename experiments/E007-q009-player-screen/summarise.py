@@ -96,21 +96,52 @@ def word(t, idx):
     return t.pstr(0x6EB4 + 16 * idx, 16)
 
 
+def bit(value, k):
+    """214B:0C57(k, value): Pascal set element k of a byte, bit k - 1 (`seg_214B_02.asm:0C57`)."""
+    return (value >> (k - 1)) & 1
+
+
 def status_class(rec):
-    """1771:42BC from `46E1`: the first test that holds (bit k of +0x10 is Pascal set element k + 1... the
-    listing's `214B:0C57(k, +0x10)` is bit k - 1)."""
-    bit = lambda k: (rec[0x10] >> (k - 1)) & 1  # noqa: E731
-    if bit(8):
+    """1771:42BC from `46E1`: the first test that holds."""
+    if bit(rec[0x10], 8):
         return "suspended"
     if rec[0xE] == 0:
         return "injured"
-    if bit(5):
+    if bit(rec[0x10], 5):
         return "booked"
-    if bit(6):
+    if bit(rec[0x10], 6):
         return "sent off"
-    if bit(3):
+    if bit(rec[0x10], 3):
         return "substituted"
     return "ready"       # 1771:47CD..4845: ready to play / selected / on the bench, from DS:0C1E and 1771:3A82
+
+
+def status_text(rec, t):
+    """The status text: the listing's class, and for `ready` the branch `47E6` takes when DS:0C1E is 0."""
+    c = status_class(rec)
+    if c != "ready":
+        return c
+    return "ready to play" if t.byte(0x0C1E) == 0 else "selected or on the bench"   # 1771:3A82's branch is not modelled
+
+
+def tactics(rec, country, t):
+    """The five rows of the tactics panel (1771:3BD3 rows 1..4, 1771:3B3F and 1771:3AE2 for `mark`): per row i,
+    the player's own bit when +0xF bit i + 4 is set (and the text then ends in ` P`), else the country's byte
+    +0x2D; the text index is bit i of that byte. A goalkeeper (+6 = 0) has its own words for rows 1 and 3."""
+    out = {}
+    for i, label in enumerate(("position", "possession", "passing", "tackling"), 1):
+        own = bit(rec[0xF], i + 4)
+        b = bit(rec[0xF] if own else country[0x2D], i)
+        off = ((0x0EA6 if i == 1 else 0x0EC6) if rec[6] == 0 and i in (1, 3) else 0x6AA0 + 32 * i) + 16 * b
+        out[label] = t.pstr(off, 16) + (" P" if own else "")
+    if rec[6] < 2:
+        out["mark"] = ""
+    elif bit(rec[0x10], 7):
+        out["mark"] = "Protect zone P"
+    else:
+        b = bit(country[0x2D], 8)
+        out["mark"] = "Protect zone" if t.byte(0x0C1E) and b else t.pstr(0x0E90 + 11 * b, 11)
+    return out
 
 
 def model(rec, n, t):
@@ -120,7 +151,7 @@ def model(rec, n, t):
          "height_in": height_inches(rec, n, t),
          "bias": "two footed" if two_footed(rec) else t.pstr(0x0F2C + 6 * foot_index(rec, n, t), 6),
          "position": t.pstr(0x69B6 + 0x13 * rec[6], 0x13), "club_position": t.pstr(0x69B6 + 0x13 * rec[7], 0x13),
-         "status": status_class(rec), "performance_blank": int.from_bytes(rec[0x12:0x14], "little") == 0x7FFF}
+         "status": status_text(rec, t), "performance_blank": int.from_bytes(rec[0x12:0x14], "little") == 0x7FFF}
     m["skill_bars"] = skill_bars(rec, t)
     h, lead = hardness_value(rec), leadership_value(rec)
     fit_idx = t.byte(0x78D5 + (rec[0xD] if rec[0xE] else 0))
@@ -155,11 +186,13 @@ def load(runs=RUNS):
             ident = next(o for o in steps[step] if "the player the screen names" in o["field"])
             rec = next((o for o in steps[step] if "the 20 bytes of player n's record" in o["field"]), None)
             m = re.match(r"n=(\d+|unresolved)", ident["value"])
-            out.append({"run": r["run_id"], "step": step, "raw": bytes.fromhex(raw["value"]),
+            out.append({"run": r["run_id"], "arm": r["arm"], "step": step, "raw": bytes.fromhex(raw["value"]),
                         "shown": playerscreen.parse(playerscreen.screen_of_raw(bytes.fromhex(raw["value"]))),
                         "n": int(m.group(1)) if m.group(1) != "unresolved" else None,
                         "named": json.loads(re.search(r"named=(\[[^\]]*\])", ident["value"]).group(1)),
-                        "rec": bytes.fromhex(rec["value"]) if rec else None, "tables": tables, "start": r["start_state"]["sha256"]})
+                        "rec": bytes.fromhex(rec["value"]) if rec else None,
+                        "country": next((bytes.fromhex(o["value"]) for o in steps[step] if "the record of the player's country" in o["field"]), None),
+                        "tables": tables, "start": r["start_state"]["sha256"]})
     return out
 
 
@@ -169,7 +202,7 @@ def compare(p):
     pairs = {"name": None, "age": (s["age"], m["age"]), "caps": (s["caps"], m["caps"]), "goals": (s["goals"], m["goals"]),
              "height": (s["height_in"], m["height_in"]), "bias": (s["bias"], m["bias"] if m["bias"] == "two footed" else m["bias"].ljust(5) + " foot"),
              "position": (s["position"], m["position"]), "club position": (s["club_position"], m["club_position"]),
-             "status": (s["status"], s["status"] if status_class_of_text(s["status"]) == m["status"] else f"the model says {m['status']}"),
+             "status": (s["status"], m["status"]),
              "performance": (s["performance"] or "blank", "blank" if m["performance_blank"] else "not blank"),
              "cards": (s["cards"] or "blank", "blank" if p["rec"][0x10] & 0x38 == 0 else "not blank")}
     for i, (label, bar) in enumerate(s["skills"].items()):
@@ -178,13 +211,10 @@ def compare(p):
         pairs[f"{label} word"] = (w, m[label][0])
         pairs[f"{label} bar"] = (bar, m[label][1])
     del pairs["name"]
+    if p["country"] is not None:
+        for label, text in tactics(p["rec"], p["country"], p["tables"]).items():
+            pairs[f"tactics {label}"] = (s["tactics"][label], text)
     return pairs
-
-
-def status_class_of_text(text):
-    if text in ("suspended", "injured", "booked", "sent off", "substituted"):
-        return text
-    return "ready" if text in ("ready to play", "selected", "on the bench") else text
 
 
 def scale(values):
@@ -201,15 +231,26 @@ SOURCES = {
     "height": "formula: DS:0E46[+7] + DS:0E54[player number mod 12], inches (1771:2FAD)",
     "bias": "formula: `two footed` when +5 + +2 = 30 (1771:3041), else the 5-character string at DS:0F2C + 6 * DS:0E60[14 * DS:0E7C[n mod 3] + +7] (1771:3088), then the template's ` foot`",
     "position": "record byte +6 (name at DS:69B6 + 0x13 * +6; `4417`)", "club position": "record byte +7 (name at DS:69B6 + 0x13 * +7; `443D`)",
-    "status": "record bytes +0x10 bits, +0xE = 0 (1771:42BC `4693`..`4845`); the class `ready` is three texts, which 1771:3A82 and DS:0C1E choose",
+    "status": "record bytes +0x10 bits and +0xE = 0 (1771:42BC `4693`..`4845`); `ready to play` when DS:0C1E is 0 (`47E6`); `selected` and `on the bench` (1771:3A82, DS:0C1E not 0) not seen",
     "performance": "record word +0x12 = 0x7FFF is blank (1771:3827 `384B`); a string of 1..9 characters otherwise, not seen here",
     "cards": "record byte +0x10 bits 3..5, one icon each when set (1771:42BC `4654`..`46B2`); never set here, so not exercised",
+}
+
+
+TACTIC_SOURCES = {
+    "position": "bit 1 of +0xF if +0xF bit 5 is set (then ` P`), else of the country's byte +0x2D (R008): DS:6AA0 + 32 + 16 * bit; a goalkeeper reads DS:0EA6 + 16 * bit",
+    "possession": "as `position` with bit 2 and +0xF bit 6: DS:6AA0 + 64 + 16 * bit",
+    "passing": "as `position` with bit 3 and +0xF bit 7: DS:6AA0 + 96 + 16 * bit; a goalkeeper reads DS:0EC6 + 16 * bit",
+    "tackling": "as `position` with bit 4 and +0xF bit 8: DS:6AA0 + 128 + 16 * bit",
+    "mark": "blank when +6 < 2; `Protect zone P` when +0x10 bit 7; else DS:0E90 + 11 * (bit 8 of the country's byte +0x2D) (1771:3B3F, 1771:3AE2)",
 }
 
 
 def source_of(name):
     if name in SOURCES:
         return SOURCES[name]
+    if name.startswith("tactics"):
+        return "formula: " + TACTIC_SOURCES[name.split(" ", 1)[1]] + " (1771:3BD3)"
     if name.startswith("skill"):
         return "formula: DS:6DCD[12 * +5 + DS:6D25[12 * +7 + i]] * (+4 + 1) div 256 cells, i the row 1..12 (1771:3947)"
     word_src = {"hardness": "+5 - (+3 & 1) (1771:2FFB), word DS:6EB4 + 16 * DS:78C4[v], bar v * 14 div 16",
@@ -235,22 +276,43 @@ def alternative_counts(ok):
     return c
 
 
+def replication(players):
+    """(identical, total): the screens of the records with the country record against the screens of the
+    first batch (records without it) at the same list position and player, byte for byte (the text page,
+    characters and attributes)."""
+    by = {}
+    for p in players:
+        by.setdefault((p["arm"], p["country"] is not None), []).append(p["raw"])
+    same = total = 0
+    for (arm, full), raws in by.items():
+        if full and (arm, False) in by:
+            for a, b in zip(raws, by[(arm, False)]):
+                total += 1
+                same += a == b
+    return same, total
+
+
 def main(argv=None):
     runs = Path(argv[0]) if argv else RUNS
     players = load(runs)
     if not players:
         print("no completed records")
         return 1
-    ok = [p for p in players if p["n"] is not None and p["rec"] is not None]
+    ok = [p for p in players if p["n"] is not None and p["rec"] is not None and p["country"] is not None]
     cols = Counter(p["rec"][0] for p in ok)
     gks = [p for p in ok if p["rec"][6] == 0]
-    print(f"{len(players)} player screens in {len({p['run'] for p in players})} records; {len(ok)} resolved to a record; "
+    print(f"{len(players)} player screens in {len({p['run'] for p in players})} records; the {len(ok)} of the records that also hold the player's country record "
+          f"({len({p['run'] for p in ok})} records) are analysed, all resolved to a player record; "
           f"countries (record byte +0): {sorted(cols)}; goalkeepers (+6 = 0): {len(gks)}; position codes (+6): {sorted({p['rec'][6] for p in ok})}")
+    same, total = replication(players)
+    print(f"the same list positions read in the earlier records (without the country record): {same} of {total} screens identical to the byte")
     print(f"start states: {sorted({p['start'][:16] for p in players})}")
     labels = Counter(tuple(p["shown"]["skills"]) for p in players)
     panel = Counter(tuple(p["shown"]["panel"]) for p in players)
+    tactic = Counter(tuple(p["shown"]["tactics"]) for p in players)
     print(f"skill labels (rows 11..22) identical on every screen: {len(labels) == 1}: {', '.join(next(iter(labels)))}")
     print(f"panel labels (rows 18..22) identical on every screen: {len(panel) == 1}: {', '.join(next(iter(panel)))}")
+    print(f"tactics labels (rows 11..15) identical on every screen: {len(tactic) == 1}: {', '.join(next(iter(tactic)))}")
     pairs = [compare(p) for p in ok]
     print()
     print(f"{'shown value':<26} {'scale (over ' + str(len(ok)) + ' players)':<70} source")

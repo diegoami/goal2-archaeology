@@ -26,6 +26,8 @@ LEFT_ROWS = range(11, 23)      # the 12 skill rows
 LEFT_COLS = range(10, 36)      # the bar field
 RIGHT_ROWS = range(18, 23)     # hardness, fitness, energy, morale, leadership
 RIGHT_COLS = range(47, 61)     # the word and its bar
+TACTIC_ROWS = range(11, 16)    # position, possession, passing, tackling, mark (the player's tactics)
+TACTIC_LABELS = ("position", "possession", "passing", "tackling", "mark")
 BAR_ATTR = 0x70
 FILL = "■"                # CP437 0xFE
 
@@ -62,6 +64,13 @@ def parse(screen):
     low = lines[9]
     out.update({"position": low[1:19].strip(), "club_position": low[20:38].strip(),
                 "cards": low[39:44].strip(), "status": low[45:61].strip()})
+    # the tactics panel (1771:3BD3 and 1771:3AE2): rows 11..15, the label then the text, right-aligned to col 60
+    out["tactics"] = {}
+    for r, label in zip(TACTIC_ROWS, TACTIC_LABELS):
+        cell = lines[r][37:61]
+        if not cell.startswith(label):
+            raise ValueError(f"tactics row {r} starts {cell[:12]!r}, not {label!r}")
+        out["tactics"][label] = cell[len(label):].strip("─ ")
     out["skills"] = {lines[r][1:10].strip("─ "): _bar(attrs, r, LEFT_COLS) for r in LEFT_ROWS}
     out["panel"] = {}
     for r in RIGHT_ROWS:
