@@ -362,3 +362,40 @@ to check** (they look like display/commentary writers; 2bb1 = ball-side test, no
   09 09 09 0a 0a 0a 0a 0a 0a 0b 0b 0b 0b 0b 0b; 0A8A = 0c 10; 0A8C = 5a 78; 0A8E = 21 0a;
   0A90 = 3c 1e; 0D4E (pos→line) = 00 01 01 04 04 02 02 02 02 05 05 05 03 03 00 01;
   0A90[2..11] = 0b 0a 09 08 07 06 05 04 03 02 (D5C1's slot map).
+
+## Batch 4 (2026-10-05, fifth run): the model made seed-exact, and the three decodes that got it there
+
+The model (`runtime/model/quick_engine.py`) reproduces the probe replay of E008-r0001's second half
+from `scratch/driver/e010-probe/halftime.sav` EXACTLY: score [1,0], `DS:7B62` 0xa797 -> 0x63d7,
+`DS:8336` 0x51a8 unchanged, goal by 538 (Nilsson) at minute 85. Verified against the per-poll seed
+checkpoints of trace-e008r0001-slow2/slow3 and a fresh sums probe (scratch/probe_sums.py, replay
+from the stall: per-poll DS:9B45.. sums; the stall and mid-85 snapshots pin the sums too). Three
+decodes fixed on the way (all listing-verified, the notes above were wrong or the model misread):
+
+- **B19D contest sides**: the first draw of each contest uses side 1-t's word (B1C5-B1D4: al = 1-t),
+  the second side t's (B1E0-B1E8): c1 rand(9B4D+2(1-t)) vs rand(9B4D+2t); c2 rand(2*(9B49+2(1-t)))
+  vs rand(9B51+2t); c3 rand(9B45+2(1-t)) vs rand(9B51+2t). Batch 3's "both draws the same side"
+  claim is RETRACTED.
+- **D733's fill/goal structure**: per team t (0 then 1): only when fresh 9B3C[t] > saved[t]
+  (D88F `ja`), subtract (D8A5), then draw minutes for BOTH teams j=0,1 from the CURRENT 9B3C[j]
+  counts (D8B2-D8FC: j loop 0..1, k 1..count, buf[j][k] = rand(0xA8C[idx])), and the goal phase
+  (D911-DA43) runs after EVERY team's fill attempt, not once at the end: the t=0 fill's minutes
+  score before t=1's fill redraws them (this is why the model first missed the 85th-minute goal:
+  the second fill overwrote the drawn 85). The goal phase counts read 9B3C[j] (excess for a team
+  that subtracted, raw fresh otherwise); at most one goal per call ([bp-0x2e], DA30/DA34).
+  Scorer slot byte = DS:0xA6B + rand(30) (r in 1..30, so bytes 0xA6C..0xA89), redrawn while
+  1771:3216(squad word) (D973-D9B2).
+- **Substitution c5dc**: a2e6 (C6E5) re-derives pitch+0xD from the ALREADY-SWAPPED squad before
+  the C6FA-C724 block, so +0x12 := 0x2747, +0xF := 0 and 3431 apply to the INCOMING player (only
+  when 0B77(team) says unmanaged, C700); the 0C79(3) mark at C612 (before a2e6) hits the OUTGOING
+  player. The incoming player's fresh +0xF (3431) changes its 0BC4 attack/defence share.
+- **Set-constant conventions** (this is where T19 was bitten before): one-byte sets via 214B:0C57/
+  0C79/0CA1 hold element n at bit n-1; multi-byte sets via 23E4:08DF hold element e at bit e of
+  byte e>>3. So CS:1771:3411 (1B 00) = positions {0,1,3,4} (3431's element-5/1 branch; the model
+  first read it bit n-1 -> {1,2,4,5}, wrong), CS:1771:0BA4 (62) = elements {1,5,6} (0BC4's share
+  loop), CS:0791:BEA7 (00 0E) = {9,10,11} (BEC7), CS:0791:BFFA (00 30) = {12,13} (C01A's tail),
+  CS:1771:3139 (88 04) = {3,7,10}, CS:1771:3159 (10 09) = {4,8,11} (3179 wrong foot).
+- Debug method that pinned it: the LCG is a bijection, so every observed seed lies at one exact
+  draw count on the model's chain; polls taken MID-D733 (e.g. 0xc6ba = 3 draws into minute 85's
+  fill) pin draw counts, not outcomes — the per-poll SUMS probe (DS:9B45.. read at the stall and
+  at the mid-85 goal pause) was what exposed the one-m8-share difference (727/389 vs 730/386).

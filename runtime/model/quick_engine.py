@@ -260,13 +260,14 @@ class QuickMatch:
         return (p[5] - (p[3] & 1)) & 0xFF
 
     def set_player_tactics(self, w):
-        """1771:3431 (seg_1771_05.asm:406-484); the position set at CS:3411 = 1B -> {1,2,4,5}."""
+        """1771:3431 (seg_1771_05.asm:406-484); the position set at CS:3411 = bytes 1B 00, read
+        with 23E4:08DF (element e at bit e of byte e>>3) -> positions {0,1,3,4}."""
         p = self._player(w)
         if self.hardness(w) < 4:                    # cmp al,4; jae skips (unsigned)
             p[0xF] |= 1 << 7                        # 33CD: set element 8 (seg_1771_05.asm:33E7-33F4)
             p[0xF] &= ~(1 << 3) & 0xFF              # 33CD: clear element 4 (33F9-3406)
         pos = p[6]
-        if pos in {1, 2, 4, 5}:
+        if pos in {0, 1, 3, 4}:
             p[0xF] |= 1 << 4                        # element 5
             p[0xF] |= 1 << 0                        # element 1
         elif pos == 2:
@@ -344,23 +345,26 @@ class QuickMatch:
     # --- the contests: 0791:B19D (seg_0791_18.asm:417-523) ---------------------------
 
     def roll_quick_goals(self, attempts):
-        """Both draws of every contest use side (1 - t)'s sums: the side index is computed once
-        (B1C5-B1D4) and reused for both rand calls (B1D6, B1E8 / B207, B21C / B23B, B24D).
+        """Per contest the OPPONENT's draw comes first (B1C5-B1D4: al = 1 - t), the own side's
+        second (B1E0-B1E8: al = t): c1 rand(mid[1-t]) vs rand(mid[t]); c2 rand(2*def[1-t]) vs
+        rand(atk[t]) (B207-B220); c3 rand(gk[1-t]) vs rand(atk[t]) (B23B-B24D); each `jle`
+        (signed) stops the attempt; all three won -> a goal (`inc 9B3C+t`, B261).
         Returns fresh goal counts [t0, t1]."""
         sums = [self.line_sums(0, 0, self.teams[0]), self.line_sums(self.flag80fc, 1, self.teams[1])]
         fresh = [0, 0]
         for t in (0, 1):
-            gk, de, mi, at = sums[1 - t]
+            gk_o, de_o, mi_o, at_o = sums[1 - t]
+            _, _, mi, at = sums[t]
             for _ in range(attempts):
-                a = self.rng.rand(mi)
+                a = self.rng.rand(mi_o)
                 b = self.rng.rand(mi)
                 if b <= a:                          # cmp ax,dx; jle (signed)
                     continue
-                a = self.rng.rand((2 * de) & 0xFFFF)
+                a = self.rng.rand((2 * de_o) & 0xFFFF)
                 b = self.rng.rand(at)
                 if b <= a:
                     continue
-                a = self.rng.rand(gk)
+                a = self.rng.rand(gk_o)
                 b = self.rng.rand(at)
                 if b <= a:
                     continue
@@ -414,7 +418,7 @@ class QuickMatch:
             if w == 0:
                 continue
             p = self._player(w)
-            if p[6] not in {1, 2, 3}:               # the set at CS:0BEA7 = 0E 00 -> elements {1,2,3}
+            if p[6] not in {9, 10, 11}:             # the set at CS:0xBEA7 = bytes 00 0E (08DF: bit e)
                 continue
             if self.unavailable(w):
                 continue
@@ -564,14 +568,18 @@ class QuickMatch:
                 best, best_v = k, v
         return best
 
-    def c5dc(self, chosen, slot, t):
-        """seg_0791_20.asm:C5DC-C7E8 (quick mode: the display paths C50C/1E8D are skipped)."""
+    def c5dc(self, chosen, slot, t, incoming):
+        """seg_0791_20.asm:C5DC-C7E8 (quick mode: the display paths C50C/1E8D are skipped).
+        a2e6 (C6E5) re-derives pitch+0xD from the already-swapped squad BEFORE the C6FA-C724
+        block, so the 0x2747 word, the +0xF clear and 3431 hit the INCOMING player (and only for
+        an unmanaged team, C700); the 0C79(3) mark at C612 hits the OUTGOING one."""
         outgoing = self.pitch[slot]["player"]
-        p = self._player(outgoing)
-        p[0x10] |= 1 << 2                           # 0C79(3): mark element 3 (unavailable via 3216)
-        p[0x12:0x14] = (0x2747).to_bytes(2, "little")   # C6FA
-        p[0xF] = 0                                  # C718
-        self.set_player_tactics(outgoing)           # 3431 (C724)
+        self._player(outgoing)[0x10] |= 1 << 2         # 0C79(3): mark element 3 (unavailable via 3216)
+        if not self._country(self.teams[t])["managed"] > 0x80:
+            p = self._player(incoming)
+            p[0x12:0x14] = (0x2747).to_bytes(2, "little")   # C6FA
+            p[0xF] = 0                                      # C718
+            self.set_player_tactics(incoming)                # 3431 (C724)
         self.sub_budget[t] = (self.sub_budget[t] - 1) & 0xFF                     # C7DC
         # the DS:9978 marking games touch only managed teams' display records
 
@@ -598,7 +606,7 @@ class QuickMatch:
         # the quick engine reads looks at them)
         # c5dc runs while pitch+0xD still names the OUTGOING player (a2e6, which re-derives
         # pitch+0xD from the swapped squad, runs inside c5dc, C6E5; the marking at C612 comes first)
-        self.c5dc(chosen, slot, t)
+        self.c5dc(chosen, slot, t, incoming=squad[s - 1])
         self.pitch[slot]["player"] = squad[s - 1]
         return True
 
@@ -636,35 +644,47 @@ class QuickMatch:
         for t in (0, 1):
             self.rng.chance(self.t_stats5[bit_elem(5, self._tactics(t))])
             self.rng.chance(self.t_stats1[bit_elem(1, self._tactics(t))])
-        # the minute fill (D873-D90B): only when this call's fresh count exceeds the saved score
+        # the minute fill (D873-D90B): per team t, only when its fresh count exceeds its saved
+        # score (D88F `ja`), 9B3C[t] is reduced by the saved score (D8A5 `sub`) and minutes are
+        # then drawn for BOTH teams — j = 0 and 1 — from the CURRENT 9B3C[j] counts (D8B2-D8FC),
+        # so the other team's raw, unsubtracted count is drawn for too, and a team with excess
+        # whose turn comes second is drawn for again
+        counts = fresh[:]
         minutes = [[], []]
-        for t in (0, 1):
-            if fresh[t] > saved[t]:
-                minutes[t] = [self.rng.rand(self.t_minutes[idx])
-                              for _ in range(fresh[t] - saved[t])]
         scored = False
         for t in (0, 1):
-            for j in range(len(minutes[t])):
-                if scored:                           # D93C-D944: one goal per D733 call
-                    break
-                if minutes[t][j] != minute_831f:     # D945-D961
-                    continue
-                if saved[t] >= 0xF:                  # D964-D970
-                    continue
-                while True:
-                    slotv = self.t_scorer[self.rng.rand(30)]      # D973-D984 (index 0xA6B + r)
-                    w = self._squad(t)[slotv - 1]
-                    if not self.unavailable(w):                   # D9A7-D9B2
+            if counts[t] > saved[t]:
+                counts[t] -= saved[t]
+                for j in (0, 1):
+                    minutes[j] = [self.rng.rand(self.t_minutes[idx])
+                                  for _ in range(counts[j])]
+            # the goal phase (D911-DA43) is the j loop the fill's own j loop falls into: it runs
+            # after EVERY team's fill attempt, not once at the end — the buffer still holds the
+            # first fill's minutes when team 1's turn refills them, so a minute equal to 831F in
+            # the first fill scores before the second fill can overwrite it
+            for j in (0, 1):
+                for k in range(counts[j]):
+                    if scored:                       # D93C-D944: one goal per D733 call
                         break
-                saved[t] += 1                        # D9B4-D9BA
-                squad_slot = 1
-                while (self._squad(t)[squad_slot - 1] != w and squad_slot < 20):
-                    squad_slot += 1                  # 3A82 (seg_1771_05.asm:3A9C-3ACA)
-                self.eight30b = (self.side_base[t] + squad_slot) & 0xFF              # D9FB-DA09
-                self.goals.append({"team": t, "minute": minutes[t][j], "player": w,
-                                   "squad_slot": squad_slot,
-                                   "stored_byte": minutes[t][j] | self.minute_mark})  # 6443 (6570-6588)
-                scored = True
+                    m = minutes[j][k] if k < len(minutes[j]) else 0    # cleared buffer (D767-D76E)
+                    if m != minute_831f:             # D945-D961
+                        continue
+                    if saved[j] >= 0xF:              # D964-D970
+                        continue
+                    while True:
+                        slotv = self.t_scorer[self.rng.rand(30)]    # D973-D984: byte at 0xA6B + r, r in 1..30 (t_scorer dumped from 0xA6B)
+                        w = self._squad(j)[slotv - 1]
+                        if not self.unavailable(w):                   # D9A7-D9B2
+                            break
+                    saved[j] += 1                    # D9B4-D9BA
+                    squad_slot = 1
+                    while (self._squad(j)[squad_slot - 1] != w and squad_slot < 20):
+                        squad_slot += 1              # 3A82 (seg_1771_05.asm:3A9C-3ACA)
+                    self.eight30b = (self.side_base[j] + squad_slot) & 0xFF              # D9FB-DA09
+                    self.goals.append({"team": j, "minute": m, "player": w,
+                                       "squad_slot": squad_slot,
+                                       "stored_byte": m | self.minute_mark})  # 6443 (DA16-DA2C)
+                    scored = True
         self.score = saved
         # the energy loop (DA6F-DAC9): every fifth minute, pitch players above 1 lose one
         if minute_831b % 5 == 0:
