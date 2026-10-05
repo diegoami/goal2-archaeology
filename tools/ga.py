@@ -2,15 +2,23 @@
 """Fetch game-archaeologist's pinned record tools at the commit `archaeology.json` pins.
 
 The files land in `.cache/game-archaeologist/<commit>/` (git-ignored) with `gh api`; nothing is
-copied into the repository. ADR-009 and formats/README.md ("The validator"): a game repository uses
-the pinned validator and artifact tool by fetching them, never by copying or editing them.
+copied into the repository. ADR-009 and formats/README.md ("The validator", "Verifying a bundle and
+checking citations"): a game repository uses the pinned tools by fetching them, never by copying or
+editing them.
+
+The cache is only a cache of those fetched files. Before any file is used, every needed file must be
+present and its git blob sha must equal the sha the pinned tree names: a partial cache is fetched
+again, and a file whose bytes were changed is a named `GaError`, never silently re-downloaded. The
+blob sha (sha1 of `blob <len>\\0<bytes>`) is the git object id the tree lists, not the sha256 of the
+file's content.
 
 `tools/validate_records.py` (stdlib only) is imported and its `validate`, `semantic_errors`,
 `canonical_set_hash` and `unknown_keywords` are exposed here with their signatures unchanged; the
 module finds the schemas in the `formats/` tree fetched beside it, so `validate_document` and
-`load_file` run on the pinned schemas too. `tools/register_artifact.py` is fetched beside the
-validator for the repository's thin wrapper `tools/register_artifact.py` to run; it is never
-imported here, so the wrapper and the tool stay two processes.
+`load_file` run on the pinned schemas too. `tools/register_artifact.py` and the two new tools,
+`tools/verify_evidence.py` and `tools/check_citations.py`, are fetched beside the validator for this
+repository's thin wrappers to run; they are never imported here, so a wrapper and its tool stay two
+processes.
 
 Adapted from diegoami/toy-archaeology tools/ga.py at a3056ff (this repository is the second
 consumer; game-archaeologist#10 extracted the shared tools).
@@ -18,24 +26,37 @@ consumer; game-archaeologist#10 extracted the shared tools).
 from __future__ import annotations
 
 import base64
-import importlib.util
+import binascii
+import hashlib
 import json
+import os
+import shutil
+import signal
 import subprocess
 import sys
+import types
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 CACHE = REPO_ROOT / ".cache" / "game-archaeologist"
 ARCHAEOLOGY = REPO_ROOT / "archaeology.json"
 
-# The pinned validator and artifact tool, plus the whole formats/ tree (schemas, examples,
-# expected-errors.json). The validator finds the schemas relative to its own path and the artifact
-# tool imports the validator beside it, so the fetched layout must keep tools/ beside formats/.
-NEEDED_FILES = ("tools/validate_records.py", "tools/register_artifact.py")
+# The pinned validator and the three tool wrappers this repository runs, plus the whole formats/
+# tree (schemas, examples, expected-errors.json). The validator finds the schemas relative to its
+# own path and the artifact tool imports the validator beside it, so the fetched layout must keep
+# tools/ beside formats/.
+NEEDED_FILES = (
+    "tools/validate_records.py",
+    "tools/register_artifact.py",
+    "tools/verify_evidence.py",
+    "tools/check_citations.py",
+)
 NEEDED_PREFIXES = ("formats/",)
 
 VALIDATOR = NEEDED_FILES[0]
 ARTIFACT_TOOL = NEEDED_FILES[1]
+VERIFY_EVIDENCE = NEEDED_FILES[2]
+CHECK_CITATIONS = NEEDED_FILES[3]
 
 SCHEMA_FILES = {
     "run/1": "run-1.schema.json",
@@ -43,6 +64,10 @@ SCHEMA_FILES = {
     "variant/1": "variant-1.schema.json",
     "evidence-manifest/1": "evidence-manifest-1.schema.json",
 }
+
+
+class GaError(RuntimeError):
+    """A named failure while fetching the pinned tools or checking the cache: never a traceback."""
 
 
 def pin() -> tuple[str, str]:
@@ -59,19 +84,28 @@ def root(commit: str | None = None) -> Path:
     return CACHE / commit
 
 
+def git_blob_sha(data: bytes) -> str:
+    """The git blob sha1 of `data`, as the pinned tree names each file."""
+    return hashlib.sha1(b"blob %d\0" % len(data) + data).hexdigest()
+
+
 def _gh_api(path: str):
-    out = subprocess.run(["gh", "api", path], check=True, capture_output=True)
-    return json.loads(out.stdout.decode("utf-8"))
+    """The parsed JSON from one `gh api` call; a failure is a named `GaError`."""
+    try:
+        out = subprocess.run(["gh", "api", path], check=False, capture_output=True)
+    except OSError as e:  # gh is not installed, or is not executable
+        raise GaError(f"cannot run gh: {e.strerror or e}") from None
+    if out.returncode != 0:
+        message = out.stderr.decode("utf-8", "replace").strip()
+        raise GaError(f"gh api {path} failed: {message or f'exit {out.returncode}'}") from None
+    try:
+        return json.loads(out.stdout.decode("utf-8"))
+    except (UnicodeDecodeError, json.JSONDecodeError) as e:
+        raise GaError(f"gh api {path}: invalid JSON: {e}") from None
 
 
-def fetch(commit: str | None = None) -> Path:
-    """Download the pinned tools and the formats/ tree into the cache, once; return its root."""
-    repo, pinned = pin()
-    if commit is None:
-        commit = pinned
-    dest = root(commit)
-    if (dest / VALIDATOR).exists():
-        return dest
+def _wanted(repo: str, commit: str) -> dict[str, str]:
+    """The pinned tree's needed blobs as {path: git blob sha}."""
     tree = _gh_api(f"repos/{repo}/git/trees/{commit}?recursive=1")
     wanted = {}
     for item in tree.get("tree", []):
@@ -80,25 +114,149 @@ def fetch(commit: str | None = None) -> Path:
         path = item["path"]
         if path in NEEDED_FILES or path.startswith(NEEDED_PREFIXES):
             wanted[path] = item["sha"]
+    return wanted
+
+
+def _probe(path: Path, what: str) -> bool:
+    """A filesystem probe (`is_file`, `is_symlink`) as a named `GaError`, never a traceback."""
+    try:
+        return bool(what == "file" and path.is_file() or what == "symlink" and path.is_symlink())
+    except OSError as e:
+        raise GaError(f"cannot stat {path}: {e.strerror or e}") from None
+
+
+def _missing(dest: Path, wanted: dict[str, str]) -> list[str]:
+    """The needed files the cache does not hold; a non-empty list makes the cache untrusted."""
+    return [path for path in sorted(wanted) if not _probe(dest / path, "file")]
+
+
+def _download(repo: str, dest: Path, wanted: dict[str, str]) -> None:
+    """Write every wanted blob into the cache; a filesystem failure is a named `GaError`."""
     for path, sha in sorted(wanted.items()):
         blob = _gh_api(f"repos/{repo}/git/blobs/{sha}")
+        try:
+            content = base64.b64decode(blob["content"])
+        except (KeyError, ValueError, binascii.Error) as e:
+            raise GaError(f"cannot decode blob {sha} for {path}: {e}") from None
         target = dest / path
-        target.parent.mkdir(parents=True, exist_ok=True)
-        target.write_bytes(base64.b64decode(blob["content"]))
+        try:
+            target.parent.mkdir(parents=True, exist_ok=True)
+            target.write_bytes(content)
+        except OSError as e:
+            raise GaError(f"cannot write {target}: {e.strerror or e}") from None
+
+
+def _check(dest: Path, wanted: dict[str, str]) -> None:
+    """A named `GaError` unless every wanted file is present and holds its pinned bytes."""
+    for path, sha in sorted(wanted.items()):
+        target = dest / path
+        if not _probe(target, "file"):
+            raise GaError(f"{path}: missing from the pinned cache {dest}")
+        try:
+            content = target.read_bytes()
+        except OSError as e:
+            raise GaError(f"cannot read {target}: {e.strerror or e}") from None
+        actual = git_blob_sha(content)
+        if actual != sha:
+            raise GaError(
+                f"blob sha mismatch for {path}: cache has {actual}, pinned tree says {sha}")
+
+
+def _drop_bytecode(dest: Path) -> None:
+    """Delete every `__pycache__` under the cache, so only verified source can ever run.
+
+    Python accepts a cached `.pyc` when the source's size and mtime match its header, and a
+    same-length edit restored within the same second slips past that check: the verified source
+    would be ignored for stale bytecode. Removing the bytecode closes that hole for the default
+    location; bytecode redirected by `PYTHONPYCACHEPREFIX` lives outside the cache, so the wrappers
+    launch the fetched tools with that variable cleared and with `-B`, and `validator()` compiles
+    the verified source text itself instead of importing it. Nothing reads or writes bytecode for
+    the cache."""
+    try:
+        pycaches = sorted(dest.rglob("__pycache__"))
+        for pycache in pycaches:
+            shutil.rmtree(pycache)
+    except OSError as e:
+        raise GaError(f"cannot remove bytecode under {dest}: {e.strerror or e}") from None
+
+
+def fetch(commit: str | None = None) -> Path:
+    """The pinned tools and formats/ tree in the cache for `commit`, fetched when incomplete.
+
+    The pinned tree is read first: a cache missing any needed file is downloaded again, and then
+    every file's git blob sha is checked against that tree before the cache is returned. An edited
+    file is a named error, never silently replaced, so the caller never runs something that is not
+    the pinned bytes (ADR-009)."""
+    repo, pinned = pin()
+    if commit is None:
+        commit = pinned
+    dest = root(commit)
+    # The cache is a plain directory under the working tree. A symlinked cache root (or commit
+    # folder) could point elsewhere, so it is refused by name rather than written through.
+    if _probe(CACHE, "symlink"):
+        raise GaError(f"cache root {CACHE} is a symlink, not a directory")
+    if _probe(dest, "symlink"):
+        raise GaError(f"cache for {commit} is a symlink: {dest}")
+    wanted = _wanted(repo, commit)
+    if _missing(dest, wanted):
+        _download(repo, dest, wanted)
+    _drop_bytecode(dest)
+    _check(dest, wanted)
     return dest
+
+
+def run_tool(rel: str, argv: list[str]) -> int:
+    """Run one fetched tool as a subprocess: `-B` (no bytecode), named launch errors, and the
+    tool's own exit code, with death by signal re-raised in this process rather than mangled.
+
+    The tool always runs from the caller's working directory, never from the cache folder that
+    holds it, so it serves the repository it is run in. `PYTHONPYCACHEPREFIX` is cleared for the
+    child: with it set, the tool's own `import validate_records` would read bytecode from that
+    prefix, which `fetch()` cannot see or delete, instead of the verified source beside it."""
+    tool = fetch() / rel
+    env = {key: value for key, value in os.environ.items() if key != "PYTHONPYCACHEPREFIX"}
+    try:
+        completed = subprocess.run([sys.executable, "-B", str(tool), *argv], env=env)
+    except OSError as e:  # the interpreter or the tool cannot be launched
+        raise GaError(f"cannot run {tool}: {e.strerror or e}") from None
+    code = completed.returncode
+    if code < 0:
+        # The tool was killed by signal -code; sys.exit(code) would report 241 for SIGTERM, so
+        # the same signal is re-raised here to preserve the termination as it happened.
+        # SIGKILL (and SIGSTOP) refuse a new disposition with ValueError but are always fatal
+        # by default, so the reset is attempted alone and the signal is delivered regardless.
+        sig = -code
+        try:
+            signal.signal(sig, signal.SIG_DFL)
+        except (OSError, ValueError):
+            pass
+        try:
+            os.kill(os.getpid(), sig)
+        except OSError:
+            pass
+        return 128 + sig
+    return code
 
 
 _validator = None
 
 
 def validator():
-    """The imported pinned validator module (`tools/validate_records.py`)."""
+    """The pinned validator module (`tools/validate_records.py`), loaded from verified source.
+
+    The module is built from the source text `fetch()` has just verified: the bytes are compiled
+    and executed here, never imported, so no `.pyc` is read (from `__pycache__` or from a
+    `PYTHONPYCACHEPREFIX` / `sys.pycache_prefix` tree) and none is written."""
     global _validator
     if _validator is None:
         path = fetch() / VALIDATOR
-        spec = importlib.util.spec_from_file_location("ga_validate_records", path)
-        module = importlib.util.module_from_spec(spec)
-        spec.loader.exec_module(module)
+        try:
+            source = path.read_bytes()
+        except OSError as e:
+            raise GaError(f"cannot read {path}: {e.strerror or e}") from None
+        module = types.ModuleType("ga_validate_records")
+        module.__file__ = str(path)
+        exec(compile(source, str(path), "exec", dont_inherit=True), module.__dict__)
         _validator = module
     return _validator
 

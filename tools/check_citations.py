@@ -1,93 +1,41 @@
 #!/usr/bin/env python3
-"""Check a finding's citations.
+"""Run game-archaeologist's pinned citation checker on this repository's behalf (ADR-009).
 
-`python3 tools/check_citations.py <finding.md>` fails (exit 1) when a run id anywhere in the
-finding has no record under `runs/E<nnn>/`, or when a bullet in `## Answer` or `## Inferences`
-cites no run id. Exit 0 otherwise. `--runs <dir>` checks against another records directory.
+`tools/ga.py` fetches the tool at the commit `archaeology.json` pins into
+`.cache/game-archaeologist/<commit>/`, beside the pinned `tools/validate_records.py` and `formats/`;
+this wrapper is a subprocess pass-through, never a copy: arguments, standard streams and the exit
+code go through unchanged, so the rules applied are the pinned ones and only theirs. The tool runs
+from this wrapper's working directory, never from the cache folder that holds it, so it serves the
+repository it is run in: `runs/` and the repository root come from there.
 
-A bullet's indented continuation lines belong to it, so a run id on a wrapped line counts
-(toy-archaeology#12).
-
-Adapted from diegoami/toy-archaeology tools/check_citations.py at a3056ff.
+    python3 tools/check_citations.py <finding.md> [--runs DIR] [--root DIR]
+        Exit 1 when a run id in the finding has no record under `runs/E<nnn>/`, or when a claim in
+        `## Answer` or `## Inferences` cites no run id, or when a `static:<path>[:<line>]` citation
+        is malformed, names no tracked path or names a line the file lacks. Exit 0 otherwise.
 """
 from __future__ import annotations
 
-import argparse
-import re
 import sys
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
-RUN_ID = re.compile(r"\bE[0-9]{3,}-r[0-9]{4,}\b")
-SECTIONS = ("## Answer", "## Inferences")
+sys.path.insert(0, str(REPO_ROOT))
 
-
-def section_lines(lines: list[str], heading: str) -> list[str] | None:
-    start = next((i for i, line in enumerate(lines) if line.strip() == heading), None)
-    if start is None:
-        return None
-    body = []
-    for line in lines[start + 1:]:
-        if line.startswith("## "):
-            break
-        body.append(line)
-    return body
-
-
-def bullets(lines: list[str]) -> list[str]:
-    """Each bullet together with its indented continuation lines, not a new bullet."""
-    found: list[str] = []
-    current: list[str] | None = None
-    for line in lines:
-        if line.lstrip().startswith(("- ", "* ")):
-            if current is not None:
-                found.append("\n".join(current))
-            current = [line]
-        elif current is not None and line.strip() and line[:1] in (" ", "\t"):
-            current.append(line)
-        else:
-            if current is not None:
-                found.append("\n".join(current))
-                current = None
-    if current is not None:
-        found.append("\n".join(current))
-    return found
-
-
-def check(finding: Path, runs: Path) -> list[str]:
-    problems = []
-    if not finding.is_file():
-        return [f"{finding}: no such file"]
-    text = finding.read_text(encoding="utf-8")
-    lines = text.splitlines()
-
-    for run_id in sorted(set(RUN_ID.findall(text))):
-        experiment = run_id.split("-", 1)[0]
-        if not (runs / experiment / f"{run_id}.json").is_file():
-            problems.append(f"{finding}: cites missing run {run_id} (no {runs / experiment / f'{run_id}.json'})")
-
-    for heading in SECTIONS:
-        body = section_lines(lines, heading)
-        if body is None:
-            problems.append(f"{finding}: missing section '{heading}'")
-            continue
-        for bullet in bullets(body):
-            if not RUN_ID.search(bullet):
-                problems.append(f"{finding}: {heading} bullet cites no run id: {bullet.strip()}")
-    return problems
+from tools import ga  # noqa: E402
 
 
 def main(argv=None) -> int:
-    parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("finding", type=Path)
-    parser.add_argument("--runs", type=Path, default=REPO_ROOT / "runs")
-    args = parser.parse_args(argv)
-    problems = check(args.finding, args.runs)
-    if problems:
-        print("\n".join(problems))
+    """Exit with the pinned tool's own exit code for the same arguments.
+
+    Fetching or launching failures are named lines and exit 1; a tool killed by a signal
+    terminates this process with that same signal."""
+    if argv is None:
+        argv = sys.argv[1:]
+    try:
+        return ga.run_tool(ga.CHECK_CITATIONS, list(argv))
+    except ga.GaError as e:
+        print(f"check_citations.py: {e}")
         return 1
-    print(f"ok: citations in {args.finding} resolve")
-    return 0
 
 
 if __name__ == "__main__":
