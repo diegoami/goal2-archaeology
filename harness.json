@@ -45,6 +45,36 @@
       "variant": "low",
       "family": "openai",
       "watch": "Heavy: effort low, medium only when justified, never high (the owner, 2026-10-05). Sol reviews complex tasks (L101)."
+    },
+    "ali-qwen3.8-max": {
+      "id": "alibaba-token-plan/qwen3.8-max",
+      "variant": "low",
+      "family": "qwen",
+      "watch": "Heavy: offers low, medium, xhigh; low (L54). Probed only (2026-10-05, PONG in 7 s): a new family here, a candidate implementer or reviewer for hard tasks. Its key is the env var ALIBABA_TOKEN_PLAN_API_KEY (never opencode auth login: an auth.json entry overrides it); a session started before ~/.bashrc set it must launch runs via bash -ic. One monthly pool shared by all alibaba models (quota-tracker /quota/alibaba); night discount 22:00-08:00 UTC+8."
+    },
+    "ali-qwen3.8-flash": {
+      "id": "alibaba-token-plan/qwen3.8-flash",
+      "variant": "xhigh",
+      "family": "qwen",
+      "watch": "Light: offers low, medium, xhigh (no high); xhigh is the nearest to a light model's high. Probed only (2026-10-05, PONG in 7 s). Its key is the env var ALIBABA_TOKEN_PLAN_API_KEY (never opencode auth login: an auth.json entry overrides it); a session started before ~/.bashrc set it must launch runs via bash -ic. One monthly pool shared by all alibaba models (quota-tracker /quota/alibaba); night discount 22:00-08:00 UTC+8."
+    },
+    "ali-deepseek-v4-pro": {
+      "id": "alibaba-token-plan/deepseek-v4-pro",
+      "variant": "high",
+      "family": "deepseek",
+      "watch": "Heavy: high is its lowest effort, as on Go. The same model as deepseek-pro on the Alibaba pool; probed only (2026-10-05, PONG in 7 s). DeepSeek V4 Pro writes scratch to /tmp and starts commands with cd /abs && (L57). Its key is the env var ALIBABA_TOKEN_PLAN_API_KEY (never opencode auth login: an auth.json entry overrides it); a session started before ~/.bashrc set it must launch runs via bash -ic. One monthly pool shared by all alibaba models (quota-tracker /quota/alibaba); night discount 22:00-08:00 UTC+8."
+    },
+    "ali-deepseek-v4.1-flash": {
+      "id": "alibaba-token-plan/deepseek-v4.1-flash",
+      "variant": "high",
+      "family": "deepseek",
+      "watch": "Light: offers low, high, max; high. The same model as deepseek-flash on the Alibaba pool; probed only (2026-10-05, PONG in 5 s). Its key is the env var ALIBABA_TOKEN_PLAN_API_KEY (never opencode auth login: an auth.json entry overrides it); a session started before ~/.bashrc set it must launch runs via bash -ic. One monthly pool shared by all alibaba models (quota-tracker /quota/alibaba); night discount 22:00-08:00 UTC+8."
+    },
+    "ali-glm-5.3": {
+      "id": "alibaba-token-plan/glm-5.3",
+      "variant": "low",
+      "family": "glm",
+      "watch": "Heavy: low (L54). The same model as zai-glm-5.3 on the Alibaba pool, for when Z.ai's windows are exhausted; probed only (2026-10-05, PONG in 6 s). Its key is the env var ALIBABA_TOKEN_PLAN_API_KEY (never opencode auth login: an auth.json entry overrides it); a session started before ~/.bashrc set it must launch runs via bash -ic. One monthly pool shared by all alibaba models (quota-tracker /quota/alibaba); night discount 22:00-08:00 UTC+8."
     }
   },
   "implementer": {
@@ -97,5 +127,7 @@
       "apiKeyEnv": "ELEVENLABS_API_KEY"
     }
   },
-  "jail": { "enabled": false }
+  "jail": {
+    "enabled": false
+  }
 }
