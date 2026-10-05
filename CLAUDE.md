@@ -8,9 +8,13 @@ The process is `docs/process.md`; read it before running a task. Tasks are `docs
 indexed in `docs/tasks/README.md`.
 
 ## Rules
-1. The main session plans, runs `/run-task`, triages and talks to the user. It delegates (`/delegate`):
-   code to OpenCode, review to another model family, repeated decisions to Jev after a trial, and
-   images and audio to OpenRouter or ElevenLabs models, whose ids come from live lists, never memory.
+1. The main session plans, runs `/run-task`, triages and talks to the user. It delegates
+   (`/delegate`): code to OpenCode, review to another model family, repeated decisions to Jev after
+   a trial, and images and audio to OpenRouter or ElevenLabs models, whose ids come from live lists,
+   never memory. Before choosing, recommending or delegating to a model, check its provider's quota
+   with quota-tracker and skip an exhausted one for the next of the chain with quota, saying so
+   (L50, `docs/environment.md`); the light OpenAI reviewer `luna` is GPT-5.6 Luna on its own weekly
+   pool (L51). Heavy models run at effort low, medium only when justified.
 2. Nobody works in the main checkout but the main session: OpenCode runs in the worktree the script
    makes, Claude agents run with worktree isolation. Never `git stash`.
 3. Status lives in GitHub labels. No document carries a status snapshot.
@@ -19,13 +23,12 @@ indexed in `docs/tasks/README.md`.
    assertion, skips a test or edits its task file. The main session amends a Done-when on `main`
    with the reason in the commit message.
 6. The reviewer is never the implementer's model family. It re-runs every Done-when line itself.
-7. Merge only with an approving review and green CI. Two rework rounds, then escalate.
+7. Merge only with an approving review and green CI. Two rework rounds, then escalate. After a heavy
+   review, the next round's implementer moves one step up, never down (`/run-task`). (L38)
 8. Relay review findings in full, never a subset.
-9. A test proves behaviour only if it fails when the behaviour is removed; a claim that nothing
-   failed is re-taken before it is believed.
+9. A test proves behaviour only if it fails without that behaviour; re-take a claim that nothing failed.
 10. A comment asserting behaviour at an edge arrives with the test that visits that edge.
-11. Until the first playable build, schedule only bugs that break play; label the rest
-    `post-playable`.
+11. Until the first playable build, schedule only bugs that break play; the rest are `post-playable`.
 12. A bug whose fix stays in the files it names and changes no outcome is a `fix`; a blocking
     one-file mechanical fix may ride the PR that found it, declared under Scope.
 13. Design decisions go to the user; nothing else waits for the user.
@@ -53,5 +56,6 @@ indexed in `docs/tasks/README.md`.
     measured output (run records, probe logs, timings) lives under a tracked path the task owns, is
     committed and pushed after each batch of runs and at least every 30 minutes, and is never deleted
     or overwritten (game-archaeologist L207).
-21. **Routing by difficulty** (U13): game-archaeologist's `docs/models.md`. Game rules, formulas or
+21. **Routing by difficulty** (U13): game-archaeologist's `docs/models.md`, after the quota check of
+    rule 1 (L50). Game rules, formulas or
     constants from evidence are hard. Rule 11 has no effect: this repository builds no playable game.
