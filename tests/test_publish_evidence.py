@@ -2,8 +2,9 @@
 not uploaded again (DW4a); an asset there with another sha256 stops the tool, which never replaces
 an asset, and writes no manifest (DW4b); a manifest already present with other content is never
 overwritten (DW4c); and the manifest is written only after the upload is verified by downloading
-the asset back. The tests run the tool against a fake `gh` serving a directory as the release: no
-`gh` access, nothing leaves the machine."""
+the asset back — an upload that stored nothing or stored other bytes is caught by that check and
+stops the tool with no manifest. The tests run the tool against a fake `gh` serving a directory as
+the release: no `gh` access, nothing leaves the machine."""
 from __future__ import annotations
 
 import hashlib
@@ -27,7 +28,8 @@ sys.path.insert(0, str(REPO_ROOT))
 #   release view <tag> ...      print the directory's file names; exit 1 when it does not exist
 #   release create <tag> ...    create the directory
 #   release upload <tag> <file> refuse a name the release already has (as the real gh does),
-#                               else copy the file in
+#                               else copy the file in; FAKE_GH_SILENT_UPLOAD exits 0 storing
+#                               nothing, FAKE_GH_CORRUPT_UPLOAD stores the file plus a suffix
 #   release download <tag> -p <asset> -D <dir>  copy the asset out, exit 1 when it is not there
 FAKE_GH = """#!/usr/bin/env python3
 import os
@@ -53,7 +55,11 @@ if args[:2] == ["release", "upload"]:
     if destination.exists():
         print(f"asset {source.name} already exists", file=sys.stderr)
         sys.exit(1)
+    if os.environ.get("FAKE_GH_SILENT_UPLOAD"):
+        sys.exit(0)
     shutil.copyfile(source, destination)
+    if os.environ.get("FAKE_GH_CORRUPT_UPLOAD"):
+        destination.write_bytes(source.read_bytes() + b"uploaded with other bytes\\n")
     sys.exit(0)
 if args[:2] == ["release", "download"]:
     asset = args[args.index("-p") + 1]
@@ -72,8 +78,8 @@ SHA256 = hashlib.sha256(PAYLOAD).hexdigest()
 ASSET = f"{SHA256[:16]}-state.sav"
 
 
-def run_publish(fakebin: Path, log: Path, files: list[Path], evidence_dir: Path) \
-        -> subprocess.CompletedProcess:
+def run_publish(fakebin: Path, log: Path, files: list[Path], evidence_dir: Path,
+                extra_env: dict[str, str] | None = None) -> subprocess.CompletedProcess:
     """Run the tool against the fake `gh` with the fixture run record; the manifest goes to
     `evidence_dir`, never to the repository's evidence/."""
     env = {
@@ -81,6 +87,7 @@ def run_publish(fakebin: Path, log: Path, files: list[Path], evidence_dir: Path)
         "PATH": f"{fakebin}{os.pathsep}{os.environ['PATH']}",
         "FAKE_GH_LOG": str(log),
         "FAKE_GH_RELEASE": str(fakebin.parent / "release"),
+        **(extra_env or {}),
     }
     return subprocess.run(
         [sys.executable, "tools/publish_evidence.py", EXPERIMENT, "--run", RUN_ID,
@@ -175,6 +182,34 @@ class PublishEvidenceTest(unittest.TestCase):
         self.assertEqual([], [call for call in log_lines(self.log)
                               if call.startswith("release upload")])
         self.assertFalse(manifest_path(self.evidence).exists())
+
+    def test_asset_read_back_after_upload_with_another_sha256_stops_and_writes_no_manifest(self):
+        # gh may report an upload that landed other bytes than the staged file's: the check
+        # downloads the asset back and hashes it before any manifest names it.
+        # FAKE_GH_CORRUPT_UPLOAD makes the fake store the staged file plus a suffix. Remove the
+        # download-and-hash check after the upload in check_or_upload and this fails: the tool
+        # exits 0 and writes the manifest for an asset it never verified.
+        result = run_publish(self.fakebin, self.log, [state_file(self.tmp)], self.evidence,
+                             extra_env={"FAKE_GH_CORRUPT_UPLOAD": "1"})
+        self.assertEqual(1, result.returncode, result.stdout + result.stderr)
+        self.assertIn("after upload with sha256", result.stdout)
+        self.assertFalse(manifest_path(self.evidence).exists())
+        # The bad asset stays: the tool never deletes or replaces what a release holds.
+        self.assertTrue((self.fakebin.parent / "release" / ASSET).is_file())
+
+    def test_download_failing_after_upload_stops_and_writes_no_manifest(self):
+        # gh may report an upload that stored nothing: the check downloads the asset back, and
+        # only a download that returns the bytes lets the manifest be written.
+        # FAKE_GH_SILENT_UPLOAD makes the fake exit 0 without storing the file, so the
+        # download-after-upload finds no asset. Remove the download-and-hash check after the
+        # upload in check_or_upload and this fails: the tool exits 0 and writes the manifest
+        # though nothing reached the release.
+        result = run_publish(self.fakebin, self.log, [state_file(self.tmp)], self.evidence,
+                             extra_env={"FAKE_GH_SILENT_UPLOAD": "1"})
+        self.assertEqual(1, result.returncode, result.stdout + result.stderr)
+        self.assertIn("download-after-upload", result.stdout)
+        self.assertFalse(manifest_path(self.evidence).exists())
+        self.assertFalse((self.fakebin.parent / "release" / ASSET).is_file())
 
     def test_existing_manifest_with_other_content_is_never_overwritten(self):
         # DW4c: E902-r0001.manifest.json already describes another bundle; the tool stops before
