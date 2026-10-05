@@ -60,17 +60,19 @@
   `GOAL.DAT` (R003, R004: 3060 surnames and initials, the record index is the player number). Manager 1's
   80 are records 2561..2640, so their names are `GOAL.DAT`'s surnames 2561..2640. E009-r0001 matches the
   screen's names to them. About 95% (F002 established the blocks; E009 matches the names).
-- **Each manager gets its own block of 80** (static). The base table at `DS:6D18` is initialised data
+- **Each manager gets its own block of 80** (both). The base table at `DS:6D18` is initialised data
   (`ds_2581_03.hex`): `word[m]` for m = 1..6 is 1, 81, 161, 241, 321, 401, i.e. `80·(m−1)+1`. Manager m's
   pool is `A927[80·(m−1)+1 .. 80·(m−1)+80]` = records `2560 + 80·(m−1) + 1 .. 2560 + 80·m`: manager 1
-  2561..2640, manager 2 2641..2720, …, manager 6 2961..3040. About 95% (the table is read at
-  `:990D`, `:E38B`, `:5546`, `0791:DDCB`; one manager is run).
+  2561..2640, manager 2 2641..2720, …, manager 6 2961..3040. E009-r0001 reads the table's six values;
+  only manager 1's block is made (one manager). About 95% (the table is read at `:990D`, `:E38B`,
+  `:5546`, `0791:DDCB`; the run reads `DS:6D18` words 1..6).
 - **At most 6 managers, and the records allow exactly 6 full pools** (static). The new-game menu that
   sets the manager count (`1771:0021`, `seg_1771_01.asm:0021`) is a 6-item menu (`push 6`,
   `call 214B:1507` at `:00A0`–`:00A4`) and accepts the keys `1`..`6` (`cmp al, 0x31`/`0x36`,
-  `:00A9`–`:00B4`), so 1..6 managers. 6 managers × 80 = 480 pool records (2561..3040); the player array
-  holds 3061 records (F002 R013), 2560 squad plus 500 unassigned (2561..3060), so 6 full pools leave
-  20 records (3041..3060) unused. About 95% (the menu is the listing; a second manager is not run).
+  `:00A9`–`:00B4`), so 1..6 managers; the base table's six entries (above) are read by the run. 6 managers
+  × 80 = 480 pool records (2561..3040); the player array holds 3061 records (F002 R013), 2560 squad plus
+  500 unassigned (2561..3060), so 6 full pools leave 20 records (3041..3060) unused. About 95% (the menu
+  is the listing; a second manager is not run).
 - **`1771:26B9` and `1771:9873` in this path** (static). `1771:26B9` (`country_list_screen`) in mode 2
   is the country picker `1771:2D15` (`set_managed_countries`) runs per manager: on Enter with a country
   that is not already managed it stores that country into `DS:A91F + 3·(0x80 + manager)`
