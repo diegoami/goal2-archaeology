@@ -77,8 +77,10 @@ def hardness_value(rec):
 def leadership_value(rec):
     """1771:30D9: (+3 - +5) mod 8 (idiv, the remainder), halved when +1 < 0x15."""
     d = rec[3] - rec[5]
-    v = d - 8 * int(d / 8)      # the remainder of idiv (sign of the dividend)
-    return v // 2 if rec[1] < 0x15 and v >= 0 else v
+    if d < 0:     # idiv's remainder takes the dividend's sign and the listing then halves it with an unsigned div: not modelled
+        raise ValueError(f"+3 - +5 = {d} is negative; a new game's records have +3 >= 128 and +5 <= 16")
+    v = d % 8
+    return v // 2 if rec[1] < 0x15 else v
 
 
 def skill_bars(rec, t):
@@ -153,7 +155,8 @@ def load(runs=RUNS):
             ident = next(o for o in steps[step] if "the player the screen names" in o["field"])
             rec = next((o for o in steps[step] if "the 20 bytes of player n's record" in o["field"]), None)
             m = re.match(r"n=(\d+|unresolved)", ident["value"])
-            out.append({"run": r["run_id"], "step": step, "shown": playerscreen.parse(playerscreen.screen_of_raw(bytes.fromhex(raw["value"]))),
+            out.append({"run": r["run_id"], "step": step, "raw": bytes.fromhex(raw["value"]),
+                        "shown": playerscreen.parse(playerscreen.screen_of_raw(bytes.fromhex(raw["value"]))),
                         "n": int(m.group(1)) if m.group(1) != "unresolved" else None,
                         "named": json.loads(re.search(r"named=(\[[^\]]*\])", ident["value"]).group(1)),
                         "rec": bytes.fromhex(rec["value"]) if rec else None, "tables": tables, "start": r["start_state"]["sha256"]})
