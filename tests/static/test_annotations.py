@@ -46,6 +46,8 @@ FINDING_CITED = [
     "1771:2EE5", "0000:0000", "000E:70B9", "000E:7439", "0791:7881", "0791:9119", "0791:F098",
     "1771:027B", "1771:157D", "1771:26B9", "1771:33CD", "1771:377E", "1771:3827", "1771:4E22",
     "1771:9873",
+    # T22: the routines F011 establishes (the SELECT TEAM screen and the pool path)
+    "0791:E44F", "0791:E2E6", "0791:DDCB", "1771:5532", "1771:53E8", "1771:50F1", "1771:0021",
     # T21: the routines F010 (PR #64) establishes, among them the ones it cites by bare offset
     # (matched to their segments from F010's context): the +0x2D/+0xF readers and writers, the
     # computer's in-match tactic changes, the fixture routing, the marking and the own-tactics
@@ -294,6 +296,17 @@ class NamedViewTests(unittest.TestCase):
             self.assertNamedDefaultTacticSet(routine_body(RAW, "0791:BBFF"))
         with self.assertRaises(AssertionError):
             self.assertNamedOwnTacticSet(routine_body(RAW, "1771:3431"))
+
+    def test_pool_view_reads_pool_globals_by_name(self):
+        # F011: 0791:E2E6 lists A927[DS:6D18 + 2*manager + row - 1]; the named view has the two globals
+        body = routine_body(NAMED, "0791:E2E6")
+        self.assertIn("pool_indices", body)
+        self.assertIn("pool_base_table", body)
+        self.assertNotIn("DS:A927", body)
+        self.assertNotIn("0x6d18", body)
+        raw = routine_body(RAW, "0791:E2E6")
+        self.assertIn("DS:A927", raw)
+        self.assertNotIn("pool_indices", raw)
 
     def test_render_names_headings_and_calls(self):
         segmap = decompiled.SegMap([(0x0791, 0x2000, 0x10000), (0x1771, 0x4000, 0x10000),

@@ -13,11 +13,12 @@ undefined1 __cdecl16far f_1771_0000(void)
 }
 
 
-// ---- 1771:0021  f_1771_0021  (f_1771_0021; Ghidra 4000:0021, __cdecl16near; found by routines.tsv)
+// ---- 1771:0021  manager_count_menu  (f_1771_0021; Ghidra 4000:0021, __cdecl16near; found by routines.tsv)
+// the new-game menu that sets the number of managers [DS:A923]+0: a 6-item menu, the keys 1..6  [likely; F011; read decompiled/seg_1771_01.c; read code/seg_1771_01.asm]
 
 /* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
 
-void __cdecl16near f_1771_0021(void)
+void __cdecl16near manager_count_menu(void)
 
 {
   char *pcVar1;
@@ -155,8 +156,8 @@ undefined1 save_or_load_game(char param_1)
   f_1771_0232(&stack0xfffe,0x603f,(country *)countries,(int)((ulong)countries >> 0x10));
   f_1771_0232(&stack0xfffe,0xef24,(player *)players,(int)((ulong)players >> 0x10));
   f_1771_0232(&stack0xfffe,0x10e,(int)DS:A923,(int)((ulong)DS:A923 >> 0x10));
-  f_1771_0232(&stack0xfffe,0x3c2,(int)DS:A927,(int)((ulong)DS:A927 >> 0x10));
-  f_1771_0232(&stack0xfffe,0x195,(int)DS:A91F,(int)((ulong)DS:A91F >> 0x10));
+  f_1771_0232(&stack0xfffe,0x3c2,(word *)pool_indices,(int)((ulong)pool_indices >> 0x10));
+  f_1771_0232(&stack0xfffe,0x195,(byte *)manager_countries,(int)((ulong)manager_countries >> 0x10));
   f_1771_0232(&stack0xfffe,0x4b48,(int)DS:A92B,(int)((ulong)DS:A92B >> 0x10));
   f_1771_0232(&stack0xfffe,0x2448,(int)DS:A92F,(int)((ulong)DS:A92F >> 0x10));
   f_1771_0232(&stack0xfffe,0x81,0x9cff,0xb000);
@@ -404,7 +405,7 @@ undefined2 __cdecl16far f_1771_080C(void)
   }
   if (!bVar1) {
     f_1771_018A();
-    f_1771_0021();
+    manager_count_menu();
     uVar3 = extraout_AH_02;
   }
   return CONCAT11(uVar3,bVar1);
@@ -529,7 +530,7 @@ void __stdcall16far f_1771_09A0(int param_1,undefined1 param_2,int param_3)
 int __stdcall16far f_1771_0AA7(int param_1)
 
 {
-  return *(byte *)((int)DS:A91F + (uint)((country *)countries)[param_1].manager * 3 + 1) / 8 +
+  return ((byte *)manager_countries)[(uint)((country *)countries)[param_1].manager * 3 + 1] / 8 +
          0x10;
 }
 
@@ -539,24 +540,24 @@ int __stdcall16far f_1771_0AA7(int param_1)
 void __stdcall16far f_1771_0AF8(undefined1 param_1,undefined1 param_2,int param_3)
 
 {
-  undefined1 uVar1;
-  int iVar2;
+  int iVar1;
+  undefined1 uVar2;
   undefined2 uVar3;
   
-  uVar3 = (undefined2)((ulong)DS:A91F >> 0x10);
-  iVar2 = (int)DS:A91F + param_3 * 3;
+  iVar1 = param_3 * 3;
+  uVar3 = (undefined2)((ulong)manager_countries >> 0x10);
   if (param_3 != 0) {
-    uVar1 = (undefined1)((uint)(param_3 * 3) >> 8);
-    if (*(char *)(iVar2 + 1) == '\0') {
+    uVar2 = (undefined1)((uint)iVar1 >> 8);
+    if (((byte *)manager_countries)[iVar1 + 1] == 0) {
       u214b_write_string_at_fwd
-                ((undefined4 *)&DS:A96E,0xb000,CONCAT11(uVar1,param_1),CONCAT11(uVar1,param_2)
+                ((undefined4 *)&DS:A96E,0xb000,CONCAT11(uVar2,param_1),CONCAT11(uVar2,param_2)
                  ,0xaf0,0x4000);
     }
     else {
       u214b_write_string_at_fwd
                 ((undefined4 *)&DS:A96E,0xb000,param_1,param_2,
-                 (uint)*(byte *)((int)(*(byte *)(iVar2 + 1) - 1) / 8 + 0x7894) * 0x10 + 0x6eb4,
-                 0xb000);
+                 (uint)*(byte *)((int)(((byte *)manager_countries)[iVar1 + 1] - 1) / 8 + 0x7894) *
+                 0x10 + 0x6eb4,0xb000);
     }
   }
   return;
@@ -1186,25 +1187,6 @@ void draw_team_panel(int param_1)
       if (local_4 == 3) break;
       local_4 = local_4 + 1;
     }
-  }
-  return;
-}
-
-
-// ---- 1771:1934  f_1771_1934  (f_1771_1934; Ghidra 4000:1934, __stdcall16near; found by routines.tsv)
-
-void f_1771_1934(int param_1)
-
-{
-  int local_4;
-  
-  u214b_unpack_screen_to_buffer((undefined4 *)&DS:A96E,0xb000,0x17a8,0xb000);
-  local_4 = 1;
-  while( true ) {
-    draw_country_name(0x41,local_4 + 7,*(undefined1 *)((int)DS:9B56 + local_4 + param_1 + -1))
-    ;
-    if (local_4 == 0x10) break;
-    local_4 = local_4 + 1;
   }
   return;
 }

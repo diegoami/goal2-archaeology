@@ -279,9 +279,10 @@ void draw_skill_bars(int param_1,int param_2,int param_3)
   while( true ) {
     u214b_fill_attr_bytes
               ((int)(((ulong)*(byte *)((uint)ppVar2[param_3].skill_profile * 0xc +
-                                       (uint)*(byte *)((uint)ppVar2[param_3].club_position * 0xc +
-                                                       local_4 + 0x6d25) + 0x6dcd) *
-                      (ulong)(bVar1 + 1) & 0xffff) / 0x100),DS:AAB2,
+                                       (uint)*(byte *)((int)(word *)pool_base_table +
+                                                      (uint)ppVar2[param_3].club_position * 0xc +
+                                                      local_4 + 0xd) + 0x6dcd) * (ulong)(bVar1 + 1)
+                     & 0xffff) / 0x100),DS:AAB2,
                (int)DS:A96E + (param_2 + local_4) * 0xa0 + param_1 * 2 + -0xa2,
                (int)((ulong)DS:A96E >> 0x10));
     if (local_4 == 0xc) break;
@@ -302,8 +303,9 @@ undefined2 __stdcall16far f_1771_3A06(int param_1,int param_2)
   uVar2 = (undefined2)((ulong)players >> 0x10);
   ppVar1 = (player *)players;
   return (int)(((ulong)*(byte *)((uint)ppVar1[param_2].skill_profile * 0xc +
-                                 (uint)*(byte *)((uint)ppVar1[param_2].club_position * 0xc + param_1
-                                                + 0x6d25) + 0x6dcd) *
+                                 (uint)*(byte *)((int)(word *)pool_base_table +
+                                                (uint)ppVar1[param_2].club_position * 0xc + param_1
+                                                + 0xd) + 0x6dcd) *
                 (ulong)(ppVar1[param_2].ability + 1) & 0xffff) / 0x20);
 }
 

@@ -545,7 +545,7 @@ void __cdecl16near route_fixture(void)
   bVar1 = *local_12;
   if (bVar1 != 0) {
     local_a = 1;
-    while (local_e[((country *)countries)[*(byte *)((int)DS:A91F + (local_a + 0x80) * 3)].
+    while (local_e[((country *)countries)[((byte *)manager_countries)[(local_a + 0x80) * 3]].
                    continent - 1] = 1, local_a != bVar1) {
       local_a = local_a + 1;
     }
@@ -718,7 +718,7 @@ void __cdecl16near play_round(void)
         local_4 = 1;
         while( true ) {
           if (pbVar2[local_4 + 0x47] == 0) {
-            f_000E_60CB(*(undefined1 *)((int)DS:A91F + (local_4 + 0x80) * 3));
+            f_000E_60CB(((byte *)manager_countries)[(local_4 + 0x80) * 3]);
           }
           if (local_4 == bVar1) break;
           local_4 = local_4 + 1;
@@ -807,7 +807,7 @@ void __cdecl16near f_000E_724A(void)
   
   uStack_1d = (undefined2)((ulong)DS:A923 >> 0x10);
   local_1f = (int)DS:A923;
-  local_4 = (uint)*(byte *)((int)DS:A91F + (*(byte *)(local_1f + 1) + 0x80) * 3);
+  local_4 = (uint)((byte *)manager_countries)[(*(byte *)(local_1f + 1) + 0x80) * 3];
   if (*(char *)(local_1f + (uint)*(byte *)(local_1f + 1) + 0x47) == '\0') {
     draw_country_name(3,0xb,local_4);
   }
@@ -874,7 +874,7 @@ void main_menu_loop(void)
   uint local_a;
   byte *local_8;
   uint local_4;
-  int iVar4;
+  byte *pbVar4;
   
   local_8 = DS:A923;
   do {
@@ -889,22 +889,22 @@ void main_menu_loop(void)
           if (((byte *)local_8)[1] < *local_8) {
             u214b_unpack_screen_to_buffer((undefined4 *)&DS:A96E,0xb000,0x5f32,0xb000);
           }
-          draw_squad_list(*(undefined1 *)((int)DS:A91F + (((byte *)local_8)[1] + 0x80) * 3));
+          draw_squad_list(((byte *)manager_countries)[(((byte *)local_8)[1] + 0x80) * 3]);
           f_000E_724A();
           local_a = (uint)*local_8;
           if (local_a != 0) {
             local_4 = 1;
             while( true ) {
-              uVar6 = (undefined2)((ulong)DS:A91F >> 0x10);
-              if (*(char *)((int)DS:A91F + (local_4 + 0x80) * 3) != '\0') {
+              uVar6 = (undefined2)((ulong)manager_countries >> 0x10);
+              if (((byte *)manager_countries)[(local_4 + 0x80) * 3] != 0) {
                 if (((byte *)local_8)[1] == local_4) {
                   DS:AAB2 = 0xf;
                 }
                 else {
                   DS:AAB2 =
                        *(undefined1 *)
-                        (((country *)countries)
-                         [*(byte *)((int)DS:A91F + (local_4 + 0x80) * 3)].continent + 0x6905);
+                        (((country *)countries)[((byte *)manager_countries)[(local_4 + 0x80) * 3]].
+                         continent + 0x6905);
                 }
                 puVar7 = local_10a;
                 uVar6 = unaff_SS;
@@ -929,17 +929,17 @@ void main_menu_loop(void)
           u214b_menu_move_word_wrap(6,0xb0,0xb000);
           pbVar3 = (byte *)local_8;
           uVar6 = (undefined2)((ulong)local_8 >> 0x10);
-          iVar4 = (int)DS:A91F;
-          uVar5 = (undefined2)((ulong)DS:A91F >> 0x10);
+          pbVar4 = (byte *)manager_countries;
+          uVar5 = (undefined2)((ulong)manager_countries >> 0x10);
           if (((DS:A976 != ' ') && (DS:A976 != -0x52)) && (DS:A976 != -0x51))
           break;
           if (pbVar3[pbVar3[1] + 0x47] == 0) {
-            f_0791_E44F(*(undefined1 *)(iVar4 + (pbVar3[1] + 0x80) * 3));
+            select_team_screen(pbVar4[(pbVar3[1] + 0x80) * 3]);
           }
         }
         if ((DS:A976 != 't') && (DS:A976 != 'T')) break;
         if (pbVar3[pbVar3[1] + 0x47] == 0) {
-          edit_team_tactics(*(undefined1 *)(iVar4 + (pbVar3[1] + 0x80) * 3));
+          edit_team_tactics(pbVar4[(pbVar3[1] + 0x80) * 3]);
         }
       }
       if (DS:A976 == '\r') break;
@@ -966,14 +966,14 @@ void main_menu_loop(void)
       f_000E_0000();
     }
     else if (DS:00B0 == 3) {
-      f_1771_958D(*(undefined1 *)(iVar4 + (pbVar3[1] + 0x80) * 3),pbVar3[pbVar3[1] + 1],1);
+      f_1771_958D(pbVar4[(pbVar3[1] + 0x80) * 3],pbVar3[pbVar3[1] + 1],1);
     }
     else if (DS:00B0 == 4) {
       country_list_screen(3);
     }
     else if (DS:00B0 == 5) {
       if (pbVar3[pbVar3[1] + 0x47] == 0) {
-        f_0791_E44F(*(undefined1 *)(iVar4 + (pbVar3[1] + 0x80) * 3));
+        select_team_screen(pbVar4[(pbVar3[1] + 0x80) * 3]);
       }
     }
     else if (DS:00B0 == 6) {
@@ -982,11 +982,9 @@ void main_menu_loop(void)
       uVar6 = (undefined2)((ulong)local_8 >> 0x10);
       if (cVar2 == '\0') {
         if ((pbVar3[pbVar3[1] + 0x47] != 0) ||
-           ((cVar2 = f_000E_57E5(*(undefined1 *)((int)DS:A91F + (pbVar3[1] + 0x80) * 3)),
-            cVar2 == '\0' &&
-            (cVar2 = f_000E_5CF4(*(undefined1 *)
-                                  ((int)DS:A91F + (((byte *)local_8)[1] + 0x80) * 3)),
-            cVar2 == '\0')))) {
+           ((cVar2 = f_000E_57E5(((byte *)manager_countries)[(pbVar3[1] + 0x80) * 3]), cVar2 == '\0'
+            && (cVar2 = f_000E_5CF4(((byte *)manager_countries)[(((byte *)local_8)[1] + 0x80) * 3]),
+               cVar2 == '\0')))) {
           uVar6 = (undefined2)((ulong)local_8 >> 0x10);
           if (((byte *)local_8)[1] == *local_8) {
             play_round();

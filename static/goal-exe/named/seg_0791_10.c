@@ -90,9 +90,10 @@ void f_0791_E2A0(void)
 }
 
 
-// ---- 0791:E2E6  f_0791_E2E6  (f_0791_E2E6; Ghidra 2000:E2E6, __stdcall16near; found by routines.tsv)
+// ---- 0791:E2E6  draw_pool_view  (f_0791_E2E6; Ghidra 2000:E2E6, __stdcall16near; found by routines.tsv)
+// the pool view of the SELECT TEAM screen: rows top..top+20 of the pool as 1771:2F37 for A927[DS:6D18 + 2*manager + row - 1], then the card of the selected pool player (0791:DDCB, 0791:DE51, 1771:42BC)  [established; F011; read decompiled/seg_0791_09.c; read code/seg_0791_22.asm]
 
-void f_0791_E2E6(int param_1)
+void draw_pool_view(int param_1)
 
 {
   int iVar1;
@@ -117,9 +118,8 @@ void f_0791_E2E6(int param_1)
     while( true ) {
       local_6 = local_6 + 1;
       draw_squad_row(0x41,local_6,
-                     *(undefined2 *)
-                      ((int)DS:A927 +
-                      (*(int *)((uint)*(byte *)(iVar1 + 1) * 2 + 0x6d18) + local_4 + -1) * 2));
+                     ((word *)pool_indices)
+                     [((word *)pool_base_table)[*(byte *)(iVar1 + 1)] + local_4 + -1]);
       if (local_4 == *(uint *)(param_1 + -0xb)) {
         u214b_fill_attr_bytes
                   (0xc,0x8f,(int)DS:A96E + local_6 * 0xa0 + -0x20,
@@ -134,7 +134,7 @@ void f_0791_E2E6(int param_1)
     u214b_unpack_screen_to_buffer((undefined4 *)&DS:A96E,0xb000,0x268a,0xb000);
   }
   uVar6 = *(undefined2 *)(param_1 + -5);
-  uVar3 = f_0791_DDCB(param_1,uVar6);
+  uVar3 = pool_selection_index(param_1,uVar6);
   puVar5 = (undefined2 *)f_0791_DE51(param_1,uVar3,uVar6);
   draw_player_screen(*puVar5);
   u214b_fill_back_attr_70(0xc,0x41,*(int *)(iVar1 + (uint)*(byte *)(iVar1 + 1) * 2 + 0x5e) + 2);
@@ -142,7 +142,8 @@ void f_0791_E2E6(int param_1)
 }
 
 
-// ---- 0791:E44F  f_0791_E44F  (f_0791_E44F; Ghidra 2000:E44F, __stdcall16far; found by routines.tsv)
+// ---- 0791:E44F  select_team_screen  (f_0791_E44F; Ghidra 2000:E44F, __stdcall16far; found by routines.tsv)
+// the SELECT TEAM screen of the current manager's country: the squad list and the selected player's card (1771:4E22), toggled Left/Right to the pool list (0791:E2E6); Esc exits  [established; F011; read decompiled/seg_0791_09.c; read code/seg_0791_22.asm]
 
 /* WARNING: Removing unreachable block (0791:E5A5) */
 /* WARNING: Removing unreachable block (0791:E5AC) */
@@ -156,7 +157,7 @@ void f_0791_E2E6(int param_1)
 /* WARNING: Removing unreachable block (0791:E647) */
 /* WARNING: Removing unreachable block (0791:E64E) */
 
-void __stdcall16far f_0791_E44F(int param_1)
+void __stdcall16far select_team_screen(int param_1)
 
 {
   int iVar1;
@@ -186,7 +187,7 @@ void __stdcall16far f_0791_E44F(int param_1)
       draw_squad_screen(*(undefined1 *)(DS:0C20 + 0xabc),param_1);
     }
     else {
-      f_0791_E2E6(&stack0xfffe);
+      draw_pool_view(&stack0xfffe);
     }
     if (DS:0C20 != '\0') {
       u214b_unpack_screen_to_buffer((undefined4 *)&DS:A96E,0xb000,0x1af6,0xb000);
@@ -297,7 +298,7 @@ void __stdcall16far f_0791_E44F(int param_1)
                  iVar1 + (uint)*(byte *)(iVar1 + 1) * 2 + 0x5e,uVar5);
     }
   } while (!bVar2);
-  f_1771_5532();
+  sort_pool_by_position();
   return;
 }
 
@@ -384,12 +385,12 @@ void f_0791_E949(int param_1)
   
   cVar1 = is_managed(*(undefined2 *)(param_1 + -5));
   if (cVar1 == '\0') {
-    f_1771_50F1(1,*(undefined2 *)(param_1 + -5));
+    view_squad_screen(1,*(undefined2 *)(param_1 + -5));
   }
   else {
     *(char *)((int)DS:A923 + 1) =
          ((country *)countries)[*(int *)(param_1 + -5)].manager + 0x80;
-    f_0791_E44F(*(undefined2 *)(param_1 + -5));
+    select_team_screen(*(undefined2 *)(param_1 + -5));
   }
   return;
 }

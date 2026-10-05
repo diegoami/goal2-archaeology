@@ -650,60 +650,59 @@ void f_000E_54F0(int param_1,int param_2)
 {
   int iVar1;
   word wVar2;
-  int iVar3;
+  char cVar3;
   char cVar4;
-  char cVar5;
-  undefined1 uVar6;
-  uint uVar7;
+  undefined1 uVar5;
+  uint uVar6;
+  player *ppVar7;
   player *ppVar8;
-  player *ppVar9;
+  undefined2 uVar9;
   undefined2 uVar10;
-  undefined2 uVar11;
   undefined2 unaff_SS;
   uint local_6;
   uint local_4;
   
   iVar1 = *(int *)(param_1 + -9);
-  uVar10 = (undefined2)((ulong)players >> 0x10);
-  ppVar8 = (player *)players;
-  make_player(1,ppVar8[param_2].club_position,*(undefined2 *)(param_1 + 4),
+  uVar9 = (undefined2)((ulong)players >> 0x10);
+  ppVar7 = (player *)players;
+  make_player(1,ppVar7[param_2].club_position,*(undefined2 *)(param_1 + 4),
               *(undefined2 *)(param_1 + -9));
+  cVar3 = u214b_random_1_to_n(6);
   cVar4 = u214b_random_1_to_n(6);
-  cVar5 = u214b_random_1_to_n(6);
-  ppVar8[iVar1].age = (*(char *)((ppVar8[iVar1].club_position == 0) + 0x78) + cVar5) - cVar4;
+  ppVar7[iVar1].age = (*(char *)((ppVar7[iVar1].club_position == 0) + 0x78) + cVar4) - cVar3;
   compute_ability(*(undefined2 *)(param_1 + -9));
-  ppVar8[iVar1].caps = 0;
-  ppVar8[iVar1].goals = 0;
-  ppVar8[iVar1].status = 0;
-  uVar6 = f_1771_0000();
-  *(undefined1 *)((int)DS:9B70 + *(int *)(param_1 + -9)) = uVar6;
+  ppVar7[iVar1].caps = 0;
+  ppVar7[iVar1].goals = 0;
+  ppVar7[iVar1].status = 0;
+  uVar5 = f_1771_0000();
+  *(undefined1 *)((int)DS:9B70 + *(int *)(param_1 + -9)) = uVar5;
   local_4 = 0;
   local_6 = 1;
   while( true ) {
     wVar2 = ((country *)countries)[*(int *)(param_1 + 4)].squad[local_6 + -1];
-    uVar11 = (undefined2)((ulong)players >> 0x10);
-    ppVar9 = (player *)players;
-    if ((uint)ppVar9[wVar2].age < *(byte *)((ppVar9[wVar2].club_position == 0) + 0x76) + 4) {
+    uVar10 = (undefined2)((ulong)players >> 0x10);
+    ppVar8 = (player *)players;
+    if ((uint)ppVar8[wVar2].age < *(byte *)((ppVar8[wVar2].club_position == 0) + 0x76) + 4) {
       local_4 = local_4 + 1;
     }
     if (local_6 == 0x14) break;
     local_6 = local_6 + 1;
   }
-  uVar7 = *(int *)(*(int *)(param_1 + -7) * 2 + 0x6d18) + 0x4f;
-  local_6 = *(uint *)(*(int *)(param_1 + -7) * 2 + 0x6d18);
-  if (local_6 <= uVar7) {
+  uVar6 = ((word *)pool_base_table)[*(int *)(param_1 + -7)] + 0x4f;
+  local_6 = ((word *)pool_base_table)[*(int *)(param_1 + -7)];
+  if (local_6 <= uVar6) {
     while( true ) {
-      iVar3 = *(int *)((int)DS:A927 + local_6 * 2);
-      if ((uint)ppVar9[iVar3].age < *(byte *)((ppVar9[iVar3].club_position == 0) + 0x76) + 4) {
+      if ((uint)ppVar8[((word *)pool_indices)[local_6]].age <
+          *(byte *)((ppVar8[((word *)pool_indices)[local_6]].club_position == 0) + 0x76) + 4) {
         local_4 = local_4 + 1;
       }
-      if (local_6 == uVar7) break;
+      if (local_6 == uVar6) break;
       local_6 = local_6 + 1;
     }
   }
   if (local_4 < 0x14) {
-    cVar4 = u214b_random_1_to_n(3);
-    ppVar8[iVar1].age = *(char *)((ppVar8[iVar1].club_position == 0) + 0x76) + cVar4;
+    cVar3 = u214b_random_1_to_n(3);
+    ppVar7[iVar1].age = *(char *)((ppVar7[iVar1].club_position == 0) + 0x76) + cVar3;
     compute_ability(*(undefined2 *)(param_1 + -9));
   }
   return;
@@ -734,8 +733,7 @@ void f_000E_56F3(int param_1,char param_2,int param_3)
          *(word *)(param_1 + -9);
   }
   else {
-    *(undefined2 *)((int)DS:A927 + *(int *)(param_1 + -3) * 2) = *(undefined2 *)(param_1 + -9)
-    ;
+    ((word *)pool_indices)[*(int *)(param_1 + -3)] = *(word *)(param_1 + -9);
   }
   f_000E_54F0(param_1,param_3);
   u214b_fill_bytes(0,0x14,(player *)players + param_3,(int)((ulong)players >> 0x10));
@@ -752,60 +750,61 @@ void f_000E_56F3(int param_1,char param_2,int param_3)
 undefined1 f_000E_57E5(int param_1)
 
 {
-  char cVar1;
-  int iVar2;
+  word wVar1;
+  char cVar2;
   int iVar3;
-  uint uVar4;
-  byte bVar5;
-  country *pcVar6;
-  undefined2 uVar7;
+  int iVar4;
+  uint uVar5;
+  byte bVar6;
+  country *pcVar7;
   undefined2 uVar8;
+  undefined2 uVar9;
   uint local_5;
   
-  uVar7 = (undefined2)((ulong)countries >> 0x10);
-  pcVar6 = (country *)countries;
-  uVar8 = (undefined2)((ulong)DS:A923 >> 0x10);
-  iVar3 = (int)DS:A923;
-  if ((*(int *)(iVar3 + 0x38) != 0) &&
-     (*(char *)(iVar3 + (uint)pcVar6[param_1].manager + -0x33) == '\0')) {
-    iVar2 = pcVar6[param_1].manager - 0x80;
-    if ((*(char *)(iVar3 + iVar2 + 0x13) == '\0') && (cVar1 = f_0791_DB38(param_1), cVar1 == '\0'))
+  uVar8 = (undefined2)((ulong)countries >> 0x10);
+  pcVar7 = (country *)countries;
+  uVar9 = (undefined2)((ulong)DS:A923 >> 0x10);
+  iVar4 = (int)DS:A923;
+  if ((*(int *)(iVar4 + 0x38) != 0) &&
+     (*(char *)(iVar4 + (uint)pcVar7[param_1].manager + -0x33) == '\0')) {
+    iVar3 = pcVar7[param_1].manager - 0x80;
+    if ((*(char *)(iVar4 + iVar3 + 0x13) == '\0') && (cVar2 = f_0791_DB38(param_1), cVar2 == '\0'))
     {
       local_5 = 1;
       while( true ) {
-        cVar1 = f_1771_7F40(pcVar6[param_1].squad[local_5 + -1]);
-        if (cVar1 != '\0') {
+        cVar2 = f_1771_7F40(pcVar7[param_1].squad[local_5 + -1]);
+        if (cVar2 != '\0') {
           f_000E_56F3(&stack0xfffe,CONCAT11((char)(local_5 * 2 >> 8),1),
-                      pcVar6[param_1].squad[local_5 + -1]);
+                      pcVar7[param_1].squad[local_5 + -1]);
           return 1;
         }
         if (local_5 == 0x14) break;
         local_5 = local_5 + 1;
       }
     }
-    iVar3 = u214b_random_1_to_n(0x50);
-    uVar4 = *(int *)(iVar2 * 2 + 0x6d18) + -1 + iVar3;
-    local_5 = uVar4;
+    iVar4 = u214b_random_1_to_n(0x50);
+    uVar5 = (((word *)pool_base_table)[iVar3] - 1) + iVar4;
+    local_5 = uVar5;
     do {
-      cVar1 = f_1771_7F40(*(undefined2 *)((int)DS:A927 + local_5 * 2));
-      if (cVar1 != '\0') {
-        uVar7 = (undefined2)((ulong)DS:A927 >> 0x10);
-        iVar3 = *(int *)((int)DS:A927 + local_5 * 2);
-        bVar5 = (byte)((uint)(iVar3 * 0x14) >> 8);
-        if (((player *)players)[iVar3].caps == 0) {
-          iVar3 = (uint)bVar5 << 8;
+      cVar2 = f_1771_7F40(((word *)pool_indices)[local_5]);
+      if (cVar2 != '\0') {
+        uVar8 = (undefined2)((ulong)pool_indices >> 0x10);
+        wVar1 = ((word *)pool_indices)[local_5];
+        bVar6 = (byte)(wVar1 * 0x14 >> 8);
+        if (((player *)players)[wVar1].caps == 0) {
+          iVar4 = (uint)bVar6 << 8;
         }
         else {
-          iVar3 = CONCAT11(bVar5,1);
+          iVar4 = CONCAT11(bVar6,1);
         }
-        f_000E_56F3(&stack0xfffe,iVar3,*(undefined2 *)((int)DS:A927 + local_5 * 2));
+        f_000E_56F3(&stack0xfffe,iVar4,((word *)pool_indices)[local_5]);
         return 1;
       }
       local_5 = local_5 + 1;
-      if (*(int *)(iVar2 * 2 + 0x6d18) + 0x4fU < local_5) {
-        local_5 = *(uint *)(iVar2 * 2 + 0x6d18);
+      if (((word *)pool_base_table)[iVar3] + 0x4f < local_5) {
+        local_5 = ((word *)pool_base_table)[iVar3];
       }
-    } while (local_5 != uVar4);
+    } while (local_5 != uVar5);
   }
   return 0;
 }

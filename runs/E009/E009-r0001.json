@@ -1,0 +1,787 @@
+{
+ "schema": "run/1",
+ "run_id": "E009-r0001",
+ "experiment": "E009",
+ "arm": "pool-screen",
+ "rep": 1,
+ "code_commit": "a1c3651",
+ "machine": "ubuntu-24-04-wsl2",
+ "artifact": {
+  "set": "goal2-67cf27d6",
+  "variant": null
+ },
+ "runtime": {
+  "driver": "runtime/driver/driver.py@a1c3651",
+  "platform": "python-3.12.3/ubuntu-24-04-wsl2",
+  "fingerprint": {
+   "dosbox-x": "2024.03.01 SDL2",
+   "xvfb": "2:21.1.12-1ubuntu1.8",
+   "xdotool": "xdotool version 3.20160805.1",
+   "python": "3.12.3",
+   "kernel": "6.18.40.1-microsoft-standard-WSL2",
+   "config_sha256": "083897d321ed9fe50ca93bbf03ff45765c03c0f2a6e5e5df57aede499ebdc147",
+   "machine": "svga_s3",
+   "memsize": "16",
+   "cycles": "30000",
+   "core": "auto",
+   "cputype": "auto"
+  }
+ },
+ "interventions": [
+  {
+   "level": "I1",
+   "what": "text screen and GOAL.EXE data-segment memory (the pool index array at [DS:A927], the base table DS:6D18, the player array at [DS:A91B], the name arrays at [DS:9B6C] and [DS:9B70]) read from DOSBox-X savestates (Host+S; components Vga and Memory)"
+  },
+  {
+   "level": "I2",
+   "what": "a savestate is written at each read, and one is loaded (Host+L) at the start (vocabulary/interventions.md lists save and load of state as I2)"
+  }
+ ],
+ "start_state": {
+  "id": "e006-1000-r0001",
+  "sha256": "e0afff6751747233f6ab8b9ba73dab0790b7509f15257ed7ae24f528b935657d",
+  "restore": "fresh DOSBox-X process (config sha256 083897d321ed9fe50ca93bbf03ff45765c03c0f2a6e5e5df57aede499ebdc147), game folder recreated from the verified release copy, GOAL run to its title screen; key n to change the screen; then Host+L loads the savestate whose sha256 is given (E006's main-screen state of a new game made at DOS time 10:00 on 10/04/2026, release E006, e006-1000-r0001.sav; screen digest 18190236ee20f9eb0573e82714034e41226a92a62efb4c119d8648e06a9a1b67); polled until the screen digest equals the one stored with it; DOS clock of this session not set (the restore brings the state's own BIOS ticks, F004)"
+ },
+ "seed": null,
+ "actions": {
+  "script": "experiments/E009-q007-squad-pool/run.py",
+  "sha256": "fbb5ba05ca5f748541f36b9d5ce4503bfa1954f12593e31ece108aa6ae78bc2b",
+  "args": [
+   "pool",
+   "--state",
+   "e006-1000-r0001",
+   "--batch",
+   "b1"
+  ]
+ },
+ "observations": [
+  {
+   "step": 0,
+   "source": "log",
+   "field": "host UTC time at launch",
+   "value": "2026-10-05T18:28:36.708Z"
+  },
+  {
+   "step": 0,
+   "source": "log",
+   "field": "host local time at launch, with UTC offset, and zone name",
+   "value": "2026-10-05T20:28:36.708+02:00 CEST"
+  },
+  {
+   "step": 0,
+   "source": "log",
+   "field": "start state restored (the country-list screen): host UTC time just before the savestate was requested",
+   "value": "2026-10-05T18:28:37.976Z"
+  },
+  {
+   "step": 0,
+   "source": "log",
+   "field": "start state restored (the country-list screen): host local time with UTC offset, and zone name, at the same instant",
+   "value": "2026-10-05T20:28:37.976+02:00 CEST"
+  },
+  {
+   "step": 0,
+   "source": "screen",
+   "field": "start state restored (the country-list screen): text screen 80x25, chars+attributes (4000 bytes), sha256",
+   "value": "18190236ee20f9eb0573e82714034e41226a92a62efb4c119d8648e06a9a1b67"
+  },
+  {
+   "step": 0,
+   "source": "ui-text",
+   "field": "start state restored (the country-list screen): text screen rows 0-24, CP437 decoded, trailing blanks trimmed",
+   "value": " (c) NE'93│ │  ┌─────────────┐     Use ←→↑↓ to select             use INS to\n ┌─┐┌─┐┌─┐│ │  │  Check out  │                                   swap between\n │ ││ ││ ││ │  │   all the   │     Hit ◄┘ for fixtures             world and\n └─┤└─┘└─┤│ │  │ competitors │                                    continental\n───┘ v.2    │  └─────────────┘     Esc to exit                     rankings\n────────────┘\n┌team─────────────────────────────┬───────────────────tactics┐ ┌───────────────┐\n│Denmark-------- status major     ├──────────────team─tactics┤ │Denmark--------│\n├manager──────────────────────────┤defence─system──half pitch┤ │Germany--------│\n│B Ob            skill unknown    ├protection─sag back to box┤ │Holland--------│\n├ranking─now─top┬─────────────────┼offside──────────play safe┤ │Sweden---------│\n│World    29  29│formation  5-4-1 ├───────────player─defaults┤ │Scotland-------│\n│Europe    1   1│strips     ☻ ☻ ☻ │positioning───push forward┤ │France---------│\n├skills──────┬──┴─┬────┬────┬────┬┼possession──────quick pass┤ │England--------│\n├keeper──■■■■■■■■■■■■■■■■■■■■■■■■■┼passing───────short passes┤ │Russia---------│\n├defence─■■■■■■■■■■■■■■■■■■■■■■■■■┼tackling────────go in hard┤ │Yugoslavia-----│\n├midfield■■■■■■■■■■■■■■■■■■■■■■■■■┼marking─────────man to man┤ │Switzerland----│\n├attack──■■■■■■■■■■■■■■■■■■■■■■■■■┼───────────characteristics┤ │R.C.S----------│\n├performance─┼────┼────┼────┼────┼┤average─caps─0─────age─29─┤ │Wales----------│\n├keeper──■■■■■■■■■■■■■■■■■■■■■■■■■┼hardness──tough■■■■■■■■■■■┤ │Eire-----------│\n├defence─■■■■■■■■■■■■■■■■■■■■■■■■■┼fitness───very fit■■■■■■■■┤ │Portugal-------│\n├midfield■■■■■■■■■■■■■■■■■■■■■■■■■┼energy────energetic■■■■■■■┤ │Italy----------│\n├attack──■■■■■■■■■■■■■■■■■■■■■■■■■┼morale────not bad■■■■■■■■■┤ │Romania--------│\n└────────────┴────┴────┴────┴────┴┴──────────────┴────┴────┴─┘ └───────────────┘\nspacebar-players T-tactics"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x449",
+   "field": "start state restored (the country-list screen): 1 byte at 0040:0049 (BIOS video mode), guest memory from the savestate, hex",
+   "value": "03"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x46c",
+   "field": "start state restored (the country-list screen): 4 bytes at 0040:006C (BIOS timer tick count), guest memory from the savestate, as a little-endian dword (bytes in memory order)",
+   "value": "0x000a0123 (23 01 0a 00)"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x5d784",
+   "field": "start state restored (the country-list screen): DS:A927 (the pool index array, word[481]) as decimal words 0..480, guest memory from the savestate",
+   "value": "[0, 2564, 2617, 2628, 2562, 2561, 2563, 2629, 2618, 2566, 2565, 2567, 2568, 2630, 2620, 2571, 2570, 2569, 2619, 2572, 2621, 2575, 2574, 2573, 2576, 2631, 2622, 2637, 2579, 2580, 2577, 2578, 2632, 2584, 2638, 2583, 2581, 2623, 2582, 2587, 2588, 2586, 2585, 2590, 2591, 2624, 2639, 2589, 2592, 2595, 2596, 2640, 2594, 2625, 2593, 2626, 2599, 2600, 2597, 2598, 2603, 2604, 2602, 2633, 2601, 2605, 2606, 2608, 2607, 2611, 2612, 2634, 2609, 2610, 2614, 2615, 2616, 2613, 2627, 2635, 2636, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x34758",
+   "field": "start state restored (the country-list screen): DS:6D18..6D27 (the per-manager pool base table, 8 words) hex, guest memory from the savestate",
+   "value": "090d01005100a100f100410191010102"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x5add1",
+   "field": "start state restored (the country-list screen): the 20 bytes of player record 2561 at [DS:A91B] + 0x14 n, hex, guest memory from the same savestate",
+   "value": "071d20e2d3100000000000000f1d1d110000ff7f"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x5ade5",
+   "field": "start state restored (the country-list screen): the 20 bytes of player record 2562 at [DS:A91B] + 0x14 n, hex, guest memory from the same savestate",
+   "value": "071d20e2d30b000000000000102020110000ff7f"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x5adf9",
+   "field": "start state restored (the country-list screen): the 20 bytes of player record 2563 at [DS:A91B] + 0x14 n, hex, guest memory from the same savestate",
+   "value": "071f1ee3e3070000000000001d1c1c110000ff7f"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x5ae0d",
+   "field": "start state restored (the country-list screen): the 20 bytes of player record 2564 at [DS:A91B] + 0x14 n, hex, guest memory from the same savestate",
+   "value": "07241eddb3050000000000000c2020110000ff7f"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x5ae21",
+   "field": "start state restored (the country-list screen): the 20 bytes of player record 2565 at [DS:A91B] + 0x14 n, hex, guest memory from the same savestate",
+   "value": "071e1bdfdf0a010100000000042020110000ff7f"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x5ae35",
+   "field": "start state restored (the country-list screen): the 20 bytes of player record 2566 at [DS:A91B] + 0x14 n, hex, guest memory from the same savestate",
+   "value": "071e1bdddd030101000000000c1f1f910000ff7f"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x5ae49",
+   "field": "start state restored (the country-list screen): the 20 bytes of player record 2567 at [DS:A91B] + 0x14 n, hex, guest memory from the same savestate",
+   "value": "07221bdea601010100000000171d1d910000ff7f"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x5ae5d",
+   "field": "start state restored (the country-list screen): the 20 bytes of player record 2568 at [DS:A91B] + 0x14 n, hex, guest memory from the same savestate",
+   "value": "07221ae29b01010100000000032020910000ff7f"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x5ae71",
+   "field": "start state restored (the country-list screen): the 20 bytes of player record 2569 at [DS:A91B] + 0x14 n, hex, guest memory from the same savestate",
+   "value": "071e1be3e301020200000000142020b20000ff7f"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x5ae85",
+   "field": "start state restored (the country-list screen): the 20 bytes of player record 2570 at [DS:A91B] + 0x14 n, hex, guest memory from the same savestate",
+   "value": "07191de6c9050202000000001c1313320000ff7f"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x5ae99",
+   "field": "start state restored (the country-list screen): the 20 bytes of player record 2571 at [DS:A91B] + 0x14 n, hex, guest memory from the same savestate",
+   "value": "071d1be6e60f020200000000021a1a220000ff7f"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x5aead",
+   "field": "start state restored (the country-list screen): the 20 bytes of player record 2572 at [DS:A91B] + 0x14 n, hex, guest memory from the same savestate",
+   "value": "071a1ce3d40e020200000000092020220000ff7f"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x5aec1",
+   "field": "start state restored (the country-list screen): the 20 bytes of player record 2573 at [DS:A91B] + 0x14 n, hex, guest memory from the same savestate",
+   "value": "071e1ae0d2030303000000001a2020910000ff7f"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x5aed5",
+   "field": "start state restored (the country-list screen): the 20 bytes of player record 2574 at [DS:A91B] + 0x14 n, hex, guest memory from the same savestate",
+   "value": "07201be6c90b0303000000001f2020110000ff7f"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x5aee9",
+   "field": "start state restored (the country-list screen): the 20 bytes of player record 2575 at [DS:A91B] + 0x14 n, hex, guest memory from the same savestate",
+   "value": "071d1ae3e30a0303000000000b1919110000ff7f"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x5aefd",
+   "field": "start state restored (the country-list screen): the 20 bytes of player record 2576 at [DS:A91B] + 0x14 n, hex, guest memory from the same savestate",
+   "value": "071c1ae0e008030300000000032020110000ff7f"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x5af11",
+   "field": "start state restored (the country-list screen): the 20 bytes of player record 2577 at [DS:A91B] + 0x14 n, hex, guest memory from the same savestate",
+   "value": "07221ae29b05040400000000190f0f110000ff7f"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x5af25",
+   "field": "start state restored (the country-list screen): the 20 bytes of player record 2578 at [DS:A91B] + 0x14 n, hex, guest memory from the same savestate",
+   "value": "071d1ae3e304040400000000202020910000ff7f"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x5af39",
+   "field": "start state restored (the country-list screen): the 20 bytes of player record 2579 at [DS:A91B] + 0x14 n, hex, guest memory from the same savestate",
+   "value": "071b1ce0e00f040400000000092020110000ff7f"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x5af4d",
+   "field": "start state restored (the country-list screen): the 20 bytes of player record 2580 at [DS:A91B] + 0x14 n, hex, guest memory from the same savestate",
+   "value": "07191ce1d20f0404000000001d1b1b110000ff7f"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x5af61",
+   "field": "start state restored (the country-list screen): the 20 bytes of player record 2581 at [DS:A91B] + 0x14 n, hex, guest memory from the same savestate",
+   "value": "071f1ce2e20d0505000000001c2020000000ff7f"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x5af75",
+   "field": "start state restored (the country-list screen): the 20 bytes of player record 2582 at [DS:A91B] + 0x14 n, hex, guest memory from the same savestate",
+   "value": "071a1cddcf010505000000000e0a0a800000ff7f"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x5af89",
+   "field": "start state restored (the country-list screen): the 20 bytes of player record 2583 at [DS:A91B] + 0x14 n, hex, guest memory from the same savestate",
+   "value": "07181ddec20f0505000000001a2020000000ff7f"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x5af9d",
+   "field": "start state restored (the country-list screen): the 20 bytes of player record 2584 at [DS:A91B] + 0x14 n, hex, guest memory from the same savestate",
+   "value": "071d1de3e3070505000000000a2020000000ff7f"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x5afb1",
+   "field": "start state restored (the country-list screen): the 20 bytes of player record 2585 at [DS:A91B] + 0x14 n, hex, guest memory from the same savestate",
+   "value": "071b1cdede06060600000000142020000000ff7f"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x5afc5",
+   "field": "start state restored (the country-list screen): the 20 bytes of player record 2586 at [DS:A91B] + 0x14 n, hex, guest memory from the same savestate",
+   "value": "071a1cddcf09060600000000011010000000ff7f"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x5afd9",
+   "field": "start state restored (the country-list screen): the 20 bytes of player record 2587 at [DS:A91B] + 0x14 n, hex, guest memory from the same savestate",
+   "value": "071a1ce4d510060600000000061414000000ff7f"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x5afed",
+   "field": "start state restored (the country-list screen): the 20 bytes of player record 2588 at [DS:A91B] + 0x14 n, hex, guest memory from the same savestate",
+   "value": "07191adddd08060600000000092020000000ff7f"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x5b001",
+   "field": "start state restored (the country-list screen): the 20 bytes of player record 2589 at [DS:A91B] + 0x14 n, hex, guest memory from the same savestate",
+   "value": "071f1ae6c9100707000000001d2020000000ff7f"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x5b015",
+   "field": "start state restored (the country-list screen): the 20 bytes of player record 2590 at [DS:A91B] + 0x14 n, hex, guest memory from the same savestate",
+   "value": "071e1de1e1060707000000001a1c1c000000ff7f"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x5b029",
+   "field": "start state restored (the country-list screen): the 20 bytes of player record 2591 at [DS:A91B] + 0x14 n, hex, guest memory from the same savestate",
+   "value": "071b1be2e20b0707000000001a2020000000ff7f"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x5b03d",
+   "field": "start state restored (the country-list screen): the 20 bytes of player record 2592 at [DS:A91B] + 0x14 n, hex, guest memory from the same savestate",
+   "value": "071a1be4e4100707000000001d2020000000ff7f"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x5b051",
+   "field": "start state restored (the country-list screen): the 20 bytes of player record 2593 at [DS:A91B] + 0x14 n, hex, guest memory from the same savestate",
+   "value": "071a19dfdf0e080800000000182020000000ff7f"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x5b065",
+   "field": "start state restored (the country-list screen): the 20 bytes of player record 2594 at [DS:A91B] + 0x14 n, hex, guest memory from the same savestate",
+   "value": "071c19e2e207080800000000021010000000ff7f"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x5b079",
+   "field": "start state restored (the country-list screen): the 20 bytes of player record 2595 at [DS:A91B] + 0x14 n, hex, guest memory from the same savestate",
+   "value": "071c1de6e60d0808000000000d1919000000ff7f"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x5b08d",
+   "field": "start state restored (the country-list screen): the 20 bytes of player record 2596 at [DS:A91B] + 0x14 n, hex, guest memory from the same savestate",
+   "value": "071e1be3e30e080800000000131919000000ff7f"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x5b0a1",
+   "field": "start state restored (the country-list screen): the 20 bytes of player record 2597 at [DS:A91B] + 0x14 n, hex, guest memory from the same savestate",
+   "value": "071f1bdfd107090900000000112020000000ff7f"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x5b0b5",
+   "field": "start state restored (the country-list screen): the 20 bytes of player record 2598 at [DS:A91B] + 0x14 n, hex, guest memory from the same savestate",
+   "value": "071b1ae2e20e0909000000000a2020000000ff7f"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x5b0c9",
+   "field": "start state restored (the country-list screen): the 20 bytes of player record 2599 at [DS:A91B] + 0x14 n, hex, guest memory from the same savestate",
+   "value": "071e1be4e4070909000000001e2020000000ff7f"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x5b0dd",
+   "field": "start state restored (the country-list screen): the 20 bytes of player record 2600 at [DS:A91B] + 0x14 n, hex, guest memory from the same savestate",
+   "value": "071f1bded006090900000000201919000000ff7f"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x5b0f1",
+   "field": "start state restored (the country-list screen): the 20 bytes of player record 2601 at [DS:A91B] + 0x14 n, hex, guest memory from the same savestate",
+   "value": "071d1ce3e3070a0a00000000191a1a000000ff7f"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x5b105",
+   "field": "start state restored (the country-list screen): the 20 bytes of player record 2602 at [DS:A91B] + 0x14 n, hex, guest memory from the same savestate",
+   "value": "071f1ae1c4100a0a00000000082020000000ff7f"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x5b119",
+   "field": "start state restored (the country-list screen): the 20 bytes of player record 2603 at [DS:A91B] + 0x14 n, hex, guest memory from the same savestate",
+   "value": "07201ce5d60f0a0a00000000131d1d000000ff7f"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x5b12d",
+   "field": "start state restored (the country-list screen): the 20 bytes of player record 2604 at [DS:A91B] + 0x14 n, hex, guest memory from the same savestate",
+   "value": "07181ce3c6100a0a000000001f1818000000ff7f"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x5b141",
+   "field": "start state restored (the country-list screen): the 20 bytes of player record 2605 at [DS:A91B] + 0x14 n, hex, guest memory from the same savestate",
+   "value": "071f1ce0e00c0b0b000000000c1d1d000000ff7f"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x5b155",
+   "field": "start state restored (the country-list screen): the 20 bytes of player record 2606 at [DS:A91B] + 0x14 n, hex, guest memory from the same savestate",
+   "value": "071a1ce6d7090b0b000000001f2020000000ff7f"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x5b169",
+   "field": "start state restored (the country-list screen): the 20 bytes of player record 2607 at [DS:A91B] + 0x14 n, hex, guest memory from the same savestate",
+   "value": "071c1ae3e30e0b0b000000001a0b0b000000ff7f"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x5b17d",
+   "field": "start state restored (the country-list screen): the 20 bytes of player record 2608 at [DS:A91B] + 0x14 n, hex, guest memory from the same savestate",
+   "value": "07181cdfc30a0b0b00000000161a1a000000ff7f"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x5b191",
+   "field": "start state restored (the country-list screen): the 20 bytes of player record 2609 at [DS:A91B] + 0x14 n, hex, guest memory from the same savestate",
+   "value": "07191ae1e10b0c0c000000000c0606000000ff7f"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x5b1a5",
+   "field": "start state restored (the country-list screen): the 20 bytes of player record 2610 at [DS:A91B] + 0x14 n, hex, guest memory from the same savestate",
+   "value": "071f1adfc3060c0c00000000171b1b000000ff7f"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x5b1b9",
+   "field": "start state restored (the country-list screen): the 20 bytes of player record 2611 at [DS:A91B] + 0x14 n, hex, guest memory from the same savestate",
+   "value": "071a19e1e1010c0c000000000b0e0e800000ff7f"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x5b1cd",
+   "field": "start state restored (the country-list screen): the 20 bytes of player record 2612 at [DS:A91B] + 0x14 n, hex, guest memory from the same savestate",
+   "value": "071e1ae2d3020c0c00000000112020800000ff7f"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x5b1e1",
+   "field": "start state restored (the country-list screen): the 20 bytes of player record 2613 at [DS:A91B] + 0x14 n, hex, guest memory from the same savestate",
+   "value": "071f1adec20a0d0d00000000020303000000ff7f"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x5b1f5",
+   "field": "start state restored (the country-list screen): the 20 bytes of player record 2614 at [DS:A91B] + 0x14 n, hex, guest memory from the same savestate",
+   "value": "07191ae4e40a0d0d00000000201818000000ff7f"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x5b209",
+   "field": "start state restored (the country-list screen): the 20 bytes of player record 2615 at [DS:A91B] + 0x14 n, hex, guest memory from the same savestate",
+   "value": "07201addb30a0d0d00000000020e0e000000ff7f"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x5b21d",
+   "field": "start state restored (the country-list screen): the 20 bytes of player record 2616 at [DS:A91B] + 0x14 n, hex, guest memory from the same savestate",
+   "value": "071a1ddfd10e0d0d00000000041818000000ff7f"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x5b231",
+   "field": "start state restored (the country-list screen): the 20 bytes of player record 2617 at [DS:A91B] + 0x14 n, hex, guest memory from the same savestate",
+   "value": "07161edfa704000000000000032020910000ff7f"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x5b245",
+   "field": "start state restored (the country-list screen): the 20 bytes of player record 2618 at [DS:A91B] + 0x14 n, hex, guest memory from the same savestate",
+   "value": "07121de19a0f010100000000132020110000ff7f"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x5b259",
+   "field": "start state restored (the country-list screen): the 20 bytes of player record 2619 at [DS:A91B] + 0x14 n, hex, guest memory from the same savestate",
+   "value": "07131ae1b605020200000000010c0c320000ff7f"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x5b26d",
+   "field": "start state restored (the country-list screen): the 20 bytes of player record 2620 at [DS:A91B] + 0x14 n, hex, guest memory from the same savestate",
+   "value": "07141ae4b906020200000000122020320000ff7f"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x5b281",
+   "field": "start state restored (the country-list screen): the 20 bytes of player record 2621 at [DS:A91B] + 0x14 n, hex, guest memory from the same savestate",
+   "value": "07121ae5ab0c0303000000000c2020110000ff7f"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x5b295",
+   "field": "start state restored (the country-list screen): the 20 bytes of player record 2622 at [DS:A91B] + 0x14 n, hex, guest memory from the same savestate",
+   "value": "07121be1a808040400000000082020110000ff7f"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x5b2a9",
+   "field": "start state restored (the country-list screen): the 20 bytes of player record 2623 at [DS:A91B] + 0x14 n, hex, guest memory from the same savestate",
+   "value": "07131de39c06050500000000081414000000ff7f"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x5b2bd",
+   "field": "start state restored (the country-list screen): the 20 bytes of player record 2624 at [DS:A91B] + 0x14 n, hex, guest memory from the same savestate",
+   "value": "07141bdeb40c0707000000000c1e1e000000ff7f"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x5b2d1",
+   "field": "start state restored (the country-list screen): the 20 bytes of player record 2625 at [DS:A91B] + 0x14 n, hex, guest memory from the same savestate",
+   "value": "07141de3aa02080800000000030e0e800000ff7f"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x5b2e5",
+   "field": "start state restored (the country-list screen): the 20 bytes of player record 2626 at [DS:A91B] + 0x14 n, hex, guest memory from the same savestate",
+   "value": "07141de5ab0c090900000000202020000000ff7f"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x5b2f9",
+   "field": "start state restored (the country-list screen): the 20 bytes of player record 2627 at [DS:A91B] + 0x14 n, hex, guest memory from the same savestate",
+   "value": "07131ce0a8050d0d00000000101c1c000000ff7f"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x5b30d",
+   "field": "start state restored (the country-list screen): the 20 bytes of player record 2628 at [DS:A91B] + 0x14 n, hex, guest memory from the same savestate",
+   "value": "07161ee4ab070000000000000c2020110000ff7f"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x5b321",
+   "field": "start state restored (the country-list screen): the 20 bytes of player record 2629 at [DS:A91B] + 0x14 n, hex, guest memory from the same savestate",
+   "value": "07141addb3070101000000000c1b1b110000ff7f"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x5b335",
+   "field": "start state restored (the country-list screen): the 20 bytes of player record 2630 at [DS:A91B] + 0x14 n, hex, guest memory from the same savestate",
+   "value": "07131bdda50e020200000000201313220000ff7f"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x5b349",
+   "field": "start state restored (the country-list screen): the 20 bytes of player record 2631 at [DS:A91B] + 0x14 n, hex, guest memory from the same savestate",
+   "value": "07121de59d040303000000001c2020910000ff7f"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x5b35d",
+   "field": "start state restored (the country-list screen): the 20 bytes of player record 2632 at [DS:A91B] + 0x14 n, hex, guest memory from the same savestate",
+   "value": "07141be4b909050500000000141d1d000000ff7f"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x5b371",
+   "field": "start state restored (the country-list screen): the 20 bytes of player record 2633 at [DS:A91B] + 0x14 n, hex, guest memory from the same savestate",
+   "value": "07121ae1a80d0a0a000000000c0f0f000000ff7f"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x5b385",
+   "field": "start state restored (the country-list screen): the 20 bytes of player record 2634 at [DS:A91B] + 0x14 n, hex, guest memory from the same savestate",
+   "value": "07121ae2a9100c0c000000000a2020000000ff7f"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x5b399",
+   "field": "start state restored (the country-list screen): the 20 bytes of player record 2635 at [DS:A91B] + 0x14 n, hex, guest memory from the same savestate",
+   "value": "07121be1a8060d0d00000000101010000000ff7f"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x5b3ad",
+   "field": "start state restored (the country-list screen): the 20 bytes of player record 2636 at [DS:A91B] + 0x14 n, hex, guest memory from the same savestate",
+   "value": "07131de49c040d0d000000000a2020000000ff7f"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x5b3c1",
+   "field": "start state restored (the country-list screen): the 20 bytes of player record 2637 at [DS:A91B] + 0x14 n, hex, guest memory from the same savestate",
+   "value": "07221bdfa708040400000000052020110000ff7f"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x5b3d5",
+   "field": "start state restored (the country-list screen): the 20 bytes of player record 2638 at [DS:A91B] + 0x14 n, hex, guest memory from the same savestate",
+   "value": "071b19e5e50a0505000000000f1e1e000000ff7f"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x5b3e9",
+   "field": "start state restored (the country-list screen): the 20 bytes of player record 2639 at [DS:A91B] + 0x14 n, hex, guest memory from the same savestate",
+   "value": "071a1bdddd0e0707000000001c2020000000ff7f"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x5b3fd",
+   "field": "start state restored (the country-list screen): the 20 bytes of player record 2640 at [DS:A91B] + 0x14 n, hex, guest memory from the same savestate",
+   "value": "071c1cdfdf07080800000000160808000000ff7f"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x5b411",
+   "field": "start state restored (the country-list screen): the 20 bytes of player record 2641 (just past the pool), hex, guest memory from the same savestate",
+   "value": "0000000000000000000000000000000000000000"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x5b425",
+   "field": "start state restored (the country-list screen): the 20 bytes of player record 2642 (just past the pool), hex, guest memory from the same savestate",
+   "value": "0000000000000000000000000000000000000000"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x3eea0",
+   "field": "start state restored (the country-list screen): the 0x8387 bytes of surnames at [DS:9B6C], hex, guest memory from the same savestate",
+   "value": "0000000000000000000000054d7573746100000000000443697069000000000000075a6d696a616e69000000045461686f000000000000064f63656c6c6900000000054665726b6f0000000000054f6d7572690000000000044a6f73610000000000000944656d6f6c6c61726900055a69616a690000000000044b6f6c61000000000000084e616c6c62616e6900000456617461000000000000084c656b62656c6c6f0000044d75636100000000000006476a65726769000000000444756d650000000000000543616e616a00000000000654616869726900000000044b65706100000000000009576f686c666168727467045a73616b6572000000000853747265697465726c000857617a696e67657200000653746f676572657200000442617572720000000000064172746e6572000000000850726f73656e696b7200064865727a6f67000000000a4665697273696e6765720a5066276e626572676572064b6f6e73656c62657267045065636c6e61676c0000095363686f657474656c000a416e746f6e6974736368074d61686c6963686e65720a486173656e687574746c054f67726973720000000007506f6c7374657265726705526f64617800000000000a507265756427686f6d6d06416c6265727400000000044772756e74657273000006536d6964747300000000064d65647665646600000006456d6d657273656c000008537461656c656e7300000a562044657220456c737405536369666f000000000007446567727973650000000a437a276174796e736b69055066616666000000000008436c7973746572730000064465204d6f6c000000000a562052656e73627572670a56616e64656e6265726706446f7577656e0000000007436c6165736f6e000000094365756c656d616e73000757696c6d6f7473000000094d696b6861696c6f760009547a766574616e657600064976616e6f76000000000748756263686576760000065361646b6f760000000006506574726f760000000005496c69657600000000000659616e6b6f7600000000084b6172617368657600000a4b6f73746164696e6f760953746f6963686b6f76000756656c696e6f760000000554616e6576000000000007536972616b6f760000000742616c616b6f76000000055361646f76000000000008596f7264616e6f7600000a416c6578616e64726f760550656e65760000000000084d6c6164656e6f766100094368726973746f6669000a43277374616e74696e750a43277374616e74696e75074e69636f6c61756f74690450616e6975000000000008416e656472656f75000006506974746173726961730a43686172616c27626f7306436f737461737500000007536f746572696e73000006496f616e6e7575000000094f6e697369666f727500055361767661746f666900084c656d6573696f7300000853746967656e6973000009536f637261746f757300064d6973736f73000000000a4861747a696c756b6173095027766173696c69757306536f7469727573000000085374656a736b616c00000843686f76616e65630000064b61646c65630000000006476c6f6e656300000000044b756c616b000000000005486170656c0000000000054b756269636165630000074e656d6563656b000000084d6f72617663696b0000094b6e6f666c6963656b6b08536b7568726176796b000557656973730000000000064c75686f7679000000000753766f7261646100000005486173656b696b6f7661095a727562616b6f766100054e656d656300000000000842756461726f76610000084475626f76736b79000006566f6c6b6f76000000000a5363686d65696368656c054f6c73656e61656b00000850696563686e696b00000a4368726973746f66746508416e64657273656e000008536976656261656b00000756696c666f7274000000064c617273656e6f6e0000064a656e73656e74000000074c61756472757000000007506f766c73656e000000054b726f6768656e6e0000074e69656c73656e000000074e69656c73656e0000000a4b72697374656e73656e054d6f6c6279000000000005427275756e656761726407456c7374727570000000054672616e6b00000000000a4b72697374656e73656e06426f6e6e657200000000074f274c65617279000000074d63477261746879000008537461756e746f6e000005497277696e0000000000065768656c616e0000000008486f756768746f6e00000653686565647900000000054b65616e65746800000009436173636172696e6f0008416c647269646765000006506579746f6e000000000544616973686f6e000000064d6f7272697300000000065068656c616e686c696e08546f776e73656e6400000a4d63476f6c647269636b055175696e6e0000000000054279726e65000000000005436f796e656e00000000064d617274796e00000000054b656f776e730000000006577269676874000000000657616c6b6572000000000650656172636500000000054469786f6e00000000000650616c6d65720000000004576562626f69676e650005506c61747400000000000946657264696e616e6400065772696768747200000005576f6f6473000000000006446f7269676f00000000065061726b65720000000009476173636f69676e65000653746576656e00000000064261726e6573000000000544616c65796e000000000753686561726572000000064d6572736f6e6c6579000848757474756e656e6e0008486f6c6d6772656e0000084572696b73736f6e6e00094865696b6b656e656e000552696e6e6572656e000006506574616a6165726700054d79797279696e656e00084c69746d616e656e00000a506174656c61696e656e084a617276696e656e0000075461726b6b696f656e00094c61756b616e6e656e0008546f726e76616c6c0000074b616e657276610000000552656d657372656e730005486a656c6d000000000007556b6b6f6e656e0000000852616e746f6e656e0000095461757269616e656e000756616e68616c61000000074d617274696e6900000005426c616e636500000000064361736f6e690000000004426f6c6965737472650006447572616e640000000006416d6f726f73000000000953696c7665737472656505506572657a000000000007416e676c6f6d610000000743616e746f6e6100000005506170696e000000000007526f7573736574000000055065746974000000000006436f63617264000000000644697665727400000000094665726e616e64657a00094465736368616d70730005476172646575610000000756616869727561000000065361757a65650000000007496c6c676e65720000000442696e7a77616c640000084275636877616c640000064b6f686c6572616c657206427265686d65000000000652657574657200000000084d61747468657573000009456666656e62657267000848616573736c6572000006526965646c657573000007566f656c6c65726e6e00054b6f706b656e000000000648656c6d6572000000000946726f6e747a65636b0006536368756c7a6e0000000653616d6d6572000000000454686f6d6c6500000000064d6f6c6c65720000000004446f6c6c6c6572000000094b6c696e736d616e6e69095027646f70756c6f73000a506170616e6472656f750a4e69747369626f6e61730a4b616c69747a616b69730a41706f732774616b6973074d616e6f6c61736c69730a5473616c7568696469730a54757273756e696465730a547369616e74616b697308426f72626f6b697300000a442769747269616469730a43276e696f74616b69730a4b6f6c276964616b69730a4b6172616d616e6c69730a4b6172616769616e69730a536f66276f70756c6f73074b6f666964657300000009416c6176616e746173000a416c6578616e6472696105446f6e69736b697300000550657472796c00000000064d6172746f6e00000000064b6f7661637300000000074c6f72696e637a000000074c6970637365697572690644657461726900000000064b656c6c6572616e00000553696d6f6e0000000000054b6f7a6d610000000000074b697072696368000000064b6f76616373720000000a42726f636b682773657206446973747a6c000000000554656c656b0000000000044e616779657200000000054d6f6e6f7374000000000542616c6f677a6b7900000656696e637a650000000005496c6c6573000000000007466973636865720000000a4b72697374696e736f6e0756616c73736f6e000000084265726773736f6e0000094769736c6173736f6e000a4d61727465696e736f6e084a6f6e6173736f6e6e000a426a61726e6173736f6e0a4b72697374696e736f6e0a4775646a6f6e73736f6e09537665726973736f6e000a47726574617273736f6e0a53696775726473736f6e074f726d736c657600000009476574617273736f6e000a41726e74686f72736f6e0a4d616974686173736f6e09506174746173736f6e000a5365696766726569647309546f72666173736f6e6e0a4775646d616e73736f6e085061676c6975636100000642617265736969000000074d616c64696e690000000a436f7374616375727461094469204368696172610008546173736f747469690009416c62657274696e6900064572616e696f6f6c690008446f6e61646f6e696900065669616c6c696e690000075369676e6f72696c6500055a656e676175636100000a442041676f7374696e690a5669657263686f776f64075374726f7070610000000542657274696f6e690000084769616e6e696e6900000642616767696f616c6500074c656e74696e69736c6f09536368696c6c616369000a562052696a7377696a6b04576f6c66656e73000000064769727265730000000005426f73736974000000000742697273656e7300000005506574727900000000000457656973657300000000055468656973727300000005486f6c747a00000000000547726f66666e65000000074c616e67657273000000044e6967670000000000000853707269747a65720000054a6569747a0000000000084427486f6f67686500000647616e7365720000000008436f7572746f69730000064d616c676574000000000452756d6f000000000000084d6f726f63757474657206436c75657474000000000556656c6c61000000000008427568616769617269000547616c65610000000000074272696e63617400000009427574746967696567000653616c696261696c00000556656c6c616100000000074c616665726c6174000007477265676f7279696f0008427573757474696c00000443696e697474000000000943616d696c6c6572692009417a7a6f70617264696b065363657272697267696f054d697a7a690000000000065a65726166610000000008466172727567696100000843617261626f74740000064d696673756400000000065772696768740000000007466c656d696e6700000007546167676172740000000a57277468696e67746f6e084d63446f6e616c64000007446f6e61676879000000084d6167696c746f6e0000064475726e696e00000000064875676865736964650006436c61726b650000000005446f7769650000000000034b6565000000000000000844656e6e69736f6e0000064d6f72726f77000000000448696c6c00000000000005526f67616e746f6e00000657696c736f6e0000000005426c61636b0000000000064d6f72726f7774000000074f274e65696c6c0000000a5620427265756b6c656e064b6f656d616e726c65000956616e204165726c65000a562054696767656c656e07576f75746572736c6e6c08576974736368676500000852696a6b61617264670008426572676b616d70730003526f79737472610000000647756c6c6974610000000a56616e2042617374656e054d656e7a6f000000000007446520426f65726e6e0005426c696e646572000000044a6f6e6b6f6e6700000004426f737a0000000000000a56616e277420536869700657696e746572676500000a56616e20566f7373656e054b69656674616d7000000647726f6461737665647408506564657273656e00000442657267736574680000084c7964657273656e000009426a6f726e6562796500074d796b6c616e640000000a496e676562726973656e0a4c656f6e68617273656e0652656b64616c73727564084a616b6f6273656e656e08466a6f72746f667400000a54686f727374766564740842726174736574680000054d6f7264740000000000054769736b6500000000000548616c6c6500000000000a48656e6472696b73656e064e696c73656e00000000094865726c6f7673656e0007536f726c6f74686e0000095369647572637a756b0009536f637a796e736b6900054a65676f726172656b0008537472656a6c61750000085761727a79636861696308537a6577637a796b0000094a75736b6f7769616b630a536b727a7970637a616b0a437a6163686f77736b69065a696f62657277736b69074b6f7365636b690000000757616e647a696b756b000857646f77637a796b0000074b756269636b69000000084b6f63696e736b6900000a4a616b6f6c63657769630a4d617a6f776965636b690950616368656c736b690008537472656a6c61756b690a4a616b616e6f77736b69044261696100000000000005436f75746f6f000000000550696e746f746f0000000648656c646572000000000a52756920426172726f73064f6365616e6f72726f73064d656e646573000000000a5275692046696c6970650658617669657200000000054675747265000000000009527569204167756173000753696c76696e6f00000006416c62657274000000000856656e616e63696f0000044c65616c0000000000000656656c6f736f616f7573074620536f757361536f7505416e647265720000000008446f6d696e676f7373000643616465746500000000065374656c65610000000007506f7065736375000000084d756e7465616e7500000850657472657363750000064d6968616c69000000000450616e617475730000000642616c696e7400000000044861676963696f750000074c75706573637500000007526f7461726975000000074c616361747573000000065072756e65616573636f05496f76616e00000000000942656c6f6465646963000843616d61746172750000064d6174657574000000000653616e646f69000000000754696d6f667465750000055361626175650000000009526164756c657363750005476f72616d000000000005476f7567680000000000094d6350686572736f6e00064d616c706173656e6500084d634b696d6d69650000064d6343616c6c00000000064d635374617974000000074d63436c6169720000000a4d63416c6c6973746572054475726965736f6e0000074d63436f69737400000005536d697468616c6c0000074d634c6172656e6f6e0006497276696e650000000004426f7964617300000000084d63496e616c6c7900000744757272616e74000000054e6576696e00000000000947616c6c616368657200084665726775736f6e00000a5a7562697a61726574610753616e636869730000000547696e6572657a0000000a4c7569204d616e75656c064d696368656c00000000075661737175657a00000004546f6e6972746f00000007466f6e73656361000000064d616e6f6c6f000000000a4265677572697374616e0a42757472616775656e6f044275796f6e65646f000007416c636f72746100000008416e6472696e7561746106517569717565000000000648696572726f000000000856697a6361696e6f00000a476f69636f656368656109446f6d696e6775657a000956696c6c61726f79616e07526176656c6c6900000009416e64657273736f6e00074e696c73736f6e75726709426a6f726b6c756e6400084572696b73736f6e0000075363687761727a00000005546865726e0000000000064c696d7061720000000008496e676573736f6e00000642726f6c696e736f6e00064461686c696e736f6e00084572696b73736f6e0000074e696c73736f6e61726b0a45726c696e676d61726b054c6a756e670000000000045265686e000000000000074a616e73736f6e6f6e00074e696c73736f6e00000009416e64657273736f6e0007456b7374726f6d000000074272756e6e65720000000445676c69657200000000085363686570756c6c00000847616d7065726c650000064269636b656c00000000064765696765726e000000054f6872656c636b0000000a5069666661726574746906537574746572000000000a5475726b79696c6d617a094368617075697361740007506173636f6c6f000000074261726163636900000008486f7474696765720000074865726d616e6e0000000448657272000000000000064b6f6c6c657200000000084665686c6d616e6e000007446965746c696e000000044b6e75706d616e6e000005456e67696e0000000000055475676179000000000006476f6b68616e000000000642756c656e74000000000452697a616c0000000000044f67756e0000000000000548616b616e666100000004556e616c000000000000084d6f68616d6d65640000044f67757a0000000000000448616d696e00000000000948617972657474696e000559757375660000000000054b656d616c7400000000074d6972616c616d000000055265636570000000000005556c6b656e0000000000064d65686d6574000000000646657979617a00000000054d6574696e00000000000a43686572636865736f7607547376656962616f7676094b757a6e6574736f76000a436865726e6973686576085368616c696d6f76000009416c65696e696b6f76000a4d696b276368656e6b6f0a446f6227766f6c736b790a4b616e63656c736b6973084b697279616b6f766b00094b6f6c7976616e6f7600064b686172696e00000000064976616e6f76000000000a54736b68616461647a65094c656479616b686f7600064f6e6f706b6f65760000094b757a6e6574736f7673084b6f726e657965766973054c79757479766f69000005597572616e000000000008536f757468616c6c00000941697a6c65776f6f64000653796d6f6e73000000000553706565646e7300000005426f64696e7265000000084d656c76696c6c65000005486f726e656c6173000009426c61636b6d6f7265000950656d627269646765000648756768657300000000085361756e646572730000064e6f726d616e0000000009526174636c696666650005596f756e670000000000085068696c6c697073000005426f77656e6970730000084e6963686f6c6173000007526f62657274736f6400045275736873000000000005416c6c656e00000000000749766b6f7669630000000556756c6963000000000006537061736963000000000a4861647a6962656a6963054a6f7a69630000000000074a75676f7669630000000a4d6968616a6c6f766963074b6174616e65630000000953746f6a6b6f766963000650616e6365760000000005537573696300000000000a53746f6a616e6f766963054a61726e6900000000000a4976616e69736576696b0542696e696300000000000a50726f73696e65636b69084e616a646f736b61000009536176696365766963000a53616227647a6f7669630653746f736963000000000a4761746573776f72746809447269666669656c6400074a6f686e736f6e000000064f27546f6f6c0000000008537420436c61697200000846726564726963680000054d63436f7900000000000a57696c6c69616d736f6e0653616d75656c000000000957696c6b696e736f6e0007486164646f636b000000054d6172636800000000000746756e6572616c000000054372756d700000000000084265746a656d616e0000054a616d65730000000000094d7569726669656c640005436f6c6f6e00000000000853696d706b696e73000006426f776d616e00000000064c616e617269000000000a416c74616d6972616e6f07527567676572690000000842617375616c646f000008426973636f6e74690000075265646f6e646f000000054361676e616e65000000074c61746f72726500000007417374726164610000000647617263696100000000094261746973747574610009476f79636f63686561000756617a7175657a00000007456e7269717565000000065a617061746100000000064672616e636f0000000009526f6472696775657a000542656c6c6f00000000000843616e69676769610000074d6f68616d6564000000064461766965730000000006526f73636f77000000000656617567686e000000000643756c6d65720000000005486176656e000000000005456c776179000000000006436f6f706572000000000444616e6500000000000007476966666f72640000000542656e746f000000000008537461726c696e6700000542726f776e00000000000848616d696c746f6e00000642726973746f00000000054f6b6f79650000000000084c6f636b6861727400000641696b6d616e00000000064361727465720000000007446f6c656d616e0000000742726f776e6572000000084c61736361726973000006486172706572000000000744657065697a610000000a436f6472696e67746f6e0652797069656e000000000542796e65720000000000055269676773000000000005486f6262790000000000084c6576656c6c6973000007506f6c6c61726400000005476f65747a00000000000557656c63680000000000084d617474686577730000064261787465720000000009446f6e616c64736f6e0007536d65656e67650000000653706965727300000000044375707000000000000007456d616e75656c00000008566f6f72686565730000074261727261726f0000000753616c6469617300000009466572727566696e6f000552696d626100000000000a56616c6469766973656f0753616e6368657a00000005426f726a6100000000000a4574636865766572727906536f7275636f00000000064d6f6c696e6100000000064d6f72656e6f0000000006417261676f6e000000000652697665726f00000000074a6967756368690000000643616e65726100000000074d656472616e6f000000064d656c676172000000000843617374696c6c6f00000653756172657a000000000450656e6100000000000008546166666172656c000005476f6d657300000000000553696c76616f00000000054d6f7a657272000000000557696e636b0000000000064272616e636f000000000848656e72697175650000035261696f0000000000000656616c646972000000000642656265746f000000000652656e61746f00000000064361726c6f73000000000543657361720000000000074d617a696e686f00000008476f74746172646f0000064d617263696f000000000556616c646f6f00000000064d756c6c657200000000064361726563617570706907526f6d6172696f00000006466f72657374000000000a536127746f706f6c6f73074461736f7669636e00000653616d75656c65000000064d696c6c6572000000000659616c6c6f70000000000956616c656e74696e6500094c696d6e696174697300064f64696e676161640000074d6f62696c696f6f0000074361746c696666000000064f6e737461640000000008466c65746368657200000452697a696c6574680000064361727465720000000006486f6f706572000000000641756e6765726e00000008426572647573636f00000742756e627572796e0000084d69746368656c6c790006546f6c65646f0000000008457370696e6f7a610000074761727269646f000000064d61726761730000000006526f6d65726f000000000741726176656e61000000064f726d656e6f0000000004566572610000000000000750697a6172726f00000005527562696f0000000000085a616d6f72616e6f000006436f726e657a000000000756696c636865730000000641626172636100000000074675656e74657300000009436f6e747265726173000559616e657a0000000000054573746179000000000005426173617900000000000456656761000000000000074869677569746100000005506572657a6172000000064d6f72656e6f646f2000074573636f626172000000074d656e646f7a61506572055065726561616e6900000a56616c64657272616d610652696e636f6e0000000008477565727265726f000005526564696e6e000000000856616c656e6369616e6f0956696c6c617261676100084d617274696e657a0000064f736172696f000000000850696d656e74656c0000074573747261646f0000000743616272657261000000074967756172616e00000007416c766172657a000000084465204176696c61000007486964616c676f00000008476f6e7a616c657a0000054265727279726f000000084d61726368656e610000054d796572736c657a0000074d6f6e7465726f000000074775746872696569610008436f726f6e61646f000005476f6d657a0000000000074775696c6c656e000000044469617a0000000000000942617272616e746573000753616c617a61720000000857616e63686f7065000006466c6f72657300000000054e6965746f000000000006416e67756c6f000000000956656c617a7175657a0004526f77657273000000000841726775656465730000075265696e6f736f0000000641636f73746100000000074d6f72616c657300000007447572616e657a00000006506172646f6e00000000074361726d656c6f000000084420546f727265737272054d6f6e746900000000000653756172657a0000000007566172616c6c6f0000000753746162696c650000000646696c6c6f6c00000000064f6c6775696e00000000064d6f72656e6f0000000006486162616e61000000000656656461746f000000000643617374726f000000000752616d6f6e657a00000007416c62656e697a00000006426f756c657a000000000843616d696e65726f0000064d6f6a696361000000000647617263696100000000064d61726e6f6c757800000a4465204c61204372757a0753616e74616e616f0000054469707265676f00000008546962757263696f000009526f6472696775657a000643616272616c0000000006437565766173730000000546616f6c610000000000064c617272656100000000065361726f6265000000000741747465726579000000074d617468696575000000054461646a6f000000000008416c617373616e650000054d616e6f610000000000074176656c696e6f00000008456e72697175657a0000074361707572726f000000085175696e6f6e657a000008477565727265726f0000094d6f6e74616e65726f0003526f6e000000000000000843617263656c656e0000064d61636961730000000005427261766f0000000000054d756e6f7a000000000008557175696c6c617300000752616d6972657a0000000754656e6f72696f000000064775616d616e0000000006526976657261000000000742757262616e6f000000054761726179000000000008416775696e616761000007426174696f6a61000000064176696c657300000000064761726369610000000009547269677565726f7300054d6179656e64617a00000641627265676f6e6100000743617263616d6f6f73000745737472616461000000075661737175657a6f7a0005426f726a616261720000044c617a6f726f616c00000a4369656e667565676f7306436f72656173000000000652697665726100000000054d6f72616e6c6f000000064f736f72696f72000000084f72656c6c616e610000065269766572617a000000075661737175657a00000005556c6c6f61730000000008476f6e7a616c657a00000850616c6163696f7300000a5374616e69736c617573084d69746368656c6c0000075068696c6c697000000007416d62726f736500000004506f70650000000000000656696265727400000000044c6f756d00000000000004526963680000000000000645726c616e67000000000650616c6d65720000000005466f727365000000000005536579657200000000000541736b6961000000000007426172617474650000000444796b65000000000000064e6f726d616e000000000847617264696e6572000007537472616b65720000000843616c656e646572000007446f75676c617300000005436875676161000000000642617472657363656e6f064d6f6e7a6f6e6f000000064d6163686f6e65676f7306446976616c61726173000853616c676575726f0000054769726f6e0000000000084d617274696e657a0000065661726761730000000009576573747068616c6c0005506572657a0000000000084368656472616e6900000843616e746f72616c000007536567756e646f000000054e6976656c0000000000044c656f6e6573000000000943617374656e656461000545766f72610000000000055370656c6c0000000000064d656e64657a0000000005486f797465000000000006426f69676e65000000000448616e69000000000000054b6c617373000000000005477265656e0000000000084772696666697468000008526f62696e736f6e00000653616d736f6e000000000642657274696e00000000084c617772656e63650000064d657263657200000000094368616e74616c6c650006427265657374000000000548656174680000000000064d617274696e00000000054661757265000000000009426561756368616d700007426f6e6e61726400000008566f6c746169726500000752616d626561750000000843656c657374696e0000094368616d7061676e65000642657274696e0000000008426561756c69657500000650696572726500000000065072696e6365000000000653796c76696f0000000006436f6e646f6d0000000007436f6374656175000000045a6f6c610000000000000543616d7573000000000005536167616e00000000000753696d656e6f6e0000000842656175766f69720000044875676f0000000000000752656e61756c74000000084469646572726f740000054c6f756973000000000004456464790000000000000853696d706c696365000006526976657261000000000859656172776f6f6400000643617374726f0000000007416e6172697661000000084d617274696e657a00000546756e65737175657a000543616c69786f0000000006526f6368657a0000000007426f6e696c6c61000000064f62616e646f000000000642656e65747400000000044372757a000000000000065369657272616e6f00000747616c696e646f00000005526579657300000000000756616c6c656a6f000000065a617061746161000000074d61636861646f0000000843617374696c6c6f0000055375617a6f000000000005536d69746800000000000650616e746f6e00000000064761796e6f720000000007436f72626574740000000657696c736f6e0000000006416e676c696e000000000650616c6d65720000000005426c616972000000000006577269676874000000000544617669730000000000045265696400000000000007426172726574740000000a42617272696e67746f6e05536d69746861676500000644656e6e69736473000006486577697474730000000848616d696c746f6e00000743617267696c6c6f6e0005596f756e67000000000006497361616373000000000643616d706f73616e61000947757469657272657a7a06457370616e616f00000007506572616c65737a000007416775697272650000000752616d6972657a61730006476172636961736900000656616c64657a75657a000a4465204c6120546f726506476172636961000000000646617266616e7a0000000946696c697070696e6900084d75676872757a750000075265796e6f736f0000000652616261676f0000000009496261727265636865000756617a7175657a0000000643756576617300000000064a756172657a0000000006416d6563686500000000064167656e6f72000000000a44752056616c6c696572084b6f7563686e6572000005446575747a000000000006526567616c61000000000954726f75696c6c6f74000a4c61666f6e7461696e65094672616e636973636f00055365616c79000000000008416c626572747573000007506f75726965720000000641756272657900000000054a61696d65000000000005456e6e69610000000000074e61746b69656c000000054b7265657200000000000a53747261617373616e6407447520506f6e74000000094d6167656972697573000954726f75666665617500084368616d6f72726f0000054c6f70657a00000000000742617272696f7361000008476f6e7a616c657a000008476f6e7a616c657a0000064172616c636100000000064d656e64657a6e74696e0942616c746f64616e6f00055572726f7a64610000000742656e64616e6100000007526f737472616e7a0000064375656c657a000000000546696775650000000000044b756c610000000000000647726f6d6f7a0000000008546f7374696461730000044372757a696465730000064a756c696f7300000000074c616e64657461000000054d756e6f7300000000000a42757374616d656e746507506f7961746f730000000744656c6761646f000000064d656e64657a0000000007426f6c69766172000000064c6f7a6164610000000007506967676f74746c6465054c696e63680000000000054a756c696f76657264650847756572766172610000044469617a6f000000000007497269617274650000000643617374726f6b6500000856696c6c6572746500000743616d6163686f0000000a4d616c646f6e616c646f054c6f726361000000000006426f74656c6f0000000007417264696e65736c64650947757469657272657a00094368696c617665727400074a6163717565740000000742617272696f730000000852697665726f6c610000094372697374616c646f000853616e6162726961000005486f666661000000000007436172646f7a6f00000006546f727265730000000008477569726c616e64000006596567726f7300000000095275697a204469617a00065a6162616c61000000000653756172657a000000000647756173636800000000064c6f6e7a6f6e0000000007537472757761790000000953616d616e6965676f0009416c766172656e67610006526f6d65726f0000000008507572697a61676100000944656c20536f6c6172000752616d6972657a000000084f6c6976617265730000074172746561676100000009526f6472696775657a000843617272616e7a6100000559616e657a00000000000741677569727265000000074d61657374726900000006486972616e6f000000000550616c6d610000000000064361636564610000000005426172636f000000000005427261766f000000000007436f726465726f000000084d617274696e657a000008476f6e7a616c657a000007426172726f736100000005477569646f0000000000074d69656c64657300000007416c766172657a0000000656616c6c657300000000074e617a6172696f0000000850616f6e65737361000008457370696e6f7a610000064b6f7a696f6c61000000064c756772697372616e0005436f6c6f6e6c0000000005426f726a616e65000000064d696c6e65720000000006526f6d616e6f0000000005506972697a000000000007526f626572746f00000008566572746963616c0000044861746f00000000000008436c656d656e7465000005536f757a610000000000054172696f73000000000007536173736f6f6e0000000952616d6e657761736800085564656e686f7574000006477261766573000000000a48617373656c6261696e05456477696e00000000000953616d6d61686f75740007446567726f75740000000644616e6b657200000000074672616e6369736e0000054b6c6166660000000000084b65726473746564000006416d7374656c000000000956616e204d61726c65000a4b61737465726d616e73044265656e00000000000007566f657462616c0000000748656572656d6100000004526570700000000000000643727569666600000000064d757264656e00000000074d617572696365000000034c656500000000000000064d6f72726973000000000753696d6d6f6e7300000007536f6c6f6d6f6e000000054a6f6e65730000000000064c617461707900000000084a616d6572736f6e0000074520416c6c656e6e6c6c054c6577697300000000000654686f6d61730000000005596f756e670000000000074661757374696e00000006506963746f6e000000000542616b657200000000000753696d70736f6e000000074469636b656e7300000007546176656e6572000000054d6347656500000000000553746f72790000000000054d656f6c61000000000007436c6176696a6f000000064d7572726179000000000542616e6b7300000000000a57696e642763686d616e0941726d7374726f6e6700064861726b6573000000000642616c626f6100000000065665726d6573000000000552616d6f73697572690005506572657a0000000000064b656c6c657200000000054c616c617300000000000a5472697474736368756806446f6f6c6579736f6e00065361766167650000000005446f796c656c6c696b0007537465776172740000000757796e616c64610000000943616c6967697572690005416c76657a000000000009526f6472696775657a0007526576656c657a0000000a446f732053616e746f730a53616e6775696e65747406426f72676573000000000846726163636869610000054d6f72616e00000000000643617374726f000000000552616d6f7a0000000000064d656e64657a0000000005526f63636f00000000000753616e6368657a000000044d6f61730000000000000853616c64616e686100000a4c6f70657a204261657a0846657272656972610000054c6f70657a0000000000084d617274696e657a00000947757469657272657a00084661736369616e6100000350617a000000000000000a456368656e61757373690842656e65636f6d6f0000075061636865636f0000000659616e74697300000000064a61696d65730000000007436176616c6c6f000000094d616c646f6e61646f0005526976657300000000000653616d75656c000000000744756d6164656c0000000847616c6c6172646f0000074d617263616e6f000000075061726169736f0000000a526f64616c6c65676173074320426162657a426162074a696d656e657a000000094665726e616e64657a000742657474696e69000000054b6164697200000000000541646a617300000000000842656c61746f756900000942656e68616c696d6100074d656768617269000000064d61646a65720000000005536168696200000000000a456c205175617a616e6907426f756166696100000007426f7569636865000000064f736d616e690000000007486572616f7569000000075261686d756e690000000753616e646a616b0000000854617366616f757400000854617366616f7574000005526168656d0000000000054d656e61640000000000074d656464616e69000000074c6f756e696369000000094665726e616e6465730009416e746f6e696f6e69000847696f7665747469000006426172726f7300000000084d27506961737361000005467574616e00000000000744617669636365000000094d6174617272657365000850696368696572690000054368696c6f000000000007416c6c6567726900000008477265676f72696f000008536f7264696c6c6f00000a4d6f6e74657a656d6f6c095269636368696572690008466564657269636f00000943616d696c756363690006506c696e696f000000000456696c610000000000000547756363690000000000064d617269616d00000000084d656e676974737500000a5469656e746172626f7506426f75676d6100000000045961726f000000000000044b6f6e65000000000000094d6f7573746170686100054164616d61000000000006416c6f697365000000000742616d626172610000000941626f75626163617200064f6c696e6761000000000a456c69652d44656e697307496c626f75646f000000094e69796f6e6765726500085a6163686172696500000a4e74697277696d757261064b6164656261000000000a426172616e79656465740642616b617279000000000442656c6c0000000000000554617461770000000000054b756e64650000000000054e27446970000000000007456277656c6c6500000005506167616c0000000000064d27426f7568000000000a4b616e612d426979696b065461706f6b6f000000000a4f6d616d2d426979696b084d616b616e616b79000007536f6e676f276f000000074d617373696e6700000005416b68656d0000000000054f6e616e610000000000064d27426f756800000000064d27466564650000000005456b656b6500000000000745626f6e677565000000074d61626f616e67000000074d6f75616e67610000000642616c6f6b690000000007426f756b65746f000000064d626f6e676f00000000074d6f757961626900000005426f6e676f0000000000064d62656d626100000000084d6f756b617373610000064e646f6d62610000000008416d6f757a6f75640000064d616b69746100000000064e79676f796100000000074e746f756e6f75000000064e736f6d626900000000064f6b656d626100000000054e6b756d7500000000000754736f756d6f75000000064e7a616d626100000000074d616c6f6e6761000000054e676170790000000000064b6168646972000000000648617373616e00000000075961737365696e0000000552616d7a6900000000000559616b616e00000000000752617373696e650000000741204768616e6968616e054b6173696d000000000005546f6c626100000000000a4162646f7520456c6b61034569640000000000000008416275205a656964000006526167616268000000000559616b696e0000000000074875737365696e00000007456c204b6173730000000659617373696e000000000759204768616e6947686107536f6c696d616e0000000a416264656c68616d69640753656c6c6173690000000844656c6c657373610000074765746168756e000000094b756d6c6163686577000559696d657200000000000747696f72676973000000054b6173736100000000000541626162610000000000054e6573636f0000000000054861696c650000000000084665727265697261000005536f756c6900000000000653616e6e79610000000009426f756e7468616e69000541626861790000000000074d61727261676f000000064d61736572750000000007497369646f72650000000955776962616a696a65000953796c766573747265000650697468657200000000054f737365790000000000084e7a69656e6775690000064e6775656d610000000007466f7274756e650000000742657669676e610000000449737361000000000000035365790000000000000004526f7578000000000000074f6b7562756c65000000064e7a616d6261000000000a4e61737220452044696e054b6f6174650000000000064d6f6e6461790000000007446f6c697665740000000853696d706c6963650000054d766f6e6f0000000000054e67616e6900000000000344617300000000000000054c69627265000000000005416e736168000000000006416d706961680000000006416e6b72616800000000064170706961680000000005416d72616800000000000641737361726500000000064162726f6861000000000450656c65000000000000074c616d7074657900000005476172676f000000000006416262726579000000000544616d6261000000000006426166666f6500000000054d616e736f0000000000044b6f66690000000000000541777561680000000000055065726c650000000000034e746900000000000000055072656b6f0000000000054f706f6b7500000000000553616b686f0000000000064469616c6c6f000000000643656d617261000000000941626f75626163617200084962726168696d6100000742617261747465000000054c6f706573000000000006496e646a616800000000064f756c61726561000000064b616d61726165000000064b616d61726100000000044a6f616f0000000000000a44652043617276616c68044261626100000000000005416c7068610000000000054769756e650000000000054e616b727900000000000653656e616e6500000000064d7570616e65000000000553796c6c61000000000007446f756d62696100000003416b61000000000000000344616f00000000000000075761696e67676100000005486f626f7500000000000443656c69000000000000054b6173737900000000000553616c6168000000000006417273656e6500000000064265756772650000000008466f6666616e6168000008476f75616d656e650000064c69676e6f6e00000000074f7561746172610000000652756666696e00000000054d616775690000000000074f746f6b6f72650000000353696500000000000000055465696869000000000007547261686f7265000000064275736f6c6f00000000064f6368756c6100000000054f646f75720000000000074f6e79616e676f000000064f6e7965726100000000064c77616e676100000000064e616e64776169000000064c6f6b6f796500000000074b6f72616e6761000000064d6f7465676f00000000074d776f6c6f6c6f00000005427769726500000000000753756e677574690000000557656368650000000000094a6162616c616e646900064f6e676f676f00000000064f6d6f6c6c6f00000000084e79616e646f726f0000064e64756e677500000000054f6b6f74680000000000074167617069746f000000034f6e6700000000000000064d65726f7361000000000647757a6d616e000000000954686f61686c616e65000753656e6e616e65000000074d616b65746861000000094d616b757570616e6500065a616b6172697361000005416e647265726f6e6500074275726b697265000000084d616d656c6f64690000084b656f6b696c77650000074d65726573736100000007476f6c6c696e69000000064d78656e676500000000044b616e65000000000000065a616c616e6100000000054d75697469000000000006537461616c610000000003446f650000000000000007546f6c626572740000000547656464680000000000054b7261686e0000000000074a6f686e736f6e000000065461796c6f720000000007576f6577697975000000074d6f756c746f6e00000004576561686500000000000553656277650000000000065472616f72656e690000064c656b6f746100000000064e79616e646100000000064d6f6e636566000000000a4d6f6869656464696e6508426f7562616b6572000008576f746f72736f6e000006436c65747573000000000642657274696e0000000005526f737361000000000008416e646572736f6e0000084b68616d62756c650000065261646562656e690000084b6f6d7068656c610000054e79617469000000000005546f7665796e79610000054b687573657400000000054d6f6f73612053616c69094d616b616c27616e6500074d6173696e6761000000074b68756d616c6f0000000453656461000000000000074b696c6f6e7a6f000000065368616c697220486173044b616e61000000000000074d6f7461756e67000000074d6173696e676100000004526565646e2048616c690857696c6c69616d730000064d6164696461616d6100064b61706f6e6100000000065261646f6661000000000542616e646100000000000a52616b61746f617269730a52616e647269616d616e0848616e616a6172610000074b68616d6973610000000a48616e6a6168616e6a61064261696c6579000000000652616e6172790000000004486172790000000000000644696172726100000000054d616967610000000000074f75736d616e6500000006416d61646f75000000000a47616272616d616e6a610a43616c696d6572616e6705536f6e65790000000000084d6164726967616c00000753656e746f6e61000000084368697373616e6f0000074265746877656c000000084b69706c616761740000094a6168205368616b6100054d697574650000000000064f6b756c6c7500000000054c6573696100000000000647716962616900000000075461756d616b7500000005416e6772610000000000074d746177616c690000000641726967696100000000054c6162696100000000000657616c616b6900000000064f6e616e6469000000000551696c6c61000000000007537461666e616c00000005416d6569610000000000075374616e676572000000064768656272650000000008456c204272617a690000094d6f7564616b6b61720004417a696d7a69000000000848616472696f75690000064b68616c66697562000008456c204b616c656a00000a4f757a6f7567676174650a426f7564657262616c6105526f7162697373690000074c6f756d617269000000054261686a6100000000000741726368616e65000000064e61796265740000000005466164656c000000000005447570616b00000000000654616c6c696b00000000074d6f756c6f75640000000653616d61646900000000074d72696162657400000005436869626169000000000844612053696c76610000064d616e75656c000000000756616c69676e79000000054e61696d6f00000000000649736d61656c00000000054a6f7267650000000000045261756c000000000000044a6f616f000000000000094672616e636973636f00044e69636f000000000000054e616e646f00000000000653616d6f726100000000064d616368656c0000000006536575726174000000000643656c696e650000000009467573696c6c696e69000944612054726f70706f0008466c616d696e676f000005537465756c000000000004536f6c6f0000000000000341677500000000000000074167626f6f6c6100000005416d696e75000000000008426162616c61646500000745677561766f6e00000004456b706f0000000000000646696e696469000000000841646a65706f6a75000008416b6f626f72696500000a4173646c61737469736806456c61686f7200000000084e676f64696768610000054b657368690000000000094f6b656368756b7775000655676261646500000000044f6b6f6e000000000000044f69686100000000000006457a656f67750000000006496b70656261000000000653696173696f000000000553616c696d0000000000074164656261796f0000000741646564656a69000000064461647a69650000000006416e796f6e6100000000084b617468616e67610000074b617269756b69000000054f79756769000000000005527562696100000000000a576120546861696f6e67054b757269610000000000074d7572756e6769000000064b6f7367657900000000054b6e6f6b6f000000000008416e2042756e646f000006576962696b6900000000074b6f6c6f6e646f000000054761726a69000000000006526162696e6100000000054b7572616f000000000005506174656c000000000006466c65757269000000000653756b65747500000000074d617468696f74000000054f6c726963000000000008426f6e696661636500000757696c68656c6d00000007506173636f616c000000074761756d6f6e74000000064865726f757400000000064a616d656e6100000000074265726e6172640000000853742044656e69730000064f6c696e6761000000000645706f756e65000000000545766f72610000000000074675727461646f0000000653616d656e6900000000075374616e6c657900000005436f726f74000000000005546f6c6c6100000000000854686f6d70736f6e0000064b6f726f6d6100000000084d616e73617261790000055361696475000000000006436f6e74656800000000044465656e00000000000005536c6166610000000000074d6f68616d6564000000064272696d616800000000064b616c6c6f6e00000000044b65726500000000000006466c65757269000000000642616261646900000000044b756c75000000000000054c656f6e650000000000065069686972690000000005416c6d616e00000000000653746f726569000000000442616b75000000000000054c6c6f6e61000000000006416e67656c6100000000044164646f00000000000007576568656c6965000000074d6f68616d65640000000a416c692048617373616e064d6f776c696400000000064d6127616e6900000000084d6f68616d6f75640000094d6f676164697368750007416c6675726169000000065361726f6265000000000753686164646164000000054b616d616c00000000000a416c2d53616d6d61686f06456c20546f6d00000000044f6d657200000000000007416c6b6f757261000000044b6f7261000000000000084b68617274756d690000064d65736b656c000000000a416264656c2053616c690a416264656c20487a697a0a456c204d7562617264650647756261726100000000044f756b6f000000000000054e677567690000000000094162752044616f75640006416c20516f7a0000000005536c6f766f0000000000054e64756b750000000000064d756b6f6e670000000008456c204772656b69000009416c204772697070610005416b61726500000000000647686562726500000000054e676f6e690000000000054661736164000000000004476875720000000000000a416264656c20417a697a064d61746f767500000000084d77617061636875000006486173756c656e000000044a756d61000000000000074c656f64676172000000054c756875690000000000044c756b610000000000000554656e6761000000000006486f6c64657200000000064d77616d6261650000000642616b6172690000000007456c697361726100000006416b65726569000000000653616c657361000000000453616d610000000000000448756c61000000000000074277616e756b7500000006536f64616b610000000008536572656e69616e000007476172626167750000000445646f68000000000000064c6962696265000000000550616e6f750000000000054b6f646a6f0000000000064d657373616e0000000008436f6d6c616e75690000074e616d626174680000000a41676265776f616e6f75064d61746f767500000000074d7761706368750000000554656e67610000000000054c756875690000000000044a756d61000000000000044c6f6d65000000000000054b616c756900000000000542656d6265000000000008417567757374696e00000342616f000000000000000742656e696e6761000000055a616e67610000000000065a746f756e69000000000942656e2059616869610007486963682d52690000000842656e204e656a690000074d274861646269000000074b68656d697269000000084d61686a6f75626900000653656c696d690000000005546172616b00000000000648657267656c0000000006526f75737369000000000546617261680000000000074465726d657368000000094e74696a696e616d61000645706f756e6500000000064261796c6f6e00000000054a656d656c00000000000441626964000000000000064261636361720000000007526f7569737369000000084d75736576656e690000095373656d616e6f6265000a54696e6b6173696d6972074e736572656b6f000000074f636869656e67000000075374657068656e0000000645706f756e650000000006446a61646a6f000000000653656e6f676100000000094e69796f6e6765726500064d79616e6a61000000000a4e74697277696d757261064173746572650000000006486f726f636b000000000a5374616c696e6765726505446a616e6f00000000000553746976650000000000095361746972696e6769000650757373657200000000074b616e6174656f000000084d6572696b616e690000054275616e610000000000074b75736f6e676f000000064c616b6f736500000000074d616b656e676f0000000742617361756c610000000745747368656c65000000064f6e676f676f00000000084b696e67616d626f00000a4173736f6d62616c616e074b61626f6e676f0000000754696166616e6d000000074d616b6f6e676f000000044d757961000000000000074e79676f6d626f000000064d79616e676100000000064d6b616e7961000000000553696d62610000000000044b616e61000000000000064e676f6d6265000000000743686162616c61000000074368616e6777650000000643686f6d6261000000000a4d77616e616b61747765044d656c750000000000000542616e64610000000000064368616e736100000000074d75736f6e6461000000074d616b696e6b61000000064277616c796100000000094368616d626573686900055a696d62610000000000074d756c656e676100000004536f6b6f0000000000000a5761746979616b656e690643686f6e676f00000000074d756761697761000000064d6174656c6500000000074d626173656c61000000064d77616e7a61000000000a47726f6262656c6161720653776172747a000000000a576573746875697a656e0653796e6d616e00000000074465205761616c000000074b61727473656e000000074d6f7374657274000000064265756b6573000000000a54616b617761726972610547756d626f0000000000064e646c6f7675000000000848757973616d656e000007436f65747a6565000000084e6f74616d656c6100000641736f79616e000000000a562052656e7362757267064d78656e6765000000000a547368696b616c616e67074368696b616e6500000008446520566f6f72730000065a61626963610000000005546f62696e736f6e0000055a656c69630000000000064265726e656c000000000a426c61676f6a65766963085472696d626f6c6900000554617061696f76696300064564776172646f6e00000457616465000000000000055370696e6b73656e000006466172696e61000000000546696c616e0000000000084976616e6f7669630000054d61727468000000000009447572616b6f76696300094d696c6f73657669630009426f7a696e6f736b6900065669646d617200000000085065746572736f6e00000956616e20426c65726b00034265670000000000000005417374656d0000000000064661726f756b00000000074d69727761697a000000094a616e676d6f686f6e00054d69727a61000000000007506972616368610000000641727368616400000000075a617264617269000000054a61746f69000000000005416873616e00000000000653616e6a6179000000000956616c6c616268616900084d61686d7564616c000007486f737361696e000000084d6f66617a7a656c0000054b6172696d00000000000a4b68616c696461205a690a5368616d696d757a7a6105526168696d00000000000353617700000000000000084b6574205365696e000002506f00000000000000000453687765000000000000044c77696e0000000000000857696e205365696e00000359696e000000000000000348756100000000000000074368652059616e00000006536f2046756b000000000348656b000000000000000653616e20596100000000074c6f205a696e67000000055069756e670000000000035a656e000000000000000453616e6700000000000005547269616e0000000000074b65742059616e0000000446756e6700000000000006552053696e670000000005597562696e6e67000000075a686967616e67000000064c6971616e6761000000055a686979696e0000000004486f6e676e676e6700000442696e676700000000000551756e6c696d6900000006486f6e67626f616e676e055368656e67616e670000045869616f69000000000005597578696e670000000007486169646f6e67000000044d696e676e6700000000085a686f6e6778756e0000034c696e6e670000000000075869757175616e7500000657656967756f0000000007597565646f6e67676e6702426f6e67000000000000084368756c69616e6700000553696e676800000000000a52756174616e757368610454696d750000000000000954756967616d616c610005556d6167610000000000054765616e79000000000006506f6b657265000000000748756c6c656e61000000095472656761736b6973000657616e6567610000000007546167616c6f61000000094b65726577616e74790004426f67650000000000000453616875000000000000044b68616e000000000000074d61686172616a0000000553696e67680000000000084a6974656e64726100000344656f00000000000000075761746b696e73000000094c65652043692d4675460753616d7068616e00000003466f6b00000000000000074d6972616e6461000000045975656e00000000000002597500000000000000000953696e672d53696e67000457617474000000000000074b6f772d4c65650000000450756e67000000000000074b756e672d5975000000094c6565204368616e6700064b6f772d48690000000002487500000000000000000756696e63656e740000000753696b2d54656b000000034c6565000000000000000548656e7279000000000007536f776c756e6700000005486f2d4c750000000000074d697277616a7a000000084a61676d6f68616e0000064661726f6f71000000000653616e6a6179000000000956616c6c616268616900064768616e646900000000075361746879616e000000065265686d616e00000000044a61696e000000000000095570616468617961790004476972690000000000000852616a6d6f68616e0000054e656872750000000000094a61776168726c616c000743686f75626579000000075363696e646961000000064d616e656b6100000000074a6179616e7469000000094e6172616879616e61000841726d617472616a00000a596f6e676368616979750852756f6368656e6700000957616e67204d656e6700094368616e6762656e6700074261692048756100000008437569204a69616e0000094861692044656a6961000a4b6f6262656b61647577084c616b73686d616e00000753616c616e6761000000064d61636564610000000006456e72696c65000000000a54696c6c656b6172617404486f6e6700000000000003596f6f000000000000000a576f6f2d43686f6f6e67034b696d00000000000000064265736f6573000000000a4861726a6f797564616e055369676974000000000009416265647a6164656800095a6172696e6368656800094d6f68617272616d6900064261726f676800000000054b68616e69696e0000000a466f6e6f6f6e2767616e055374696c6900000000000a4768617965676872616e06416274616869616e0000074d617266617669000000094d6f68616d6d616469000a52657a616569276573680946616c61682764656800094d6f6767686164616d00084b68616b706f7572000009457474656b6861726900065065796f6f730000000005526f7374610000000000074e6f616d6f6f7a0000000a47686f6c616d706f6f720653616464616d00000000045564617900000000000008486162616e697961000008496261726168696d000008456c2d446f7572790000054b616d656c0000000000064a616a6a6f75000000000548616e6e61000000000005466164656c00000000000953686162616e646172000653616e757261000000000552617a616b000000000005416264656c0000000000064b617265656d00000000074d61686d6f6f640000000541626261730000000000054b616d696c0000000000065368616d696c000000000553616261680000000000074d7573746166610000000847696e7a627572670000064d757373616800000000065368656c61680000000004416d61726e676572000005436f68656e6e6f760000094265726b6f7669747a000542616e696e6f76736b790653686f68616d00000000054e696d6e796c6c69616e0548617a616e626572670005436f68656e000000000005436f68656e0000000000054d617965720000000000055376697269000000000005536861756c0000000000084d696c746368616e0000055a6f686172616d000000044572656c000000000000064977616e697200000000074570737465696e000000074d61656b61776100000007486f7269696b690000000a48617368697261746169075473756e616d6961000005496861726100000000000646756b756461000000000552616d6f736174737500084b6974617a617761000007596f73686964610000000654616b6164696f0000000859616d616d6f746f0000094d617473756e61676100054f74616b656f000000000659616d6164616b6900000853616b616b7572610000084e616b6179616d610000084d6f7269796173750000074b617473757961000000054a696e6e6f6177610000054d69757261000000000008416c74756e79616e0000094b68616c6b68616c6900054e6f75726900000000000646616b6872690000000008416c204f6477616e00000842617a61646f6768000008416c204d6f667469000004416d65720000000000000a416c2042656c6261736906416c204a616c00000000065361276f75640000000006596f75736566000000000a416c204661696c616b61074d7573746166610000000842617a61646f6768000006416c2048616c0000000006416d6d616e69000000000648757373616e0000000006536179616e690000000008416c20416264756c000005486166657a00000000000541737361640000000000065161626f6f730000000005416b626172000000000004417a697a000000000000044e696e7900000000000007486165747a6e690000000a416c2d4368616c61626908416c2d4e65616d790000054e696a61720000000000085361726d616e64690000065a6f686f72690000000009416c2d416d65657269000541626261730000000000054661686564000000000008416c2d536162616800000a416c2d4661696c616b690554616c616c000000000008416c2d41686d61640000084d6f68616d6d61640000054e6f756e650000000000054e6162696c000000000004456c69650000000000000642616472616e0000000006416c616d656800000000055261686966000000000009416c2052616261276100074d61686d6f756400000008416c20526165276500000541726162650000000000064162686179690000000008416c2d53616261680000045268616c000000000000054a6f68616c0000000000054b68616c69000000000008416c2046617a6f750000084d6f68616d6d65640000074b68616c65656c00000006416c2053616c00000000054a6f68616e0000000000064973686b616d000000000553696e67680000000000084b696e20486f6e670000054a616d696c00000000000a4a6179616b616e617468065975736f666600000000064d61726a616e000000000853696577205961690000044164616e6600000000000653616c6c6568000000000648617373616e0000000005417a6d616e00000000000848616e6e696661680000074261686164757200000006477572756e6700000000065072617361640000000004536861680000000000000a526974686175646465650653616d75656c000000000853756c61696d616e000006416c617461730000000008537577204d616e6700000841756e672053616e000007537575204b79690000000644687572626100000000054b686965750000000000074368616e746f7500000004426f75610000000000000748756e2053656e0000000953696c68616e6f756b000943686f6f686176616e00074e6f726f646f6d000000074b68756e205361000000074368616e6472610000000654696e204f6f00000000075072616468616e000000065361726d61680000000008416468696b617269000005536879616d000000000004486172690000000000000657616e65676100000000084b726577616e7479000004426f6765000000000000074d756d7061706f000000054d6f72656100000000000448617275000000000000064f6e676f676f0000000003416b6f00000000000000084d61746d696c6c6f000004457665690000000000000647656973706500000000075461756b616d75000000075461756d616b7500000005416e6772610000000000044b6f6f6c0000000000000641726967696100000000044a617961000000000000085761696e676761690000044974616d000000000000094c6f6d75746f7061610007476f736c696e6700000008526964656e746f6e0000054576616e730000000000044772617900000000000006466572726973000000000848616c6c6967616e00000849726f6e7369646500000445646765000000000000074d634761727279000000074261726b6c657900000007526f6265727473000000095363686f6669656c64000744756e666f7264000000074465204a6f6e670000000642696e6e6965000000000948616c6c6977656c6c00094d616341727468757200054a616d657300000000000843617276696c6c6500000552756665726172746800084368616e6720556b0000084777616e204d696e000008596f6e67204e616d00000847796f6e6720496c6e000848776120596f6e676f6e08536f6e672047756e0000084a6f6e67204d696e0000074a6f6e6720537567000007576f6e204e616e6f0000084d6f6e2043686f6c796108596f6e672042696e000007496e2043686f6c00000008596f6e6720536f6e6c0008596f6e67205a696e000009596f6e6720536f6e67000947616e672043686f6c0007596f6e6720486f00000009486f6e67204368696c00094d796f6e6720426f6b00064c692048616e2d426f6b0453617564000000000000074b6168656573680000000548616d616400000000000553616c6568000000000008416264756c6c616800000a416c2052617768616e69044b68616e0000000000000a416c2042616872616e6907456c204b68616e0000000653617264617200000000094167686120417474610009556c6c61204b68616e0009416c20526173696269000644686127656e0000000009416c204b6f776172690004536f756400000000000007416c2052616e69000000054162626172000000000008416c20466164656c000008416c2052617a69680000055a616d616e00000000000347756c00000000000000075072616b617368000000084368617574616c610000034c616c000000000000000444657669000000000000044b68616e000000000000045361696400000000000005416e77617200000000000753696464697169000000064d6f6873696e0000000005416c74616600000000000642687574746f000000000a4a616764697368776172074768617a66616e000000074e756772616861000000074b6172646f6e6f00000005506174656c0000000000085072616b656573680000094e617a72756c6c61680007412042616b65720000000a416c204174746979616809416c204b6f776172694809416c20416473616e6900094d204d616c616c696100084d204d6161796f660000094b204d75626172616b6909416c204b6f7761726900074b2053616c656869000009416c204b68617465720008416c204d756c6c610000075920536f7566690000000a416c204f626169646c79074d204a6f6861726c696409416c204b6f77617269000a416c2053756c61697469095220416c6b61616269000848204a616c6f6f66660008532048617373616e00000a4d204e6f6f72616c6c6108416c20527a6f616e000009416c20446f736172690008416c20526f6f6d69000007416c20416c776900000009416c204b686c6177697207416c20416d696e72690008416c20426973686900000a416c204d7577616c6964084f204f776172696e6c6109492046616c6174616800094e204d6568616c656c0008416c20416e617a69000008416c2048617a6161000009416c20446f73617269000a416c20416c6461776f640a416c2047616874616e6909416c205368756a6161000a416c205468756e79616e09416c20536168617261000a416c204d616768277769044368617900000000000004546f616e00000000000008536968616e6f756b00000953757473616b68616e000753616d7068616e0000000748756e2053656e00000008536f6e2048616e6e0000064d696e677169000000000356697200000000000000065265686d616e000000000955706164686179617900044a6f756e0000000000000852616a6d6f68616e0000044b68616e00000000000006536172646172000000000541626261730000000000034b75610000000000000008486f6e672050616b0000034c6175000000000000000354616e0000000000000008496e2d596f756e6700000a4b79756e672d486f6f6e0443686f69000000000000054368756e6700000000000247750000000000000000084d79756e672d426f00000a4e6f2d536f6f2d4a696e084a6f6f2d53756e67000009596f756e672d4a696e00095461652d596f756e6700094a756e672d596f6f6e00065461652d486f000000000a43686f204d696e2d4b6f045061726b0000000000000853616e672d42756d00000953656f6e2d486f6e6700034c656500000000000000034b696d0000000000000009596f6e672d4877616e00084b616e672d48656500000344617300000000000000054d756e73690000000000084665726e616e646f00000a4d616c6c696d617263680950616e616e77616c61000a5468616e61706c73696e07436f6c6f6d626f0000000556696a61790000000000055268616d610000000000074c6f6273616e67000000074768657a68616e000000065475726d6569000000000550616c616b00000000000642656e67616900000000074b726973686e610000000448616e69000000000000094b616c69627572746900064a6f7368616e00000000044b697269000000000000084d61686179616e6100000753697272696568000000065368617965620000000007536972726965680000000950686e61696b6865720005526166656500000000000841627520416d696e0000054b616d616c00000000000a416c692048617373616e064d6f776c69640000000007576568656c696500000008416c2053616261680000064b68616c656400000000064b686179616d0000000005426f757a6f0000000000064661726f756b0000000008416c2048616c616c00000553617961640000000000075368616265656e00000009416c692041686d656400055369676f7500000000000848752d4368616e6700000943686f2d4c69616e67000854656e672d48756900000859696e676368616f0000034c6565000000000000000747616f2d58696e0000000257750000000000000000044368656e0000000000000353756e000000000000000a4368756e672d50696e670746752d4c756e670000000758616f70696e67000000075473752d59616f0000000a536869682d5368756e6704506f6e67000000000000044e69616e000000000000084368656e672d646100000459616e67000000000000055869757775000000000003537569000000000000000a48756e6773276b6f6f6c09416b617261706f6e67000a53757761616e6e616e670954756e6773757261740007506f6e676a616e6472610a4a616e677427686172740a546f6e6773276b6b616f0850756e6e6176657300000650756e73616e6e6768650a41726565736e6727756c064d617065726d205368610a4a617475726170276e67094b756a6d6f2773616b6e094b616d676861656e67000a506f6f6e707269626f65084d616c697068756e0000074b616d7069616d726e00084b68756e276f616400000a4f756e6773276e65726e0a537269646172616e6f70084a2057616c65656400000a4120416264656c6e6f720a4d20416264656c6e6f720a4d20416c6861646461640948204d6f68616d65640008522049736d61696c00000953204d75626172616b000949204d75626172616b00094b204d75626172616b000a416c2054616e79616e6907422042696c616c6e690007422041626261736164000a416c204d75626172616b094a2053616c6d65656e6e0a416c2042616c6f736869094d20466169726f757a00084b2053616c65656d00000947204d75626172616b0008412048617373616e00000a482042612057617a697209416c692d41686d65640009416c2d41736877616c000a416c692d4d616e7468610552617a69680000000000054d6f68696400000000000a416d656420416264756c0a416264756c676162617208416264756c6c61680000054a616d696c000000000005466164656c00000000000a416264756c2d52686d61084162646f2d416c69000009416c2053686d69727900094d6f6e6169626172690006486173736f6e0000000006536861686572000000000541776164680000000000044164656e0000000000000553616565640000000000074d756761686964000000074c6f6e676c65790000000553746f747400000000000642656e6e6574000000000a476174686572676f6f64065761726e657200000000044d616573000000000000074c6f6e67646f6e0000000855727175686172740000074e6577706f72740000000944696c6c696e676572000942726f616462656e7400044c616d6200000000000004486f6d650000000000000643726f7474790000000008486f6c6c6f776179000009486f727365706f6f6c0005537465696e000000000004466f726400000000000008456c626f75726e6500000642726f776e65000000000647696c6c696500000000045765737400000000000006486f7761726400000000044e617368000000000000084b656d7073746572000009507269746368617264000354796500000000000000065361646c6572000000000650616c6d657200000000064c6f61646572000000000748616d6d6f6e6400000005486f67616e000000000008526f62696e736f6e00000648617974657200000000064372697070730000000006436c61726b650000000005426c616972000000000008466c616e6e65727900000943617270656e74657200064672616e6b7300000000054b656c736f0000000000054a6f686e73000000000006446176696573000000000647726f76657200000000095665726b6f696a656e00064261726b65720000000005557277696e0000000000044361766500000000000005477265696700000000000557796c64650000000000084368616e646c65720000084e6963686f6c6c7300000a486f7273656669656c640648656467657300000000044e756e6e0000000000000457696c640000000000000444796b650000000000000648756e74657200000000074d61636c656f640000000652686f646573000000000753746576656e73000000064e6f726d616e000000000557696c6b7300000000000646656e746f6e000000000753696d70736f6e0000000a5374657068656e736f6e064672617365720000000006426172726f770000000006426c61626572000000000657617272656e000000000542616e6b730000000000064d6f6472617900000000065377616c657300000000054d65676177000000000007506172736f6e730000000945746865726964676500054f77656e73000000000006426572726579000000000648756768657300000000064e6f7272697300000000044e6f7368000000000000054e657762790000000000054d61736f6e00000000000757686974746c65000000044461686c0000000000000853686174746f636b000004526f736500000000000008526f62696e736f6e000006506f77656c6c00000000064772696d657300000000074d63677265656e000000044c616e6500000000000004506f706500000000000005476f6f62790000000000085061746572736f6e00000752616e64616c6c000000034f727200000000000000075377616c6c6f7700000005426f756e64000000000008536368796e64616c00000950726573746964676500064d6f7267616e000000000757686974696e6700000007436f6c65747461000000064861727065720000000008416d616e64696e6900000544616c6279000000000008466c65636b6e65790000054576616e7300000000000657616c6b6572000000000945646d756e64736f6e00074d616e747a6f7300000006476f72646f6e0000000005486179657300000000000748657272696e67000000085061726b68696c6c0000065475726e65720000000007466572726965720000000542726f776e0000000000085061646669656c6400000654616e6e6572000000000654686f726e65000000000657696c736f6e0000000006436f6e74656800000000064c65736c696500000000064b72616d65720000000008446f6e6f676875650000054a6f6e6573000000000006486f6c64656e0000000006486f6c6d656e00000000054b656c6c790000000000054c6c6f796400000000000542756467650000000000054d696c65730000000000054d6f6f7265000000000008536861726b6c65790000074a6f686e736f6e0000000542616e6b7300000000000a4c6564676572776f6f640557686974650000000000085370616c64696e670000095073796c6c69646573000752757373656c6c000000075370656e6365720000000a57696c6465727370696e09416c6578616e646572000657616c6b6572000000000944656d657472696f75000742657a7a696e61000000054d65656b7300000000000641726e656c6c000000000654686f6d6173000000000a5363686f6c656669656c04466175780000000000000442617465000000000000095261776c696e736f6e0004526569640000000000000644617669657300000000054f77656e7300000000000448616c6c00000000000006466f73746f6e0000000008506574657273656e000005506f776973000000000009567265657377696a6b00064661726d657200000000064861747465650000000005536d697468000000000007477265676f727900000004436c6179000000000000044b69726b0000000000000a46617271756172736f6e054272756365000000000006436c61726b650000000005477265656e00000000000a48696e63686c6966666506577269676874000000000547696c6573000000000009476f6c64736d6974680007476172646e657200000008507572636861736500000657656e6765720000000005486f6262730000000000054d61646173000000000006486f6d64656e00000000055065657273000000000006436c696e636800000000054973616163000000000006426f6c746f6e000000000853617073666f726400000448656164000000000000074e657562657274000000054576616e73000000000005436f77696500000000000742696e746c6579000000054b656c6c7900000000000654686f6d6173000000000448696c6c0000000000000857696c6c69616d73000008526f616e747265650000054479736f6e00000000000543617265790000000000044a6f686e00000000000006436c656172790000000004436f6c650000000000000544616c6479000000000008446520536f757361000009476f6f646c69666665000548696c6c73000000000006537761796c6500000000065772696768740000000004416f75660000000000000542756e63650000000000094875746368696e677300074a6f686e736f6e0000000741796c776172640000000444616c65000000000000075374657068656e00000006506574657273000000000644756e63616e000000000447617279000000000000054d79616c6c0000000000054f6c697661000000000005507279636500000000000853696d6d6f6e64730000045475636b00000000000007426172726574740000000742656e6e6574740000000746756e6e656c6c000000084c6f636b686172740000054c6f67616e0000000000064d6343616e6e0000000004416c616e000000000000054e696d6d6f0000000000084d63446f6e616c6400000452757368000000000000075370656e63657200000007536865726966660000000642656e746f6e0000000008436c6966666f726400000a436f6f6b2d4a6f6e6573064375746c65720000000003466f78000000000000000547696c65730000000000094772696666697468730004486f6767000000000000074b656e6e656479000000044d61726b000000000000074f27427269656e00000005536f75636800000000000554657272790000000000065665726e6f6e00000000064261696c65790000000007426172636c6179000000074272697474656e0000000743616d65726f6e00000005436c61726b0000000000064375727469730000000009446f6e616c64736f6e00074564776172647300000006466172726f770000000007467265656d616e0000000647726168616d000000000647726173736f000000000547726567670000000000064c657665747400000000074d61796e6172640000000650756c73656e0000000007506f756c746f6e00000006506f77656c6c00000000084e6963686f6c6173000008576573746c616b6500000657696c736f6e000000000642657373656c000000000644757262696e00000000064d696c736f6e0000000008536b69646d6f726500000557796174740000000000064172636865720000000006426f75726e6500000000094368656e6f776574680005456c696f740000000000064775726e6579000000000648657276696e00000000084d61646469736f6e0000044f77656e0000000000000950726f7564666f6f740007537465776172740000000654686f6d61730000000005546f76657900000000000755707368616c6c0000000942726f636b77656c6c000744616d706569720000000644617669657300000000064672656e6368000000000a48617272696e67746f6e0648617272697300000000054d617273680000000000084d69636369636865000009526f77626f7468616d0006526f67657273000000000557696c6c7300000000000743726f7373657900000005496d7065790000000000045061756c000000000000065374756172740000000007446f75676c6173000000074672616e6b756d0000000448696c6c0000000000000648696c746f6e00000000074d617474686577000000094973686572776f6f6400044b696e670000000000000a4c616e63617368697265064d7572726179000000000950656d626572746f6e00065261686d616e0000000008526f62696e736f6e0000055365616c73000000000006536869656c7300000000075661756768616e0000000a4d63496c68617267657906427269676773000000000757616c6c616365000000054275726e730000000000064172746875720000000008486564776f7274680000074269726b6d616e00000006426c61636f770000000007436172726f6c6c00000004426f796400000000000007536164646c6572000000094261636b686f75736500075269636861726400000008536865707061726400000754686f6d736f6e00000008576f6f6468616c6c00000541676e657700000000000a43617272696e67746f6e0644616e69656c000000000446697374000000000000084861727269736f6e0000054372616967000000000006486f6c64656e00000000064d617274696e0000000006486f77617264000000000648756768657300000000034c6565000000000000000549726c616d0000000000064173686c657900000000074c69766573657900000006496e6768616d00000000064f736d616e64000000000653756d6e6572000000000457616c6c0000000000000757696767616e7300000007426172666f6f7400000008456173746c616e640000074f726d65726f640000000650617368656e00000000055069747473000000000007526f64676572730000000553746f6e65000000000004546f776e0000000000000742656e746c6579000000054361727273000000000004456c616d00000000000006466974746f6e000000000943687269737469616e00094772617973746f6e6500044e65696c0000000000000644657269636b00000000064c6f626c657900000000054c796e63680000000000084d634661747465720000064d616e67616e00000000044d61726b000000000000064d6f72746f6e0000000007517569676c6579000000085269636b65726279000008537475747461726400000a53756e6465726c616e6409537574636c69666665000756696e63656e740000000557616c73680000000000054272616479000000000006427572746f6e0000000005436c7562620000000000074469636b736f6e0000000744756e6b6c657900000005477261636500000000000548796e657300000000000549766572730000000000074a6167726f6f70000000055072696365000000000006537061726b73000000000554726970700000000000065475726e6572000000000842726164736861770000094d63436c75736b657900064d756c6c656e000000000650616c6d6572000000000750656172736f6e000000064c6177736f6e000000000550617272790000000000055279646572000000000008416e646572736f6e00000544656e6e79000000000006456d6d657474000000000a477265656e68616c6768044b656e740000000000000857616473746166660000054164616d73000000000005426f6f7468000000000008436861647769636b00000748696767696e730000000a4d696c6c696e67746f6e084d756c76696c6c650000044e6173680000000000000750616c6672657900000006537465656c650000000008556e73776f72746800000757616c6c6163650000000a57696c6c69616d736f6e0a43616c64657262616e6b0942616e74686f727065000742757373656c6c0000000548617965730000000000074d65727269636b00000006526f77617474000000000853696e636c616972000004537461790000000000000842616464656c6579000007446f6e6f76616e00000004446f72650000000000000747616d65736f6e0000000347656500000000000000084d617272696f7474000007506172736f6e7300000006506f7068616d000000000653656d61726b0000000006537065616b65000000000742656c6c616d79000000064b656570696e00000000074d657463616c66000000065068656c70730000000006537472656574000000000657616c6b65720000000005596f756e67000000000004426972640000000000000843616c6c6177617900000743726f636b657200000006476f726d616e000000000a4861696e73776f7274680453696e650000000000000941726d7374726f6e670006526f62657274000000000443616967000000000000084372616e73746f6e0000064e7567656e7400000000065061726b65720000000005506f747473000000000004526561790000000000000654686f7270650000000008546f776e736c6579000006476177697468000000000447726179000000000000054f7477617900000000000650726f6b6173000000000657696c736f6e00000000094d636b6563686e696500055072696e73000000000007416e746f696e650000000a4461726c696e67746f6e064a756c69616e00000000064e677579656e00000000065072696d757300000000065365636b6572000000000542617465730000000000054469786f6e0000000000074a61636b736f6e000000054c6569676800000000000641707061696800000000054d696c6c730000000000064e6577746f6e00000000085374757267657373000007427261646c657900000009436861746669656c640006436f6c67616e00000000084661756c6b6e6572000009466f7272657374657200054a616d65730000000000054d79657273000000000004526f7765000000000000064261726e65730000000006426f776465720000000006436172626f6e00000000084368726973746965000007436f6c6c696e73000000074475626572727900000007476f6466726579000000"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x47227",
+   "field": "start state restored (the country-list screen): the 0xBF5 bytes of initials at [DS:9B70], hex, guest memory from the same savestate",
+   "value": "0041524b48545753434d4b4745524a435347574953484e4c52475049454141445054494e574441544750434d415642434a454d4154424e5445524e4a4141454d5244434246494448474c5054414b5246534847434650474246564e4548504853464e535045484352524a4e4d50565254434d4e4a4246564541504c544b484a4b484a42464d504b434a4d4c5442504450534452524b52544a474c434d41454e4a544e4d4d44534c434e444c4943545050544a5441504941414a4948464a4d4b4d4e4b50444153534e44424c42424a4d46434a454a474543464c44525046424d474a41534c53544b5241544d4d4d4141544a544e4759434747574c444a424d534b4956454e535a474545504c4a54494a4b424c415454544854564252474e474b4a525244484550424d42545447454e465041414d4453524750574c50474e4752475449544a5647415253444b494b4c4c464d4454415254534257434a5652454e434b4a464341524153484147474e414d4a4a4d4349504d534341444b4a4d465242414a52464442524d53464457504a4150575254484153474b47494a504252424c474a52424c4944445a5246524a464a5256445253504652504456464a414b5443504350544552464743524441414c4756414d43474749544d4e5342484d5644414d4152444d53535042474741484142544a49504b4445454e44504d4a4e4e49455242414446444a4d475450524a4a534a414b544d4c4d4d52534a4a4b4a534144544e494a474143534c445048524b415446544950464757474c47484d414a4747474b48414253414f414953414941534944414b4956444956534e4d4b47504142434d4d44544b45444d5049494d524c504a465653424d4453534d4d4452494452564e5352474246485247435454465656474b48434e414f4f46444c44444d46475353434744475243414141494c54564d48444e474e424a504a52485641434e48534e4e524a4e53494d4d545654474756564d4d4d4d4a45434d4d4d4a565345454c4d524a4143524d574c524c484652414a4a4957464a48434543524e524346434a4e444a50434d494c4745414450524c4a414a524a4a48494d454c524a5046494d5241414c4c474346414249454744454357414c41504d4d454d4d504a52464a524c415246434152525246494b5648425342444654485045525645414d5056424348494a484454495749574c4a4247494c434c484a4a494e5746434d45424a4a524a41535252474d4a4c4d4143464a53434a574647504f4a4a5641434c4847434e5049534c534a474b424b534b4550434d56434a4a4c52434d56434e434a574a4a4445414b44425342464346564c4b4a4445494c4145505456464a4e4850504642464244504b4443544454434c4e464153545054574352415754564350434154414c57574848505257474441444950505048414c524845414e454c484e4b504e535045484d4d574e41434245464b5746544a534e414d52475345504d41484c424a4b4c4a4152474a44544b4d4b4c4749444a4c4c5447495446434a435245474a494a4a54434256474a46434a5243534a4c454143424a4a4d504a4d4a4145464a444341524a524145434b4d52484643524d4a4b43535348544d4446434742564248414d48464646535044574a524d564b4d50425244444b45484e4c544e4b414a4d41454d545446424a524a4a4450494843414c54424a4545504648465247454d485256504c44454a484756535746414d43574f4c5243534552504344524a4a49414b4b4f4146524d43414e41594d4c41414d44484b49485441454e444d4e4a41574946534e42524949414d504a414d4e544a464d574b4150544541434e4a535054504a4a454757484a42565048434a454b4246415043474a534a4146414d4c5948495343414b48414849524c414d5645424153415447435447424c46414d504e42424c42424350545246534c4e544c5241474e545743525242494342494950494345454e41454953414e4d4b414146434d415359505054545346434d4a4b5446544a4a46444f524a4d414b4c5241434b4f4f4b59414e414c5344444a414a54465956414a4a45485043474d46535348484d43575447534652454c524746524b434347505248504b52564556454d4749595756444c4348454c43484c46425457445448435446494441544245444752544441414b494d5356534247434a494e484c5356575357544747484d534c4b444c5249525045474b4d524c41544d41535241414e4a564a4d48445343414e47475346445047474b5343495647534542415241414146474d4a44464453554e475445565346424b4447484e545357464953424b414c504a524848544349524b574b4d52534541525446444e434442414d424950414b434d525645544143564b544a464557434c4a4a504652564a4b454a4a4941454a47484a4843414e415441524c4c4243485249484d5647414b5346564e444d4d4d4e535342565241564d414d414753504d44524254475453565447414c4e504e5650414e545254474c574d4d434a4653444341505656524d4b564a474348464154474452504e4b454d4c54434b4e4d4e4b544d534b454e544457534341505743444b4253454a52484d4d47504254544e44524b46544e50504a46544d5644534d56414e414c504d4d5047464a4d414d42565447415056454a42484d444b4d505247534e484a424c414e52524d444b435343454a4b50544c524150565046464446584c5747434c58484c475a4a50435a4f50474e47445348414e4b5041484c534949435441564c5342414745444a52414c4844484a564c485642535248444e4a4a424e444c414a4945545054435050494d4c46484b464856464850504b4a534756414a4d524e4d485353534a4d464d4d534641414250534b4b4b4d424d4c4254564146444c5649464e42415356414e4446414d59524456454147424a544b5454534d4d52544d544c534e54594d485454474647564346524c434a4950434a5641525654414e564847564453494c4153484d4242544e56444b494341435746464c4b444b4c4849494e444d4b4d4c48534c5a414e4d4341445a4b4153504743414654504b444d47574452564743464b4c444747564a414d53434e46435043425642545452534c49484b5242534a434a53464448434a434a484d50474447574b4b4f4b4952425943475443434c4b424b55474c4d494245464943524943424d494e41544b44414e505641544257535246545047544649444b504a56594d454d41424b4641595a4d4153524b4141524d5253415353414646415341495a53534e4549504d4b4c4446435443504347464d434d474e5348534b53414a4c494a444b4e53524853574a47564847494b434a434d444a5652464c464348544550504c574347525256524750564454574e444142544748504c544b4d45434448425050504a47524a474b414350534353504b4e414b5453534e4e4e4143504b52534549415949424b4e4b5a485353494d48414f414852544a494156494b574b435050544e44484145524d52424d4157454241424e575742454d4a4744454545574c494c4749484944574d414f4e575448424c5256434f4f465657564d564541494f4a4e494442564a4b4e425441574d42494346504c4a43534d4c494d56454e49454c4c41465446484750564e4f41434842524d44474748414d454e4346474256415047454f5048524a564d574f444a44414a4f434945485054565045564b474243575356494e47525444425457484d4d47454e4e524445414b4f4e54544f48504c4644464a4e42484e4b48474d4d4c4c544149504a445454494c474344574557474d4743524f4e4b50544b484c564742525657494a4648464e4a5356504854524841474c4a53414543474956524756444154474d52494e46444944474e504944504b424c4a57454a53524442475047524c544b49494d5052414a474553454f424a414e435045464653484f5044454c4149574b5048544f54454b464f4850534d494e4246474b424e4457424148524c524c43474e4d45494c4f4f41504448504e5047475645544f4d524e45535349494341475743444d56524b544d4848414b46484147444a474343504945454e434141524c49434241474d4d44414b5250414947534457575249444145414452544b4a54544e50464c4a56414b45464c4b49444c4f534853484a524d424d4f444f524b46464f5450444a535054454c"
+  },
+  {
+   "step": 0,
+   "source": "file",
+   "field": "DOSBox-X config of the session, host paths replaced by <work> and <game>",
+   "value": "[sdl]\nfullscreen=false\noutput=surface\nmapperfile=<work>/mapper.map\n[mixer]\nnosound=true\n[midi]\nmididevice=none\n[dosbox]\nmachine=svga_s3\nmemsize=16\nsaveremark=false\ncaptures=<work>/cap\n[cpu]\ncore=auto\ncputype=auto\ncycles=30000\n[autoexec]\nmount c <game>\nc:\nmount d <work>/dosclock\ndate /t > d:\\clock.txt\ntime /t >> d:\\clock.txt\nc:\ngoal\nexit\n"
+  },
+  {
+   "step": 0,
+   "source": "file",
+   "field": "sha256 of that config text (UTF-8)",
+   "value": "083897d321ed9fe50ca93bbf03ff45765c03c0f2a6e5e5df57aede499ebdc147"
+  },
+  {
+   "step": 0,
+   "source": "log",
+   "field": "batch label given on the command line",
+   "value": "b1"
+  },
+  {
+   "step": 0,
+   "source": "log",
+   "field": "keys sent after the restore, in order",
+   "value": "Esc Space Left"
+  },
+  {
+   "step": 1,
+   "source": "ui-text",
+   "field": "main menu after Esc: text screen rows 0-24, CP437 decoded, trailing blanks trimmed",
+   "value": " (c) NE'93│ │ ┌────────────────────────────────┬────┐           Denmark--------\n ┌─┐┌─┐┌─┐│ │ ├─  ┬  ┬┌──┌──┐┬──┐┌▄▄ ┌──┐┌──┐  │2028│          ┌────────────┬─┐\n │ ││ ││ ││ │ └───└──┘┴  └──┘├──┘└───└──┴┴  ┴  └────┘          │P Schmeichel│G│\n └─┤└─┘└─┤│ │┌──┬────────────QUALIFYING───────┬────────        │L Olsen     │S│\n───┘ v.2    ││  ├──┐┌──┐┌─┬─┐┬──┐┬┌──┐┌──┐┌▄──├──┐┬┬──┐        │T Piechnik  │C│\n────────────┘└──┴  ┴└──┴┴ ┴ ┴├──┘┴└──┘┴  ┴──▀┘┴  ┴┴├──┘        │K Christofte│C│\n──┌name──────────┬rating─────────┐ ───────  ─┌─────────┐────── │H Andersen  │B│\n──│B Ob          │unknown        │ ───────  ─│team info│────── │J Sivebaek  │B│\n──└──────────────┴───────────────┘ ───────  ─└─────────┘────── │K Vilfort   │D│\n─┌team───────────┐────┌─┬managers──────┐──  ─┌────────────┐─── │H Larsen    │M│\n─│Denmark--------│────│1│B Ob          │──  ─│fixture list│─── │J Jensen    │M│\n─├rankings───┬───┘────│2│              │──  ─└────────────┘─── │B Laudrup   │F│\n─│World  : 29│────────│3│              │──  ─┌──────────┐───── │F Povlsen   │$│\n─│Europe :  1│────────│4│              │──  ─│tournament│───── ├────────────┼─┤\n─└───────────┘────────│5│              │──  ─└──────────┘───── │M Krogh     │G│\n─┌next─opponents─┐────│6│              │──  ─┌───────┐──────── │P Nielsen   │S│\n─│Sweden---------│────└─┴──────────────┘──  ─│history│──────── │K Nielsen   │C│\n─├rankings───┬───┘──────── Use ↑↓ to ─────  ─└───────┘──────── │C Kristensen│B│\n─│World  : 19│─────────── find option ────  ─┌────────────┐─── │J Molby     │D│\n─│Europe :  4│────────────────────────────  ─│select squad│─── │M Bruun     │W│\n─├───────────┴───┐───────── Hit ◄┘ to ────  ─└────────────┘─── │L Elstrup   │¢│\n─│friendly home  │───────── select ───────  ─┌──────────────┐─ │T Frank     │$│\n─└───────────────┘───────── option ───────  ─│play next game│─ │B Kristensen│$│\n──────────────────────────────────────────  ─└──────────────┘─ └────────────┴─┘\nF1help  F3load goal  F4load summary  F5print screen F7save               F10quit"
+  },
+  {
+   "step": 1,
+   "source": "screen",
+   "field": "main menu after Esc: text screen 80x25, chars+attributes (4000 bytes), sha256",
+   "value": "ebd64dad75355e15f870685a876bf109f74f39bded64944e2444ffd97873e347"
+  },
+  {
+   "step": 2,
+   "source": "ui-text",
+   "field": "SELECT TEAM, squad view after Space: text screen rows 0-24, CP437 decoded, trailing blanks trimmed",
+   "value": " (c) NE'93│ │    SELECT YOUR TEAM                               Denmark--------\n ┌─┐┌─┐┌─┐│ │  - Use ←→ to toggle between your squad and       ┌────────────┬─┐\n │ ││ ││ ││ │   the pool of other players available to you.    │P Schmeichel│G│\n └─┤└─┘└─┤│ │  - Use ↑↓ to find player, ◄┘ to select.          │L Olsen     │S│\n───┘ v.2    │    Hit Ins for assistant's recommended 20        │K Christofte│C│\n────────────┘                                                  │T Piechnik  │C│\n┌name──────────┬age┬caps┬goals┬height─┬bias──────┬performance┐ │H Andersen  │B│\n│P Schmeichel  │ 30│   0│    0│ 5'11\" │left  foot│           │ │J Sivebaek  │B│\n├position──────┴───┼club┴position─────┼cards┬────┴─┴─┴─┴─┴─┴─┤ │K Vilfort   │D│\n│goalkeeper        │goalkeeper        │     │   ready to play│ │H Larsen    │M│\n├skills───┬────┬───┴┬────┬────┬────┬┬─┴─────┴─────────tactics┤ │J Jensen    │M│\n├keeping──■■■■■■■■■■■■■■■■■■■■■■■■■■┼position─────leave box P┤ │B Laudrup   │F│\n├kicking──■■■■■■■■■■■■■■■■■■■■■■■■■■┼possession────quick pass┤ │F Povlsen   │$│\n├tackling─■■■■■■■■■■■■■■■■■■■■■■■■■■┼passing───throw the ball┤ ├────────────┼─┤\n├heading──■■■■■■■■■■■■■■■■■■■■■■■■■■┼tackling──────go in hard┤ │M Krogh     │G│\n├marking──■■■■■■■■■■■■■■■■■■■■■■■■■■┼mark────────────────────┤ │P Nielsen   │S│\n├passing──■■■■■■■■■■■■■■■■■■■■■■■■■■┤                        │ │K Nielsen   │C│\n├crossing─■■■■■■■■■■■■■■■■■■■■■■■■■■┼─────────characteristics┤ │C Kristensen│B│\n├feinting─■■■■■■■■■■■■■■■■■■■■■■■■■■┼hardness──mild■■■■■■■■■■┤ │J Molby     │D│\n├control──■■■■■■■■■■■■■■■■■■■■■■■■■■┼fitness───reasonable■■■■┤ │M Bruun     │W│\n├dribbling■■■■■■■■■■■■■■■■■■■■■■■■■■┼energy────lively■■■■■■■■┤ │L Elstrup   │¢│\n├shooting─■■■■■■■■■■■■■■■■■■■■■■■■■■┼morale────concerned■■■■■┤ │B Kristensen│$│\n├penalties■■■■■■■■■■■■■■■■■■■■■■■■■■┼leadershipnegligible■■■■┤ │T Frank     │$│\n└─────────┴────┴────┴────┴────┴────┴┴──────────┴────┴────┴───┘ └────────────┴─┘\nF2-new name R,C-reposition T-tactics               ◄┘-move player   Esc-exit"
+  },
+  {
+   "step": 2,
+   "source": "screen",
+   "field": "SELECT TEAM, squad view after Space: text screen 80x25, chars+attributes (4000 bytes), sha256",
+   "value": "d4ad1ed5cb9cb1a2d5aeb5b84f7790df73bb5bc47dca46e5998516824ea01f95"
+  },
+  {
+   "step": 3,
+   "source": "ui-text",
+   "field": "SELECT TEAM, pool view after Left: text screen rows 0-24, CP437 decoded, trailing blanks trimmed",
+   "value": " (c) NE'93│ │    SELECT YOUR TEAM                               pool of players\n ┌─┐┌─┐┌─┐│ │  - Use ←→ to toggle between your squad and       ┌────────────┬─┐\n │ ││ ││ ││ │   the pool of other players available to you.    │B Gathergood│G│\n └─┤└─┘└─┤│ │  - Use ↑↓ to find player, ◄┘ to select.          │O Dyke      │G│\n───┘ v.2    │                                                  │T Barrow    │G│\n────────────┘                                                  │M Stott     │G│\n┌name──────────┬age┬caps┬goals┬height─┬bias──────┬performance┐ │R Longley   │G│\n│B Gathergood  │ 36│   0│    0│ 6' 2\" │right foot│           │ │R Bennet    │G│\n├position──────┴───┼club┴position─────┼cards┬────┴─┴─┴─┴─┴─┴─┤ │A Blaber    │S│\n│goalkeeper        │goalkeeper        │     │                │ │J Hunter    │S│\n├skills───┬────┬───┴┬────┬────┬────┬┬─┴─────┴─────────tactics┤ │A Maes      │S│\n├keeping──■■■■■■■■■■■■■■■■■■■■■■■■■■┼position─────leave box P┤ │M Warner    │S│\n├kicking──■■■■■■■■■■■■■■■■■■■■■■■■■■┼possession────quick pass┤ │W Longdon   │S│\n├tackling─■■■■■■■■■■■■■■■■■■■■■■■■■■┼passing───throw the ball┤ │E Urquhart  │S│\n├heading──■■■■■■■■■■■■■■■■■■■■■■■■■■┼tackling──────go in hard┤ │W Warren    │C│\n├marking──■■■■■■■■■■■■■■■■■■■■■■■■■■┼mark────────────────────┤ │I Rhodes    │C│\n├passing──■■■■■■■■■■■■■■■■■■■■■■■■■■┤                        │ │B Broadbent │C│\n├crossing─■■■■■■■■■■■■■■■■■■■■■■■■■■┼─────────characteristics┤ │A Dillinger │C│\n├feinting─■■■■■■■■■■■■■■■■■■■■■■■■■■┼hardness──gentle■■■■■■■■┤ │B Newport   │C│\n├control──■■■■■■■■■■■■■■■■■■■■■■■■■■┼fitness───total■■■■■■■■■┤ │N Macleod   │C│\n├dribbling■■■■■■■■■■■■■■■■■■■■■■■■■■┼energy────hyperactive■■■┤ │N Lamb      │C│\n├shooting─■■■■■■■■■■■■■■■■■■■■■■■■■■┼morale────lacking■■■■■■■┤ │D Stevens   │B│\n├penalties■■■■■■■■■■■■■■■■■■■■■■■■■■┼leadershipnone■■■■■■■■■■┤ │B Holloway  │B│\n└─────────┴────┴────┴────┴────┴────┴┴──────────┴────┴────┴───┘ └────────────┴─┘\nF2-new name R,C-reposition T-tactics               ◄┘-move player   Esc-exit"
+  },
+  {
+   "step": 3,
+   "source": "screen",
+   "field": "SELECT TEAM, pool view after Left: text screen 80x25, chars+attributes (4000 bytes), sha256",
+   "value": "0d8332acf1be8a7259bea87976cb85999dd1492242a314efcb4b134c0c53f1be"
+  },
+  {
+   "step": 4,
+   "source": "process",
+   "field": "dosbox-x and Xvfb after SIGTERM to their process groups (SIGKILL after TERM_GRACE, see log)",
+   "value": "both exited"
+  },
+  {
+   "step": 4,
+   "source": "log",
+   "field": "waits, polls and key holds, seconds since launch",
+   "value": "[[0.106,\"Xvfb poll: answered after 2 polls of 0.1s\"],[0.106,\"Xvfb :331 answering\"],[0.106,\"dosbox-x started\"],[0.224,\"window found after 2 polls of 0.1s\"],[0.226,\"window focused\"],[0.735,\"host key F12+s, each step held 0.15s\"],[0.736,\"savestate complete after 1 polls of 0.05s\"],[0.755,\"title screen: matched after 1 savestate polls\"],[0.755,\"DOS clock read back: '10/05/2026\\\\n20:28:35'\"],[1.269,\"host key F12+l, each step held 0.15s\"],[1.269,\"Host+L sent (e006-1000-r0001)\"],[1.779,\"host key F12+s, each step held 0.15s\"],[1.78,\"savestate complete after 1 polls of 0.05s\"],[1.798,\"restore e006-1000-r0001: matched after 1 savestate polls\"],[2.319,\"host key F12+s, each step held 0.15s\"],[2.321,\"savestate complete after 1 polls of 0.05s\"],[2.446,\"key Esc held 0.08s\"],[2.958,\"host key F12+s, each step held 0.15s\"],[2.959,\"savestate complete after 1 polls of 0.05s\"],[3.488,\"host key F12+s, each step held 0.15s\"],[3.489,\"savestate complete after 1 polls of 0.05s\"],[3.504,\"after key Esc: changed and stable after 2 savestate polls\"],[4.015,\"host key F12+s, each step held 0.15s\"],[4.016,\"savestate complete after 1 polls of 0.05s\"],[4.142,\"key Space held 0.08s\"],[4.654,\"host key F12+s, each step held 0.15s\"],[4.655,\"savestate complete after 1 polls of 0.05s\"],[5.184,\"host key F12+s, each step held 0.15s\"],[5.185,\"savestate complete after 1 polls of 0.05s\"],[5.194,\"after key Space: changed and stable after 2 savestate polls\"],[5.704,\"host key F12+s, each step held 0.15s\"],[5.705,\"savestate complete after 1 polls of 0.05s\"],[5.824,\"key Left held 0.08s\"],[6.335,\"host key F12+s, each step held 0.15s\"],[6.336,\"savestate complete after 1 polls of 0.05s\"],[6.866,\"host key F12+s, each step held 0.15s\"],[6.867,\"savestate complete after 1 polls of 0.05s\"],[6.882,\"after key Left: changed and stable after 2 savestate polls\"],[7.383,\"dosbox-x pid 3438540 alive 0.5s after SIGTERM (grace 0.5s): SIGKILL to its group\"],[7.391,\"dosbox-x pid 3438540 ended by SIGKILL 0.508s after the first signal\"],[7.394,\"Xvfb pid 3438535 ended by SIGTERM 0.003s after the first signal\"],[7.394,\"terminated\"]]"
+  }
+ ],
+ "outputs": [],
+ "started": "2026-10-05T18:28:36.708Z",
+ "ended": "2026-10-05T18:28:44.118Z",
+ "status": "completed"
+}
