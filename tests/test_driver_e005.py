@@ -508,6 +508,23 @@ class VerdictPathsTest(unittest.TestCase):
             self.assertIsNone(summ.unread_occurrences(dict(r, gaps=gaps)), gaps)
         self.assertEqual(summ.unread_occurrences(dict(r, gaps=r["gaps"] + ["match read 1: counter 0 -> 150 (150 lines)"])), [7])
 
+    def test_unequal_totals_differ_even_when_losses_cannot_be_located(self):
+        # review round 4, R1: the totals are compared before any placement
+        run = run_of(LINES, gaps=["match read 1: something else"], deltas=[205])
+        self.assertIsNone(summ.located(run))
+        self.assertEqual(summ.compare(run, run_of(LINES)), ("DIFFERS", "lines counted 205 against 5"))
+
+    def test_an_undetermined_verdict_claims_line_equality_only_when_lines_were_compared(self):
+        # review round 4, R2: one line each, "x" against "y"; the run's flag cannot be located, so no line was compared
+        ref = run_of([[1, 2, 0, "y"]], id="ref")
+        run = run_of([[1, 2, 0, "x"]], gaps=["match read 1: something else"], deltas=[1])
+        v = summ.identity(run, ref)
+        self.assertTrue(v.startswith("IDENTITY UNDETERMINED"), v)
+        self.assertIn("the lines could not be compared; the score, DS:7B62 and DS:80EE at full time", v)
+        self.assertNotIn("every occurrence both saw", v)
+        located_ = run_of(LINES[:2] + LINES[3:], gaps=["match read 1: record 3 is the end marker 0xFF"])
+        self.assertIn("every occurrence both saw", summ.identity(located_, dict(run_of(LINES), id="ref")))
+
     def test_verdict_counts(self):
         ref = dict(run_of(LINES), id="ref", kind="restores", status="completed", state="s", arm="watched", cycles="30000")
         same = dict(ref, id="r2", cycles="5000")

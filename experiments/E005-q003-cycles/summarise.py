@@ -259,10 +259,10 @@ def compare(r, ref):
       no unread line, and their absence would not show completeness either."""
     if any(r[k] != ref[k] for k in MEMORY) or r["counter"] is None:
         return "DIFFERS", "score, DS:7B62 or DS:80EE at full time"
+    if sum(r["deltas"]) != sum(ref["deltas"]):          # counted, whatever the flags and before any placement
+        return "DIFFERS", f"lines counted {sum(r['deltas'])} against {sum(ref['deltas'])}"
     a, b = located(r), located(ref)
     if a is not None and b is not None:
-        if a[1] != b[1]:
-            return "DIFFERS", f"lines counted {a[1]} against {b[1]}"
         both = sorted(set(a[0]) & set(b[0]))
         diff = [i for i in both if a[0][i] != b[0][i]]
         if diff:
@@ -291,8 +291,11 @@ def identity(r, ref):
         n = len(strides(r)) + len(strides(ref))
         return f"{NO_DIFFERENCE} from {ref['id']}" + (f" ({n} stride flag(s) reported)" if n else "")
     if verdict == "IDENTITY UNDETERMINED":
-        return (f"IDENTITY UNDETERMINED against {ref['id']}: {why}; every occurrence both saw, the score, DS:7B62 and "
-                f"DS:80EE at full time ({r['counter']}) are equal")
+        if located(r) is not None and located(ref) is not None:
+            seen = "every occurrence both saw, the score, DS:7B62 and DS:80EE"
+        else:
+            seen = "the lines could not be compared; the score, DS:7B62 and DS:80EE"
+        return f"IDENTITY UNDETERMINED against {ref['id']}: {why}; {seen} at full time ({r['counter']}) are equal"
     return f"DIFFERS from {ref['id']}: {why}"
 
 
