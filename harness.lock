@@ -6,9 +6,9 @@ commit 0f39634774ba0afd08ec5a79d2e67ebee02e6610
 profile full
 copied 2026-10-05
 adapt CLAUDE.md  (project line, rules 17-21 of this project; rule 1 cites L50/L51; 2026-10-05)
-adapt docs/process.md  (§1 reviewer row: Sol at effort low for complex tasks, GPT-5.6 Luna for small PRs (L101); §5 run mechanics and the stop rule after two one-blocker rounds (L101); 2026-10-05)
+adapt docs/process.md  (§3 heavy models at effort low; §1 reviewer row: Sol at effort low for complex tasks, GPT-5.6 Luna for small PRs (L101); §5 run mechanics and the stop rule after two one-blocker rounds (L101); 2026-10-05)
 adapt docs/lessons.md  (this project's L100, L101 appended; 2026-10-05)
-adapt harness.json  (the project's model names kept: zai-glm-5.3-flash, zai-glm-5.3, gpt-6.1-sol (variant low); chains as the template's; luna = openai/gpt-5.6-luna, luna-6 = GPT-6 Luna outside the chains (L51); reviewer fallback opus; 2026-10-05)
+adapt harness.json  (the project's model names kept: zai-glm-5.3-flash, zai-glm-5.3 (variant low), gpt-6.1-sol (variant low); chains as the template's; luna = openai/gpt-5.6-luna, luna-6 = GPT-6 Luna outside the chains (L51); reviewer fallback opus; 2026-10-05)
 adapt docs/tasks/README.md  (this repository's task index)
 15f1fcb3af4cd07482f39328e2255a71075f4889946901960116f9a3a5b4c16f  .claude/agents/implementer.md
 27d64f4a20a14dd8d0ea0d11376e231511250d2a65662b6f0665086293a92102  .claude/agents/reviewer.md
