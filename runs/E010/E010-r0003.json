@@ -1,0 +1,1315 @@
+{
+ "schema": "run/1",
+ "run_id": "E010-r0003",
+ "experiment": "E010",
+ "arm": "unchanged",
+ "rep": 3,
+ "code_commit": "008ece0",
+ "machine": "ubuntu-24-04-wsl2",
+ "artifact": {
+  "set": "goal2-67cf27d6",
+  "variant": null
+ },
+ "runtime": {
+  "driver": "runtime/driver/driver.py@008ece0",
+  "platform": "python-3.12.3/ubuntu-24-04-wsl2",
+  "fingerprint": {
+   "dosbox-x": "2024.03.01 SDL2",
+   "xvfb": "2:21.1.12-1ubuntu1.8",
+   "xdotool": "xdotool version 3.20160805.1",
+   "python": "3.12.3",
+   "kernel": "6.18.40.1-microsoft-standard-WSL2",
+   "config_sha256": "083897d321ed9fe50ca93bbf03ff45765c03c0f2a6e5e5df57aede499ebdc147",
+   "machine": "svga_s3",
+   "memsize": "16",
+   "cycles": "30000",
+   "core": "auto",
+   "cputype": "auto"
+  }
+ },
+ "interventions": [
+  {
+   "level": "I1",
+   "what": "text screen, BIOS data area and GOAL.EXE memory (DS:7B62, the word at [DS:A978], the score DS:9B3C/9B3D, the commentary ring, the goal store DS:7BD1, the country array at [DS:A917]) read from DOSBox-X savestates (Host+S; components Vga and Memory)"
+  },
+  {
+   "level": "I2",
+   "what": "savestates written at every read; two loaded (Host+L): the start state, then the captain-screen savestate of this run (vocabulary/interventions.md lists save and load of state as I2)"
+  }
+ ],
+ "start_state": {
+  "id": "e006-1001-r0002",
+  "sha256": "e548627d333fb1b8c6096bea30dedb94c80cb8ce9c9326a47555a07a1925dda9",
+  "restore": "fresh DOSBox-X process (config sha256 083897d321ed9fe50ca93bbf03ff45765c03c0f2a6e5e5df57aede499ebdc147), game folder recreated from the verified release copy, GOAL run to its title screen; key n to change the screen; then Host+L loads E006's published main-screen savestate whose sha256 is given (e006-1001-r0002.sav, release E006); polled until the screen digest equals the one stored with it (18190236ee20f9eb0573e82714034e41226a92a62efb4c119d8648e06a9a1b67); DOS clock of this session not set"
+ },
+ "seed": null,
+ "actions": {
+  "script": "experiments/E010-q010-quick-engine/run.py",
+  "sha256": "5c35067f26ffcfafc0cc5e28bfb8dbdda3bd0e3a98fb33a1c13ced08cd06c9b5",
+  "args": [
+   "quick",
+   "--state",
+   "e006-1001-r0002",
+   "--arms",
+   "unchanged,edited",
+   "--batch",
+   "b1",
+   "arm unchanged"
+  ]
+ },
+ "observations": [
+  {
+   "step": 0,
+   "source": "log",
+   "field": "host UTC time at launch",
+   "value": "2026-10-05T21:59:25.186Z"
+  },
+  {
+   "step": 0,
+   "source": "log",
+   "field": "host local time at launch, with UTC offset, and zone name",
+   "value": "2026-10-05T23:59:25.186+02:00 CEST"
+  },
+  {
+   "step": 0,
+   "source": "log",
+   "field": "start state restored (main screen): host UTC time just before the savestate was requested",
+   "value": "2026-10-05T21:59:26.458Z"
+  },
+  {
+   "step": 0,
+   "source": "log",
+   "field": "start state restored (main screen): host local time with UTC offset, and zone name, at the same instant",
+   "value": "2026-10-05T23:59:26.458+02:00 CEST"
+  },
+  {
+   "step": 0,
+   "source": "screen",
+   "field": "start state restored (main screen): text screen 80x25, chars+attributes (4000 bytes), sha256",
+   "value": "18190236ee20f9eb0573e82714034e41226a92a62efb4c119d8648e06a9a1b67"
+  },
+  {
+   "step": 0,
+   "source": "ui-text",
+   "field": "start state restored (main screen): text screen rows 0-24, CP437 decoded, trailing blanks trimmed",
+   "value": " (c) NE'93│ │  ┌─────────────┐     Use ←→↑↓ to select             use INS to\n ┌─┐┌─┐┌─┐│ │  │  Check out  │                                   swap between\n │ ││ ││ ││ │  │   all the   │     Hit ◄┘ for fixtures             world and\n └─┤└─┘└─┤│ │  │ competitors │                                    continental\n───┘ v.2    │  └─────────────┘     Esc to exit                     rankings\n────────────┘\n┌team─────────────────────────────┬───────────────────tactics┐ ┌───────────────┐\n│Denmark-------- status major     ├──────────────team─tactics┤ │Denmark--------│\n├manager──────────────────────────┤defence─system──half pitch┤ │Germany--------│\n│B Ob            skill unknown    ├protection─sag back to box┤ │Holland--------│\n├ranking─now─top┬─────────────────┼offside──────────play safe┤ │Sweden---------│\n│World    29  29│formation  5-4-1 ├───────────player─defaults┤ │Scotland-------│\n│Europe    1   1│strips     ☻ ☻ ☻ │positioning───push forward┤ │France---------│\n├skills──────┬──┴─┬────┬────┬────┬┼possession──────quick pass┤ │England--------│\n├keeper──■■■■■■■■■■■■■■■■■■■■■■■■■┼passing───────short passes┤ │Russia---------│\n├defence─■■■■■■■■■■■■■■■■■■■■■■■■■┼tackling────────go in hard┤ │Yugoslavia-----│\n├midfield■■■■■■■■■■■■■■■■■■■■■■■■■┼marking─────────man to man┤ │Switzerland----│\n├attack──■■■■■■■■■■■■■■■■■■■■■■■■■┼───────────characteristics┤ │R.C.S----------│\n├performance─┼────┼────┼────┼────┼┤average─caps─0─────age─29─┤ │Wales----------│\n├keeper──■■■■■■■■■■■■■■■■■■■■■■■■■┼hardness──tough■■■■■■■■■■■┤ │Eire-----------│\n├defence─■■■■■■■■■■■■■■■■■■■■■■■■■┼fitness───very fit■■■■■■■■┤ │Portugal-------│\n├midfield■■■■■■■■■■■■■■■■■■■■■■■■■┼energy────energetic■■■■■■■┤ │Italy----------│\n├attack──■■■■■■■■■■■■■■■■■■■■■■■■■┼morale────not bad■■■■■■■■■┤ │Romania--------│\n└────────────┴────┴────┴────┴────┴┴──────────────┴────┴────┴─┘ └───────────────┘\nspacebar-players T-tactics"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x449",
+   "field": "start state restored (main screen): 1 byte at 0040:0049 (BIOS video mode), guest memory from the savestate, hex",
+   "value": "03"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x46c",
+   "field": "start state restored (main screen): 4 bytes at 0040:006C (BIOS timer tick count), guest memory from the savestate, as a little-endian dword (bytes in memory order)",
+   "value": "0x000a0563 (63 05 0a 00)"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x355a2",
+   "field": "start state restored (main screen): word at DS:7B62 of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+   "value": "0xb24b (4b b2)"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x355a4",
+   "field": "start state restored (main screen): word at DS:7B64 of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+   "value": "0x0808 (08 08)"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x35d76",
+   "field": "start state restored (main screen): word at DS:8336 of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+   "value": "0x0492 (92 04)"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x3843d",
+   "field": "start state restored (main screen): word at DS:A9FD of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+   "value": "0x07ea (ea 07)"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "field": "start state restored (main screen): score bytes DS:9B3C, DS:9B3D (engine teams 0 and 1)",
+   "value": "0 0"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "field": "start state restored (main screen): match delay byte at the far pointer DS:A923 + 0x3F (0 fastest)",
+   "value": "1"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "field": "start state restored (main screen): seed words, GOAL.EXE data segment",
+   "value": "DS:7B62=0xb24b [DS:A978]=2da4:7b62=0xb24b"
+  },
+  {
+   "step": 0,
+   "source": "file",
+   "field": "DOSBox-X config of the session, host paths replaced by <work> and <game>",
+   "value": "[sdl]\nfullscreen=false\noutput=surface\nmapperfile=<work>/mapper.map\n[mixer]\nnosound=true\n[midi]\nmididevice=none\n[dosbox]\nmachine=svga_s3\nmemsize=16\nsaveremark=false\ncaptures=<work>/cap\n[cpu]\ncore=auto\ncputype=auto\ncycles=30000\n[autoexec]\nmount c <game>\nc:\nmount d <work>/dosclock\ndate /t > d:\\clock.txt\ntime /t >> d:\\clock.txt\nc:\ngoal\nexit\n"
+  },
+  {
+   "step": 0,
+   "source": "file",
+   "field": "sha256 of that config text (UTF-8)",
+   "value": "083897d321ed9fe50ca93bbf03ff45765c03c0f2a6e5e5df57aede499ebdc147"
+  },
+  {
+   "step": 0,
+   "source": "log",
+   "field": "batch label given on the command line",
+   "value": "b1"
+  },
+  {
+   "step": 0,
+   "source": "log",
+   "field": "keys sent after the restore to the captain screen, in order",
+   "value": "Esc Up Enter Enter"
+  },
+  {
+   "step": 5,
+   "source": "log",
+   "field": "captain screen (the savestate both arms load): host UTC time just before the savestate was requested",
+   "value": "2026-10-05T21:59:31.630Z"
+  },
+  {
+   "step": 5,
+   "source": "log",
+   "field": "captain screen (the savestate both arms load): host local time with UTC offset, and zone name, at the same instant",
+   "value": "2026-10-05T23:59:31.630+02:00 CEST"
+  },
+  {
+   "step": 5,
+   "source": "screen",
+   "field": "captain screen (the savestate both arms load): text screen 80x25, chars+attributes (4000 bytes), sha256",
+   "value": "ba09a09a7d4f7b7674b05c9117d756fa8f1efc0861068cfbc34cf7671b641bcf"
+  },
+  {
+   "step": 5,
+   "source": "ui-text",
+   "field": "captain screen (the savestate both arms load): text screen rows 0-24, CP437 decoded, trailing blanks trimmed",
+   "value": " (c) NE'93│ ┌───────────────┬──┬FRIENDLY───────────────────────────┐┌───┐ ┌───┐\n ┌─┐┌─┐┌─┐│ │DENMARK--------│ 0│                                   ││   │ │   │\n │ ││ ││ ││ ├versus─────────┼──┤                                   │├───┤ ├───┤\n └─┤└─┘└─┤│ │ENGLAND--------│ 0│                                   ││   │ │   │\n───┘ v.2    └───────────────┴──┴───────────────────────────────────┘└───┘ └───┘\n\n┌name──────────┬age┬caps┬goals┬height─┬bias──────┬performance┐ ┌────────────┬─┐\n│T Piechnik    │ 28│   0│    0│ 6' 0\" │right foot│           │ │P Schmeichel│G│\n├position──────┴───┼club┴position─────┼cards┬────┴─┴─┴─┴─┴─┴─┤ │L Olsen     │S│\n│centre back       │centre back       │     │        selected│ │T Piechnik  │C│\n├skills───┬────┬───┴┬────┬────┬────┬┬─┴─────┴─────────tactics┤ │K Christofte│C│\n├keeping──■■■■■■■■■■■■■■■■■■■■■■■■■■┼position─────stay back P┤ │H Andersen  │B│\n├kicking──■■■■■■■■■■■■■■■■■■■■■■■■■■┼possession──quick pass P┤ │J Sivebaek  │B│\n├tackling─■■■■■■■■■■■■■■■■■■■■■■■■■■┼passing─────short passes┤ │K Vilfort   │D│\n├heading──■■■■■■■■■■■■■■■■■■■■■■■■■■┼tackling──avoid injury P┤ │H Larsen    │M│\n├marking──■■■■■■■■■■■■■■■■■■■■■■■■■■┼mark─A Shearer──────────┤ │J Jensen    │M│\n├passing──■■■■■■■■■■■■■■■■■■■■■■■■■■┤     striker            │ │B Laudrup   │F│\n├crossing─■■■■■■■■■■■■■■■■■■■■■■■■■■┼─────────characteristics┤ │F Povlsen   │$│\n├feinting─■■■■■■■■■■■■■■■■■■■■■■■■■■┼hardness──wimpy■■■■■■■■■┤ └────────────┴─┘\n├control──■■■■■■■■■■■■■■■■■■■■■■■■■■┼fitness───total■■■■■■■■■┤   use ↑↓ to move\n├dribbling■■■■■■■■■■■■■■■■■■■■■■■■■■┼energy────hyperactive■■■┤\n├shooting─■■■■■■■■■■■■■■■■■■■■■■■■■■┼morale────very confident┤ ╔═══════════════╗\n├penalties■■■■■■■■■■■■■■■■■■■■■■■■■■┼leadershipcaptain■■■■■■■┤ ║Denmark--------║\n└─────────┴────┴────┴────┴────┴────┴┴──────────┴────┴────┴───┘ ╚═══════════════╝\n◄┘-select  CAPTAIN                                         C-computer select"
+  },
+  {
+   "step": 5,
+   "source": "memory",
+   "addr": "0x449",
+   "field": "captain screen (the savestate both arms load): 1 byte at 0040:0049 (BIOS video mode), guest memory from the savestate, hex",
+   "value": "03"
+  },
+  {
+   "step": 5,
+   "source": "memory",
+   "addr": "0x46c",
+   "field": "captain screen (the savestate both arms load): 4 bytes at 0040:006C (BIOS timer tick count), guest memory from the savestate, as a little-endian dword (bytes in memory order)",
+   "value": "0x000a05b9 (b9 05 0a 00)"
+  },
+  {
+   "step": 5,
+   "source": "memory",
+   "addr": "0x355a2",
+   "field": "captain screen (the savestate both arms load): word at DS:7B62 of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+   "value": "0xf3ab (ab f3)"
+  },
+  {
+   "step": 5,
+   "source": "memory",
+   "addr": "0x355a4",
+   "field": "captain screen (the savestate both arms load): word at DS:7B64 of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+   "value": "0x0808 (08 08)"
+  },
+  {
+   "step": 5,
+   "source": "memory",
+   "addr": "0x35d76",
+   "field": "captain screen (the savestate both arms load): word at DS:8336 of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+   "value": "0x0492 (92 04)"
+  },
+  {
+   "step": 5,
+   "source": "memory",
+   "addr": "0x3843d",
+   "field": "captain screen (the savestate both arms load): word at DS:A9FD of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+   "value": "0x07ea (ea 07)"
+  },
+  {
+   "step": 5,
+   "source": "memory",
+   "field": "captain screen (the savestate both arms load): score bytes DS:9B3C, DS:9B3D (engine teams 0 and 1)",
+   "value": "0 0"
+  },
+  {
+   "step": 5,
+   "source": "memory",
+   "field": "captain screen (the savestate both arms load): match delay byte at the far pointer DS:A923 + 0x3F (0 fastest)",
+   "value": "1"
+  },
+  {
+   "step": 5,
+   "source": "memory",
+   "field": "captain screen (the savestate both arms load): seed words, GOAL.EXE data segment",
+   "value": "DS:7B62=0xf3ab [DS:A978]=2da4:7b62=0xf3ab"
+  },
+  {
+   "step": 5,
+   "source": "memory",
+   "addr": "0x48ae4",
+   "field": "edit: country 7 byte +0x2D at [DS:A917] + 0xBF*7 + 0x2D, in the captain-screen savestate, then in the state this arm loads; sha256 of both savestates",
+   "value": "0x8b -> 0x8b; captain 1413227d1ec2a94293a411b233535f7edbf2f398baba5a148a4ec1c23aa276b0; loaded 1413227d1ec2a94293a411b233535f7edbf2f398baba5a148a4ec1c23aa276b0"
+  },
+  {
+   "step": 6,
+   "source": "log",
+   "field": "after Host+L of the arm's state: host UTC time just before the savestate was requested",
+   "value": "2026-10-05T21:59:33.198Z"
+  },
+  {
+   "step": 6,
+   "source": "log",
+   "field": "after Host+L of the arm's state: host local time with UTC offset, and zone name, at the same instant",
+   "value": "2026-10-05T23:59:33.198+02:00 CEST"
+  },
+  {
+   "step": 6,
+   "source": "screen",
+   "field": "after Host+L of the arm's state: text screen 80x25, chars+attributes (4000 bytes), sha256",
+   "value": "ba09a09a7d4f7b7674b05c9117d756fa8f1efc0861068cfbc34cf7671b641bcf"
+  },
+  {
+   "step": 6,
+   "source": "ui-text",
+   "field": "after Host+L of the arm's state: text screen rows 0-24, CP437 decoded, trailing blanks trimmed",
+   "value": " (c) NE'93│ ┌───────────────┬──┬FRIENDLY───────────────────────────┐┌───┐ ┌───┐\n ┌─┐┌─┐┌─┐│ │DENMARK--------│ 0│                                   ││   │ │   │\n │ ││ ││ ││ ├versus─────────┼──┤                                   │├───┤ ├───┤\n └─┤└─┘└─┤│ │ENGLAND--------│ 0│                                   ││   │ │   │\n───┘ v.2    └───────────────┴──┴───────────────────────────────────┘└───┘ └───┘\n\n┌name──────────┬age┬caps┬goals┬height─┬bias──────┬performance┐ ┌────────────┬─┐\n│T Piechnik    │ 28│   0│    0│ 6' 0\" │right foot│           │ │P Schmeichel│G│\n├position──────┴───┼club┴position─────┼cards┬────┴─┴─┴─┴─┴─┴─┤ │L Olsen     │S│\n│centre back       │centre back       │     │        selected│ │T Piechnik  │C│\n├skills───┬────┬───┴┬────┬────┬────┬┬─┴─────┴─────────tactics┤ │K Christofte│C│\n├keeping──■■■■■■■■■■■■■■■■■■■■■■■■■■┼position─────stay back P┤ │H Andersen  │B│\n├kicking──■■■■■■■■■■■■■■■■■■■■■■■■■■┼possession──quick pass P┤ │J Sivebaek  │B│\n├tackling─■■■■■■■■■■■■■■■■■■■■■■■■■■┼passing─────short passes┤ │K Vilfort   │D│\n├heading──■■■■■■■■■■■■■■■■■■■■■■■■■■┼tackling──avoid injury P┤ │H Larsen    │M│\n├marking──■■■■■■■■■■■■■■■■■■■■■■■■■■┼mark─A Shearer──────────┤ │J Jensen    │M│\n├passing──■■■■■■■■■■■■■■■■■■■■■■■■■■┤     striker            │ │B Laudrup   │F│\n├crossing─■■■■■■■■■■■■■■■■■■■■■■■■■■┼─────────characteristics┤ │F Povlsen   │$│\n├feinting─■■■■■■■■■■■■■■■■■■■■■■■■■■┼hardness──wimpy■■■■■■■■■┤ └────────────┴─┘\n├control──■■■■■■■■■■■■■■■■■■■■■■■■■■┼fitness───total■■■■■■■■■┤   use ↑↓ to move\n├dribbling■■■■■■■■■■■■■■■■■■■■■■■■■■┼energy────hyperactive■■■┤\n├shooting─■■■■■■■■■■■■■■■■■■■■■■■■■■┼morale────very confident┤ ╔═══════════════╗\n├penalties■■■■■■■■■■■■■■■■■■■■■■■■■■┼leadershipcaptain■■■■■■■┤ ║Denmark--------║\n└─────────┴────┴────┴────┴────┴────┴┴──────────┴────┴────┴───┘ ╚═══════════════╝\n◄┘-select  CAPTAIN                                         C-computer select"
+  },
+  {
+   "step": 6,
+   "source": "memory",
+   "addr": "0x449",
+   "field": "after Host+L of the arm's state: 1 byte at 0040:0049 (BIOS video mode), guest memory from the savestate, hex",
+   "value": "03"
+  },
+  {
+   "step": 6,
+   "source": "memory",
+   "addr": "0x46c",
+   "field": "after Host+L of the arm's state: 4 bytes at 0040:006C (BIOS timer tick count), guest memory from the savestate, as a little-endian dword (bytes in memory order)",
+   "value": "0x000a05ca (ca 05 0a 00)"
+  },
+  {
+   "step": 6,
+   "source": "memory",
+   "addr": "0x355a2",
+   "field": "after Host+L of the arm's state: word at DS:7B62 of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+   "value": "0xf3ab (ab f3)"
+  },
+  {
+   "step": 6,
+   "source": "memory",
+   "addr": "0x355a4",
+   "field": "after Host+L of the arm's state: word at DS:7B64 of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+   "value": "0x0808 (08 08)"
+  },
+  {
+   "step": 6,
+   "source": "memory",
+   "addr": "0x35d76",
+   "field": "after Host+L of the arm's state: word at DS:8336 of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+   "value": "0x0492 (92 04)"
+  },
+  {
+   "step": 6,
+   "source": "memory",
+   "addr": "0x3843d",
+   "field": "after Host+L of the arm's state: word at DS:A9FD of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+   "value": "0x07ea (ea 07)"
+  },
+  {
+   "step": 6,
+   "source": "memory",
+   "field": "after Host+L of the arm's state: score bytes DS:9B3C, DS:9B3D (engine teams 0 and 1)",
+   "value": "0 0"
+  },
+  {
+   "step": 6,
+   "source": "memory",
+   "field": "after Host+L of the arm's state: match delay byte at the far pointer DS:A923 + 0x3F (0 fastest)",
+   "value": "1"
+  },
+  {
+   "step": 6,
+   "source": "memory",
+   "field": "after Host+L of the arm's state: seed words, GOAL.EXE data segment",
+   "value": "DS:7B62=0xf3ab [DS:A978]=2da4:7b62=0xf3ab"
+  },
+  {
+   "step": 6,
+   "source": "memory",
+   "field": "country 7 byte +0x2D read back after the load",
+   "value": "0x8b"
+  },
+  {
+   "step": 7,
+   "source": "log",
+   "field": "match read 1: host UTC time just before the savestate was requested",
+   "value": "2026-10-05T21:59:33.948Z"
+  },
+  {
+   "step": 7,
+   "source": "screen",
+   "field": "match read 1: text screen 80x25, chars+attributes, sha256",
+   "value": "2a742d5a8932a46f9836bc624fd91deb510366ae60adf02029bdbf1297ee6beb"
+  },
+  {
+   "step": 7,
+   "source": "ui-text",
+   "field": "match read 1: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│ / ┤Palmer wins the toss / │Ferdinand to take kick off"
+  },
+  {
+   "step": 7,
+   "source": "memory",
+   "field": "match read 1: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0002 0x3d2d 0 0"
+  },
+  {
+   "step": 8,
+   "source": "log",
+   "field": "match read 2: host UTC time just before the savestate was requested",
+   "value": "2026-10-05T21:59:34.479Z"
+  },
+  {
+   "step": 8,
+   "source": "screen",
+   "field": "match read 2: text screen 80x25, chars+attributes, sha256",
+   "value": "f7019a7b65b110c8171994b11426d93b40425a9ce9ddc376bf7013d9e9f02ba8"
+  },
+  {
+   "step": 8,
+   "source": "ui-text",
+   "field": "match read 2: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│ / ┤Palmer wins the toss / │Ferdinand to take kick off"
+  },
+  {
+   "step": 8,
+   "source": "memory",
+   "field": "match read 2: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0002 0x0c30 0 0"
+  },
+  {
+   "step": 9,
+   "source": "log",
+   "field": "match read 3: host UTC time just before the savestate was requested",
+   "value": "2026-10-05T21:59:35.010Z"
+  },
+  {
+   "step": 9,
+   "source": "screen",
+   "field": "match read 3: text screen 80x25, chars+attributes, sha256",
+   "value": "63f8563df964e59936cdd6beaf41b4e528ac72147c87b17efda99a5e5e71f5e7"
+  },
+  {
+   "step": 9,
+   "source": "ui-text",
+   "field": "match read 3: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│ / ┤Palmer wins the toss / │Ferdinand to take kick off"
+  },
+  {
+   "step": 9,
+   "source": "memory",
+   "field": "match read 3: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0002 0xb58b 0 0"
+  },
+  {
+   "step": 10,
+   "source": "log",
+   "field": "match read 4: host UTC time just before the savestate was requested",
+   "value": "2026-10-05T21:59:35.544Z"
+  },
+  {
+   "step": 10,
+   "source": "screen",
+   "field": "match read 4: text screen 80x25, chars+attributes, sha256",
+   "value": "63f8563df964e59936cdd6beaf41b4e528ac72147c87b17efda99a5e5e71f5e7"
+  },
+  {
+   "step": 10,
+   "source": "ui-text",
+   "field": "match read 4: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│ / ┤Palmer wins the toss / │Ferdinand to take kick off"
+  },
+  {
+   "step": 10,
+   "source": "memory",
+   "field": "match read 4: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0002 0xb58b 0 0"
+  },
+  {
+   "step": 11,
+   "source": "log",
+   "field": "match read 5: host UTC time just before the savestate was requested",
+   "value": "2026-10-05T21:59:36.079Z"
+  },
+  {
+   "step": 11,
+   "source": "screen",
+   "field": "match read 5: text screen 80x25, chars+attributes, sha256",
+   "value": "63f8563df964e59936cdd6beaf41b4e528ac72147c87b17efda99a5e5e71f5e7"
+  },
+  {
+   "step": 11,
+   "source": "ui-text",
+   "field": "match read 5: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│ / ┤Palmer wins the toss / │Ferdinand to take kick off"
+  },
+  {
+   "step": 11,
+   "source": "memory",
+   "field": "match read 5: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0002 0xb58b 0 0"
+  },
+  {
+   "step": 12,
+   "source": "log",
+   "field": "match read 6: host UTC time just before the savestate was requested",
+   "value": "2026-10-05T21:59:36.610Z"
+  },
+  {
+   "step": 12,
+   "source": "screen",
+   "field": "match read 6: text screen 80x25, chars+attributes, sha256",
+   "value": "63f8563df964e59936cdd6beaf41b4e528ac72147c87b17efda99a5e5e71f5e7"
+  },
+  {
+   "step": 12,
+   "source": "ui-text",
+   "field": "match read 6: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│ / ┤Palmer wins the toss / │Ferdinand to take kick off"
+  },
+  {
+   "step": 12,
+   "source": "memory",
+   "field": "match read 6: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0002 0xb58b 0 0"
+  },
+  {
+   "step": 13,
+   "source": "log",
+   "field": "match read 7: host UTC time just before the savestate was requested",
+   "value": "2026-10-05T21:59:37.139Z"
+  },
+  {
+   "step": 13,
+   "source": "screen",
+   "field": "match read 7: text screen 80x25, chars+attributes, sha256",
+   "value": "63f8563df964e59936cdd6beaf41b4e528ac72147c87b17efda99a5e5e71f5e7"
+  },
+  {
+   "step": 13,
+   "source": "ui-text",
+   "field": "match read 7: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│ / ┤Palmer wins the toss / │Ferdinand to take kick off"
+  },
+  {
+   "step": 13,
+   "source": "memory",
+   "field": "match read 7: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0002 0xb58b 0 0"
+  },
+  {
+   "step": 14,
+   "source": "log",
+   "field": "match read 8: host UTC time just before the savestate was requested",
+   "value": "2026-10-05T21:59:37.670Z"
+  },
+  {
+   "step": 14,
+   "source": "screen",
+   "field": "match read 8: text screen 80x25, chars+attributes, sha256",
+   "value": "903c6a2d160e9e18738a39001ee5a3ac66f59d7ee89bcd3b578ec11de6ad3605"
+  },
+  {
+   "step": 14,
+   "source": "ui-text",
+   "field": "match read 8: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│Palmer wins the toss / ┤Ferdinand to take kick off / │---- HALF TIME ----"
+  },
+  {
+   "step": 14,
+   "source": "memory",
+   "field": "match read 8: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0003 0x24dc 0 0"
+  },
+  {
+   "step": 15,
+   "source": "log",
+   "field": "match read 9: host UTC time just before the savestate was requested",
+   "value": "2026-10-05T21:59:38.198Z"
+  },
+  {
+   "step": 15,
+   "source": "screen",
+   "field": "match read 9: text screen 80x25, chars+attributes, sha256",
+   "value": "903c6a2d160e9e18738a39001ee5a3ac66f59d7ee89bcd3b578ec11de6ad3605"
+  },
+  {
+   "step": 15,
+   "source": "ui-text",
+   "field": "match read 9: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│Palmer wins the toss / ┤Ferdinand to take kick off / │---- HALF TIME ----"
+  },
+  {
+   "step": 15,
+   "source": "memory",
+   "field": "match read 9: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0003 0x24dc 0 0"
+  },
+  {
+   "step": 16,
+   "source": "log",
+   "field": "match read 10: host UTC time just before the savestate was requested",
+   "value": "2026-10-05T21:59:41.663Z"
+  },
+  {
+   "step": 16,
+   "source": "screen",
+   "field": "match read 10: text screen 80x25, chars+attributes, sha256",
+   "value": "903c6a2d160e9e18738a39001ee5a3ac66f59d7ee89bcd3b578ec11de6ad3605"
+  },
+  {
+   "step": 16,
+   "source": "ui-text",
+   "field": "match read 10: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│Palmer wins the toss / ┤Ferdinand to take kick off / │---- HALF TIME ----"
+  },
+  {
+   "step": 16,
+   "source": "memory",
+   "field": "match read 10: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0003 0x24dc 0 0"
+  },
+  {
+   "step": 17,
+   "source": "log",
+   "field": "match read 11: host UTC time just before the savestate was requested",
+   "value": "2026-10-05T21:59:42.196Z"
+  },
+  {
+   "step": 17,
+   "source": "screen",
+   "field": "match read 11: text screen 80x25, chars+attributes, sha256",
+   "value": "903c6a2d160e9e18738a39001ee5a3ac66f59d7ee89bcd3b578ec11de6ad3605"
+  },
+  {
+   "step": 17,
+   "source": "ui-text",
+   "field": "match read 11: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│Palmer wins the toss / ┤Ferdinand to take kick off / │---- HALF TIME ----"
+  },
+  {
+   "step": 17,
+   "source": "memory",
+   "field": "match read 11: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0003 0x24dc 0 0"
+  },
+  {
+   "step": 18,
+   "source": "log",
+   "field": "match read 12: host UTC time just before the savestate was requested",
+   "value": "2026-10-05T21:59:42.725Z"
+  },
+  {
+   "step": 18,
+   "source": "screen",
+   "field": "match read 12: text screen 80x25, chars+attributes, sha256",
+   "value": "903c6a2d160e9e18738a39001ee5a3ac66f59d7ee89bcd3b578ec11de6ad3605"
+  },
+  {
+   "step": 18,
+   "source": "ui-text",
+   "field": "match read 12: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│Palmer wins the toss / ┤Ferdinand to take kick off / │---- HALF TIME ----"
+  },
+  {
+   "step": 18,
+   "source": "memory",
+   "field": "match read 12: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0003 0x24dc 0 0"
+  },
+  {
+   "step": 19,
+   "source": "log",
+   "field": "match read 13: host UTC time just before the savestate was requested",
+   "value": "2026-10-05T21:59:43.256Z"
+  },
+  {
+   "step": 19,
+   "source": "screen",
+   "field": "match read 13: text screen 80x25, chars+attributes, sha256",
+   "value": "903c6a2d160e9e18738a39001ee5a3ac66f59d7ee89bcd3b578ec11de6ad3605"
+  },
+  {
+   "step": 19,
+   "source": "ui-text",
+   "field": "match read 13: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│Palmer wins the toss / ┤Ferdinand to take kick off / │---- HALF TIME ----"
+  },
+  {
+   "step": 19,
+   "source": "memory",
+   "field": "match read 13: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0003 0x24dc 0 0"
+  },
+  {
+   "step": 20,
+   "source": "log",
+   "field": "match read 14: host UTC time just before the savestate was requested",
+   "value": "2026-10-05T21:59:43.791Z"
+  },
+  {
+   "step": 20,
+   "source": "screen",
+   "field": "match read 14: text screen 80x25, chars+attributes, sha256",
+   "value": "903c6a2d160e9e18738a39001ee5a3ac66f59d7ee89bcd3b578ec11de6ad3605"
+  },
+  {
+   "step": 20,
+   "source": "ui-text",
+   "field": "match read 14: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│Palmer wins the toss / ┤Ferdinand to take kick off / │---- HALF TIME ----"
+  },
+  {
+   "step": 20,
+   "source": "memory",
+   "field": "match read 14: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0003 0x24dc 0 0"
+  },
+  {
+   "step": 21,
+   "source": "log",
+   "field": "match read 15: host UTC time just before the savestate was requested",
+   "value": "2026-10-05T21:59:44.324Z"
+  },
+  {
+   "step": 21,
+   "source": "screen",
+   "field": "match read 15: text screen 80x25, chars+attributes, sha256",
+   "value": "903c6a2d160e9e18738a39001ee5a3ac66f59d7ee89bcd3b578ec11de6ad3605"
+  },
+  {
+   "step": 21,
+   "source": "ui-text",
+   "field": "match read 15: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│Palmer wins the toss / ┤Ferdinand to take kick off / │---- HALF TIME ----"
+  },
+  {
+   "step": 21,
+   "source": "memory",
+   "field": "match read 15: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0003 0x24dc 0 0"
+  },
+  {
+   "step": 22,
+   "source": "log",
+   "field": "match read 16: host UTC time just before the savestate was requested",
+   "value": "2026-10-05T21:59:44.860Z"
+  },
+  {
+   "step": 22,
+   "source": "screen",
+   "field": "match read 16: text screen 80x25, chars+attributes, sha256",
+   "value": "903c6a2d160e9e18738a39001ee5a3ac66f59d7ee89bcd3b578ec11de6ad3605"
+  },
+  {
+   "step": 22,
+   "source": "ui-text",
+   "field": "match read 16: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│Palmer wins the toss / ┤Ferdinand to take kick off / │---- HALF TIME ----"
+  },
+  {
+   "step": 22,
+   "source": "memory",
+   "field": "match read 16: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0003 0x24dc 0 0"
+  },
+  {
+   "step": 23,
+   "source": "log",
+   "field": "match read 17: host UTC time just before the savestate was requested",
+   "value": "2026-10-05T21:59:45.391Z"
+  },
+  {
+   "step": 23,
+   "source": "screen",
+   "field": "match read 17: text screen 80x25, chars+attributes, sha256",
+   "value": "903c6a2d160e9e18738a39001ee5a3ac66f59d7ee89bcd3b578ec11de6ad3605"
+  },
+  {
+   "step": 23,
+   "source": "ui-text",
+   "field": "match read 17: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│Palmer wins the toss / ┤Ferdinand to take kick off / │---- HALF TIME ----"
+  },
+  {
+   "step": 23,
+   "source": "memory",
+   "field": "match read 17: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0003 0x24dc 0 0"
+  },
+  {
+   "step": 24,
+   "source": "log",
+   "field": "match read 18: host UTC time just before the savestate was requested",
+   "value": "2026-10-05T21:59:45.921Z"
+  },
+  {
+   "step": 24,
+   "source": "screen",
+   "field": "match read 18: text screen 80x25, chars+attributes, sha256",
+   "value": "903c6a2d160e9e18738a39001ee5a3ac66f59d7ee89bcd3b578ec11de6ad3605"
+  },
+  {
+   "step": 24,
+   "source": "ui-text",
+   "field": "match read 18: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│Palmer wins the toss / ┤Ferdinand to take kick off / │---- HALF TIME ----"
+  },
+  {
+   "step": 24,
+   "source": "memory",
+   "field": "match read 18: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0003 0x24dc 0 0"
+  },
+  {
+   "step": 25,
+   "source": "log",
+   "field": "match read 19: host UTC time just before the savestate was requested",
+   "value": "2026-10-05T21:59:46.454Z"
+  },
+  {
+   "step": 25,
+   "source": "screen",
+   "field": "match read 19: text screen 80x25, chars+attributes, sha256",
+   "value": "903c6a2d160e9e18738a39001ee5a3ac66f59d7ee89bcd3b578ec11de6ad3605"
+  },
+  {
+   "step": 25,
+   "source": "ui-text",
+   "field": "match read 19: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│Palmer wins the toss / ┤Ferdinand to take kick off / │---- HALF TIME ----"
+  },
+  {
+   "step": 25,
+   "source": "memory",
+   "field": "match read 19: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0003 0x24dc 0 0"
+  },
+  {
+   "step": 26,
+   "source": "log",
+   "field": "match read 20: host UTC time just before the savestate was requested",
+   "value": "2026-10-05T21:59:46.989Z"
+  },
+  {
+   "step": 26,
+   "source": "screen",
+   "field": "match read 20: text screen 80x25, chars+attributes, sha256",
+   "value": "903c6a2d160e9e18738a39001ee5a3ac66f59d7ee89bcd3b578ec11de6ad3605"
+  },
+  {
+   "step": 26,
+   "source": "ui-text",
+   "field": "match read 20: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│Palmer wins the toss / ┤Ferdinand to take kick off / │---- HALF TIME ----"
+  },
+  {
+   "step": 26,
+   "source": "memory",
+   "field": "match read 20: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0003 0x24dc 0 0"
+  },
+  {
+   "step": 27,
+   "source": "log",
+   "field": "match read 21: host UTC time just before the savestate was requested",
+   "value": "2026-10-05T21:59:47.519Z"
+  },
+  {
+   "step": 27,
+   "source": "screen",
+   "field": "match read 21: text screen 80x25, chars+attributes, sha256",
+   "value": "903c6a2d160e9e18738a39001ee5a3ac66f59d7ee89bcd3b578ec11de6ad3605"
+  },
+  {
+   "step": 27,
+   "source": "ui-text",
+   "field": "match read 21: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│Palmer wins the toss / ┤Ferdinand to take kick off / │---- HALF TIME ----"
+  },
+  {
+   "step": 27,
+   "source": "memory",
+   "field": "match read 21: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0003 0x24dc 0 0"
+  },
+  {
+   "step": 28,
+   "source": "log",
+   "field": "match read 22: host UTC time just before the savestate was requested",
+   "value": "2026-10-05T21:59:48.060Z"
+  },
+  {
+   "step": 28,
+   "source": "screen",
+   "field": "match read 22: text screen 80x25, chars+attributes, sha256",
+   "value": "903c6a2d160e9e18738a39001ee5a3ac66f59d7ee89bcd3b578ec11de6ad3605"
+  },
+  {
+   "step": 28,
+   "source": "ui-text",
+   "field": "match read 22: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│Palmer wins the toss / ┤Ferdinand to take kick off / │---- HALF TIME ----"
+  },
+  {
+   "step": 28,
+   "source": "memory",
+   "field": "match read 22: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0003 0x24dc 0 0"
+  },
+  {
+   "step": 29,
+   "source": "log",
+   "field": "match read 23: host UTC time just before the savestate was requested",
+   "value": "2026-10-05T21:59:48.597Z"
+  },
+  {
+   "step": 29,
+   "source": "screen",
+   "field": "match read 23: text screen 80x25, chars+attributes, sha256",
+   "value": "903c6a2d160e9e18738a39001ee5a3ac66f59d7ee89bcd3b578ec11de6ad3605"
+  },
+  {
+   "step": 29,
+   "source": "ui-text",
+   "field": "match read 23: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│Palmer wins the toss / ┤Ferdinand to take kick off / │---- HALF TIME ----"
+  },
+  {
+   "step": 29,
+   "source": "memory",
+   "field": "match read 23: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0003 0x24dc 0 0"
+  },
+  {
+   "step": 30,
+   "source": "log",
+   "field": "match read 24: host UTC time just before the savestate was requested",
+   "value": "2026-10-05T21:59:49.129Z"
+  },
+  {
+   "step": 30,
+   "source": "screen",
+   "field": "match read 24: text screen 80x25, chars+attributes, sha256",
+   "value": "903c6a2d160e9e18738a39001ee5a3ac66f59d7ee89bcd3b578ec11de6ad3605"
+  },
+  {
+   "step": 30,
+   "source": "ui-text",
+   "field": "match read 24: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│Palmer wins the toss / ┤Ferdinand to take kick off / │---- HALF TIME ----"
+  },
+  {
+   "step": 30,
+   "source": "memory",
+   "field": "match read 24: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0003 0x24dc 0 0"
+  },
+  {
+   "step": 31,
+   "source": "log",
+   "field": "match read 25: host UTC time just before the savestate was requested",
+   "value": "2026-10-05T21:59:49.663Z"
+  },
+  {
+   "step": 31,
+   "source": "screen",
+   "field": "match read 25: text screen 80x25, chars+attributes, sha256",
+   "value": "903c6a2d160e9e18738a39001ee5a3ac66f59d7ee89bcd3b578ec11de6ad3605"
+  },
+  {
+   "step": 31,
+   "source": "ui-text",
+   "field": "match read 25: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│Palmer wins the toss / ┤Ferdinand to take kick off / │---- HALF TIME ----"
+  },
+  {
+   "step": 31,
+   "source": "memory",
+   "field": "match read 25: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0003 0x24dc 0 0"
+  },
+  {
+   "step": 32,
+   "source": "log",
+   "field": "match read 26: host UTC time just before the savestate was requested",
+   "value": "2026-10-05T21:59:50.202Z"
+  },
+  {
+   "step": 32,
+   "source": "screen",
+   "field": "match read 26: text screen 80x25, chars+attributes, sha256",
+   "value": "903c6a2d160e9e18738a39001ee5a3ac66f59d7ee89bcd3b578ec11de6ad3605"
+  },
+  {
+   "step": 32,
+   "source": "ui-text",
+   "field": "match read 26: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│Palmer wins the toss / ┤Ferdinand to take kick off / │---- HALF TIME ----"
+  },
+  {
+   "step": 32,
+   "source": "memory",
+   "field": "match read 26: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0003 0x24dc 0 0"
+  },
+  {
+   "step": 33,
+   "source": "log",
+   "field": "match read 27: host UTC time just before the savestate was requested",
+   "value": "2026-10-05T21:59:50.736Z"
+  },
+  {
+   "step": 33,
+   "source": "screen",
+   "field": "match read 27: text screen 80x25, chars+attributes, sha256",
+   "value": "903c6a2d160e9e18738a39001ee5a3ac66f59d7ee89bcd3b578ec11de6ad3605"
+  },
+  {
+   "step": 33,
+   "source": "ui-text",
+   "field": "match read 27: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│Palmer wins the toss / ┤Ferdinand to take kick off / │---- HALF TIME ----"
+  },
+  {
+   "step": 33,
+   "source": "memory",
+   "field": "match read 27: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0003 0x24dc 0 0"
+  },
+  {
+   "step": 34,
+   "source": "log",
+   "field": "match read 28: host UTC time just before the savestate was requested",
+   "value": "2026-10-05T21:59:51.266Z"
+  },
+  {
+   "step": 34,
+   "source": "screen",
+   "field": "match read 28: text screen 80x25, chars+attributes, sha256",
+   "value": "903c6a2d160e9e18738a39001ee5a3ac66f59d7ee89bcd3b578ec11de6ad3605"
+  },
+  {
+   "step": 34,
+   "source": "ui-text",
+   "field": "match read 28: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│Palmer wins the toss / ┤Ferdinand to take kick off / │---- HALF TIME ----"
+  },
+  {
+   "step": 34,
+   "source": "memory",
+   "field": "match read 28: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0003 0x24dc 0 0"
+  },
+  {
+   "step": 35,
+   "source": "log",
+   "field": "match read 29: host UTC time just before the savestate was requested",
+   "value": "2026-10-05T21:59:51.798Z"
+  },
+  {
+   "step": 35,
+   "source": "screen",
+   "field": "match read 29: text screen 80x25, chars+attributes, sha256",
+   "value": "bd4ebee4c533f36d06af365d30a18e36e5c20085b5ca4642ddf2045fa2bca14f"
+  },
+  {
+   "step": 35,
+   "source": "ui-text",
+   "field": "match read 29: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│Palmer wins the toss / ┤Ferdinand to take kick off / │---- HALF TIME ----"
+  },
+  {
+   "step": 35,
+   "source": "memory",
+   "field": "match read 29: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0003 0x24dc 0 0"
+  },
+  {
+   "step": 36,
+   "source": "log",
+   "field": "match read 30: host UTC time just before the savestate was requested",
+   "value": "2026-10-05T21:59:52.328Z"
+  },
+  {
+   "step": 36,
+   "source": "screen",
+   "field": "match read 30: text screen 80x25, chars+attributes, sha256",
+   "value": "bd4ebee4c533f36d06af365d30a18e36e5c20085b5ca4642ddf2045fa2bca14f"
+  },
+  {
+   "step": 36,
+   "source": "ui-text",
+   "field": "match read 30: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│Palmer wins the toss / ┤Ferdinand to take kick off / │---- HALF TIME ----"
+  },
+  {
+   "step": 36,
+   "source": "memory",
+   "field": "match read 30: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0003 0x24dc 0 0"
+  },
+  {
+   "step": 37,
+   "source": "log",
+   "field": "match read 31: host UTC time just before the savestate was requested",
+   "value": "2026-10-05T21:59:52.969Z"
+  },
+  {
+   "step": 37,
+   "source": "screen",
+   "field": "match read 31: text screen 80x25, chars+attributes, sha256",
+   "value": "987d77eed64af654f72184a2d5f8afaff66596bcf554f9e3e2bc26856ad3f3e7"
+  },
+  {
+   "step": 37,
+   "source": "ui-text",
+   "field": "match read 31: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│Palmer wins the toss / ┤Ferdinand to take kick off / │---- HALF TIME ----"
+  },
+  {
+   "step": 37,
+   "source": "memory",
+   "field": "match read 31: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0003 0x24dc 0 0"
+  },
+  {
+   "step": 38,
+   "source": "log",
+   "field": "match read 32: host UTC time just before the savestate was requested",
+   "value": "2026-10-05T21:59:53.497Z"
+  },
+  {
+   "step": 38,
+   "source": "screen",
+   "field": "match read 32: text screen 80x25, chars+attributes, sha256",
+   "value": "987d77eed64af654f72184a2d5f8afaff66596bcf554f9e3e2bc26856ad3f3e7"
+  },
+  {
+   "step": 38,
+   "source": "ui-text",
+   "field": "match read 32: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│Palmer wins the toss / ┤Ferdinand to take kick off / │---- HALF TIME ----"
+  },
+  {
+   "step": 38,
+   "source": "memory",
+   "field": "match read 32: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0003 0x24dc 0 0"
+  },
+  {
+   "step": 39,
+   "source": "log",
+   "field": "match read 33: host UTC time just before the savestate was requested",
+   "value": "2026-10-05T21:59:54.138Z"
+  },
+  {
+   "step": 39,
+   "source": "screen",
+   "field": "match read 33: text screen 80x25, chars+attributes, sha256",
+   "value": "23db082b902837f19af680311b25d00009a4eaf5b26c816b41c496658ad949b9"
+  },
+  {
+   "step": 39,
+   "source": "ui-text",
+   "field": "match read 33: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│Gascoigne on for Webb / ┤Steven on for Palmer / │---- FULL TIME ----"
+  },
+  {
+   "step": 39,
+   "source": "memory",
+   "field": "match read 33: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0009 0xe081 0 0"
+  },
+  {
+   "step": 40,
+   "source": "log",
+   "field": "match read 34: host UTC time just before the savestate was requested",
+   "value": "2026-10-05T21:59:54.672Z"
+  },
+  {
+   "step": 40,
+   "source": "screen",
+   "field": "match read 34: text screen 80x25, chars+attributes, sha256",
+   "value": "23db082b902837f19af680311b25d00009a4eaf5b26c816b41c496658ad949b9"
+  },
+  {
+   "step": 40,
+   "source": "ui-text",
+   "field": "match read 34: commentary rows (rows 1-3, columns 31-66)",
+   "value": "│Gascoigne on for Webb / ┤Steven on for Palmer / │---- FULL TIME ----"
+  },
+  {
+   "step": 40,
+   "source": "memory",
+   "field": "match read 34: words DS:80EE (commentary counter) and DS:7B62 (seed), bytes DS:9B3C, DS:9B3D (score), GOAL.EXE data segment",
+   "value": "0x0009 0xe081 0 0"
+  },
+  {
+   "step": 41,
+   "source": "log",
+   "field": "full time: host UTC time just before the savestate was requested",
+   "value": "2026-10-05T21:59:54.672Z"
+  },
+  {
+   "step": 41,
+   "source": "log",
+   "field": "full time: host local time with UTC offset, and zone name, at the same instant",
+   "value": "2026-10-05T23:59:54.672+02:00 CEST"
+  },
+  {
+   "step": 41,
+   "source": "screen",
+   "field": "full time: text screen 80x25, chars+attributes (4000 bytes), sha256",
+   "value": "23db082b902837f19af680311b25d00009a4eaf5b26c816b41c496658ad949b9"
+  },
+  {
+   "step": 41,
+   "source": "ui-text",
+   "field": "full time: text screen rows 0-24, CP437 decoded, trailing blanks trimmed",
+   "value": " (c) NE'93│ ┌───────────────┬──┬FRIENDLY───────────────────────────┐┌───┐ ▄▀▀▀▄\n ┌─┐┌─┐┌─┐│ │DENMARK--------│ 0│Gascoigne on for Webb              ││   │ █   █\n │ ││ ││ ││ ├versus─────────┼──┤Steven on for Palmer               │├───┤ ▄───▄\n └─┤└─┘└─┤│ │ENGLAND--------│ 0│---- FULL TIME ----                ││   │ █   █\n───┘ v.2    └───────────────┴──┴───────────────────────────────────┘└───┘ └▀▀▀▀\n                   ┌─────────────────┐    ┌─────────────────┐\n ┌─────────────────│ Denmark-------- │─┐┌─│ England-------- │─────────────────┐\n │                 └─────────────────┘ ││ └─────────────────┘                 │\n │ ┌─────────┐        ┌──────────────────────────────────┐    ┌─────────┐     │\n │ │ Scorers │        ├──────────────────────────────────┤    │ Scorers │     │\n┌──┴─────────┴──┬min┐ │   ┌────┐ ┬    ┬ ┬ ┌──── ┬   ┬    │ ┌──┴─────────┴──┬min┐\n│               │   │ │   │    │ │    │ │ │     │   │    │ │               │   │\n│               │   │ │   │    │ │    │ │ │     ├───┴┐   │ │               │   │\n│               │   │ │   │    │ │    │ │ │     │    │   │ │               │   │\n│               │   │ │   └───┼┘ └────┤ ┴ └──── ┴    ┴   │ │               │   │\n│               │   │ │                                  │ │               │   │\n│               │   │ │ ┌────┐┌──── ┌──── ┬   ┬ ┬  ──┬── │ │               │   │\n│               │   │ │ │    ││     │     │   │ │    │   │ │               │   │\n│               │   │ │ ├───┬┘├───  └───┐ │   │ │    │   │ │               │   │\n│               │   │ │ │   │ │         │ │   │ │    │   │ │               │   │\n│               │   │ │ ┴   ┴ └──── ────┘ └───┤ └─── ┴   │ │               │   │\n│               │   │ ├──────────────────────────────────┤ │               │   │\n└───────────────┴───┘ └──────────────────────────────────┘ └───────────────┴───┘\n └────────────────────────────────────────────────────────────────────────────┘\n  ↓↑-display ←→-speed»»»»»              spacebar-commentary  F9-♫  Esc,◄┘-bench"
+  },
+  {
+   "step": 41,
+   "source": "memory",
+   "addr": "0x449",
+   "field": "full time: 1 byte at 0040:0049 (BIOS video mode), guest memory from the savestate, hex",
+   "value": "03"
+  },
+  {
+   "step": 41,
+   "source": "memory",
+   "addr": "0x46c",
+   "field": "full time: 4 bytes at 0040:006C (BIOS timer tick count), guest memory from the savestate, as a little-endian dword (bytes in memory order)",
+   "value": "0x000a06ff (ff 06 0a 00)"
+  },
+  {
+   "step": 41,
+   "source": "memory",
+   "addr": "0x355a2",
+   "field": "full time: word at DS:7B62 of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+   "value": "0xe081 (81 e0)"
+  },
+  {
+   "step": 41,
+   "source": "memory",
+   "addr": "0x355a4",
+   "field": "full time: word at DS:7B64 of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+   "value": "0x0808 (08 08)"
+  },
+  {
+   "step": 41,
+   "source": "memory",
+   "addr": "0x35d76",
+   "field": "full time: word at DS:8336 of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+   "value": "0xa954 (54 a9)"
+  },
+  {
+   "step": 41,
+   "source": "memory",
+   "addr": "0x3843d",
+   "field": "full time: word at DS:A9FD of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+   "value": "0x07ea (ea 07)"
+  },
+  {
+   "step": 41,
+   "source": "memory",
+   "field": "full time: score bytes DS:9B3C, DS:9B3D (engine teams 0 and 1)",
+   "value": "0 0"
+  },
+  {
+   "step": 41,
+   "source": "memory",
+   "field": "full time: match delay byte at the far pointer DS:A923 + 0x3F (0 fastest)",
+   "value": "1"
+  },
+  {
+   "step": 41,
+   "source": "memory",
+   "field": "full time: seed words, GOAL.EXE data segment",
+   "value": "DS:7B62=0xe081 [DS:A978]=2da4:7b62=0xe081"
+  },
+  {
+   "step": 41,
+   "source": "memory",
+   "field": "half-time stall: the read whose savestate is this run's half-time state (9A3E=1, 831F=46, stable screen, hit any key)",
+   "value": "match read 36 of 34; DS:7B62=0x24dc"
+  },
+  {
+   "step": 41,
+   "source": "memory",
+   "field": "goals the engine stored (0791:6443, DS:7BD1 + side*0x21 + n*3): [[player word, minute byte] per engine team]",
+   "value": "[[], []]"
+  },
+  {
+   "step": 42,
+   "source": "log",
+   "field": "keys sent from the key that starts the match to full time: [seconds since the starting burst, key, why] (runtime/driver/match.py)",
+   "value": "[[0.0, \"Enter\", \"starting burst, no poll between\"], [0.0, \"r\", \"starting burst, no poll between\"], [16.31, \"Enter\", \"hit any key\"], [17.48, \"Enter\", \"team screen\"]]"
+  },
+  {
+   "step": 42,
+   "source": "log",
+   "field": "match: savestate reads from the starting keys to full time, and seconds",
+   "value": "34 reads, 18.54 s"
+  },
+  {
+   "step": 42,
+   "source": "memory",
+   "field": "events of the match (runtime/driver/commentary.py): [kind, team, text]",
+   "value": "[[\"substitution\", 0, \"Wright on for Shearer\"], [\"substitution\", 0, \"Merson on for Ferdinand\"], [\"substitution\", 0, \"Platt on for Daley\"], [\"substitution\", 0, \"Gascoigne on for Webb\"], [\"substitution\", 0, \"Steven on for Palmer\"]]"
+  },
+  {
+   "step": 42,
+   "source": "process",
+   "field": "dosbox-x and Xvfb after SIGTERM to their process groups (SIGKILL after TERM_GRACE, see log)",
+   "value": "both exited"
+  },
+  {
+   "step": 42,
+   "source": "log",
+   "field": "waits, polls and key holds, seconds since launch",
+   "value": "[[0.106,\"Xvfb poll: answered after 2 polls of 0.1s\"],[0.106,\"Xvfb :758 answering\"],[0.106,\"dosbox-x started\"],[0.223,\"window found after 2 polls of 0.1s\"],[0.225,\"window focused\"],[0.735,\"host key F12+s, each step held 0.15s\"],[0.736,\"savestate complete after 1 polls of 0.05s\"],[0.757,\"title screen: matched after 1 savestate polls\"],[0.758,\"DOS clock read back: '10/05/2026\\\\n23:59:24'\"],[1.271,\"host key F12+l, each step held 0.15s\"],[1.271,\"Host+L sent (e006-1001-r0002)\"],[1.781,\"host key F12+s, each step held 0.15s\"],[1.782,\"savestate complete after 1 polls of 0.05s\"],[1.799,\"restore e006-1001-r0002: matched after 1 savestate polls\"],[1.92,\"key Esc held 0.08s\"],[2.432,\"host key F12+s, each step held 0.15s\"],[2.433,\"savestate complete after 1 polls of 0.05s\"],[2.958,\"host key F12+s, each step held 0.15s\"],[2.959,\"savestate complete after 1 polls of 0.05s\"],[2.973,\"after key Esc: changed and stable after 2 savestate polls\"],[3.083,\"key Up held 0.08s\"],[3.594,\"host key F12+s, each step held 0.15s\"],[3.596,\"savestate complete after 1 polls of 0.05s\"],[4.122,\"host key F12+s, each step held 0.15s\"],[4.123,\"savestate complete after 1 polls of 0.05s\"],[4.138,\"after key Up: changed and stable after 2 savestate polls\"],[4.249,\"key Enter held 0.08s\"],[4.76,\"host key F12+s, each step held 0.15s\"],[4.761,\"savestate complete after 1 polls of 0.05s\"],[5.283,\"host key F12+s, each step held 0.15s\"],[5.285,\"savestate complete after 1 polls of 0.05s\"],[5.295,\"after key Enter: changed and stable after 2 savestate polls\"],[5.404,\"key Enter held 0.08s\"],[5.912,\"host key F12+s, each step held 0.15s\"],[5.913,\"savestate complete after 1 polls of 0.05s\"],[6.433,\"host key F12+s, each step held 0.15s\"],[6.434,\"savestate complete after 1 polls of 0.05s\"],[6.442,\"after key Enter: changed and stable after 2 savestate polls\"],[6.955,\"host key F12+s, each step held 0.15s\"],[6.956,\"savestate complete after 1 polls of 0.05s\"],[7.49,\"host key F12+l, each step held 0.15s\"],[7.49,\"Host+L sent (E010-r0003-unchanged)\"],[8.001,\"host key F12+s, each step held 0.15s\"],[8.002,\"savestate complete after 1 polls of 0.05s\"],[8.011,\"restore E010-r0003-unchanged: matched after 1 savestate polls\"],[8.522,\"host key F12+s, each step held 0.15s\"],[8.523,\"savestate complete after 1 polls of 0.05s\"],[8.653,\"key Enter held 0.08s\"],[8.762,\"key r held 0.08s\"],[8.762,\"match quick: starting keys Enter r sent in one burst\"],[9.272,\"host key F12+s, each step held 0.15s\"],[9.273,\"savestate complete after 1 polls of 0.05s\"],[9.801,\"host key F12+s, each step held 0.15s\"],[9.802,\"savestate complete after 1 polls of 0.05s\"],[10.334,\"host key F12+s, each step held 0.15s\"],[10.335,\"savestate complete after 1 polls of 0.05s\"],[10.871,\"host key F12+s, each step held 0.15s\"],[10.872,\"savestate complete after 1 polls of 0.05s\"],[11.402,\"host key F12+s, each step held 0.15s\"],[11.402,\"savestate complete after 1 polls of 0.05s\"],[11.931,\"host key F12+s, each step held 0.15s\"],[11.932,\"savestate complete after 1 polls of 0.05s\"],[12.462,\"host key F12+s, each step held 0.15s\"],[12.463,\"savestate complete after 1 polls of 0.05s\"],[12.992,\"host key F12+s, each step held 0.15s\"],[12.993,\"savestate complete after 1 polls of 0.05s\"],[13.522,\"host key F12+s, each step held 0.15s\"],[13.523,\"savestate complete after 1 polls of 0.05s\"],[14.054,\"host key F12+s, each step held 0.15s\"],[14.055,\"savestate complete after 1 polls of 0.05s\"],[14.585,\"host key F12+s, each step held 0.15s\"],[14.586,\"savestate complete after 1 polls of 0.05s\"],[15.114,\"host key F12+s, each step held 0.15s\"],[15.115,\"savestate complete after 1 polls of 0.05s\"],[15.65,\"host key F12+s, each step held 0.15s\"],[15.651,\"savestate complete after 1 polls of 0.05s\"],[16.181,\"host key F12+s, each step held 0.15s\"],[16.182,\"savestate complete after 1 polls of 0.05s\"],[16.716,\"host key F12+s, each step held 0.15s\"],[16.717,\"savestate complete after 1 polls of 0.05s\"],[17.25,\"host key F12+s, each step held 0.15s\"],[17.251,\"savestate complete after 1 polls of 0.05s\"],[17.781,\"host key F12+s, each step held 0.15s\"],[17.782,\"savestate complete after 1 polls of 0.05s\"],[18.313,\"host key F12+s, each step held 0.15s\"],[18.313,\"savestate complete after 1 polls of 0.05s\"],[18.846,\"host key F12+s, each step held 0.15s\"],[18.847,\"savestate complete after 1 polls of 0.05s\"],[19.378,\"host key F12+s, each step held 0.15s\"],[19.379,\"savestate complete after 1 polls of 0.05s\"],[19.913,\"host key F12+s, each step held 0.15s\"],[19.915,\"savestate complete after 1 polls of 0.05s\"],[20.451,\"host key F12+s, each step held 0.15s\"],[20.452,\"savestate complete after 1 polls of 0.05s\"],[20.988,\"host key F12+s, each step held 0.15s\"],[20.989,\"savestate complete after 1 polls of 0.05s\"],[21.52,\"host key F12+s, each step held 0.15s\"],[21.521,\"savestate complete after 1 polls of 0.05s\"],[22.054,\"host key F12+s, each step held 0.15s\"],[22.055,\"savestate complete after 1 polls of 0.05s\"],[22.593,\"host key F12+s, each step held 0.15s\"],[22.594,\"savestate complete after 1 polls of 0.05s\"],[23.125,\"host key F12+s, each step held 0.15s\"],[23.125,\"savestate complete after 1 polls of 0.05s\"],[23.657,\"host key F12+s, each step held 0.15s\"],[23.658,\"savestate complete after 1 polls of 0.05s\"],[24.19,\"host key F12+s, each step held 0.15s\"],[24.191,\"savestate complete after 1 polls of 0.05s\"],[24.718,\"host key F12+s, each step held 0.15s\"],[24.719,\"savestate complete after 1 polls of 0.05s\"],[24.85,\"key Enter held 0.08s\"],[24.85,\"match quick: Enter (hit any key)\"],[25.359,\"host key F12+s, each step held 0.15s\"],[25.36,\"savestate complete after 1 polls of 0.05s\"],[25.888,\"host key F12+s, each step held 0.15s\"],[25.889,\"savestate complete after 1 polls of 0.05s\"],[26.02,\"key Enter held 0.08s\"],[26.02,\"match quick: Enter (team screen)\"],[26.533,\"host key F12+s, each step held 0.15s\"],[26.534,\"savestate complete after 1 polls of 0.05s\"],[27.062,\"host key F12+s, each step held 0.15s\"],[27.063,\"savestate complete after 1 polls of 0.05s\"],[27.086,\"match quick: full time after 34 reads\"],[27.606,\"dosbox-x pid 336576 alive 0.5s after SIGTERM (grace 0.5s): SIGKILL to its group\"],[27.613,\"dosbox-x pid 336576 ended by SIGKILL 0.507s after the first signal\"],[27.617,\"Xvfb pid 336565 ended by SIGTERM 0.003s after the first signal\"],[27.617,\"terminated\"]]"
+  }
+ ],
+ "outputs": [
+  {
+   "name": "E010-r0003-halftime.sav",
+   "sha256": "b732ed79429f2bb8ae3241d1bff4ab8273676a63024e50a2433063f5ab9c7c62",
+   "store": "release:E010"
+  }
+ ],
+ "started": "2026-10-05T21:59:25.186Z",
+ "ended": "2026-10-05T21:59:55.749Z",
+ "status": "completed"
+}
