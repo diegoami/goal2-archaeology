@@ -259,8 +259,8 @@ ARMS = ("unchanged", "edited")
 
 def parser():
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
-    q = ap.add_subparsers(dest="kind", required=True)
-    q = ap.add_parser("quick", help="one record per arm, in the order given")
+    sub = ap.add_subparsers(dest="kind", required=True)
+    q = sub.add_parser("quick", help="one record per arm, in the order given")
     q.add_argument("--state", required=True, help="an adopted E006 state (E007's run.py adopt)")
     q.add_argument("--arms", required=True, help="comma-separated, each unchanged or edited")
     q.add_argument("--batch", default="", help="a label written into each record")
