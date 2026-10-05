@@ -1,3 +1,6 @@
 address	name	type	purpose	confidence	basis
 DS:A917	countries	country far*	far pointer to the country array (0xBF-byte records, 0x603F bytes allocated)	established	F007
 DS:A91B	players	player far*	far pointer to the player array (20-byte records, 0xEF24 bytes allocated)	established	F007
+DS:A91F	manager_countries	byte far*	far pointer to the manager array (0x195 bytes allocated): byte at +3*(0x80+m) is the country managed by manager m (1771:26B9 mode 2 stores it, 1771:2D15 reads it)	established	F011; F007
+DS:A927	pool_indices	word far*	far pointer to the pool index array (0x3C2 bytes = word[481] allocated): A927[base..base+79] holds the 80 pool player numbers of the current manager, base = DS:6D18 + 2*manager	established	F011; F007
+DS:6D18	pool_base_table	word[7]	the per-manager pool base: word[m] (m = 1..6) = 80*(m-1)+1, manager m's first pool index; word[0] is not read	established	F011
