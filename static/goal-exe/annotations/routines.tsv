@@ -1,16 +1,16 @@
 address	name	purpose	confidence	basis
-0000:0000	main_program	the entry point: the per-unit start-ups, then 1771:9B85 (the players) and 1771:2D15 (the managed country) on a new game, then 1771:76B1 unless 1771:080C returns non-zero	established	F002; F004; F007
-000E:70B9	start_later_stage	reseeds through 1771:76B1 at the start of a later qualifying stage (static; that path not run)	likely	F004
-000E:7439	main_menu_loop	the main-menu loop (the top-level screens); on Enter with item 6 it can reach 000E:70B9	likely	F002; F004
+0000:0000	main_program	the entry point: unit start-ups (incl. 0791:F3F2), then unless 1771:080C returns non-zero: 214B:179C, 1771:9B85, 1771:2D15, 000E:68A4 per manager, 1771:76B1, 000E:60CB per manager; always ends in the main menu 000E:7439, then halts	established	F002; F004; F007; read code/seg_0000_01.asm
+000E:70B9	play_round	item 6's action when the last manager continues: sets [DS:A923]+1 = 1, plays fixtures through 000E:6CA7; when the fixture index +0x26 reaches the count +0x28, calls 1771:8208 and the stage dispatch 1771:76B1 (000E:7072 always returns 0), then, if the stage byte +0x3C is in the set at CS:7099, 000E:60CB for each manager whose +0x47 flag is clear	likely	F004; read decompiled/seg_000E_05.c
+000E:7439	main_menu_loop	the main-menu loop (the top-level screens); on Enter with item 6 it can reach 000E:70B9	likely	F002; F004; read decompiled/seg_000E_05.c
 0791:0106	draw_match_summary	builds a board in DS:A96E: header via A699 (0x27A0/0x276E chosen by the argument), score (0712), 9 statistics per side from DS:7B7E (10 bytes per side), counters DS:80F2/80F6, team names, scorers from DS:7BD1 with minutes (a different mark when byte >= 0x81); then copies it to DS:A96A	likely	read decompiled/seg_0791_01.c
-0791:0425	match_delay	match_delay(n): calls 214B:1E09(n) only when the speed byte [DS:A923]+0x3F is above 0	established	F006
-0791:0441	match_whistle	the whistle(n): plays a sound only when the speed byte [DS:A923]+0x3F is above 0, like 0791:0425; called at the end of each half	established	F006
+0791:0425	match_delay	match_delay(n): calls 214B:1E09(n) only when the speed byte [DS:A923]+0x3F is above 0	established	F006; read decompiled/seg_0791_01.c
+0791:0441	match_whistle	the whistle(n): plays a sound only when the speed byte [DS:A923]+0x3F is above 0, like 0791:0425; called at the end of each half	established	F006; read decompiled/seg_0791_01.c
 0791:054C	draw_big_digits	formats arg2 (DS:831B in D733) as decimal and draws its digits as 7-segment shapes (table DS:0644) at columns 0x45/0x4B of the screen at DS:A96A	guess	read decompiled/seg_0791_01.c
 0791:0712	draw_score	draws the goals byte DS:9B3C+1 at (0x1F,2) and DS:9B3C at (0x1F,4), attribute 0x70, into the given screen buffer	likely	read decompiled/seg_0791_01.c
-0791:0A6B	action_replay	the replay code that 0791:0C65 runs when 0791:0B7C returns 1 (reaches the line editor 214B:1086 through 09C4 and 0955); not run	likely	F005
-0791:0B7C	ask_action_replay	the action-replay prompt: waits 0791:CC2E(600), returns 1 only when a key is waiting and it is Y, 0 with no key	established	F005; F006
-0791:0C65	offer_action_replay	the replay route of the tick loop (when DS:7C37 is set): if [DS:A923]+0x41 and DS:0C1E are not 0, asks 0791:0B7C and on yes runs 0791:0A6B	likely	F005
-0791:1C78	add_commentary_record	adds a record to the commentary ring at DS:7C38 (6 bytes each); refuses one equal to the newest (F005: "consistent with" the goal lines seen)	likely	F005; read decompiled/seg_0791_01.c
+0791:0A6B	save_goal_file	saves the goal to a file: builds a file name (214B:09DA number to string, concatenation), calls 0791:09C4 with mode 0 (create, through 214B:1BB7), retries on a DOS file error (214B:1869), closes the handle (214B:1A36)	likely	read code/seg_0791_02.asm
+0791:0B7C	ask_do_you_want	a timed Y/N prompt: shows "Do you want " + its string argument + "? (Y/N)" on the bottom line, waits 0791:CC2E(600), returns 1 only when a key is waiting and it is Y, 0 with no key; the action-replay and save-goal questions both use it	established	F005; F006; read code/seg_0791_02.asm
+0791:0C65	action_replay	the action replay after a goal (tick loop, when DS:7C37 is set): when [DS:A923]+0x41 and DS:0C1E are set, asks "Do you want an action replay?" (0791:0B7C) and skips on no, then asks "to save this goal" and on yes calls 0791:0A6B; the rest (from 0CB2, not read for this row) is what F005 calls the replay code	likely	F005; read code/seg_0791_02.asm
+0791:1C78	commentary_record_is_new	a predicate: compares a proposed commentary record (code and two player words, side) with the newest entry of the ring at DS:7C38 + 6 * DS:80EE and returns whether they differ; it stores nothing (its caller 0791:1D4A advances the ring and writes)	likely	F005; read code/seg_0791_03.asm
 0791:2956	player_unavailable_on_pitch	takes a pitch-slot record (DS:80E8 + slot*0x16) and returns 1771:3216 for its player index at +0xD, so 1 when that player cannot play	likely	read decompiled/seg_0791_02.c; read decompiled/seg_1771_02.c
 0791:2996	ball_holder_is_side0	returns DS:830B < 0x0C, i.e. the slot on the ball is one of slots 1..11 (the side whose base in the table at DS:0668 is 0); used as a 0/1 side index everywhere	likely	read decompiled/seg_0791_02.c
 0791:2BE5	attack_direction	returns DS:7920[team ^ half] (a sign, multiplied by 5/6/0x27/'$' at call sites); team = slot<0x0C via 2974, half flag = DS:8319 < DS:831B	likely	read decompiled/seg_0791_02.c; read decompiled/seg_0791_04.c
@@ -20,74 +20,74 @@ address	name	purpose	confidence	basis
 0791:59B3	check_woodwork	when the ball is moving (DS:8300 != 0), the holder is not a keeper (045D: slot 1 or 12), abs(y) = 0x25 and abs(x) < 2: 593B may bounce it back (velocities DS:82FC/82FE negated, speed /4, commentary from table DS:07FA) and the routine then returns 1	guess	read decompiled/seg_0791_04.c; read decompiled/seg_0791_01.c
 0791:6188	handle_player_at_ball	watched match only (DS:9A3E = 0), state +0x12 not 13, player on the ball square (2CEC): a keeper calls 5B36, another player not already holding (DS:830B) calls 5F8A	likely	read decompiled/seg_0791_04.c
 0791:6443	record_goal	(minute, slot, side): commentary 0x26 (0x27 when DS:7C39 is set, and then the other side is credited), adds 1 to the scorer's player word +0x0A, adds 1 to the count DS:80F0[side] (up to 11), stores the player and minute in the scorer list DS:7BD1 + side*0x21 + n*3 (+0x80 when DS:8324 or 7C39 is set)	likely	read decompiled/seg_0791_04.c
-0791:7881	ball_flight_loop	the ball-flight loop: 214B:1E09(2) per pass at speed 0, 214B:1E09(1) at speed 1	likely	F006
-0791:7FCF	substitution_notice	the substitution notice: waits 0791:CC2E (400 or 1000), reads a waiting key, else writes Esc to DS:A977	established	F005; F006
+0791:7881	walk_player_off	walks pitch record n (DS:80E8 + 0x16 n) to the point DS:0642 with the clock stopped (DS:8325 and DS:9B41 saved and cleared): per pass update_player, then each of the 22 records steps (0791:8537) with 214B:1E09(2) at speed 0 or (1) at speed 1, until 0791:2CC5; then sets its position to DS:0640 (the off-pitch value); does nothing if it is already there	likely	F006; read decompiled/seg_0791_05.c
+0791:7FCF	timed_notice	saves the bottom line, shows screen DS:5B30 or (p2 set: keeper unavailable) DS:5B66 with the side's country name on row 25, waits 0791:CC2E(DS:087C[p2]), reads a waiting key, else writes Esc to DS:A977; restores the bottom line	likely	F005; F006; read decompiled/seg_0791_05.c
 0791:8062	check_substitutions	per side: a computer side (1771:0B77 = 0) with DS:9B3A[side] != 0 scans slots 11..2 and calls C88D (player +0x12 word < 0x5A - DS:831B, +0x0E > 0, bit 6 of +0x10 clear); a managed side calls the prompt 7FCF/ED8A when its keeper cannot play (3216) or other conditions on DS:9B40 hold	guess	read decompiled/seg_0791_05.c
 0791:83A2	move_ball	adds the velocity (+6, +8) to the ball record at DS:82F6, counts the timer at +0x0A down, redraws (8F10); when out of bounds (2DCA: abs(x)<9, abs(y)<0x26 is in play) it picks the restart: abs(x)<2 calls 698E/690C, else abs(y)<0x26 calls 6E11, else 6E6E or 6F01, depending on which end	likely	read decompiled/seg_0791_06.c; read decompiled/seg_0791_02.c
 0791:8AE9	update_player	runs a handler chosen by the state byte +0x12 (1,2,3,5,6,7,8,9,10,11,13); then 8889, 8537 (draw); counts +0x14 and, past 0xB4 in a quick result (DS:8325), decrements the player's +0xE (not below 1)	likely	read decompiled/seg_0791_06.c
 0791:8F10	draw_ball	restores the old cell of the ball in the screen buffer (DS:7C16 from the background DS:7C1E, rows 0xA0 bytes, +0x90E), picks the glyph from table DS:0880 by height (835F >= 3 when +0x0D is set) and writes the new cell	likely	read decompiled/seg_0791_06.c
-0791:9119	watched_tick_display	display code called every watched tick; draws through 214B:06B1	likely	F005; F006
-0791:92FC	switch_to_quick_result	the R key's action: returns when DS:9A3E is set or no minutes are left, defers (DS:7C38) while the clock is stopped, else sets DS:9A3E and DS:9A3F, clears DS:7C38 and redraws the status bar	established	F004; F005
+0791:9119	move_referee	moves the sprite record it is given (DS:82EE, the referee: row +0, column +1, glyph word +4, target row +6, column +7) one cell toward a target from the ball DS:82F6: with param 2 = 0 the ball's column +-1 kept within +-(30 + rand 2) and the row column/4 + 1 clamped to +-5, else the ball's cell itself; redraws through 0791:8E24 in the buffer DS:7C16	likely	F005; F006; read decompiled/seg_0791_06.c
+0791:92FC	switch_to_quick_result	the R key's action: returns when DS:9A3E, DS:8326 or DS:0C21 is set or no minutes are left (DS:831B = 0); defers (sets DS:7C38, the first time unpacking screen DS:26E4) when the clock is stopped (DS:8325 = 0) or DS:0C20, DS:7C37 or DS:9B55 is set; else sets DS:9A3E and DS:9A3F, clears DS:7C38 and calls 0791:0106(0) (the match board)	established	F004; F005; read decompiled/seg_0791_06.c
 0791:9372	match_key_poll	the in-match key poll: on R (or while DS:7C38 is set) calls 0791:92FC, returns when no key waits	established	F004; F005
 0791:94C9	speaker_rng_step	steps the LCG 214B:0688 on the second seed DS:8336 (set from the BIOS tick at start-up)	established	F004; F006
 0791:94E8	speaker_noise	sounds the speaker at a pitch drawn from 0791:94C9; that stream's only caller	established	F004; F006
 0791:9564	watched_match_engine	the watched match engine, called by the tick loop when DS:9A3E is clear	established	F005
-0791:970C	match_clock	the match clock: counts DS:831D down from 0x24 per game minute; at the end of a half sounds and delays	established	F005; F006
+0791:970C	match_clock	the match clock, while DS:8325 is set: counts DS:831D down to 0, then reloads it with 0x24 and takes a minute from DS:831B (then from DS:8321), shows it (draw_big_digits); at the half's end (DS:831B = DS:8319, or none left: DS:8326) calls 0791:2B0F, whistle(3), delay(4), whistle(6) and returns 1	established	F005; F006; read decompiled/seg_0791_06.c
 0791:97D0	match_tick_loop	the match tick loop: calls 0791:D733 when DS:9A3E is set, else 0791:9564, then the clock	established	F005
 0791:A10A	penalty_shootout	plays a penalty shoot-out watched (static only, not tested)	likely	F005
 0791:A4A1	match_setup	per-match set-up: clears the commentary ring and the quick flags, draws the kick-off side	established	F005
 0791:B19D	roll_quick_goals	for each side, n tries; each try is three random contests, own strength vs the opponent's from the DS:9B45 table (9B4D vs 9B4D, 9B51 vs 2*9B49, 9B51 vs 9B45); winning all three adds 1 to DS:9B3C[side]	likely	read decompiled/seg_0791_07.c; read decompiled/seg_0791_08.c
 0791:BBFF	set_team_tactics	stores its first argument as country +0x2D (team tactics) and calls 1771:3431 for each of the country's 20 players	likely	read decompiled/seg_0791_07.c
 0791:BC5D	reset_team_tactics	clears +0x0F of the country's 20 players, sets +0x2D from DS:9B7C + country (via 0791:BBFF), then the players' +6 from a table	likely	read decompiled/seg_0791_07.c
-0791:CC2E	wait_or_key	n times: keypressed (214B:0723), else 214B:1E09(10)	established	F006
+0791:CC2E	wait_or_key	turns the speaker off (214B), then up to n times: stops if a key is pressed (214B:0723), else 214B:1E09(10)	established	F006; read decompiled/seg_0791_08.c
 0791:D5C1	roll_quick_foul	picks one random outfield slot per side; if both can play, distance and random tests (278A, 26D7) and a hardness contest (1771:2FFB = +5 - (+3&1)) can set DS:830C/830B and call 7EEF, which picks a booking (798D) or sending off (7B77) by bit 5 of +0x10 and an injury (7D56)	guess	read decompiled/seg_0791_08.c; read decompiled/seg_0791_05.c; read decompiled/seg_1771_02.c
 0791:D733	quick_match_engine	the quick-result engine, one call per tick while DS:9A3E is set	established	F005
-0791:ED8A	match_team_screen	the in-match team screen: opens it and waits for a key (at half time, from the key poll on Enter or Esc, or after 0791:7FCF)	established	F005; F006
-0791:F098	play_match	the match proper, called by 0791:F1F6 after 0791:A4A1	likely	F005; F009
-0791:F1F6	run_match	calls the per-match set-up 0791:A4A1 once, then the match proper 0791:F098	established	F005; F009
-0791:F3F2	unit_0791_init	the start-up of unit 0791: stores the BIOS tick count's low word at DS:8336 (the speaker stream's seed)	established	F004; F006
-1771:027B	load_saved_arrays	a loaded game takes the player and country arrays from its file here (F002 map; not run)	likely	F002; F007
-1771:0B77	is_managed	returns whether the country is managed by a human: its +0x2E > 0x80	established	F007; F008
+0791:ED8A	in_match_menu	the in-match menu (screen DS:2598), with the left and right side items: 1/6 team tactics (1771:1981; sets DS:9B55 if +0x2D changed), 2/7 and Space 0791:E949, 3/8 0791:E929 (unless DS:0C21), 4/9 the match board 0791:0106, 5/10 leave (confirmed by 0791:EA09); one key toggles [DS:A923]+0x41; loops until left	likely	F005; F006; read decompiled/seg_0791_09.c
+0791:F098	play_match	the match proper: 0791:998C, 9955, 9A32; stores the score DS:9B3C in the fixture's word +0 and the result byte +3 (2 draw, else home < away); if DS:7C36 and drawn, extra time (9B0C, 9B5B) and then penalty_shootout; if not quick and the scores differ, 0791:98C4	likely	F005; F009; read decompiled/seg_0791_09.c
+0791:F1F6	run_match	runs one fixture: set-up 0791:A4A1, the team screen ED8A, saves the screen, copies the players' morale and sets performance 0x37 for slots 1..11, plays 0791:F098, then the summary (0106), the replay offer (0B7C/0A6B) when not quick, post-match updates (CB7D, E929, D050, BA4E per managed side) and reset_team_tactics for computer sides	established	F005; F009; read decompiled/seg_0791_09.c
+0791:F3F2	unit_0791_init	the start-up of unit 0791: sets the screen-buffer pointers DS:7C16/7C26 (from DS:A96A), DS:7C1A (A96E) and DS:7C22 (A972), allocates 4000 zeroed bytes at DS:7C1E (214B:0A62), and stores the BIOS tick count's low word at DS:8336	established	F004; F006; read decompiled/seg_0791_09.c
+1771:027B	save_or_load_game	saves (mode 0, "Saving game...", 214B:1AD1 writes; a failure clears the result) or loads (mode non-zero, "Loading game...", 214B:1B47 reads) the game's 22 blocks: names, countries, players, the state [DS:A923], fixtures and others; closes the file and returns the success flag	likely	F002; F007; read decompiled/seg_1771_01.c
+1771:0B77	is_managed	returns whether the country is managed by a human: its +0x2E > 0x80	established	F007; F008; read decompiled/seg_1771_01.c
 1771:0BC4	compute_team_line_strengths	(flag, side, country): for squad entries 1..11 adds the player's strength (377E, plus 1771:0AA7 from +0x2E) to DS:9B45[side + line*2], line from table DS:0D4E[+6] (above 3 it is split over two lines); for tactic bits 1..6 (player +0x0F bits 5..8 override the country's +0x2D) adds to 9B49 or 9B51; flag adds 1/8	likely	read decompiled/seg_1771_01.c; read decompiled/seg_1771_02.c
-1771:0E24	country_colour	the colour of a country's name: 0x0F when managed (1771:0B77), else DS:6905[country +0x2C]	established	F008
-1771:0F58	draw_country_header	the header above the squad list: 15 dashes in DS:0D7A[[DS:A964]], then the country's name in 1771:0E24's colour	established	F008
+1771:0E24	country_colour	the colour of a country's name: 0x0F when managed (1771:0B77), else DS:6905[country +0x2C]	established	F008; read decompiled/seg_1771_01.c
+1771:0F58	draw_country_name	writes at (column p1, row p2) 15 dashes (DS:0D6A) in colour DS:0D7A[[DS:A964]], then, unless the country is 0, its name DS:9B68 + 16 n in 1771:0E24's colour	likely	F008; read decompiled/seg_1771_01.c
 1771:10E7	country_rating	((5 - continent) * (0x21 - continent rank) + (0x81 - world rank)) idiv 2 over the country record	established	F007
-1771:157D	draw_team_panel	the team panel of the main screen (keeper, defence, midfield, attack, performance, characteristics), from the template DS:4BBE	likely	F008
-1771:26B9	new_game_selection	the new game's selection screens (post and option menus); may regenerate two countries with 1771:97CC	likely	F002; F007
-1771:2D15	set_managed_country	writes the managed country's +0x2E = 0x80 + manager and calls 1771:98C4 for its extra players	established	F007
-1771:2E20	player_name_colour	the colour of a player's name: 6 when +0x0E = 0 (injured), 5 when +0x10 bit 8 or 6 is set, else DS:699A[+6]	established	F008
-1771:2E93	player_name	a player's name: initial and surname, from [DS:9B70] + n and 11 bytes at [DS:9B6C] + 11 n	established	F008
-1771:2EE5	draw_player_name	draws a player's name (1771:2E93, 12 characters at most) on the squad list, in 1771:2E20's colour	established	F008
-1771:2F37	draw_squad_row	one row of the squad list: the name (1771:2E93) in 1771:2E20's colour and the position glyph DS:69A8[+6]	established	F008
-1771:2FAD	player_height	a player's height, not stored: DS:0E46[+7] + DS:0E54[n mod 12] inches	established	F008
-1771:2FFB	player_hardness	hardness = +5 - (+3 and 1)	established	F007; F008
-1771:3041	is_two_footed	true when +5 + +2 = 30 (the screen then shows "two footed")	established	F008
-1771:3088	foot_word	the 5-character foot word DS:0F2C + 6 * DS:0E60[14 * DS:0E7C[n mod 3] + (+7)]	established	F008
-1771:30D9	player_leadership	leadership v = ((+3) - (+5)) mod 8, halved when +1 < 0x15	established	F008
+1771:157D	draw_team_panel	a country's information panel (template DS:4BBE): name, manager, ranks (world_rank, continent_rank, +0x28, +0x29), line counts (1771:0E6C), word bars DS:9B5A..9B60, the 8 team-tactic flags of +0x2D, line strengths (1771:0BC4), continent	likely	F008; read decompiled/seg_1771_01.c
+1771:26B9	country_list_screen	the country-list screen (8 columns of 16, by continent or world rank, one key toggles); by mode: 2 picks the current manager's country into DS:A91F (refused if managed), 4 sets DS:9B66, 1 and 3 act on the highlighted country (1771:7BA2, 1771:1D5C; T edits a managed country's tactics in mode 1)	likely	F002; F007; read decompiled/seg_1771_02.c
+1771:2D15	set_managed_countries	for each manager 1..[DS:A923]+0: picks a country (1771:26B9 mode 2; halts if none), sets its +0x2E = 0x80 + manager, stores 1771:114B and the continent rank in the state, draws via 1771:09A0 and makes the extra players (1771:98C4); then sets the current manager back to 1	established	F007; read decompiled/seg_1771_02.c
+1771:2E20	player_name_colour	the colour of a player's name: 6 when +0x0E = 0 (injured), 5 when +0x10 bit 8 or 6 is set, else DS:699A[+6]	established	F008; read decompiled/seg_1771_02.c
+1771:2E93	player_name	a player's name: initial and surname, from [DS:9B70] + n and 11 bytes at [DS:9B6C] + 11 n	established	F008; read decompiled/seg_1771_02.c
+1771:2EE5	draw_player_name	draws a player's name (1771:2E93, 12 characters at most) at (column p1, row p2) in 1771:2E20's colour	established	F008; read decompiled/seg_1771_02.c
+1771:2F37	draw_squad_row	one row of the squad list: the name (1771:2E93) in 1771:2E20's colour and the position glyph DS:69A8[+6]	established	F008; read decompiled/seg_1771_02.c
+1771:2FAD	player_height	a player's height, not stored: DS:0E46[+7] + DS:0E54[n mod 12] inches	established	F008; read decompiled/seg_1771_02.c
+1771:2FFB	player_hardness	hardness = +5 - (+3 and 1)	established	F007; F008; read decompiled/seg_1771_02.c
+1771:3041	is_two_footed	true when +5 + +2 = 30 (the screen then shows "two footed")	established	F008; read decompiled/seg_1771_02.c
+1771:3088	foot_index	returns the foot index DS:0E60[14 * DS:0E7C[n mod 3] + (+7)]; the player screen shows the word DS:0F2C + 6 * index	established	F008; read decompiled/seg_1771_02.c
+1771:30D9	player_leadership	leadership v = ((+3) - (+5)) mod 8, halved when +1 < 0x15	established	F008; read decompiled/seg_1771_02.c
 1771:3216	player_unavailable	returns 0 only when player +0x0E > 0 and bits 8, 6 and 3 of +0x10 are clear, else 1; 377E then gives strength 0 and D733 rerolls a scorer	likely	read decompiled/seg_1771_02.c; read decompiled/seg_0791_08.c
-1771:3291	draw_peak_age	draws +2: DS:0E80[gk] + b - a with a then b = rand(3)	established	F007
-1771:32EB	compute_ability	computes +4 from +1, +2, +3: +3 inside the peak band, else (+3 * k) div 16	established	F007; F009
-1771:33CD	tactics_from_hardness	sets bit 7 and clears bit 3 of +0x0F when 1771:2FFB < 4 (part of the tactics set-up)	likely	F007
-1771:3431	set_player_tactics	sets the player's +0x0F tactic bits (Pascal set, 214B:0C79 / 0CA1), from its hardness and position	established	F007
-1771:3558	draw_fitness_energy	draws +0x0D and +0x0E: T = DS:0E82[+1 > +2 + 4], then a managed or an unmanaged draw around T	established	F007
-1771:377E	player_value	a player's value (F002 map); reads +4 and +0x0C, gives 0 when 1771:3216 says unavailable	likely	F002; F007
-1771:3827	performance_text	the performance text: blank when the word +0x12 is 0x7FFF, else 1..9 characters by bucket (static only)	likely	F008
+1771:3291	roll_peak_age	draws +2: DS:0E80[gk] + b - a with a then b = rand(3)	established	F007; read decompiled/seg_1771_02.c
+1771:32EB	compute_ability	computes +4 from +1, +2, +3: +3 inside the peak band, else (+3 * k) div 16	established	F007; F009; read decompiled/seg_1771_02.c
+1771:33CD	force_tactic4_off	sets set element 8 (bit 7, the override of tactic 4) and clears element 4 (bit 3) of the player's +0x0F, unconditionally	established	F007; read decompiled/seg_1771_02.c
+1771:3431	set_player_tactics	sets the player's +0x0F tactic bits (Pascal set, 214B:0C79 / 0CA1), from its hardness and position	established	F007; read decompiled/seg_1771_02.c
+1771:3558	roll_fitness_energy	draws +0x0D and +0x0E: T = DS:0E82[+1 > +2 + 4], then a managed or an unmanaged draw around T	established	F007; read decompiled/seg_1771_02.c
+1771:377E	player_strength	a player's match strength: (+4 - 0x3E) + (+0x0E), plus +0x0C when it is below 32 else minus a sixteenth, clamped 0..256, halved when 1771:3179 is true; 0 when 1771:3216 says unavailable	likely	F002; F007; read decompiled/seg_1771_02.c
+1771:3827	performance_text	draws the performance text at (p1, p2): blank when +0x12 is 0x7FFF, else sets the length of the string DS:0E86 to bucket 1..9 of (+0x12, minus 10000 when above 5000) - 0x37, in 1771:2E20's colour, or 0x0F during a match for slots 1..11 and for booked players	likely	F008; read decompiled/seg_1771_02.c
 1771:3947	draw_skill_bars	the player screen's skill bars, from player +4, +5 and +7	established	F008
 1771:3A82	squad_slot_of_player	(country, player index): returns the slot 1..20 of that player in the country's word list at +0..+0x27, or 0 when absent	likely	read decompiled/seg_1771_02.c
 1771:3AE2	draw_mark_text	writes the mark row text, DS:0E90 + 11 * its argument (the Pascal string table of mark names)	established	F008
 1771:3B3F	draw_mark_row	the mark row: blank when +6 < 2, "Protect zone" when +0x10 bit 7, else bit 8 of the country's +0x2D through 1771:3AE2	established	F008
 1771:3BD3	draw_tactics_panel	the player screen's tactics panel, from player +0x0F (and the country's +0x2D)	established	F008
-1771:42BC	draw_player_screen	the player screen (the card): expands the template DS:486E into [DS:A96E] and draws every value from the player's record	established	F008
-1771:4D8A	draw_squad_list	the squad list beside the card: the template DS:15A4, then 1771:2F37 for the country's 20 player numbers in order	established	F008
+1771:42BC	draw_player_screen	the player screen (the card): expands the template DS:486E into [DS:A96E] and draws every value from the player's record	established	F008; read decompiled/seg_1771_03.c
+1771:4D8A	draw_squad_list	the squad list: template DS:15A4, the country's name (1771:0F58 at 0x41,1), then 1771:2F37 for slots 1..11 (rows 3..13) and 12..20 (rows 15..23)	established	F008; read decompiled/seg_1771_03.c
 1771:4E22	draw_squad_screen	draws the squad list (1771:4D8A) and frames, then the card of the selected player DS:0C1B (1771:42BC) and its highlight	likely	F008; read decompiled/seg_1771_03.c
 1771:6730	stage_qualifying	the stage routine for stage code 2 or 5 ("qualifying"); reads the DOS time through 23E4:11D7 and seeds DS:7B62 from it	established	F004; F007
 1771:76B1	run_stage	dispatches on the stage byte [DS:A923]+0x3C: 2 or 5 to 1771:6730, 3..8 to other routines	likely	F004; read decompiled/seg_1771_04.c
 1771:96D3	make_player	draws one player's record (country, position, age, rating, ...) from the LCG	established	F007
 1771:97CC	make_squad	seeds the LCG with the country number and makes its 20 players through 1771:96D3	established	F007
-1771:9873	make_pool_player	makes one of the managed country's 80 extra players through 1771:96D3(..., 0)	likely	F007
-1771:98C4	make_managed_pool	makes the managed country's 80 extra players: positions 0..13 four times, then one per squad slot	established	F007
+1771:9873	make_pool_player	makes the next extra player of position p2 through 1771:96D3(..., 0), numbered 0xA00 + n in DS:A927[n] (n is the caller's counter)	likely	F007; read decompiled/seg_1771_06.c
+1771:98C4	make_managed_pool	makes the current manager's 80 extra players: positions 0..13 four times (56), one per squad slot 1..20 (age DS:118C[gk] + rand 3, then 1771:32EB), then slots 6..9 again (4); then 1771:5532	established	F007; read decompiled/seg_1771_06.c
 1771:9A40	load_countries	copies GOAL.DAT blocks into the country records, then makes the squads through 1771:97CC	established	F007
-1771:9B85	new_game_players	at a new game: 1771:9A40 (country records and squads) for countries 1..128	established	F007
+1771:9B85	init_new_game	at a new game: 1771:9A40 (country records and squads), then the state [DS:A923]: year +0x3A = DS:A9FD + 1 made even, +0x38 = 0, +0x40 = (+0x3A mod 4 = 2), stage byte +0x3C = DS:118E[+0x40], options +0x3D = 1, +0x3E = 2, +0x3F = 1, +0x41 = 1, two 80-char strings from DS:9B7D/9B81, and an empty fixture list (A92B+0x4B40 = 0xFF)	established	F007; read decompiled/seg_1771_06.c
 2138:0000	u2138_empty_stub	7-byte routine, decompiled body only a RETF; no operation (empty unit init)	likely	read decompiled/seg_2138_01.c
 2139:0000	u2139_alloc_arrays	16 calls to 214B:0A62 with sizes (0x810,0x8387,0xBF5,...) storing far pointers into DS:9B68..9B78 and A917..A93F (the player and country arrays), then 23E4 file/text calls; array allocation and unit init	likely	read decompiled/seg_2139_01.c; F007
 214B:0000	u214b_fill_words	Fills param_2 16-bit words at a far pointer with a word value (rep stosw loop); Pascal FillChar/FillWord-style fill	likely	read decompiled/seg_214B_01.c
