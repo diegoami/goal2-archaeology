@@ -210,7 +210,10 @@ class Checker:
         m = re.fullmatch(r"(.+)\[(\d+)\]", spec)
         if m:
             inner = self.type_size(where, m.group(1))
-            return None if inner is None or int(m.group(2)) < 1 else inner * int(m.group(2))
+            if inner is not None and int(m.group(2)) < 1:
+                self.error(where, f"type {spec!r} unknown: an array needs at least one element")
+                return None
+            return None if inner is None else inner * int(m.group(2))
         if spec in BASE_TYPES:
             return BASE_TYPES[spec]
         if spec in getattr(self, "records", {}):

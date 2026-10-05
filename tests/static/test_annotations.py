@@ -34,7 +34,17 @@ FINDING_CITED = [
     "1771:3AE2", "214B:0688", "214B:06B1", "214B:06D0", "214B:06FA", "23E4:11D7", "214B:1DA7",
     "214B:0D90", "0791:94C9", "0791:94E8", "0791:9564", "0791:D733", "0791:97D0", "0791:9372",
     "0791:A4A1", "0791:A10A", "1771:6730", "1771:76B1",
+    # T20 rework round 1: the routines F004..F008 establish beyond that list (F008's player screen)
+    "0791:0425", "0791:92FC", "0791:970C", "0791:CC2E", "0791:F1F6", "0791:F3F2", "1771:0B77",
+    "1771:0E24", "1771:0F58", "1771:2D15", "1771:2E20", "1771:2E93", "1771:2F37", "1771:2FAD",
+    "1771:2FFB", "1771:3041", "1771:3088", "1771:30D9", "1771:3291", "1771:32EB", "1771:3431",
+    "1771:3558", "1771:42BC", "1771:4D8A", "1771:98C4", "1771:9B85",
 ]
+# The fields F007 and F008 establish, by offset: every player byte but +0x09, +0x0B and +0x13 (the
+# high bytes of the words at +8, +0xA, +0x12) and +0x11 (read by no screen routine; F008).
+FINDING_FIELDS = {"player": [0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x0A, 0x0C, 0x0D,
+                             0x0E, 0x0F, 0x10, 0x12],
+                  "country": [0x00, 0x2A, 0x2B, 0x2C, 0x2D, 0x2E]}
 
 
 def check(directory: Path) -> tuple[int, str]:
@@ -159,6 +169,46 @@ class CheckerTests(unittest.TestCase):
         self.append("fields.tsv", "player\t0x05\tfive\tnibble\tsomething\tguess\tF007")
         self.assertFails("type 'nibble' unknown")
 
+    def test_duplicate_routine_address(self):
+        self.append("routines.tsv", "0791:0106\tsummary_board\ta board\tguess\tread decompiled/seg_0791_01.c")
+        self.assertFails("address 0791:0106 has more than one row")
+
+    def test_duplicate_global_address(self):
+        self.append("globals.tsv", "DS:A917\tcountry_array\tdword\tthe same pointer\tguess\tF007")
+        self.assertFails("globals.tsv: address DS:A917 has more than one row")
+
+    def test_wrong_header(self):
+        self.edit("globals.tsv", "address\tname\ttype", "address\tname\tkind")
+        self.assertFails("globals.tsv:1: header must be")
+
+    def test_missing_file(self):
+        (self.dir / "records.tsv").unlink()
+        self.assertFails("records.tsv: missing")
+
+    def test_record_size_not_hex(self):
+        self.edit("records.tsv", "player\t0x14", "player\t20")
+        self.assertFails("size '20' is not 0x<hex> > 0")
+
+    def test_record_defined_twice(self):
+        self.append("records.tsv", "player\t0x14\tagain\tF007")
+        self.assertFails("record player defined twice")
+
+    def test_global_address_format(self):
+        self.append("globals.tsv", "DS:a9ff\tdelay_count\tword\tloops per ms\tlikely\tF004")
+        self.assertFails("is not DS:XXXX")
+
+    def test_field_of_unknown_record(self):
+        self.append("fields.tsv", "team\t0x00\tfirst\tbyte\tsomething\tguess\tF007")
+        self.assertFails("record team not in records.tsv")
+
+    def test_field_offset_not_hex(self):
+        self.append("fields.tsv", "player\t17\tseventeen\tbyte\tsomething\tguess\tF007")
+        self.assertFails("offset '17' is not 0x<hex>")
+
+    def test_empty_array(self):
+        self.append("fields.tsv", "country\t0x30\tnothing\tbyte[0]\tsomething\tguess\tF007")
+        self.assertFails("type 'byte[0]' unknown")
+
     def test_run_time_library_routine_without_row(self):
         text = (self.dir / "routines.tsv").read_text(encoding="utf-8")
         (self.dir / "routines.tsv").write_text(
@@ -173,6 +223,14 @@ class CommittedTests(unittest.TestCase):
         rows.load()
         named_addresses = {r["address"] for _, r in rows.rows["routines.tsv"]}
         self.assertEqual([a for a in FINDING_CITED if a not in named_addresses], [])
+
+    def test_finding_fields_named(self):
+        c = check_annotations.Checker(ANNOTATIONS, ROOT / "static/goal-exe/routines.tsv",
+                                      ROOT / "findings", ROOT / "static/goal-exe")
+        c.load()
+        have = {(r["record"], int(r["offset"], 16)) for _, r in c.rows["fields.tsv"]}
+        missing = [(rec, hex(o)) for rec, offs in FINDING_FIELDS.items() for o in offs if (rec, o) not in have]
+        self.assertEqual(missing, [])
 
     def test_run_time_library_fully_labelled(self):
         c = check_annotations.Checker(ANNOTATIONS, ROOT / "static/goal-exe/routines.tsv",

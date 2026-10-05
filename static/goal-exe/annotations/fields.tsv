@@ -1,15 +1,23 @@
 record	offset	name	type	purpose	confidence	basis
-player	0x00	country	byte	the player's country, 1..128	established	F007
-player	0x01	age	byte	age (22..37 at a new game)	likely	F007
-player	0x02	peak_age	byte	inferred peak age: +4 equals +3 while +1 lies in +2 .. +2+3	likely	F007
-player	0x03	rating	byte	the country's rating (1771:10E7) + 0x7F at creation, the player's ceiling	established	F007
-player	0x04	ability	byte	current ability, +3 reduced by the distance of +1 from +2 .. +2+3	likely	F007
-player	0x06	position	byte	the position code (0 the goalkeeper); the player screen's mark row reads it	established	F007; F008
-player	0x07	position_2	byte	the position code too: written first, then copied to +6	established	F007
-player	0x0F	tactics	byte	a Pascal set of tactic bits; the player screen's tactics panel reads bits 1..4 and 5..8	established	F007; F008
-country	0x00	squad	word[20]	the 20 player indices (into the player array) of the country's squad	established	F007
+player	0x00	country	byte	the player's country, 1..128	established	F007; F008
+player	0x01	age	byte	age (22..37 at a new game); the player screen shows it	established	F007; F008
+player	0x02	peak_age	byte	inferred peak age: +4 equals +3 while +1 lies in +2 .. +2+3; not shown on the player screen	likely	F007; F008
+player	0x03	rating	byte	the country's rating (1771:10E7) + 0x7F at creation, the player's ceiling (inferred potential, about 70%)	established	F007
+player	0x04	ability	byte	current ability (the reading, about 85%): +3 reduced by the distance of +1 from +2 .. +2+3; the scale of all twelve skill bars	likely	F007; F008
+player	0x05	skill_profile	byte	the skill profile 1..16: how steep the twelve skills' curve is; also feeds hardness, leadership and two-footed	established	F007; F008
+player	0x06	position	byte	the position code (0 the goalkeeper), shown as position; the mark row and the name colour read it. +6 = +7 in a new game, so which shown cell each feeds is static only	established	F007; F008
+player	0x07	club_position	byte	the position code too, shown as club position; written first, then copied to +6; feeds height, foot and the skills	established	F007; F008
+player	0x08	caps	word	caps, a 16-bit word (0 in a new game; values beyond 0 static only)	likely	F008
+player	0x0A	goals	word	goals, a 16-bit word (0 in a new game; values beyond 0 static only)	likely	F008
+player	0x0C	morale	byte	morale, 1..32: word DS:78A3[min(+0x0C, 0x20)], a bar only below 0x20	established	F007; F008
+player	0x0D	fitness	byte	fitness, word DS:78D5[+0x0D] and a bar of 32 steps; +0x0D = +0x0E in a new game, so which feeds fitness and which energy is static only	likely	F007; F008
+player	0x0E	energy	byte	energy, word DS:78F6[+0x0E] (0 is injured: "can't play", the name's colour 6); see +0x0D on which is which	likely	F007; F008
+player	0x0F	tactics	byte	a Pascal set of tactic bits: bits 0..3 the player's own values, 4..7 the flags that override the country's +0x2D on the tactics panel	established	F007; F008
+player	0x10	status	byte	status bits: cards (bits 3..5), suspended or sent off (bits 6, 8: name colour 5), "Protect zone" (bit 7); static only, none set in a new game	likely	F008
+player	0x12	performance	word	performance, a 16-bit word: 0x7FFF shows blank, else 1..9 characters by bucket (static only)	likely	F007; F008
+country	0x00	squad	word[20]	the 20 player indices (into the player array) of the country's squad, in the squad list's order	established	F007; F008
 country	0x2A	continent_rank	byte	rank in its continent, one of the three rating inputs	likely	F007
 country	0x2B	world_rank	byte	world rank, one of the three rating inputs	likely	F007
-country	0x2C	continent	byte	the continent, one of the three rating inputs	likely	F007
-country	0x2D	team_tactics	byte	R008, the team tactics bits; bit 8 picks the player screen's mark text	established	F007; F008
-country	0x2E	manager	byte	0x80 + the manager's number when a human manages the country	established	F007
+country	0x2C	continent	byte	the continent, one of the three rating inputs; also picks the name colour DS:6905[+0x2C]	likely	F007; F008
+country	0x2D	team_tactics	byte	R008, the team tactics bits; bits 1..4 feed the tactics panel, bit 8 picks the mark text	established	F007; F008
+country	0x2E	manager	byte	0x80 + the manager's number when a human manages the country (1771:0B77: managed when > 0x80)	established	F007; F008
