@@ -26,7 +26,7 @@ import players as P  # noqa: E402
 import readers  # noqa: E402
 
 BLOCKS = ROOT / "static" / "goal-dat" / "blocks.tsv"
-# DS:690A.. (static/goal-exe/strings.tsv): EUROPEAN, AMERICAN, AFRICAN, ASIAN; GOAL.HLP 166-170
+# DS:690A.. (static/goal-exe/strings.tsv): EUROPEAN, AMERICAN, AFRICAN, ASIAN; GOAL.HLP 163-166
 # numbers the continents 1 Europe, 2 America, 3 Africa, 4 Asia.
 CONTINENTS = {1: "Europe", 2: "America", 3: "Africa", 4: "Asia"}
 HELP_ORDER = [1, 2, 3, 4]  # GOAL.HLP 171-173: Europe > America > Africa > Asia
