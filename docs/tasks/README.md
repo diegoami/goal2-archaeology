@@ -25,3 +25,4 @@ exists.
 | T16 | Q009: which skills the player screen shows, on what scale, from which fields (G5 Q009) | #48 | T15 |
 | T17 | Findings pass the pinned citation checker, with no claim changed | #50 | T14 |
 | T18 | Decompile GOAL.EXE with Ghidra: pseudo-C per routine, checked against the listing (G3) | #52 | T04 |
+| T19 | Q005: what R008 sets, and the continental order of country strength (G5 Q005) | #59 | T18 |
