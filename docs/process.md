@@ -1,7 +1,6 @@
 # Process
 
-`CLAUDE.md` holds the rules; this file says how they run. `/run-task` is the procedure. Every rule
-here names the failure that produced it in the harness's `docs/lessons.md` (L-numbers).
+`CLAUDE.md` holds the rules, this file how they run, `/run-task` the procedure; each rule cites its lesson.
 
 ## 0. Order of work
 
@@ -21,13 +20,15 @@ Tag capability jumps, not phases. Release notes come from GitHub when the tag is
 | Role | Who | Does |
 | --- | --- | --- |
 | Main session | Claude, the session the user talks to | Plans, writes task files, runs `/run-task`, triages, merges, reports |
-| Implementer | OpenCode DeepSeek V4.1 Flash via `tools/harness/implement.mjs`, then a Claude Sonnet agent (L27) | One task, one branch, one PR, in its own worktree |
-| Reviewer | OpenCode via `tools/harness/review.mjs`: GPT-6.1 Sol (`gpt-6.1-sol`, effort low, medium if justified, never high) for complex tasks (guards, harness or driver changes, measurement integrity, research deliverables, plans with many acceptance lines); GPT-6 Luna only for small, simple PRs (L101); then a Claude Opus agent; never the implementer's family (L27). Exit 3: Opus reviews; exit 4: the main session reads the flagged review and decides (L28) | Re-runs the Done-when, audits scope and evidence, posts one PR comment, applies the label |
+| Implementer | OpenCode GLM-5.3 Flash, then DeepSeek V4.1 Flash, via `tools/harness/implement.mjs`, then a Claude Sonnet agent (L42); a heavier model only with the reason in the task file (L46) | One task, one branch, one PR, in its own worktree |
+| Reviewer | OpenCode via `tools/harness/review.mjs`, after the quota check (L50): GPT-6.1 Sol (`gpt-6.1-sol`, effort low, medium if justified, never high) for complex tasks (guards, harness or driver changes, measurement integrity, research deliverables, plans with many acceptance lines); GPT-5.6 Luna (`luna`, direct OpenAI, L51) for small, simple PRs (L101); then a Claude Opus agent; never the implementer's family (L27). Exit 3: Opus reviews; exit 4: the main session reads the flagged review and decides (L28) | Re-runs the Done-when, audits scope and evidence, posts one PR comment, applies the label |
 | Decider | Jev via `tools/harness/jev.mjs` (the `/jev` skill) | Repeated yes/no decisions over many items, at the confident ends only (§12) |
 | Generator | Models on OpenRouter (images, other families) and ElevenLabs (speech, sound, music) | Assets, each committed with a sidecar naming provider, model, prompt, date and cost |
 
 `/delegate` picks the delegate; model ids come from `models.mjs` or `opencode models`, never memory
-(L25). The main session runs `implement.mjs` itself: a wrapper agent would spend tokens watching it.
+(L25), after a look at the provider's quota: skip an exhausted one for the next with quota, saying so (L50).
+The main session runs `implement.mjs` itself: a wrapper agent would spend tokens watching it.
+It watches each background job (start, end, no output for 10 min), never with `pgrep -f`. (L48), and checks quota with `docs/environment.md`'s quota-tracker.
 
 ## 2. Task files
 
@@ -35,21 +36,22 @@ Tag capability jumps, not phases. Release notes come from GitHub when the tag is
 Scope, Done when, Hazards, Implementer, Reviewer, Merge after. Rules:
 - **Owns** names directories or files. Go finer only when two tasks run at once in one file:
   function-level Owns made one project open 27 PRs that only widened a list. (L5)
-- **Done when**: each line is one check a command can run.
-- The main session edits task files directly on `main`, with the reason in the commit message.
-  The task's reviewer sees the edit. (L6)
+- **Done when**: each line is one check a command can run. The main session runs each line before
+  dispatch: it fails on `main` and passes on a mock fix. (L45)
+- The main session edits task files directly on `main`, the reason in the commit; the reviewer sees it. (L6)
 
 ## 3. The loop
 
 `ready → implement → review → approved + green CI → squash merge → follow-up → unblock → report`.
 Rework sends the full review back to the same branch, at most two rounds (one for a fix), then
-escalates. The implementer script resumes a pushed branch; it never starts over.
+escalates. The implementer script resumes a pushed branch; it never starts over. Before a merge the
+main session re-runs the check the approval rests on most; a different result is rework. (L46)
 
 What the implementer script guarantees, and why:
 - OpenCode starts with stdin closed; without it a run hangs before it starts. (L10)
 - No session in 180 s, no progress in 900 s, or no exit in 3 h kills the run's process tree. (L10)
 - The agent is checked on OpenCode's session record (L11); a rejected tool call fails the run. (L26)
-- One OpenCode model, effort high, in the scripts' own data directory (L27, L29). A longer chain
+- Each OpenCode model runs at effort high, in the scripts' own data directory (L27, L29). The chain
   moves on only after an infrastructure failure that left no work. (L12)
 - Exit 0: a PR is open. 1: the main session reads the log (a stop and report, or an early end).
   3: OpenCode unavailable, its model not listed, or not logged in; Claude Sonnet takes the task.
@@ -61,10 +63,11 @@ URL. The OpenCode agent file repeats the run mechanics; this block is the contra
 
 ```text
 You implement <T<nn>>. The task file above is the contract.
-- Change only what the task needs. Every changed file is one the task requires; say why for each.
-- A Done-when line you cannot meet: stop and report. Never weaken an assertion, skip a test or
-  edit the task file.
+- Build only what the task asks for, even inside a file it requires; say why for each changed file. (L44)
+- A Done-when you cannot meet: stop and report. Never weaken an assertion, skip a test or edit the task file.
 - Every new test fails before your change and passes after it; say how you checked.
+- If you measure: every output a finding or the PR may cite goes under a tracked path the task owns,
+  pushed per batch and every 30 min, never deleted or overwritten; originals out, hashes recorded. (L40)
 - A comment that asserts behaviour at an edge comes with the test that visits that edge.
 - A defect you find outside the task: report it. A one-file mechanical fix that blocks you may
   ride this PR, declared under Scope in the PR body.
@@ -78,58 +81,26 @@ You implement <T<nn>>. The task file above is the contract.
 ```text
 <T<nn>> review (<model>)
 You review PR #<n> at <sha>. You did not write it. The task file follows.
-0. Prove the tree: HEAD is <sha>, and your diff against origin/main is the PR's file list. Every
-   finding names a file from that diff.
-1. Re-run every Done-when line yourself. The PR's evidence is not the proof.
-2. [evidence-driven] Every constant traces to a fixture, report or investigation; a [designed]
-   value says what was searched.
+0. Prove the tree: HEAD is <sha> and the diff against origin/main is the PR's; findings name its files.
+1. Re-run every Done-when line yourself, and account for each (L32). The PR's evidence is no proof.
+2. [evidence-driven] Every constant traces to a fixture, report or investigation; a [designed] one says what was searched.
 3. [seeded] No wall clock, unseeded random or order-dependent iteration in rule code.
-4. Every changed file is needed for the task; docs the change makes wrong are updated.
+4. Every changed file and behaviour is one the task asks for (L44); docs it makes wrong are updated.
 5. Sweep the diff: tests that pass with the behaviour deleted (mutate, rebuild clean, re-take any
    negative result), branches no input reaches, edge comments without a test, <project classes>.
-
-Blocking means (any one is enough; a blocking finding means rework, never approve):
-1. A Done-when line fails, or cannot be run as written.
-2. What this task protects can be got past: <name it, from the task's Scope line; on a guard task,
-   list the forbidden actions or results>. A bypass you proved is blocking, even when it looks like
-   an edge case. Do not rate it "follow-up hardening" or "outside the threat model" unless the task
-   says so; if it does, quote the line.
-3. Behaviour the task forbids, or behaviour nobody asked for, inside a file the task requires.
-4. A constant with no evidence; a test that passes with the behaviour deleted; a comment asserting
-   behaviour at an edge with no test visiting it; a status written into a document; a measurement
-   deleted or overwritten; a conclusion called corroborated from one route.
-Not blocking: wording, style, and defects in code the PR did not change. File those as follow-ups.
-When unsure, rate it blocking and say why. An approve with a proven bypass is the costliest mistake
-a review can make.
-
-## Report every blocking finding in this one review
-
-This review is your only pass before the author fixes. Do not stop at the first blocking
-finding: finish reading the whole diff and the task file, check every Done-when line and
-every item under "Blocking means", and report all blocking findings together.
-
-- Before you write the verdict, make one last pass over the full diff for anything you have
-  not yet rated, and say "Final pass done" as the last line before the verdict.
-- Number the findings R1, R2, … in order of severity. A finding you held back because an
-  earlier one was already blocking is a review defect: if two problems share a cause, list
-  both and say so.
-- Do not rely on a later round. The author fixes everything you list, and the next review
-  checks those fixes and new code only, not anything you saw but did not report.
-- If you ran out of time or context before covering the whole diff, say which files or
-  sections you did not cover. Do not approve in that case.
-
+6. <docs/review-brief.md in full: "Blocking means" for this task, then its one-pass section (L47, L49)>
 Prove each finding (run it, or delete the behaviour and name the test that fails) or label it
-unverified. Post one PR comment: line 1 the header, line 2 the verdict (approve | approve after
-named fixes | rework | user decision), the findings R1..Rn (file:line, blocking or not), the
-verdict again last. Apply status:approved or status:rework to issue #<issue>.
-Run mechanics: the session is killed after 600 s without activity; keep every shell command under
-5 minutes, and work only inside the review worktree.
+unverified. Your final message is the review: the header; the verdict (approve | approve after
+named fixes | rework | user decision); per Done-when line `DW<k>: ran <command> → <result>` or
+`DW<k>: not run — <reason>`; the findings R1..Rn (file:line, blocking or not); the verdict again
+last. Never post it: the script posts it and applies the label.
 ```
 
-Both sections are pasted into every brief in full, written for the task; never a pointer (L100,
-L101). If a reviewer still reports one blocker per round, stop after the second such round: the
-main session goes through the whole diff for the same class of problem before the next review,
-and records the pattern in `docs/model-trials.md` (L101).
+Run mechanics, added to every brief here: the session is killed after 600 s without activity; keep
+every shell command under 5 minutes, and work only inside the review worktree. If a reviewer still
+reports one blocker per round, stop after the second such round: the main session goes through the
+whole diff for the same class of problem before the next review, and records the pattern in
+`docs/model-trials.md` (L101).
 
 For a Claude reviewer, the main session also runs `/code-review <pr>` on architecture tasks,
 always with the PR number: a bare invocation from an agent reviews the wrong tree. (L8)
@@ -142,11 +113,9 @@ per merge. Triage decides one of:
   bug's own reproduction. The bug issue is the contract; its Done-when is its reproduction as a
   failing-then-passing test; one review round. (L4)
 - **correction task**: anything that changes an outcome.
-- **fold** into a task not yet ready.
-- **close**, with the reason.
+- **fold** into a task not yet ready, or **close**, with the reason.
 
-Once `breaks-play` is trialled (§12), Jev settles the confident ends of the playability gate
-first; the main session triages the middle.
+Once `breaks-play` is trialled (§12), Jev settles the gate's confident ends; the main session the middle.
 
 ## 7. Escalate to the user when
 
@@ -167,16 +136,15 @@ the rework rate with the baseline in `docs/lessons.md` before changing models. (
 
 ## 10. Adding a rule
 
-A rule enters `CLAUDE.md` or this file only when it names a failure that happened in a real run,
-added to `docs/lessons.md`. Plausible rules without an incident stay out. (L14)
+A rule enters `CLAUDE.md` or this file only with a lesson in `docs/lessons.md`: a failure in a real
+run, or the owner's decision with its basis. Plausible rules without either stay out. (L14)
 
 ## 11. For a reverse-engineering project
 
 - Transcribe every number from the research into one fixtures corpus with provenance, and assert
   against it: each re-read of a report is another chance to misread it. (L15)
 - New evidence runs in two stages: findings to the research repository, then a check of every
-  document claim it touches. Each finding is a doc fix, a bug, a task-file edit, or a question for
-  the user; research never decides design. (L16)
+  document claim it touches. Each finding is a doc fix, a bug, a task-file edit, or a question for the user; research never decides design. (L16)
 - The original files never enter the repository. CI fetches them from a private fixtures
   repository holding the whole corpus; tests find fixtures by name; local tests skip without them. (L17)
 
