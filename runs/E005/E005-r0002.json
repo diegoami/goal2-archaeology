@@ -1,0 +1,168 @@
+{
+ "schema": "run/1",
+ "run_id": "E005-r0002",
+ "experiment": "E005",
+ "arm": "calibrate-cycles-5000",
+ "rep": 2,
+ "code_commit": "e5280ff",
+ "machine": "ubuntu-24-04-wsl2",
+ "artifact": {
+  "set": "goal2-67cf27d6",
+  "variant": null
+ },
+ "runtime": {
+  "driver": "runtime/driver/driver.py@e5280ff",
+  "platform": "python-3.12.3/ubuntu-24-04-wsl2",
+  "fingerprint": {
+   "dosbox-x": "2024.03.01 SDL2",
+   "xvfb": "2:21.1.12-1ubuntu1.8",
+   "xdotool": "xdotool version 3.20160805.1",
+   "python": "3.12.3",
+   "kernel": "6.18.40.1-microsoft-standard-WSL2",
+   "config_sha256": "5e247ee06e9a39bd76e4e3dd104ecea09a202b953a5c44ea4b699ee5dbce3602",
+   "machine": "svga_s3",
+   "memsize": "16",
+   "cycles": "5000",
+   "core": "auto",
+   "cputype": "auto"
+  }
+ },
+ "interventions": [
+  {
+   "level": "I1",
+   "what": "text screen, BIOS data area and the dword DS:A9FF of GOAL.EXE read from a DOSBox-X savestate (Host+S)"
+  },
+  {
+   "level": "I2",
+   "what": "one savestate written at the title screen"
+  }
+ ],
+ "start_state": {
+  "id": "fresh-launch",
+  "sha256": "5e247ee06e9a39bd76e4e3dd104ecea09a202b953a5c44ea4b699ee5dbce3602",
+  "restore": "fresh DOSBox-X process at cycles=5000 (config sha256 5e247ee06e9a39bd76e4e3dd104ecea09a202b953a5c44ea4b699ee5dbce3602), game folder recreated from the verified release copy, nothing restored, DOS clock not set; polled to GOAL's title screen"
+ },
+ "seed": null,
+ "actions": {
+  "script": "experiments/E005-q003-cycles/run.py",
+  "sha256": "c05a95a7ef60a42a20454b71e07e55f590bc67d25f87949965fd9ffb6ca61088",
+  "args": [
+   "calibrate",
+   "--cycles",
+   "5000",
+   "--batch",
+   "c1"
+  ]
+ },
+ "observations": [
+  {
+   "step": 0,
+   "source": "file",
+   "field": "cycles setting of the session: DOSBox-X [cpu] cycles in the config it was launched with",
+   "value": "5000"
+  },
+  {
+   "step": 0,
+   "source": "log",
+   "field": "host UTC time at launch",
+   "value": "2026-10-04T17:27:37.916Z"
+  },
+  {
+   "step": 0,
+   "source": "file",
+   "field": "DOSBox-X config of the session, host paths replaced by <work> and <game>",
+   "value": "[sdl]\nfullscreen=false\noutput=surface\nmapperfile=<work>/mapper.map\n[mixer]\nnosound=true\n[midi]\nmididevice=none\n[dosbox]\nmachine=svga_s3\nmemsize=16\nsaveremark=false\ncaptures=<work>/cap\n[cpu]\ncore=auto\ncputype=auto\ncycles=5000\n[autoexec]\nmount c <game>\nc:\nmount d <work>/dosclock\ndate /t > d:\\clock.txt\ntime /t >> d:\\clock.txt\nc:\ngoal\nexit\n"
+  },
+  {
+   "step": 0,
+   "source": "log",
+   "field": "batch label given on the command line",
+   "value": "c1"
+  },
+  {
+   "step": 0,
+   "source": "process",
+   "field": "other DOSBox-X and Xvfb processes on the host at launch (not started by this run): [pid, seconds running, name]",
+   "value": "[[68169, 41197, \"Xvfb\"], [1872055, 24669, \"Xvfb\"], [1872060, 24669, \"dosbox-x\"]]"
+  },
+  {
+   "step": 0,
+   "source": "process",
+   "field": "/proc/loadavg at launch",
+   "value": "2.94 3.31 2.83 4/875 3324712"
+  },
+  {
+   "step": 1,
+   "source": "log",
+   "field": "title (fresh launch): host UTC time just before the savestate was requested",
+   "value": "2026-10-04T17:27:38.698Z"
+  },
+  {
+   "step": 1,
+   "source": "log",
+   "field": "title (fresh launch): host local time with UTC offset, and zone name, at the same instant",
+   "value": "2026-10-04T19:27:38.698+02:00 CEST"
+  },
+  {
+   "step": 1,
+   "source": "screen",
+   "field": "title (fresh launch): text screen 80x25, chars+attributes (4000 bytes), sha256",
+   "value": "cd7f15fbf853b40471d05bad51cb6e6c14cbc8a7307893dba8f5f36c2315c612"
+  },
+  {
+   "step": 1,
+   "source": "ui-text",
+   "field": "title (fresh launch): text screen rows 0-24, CP437 decoded, trailing blanks trimmed",
+   "value": " (c) NE'93│ │                                                    │     (c)\n ┌─┐┌─┐┌─┐│ │                                                    │     new\n │ ││ ││ ││ │                                                    │     era\n └─┤└─┘└─┤│ │                                                    │   software\n───┘ v.2    │                                                    │     1993\n────────────┘                                                    └──────────────\n\n\n\n\n\n\n────────────────────────────────────────────────────────────────────────────────\n                   THE international soccer management game\n────────────────────────────────────────────────────────────────────────────────\n\n────────────────────────────────────────────────────────────────────────────────\n                    design and coding : Mantra and L.B.\n────────────────────────────────────────────────────────────────────────────────\n     testing and feedback : Celtic Ray, Mr Scott, Big Mac and Carl Wilky\n────────────────────────────────────────────────────────────────────────────────\n               distribution : Silverwitch and Tom de Notre Dame\n────────────────────────────────────────────────────────────────────────────────\n\n■■■■■■■■■■■■■■■■■■■ Do you want to load a saved game? (Y/N) ■■■■■■■■■■■■■■■■■■■■"
+  },
+  {
+   "step": 1,
+   "source": "memory",
+   "addr": "0x449",
+   "field": "title (fresh launch): 1 byte at 0040:0049 (BIOS video mode), guest memory from the savestate, hex",
+   "value": "03"
+  },
+  {
+   "step": 1,
+   "source": "memory",
+   "addr": "0x46c",
+   "field": "title (fresh launch): 4 bytes at 0040:006C (BIOS timer tick count), guest memory from the savestate, as a little-endian dword (bytes in memory order)",
+   "value": "0x00137681 (81 76 13 00)"
+  },
+  {
+   "step": 1,
+   "source": "memory",
+   "addr": "0x3843f",
+   "field": "title (fresh launch): dword DS:A9FF of GOAL.EXE (the delay count 214B:1DA7 calibrates), little-endian (bytes in memory order)",
+   "value": "0x000002c5 (c5 02 00 00)"
+  },
+  {
+   "step": 2,
+   "source": "process",
+   "field": "other DOSBox-X and Xvfb processes on the host at end (not started by this run): [pid, seconds running, name]",
+   "value": "[[68169, 41197, \"Xvfb\"], [1872055, 24669, \"Xvfb\"], [1872060, 24669, \"dosbox-x\"]]"
+  },
+  {
+   "step": 2,
+   "source": "process",
+   "field": "/proc/loadavg at end",
+   "value": "2.94 3.31 2.83 3/876 3324715"
+  },
+  {
+   "step": 2,
+   "source": "process",
+   "field": "dosbox-x and Xvfb after SIGTERM to their process groups (SIGKILL after TERM_GRACE, see log)",
+   "value": "both exited"
+  },
+  {
+   "step": 2,
+   "source": "log",
+   "field": "waits, polls and key holds, seconds since launch",
+   "value": "[[0.109,\"Xvfb poll: answered after 2 polls of 0.1s\"],[0.109,\"Xvfb :410 answering\"],[0.11,\"dosbox-x started\"],[0.234,\"window found after 2 polls of 0.1s\"],[0.237,\"window focused\"],[0.755,\"host key F12+s, each step held 0.15s\"],[0.756,\"savestate complete after 1 polls of 0.05s\"],[1.302,\"host key F12+s, each step held 0.15s\"],[1.303,\"savestate complete after 1 polls of 0.05s\"],[1.325,\"title screen: matched after 2 savestate polls\"],[1.325,\"DOS clock read back: '10/04/2026\\\\n19:27:37'\"],[1.851,\"dosbox-x pid 3324640 alive 0.5s after SIGTERM (grace 0.5s): SIGKILL to its group\"],[1.861,\"dosbox-x pid 3324640 ended by SIGKILL 0.51s after the first signal\"],[1.868,\"Xvfb pid 3324625 ended by SIGTERM 0.007s after the first signal\"],[1.868,\"terminated\"]]"
+  }
+ ],
+ "outputs": [],
+ "started": "2026-10-04T17:27:37.916Z",
+ "ended": "2026-10-04T17:27:39.824Z",
+ "status": "completed"
+}

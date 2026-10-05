@@ -1,0 +1,764 @@
+{
+ "schema": "run/1",
+ "run_id": "E005-r0022",
+ "experiment": "E005",
+ "arm": "quick-restore-e004-1337-cycles-30000",
+ "rep": 22,
+ "code_commit": "a6a73ac",
+ "machine": "ubuntu-24-04-wsl2",
+ "artifact": {
+  "set": "goal2-67cf27d6",
+  "variant": null
+ },
+ "runtime": {
+  "driver": "runtime/driver/driver.py@a6a73ac",
+  "platform": "python-3.12.3/ubuntu-24-04-wsl2",
+  "fingerprint": {
+   "dosbox-x": "2024.03.01 SDL2",
+   "xvfb": "2:21.1.12-1ubuntu1.8",
+   "xdotool": "xdotool version 3.20160805.1",
+   "python": "3.12.3",
+   "kernel": "6.18.40.1-microsoft-standard-WSL2",
+   "config_sha256": "083897d321ed9fe50ca93bbf03ff45765c03c0f2a6e5e5df57aede499ebdc147",
+   "machine": "svga_s3",
+   "memsize": "16",
+   "cycles": "30000",
+   "core": "auto",
+   "cputype": "auto"
+  }
+ },
+ "interventions": [
+  {
+   "level": "I1",
+   "what": "text screen, BIOS data area (0040:0049, 0040:006C) and GOAL.EXE data-segment memory (DS:7B62, DS:7B64, DS:8336, DS:A9FD, the dword DS:A9FF, the commentary ring DS:7C38 and counter DS:80EE, the score DS:9B3C, the names at [DS:9B6C], the delay byte at [DS:A923]+0x3F, two known strings) read from DOSBox-X savestates (Host+S; components Vga and Memory)"
+  },
+  {
+   "level": "I2",
+   "what": "a savestate is written at each read, including every read during the match, and one is loaded (Host+L) at the start (vocabulary/interventions.md lists save and load of state as I2; neutrality tested by E004's replays, not assumed)"
+  }
+ ],
+ "start_state": {
+  "id": "e004-1337",
+  "sha256": "d168d36fbb96bb2e0c7d7d3d68ad618426318016c28f87b8a3ecba5c251aa0d4",
+  "restore": "fresh DOSBox-X process at cycles=30000 (config sha256 083897d321ed9fe50ca93bbf03ff45765c03c0f2a6e5e5df57aede499ebdc147) with C: mounted from the folder the savestate was made with, recreated from the verified release copy; GOAL run to its title screen; key n to change the screen; then Host+L loads the savestate whose sha256 is given (made by E004's `run.py make-state` at cycles=30000, DOS time 13:37:00 on 10/04/2026: the captain screen of the next match; it carries the DS:A9FF calibrated in that session); polled until the screen digest equals the one stored with it (7e9020f616ddc91a8f85c92b5a03daa8a7bb0be8978a79cf9788820d1f71604d); DOS clock of this session not set (the restore brings the state's own BIOS ticks, F004)"
+ },
+ "seed": null,
+ "actions": {
+  "script": "experiments/E005-q003-cycles/run.py",
+  "sha256": "3dca5f8307eb072dc6566a4a88b84bc5cc7c3ff661268f137a4d464bf1cd5472",
+  "args": [
+   "restores",
+   "--arm",
+   "quick",
+   "--state",
+   "e004-1337",
+   "--cycles",
+   "30000",
+   "--batch",
+   "b1",
+   "starting keys: Enter r"
+  ]
+ },
+ "observations": [
+  {
+   "step": 0,
+   "source": "log",
+   "field": "host UTC time at launch",
+   "value": "2026-10-04T17:39:55.294Z"
+  },
+  {
+   "step": 0,
+   "source": "log",
+   "field": "host local time at launch, with UTC offset, and zone name",
+   "value": "2026-10-04T19:39:55.294+02:00 CEST"
+  },
+  {
+   "step": 0,
+   "source": "file",
+   "field": "DOS clock read back: CLOCK.TXT as DOS wrote it (`date /t`, then `time /t`) before GOAL, right after setting the date and time when they were set",
+   "value": "10/04/2026\n19:39:54\n"
+  },
+  {
+   "step": 0,
+   "source": "file",
+   "field": "cycles setting of the session: DOSBox-X [cpu] cycles in the config it was launched with",
+   "value": "30000"
+  },
+  {
+   "step": 0,
+   "source": "log",
+   "field": "before restore (title screen displaced by n): host UTC time just before the savestate was requested",
+   "value": "2026-10-04T17:39:55.530Z"
+  },
+  {
+   "step": 0,
+   "source": "log",
+   "field": "before restore (title screen displaced by n): host local time with UTC offset, and zone name, at the same instant",
+   "value": "2026-10-04T19:39:55.530+02:00 CEST"
+  },
+  {
+   "step": 0,
+   "source": "screen",
+   "field": "before restore (title screen displaced by n): text screen 80x25, chars+attributes (4000 bytes), sha256",
+   "value": "cd7f15fbf853b40471d05bad51cb6e6c14cbc8a7307893dba8f5f36c2315c612"
+  },
+  {
+   "step": 0,
+   "source": "ui-text",
+   "field": "before restore (title screen displaced by n): text screen rows 0-24, CP437 decoded, trailing blanks trimmed",
+   "value": " (c) NE'93│ │                                                    │     (c)\n ┌─┐┌─┐┌─┐│ │                                                    │     new\n │ ││ ││ ││ │                                                    │     era\n └─┤└─┘└─┤│ │                                                    │   software\n───┘ v.2    │                                                    │     1993\n────────────┘                                                    └──────────────\n\n\n\n\n\n\n────────────────────────────────────────────────────────────────────────────────\n                   THE international soccer management game\n────────────────────────────────────────────────────────────────────────────────\n\n────────────────────────────────────────────────────────────────────────────────\n                    design and coding : Mantra and L.B.\n────────────────────────────────────────────────────────────────────────────────\n     testing and feedback : Celtic Ray, Mr Scott, Big Mac and Carl Wilky\n────────────────────────────────────────────────────────────────────────────────\n               distribution : Silverwitch and Tom de Notre Dame\n────────────────────────────────────────────────────────────────────────────────\n\n■■■■■■■■■■■■■■■■■■■ Do you want to load a saved game? (Y/N) ■■■■■■■■■■■■■■■■■■■■"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x449",
+   "field": "before restore (title screen displaced by n): 1 byte at 0040:0049 (BIOS video mode), guest memory from the savestate, hex",
+   "value": "03"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x46c",
+   "field": "before restore (title screen displaced by n): 4 bytes at 0040:006C (BIOS timer tick count), guest memory from the savestate, as a little-endian dword (bytes in memory order)",
+   "value": "0x0013aae6 (e6 aa 13 00)"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x355a2",
+   "field": "before restore (title screen displaced by n): word at DS:7B62 of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+   "value": "0x0000 (00 00)"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x355a4",
+   "field": "before restore (title screen displaced by n): word at DS:7B64 of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+   "value": "0x0000 (00 00)"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x35d76",
+   "field": "before restore (title screen displaced by n): word at DS:8336 of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+   "value": "0xaae5 (e5 aa)"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x3843d",
+   "field": "before restore (title screen displaced by n): word at DS:A9FD of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+   "value": "0x07ea (ea 07)"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "field": "before restore (title screen displaced by n): score bytes DS:9B3C, DS:9B3D (engine teams 0 and 1)",
+   "value": "0 0"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "field": "before restore (title screen displaced by n): match delay byte at the far pointer DS:A923 + 0x3F (0 fastest)",
+   "value": "0"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x3843f",
+   "field": "before restore (title screen displaced by n): dword DS:A9FF of GOAL.EXE (the delay count 214B:1DA7 calibrates), little-endian (bytes in memory order)",
+   "value": "0x000010b3 (b3 10 00 00)"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x8120",
+   "field": "GOAL.EXE located: its MCB (owner = the next segment, name GOAL), PSP, load segment and data segment",
+   "value": "MCB at segment 0812 (owner 0813, name GOAL), PSP 0813, load segment 0823 = PSP + 10h, DS 2DA4 = load + 2581h, linear base 0x2DA40"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x2da64",
+   "field": "8 bytes at DS:0024, hex (static/goal-exe/data/ds_2581_01.hex has 07 54 52 59 20 4f 55 54)",
+   "value": "07 54 52 59 20 4f 55 54"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x2db00",
+   "field": "6 bytes at DS:00C0, hex (static/goal-exe/data/ds_2581_01.hex has 6f 6e 20 66 6f 72)",
+   "value": "6f 6e 20 66 6f 72"
+  },
+  {
+   "step": 0,
+   "source": "log",
+   "field": "restored: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T17:39:56.586Z"
+  },
+  {
+   "step": 0,
+   "source": "log",
+   "field": "restored: host local time with UTC offset, and zone name, at the same instant",
+   "value": "2026-10-04T19:39:56.586+02:00 CEST"
+  },
+  {
+   "step": 0,
+   "source": "screen",
+   "field": "restored: text screen 80x25, chars+attributes (4000 bytes), sha256",
+   "value": "7e9020f616ddc91a8f85c92b5a03daa8a7bb0be8978a79cf9788820d1f71604d"
+  },
+  {
+   "step": 0,
+   "source": "ui-text",
+   "field": "restored: text screen rows 0-24, CP437 decoded, trailing blanks trimmed",
+   "value": " (c) NE'93│ ┌───────────────┬──┬FRIENDLY───────────────────────────┐┌───┐ ┌───┐\n ┌─┐┌─┐┌─┐│ │SWEDEN---------│ 0│                                   ││   │ │   │\n │ ││ ││ ││ ├versus─────────┼──┤                                   │├───┤ ├───┤\n └─┤└─┘└─┤│ │DENMARK--------│ 0│                                   ││   │ │   │\n───┘ v.2    └───────────────┴──┴───────────────────────────────────┘└───┘ └───┘\n\n┌name──────────┬age┬caps┬goals┬height─┬bias──────┬performance┐ ┌────────────┬─┐\n│T Piechnik    │ 28│   0│    0│ 6' 0\" │right foot│           │ │P Schmeichel│G│\n├position──────┴───┼club┴position─────┼cards┬────┴─┴─┴─┴─┴─┴─┤ │L Olsen     │S│\n│centre back       │centre back       │     │        selected│ │T Piechnik  │C│\n├skills───┬────┬───┴┬────┬────┬────┬┬─┴─────┴─────────tactics┤ │K Christofte│C│\n├keeping──■■■■■■■■■■■■■■■■■■■■■■■■■■┼position─────stay back P┤ │H Andersen  │B│\n├kicking──■■■■■■■■■■■■■■■■■■■■■■■■■■┼possession──quick pass P┤ │J Sivebaek  │B│\n├tackling─■■■■■■■■■■■■■■■■■■■■■■■■■■┼passing─────short passes┤ │K Vilfort   │D│\n├heading──■■■■■■■■■■■■■■■■■■■■■■■■■■┼tackling──avoid injury P┤ │H Larsen    │M│\n├marking──■■■■■■■■■■■■■■■■■■■■■■■■■■┼mark─J Ekstrom──────────┤ │J Jensen    │M│\n├passing──■■■■■■■■■■■■■■■■■■■■■■■■■■┤     striker            │ │B Laudrup   │F│\n├crossing─■■■■■■■■■■■■■■■■■■■■■■■■■■┼─────────characteristics┤ │F Povlsen   │$│\n├feinting─■■■■■■■■■■■■■■■■■■■■■■■■■■┼hardness──wimpy■■■■■■■■■┤ └────────────┴─┘\n├control──■■■■■■■■■■■■■■■■■■■■■■■■■■┼fitness───total■■■■■■■■■┤   use ↑↓ to move\n├dribbling■■■■■■■■■■■■■■■■■■■■■■■■■■┼energy────hyperactive■■■┤\n├shooting─■■■■■■■■■■■■■■■■■■■■■■■■■■┼morale────very confident┤ ╔═══════════════╗\n├penalties■■■■■■■■■■■■■■■■■■■■■■■■■■┼leadershipcaptain■■■■■■■┤ ║Denmark--------║\n└─────────┴────┴────┴────┴────┴────┴┴──────────┴────┴────┴───┘ ╚═══════════════╝\n◄┘-select  CAPTAIN                                         C-computer select"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x449",
+   "field": "restored: 1 byte at 0040:0049 (BIOS video mode), guest memory from the savestate, hex",
+   "value": "03"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x46c",
+   "field": "restored: 4 bytes at 0040:006C (BIOS timer tick count), guest memory from the savestate, as a little-endian dword (bytes in memory order)",
+   "value": "0x000d9f39 (39 9f 0d 00)"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x355a2",
+   "field": "restored: word at DS:7B62 of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+   "value": "0xfabd (bd fa)"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x355a4",
+   "field": "restored: word at DS:7B64 of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+   "value": "0x0618 (18 06)"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x35d76",
+   "field": "restored: word at DS:8336 of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+   "value": "0x9e47 (47 9e)"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x3843d",
+   "field": "restored: word at DS:A9FD of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+   "value": "0x07ea (ea 07)"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "field": "restored: score bytes DS:9B3C, DS:9B3D (engine teams 0 and 1)",
+   "value": "0 0"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "field": "restored: match delay byte at the far pointer DS:A923 + 0x3F (0 fastest)",
+   "value": "1"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x3843f",
+   "field": "restored: dword DS:A9FF of GOAL.EXE (the delay count 214B:1DA7 calibrates), little-endian (bytes in memory order)",
+   "value": "0x000010b3 (b3 10 00 00)"
+  },
+  {
+   "step": 0,
+   "source": "process",
+   "field": "other DOSBox-X and Xvfb processes on the host at launch (not started by this run): [pid, seconds running, name]",
+   "value": "[[68169, 41935, \"Xvfb\"], [1872055, 25407, \"Xvfb\"], [1872060, 25407, \"dosbox-x\"], [3373901, 182, \"Xvfb\"], [3373909, 182, \"dosbox-x\"]]"
+  },
+  {
+   "step": 0,
+   "source": "process",
+   "field": "/proc/loadavg at launch",
+   "value": "2.94 2.99 2.95 4/772 3385120"
+  },
+  {
+   "step": 0,
+   "source": "file",
+   "field": "DOSBox-X config of the session, host paths replaced by <work> and <game>",
+   "value": "[sdl]\nfullscreen=false\noutput=surface\nmapperfile=<work>/mapper.map\n[mixer]\nnosound=true\n[midi]\nmididevice=none\n[dosbox]\nmachine=svga_s3\nmemsize=16\nsaveremark=false\ncaptures=<work>/cap\n[cpu]\ncore=auto\ncputype=auto\ncycles=30000\n[autoexec]\nmount c <game>\nc:\nmount d <work>/dosclock\ndate /t > d:\\clock.txt\ntime /t >> d:\\clock.txt\nc:\ngoal\nexit\n"
+  },
+  {
+   "step": 0,
+   "source": "file",
+   "field": "sha256 of that config text (UTF-8)",
+   "value": "083897d321ed9fe50ca93bbf03ff45765c03c0f2a6e5e5df57aede499ebdc147"
+  },
+  {
+   "step": 0,
+   "source": "log",
+   "field": "batch label given on the command line",
+   "value": "b1"
+  },
+  {
+   "step": 1,
+   "source": "memory",
+   "field": "match read 1: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:39:57.377Z\", 0.757, \"0x000d9f45\", \"0x000010b3\", \"2f07efed97871f317064f2c1a6735648edd19a7a6917cc81c940ff7d7946eab6\", \"0x0002\", \"0xda17\", 0, 0, \"│ / ┤Piechnik wins the toss / │Laudrup to take kick off\"]"
+  },
+  {
+   "step": 2,
+   "source": "memory",
+   "field": "match read 2: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:39:57.926Z\", 1.346, \"0x000d9f4c\", \"0x000010b3\", \"e7aa0000bcb4ece7bd2e8413148080914fce8c96f79fb338a5269fef8c217ce0\", \"0x0002\", \"0x5161\", 0, 0, \"│ / ┤Piechnik wins the toss / │Laudrup to take kick off\"]"
+  },
+  {
+   "step": 3,
+   "source": "memory",
+   "field": "match read 3: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:39:58.521Z\", 2.836, \"0x000d9f55\", \"0x000010b3\", \"1930f7872b5564fde33d52304c93b4821643750f023b9e041e3d4a23758bc191\", \"0x0002\", \"0xe6f4\", 0, 0, \"│ / ┤Piechnik wins the toss / │Laudrup to take kick off\"]"
+  },
+  {
+   "step": 4,
+   "source": "memory",
+   "field": "match read 4: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:40:00.007Z\", 3.808, \"0x000d9f5f\", \"0x000010b3\", \"1930f7872b5564fde33d52304c93b4821643750f023b9e041e3d4a23758bc191\", \"0x0002\", \"0xe6f4\", 0, 0, \"│ / ┤Piechnik wins the toss / │Laudrup to take kick off\"]"
+  },
+  {
+   "step": 5,
+   "source": "memory",
+   "field": "match read 5: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:40:00.982Z\", 4.626, \"0x000d9f66\", \"0x000010b3\", \"1930f7872b5564fde33d52304c93b4821643750f023b9e041e3d4a23758bc191\", \"0x0002\", \"0xe6f4\", 0, 0, \"│ / ┤Piechnik wins the toss / │Laudrup to take kick off\"]"
+  },
+  {
+   "step": 6,
+   "source": "memory",
+   "field": "match read 6: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:40:01.799Z\", 5.173, \"0x000d9f6b\", \"0x000010b3\", \"1930f7872b5564fde33d52304c93b4821643750f023b9e041e3d4a23758bc191\", \"0x0002\", \"0xe6f4\", 0, 0, \"│ / ┤Piechnik wins the toss / │Laudrup to take kick off\"]"
+  },
+  {
+   "step": 7,
+   "source": "memory",
+   "field": "match read 7: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:40:02.344Z\", 5.724, \"0x000d9f73\", \"0x000010b3\", \"1930f7872b5564fde33d52304c93b4821643750f023b9e041e3d4a23758bc191\", \"0x0002\", \"0xe6f4\", 0, 0, \"│ / ┤Piechnik wins the toss / │Laudrup to take kick off\"]"
+  },
+  {
+   "step": 8,
+   "source": "memory",
+   "field": "match read 8: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:40:02.895Z\", 6.269, \"0x000d9f7a\", \"0x000010b3\", \"1930f7872b5564fde33d52304c93b4821643750f023b9e041e3d4a23758bc191\", \"0x0002\", \"0xe6f4\", 0, 0, \"│ / ┤Piechnik wins the toss / │Laudrup to take kick off\"]"
+  },
+  {
+   "step": 9,
+   "source": "memory",
+   "field": "match read 9: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:40:03.442Z\", 6.824, \"0x000d9f82\", \"0x000010b3\", \"4612605b1569dfea3c489694507d585e2bf62675c63417011b2a6add1fe6592d\", \"0x0003\", \"0x37f8\", 0, 1, \"│Piechnik wins the toss / ┤Laudrup to take kick off / │**** GOAL **** by Schwarz\"]"
+  },
+  {
+   "step": 10,
+   "source": "memory",
+   "field": "match read 10: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:40:03.993Z\", 7.365, \"0x000d9f89\", \"0x000010b3\", \"4612605b1569dfea3c489694507d585e2bf62675c63417011b2a6add1fe6592d\", \"0x0003\", \"0x37f8\", 0, 1, \"│Piechnik wins the toss / ┤Laudrup to take kick off / │**** GOAL **** by Schwarz\"]"
+  },
+  {
+   "step": 11,
+   "source": "memory",
+   "field": "match read 11: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:40:04.536Z\", 7.913, \"0x000d9f91\", \"0x000010b3\", \"4612605b1569dfea3c489694507d585e2bf62675c63417011b2a6add1fe6592d\", \"0x0003\", \"0x37f8\", 0, 1, \"│Piechnik wins the toss / ┤Laudrup to take kick off / │**** GOAL **** by Schwarz\"]"
+  },
+  {
+   "step": 12,
+   "source": "memory",
+   "field": "match read 12: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:40:05.085Z\", 8.492, \"0x000d9f98\", \"0x000010b3\", \"4612605b1569dfea3c489694507d585e2bf62675c63417011b2a6add1fe6592d\", \"0x0003\", \"0x37f8\", 0, 1, \"│Piechnik wins the toss / ┤Laudrup to take kick off / │**** GOAL **** by Schwarz\"]"
+  },
+  {
+   "step": 13,
+   "source": "memory",
+   "field": "match read 13: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:40:05.667Z\", 9.045, \"0x000d9fa0\", \"0x000010b3\", \"4612605b1569dfea3c489694507d585e2bf62675c63417011b2a6add1fe6592d\", \"0x0003\", \"0x37f8\", 0, 1, \"│Piechnik wins the toss / ┤Laudrup to take kick off / │**** GOAL **** by Schwarz\"]"
+  },
+  {
+   "step": 14,
+   "source": "memory",
+   "field": "match read 14: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:40:06.218Z\", 9.594, \"0x000d9fa6\", \"0x000010b3\", \"4612605b1569dfea3c489694507d585e2bf62675c63417011b2a6add1fe6592d\", \"0x0003\", \"0x37f8\", 0, 1, \"│Piechnik wins the toss / ┤Laudrup to take kick off / │**** GOAL **** by Schwarz\"]"
+  },
+  {
+   "step": 15,
+   "source": "memory",
+   "field": "match read 15: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:40:06.766Z\", 10.143, \"0x000d9fae\", \"0x000010b3\", \"4612605b1569dfea3c489694507d585e2bf62675c63417011b2a6add1fe6592d\", \"0x0003\", \"0x37f8\", 0, 1, \"│Piechnik wins the toss / ┤Laudrup to take kick off / │**** GOAL **** by Schwarz\"]"
+  },
+  {
+   "step": 16,
+   "source": "memory",
+   "field": "match read 16: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:40:07.317Z\", 10.699, \"0x000d9fb6\", \"0x000010b3\", \"4612605b1569dfea3c489694507d585e2bf62675c63417011b2a6add1fe6592d\", \"0x0003\", \"0x37f8\", 0, 1, \"│Piechnik wins the toss / ┤Laudrup to take kick off / │**** GOAL **** by Schwarz\"]"
+  },
+  {
+   "step": 17,
+   "source": "memory",
+   "field": "match read 17: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:40:07.871Z\", 11.252, \"0x000d9fbe\", \"0x000010b3\", \"4612605b1569dfea3c489694507d585e2bf62675c63417011b2a6add1fe6592d\", \"0x0003\", \"0x37f8\", 0, 1, \"│Piechnik wins the toss / ┤Laudrup to take kick off / │**** GOAL **** by Schwarz\"]"
+  },
+  {
+   "step": 18,
+   "source": "memory",
+   "field": "match read 18: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:40:08.424Z\", 11.797, \"0x000d9fc5\", \"0x000010b3\", \"4612605b1569dfea3c489694507d585e2bf62675c63417011b2a6add1fe6592d\", \"0x0003\", \"0x37f8\", 0, 1, \"│Piechnik wins the toss / ┤Laudrup to take kick off / │**** GOAL **** by Schwarz\"]"
+  },
+  {
+   "step": 19,
+   "source": "memory",
+   "field": "match read 19: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:40:08.968Z\", 12.343, \"0x000d9fcd\", \"0x000010b3\", \"4612605b1569dfea3c489694507d585e2bf62675c63417011b2a6add1fe6592d\", \"0x0003\", \"0x37f8\", 0, 1, \"│Piechnik wins the toss / ┤Laudrup to take kick off / │**** GOAL **** by Schwarz\"]"
+  },
+  {
+   "step": 20,
+   "source": "memory",
+   "field": "match read 20: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:40:09.515Z\", 12.891, \"0x000d9fd4\", \"0x000010b3\", \"88d6d9c05168bfe78000df8db224fc25be4512985e029c44b77a34c0ca01b5fd\", \"0x0004\", \"0xce99\", 0, 1, \"│Laudrup to take kick off / ┤**** GOAL **** by Schwarz / │---- HALF TIME ----\"]"
+  },
+  {
+   "step": 21,
+   "source": "memory",
+   "field": "match read 21: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:40:10.062Z\", 13.45, \"0x000d9fdc\", \"0x000010b3\", \"88d6d9c05168bfe78000df8db224fc25be4512985e029c44b77a34c0ca01b5fd\", \"0x0004\", \"0xce99\", 0, 1, \"│Laudrup to take kick off / ┤**** GOAL **** by Schwarz / │---- HALF TIME ----\"]"
+  },
+  {
+   "step": 22,
+   "source": "memory",
+   "field": "match read 22: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:40:10.622Z\", 14.007, \"0x000d9fe3\", \"0x000010b3\", \"88d6d9c05168bfe78000df8db224fc25be4512985e029c44b77a34c0ca01b5fd\", \"0x0004\", \"0xce99\", 0, 1, \"│Laudrup to take kick off / ┤**** GOAL **** by Schwarz / │---- HALF TIME ----\"]"
+  },
+  {
+   "step": 23,
+   "source": "memory",
+   "field": "match read 23: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:40:11.179Z\", 14.554, \"0x000d9fea\", \"0x000010b3\", \"88d6d9c05168bfe78000df8db224fc25be4512985e029c44b77a34c0ca01b5fd\", \"0x0004\", \"0xce99\", 0, 1, \"│Laudrup to take kick off / ┤**** GOAL **** by Schwarz / │---- HALF TIME ----\"]"
+  },
+  {
+   "step": 24,
+   "source": "memory",
+   "field": "match read 24: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:40:11.726Z\", 15.105, \"0x000d9ff1\", \"0x000010b3\", \"88d6d9c05168bfe78000df8db224fc25be4512985e029c44b77a34c0ca01b5fd\", \"0x0004\", \"0xce99\", 0, 1, \"│Laudrup to take kick off / ┤**** GOAL **** by Schwarz / │---- HALF TIME ----\"]"
+  },
+  {
+   "step": 25,
+   "source": "memory",
+   "field": "match read 25: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:40:12.276Z\", 15.649, \"0x000d9ff8\", \"0x000010b3\", \"88d6d9c05168bfe78000df8db224fc25be4512985e029c44b77a34c0ca01b5fd\", \"0x0004\", \"0xce99\", 0, 1, \"│Laudrup to take kick off / ┤**** GOAL **** by Schwarz / │---- HALF TIME ----\"]"
+  },
+  {
+   "step": 26,
+   "source": "memory",
+   "field": "match read 26: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:40:12.821Z\", 16.204, \"0x000da000\", \"0x000010b3\", \"88d6d9c05168bfe78000df8db224fc25be4512985e029c44b77a34c0ca01b5fd\", \"0x0004\", \"0xce99\", 0, 1, \"│Laudrup to take kick off / ┤**** GOAL **** by Schwarz / │---- HALF TIME ----\"]"
+  },
+  {
+   "step": 27,
+   "source": "memory",
+   "field": "match read 27: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:40:13.376Z\", 16.756, \"0x000da007\", \"0x000010b3\", \"88d6d9c05168bfe78000df8db224fc25be4512985e029c44b77a34c0ca01b5fd\", \"0x0004\", \"0xce99\", 0, 1, \"│Laudrup to take kick off / ┤**** GOAL **** by Schwarz / │---- HALF TIME ----\"]"
+  },
+  {
+   "step": 28,
+   "source": "memory",
+   "field": "match read 28: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:40:13.928Z\", 17.305, \"0x000da00f\", \"0x000010b3\", \"88d6d9c05168bfe78000df8db224fc25be4512985e029c44b77a34c0ca01b5fd\", \"0x0004\", \"0xce99\", 0, 1, \"│Laudrup to take kick off / ┤**** GOAL **** by Schwarz / │---- HALF TIME ----\"]"
+  },
+  {
+   "step": 29,
+   "source": "memory",
+   "field": "match read 29: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:40:14.481Z\", 17.868, \"0x000da016\", \"0x000010b3\", \"88d6d9c05168bfe78000df8db224fc25be4512985e029c44b77a34c0ca01b5fd\", \"0x0004\", \"0xce99\", 0, 1, \"│Laudrup to take kick off / ┤**** GOAL **** by Schwarz / │---- HALF TIME ----\"]"
+  },
+  {
+   "step": 30,
+   "source": "memory",
+   "field": "match read 30: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:40:15.042Z\", 18.431, \"0x000da01e\", \"0x000010b3\", \"88d6d9c05168bfe78000df8db224fc25be4512985e029c44b77a34c0ca01b5fd\", \"0x0004\", \"0xce99\", 0, 1, \"│Laudrup to take kick off / ┤**** GOAL **** by Schwarz / │---- HALF TIME ----\"]"
+  },
+  {
+   "step": 31,
+   "source": "memory",
+   "field": "match read 31: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:40:15.605Z\", 18.982, \"0x000da025\", \"0x000010b3\", \"88d6d9c05168bfe78000df8db224fc25be4512985e029c44b77a34c0ca01b5fd\", \"0x0004\", \"0xce99\", 0, 1, \"│Laudrup to take kick off / ┤**** GOAL **** by Schwarz / │---- HALF TIME ----\"]"
+  },
+  {
+   "step": 32,
+   "source": "memory",
+   "field": "match read 32: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:40:16.156Z\", 19.535, \"0x000da02c\", \"0x000010b3\", \"88d6d9c05168bfe78000df8db224fc25be4512985e029c44b77a34c0ca01b5fd\", \"0x0004\", \"0xce99\", 0, 1, \"│Laudrup to take kick off / ┤**** GOAL **** by Schwarz / │---- HALF TIME ----\"]"
+  },
+  {
+   "step": 33,
+   "source": "memory",
+   "field": "match read 33: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:40:16.710Z\", 20.083, \"0x000da034\", \"0x000010b3\", \"88d6d9c05168bfe78000df8db224fc25be4512985e029c44b77a34c0ca01b5fd\", \"0x0004\", \"0xce99\", 0, 1, \"│Laudrup to take kick off / ┤**** GOAL **** by Schwarz / │---- HALF TIME ----\"]"
+  },
+  {
+   "step": 34,
+   "source": "memory",
+   "field": "match read 34: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:40:17.255Z\", 20.628, \"0x000da03b\", \"0x000010b3\", \"88d6d9c05168bfe78000df8db224fc25be4512985e029c44b77a34c0ca01b5fd\", \"0x0004\", \"0xce99\", 0, 1, \"│Laudrup to take kick off / ┤**** GOAL **** by Schwarz / │---- HALF TIME ----\"]"
+  },
+  {
+   "step": 35,
+   "source": "memory",
+   "field": "match read 35: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:40:17.801Z\", 21.173, \"0x000da043\", \"0x000010b3\", \"88d6d9c05168bfe78000df8db224fc25be4512985e029c44b77a34c0ca01b5fd\", \"0x0004\", \"0xce99\", 0, 1, \"│Laudrup to take kick off / ┤**** GOAL **** by Schwarz / │---- HALF TIME ----\"]"
+  },
+  {
+   "step": 36,
+   "source": "memory",
+   "field": "match read 36: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:40:18.344Z\", 21.717, \"0x000da04a\", \"0x000010b3\", \"88d6d9c05168bfe78000df8db224fc25be4512985e029c44b77a34c0ca01b5fd\", \"0x0004\", \"0xce99\", 0, 1, \"│Laudrup to take kick off / ┤**** GOAL **** by Schwarz / │---- HALF TIME ----\"]"
+  },
+  {
+   "step": 37,
+   "source": "memory",
+   "field": "match read 37: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:40:18.889Z\", 22.263, \"0x000da052\", \"0x000010b3\", \"88d6d9c05168bfe78000df8db224fc25be4512985e029c44b77a34c0ca01b5fd\", \"0x0004\", \"0xce99\", 0, 1, \"│Laudrup to take kick off / ┤**** GOAL **** by Schwarz / │---- HALF TIME ----\"]"
+  },
+  {
+   "step": 38,
+   "source": "memory",
+   "field": "match read 38: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:40:19.434Z\", 22.811, \"0x000da059\", \"0x000010b3\", \"88d6d9c05168bfe78000df8db224fc25be4512985e029c44b77a34c0ca01b5fd\", \"0x0004\", \"0xce99\", 0, 1, \"│Laudrup to take kick off / ┤**** GOAL **** by Schwarz / │---- HALF TIME ----\"]"
+  },
+  {
+   "step": 39,
+   "source": "memory",
+   "field": "match read 39: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:40:19.983Z\", 23.356, \"0x000da060\", \"0x000010b3\", \"88d6d9c05168bfe78000df8db224fc25be4512985e029c44b77a34c0ca01b5fd\", \"0x0004\", \"0xce99\", 0, 1, \"│Laudrup to take kick off / ┤**** GOAL **** by Schwarz / │---- HALF TIME ----\"]"
+  },
+  {
+   "step": 40,
+   "source": "memory",
+   "field": "match read 40: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:40:20.528Z\", 23.904, \"0x000da067\", \"0x000010b3\", \"88d6d9c05168bfe78000df8db224fc25be4512985e029c44b77a34c0ca01b5fd\", \"0x0004\", \"0xce99\", 0, 1, \"│Laudrup to take kick off / ┤**** GOAL **** by Schwarz / │---- HALF TIME ----\"]"
+  },
+  {
+   "step": 41,
+   "source": "memory",
+   "field": "match read 41: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:40:21.076Z\", 24.453, \"0x000da06f\", \"0x000010b3\", \"88d6d9c05168bfe78000df8db224fc25be4512985e029c44b77a34c0ca01b5fd\", \"0x0004\", \"0xce99\", 0, 1, \"│Laudrup to take kick off / ┤**** GOAL **** by Schwarz / │---- HALF TIME ----\"]"
+  },
+  {
+   "step": 42,
+   "source": "memory",
+   "field": "match read 42: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:40:21.625Z\", 25.005, \"0x000da077\", \"0x000010b3\", \"88d6d9c05168bfe78000df8db224fc25be4512985e029c44b77a34c0ca01b5fd\", \"0x0004\", \"0xce99\", 0, 1, \"│Laudrup to take kick off / ┤**** GOAL **** by Schwarz / │---- HALF TIME ----\"]"
+  },
+  {
+   "step": 43,
+   "source": "memory",
+   "field": "match read 43: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:40:22.176Z\", 25.549, \"0x000da07e\", \"0x000010b3\", \"88d6d9c05168bfe78000df8db224fc25be4512985e029c44b77a34c0ca01b5fd\", \"0x0004\", \"0xce99\", 0, 1, \"│Laudrup to take kick off / ┤**** GOAL **** by Schwarz / │---- HALF TIME ----\"]"
+  },
+  {
+   "step": 44,
+   "source": "memory",
+   "field": "match read 44: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:40:22.720Z\", 26.096, \"0x000da086\", \"0x000010b3\", \"88d6d9c05168bfe78000df8db224fc25be4512985e029c44b77a34c0ca01b5fd\", \"0x0004\", \"0xce99\", 0, 1, \"│Laudrup to take kick off / ┤**** GOAL **** by Schwarz / │---- HALF TIME ----\"]"
+  },
+  {
+   "step": 45,
+   "source": "memory",
+   "field": "match read 45: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:40:23.273Z\", 26.65, \"0x000da08d\", \"0x000010b3\", \"a348c910c12e9f0023b06e049802b5491e102a217a165a1279863ee39bd3d7a8\", \"0x0004\", \"0xce99\", 0, 1, \"│Laudrup to take kick off / ┤**** GOAL **** by Schwarz / │---- HALF TIME ----\"]"
+  },
+  {
+   "step": 46,
+   "source": "memory",
+   "field": "match read 46: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:40:23.817Z\", 27.193, \"0x000da095\", \"0x000010b3\", \"a348c910c12e9f0023b06e049802b5491e102a217a165a1279863ee39bd3d7a8\", \"0x0004\", \"0xce99\", 0, 1, \"│Laudrup to take kick off / ┤**** GOAL **** by Schwarz / │---- HALF TIME ----\"]"
+  },
+  {
+   "step": 47,
+   "source": "memory",
+   "field": "match read 47: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:40:24.480Z\", 27.86, \"0x000da09e\", \"0x000010b3\", \"d1d5e3d2cf6f2b3065e3c4ff5de961991db1d953c8baf17a3b4ed1f4edd7f9d0\", \"0x0004\", \"0xce99\", 0, 1, \"│Laudrup to take kick off / ┤**** GOAL **** by Schwarz / │---- HALF TIME ----\"]"
+  },
+  {
+   "step": 48,
+   "source": "memory",
+   "field": "match read 48: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:40:25.030Z\", 28.403, \"0x000da0a6\", \"0x000010b3\", \"d1d5e3d2cf6f2b3065e3c4ff5de961991db1d953c8baf17a3b4ed1f4edd7f9d0\", \"0x0004\", \"0xce99\", 0, 1, \"│Laudrup to take kick off / ┤**** GOAL **** by Schwarz / │---- HALF TIME ----\"]"
+  },
+  {
+   "step": 49,
+   "source": "memory",
+   "field": "match read 49: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:40:25.687Z\", 29.067, \"0x000da0af\", \"0x000010b3\", \"62b95eefddfeffe260fa5e2ff60e3c83caa8e41de997b122388a8426389a3129\", \"0x000a\", \"0x5109\", 0, 1, \"│Limpar on for Jansson / ┤Eriksson on for Ljung / │---- FULL TIME ----\"]"
+  },
+  {
+   "step": 50,
+   "source": "memory",
+   "field": "match read 50: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:40:26.237Z\", 29.608, \"0x000da0b7\", \"0x000010b3\", \"62b95eefddfeffe260fa5e2ff60e3c83caa8e41de997b122388a8426389a3129\", \"0x000a\", \"0x5109\", 0, 1, \"│Limpar on for Jansson / ┤Eriksson on for Ljung / │---- FULL TIME ----\"]"
+  },
+  {
+   "step": 51,
+   "source": "log",
+   "field": "full time: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T17:40:26.237Z"
+  },
+  {
+   "step": 51,
+   "source": "log",
+   "field": "full time: host local time with UTC offset, and zone name, at the same instant",
+   "value": "2026-10-04T19:40:26.237+02:00 CEST"
+  },
+  {
+   "step": 51,
+   "source": "screen",
+   "field": "full time: text screen 80x25, chars+attributes (4000 bytes), sha256",
+   "value": "62b95eefddfeffe260fa5e2ff60e3c83caa8e41de997b122388a8426389a3129"
+  },
+  {
+   "step": 51,
+   "source": "ui-text",
+   "field": "full time: text screen rows 0-24, CP437 decoded, trailing blanks trimmed",
+   "value": " (c) NE'93│ ┌───────────────┬──┬FRIENDLY───────────────────────────┐┌───┐ ▄▀▀▀▄\n ┌─┐┌─┐┌─┐│ │SWEDEN---------│ 1│Limpar on for Jansson              ││   │ █   █\n │ ││ ││ ││ ├versus─────────┼──┤Eriksson on for Ljung              │├───┤ ▄───▄\n └─┤└─┘└─┤│ │DENMARK--------│ 0│---- FULL TIME ----                ││   │ █   █\n───┘ v.2    └───────────────┴──┴───────────────────────────────────┘└───┘ └▀▀▀▀\n                   ┌─────────────────┐    ┌─────────────────┐\n ┌─────────────────│ Sweden--------- │─┐┌─│ Denmark-------- │─────────────────┐\n │                 └─────────────────┘ ││ └─────────────────┘                 │\n │ ┌─────────┐        ┌──────────────────────────────────┐    ┌─────────┐     │\n │ │ Scorers │        ├──────────────────────────────────┤    │ Scorers │     │\n┌──┴─────────┴──┬min┐ │   ┌────┐ ┬    ┬ ┬ ┌──── ┬   ┬    │ ┌──┴─────────┴──┬min┐\n│S Schwarz      │ 13│ │   │    │ │    │ │ │     │   │    │ │               │   │\n│               │   │ │   │    │ │    │ │ │     ├───┴┐   │ │               │   │\n│               │   │ │   │    │ │    │ │ │     │    │   │ │               │   │\n│               │   │ │   └───┼┘ └────┤ ┴ └──── ┴    ┴   │ │               │   │\n│               │   │ │                                  │ │               │   │\n│               │   │ │ ┌────┐┌──── ┌──── ┬   ┬ ┬  ──┬── │ │               │   │\n│               │   │ │ │    ││     │     │   │ │    │   │ │               │   │\n│               │   │ │ ├───┬┘├───  └───┐ │   │ │    │   │ │               │   │\n│               │   │ │ │   │ │         │ │   │ │    │   │ │               │   │\n│               │   │ │ ┴   ┴ └──── ────┘ └───┤ └─── ┴   │ │               │   │\n│               │   │ ├──────────────────────────────────┤ │               │   │\n└───────────────┴───┘ └──────────────────────────────────┘ └───────────────┴───┘\n └────────────────────────────────────────────────────────────────────────────┘\n  ↓↑-display ←→-speed»»»»»              spacebar-commentary  F9-♫  Esc,◄┘-bench"
+  },
+  {
+   "step": 51,
+   "source": "memory",
+   "addr": "0x449",
+   "field": "full time: 1 byte at 0040:0049 (BIOS video mode), guest memory from the savestate, hex",
+   "value": "03"
+  },
+  {
+   "step": 51,
+   "source": "memory",
+   "addr": "0x46c",
+   "field": "full time: 4 bytes at 0040:006C (BIOS timer tick count), guest memory from the savestate, as a little-endian dword (bytes in memory order)",
+   "value": "0x000da0b7 (b7 a0 0d 00)"
+  },
+  {
+   "step": 51,
+   "source": "memory",
+   "addr": "0x355a2",
+   "field": "full time: word at DS:7B62 of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+   "value": "0x5109 (09 51)"
+  },
+  {
+   "step": 51,
+   "source": "memory",
+   "addr": "0x355a4",
+   "field": "full time: word at DS:7B64 of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+   "value": "0x0618 (18 06)"
+  },
+  {
+   "step": 51,
+   "source": "memory",
+   "addr": "0x35d76",
+   "field": "full time: word at DS:8336 of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+   "value": "0x8336 (36 83)"
+  },
+  {
+   "step": 51,
+   "source": "memory",
+   "addr": "0x3843d",
+   "field": "full time: word at DS:A9FD of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+   "value": "0x07ea (ea 07)"
+  },
+  {
+   "step": 51,
+   "source": "memory",
+   "field": "full time: score bytes DS:9B3C, DS:9B3D (engine teams 0 and 1)",
+   "value": "0 1"
+  },
+  {
+   "step": 51,
+   "source": "memory",
+   "field": "full time: match delay byte at the far pointer DS:A923 + 0x3F (0 fastest)",
+   "value": "1"
+  },
+  {
+   "step": 51,
+   "source": "memory",
+   "addr": "0x3843f",
+   "field": "full time: dword DS:A9FF of GOAL.EXE (the delay count 214B:1DA7 calibrates), little-endian (bytes in memory order)",
+   "value": "0x000010b3 (b3 10 00 00)"
+  },
+  {
+   "step": 52,
+   "source": "process",
+   "field": "other DOSBox-X and Xvfb processes on the host at end (not started by this run): [pid, seconds running, name]",
+   "value": "[[68169, 41965, \"Xvfb\"], [1872055, 25436, \"Xvfb\"], [1872060, 25436, \"dosbox-x\"], [3373901, 211, \"Xvfb\"], [3373909, 211, \"dosbox-x\"]]"
+  },
+  {
+   "step": 52,
+   "source": "process",
+   "field": "/proc/loadavg at end",
+   "value": "3.22 3.05 2.98 3/758 3386390"
+  },
+  {
+   "step": 52,
+   "source": "log",
+   "field": "keys sent from the key that starts the match to full time: [seconds since the starting burst, key, why] (runtime/driver/match.py)",
+   "value": "[[0.0, \"Enter\", \"starting burst, no poll between\"], [0.0, \"r\", \"starting burst, no poll between\"], [27.32, \"Enter\", \"hit any key\"], [28.53, \"Enter\", \"team screen\"]]"
+  },
+  {
+   "step": 52,
+   "source": "log",
+   "field": "match: savestate reads from the starting keys to full time, and seconds",
+   "value": "50 reads, 29.63 s"
+  },
+  {
+   "step": 52,
+   "source": "memory",
+   "field": "commentary lines of the match in order, accumulated over the reads from the ring DS:7C38 (runtime/driver/commentary.py): [n, template, team, text]",
+   "value": "[[1, 59, 0, \"Piechnik wins the toss\"], [2, 49, 0, \"Laudrup to take kick off\"], [3, 38, 1, \"**** GOAL **** by Schwarz\"], [4, 64, 1, \"---- HALF TIME ----\"], [5, 0, 1, \"Dahlin on for Ekstrom\"], [6, 0, 1, \"Nilsson on for Brolin\"], [7, 0, 1, \"Thern on for Ingesson\"], [8, 0, 1, \"Limpar on for Jansson\"], [9, 0, 1, \"Eriksson on for Ljung\"], [10, 63, 1, \"---- FULL TIME ----\"]]"
+  },
+  {
+   "step": 52,
+   "source": "memory",
+   "field": "events among them (templates 0 substitution, 38 goal, 39 own goal, 50 booking, 51 sending off, 52 injury): [kind, team, text]",
+   "value": "[[\"goal\", 1, \"**** GOAL **** by Schwarz\"], [\"substitution\", 1, \"Dahlin on for Ekstrom\"], [\"substitution\", 1, \"Nilsson on for Brolin\"], [\"substitution\", 1, \"Thern on for Ingesson\"], [\"substitution\", 1, \"Limpar on for Jansson\"], [\"substitution\", 1, \"Eriksson on for Ljung\"]]"
+  },
+  {
+   "step": 52,
+   "source": "memory",
+   "field": "commentary lines between successive reads (deltas of DS:80EE modulo 200), and reads where lines may have been lost",
+   "value": "{\"deltas\": [2, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 0], \"gaps\": []}"
+  },
+  {
+   "step": 52,
+   "source": "log",
+   "field": "lines of DOSBox-X's own output (dosbox.out) that mention save, load, corrupt, date, time or cycle, in order, except the two lines every savestate writes (counted in the next observation)",
+   "value": "LOG: Active save slot: 1 [Empty]\nLOG: Loading state from slot: 1\nLOG:  Extracting: IntTimer10\nLOG: [19:39:56]: Loaded. (Slot 1)"
+  },
+  {
+   "step": 52,
+   "source": "log",
+   "field": "count of the lines left out of the previous observation: [`LOG: File : <work>/... is N bytes`, `Saved. (Slot`]",
+   "value": "[52, 52]"
+  },
+  {
+   "step": 52,
+   "source": "process",
+   "field": "dosbox-x and Xvfb after SIGTERM to their process groups (SIGKILL after TERM_GRACE, see log)",
+   "value": "both exited"
+  },
+  {
+   "step": 52,
+   "source": "log",
+   "field": "waits, polls and key holds, seconds since launch",
+   "value": "[[0.108,\"Xvfb poll: answered after 2 polls of 0.1s\"],[0.108,\"Xvfb :757 answering\"],[0.109,\"dosbox-x started\"],[0.233,\"window found after 2 polls of 0.1s\"],[0.236,\"window focused\"],[0.751,\"host key F12+s, each step held 0.15s\"],[0.753,\"savestate complete after 1 polls of 0.05s\"],[0.778,\"title screen: matched after 1 savestate polls\"],[0.778,\"DOS clock read back: '10/04/2026\\\\n19:39:54'\"],[1.292,\"host key F12+l, each step held 0.15s\"],[1.292,\"Host+L sent (e004-1337)\"],[1.806,\"host key F12+s, each step held 0.15s\"],[1.808,\"savestate complete after 1 polls of 0.05s\"],[1.832,\"restore e004-1337: matched after 1 savestate polls\"],[1.973,\"key Enter held 0.08s\"],[2.083,\"key r held 0.08s\"],[2.083,\"match quick: starting keys Enter r sent in one burst\"],[2.597,\"host key F12+s, each step held 0.15s\"],[2.598,\"savestate complete after 1 polls of 0.05s\"],[3.149,\"host key F12+s, each step held 0.15s\"],[3.15,\"savestate complete after 1 polls of 0.05s\"],[3.767,\"host key F12+s, each step held 0.15s\"],[4.373,\"savestate complete after 13 polls of 0.05s\"],[5.299,\"host key F12+s, each step held 0.15s\"],[5.502,\"savestate complete after 5 polls of 0.05s\"],[6.22,\"host key F12+s, each step held 0.15s\"],[6.475,\"savestate complete after 6 polls of 0.05s\"],[7.022,\"host key F12+s, each step held 0.15s\"],[7.023,\"savestate complete after 1 polls of 0.05s\"],[7.57,\"host key F12+s, each step held 0.15s\"],[7.571,\"savestate complete after 1 polls of 0.05s\"],[8.118,\"host key F12+s, each step held 0.15s\"],[8.119,\"savestate complete after 1 polls of 0.05s\"],[8.665,\"host key F12+s, each step held 0.15s\"],[8.667,\"savestate complete after 1 polls of 0.05s\"],[9.213,\"host key F12+s, each step held 0.15s\"],[9.215,\"savestate complete after 1 polls of 0.05s\"],[9.76,\"host key F12+s, each step held 0.15s\"],[9.762,\"savestate complete after 1 polls of 0.05s\"],[10.311,\"host key F12+s, each step held 0.15s\"],[10.313,\"savestate complete after 1 polls of 0.05s\"],[10.893,\"host key F12+s, each step held 0.15s\"],[10.895,\"savestate complete after 1 polls of 0.05s\"],[11.442,\"host key F12+s, each step held 0.15s\"],[11.444,\"savestate complete after 1 polls of 0.05s\"],[11.991,\"host key F12+s, each step held 0.15s\"],[11.993,\"savestate complete after 1 polls of 0.05s\"],[12.541,\"host key F12+s, each step held 0.15s\"],[12.542,\"savestate complete after 1 polls of 0.05s\"],[13.094,\"host key F12+s, each step held 0.15s\"],[13.095,\"savestate complete after 1 polls of 0.05s\"],[13.645,\"host key F12+s, each step held 0.15s\"],[13.647,\"savestate complete after 1 polls of 0.05s\"],[14.19,\"host key F12+s, each step held 0.15s\"],[14.192,\"savestate complete after 1 polls of 0.05s\"],[14.737,\"host key F12+s, each step held 0.15s\"],[14.738,\"savestate complete after 1 polls of 0.05s\"],[15.291,\"host key F12+s, each step held 0.15s\"],[15.292,\"savestate complete after 1 polls of 0.05s\"],[15.846,\"host key F12+s, each step held 0.15s\"],[15.848,\"savestate complete after 1 polls of 0.05s\"],[16.403,\"host key F12+s, each step held 0.15s\"],[16.404,\"savestate complete after 1 polls of 0.05s\"],[16.951,\"host key F12+s, each step held 0.15s\"],[16.953,\"savestate complete after 1 polls of 0.05s\"],[17.496,\"host key F12+s, each step held 0.15s\"],[17.498,\"savestate complete after 1 polls of 0.05s\"],[18.044,\"host key F12+s, each step held 0.15s\"],[18.045,\"savestate complete after 1 polls of 0.05s\"],[18.598,\"host key F12+s, each step held 0.15s\"],[18.599,\"savestate complete after 1 polls of 0.05s\"],[19.152,\"host key F12+s, each step held 0.15s\"],[19.154,\"savestate complete after 1 polls of 0.05s\"],[19.707,\"host key F12+s, each step held 0.15s\"],[19.709,\"savestate complete after 1 polls of 0.05s\"],[20.271,\"host key F12+s, each step held 0.15s\"],[20.273,\"savestate complete after 1 polls of 0.05s\"],[20.829,\"host key F12+s, each step held 0.15s\"],[20.831,\"savestate complete after 1 polls of 0.05s\"],[21.379,\"host key F12+s, each step held 0.15s\"],[21.381,\"savestate complete after 1 polls of 0.05s\"],[21.931,\"host key F12+s, each step held 0.15s\"],[21.932,\"savestate complete after 1 polls of 0.05s\"],[22.476,\"host key F12+s, each step held 0.15s\"],[22.478,\"savestate complete after 1 polls of 0.05s\"],[23.021,\"host key F12+s, each step held 0.15s\"],[23.023,\"savestate complete after 1 polls of 0.05s\"],[23.565,\"host key F12+s, each step held 0.15s\"],[23.567,\"savestate complete after 1 polls of 0.05s\"],[24.111,\"host key F12+s, each step held 0.15s\"],[24.112,\"savestate complete after 1 polls of 0.05s\"],[24.658,\"host key F12+s, each step held 0.15s\"],[24.659,\"savestate complete after 1 polls of 0.05s\"],[25.205,\"host key F12+s, each step held 0.15s\"],[25.206,\"savestate complete after 1 polls of 0.05s\"],[25.751,\"host key F12+s, each step held 0.15s\"],[25.753,\"savestate complete after 1 polls of 0.05s\"],[26.295,\"host key F12+s, each step held 0.15s\"],[26.297,\"savestate complete after 1 polls of 0.05s\"],[26.847,\"host key F12+s, each step held 0.15s\"],[26.849,\"savestate complete after 1 polls of 0.05s\"],[27.397,\"host key F12+s, each step held 0.15s\"],[27.399,\"savestate complete after 1 polls of 0.05s\"],[27.942,\"host key F12+s, each step held 0.15s\"],[27.944,\"savestate complete after 1 polls of 0.05s\"],[28.497,\"host key F12+s, each step held 0.15s\"],[28.498,\"savestate complete after 1 polls of 0.05s\"],[29.039,\"host key F12+s, each step held 0.15s\"],[29.04,\"savestate complete after 1 polls of 0.05s\"],[29.186,\"key Enter held 0.08s\"],[29.186,\"match quick: Enter (hit any key)\"],[29.705,\"host key F12+s, each step held 0.15s\"],[29.706,\"savestate complete after 1 polls of 0.05s\"],[30.25,\"host key F12+s, each step held 0.15s\"],[30.252,\"savestate complete after 1 polls of 0.05s\"],[30.393,\"key Enter held 0.08s\"],[30.393,\"match quick: Enter (team screen)\"],[30.908,\"host key F12+s, each step held 0.15s\"],[30.909,\"savestate complete after 1 polls of 0.05s\"],[31.457,\"host key F12+s, each step held 0.15s\"],[31.458,\"savestate complete after 1 polls of 0.05s\"],[31.491,\"match quick: full time after 50 reads\"],[31.998,\"dosbox-x pid 3385067 alive 0.5s after SIGTERM (grace 0.5s): SIGKILL to its group\"],[32.008,\"dosbox-x pid 3385067 ended by SIGKILL 0.51s after the first signal\"],[32.016,\"Xvfb pid 3385061 ended by SIGTERM 0.007s after the first signal\"],[32.016,\"terminated\"]]"
+  }
+ ],
+ "outputs": [],
+ "started": "2026-10-04T17:39:55.294Z",
+ "ended": "2026-10-04T17:40:27.338Z",
+ "status": "completed"
+}

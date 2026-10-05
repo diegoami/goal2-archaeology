@@ -1,0 +1,95 @@
+# E005 q003-cycles
+
+Copied from the research task's contract when the experiment is created. After the first run this
+file is append-only. A changed design is a new experiment, or `v2/`.
+
+- **Task**: T12 (#33)
+- **Question**: Do `cycles`, the host speed or wall-clock time change a match, and why are the halves so unequal at `max`? (G5 Q003)
+- **Hypotheses**:
+  - H0: from one seeded start state, the same arm (quick or watched, `match.py`) gives the same final score, the same commentary lines and the same `DS:7B62` at full time at `cycles` 5000, 30000 and `max`, whether the state is restored (its delay calibration `DS:A9FF` made at 30000) or the game is launched afresh at the state's DOS time (calibrated anew); `cycles` changes only the host time a match takes — distinguished by comparing every run with the same arm's first restore at 30000
+  - H1: some run differs; then the time source through which `cycles` reaches the match is sought in the listing
+  - the halves: F001's first half under 1 s and second half 6.5 … 9.7 s at `max` and 60000 come from the delay calibration and DOSBox-X's `max`, not from the engine — distinguished by the guest BIOS ticks and the host seconds of each half, with `DS:A9FF` read in every run, and by F001's own probe re-run at `max` with every poll's ticks, `DS:A9FF` and delay byte read
+  - static: `214B:1DA7` runs only at start-up; the only delay of a match is the calibrated busy-wait `214B:1E09`, and no time source reachable from a match writes game state — distinguished by the callers of `1DA7`, every reader of the BIOS tick (0x46C), INT 1Ah, INT 21h AH=2Ch, the PIT ports 0x40–0x43, and the delay routines of `0791`
+- **Artifact**: set `goal2-67cf27d6`, variant none
+- **Runtime**: `runtime/driver/driver.py@<commit in each record>`, DOSBox-X 2024.03.01 in Xvfb on Ubuntu 24.04 in WSL2; `cycles` 5000, 30000 or `max`, a controlled input named in each record (arm, `actions.args`, an observation, `runtime.fingerprint.cycles`); maximum intervention level I3 (the DOS date and time set in the autoexec before GOAL runs, verified by DOS's read-back, F004) in the fresh launches; the restores do not set the clock (the state brings its own BIOS ticks)
+- **Design**:
+  - start states: E004's recipes `e004-1001` (Denmark v England, DOS 10:01 on 10/04/2026) and `e004-1337` (Sweden v Denmark, DOS 13:37), remade at `cycles=30000` with `experiments/E004-q002-quick-result/run.py make-state` (git-ignored; sha256 in every record). Their `DS:7B62` at the captain screen is E004's (`0xf3ab`, `0xfabd`), their `DS:A9FF` 0x10b3
+  - routes (`run.py`): `restore`: a fresh DOSBox-X process at the run's `cycles`, Host+L of the state, then the arm's match; `fresh`: a fresh launch at the run's `cycles` with the DOS clock set to the state's DOS time (I3), E004's keys to the captain screen (the team screen's Enter where it comes first), then the arm's match
+  - arms (`runtime/driver/match.py`, unchanged): `quick`: Enter and `r` in one burst; `watched`: Enter and Right ×5 in one burst; then an Enter only on a stable `hit any key` screen before full time or on the team screen; no other key between kick-off and full time; each key, its moment and its reason in the record
+  - per state and `cycles` setting: 3 restores of each arm (`run.py restores --reps 3`: quick then watched, three times) and 1 fresh launch of each arm (`run.py fresh`); 2 states × 3 settings × 2 arms × 4 = 48 match records
+  - calibration (`run.py calibrate`): 3 fresh launches to the title screen per setting, `DS:A9FF` read there
+  - F001's probe (`probe_f001.py`): `runtime/spike/probe.py match --cycles max --reps 1` as F001 ran it (its `main.sav` made at `cycles=auto`, its keys `c` and Right ×5, its Enter at every half-time poll), unchanged, with each of its polls' savestate also read for the BIOS ticks, `DS:A9FF`, the delay byte and the commentary rows; its output written under this folder (`measurements/`), never over an earlier file
+  - order: the restores and fresh launches at 30000 and 5000 first; the runs at `max` with no other run of this experiment going; F001's probe last
+  - stopping rule: those records written; an aborted run is kept and its run repeated once
+- **Measurements**: E004's (per read: host UTC time, screen digest, commentary rows, `DS:80EE`, `DS:7B62`, score bytes; the commentary records from the ring `DS:7C38`; at the restore, title, main screen, captain screen and full time: the full screen, BIOS mode byte and ticks, `DS:7B62`, `DS:7B64`, `DS:8336`, `DS:A9FD`, score bytes, delay byte), and in addition: at every read during the match, the host seconds since the starting burst (monotonic clock, the same `match.play` measures with), the BIOS tick count and the dword `DS:A9FF`; at every full read, `DS:A9FF`; per record, the `cycles` setting, the other DOSBox-X and Xvfb processes on the host (pid, seconds running, name; not started by this run) and `/proc/loadavg`, at launch and at the end
+- **Analysis** (`summarise.py`): per run the route, `cycles`, arm, final score, events, `DS:7B62` at full time and `DS:A9FF`, and whether it is identical (score, events, every commentary line, `DS:7B62`) to the same state's and arm's first restore at 30000; for every watched run the host seconds from the starting burst to the first read holding `HALF TIME` and from there to the first read holding `FULL TIME` (and from the team-screen Enter to full time), the guest seconds of the same spans from the BIOS ticks (18.2065 ticks/s), and the ratio first half / second half (host; the second half from the team-screen Enter, as F001's `second_half_started_after_s`); F001's unequal halves count as reproduced when that ratio is under 0.5 at `max` [designed: F001's M:match-speed gives 0.10 and 0.14 at 60000 and `max`, 0.93 … 0.96 at `auto`, 5000, 10000 and 30000]; per restore, the cycles in effect implied by the guest seconds against the 30000 restores of the same state and arm (the state's delay count is fixed, so guest time scales as 1/cycles); checks: every record names its `cycles`, every record that sets the clock declares I3
+- **Outputs**:
+  - run records: `runs/E005/`;
+  - F001's probe re-run: `experiments/E005-q003-cycles/measurements/`;
+  - evidence manifests: none (savestates hold the game's memory and stay in `scratch/` and `.cache/`);
+  - `findings/F006-*.md`, status `proposed`.
+
+## Scripts
+
+```
+bash setup/goal2-runtime.sh
+python3 experiments/E004-q002-quick-result/run.py make-state --dos-time 10:01:00   # and 13:37:00
+python3 experiments/E005-q003-cycles/run.py calibrate --cycles 5000 --reps 3 --batch c1   # and 30000, max
+python3 experiments/E005-q003-cycles/run.py restores --state e004-1001 --cycles 30000 --reps 3 --batch b1
+python3 experiments/E005-q003-cycles/run.py fresh --state e004-1001 --cycles 30000 --slot 1 --batch b1
+python3 experiments/E005-q003-cycles/probe_f001.py
+python3 experiments/E005-q003-cycles/summarise.py
+python3 tools/validate_runs.py runs/E005
+```
+
+## Amendment 1 (2026-10-04, after E005-r0011)
+
+- **One observation per match read.** T07's Done-when 7 keeps every tracked file under 1 MB. A watched match at 5000 makes thousands of reads, and E004's five observations a read (about 1.2 KB) would pass that. From the commit after `e5280ff`, each read is one observation: a JSON list of host UTC time, host seconds since the starting burst, BIOS ticks, `DS:A9FF`, screen sha256, `DS:80EE`, `DS:7B62`, the score bytes and the commentary rows (`run.py` `read_observation`). The values measured are E004's, plus the timing ones; only their form changes.
+- **The savestate lines of DOSBox-X's output.** Every savestate writes two lines to `dosbox.out` (`LOG: File : <work>/IntTimer10 is N bytes`, `Saved. (Slot 1)`). They are now counted in their own observation rather than copied.
+- **Records before the change.** The records written by processes started from `e5280ff` keep the first form: calibration E005-r0001 … r0009 and the first b1 runs. `summarise.py` reads both forms.
+
+## Amendment 2 (2026-10-04, after E005-r0031)
+
+- **E005-r0031 is 1.48 MB.** It is the first watched restore at 5000: 2253 reads in 1254.9 host s, one observation per read (amendment 1). T07's Done-when 7 keeps every tracked file under 1 MB. The record is kept as written (L207). From the commit after `6eb517d`, a match's reads are one observation: a JSON list with one list per read (`run.py` `read_row`, `reads_observation`; the fields as in amendment 1, with the read's step first). That is about 250 bytes a read.
+- **The invocation that wrote it was stopped.** `restores --state e004-1001 --cycles 5000 --reps 3` (batch b3) was stopped by SIGINT to its process once E005-r0032 was written, before its next watched run could write a record of the same size. The driver ends its DOSBox-X and Xvfb when interrupted, and no record is written for the run it was in. That run's id, E005-r0033, is reserved and not used. The rest of e004-1001 at 5000 is a new invocation with `--reps 2`. It adds 2 quick and 2 watched restores, so e004-1001 has 4 quick restores at 5000 (E005-r0030, r0032 and the two new ones) and 3 watched.
+- `summarise.py` reads all three forms.
+
+## Amendment 3 (2026-10-04, after E005-r0035): analysis added after seeing a record
+
+- **What E005-r0035 showed.** It is a watched restore of e004-1337 at 5000. It has the same score, events and `DS:7B62` at full time as E005-r0023 and every commentary line but one: `Vilfort is OFFSIDE` (record 12, template 54). Both records read `DS:80EE` = 0x005e at full time, so the game wrote the same number of lines. E005-r0035 carries the reader's flag `match read 425: record 12 is the end marker 0xFF`: that savestate fell after the game raised the counter and before it wrote the record. `runtime/driver/commentary.py`'s `Tracker` skips such a record and moves past it, so it never reads the line (a defect of the reader, reported in the PR, not changed here: `runtime/driver/` is additions-only for T12). A run at 5000 makes about six times as many reads, so such a read is more likely.
+- **The analysis added.** `summarise.py` (`lost_by_reader`, `identity`) prints "identical … but for N commentary line(s) the reader lost" only when the score, events, `DS:7B62` and `DS:80EE` at full time are equal and the run's lines are the reference's with deletions alone, each at a record the run itself flagged as the end marker. Any other difference still prints `DIFFERS`. This rule was written after E005-r0035 was seen. It is stated here so that a reader can judge it, and the record's raw lines are unchanged.
+
+## Amendment 4 (2026-10-04, after E005-r0042): e004-1001 restored at 5000
+
+The owner's decision, T12's Done-when 2 as amended on main at `e70b1a6`: for `e004-1001` restored at 5000, the restores E005-r0030, r0031 and r0032 (2 quick, 1 watched) stand in for the 3 per arm. The `restores --state e004-1001 --cycles 5000 --reps 2` invocation announced in amendment 2 is not run. E005-r0033 stays reserved and unused, as amendment 2 says. Every other part of the design is unchanged.
+
+## Amendment 5 (2026-10-04, after F001's probe re-run, `measurements/match-speed.json`)
+
+The re-run at `max` with F001's keys reproduced the unequal halves: HALF TIME 1.0 s, second half started 3.28 s, FULL TIME 13.53 s, a ratio of 0.098. Its first poll, 1.05 s after the start, already showed `---- HALF TIME ----`, so nothing of the first half was read. To find out whether that half ran faster or did less work, `probe_f001.py --pre-read` runs the probe once more, unchanged in its keys and its `main.sav`. It reads one savestate just before the probe's key `c` (poll 0, giving the BIOS ticks and `DS:80EE` at kick-off) and decodes the commentary counter `DS:80EE` at every poll. It runs at `max`, at fixed 60000 (where F001 also saw the anomaly) and at 30000 (where F001 did not), one match each, written to `measurements/match-speed-2.json`.
+
+## Amendment 6 (2026-10-04, review round 1 of T12)
+
+- **E005-r0035's identity is undetermined, not identical** (review R1). A reader flag shows that the reader did not see a record, not what the record held. So amendment 3's rule, which counted a run lacking only flagged lines as identical, is withdrawn. `summarise.py` now reports such a run as `IDENTITY UNDETERMINED`, and the verdict counts are printed. For E005-r0035, no read's screen recovers the line: read 425's commentary rows end at occurrence 411 and read 426's begin at occurrence 413. The record is unchanged.
+- **A flag counts for its own occurrence** (review R2). Each flag `match read k: record n is the end marker 0xFF` is tied to read k and to an absolute occurrence in the match: the lines of reads 1 … k-1 (their deltas) plus n's place in read k's range. One flag stands for one occurrence. The run's lines must be the reference's with exactly those occurrences removed, or the run `DIFFERS`.
+- **Start states recreated from the recipe are not byte-identical.** E005's `e004-1001` and `e004-1337` (sha256 `ffcdac52…`, `d168d36f…`, named in every record) differ from E004's (`26a9a4d9…`, `120ccba1…`), and the reviewer's recreation of e004-1337 gave `9e3164b3…`. They agree with E004's in `DS:7B62` and in the matches they give, not in bytes. The states E005 used are kept by the main session.
+
+## Amendment 7 (2026-10-05, review round 3 of T12)
+
+- **Nothing is identical unless both sides are complete.** In round 2, `summarise.py` called a run identical as soon as its read lines equalled the reference's. That happened before either run's flags were looked at, so two runs that missed the same line counted as identical (review round 2, R1). Round 3 replaces that path, `same`, and `unread_only` with one pair analysis, `compare`:
+  - **DIFFERS** when what both sides read already differs: the score, `DS:7B62` or `DS:80EE` at full time, the lines counted, or a line at an occurrence both read;
+  - **identical** only when each side is complete;
+  - **IDENTITY UNDETERMINED** in every other case.
+
+  A run is complete when it carries no reader flag and read as many lines as its counter advanced (`complete`). The reference's own row says `reference, INCOMPLETE` when it is not complete. The verdict counts are `verdict_counts`.
+- **Stride flags.** `runtime/driver/commentary.py` also flags a read whose counter advanced 100 or more records, `counter a -> b (n lines)`. The 8 watched runs at `max` carry 1 to 6 such flags. Each such read loses no line: the reader reads every record of it, and there are fewer than the ring's 200. The flag warns only that 200 or more lines may have passed unseen. `complete_against` settles it when the flagged run read every line of each read and counted as many lines as a complete other side; a hidden stride would leave it 200 lines short. All 8 do: 1307 lines for e004-1001, 1094 for e004-1337. A flag-free run is taken as complete on the reader's own assumption, as E004 took it: the four references read at most 79 lines between reads (E005-r0012: 73; r0023: 79).
+- **The totals are unchanged**: 40 identical, 1 identity undetermined (E005-r0035), 0 differ, 4 references (complete). The first round-3 cut, before stride flags were settled, gave 32, 9, 0. No record changed.
+
+## Amendment 8 (2026-10-05, review round 4 of T12): no claim of completeness
+
+- **Why.** Review round 3 proved, with the real reader, that commentary completeness cannot be shown from the reads. The counter and the ring are both modulo 200 records, so a whole lap of the ring between two reads leaves no trace. A run read once after 350 writes shows a stride flag and the same 150 lines as a 150-line reference. A run with an exact 200-line lap between two reads shows a delta of 0 and no flag at all. The owner's decision: do not try to prove completeness; narrow the claim. Issue #40 is the follow-up for evidence that excludes such a lap.
+- **What changed.** Amendment 7's `complete`, `complete_against` and its stride-flag settlement are withdrawn. The verdict `identical` is renamed `no observed difference`: the same score, `DS:7B62` and `DS:80EE` at full time, and every commentary occurrence both readers saw equal. A reader flag that marks an unread line (an end marker, or losses that cannot be located) still gives `IDENTITY UNDETERMINED`. Anything observed to differ still gives `DIFFERS`, now including the number of lines counted whatever the flags. Stride flags are reported with the verdict and do not change it. The reference's own row says `reference, with unread lines` when it has such a flag.
+- **Totals**: no observed difference 40, identity undetermined 1 (E005-r0035), differ 0, references 4 (none with unread lines). No record changed.
+
+## Amendment 9 (2026-10-05, review round 5 of T12)
+
+The number of lines counted is compared before any placement, so unequal totals give `DIFFERS` even when a side's losses cannot be located. An `IDENTITY UNDETERMINED` verdict claims that the lines seen are equal only when they could be compared; otherwise it says "the lines could not be compared". The totals are unchanged.

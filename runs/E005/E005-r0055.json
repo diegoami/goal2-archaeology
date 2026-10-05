@@ -1,0 +1,565 @@
+{
+ "schema": "run/1",
+ "run_id": "E005-r0055",
+ "experiment": "E005",
+ "arm": "watched-fresh-e004-1337-cycles-max",
+ "rep": 55,
+ "code_commit": "8ec1ddf",
+ "machine": "ubuntu-24-04-wsl2",
+ "artifact": {
+  "set": "goal2-67cf27d6",
+  "variant": null
+ },
+ "runtime": {
+  "driver": "runtime/driver/driver.py@8ec1ddf",
+  "platform": "python-3.12.3/ubuntu-24-04-wsl2",
+  "fingerprint": {
+   "dosbox-x": "2024.03.01 SDL2",
+   "xvfb": "2:21.1.12-1ubuntu1.8",
+   "xdotool": "xdotool version 3.20160805.1",
+   "python": "3.12.3",
+   "kernel": "6.18.40.1-microsoft-standard-WSL2",
+   "config_sha256": "a540cdb2c5b9c5c0676041e6080fbc3834eb011c584742c30210487a9bc203d0",
+   "machine": "svga_s3",
+   "memsize": "16",
+   "cycles": "max",
+   "core": "auto",
+   "cputype": "auto",
+   "dos_time": "13:37:00",
+   "dos_date": "10-04-2026"
+  }
+ },
+ "interventions": [
+  {
+   "level": "I1",
+   "what": "text screen, BIOS data area (0040:0049, 0040:006C) and GOAL.EXE data-segment memory (DS:7B62, DS:7B64, DS:8336, DS:A9FD, the dword DS:A9FF, the commentary ring DS:7C38 and counter DS:80EE, the score DS:9B3C, the names at [DS:9B6C], the delay byte at [DS:A923]+0x3F, two known strings) read from DOSBox-X savestates (Host+S; components Vga and Memory)"
+  },
+  {
+   "level": "I2",
+   "what": "a savestate is written at each read, including every read during the match (vocabulary/interventions.md lists save and load of state as I2; neutrality tested by E004's replays, not assumed)"
+  },
+  {
+   "level": "I3",
+   "what": "DOS date 10/04/2026 and DOS time 13:37:00 requested with the DOSBox-X commands `date 10/04/2026` and `time 13:37:00` in the autoexec, before GOAL runs; applied: DOS reported date 10/04/2026 and time 13:36:59 right after (`date /t`, `time /t`), checked by Driver.launch"
+  }
+ ],
+ "start_state": {
+  "id": "fresh-launch",
+  "sha256": "a540cdb2c5b9c5c0676041e6080fbc3834eb011c584742c30210487a9bc203d0",
+  "restore": "fresh DOSBox-X process at cycles=max (config sha256 a540cdb2c5b9c5c0676041e6080fbc3834eb011c584742c30210487a9bc203d0), game folder recreated from the verified release copy, nothing restored (GOAL calibrates DS:A9FF anew); DOS time set to 13:37:00 on 10/04/2026 (the DOS time of start state e004-1337) before GOAL ran; then the keys n Enter Enter b o b Enter Enter Enter Enter Esc Up Enter Enter Enter, each followed by a settle poll, to the captain screen (an Enter after the last only when the team screen came first)"
+ },
+ "seed": null,
+ "actions": {
+  "script": "experiments/E005-q003-cycles/run.py",
+  "sha256": "c48a449a9346f481db49ed7f22c74bab6b3d6e1637c472e9720ae24748fdb56e",
+  "args": [
+   "fresh",
+   "--arm",
+   "watched",
+   "--state",
+   "e004-1337",
+   "--cycles",
+   "max",
+   "--dos-time",
+   "13:37:00",
+   "--dos-date",
+   "10/04/2026",
+   "--batch",
+   "b4",
+   "starting keys: Enter Right Right Right Right Right"
+  ]
+ },
+ "observations": [
+  {
+   "step": 0,
+   "source": "log",
+   "field": "host UTC time at launch",
+   "value": "2026-10-04T19:03:04.833Z"
+  },
+  {
+   "step": 0,
+   "source": "log",
+   "field": "host local time at launch, with UTC offset, and zone name",
+   "value": "2026-10-04T21:03:04.833+02:00 CEST"
+  },
+  {
+   "step": 0,
+   "source": "file",
+   "field": "DOS clock read back: CLOCK.TXT as DOS wrote it (`date /t`, then `time /t`) before GOAL, right after setting the date and time when they were set",
+   "value": "10/04/2026\n13:36:59\n"
+  },
+  {
+   "step": 0,
+   "source": "file",
+   "field": "cycles setting of the session: DOSBox-X [cpu] cycles in the config it was launched with",
+   "value": "max"
+  },
+  {
+   "step": 0,
+   "source": "log",
+   "field": "title (fresh launch): host UTC time just before the savestate was requested",
+   "value": "2026-10-04T19:03:06.633Z"
+  },
+  {
+   "step": 0,
+   "source": "log",
+   "field": "title (fresh launch): host local time with UTC offset, and zone name, at the same instant",
+   "value": "2026-10-04T21:03:06.633+02:00 CEST"
+  },
+  {
+   "step": 0,
+   "source": "screen",
+   "field": "title (fresh launch): text screen 80x25, chars+attributes (4000 bytes), sha256",
+   "value": "cd7f15fbf853b40471d05bad51cb6e6c14cbc8a7307893dba8f5f36c2315c612"
+  },
+  {
+   "step": 0,
+   "source": "ui-text",
+   "field": "title (fresh launch): text screen rows 0-24, CP437 decoded, trailing blanks trimmed",
+   "value": " (c) NE'93│ │                                                    │     (c)\n ┌─┐┌─┐┌─┐│ │                                                    │     new\n │ ││ ││ ││ │                                                    │     era\n └─┤└─┘└─┤│ │                                                    │   software\n───┘ v.2    │                                                    │     1993\n────────────┘                                                    └──────────────\n\n\n\n\n\n\n────────────────────────────────────────────────────────────────────────────────\n                   THE international soccer management game\n────────────────────────────────────────────────────────────────────────────────\n\n────────────────────────────────────────────────────────────────────────────────\n                    design and coding : Mantra and L.B.\n────────────────────────────────────────────────────────────────────────────────\n     testing and feedback : Celtic Ray, Mr Scott, Big Mac and Carl Wilky\n────────────────────────────────────────────────────────────────────────────────\n               distribution : Silverwitch and Tom de Notre Dame\n────────────────────────────────────────────────────────────────────────────────\n\n■■■■■■■■■■■■■■■■■■■ Do you want to load a saved game? (Y/N) ■■■■■■■■■■■■■■■■■■■■"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x449",
+   "field": "title (fresh launch): 1 byte at 0040:0049 (BIOS video mode), guest memory from the savestate, hex",
+   "value": "03"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x46c",
+   "field": "title (fresh launch): 4 bytes at 0040:006C (BIOS timer tick count), guest memory from the savestate, as a little-endian dword (bytes in memory order)",
+   "value": "0x000d9e4a (4a 9e 0d 00)"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x355a2",
+   "field": "title (fresh launch): word at DS:7B62 of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+   "value": "0x0000 (00 00)"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x355a4",
+   "field": "title (fresh launch): word at DS:7B64 of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+   "value": "0x0000 (00 00)"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x35d76",
+   "field": "title (fresh launch): word at DS:8336 of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+   "value": "0x9e47 (47 9e)"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x3843d",
+   "field": "title (fresh launch): word at DS:A9FD of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+   "value": "0x07ea (ea 07)"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "field": "title (fresh launch): score bytes DS:9B3C, DS:9B3D (engine teams 0 and 1)",
+   "value": "0 0"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "field": "title (fresh launch): match delay byte at the far pointer DS:A923 + 0x3F (0 fastest)",
+   "value": "0"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x3843f",
+   "field": "title (fresh launch): dword DS:A9FF of GOAL.EXE (the delay count 214B:1DA7 calibrates), little-endian (bytes in memory order)",
+   "value": "0x00001022 (22 10 00 00)"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x8120",
+   "field": "GOAL.EXE located: its MCB (owner = the next segment, name GOAL), PSP, load segment and data segment",
+   "value": "MCB at segment 0812 (owner 0813, name GOAL), PSP 0813, load segment 0823 = PSP + 10h, DS 2DA4 = load + 2581h, linear base 0x2DA40"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x2da64",
+   "field": "8 bytes at DS:0024, hex (static/goal-exe/data/ds_2581_01.hex has 07 54 52 59 20 4f 55 54)",
+   "value": "07 54 52 59 20 4f 55 54"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x2db00",
+   "field": "6 bytes at DS:00C0, hex (static/goal-exe/data/ds_2581_01.hex has 6f 6e 20 66 6f 72)",
+   "value": "6f 6e 20 66 6f 72"
+  },
+  {
+   "step": 0,
+   "source": "process",
+   "field": "other DOSBox-X and Xvfb processes on the host at launch (not started by this run): [pid, seconds running, name]",
+   "value": "[[68169, 46925, \"Xvfb\"], [3505200, 4381, \"Xvfb\"], [3587999, 3723, \"Xvfb\"], [3679471, 2835, \"Xvfb\"], [3679639, 2833, \"Xvfb\"], [3679917, 2831, \"Xvfb\"], [3680061, 2829, \"Xvfb\"]]"
+  },
+  {
+   "step": 0,
+   "source": "process",
+   "field": "/proc/loadavg at launch",
+   "value": "2.48 2.63 2.96 1/1064 231001"
+  },
+  {
+   "step": 0,
+   "source": "file",
+   "field": "DOSBox-X config of the session, host paths replaced by <work> and <game>",
+   "value": "[sdl]\nfullscreen=false\noutput=surface\nmapperfile=<work>/mapper.map\n[mixer]\nnosound=true\n[midi]\nmididevice=none\n[dosbox]\nmachine=svga_s3\nmemsize=16\nsaveremark=false\ncaptures=<work>/cap\n[cpu]\ncore=auto\ncputype=auto\ncycles=max\n[autoexec]\nmount c <game>\nc:\ndate 10/04/2026\ntime 13:37:00\nmount d <work>/dosclock\ndate /t > d:\\clock.txt\ntime /t >> d:\\clock.txt\nc:\ngoal\nexit\n"
+  },
+  {
+   "step": 0,
+   "source": "file",
+   "field": "sha256 of that config text (UTF-8)",
+   "value": "a540cdb2c5b9c5c0676041e6080fbc3834eb011c584742c30210487a9bc203d0"
+  },
+  {
+   "step": 0,
+   "source": "log",
+   "field": "batch label given on the command line",
+   "value": "b4"
+  },
+  {
+   "step": 10,
+   "source": "log",
+   "field": "after key 10 (Enter): host UTC time just before the savestate was requested",
+   "value": "2026-10-04T19:03:19.339Z"
+  },
+  {
+   "step": 10,
+   "source": "log",
+   "field": "after key 10 (Enter): host local time with UTC offset, and zone name, at the same instant",
+   "value": "2026-10-04T21:03:19.339+02:00 CEST"
+  },
+  {
+   "step": 10,
+   "source": "screen",
+   "field": "after key 10 (Enter): text screen 80x25, chars+attributes (4000 bytes), sha256",
+   "value": "18190236ee20f9eb0573e82714034e41226a92a62efb4c119d8648e06a9a1b67"
+  },
+  {
+   "step": 10,
+   "source": "ui-text",
+   "field": "after key 10 (Enter): text screen rows 0-24, CP437 decoded, trailing blanks trimmed",
+   "value": " (c) NE'93│ │  ┌─────────────┐     Use ←→↑↓ to select             use INS to\n ┌─┐┌─┐┌─┐│ │  │  Check out  │                                   swap between\n │ ││ ││ ││ │  │   all the   │     Hit ◄┘ for fixtures             world and\n └─┤└─┘└─┤│ │  │ competitors │                                    continental\n───┘ v.2    │  └─────────────┘     Esc to exit                     rankings\n────────────┘\n┌team─────────────────────────────┬───────────────────tactics┐ ┌───────────────┐\n│Denmark-------- status major     ├──────────────team─tactics┤ │Denmark--------│\n├manager──────────────────────────┤defence─system──half pitch┤ │Germany--------│\n│B Ob            skill unknown    ├protection─sag back to box┤ │Holland--------│\n├ranking─now─top┬─────────────────┼offside──────────play safe┤ │Sweden---------│\n│World    29  29│formation  5-4-1 ├───────────player─defaults┤ │Scotland-------│\n│Europe    1   1│strips     ☻ ☻ ☻ │positioning───push forward┤ │France---------│\n├skills──────┬──┴─┬────┬────┬────┬┼possession──────quick pass┤ │England--------│\n├keeper──■■■■■■■■■■■■■■■■■■■■■■■■■┼passing───────short passes┤ │Russia---------│\n├defence─■■■■■■■■■■■■■■■■■■■■■■■■■┼tackling────────go in hard┤ │Yugoslavia-----│\n├midfield■■■■■■■■■■■■■■■■■■■■■■■■■┼marking─────────man to man┤ │Switzerland----│\n├attack──■■■■■■■■■■■■■■■■■■■■■■■■■┼───────────characteristics┤ │R.C.S----------│\n├performance─┼────┼────┼────┼────┼┤average─caps─0─────age─29─┤ │Wales----------│\n├keeper──■■■■■■■■■■■■■■■■■■■■■■■■■┼hardness──tough■■■■■■■■■■■┤ │Eire-----------│\n├defence─■■■■■■■■■■■■■■■■■■■■■■■■■┼fitness───very fit■■■■■■■■┤ │Portugal-------│\n├midfield■■■■■■■■■■■■■■■■■■■■■■■■■┼energy────energetic■■■■■■■┤ │Italy----------│\n├attack──■■■■■■■■■■■■■■■■■■■■■■■■■┼morale────not bad■■■■■■■■■┤ │Romania--------│\n└────────────┴────┴────┴────┴────┴┴──────────────┴────┴────┴─┘ └───────────────┘\nspacebar-players T-tactics"
+  },
+  {
+   "step": 10,
+   "source": "memory",
+   "addr": "0x449",
+   "field": "after key 10 (Enter): 1 byte at 0040:0049 (BIOS video mode), guest memory from the savestate, hex",
+   "value": "03"
+  },
+  {
+   "step": 10,
+   "source": "memory",
+   "addr": "0x46c",
+   "field": "after key 10 (Enter): 4 bytes at 0040:006C (BIOS timer tick count), guest memory from the savestate, as a little-endian dword (bytes in memory order)",
+   "value": "0x000d9f03 (03 9f 0d 00)"
+  },
+  {
+   "step": 10,
+   "source": "memory",
+   "addr": "0x355a2",
+   "field": "after key 10 (Enter): word at DS:7B62 of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+   "value": "0x5e8f (8f 5e)"
+  },
+  {
+   "step": 10,
+   "source": "memory",
+   "addr": "0x355a4",
+   "field": "after key 10 (Enter): word at DS:7B64 of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+   "value": "0x0800 (00 08)"
+  },
+  {
+   "step": 10,
+   "source": "memory",
+   "addr": "0x35d76",
+   "field": "after key 10 (Enter): word at DS:8336 of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+   "value": "0x9e47 (47 9e)"
+  },
+  {
+   "step": 10,
+   "source": "memory",
+   "addr": "0x3843d",
+   "field": "after key 10 (Enter): word at DS:A9FD of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+   "value": "0x07ea (ea 07)"
+  },
+  {
+   "step": 10,
+   "source": "memory",
+   "field": "after key 10 (Enter): score bytes DS:9B3C, DS:9B3D (engine teams 0 and 1)",
+   "value": "0 0"
+  },
+  {
+   "step": 10,
+   "source": "memory",
+   "field": "after key 10 (Enter): match delay byte at the far pointer DS:A923 + 0x3F (0 fastest)",
+   "value": "1"
+  },
+  {
+   "step": 10,
+   "source": "memory",
+   "addr": "0x3843f",
+   "field": "after key 10 (Enter): dword DS:A9FF of GOAL.EXE (the delay count 214B:1DA7 calibrates), little-endian (bytes in memory order)",
+   "value": "0x00001022 (22 10 00 00)"
+  },
+  {
+   "step": 15,
+   "source": "log",
+   "field": "captain screen: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T19:03:25.176Z"
+  },
+  {
+   "step": 15,
+   "source": "log",
+   "field": "captain screen: host local time with UTC offset, and zone name, at the same instant",
+   "value": "2026-10-04T21:03:25.176+02:00 CEST"
+  },
+  {
+   "step": 15,
+   "source": "screen",
+   "field": "captain screen: text screen 80x25, chars+attributes (4000 bytes), sha256",
+   "value": "7e9020f616ddc91a8f85c92b5a03daa8a7bb0be8978a79cf9788820d1f71604d"
+  },
+  {
+   "step": 15,
+   "source": "ui-text",
+   "field": "captain screen: text screen rows 0-24, CP437 decoded, trailing blanks trimmed",
+   "value": " (c) NE'93│ ┌───────────────┬──┬FRIENDLY───────────────────────────┐┌───┐ ┌───┐\n ┌─┐┌─┐┌─┐│ │SWEDEN---------│ 0│                                   ││   │ │   │\n │ ││ ││ ││ ├versus─────────┼──┤                                   │├───┤ ├───┤\n └─┤└─┘└─┤│ │DENMARK--------│ 0│                                   ││   │ │   │\n───┘ v.2    └───────────────┴──┴───────────────────────────────────┘└───┘ └───┘\n\n┌name──────────┬age┬caps┬goals┬height─┬bias──────┬performance┐ ┌────────────┬─┐\n│T Piechnik    │ 28│   0│    0│ 6' 0\" │right foot│           │ │P Schmeichel│G│\n├position──────┴───┼club┴position─────┼cards┬────┴─┴─┴─┴─┴─┴─┤ │L Olsen     │S│\n│centre back       │centre back       │     │        selected│ │T Piechnik  │C│\n├skills───┬────┬───┴┬────┬────┬────┬┬─┴─────┴─────────tactics┤ │K Christofte│C│\n├keeping──■■■■■■■■■■■■■■■■■■■■■■■■■■┼position─────stay back P┤ │H Andersen  │B│\n├kicking──■■■■■■■■■■■■■■■■■■■■■■■■■■┼possession──quick pass P┤ │J Sivebaek  │B│\n├tackling─■■■■■■■■■■■■■■■■■■■■■■■■■■┼passing─────short passes┤ │K Vilfort   │D│\n├heading──■■■■■■■■■■■■■■■■■■■■■■■■■■┼tackling──avoid injury P┤ │H Larsen    │M│\n├marking──■■■■■■■■■■■■■■■■■■■■■■■■■■┼mark─J Ekstrom──────────┤ │J Jensen    │M│\n├passing──■■■■■■■■■■■■■■■■■■■■■■■■■■┤     striker            │ │B Laudrup   │F│\n├crossing─■■■■■■■■■■■■■■■■■■■■■■■■■■┼─────────characteristics┤ │F Povlsen   │$│\n├feinting─■■■■■■■■■■■■■■■■■■■■■■■■■■┼hardness──wimpy■■■■■■■■■┤ └────────────┴─┘\n├control──■■■■■■■■■■■■■■■■■■■■■■■■■■┼fitness───total■■■■■■■■■┤   use ↑↓ to move\n├dribbling■■■■■■■■■■■■■■■■■■■■■■■■■■┼energy────hyperactive■■■┤\n├shooting─■■■■■■■■■■■■■■■■■■■■■■■■■■┼morale────very confident┤ ╔═══════════════╗\n├penalties■■■■■■■■■■■■■■■■■■■■■■■■■■┼leadershipcaptain■■■■■■■┤ ║Denmark--------║\n└─────────┴────┴────┴────┴────┴────┴┴──────────┴────┴────┴───┘ ╚═══════════════╝\n◄┘-select  CAPTAIN                                         C-computer select"
+  },
+  {
+   "step": 15,
+   "source": "memory",
+   "addr": "0x449",
+   "field": "captain screen: 1 byte at 0040:0049 (BIOS video mode), guest memory from the savestate, hex",
+   "value": "03"
+  },
+  {
+   "step": 15,
+   "source": "memory",
+   "addr": "0x46c",
+   "field": "captain screen: 4 bytes at 0040:006C (BIOS timer tick count), guest memory from the savestate, as a little-endian dword (bytes in memory order)",
+   "value": "0x000d9f59 (59 9f 0d 00)"
+  },
+  {
+   "step": 15,
+   "source": "memory",
+   "addr": "0x355a2",
+   "field": "captain screen: word at DS:7B62 of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+   "value": "0xfabd (bd fa)"
+  },
+  {
+   "step": 15,
+   "source": "memory",
+   "addr": "0x355a4",
+   "field": "captain screen: word at DS:7B64 of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+   "value": "0x0800 (00 08)"
+  },
+  {
+   "step": 15,
+   "source": "memory",
+   "addr": "0x35d76",
+   "field": "captain screen: word at DS:8336 of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+   "value": "0x9e47 (47 9e)"
+  },
+  {
+   "step": 15,
+   "source": "memory",
+   "addr": "0x3843d",
+   "field": "captain screen: word at DS:A9FD of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+   "value": "0x07ea (ea 07)"
+  },
+  {
+   "step": 15,
+   "source": "memory",
+   "field": "captain screen: score bytes DS:9B3C, DS:9B3D (engine teams 0 and 1)",
+   "value": "0 0"
+  },
+  {
+   "step": 15,
+   "source": "memory",
+   "field": "captain screen: match delay byte at the far pointer DS:A923 + 0x3F (0 fastest)",
+   "value": "1"
+  },
+  {
+   "step": 15,
+   "source": "memory",
+   "addr": "0x3843f",
+   "field": "captain screen: dword DS:A9FF of GOAL.EXE (the delay count 214B:1DA7 calibrates), little-endian (bytes in memory order)",
+   "value": "0x00001022 (22 10 00 00)"
+  },
+  {
+   "step": 80,
+   "source": "log",
+   "field": "full time: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T19:04:00.435Z"
+  },
+  {
+   "step": 80,
+   "source": "log",
+   "field": "full time: host local time with UTC offset, and zone name, at the same instant",
+   "value": "2026-10-04T21:04:00.435+02:00 CEST"
+  },
+  {
+   "step": 80,
+   "source": "screen",
+   "field": "full time: text screen 80x25, chars+attributes (4000 bytes), sha256",
+   "value": "e78ca723b60247d4152ce0df141873cfda6c079a245b934d46870c818a31ad5f"
+  },
+  {
+   "step": 80,
+   "source": "ui-text",
+   "field": "full time: text screen rows 0-24, CP437 decoded, trailing blanks trimmed",
+   "value": " (c) NE'93│ ┌───────────────┬──┬FRIENDLY───────────────────────────┐┌───┐ ▄▀▀▀▄\n ┌─┐┌─┐┌─┐│ │SWEDEN---------│ 2│Limpar on the ball                 ││   │ █   █\n │ ││ ││ ││ ├versus─────────┼──┤Limpar makes a run                 │├───┤ ▄───▄\n └─┤└─┘└─┤│ │DENMARK--------│ 3│---- FULL TIME ----                ││   │ █   █\n───┘ v.2    └───────────────┴──┴───────────────────────────────────┘└───┘ └▀▀▀▀\n (half time  0:3 ) ┌─────────────────┐    ┌─────────────────┐\n ┌─────────────────│ Sweden--------- │─┐┌─│ Denmark-------- │─────────────────┐\n │                 └─────────────────┘ ││ └─────────────────┘                 │\n │ ┌─────────┐         Corners      0  ││  Corners      0     ┌─────────┐     │\n │ │ Scorers │         Free kicks   9  ││  Free kicks   2     │ Scorers │     │\n┌──┴─────────┴──┬min┐  Penalties    1  ││  Penalties    0  ┌──┴─────────┴──┬min┐\n│J Ekstrom     P│ 75│  Shots        9  ││  Shots        4  │F Povlsen      │  7│\n│J Ekstrom      │ 88│  On target    4  ││  On target    4  │F Povlsen      │ 21│\n│               │   │  Saves        1  ││  Saves        2  │F Povlsen      │ 35│\n│               │   │  Fouls        0  ││  Fouls        2  │               │   │\n│               │   │  Bookings     0  ││  Bookings     1  │               │   │\n│               │   │  Red cards    0  └┘  Red cards    0  │               │   │\n│               │   │            ┌───┬───┬───50───┬───┬───┐│               │   │\n│               │   │  Possession:■■■■■■■■■■■■■■■■■■■■■■■■:│               │   │\n│               │   │  Territory :■■■■■■■■■■■■■■■■■■■■■■■■:│               │   │\n│               │   │ ┌──────────────────────────────────┐ │               │   │\n│               │   │ │  MAN OF THE MATCH F Povlsen      │ │               │   │\n└───────────────┴───┘ └──────────────────────────────────┘ └───────────────┴───┘\n └────────────────────────────────────────────────────────────────────────────┘\n                                  hit any key                      Esc,◄┘-bench"
+  },
+  {
+   "step": 80,
+   "source": "memory",
+   "addr": "0x449",
+   "field": "full time: 1 byte at 0040:0049 (BIOS video mode), guest memory from the savestate, hex",
+   "value": "03"
+  },
+  {
+   "step": 80,
+   "source": "memory",
+   "addr": "0x46c",
+   "field": "full time: 4 bytes at 0040:006C (BIOS timer tick count), guest memory from the savestate, as a little-endian dword (bytes in memory order)",
+   "value": "0x000da15a (5a a1 0d 00)"
+  },
+  {
+   "step": 80,
+   "source": "memory",
+   "addr": "0x355a2",
+   "field": "full time: word at DS:7B62 of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+   "value": "0xa621 (21 a6)"
+  },
+  {
+   "step": 80,
+   "source": "memory",
+   "addr": "0x355a4",
+   "field": "full time: word at DS:7B64 of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+   "value": "0x0800 (00 08)"
+  },
+  {
+   "step": 80,
+   "source": "memory",
+   "addr": "0x35d76",
+   "field": "full time: word at DS:8336 of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+   "value": "0x70ea (ea 70)"
+  },
+  {
+   "step": 80,
+   "source": "memory",
+   "addr": "0x3843d",
+   "field": "full time: word at DS:A9FD of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+   "value": "0x07ea (ea 07)"
+  },
+  {
+   "step": 80,
+   "source": "memory",
+   "field": "full time: score bytes DS:9B3C, DS:9B3D (engine teams 0 and 1)",
+   "value": "3 2"
+  },
+  {
+   "step": 80,
+   "source": "memory",
+   "field": "full time: match delay byte at the far pointer DS:A923 + 0x3F (0 fastest)",
+   "value": "0"
+  },
+  {
+   "step": 80,
+   "source": "memory",
+   "addr": "0x3843f",
+   "field": "full time: dword DS:A9FF of GOAL.EXE (the delay count 214B:1DA7 calibrates), little-endian (bytes in memory order)",
+   "value": "0x00001022 (22 10 00 00)"
+  },
+  {
+   "step": 81,
+   "source": "process",
+   "field": "other DOSBox-X and Xvfb processes on the host at end (not started by this run): [pid, seconds running, name]",
+   "value": "[[68169, 46979, \"Xvfb\"], [3505200, 4434, \"Xvfb\"], [3587999, 3777, \"Xvfb\"], [3679471, 2889, \"Xvfb\"], [3679639, 2887, \"Xvfb\"], [3679917, 2885, \"Xvfb\"], [3680061, 2883, \"Xvfb\"]]"
+  },
+  {
+   "step": 81,
+   "source": "process",
+   "field": "/proc/loadavg at end",
+   "value": "2.00 2.47 2.89 3/1063 237206"
+  },
+  {
+   "step": 81,
+   "source": "memory",
+   "field": "match reads, one list per read: [step, host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[[16,\"2026-10-04T19:03:26.377Z\",1.187,\"0x000d9f6c\",\"0x00001022\",\"382aa9fa88adadbd59c233c4297b1072c51bbf01924e2602bc9ebde224706bef\",\"0x0097\",\"0xbc7c\",1,0,\"│Jansson intercepts / ┤shot from Jansson / │over the bar\"],[17,\"2026-10-04T19:03:26.913Z\",1.724,\"0x000d9f74\",\"0x00001022\",\"382aa9fa88adadbd59c233c4297b1072c51bbf01924e2602bc9ebde224706bef\",\"0x0097\",\"0xbc7c\",1,0,\"│Jansson intercepts / ┤shot from Jansson / │over the bar\"],[18,\"2026-10-04T19:03:27.452Z\",2.265,\"0x000d9f7c\",\"0x00001022\",\"382aa9fa88adadbd59c233c4297b1072c51bbf01924e2602bc9ebde224706bef\",\"0x0097\",\"0xbc7c\",1,0,\"│Jansson intercepts / ┤shot from Jansson / │over the bar\"],[19,\"2026-10-04T19:03:27.993Z\",2.803,\"0x000d9f84\",\"0x00001022\",\"382aa9fa88adadbd59c233c4297b1072c51bbf01924e2602bc9ebde224706bef\",\"0x0097\",\"0xbc7c\",1,0,\"│Jansson intercepts / ┤shot from Jansson / │over the bar\"],[20,\"2026-10-04T19:03:28.531Z\",3.343,\"0x000d9f8b\",\"0x00001022\",\"382aa9fa88adadbd59c233c4297b1072c51bbf01924e2602bc9ebde224706bef\",\"0x0097\",\"0xbc7c\",1,0,\"│Jansson intercepts / ┤shot from Jansson / │over the bar\"],[21,\"2026-10-04T19:03:29.071Z\",3.884,\"0x000d9f93\",\"0x00001022\",\"382aa9fa88adadbd59c233c4297b1072c51bbf01924e2602bc9ebde224706bef\",\"0x0097\",\"0xbc7c\",1,0,\"│Jansson intercepts / ┤shot from Jansson / │over the bar\"],[22,\"2026-10-04T19:03:29.612Z\",4.425,\"0x000d9f9b\",\"0x00001022\",\"382aa9fa88adadbd59c233c4297b1072c51bbf01924e2602bc9ebde224706bef\",\"0x0097\",\"0xbc7c\",1,0,\"│Jansson intercepts / ┤shot from Jansson / │over the bar\"],[23,\"2026-10-04T19:03:30.153Z\",4.964,\"0x000d9fa2\",\"0x00001022\",\"382aa9fa88adadbd59c233c4297b1072c51bbf01924e2602bc9ebde224706bef\",\"0x0097\",\"0xbc7c\",1,0,\"│Jansson intercepts / ┤shot from Jansson / │over the bar\"],[24,\"2026-10-04T19:03:30.692Z\",5.506,\"0x000d9faa\",\"0x00001022\",\"382aa9fa88adadbd59c233c4297b1072c51bbf01924e2602bc9ebde224706bef\",\"0x0097\",\"0xbc7c\",1,0,\"│Jansson intercepts / ┤shot from Jansson / │over the bar\"],[25,\"2026-10-04T19:03:31.238Z\",6.052,\"0x000d9fb2\",\"0x00001022\",\"382aa9fa88adadbd59c233c4297b1072c51bbf01924e2602bc9ebde224706bef\",\"0x0097\",\"0xbc7c\",1,0,\"│Jansson intercepts / ┤shot from Jansson / │over the bar\"],[26,\"2026-10-04T19:03:31.781Z\",6.593,\"0x000d9fba\",\"0x00001022\",\"9d86cce7c1ef3771ce93cfe266741e3fbd752759c81f408697e4f9e70fd382de\",\"0x0023\",\"0x71a1\",1,0,\"│good ball for Brolin / ┤Brolin on the ball / │good ball for Ekstrom\"],[27,\"2026-10-04T19:03:32.318Z\",7.128,\"0x000d9fc1\",\"0x00001022\",\"c5669b06d1b05a7fe681f4087da53953a06ee33349ea90d625546eb581dfc2d1\",\"0x0045\",\"0xa3c6\",2,0,\"│shot from Povlsen / ┤Eriksson has no chance / │**** GOAL **** by Povlsen\"],[28,\"2026-10-04T19:03:32.852Z\",7.665,\"0x000d9fc9\",\"0x00001022\",\"c5669b06d1b05a7fe681f4087da53953a06ee33349ea90d625546eb581dfc2d1\",\"0x0045\",\"0xa3c6\",2,0,\"│shot from Povlsen / ┤Eriksson has no chance / │**** GOAL **** by Povlsen\"],[29,\"2026-10-04T19:03:33.393Z\",8.204,\"0x000d9fd1\",\"0x00001022\",\"c5669b06d1b05a7fe681f4087da53953a06ee33349ea90d625546eb581dfc2d1\",\"0x0045\",\"0xa3c6\",2,0,\"│shot from Povlsen / ┤Eriksson has no chance / │**** GOAL **** by Povlsen\"],[30,\"2026-10-04T19:03:33.932Z\",8.742,\"0x000d9fd9\",\"0x00001022\",\"c5669b06d1b05a7fe681f4087da53953a06ee33349ea90d625546eb581dfc2d1\",\"0x0045\",\"0xa3c6\",2,0,\"│shot from Povlsen / ┤Eriksson has no chance / │**** GOAL **** by Povlsen\"],[31,\"2026-10-04T19:03:34.470Z\",9.279,\"0x000d9fe0\",\"0x00001022\",\"c5669b06d1b05a7fe681f4087da53953a06ee33349ea90d625546eb581dfc2d1\",\"0x0045\",\"0xa3c6\",2,0,\"│shot from Povlsen / ┤Eriksson has no chance / │**** GOAL **** by Povlsen\"],[32,\"2026-10-04T19:03:35.005Z\",9.817,\"0x000d9fe8\",\"0x00001022\",\"c5669b06d1b05a7fe681f4087da53953a06ee33349ea90d625546eb581dfc2d1\",\"0x0045\",\"0xa3c6\",2,0,\"│shot from Povlsen / ┤Eriksson has no chance / │**** GOAL **** by Povlsen\"],[33,\"2026-10-04T19:03:35.546Z\",10.356,\"0x000d9ff0\",\"0x00001022\",\"56c32d91822ce364a6392a233f6fe173b1a4e71d21ab4975ec05b695fb7a8e0b\",\"0x00ae\",\"0xefaf\",2,0,\"│good ball for Laudrup / ┤Laudrup on the ball / │pass by Laudrup\"],[34,\"2026-10-04T19:03:36.081Z\",10.89,\"0x000d9ff8\",\"0x00001022\",\"c64b5e26c2e7b50e938539a5f69e4db9e12960ffdaf64e47ba12b72c2da28a81\",\"0x0038\",\"0x35f7\",3,0,\"│shot from Povlsen / ┤Eriksson beaten / │**** GOAL **** by Povlsen\"],[35,\"2026-10-04T19:03:36.615Z\",11.424,\"0x000d9fff\",\"0x00001022\",\"c64b5e26c2e7b50e938539a5f69e4db9e12960ffdaf64e47ba12b72c2da28a81\",\"0x0038\",\"0x35f7\",3,0,\"│shot from Povlsen / ┤Eriksson beaten / │**** GOAL **** by Povlsen\"],[36,\"2026-10-04T19:03:37.153Z\",11.962,\"0x000da007\",\"0x00001022\",\"c64b5e26c2e7b50e938539a5f69e4db9e12960ffdaf64e47ba12b72c2da28a81\",\"0x0038\",\"0x35f7\",3,0,\"│shot from Povlsen / ┤Eriksson beaten / │**** GOAL **** by Povlsen\"],[37,\"2026-10-04T19:03:37.690Z\",12.5,\"0x000da00f\",\"0x00001022\",\"c64b5e26c2e7b50e938539a5f69e4db9e12960ffdaf64e47ba12b72c2da28a81\",\"0x0038\",\"0x35f7\",3,0,\"│shot from Povlsen / ┤Eriksson beaten / │**** GOAL **** by Povlsen\"],[38,\"2026-10-04T19:03:38.228Z\",13.038,\"0x000da017\",\"0x00001022\",\"c64b5e26c2e7b50e938539a5f69e4db9e12960ffdaf64e47ba12b72c2da28a81\",\"0x0038\",\"0x35f7\",3,0,\"│shot from Povlsen / ┤Eriksson beaten / │**** GOAL **** by Povlsen\"],[39,\"2026-10-04T19:03:38.766Z\",13.576,\"0x000da01f\",\"0x00001022\",\"c64b5e26c2e7b50e938539a5f69e4db9e12960ffdaf64e47ba12b72c2da28a81\",\"0x0038\",\"0x35f7\",3,0,\"│shot from Povlsen / ┤Eriksson beaten / │**** GOAL **** by Povlsen\"],[40,\"2026-10-04T19:03:39.304Z\",14.115,\"0x000da027\",\"0x00001022\",\"141c23268eb5430268fbe22f8d3d821dd0d58ae4c1d10033684c29cc5e08e272\",\"0x0082\",\"0x8961\",3,0,\"│Schwarz to take free kick / ┤high ball towards Brolin / │headed on by Rehn\"],[41,\"2026-10-04T19:03:39.840Z\",14.651,\"0x000da02e\",\"0x00001022\",\"4ef86f84140a01befca04ee1c7c8a8d437508ac5de8ce9acccde75198bc55e21\",\"0x008d\",\"0x2fa1\",3,0,\"│good ball for Ekstrom / ┤Ekstrom on the ball / │shot from Ekstrom\"],[42,\"2026-10-04T19:03:40.377Z\",15.19,\"0x000da036\",\"0x00001022\",\"4ef86f84140a01befca04ee1c7c8a8d437508ac5de8ce9acccde75198bc55e21\",\"0x008d\",\"0x2fa1\",3,0,\"│good ball for Ekstrom / ┤Ekstrom on the ball / │shot from Ekstrom\"],[43,\"2026-10-04T19:03:40.918Z\",15.728,\"0x000da03e\",\"0x00001022\",\"4ef86f84140a01befca04ee1c7c8a8d437508ac5de8ce9acccde75198bc55e21\",\"0x008d\",\"0x2fa1\",3,0,\"│good ball for Ekstrom / ┤Ekstrom on the ball / │shot from Ekstrom\"],[44,\"2026-10-04T19:03:41.456Z\",16.269,\"0x000da045\",\"0x00001022\",\"4ef86f84140a01befca04ee1c7c8a8d437508ac5de8ce9acccde75198bc55e21\",\"0x008d\",\"0x2fa1\",3,0,\"│good ball for Ekstrom / ┤Ekstrom on the ball / │shot from Ekstrom\"],[45,\"2026-10-04T19:03:41.996Z\",16.806,\"0x000da04d\",\"0x00001022\",\"4ef86f84140a01befca04ee1c7c8a8d437508ac5de8ce9acccde75198bc55e21\",\"0x008d\",\"0x2fa1\",3,0,\"│good ball for Ekstrom / ┤Ekstrom on the ball / │shot from Ekstrom\"],[46,\"2026-10-04T19:03:42.533Z\",17.342,\"0x000da055\",\"0x00001022\",\"4ef86f84140a01befca04ee1c7c8a8d437508ac5de8ce9acccde75198bc55e21\",\"0x008d\",\"0x2fa1\",3,0,\"│good ball for Ekstrom / ┤Ekstrom on the ball / │shot from Ekstrom\"],[47,\"2026-10-04T19:03:43.070Z\",17.88,\"0x000da05d\",\"0x00001022\",\"4ef86f84140a01befca04ee1c7c8a8d437508ac5de8ce9acccde75198bc55e21\",\"0x008d\",\"0x2fa1\",3,0,\"│good ball for Ekstrom / ┤Ekstrom on the ball / │shot from Ekstrom\"],[48,\"2026-10-04T19:03:43.608Z\",18.418,\"0x000da065\",\"0x00001022\",\"4ef86f84140a01befca04ee1c7c8a8d437508ac5de8ce9acccde75198bc55e21\",\"0x008d\",\"0x2fa1\",3,0,\"│good ball for Ekstrom / ┤Ekstrom on the ball / │shot from Ekstrom\"],[49,\"2026-10-04T19:03:44.157Z\",18.966,\"0x000da06c\",\"0x00001022\",\"4ef86f84140a01befca04ee1c7c8a8d437508ac5de8ce9acccde75198bc55e21\",\"0x008d\",\"0x2fa1\",3,0,\"│good ball for Ekstrom / ┤Ekstrom on the ball / │shot from Ekstrom\"],[50,\"2026-10-04T19:03:44.694Z\",19.503,\"0x000da074\",\"0x00001022\",\"44afb9c667ef639985044d3d31442eba2903b0d6685116c513733d371691b04a\",\"0x00b3\",\"0x2abe\",3,0,\"│Brolin wins the ball / ┤Brolin makes a run / │---- HALF TIME ----\"],[51,\"2026-10-04T19:03:45.227Z\",20.037,\"0x000da07c\",\"0x00001022\",\"44afb9c667ef639985044d3d31442eba2903b0d6685116c513733d371691b04a\",\"0x00b3\",\"0x2abe\",3,0,\"│Brolin wins the ball / ┤Brolin makes a run / │---- HALF TIME ----\"],[52,\"2026-10-04T19:03:45.874Z\",20.685,\"0x000da086\",\"0x00001022\",\"618e41e319f905b5532516e4339988d97d86779cf86a6f9f7732cb834cbb1100\",\"0x00b3\",\"0x2abe\",3,0,\"│Brolin wins the ball / ┤Brolin makes a run / │---- HALF TIME ----\"],[53,\"2026-10-04T19:03:46.409Z\",21.218,\"0x000da08e\",\"0x00001022\",\"618e41e319f905b5532516e4339988d97d86779cf86a6f9f7732cb834cbb1100\",\"0x00b3\",\"0x2abe\",3,0,\"│Brolin wins the ball / ┤Brolin makes a run / │---- HALF TIME ----\"],[54,\"2026-10-04T19:03:47.055Z\",21.863,\"0x000da097\",\"0x00001022\",\"fc7d87e720eca29814752a759dcfac63c9567ea927595cc8b8bb7772a754257e\",\"0x0035\",\"0xf61c\",3,0,\"│Povlsen makes a run / ┤good ball for Vilfort / │Vilfort on the ball\"],[55,\"2026-10-04T19:03:47.587Z\",22.396,\"0x000da09f\",\"0x00001022\",\"3eed5b88eb5866fe1e4ea10542de3ece77c3a5510df6d47e7862d00a310bfd23\",\"0x0095\",\"0xd2db\",3,0,\"│knocked on by Christofte / ┤Sivebaek collects / │Sivebaek makes a run\"],[56,\"2026-10-04T19:03:48.122Z\",22.931,\"0x000da0a7\",\"0x00001022\",\"f046f15311dd602c77f318fc83b3077db63ad387e649b6a67b39eb4af185415e\",\"0x00a3\",\"0x7a6f\",3,0,\"│** LINESMAN FLAGS ** / ┤Jensen collects / │Povlsen is OFFSIDE\"],[57,\"2026-10-04T19:03:48.655Z\",23.463,\"0x000da0af\",\"0x00001022\",\"f046f15311dd602c77f318fc83b3077db63ad387e649b6a67b39eb4af185415e\",\"0x00a3\",\"0x7a6f\",3,0,\"│** LINESMAN FLAGS ** / ┤Jensen collects / │Povlsen is OFFSIDE\"],[58,\"2026-10-04T19:03:49.191Z\",24.0,\"0x000da0b7\",\"0x00001022\",\"f046f15311dd602c77f318fc83b3077db63ad387e649b6a67b39eb4af185415e\",\"0x00a3\",\"0x7a6f\",3,0,\"│** LINESMAN FLAGS ** / ┤Jensen collects / │Povlsen is OFFSIDE\"],[59,\"2026-10-04T19:03:49.727Z\",24.537,\"0x000da0be\",\"0x00001022\",\"415099950c5fb27d9ac6728a4cdf3bb4dcd260530ef5fa58eedc873fbd12cb0b\",\"0x00a4\",\"0x7a6f\",3,0,\"│Jensen collects / ┤Povlsen is OFFSIDE / │Limpar on for Jansson\"],[60,\"2026-10-04T19:03:50.262Z\",25.072,\"0x000da0c6\",\"0x00001022\",\"415099950c5fb27d9ac6728a4cdf3bb4dcd260530ef5fa58eedc873fbd12cb0b\",\"0x00a4\",\"0x7a6f\",3,0,\"│Jensen collects / ┤Povlsen is OFFSIDE / │Limpar on for Jansson\"],[61,\"2026-10-04T19:03:50.800Z\",25.609,\"0x000da0ce\",\"0x00001022\",\"0c4e1c5276a14a61343e3a24c0d1f6da8f5cd6de79d728e148beb9a2eb386036\",\"0x00a5\",\"0x7a6f\",3,0,\"│Povlsen is OFFSIDE / ┤Limpar on for Jansson / │Thern on for Schwarz\"],[62,\"2026-10-04T19:03:51.334Z\",26.142,\"0x000da0d6\",\"0x00001022\",\"0c4e1c5276a14a61343e3a24c0d1f6da8f5cd6de79d728e148beb9a2eb386036\",\"0x00a5\",\"0x7a6f\",3,0,\"│Povlsen is OFFSIDE / ┤Limpar on for Jansson / │Thern on for Schwarz\"],[63,\"2026-10-04T19:03:51.870Z\",26.678,\"0x000da0de\",\"0x00001022\",\"0c4e1c5276a14a61343e3a24c0d1f6da8f5cd6de79d728e148beb9a2eb386036\",\"0x00a5\",\"0x7a6f\",3,0,\"│Povlsen is OFFSIDE / ┤Limpar on for Jansson / │Thern on for Schwarz\"],[64,\"2026-10-04T19:03:52.405Z\",27.213,\"0x000da0e6\",\"0x00001022\",\"42eae99ae71be067fae0b9ea5e9140a66c4931526061eca6b4124acc2599bbf1\",\"0x000b\",\"0x06cf\",3,0,\"│Erlingmark to take free kick / ┤pass by Erlingmark / │Vilfort intercepts\"],[65,\"2026-10-04T19:03:52.937Z\",27.747,\"0x000da0ed\",\"0x00001022\",\"92c800f323a8dc3b8d48c6a982b2aae31fc8ead08dc5989519dcbb7bbe874d0b\",\"0x0063\",\"0x68b6\",3,1,\"│shot from Ekstrom / ┤Schmeichel has no chance / │**** GOAL **** by Ekstrom\"],[66,\"2026-10-04T19:03:53.471Z\",28.28,\"0x000da0f5\",\"0x00001022\",\"92c800f323a8dc3b8d48c6a982b2aae31fc8ead08dc5989519dcbb7bbe874d0b\",\"0x0063\",\"0x68b6\",3,1,\"│shot from Ekstrom / ┤Schmeichel has no chance / │**** GOAL **** by Ekstrom\"],[67,\"2026-10-04T19:03:54.006Z\",28.817,\"0x000da0fd\",\"0x00001022\",\"92c800f323a8dc3b8d48c6a982b2aae31fc8ead08dc5989519dcbb7bbe874d0b\",\"0x0063\",\"0x68b6\",3,1,\"│shot from Ekstrom / ┤Schmeichel has no chance / │**** GOAL **** by Ekstrom\"],[68,\"2026-10-04T19:03:54.544Z\",29.354,\"0x000da105\",\"0x00001022\",\"92c800f323a8dc3b8d48c6a982b2aae31fc8ead08dc5989519dcbb7bbe874d0b\",\"0x0063\",\"0x68b6\",3,1,\"│shot from Ekstrom / ┤Schmeichel has no chance / │**** GOAL **** by Ekstrom\"],[69,\"2026-10-04T19:03:55.081Z\",29.892,\"0x000da10d\",\"0x00001022\",\"92c800f323a8dc3b8d48c6a982b2aae31fc8ead08dc5989519dcbb7bbe874d0b\",\"0x0063\",\"0x68b6\",3,1,\"│shot from Ekstrom / ┤Schmeichel has no chance / │**** GOAL **** by Ekstrom\"],[70,\"2026-10-04T19:03:55.620Z\",30.429,\"0x000da114\",\"0x00001022\",\"92c800f323a8dc3b8d48c6a982b2aae31fc8ead08dc5989519dcbb7bbe874d0b\",\"0x0063\",\"0x68b6\",3,1,\"│shot from Ekstrom / ┤Schmeichel has no chance / │**** GOAL **** by Ekstrom\"],[71,\"2026-10-04T19:03:56.156Z\",30.964,\"0x000da11c\",\"0x00001022\",\"5e087e98f36ceb88d9fd429fffc153098919912abbb74dedfc8ba2e0aa5bf024\",\"0x00be\",\"0x0409\",3,1,\"│tackle by Piechnik / ┤Piechnik wins the ball / │good ball for Povlsen\"],[72,\"2026-10-04T19:03:56.688Z\",31.498,\"0x000da124\",\"0x00001022\",\"abcf550a71272d09e3101e9a3112107223b34f1d32b638ca25e1420736387787\",\"0x0031\",\"0xeb68\",3,2,\"│shot from Ekstrom / ┤Schmeichel beaten / │**** GOAL **** by Ekstrom\"],[73,\"2026-10-04T19:03:57.222Z\",32.031,\"0x000da12b\",\"0x00001022\",\"abcf550a71272d09e3101e9a3112107223b34f1d32b638ca25e1420736387787\",\"0x0031\",\"0xeb68\",3,2,\"│shot from Ekstrom / ┤Schmeichel beaten / │**** GOAL **** by Ekstrom\"],[74,\"2026-10-04T19:03:57.759Z\",32.568,\"0x000da133\",\"0x00001022\",\"abcf550a71272d09e3101e9a3112107223b34f1d32b638ca25e1420736387787\",\"0x0031\",\"0xeb68\",3,2,\"│shot from Ekstrom / ┤Schmeichel beaten / │**** GOAL **** by Ekstrom\"],[75,\"2026-10-04T19:03:58.297Z\",33.107,\"0x000da13b\",\"0x00001022\",\"abcf550a71272d09e3101e9a3112107223b34f1d32b638ca25e1420736387787\",\"0x0031\",\"0xeb68\",3,2,\"│shot from Ekstrom / ┤Schmeichel beaten / │**** GOAL **** by Ekstrom\"],[76,\"2026-10-04T19:03:58.834Z\",33.642,\"0x000da143\",\"0x00001022\",\"abcf550a71272d09e3101e9a3112107223b34f1d32b638ca25e1420736387787\",\"0x0031\",\"0xeb68\",3,2,\"│shot from Ekstrom / ┤Schmeichel beaten / │**** GOAL **** by Ekstrom\"],[77,\"2026-10-04T19:03:59.369Z\",34.178,\"0x000da14b\",\"0x00001022\",\"7cdbb98888abf054d2d1271e39598fe5af6d6e0aa14d9a47fa3f08da6cdd2f9e\",\"0x003b\",\"0xe860\",3,2,\"│Povlsen on the ball / ┤Povlsen makes a run / │tackle by Rehn\"],[78,\"2026-10-04T19:03:59.903Z\",34.71,\"0x000da152\",\"0x00001022\",\"e78ca723b60247d4152ce0df141873cfda6c079a245b934d46870c818a31ad5f\",\"0x005e\",\"0xa621\",3,2,\"│Limpar on the ball / ┤Limpar makes a run / │---- FULL TIME ----\"],[79,\"2026-10-04T19:04:00.435Z\",35.244,\"0x000da15a\",\"0x00001022\",\"e78ca723b60247d4152ce0df141873cfda6c079a245b934d46870c818a31ad5f\",\"0x005e\",\"0xa621\",3,2,\"│Limpar on the ball / ┤Limpar makes a run / │---- FULL TIME ----\"]]"
+  },
+  {
+   "step": 81,
+   "source": "log",
+   "field": "keys sent from the key that starts the match to full time: [seconds since the starting burst, key, why] (runtime/driver/match.py)",
+   "value": "[[0.0, \"Enter\", \"starting burst, no poll between\"], [0.0, \"Right\", \"starting burst, no poll between\"], [0.0, \"Right\", \"starting burst, no poll between\"], [0.0, \"Right\", \"starting burst, no poll between\"], [0.0, \"Right\", \"starting burst, no poll between\"], [0.0, \"Right\", \"starting burst, no poll between\"], [20.16, \"Enter\", \"hit any key\"], [21.34, \"Enter\", \"team screen\"]]"
+  },
+  {
+   "step": 81,
+   "source": "log",
+   "field": "match: savestate reads from the starting keys to full time, and seconds",
+   "value": "64 reads, 35.26 s"
+  },
+  {
+   "step": 81,
+   "source": "memory",
+   "field": "commentary lines of the match in order, accumulated over the reads from the ring DS:7C38 (runtime/driver/commentary.py): [n, template, team, text]",
+   "value": "[[1, 59, 0, \"Piechnik wins the toss\"], [2, 49, 0, \"Laudrup to take kick off\"], [3, 35, 0, \"Povlsen collects\"], [4, 6, 0, \"Povlsen makes a run\"], [5, 11, 1, \"tackle by Ekstrom\"], [6, 14, 1, \"Ekstrom wins the ball\"], [7, 33, 1, \"knocked on by Ekstrom\"], [8, 35, 1, \"Jansson collects\"], [9, 6, 1, \"Jansson makes a run\"], [10, 11, 0, \"tackle by Jensen\"], [11, 14, 0, \"Jensen wins the ball\"], [12, 6, 0, \"Jensen makes a run\"], [13, 8, 0, \"good ball for Povlsen\"], [14, 25, 0, \"Povlsen on the ball\"], [15, 8, 0, \"good ball for Laudrup\"], [16, 25, 0, \"Laudrup on the ball\"], [17, 8, 0, \"good ball for Povlsen\"], [18, 25, 0, \"Povlsen on the ball\"], [19, 8, 0, \"good ball for Laudrup\"], [20, 25, 0, \"Laudrup on the ball\"], [21, 11, 1, \"tackle by Erlingmark\"], [22, 14, 1, \"Erlingmark wins the ball\"], [23, 8, 1, \"good ball for Ekstrom\"], [24, 25, 1, \"Ekstrom on the ball\"], [25, 11, 0, \"tackle by Povlsen\"], [26, 14, 0, \"Povlsen wins the ball\"], [27, 6, 0, \"Povlsen makes a run\"], [28, 11, 1, \"tackle by Erlingmark\"], [29, 14, 1, \"Erlingmark wins the ball\"], [30, 8, 1, \"good ball for Ekstrom\"], [31, 25, 1, \"Ekstrom on the ball\"], [32, 1, 1, \"pass by Ekstrom\"], [33, 35, 1, \"Schwarz collects\"], [34, 2, 1, \"Schwarz makes a pass\"], [35, 34, 0, \"Jensen intercepts\"], [36, 8, 0, \"good ball for Laudrup\"], [37, 25, 0, \"Laudrup on the ball\"], [38, 2, 0, \"Laudrup makes a pass\"], [39, 35, 0, \"Vilfort collects\"], [40, 8, 0, \"good ball for Povlsen\"], [41, 25, 0, \"Povlsen on the ball\"], [42, 6, 0, \"Povlsen makes a run\"], [43, 11, 1, \"tackle by Bjorklund\"], [44, 14, 1, \"Bjorklund wins the ball\"], [45, 10, 1, \"high ball towards Ekstrom\"], [46, 35, 1, \"Brolin collects\"], [47, 8, 1, \"good ball for Ekstrom\"], [48, 25, 1, \"Ekstrom on the ball\"], [49, 1, 1, \"pass by Ekstrom\"], [50, 34, 0, \"Olsen intercepts\"], [51, 8, 0, \"good ball for Laudrup\"], [52, 25, 0, \"Laudrup on the ball\"], [53, 2, 0, \"Laudrup makes a pass\"], [54, 34, 1, \"Rehn intercepts\"], [55, 8, 1, \"good ball for Ekstrom\"], [56, 25, 1, \"Ekstrom on the ball\"], [57, 6, 1, \"Ekstrom makes a run\"], [58, 11, 0, \"tackle by Piechnik\"], [59, 14, 0, \"Piechnik wins the ball\"], [60, 10, 0, \"high ball towards Povlsen\"], [61, 66, 1, \"** LINESMAN FLAGS **\"], [62, 32, 1, \"headed on by Nilsson\"], [63, 54, 0, \"Larsen is OFFSIDE\"], [64, 58, 1, \"*** FREE KICK ***\"], [65, 48, 1, \"Nilsson to take free kick\"], [66, 10, 1, \"high ball towards Ekstrom\"], [67, 32, 0, \"headed on by Andersen\"], [68, 25, 0, \"Larsen on the ball\"], [69, 8, 0, \"good ball for Povlsen\"], [70, 25, 0, \"Povlsen on the ball\"], [71, 1, 0, \"pass by Povlsen\"], [72, 32, 1, \"headed on by Erlingmark\"], [73, 25, 1, \"Ljung on the ball\"], [74, 6, 1, \"Ljung makes a run\"], [75, 11, 0, \"tackle by Larsen\"], [76, 14, 0, \"Larsen wins the ball\"], [77, 1, 0, \"pass by Larsen\"], [78, 35, 0, \"Povlsen collects\"], [79, 6, 0, \"Povlsen makes a run\"], [80, 11, 1, \"tackle by Eriksson\"], [81, 12, 0, \"dodged by Povlsen\"], [82, 17, 0, \"shot from Povlsen\"], [83, 37, 1, \"Eriksson has no chance\"], [84, 38, 0, \"**** GOAL **** by Povlsen\"], [85, 49, 1, \"Brolin to take kick off\"], [86, 35, 1, \"Ekstrom collects\"], [87, 6, 1, \"Ekstrom makes a run\"], [88, 2, 1, \"Ekstrom makes a pass\"], [89, 35, 1, \"Brolin collects\"], [90, 8, 1, \"good ball for Ekstrom\"], [91, 25, 1, \"Ekstrom on the ball\"], [92, 6, 1, \"Ekstrom makes a run\"], [93, 8, 1, \"good ball for Brolin\"], [94, 25, 1, \"Brolin on the ball\"], [95, 11, 0, \"tackle by Christofte\"], [96, 14, 0, \"Christofte wins the ball\"], [97, 2, 0, \"Christofte makes a pass\"], [98, 35, 0, \"Povlsen collects\"], [99, 6, 0, \"Povlsen makes a run\"], [100, 11, 1, \"tackle by Nilsson\"], [101, 14, 1, \"Nilsson wins the ball\"], [102, 8, 1, \"good ball for Ekstrom\"], [103, 25, 1, \"Ekstrom on the ball\"], [104, 6, 1, \"Ekstrom makes a run\"], [105, 8, 1, \"good ball for Brolin\"], [106, 25, 1, \"Brolin on the ball\"], [107, 11, 0, \"tackle by Christofte\"], [108, 14, 0, \"Christofte wins the ball\"], [109, 10, 0, \"high ball towards Povlsen\"], [110, 34, 1, \"Nilsson intercepts\"], [111, 8, 1, \"good ball for Ekstrom\"], [112, 25, 1, \"Ekstrom on the ball\"], [113, 6, 1, \"Ekstrom makes a run\"], [114, 11, 0, \"tackle by Piechnik\"], [115, 14, 0, \"Piechnik wins the ball\"], [116, 33, 0, \"knocked on by Piechnik\"], [117, 35, 0, \"Laudrup collects\"], [118, 11, 1, \"tackle by Rehn\"], [119, 14, 1, \"Rehn wins the ball\"], [120, 8, 1, \"good ball for Ekstrom\"], [121, 25, 1, \"Ekstrom on the ball\"], [122, 11, 0, \"tackle by Piechnik\"], [123, 14, 0, \"Piechnik wins the ball\"], [124, 8, 0, \"good ball for Povlsen\"], [125, 25, 0, \"Povlsen on the ball\"], [126, 1, 0, \"pass by Povlsen\"], [127, 35, 0, \"Vilfort collects\"], [128, 11, 1, \"tackle by Erlingmark\"], [129, 14, 1, \"Erlingmark wins the ball\"], [130, 17, 1, \"shot from Erlingmark\"], [131, 31, 0, \"deflected by Olsen\"], [132, 34, 1, \"Ingesson intercepts\"], [133, 6, 1, \"Ingesson makes a run\"], [134, 11, 0, \"tackle by Andersen\"], [135, 14, 0, \"Andersen wins the ball\"], [136, 33, 0, \"knocked on by Andersen\"], [137, 35, 0, \"Sivebaek collects\"], [138, 10, 0, \"high ball towards Jensen\"], [139, 34, 1, \"Erlingmark intercepts\"], [140, 10, 1, \"high ball towards Ingesson\"], [141, 32, 1, \"headed on by Rehn\"], [142, 25, 1, \"Schwarz on the ball\"], [143, 1, 1, \"pass by Schwarz\"], [144, 34, 0, \"Laudrup intercepts\"], [145, 11, 1, \"tackle by Schwarz\"], [146, 14, 1, \"Schwarz wins the ball\"], [147, 17, 1, \"shot from Schwarz\"], [148, 31, 0, \"deflected by Christofte\"], [149, 34, 1, \"Jansson intercepts\"], [150, 17, 1, \"shot from Jansson\"], [151, 40, 1, \"over the bar\"], [152, 56, 0, \"*** GOAL KICK ***\"], [153, 46, 0, \"Piechnik to take goal kick\"], [154, 5, 0, \"long kick from Piechnik\"], [155, 34, 1, \"Rehn intercepts\"], [156, 8, 1, \"good ball for Ekstrom\"], [157, 25, 1, \"Ekstrom on the ball\"], [158, 11, 0, \"tackle by Olsen\"], [159, 14, 0, \"Olsen wins the ball\"], [160, 33, 0, \"knocked on by Olsen\"], [161, 35, 0, \"Andersen collects\"], [162, 10, 0, \"high ball towards Povlsen\"], [163, 32, 1, \"headed on by Schwarz\"], [164, 25, 1, \"Ingesson on the ball\"], [165, 6, 1, \"Ingesson makes a run\"], [166, 11, 0, \"tackle by Povlsen\"], [167, 14, 0, \"Povlsen wins the ball\"], [168, 33, 0, \"knocked on by Povlsen\"], [169, 34, 1, \"Brolin intercepts\"], [170, 8, 1, \"good ball for Ekstrom\"], [171, 25, 1, \"Ekstrom on the ball\"], [172, 2, 1, \"Ekstrom makes a pass\"], [173, 34, 0, \"Olsen intercepts\"], [174, 2, 0, \"Olsen makes a pass\"], [175, 35, 0, \"Povlsen collects\"], [176, 11, 1, \"tackle by Schwarz\"], [177, 12, 0, \"dodged by Povlsen\"], [178, 8, 0, \"good ball for Sivebaek\"], [179, 25, 0, \"Sivebaek on the ball\"], [180, 11, 1, \"tackle by Ekstrom\"], [181, 14, 1, \"Ekstrom wins the ball\"], [182, 6, 1, \"Ekstrom makes a run\"], [183, 8, 1, \"good ball for Brolin\"], [184, 25, 1, \"Brolin on the ball\"], [185, 10, 1, \"high ball towards Ekstrom\"], [186, 25, 1, \"Ekstrom on the ball\"], [187, 2, 1, \"Ekstrom makes a pass\"], [188, 35, 1, \"Jansson collects\"], [189, 6, 1, \"Jansson makes a run\"], [190, 66, 1, \"** LINESMAN FLAGS **\"], [191, 54, 1, \"Ekstrom is OFFSIDE\"], [192, 58, 0, \"*** FREE KICK ***\"], [193, 48, 0, \"Christofte to take free kick\"], [194, 2, 0, \"Christofte makes a pass\"], [195, 34, 1, \"Nilsson intercepts\"], [196, 8, 1, \"good ball for Ekstrom\"], [197, 25, 1, \"Ekstrom on the ball\"], [198, 6, 1, \"Ekstrom makes a run\"], [199, 2, 1, \"Ekstrom makes a pass\"], [200, 35, 1, \"Brolin collects\"], [1, 11, 0, \"tackle by Povlsen\"], [2, 14, 0, \"Povlsen wins the ball\"], [3, 1, 0, \"pass by Povlsen\"], [4, 34, 1, \"Schwarz intercepts\"], [5, 11, 0, \"tackle by Povlsen\"], [6, 14, 0, \"Povlsen wins the ball\"], [7, 6, 0, \"Povlsen makes a run\"], [8, 11, 1, \"tackle by Brolin\"], [9, 14, 1, \"Brolin wins the ball\"], [10, 11, 0, \"tackle by Sivebaek\"], [11, 12, 1, \"dodged by Brolin\"], [12, 8, 1, \"good ball for Ekstrom\"], [13, 25, 1, \"Ekstrom on the ball\"], [14, 6, 1, \"Ekstrom makes a run\"], [15, 11, 0, \"tackle by Olsen\"], [16, 14, 0, \"Olsen wins the ball\"], [17, 1, 0, \"pass by Olsen\"], [18, 35, 0, \"Vilfort collects\"], [19, 8, 0, \"good ball for Povlsen\"], [20, 25, 0, \"Povlsen on the ball\"], [21, 11, 1, \"tackle by Ingesson\"], [22, 14, 1, \"Ingesson wins the ball\"], [23, 8, 1, \"good ball for Ekstrom\"], [24, 25, 1, \"Ekstrom on the ball\"], [25, 11, 0, \"tackle by Vilfort\"], [26, 14, 0, \"Vilfort wins the ball\"], [27, 8, 0, \"good ball for Laudrup\"], [28, 25, 0, \"Laudrup on the ball\"], [29, 11, 1, \"tackle by Rehn\"], [30, 14, 1, \"Rehn wins the ball\"], [31, 8, 1, \"good ball for Ekstrom\"], [32, 25, 1, \"Ekstrom on the ball\"], [33, 8, 1, \"good ball for Brolin\"], [34, 25, 1, \"Brolin on the ball\"], [35, 8, 1, \"good ball for Ekstrom\"], [36, 25, 1, \"Ekstrom on the ball\"], [37, 6, 1, \"Ekstrom makes a run\"], [38, 1, 1, \"pass by Ekstrom\"], [39, 34, 0, \"Sivebaek intercepts\"], [40, 6, 0, \"Sivebaek makes a run\"], [41, 11, 1, \"tackle by Nilsson\"], [42, 14, 1, \"Nilsson wins the ball\"], [43, 23, 1, \"punted away by Nilsson\"], [44, 34, 0, \"Olsen intercepts\"], [45, 10, 0, \"high ball towards Jensen\"], [46, 34, 1, \"Erlingmark intercepts\"], [47, 8, 1, \"good ball for Ekstrom\"], [48, 25, 1, \"Ekstrom on the ball\"], [49, 6, 1, \"Ekstrom makes a run\"], [50, 11, 0, \"tackle by Piechnik\"], [51, 14, 0, \"Piechnik wins the ball\"], [52, 11, 1, \"tackle by Rehn\"], [53, 14, 1, \"Rehn wins the ball\"], [54, 8, 1, \"good ball for Ekstrom\"], [55, 25, 1, \"Ekstrom on the ball\"], [56, 6, 1, \"Ekstrom makes a run\"], [57, 8, 1, \"good ball for Brolin\"], [58, 25, 1, \"Brolin on the ball\"], [59, 1, 1, \"pass by Brolin\"], [60, 34, 0, \"Olsen intercepts\"], [61, 10, 0, \"high ball towards Povlsen\"], [62, 32, 0, \"headed on by Povlsen\"], [63, 25, 0, \"Laudrup on the ball\"], [64, 8, 0, \"good ball for Povlsen\"], [65, 25, 0, \"Povlsen on the ball\"], [66, 6, 0, \"Povlsen makes a run\"], [67, 17, 0, \"shot from Povlsen\"], [68, 37, 1, \"Eriksson has no chance\"], [69, 38, 0, \"**** GOAL **** by Povlsen\"], [70, 49, 1, \"Brolin to take kick off\"], [71, 35, 1, \"Ekstrom collects\"], [72, 6, 1, \"Ekstrom makes a run\"], [73, 8, 1, \"good ball for Brolin\"], [74, 25, 1, \"Brolin on the ball\"], [75, 8, 1, \"good ball for Ekstrom\"], [76, 25, 1, \"Ekstrom on the ball\"], [77, 11, 0, \"tackle by Povlsen\"], [78, 14, 0, \"Povlsen wins the ball\"], [79, 33, 0, \"knocked on by Povlsen\"], [80, 35, 0, \"Laudrup collects\"], [81, 8, 0, \"good ball for Povlsen\"], [82, 25, 0, \"Povlsen on the ball\"], [83, 6, 0, \"Povlsen makes a run\"], [84, 1, 0, \"pass by Povlsen\"], [85, 35, 0, \"Jensen collects\"], [86, 6, 0, \"Jensen makes a run\"], [87, 1, 0, \"pass by Jensen\"], [88, 34, 1, \"Jansson intercepts\"], [89, 11, 0, \"tackle by Laudrup\"], [90, 14, 0, \"Laudrup wins the ball\"], [91, 8, 0, \"good ball for Jensen\"], [92, 25, 0, \"Jensen on the ball\"], [93, 6, 0, \"Jensen makes a run\"], [94, 8, 0, \"good ball for Povlsen\"], [95, 25, 0, \"Povlsen on the ball\"], [96, 6, 0, \"Povlsen makes a run\"], [97, 11, 1, \"tackle by Nilsson\"], [98, 12, 0, \"dodged by Povlsen\"], [99, 6, 0, \"Povlsen makes a run\"], [100, 16, 0, \"cross from Povlsen\"], [101, 34, 1, \"Erlingmark intercepts\"], [102, 2, 1, \"Erlingmark makes a pass\"], [103, 31, 0, \"deflected by Larsen\"], [104, 35, 0, \"Laudrup collects\"], [105, 8, 0, \"good ball for Vilfort\"], [106, 25, 0, \"Vilfort on the ball\"], [107, 1, 0, \"pass by Vilfort\"], [108, 35, 0, \"Laudrup collects\"], [109, 11, 1, \"tackle by Nilsson\"], [110, 14, 1, \"Nilsson wins the ball\"], [111, 8, 1, \"good ball for Ekstrom\"], [112, 25, 1, \"Ekstrom on the ball\"], [113, 6, 1, \"Ekstrom makes a run\"], [114, 8, 1, \"good ball for Brolin\"], [115, 25, 1, \"Brolin on the ball\"], [116, 8, 1, \"good ball for Ekstrom\"], [117, 25, 1, \"Ekstrom on the ball\"], [118, 1, 1, \"pass by Ekstrom\"], [119, 35, 1, \"Brolin collects\"], [120, 11, 0, \"tackle by Olsen\"], [121, 55, 1, \"Brolin is brought down\"], [122, 53, 0, \"FOUL by Olsen\"], [123, 50, 0, \"Olsen BOOKED\"], [124, 58, 1, \"*** FREE KICK ***\"], [125, 48, 1, \"Schwarz to take free kick\"], [126, 1, 1, \"pass by Schwarz\"], [127, 35, 1, \"Brolin collects\"], [128, 8, 1, \"good ball for Ekstrom\"], [129, 25, 1, \"Ekstrom on the ball\"], [130, 11, 0, \"tackle by Piechnik\"], [131, 14, 0, \"Piechnik wins the ball\"], [132, 10, 0, \"high ball towards Povlsen\"], [133, 32, 1, \"headed on by Schwarz\"], [134, 25, 1, \"Rehn on the ball\"], [135, 2, 1, \"Rehn makes a pass\"], [136, 34, 0, \"Olsen intercepts\"], [137, 1, 0, \"pass by Olsen\"], [138, 34, 1, \"Ljung intercepts\"], [139, 6, 1, \"Ljung makes a run\"], [140, 11, 0, \"tackle by Larsen\"], [141, 14, 0, \"Larsen wins the ball\"], [142, 33, 0, \"knocked on by Larsen\"], [143, 34, 1, \"Ekstrom intercepts\"], [144, 11, 0, \"tackle by Andersen\"], [145, 12, 1, \"dodged by Ekstrom\"], [146, 8, 1, \"good ball for Brolin\"], [147, 25, 1, \"Brolin on the ball\"], [148, 11, 0, \"tackle by Olsen\"], [149, 14, 0, \"Olsen wins the ball\"], [150, 10, 0, \"high ball towards Povlsen\"], [151, 8, 0, \"good ball for Laudrup\"], [152, 25, 0, \"Laudrup on the ball\"], [153, 8, 0, \"good ball for Povlsen\"], [154, 25, 0, \"Povlsen on the ball\"], [155, 6, 0, \"Povlsen makes a run\"], [156, 11, 1, \"tackle by Nilsson\"], [157, 12, 0, \"dodged by Povlsen\"], [158, 1, 0, \"pass by Povlsen\"], [159, 34, 1, \"Schwarz intercepts\"], [160, 11, 0, \"tackle by Vilfort\"], [161, 14, 0, \"Vilfort wins the ball\"], [162, 33, 0, \"knocked on by Vilfort\"], [163, 66, 1, \"** LINESMAN FLAGS **\"], [164, 34, 1, \"Nilsson intercepts\"], [165, 54, 0, \"Povlsen is OFFSIDE\"], [166, 58, 1, \"*** FREE KICK ***\"], [167, 48, 1, \"Ljung to take free kick\"], [168, 1, 1, \"pass by Ljung\"], [169, 34, 0, \"Vilfort intercepts\"], [170, 8, 0, \"good ball for Povlsen\"], [171, 25, 0, \"Povlsen on the ball\"], [172, 8, 0, \"good ball for Laudrup\"], [173, 25, 0, \"Laudrup on the ball\"], [174, 1, 0, \"pass by Laudrup\"], [175, 35, 0, \"Povlsen collects\"], [176, 2, 0, \"Povlsen makes a pass\"], [177, 34, 1, \"Erlingmark intercepts\"], [178, 11, 0, \"tackle by Povlsen\"], [179, 14, 0, \"Povlsen wins the ball\"], [180, 33, 0, \"knocked on by Povlsen\"], [181, 35, 0, \"Vilfort collects\"], [182, 8, 0, \"good ball for Povlsen\"], [183, 25, 0, \"Povlsen on the ball\"], [184, 2, 0, \"Povlsen makes a pass\"], [185, 35, 0, \"Vilfort collects\"], [186, 8, 0, \"good ball for Povlsen\"], [187, 25, 0, \"Povlsen on the ball\"], [188, 6, 0, \"Povlsen makes a run\"], [189, 11, 1, \"tackle by Ljung\"], [190, 14, 1, \"Ljung wins the ball\"], [191, 6, 1, \"Ljung makes a run\"], [192, 11, 0, \"tackle by Olsen\"], [193, 14, 0, \"Olsen wins the ball\"], [194, 11, 1, \"tackle by Erlingmark\"], [195, 14, 1, \"Erlingmark wins the ball\"], [196, 2, 1, \"Erlingmark makes a pass\"], [197, 43, 0, \"*** THROW IN ***\"], [198, 42, 0, \"Sivebaek to take throw in\"], [199, 3, 0, \"Sivebaek throws the ball\"], [200, 25, 0, \"Andersen on the ball\"], [1, 10, 0, \"high ball towards Povlsen\"], [2, 32, 1, \"headed on by Bjorklund\"], [3, 1, 1, \"pass by Bjorklund\"], [4, 34, 0, \"Olsen intercepts\"], [5, 10, 0, \"high ball towards Povlsen\"], [6, 25, 0, \"Povlsen on the ball\"], [7, 16, 0, \"cross from Povlsen\"], [8, 66, 1, \"** LINESMAN FLAGS **\"], [9, 35, 0, \"Vilfort collects\"], [10, 17, 0, \"shot from Vilfort\"], [11, 31, 1, \"deflected by Eriksson\"], [12, 54, 0, \"Vilfort is OFFSIDE\"], [13, 58, 1, \"*** FREE KICK ***\"], [14, 48, 1, \"Erlingmark to take free kick\"], [15, 10, 1, \"high ball towards Jansson\"], [16, 32, 1, \"headed on by Ekstrom\"], [17, 25, 1, \"Ingesson on the ball\"], [18, 6, 1, \"Ingesson makes a run\"], [19, 66, 1, \"** LINESMAN FLAGS **\"], [20, 54, 1, \"Jansson is OFFSIDE\"], [21, 58, 0, \"*** FREE KICK ***\"], [22, 48, 0, \"Sivebaek to take free kick\"], [23, 10, 0, \"high ball towards Jensen\"], [24, 34, 1, \"Rehn intercepts\"], [25, 8, 1, \"good ball for Ekstrom\"], [26, 25, 1, \"Ekstrom on the ball\"], [27, 1, 1, \"pass by Ekstrom\"], [28, 34, 0, \"Olsen intercepts\"], [29, 11, 1, \"tackle by Ekstrom\"], [30, 14, 1, \"Ekstrom wins the ball\"], [31, 8, 1, \"good ball for Brolin\"], [32, 25, 1, \"Brolin on the ball\"], [33, 8, 1, \"good ball for Ekstrom\"], [34, 25, 1, \"Ekstrom on the ball\"], [35, 2, 1, \"Ekstrom makes a pass\"], [36, 35, 1, \"Brolin collects\"], [37, 2, 1, \"Brolin makes a pass\"], [38, 35, 1, \"Ekstrom collects\"], [39, 11, 0, \"tackle by Christofte\"], [40, 14, 0, \"Christofte wins the ball\"], [41, 10, 0, \"high ball towards Povlsen\"], [42, 35, 0, \"Povlsen collects\"], [43, 11, 1, \"tackle by Erlingmark\"], [44, 14, 1, \"Erlingmark wins the ball\"], [45, 8, 1, \"good ball for Ekstrom\"], [46, 25, 1, \"Ekstrom on the ball\"], [47, 6, 1, \"Ekstrom makes a run\"], [48, 2, 1, \"Ekstrom makes a pass\"], [49, 34, 0, \"Olsen intercepts\"], [50, 11, 1, \"tackle by Ekstrom\"], [51, 12, 0, \"dodged by Olsen\"], [52, 8, 0, \"good ball for Povlsen\"], [53, 25, 0, \"Povlsen on the ball\"], [54, 17, 0, \"shot from Povlsen\"], [55, 36, 1, \"Eriksson beaten\"], [56, 38, 0, \"**** GOAL **** by Povlsen\"], [57, 49, 1, \"Brolin to take kick off\"], [58, 35, 1, \"Ekstrom collects\"], [59, 6, 1, \"Ekstrom makes a run\"], [60, 8, 1, \"good ball for Brolin\"], [61, 25, 1, \"Brolin on the ball\"], [62, 2, 1, \"Brolin makes a pass\"], [63, 35, 1, \"Ekstrom collects\"], [64, 8, 1, \"good ball for Brolin\"], [65, 25, 1, \"Brolin on the ball\"], [66, 11, 0, \"tackle by Vilfort\"], [67, 14, 0, \"Vilfort wins the ball\"], [68, 2, 0, \"Vilfort makes a pass\"], [69, 35, 0, \"Povlsen collects\"], [70, 6, 0, \"Povlsen makes a run\"], [71, 8, 0, \"good ball for Laudrup\"], [72, 25, 0, \"Laudrup on the ball\"], [73, 8, 0, \"good ball for Povlsen\"], [74, 25, 0, \"Povlsen on the ball\"], [75, 6, 0, \"Povlsen makes a run\"], [76, 2, 0, \"Povlsen makes a pass\"], [77, 35, 0, \"Jensen collects\"], [78, 1, 0, \"pass by Jensen\"], [79, 34, 1, \"Rehn intercepts\"], [80, 8, 1, \"good ball for Ekstrom\"], [81, 25, 1, \"Ekstrom on the ball\"], [82, 6, 1, \"Ekstrom makes a run\"], [83, 8, 1, \"good ball for Brolin\"], [84, 25, 1, \"Brolin on the ball\"], [85, 11, 0, \"tackle by Christofte\"], [86, 14, 0, \"Christofte wins the ball\"], [87, 2, 0, \"Christofte makes a pass\"], [88, 43, 1, \"*** THROW IN ***\"], [89, 42, 1, \"Nilsson to take throw in\"], [90, 3, 1, \"Nilsson throws the ball\"], [91, 25, 1, \"Jansson on the ball\"], [92, 2, 1, \"Jansson makes a pass\"], [93, 43, 0, \"*** THROW IN ***\"], [94, 42, 0, \"Sivebaek to take throw in\"], [95, 3, 0, \"Sivebaek throws the ball\"], [96, 25, 0, \"Povlsen on the ball\"], [97, 6, 0, \"Povlsen makes a run\"], [98, 11, 1, \"tackle by Nilsson\"], [99, 14, 1, \"Nilsson wins the ball\"], [100, 8, 1, \"good ball for Ekstrom\"], [101, 25, 1, \"Ekstrom on the ball\"], [102, 1, 1, \"pass by Ekstrom\"], [103, 34, 0, \"Olsen intercepts\"], [104, 8, 0, \"good ball for Povlsen\"], [105, 25, 0, \"Povlsen on the ball\"], [106, 11, 1, \"tackle by Ekstrom\"], [107, 14, 1, \"Ekstrom wins the ball\"], [108, 6, 1, \"Ekstrom makes a run\"], [109, 11, 0, \"tackle by Olsen\"], [110, 14, 0, \"Olsen wins the ball\"], [111, 8, 0, \"good ball for Povlsen\"], [112, 25, 0, \"Povlsen on the ball\"], [113, 11, 1, \"tackle by Rehn\"], [114, 14, 1, \"Rehn wins the ball\"], [115, 8, 1, \"good ball for Ekstrom\"], [116, 25, 1, \"Ekstrom on the ball\"], [117, 6, 1, \"Ekstrom makes a run\"], [118, 11, 0, \"tackle by Olsen\"], [119, 14, 0, \"Olsen wins the ball\"], [120, 2, 0, \"Olsen makes a pass\"], [121, 32, 0, \"headed on by Povlsen\"], [122, 25, 0, \"Jensen on the ball\"], [123, 2, 0, \"Jensen makes a pass\"], [124, 66, 1, \"** LINESMAN FLAGS **\"], [125, 34, 1, \"Erlingmark intercepts\"], [126, 54, 0, \"Laudrup is OFFSIDE\"], [127, 58, 1, \"*** FREE KICK ***\"], [128, 48, 1, \"Schwarz to take free kick\"], [129, 10, 1, \"high ball towards Brolin\"], [130, 32, 1, \"headed on by Rehn\"], [131, 25, 1, \"Erlingmark on the ball\"], [132, 11, 0, \"tackle by Povlsen\"], [133, 14, 0, \"Povlsen wins the ball\"], [134, 10, 0, \"high ball towards Laudrup\"], [135, 32, 1, \"headed on by Nilsson\"], [136, 25, 1, \"Rehn on the ball\"], [137, 2, 1, \"Rehn makes a pass\"], [138, 35, 1, \"Brolin collects\"], [139, 8, 1, \"good ball for Ekstrom\"], [140, 25, 1, \"Ekstrom on the ball\"], [141, 17, 1, \"shot from Ekstrom\"], [142, 56, 0, \"*** GOAL KICK ***\"], [143, 46, 0, \"Piechnik to take goal kick\"], [144, 5, 0, \"long kick from Piechnik\"], [145, 32, 0, \"headed on by Jensen\"], [146, 25, 0, \"Povlsen on the ball\"], [147, 8, 0, \"good ball for Laudrup\"], [148, 25, 0, \"Laudrup on the ball\"], [149, 8, 0, \"good ball for Povlsen\"], [150, 25, 0, \"Povlsen on the ball\"], [151, 11, 1, \"tackle by Jansson\"], [152, 12, 0, \"dodged by Povlsen\"], [153, 6, 0, \"Povlsen makes a run\"], [154, 11, 1, \"tackle by Nilsson\"], [155, 14, 1, \"Nilsson wins the ball\"], [156, 10, 1, \"high ball towards Ekstrom\"], [157, 32, 1, \"headed on by Ekstrom\"], [158, 25, 1, \"Brolin on the ball\"], [159, 8, 1, \"good ball for Ekstrom\"], [160, 25, 1, \"Ekstrom on the ball\"], [161, 6, 1, \"Ekstrom makes a run\"], [162, 17, 1, \"shot from Ekstrom\"], [163, 29, 0, \"saved by Schmeichel\"], [164, 1, 0, \"pass by Schmeichel\"], [165, 32, 0, \"headed on by Vilfort\"], [166, 35, 0, \"Olsen collects\"], [167, 8, 0, \"good ball for Piechnik\"], [168, 25, 0, \"Piechnik on the ball\"], [169, 2, 0, \"Piechnik makes a pass\"], [170, 31, 1, \"deflected by Brolin\"], [171, 34, 0, \"Larsen intercepts\"], [172, 8, 0, \"good ball for Piechnik\"], [173, 25, 0, \"Piechnik on the ball\"], [174, 8, 0, \"good ball for Larsen\"], [175, 25, 0, \"Larsen on the ball\"], [176, 11, 1, \"tackle by Brolin\"], [177, 14, 1, \"Brolin wins the ball\"], [178, 6, 1, \"Brolin makes a run\"], [179, 64, 1, \"---- HALF TIME ----\"], [180, 49, 1, \"Brolin to take kick off\"], [181, 35, 1, \"Ekstrom collects\"], [182, 2, 1, \"Ekstrom makes a pass\"], [183, 34, 0, \"Povlsen intercepts\"], [184, 6, 0, \"Povlsen makes a run\"], [185, 11, 1, \"tackle by Brolin\"], [186, 14, 1, \"Brolin wins the ball\"], [187, 33, 1, \"knocked on by Brolin\"], [188, 35, 1, \"Ekstrom collects\"], [189, 6, 1, \"Ekstrom makes a run\"], [190, 1, 1, \"pass by Ekstrom\"], [191, 34, 0, \"Andersen intercepts\"], [192, 2, 0, \"Andersen makes a pass\"], [193, 34, 1, \"Ingesson intercepts\"], [194, 6, 1, \"Ingesson makes a run\"], [195, 11, 0, \"tackle by Andersen\"], [196, 14, 0, \"Andersen wins the ball\"], [197, 1, 0, \"pass by Andersen\"], [198, 34, 1, \"Erlingmark intercepts\"], [199, 10, 1, \"high ball towards Ekstrom\"], [200, 34, 0, \"Andersen intercepts\"], [1, 10, 0, \"high ball towards Povlsen\"], [2, 32, 0, \"headed on by Povlsen\"], [3, 25, 0, \"Larsen on the ball\"], [4, 8, 0, \"good ball for Povlsen\"], [5, 25, 0, \"Povlsen on the ball\"], [6, 6, 0, \"Povlsen makes a run\"], [7, 11, 1, \"tackle by Nilsson\"], [8, 14, 1, \"Nilsson wins the ball\"], [9, 10, 1, \"high ball towards Brolin\"], [10, 32, 0, \"headed on by Sivebaek\"], [11, 25, 0, \"Andersen on the ball\"], [12, 10, 0, \"high ball towards Povlsen\"], [13, 32, 0, \"headed on by Povlsen\"], [14, 25, 0, \"Larsen on the ball\"], [15, 8, 0, \"good ball for Povlsen\"], [16, 25, 0, \"Povlsen on the ball\"], [17, 6, 0, \"Povlsen makes a run\"], [18, 1, 0, \"pass by Povlsen\"], [19, 34, 1, \"Ekstrom intercepts\"], [20, 2, 1, \"Ekstrom makes a pass\"], [21, 34, 0, \"Olsen intercepts\"], [22, 1, 0, \"pass by Olsen\"], [23, 34, 1, \"Bjorklund intercepts\"], [24, 6, 1, \"Bjorklund makes a run\"], [25, 11, 0, \"tackle by Olsen\"], [26, 14, 0, \"Olsen wins the ball\"], [27, 10, 0, \"high ball towards Povlsen\"], [28, 34, 1, \"Brolin intercepts\"], [29, 11, 0, \"tackle by Povlsen\"], [30, 14, 0, \"Povlsen wins the ball\"], [31, 6, 0, \"Povlsen makes a run\"], [32, 11, 1, \"tackle by Nilsson\"], [33, 14, 1, \"Nilsson wins the ball\"], [34, 10, 1, \"high ball towards Ekstrom\"], [35, 18, 1, \"volley from Schwarz\"], [36, 31, 0, \"deflected by Vilfort\"], [37, 35, 0, \"Olsen collects\"], [38, 1, 0, \"pass by Olsen\"], [39, 34, 1, \"Nilsson intercepts\"], [40, 1, 1, \"pass by Nilsson\"], [41, 34, 0, \"Sivebaek intercepts\"], [42, 8, 0, \"good ball for Povlsen\"], [43, 25, 0, \"Povlsen on the ball\"], [44, 6, 0, \"Povlsen makes a run\"], [45, 8, 0, \"good ball for Laudrup\"], [46, 25, 0, \"Laudrup on the ball\"], [47, 8, 0, \"good ball for Povlsen\"], [48, 25, 0, \"Povlsen on the ball\"], [49, 11, 1, \"tackle by Nilsson\"], [50, 12, 0, \"dodged by Povlsen\"], [51, 6, 0, \"Povlsen makes a run\"], [52, 8, 0, \"good ball for Vilfort\"], [53, 25, 0, \"Vilfort on the ball\"], [54, 2, 0, \"Vilfort makes a pass\"], [55, 35, 0, \"Povlsen collects\"], [56, 6, 0, \"Povlsen makes a run\"], [57, 2, 0, \"Povlsen makes a pass\"], [58, 34, 1, \"Erlingmark intercepts\"], [59, 1, 1, \"pass by Erlingmark\"], [60, 43, 0, \"*** THROW IN ***\"], [61, 42, 0, \"Larsen to take throw in\"], [62, 3, 0, \"Larsen throws the ball\"], [63, 25, 0, \"Piechnik on the ball\"], [64, 10, 0, \"high ball towards Povlsen\"], [65, 35, 0, \"Laudrup collects\"], [66, 1, 0, \"pass by Laudrup\"], [67, 34, 1, \"Schwarz intercepts\"], [68, 23, 1, \"punted away by Schwarz\"], [69, 32, 0, \"headed on by Andersen\"], [70, 25, 0, \"Olsen on the ball\"], [71, 8, 0, \"good ball for Andersen\"], [72, 25, 0, \"Andersen on the ball\"], [73, 10, 0, \"high ball towards Olsen\"], [74, 25, 0, \"Olsen on the ball\"], [75, 10, 0, \"high ball towards Povlsen\"], [76, 66, 1, \"** LINESMAN FLAGS **\"], [77, 32, 1, \"headed on by Erlingmark\"], [78, 54, 0, \"Vilfort is OFFSIDE\"], [79, 58, 1, \"*** FREE KICK ***\"], [80, 48, 1, \"Schwarz to take free kick\"], [81, 10, 1, \"high ball towards Ekstrom\"], [82, 32, 1, \"headed on by Erlingmark\"], [83, 34, 0, \"Andersen intercepts\"], [84, 6, 0, \"Andersen makes a run\"], [85, 8, 0, \"good ball for Povlsen\"], [86, 25, 0, \"Povlsen on the ball\"], [87, 6, 0, \"Povlsen makes a run\"], [88, 11, 1, \"tackle by Schwarz\"], [89, 12, 0, \"dodged by Povlsen\"], [90, 6, 0, \"Povlsen makes a run\"], [91, 11, 1, \"tackle by Schwarz\"], [92, 12, 0, \"dodged by Povlsen\"], [93, 6, 0, \"Povlsen makes a run\"], [94, 11, 1, \"tackle by Erlingmark\"], [95, 14, 1, \"Erlingmark wins the ball\"], [96, 8, 1, \"good ball for Ekstrom\"], [97, 25, 1, \"Ekstrom on the ball\"], [98, 6, 1, \"Ekstrom makes a run\"], [99, 11, 0, \"tackle by Olsen\"], [100, 14, 0, \"Olsen wins the ball\"], [101, 33, 0, \"knocked on by Olsen\"], [102, 35, 0, \"Larsen collects\"], [103, 6, 0, \"Larsen makes a run\"], [104, 8, 0, \"good ball for Povlsen\"], [105, 25, 0, \"Povlsen on the ball\"], [106, 11, 1, \"tackle by Rehn\"], [107, 14, 1, \"Rehn wins the ball\"], [108, 2, 1, \"Rehn makes a pass\"], [109, 35, 1, \"Ingesson collects\"], [110, 8, 1, \"good ball for Ekstrom\"], [111, 25, 1, \"Ekstrom on the ball\"], [112, 8, 1, \"good ball for Brolin\"], [113, 25, 1, \"Brolin on the ball\"], [114, 8, 1, \"good ball for Ekstrom\"], [115, 25, 1, \"Ekstrom on the ball\"], [116, 8, 1, \"good ball for Brolin\"], [117, 25, 1, \"Brolin on the ball\"], [118, 6, 1, \"Brolin makes a run\"], [119, 11, 0, \"tackle by Olsen\"], [120, 14, 0, \"Olsen wins the ball\"], [121, 2, 0, \"Olsen makes a pass\"], [122, 35, 0, \"Laudrup collects\"], [123, 1, 0, \"pass by Laudrup\"], [124, 35, 0, \"Sivebaek collects\"], [125, 6, 0, \"Sivebaek makes a run\"], [126, 11, 1, \"tackle by Nilsson\"], [127, 14, 1, \"Nilsson wins the ball\"], [128, 8, 1, \"good ball for Ekstrom\"], [129, 25, 1, \"Ekstrom on the ball\"], [130, 10, 1, \"high ball towards Brolin\"], [131, 32, 0, \"headed on by Larsen\"], [132, 35, 0, \"Laudrup collects\"], [133, 11, 1, \"tackle by Ingesson\"], [134, 14, 1, \"Ingesson wins the ball\"], [135, 33, 1, \"knocked on by Ingesson\"], [136, 35, 1, \"Brolin collects\"], [137, 6, 1, \"Brolin makes a run\"], [138, 11, 0, \"tackle by Olsen\"], [139, 12, 1, \"dodged by Brolin\"], [140, 8, 1, \"good ball for Ekstrom\"], [141, 25, 1, \"Ekstrom on the ball\"], [142, 8, 1, \"good ball for Brolin\"], [143, 25, 1, \"Brolin on the ball\"], [144, 6, 1, \"Brolin makes a run\"], [145, 11, 0, \"tackle by Christofte\"], [146, 14, 0, \"Christofte wins the ball\"], [147, 33, 0, \"knocked on by Christofte\"], [148, 35, 0, \"Sivebaek collects\"], [149, 6, 0, \"Sivebaek makes a run\"], [150, 11, 1, \"tackle by Bjorklund\"], [151, 14, 1, \"Bjorklund wins the ball\"], [152, 6, 1, \"Bjorklund makes a run\"], [153, 11, 0, \"tackle by Sivebaek\"], [154, 14, 0, \"Sivebaek wins the ball\"], [155, 6, 0, \"Sivebaek makes a run\"], [156, 11, 1, \"tackle by Jansson\"], [157, 14, 1, \"Jansson wins the ball\"], [158, 10, 1, \"high ball towards Ekstrom\"], [159, 34, 0, \"Piechnik intercepts\"], [160, 10, 0, \"high ball towards Larsen\"], [161, 66, 1, \"** LINESMAN FLAGS **\"], [162, 35, 0, \"Jensen collects\"], [163, 54, 0, \"Povlsen is OFFSIDE\"], [164, 0, 1, \"Limpar on for Jansson\"], [165, 0, 1, \"Thern on for Schwarz\"], [166, 0, 1, \"Eriksson on for Ljung\"], [167, 58, 1, \"*** FREE KICK ***\"], [168, 48, 1, \"Thern to take free kick\"], [169, 10, 1, \"high ball towards Ekstrom\"], [170, 34, 0, \"Andersen intercepts\"], [171, 1, 0, \"pass by Andersen\"], [172, 35, 0, \"Povlsen collects\"], [173, 8, 0, \"good ball for Laudrup\"], [174, 25, 0, \"Laudrup on the ball\"], [175, 11, 1, \"tackle by Erlingmark\"], [176, 14, 1, \"Erlingmark wins the ball\"], [177, 10, 1, \"high ball towards Ekstrom\"], [178, 32, 0, \"headed on by Larsen\"], [179, 25, 0, \"Christofte on the ball\"], [180, 1, 0, \"pass by Christofte\"], [181, 34, 1, \"Rehn intercepts\"], [182, 8, 1, \"good ball for Ekstrom\"], [183, 25, 1, \"Ekstrom on the ball\"], [184, 6, 1, \"Ekstrom makes a run\"], [185, 11, 0, \"tackle by Piechnik\"], [186, 14, 0, \"Piechnik wins the ball\"], [187, 1, 0, \"pass by Piechnik\"], [188, 34, 1, \"Bjorklund intercepts\"], [189, 6, 1, \"Bjorklund makes a run\"], [190, 2, 1, \"Bjorklund makes a pass\"], [191, 43, 0, \"*** THROW IN ***\"], [192, 42, 0, \"Christofte to take throw in\"], [193, 3, 0, \"Christofte throws the ball\"], [194, 25, 0, \"Sivebaek on the ball\"], [195, 8, 0, \"good ball for Povlsen\"], [196, 25, 0, \"Povlsen on the ball\"], [197, 6, 0, \"Povlsen makes a run\"], [198, 8, 0, \"good ball for Andersen\"], [199, 25, 0, \"Andersen on the ball\"], [200, 6, 0, \"Andersen makes a run\"], [1, 16, 0, \"cross from Andersen\"], [2, 34, 1, \"Nilsson intercepts\"], [3, 10, 1, \"high ball towards Brolin\"], [4, 32, 0, \"headed on by Piechnik\"], [5, 66, 1, \"** LINESMAN FLAGS **\"], [6, 25, 0, \"Olsen on the ball\"], [7, 54, 0, \"Laudrup is OFFSIDE\"], [8, 58, 1, \"*** FREE KICK ***\"], [9, 48, 1, \"Erlingmark to take free kick\"], [10, 1, 1, \"pass by Erlingmark\"], [11, 34, 0, \"Vilfort intercepts\"], [12, 8, 0, \"good ball for Andersen\"], [13, 25, 0, \"Andersen on the ball\"], [14, 6, 0, \"Andersen makes a run\"], [15, 8, 0, \"good ball for Povlsen\"], [16, 25, 0, \"Povlsen on the ball\"], [17, 11, 1, \"tackle by Thern\"], [18, 14, 1, \"Thern wins the ball\"], [19, 10, 1, \"high ball towards Ekstrom\"], [20, 32, 1, \"headed on by Rehn\"], [21, 25, 1, \"Thern on the ball\"], [22, 8, 1, \"good ball for Ekstrom\"], [23, 25, 1, \"Ekstrom on the ball\"], [24, 11, 0, \"tackle by Piechnik\"], [25, 14, 0, \"Piechnik wins the ball\"], [26, 8, 0, \"good ball for Povlsen\"], [27, 25, 0, \"Povlsen on the ball\"], [28, 6, 0, \"Povlsen makes a run\"], [29, 11, 1, \"tackle by Nilsson\"], [30, 14, 1, \"Nilsson wins the ball\"], [31, 10, 1, \"high ball towards Ekstrom\"], [32, 32, 1, \"headed on by Limpar\"], [33, 25, 1, \"Brolin on the ball\"], [34, 6, 1, \"Brolin makes a run\"], [35, 11, 0, \"tackle by Sivebaek\"], [36, 14, 0, \"Sivebaek wins the ball\"], [37, 11, 1, \"tackle by Limpar\"], [38, 14, 1, \"Limpar wins the ball\"], [39, 6, 1, \"Limpar makes a run\"], [40, 2, 1, \"Limpar makes a pass\"], [41, 34, 0, \"Laudrup intercepts\"], [42, 2, 0, \"Laudrup makes a pass\"], [43, 35, 0, \"Vilfort collects\"], [44, 8, 0, \"good ball for Povlsen\"], [45, 25, 0, \"Povlsen on the ball\"], [46, 6, 0, \"Povlsen makes a run\"], [47, 11, 1, \"tackle by Nilsson\"], [48, 14, 1, \"Nilsson wins the ball\"], [49, 33, 1, \"knocked on by Nilsson\"], [50, 34, 0, \"Laudrup intercepts\"], [51, 11, 1, \"tackle by Eriksson\"], [52, 12, 0, \"dodged by Laudrup\"], [53, 2, 0, \"Laudrup makes a pass\"], [54, 34, 1, \"Nilsson intercepts\"], [55, 10, 1, \"high ball towards Ekstrom\"], [56, 25, 1, \"Ekstrom on the ball\"], [57, 11, 0, \"tackle by Piechnik\"], [58, 14, 0, \"Piechnik wins the ball\"], [59, 10, 0, \"high ball towards Jensen\"], [60, 32, 0, \"headed on by Povlsen\"], [61, 25, 0, \"Larsen on the ball\"], [62, 6, 0, \"Larsen makes a run\"], [63, 11, 1, \"tackle by Erlingmark\"], [64, 14, 1, \"Erlingmark wins the ball\"], [65, 33, 1, \"knocked on by Erlingmark\"], [66, 35, 1, \"Nilsson collects\"], [67, 1, 1, \"pass by Nilsson\"], [68, 34, 0, \"Laudrup intercepts\"], [69, 1, 0, \"pass by Laudrup\"], [70, 35, 0, \"Jensen collects\"], [71, 6, 0, \"Jensen makes a run\"], [72, 10, 0, \"high ball towards Povlsen\"], [73, 8, 0, \"good ball for Laudrup\"], [74, 25, 0, \"Laudrup on the ball\"], [75, 1, 0, \"pass by Laudrup\"], [76, 34, 1, \"Eriksson intercepts\"], [77, 6, 1, \"Eriksson makes a run\"], [78, 10, 1, \"high ball towards Ekstrom\"], [79, 34, 0, \"Christofte intercepts\"], [80, 10, 0, \"high ball towards Jensen\"], [81, 32, 0, \"headed on by Povlsen\"], [82, 25, 0, \"Andersen on the ball\"], [83, 6, 0, \"Andersen makes a run\"], [84, 11, 1, \"tackle by Nilsson\"], [85, 14, 1, \"Nilsson wins the ball\"], [86, 1, 1, \"pass by Nilsson\"], [87, 35, 1, \"Rehn collects\"], [88, 8, 1, \"good ball for Ekstrom\"], [89, 25, 1, \"Ekstrom on the ball\"], [90, 11, 0, \"tackle by Piechnik\"], [91, 12, 1, \"dodged by Ekstrom\"], [92, 11, 0, \"tackle by Olsen\"], [93, 55, 1, \"Ekstrom is brought down\"], [94, 53, 0, \"FOUL by Olsen\"], [95, 57, 1, \"*** PENALTY ***\"], [96, 47, 1, \"Ekstrom to take penalty\"], [97, 17, 1, \"shot from Ekstrom\"], [98, 37, 0, \"Schmeichel has no chance\"], [99, 38, 1, \"**** GOAL **** by Ekstrom\"], [100, 49, 0, \"Laudrup to take kick off\"], [101, 35, 0, \"Povlsen collects\"], [102, 8, 0, \"good ball for Laudrup\"], [103, 25, 0, \"Laudrup on the ball\"], [104, 1, 0, \"pass by Laudrup\"], [105, 35, 0, \"Povlsen collects\"], [106, 11, 1, \"tackle by Ekstrom\"], [107, 12, 0, \"dodged by Povlsen\"], [108, 2, 0, \"Povlsen makes a pass\"], [109, 35, 0, \"Laudrup collects\"], [110, 8, 0, \"good ball for Larsen\"], [111, 25, 0, \"Larsen on the ball\"], [112, 8, 0, \"good ball for Povlsen\"], [113, 25, 0, \"Povlsen on the ball\"], [114, 8, 0, \"good ball for Laudrup\"], [115, 25, 0, \"Laudrup on the ball\"], [116, 11, 1, \"tackle by Rehn\"], [117, 14, 1, \"Rehn wins the ball\"], [118, 11, 0, \"tackle by Larsen\"], [119, 12, 1, \"dodged by Rehn\"], [120, 1, 1, \"pass by Rehn\"], [121, 34, 0, \"Povlsen intercepts\"], [122, 6, 0, \"Povlsen makes a run\"], [123, 11, 1, \"tackle by Rehn\"], [124, 14, 1, \"Rehn wins the ball\"], [125, 8, 1, \"good ball for Ekstrom\"], [126, 25, 1, \"Ekstrom on the ball\"], [127, 6, 1, \"Ekstrom makes a run\"], [128, 11, 0, \"tackle by Andersen\"], [129, 14, 0, \"Andersen wins the ball\"], [130, 33, 0, \"knocked on by Andersen\"], [131, 35, 0, \"Olsen collects\"], [132, 1, 0, \"pass by Olsen\"], [133, 43, 1, \"*** THROW IN ***\"], [134, 42, 1, \"Eriksson to take throw in\"], [135, 3, 1, \"Eriksson throws the ball\"], [136, 25, 1, \"Thern on the ball\"], [137, 11, 0, \"tackle by Laudrup\"], [138, 14, 0, \"Laudrup wins the ball\"], [139, 33, 0, \"knocked on by Laudrup\"], [140, 34, 1, \"Brolin intercepts\"], [141, 6, 1, \"Brolin makes a run\"], [142, 11, 0, \"tackle by Povlsen\"], [143, 14, 0, \"Povlsen wins the ball\"], [144, 11, 1, \"tackle by Rehn\"], [145, 12, 0, \"dodged by Povlsen\"], [146, 6, 0, \"Povlsen makes a run\"], [147, 11, 1, \"tackle by Nilsson\"], [148, 14, 1, \"Nilsson wins the ball\"], [149, 10, 1, \"high ball towards Ekstrom\"], [150, 32, 0, \"headed on by Sivebaek\"], [151, 25, 0, \"Laudrup on the ball\"], [152, 10, 0, \"high ball towards Povlsen\"], [153, 65, 1, \"challenge by Limpar\"], [154, 14, 1, \"Limpar wins the ball\"], [155, 33, 1, \"knocked on by Limpar\"], [156, 35, 1, \"Brolin collects\"], [157, 6, 1, \"Brolin makes a run\"], [158, 11, 0, \"tackle by Olsen\"], [159, 14, 0, \"Olsen wins the ball\"], [160, 1, 0, \"pass by Olsen\"], [161, 34, 1, \"Eriksson intercepts\"], [162, 6, 1, \"Eriksson makes a run\"], [163, 11, 0, \"tackle by Larsen\"], [164, 14, 0, \"Larsen wins the ball\"], [165, 10, 0, \"high ball towards Povlsen\"], [166, 35, 0, \"Piechnik collects\"], [167, 2, 0, \"Piechnik makes a pass\"], [168, 34, 1, \"Nilsson intercepts\"], [169, 10, 1, \"high ball towards Brolin\"], [170, 32, 0, \"headed on by Olsen\"], [171, 25, 0, \"Vilfort on the ball\"], [172, 2, 0, \"Vilfort makes a pass\"], [173, 32, 1, \"headed on by Thern\"], [174, 25, 1, \"Limpar on the ball\"], [175, 11, 0, \"tackle by Sivebaek\"], [176, 14, 0, \"Sivebaek wins the ball\"], [177, 2, 0, \"Sivebaek makes a pass\"], [178, 31, 1, \"deflected by Thern\"], [179, 34, 0, \"Olsen intercepts\"], [180, 23, 0, \"punted away by Olsen\"], [181, 43, 1, \"*** THROW IN ***\"], [182, 42, 1, \"Erlingmark to take throw in\"], [183, 3, 1, \"Erlingmark throws the ball\"], [184, 25, 1, \"Eriksson on the ball\"], [185, 6, 1, \"Eriksson makes a run\"], [186, 8, 1, \"good ball for Ekstrom\"], [187, 25, 1, \"Ekstrom on the ball\"], [188, 11, 0, \"tackle by Piechnik\"], [189, 14, 0, \"Piechnik wins the ball\"], [190, 8, 0, \"good ball for Povlsen\"], [191, 25, 0, \"Povlsen on the ball\"], [192, 2, 0, \"Povlsen makes a pass\"], [193, 34, 1, \"Thern intercepts\"], [194, 11, 0, \"tackle by Laudrup\"], [195, 14, 0, \"Laudrup wins the ball\"], [196, 1, 0, \"pass by Laudrup\"], [197, 35, 0, \"Povlsen collects\"], [198, 8, 0, \"good ball for Laudrup\"], [199, 25, 0, \"Laudrup on the ball\"], [200, 8, 0, \"good ball for Povlsen\"], [1, 25, 0, \"Povlsen on the ball\"], [2, 8, 0, \"good ball for Laudrup\"], [3, 25, 0, \"Laudrup on the ball\"], [4, 8, 0, \"good ball for Povlsen\"], [5, 25, 0, \"Povlsen on the ball\"], [6, 10, 0, \"high ball towards Laudrup\"], [7, 25, 0, \"Laudrup on the ball\"], [8, 1, 0, \"pass by Laudrup\"], [9, 35, 0, \"Povlsen collects\"], [10, 7, 0, \"poor touch from Povlsen\"], [11, 8, 0, \"good ball for Laudrup\"], [12, 25, 0, \"Laudrup on the ball\"], [13, 2, 0, \"Laudrup makes a pass\"], [14, 34, 1, \"Bjorklund intercepts\"], [15, 1, 1, \"pass by Bjorklund\"], [16, 34, 0, \"Olsen intercepts\"], [17, 2, 0, \"Olsen makes a pass\"], [18, 34, 1, \"Brolin intercepts\"], [19, 8, 1, \"good ball for Ekstrom\"], [20, 25, 1, \"Ekstrom on the ball\"], [21, 6, 1, \"Ekstrom makes a run\"], [22, 8, 1, \"good ball for Brolin\"], [23, 25, 1, \"Brolin on the ball\"], [24, 11, 0, \"tackle by Christofte\"], [25, 12, 1, \"dodged by Brolin\"], [26, 8, 1, \"good ball for Ekstrom\"], [27, 25, 1, \"Ekstrom on the ball\"], [28, 6, 1, \"Ekstrom makes a run\"], [29, 11, 0, \"tackle by Piechnik\"], [30, 14, 0, \"Piechnik wins the ball\"], [31, 33, 0, \"knocked on by Piechnik\"], [32, 66, 1, \"** LINESMAN FLAGS **\"], [33, 54, 0, \"Povlsen is OFFSIDE\"], [34, 58, 1, \"*** FREE KICK ***\"], [35, 48, 1, \"Nilsson to take free kick\"], [36, 10, 1, \"high ball towards Ingesson\"], [37, 32, 0, \"headed on by Piechnik\"], [38, 25, 0, \"Laudrup on the ball\"], [39, 8, 0, \"good ball for Povlsen\"], [40, 25, 0, \"Povlsen on the ball\"], [41, 1, 0, \"pass by Povlsen\"], [42, 35, 0, \"Larsen collects\"], [43, 1, 0, \"pass by Larsen\"], [44, 34, 1, \"Rehn intercepts\"], [45, 8, 1, \"good ball for Ekstrom\"], [46, 25, 1, \"Ekstrom on the ball\"], [47, 17, 1, \"shot from Ekstrom\"], [48, 36, 0, \"Schmeichel beaten\"], [49, 38, 1, \"**** GOAL **** by Ekstrom\"], [50, 49, 0, \"Laudrup to take kick off\"], [51, 35, 0, \"Povlsen collects\"], [52, 11, 1, \"tackle by Ekstrom\"], [53, 14, 1, \"Ekstrom wins the ball\"], [54, 33, 1, \"knocked on by Ekstrom\"], [55, 34, 0, \"Laudrup intercepts\"], [56, 8, 0, \"good ball for Povlsen\"], [57, 25, 0, \"Povlsen on the ball\"], [58, 6, 0, \"Povlsen makes a run\"], [59, 11, 1, \"tackle by Rehn\"], [60, 14, 1, \"Rehn wins the ball\"], [61, 2, 1, \"Rehn makes a pass\"], [62, 35, 1, \"Ingesson collects\"], [63, 6, 1, \"Ingesson makes a run\"], [64, 11, 0, \"tackle by Vilfort\"], [65, 14, 0, \"Vilfort wins the ball\"], [66, 8, 0, \"good ball for Povlsen\"], [67, 25, 0, \"Povlsen on the ball\"], [68, 11, 1, \"tackle by Ekstrom\"], [69, 14, 1, \"Ekstrom wins the ball\"], [70, 6, 1, \"Ekstrom makes a run\"], [71, 11, 0, \"tackle by Piechnik\"], [72, 14, 0, \"Piechnik wins the ball\"], [73, 33, 0, \"knocked on by Piechnik\"], [74, 34, 1, \"Brolin intercepts\"], [75, 11, 0, \"tackle by Christofte\"], [76, 12, 1, \"dodged by Brolin\"], [77, 6, 1, \"Brolin makes a run\"], [78, 17, 1, \"shot from Brolin\"], [79, 31, 0, \"deflected by Schmeichel\"], [80, 28, 0, \"Schmeichel has the ball\"], [81, 4, 0, \"kick by Schmeichel\"], [82, 34, 1, \"Limpar intercepts\"], [83, 6, 1, \"Limpar makes a run\"], [84, 2, 1, \"Limpar makes a pass\"], [85, 35, 1, \"Brolin collects\"], [86, 11, 0, \"tackle by Christofte\"], [87, 14, 0, \"Christofte wins the ball\"], [88, 33, 0, \"knocked on by Christofte\"], [89, 43, 1, \"*** THROW IN ***\"], [90, 42, 1, \"Bjorklund to take throw in\"], [91, 3, 1, \"Bjorklund throws the ball\"], [92, 25, 1, \"Limpar on the ball\"], [93, 6, 1, \"Limpar makes a run\"], [94, 63, 1, \"---- FULL TIME ----\"]]"
+  },
+  {
+   "step": 81,
+   "source": "memory",
+   "field": "events among them (templates 0 substitution, 38 goal, 39 own goal, 50 booking, 51 sending off, 52 injury): [kind, team, text]",
+   "value": "[[\"goal\", 0, \"**** GOAL **** by Povlsen\"], [\"goal\", 0, \"**** GOAL **** by Povlsen\"], [\"booking\", 0, \"Olsen BOOKED\"], [\"goal\", 0, \"**** GOAL **** by Povlsen\"], [\"substitution\", 1, \"Limpar on for Jansson\"], [\"substitution\", 1, \"Thern on for Schwarz\"], [\"substitution\", 1, \"Eriksson on for Ljung\"], [\"goal\", 1, \"**** GOAL **** by Ekstrom\"], [\"goal\", 1, \"**** GOAL **** by Ekstrom\"]]"
+  },
+  {
+   "step": 81,
+   "source": "memory",
+   "field": "commentary lines between successive reads (deltas of DS:80EE modulo 200), and reads where lines may have been lost",
+   "value": "{\"deltas\": [151, 0, 0, 0, 0, 0, 0, 0, 0, 0, 84, 34, 0, 0, 0, 0, 0, 105, 82, 0, 0, 0, 0, 0, 74, 11, 0, 0, 0, 0, 0, 0, 0, 0, 38, 0, 0, 0, 74, 96, 14, 0, 0, 1, 0, 1, 0, 0, 46, 88, 0, 0, 0, 0, 0, 91, 59, 0, 0, 0, 0, 10, 35, 0], \"gaps\": [\"match read 1: counter 0 -> 151 (151 lines)\", \"match read 18: counter 69 -> 174 (105 lines)\"]}"
+  },
+  {
+   "step": 81,
+   "source": "log",
+   "field": "lines of DOSBox-X's own output (dosbox.out) that mention save, load, corrupt, date, time or cycle, in order, except the two lines every savestate writes (counted in the next observation)",
+   "value": "LOG: Active save slot: 1 [Empty]"
+  },
+  {
+   "step": 81,
+   "source": "log",
+   "field": "count of the lines left out of the previous observation: [`LOG: File : <work>/... is N bytes`, `Saved. (Slot`]",
+   "value": "[100, 100]"
+  },
+  {
+   "step": 81,
+   "source": "process",
+   "field": "dosbox-x and Xvfb after SIGTERM to their process groups (SIGKILL after TERM_GRACE, see log)",
+   "value": "both exited"
+  },
+  {
+   "step": 81,
+   "source": "log",
+   "field": "waits, polls and key holds, seconds since launch",
+   "value": "[[0.106,\"Xvfb poll: answered after 2 polls of 0.1s\"],[0.106,\"Xvfb :598 answering\"],[0.107,\"dosbox-x started\"],[0.227,\"window found after 2 polls of 0.1s\"],[0.229,\"window focused\"],[0.74,\"host key F12+s, each step held 0.15s\"],[0.741,\"savestate complete after 1 polls of 0.05s\"],[1.264,\"host key F12+s, each step held 0.15s\"],[1.265,\"savestate complete after 1 polls of 0.05s\"],[1.788,\"host key F12+s, each step held 0.15s\"],[1.789,\"savestate complete after 1 polls of 0.05s\"],[2.312,\"host key F12+s, each step held 0.15s\"],[2.313,\"savestate complete after 1 polls of 0.05s\"],[2.325,\"title screen: matched after 4 savestate polls\"],[2.325,\"DOS clock read back: '10/04/2026\\\\n13:36:59'\"],[2.458,\"key n held 0.08s\"],[2.97,\"host key F12+s, each step held 0.15s\"],[2.971,\"savestate complete after 1 polls of 0.05s\"],[3.494,\"host key F12+s, each step held 0.15s\"],[3.495,\"savestate complete after 1 polls of 0.05s\"],[3.507,\"after key n: changed and stable after 2 savestate polls\"],[3.618,\"key Enter held 0.08s\"],[4.13,\"host key F12+s, each step held 0.15s\"],[4.131,\"savestate complete after 1 polls of 0.05s\"],[4.655,\"host key F12+s, each step held 0.15s\"],[4.657,\"savestate complete after 1 polls of 0.05s\"],[4.668,\"after key Enter: changed and stable after 2 savestate polls\"],[4.779,\"key Enter held 0.08s\"],[5.292,\"host key F12+s, each step held 0.15s\"],[5.293,\"savestate complete after 1 polls of 0.05s\"],[5.819,\"host key F12+s, each step held 0.15s\"],[5.821,\"savestate complete after 1 polls of 0.05s\"],[5.833,\"after key Enter: changed and stable after 2 savestate polls\"],[5.944,\"key b held 0.08s\"],[6.457,\"host key F12+s, each step held 0.15s\"],[6.458,\"savestate complete after 1 polls of 0.05s\"],[6.983,\"host key F12+s, each step held 0.15s\"],[6.984,\"savestate complete after 1 polls of 0.05s\"],[7.51,\"host key F12+s, each step held 0.15s\"],[7.511,\"savestate complete after 1 polls of 0.05s\"],[7.524,\"after key b: changed and stable after 3 savestate polls\"],[7.635,\"key o held 0.08s\"],[8.148,\"host key F12+s, each step held 0.15s\"],[8.15,\"savestate complete after 1 polls of 0.05s\"],[8.674,\"host key F12+s, each step held 0.15s\"],[8.675,\"savestate complete after 1 polls of 0.05s\"],[8.687,\"after key o: changed and stable after 2 savestate polls\"],[8.798,\"key b held 0.08s\"],[9.311,\"host key F12+s, each step held 0.15s\"],[9.312,\"savestate complete after 1 polls of 0.05s\"],[9.836,\"host key F12+s, each step held 0.15s\"],[9.838,\"savestate complete after 1 polls of 0.05s\"],[10.363,\"host key F12+s, each step held 0.15s\"],[10.365,\"savestate complete after 1 polls of 0.05s\"],[10.378,\"after key b: changed and stable after 3 savestate polls\"],[10.491,\"key Enter held 0.08s\"],[11.003,\"host key F12+s, each step held 0.15s\"],[11.005,\"savestate complete after 1 polls of 0.05s\"],[11.531,\"host key F12+s, each step held 0.15s\"],[11.532,\"savestate complete after 1 polls of 0.05s\"],[11.544,\"after key Enter: changed and stable after 2 savestate polls\"],[11.656,\"key Enter held 0.08s\"],[12.168,\"host key F12+s, each step held 0.15s\"],[12.169,\"savestate complete after 1 polls of 0.05s\"],[12.693,\"host key F12+s, each step held 0.15s\"],[12.694,\"savestate complete after 1 polls of 0.05s\"],[12.707,\"after key Enter: changed and stable after 2 savestate polls\"],[12.818,\"key Enter held 0.08s\"],[13.33,\"host key F12+s, each step held 0.15s\"],[13.331,\"savestate complete after 1 polls of 0.05s\"],[13.856,\"host key F12+s, each step held 0.15s\"],[13.858,\"savestate complete after 1 polls of 0.05s\"],[13.87,\"after key Enter: changed and stable after 2 savestate polls\"],[13.981,\"key Enter held 0.08s\"],[14.493,\"host key F12+s, each step held 0.15s\"],[14.494,\"savestate complete after 1 polls of 0.05s\"],[15.018,\"host key F12+s, each step held 0.15s\"],[15.019,\"savestate complete after 1 polls of 0.05s\"],[15.032,\"after key Enter: changed and stable after 2 savestate polls\"],[15.156,\"key Esc held 0.08s\"],[15.67,\"host key F12+s, each step held 0.15s\"],[15.672,\"savestate complete after 1 polls of 0.05s\"],[16.199,\"host key F12+s, each step held 0.15s\"],[16.201,\"savestate complete after 1 polls of 0.05s\"],[16.212,\"after key Esc: changed and stable after 2 savestate polls\"],[16.324,\"key Up held 0.08s\"],[16.837,\"host key F12+s, each step held 0.15s\"],[16.838,\"savestate complete after 1 polls of 0.05s\"],[17.361,\"host key F12+s, each step held 0.15s\"],[17.363,\"savestate complete after 1 polls of 0.05s\"],[17.375,\"after key Up: changed and stable after 2 savestate polls\"],[17.486,\"key Enter held 0.08s\"],[17.999,\"host key F12+s, each step held 0.15s\"],[18.0,\"savestate complete after 1 polls of 0.05s\"],[18.529,\"host key F12+s, each step held 0.15s\"],[18.531,\"savestate complete after 1 polls of 0.05s\"],[18.542,\"after key Enter: changed and stable after 2 savestate polls\"],[18.653,\"key Enter held 0.08s\"],[19.164,\"host key F12+s, each step held 0.15s\"],[19.165,\"savestate complete after 1 polls of 0.05s\"],[19.69,\"host key F12+s, each step held 0.15s\"],[19.691,\"savestate complete after 1 polls of 0.05s\"],[19.703,\"after key Enter: changed and stable after 2 savestate polls\"],[19.817,\"key Enter held 0.08s\"],[20.33,\"host key F12+s, each step held 0.15s\"],[20.331,\"savestate complete after 1 polls of 0.05s\"],[20.857,\"host key F12+s, each step held 0.15s\"],[20.858,\"savestate complete after 1 polls of 0.05s\"],[20.87,\"after key Enter (team screen: play): changed and stable after 2 savestate polls\"],[20.993,\"key Enter held 0.08s\"],[21.103,\"key Right held 0.08s\"],[21.212,\"key Right held 0.08s\"],[21.323,\"key Right held 0.08s\"],[21.434,\"key Right held 0.08s\"],[21.545,\"key Right held 0.08s\"],[21.545,\"match watched: starting keys Enter Right Right Right Right Right sent in one burst\"],[22.055,\"host key F12+s, each step held 0.15s\"],[22.056,\"savestate complete after 1 polls of 0.05s\"],[22.592,\"host key F12+s, each step held 0.15s\"],[22.594,\"savestate complete after 1 polls of 0.05s\"],[23.132,\"host key F12+s, each step held 0.15s\"],[23.133,\"savestate complete after 1 polls of 0.05s\"],[23.671,\"host key F12+s, each step held 0.15s\"],[23.672,\"savestate complete after 1 polls of 0.05s\"],[24.21,\"host key F12+s, each step held 0.15s\"],[24.212,\"savestate complete after 1 polls of 0.05s\"],[24.751,\"host key F12+s, each step held 0.15s\"],[24.753,\"savestate complete after 1 polls of 0.05s\"],[25.292,\"host key F12+s, each step held 0.15s\"],[25.294,\"savestate complete after 1 polls of 0.05s\"],[25.832,\"host key F12+s, each step held 0.15s\"],[25.834,\"savestate complete after 1 polls of 0.05s\"],[26.373,\"host key F12+s, each step held 0.15s\"],[26.374,\"savestate complete after 1 polls of 0.05s\"],[26.919,\"host key F12+s, each step held 0.15s\"],[26.921,\"savestate complete after 1 polls of 0.05s\"],[27.461,\"host key F12+s, each step held 0.15s\"],[27.462,\"savestate complete after 1 polls of 0.05s\"],[27.997,\"host key F12+s, each step held 0.15s\"],[27.998,\"savestate complete after 1 polls of 0.05s\"],[28.534,\"host key F12+s, each step held 0.15s\"],[28.535,\"savestate complete after 1 polls of 0.05s\"],[29.073,\"host key F12+s, each step held 0.15s\"],[29.074,\"savestate complete after 1 polls of 0.05s\"],[29.611,\"host key F12+s, each step held 0.15s\"],[29.613,\"savestate complete after 1 polls of 0.05s\"],[30.148,\"host key F12+s, each step held 0.15s\"],[30.149,\"savestate complete after 1 polls of 0.05s\"],[30.685,\"host key F12+s, each step held 0.15s\"],[30.687,\"savestate complete after 1 polls of 0.05s\"],[31.224,\"host key F12+s, each step held 0.15s\"],[31.225,\"savestate complete after 1 polls of 0.05s\"],[31.76,\"host key F12+s, each step held 0.15s\"],[31.761,\"savestate complete after 1 polls of 0.05s\"],[32.293,\"host key F12+s, each step held 0.15s\"],[32.295,\"savestate complete after 1 polls of 0.05s\"],[32.831,\"host key F12+s, each step held 0.15s\"],[32.833,\"savestate complete after 1 polls of 0.05s\"],[33.369,\"host key F12+s, each step held 0.15s\"],[33.37,\"savestate complete after 1 polls of 0.05s\"],[33.907,\"host key F12+s, each step held 0.15s\"],[33.909,\"savestate complete after 1 polls of 0.05s\"],[34.445,\"host key F12+s, each step held 0.15s\"],[34.446,\"savestate complete after 1 polls of 0.05s\"],[34.985,\"host key F12+s, each step held 0.15s\"],[34.986,\"savestate complete after 1 polls of 0.05s\"],[35.52,\"host key F12+s, each step held 0.15s\"],[35.521,\"savestate complete after 1 polls of 0.05s\"],[36.059,\"host key F12+s, each step held 0.15s\"],[36.06,\"savestate complete after 1 polls of 0.05s\"],[36.597,\"host key F12+s, each step held 0.15s\"],[36.599,\"savestate complete after 1 polls of 0.05s\"],[37.138,\"host key F12+s, each step held 0.15s\"],[37.14,\"savestate complete after 1 polls of 0.05s\"],[37.676,\"host key F12+s, each step held 0.15s\"],[37.677,\"savestate complete after 1 polls of 0.05s\"],[38.211,\"host key F12+s, each step held 0.15s\"],[38.212,\"savestate complete after 1 polls of 0.05s\"],[38.749,\"host key F12+s, each step held 0.15s\"],[38.751,\"savestate complete after 1 polls of 0.05s\"],[39.288,\"host key F12+s, each step held 0.15s\"],[39.289,\"savestate complete after 1 polls of 0.05s\"],[39.836,\"host key F12+s, each step held 0.15s\"],[39.837,\"savestate complete after 1 polls of 0.05s\"],[40.373,\"host key F12+s, each step held 0.15s\"],[40.374,\"savestate complete after 1 polls of 0.05s\"],[40.906,\"host key F12+s, each step held 0.15s\"],[40.907,\"savestate complete after 1 polls of 0.05s\"],[41.042,\"key Enter held 0.08s\"],[41.042,\"match watched: Enter (hit any key)\"],[41.555,\"host key F12+s, each step held 0.15s\"],[41.556,\"savestate complete after 1 polls of 0.05s\"],[42.088,\"host key F12+s, each step held 0.15s\"],[42.089,\"savestate complete after 1 polls of 0.05s\"],[42.222,\"key Enter held 0.08s\"],[42.222,\"match watched: Enter (team screen)\"],[42.732,\"host key F12+s, each step held 0.15s\"],[42.734,\"savestate complete after 1 polls of 0.05s\"],[43.266,\"host key F12+s, each step held 0.15s\"],[43.267,\"savestate complete after 1 polls of 0.05s\"],[43.801,\"host key F12+s, each step held 0.15s\"],[43.802,\"savestate complete after 1 polls of 0.05s\"],[44.333,\"host key F12+s, each step held 0.15s\"],[44.334,\"savestate complete after 1 polls of 0.05s\"],[44.87,\"host key F12+s, each step held 0.15s\"],[44.871,\"savestate complete after 1 polls of 0.05s\"],[45.406,\"host key F12+s, each step held 0.15s\"],[45.407,\"savestate complete after 1 polls of 0.05s\"],[45.941,\"host key F12+s, each step held 0.15s\"],[45.942,\"savestate complete after 1 polls of 0.05s\"],[46.479,\"host key F12+s, each step held 0.15s\"],[46.48,\"savestate complete after 1 polls of 0.05s\"],[47.012,\"host key F12+s, each step held 0.15s\"],[47.013,\"savestate complete after 1 polls of 0.05s\"],[47.548,\"host key F12+s, each step held 0.15s\"],[47.549,\"savestate complete after 1 polls of 0.05s\"],[48.082,\"host key F12+s, each step held 0.15s\"],[48.083,\"savestate complete after 1 polls of 0.05s\"],[48.616,\"host key F12+s, each step held 0.15s\"],[48.618,\"savestate complete after 1 polls of 0.05s\"],[49.149,\"host key F12+s, each step held 0.15s\"],[49.151,\"savestate complete after 1 polls of 0.05s\"],[49.686,\"host key F12+s, each step held 0.15s\"],[49.688,\"savestate complete after 1 polls of 0.05s\"],[50.224,\"host key F12+s, each step held 0.15s\"],[50.225,\"savestate complete after 1 polls of 0.05s\"],[50.761,\"host key F12+s, each step held 0.15s\"],[50.762,\"savestate complete after 1 polls of 0.05s\"],[51.298,\"host key F12+s, each step held 0.15s\"],[51.3,\"savestate complete after 1 polls of 0.05s\"],[51.834,\"host key F12+s, each step held 0.15s\"],[51.835,\"savestate complete after 1 polls of 0.05s\"],[52.367,\"host key F12+s, each step held 0.15s\"],[52.368,\"savestate complete after 1 polls of 0.05s\"],[52.901,\"host key F12+s, each step held 0.15s\"],[52.902,\"savestate complete after 1 polls of 0.05s\"],[53.437,\"host key F12+s, each step held 0.15s\"],[53.438,\"savestate complete after 1 polls of 0.05s\"],[53.976,\"host key F12+s, each step held 0.15s\"],[53.977,\"savestate complete after 1 polls of 0.05s\"],[54.511,\"host key F12+s, each step held 0.15s\"],[54.512,\"savestate complete after 1 polls of 0.05s\"],[55.047,\"host key F12+s, each step held 0.15s\"],[55.049,\"savestate complete after 1 polls of 0.05s\"],[55.58,\"host key F12+s, each step held 0.15s\"],[55.581,\"savestate complete after 1 polls of 0.05s\"],[56.113,\"host key F12+s, each step held 0.15s\"],[56.115,\"savestate complete after 1 polls of 0.05s\"],[56.139,\"match watched: full time after 64 reads\"],[56.649,\"dosbox-x pid 230759 alive 0.5s after SIGTERM (grace 0.5s): SIGKILL to its group\"],[56.658,\"dosbox-x pid 230759 ended by SIGKILL 0.509s after the first signal\"],[56.666,\"Xvfb pid 230753 ended by SIGTERM 0.007s after the first signal\"],[56.666,\"terminated\"]]"
+  }
+ ],
+ "outputs": [],
+ "started": "2026-10-04T19:03:04.833Z",
+ "ended": "2026-10-04T19:04:01.524Z",
+ "status": "completed"
+}

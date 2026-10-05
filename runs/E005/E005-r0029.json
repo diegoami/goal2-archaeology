@@ -1,0 +1,1658 @@
+{
+ "schema": "run/1",
+ "run_id": "E005-r0029",
+ "experiment": "E005",
+ "arm": "watched-restore-e004-1337-cycles-30000",
+ "rep": 29,
+ "code_commit": "a6a73ac",
+ "machine": "ubuntu-24-04-wsl2",
+ "artifact": {
+  "set": "goal2-67cf27d6",
+  "variant": null
+ },
+ "runtime": {
+  "driver": "runtime/driver/driver.py@a6a73ac",
+  "platform": "python-3.12.3/ubuntu-24-04-wsl2",
+  "fingerprint": {
+   "dosbox-x": "2024.03.01 SDL2",
+   "xvfb": "2:21.1.12-1ubuntu1.8",
+   "xdotool": "xdotool version 3.20160805.1",
+   "python": "3.12.3",
+   "kernel": "6.18.40.1-microsoft-standard-WSL2",
+   "config_sha256": "083897d321ed9fe50ca93bbf03ff45765c03c0f2a6e5e5df57aede499ebdc147",
+   "machine": "svga_s3",
+   "memsize": "16",
+   "cycles": "30000",
+   "core": "auto",
+   "cputype": "auto"
+  }
+ },
+ "interventions": [
+  {
+   "level": "I1",
+   "what": "text screen, BIOS data area (0040:0049, 0040:006C) and GOAL.EXE data-segment memory (DS:7B62, DS:7B64, DS:8336, DS:A9FD, the dword DS:A9FF, the commentary ring DS:7C38 and counter DS:80EE, the score DS:9B3C, the names at [DS:9B6C], the delay byte at [DS:A923]+0x3F, two known strings) read from DOSBox-X savestates (Host+S; components Vga and Memory)"
+  },
+  {
+   "level": "I2",
+   "what": "a savestate is written at each read, including every read during the match, and one is loaded (Host+L) at the start (vocabulary/interventions.md lists save and load of state as I2; neutrality tested by E004's replays, not assumed)"
+  }
+ ],
+ "start_state": {
+  "id": "e004-1337",
+  "sha256": "d168d36fbb96bb2e0c7d7d3d68ad618426318016c28f87b8a3ecba5c251aa0d4",
+  "restore": "fresh DOSBox-X process at cycles=30000 (config sha256 083897d321ed9fe50ca93bbf03ff45765c03c0f2a6e5e5df57aede499ebdc147) with C: mounted from the folder the savestate was made with, recreated from the verified release copy; GOAL run to its title screen; key n to change the screen; then Host+L loads the savestate whose sha256 is given (made by E004's `run.py make-state` at cycles=30000, DOS time 13:37:00 on 10/04/2026: the captain screen of the next match; it carries the DS:A9FF calibrated in that session); polled until the screen digest equals the one stored with it (7e9020f616ddc91a8f85c92b5a03daa8a7bb0be8978a79cf9788820d1f71604d); DOS clock of this session not set (the restore brings the state's own BIOS ticks, F004)"
+ },
+ "seed": null,
+ "actions": {
+  "script": "experiments/E005-q003-cycles/run.py",
+  "sha256": "3dca5f8307eb072dc6566a4a88b84bc5cc7c3ff661268f137a4d464bf1cd5472",
+  "args": [
+   "restores",
+   "--arm",
+   "watched",
+   "--state",
+   "e004-1337",
+   "--cycles",
+   "30000",
+   "--batch",
+   "b1",
+   "starting keys: Enter Right Right Right Right Right"
+  ]
+ },
+ "observations": [
+  {
+   "step": 0,
+   "source": "log",
+   "field": "host UTC time at launch",
+   "value": "2026-10-04T17:45:18.913Z"
+  },
+  {
+   "step": 0,
+   "source": "log",
+   "field": "host local time at launch, with UTC offset, and zone name",
+   "value": "2026-10-04T19:45:18.913+02:00 CEST"
+  },
+  {
+   "step": 0,
+   "source": "file",
+   "field": "DOS clock read back: CLOCK.TXT as DOS wrote it (`date /t`, then `time /t`) before GOAL, right after setting the date and time when they were set",
+   "value": "10/04/2026\n19:45:18\n"
+  },
+  {
+   "step": 0,
+   "source": "file",
+   "field": "cycles setting of the session: DOSBox-X [cpu] cycles in the config it was launched with",
+   "value": "30000"
+  },
+  {
+   "step": 0,
+   "source": "log",
+   "field": "before restore (title screen displaced by n): host UTC time just before the savestate was requested",
+   "value": "2026-10-04T17:45:19.148Z"
+  },
+  {
+   "step": 0,
+   "source": "log",
+   "field": "before restore (title screen displaced by n): host local time with UTC offset, and zone name, at the same instant",
+   "value": "2026-10-04T19:45:19.148+02:00 CEST"
+  },
+  {
+   "step": 0,
+   "source": "screen",
+   "field": "before restore (title screen displaced by n): text screen 80x25, chars+attributes (4000 bytes), sha256",
+   "value": "cd7f15fbf853b40471d05bad51cb6e6c14cbc8a7307893dba8f5f36c2315c612"
+  },
+  {
+   "step": 0,
+   "source": "ui-text",
+   "field": "before restore (title screen displaced by n): text screen rows 0-24, CP437 decoded, trailing blanks trimmed",
+   "value": " (c) NE'93│ │                                                    │     (c)\n ┌─┐┌─┐┌─┐│ │                                                    │     new\n │ ││ ││ ││ │                                                    │     era\n └─┤└─┘└─┤│ │                                                    │   software\n───┘ v.2    │                                                    │     1993\n────────────┘                                                    └──────────────\n\n\n\n\n\n\n────────────────────────────────────────────────────────────────────────────────\n                   THE international soccer management game\n────────────────────────────────────────────────────────────────────────────────\n\n────────────────────────────────────────────────────────────────────────────────\n                    design and coding : Mantra and L.B.\n────────────────────────────────────────────────────────────────────────────────\n     testing and feedback : Celtic Ray, Mr Scott, Big Mac and Carl Wilky\n────────────────────────────────────────────────────────────────────────────────\n               distribution : Silverwitch and Tom de Notre Dame\n────────────────────────────────────────────────────────────────────────────────\n\n■■■■■■■■■■■■■■■■■■■ Do you want to load a saved game? (Y/N) ■■■■■■■■■■■■■■■■■■■■"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x449",
+   "field": "before restore (title screen displaced by n): 1 byte at 0040:0049 (BIOS video mode), guest memory from the savestate, hex",
+   "value": "03"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x46c",
+   "field": "before restore (title screen displaced by n): 4 bytes at 0040:006C (BIOS timer tick count), guest memory from the savestate, as a little-endian dword (bytes in memory order)",
+   "value": "0x0013c1f0 (f0 c1 13 00)"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x355a2",
+   "field": "before restore (title screen displaced by n): word at DS:7B62 of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+   "value": "0x0000 (00 00)"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x355a4",
+   "field": "before restore (title screen displaced by n): word at DS:7B64 of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+   "value": "0x0000 (00 00)"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x35d76",
+   "field": "before restore (title screen displaced by n): word at DS:8336 of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+   "value": "0xc1ef (ef c1)"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x3843d",
+   "field": "before restore (title screen displaced by n): word at DS:A9FD of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+   "value": "0x07ea (ea 07)"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "field": "before restore (title screen displaced by n): score bytes DS:9B3C, DS:9B3D (engine teams 0 and 1)",
+   "value": "0 0"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "field": "before restore (title screen displaced by n): match delay byte at the far pointer DS:A923 + 0x3F (0 fastest)",
+   "value": "0"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x3843f",
+   "field": "before restore (title screen displaced by n): dword DS:A9FF of GOAL.EXE (the delay count 214B:1DA7 calibrates), little-endian (bytes in memory order)",
+   "value": "0x000010b3 (b3 10 00 00)"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x8120",
+   "field": "GOAL.EXE located: its MCB (owner = the next segment, name GOAL), PSP, load segment and data segment",
+   "value": "MCB at segment 0812 (owner 0813, name GOAL), PSP 0813, load segment 0823 = PSP + 10h, DS 2DA4 = load + 2581h, linear base 0x2DA40"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x2da64",
+   "field": "8 bytes at DS:0024, hex (static/goal-exe/data/ds_2581_01.hex has 07 54 52 59 20 4f 55 54)",
+   "value": "07 54 52 59 20 4f 55 54"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x2db00",
+   "field": "6 bytes at DS:00C0, hex (static/goal-exe/data/ds_2581_01.hex has 6f 6e 20 66 6f 72)",
+   "value": "6f 6e 20 66 6f 72"
+  },
+  {
+   "step": 0,
+   "source": "log",
+   "field": "restored: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T17:45:20.218Z"
+  },
+  {
+   "step": 0,
+   "source": "log",
+   "field": "restored: host local time with UTC offset, and zone name, at the same instant",
+   "value": "2026-10-04T19:45:20.218+02:00 CEST"
+  },
+  {
+   "step": 0,
+   "source": "screen",
+   "field": "restored: text screen 80x25, chars+attributes (4000 bytes), sha256",
+   "value": "7e9020f616ddc91a8f85c92b5a03daa8a7bb0be8978a79cf9788820d1f71604d"
+  },
+  {
+   "step": 0,
+   "source": "ui-text",
+   "field": "restored: text screen rows 0-24, CP437 decoded, trailing blanks trimmed",
+   "value": " (c) NE'93│ ┌───────────────┬──┬FRIENDLY───────────────────────────┐┌───┐ ┌───┐\n ┌─┐┌─┐┌─┐│ │SWEDEN---------│ 0│                                   ││   │ │   │\n │ ││ ││ ││ ├versus─────────┼──┤                                   │├───┤ ├───┤\n └─┤└─┘└─┤│ │DENMARK--------│ 0│                                   ││   │ │   │\n───┘ v.2    └───────────────┴──┴───────────────────────────────────┘└───┘ └───┘\n\n┌name──────────┬age┬caps┬goals┬height─┬bias──────┬performance┐ ┌────────────┬─┐\n│T Piechnik    │ 28│   0│    0│ 6' 0\" │right foot│           │ │P Schmeichel│G│\n├position──────┴───┼club┴position─────┼cards┬────┴─┴─┴─┴─┴─┴─┤ │L Olsen     │S│\n│centre back       │centre back       │     │        selected│ │T Piechnik  │C│\n├skills───┬────┬───┴┬────┬────┬────┬┬─┴─────┴─────────tactics┤ │K Christofte│C│\n├keeping──■■■■■■■■■■■■■■■■■■■■■■■■■■┼position─────stay back P┤ │H Andersen  │B│\n├kicking──■■■■■■■■■■■■■■■■■■■■■■■■■■┼possession──quick pass P┤ │J Sivebaek  │B│\n├tackling─■■■■■■■■■■■■■■■■■■■■■■■■■■┼passing─────short passes┤ │K Vilfort   │D│\n├heading──■■■■■■■■■■■■■■■■■■■■■■■■■■┼tackling──avoid injury P┤ │H Larsen    │M│\n├marking──■■■■■■■■■■■■■■■■■■■■■■■■■■┼mark─J Ekstrom──────────┤ │J Jensen    │M│\n├passing──■■■■■■■■■■■■■■■■■■■■■■■■■■┤     striker            │ │B Laudrup   │F│\n├crossing─■■■■■■■■■■■■■■■■■■■■■■■■■■┼─────────characteristics┤ │F Povlsen   │$│\n├feinting─■■■■■■■■■■■■■■■■■■■■■■■■■■┼hardness──wimpy■■■■■■■■■┤ └────────────┴─┘\n├control──■■■■■■■■■■■■■■■■■■■■■■■■■■┼fitness───total■■■■■■■■■┤   use ↑↓ to move\n├dribbling■■■■■■■■■■■■■■■■■■■■■■■■■■┼energy────hyperactive■■■┤\n├shooting─■■■■■■■■■■■■■■■■■■■■■■■■■■┼morale────very confident┤ ╔═══════════════╗\n├penalties■■■■■■■■■■■■■■■■■■■■■■■■■■┼leadershipcaptain■■■■■■■┤ ║Denmark--------║\n└─────────┴────┴────┴────┴────┴────┴┴──────────┴────┴────┴───┘ ╚═══════════════╝\n◄┘-select  CAPTAIN                                         C-computer select"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x449",
+   "field": "restored: 1 byte at 0040:0049 (BIOS video mode), guest memory from the savestate, hex",
+   "value": "03"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x46c",
+   "field": "restored: 4 bytes at 0040:006C (BIOS timer tick count), guest memory from the savestate, as a little-endian dword (bytes in memory order)",
+   "value": "0x000d9f39 (39 9f 0d 00)"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x355a2",
+   "field": "restored: word at DS:7B62 of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+   "value": "0xfabd (bd fa)"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x355a4",
+   "field": "restored: word at DS:7B64 of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+   "value": "0x0618 (18 06)"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x35d76",
+   "field": "restored: word at DS:8336 of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+   "value": "0x9e47 (47 9e)"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x3843d",
+   "field": "restored: word at DS:A9FD of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+   "value": "0x07ea (ea 07)"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "field": "restored: score bytes DS:9B3C, DS:9B3D (engine teams 0 and 1)",
+   "value": "0 0"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "field": "restored: match delay byte at the far pointer DS:A923 + 0x3F (0 fastest)",
+   "value": "1"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x3843f",
+   "field": "restored: dword DS:A9FF of GOAL.EXE (the delay count 214B:1DA7 calibrates), little-endian (bytes in memory order)",
+   "value": "0x000010b3 (b3 10 00 00)"
+  },
+  {
+   "step": 0,
+   "source": "process",
+   "field": "other DOSBox-X and Xvfb processes on the host at launch (not started by this run): [pid, seconds running, name]",
+   "value": "[[68169, 42259, \"Xvfb\"], [1872055, 25730, \"Xvfb\"], [1872060, 25730, \"dosbox-x\"], [3402285, 183, \"Xvfb\"], [3402365, 183, \"dosbox-x\"]]"
+  },
+  {
+   "step": 0,
+   "source": "process",
+   "field": "/proc/loadavg at launch",
+   "value": "5.86 4.77 3.72 3/816 3446869"
+  },
+  {
+   "step": 0,
+   "source": "file",
+   "field": "DOSBox-X config of the session, host paths replaced by <work> and <game>",
+   "value": "[sdl]\nfullscreen=false\noutput=surface\nmapperfile=<work>/mapper.map\n[mixer]\nnosound=true\n[midi]\nmididevice=none\n[dosbox]\nmachine=svga_s3\nmemsize=16\nsaveremark=false\ncaptures=<work>/cap\n[cpu]\ncore=auto\ncputype=auto\ncycles=30000\n[autoexec]\nmount c <game>\nc:\nmount d <work>/dosclock\ndate /t > d:\\clock.txt\ntime /t >> d:\\clock.txt\nc:\ngoal\nexit\n"
+  },
+  {
+   "step": 0,
+   "source": "file",
+   "field": "sha256 of that config text (UTF-8)",
+   "value": "083897d321ed9fe50ca93bbf03ff45765c03c0f2a6e5e5df57aede499ebdc147"
+  },
+  {
+   "step": 0,
+   "source": "log",
+   "field": "batch label given on the command line",
+   "value": "b1"
+  },
+  {
+   "step": 1,
+   "source": "memory",
+   "field": "match read 1: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:45:21.476Z\", 1.217, \"0x000d9f4c\", \"0x000010b3\", \"e7d560413ca367adbd19c1a0c6e6f1de09fac684ef40264a376233370ab0e082\", \"0x004f\", \"0x96bf\", 0, 0, \"│pass by Larsen / ┤Povlsen collects / │Povlsen makes a run\"]"
+  },
+  {
+   "step": 2,
+   "source": "memory",
+   "field": "match read 2: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:45:22.031Z\", 1.771, \"0x000d9f54\", \"0x000010b3\", \"ce3b470abb11ff9778666e6eb7cd404994c3da211618b76dcd075f47cd2f8b8f\", \"0x0054\", \"0xac0a\", 1, 0, \"│shot from Povlsen / ┤Eriksson has no chance / │**** GOAL **** by Povlsen\"]"
+  },
+  {
+   "step": 3,
+   "source": "memory",
+   "field": "match read 3: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:45:22.582Z\", 2.317, \"0x000d9f5b\", \"0x000010b3\", \"ce3b470abb11ff9778666e6eb7cd404994c3da211618b76dcd075f47cd2f8b8f\", \"0x0054\", \"0xac0a\", 1, 0, \"│shot from Povlsen / ┤Eriksson has no chance / │**** GOAL **** by Povlsen\"]"
+  },
+  {
+   "step": 4,
+   "source": "memory",
+   "field": "match read 4: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:45:23.131Z\", 2.867, \"0x000d9f63\", \"0x000010b3\", \"ce3b470abb11ff9778666e6eb7cd404994c3da211618b76dcd075f47cd2f8b8f\", \"0x0054\", \"0xac0a\", 1, 0, \"│shot from Povlsen / ┤Eriksson has no chance / │**** GOAL **** by Povlsen\"]"
+  },
+  {
+   "step": 5,
+   "source": "memory",
+   "field": "match read 5: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:45:23.686Z\", 3.434, \"0x000d9f6a\", \"0x000010b3\", \"ce3b470abb11ff9778666e6eb7cd404994c3da211618b76dcd075f47cd2f8b8f\", \"0x0054\", \"0xac0a\", 1, 0, \"│shot from Povlsen / ┤Eriksson has no chance / │**** GOAL **** by Povlsen\"]"
+  },
+  {
+   "step": 6,
+   "source": "memory",
+   "field": "match read 6: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:45:24.250Z\", 3.992, \"0x000d9f72\", \"0x000010b3\", \"ce3b470abb11ff9778666e6eb7cd404994c3da211618b76dcd075f47cd2f8b8f\", \"0x0054\", \"0xac0a\", 1, 0, \"│shot from Povlsen / ┤Eriksson has no chance / │**** GOAL **** by Povlsen\"]"
+  },
+  {
+   "step": 7,
+   "source": "memory",
+   "field": "match read 7: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:45:24.809Z\", 4.542, \"0x000d9f7a\", \"0x000010b3\", \"ce3b470abb11ff9778666e6eb7cd404994c3da211618b76dcd075f47cd2f8b8f\", \"0x0054\", \"0xac0a\", 1, 0, \"│shot from Povlsen / ┤Eriksson has no chance / │**** GOAL **** by Povlsen\"]"
+  },
+  {
+   "step": 8,
+   "source": "memory",
+   "field": "match read 8: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:45:25.356Z\", 5.088, \"0x000d9f81\", \"0x000010b3\", \"ce3b470abb11ff9778666e6eb7cd404994c3da211618b76dcd075f47cd2f8b8f\", \"0x0054\", \"0xac0a\", 1, 0, \"│shot from Povlsen / ┤Eriksson has no chance / │**** GOAL **** by Povlsen\"]"
+  },
+  {
+   "step": 9,
+   "source": "memory",
+   "field": "match read 9: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:45:25.903Z\", 5.636, \"0x000d9f88\", \"0x000010b3\", \"ce3b470abb11ff9778666e6eb7cd404994c3da211618b76dcd075f47cd2f8b8f\", \"0x0054\", \"0xac0a\", 1, 0, \"│shot from Povlsen / ┤Eriksson has no chance / │**** GOAL **** by Povlsen\"]"
+  },
+  {
+   "step": 10,
+   "source": "memory",
+   "field": "match read 10: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:45:26.449Z\", 6.184, \"0x000d9f8f\", \"0x000010b3\", \"ce3b470abb11ff9778666e6eb7cd404994c3da211618b76dcd075f47cd2f8b8f\", \"0x0054\", \"0xac0a\", 1, 0, \"│shot from Povlsen / ┤Eriksson has no chance / │**** GOAL **** by Povlsen\"]"
+  },
+  {
+   "step": 11,
+   "source": "memory",
+   "field": "match read 11: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:45:27.002Z\", 6.737, \"0x000d9f97\", \"0x000010b3\", \"ce3b470abb11ff9778666e6eb7cd404994c3da211618b76dcd075f47cd2f8b8f\", \"0x0054\", \"0xac0a\", 1, 0, \"│shot from Povlsen / ┤Eriksson has no chance / │**** GOAL **** by Povlsen\"]"
+  },
+  {
+   "step": 12,
+   "source": "memory",
+   "field": "match read 12: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:45:27.551Z\", 7.293, \"0x000d9f9e\", \"0x000010b3\", \"ce3b470abb11ff9778666e6eb7cd404994c3da211618b76dcd075f47cd2f8b8f\", \"0x0054\", \"0xac0a\", 1, 0, \"│shot from Povlsen / ┤Eriksson has no chance / │**** GOAL **** by Povlsen\"]"
+  },
+  {
+   "step": 13,
+   "source": "memory",
+   "field": "match read 13: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:45:28.112Z\", 7.845, \"0x000d9fa5\", \"0x000010b3\", \"ce3b470abb11ff9778666e6eb7cd404994c3da211618b76dcd075f47cd2f8b8f\", \"0x0054\", \"0xac0a\", 1, 0, \"│shot from Povlsen / ┤Eriksson has no chance / │**** GOAL **** by Povlsen\"]"
+  },
+  {
+   "step": 14,
+   "source": "memory",
+   "field": "match read 14: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:45:28.659Z\", 8.394, \"0x000d9fad\", \"0x000010b3\", \"ce3b470abb11ff9778666e6eb7cd404994c3da211618b76dcd075f47cd2f8b8f\", \"0x0054\", \"0xac0a\", 1, 0, \"│shot from Povlsen / ┤Eriksson has no chance / │**** GOAL **** by Povlsen\"]"
+  },
+  {
+   "step": 15,
+   "source": "memory",
+   "field": "match read 15: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:45:29.212Z\", 8.942, \"0x000d9fb4\", \"0x000010b3\", \"ce3b470abb11ff9778666e6eb7cd404994c3da211618b76dcd075f47cd2f8b8f\", \"0x0054\", \"0xac0a\", 1, 0, \"│shot from Povlsen / ┤Eriksson has no chance / │**** GOAL **** by Povlsen\"]"
+  },
+  {
+   "step": 16,
+   "source": "memory",
+   "field": "match read 16: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:45:29.756Z\", 9.492, \"0x000d9fbc\", \"0x000010b3\", \"ce3b470abb11ff9778666e6eb7cd404994c3da211618b76dcd075f47cd2f8b8f\", \"0x0054\", \"0xac0a\", 1, 0, \"│shot from Povlsen / ┤Eriksson has no chance / │**** GOAL **** by Povlsen\"]"
+  },
+  {
+   "step": 17,
+   "source": "memory",
+   "field": "match read 17: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:45:30.308Z\", 10.043, \"0x000d9fc3\", \"0x000010b3\", \"ce3b470abb11ff9778666e6eb7cd404994c3da211618b76dcd075f47cd2f8b8f\", \"0x0054\", \"0xac0a\", 1, 0, \"│shot from Povlsen / ┤Eriksson has no chance / │**** GOAL **** by Povlsen\"]"
+  },
+  {
+   "step": 18,
+   "source": "memory",
+   "field": "match read 18: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:45:30.860Z\", 10.6, \"0x000d9fcb\", \"0x000010b3\", \"ce3b470abb11ff9778666e6eb7cd404994c3da211618b76dcd075f47cd2f8b8f\", \"0x0054\", \"0xac0a\", 1, 0, \"│shot from Povlsen / ┤Eriksson has no chance / │**** GOAL **** by Povlsen\"]"
+  },
+  {
+   "step": 19,
+   "source": "memory",
+   "field": "match read 19: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:45:31.417Z\", 11.154, \"0x000d9fd2\", \"0x000010b3\", \"76d67056bacad858a08a74644b9b61afd61c1a3c5e1a13237e553e63263e2fb5\", \"0x0080\", \"0xfbbd\", 1, 0, \"│pass by Povlsen / ┤Vilfort collects / │tackle by Erlingmark\"]"
+  },
+  {
+   "step": 20,
+   "source": "memory",
+   "field": "match read 20: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:45:31.969Z\", 11.702, \"0x000d9fda\", \"0x000010b3\", \"382aa9fa88adadbd59c233c4297b1072c51bbf01924e2602bc9ebde224706bef\", \"0x0097\", \"0xbc7c\", 1, 0, \"│Jansson intercepts / ┤shot from Jansson / │over the bar\"]"
+  },
+  {
+   "step": 21,
+   "source": "memory",
+   "field": "match read 21: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:45:32.512Z\", 12.247, \"0x000d9fe1\", \"0x000010b3\", \"382aa9fa88adadbd59c233c4297b1072c51bbf01924e2602bc9ebde224706bef\", \"0x0097\", \"0xbc7c\", 1, 0, \"│Jansson intercepts / ┤shot from Jansson / │over the bar\"]"
+  },
+  {
+   "step": 22,
+   "source": "memory",
+   "field": "match read 22: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:45:33.062Z\", 12.799, \"0x000d9fe8\", \"0x000010b3\", \"382aa9fa88adadbd59c233c4297b1072c51bbf01924e2602bc9ebde224706bef\", \"0x0097\", \"0xbc7c\", 1, 0, \"│Jansson intercepts / ┤shot from Jansson / │over the bar\"]"
+  },
+  {
+   "step": 23,
+   "source": "memory",
+   "field": "match read 23: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:45:33.613Z\", 13.351, \"0x000d9ff0\", \"0x000010b3\", \"382aa9fa88adadbd59c233c4297b1072c51bbf01924e2602bc9ebde224706bef\", \"0x0097\", \"0xbc7c\", 1, 0, \"│Jansson intercepts / ┤shot from Jansson / │over the bar\"]"
+  },
+  {
+   "step": 24,
+   "source": "memory",
+   "field": "match read 24: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:45:34.167Z\", 13.907, \"0x000d9ff7\", \"0x000010b3\", \"382aa9fa88adadbd59c233c4297b1072c51bbf01924e2602bc9ebde224706bef\", \"0x0097\", \"0xbc7c\", 1, 0, \"│Jansson intercepts / ┤shot from Jansson / │over the bar\"]"
+  },
+  {
+   "step": 25,
+   "source": "memory",
+   "field": "match read 25: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:45:34.724Z\", 14.464, \"0x000d9ffe\", \"0x000010b3\", \"382aa9fa88adadbd59c233c4297b1072c51bbf01924e2602bc9ebde224706bef\", \"0x0097\", \"0xbc7c\", 1, 0, \"│Jansson intercepts / ┤shot from Jansson / │over the bar\"]"
+  },
+  {
+   "step": 26,
+   "source": "memory",
+   "field": "match read 26: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:45:35.282Z\", 15.017, \"0x000da005\", \"0x000010b3\", \"382aa9fa88adadbd59c233c4297b1072c51bbf01924e2602bc9ebde224706bef\", \"0x0097\", \"0xbc7c\", 1, 0, \"│Jansson intercepts / ┤shot from Jansson / │over the bar\"]"
+  },
+  {
+   "step": 27,
+   "source": "memory",
+   "field": "match read 27: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:45:35.830Z\", 15.564, \"0x000da00c\", \"0x000010b3\", \"382aa9fa88adadbd59c233c4297b1072c51bbf01924e2602bc9ebde224706bef\", \"0x0097\", \"0xbc7c\", 1, 0, \"│Jansson intercepts / ┤shot from Jansson / │over the bar\"]"
+  },
+  {
+   "step": 28,
+   "source": "memory",
+   "field": "match read 28: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:45:36.382Z\", 16.116, \"0x000da014\", \"0x000010b3\", \"382aa9fa88adadbd59c233c4297b1072c51bbf01924e2602bc9ebde224706bef\", \"0x0097\", \"0xbc7c\", 1, 0, \"│Jansson intercepts / ┤shot from Jansson / │over the bar\"]"
+  },
+  {
+   "step": 29,
+   "source": "memory",
+   "field": "match read 29: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:45:36.929Z\", 16.663, \"0x000da01a\", \"0x000010b3\", \"382aa9fa88adadbd59c233c4297b1072c51bbf01924e2602bc9ebde224706bef\", \"0x0097\", \"0xbc7c\", 1, 0, \"│Jansson intercepts / ┤shot from Jansson / │over the bar\"]"
+  },
+  {
+   "step": 30,
+   "source": "memory",
+   "field": "match read 30: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:45:37.477Z\", 17.208, \"0x000da021\", \"0x000010b3\", \"382aa9fa88adadbd59c233c4297b1072c51bbf01924e2602bc9ebde224706bef\", \"0x0097\", \"0xbc7c\", 1, 0, \"│Jansson intercepts / ┤shot from Jansson / │over the bar\"]"
+  },
+  {
+   "step": 31,
+   "source": "memory",
+   "field": "match read 31: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:45:38.021Z\", 17.755, \"0x000da029\", \"0x000010b3\", \"382aa9fa88adadbd59c233c4297b1072c51bbf01924e2602bc9ebde224706bef\", \"0x0097\", \"0xbc7c\", 1, 0, \"│Jansson intercepts / ┤shot from Jansson / │over the bar\"]"
+  },
+  {
+   "step": 32,
+   "source": "memory",
+   "field": "match read 32: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:45:38.569Z\", 18.299, \"0x000da030\", \"0x000010b3\", \"382aa9fa88adadbd59c233c4297b1072c51bbf01924e2602bc9ebde224706bef\", \"0x0097\", \"0xbc7c\", 1, 0, \"│Jansson intercepts / ┤shot from Jansson / │over the bar\"]"
+  },
+  {
+   "step": 33,
+   "source": "memory",
+   "field": "match read 33: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:45:39.113Z\", 18.847, \"0x000da037\", \"0x000010b3\", \"382aa9fa88adadbd59c233c4297b1072c51bbf01924e2602bc9ebde224706bef\", \"0x0097\", \"0xbc7c\", 1, 0, \"│Jansson intercepts / ┤shot from Jansson / │over the bar\"]"
+  },
+  {
+   "step": 34,
+   "source": "memory",
+   "field": "match read 34: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:45:39.663Z\", 19.402, \"0x000da03f\", \"0x000010b3\", \"382aa9fa88adadbd59c233c4297b1072c51bbf01924e2602bc9ebde224706bef\", \"0x0097\", \"0xbc7c\", 1, 0, \"│Jansson intercepts / ┤shot from Jansson / │over the bar\"]"
+  },
+  {
+   "step": 35,
+   "source": "memory",
+   "field": "match read 35: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:45:40.217Z\", 19.96, \"0x000da046\", \"0x000010b3\", \"382aa9fa88adadbd59c233c4297b1072c51bbf01924e2602bc9ebde224706bef\", \"0x0097\", \"0xbc7c\", 1, 0, \"│Jansson intercepts / ┤shot from Jansson / │over the bar\"]"
+  },
+  {
+   "step": 36,
+   "source": "memory",
+   "field": "match read 36: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:45:40.779Z\", 20.519, \"0x000da04d\", \"0x000010b3\", \"382aa9fa88adadbd59c233c4297b1072c51bbf01924e2602bc9ebde224706bef\", \"0x0097\", \"0xbc7c\", 1, 0, \"│Jansson intercepts / ┤shot from Jansson / │over the bar\"]"
+  },
+  {
+   "step": 37,
+   "source": "memory",
+   "field": "match read 37: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:45:41.334Z\", 21.071, \"0x000da054\", \"0x000010b3\", \"382aa9fa88adadbd59c233c4297b1072c51bbf01924e2602bc9ebde224706bef\", \"0x0097\", \"0xbc7c\", 1, 0, \"│Jansson intercepts / ┤shot from Jansson / │over the bar\"]"
+  },
+  {
+   "step": 38,
+   "source": "memory",
+   "field": "match read 38: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:45:41.887Z\", 21.62, \"0x000da05b\", \"0x000010b3\", \"382aa9fa88adadbd59c233c4297b1072c51bbf01924e2602bc9ebde224706bef\", \"0x0097\", \"0xbc7c\", 1, 0, \"│Jansson intercepts / ┤shot from Jansson / │over the bar\"]"
+  },
+  {
+   "step": 39,
+   "source": "memory",
+   "field": "match read 39: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:45:42.434Z\", 22.167, \"0x000da063\", \"0x000010b3\", \"382aa9fa88adadbd59c233c4297b1072c51bbf01924e2602bc9ebde224706bef\", \"0x0097\", \"0xbc7c\", 1, 0, \"│Jansson intercepts / ┤shot from Jansson / │over the bar\"]"
+  },
+  {
+   "step": 40,
+   "source": "memory",
+   "field": "match read 40: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:45:42.982Z\", 22.716, \"0x000da06a\", \"0x000010b3\", \"382aa9fa88adadbd59c233c4297b1072c51bbf01924e2602bc9ebde224706bef\", \"0x0097\", \"0xbc7c\", 1, 0, \"│Jansson intercepts / ┤shot from Jansson / │over the bar\"]"
+  },
+  {
+   "step": 41,
+   "source": "memory",
+   "field": "match read 41: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:45:43.530Z\", 23.265, \"0x000da072\", \"0x000010b3\", \"382aa9fa88adadbd59c233c4297b1072c51bbf01924e2602bc9ebde224706bef\", \"0x0097\", \"0xbc7c\", 1, 0, \"│Jansson intercepts / ┤shot from Jansson / │over the bar\"]"
+  },
+  {
+   "step": 42,
+   "source": "memory",
+   "field": "match read 42: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:45:44.081Z\", 23.815, \"0x000da079\", \"0x000010b3\", \"382aa9fa88adadbd59c233c4297b1072c51bbf01924e2602bc9ebde224706bef\", \"0x0097\", \"0xbc7c\", 1, 0, \"│Jansson intercepts / ┤shot from Jansson / │over the bar\"]"
+  },
+  {
+   "step": 43,
+   "source": "memory",
+   "field": "match read 43: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:45:44.630Z\", 24.366, \"0x000da081\", \"0x000010b3\", \"382aa9fa88adadbd59c233c4297b1072c51bbf01924e2602bc9ebde224706bef\", \"0x0097\", \"0xbc7c\", 1, 0, \"│Jansson intercepts / ┤shot from Jansson / │over the bar\"]"
+  },
+  {
+   "step": 44,
+   "source": "memory",
+   "field": "match read 44: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:45:45.183Z\", 24.918, \"0x000da088\", \"0x000010b3\", \"382aa9fa88adadbd59c233c4297b1072c51bbf01924e2602bc9ebde224706bef\", \"0x0097\", \"0xbc7c\", 1, 0, \"│Jansson intercepts / ┤shot from Jansson / │over the bar\"]"
+  },
+  {
+   "step": 45,
+   "source": "memory",
+   "field": "match read 45: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:45:45.732Z\", 25.467, \"0x000da08f\", \"0x000010b3\", \"382aa9fa88adadbd59c233c4297b1072c51bbf01924e2602bc9ebde224706bef\", \"0x0097\", \"0xbc7c\", 1, 0, \"│Jansson intercepts / ┤shot from Jansson / │over the bar\"]"
+  },
+  {
+   "step": 46,
+   "source": "memory",
+   "field": "match read 46: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:45:46.292Z\", 26.028, \"0x000da096\", \"0x000010b3\", \"382aa9fa88adadbd59c233c4297b1072c51bbf01924e2602bc9ebde224706bef\", \"0x0097\", \"0xbc7c\", 1, 0, \"│Jansson intercepts / ┤shot from Jansson / │over the bar\"]"
+  },
+  {
+   "step": 47,
+   "source": "memory",
+   "field": "match read 47: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:45:46.844Z\", 26.584, \"0x000da09d\", \"0x000010b3\", \"382aa9fa88adadbd59c233c4297b1072c51bbf01924e2602bc9ebde224706bef\", \"0x0097\", \"0xbc7c\", 1, 0, \"│Jansson intercepts / ┤shot from Jansson / │over the bar\"]"
+  },
+  {
+   "step": 48,
+   "source": "memory",
+   "field": "match read 48: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:45:47.402Z\", 27.138, \"0x000da0a5\", \"0x000010b3\", \"382aa9fa88adadbd59c233c4297b1072c51bbf01924e2602bc9ebde224706bef\", \"0x0097\", \"0xbc7c\", 1, 0, \"│Jansson intercepts / ┤shot from Jansson / │over the bar\"]"
+  },
+  {
+   "step": 49,
+   "source": "memory",
+   "field": "match read 49: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:45:47.951Z\", 27.687, \"0x000da0ac\", \"0x000010b3\", \"a93174de30efa16dab318b48891884264a49e08b5a235763c265bd324e39f801\", \"0x00c2\", \"0x835e\", 1, 0, \"│*** FREE KICK *** / ┤Christofte to take free kick / │Christofte makes a pass\"]"
+  },
+  {
+   "step": 50,
+   "source": "memory",
+   "field": "match read 50: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:45:48.499Z\", 28.232, \"0x000da0b4\", \"0x000010b3\", \"47f49b016d88a306f6215baaa89f888beb8a2baedeb89a81b3835cd4d4c998f2\", \"0x0028\", \"0x9087\", 1, 0, \"│pass by Ekstrom / ┤Sivebaek intercepts / │Sivebaek makes a run\"]"
+  },
+  {
+   "step": 51,
+   "source": "memory",
+   "field": "match read 51: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:45:49.043Z\", 28.776, \"0x000da0bb\", \"0x000010b3\", \"c5669b06d1b05a7fe681f4087da53953a06ee33349ea90d625546eb581dfc2d1\", \"0x0045\", \"0xa3c6\", 2, 0, \"│shot from Povlsen / ┤Eriksson has no chance / │**** GOAL **** by Povlsen\"]"
+  },
+  {
+   "step": 52,
+   "source": "memory",
+   "field": "match read 52: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:45:49.589Z\", 29.322, \"0x000da0c3\", \"0x000010b3\", \"c5669b06d1b05a7fe681f4087da53953a06ee33349ea90d625546eb581dfc2d1\", \"0x0045\", \"0xa3c6\", 2, 0, \"│shot from Povlsen / ┤Eriksson has no chance / │**** GOAL **** by Povlsen\"]"
+  },
+  {
+   "step": 53,
+   "source": "memory",
+   "field": "match read 53: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:45:50.135Z\", 29.868, \"0x000da0c9\", \"0x000010b3\", \"c5669b06d1b05a7fe681f4087da53953a06ee33349ea90d625546eb581dfc2d1\", \"0x0045\", \"0xa3c6\", 2, 0, \"│shot from Povlsen / ┤Eriksson has no chance / │**** GOAL **** by Povlsen\"]"
+  },
+  {
+   "step": 54,
+   "source": "memory",
+   "field": "match read 54: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:45:50.685Z\", 30.417, \"0x000da0d1\", \"0x000010b3\", \"c5669b06d1b05a7fe681f4087da53953a06ee33349ea90d625546eb581dfc2d1\", \"0x0045\", \"0xa3c6\", 2, 0, \"│shot from Povlsen / ┤Eriksson has no chance / │**** GOAL **** by Povlsen\"]"
+  },
+  {
+   "step": 55,
+   "source": "memory",
+   "field": "match read 55: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:45:51.231Z\", 30.966, \"0x000da0d8\", \"0x000010b3\", \"c5669b06d1b05a7fe681f4087da53953a06ee33349ea90d625546eb581dfc2d1\", \"0x0045\", \"0xa3c6\", 2, 0, \"│shot from Povlsen / ┤Eriksson has no chance / │**** GOAL **** by Povlsen\"]"
+  },
+  {
+   "step": 56,
+   "source": "memory",
+   "field": "match read 56: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:45:51.782Z\", 31.514, \"0x000da0df\", \"0x000010b3\", \"c5669b06d1b05a7fe681f4087da53953a06ee33349ea90d625546eb581dfc2d1\", \"0x0045\", \"0xa3c6\", 2, 0, \"│shot from Povlsen / ┤Eriksson has no chance / │**** GOAL **** by Povlsen\"]"
+  },
+  {
+   "step": 57,
+   "source": "memory",
+   "field": "match read 57: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:45:52.328Z\", 32.063, \"0x000da0e7\", \"0x000010b3\", \"c5669b06d1b05a7fe681f4087da53953a06ee33349ea90d625546eb581dfc2d1\", \"0x0045\", \"0xa3c6\", 2, 0, \"│shot from Povlsen / ┤Eriksson has no chance / │**** GOAL **** by Povlsen\"]"
+  },
+  {
+   "step": 58,
+   "source": "memory",
+   "field": "match read 58: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:45:52.882Z\", 32.615, \"0x000da0ee\", \"0x000010b3\", \"c5669b06d1b05a7fe681f4087da53953a06ee33349ea90d625546eb581dfc2d1\", \"0x0045\", \"0xa3c6\", 2, 0, \"│shot from Povlsen / ┤Eriksson has no chance / │**** GOAL **** by Povlsen\"]"
+  },
+  {
+   "step": 59,
+   "source": "memory",
+   "field": "match read 59: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:45:53.426Z\", 33.159, \"0x000da0f5\", \"0x000010b3\", \"c5669b06d1b05a7fe681f4087da53953a06ee33349ea90d625546eb581dfc2d1\", \"0x0045\", \"0xa3c6\", 2, 0, \"│shot from Povlsen / ┤Eriksson has no chance / │**** GOAL **** by Povlsen\"]"
+  },
+  {
+   "step": 60,
+   "source": "memory",
+   "field": "match read 60: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:45:53.974Z\", 33.705, \"0x000da0fd\", \"0x000010b3\", \"c5669b06d1b05a7fe681f4087da53953a06ee33349ea90d625546eb581dfc2d1\", \"0x0045\", \"0xa3c6\", 2, 0, \"│shot from Povlsen / ┤Eriksson has no chance / │**** GOAL **** by Povlsen\"]"
+  },
+  {
+   "step": 61,
+   "source": "memory",
+   "field": "match read 61: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:45:54.517Z\", 34.251, \"0x000da104\", \"0x000010b3\", \"c5669b06d1b05a7fe681f4087da53953a06ee33349ea90d625546eb581dfc2d1\", \"0x0045\", \"0xa3c6\", 2, 0, \"│shot from Povlsen / ┤Eriksson has no chance / │**** GOAL **** by Povlsen\"]"
+  },
+  {
+   "step": 62,
+   "source": "memory",
+   "field": "match read 62: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:45:55.066Z\", 34.798, \"0x000da10c\", \"0x000010b3\", \"c5669b06d1b05a7fe681f4087da53953a06ee33349ea90d625546eb581dfc2d1\", \"0x0045\", \"0xa3c6\", 2, 0, \"│shot from Povlsen / ┤Eriksson has no chance / │**** GOAL **** by Povlsen\"]"
+  },
+  {
+   "step": 63,
+   "source": "memory",
+   "field": "match read 63: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:45:55.614Z\", 35.346, \"0x000da113\", \"0x000010b3\", \"c5669b06d1b05a7fe681f4087da53953a06ee33349ea90d625546eb581dfc2d1\", \"0x0045\", \"0xa3c6\", 2, 0, \"│shot from Povlsen / ┤Eriksson has no chance / │**** GOAL **** by Povlsen\"]"
+  },
+  {
+   "step": 64,
+   "source": "memory",
+   "field": "match read 64: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:45:56.162Z\", 35.896, \"0x000da11b\", \"0x000010b3\", \"c5669b06d1b05a7fe681f4087da53953a06ee33349ea90d625546eb581dfc2d1\", \"0x0045\", \"0xa3c6\", 2, 0, \"│shot from Povlsen / ┤Eriksson has no chance / │**** GOAL **** by Povlsen\"]"
+  },
+  {
+   "step": 65,
+   "source": "memory",
+   "field": "match read 65: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:45:56.711Z\", 36.448, \"0x000da123\", \"0x000010b3\", \"c5669b06d1b05a7fe681f4087da53953a06ee33349ea90d625546eb581dfc2d1\", \"0x0045\", \"0xa3c6\", 2, 0, \"│shot from Povlsen / ┤Eriksson has no chance / │**** GOAL **** by Povlsen\"]"
+  },
+  {
+   "step": 66,
+   "source": "memory",
+   "field": "match read 66: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:45:57.263Z\", 36.994, \"0x000da12a\", \"0x000010b3\", \"c5669b06d1b05a7fe681f4087da53953a06ee33349ea90d625546eb581dfc2d1\", \"0x0045\", \"0xa3c6\", 2, 0, \"│shot from Povlsen / ┤Eriksson has no chance / │**** GOAL **** by Povlsen\"]"
+  },
+  {
+   "step": 67,
+   "source": "memory",
+   "field": "match read 67: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:45:57.807Z\", 37.538, \"0x000da132\", \"0x000010b3\", \"c5669b06d1b05a7fe681f4087da53953a06ee33349ea90d625546eb581dfc2d1\", \"0x0045\", \"0xa3c6\", 2, 0, \"│shot from Povlsen / ┤Eriksson has no chance / │**** GOAL **** by Povlsen\"]"
+  },
+  {
+   "step": 68,
+   "source": "memory",
+   "field": "match read 68: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:45:58.353Z\", 38.083, \"0x000da139\", \"0x000010b3\", \"e7e3ea5c39cf3f06e0ac87915c5d49d88c2125ecea78f6acc35b7c6f740b5cdf\", \"0x0054\", \"0xd909\", 2, 0, \"│Povlsen on the ball / ┤Povlsen makes a run / │pass by Povlsen\"]"
+  },
+  {
+   "step": 69,
+   "source": "memory",
+   "field": "match read 69: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:45:58.894Z\", 38.632, \"0x000da141\", \"0x000010b3\", \"4195edbe318571acf660cbe87dba8274579e93b8e29ebf04726e8f7762f76a8c\", \"0x008b\", \"0x5cd8\", 2, 0, \"│pass by Olsen / ┤Ljung intercepts / │Ljung makes a run\"]"
+  },
+  {
+   "step": 70,
+   "source": "memory",
+   "field": "match read 70: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:45:59.446Z\", 39.182, \"0x000da148\", \"0x000010b3\", \"3d169b1a12699b4f99392bfe8e43319ab57726ad6c349f061453c6a65ff1c4af\", \"0x00bf\", \"0xfb29\", 2, 0, \"│tackle by Ljung / ┤Ljung wins the ball / │Ljung makes a run\"]"
+  },
+  {
+   "step": 71,
+   "source": "memory",
+   "field": "match read 71: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:45:59.995Z\", 39.732, \"0x000da150\", \"0x000010b3\", \"6894cee86d98835cbe47a6a319a8cc4e04c0ca030d6a4528d2ceb9de2c982780\", \"0x0015\", \"0x04d1\", 2, 0, \"│** LINESMAN FLAGS ** / ┤Jansson is OFFSIDE / │*** FREE KICK ***\"]"
+  },
+  {
+   "step": 72,
+   "source": "memory",
+   "field": "match read 72: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:46:00.545Z\", 40.279, \"0x000da157\", \"0x000010b3\", \"c64b5e26c2e7b50e938539a5f69e4db9e12960ffdaf64e47ba12b72c2da28a81\", \"0x0038\", \"0x35f7\", 3, 0, \"│shot from Povlsen / ┤Eriksson beaten / │**** GOAL **** by Povlsen\"]"
+  },
+  {
+   "step": 73,
+   "source": "memory",
+   "field": "match read 73: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:46:01.091Z\", 40.827, \"0x000da15f\", \"0x000010b3\", \"c64b5e26c2e7b50e938539a5f69e4db9e12960ffdaf64e47ba12b72c2da28a81\", \"0x0038\", \"0x35f7\", 3, 0, \"│shot from Povlsen / ┤Eriksson beaten / │**** GOAL **** by Povlsen\"]"
+  },
+  {
+   "step": 74,
+   "source": "memory",
+   "field": "match read 74: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:46:01.643Z\", 41.371, \"0x000da166\", \"0x000010b3\", \"c64b5e26c2e7b50e938539a5f69e4db9e12960ffdaf64e47ba12b72c2da28a81\", \"0x0038\", \"0x35f7\", 3, 0, \"│shot from Povlsen / ┤Eriksson beaten / │**** GOAL **** by Povlsen\"]"
+  },
+  {
+   "step": 75,
+   "source": "memory",
+   "field": "match read 75: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:46:02.185Z\", 41.917, \"0x000da16e\", \"0x000010b3\", \"c64b5e26c2e7b50e938539a5f69e4db9e12960ffdaf64e47ba12b72c2da28a81\", \"0x0038\", \"0x35f7\", 3, 0, \"│shot from Povlsen / ┤Eriksson beaten / │**** GOAL **** by Povlsen\"]"
+  },
+  {
+   "step": 76,
+   "source": "memory",
+   "field": "match read 76: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:46:02.731Z\", 42.463, \"0x000da176\", \"0x000010b3\", \"c64b5e26c2e7b50e938539a5f69e4db9e12960ffdaf64e47ba12b72c2da28a81\", \"0x0038\", \"0x35f7\", 3, 0, \"│shot from Povlsen / ┤Eriksson beaten / │**** GOAL **** by Povlsen\"]"
+  },
+  {
+   "step": 77,
+   "source": "memory",
+   "field": "match read 77: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:46:03.276Z\", 43.012, \"0x000da17d\", \"0x000010b3\", \"c64b5e26c2e7b50e938539a5f69e4db9e12960ffdaf64e47ba12b72c2da28a81\", \"0x0038\", \"0x35f7\", 3, 0, \"│shot from Povlsen / ┤Eriksson beaten / │**** GOAL **** by Povlsen\"]"
+  },
+  {
+   "step": 78,
+   "source": "memory",
+   "field": "match read 78: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:46:03.827Z\", 43.563, \"0x000da185\", \"0x000010b3\", \"c64b5e26c2e7b50e938539a5f69e4db9e12960ffdaf64e47ba12b72c2da28a81\", \"0x0038\", \"0x35f7\", 3, 0, \"│shot from Povlsen / ┤Eriksson beaten / │**** GOAL **** by Povlsen\"]"
+  },
+  {
+   "step": 79,
+   "source": "memory",
+   "field": "match read 79: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:46:04.381Z\", 44.116, \"0x000da18d\", \"0x000010b3\", \"c64b5e26c2e7b50e938539a5f69e4db9e12960ffdaf64e47ba12b72c2da28a81\", \"0x0038\", \"0x35f7\", 3, 0, \"│shot from Povlsen / ┤Eriksson beaten / │**** GOAL **** by Povlsen\"]"
+  },
+  {
+   "step": 80,
+   "source": "memory",
+   "field": "match read 80: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:46:04.933Z\", 44.667, \"0x000da194\", \"0x000010b3\", \"c64b5e26c2e7b50e938539a5f69e4db9e12960ffdaf64e47ba12b72c2da28a81\", \"0x0038\", \"0x35f7\", 3, 0, \"│shot from Povlsen / ┤Eriksson beaten / │**** GOAL **** by Povlsen\"]"
+  },
+  {
+   "step": 81,
+   "source": "memory",
+   "field": "match read 81: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:46:05.482Z\", 45.218, \"0x000da19b\", \"0x000010b3\", \"c64b5e26c2e7b50e938539a5f69e4db9e12960ffdaf64e47ba12b72c2da28a81\", \"0x0038\", \"0x35f7\", 3, 0, \"│shot from Povlsen / ┤Eriksson beaten / │**** GOAL **** by Povlsen\"]"
+  },
+  {
+   "step": 82,
+   "source": "memory",
+   "field": "match read 82: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:46:06.034Z\", 45.767, \"0x000da1a3\", \"0x000010b3\", \"c64b5e26c2e7b50e938539a5f69e4db9e12960ffdaf64e47ba12b72c2da28a81\", \"0x0038\", \"0x35f7\", 3, 0, \"│shot from Povlsen / ┤Eriksson beaten / │**** GOAL **** by Povlsen\"]"
+  },
+  {
+   "step": 83,
+   "source": "memory",
+   "field": "match read 83: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:46:06.586Z\", 46.323, \"0x000da1aa\", \"0x000010b3\", \"c64b5e26c2e7b50e938539a5f69e4db9e12960ffdaf64e47ba12b72c2da28a81\", \"0x0038\", \"0x35f7\", 3, 0, \"│shot from Povlsen / ┤Eriksson beaten / │**** GOAL **** by Povlsen\"]"
+  },
+  {
+   "step": 84,
+   "source": "memory",
+   "field": "match read 84: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:46:07.143Z\", 46.878, \"0x000da1b2\", \"0x000010b3\", \"c64b5e26c2e7b50e938539a5f69e4db9e12960ffdaf64e47ba12b72c2da28a81\", \"0x0038\", \"0x35f7\", 3, 0, \"│shot from Povlsen / ┤Eriksson beaten / │**** GOAL **** by Povlsen\"]"
+  },
+  {
+   "step": 85,
+   "source": "memory",
+   "field": "match read 85: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:46:07.693Z\", 47.438, \"0x000da1b9\", \"0x000010b3\", \"c64b5e26c2e7b50e938539a5f69e4db9e12960ffdaf64e47ba12b72c2da28a81\", \"0x0038\", \"0x35f7\", 3, 0, \"│shot from Povlsen / ┤Eriksson beaten / │**** GOAL **** by Povlsen\"]"
+  },
+  {
+   "step": 86,
+   "source": "memory",
+   "field": "match read 86: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:46:08.260Z\", 48.001, \"0x000da1c1\", \"0x000010b3\", \"c64b5e26c2e7b50e938539a5f69e4db9e12960ffdaf64e47ba12b72c2da28a81\", \"0x0038\", \"0x35f7\", 3, 0, \"│shot from Povlsen / ┤Eriksson beaten / │**** GOAL **** by Povlsen\"]"
+  },
+  {
+   "step": 87,
+   "source": "memory",
+   "field": "match read 87: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:46:08.821Z\", 48.559, \"0x000da1c8\", \"0x000010b3\", \"c64b5e26c2e7b50e938539a5f69e4db9e12960ffdaf64e47ba12b72c2da28a81\", \"0x0038\", \"0x35f7\", 3, 0, \"│shot from Povlsen / ┤Eriksson beaten / │**** GOAL **** by Povlsen\"]"
+  },
+  {
+   "step": 88,
+   "source": "memory",
+   "field": "match read 88: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:46:09.375Z\", 49.111, \"0x000da1cf\", \"0x000010b3\", \"c64b5e26c2e7b50e938539a5f69e4db9e12960ffdaf64e47ba12b72c2da28a81\", \"0x0038\", \"0x35f7\", 3, 0, \"│shot from Povlsen / ┤Eriksson beaten / │**** GOAL **** by Povlsen\"]"
+  },
+  {
+   "step": 89,
+   "source": "memory",
+   "field": "match read 89: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:46:09.927Z\", 49.663, \"0x000da1d7\", \"0x000010b3\", \"e0b2cf0cdfd06a7b1eee34974b48c7e72059d25db68a22c24f830e87aac3f0d7\", \"0x0052\", \"0x380d\", 3, 0, \"│good ball for Ekstrom / ┤Ekstrom on the ball / │Ekstrom makes a run\"]"
+  },
+  {
+   "step": 90,
+   "source": "memory",
+   "field": "match read 90: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:46:10.476Z\", 50.223, \"0x000da1de\", \"0x000010b3\", \"564975d1560f7245b122b13739daa73202bdddaaea0cec62c01727ab966fdd2e\", \"0x007f\", \"0x2b64\", 3, 0, \"│Erlingmark intercepts / ┤Laudrup is OFFSIDE / │*** FREE KICK ***\"]"
+  },
+  {
+   "step": 91,
+   "source": "memory",
+   "field": "match read 91: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:46:11.041Z\", 50.793, \"0x000da1e5\", \"0x000010b3\", \"4ef86f84140a01befca04ee1c7c8a8d437508ac5de8ce9acccde75198bc55e21\", \"0x008d\", \"0x2fa1\", 3, 0, \"│good ball for Ekstrom / ┤Ekstrom on the ball / │shot from Ekstrom\"]"
+  },
+  {
+   "step": 92,
+   "source": "memory",
+   "field": "match read 92: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:46:11.607Z\", 51.354, \"0x000da1ec\", \"0x000010b3\", \"4ef86f84140a01befca04ee1c7c8a8d437508ac5de8ce9acccde75198bc55e21\", \"0x008d\", \"0x2fa1\", 3, 0, \"│good ball for Ekstrom / ┤Ekstrom on the ball / │shot from Ekstrom\"]"
+  },
+  {
+   "step": 93,
+   "source": "memory",
+   "field": "match read 93: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:46:12.172Z\", 51.911, \"0x000da1f3\", \"0x000010b3\", \"4ef86f84140a01befca04ee1c7c8a8d437508ac5de8ce9acccde75198bc55e21\", \"0x008d\", \"0x2fa1\", 3, 0, \"│good ball for Ekstrom / ┤Ekstrom on the ball / │shot from Ekstrom\"]"
+  },
+  {
+   "step": 94,
+   "source": "memory",
+   "field": "match read 94: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:46:12.725Z\", 52.463, \"0x000da1fa\", \"0x000010b3\", \"4ef86f84140a01befca04ee1c7c8a8d437508ac5de8ce9acccde75198bc55e21\", \"0x008d\", \"0x2fa1\", 3, 0, \"│good ball for Ekstrom / ┤Ekstrom on the ball / │shot from Ekstrom\"]"
+  },
+  {
+   "step": 95,
+   "source": "memory",
+   "field": "match read 95: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:46:13.285Z\", 53.023, \"0x000da201\", \"0x000010b3\", \"4ef86f84140a01befca04ee1c7c8a8d437508ac5de8ce9acccde75198bc55e21\", \"0x008d\", \"0x2fa1\", 3, 0, \"│good ball for Ekstrom / ┤Ekstrom on the ball / │shot from Ekstrom\"]"
+  },
+  {
+   "step": 96,
+   "source": "memory",
+   "field": "match read 96: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:46:13.836Z\", 53.569, \"0x000da208\", \"0x000010b3\", \"4ef86f84140a01befca04ee1c7c8a8d437508ac5de8ce9acccde75198bc55e21\", \"0x008d\", \"0x2fa1\", 3, 0, \"│good ball for Ekstrom / ┤Ekstrom on the ball / │shot from Ekstrom\"]"
+  },
+  {
+   "step": 97,
+   "source": "memory",
+   "field": "match read 97: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:46:14.384Z\", 54.125, \"0x000da20f\", \"0x000010b3\", \"4ef86f84140a01befca04ee1c7c8a8d437508ac5de8ce9acccde75198bc55e21\", \"0x008d\", \"0x2fa1\", 3, 0, \"│good ball for Ekstrom / ┤Ekstrom on the ball / │shot from Ekstrom\"]"
+  },
+  {
+   "step": 98,
+   "source": "memory",
+   "field": "match read 98: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:46:14.942Z\", 54.68, \"0x000da216\", \"0x000010b3\", \"4ef86f84140a01befca04ee1c7c8a8d437508ac5de8ce9acccde75198bc55e21\", \"0x008d\", \"0x2fa1\", 3, 0, \"│good ball for Ekstrom / ┤Ekstrom on the ball / │shot from Ekstrom\"]"
+  },
+  {
+   "step": 99,
+   "source": "memory",
+   "field": "match read 99: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:46:15.498Z\", 55.233, \"0x000da21e\", \"0x000010b3\", \"4ef86f84140a01befca04ee1c7c8a8d437508ac5de8ce9acccde75198bc55e21\", \"0x008d\", \"0x2fa1\", 3, 0, \"│good ball for Ekstrom / ┤Ekstrom on the ball / │shot from Ekstrom\"]"
+  },
+  {
+   "step": 100,
+   "source": "memory",
+   "field": "match read 100: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:46:16.048Z\", 55.781, \"0x000da225\", \"0x000010b3\", \"4ef86f84140a01befca04ee1c7c8a8d437508ac5de8ce9acccde75198bc55e21\", \"0x008d\", \"0x2fa1\", 3, 0, \"│good ball for Ekstrom / ┤Ekstrom on the ball / │shot from Ekstrom\"]"
+  },
+  {
+   "step": 101,
+   "source": "memory",
+   "field": "match read 101: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:46:16.599Z\", 56.331, \"0x000da22c\", \"0x000010b3\", \"4ef86f84140a01befca04ee1c7c8a8d437508ac5de8ce9acccde75198bc55e21\", \"0x008d\", \"0x2fa1\", 3, 0, \"│good ball for Ekstrom / ┤Ekstrom on the ball / │shot from Ekstrom\"]"
+  },
+  {
+   "step": 102,
+   "source": "memory",
+   "field": "match read 102: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:46:17.144Z\", 56.884, \"0x000da233\", \"0x000010b3\", \"4ef86f84140a01befca04ee1c7c8a8d437508ac5de8ce9acccde75198bc55e21\", \"0x008d\", \"0x2fa1\", 3, 0, \"│good ball for Ekstrom / ┤Ekstrom on the ball / │shot from Ekstrom\"]"
+  },
+  {
+   "step": 103,
+   "source": "memory",
+   "field": "match read 103: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:46:17.703Z\", 57.436, \"0x000da23b\", \"0x000010b3\", \"4ef86f84140a01befca04ee1c7c8a8d437508ac5de8ce9acccde75198bc55e21\", \"0x008d\", \"0x2fa1\", 3, 0, \"│good ball for Ekstrom / ┤Ekstrom on the ball / │shot from Ekstrom\"]"
+  },
+  {
+   "step": 104,
+   "source": "memory",
+   "field": "match read 104: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:46:18.248Z\", 57.983, \"0x000da242\", \"0x000010b3\", \"4ef86f84140a01befca04ee1c7c8a8d437508ac5de8ce9acccde75198bc55e21\", \"0x008d\", \"0x2fa1\", 3, 0, \"│good ball for Ekstrom / ┤Ekstrom on the ball / │shot from Ekstrom\"]"
+  },
+  {
+   "step": 105,
+   "source": "memory",
+   "field": "match read 105: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:46:18.798Z\", 58.53, \"0x000da24a\", \"0x000010b3\", \"4ef86f84140a01befca04ee1c7c8a8d437508ac5de8ce9acccde75198bc55e21\", \"0x008d\", \"0x2fa1\", 3, 0, \"│good ball for Ekstrom / ┤Ekstrom on the ball / │shot from Ekstrom\"]"
+  },
+  {
+   "step": 106,
+   "source": "memory",
+   "field": "match read 106: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:46:19.346Z\", 59.083, \"0x000da251\", \"0x000010b3\", \"4ef86f84140a01befca04ee1c7c8a8d437508ac5de8ce9acccde75198bc55e21\", \"0x008d\", \"0x2fa1\", 3, 0, \"│good ball for Ekstrom / ┤Ekstrom on the ball / │shot from Ekstrom\"]"
+  },
+  {
+   "step": 107,
+   "source": "memory",
+   "field": "match read 107: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:46:19.901Z\", 59.635, \"0x000da259\", \"0x000010b3\", \"4ef86f84140a01befca04ee1c7c8a8d437508ac5de8ce9acccde75198bc55e21\", \"0x008d\", \"0x2fa1\", 3, 0, \"│good ball for Ekstrom / ┤Ekstrom on the ball / │shot from Ekstrom\"]"
+  },
+  {
+   "step": 108,
+   "source": "memory",
+   "field": "match read 108: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:46:20.450Z\", 60.187, \"0x000da260\", \"0x000010b3\", \"4ef86f84140a01befca04ee1c7c8a8d437508ac5de8ce9acccde75198bc55e21\", \"0x008d\", \"0x2fa1\", 3, 0, \"│good ball for Ekstrom / ┤Ekstrom on the ball / │shot from Ekstrom\"]"
+  },
+  {
+   "step": 109,
+   "source": "memory",
+   "field": "match read 109: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:46:21.006Z\", 60.738, \"0x000da268\", \"0x000010b3\", \"4ef86f84140a01befca04ee1c7c8a8d437508ac5de8ce9acccde75198bc55e21\", \"0x008d\", \"0x2fa1\", 3, 0, \"│good ball for Ekstrom / ┤Ekstrom on the ball / │shot from Ekstrom\"]"
+  },
+  {
+   "step": 110,
+   "source": "memory",
+   "field": "match read 110: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:46:21.551Z\", 61.285, \"0x000da26f\", \"0x000010b3\", \"4ef86f84140a01befca04ee1c7c8a8d437508ac5de8ce9acccde75198bc55e21\", \"0x008d\", \"0x2fa1\", 3, 0, \"│good ball for Ekstrom / ┤Ekstrom on the ball / │shot from Ekstrom\"]"
+  },
+  {
+   "step": 111,
+   "source": "memory",
+   "field": "match read 111: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:46:22.102Z\", 61.836, \"0x000da276\", \"0x000010b3\", \"4ef86f84140a01befca04ee1c7c8a8d437508ac5de8ce9acccde75198bc55e21\", \"0x008d\", \"0x2fa1\", 3, 0, \"│good ball for Ekstrom / ┤Ekstrom on the ball / │shot from Ekstrom\"]"
+  },
+  {
+   "step": 112,
+   "source": "memory",
+   "field": "match read 112: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:46:22.651Z\", 62.387, \"0x000da27e\", \"0x000010b3\", \"4ef86f84140a01befca04ee1c7c8a8d437508ac5de8ce9acccde75198bc55e21\", \"0x008d\", \"0x2fa1\", 3, 0, \"│good ball for Ekstrom / ┤Ekstrom on the ball / │shot from Ekstrom\"]"
+  },
+  {
+   "step": 113,
+   "source": "memory",
+   "field": "match read 113: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:46:23.204Z\", 62.941, \"0x000da286\", \"0x000010b3\", \"4ef86f84140a01befca04ee1c7c8a8d437508ac5de8ce9acccde75198bc55e21\", \"0x008d\", \"0x2fa1\", 3, 0, \"│good ball for Ekstrom / ┤Ekstrom on the ball / │shot from Ekstrom\"]"
+  },
+  {
+   "step": 114,
+   "source": "memory",
+   "field": "match read 114: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:46:23.757Z\", 63.494, \"0x000da28d\", \"0x000010b3\", \"4ef86f84140a01befca04ee1c7c8a8d437508ac5de8ce9acccde75198bc55e21\", \"0x008d\", \"0x2fa1\", 3, 0, \"│good ball for Ekstrom / ┤Ekstrom on the ball / │shot from Ekstrom\"]"
+  },
+  {
+   "step": 115,
+   "source": "memory",
+   "field": "match read 115: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:46:24.313Z\", 64.055, \"0x000da295\", \"0x000010b3\", \"4ef86f84140a01befca04ee1c7c8a8d437508ac5de8ce9acccde75198bc55e21\", \"0x008d\", \"0x2fa1\", 3, 0, \"│good ball for Ekstrom / ┤Ekstrom on the ball / │shot from Ekstrom\"]"
+  },
+  {
+   "step": 116,
+   "source": "memory",
+   "field": "match read 116: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:46:24.874Z\", 64.614, \"0x000da29c\", \"0x000010b3\", \"4ef86f84140a01befca04ee1c7c8a8d437508ac5de8ce9acccde75198bc55e21\", \"0x008d\", \"0x2fa1\", 3, 0, \"│good ball for Ekstrom / ┤Ekstrom on the ball / │shot from Ekstrom\"]"
+  },
+  {
+   "step": 117,
+   "source": "memory",
+   "field": "match read 117: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:46:25.429Z\", 65.169, \"0x000da2a3\", \"0x000010b3\", \"4ef86f84140a01befca04ee1c7c8a8d437508ac5de8ce9acccde75198bc55e21\", \"0x008d\", \"0x2fa1\", 3, 0, \"│good ball for Ekstrom / ┤Ekstrom on the ball / │shot from Ekstrom\"]"
+  },
+  {
+   "step": 118,
+   "source": "memory",
+   "field": "match read 118: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:46:25.985Z\", 65.718, \"0x000da2aa\", \"0x000010b3\", \"4ef86f84140a01befca04ee1c7c8a8d437508ac5de8ce9acccde75198bc55e21\", \"0x008d\", \"0x2fa1\", 3, 0, \"│good ball for Ekstrom / ┤Ekstrom on the ball / │shot from Ekstrom\"]"
+  },
+  {
+   "step": 119,
+   "source": "memory",
+   "field": "match read 119: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:46:26.533Z\", 66.264, \"0x000da2b2\", \"0x000010b3\", \"35d3c9b4ede3634aff33f2047b43017b1c2f5f8f8bf47bf29b9f02b38ba356bb\", \"0x0092\", \"0x0b2e\", 3, 0, \"│long kick from Piechnik / ┤headed on by Jensen / │Povlsen on the ball\"]"
+  },
+  {
+   "step": 120,
+   "source": "memory",
+   "field": "match read 120: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:46:27.076Z\", 66.809, \"0x000da2b9\", \"0x000010b3\", \"44afb9c667ef639985044d3d31442eba2903b0d6685116c513733d371691b04a\", \"0x00b3\", \"0x2abe\", 3, 0, \"│Brolin wins the ball / ┤Brolin makes a run / │---- HALF TIME ----\"]"
+  },
+  {
+   "step": 121,
+   "source": "memory",
+   "field": "match read 121: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:46:27.619Z\", 67.359, \"0x000da2c0\", \"0x000010b3\", \"44afb9c667ef639985044d3d31442eba2903b0d6685116c513733d371691b04a\", \"0x00b3\", \"0x2abe\", 3, 0, \"│Brolin wins the ball / ┤Brolin makes a run / │---- HALF TIME ----\"]"
+  },
+  {
+   "step": 122,
+   "source": "memory",
+   "field": "match read 122: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:46:28.292Z\", 68.025, \"0x000da2ca\", \"0x000010b3\", \"618e41e319f905b5532516e4339988d97d86779cf86a6f9f7732cb834cbb1100\", \"0x00b3\", \"0x2abe\", 3, 0, \"│Brolin wins the ball / ┤Brolin makes a run / │---- HALF TIME ----\"]"
+  },
+  {
+   "step": 123,
+   "source": "memory",
+   "field": "match read 123: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:46:28.835Z\", 68.582, \"0x000da2d2\", \"0x000010b3\", \"618e41e319f905b5532516e4339988d97d86779cf86a6f9f7732cb834cbb1100\", \"0x00b3\", \"0x2abe\", 3, 0, \"│Brolin wins the ball / ┤Brolin makes a run / │---- HALF TIME ----\"]"
+  },
+  {
+   "step": 124,
+   "source": "memory",
+   "field": "match read 124: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:46:29.533Z\", 69.276, \"0x000da2dc\", \"0x000010b3\", \"837035a39e5b4fced4746ceb637e94e17c3a662f6a6c9de19b0225b98e1abb03\", \"0x0001\", \"0x4c0d\", 3, 0, \"│Erlingmark intercepts / ┤high ball towards Ekstrom / │high ball towards Povlsen\"]"
+  },
+  {
+   "step": 125,
+   "source": "memory",
+   "field": "match read 125: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:46:30.089Z\", 69.828, \"0x000da2e2\", \"0x000010b3\", \"9f769c9dc31afb728c2fcab94a142db7c489a4aafb7deef905ea1eba1821d1d2\", \"0x001b\", \"0x6674\", 3, 0, \"│tackle by Olsen / ┤Olsen wins the ball / │high ball towards Povlsen\"]"
+  },
+  {
+   "step": 126,
+   "source": "memory",
+   "field": "match read 126: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:46:30.642Z\", 70.383, \"0x000da2e9\", \"0x000010b3\", \"0aba18d7b5c7d58eb63424f27c2d5b41c56ef948828ed4718f57efe2a994d4c7\", \"0x0040\", \"0x8ea1\", 3, 0, \"│Larsen throws the ball / ┤Piechnik on the ball / │high ball towards Povlsen\"]"
+  },
+  {
+   "step": 127,
+   "source": "memory",
+   "field": "match read 127: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:46:31.201Z\", 70.939, \"0x000da2f0\", \"0x000010b3\", \"424ddc54c5e8284d6aae9ac8f64b8d7a1ae615e30b75306f6900ca1f2d7b22f8\", \"0x0061\", \"0x3cd3\", 3, 0, \"│Erlingmark wins the ball / ┤good ball for Ekstrom / │Ekstrom on the ball\"]"
+  },
+  {
+   "step": 128,
+   "source": "memory",
+   "field": "match read 128: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:46:31.752Z\", 71.487, \"0x000da2f7\", \"0x000010b3\", \"dcdad88eaed0322132a74168d57c71a56cf535d9a75568694468fbe590de6482\", \"0x0095\", \"0x3447\", 3, 0, \"│knocked on by Christofte / ┤Sivebaek collects / │Sivebaek makes a run\"]"
+  },
+  {
+   "step": 129,
+   "source": "memory",
+   "field": "match read 129: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:46:32.300Z\", 72.039, \"0x000da2fe\", \"0x000010b3\", \"f046f15311dd602c77f318fc83b3077db63ad387e649b6a67b39eb4af185415e\", \"0x00a3\", \"0x7a6f\", 3, 0, \"│** LINESMAN FLAGS ** / ┤Jensen collects / │Povlsen is OFFSIDE\"]"
+  },
+  {
+   "step": 130,
+   "source": "memory",
+   "field": "match read 130: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:46:32.853Z\", 72.589, \"0x000da305\", \"0x000010b3\", \"f046f15311dd602c77f318fc83b3077db63ad387e649b6a67b39eb4af185415e\", \"0x00a3\", \"0x7a6f\", 3, 0, \"│** LINESMAN FLAGS ** / ┤Jensen collects / │Povlsen is OFFSIDE\"]"
+  },
+  {
+   "step": 131,
+   "source": "memory",
+   "field": "match read 131: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:46:33.407Z\", 73.146, \"0x000da30d\", \"0x000010b3\", \"f046f15311dd602c77f318fc83b3077db63ad387e649b6a67b39eb4af185415e\", \"0x00a3\", \"0x7a6f\", 3, 0, \"│** LINESMAN FLAGS ** / ┤Jensen collects / │Povlsen is OFFSIDE\"]"
+  },
+  {
+   "step": 132,
+   "source": "memory",
+   "field": "match read 132: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:46:33.963Z\", 73.704, \"0x000da315\", \"0x000010b3\", \"f046f15311dd602c77f318fc83b3077db63ad387e649b6a67b39eb4af185415e\", \"0x00a3\", \"0x7a6f\", 3, 0, \"│** LINESMAN FLAGS ** / ┤Jensen collects / │Povlsen is OFFSIDE\"]"
+  },
+  {
+   "step": 133,
+   "source": "memory",
+   "field": "match read 133: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:46:34.531Z\", 74.273, \"0x000da31d\", \"0x000010b3\", \"f046f15311dd602c77f318fc83b3077db63ad387e649b6a67b39eb4af185415e\", \"0x00a3\", \"0x7a6f\", 3, 0, \"│** LINESMAN FLAGS ** / ┤Jensen collects / │Povlsen is OFFSIDE\"]"
+  },
+  {
+   "step": 134,
+   "source": "memory",
+   "field": "match read 134: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:46:35.091Z\", 74.829, \"0x000da323\", \"0x000010b3\", \"f046f15311dd602c77f318fc83b3077db63ad387e649b6a67b39eb4af185415e\", \"0x00a3\", \"0x7a6f\", 3, 0, \"│** LINESMAN FLAGS ** / ┤Jensen collects / │Povlsen is OFFSIDE\"]"
+  },
+  {
+   "step": 135,
+   "source": "memory",
+   "field": "match read 135: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:46:35.647Z\", 75.378, \"0x000da32a\", \"0x000010b3\", \"f046f15311dd602c77f318fc83b3077db63ad387e649b6a67b39eb4af185415e\", \"0x00a3\", \"0x7a6f\", 3, 0, \"│** LINESMAN FLAGS ** / ┤Jensen collects / │Povlsen is OFFSIDE\"]"
+  },
+  {
+   "step": 136,
+   "source": "memory",
+   "field": "match read 136: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:46:36.191Z\", 75.922, \"0x000da332\", \"0x000010b3\", \"f046f15311dd602c77f318fc83b3077db63ad387e649b6a67b39eb4af185415e\", \"0x00a3\", \"0x7a6f\", 3, 0, \"│** LINESMAN FLAGS ** / ┤Jensen collects / │Povlsen is OFFSIDE\"]"
+  },
+  {
+   "step": 137,
+   "source": "memory",
+   "field": "match read 137: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:46:36.736Z\", 76.469, \"0x000da338\", \"0x000010b3\", \"f046f15311dd602c77f318fc83b3077db63ad387e649b6a67b39eb4af185415e\", \"0x00a3\", \"0x7a6f\", 3, 0, \"│** LINESMAN FLAGS ** / ┤Jensen collects / │Povlsen is OFFSIDE\"]"
+  },
+  {
+   "step": 138,
+   "source": "memory",
+   "field": "match read 138: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:46:37.282Z\", 77.018, \"0x000da340\", \"0x000010b3\", \"415099950c5fb27d9ac6728a4cdf3bb4dcd260530ef5fa58eedc873fbd12cb0b\", \"0x00a4\", \"0x7a6f\", 3, 0, \"│Jensen collects / ┤Povlsen is OFFSIDE / │Limpar on for Jansson\"]"
+  },
+  {
+   "step": 139,
+   "source": "memory",
+   "field": "match read 139: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:46:37.831Z\", 77.571, \"0x000da348\", \"0x000010b3\", \"415099950c5fb27d9ac6728a4cdf3bb4dcd260530ef5fa58eedc873fbd12cb0b\", \"0x00a4\", \"0x7a6f\", 3, 0, \"│Jensen collects / ┤Povlsen is OFFSIDE / │Limpar on for Jansson\"]"
+  },
+  {
+   "step": 140,
+   "source": "memory",
+   "field": "match read 140: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:46:38.387Z\", 78.123, \"0x000da34f\", \"0x000010b3\", \"415099950c5fb27d9ac6728a4cdf3bb4dcd260530ef5fa58eedc873fbd12cb0b\", \"0x00a4\", \"0x7a6f\", 3, 0, \"│Jensen collects / ┤Povlsen is OFFSIDE / │Limpar on for Jansson\"]"
+  },
+  {
+   "step": 141,
+   "source": "memory",
+   "field": "match read 141: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:46:38.938Z\", 78.671, \"0x000da356\", \"0x000010b3\", \"415099950c5fb27d9ac6728a4cdf3bb4dcd260530ef5fa58eedc873fbd12cb0b\", \"0x00a4\", \"0x7a6f\", 3, 0, \"│Jensen collects / ┤Povlsen is OFFSIDE / │Limpar on for Jansson\"]"
+  },
+  {
+   "step": 142,
+   "source": "memory",
+   "field": "match read 142: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:46:39.485Z\", 79.22, \"0x000da35e\", \"0x000010b3\", \"415099950c5fb27d9ac6728a4cdf3bb4dcd260530ef5fa58eedc873fbd12cb0b\", \"0x00a4\", \"0x7a6f\", 3, 0, \"│Jensen collects / ┤Povlsen is OFFSIDE / │Limpar on for Jansson\"]"
+  },
+  {
+   "step": 143,
+   "source": "memory",
+   "field": "match read 143: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:46:40.035Z\", 79.767, \"0x000da365\", \"0x000010b3\", \"415099950c5fb27d9ac6728a4cdf3bb4dcd260530ef5fa58eedc873fbd12cb0b\", \"0x00a4\", \"0x7a6f\", 3, 0, \"│Jensen collects / ┤Povlsen is OFFSIDE / │Limpar on for Jansson\"]"
+  },
+  {
+   "step": 144,
+   "source": "memory",
+   "field": "match read 144: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:46:40.580Z\", 80.313, \"0x000da36c\", \"0x000010b3\", \"415099950c5fb27d9ac6728a4cdf3bb4dcd260530ef5fa58eedc873fbd12cb0b\", \"0x00a4\", \"0x7a6f\", 3, 0, \"│Jensen collects / ┤Povlsen is OFFSIDE / │Limpar on for Jansson\"]"
+  },
+  {
+   "step": 145,
+   "source": "memory",
+   "field": "match read 145: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:46:41.128Z\", 80.859, \"0x000da374\", \"0x000010b3\", \"415099950c5fb27d9ac6728a4cdf3bb4dcd260530ef5fa58eedc873fbd12cb0b\", \"0x00a4\", \"0x7a6f\", 3, 0, \"│Jensen collects / ┤Povlsen is OFFSIDE / │Limpar on for Jansson\"]"
+  },
+  {
+   "step": 146,
+   "source": "memory",
+   "field": "match read 146: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:46:41.672Z\", 81.407, \"0x000da37b\", \"0x000010b3\", \"0c4e1c5276a14a61343e3a24c0d1f6da8f5cd6de79d728e148beb9a2eb386036\", \"0x00a5\", \"0x7a6f\", 3, 0, \"│Povlsen is OFFSIDE / ┤Limpar on for Jansson / │Thern on for Schwarz\"]"
+  },
+  {
+   "step": 147,
+   "source": "memory",
+   "field": "match read 147: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:46:42.218Z\", 81.948, \"0x000da383\", \"0x000010b3\", \"0c4e1c5276a14a61343e3a24c0d1f6da8f5cd6de79d728e148beb9a2eb386036\", \"0x00a5\", \"0x7a6f\", 3, 0, \"│Povlsen is OFFSIDE / ┤Limpar on for Jansson / │Thern on for Schwarz\"]"
+  },
+  {
+   "step": 148,
+   "source": "memory",
+   "field": "match read 148: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:46:42.761Z\", 82.493, \"0x000da38a\", \"0x000010b3\", \"0c4e1c5276a14a61343e3a24c0d1f6da8f5cd6de79d728e148beb9a2eb386036\", \"0x00a5\", \"0x7a6f\", 3, 0, \"│Povlsen is OFFSIDE / ┤Limpar on for Jansson / │Thern on for Schwarz\"]"
+  },
+  {
+   "step": 149,
+   "source": "memory",
+   "field": "match read 149: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:46:43.308Z\", 83.039, \"0x000da392\", \"0x000010b3\", \"0c4e1c5276a14a61343e3a24c0d1f6da8f5cd6de79d728e148beb9a2eb386036\", \"0x00a5\", \"0x7a6f\", 3, 0, \"│Povlsen is OFFSIDE / ┤Limpar on for Jansson / │Thern on for Schwarz\"]"
+  },
+  {
+   "step": 150,
+   "source": "memory",
+   "field": "match read 150: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:46:43.853Z\", 83.589, \"0x000da39a\", \"0x000010b3\", \"0c4e1c5276a14a61343e3a24c0d1f6da8f5cd6de79d728e148beb9a2eb386036\", \"0x00a5\", \"0x7a6f\", 3, 0, \"│Povlsen is OFFSIDE / ┤Limpar on for Jansson / │Thern on for Schwarz\"]"
+  },
+  {
+   "step": 151,
+   "source": "memory",
+   "field": "match read 151: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:46:44.406Z\", 84.139, \"0x000da3a1\", \"0x000010b3\", \"0c4e1c5276a14a61343e3a24c0d1f6da8f5cd6de79d728e148beb9a2eb386036\", \"0x00a5\", \"0x7a6f\", 3, 0, \"│Povlsen is OFFSIDE / ┤Limpar on for Jansson / │Thern on for Schwarz\"]"
+  },
+  {
+   "step": 152,
+   "source": "memory",
+   "field": "match read 152: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:46:44.956Z\", 84.688, \"0x000da3a9\", \"0x000010b3\", \"0c4e1c5276a14a61343e3a24c0d1f6da8f5cd6de79d728e148beb9a2eb386036\", \"0x00a5\", \"0x7a6f\", 3, 0, \"│Povlsen is OFFSIDE / ┤Limpar on for Jansson / │Thern on for Schwarz\"]"
+  },
+  {
+   "step": 153,
+   "source": "memory",
+   "field": "match read 153: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:46:45.502Z\", 85.238, \"0x000da3b0\", \"0x000010b3\", \"0c4e1c5276a14a61343e3a24c0d1f6da8f5cd6de79d728e148beb9a2eb386036\", \"0x00a5\", \"0x7a6f\", 3, 0, \"│Povlsen is OFFSIDE / ┤Limpar on for Jansson / │Thern on for Schwarz\"]"
+  },
+  {
+   "step": 154,
+   "source": "memory",
+   "field": "match read 154: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:46:46.056Z\", 85.79, \"0x000da3b8\", \"0x000010b3\", \"f264ec55cd9b447c3d7aa0aa1b7266eea434bde15cdb3cf03865f8268b7cb8a6\", \"0x00a7\", \"0x2566\", 3, 0, \"│Thern on for Schwarz / ┤Eriksson on for Ljung / │*** FREE KICK ***\"]"
+  },
+  {
+   "step": 155,
+   "source": "memory",
+   "field": "match read 155: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:46:46.600Z\", 86.332, \"0x000da3bf\", \"0x000010b3\", \"b6712ba361cb127d08ffca9096465360623f6e2f9fe5adc6317cae17895c6ced\", \"0x00c8\", \"0xdf93\", 3, 0, \"│good ball for Andersen / ┤Andersen on the ball / │Andersen makes a run\"]"
+  },
+  {
+   "step": 156,
+   "source": "memory",
+   "field": "match read 156: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:46:47.143Z\", 86.877, \"0x000da3c7\", \"0x000010b3\", \"12ca6d8ea45e1d6c003592a411b650dbfc9941fa5bfd6995fb6d18ffeb141b15\", \"0x0028\", \"0x959d\", 3, 0, \"│Limpar wins the ball / ┤Limpar makes a run / │Limpar makes a pass\"]"
+  },
+  {
+   "step": 157,
+   "source": "memory",
+   "field": "match read 157: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:46:47.686Z\", 87.417, \"0x000da3ce\", \"0x000010b3\", \"66b329392704a01b51166686565db71630215f99fb648605842ba054c07f9089\", \"0x0053\", \"0xb476\", 3, 0, \"│headed on by Povlsen / ┤Andersen on the ball / │Andersen makes a run\"]"
+  },
+  {
+   "step": 158,
+   "source": "memory",
+   "field": "match read 158: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:46:48.230Z\", 87.968, \"0x000da3d5\", \"0x000010b3\", \"92c800f323a8dc3b8d48c6a982b2aae31fc8ead08dc5989519dcbb7bbe874d0b\", \"0x0063\", \"0x68b6\", 3, 1, \"│shot from Ekstrom / ┤Schmeichel has no chance / │**** GOAL **** by Ekstrom\"]"
+  },
+  {
+   "step": 159,
+   "source": "memory",
+   "field": "match read 159: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:46:48.781Z\", 88.52, \"0x000da3dd\", \"0x000010b3\", \"92c800f323a8dc3b8d48c6a982b2aae31fc8ead08dc5989519dcbb7bbe874d0b\", \"0x0063\", \"0x68b6\", 3, 1, \"│shot from Ekstrom / ┤Schmeichel has no chance / │**** GOAL **** by Ekstrom\"]"
+  },
+  {
+   "step": 160,
+   "source": "memory",
+   "field": "match read 160: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:46:49.337Z\", 89.077, \"0x000da3e4\", \"0x000010b3\", \"92c800f323a8dc3b8d48c6a982b2aae31fc8ead08dc5989519dcbb7bbe874d0b\", \"0x0063\", \"0x68b6\", 3, 1, \"│shot from Ekstrom / ┤Schmeichel has no chance / │**** GOAL **** by Ekstrom\"]"
+  },
+  {
+   "step": 161,
+   "source": "memory",
+   "field": "match read 161: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:46:49.893Z\", 89.631, \"0x000da3eb\", \"0x000010b3\", \"92c800f323a8dc3b8d48c6a982b2aae31fc8ead08dc5989519dcbb7bbe874d0b\", \"0x0063\", \"0x68b6\", 3, 1, \"│shot from Ekstrom / ┤Schmeichel has no chance / │**** GOAL **** by Ekstrom\"]"
+  },
+  {
+   "step": 162,
+   "source": "memory",
+   "field": "match read 162: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:46:50.448Z\", 90.185, \"0x000da3f2\", \"0x000010b3\", \"92c800f323a8dc3b8d48c6a982b2aae31fc8ead08dc5989519dcbb7bbe874d0b\", \"0x0063\", \"0x68b6\", 3, 1, \"│shot from Ekstrom / ┤Schmeichel has no chance / │**** GOAL **** by Ekstrom\"]"
+  },
+  {
+   "step": 163,
+   "source": "memory",
+   "field": "match read 163: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:46:50.999Z\", 90.736, \"0x000da3f9\", \"0x000010b3\", \"92c800f323a8dc3b8d48c6a982b2aae31fc8ead08dc5989519dcbb7bbe874d0b\", \"0x0063\", \"0x68b6\", 3, 1, \"│shot from Ekstrom / ┤Schmeichel has no chance / │**** GOAL **** by Ekstrom\"]"
+  },
+  {
+   "step": 164,
+   "source": "memory",
+   "field": "match read 164: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:46:51.554Z\", 91.286, \"0x000da401\", \"0x000010b3\", \"92c800f323a8dc3b8d48c6a982b2aae31fc8ead08dc5989519dcbb7bbe874d0b\", \"0x0063\", \"0x68b6\", 3, 1, \"│shot from Ekstrom / ┤Schmeichel has no chance / │**** GOAL **** by Ekstrom\"]"
+  },
+  {
+   "step": 165,
+   "source": "memory",
+   "field": "match read 165: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:46:52.099Z\", 91.834, \"0x000da408\", \"0x000010b3\", \"92c800f323a8dc3b8d48c6a982b2aae31fc8ead08dc5989519dcbb7bbe874d0b\", \"0x0063\", \"0x68b6\", 3, 1, \"│shot from Ekstrom / ┤Schmeichel has no chance / │**** GOAL **** by Ekstrom\"]"
+  },
+  {
+   "step": 166,
+   "source": "memory",
+   "field": "match read 166: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:46:52.650Z\", 92.387, \"0x000da40f\", \"0x000010b3\", \"92c800f323a8dc3b8d48c6a982b2aae31fc8ead08dc5989519dcbb7bbe874d0b\", \"0x0063\", \"0x68b6\", 3, 1, \"│shot from Ekstrom / ┤Schmeichel has no chance / │**** GOAL **** by Ekstrom\"]"
+  },
+  {
+   "step": 167,
+   "source": "memory",
+   "field": "match read 167: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:46:53.202Z\", 92.938, \"0x000da417\", \"0x000010b3\", \"92c800f323a8dc3b8d48c6a982b2aae31fc8ead08dc5989519dcbb7bbe874d0b\", \"0x0063\", \"0x68b6\", 3, 1, \"│shot from Ekstrom / ┤Schmeichel has no chance / │**** GOAL **** by Ekstrom\"]"
+  },
+  {
+   "step": 168,
+   "source": "memory",
+   "field": "match read 168: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:46:53.754Z\", 93.493, \"0x000da41e\", \"0x000010b3\", \"92c800f323a8dc3b8d48c6a982b2aae31fc8ead08dc5989519dcbb7bbe874d0b\", \"0x0063\", \"0x68b6\", 3, 1, \"│shot from Ekstrom / ┤Schmeichel has no chance / │**** GOAL **** by Ekstrom\"]"
+  },
+  {
+   "step": 169,
+   "source": "memory",
+   "field": "match read 169: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:46:54.309Z\", 94.052, \"0x000da426\", \"0x000010b3\", \"92c800f323a8dc3b8d48c6a982b2aae31fc8ead08dc5989519dcbb7bbe874d0b\", \"0x0063\", \"0x68b6\", 3, 1, \"│shot from Ekstrom / ┤Schmeichel has no chance / │**** GOAL **** by Ekstrom\"]"
+  },
+  {
+   "step": 170,
+   "source": "memory",
+   "field": "match read 170: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:46:54.875Z\", 94.616, \"0x000da42d\", \"0x000010b3\", \"92c800f323a8dc3b8d48c6a982b2aae31fc8ead08dc5989519dcbb7bbe874d0b\", \"0x0063\", \"0x68b6\", 3, 1, \"│shot from Ekstrom / ┤Schmeichel has no chance / │**** GOAL **** by Ekstrom\"]"
+  },
+  {
+   "step": 171,
+   "source": "memory",
+   "field": "match read 171: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:46:55.433Z\", 95.184, \"0x000da434\", \"0x000010b3\", \"92c800f323a8dc3b8d48c6a982b2aae31fc8ead08dc5989519dcbb7bbe874d0b\", \"0x0063\", \"0x68b6\", 3, 1, \"│shot from Ekstrom / ┤Schmeichel has no chance / │**** GOAL **** by Ekstrom\"]"
+  },
+  {
+   "step": 172,
+   "source": "memory",
+   "field": "match read 172: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:46:56.027Z\", 95.777, \"0x000da43c\", \"0x000010b3\", \"92c800f323a8dc3b8d48c6a982b2aae31fc8ead08dc5989519dcbb7bbe874d0b\", \"0x0063\", \"0x68b6\", 3, 1, \"│shot from Ekstrom / ┤Schmeichel has no chance / │**** GOAL **** by Ekstrom\"]"
+  },
+  {
+   "step": 173,
+   "source": "memory",
+   "field": "match read 173: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:46:56.607Z\", 96.357, \"0x000da442\", \"0x000010b3\", \"92c800f323a8dc3b8d48c6a982b2aae31fc8ead08dc5989519dcbb7bbe874d0b\", \"0x0063\", \"0x68b6\", 3, 1, \"│shot from Ekstrom / ┤Schmeichel has no chance / │**** GOAL **** by Ekstrom\"]"
+  },
+  {
+   "step": 174,
+   "source": "memory",
+   "field": "match read 174: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:46:57.188Z\", 96.938, \"0x000da448\", \"0x000010b3\", \"92c800f323a8dc3b8d48c6a982b2aae31fc8ead08dc5989519dcbb7bbe874d0b\", \"0x0063\", \"0x68b6\", 3, 1, \"│shot from Ekstrom / ┤Schmeichel has no chance / │**** GOAL **** by Ekstrom\"]"
+  },
+  {
+   "step": 175,
+   "source": "memory",
+   "field": "match read 175: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:46:57.758Z\", 97.506, \"0x000da44f\", \"0x000010b3\", \"cb6f69ea6ee4c5a89d7ed49a857ef2bf5973e0e54a6fd403564baf31ca00a01e\", \"0x0063\", \"0xde2d\", 3, 1, \"│shot from Ekstrom / ┤Schmeichel has no chance / │**** GOAL **** by Ekstrom\"]"
+  },
+  {
+   "step": 176,
+   "source": "memory",
+   "field": "match read 176: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:46:58.323Z\", 98.07, \"0x000da455\", \"0x000010b3\", \"3e6bef2f74c77aea564be15fa422a6945460d0ed98ec1a4c9893aef8ff84fe3b\", \"0x0092\", \"0xffac\", 3, 1, \"│tackle by Rehn / ┤dodged by Povlsen / │Povlsen makes a run\"]"
+  },
+  {
+   "step": 177,
+   "source": "memory",
+   "field": "match read 177: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:46:58.884Z\", 98.629, \"0x000da45c\", \"0x000010b3\", \"8c9487f6dfe16ad8465778381786f5fcd25249f77c524e746d9fb1629faeab44\", \"0x00b4\", \"0xa89f\", 3, 1, \"│deflected by Thern / ┤Olsen intercepts / │punted away by Olsen\"]"
+  },
+  {
+   "step": 178,
+   "source": "memory",
+   "field": "match read 178: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:46:59.452Z\", 99.205, \"0x000da463\", \"0x000010b3\", \"c04ac1e8d9916d5ae1c9ba88266173d80064da8a36d5ac01b2e5430714d5283b\", \"0x0011\", \"0xc8f1\", 3, 1, \"│pass by Bjorklund / ┤Olsen intercepts / │Olsen makes a pass\"]"
+  },
+  {
+   "step": 179,
+   "source": "memory",
+   "field": "match read 179: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:47:00.027Z\", 99.77, \"0x000da46a\", \"0x000010b3\", \"abcf550a71272d09e3101e9a3112107223b34f1d32b638ca25e1420736387787\", \"0x0031\", \"0xeb68\", 3, 2, \"│shot from Ekstrom / ┤Schmeichel beaten / │**** GOAL **** by Ekstrom\"]"
+  },
+  {
+   "step": 180,
+   "source": "memory",
+   "field": "match read 180: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:47:00.584Z\", 100.326, \"0x000da471\", \"0x000010b3\", \"abcf550a71272d09e3101e9a3112107223b34f1d32b638ca25e1420736387787\", \"0x0031\", \"0xeb68\", 3, 2, \"│shot from Ekstrom / ┤Schmeichel beaten / │**** GOAL **** by Ekstrom\"]"
+  },
+  {
+   "step": 181,
+   "source": "memory",
+   "field": "match read 181: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:47:01.150Z\", 100.897, \"0x000da478\", \"0x000010b3\", \"abcf550a71272d09e3101e9a3112107223b34f1d32b638ca25e1420736387787\", \"0x0031\", \"0xeb68\", 3, 2, \"│shot from Ekstrom / ┤Schmeichel beaten / │**** GOAL **** by Ekstrom\"]"
+  },
+  {
+   "step": 182,
+   "source": "memory",
+   "field": "match read 182: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:47:01.721Z\", 101.46, \"0x000da47f\", \"0x000010b3\", \"abcf550a71272d09e3101e9a3112107223b34f1d32b638ca25e1420736387787\", \"0x0031\", \"0xeb68\", 3, 2, \"│shot from Ekstrom / ┤Schmeichel beaten / │**** GOAL **** by Ekstrom\"]"
+  },
+  {
+   "step": 183,
+   "source": "memory",
+   "field": "match read 183: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:47:02.279Z\", 102.019, \"0x000da486\", \"0x000010b3\", \"abcf550a71272d09e3101e9a3112107223b34f1d32b638ca25e1420736387787\", \"0x0031\", \"0xeb68\", 3, 2, \"│shot from Ekstrom / ┤Schmeichel beaten / │**** GOAL **** by Ekstrom\"]"
+  },
+  {
+   "step": 184,
+   "source": "memory",
+   "field": "match read 184: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:47:02.836Z\", 102.58, \"0x000da48d\", \"0x000010b3\", \"abcf550a71272d09e3101e9a3112107223b34f1d32b638ca25e1420736387787\", \"0x0031\", \"0xeb68\", 3, 2, \"│shot from Ekstrom / ┤Schmeichel beaten / │**** GOAL **** by Ekstrom\"]"
+  },
+  {
+   "step": 185,
+   "source": "memory",
+   "field": "match read 185: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:47:03.399Z\", 103.147, \"0x000da494\", \"0x000010b3\", \"abcf550a71272d09e3101e9a3112107223b34f1d32b638ca25e1420736387787\", \"0x0031\", \"0xeb68\", 3, 2, \"│shot from Ekstrom / ┤Schmeichel beaten / │**** GOAL **** by Ekstrom\"]"
+  },
+  {
+   "step": 186,
+   "source": "memory",
+   "field": "match read 186: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:47:03.973Z\", 103.726, \"0x000da49c\", \"0x000010b3\", \"abcf550a71272d09e3101e9a3112107223b34f1d32b638ca25e1420736387787\", \"0x0031\", \"0xeb68\", 3, 2, \"│shot from Ekstrom / ┤Schmeichel beaten / │**** GOAL **** by Ekstrom\"]"
+  },
+  {
+   "step": 187,
+   "source": "memory",
+   "field": "match read 187: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:47:04.560Z\", 104.307, \"0x000da4a3\", \"0x000010b3\", \"abcf550a71272d09e3101e9a3112107223b34f1d32b638ca25e1420736387787\", \"0x0031\", \"0xeb68\", 3, 2, \"│shot from Ekstrom / ┤Schmeichel beaten / │**** GOAL **** by Ekstrom\"]"
+  },
+  {
+   "step": 188,
+   "source": "memory",
+   "field": "match read 188: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:47:05.128Z\", 104.878, \"0x000da4a9\", \"0x000010b3\", \"abcf550a71272d09e3101e9a3112107223b34f1d32b638ca25e1420736387787\", \"0x0031\", \"0xeb68\", 3, 2, \"│shot from Ekstrom / ┤Schmeichel beaten / │**** GOAL **** by Ekstrom\"]"
+  },
+  {
+   "step": 189,
+   "source": "memory",
+   "field": "match read 189: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:47:05.701Z\", 105.444, \"0x000da4b0\", \"0x000010b3\", \"abcf550a71272d09e3101e9a3112107223b34f1d32b638ca25e1420736387787\", \"0x0031\", \"0xeb68\", 3, 2, \"│shot from Ekstrom / ┤Schmeichel beaten / │**** GOAL **** by Ekstrom\"]"
+  },
+  {
+   "step": 190,
+   "source": "memory",
+   "field": "match read 190: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:47:06.270Z\", 106.014, \"0x000da4b6\", \"0x000010b3\", \"abcf550a71272d09e3101e9a3112107223b34f1d32b638ca25e1420736387787\", \"0x0031\", \"0xeb68\", 3, 2, \"│shot from Ekstrom / ┤Schmeichel beaten / │**** GOAL **** by Ekstrom\"]"
+  },
+  {
+   "step": 191,
+   "source": "memory",
+   "field": "match read 191: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:47:06.836Z\", 106.58, \"0x000da4be\", \"0x000010b3\", \"abcf550a71272d09e3101e9a3112107223b34f1d32b638ca25e1420736387787\", \"0x0031\", \"0xeb68\", 3, 2, \"│shot from Ekstrom / ┤Schmeichel beaten / │**** GOAL **** by Ekstrom\"]"
+  },
+  {
+   "step": 192,
+   "source": "memory",
+   "field": "match read 192: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:47:07.410Z\", 107.154, \"0x000da4c5\", \"0x000010b3\", \"abcf550a71272d09e3101e9a3112107223b34f1d32b638ca25e1420736387787\", \"0x0031\", \"0xeb68\", 3, 2, \"│shot from Ekstrom / ┤Schmeichel beaten / │**** GOAL **** by Ekstrom\"]"
+  },
+  {
+   "step": 193,
+   "source": "memory",
+   "field": "match read 193: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:47:07.977Z\", 107.713, \"0x000da4cc\", \"0x000010b3\", \"abcf550a71272d09e3101e9a3112107223b34f1d32b638ca25e1420736387787\", \"0x0031\", \"0xeb68\", 3, 2, \"│shot from Ekstrom / ┤Schmeichel beaten / │**** GOAL **** by Ekstrom\"]"
+  },
+  {
+   "step": 194,
+   "source": "memory",
+   "field": "match read 194: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:47:08.528Z\", 108.275, \"0x000da4d3\", \"0x000010b3\", \"abcf550a71272d09e3101e9a3112107223b34f1d32b638ca25e1420736387787\", \"0x0031\", \"0xeb68\", 3, 2, \"│shot from Ekstrom / ┤Schmeichel beaten / │**** GOAL **** by Ekstrom\"]"
+  },
+  {
+   "step": 195,
+   "source": "memory",
+   "field": "match read 195: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:47:09.101Z\", 108.845, \"0x000da4db\", \"0x000010b3\", \"abcf550a71272d09e3101e9a3112107223b34f1d32b638ca25e1420736387787\", \"0x0031\", \"0xeb68\", 3, 2, \"│shot from Ekstrom / ┤Schmeichel beaten / │**** GOAL **** by Ekstrom\"]"
+  },
+  {
+   "step": 196,
+   "source": "memory",
+   "field": "match read 196: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:47:09.671Z\", 109.419, \"0x000da4e2\", \"0x000010b3\", \"abcf550a71272d09e3101e9a3112107223b34f1d32b638ca25e1420736387787\", \"0x0031\", \"0xeb68\", 3, 2, \"│shot from Ekstrom / ┤Schmeichel beaten / │**** GOAL **** by Ekstrom\"]"
+  },
+  {
+   "step": 197,
+   "source": "memory",
+   "field": "match read 197: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:47:10.238Z\", 109.985, \"0x000da4e9\", \"0x000010b3\", \"1b19f65baf51228fddb065140890fa3e87b46c4eaacc1abc2d6e5ff985e2db9e\", \"0x0046\", \"0xf647\", 3, 2, \"│tackle by Ekstrom / ┤Ekstrom wins the ball / │Ekstrom makes a run\"]"
+  },
+  {
+   "step": 198,
+   "source": "memory",
+   "field": "match read 198: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:47:10.804Z\", 110.55, \"0x000da4f0\", \"0x000010b3\", \"e78ca723b60247d4152ce0df141873cfda6c079a245b934d46870c818a31ad5f\", \"0x005e\", \"0xa621\", 3, 2, \"│Limpar on the ball / ┤Limpar makes a run / │---- FULL TIME ----\"]"
+  },
+  {
+   "step": 199,
+   "source": "memory",
+   "field": "match read 199: [host UTC time, host s since the starting burst, BIOS ticks 0040:006C, dword DS:A9FF, screen sha256, DS:80EE, DS:7B62, score DS:9B3C, score DS:9B3D, commentary rows 1-3]",
+   "value": "[\"2026-10-04T17:47:11.367Z\", 111.115, \"0x000da4f6\", \"0x000010b3\", \"e78ca723b60247d4152ce0df141873cfda6c079a245b934d46870c818a31ad5f\", \"0x005e\", \"0xa621\", 3, 2, \"│Limpar on the ball / ┤Limpar makes a run / │---- FULL TIME ----\"]"
+  },
+  {
+   "step": 200,
+   "source": "log",
+   "field": "full time: host UTC time just before the savestate was requested",
+   "value": "2026-10-04T17:47:11.367Z"
+  },
+  {
+   "step": 200,
+   "source": "log",
+   "field": "full time: host local time with UTC offset, and zone name, at the same instant",
+   "value": "2026-10-04T19:47:11.367+02:00 CEST"
+  },
+  {
+   "step": 200,
+   "source": "screen",
+   "field": "full time: text screen 80x25, chars+attributes (4000 bytes), sha256",
+   "value": "e78ca723b60247d4152ce0df141873cfda6c079a245b934d46870c818a31ad5f"
+  },
+  {
+   "step": 200,
+   "source": "ui-text",
+   "field": "full time: text screen rows 0-24, CP437 decoded, trailing blanks trimmed",
+   "value": " (c) NE'93│ ┌───────────────┬──┬FRIENDLY───────────────────────────┐┌───┐ ▄▀▀▀▄\n ┌─┐┌─┐┌─┐│ │SWEDEN---------│ 2│Limpar on the ball                 ││   │ █   █\n │ ││ ││ ││ ├versus─────────┼──┤Limpar makes a run                 │├───┤ ▄───▄\n └─┤└─┘└─┤│ │DENMARK--------│ 3│---- FULL TIME ----                ││   │ █   █\n───┘ v.2    └───────────────┴──┴───────────────────────────────────┘└───┘ └▀▀▀▀\n (half time  0:3 ) ┌─────────────────┐    ┌─────────────────┐\n ┌─────────────────│ Sweden--------- │─┐┌─│ Denmark-------- │─────────────────┐\n │                 └─────────────────┘ ││ └─────────────────┘                 │\n │ ┌─────────┐         Corners      0  ││  Corners      0     ┌─────────┐     │\n │ │ Scorers │         Free kicks   9  ││  Free kicks   2     │ Scorers │     │\n┌──┴─────────┴──┬min┐  Penalties    1  ││  Penalties    0  ┌──┴─────────┴──┬min┐\n│J Ekstrom     P│ 75│  Shots        9  ││  Shots        4  │F Povlsen      │  7│\n│J Ekstrom      │ 88│  On target    4  ││  On target    4  │F Povlsen      │ 21│\n│               │   │  Saves        1  ││  Saves        2  │F Povlsen      │ 35│\n│               │   │  Fouls        0  ││  Fouls        2  │               │   │\n│               │   │  Bookings     0  ││  Bookings     1  │               │   │\n│               │   │  Red cards    0  └┘  Red cards    0  │               │   │\n│               │   │            ┌───┬───┬───50───┬───┬───┐│               │   │\n│               │   │  Possession:■■■■■■■■■■■■■■■■■■■■■■■■:│               │   │\n│               │   │  Territory :■■■■■■■■■■■■■■■■■■■■■■■■:│               │   │\n│               │   │ ┌──────────────────────────────────┐ │               │   │\n│               │   │ │  MAN OF THE MATCH F Povlsen      │ │               │   │\n└───────────────┴───┘ └──────────────────────────────────┘ └───────────────┴───┘\n └────────────────────────────────────────────────────────────────────────────┘\n                                  hit any key                      Esc,◄┘-bench"
+  },
+  {
+   "step": 200,
+   "source": "memory",
+   "addr": "0x449",
+   "field": "full time: 1 byte at 0040:0049 (BIOS video mode), guest memory from the savestate, hex",
+   "value": "03"
+  },
+  {
+   "step": 200,
+   "source": "memory",
+   "addr": "0x46c",
+   "field": "full time: 4 bytes at 0040:006C (BIOS timer tick count), guest memory from the savestate, as a little-endian dword (bytes in memory order)",
+   "value": "0x000da4f6 (f6 a4 0d 00)"
+  },
+  {
+   "step": 200,
+   "source": "memory",
+   "addr": "0x355a2",
+   "field": "full time: word at DS:7B62 of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+   "value": "0xa621 (21 a6)"
+  },
+  {
+   "step": 200,
+   "source": "memory",
+   "addr": "0x355a4",
+   "field": "full time: word at DS:7B64 of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+   "value": "0x0618 (18 06)"
+  },
+  {
+   "step": 200,
+   "source": "memory",
+   "addr": "0x35d76",
+   "field": "full time: word at DS:8336 of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+   "value": "0x04cb (cb 04)"
+  },
+  {
+   "step": 200,
+   "source": "memory",
+   "addr": "0x3843d",
+   "field": "full time: word at DS:A9FD of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+   "value": "0x07ea (ea 07)"
+  },
+  {
+   "step": 200,
+   "source": "memory",
+   "field": "full time: score bytes DS:9B3C, DS:9B3D (engine teams 0 and 1)",
+   "value": "3 2"
+  },
+  {
+   "step": 200,
+   "source": "memory",
+   "field": "full time: match delay byte at the far pointer DS:A923 + 0x3F (0 fastest)",
+   "value": "0"
+  },
+  {
+   "step": 200,
+   "source": "memory",
+   "addr": "0x3843f",
+   "field": "full time: dword DS:A9FF of GOAL.EXE (the delay count 214B:1DA7 calibrates), little-endian (bytes in memory order)",
+   "value": "0x000010b3 (b3 10 00 00)"
+  },
+  {
+   "step": 201,
+   "source": "process",
+   "field": "other DOSBox-X and Xvfb processes on the host at end (not started by this run): [pid, seconds running, name]",
+   "value": "[[68169, 42370, \"Xvfb\"], [1872055, 25841, \"Xvfb\"], [1872060, 25841, \"dosbox-x\"]]"
+  },
+  {
+   "step": 201,
+   "source": "process",
+   "field": "/proc/loadavg at end",
+   "value": "5.11 4.74 3.82 13/932 3466389"
+  },
+  {
+   "step": 201,
+   "source": "log",
+   "field": "keys sent from the key that starts the match to full time: [seconds since the starting burst, key, why] (runtime/driver/match.py)",
+   "value": "[[0.0, \"Enter\", \"starting burst, no poll between\"], [0.0, \"Right\", \"starting burst, no poll between\"], [0.0, \"Right\", \"starting burst, no poll between\"], [0.0, \"Right\", \"starting burst, no poll between\"], [0.0, \"Right\", \"starting burst, no poll between\"], [0.0, \"Right\", \"starting burst, no poll between\"], [67.49, \"Enter\", \"hit any key\"], [68.74, \"Enter\", \"team screen\"]]"
+  },
+  {
+   "step": 201,
+   "source": "log",
+   "field": "match: savestate reads from the starting keys to full time, and seconds",
+   "value": "199 reads, 111.13 s"
+  },
+  {
+   "step": 201,
+   "source": "memory",
+   "field": "commentary lines of the match in order, accumulated over the reads from the ring DS:7C38 (runtime/driver/commentary.py): [n, template, team, text]",
+   "value": "[[1, 59, 0, \"Piechnik wins the toss\"], [2, 49, 0, \"Laudrup to take kick off\"], [3, 35, 0, \"Povlsen collects\"], [4, 6, 0, \"Povlsen makes a run\"], [5, 11, 1, \"tackle by Ekstrom\"], [6, 14, 1, \"Ekstrom wins the ball\"], [7, 33, 1, \"knocked on by Ekstrom\"], [8, 35, 1, \"Jansson collects\"], [9, 6, 1, \"Jansson makes a run\"], [10, 11, 0, \"tackle by Jensen\"], [11, 14, 0, \"Jensen wins the ball\"], [12, 6, 0, \"Jensen makes a run\"], [13, 8, 0, \"good ball for Povlsen\"], [14, 25, 0, \"Povlsen on the ball\"], [15, 8, 0, \"good ball for Laudrup\"], [16, 25, 0, \"Laudrup on the ball\"], [17, 8, 0, \"good ball for Povlsen\"], [18, 25, 0, \"Povlsen on the ball\"], [19, 8, 0, \"good ball for Laudrup\"], [20, 25, 0, \"Laudrup on the ball\"], [21, 11, 1, \"tackle by Erlingmark\"], [22, 14, 1, \"Erlingmark wins the ball\"], [23, 8, 1, \"good ball for Ekstrom\"], [24, 25, 1, \"Ekstrom on the ball\"], [25, 11, 0, \"tackle by Povlsen\"], [26, 14, 0, \"Povlsen wins the ball\"], [27, 6, 0, \"Povlsen makes a run\"], [28, 11, 1, \"tackle by Erlingmark\"], [29, 14, 1, \"Erlingmark wins the ball\"], [30, 8, 1, \"good ball for Ekstrom\"], [31, 25, 1, \"Ekstrom on the ball\"], [32, 1, 1, \"pass by Ekstrom\"], [33, 35, 1, \"Schwarz collects\"], [34, 2, 1, \"Schwarz makes a pass\"], [35, 34, 0, \"Jensen intercepts\"], [36, 8, 0, \"good ball for Laudrup\"], [37, 25, 0, \"Laudrup on the ball\"], [38, 2, 0, \"Laudrup makes a pass\"], [39, 35, 0, \"Vilfort collects\"], [40, 8, 0, \"good ball for Povlsen\"], [41, 25, 0, \"Povlsen on the ball\"], [42, 6, 0, \"Povlsen makes a run\"], [43, 11, 1, \"tackle by Bjorklund\"], [44, 14, 1, \"Bjorklund wins the ball\"], [45, 10, 1, \"high ball towards Ekstrom\"], [46, 35, 1, \"Brolin collects\"], [47, 8, 1, \"good ball for Ekstrom\"], [48, 25, 1, \"Ekstrom on the ball\"], [49, 1, 1, \"pass by Ekstrom\"], [50, 34, 0, \"Olsen intercepts\"], [51, 8, 0, \"good ball for Laudrup\"], [52, 25, 0, \"Laudrup on the ball\"], [53, 2, 0, \"Laudrup makes a pass\"], [54, 34, 1, \"Rehn intercepts\"], [55, 8, 1, \"good ball for Ekstrom\"], [56, 25, 1, \"Ekstrom on the ball\"], [57, 6, 1, \"Ekstrom makes a run\"], [58, 11, 0, \"tackle by Piechnik\"], [59, 14, 0, \"Piechnik wins the ball\"], [60, 10, 0, \"high ball towards Povlsen\"], [61, 66, 1, \"** LINESMAN FLAGS **\"], [62, 32, 1, \"headed on by Nilsson\"], [63, 54, 0, \"Larsen is OFFSIDE\"], [64, 58, 1, \"*** FREE KICK ***\"], [65, 48, 1, \"Nilsson to take free kick\"], [66, 10, 1, \"high ball towards Ekstrom\"], [67, 32, 0, \"headed on by Andersen\"], [68, 25, 0, \"Larsen on the ball\"], [69, 8, 0, \"good ball for Povlsen\"], [70, 25, 0, \"Povlsen on the ball\"], [71, 1, 0, \"pass by Povlsen\"], [72, 32, 1, \"headed on by Erlingmark\"], [73, 25, 1, \"Ljung on the ball\"], [74, 6, 1, \"Ljung makes a run\"], [75, 11, 0, \"tackle by Larsen\"], [76, 14, 0, \"Larsen wins the ball\"], [77, 1, 0, \"pass by Larsen\"], [78, 35, 0, \"Povlsen collects\"], [79, 6, 0, \"Povlsen makes a run\"], [80, 11, 1, \"tackle by Eriksson\"], [81, 12, 0, \"dodged by Povlsen\"], [82, 17, 0, \"shot from Povlsen\"], [83, 37, 1, \"Eriksson has no chance\"], [84, 38, 0, \"**** GOAL **** by Povlsen\"], [85, 49, 1, \"Brolin to take kick off\"], [86, 35, 1, \"Ekstrom collects\"], [87, 6, 1, \"Ekstrom makes a run\"], [88, 2, 1, \"Ekstrom makes a pass\"], [89, 35, 1, \"Brolin collects\"], [90, 8, 1, \"good ball for Ekstrom\"], [91, 25, 1, \"Ekstrom on the ball\"], [92, 6, 1, \"Ekstrom makes a run\"], [93, 8, 1, \"good ball for Brolin\"], [94, 25, 1, \"Brolin on the ball\"], [95, 11, 0, \"tackle by Christofte\"], [96, 14, 0, \"Christofte wins the ball\"], [97, 2, 0, \"Christofte makes a pass\"], [98, 35, 0, \"Povlsen collects\"], [99, 6, 0, \"Povlsen makes a run\"], [100, 11, 1, \"tackle by Nilsson\"], [101, 14, 1, \"Nilsson wins the ball\"], [102, 8, 1, \"good ball for Ekstrom\"], [103, 25, 1, \"Ekstrom on the ball\"], [104, 6, 1, \"Ekstrom makes a run\"], [105, 8, 1, \"good ball for Brolin\"], [106, 25, 1, \"Brolin on the ball\"], [107, 11, 0, \"tackle by Christofte\"], [108, 14, 0, \"Christofte wins the ball\"], [109, 10, 0, \"high ball towards Povlsen\"], [110, 34, 1, \"Nilsson intercepts\"], [111, 8, 1, \"good ball for Ekstrom\"], [112, 25, 1, \"Ekstrom on the ball\"], [113, 6, 1, \"Ekstrom makes a run\"], [114, 11, 0, \"tackle by Piechnik\"], [115, 14, 0, \"Piechnik wins the ball\"], [116, 33, 0, \"knocked on by Piechnik\"], [117, 35, 0, \"Laudrup collects\"], [118, 11, 1, \"tackle by Rehn\"], [119, 14, 1, \"Rehn wins the ball\"], [120, 8, 1, \"good ball for Ekstrom\"], [121, 25, 1, \"Ekstrom on the ball\"], [122, 11, 0, \"tackle by Piechnik\"], [123, 14, 0, \"Piechnik wins the ball\"], [124, 8, 0, \"good ball for Povlsen\"], [125, 25, 0, \"Povlsen on the ball\"], [126, 1, 0, \"pass by Povlsen\"], [127, 35, 0, \"Vilfort collects\"], [128, 11, 1, \"tackle by Erlingmark\"], [129, 14, 1, \"Erlingmark wins the ball\"], [130, 17, 1, \"shot from Erlingmark\"], [131, 31, 0, \"deflected by Olsen\"], [132, 34, 1, \"Ingesson intercepts\"], [133, 6, 1, \"Ingesson makes a run\"], [134, 11, 0, \"tackle by Andersen\"], [135, 14, 0, \"Andersen wins the ball\"], [136, 33, 0, \"knocked on by Andersen\"], [137, 35, 0, \"Sivebaek collects\"], [138, 10, 0, \"high ball towards Jensen\"], [139, 34, 1, \"Erlingmark intercepts\"], [140, 10, 1, \"high ball towards Ingesson\"], [141, 32, 1, \"headed on by Rehn\"], [142, 25, 1, \"Schwarz on the ball\"], [143, 1, 1, \"pass by Schwarz\"], [144, 34, 0, \"Laudrup intercepts\"], [145, 11, 1, \"tackle by Schwarz\"], [146, 14, 1, \"Schwarz wins the ball\"], [147, 17, 1, \"shot from Schwarz\"], [148, 31, 0, \"deflected by Christofte\"], [149, 34, 1, \"Jansson intercepts\"], [150, 17, 1, \"shot from Jansson\"], [151, 40, 1, \"over the bar\"], [152, 56, 0, \"*** GOAL KICK ***\"], [153, 46, 0, \"Piechnik to take goal kick\"], [154, 5, 0, \"long kick from Piechnik\"], [155, 34, 1, \"Rehn intercepts\"], [156, 8, 1, \"good ball for Ekstrom\"], [157, 25, 1, \"Ekstrom on the ball\"], [158, 11, 0, \"tackle by Olsen\"], [159, 14, 0, \"Olsen wins the ball\"], [160, 33, 0, \"knocked on by Olsen\"], [161, 35, 0, \"Andersen collects\"], [162, 10, 0, \"high ball towards Povlsen\"], [163, 32, 1, \"headed on by Schwarz\"], [164, 25, 1, \"Ingesson on the ball\"], [165, 6, 1, \"Ingesson makes a run\"], [166, 11, 0, \"tackle by Povlsen\"], [167, 14, 0, \"Povlsen wins the ball\"], [168, 33, 0, \"knocked on by Povlsen\"], [169, 34, 1, \"Brolin intercepts\"], [170, 8, 1, \"good ball for Ekstrom\"], [171, 25, 1, \"Ekstrom on the ball\"], [172, 2, 1, \"Ekstrom makes a pass\"], [173, 34, 0, \"Olsen intercepts\"], [174, 2, 0, \"Olsen makes a pass\"], [175, 35, 0, \"Povlsen collects\"], [176, 11, 1, \"tackle by Schwarz\"], [177, 12, 0, \"dodged by Povlsen\"], [178, 8, 0, \"good ball for Sivebaek\"], [179, 25, 0, \"Sivebaek on the ball\"], [180, 11, 1, \"tackle by Ekstrom\"], [181, 14, 1, \"Ekstrom wins the ball\"], [182, 6, 1, \"Ekstrom makes a run\"], [183, 8, 1, \"good ball for Brolin\"], [184, 25, 1, \"Brolin on the ball\"], [185, 10, 1, \"high ball towards Ekstrom\"], [186, 25, 1, \"Ekstrom on the ball\"], [187, 2, 1, \"Ekstrom makes a pass\"], [188, 35, 1, \"Jansson collects\"], [189, 6, 1, \"Jansson makes a run\"], [190, 66, 1, \"** LINESMAN FLAGS **\"], [191, 54, 1, \"Ekstrom is OFFSIDE\"], [192, 58, 0, \"*** FREE KICK ***\"], [193, 48, 0, \"Christofte to take free kick\"], [194, 2, 0, \"Christofte makes a pass\"], [195, 34, 1, \"Nilsson intercepts\"], [196, 8, 1, \"good ball for Ekstrom\"], [197, 25, 1, \"Ekstrom on the ball\"], [198, 6, 1, \"Ekstrom makes a run\"], [199, 2, 1, \"Ekstrom makes a pass\"], [200, 35, 1, \"Brolin collects\"], [1, 11, 0, \"tackle by Povlsen\"], [2, 14, 0, \"Povlsen wins the ball\"], [3, 1, 0, \"pass by Povlsen\"], [4, 34, 1, \"Schwarz intercepts\"], [5, 11, 0, \"tackle by Povlsen\"], [6, 14, 0, \"Povlsen wins the ball\"], [7, 6, 0, \"Povlsen makes a run\"], [8, 11, 1, \"tackle by Brolin\"], [9, 14, 1, \"Brolin wins the ball\"], [10, 11, 0, \"tackle by Sivebaek\"], [11, 12, 1, \"dodged by Brolin\"], [12, 8, 1, \"good ball for Ekstrom\"], [13, 25, 1, \"Ekstrom on the ball\"], [14, 6, 1, \"Ekstrom makes a run\"], [15, 11, 0, \"tackle by Olsen\"], [16, 14, 0, \"Olsen wins the ball\"], [17, 1, 0, \"pass by Olsen\"], [18, 35, 0, \"Vilfort collects\"], [19, 8, 0, \"good ball for Povlsen\"], [20, 25, 0, \"Povlsen on the ball\"], [21, 11, 1, \"tackle by Ingesson\"], [22, 14, 1, \"Ingesson wins the ball\"], [23, 8, 1, \"good ball for Ekstrom\"], [24, 25, 1, \"Ekstrom on the ball\"], [25, 11, 0, \"tackle by Vilfort\"], [26, 14, 0, \"Vilfort wins the ball\"], [27, 8, 0, \"good ball for Laudrup\"], [28, 25, 0, \"Laudrup on the ball\"], [29, 11, 1, \"tackle by Rehn\"], [30, 14, 1, \"Rehn wins the ball\"], [31, 8, 1, \"good ball for Ekstrom\"], [32, 25, 1, \"Ekstrom on the ball\"], [33, 8, 1, \"good ball for Brolin\"], [34, 25, 1, \"Brolin on the ball\"], [35, 8, 1, \"good ball for Ekstrom\"], [36, 25, 1, \"Ekstrom on the ball\"], [37, 6, 1, \"Ekstrom makes a run\"], [38, 1, 1, \"pass by Ekstrom\"], [39, 34, 0, \"Sivebaek intercepts\"], [40, 6, 0, \"Sivebaek makes a run\"], [41, 11, 1, \"tackle by Nilsson\"], [42, 14, 1, \"Nilsson wins the ball\"], [43, 23, 1, \"punted away by Nilsson\"], [44, 34, 0, \"Olsen intercepts\"], [45, 10, 0, \"high ball towards Jensen\"], [46, 34, 1, \"Erlingmark intercepts\"], [47, 8, 1, \"good ball for Ekstrom\"], [48, 25, 1, \"Ekstrom on the ball\"], [49, 6, 1, \"Ekstrom makes a run\"], [50, 11, 0, \"tackle by Piechnik\"], [51, 14, 0, \"Piechnik wins the ball\"], [52, 11, 1, \"tackle by Rehn\"], [53, 14, 1, \"Rehn wins the ball\"], [54, 8, 1, \"good ball for Ekstrom\"], [55, 25, 1, \"Ekstrom on the ball\"], [56, 6, 1, \"Ekstrom makes a run\"], [57, 8, 1, \"good ball for Brolin\"], [58, 25, 1, \"Brolin on the ball\"], [59, 1, 1, \"pass by Brolin\"], [60, 34, 0, \"Olsen intercepts\"], [61, 10, 0, \"high ball towards Povlsen\"], [62, 32, 0, \"headed on by Povlsen\"], [63, 25, 0, \"Laudrup on the ball\"], [64, 8, 0, \"good ball for Povlsen\"], [65, 25, 0, \"Povlsen on the ball\"], [66, 6, 0, \"Povlsen makes a run\"], [67, 17, 0, \"shot from Povlsen\"], [68, 37, 1, \"Eriksson has no chance\"], [69, 38, 0, \"**** GOAL **** by Povlsen\"], [70, 49, 1, \"Brolin to take kick off\"], [71, 35, 1, \"Ekstrom collects\"], [72, 6, 1, \"Ekstrom makes a run\"], [73, 8, 1, \"good ball for Brolin\"], [74, 25, 1, \"Brolin on the ball\"], [75, 8, 1, \"good ball for Ekstrom\"], [76, 25, 1, \"Ekstrom on the ball\"], [77, 11, 0, \"tackle by Povlsen\"], [78, 14, 0, \"Povlsen wins the ball\"], [79, 33, 0, \"knocked on by Povlsen\"], [80, 35, 0, \"Laudrup collects\"], [81, 8, 0, \"good ball for Povlsen\"], [82, 25, 0, \"Povlsen on the ball\"], [83, 6, 0, \"Povlsen makes a run\"], [84, 1, 0, \"pass by Povlsen\"], [85, 35, 0, \"Jensen collects\"], [86, 6, 0, \"Jensen makes a run\"], [87, 1, 0, \"pass by Jensen\"], [88, 34, 1, \"Jansson intercepts\"], [89, 11, 0, \"tackle by Laudrup\"], [90, 14, 0, \"Laudrup wins the ball\"], [91, 8, 0, \"good ball for Jensen\"], [92, 25, 0, \"Jensen on the ball\"], [93, 6, 0, \"Jensen makes a run\"], [94, 8, 0, \"good ball for Povlsen\"], [95, 25, 0, \"Povlsen on the ball\"], [96, 6, 0, \"Povlsen makes a run\"], [97, 11, 1, \"tackle by Nilsson\"], [98, 12, 0, \"dodged by Povlsen\"], [99, 6, 0, \"Povlsen makes a run\"], [100, 16, 0, \"cross from Povlsen\"], [101, 34, 1, \"Erlingmark intercepts\"], [102, 2, 1, \"Erlingmark makes a pass\"], [103, 31, 0, \"deflected by Larsen\"], [104, 35, 0, \"Laudrup collects\"], [105, 8, 0, \"good ball for Vilfort\"], [106, 25, 0, \"Vilfort on the ball\"], [107, 1, 0, \"pass by Vilfort\"], [108, 35, 0, \"Laudrup collects\"], [109, 11, 1, \"tackle by Nilsson\"], [110, 14, 1, \"Nilsson wins the ball\"], [111, 8, 1, \"good ball for Ekstrom\"], [112, 25, 1, \"Ekstrom on the ball\"], [113, 6, 1, \"Ekstrom makes a run\"], [114, 8, 1, \"good ball for Brolin\"], [115, 25, 1, \"Brolin on the ball\"], [116, 8, 1, \"good ball for Ekstrom\"], [117, 25, 1, \"Ekstrom on the ball\"], [118, 1, 1, \"pass by Ekstrom\"], [119, 35, 1, \"Brolin collects\"], [120, 11, 0, \"tackle by Olsen\"], [121, 55, 1, \"Brolin is brought down\"], [122, 53, 0, \"FOUL by Olsen\"], [123, 50, 0, \"Olsen BOOKED\"], [124, 58, 1, \"*** FREE KICK ***\"], [125, 48, 1, \"Schwarz to take free kick\"], [126, 1, 1, \"pass by Schwarz\"], [127, 35, 1, \"Brolin collects\"], [128, 8, 1, \"good ball for Ekstrom\"], [129, 25, 1, \"Ekstrom on the ball\"], [130, 11, 0, \"tackle by Piechnik\"], [131, 14, 0, \"Piechnik wins the ball\"], [132, 10, 0, \"high ball towards Povlsen\"], [133, 32, 1, \"headed on by Schwarz\"], [134, 25, 1, \"Rehn on the ball\"], [135, 2, 1, \"Rehn makes a pass\"], [136, 34, 0, \"Olsen intercepts\"], [137, 1, 0, \"pass by Olsen\"], [138, 34, 1, \"Ljung intercepts\"], [139, 6, 1, \"Ljung makes a run\"], [140, 11, 0, \"tackle by Larsen\"], [141, 14, 0, \"Larsen wins the ball\"], [142, 33, 0, \"knocked on by Larsen\"], [143, 34, 1, \"Ekstrom intercepts\"], [144, 11, 0, \"tackle by Andersen\"], [145, 12, 1, \"dodged by Ekstrom\"], [146, 8, 1, \"good ball for Brolin\"], [147, 25, 1, \"Brolin on the ball\"], [148, 11, 0, \"tackle by Olsen\"], [149, 14, 0, \"Olsen wins the ball\"], [150, 10, 0, \"high ball towards Povlsen\"], [151, 8, 0, \"good ball for Laudrup\"], [152, 25, 0, \"Laudrup on the ball\"], [153, 8, 0, \"good ball for Povlsen\"], [154, 25, 0, \"Povlsen on the ball\"], [155, 6, 0, \"Povlsen makes a run\"], [156, 11, 1, \"tackle by Nilsson\"], [157, 12, 0, \"dodged by Povlsen\"], [158, 1, 0, \"pass by Povlsen\"], [159, 34, 1, \"Schwarz intercepts\"], [160, 11, 0, \"tackle by Vilfort\"], [161, 14, 0, \"Vilfort wins the ball\"], [162, 33, 0, \"knocked on by Vilfort\"], [163, 66, 1, \"** LINESMAN FLAGS **\"], [164, 34, 1, \"Nilsson intercepts\"], [165, 54, 0, \"Povlsen is OFFSIDE\"], [166, 58, 1, \"*** FREE KICK ***\"], [167, 48, 1, \"Ljung to take free kick\"], [168, 1, 1, \"pass by Ljung\"], [169, 34, 0, \"Vilfort intercepts\"], [170, 8, 0, \"good ball for Povlsen\"], [171, 25, 0, \"Povlsen on the ball\"], [172, 8, 0, \"good ball for Laudrup\"], [173, 25, 0, \"Laudrup on the ball\"], [174, 1, 0, \"pass by Laudrup\"], [175, 35, 0, \"Povlsen collects\"], [176, 2, 0, \"Povlsen makes a pass\"], [177, 34, 1, \"Erlingmark intercepts\"], [178, 11, 0, \"tackle by Povlsen\"], [179, 14, 0, \"Povlsen wins the ball\"], [180, 33, 0, \"knocked on by Povlsen\"], [181, 35, 0, \"Vilfort collects\"], [182, 8, 0, \"good ball for Povlsen\"], [183, 25, 0, \"Povlsen on the ball\"], [184, 2, 0, \"Povlsen makes a pass\"], [185, 35, 0, \"Vilfort collects\"], [186, 8, 0, \"good ball for Povlsen\"], [187, 25, 0, \"Povlsen on the ball\"], [188, 6, 0, \"Povlsen makes a run\"], [189, 11, 1, \"tackle by Ljung\"], [190, 14, 1, \"Ljung wins the ball\"], [191, 6, 1, \"Ljung makes a run\"], [192, 11, 0, \"tackle by Olsen\"], [193, 14, 0, \"Olsen wins the ball\"], [194, 11, 1, \"tackle by Erlingmark\"], [195, 14, 1, \"Erlingmark wins the ball\"], [196, 2, 1, \"Erlingmark makes a pass\"], [197, 43, 0, \"*** THROW IN ***\"], [198, 42, 0, \"Sivebaek to take throw in\"], [199, 3, 0, \"Sivebaek throws the ball\"], [200, 25, 0, \"Andersen on the ball\"], [1, 10, 0, \"high ball towards Povlsen\"], [2, 32, 1, \"headed on by Bjorklund\"], [3, 1, 1, \"pass by Bjorklund\"], [4, 34, 0, \"Olsen intercepts\"], [5, 10, 0, \"high ball towards Povlsen\"], [6, 25, 0, \"Povlsen on the ball\"], [7, 16, 0, \"cross from Povlsen\"], [8, 66, 1, \"** LINESMAN FLAGS **\"], [9, 35, 0, \"Vilfort collects\"], [10, 17, 0, \"shot from Vilfort\"], [11, 31, 1, \"deflected by Eriksson\"], [12, 54, 0, \"Vilfort is OFFSIDE\"], [13, 58, 1, \"*** FREE KICK ***\"], [14, 48, 1, \"Erlingmark to take free kick\"], [15, 10, 1, \"high ball towards Jansson\"], [16, 32, 1, \"headed on by Ekstrom\"], [17, 25, 1, \"Ingesson on the ball\"], [18, 6, 1, \"Ingesson makes a run\"], [19, 66, 1, \"** LINESMAN FLAGS **\"], [20, 54, 1, \"Jansson is OFFSIDE\"], [21, 58, 0, \"*** FREE KICK ***\"], [22, 48, 0, \"Sivebaek to take free kick\"], [23, 10, 0, \"high ball towards Jensen\"], [24, 34, 1, \"Rehn intercepts\"], [25, 8, 1, \"good ball for Ekstrom\"], [26, 25, 1, \"Ekstrom on the ball\"], [27, 1, 1, \"pass by Ekstrom\"], [28, 34, 0, \"Olsen intercepts\"], [29, 11, 1, \"tackle by Ekstrom\"], [30, 14, 1, \"Ekstrom wins the ball\"], [31, 8, 1, \"good ball for Brolin\"], [32, 25, 1, \"Brolin on the ball\"], [33, 8, 1, \"good ball for Ekstrom\"], [34, 25, 1, \"Ekstrom on the ball\"], [35, 2, 1, \"Ekstrom makes a pass\"], [36, 35, 1, \"Brolin collects\"], [37, 2, 1, \"Brolin makes a pass\"], [38, 35, 1, \"Ekstrom collects\"], [39, 11, 0, \"tackle by Christofte\"], [40, 14, 0, \"Christofte wins the ball\"], [41, 10, 0, \"high ball towards Povlsen\"], [42, 35, 0, \"Povlsen collects\"], [43, 11, 1, \"tackle by Erlingmark\"], [44, 14, 1, \"Erlingmark wins the ball\"], [45, 8, 1, \"good ball for Ekstrom\"], [46, 25, 1, \"Ekstrom on the ball\"], [47, 6, 1, \"Ekstrom makes a run\"], [48, 2, 1, \"Ekstrom makes a pass\"], [49, 34, 0, \"Olsen intercepts\"], [50, 11, 1, \"tackle by Ekstrom\"], [51, 12, 0, \"dodged by Olsen\"], [52, 8, 0, \"good ball for Povlsen\"], [53, 25, 0, \"Povlsen on the ball\"], [54, 17, 0, \"shot from Povlsen\"], [55, 36, 1, \"Eriksson beaten\"], [56, 38, 0, \"**** GOAL **** by Povlsen\"], [57, 49, 1, \"Brolin to take kick off\"], [58, 35, 1, \"Ekstrom collects\"], [59, 6, 1, \"Ekstrom makes a run\"], [60, 8, 1, \"good ball for Brolin\"], [61, 25, 1, \"Brolin on the ball\"], [62, 2, 1, \"Brolin makes a pass\"], [63, 35, 1, \"Ekstrom collects\"], [64, 8, 1, \"good ball for Brolin\"], [65, 25, 1, \"Brolin on the ball\"], [66, 11, 0, \"tackle by Vilfort\"], [67, 14, 0, \"Vilfort wins the ball\"], [68, 2, 0, \"Vilfort makes a pass\"], [69, 35, 0, \"Povlsen collects\"], [70, 6, 0, \"Povlsen makes a run\"], [71, 8, 0, \"good ball for Laudrup\"], [72, 25, 0, \"Laudrup on the ball\"], [73, 8, 0, \"good ball for Povlsen\"], [74, 25, 0, \"Povlsen on the ball\"], [75, 6, 0, \"Povlsen makes a run\"], [76, 2, 0, \"Povlsen makes a pass\"], [77, 35, 0, \"Jensen collects\"], [78, 1, 0, \"pass by Jensen\"], [79, 34, 1, \"Rehn intercepts\"], [80, 8, 1, \"good ball for Ekstrom\"], [81, 25, 1, \"Ekstrom on the ball\"], [82, 6, 1, \"Ekstrom makes a run\"], [83, 8, 1, \"good ball for Brolin\"], [84, 25, 1, \"Brolin on the ball\"], [85, 11, 0, \"tackle by Christofte\"], [86, 14, 0, \"Christofte wins the ball\"], [87, 2, 0, \"Christofte makes a pass\"], [88, 43, 1, \"*** THROW IN ***\"], [89, 42, 1, \"Nilsson to take throw in\"], [90, 3, 1, \"Nilsson throws the ball\"], [91, 25, 1, \"Jansson on the ball\"], [92, 2, 1, \"Jansson makes a pass\"], [93, 43, 0, \"*** THROW IN ***\"], [94, 42, 0, \"Sivebaek to take throw in\"], [95, 3, 0, \"Sivebaek throws the ball\"], [96, 25, 0, \"Povlsen on the ball\"], [97, 6, 0, \"Povlsen makes a run\"], [98, 11, 1, \"tackle by Nilsson\"], [99, 14, 1, \"Nilsson wins the ball\"], [100, 8, 1, \"good ball for Ekstrom\"], [101, 25, 1, \"Ekstrom on the ball\"], [102, 1, 1, \"pass by Ekstrom\"], [103, 34, 0, \"Olsen intercepts\"], [104, 8, 0, \"good ball for Povlsen\"], [105, 25, 0, \"Povlsen on the ball\"], [106, 11, 1, \"tackle by Ekstrom\"], [107, 14, 1, \"Ekstrom wins the ball\"], [108, 6, 1, \"Ekstrom makes a run\"], [109, 11, 0, \"tackle by Olsen\"], [110, 14, 0, \"Olsen wins the ball\"], [111, 8, 0, \"good ball for Povlsen\"], [112, 25, 0, \"Povlsen on the ball\"], [113, 11, 1, \"tackle by Rehn\"], [114, 14, 1, \"Rehn wins the ball\"], [115, 8, 1, \"good ball for Ekstrom\"], [116, 25, 1, \"Ekstrom on the ball\"], [117, 6, 1, \"Ekstrom makes a run\"], [118, 11, 0, \"tackle by Olsen\"], [119, 14, 0, \"Olsen wins the ball\"], [120, 2, 0, \"Olsen makes a pass\"], [121, 32, 0, \"headed on by Povlsen\"], [122, 25, 0, \"Jensen on the ball\"], [123, 2, 0, \"Jensen makes a pass\"], [124, 66, 1, \"** LINESMAN FLAGS **\"], [125, 34, 1, \"Erlingmark intercepts\"], [126, 54, 0, \"Laudrup is OFFSIDE\"], [127, 58, 1, \"*** FREE KICK ***\"], [128, 48, 1, \"Schwarz to take free kick\"], [129, 10, 1, \"high ball towards Brolin\"], [130, 32, 1, \"headed on by Rehn\"], [131, 25, 1, \"Erlingmark on the ball\"], [132, 11, 0, \"tackle by Povlsen\"], [133, 14, 0, \"Povlsen wins the ball\"], [134, 10, 0, \"high ball towards Laudrup\"], [135, 32, 1, \"headed on by Nilsson\"], [136, 25, 1, \"Rehn on the ball\"], [137, 2, 1, \"Rehn makes a pass\"], [138, 35, 1, \"Brolin collects\"], [139, 8, 1, \"good ball for Ekstrom\"], [140, 25, 1, \"Ekstrom on the ball\"], [141, 17, 1, \"shot from Ekstrom\"], [142, 56, 0, \"*** GOAL KICK ***\"], [143, 46, 0, \"Piechnik to take goal kick\"], [144, 5, 0, \"long kick from Piechnik\"], [145, 32, 0, \"headed on by Jensen\"], [146, 25, 0, \"Povlsen on the ball\"], [147, 8, 0, \"good ball for Laudrup\"], [148, 25, 0, \"Laudrup on the ball\"], [149, 8, 0, \"good ball for Povlsen\"], [150, 25, 0, \"Povlsen on the ball\"], [151, 11, 1, \"tackle by Jansson\"], [152, 12, 0, \"dodged by Povlsen\"], [153, 6, 0, \"Povlsen makes a run\"], [154, 11, 1, \"tackle by Nilsson\"], [155, 14, 1, \"Nilsson wins the ball\"], [156, 10, 1, \"high ball towards Ekstrom\"], [157, 32, 1, \"headed on by Ekstrom\"], [158, 25, 1, \"Brolin on the ball\"], [159, 8, 1, \"good ball for Ekstrom\"], [160, 25, 1, \"Ekstrom on the ball\"], [161, 6, 1, \"Ekstrom makes a run\"], [162, 17, 1, \"shot from Ekstrom\"], [163, 29, 0, \"saved by Schmeichel\"], [164, 1, 0, \"pass by Schmeichel\"], [165, 32, 0, \"headed on by Vilfort\"], [166, 35, 0, \"Olsen collects\"], [167, 8, 0, \"good ball for Piechnik\"], [168, 25, 0, \"Piechnik on the ball\"], [169, 2, 0, \"Piechnik makes a pass\"], [170, 31, 1, \"deflected by Brolin\"], [171, 34, 0, \"Larsen intercepts\"], [172, 8, 0, \"good ball for Piechnik\"], [173, 25, 0, \"Piechnik on the ball\"], [174, 8, 0, \"good ball for Larsen\"], [175, 25, 0, \"Larsen on the ball\"], [176, 11, 1, \"tackle by Brolin\"], [177, 14, 1, \"Brolin wins the ball\"], [178, 6, 1, \"Brolin makes a run\"], [179, 64, 1, \"---- HALF TIME ----\"], [180, 49, 1, \"Brolin to take kick off\"], [181, 35, 1, \"Ekstrom collects\"], [182, 2, 1, \"Ekstrom makes a pass\"], [183, 34, 0, \"Povlsen intercepts\"], [184, 6, 0, \"Povlsen makes a run\"], [185, 11, 1, \"tackle by Brolin\"], [186, 14, 1, \"Brolin wins the ball\"], [187, 33, 1, \"knocked on by Brolin\"], [188, 35, 1, \"Ekstrom collects\"], [189, 6, 1, \"Ekstrom makes a run\"], [190, 1, 1, \"pass by Ekstrom\"], [191, 34, 0, \"Andersen intercepts\"], [192, 2, 0, \"Andersen makes a pass\"], [193, 34, 1, \"Ingesson intercepts\"], [194, 6, 1, \"Ingesson makes a run\"], [195, 11, 0, \"tackle by Andersen\"], [196, 14, 0, \"Andersen wins the ball\"], [197, 1, 0, \"pass by Andersen\"], [198, 34, 1, \"Erlingmark intercepts\"], [199, 10, 1, \"high ball towards Ekstrom\"], [200, 34, 0, \"Andersen intercepts\"], [1, 10, 0, \"high ball towards Povlsen\"], [2, 32, 0, \"headed on by Povlsen\"], [3, 25, 0, \"Larsen on the ball\"], [4, 8, 0, \"good ball for Povlsen\"], [5, 25, 0, \"Povlsen on the ball\"], [6, 6, 0, \"Povlsen makes a run\"], [7, 11, 1, \"tackle by Nilsson\"], [8, 14, 1, \"Nilsson wins the ball\"], [9, 10, 1, \"high ball towards Brolin\"], [10, 32, 0, \"headed on by Sivebaek\"], [11, 25, 0, \"Andersen on the ball\"], [12, 10, 0, \"high ball towards Povlsen\"], [13, 32, 0, \"headed on by Povlsen\"], [14, 25, 0, \"Larsen on the ball\"], [15, 8, 0, \"good ball for Povlsen\"], [16, 25, 0, \"Povlsen on the ball\"], [17, 6, 0, \"Povlsen makes a run\"], [18, 1, 0, \"pass by Povlsen\"], [19, 34, 1, \"Ekstrom intercepts\"], [20, 2, 1, \"Ekstrom makes a pass\"], [21, 34, 0, \"Olsen intercepts\"], [22, 1, 0, \"pass by Olsen\"], [23, 34, 1, \"Bjorklund intercepts\"], [24, 6, 1, \"Bjorklund makes a run\"], [25, 11, 0, \"tackle by Olsen\"], [26, 14, 0, \"Olsen wins the ball\"], [27, 10, 0, \"high ball towards Povlsen\"], [28, 34, 1, \"Brolin intercepts\"], [29, 11, 0, \"tackle by Povlsen\"], [30, 14, 0, \"Povlsen wins the ball\"], [31, 6, 0, \"Povlsen makes a run\"], [32, 11, 1, \"tackle by Nilsson\"], [33, 14, 1, \"Nilsson wins the ball\"], [34, 10, 1, \"high ball towards Ekstrom\"], [35, 18, 1, \"volley from Schwarz\"], [36, 31, 0, \"deflected by Vilfort\"], [37, 35, 0, \"Olsen collects\"], [38, 1, 0, \"pass by Olsen\"], [39, 34, 1, \"Nilsson intercepts\"], [40, 1, 1, \"pass by Nilsson\"], [41, 34, 0, \"Sivebaek intercepts\"], [42, 8, 0, \"good ball for Povlsen\"], [43, 25, 0, \"Povlsen on the ball\"], [44, 6, 0, \"Povlsen makes a run\"], [45, 8, 0, \"good ball for Laudrup\"], [46, 25, 0, \"Laudrup on the ball\"], [47, 8, 0, \"good ball for Povlsen\"], [48, 25, 0, \"Povlsen on the ball\"], [49, 11, 1, \"tackle by Nilsson\"], [50, 12, 0, \"dodged by Povlsen\"], [51, 6, 0, \"Povlsen makes a run\"], [52, 8, 0, \"good ball for Vilfort\"], [53, 25, 0, \"Vilfort on the ball\"], [54, 2, 0, \"Vilfort makes a pass\"], [55, 35, 0, \"Povlsen collects\"], [56, 6, 0, \"Povlsen makes a run\"], [57, 2, 0, \"Povlsen makes a pass\"], [58, 34, 1, \"Erlingmark intercepts\"], [59, 1, 1, \"pass by Erlingmark\"], [60, 43, 0, \"*** THROW IN ***\"], [61, 42, 0, \"Larsen to take throw in\"], [62, 3, 0, \"Larsen throws the ball\"], [63, 25, 0, \"Piechnik on the ball\"], [64, 10, 0, \"high ball towards Povlsen\"], [65, 35, 0, \"Laudrup collects\"], [66, 1, 0, \"pass by Laudrup\"], [67, 34, 1, \"Schwarz intercepts\"], [68, 23, 1, \"punted away by Schwarz\"], [69, 32, 0, \"headed on by Andersen\"], [70, 25, 0, \"Olsen on the ball\"], [71, 8, 0, \"good ball for Andersen\"], [72, 25, 0, \"Andersen on the ball\"], [73, 10, 0, \"high ball towards Olsen\"], [74, 25, 0, \"Olsen on the ball\"], [75, 10, 0, \"high ball towards Povlsen\"], [76, 66, 1, \"** LINESMAN FLAGS **\"], [77, 32, 1, \"headed on by Erlingmark\"], [78, 54, 0, \"Vilfort is OFFSIDE\"], [79, 58, 1, \"*** FREE KICK ***\"], [80, 48, 1, \"Schwarz to take free kick\"], [81, 10, 1, \"high ball towards Ekstrom\"], [82, 32, 1, \"headed on by Erlingmark\"], [83, 34, 0, \"Andersen intercepts\"], [84, 6, 0, \"Andersen makes a run\"], [85, 8, 0, \"good ball for Povlsen\"], [86, 25, 0, \"Povlsen on the ball\"], [87, 6, 0, \"Povlsen makes a run\"], [88, 11, 1, \"tackle by Schwarz\"], [89, 12, 0, \"dodged by Povlsen\"], [90, 6, 0, \"Povlsen makes a run\"], [91, 11, 1, \"tackle by Schwarz\"], [92, 12, 0, \"dodged by Povlsen\"], [93, 6, 0, \"Povlsen makes a run\"], [94, 11, 1, \"tackle by Erlingmark\"], [95, 14, 1, \"Erlingmark wins the ball\"], [96, 8, 1, \"good ball for Ekstrom\"], [97, 25, 1, \"Ekstrom on the ball\"], [98, 6, 1, \"Ekstrom makes a run\"], [99, 11, 0, \"tackle by Olsen\"], [100, 14, 0, \"Olsen wins the ball\"], [101, 33, 0, \"knocked on by Olsen\"], [102, 35, 0, \"Larsen collects\"], [103, 6, 0, \"Larsen makes a run\"], [104, 8, 0, \"good ball for Povlsen\"], [105, 25, 0, \"Povlsen on the ball\"], [106, 11, 1, \"tackle by Rehn\"], [107, 14, 1, \"Rehn wins the ball\"], [108, 2, 1, \"Rehn makes a pass\"], [109, 35, 1, \"Ingesson collects\"], [110, 8, 1, \"good ball for Ekstrom\"], [111, 25, 1, \"Ekstrom on the ball\"], [112, 8, 1, \"good ball for Brolin\"], [113, 25, 1, \"Brolin on the ball\"], [114, 8, 1, \"good ball for Ekstrom\"], [115, 25, 1, \"Ekstrom on the ball\"], [116, 8, 1, \"good ball for Brolin\"], [117, 25, 1, \"Brolin on the ball\"], [118, 6, 1, \"Brolin makes a run\"], [119, 11, 0, \"tackle by Olsen\"], [120, 14, 0, \"Olsen wins the ball\"], [121, 2, 0, \"Olsen makes a pass\"], [122, 35, 0, \"Laudrup collects\"], [123, 1, 0, \"pass by Laudrup\"], [124, 35, 0, \"Sivebaek collects\"], [125, 6, 0, \"Sivebaek makes a run\"], [126, 11, 1, \"tackle by Nilsson\"], [127, 14, 1, \"Nilsson wins the ball\"], [128, 8, 1, \"good ball for Ekstrom\"], [129, 25, 1, \"Ekstrom on the ball\"], [130, 10, 1, \"high ball towards Brolin\"], [131, 32, 0, \"headed on by Larsen\"], [132, 35, 0, \"Laudrup collects\"], [133, 11, 1, \"tackle by Ingesson\"], [134, 14, 1, \"Ingesson wins the ball\"], [135, 33, 1, \"knocked on by Ingesson\"], [136, 35, 1, \"Brolin collects\"], [137, 6, 1, \"Brolin makes a run\"], [138, 11, 0, \"tackle by Olsen\"], [139, 12, 1, \"dodged by Brolin\"], [140, 8, 1, \"good ball for Ekstrom\"], [141, 25, 1, \"Ekstrom on the ball\"], [142, 8, 1, \"good ball for Brolin\"], [143, 25, 1, \"Brolin on the ball\"], [144, 6, 1, \"Brolin makes a run\"], [145, 11, 0, \"tackle by Christofte\"], [146, 14, 0, \"Christofte wins the ball\"], [147, 33, 0, \"knocked on by Christofte\"], [148, 35, 0, \"Sivebaek collects\"], [149, 6, 0, \"Sivebaek makes a run\"], [150, 11, 1, \"tackle by Bjorklund\"], [151, 14, 1, \"Bjorklund wins the ball\"], [152, 6, 1, \"Bjorklund makes a run\"], [153, 11, 0, \"tackle by Sivebaek\"], [154, 14, 0, \"Sivebaek wins the ball\"], [155, 6, 0, \"Sivebaek makes a run\"], [156, 11, 1, \"tackle by Jansson\"], [157, 14, 1, \"Jansson wins the ball\"], [158, 10, 1, \"high ball towards Ekstrom\"], [159, 34, 0, \"Piechnik intercepts\"], [160, 10, 0, \"high ball towards Larsen\"], [161, 66, 1, \"** LINESMAN FLAGS **\"], [162, 35, 0, \"Jensen collects\"], [163, 54, 0, \"Povlsen is OFFSIDE\"], [164, 0, 1, \"Limpar on for Jansson\"], [165, 0, 1, \"Thern on for Schwarz\"], [166, 0, 1, \"Eriksson on for Ljung\"], [167, 58, 1, \"*** FREE KICK ***\"], [168, 48, 1, \"Thern to take free kick\"], [169, 10, 1, \"high ball towards Ekstrom\"], [170, 34, 0, \"Andersen intercepts\"], [171, 1, 0, \"pass by Andersen\"], [172, 35, 0, \"Povlsen collects\"], [173, 8, 0, \"good ball for Laudrup\"], [174, 25, 0, \"Laudrup on the ball\"], [175, 11, 1, \"tackle by Erlingmark\"], [176, 14, 1, \"Erlingmark wins the ball\"], [177, 10, 1, \"high ball towards Ekstrom\"], [178, 32, 0, \"headed on by Larsen\"], [179, 25, 0, \"Christofte on the ball\"], [180, 1, 0, \"pass by Christofte\"], [181, 34, 1, \"Rehn intercepts\"], [182, 8, 1, \"good ball for Ekstrom\"], [183, 25, 1, \"Ekstrom on the ball\"], [184, 6, 1, \"Ekstrom makes a run\"], [185, 11, 0, \"tackle by Piechnik\"], [186, 14, 0, \"Piechnik wins the ball\"], [187, 1, 0, \"pass by Piechnik\"], [188, 34, 1, \"Bjorklund intercepts\"], [189, 6, 1, \"Bjorklund makes a run\"], [190, 2, 1, \"Bjorklund makes a pass\"], [191, 43, 0, \"*** THROW IN ***\"], [192, 42, 0, \"Christofte to take throw in\"], [193, 3, 0, \"Christofte throws the ball\"], [194, 25, 0, \"Sivebaek on the ball\"], [195, 8, 0, \"good ball for Povlsen\"], [196, 25, 0, \"Povlsen on the ball\"], [197, 6, 0, \"Povlsen makes a run\"], [198, 8, 0, \"good ball for Andersen\"], [199, 25, 0, \"Andersen on the ball\"], [200, 6, 0, \"Andersen makes a run\"], [1, 16, 0, \"cross from Andersen\"], [2, 34, 1, \"Nilsson intercepts\"], [3, 10, 1, \"high ball towards Brolin\"], [4, 32, 0, \"headed on by Piechnik\"], [5, 66, 1, \"** LINESMAN FLAGS **\"], [6, 25, 0, \"Olsen on the ball\"], [7, 54, 0, \"Laudrup is OFFSIDE\"], [8, 58, 1, \"*** FREE KICK ***\"], [9, 48, 1, \"Erlingmark to take free kick\"], [10, 1, 1, \"pass by Erlingmark\"], [11, 34, 0, \"Vilfort intercepts\"], [12, 8, 0, \"good ball for Andersen\"], [13, 25, 0, \"Andersen on the ball\"], [14, 6, 0, \"Andersen makes a run\"], [15, 8, 0, \"good ball for Povlsen\"], [16, 25, 0, \"Povlsen on the ball\"], [17, 11, 1, \"tackle by Thern\"], [18, 14, 1, \"Thern wins the ball\"], [19, 10, 1, \"high ball towards Ekstrom\"], [20, 32, 1, \"headed on by Rehn\"], [21, 25, 1, \"Thern on the ball\"], [22, 8, 1, \"good ball for Ekstrom\"], [23, 25, 1, \"Ekstrom on the ball\"], [24, 11, 0, \"tackle by Piechnik\"], [25, 14, 0, \"Piechnik wins the ball\"], [26, 8, 0, \"good ball for Povlsen\"], [27, 25, 0, \"Povlsen on the ball\"], [28, 6, 0, \"Povlsen makes a run\"], [29, 11, 1, \"tackle by Nilsson\"], [30, 14, 1, \"Nilsson wins the ball\"], [31, 10, 1, \"high ball towards Ekstrom\"], [32, 32, 1, \"headed on by Limpar\"], [33, 25, 1, \"Brolin on the ball\"], [34, 6, 1, \"Brolin makes a run\"], [35, 11, 0, \"tackle by Sivebaek\"], [36, 14, 0, \"Sivebaek wins the ball\"], [37, 11, 1, \"tackle by Limpar\"], [38, 14, 1, \"Limpar wins the ball\"], [39, 6, 1, \"Limpar makes a run\"], [40, 2, 1, \"Limpar makes a pass\"], [41, 34, 0, \"Laudrup intercepts\"], [42, 2, 0, \"Laudrup makes a pass\"], [43, 35, 0, \"Vilfort collects\"], [44, 8, 0, \"good ball for Povlsen\"], [45, 25, 0, \"Povlsen on the ball\"], [46, 6, 0, \"Povlsen makes a run\"], [47, 11, 1, \"tackle by Nilsson\"], [48, 14, 1, \"Nilsson wins the ball\"], [49, 33, 1, \"knocked on by Nilsson\"], [50, 34, 0, \"Laudrup intercepts\"], [51, 11, 1, \"tackle by Eriksson\"], [52, 12, 0, \"dodged by Laudrup\"], [53, 2, 0, \"Laudrup makes a pass\"], [54, 34, 1, \"Nilsson intercepts\"], [55, 10, 1, \"high ball towards Ekstrom\"], [56, 25, 1, \"Ekstrom on the ball\"], [57, 11, 0, \"tackle by Piechnik\"], [58, 14, 0, \"Piechnik wins the ball\"], [59, 10, 0, \"high ball towards Jensen\"], [60, 32, 0, \"headed on by Povlsen\"], [61, 25, 0, \"Larsen on the ball\"], [62, 6, 0, \"Larsen makes a run\"], [63, 11, 1, \"tackle by Erlingmark\"], [64, 14, 1, \"Erlingmark wins the ball\"], [65, 33, 1, \"knocked on by Erlingmark\"], [66, 35, 1, \"Nilsson collects\"], [67, 1, 1, \"pass by Nilsson\"], [68, 34, 0, \"Laudrup intercepts\"], [69, 1, 0, \"pass by Laudrup\"], [70, 35, 0, \"Jensen collects\"], [71, 6, 0, \"Jensen makes a run\"], [72, 10, 0, \"high ball towards Povlsen\"], [73, 8, 0, \"good ball for Laudrup\"], [74, 25, 0, \"Laudrup on the ball\"], [75, 1, 0, \"pass by Laudrup\"], [76, 34, 1, \"Eriksson intercepts\"], [77, 6, 1, \"Eriksson makes a run\"], [78, 10, 1, \"high ball towards Ekstrom\"], [79, 34, 0, \"Christofte intercepts\"], [80, 10, 0, \"high ball towards Jensen\"], [81, 32, 0, \"headed on by Povlsen\"], [82, 25, 0, \"Andersen on the ball\"], [83, 6, 0, \"Andersen makes a run\"], [84, 11, 1, \"tackle by Nilsson\"], [85, 14, 1, \"Nilsson wins the ball\"], [86, 1, 1, \"pass by Nilsson\"], [87, 35, 1, \"Rehn collects\"], [88, 8, 1, \"good ball for Ekstrom\"], [89, 25, 1, \"Ekstrom on the ball\"], [90, 11, 0, \"tackle by Piechnik\"], [91, 12, 1, \"dodged by Ekstrom\"], [92, 11, 0, \"tackle by Olsen\"], [93, 55, 1, \"Ekstrom is brought down\"], [94, 53, 0, \"FOUL by Olsen\"], [95, 57, 1, \"*** PENALTY ***\"], [96, 47, 1, \"Ekstrom to take penalty\"], [97, 17, 1, \"shot from Ekstrom\"], [98, 37, 0, \"Schmeichel has no chance\"], [99, 38, 1, \"**** GOAL **** by Ekstrom\"], [100, 49, 0, \"Laudrup to take kick off\"], [101, 35, 0, \"Povlsen collects\"], [102, 8, 0, \"good ball for Laudrup\"], [103, 25, 0, \"Laudrup on the ball\"], [104, 1, 0, \"pass by Laudrup\"], [105, 35, 0, \"Povlsen collects\"], [106, 11, 1, \"tackle by Ekstrom\"], [107, 12, 0, \"dodged by Povlsen\"], [108, 2, 0, \"Povlsen makes a pass\"], [109, 35, 0, \"Laudrup collects\"], [110, 8, 0, \"good ball for Larsen\"], [111, 25, 0, \"Larsen on the ball\"], [112, 8, 0, \"good ball for Povlsen\"], [113, 25, 0, \"Povlsen on the ball\"], [114, 8, 0, \"good ball for Laudrup\"], [115, 25, 0, \"Laudrup on the ball\"], [116, 11, 1, \"tackle by Rehn\"], [117, 14, 1, \"Rehn wins the ball\"], [118, 11, 0, \"tackle by Larsen\"], [119, 12, 1, \"dodged by Rehn\"], [120, 1, 1, \"pass by Rehn\"], [121, 34, 0, \"Povlsen intercepts\"], [122, 6, 0, \"Povlsen makes a run\"], [123, 11, 1, \"tackle by Rehn\"], [124, 14, 1, \"Rehn wins the ball\"], [125, 8, 1, \"good ball for Ekstrom\"], [126, 25, 1, \"Ekstrom on the ball\"], [127, 6, 1, \"Ekstrom makes a run\"], [128, 11, 0, \"tackle by Andersen\"], [129, 14, 0, \"Andersen wins the ball\"], [130, 33, 0, \"knocked on by Andersen\"], [131, 35, 0, \"Olsen collects\"], [132, 1, 0, \"pass by Olsen\"], [133, 43, 1, \"*** THROW IN ***\"], [134, 42, 1, \"Eriksson to take throw in\"], [135, 3, 1, \"Eriksson throws the ball\"], [136, 25, 1, \"Thern on the ball\"], [137, 11, 0, \"tackle by Laudrup\"], [138, 14, 0, \"Laudrup wins the ball\"], [139, 33, 0, \"knocked on by Laudrup\"], [140, 34, 1, \"Brolin intercepts\"], [141, 6, 1, \"Brolin makes a run\"], [142, 11, 0, \"tackle by Povlsen\"], [143, 14, 0, \"Povlsen wins the ball\"], [144, 11, 1, \"tackle by Rehn\"], [145, 12, 0, \"dodged by Povlsen\"], [146, 6, 0, \"Povlsen makes a run\"], [147, 11, 1, \"tackle by Nilsson\"], [148, 14, 1, \"Nilsson wins the ball\"], [149, 10, 1, \"high ball towards Ekstrom\"], [150, 32, 0, \"headed on by Sivebaek\"], [151, 25, 0, \"Laudrup on the ball\"], [152, 10, 0, \"high ball towards Povlsen\"], [153, 65, 1, \"challenge by Limpar\"], [154, 14, 1, \"Limpar wins the ball\"], [155, 33, 1, \"knocked on by Limpar\"], [156, 35, 1, \"Brolin collects\"], [157, 6, 1, \"Brolin makes a run\"], [158, 11, 0, \"tackle by Olsen\"], [159, 14, 0, \"Olsen wins the ball\"], [160, 1, 0, \"pass by Olsen\"], [161, 34, 1, \"Eriksson intercepts\"], [162, 6, 1, \"Eriksson makes a run\"], [163, 11, 0, \"tackle by Larsen\"], [164, 14, 0, \"Larsen wins the ball\"], [165, 10, 0, \"high ball towards Povlsen\"], [166, 35, 0, \"Piechnik collects\"], [167, 2, 0, \"Piechnik makes a pass\"], [168, 34, 1, \"Nilsson intercepts\"], [169, 10, 1, \"high ball towards Brolin\"], [170, 32, 0, \"headed on by Olsen\"], [171, 25, 0, \"Vilfort on the ball\"], [172, 2, 0, \"Vilfort makes a pass\"], [173, 32, 1, \"headed on by Thern\"], [174, 25, 1, \"Limpar on the ball\"], [175, 11, 0, \"tackle by Sivebaek\"], [176, 14, 0, \"Sivebaek wins the ball\"], [177, 2, 0, \"Sivebaek makes a pass\"], [178, 31, 1, \"deflected by Thern\"], [179, 34, 0, \"Olsen intercepts\"], [180, 23, 0, \"punted away by Olsen\"], [181, 43, 1, \"*** THROW IN ***\"], [182, 42, 1, \"Erlingmark to take throw in\"], [183, 3, 1, \"Erlingmark throws the ball\"], [184, 25, 1, \"Eriksson on the ball\"], [185, 6, 1, \"Eriksson makes a run\"], [186, 8, 1, \"good ball for Ekstrom\"], [187, 25, 1, \"Ekstrom on the ball\"], [188, 11, 0, \"tackle by Piechnik\"], [189, 14, 0, \"Piechnik wins the ball\"], [190, 8, 0, \"good ball for Povlsen\"], [191, 25, 0, \"Povlsen on the ball\"], [192, 2, 0, \"Povlsen makes a pass\"], [193, 34, 1, \"Thern intercepts\"], [194, 11, 0, \"tackle by Laudrup\"], [195, 14, 0, \"Laudrup wins the ball\"], [196, 1, 0, \"pass by Laudrup\"], [197, 35, 0, \"Povlsen collects\"], [198, 8, 0, \"good ball for Laudrup\"], [199, 25, 0, \"Laudrup on the ball\"], [200, 8, 0, \"good ball for Povlsen\"], [1, 25, 0, \"Povlsen on the ball\"], [2, 8, 0, \"good ball for Laudrup\"], [3, 25, 0, \"Laudrup on the ball\"], [4, 8, 0, \"good ball for Povlsen\"], [5, 25, 0, \"Povlsen on the ball\"], [6, 10, 0, \"high ball towards Laudrup\"], [7, 25, 0, \"Laudrup on the ball\"], [8, 1, 0, \"pass by Laudrup\"], [9, 35, 0, \"Povlsen collects\"], [10, 7, 0, \"poor touch from Povlsen\"], [11, 8, 0, \"good ball for Laudrup\"], [12, 25, 0, \"Laudrup on the ball\"], [13, 2, 0, \"Laudrup makes a pass\"], [14, 34, 1, \"Bjorklund intercepts\"], [15, 1, 1, \"pass by Bjorklund\"], [16, 34, 0, \"Olsen intercepts\"], [17, 2, 0, \"Olsen makes a pass\"], [18, 34, 1, \"Brolin intercepts\"], [19, 8, 1, \"good ball for Ekstrom\"], [20, 25, 1, \"Ekstrom on the ball\"], [21, 6, 1, \"Ekstrom makes a run\"], [22, 8, 1, \"good ball for Brolin\"], [23, 25, 1, \"Brolin on the ball\"], [24, 11, 0, \"tackle by Christofte\"], [25, 12, 1, \"dodged by Brolin\"], [26, 8, 1, \"good ball for Ekstrom\"], [27, 25, 1, \"Ekstrom on the ball\"], [28, 6, 1, \"Ekstrom makes a run\"], [29, 11, 0, \"tackle by Piechnik\"], [30, 14, 0, \"Piechnik wins the ball\"], [31, 33, 0, \"knocked on by Piechnik\"], [32, 66, 1, \"** LINESMAN FLAGS **\"], [33, 54, 0, \"Povlsen is OFFSIDE\"], [34, 58, 1, \"*** FREE KICK ***\"], [35, 48, 1, \"Nilsson to take free kick\"], [36, 10, 1, \"high ball towards Ingesson\"], [37, 32, 0, \"headed on by Piechnik\"], [38, 25, 0, \"Laudrup on the ball\"], [39, 8, 0, \"good ball for Povlsen\"], [40, 25, 0, \"Povlsen on the ball\"], [41, 1, 0, \"pass by Povlsen\"], [42, 35, 0, \"Larsen collects\"], [43, 1, 0, \"pass by Larsen\"], [44, 34, 1, \"Rehn intercepts\"], [45, 8, 1, \"good ball for Ekstrom\"], [46, 25, 1, \"Ekstrom on the ball\"], [47, 17, 1, \"shot from Ekstrom\"], [48, 36, 0, \"Schmeichel beaten\"], [49, 38, 1, \"**** GOAL **** by Ekstrom\"], [50, 49, 0, \"Laudrup to take kick off\"], [51, 35, 0, \"Povlsen collects\"], [52, 11, 1, \"tackle by Ekstrom\"], [53, 14, 1, \"Ekstrom wins the ball\"], [54, 33, 1, \"knocked on by Ekstrom\"], [55, 34, 0, \"Laudrup intercepts\"], [56, 8, 0, \"good ball for Povlsen\"], [57, 25, 0, \"Povlsen on the ball\"], [58, 6, 0, \"Povlsen makes a run\"], [59, 11, 1, \"tackle by Rehn\"], [60, 14, 1, \"Rehn wins the ball\"], [61, 2, 1, \"Rehn makes a pass\"], [62, 35, 1, \"Ingesson collects\"], [63, 6, 1, \"Ingesson makes a run\"], [64, 11, 0, \"tackle by Vilfort\"], [65, 14, 0, \"Vilfort wins the ball\"], [66, 8, 0, \"good ball for Povlsen\"], [67, 25, 0, \"Povlsen on the ball\"], [68, 11, 1, \"tackle by Ekstrom\"], [69, 14, 1, \"Ekstrom wins the ball\"], [70, 6, 1, \"Ekstrom makes a run\"], [71, 11, 0, \"tackle by Piechnik\"], [72, 14, 0, \"Piechnik wins the ball\"], [73, 33, 0, \"knocked on by Piechnik\"], [74, 34, 1, \"Brolin intercepts\"], [75, 11, 0, \"tackle by Christofte\"], [76, 12, 1, \"dodged by Brolin\"], [77, 6, 1, \"Brolin makes a run\"], [78, 17, 1, \"shot from Brolin\"], [79, 31, 0, \"deflected by Schmeichel\"], [80, 28, 0, \"Schmeichel has the ball\"], [81, 4, 0, \"kick by Schmeichel\"], [82, 34, 1, \"Limpar intercepts\"], [83, 6, 1, \"Limpar makes a run\"], [84, 2, 1, \"Limpar makes a pass\"], [85, 35, 1, \"Brolin collects\"], [86, 11, 0, \"tackle by Christofte\"], [87, 14, 0, \"Christofte wins the ball\"], [88, 33, 0, \"knocked on by Christofte\"], [89, 43, 1, \"*** THROW IN ***\"], [90, 42, 1, \"Bjorklund to take throw in\"], [91, 3, 1, \"Bjorklund throws the ball\"], [92, 25, 1, \"Limpar on the ball\"], [93, 6, 1, \"Limpar makes a run\"], [94, 63, 1, \"---- FULL TIME ----\"]]"
+  },
+  {
+   "step": 201,
+   "source": "memory",
+   "field": "events among them (templates 0 substitution, 38 goal, 39 own goal, 50 booking, 51 sending off, 52 injury): [kind, team, text]",
+   "value": "[[\"goal\", 0, \"**** GOAL **** by Povlsen\"], [\"goal\", 0, \"**** GOAL **** by Povlsen\"], [\"booking\", 0, \"Olsen BOOKED\"], [\"goal\", 0, \"**** GOAL **** by Povlsen\"], [\"substitution\", 1, \"Limpar on for Jansson\"], [\"substitution\", 1, \"Thern on for Schwarz\"], [\"substitution\", 1, \"Eriksson on for Ljung\"], [\"goal\", 1, \"**** GOAL **** by Ekstrom\"], [\"goal\", 1, \"**** GOAL **** by Ekstrom\"]]"
+  },
+  {
+   "step": 201,
+   "source": "memory",
+   "field": "commentary lines between successive reads (deltas of DS:80EE modulo 200), and reads where lines may have been lost",
+   "value": "{\"deltas\": [79, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 44, 23, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 43, 46, 29, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 15, 55, 52, 30, 35, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 26, 45, 14, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 33, 0, 0, 0, 22, 26, 37, 33, 52, 14, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 2, 33, 40, 43, 16, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 47, 34, 37, 32, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 21, 24, 0], \"gaps\": []}"
+  },
+  {
+   "step": 201,
+   "source": "log",
+   "field": "lines of DOSBox-X's own output (dosbox.out) that mention save, load, corrupt, date, time or cycle, in order, except the two lines every savestate writes (counted in the next observation)",
+   "value": "LOG: Active save slot: 1 [Empty]\nLOG: Loading state from slot: 1\nLOG:  Extracting: IntTimer10\nLOG: [19:45:19]: Loaded. (Slot 1)"
+  },
+  {
+   "step": 201,
+   "source": "log",
+   "field": "count of the lines left out of the previous observation: [`LOG: File : <work>/... is N bytes`, `Saved. (Slot`]",
+   "value": "[201, 201]"
+  },
+  {
+   "step": 201,
+   "source": "process",
+   "field": "dosbox-x and Xvfb after SIGTERM to their process groups (SIGKILL after TERM_GRACE, see log)",
+   "value": "both exited"
+  },
+  {
+   "step": 201,
+   "source": "log",
+   "field": "waits, polls and key holds, seconds since launch",
+   "value": "[[0.108,\"Xvfb poll: answered after 2 polls of 0.1s\"],[0.108,\"Xvfb :757 answering\"],[0.109,\"dosbox-x started\"],[0.231,\"window found after 2 polls of 0.1s\"],[0.235,\"window focused\"],[0.751,\"host key F12+s, each step held 0.15s\"],[0.753,\"savestate complete after 1 polls of 0.05s\"],[0.787,\"title screen: matched after 1 savestate polls\"],[0.787,\"DOS clock read back: '10/04/2026\\\\n19:45:18'\"],[1.305,\"host key F12+l, each step held 0.15s\"],[1.305,\"Host+L sent (e004-1337)\"],[1.822,\"host key F12+s, each step held 0.15s\"],[1.825,\"savestate complete after 1 polls of 0.05s\"],[1.847,\"restore e004-1337: matched after 1 savestate polls\"],[2.0,\"key Enter held 0.08s\"],[2.113,\"key Right held 0.08s\"],[2.224,\"key Right held 0.08s\"],[2.336,\"key Right held 0.08s\"],[2.449,\"key Right held 0.08s\"],[2.562,\"key Right held 0.08s\"],[2.562,\"match watched: starting keys Enter Right Right Right Right Right sent in one burst\"],[3.079,\"host key F12+s, each step held 0.15s\"],[3.081,\"savestate complete after 1 polls of 0.05s\"],[3.634,\"host key F12+s, each step held 0.15s\"],[3.636,\"savestate complete after 1 polls of 0.05s\"],[4.186,\"host key F12+s, each step held 0.15s\"],[4.188,\"savestate complete after 1 polls of 0.05s\"],[4.734,\"host key F12+s, each step held 0.15s\"],[4.736,\"savestate complete after 1 polls of 0.05s\"],[5.29,\"host key F12+s, each step held 0.15s\"],[5.292,\"savestate complete after 1 polls of 0.05s\"],[5.852,\"host key F12+s, each step held 0.15s\"],[5.854,\"savestate complete after 1 polls of 0.05s\"],[6.409,\"host key F12+s, each step held 0.15s\"],[6.411,\"savestate complete after 1 polls of 0.05s\"],[6.957,\"host key F12+s, each step held 0.15s\"],[6.958,\"savestate complete after 1 polls of 0.05s\"],[7.504,\"host key F12+s, each step held 0.15s\"],[7.506,\"savestate complete after 1 polls of 0.05s\"],[8.05,\"host key F12+s, each step held 0.15s\"],[8.052,\"savestate complete after 1 polls of 0.05s\"],[8.605,\"host key F12+s, each step held 0.15s\"],[8.607,\"savestate complete after 1 polls of 0.05s\"],[9.158,\"host key F12+s, each step held 0.15s\"],[9.161,\"savestate complete after 1 polls of 0.05s\"],[9.714,\"host key F12+s, each step held 0.15s\"],[9.716,\"savestate complete after 1 polls of 0.05s\"],[10.263,\"host key F12+s, each step held 0.15s\"],[10.265,\"savestate complete after 1 polls of 0.05s\"],[10.812,\"host key F12+s, each step held 0.15s\"],[10.814,\"savestate complete after 1 polls of 0.05s\"],[11.36,\"host key F12+s, each step held 0.15s\"],[11.362,\"savestate complete after 1 polls of 0.05s\"],[11.911,\"host key F12+s, each step held 0.15s\"],[11.913,\"savestate complete after 1 polls of 0.05s\"],[12.466,\"host key F12+s, each step held 0.15s\"],[12.468,\"savestate complete after 1 polls of 0.05s\"],[13.02,\"host key F12+s, each step held 0.15s\"],[13.023,\"savestate complete after 1 polls of 0.05s\"],[13.572,\"host key F12+s, each step held 0.15s\"],[13.573,\"savestate complete after 1 polls of 0.05s\"],[14.116,\"host key F12+s, each step held 0.15s\"],[14.118,\"savestate complete after 1 polls of 0.05s\"],[14.669,\"host key F12+s, each step held 0.15s\"],[14.671,\"savestate complete after 1 polls of 0.05s\"],[15.219,\"host key F12+s, each step held 0.15s\"],[15.221,\"savestate complete after 1 polls of 0.05s\"],[15.775,\"host key F12+s, each step held 0.15s\"],[15.777,\"savestate complete after 1 polls of 0.05s\"],[16.329,\"host key F12+s, each step held 0.15s\"],[16.331,\"savestate complete after 1 polls of 0.05s\"],[16.886,\"host key F12+s, each step held 0.15s\"],[16.888,\"savestate complete after 1 polls of 0.05s\"],[17.432,\"host key F12+s, each step held 0.15s\"],[17.434,\"savestate complete after 1 polls of 0.05s\"],[17.986,\"host key F12+s, each step held 0.15s\"],[17.988,\"savestate complete after 1 polls of 0.05s\"],[18.531,\"host key F12+s, each step held 0.15s\"],[18.533,\"savestate complete after 1 polls of 0.05s\"],[19.079,\"host key F12+s, each step held 0.15s\"],[19.08,\"savestate complete after 1 polls of 0.05s\"],[19.624,\"host key F12+s, each step held 0.15s\"],[19.625,\"savestate complete after 1 polls of 0.05s\"],[20.169,\"host key F12+s, each step held 0.15s\"],[20.17,\"savestate complete after 1 polls of 0.05s\"],[20.715,\"host key F12+s, each step held 0.15s\"],[20.717,\"savestate complete after 1 polls of 0.05s\"],[21.269,\"host key F12+s, each step held 0.15s\"],[21.271,\"savestate complete after 1 polls of 0.05s\"],[21.824,\"host key F12+s, each step held 0.15s\"],[21.827,\"savestate complete after 1 polls of 0.05s\"],[22.387,\"host key F12+s, each step held 0.15s\"],[22.389,\"savestate complete after 1 polls of 0.05s\"],[22.939,\"host key F12+s, each step held 0.15s\"],[22.941,\"savestate complete after 1 polls of 0.05s\"],[23.49,\"host key F12+s, each step held 0.15s\"],[23.491,\"savestate complete after 1 polls of 0.05s\"],[24.036,\"host key F12+s, each step held 0.15s\"],[24.037,\"savestate complete after 1 polls of 0.05s\"],[24.586,\"host key F12+s, each step held 0.15s\"],[24.587,\"savestate complete after 1 polls of 0.05s\"],[25.132,\"host key F12+s, each step held 0.15s\"],[25.134,\"savestate complete after 1 polls of 0.05s\"],[25.684,\"host key F12+s, each step held 0.15s\"],[25.686,\"savestate complete after 1 polls of 0.05s\"],[26.233,\"host key F12+s, each step held 0.15s\"],[26.235,\"savestate complete after 1 polls of 0.05s\"],[26.787,\"host key F12+s, each step held 0.15s\"],[26.788,\"savestate complete after 1 polls of 0.05s\"],[27.335,\"host key F12+s, each step held 0.15s\"],[27.337,\"savestate complete after 1 polls of 0.05s\"],[27.896,\"host key F12+s, each step held 0.15s\"],[27.897,\"savestate complete after 1 polls of 0.05s\"],[28.45,\"host key F12+s, each step held 0.15s\"],[28.452,\"savestate complete after 1 polls of 0.05s\"],[29.007,\"host key F12+s, each step held 0.15s\"],[29.008,\"savestate complete after 1 polls of 0.05s\"],[29.555,\"host key F12+s, each step held 0.15s\"],[29.557,\"savestate complete after 1 polls of 0.05s\"],[30.103,\"host key F12+s, each step held 0.15s\"],[30.104,\"savestate complete after 1 polls of 0.05s\"],[30.644,\"host key F12+s, each step held 0.15s\"],[30.646,\"savestate complete after 1 polls of 0.05s\"],[31.193,\"host key F12+s, each step held 0.15s\"],[31.194,\"savestate complete after 1 polls of 0.05s\"],[31.736,\"host key F12+s, each step held 0.15s\"],[31.738,\"savestate complete after 1 polls of 0.05s\"],[32.287,\"host key F12+s, each step held 0.15s\"],[32.288,\"savestate complete after 1 polls of 0.05s\"],[32.835,\"host key F12+s, each step held 0.15s\"],[32.837,\"savestate complete after 1 polls of 0.05s\"],[33.384,\"host key F12+s, each step held 0.15s\"],[33.385,\"savestate complete after 1 polls of 0.05s\"],[33.931,\"host key F12+s, each step held 0.15s\"],[33.932,\"savestate complete after 1 polls of 0.05s\"],[34.485,\"host key F12+s, each step held 0.15s\"],[34.487,\"savestate complete after 1 polls of 0.05s\"],[35.029,\"host key F12+s, each step held 0.15s\"],[35.031,\"savestate complete after 1 polls of 0.05s\"],[35.576,\"host key F12+s, each step held 0.15s\"],[35.577,\"savestate complete after 1 polls of 0.05s\"],[36.119,\"host key F12+s, each step held 0.15s\"],[36.121,\"savestate complete after 1 polls of 0.05s\"],[36.668,\"host key F12+s, each step held 0.15s\"],[36.67,\"savestate complete after 1 polls of 0.05s\"],[37.215,\"host key F12+s, each step held 0.15s\"],[37.216,\"savestate complete after 1 polls of 0.05s\"],[37.764,\"host key F12+s, each step held 0.15s\"],[37.766,\"savestate complete after 1 polls of 0.05s\"],[38.316,\"host key F12+s, each step held 0.15s\"],[38.318,\"savestate complete after 1 polls of 0.05s\"],[38.865,\"host key F12+s, each step held 0.15s\"],[38.866,\"savestate complete after 1 polls of 0.05s\"],[39.408,\"host key F12+s, each step held 0.15s\"],[39.41,\"savestate complete after 1 polls of 0.05s\"],[39.953,\"host key F12+s, each step held 0.15s\"],[39.954,\"savestate complete after 1 polls of 0.05s\"],[40.499,\"host key F12+s, each step held 0.15s\"],[40.501,\"savestate complete after 1 polls of 0.05s\"],[41.048,\"host key F12+s, each step held 0.15s\"],[41.051,\"savestate complete after 1 polls of 0.05s\"],[41.6,\"host key F12+s, each step held 0.15s\"],[41.601,\"savestate complete after 1 polls of 0.05s\"],[42.147,\"host key F12+s, each step held 0.15s\"],[42.149,\"savestate complete after 1 polls of 0.05s\"],[42.696,\"host key F12+s, each step held 0.15s\"],[42.697,\"savestate complete after 1 polls of 0.05s\"],[43.242,\"host key F12+s, each step held 0.15s\"],[43.243,\"savestate complete after 1 polls of 0.05s\"],[43.786,\"host key F12+s, each step held 0.15s\"],[43.788,\"savestate complete after 1 polls of 0.05s\"],[44.333,\"host key F12+s, each step held 0.15s\"],[44.335,\"savestate complete after 1 polls of 0.05s\"],[44.88,\"host key F12+s, each step held 0.15s\"],[44.882,\"savestate complete after 1 polls of 0.05s\"],[45.43,\"host key F12+s, each step held 0.15s\"],[45.431,\"savestate complete after 1 polls of 0.05s\"],[45.985,\"host key F12+s, each step held 0.15s\"],[45.987,\"savestate complete after 1 polls of 0.05s\"],[46.536,\"host key F12+s, each step held 0.15s\"],[46.538,\"savestate complete after 1 polls of 0.05s\"],[47.087,\"host key F12+s, each step held 0.15s\"],[47.088,\"savestate complete after 1 polls of 0.05s\"],[47.636,\"host key F12+s, each step held 0.15s\"],[47.638,\"savestate complete after 1 polls of 0.05s\"],[48.189,\"host key F12+s, each step held 0.15s\"],[48.192,\"savestate complete after 1 polls of 0.05s\"],[48.747,\"host key F12+s, each step held 0.15s\"],[48.749,\"savestate complete after 1 polls of 0.05s\"],[49.299,\"host key F12+s, each step held 0.15s\"],[49.302,\"savestate complete after 1 polls of 0.05s\"],[49.868,\"host key F12+s, each step held 0.15s\"],[49.87,\"savestate complete after 1 polls of 0.05s\"],[50.427,\"host key F12+s, each step held 0.15s\"],[50.428,\"savestate complete after 1 polls of 0.05s\"],[50.979,\"host key F12+s, each step held 0.15s\"],[50.981,\"savestate complete after 1 polls of 0.05s\"],[51.531,\"host key F12+s, each step held 0.15s\"],[51.533,\"savestate complete after 1 polls of 0.05s\"],[52.083,\"host key F12+s, each step held 0.15s\"],[52.086,\"savestate complete after 1 polls of 0.05s\"],[52.653,\"host key F12+s, each step held 0.15s\"],[52.655,\"savestate complete after 1 polls of 0.05s\"],[53.217,\"host key F12+s, each step held 0.15s\"],[53.219,\"savestate complete after 1 polls of 0.05s\"],[53.778,\"host key F12+s, each step held 0.15s\"],[53.78,\"savestate complete after 1 polls of 0.05s\"],[54.33,\"host key F12+s, each step held 0.15s\"],[54.332,\"savestate complete after 1 polls of 0.05s\"],[54.892,\"host key F12+s, each step held 0.15s\"],[54.894,\"savestate complete after 1 polls of 0.05s\"],[55.438,\"host key F12+s, each step held 0.15s\"],[55.44,\"savestate complete after 1 polls of 0.05s\"],[55.991,\"host key F12+s, each step held 0.15s\"],[55.993,\"savestate complete after 1 polls of 0.05s\"],[56.546,\"host key F12+s, each step held 0.15s\"],[56.548,\"savestate complete after 1 polls of 0.05s\"],[57.101,\"host key F12+s, each step held 0.15s\"],[57.103,\"savestate complete after 1 polls of 0.05s\"],[57.648,\"host key F12+s, each step held 0.15s\"],[57.65,\"savestate complete after 1 polls of 0.05s\"],[58.201,\"host key F12+s, each step held 0.15s\"],[58.202,\"savestate complete after 1 polls of 0.05s\"],[58.75,\"host key F12+s, each step held 0.15s\"],[58.753,\"savestate complete after 1 polls of 0.05s\"],[59.306,\"host key F12+s, each step held 0.15s\"],[59.307,\"savestate complete after 1 polls of 0.05s\"],[59.852,\"host key F12+s, each step held 0.15s\"],[59.853,\"savestate complete after 1 polls of 0.05s\"],[60.4,\"host key F12+s, each step held 0.15s\"],[60.402,\"savestate complete after 1 polls of 0.05s\"],[60.95,\"host key F12+s, each step held 0.15s\"],[60.952,\"savestate complete after 1 polls of 0.05s\"],[61.503,\"host key F12+s, each step held 0.15s\"],[61.505,\"savestate complete after 1 polls of 0.05s\"],[62.054,\"host key F12+s, each step held 0.15s\"],[62.056,\"savestate complete after 1 polls of 0.05s\"],[62.608,\"host key F12+s, each step held 0.15s\"],[62.609,\"savestate complete after 1 polls of 0.05s\"],[63.154,\"host key F12+s, each step held 0.15s\"],[63.156,\"savestate complete after 1 polls of 0.05s\"],[63.705,\"host key F12+s, each step held 0.15s\"],[63.707,\"savestate complete after 1 polls of 0.05s\"],[64.256,\"host key F12+s, each step held 0.15s\"],[64.258,\"savestate complete after 1 polls of 0.05s\"],[64.81,\"host key F12+s, each step held 0.15s\"],[64.812,\"savestate complete after 1 polls of 0.05s\"],[65.36,\"host key F12+s, each step held 0.15s\"],[65.362,\"savestate complete after 1 polls of 0.05s\"],[65.919,\"host key F12+s, each step held 0.15s\"],[65.921,\"savestate complete after 1 polls of 0.05s\"],[66.482,\"host key F12+s, each step held 0.15s\"],[66.483,\"savestate complete after 1 polls of 0.05s\"],[67.035,\"host key F12+s, each step held 0.15s\"],[67.037,\"savestate complete after 1 polls of 0.05s\"],[67.589,\"host key F12+s, each step held 0.15s\"],[67.59,\"savestate complete after 1 polls of 0.05s\"],[68.134,\"host key F12+s, each step held 0.15s\"],[68.135,\"savestate complete after 1 polls of 0.05s\"],[68.68,\"host key F12+s, each step held 0.15s\"],[68.681,\"savestate complete after 1 polls of 0.05s\"],[69.225,\"host key F12+s, each step held 0.15s\"],[69.228,\"savestate complete after 1 polls of 0.05s\"],[69.379,\"key Enter held 0.08s\"],[69.379,\"match watched: Enter (hit any key)\"],[69.895,\"host key F12+s, each step held 0.15s\"],[69.896,\"savestate complete after 1 polls of 0.05s\"],[70.442,\"host key F12+s, each step held 0.15s\"],[70.445,\"savestate complete after 1 polls of 0.05s\"],[70.62,\"key Enter held 0.08s\"],[70.62,\"match watched: Enter (team screen)\"],[71.142,\"host key F12+s, each step held 0.15s\"],[71.145,\"savestate complete after 1 polls of 0.05s\"],[71.696,\"host key F12+s, each step held 0.15s\"],[71.698,\"savestate complete after 1 polls of 0.05s\"],[72.249,\"host key F12+s, each step held 0.15s\"],[72.25,\"savestate complete after 1 polls of 0.05s\"],[72.807,\"host key F12+s, each step held 0.15s\"],[72.809,\"savestate complete after 1 polls of 0.05s\"],[73.355,\"host key F12+s, each step held 0.15s\"],[73.357,\"savestate complete after 1 polls of 0.05s\"],[73.906,\"host key F12+s, each step held 0.15s\"],[73.908,\"savestate complete after 1 polls of 0.05s\"],[74.457,\"host key F12+s, each step held 0.15s\"],[74.459,\"savestate complete after 1 polls of 0.05s\"],[75.012,\"host key F12+s, each step held 0.15s\"],[75.014,\"savestate complete after 1 polls of 0.05s\"],[75.568,\"host key F12+s, each step held 0.15s\"],[75.571,\"savestate complete after 1 polls of 0.05s\"],[76.139,\"host key F12+s, each step held 0.15s\"],[76.141,\"savestate complete after 1 polls of 0.05s\"],[76.697,\"host key F12+s, each step held 0.15s\"],[76.698,\"savestate complete after 1 polls of 0.05s\"],[77.249,\"host key F12+s, each step held 0.15s\"],[77.25,\"savestate complete after 1 polls of 0.05s\"],[77.792,\"host key F12+s, each step held 0.15s\"],[77.794,\"savestate complete after 1 polls of 0.05s\"],[78.339,\"host key F12+s, each step held 0.15s\"],[78.34,\"savestate complete after 1 polls of 0.05s\"],[78.886,\"host key F12+s, each step held 0.15s\"],[78.888,\"savestate complete after 1 polls of 0.05s\"],[79.437,\"host key F12+s, each step held 0.15s\"],[79.439,\"savestate complete after 1 polls of 0.05s\"],[79.992,\"host key F12+s, each step held 0.15s\"],[79.993,\"savestate complete after 1 polls of 0.05s\"],[80.542,\"host key F12+s, each step held 0.15s\"],[80.543,\"savestate complete after 1 polls of 0.05s\"],[81.088,\"host key F12+s, each step held 0.15s\"],[81.09,\"savestate complete after 1 polls of 0.05s\"],[81.638,\"host key F12+s, each step held 0.15s\"],[81.64,\"savestate complete after 1 polls of 0.05s\"],[82.182,\"host key F12+s, each step held 0.15s\"],[82.183,\"savestate complete after 1 polls of 0.05s\"],[82.729,\"host key F12+s, each step held 0.15s\"],[82.731,\"savestate complete after 1 polls of 0.05s\"],[83.276,\"host key F12+s, each step held 0.15s\"],[83.277,\"savestate complete after 1 polls of 0.05s\"],[83.819,\"host key F12+s, each step held 0.15s\"],[83.82,\"savestate complete after 1 polls of 0.05s\"],[84.363,\"host key F12+s, each step held 0.15s\"],[84.364,\"savestate complete after 1 polls of 0.05s\"],[84.909,\"host key F12+s, each step held 0.15s\"],[84.91,\"savestate complete after 1 polls of 0.05s\"],[85.457,\"host key F12+s, each step held 0.15s\"],[85.458,\"savestate complete after 1 polls of 0.05s\"],[86.008,\"host key F12+s, each step held 0.15s\"],[86.009,\"savestate complete after 1 polls of 0.05s\"],[86.557,\"host key F12+s, each step held 0.15s\"],[86.559,\"savestate complete after 1 polls of 0.05s\"],[87.104,\"host key F12+s, each step held 0.15s\"],[87.106,\"savestate complete after 1 polls of 0.05s\"],[87.659,\"host key F12+s, each step held 0.15s\"],[87.661,\"savestate complete after 1 polls of 0.05s\"],[88.201,\"host key F12+s, each step held 0.15s\"],[88.203,\"savestate complete after 1 polls of 0.05s\"],[88.747,\"host key F12+s, each step held 0.15s\"],[88.748,\"savestate complete after 1 polls of 0.05s\"],[89.287,\"host key F12+s, each step held 0.15s\"],[89.289,\"savestate complete after 1 polls of 0.05s\"],[89.836,\"host key F12+s, each step held 0.15s\"],[89.838,\"savestate complete after 1 polls of 0.05s\"],[90.387,\"host key F12+s, each step held 0.15s\"],[90.389,\"savestate complete after 1 polls of 0.05s\"],[90.943,\"host key F12+s, each step held 0.15s\"],[90.945,\"savestate complete after 1 polls of 0.05s\"],[91.497,\"host key F12+s, each step held 0.15s\"],[91.499,\"savestate complete after 1 polls of 0.05s\"],[92.053,\"host key F12+s, each step held 0.15s\"],[92.054,\"savestate complete after 1 polls of 0.05s\"],[92.604,\"host key F12+s, each step held 0.15s\"],[92.606,\"savestate complete after 1 polls of 0.05s\"],[93.157,\"host key F12+s, each step held 0.15s\"],[93.158,\"savestate complete after 1 polls of 0.05s\"],[93.703,\"host key F12+s, each step held 0.15s\"],[93.705,\"savestate complete after 1 polls of 0.05s\"],[94.256,\"host key F12+s, each step held 0.15s\"],[94.258,\"savestate complete after 1 polls of 0.05s\"],[94.807,\"host key F12+s, each step held 0.15s\"],[94.808,\"savestate complete after 1 polls of 0.05s\"],[95.361,\"host key F12+s, each step held 0.15s\"],[95.362,\"savestate complete after 1 polls of 0.05s\"],[95.915,\"host key F12+s, each step held 0.15s\"],[95.918,\"savestate complete after 1 polls of 0.05s\"],[96.484,\"host key F12+s, each step held 0.15s\"],[96.485,\"savestate complete after 1 polls of 0.05s\"],[97.041,\"host key F12+s, each step held 0.15s\"],[97.044,\"savestate complete after 1 polls of 0.05s\"],[97.637,\"host key F12+s, each step held 0.15s\"],[97.64,\"savestate complete after 1 polls of 0.05s\"],[98.22,\"host key F12+s, each step held 0.15s\"],[98.223,\"savestate complete after 1 polls of 0.05s\"],[98.801,\"host key F12+s, each step held 0.15s\"],[98.804,\"savestate complete after 1 polls of 0.05s\"],[99.368,\"host key F12+s, each step held 0.15s\"],[99.371,\"savestate complete after 1 polls of 0.05s\"],[99.935,\"host key F12+s, each step held 0.15s\"],[99.937,\"savestate complete after 1 polls of 0.05s\"],[100.493,\"host key F12+s, each step held 0.15s\"],[100.496,\"savestate complete after 1 polls of 0.05s\"],[101.064,\"host key F12+s, each step held 0.15s\"],[101.066,\"savestate complete after 1 polls of 0.05s\"],[101.637,\"host key F12+s, each step held 0.15s\"],[101.639,\"savestate complete after 1 polls of 0.05s\"],[102.19,\"host key F12+s, each step held 0.15s\"],[102.193,\"savestate complete after 1 polls of 0.05s\"],[102.76,\"host key F12+s, each step held 0.15s\"],[102.763,\"savestate complete after 1 polls of 0.05s\"],[103.328,\"host key F12+s, each step held 0.15s\"],[103.33,\"savestate complete after 1 polls of 0.05s\"],[103.887,\"host key F12+s, each step held 0.15s\"],[103.888,\"savestate complete after 1 polls of 0.05s\"],[104.443,\"host key F12+s, each step held 0.15s\"],[104.446,\"savestate complete after 1 polls of 0.05s\"],[105.009,\"host key F12+s, each step held 0.15s\"],[105.012,\"savestate complete after 1 polls of 0.05s\"],[105.584,\"host key F12+s, each step held 0.15s\"],[105.586,\"savestate complete after 1 polls of 0.05s\"],[106.171,\"host key F12+s, each step held 0.15s\"],[106.173,\"savestate complete after 1 polls of 0.05s\"],[106.737,\"host key F12+s, each step held 0.15s\"],[106.741,\"savestate complete after 1 polls of 0.05s\"],[107.309,\"host key F12+s, each step held 0.15s\"],[107.311,\"savestate complete after 1 polls of 0.05s\"],[107.878,\"host key F12+s, each step held 0.15s\"],[107.881,\"savestate complete after 1 polls of 0.05s\"],[108.446,\"host key F12+s, each step held 0.15s\"],[108.448,\"savestate complete after 1 polls of 0.05s\"],[109.019,\"host key F12+s, each step held 0.15s\"],[109.021,\"savestate complete after 1 polls of 0.05s\"],[109.582,\"host key F12+s, each step held 0.15s\"],[109.583,\"savestate complete after 1 polls of 0.05s\"],[110.135,\"host key F12+s, each step held 0.15s\"],[110.138,\"savestate complete after 1 polls of 0.05s\"],[110.709,\"host key F12+s, each step held 0.15s\"],[110.712,\"savestate complete after 1 polls of 0.05s\"],[111.282,\"host key F12+s, each step held 0.15s\"],[111.285,\"savestate complete after 1 polls of 0.05s\"],[111.85,\"host key F12+s, each step held 0.15s\"],[111.852,\"savestate complete after 1 polls of 0.05s\"],[112.415,\"host key F12+s, each step held 0.15s\"],[112.417,\"savestate complete after 1 polls of 0.05s\"],[112.977,\"host key F12+s, each step held 0.15s\"],[112.98,\"savestate complete after 1 polls of 0.05s\"],[113.019,\"match watched: full time after 199 reads\"],[113.532,\"dosbox-x pid 3446624 alive 0.5s after SIGTERM (grace 0.5s): SIGKILL to its group\"],[113.55,\"dosbox-x pid 3446624 ended by SIGKILL 0.518s after the first signal\"],[113.557,\"Xvfb pid 3446618 ended by SIGTERM 0.007s after the first signal\"],[113.557,\"terminated\"]]"
+  }
+ ],
+ "outputs": [],
+ "started": "2026-10-04T17:45:18.913Z",
+ "ended": "2026-10-04T17:47:12.519Z",
+ "status": "completed"
+}
