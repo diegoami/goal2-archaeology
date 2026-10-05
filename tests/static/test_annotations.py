@@ -1,12 +1,13 @@
-"""T20: the annotations (static/goal-exe/annotations/), their checker and the named view (named/).
+"""T20 and T21: the annotations (static/goal-exe/annotations/), their checker and the named view.
 
 - CheckerTests run tools/static/check_annotations.py on a copy of the committed annotations with
   one defect each; every check fails its defect and the committed annotations pass.
 - CommittedTests check the committed annotations: every routine a finding cited when T20 was
-  written is named, every run-time library routine is labelled.
+  written, and every routine F010 establishes (T21), is named; every run-time library routine is
+  labelled.
 - NamedViewTests check the committed named/: 1771:10E7 reads the country's three rating fields by
-  name and 0791:BBFF stores +0x2D by its field name, where decompiled/ shows offsets; named.py's
-  output layout on a made-up input.
+  name, 0791:BBFF stores country +0x2D and 1771:3431 reads player +0xF by their tactic-set field
+  names, where decompiled/ shows offsets; named.py's output layout on a made-up input.
 """
 import re
 import shutil
@@ -45,6 +46,15 @@ FINDING_CITED = [
     "1771:2EE5", "0000:0000", "000E:70B9", "000E:7439", "0791:7881", "0791:9119", "0791:F098",
     "1771:027B", "1771:157D", "1771:26B9", "1771:33CD", "1771:377E", "1771:3827", "1771:4E22",
     "1771:9873",
+    # T21: the routines F010 (PR #64) establishes, among them the ones it cites by bare offset
+    # (matched to their segments from F010's context): the +0x2D/+0xF readers and writers, the
+    # computer's in-match tactic changes, the fixture routing, the marking and the own-tactics
+    # editor. A cited routine F010 does not establish (it says "not read", or cites it only as a
+    # caller) is deliberately not here.
+    "0791:BBFF", "0791:BC5D", "0791:BD83", "0791:BD03", "0791:BF6B", "0791:C173", "0791:C01A",
+    "0791:C0DF", "0791:A3DE", "0791:C5DC", "0791:26D7", "0791:E80D", "0791:D47E", "0791:BB2F",
+    "1771:52CC", "1771:517A", "1771:3EF8", "1771:4B61", "1771:3E2F", "1771:34E7", "1771:1981",
+    "000E:01FA", "000E:6970", "000E:6CA7", "000E:6C21",
 ]
 # The fields F007 and F008 establish, by offset: every player byte but +0x09, +0x0B and +0x13 (the
 # high bytes of the words at +8, +0xA, +0x12) and +0x11 (read by no screen routine; F008).
@@ -248,30 +258,42 @@ class CommittedTests(unittest.TestCase):
 
 
 class NamedViewTests(unittest.TestCase):
-    # the three rating inputs of 1771:10E7 and the R008 store of 0791:BBFF (F007, F008)
+    # the three rating inputs of 1771:10E7 (F007) and the two tactic sets (T21, F010): the country's
+    # default set +0x2D, which 0791:BBFF stores, and the player's own set +0xF, which 1771:3431
+    # derives
     RATING_OFFSETS = re.compile(r"\+ 0x2[abc]\b")
     TACTICS_OFFSET = re.compile(r"\+ 0x2d\b")
+    OWN_TACTICS_OFFSET = re.compile(r"\+ 0xf\b")
 
     def assertNamedRating(self, body: str) -> None:
         self.assertIsNone(self.RATING_OFFSETS.search(body), body)
         for field in ("continent_rank", "world_rank", "continent"):
             self.assertRegex(body, rf"(->|\.){field}\b", body)
 
-    def assertNamedTactics(self, body: str) -> None:
+    def assertNamedDefaultTacticSet(self, body: str) -> None:
         self.assertIsNone(self.TACTICS_OFFSET.search(body), body)
-        self.assertRegex(body, r"(->|\.)team_tactics\b", body)
+        self.assertRegex(body, r"(->|\.)default_team_tactic_set\b", body)
+
+    def assertNamedOwnTacticSet(self, body: str) -> None:
+        self.assertIsNone(self.OWN_TACTICS_OFFSET.search(body), body)
+        self.assertRegex(body, r"(->|\.)own_tactic_set\b", body)
 
     def test_country_rating_reads_fields_by_name(self):
         self.assertNamedRating(routine_body(NAMED, "1771:10E7"))
 
     def test_set_team_tactics_stores_field_by_name(self):
-        self.assertNamedTactics(routine_body(NAMED, "0791:BBFF"))
+        self.assertNamedDefaultTacticSet(routine_body(NAMED, "0791:BBFF"))
+
+    def test_set_player_tactics_reads_own_set_by_name(self):
+        self.assertNamedOwnTacticSet(routine_body(NAMED, "1771:3431"))
 
     def test_the_raw_view_fails_the_same_checks(self):
         with self.assertRaises(AssertionError):
             self.assertNamedRating(routine_body(RAW, "1771:10E7"))
         with self.assertRaises(AssertionError):
-            self.assertNamedTactics(routine_body(RAW, "0791:BBFF"))
+            self.assertNamedDefaultTacticSet(routine_body(RAW, "0791:BBFF"))
+        with self.assertRaises(AssertionError):
+            self.assertNamedOwnTacticSet(routine_body(RAW, "1771:3431"))
 
     def test_render_names_headings_and_calls(self):
         segmap = decompiled.SegMap([(0x0791, 0x2000, 0x10000), (0x1771, 0x4000, 0x10000),
