@@ -106,6 +106,17 @@ Never read or edit `~/.config/quota-tracker/config.toml`: it holds account token
 login. Where the service is not installed, go on without it, and count a usage-limit error as
 `exhausted`.
 
+## Ghidra, for the decompiled view
+
+`tools/static/decompile.sh` (T18) needs these, outside the repository; nothing else does:
+- Ghidra 12.1.4 (release `Ghidra_12.1.4_build`, unpacked to `~/tools/ghidra_12.1.4_PUBLIC`, or set
+  `GHIDRA_HOME`). The script refuses another version.
+- A JDK 21: Temurin 21.0.12.1 (`~/tools/jdk-21.0.12.1+1`, or set `JAVA_HOME`). The script refuses
+  another major version, and the output's README records the exact one.
+
+Ghidra runs headless with `-max-cpu 2`, one instance at a time (the machine is shared). Without
+them, `tests/static/test_decompile.py` skips its Ghidra tests and says why.
+
 ## The scripts' own data directory
 
 `implement.mjs` and `review.mjs` run OpenCode with a data directory of their own, so OpenCode's

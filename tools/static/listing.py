@@ -300,6 +300,11 @@ def readme(img, dis, seg_files, usha, tool):
         "Method limits: recursive descent misses code reached only through computed jumps or procedure",
         "variables unless a routine prologue shows it; bytes after the last decoded instruction of a gap are",
         "reported as data. A listing line is capstone's decoding of the bytes, not a claim about the program.",
+        "",
+        "Decompiled view: `decompiled/` holds Ghidra's pseudo-C of every routine here, headed by the same",
+        "`SEGMENT:OFFSET`, with `decompiled/index.tsv` giving each routine's file and line",
+        "(`tools/static/decompile.sh`, not run by this script). What it can be trusted for, checked against",
+        "hand-traced claims, is in `findings/F009-*.md`; where it and this listing differ, the listing decides.",
     ]
     return lines
 
