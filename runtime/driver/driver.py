@@ -159,6 +159,7 @@ class Driver:
         self.display = self.env = self.wid = None
         self.events = []
         self.last = self.pre_restore = None  # (host times, Savestate) of the latest read; the read before a restore
+        self.last_blob = None  # the raw savestate bytes of the latest read (E010)
         self.t0 = time.monotonic()
         self.launched = None
         self.clock_applied = None  # CLOCK.TXT as DOS wrote it after setting the clock (clock option only)
@@ -392,6 +393,7 @@ exit
         times = host_times()
         data = self.save_state()
         self.last = (times, savestate.Savestate(data))
+        self.last_blob = data  # the raw savestate of the latest read (E010: the half-time state)
         return times, self.last[1], data
 
     def screen(self):
