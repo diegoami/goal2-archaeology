@@ -134,7 +134,7 @@ class Session:
         self.run_id = f"{EXPERIMENT}-r{n:04d}"
         self.position, self.args, self.commit = position, args, commit
         self.st = driver.StartState(args.state)
-        self.d = driver.Driver(self.st.config, workdir=driver.SCRATCH / "e007" / self.run_id)
+        self.d = driver.Driver(STATE_CONFIG, workdir=driver.SCRATCH / "e007" / self.run_id)
         self.obs, self.step, self.keys = [], 0, []
 
     def press(self, key):
