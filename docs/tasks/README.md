@@ -21,3 +21,4 @@ exists.
 | T12 | Q003: do `cycles`, the host speed or wall-clock time change a match (G5 Q003) | #33 | T10 |
 | T13 | Savestates as evidence bundles: publish start states to a release (ADR-008) | #37 | T12 |
 | T14 | Use game-archaeologist's shared verify_evidence.py and check_citations.py (ADR-009) | #36 | T13 |
+| T14 | Q004: where and how are player skills and attributes made (G5 Q004) | #43 | T12, T13 |
