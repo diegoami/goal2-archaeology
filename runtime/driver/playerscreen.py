@@ -60,7 +60,7 @@ def parse(screen):
            "height_in": 12 * int(height.group(1)) + int(height.group(2)), "bias": card[39:49].strip(),
            "performance": card[50:61].strip()}
     low = lines[9]
-    out.update({"position": low[1:18].strip(), "club_position": low[20:37].strip(),
+    out.update({"position": low[1:19].strip(), "club_position": low[20:38].strip(),
                 "cards": low[39:44].strip(), "status": low[45:61].strip()})
     out["skills"] = {lines[r][1:10].strip("─ "): _bar(attrs, r, LEFT_COLS) for r in LEFT_ROWS}
     out["panel"] = {}

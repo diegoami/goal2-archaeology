@@ -30,3 +30,14 @@ python3 experiments/E007-q009-player-screen/run.py adopt --from E006-r0001
 python3 experiments/E007-q009-player-screen/run.py countries --state e006-1000-r0001 --list-positions 0,1,2 --batch b1
 python3 experiments/E007-q009-player-screen/summarise.py
 ```
+
+## Amendment 1 (2026-10-05, after E007-r0003)
+
+- **The kept table ranges were short.** E007-r0001 … r0003 keep `DS:6D20..6E8F` for the skill tables, but
+  `1771:3947` reads `DS:6DCD + 12 * (+5) + class` up to `DS:6E98` (+5 up to 16, class up to 12). The records
+  are kept as written (L207). `run.py` now keeps `DS:6D20..6EB3` and `DS:0C10..0C2F` (the flags `1771:42BC`
+  tests at `DS:0C1E`); E007-r0004 is the first record with them. The tables are the same in every record
+  (one start state; `summarise.py` refuses a byte two records give differently), so the analysis pools the
+  bytes of all records.
+- **One more country.** E007-r0004 (country list position 3, Sweden) was run for that reason, not because
+  a position code was missing (all 14 were seen in r0001 … r0003). It adds 20 players: 80 in all, from 4 countries.

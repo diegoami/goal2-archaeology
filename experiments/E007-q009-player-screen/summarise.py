@@ -28,16 +28,24 @@ STEP_LABEL = re.compile(r"^(player screen \d+ of the list)")
 
 
 class Tables:
-    """The data-segment ranges a record keeps, read by DS offset."""
+    """The data-segment bytes the records kept, read by DS offset. The tables are the same in every
+    record (one start state); `add` refuses a byte two records give differently, and the records of
+    E007-r0001..r0003 kept fewer ranges than the later ones (README amendment 1), so the bytes are
+    pooled over every record."""
 
-    def __init__(self, ranges):
-        self.ranges = ranges  # {lo: bytes}
+    def __init__(self):
+        self.mem = {}
+
+    def add(self, lo, data, source=""):
+        for i, b in enumerate(data):
+            if self.mem.setdefault(lo + i, b) != b:
+                raise ValueError(f"DS:{lo + i:04X} differs between records ({source})")
 
     def byte(self, off):
-        for lo, b in self.ranges.items():
-            if lo <= off < lo + len(b):
-                return b[off - lo]
-        raise KeyError(f"DS:{off:04X} is in no range the record kept")
+        try:
+            return self.mem[off]
+        except KeyError:
+            raise KeyError(f"DS:{off:04X} is in no range the records kept") from None
 
     def pstr(self, off, size):
         n = self.byte(off)
@@ -126,13 +134,15 @@ def model(rec, n, t):
 
 def load(runs=RUNS):
     """[{run, step, shown, n, rec, tables, start_sha}] over every completed record, in order."""
-    out = []
-    for path in sorted(Path(runs).glob("E007-r*.json")):
-        r = json.loads(path.read_text())
-        if r["status"] != "completed":
-            continue
-        tables = Tables({int(m.group(1), 16): bytes.fromhex(o["value"]) for o in r["observations"]
-                         if (m := TABLE_RE.search(o["field"])) and o["source"] == "memory"})
+    out, tables = [], Tables()
+    records = [json.loads(p.read_text()) for p in sorted(Path(runs).glob("E007-r*.json"))]
+    records = [r for r in records if r["status"] == "completed"]
+    for r in records:
+        for o in r["observations"]:
+            m = TABLE_RE.search(o["field"])
+            if m and o["source"] == "memory":
+                tables.add(int(m.group(1), 16), bytes.fromhex(o["value"]), r["run_id"])
+    for r in records:
         steps = {}
         for o in r["observations"]:
             steps.setdefault(o["step"], []).append(o)
@@ -145,6 +155,7 @@ def load(runs=RUNS):
             m = re.match(r"n=(\d+|unresolved)", ident["value"])
             out.append({"run": r["run_id"], "step": step, "shown": playerscreen.parse(playerscreen.screen_of_raw(bytes.fromhex(raw["value"]))),
                         "n": int(m.group(1)) if m.group(1) != "unresolved" else None,
+                        "named": json.loads(re.search(r"named=(\[[^\]]*\])", ident["value"]).group(1)),
                         "rec": bytes.fromhex(rec["value"]) if rec else None, "tables": tables, "start": r["start_state"]["sha256"]})
     return out
 
@@ -153,10 +164,11 @@ def compare(p):
     """{shown value name: (shown, modelled)} for one transcribed player; None where the player is unresolved."""
     s, m = p["shown"], model(p["rec"], p["n"], p["tables"])
     pairs = {"name": None, "age": (s["age"], m["age"]), "caps": (s["caps"], m["caps"]), "goals": (s["goals"], m["goals"]),
-             "height": (s["height_in"], m["height_in"]), "bias": (s["bias"], m["bias"] if m["bias"] == "two footed" else m["bias"] + " foot"),
+             "height": (s["height_in"], m["height_in"]), "bias": (s["bias"], m["bias"] if m["bias"] == "two footed" else m["bias"].ljust(5) + " foot"),
              "position": (s["position"], m["position"]), "club position": (s["club_position"], m["club_position"]),
-             "status": (status_class_of_text(s["status"]), m["status"]),
-             "performance": (s["performance"] == "", m["performance_blank"])}
+             "status": (s["status"], s["status"] if status_class_of_text(s["status"]) == m["status"] else f"the model says {m['status']}"),
+             "performance": (s["performance"] or "blank", "blank" if m["performance_blank"] else "not blank"),
+             "cards": (s["cards"] or "blank", "blank" if p["rec"][0x10] & 0x38 == 0 else "not blank")}
     for i, (label, bar) in enumerate(s["skills"].items()):
         pairs[f"skill {i + 1:2d} {label}"] = (bar, m["skill_bars"][i])
     for label, (w, bar) in ((k, (v["word"], v["bar"])) for k, v in s["panel"].items()):
@@ -176,8 +188,6 @@ def scale(values):
     vs = list(values)
     if all(isinstance(v, int) for v in vs):
         return f"numbers {min(vs)}..{max(vs)}"
-    if all(isinstance(v, bool) for v in vs):
-        return f"blank in {sum(vs)} of {len(vs)}"
     c = Counter(vs)
     return f"words ({len(c)} seen): " + ", ".join(f"{w!r} x{n}" for w, n in sorted(c.items()))
 
@@ -186,10 +196,11 @@ SOURCES = {
     "age": "record field +1 (1771:42BC `4307`)",
     "caps": "record word +8 (`432F`)", "goals": "record word +0xA (`4355`)",
     "height": "formula: DS:0E46[+7] + DS:0E54[player number mod 12], inches (1771:2FAD)",
-    "bias": "formula: `two footed` when +5 + +2 = 30 (1771:3041), else DS:0F2C + 6 * DS:0E60[14 * DS:0E7C[n mod 3] + +7] (1771:3088) + ` foot`",
+    "bias": "formula: `two footed` when +5 + +2 = 30 (1771:3041), else the 5-character string at DS:0F2C + 6 * DS:0E60[14 * DS:0E7C[n mod 3] + +7] (1771:3088), then the template's ` foot`",
     "position": "record byte +6 (name at DS:69B6 + 0x13 * +6; `4417`)", "club position": "record byte +7 (name at DS:69B6 + 0x13 * +7; `443D`)",
     "status": "record bytes +0x10 bits, +0xE = 0 (1771:42BC `4693`..`4845`); the class `ready` is three texts, which 1771:3A82 and DS:0C1E choose",
-    "performance": "record word +0x12 = 0x7FFF is blank (1771:3827 `384B`)",
+    "performance": "record word +0x12 = 0x7FFF is blank (1771:3827 `384B`); a string of 1..9 characters otherwise, not seen here",
+    "cards": "record byte +0x10 bits 3..5, one icon each when set (1771:42BC `4654`..`46B2`); never set here, so not exercised",
 }
 
 
@@ -205,6 +216,20 @@ def source_of(name):
                 "leadership": "(+3 - +5) mod 8, halved when +1 < 0x15 (1771:30D9), word DS:7917[v], bar v * 14 div 7"}
     label = name.rsplit(" ", 1)[0]
     return f"formula over {word_src[label]}"
+
+
+def alternative_counts(ok):
+    """Bars matched by the formula with +4, and with +3 in its place (a different reading of the scale)."""
+    c = {"+4": 0, "+3": 0, "total": 0, "reduced": sum(1 for p in ok if p["rec"][4] < p["rec"][3])}
+    for p in ok:
+        rec, t = p["rec"], p["tables"]
+        shown = list(p["shown"]["skills"].values())
+        swapped = bytearray(rec)
+        swapped[4] = rec[3]
+        for name, r in (("+4", rec), ("+3", bytes(swapped))):
+            c[name] += sum(1 for a, b in zip(shown, skill_bars(r, t)) if a == b)
+        c["total"] += len(shown)
+    return c
 
 
 def main(argv=None):
@@ -226,10 +251,20 @@ def main(argv=None):
     pairs = [compare(p) for p in ok]
     print()
     print(f"{'shown value':<26} {'scale (over ' + str(len(ok)) + ' players)':<70} source")
+    print(f"{'name':<26} {'initial and surname, 12 characters':<70} names array: [DS:9B70] + n, a space, 11 bytes at [DS:9B6C] + 11 n (1771:2E93); the number n is not shown; "
+          f"the shown name names exactly one player on {sum(1 for p in ok if len(p['named']) == 1)}/{len(ok)} screens")
     for name in pairs[0]:
         shown = [pr[name][0] for pr in pairs]
         match = sum(1 for pr in pairs if pr[name][0] == pr[name][1])
         print(f"{name:<26} {scale(shown):<70} {source_of(name)}; match {match}/{len(pairs)}")
+    alt = alternative_counts(ok)
+    print()
+    print("F007's inferred meanings against the screen:")
+    print(f"  +1 (age, about 75%): the shown age equals byte +1 on {sum(1 for pr in pairs if pr['age'][0] == pr['age'][1])} of {len(pairs)} screens")
+    print(f"  +4 (current ability, about 75%): all 12 skill bars scale with (+4 + 1): the formula with +4 matches {alt['+4']} of {alt['total']} bars; "
+          f"with +3 in its place {alt['+3']}; players with +4 < +3: {alt['reduced']} of {len(ok)}")
+    print(f"  +2 (peak age, about 70%) and +3 (potential, about 70%) are not shown: +2 enters only the two-footed test (+5 + +2 = 30: "
+          f"{sum(1 for p in ok if two_footed(p['rec']))} players) and +4's value; +3 enters only +4, the hardness word (bit 0) and the leadership word ((+3 - +5) mod 8)")
     bad = [(p["run"], p["step"], k) for p, pr in zip(ok, pairs) for k, (a, b) in pr.items() if a != b]
     print(f"\nvalues that differ from the model: {len(bad)}")
     for b in bad[:20]:
