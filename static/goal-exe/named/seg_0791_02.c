@@ -55,13 +55,13 @@ undefined1 f_0791_1D4A(undefined1 param_1,int param_2,int param_3,char param_4)
 void f_0791_1E53(int param_1)
 
 {
-  int *piVar1;
+  word *pwVar1;
   undefined2 unaff_SS;
   
-  piVar1 = (int *)&((player *)players)
-                   [*(int *)(((uint)*(byte *)(*(char *)(param_1 + 10) + 0x668) +
-                             *(int *)(param_1 + 8)) * 0x16 + -0x7f0b)].field_0x12;
-  *piVar1 = *piVar1 + (int)*(char *)(*(char *)(param_1 + 4) + 0x720);
+  pwVar1 = &((player *)players)
+            [*(int *)(((uint)*(byte *)(*(char *)(param_1 + 10) + 0x668) + *(int *)(param_1 + 8)) *
+                      0x16 + -0x7f0b)].performance;
+  *pwVar1 = *pwVar1 + (int)*(char *)(*(char *)(param_1 + 4) + 0x720);
   return;
 }
 
@@ -119,10 +119,10 @@ word f_0791_1F3C(char param_1)
   while( true ) {
     cVar2 = player_unavailable(pcVar4[iVar1].squad[local_6 + -1]);
     if (cVar2 == '\0') {
-      uVar3 = f_1771_30D9(pcVar4[iVar1].squad[local_6 + -1]);
+      uVar3 = player_leadership(pcVar4[iVar1].squad[local_6 + -1]);
       if (((int)local_a >> 0xf < 0) || ((-1 < (int)local_a && (local_a < uVar3)))) {
         local_8 = pcVar4[iVar1].squad[local_6 + -1];
-        local_a = f_1771_30D9(local_8);
+        local_a = player_leadership(local_8);
       }
     }
     if (local_6 == 0xb) break;
@@ -189,7 +189,7 @@ void __cdecl16near f_0791_20E3(void)
   
   local_3 = '\0';
   while( true ) {
-    cVar3 = f_1771_0B77(((undefined2 *)&DS:9B34)[local_3]);
+    cVar3 = is_managed(((undefined2 *)&DS:9B34)[local_3]);
     if ((cVar3 == '\0') || (DS:0C1F == '\0')) {
       if (cVar3 == '\0') {
         uVar4 = f_0791_1F3C(local_3);
@@ -209,7 +209,7 @@ void __cdecl16near f_0791_20E3(void)
     local_6 = 1;
     while( true ) {
       bVar2 = *(byte *)(local_3 + 0x668);
-      cVar3 = f_1771_30D9(*(undefined2 *)(local_3 * 10 + -0x6688));
+      cVar3 = player_leadership(*(undefined2 *)(local_3 * 10 + -0x6688));
       pcVar1 = (char *)((int)(undefined2 *)&DS:80F8 + ((uint)bVar2 + local_6) * 0x16 + 1);
       *pcVar1 = *pcVar1 + cVar3 * '\x02';
       if (local_6 == 0xb) break;
@@ -476,14 +476,14 @@ uint __stdcall16far f_0791_278A(undefined4 param_1,uint param_2)
   iVar1 = *(int *)(iVar2 + 0xd);
   uVar5 = (undefined2)((ulong)players >> 0x10);
   ppVar3 = (player *)players;
-  if ((char)ppVar3[iVar1].field_0xc < ' ') {
-    local_6 = (char)ppVar3[iVar1].field_0xc + 1;
+  if ((char)ppVar3[iVar1].morale < ' ') {
+    local_6 = (char)ppVar3[iVar1].morale + 1;
   }
   else {
     local_6 = 0;
   }
   if (param_2 < 0xc) {
-    local_6 = local_6 + (int)(char)ppVar3[iVar1].field_0xe;
+    local_6 = local_6 + (int)(char)ppVar3[iVar1].energy;
   }
   else {
     local_6 = local_6 + 0x20;
@@ -741,8 +741,8 @@ undefined2 __stdcall16far f_0791_2B7B(undefined4 param_1)
 {
   undefined2 uVar1;
   
-  uVar1 = u214b_random_is_one(0x21 - (char)((player *)players)[*(int *)((int)param_1 + 0xd)].
-                                           field_0xe);
+  uVar1 = u214b_random_is_one(0x21 - (char)((player *)players)[*(int *)((int)param_1 + 0xd)].energy)
+  ;
   return uVar1;
 }
 

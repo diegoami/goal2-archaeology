@@ -91,7 +91,7 @@ void __stdcall16far draw_match_summary(char param_1)
     f_0791_0000();
     if (DS:7C3A != 0) {
       u214b_unpack_screen_to_buffer((undefined4 *)&DS:A96E,0xb000,0x14c8,0xb000);
-      uVar1 = f_1771_2E20(((player *)players)[DS:7C3A].position,DS:7C3A);
+      uVar1 = player_name_colour(((player *)players)[DS:7C3A].position,DS:7C3A);
       puVar5 = local_106;
       uVar4 = unaff_SS;
       sys_char_to_str_075A(*(undefined1 *)((int)DS:9B70 + DS:7C3A));
@@ -188,9 +188,10 @@ void __stdcall16far draw_match_summary(char param_1)
 }
 
 
-// ---- 0791:0425  f_0791_0425  (f_0791_0425; Ghidra 2000:0425, __stdcall16near; found by routines.tsv)
+// ---- 0791:0425  match_delay  (f_0791_0425; Ghidra 2000:0425, __stdcall16near; found by routines.tsv)
+// match_delay(n): calls 214B:1E09(n) only when the speed byte [DS:A923]+0x3F is above 0  [established; F006]
 
-void f_0791_0425(undefined2 param_1)
+void match_delay(undefined2 param_1)
 
 {
   if (*(char *)((int)DS:A923 + 0x3f) != '\0') {
@@ -651,7 +652,7 @@ undefined1 f_0791_0B7C(undefined4 param_1)
   sys_str_concat_06B7(local_2c,unaff_SS);
   sys_str_concat_06B7(0xb74,0xa000);
   u214b_draw_centered_message_line((undefined4 *)&DS:A96A,0xb000,puVar3,uVar4,uVar2);
-  f_0791_CC2E(600);
+  wait_or_key(600);
   u214b_restore_bottom_line();
   cVar1 = u214b_key_pressed();
   if (cVar1 != '\0') {

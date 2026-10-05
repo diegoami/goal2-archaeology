@@ -124,9 +124,10 @@ void f_1771_0232(int param_1,undefined2 param_2,undefined4 param_3)
 }
 
 
-// ---- 1771:027B  f_1771_027B  (f_1771_027B; Ghidra 4000:027B, __stdcall16near; found by routines.tsv)
+// ---- 1771:027B  load_saved_arrays  (f_1771_027B; Ghidra 4000:027B, __stdcall16near; found by routines.tsv)
+// a loaded game takes the player and country arrays from its file here (F002 map; not run)  [likely; F002; F007]
 
-undefined1 f_1771_027B(char param_1)
+undefined1 load_saved_arrays(char param_1)
 
 {
   undefined2 uVar1;
@@ -309,7 +310,7 @@ LAB_1771_0675:
     local_4 = u214b_dos_open_file_rw(puVar2,unaff_SS);
   }
   if (local_4 != '\0') {
-    local_4 = f_1771_027B(param_1);
+    local_4 = load_saved_arrays(param_1);
   }
   return local_4;
 }
@@ -562,9 +563,10 @@ void __stdcall16far f_1771_0AF8(undefined1 param_1,undefined1 param_2,int param_
 }
 
 
-// ---- 1771:0B77  f_1771_0B77  (f_1771_0B77; Ghidra 4000:0B77, __stdcall16far; found by routines.tsv)
+// ---- 1771:0B77  is_managed  (f_1771_0B77; Ghidra 4000:0B77, __stdcall16far; found by routines.tsv)
+// returns whether the country is managed by a human: its +0x2E > 0x80  [established; F007; F008]
 
-undefined4 __stdcall16far f_1771_0B77(uint param_1)
+undefined4 __stdcall16far is_managed(uint param_1)
 
 {
   long lVar1;
@@ -612,7 +614,7 @@ void __stdcall16far compute_team_line_strengths(char param_1,char param_2,int pa
       uVar7 = (undefined2)((ulong)players >> 0x10);
       ppVar5 = (player *)players + pcVar4[param_3].squad[local_4 + -1];
       local_13 = (player *)CONCAT22(uVar7,ppVar5);
-      local_8 = f_1771_377E(pcVar4[param_3].squad[local_4 + -1]);
+      local_8 = player_value(pcVar4[param_3].squad[local_4 + -1]);
       if (local_8 != 0) {
         local_8 = local_8 + uVar3;
       }
@@ -677,9 +679,10 @@ void __stdcall16far compute_team_line_strengths(char param_1,char param_2,int pa
 }
 
 
-// ---- 1771:0E24  f_1771_0E24  (f_1771_0E24; Ghidra 4000:0E24, __stdcall16near; found by routines.tsv)
+// ---- 1771:0E24  country_colour  (f_1771_0E24; Ghidra 4000:0E24, __stdcall16near; found by routines.tsv)
+// the colour of a country's name: 0x0F when managed (1771:0B77), else DS:6905[country +0x2C]  [established; F008]
 
-undefined1 f_1771_0E24(int param_1)
+undefined1 country_colour(int param_1)
 
 {
   ulong uVar1;
@@ -689,7 +692,7 @@ undefined1 f_1771_0E24(int param_1)
   
   uVar1 = (ulong)countries >> 0x10;
   pcVar3 = (country *)countries;
-  cVar2 = f_1771_0B77(param_1);
+  cVar2 = is_managed(param_1);
   if (cVar2 == '\0') {
     local_3 = *(undefined1 *)(pcVar3[param_1].continent + 0x6905);
   }
@@ -758,9 +761,10 @@ void __stdcall16far f_1771_0E6C(int param_1,undefined4 param_2)
 }
 
 
-// ---- 1771:0F58  f_1771_0F58  (f_1771_0F58; Ghidra 4000:0F58, __stdcall16far; found by routines.tsv)
+// ---- 1771:0F58  draw_country_header  (f_1771_0F58; Ghidra 4000:0F58, __stdcall16far; found by routines.tsv)
+// the header above the squad list: 15 dashes in DS:0D7A[[DS:A964]], then the country's name in 1771:0E24's colour  [established; F008]
 
-void __stdcall16far f_1771_0F58(undefined1 param_1,undefined1 param_2,int param_3)
+void __stdcall16far draw_country_header(undefined1 param_1,undefined1 param_2,int param_3)
 
 {
   char cVar2;
@@ -772,7 +776,7 @@ void __stdcall16far f_1771_0F58(undefined1 param_1,undefined1 param_2,int param_
             ((undefined4 *)&DS:A96E,0xb000,CONCAT11(cVar2,param_1),CONCAT11(cVar2,param_2),
              0xd6a,0xb000,CONCAT11(cVar2,*(undefined1 *)(DS:A964 + 0xd7a)));
   if (param_3 != 0) {
-    uVar1 = f_1771_0E24(param_3);
+    uVar1 = country_colour(param_3);
     uVar3 = (undefined1)((uint)(param_3 * 0x10) >> 8);
     u214b_write_string_at_fwd_set_attr
               ((undefined4 *)&DS:A96E,0xb000,CONCAT11(uVar3,param_1),CONCAT11(uVar3,param_2),
@@ -796,7 +800,7 @@ void f_1771_0FB1(undefined1 param_1,undefined1 param_2,int param_3)
             ((undefined4 *)&DS:A96E,0xb000,CONCAT11(cVar2,param_1),CONCAT11(cVar2,param_2),
              0xd6a,0xb000,CONCAT11(cVar2,*(undefined1 *)(DS:A964 + 0xd7a)));
   if (param_3 != 0) {
-    uVar1 = f_1771_0E24(param_3);
+    uVar1 = country_colour(param_3);
     uVar3 = (undefined1)((uint)(param_3 * 0x10) >> 8);
     u214b_write_string_at_set_attr
               ((undefined4 *)&DS:A96E,0xb000,CONCAT11(uVar3,param_1),CONCAT11(uVar3,param_2),
@@ -956,9 +960,9 @@ void f_1771_1289(char param_1)
     squad_slot_of_player(((undefined2 *)&DS:9B34)[param_1],pcVar3[iVar2].squad[local_4 + -1]);
     uVar6 = (undefined2)((ulong)players >> 0x10);
     ppVar4 = (player *)players;
-    local_8 = *(int *)&ppVar4[pcVar3[iVar2].squad[local_4 + -1]].field_0x12 + -0x37;
+    local_8 = ppVar4[pcVar3[iVar2].squad[local_4 + -1]].performance - 0x37;
     if (5000 < local_8) {
-      local_8 = *(int *)&ppVar4[pcVar3[iVar2].squad[local_4 + -1]].field_0x12 + -0x2747;
+      local_8 = ppVar4[pcVar3[iVar2].squad[local_4 + -1]].performance + 0xd8b9;
     }
     wVar1 = pcVar3[iVar2].squad[local_4 + -1];
     if (*(byte *)(ppVar4[wVar1].position + 0xd7c) < 4) {
@@ -1013,17 +1017,17 @@ void f_1771_13D0(int param_1)
       wVar1 = pcVar5[param_1].squad[local_4 + -1];
       uVar8 = (undefined2)((ulong)players >> 0x10);
       ppVar6 = (player *)players;
-      iVar3 = u214b_min_longint(0x20,0,(int)(char)ppVar6[wVar1].field_0xc,
-                                (int)(char)ppVar6[wVar1].field_0xc >> 0xf);
+      iVar3 = u214b_min_longint(0x20,0,(int)(char)ppVar6[wVar1].morale,
+                                (int)(char)ppVar6[wVar1].morale >> 0xf);
       DS:9B5A = DS:9B5A + iVar3;
-      if ('\0' < (char)ppVar6[wVar1].field_0xe) {
-        DS:9B5C = DS:9B5C + (int)(char)ppVar6[wVar1].field_0xd;
+      if ('\0' < (char)ppVar6[wVar1].energy) {
+        DS:9B5C = DS:9B5C + (int)(char)ppVar6[wVar1].fitness;
       }
-      uVar4 = f_1771_2FFB(pcVar5[param_1].squad[local_4 + -1]);
+      uVar4 = player_hardness(pcVar5[param_1].squad[local_4 + -1]);
       DS:9B5E = DS:9B5E + (uVar4 & 0xff);
-      DS:9B60 = DS:9B60 + (int)(char)ppVar6[wVar1].field_0xe;
+      DS:9B60 = DS:9B60 + (int)(char)ppVar6[wVar1].energy;
       DS:9B62 = DS:9B62 + ppVar6[wVar1].age;
-      DS:9B64 = DS:9B64 + *(int *)&ppVar6[wVar1].field_0x8;
+      DS:9B64 = DS:9B64 + ppVar6[wVar1].caps;
     }
     if (local_4 == 0xb) break;
     local_4 = local_4 + 1;
@@ -1056,9 +1060,10 @@ void f_1771_1527(undefined1 param_1,undefined1 param_2,undefined2 param_3)
 }
 
 
-// ---- 1771:157D  f_1771_157D  (f_1771_157D; Ghidra 4000:157D, __stdcall16near; found by routines.tsv)
+// ---- 1771:157D  draw_team_panel  (f_1771_157D; Ghidra 4000:157D, __stdcall16near; found by routines.tsv)
+// the team panel of the main screen (keeper, defence, midfield, attack, performance, characteristics), from the template DS:4BBE  [likely; F008]
 
-void f_1771_157D(int param_1)
+void draw_team_panel(int param_1)
 
 {
   char cVar1;
@@ -1084,7 +1089,7 @@ void f_1771_157D(int param_1)
   uStack_6 = (undefined2)((ulong)countries >> 0x10);
   local_8 = (country *)countries + param_1;
   u214b_unpack_screen_to_buffer((undefined4 *)&DS:A96E,0xb000,0x4bbe,0xb000);
-  f_1771_0F58(2,8,param_1);
+  draw_country_header(2,8,param_1);
   f_1771_1527(0x19,8,param_1);
   puVar4 = local_108;
   uVar5 = unaff_SS;
@@ -1196,56 +1201,10 @@ void f_1771_1934(int param_1)
   u214b_unpack_screen_to_buffer((undefined4 *)&DS:A96E,0xb000,0x17a8,0xb000);
   local_4 = 1;
   while( true ) {
-    f_1771_0F58(0x41,local_4 + 7,*(undefined1 *)((int)DS:9B56 + local_4 + param_1 + -1));
+    draw_country_header(0x41,local_4 + 7,
+                        *(undefined1 *)((int)DS:9B56 + local_4 + param_1 + -1));
     if (local_4 == 0x10) break;
     local_4 = local_4 + 1;
   }
-  return;
-}
-
-
-// ---- 1771:1981  f_1771_1981  (f_1771_1981; Ghidra 4000:1981, __stdcall16far; found by routines.tsv)
-
-void __stdcall16far f_1771_1981(int param_1)
-
-{
-  bool bVar1;
-  ulong uVar2;
-  char cVar3;
-  country *pcVar4;
-  
-  uVar2 = (ulong)countries >> 0x10;
-  pcVar4 = (country *)countries;
-  cVar3 = f_1771_0B77(param_1);
-  if ((cVar3 == '\0') || (DS:0C20 != '\0')) {
-    bVar1 = false;
-  }
-  else {
-    bVar1 = true;
-  }
-  if (bVar1) {
-    u214b_unpack_screen_to_buffer((undefined4 *)&DS:A96E,0xb000,0x1e0c,0xb000);
-  }
-  else {
-    u214b_unpack_screen_to_buffer((undefined4 *)&DS:A96E,0xb000,0x14a6,0xb000);
-  }
-  do {
-    f_1771_157D(param_1);
-    if (bVar1) {
-      u214b_fill_back_attr_70(0x1a,0x24,*(byte *)((3 < DS:0D8E) + 0xd90) + DS:0D8E);
-    }
-    u214b_menu_read_key_and_move(8,0xd8e,0xb000);
-    if (!bVar1) {
-      return;
-    }
-    if (DS:A976 == '\r') {
-      u214b_set_toggle_bit
-                (&pcVar4[param_1].team_tactics,(int)uVar2,*(undefined1 *)(DS:0D8E + 0x6bbf));
-    }
-    if ((DS:0C1E != '\0') && (*(char *)(DS:0D8E + 0x6bbf) == '\b')) {
-      f_1771_3EF8();
-    }
-  } while (DS:A976 != '\x1b');
-  DS:0C1A = 1;
   return;
 }

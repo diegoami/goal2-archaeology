@@ -36,8 +36,8 @@ void __cdecl16near f_000E_0000(void)
     uVar6 = (undefined2)((ulong)DS:A92B >> 0x10);
     iVar4 = (int)DS:A92B + (local_8 + local_a + -1) * 8;
     local_12 = (byte *)CONCAT22(uVar6,(char *)(iVar4 + -8));
-    cVar2 = f_1771_0B77(*(undefined2 *)(iVar4 + -2));
-    if ((cVar2 == '\0') && (cVar2 = f_1771_0B77(*(undefined2 *)(iVar4 + -4)), cVar2 == '\0')) {
+    cVar2 = is_managed(*(undefined2 *)(iVar4 + -2));
+    if ((cVar2 == '\0') && (cVar2 = is_managed(*(undefined2 *)(iVar4 + -4)), cVar2 == '\0')) {
       if (*local_12 == -2) {
         u214b_unpack_screen_to_buffer((undefined4 *)&DS:A96E,0xb000,0x207e,0xb000);
       }
@@ -65,8 +65,8 @@ void __cdecl16near f_000E_0000(void)
     iVar4 = (int)DS:A92B + (local_8 + local_a + -1) * 8;
     local_12 = (byte *)CONCAT22(uVar6,(byte *)(iVar4 + -8));
     if (((DS:A976 == '\r') && (0xfd < *local_12)) &&
-       ((cVar2 = f_1771_0B77(*(undefined2 *)(iVar4 + -2)), cVar2 == '\0' &&
-        (cVar2 = f_1771_0B77(*(undefined2 *)(iVar4 + -4)), cVar2 == '\0')))) {
+       ((cVar2 = is_managed(*(undefined2 *)(iVar4 + -2)), cVar2 == '\0' &&
+        (cVar2 = is_managed(*(undefined2 *)(iVar4 + -4)), cVar2 == '\0')))) {
       if (*local_12 == 0xfe) {
         *local_12 = 0xff;
       }
@@ -101,8 +101,8 @@ void f_000E_01FA(int param_1)
   reset_team_tactics(*local_e);
   for (local_6 = 0xc; wVar1 = ((country *)countries)[*local_e].squad[local_6 + -1],
       uVar4 = (undefined2)((ulong)players >> 0x10),
-      ((player *)players)[wVar1].position = ((player *)players)[wVar1].position_2, local_6 != 0x14;
-      local_6 = local_6 + 1) {
+      ((player *)players)[wVar1].position = ((player *)players)[wVar1].club_position,
+      local_6 != 0x14; local_6 = local_6 + 1) {
   }
   uVar2 = *(int *)(param_1 * 2 + 0x6d18) + 0x4f;
   local_6 = *(uint *)(param_1 * 2 + 0x6d18);
@@ -495,7 +495,7 @@ void f_000E_094A(int param_1,undefined1 *param_2)
   *param_2 = 0;
   local_4 = 1;
   while( true ) {
-    cVar2 = u214b_set_test_bit(((player *)players)[pcVar3[iVar1].squad[local_4 + -1]].field_0x10,6);
+    cVar2 = u214b_set_test_bit(((player *)players)[pcVar3[iVar1].squad[local_4 + -1]].status,6);
     if (cVar2 != '\0') {
       sys_str_store_max_0644
                 (0xf,(undefined1 *)param_2,(int)((ulong)param_2 >> 0x10),

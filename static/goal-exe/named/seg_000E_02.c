@@ -730,8 +730,8 @@ undefined1 f_000E_2071(int param_1)
       ppStack_13 = (player *)players + local_f->squad[local_7 - 1];
       if (((ppStack_13->position == DS:0022) &&
           (cVar1 = player_unavailable(local_f->squad[local_7 - 1]), cVar1 == '\0')) &&
-         (uVar2 = f_1771_377E(local_f->squad[local_7 - 1]), uVar2 < local_5)) {
-        local_5 = f_1771_377E(local_f->squad[local_7 - 1]);
+         (uVar2 = player_value(local_f->squad[local_7 - 1]), uVar2 < local_5)) {
+        local_5 = player_value(local_f->squad[local_7 - 1]);
         local_9 = local_f->squad[local_7 - 1];
       }
       if (local_7 == 0x14) break;
@@ -746,10 +746,10 @@ undefined1 f_000E_2071(int param_1)
           uVar5 = (undefined2)((ulong)DS:A927 >> 0x10);
           ppStack_13 = (player *)((ulong)players >> 0x10);
           local_15 = (player *)players + *(int *)((int)DS:A927 + local_7 * 2);
-          if ((local_15->position_2 == DS:0022) &&
-             (uVar2 = f_1771_377E(*(undefined2 *)((int)DS:A927 + local_7 * 2)),
+          if ((local_15->club_position == DS:0022) &&
+             (uVar2 = player_value(*(undefined2 *)((int)DS:A927 + local_7 * 2)),
              local_5 < uVar2)) {
-            local_5 = f_1771_377E(*(undefined2 *)((int)DS:A927 + local_7 * 2));
+            local_5 = player_value(*(undefined2 *)((int)DS:A927 + local_7 * 2));
             local_b = *(undefined2 *)((int)DS:A927 + local_7 * 2);
           }
           if (local_7 == uStack_11) break;
@@ -758,7 +758,7 @@ undefined1 f_000E_2071(int param_1)
       }
       uStack_11 = (uint)((ulong)players >> 0x10);
       ppStack_13 = (player *)players + local_9;
-      uVar2 = f_1771_377E(local_9);
+      uVar2 = player_value(local_9);
       if (uVar2 < local_5) {
         local_5 = u214b_random_1_to_n(10);
         if ((local_5 == 0) || (5 < local_5)) {
@@ -767,43 +767,43 @@ undefined1 f_000E_2071(int param_1)
             uVar10 = 0x2018;
             puVar9 = local_113;
             uVar8 = unaff_SS;
-            f_1771_2E93(local_9);
+            player_name(local_9);
             sys_str_concat_06B7(0x2023,0x4000);
             puVar7 = local_313;
             uVar5 = unaff_SS;
             sys_str_store_062A(0x2028,0xa000);
             puVar6 = local_213;
-            f_1771_2E93(local_b);
+            player_name(local_b);
             sys_str_concat_06B7(puVar6,unaff_SS);
             f_000E_075F(puVar7,uVar5,puVar9,uVar8,uVar10,uVar11);
           }
           else if (local_5 == 7) {
             puVar9 = local_113;
             uVar5 = unaff_SS;
-            f_1771_2E93(local_b);
+            player_name(local_b);
             sys_str_concat_06B7(0x202d,0x4000);
             uVar10 = 0xa000;
             uVar8 = 0x2031;
             puVar7 = local_213;
-            f_1771_2E93(local_9);
+            player_name(local_9);
             f_000E_075F(puVar7,unaff_SS,uVar8,uVar10,puVar9,uVar5);
           }
           else if (local_5 == 8) {
             pcVar4 = (char *)s___goalkeeper_b000_69b5 + 1 + (uint)DS:0022 * 0x13;
             uVar5 = 0xb000;
             puVar9 = local_113;
-            f_1771_2E93(local_9);
+            player_name(local_9);
             f_000E_075F((char *)s_arrange_match_b000_203f + 3,0x4000,puVar9,unaff_SS,pcVar4,uVar5);
           }
           else if (local_5 == 9) {
             puVar9 = local_113;
-            f_1771_2E93(local_b);
+            player_name(local_b);
             f_000E_075F(0x2055,0x4000,(char *)s_arrange_match_b000_203f + 0xd,0x4000,puVar9,unaff_SS
                        );
           }
           else if (local_5 == 10) {
             puVar9 = local_113;
-            f_1771_2E93(local_b);
+            player_name(local_b);
             f_000E_075F(0x2065,0x4000,0x205c,0x4000,puVar9,unaff_SS);
           }
         }
@@ -811,7 +811,7 @@ undefined1 f_000E_2071(int param_1)
           iVar3 = local_5 * 0x10 + 0x14;
           uVar5 = 0xb000;
           puVar9 = local_113;
-          f_1771_2E93(local_b);
+          player_name(local_b);
           sys_str_concat_06B7(0x2014,0x4000);
           f_000E_075F((char *)s___goalkeeper_b000_69b5 + 1 + (uint)DS:0022 * 0x13,0xb000,
                       puVar9,unaff_SS,iVar3,uVar5);

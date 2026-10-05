@@ -1215,7 +1215,7 @@ void __stdcall16far f_0791_4A28(undefined4 param_1)
       cVar2 = f_0791_47C5(&stack0xfffe);
       if ((cVar2 != '\0') &&
          (((DS:8325 != '\0' || (DS:830B != local_6)) &&
-          (iVar3 = u214b_random_1_to_n(6), iVar3 < (char)ppVar5[iVar1].field_0xe)))) {
+          (iVar3 = u214b_random_1_to_n(6), iVar3 < (char)ppVar5[iVar1].energy)))) {
         cVar2 = f_0791_26D7(iVar4,uVar6,5);
         if (cVar2 == '\0') {
           cVar2 = attack_direction(iVar4,uVar6);

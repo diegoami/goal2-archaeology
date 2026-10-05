@@ -560,8 +560,8 @@ void __cdecl16near f_000E_6CA7(void)
     local_6 = '\0';
     bVar11 = *(char *)CONCAT22(uVar9,pcVar7) == -2;
     if (bVar11) {
-      cVar2 = f_1771_0B77(*(undefined2 *)(iVar6 + -2));
-      if ((cVar2 == '\0') && (cVar2 = f_1771_0B77(*(undefined2 *)(iVar6 + -4)), cVar2 == '\0')) {
+      cVar2 = is_managed(*(undefined2 *)(iVar6 + -2));
+      if ((cVar2 == '\0') && (cVar2 = is_managed(*(undefined2 *)(iVar6 + -4)), cVar2 == '\0')) {
         uVar8 = 1;
       }
       else {
@@ -577,7 +577,7 @@ LAB_000E_6E15:
       if (!bVar12) {
         local_5 = '\0';
         while( true ) {
-          cVar2 = f_1771_0B77(*(undefined2 *)(pcVar7 + local_5 * 2 + 4));
+          cVar2 = is_managed(*(undefined2 *)(pcVar7 + local_5 * 2 + 4));
           if (cVar2 != '\0') {
             uVar8 = (undefined2)((ulong)local_12 >> 0x10);
             ((byte *)local_12)
@@ -591,7 +591,7 @@ LAB_000E_6E15:
       }
       local_5 = '\0';
       while( true ) {
-        cVar2 = f_1771_0B77(*(undefined2 *)(pcVar7 + local_5 * 2 + 4));
+        cVar2 = is_managed(*(undefined2 *)(pcVar7 + local_5 * 2 + 4));
         if (cVar2 != '\0') {
           local_6 = '\x01';
         }
@@ -604,7 +604,7 @@ LAB_000E_6E15:
         f_0791_BB2F((int)DS:A92B + *(int *)((byte *)local_12 + 0x26) * 8 + -8,uVar10);
       }
       else {
-        f_0791_F1F6((int)DS:A92B + *(int *)((byte *)local_12 + 0x26) * 8 + -8,uVar10);
+        run_match((int)DS:A92B + *(int *)((byte *)local_12 + 0x26) * 8 + -8,uVar10);
         if ((local_6 != '\0') &&
            (*(char *)((int)DS:A92B + *(int *)((byte *)local_12 + 0x26) * 8 + -6) != '\x01')) {
           local_5 = '\0';
@@ -621,7 +621,7 @@ LAB_000E_6E15:
         }
         local_5 = '\0';
         while( true ) {
-          cVar2 = f_1771_0B77(*(undefined2 *)(pcVar7 + local_5 * 2 + 4));
+          cVar2 = is_managed(*(undefined2 *)(pcVar7 + local_5 * 2 + 4));
           if (cVar2 != '\0') {
             f_000E_4E0E((int)DS:A92B + *(int *)((byte *)local_12 + 0x26) * 8 + -8,
                         (int)((ulong)DS:A92B >> 0x10),
@@ -682,9 +682,10 @@ undefined1 __cdecl16near f_000E_7072(void)
 }
 
 
-// ---- 000E:70B9  f_000E_70B9  (f_000E_70B9; Ghidra 1000:70B9, __cdecl16near; found by routines.tsv)
+// ---- 000E:70B9  start_later_stage  (f_000E_70B9; Ghidra 1000:70B9, __cdecl16near; found by routines.tsv)
+// reseeds through 1771:76B1 at the start of a later qualifying stage (static; that path not run)  [likely; F004]
 
-void __cdecl16near f_000E_70B9(void)
+void __cdecl16near start_later_stage(void)
 
 {
   byte bVar1;
@@ -804,7 +805,7 @@ void __cdecl16near f_000E_724A(void)
   local_1f = (int)DS:A923;
   local_4 = (uint)*(byte *)((int)DS:A91F + (*(byte *)(local_1f + 1) + 0x80) * 3);
   if (*(char *)(local_1f + (uint)*(byte *)(local_1f + 1) + 0x47) == '\0') {
-    f_1771_0F58(3,0xb,local_4);
+    draw_country_header(3,0xb,local_4);
   }
   else {
     DS:AAB2 = 0xf;
@@ -829,7 +830,7 @@ void __cdecl16near f_000E_724A(void)
       iVar3 = (int)DS:A92B + DS:9B43 * 8;
       local_23 = iVar3 + -8;
       local_6 = *(undefined2 *)(local_23 + (*(uint *)(iVar3 + -2) != local_4) * 2 + 4);
-      f_1771_0F58(3,0x11,local_6);
+      draw_country_header(3,0x11,local_6);
       f_000E_715E(&stack0xfffe,0x13,local_6);
       puVar4 = local_123;
       uVar2 = unaff_SS;
@@ -852,9 +853,10 @@ void __cdecl16near f_000E_724A(void)
 }
 
 
-// ---- 000E:7439  f_000E_7439  (f_000E_7439; Ghidra 1000:7439, __stdcall16near; found by routines.tsv)
+// ---- 000E:7439  main_menu_loop  (f_000E_7439; Ghidra 1000:7439, __stdcall16near; found by routines.tsv)
+// the main-menu loop (the top-level screens); on Enter with item 6 it can reach 000E:70B9  [likely; F002; F004]
 
-void f_000E_7439(void)
+void main_menu_loop(void)
 
 {
   byte *pbVar1;
@@ -883,7 +885,7 @@ void f_000E_7439(void)
           if (((byte *)local_8)[1] < *local_8) {
             u214b_unpack_screen_to_buffer((undefined4 *)&DS:A96E,0xb000,0x5f32,0xb000);
           }
-          f_1771_4D8A(*(undefined1 *)((int)DS:A91F + (((byte *)local_8)[1] + 0x80) * 3));
+          draw_squad_list(*(undefined1 *)((int)DS:A91F + (((byte *)local_8)[1] + 0x80) * 3));
           f_000E_724A();
           local_a = (uint)*local_8;
           if (local_a != 0) {
@@ -954,7 +956,7 @@ void f_000E_7439(void)
       }
     }
     if (DS:00B0 == 1) {
-      f_1771_26B9(1);
+      new_game_selection(1);
     }
     else if (DS:00B0 == 2) {
       f_000E_0000();
@@ -963,7 +965,7 @@ void f_000E_7439(void)
       f_1771_958D(*(undefined1 *)(iVar4 + (pbVar3[1] + 0x80) * 3),pbVar3[pbVar3[1] + 1],1);
     }
     else if (DS:00B0 == 4) {
-      f_1771_26B9(3);
+      new_game_selection(3);
     }
     else if (DS:00B0 == 5) {
       if (pbVar3[pbVar3[1] + 0x47] == 0) {
@@ -983,7 +985,7 @@ void f_000E_7439(void)
             cVar2 == '\0')))) {
           uVar6 = (undefined2)((ulong)local_8 >> 0x10);
           if (((byte *)local_8)[1] == *local_8) {
-            f_000E_70B9();
+            start_later_stage();
           }
           else {
             pbVar1 = (byte *)local_8 + 1;

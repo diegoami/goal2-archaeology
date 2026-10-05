@@ -41,12 +41,12 @@ undefined2 __stdcall16far f_0791_4DA9(undefined4 param_1)
   
   uVar6 = (undefined2)((ulong)param_1 >> 0x10);
   iVar5 = (int)param_1;
-  uVar3 = f_1771_2FFB(*(undefined2 *)(iVar5 + 0xd));
+  uVar3 = player_hardness(*(undefined2 *)(iVar5 + 0xd));
   cVar1 = u214b_random_is_one(0x12 - (uVar3 & 0xff));
   if ((cVar1 != '\0') || (cVar1 = f_0791_26D7(iVar5,uVar6,4), cVar1 != '\0')) {
-    uVar2 = f_1771_2FFB(*(undefined2 *)((uint)DS:830B * 0x16 + -0x7f0b));
+    uVar2 = player_hardness(*(undefined2 *)((uint)DS:830B * 0x16 + -0x7f0b));
     iVar4 = u214b_random_1_to_n(uVar2);
-    uVar2 = f_1771_2FFB(*(undefined2 *)(iVar5 + 0xd));
+    uVar2 = player_hardness(*(undefined2 *)(iVar5 + 0xd));
     iVar5 = u214b_random_1_to_n(uVar2);
     if (iVar4 < iVar5) {
       return 1;
@@ -263,7 +263,7 @@ undefined1 f_0791_5049(int param_1)
     if (((cVar1 == '\0') || (cVar1 = u214b_random_coin_flip(), cVar1 == '\0')) &&
        (cVar1 = u214b_random_is_one((int)(char)((player *)players)
                                                [*(int *)((int)*(undefined4 *)(param_1 + 6) + 0xd)].
-                                               field_0xe / 2), cVar1 == '\0')) {
+                                               energy / 2), cVar1 == '\0')) {
       return 1;
     }
     f_0791_4E28(param_1);
@@ -454,7 +454,7 @@ undefined1 f_0791_5513(int param_1)
 undefined1 f_0791_5565(int param_1)
 
 {
-  int *piVar1;
+  word *pwVar1;
   char cVar2;
   undefined1 extraout_AH;
   undefined2 unaff_SS;
@@ -499,9 +499,9 @@ undefined1 f_0791_5565(int param_1)
             f_0791_2AA3(CONCAT11(extraout_AH,0xc));
           }
           else {
-            piVar1 = (int *)&((player *)players)[*(int *)((int)*(undefined4 *)(param_1 + 6) + 0xd)].
-                             field_0x12;
-            *piVar1 = *piVar1 + 10;
+            pwVar1 = &((player *)players)[*(int *)((int)*(undefined4 *)(param_1 + 6) + 0xd)].
+                      performance;
+            *pwVar1 = *pwVar1 + 10;
           }
         }
       }

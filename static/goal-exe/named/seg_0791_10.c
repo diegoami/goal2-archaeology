@@ -30,14 +30,14 @@ undefined1 f_0791_EA09(int param_1)
   local_17 = *(undefined2 *)(param_1 + -5);
   local_15 = '\0';
   while( true ) {
-    cVar1 = f_1771_0B77(((undefined2 *)&DS:9B34)[local_15]);
+    cVar1 = is_managed(((undefined2 *)&DS:9B34)[local_15]);
     local_19[local_15] = cVar1 == '\0';
     if (local_15 == '\x01') break;
     local_15 = local_15 + '\x01';
   }
   local_15 = '\0';
   do {
-    cVar1 = f_1771_0B77(((undefined2 *)&DS:9B34)[local_15]);
+    cVar1 = is_managed(((undefined2 *)&DS:9B34)[local_15]);
     if (cVar1 != '\0') {
       *(undefined2 *)(param_1 + -5) = ((undefined2 *)&DS:9B34)[local_15];
       u214b_fill_bytes(0,0xf,local_12,unaff_SS);
@@ -173,9 +173,9 @@ void f_0791_ED8A(char param_1)
                   (int)((ulong)DS:A96A >> 0x10));
   }
   f_0791_230C();
-  cVar2 = f_1771_0B77(DS:9B36);
+  cVar2 = is_managed(DS:9B36);
   if (cVar2 == '\0') {
-    cVar2 = f_1771_0B77(DS:9B34);
+    cVar2 = is_managed(DS:9B34);
     if (cVar2 == '\0') {
       local_4 = '\x01';
     }
@@ -220,12 +220,12 @@ void f_0791_ED8A(char param_1)
     }
     if (DS:A976 == -0x55) {
       uVar5 = 0x4000;
-      cVar2 = f_1771_0B77(DS:9B36);
+      cVar2 = is_managed(DS:9B36);
       local_9 = (uint)*(byte *)(cVar2 + 0xac4);
     }
     else if (DS:A976 == -0x50) {
       uVar5 = 0x4000;
-      cVar2 = f_1771_0B77(DS:9B36);
+      cVar2 = is_managed(DS:9B36);
       local_9 = (uint)*(byte *)(cVar2 + 0xac2);
     }
     else if ((DS:A976 == -0x52) || (DS:A976 == -0x51)) {
@@ -249,11 +249,11 @@ void f_0791_ED8A(char param_1)
     if (DS:A976 == '\r') {
       if ((local_9 == 1) || (local_9 == 6)) {
         u214b_unpack_screen_to_buffer((undefined4 *)&DS:A96E,0xb000,0x1e4c,0xb000);
-        cVar2 = f_1771_0B77(local_7);
+        cVar2 = is_managed(local_7);
         if ((cVar2 != '\0') && (DS:0C20 == '\0')) {
           u214b_unpack_screen_to_buffer((undefined4 *)&DS:A96E,0xb000,0x1eb4,0xb000);
         }
-        f_1771_0F58(0x40,9,local_7);
+        draw_country_header(0x40,9,local_7);
         bVar1 = ((country *)countries)[local_7].team_tactics;
         f_1771_1981(local_7);
         uVar5 = 0x4000;
@@ -289,9 +289,10 @@ void f_0791_ED8A(char param_1)
 }
 
 
-// ---- 0791:F098  f_0791_F098  (f_0791_F098; Ghidra 2000:F098, __stdcall16near; found by routines.tsv)
+// ---- 0791:F098  play_match  (f_0791_F098; Ghidra 2000:F098, __stdcall16near; found by routines.tsv)
+// the match proper, called by 0791:F1F6 after 0791:A4A1  [likely; F005; F009]
 
-void f_0791_F098(int param_1)
+void play_match(int param_1)
 
 {
   byte *pbVar1;
@@ -341,9 +342,10 @@ void f_0791_F098(int param_1)
 }
 
 
-// ---- 0791:F1F6  f_0791_F1F6  (f_0791_F1F6; Ghidra 2000:F1F6, __stdcall16far; found by routines.tsv)
+// ---- 0791:F1F6  run_match  (f_0791_F1F6; Ghidra 2000:F1F6, __stdcall16far; found by routines.tsv)
+// calls the per-match set-up 0791:A4A1 once, then the match proper 0791:F098  [established; F005; F009]
 
-void __stdcall16far f_0791_F1F6(undefined4 param_1)
+void __stdcall16far run_match(undefined4 param_1)
 
 {
   int iVar1;
@@ -379,9 +381,9 @@ void __stdcall16far f_0791_F1F6(undefined4 param_1)
       uVar7 = (undefined2)((ulong)countries >> 0x10);
       pcVar5 = (country *)countries;
       if ((pcVar5[iVar1].squad[local_5 - 1] != 0) &&
-         (*(undefined1 *)(local_3 * 0x14 + local_5 + -0x64f9) =
-               ((player *)players)[pcVar5[iVar1].squad[local_5 - 1]].field_0xc, local_5 < 0xc)) {
-        *(undefined2 *)&((player *)players)[pcVar5[iVar1].squad[local_5 - 1]].field_0x12 = 0x37;
+         (*(byte *)(local_3 * 0x14 + local_5 + -0x64f9) =
+               ((player *)players)[pcVar5[iVar1].squad[local_5 - 1]].morale, local_5 < 0xc)) {
+        ((player *)players)[pcVar5[iVar1].squad[local_5 - 1]].performance = 0x37;
       }
       if (local_5 == 0x14) break;
       local_5 = local_5 + 1;
@@ -389,7 +391,7 @@ void __stdcall16far f_0791_F1F6(undefined4 param_1)
     if (local_3 == '\x01') break;
     local_3 = local_3 + '\x01';
   }
-  f_0791_F098(&stack0xfffe);
+  play_match(&stack0xfffe);
   sys_move_025D(4000,(int)DS:7C22,(int)((ulong)DS:7C22 >> 0x10),(int)DS:7C16,
                 (int)((ulong)DS:7C16 >> 0x10));
   f_0791_CAB0();
@@ -420,7 +422,7 @@ void __stdcall16far f_0791_F1F6(undefined4 param_1)
   }
   local_3 = '\0';
   while( true ) {
-    cVar2 = f_1771_0B77(((undefined2 *)&DS:9B34)[local_3]);
+    cVar2 = is_managed(((undefined2 *)&DS:9B34)[local_3]);
     if (cVar2 == '\0') {
       reset_team_tactics(((undefined2 *)&DS:9B34)[local_3]);
     }
@@ -433,7 +435,7 @@ void __stdcall16far f_0791_F1F6(undefined4 param_1)
   f_0791_D050(iVar4,uVar6);
   local_3 = '\0';
   while( true ) {
-    cVar2 = f_1771_0B77(((undefined2 *)&DS:9B34)[local_3]);
+    cVar2 = is_managed(((undefined2 *)&DS:9B34)[local_3]);
     if (cVar2 != '\0') {
       f_0791_BA4E(((undefined2 *)&DS:9B34)[local_3]);
     }
@@ -445,11 +447,12 @@ void __stdcall16far f_0791_F1F6(undefined4 param_1)
 }
 
 
-// ---- 0791:F3F2  f_0791_F3F2  (f_0791_F3F2; Ghidra 2000:F3F2, __cdecl16far; found by routines.tsv)
+// ---- 0791:F3F2  unit_0791_init  (f_0791_F3F2; Ghidra 2000:F3F2, __cdecl16far; found by routines.tsv)
+// the start-up of unit 0791: stores the BIOS tick count's low word at DS:8336 (the speaker stream's seed)  [established; F004; F006]
 
 /* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
 
-void __cdecl16far f_0791_F3F2(void)
+void __cdecl16far unit_0791_init(void)
 
 {
   DS:7C16._2_2_ = (undefined2)((ulong)DS:A96A >> 0x10);

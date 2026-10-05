@@ -13,7 +13,7 @@ undefined2 f_0791_7A43(char param_1)
   int local_5;
   undefined1 local_3;
   
-  cVar1 = f_1771_0B77(((undefined2 *)&DS:9B34)[param_1]);
+  cVar1 = is_managed(((undefined2 *)&DS:9B34)[param_1]);
   if (cVar1 == '\0') {
     local_7 = 0;
     local_5 = 1;
@@ -62,8 +62,8 @@ void f_0791_7B24(int param_1,char param_2)
   
   uVar3 = (undefined2)((ulong)players >> 0x10);
   ppVar2 = (player *)players;
-  u214b_set_include_bit(&ppVar2[param_1].field_0x10,uVar3,6);
-  u214b_set_exclude_bit(&ppVar2[param_1].field_0x10,uVar3,5);
+  u214b_set_include_bit(&ppVar2[param_1].status,uVar3,6);
+  u214b_set_exclude_bit(&ppVar2[param_1].status,uVar3,5);
   pcVar1 = (char *)(param_2 * 10 + 0x7b86);
   *pcVar1 = *pcVar1 + '\x01';
   return;
@@ -93,7 +93,7 @@ void __stdcall16far f_0791_7B77(undefined4 param_1)
     f_0791_90C5(0x8304,0xb000,DS:82EE,0xcfe);
     uVar2 = f_0791_2974(iVar3,uVar6);
     f_0791_7B24(*(undefined2 *)(iVar3 + 0xd),uVar2);
-    f_0791_7881(*(undefined1 *)(iVar3 + 6));
+    ball_flight_loop(*(undefined1 *)(iVar3 + 6));
     if (DS:8321 < 5) {
       DS:8321 = DS:8321 + 1;
     }
@@ -114,7 +114,7 @@ void __stdcall16far f_0791_7B77(undefined4 param_1)
     uVar2 = (undefined2)((ulong)players >> 0x10);
     ppVar5 = (player *)players;
     local_c = (player *)CONCAT22(uVar2,ppVar5 + iVar4);
-    cVar1 = f_1771_0B77(local_c->country);
+    cVar1 = is_managed(local_c->country);
     if (cVar1 == '\0') {
       f_0791_C48D(*(undefined1 *)(iVar3 + 6),(country *)countries + local_c->country,
                   (int)((ulong)countries >> 0x10));
@@ -147,12 +147,12 @@ void __stdcall16far f_0791_7CC5(undefined4 param_1,char param_2,int param_3)
   iVar1 = *(int *)(iVar5 + 0xd);
   uVar8 = (undefined2)((ulong)players >> 0x10);
   ppVar6 = (player *)players;
-  param_3 = (char)ppVar6[iVar1].field_0xc + param_3;
+  param_3 = (char)ppVar6[iVar1].morale + param_3;
   u214b_clamp_int(0xff,1,&param_3,unaff_SS);
-  ppVar6[iVar1].field_0xc = (undefined1)param_3;
+  ppVar6[iVar1].morale = (byte)param_3;
   if (param_2 != '\0') {
-    uVar2 = u214b_min_longint(0x20,0,(int)(char)ppVar6[iVar1].field_0xc,
-                              (int)(char)ppVar6[iVar1].field_0xc >> 0xf);
+    uVar2 = u214b_min_longint(0x20,0,(int)(char)ppVar6[iVar1].morale,
+                              (int)(char)ppVar6[iVar1].morale >> 0xf);
     uVar4 = f_0791_2BB1(iVar5,uVar7);
     uVar4 = uVar4 & 0xff;
     cVar3 = f_0791_2974(iVar5,uVar7);
@@ -186,8 +186,8 @@ void __stdcall16far f_0791_7D56(undefined4 param_1)
     cVar3 = f_0791_7A43(uVar4);
     if (cVar3 != '\0') {
       f_0791_2B28(iVar6,uVar8,0x34);
-      ((player *)players)[*(int *)(iVar6 + 0xd)].field_0xe = 0;
-      f_0791_7881(*(undefined1 *)(iVar6 + 6));
+      ((player *)players)[*(int *)(iVar6 + 0xd)].energy = 0;
+      ball_flight_loop(*(undefined1 *)(iVar6 + 6));
       f_0791_7CC5(iVar6,uVar8,0xff01,0xfffe);
       if (DS:8321 < 5) {
         DS:8321 = DS:8321 + 1;
@@ -199,7 +199,7 @@ void __stdcall16far f_0791_7D56(undefined4 param_1)
       uVar4 = (undefined2)((ulong)players >> 0x10);
       ppVar7 = (player *)players;
       local_6 = (player *)CONCAT22(uVar4,ppVar7 + iVar2);
-      cVar3 = f_1771_0B77(local_6->country);
+      cVar3 = is_managed(local_6->country);
       if (cVar3 == '\0') {
         uVar4 = (undefined2)((ulong)countries >> 0x10);
         pcVar9 = (country *)countries + local_6->country;
@@ -230,10 +230,10 @@ void f_0791_7E60(undefined1 param_1)
   local_4 = 1;
   while( true ) {
     f_0791_8537((uint)DS:830B * 0x16 + -0x7f18,0xb000);
-    f_0791_0425((uint)*(byte *)((int)DS:A923 + 0x3f) << 2);
+    match_delay((uint)*(byte *)((int)DS:A923 + 0x3f) << 2);
     f_0791_8537((uint)DS:830C * 0x16 + -0x7f18,0xb000);
-    f_0791_0425((uint)*(byte *)((int)DS:A923 + 0x3f) << 2);
-    f_0791_9119((undefined2 *)&DS:82EE,0xb000,CONCAT11(extraout_AH,param_1));
+    match_delay((uint)*(byte *)((int)DS:A923 + 0x3f) << 2);
+    watched_tick_display((undefined2 *)&DS:82EE,0xb000,CONCAT11(extraout_AH,param_1));
     if (local_4 == 10) break;
     local_4 = local_4 + 1;
   }
@@ -259,7 +259,7 @@ void __cdecl16near f_0791_7EEF(void)
   iVar6 = uVar1 * 0x16 + -0x7f18;
   iVar5 = f_0791_261A();
   if (iVar5 < 4) {
-    cVar2 = u214b_set_test_bit(((player *)players)[*(int *)(uVar1 * 0x16 + -0x7f0b)].field_0x10,5);
+    cVar2 = u214b_set_test_bit(((player *)players)[*(int *)(uVar1 * 0x16 + -0x7f0b)].status,5);
     if (cVar2 == '\0') {
       f_0791_798D(iVar6,0xb000);
     }
@@ -275,8 +275,8 @@ void __cdecl16near f_0791_7EEF(void)
   }
   iVar5 = f_0791_261A();
   if (iVar5 == 1) {
-    bVar3 = f_1771_2FFB(*(undefined2 *)((uint)DS:830C * 0x16 + -0x7f0b));
-    bVar4 = f_1771_2FFB(*(undefined2 *)((uint)DS:830B * 0x16 + -0x7f0b));
+    bVar3 = player_hardness(*(undefined2 *)((uint)DS:830C * 0x16 + -0x7f0b));
+    bVar4 = player_hardness(*(undefined2 *)((uint)DS:830B * 0x16 + -0x7f0b));
     if (bVar3 < bVar4) {
       f_0791_7D56((uint)DS:830C * 0x16 + -0x7f18,0xb000);
     }
@@ -301,11 +301,11 @@ void f_0791_7FCF(char param_1,char param_2)
   }
   else {
     u214b_unpack_screen_to_buffer((undefined4 *)&DS:A96E,0xb000,0x5b66,0xb000);
-    f_1771_0F58(1,0x19,((undefined2 *)&DS:9B34)[param_1]);
+    draw_country_header(1,0x19,((undefined2 *)&DS:9B34)[param_1]);
   }
   u214b_move_bytes(0xa0,(int)DS:A96A + 0xf00,(int)((ulong)DS:A96A >> 0x10),
                    (int)DS:A96E + 0xf00,(int)((ulong)DS:A96E >> 0x10));
-  f_0791_CC2E(*(undefined2 *)(param_2 * 2 + 0x87c));
+  wait_or_key(*(undefined2 *)(param_2 * 2 + 0x87c));
   cVar1 = u214b_key_pressed();
   if (cVar1 == '\0') {
     DS:A977 = 0x1b;
@@ -337,7 +337,7 @@ void __cdecl16near check_substitutions(void)
   
   local_3 = '\0';
   while( true ) {
-    cVar3 = f_1771_0B77(((undefined2 *)&DS:9B34)[local_3]);
+    cVar3 = is_managed(((undefined2 *)&DS:9B34)[local_3]);
     if (cVar3 == '\0') {
       if (((undefined1 *)&DS:9B3A)[local_3] != '\0') {
         local_5 = 0xb;
@@ -346,10 +346,10 @@ void __cdecl16near check_substitutions(void)
           iVar1 = *(int *)(iVar4 * 0x16 + -0x7f0b);
           uVar6 = (undefined2)((ulong)players >> 0x10);
           ppVar5 = (player *)players;
-          cVar3 = u214b_set_test_bit(ppVar5[iVar1].field_0x10,6);
-          if ((((cVar3 == '\0') && ('\0' < (char)ppVar5[iVar1].field_0xe)) && (1 < DS:831B))
-             && ((1 < local_5 && (DS:831B < 0x23)))) {
-            uVar2 = *(uint *)&ppVar5[iVar1].field_0x12;
+          cVar3 = u214b_set_test_bit(ppVar5[iVar1].status,6);
+          if ((((cVar3 == '\0') && ('\0' < (char)ppVar5[iVar1].energy)) && (1 < DS:831B)) &&
+             ((1 < local_5 && (DS:831B < 0x23)))) {
+            uVar2 = ppVar5[iVar1].performance;
             if ((((int)uVar2 >> 0xf < 0) || ((-1 < (int)uVar2 && (uVar2 < 0x5a - DS:831B))))
                && (f_0791_C88D(0,local_3,*(undefined1 *)((undefined2 *)&DS:80EE + iVar4 * 0xb)
                                ,(country *)countries + ((undefined2 *)&DS:9B34)[local_3],
@@ -416,10 +416,10 @@ void f_0791_8206(byte param_1)
       f_0791_6FB6();
     }
     else {
-      cVar1 = f_1771_0B77(((player *)players + *(int *)((uint)DS:830C * 0x16 + -0x7f0b))->
-                          country);
+      cVar1 = is_managed(((player *)players + *(int *)((uint)DS:830C * 0x16 + -0x7f0b))->
+                         country);
       if (cVar1 == '\0') {
-        f_1771_33CD(*(undefined2 *)((uint)DS:830C * 0x16 + -0x7f0b));
+        tactics_from_hardness(*(undefined2 *)((uint)DS:830C * 0x16 + -0x7f0b));
       }
       f_0791_6ECF();
     }
@@ -814,7 +814,7 @@ LAB_0791_89E5:
 void __stdcall16far update_player(undefined4 param_1)
 
 {
-  char *pcVar1;
+  byte *pbVar1;
   char cVar2;
   int iVar3;
   char cVar4;
@@ -876,9 +876,9 @@ void __stdcall16far update_player(undefined4 param_1)
   }
   f_0791_8537(iVar5,uVar7);
   if ((DS:8325 != '\0') && (0xb4 < *(uint *)(iVar5 + 0x14))) {
-    if ('\x01' < (char)ppVar6[iVar3].field_0xe) {
-      pcVar1 = &ppVar6[iVar3].field_0xe;
-      *pcVar1 = *pcVar1 + -1;
+    if ('\x01' < (char)ppVar6[iVar3].energy) {
+      pbVar1 = &ppVar6[iVar3].energy;
+      *pbVar1 = *pbVar1 - 1;
     }
     *(undefined2 *)(iVar5 + 0x14) = 0;
   }
@@ -1078,9 +1078,10 @@ void __stdcall16far f_0791_90C5(undefined1 *param_1,undefined2 param_2,undefined
 }
 
 
-// ---- 0791:9119  f_0791_9119  (f_0791_9119; Ghidra 2000:9119, __stdcall16far; found by routines.tsv)
+// ---- 0791:9119  watched_tick_display  (f_0791_9119; Ghidra 2000:9119, __stdcall16far; found by routines.tsv)
+// display code called every watched tick; draws through 214B:06B1  [likely; F005; F006]
 
-void __stdcall16far f_0791_9119(char *param_1,char param_2)
+void __stdcall16far watched_tick_display(char *param_1,char param_2)
 
 {
   char cVar1;
@@ -1144,9 +1145,10 @@ void __stdcall16far f_0791_9119(char *param_1,char param_2)
 }
 
 
-// ---- 0791:92FC  f_0791_92FC  (f_0791_92FC; Ghidra 2000:92FC, __stdcall16near; found by routines.tsv)
+// ---- 0791:92FC  switch_to_quick_result  (f_0791_92FC; Ghidra 2000:92FC, __stdcall16near; found by routines.tsv)
+// the R key's action: returns when DS:9A3E is set or no minutes are left, defers (DS:7C38) while the clock is stopped, else sets DS:9A3E and DS:9A3F, clears DS:7C38 and redraws the status bar  [established; F004; F005]
 
-void f_0791_92FC(void)
+void switch_to_quick_result(void)
 
 {
   uint in_AX;
@@ -1195,7 +1197,7 @@ void __cdecl16near match_key_poll(void)
   cVar1 = u214b_key_pressed();
   if (cVar1 == '\0') {
     if (DS:7C38 != '\0') {
-      f_0791_92FC(&stack0xfffe);
+      switch_to_quick_result(&stack0xfffe);
     }
   }
   else {
@@ -1243,7 +1245,7 @@ void __cdecl16near match_key_poll(void)
           u214b_sound_toggle_mute();
         }
         else if (cVar1 == 'R') {
-          f_0791_92FC(&stack0xfffe);
+          switch_to_quick_result(&stack0xfffe);
         }
       }
     }
@@ -1289,6 +1291,6 @@ void __cdecl16near speaker_noise(void)
   }
   u214b_speaker_off();
 LAB_0791_9532:
-  f_0791_0425(*(undefined1 *)((int)DS:A923 + 0x3f));
+  match_delay(*(undefined1 *)((int)DS:A923 + 0x3f));
   return;
 }

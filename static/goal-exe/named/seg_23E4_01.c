@@ -583,7 +583,7 @@ undefined2 __cdecl16near sys_heap_alloc_041D(void)
       iVar4 = iVar4 + -1;
     }
     if (uVar7 <= CONCAT22(iVar4,iVar1)) break;
-    if (DS:7B4E == f_0000_0000 && DS:7B50 == 0) {
+    if (DS:7B4E == main_program && DS:7B50 == 0) {
       return in_AX;
     }
     iVar4 = (*DS:7B4E)(0xa000,in_AX);

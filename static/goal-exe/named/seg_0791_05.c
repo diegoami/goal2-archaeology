@@ -117,7 +117,7 @@ void __cdecl16near f_0791_6337(void)
 void record_goal(undefined1 param_1,int param_2,char param_3)
 
 {
-  int *piVar1;
+  word *pwVar1;
   word wVar2;
   char cVar3;
   char cVar4;
@@ -131,8 +131,8 @@ void record_goal(undefined1 param_1,int param_2,char param_3)
   uVar6 = (undefined1)((uint)param_2 >> 8);
   if (DS:7C39 == '\0') {
     f_0791_2AA3(CONCAT11(uVar6,0x26));
-    piVar1 = (int *)&((player *)players)[*(int *)(param_2 + -0x7f0b)].field_0xa;
-    *piVar1 = *piVar1 + 1;
+    pwVar1 = &((player *)players)[*(int *)(param_2 + -0x7f0b)].goals;
+    *pwVar1 = *pwVar1 + 1;
     cVar4 = f_1771_5A03((int)DS:7C2A,(int)((ulong)DS:7C2A >> 0x10));
     if (cVar4 != '\0') {
       f_0791_B3B7(((country *)countries)[((undefined2 *)&DS:9B34)[param_3]].continent,
@@ -620,7 +620,7 @@ void f_0791_6D4E(undefined1 param_1,uint param_2,char param_3)
   undefined2 uVar2;
   uint uVar3;
   
-  cVar1 = f_1771_0B77(((undefined2 *)&DS:9B34)[param_3]);
+  cVar1 = is_managed(((undefined2 *)&DS:9B34)[param_3]);
   if (cVar1 == '\0') {
     f_0791_1FDD(param_2,*(undefined1 *)(param_2 + 0x764),param_3);
   }
@@ -1062,7 +1062,7 @@ void f_0791_72F2(int param_1)
       }
     }
     else {
-      f_0791_0425((uint)*(byte *)((int)DS:A923 + 0x3f) * 0x28);
+      match_delay((uint)*(byte *)((int)DS:A923 + 0x3f) * 0x28);
       DS:830C = *(undefined1 *)((int)*(undefined4 *)(param_1 + 6) + 6);
       DS:830D = 0;
       *(int *)((int)*(undefined4 *)(param_1 + 6) + 7) = DS:8315;
@@ -1305,9 +1305,10 @@ void __stdcall16far f_0791_7621(undefined4 param_1)
 }
 
 
-// ---- 0791:7881  f_0791_7881  (f_0791_7881; Ghidra 2000:7881, __stdcall16near; found by routines.tsv)
+// ---- 0791:7881  ball_flight_loop  (f_0791_7881; Ghidra 2000:7881, __stdcall16near; found by routines.tsv)
+// the ball-flight loop: 214B:1E09(2) per pass at speed 0, 214B:1E09(1) at speed 1  [likely; F006]
 
-void f_0791_7881(int param_1)
+void ball_flight_loop(int param_1)
 
 {
   undefined1 uVar1;
@@ -1383,18 +1384,18 @@ void __stdcall16far f_0791_798D(undefined4 param_1)
   ppVar6 = (player *)players + *(int *)(iVar3 + 0xd);
   f_0791_2AD4(CONCAT11((char)((uint)(*(int *)(iVar3 + 0xd) * 0x14) >> 8),0x32),ppVar6,uVar5);
   f_0791_90C5(0x8304,0xb000,DS:82EE,0xefe);
-  f_0791_0425((uint)*(byte *)((int)DS:A923 + 0x3f) * 200);
+  match_delay((uint)*(byte *)((int)DS:A923 + 0x3f) * 200);
   f_0791_9079(0x8304,0xb000);
-  u214b_set_include_bit(&ppVar6->field_0x10,uVar5,5);
+  u214b_set_include_bit(&ppVar6->status,uVar5,5);
   cVar2 = f_0791_2974(iVar3,uVar4);
   pcVar1 = (char *)(cVar2 * 10 + 0x7b85);
   *pcVar1 = *pcVar1 + '\x01';
   if (DS:8321 < 5) {
     DS:8321 = DS:8321 + 1;
   }
-  cVar2 = f_1771_0B77(((player *)players + *(int *)(iVar3 + 0xd))->country);
+  cVar2 = is_managed(((player *)players + *(int *)(iVar3 + 0xd))->country);
   if (cVar2 == '\0') {
-    f_1771_33CD(*(undefined2 *)(iVar3 + 0xd));
+    tactics_from_hardness(*(undefined2 *)(iVar3 + 0xd));
   }
   return;
 }
