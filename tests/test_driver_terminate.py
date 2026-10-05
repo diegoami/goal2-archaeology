@@ -17,7 +17,9 @@ restore is attempted. It needs DOSBox-X, Xvfb and xdotool, so it skips everywher
 (CI), and it needs the driver's verified release (.cache/goal2): where the driver's own release
 check (verify_release, the first thing launch() does) fails, it skips with that reason, which names
 setup/goal2-runtime.sh (#63) -- before the fix it errored there. It runs locally, and fails if the
-guard is removed (see the class docstring). ReleaseGuard pins the skip to the driver's own check.
+guard is removed (see the class docstring). ReleaseGuard pins the skip to the driver's own check
+and, where the release verifies, pins that the edge test's own setUp does not skip (R1 rework: an
+always-skip regression fails there instead of hiding the guard test).
 """
 import os
 import shutil
@@ -209,7 +211,9 @@ class DosPromptRestoreEdge(unittest.TestCase):
 
 class ReleaseGuard(unittest.TestCase):
     """#63 Done-when 3: the edge test's skip is decided by the driver's own release check --
-    verify_release, the very call launch() makes -- not by a hard-coded path or file list."""
+    verify_release, the very call launch() makes -- not by a hard-coded path or file list. The
+    third test (R1 rework) calls the edge test's own setUp where the release verifies and fails
+    when it would skip, so the guard test cannot be hidden behind a skip."""
 
     def test_with_an_unverified_cache_the_edge_test_skips_instead_of_erroring(self):
         """Done-when 1 with the driver's cache pointed at an empty directory, so this runs wherever
@@ -237,6 +241,22 @@ class ReleaseGuard(unittest.TestCase):
         except SystemExit as e:
             self.skipTest(f"no verified release here (CI); this half needs one: {e}")
         self.assertIsNone(release_problem())
+
+    def test_where_the_release_verifies_the_edge_tests_own_setUp_does_not_skip(self):
+        """R1 rework (#63 review): the test above re-reads release_problem(), so a regression that
+        made setUp skip unconditionally would still leave this suite OK -- the guard test silently
+        skipped instead of run. This check calls the edge test's own setUp, the very code whose
+        decision it is, and fails when it would skip: with the release verified the guard test must
+        run. Skipped where no release is set up (CI), like every check that needs one."""
+        try:
+            driver.verify_release(driver.CACHE)  # the driver's own check, as launch() makes it
+        except SystemExit as e:
+            self.skipTest(f"no verified release here (CI); this half needs one: {e}")
+        edge = DosPromptRestoreEdge("test_launch_never_restores_into_a_dos_prompt_session")
+        try:
+            edge.setUp()  # the skip decision itself, not a recomputation of its condition
+        except unittest.SkipTest as e:
+            self.fail(f"the edge test would be skipped where the release verifies: {e}")
 
 
 if __name__ == "__main__":
