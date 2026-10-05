@@ -72,3 +72,30 @@ def check(player_array, country_array):
         if bad:
             problems.append(f"country {c}: players {bad[:3]} do not hold {c} in byte 0")
     return problems
+
+
+# The names (T16, Q009). `2139:0000` allocates [9B6C] 0x8387 bytes and [9B70] 0xBF5 bytes
+# (`seg_2139_01.asm:0014`-`002B`): 0x8387 = 3061 * 11 and 0xBF5 = 3061 * 1. `1771:2E93` (the routine that
+# builds the name the screens print) prints `[9B70] + n` (one character), a space, then the Pascal string
+# of 11 bytes at `[9B6C] + 11 n` (`seg_1771_04.asm:2E9A`-`2ECC`: `mul 0xb`).
+NAMES_PTR = 0x9B6C        # DS offset of the far pointer to the surnames (11-byte Pascal strings)
+INITIALS_PTR = 0x9B70     # DS offset of the far pointer to the initials (1 byte each)
+NAME_SIZE = 11
+NAMES_BYTES = 0x8387
+INITIALS_BYTES = 0xBF5
+
+
+def surnames(state):
+    """The 0x8387 bytes of the surname array."""
+    return state.memory(far_pointer(state, NAMES_PTR)[2], NAMES_BYTES)
+
+
+def initials(state):
+    """The 0xBF5 bytes of the initials array."""
+    return state.memory(far_pointer(state, INITIALS_PTR)[2], INITIALS_BYTES)
+
+
+def full_name(surname_array, initial_array, n):
+    """The name `1771:2E93` builds for player n: the initial, a space, the Pascal string of 11 bytes."""
+    rec = surname_array[n * NAME_SIZE:(n + 1) * NAME_SIZE]
+    return chr(initial_array[n]) + " " + rec[1:1 + min(rec[0], NAME_SIZE - 1)].decode("cp437")
