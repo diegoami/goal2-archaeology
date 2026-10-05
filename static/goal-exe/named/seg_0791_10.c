@@ -148,9 +148,10 @@ LAB_0791_EC64:
 }
 
 
-// ---- 0791:ED8A  f_0791_ED8A  (f_0791_ED8A; Ghidra 2000:ED8A, __stdcall16near; found by routines.tsv)
+// ---- 0791:ED8A  match_team_screen  (f_0791_ED8A; Ghidra 2000:ED8A, __stdcall16near; found by routines.tsv)
+// the in-match team screen: opens it and waits for a key (at half time, from the key poll on Enter or Esc, or after 0791:7FCF)  [established; F005; F006]
 
-void f_0791_ED8A(char param_1)
+void match_team_screen(char param_1)
 
 {
   byte bVar1;
@@ -368,7 +369,7 @@ void __stdcall16far run_match(undefined4 param_1)
   uVar6 = (undefined2)((ulong)param_1 >> 0x10);
   iVar4 = (int)param_1;
   match_setup(iVar4,uVar6);
-  f_0791_ED8A(CONCAT11(extraout_AH,1));
+  match_team_screen(CONCAT11(extraout_AH,1));
   sys_move_025D(4000,(int)DS:7C16,(int)((ulong)DS:7C16 >> 0x10),(int)DS:7C1E,
                 (int)((ulong)DS:7C1E >> 0x10));
   sys_move_025D(4000,(int)DS:7C22,(int)((ulong)DS:7C22 >> 0x10),(int)DS:7C1E,
@@ -407,12 +408,12 @@ void __stdcall16far run_match(undefined4 param_1)
   DS:0C20 = 1;
   sys_set_bit_mask_08DF(0xf1b4,0x4000,CONCAT11(extraout_AH_02,DS:A977));
   if (!(bool)uVar8) {
-    f_0791_ED8A(CONCAT11(extraout_AH_03,1));
+    match_team_screen(CONCAT11(extraout_AH_03,1));
   }
   if (DS:9A3E == '\0') {
-    cVar2 = f_0791_0B7C(0xf1d4,0xa000);
+    cVar2 = ask_action_replay(0xf1d4,0xa000);
     if (cVar2 != '\0') {
-      f_0791_0A6B();
+      action_replay();
     }
   }
   f_0791_CB7D();

@@ -18,7 +18,7 @@ undefined1 f_0791_1D4A(undefined1 param_1,int param_2,int param_3,char param_4)
   undefined1 local_3;
   
   local_3 = 0;
-  if ((DS:80EE == 0) || (cVar4 = f_0791_1C78(&stack0xfffe), cVar4 != '\0')) {
+  if ((DS:80EE == 0) || (cVar4 = add_commentary_record(&stack0xfffe), cVar4 != '\0')) {
     piVar1 = (int *)(param_4 * 2 + -0x7f0e);
     *piVar1 = *piVar1 + 1;
     u214b_wrap_add_in_range(1,200,1,(undefined2 *)&DS:80EE,0xb000);

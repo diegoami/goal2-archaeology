@@ -819,9 +819,10 @@ void __stdcall16far player_name(int param_1,undefined4 param_2)
 }
 
 
-// ---- 1771:2EE5  f_1771_2EE5  (f_1771_2EE5; Ghidra 4000:2EE5, __stdcall16far; found by routines.tsv)
+// ---- 1771:2EE5  draw_player_name  (f_1771_2EE5; Ghidra 4000:2EE5, __stdcall16far; found by routines.tsv)
+// draws a player's name (1771:2E93, 12 characters at most) on the squad list, in 1771:2E20's colour  [established; F008]
 
-void __stdcall16far f_1771_2EE5(undefined1 param_1,undefined1 param_2,int param_3)
+void __stdcall16far draw_player_name(undefined1 param_1,undefined1 param_2,int param_3)
 
 {
   undefined1 extraout_AH;
@@ -861,7 +862,7 @@ void __stdcall16far draw_squad_row(int param_1,undefined2 param_2,int param_3)
   uStack_4 = (undefined2)((ulong)players >> 0x10);
   local_6 = (player *)players + param_3;
   if (param_3 != 0) {
-    f_1771_2EE5(param_1,param_2,param_3);
+    draw_player_name(param_1,param_2,param_3);
     uVar1 = (uint)*(byte *)(local_6->position + 0x699a);
     puVar2 = local_106;
     sys_char_to_str_075A(*(undefined1 *)(local_6->position + 0x69a8));
@@ -1146,44 +1147,6 @@ void __stdcall16far f_1771_34E7(int param_1)
     }
     if (local_4 == 0x14) break;
     local_4 = local_4 + 1;
-  }
-  return;
-}
-
-
-// ---- 1771:3558  draw_fitness_energy  (f_1771_3558; Ghidra 4000:3558, __stdcall16far; found by routines.tsv)
-// draws +0x0D and +0x0E: T = DS:0E82[+1 > +2 + 4], then a managed or an unmanaged draw around T  [established; F007]
-
-void __stdcall16far draw_fitness_energy(int param_1)
-
-{
-  bool bVar1;
-  char cVar2;
-  char cVar3;
-  player *ppVar4;
-  undefined2 uVar5;
-  undefined4 local_7;
-  
-  uVar5 = (undefined2)((ulong)players >> 0x10);
-  ppVar4 = (player *)players + param_1;
-  local_7 = (player *)CONCAT22(uVar5,ppVar4);
-  bVar1 = ppVar4->peak_age + 4 < (uint)ppVar4->age;
-  cVar2 = is_managed(local_7->country);
-  if (cVar2 == '\0') {
-    cVar2 = u214b_random_1_to_n((uint)*(byte *)(bVar1 + 0xe82) << 1);
-    ppVar4->fitness = *(char *)(bVar1 + 0xe82) + cVar2;
-  }
-  else {
-    cVar2 = u214b_random_1_to_n(*(byte *)(bVar1 + 0xe82) + 1);
-    cVar3 = u214b_random_1_to_n((uint)*(byte *)(bVar1 + 0xe82) * 3);
-    ppVar4->fitness = (*(char *)(bVar1 + 0xe82) + cVar3) - cVar2;
-  }
-  if (' ' < (char)ppVar4->fitness) {
-    ppVar4->fitness = 0x20;
-  }
-  ppVar4->energy = ppVar4->fitness;
-  if ((char)ppVar4->fitness < '\x01') {
-    ppVar4->fitness = 1;
   }
   return;
 }

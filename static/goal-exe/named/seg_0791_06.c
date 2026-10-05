@@ -226,7 +226,7 @@ void f_0791_7E60(undefined1 param_1)
   int local_4;
   
   DS:8325 = 0;
-  f_0791_0441(4);
+  match_whistle(4);
   local_4 = 1;
   while( true ) {
     f_0791_8537((uint)DS:830B * 0x16 + -0x7f18,0xb000);
@@ -288,9 +288,10 @@ void __cdecl16near f_0791_7EEF(void)
 }
 
 
-// ---- 0791:7FCF  f_0791_7FCF  (f_0791_7FCF; Ghidra 2000:7FCF, __stdcall16near; found by routines.tsv)
+// ---- 0791:7FCF  substitution_notice  (f_0791_7FCF; Ghidra 2000:7FCF, __stdcall16near; found by routines.tsv)
+// the substitution notice: waits 0791:CC2E (400 or 1000), reads a waiting key, else writes Esc to DS:A977  [established; F005; F006]
 
-void f_0791_7FCF(char param_1,char param_2)
+void substitution_notice(char param_1,char param_2)
 
 {
   char cVar1;
@@ -374,9 +375,9 @@ void __cdecl16near check_substitutions(void)
           DS:9B41 = 1;
         }
         u214b_speaker_off();
-        f_0791_7FCF(CONCAT11(extraout_AH,local_3),CONCAT11(extraout_AH,cVar3));
+        substitution_notice(CONCAT11(extraout_AH,local_3),CONCAT11(extraout_AH,cVar3));
         if ((DS:A977 != '\x1b') || (cVar3 != '\0')) {
-          f_0791_ED8A(CONCAT11(extraout_AH_00,1));
+          match_team_screen(CONCAT11(extraout_AH_00,1));
         }
         DS:9B41 = 0;
       }
@@ -499,7 +500,7 @@ void __stdcall16far move_ball(char *param_1)
   draw_ball(pcVar6,uVar7);
   cVar1 = f_0791_2DCA(*(undefined2 *)param_1);
   if (cVar1 == '\0') {
-    f_0791_0441(2);
+    match_whistle(2);
     if (DS:830E != '\0') {
       iVar3 = (int)*param_1;
       if (iVar3 < 0) {
@@ -1230,7 +1231,7 @@ void __cdecl16near match_key_poll(void)
           f_0791_0691();
         }
         else if ((cVar1 == '\r') || (cVar1 == '\x1b')) {
-          f_0791_ED8A(CONCAT11(bVar3,1));
+          match_team_screen(CONCAT11(bVar3,1));
         }
         else if (cVar1 == -0x61) {
           if (DS:9A3E == '\0') {
@@ -1267,30 +1268,4 @@ undefined2 speaker_rng_step(undefined2 param_1)
   
   uVar1 = u214b_lcg_step(param_1,(undefined2 *)&DS:8336,0xb000);
   return uVar1;
-}
-
-
-// ---- 0791:94E8  speaker_noise  (f_0791_94E8; Ghidra 2000:94E8, __cdecl16near; found by routines.tsv)
-// sounds the speaker at a pitch drawn from 0791:94C9; that stream's only caller  [established; F004; F006]
-
-void __cdecl16near speaker_noise(void)
-
-{
-  uint uVar1;
-  int iVar2;
-  
-  if (DS:832A != 0) {
-    uVar1 = speaker_rng_step(0x32);
-    if ((((int)uVar1 < 0 && (int)uVar1 >> 0xf < 1) ||
-        (((int)uVar1 >> 0xf < 1 && (uVar1 < DS:832A)))) &&
-       (*(char *)((int)DS:A923 + 0x3f) != '\0')) {
-      iVar2 = speaker_rng_step(DS:832A + 300);
-      u214b_speaker_set_frequency(iVar2 + 100);
-      goto LAB_0791_9532;
-    }
-  }
-  u214b_speaker_off();
-LAB_0791_9532:
-  match_delay(*(undefined1 *)((int)DS:A923 + 0x3f));
-  return;
 }

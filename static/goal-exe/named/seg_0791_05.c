@@ -210,7 +210,7 @@ void __cdecl16near f_0791_65FE(void)
   int local_4;
   
   DS:8325 = 1;
-  f_0791_0441(4);
+  match_whistle(4);
   for (local_4 = 1;
       *(undefined2 *)((int)(undefined2 *)&DS:80EE + local_4 * 0x16 + 1) =
            *(undefined2 *)(local_4 * 0x16 + -0x7f18), cVar1 = DS:7C39, local_4 != 0x16;
@@ -487,7 +487,7 @@ void __stdcall16far f_0791_6AAD(undefined4 param_1)
     uVar2 = f_0791_2C86((int)param_1,uVar3,DS:0824);
     f_0791_34C1((int)param_1,uVar3,6,uVar2);
     f_0791_2929(CONCAT11(extraout_AH,5));
-    f_0791_0441(2);
+    match_whistle(2);
   }
   return;
 }
@@ -709,7 +709,7 @@ void __cdecl16near f_0791_6ECF(void)
   undefined1 extraout_AH;
   
   DS:830E = 0;
-  f_0791_0441(2);
+  match_whistle(2);
   check_substitutions();
   uVar1 = ball_holder_is_side0();
   f_0791_6D4E(10,3,uVar1);

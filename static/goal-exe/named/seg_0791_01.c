@@ -140,7 +140,7 @@ void __stdcall16far draw_match_summary(char param_1)
     while( true ) {
       local_a = (int *)CONCAT22(0xb000,(int *)(local_6 * 0x21 + local_4 * 3 + 0x7bd1));
       if (*local_a != 0) {
-        f_1771_2EE5(*(undefined1 *)(local_6 + 0x670),local_4 + 0xb,*local_a);
+        draw_player_name(*(undefined1 *)(local_6 + 0x670),local_4 + 0xb,*local_a);
         DS:AAB2 = 4;
         uVar4 = (undefined2)((ulong)local_a >> 0x10);
         if (*(byte *)((int *)local_a + 1) < 0x81) {
@@ -201,9 +201,10 @@ void match_delay(undefined2 param_1)
 }
 
 
-// ---- 0791:0441  f_0791_0441  (f_0791_0441; Ghidra 2000:0441, __stdcall16near; found by routines.tsv)
+// ---- 0791:0441  match_whistle  (f_0791_0441; Ghidra 2000:0441, __stdcall16near; found by routines.tsv)
+// the whistle(n): plays a sound only when the speed byte [DS:A923]+0x3F is above 0, like 0791:0425; called at the end of each half  [established; F006]
 
-void f_0791_0441(undefined2 param_1)
+void match_whistle(undefined2 param_1)
 
 {
   if (*(char *)((int)DS:A923 + 0x3f) != '\0') {
@@ -562,9 +563,10 @@ char f_0791_09C4(undefined4 param_1,char param_2)
 }
 
 
-// ---- 0791:0A6B  f_0791_0A6B  (f_0791_0A6B; Ghidra 2000:0A6B, __cdecl16near; found by routines.tsv)
+// ---- 0791:0A6B  action_replay  (f_0791_0A6B; Ghidra 2000:0A6B, __cdecl16near; found by routines.tsv)
+// the replay code that 0791:0C65 runs when 0791:0B7C returns 1 (reaches the line editor 214B:1086 through 09C4 and 0955); not run  [likely; F005]
 
-void __cdecl16near f_0791_0A6B(void)
+void __cdecl16near action_replay(void)
 
 {
   byte *pbVar1;
@@ -626,9 +628,10 @@ void __cdecl16near f_0791_0A6B(void)
 }
 
 
-// ---- 0791:0B7C  f_0791_0B7C  (f_0791_0B7C; Ghidra 2000:0B7C, __stdcall16near; found by routines.tsv)
+// ---- 0791:0B7C  ask_action_replay  (f_0791_0B7C; Ghidra 2000:0B7C, __stdcall16near; found by routines.tsv)
+// the action-replay prompt: waits 0791:CC2E(600), returns 1 only when a key is waiting and it is Y, 0 with no key  [established; F005; F006]
 
-undefined1 f_0791_0B7C(undefined4 param_1)
+undefined1 ask_action_replay(undefined4 param_1)
 
 {
   char cVar1;
@@ -684,11 +687,12 @@ void __cdecl16near f_0791_0C0B(void)
 }
 
 
-// ---- 0791:0C65  f_0791_0C65  (f_0791_0C65; Ghidra 2000:0C65, __cdecl16near; found by routines.tsv)
+// ---- 0791:0C65  offer_action_replay  (f_0791_0C65; Ghidra 2000:0C65, __cdecl16near; found by routines.tsv)
+// the replay route of the tick loop (when DS:7C37 is set): if [DS:A923]+0x41 and DS:0C1E are not 0, asks 0791:0B7C and on yes runs 0791:0A6B  [likely; F005]
 
 /* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
 
-void __cdecl16near f_0791_0C65(void)
+void __cdecl16near offer_action_replay(void)
 
 {
   int iVar1;
@@ -702,10 +706,10 @@ void __cdecl16near f_0791_0C65(void)
   
   DS:9B55 = 0;
   if ((*(char *)((int)DS:A923 + 0x41) != '\0') &&
-     ((DS:0C1E == '\0' || (cVar2 = f_0791_0B7C(0xc42,0x2000), cVar2 != '\0')))) {
+     ((DS:0C1E == '\0' || (cVar2 = ask_action_replay(0xc42,0x2000), cVar2 != '\0')))) {
     if ((*(char *)((int)DS:A923 + 0x41) != '\0') &&
-       ((DS:0C1E != '\0' && (cVar2 = f_0791_0B7C(0xc53,0x2000), cVar2 != '\0')))) {
-      f_0791_0A6B();
+       ((DS:0C1E != '\0' && (cVar2 = ask_action_replay(0xc53,0x2000), cVar2 != '\0')))) {
+      action_replay();
     }
     DS:0C20 = 1;
     DS:7C3C = *(undefined1 *)((int)DS:A923 + 0x3f);
@@ -913,7 +917,7 @@ void __cdecl16far f_0791_112C(void)
       }
       DS:0C1E = 0;
       DS:7C2A = 0xb0007c2e;
-      f_0791_0C65();
+      offer_action_replay();
       sys_set_bit_mask_08DF
                 (0x693a,0xb000,CONCAT11(extraout_AH,*(undefined1 *)((int)DS:7C2A + 2)));
       DS:7C36 = !(bool)uVar9;
@@ -926,7 +930,7 @@ void __cdecl16far f_0791_112C(void)
       DS:9A3E = 0;
       DS:7C38 = 0;
       DS:9A3F = 0;
-      f_0791_ED8A(CONCAT11(extraout_AH_00,1));
+      match_team_screen(CONCAT11(extraout_AH_00,1));
       if (DS:066D == '\0') {
         match_tick_loop(CONCAT11(extraout_AH_01,1));
         u214b_speaker_off();
@@ -1111,9 +1115,10 @@ void f_0791_1829(undefined1 param_1,uint param_2,int param_3)
 }
 
 
-// ---- 0791:1C78  f_0791_1C78  (f_0791_1C78; Ghidra 2000:1C78, __stdcall16near; found by routines.tsv)
+// ---- 0791:1C78  add_commentary_record  (f_0791_1C78; Ghidra 2000:1C78, __stdcall16near; found by routines.tsv)
+// adds a record to the commentary ring at DS:7C38 (6 bytes each); refuses one equal to the newest (F005: "consistent with" the goal lines seen)  [likely; F005; read decompiled/seg_0791_01.c]
 
-undefined4 f_0791_1C78(int param_1)
+undefined4 add_commentary_record(int param_1)
 
 {
   long lVar1;
