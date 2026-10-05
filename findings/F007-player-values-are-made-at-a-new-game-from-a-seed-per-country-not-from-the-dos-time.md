@@ -18,23 +18,25 @@
 
 ### The 20-byte player record after a new game
 
-Writers are `1771:96D3` and its callees unless the row names another. The gk index is 1 when the position byte is 0 (the goalkeeper; F002 O5 position names) and 0 otherwise. `rand(n)` is `214B:06B1` (1..n, `seg_214B_01.asm:880`–`906`). Draws happen in the table's order, per player. Ranges are over all 12 games. "Named" means players 1..2560, and "managed" means 2561..2640. Every row's writer is from the listing, and the model reproduces it on every named and managed player in E006-r0001 … r0012, unless it says "not written".
-
 | Field | Written by, from | Range (named; managed) | What it is |
 | --- | --- | --- | --- |
-| +0x00 | the country argument (`seg_1771_13.asm:1117`–`1119`) | 1..128; 7 | the country (F002 O5; `players.check` uses it) |
-| +0x01 | `DS:118A[gk] − b + a`, with a then b = rand(7) (`:1132`–`1156`; `DS:118A` = 0x1C, 0x1F, `ds_2581_01.hex` row 1180). In `98C4`'s slot loop it is overwritten by `DS:118C[gk] + rand(3)` (0x11, 0x14; `seg_1771_14.asm:201`–`219`) | 22..37; 18..36 | inferred to be the age, about 75%: years-like values, keepers 3 older, and `98C4`'s squad-slot players aged 18..22 |
-| +0x02 | `1771:3291`: `DS:0E80[gk] + b − a`, with a then b = rand(3) (`seg_1771_05.asm:253`–`277`; 0x1B, 0x1E) | 25..32; 25..32 | inferred to be the peak age, about 70%: +4 is +3 unreduced exactly when +1 is between +2 and +2+3 (next rows) |
-| +0x03 | flag 1: `rating(c) + 0x7F` (`seg_1771_13.asm:1163`–`1166`; `10E7`). Flag 0 (`98C4`): `rating(c) + 0x7F − 10 − rand(10)` (`:1169`–`1181`) | 128..253; 221..230 | a ceiling set by the country's ranks (the Answer). Inferred to be the player's potential ability, about 70% |
-| +0x04 | `1771:32EB` from +1, +2, +3. +3 when +2 ≤ +1 ≤ +2+3 (unsigned, `seg_1771_05.asm:297`–`312`). Otherwise `(+3 · k) div 16`, with k = 16 − (+1 − (+2+3)) when +1 > +2+3 (`:328`–`340`) and k = 16 − ((+2 − +1) idiv 2) when +1 < +2 (`:354`–`357`); the low byte (`:361`–`366`) | 88..253; 154..230 | +3 reduced by distance from the peak. `1771:377E` ("a player's value", F002 map) reads it, so it is inferred to be current ability, about 75% |
-| +0x05 | rand(16) (`seg_1771_13.asm:1127`–`1131`) | 1..16; 1..16 | not established. `2FFB` returns +5 − (+3 and 1) (`seg_1771_04.asm:1113`–`1126`), and +0x0F depends on it |
-| +0x06, +0x07 | the position argument: +7, then +6 = +7 (`seg_1771_13.asm:1120`–`1126`) | 0..13; 0..13 | the position code (R011; F002 O5) |
-| +0x08 … +0x0B | not written by the player path | 0 in all | not established |
-| +0x0C | rand(32) (`:1188`–`1190`) | 1..32; 1..32 | not established. `377E` reads it (F002 map) |
-| +0x0D, +0x0E | `1771:3558`: T = `DS:0E82[+1 > +2 + 4]` (0x10, 0x0D; `seg_1771_05.asm:550`, `:569`). If the country is managed (`1771:0B77`: +0x2E > 0x80, `seg_1771_02.asm:108`), v = T + b − a with a = rand(T+1), b = rand(3T) (`:573`–`594`). Otherwise v = T + rand(2T) (`:604`–`613`). Then v is capped at 0x20 (signed compare, `:616`–`619`). +0x0E = v, +0x0D = max(v, 1) (`:624`–`629`) | 14..32; 3..32 | not established. `1771:3216` reports a player unavailable when +0x0E < 1 (F002 map `377E`, `3216`) |
-| +0x0F | `1771:3431` (bit k−1 for Pascal set element k, `214B:0C79`/`0CA1`, `seg_214B_02.asm:450`–`472`). Bit 7 is set and bit 3 cleared when `2FFB` < 4 (`1771:33CD`, `seg_1771_05.asm:384`–`397`, `:419`–`420`). Bits 0 and 4 are set when the position is in {0,1,3,4}, the set constant byte 0x1B at `1771:3411` (`:402`, `:429`–`447`; `23E4:08DF` tests membership, `seg_23E4_01.asm:1065`). Position 2 sets bits 1 and 5, plus bit 4 when +5 < 14 (`seg_1771_05.asm:451`–`477`) | 0..178; 0..178 | flags, meaning not established |
-| +0x10, +0x11 | not written by the player path | 0 in all | not established. `3216` tests +0x10 against 3, 6 and 8 |
-| +0x12 (word) | 0x7FFF (`seg_1771_13.asm:1198`) | 32767; 32767 | not established |
+| +0x00 | the country argument (`seg_1771_13.asm:1117`–`1119`) | 1..128; 7 (E006-r0001 … r0012) | the country (F002 O5; `players.check` uses it) |
+| +0x01 | `DS:118A[gk] − b + a`, with a then b = rand(7) (`:1132`–`1156`; `DS:118A` = 0x1C, 0x1F, `ds_2581_01.hex` row 1180). In `98C4`'s slot loop it is overwritten by `DS:118C[gk] + rand(3)` (0x11, 0x14; `seg_1771_14.asm:201`–`219`) | 22..37; 18..36 (E006-r0001 … r0012) | inferred to be the age, about 75%: years-like values, keepers 3 older, and `98C4`'s squad-slot players aged 18..22 |
+| +0x02 | `1771:3291`: `DS:0E80[gk] + b − a`, with a then b = rand(3) (`seg_1771_05.asm:253`–`277`; 0x1B, 0x1E) | 25..32; 25..32 (E006-r0001 … r0012) | inferred to be the peak age, about 70%: +4 is +3 unreduced exactly when +1 is between +2 and +2+3 (next rows) |
+| +0x03 | flag 1: `rating(c) + 0x7F` (`seg_1771_13.asm:1163`–`1166`; `10E7`). Flag 0 (`98C4`): `rating(c) + 0x7F − 10 − rand(10)` (`:1169`–`1181`) | 128..253; 221..230 (E006-r0001 … r0012) | a ceiling set by the country's ranks (the Answer). Inferred to be the player's potential ability, about 70% |
+| +0x04 | `1771:32EB` from +1, +2, +3. +3 when +2 ≤ +1 ≤ +2+3 (unsigned, `seg_1771_05.asm:297`–`312`). Otherwise `(+3 · k) div 16`, with k = 16 − (+1 − (+2+3)) when +1 > +2+3 (`:328`–`340`) and k = 16 − ((+2 − +1) idiv 2) when +1 < +2 (`:354`–`357`); the low byte (`:361`–`366`) | 88..253; 154..230 (E006-r0001 … r0012) | +3 reduced by distance from the peak. `1771:377E` ("a player's value", F002 map) reads it, so it is inferred to be current ability, about 75% |
+| +0x05 | rand(16) (`seg_1771_13.asm:1127`–`1131`) | 1..16; 1..16 (E006-r0001 … r0012) | not established. `2FFB` returns +5 − (+3 and 1) (`seg_1771_04.asm:1113`–`1126`), and +0x0F depends on it |
+| +0x06, +0x07 | the position argument: +7, then +6 = +7 (`seg_1771_13.asm:1120`–`1126`) | 0..13; 0..13 (E006-r0001 … r0012) | the position code (R011; F002 O5) |
+| +0x08 … +0x0B | not written by the player path | 0 in all (E006-r0001 … r0012) | not established |
+| +0x0C | rand(32) (`:1188`–`1190`) | 1..32; 1..32 (E006-r0001 … r0012) | not established. `377E` reads it (F002 map) |
+| +0x0D, +0x0E | `1771:3558`: T = `DS:0E82[+1 > +2 + 4]` (0x10, 0x0D; `seg_1771_05.asm:550`, `:569`). If the country is managed (`1771:0B77`: +0x2E > 0x80, `seg_1771_02.asm:108`), v = T + b − a with a = rand(T+1), b = rand(3T) (`:573`–`594`). Otherwise v = T + rand(2T) (`:604`–`613`). Then v is capped at 0x20 (signed compare, `:616`–`619`). +0x0E = v, +0x0D = max(v, 1) (`:624`–`629`) | 14..32; 3..32 (E006-r0001 … r0012) | not established. `1771:3216` reports a player unavailable when +0x0E < 1 (F002 map `377E`, `3216`) |
+| +0x0F | `1771:3431` (bit k−1 for Pascal set element k, `214B:0C79`/`0CA1`, `seg_214B_02.asm:450`–`472`). Bit 7 is set and bit 3 cleared when `2FFB` < 4 (`1771:33CD`, `seg_1771_05.asm:384`–`397`, `:419`–`420`). Bits 0 and 4 are set when the position is in {0,1,3,4}, the set constant byte 0x1B at `1771:3411` (`:402`, `:429`–`447`; `23E4:08DF` tests membership, `seg_23E4_01.asm:1065`). Position 2 sets bits 1 and 5, plus bit 4 when +5 < 14 (`seg_1771_05.asm:451`–`477`) | 0..178; 0..178 (E006-r0001 … r0012) | flags, meaning not established |
+| +0x10, +0x11 | not written by the player path | 0 in all (E006-r0001 … r0012) | not established. `3216` tests +0x10 against 3, 6 and 8 |
+| +0x12 (word) | 0x7FFF (`seg_1771_13.asm:1198`) | 32767; 32767 (E006-r0001 … r0012) | not established |
+
+## Notes on the player record table
+
+Writers are `1771:96D3` and its callees unless the row names another. The gk index is 1 when the position byte is 0 (the goalkeeper; F002 O5 position names) and 0 otherwise. `rand(n)` is `214B:06B1` (1..n, `seg_214B_01.asm:880`–`906`). Draws happen in the table's order, per player. Ranges are over all 12 games. "Named" means players 1..2560, and "managed" means 2561..2640. Every row's writer is from the listing, and the model reproduces it on every named and managed player in E006-r0001 … r0012, unless it says "not written".
 
 ## Method
 

@@ -23,3 +23,5 @@ exists.
 | T14 | Use game-archaeologist's shared verify_evidence.py and check_citations.py (ADR-009) | #36 | T13 |
 | T15 | Q004: where and how are player skills and attributes made (G5 Q004) | #43 | T12, T13 |
 | T16 | Q009: which skills the player screen shows, on what scale, from which fields (G5 Q009) | #48 | T15 |
+| T17 | Findings pass the pinned citation checker, with no claim changed | #50 | T14 |
+| T18 | Decompile GOAL.EXE with Ghidra: pseudo-C per routine, checked against the listing (G3) | #52 | T04 |

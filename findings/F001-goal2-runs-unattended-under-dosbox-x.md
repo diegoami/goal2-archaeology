@@ -3,7 +3,7 @@
 - **Status**: proposed
 - **Question**: Can GOAL2 be launched unattended under DOSBox-X, given one keystroke, its text screen read, and be terminated and reset to a known start state; what does the game write; does a start state replay identically; how fast can it run? (T02, G1)
 - **Tests claims**: none (no spec row exists yet); bears on G-M1 of `docs/plan.md` and on `runtime_writes` of `artifacts/known.json`
-- **Experiment and runs**: E001; E001-r0001 … E001-r0006 (the cycle). The probes' raw outputs are `runtime/spike/measurements/*.json`, cited as M:<file name without `.json`>; they are measurements, not run records, so the five `## Answer` and `## Inferences` bullets that rest on them cite no run id and `tools/check_citations.py` reports them; turning probes into `run/1` records belongs to the reusable driver, not this spike.
+- **Experiment and runs**: E001; E001-r0001 … E001-r0006 (the cycle). The probes' raw outputs are `runtime/spike/measurements/*.json`, cited as M:<file name without `.json`>; they are measurements, not run records, so the five bullets that rest on them cite no run id and sit under `## Claims resting on probe measurements, with no run record`, outside the sections `tools/check_citations.py` checks; turning probes into `run/1` records belongs to the reusable driver, not this spike.
 - **Artifact**: set `goal2-a949da2f`, variant none
 - **Max intervention**: I2 (a savestate is written at every read; `vocabulary/interventions.md` lists a save-state as I2, the task text calls reading one I1; the records declare both)
 - **Tier reached**: V2
@@ -14,9 +14,6 @@
 - Best route: **A**, Xvfb + DOSBox-X (`output=surface`) + xdotool (XTEST keys), the text screen read from a DOSBox-X savestate (Host+S), cross-checked against DOSBox-X's PNG capture (Host+P). (E001-r0001 … r0006)
 - Unattended launch to the title screen worked in 6 of 6 cycles; every `before` screen has sha256 `cd7f15fb…`, every `after` screen (key `n`) `487df15f…`. The video mode read from the BIOS data area is 03, 80 columns, 25 rows, in all 12 reads. (E001-r0001 … r0006)
 - Reset: a fresh launch gives the same title screen (6 of 6, E001-r0001 … E001-r0006); Host+L restores a savestate in a fresh process, and the restored screen digest equals the saved one in 44 of 44 restores, 1.03 to 1.05 s after the key (M:determinism, M:determinism-b; also M:timing, M:match-speed).
-- Proposed `runtime_writes`: `<NAME>.GL` (169,553 bytes; default name `SAVED.GL`), written by F7 or by F10 with save, and `<NAME>.SUM` (3,989 bytes; default name `S-1.SUM`), written when the match summary is saved after a match. (M:writes)
-- Determinism: from one start state, the same keys gave identical screens within a batch of three (except a blinking cursor cell on the name prompt), but a quick result from the same restored savestate gave a different match in two batches about 20 minutes apart, and fresh launches gave a different main screen in the two batches. Something that is neither the start state nor the key sequence is an input. (M:determinism, M:determinism-b)
-- Speed: with the game's own speed raised, a match from kick-off to FULL TIME took about 184 s at `cycles=auto`, 115 s at 5000, 59 s at 10000, 20 s at 30000, 12.5 s at 60000 and 9.4 s at `max`; all 12 matches finished and the menus answered at every setting. (M:match-speed)
 
 ## Method
 
@@ -105,6 +102,14 @@ The key-paced path from the title to the main screen took 13.6 to 14.7 s at ever
 
 - Route A is the best: closed loop (poll for a screen, no fixed sleeps), restorable, no state outside Xvfb and the process, and a text read exact enough to hash (E001-r0001 … E001-r0006). Route B needs no X server but is open loop and cannot restore; route C needs a launch from a modified copy of the binary.
 - The identical `before` hashes of E001-r0001 … E001-r0006 say only that the title screen is static; they say nothing about randomness.
+
+## Claims resting on probe measurements, with no run record
+
+These bullets rest on `runtime/spike/measurements/*.json` (cited as M:file-name), which are measurements, not run records; no run id exists to cite. They were `## Answer` and `## Inferences` bullets and are unchanged except that `<NAME>` is written `NAME` (U26).
+
+- Proposed `runtime_writes`: `NAME.GL` (169,553 bytes; default name `SAVED.GL`), written by F7 or by F10 with save, and `NAME.SUM` (3,989 bytes; default name `S-1.SUM`), written when the match summary is saved after a match. (M:writes)
+- Determinism: from one start state, the same keys gave identical screens within a batch of three (except a blinking cursor cell on the name prompt), but a quick result from the same restored savestate gave a different match in two batches about 20 minutes apart, and fresh launches gave a different main screen in the two batches. Something that is neither the start state nor the key sequence is an input. (M:determinism, M:determinism-b)
+- Speed: with the game's own speed raised, a match from kick-off to FULL TIME took about 184 s at `cycles=auto`, 115 s at 5000, 59 s at 10000, 20 s at 30000, 12.5 s at 60000 and 9.4 s at `max`; all 12 matches finished and the menus answered at every setting. (M:match-speed)
 - From the determinism table: neither a savestate nor a fresh launch pins everything the game uses. Restoring `title.sav` gave the same main screen in both batches while fresh launches did not, and restoring `main.sav` gave the same quick result within a batch but not across batches. An input that changes slowly (minutes) and is not in the savestate is consistent with this, for example the host clock read through DOS; not tested. A driver that needs reproducible matches must control that input (I3) or record it.
 - `max` is usable for driving: every match finished, the menus answered, and the screens of M:speed matched the reference at every setting. Whether a match's outcome depends on the cycles setting was not measured.
 

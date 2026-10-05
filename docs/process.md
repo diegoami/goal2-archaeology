@@ -71,6 +71,9 @@ You implement <T<nn>>. The task file above is the contract.
 - If you measure: every output a finding or the PR may cite goes under a tracked path the task owns,
   pushed per batch and every 30 min, never deleted or overwritten; originals out, hashes recorded. (L40)
 - A comment that asserts behaviour at an edge comes with the test that visits that edge.
+- [research] Static first (U32, CLAUDE.md rule 22): read the decompiled and disassembled code first;
+  run the game only where static analysis cannot answer, or to corroborate. The finding's Method says
+  what static analysis was tried and why it was or was not enough. A missing tool: install it, or stop.
 - A defect you find outside the task: report it. A one-file mechanical fix that blocks you may
   ride this PR, declared under Scope in the PR body.
 - Update any document your change makes wrong, in this PR. Never write status into a document.
@@ -97,6 +100,10 @@ named fixes | rework | user decision); per Done-when line `DW<k>: ran <command> 
 `DW<k>: not run — <reason>`; the findings R1..Rn (file:line, blocking or not); the verdict again
 last. Never post it: the script posts it and applies the label.
 ```
+
+Research briefs here also add, under "Blocking means": G0a (U32, CLAUDE.md rule 22) — runs made
+because a static tool was missing, or a finding resting on runs whose Method does not say what
+static analysis was tried, is a contract defect: rework.
 
 Run mechanics, added to every brief here: the session is killed after 600 s without activity; keep
 every shell command under 5 minutes, and work only inside the review worktree. If a reviewer still
