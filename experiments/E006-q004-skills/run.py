@@ -166,7 +166,7 @@ class Game:
                         "fingerprint": cycle.fingerprint(d, conf_sha)},
             "interventions": inter, "start_state": start, "seed": None,
             "actions": {"script": "experiments/E006-q004-skills/run.py", "sha256": SCRIPT_SHA,
-                        "args": ["games", "--dos-time", self.dos_time, "--dos-date", self.dos_date, "--batch", self.args.batch]},
+                        "args": record_args(self.args.argv)},
             "observations": obs, "outputs": self.outputs,
             "started": d.launched["utc"] if d.launched else driver.host_times()["utc"],
             "ended": driver.host_times()["utc"], "status": status,
@@ -186,13 +186,25 @@ def next_id():
     return 1 + max(used, default=0)
 
 
-def main(argv=None):
+def parser():
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("kind", choices=["games"])
     ap.add_argument("--times", required=True, help="HH:MM[,HH:MM...]: one new game per entry, in order (an entry may repeat)")
     ap.add_argument("--dos-date", default=DEFAULT_DATE, help="MM/DD/YYYY, set with the DOS time")
     ap.add_argument("--batch", default="", help="a label written into each record")
-    a = ap.parse_args(argv)
+    return ap
+
+
+def record_args(argv):
+    """The record's actions.args: the argv this process ran, as given (E006 README amendment 1), so
+    that parser() accepts it and replays the invocation."""
+    return list(argv)
+
+
+def main(argv=None):
+    argv = sys.argv[1:] if argv is None else list(argv)
+    a = parser().parse_args(argv)
+    a.argv = argv
     times = [t + ":00" for t in a.times.split(",")]
     for t in times:
         driver.clock_values(a.dos_date, t)

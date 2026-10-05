@@ -202,3 +202,41 @@ class GoalDat(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class RecordedInvocation(unittest.TestCase):
+    """E006 README amendment 1: a record's actions.args is the argv the process ran, which the script's
+    own parser accepts (E006-r0001 … r0012 recorded a `--dos-time` the parser has no option for)."""
+
+    def setUp(self):
+        import json
+        import tempfile
+        from unittest import mock
+        spec = importlib.util.spec_from_file_location("e006_run", ROOT / "experiments" / "E006-q004-skills" / "run.py")
+        self.run = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(self.run)
+        self.json, self.tmp = json, tempfile.TemporaryDirectory()
+        self.addCleanup(self.tmp.cleanup)
+        d = mock.Mock(launched=None, clock_applied="10-04-2026 10:00", events=[])
+        d.conf_public.return_value = ("conf", "0" * 64)
+        for target, value in (("driver.Driver", mock.Mock(return_value=d)), ("driver.verify_release", mock.Mock(return_value="goal2-67cf27d6")),
+                              ("cycle.machine_id", mock.Mock(return_value="m")), ("cycle.fingerprint", mock.Mock(return_value="f")),
+                              ("OUT", Path(self.tmp.name))):
+            p = mock.patch.object(self.run.driver if target.startswith("driver.") else self.run.cycle if target.startswith("cycle.") else self.run,
+                                  target.split(".")[-1], value)
+            p.start()
+            self.addCleanup(p.stop)
+
+    def recorded_args(self, argv):
+        a = self.run.parser().parse_args(argv)
+        a.argv = argv
+        g = self.run.Game(7, "10:00:00", a, "abc1234")
+        g.record("completed", True)
+        return self.json.loads((Path(self.tmp.name) / "E006-r0007.json").read_text())["actions"]["args"]
+
+    def test_recorded_args_are_the_argv_and_parse(self):
+        argv = ["games", "--times", "10:00,10:01", "--batch", "b1"]
+        got = self.recorded_args(argv)
+        self.assertEqual(got, argv)
+        a = self.run.parser().parse_args(got)
+        self.assertEqual((a.kind, a.times, a.batch), ("games", "10:00,10:01", "b1"))

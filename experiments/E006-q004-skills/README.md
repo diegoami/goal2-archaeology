@@ -30,3 +30,11 @@ bash setup/goal2-runtime.sh
 python3 experiments/E006-q004-skills/run.py games --times 10:00,10:01,10:02,13:37,21:00,23:58,00:00,06:30,12:00,17:45,10:00,10:00 --batch b1
 python3 experiments/E006-q004-skills/summarise.py
 ```
+
+## Amendment 1 (2026-10-05, after E006-r0012; review round 1 of PR #45, R1)
+
+- **The recorded invocation.** E006-r0001 … r0012 record `actions.args` as `games --dos-time HH:MM:SS --dos-date 10/04/2026 --batch b1`, an invocation `run.py` cannot accept: its parser has `--times`, and no `--dos-time`. The records are kept as written (L207). Here is what each one actually ran, at `code_commit` `c1edac2`:
+  - E006-r0001: `games --times 10:00 --batch b1`.
+  - E006-r0002 … r0012: one process, `games --times 10:01,10:02,13:37,21:00,23:58,00:00,06:30,12:00,17:45,10:00,10:00 --batch b1`. The k-th record is the k-th entry, so its recorded `--dos-time` is that entry plus `:00`.
+- **What it does not affect.** The DOS time and date each game ran with are as recorded: the I3 intervention text and DOS's read-back in every record show them. Each record's `actions.sha256` is the hash of `run.py` as loaded (`6de8e102…`) and is correct. The measured arrays, screens, seed words and savestates are unaffected.
+- **From the commit after this amendment**, `actions.args` is the argv the process ran (`record_args`, `sys.argv[1:]`). `tests/test_driver_e006.py` (`RecordedInvocation`) parses a record's `actions.args` with the script's own `parser()`.
