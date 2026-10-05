@@ -27,3 +27,6 @@ exists.
 | T18 | Decompile GOAL.EXE with Ghidra: pseudo-C per routine, checked against the listing (G3) | #52 | T04 |
 | T19 | Q005: what R008 sets, and the continental order of country strength (G5 Q005) | #59 | T18 |
 | T20 | The named view: annotations applied to the decompiled GOAL.EXE, improved by each task (G3) | #60 | T18 |
+| T21 | F010's fields and routines into the named view's annotations | #66 | T19, T20 |
+| T22 | Q007: the squad pool, 100 players and which (G5 Q007) | #67 | T20 |
+| T23 | Q010 (quick engine): how strengths and tactics meet in the quick result's contests (G5 Q010) | #68 | T20, T21 |
