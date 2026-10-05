@@ -62,20 +62,28 @@ public class GoalDecompile extends GhidraScript {
 			renamed++;
 		}
 
-		DecompInterface decompiler = new DecompInterface();
-		DecompileOptions options = new DecompileOptions();
-		options.grabFromProgram(currentProgram);
-		decompiler.setOptions(options);
-		if (!decompiler.openProgram(currentProgram)) {
-			throw new IllegalStateException("decompiler: " + decompiler.getLastMessage());
-		}
+		DecompInterface decompiler = openDecompiler();
 		int ok = 0;
 		int failed = 0;
 		try (PrintWriter w = new PrintWriter(new OutputStreamWriter(
 			new FileOutputStream(args[1]), StandardCharsets.UTF_8))) {
 			for (Function f : functions) {
 				monitor.checkCancelled();
-				DecompileResults r = decompiler.decompileFunction(f, timeout, monitor);
+				// A failure is retried with a fresh decompiler process: on the shared machine the
+				// process has died once mid-run ("Decompiler process died", 1771:602D, T18 rework),
+				// which a deterministic failure (an exception on the function itself) is not; such a
+				// failure fails the same way every attempt, so the output does not depend on retries.
+				DecompileResults r = null;
+				for (int attempt = 1; attempt <= ATTEMPTS; attempt++) {
+					r = decompiler.decompileFunction(f, timeout, monitor);
+					if (r != null && r.decompileCompleted() && r.getDecompiledFunction() != null) {
+						break;
+					}
+					println("GOALRETRY " + f.getName() + " attempt " + attempt + ": " +
+						(r == null ? "no result" : r.getErrorMessage()));
+					decompiler.dispose();
+					decompiler = openDecompiler();
+				}
 				String head = "@@FUNC " + f.getEntryPoint() + " " + f.getName() + " " +
 					f.getCallingConventionName();
 				if (r != null && r.decompileCompleted() && r.getDecompiledFunction() != null) {
@@ -94,5 +102,18 @@ public class GoalDecompile extends GhidraScript {
 		decompiler.dispose();
 		println("GOALDECOMPILE functions " + functions.size() + " renamed " + renamed + " ok " + ok +
 			" failed " + failed);
+	}
+
+	static final int ATTEMPTS = 3;
+
+	DecompInterface openDecompiler() {
+		DecompInterface decompiler = new DecompInterface();
+		DecompileOptions options = new DecompileOptions();
+		options.grabFromProgram(currentProgram);
+		decompiler.setOptions(options);
+		if (!decompiler.openProgram(currentProgram)) {
+			throw new IllegalStateException("decompiler: " + decompiler.getLastMessage());
+		}
+		return decompiler;
 	}
 }

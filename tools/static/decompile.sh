@@ -76,6 +76,7 @@ if ! "$GHIDRA_HOME/support/analyzeHeadless" "$work/project" goal \
   echo "decompile.sh: Ghidra failed (log above)" >&2
   exit 1
 fi
+grep 'GOALRETRY' "$work/ghidra.log" | sed 's/.*> GOALRETRY /decompile.sh: decompiler failed, retrying with a fresh one: /; s/ (GhidraScript).*//' >&2 || true
 grep -E 'GOALSETUP|GOALDECOMPILE' "$work/ghidra.log" | sed 's/.*> //; s/ (GhidraScript).*//' > "$work/summary.txt"
 
 python3 "$root/tools/static/decompiled.py" \

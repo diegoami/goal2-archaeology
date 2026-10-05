@@ -1,4 +1,4 @@
-# F009 Ghidra's decompiled view of GOAL.EXE, at the listing's addresses, agrees with nine of ten hand-traced claims; it loses a delay loop that polls the BIOS tick, and it hides far-pointer segments
+# F009 Ghidra's decompiled view of GOAL.EXE, at the listing's addresses, agrees with nine of ten hand-traced claims; it loses a delay loop that polls the BIOS tick, and it hides far-pointer segments and results returned in flags or registers
 
 - **Status**: proposed
 - **Question**: Does Ghidra's decompiled view of `GOAL.EXE` say what the code does, so that later tasks may read it in place of the capstone listing, and where does it not? (T18, G3; F002 named Ghidra as the missing static tool)
@@ -11,7 +11,11 @@
 
 ## Verdict
 
-Yes, for reading the logic of ordinary Pascal routines: in `static/goal-exe/decompiled/` every routine sits under its listing address, and nine of the ten hand-traced claims read directly from it, formulas included. No, as a replacement for the listing where a routine waits on memory that changes by itself (the BIOS tick), where a far pointer's segment matters, or where argument order matters: there the listing decides.
+Yes, for reading the logic of ordinary Pascal routines: in `static/goal-exe/decompiled/` every routine sits under its listing address, and nine of the ten hand-traced claims read directly from it, formulas included. No, as a replacement for the listing in several places, and there the listing decides:
+- where a routine waits on memory that changes by itself (the BIOS tick);
+- where a far pointer's segment matters;
+- where argument order matters;
+- where a callee passes a result back in a flag or register its prototype does not declare. Ghidra then shows an unassigned input such as `in_CF`, as in 12 functions of the run-time segment 23E4 (O5).
 
 ## Answer
 
@@ -31,7 +35,11 @@ Yes, for reading the logic of ordinary Pascal routines: in `static/goal-exe/deco
   - it sets CS per segment and DS to the data segment;
   - it makes one function per routine of `routines.tsv`, named `f_SSSS_OOOO`, `__stdcall16far` when its body returns with RETF, else `__stdcall16near`.
 - Ghidra's default auto-analysis then runs, and `GoalDecompile.java` decompiles every function with the default options. `tools/static/decompiled.py` writes Ghidra's addresses back in the listing's numbering (`DAT_b000_9a3e` → `DS:9A3E`; memory outside `GOAL.EXE`, such as the BIOS data area, → `ABS_0046C`) and splits the output per segment under 40,000 bytes per file.
-- Reproducibility: two runs gave byte-identical output (`diff -r` printed nothing), equal to the committed `static/goal-exe/decompiled/`.
+- Reproducibility: runs give byte-identical output (`diff -r` prints nothing), equal to the committed `static/goal-exe/decompiled/`.
+  - Once, in the rework, Ghidra's decompiler process died mid-run ("Decompiler process died" at `1771:602D`, which every other run decompiles), and that run's output differed.
+  - `GoalDecompile.java` now retries a failed function up to 3 times, each with a fresh decompiler process.
+  - The 3 genuine failures fail the same way on every attempt, so retries cannot change the output.
+  - Three further runs were identical to each other and to the committed output.
 - The check: for each claim under Evidence of T18, I read the decompiled function at the address `index.tsv` gives and compared it with the claim and with the listing lines the claim cites. I did not tune the scripts to the claims. The one change made after reading output (the 64K placement) came from a wrong call target that the listing contradicts (`f_1771_97CC` calling `func_0x000387f7` where the listing has `call 10E7`), before the table was drawn up.
 
 ## Observations
@@ -63,10 +71,39 @@ Yes, for reading the logic of ordinary Pascal routines: in `static/goal-exe/deco
 - *Nested procedures* receive the parent's frame as `&stack0xfffe` (`f_0791_F098(&stack0xfffe)`, `seg_0791_09.c:1065`); what the parent's locals are is not shown.
 - *Reads of the BIOS tick that are not a loop's only exit survive*: `214B:0D90` blinks on `ABS_0046C / 3` (`seg_214B_01.c:1017`), and `0791:F3F2` stores the tick into `DS:8336` (`seg_0791_09.c:1136`), as F004 and F005 traced.
 
+**O5. Flags and registers passed back across calls** (review R1 on PR #54). Turbo Pascal's run-time routines return success in the carry flag and results in registers outside any prototype Ghidra knows. The caller's use then reads as an unassigned input:
+- `23E4:0341` (`seg_23E4_01.c:421`–`427`) calls `f_23E4_04D8()` and branches on `in_CF`. The listing calls `04D8` at `034D` and branches on the carry it returns at `0350` (`jb 0x355`, `seg_23E4_01.asm:381`–`382`), and `04D8` sets carry on its failure path (`050E stc`, `:587`).
+- `23E4:0329` (`seg_23E4_01.c:404`–`411`) branches on `in_CF` and returns `in_CX` after `f_23E4_041D()`. The listing branches on `041D`'s carry (`0332 jb`) and returns `041D`'s CX:BX as AX:DX (`0334 mov ax, cx`, `0336 mov dx, bx`; `:366`–`369`). The decompiled `0341` also shows no parameters, while the listing reads its arguments through `bx = sp` (`:377`–`380`).
+- The procedure-variable call at `23E4:0484` (`lcall [0x7b4e]`) reads `(*DS:7B4E)(0xa000,in_AX)` (`seg_23E4_01.c:571`). It keeps the indirect call but not its prototype: the far-pointer and argument-order limits of O4 apply.
+
+The count, per segment, of functions reading an unassigned input (`python3 tools/static/ghidra/count_inputs.py static/goal-exe/decompiled`). "After a call" means the first read follows a call in the body:
+
+| Segment | Functions | Flag input | … after a call | Register input | … after a call |
+| --- | --- | --- | --- | --- | --- |
+| 000E | 58 | 0 | 0 | 0 | 0 |
+| 0791 | 282 | 0 | 0 | 7 | 2 |
+| 16D6 | 26 | 0 | 0 | 3 | 1 |
+| 1771 | 154 | 0 | 0 | 2 | 1 |
+| 2138, 2139 | 2 | 0 | 0 | 0 | 0 |
+| 214B | 84 | 0 | 0 | 2 | 2 |
+| 235C | 12 | 1 | 0 | 4 | 3 |
+| 2382 | 17 | 0 | 0 | 4 | 1 |
+| 23E4 | 91 | 12 | 12 | 37 | 11 |
+| all | 726 | 13 | 12 | 59 | 21 |
+
+All 12 flag reads after a call are in 23E4, the run-time library: `0329`, `0341`, `0C93`, `0CA5`, `0CC5`, `16BE`, `1703`, `173B`, `1828`, `1868`, `1899`, `18FA`. Game segments 000E–1771 have none. Of the 10 register reads after a call outside 23E4, I checked three:
+- in `0791:2BB1` (`seg_0791_02.c:629`) and `0791:92FC` (`seg_0791_06.c:772`), `in_AX` is the don't-care high byte of a byte argument passed in AX, not a returned value;
+- in `1771:5A38` (`seg_1771_03.c:1255`) Ghidra assigns its `in_AX`.
+
+The other 7 were not checked. A further 844 uses of `unaff_SS` are the stack segment of far pointers to locals, which is harmless.
+
+No Ghidra option or per-routine override was added. A carry-flag return cannot be declared in a Ghidra prototype without custom storage on each run-time routine, and the cases are confined to the run-time library, which F004–F007 never cite. So this is documented rather than patched.
+
 ## Inferences
 
-- The decompiled view can be read in place of the listing for control flow, calls (near, far and `push cs; call near`), arithmetic on bytes and words, and `DS:XXXX` data, in the routines that are not hardware waits; about 85% that a later claim read there holds in the listing, from 9 of 9 such claims here and the mapping tests. `static:static/goal-exe/decompiled/seg_1771_02.c:878`
-- It cannot be trusted, without the listing, for loops on memory changed by interrupts or hardware (`ABS_xxxxx`), far-pointer segments, argument order against the Pascal source, the 3 failed routines, or signed data offsets. A claim resting on any of these cites the listing. `static:static/goal-exe/decompiled/seg_214B_02.c:364`
+- The decompiled view can be read in place of the listing for some things, in a function that reads no unassigned flag or register input (`in_CF`, `in_ZF`, `in_AX`, …; O5) and is not a hardware wait. Those things are: control flow on values the function itself computes or loads, which call targets are taken (near, far and `push cs; call near`), arithmetic on bytes and words, and `DS:XXXX` data. About 85% that a later claim read there holds in the listing, from 9 of 9 such claims here and the mapping tests. `static:static/goal-exe/decompiled/seg_1771_02.c:878`
+- It cannot be trusted, without the listing, for: loops on memory changed by interrupts or hardware (`ABS_xxxxx`); far-pointer segments; argument order against the Pascal source; the 3 failed routines; signed data offsets. A claim resting on any of these cites the listing. `static:static/goal-exe/decompiled/seg_214B_02.c:364`
+- Nor for results passed back across a call in a flag or a register outside the callee's prototype. Every flag or register input (`in_CF`, `in_AX`, …) read after a call may be such a result, and 33 functions show one (12 flag, 21 register; O5). In segment 23E4, the run-time library, the branch or return there is wrong as written: `23E4:0341` tests `in_CF` where the listing tests the carry `04D8` returns. `static:static/goal-exe/decompiled/seg_23E4_01.c:422`
 
 ## Alternatives considered
 
@@ -78,6 +115,7 @@ Yes, for reading the logic of ordinary Pascal routines: in `static/goal-exe/deco
 - That a routine absent from the ten claims decompiles right: the rate of 9 in 10 is from a small sample chosen by what was traced, not at random.
 - Whether a volatile range for the BIOS data area (0000:0400–04FF) would make `214B:1DA7` decompile right. It was not tried, so that the table reflects the default analysis.
 - Jump tables (`case` statements), which neither this check nor the claims visited.
+- Whether the 7 unchecked register reads after a call outside 23E4 (O5) are returned values, and whether a flag or register result Ghidra models silently, with no `in_` name, occurs anywhere. The count finds only what Ghidra names.
 
 ## Where the evidence is
 

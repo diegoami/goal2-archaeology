@@ -212,6 +212,31 @@ class CommittedOutputTests(unittest.TestCase):
                 self.assertTrue(text[int(r[3]) - 1].startswith(f"// ---- {r[0]}  f_{r[0].replace(':', '_')}  "),
                                 r)
 
+    def test_flag_results_across_calls_are_counted_as_f009_says(self):
+        # F009 O5: unassigned flag inputs read after a call occur only in the run-time segment 23E4
+        sys.path.insert(0, str(ROOT / "tools" / "static" / "ghidra"))
+        import count_inputs
+        stats, after = count_inputs.count(OUT)
+        flagged = [e.split()[0] for e in after["flag"]]
+        self.assertEqual(flagged, ["23E4:0329", "23E4:0341", "23E4:0C93", "23E4:0CA5", "23E4:0CC5",
+                                   "23E4:16BE", "23E4:1703", "23E4:173B", "23E4:1828", "23E4:1868",
+                                   "23E4:1899", "23E4:18FA"])
+        self.assertEqual(sum(s["reg_after_call"] for s in stats.values()), 21)
+        self.assertEqual(stats["23E4"]["reg_after_call"], 11)
+
+    def test_flag_counter_sees_a_flag_read_only_after_a_call(self):
+        sys.path.insert(0, str(ROOT / "tools" / "static" / "ghidra"))
+        import count_inputs
+        with tempfile.TemporaryDirectory() as d:
+            Path(d, "seg_23E4_01.c").write_text(
+                "// ---- 23E4:0001  f_23E4_0001  (x)\n\nvoid f(void)\n\n{\n  undefined1 in_CF;\n  \n"
+                "  f_23E4_04D8();\n  if (!(bool)in_CF) {\n    return;\n  }\n}\n"
+                "// ---- 23E4:0002  f_23E4_0002  (x)\n\nvoid g(void)\n\n{\n  undefined1 in_CF;\n  \n"
+                "  if (!(bool)in_CF) {\n    f_23E4_04D8();\n  }\n}\n")
+            stats, after = count_inputs.count(Path(d))
+        self.assertEqual(stats["23E4"]["flag"], 2)
+        self.assertEqual([e.split()[0] for e in after["flag"]], ["23E4:0001"])
+
     def test_files_stay_under_the_size_limit(self):
         for p in OUT.glob("seg_*.c"):
             self.assertLessEqual(p.stat().st_size, decompiled.MAX_FILE_BYTES, p.name)
