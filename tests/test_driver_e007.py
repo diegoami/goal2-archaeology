@@ -92,7 +92,7 @@ class Names(unittest.TestCase):
 class Screens(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.all = {p["n"]: p for p in summarise.load()}
+        cls.all = {p["n"]: p for p in summarise.load() if p["full"]}
 
     def raw(self, n):
         return self.all[n]["raw"]
@@ -120,6 +120,18 @@ class Screens(unittest.TestCase):
         self.assertEqual(got["panel"]["hardness"], {"word": "mild", "bar": 6})
         self.assertEqual(got["panel"]["morale"], {"word": "concerned", "bar": 4})
         self.assertEqual(got["panel"]["leadership"], {"word": "negligible", "bar": 2})
+
+    def test_tactics_rows(self):
+        self.assertEqual(playerscreen.parse(self.screen(121))["tactics"],
+                         {"position": "leave box P", "possession": "quick pass", "passing": "throw the ball", "tackling": "go in hard", "mark": ""})
+        self.assertEqual(playerscreen.parse(self.screen(236))["tactics"],
+                         {"position": "stay back", "possession": "quick pass", "passing": "long passes", "tackling": "avoid injury P", "mark": "man to man"})
+        # the edge: a text as wide as the row leaves no dash between the label and the text
+        wide = {(14, 37 + 8 + k): (ord(c), None) for k, c in enumerate("x" * 16)}   # the 'tackling' row: label of 8, then 16 characters
+        wide.update({(14, 37 + k): (ord(c), None) for k, c in enumerate("tackling")})
+        self.assertEqual(playerscreen.parse(self.edited(121, wide))["tactics"]["tackling"], "x" * 16)
+        with self.assertRaises(ValueError):
+            playerscreen.parse(self.edited(121, {(12, 37): (ord("x"), None)}))   # a label that is not 'possession'
 
     def test_the_longest_position_name_and_two_footed(self):
         got = playerscreen.parse(self.screen(236))
@@ -215,7 +227,7 @@ class Formulas(unittest.TestCase):
 
     def model_tables(self):
         t = summarise.Tables()
-        for lo, hi in ((0x0E40, 0x0E90), (0x0F20, 0x0F80), (0x6990, 0x6AC0), (0x6D20, 0x7940)):
+        for lo, hi in ((0x0C10, 0x0C30), (0x0E40, 0x0EF0), (0x0F20, 0x0F80), (0x6990, 0x6BC0), (0x6D20, 0x7940)):
             t.add(lo, bytes(hi - lo))
         return t
 
@@ -251,6 +263,65 @@ class Formulas(unittest.TestCase):
         self.assertEqual(summarise.model(self.rec(fC=0x20), 1, t)["morale"], ("six", 0))
         self.assertEqual(summarise.model(self.rec(fC=0x21), 1, t)["morale"], ("six", 0))   # min(+0xC, 0x20): not reachable in a new game
 
+    def test_skill_tables_are_read_row_by_row_to_the_last_position_and_profile(self):
+        t = summarise.Tables()
+        for pos in range(14):
+            for i in range(1, 13):
+                t.mem[0x6D25 + 12 * pos + i] = (pos * 7 + i) % 13
+        for prof in range(17):
+            for c in range(1, 13):
+                t.mem[0x6DCD + 12 * prof + c] = (prof * 5 + c) % 27
+        classes, profiles = summarise.skill_tables(t)
+        self.assertEqual((len(classes), len(profiles)), (14, 17))
+        self.assertEqual(classes[13], [(13 * 7 + i) % 13 for i in range(1, 13)])
+        self.assertEqual(profiles[16], [(16 * 5 + c) % 27 for c in range(1, 13)])
+        self.assertEqual(classes[0][0], 1)       # row 1 of position 0 is the byte at DS:6D26, not DS:6D25
+
+    def test_tactics_are_the_players_own_when_the_flag_is_set_else_the_countrys(self):
+        t = self.model_tables()
+        for i in range(1, 5):
+            for b in (0, 1):
+                self.plant_pstr(t, 0x6AA0 + 32 * i + 16 * b, f"p{i}{b}")
+        for b in (0, 1):
+            self.plant_pstr(t, 0x0EA6 + 16 * b, f"g1{b}")
+            self.plant_pstr(t, 0x0EC6 + 16 * b, f"g3{b}")
+            self.plant_pstr(t, 0x0E90 + 11 * b, f"m{b}")
+        country = bytearray(0xBF)
+        country[0x2D] = 0b10000101          # the text bits 1 and 3 and bit 8 set
+        country = bytes(country)
+        # +0xF = 0: every row is the country's
+        self.assertEqual(summarise.tactics(self.rec(f6=5), country, t), {"position": "p11", "possession": "p20", "passing": "p31", "tackling": "p40", "mark": "m1"})
+        # +0xF bit 6 (the flag of row 2) with bit 2 (its text): the player's own, then ` P`
+        self.assertEqual(summarise.tactics(self.rec(f6=5, fF=0x22), country, t)["possession"], "p21 P")
+        # the flag of row 2 set, its text bit clear: the player's own is 0, not the country's 0 by chance
+        self.assertEqual(summarise.tactics(self.rec(f6=5, fF=0x20), country, t)["possession"], "p20 P")
+        self.assertEqual(summarise.tactics(self.rec(f6=5, fF=0x10), country, t)["position"], "p10 P")    # row 1: flag bit 5, text bit 1 clear
+        self.assertEqual(summarise.tactics(self.rec(f6=5, fF=0x80), country, t)["tackling"], "p40 P")    # row 4: flag bit 8
+        # a goalkeeper's rows 1 and 3 come from DS:0EA6 and DS:0EC6, rows 2 and 4 from the common table
+        gk = summarise.tactics(self.rec(f6=0), country, t)
+        self.assertEqual((gk["position"], gk["possession"], gk["passing"], gk["tackling"]), ("g11", "p20", "g31", "p40"))
+
+    def test_mark_by_position_and_flags(self):
+        t = self.model_tables()
+        self.plant_pstr(t, 0x0E90, "zonal")
+        self.plant_pstr(t, 0x0E90 + 11, "man")
+        c1, c0 = bytearray(0xBF), bytearray(0xBF)
+        c1[0x2D] = 0x80
+        self.assertEqual(summarise.tactics(self.rec(f6=1), bytes(c1), t)["mark"], "")                    # +6 < 2: blank
+        self.assertEqual(summarise.tactics(self.rec(f6=2), bytes(c1), t)["mark"], "man")                 # +6 = 2 is the first with a mark
+        self.assertEqual(summarise.tactics(self.rec(f6=2), bytes(c0), t)["mark"], "zonal")
+        self.assertEqual(summarise.tactics(self.rec(f6=2, f10=0x40), bytes(c0), t)["mark"], "Protect zone P")
+        t.mem[0x0C1E] = 1
+        self.assertEqual(summarise.tactics(self.rec(f6=2), bytes(c1), t)["mark"], "Protect zone")        # DS:0C1E set and the country's bit set
+        self.assertEqual(summarise.tactics(self.rec(f6=2), bytes(c0), t)["mark"], "zonal")               # DS:0C1E set, the country's bit clear
+
+    def test_status_text_is_ready_to_play_when_ds_0c1e_is_0(self):
+        t = self.model_tables()
+        self.assertEqual(summarise.status_text(self.rec(fE=5), t), "ready to play")
+        t.mem[0x0C1E] = 1
+        self.assertEqual(summarise.status_text(self.rec(fE=5), t), "selected or on the bench")
+        self.assertEqual(summarise.status_text(self.rec(fE=0), t), "injured")
+
     def test_tables_refuse_a_byte_two_records_give_differently(self):
         t = summarise.Tables()
         t.add(0x10, b"\x01\x02")
@@ -266,7 +337,7 @@ class Records(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        cls.ps = [p for p in summarise.load() if p["n"] is not None]
+        cls.ps = [p for p in summarise.load() if p["full"] and p["n"] is not None]
 
     def test_80_players_from_4_countries_every_value_as_the_model_says(self):
         self.assertEqual((len(self.ps), len({p["rec"][0] for p in self.ps})), (80, 4))
@@ -276,8 +347,8 @@ class Records(unittest.TestCase):
     def test_the_comparison_visits_every_shown_value(self):
         names = list(summarise.compare(self.ps[0]))
         # the ten of the card (age, caps, goals, height, bias, position, club position, status, performance, cards),
-        # the 12 skill bars, and the word and the bar of each of the 5 panel rows
-        self.assertEqual(len(names), 10 + 12 + 5 * 2)
+        # the 12 skill bars, the word and the bar of each of the 5 panel rows, the 5 tactics rows
+        self.assertEqual(len(names), 10 + 12 + 5 * 2 + 5)
         self.assertEqual(sum(n.startswith("skill") for n in names), 12)
 
     def test_a_wrong_formula_is_seen(self):
@@ -285,6 +356,20 @@ class Records(unittest.TestCase):
         alt = summarise.alternative_counts(self.ps)
         self.assertEqual((alt["+4"], alt["total"]), (960, 960))
         self.assertLess(alt["+3"], 960)
+
+    def test_the_analysed_records_are_the_full_ones_and_the_earlier_ones_replicate(self):
+        every = summarise.load()
+        self.assertEqual((len(every), len({p["run"] for p in every if p["full"]})), (240, 4))
+        self.assertEqual(summarise.replication(every), (160, 160))
+
+    def test_replication_counts_a_changed_and_a_missing_screen(self):
+        def p(run, arm, full, raw):
+            return {"run": run, "arm": arm, "full": full, "raw": raw}
+        full = [p("r9", "a", True, b"1"), p("r9", "a", True, b"2")]
+        self.assertEqual(summarise.replication(full + [p("r1", "a", False, b"1"), p("r1", "a", False, b"2")]), (2, 2))
+        self.assertEqual(summarise.replication(full + [p("r1", "a", False, b"1"), p("r1", "a", False, b"X")]), (1, 2))   # one screen differs
+        self.assertEqual(summarise.replication(full + [p("r1", "a", False, b"1"), p("r1", "a", False, b"2"), p("r1", "a", False, b"3")]), (2, 3))  # a third has no counterpart
+        self.assertEqual(summarise.replication(full + [p("r1", "b", False, b"1")]), (0, 1))    # another list position has none
 
     def test_every_goalkeeper_shows_goalkeeper_twice(self):
         gks = [p for p in self.ps if p["rec"][6] == 0]
@@ -298,10 +383,17 @@ class Runner(unittest.TestCase):
         pooled = {p["n"]: p for p in summarise.load()}[121]["tables"]
         t = summarise.Tables()
         for lo, hi, _ in run.TABLES:
-            t.add(lo, bytes(pooled.byte(o) for o in range(lo, hi)) if lo != 0x0C10 else bytes(hi - lo))
+            t.add(lo, bytes(pooled.byte(o) for o in range(lo, hi)))
         top = self.extreme(pooled)
         for rec in top:
             summarise.model(rec, 3060, t)       # a KeyError is a byte no kept range holds
+        # the second edge: a goalkeeper's `passing` words, DS:0EC6 + 16 + 15 = DS:0ED5 .. DS:0EE5, past DS:0EE0 (r0005..r0008)
+        for pos in (0, 5):
+            for flags in (0, 0xFF):
+                r = bytearray(20)
+                r[6], r[0xF] = pos, flags
+                for country in (bytes([0xFF]) * 0xBF, bytes(0xBF)):
+                    summarise.tactics(bytes(r), country, t)
 
     def extreme(self, pooled):
         out = []

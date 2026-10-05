@@ -92,6 +92,14 @@ def skill_bars(rec, t):
     return out
 
 
+def skill_tables(t):
+    """The two tables of `1771:3947` as the screen uses them: ({position +7: [class of row i for i = 1..12]},
+    {profile +5: [base value of class c for c = 1..12]}); positions 0..13, profiles 0..16."""
+    classes = {pos: [t.byte(0x6D25 + 12 * pos + i) for i in range(1, 13)] for pos in range(14)}
+    profiles = {prof: [t.byte(0x6DCD + 12 * prof + c) for c in range(1, 13)] for prof in range(17)}
+    return classes, profiles
+
+
 def word(t, idx):
     return t.pstr(0x6EB4 + 16 * idx, 16)
 
@@ -127,7 +135,9 @@ def status_text(rec, t):
 def tactics(rec, country, t):
     """The five rows of the tactics panel (1771:3BD3 rows 1..4, 1771:3B3F and 1771:3AE2 for `mark`): per row i,
     the player's own bit when +0xF bit i + 4 is set (and the text then ends in ` P`), else the country's byte
-    +0x2D; the text index is bit i of that byte. A goalkeeper (+6 = 0) has its own words for rows 1 and 3."""
+    +0x2D; the text index is bit i of that byte. A goalkeeper (+6 = 0) has its own words for rows 1 and 3.
+    `mark` is the path DS:0C1E = 0 takes (`3D11`: `3B3F` at once); with DS:0C1E not 0 the listing (`3D1F`..`3E0A`)
+    may print the name of a marked player first, which is not modelled (DS:0C1E is 0 in every record)."""
     out = {}
     for i, label in enumerate(("position", "possession", "passing", "tackling"), 1):
         own = bit(rec[0xF], i + 4)
@@ -176,6 +186,9 @@ def load(runs=RUNS):
             if m and o["source"] == "memory":
                 tables.add(int(m.group(1), 16), bytes.fromhex(o["value"]), r["run_id"])
     for r in records:
+        # a record is `full` when it holds the country record of each player and the tables up to DS:0EE5, the
+        # last byte of the goalkeeper's tactic words (README amendment 2); the earlier records are replicated against
+        full = any(int(m.group(1), 16) <= 0x0E40 and int(m.group(2), 16) >= 0x0EE5 for o in r["observations"] if (m := TABLE_RE.search(o["field"])))
         steps = {}
         for o in r["observations"]:
             steps.setdefault(o["step"], []).append(o)
@@ -186,7 +199,7 @@ def load(runs=RUNS):
             ident = next(o for o in steps[step] if "the player the screen names" in o["field"])
             rec = next((o for o in steps[step] if "the 20 bytes of player n's record" in o["field"]), None)
             m = re.match(r"n=(\d+|unresolved)", ident["value"])
-            out.append({"run": r["run_id"], "arm": r["arm"], "step": step, "raw": bytes.fromhex(raw["value"]),
+            out.append({"run": r["run_id"], "arm": r["arm"], "full": full, "step": step, "raw": bytes.fromhex(raw["value"]),
                         "shown": playerscreen.parse(playerscreen.screen_of_raw(bytes.fromhex(raw["value"]))),
                         "n": int(m.group(1)) if m.group(1) != "unresolved" else None,
                         "named": json.loads(re.search(r"named=(\[[^\]]*\])", ident["value"]).group(1)),
@@ -277,35 +290,46 @@ def alternative_counts(ok):
 
 
 def replication(players):
-    """(identical, total): the screens of the records with the country record against the screens of the
-    first batch (records without it) at the same list position and player, byte for byte (the text page,
-    characters and attributes)."""
-    by = {}
+    """(identical, total): the screens of every record that is not `full` against the screen of a full record
+    at the same list position and player (the same arm, the same place in the record), byte for byte (the
+    text page, characters and attributes)."""
+    full = {}
     for p in players:
-        by.setdefault((p["arm"], p["country"] is not None), []).append(p["raw"])
-    same = total = 0
-    for (arm, full), raws in by.items():
-        if full and (arm, False) in by:
-            for a, b in zip(raws, by[(arm, False)]):
-                total += 1
-                same += a == b
+        if p["full"]:
+            full.setdefault(p["arm"], []).append(p["raw"])
+    seen, same, total = {}, 0, 0
+    for p in players:
+        if not p["full"]:
+            k = seen[p["run"]] = seen.get(p["run"], -1) + 1
+            total += 1
+            same += k < len(full.get(p["arm"], [])) and full[p["arm"]][k] == p["raw"]
     return same, total
 
 
 def main(argv=None):
-    runs = Path(argv[0]) if argv else RUNS
+    args = [a for a in (argv or []) if a != "--tables"]
+    runs = Path(args[0]) if args else RUNS
     players = load(runs)
     if not players:
         print("no completed records")
         return 1
-    ok = [p for p in players if p["n"] is not None and p["rec"] is not None and p["country"] is not None]
+    if "--tables" in (argv or []):
+        classes, profiles = skill_tables(players[0]["tables"])
+        print("DS:6D25 + 12 * position + i: the class (1..12) of the skill in row i = 1..12, per position +7 (0..13)")
+        for pos, row in classes.items():
+            print(f"  +7 = {pos:2d}: {row}")
+        print("DS:6DCD + 12 * profile + c: the base value of class c = 1..12, per profile +5 (0..16)")
+        for prof, row in profiles.items():
+            print(f"  +5 = {prof:2d}: {row}")
+        return 0
+    ok = [p for p in players if p["full"] and p["n"] is not None and p["rec"] is not None and p["country"] is not None]
     cols = Counter(p["rec"][0] for p in ok)
     gks = [p for p in ok if p["rec"][6] == 0]
-    print(f"{len(players)} player screens in {len({p['run'] for p in players})} records; the {len(ok)} of the records that also hold the player's country record "
+    print(f"{len(players)} player screens in {len({p['run'] for p in players})} records; the {len(ok)} screens of the full records (the player's country record and the tables to DS:0EE5) "
           f"({len({p['run'] for p in ok})} records) are analysed, all resolved to a player record; "
           f"countries (record byte +0): {sorted(cols)}; goalkeepers (+6 = 0): {len(gks)}; position codes (+6): {sorted({p['rec'][6] for p in ok})}")
     same, total = replication(players)
-    print(f"the same list positions read in the earlier records (without the country record): {same} of {total} screens identical to the byte")
+    print(f"the earlier records' screens at the same list positions: {same} of {total} screens identical to the byte")
     print(f"start states: {sorted({p['start'][:16] for p in players})}")
     labels = Counter(tuple(p["shown"]["skills"]) for p in players)
     panel = Counter(tuple(p["shown"]["panel"]) for p in players)
