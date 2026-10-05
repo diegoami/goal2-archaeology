@@ -310,8 +310,8 @@ LAB_000E_6DAE:
 
 // ---- 000E:7072  f_000E_7072  (Ghidra 1000:7072, __cdecl16near; found by routines.tsv)
 
-/* WARNING: Removing unreachable block (ram,_000E_707E) */
-/* WARNING: Removing unreachable block (ram,_000E_708D) */
+/* WARNING: Removing unreachable block (000E:707E) */
+/* WARNING: Removing unreachable block (000E:708D) */
 
 undefined1 __cdecl16near f_000E_7072(void)
 

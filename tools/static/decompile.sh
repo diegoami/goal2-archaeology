@@ -10,7 +10,8 @@
 # function (tools/static/ghidra/GoalDecompile.java) and writes the files of
 # static/goal-exe/decompiled/ into the output directory (tools/static/decompiled.py), byte for byte.
 #
-# Needs GHIDRA_HOME (Ghidra 12.1.4) and JAVA_HOME (a JDK 21), python3 >= 3.11. One Ghidra instance,
+# Needs Ghidra 12.1.4 (GHIDRA_HOME, else ~/tools/ghidra_12.1.4_PUBLIC) and a JDK 21 (JAVA_HOME, else
+# ~/tools/jdk-21*), python3 >= 3.11. One Ghidra instance,
 # two CPUs (the machine is shared). KEEP_WORK=1 keeps the work directory (Ghidra's log, raw output).
 set -eu
 if [ $# -ne 2 ]; then
@@ -26,8 +27,15 @@ JDK_MAJOR=21
 UNPACKED_SHA256=6fd8c5ef995358ff8e5e47d60de61dccd7bdf8e73f2f584018fcfe4c8c713188
 TIMEOUT_PER_FUNCTION=600
 
-: "${GHIDRA_HOME:?set GHIDRA_HOME to a Ghidra $GHIDRA_VERSION install}"
-: "${JAVA_HOME:?set JAVA_HOME to a JDK $JDK_MAJOR}"
+# docs/environment.md: the installs live under ~/tools unless GHIDRA_HOME / JAVA_HOME say otherwise
+GHIDRA_HOME=${GHIDRA_HOME:-$HOME/tools/ghidra_${GHIDRA_VERSION}_PUBLIC}
+if [ -z "${JAVA_HOME:-}" ]; then
+  JAVA_HOME=$(ls -d "$HOME"/tools/jdk-"$JDK_MAJOR"* 2>/dev/null | sort | tail -1)
+fi
+if [ ! -x "$GHIDRA_HOME/support/analyzeHeadless" ] || [ ! -x "${JAVA_HOME:-/nonexistent}/bin/java" ]; then
+  echo "decompile.sh: set GHIDRA_HOME to Ghidra $GHIDRA_VERSION and JAVA_HOME to a JDK $JDK_MAJOR" >&2
+  exit 1
+fi
 props="$GHIDRA_HOME/Ghidra/application.properties"
 ghidra_version=$(sed -n 's/^application.version=//p' "$props")
 ghidra_revision=$(sed -n 's/^application.revision.ghidra=//p' "$props")

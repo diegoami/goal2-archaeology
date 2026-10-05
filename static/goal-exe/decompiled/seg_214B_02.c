@@ -354,9 +354,9 @@ f_214B_1D6F(undefined2 param_1,undefined1 param_2,undefined1 param_3,byte *param
 
 // ---- 214B:1DA7  f_214B_1DA7  (Ghidra 7000:1DA7, __cdecl16near; found by routines.tsv)
 
-/* WARNING: Removing unreachable block (ram,_214B_1DCE) */
-/* WARNING: Removing unreachable block (ram,_214B_1DD9) */
-/* WARNING: Removing unreachable block (ram,_214B_1DEF) */
+/* WARNING: Removing unreachable block (214B:1DCE) */
+/* WARNING: Removing unreachable block (214B:1DD9) */
+/* WARNING: Removing unreachable block (214B:1DEF) */
 
 void __cdecl16near f_214B_1DA7(void)
 
@@ -565,8 +565,8 @@ void __stdcall16far f_214B_2031(char param_1,char param_2,char *param_3)
 
 // ---- 214B:206A  f_214B_206A  (Ghidra 7000:206A, __cdecl16far; found by routines.tsv)
 
-/* WARNING: Removing unreachable block (ram,_214B_2077) */
-/* WARNING: Removing unreachable block (ram,_214B_2092) */
+/* WARNING: Removing unreachable block (214B:2077) */
+/* WARNING: Removing unreachable block (214B:2092) */
 
 void __cdecl16far f_214B_206A(void)
 

@@ -380,8 +380,8 @@ void __cdecl16near f_1771_80DA(void)
 
 // ---- 1771:8208  f_1771_8208  (Ghidra 4000:8208, __cdecl16far; found by routines.tsv)
 
-/* WARNING: Removing unreachable block (ram,_1771_8232) */
-/* WARNING: Removing unreachable block (ram,_1771_823C) */
+/* WARNING: Removing unreachable block (1771:8232) */
+/* WARNING: Removing unreachable block (1771:823C) */
 
 void __cdecl16far f_1771_8208(void)
 

@@ -107,12 +107,12 @@ void __cdecl16far f_23E4_00D1(void)
 
 // ---- 23E4:00D8  f_23E4_00D8  (Ghidra A000:00D8, __cdecl16far; found by routines.tsv)
 
-/* WARNING: Removing unreachable block (ram,_23E4_00EB) */
-/* WARNING: Removing unreachable block (ram,_23E4_00EE) */
-/* WARNING: Removing unreachable block (ram,_23E4_00F2) */
-/* WARNING: Removing unreachable block (ram,_23E4_0101) */
-/* WARNING: Removing unreachable block (ram,_23E4_00FB) */
-/* WARNING: Removing unreachable block (ram,_23E4_0103) */
+/* WARNING: Removing unreachable block (23E4:00EB) */
+/* WARNING: Removing unreachable block (23E4:00EE) */
+/* WARNING: Removing unreachable block (23E4:00F2) */
+/* WARNING: Removing unreachable block (23E4:0101) */
+/* WARNING: Removing unreachable block (23E4:00FB) */
+/* WARNING: Removing unreachable block (23E4:0103) */
 /* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
 
 void __cdecl16far f_23E4_00D8(void)
@@ -508,8 +508,8 @@ void __cdecl16far f_23E4_03D0(void)
 
 // ---- 23E4:041D  f_23E4_041D  (Ghidra A000:041D, __cdecl16near; found by routines.tsv)
 
-/* WARNING: Removing unreachable block (ram,_23E4_04A5) */
-/* WARNING: Removing unreachable block (ram,_23E4_0455) */
+/* WARNING: Removing unreachable block (23E4:04A5) */
+/* WARNING: Removing unreachable block (23E4:0455) */
 /* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
 
 undefined2 __cdecl16near f_23E4_041D(void)

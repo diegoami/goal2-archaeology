@@ -91,9 +91,9 @@ def rewrite(code: str, segmap: SegMap) -> str:
         where = segmap.listing_of_linear(int(m.group(2), 16))
         if where is None:
             return m.group(0)
-        if m.group(1) == "(ram,":
-            return f"({where[0]:04X}:{where[1]:04X})"
-        return f"{m.group(1).removesuffix('0x')}_{where[0]:04X}_{where[1]:04X}"
+        if m.group(1) == "(ram,0x":
+            return f"({where[0]:04X}:{where[1]:04X}"  # the closing parenthesis is Ghidra's
+        return f"{m.group(1).removesuffix('0x').rstrip('_')}_{where[0]:04X}_{where[1]:04X}"
 
     code = re.sub(r"(?<![\w])(_?DAT|LAB|PTR)_([0-9a-f]{4})_([0-9a-f]{4})(?![\w])", named, code)
     code = re.sub(r"(func_0x|code_r0x|\(ram,0x)([0-9a-f]{8})(?=\W)", linear, code)

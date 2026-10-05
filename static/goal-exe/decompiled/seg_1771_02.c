@@ -339,14 +339,14 @@ void f_1771_25EA(int param_1,uint param_2)
 
 // ---- 1771:26B9  f_1771_26B9  (Ghidra 4000:26B9, __stdcall16far; found by routines.tsv)
 
-/* WARNING: Removing unreachable block (ram,_1771_2A17) */
-/* WARNING: Removing unreachable block (ram,_1771_2A1D) */
-/* WARNING: Removing unreachable block (ram,_1771_2A37) */
-/* WARNING: Removing unreachable block (ram,_1771_2A5E) */
-/* WARNING: Removing unreachable block (ram,_1771_2A62) */
-/* WARNING: Removing unreachable block (ram,_1771_2A66) */
-/* WARNING: Removing unreachable block (ram,_1771_2A3B) */
-/* WARNING: Removing unreachable block (ram,_1771_2A24) */
+/* WARNING: Removing unreachable block (1771:2A17) */
+/* WARNING: Removing unreachable block (1771:2A1D) */
+/* WARNING: Removing unreachable block (1771:2A37) */
+/* WARNING: Removing unreachable block (1771:2A5E) */
+/* WARNING: Removing unreachable block (1771:2A62) */
+/* WARNING: Removing unreachable block (1771:2A66) */
+/* WARNING: Removing unreachable block (1771:2A3B) */
+/* WARNING: Removing unreachable block (1771:2A24) */
 
 void __stdcall16far f_1771_26B9(uint param_1)
 

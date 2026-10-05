@@ -430,17 +430,17 @@ void f_0791_E2E6(int param_1)
 
 // ---- 0791:E44F  f_0791_E44F  (Ghidra 2000:E44F, __stdcall16far; found by routines.tsv)
 
-/* WARNING: Removing unreachable block (ram,_0791_E5A5) */
-/* WARNING: Removing unreachable block (ram,_0791_E5AC) */
-/* WARNING: Removing unreachable block (ram,_0791_E5BB) */
-/* WARNING: Removing unreachable block (ram,_0791_E5C1) */
-/* WARNING: Removing unreachable block (ram,_0791_E5C7) */
-/* WARNING: Removing unreachable block (ram,_0791_E5CF) */
-/* WARNING: Removing unreachable block (ram,_0791_E5D9) */
-/* WARNING: Removing unreachable block (ram,_0791_E5D5) */
-/* WARNING: Removing unreachable block (ram,_0791_E5DB) */
-/* WARNING: Removing unreachable block (ram,_0791_E647) */
-/* WARNING: Removing unreachable block (ram,_0791_E64E) */
+/* WARNING: Removing unreachable block (0791:E5A5) */
+/* WARNING: Removing unreachable block (0791:E5AC) */
+/* WARNING: Removing unreachable block (0791:E5BB) */
+/* WARNING: Removing unreachable block (0791:E5C1) */
+/* WARNING: Removing unreachable block (0791:E5C7) */
+/* WARNING: Removing unreachable block (0791:E5CF) */
+/* WARNING: Removing unreachable block (0791:E5D9) */
+/* WARNING: Removing unreachable block (0791:E5D5) */
+/* WARNING: Removing unreachable block (0791:E5DB) */
+/* WARNING: Removing unreachable block (0791:E647) */
+/* WARNING: Removing unreachable block (0791:E64E) */
 
 void __stdcall16far f_0791_E44F(int param_1)
 

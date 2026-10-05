@@ -844,7 +844,7 @@ undefined2 f_1771_4FAA(int param_1)
 
 // ---- 1771:50F1  f_1771_50F1  (Ghidra 4000:50F1, __stdcall16far; found by routines.tsv)
 
-/* WARNING: Removing unreachable block (ram,_1771_516C) */
+/* WARNING: Removing unreachable block (1771:516C) */
 
 void __stdcall16far f_1771_50F1(undefined2 param_1,int param_2)
 

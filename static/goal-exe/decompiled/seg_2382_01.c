@@ -17,7 +17,7 @@ void __cdecl16far f_2382_0000(void)
 
 // ---- 2382:0030  f_2382_0030  (Ghidra 9000:0030, __cdecl16near; found by routines.tsv)
 
-/* WARNING: Removing unreachable block (ram,_2382_0076) */
+/* WARNING: Removing unreachable block (2382:0076) */
 
 void __cdecl16near f_2382_0030(void)
 
@@ -303,12 +303,12 @@ LAB_2382_042D:
 
 // ---- 2382:0474  f_2382_0474  (Ghidra 9000:0474, __stdcall16near; found by routines.tsv)
 
-/* WARNING: Removing unreachable block (ram,_2382_04C3) */
-/* WARNING: Removing unreachable block (ram,_2382_04B9) */
-/* WARNING: Removing unreachable block (ram,_2382_04BF) */
-/* WARNING: Removing unreachable block (ram,_2382_0494) */
-/* WARNING: Removing unreachable block (ram,_2382_04AC) */
-/* WARNING: Removing unreachable block (ram,_2382_04B2) */
+/* WARNING: Removing unreachable block (2382:04C3) */
+/* WARNING: Removing unreachable block (2382:04B9) */
+/* WARNING: Removing unreachable block (2382:04BF) */
+/* WARNING: Removing unreachable block (2382:0494) */
+/* WARNING: Removing unreachable block (2382:04AC) */
+/* WARNING: Removing unreachable block (2382:04B2) */
 
 void f_2382_0474(void)
 

@@ -58,7 +58,7 @@ undefined2 f_0791_BD03(int param_1,int param_2)
 
 // ---- 0791:BD83  f_0791_BD83  (Ghidra 2000:BD83, __stdcall16near; found by routines.tsv)
 
-/* WARNING: Removing unreachable block (ram,_0791_BDE9) */
+/* WARNING: Removing unreachable block (0791:BDE9) */
 
 void f_0791_BD83(char param_1)
 

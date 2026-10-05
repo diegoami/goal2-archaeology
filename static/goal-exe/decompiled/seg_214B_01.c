@@ -678,7 +678,7 @@ void __cdecl16near f_214B_0813(void)
 
 // ---- 214B:08DD  f_214B_08DD  (Ghidra 7000:08DD, __cdecl16far; found by routines.tsv)
 
-/* WARNING: Removing unreachable block (ram,_214B_0957) */
+/* WARNING: Removing unreachable block (214B:0957) */
 
 void __cdecl16far f_214B_08DD(void)
 
