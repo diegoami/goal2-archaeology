@@ -70,18 +70,22 @@ public class GoalDecompile extends GhidraScript {
 			new FileOutputStream(args[1]), StandardCharsets.UTF_8))) {
 			for (Function f : functions) {
 				monitor.checkCancelled();
-				// A failure is retried with a fresh decompiler process: on the shared machine the
-				// process has died once mid-run ("Decompiler process died", 1771:602D, T18 rework),
-				// which a deterministic failure (an exception on the function itself) is not; such a
-				// failure fails the same way every attempt, so the output does not depend on retries.
+				// A failed attempt is retried with a fresh decompiler process only when the
+				// result's error message says the decompiler process died ("Decompiler process
+				// died": it died once mid-run on the shared machine, 1771:602D, T18 rework).
+				// Any other unsuccessful result is written as a failure at once; in the runs
+				// made it failed the same way on every attempt.
 				DecompileResults r = null;
 				for (int attempt = 1; attempt <= ATTEMPTS; attempt++) {
 					r = decompiler.decompileFunction(f, timeout, monitor);
 					if (r != null && r.decompileCompleted() && r.getDecompiledFunction() != null) {
 						break;
 					}
-					println("GOALRETRY " + f.getName() + " attempt " + attempt + ": " +
-						(r == null ? "no result" : r.getErrorMessage()));
+					String msg = r == null ? "no result" : r.getErrorMessage();
+					println("GOALRETRY " + f.getName() + " attempt " + attempt + ": " + msg);
+					if (msg == null || !msg.contains("process died")) {
+						break;
+					}
 					decompiler.dispose();
 					decompiler = openDecompiler();
 				}

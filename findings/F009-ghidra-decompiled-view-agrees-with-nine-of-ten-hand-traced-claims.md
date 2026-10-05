@@ -37,9 +37,8 @@ Yes, for reading the logic of ordinary Pascal routines: in `static/goal-exe/deco
 - Ghidra's default auto-analysis then runs, and `GoalDecompile.java` decompiles every function with the default options. `tools/static/decompiled.py` writes Ghidra's addresses back in the listing's numbering (`DAT_b000_9a3e` → `DS:9A3E`; memory outside `GOAL.EXE`, such as the BIOS data area, → `ABS_0046C`) and splits the output per segment under 40,000 bytes per file.
 - Reproducibility: runs give byte-identical output (`diff -r` prints nothing), equal to the committed `static/goal-exe/decompiled/`.
   - Once, in the rework, Ghidra's decompiler process died mid-run ("Decompiler process died" at `1771:602D`, which every other run decompiles), and that run's output differed.
-  - `GoalDecompile.java` now retries a failed function up to 3 times, each with a fresh decompiler process.
-  - The 3 genuine failures fail the same way on every attempt, so retries cannot change the output.
-  - Three further runs were identical to each other and to the committed output.
+  - `GoalDecompile.java` now retries a failed function up to 3 times, each with a fresh decompiler process, and only when the result's error message says the decompiler process died; any other unsuccessful result is written as a failure at once, with no retry.
+  - In the three runs made, the retries did not change the output: the 3 genuine failures failed the same way on every attempt, and the runs were identical to each other and to the committed output. Three identical runs support, but do not prove, that this holds on every run.
 - The check: for each claim under Evidence of T18, I read the decompiled function at the address `index.tsv` gives and compared it with the claim and with the listing lines the claim cites. I did not tune the scripts to the claims. The one change made after reading output (the 64K placement) came from a wrong call target that the listing contradicts (`f_1771_97CC` calling `func_0x000387f7` where the listing has `call 10E7`), before the table was drawn up.
 
 ## Observations
