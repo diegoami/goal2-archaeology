@@ -2,17 +2,24 @@
 """E010 (T24): a slow replay of one record's second half, polled read by read, to find the first
 minute and draw where the original and `runtime/model/quick_engine.py` diverge (T24 step 1).
 
-    python3 experiments/E010-q010-quick-engine/replay.py --record E010-r0010 --cycles 300
+    python3 experiments/E010-q010-quick-engine/replay.py --record E010-r0010 [--delay 5]
 
-The record's published half-time savestate (release E010, sha256-checked) is staged as a start
-state and loaded into a fresh DOSBox-X at a low `cycles` value, so one game minute lasts seconds
-instead of tens of milliseconds and consecutive reads (each a savestate; I2) catch the match
-mid-minute. The key that leaves the half-time stall is one Enter (the stall says `hit any key`;
-E010's notes batch 2: the wait consumes no RNG). Every read records DS:831F (the minute),
-DS:831B, the seed DS:7B62, the score DS:9B3C/9B3D and the substitution budgets DS:9B3A into
-`trace-<record>-replay.json` here (an addition; the ten records are never touched). F006: the
-cycles value does not change a match. Interventions: I1 (memory reads) and I2 (savestates, one
-load); no edit (the record's own half-time state is replayed as published)."""
+The record's published half-time savestate (release E010, sha256-checked) is staged with ONE byte
+edited — the match delay byte at [DS:A923]+0x3F, 1 -> `--delay` (5) — and loaded into a fresh
+DOSBox-X at the normal cycles (30000). The delay byte only paces `0791:9372`'s delay loop
+(seg_0791_15.asm:9382-93BB: the loop runs 6-delay times over table DS:0882); it is timing, not
+RNG: F004/F005's territory, never read by D733 or its callees. With it raised, one game minute
+lasts seconds instead of milliseconds, so consecutive reads (each a savestate; I2) catch the
+match mid-minute while the emulator still runs at full speed (a low `cycles` value instead makes
+the half-time key miss: 0.08 s holds are lost below ~5000 cycles, and a 1 s hold storms the DOS
+keyboard buffer with repeats that open `0791:ED8A`'s menu once per minute).
+
+The key that leaves the half-time stall is one Enter (0.08 s hold, as match.play's; the stall
+says `hit any key`; E010's notes batch 2: the wait consumes no RNG). Every read records DS:831F
+(the minute), DS:831B, the seed DS:7B62, the score DS:9B3C/9B3D and the substitution budgets
+DS:9B3A into `trace-<record>-replay.json` here (an addition; the ten records are never touched).
+Interventions: I1 (memory reads), I2 (savestates, one load) and I3 (the one delay byte, above;
+declared here and in notes.md)."""
 import argparse
 import json
 import sys
@@ -23,12 +30,14 @@ ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "runtime" / "driver"))
 sys.path.insert(0, str(ROOT / "runtime" / "model"))
 import driver  # noqa: E402
+import players  # noqa: E402
 import savestate  # noqa: E402
 
 OUT = Path(__file__).resolve().parent
 HALFTIME = ROOT / "scratch" / "e010-halftime"
 DL = ROOT / ".cache" / "dl"
 SCRATCH_STAGES = ROOT / "scratch" / "e010" / "states"
+DELAY_PTR = 0xA923   # far pointer to the delay record; +0x3F is the match delay byte (F004)
 
 
 def halftime_sav(entry):
@@ -39,7 +48,9 @@ def halftime_sav(entry):
         DL.mkdir(parents=True, exist_ok=True)
         path = DL / asset
         if not path.is_file():
-            subprocess_run_download(asset)
+            import subprocess
+            subprocess.run(["gh", "release", "download", "E010", "--repo", "diegoami/goal2-archaeology",
+                            "--pattern", asset, "--dir", str(DL)], check=True)
         data = path.read_bytes()
         if driver.sha256(data) != entry["sha256"]:
             raise SystemExit(f"{path}: sha256 does not match the record's {entry['sha256']}")
@@ -47,60 +58,52 @@ def halftime_sav(entry):
     return local.read_bytes()
 
 
-def subprocess_run_download(asset):
-    import subprocess
-    subprocess.run(["gh", "release", "download", "E010", "--repo", "diegoami/goal2-archaeology",
-                    "--pattern", asset, "--dir", str(DL)], check=True)
-
-
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("--record", required=True, help="an E010 run id, e.g. E010-r0010")
-    ap.add_argument("--cycles", type=int, default=300, help="DOSBox-X cycles for the replay")
+    ap.add_argument("--delay", type=int, default=5, help="the match delay byte written into the replay (I3)")
     ap.add_argument("--timeout", type=float, default=900.0)
     a = ap.parse_args(argv)
 
     record = json.loads((ROOT / "runs" / "E010" / f"{a.record}.json").read_text())
     entry = next(o for o in record["outputs"] if o["name"].endswith("-halftime.sav"))
     blob = halftime_sav(entry)
-    if driver.sha256(blob) != entry["sha256"]:
-        raise SystemExit("half-time blob hash mismatch")
-    sc_digest = savestate.Savestate(blob).screen().digest()
+    st0 = savestate.Savestate(blob)
+    dly = players.far_pointer(st0, DELAY_PTR)[2] + 0x3F
+    before = st0.memory(dly, 1)[0]
+    blob = savestate.with_memory(blob, dly, bytes([a.delay]))
+    st1 = savestate.Savestate(blob)
+    print(f"delay byte at [DS:A923]+0x3F (0x{dly:x}): {before} -> {a.delay} (I3)")
 
-    d = driver.Driver({"cycles": a.cycles}, workdir=driver.SCRATCH / "e010" / f"replay-{a.record}")
+    d = driver.Driver({"cycles": 30000}, workdir=driver.SCRATCH / "e010" / f"replay-{a.record}")
     trace = []
     try:
-        # stage the published half-time state as this driver's start state (as run.py stages arms)
         SCRATCH_STAGES.mkdir(parents=True, exist_ok=True)
         name = f"{a.record}-halftime-replay"
         (SCRATCH_STAGES / f"{name}.sav").write_bytes(blob)
-        meta = {"sha256": entry["sha256"], "screen_digest": sc_digest, "game_dir": str(d.game_dir),
-                "drive_layout": d.drive_layout(), "config": {"cycles": a.cycles}}
+        meta = {"sha256": driver.sha256(blob), "screen_digest": st1.screen().digest(),
+                "game_dir": str(d.game_dir), "drive_layout": d.drive_layout(), "config": {"cycles": 30000}}
         (SCRATCH_STAGES / f"{name}.json").write_text(json.dumps(meta))
         st = driver.StartState(name, SCRATCH_STAGES)
         d.launch(st)
         t0 = time.monotonic()
-        # wait for the stall to be visibly stable (as match.play does) before the key: an Enter
-        # sent in the same breath as the restore is swallowed, and the stall never opens
-        prev_dg, sent = None, 0
-        while time.monotonic() - t0 < a.timeout and sent < 5:
+        # wait for the stall to be visibly stable (as match.play does) before the key
+        prev_dg, sent, stall_dg = None, 0, None
+        while time.monotonic() - t0 < a.timeout and sent < 40:
             times, state, _ = d.read()
             sc = state.screen()
             dg = sc.digest()
             stable = dg == prev_dg
             if stable and "hit any key" in sc.lines()[-1]:
-                d.keys("Enter", hold=1.0)   # leave the half-time stall (hit any key; no RNG
-                sent += 1                    # consumed); 1 s hold: 0.08 s is missed at 1000 cycles
+                d.keys("Enter")   # leave the half-time stall (hit any key; no RNG consumed)
+                sent += 1
                 stall_dg = dg
             prev_dg = dg
-            print(f"pre-read: dg={dg[:6]} stable={stable} sent={sent} last={sc.lines()[-1].strip()[:30]!r}",
-                  flush=True)
             if sent and dg != stall_dg:
                 break   # the stall has opened; the recording loop takes over
 
         def dump():
-            out = OUT / f"trace-{a.record.lower()}-replay.json"
-            out.write_text(json.dumps(trace) + "\n")
+            (OUT / f"trace-{a.record.lower()}-replay.json").write_text(json.dumps(trace) + "\n")
 
         while time.monotonic() - t0 < a.timeout:
             times, state, _ = d.read()
