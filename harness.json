@@ -80,19 +80,19 @@
       "id": "minimax/MiniMax-M3",
       "variant": "thinking",
       "family": "minimax",
-      "watch": "Heavy: offers only none (thinking off) and thinking (adaptive); thinking. A new family here, a candidate implementer or an independent reviewer. Probed only (2026-10-06, PONG in 8 s). Its key is the env var MINIMAX_API_KEY from ~/.config/ai-keys.env (loaded by ~/.bashrc and ~/.profile); 'Provider not found' means it is missing: restart the session or shell. quota-tracker does not track MiniMax yet, so its quota cannot be checked before a run (rule 1): tell the owner before relying on it."
+      "watch": "MiniMax's heavy model (the owner, 2026-10-06): offers only none (thinking off) and thinking (adaptive); thinking. A new family here, a candidate implementer or an independent reviewer. Probed only (2026-10-06, PONG in 8 s). Its key is the env var MINIMAX_API_KEY from ~/.config/ai-keys.env (loaded by ~/.bashrc and ~/.profile); 'Provider not found' means it is missing: restart the session or shell. Quota: curl -s localhost:8765/quota/minimax (a 5-hour and a weekly window)."
     },
     "mm-m2.7": {
       "id": "minimax/MiniMax-M2.7",
       "variant": "high",
       "family": "minimax",
-      "watch": "Offers no effort variants (the variant is ignored). Probed only (2026-10-06, PONG in 5 s). Its key is the env var MINIMAX_API_KEY from ~/.config/ai-keys.env (loaded by ~/.bashrc and ~/.profile); 'Provider not found' means it is missing: restart the session or shell. quota-tracker does not track MiniMax yet, so its quota cannot be checked before a run (rule 1): tell the owner before relying on it."
+      "watch": "MiniMax's light model (the owner, 2026-10-06): offers no effort variants (the variant is ignored). Probed only (2026-10-06, PONG in 5 s). Its key is the env var MINIMAX_API_KEY from ~/.config/ai-keys.env (loaded by ~/.bashrc and ~/.profile); 'Provider not found' means it is missing: restart the session or shell. Quota: curl -s localhost:8765/quota/minimax (a 5-hour and a weekly window)."
     },
     "mm-m2.7-highspeed": {
       "id": "minimax/MiniMax-M2.7-highspeed",
       "variant": "high",
       "family": "minimax",
-      "watch": "Light, fast; offers no effort variants (the variant is ignored). Probed only (2026-10-06, PONG in 5 s). Its key is the env var MINIMAX_API_KEY from ~/.config/ai-keys.env (loaded by ~/.bashrc and ~/.profile); 'Provider not found' means it is missing: restart the session or shell. quota-tracker does not track MiniMax yet, so its quota cannot be checked before a run (rule 1): tell the owner before relying on it."
+      "watch": "A faster variant of the light mm-m2.7; offers no effort variants (the variant is ignored). Probed only (2026-10-06, PONG in 5 s). Its key is the env var MINIMAX_API_KEY from ~/.config/ai-keys.env (loaded by ~/.bashrc and ~/.profile); 'Provider not found' means it is missing: restart the session or shell. Quota: curl -s localhost:8765/quota/minimax (a 5-hour and a weekly window)."
     }
   },
   "implementer": {
