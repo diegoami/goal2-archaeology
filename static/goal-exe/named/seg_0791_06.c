@@ -32,7 +32,8 @@ void f_0791_74C2(int param_1)
     }
     else {
       cVar3 = ball_holder_is_side0();
-      iVar4 = (int)*(char *)((*(byte *)((cVar3 == '\0') + 0x668) + 1) * 0x16 + -0x7f17);
+      iVar4 = (int)*(char *)((int)&pitch_records[0].y +
+                            (*(byte *)((cVar3 == '\0') + 0x668) + 1) * 0x16);
       if (iVar4 < 0) {
         iVar4 = -iVar4;
       }
@@ -91,7 +92,7 @@ void __stdcall16far f_0791_7621(undefined4 param_1)
   else {
     cVar1 = slot_is_on_ball_side(iVar5,uVar6);
     if ((cVar1 == '\0') &&
-       (cVar1 = attack_direction((uint)DS:830B * 0x16 + -0x7f18,0xb000),
+       (cVar1 = attack_direction((pitch *)pitch_records + DS:830B,0xb000),
        0 < (int)DS:8316 * (int)cVar1)) {
       iVar3 = (int)DS:8315;
       if (iVar3 < 0) {
@@ -125,11 +126,11 @@ void __stdcall16far f_0791_7621(undefined4 param_1)
               local_5 = '\0';
             }
             else {
-              local_5 = attack_direction((uint)DS:830B * 0x16 + -0x7f18,0xb000);
+              local_5 = attack_direction((pitch *)pitch_records + DS:830B,0xb000);
             }
             local_4 = DS:8315 / '\x02' + local_6 * -2;
             local_3 = local_5 << 1;
-            cVar1 = attack_direction((uint)DS:830B * 0x16 + -0x7f18,0xb000);
+            cVar1 = attack_direction((pitch *)pitch_records + DS:830B,0xb000);
             local_3 = (DS:8316 + cVar1 * '\x05') - local_3;
           }
           else {
@@ -169,7 +170,7 @@ void __stdcall16far f_0791_7621(undefined4 param_1)
           iVar4 = -iVar4;
         }
         if (3 < iVar4 - iVar3) break;
-        cVar1 = attack_direction((uint)DS:830B * 0x16 + -0x7f18,0xb000);
+        cVar1 = attack_direction((pitch *)pitch_records + DS:830B,0xb000);
         *(char *)(iVar5 + 8) = *(char *)(iVar5 + 8) + cVar1;
       }
       if (*(char *)(iVar5 + 7) == DS:8315) {
@@ -188,56 +189,63 @@ void __stdcall16far f_0791_7621(undefined4 param_1)
 void walk_player_off(int param_1)
 
 {
-  undefined1 uVar1;
-  undefined1 uVar2;
-  char cVar3;
-  int *piVar4;
-  undefined2 uVar5;
+  int iVar1;
+  int iVar2;
+  undefined1 uVar3;
+  undefined1 uVar4;
+  undefined1 uVar5;
+  char cVar6;
+  pitch *ppVar7;
+  undefined2 uVar8;
   undefined4 local_a;
   int local_4;
   
-  param_1 = param_1 * 0x16;
-  piVar4 = (int *)(param_1 + -0x7f18);
-  local_a = (int *)CONCAT22(0xb000,piVar4);
-  if (*local_a != DS:0640) {
+  iVar2 = param_1 * 0x16;
+  ppVar7 = (pitch *)pitch_records + param_1;
+  local_a = (pitch *)CONCAT22(0xb000,ppVar7);
+  iVar1._0_1_ = local_a->x;
+  iVar1._1_1_ = local_a->y;
+  if (iVar1 != DS:0640) {
     DS:8302 = 1;
-    ((undefined1 *)&DS:80FA)[param_1] = 0xc;
-    *(undefined2 *)((int)(undefined2 *)&DS:80EE + param_1 + 1) = DS:0642;
-    uVar2 = DS:9B41;
-    uVar1 = DS:8325;
+    *(undefined1 *)((int)&pitch_records[0].state + iVar2) = 0xc;
+    *(undefined2 *)((int)&pitch_records[0].field_0x7 + iVar2) = DS:0642;
+    uVar5 = DS:9B41;
+    uVar4 = DS:8325;
     DS:8325 = 0;
     DS:9B41 = 0;
-    cVar3 = DS:9A3E;
-    while (cVar3 == '\0') {
-      update_player(piVar4,0xb000);
+    cVar6 = DS:9A3E;
+    while (cVar6 == '\0') {
+      update_player(ppVar7,0xb000);
       local_4 = 1;
       while( true ) {
         speaker_noise();
-        cVar3 = u214b_key_pressed();
-        if (cVar3 != '\0') {
+        cVar6 = u214b_key_pressed();
+        if (cVar6 != '\0') {
           u214b_read_key();
         }
-        uVar5 = (undefined2)((ulong)DS:A923 >> 0x10);
+        uVar8 = (undefined2)((ulong)DS:A923 >> 0x10);
         if (*(char *)((int)DS:A923 + 0x3f) == '\0') {
           u214b_delay_ms(2);
         }
         else if (*(char *)((int)DS:A923 + 0x3f) == '\x01') {
           u214b_delay_ms(1);
         }
-        f_0791_8537(local_4 * 0x16 + -0x7f18,0xb000);
+        f_0791_8537((pitch *)pitch_records + local_4,0xb000);
         if (local_4 == 0x16) break;
         local_4 = local_4 + 1;
       }
       if (DS:9A3E != '\0') break;
-      cVar3 = f_0791_2CC5(piVar4,0xb000);
+      cVar6 = f_0791_2CC5(ppVar7,0xb000);
     }
-    DS:8325 = uVar1;
-    DS:9B41 = uVar2;
-    *local_a = DS:0640;
+    uVar3 = DS:0640._1_1_;
+    DS:8325 = uVar4;
+    DS:9B41 = uVar5;
+    local_a->x = (undefined1)DS:0640;
+    local_a->y = uVar3;
     if (DS:9A3E == '\0') {
-      f_0791_8537(piVar4,0xb000);
+      f_0791_8537(ppVar7,0xb000);
     }
-    ((undefined1 *)&DS:80FA)[param_1] = 0;
+    *(undefined1 *)((int)&pitch_records[0].state + iVar2) = 0;
   }
   return;
 }
@@ -260,7 +268,7 @@ void __stdcall16far f_0791_798D(undefined4 param_1)
   uVar5 = (undefined2)((ulong)players >> 0x10);
   ppVar6 = (player *)players + *(int *)(iVar3 + 0xd);
   f_0791_2AD4(CONCAT11((char)((uint)(*(int *)(iVar3 + 0xd) * 0x14) >> 8),0x32),ppVar6,uVar5);
-  f_0791_90C5(0x8304,0xb000,DS:82EE,0xefe);
+  f_0791_90C5(0x8304,0xb000,referee_record._0_2_,0xefe);
   match_delay((uint)*(byte *)((int)DS:A923 + 0x3f) * 200);
   f_0791_9079(0x8304,0xb000);
   u214b_set_include_bit(&ppVar6->status,uVar5,5);
@@ -352,51 +360,52 @@ void f_0791_7B24(int param_1,char param_2)
 void __stdcall16far f_0791_7B77(undefined4 param_1)
 
 {
-  char cVar1;
-  undefined2 uVar2;
-  int iVar3;
-  int iVar4;
-  player *ppVar5;
-  undefined2 uVar6;
+  byte bVar1;
+  int iVar2;
+  char cVar3;
+  undefined2 uVar4;
+  int iVar5;
+  player *ppVar6;
+  undefined2 uVar7;
   undefined4 local_c;
   int local_4;
   
-  uVar6 = (undefined2)((ulong)param_1 >> 0x10);
-  iVar3 = (int)param_1;
-  uVar2 = pitch_slot_side(iVar3,uVar6);
-  cVar1 = f_0791_7A43(uVar2);
-  if (cVar1 != '\0') {
+  uVar7 = (undefined2)((ulong)param_1 >> 0x10);
+  iVar5 = (int)param_1;
+  uVar4 = pitch_slot_side(iVar5,uVar7);
+  cVar3 = f_0791_7A43(uVar4);
+  if (cVar3 != '\0') {
     f_0791_2AD4(0x33);
-    f_0791_90C5(0x8304,0xb000,DS:82EE,0xcfe);
-    uVar2 = pitch_slot_side(iVar3,uVar6);
-    f_0791_7B24(*(undefined2 *)(iVar3 + 0xd),uVar2);
-    walk_player_off(*(undefined1 *)(iVar3 + 6));
+    f_0791_90C5(0x8304,0xb000,referee_record._0_2_,0xcfe);
+    uVar4 = pitch_slot_side(iVar5,uVar7);
+    f_0791_7B24(*(undefined2 *)(iVar5 + 0xd),uVar4);
+    walk_player_off(*(undefined1 *)(iVar5 + 6));
     if (DS:8321 < 5) {
       DS:8321 = DS:8321 + 1;
     }
     f_0791_9079(0x8304,0xb000);
-    adjust_player_form(iVar3,uVar6,0xff01,0xfffe);
+    adjust_player_form(iVar5,uVar7,0xff01,0xfffe);
     local_4 = 1;
     while( true ) {
-      cVar1 = pitch_slot_side(iVar3,uVar6);
-      iVar4 = ((uint)*(byte *)((cVar1 == '\0') + 0x668) + local_4) * 0x16 + -0x7f18;
-      cVar1 = player_unavailable_on_pitch(iVar4,0xb000);
-      if (cVar1 == '\0') {
-        adjust_player_form(iVar4,0xb000,0,2);
+      cVar3 = pitch_slot_side(iVar5,uVar7);
+      bVar1 = *(byte *)((cVar3 == '\0') + 0x668);
+      cVar3 = player_unavailable_on_pitch((pitch *)pitch_records + (uint)bVar1 + local_4,0xb000);
+      if (cVar3 == '\0') {
+        adjust_player_form((pitch *)pitch_records + (uint)bVar1 + local_4,0xb000,0,2);
       }
       if (local_4 == 0xb) break;
       local_4 = local_4 + 1;
     }
-    iVar4 = *(int *)(iVar3 + 0xd);
-    uVar2 = (undefined2)((ulong)players >> 0x10);
-    ppVar5 = (player *)players;
-    local_c = (player *)CONCAT22(uVar2,ppVar5 + iVar4);
-    cVar1 = is_managed(local_c->country);
-    if (cVar1 == '\0') {
-      f_0791_C48D(*(undefined1 *)(iVar3 + 6),(country *)countries + local_c->country,
+    iVar2 = *(int *)(iVar5 + 0xd);
+    uVar4 = (undefined2)((ulong)players >> 0x10);
+    ppVar6 = (player *)players;
+    local_c = (player *)CONCAT22(uVar4,ppVar6 + iVar2);
+    cVar3 = is_managed(local_c->country);
+    if (cVar3 == '\0') {
+      f_0791_C48D(*(undefined1 *)(iVar5 + 6),(country *)countries + local_c->country,
                   (int)((ulong)countries >> 0x10));
     }
-    else if (ppVar5[iVar4].position == 0) {
+    else if (ppVar6[iVar2].position == 0) {
       DS:9B40 = 1;
     }
   }
@@ -508,11 +517,11 @@ void f_0791_7E60(undefined1 param_1)
   match_whistle(4);
   local_4 = 1;
   while( true ) {
-    f_0791_8537((uint)DS:830B * 0x16 + -0x7f18,0xb000);
+    f_0791_8537((pitch *)pitch_records + DS:830B,0xb000);
     match_delay((uint)*(byte *)((int)DS:A923 + 0x3f) << 2);
-    f_0791_8537((uint)DS:830C * 0x16 + -0x7f18,0xb000);
+    f_0791_8537((pitch *)pitch_records + DS:830C,0xb000);
     match_delay((uint)*(byte *)((int)DS:A923 + 0x3f) << 2);
-    move_referee((undefined2 *)&DS:82EE,0xb000,CONCAT11(extraout_AH,param_1));
+    move_referee((sprite *)&referee_record,0xb000,CONCAT11(extraout_AH,param_1));
     if (local_4 == 10) break;
     local_4 = local_4 + 1;
   }
@@ -532,35 +541,39 @@ void __cdecl16near f_0791_7EEF(void)
   byte bVar3;
   byte bVar4;
   int iVar5;
-  int iVar6;
+  pitch *ppVar6;
   
   uVar1 = (uint)DS:830C;
-  iVar6 = uVar1 * 0x16 + -0x7f18;
+  ppVar6 = (pitch *)pitch_records + uVar1;
   iVar5 = f_0791_261A();
   if (iVar5 < 4) {
-    cVar2 = u214b_set_test_bit(((player *)players)[*(int *)(uVar1 * 0x16 + -0x7f0b)].status,5);
+    cVar2 = u214b_set_test_bit(((player *)players)
+                               [*(int *)((int)&pitch_records[0].player_index + uVar1 * 0x16)].status
+                               ,5);
     if (cVar2 == '\0') {
-      f_0791_798D(iVar6,0xb000);
+      f_0791_798D(ppVar6,0xb000);
     }
     else {
-      f_0791_7B77(iVar6,0xb000);
+      f_0791_7B77(ppVar6,0xb000);
     }
   }
   else {
     cVar2 = u214b_random_is_one(0x20);
     if (cVar2 != '\0') {
-      f_0791_7B77(iVar6,0xb000);
+      f_0791_7B77(ppVar6,0xb000);
     }
   }
   iVar5 = f_0791_261A();
   if (iVar5 == 1) {
-    bVar3 = player_hardness(*(undefined2 *)((uint)DS:830C * 0x16 + -0x7f0b));
-    bVar4 = player_hardness(*(undefined2 *)((uint)DS:830B * 0x16 + -0x7f0b));
+    bVar3 = player_hardness(*(undefined2 *)
+                             ((int)&pitch_records[0].player_index + (uint)DS:830C * 0x16));
+    bVar4 = player_hardness(*(undefined2 *)
+                             ((int)&pitch_records[0].player_index + (uint)DS:830B * 0x16));
     if (bVar3 < bVar4) {
-      f_0791_7D56((uint)DS:830C * 0x16 + -0x7f18,0xb000);
+      f_0791_7D56((pitch *)pitch_records + DS:830C,0xb000);
     }
     else {
-      f_0791_7D56((uint)DS:830B * 0x16 + -0x7f18,0xb000);
+      f_0791_7D56((pitch *)pitch_records + DS:830B,0xb000);
     }
   }
   return;
@@ -606,10 +619,10 @@ void __cdecl16near check_substitutions(void)
 {
   int iVar1;
   uint uVar2;
-  char cVar3;
+  int iVar3;
+  char cVar4;
   undefined1 extraout_AH;
   undefined1 extraout_AH_00;
-  int iVar4;
   player *ppVar5;
   undefined2 uVar6;
   uint local_5;
@@ -617,22 +630,21 @@ void __cdecl16near check_substitutions(void)
   
   local_3 = '\0';
   while( true ) {
-    cVar3 = is_managed(((undefined2 *)&DS:9B34)[local_3]);
-    if (cVar3 == '\0') {
+    cVar4 = is_managed(((undefined2 *)&DS:9B34)[local_3]);
+    if (cVar4 == '\0') {
       if (((undefined1 *)&DS:9B3A)[local_3] != '\0') {
         local_5 = 0xb;
         while( true ) {
-          iVar4 = *(byte *)(local_3 + 0x668) + local_5;
-          iVar1 = *(int *)(iVar4 * 0x16 + -0x7f0b);
+          iVar3 = (*(byte *)(local_3 + 0x668) + local_5) * 0x16;
+          iVar1 = *(int *)((int)&pitch_records[0].player_index + iVar3);
           uVar6 = (undefined2)((ulong)players >> 0x10);
           ppVar5 = (player *)players;
-          cVar3 = u214b_set_test_bit(ppVar5[iVar1].status,6);
-          if ((((cVar3 == '\0') && ('\0' < (char)ppVar5[iVar1].energy)) && (1 < DS:831B)) &&
+          cVar4 = u214b_set_test_bit(ppVar5[iVar1].status,6);
+          if ((((cVar4 == '\0') && ('\0' < (char)ppVar5[iVar1].energy)) && (1 < DS:831B)) &&
              ((1 < local_5 && (DS:831B < 0x23)))) {
             uVar2 = ppVar5[iVar1].performance;
             if ((((int)uVar2 >> 0xf < 0) || ((-1 < (int)uVar2 && (uVar2 < 0x5a - DS:831B))))
-               && (substitute_player(0,local_3,
-                                     *(undefined1 *)((undefined2 *)&DS:80EE + iVar4 * 0xb),
+               && (substitute_player(0,local_3,*(undefined1 *)((int)&pitch_records[0].side + iVar3),
                                      (country *)countries + ((undefined2 *)&DS:9B34)[local_3],
                                      (int)((ulong)countries >> 0x10)),
                   ((undefined1 *)&DS:9B3A)[local_3] == '\0')) {
@@ -645,18 +657,19 @@ void __cdecl16near check_substitutions(void)
       }
     }
     else {
-      cVar3 = player_unavailable(*(undefined2 *)((*(byte *)(local_3 + 0x668) + 1) * 0x16 + -0x7f0b))
-      ;
+      cVar4 = player_unavailable(*(undefined2 *)
+                                  ((int)&pitch_records[0].player_index +
+                                  (*(byte *)(local_3 + 0x668) + 1) * 0x16));
       if ((DS:9B40 != '\0') &&
-         ((cVar3 != '\0' ||
+         ((cVar4 != '\0' ||
           ((DS:831B + DS:8321 != 0 && (((undefined1 *)&DS:9B3A)[local_3] != '\0'))
           )))) {
         if (((undefined1 *)&DS:9B3A)[local_3] != '\0') {
           DS:9B41 = 1;
         }
         u214b_speaker_off();
-        timed_notice(CONCAT11(extraout_AH,local_3),CONCAT11(extraout_AH,cVar3));
-        if ((DS:A977 != '\x1b') || (cVar3 != '\0')) {
+        timed_notice(CONCAT11(extraout_AH,local_3),CONCAT11(extraout_AH,cVar4));
+        if ((DS:A977 != '\x1b') || (cVar4 != '\0')) {
           in_match_menu(CONCAT11(extraout_AH_00,1));
         }
         DS:9B41 = 0;
@@ -675,33 +688,36 @@ void __cdecl16near check_substitutions(void)
 void watched_substitution_sequence(byte param_1)
 
 {
-  char cVar1;
+  undefined2 uVar1;
+  char cVar2;
   undefined1 extraout_AH;
   undefined1 extraout_AH_00;
-  undefined2 *puVar2;
   undefined4 local_7;
   
   DS:830C = param_1;
   DS:830D = param_1;
-  puVar2 = (undefined2 *)((uint)param_1 * 0x16 + -0x7f18);
-  local_7 = (undefined2 *)CONCAT22(0xb000,puVar2);
-  cVar1 = f_0791_2EB8(puVar2,0xb000,*local_7);
-  if ((cVar1 == '\0') || (cVar1 = u214b_random_coin_flip(), cVar1 == '\0')) {
+  local_7 = (pitch *)CONCAT22(0xb000,(pitch *)pitch_records + param_1);
+  uVar1._0_1_ = local_7->x;
+  uVar1._1_1_ = local_7->y;
+  cVar2 = f_0791_2EB8((pitch *)pitch_records + param_1,0xb000,uVar1);
+  if ((cVar2 == '\0') || (cVar2 = u214b_random_coin_flip(), cVar2 == '\0')) {
     f_0791_2AA3(0x37);
     f_0791_2AD4(CONCAT11(extraout_AH,0x35));
     f_0791_7E60(CONCAT11(extraout_AH_00,1));
     ((undefined1 *)&DS:7B84)[(DS:830C < 0xc) * 10] =
          ((undefined1 *)&DS:7B84)[(DS:830C < 0xc) * 10] + '\x01';
-    cVar1 = f_0791_2EB8((uint)DS:830C * 0x16 + -0x7f18,0xb000,DS:82F6);
+    cVar2 = f_0791_2EB8((pitch *)pitch_records + DS:830C,0xb000,ball_record._0_2_);
     f_0791_7EEF();
-    if (cVar1 == '\0') {
+    if (cVar2 == '\0') {
       f_0791_6FB6();
     }
     else {
-      cVar1 = is_managed(((player *)players + *(int *)((uint)DS:830C * 0x16 + -0x7f0b))->
-                         country);
-      if (cVar1 == '\0') {
-        force_tactic4_off(*(undefined2 *)((uint)DS:830C * 0x16 + -0x7f0b));
+      cVar2 = is_managed(((player *)players +
+                         *(int *)((int)&pitch_records[0].player_index + (uint)DS:830C * 0x16))
+                         ->country);
+      if (cVar2 == '\0') {
+        force_tactic4_off(*(undefined2 *)
+                           ((int)&pitch_records[0].player_index + (uint)DS:830C * 0x16));
       }
       f_0791_6ECF();
     }
@@ -721,10 +737,11 @@ void __cdecl16near f_0791_82EB(void)
   DS:830C = DS:830E;
   DS:830D = 0;
   f_0791_2AD4(0x36);
-  cVar1 = attack_direction((uint)DS:830C * 0x16 + -0x7f18,0xb000);
+  cVar1 = attack_direction((pitch *)pitch_records + DS:830C,0xb000);
   f_0791_26A0(cVar1 < '\0');
   f_0791_7E60((uint)extraout_AH << 8);
-  DS:82F6 = DS:8317;
+  ball_record.x = (byte)DS:8317;
+  ball_record.y = DS:8317._1_1_;
   DS:830B = DS:830C + ((char *)form_delta)[DS:830C < 0xc] * '\v';
   find_nearest_to_ball();
   f_0791_6FB6();
@@ -788,7 +805,7 @@ void __stdcall16far move_ball(char *param_1)
         iVar3 = -iVar3;
       }
       if ((1 < iVar3) ||
-         (cVar1 = attack_direction((uint)DS:830B * 0x16 + -0x7f18,0xb000),
+         (cVar1 = attack_direction((pitch *)pitch_records + DS:830B,0xb000),
          (int)pcVar6[1] * (int)cVar1 < 0)) {
         f_0791_82EB();
         return;
@@ -803,7 +820,7 @@ void __stdcall16far move_ball(char *param_1)
       iVar3 = -iVar3;
     }
     if (iVar3 < 2) {
-      cVar1 = attack_direction((uint)DS:830B * 0x16 + -0x7f18,0xb000);
+      cVar1 = attack_direction((pitch *)pitch_records + DS:830B,0xb000);
       if ((int)pcVar6[1] * (int)cVar1 < 0) {
         f_0791_698E();
       }
@@ -820,7 +837,7 @@ void __stdcall16far move_ball(char *param_1)
         f_0791_6E11();
       }
       else {
-        cVar1 = attack_direction((uint)DS:830B * 0x16 + -0x7f18,0xb000);
+        cVar1 = attack_direction((pitch *)pitch_records + DS:830B,0xb000);
         if ((int)pcVar6[1] * (int)cVar1 < 0) {
           f_0791_6E6E();
         }
@@ -876,28 +893,28 @@ void __stdcall16far f_0791_8537(int *param_1)
   }
   cVar1 = f_0791_2C29(piVar3,uVar4);
   if (cVar1 != '\0') {
-    DS:82F6 = *param_1;
+    ball_record._0_2_ = *param_1;
     cVar1 = f_0791_045D((char)piVar3[3]);
     if ((cVar1 == '\0') || (cVar1 = f_0791_2EB8(piVar3,uVar4,*param_1), cVar1 == '\0')) {
       cVar1 = *(char *)((int)piVar3 + 0xf);
       if ((cVar1 == '\x01') || ((cVar1 == '\x02' || (cVar1 == '\x05')))) {
         cVar1 = attack_direction(piVar3,uVar4);
-        DS:82F6 = CONCAT11(DS:82F6._1_1_ + cVar1,(undefined1)DS:82F6);
+        ball_record.y = ball_record.y + cVar1;
       }
       else if (cVar1 == '\x03') {
-        DS:82F6 = CONCAT11(DS:82F6._1_1_ + -1,(undefined1)DS:82F6);
+        ball_record.y = ball_record.y - 1;
       }
       else if (cVar1 == '\x04') {
-        DS:82F6 = CONCAT11(DS:82F6._1_1_ + '\x01',(undefined1)DS:82F6);
+        ball_record.y = ball_record.y + 1;
       }
-      if (DS:82F6._1_1_ == '&') {
-        DS:82F6 = CONCAT11(0x24,(undefined1)DS:82F6);
+      if (ball_record.y == 0x26) {
+        ball_record.y = 0x24;
       }
-      if (DS:82F6._1_1_ == -0x26) {
-        DS:82F6 = CONCAT11(0xdc,(undefined1)DS:82F6);
+      if (ball_record.y == 0xda) {
+        ball_record.y = 0xdc;
       }
     }
-    draw_ball((undefined2 *)&DS:82F6,0xb000);
+    draw_ball((ball *)&ball_record,0xb000);
   }
   return;
 }
@@ -909,7 +926,7 @@ void __stdcall16far f_0791_869F(undefined4 param_1)
 
 {
   DS:830B = *(undefined1 *)((int)param_1 + 6);
-  DS:8300 = 0;
+  ball_record.timer = 0;
   DS:830C = 0;
   DS:830D = 0;
   DS:8302 = 0;
@@ -988,9 +1005,10 @@ undefined2 f_0791_86D0(int param_1)
 }
 
 
-// ---- 0791:8889  f_0791_8889  (f_0791_8889; Ghidra 2000:8889, __stdcall16near; found by routines.tsv)
+// ---- 0791:8889  player_run_step  (f_0791_8889; Ghidra 2000:8889, __stdcall16near; found by routines.tsv)
+// per updated pitch record (from 8AE9; up to 28 per sweep - the 22 slot tails returning to 96CB plus the keeper special returning to 9669 once per ball phase, up to six ball phases per sweep; the 23 of rng-counts.txt is the COIN maximum, a different quantity): the early exits at 8894 (DS:8302=0), 88E4 (the holder DS:830B) and 88F8 (DS:830C) jump to 88D3/89E5, INSIDE the routine, skipping only the advancement block 8896-89E1, and the state filter at 8985 (+0x12 in the set CS:8869 = {5,7,8,11}) likewise only skips 899A-89E1 - so every record reaches the target test: 2CC5 = 0 (not on its target square) draws ONE coin (214B:06FA at 8A2E) choosing the run axis (byte +0xF = 1/2 by x sign, 3/4 by y, else 5), then the movement loop 8AC5-8AE1 draws rand(5) at 8AD1 for a fresh direction per FAILED 86D0 move and retries - the per-tick movement draws; instrumented half: 33532 coins (8754 with 8302=0, 1280 holder, 218 on 830C), 2488 rand(5) retries and max 28 update_player calls per sweep (E011 rng-counts.txt)  [likely; F013; read code/seg_0791_14.asm]
 
-void f_0791_8889(int param_1)
+void player_run_step(int param_1)
 
 {
   undefined2 uVar1;
@@ -1010,8 +1028,8 @@ void f_0791_8889(int param_1)
     iVar5 = (int)*(char *)((int)*(undefined4 *)(param_1 + 6) + 1) * (int)cVar2;
     cVar2 = attack_direction((int)*(undefined4 *)(param_1 + 6),
                              (int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10));
-    if ((int)DS:82F6._1_1_ * (int)cVar2 - iVar5 != 0 &&
-        iVar5 <= (int)DS:82F6._1_1_ * (int)cVar2) goto LAB_0791_89E5;
+    if ((int)(char)ball_record.y * (int)cVar2 - iVar5 != 0 &&
+        iVar5 <= (int)(char)ball_record.y * (int)cVar2) goto LAB_0791_89E5;
   }
   if (((*(char *)((int)*(undefined4 *)(param_1 + 6) + 6) != DS:830B) &&
       (*(char *)((int)*(undefined4 *)(param_1 + 6) + 6) != DS:830C)) &&
@@ -1144,7 +1162,7 @@ void __stdcall16far update_player(undefined4 param_1)
   else if (cVar2 == '\v') {
     f_0791_7621(iVar5,uVar7);
   }
-  f_0791_8889(&stack0xfffe);
+  player_run_step(&stack0xfffe);
   *(int *)(iVar5 + 0x14) = *(int *)(iVar5 + 0x14) + (uint)(*(byte *)(iVar5 + 0xf) < 5);
   if ((((DS:8302 != '\0') && (*(char *)(iVar5 + 6) == DS:830D)) &&
       (cVar4 = player_at_ball(iVar5,uVar7), cVar2 = DS:8303, DS:8303 = cVar2,
@@ -1179,68 +1197,9 @@ void f_0791_8C67(undefined2 param_1,char param_2)
   
   iVar1 = param_2 * 6;
   local_6 = (char *)CONCAT22(0xb000,(char *)(iVar1 + -0x7d1e));
-  cVar2 = attack_direction((*(byte *)(param_2 + 0x668) + 1) * 0x16 + -0x7f18,0xb000);
+  cVar2 = attack_direction((pitch *)pitch_records + *(byte *)(param_2 + 0x668) + 1,0xb000);
   *local_6 = cVar2 << 3;
   ((undefined1 *)&DS:82E3)[iVar1] = 0;
   *(undefined2 *)(iVar1 + -0x7d1c) = *(undefined2 *)local_6;
-  return;
-}
-
-
-// ---- 0791:8CCA  f_0791_8CCA  (f_0791_8CCA; Ghidra 2000:8CCA, __cdecl16near; found by routines.tsv)
-
-void __cdecl16near f_0791_8CCA(void)
-
-{
-  byte extraout_AH;
-  
-  f_0791_8C67(&stack0xfffe,1);
-  f_0791_8C67(&stack0xfffe,(uint)extraout_AH << 8);
-  DS:82EE = 1;
-  DS:82F0 = 1;
-  DS:82F4 = 1;
-  return;
-}
-
-
-// ---- 0791:8CF5  f_0791_8CF5  (f_0791_8CF5; Ghidra 2000:8CF5, __cdecl16near; found by routines.tsv)
-
-void __cdecl16near f_0791_8CF5(void)
-
-{
-  int iVar1;
-  char cVar2;
-  uint uVar3;
-  undefined4 local_b;
-  uint local_5;
-  char local_3;
-  
-  local_3 = '\0';
-  while( true ) {
-    iVar1 = local_3 * 6;
-    local_b = (undefined2 *)CONCAT22(0xb000,(undefined2 *)(iVar1 + -0x7d1e));
-    ((undefined1 *)&DS:82E3)[iVar1] = 0;
-    cVar2 = attack_direction((*(byte *)(local_3 + 0x668) + 1) * 0x16 + -0x7f18,0xb000);
-    uVar3 = *(byte *)(local_3 + 0x668) + 0xb;
-    local_5 = *(byte *)(local_3 + 0x668) + 2;
-    if (local_5 <= uVar3) {
-      while( true ) {
-        if ((int)*(char *)(local_5 * 0x16 + -0x7f17) * (int)cVar2 <
-            (int)(char)((undefined1 *)&DS:82E3)[iVar1]) {
-          ((undefined1 *)&DS:82E3)[iVar1] = *(char *)(local_5 * 0x16 + -0x7f17) * cVar2;
-        }
-        if (local_5 == uVar3) break;
-        local_5 = local_5 + 1;
-      }
-    }
-    ((undefined1 *)&DS:82E3)[iVar1] = ((undefined1 *)&DS:82E3)[iVar1] * cVar2;
-    f_0791_8E24((undefined2 *)(iVar1 + -0x7d1e),0xb000);
-    if ((('\0' < DS:82F6._1_1_ == '\0' < (char)((undefined1 *)&DS:82E3)[iVar1]) &&
-        (DS:8328 != '\0')) && (((undefined1 *)&DS:82E3)[iVar1] != '\0')) {
-      f_0791_90C5(0x8304,0xb000,*local_b,DS:8308);
-    }
-    if (local_3 == '\x01') break;
-    local_3 = local_3 + '\x01';
-  }
   return;
 }

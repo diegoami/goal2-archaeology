@@ -1,0 +1,26 @@
+{
+  "schema": "evidence-manifest/1",
+  "run_id": "E011-r0001",
+  "experiment": "E011",
+  "store": "release:E011",
+  "artifact": {
+    "set": "goal2-67cf27d6",
+    "variant": null
+  },
+  "files": [
+    {
+      "name": "E011-r0001-watchstart.sav",
+      "bytes": 226376,
+      "sha256": "d68e48c734a742a63e707a8c451b9011ef03b452ebd91f239d86f875464e07a9",
+      "asset": "d68e48c734a742a6-E011-r0001-watchstart.sav",
+      "class": "save"
+    },
+    {
+      "name": "E011-r0001-halftime.sav",
+      "bytes": 226357,
+      "sha256": "092f5f74bc5dc0c0f133709ca46be04122d3813a716c54fd23a686e9194ab9ff",
+      "asset": "092f5f74bc5dc0c0-E011-r0001-halftime.sav",
+      "class": "save"
+    }
+  ]
+}

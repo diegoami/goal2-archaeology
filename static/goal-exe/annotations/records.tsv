@@ -1,3 +1,6 @@
 record	size	purpose	basis
 player	0x14	one player, 20 bytes, of the array at [DS:A91B]	F007
 country	0xBF	one country, 0xBF bytes, of the array at [DS:A917]	F007
+pitch	0x16	one pitch record, of the array at DS:80E8 + 0x16*slot for slots 1..22 (records 0x80FE..0x82E1), one per on-pitch slot; 0x80E8 itself is slot 0's row	F013
+ball	0x0C	the ball record at DS:82F6: position, velocities, timer	F013
+sprite	0x08	a moving sprite record (the referee at DS:82EE): row, column, glyph, target	F013
