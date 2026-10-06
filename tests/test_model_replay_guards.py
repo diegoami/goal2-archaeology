@@ -4,6 +4,11 @@ R3: the probe's trace dump refuses a path that exists before launch — a commit
 trace is measured evidence and is never overwritten (L207). The round-1 review sent
 the default suffix "2" at the already committed trace-e010-r0010-replay2.json.
 
+R1 (round 2): the refusal must be an EXCLUSIVE, ATOMIC reservation made before
+launch and kept for every incremental write — two probes picking the same fresh
+suffix must not both pass a mere existence check and then truncate each other's
+evidence.
+
 R4: while a key is pending and the screen is UNCHANGED, the probe neither resends
 (the resend storms the DOS key buffer and opens 0791:ED8A's menu once per minute)
 nor resets the read counter — the KEY_TAKEN_READS abort must stay armed; and a
@@ -102,6 +107,7 @@ def poll_with(d, timeout=900.0):
     try:
         return replay.poll(d, a, writer, time.monotonic()), writer
     finally:
+        writer.close()
         target.unlink()
 
 
@@ -130,10 +136,37 @@ class TestTraceWriter(unittest.TestCase):
     def test_fresh_path_dumps_incrementally(self):
         target = SCRATCH / "trace-test.json"
         writer = replay.TraceWriter(target)
-        writer.dump([{"n": 1}])
-        writer.dump([{"n": 1}, {"n": 2}])
-        import json
-        self.assertEqual(json.loads(target.read_text()), [{"n": 1}, {"n": 2}])
+        try:
+            writer.dump([{"n": 1}])
+            writer.dump([{"n": 1}, {"n": 2}])
+            import json
+            self.assertEqual(json.loads(target.read_text()), [{"n": 1}, {"n": 2}])
+        finally:
+            writer.close()
+
+    def test_two_writers_same_fresh_path_second_refused_first_intact(self):
+        # round-2 review R1: the pre-fix guard only checked `path.exists()`, so
+        # two probes that picked the same fresh suffix could BOTH construct a
+        # TraceWriter before either dumped its first read, both pass the check,
+        # launch, and then truncate the same evidence file through write_text().
+        # Here writer A has reserved the path but not dumped yet (exactly the
+        # interleave the review reproduced); B's claim must be refused at
+        # construction — atomically — and A's measured content must survive.
+        # Against the pre-fix TraceWriter both constructions succeed and B's
+        # dump silently replaces A's, failing this test (mutation run in the PR
+        # body; rule 9).
+        target = SCRATCH / "trace-test.json"
+        a = replay.TraceWriter(target)
+        try:
+            with self.assertRaises(SystemExit):
+                replay.TraceWriter(target)
+            a.dump([{"n": 1, "seed": 0x1234}])
+            a.dump([{"n": 1, "seed": 0x1234}, {"n": 2, "seed": 0x5678}])
+            import json
+            self.assertEqual(json.loads(target.read_text()),
+                             [{"n": 1, "seed": 0x1234}, {"n": 2, "seed": 0x5678}])
+        finally:
+            a.close()
 
     def test_main_refuses_committed_trace_before_launch(self):
         # the review's exact case: the default suffix "2" selects the committed

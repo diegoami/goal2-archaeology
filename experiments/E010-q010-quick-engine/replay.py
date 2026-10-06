@@ -26,12 +26,14 @@ KEY_TAKEN_READS reads the probe aborts with a failure (round 1's resends storm t
 and open `0791:ED8A`'s menu once per minute; T24 round 1 review R4). Every read records DS:831F
 (the minute), DS:831B, the seed DS:7B62, the score DS:9B3C/9B3D and the substitution budgets
 DS:9B3A into `trace-<record>-replay<suffix>.json` here (an addition; the ten records are never
-touched, and no earlier trace is ever overwritten: the probe refuses a trace path that exists
-before launch — round 1 review R3). A run that times out without reaching full time fails (exit 1).
+touched, and no earlier trace is ever overwritten: the probe reserves its trace path
+exclusively and atomically before launch and refuses a path that exists or is already
+reserved — round 1 review R3, round 2 review R1). A run that times out without reaching full time fails (exit 1).
 Interventions: I1 (memory reads), I2 (savestates, one load) and I3 (the one delay byte, above;
 declared here and in notes.md)."""
 import argparse
 import json
+import os
 import sys
 import time
 from pathlib import Path
@@ -56,20 +58,37 @@ def trace_path(record, suffix):
 
 
 class TraceWriter:
-    """The probe's incremental trace dump. The constructor REFUSES a path that exists:
-    a committed trace is measured evidence and is never overwritten (L207; round 1's
-    review R3 — the round-1 default suffix "2" selected the already committed
-    trace-e010-r0010-replay2.json, so the refusal must fire before the game launches).
-    tests/test_model_replay_guards.py visits this edge (rule 10)."""
+    """The probe's incremental trace dump. The constructor RESERVES its output
+    exclusively and atomically — `os.open(path, O_CREAT | O_EXCL)` — and keeps
+    that ownership (the open descriptor) for every incremental dump: a committed
+    trace is measured evidence and is never overwritten (L207; round 1 review
+    R3 — the refusal must fire before the game launches), and two probes that
+    pick the same fresh suffix must not both pass a mere `path.exists()` check
+    and then truncate each other's evidence through `write_text()`
+    (round 2 review R1: the existence check alone races; the claim is atomic).
+    tests/test_model_replay_guards.py visits both edges (rule 10)."""
 
     def __init__(self, path):
-        if path.exists():
-            raise SystemExit(f"{path}: exists already — a trace is never overwritten; "
-                             "pass a fresh --suffix")
+        try:
+            # the atomic, exclusive claim: O_EXCL fails both for a file that
+            # exists and for one another writer reserved a moment earlier
+            self._fd = os.open(path, os.O_CREAT | os.O_EXCL | os.O_WRONLY, 0o644)
+        except FileExistsError:
+            raise SystemExit(f"{path}: exists already (or is reserved by another probe) — "
+                             "a trace is never overwritten; pass a fresh --suffix")
         self.path = path
 
     def dump(self, trace):
-        self.path.write_text(json.dumps(trace) + "\n")
+        # incremental rewrite through the RESERVED descriptor: only the owner
+        # of the claim can touch the file
+        os.lseek(self._fd, 0, os.SEEK_SET)
+        os.ftruncate(self._fd, 0)
+        data = (json.dumps(trace) + "\n").encode()
+        while data:
+            data = data[os.write(self._fd, data):]
+
+    def close(self):
+        os.close(self._fd)
 
 
 def halftime_sav(entry):
@@ -212,6 +231,7 @@ def main(argv=None):
         d.launch(st)
         return poll(d, a, writer, time.monotonic())
     finally:
+        writer.close()
         d.terminate()
 
 
