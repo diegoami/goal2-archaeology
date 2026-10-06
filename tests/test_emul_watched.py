@@ -21,7 +21,11 @@ import sys  # noqa: E402
 sys.path.insert(0, str(EXP))
 sys.path.insert(0, str(ROOT / "runtime/emul"))
 
-from watched import WatchedHalf  # noqa: E402
+try:
+    from watched import WatchedHalf  # noqa: E402  (watched.py imports unicorn at module level)
+except ModuleNotFoundError:
+    # CI does not install python3-unicorn; the module's tests skip with the reason named.
+    raise unittest.SkipTest("unicorn not installed")
 
 
 def halftime_savestate_or_skip(test):
