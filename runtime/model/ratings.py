@@ -19,6 +19,14 @@ addresses SEGMENT:OFFSET; data offsets are DS offsets, the table read from
 - a substitution line (template 0, `on for`) sets the incoming player's word to 0x2747
   (`0791:C6FA` in refresh_pitch_slot) — the +10000 flag readers strip when the word is above
   5000 (`1771:385C`, `0791:CB43`);
+- a sending-off (template 51) or injury (template 52) line removes its player from the pitch
+  and re-orders his side's slots 1..11 as a stable partition: the still-available players keep
+  their order, the unavailable ones move to the tail of the XI in their own relative order
+  (0791:7B77 → 0791:C48D; observed in E012-r0002/r0003, where side 1's XI ends
+  121,122,123,124,125,127,128,129,131,126,130 — the injured 126 then the sent-off 130, both
+  in their original relative order, the bench untouched); a booking (template 50) re-orders
+  nothing — r0002's booked-and-remaining players (131, 127) stay among the available in the
+  half-time read, and the reorder is the removal, not the card;
 - the man of the match is `0791:CAB0`'s max-scan over both sides' squad slots 1..20 (slots
   12..20 only when the player was substituted off, status bit 3 — from the log, the player a
   substitution line names as player 2), decoded value compared strictly, first in scan order
@@ -64,6 +72,9 @@ SUB_TEMPLATE = 0         # the "on for" template (E004's EVENTS)
 N_TEMPLATES = len(DELTA_TABLE)
 CHALLENGE = 65           # 0791:5653 (in 5565) / 0791:5B8F (in 5B36): "challenge by", 8303 set
 CHALLENGE_BONUS = 10     # 0791:56CB: 5565's ring-invisible +10 to the challenger
+SENT_OFF = 51            # 0791:7B77: the sending-off line; the player leaves the pitch
+INJURY = 52              # the injury line; the player leaves the pitch (E004's EVENTS)
+XI = 0xB                 # the XI: squad slots 1..11 = slice length 11 (F2A8's bound; CAB0 always scans them)
 # the templates 5565's 8303-set invocation emits when it BAILS between its 0x41 line and 56CB
 # (seg_0791_09.asm 5474/5513 → 539F: 0x0E then 0x21 (5465/5468) or 408E's 0x16-0x18; 5513 →
 # 8206's 0x35-0x37; 4151 → 3FAD(9)'s 0x15): a 0x41 line whose following line is none of these
@@ -107,6 +118,7 @@ class Ratings:
                     # F2A8: only slots below 0xC get the 0x37 store; the rest keep their blank
                     self.words[word] = START if slot < 0xC else BLANK
         self.subbed_off = set()      # the outgoing of every substitution line (status bit 3)
+        self.off_pitch = set()       # sent off or injured: the XI partitions them to the tail
 
     def apply_line(self, template, p1, p2=0):
         """One ring line, as 1D4A wrote it: (template, player-1 word, player-2 word). A
@@ -130,6 +142,16 @@ class Ratings:
         if p1:
             # 1E53: add s8(DS:0x720[template]) to p1's word, 16-bit with wraparound
             self.words[p1] = (self.words.get(p1, 0) + DELTA_TABLE[template]) & 0xFFFF
+        if template in (SENT_OFF, INJURY) and p1:
+            # the player leaves the pitch: his side's XI is stable-partitioned, the
+            # unavailable to the tail (0791:7B77 → C48D; E012-r0002/r0003's reads)
+            self.off_pitch.add(p1)
+            for squad in self.squads:
+                if p1 in squad:
+                    xi = squad[:XI]
+                    squad[:XI] = [w for w in xi if w not in self.off_pitch] + \
+                                  [w for w in xi if w in self.off_pitch]
+                    break
 
     def apply_lines(self, lines):
         """`lines`: an iterable of (template, p1, p2) in ring order.

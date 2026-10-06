@@ -169,6 +169,72 @@ class TestChallenge(unittest.TestCase):
         self.assertEqual(r.snapshot(), [s["perf12"] for s in full])
         self.assertEqual(r.man_of_the_match(), mom)
 
+    def test_the_e012_r0002_record(self):
+        # regression for the unavailable-partition: two sendings-off and an injury reorder
+        # the XIs. Before the rule this failed on every slot from the first removed player's
+        # on (the reads are the partitioned order; the plain replay kept the captain-screen
+        # order, one slot out from the first removal to the end).
+        import json
+        d = json.loads((ROOT / "runs" / "E012" / "E012-r0002.json").read_text())
+        obs = d["observations"]
+
+        def field(needle):
+            return next(o["value"] for o in obs if needle in o.get("field", ""))
+
+        start = json.loads(field("the match's start"))
+        half = json.loads(field("half-time team-screen stall"))
+        full = json.loads(field("full time (the summary screen)"))
+        mom = int(field("full time: man of the match").split()[0], 16)
+        n_half = int(field("commentary lines seen at the half-time stall"))
+        lines = [(t, p1, p2) for _, t, p1, p2, _ in json.loads(field("line log in ring order"))]
+        r = R.Ratings([s["squad"] for s in start])
+        r.apply_lines(lines[:n_half])
+        self.assertEqual(r.snapshot(), [s["perf12"] for s in half])
+        r.apply_lines(lines[n_half:])
+        self.assertEqual(r.snapshot(), [s["perf12"] for s in full])
+        self.assertEqual(r.man_of_the_match(), mom)
+
+
+class TestUnavailable(unittest.TestCase):
+    """A sending-off (template 51) or injury (template 52) takes the player off the pitch and
+    stable-partitions his side's XI: the still-available keep their order, the unavailable move
+    to the tail of slots 1..11 in their own relative order; the bench is untouched (0791:7B77 →
+    C48D; E012-r0002/r0003, whose side 1 XI ends ...,131,126,130 — the injured 126 then the
+    sent-off 130, both in their original relative order). A booking re-orders nothing."""
+
+    def test_one_removal_moves_the_player_to_slot_11(self):
+        # side 0 of E012-r0002: 173 sent off from slot 5 -> slot 11, the others shift up
+        r = R.Ratings(TEAMS)
+        r.apply_line(51, 105)                               # slot 5 SENT OFF
+        self.assertEqual(r.squads[0][:12], [101, 102, 103, 104, 106, 107, 108, 109, 110, 111, 105, 0])
+        # the bench of team 1 is untouched, and the player keeps his (wrapped) word
+        self.assertEqual(r.squads[1], TEAMS[1])
+        self.assertEqual(r.word(105), (R.START - 100) & 0xFFFF)
+
+    def test_two_removals_keep_their_original_relative_order(self):
+        # side 1 of E012-r0002: 130 sent off first (slot 10), 126 injured later (slot 6);
+        # the XI ends with the injured 126 then the sent-off 130 — the ORDER OF EVENTS would
+        # give 130, 126, the ORIGINAL relative order gives 126, 130 (the read's order)
+        r = R.Ratings(TEAMS)
+        r.apply_lines([(51, 210, 0), (52, 206, 0)])
+        self.assertEqual(r.squads[1][:13], [201, 202, 203, 204, 205, 207, 208, 209, 211, 206, 210, 212, 213])
+        # only the XI is partitioned: slot 12 keeps the bench player 212, slots 13+ untouched
+
+    def test_a_booking_reorders_nothing(self):
+        # a booking (template 50) does not take the player off the pitch
+        r = R.Ratings(TEAMS)
+        r.apply_line(50, 105)
+        self.assertEqual(r.squads, [list(t) for t in TEAMS])
+        self.assertEqual(r.word(105), R.START - 20)
+
+    def test_off_pitch_player_is_still_scanned_for_the_man_of_the_match(self):
+        # the partition keeps the unavailable inside slots 1..11, which CAB0 always scans:
+        # a sent-off player who scored enough still wins it
+        r = R.Ratings(TEAMS)
+        r.apply_lines([(38, 201, 0)] * 5 + [(51, 201, 0)])
+        self.assertEqual(r.word(201), R.START + 5 * 40 - 100)   # 155
+        self.assertEqual(r.man_of_the_match(), 201)
+
 
 class TestDecode(unittest.TestCase):
     def test_bucket_rule(self):
