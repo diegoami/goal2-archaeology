@@ -484,8 +484,10 @@ class QuickMatch:
            `0791:2218` (23C4), which swaps the SAME two squad words of the team's country record
            (2242-226B; the squad slots are the loop indices themselves, 1..11), so the squad
            array follows the sort — scorer selection and later substitutions read it.
-        2. `a260` per slot base+1..base+10 (2541-258A) re-derives pitch+6 (:= the address slot)
-           and pitch+0xD from the squad; base+11 is left with its traveled +6.
+        2. `a260` per slot base+1..base+11 (2541-258A) re-derives pitch+6 (:= the address slot)
+            and pitch+0xD from the squad: 254D sets the bound to base+11 (`add ax, 0xb`), 255F
+            starts the counter at base+1, and 2581 calls a260 BEFORE 2587/258A compare, so all
+            eleven slots are covered.
         3. The bench sort (258C-25F3): squad slots 12..20 are ordered by the players' +6
            (`jb` at 25E3), each swap again a bare `2218` (25E6) on the squad words.
         The 830B/830C/830D bytes are re-pointed at the swapped slots (2432-252C); only 830B
@@ -510,7 +512,7 @@ class QuickMatch:
                         self.eight30b = b
                     elif self.eight30b == b:
                         self.eight30b = a
-            for g in slots[:10]:                     # a260 (2541-258A); base+11 is excluded
+            for g in slots:                        # a260 (2541-258A): base+1..base+11 (254D/255F)
                 self.pitch[g]["slot_no"] = g
             for outer in range(11, 19):              # the bench sort (258C-25F3)
                 for inner in range(outer + 1, 20):
@@ -606,11 +608,6 @@ class QuickMatch:
         # 2bb1 of that — the incoming player — BEFORE the 0x2747/+0xF block and the 230C sort
         self.pitch[slot]["slot_no"] = slot
         self.pitch[slot]["player"] = self._squad(t)[self._pitch_squad_index(slot) - 1]
-        if not self._country(self.teams[t])["managed"] > 0x80:
-            p = self._player(incoming)
-            p[0x12:0x14] = (0x2747).to_bytes(2, "little")   # C6FA
-            p[0xF] = 0                                      # C718
-            self.set_player_tactics(incoming)                # 3431 (C724)
         if not self._country(self.teams[t])["managed"] > 0x80:
             p = self._player(incoming)
             p[0x12:0x14] = (0x2747).to_bytes(2, "little")   # C6FA

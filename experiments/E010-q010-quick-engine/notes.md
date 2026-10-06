@@ -430,9 +430,10 @@ Each item corrects `runtime/model/quick_engine.py`; the listing line is the auth
   - a2e6 inside c5dc (C6E5) runs BEFORE the sort and re-points the pitch record (+6 := the
     address slot, +0xD := the squad word = the incoming); reading `squad[s-1]` after the sort
     is wrong, and C88D's s is address-based (C8AE: `slot - 0668[t]`), not 2bb1-based;
-  - 230C is three parts: the pitch sort, then `a260` for slots base+1..base+10 re-deriving
-    pitch+6/+0xD (2541-258A; base+11 is left with its traveled +6), then a BENCH sort of squad
-    slots 12..20 by +6 (258C-25F3, `jb` at 25E3, swaps via 2218 at 25E6).
+  - 230C is three parts: the pitch sort, then `a260` for slots base+1..base+11 re-deriving
+    pitch+6/+0xD (2541-258A; 254D sets the bound to base+11 `add ax,0xb`, 255F starts at
+    base+1, and 2581 calls a260 BEFORE 2587/258A compare, so all eleven slots are covered),
+    then a BENCH sort of squad slots 12..20 by +6 (258C-25F3, `jb` at 25E3, swaps via 2218 at 25E6).
   In the ten E010 fixtures the pitch sort after a substitution is a no-op (the incoming inherits
   the outgoing's position, and 8062 scans s = 11 downwards), which is why the pre-rework model
   could match without any of this.
