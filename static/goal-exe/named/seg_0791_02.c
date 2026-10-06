@@ -18,7 +18,7 @@ undefined4 commentary_record_is_new(int param_1)
   int local_7;
   int local_5;
   
-  iVar2 = DS:80EE * 6;
+  iVar2 = pitch_records[0]._6_2_ * 6;
   local_b = (char *)CONCAT22(0xb000,(undefined1 *)&DS:7C38 + iVar2);
   lVar1 = (ulong)(uint)((undefined2 *)&DS:9B34)[*(char *)(param_1 + 10)] * 0xbf;
   iVar4 = (int)lVar1;
@@ -70,11 +70,12 @@ undefined1 f_0791_1D4A(undefined1 param_1,int param_2,int param_3,char param_4)
   undefined1 local_3;
   
   local_3 = 0;
-  if ((DS:80EE == 0) || (cVar4 = commentary_record_is_new(&stack0xfffe), cVar4 != '\0')) {
-    piVar1 = (int *)(param_4 * 2 + -0x7f0e);
+  if ((pitch_records[0]._6_2_ == 0) ||
+     (cVar4 = commentary_record_is_new(&stack0xfffe), cVar4 != '\0')) {
+    piVar1 = (int *)((int)&pitch_records[0].field_0xa + param_4 * 2);
     *piVar1 = *piVar1 + 1;
-    u214b_wrap_add_in_range(1,200,1,(undefined2 *)&DS:80EE,0xb000);
-    iVar3 = DS:80EE * 6;
+    u214b_wrap_add_in_range(1,200,1,0x80ee,0xb000);
+    iVar3 = pitch_records[0]._6_2_ * 6;
     local_9 = (undefined1 *)CONCAT22(0xb000,(undefined1 *)&DS:7C38 + iVar3);
     iVar2 = ((undefined2 *)&DS:9B34)[param_4];
     uVar6 = (undefined2)((ulong)countries >> 0x10);
@@ -93,7 +94,7 @@ undefined1 f_0791_1D4A(undefined1 param_1,int param_2,int param_3,char param_4)
       *(word *)((int)(undefined2 *)&DS:7C3A + iVar3 + 1) = pcVar5[iVar2].squad[param_2 + -1];
     }
     *(char *)(iVar3 + 0x7c3d) = param_4;
-    local_5 = DS:80EE;
+    local_5 = pitch_records[0]._6_2_;
     u214b_wrap_add_in_range(1,200,1,&local_5,unaff_SS);
     ((undefined1 *)&DS:7C38)[local_5 * 6] = 0xff;
     local_3 = 1;
@@ -111,8 +112,9 @@ void f_0791_1E53(int param_1)
   undefined2 unaff_SS;
   
   pwVar1 = &((player *)players)
-            [*(int *)(((uint)*(byte *)(*(char *)(param_1 + 10) + 0x668) + *(int *)(param_1 + 8)) *
-                      0x16 + -0x7f0b)].performance;
+            [*(int *)((int)&pitch_records[0].player_index +
+                     ((uint)*(byte *)(*(char *)(param_1 + 10) + 0x668) + *(int *)(param_1 + 8)) *
+                     0x16)].performance;
   *pwVar1 = *pwVar1 + (int)*(char *)(*(char *)(param_1 + 4) + 0x720);
   return;
 }
@@ -131,12 +133,12 @@ void f_0791_1EB5(undefined1 param_1,undefined2 param_2,undefined2 param_3,undefi
   f_0791_1E53(&stack0xfffe);
   cVar1 = f_0791_1D4A(CONCAT11(extraout_AH,param_1),param_2,param_3,CONCAT11(extraout_AH,param_4));
   if (cVar1 != '\0') {
-    iVar2 = DS:80EE + -2;
-    if (iVar2 <= DS:80EE) {
-      local_4 = DS:80EE;
+    iVar2 = pitch_records[0]._6_2_ + -2;
+    if (iVar2 <= (int)pitch_records[0]._6_2_) {
+      local_4 = pitch_records[0]._6_2_;
       while( true ) {
         if (0 < local_4) {
-          f_0791_1829(0x21,4 - (DS:80EE - local_4),local_4);
+          f_0791_1829(0x21,4 - (pitch_records[0]._6_2_ - local_4),local_4);
         }
         if (local_4 == iVar2) break;
         local_4 = local_4 + -1;
@@ -192,9 +194,10 @@ void f_0791_1FDD(int param_1,undefined2 param_2,char param_3)
   int iVar1;
   char cVar2;
   int iVar3;
-  uint uVar4;
+  int iVar4;
   uint uVar5;
-  undefined2 uVar6;
+  uint uVar6;
+  undefined2 uVar7;
   uint local_4;
   
   *(undefined2 *)((undefined1 *)&DS:9976 + param_3 * 10 + param_1 * 2) = 0;
@@ -203,19 +206,20 @@ void f_0791_1FDD(int param_1,undefined2 param_2,char param_3)
     return;
   }
   do {
-    iVar1 = (*(byte *)(param_3 + 0x668) + local_4) * 0x16;
-    cVar2 = player_unavailable(*(undefined2 *)(iVar1 + -0x7f0b));
+    iVar3 = *(byte *)(param_3 + 0x668) + local_4;
+    iVar1 = iVar3 * 0x16;
+    cVar2 = player_unavailable(*(undefined2 *)((int)&pitch_records[0].player_index + iVar1));
     if (cVar2 == '\0') {
       if (*(int *)((undefined1 *)&DS:9976 + param_3 * 10 + param_1 * 2) != 0) {
-        uVar6 = param_2;
-        iVar3 = f_0791_A920(*(undefined2 *)
+        uVar7 = param_2;
+        iVar4 = f_0791_A920(*(undefined2 *)
                              ((undefined1 *)&DS:9976 + param_3 * 10 + param_1 * 2),param_2);
-        uVar4 = f_0791_278A(iVar3 * 0x16 + -0x7f18,0xb000,uVar6);
-        uVar5 = f_0791_278A(iVar1 + -0x7f18,0xb000,param_2);
-        if (uVar5 <= uVar4) goto LAB_0791_20D4;
+        uVar5 = f_0791_278A((pitch *)pitch_records + iVar4,0xb000,uVar7);
+        uVar6 = f_0791_278A((pitch *)pitch_records + iVar3,0xb000,param_2);
+        if (uVar6 <= uVar5) goto LAB_0791_20D4;
       }
       *(undefined2 *)((undefined1 *)&DS:9976 + param_3 * 10 + param_1 * 2) =
-           *(undefined2 *)(iVar1 + -0x7f0b);
+           *(undefined2 *)((int)&pitch_records[0].player_index + iVar1);
     }
 LAB_0791_20D4:
     if (local_4 == 0xb) {
@@ -262,7 +266,7 @@ void __cdecl16near f_0791_20E3(void)
     while( true ) {
       bVar2 = *(byte *)(local_3 + 0x668);
       cVar3 = player_leadership(*(undefined2 *)(local_3 * 10 + -0x6688));
-      pcVar1 = (char *)((int)(undefined2 *)&DS:80F8 + ((uint)bVar2 + local_6) * 0x16 + 1);
+      pcVar1 = (char *)((int)&pitch_records[0].field_0x11 + ((uint)bVar2 + local_6) * 0x16);
       *pcVar1 = *pcVar1 + cVar3 * '\x02';
       if (local_6 == 0xb) break;
       local_6 = local_6 + 1;
@@ -348,8 +352,9 @@ void __cdecl16near resort_pitch_and_bench(void)
             f_0791_2218(&stack0xfffe);
             u214b_swap_bytes(1,(int)&uStack_16 + local_7 + 1,unaff_SS,(int)&uStack_16 + local_5 + 1,
                              unaff_SS);
-            u214b_swap_bytes(0x16,((uint)*(byte *)(local_3 + 0x668) + local_7) * 0x16 + -0x7f18,
-                             0xb000,(*(byte *)(local_3 + 0x668) + local_5) * 0x16 + -0x7f18,0xb000);
+            u214b_swap_bytes(0x16,(pitch *)pitch_records +
+                                  (uint)*(byte *)(local_3 + 0x668) + local_7,0xb000,
+                             (pitch *)pitch_records + *(byte *)(local_3 + 0x668) + local_5,0xb000);
             cVar5 = (char)local_7;
             cVar3 = (char)local_5;
             if ((uint)DS:830B == *(byte *)(local_3 + 0x668) + local_5) {
@@ -381,8 +386,8 @@ void __cdecl16near resort_pitch_and_bench(void)
     uVar6 = *(byte *)(local_3 + 0x668) + 0xb;
     uVar7 = *(byte *)(local_3 + 0x668) + 1;
     if (uVar7 <= uVar6) {
-      while (local_5 = uVar7, f_0791_A260(local_5 * 0x16 + -0x7f18,0xb000,local_5), local_5 != uVar6
-            ) {
+      while (local_5 = uVar7, f_0791_A260((pitch *)pitch_records + local_5,0xb000,local_5),
+            local_5 != uVar6) {
         uVar7 = local_5 + 1;
       }
     }
@@ -411,8 +416,8 @@ void __cdecl16near resort_pitch_and_bench(void)
   f_0791_0691();
   f_0791_20E3();
   f_0791_419C();
-  DS:8109 = 0;
-  DS:81FB = 0;
+  pitch_records[1]._11_2_ = 0;
+  pitch_records[0xc]._11_2_ = 0;
   return;
 }
 
@@ -555,7 +560,7 @@ uint __stdcall16far f_0791_278A(undefined4 param_1,uint param_2)
   }
   local_6 = local_6 + *(byte *)(iVar2 + 0x11);
 LAB_0791_284F:
-  if ((*(byte *)(iVar2 + 6) < 0xc) && (DS:80FC != '\0')) {
+  if ((*(byte *)(iVar2 + 6) < 0xc) && ((char)pitch_records[0].activity != '\0')) {
     local_6 = local_6 + local_6 / 0x10;
   }
   return local_6;
@@ -588,9 +593,10 @@ bool f_0791_28B2(char param_1)
   local_7 = 0;
   local_5 = 1;
   while( true ) {
-    if ((((((undefined1 *)&DS:80FA)[local_5 * 0x16] == param_1) || (DS:830B == local_5))
-        || (DS:830C == local_5)) ||
-       (cVar1 = player_unavailable_on_pitch(local_5 * 0x16 + -0x7f18,0xb000), cVar1 != '\0')) {
+    if ((((*(char *)((int)&pitch_records[0].state + local_5 * 0x16) == param_1) ||
+         (DS:830B == local_5)) || (DS:830C == local_5)) ||
+       (cVar1 = player_unavailable_on_pitch((pitch *)pitch_records + local_5,0xb000), cVar1 != '\0')
+       ) {
       local_7 = local_7 + 1;
     }
     if (local_5 == 0x16) break;
@@ -607,8 +613,8 @@ void f_0791_2929(undefined1 param_1)
 {
   int local_4;
   
-  for (local_4 = 1; ((undefined1 *)&DS:80FA)[local_4 * 0x16] = param_1, local_4 != 0x16;
-      local_4 = local_4 + 1) {
+  for (local_4 = 1; *(undefined1 *)((int)&pitch_records[0].state + local_4 * 0x16) = param_1,
+      local_4 != 0x16; local_4 = local_4 + 1) {
   }
   return;
 }
@@ -657,15 +663,16 @@ undefined2 __cdecl16near f_0791_29B3(void)
   int iVar3;
   
   cVar1 = ball_holder_is_side0();
-  iVar2 = (int)*(char *)((*(byte *)((cVar1 == '\0') + 0x668) + 1) * 0x16 + -0x7f17);
+  iVar2 = (int)*(char *)((int)&pitch_records[0].y + (*(byte *)((cVar1 == '\0') + 0x668) + 1) * 0x16)
+  ;
   if (iVar2 < 0) {
     iVar2 = -iVar2;
   }
-  iVar3 = (int)*(char *)((uint)DS:830B * 0x16 + -0x7f17);
+  iVar3 = (int)*(char *)((int)&pitch_records[0].y + (uint)DS:830B * 0x16);
   if (iVar3 < 0) {
     iVar3 = -iVar3;
   }
-  DS:80FB = iVar2 <= iVar3;
+  pitch_records[0]._19_1_ = iVar2 <= iVar3;
   return CONCAT11((char)((uint)iVar3 >> 8),iVar2 <= iVar3);
 }
 
@@ -682,7 +689,7 @@ void __cdecl16near f_0791_2A15(void)
   
   if (DS:830B != 0) {
     while( true ) {
-      cVar1 = player_unavailable_on_pitch((uint)DS:830B * 0x16 + -0x7f18,0xb000);
+      cVar1 = player_unavailable_on_pitch((pitch *)pitch_records + DS:830B,0xb000);
       if (cVar1 == '\0') break;
       uVar4 = 0xb000;
       puVar3 = (undefined1 *)&DS:830B;
@@ -707,7 +714,7 @@ undefined1 __cdecl16near f_0791_2A6D(void)
     uVar1 = 0;
   }
   else {
-    uVar1 = f_0791_2BB1((uint)DS:830C * 0x16 + -0x7f18,0xb000);
+    uVar1 = f_0791_2BB1((pitch *)pitch_records + DS:830C,0xb000);
   }
   return uVar1;
 }
@@ -723,7 +730,7 @@ void f_0791_2AA3(undefined1 param_1)
   undefined2 uVar3;
   
   uVar1 = ball_holder_is_side0();
-  uVar2 = f_0791_2BB1((uint)DS:830B * 0x16 + -0x7f18,0xb000);
+  uVar2 = f_0791_2BB1((pitch *)pitch_records + DS:830B,0xb000);
   uVar2 = uVar2 & 0xff;
   uVar3 = f_0791_2A6D(uVar2,uVar1);
   f_0791_1EB5(param_1,uVar3,uVar2,uVar1);
@@ -742,7 +749,7 @@ void f_0791_2AD4(undefined1 param_1)
   
   uVar2 = (uint)(DS:830C < 0xc);
   uVar3 = f_0791_2A6D(uVar2);
-  uVar1 = f_0791_2BB1((uint)DS:830B * 0x16 + -0x7f18,0xb000);
+  uVar1 = f_0791_2BB1((pitch *)pitch_records + DS:830B,0xb000);
   f_0791_1EB5(param_1,uVar1,uVar3,uVar2);
   return;
 }
@@ -917,7 +924,7 @@ undefined2 __stdcall16far f_0791_2CC5(int *param_1)
 undefined2 __stdcall16far player_at_ball(int *param_1)
 
 {
-  return CONCAT11((char)((uint)*param_1 >> 8),*param_1 == DS:82F6);
+  return CONCAT11((char)((uint)*param_1 >> 8),*param_1 == ball_record._0_2_);
 }
 
 
@@ -941,7 +948,7 @@ undefined2 __stdcall16far f_0791_2D10(undefined4 param_1,uint param_2)
   uVar4 = param_2 + uVar3;
   iVar5 = ((int)uVar3 >> 0xf) + (uint)CARRY2(param_2,uVar3);
   cVar1 = attack_direction(iVar6,uVar7);
-  uVar3 = (int)DS:82F6._1_1_ * (int)cVar1;
+  uVar3 = (int)(char)ball_record.y * (int)cVar1;
   if ((iVar5 < (int)uVar3 >> 0xf) ||
      ((iVar5 <= (int)uVar3 >> 0xf && (uVar4 <= uVar3 && uVar3 - uVar4 != 0)))) {
     uVar2 = 1;
@@ -972,7 +979,7 @@ undefined2 __stdcall16far f_0791_2D6D(undefined4 param_1,uint param_2)
   uVar3 = (int)*(char *)(iVar6 + 1) * (int)cVar1;
   iVar5 = (int)uVar3 >> 0xf;
   cVar1 = attack_direction(iVar6,uVar7);
-  uVar4 = (int)DS:82F6._1_1_ * (int)cVar1;
+  uVar4 = (int)(char)ball_record.y * (int)cVar1;
   iVar6 = ((int)uVar4 >> 0xf) + (uint)CARRY2(param_2,uVar4);
   if ((iVar6 < iVar5) || ((iVar6 <= iVar5 && (param_2 + uVar4 < uVar3)))) {
     uVar2 = 1;
@@ -1171,9 +1178,8 @@ void __cdecl16near find_nearest_to_ball(void)
   char cVar2;
   int iVar3;
   int iVar4;
-  int iVar5;
-  uint uVar6;
-  char *pcVar7;
+  uint uVar5;
+  pitch *ppVar6;
   undefined4 local_f;
   uint local_9;
   uint local_7;
@@ -1190,33 +1196,32 @@ void __cdecl16near find_nearest_to_ball(void)
     while( true ) {
       iVar3 = (uint)*(byte *)(local_3 + 0x668) + local_5;
       iVar1 = iVar3 * 0x16;
-      pcVar7 = (char *)(iVar1 + -0x7f18);
-      local_f = (char *)CONCAT22(0xb000,pcVar7);
-      cVar2 = player_unavailable_on_pitch(pcVar7,0xb000);
-      if (((cVar2 == '\0') &&
-          (DS:830B != *(char *)((undefined2 *)&DS:80EE + iVar3 * 0xb))) &&
-         (((undefined1 *)&DS:80FA)[iVar1] != '\r')) {
-        iVar4 = (int)*local_f - (int)(char)DS:82F6;
+      ppVar6 = (pitch *)pitch_records + iVar3;
+      local_f = (pitch *)CONCAT22(0xb000,ppVar6);
+      cVar2 = player_unavailable_on_pitch(ppVar6,0xb000);
+      if (((cVar2 == '\0') && (DS:830B != *(char *)((int)&pitch_records[0].side + iVar1))) &&
+         (*(char *)((int)&pitch_records[0].state + iVar1) != '\r')) {
+        iVar3 = (int)(char)local_f->x - (int)(char)ball_record.x;
+        if (iVar3 < 0) {
+          iVar3 = -iVar3;
+        }
+        iVar4 = (int)*(char *)((int)&pitch_records[0].y + iVar1) - (int)(char)ball_record.y;
         if (iVar4 < 0) {
           iVar4 = -iVar4;
         }
-        iVar5 = (int)*(char *)(iVar1 + -0x7f17) - (int)DS:82F6._1_1_;
-        if (iVar5 < 0) {
-          iVar5 = -iVar5;
-        }
-        uVar6 = iVar5 + iVar4;
-        if (uVar6 < local_7) {
+        uVar5 = iVar4 + iVar3;
+        if (uVar5 < local_7) {
           ((undefined1 *)&DS:8311)[local_3] =
-               *(undefined1 *)((undefined2 *)&DS:80EE + iVar3 * 0xb);
-          local_7 = uVar6;
+               *(undefined1 *)((int)&pitch_records[0].side + iVar1);
+          local_7 = uVar5;
         }
-        cVar2 = attack_direction(pcVar7,0xb000);
-        iVar4 = (int)DS:82F6._1_1_ * (int)cVar2;
-        cVar2 = attack_direction(pcVar7,0xb000);
-        if (((int)*(char *)(iVar1 + -0x7f17) * (int)cVar2 < iVar4) && (uVar6 < local_9)) {
-          *(undefined1 *)(local_3 + -0x7cf1) =
-               *(undefined1 *)((undefined2 *)&DS:80EE + iVar3 * 0xb);
-          local_9 = uVar6;
+        cVar2 = attack_direction(ppVar6,0xb000);
+        iVar3 = (int)(char)ball_record.y * (int)cVar2;
+        cVar2 = attack_direction(ppVar6,0xb000);
+        if (((int)*(char *)((int)&pitch_records[0].y + iVar1) * (int)cVar2 < iVar3) &&
+           (uVar5 < local_9)) {
+          *(undefined1 *)(local_3 + -0x7cf1) = *(undefined1 *)((int)&pitch_records[0].side + iVar1);
+          local_9 = uVar5;
         }
       }
       if (local_5 == 0xb) break;
@@ -1276,20 +1281,21 @@ char __stdcall16far f_0791_3111(char *param_1)
   if (uVar5 <= local_6) {
     while( true ) {
       if (((((byte)pcVar7[6] != local_6) &&
-           (cVar3 = player_unavailable_on_pitch(local_6 * 0x16 + -0x7f18,0xb000), cVar3 == '\0')) &&
-          (cVar3 = f_0791_2D10(local_6 * 0x16 + -0x7f18,0xb000,10), cVar3 == '\0')) &&
-         (((undefined1 *)&DS:80FA)[local_6 * 0x16] != '\r')) {
-        iVar4 = (int)*(char *)(local_6 * 0x16 + -0x7f18) - (int)*param_1;
+           (cVar3 = player_unavailable_on_pitch((pitch *)pitch_records + local_6,0xb000),
+           cVar3 == '\0')) &&
+          (cVar3 = f_0791_2D10((pitch *)pitch_records + local_6,0xb000,10), cVar3 == '\0')) &&
+         (*(char *)((int)&pitch_records[0].state + local_6 * 0x16) != '\r')) {
+        iVar4 = (int)(char)((pitch *)pitch_records + local_6)->x - (int)*param_1;
         if (iVar4 < 0) {
           iVar4 = -iVar4;
         }
-        iVar6 = (int)*(char *)(local_6 * 0x16 + -0x7f17) - (int)pcVar7[1];
+        iVar6 = (int)*(char *)((int)&pitch_records[0].y + local_6 * 0x16) - (int)pcVar7[1];
         if (iVar6 < 0) {
           iVar6 = -iVar6;
         }
         if ((local_c < (uint)(iVar6 + iVar4) == bVar2) &&
            ((pcVar7[6] == cVar1 || (cVar3 = u214b_random_coin_flip(), cVar3 != '\0')))) {
-          cVar1 = *(char *)((undefined2 *)&DS:80EE + local_6 * 0xb);
+          cVar1 = *(char *)((int)&pitch_records[0].side + local_6 * 0x16);
           local_c = iVar6 + iVar4;
         }
       }
@@ -1303,8 +1309,9 @@ char __stdcall16far f_0791_3111(char *param_1)
     if (local_6 <= uVar5) {
       while( true ) {
         if (((byte)pcVar7[6] != local_6) &&
-           (cVar3 = player_unavailable_on_pitch(local_6 * 0x16 + -0x7f18,0xb000), cVar3 == '\0')) {
-          cVar1 = *(char *)((undefined2 *)&DS:80EE + local_6 * 0xb);
+           (cVar3 = player_unavailable_on_pitch((pitch *)pitch_records + local_6,0xb000),
+           cVar3 == '\0')) {
+          cVar1 = *(char *)((int)&pitch_records[0].side + local_6 * 0x16);
         }
         if (local_6 == uVar5) break;
         local_6 = local_6 + 1;

@@ -122,7 +122,7 @@ void __stdcall16far draw_match_summary(char param_1)
       local_6 = local_6 + '\x01';
     }
     f_0791_006C(&stack0xfffe,0x13,0x80f2,0xb000);
-    f_0791_006C(&stack0xfffe,0x14,(undefined2 *)&DS:80F6,0xb000);
+    f_0791_006C(&stack0xfffe,0x14,0x80f6,0xb000);
   }
   else {
     u214b_unpack_screen_to_buffer((undefined4 *)&DS:A96E,0xb000,7000,0xb000);
@@ -322,8 +322,9 @@ undefined2 f_0791_05C6(int param_1)
   }
   else if (DS:066A == '\x01') {
     local_3 = *(undefined1 *)
-               (((player *)players)[*(int *)(*(int *)(param_1 + -2) * 0x16 + -0x7f0b)].position +
-               0x69a8);
+               (((player *)players)
+                [*(int *)((int)&pitch_records[0].player_index + *(int *)(param_1 + -2) * 0x16)].
+                position + 0x69a8);
     iVar3 = 0;
   }
   else if (DS:066A == '\x02') {
@@ -355,24 +356,24 @@ undefined2 f_0791_05C6(int param_1)
 void __cdecl16near f_0791_0691(void)
 
 {
-  int iVar1;
-  char cVar2;
-  uint uVar3;
+  char cVar1;
+  uint uVar2;
   int local_4;
   
   local_4 = 1;
   while( true ) {
-    iVar1 = local_4 * 0x16;
-    cVar2 = f_0791_045D(local_4);
-    if (cVar2 == '\0') {
-      uVar3 = f_0791_05C6(&stack0xfffe);
-      uVar3 = uVar3 & 0xff;
-      cVar2 = pitch_slot_side(iVar1 + -0x7f18,0xb000);
-      *(int *)(iVar1 + -0x7f14) = (uint)(byte)((undefined1 *)&DS:832E)[cVar2] * 0x100 + uVar3;
+    cVar1 = f_0791_045D(local_4);
+    if (cVar1 == '\0') {
+      uVar2 = f_0791_05C6(&stack0xfffe);
+      uVar2 = uVar2 & 0xff;
+      cVar1 = pitch_slot_side((pitch *)pitch_records + local_4,0xb000);
+      *(int *)((int)&pitch_records[0].field_0x4 + local_4 * 0x16) =
+           (uint)(byte)((undefined1 *)&DS:832E)[cVar1] * 0x100 + uVar2;
     }
     else {
-      cVar2 = pitch_slot_side(iVar1 + -0x7f18,0xb000);
-      *(int *)(iVar1 + -0x7f14) = (uint)(byte)((undefined1 *)&DS:8330)[cVar2] * 0x100 + 1;
+      cVar1 = pitch_slot_side((pitch *)pitch_records + local_4,0xb000);
+      *(int *)((int)&pitch_records[0].field_0x4 + local_4 * 0x16) =
+           (uint)(byte)((undefined1 *)&DS:8330)[cVar1] * 0x100 + 1;
     }
     if (local_4 == 0x16) break;
     local_4 = local_4 + 1;
@@ -721,29 +722,29 @@ void __cdecl16near action_replay(void)
     while( true ) {
       sys_move_025D(0xbf,(country *)countries + ((undefined2 *)&DS:9B34)[local_3],
                     (int)((ulong)countries >> 0x10),local_3 * 0xbf + -0x73cc,0xb000);
-      iVar1 = ((undefined2 *)&DS:9B34)[local_3];
+      iVar3 = ((undefined2 *)&DS:9B34)[local_3];
       uVar5 = (undefined2)((ulong)countries >> 0x10);
       pcVar4 = (country *)countries;
-      sys_move_025D(3,(byte *)manager_countries + (uint)pcVar4[iVar1].manager * 3,
+      sys_move_025D(3,(byte *)manager_countries + (uint)pcVar4[iVar3].manager * 3,
                     (int)((ulong)manager_countries >> 0x10),local_3 * 3 + -0x66d0,0xb000);
       sys_str_store_max_0644
-                (0xc,(int)DS:9B74 + (uint)pcVar4[iVar1].manager * 0xd,
+                (0xc,(int)DS:9B74 + (uint)pcVar4[iVar3].manager * 0xd,
                  (int)((ulong)DS:9B74 >> 0x10),local_3 * 0xd + -0x66c4,0xb000);
-      *(undefined1 *)((int)DS:9B78 + (uint)pcVar4[iVar1].manager) =
+      *(undefined1 *)((int)DS:9B78 + (uint)pcVar4[iVar3].manager) =
            *(undefined1 *)(local_3 + -0x6690);
-      iVar1 = ((undefined2 *)&DS:9B34)[local_3];
+      iVar3 = ((undefined2 *)&DS:9B34)[local_3];
       uVar5 = (undefined2)((ulong)countries >> 0x10);
       pcVar4 = (country *)countries;
       local_5 = 1;
       while( true ) {
-        sys_move_025D(0x14,(player *)players + pcVar4[iVar1].squad[local_5 + -1],
+        sys_move_025D(0x14,(player *)players + pcVar4[iVar3].squad[local_5 + -1],
                       (int)((ulong)players >> 0x10),local_3 * 400 + local_5 * 0x14 + -0x70e4,0xb000)
         ;
         sys_str_store_max_0644
-                  (10,(int)DS:9B6C + pcVar4[iVar1].squad[local_5 + -1] * 0xb,
+                  (10,(int)DS:9B6C + pcVar4[iVar3].squad[local_5 + -1] * 0xb,
                    (int)((ulong)DS:9B6C >> 0x10),local_3 * 0xdc + local_5 * 0xb + -0x6a9b,
                    0xb000);
-        *(undefined1 *)((int)DS:9B70 + pcVar4[iVar1].squad[local_5 + -1]) =
+        *(undefined1 *)((int)DS:9B70 + pcVar4[iVar3].squad[local_5 + -1]) =
              *(undefined1 *)(local_3 * 0x14 + local_5 + -0x6721);
         if (local_5 == 0x14) break;
         local_5 = local_5 + 1;
@@ -768,35 +769,37 @@ void __cdecl16near action_replay(void)
     local_5 = 1;
     while( true ) {
       iVar1 = local_5 * 0x16;
-      local_9 = (int *)CONCAT22(0xb000,(int *)(iVar1 + -0x7f18));
-      if (*local_9 != DS:0640) {
-        if ((*(char *)(iVar1 + -0x7f14) == '\x01') &&
-           (DS:830B == *(char *)((undefined2 *)&DS:80EE + local_5 * 0xb))) {
+      local_9 = (pitch *)CONCAT22(0xb000,(pitch *)pitch_records + local_5);
+      iVar3._0_1_ = local_9->x;
+      iVar3._1_1_ = local_9->y;
+      if (iVar3 != DS:0640) {
+        if ((*(char *)((int)&pitch_records[0].field_0x4 + iVar1) == '\x01') &&
+           (DS:830B == *(char *)((int)&pitch_records[0].side + iVar1))) {
           iVar3 = 1;
         }
         else {
           iVar3 = 0;
         }
-        *(int *)((int)DS:7C16 + (char)*local_9 * 0xa0 + *(char *)(iVar1 + -0x7f17) * 2 + 0x90e
-                ) = iVar3 + *(int *)(iVar1 + -0x7f14);
+        *(int *)((int)DS:7C16 + (char)local_9->x * 0xa0 +
+                 *(char *)((int)&pitch_records[0].y + iVar1) * 2 + 0x90e) =
+             iVar3 + *(int *)((int)&pitch_records[0].field_0x4 + iVar1);
       }
       if (local_5 == 0x16) break;
       local_5 = local_5 + 1;
     }
-    if (DS:82EE != DS:0640) {
-      *(undefined2 *)
-       ((int)DS:7C16 + (char)DS:82EE * 0xa0 + DS:82EE._1_1_ * 2 + 0x90e) =
-           DS:82F2;
+    if (referee_record._0_2_ != DS:0640) {
+      *(word *)((int)DS:7C16 + (char)referee_record.row * 0xa0 +
+                (char)referee_record.column * 2 + 0x90e) = referee_record.glyph;
     }
     local_3 = '\0';
     while( true ) {
-      iVar1 = local_3 * 6;
-      local_9 = (int *)CONCAT22(0xb000,(int *)(iVar1 + -0x7d1e));
-      if (*local_9 != DS:0640) {
+      iVar3 = local_3 * 6;
+      local_9 = (pitch *)CONCAT22(0xb000,(int *)(iVar3 + -0x7d1e));
+      if (*(int *)local_9 != DS:0640) {
         *(undefined2 *)
-         ((int)DS:7C16 + (char)*local_9 * 0xa0 +
-          (char)((undefined1 *)&DS:82E3)[iVar1] * 2 + 0x90e) =
-             *(undefined2 *)(iVar1 + -0x7d1a);
+         ((int)DS:7C16 + (char)*(int *)local_9 * 0xa0 +
+          (char)((undefined1 *)&DS:82E3)[iVar3] * 2 + 0x90e) =
+             *(undefined2 *)(iVar3 + -0x7d1a);
       }
       if (local_3 == '\x01') break;
       local_3 = local_3 + '\x01';

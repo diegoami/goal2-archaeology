@@ -39,9 +39,9 @@ Per slot:
     reads `DS:883[slot]` as a record index, `969E`). The gate skips slots whose threshold
     exceeds the counter `DS:8300`.
 - **Shot statistic for the keeper's end** (`95B9`-`95EE`): when the ball's y `DS:82F7` is
-  nonzero, `2BE5 attack_direction(DS:80FE)` (the side's slot-1 keeper record) → `dl`, compare
-  `DS:7920[(0x82F7 > 0)]` (form_delta) with it and increment the word `DS:80F6 + 2*eq`
-  (keeper record +0xE, a two-word counter pair) (`95C0`-`95EE`).
+  nonzero, `2BE5 attack_direction(DS:80FE)` (pitch record 1, the side's slot-1 keeper) → `dl`,
+  compare `DS:7920[(0x82F7 > 0)]` (form_delta) with it and increment the word `DS:80F6 + 2*eq`
+  — the two-word counter pair just below record 1 (`95C0`-`95EE`).
 - **Ball move and chase** (`95F2`-`9601`): `83A2 move_ball(DS:82F6)`; `2FB1
   find_nearest_to_ball()`; `2996 ball_holder_is_side0()`.
 - **Keeper special** (`9605`-`9666`): keeper record = `(0668[side]+1)*0x16 + 0x80E8`
@@ -89,8 +89,9 @@ another player → `5F8A` (annotation, seg_0791_10.asm:937+).
 | `0791:94E8` | speaker_noise: pitch from `94C9`, the second stream `DS:8336` | seg_0791_15.asm:900+ |
 | `23E4:08DF` | set membership test used twice per slot for the flag and the keeper gate | seg_0791_15.asm:9592, 962F |
 
-`0791:8CF5` (called by the loop, not 9564): per side, over the side's slots, tracks the most
-advanced record (y × attack_direction, `2BE5`) into the byte `0x82E2 + 6*side + 1`
+`0791:8CF5` (called by the loop, not 9564): per side 0..1, over the side's slots
+`0668[side]+2..+11`, keeps in the byte at `0x82E2 + 6*side + 1` — a six-byte per-side block
+right after pitch record 22 — the record whose y × attack direction (`2BE5`) is greatest
 (seg_0791_15.asm:28-110). No RNG.
 
 ## 3. Which draws happen per tick, which per event

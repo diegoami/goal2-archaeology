@@ -9,3 +9,6 @@ DS:066B	sub_budgets	char[2]	the substitution budget per team at a match start: D
 DS:0720	fitness_delta	char[40]	the +0x12 fitness delta per commentary ring id; the quick goal id 0x26 is +40 (1E53's ring write in 6443)	established	F012
 DS:7920	form_delta	char[2]	65FE's per-goal form deltas: byte 0 = -1 (the side without the ball), byte 1 = +1 (the side of DS:830B); 6443 gives the scorer byte [7C39 != 0 ? 0 : 1]	established	F012
 DS:0A6B	quick_scorer_slots	char[31]	the goal-scorer slot table: a dummy base at 0xA6B plus 30 entries (values 2..11, weighted), read as the byte at 0xA6B + rand(30)	established	F012
+DS:80E8	pitch_records	pitch[23]	the pitch record array: record k at 0x80E8+0x16*k, the 22 on-pitch slots 1..22 (0x80FE..0x82E1); the byte table DS:883[k] maps 9564's loop index to a record number	established	F012; F013
+DS:82F6	ball_record	ball	the ball record: position +0/+1, velocities +6/+8 (DS:82FC/82FE), timer +0xA (DS:8300)	established	F005; F013
+DS:82EE	referee_record	sprite	the referee sprite record 9119 moves every watched tick (row +0, column +1, glyph +4, target +6/+7)	likely	F013

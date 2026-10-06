@@ -259,6 +259,42 @@ class CommittedTests(unittest.TestCase):
                 self.assertEqual(n, total, seg)
 
 
+# T25: the routines F013 (the watched tick map) establishes, and the named calls it claims
+F013_ESTABLISHES = ["0791:8CF5", "0791:8889", "0791:9A32", "0791:983F"]
+
+
+class F013Tests(unittest.TestCase):
+    """T25: F013's routines are named and the tick loop calls them by name in named/."""
+
+    def test_f013_routines_named(self):
+        c = check_annotations.Checker(ANNOTATIONS, ROOT / "static/goal-exe/routines.tsv",
+                                      ROOT / "findings", ROOT / "static/goal-exe")
+        c.load()
+        named_addresses = {r["address"] for _, r in c.rows["routines.tsv"]}
+        self.assertEqual([a for a in F013_ESTABLISHES if a not in named_addresses], [])
+
+    def test_tick_loop_calls_the_watched_callees_by_name(self):
+        # F013: 97D0's watched branch is 9564, then 8CF5 (the offside line), then 9119 (the
+        # referee), then the clock; 983F runs the half through the same loop
+        body = routine_body(NAMED, "0791:97D0")
+        for callee in ("watched_match_engine(", "track_offside_line(", "move_referee(", "match_clock("):
+            self.assertIn(callee, body)
+        self.assertNotIn("f_0791_8CF5(", body)
+
+    def test_run_one_half_runs_the_loop(self):
+        body = routine_body(NAMED, "0791:983F")
+        self.assertIn("match_tick_loop(", body)
+
+    def test_pre_half_sequence_waits_and_resumes(self):
+        body = routine_body(NAMED, "0791:9A32")
+        self.assertIn("run_one_half(", body)
+
+    def test_the_raw_view_fails_the_same_checks(self):
+        raw = routine_body(RAW, "0791:97D0")
+        self.assertNotIn("track_offside_line(", raw)
+        self.assertIn("f_0791_8CF5(", raw)
+        self.assertNotIn("run_one_half(", routine_body(RAW, "0791:9A32"))
+
 class NamedViewTests(unittest.TestCase):
     # the three rating inputs of 1771:10E7 (F007) and the two tactic sets (T21, F010): the country's
     # default set +0x2D, which 0791:BBFF stores, and the player's own set +0xF, which 1771:3431

@@ -23,24 +23,25 @@ void f_0791_333F(int param_1)
                           (int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10),1);
     if (local_4 <= uVar2) {
       do {
-        if (((*(char *)((undefined2 *)&DS:80EE + local_4 * 0xb) !=
+        if (((*(char *)((int)&pitch_records[0].side + local_4 * 0x16) !=
               *(char *)((int)*(undefined4 *)(param_1 + 6) + 6)) && (DS:830E == '\0')) &&
-           (*(char *)((undefined2 *)&DS:80EE + local_4 * 0xb) != DS:830A)) {
+           (*(char *)((int)&pitch_records[0].side + local_4 * 0x16) != DS:830A)) {
           cVar1 = ball_holder_is_side0();
           iVar3 = (int)(char)((undefined1 *)&DS:82E3)[(cVar1 == '\0') * 6];
           if (iVar3 < 0) {
             iVar3 = -iVar3;
           }
-          iVar4 = (int)*(char *)(local_4 * 0x16 + -0x7f17);
+          iVar4 = (int)*(char *)((int)&pitch_records[0].y + local_4 * 0x16);
           if (iVar4 < 0) {
             iVar4 = -iVar4;
           }
           if (((iVar3 < iVar4) &&
-              (cVar1 = attack_direction(local_4 * 0x16 + -0x7f18,0xb000),
-              '\0' < *(char *)(local_4 * 0x16 + -0x7f17) == '\0' < cVar1)) &&
-             (*(char *)((undefined2 *)&DS:80F8 + local_4 * 0xb) == '\0')) {
+              (cVar1 = attack_direction((pitch *)pitch_records + local_4,0xb000),
+              '\0' < *(char *)((int)&pitch_records[0].y + local_4 * 0x16) == '\0' < cVar1)) &&
+             (*(char *)((int)&pitch_records[0].field_0x10 + local_4 * 0x16) == '\0')) {
             DS:830E = (undefined1)local_4;
-            DS:8317 = *(undefined2 *)(local_4 * 0x16 + -0x7f18);
+            DS:8317._0_1_ = ((pitch *)pitch_records + local_4)->x;
+            DS:8317._1_1_ = ((pitch *)pitch_records + local_4)->y;
             DS:8329 = 0;
             return;
           }
@@ -68,26 +69,27 @@ void __stdcall16far f_0791_34C1(undefined4 param_1,uint param_2,undefined2 param
   int iVar3;
   undefined1 extraout_AH;
   uint uVar4;
-  int iVar5;
-  undefined2 uVar6;
-  bool bVar7;
-  undefined2 uVar8;
+  word wVar5;
+  int iVar6;
+  undefined2 uVar7;
+  bool bVar8;
   undefined2 uVar9;
   undefined2 uVar10;
+  undefined2 uVar11;
   char local_4;
   char cStack_3;
   
-  uVar6 = (undefined2)((ulong)param_1 >> 0x10);
-  iVar5 = (int)param_1;
-  *(undefined1 *)(iVar5 + 0xf) = 5;
+  uVar7 = (undefined2)((ulong)param_1 >> 0x10);
+  iVar6 = (int)param_1;
+  *(undefined1 *)(iVar6 + 0xf) = 5;
   DS:8302 = 1;
-  DS:830B = *(char *)(iVar5 + 6);
+  DS:830B = *(char *)(iVar6 + 6);
   local_4 = (char)param_3;
-  local_4 = local_4 - (char)DS:82F6;
+  local_4 = local_4 - ball_record.x;
   cStack_3 = (char)((uint)param_3 >> 8);
-  cStack_3 = cStack_3 - DS:82F6._1_1_;
-  DS:82FC = 0;
-  DS:82FE = 0;
+  cStack_3 = cStack_3 - ball_record.y;
+  ball_record.vel_x = 0;
+  ball_record.vel_y = 0;
   iVar2 = (int)cStack_3;
   if (iVar2 < 0) {
     iVar2 = -iVar2;
@@ -97,10 +99,10 @@ void __stdcall16far f_0791_34C1(undefined4 param_1,uint param_2,undefined2 param
     iVar3 = -iVar3;
   }
   if (iVar2 < iVar3) {
-    DS:82FC = (int)((char *)form_delta)['\0' < local_4];
-    DS:8300 = (uint)local_4;
-    if ((int)DS:8300 < 0) {
-      DS:8300 = -DS:8300;
+    ball_record.vel_x = (word)((char *)form_delta)['\0' < local_4];
+    ball_record.timer = (word)local_4;
+    if ((int)ball_record.timer < 0) {
+      ball_record.timer = -ball_record.timer;
     }
     iVar2 = (int)local_4;
     if (iVar2 < 0) {
@@ -111,19 +113,19 @@ void __stdcall16far f_0791_34C1(undefined4 param_1,uint param_2,undefined2 param
       iVar3 = -iVar3;
     }
     if (iVar2 / 2 <= iVar3) {
-      DS:82FE = (int)((char *)form_delta)['\0' < cStack_3];
+      ball_record.vel_y = (word)((char *)form_delta)['\0' < cStack_3];
       iVar2 = (int)cStack_3;
       if (iVar2 < 0) {
         iVar2 = -iVar2;
       }
-      DS:8300 = DS:8300 + iVar2;
+      ball_record.timer = ball_record.timer + iVar2;
     }
   }
   else {
-    DS:82FE = (int)((char *)form_delta)['\0' < cStack_3];
-    DS:8300 = (uint)cStack_3;
-    if ((int)DS:8300 < 0) {
-      DS:8300 = -DS:8300;
+    ball_record.vel_y = (word)((char *)form_delta)['\0' < cStack_3];
+    ball_record.timer = (word)cStack_3;
+    if ((int)ball_record.timer < 0) {
+      ball_record.timer = -ball_record.timer;
     }
     iVar2 = (int)local_4;
     if (iVar2 < 0) {
@@ -139,12 +141,12 @@ void __stdcall16far f_0791_34C1(undefined4 param_1,uint param_2,undefined2 param
         iVar3 = -iVar3;
       }
       if (iVar2 / 2 <= iVar3) {
-        DS:82FC = (int)((char *)form_delta)['\0' < local_4];
+        ball_record.vel_x = (word)((char *)form_delta)['\0' < local_4];
         iVar2 = (int)local_4;
         if (iVar2 < 0) {
           iVar2 = -iVar2;
         }
-        DS:8300 = DS:8300 + iVar2;
+        ball_record.timer = ball_record.timer + iVar2;
         iVar2 = (int)local_4;
         if (iVar2 < 0) {
           iVar2 = -iVar2;
@@ -154,21 +156,21 @@ void __stdcall16far f_0791_34C1(undefined4 param_1,uint param_2,undefined2 param
           iVar3 = -iVar3;
         }
         if (iVar2 / 2 <= iVar3) {
-          DS:82FE = DS:82FE << 1;
+          ball_record.vel_y = ball_record.vel_y << 1;
         }
       }
     }
   }
-  bVar7 = false;
+  bVar8 = false;
   if (param_2 == 6) {
-    bVar7 = DS:8300 == 0x14;
-    if (DS:8300 < 0x15) {
-      cVar1 = f_0791_045D(*(undefined1 *)(iVar5 + 6));
-      bVar7 = cVar1 == '\0';
-      if (!bVar7) {
-        cVar1 = f_0791_2EB8(iVar5,uVar6,DS:82F6);
-        bVar7 = cVar1 == '\0';
-        if (!bVar7) {
+    bVar8 = ball_record.timer == 0x14;
+    if (ball_record.timer < 0x15) {
+      cVar1 = f_0791_045D(*(undefined1 *)(iVar6 + 6));
+      bVar8 = cVar1 == '\0';
+      if (!bVar8) {
+        cVar1 = f_0791_2EB8(iVar6,uVar7,ball_record._0_2_);
+        bVar8 = cVar1 == '\0';
+        if (!bVar8) {
           param_2 = 8;
         }
       }
@@ -179,62 +181,65 @@ void __stdcall16far f_0791_34C1(undefined4 param_1,uint param_2,undefined2 param
   }
   DS:8327 = (undefined1)param_2;
   sys_set_bit_mask_08DF(0x3481,0x2000,param_2 & 0xff);
-  if (bVar7) {
+  if (bVar8) {
     sys_set_bit_mask_08DF(0x34a1,0xa000,CONCAT11(extraout_AH,(undefined1)param_2));
-    if (bVar7) {
-      if ((((param_2 != 8) && (1 < DS:8300)) && (DS:830B != DS:830C)) &&
-         (cVar1 = f_0791_287C(iVar5,uVar6,*(undefined1 *)(param_2 + 0x779)), cVar1 == '\0')) {
+    if (bVar8) {
+      if ((((param_2 != 8) && (1 < ball_record.timer)) && (DS:830B != DS:830C)) &&
+         (cVar1 = f_0791_287C(iVar6,uVar7,*(undefined1 *)(param_2 + 0x779)), cVar1 == '\0')) {
         DS:830C = '\0';
-        cVar1 = f_0791_045D(*(undefined1 *)(iVar5 + 6));
+        cVar1 = f_0791_045D(*(undefined1 *)(iVar6 + 6));
         if (cVar1 == '\0') {
           cVar1 = u214b_random_coin_flip();
           if ((cVar1 == '\0') && (DS:8323 == '\0')) {
-            if (DS:82FC == 0) {
+            if (ball_record.vel_x == 0) {
               cVar1 = u214b_random_coin_flip();
-              DS:82FC = (int)((char *)form_delta)[cVar1];
-              DS:82FE = DS:82FE + ((char *)form_delta)[0 < DS:82FE];
+              ball_record.vel_x = (word)((char *)form_delta)[cVar1];
+              ball_record.vel_y =
+                   ball_record.vel_y + (int)((char *)form_delta)[0 < (int)ball_record.vel_y];
             }
             else {
-              iVar2 = DS:82FE;
-              if (DS:82FE < 0) {
-                iVar2 = -DS:82FE;
+              wVar5 = ball_record.vel_y;
+              if ((int)ball_record.vel_y < 0) {
+                wVar5 = -ball_record.vel_y;
               }
-              if (iVar2 == 1) {
-                DS:82FE = 0;
+              if (wVar5 == 1) {
+                ball_record.vel_y = 0;
               }
               else {
                 cVar1 = u214b_random_coin_flip();
-                DS:82FE = (int)((char *)form_delta)[cVar1];
+                ball_record.vel_y = (word)((char *)form_delta)[cVar1];
               }
             }
           }
           else {
-            iVar2 = u214b_random_1_to_n(DS:8300 / 2);
-            DS:8300 = DS:8300 - iVar2;
+            iVar2 = u214b_random_1_to_n(ball_record.timer / 2);
+            ball_record.timer = ball_record.timer - iVar2;
           }
         }
       }
     }
     else {
-      iVar2 = DS:8300 + 5;
-      uVar9 = 0;
-      uVar4 = f_0791_278A(iVar5,uVar6,*(undefined1 *)(param_2 + 0x779));
-      DS:8300 = u214b_max_longint(uVar4 / 3,0,iVar2,uVar9);
+      iVar2 = ball_record.timer + 5;
+      uVar10 = 0;
+      uVar4 = f_0791_278A(iVar6,uVar7,*(undefined1 *)(param_2 + 0x779));
+      ball_record.timer = u214b_max_longint(uVar4 / 3,0,iVar2,uVar10);
     }
   }
   else {
-    iVar2 = DS:8300 + 5;
-    uVar9 = 0;
-    iVar3 = f_0791_278A(iVar5,uVar6,*(undefined1 *)(param_2 + 0x779));
-    DS:8300 = u214b_max_longint(((uint)*(byte *)(iVar5 + 0x11) + iVar3) / 3,0,iVar2,uVar9);
+    iVar2 = ball_record.timer + 5;
+    uVar10 = 0;
+    iVar3 = f_0791_278A(iVar6,uVar7,*(undefined1 *)(param_2 + 0x779));
+    ball_record.timer =
+         u214b_max_longint(((uint)*(byte *)(iVar6 + 0x11) + iVar3) / 3,0,iVar2,uVar10);
   }
   DS:8323 = 0;
+  uVar11 = 0;
+  uVar9 = 2;
   uVar10 = 0;
-  uVar8 = 2;
-  uVar9 = 0;
-  uVar6 = sys_long_div_0294(2,0);
-  DS:8300 = u214b_max_longint(uVar6,uVar9,uVar8,uVar10);
-  DS:8313 = DS:82F6;
+  uVar7 = sys_long_div_0294(2,0);
+  ball_record.timer = u214b_max_longint(uVar7,uVar10,uVar9,uVar11);
+  DS:8313 = ball_record.x;
+  DS:8314 = ball_record.y;
   cVar1 = sys_long_mul_0279();
   DS:8314 = DS:8314 + cVar1;
   cVar1 = sys_long_mul_0279();
@@ -264,82 +269,81 @@ void __stdcall16far f_0791_384C(undefined4 param_1,uint param_2)
   undefined2 local_4;
   
   if (DS:830E == '\0') {
-    uVar1 = *(undefined2 *)(param_2 * 0x16 + -0x7f18);
-    cVar2 = f_0791_2EB8(param_2 * 0x16 + -0x7f18,0xb000,uVar1);
+    local_4._0_1_ = ((pitch *)pitch_records + param_2)->x;
+    local_4._1_1_ = ((pitch *)pitch_records + param_2)->y;
+    cVar2 = f_0791_2EB8((pitch *)pitch_records + param_2,0xb000,local_4);
     if (cVar2 == '\0') {
       uVar8 = (undefined2)((ulong)param_1 >> 0x10);
       iVar7 = (int)param_1;
-      local_4._1_1_ = (char)((uint)uVar1 >> 8);
-      local_4._0_1_ = (char)uVar1;
       if (*(byte *)(iVar7 + 6) == param_2) {
         iVar4 = f_0791_261A();
         iVar4 = iVar4 + 1;
         cVar2 = attack_direction(iVar7,uVar8);
-        local_4 = CONCAT11(local_4._1_1_ + (char)((cVar2 * iVar4) / 2),(char)local_4);
+        local_4 = CONCAT11(local_4._1_1_ + (char)((cVar2 * iVar4) / 2),(byte)local_4);
         DS:8303 = '\0';
-        uVar1 = local_4;
       }
       else {
-        iVar4 = (int)local_4._1_1_;
+        iVar4 = (int)(char)local_4._1_1_;
         if (iVar4 < 0) {
           iVar4 = -iVar4;
         }
         if (iVar4 < 0x19) {
-          iVar4 = u214b_random_1_to_n(((player *)players)[*(int *)(param_2 * 0x16 + -0x7f0b)].
-                                      position);
+          iVar4 = u214b_random_1_to_n(((player *)players)
+                                      [*(int *)((int)&pitch_records[0].player_index + param_2 * 0x16
+                                               )].position);
           cVar2 = attack_direction(iVar7,uVar8);
-          local_4 = CONCAT11(local_4._1_1_ + (char)((cVar2 * iVar4) / 4),(char)local_4);
-          uVar1 = local_4;
+          local_4 = CONCAT11(local_4._1_1_ + (char)((cVar2 * iVar4) / 4),(byte)local_4);
         }
       }
-      local_4 = uVar1;
-      ((undefined1 *)&DS:80FA)[param_2 * 0x16] = 5;
+      *(undefined1 *)((int)&pitch_records[0].state + param_2 * 0x16) = 5;
       DS:830C = (char)param_2;
-      if (DS:80FA == '\0') {
+      if (pitch_records[0].state == 0) {
         f_0791_34C1(iVar7,uVar8,6,local_4);
       }
       else {
         f_0791_34C1(iVar7,uVar8,0xb,local_4);
       }
       local_4 = DS:8313;
-      if (((*(byte *)(iVar7 + 6) == param_2) && (DS:82FE != 0)) &&
-         (cVar2 = u214b_random_is_one(3), uVar1 = DS:82F6, cVar2 != '\0')) {
-        if (2 < DS:8300) {
-          DS:8300 = DS:8300 / 3;
+      if (((*(byte *)(iVar7 + 6) == param_2) && (ball_record.vel_y != 0)) &&
+         (cVar2 = u214b_random_is_one(3), uVar1 = ball_record._0_2_, cVar2 != '\0')) {
+        if (2 < ball_record.timer) {
+          ball_record.timer = ball_record.timer / 3;
         }
         cVar2 = u214b_random_coin_flip();
-        DS:82FC = (int)((char *)form_delta)[cVar2];
-        DS:82FE = DS:82FE + ((char *)form_delta)[0 < DS:82FE];
-        cVar2 = sys_long_mul_0279();
-        local_4._1_1_ = (char)((uint)uVar1 >> 8);
-        local_4._0_1_ = (char)uVar1;
+        ball_record.vel_x = (word)((char *)form_delta)[cVar2];
+        ball_record.vel_y =
+             ball_record.vel_y + (int)((char *)form_delta)[0 < (int)ball_record.vel_y];
         cVar3 = sys_long_mul_0279();
-        local_4._0_1_ = (char)local_4 + cVar3;
-        local_4 = CONCAT11(local_4._1_1_ + cVar2,(char)local_4);
-        cVar2 = f_0791_2DCA(local_4);
-        if ((cVar2 == '\0') && (cVar2 = f_0791_287C(iVar7,uVar8,10), cVar2 != '\0')) {
-          iVar7 = (int)(char)local_4;
+        local_4._1_1_ = SUB21(uVar1,1);
+        local_4._0_1_ = (byte)uVar1;
+        cVar2 = sys_long_mul_0279();
+        cVar2 = (byte)local_4 + cVar2;
+        local_4 = CONCAT11(local_4._1_1_ + cVar3,cVar2);
+        cVar3 = f_0791_2DCA(local_4);
+        if ((cVar3 == '\0') && (cVar3 = f_0791_287C(iVar7,uVar8,10), cVar3 != '\0')) {
+          iVar7 = (int)cVar2;
           if (iVar7 < 0) {
             iVar7 = -iVar7;
           }
           if (iVar7 < 9) {
-            DS:82FE = DS:82FE + ((char *)form_delta)[DS:82FE < 0];
+            ball_record.vel_y =
+                 ball_record.vel_y + (int)((char *)form_delta)[(int)ball_record.vel_y < 0];
           }
           else {
-            DS:82FC = 0;
+            ball_record.vel_x = 0;
           }
         }
-        uVar1 = DS:82F6;
+        uVar8 = ball_record._0_2_;
         cVar2 = sys_long_mul_0279();
-        local_4._1_1_ = (char)((uint)uVar1 >> 8);
-        local_4._0_1_ = (char)uVar1;
+        local_4._1_1_ = SUB21(uVar8,1);
+        local_4._0_1_ = (byte)uVar8;
         cVar3 = sys_long_mul_0279();
-        local_4 = CONCAT11(local_4._1_1_ + cVar2,(char)local_4 + cVar3);
+        local_4 = CONCAT11(local_4._1_1_ + cVar2,(byte)local_4 + cVar3);
       }
-      uVar5 = f_0791_835F((undefined2 *)&DS:82F6,0xb000);
+      uVar5 = f_0791_835F((ball *)&ball_record,0xb000);
       if ((uVar5 < 0x15) &&
          (((uVar5 = CONCAT11((char)(uVar5 >> 8),DS:830C), DS:830C == DS:830B ||
-           (uVar5 = f_0791_835F((undefined2 *)&DS:82F6,0xb000), uVar5 < 0xb)) ||
+           (uVar5 = f_0791_835F((ball *)&ball_record,0xb000), uVar5 < 0xb)) ||
           (uVar5 = u214b_random_coin_flip(), (char)uVar5 == '\0')))) {
         uVar5 = uVar5 & 0xff00;
       }
@@ -347,7 +351,7 @@ void __stdcall16far f_0791_384C(undefined4 param_1,uint param_2)
         uVar5 = CONCAT11((char)(uVar5 >> 8),1);
       }
       DS:8303 = (char)uVar5;
-      if (DS:80FA == '\0') {
+      if (pitch_records[0].state == 0) {
         if (DS:830C == '\0') {
           cVar2 = u214b_random_coin_flip();
           f_0791_2AA3(CONCAT11(cVar2 >> 7,*(undefined1 *)(cVar2 + 0x786)));
@@ -400,7 +404,7 @@ void __stdcall16far f_0791_3B15(undefined4 param_1)
   undefined2 uVar8;
   undefined2 local_4;
   
-  uVar1 = DS:82F6;
+  uVar1 = ball_record._0_2_;
   uVar8 = 0;
   uVar7 = 0x1e;
   uVar6 = (undefined2)((ulong)param_1 >> 0x10);
@@ -410,8 +414,8 @@ void __stdcall16far f_0791_3B15(undefined4 param_1)
   u214b_max_longint(iVar4,iVar4 >> 0xf,uVar7,uVar8);
   attack_direction(uVar5,uVar6);
   cVar2 = sys_long_mul_0279();
-  local_4._1_1_ = (char)((uint)uVar1 >> 8);
-  local_4 = CONCAT11(local_4._1_1_ + cVar2,(char)uVar1);
+  local_4._1_1_ = SUB21(uVar1,1);
+  local_4 = CONCAT11(local_4._1_1_ + cVar2,(byte)uVar1);
   DS:830C = -1;
   f_0791_34C1(uVar5,uVar6,10,local_4);
   DS:8303 = 1;
@@ -433,7 +437,8 @@ void __stdcall16far f_0791_3B9E(undefined4 param_1,int param_2)
   undefined2 uVar4;
   
   DS:830C = (undefined1)param_2;
-  uVar4 = *(undefined2 *)(param_2 * 0x16 + -0x7f18);
+  uVar4._0_1_ = ((pitch *)pitch_records + param_2)->x;
+  uVar4._1_1_ = ((pitch *)pitch_records + param_2)->y;
   uVar3 = (undefined2)((ulong)param_1 >> 0x10);
   uVar2 = (undefined2)param_1;
   cVar1 = f_0791_2C54(uVar2,uVar3);
@@ -500,7 +505,7 @@ void __stdcall16far f_0791_3C3F(undefined4 param_1,int param_2,undefined1 param_
   if (param_2 != 2) {
     cVar2 = u214b_random_coin_flip();
     cVar3 = u214b_random_coin_flip();
-    DS:82F6._0_1_ = (char)DS:82F6 + (cVar3 - cVar2);
+    ball_record.x = ball_record.x + (cVar3 - cVar2);
   }
   uVar5 = (undefined2)param_1;
   uVar6 = (undefined2)((ulong)param_1 >> 0x10);
@@ -508,10 +513,10 @@ void __stdcall16far f_0791_3C3F(undefined4 param_1,int param_2,undefined1 param_
      (((cVar2 = f_0791_287C(uVar5,uVar6,*(undefined1 *)((param_2 == 2) + 0x78e)), cVar2 != '\0' ||
        (cVar2 = u214b_random_is_one(4), cVar2 != '\0')) || (cVar2 = f_0791_29B3(), cVar2 != '\0'))))
   {
-    DS:80FB = 1;
+    pitch_records[0]._19_1_ = 1;
   }
   else {
-    DS:80FB = 0;
+    pitch_records[0]._19_1_ = 0;
   }
   uVar4 = f_0791_2C86(uVar5,uVar6,DS:0646);
   f_0791_34C1(uVar5,uVar6,param_2,uVar4);
@@ -538,48 +543,50 @@ void f_0791_3D38(uint param_1,undefined2 *param_2)
 
 {
   int iVar1;
-  char cVar2;
-  uint uVar3;
-  undefined2 uVar4;
+  int iVar2;
+  char cVar3;
+  uint uVar4;
   undefined2 uVar5;
-  bool bVar6;
+  undefined2 uVar6;
+  bool bVar7;
   undefined4 local_a;
   uint local_4;
   
-  uVar4 = 0x2000;
-  cVar2 = ball_holder_is_side0();
-  uVar3 = *(byte *)(cVar2 + 0x668) + 0xb;
-  cVar2 = ball_holder_is_side0();
-  local_4 = *(byte *)(cVar2 + 0x668) + 2;
-  if (uVar3 < local_4) {
+  uVar5 = 0x2000;
+  cVar3 = ball_holder_is_side0();
+  uVar4 = *(byte *)(cVar3 + 0x668) + 0xb;
+  cVar3 = ball_holder_is_side0();
+  local_4 = *(byte *)(cVar3 + 0x668) + 2;
+  if (uVar4 < local_4) {
     return;
   }
   do {
-    iVar1 = local_4 * 0x16;
-    local_a = (undefined2 *)CONCAT22(0xb000,(undefined2 *)(iVar1 + -0x7f18));
-    uVar5 = uVar4;
-    if (*(byte *)((undefined2 *)&DS:80EE + local_4 * 0xb) != param_1) {
-      bVar6 = (player *)players + *(int *)(iVar1 + -0x7f0b) == (player *)0x0;
-      uVar5 = 0xa000;
+    iVar2 = local_4 * 0x16;
+    local_a = (pitch *)CONCAT22(0xb000,(pitch *)pitch_records + local_4);
+    uVar6 = uVar5;
+    if (*(byte *)((int)&pitch_records[0].side + iVar2) != param_1) {
+      iVar1 = *(int *)((int)&pitch_records[0].player_index + iVar2);
+      bVar7 = (player *)players + iVar1 == (player *)0x0;
+      uVar6 = 0xa000;
       sys_set_bit_mask_08DF
-                (0x3d18,uVar4,
-                 CONCAT11((char)((uint)(*(int *)(iVar1 + -0x7f0b) * 0x14) >> 8),
-                          ((player *)players)[*(int *)(iVar1 + -0x7f0b)].position));
-      if (!bVar6) {
-        uVar5 = 0x4000;
-        cVar2 = player_unavailable(*(undefined2 *)(iVar1 + -0x7f0b));
-        if ((cVar2 == '\0') &&
-           (cVar2 = f_0791_2EF0((undefined2 *)(iVar1 + -0x7f18),0xb000,*local_a), cVar2 != '\0')) {
-          *param_2 = *local_a;
+                (0x3d18,uVar5,
+                 CONCAT11((char)((uint)(iVar1 * 0x14) >> 8),((player *)players)[iVar1].position));
+      if (!bVar7) {
+        uVar6 = 0x4000;
+        cVar3 = player_unavailable(*(undefined2 *)((int)&pitch_records[0].player_index + iVar2));
+        if ((cVar3 == '\0') &&
+           (uVar5._0_1_ = local_a->x, uVar5._1_1_ = local_a->y,
+           cVar3 = f_0791_2EF0((pitch *)pitch_records + local_4,0xb000,uVar5), cVar3 != '\0')) {
+          *param_2 = *(undefined2 *)local_a;
           return;
         }
       }
     }
-    if (local_4 == uVar3) {
+    if (local_4 == uVar4) {
       return;
     }
     local_4 = local_4 + 1;
-    uVar4 = uVar5;
+    uVar5 = uVar6;
   } while( true );
 }
 
@@ -657,7 +664,7 @@ void __stdcall16far f_0791_3EF8(undefined4 param_1,int param_2)
   undefined2 uVar10;
   undefined2 local_4;
   
-  uVar1 = DS:82F6;
+  uVar1 = ball_record._0_2_;
   DS:830C = 0;
   bVar9 = param_2 == 9;
   uVar3 = (uint)*(byte *)(bVar9 + 0x79c);
@@ -670,8 +677,8 @@ void __stdcall16far f_0791_3EF8(undefined4 param_1,int param_2)
   u214b_max_longint(iVar6,iVar6 >> 0xf,uVar3,uVar10);
   attack_direction(uVar7,uVar8);
   cVar2 = sys_long_mul_0279();
-  local_4._1_1_ = (char)((uint)uVar1 >> 8);
-  local_4 = CONCAT11(local_4._1_1_ + cVar2,(char)uVar1);
+  local_4._1_1_ = SUB21(uVar1,1);
+  local_4 = CONCAT11(local_4._1_1_ + cVar2,(byte)uVar1);
   f_0791_34C1(uVar7,uVar8,*(undefined1 *)(bVar9 + 0x79a),local_4);
   DS:8303 = 1;
   if (bVar9) {
@@ -753,25 +760,25 @@ uint __cdecl16near f_0791_40BC(void)
   undefined4 local_7;
   
   iVar1 = (uint)DS:830B * 0x16;
-  local_7 = (char *)CONCAT22(0xb000,(char *)(iVar1 + -0x7f18));
-  uVar3 = f_0791_2C54((char *)(iVar1 + -0x7f18),0xb000);
+  local_7 = (pitch *)CONCAT22(0xb000,(pitch *)pitch_records + DS:830B);
+  uVar3 = f_0791_2C54((pitch *)pitch_records + DS:830B,0xb000);
   if ((char)uVar3 == '\0') {
     cVar2 = ball_holder_is_side0();
     iVar4 = (int)(char)((undefined1 *)&DS:82E3)[(cVar2 == '\0') * 6];
     if (iVar4 < 0) {
       iVar4 = -iVar4;
     }
-    uVar3 = (uint)*(char *)(iVar1 + -0x7f17);
+    uVar3 = (uint)*(char *)((int)&pitch_records[0].y + iVar1);
     if ((int)uVar3 < 0) {
       uVar3 = -uVar3;
     }
     if (iVar4 < (int)uVar3) {
-      uVar3 = (uint)*(char *)(iVar1 + -0x7f17);
+      uVar3 = (uint)*(char *)((int)&pitch_records[0].y + iVar1);
       if ((int)uVar3 < 0) {
         uVar3 = -uVar3;
       }
       if ((int)uVar3 < 0x23) {
-        uVar3 = (uint)*local_7;
+        uVar3 = (uint)(char)local_7->x;
         if ((int)uVar3 < 0) {
           uVar3 = -uVar3;
         }
@@ -790,17 +797,20 @@ uint __cdecl16near f_0791_40BC(void)
 bool __cdecl16near f_0791_4151(void)
 
 {
-  char cVar1;
-  undefined2 *puVar2;
+  undefined2 uVar1;
+  char cVar2;
+  pitch *ppVar3;
   undefined4 local_7;
   
-  puVar2 = (undefined2 *)((uint)DS:830B * 0x16 + -0x7f18);
-  local_7 = (undefined2 *)CONCAT22(0xb000,puVar2);
-  cVar1 = f_0791_2EB8(puVar2,0xb000,*local_7);
-  if (cVar1 != '\0') {
-    f_0791_3FAD(puVar2,0xb000,9);
+  ppVar3 = (pitch *)pitch_records + DS:830B;
+  local_7 = (pitch *)CONCAT22(0xb000,ppVar3);
+  uVar1._0_1_ = local_7->x;
+  uVar1._1_1_ = local_7->y;
+  cVar2 = f_0791_2EB8(ppVar3,0xb000,uVar1);
+  if (cVar2 != '\0') {
+    f_0791_3FAD(ppVar3,0xb000,9);
   }
-  return cVar1 != '\0';
+  return cVar2 != '\0';
 }
 
 
@@ -825,26 +835,28 @@ void __cdecl16near f_0791_419C(void)
     if (local_5 <= uVar3) {
       while( true ) {
         iVar2 = local_5 * 0x16;
-        *(undefined2 *)((undefined1 *)&DS:80F1 + iVar2) =
+        *(undefined2 *)((int)&pitch_records[0].field_0x9 + iVar2) =
              *(undefined2 *)
-              ((uint)((player *)players)[*(int *)(iVar2 + -0x7f0b)].position * 2 + 0x79e);
+              ((uint)((player *)players)[*(int *)((int)&pitch_records[0].player_index + iVar2)].
+                     position * 2 + 0x79e);
         if ((*(byte *)(local_3 + 0x668) + 1 < local_5) &&
-           (*(int *)((undefined1 *)&DS:80F1 + local_7 * 0x16) ==
-            *(int *)((undefined1 *)&DS:80F1 + iVar2))) {
-          iVar4 = (int)(char)((undefined1 *)&DS:80F1)[iVar2];
+           (*(int *)((int)&pitch_records[0].field_0x9 + local_7 * 0x16) ==
+            *(int *)((int)&pitch_records[0].field_0x9 + iVar2))) {
+          iVar4 = (int)*(char *)((int)&pitch_records[0].field_0x9 + iVar2);
           if (iVar4 < 0) {
             iVar4 = -iVar4;
           }
           if (iVar4 < 5) {
-            ((undefined1 *)&DS:80F1)[iVar2] = ((undefined1 *)&DS:80F1)[iVar2] + '\x03';
-            ((undefined1 *)&DS:80F1)[local_7 * 0x16] =
-                 ((undefined1 *)&DS:80F1)[local_7 * 0x16] + -3;
+            pcVar1 = (char *)((int)&pitch_records[0].field_0x9 + iVar2);
+            *pcVar1 = *pcVar1 + '\x03';
+            pcVar1 = (char *)((int)&pitch_records[0].field_0x9 + local_7 * 0x16);
+            *pcVar1 = *pcVar1 + -3;
           }
           else {
-            ((undefined1 *)&DS:80F1)[iVar2] =
-                 ((undefined1 *)&DS:80F1)[iVar2] +
-                 ((char *)form_delta)['\0' < (char)((undefined1 *)&DS:80F1)[iVar2]] * -3;
-            pcVar1 = (char *)(local_7 * 0x16 + -0x7f0e);
+            pcVar1 = (char *)((int)&pitch_records[0].field_0x9 + iVar2);
+            *pcVar1 = *pcVar1 + ((char *)form_delta)
+                                ['\0' < *(char *)((int)&pitch_records[0].field_0x9 + iVar2)] * -3;
+            pcVar1 = (char *)((int)&pitch_records[0].field_0xa + local_7 * 0x16);
             *pcVar1 = *pcVar1 + -3;
           }
         }
@@ -1174,72 +1186,75 @@ LAB_0791_4796:
 undefined1 f_0791_47C5(int param_1)
 
 {
-  char cVar1;
+  undefined2 uVar1;
   char cVar2;
-  uint uVar3;
+  char cVar3;
   uint uVar4;
-  int iVar5;
+  uint uVar5;
   int iVar6;
-  country *pcVar7;
-  undefined2 uVar8;
+  int iVar7;
+  country *pcVar8;
+  undefined2 uVar9;
   undefined2 unaff_SS;
   word local_9;
   int local_7;
   uint local_5;
   
-  cVar1 = ball_holder_is_side0();
-  iVar5 = ((undefined2 *)&DS:9B34)[cVar1];
-  uVar8 = (undefined2)((ulong)countries >> 0x10);
-  pcVar7 = (country *)countries;
-  cVar1 = ball_holder_is_side0();
+  cVar2 = ball_holder_is_side0();
+  iVar6 = ((undefined2 *)&DS:9B34)[cVar2];
+  uVar9 = (undefined2)((ulong)countries >> 0x10);
+  pcVar8 = (country *)countries;
+  cVar2 = ball_holder_is_side0();
   local_9 = *(word *)((undefined1 *)&DS:9A3E +
-                     (cVar1 == '\0') * 0x28 +
+                     (cVar2 == '\0') * 0x28 +
                      ((uint)*(byte *)((int)*(undefined4 *)(param_1 + 6) + 6) -
-                     (uint)*(byte *)((cVar1 == '\0') + 0x668)) * 2);
+                     (uint)*(byte *)((cVar2 == '\0') + 0x668)) * 2);
   if (local_9 == 0) {
     for (local_5 = 2; local_5 < 0xc; local_5 = local_5 + 1) {
-      cVar2 = player_unavailable(pcVar7[iVar5].squad[local_5 - 1]);
-      if ((cVar2 == '\0') &&
-         (cVar2 = f_0791_4438((int)*(undefined4 *)(param_1 + 6),
-                              (int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10),
-                              *(undefined2 *)((*(byte *)(cVar1 + 0x668) + local_5) * 0x16 + -0x7f18)
-                             ), cVar2 != '\0')) {
-        local_9 = pcVar7[iVar5].squad[local_5 - 1];
+      cVar3 = player_unavailable(pcVar8[iVar6].squad[local_5 - 1]);
+      if ((cVar3 == '\0') &&
+         (uVar1._0_1_ = ((pitch *)pitch_records + *(byte *)(cVar2 + 0x668) + local_5)->x,
+         uVar1._1_1_ = ((pitch *)pitch_records + *(byte *)(cVar2 + 0x668) + local_5)->y,
+         cVar3 = f_0791_4438((int)*(undefined4 *)(param_1 + 6),
+                             (int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10),uVar1),
+         cVar3 != '\0')) {
+        local_9 = pcVar8[iVar6].squad[local_5 - 1];
       }
     }
   }
   if (local_9 != 0) {
     for (local_5 = 2; local_5 < 0xc; local_5 = local_5 + 1) {
-      if ((pcVar7[iVar5].squad[local_5 - 1] == local_9) &&
-         (cVar2 = player_unavailable(pcVar7[iVar5].squad[local_5 - 1]), cVar2 == '\0')) {
-        *(int *)(param_1 + -4) = *(byte *)(cVar1 + 0x668) + local_5;
-        *(undefined2 *)(param_1 + -2) = *(undefined2 *)(*(int *)(param_1 + -4) * 0x16 + -0x7f18);
-        cVar1 = f_0791_2C54(*(int *)(param_1 + -4) * 0x16 + -0x7f18,0xb000);
-        if (cVar1 != '\0') {
+      if ((pcVar8[iVar6].squad[local_5 - 1] == local_9) &&
+         (cVar3 = player_unavailable(pcVar8[iVar6].squad[local_5 - 1]), cVar3 == '\0')) {
+        *(int *)(param_1 + -4) = *(byte *)(cVar2 + 0x668) + local_5;
+        *(undefined2 *)(param_1 + -2) =
+             *(undefined2 *)((pitch *)pitch_records + *(int *)(param_1 + -4));
+        cVar2 = f_0791_2C54((pitch *)pitch_records + *(int *)(param_1 + -4),0xb000);
+        if (cVar2 != '\0') {
           return 0;
         }
         local_7 = 1;
-        uVar3 = f_0791_278A((int)*(undefined4 *)(param_1 + 6),
+        uVar4 = f_0791_278A((int)*(undefined4 *)(param_1 + 6),
                             (int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10),5);
-        uVar4 = f_0791_278A(*(int *)(param_1 + -4) * 0x16 + -0x7f18,0xb000,8);
-        if (uVar3 < uVar4) {
-          iVar5 = f_0791_278A((int)*(undefined4 *)(param_1 + 6),
+        uVar5 = f_0791_278A((pitch *)pitch_records + *(int *)(param_1 + -4),0xb000,8);
+        if (uVar4 < uVar5) {
+          iVar6 = f_0791_278A((int)*(undefined4 *)(param_1 + 6),
                               (int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10),5);
-          iVar6 = f_0791_278A(*(int *)(param_1 + -4) * 0x16 + -0x7f18,0xb000,8);
-          local_7 = (uint)(iVar6 - iVar5) / 0x10 + 1;
+          iVar7 = f_0791_278A((pitch *)pitch_records + *(int *)(param_1 + -4),0xb000,8);
+          local_7 = (uint)(iVar7 - iVar6) / 0x10 + 1;
         }
-        cVar1 = u214b_random_1_to_n(local_7);
-        cVar2 = attack_direction((int)*(undefined4 *)(param_1 + 6),
+        cVar2 = u214b_random_1_to_n(local_7);
+        cVar3 = attack_direction((int)*(undefined4 *)(param_1 + 6),
                                  (int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10));
-        *(char *)(param_1 + -1) = *(char *)(param_1 + -1) - cVar2 * cVar1;
+        *(char *)(param_1 + -1) = *(char *)(param_1 + -1) - cVar3 * cVar2;
         return 1;
       }
     }
     *(undefined2 *)
      ((undefined1 *)&DS:9A3E +
-     (cVar1 == '\0') * 0x28 +
+     (cVar2 == '\0') * 0x28 +
      ((uint)*(byte *)((int)*(undefined4 *)(param_1 + 6) + 6) -
-     (uint)*(byte *)((cVar1 == '\0') + 0x668)) * 2) = 0;
+     (uint)*(byte *)((cVar2 == '\0') + 0x668)) * 2) = 0;
   }
   return 0;
 }
@@ -1285,10 +1300,10 @@ void __stdcall16far f_0791_4A28(undefined4 param_1)
       }
     }
     else if ((DS:8325 != '\0') &&
-            ((cVar2 = in_own_goal_area(iVar4,uVar6,DS:82F6), cVar2 != '\0' ||
+            ((cVar2 = in_own_goal_area(iVar4,uVar6,ball_record._0_2_), cVar2 != '\0' ||
              ((cVar2 = player_effective_tactic(iVar4,uVar6,1), cVar2 != '\0' &&
               (cVar2 = f_0791_40BC(), cVar2 != '\0')))))) {
-      *(undefined2 *)(iVar4 + 7) = DS:82F6;
+      *(undefined2 *)(iVar4 + 7) = ball_record._0_2_;
     }
   }
   else {
