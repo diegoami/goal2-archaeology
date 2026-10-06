@@ -2,7 +2,7 @@
 // Headings give listing addresses (SEGMENT:OFFSET, as in ../code/). DS:XXXX is the data segment 2581. A segment number written in the code (a far pointer's segment, a far call's) is Ghidra's: listing=Ghidra 0000=0000, 000E=1000, 0791=2000, 16D6=3000, 1771=4000, 2138=5000, 2139=6000, 214B=7000, 235C=8000, 2382=9000, 23E4=A000, 2581=B000.
 
 // ---- 0791:8CF5  track_offside_line  (f_0791_8CF5; Ghidra 2000:8CF5, __cdecl16near; found by routines.tsv)
-// per side 0..1, over the side's outfield pitch slots 0668[side]+2..+11, keeps in the six-byte sprite record at DS:82E2+6*side (the byte at +1) the DEEPEST defender: the smallest y times the side's attack direction (2BE5; jge keeps the earlier), stored back as that y (min times direction, 8DB5-8DC3), draws the sprite through 8E24, and when the stored y's sign equals the ball y's sign, DS:8328 is set and the y is nonzero calls 90C5 on the record at DS:8304 (the offside path); called by the tick loop every watched tick after the engine; no RNG in its tree (8E24 and 90C5 call nothing that draws)  [likely; F013; read code/seg_0791_15.asm]
+// per side 0..1, over the side's outfield pitch slots 0668[side]+2..+11, keeps in the six-byte sprite record at DS:82E2+6*side (the byte at +1) the minimum signed advancement y*attack direction (2BE5) against an accumulator that starts at ZERO (8D1F; 8D90 jge 8DAD keeps the earlier, so a positive product never replaces the zero), stored back as that y (min*direction, 8DB5-8DC3) - a y value, never a record number; a side whose deepest defender still has y*direction >= 0 keeps 0; draws the sprite through 8E24, and when the stored y's sign equals the ball y's sign, DS:8328 is set and the y is nonzero, calls 90C5 on the record at DS:8304 (the offside path); called by the tick loop every watched tick after the engine; no RNG in its tree (8E24 and 90C5 call nothing that draws)  [likely; F013; read code/seg_0791_15.asm]
 
 void __cdecl16near track_offside_line(void)
 
@@ -379,7 +379,7 @@ LAB_0791_9532:
 
 
 // ---- 0791:9564  watched_match_engine  (f_0791_9564; Ghidra 2000:9564, __cdecl16near; found by routines.tsv)
-// the watched match engine, called by the tick loop when DS:9A3E is clear; one call is one sweep of an outer slot loop [bp-2] = 1..0x16 over the pitch records (0x80E8 + 0x16*slot): per slot, when DS:8302 is nonzero and the threshold byte at 0x899 + 0x16*flag + slot is <= DS:8300 (flag 0, or the membership of DS:8327 in the set CS:9544 when DS:8303 is set), the ball phase runs: the two-word shot counter at DS:80F6 + 2*eq on the keeper's end (2BE5 against DS:7920), 83A2 move_ball, 2FB1, 2996, the keeper special (2CEC/2E36/8AE9 on the side's slot-1 record), 59B3 check_woodwork, then the 22-record handle_player_at_ball loop (6188); always then the per-slot tail: 8AE9 update_player on the record DS:883[slot] maps to, 2FB1 again when that slot is DS:830B, 94E8 speaker_noise, 8F10 draw_ball, 9372 the key poll; the sweep returns at once when R sets DS:9A3E (96F1), and at slot 0x16 takes 2 off DS:832A when it is nonzero  [established; F005; F013]
+// the watched match engine, called by the tick loop when DS:9A3E is clear; one call is one sweep of an outer slot loop [bp-2] = 1..0x16 over the pitch records (0x80E8 + 0x16*slot): per slot, when DS:8302 is nonzero and the threshold byte at 0x899 + 0x16*flag + slot is <= DS:8300 (flag = 1 exactly when DS:8303 is set AND DS:8327 is NOT a member of the set CS:9544 - 23E4:08DF returns in ZF, ZF set = not a member), the ball phase runs: the two-word shot counter at DS:80F6 + 2*eq on the keeper's end (2BE5 against DS:7920), 83A2 move_ball, 2FB1, 2996, the keeper special (only when DS:8327 IS a member, 9634 je skips non-members: 2CEC false and (keeper x != ball x, or 2E36) -> 8AE9 on the side's slot-1 record), 59B3 check_woodwork, then the 22-record handle_player_at_ball loop (6188) - the whole block sits INSIDE the slot loop and runs for every slot whose guards pass, up to six ball phases in one sweep (E011 rng-counts.txt); always then the per-slot tail: 8AE9 update_player on the record DS:883[slot] maps to, 2FB1 again when that slot is DS:830B, 94E8 speaker_noise, 8F10 draw_ball, 9372 the key poll; the sweep returns at once when R sets DS:9A3E (96F1), and at slot 0x16 takes 2 off DS:832A when it is nonzero  [established; F005; F013]
 
 void __cdecl16near watched_match_engine(void)
 
@@ -685,7 +685,7 @@ void __cdecl16near f_0791_998C(void)
 
 
 // ---- 0791:9A32  pre_half_sequence  (f_0791_9A32; Ghidra 2000:9A32, __cdecl16near; found by routines.tsv)
-// the pre-half routine both engines share: per pitch slot 1..22 the player's +0xE gains 2 when the player is in the set CS:99F2, DS:9B41=1, screen copies (23E4:025D), 0106, then the wait ED8A (the team screen; skipped only when DS:80FD=0 AND the key DS:A977 is in the set CS:9A12 - with no key sent it always waits and consumes no RNG), then the kick-off slot DS:830B = 0668[(DS:831A==0 ? 1 : 0)]+10, DS:832A=0x50, and the half itself (983F); the savestate at the ED8A wait is the exact input of the next half  [established; F013; F012]
+// the pre-half routine both engines share: per pitch slot 1..22 the player's +0xE gains 2 when the player is in the set CS:99F2, DS:9B41=1, screen copies (23E4:025D), 0106, then the wait ED8A (the team screen; it runs unless DS:80FD=0 AND the key DS:A977 is NOT a member of the set CS:9A12 = {13 Enter, 27 Esc} - 23E4:08DF returns in ZF, ZF set = not a member, so with E004's discipline the preceding Enter leaves A977=13, a member, and it waits; the wait consumes no RNG), then the kick-off slot DS:830B = 0668[(DS:831A==0 ? 1 : 0)]+10 (a ONE-byte store at 9AFC, DS:830C preserved), DS:832A=0x50, and the half itself (983F); the savestate at the ED8A wait is the exact input of the next half  [established; F013; F012]
 
 void __cdecl16near pre_half_sequence(void)
 
@@ -1119,49 +1119,5 @@ void __stdcall16far f_0791_A3B6(undefined2 *param_1)
   ((undefined2 *)param_1)[2] = 0xd01;
   *param_1 = DS:0644;
   ((undefined2 *)param_1)[1] = *param_1;
-  return;
-}
-
-
-// ---- 0791:A3DE  prepare_computer_sides  (f_0791_A3DE; Ghidra 2000:A3DE, __stdcall16near; found by routines.tsv)
-// match set-up for the computer sides: for t = 0 then 1, only when 0B77 is zero for the team, calls 0791:B11F, then 1771:34E7 (clear the players' +0xF and re-derive it), then 0791:BD83(t), in that order; a managed side is skipped  [established; F010]
-
-void prepare_computer_sides(undefined4 param_1)
-
-{
-  undefined4 uVar1;
-  int iVar2;
-  char cVar3;
-  undefined1 extraout_AH;
-  undefined2 uVar4;
-  bool bVar5;
-  char local_3;
-  
-  bVar5 = &stack0x0000 == (undefined1 *)0x8;
-  uVar4 = (undefined2)((ulong)param_1 >> 0x10);
-  iVar2 = (int)param_1;
-  uVar1 = *(undefined4 *)(iVar2 + 4);
-  DS:9B36 = (undefined2)((ulong)uVar1 >> 0x10);
-  DS:9B34 = (undefined2)uVar1;
-  sys_set_bit_mask_08DF
-            (0x693a,0xb000,CONCAT11((char)((ulong)uVar1 >> 8),*(undefined1 *)(iVar2 + 2)));
-  DS:7C36 = !bVar5;
-  pitch_records[0].activity._0_1_ = f_0791_D44C(iVar2,uVar4);
-  DS:9976 = *(undefined1 *)(iVar2 + 1);
-  DS:7C2A._0_2_ = iVar2;
-  DS:7C2A._2_2_ = uVar4;
-  f_0791_2648();
-  DS:9B3C = 0;
-  local_3 = '\0';
-  while( true ) {
-    cVar3 = is_managed(*(undefined2 *)(iVar2 + local_3 * 2 + 4));
-    if (cVar3 == '\0') {
-      f_0791_B11F(*(undefined2 *)(iVar2 + local_3 * 2 + 4));
-      reset_own_tactics(*(undefined2 *)(iVar2 + local_3 * 2 + 4));
-      computer_tactic_change(CONCAT11(extraout_AH,local_3));
-    }
-    if (local_3 == '\x01') break;
-    local_3 = local_3 + '\x01';
-  }
   return;
 }

@@ -1121,7 +1121,7 @@ void __stdcall16far sys_set_compact_08BF(uint param_1,undefined1 *param_2,undefi
 
 
 // ---- 23E4:08DF  sys_set_bit_mask_08DF  (f_23E4_08DF; Ghidra A000:08DF, __stdcall16far; found by routines.tsv)
-// Returns 1 << (n & 7): bit mask of a set element within its byte  [guess; read decompiled/seg_23E4_01.c]
+// Pascal set membership test: computes the address of byte n>>3 of the 32-byte set argument and tests bit n&7 (test byte ptr es:[bx+di], al, seg_23E4_01.asm:1065), returning the result in ZF - ZF SET means NOT a member; callers branch je (skip) on the non-member side  [likely; F013; read code/seg_23E4_01.asm]
 
 char __stdcall16far sys_set_bit_mask_08DF(undefined2 param_1,undefined2 param_2,byte param_3)
 

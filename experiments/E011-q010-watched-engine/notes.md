@@ -29,15 +29,21 @@ One call = one sweep of an outer slot loop `[bp-2] = 1..0x16` (22 pitch records;
 `9567`-`95A0`, `96F3`-`96F9`). Prologue `push bp; mov bp,sp; sub sp,8` (`9564`-`9569`).
 Per slot:
 
-- **Ball phase, guarded twice** (`9574`-`95B6`):
+- **Ball phase, guarded twice — per slot, not once per tick** (`9574`-`95B6`):
   - `DS:8302` must be nonzero (`9574` `cmp byte [0x8302],0`; else jump to the per-slot tail
     `969B`) — the "play running" gate;
   - the byte at `0x899 + 0x16*flag + slot` must be `<= DS:8300` (word compare, `95AA`-`95B4`),
-    where `flag` = 0, or (only when `DS:8303` is nonzero, `9582`) the membership of `DS:8327`
-    in the set at `CS:9544` (`23E4:08DF`, `958D`-`9597`; flag 0/1 at `9599`/`959D`).
-    `0x899` is the second half of a 22-byte-per-flag table at `DS:883` (the per-slot tail
-    reads `DS:883[slot]` as a record index, `969E`). The gate skips slots whose threshold
-    exceeds the counter `DS:8300`.
+    where `flag` = 1 exactly when `DS:8303` is nonzero AND `DS:8327` is NOT a member of the
+    set at `CS:9544` (`23E4:08DF` at `958D`; `9597 je 959D` sets flag 1. `23E4:08DF` ends in
+    `test byte ptr es:[bx+di], al` (seg_23E4_01.asm:1065), so **ZF set means NOT a member**:
+    a member (or `8303` clear) leaves flag 0, a non-member takes flag 1 and the second
+    threshold row `0x899+0x16`). `0x899` is the second half of a 22-byte-per-flag table at
+    `DS:883` (the per-slot tail reads `DS:883[slot]` as a record index, `969E`). The gate
+    skips slots whose threshold exceeds the counter `DS:8300`. The whole ball-phase block —
+    including the keeper special, the woodwork check and the 22-record player loop below —
+    stays INSIDE the outer slot loop (`9574`-`9699` has no first-slot guard): it runs for
+    every slot whose two guards pass, up to six ball phases in one sweep
+    (`instrument_rng.py` → `rng-counts.txt`; R4).
 - **Shot statistic for the keeper's end** (`95B9`-`95EE`): when the ball's y `DS:82F7` is
   nonzero, `2BE5 attack_direction(DS:80FE)` (pitch record 1, the side's slot-1 keeper) → `dl`,
   compare `DS:7920[(0x82F7 > 0)]` (form_delta) with it and increment the word `DS:80F6 + 2*eq`
@@ -45,10 +51,12 @@ Per slot:
 - **Ball move and chase** (`95F2`-`9601`): `83A2 move_ball(DS:82F6)`; `2FB1
   find_nearest_to_ball()`; `2996 ball_holder_is_side0()`.
 - **Keeper special** (`9605`-`9666`): keeper record = `(0668[side]+1)*0x16 + 0x80E8`
-  (`9605`-`9623`); if the `23E4:08DF` membership (as above) holds (`962F`, `jne 9669` — note
-  the reversed sense: the *non*-member path checks the keeper): `2CEC player_at_ball(keeper)`
-  is false AND (keeper x == ball x `DS:82F6` or `2E36 in_own_goal_area(keeper, ball)` true)
-  → `8AE9 update_player(keeper)` (`9643`-`9666`).
+  (`9605`-`9623`); it runs only when `DS:8327` IS a member of `CS:9544` (`23E4:08DF` at
+  `962F`; `9634 je 9669` — ZF set, i.e. NOT a member, skips the check): then `2CEC
+  player_at_ball(keeper)` must be false AND (`keeper x != ball x` `DS:82F6` (`9649`-`964D`,
+  `jne 9660` jumps straight to the update) OR `2E36 in_own_goal_area(keeper, ball)` true,
+  `964F`-`965E`) → `8AE9 update_player(keeper)`. Equal x alone is NOT enough: it also
+  requires the goal-area test (R5).
 - **Woodwork** (`9669`): `59B3 check_woodwork()`; if it returns 0 → the **player loop**
   `[bp-4] = 1..0x16`: `6188 handle_player_at_ball(record)` per record while `DS:8302`
   (`9670`-`9699`).
@@ -64,11 +72,11 @@ Per slot:
   (`96F1`); slot 0x16 done → if `DS:832A > 0` subtract 2 (`96FC`-`9703`, the kick-off /
   restart countdown) and return; else next slot.
 
-So one tick = 22 slot iterations, each: (guarded ball logic for its slot) + one
-`update_player` on the mapped record + `speaker_noise` + `draw_ball` + the key poll; and
-once per tick (first slot only, in the ball phase) the keeper checks, the woodwork check and
-the 22-player `handle_player_at_ball` loop. `6188` dispatches: a keeper on the ball → `5B36`,
-another player → `5F8A` (annotation, seg_0791_10.asm:937+).
+So one tick = 22 slot iterations, each: (guarded ball logic for its slot — which, when its
+guards pass, also runs the keeper check, the woodwork check and the 22-player
+`handle_player_at_ball` loop, up to six times per sweep, R4) + one `update_player` on the
+mapped record + `speaker_noise` + `draw_ball` + the key poll. `6188` dispatches: a keeper on
+the ball → `5B36`, another player → `5F8A` (annotation, seg_0791_10.asm:937+).
 
 ### Callee roles (F005's list, each with its listing)
 
@@ -87,12 +95,17 @@ another player → `5F8A` (annotation, seg_0791_10.asm:937+).
 | `0791:8F10` | draw_ball: restore the old cell in the screen buffer `DS:7C16`, write the new cell | seg_0791_15.asm:246+ |
 | `0791:9372` | match_key_poll: on R (or `DS:7C38`) → `92FC`; returns when no key waits | seg_0791_15.asm:726+ |
 | `0791:94E8` | speaker_noise: pitch from `94C9`, the second stream `DS:8336` | seg_0791_15.asm:900+ |
-| `23E4:08DF` | set membership test used twice per slot for the flag and the keeper gate | seg_0791_15.asm:9592, 962F |
+| `23E4:08DF` | set membership test, result in ZF: ZF SET means NOT a member (it ends in `test byte ptr es:[bx+di], al`, seg_23E4_01.asm:1065); used for the threshold flag (`9592`) and the keeper gate (`962F`) | seg_0791_15.asm:9592, 962F; seg_23E4_01.asm:1052-1066 |
 
 `0791:8CF5` (called by the loop, not 9564): per side 0..1, over the side's slots
 `0668[side]+2..+11`, keeps in the byte at `0x82E2 + 6*side + 1` — a six-byte per-side block
-right after pitch record 22 — the record whose y × attack direction (`2BE5`) is greatest
-(seg_0791_15.asm:28-110). No RNG.
+right after pitch record 22 — the MINIMUM signed advancement `y × attack_direction`
+(`2BE5`) against an accumulator that starts at ZERO (`8D1F`; `8D90 jge 8DAD` keeps the
+earlier value, so a positive product never replaces the zero), then stores it back
+multiplied by the direction (`8DB5`-`8DC3`): the byte is `direction × min(0, min_y ×
+direction)`, a y value, never a record number. A side whose deepest defender still has
+`y × direction >= 0` keeps 0. (seg_0791_15.asm:28-118; R7 — an isolated guest probe with
+side-0 outfield y values -7 and 5 stores 5, consistent with this rule.) No RNG.
 
 ## 3. Which draws happen per tick, which per event
 
@@ -106,11 +119,26 @@ All draws are the LCG `214B:0688` through `06B1` (rand 1..n), `06D0` (chance 1/n
   `214B:0D1C`, which draws nothing — seg_214B_02.asm:0D1C-0D53, a two-word min), branch
   `<= 0` calls `06B1` at `91F1` (then `0D56`, a max). Then it draws the referee sprite
   (`8E24`) and writes the glyph cell — the display path that draws from the seed every tick.
-- **Per tick, conditional**: `8889` (reached from `8AE9 update_player` per updated record)
-  draws ONE `06FA` coin at `8A2E` (seg_0791_14.asm:8A2E) on the path where the record is not
-  the ball holder (`88DE`/`88F2` bail out) and `2CC5` returned 0 — the sprint-direction
-  choice; 0..22 coins per tick. `9119`'s and `8889`'s draws are the floor consumption of a
-  tick; everything below is event-driven.
+- **Per tick, conditional**: `8889` (reached from `8AE9 update_player` per updated record —
+  up to 23 per sweep: the 22 slot tails plus the keeper special) is the movement draw, and
+  its guards do NOT fence off the coin (R2):
+  - the early exits at `8894` (8302 = 0), `88E4` (the holder `830B`) and `88F8` (`830C`)
+    jump to `88D3`/`89E5` — points INSIDE the routine, on the path to the coin — they only
+    skip the advancement block `8896`-`89E1`. The coin at `8A2E` is therefore drawn for the
+    holder and for records with `8302` = 0 as well;
+  - the state filter at `8985` (`+0x12` in the set `CS:8869` = {5, 7, 8, 11}; ZF set = NOT
+    a member → `je 89E5`) likewise only skips the `899A`-`89E1` block;
+  - what actually gates the coin is the target test `8A18`-`8A1D`: `2CC5` (the record's
+    position word equals its target word `+7`) returning 0 — i.e. the record is NOT on its
+    target square — draws ONE `06FA` coin at `8A2E` choosing the sprint axis (heads: move by
+    the x sign first, tails: by the y sign; the run byte `+0xF` becomes 1/2, 3/4 or 5);
+  - after the choice, the movement loop `8AC5`-`8AE1` calls `86D0` and, whenever the move
+    FAILS (`8AC6`-`8ACB`), draws `06B1(5)` at `8AD1` for a fresh run direction 1..5 and
+    retries — per-tick MOVEMENT retries, not restart/contest events.
+  Instrumented baseline half (`instrument_rng.py` → `rng-counts.txt`): 33532 coins at
+  `8A2E` (23280 plain, 8754 with `8302` = 0, 1280 holder, 218 `830C`), 2488 `rand(5)`
+  movement retries, up to 23 coins and 6 ball phases in one sweep. `9119`'s one `rand(2)`
+  plus these are the per-tick floor; everything below is event-driven.
 - **Event draws** (fire only on restarts, contests, fouls, goals, substitutions, tactic
   updates): direct callers `0791:593B`/`59B3` (woodwork bounce), `5B36`/`5F8A` (ball
   handlers), `690C`/`698E` (ball restarts), `6337` (kick-off choice after a goal),
@@ -142,11 +170,15 @@ savestate reads of the ground truth record both words, which pins each read to i
 
 `0791:9A32` (seg_0791_16.asm:268-346) is the pre-half routine both engines share: per slot
 1..22 the player's `+0xE` +2 (set-gated, `9A71`-`9A85`), `DS:9B41=1`, screen copies, `0106`,
-then the wait `ED8A` (`9AE0`): skipped only when `DS:80FD==0` AND the key `DS:A977` is in the
-set at `CS:9A12` (`9AC6`-`9ADB`); with no key sent the wait always runs. E010's batch-2 lesson carries over — the
+then the wait `ED8A` (`9AE0`): it runs unless `DS:80FD==0` AND the key `DS:A977` is NOT a
+member of the set at `CS:9A12` = {13 (Enter), 27 (Esc)} (`9AC6`-`9ADB`, `je 9AE3` — ZF set,
+non-member, skips the wait; R3: `23E4:08DF` ends in TEST, so ZF means NOT a member). With
+E004's discipline an Enter is the last key sent before the screen, so `A977`=13, a member,
+and the wait runs. E010's batch-2 lesson carries over — the
 half-time screen is drawn BEFORE the wait and the wait consumes no RNG, so the savestate at
 the stall is the exact input of the second half. After the wait, the tail sets
-`DS:830B = 0668[(831A==0 ? 1 : 0)] + 10` (`9AEE`-`9AFC`) and `DS:832A = 0x50` (`9AFF`), then
+`DS:830B = 0668[(831A==0 ? 1 : 0)] + 10` (`9AEE`-`9AFC` — a ONE-BYTE store, `mov byte ptr
+[0x830b], al`, so `DS:830C` is preserved; R6) and `DS:832A = 0x50` (`9AFF`), then
 calls `983F` (the half, `9B05`).
 
 `0791:983F` (seg_0791_16.asm:349-407; decompiled seg_0791_07.c:516-553) per half:
@@ -175,7 +207,11 @@ host's timing, not on anything reproducible. But `(DS:831F, DS:831D)` (§4) pins
 its tick, and the read's seed value must then be one of the values the seed word takes during
 that tick (its value at tick start and after each draw in it). The E011 record therefore
 stores `(831F, 831D, 7B62)` for every mid-play read, and `emu_check.py` matches a checkpoint
-when the record's seed value lies on the emulated trajectory at that minute and sub-tick —
-the exact-tick, exact-value form of "the record's read at that minute". Reads with the clock
-stopped (`DS:8325 == 0`, the stalls) are not checkpoints; the half-time stall itself is the
-harness's start state.
+when the record's seed value lies on the emulated trajectory at that exact minute and
+sub-tick — the tick-exact, exact-value form of "the record's read at that minute"
+(`watched.py`'s `tick_values()` groups the draws by the words themselves and by the `970C`
+entry marks, so a curve shifted by even one sub-tick fails; R1). Reads with the clock
+stopped (`DS:8325 == 0`, the stalls) are on the curve too — a stall happens inside a tick
+and its event routines keep drawing under the same `(831F, 831D)` — so every second-half
+read is a checkpoint; only first-half reads (minute < 46) are outside, because the harness
+emulates the second half from the half-time savestate, which is its start state.
