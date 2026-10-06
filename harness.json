@@ -38,7 +38,7 @@
       "id": "zai-coding-plan/glm-5.3",
       "variant": "low",
       "family": "glm",
-      "watch": "Heavy: effort low, medium only when justified, never high (the owner, 2026-10-05). Back on Z.AI's plan (L35) after ending long implementer runs early (L27): look for reading then exit 0 with no commit, and for cd chains rejected as external_directory (L31)."
+      "watch": "Heavy: effort low, medium only when justified, never high (the owner, 2026-10-05). Back on Z.AI's plan (L35) after ending long implementer runs early (L27): look for reading then exit 0 with no commit, and for cd chains rejected as external_directory (L31). From 8 Oct 2026 glm-5.3 on Z.AI costs 3x in weekday peak: prefer ali-glm or another provider then (the owner, 2026-10-06)."
     },
     "gpt-6.1-sol": {
       "id": "openai/gpt-6.1-sol",
@@ -46,53 +46,51 @@
       "family": "openai",
       "watch": "Heavy: effort low, medium only when justified, never high (the owner, 2026-10-05). Sol reviews complex tasks (L101)."
     },
-    "ali-qwen3.8-max": {
+    "ali-qwen-max": {
       "id": "alibaba-token-plan/qwen3.8-max",
       "variant": "low",
       "family": "qwen",
-      "watch": "Heavy: offers low, medium, xhigh; low (L54). Probed only (2026-10-05, PONG in 7 s): a new family here, a candidate implementer or reviewer for hard tasks. Its key is the env var ALIBABA_TOKEN_PLAN_API_KEY (never opencode auth login: an auth.json entry overrides it); in WSL it comes from ~/.config/ai-keys.env (loaded by ~/.bashrc and ~/.profile) and, for commands started from Windows, from WSLENV; 'Provider not found' means it is missing: restart the session or shell, and tell the owner if it still is. One monthly pool shared by all alibaba models (quota-tracker /quota/alibaba); night discount 22:00-08:00 UTC+8."
+      "watch": "Heavy: offers low, medium, xhigh; low (L54). Probed 2026-10-05 (PONG in 7 s) and 2026-10-06 19:39. A new family here, a candidate implementer or reviewer for hard tasks. Its key is the env var ALIBABA_TOKEN_PLAN_API_KEY (never opencode auth login: an auth.json entry overrides it); in WSL it comes from ~/.config/ai-keys.env (loaded by ~/.bashrc and ~/.profile) and, for commands started from Windows, from WSLENV; 'Provider not found' means it is missing: restart the session or shell, and tell the owner if it still is. One monthly pool shared by all alibaba models (quota-tracker /quota/alibaba; pricing.discount_now says whether the night discount is live). Night discount 22:00-08:00 UTC+8: qwen3.8 60% off, deepseek-v4-pro-0813 and v4.1-flash 50% off, glm-5.3 none -- prefer long alibaba runs while discount_now is true (the owner, 2026-10-06)."
     },
-    "ali-qwen3.8-flash": {
+    "ali-qwen-flash": {
       "id": "alibaba-token-plan/qwen3.8-flash",
-      "variant": "xhigh",
+      "variant": "medium",
       "family": "qwen",
-      "watch": "Light: offers low, medium, xhigh (no high); xhigh is the nearest to a light model's high. Probed only (2026-10-05, PONG in 7 s). Its key is the env var ALIBABA_TOKEN_PLAN_API_KEY (never opencode auth login: an auth.json entry overrides it); in WSL it comes from ~/.config/ai-keys.env (loaded by ~/.bashrc and ~/.profile) and, for commands started from Windows, from WSLENV; 'Provider not found' means it is missing: restart the session or shell, and tell the owner if it still is. One monthly pool shared by all alibaba models (quota-tracker /quota/alibaba); night discount 22:00-08:00 UTC+8."
+      "watch": "Light: offers low, medium, xhigh (no high); medium (the owner, 2026-10-06; xhigh until then). Probed 2026-10-05 (PONG in 7 s) and 2026-10-06 19:39. Its key is the env var ALIBABA_TOKEN_PLAN_API_KEY (never opencode auth login: an auth.json entry overrides it); in WSL it comes from ~/.config/ai-keys.env (loaded by ~/.bashrc and ~/.profile) and, for commands started from Windows, from WSLENV; 'Provider not found' means it is missing: restart the session or shell, and tell the owner if it still is. One monthly pool shared by all alibaba models (quota-tracker /quota/alibaba; pricing.discount_now says whether the night discount is live). Night discount 22:00-08:00 UTC+8: qwen3.8 60% off, deepseek-v4-pro-0813 and v4.1-flash 50% off, glm-5.3 none -- prefer long alibaba runs while discount_now is true (the owner, 2026-10-06)."
     },
-    "ali-deepseek-v4-pro": {
-      "id": "alibaba-token-plan/deepseek-v4-pro",
+    "ali-deepseek-pro-0813": {
+      "id": "alibaba-token-plan/deepseek-v4-pro-0813",
       "variant": "high",
       "family": "deepseek",
-      "watch": "Heavy: high is its lowest effort, as on Go. The same model as deepseek-pro on the Alibaba pool; probed only (2026-10-05, PONG in 7 s). DeepSeek V4 Pro writes scratch to /tmp and starts commands with cd /abs && (L57). Its key is the env var ALIBABA_TOKEN_PLAN_API_KEY (never opencode auth login: an auth.json entry overrides it); in WSL it comes from ~/.config/ai-keys.env (loaded by ~/.bashrc and ~/.profile) and, for commands started from Windows, from WSLENV; 'Provider not found' means it is missing: restart the session or shell, and tell the owner if it still is. One monthly pool shared by all alibaba models (quota-tracker /quota/alibaba); night discount 22:00-08:00 UTC+8."
+      "watch": "Heavy: high is its lowest effort. The same model as deepseek-pro on the Alibaba pool; the dated -0813 id is the one that gets the 50% night discount (the undated id gets none -- the owner, 2026-10-06). Probed 2026-10-05 (PONG in 7 s) and 2026-10-06 19:39. DeepSeek V4 Pro writes scratch to /tmp and starts commands with cd /abs && (L57). Its key is the env var ALIBABA_TOKEN_PLAN_API_KEY (never opencode auth login: an auth.json entry overrides it); in WSL it comes from ~/.config/ai-keys.env (loaded by ~/.bashrc and ~/.profile) and, for commands started from Windows, from WSLENV; 'Provider not found' means it is missing: restart the session or shell, and tell the owner if it still is. One monthly pool shared by all alibaba models (quota-tracker /quota/alibaba; pricing.discount_now says whether the night discount is live). Night discount 22:00-08:00 UTC+8: qwen3.8 60% off, deepseek-v4-pro-0813 and v4.1-flash 50% off, glm-5.3 none -- prefer long alibaba runs while discount_now is true (the owner, 2026-10-06)."
     },
-    "ali-deepseek-v4.1-flash": {
+    "ali-deepseek-flash": {
       "id": "alibaba-token-plan/deepseek-v4.1-flash",
       "variant": "high",
       "family": "deepseek",
-      "watch": "Light: offers low, high, max; high. The same model as deepseek-flash on the Alibaba pool; probed only (2026-10-05, PONG in 5 s). Its key is the env var ALIBABA_TOKEN_PLAN_API_KEY (never opencode auth login: an auth.json entry overrides it); in WSL it comes from ~/.config/ai-keys.env (loaded by ~/.bashrc and ~/.profile) and, for commands started from Windows, from WSLENV; 'Provider not found' means it is missing: restart the session or shell, and tell the owner if it still is. One monthly pool shared by all alibaba models (quota-tracker /quota/alibaba); night discount 22:00-08:00 UTC+8."
+      "watch": "Light: offers low, high, max; high. The same model as deepseek-flash on the Alibaba pool; the dated pro id and this one get the 50% night discount. Probed 2026-10-05 (PONG in 5 s) and 2026-10-06 19:39. Its key is the env var ALIBABA_TOKEN_PLAN_API_KEY (never opencode auth login: an auth.json entry overrides it); in WSL it comes from ~/.config/ai-keys.env (loaded by ~/.bashrc and ~/.profile) and, for commands started from Windows, from WSLENV; 'Provider not found' means it is missing: restart the session or shell, and tell the owner if it still is. One monthly pool shared by all alibaba models (quota-tracker /quota/alibaba; pricing.discount_now says whether the night discount is live). Night discount 22:00-08:00 UTC+8: qwen3.8 60% off, deepseek-v4-pro-0813 and v4.1-flash 50% off, glm-5.3 none -- prefer long alibaba runs while discount_now is true (the owner, 2026-10-06)."
     },
-    "ali-glm-5.3": {
+    "ali-glm": {
       "id": "alibaba-token-plan/glm-5.3",
       "variant": "low",
       "family": "glm",
-      "watch": "Heavy: low (L54). The same model as zai-glm-5.3 on the Alibaba pool, for when Z.ai's windows are exhausted; probed only (2026-10-05, PONG in 6 s). Its key is the env var ALIBABA_TOKEN_PLAN_API_KEY (never opencode auth login: an auth.json entry overrides it); in WSL it comes from ~/.config/ai-keys.env (loaded by ~/.bashrc and ~/.profile) and, for commands started from Windows, from WSLENV; 'Provider not found' means it is missing: restart the session or shell, and tell the owner if it still is. One monthly pool shared by all alibaba models (quota-tracker /quota/alibaba); night discount 22:00-08:00 UTC+8."
+      "watch": "Heavy: low (L54). The same model as zai-glm-5.3 on the Alibaba pool, for when Z.ai's windows are exhausted (and from 8 Oct 2026, when zai's 3x weekday-peak pricing bites); no night discount on glm-5.3. Probed 2026-10-05 (PONG in 6 s) and 2026-10-06 19:39. Its key is the env var ALIBABA_TOKEN_PLAN_API_KEY (never opencode auth login: an auth.json entry overrides it); in WSL it comes from ~/.config/ai-keys.env (loaded by ~/.bashrc and ~/.profile) and, for commands started from Windows, from WSLENV; 'Provider not found' means it is missing: restart the session or shell, and tell the owner if it still is. One monthly pool shared by all alibaba models (quota-tracker /quota/alibaba; pricing.discount_now says whether the night discount is live). Night discount 22:00-08:00 UTC+8: qwen3.8 60% off, deepseek-v4-pro-0813 and v4.1-flash 50% off, glm-5.3 none -- prefer long alibaba runs while discount_now is true (the owner, 2026-10-06)."
     },
     "mm-m3": {
       "id": "minimax/MiniMax-M3",
       "variant": "thinking",
       "family": "minimax",
-      "watch": "MiniMax's heavy model (the owner, 2026-10-06): offers only none (thinking off) and thinking (adaptive); thinking. A new family here, a candidate implementer or an independent reviewer. Probed only (2026-10-06, PONG in 8 s). Its key is the env var MINIMAX_API_KEY from ~/.config/ai-keys.env (loaded by ~/.bashrc and ~/.profile); 'Provider not found' means it is missing: restart the session or shell. Quota: curl -s localhost:8765/quota/minimax (a 5-hour and a weekly window)."
+      "watch": "MiniMax's heavy model (the owner, 2026-10-06): offers only none (thinking off) and thinking (adaptive); thinking. A new family here, a candidate implementer or an independent reviewer. Probed 2026-10-06 19:39. Its key is the env var MINIMAX_API_KEY from ~/.config/ai-keys.env (loaded by ~/.bashrc and ~/.profile); 'Provider not found' means it is missing: restart the session or shell. Quota: curl -s localhost:8765/quota/minimax (a 5-hour and a weekly window)."
     },
     "mm-m2.7": {
       "id": "minimax/MiniMax-M2.7",
-      "variant": "high",
       "family": "minimax",
-      "watch": "MiniMax's light model (the owner, 2026-10-06): offers no effort variants (the variant is ignored). Probed only (2026-10-06, PONG in 5 s). Its key is the env var MINIMAX_API_KEY from ~/.config/ai-keys.env (loaded by ~/.bashrc and ~/.profile); 'Provider not found' means it is missing: restart the session or shell. Quota: curl -s localhost:8765/quota/minimax (a 5-hour and a weekly window)."
+      "watch": "MiniMax's light model (the owner, 2026-10-06): offers no effort variants (no variant field; one is ignored if sent). Probed 2026-10-06 19:39. Its key is the env var MINIMAX_API_KEY from ~/.config/ai-keys.env; 'Provider not found' means it is missing: restart the session or shell. Quota: curl -s localhost:8765/quota/minimax (a 5-hour and a weekly window)."
     },
     "mm-m2.7-highspeed": {
       "id": "minimax/MiniMax-M2.7-highspeed",
-      "variant": "high",
       "family": "minimax",
-      "watch": "A faster variant of the light mm-m2.7; offers no effort variants (the variant is ignored). Probed only (2026-10-06, PONG in 5 s). Its key is the env var MINIMAX_API_KEY from ~/.config/ai-keys.env (loaded by ~/.bashrc and ~/.profile); 'Provider not found' means it is missing: restart the session or shell. Quota: curl -s localhost:8765/quota/minimax (a 5-hour and a weekly window)."
+      "watch": "A faster variant of the light mm-m2.7; offers no effort variants (no variant field; one is ignored if sent). Probed 2026-10-06 19:39. Its key is the env var MINIMAX_API_KEY from ~/.config/ai-keys.env; 'Provider not found' means it is missing: restart the session or shell. Quota: curl -s localhost:8765/quota/minimax (a 5-hour and a weekly window)."
     }
   },
   "implementer": {

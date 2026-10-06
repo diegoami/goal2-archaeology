@@ -63,6 +63,32 @@ key; OpenCode also reads `ZHIPU_API_KEY`), then check with `opencode models zai-
 key is kept in `auth.json`, which the scripts copy like OpenAI's. GLM-5.3-highspeed is refused by
 the plan.
 
+## Alibaba Token Plan and MiniMax, on watch
+
+Registered 2026-10-05/06 (the owner), all on watch in `harness.json`, no chain seats. The key is the
+env var `ALIBABA_TOKEN_PLAN_API_KEY` (or `MINIMAX_API_KEY`) from `~/.config/ai-keys.env` — never
+`opencode auth login` for these (an `auth.json` entry overrides the variable). All probed
+2026-10-06 19:39–19:40 (`switch-model.mjs --probe --dry-run`, answered; first probes 2026-10-05).
+`opencode models <provider> --verbose` lists no effort ladders for these providers; the variants
+below are the owner's live checks.
+
+| Entry | Id | Variant | Heavy/light | Notes |
+| --- | --- | --- | --- | --- |
+| `ali-glm` | `alibaba-token-plan/glm-5.3` | low | heavy | GLM-5.3 on the monthly pool; no night discount; zai relief (and its 3x weekday-peak price from 8 Oct 2026) |
+| `ali-qwen-max` | `alibaba-token-plan/qwen3.8-max` | low | heavy | new family; offers low, medium, xhigh |
+| `ali-qwen-flash` | `alibaba-token-plan/qwen3.8-flash` | medium | light | offers low, medium, xhigh (no high); medium since 2026-10-06 (xhigh before) |
+| `ali-deepseek-pro-0813` | `alibaba-token-plan/deepseek-v4-pro-0813` | high | heavy | only the dated `-0813` id gets the 50% night discount |
+| `ali-deepseek-flash` | `alibaba-token-plan/deepseek-v4.1-flash` | high | light | same model as `deepseek-flash` on Go |
+| `mm-m3` | `minimax/MiniMax-M3` | thinking | heavy | offers only none and thinking; a new family, independent reviewer material |
+| `mm-m2.7`, `mm-m2.7-highspeed` | `minimax/MiniMax-M2.7(-highspeed)` | — | light | no effort variants; a variant is ignored if sent |
+
+Alibaba is one monthly pool for all its models (`curl -s localhost:8765/quota/alibaba`;
+`pricing.discount_now` says whether the night discount is live, 22:00–08:00 UTC+8: qwen3.8 60% off,
+`deepseek-v4-pro-0813` and `v4.1-flash` 50% off, `glm-5.3` none — prefer long alibaba runs while it
+is true). MiniMax has 5-hour and weekly windows (`curl -s localhost:8765/quota/minimax`). Alibaba's
+Kimi and MiniMax models are Team-edition only and fail; not registered. This repo's pinned
+`lib/quota.mjs` predates alibaba/minimax window knowledge — see `harness.lock`'s bump note.
+
 ## Quota: quota-tracker
 
 Where the machine runs quota-tracker, a local service, it reports how much subscription quota is
