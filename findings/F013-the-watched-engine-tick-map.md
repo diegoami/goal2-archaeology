@@ -56,7 +56,10 @@
   called by the loop with argument 0 every tick, draws exactly one `rand(2)` — the referee's
   target column (seg_0791_15.asm:91CC or 91F1; `214B:0D1C`/`0D56` are RNG-free min/max
   clamps, seg_214B_02.asm:0D1C-0D53). `8889`, reached from `update_player` per updated
-  record (up to 23 per sweep: the 22 slot tails plus the keeper special), draws one coin
+  record (up to 28 per sweep: the 22 slot tails returning to `96CB` plus the keeper
+  special returning to `9669` once per ball phase — up to six ball phases per sweep;
+  `rng-counts.txt`: max 28 calls in a sweep, 22 to `96CB` and 6 to `9669`, seven sweeps
+  reached 28; the same file's max 23 is the COIN bound, a different quantity), draws one coin
   (`214B:06FA` at 8A2E, seg_0791_14.asm) whenever the record is not on its target square
   (`2CC5` = 0) — its early exits at `8894`/`88E4`/`88F8` (`8302` = 0, the holder `830B`,
   `830C`) jump INTO the target block (`88D3`/`89E5`), not out of the routine, so the coin
@@ -97,7 +100,7 @@
   That is why the ground truth is checked tick-exactly: `emu_check.py` matches a read when
   its seed value is one of the values the word takes during THAT tick (`match: 38/38` over
   both records' second-half reads; a one-sub-tick shift of the restored `DS:831D` drops
-  r0001's own checkpoints to 3/19, and a mutated `830B` resume constant to 0/10, so the
+  r0001's 10 eligible checkpoints to 0/10 and the combined check to 3/19, and a mutated `830B` resume constant to 0/10, so the
   check is not vacuous). High confidence.
 - **The `000E` wait family (the crowd animation, an RNG consumer) is unreachable from the
   match** (static, re-verified). Its callers are `000E` menu code only (`calls.tsv`); the

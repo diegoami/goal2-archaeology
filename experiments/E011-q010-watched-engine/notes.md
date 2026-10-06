@@ -120,7 +120,9 @@ All draws are the LCG `214B:0688` through `06B1` (rand 1..n), `06D0` (chance 1/n
   `<= 0` calls `06B1` at `91F1` (then `0D56`, a max). Then it draws the referee sprite
   (`8E24`) and writes the glyph cell — the display path that draws from the seed every tick.
 - **Per tick, conditional**: `8889` (reached from `8AE9 update_player` per updated record —
-  up to 23 per sweep: the 22 slot tails plus the keeper special) is the movement draw, and
+  up to 28 per sweep: the 22 slot tails (`96C8`→96CB) plus the keeper special (`9666`→9669)
+  once per ball phase, and the ball phase itself runs per slot whose guards pass, up to six
+  times per sweep) is the movement draw, and
   its guards do NOT fence off the coin (R2):
   - the early exits at `8894` (8302 = 0), `88E4` (the holder `830B`) and `88F8` (`830C`)
     jump to `88D3`/`89E5` — points INSIDE the routine, on the path to the coin — they only
@@ -137,8 +139,10 @@ All draws are the LCG `214B:0688` through `06B1` (rand 1..n), `06D0` (chance 1/n
     retries — per-tick MOVEMENT retries, not restart/contest events.
   Instrumented baseline half (`instrument_rng.py` → `rng-counts.txt`): 33532 coins at
   `8A2E` (23280 plain, 8754 with `8302` = 0, 1280 holder, 218 `830C`), 2488 `rand(5)`
-  movement retries, up to 23 coins and 6 ball phases in one sweep. `9119`'s one `rand(2)`
-  plus these are the per-tick floor; everything below is event-driven.
+  movement retries, up to 23 coins and 6 ball phases in one sweep, and up to 28
+  `update_player` calls in one sweep (22 returning to `96CB`, 6 to `9669`; seven sweeps
+  reached 28, others 25-27) — the coin and call maxima are different bounds. `9119`'s one
+  `rand(2)` plus these are the per-tick floor; everything below is event-driven.
 - **Event draws** (fire only on restarts, contests, fouls, goals, substitutions, tactic
   updates): direct callers `0791:593B`/`59B3` (woodwork bounce), `5B36`/`5F8A` (ball
   handlers), `690C`/`698E` (ball restarts), `6337` (kick-off choice after a goal),

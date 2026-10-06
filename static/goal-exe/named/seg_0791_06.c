@@ -1006,7 +1006,7 @@ undefined2 f_0791_86D0(int param_1)
 
 
 // ---- 0791:8889  player_run_step  (f_0791_8889; Ghidra 2000:8889, __stdcall16near; found by routines.tsv)
-// per updated pitch record (from 8AE9; up to 23 per sweep - the 22 slot tails plus 9564's keeper special): the early exits at 8894 (DS:8302=0), 88E4 (the holder DS:830B) and 88F8 (DS:830C) jump to 88D3/89E5, INSIDE the routine, skipping only the advancement block 8896-89E1, and the state filter at 8985 (+0x12 in the set CS:8869 = {5,7,8,11}) likewise only skips 899A-89E1 - so every record reaches the target test: 2CC5 = 0 (not on its target square) draws ONE coin (214B:06FA at 8A2E) choosing the run axis (byte +0xF = 1/2 by x sign, 3/4 by y, else 5), then the movement loop 8AC5-8AE1 draws rand(5) at 8AD1 for a fresh direction per FAILED 86D0 move and retries - the per-tick movement draws; instrumented half: 33532 coins (8754 with 8302=0, 1280 holder, 218 on 830C) and 2488 rand(5) retries (E011 rng-counts.txt)  [likely; F013; read code/seg_0791_14.asm]
+// per updated pitch record (from 8AE9; up to 28 per sweep - the 22 slot tails returning to 96CB plus the keeper special returning to 9669 once per ball phase, up to six ball phases per sweep; the 23 of rng-counts.txt is the COIN maximum, a different quantity): the early exits at 8894 (DS:8302=0), 88E4 (the holder DS:830B) and 88F8 (DS:830C) jump to 88D3/89E5, INSIDE the routine, skipping only the advancement block 8896-89E1, and the state filter at 8985 (+0x12 in the set CS:8869 = {5,7,8,11}) likewise only skips 899A-89E1 - so every record reaches the target test: 2CC5 = 0 (not on its target square) draws ONE coin (214B:06FA at 8A2E) choosing the run axis (byte +0xF = 1/2 by x sign, 3/4 by y, else 5), then the movement loop 8AC5-8AE1 draws rand(5) at 8AD1 for a fresh direction per FAILED 86D0 move and retries - the per-tick movement draws; instrumented half: 33532 coins (8754 with 8302=0, 1280 holder, 218 on 830C), 2488 rand(5) retries and max 28 update_player calls per sweep (E011 rng-counts.txt)  [likely; F013; read code/seg_0791_14.asm]
 
 void player_run_step(int param_1)
 
@@ -1201,23 +1201,5 @@ void f_0791_8C67(undefined2 param_1,char param_2)
   *local_6 = cVar2 << 3;
   ((undefined1 *)&DS:82E3)[iVar1] = 0;
   *(undefined2 *)(iVar1 + -0x7d1c) = *(undefined2 *)local_6;
-  return;
-}
-
-
-// ---- 0791:8CCA  f_0791_8CCA  (f_0791_8CCA; Ghidra 2000:8CCA, __cdecl16near; found by routines.tsv)
-
-void __cdecl16near f_0791_8CCA(void)
-
-{
-  byte extraout_AH;
-  
-  f_0791_8C67(&stack0xfffe,1);
-  f_0791_8C67(&stack0xfffe,(uint)extraout_AH << 8);
-  referee_record.row = 1;
-  referee_record.column = 0;
-  referee_record._2_2_ = 1;
-  referee_record.target_row = 1;
-  referee_record.target_column = 0;
   return;
 }
