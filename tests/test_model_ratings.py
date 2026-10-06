@@ -105,25 +105,62 @@ class TestWords(unittest.TestCase):
 
 class TestChallenge(unittest.TestCase):
     """The one ring-invisible writer, 0791:56CB: 5565's +10 to the challenger of a template-65
-    "challenge by" line whose invocation ran to its end (DS:8303 set, no bail). A completed
-    challenge nets 0 (table −10 + 10); a bailed one keeps the table's −10 — and 5565's bail
-    paths are visible in the ring as the FOLLOWING line (539F's 0x0E/0x21 pair, 408E's
-    0x16-0x18, 8206's 0x35-0x37, 3FAD(9)'s 0x15), or are silent only when a goalkeeper is the
-    holder or the challenger (45d, 4D3F). E012-r0001's first half, positions 294-297, is the
-    observed pair: a completed challenge (followed by another player's 0x41) and a bailed one
-    (followed by 539F's 0x0E/0x21 pair naming the same player)."""
+    "challenge by" line whose invocation ran past its checks (DS:8303 set). A completed
+    challenge nets 0 (table −10 + 10); a bailed one keeps the table's −10. The bails:
+    5474/5513/4151 are VISIBLE in the ring as the follower line (539F's 0x0E/0x21 pair,
+    408E's 0x16-0x18, 8206's 0x35-0x37, 3FAD(9)'s 0x15); the one SILENT bail is 045D(DS:830B)
+    at 5692-5697 — the ball holder's pitch slot is 1 or 12, i.e. the holder stands on a
+    side's slot 1 (a 2B28 ring line stores p2 = 0, so the holder comes from the tracked
+    2AA3/2AD4 lines, or from the line's p2 when an input carries it). 4D3F at 56A3 is NOT a
+    bail: its return is never tested (56A6's cmp [8303],0 is the next branch), so a
+    goalkeeper CHALLENGER still gets the +10. When neither the follower nor the holder can
+    decide (no follower in the batch, holder unknown), the model records the case in
+    `undecided` instead of silently returning an exact rating. E012-r0001's first half,
+    log positions 295-297, is the observed pair: a completed challenge (123's, followed by
+    124's 0x41, holder 364 on side 1's slot 3 — not a keeper) and a bailed one (124's,
+    followed by 539F's 0x0E/0x21 pair naming 124)."""
 
     def test_completed_challenge_nets_zero(self):
-        # 123's line at position 294: followed by 124's 0x41 (a new invocation, not a bail
-        # line) -> 56CB fired -> 123's word stays 0x37 (the record's half-time read: 0x8C =
-        # 0x37 + the rest of his lines; the plain table gave 0x82, one −10 short)
+        # 123's line at log position 295: the holder is named by the preceding carrier line
+        # (10, 364, 378, 1 — 2AA3, p1 = the holder), 364 is side 1's slot 3, the follower is
+        # another player's 0x41 (a new invocation, not a bail line) -> 56CB fired -> the
+        # challenger's word stays 0x37 (the record's half-time read: 0x8C = 0x37 + the rest
+        # of his lines; the plain table gave 0x82, one -10 short)
         r = R.Ratings(TEAMS)
-        r.apply_lines([(65, 101, 0), (65, 102, 0)])
+        r.apply_lines([(10, 202, 0), (65, 101, 0), (65, 102, 0), (63, 0, 0)])
         self.assertEqual(r.word(101), R.START, "a completed challenge nets 0, not -10")
         self.assertEqual(r.word(102), R.START, "the follower is judged by its own follower")
 
+    def test_reviewer_case_r1(self):
+        # review R1's test case: [(65, 103, 201), (25, 201, 0)] with holder 201 the opposing
+        # goalkeeper (side 1's slot 1, pitch slot 1). The old model completed the challenge
+        # (the follower is not a bail line) and predicted 55; the 5692 bail makes it 45.
+        r = R.Ratings(TEAMS)
+        r.apply_lines([(65, 103, 201), (25, 201, 0)])
+        self.assertEqual(r.word(103), R.START - 10, "the keeper-holder bail keeps the -10")
+        self.assertEqual(r.undecided, [])
+
+    def test_silent_bail_from_tracked_holder(self):
+        # the holder need not be on the line: 2AA3 lines carry him as p1 (HOLDER_P1); a
+        # challenge against the side-1 slot-1 player (pitch slot 1) silently skips 56CB
+        r = R.Ratings(TEAMS)
+        r.apply_lines([(10, 201, 0), (65, 103, 0), (63, 0, 0)])
+        self.assertEqual(r.word(103), R.START - 10)
+        self.assertEqual(r.undecided, [])
+        # and the same duel against a non-keeper holder (side 1's slot 2) completes
+        r = R.Ratings(TEAMS)
+        r.apply_lines([(10, 202, 0), (65, 103, 0), (63, 0, 0)])
+        self.assertEqual(r.word(103), R.START)
+
+    def test_a_goalkeeper_challenger_still_gets_the_bonus(self):
+        # 4D3F at 56A3 checks the challenger's record +6 but its return is NEVER tested
+        # (56A6's cmp [8303],0 is the next branch): a keeper challenger nets 0
+        r = R.Ratings(TEAMS)
+        r.apply_lines([(10, 202, 0), (65, 201, 0), (63, 0, 0)])
+        self.assertEqual(r.word(201), R.START, "the challenger's position cannot bail")
+
     def test_bailed_challenge_keeps_the_table_delta(self):
-        # 124's line at position 295: followed by 539F's 0x0E/0x21 pair naming 124 ->
+        # 124's line at log position 296: followed by 539F's 0x0E/0x21 pair naming 124 ->
         # 5474's comparison was won, 5565 bailed before 56CB -> the plain -10 stands
         r = R.Ratings(TEAMS)
         r.apply_lines([(65, 101, 0), (14, 101, 0), (33, 101, 0)])
@@ -131,24 +168,41 @@ class TestChallenge(unittest.TestCase):
 
     def test_every_bail_template_stops_the_bonus(self):
         # each of 5565's visible bail lines (CHALLENGE_BAIL) makes the 0x41 line's net -10;
-        # any other follower (or none) completes the invocation and nets 0
+        # any other follower (or none) completes the invocation and nets 0 — the challenger
+        # is a side-0 player, the tracked holder the side-1 player 202 (slot 2, no keeper)
         for follower in R.CHALLENGE_BAIL:
             r = R.Ratings(TEAMS)
-            r.apply_lines([(65, 101, 0), (follower, 101, 0)])
+            r.apply_lines([(10, 202, 0), (65, 101, 0), (follower, 101, 0)])
             self.assertEqual(r.word(101) - R.DELTA_TABLE[follower] - R.START, -10,
                              f"follower template {follower} must keep the table's -10")
-        for follower in (11, 65, 38, 66, 0):                   # tackle, another challenge, goal...
+        for follower in (11, 65, 38, 66):                     # tackle, another challenge, goal...
             r = R.Ratings(TEAMS)
-            r.apply_lines([(65, 101, 0), (follower, 102, 0)])
+            r.apply_lines([(10, 202, 0), (65, 101, 0), (follower, 102, 0)])
             self.assertEqual(r.word(101), R.START,
                              f"follower template {follower} must complete the challenge")
 
-    def test_last_line_of_a_batch_is_judged_without_a_follower(self):
-        # the decision needs the follower, so a trailing 0x41 completes (56CB); a log split
-        # at half time must not leave a 0x41 last (none does, in the E012 records)
+    def test_undecidable_holder(self):
+        # no carrier line before the 0x41: the duel's holder is not in the log, the outcome
+        # is not inferable -> flagged undecided, never silently returned as an exact rating
         r = R.Ratings(TEAMS)
-        r.apply_lines([(65, 101, 0)])
-        self.assertEqual(r.word(101), R.START)
+        r.apply_lines([(65, 101, 0), (63, 0, 0)])
+        self.assertEqual(r.undecided, [(101, "the duel's holder is not named by the log")])
+        self.assertEqual(r.word(101), R.START - 10, "no +10 without a decision")
+
+    def test_undecidable_trailing_line(self):
+        # the decision needs the follower, so a trailing 0x41 with a known holder is still
+        # undecided (a bail follower could open the next batch); a log split at half time
+        # must not leave a 0x41 last (none does, in the E012 records)
+        r = R.Ratings(TEAMS)
+        r.apply_lines([(10, 202, 0), (65, 101, 0)])
+        self.assertEqual(r.undecided,
+                         [(101, "the 0x41 line is last in its batch; the follower could still bail")])
+        self.assertEqual(r.word(101), R.START - 10)
+        # a later batch does NOT retro-decide the trailing 0x41 (the split point is gone:
+        # no E012 record splits on a 0x41, and a record that did would be reported)
+        r.apply_lines([(63, 0, 0)])
+        self.assertEqual(len(r.undecided), 1)
+        self.assertEqual(r.word(101), R.START - 10)
 
     def test_the_e012_r0001_record(self):
         # regression: the whole record — its start squads, its line log, its full-time reads

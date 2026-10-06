@@ -35,17 +35,35 @@ addresses SEGMENT:OFFSET; data offsets are DS offsets, the table read from
 
 Known edge (E012 notes.md §4.3): `0791:56CB` adds +10 directly, without a ring line, to the
 challenger of a "challenge by" line (template 65) that `0791:5565` emitted while DS:8303 was
-set and whose invocation ran to its end — the completed challenge nets 0, not the table's −10.
-5565's 8303-set invocation can, after its 0x41 line, only emit further lines when it bails
-before 56CB (5474/5513 → 539F's 0x0E/0x21 pair or 408E's 0x16/0x17/0x18; 5513 → 8206's
-substitution lines 0x35-0x37; 4151 → 3FAD(9)'s 0x15) or bail silently (a goalkeeper holder,
-`45d(8303B)`; a goalkeeper challenger, 4D3F) — so a 0x41 line whose FOLLOWING line's template
-is none of those came from an invocation that reached 56CB and nets 0. `0791:5B36` can also
-emit a 0x41 line with 8303 set and never adds the +10; its follow-ups (5A8E's 5A33 lines) are
-the rule's remaining ambiguity, recorded in the notes. The E012 record pins the mechanism: its
-two adjacent 0x41 lines (positions 294/295) are a completed challenge (followed by the other
-player's 0x41 — +10 observed on the read) and a 539F-bailed one (followed by the 0x0E/0x21
-pair naming the same player — the plain −10).
+set and whose invocation ran past its checks — the completed challenge nets 0, not the
+table's −10. 5565's 8303-set invocation first emits the `2B28(0x41)` "challenge by" line
+(`5653`), then runs the chain `5474` (5676) → `5513` (567E) → `4151` (5685) → `045D(DS:830B)`
+(5692) → `4D3F` (56A3) → the `DS:8303` test (56A6, `jne 56B5`) → `56CB`. Every bail that
+EMITS does so as the line immediately after the 0x41 line: `5474`/`5513` → `539F`, whose
+8303-set path emits the pair 2AA3(0x0E) then 2AA3(0x21) (`5465`/`5468`) or `408E`'s
+0x16/0x17/0x18 (`5405`-`5416`); `5513`'s coin → `8206`'s substitution lines 0x35-0x37;
+`4151` → `3FAD(9)`'s 2AA3(0x15) (`3F82`) — a 0x41 line whose follower is one of those
+bailed before 56CB and keeps the plain −10. The ONE silent bail is `045D(DS:830B)` at
+5692-5697: `045D` (seg_0791_01.asm:511) returns 1 when its argument — the HOLDER's pitch
+slot, DS:830B — is 1 or 12, i.e. when the ball holder stands on a side's slot 1 (pitch
+slots 1 and 12 are the two keepers' slots; 0668 = [0x0B, 0x00]: team 0 plays pitch 12..22,
+team 1 plays 1..11), and the `jne 56D0` skips 56CB without emitting anything. (`4D3F` at
+56A3 is NOT a bail: its return is never tested — 56A6's `cmp byte [0x8303],0` is the next
+branch, so the challenger being a goalkeeper does not stop the +10; T26 rework R1 removed
+the earlier claim that it does.) A 2B28 ring line stores p2 = 0 (2B41-2B43), so the duel's
+holder is not named by the line; the model tracks it as the p1 of the most recent
+2AA3-family line (HOLDER_P1) or the p2 of the most recent 2AD4 line (HOLDER_P2), and a 0x41
+line that carries p2 != 0 names its holder explicitly (a convention for inputs that provide
+it — the unit tests use it). When the follower is not a visible bail line and the holder is
+unknown — or the 0x41 line is last in its batch, so a bail follower could still arrive in
+the next one — the outcome cannot be inferred from the log: the model records the case in
+`undecided` (no +10 applied, the number NOT asserted) instead of silently returning an
+exact rating. `0791:5B36` can also emit a 0x41 line with 8303 set and never adds the +10;
+its follow-ups (5A8E's 5A33 lines, 5C44's 8206) are the rule's remaining ambiguity, recorded
+in the notes. The E012 record pins the mechanism: its two adjacent 0x41 lines (positions
+294/295) are a completed challenge (followed by the other player's 0x41, holder 364 on side
+1's slot 3 — not a keeper — +10 observed on the read) and a 539F-bailed one (followed by
+the 0x0E/0x21 pair naming the same player — the plain −10).
 
 Standard library only."""
 from pathlib import Path
@@ -77,9 +95,28 @@ INJURY = 52              # the injury line; the player leaves the pitch (E004's 
 XI = 0xB                 # the XI: squad slots 1..11 = slice length 11 (F2A8's bound; CAB0 always scans them)
 # the templates 5565's 8303-set invocation emits when it BAILS between its 0x41 line and 56CB
 # (seg_0791_09.asm 5474/5513 → 539F: 0x0E then 0x21 (5465/5468) or 408E's 0x16-0x18; 5513 →
-# 8206's 0x35-0x37; 4151 → 3FAD(9)'s 0x15): a 0x41 line whose following line is none of these
-# completed (56CB) and nets 0; the two silent bails need a goalkeeper (holder or challenger)
+# 8206's 0x35-0x37; 4151 → 3FAD(9)'s 0x15): a 0x41 line whose following line is one of these
+# bailed (the one silent bail, the holder on a keeper pitch slot, is handled separately)
 CHALLENGE_BAIL = frozenset({0x0E, 0x21, 0x15, 0x16, 0x17, 0x18, 0x35, 0x36, 0x37})
+# the templates emitted ONLY through 0791:2AA3 (seg_0791_05.asm:80-136): p1 = the ball
+# holder (2AA3 reads DS:830B's pitch slot for p1, 830C's for p2). Every id below is pushed
+# immediately before a `call 0x2aa3` — 384C (seg_0791_06.asm:855-916: the 0x786/0x788/0x78A
+# coin tables 1,2,7,6,5,4 and the constants 3, 0xA, 9, 8), 3B9E (3), 3DF6 (0x794: 15,16),
+# 3EF8 (0x17,0x18), 3FAD (0x16,0x15), 539F (0x0E,0x21), 5565 (0x0C, 56B0), 5B36 (0x0C 5C79,
+# 0x1C 5E38), 5EAB (0x20), 5F06 (0x20 and the 0x80A coin table's 31,33,10,4,12), 6443
+# (0x26,0x27 — the goal), 6755 (0x28,0x29), 69BD (0x31), 6E11 (0x2B), 6F01 (0x38), 6FEE
+# (0x2A), 70F6 (0x2C), 71E8 (0x2E), 72F2 (0x3C,0x2F), 74C2 (0x30), 8206 (0x37, 8250).
+# NOT here: 11 (0x0B, 2B28 in 5565/5B36 and 2AA3 in 5F06's 0x80A table), 25 (0x19, 2AD4 in
+# 8AE9 and 2B28 in 5F8A) and 0 (C5DC's 1EB5 line and 5F06's 0x80A table) — their p1 is not
+# reliably the holder. The param-driven 2AA3 call sites (3C3F, 593B, 5A33, 67B6, 6DEA) can
+# in principle emit any id; none of the ids they pass is established, so a line of an id
+# above is taken at face value (E012 notes §2).
+HOLDER_P1 = frozenset({1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 14, 15, 16, 21, 22, 23, 24, 28,
+                       31, 32, 33, 38, 39, 40, 41, 42, 43, 44, 46, 47, 48, 49, 55, 56, 60})
+# the templates emitted ONLY through 0791:2AD4: p1 = 830C's player, p2 = the ball holder —
+# 798D (0x32, 79AB-79AE), 7B77 (0x33, 7BA9-7BAC), 8206 (0x35, 8253-8256), 82EB (0x36,
+# 82F9-82FC). (8AE9's 0x19 = 25 is excluded: 5F8A also emits it through 2B28.)
+HOLDER_P2 = frozenset({50, 51, 53, 54})
 
 
 def s16(v):
@@ -119,11 +156,27 @@ class Ratings:
                     self.words[word] = START if slot < 0xC else BLANK
         self.subbed_off = set()      # the outgoing of every substitution line (status bit 3)
         self.off_pitch = set()       # sent off or injured: the XI partitions them to the tail
+        self.holder = None           # the ball holder's word (2AA3/2AD4 lines name him)
+        self.undecided = []          # (player word, why) — a challenge the log cannot decide
+
+    def _holder_on_keeper_slot(self, holder):
+        """045D(DS:830B) at 0791:5692: the bail fires when the holder's PITCH slot is 1 or 12
+        — the two keepers' slots (0668 = [0x0B, 0x00]: team 1 plays pitch 1..11, team 0
+        plays 12..22), i.e. when the holder's side-slot is 1. True/False when the holder is
+        on a squad, None when he is not on either (unknown)."""
+        if not holder:
+            return None
+        for squad in self.squads:
+            if holder in squad:
+                return squad.index(holder) == 0
+        return None
 
     def apply_line(self, template, p1, p2=0):
         """One ring line, as 1D4A wrote it: (template, player-1 word, player-2 word). A
-        template-65 line is applied with its table delta; `apply_lines` adds 56CB's +10 to the
-        completed ones (a single line carries no follower to decide completion)."""
+        template-65 line is applied with its table delta; `apply_lines` decides 56CB's +10
+        (the follower, and the holder's pitch slot). The ball holder is tracked from the
+        2AA3-family lines (HOLDER_P1: p1) and the 2AD4 lines (HOLDER_P2: p2); other lines
+        leave it unchanged."""
         if not 0 <= template < N_TEMPLATES:
             raise RatingsError(f"template {template} outside the table (0..{N_TEMPLATES - 1})")
         if template == SUB_TEMPLATE:
@@ -152,20 +205,45 @@ class Ratings:
                     squad[:XI] = [w for w in xi if w not in self.off_pitch] + \
                                   [w for w in xi if w in self.off_pitch]
                     break
+        if p1 and template in HOLDER_P1:
+            self.holder = p1          # 2AA3: the line's p1 is the ball holder
+        elif p2 and template in HOLDER_P2:
+            self.holder = p2           # 2AD4: the line's p2 is the ball holder
 
     def apply_lines(self, lines):
         """`lines`: an iterable of (template, p1, p2) in ring order.
 
         A template-65 "challenge by" line nets 0 (the table's −10 plus 56CB's +10) when the
-        line AFTER it is not one of 5565's bail lines (CHALLENGE_BAIL) — that invocation ran
-        to 56CB. The decision needs the follower, so the last line of a batch is judged
-        without one: split a log at half time only where no 0x41 line is last (none is, in
-        the E012 records)."""
+        invocation ran to 56CB. Decided, in order: (1) the FOLLOWING line is one of 5565's
+        visible bail lines (CHALLENGE_BAIL) — bailed, plain −10; (2) the duel's holder —
+        the line's p2 when it carries one (a real 2B28 line stores 0), else the tracked
+        holder — stands on a side's slot 1 (045D at 5692: pitch slot 1 or 12) — the silent
+        bail, plain −10; (3) the follower exists and is not a bail line and the holder is
+        known and off slot 1 — completed, +10. Everything else — holder unknown, or the
+        0x41 line last in its batch (a bail follower could still arrive in the next one) —
+        is UNDECIDABLE from the log: recorded in `self.undecided`, no +10 applied, the
+        number not asserted. The state (words, holder) carries across calls, so a log split
+        at half time decides a 0x41 at the split only when its follower opens the second
+        batch — which none of the E012 records has."""
         lines = list(lines)
         for i, (template, p1, p2) in enumerate(lines):
             self.apply_line(template, p1, p2)
-            if template == CHALLENGE and p1 and \
-                    (i + 1 == len(lines) or lines[i + 1][0] not in CHALLENGE_BAIL):
+            if template == CHALLENGE and p1:
+                follower = lines[i + 1][0] if i + 1 < len(lines) else None
+                if follower in CHALLENGE_BAIL:
+                    continue                      # 5474/5513/4151 bailed, visibly
+                holder = p2 or self.holder
+                on_keeper = self._holder_on_keeper_slot(holder)
+                if on_keeper is None:
+                    self.undecided.append(
+                        (p1, "the duel's holder is not named by the log"))
+                    continue
+                if on_keeper:
+                    continue                      # 045D(830B): the silent bail at 5692
+                if follower is None:
+                    self.undecided.append(
+                        (p1, "the 0x41 line is last in its batch; the follower could still bail"))
+                    continue
                 self.words[p1] = (self.words.get(p1, 0) + CHALLENGE_BONUS) & 0xFFFF
         return self
 

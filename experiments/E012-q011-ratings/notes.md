@@ -120,27 +120,43 @@ record's own byte field at pitch+0x12, F013)
    by `CB7D` after the match, F2A4.) `F1F6` then runs the match (`F098`) and, after it, calls
    `CAB0` (`F2F8`) — the MoM selection, §5.
 2. `0791:1EAB` (in `1E53`, §2): `add word es:[di+0x12], ax` — the commentary delta, per line.
-3. `0791:56CB` (in `5565`, seg_0791_09.asm:780-793): `add word es:[di+0x12], 0xA` — a +10 that
-   `5565` writes **directly, with no ring line**, to the event's pitch-record player when
-   `DS:8303` is set (`56A6` `cmp byte [0x8303],0; jne 56B5`); when clear the branch emits the
-   2AA3(0x0C) "dodged by" line instead (`56AD`). `5565`'s 8303-set invocation first emits the
-   `2B28(0x41)` "challenge by" line (`5653`), then runs a chain of checks (`5474` at `5676`,
-   `5513` at `567E`, `4151` at `5685`, `45d(8303B)` at `5692`, `4d3f` at `56A3`); every bail
-   that emits does so as the line **immediately after** the 0x41 line: `5474`/`5513` →
-   `539F`, whose 8303-set path emits the pair 2AA3(0x0E) then 2AA3(0x21) (`5465`/`5468`) or
-   `408E`'s 0x16/0x17/0x18 (`5405`-`5416`); `5513`'s coin → `8206`'s substitution lines
-   0x35-0x37; `4151` → `3FAD(9)`'s 2AA3(0x15) (`3F82`). The two silent bails need a
-   goalkeeper: `45d(8303B)` — the HOLDER's pitch slot is 1 or 12 (`045D`, seg_0791_01.asm:511)
-   — and `4d3f` — the CHALLENGER's record byte `+6` is 1 or 12 (`4D4F`). So a 0x41 line whose
-   follower is none of {0x0E, 0x21, 0x15, 0x16, 0x17, 0x18, 0x35, 0x36, 0x37} and whose duel
-   involves no goalkeeper reached `56CB`: its net is 0 (the table's −10 plus the +10). **This
-   fired in E012-r0001's first half** (its slot 3 read 0x8C where the plain table gives 0x82):
-   positions 294/295 are two adjacent 0x41 lines — 123's (followed by 124's 0x41, a new
-   invocation: completed, +10, and neither 123 nor the holder 364 is a goalkeeper: both are
-   slot-3 players) and 124's (followed by 539F's 0x0E/0x21 pair naming 124: bailed, the plain
-   −10). `0791:5B36` can also emit a 0x41 line with 8303 set (`5B88`-`5B93`) and never adds
-   the +10; its follow-ups (`5A8E`'s `5A33` lines, `5C44`'s `8206`) are the rule's one
-   remaining ambiguity — no 5B36-emitted 0x41 appeared in any analysed half.
+ 3. `0791:56CB` (in `5565`, seg_0791_09.asm:780-793): `add word es:[di+0x12], 0xA` — a +10 that
+    `5565` writes **directly, with no ring line**, to the event's pitch-record player when
+    `DS:8303` is set (`56A6` `cmp byte [0x8303],0; jne 56B5`); when clear the branch emits the
+    2AA3(0x0C) "dodged by" line instead (`56AD`). `5565`'s 8303-set invocation first emits the
+    `2B28(0x41)` "challenge by" line (`5653`), then runs a chain of checks (`5474` at `5676`,
+    `5513` at `567E`, `4151` at `5685`, `45d(8303B)` at `5692`, `4d3f` at `56A3`); every bail
+    that emits does so as the line **immediately after** the 0x41 line: `5474`/`5513` →
+    `539F`, whose 8303-set path emits the pair 2AA3(0x0E) then 2AA3(0x21) (`5465`/`5468`) or
+    `408E`'s 0x16/0x17/0x18 (`5405`-`5416`); `5513`'s coin → `8206`'s substitution lines
+    0x35-0x37; `4151` → `3FAD(9)`'s 2AA3(0x15) (`3F82`). The ONE silent bail is `45d(8303B)`
+    at `5692`-`5697`: `045D` (seg_0791_01.asm:511) returns 1 when its argument — the HOLDER's
+    pitch slot, `DS:830B` — is 1 or 12 (the two keepers' slots: 0668 = [0x0B, 0x00], team 1
+    plays pitch 1..11, team 0 plays 12..22, so pitch 1/12 is either side's slot 1), and the
+    `jne 56D0` at `5697` skips `56CB` without emitting anything. `4d3f` at `56A3` is NOT a
+    second bail: it checks the CHALLENGER's record byte `+6` (`4D4F`), but its return value is
+    never tested — the next branch is `56A6`'s `cmp byte [0x8303],0` — so a goalkeeper
+    challenger still gets the +10 (an earlier draft of this note claimed a challenger bail;
+    review R1). So a 0x41 line whose follower is none of
+    {0x0E, 0x21, 0x15, 0x16, 0x17, 0x18, 0x35, 0x36, 0x37} reached the `5692` test: it nets 0
+    (the table's −10 plus the +10) **iff the duel's holder is not on a side's slot 1**, and
+    keeps the plain −10 when he is. The holder is not named by the 0x41 line itself (`2B28`
+    stores p2 = 0, `2B41`-`2B43`), but the log tracks him: the p1 of every 2AA3-only line
+    and the p2 of every 2AD4-only line (the id sets, with call sites, in
+    `runtime/model/ratings.py`'s HOLDER_P1/HOLDER_P2; 11, 25 and 0 are excluded — each is
+    emitted by both a holder-carrying and a non-holder emitter). **This fired in E012-r0001's
+    first half** (its slot 3 read 0x8C where the plain table gives 0x82):
+    positions 294/295 are two adjacent 0x41 lines — 123's (preceded by the 2AA3(0x0A) line
+    `(10, 364, 378, 1)` naming the holder 364 — side 1's slot 3, not a keeper — and followed by
+    124's 0x41, a new invocation: completed, +10) and 124's (followed by 539F's 0x0E/0x21 pair
+    naming 124: bailed, the plain −10). When the follower does not visibly bail and the holder
+    cannot be established from the log — or the 0x41 is the last line of a batch, so a bail
+    follower could still arrive — the outcome is not inferable: the predictor records the case
+    as UNDECIDABLE instead of silently returning an exact rating (T26 rework R1); no E012
+    record has such a case. `0791:5B36` can also emit a 0x41 line with 8303 set
+    (`5B88`-`5B93`) and never adds the +10; its follow-ups (`5A8E`'s `5A33` lines, `5C44`'s
+    `8206`) are the rule's one remaining ambiguity — no 5B36-emitted 0x41 appeared in any
+    analysed half.
 4. `0791:C6FA` (in `C5DC refresh_pitch_slot`, seg_0791_20.asm:498-502): **the incoming
    substitute** gets `mov word es:[di+0x12], 0x2747` (10000 + 55) — reached from both engines'
    substitution paths (`8062 → C88D → C5DC` quick, the watched event tree's `5513/8206`;
@@ -185,9 +201,13 @@ player at `0x7FFF`; for every ring line `(template t, p1, p2, team)` in order: `
 the substitution's incoming player (`p1`) := `0x2747`, the squad words swapping slots;
 `t ∈ {51, 52}` (sent off / injured) → `p1` leaves the pitch and his side's slots 1..11 are
 stable-partitioned, the off-pitch players to the tail in their original relative order
-(`0791:7B77` → `C48D`; a booking, 50, re-orders nothing); `t == 65` and the FOLLOWING line's
-template is none of {0x0E, 0x21, 0x15, 0x16, 0x17, 0x18, 0x35, 0x36, 0x37} → the completed
-challenge nets 0 (the table's −10 plus 56CB's +10, §4.3); else `p1 != 0` →
+(`0791:7B77` → `C48D`; a booking, 50, re-orders nothing); `t == 65` → the challenge nets 0
+(the table's −10 plus 56CB's +10, §4.3) when the FOLLOWING line's template is none of
+{0x0E, 0x21, 0x15, 0x16, 0x17, 0x18, 0x35, 0x36, 0x37} AND the duel's holder (tracked from
+the 2AA3/2AD4 lines, or the line's p2 when it carries one) is not on a side's slot 1 — the
+`045D(830B)` silent bail keeps the plain −10; when the follower does not visibly bail but
+the holder cannot be established (or the 0x41 is last in its batch), the case is UNDECIDABLE
+and reported, never silently matched; else `p1 != 0` →
 `rating[p1] := (rating[p1] + s8(DS:0x720[t])) mod 0x10000`. The MoM is `CAB0`'s scan over the
 final words (§5). Ratings are read at half time and full time by applying the lines up to that
 point.

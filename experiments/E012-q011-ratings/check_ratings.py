@@ -39,7 +39,13 @@ def check(path):
         return [f"{d['run_id']}: line log shorter than the half-time extent"], None
 
     r = R.Ratings([s["squad"] for s in start])
+    seen_undecided = 0
     r.apply_lines(lines[:n_half])
+    for p1, why in r.undecided[seen_undecided:]:
+        # a challenge whose outcome (56CB's +10) the log cannot decide: reported separately,
+        # never silently matched against a fixed number (T26 rework R1)
+        problems.append(f"{d['run_id']}: UNDECIDED challenge, player {p1}: {why}")
+    seen_undecided = len(r.undecided)
     pred = r.snapshot()
     for side, (got, want) in enumerate(zip(pred, [s["perf12"] for s in halftime])):
         bad = [f"slot {i + 1}: predicted 0x{p:04x}, read 0x{w:04x}"
@@ -47,6 +53,8 @@ def check(path):
         if bad:
             problems += [f"{d['run_id']}: half-time side {side} (country {halftime[side]['country']}): " + "; ".join(bad)]
     r.apply_lines(lines[n_half:])
+    for p1, why in r.undecided[seen_undecided:]:
+        problems.append(f"{d['run_id']}: UNDECIDED challenge, player {p1}: {why}")
     pred = r.snapshot()
     for side, (got, want) in enumerate(zip(pred, [s["perf12"] for s in fulltime])):
         bad = [f"slot {i + 1}: predicted 0x{p:04x}, read 0x{w:04x}"
