@@ -46,12 +46,19 @@
   time (63/64) 0 (E012 notes.md §3; byte-exact from `ds_2581_01.hex`, identical in every
   savestate — nothing writes it).
 - **A completed "challenge by" nets 0, not −10 (both).** `0791:5565` with `DS:8303` set emits
-  `2B28(0x41)` ("challenge by", `5653`), then, if its whole chain passes (`5474`, `5513`,
-  `4151`, `45d(8303B)`, `4d3f`), writes `add word es:[di+0x12], 0xA` at `0791:56CB` — a +10
-  with no ring line, the only ring-invisible mid-match writer. The bail paths are visible as the
-  line immediately after the 0x41: `539F`'s 0x0E/0x21 pair (`5465`/`5468`), `408E`'s
-  0x16-0x18, `8206`'s 0x35-0x37, `3FAD(9)`'s 0x15; the silent bails need a goalkeeper (holder
-  or challenger, `045D`, `4D4F`). E012-r0001's positions 294-297 show both outcomes: a
+  `2B28(0x41)` ("challenge by", `5653`), then runs the chain `5474` (5676) → `5513` (567E) →
+  `4151` (5685) → `045D(DS:830B)` (5692) → `4D3F` (56A3) → the `DS:8303` test (56A6, `jne
+  56B5`) → `56CB`, which writes `add word es:[di+0x12], 0xA` at `0791:56CB` — a +10 with no
+  ring line, the only ring-invisible mid-match writer. The bail paths are visible as the line
+  immediately after the 0x41: `539F`'s 0x0E/0x21 pair (`5465`/`5468`), `408E`'s 0x16-0x18,
+  `8206`'s 0x35-0x37, `3FAD(9)`'s 0x15. The ONE silent bail is `045D(DS:830B)` at
+  `5692-5697`: `045D` (seg_0791_01.asm:511) returns 1 when its argument — the HOLDER's pitch
+  slot, `DS:830B` — is 1 or 12, i.e. when the ball holder stands on a side's slot 1 (pitch
+  slots 1 and 12 are the two keepers' slots; `0668 = [0x0B, 0x00]`: team 0 plays pitch 12..22,
+  team 1 plays 1..11), and the `jne 56D0` skips 56CB without emitting anything. `4D3F` at
+  `56A3` is NOT a bail: its return is never tested — `56A6`'s `cmp byte [0x8303],0` is the
+  next branch — so a goalkeeper CHALLENGER still gets the +10 (T26 rework R1 removed the
+  earlier claim that it does not). E012-r0001's positions 294-297 show both outcomes: a
   completed challenge (123: followed by another player's 0x41; +10 on the read — slot 3 read
   0x8C where the plain table gives 0x82) and a bailed one (124: followed by the 0x0E/0x21 pair
   naming 124; the plain −10). `5B36` can also emit 0x41 with 8303 set (`5B88`) without the +10;
