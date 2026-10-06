@@ -31,3 +31,4 @@ exists.
 | T22 | Q007: the squad pool, 100 players and which (G5 Q007) | #67 | T20 |
 | T23 | Q010 (quick engine): how strengths and tactics meet in the quick result's contests (G5 Q010) | #68 | T20, T21 |
 | T24 | Q010 (quick engine) milestone 2: r0010's divergence, model tests, F012 and the annotations | #75 | T23 |
+| T25 | Q010 (watched engine `9564`) milestone 1: the tick map, the Unicorn ground truth and F013 | — | T24 |
