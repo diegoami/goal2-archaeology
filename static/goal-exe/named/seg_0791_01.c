@@ -367,11 +367,11 @@ void __cdecl16near f_0791_0691(void)
     if (cVar2 == '\0') {
       uVar3 = f_0791_05C6(&stack0xfffe);
       uVar3 = uVar3 & 0xff;
-      cVar2 = f_0791_2974(iVar1 + -0x7f18,0xb000);
+      cVar2 = pitch_slot_side(iVar1 + -0x7f18,0xb000);
       *(int *)(iVar1 + -0x7f14) = (uint)(byte)((undefined1 *)&DS:832E)[cVar2] * 0x100 + uVar3;
     }
     else {
-      cVar2 = f_0791_2974(iVar1 + -0x7f18,0xb000);
+      cVar2 = pitch_slot_side(iVar1 + -0x7f18,0xb000);
       *(int *)(iVar1 + -0x7f14) = (uint)(byte)((undefined1 *)&DS:8330)[cVar2] * 0x100 + 1;
     }
     if (local_4 == 0x16) break;

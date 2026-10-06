@@ -297,9 +297,10 @@ void f_0791_2218(int param_1)
 }
 
 
-// ---- 0791:230C  f_0791_230C  (f_0791_230C; Ghidra 2000:230C, __cdecl16near; found by routines.tsv)
+// ---- 0791:230C  resort_pitch_and_bench  (f_0791_230C; Ghidra 2000:230C, __cdecl16near; found by routines.tsv)
+// per team: sorts the pitch records of slots 0668[t]+1..+11 by the position key (0xE when unavailable, else +6; jb: a smaller key swaps up), each pitch swap also swapping the same two squad words of the country record (0791:2218) and the shadow bytes at DS:9B07; then a260 re-derives pitch+6 (the address slot) and pitch+0xD (the squad word) for all eleven slots; then a bench sort of squad words 12..20 by the players' +6; the DS:830B/830C/830D bytes are re-pointed at the swapped slots; called after every substitution (c5dc at C7A7) and from C01A's tail  [established; F012]
 
-void __cdecl16near f_0791_230C(void)
+void __cdecl16near resort_pitch_and_bench(void)
 
 {
   int iVar1;
@@ -503,7 +504,7 @@ undefined1 __stdcall16far player_effective_tactic(undefined4 param_1,uint param_
     uVar2 = u214b_set_test_bit(((player *)players)[*(int *)(iVar3 + 0xd)].own_tactic_set,param_2);
     return uVar2;
   }
-  cVar1 = f_0791_2974(iVar3,uVar4);
+  cVar1 = pitch_slot_side(iVar3,uVar4);
   uVar2 = u214b_set_test_bit(((country *)countries)[((undefined2 *)&DS:9B34)[cVar1]].
                              default_team_tactic_set,param_2);
   return uVar2;
@@ -626,9 +627,10 @@ undefined1 __stdcall16far player_unavailable_on_pitch(undefined4 param_1)
 }
 
 
-// ---- 0791:2974  f_0791_2974  (f_0791_2974; Ghidra 2000:2974, __stdcall16far; found by routines.tsv)
+// ---- 0791:2974  pitch_slot_side  (f_0791_2974; Ghidra 2000:2974, __stdcall16far; found by routines.tsv)
+// returns pitch+6 < 0x0C: 1 for the pitch slots 1..11 and 0 for the slots 12..22 - the same test 0791:2996 makes on DS:830B  [established; F012]
 
-bool __stdcall16far f_0791_2974(undefined4 param_1)
+bool __stdcall16far pitch_slot_side(undefined4 param_1)
 
 {
   return *(byte *)((int)param_1 + 6) < 0xc;
@@ -766,23 +768,24 @@ void __stdcall16far f_0791_2B28(undefined4 param_1,undefined1 param_2)
   undefined2 uVar3;
   
   uVar3 = (undefined2)((ulong)param_1 >> 0x10);
-  uVar2 = f_0791_2974((int)param_1,uVar3);
+  uVar2 = pitch_slot_side((int)param_1,uVar3);
   uVar1 = f_0791_2BB1((int)param_1,uVar3);
   f_0791_1EB5(param_2,0,uVar1,uVar2);
   return;
 }
 
 
-// ---- 0791:2B51  f_0791_2B51  (f_0791_2B51; Ghidra 2000:2B51, __stdcall16far; found by routines.tsv)
+// ---- 0791:2B51  slot_is_on_ball_side  (f_0791_2B51; Ghidra 2000:2B51, __stdcall16far; found by routines.tsv)
+// returns 2996() == 2974(pitch): the pitch record's side equals the side of the current ball slot DS:830B; 65FE's form update and 65A4 use it  [established; F012]
 
-bool __stdcall16far f_0791_2B51(undefined4 param_1)
+bool __stdcall16far slot_is_on_ball_side(undefined4 param_1)
 
 {
   char cVar1;
   char cVar2;
   
   cVar1 = ball_holder_is_side0();
-  cVar2 = f_0791_2974((int)param_1,(int)((ulong)param_1 >> 0x10));
+  cVar2 = pitch_slot_side((int)param_1,(int)((ulong)param_1 >> 0x10));
   return cVar2 == cVar1;
 }
 
@@ -842,8 +845,8 @@ undefined2 __stdcall16far attack_direction(undefined4 param_1)
   else {
     bVar1 = 0;
   }
-  bVar2 = f_0791_2974((int)param_1,(int)((ulong)param_1 >> 0x10));
-  return CONCAT11((char)(bVar2 ^ bVar1) >> 7,((undefined1 *)&DS:7920)[(char)(bVar2 ^ bVar1)]);
+  bVar2 = pitch_slot_side((int)param_1,(int)((ulong)param_1 >> 0x10));
+  return CONCAT11((char)(bVar2 ^ bVar1) >> 7,((char *)form_delta)[(char)(bVar2 ^ bVar1)]);
 }
 
 
@@ -1233,7 +1236,7 @@ int __stdcall16far f_0791_30EA(undefined4 param_1,int param_2)
 {
   char cVar1;
   
-  cVar1 = f_0791_2974((int)param_1,(int)((ulong)param_1 >> 0x10));
+  cVar1 = pitch_slot_side((int)param_1,(int)((ulong)param_1 >> 0x10));
   return (uint)*(byte *)(cVar1 + 0x668) + param_2;
 }
 
@@ -1323,60 +1326,5 @@ void __stdcall16far f_0791_3323(undefined4 param_1)
   uVar2 = (undefined2)((ulong)param_1 >> 0x10);
   uVar1 = f_0791_3111((int)param_1,uVar2);
   f_0791_384C((int)param_1,uVar2,uVar1);
-  return;
-}
-
-
-// ---- 0791:333F  f_0791_333F  (f_0791_333F; Ghidra 2000:333F, __stdcall16near; found by routines.tsv)
-
-void f_0791_333F(int param_1)
-
-{
-  char cVar1;
-  uint uVar2;
-  int iVar3;
-  int iVar4;
-  undefined2 unaff_SS;
-  uint local_4;
-  
-  if (DS:8325 == '\0') {
-    DS:8325 = '\x01';
-  }
-  else {
-    uVar2 = f_0791_30EA((int)*(undefined4 *)(param_1 + 6),
-                        (int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10),0xb);
-    local_4 = f_0791_30EA((int)*(undefined4 *)(param_1 + 6),
-                          (int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10),1);
-    if (local_4 <= uVar2) {
-      do {
-        if (((*(char *)((undefined2 *)&DS:80EE + local_4 * 0xb) !=
-              *(char *)((int)*(undefined4 *)(param_1 + 6) + 6)) && (DS:830E == '\0')) &&
-           (*(char *)((undefined2 *)&DS:80EE + local_4 * 0xb) != DS:830A)) {
-          cVar1 = ball_holder_is_side0();
-          iVar3 = (int)(char)((undefined1 *)&DS:82E3)[(cVar1 == '\0') * 6];
-          if (iVar3 < 0) {
-            iVar3 = -iVar3;
-          }
-          iVar4 = (int)*(char *)(local_4 * 0x16 + -0x7f17);
-          if (iVar4 < 0) {
-            iVar4 = -iVar4;
-          }
-          if (((iVar3 < iVar4) &&
-              (cVar1 = attack_direction(local_4 * 0x16 + -0x7f18,0xb000),
-              '\0' < *(char *)(local_4 * 0x16 + -0x7f17) == '\0' < cVar1)) &&
-             (*(char *)((undefined2 *)&DS:80F8 + local_4 * 0xb) == '\0')) {
-            DS:830E = (undefined1)local_4;
-            DS:8317 = *(undefined2 *)(local_4 * 0x16 + -0x7f18);
-            DS:8329 = 0;
-            return;
-          }
-        }
-        if (local_4 == uVar2) {
-          return;
-        }
-        local_4 = local_4 + 1;
-      } while( true );
-    }
-  }
   return;
 }

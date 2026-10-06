@@ -178,9 +178,10 @@ void f_000E_03C4(uint param_1,undefined4 param_2,undefined4 param_3)
 }
 
 
-// ---- 000E:045D  f_000E_045D  (f_000E_045D; Ghidra 1000:045D, __stdcall16near; found by routines.tsv)
+// ---- 000E:045D  crowd_animation  (f_000E_045D; Ghidra 1000:045D, __stdcall16near; found by routines.tsv)
+// fills the per-seat crowd data: two nested loops (50 x 10) of rand(5), rand(0x50) and, when the seat byte is below 7, rand(0xF) - 1000-1500 draws per call - ending with 214B:1E09; called only from the key waits 000E:04F5 (a 16-iteration loop) and 000E:0572 (until a key), so it never runs inside a quick-result half (one call exceeds a tenth of the half's draws and the pause seeds are stable), but any model of the menu or attract screens must treat it as an RNG consumer  [likely; F012]
 
-void f_000E_045D(undefined2 param_1,int param_2)
+void crowd_animation(undefined2 param_1,int param_2)
 
 {
   undefined1 uVar1;
@@ -227,7 +228,7 @@ void f_000E_04F5(undefined2 param_1,undefined1 param_2)
       return;
     }
     u214b_play_note(*(undefined1 *)(local_4 * 2 + 1),*(undefined1 *)(local_4 * 2),3);
-    f_000E_045D(param_1,*(undefined1 *)(local_4 * 2 + 1));
+    crowd_animation(param_1,*(undefined1 *)(local_4 * 2 + 1));
     if (local_4 == 0x10) break;
     local_4 = local_4 + 1;
   }
@@ -263,7 +264,7 @@ void f_000E_0572(int param_1)
                CONCAT11(extraout_AH,3),0x55f,0x7000,CONCAT11(extraout_AH,0xf));
   }
   do {
-    f_000E_045D(&stack0xfffe,2);
+    crowd_animation(&stack0xfffe,2);
     cVar1 = u214b_key_pressed();
   } while (cVar1 == '\0');
   return;
