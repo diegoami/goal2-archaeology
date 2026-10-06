@@ -127,6 +127,7 @@ class QuickMatch:
         self.eight319 = state.ds_bytes(0x8319, 1)[0]    # the half length marker (0x2D normal)
         self.sevenc36 = state.ds_bytes(0x7C36, 1)[0]    # extra-time flag (F0F6)
         self.minute_mark = 0x80 if (state.ds_bytes(0x8324, 1)[0] or state.ds_bytes(0x7C39, 1)[0]) else 0
+        self.sevenc39 = state.ds_bytes(0x7C39, 1)[0]   # 6443's goal-commentary selector (645D/64BF)
         self.sub_budget = list(state.ds_bytes(0x9B3A, 2))   # DS:066B[9A3D] at A4A1 (5 per team, friendly)
         self.once_8332 = list(state.ds_bytes(0x8332, 2))    # C01A's once flags
         self.once_8334 = list(state.ds_bytes(0x8334, 2))    # C0DF's once flags
@@ -164,6 +165,9 @@ class QuickMatch:
         self.t_footix = g(self.FOOT_INDEX, 3)
         self.t_2fad_a = g(self.F2FAD_A, 12)
         self.t_2fad_b = g(self.F2FAD_B, 16)
+        self.t_formdelta = g(0x7920, 2)    # 6443's 7cc5 +0xC delta (64CC-64DE: byte [7C39!=0?0:1])
+        self.t_fitness = g(0x720, 0x28)    # 1E53's +0x12 delta per ring id (1E9C-1EAB)
+        self.t_goal_id = 0x27 if self.sevenc39 else 0x26   # 6443's 2aa3 id (645D-6471)
         self.side_base = g(0x668, 2)          # DS:0668 bytes = [11, 0]: team t plays 0668[t]+1..+11
         mseg, moff = self._far(self.MANAGERS_PTR)
         self.managers = bytearray(state.memory(mseg * 16 + moff, 0x400))   # 0AA7: (+0x2E)*3 + 1
@@ -669,6 +673,28 @@ class QuickMatch:
 
     # --- the minute: 0791:D733 (seg_0791_21.asm:794-DAF7) ----------------------------
 
+    def record_goal_scorer_effects(self, w):
+        """The scorer-side writes of the goal path, all engine-relevant state:
+        1. `inc word +0x0A` — the goals counter (6484, seg_0791_11.asm).
+        2. `+0xC := clamp(s8(+0xC) + s8(DS:0x7920[1]))` — 6443's 7cc5 call (64CC-64DE pushes
+           DS:0x7920[7C39 != 0 ? 0 : 1] — the quick match has 7C39 = 0, so byte 1, value +1 —
+           then 7CC5-7D09 adds it with a 214B:2000 clamp). +0xC is READ BY 377E
+           (player_strength: `v += s8(+0xC)` while +0xC < 0x20), so this shifts the scorer's
+           strength from the next minute on (E010-r0010: the original's Durnin had +0xC 28 vs
+           the model's 27 at the goal pause).
+        3. `+0x12 += s8(DS:0x720[0x26])` — 2aa3's commentary ring write (1E53 tail, 1E9C-1EAB:
+           `add word es:[di+0x12], ax` with ax = DS:0x720[ring id]; the quick goal id is 0x26,
+           value +40 — 0x2747 + 0x28 = 0x276F in E010-r0010). Inert for draws (the sub gate's
+           0x5A bound is far below either value) but kept for state faithfulness."""
+        p = self._player(w)
+        p[0xA:0xC] = ((int.from_bytes(p[0xA:0xC], "little") + 1) & 0xFFFF).to_bytes(2, "little")
+        c = s8(p[0xC]) + s8(self.t_formdelta[1 if self.sevenc39 == 0 else 0])
+        c = max(1, min(0xFF, c))                    # the 214B:2000 clamp (7CF1, bounds 1..0xFF)
+        p[0xC] = c & 0xFF
+        fit = int.from_bytes(p[0x12:0x14], "little")
+        fit = (fit + s8(self.t_fitness[self.t_goal_id])) & 0xFFFF
+        p[0x12:0x14] = fit.to_bytes(2, "little")
+
     def d733(self, minute_831f, minute_831b):
         idx = 1 if self.eight319 == 0x0F else 0
         saved = self.score[:]
@@ -717,6 +743,7 @@ class QuickMatch:
                         self.goals.append({"team": j, "minute": m, "player": w,
                                            "squad_slot": squad_slot,
                                            "stored_byte": m | self.minute_mark})  # 6443 (DA16-DA2C)
+                        self.record_goal_scorer_effects(w)                       # 6443's scorer writes
                         scored = True
             if scored:
                 # DA34: a scored goal sets the outer team byte to 1, so the DA4C loop test ends the
