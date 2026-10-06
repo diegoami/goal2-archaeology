@@ -32,4 +32,4 @@ exists.
 | T23 | Q010 (quick engine): how strengths and tactics meet in the quick result's contests (G5 Q010) | #68 | T20, T21 |
 | T24 | Q010 (quick engine) milestone 2: r0010's divergence, model tests, F012 and the annotations | #75 | T23 |
 | T25 | Q010 (watched engine `9564`) milestone 1: the tick map, the Unicorn ground truth and F013 | #81 | T24 |
-| T26 | Q011: how performance ratings and the man of the match are computed | — | T24 |
+| T26 | Q011: how performance ratings and the man of the match are computed | 83 | T24 |
