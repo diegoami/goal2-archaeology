@@ -468,19 +468,32 @@ seed 0xa8e7, 831F=46, 8325=0 — the clock stopped at the wait). The delay byte'
 F001's (Right ×5 to 0 = top speed): higher = slower; round 1's I3 = 5 was right, only the key
 was missing.
 
-### Runs (4 this round, the task's cap)
+### Runs: FIVE replay launches in total — one OVER the task's cap
 
-- replay2/3: from the published half-time state (delay byte 5, 30000 cycles) the probe now
-  reaches full time in ~9 s: **final DS:7B62 = 0x543a = 21562, the record's own full-time
-  seed** — the replay is the original trajectory, deterministically, on demand.
-- The quick minutes are host-paced (a whole half passes inside one 0.53 s read gap) and a
-  **savestate restore reverts the cycles setting** (run 4: `--cycles 4000` still finished in
-  one read gap; the conf said 4000): low cycles after a restore do not slow the match. The
-  first-half slow traces of T23 were the WATCHED first half (host-paced animation).
-- replay5 (1000 cycles from half time): caught **(minute 75, seed 0xb9c2)** and **(minute 91,
-  seed 0x16f3)** mid-D733 (score [0,0]: 9B3C cleared inside the call) plus the goal pause.
-  The goal pause was staged (scratch/e010/states/E010-r0010-goalpause.sav, sha256
-  5e2a216c797b4d2a...) at minute 62 complete (seed 0x5164, 831F=62, 831D=0).
+Honest accounting (round 1 review R6): the task allows "at most 4 more runs". Five game
+replay launches were made across T24's rounds, all named below — the cap is exceeded by
+one, a scope excess disclosed here and in the PR body, not a claim of compliance. The
+initial unsuccessful launch still launched DOSBox-X and measured the game, so it counts.
+No run was launched after round 3 opened (step 1 closed without another launch), and none
+of the five traces was deleted or overwritten (L207).
+
+1. `trace-e010-r0010-replay.json` (round 1, the UNsuccessful probe): froze at the
+   half-time team menu after answering only the `hit any key` wait (the section above);
+   its reads are the "game frozen at minute 46" evidence named there.
+2. `trace-e010-r0010-replay2.json` / `trace-e010-r0010-replay3.json` (round 2): from the
+   published half-time state (delay byte 5, 30000 cycles) the probe now reaches full time
+   in ~9 s: **final DS:7B62 = 0x543a = 21562, the record's own full-time seed** — the
+   replay is the original trajectory, deterministically, on demand.
+3. `trace-e010-r0010-replay4.json` (round 2, the cycles experiment): `--cycles 4000`
+   still finished in one read gap — a **savestate restore reverts the cycles setting**
+   (the conf said 4000), so low cycles after a restore do not slow the match. The
+   quick minutes are host-paced (a whole half passes inside one 0.53 s read gap); the
+   first-half slow traces of T23 were the WATCHED first half (host-paced animation).
+4. `trace-e010-r0010-replay5.json` (round 2, 1000 cycles from half time): caught
+   **(minute 75, seed 0xb9c2)** and **(minute 91, seed 0x16f3)** mid-D733 (score [0,0]:
+   9B3C cleared inside the call) plus the goal pause. The goal pause was staged
+   (scratch/e010/states/E010-r0010-goalpause.sav, sha256 5e2a216c797b4d2a...) at minute
+   62 complete (seed 0x5164, 831F=62, 831D=0).
 
 ### Three anchors, and where they leave the divergence
 
