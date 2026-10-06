@@ -214,7 +214,25 @@ class Run:
         with open(OUT / f"{self.run_id}.json", "x", encoding="utf-8") as f:  # never overwrite (L207)
             f.write(text)
         print(f"{self.run_id} {self.st.name} watched: {status}")
-        return status == "completed", self.trajectory
+        return status == "completed", OUT / f"{self.run_id}.json"
+
+def outcome_of(record_path):
+    """The deterministic identity of a watched match: the half-time stall state's seed/clock/score,
+    the events, the full-time clock/seed/score and screen — the quantities E004's replays compared.
+    The mid-read samples are NOT part of it: their phase within a tick is host timing (notes §6)."""
+    d = json.loads(Path(record_path).read_text())
+    obs = d["observations"]
+
+    def field(prefix):
+        return next((o["value"] for o in obs if o.get("field", "").startswith(prefix)), None)
+
+    halftime = None
+    st = savestate.Savestate((OUTPUTS / f"{d['run_id']}-halftime.sav").read_bytes())
+    halftime = [st.ds_word(0x831F), st.ds_word(0x831B), st.ds_word(0x7B62), list(st.ds_bytes(0x9B3C, 2))]
+    return {"halftime": halftime, "events": field("events of the match"),
+            "fulltime_clock": field("full time: clock"), "fulltime_screen": field("full time: text screen")}
+
+
 
 def next_id():
     used = [int(p.stem.split("-r")[1]) for p in OUT.glob(f"{EXPERIMENT}-r*.json")]
@@ -241,17 +259,20 @@ def main(argv=None):
         raise SystemExit("uncommitted changes under runtime/driver/ or the experiment: commit them first\n" + dirty)
     commit = git("rev-parse", "--short", "HEAD")
     base = None
+
     for i in range(1 + a.replays):
-        ok, traj = Run(next_id(), a, commit).go()
+        ok, path = Run(next_id(), a, commit).go()
         if not ok:
             return 1
+        outcome = outcome_of(path)
         if base is None:
-            base = traj
-        elif traj != base:
-            print(f"replay differs from the first run's trajectory ({len(traj)} against {len(base)} reads)")
+            base = outcome
+        elif outcome != base:
+            print("replay differs from the first run's outcome (half-time state, events, full time)")
             return 1
         else:
-            print("replay: trajectory identical to the first run's (deterministic)")
+            print("replay: outcome identical to the first run's (deterministic); mid-read samples differ"
+                  " only in phase, as notes.md §6 predicts — emu_check checks them against the curve")
     return 0
 
 

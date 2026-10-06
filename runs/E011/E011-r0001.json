@@ -1,0 +1,1157 @@
+{
+ "schema": "run/1",
+ "run_id": "E011-r0001",
+ "experiment": "E011",
+ "arm": "watched",
+ "rep": 1,
+ "code_commit": "281e137",
+ "machine": "ubuntu-24-04-wsl2",
+ "artifact": {
+  "set": "goal2-67cf27d6",
+  "variant": null
+ },
+ "runtime": {
+  "driver": "runtime/driver/driver.py@281e137",
+  "platform": "python-3.12.3/ubuntu-24-04-wsl2",
+  "fingerprint": {
+   "dosbox-x": "2024.03.01 SDL2",
+   "xvfb": "2:21.1.12-1ubuntu1.8",
+   "xdotool": "xdotool version 3.20160805.1",
+   "python": "3.12.3",
+   "kernel": "6.18.40.1-microsoft-standard-WSL2",
+   "config_sha256": "083897d321ed9fe50ca93bbf03ff45765c03c0f2a6e5e5df57aede499ebdc147",
+   "machine": "svga_s3",
+   "memsize": "16",
+   "cycles": "30000",
+   "core": "auto",
+   "cputype": "auto"
+  }
+ },
+ "interventions": [
+  {
+   "level": "I1",
+   "what": "text screen, BIOS data area and GOAL.EXE memory (the match clock DS:831F/831D/8325/831B, the seed DS:7B62, the score DS:9B3C/9B3D, the commentary ring) read from DOSBox-X savestates (Host+S; components Vga and Memory)"
+  },
+  {
+   "level": "I2",
+   "what": "savestates written at every read; two loaded (Host+L): the start state, then none further (the match runs watched from the captain screen)"
+  }
+ ],
+ "start_state": {
+  "id": "e006-2100-r0005",
+  "sha256": "3789d8490d2b42d8a589fec2afeb51de0ace4b4c5d1e5e24ff232321874dd106",
+  "restore": "fresh DOSBox-X process (config sha256 083897d321ed9fe50ca93bbf03ff45765c03c0f2a6e5e5df57aede499ebdc147), game folder recreated from the verified release copy, GOAL run to its title screen; key n to change the screen; then Host+L loads E006's published main-screen savestate whose sha256 is given (e006-2100-r0005.sav, release E006); polled until the screen digest equals the one stored with it (18190236ee20f9eb0573e82714034e41226a92a62efb4c119d8648e06a9a1b67); DOS clock of this session not set"
+ },
+ "seed": null,
+ "actions": {
+  "script": "experiments/E011-q010-watched-engine/run.py",
+  "sha256": "251bbd154ff6ab5bd930760a03dc4a297e1221612963ead1e1d2d931358fb04f",
+  "args": [
+   "watched",
+   "--from-run",
+   "E006-r0005",
+   "--batch",
+   "b1",
+   "--replays",
+   "1",
+   "arm watched"
+  ]
+ },
+ "observations": [
+  {
+   "step": 0,
+   "source": "log",
+   "field": "host UTC time at launch",
+   "value": "2026-10-06T16:11:17.283Z"
+  },
+  {
+   "step": 0,
+   "source": "log",
+   "field": "host local time at launch, with UTC offset, and zone name",
+   "value": "2026-10-06T18:11:17.283+02:00 CEST"
+  },
+  {
+   "step": 0,
+   "source": "log",
+   "field": "start state restored (main screen): host UTC time just before the savestate was requested",
+   "value": "2026-10-06T16:11:18.545Z"
+  },
+  {
+   "step": 0,
+   "source": "log",
+   "field": "start state restored (main screen): host local time with UTC offset, and zone name, at the same instant",
+   "value": "2026-10-06T18:11:18.545+02:00 CEST"
+  },
+  {
+   "step": 0,
+   "source": "screen",
+   "field": "start state restored (main screen): text screen 80x25, chars+attributes (4000 bytes), sha256",
+   "value": "18190236ee20f9eb0573e82714034e41226a92a62efb4c119d8648e06a9a1b67"
+  },
+  {
+   "step": 0,
+   "source": "ui-text",
+   "field": "start state restored (main screen): text screen rows 0-24, CP437 decoded, trailing blanks trimmed",
+   "value": " (c) NE'93│ │  ┌─────────────┐     Use ←→↑↓ to select             use INS to\n ┌─┐┌─┐┌─┐│ │  │  Check out  │                                   swap between\n │ ││ ││ ││ │  │   all the   │     Hit ◄┘ for fixtures             world and\n └─┤└─┘└─┤│ │  │ competitors │                                    continental\n───┘ v.2    │  └─────────────┘     Esc to exit                     rankings\n────────────┘\n┌team─────────────────────────────┬───────────────────tactics┐ ┌───────────────┐\n│Denmark-------- status major     ├──────────────team─tactics┤ │Denmark--------│\n├manager──────────────────────────┤defence─system──half pitch┤ │Germany--------│\n│B Ob            skill unknown    ├protection─sag back to box┤ │Holland--------│\n├ranking─now─top┬─────────────────┼offside──────────play safe┤ │Sweden---------│\n│World    29  29│formation  5-4-1 ├───────────player─defaults┤ │Scotland-------│\n│Europe    1   1│strips     ☻ ☻ ☻ │positioning───push forward┤ │France---------│\n├skills──────┬──┴─┬────┬────┬────┬┼possession──────quick pass┤ │England--------│\n├keeper──■■■■■■■■■■■■■■■■■■■■■■■■■┼passing───────short passes┤ │Russia---------│\n├defence─■■■■■■■■■■■■■■■■■■■■■■■■■┼tackling────────go in hard┤ │Yugoslavia-----│\n├midfield■■■■■■■■■■■■■■■■■■■■■■■■■┼marking─────────man to man┤ │Switzerland----│\n├attack──■■■■■■■■■■■■■■■■■■■■■■■■■┼───────────characteristics┤ │R.C.S----------│\n├performance─┼────┼────┼────┼────┼┤average─caps─0─────age─29─┤ │Wales----------│\n├keeper──■■■■■■■■■■■■■■■■■■■■■■■■■┼hardness──tough■■■■■■■■■■■┤ │Eire-----------│\n├defence─■■■■■■■■■■■■■■■■■■■■■■■■■┼fitness───very fit■■■■■■■■┤ │Portugal-------│\n├midfield■■■■■■■■■■■■■■■■■■■■■■■■■┼energy────energetic■■■■■■■┤ │Italy----------│\n├attack──■■■■■■■■■■■■■■■■■■■■■■■■■┼morale────not bad■■■■■■■■■┤ │Romania--------│\n└────────────┴────┴────┴────┴────┴┴──────────────┴────┴────┴─┘ └───────────────┘\nspacebar-players T-tactics"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x449",
+   "field": "start state restored (main screen): 1 byte at 0040:0049 (BIOS video mode), guest memory from the savestate, hex",
+   "value": "03"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x46c",
+   "field": "start state restored (main screen): 4 bytes at 0040:006C (BIOS timer tick count), guest memory from the savestate, as a little-endian dword (bytes in memory order)",
+   "value": "0x0015016f (6f 01 15 00)"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x355a2",
+   "field": "start state restored (main screen): word at DS:7B62 of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+   "value": "0x5142 (42 51)"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x355a4",
+   "field": "start state restored (main screen): word at DS:7B64 of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+   "value": "0x0810 (10 08)"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x35d76",
+   "field": "start state restored (main screen): word at DS:8336 of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+   "value": "0x00a0 (a0 00)"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "addr": "0x3843d",
+   "field": "start state restored (main screen): word at DS:A9FD of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+   "value": "0x07ea (ea 07)"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "field": "start state restored (main screen): score bytes DS:9B3C, DS:9B3D (engine teams 0 and 1)",
+   "value": "0 0"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "field": "start state restored (main screen): match delay byte at the far pointer DS:A923 + 0x3F (0 fastest)",
+   "value": "1"
+  },
+  {
+   "step": 0,
+   "source": "memory",
+   "field": "start state restored (main screen): clock (831F, 831D, 8325, 831B), seed DS:7B62, score, GOAL.EXE data segment",
+   "value": "6664 37669 0 7207 20802 (0, 0)"
+  },
+  {
+   "step": 0,
+   "source": "file",
+   "field": "DOSBox-X config of the session, host paths replaced by <work> and <game>",
+   "value": "[sdl]\nfullscreen=false\noutput=surface\nmapperfile=<work>/mapper.map\n[mixer]\nnosound=true\n[midi]\nmididevice=none\n[dosbox]\nmachine=svga_s3\nmemsize=16\nsaveremark=false\ncaptures=<work>/cap\n[cpu]\ncore=auto\ncputype=auto\ncycles=30000\n[autoexec]\nmount c <game>\nc:\nmount d <work>/dosclock\ndate /t > d:\\clock.txt\ntime /t >> d:\\clock.txt\nc:\ngoal\nexit\n"
+  },
+  {
+   "step": 0,
+   "source": "file",
+   "field": "sha256 of that config text (UTF-8)",
+   "value": "083897d321ed9fe50ca93bbf03ff45765c03c0f2a6e5e5df57aede499ebdc147"
+  },
+  {
+   "step": 0,
+   "source": "log",
+   "field": "batch label given on the command line",
+   "value": "b1"
+  },
+  {
+   "step": 0,
+   "source": "log",
+   "field": "keys sent after the restore to the captain screen, in order",
+   "value": "Esc Up Enter Enter Enter"
+  },
+  {
+   "step": 6,
+   "source": "log",
+   "field": "captain screen (the watched match's start state): host UTC time just before the savestate was requested",
+   "value": "2026-10-06T16:11:27.957Z"
+  },
+  {
+   "step": 6,
+   "source": "log",
+   "field": "captain screen (the watched match's start state): host local time with UTC offset, and zone name, at the same instant",
+   "value": "2026-10-06T18:11:27.957+02:00 CEST"
+  },
+  {
+   "step": 6,
+   "source": "screen",
+   "field": "captain screen (the watched match's start state): text screen 80x25, chars+attributes (4000 bytes), sha256",
+   "value": "52692e352d15d835c18a801f1a274627fd1210e626816b9ada98d8a7428467ab"
+  },
+  {
+   "step": 6,
+   "source": "ui-text",
+   "field": "captain screen (the watched match's start state): text screen rows 0-24, CP437 decoded, trailing blanks trimmed",
+   "value": " (c) NE'93│ ┌───────────────┬──┬FRIENDLY───────────────────────────┐┌───┐ ┌───┐\n ┌─┐┌─┐┌─┐│ │N.IRELAND------│ 0│                                   ││   │ │   │\n │ ││ ││ ││ ├versus─────────┼──┤                                   │├───┤ ├───┤\n └─┤└─┘└─┤│ │DENMARK--------│ 0│                                   ││   │ │   │\n───┘ v.2    └───────────────┴──┴───────────────────────────────────┘└───┘ └───┘\n\n┌name──────────┬age┬caps┬goals┬height─┬bias──────┬performance┐ ┌────────────┬─┐\n│T Piechnik    │ 28│   0│    0│ 6' 0\" │right foot│           │ │P Schmeichel│G│\n├position──────┴───┼club┴position─────┼cards┬────┴─┴─┴─┴─┴─┴─┤ │L Olsen     │S│\n│centre back       │centre back       │     │        selected│ │T Piechnik  │C│\n├skills───┬────┬───┴┬────┬────┬────┬┬─┴─────┴─────────tactics┤ │K Christofte│C│\n├keeping──■■■■■■■■■■■■■■■■■■■■■■■■■■┼position─────stay back P┤ │H Andersen  │B│\n├kicking──■■■■■■■■■■■■■■■■■■■■■■■■■■┼possession──quick pass P┤ │J Sivebaek  │B│\n├tackling─■■■■■■■■■■■■■■■■■■■■■■■■■■┼passing─────short passes┤ │K Vilfort   │D│\n├heading──■■■■■■■■■■■■■■■■■■■■■■■■■■┼tackling──avoid injury P┤ │H Larsen    │M│\n├marking──■■■■■■■■■■■■■■■■■■■■■■■■■■┼mark─K Black────────────┤ │J Jensen    │M│\n├passing──■■■■■■■■■■■■■■■■■■■■■■■■■■┤     striker            │ │B Laudrup   │F│\n├crossing─■■■■■■■■■■■■■■■■■■■■■■■■■■┼─────────characteristics┤ │F Povlsen   │$│\n├feinting─■■■■■■■■■■■■■■■■■■■■■■■■■■┼hardness──wimpy■■■■■■■■■┤ └────────────┴─┘\n├control──■■■■■■■■■■■■■■■■■■■■■■■■■■┼fitness───total■■■■■■■■■┤   use ↑↓ to move\n├dribbling■■■■■■■■■■■■■■■■■■■■■■■■■■┼energy────hyperactive■■■┤\n├shooting─■■■■■■■■■■■■■■■■■■■■■■■■■■┼morale────very confident┤ ╔═══════════════╗\n├penalties■■■■■■■■■■■■■■■■■■■■■■■■■■┼leadershipcaptain■■■■■■■┤ ║Denmark--------║\n└─────────┴────┴────┴────┴────┴────┴┴──────────┴────┴────┴───┘ ╚═══════════════╝\n◄┘-select  CAPTAIN                                         C-computer select"
+  },
+  {
+   "step": 6,
+   "source": "memory",
+   "addr": "0x449",
+   "field": "captain screen (the watched match's start state): 1 byte at 0040:0049 (BIOS video mode), guest memory from the savestate, hex",
+   "value": "03"
+  },
+  {
+   "step": 6,
+   "source": "memory",
+   "addr": "0x46c",
+   "field": "captain screen (the watched match's start state): 4 bytes at 0040:006C (BIOS timer tick count), guest memory from the savestate, as a little-endian dword (bytes in memory order)",
+   "value": "0x001501fc (fc 01 15 00)"
+  },
+  {
+   "step": 6,
+   "source": "memory",
+   "addr": "0x355a2",
+   "field": "captain screen (the watched match's start state): word at DS:7B62 of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+   "value": "0x9115 (15 91)"
+  },
+  {
+   "step": 6,
+   "source": "memory",
+   "addr": "0x355a4",
+   "field": "captain screen (the watched match's start state): word at DS:7B64 of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+   "value": "0x0810 (10 08)"
+  },
+  {
+   "step": 6,
+   "source": "memory",
+   "addr": "0x35d76",
+   "field": "captain screen (the watched match's start state): word at DS:8336 of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+   "value": "0x00a0 (a0 00)"
+  },
+  {
+   "step": 6,
+   "source": "memory",
+   "addr": "0x3843d",
+   "field": "captain screen (the watched match's start state): word at DS:A9FD of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+   "value": "0x07ea (ea 07)"
+  },
+  {
+   "step": 6,
+   "source": "memory",
+   "field": "captain screen (the watched match's start state): score bytes DS:9B3C, DS:9B3D (engine teams 0 and 1)",
+   "value": "0 0"
+  },
+  {
+   "step": 6,
+   "source": "memory",
+   "field": "captain screen (the watched match's start state): match delay byte at the far pointer DS:A923 + 0x3F (0 fastest)",
+   "value": "1"
+  },
+  {
+   "step": 6,
+   "source": "memory",
+   "field": "captain screen (the watched match's start state): clock (831F, 831D, 8325, 831B), seed DS:7B62, score, GOAL.EXE data segment",
+   "value": "0 0 0 7207 37141 (0, 0)"
+  },
+  {
+   "step": 7,
+   "source": "memory",
+   "field": "match read 1: minute DS:831F, sub-tick DS:831D, clock running DS:8325, minutes left DS:831B, seed DS:7B62, score, screen sha256",
+   "value": "6 0 0 85 0xb566 0 0 6c5888faaab56b78481c9257f9467d96273fab5faa2facdc891bfcdc3ea92444"
+  },
+  {
+   "step": 8,
+   "source": "memory",
+   "field": "match read 2: minute DS:831F, sub-tick DS:831D, clock running DS:8325, minutes left DS:831B, seed DS:7B62, score, screen sha256",
+   "value": "10 10 1 81 0x43d6 0 0 dc876451615ef717262a9ef0b036f8f30007f02ade0081d8696b479794b9dc6a"
+  },
+  {
+   "step": 9,
+   "source": "memory",
+   "field": "match read 3: minute DS:831F, sub-tick DS:831D, clock running DS:8325, minutes left DS:831B, seed DS:7B62, score, screen sha256",
+   "value": "15 32 1 76 0x6896 0 0 6e1aa7790c8ab6e7b13f2365a49cbf944201d6ed8b9e7950327770edc1ce157f"
+  },
+  {
+   "step": 10,
+   "source": "memory",
+   "field": "match read 4: minute DS:831F, sub-tick DS:831D, clock running DS:8325, minutes left DS:831B, seed DS:7B62, score, screen sha256",
+   "value": "16 19 1 75 0xe665 0 1 cac991823b01432e6a1c4ddfe11d501b62537b87f67c7cadb8ec912602b7641d"
+  },
+  {
+   "step": 11,
+   "source": "memory",
+   "field": "match read 5: minute DS:831F, sub-tick DS:831D, clock running DS:8325, minutes left DS:831B, seed DS:7B62, score, screen sha256",
+   "value": "16 19 1 75 0xe665 0 1 cac991823b01432e6a1c4ddfe11d501b62537b87f67c7cadb8ec912602b7641d"
+  },
+  {
+   "step": 12,
+   "source": "memory",
+   "field": "match read 6: minute DS:831F, sub-tick DS:831D, clock running DS:8325, minutes left DS:831B, seed DS:7B62, score, screen sha256",
+   "value": "16 19 1 75 0xe665 0 1 cac991823b01432e6a1c4ddfe11d501b62537b87f67c7cadb8ec912602b7641d"
+  },
+  {
+   "step": 13,
+   "source": "memory",
+   "field": "match read 7: minute DS:831F, sub-tick DS:831D, clock running DS:8325, minutes left DS:831B, seed DS:7B62, score, screen sha256",
+   "value": "16 19 1 75 0xe665 0 1 cac991823b01432e6a1c4ddfe11d501b62537b87f67c7cadb8ec912602b7641d"
+  },
+  {
+   "step": 14,
+   "source": "memory",
+   "field": "match read 8: minute DS:831F, sub-tick DS:831D, clock running DS:8325, minutes left DS:831B, seed DS:7B62, score, screen sha256",
+   "value": "16 19 1 75 0xe665 0 1 cac991823b01432e6a1c4ddfe11d501b62537b87f67c7cadb8ec912602b7641d"
+  },
+  {
+   "step": 15,
+   "source": "memory",
+   "field": "match read 9: minute DS:831F, sub-tick DS:831D, clock running DS:8325, minutes left DS:831B, seed DS:7B62, score, screen sha256",
+   "value": "16 19 1 75 0xe665 0 1 cac991823b01432e6a1c4ddfe11d501b62537b87f67c7cadb8ec912602b7641d"
+  },
+  {
+   "step": 16,
+   "source": "memory",
+   "field": "match read 10: minute DS:831F, sub-tick DS:831D, clock running DS:8325, minutes left DS:831B, seed DS:7B62, score, screen sha256",
+   "value": "16 19 1 75 0xe665 0 1 cac991823b01432e6a1c4ddfe11d501b62537b87f67c7cadb8ec912602b7641d"
+  },
+  {
+   "step": 17,
+   "source": "memory",
+   "field": "match read 11: minute DS:831F, sub-tick DS:831D, clock running DS:8325, minutes left DS:831B, seed DS:7B62, score, screen sha256",
+   "value": "16 19 1 75 0xe665 0 1 cac991823b01432e6a1c4ddfe11d501b62537b87f67c7cadb8ec912602b7641d"
+  },
+  {
+   "step": 18,
+   "source": "memory",
+   "field": "match read 12: minute DS:831F, sub-tick DS:831D, clock running DS:8325, minutes left DS:831B, seed DS:7B62, score, screen sha256",
+   "value": "16 19 1 75 0xe665 0 1 cac991823b01432e6a1c4ddfe11d501b62537b87f67c7cadb8ec912602b7641d"
+  },
+  {
+   "step": 19,
+   "source": "memory",
+   "field": "match read 13: minute DS:831F, sub-tick DS:831D, clock running DS:8325, minutes left DS:831B, seed DS:7B62, score, screen sha256",
+   "value": "16 19 1 75 0xe665 0 1 cac991823b01432e6a1c4ddfe11d501b62537b87f67c7cadb8ec912602b7641d"
+  },
+  {
+   "step": 20,
+   "source": "memory",
+   "field": "match read 14: minute DS:831F, sub-tick DS:831D, clock running DS:8325, minutes left DS:831B, seed DS:7B62, score, screen sha256",
+   "value": "16 19 1 75 0xe665 0 1 cac991823b01432e6a1c4ddfe11d501b62537b87f67c7cadb8ec912602b7641d"
+  },
+  {
+   "step": 21,
+   "source": "memory",
+   "field": "match read 15: minute DS:831F, sub-tick DS:831D, clock running DS:8325, minutes left DS:831B, seed DS:7B62, score, screen sha256",
+   "value": "16 19 1 75 0xe665 0 1 cac991823b01432e6a1c4ddfe11d501b62537b87f67c7cadb8ec912602b7641d"
+  },
+  {
+   "step": 22,
+   "source": "memory",
+   "field": "match read 16: minute DS:831F, sub-tick DS:831D, clock running DS:8325, minutes left DS:831B, seed DS:7B62, score, screen sha256",
+   "value": "16 19 1 75 0xe665 0 1 cac991823b01432e6a1c4ddfe11d501b62537b87f67c7cadb8ec912602b7641d"
+  },
+  {
+   "step": 23,
+   "source": "memory",
+   "field": "match read 17: minute DS:831F, sub-tick DS:831D, clock running DS:8325, minutes left DS:831B, seed DS:7B62, score, screen sha256",
+   "value": "16 19 1 75 0xe665 0 1 cac991823b01432e6a1c4ddfe11d501b62537b87f67c7cadb8ec912602b7641d"
+  },
+  {
+   "step": 24,
+   "source": "memory",
+   "field": "match read 18: minute DS:831F, sub-tick DS:831D, clock running DS:8325, minutes left DS:831B, seed DS:7B62, score, screen sha256",
+   "value": "16 19 1 75 0xe665 0 1 cac991823b01432e6a1c4ddfe11d501b62537b87f67c7cadb8ec912602b7641d"
+  },
+  {
+   "step": 25,
+   "source": "memory",
+   "field": "match read 19: minute DS:831F, sub-tick DS:831D, clock running DS:8325, minutes left DS:831B, seed DS:7B62, score, screen sha256",
+   "value": "18 5 1 73 0x6ea3 0 1 9e964502a248e755e9f5e5a83b482936aac29ca2a3469034f812d45ecfc2e31b"
+  },
+  {
+   "step": 26,
+   "source": "memory",
+   "field": "match read 20: minute DS:831F, sub-tick DS:831D, clock running DS:8325, minutes left DS:831B, seed DS:7B62, score, screen sha256",
+   "value": "23 8 1 68 0x02f6 0 1 773adfa6f7a14d959e35f9e9f4718dd5b3ee1b973f8fea40575610acb1d61074"
+  },
+  {
+   "step": 27,
+   "source": "memory",
+   "field": "match read 21: minute DS:831F, sub-tick DS:831D, clock running DS:8325, minutes left DS:831B, seed DS:7B62, score, screen sha256",
+   "value": "24 36 1 67 0x6814 1 1 500d8c36eb5349a89a956370c3eaa0ad854219e29a190e7e44f8c85c6365394e"
+  },
+  {
+   "step": 28,
+   "source": "memory",
+   "field": "match read 22: minute DS:831F, sub-tick DS:831D, clock running DS:8325, minutes left DS:831B, seed DS:7B62, score, screen sha256",
+   "value": "24 36 1 67 0x6814 1 1 500d8c36eb5349a89a956370c3eaa0ad854219e29a190e7e44f8c85c6365394e"
+  },
+  {
+   "step": 29,
+   "source": "memory",
+   "field": "match read 23: minute DS:831F, sub-tick DS:831D, clock running DS:8325, minutes left DS:831B, seed DS:7B62, score, screen sha256",
+   "value": "24 36 1 67 0x6814 1 1 500d8c36eb5349a89a956370c3eaa0ad854219e29a190e7e44f8c85c6365394e"
+  },
+  {
+   "step": 30,
+   "source": "memory",
+   "field": "match read 24: minute DS:831F, sub-tick DS:831D, clock running DS:8325, minutes left DS:831B, seed DS:7B62, score, screen sha256",
+   "value": "24 36 1 67 0x6814 1 1 500d8c36eb5349a89a956370c3eaa0ad854219e29a190e7e44f8c85c6365394e"
+  },
+  {
+   "step": 31,
+   "source": "memory",
+   "field": "match read 25: minute DS:831F, sub-tick DS:831D, clock running DS:8325, minutes left DS:831B, seed DS:7B62, score, screen sha256",
+   "value": "24 36 1 67 0x6814 1 1 500d8c36eb5349a89a956370c3eaa0ad854219e29a190e7e44f8c85c6365394e"
+  },
+  {
+   "step": 32,
+   "source": "memory",
+   "field": "match read 26: minute DS:831F, sub-tick DS:831D, clock running DS:8325, minutes left DS:831B, seed DS:7B62, score, screen sha256",
+   "value": "24 36 1 67 0x6814 1 1 500d8c36eb5349a89a956370c3eaa0ad854219e29a190e7e44f8c85c6365394e"
+  },
+  {
+   "step": 33,
+   "source": "memory",
+   "field": "match read 27: minute DS:831F, sub-tick DS:831D, clock running DS:8325, minutes left DS:831B, seed DS:7B62, score, screen sha256",
+   "value": "24 36 1 67 0x6814 1 1 500d8c36eb5349a89a956370c3eaa0ad854219e29a190e7e44f8c85c6365394e"
+  },
+  {
+   "step": 34,
+   "source": "memory",
+   "field": "match read 28: minute DS:831F, sub-tick DS:831D, clock running DS:8325, minutes left DS:831B, seed DS:7B62, score, screen sha256",
+   "value": "24 36 1 67 0x6814 1 1 500d8c36eb5349a89a956370c3eaa0ad854219e29a190e7e44f8c85c6365394e"
+  },
+  {
+   "step": 35,
+   "source": "memory",
+   "field": "match read 29: minute DS:831F, sub-tick DS:831D, clock running DS:8325, minutes left DS:831B, seed DS:7B62, score, screen sha256",
+   "value": "24 36 1 67 0x6814 1 1 500d8c36eb5349a89a956370c3eaa0ad854219e29a190e7e44f8c85c6365394e"
+  },
+  {
+   "step": 36,
+   "source": "memory",
+   "field": "match read 30: minute DS:831F, sub-tick DS:831D, clock running DS:8325, minutes left DS:831B, seed DS:7B62, score, screen sha256",
+   "value": "24 36 1 67 0x6814 1 1 500d8c36eb5349a89a956370c3eaa0ad854219e29a190e7e44f8c85c6365394e"
+  },
+  {
+   "step": 37,
+   "source": "memory",
+   "field": "match read 31: minute DS:831F, sub-tick DS:831D, clock running DS:8325, minutes left DS:831B, seed DS:7B62, score, screen sha256",
+   "value": "24 36 1 67 0x6814 1 1 500d8c36eb5349a89a956370c3eaa0ad854219e29a190e7e44f8c85c6365394e"
+  },
+  {
+   "step": 38,
+   "source": "memory",
+   "field": "match read 32: minute DS:831F, sub-tick DS:831D, clock running DS:8325, minutes left DS:831B, seed DS:7B62, score, screen sha256",
+   "value": "24 36 1 67 0x6814 1 1 500d8c36eb5349a89a956370c3eaa0ad854219e29a190e7e44f8c85c6365394e"
+  },
+  {
+   "step": 39,
+   "source": "memory",
+   "field": "match read 33: minute DS:831F, sub-tick DS:831D, clock running DS:8325, minutes left DS:831B, seed DS:7B62, score, screen sha256",
+   "value": "24 36 1 67 0x6814 1 1 500d8c36eb5349a89a956370c3eaa0ad854219e29a190e7e44f8c85c6365394e"
+  },
+  {
+   "step": 40,
+   "source": "memory",
+   "field": "match read 34: minute DS:831F, sub-tick DS:831D, clock running DS:8325, minutes left DS:831B, seed DS:7B62, score, screen sha256",
+   "value": "24 36 1 67 0x6814 1 1 500d8c36eb5349a89a956370c3eaa0ad854219e29a190e7e44f8c85c6365394e"
+  },
+  {
+   "step": 41,
+   "source": "memory",
+   "field": "match read 35: minute DS:831F, sub-tick DS:831D, clock running DS:8325, minutes left DS:831B, seed DS:7B62, score, screen sha256",
+   "value": "24 36 1 67 0x6814 1 1 500d8c36eb5349a89a956370c3eaa0ad854219e29a190e7e44f8c85c6365394e"
+  },
+  {
+   "step": 42,
+   "source": "memory",
+   "field": "match read 36: minute DS:831F, sub-tick DS:831D, clock running DS:8325, minutes left DS:831B, seed DS:7B62, score, screen sha256",
+   "value": "27 35 1 64 0x6174 1 1 cc572a48aff8cd2d9506caec78585c2af29c4c83608258642b90f5206c981baf"
+  },
+  {
+   "step": 43,
+   "source": "memory",
+   "field": "match read 37: minute DS:831F, sub-tick DS:831D, clock running DS:8325, minutes left DS:831B, seed DS:7B62, score, screen sha256",
+   "value": "30 5 1 61 0x20a4 1 1 d4526a0a3dafafa5158518cc9c5f43a8899feed08445bbb6bb34c7e3e658000b"
+  },
+  {
+   "step": 44,
+   "source": "memory",
+   "field": "match read 38: minute DS:831F, sub-tick DS:831D, clock running DS:8325, minutes left DS:831B, seed DS:7B62, score, screen sha256",
+   "value": "35 31 1 56 0xb224 1 1 320b2a5afe0d6e05bd4947e201985a18a903b00df0f1d740d3f2808f8f8e4f85"
+  },
+  {
+   "step": 45,
+   "source": "memory",
+   "field": "match read 39: minute DS:831F, sub-tick DS:831D, clock running DS:8325, minutes left DS:831B, seed DS:7B62, score, screen sha256",
+   "value": "39 29 1 52 0x5d39 1 1 60ab879112c3681ed953e1d2e7de4bc35f363edf572fb6b4612a03ac7a50f158"
+  },
+  {
+   "step": 46,
+   "source": "memory",
+   "field": "match read 40: minute DS:831F, sub-tick DS:831D, clock running DS:8325, minutes left DS:831B, seed DS:7B62, score, screen sha256",
+   "value": "42 6 1 49 0x0787 1 1 9369eb14ed924fa497a566e7cb6753ea98d75014209a66210186d8f82f5603a7"
+  },
+  {
+   "step": 47,
+   "source": "memory",
+   "field": "match read 41: minute DS:831F, sub-tick DS:831D, clock running DS:8325, minutes left DS:831B, seed DS:7B62, score, screen sha256",
+   "value": "46 36 0 45 0xf457 1 1 392ec7bca02d47b5a4ea9a3aff471d764aa71281076e01532b8a3ecfbb70afea"
+  },
+  {
+   "step": 48,
+   "source": "memory",
+   "field": "match read 42: minute DS:831F, sub-tick DS:831D, clock running DS:8325, minutes left DS:831B, seed DS:7B62, score, screen sha256",
+   "value": "46 36 0 45 0xf457 1 1 5003504025f2826d85664e78b6f7e8f2011627e8ead1ce161e51b0fd0f163042"
+  },
+  {
+   "step": 49,
+   "source": "memory",
+   "field": "match read 43: minute DS:831F, sub-tick DS:831D, clock running DS:8325, minutes left DS:831B, seed DS:7B62, score, screen sha256",
+   "value": "46 36 0 45 0xf457 1 1 5003504025f2826d85664e78b6f7e8f2011627e8ead1ce161e51b0fd0f163042"
+  },
+  {
+   "step": 50,
+   "source": "memory",
+   "field": "match read 44: minute DS:831F, sub-tick DS:831D, clock running DS:8325, minutes left DS:831B, seed DS:7B62, score, screen sha256",
+   "value": "46 36 0 45 0xf457 1 1 7bc6f1cc1c13cf02c73b2872a7a7b9836833af9e0fe87f0edbe83e13e4304d42"
+  },
+  {
+   "step": 51,
+   "source": "memory",
+   "field": "match read 45: minute DS:831F, sub-tick DS:831D, clock running DS:8325, minutes left DS:831B, seed DS:7B62, score, screen sha256",
+   "value": "46 36 0 45 0xf457 1 1 7bc6f1cc1c13cf02c73b2872a7a7b9836833af9e0fe87f0edbe83e13e4304d42"
+  },
+  {
+   "step": 52,
+   "source": "memory",
+   "field": "match read 46: minute DS:831F, sub-tick DS:831D, clock running DS:8325, minutes left DS:831B, seed DS:7B62, score, screen sha256",
+   "value": "47 11 0 44 0x7bad 1 1 6e8b891c6b349f3726bf56c386c50786699a805d85c3047eb7116a3b5e14f27a"
+  },
+  {
+   "step": 53,
+   "source": "memory",
+   "field": "match read 47: minute DS:831F, sub-tick DS:831D, clock running DS:8325, minutes left DS:831B, seed DS:7B62, score, screen sha256",
+   "value": "51 4 1 40 0xe1df 1 1 befeeb8153cde420fbb09382335326dfe01cc7d17ea28406cce9fd4605b6ef23"
+  },
+  {
+   "step": 54,
+   "source": "memory",
+   "field": "match read 48: minute DS:831F, sub-tick DS:831D, clock running DS:8325, minutes left DS:831B, seed DS:7B62, score, screen sha256",
+   "value": "52 27 0 39 0x4ad9 1 1 7ca43ff1e7521b8b4dfc4ec99e9d50ec0802a195429c403c3aabeca21df03273"
+  },
+  {
+   "step": 55,
+   "source": "memory",
+   "field": "match read 49: minute DS:831F, sub-tick DS:831D, clock running DS:8325, minutes left DS:831B, seed DS:7B62, score, screen sha256",
+   "value": "52 27 0 39 0x4ad9 1 1 7ca43ff1e7521b8b4dfc4ec99e9d50ec0802a195429c403c3aabeca21df03273"
+  },
+  {
+   "step": 56,
+   "source": "memory",
+   "field": "match read 50: minute DS:831F, sub-tick DS:831D, clock running DS:8325, minutes left DS:831B, seed DS:7B62, score, screen sha256",
+   "value": "52 27 0 39 0x4ad9 1 1 7ca43ff1e7521b8b4dfc4ec99e9d50ec0802a195429c403c3aabeca21df03273"
+  },
+  {
+   "step": 57,
+   "source": "memory",
+   "field": "match read 51: minute DS:831F, sub-tick DS:831D, clock running DS:8325, minutes left DS:831B, seed DS:7B62, score, screen sha256",
+   "value": "52 27 0 39 0x4ad9 1 1 7ca43ff1e7521b8b4dfc4ec99e9d50ec0802a195429c403c3aabeca21df03273"
+  },
+  {
+   "step": 58,
+   "source": "memory",
+   "field": "match read 52: minute DS:831F, sub-tick DS:831D, clock running DS:8325, minutes left DS:831B, seed DS:7B62, score, screen sha256",
+   "value": "52 27 0 39 0x4ad9 1 1 7ca43ff1e7521b8b4dfc4ec99e9d50ec0802a195429c403c3aabeca21df03273"
+  },
+  {
+   "step": 59,
+   "source": "memory",
+   "field": "match read 53: minute DS:831F, sub-tick DS:831D, clock running DS:8325, minutes left DS:831B, seed DS:7B62, score, screen sha256",
+   "value": "52 27 0 39 0x4ad9 1 1 7ca43ff1e7521b8b4dfc4ec99e9d50ec0802a195429c403c3aabeca21df03273"
+  },
+  {
+   "step": 60,
+   "source": "memory",
+   "field": "match read 54: minute DS:831F, sub-tick DS:831D, clock running DS:8325, minutes left DS:831B, seed DS:7B62, score, screen sha256",
+   "value": "52 27 0 39 0x4ad9 1 1 7ca43ff1e7521b8b4dfc4ec99e9d50ec0802a195429c403c3aabeca21df03273"
+  },
+  {
+   "step": 61,
+   "source": "memory",
+   "field": "match read 55: minute DS:831F, sub-tick DS:831D, clock running DS:8325, minutes left DS:831B, seed DS:7B62, score, screen sha256",
+   "value": "52 27 0 39 0x4ad9 1 1 7ca43ff1e7521b8b4dfc4ec99e9d50ec0802a195429c403c3aabeca21df03273"
+  },
+  {
+   "step": 62,
+   "source": "memory",
+   "field": "match read 56: minute DS:831F, sub-tick DS:831D, clock running DS:8325, minutes left DS:831B, seed DS:7B62, score, screen sha256",
+   "value": "52 27 0 39 0x4ad9 1 1 7ca43ff1e7521b8b4dfc4ec99e9d50ec0802a195429c403c3aabeca21df03273"
+  },
+  {
+   "step": 63,
+   "source": "memory",
+   "field": "match read 57: minute DS:831F, sub-tick DS:831D, clock running DS:8325, minutes left DS:831B, seed DS:7B62, score, screen sha256",
+   "value": "52 27 0 39 0x4ad9 1 1 7ca43ff1e7521b8b4dfc4ec99e9d50ec0802a195429c403c3aabeca21df03273"
+  },
+  {
+   "step": 64,
+   "source": "memory",
+   "field": "match read 58: minute DS:831F, sub-tick DS:831D, clock running DS:8325, minutes left DS:831B, seed DS:7B62, score, screen sha256",
+   "value": "52 27 0 39 0x4ad9 1 1 7ca43ff1e7521b8b4dfc4ec99e9d50ec0802a195429c403c3aabeca21df03273"
+  },
+  {
+   "step": 65,
+   "source": "memory",
+   "field": "match read 59: minute DS:831F, sub-tick DS:831D, clock running DS:8325, minutes left DS:831B, seed DS:7B62, score, screen sha256",
+   "value": "52 27 0 39 0x4ad9 1 1 7ca43ff1e7521b8b4dfc4ec99e9d50ec0802a195429c403c3aabeca21df03273"
+  },
+  {
+   "step": 66,
+   "source": "memory",
+   "field": "match read 60: minute DS:831F, sub-tick DS:831D, clock running DS:8325, minutes left DS:831B, seed DS:7B62, score, screen sha256",
+   "value": "52 27 0 39 0x4ad9 1 1 7ca43ff1e7521b8b4dfc4ec99e9d50ec0802a195429c403c3aabeca21df03273"
+  },
+  {
+   "step": 67,
+   "source": "memory",
+   "field": "match read 61: minute DS:831F, sub-tick DS:831D, clock running DS:8325, minutes left DS:831B, seed DS:7B62, score, screen sha256",
+   "value": "52 27 0 39 0x4ad9 1 1 7ca43ff1e7521b8b4dfc4ec99e9d50ec0802a195429c403c3aabeca21df03273"
+  },
+  {
+   "step": 68,
+   "source": "memory",
+   "field": "match read 62: minute DS:831F, sub-tick DS:831D, clock running DS:8325, minutes left DS:831B, seed DS:7B62, score, screen sha256",
+   "value": "52 27 0 39 0x4ad9 1 1 7ca43ff1e7521b8b4dfc4ec99e9d50ec0802a195429c403c3aabeca21df03273"
+  },
+  {
+   "step": 69,
+   "source": "memory",
+   "field": "match read 63: minute DS:831F, sub-tick DS:831D, clock running DS:8325, minutes left DS:831B, seed DS:7B62, score, screen sha256",
+   "value": "52 27 0 39 0x4ad9 1 1 7ca43ff1e7521b8b4dfc4ec99e9d50ec0802a195429c403c3aabeca21df03273"
+  },
+  {
+   "step": 70,
+   "source": "memory",
+   "field": "match read 64: minute DS:831F, sub-tick DS:831D, clock running DS:8325, minutes left DS:831B, seed DS:7B62, score, screen sha256",
+   "value": "52 27 0 39 0x4ad9 1 1 7ca43ff1e7521b8b4dfc4ec99e9d50ec0802a195429c403c3aabeca21df03273"
+  },
+  {
+   "step": 71,
+   "source": "memory",
+   "field": "match read 65: minute DS:831F, sub-tick DS:831D, clock running DS:8325, minutes left DS:831B, seed DS:7B62, score, screen sha256",
+   "value": "52 27 0 39 0x4ad9 1 1 7ca43ff1e7521b8b4dfc4ec99e9d50ec0802a195429c403c3aabeca21df03273"
+  },
+  {
+   "step": 72,
+   "source": "memory",
+   "field": "match read 66: minute DS:831F, sub-tick DS:831D, clock running DS:8325, minutes left DS:831B, seed DS:7B62, score, screen sha256",
+   "value": "52 27 0 39 0x4ad9 1 1 7ca43ff1e7521b8b4dfc4ec99e9d50ec0802a195429c403c3aabeca21df03273"
+  },
+  {
+   "step": 73,
+   "source": "memory",
+   "field": "match read 67: minute DS:831F, sub-tick DS:831D, clock running DS:8325, minutes left DS:831B, seed DS:7B62, score, screen sha256",
+   "value": "52 27 0 39 0x4ad9 1 1 7ca43ff1e7521b8b4dfc4ec99e9d50ec0802a195429c403c3aabeca21df03273"
+  },
+  {
+   "step": 74,
+   "source": "memory",
+   "field": "match read 68: minute DS:831F, sub-tick DS:831D, clock running DS:8325, minutes left DS:831B, seed DS:7B62, score, screen sha256",
+   "value": "52 27 0 39 0x4ad9 1 1 7ca43ff1e7521b8b4dfc4ec99e9d50ec0802a195429c403c3aabeca21df03273"
+  },
+  {
+   "step": 75,
+   "source": "memory",
+   "field": "match read 69: minute DS:831F, sub-tick DS:831D, clock running DS:8325, minutes left DS:831B, seed DS:7B62, score, screen sha256",
+   "value": "52 27 0 39 0x4ad9 1 1 7ca43ff1e7521b8b4dfc4ec99e9d50ec0802a195429c403c3aabeca21df03273"
+  },
+  {
+   "step": 76,
+   "source": "memory",
+   "field": "match read 70: minute DS:831F, sub-tick DS:831D, clock running DS:8325, minutes left DS:831B, seed DS:7B62, score, screen sha256",
+   "value": "52 27 0 39 0x4ad9 1 1 7ca43ff1e7521b8b4dfc4ec99e9d50ec0802a195429c403c3aabeca21df03273"
+  },
+  {
+   "step": 77,
+   "source": "memory",
+   "field": "match read 71: minute DS:831F, sub-tick DS:831D, clock running DS:8325, minutes left DS:831B, seed DS:7B62, score, screen sha256",
+   "value": "52 27 0 39 0x4ad9 1 1 7ca43ff1e7521b8b4dfc4ec99e9d50ec0802a195429c403c3aabeca21df03273"
+  },
+  {
+   "step": 78,
+   "source": "memory",
+   "field": "match read 72: minute DS:831F, sub-tick DS:831D, clock running DS:8325, minutes left DS:831B, seed DS:7B62, score, screen sha256",
+   "value": "52 27 0 39 0x4ad9 1 1 7ca43ff1e7521b8b4dfc4ec99e9d50ec0802a195429c403c3aabeca21df03273"
+  },
+  {
+   "step": 79,
+   "source": "memory",
+   "field": "match read 73: minute DS:831F, sub-tick DS:831D, clock running DS:8325, minutes left DS:831B, seed DS:7B62, score, screen sha256",
+   "value": "53 6 1 38 0x5705 1 1 5a78dc5265d3ad1d1bd0f584e437de67690e49350deb97c905acf760b1e76df7"
+  },
+  {
+   "step": 80,
+   "source": "memory",
+   "field": "match read 74: minute DS:831F, sub-tick DS:831D, clock running DS:8325, minutes left DS:831B, seed DS:7B62, score, screen sha256",
+   "value": "57 1 1 34 0xb13b 1 1 68f389679dcf322f66982eb303002c688707cae8780e910afb31289368daab86"
+  },
+  {
+   "step": 81,
+   "source": "memory",
+   "field": "match read 75: minute DS:831F, sub-tick DS:831D, clock running DS:8325, minutes left DS:831B, seed DS:7B62, score, screen sha256",
+   "value": "62 24 1 29 0x8bab 1 1 610a89323a4cbb958494a08e1663ca6f0abc7a61d202590eecc53ae7ad3e1dc5"
+  },
+  {
+   "step": 82,
+   "source": "memory",
+   "field": "match read 76: minute DS:831F, sub-tick DS:831D, clock running DS:8325, minutes left DS:831B, seed DS:7B62, score, screen sha256",
+   "value": "62 1 0 29 0x698d 1 1 f63e5133297ac4a82406c006772e06709906e6b2c2b0a57d4324e75c49a8c395"
+  },
+  {
+   "step": 83,
+   "source": "memory",
+   "field": "match read 77: minute DS:831F, sub-tick DS:831D, clock running DS:8325, minutes left DS:831B, seed DS:7B62, score, screen sha256",
+   "value": "62 1 0 29 0x698d 1 1 f63e5133297ac4a82406c006772e06709906e6b2c2b0a57d4324e75c49a8c395"
+  },
+  {
+   "step": 84,
+   "source": "memory",
+   "field": "match read 78: minute DS:831F, sub-tick DS:831D, clock running DS:8325, minutes left DS:831B, seed DS:7B62, score, screen sha256",
+   "value": "62 1 0 29 0x698d 1 1 f63e5133297ac4a82406c006772e06709906e6b2c2b0a57d4324e75c49a8c395"
+  },
+  {
+   "step": 85,
+   "source": "memory",
+   "field": "match read 79: minute DS:831F, sub-tick DS:831D, clock running DS:8325, minutes left DS:831B, seed DS:7B62, score, screen sha256",
+   "value": "62 1 0 29 0x698d 1 1 f63e5133297ac4a82406c006772e06709906e6b2c2b0a57d4324e75c49a8c395"
+  },
+  {
+   "step": 86,
+   "source": "memory",
+   "field": "match read 80: minute DS:831F, sub-tick DS:831D, clock running DS:8325, minutes left DS:831B, seed DS:7B62, score, screen sha256",
+   "value": "62 1 0 29 0x698d 1 1 f63e5133297ac4a82406c006772e06709906e6b2c2b0a57d4324e75c49a8c395"
+  },
+  {
+   "step": 87,
+   "source": "memory",
+   "field": "match read 81: minute DS:831F, sub-tick DS:831D, clock running DS:8325, minutes left DS:831B, seed DS:7B62, score, screen sha256",
+   "value": "62 1 0 29 0x698d 1 1 f63e5133297ac4a82406c006772e06709906e6b2c2b0a57d4324e75c49a8c395"
+  },
+  {
+   "step": 88,
+   "source": "memory",
+   "field": "match read 82: minute DS:831F, sub-tick DS:831D, clock running DS:8325, minutes left DS:831B, seed DS:7B62, score, screen sha256",
+   "value": "62 1 0 29 0x698d 1 1 f63e5133297ac4a82406c006772e06709906e6b2c2b0a57d4324e75c49a8c395"
+  },
+  {
+   "step": 89,
+   "source": "memory",
+   "field": "match read 83: minute DS:831F, sub-tick DS:831D, clock running DS:8325, minutes left DS:831B, seed DS:7B62, score, screen sha256",
+   "value": "62 1 0 29 0x698d 1 1 82ff7eb4e14db5087124232e4f73bdfc95ef9e0a5eab0fa77470a4be542cec3e"
+  },
+  {
+   "step": 90,
+   "source": "memory",
+   "field": "match read 84: minute DS:831F, sub-tick DS:831D, clock running DS:8325, minutes left DS:831B, seed DS:7B62, score, screen sha256",
+   "value": "62 1 0 29 0x698d 1 1 82ff7eb4e14db5087124232e4f73bdfc95ef9e0a5eab0fa77470a4be542cec3e"
+  },
+  {
+   "step": 91,
+   "source": "memory",
+   "field": "match read 85: minute DS:831F, sub-tick DS:831D, clock running DS:8325, minutes left DS:831B, seed DS:7B62, score, screen sha256",
+   "value": "62 1 0 29 0x698d 1 1 82ff7eb4e14db5087124232e4f73bdfc95ef9e0a5eab0fa77470a4be542cec3e"
+  },
+  {
+   "step": 92,
+   "source": "memory",
+   "field": "match read 86: minute DS:831F, sub-tick DS:831D, clock running DS:8325, minutes left DS:831B, seed DS:7B62, score, screen sha256",
+   "value": "62 1 0 29 0x698d 1 1 82ff7eb4e14db5087124232e4f73bdfc95ef9e0a5eab0fa77470a4be542cec3e"
+  },
+  {
+   "step": 93,
+   "source": "memory",
+   "field": "match read 87: minute DS:831F, sub-tick DS:831D, clock running DS:8325, minutes left DS:831B, seed DS:7B62, score, screen sha256",
+   "value": "62 1 0 29 0x698d 1 1 82ff7eb4e14db5087124232e4f73bdfc95ef9e0a5eab0fa77470a4be542cec3e"
+  },
+  {
+   "step": 94,
+   "source": "memory",
+   "field": "match read 88: minute DS:831F, sub-tick DS:831D, clock running DS:8325, minutes left DS:831B, seed DS:7B62, score, screen sha256",
+   "value": "62 1 0 29 0x698d 1 1 82ff7eb4e14db5087124232e4f73bdfc95ef9e0a5eab0fa77470a4be542cec3e"
+  },
+  {
+   "step": 95,
+   "source": "memory",
+   "field": "match read 89: minute DS:831F, sub-tick DS:831D, clock running DS:8325, minutes left DS:831B, seed DS:7B62, score, screen sha256",
+   "value": "62 1 0 29 0x698d 1 1 82ff7eb4e14db5087124232e4f73bdfc95ef9e0a5eab0fa77470a4be542cec3e"
+  },
+  {
+   "step": 96,
+   "source": "memory",
+   "field": "match read 90: minute DS:831F, sub-tick DS:831D, clock running DS:8325, minutes left DS:831B, seed DS:7B62, score, screen sha256",
+   "value": "62 1 0 29 0x698d 1 1 82ff7eb4e14db5087124232e4f73bdfc95ef9e0a5eab0fa77470a4be542cec3e"
+  },
+  {
+   "step": 97,
+   "source": "memory",
+   "field": "match read 91: minute DS:831F, sub-tick DS:831D, clock running DS:8325, minutes left DS:831B, seed DS:7B62, score, screen sha256",
+   "value": "64 1 1 27 0x6da8 1 1 104d14aef2c97b626d043713f62b50d3e7d25bb707c4aa49ea5d7604c1983de8"
+  },
+  {
+   "step": 98,
+   "source": "memory",
+   "field": "match read 92: minute DS:831F, sub-tick DS:831D, clock running DS:8325, minutes left DS:831B, seed DS:7B62, score, screen sha256",
+   "value": "69 20 1 22 0xf4a5 1 1 16ba0adfc4d8c520bcea5d1fd7720ea5dc8703a363fe5fed7cef0268f645469d"
+  },
+  {
+   "step": 99,
+   "source": "memory",
+   "field": "match read 93: minute DS:831F, sub-tick DS:831D, clock running DS:8325, minutes left DS:831B, seed DS:7B62, score, screen sha256",
+   "value": "73 23 0 18 0x53dc 1 1 a3deffa3a4483c211d344ce1e57447c63d3aec28793c4aaa2254f1d9a3745ad9"
+  },
+  {
+   "step": 100,
+   "source": "memory",
+   "field": "match read 94: minute DS:831F, sub-tick DS:831D, clock running DS:8325, minutes left DS:831B, seed DS:7B62, score, screen sha256",
+   "value": "77 24 1 14 0x6eb1 1 1 3008e7c1e1913a5febb8bc362013697ce4ef1a58bb6728dc0fa88d45db63b30a"
+  },
+  {
+   "step": 101,
+   "source": "memory",
+   "field": "match read 95: minute DS:831F, sub-tick DS:831D, clock running DS:8325, minutes left DS:831B, seed DS:7B62, score, screen sha256",
+   "value": "79 11 0 12 0x563e 1 1 c41629ff3c4f3353dfddcf660d8e9d2021e45a79020f3098bf521db91177a6fb"
+  },
+  {
+   "step": 102,
+   "source": "memory",
+   "field": "match read 96: minute DS:831F, sub-tick DS:831D, clock running DS:8325, minutes left DS:831B, seed DS:7B62, score, screen sha256",
+   "value": "79 11 0 12 0x563e 1 1 c41629ff3c4f3353dfddcf660d8e9d2021e45a79020f3098bf521db91177a6fb"
+  },
+  {
+   "step": 103,
+   "source": "memory",
+   "field": "match read 97: minute DS:831F, sub-tick DS:831D, clock running DS:8325, minutes left DS:831B, seed DS:7B62, score, screen sha256",
+   "value": "79 11 0 12 0x563e 1 1 c41629ff3c4f3353dfddcf660d8e9d2021e45a79020f3098bf521db91177a6fb"
+  },
+  {
+   "step": 104,
+   "source": "memory",
+   "field": "match read 98: minute DS:831F, sub-tick DS:831D, clock running DS:8325, minutes left DS:831B, seed DS:7B62, score, screen sha256",
+   "value": "79 11 0 12 0x563e 1 1 c41629ff3c4f3353dfddcf660d8e9d2021e45a79020f3098bf521db91177a6fb"
+  },
+  {
+   "step": 105,
+   "source": "memory",
+   "field": "match read 99: minute DS:831F, sub-tick DS:831D, clock running DS:8325, minutes left DS:831B, seed DS:7B62, score, screen sha256",
+   "value": "79 11 0 12 0x563e 1 1 c41629ff3c4f3353dfddcf660d8e9d2021e45a79020f3098bf521db91177a6fb"
+  },
+  {
+   "step": 106,
+   "source": "memory",
+   "field": "match read 100: minute DS:831F, sub-tick DS:831D, clock running DS:8325, minutes left DS:831B, seed DS:7B62, score, screen sha256",
+   "value": "79 11 0 12 0x563e 1 1 c41629ff3c4f3353dfddcf660d8e9d2021e45a79020f3098bf521db91177a6fb"
+  },
+  {
+   "step": 107,
+   "source": "memory",
+   "field": "match read 101: minute DS:831F, sub-tick DS:831D, clock running DS:8325, minutes left DS:831B, seed DS:7B62, score, screen sha256",
+   "value": "79 11 0 12 0x563e 1 1 c41629ff3c4f3353dfddcf660d8e9d2021e45a79020f3098bf521db91177a6fb"
+  },
+  {
+   "step": 108,
+   "source": "memory",
+   "field": "match read 102: minute DS:831F, sub-tick DS:831D, clock running DS:8325, minutes left DS:831B, seed DS:7B62, score, screen sha256",
+   "value": "79 11 0 12 0x563e 1 1 c41629ff3c4f3353dfddcf660d8e9d2021e45a79020f3098bf521db91177a6fb"
+  },
+  {
+   "step": 109,
+   "source": "memory",
+   "field": "match read 103: minute DS:831F, sub-tick DS:831D, clock running DS:8325, minutes left DS:831B, seed DS:7B62, score, screen sha256",
+   "value": "79 11 0 12 0x563e 1 1 c41629ff3c4f3353dfddcf660d8e9d2021e45a79020f3098bf521db91177a6fb"
+  },
+  {
+   "step": 110,
+   "source": "memory",
+   "field": "match read 104: minute DS:831F, sub-tick DS:831D, clock running DS:8325, minutes left DS:831B, seed DS:7B62, score, screen sha256",
+   "value": "79 11 0 12 0x563e 1 1 c41629ff3c4f3353dfddcf660d8e9d2021e45a79020f3098bf521db91177a6fb"
+  },
+  {
+   "step": 111,
+   "source": "memory",
+   "field": "match read 105: minute DS:831F, sub-tick DS:831D, clock running DS:8325, minutes left DS:831B, seed DS:7B62, score, screen sha256",
+   "value": "79 11 0 12 0x563e 1 1 c41629ff3c4f3353dfddcf660d8e9d2021e45a79020f3098bf521db91177a6fb"
+  },
+  {
+   "step": 112,
+   "source": "memory",
+   "field": "match read 106: minute DS:831F, sub-tick DS:831D, clock running DS:8325, minutes left DS:831B, seed DS:7B62, score, screen sha256",
+   "value": "79 11 0 12 0x563e 1 1 c41629ff3c4f3353dfddcf660d8e9d2021e45a79020f3098bf521db91177a6fb"
+  },
+  {
+   "step": 113,
+   "source": "memory",
+   "field": "match read 107: minute DS:831F, sub-tick DS:831D, clock running DS:8325, minutes left DS:831B, seed DS:7B62, score, screen sha256",
+   "value": "79 11 0 12 0x563e 1 1 c41629ff3c4f3353dfddcf660d8e9d2021e45a79020f3098bf521db91177a6fb"
+  },
+  {
+   "step": 114,
+   "source": "memory",
+   "field": "match read 108: minute DS:831F, sub-tick DS:831D, clock running DS:8325, minutes left DS:831B, seed DS:7B62, score, screen sha256",
+   "value": "79 11 0 12 0x563e 1 1 c41629ff3c4f3353dfddcf660d8e9d2021e45a79020f3098bf521db91177a6fb"
+  },
+  {
+   "step": 115,
+   "source": "memory",
+   "field": "match read 109: minute DS:831F, sub-tick DS:831D, clock running DS:8325, minutes left DS:831B, seed DS:7B62, score, screen sha256",
+   "value": "79 11 0 12 0x563e 1 1 c41629ff3c4f3353dfddcf660d8e9d2021e45a79020f3098bf521db91177a6fb"
+  },
+  {
+   "step": 116,
+   "source": "memory",
+   "field": "match read 110: minute DS:831F, sub-tick DS:831D, clock running DS:8325, minutes left DS:831B, seed DS:7B62, score, screen sha256",
+   "value": "79 11 0 12 0x563e 1 1 c41629ff3c4f3353dfddcf660d8e9d2021e45a79020f3098bf521db91177a6fb"
+  },
+  {
+   "step": 117,
+   "source": "memory",
+   "field": "match read 111: minute DS:831F, sub-tick DS:831D, clock running DS:8325, minutes left DS:831B, seed DS:7B62, score, screen sha256",
+   "value": "79 11 0 12 0x563e 1 1 c41629ff3c4f3353dfddcf660d8e9d2021e45a79020f3098bf521db91177a6fb"
+  },
+  {
+   "step": 118,
+   "source": "memory",
+   "field": "match read 112: minute DS:831F, sub-tick DS:831D, clock running DS:8325, minutes left DS:831B, seed DS:7B62, score, screen sha256",
+   "value": "79 11 0 12 0x563e 1 1 c41629ff3c4f3353dfddcf660d8e9d2021e45a79020f3098bf521db91177a6fb"
+  },
+  {
+   "step": 119,
+   "source": "memory",
+   "field": "match read 113: minute DS:831F, sub-tick DS:831D, clock running DS:8325, minutes left DS:831B, seed DS:7B62, score, screen sha256",
+   "value": "79 11 0 12 0x563e 1 1 c41629ff3c4f3353dfddcf660d8e9d2021e45a79020f3098bf521db91177a6fb"
+  },
+  {
+   "step": 120,
+   "source": "memory",
+   "field": "match read 114: minute DS:831F, sub-tick DS:831D, clock running DS:8325, minutes left DS:831B, seed DS:7B62, score, screen sha256",
+   "value": "79 11 0 12 0x563e 1 1 c41629ff3c4f3353dfddcf660d8e9d2021e45a79020f3098bf521db91177a6fb"
+  },
+  {
+   "step": 121,
+   "source": "memory",
+   "field": "match read 115: minute DS:831F, sub-tick DS:831D, clock running DS:8325, minutes left DS:831B, seed DS:7B62, score, screen sha256",
+   "value": "79 11 0 12 0x563e 1 1 c41629ff3c4f3353dfddcf660d8e9d2021e45a79020f3098bf521db91177a6fb"
+  },
+  {
+   "step": 122,
+   "source": "memory",
+   "field": "match read 116: minute DS:831F, sub-tick DS:831D, clock running DS:8325, minutes left DS:831B, seed DS:7B62, score, screen sha256",
+   "value": "79 11 0 12 0x563e 1 1 c41629ff3c4f3353dfddcf660d8e9d2021e45a79020f3098bf521db91177a6fb"
+  },
+  {
+   "step": 123,
+   "source": "memory",
+   "field": "match read 117: minute DS:831F, sub-tick DS:831D, clock running DS:8325, minutes left DS:831B, seed DS:7B62, score, screen sha256",
+   "value": "79 11 0 12 0x563e 1 1 c41629ff3c4f3353dfddcf660d8e9d2021e45a79020f3098bf521db91177a6fb"
+  },
+  {
+   "step": 124,
+   "source": "memory",
+   "field": "match read 118: minute DS:831F, sub-tick DS:831D, clock running DS:8325, minutes left DS:831B, seed DS:7B62, score, screen sha256",
+   "value": "79 11 0 12 0x563e 1 1 c41629ff3c4f3353dfddcf660d8e9d2021e45a79020f3098bf521db91177a6fb"
+  },
+  {
+   "step": 125,
+   "source": "memory",
+   "field": "match read 119: minute DS:831F, sub-tick DS:831D, clock running DS:8325, minutes left DS:831B, seed DS:7B62, score, screen sha256",
+   "value": "79 11 0 12 0x563e 1 1 c41629ff3c4f3353dfddcf660d8e9d2021e45a79020f3098bf521db91177a6fb"
+  },
+  {
+   "step": 126,
+   "source": "memory",
+   "field": "match read 120: minute DS:831F, sub-tick DS:831D, clock running DS:8325, minutes left DS:831B, seed DS:7B62, score, screen sha256",
+   "value": "79 11 0 12 0x563e 1 1 c41629ff3c4f3353dfddcf660d8e9d2021e45a79020f3098bf521db91177a6fb"
+  },
+  {
+   "step": 127,
+   "source": "memory",
+   "field": "match read 121: minute DS:831F, sub-tick DS:831D, clock running DS:8325, minutes left DS:831B, seed DS:7B62, score, screen sha256",
+   "value": "83 23 1 8 0x8322 1 1 a676ed067e0336bc4e56a3900ee43fe0d882ed9acb305d4a51395d8bdfd74c4b"
+  },
+  {
+   "step": 128,
+   "source": "memory",
+   "field": "match read 122: minute DS:831F, sub-tick DS:831D, clock running DS:8325, minutes left DS:831B, seed DS:7B62, score, screen sha256",
+   "value": "86 3 1 5 0xbf8d 1 1 9a75a0153820110769af05323b84a9b133b4caa6ce7fba1df854bea50a540943"
+  },
+  {
+   "step": 129,
+   "source": "memory",
+   "field": "match read 123: minute DS:831F, sub-tick DS:831D, clock running DS:8325, minutes left DS:831B, seed DS:7B62, score, screen sha256",
+   "value": "91 26 1 0 0x6239 1 1 589e197324dea2cf6e3631e1d2bd1ea6ece59e04c00f6a6adc52de805ab8c727"
+  },
+  {
+   "step": 130,
+   "source": "memory",
+   "field": "match read 124: minute DS:831F, sub-tick DS:831D, clock running DS:8325, minutes left DS:831B, seed DS:7B62, score, screen sha256",
+   "value": "91 36 0 0 0xb621 1 1 af83875517ff679aefaff91bb59d5461071c21c1674cd4258f50da7af3a2f295"
+  },
+  {
+   "step": 131,
+   "source": "memory",
+   "field": "match read 125: minute DS:831F, sub-tick DS:831D, clock running DS:8325, minutes left DS:831B, seed DS:7B62, score, screen sha256",
+   "value": "91 36 0 0 0xb621 1 1 af83875517ff679aefaff91bb59d5461071c21c1674cd4258f50da7af3a2f295"
+  },
+  {
+   "step": 132,
+   "source": "log",
+   "field": "full time: host UTC time just before the savestate was requested",
+   "value": "2026-10-06T16:12:36.488Z"
+  },
+  {
+   "step": 132,
+   "source": "log",
+   "field": "full time: host local time with UTC offset, and zone name, at the same instant",
+   "value": "2026-10-06T18:12:36.488+02:00 CEST"
+  },
+  {
+   "step": 132,
+   "source": "screen",
+   "field": "full time: text screen 80x25, chars+attributes (4000 bytes), sha256",
+   "value": "af83875517ff679aefaff91bb59d5461071c21c1674cd4258f50da7af3a2f295"
+  },
+  {
+   "step": 132,
+   "source": "ui-text",
+   "field": "full time: text screen rows 0-24, CP437 decoded, trailing blanks trimmed",
+   "value": " (c) NE'93│ ┌───────────────┬──┬FRIENDLY───────────────────────────┐┌───┐ ▄▀▀▀▄\n ┌─┐┌─┐┌─┐│ │N.IRELAND------│ 1│Sivebaek intercepts                ││   │ █   █\n │ ││ ││ ││ ├versus─────────┼──┤high ball towards Povlsen          │├───┤ ▄───▄\n └─┤└─┘└─┤│ │DENMARK--------│ 1│---- FULL TIME ----                ││   │ █   █\n───┘ v.2    └───────────────┴──┴───────────────────────────────────┘└───┘ └▀▀▀▀\n (half time  1:1 ) ┌─────────────────┐    ┌─────────────────┐\n ┌─────────────────│ N.Ireland------ │─┐┌─│ Denmark-------- │─────────────────┐\n │                 └─────────────────┘ ││ └─────────────────┘                 │\n │ ┌─────────┐         Corners      1  ││  Corners      0     ┌─────────┐     │\n │ │ Scorers │         Free kicks   4  ││  Free kicks   2     │ Scorers │     │\n┌──┴─────────┴──┬min┐  Penalties    0  ││  Penalties    0  ┌──┴─────────┴──┬min┐\n│N W'thington   │ 16│  Shots        2  ││  Shots        5  │F Povlsen      │ 23│\n│               │   │  On target    1  ││  On target    5  │               │   │\n│               │   │  Saves        4  ││  Saves        1  │               │   │\n│               │   │  Fouls        1  ││  Fouls        2  │               │   │\n│               │   │  Bookings     0  ││  Bookings     0  │               │   │\n│               │   │  Red cards    0  └┘  Red cards    0  │               │   │\n│               │   │            ┌───┬───┬───50───┬───┬───┐│               │   │\n│               │   │  Possession:■■■■■■■■■■■■■■■■■■■■■■■■:│               │   │\n│               │   │  Territory :■■■■■■■■■■■■■■■■■■■■■■■■:│               │   │\n│               │   │ ┌──────────────────────────────────┐ │               │   │\n│               │   │ │  MAN OF THE MATCH K Vilfort      │ │               │   │\n└───────────────┴───┘ └──────────────────────────────────┘ └───────────────┴───┘\n └────────────────────────────────────────────────────────────────────────────┘\n                                  hit any key                      Esc,◄┘-bench"
+  },
+  {
+   "step": 132,
+   "source": "memory",
+   "addr": "0x449",
+   "field": "full time: 1 byte at 0040:0049 (BIOS video mode), guest memory from the savestate, hex",
+   "value": "03"
+  },
+  {
+   "step": 132,
+   "source": "memory",
+   "addr": "0x46c",
+   "field": "full time: 4 bytes at 0040:006C (BIOS timer tick count), guest memory from the savestate, as a little-endian dword (bytes in memory order)",
+   "value": "0x0015060a (0a 06 15 00)"
+  },
+  {
+   "step": 132,
+   "source": "memory",
+   "addr": "0x355a2",
+   "field": "full time: word at DS:7B62 of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+   "value": "0xb621 (21 b6)"
+  },
+  {
+   "step": 132,
+   "source": "memory",
+   "addr": "0x355a4",
+   "field": "full time: word at DS:7B64 of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+   "value": "0x0810 (10 08)"
+  },
+  {
+   "step": 132,
+   "source": "memory",
+   "addr": "0x35d76",
+   "field": "full time: word at DS:8336 of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+   "value": "0xd1d4 (d4 d1)"
+  },
+  {
+   "step": 132,
+   "source": "memory",
+   "addr": "0x3843d",
+   "field": "full time: word at DS:A9FD of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+   "value": "0x07ea (ea 07)"
+  },
+  {
+   "step": 132,
+   "source": "memory",
+   "field": "full time: score bytes DS:9B3C, DS:9B3D (engine teams 0 and 1)",
+   "value": "1 1"
+  },
+  {
+   "step": 132,
+   "source": "memory",
+   "field": "full time: match delay byte at the far pointer DS:A923 + 0x3F (0 fastest)",
+   "value": "0"
+  },
+  {
+   "step": 132,
+   "source": "memory",
+   "field": "full time: clock (831F, 831D, 8325, 831B), seed DS:7B62, score, GOAL.EXE data segment",
+   "value": "91 36 0 0 46625 (1, 1)"
+  },
+  {
+   "step": 132,
+   "source": "memory",
+   "field": "half-time team-screen stall: the read whose savestate is this run's halftime output (8325=0, minute 45 or 46, stable team screen)",
+   "value": "match read 45 of 125"
+  },
+  {
+   "step": 132,
+   "source": "memory",
+   "field": "ground-truth trajectory: mid-play reads as [minute 831F, sub-tick 831D, seed 7B62], in read order",
+   "value": "[[10,10,17366],[15,32,26774],[16,19,58981],[16,19,58981],[16,19,58981],[16,19,58981],[16,19,58981],[16,19,58981],[16,19,58981],[16,19,58981],[16,19,58981],[16,19,58981],[16,19,58981],[16,19,58981],[16,19,58981],[16,19,58981],[16,19,58981],[18,5,28323],[23,8,758],[24,36,26644],[24,36,26644],[24,36,26644],[24,36,26644],[24,36,26644],[24,36,26644],[24,36,26644],[24,36,26644],[24,36,26644],[24,36,26644],[24,36,26644],[24,36,26644],[24,36,26644],[24,36,26644],[24,36,26644],[27,35,24948],[30,5,8356],[35,31,45604],[39,29,23865],[42,6,1927],[51,4,57823],[53,6,22277],[57,1,45371],[62,24,35755],[64,1,28072],[69,20,62629],[77,24,28337],[83,23,33570],[86,3,49037],[91,26,25145]]"
+  },
+  {
+   "step": 133,
+   "source": "log",
+   "field": "keys sent from the key that starts the match to full time: [seconds since the starting burst, key, why] (runtime/driver/match.py)",
+   "value": "[[0.0, \"Enter\", \"starting burst, no poll between\"], [0.0, \"Right\", \"starting burst, no poll between\"], [0.0, \"Right\", \"starting burst, no poll between\"], [0.0, \"Right\", \"starting burst, no poll between\"], [0.0, \"Right\", \"starting burst, no poll between\"], [0.0, \"Right\", \"starting burst, no poll between\"], [23.67, \"Enter\", \"hit any key\"], [24.84, \"Enter\", \"team screen\"]]"
+  },
+  {
+   "step": 133,
+   "source": "log",
+   "field": "match: savestate reads from the starting keys to full time, and seconds",
+   "value": "125 reads, 67.59 s"
+  },
+  {
+   "step": 133,
+   "source": "memory",
+   "field": "events of the match (runtime/driver/commentary.py): [kind, team, text]",
+   "value": "[[\"goal\", 1, \"**** GOAL **** by W'thington\"], [\"goal\", 0, \"**** GOAL **** by Povlsen\"], [\"substitution\", 1, \"Dowie on for Clarke\"], [\"substitution\", 1, \"Durnin on for Morrow\"]]"
+  },
+  {
+   "step": 133,
+   "source": "process",
+   "field": "dosbox-x and Xvfb after SIGTERM to their process groups (SIGKILL after TERM_GRACE, see log)",
+   "value": "both exited"
+  },
+  {
+   "step": 133,
+   "source": "log",
+   "field": "waits, polls and key holds, seconds since launch",
+   "value": "[[0.105,\"Xvfb poll: answered after 2 polls of 0.1s\"],[0.105,\"Xvfb :648 answering\"],[0.106,\"dosbox-x started\"],[0.222,\"window found after 2 polls of 0.1s\"],[0.223,\"window focused\"],[0.733,\"host key F12+s, each step held 0.15s\"],[0.734,\"savestate complete after 1 polls of 0.05s\"],[0.75,\"title screen: matched after 1 savestate polls\"],[0.75,\"DOS clock read back: '10/06/2026\\\\n18:11:16'\"],[1.262,\"host key F12+l, each step held 0.15s\"],[1.262,\"Host+L sent (e006-2100-r0005)\"],[1.771,\"host key F12+s, each step held 0.15s\"],[1.772,\"savestate complete after 1 polls of 0.05s\"],[1.788,\"restore e006-2100-r0005: matched after 1 savestate polls\"],[1.908,\"key Esc held 0.08s\"],[2.42,\"host key F12+s, each step held 0.15s\"],[2.421,\"savestate complete after 1 polls of 0.05s\"],[2.948,\"host key F12+s, each step held 0.15s\"],[2.949,\"savestate complete after 1 polls of 0.05s\"],[2.967,\"after key Esc: changed and stable after 2 savestate polls\"],[3.077,\"key Up held 0.08s\"],[3.592,\"host key F12+s, each step held 0.15s\"],[3.593,\"savestate complete after 1 polls of 0.05s\"],[4.118,\"host key F12+s, each step held 0.15s\"],[4.119,\"savestate complete after 1 polls of 0.05s\"],[4.128,\"after key Up: changed and stable after 2 savestate polls\"],[4.238,\"key Enter held 0.08s\"],[4.75,\"host key F12+s, each step held 0.15s\"],[4.751,\"savestate complete after 1 polls of 0.05s\"],[5.268,\"host key F12+s, each step held 0.15s\"],[5.269,\"savestate complete after 1 polls of 0.05s\"],[5.787,\"host key F12+s, each step held 0.15s\"],[5.788,\"savestate complete after 1 polls of 0.05s\"],[6.31,\"host key F12+s, each step held 0.15s\"],[6.311,\"savestate complete after 1 polls of 0.05s\"],[6.83,\"host key F12+s, each step held 0.15s\"],[6.83,\"savestate complete after 1 polls of 0.05s\"],[7.349,\"host key F12+s, each step held 0.15s\"],[7.35,\"savestate complete after 1 polls of 0.05s\"],[7.875,\"host key F12+s, each step held 0.15s\"],[7.876,\"savestate complete after 1 polls of 0.05s\"],[7.885,\"after key Enter: changed and stable after 7 savestate polls\"],[7.994,\"key Enter held 0.08s\"],[8.503,\"host key F12+s, each step held 0.15s\"],[8.504,\"savestate complete after 1 polls of 0.05s\"],[9.023,\"host key F12+s, each step held 0.15s\"],[9.024,\"savestate complete after 1 polls of 0.05s\"],[9.033,\"after key Enter: changed and stable after 2 savestate polls\"],[9.146,\"key Enter held 0.08s\"],[9.66,\"host key F12+s, each step held 0.15s\"],[9.661,\"savestate complete after 1 polls of 0.05s\"],[10.185,\"host key F12+s, each step held 0.15s\"],[10.186,\"savestate complete after 1 polls of 0.05s\"],[10.2,\"after key Enter (team screen: play): changed and stable after 2 savestate polls\"],[10.713,\"host key F12+s, each step held 0.15s\"],[10.714,\"savestate complete after 1 polls of 0.05s\"],[10.846,\"key Enter held 0.08s\"],[10.956,\"key Right held 0.08s\"],[11.068,\"key Right held 0.08s\"],[11.178,\"key Right held 0.08s\"],[11.289,\"key Right held 0.08s\"],[11.4,\"key Right held 0.08s\"],[11.4,\"match watched: starting keys Enter Right Right Right Right Right sent in one burst\"],[11.911,\"host key F12+s, each step held 0.15s\"],[11.912,\"savestate complete after 1 polls of 0.05s\"],[12.437,\"host key F12+s, each step held 0.15s\"],[12.438,\"savestate complete after 1 polls of 0.05s\"],[12.972,\"host key F12+s, each step held 0.15s\"],[12.973,\"savestate complete after 1 polls of 0.05s\"],[13.502,\"host key F12+s, each step held 0.15s\"],[13.503,\"savestate complete after 1 polls of 0.05s\"],[14.029,\"host key F12+s, each step held 0.15s\"],[14.03,\"savestate complete after 1 polls of 0.05s\"],[14.558,\"host key F12+s, each step held 0.15s\"],[14.558,\"savestate complete after 1 polls of 0.05s\"],[15.087,\"host key F12+s, each step held 0.15s\"],[15.088,\"savestate complete after 1 polls of 0.05s\"],[15.616,\"host key F12+s, each step held 0.15s\"],[15.617,\"savestate complete after 1 polls of 0.05s\"],[16.148,\"host key F12+s, each step held 0.15s\"],[16.149,\"savestate complete after 1 polls of 0.05s\"],[16.678,\"host key F12+s, each step held 0.15s\"],[16.679,\"savestate complete after 1 polls of 0.05s\"],[17.211,\"host key F12+s, each step held 0.15s\"],[17.212,\"savestate complete after 1 polls of 0.05s\"],[17.743,\"host key F12+s, each step held 0.15s\"],[17.744,\"savestate complete after 1 polls of 0.05s\"],[18.275,\"host key F12+s, each step held 0.15s\"],[18.276,\"savestate complete after 1 polls of 0.05s\"],[18.805,\"host key F12+s, each step held 0.15s\"],[18.806,\"savestate complete after 1 polls of 0.05s\"],[19.338,\"host key F12+s, each step held 0.15s\"],[19.339,\"savestate complete after 1 polls of 0.05s\"],[19.87,\"host key F12+s, each step held 0.15s\"],[19.871,\"savestate complete after 1 polls of 0.05s\"],[20.399,\"host key F12+s, each step held 0.15s\"],[20.4,\"savestate complete after 1 polls of 0.05s\"],[20.93,\"host key F12+s, each step held 0.15s\"],[20.931,\"savestate complete after 1 polls of 0.05s\"],[21.46,\"host key F12+s, each step held 0.15s\"],[21.461,\"savestate complete after 1 polls of 0.05s\"],[21.987,\"host key F12+s, each step held 0.15s\"],[21.988,\"savestate complete after 1 polls of 0.05s\"],[22.519,\"host key F12+s, each step held 0.15s\"],[22.52,\"savestate complete after 1 polls of 0.05s\"],[23.049,\"host key F12+s, each step held 0.15s\"],[23.05,\"savestate complete after 1 polls of 0.05s\"],[23.583,\"host key F12+s, each step held 0.15s\"],[23.585,\"savestate complete after 1 polls of 0.05s\"],[24.116,\"host key F12+s, each step held 0.15s\"],[24.117,\"savestate complete after 1 polls of 0.05s\"],[24.654,\"host key F12+s, each step held 0.15s\"],[24.655,\"savestate complete after 1 polls of 0.05s\"],[25.194,\"host key F12+s, each step held 0.15s\"],[25.195,\"savestate complete after 1 polls of 0.05s\"],[25.725,\"host key F12+s, each step held 0.15s\"],[25.726,\"savestate complete after 1 polls of 0.05s\"],[26.26,\"host key F12+s, each step held 0.15s\"],[26.261,\"savestate complete after 1 polls of 0.05s\"],[26.8,\"host key F12+s, each step held 0.15s\"],[26.801,\"savestate complete after 1 polls of 0.05s\"],[27.333,\"host key F12+s, each step held 0.15s\"],[27.334,\"savestate complete after 1 polls of 0.05s\"],[27.864,\"host key F12+s, each step held 0.15s\"],[27.865,\"savestate complete after 1 polls of 0.05s\"],[28.396,\"host key F12+s, each step held 0.15s\"],[28.397,\"savestate complete after 1 polls of 0.05s\"],[28.93,\"host key F12+s, each step held 0.15s\"],[28.931,\"savestate complete after 1 polls of 0.05s\"],[29.467,\"host key F12+s, each step held 0.15s\"],[29.468,\"savestate complete after 1 polls of 0.05s\"],[30.0,\"host key F12+s, each step held 0.15s\"],[30.001,\"savestate complete after 1 polls of 0.05s\"],[30.533,\"host key F12+s, each step held 0.15s\"],[30.534,\"savestate complete after 1 polls of 0.05s\"],[31.066,\"host key F12+s, each step held 0.15s\"],[31.067,\"savestate complete after 1 polls of 0.05s\"],[31.603,\"host key F12+s, each step held 0.15s\"],[31.604,\"savestate complete after 1 polls of 0.05s\"],[32.132,\"host key F12+s, each step held 0.15s\"],[32.133,\"savestate complete after 1 polls of 0.05s\"],[32.665,\"host key F12+s, each step held 0.15s\"],[32.666,\"savestate complete after 1 polls of 0.05s\"],[33.198,\"host key F12+s, each step held 0.15s\"],[33.199,\"savestate complete after 1 polls of 0.05s\"],[33.728,\"host key F12+s, each step held 0.15s\"],[33.729,\"savestate complete after 1 polls of 0.05s\"],[34.258,\"host key F12+s, each step held 0.15s\"],[34.259,\"savestate complete after 1 polls of 0.05s\"],[34.401,\"key Enter held 0.08s\"],[34.401,\"match watched: Enter (hit any key)\"],[34.912,\"host key F12+s, each step held 0.15s\"],[34.913,\"savestate complete after 1 polls of 0.05s\"],[35.446,\"host key F12+s, each step held 0.15s\"],[35.448,\"savestate complete after 1 polls of 0.05s\"],[35.467,\"half-time team-screen stall at read 45: minute 46, sub-tick 36, seed 0xf457\"],[35.58,\"key Enter held 0.08s\"],[35.58,\"match watched: Enter (team screen)\"],[36.088,\"host key F12+s, each step held 0.15s\"],[36.089,\"savestate complete after 1 polls of 0.05s\"],[36.619,\"host key F12+s, each step held 0.15s\"],[36.62,\"savestate complete after 1 polls of 0.05s\"],[37.148,\"host key F12+s, each step held 0.15s\"],[37.149,\"savestate complete after 1 polls of 0.05s\"],[37.676,\"host key F12+s, each step held 0.15s\"],[37.677,\"savestate complete after 1 polls of 0.05s\"],[38.211,\"host key F12+s, each step held 0.15s\"],[38.213,\"savestate complete after 1 polls of 0.05s\"],[38.742,\"host key F12+s, each step held 0.15s\"],[38.743,\"savestate complete after 1 polls of 0.05s\"],[39.276,\"host key F12+s, each step held 0.15s\"],[39.277,\"savestate complete after 1 polls of 0.05s\"],[39.811,\"host key F12+s, each step held 0.15s\"],[39.812,\"savestate complete after 1 polls of 0.05s\"],[40.348,\"host key F12+s, each step held 0.15s\"],[40.349,\"savestate complete after 1 polls of 0.05s\"],[40.883,\"host key F12+s, each step held 0.15s\"],[40.884,\"savestate complete after 1 polls of 0.05s\"],[41.419,\"host key F12+s, each step held 0.15s\"],[41.42,\"savestate complete after 1 polls of 0.05s\"],[41.954,\"host key F12+s, each step held 0.15s\"],[41.955,\"savestate complete after 1 polls of 0.05s\"],[42.488,\"host key F12+s, each step held 0.15s\"],[42.489,\"savestate complete after 1 polls of 0.05s\"],[43.026,\"host key F12+s, each step held 0.15s\"],[43.027,\"savestate complete after 1 polls of 0.05s\"],[43.569,\"host key F12+s, each step held 0.15s\"],[43.57,\"savestate complete after 1 polls of 0.05s\"],[44.105,\"host key F12+s, each step held 0.15s\"],[44.106,\"savestate complete after 1 polls of 0.05s\"],[44.642,\"host key F12+s, each step held 0.15s\"],[44.644,\"savestate complete after 1 polls of 0.05s\"],[45.181,\"host key F12+s, each step held 0.15s\"],[45.182,\"savestate complete after 1 polls of 0.05s\"],[45.716,\"host key F12+s, each step held 0.15s\"],[45.717,\"savestate complete after 1 polls of 0.05s\"],[46.249,\"host key F12+s, each step held 0.15s\"],[46.251,\"savestate complete after 1 polls of 0.05s\"],[46.782,\"host key F12+s, each step held 0.15s\"],[46.783,\"savestate complete after 1 polls of 0.05s\"],[47.315,\"host key F12+s, each step held 0.15s\"],[47.316,\"savestate complete after 1 polls of 0.05s\"],[47.85,\"host key F12+s, each step held 0.15s\"],[47.851,\"savestate complete after 1 polls of 0.05s\"],[48.384,\"host key F12+s, each step held 0.15s\"],[48.385,\"savestate complete after 1 polls of 0.05s\"],[48.921,\"host key F12+s, each step held 0.15s\"],[48.922,\"savestate complete after 1 polls of 0.05s\"],[49.46,\"host key F12+s, each step held 0.15s\"],[49.461,\"savestate complete after 1 polls of 0.05s\"],[49.993,\"host key F12+s, each step held 0.15s\"],[49.993,\"savestate complete after 1 polls of 0.05s\"],[50.524,\"host key F12+s, each step held 0.15s\"],[50.525,\"savestate complete after 1 polls of 0.05s\"],[51.057,\"host key F12+s, each step held 0.15s\"],[51.058,\"savestate complete after 1 polls of 0.05s\"],[51.599,\"host key F12+s, each step held 0.15s\"],[51.6,\"savestate complete after 1 polls of 0.05s\"],[52.128,\"host key F12+s, each step held 0.15s\"],[52.129,\"savestate complete after 1 polls of 0.05s\"],[52.657,\"host key F12+s, each step held 0.15s\"],[52.658,\"savestate complete after 1 polls of 0.05s\"],[53.194,\"host key F12+s, each step held 0.15s\"],[53.195,\"savestate complete after 1 polls of 0.05s\"],[53.729,\"host key F12+s, each step held 0.15s\"],[53.73,\"savestate complete after 1 polls of 0.05s\"],[54.261,\"host key F12+s, each step held 0.15s\"],[54.263,\"savestate complete after 1 polls of 0.05s\"],[54.796,\"host key F12+s, each step held 0.15s\"],[54.797,\"savestate complete after 1 polls of 0.05s\"],[55.33,\"host key F12+s, each step held 0.15s\"],[55.331,\"savestate complete after 1 polls of 0.05s\"],[55.865,\"host key F12+s, each step held 0.15s\"],[55.866,\"savestate complete after 1 polls of 0.05s\"],[56.397,\"host key F12+s, each step held 0.15s\"],[56.398,\"savestate complete after 1 polls of 0.05s\"],[56.928,\"host key F12+s, each step held 0.15s\"],[56.929,\"savestate complete after 1 polls of 0.05s\"],[57.462,\"host key F12+s, each step held 0.15s\"],[57.464,\"savestate complete after 1 polls of 0.05s\"],[58.004,\"host key F12+s, each step held 0.15s\"],[58.006,\"savestate complete after 1 polls of 0.05s\"],[58.541,\"host key F12+s, each step held 0.15s\"],[58.542,\"savestate complete after 1 polls of 0.05s\"],[59.072,\"host key F12+s, each step held 0.15s\"],[59.073,\"savestate complete after 1 polls of 0.05s\"],[59.604,\"host key F12+s, each step held 0.15s\"],[59.605,\"savestate complete after 1 polls of 0.05s\"],[60.137,\"host key F12+s, each step held 0.15s\"],[60.138,\"savestate complete after 1 polls of 0.05s\"],[60.665,\"host key F12+s, each step held 0.15s\"],[60.666,\"savestate complete after 1 polls of 0.05s\"],[61.195,\"host key F12+s, each step held 0.15s\"],[61.196,\"savestate complete after 1 polls of 0.05s\"],[61.727,\"host key F12+s, each step held 0.15s\"],[61.728,\"savestate complete after 1 polls of 0.05s\"],[62.26,\"host key F12+s, each step held 0.15s\"],[62.261,\"savestate complete after 1 polls of 0.05s\"],[62.788,\"host key F12+s, each step held 0.15s\"],[62.789,\"savestate complete after 1 polls of 0.05s\"],[63.328,\"host key F12+s, each step held 0.15s\"],[63.329,\"savestate complete after 1 polls of 0.05s\"],[63.858,\"host key F12+s, each step held 0.15s\"],[63.859,\"savestate complete after 1 polls of 0.05s\"],[64.39,\"host key F12+s, each step held 0.15s\"],[64.391,\"savestate complete after 1 polls of 0.05s\"],[64.921,\"host key F12+s, each step held 0.15s\"],[64.922,\"savestate complete after 1 polls of 0.05s\"],[65.459,\"host key F12+s, each step held 0.15s\"],[65.46,\"savestate complete after 1 polls of 0.05s\"],[65.994,\"host key F12+s, each step held 0.15s\"],[65.995,\"savestate complete after 1 polls of 0.05s\"],[66.529,\"host key F12+s, each step held 0.15s\"],[66.53,\"savestate complete after 1 polls of 0.05s\"],[67.061,\"host key F12+s, each step held 0.15s\"],[67.062,\"savestate complete after 1 polls of 0.05s\"],[67.592,\"host key F12+s, each step held 0.15s\"],[67.593,\"savestate complete after 1 polls of 0.05s\"],[68.126,\"host key F12+s, each step held 0.15s\"],[68.127,\"savestate complete after 1 polls of 0.05s\"],[68.66,\"host key F12+s, each step held 0.15s\"],[68.662,\"savestate complete after 1 polls of 0.05s\"],[69.193,\"host key F12+s, each step held 0.15s\"],[69.194,\"savestate complete after 1 polls of 0.05s\"],[69.73,\"host key F12+s, each step held 0.15s\"],[69.731,\"savestate complete after 1 polls of 0.05s\"],[70.263,\"host key F12+s, each step held 0.15s\"],[70.264,\"savestate complete after 1 polls of 0.05s\"],[70.795,\"host key F12+s, each step held 0.15s\"],[70.796,\"savestate complete after 1 polls of 0.05s\"],[71.329,\"host key F12+s, each step held 0.15s\"],[71.33,\"savestate complete after 1 polls of 0.05s\"],[71.864,\"host key F12+s, each step held 0.15s\"],[71.865,\"savestate complete after 1 polls of 0.05s\"],[72.398,\"host key F12+s, each step held 0.15s\"],[72.399,\"savestate complete after 1 polls of 0.05s\"],[72.942,\"host key F12+s, each step held 0.15s\"],[72.943,\"savestate complete after 1 polls of 0.05s\"],[73.481,\"host key F12+s, each step held 0.15s\"],[73.482,\"savestate complete after 1 polls of 0.05s\"],[74.021,\"host key F12+s, each step held 0.15s\"],[74.022,\"savestate complete after 1 polls of 0.05s\"],[74.556,\"host key F12+s, each step held 0.15s\"],[74.557,\"savestate complete after 1 polls of 0.05s\"],[75.091,\"host key F12+s, each step held 0.15s\"],[75.092,\"savestate complete after 1 polls of 0.05s\"],[75.624,\"host key F12+s, each step held 0.15s\"],[75.625,\"savestate complete after 1 polls of 0.05s\"],[76.156,\"host key F12+s, each step held 0.15s\"],[76.157,\"savestate complete after 1 polls of 0.05s\"],[76.687,\"host key F12+s, each step held 0.15s\"],[76.688,\"savestate complete after 1 polls of 0.05s\"],[77.241,\"host key F12+s, each step held 0.15s\"],[77.242,\"savestate complete after 1 polls of 0.05s\"],[77.772,\"host key F12+s, each step held 0.15s\"],[77.773,\"savestate complete after 1 polls of 0.05s\"],[78.302,\"host key F12+s, each step held 0.15s\"],[78.303,\"savestate complete after 1 polls of 0.05s\"],[78.327,\"match watched: full time after 125 reads\"],[78.829,\"dosbox-x pid 1560064 alive 0.5s after SIGTERM (grace 0.5s): SIGKILL to its group\"],[78.836,\"dosbox-x pid 1560064 ended by SIGKILL 0.507s after the first signal\"],[78.843,\"Xvfb pid 1560052 ended by SIGTERM 0.007s after the first signal\"],[78.843,\"terminated\"]]"
+  }
+ ],
+ "outputs": [
+  {
+   "name": "E011-r0001-watchstart.sav",
+   "sha256": "d68e48c734a742a63e707a8c451b9011ef03b452ebd91f239d86f875464e07a9",
+   "store": "release:E011"
+  },
+  {
+   "name": "E011-r0001-halftime.sav",
+   "sha256": "092f5f74bc5dc0c0f133709ca46be04122d3813a716c54fd23a686e9194ab9ff",
+   "store": "release:E011"
+  }
+ ],
+ "started": "2026-10-06T16:11:17.283Z",
+ "ended": "2026-10-06T16:12:37.554Z",
+ "status": "completed"
+}
