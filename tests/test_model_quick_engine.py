@@ -773,6 +773,34 @@ class TestC88dBenchPick(unittest.TestCase):
         self.assertEqual(m.sub_budget[1], 5)
 
 
+class TestA9B8KeeperFallback(unittest.TestCase):
+    """T24 rework R1: C88D's keeper fallback A9B8 (C912-C96B) — the best bench slot
+    12..20 by BENCH_VALUE[14*pos + (+7)] (AA4E-AA68), with the foot-halving
+    (AAAD-AAB7) and the STRICT `v > best_v` compare (AABA-AACB) against a best_v
+    that starts at 0. The round-1 review's surviving mutation `best, best_v = 0, 255`
+    suppresses every valid replacement (a bench value never reaches 255), so this
+    test must fail under it (rule 9: the mutation run is in the PR body)."""
+
+    def test_keeper_fallback_selection(self):
+        m = quick_engine.QuickMatch(build_fixture())
+        # pos 0: Pos(0) = 7 > 3, so the foot expectation is 1 and the halving is
+        # armed. Candidates of team 1: 72 -> BENCH_VALUE[7] = 7, foot 1 == expect
+        # (no halving); 73 -> BENCH_VALUE[9] = 9 but foot 0 != 1 -> halved to 4;
+        # 74..76 -> BENCH_VALUE[5] = 5 (foot 0, also not winning). 7 wins: slot 12.
+        self.assertEqual(m.foot_index(72), 1)
+        self.assertEqual(m.foot_index(73), 0)
+        self.assertEqual(m.a9b8(1, 0), 12)    # 7 beats the halved 4 and the 5s
+        # team 0's bench (52..56, role 5): every foot check halves 5 to 2, so the
+        # first candidate wins on the strict compare — still a replacement, not 0
+        self.assertEqual(m.a9b8(0, 0), 12)
+
+    def test_no_bench_value_beats_255(self):
+        # the mutation's premise: BENCH_VALUE bytes max at 0xDF, so nothing can
+        # beat a 255 initialiser — only the 0 initialiser lets a candidate win
+        m = quick_engine.QuickMatch(build_fixture())
+        self.assertLess(max(m.t_benchvalue), 255)
+
+
 class TestD733Structure(unittest.TestCase):
     """D733: 4 stats draws before the fill; the fill only when fresh > saved; at most
     one goal per call and DA34's end of the team loop; the scorer redrawn while
@@ -801,6 +829,21 @@ class TestD733Structure(unittest.TestCase):
         self.assertEqual(m.goals[0]["minute"], 50)
         self.assertEqual(m.goals[0]["team"], 0)
         self.assertEqual(m.eight30b, 11 + 3)    # 0668[0] + the squad slot of player 34
+
+    def test_scored_goal_invokes_scorer_effects(self):
+        """T24 rework R2: D733's goal path must run 6443's scorer writes on the
+        scorer it selected (the record_goal_scorer_effects call, DA16-DA2C).
+        Removing that call leaves the scorer's goals counter, form and fitness
+        untouched; the helper-level TestAfterGoal.test_scorer_effects cannot
+        catch it, this integrated one must (rule 9, mutation run in the PR body)."""
+        st = build_fixture()
+        set_player(st, 34, pos=6, form=0x1F, fit12=0x100, goals=2)
+        m = self._match([2, 2, 2, 2, 50, 1], [1, 0], st=st)
+        self.assertEqual(m.goals[0]["player"], 34)      # the premise: 34 scored
+        p = m._player(34)
+        self.assertEqual(int.from_bytes(p[0xA:0xC], "little"), 3)         # 6484: inc word
+        self.assertEqual(p[0xC], 0x20)                                   # 7CC5: clamp(+1)
+        self.assertEqual(int.from_bytes(p[0x12:0x14], "little"), 0x128)   # 1E9C: +40
 
     def test_goal_ends_the_team_loop(self):
         # both teams fresh 1: j=0 draws 50 and scores, j=1 draws 90 (never scored)
