@@ -526,12 +526,36 @@ class QuickMatch:
     # --- after a goal: 0791:65FE/65A4/6337 -------------------------------------------
 
     def after_goal(self):
-        """0791:65FE (seg_0791_11.asm:317-484) with 65A4 and 6337; only 6337 and C173 can draw."""
+        """0791:65FE (seg_0791_11.asm:317-6754) with 65A4 and 6337; only 6337 and C173 can draw.
+        65FE's order: 0441(4) whistle -> pitch+7 word copies (display) -> 65A4 (pitch+0x12
+        resets + 6337) -> C173 -> the per-slot form update -> 832A/9B55 (not engine-read)."""
         if self.eight30b in (1, 12):                # 0791:045D
             r = self.rng.rand(10)                   # 6337's single draw (seg_0791_11.asm:6384-638D)
             base = self.side_base[1 if self.eight30b < 12 else 0]   # 2996: (830B < 12) ? 1 : 0
             self.eight30b = (r + 1 + base) & 0xFF
         self.c173()                                 # the flag is (7C39 == 0) = 1 (664C-665C)
+        self.after_goal_form_swing()                # 65FE's per-slot form update (6666-66DD)
+
+    def after_goal_form_swing(self):
+        """65FE's per-slot loop (seg_0791_11.asm:6666-66DD, the 7C39 == 0 path at 668A-66AF):
+        every AVAILABLE pitch player's form (+0xC) moves by s8(DS:0x7920[2b51(pitch)]) with
+        7CC5's 214B:2000 clamp (1..0xFF); 2b51 (seg_0791_05.asm:2B51) = the slot's side
+        (2974: pitch+6 < 12) equals 830B's side (2996: 830B < 12), and DS:0x7920 =
+        [0xFF, 0x01] — so the side holding DS:830B (after a goal: the SCORING side, unless
+        6337 re-pointed it, which stays on that side) gains +1 form on every available
+        player, the other side loses 1. +0xC is read by 377E (`v += s8(+0xC)` while
+        < 0x20), so the goal shifts both line sums from the next minute on — E010-r0010's
+        divergence (minute 63's first B19D draw: midfield sum 589 vs the original's 595)."""
+        ball_side_is_1 = self.eight30b < 12                     # 2996
+        for slot in range(1, 23):
+            w = self.pitch[slot]["player"]
+            if self.unavailable(w):                             # 2956 gate (6683)
+                continue
+            slot_side_is_1 = self.pitch[slot]["slot_no"] < 12   # 2974: (pitch + 6 < 12)
+            idx = 1 if slot_side_is_1 == ball_side_is_1 else 0  # 2B51: (2996 == 2974)
+            p = self._player(w)
+            c = s8(p[0xC]) + s8(self.t_formdelta[idx])
+            p[0xC] = max(1, min(0xFF, c)) & 0xFF                # 7CC5's clamp (7CF1-7D09)
 
     # --- substitutions: 0791:8062 -> C88D -> c7eb/aae8/a9b8/c5dc ----------------------
 

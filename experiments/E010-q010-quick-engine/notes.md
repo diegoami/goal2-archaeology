@@ -552,3 +552,83 @@ only this state exercises (the r0009 twin, identical except Denmark's +0x2D = 0x
 edited 0xba, matches the model exactly). The 23-draw gap is odd → the fill counts differ by
 an odd number. Next lever: the Unicorn harness with BIOS ticks, which pins the original
 per-minute draws without another DOSBox run.
+
+## Batch 7 (2026-10-06, T24 round 3): the cause of r0010's divergence — 65FE's form swing
+
+Step 1 closed: the model is now seed-exact on all ten E010 records (`check_model.py`:
+`match: 10/10`; E010-r0010's final DS:7B62 = 0x543a = the record's own full-time seed).
+
+### The method that pinned it: Unicorn running the whole 97D0 loop
+
+Round 2's emu.py called D733 directly from the STAGED goal-pause savestate and got the
+model's minute 63 — which looked like a confirmation but was circular: the staged state
+(and round 2's harness) share the model's blind spot (below). Round 3's harness
+(`emu_full_loop.py`, this directory) instead emulates the ORIGINAL BINARY's whole tick loop
+`0791:97D0` (D733 + 970C + 054C + 0712 + 9372 as real guest code; only 214B:0723 stubbed
+`no key`, interrupts swallowed, the 000E wait family skipped and its log left empty) from
+the PUBLISHED half-time savestate. It reproduces the original's trajectory EXACTLY:
+3617 draws, final seed 0x543a, score [0,1] — the record's own full-time values
+(runs/E010/E010-r0010.json; per-minute table `emu-r0010-secondhalf-minbymin.txt`).
+
+Two harness bugs had to go first (recorded here because they matter for reuse):
+- the emulated stack at 0x60000 (round 2's "zeroed hole") OVERLAPS the live guest words at
+  0x62000..0x68000 of the savestate — the stack now lives at 0x70000..0x77000 (a genuinely
+  zero gap; guest memory is occupied up to 0x101000);
+- in 16-bit mode a Unicorn EIP write is the OFFSET within CS: writing a LINEAR address
+  double-counts the CS base (0723's stub jumped to 0x28A42 instead of 0791:93C2 and the
+  emulation wandered into 000E's screen code until it died at 0000:0000). Round 2's
+  "minute 64 strays into 000E:0572" was this, not a missing BIOS timer.
+
+### The first divergent minute and draw
+
+Comparing the pre-fix model's draws with the loop emulation's
+(`r0010-divergence.txt`, this directory): the FIRST divergent draw is minute 63's first
+B19D contest draw (half-time draw 1339, 0791:B1DF): the midfield sum it draws from is
+589 (model) vs 595 (original). The seeds coincide at the goal pause (0x5164 at draw 1339)
+anyway — the LCG step `seed*0x7ABD+0x1B0F` is independent of n, so a run can make the same
+NUMBER of draws with different n's — and the two trajectories keep the same draw counts
+(and seeds) through minute 85 (end 0x40b5, draw 3158); the first contest-outcome flip is
+in minute 86 (74 draws in the original vs 87 in the model), after which the counts
+separate: the original ends 0x543a/3617, the pre-fix model 0x8ddf/3640.
+
+### The cause: 65FE's per-slot form update, missing from the model (and from the staged state)
+
+- `0791:65FE` (seg_0791_11.asm:317-6754) after a goal runs: `0441(4)` (the whistle — the
+  ~4.5 s "goal pause" the record's reads 33-41 sat in, seed stable), the pitch+7 word
+  copies (6617-663A, display), `65A4` (65A4-65FD: pitch+0x12 := 6 for same-side non-keeper
+  slots else 0, then 6337), `C173` (665C), **a per-slot loop (6666-66DD)**, then 832A/9B55
+  (6742-674C, not engine-read).
+- **The per-slot loop (6666-66DD, 7C39 == 0 path at 668A-66AF)**: for pitch slot 1..22,
+  skip when 2956 says unavailable (6683), else `2b51(pitch)` (6691) selects
+  `s8(DS:0x7920[2b51])` — and `7CC5(pitch, 0, delta)` (66A6-66AC) adds it to the PLAYER's
+  `+0xC` with the 214B:2000 clamp 1..0xFF (7CC5: 7CCE reads pitch+0xD, 7CE6-7D09 the
+  clamped add). `2b51` (seg_0791_05.asm:2B51) = `(2996() == 2974(pitch))`: 2996 is
+  `(830B < 12) ? 1 : 0` (:2996-29B2) and 2974 is `(pitch+6 < 12) ? 1 : 0`
+  (seg_0791_04.asm:2974-2993) — i.e. the slot is on the same side as DS:830B. DS:0x7920 =
+  `[0xFF, 0x01]`: **every available player on the scorer's side (the side of 830B, which
+  6443 points at the scorer and 6337 keeps on that side) gains +1 form, every available
+  opponent loses 1.** `+0xC` is read by 377E (`v += s8(+0xC)` while < 0x20), so both line
+  sums shift from the next minute on — r0010's +6/-5 on the midfield sums at minute 63.
+- The model now implements this (`QuickMatch.after_goal_form_swing`,
+  runtime/model/quick_engine.py), after 6337 and C173, matching 65FE's order.
+- Round 2's "byte-exact at the goal pause" check could not see this: the staged
+  E010-r0010-goalpause.sav was taken DURING the goal whistle — mid-65FE, before the
+  per-slot loop — and the pre-fix model's end-of-62 state also lacks the loop's writes, so
+  the two agreed. The check also passed C173 because at minute 62 C173 is a no-op: Denmark
+  is managed (skipped), N.Ireland's BD83 resets +0x2D to R008 (already R008 — set at A3DE
+  and untouched since) and BD03 strength-rand draws need N.Ireland stronger (it is not).
+- Corroboration that this is the whole story: with the fix, `check_model.py` is 10/10 —
+  including E008-r0001 (a second-half goal at 85, where the swing changes no contest
+  outcome in the six remaining minutes) and the r0009 twin (no goal, unaffected).
+
+Also read this round (negative results, kept so the next reader does not re-walk them):
+970C's only non-clock work is 054C (display; no RNG — its callees 214B:0329/09DA, 23E4:0644,
+0791:04C9 draw nothing); 9372 with no key only writes 6 display bytes and 1E8D; the game
+hooks NO interrupt vector (the goal-pause savestate's IVT entries all point at F000:xxxx
+BIOS); the per-minute pace is pure CPU (the record's reads show the 29 minutes 63..91 plus
+the result screen inside the 1.07 s between reads 41 and 42); 1E09's "delay" is a fixed
+~4275-iteration counter loop (the far pointer at DS:A9FF = 0000:10B3), and the delay byte
+[DS:A923+0x3F] (1 in the original, 5 in replay5's staged state) gates only 0425/0441 —
+none of it draws. The substitution ANIMATION tree (0791:8206, called from 5513/5B36 — the
+WATCHED engine; it clears 8325 and calls 9119, which draws 2×10) is NOT reachable from a
+quick result: the quick sub path is 8062 → C88D → c5dc, silent.

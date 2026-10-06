@@ -1,0 +1,25 @@
+# E010-r0010: the first divergent draw between the pre-fix model and the original.
+# Pre-fix model: scratch emulation from the staged goal-pause savestate (the state
+# round 2 took MID-65FE, during the goal whistle, so it lacks 65FE's tail).
+# Original: the full-loop emulation (emu-r0010-secondhalf-minbymin.txt, same dir).
+# The seeds coincide at the goal pause (0x5164, draw 1339) because the LCG step is
+# independent of n; the first draw whose n (a 0BC4 line sum) differs is minute 63's
+# first B19D contest draw. Draw #1 of minute 63 = half-time draw 1339.
+
+half-time draw 1339  B19D c1 opponent rand(mid)   model n=  589 val= 502   original n=  595 val= 507
+half-time draw 1340  B19D c1 own rand(mid)        model n=  919 val= 136   original n=  914 val= 135
+half-time draw 1341  B19D c1 opponent rand(mid)   model n=  589 val=   7   original n=  595 val=   7
+half-time draw 1342  B19D c1 own rand(mid)        model n=  919 val= 787   original n=  914 val= 782
+half-time draw 1343  B19D c2 rand(2*def)          model n= 1712 val=1633   original n= 1720 val=1641
+half-time draw 1344  B19D c2 rand(atk)            model n=  380 val= 359   original n=  378 val= 358
+half-time draw 1345  B19D c1 opponent rand(mid)   model n=  589 val= 325   original n=  595 val= 328
+half-time draw 1346  B19D c1 own rand(mid)        model n=  919 val= 628   original n=  914 val= 625
+half-time draw 1347  B19D c2 rand(2*def)          model n= 1712 val= 640   original n= 1720 val= 643
+half-time draw 1348  B19D c2 rand(atk)            model n=  380 val=  87   original n=  378 val=  87
+
+Both trajectories then keep the same DRAW COUNT (the same seeds) through minute 85
+(end 0x40b5, draw 3158) - the sums differ but no contest outcome flips - and the
+first outcome flip is in minute 86 (74 draws in the original vs 87 in the model),
+after which the counts and seeds separate; the original ends 0x543a/3617, the
+pre-fix model 0x8ddf/3640. Cause: 0791:65FE's per-slot form update (6666-66DD),
+missing from the model - see notes.md batch 7 and findings/F012.
