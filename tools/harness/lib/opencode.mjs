@@ -39,6 +39,16 @@ export class OpenCodeInfraError extends Error {
   }
 }
 
+// A failed run on Alibaba's Token Plan whose stderr (OpenCode's own, not the model's output) says the
+// key was refused: an auth.json entry in the data
+// directory overrides ALIBABA_TOKEN_PLAN_API_KEY, and a stale one breaks the provider there (the
+// owner, 2026-10-05). The reason names the directory so the owner can clear it; null otherwise.
+export function keyProblem(text, modelId, dataHome) {
+  if (!String(modelId).startsWith('alibaba-token-plan/') || !/invalid api[- ]?key/i.test(String(text))) return null;
+  return `invalid API key for alibaba-token-plan: the auth.json in ${dataHome} may hold a stale Alibaba entry, which `
+    + 'overrides ALIBABA_TOKEN_PLAN_API_KEY. Tell the owner which XDG_DATA_HOME this was; never print, copy or edit the key or auth.json';
+}
+
 // A failure reason without its numbers, so a chain can tell the same failure twice (two startup
 // hangs, two idle kills) from two different ones.
 export function failureClass(reason) {
@@ -233,6 +243,12 @@ export function loginHint(modelId, listed, dataHome, errors = new Map()) {
     return `OpenCode Go is not logged in for ${dataHome}. Run \`opencode console login\` with XDG_DATA_HOME=${dataHome} `
       + `(bash: XDG_DATA_HOME="${dataHome}" opencode console login; PowerShell: $env:XDG_DATA_HOME="${dataHome}"; opencode console login)`;
   }
+  // Its key comes only from ALIBABA_TOKEN_PLAN_API_KEY; an auth.json entry would override it (the owner, 2026-10-05).
+  if (provider === 'alibaba-token-plan') {
+    return 'Alibaba Token Plan lists no models: ALIBABA_TOKEN_PLAN_API_KEY is not in this environment (in WSL it comes from '
+      + '~/.config/ai-keys.env, loaded by ~/.bashrc and ~/.profile). Restart the session or shell; if it is still missing, '
+      + `tell the owner. Do not retry; never add the key with \`opencode auth login\` (data directory ${dataHome})`;
+  }
   return `${provider} lists no models for ${dataHome}: it is not logged in there. Log in once with `
     + `\`opencode auth login\` (or set its API key) in your usual OpenCode; the next run copies auth.json into ${dataHome}`;
 }
@@ -332,10 +348,25 @@ function tail(file, lines = 30) {
   } catch { return '(no output file)'; }
 }
 
+// Windows caps a process command line at 32767 characters; Linux a single argument at 128 KiB
+// (L60). The brief never rides the command line, so this is a tripwire, not a delivery path.
+export function commandLineTooLong(parts, platform = process.platform) {
+  return platform === 'win32' && parts.join(' ').length > 32000;
+}
+
+// The brief file every run's pointer prompt names: inside the worktree (the agent's tools reach
+// only there, L36/#501), deleted with the run's log files on success, kept and named on failure.
+export function briefFileName(title) {
+  return `.harness-brief-${title}.md`;
+}
+
 /**
- * Runs `opencode <args...> --title <title-token> <prompt>` in workDir, watched.
+ * Runs `opencode <args...> --title <title-token> <pointer prompt>` in workDir, watched. The
+ * prompt is written to `<workDir>/.harness-brief-<title>.md` and the command line carries only
+ * a short pointer to it (L60): the whole brief never passes through argv, which Windows caps at
+ * 32767 characters (IC2's T146/T148 were blocked by it) and Linux per argument at 128 KiB.
  * Returns { output, stdout, stderr, exitCode, sessionId, title, agentFallback, sessionAgent,
- *   permissionRejected, permissionHint, files, seconds }.
+ *   permissionRejected, permissionHint, files, briefFile, seconds }.
  * A non-zero exit is returned, not thrown: the caller decides.
  */
 export async function runOpenCodeWatched({
@@ -350,122 +381,169 @@ export async function runOpenCodeWatched({
   fs.mkdirSync(logDir, { recursive: true });
   const outFile = path.join(logDir, `${title}.out.txt`);
   const errFile = path.join(logDir, `${title}.err.txt`);
-  const files = [outFile, errFile];
-  const all = [...args, '--title', title, prompt];
-  if (process.platform === 'win32' && all.join(' ').length > 32000) {
-    throw new Error('The opencode command line exceeds what Windows allows (32767 characters). Shorten the brief.');
-  }
-
-  const outFd = fs.openSync(outFile, 'w');
-  const errFd = fs.openSync(errFile, 'w');
-  const startedMs = Date.now();
-  let child;
-  try {
-    child = spawnDetached(cmd, all, { cwd: workDir, env, stdio: ['ignore', outFd, errFd] });
-  } finally {
-    fs.closeSync(outFd);
-    fs.closeSync(errFd);
-  }
-  let exitCode = null;
-  let spawnError = null;
-  const exited = new Promise((resolve) => {
-    child.on('exit', (code, signal) => { exitCode = code ?? (signal ? 128 : 1); resolve(true); });
-    child.on('error', (e) => { spawnError = e; resolve(true); });
-  });
-  const hasExited = () => exitCode !== null || spawnError !== null;
-  const waitExit = (ms) => Promise.race([exited, sleep(ms).then(() => false)]);
-  const elapsed = () => Date.now() - startedMs;
-  let session = null;
-  let lastMiss = 'no lookup ran';
-  const lookup = async (timeoutMs) => {
-    const r = await lookupSession(cmd, { workDir, title, startedMs, env, timeoutMs });
-    if (r.miss) lastMiss = r.miss;
-    return r.session;
-  };
-  // A run with no session says why the last lookup missed it (#45).
-  const noSession = (reason, message) => {
-    log(`opencode: session lookup missed: ${lastMiss}`);
-    return fail(reason, `${message} (last lookup: ${lastMiss})`);
-  };
-  const fail = (reason, message) => new OpenCodeInfraError(reason,
-    `${message}; files kept: ${files.join(', ')}. stderr tail:\n${tail(errFile)}`);
-  log(`opencode: pid ${child.pid}, session title ${title}, output ${outFile}`);
-
-  try {
-    await Promise.race([exited, sleep(0)]);
-    if (spawnError) throw new OpenCodeInfraError('opencode not found', `could not start ${cmd.exe}: ${spawnError.message}`);
-
-    // Startup watch.
-    const startupMs = Math.min(startupTimeoutMs, totalTimeoutMs);
-    while (!session && !hasExited()) {
-      const remaining = startupMs - elapsed();
-      if (remaining <= 0) break;
-      if (await waitExit(Math.min(pollMs, remaining))) break;
-      session = await lookup(Math.max(0, startupMs - elapsed()));
+  const briefFile = path.join(workDir, briefFileName(title));
+  fs.writeFileSync(briefFile, prompt);
+  const files = [outFile, errFile, briefFile];
+  const pointer = `Your complete brief for this run is the file ${briefFileName(title)} at the root of this worktree.`
+    + ' Read that file first and follow it exactly; never edit, commit or delete it.';
+  const all = [...args, '--title', title, pointer];
+  // The brief leaves the worktree when the run is not clean (L60): kept for diagnosis with the
+  // log files, but never left as untracked work a reset would save as the implementer's (#87).
+  // A cross-device logDir makes rename fail (EXDEV), so a failed rename falls back to copy+delete;
+  // if nothing works the source is still removed — the worktree is never left holding it — and
+  // the kept-files list never names a path that does not exist.
+  const keptBrief = path.join(logDir, `${title}.brief.md`);
+  let briefKeptPath = null;
+  const shelveBrief = () => {
+    if (briefKeptPath !== null) return;                                  // already shelved or given up
+    let ok = false;
+    try {
+      fs.renameSync(briefFile, keptBrief);
+      ok = true;
+    } catch {
+      try {
+        fs.copyFileSync(briefFile, keptBrief);
+        fs.rmSync(briefFile, { force: true });
+        ok = true;
+      } catch { /* neither rename nor copy worked */ }
     }
-    if (!session && !hasExited()) {
+    if (!ok) fs.rmSync(briefFile, { force: true });
+    const i = files.indexOf(briefFile);
+    if (ok) { files[i] = keptBrief; briefKeptPath = keptBrief; }
+    else if (i >= 0) files.splice(i, 1);
+  };
+  let child = null;
+  try {
+    if (commandLineTooLong(all)) {
+      throw new Error('The opencode command line exceeds what Windows allows (32767 characters). Shorten the brief.');
+    }
+
+    const outFd = fs.openSync(outFile, 'w');
+    const errFd = fs.openSync(errFile, 'w');
+    const startedMs = Date.now();
+    try {
+      child = spawnDetached(cmd, all, { cwd: workDir, env, stdio: ['ignore', outFd, errFd] });
+    } finally {
+      fs.closeSync(outFd);
+      fs.closeSync(errFd);
+    }
+    let exitCode = null;
+    let spawnError = null;
+    const exited = new Promise((resolve) => {
+      child.on('exit', (code, signal) => { exitCode = code ?? (signal ? 128 : 1); resolve(true); });
+      child.on('error', (e) => { spawnError = e; resolve(true); });
+    });
+    const hasExited = () => exitCode !== null || spawnError !== null;
+    const waitExit = (ms) => Promise.race([exited, sleep(ms).then(() => false)]);
+    const elapsed = () => Date.now() - startedMs;
+    let session = null;
+    let lastMiss = 'no lookup ran';
+    const lookup = async (timeoutMs) => {
+      const r = await lookupSession(cmd, { workDir, title, startedMs, env, timeoutMs });
+      if (r.miss) lastMiss = r.miss;
+      return r.session;
+    };
+    // A run with no session says why the last lookup missed it (#45).
+    const noSession = (reason, message) => {
+      log(`opencode: session lookup missed: ${lastMiss}`);
+      return fail(reason, `${message} (last lookup: ${lastMiss})`);
+    };
+    const fail = (reason, message) => new OpenCodeInfraError(reason,
+      `${message}; files kept: ${files.join(', ')}. stderr tail:\n${tail(errFile)}`);
+    log(`opencode: pid ${child.pid}, session title ${title}, output ${outFile}`);
+
+    try {
+      await Promise.race([exited, sleep(0)]);
+      if (spawnError) throw new OpenCodeInfraError('opencode not found', `could not start ${cmd.exe}: ${spawnError.message}`);
+
+      // Startup watch.
+      const startupMs = Math.min(startupTimeoutMs, totalTimeoutMs);
+      while (!session && !hasExited()) {
+        const remaining = startupMs - elapsed();
+        if (remaining <= 0) break;
+        if (await waitExit(Math.min(pollMs, remaining))) break;
+        session = await lookup(Math.max(0, startupMs - elapsed()));
+      }
+      if (!session && !hasExited()) {
+        killTree(child);
+        const secs = Math.round(startupMs / 1000);
+        throw noSession(`no session in ${secs} s`, `OpenCode created no session within ${secs} s (is stdin closed?); killed pid ${child.pid}`);
+      }
+      if (session) log(`opencode: session ${session.id} started after ${Math.round(elapsed() / 1000)} s`);
+
+      // Run watch: the total deadline, and the idle watch on the session's `updated` time. A lookup
+      // that fails leaves `lastUpdated` unchanged, so the idle clock keeps running.
+      const idlePollMs = Math.max(pollMs, Math.min(60_000, Math.ceil(idleTimeoutMs / 5)));
+      let lastUpdated = session ? Number(session.updated) : startedMs;
+      while (!hasExited()) {
+        const remaining = Math.max(0, totalTimeoutMs - elapsed());
+        const wait = session && idleTimeoutMs > 0 ? Math.min(idlePollMs, remaining) : remaining;
+        if (await waitExit(wait)) break;
+        if (elapsed() >= totalTimeoutMs) {
+          killTree(child);
+          const secs = Math.round(totalTimeoutMs / 1000);
+          throw fail(`no exit in ${secs} s`, `OpenCode did not finish within ${secs} s; killed pid ${child.pid}`);
+        }
+        if (!session || idleTimeoutMs <= 0) continue;
+        const { session: seen } = await lookupSession(cmd, { workDir, title, startedMs, env, timeoutMs: Math.max(0, Math.min(30_000, totalTimeoutMs - elapsed())) });
+        if (hasExited()) break;
+        if (seen && Number(seen.updated) > lastUpdated) lastUpdated = Number(seen.updated);
+        const idleFor = Date.now() - lastUpdated;
+        if (idleFor >= idleTimeoutMs) {
+          killTree(child);
+          const secs = Math.round(idleTimeoutMs / 1000);
+          throw fail(`session idle for ${secs} s`, `OpenCode session idle for ${Math.round(idleFor / 1000)} s (limit ${secs} s); killed pid ${child.pid}`);
+        }
+      }
+      await exited;
+      // A run that finished before the first poll: its session must still exist, or it never ran.
+      if (!session) {
+        session = await lookup(Math.max(0, Math.min(15_000, totalTimeoutMs - elapsed())));
+        if (!session) throw noSession(`exited without a session (exit ${exitCode})`, `OpenCode exited with ${exitCode} without creating a session`);
+      }
+    } catch (e) {
       killTree(child);
-      const secs = Math.round(startupMs / 1000);
-      throw noSession(`no session in ${secs} s`, `OpenCode created no session within ${secs} s (is stdin closed?); killed pid ${child.pid}`);
+      shelveBrief();
+      throw e;
     }
-    if (session) log(`opencode: session ${session.id} started after ${Math.round(elapsed() / 1000)} s`);
 
-    // Run watch: the total deadline, and the idle watch on the session's `updated` time. A lookup
-    // that fails leaves `lastUpdated` unchanged, so the idle clock keeps running.
-    const idlePollMs = Math.max(pollMs, Math.min(60_000, Math.ceil(idleTimeoutMs / 5)));
-    let lastUpdated = session ? Number(session.updated) : startedMs;
-    while (!hasExited()) {
-      const remaining = Math.max(0, totalTimeoutMs - elapsed());
-      const wait = session && idleTimeoutMs > 0 ? Math.min(idlePollMs, remaining) : remaining;
-      if (await waitExit(wait)) break;
-      if (elapsed() >= totalTimeoutMs) {
-        killTree(child);
-        const secs = Math.round(totalTimeoutMs / 1000);
-        throw fail(`no exit in ${secs} s`, `OpenCode did not finish within ${secs} s; killed pid ${child.pid}`);
-      }
-      if (!session || idleTimeoutMs <= 0) continue;
-      const { session: seen } = await lookupSession(cmd, { workDir, title, startedMs, env, timeoutMs: Math.max(0, Math.min(30_000, totalTimeoutMs - elapsed())) });
-      if (hasExited()) break;
-      if (seen && Number(seen.updated) > lastUpdated) lastUpdated = Number(seen.updated);
-      const idleFor = Date.now() - lastUpdated;
-      if (idleFor >= idleTimeoutMs) {
-        killTree(child);
-        const secs = Math.round(idleTimeoutMs / 1000);
-        throw fail(`session idle for ${secs} s`, `OpenCode session idle for ${Math.round(idleFor / 1000)} s (limit ${secs} s); killed pid ${child.pid}`);
-      }
+    const stdout = fs.readFileSync(outFile, 'utf8');
+    const stderr = fs.readFileSync(errFile, 'utf8');
+    const agentIdx = args.indexOf('--agent');
+    const requestedAgent = agentIdx >= 0 ? args[agentIdx + 1] : null;
+    const exportFile = path.join(logDir, `${title}.export.json`);
+    const record = await sessionRecord(cmd, { workDir, sessionId: session.id, outFile: exportFile, env });
+    const recordedAgent = requestedAgent ? record?.agent ?? null : null;
+    fs.rmSync(exportFile, { force: true });
+    const agentFallback = !requestedAgent ? false
+      : recordedAgent ? recordedAgent !== requestedAgent
+      : agentWarning(stderr, requestedAgent);
+    const said = permissionRejection(`${stdout}\n${stderr}`);
+    const permissionRejected = !record ? said : record.rejected ? said ?? 'a tool call (in the session record)' : null;
+    const permissionHint = permissionRejected ? rejectionHint(`${stdout}\n${stderr}`) : null;
+    if (exitCode === 0 && !permissionRejected) for (const f of files) fs.rmSync(f, { force: true });
+    else {
+      shelveBrief();
+      log(`opencode: exit ${exitCode}${permissionRejected ? `, permission rejected: ${permissionRejected}` : ''}; files kept: ${files.join(', ')}`);
     }
-    await exited;
-    // A run that finished before the first poll: its session must still exist, or it never ran.
-    if (!session) {
-      session = await lookup(Math.max(0, Math.min(15_000, totalTimeoutMs - elapsed())));
-      if (!session) throw noSession(`exited without a session (exit ${exitCode})`, `OpenCode exited with ${exitCode} without creating a session`);
-    }
+    return {
+      output: `${stdout.trimEnd()}\n${stderr.trimEnd()}`.trim(),
+      stdout, stderr, exitCode, sessionId: session.id, title,
+      agentFallback, sessionAgent: recordedAgent, permissionRejected, permissionHint,
+      files: exitCode === 0 && !permissionRejected ? [] : files,
+      briefFile: exitCode === 0 && !permissionRejected ? briefFile : briefKeptPath,
+      seconds: Math.round(elapsed() / 1000),
+    };
   } catch (e) {
-    killTree(child);
+    shelveBrief();
+    if (child) { try { killTree(child); } catch { /* already dead */ } }
+    // The failure was worded before shelving moved or dropped the brief: name where it actually is.
+    if (briefKeptPath && e.message && e.message.includes(briefFile)) e.message = e.message.split(briefFile).join(briefKeptPath);
+    // ...and rebuild the kept-files list itself, which the hopeless fallback shortens (round-2 R1).
+    const seg = /files kept: (.*?)\. stderr tail:/s.exec(e.message ?? '');
+    if (seg && seg[1] !== files.join(', ')) {
+      e.message = e.message.replace(`files kept: ${seg[1]}.`, () => `files kept: ${files.join(', ')}.`);
+    }
     throw e;
-  }
-
-  const stdout = fs.readFileSync(outFile, 'utf8');
-  const stderr = fs.readFileSync(errFile, 'utf8');
-  const agentIdx = args.indexOf('--agent');
-  const requestedAgent = agentIdx >= 0 ? args[agentIdx + 1] : null;
-  const exportFile = path.join(logDir, `${title}.export.json`);
-  const record = await sessionRecord(cmd, { workDir, sessionId: session.id, outFile: exportFile, env });
-  const recordedAgent = requestedAgent ? record?.agent ?? null : null;
-  fs.rmSync(exportFile, { force: true });
-  const agentFallback = !requestedAgent ? false
-    : recordedAgent ? recordedAgent !== requestedAgent
-    : agentWarning(stderr, requestedAgent);
-  const said = permissionRejection(`${stdout}\n${stderr}`);
-  const permissionRejected = !record ? said : record.rejected ? said ?? 'a tool call (in the session record)' : null;
-  const permissionHint = permissionRejected ? rejectionHint(`${stdout}\n${stderr}`) : null;
-  if (exitCode === 0 && !permissionRejected) for (const f of files) fs.rmSync(f, { force: true });
-  else log(`opencode: exit ${exitCode}${permissionRejected ? `, permission rejected: ${permissionRejected}` : ''}; files kept: ${files.join(', ')}`);
-  return {
-    output: `${stdout.trimEnd()}\n${stderr.trimEnd()}`.trim(),
-    stdout, stderr, exitCode, sessionId: session.id, title,
-    agentFallback, sessionAgent: recordedAgent, permissionRejected, permissionHint,
-    files: exitCode === 0 && !permissionRejected ? [] : files,
-    seconds: Math.round(elapsed() / 1000),
-  };
+}
 }

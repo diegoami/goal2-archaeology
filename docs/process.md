@@ -54,6 +54,9 @@ What the implementer script guarantees, and why:
 - OpenCode starts with stdin closed; without it a run hangs before it starts. (L10)
 - No session in 180 s, no progress in 900 s, or no exit in 3 h kills the run's process tree. (L10)
 - The agent is checked on OpenCode's session record (L11); a rejected tool call fails the run. (L26)
+- The brief passes by file: the runner writes it to `.harness-brief-<title>.md` at the run
+  worktree's root and the command line carries only a pointer, so a long brief cannot exceed the
+  command-line limit; the file is never committed, and on failure it is kept with the logs. (L60)
 - Each light OpenCode model runs at effort high; a heavy one (Sol, GLM-5.3, DeepSeek V4 Pro) at
   effort low, medium only when justified, never high, except where the provider offers nothing
   lower (DeepSeek V4 Pro: high is its lowest). All run in the scripts' own data directory (L27, L29). The chain
