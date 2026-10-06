@@ -119,15 +119,27 @@ record's own byte field at pitch+0x12, F013)
    by `CB7D` after the match, F2A4.) `F1F6` then runs the match (`F098`) and, after it, calls
    `CAB0` (`F2F8`) — the MoM selection, §5.
 2. `0791:1EAB` (in `1E53`, §2): `add word es:[di+0x12], ax` — the commentary delta, per line.
-3. `0791:56CB` (in `5565`, seg_0791_09.asm:782-788): `add word es:[di+0x12], 0xA` — a +10 that
+3. `0791:56CB` (in `5565`, seg_0791_09.asm:780-793): `add word es:[di+0x12], 0xA` — a +10 that
    `5565` writes **directly, with no ring line**, to the event's pitch-record player when
-   `DS:8303` is set (`56A6` `cmp byte [0x8303],0; jne 56B5`; when clear the branch emits the
-   2AA3(0x0C) "dodged by" line instead, `56AD`). It always follows a `2B28(0x41)` "challenge by"
-   line on the same player in the same invocation (`5653`-`5660`), so a "challenge by" line's net
-   effect is −10 (table) + 10 (this write) = 0 when emitted by `5565`, but plain −10 when the
-   same template is emitted by `5B36` (`5B88`-`5BA3`). **Neither fired in any half analysed in
-   §6** (no template-65 line appeared; `1EAB` calls == ring lines in both emulated halves), so
-   this ambiguity did not arise; it is recorded as the rule's one known edge.
+   `DS:8303` is set (`56A6` `cmp byte [0x8303],0; jne 56B5`); when clear the branch emits the
+   2AA3(0x0C) "dodged by" line instead (`56AD`). `5565`'s 8303-set invocation first emits the
+   `2B28(0x41)` "challenge by" line (`5653`), then runs a chain of checks (`5474` at `5676`,
+   `5513` at `567E`, `4151` at `5685`, `45d(8303B)` at `5692`, `4d3f` at `56A3`); every bail
+   that emits does so as the line **immediately after** the 0x41 line: `5474`/`5513` →
+   `539F`, whose 8303-set path emits the pair 2AA3(0x0E) then 2AA3(0x21) (`5465`/`5468`) or
+   `408E`'s 0x16/0x17/0x18 (`5405`-`5416`); `5513`'s coin → `8206`'s substitution lines
+   0x35-0x37; `4151` → `3FAD(9)`'s 2AA3(0x15) (`3F82`). The two silent bails need a
+   goalkeeper: `45d(8303B)` — the HOLDER's pitch slot is 1 or 12 (`045D`, seg_0791_01.asm:511)
+   — and `4d3f` — the CHALLENGER's record byte `+6` is 1 or 12 (`4D4F`). So a 0x41 line whose
+   follower is none of {0x0E, 0x21, 0x15, 0x16, 0x17, 0x18, 0x35, 0x36, 0x37} and whose duel
+   involves no goalkeeper reached `56CB`: its net is 0 (the table's −10 plus the +10). **This
+   fired in E012-r0001's first half** (its slot 3 read 0x8C where the plain table gives 0x82):
+   positions 294/295 are two adjacent 0x41 lines — 123's (followed by 124's 0x41, a new
+   invocation: completed, +10, and neither 123 nor the holder 364 is a goalkeeper: both are
+   slot-3 players) and 124's (followed by 539F's 0x0E/0x21 pair naming 124: bailed, the plain
+   −10). `0791:5B36` can also emit a 0x41 line with 8303 set (`5B88`-`5B93`) and never adds
+   the +10; its follow-ups (`5A8E`'s `5A33` lines, `5C44`'s `8206`) are the rule's one
+   remaining ambiguity — no 5B36-emitted 0x41 appeared in any analysed half.
 4. `0791:C6FA` (in `C5DC refresh_pitch_slot`, seg_0791_20.asm:498-502): **the incoming
    substitute** gets `mov word es:[di+0x12], 0x2747` (10000 + 55) — reached from both engines'
    substitution paths (`8062 → C88D → C5DC` quick, the watched event tree's `5513/8206`;
@@ -165,24 +177,31 @@ record's own byte field at pitch+0x12, F013)
   the key poll `9372` (seg_0791_15.asm:9356), so a quick result shows no MoM; a watched match
   does. The MoM is therefore `CAB0`'s max-scan over both sides' rated players.
 
-## 6. The rule, and the instrumented check that proved it
+## 6. The rule, and the instrumented checks that proved it
 
 **Rule (the predictor):** start every squad slot 1..11 of both teams at `0x37`, every other
 player at `0x7FFF`; for every ring line `(template t, p1, p2, team)` in order: `t == 0` →
-the substitution's incoming player (`p1`) := `0x2747`; else `p1 != 0` → `rating[p1] :=
-(rating[p1] + s8(DS:0x720[t])) mod 0x10000`. The MoM is `CAB0`'s scan over the final words
-(§5). Ratings are read at half time and full time by applying the lines up to that point.
+the substitution's incoming player (`p1`) := `0x2747`, the squad words swapping slots;
+`t ∈ {51, 52}` (sent off / injured) → `p1` leaves the pitch and his side's slots 1..11 are
+stable-partitioned, the off-pitch players to the tail in their original relative order
+(`0791:7B77` → `C48D`; a booking, 50, re-orders nothing); `t == 65` and the FOLLOWING line's
+template is none of {0x0E, 0x21, 0x15, 0x16, 0x17, 0x18, 0x35, 0x36, 0x37} → the completed
+challenge nets 0 (the table's −10 plus 56CB's +10, §4.3); else `p1 != 0` →
+`rating[p1] := (rating[p1] + s8(DS:0x720[t])) mod 0x10000`. The MoM is `CAB0`'s scan over the
+final words (§5). Ratings are read at half time and full time by applying the lines up to that
+point.
 
-Check: the Unicorn harness (`runtime/emul/watched.py`) runs the ORIGINAL binary's own second half
-from each E011 half-time savestate (the published release assets, fetched into `scratch/` and
-manifest-verified), instrumented (a scratch script, not committed) to log every `1E53` call —
-(id, team, slot, player, delta) — every `1D4A` entry, the `56CB`/`C6FA` writers, and the final
-words. Over both E011 halves (identical second halves, r0001/r0002): 550 ring lines each, 550
-`1E53` calls, **no dedup refusal** (every `1D4A` entry advanced the counter), **no `56CB` +10**,
-2 substitutions (`0x2747` + deltas), goals 0x26/0x27 absent (both goals fell in the first half).
-Per player, the sum of `s8(0x720[template])` over the lines naming him equals the sum of the
-`1E53` deltas the binary applied (including the two template-66 "LINESMAN FLAGS" lines whose
-−10 lands on the dummy player word 65025/25857 — beyond the array, no real record), and the
+Check 1 (the second halves, emulated): the Unicorn harness (`runtime/emul/watched.py`) runs
+the ORIGINAL binary's own second half from each E011 half-time savestate (the published
+release assets, fetched into `scratch/` and manifest-verified), instrumented (a scratch
+script, not committed) to log every `1E53` call — (id, team, slot, player, delta) — every
+`1D4A` entry, the `56CB`/`C6FA` writers, and the final words. Over both E011 halves
+(identical second halves, r0001/r0002): 550 ring lines each, 550 `1E53` calls, **no dedup
+refusal** (every `1D4A` entry advanced the counter), **no `56CB` +10**, 2 substitutions
+(`0x2747` + deltas), goals 0x26/0x27 absent (both goals fell in the first half). Per player,
+the sum of `s8(0x720[template])` over the lines naming him equals the sum of the `1E53`
+deltas the binary applied (including the two template-66 "LINESMAN FLAGS" lines whose −10
+lands on the dummy player word 65025/25857 — beyond the array, no real record), and the
 end-to-end predictor (half-time words + second-half lines → full-time words) matches the
 emulated final words for **40/40 squad players of both teams, both halves** (`mismatched: 0`).
 The check is not vacuous: the template histogram of a watched half (96 "makes a run", 66
@@ -191,9 +210,20 @@ exercises 34 different deltas, and a first version with one mistyped table entry
 5 players per half (found and fixed before any predictor was written; the table in §3 is the
 byte-exact one).
 
-First-half note: the harness enters at `983F` (the second half); the first half's lines and the
-half-time words are corroborated by the E012 runs below (§7), whose records carry the full line
-log from the match start and the half-time savestate read of every slot.
+Check 2 (a first half, emulated): `emu_firsthalf.py` (this folder) runs the ORIGINAL binary's
+own FIRST half from E011's published `watchstart` savestate (the captain-screen state of the
+same deterministic match), entering at `998C` after applying F1F6's pre-match loop by hand.
+580 lines, 580 `1E53` calls (no dedup refusal), **no 56CB, no C6FA**, and the plain-table
+predictor replays its line log to its final words 40/40 (`emu-firsthalf-r0001.txt/.json`,
+committed). The emulated half is NOT the record's own first half: the DOSBox run consumed
+main-seed draws in the team-screen key wait that the emulator's "no key" thunk does not
+reproduce (the line logs diverge at line 7), so it corroborates the mechanism, not the
+record's trajectory.
+
+Check 3 (the records): `check_ratings.py` over `runs/E012` — r0001 (the 56CB case, §4.3),
+r0002/r0003 (two sendings-off and an injury: the XI partition; the half-time and full-time
+squad reads are the partitioned order, one slot out from the first removal without the
+rule) — ends `match: 3/3`, every slot's word at both reads and the MoM equal to the read.
 
 ## 7. The runs (E012)
 
@@ -201,3 +231,5 @@ Watched matches from E010's published start states under E004's conditions
 (`experiments/E012-q011-ratings/run.py`); each record carries the full line log, the half-time
 and full-time read of every squad slot's `+0x12` both sides, and the MoM word `DS:7C3A` at full
 time. `check_ratings.py` (same folder) reports the predictor's match over the records.
+3 watched launches of the 6-run cap: r0001 from `e006-2100-r0005`; r0002/r0003 from
+`e006-1001-r0002` (r0003 the replay, its ground truth identical to r0002's — deterministic).

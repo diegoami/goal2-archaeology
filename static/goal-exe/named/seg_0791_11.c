@@ -235,7 +235,7 @@ void __stdcall16far run_match(undefined4 param_1)
       uVar7 = (undefined2)((ulong)countries >> 0x10);
       pcVar5 = (country *)countries;
       if ((pcVar5[iVar1].squad[local_5 - 1] != 0) &&
-         (*(byte *)(local_3 * 0x14 + local_5 + -0x64f9) =
+         (((char *)match_form)[local_3 * 0x14 + local_5] =
                ((player *)players)[pcVar5[iVar1].squad[local_5 - 1]].morale, local_5 < 0xc)) {
         ((player *)players)[pcVar5[iVar1].squad[local_5 - 1]].performance = 0x37;
       }
@@ -248,7 +248,7 @@ void __stdcall16far run_match(undefined4 param_1)
   play_match(&stack0xfffe);
   sys_move_025D(4000,(int)DS:7C22,(int)((ulong)DS:7C22 >> 0x10),(int)DS:7C16,
                 (int)((ulong)DS:7C16 >> 0x10));
-  f_0791_CAB0();
+  select_man_of_the_match();
   uVar8 = DS:9A3E == '\0';
   uVar3 = extraout_AH_00;
   if ((bool)uVar8) {

@@ -39,7 +39,7 @@ undefined4 commentary_record_is_new(int param_1)
   iVar4 = CONCAT11(uVar5,*(char *)(param_1 + 4));
   if (((*(char *)(param_1 + 4) == *local_b) &&
       (iVar4 = local_5, local_5 == *(int *)((undefined1 *)&DS:7C39 + iVar2))) &&
-     (iVar4 = local_7, local_7 == *(int *)((int)(undefined2 *)&DS:7C3A + iVar2 + 1))) {
+     (iVar4 = local_7, local_7 == *(int *)((int)(word *)&man_of_the_match + iVar2 + 1))) {
     iVar4 = CONCAT11(uVar5,*(char *)(iVar2 + 0x7c3d));
     if (*(char *)(iVar2 + 0x7c3d) == *(char *)(param_1 + 10)) {
       uVar3 = 0;
@@ -53,9 +53,10 @@ LAB_0791_1D3E:
 }
 
 
-// ---- 0791:1D4A  f_0791_1D4A  (f_0791_1D4A; Ghidra 2000:1D4A, __stdcall16near; found by routines.tsv)
+// ---- 0791:1D4A  write_commentary_line  (f_0791_1D4A; Ghidra 2000:1D4A, __stdcall16near; found by routines.tsv)
+// writes the ring line at DS:7C38 + 6*DS:80EE (template, p1 word, p2 word, team) through the 1C78 dedup predicate — an identical newest line refuses the write and the counter, but 1E53's delta has already landed  [established; F014]
 
-undefined1 f_0791_1D4A(undefined1 param_1,int param_2,int param_3,char param_4)
+undefined1 write_commentary_line(undefined1 param_1,int param_2,int param_3,char param_4)
 
 {
   int *piVar1;
@@ -88,10 +89,10 @@ undefined1 f_0791_1D4A(undefined1 param_1,int param_2,int param_3,char param_4)
       *(word *)((undefined1 *)&DS:7C39 + iVar3) = pcVar5[iVar2].squad[param_3 + -1];
     }
     if (param_2 == 0) {
-      *(undefined2 *)((int)(undefined2 *)&DS:7C3A + iVar3 + 1) = 0;
+      *(undefined2 *)((int)(word *)&man_of_the_match + iVar3 + 1) = 0;
     }
     else {
-      *(word *)((int)(undefined2 *)&DS:7C3A + iVar3 + 1) = pcVar5[iVar2].squad[param_2 + -1];
+      *(word *)((int)(word *)&man_of_the_match + iVar3 + 1) = pcVar5[iVar2].squad[param_2 + -1];
     }
     *(char *)(iVar3 + 0x7c3d) = param_4;
     local_5 = pitch_records[0]._6_2_;
@@ -103,9 +104,10 @@ undefined1 f_0791_1D4A(undefined1 param_1,int param_2,int param_3,char param_4)
 }
 
 
-// ---- 0791:1E53  f_0791_1E53  (f_0791_1E53; Ghidra 2000:1E53, __stdcall16near; found by routines.tsv)
+// ---- 0791:1E53  apply_perf_delta  (f_0791_1E53; Ghidra 2000:1E53, __stdcall16near; found by routines.tsv)
+// reads the event frame on 1EB5's stack (template at +4, p2 slot +6, p1 slot +8, team +0xA), computes the pitch record 0x80E8 + 0x16*(0668[team]+slot), takes its +0xD player word and adds s8(DS:0x720[template]) to that player's +0x12 at 1EAB — every commentary line rates its named player, before 1D4A writes the ring; a dedup refusal (1C78) does not undo it  [established; F014]
 
-void f_0791_1E53(int param_1)
+void apply_perf_delta(int param_1)
 
 {
   word *pwVar1;
@@ -120,9 +122,10 @@ void f_0791_1E53(int param_1)
 }
 
 
-// ---- 0791:1EB5  f_0791_1EB5  (f_0791_1EB5; Ghidra 2000:1EB5, __stdcall16near; found by routines.tsv)
+// ---- 0791:1EB5  emit_commentary  (f_0791_1EB5; Ghidra 2000:1EB5, __stdcall16near; found by routines.tsv)
+// the common tail of every emitter: call 1E53 (the rating delta) then 1D4A (the ring write); the frame carries template id, both player slots and the team byte  [established; F014]
 
-void f_0791_1EB5(undefined1 param_1,undefined2 param_2,undefined2 param_3,undefined1 param_4)
+void emit_commentary(undefined1 param_1,undefined2 param_2,undefined2 param_3,undefined1 param_4)
 
 {
   char cVar1;
@@ -130,8 +133,9 @@ void f_0791_1EB5(undefined1 param_1,undefined2 param_2,undefined2 param_3,undefi
   int iVar2;
   int local_4;
   
-  f_0791_1E53(&stack0xfffe);
-  cVar1 = f_0791_1D4A(CONCAT11(extraout_AH,param_1),param_2,param_3,CONCAT11(extraout_AH,param_4));
+  apply_perf_delta(&stack0xfffe);
+  cVar1 = write_commentary_line
+                    (CONCAT11(extraout_AH,param_1),param_2,param_3,CONCAT11(extraout_AH,param_4));
   if (cVar1 != '\0') {
     iVar2 = pitch_records[0]._6_2_ + -2;
     if (iVar2 <= (int)pitch_records[0]._6_2_) {
@@ -291,8 +295,9 @@ void f_0791_2218(int param_1)
                      .squad + *(int *)(param_1 + -5) + -1,uVar1,
                    ((country *)countries)[((undefined2 *)&DS:9B34)[*(char *)(param_1 + -1)]].
                    squad + *(int *)(param_1 + -3) + -1,uVar1);
-  u214b_swap_bytes(1,*(char *)(param_1 + -1) * 0x14 + *(int *)(param_1 + -5) + -0x64f9,0xb000,
-                   *(char *)(param_1 + -1) * 0x14 + *(int *)(param_1 + -3) + -0x64f9,0xb000);
+  u214b_swap_bytes(1,(char *)match_form + *(char *)(param_1 + -1) * 0x14 + *(int *)(param_1 + -5),
+                   0xb000,(char *)match_form +
+                          *(char *)(param_1 + -1) * 0x14 + *(int *)(param_1 + -3),0xb000);
   u214b_swap_bytes(2,(undefined1 *)&DS:9A3E +
                      *(char *)(param_1 + -1) * 0x28 + *(int *)(param_1 + -5) * 2,0xb000,
                    (undefined1 *)&DS:9A3E +
@@ -733,7 +738,7 @@ void f_0791_2AA3(undefined1 param_1)
   uVar2 = f_0791_2BB1((pitch *)pitch_records + DS:830B,0xb000);
   uVar2 = uVar2 & 0xff;
   uVar3 = f_0791_2A6D(uVar2,uVar1);
-  f_0791_1EB5(param_1,uVar3,uVar2,uVar1);
+  emit_commentary(param_1,uVar3,uVar2,uVar1);
   return;
 }
 
@@ -750,7 +755,7 @@ void f_0791_2AD4(undefined1 param_1)
   uVar2 = (uint)(DS:830C < 0xc);
   uVar3 = f_0791_2A6D(uVar2);
   uVar1 = f_0791_2BB1((pitch *)pitch_records + DS:830B,0xb000);
-  f_0791_1EB5(param_1,uVar1,uVar3,uVar2);
+  emit_commentary(param_1,uVar1,uVar3,uVar2);
   return;
 }
 
@@ -760,7 +765,7 @@ void f_0791_2AD4(undefined1 param_1)
 void f_0791_2B0F(undefined1 param_1)
 
 {
-  f_0791_1EB5(param_1,0,0,1);
+  emit_commentary(param_1,0,0,1);
   return;
 }
 
@@ -777,7 +782,7 @@ void __stdcall16far f_0791_2B28(undefined4 param_1,undefined1 param_2)
   uVar3 = (undefined2)((ulong)param_1 >> 0x10);
   uVar2 = pitch_slot_side((int)param_1,uVar3);
   uVar1 = f_0791_2BB1((int)param_1,uVar3);
-  f_0791_1EB5(param_2,0,uVar1,uVar2);
+  emit_commentary(param_2,0,uVar1,uVar2);
   return;
 }
 
@@ -1243,95 +1248,4 @@ int __stdcall16far f_0791_30EA(undefined4 param_1,int param_2)
   
   cVar1 = pitch_slot_side((int)param_1,(int)((ulong)param_1 >> 0x10));
   return (uint)*(byte *)(cVar1 + 0x668) + param_2;
-}
-
-
-// ---- 0791:3111  f_0791_3111  (f_0791_3111; Ghidra 2000:3111, __stdcall16far; found by routines.tsv)
-
-char __stdcall16far f_0791_3111(char *param_1)
-
-{
-  char cVar1;
-  bool bVar2;
-  char cVar3;
-  int iVar4;
-  uint uVar5;
-  int iVar6;
-  char *pcVar7;
-  undefined2 uVar8;
-  uint local_c;
-  uint local_6;
-  
-  uVar8 = (undefined2)((ulong)param_1 >> 0x10);
-  pcVar7 = (char *)param_1;
-  cVar1 = player_effective_tactic(pcVar7,uVar8,3);
-  if ((cVar1 == '\0') &&
-     ((cVar1 = f_0791_2C54(pcVar7,uVar8), cVar1 == '\0' ||
-      (cVar1 = f_0791_045D(pcVar7[6]), cVar1 != '\0')))) {
-    bVar2 = false;
-  }
-  else {
-    bVar2 = true;
-  }
-  iVar4 = f_0791_261A();
-  local_c = (uint)*(byte *)(bVar2 + 0x778) + iVar4;
-  cVar1 = pcVar7[6];
-  uVar5 = f_0791_30EA(pcVar7,uVar8,2);
-  local_6 = f_0791_30EA(pcVar7,uVar8,0xb);
-  if (uVar5 <= local_6) {
-    while( true ) {
-      if (((((byte)pcVar7[6] != local_6) &&
-           (cVar3 = player_unavailable_on_pitch((pitch *)pitch_records + local_6,0xb000),
-           cVar3 == '\0')) &&
-          (cVar3 = f_0791_2D10((pitch *)pitch_records + local_6,0xb000,10), cVar3 == '\0')) &&
-         (*(char *)((int)&pitch_records[0].state + local_6 * 0x16) != '\r')) {
-        iVar4 = (int)(char)((pitch *)pitch_records + local_6)->x - (int)*param_1;
-        if (iVar4 < 0) {
-          iVar4 = -iVar4;
-        }
-        iVar6 = (int)*(char *)((int)&pitch_records[0].y + local_6 * 0x16) - (int)pcVar7[1];
-        if (iVar6 < 0) {
-          iVar6 = -iVar6;
-        }
-        if ((local_c < (uint)(iVar6 + iVar4) == bVar2) &&
-           ((pcVar7[6] == cVar1 || (cVar3 = u214b_random_coin_flip(), cVar3 != '\0')))) {
-          cVar1 = *(char *)((int)&pitch_records[0].side + local_6 * 0x16);
-          local_c = iVar6 + iVar4;
-        }
-      }
-      if (local_6 == uVar5) break;
-      local_6 = local_6 - 1;
-    }
-  }
-  if (pcVar7[6] == cVar1) {
-    uVar5 = f_0791_30EA(pcVar7,uVar8,0xb);
-    local_6 = f_0791_30EA(pcVar7,uVar8,2);
-    if (local_6 <= uVar5) {
-      while( true ) {
-        if (((byte)pcVar7[6] != local_6) &&
-           (cVar3 = player_unavailable_on_pitch((pitch *)pitch_records + local_6,0xb000),
-           cVar3 == '\0')) {
-          cVar1 = *(char *)((int)&pitch_records[0].side + local_6 * 0x16);
-        }
-        if (local_6 == uVar5) break;
-        local_6 = local_6 + 1;
-      }
-    }
-  }
-  return cVar1;
-}
-
-
-// ---- 0791:3323  f_0791_3323  (f_0791_3323; Ghidra 2000:3323, __stdcall16far; found by routines.tsv)
-
-void __stdcall16far f_0791_3323(undefined4 param_1)
-
-{
-  undefined2 uVar1;
-  undefined2 uVar2;
-  
-  uVar2 = (undefined2)((ulong)param_1 >> 0x10);
-  uVar1 = f_0791_3111((int)param_1,uVar2);
-  f_0791_384C((int)param_1,uVar2,uVar1);
-  return;
 }
