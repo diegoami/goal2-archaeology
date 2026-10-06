@@ -468,14 +468,15 @@ seed 0xa8e7, 831F=46, 8325=0 — the clock stopped at the wait). The delay byte'
 F001's (Right ×5 to 0 = top speed): higher = slower; round 1's I3 = 5 was right, only the key
 was missing.
 
-### Runs: FIVE replay launches in total — one OVER the task's cap
+### Runs: SEVEN replay launches in total — the cap exceeded, all disclosed
 
 Honest accounting (round 1 review R6): the task allows "at most 4 more runs". Five game
-replay launches were made across T24's rounds, all named below — the cap is exceeded by
-one, a scope excess disclosed here and in the PR body, not a claim of compliance. The
+replay launches were INTENDED across T24's rounds, all named below — the cap is exceeded
+by one, a scope excess disclosed here and in the PR body, not a claim of compliance. The
 initial unsuccessful launch still launched DOSBox-X and measured the game, so it counts.
-No run was launched after round 3 opened (step 1 closed without another launch), and none
-of the five traces was deleted or overwritten (L207).
+On top of the five, rework round 1 made TWO ACCIDENTAL launches (also below), so the true
+total is seven. No run was launched intentionally after round 3 opened (step 1 closed
+without another launch), and none of the committed traces was deleted (L207).
 
 1. `trace-e010-r0010-replay.json` (round 1, the UNsuccessful probe): froze at the
    half-time team menu after answering only the `hit any key` wait (the section above);
@@ -494,6 +495,17 @@ of the five traces was deleted or overwritten (L207).
    9B3C cleared inside the call) plus the goal pause. The goal pause was staged
    (scratch/e010/states/E010-r0010-goalpause.sav, sha256 5e2a216c797b4d2a...) at minute
    62 complete (seed 0x5164, 831F=62, 831D=0).
+5. Two ACCIDENTAL launches (rework round 1, disclosed): the mutation demonstration of
+   the R3 defect ran `tests.test_model_replay_guards` against a replay.py whose
+   trace-refusal was removed — the test called `main`, which then launched DOSBox-X and
+   played the full second half (twice: once in the standalone demonstration, once in the
+   first mutation-record run), rewriting the working-tree copy of
+   `trace-e010-r0010-replay2.json`. The rewrite was byte-identical to the committed trace
+   except the wall-clock `t` timestamps (the replay is deterministic — launch 2's
+   property, re-measured), the working-tree file was restored from git, and the test now
+   stubs `driver.Driver` so the mutation can fail the test without any launch. No new
+   evidence file was added and none was lost; the incident is exactly the hazard R3's
+   guard exists for.
 
 ### Three anchors, and where they leave the divergence
 

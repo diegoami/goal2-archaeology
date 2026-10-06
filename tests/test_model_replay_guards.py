@@ -137,12 +137,25 @@ class TestTraceWriter(unittest.TestCase):
 
     def test_main_refuses_committed_trace_before_launch(self):
         # the review's exact case: the default suffix "2" selects the committed
-        # trace-e010-r0010-replay2.json; the refusal fires before any launch
+        # trace-e010-r0010-replay2.json; the refusal fires before any launch.
+        # Driver is stubbed so that, even with the refusal REMOVED (the mutation
+        # run), main can never reach a real DOSBox-X launch from this test —
+        # the round-1 defect must fail the test, not launch the game
         self.assertTrue(replay.trace_path("E010-r0010", "2").exists())
-        with self.assertRaises(SystemExit):
-            replay.main(["--record", "E010-r0010"])
-        with self.assertRaises(SystemExit):
-            replay.main(["--record", "E010-r0010", "--suffix", "2"])
+        real_driver = replay.driver.Driver
+
+        class NoLaunch:
+            def __init__(self, *a, **kw):
+                raise AssertionError("main got past the trace refusal and built a Driver")
+
+        replay.driver.Driver = NoLaunch
+        try:
+            with self.assertRaises(SystemExit):
+                replay.main(["--record", "E010-r0010"])
+            with self.assertRaises(SystemExit):
+                replay.main(["--record", "E010-r0010", "--suffix", "2"])
+        finally:
+            replay.driver.Driver = real_driver
 
 
 class TestPendingKeyGuard(unittest.TestCase):
