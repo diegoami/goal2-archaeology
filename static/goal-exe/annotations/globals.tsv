@@ -4,7 +4,7 @@ DS:A91B	players	player far*	far pointer to the player array (20-byte records, 0x
 DS:A91F	manager_countries	byte far*	far pointer to the manager array (0x195 bytes allocated): byte at +3*(0x80+m) is the country managed by manager m (1771:26B9 mode 2 stores it, 1771:2D15 reads it)	established	F011; F007
 DS:A927	pool_indices	word far*	far pointer to the pool index array (0x3C2 bytes = word[481] allocated): A927[base..base+79] holds the 80 pool player numbers of the current manager, base = DS:6D18 + 2*manager	established	F011; F007
 DS:6D18	pool_base_table	word[7]	the per-manager pool base: word[m] (m = 1..6) = 80*(m-1)+1, manager m's first pool index; word[0] is not read	established	F011
-DS:0668	side_base	word[2]	the pitch-slot base per engine team: 0668[t] + 1 .. +11 are team t's slots (team 0 owns 12..22, team 1 owns 1..11); D733's goal phase, D5C1, 8062 and 6337 all add it	established	F012
+DS:0668	side_base	char[2]	two adjacent bytes, the pitch-slot base per engine team (every listing read is a byte: `mov al, byte ptr [di + 0x668]` at D5EF and DA01, seg_0791_21.asm, and likewise 1E63, 2029, 21CE...; never a word): 0668[t] + 1 .. +11 are team t's slots (team 0 owns 12..22, team 1 owns 1..11); D733's goal phase, D5C1, 8062 and 6337 all add it	established	F012
 DS:066B	sub_budgets	char[2]	the substitution budget per team at a match start: DS:066B[9A3D] (5 per team in a friendly)	established	F012
 DS:0720	fitness_delta	char[40]	the +0x12 fitness delta per commentary ring id; the quick goal id 0x26 is +40 (1E53's ring write in 6443)	established	F012
 DS:7920	form_delta	char[2]	65FE's per-goal form deltas: byte 0 = -1 (the side without the ball), byte 1 = +1 (the side of DS:830B); 6443 gives the scorer byte [7C39 != 0 ? 0 : 1]	established	F012
