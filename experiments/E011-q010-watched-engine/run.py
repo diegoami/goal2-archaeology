@@ -75,7 +75,7 @@ class Run:
         self.args, self.commit = args, commit
         self.st = driver.StartState(e007.adopt(args.from_run))
         self.d = driver.Driver(STATE_CONFIG, workdir=driver.SCRATCH / "e011" / self.run_id)
-        self.obs, self.step, self.keys, self.pre_keys = [], 0, list(e004.TO_CAPTAIN)
+        self.obs, self.step, self.keys, self.pre_keys = [], 0, [], list(e004.TO_CAPTAIN)
         self.reads, self.seconds, self.final = 0, None, None
         self.tracker = commentary.Tracker()
         self.trajectory = []          # (831F, 831D, 7B62) per read: the ground truth emu_check uses
