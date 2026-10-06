@@ -1,0 +1,12 @@
+T24 rework round 1 (2026-10-06): the review's two surviving mutations and the three
+guard defects, re-run against tests.test_model_quick_engine (57 tests) and
+tests.test_model_replay_guards (7 tests):
+
+KILLED   A9B8 keeper fallback: best_v init 0 -> 255 (review R1)
+KILLED   D733 goal path: record_goal_scorer_effects call removed (review R2)
+KILLED   TraceWriter: existing-path refusal removed (review R3)
+KILLED   pending-key guard: wait-continue removed, probe resends and resets (review R4)
+KILLED   timeout without full time returns success again (review R4)
+model restored: True
+replay restored: True
+5/5 mutations killed

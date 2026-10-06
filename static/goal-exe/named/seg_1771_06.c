@@ -744,8 +744,7 @@ void __stdcall16far f_1771_958D(int param_1,int param_2,char param_3)
     }
     else if ((DS:A976 == -0x52) || (DS:A976 == -0x51)) {
       u214b_wrap_add_in_range
-                ((int)(char)((undefined1 *)&DS:7920)[DS:A976 == -0x51],3,1,&local_4,
-                 unaff_SS);
+                ((int)((char *)form_delta)[DS:A976 == -0x51],3,1,&local_4,unaff_SS);
     }
   } while ((param_3 != '\0') && (DS:A976 != '\x1b'));
   return;

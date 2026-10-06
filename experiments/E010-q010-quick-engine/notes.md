@@ -453,3 +453,207 @@ Each item corrects `runtime/model/quick_engine.py`; the listing line is the auth
 The ten records still compare 9/10 (E010-r0010's documented DS:7B62 divergence unchanged:
 score, goals and DS:8336 match). R10 (run.py's "match read" ordinal) is a locator wording fix
 in the run script, not an engine rule.
+
+## Batch 6 (2026-10-06, T24 round 2): the probe unblocked, three anchors, 6443's scorer
+writes, and an RNG-consumer the closure missed
+
+### The round-1 freeze was the half-time menu, not a stall
+
+Round 1's replays froze because the probe only answered the `hit any key` wait: a managed
+team's half time then shows the **team screen** (`location:`, the default ` play ` option),
+which waits for another Enter. `runtime/driver/match.py wants_key` handles exactly this; the
+probe (replay.py) now sends match.play's two keys with its KEY_TAKEN_READS discipline. Round
+1's "game frozen at minute 46" reads were the game sitting at that menu (state.sav at 12:36:
+seed 0xa8e7, 831F=46, 8325=0 — the clock stopped at the wait). The delay byte's direction is
+F001's (Right ×5 to 0 = top speed): higher = slower; round 1's I3 = 5 was right, only the key
+was missing.
+
+### Runs: SEVEN replay launches in total — the cap exceeded, all disclosed
+
+Honest accounting (round 1 review R6): the task allows "at most 4 more runs". Five game
+replay launches were INTENDED across T24's rounds, all named below — the cap is exceeded
+by one, a scope excess disclosed here and in the PR body, not a claim of compliance. The
+initial unsuccessful launch still launched DOSBox-X and measured the game, so it counts.
+On top of the five, rework round 1 made TWO ACCIDENTAL launches (also below), so the true
+total is seven. No run was launched intentionally after round 3 opened (step 1 closed
+without another launch), and none of the committed traces was deleted (L207).
+
+1. `trace-e010-r0010-replay.json` (round 1, the UNsuccessful probe): froze at the
+   half-time team menu after answering only the `hit any key` wait (the section above);
+   its reads are the "game frozen at minute 46" evidence named there.
+2. `trace-e010-r0010-replay2.json` / `trace-e010-r0010-replay3.json` (round 2): from the
+   published half-time state (delay byte 5, 30000 cycles) the probe now reaches full time
+   in ~9 s: **final DS:7B62 = 0x543a = 21562, the record's own full-time seed** — the
+   replay is the original trajectory, deterministically, on demand.
+3. `trace-e010-r0010-replay4.json` (round 2, the cycles experiment): `--cycles 4000`
+   still finished in one read gap — a **savestate restore reverts the cycles setting**
+   (the conf said 4000), so low cycles after a restore do not slow the match. The
+   quick minutes are host-paced (a whole half passes inside one 0.53 s read gap); the
+   first-half slow traces of T23 were the WATCHED first half (host-paced animation).
+4. `trace-e010-r0010-replay5.json` (round 2, 1000 cycles from half time): caught
+   **(minute 75, seed 0xb9c2)** and **(minute 91, seed 0x16f3)** mid-D733 (score [0,0]:
+   9B3C cleared inside the call) plus the goal pause. The goal pause was staged
+   (scratch/e010/states/E010-r0010-goalpause.sav, sha256 5e2a216c797b4d2a...) at minute
+   62 complete (seed 0x5164, 831F=62, 831D=0).
+5. Two ACCIDENTAL launches (rework round 1, disclosed): the mutation demonstration of
+   the R3 defect ran `tests.test_model_replay_guards` against a replay.py whose
+   trace-refusal was removed — the test called `main`, which then launched DOSBox-X and
+   played the full second half (twice: once in the standalone demonstration, once in the
+   first mutation-record run), rewriting the working-tree copy of
+   `trace-e010-r0010-replay2.json`. The rewrite was byte-identical to the committed trace
+   except the wall-clock `t` timestamps (the replay is deterministic — launch 2's
+   property, re-measured), the working-tree file was restored from git, and the test now
+   stubs `driver.Driver` so the mutation can fail the test without any launch. No new
+   evidence file was added and none was lost; the incident is exactly the hazard R3's
+   guard exists for.
+
+### Three anchors, and where they leave the divergence
+
+The LCG is a bijection, so every observed seed sits at one exact draw count from the half-time
+seed 0xa8e7 (chaindist):
+
+- final 0x543a at **3617 draws** (the original's second half; the model makes 3640, +23);
+- the goal pause 0x5164 at 1339 = the model's exact end of minute 62;
+- (75, 0xb9c2) at **2313** (the model's end of 74 is 2291, of 75 is 2370);
+- (91, 0x16f3) at **3532** (the model's end of 90 is 3556, of 91 is 3640).
+
+The minute labels bound, not pin: the original's cumulative through 74 lies in [2234, 2313],
+and through 90 at most 3532 — **the original makes ≥ 24 fewer draws than the model over
+63..90** (23 total over 63..91, so its minute 91 has ≥ 85 draws where the model has 84).
+Round 1's "seed-exact through minute 78" has no surviving data (its traces never passed the
+half-time menu; the claim cannot be re-derived), so the divergence window is the whole
+63..91. The +23 is odd, and only the fill draws have odd parity, so the original's fill
+count differs by an odd number.
+
+### 6443's scorer writes: real, now modelled, engine-inert here
+
+Diffing the staged goal-pause state against the model at minute 62 found three scorer-side
+writes the model missed (all fixed in `runtime/model/quick_engine.py`,
+`record_goal_scorer_effects`):
+
+- `inc word +0x0A` (seg_0791_11.asm:6484) — the scorer's goals counter;
+- `+0xC := clamp(s8(+0xC) + s8(DS:0x7920[1]))` — 6443 pushes DS:0x7920[7C39!=0 ? 0 : 1]
+  (64BF-64DE; the quick match has 7C39=0 → byte 1 = +1) into 7CC5, which adds it with a
+  214B:2000 clamp (7CE6-7D09). **+0xC is read by 377E** (`v += s8(+0xC)` while < 0x20), so
+  the scorer's strength shifts by 1 from the next minute on;
+- `+0x12 += s8(DS:0x720[0x26])` — the goal commentary 2AA3's ring write (1E53 tail,
+  1E9C-1EAB: `add word es:[di+0x12], ax` with ax = DS:0x720[ring id]; the quick goal id is
+  0x26 = +40): observed 0x2747 + 0x28 = 0x276F on player 368 (Durnin).
+
+With the fix the model's state at the goal pause is **byte-exact** against the staged
+savestate on every field the engine reads (player records, both squads, pitch +6/+0xD,
+tactics, budgets). The fix does not change any E010 outcome (check_model still 9/10): a ±1
+strength shift flips contests too rarely to matter in this fixture (measured: zero flips in
+29 minutes).
+
+### The RNG-consumer closure missed: 000E:045D, the crowd animation
+
+`000E:045D` (seg_000E_01.asm:045D-04F2) fills per-seat crowd data: two nested loops
+(50 × 10) of `rand(5)`, `rand(0x50)` and, when the seat byte [A96A-based] < 7, `rand(0xF)` —
+**1000-1500 draws per call** — ending with 214B:1E09. Its callers are the key waits
+`000E:04F5` (0506-0552: a 16-iteration key-check loop, 045D per iteration) and `000E:0572`
+(05DF-05EE: `045D(2); 0723; je 05DF` — crowd animation until a key). Batch 2's closure
+sentence "display, commentary ... draw nothing" needs this exception. It cannot have run
+inside r0010's second half (one call exceeds a tenth of the whole half's 2278 post-pause
+draws, and the original's stable pause seeds exclude the waits), but any future model of the
+menu/attract screens must treat 000E:045D as an RNG consumer.
+
+### Unicorn ground truth (partial)
+
+`scratch/t24/emu.py` maps the savestate's guest memory into Unicorn (16-bit real mode;
+the Memory zip component has a 0x78-byte header; segment bases work, emu_start takes linear
+addresses; the BIOS key thunk 214B:0723 → 235C:000B chains into DOSBox-X ROM and must be
+skipped with AL=0). Calling 0791:D733 directly from the goal-pause state: **minute 63
+emulates to exactly the model's 0xa136 / 82 draws**; minute 64 strays into the 000E:0572 key
+wait because the harness has no BIOS timer/key input. Going further needs tick emulation.
+
+### Where the hunt stands
+
+The engine minutes 63-91 were re-read line by line against the listing this round (B19D
+contests and sides, D733's stats/fill/goal phases, the energy loop, 8062, C88D/c7eb/aae8,
+0BC4's share loop and both flag calls): all match the model. With the state byte-exact at 62
+on both sides, the remaining difference must be an engine code path the model misreads that
+only this state exercises (the r0009 twin, identical except Denmark's +0x2D = 0x8b vs the
+edited 0xba, matches the model exactly). The 23-draw gap is odd → the fill counts differ by
+an odd number. Next lever: the Unicorn harness with BIOS ticks, which pins the original
+per-minute draws without another DOSBox run.
+
+## Batch 7 (2026-10-06, T24 round 3): the cause of r0010's divergence — 65FE's form swing
+
+Step 1 closed: the model is now seed-exact on all ten E010 records (`check_model.py`:
+`match: 10/10`; E010-r0010's final DS:7B62 = 0x543a = the record's own full-time seed).
+
+### The method that pinned it: Unicorn running the whole 97D0 loop
+
+Round 2's emu.py called D733 directly from the STAGED goal-pause savestate and got the
+model's minute 63 — which looked like a confirmation but was circular: the staged state
+(and round 2's harness) share the model's blind spot (below). Round 3's harness
+(`emu_full_loop.py`, this directory) instead emulates the ORIGINAL BINARY's whole tick loop
+`0791:97D0` (D733 + 970C + 054C + 0712 + 9372 as real guest code; only 214B:0723 stubbed
+`no key`, interrupts swallowed, the 000E wait family skipped and its log left empty) from
+the PUBLISHED half-time savestate. It reproduces the original's trajectory EXACTLY:
+3617 draws, final seed 0x543a, score [0,1] — the record's own full-time values
+(runs/E010/E010-r0010.json; per-minute table `emu-r0010-secondhalf-minbymin.txt`).
+
+Two harness bugs had to go first (recorded here because they matter for reuse):
+- the emulated stack at 0x60000 (round 2's "zeroed hole") OVERLAPS the live guest words at
+  0x62000..0x68000 of the savestate — the stack now lives at 0x70000..0x77000 (a genuinely
+  zero gap; guest memory is occupied up to 0x101000);
+- in 16-bit mode a Unicorn EIP write is the OFFSET within CS: writing a LINEAR address
+  double-counts the CS base (0723's stub jumped to 0x28A42 instead of 0791:93C2 and the
+  emulation wandered into 000E's screen code until it died at 0000:0000). Round 2's
+  "minute 64 strays into 000E:0572" was this, not a missing BIOS timer.
+
+### The first divergent minute and draw
+
+Comparing the pre-fix model's draws with the loop emulation's
+(`r0010-divergence.txt`, this directory): the FIRST divergent draw is minute 63's first
+B19D contest draw (half-time draw 1339, 0791:B1DF): the midfield sum it draws from is
+589 (model) vs 595 (original). The seeds coincide at the goal pause (0x5164 at draw 1339)
+anyway — the LCG step `seed*0x7ABD+0x1B0F` is independent of n, so a run can make the same
+NUMBER of draws with different n's — and the two trajectories keep the same draw counts
+(and seeds) through minute 85 (end 0x40b5, draw 3158); the first contest-outcome flip is
+in minute 86 (74 draws in the original vs 87 in the model), after which the counts
+separate: the original ends 0x543a/3617, the pre-fix model 0x8ddf/3640.
+
+### The cause: 65FE's per-slot form update, missing from the model (and from the staged state)
+
+- `0791:65FE` (seg_0791_11.asm:317-6754) after a goal runs: `0441(4)` (the whistle — the
+  ~4.5 s "goal pause" the record's reads 33-41 sat in, seed stable), the pitch+7 word
+  copies (6617-663A, display), `65A4` (65A4-65FD: pitch+0x12 := 6 for same-side non-keeper
+  slots else 0, then 6337), `C173` (665C), **a per-slot loop (6666-66DD)**, then 832A/9B55
+  (6742-674C, not engine-read).
+- **The per-slot loop (6666-66DD, 7C39 == 0 path at 668A-66AF)**: for pitch slot 1..22,
+  skip when 2956 says unavailable (6683), else `2b51(pitch)` (6691) selects
+  `s8(DS:0x7920[2b51])` — and `7CC5(pitch, 0, delta)` (66A6-66AC) adds it to the PLAYER's
+  `+0xC` with the 214B:2000 clamp 1..0xFF (7CC5: 7CCE reads pitch+0xD, 7CE6-7D09 the
+  clamped add). `2b51` (seg_0791_05.asm:2B51) = `(2996() == 2974(pitch))`: 2996 is
+  `(830B < 12) ? 1 : 0` (:2996-29B2) and 2974 is `(pitch+6 < 12) ? 1 : 0`
+  (seg_0791_04.asm:2974-2993) — i.e. the slot is on the same side as DS:830B. DS:0x7920 =
+  `[0xFF, 0x01]`: **every available player on the scorer's side (the side of 830B, which
+  6443 points at the scorer and 6337 keeps on that side) gains +1 form, every available
+  opponent loses 1.** `+0xC` is read by 377E (`v += s8(+0xC)` while < 0x20), so both line
+  sums shift from the next minute on — r0010's +6/-5 on the midfield sums at minute 63.
+- The model now implements this (`QuickMatch.after_goal_form_swing`,
+  runtime/model/quick_engine.py), after 6337 and C173, matching 65FE's order.
+- Round 2's "byte-exact at the goal pause" check could not see this: the staged
+  E010-r0010-goalpause.sav was taken DURING the goal whistle — mid-65FE, before the
+  per-slot loop — and the pre-fix model's end-of-62 state also lacks the loop's writes, so
+  the two agreed. The check also passed C173 because at minute 62 C173 is a no-op: Denmark
+  is managed (skipped), N.Ireland's BD83 resets +0x2D to R008 (already R008 — set at A3DE
+  and untouched since) and BD03 strength-rand draws need N.Ireland stronger (it is not).
+- Corroboration that this is the whole story: with the fix, `check_model.py` is 10/10 —
+  including E008-r0001 (a second-half goal at 85, where the swing changes no contest
+  outcome in the six remaining minutes) and the r0009 twin (no goal, unaffected).
+
+Also read this round (negative results, kept so the next reader does not re-walk them):
+970C's only non-clock work is 054C (display; no RNG — its callees 214B:0329/09DA, 23E4:0644,
+0791:04C9 draw nothing); 9372 with no key only writes 6 display bytes and 1E8D; the game
+hooks NO interrupt vector (the goal-pause savestate's IVT entries all point at F000:xxxx
+BIOS); the per-minute pace is pure CPU (the record's reads show the 29 minutes 63..91 plus
+the result screen inside the 1.07 s between reads 41 and 42); 1E09's "delay" is a fixed
+~4275-iteration counter loop (the far pointer at DS:A9FF = 0000:10B3), and the delay byte
+[DS:A923+0x3F] (1 in the original, 5 in replay5's staged state) gates only 0425/0441 —
+none of it draws. The substitution ANIMATION tree (0791:8206, called from 5513/5B36 — the
+WATCHED engine; it clears 8325 and calls 9119, which draws 2×10) is NOT reachable from a
+quick result: the quick sub path is 8062 → C88D → c5dc, silent.

@@ -525,9 +525,10 @@ void __stdcall16far f_1771_09A0(int param_1,undefined1 param_2,int param_3)
 }
 
 
-// ---- 1771:0AA7  f_1771_0AA7  (f_1771_0AA7; Ghidra 4000:0AA7, __stdcall16far; found by routines.tsv)
+// ---- 1771:0AA7  manager_bonus  (f_1771_0AA7; Ghidra 4000:0AA7, __stdcall16far; found by routines.tsv)
+// the manager's match bonus: the manager byte at [DS:A91F] + 3*(+0x2E) + 1, zero-extended (xor ah,ah at 0AD9, so 0..255 and the idiv never sees a negative dividend), idiv 8, +0x10; 0BC4 adds it to every available player's strength and its /8 to the attack and defence shares  [established; F012]
 
-int __stdcall16far f_1771_0AA7(int param_1)
+int __stdcall16far manager_bonus(int param_1)
 
 {
   return ((byte *)manager_countries)[(uint)((country *)countries)[param_1].manager * 3 + 1] / 8 +
@@ -581,7 +582,7 @@ undefined4 __stdcall16far is_managed(uint param_1)
 
 
 // ---- 1771:0BC4  compute_team_line_strengths  (f_1771_0BC4; Ghidra 4000:0BC4, __stdcall16far; found by routines.tsv)
-// (flag, side, country): for squad entries 1..11 with a nonzero squad word it adds the player's strength (377E, plus 1771:0AA7 from +0x2E when nonzero) to DS:9B45 + 2 side + 4 k, line k from table DS:0D4E[+6] (k = 0..3 are keeper, defence, midfield and attack, inferred about 75%; above 3 the value splits over two lines); it acts only on the effective tactic elements 1, 5 and 6 (the set constant 0x62 at 1771:0BA4): the player's effective element e is +0xF element e when e < 5 and +0xF element e + 4 is set, else element e of +0x2D of the country in the player's byte 0; each set one adds 0AA7 div 8 to the attack sum and each clear one to the defence sum (9B49 + 2 side), and the flag adds sum/8 (signed) to each of the four sums  [likely; F010; read decompiled/seg_1771_01.c; read decompiled/seg_1771_02.c]
+// (flag, side, country): for squad entries 1..11 with a nonzero squad word it adds the player's strength (377E, plus the 0AA7 manager bonus when nonzero) to DS:9B45 + 2 side + 4 k, line k from the table DS:0D4E[+6] = [0,1,1,4,4,2,2,2,2,5,5,5,3,3,0,1] (k = 0..3 are keeper, defence, midfield and attack; k >= 4 halves the value over lines k-3 and k-2); it acts only on the effective tactic elements 1, 5 and 6 (the set constant 0x62 at 1771:0BA4): the player's effective element e is +0xF element e when e < 5 and +0xF element e+4 is set, else element e of +0x2D of the country in the player's byte 0; each set one adds 0AA7 div 8 to the attack sum and each clear one to the defence sum (9B49 + 2 side), and the flag adds sum/8 (signed) to each of the four sums  [established; F010; F012; read decompiled/seg_1771_01.c; read decompiled/seg_1771_02.c]
 
 void __stdcall16far compute_team_line_strengths(char param_1,char param_2,int param_3)
 
@@ -605,7 +606,7 @@ void __stdcall16far compute_team_line_strengths(char param_1,char param_2,int pa
   uVar9 = 0x4000;
   uVar6 = (undefined2)((ulong)countries >> 0x10);
   pcVar4 = (country *)countries;
-  uVar3 = f_1771_0AA7(param_3);
+  uVar3 = manager_bonus(param_3);
   for (local_4 = 0; ((undefined2 *)&DS:9B45)[(int)param_2 + local_4 * 2] = 0, local_4 != 3;
       local_4 = local_4 + 1) {
   }
@@ -1057,136 +1058,5 @@ void f_1771_1527(undefined1 param_1,undefined1 param_2,undefined2 param_3)
   u214b_write_string_at_fwd
             ((undefined4 *)&DS:A96E,0xb000,param_1,param_2,
              (uint)*(byte *)((iVar1 + -1) / 8 + 0x7884) * 0x10 + 0x6eb4,0xb000);
-  return;
-}
-
-
-// ---- 1771:157D  draw_team_panel  (f_1771_157D; Ghidra 4000:157D, __stdcall16near; found by routines.tsv)
-// a country's information panel (template DS:4BBE): name, manager, ranks (world_rank, continent_rank, +0x28, +0x29), line counts (1771:0E6C), word bars DS:9B5A..9B60, the 8 team-tactic flags of +0x2D, line strengths (1771:0BC4), continent  [likely; F008; F010; read decompiled/seg_1771_01.c]
-
-void draw_team_panel(int param_1)
-
-{
-  char cVar1;
-  undefined1 extraout_AH;
-  undefined1 extraout_AH_00;
-  undefined1 extraout_AH_01;
-  undefined1 extraout_AH_02;
-  undefined1 extraout_AH_03;
-  undefined1 extraout_AH_04;
-  undefined1 extraout_AH_05;
-  undefined1 extraout_AH_06;
-  int iVar2;
-  byte extraout_AH_07;
-  undefined1 uVar3;
-  undefined2 unaff_SS;
-  undefined1 *puVar4;
-  undefined2 uVar5;
-  undefined1 local_108 [256];
-  country *local_8;
-  undefined2 uStack_6;
-  uint local_4;
-  
-  uStack_6 = (undefined2)((ulong)countries >> 0x10);
-  local_8 = (country *)countries + param_1;
-  u214b_unpack_screen_to_buffer((undefined4 *)&DS:A96E,0xb000,0x4bbe,0xb000);
-  draw_country_name(2,8,param_1);
-  f_1771_1527(0x19,8,param_1);
-  puVar4 = local_108;
-  uVar5 = unaff_SS;
-  f_1771_0947(local_8->manager);
-  u214b_write_string_at_fwd
-            ((undefined4 *)&DS:A96E,0xb000,CONCAT11(extraout_AH,2),CONCAT11(extraout_AH,10),
-             puVar4,uVar5);
-  f_1771_0AF8(0x18,10,local_8->manager);
-  puVar4 = local_108;
-  uVar5 = unaff_SS;
-  u214b_number_to_string(local_8->world_rank,0);
-  u214b_write_string_at_attr_var
-            ((undefined4 *)&DS:A96E,0xb000,CONCAT11(extraout_AH_00,0xc),
-             CONCAT11(extraout_AH_00,0xc),puVar4,uVar5);
-  puVar4 = local_108;
-  uVar5 = unaff_SS;
-  u214b_number_to_string(local_8->field_0x29,0);
-  u214b_write_string_at_attr_var
-            ((undefined4 *)&DS:A96E,0xb000,CONCAT11(extraout_AH_01,0x10),
-             CONCAT11(extraout_AH_01,0xc),puVar4,uVar5);
-  puVar4 = local_108;
-  uVar5 = unaff_SS;
-  u214b_number_to_string(local_8->continent_rank,0);
-  u214b_write_string_at_attr_var
-            ((undefined4 *)&DS:A96E,0xb000,CONCAT11(extraout_AH_02,0xc),
-             CONCAT11(extraout_AH_02,0xd),puVar4,uVar5);
-  puVar4 = local_108;
-  uVar5 = unaff_SS;
-  u214b_number_to_string(local_8->field_0x28,0);
-  u214b_write_string_at_attr_var
-            ((undefined4 *)&DS:A96E,0xb000,CONCAT11(extraout_AH_03,0x10),
-             CONCAT11(extraout_AH_03,0xd),puVar4,uVar5);
-  puVar4 = local_108;
-  uVar5 = unaff_SS;
-  f_1771_0E6C(param_1);
-  u214b_write_string_at_attr_var
-            ((undefined4 *)&DS:A96E,0xb000,CONCAT11(extraout_AH_04,0x21),
-             CONCAT11(extraout_AH_04,0xc),puVar4,uVar5);
-  f_1771_13D0(param_1);
-  u214b_write_string_at_fwd
-            ((undefined4 *)&DS:A96E,0xb000,0x2e,0x14,
-             (uint)*(byte *)(DS:9B5E + 0x78c4) * 0x10 + 0x6eb4,0xb000);
-  u214b_write_string_at_fwd
-            ((undefined4 *)&DS:A96E,0xb000,0x2e,0x15,
-             (uint)*(byte *)(DS:9B5C + 0x78d5) * 0x10 + 0x6eb4,0xb000);
-  u214b_write_string_at_fwd
-            ((undefined4 *)&DS:A96E,0xb000,0x2e,0x16,
-             (uint)*(byte *)(DS:9B60 + 0x78f6) * 0x10 + 0x6eb4,0xb000);
-  u214b_write_string_at_fwd
-            ((undefined4 *)&DS:A96E,0xb000,0x2e,0x17,
-             (uint)*(byte *)(DS:9B5A + 0x78a3) * 0x10 + 0x6eb4,0xb000);
-  u214b_fill_back_attr_70((uint)(DS:9B5E << 4) / 0x10,0x2e,0x14);
-  u214b_fill_back_attr_70((uint)(DS:9B5C << 4) / 0x20,0x2e,0x15);
-  u214b_fill_back_attr_70((uint)(DS:9B60 << 4) / 0x20,0x2e,0x16);
-  u214b_fill_back_attr_70((uint)(DS:9B5A << 4) / 0x20,0x2e,0x17);
-  puVar4 = local_108;
-  uVar5 = unaff_SS;
-  u214b_number_to_string(DS:9B64,0);
-  u214b_write_string_at_fwd
-            ((undefined4 *)&DS:A96E,0xb000,CONCAT11(extraout_AH_05,0x31),
-             CONCAT11(extraout_AH_05,0x13),puVar4,uVar5);
-  puVar4 = local_108;
-  u214b_number_to_string(DS:9B62,0);
-  u214b_write_string_at_fwd
-            ((undefined4 *)&DS:A96E,0xb000,CONCAT11(extraout_AH_06,0x3b),
-             CONCAT11(extraout_AH_06,0x13),puVar4,unaff_SS);
-  local_4 = 1;
-  while( true ) {
-    cVar1 = u214b_set_test_bit(local_8->default_team_tactic_set,*(undefined1 *)(local_4 + 0x6bbf));
-    iVar2 = local_4 + 8 + (uint)(3 < local_4);
-    u214b_write_string_at_attr_var
-              ((undefined4 *)&DS:A96E,0xb000,CONCAT11((char)((uint)iVar2 >> 8),0x3d),iVar2,
-               (char *)s_centre_forward_b000_6a9b + 5 +
-               (uint)*(byte *)(local_4 + 0x6bbf) * 0x20 + cVar1 * 0x10,0xb000);
-    if (local_4 == 8) break;
-    local_4 = local_4 + 1;
-  }
-  compute_team_line_strengths((uint)extraout_AH_07 << 8,CONCAT11(extraout_AH_07,1),param_1);
-  f_1771_11E1(0xf);
-  if ((DS:0C1E != '\0') && (DS:0C1F != '\0')) {
-    f_1771_1289(DS:9B36 == param_1);
-  }
-  u214b_write_string_at_fwd_set_attr
-            ((undefined4 *)&DS:A96E,0xb000,2,0xd,(uint)local_8->continent * 8 + 0x6e92,0xb000,
-             *(undefined1 *)(local_8->continent + 0x6905));
-  if (DS:A964 == '\0') {
-    local_4 = 1;
-    while( true ) {
-      uVar3 = (undefined1)((uint)(param_1 * 3) >> 8);
-      u214b_write_string_at_fwd_set_attr
-                ((undefined4 *)&DS:A96E,0xb000,
-                 CONCAT11(uVar3,*(undefined1 *)(local_4 + 0xd89)),CONCAT11(uVar3,0xd),0x157b,0x7000,
-                 CONCAT11(uVar3,*(undefined1 *)(param_1 * 3 + local_4 + -0x6281)));
-      if (local_4 == 3) break;
-      local_4 = local_4 + 1;
-    }
-  }
   return;
 }
