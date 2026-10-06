@@ -1,0 +1,60 @@
+KILLED   LCG multiplier 0x7ABD -> 0x7ABE
+KILLED   LCG addend 0x1B0F -> 0x1B0E
+KILLED   rand value +1 dropped
+KILLED   bit_elem bit n-1 -> n
+KILLED   3216 +0xE < 1 -> < 0
+KILLED   3041 sum 0x1E -> 0x1D
+KILLED   3179 set 3139 {3,7,10} -> {3,7,9}
+KILLED   3179 set 3159 {4,8,11} -> {4,8,10}
+KILLED   377E base 0x3E -> 0x3F
+KILLED   377E form split 0x20 -> 0x21
+KILLED   377E clamp value 0x100 -> 0xFF
+KILLED   2FFB (p[3] & 1) -> (p[3] & 0)
+KILLED   3431 hardness < 4 -> < 5
+KILLED   3431 positions {0,1,3,4} -> {0,1,3}
+KILLED   3431 +5 < 14 -> < 15
+KILLED   0AA7 +0x10 -> +0x11
+KILLED   0BC4 m8 div 8 -> 9
+KILLED   0BC4 share set {1,5,6} -> {1,5}
+KILLED   0BC4 k < 4 -> k < 5
+KILLED   0BC4 halves v//2 -> v//3
+KILLED   0BC4 flag idiv 8 -> 9
+KILLED   B19D c1 jle b<=a -> b<a
+KILLED   B19D sides 1-t -> t
+KILLED   B19D c2 2*def -> 3*def
+KILLED   BD83 R008 index c -> c+1
+KILLED   BF6B 3 draws -> 4
+KILLED   C01A 5 draws -> 4
+KILLED   C0DF exclude -> include
+KILLED   C173 ad < 2 -> ad < 1
+KILLED   BEC7 set {9,10,11} -> {9,10}
+KILLED   BEC7 threshold 0x48 -> 0x49
+KILLED   BEC7 stops after first -> continues
+KILLED   6337 r+1 -> r
+KILLED   6337 keeper slots {1,12} -> {1}
+KILLED   2996 830B < 12 -> < 11
+KILLED   65FE swing deltas swapped
+KILLED   65FE swing clamp 1 -> 0
+KILLED   65FE swing unavailable not skipped
+KILLED   65FE swing removed (the pre-fix model)
+KILLED   6443 +0xA inc dropped
+KILLED   6443 +0xC delta byte 1 -> 2
+KILLED   6443 +0x12 fitness dropped
+KILLED   8062 clock gate < 0x23 -> < 0x24
+KILLED   8062 +0x12 gate < -> <=
+KILLED   8062 element 6 clear -> set
+KILLED   8062 energy > 0 -> > 1
+KILLED   C88D s address-based -> 2b51-based
+KILLED   C88D position copy dropped
+KILLED   D733 fill ja > -> >=
+KILLED   D733 k-loop break (one goal per call) dropped
+KILLED   D733 DA34 outer break dropped
+KILLED   D733 energy %5 -> %4
+KILLED   D733 energy 831B unsigned
+KILLED   D733 scorer extent 31 -> 30
+KILLED   D5C1 r+1 dropped (D5D0 inc ax)
+KILLED   D5C1 coin before the checks
+KILLED   run() 46 minutes -> 45
+KILLED   run() 831B = 91-minute -> 90-minute
+model restored: True
+58/58 mutations killed
