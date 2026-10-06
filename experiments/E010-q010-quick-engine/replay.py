@@ -87,10 +87,16 @@ def main(argv=None):
             times, state, _ = d.read()
             sc = state.screen()
             dg = sc.digest()
-            if dg == prev_dg and "hit any key" in sc.lines()[-1]:
+            stable = dg == prev_dg
+            if stable and "hit any key" in sc.lines()[-1]:
                 d.keys("Enter", hold=1.0)   # leave the half-time stall (hit any key; no RNG
                 sent += 1                    # consumed); 1 s hold: 0.08 s is missed at 1000 cycles
+                stall_dg = dg
             prev_dg = dg
+            print(f"pre-read: dg={dg[:6]} stable={stable} sent={sent} last={sc.lines()[-1].strip()[:30]!r}",
+                  flush=True)
+            if sent and dg != stall_dg:
+                break   # the stall has opened; the recording loop takes over
 
         def dump():
             out = OUT / f"trace-{a.record.lower()}-replay.json"
