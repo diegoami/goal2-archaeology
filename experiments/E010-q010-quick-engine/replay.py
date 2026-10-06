@@ -74,27 +74,38 @@ def main(argv=None):
     ap.add_argument("--delay", type=int, default=5, help="the match delay byte written into the replay (I3)")
     ap.add_argument("--timeout", type=float, default=900.0)
     ap.add_argument("--suffix", default="2", help="the trace file suffix (never overwrite an earlier trace)")
+    ap.add_argument("--cycles", type=int, default=30000,
+                    help="DOSBox-X cycles: 30000 for the keyed half-time phase, low to slow the run")
+    ap.add_argument("--state", default=None,
+                    help="launch from this staged savestate name (scratch/e010/states/) instead of "
+                         "the record's half time (no delay edit: the staged blob keeps its own)")
+    ap.add_argument("--grab-seed", default=None,
+                    help="write the savestate of the SECOND consecutive read whose DS:7B62 equals "
+                         "this hex seed to scratch/e010/states/<record>-goalpause.sav and go on")
     a = ap.parse_args(argv)
 
-    record = json.loads((ROOT / "runs" / "E010" / f"{a.record}.json").read_text())
-    entry = next(o for o in record["outputs"] if o["name"].endswith("-halftime.sav"))
-    blob = halftime_sav(entry)
-    st0 = savestate.Savestate(blob)
-    dly = players.far_pointer(st0, DELAY_PTR)[2] + 0x3F
-    before = st0.memory(dly, 1)[0]
-    blob = savestate.with_memory(blob, dly, bytes([a.delay]))
-    st1 = savestate.Savestate(blob)
-    print(f"delay byte at [DS:A923]+0x3F (0x{dly:x}): {before} -> {a.delay} (I3)")
-
-    d = driver.Driver({"cycles": 30000}, workdir=driver.SCRATCH / "e010" / f"replay-{a.record}")
+    d = driver.Driver({"cycles": a.cycles}, workdir=driver.SCRATCH / "e010" / f"replay-{a.record}")
     trace = []
     try:
         SCRATCH_STAGES.mkdir(parents=True, exist_ok=True)
-        name = f"{a.record}-halftime-replay"
-        (SCRATCH_STAGES / f"{name}.sav").write_bytes(blob)
-        meta = {"sha256": driver.sha256(blob), "screen_digest": st1.screen().digest(),
-                "game_dir": str(d.game_dir), "drive_layout": d.drive_layout(), "config": {"cycles": 30000}}
-        (SCRATCH_STAGES / f"{name}.json").write_text(json.dumps(meta))
+        if a.state:
+            name = a.state          # already staged (e.g. the goal pause of an earlier replay)
+        else:
+            record = json.loads((ROOT / "runs" / "E010" / f"{a.record}.json").read_text())
+            entry = next(o for o in record["outputs"] if o["name"].endswith("-halftime.sav"))
+            blob = halftime_sav(entry)
+            st0 = savestate.Savestate(blob)
+            dly = players.far_pointer(st0, DELAY_PTR)[2] + 0x3F
+            before = st0.memory(dly, 1)[0]
+            blob = savestate.with_memory(blob, dly, bytes([a.delay]))
+            st1 = savestate.Savestate(blob)
+            print(f"delay byte at [DS:A923]+0x3F (0x{dly:x}): {before} -> {a.delay} (I3)")
+            name = f"{a.record}-halftime-replay"
+            (SCRATCH_STAGES / f"{name}.sav").write_bytes(blob)
+            meta = {"sha256": driver.sha256(blob), "screen_digest": st1.screen().digest(),
+                    "game_dir": str(d.game_dir), "drive_layout": d.drive_layout(),
+                    "config": {"cycles": a.cycles}}
+            (SCRATCH_STAGES / f"{name}.json").write_text(json.dumps(meta))
         st = driver.StartState(name, SCRATCH_STAGES)
         d.launch(st)
         t0 = time.monotonic()
@@ -108,9 +119,9 @@ def main(argv=None):
                 return "hit any key"
             return None
 
-        prev_dg, waiting = None, None
+        prev_dg, waiting, grab_hits = None, None, 0
         while time.monotonic() - t0 < a.timeout:
-            times, state, _ = d.read()
+            times, state, data = d.read()
             n = len(trace) + 1
             sc = state.screen()
             rows = sc.lines()
@@ -127,6 +138,19 @@ def main(argv=None):
             print(f"read {n}: t={last['t']} 831F={last['m831f']} seed={last['seed']:04x} "
                   f"score={last['score']} ft={last['ft']} key={wants_key(sc) or '-'}", flush=True)
             dump(trace, a.record, a.suffix)
+            if a.grab_seed and last["seed"] == int(a.grab_seed, 16):
+                grab_hits += 1
+                if grab_hits == 2:      # a stable read at the seed: a pause, not a mid-step pass
+                    gname = f"{a.record}-goalpause"
+                    (SCRATCH_STAGES / f"{gname}.sav").write_bytes(data)
+                    gmeta = {"sha256": driver.sha256(data), "screen_digest": sc.digest(),
+                             "game_dir": str(d.game_dir), "drive_layout": d.drive_layout(),
+                             "config": {"cycles": a.cycles}}
+                    (SCRATCH_STAGES / f"{gname}.json").write_text(json.dumps(gmeta))
+                    print(f"  goal-pause state staged as {gname} "
+                          f"(sha256 {gmeta['sha256'][:16]})", flush=True)
+            else:
+                grab_hits = 0
             dg = sc.digest()
             stable = dg == prev_dg
             prev_dg = dg
