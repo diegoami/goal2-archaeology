@@ -80,8 +80,22 @@ def main(argv=None):
         st = driver.StartState(name, SCRATCH_STAGES)
         d.launch(st)
         t0 = time.monotonic()
-        d.keys("Enter")   # leave the half-time stall (hit any key; no RNG consumed)
-        prev_dg = None
+        # wait for the stall to be visibly stable (as match.play does) before the key: an Enter
+        # sent in the same breath as the restore is swallowed, and the stall never opens
+        prev_dg, sent = None, 0
+        while time.monotonic() - t0 < a.timeout and sent < 5:
+            times, state, _ = d.read()
+            sc = state.screen()
+            dg = sc.digest()
+            if dg == prev_dg and "hit any key" in sc.lines()[-1]:
+                d.keys("Enter", hold=1.0)   # leave the half-time stall (hit any key; no RNG
+                sent += 1                    # consumed); 1 s hold: 0.08 s is missed at 1000 cycles
+            prev_dg = dg
+
+        def dump():
+            out = OUT / f"trace-{a.record.lower()}-replay.json"
+            out.write_text(json.dumps(trace) + "\n")
+
         while time.monotonic() - t0 < a.timeout:
             times, state, _ = d.read()
             n = len(trace) + 1
@@ -95,16 +109,18 @@ def main(argv=None):
                 "budget": list(state.ds_bytes(0x9B3A, 2)),
                 "dg": sc.digest()[:6], "ft": any("FULL TIME" in r for r in rows[1:4]),
             })
+            last = trace[-1]
+            print(f"read {n}: t={last['t']} 831F={last['m831f']} seed={last['seed']:04x} "
+                  f"score={last['score']} ft={last['ft']}", flush=True)
+            dump()
             dg = sc.digest()
             stable = dg == prev_dg
             prev_dg = dg
-            if stable and trace[-1]["ft"]:
+            if sent and stable and trace[-1]["ft"]:
                 break
     finally:
         d.terminate()
-    out = OUT / f"trace-{a.record.lower()}-replay.json"
-    out.write_text(json.dumps(trace) + "\n")
-    print(f"{len(trace)} reads -> {out}")
+    print(f"{len(trace)} reads")
     return 0
 
 
