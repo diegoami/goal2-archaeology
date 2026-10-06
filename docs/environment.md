@@ -89,6 +89,14 @@ is true). MiniMax has 5-hour and weekly windows (`curl -s localhost:8765/quota/m
 Kimi and MiniMax models are Team-edition only and fail; not registered. This repo's pinned
 `lib/quota.mjs` predates alibaba/minimax window knowledge — see `harness.lock`'s bump note.
 
+Placements (the owner, 2026-10-06): the implementer chain runs `zai-glm-5.3-flash`, `deepseek-flash`,
+`mm-m2.7`, `ali-qwen-flash` (then Claude sonnet); the hard reviewer chain runs `zai-glm-5.3`,
+`ali-glm`, `ali-qwen-max`, `deepseek-pro`, `ali-deepseek-pro-0813`, `luna` (then Claude opus).
+`mm-m3` is the L38 heavy escalation rung before the Claude fallback and the alternate for the Sol
+seat when openai is exhausted. `ali-deepseek-pro-0813` and `ali-deepseek-flash` are the
+explicit-model reliefs when opencode_go is out. From 8 Oct 2026 `ali-glm` is the default GLM seat
+(zai's 3x weekday peak). The lock bump to `b8c6cde` awaits the owner's separate word.
+
 ## Quota: quota-tracker
 
 Where the machine runs quota-tracker, a local service, it reports how much subscription quota is
