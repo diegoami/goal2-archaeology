@@ -19,11 +19,14 @@ Interventions, and nothing else:
   match, so the log must stay empty — a non-empty log means the skip is wrong and the run is
   void (E010's notes, "the RNG-consumer closure missed").
 Every draw of the MAIN seed (`214B:0688` on `DS:7B62`) is recorded with the match clock:
-`draws` is the ordered list of `(minute DS:831F, value before, value after)`. The seed word's
-value between two draws is the earlier draw's "after", so the set of values the word takes
-during a minute is {the value entering it} ∪ {each "after" in it} — the trajectory
-`emu_check.py` checks the ground-truth reads against (E011 notes.md §6). The second stream
-(`DS:8336`, the speaker) is recorded separately and does not feed the main seed.
+`draws` is the ordered list of `(minute DS:831F, sub-tick DS:831D, value before, value after)`.
+The seed word's value between two draws is the earlier draw's "after", and `DS:831F/DS:831D`
+change only in the clock `970C` between ticks, so the set of values the word takes during the
+tick `(minute, sub-tick)` is {the value entering it} ∪ {each "after" in it} — the tick-exact
+trajectory `emu_check.py` checks the ground-truth reads against (E011 notes.md §6): a read
+whose `(DS:831F, DS:831D, DS:7B62)` is not on that per-tick curve is a MISS, so a curve
+shifted by even one tick fails. The second stream (`DS:8336`, the speaker) is recorded
+separately and does not feed the main seed.
 
 Requirements: python3-unicorn; the half-time savestate (E011's release asset, or scratch)."""
 import sys
@@ -62,6 +65,7 @@ class WatchedHalf:
         self.speaker = []     # the second stream's values, for the record
         self.strays = []      # 000E wait-family skips: must stay empty
         self.ticks = 0
+        self.tick_marks = []  # (minute, sub-tick, seed at 970C entry) per tick
         self._hook()
 
     def rd(self, off, n=2):
@@ -69,6 +73,9 @@ class WatchedHalf:
 
     def wr(self, off, v):
         self.mu.mem_write(self.DS * 16 + off, v.to_bytes(2, "little"))
+
+    def wr8(self, off, v):
+        self.mu.mem_write(self.DS * 16 + off, v.to_bytes(1, "little"))
 
     def _hook(self):
         mu = self.mu
@@ -106,12 +113,15 @@ class WatchedHalf:
             before = int.from_bytes(uc.mem_read(lin, 2), "little")
             after = (before * 0x7ABD + 0x1B0F) & 0xFFFF
             if lin == self.seed_lin:
-                self.draws.append((self.rd(0x831F), before, after))
+                self.draws.append((self.rd(0x831F), self.rd(0x831D), before, after))
             else:
                 self.speaker.append(after)
 
         def tick(uc, addr, size, data):
+            # 970C entry: 831F/831D still name the tick that just ran (the clock decrements
+            # inside this call), so this mark is that tick's key with the seed at its end.
             self.ticks += 1
+            self.tick_marks.append((self.rd(0x831F), self.rd(0x831D), self.rd(0x7B62)))
 
         mu.hook_add(UC_HOOK_INTR, lambda uc, i, d: None)
         mu.hook_add(UC_HOOK_CODE, skip_keychk, begin=self.SEG214B * 16 + KEYTHUNK, end=self.SEG214B * 16 + KEYTHUNK)
@@ -120,13 +130,19 @@ class WatchedHalf:
         mu.hook_add(UC_HOOK_CODE, rng, begin=self.SEG214B * 16 + LCG, end=self.SEG214B * 16 + LCG)
         mu.hook_add(UC_HOOK_CODE, tick, begin=self.CODE * 16 + 0x970C, end=self.CODE * 16 + 0x970C)
 
+    def apply_resume_tail(self):
+        """0791:9A32's tail after the ED8A wait (seg_0791_16.asm:9AE3-9B05), exactly as the
+        listing writes it: the kick-off slot is `DS:830B = DS:0668[(DS:831A == 0 ? 1 : 0)] + 10`
+        — a ONE-BYTE store (`mov byte ptr [0x830b], al`, 9AFC), so DS:830C is preserved —
+        and the restart countdown `DS:832A = 0x50`."""
+        side = 1 if self.rd(0x831A, 1) == 0 else 0
+        base = self.rd(0x668 + side, 1)          # the side's slot base, read from DS:0668
+        self.wr8(0x830B, base + 10)              # 9AFC writes ONE byte; 830C untouched
+        self.wr(0x832A, 0x50)
+
     def run(self, timeout_s=1800):
         """Emulate the half. Returns self (see the class docstring for the fields)."""
-        # 0791:9A32's tail after the ED8A wait (seg_0791_16.asm:9AEE-9B05): the kick-off slot
-        # and the restart countdown, exactly as the real game sets them before 983F.
-        side = 0 if self.rd(0x831A, 1) == 0 else 1
-        self.wr(0x830B, (0 if side == 0 else 11) + 10)
-        self.wr(0x832A, 0x50)
+        self.apply_resume_tail()
         self.start_state = {"831F": self.rd(0x831F), "831B": self.rd(0x831B), "8325": self.rd(0x8325, 1),
                             "7B62": self.rd(0x7B62), "830B": self.rd(0x830B, 1), "832A": self.rd(0x832A)}
         self.mu.emu_start(self.CODE * 16 + HALF_ENTRY, self.CODE * 16 + HALF_END, timeout=timeout_s * 1000000)
@@ -135,13 +151,23 @@ class WatchedHalf:
                       "ticks": self.ticks, "draws": len(self.draws), "strays": list(self.strays)}
         return self
 
-    def minute_values(self):
-        """minute -> the set of values DS:7B62 takes during that minute (notes.md §6)."""
+    def tick_values(self):
+        """(minute, sub-tick) -> the set of values DS:7B62 takes during that tick (notes.md §6).
+
+        Built from the 970C entry marks (each names the tick that just ran) plus the draws
+        keyed by the words themselves: a tick's set is {the seed entering it} ∪ {each draw's
+        "after" in it}, so a tick with no draws still holds its entering value."""
         sets = {}
         value = self.start_state["7B62"]
-        for minute, before, after in self.draws:
-            assert before == value, f"the seed moved outside 0688: {before:04x} then {value:04x}"
-            sets.setdefault(minute, set()).add(value)
-            sets[minute].add(after)
-            value = after
+        seen = []
+        for minute, subtick, endval in self.tick_marks:
+            key = (minute, subtick)
+            if key not in sets:
+                seen.append(key)
+                sets[key] = {value}
+            value = endval
+        for minute, subtick, before, after in self.draws:
+            assert before in sets.get((minute, subtick), ()), \
+                f"draw at ({minute},{subtick}) off-curve: {before:04x}"
+            sets[(minute, subtick)].add(after)
         return sets

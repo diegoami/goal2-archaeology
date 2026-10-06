@@ -7,11 +7,12 @@ For each E011 run record: take its half-time savestate (the output asset named b
 scratch/e011-outputs/ or downloaded from release E011), emulate the second half with
 runtime/emul/watched.py (the original binary's own 0791:983F, tick loop, watched engine 9564,
 display and clock as real guest code), and check every mid-play second-half read of the record
-(minute DS:831F >= 46, clock running) against the emulated trajectory: the read's DS:7B62 must
-be one of the values the seed word takes at that minute (E011 notes.md §6 — a savestate read
-catches the guest mid-tick, so its phase is host timing, but its minute and seed value are on
-the curve). Cross-checks every other record's reads against each emulation. Ends with
-`match: N/N`; every checkpoint must match."""
+(minute DS:831F >= 46) against the emulated trajectory, tick-exactly: the read's
+(DS:831F, DS:831D) pins it to one tick, and its DS:7B62 must be one of the values the seed word
+takes during THAT tick (E011 notes.md §6 — a savestate read catches the guest mid-tick, so the
+instruction is host timing, but the tick and the seed value are on the curve; a trajectory
+shifted by even one sub-tick fails). Cross-checks every other record's reads against each
+emulation. Ends with `match: N/N`; every checkpoint must match."""
 import argparse
 import json
 import subprocess
@@ -54,7 +55,13 @@ def trajectory(record):
 
 
 def checkpoints(record):
-    return [(m, s) for (m, d, s) in trajectory(record) if m >= 46]
+    return [(m, d, s) for (m, d, s) in trajectory(record) if m >= 46]
+
+
+def matches(sets, cps):
+    """Tick-exact match count: a checkpoint (minute, sub-tick, seed) matches when the seed is
+    one of the values the word takes during that very tick (notes.md §6)."""
+    return sum(1 for m, d, s in cps if s in sets.get((m, d), ()))
 
 
 def main(argv=None):
@@ -75,18 +82,20 @@ def main(argv=None):
               f" 000E strays: {half.strays or 'none'}", flush=True)
         if half.strays:
             raise SystemExit(f"{record['run_id']}: the 000E wait family ran: the skip is wrong, the run is void")
-        sets = half.minute_values()
+        sets = half.tick_values()
         # the record's own checkpoints, then every other record's (they lie on the same curve)
         for q in records:
             other = json.loads(q.read_text())
-            for minute, seed in checkpoints(other):
-                n += 1
-                hit = seed in sets.get(minute, ())
-                ok += hit
-                if not hit:
-                    print(f"  MISS: {other['run_id']} read at minute {minute} seed 0x{seed:04x}"
-                          f" is not on {record['run_id']}'s emulated curve"
-                          f" ({len(sets.get(minute, ()))} values that minute)")
+            cps = checkpoints(other)
+            hit = matches(sets, cps)
+            n += len(cps)
+            ok += hit
+            if hit < len(cps):
+                for m, d, seed in cps:
+                    if seed not in sets.get((m, d), ()):
+                        print(f"  MISS: {other['run_id']} read at minute {m} sub-tick {d}"
+                              f" seed 0x{seed:04x} is not on {record['run_id']}'s emulated curve"
+                              f" ({len(sets.get((m, d), ()))} values that tick)")
     print(f"match: {ok}/{n}")
     return 0 if ok == n else 1
 
