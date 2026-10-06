@@ -89,19 +89,19 @@ void __stdcall16far draw_match_summary(char param_1)
   draw_score((undefined4 *)&DS:A96E,0xb000);
   if (DS:9A3F == '\0') {
     f_0791_0000();
-    if (DS:7C3A != 0) {
+    if (man_of_the_match != 0) {
       u214b_unpack_screen_to_buffer((undefined4 *)&DS:A96E,0xb000,0x14c8,0xb000);
-      uVar1 = player_name_colour(((player *)players)[DS:7C3A].position,DS:7C3A);
+      uVar1 = player_name_colour(((player *)players)[man_of_the_match].position,man_of_the_match);
       puVar5 = local_106;
       uVar4 = unaff_SS;
-      sys_char_to_str_075A(*(undefined1 *)((int)DS:9B70 + DS:7C3A));
+      sys_char_to_str_075A(*(undefined1 *)((int)DS:9B70 + man_of_the_match));
       u214b_write_string_at_fwd_set_attr
                 ((undefined4 *)&DS:A96E,0xb000,CONCAT11(extraout_AH,0x2b),
                  CONCAT11(extraout_AH,0x16),puVar5,uVar4,uVar1);
-      uVar3 = (undefined1)((uint)(DS:7C3A * 0xb) >> 8);
+      uVar3 = (undefined1)(man_of_the_match * 0xb >> 8);
       u214b_write_string_at_fwd
                 ((undefined4 *)&DS:A96E,0xb000,CONCAT11(uVar3,0x2d),CONCAT11(uVar3,0x16),
-                 (int)DS:9B6C + DS:7C3A * 0xb,(int)((ulong)DS:9B6C >> 0x10));
+                 (int)DS:9B6C + man_of_the_match * 0xb,(int)((ulong)DS:9B6C >> 0x10));
     }
     local_6 = '\0';
     while( true ) {
@@ -469,7 +469,7 @@ undefined2 f_0791_07BA(char param_1)
   f_0791_0776(&stack0xfffe,1,(undefined1 *)&DS:99A0,0xb000);
   if (DS:99A0 == -2) {
     f_0791_0776(&stack0xfffe,1,0x66d,0xb000);
-    f_0791_0776(&stack0xfffe,2,(undefined2 *)&DS:7C3A,0xb000);
+    f_0791_0776(&stack0xfffe,2,(word *)&man_of_the_match,0xb000);
     f_0791_0776(&stack0xfffe,0x7fb,0x8439,0xb000);
     f_0791_0776(&stack0xfffe,0x17e,0x8c34,0xb000);
     f_0791_0776(&stack0xfffe,800,0x8f30,0xb000);
@@ -757,7 +757,7 @@ void __cdecl16near action_replay(void)
     sys_move_025D(8,(int)DS:7C2A,(int)((ulong)DS:7C2A >> 0x10),0x7c2e,0xb000);
     DS:9A3D = DS:9A3C;
     sys_move_025D(0x50,0x9a40,0xb000,0x9a90,0xb000);
-    sys_move_025D(0x28,0x9b08,0xb000,0x9ae0,0xb000);
+    sys_move_025D(0x28,(char *)match_form + 1,0xb000,0x9ae0,0xb000);
     DS:9B3A = DS:9B38;
     DS:9B3C = DS:9B3E;
     DS:9B41 = DS:9B42;
@@ -1037,7 +1037,7 @@ void __cdecl16near f_0791_15B9(void)
   sys_move_025D(8,0x7c2e,0xb000,(int)DS:7C2A,(int)((ulong)DS:7C2A >> 0x10));
   DS:9A3C = DS:9A3D;
   sys_move_025D(0x50,0x9a90,0xb000,0x9a40,0xb000);
-  sys_move_025D(0x28,0x9ae0,0xb000,0x9b08,0xb000);
+  sys_move_025D(0x28,0x9ae0,0xb000,(char *)match_form + 1,0xb000);
   DS:9B32 = (undefined2)((ulong)DS:9B34 >> 0x10);
   DS:9B30 = (undefined2)DS:9B34;
   DS:9B38 = DS:9B3A;

@@ -14,7 +14,7 @@ player	0x0D	fitness	byte	fitness, word DS:78D5[+0x0D] and a bar of 32 steps; +0x
 player	0x0E	energy	byte	energy, word DS:78F6[+0x0E] (0 is injured: "can't play", the name's colour 6); see +0x0D on which is which	likely	F007; F008
 player	0x0F	own_tactic_set	byte	the player's own tactic set (Pascal set, element k at bit k-1): for i = 1..4, element i+4 set says the player has his own setting for tactic i and element i is that setting; with element i+4 clear, and for i = 5..8 (no per-player override), the country's default_team_tactic_set element i applies	established	F007; F008; F010
 player	0x10	status	byte	status bits: cards (bits 3..5), suspended or sent off (bits 6, 8: name colour 5), "Protect zone" (bit 7); static only, none set in a new game	likely	F008
-player	0x12	performance	word	performance, a 16-bit word: 0x7FFF shows blank, else 1..9 characters by bucket (static only)	likely	F007; F008
+player	0x12	performance	word	performance: 0x7FFF blank, else the raw rating (a starter 0x37; +0x2710 flags an incoming substitute's word, readers strip it when the signed word is above 5000); every commentary line adds s8(DS:0x720[template]) to it	established	F007; F008; F014
 country	0x00	squad	word[20]	the 20 player indices (into the player array) of the country's squad, in the squad list's order	established	F007; F008
 country	0x2A	continent_rank	byte	rank in its continent, one of the three rating inputs	likely	F007
 country	0x2B	world_rank	byte	world rank, one of the three rating inputs	likely	F007

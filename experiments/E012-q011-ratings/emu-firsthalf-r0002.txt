@@ -1,0 +1,39 @@
+E012 first-half instrumented emulation, rework R3 (accepted-write instrumentation), 2026-10-06.
+
+Source state: E011-r0001-watchstart.sav, sha256 d68e48c734a742a6... (release asset E011,
+fetched into scratch/e011/, never committed) — the captain-screen savestate of the same
+deterministic match as runs/E012/E012-r0001.json (start state e006-2100-r0005). Entry
+0791:998C after F1F6's pre-match loop applied by hand (emu_firsthalf.py apply_prematch).
+26 s wall clock; the full dump is emu-firsthalf-r0002.json (accepted line log, 1D4A entry
+count, final +0x12 words, 1E53 delta events, writer events).
+
+This run supersedes emu-firsthalf-r0001.txt/.json for the dedup question: r0001 logged a
+"ring line" at every ENTRY to 0791:1D4A, before the routine's refusal check, so a refused
+duplicate was counted as a written line and entry-count == 1E53-count could not detect a
+refusal (review R3). r0002 logs the line only at 0791:1D66 — the instruction reached only
+when the write proceeds (1D54: ring counter 0, or 1C78 returned nonzero; a refused call
+jumps 1D61 -> 1D63 -> 1E4A, the epilogue) — and counts entries at 1D4A separately.
+
+Result: 2150 ticks, 99640 main-seed draws, 000E strays: [] (empty, as required).
+580 1E53 delta events, 580 1D4A entries, 523 ACCEPTED ring lines: 57 dedup refusals
+MEASURED (9.8% of invocations; 1C78, seg_0791_03.asm:760-847, refuses a line identical in
+template/p1/p2/team to the ring's comparison line — the r0001 claim "no dedup refusal" was
+the entry-logging artifact). Pairing the 1E53 events with the accepted lines in invocation
+order: all 57 refused invocations are template 6 ("makes a run", DS:0x720[6] = 0) repeats —
+every refusal in this half carries a zero delta, so no player's word differs from the
+written-line replay (the refused delta IS still applied by 1E53 before 1D4A refuses; a
+nonzero-delta refusal would leave a line-log reader one delta short).
+Writers of +0x12 other than the ring delta (56CB +10, C6FA 0x2747): [] — 56CB never fired.
+Template-65 ("challenge by") lines in the emulated half: 0.
+The plain-table predictor (runtime/model/ratings.py) replays the 523 accepted lines to the
+emulated final words exactly, 40/40 squad slots both sides.
+
+The emulated half is a first half of the ORIGINAL binary from the published start state, but
+NOT the record's own first half: with the refused entries no longer polluting the log, the
+emulated accepted lines are IDENTICAL to the record's ring lines for the first 123 lines
+(r0001, logging refused entries, diverged at line 7 — that early divergence was the same
+instrumentation artifact); the true divergence is at line 124 (emu (35,122,0) vs record
+(25,122,126)), from the DOSBox run consuming main-seed draws in the team-screen key wait
+that the emulator's "no key" thunk does not reproduce. The record's own +0x12 anomaly (its
+slot 3 read 0x8C vs the plain table's 0x82) is the 56CB +10, derived from the listing and
+confirmed by the record's 539F pair (notes.md §4.3, §6).
