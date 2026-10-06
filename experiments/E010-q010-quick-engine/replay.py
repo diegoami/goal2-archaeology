@@ -14,10 +14,15 @@ match mid-minute while the emulator still runs at full speed (a low `cycles` val
 the half-time key miss: 0.08 s holds are lost below ~5000 cycles, and a 1 s hold storms the DOS
 keyboard buffer with repeats that open `0791:ED8A`'s menu once per minute).
 
-The key that leaves the half-time stall is one Enter (0.08 s hold, as match.play's; the stall
-says `hit any key`; E010's notes batch 2: the wait consumes no RNG). Every read records DS:831F
+The keys that leave half time are match.play's own (runtime/driver/match.py `wants_key`): one Enter
+on the `hit any key` stall, then one Enter on the team screen (`location:`, the default ` play `
+option) — the same two keys the original records were made with, so the RNG path is unchanged (the
+waits consume no RNG; E010's notes batch 2). A key is never resent: if the screen does not change
+within KEY_TAKEN_READS reads the probe aborts (round 1's resends storm the DOS key buffer and open
+`0791:ED8A`'s menu). Every read records DS:831F
 (the minute), DS:831B, the seed DS:7B62, the score DS:9B3C/9B3D and the substitution budgets
-DS:9B3A into `trace-<record>-replay.json` here (an addition; the ten records are never touched).
+DS:9B3A into `trace-<record>-replay<suffix>.json` here (an addition; the ten records are never
+touched, and no earlier trace is ever overwritten: each probe run gets its own suffix).
 Interventions: I1 (memory reads), I2 (savestates, one load) and I3 (the one delay byte, above;
 declared here and in notes.md)."""
 import argparse
@@ -38,6 +43,11 @@ HALFTIME = ROOT / "scratch" / "e010-halftime"
 DL = ROOT / ".cache" / "dl"
 SCRATCH_STAGES = ROOT / "scratch" / "e010" / "states"
 DELAY_PTR = 0xA923   # far pointer to the delay record; +0x3F is the match delay byte (F004)
+KEY_TAKEN_READS = 10  # match.py's bound: reads after a key within which the screen must change
+
+
+def dump(trace, record, suffix):
+    (OUT / f"trace-{record.lower()}-replay{suffix}.json").write_text(json.dumps(trace) + "\n")
 
 
 def halftime_sav(entry):
@@ -63,6 +73,7 @@ def main(argv=None):
     ap.add_argument("--record", required=True, help="an E010 run id, e.g. E010-r0010")
     ap.add_argument("--delay", type=int, default=5, help="the match delay byte written into the replay (I3)")
     ap.add_argument("--timeout", type=float, default=900.0)
+    ap.add_argument("--suffix", default="2", help="the trace file suffix (never overwrite an earlier trace)")
     a = ap.parse_args(argv)
 
     record = json.loads((ROOT / "runs" / "E010" / f"{a.record}.json").read_text())
@@ -87,24 +98,17 @@ def main(argv=None):
         st = driver.StartState(name, SCRATCH_STAGES)
         d.launch(st)
         t0 = time.monotonic()
-        # wait for the stall to be visibly stable (as match.play does) before the key
-        prev_dg, sent, stall_dg = None, 0, None
-        while time.monotonic() - t0 < a.timeout and sent < 40:
-            times, state, _ = d.read()
-            sc = state.screen()
-            dg = sc.digest()
-            stable = dg == prev_dg
-            if stable and "hit any key" in sc.lines()[-1]:
-                d.keys("Enter")   # leave the half-time stall (hit any key; no RNG consumed)
-                sent += 1
-                stall_dg = dg
-            prev_dg = dg
-            if sent and dg != stall_dg:
-                break   # the stall has opened; the recording loop takes over
 
-        def dump():
-            (OUT / f"trace-{a.record.lower()}-replay.json").write_text(json.dumps(trace) + "\n")
+        def wants_key(sc):
+            """match.play's rule exactly (runtime/driver/match.py): the half-time waits."""
+            text = sc.text()
+            if "location:" in text:
+                return "team screen"
+            if "hit any key" in sc.lines()[-1] and not any("FULL TIME" in r for r in sc.lines()[1:4]):
+                return "hit any key"
+            return None
 
+        prev_dg, waiting = None, None
         while time.monotonic() - t0 < a.timeout:
             times, state, _ = d.read()
             n = len(trace) + 1
@@ -117,16 +121,31 @@ def main(argv=None):
                 "score": list(state.ds_bytes(0x9B3C, 2)),
                 "budget": list(state.ds_bytes(0x9B3A, 2)),
                 "dg": sc.digest()[:6], "ft": any("FULL TIME" in r for r in rows[1:4]),
+                "last": rows[-1].strip()[:40],
             })
             last = trace[-1]
             print(f"read {n}: t={last['t']} 831F={last['m831f']} seed={last['seed']:04x} "
-                  f"score={last['score']} ft={last['ft']}", flush=True)
-            dump()
+                  f"score={last['score']} ft={last['ft']} key={wants_key(sc) or '-'}", flush=True)
+            dump(trace, a.record, a.suffix)
             dg = sc.digest()
             stable = dg == prev_dg
             prev_dg = dg
-            if sent and stable and trace[-1]["ft"]:
+            if waiting is not None:
+                if dg != waiting[0]:
+                    waiting = None       # the key was acted on
+                elif len(trace) - waiting[1] > KEY_TAKEN_READS:
+                    print(f"key not acted on within {KEY_TAKEN_READS} reads; aborting", flush=True)
+                    dump(trace, a.record, a.suffix)
+                    return 1
+            if not stable:
+                continue
+            if last["ft"]:
                 break
+            why = wants_key(sc)
+            if why:
+                d.keys("Enter")
+                print(f"  Enter ({why}) at t={last['t']}", flush=True)
+                waiting = (dg, len(trace))
     finally:
         d.terminate()
     print(f"{len(trace)} reads")
