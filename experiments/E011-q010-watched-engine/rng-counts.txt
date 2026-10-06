@@ -13,3 +13,6 @@ ball phases (95F2 block entries) per 9564 sweep: 0:1137, 1:598, 2:162, 3:93, 4:7
   max per sweep 6
 8A2E coins per 9564 sweep: 1:2, 2:5, 3:1, 6:1, 7:2, 8:2, 9:8, 10:28, 11:41, 12:59, 13:133, 14:178, 15:287, 16:334, 17:337, 18:312, 19:214, 20:112, 21:14, 22:6, 23:1
   max per sweep 23
+8AE9 update_player calls by return site: 0x9669:63, 0x96cb:45694 (9669 the keeper special inside the ball phase, 96CB the per-slot tail)
+update_player calls per 9564 sweep: 22:2063, 23:2, 25:2, 26:2, 27:1, 28:7
+  max per sweep 28

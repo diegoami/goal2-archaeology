@@ -11,8 +11,10 @@ sites themselves:
   (8894/88E4/88F8 -> 88D3/89E5, which lead INTO the target block, not out of 8889)
   leave open at the draw: DS:8302 == 0, the record is the holder DS:830B, the record is
   DS:830C, or none of those;
-- per 9564 sweep: the number of 8A2E coins and the number of ball phases (executions of
-  the 95F2 block entry, which runs for EVERY slot whose guards pass - R4).
+- per 9564 sweep: the number of 8A2E coins, the number of ball phases (executions of
+  the 95F2 block entry, which runs for EVERY slot whose guards pass - R4) and the number
+  of 8AE9 update_player calls, split by return site: 9669 (the keeper special, inside the
+  ball phase, so once per ball phase at most) and 96CB (the per-slot tail, once per slot).
 
 Writes a fixed report to rng-counts.txt (the tracked output notes.md and F013 cite).
 
@@ -40,8 +42,11 @@ class Instrumented(WatchedHalf):
         self.coins = Counter()         # 8A2E coins by class
         self.coins_per_sweep = Counter()
         self.ballphases_per_sweep = Counter()
+        self.updates_by_site = Counter()   # 8AE9 calls by return site (9669/96CB)
+        self.updates_per_sweep = Counter() # distribution of 8AE9 calls per sweep
         self._sweep_coins = 0
         self._sweep_ball = 0
+        self._sweep_updates = 0
         mu, C = self.mu, self.CODE * 16
 
         def record_ptr(uc):
@@ -73,16 +78,30 @@ class Instrumented(WatchedHalf):
         def at_ball(uc, addr, size, data):
             self._sweep_ball += 1
 
+        def at_update(uc, addr, size, data):
+            # 8AE9's return address on the stack names the caller: 9669 the keeper
+            # special (seg_0791_15.asm:9666, inside the ball phase), 96CB the
+            # per-slot tail (96C8).
+            sp = uc.reg_read(UC_X86_REG_SP)
+            ss = uc.reg_read(UC_X86_REG_SS) * 16
+            ret = int.from_bytes(uc.mem_read(ss + sp, 2), "little")
+            self.updates_by_site[ret] += 1
+            self._sweep_updates += 1
+
         def at_engine(uc, addr, size, data):
             if self._sweep_coins or self._sweep_ball:
                 self.coins_per_sweep[self._sweep_coins] += 1
                 self.ballphases_per_sweep[self._sweep_ball] += 1
-                self._sweep_coins = 0
-                self._sweep_ball = 0
+            if self._sweep_updates:
+                self.updates_per_sweep[self._sweep_updates] += 1
+            self._sweep_updates = 0
+            self._sweep_coins = 0
+            self._sweep_ball = 0
 
         mu.hook_add(UC_HOOK_CODE, at_coin, begin=C + 0x8A2E, end=C + 0x8A2E)
         mu.hook_add(UC_HOOK_CODE, at_rand5, begin=C + 0x8AD1, end=C + 0x8AD1)
         mu.hook_add(UC_HOOK_CODE, at_ball, begin=C + 0x95F2, end=C + 0x95F2)
+        mu.hook_add(UC_HOOK_CODE, at_update, begin=C + 0x8AE9, end=C + 0x8AE9)
         mu.hook_add(UC_HOOK_CODE, at_engine, begin=C + 0x9564, end=C + 0x9564)
 
     def close_sweep(self):
@@ -90,8 +109,11 @@ class Instrumented(WatchedHalf):
         if self._sweep_coins or self._sweep_ball:
             self.coins_per_sweep[self._sweep_coins] += 1
             self.ballphases_per_sweep[self._sweep_ball] += 1
-            self._sweep_coins = 0
-            self._sweep_ball = 0
+        if self._sweep_updates:
+            self.updates_per_sweep[self._sweep_updates] += 1
+        self._sweep_updates = 0
+        self._sweep_coins = 0
+        self._sweep_ball = 0
 
 
 def main(argv=None):
@@ -118,6 +140,12 @@ def main(argv=None):
         "8A2E coins per 9564 sweep: "
         + ", ".join(f"{k}:{v}" for k, v in sorted(half.coins_per_sweep.items())),
         f"  max per sweep {max(half.coins_per_sweep)}",
+        "8AE9 update_player calls by return site: "
+        + ", ".join(f"{k:#06x}:{v}" for k, v in sorted(half.updates_by_site.items()))
+        + " (9669 the keeper special inside the ball phase, 96CB the per-slot tail)",
+        "update_player calls per 9564 sweep: "
+        + ", ".join(f"{k}:{v}" for k, v in sorted(half.updates_per_sweep.items())),
+        f"  max per sweep {max(half.updates_per_sweep)}",
     ]
     text = "\n".join(lines) + "\n"
     (Path(__file__).parent / "rng-counts.txt").write_text(text)
