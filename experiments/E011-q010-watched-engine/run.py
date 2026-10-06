@@ -4,7 +4,7 @@ E006 published start state, every savestate read recording the match clock (minu
 sub-tick DS:831D, running DS:8325, minutes left DS:831B) and the seed DS:7B62, so (minute,
 sub-tick, seed) pins each read to its tick (notes.md §4/§6). One run/1 record per launch.
 
-    python3 experiments/E011-q010-watched-engine/run.py watched --state e006-2100-r0005 --batch b1
+    python3 experiments/E011-q010-watched-engine/run.py watched --from-run E006-r0005 --batch b1
 
 Per run: a fresh launch; Host+L of an E006 published main-screen state (E007's `adopt`); E004's
 keys to the captain screen; the savestate there is kept as this run's `watchstart` output. Then
@@ -73,8 +73,7 @@ class Run:
     def __init__(self, n, args, commit):
         self.run_id = f"{EXPERIMENT}-r{n:04d}"
         self.args, self.commit = args, commit
-        self.state_name = e007.adopt(args.state)
-        self.st = driver.StartState(self.state_name)
+        self.st = driver.StartState(e007.adopt(args.from_run))
         self.d = driver.Driver(STATE_CONFIG, workdir=driver.SCRATCH / "e011" / self.run_id)
         self.obs, self.step, self.keys, self.pre_keys = [], 0, list(e004.TO_CAPTAIN)
         self.reads, self.seconds, self.final = 0, None, None
@@ -226,7 +225,7 @@ def parser():
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     sub = ap.add_subparsers(dest="kind", required=True)
     w = sub.add_parser("watched", help="one watched match, one record")
-    w.add_argument("--state", required=True, help="an adopted E006 state (E007's run.py adopt)")
+    w.add_argument("--from-run", required=True, dest="from_run", help="the E006 run id whose manifest names the main-screen start state (E007's run.py adopt)")
     w.add_argument("--batch", default="", help="a label written into the record")
     w.add_argument("--replays", type=int, default=1,
                    help="extra identical launches after the first; each writes its own record and must repeat the first's trajectory exactly (determinism, E004's replays)")
