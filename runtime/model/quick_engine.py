@@ -94,11 +94,14 @@ class QuickMatch:
     """The whole second half, with the game's memory the savestate holds as the only input."""
 
     # --- tables read from the data segment (dumped from the savestate at __init__) ---
-    SCORER_TABLE = 0xA6B     # 30 bytes at 0xA6C..0xA89, indexed +rand(30) (D973-D984): slots 2..11
+    SCORER_TABLE = 0xA6B     # 31 bytes: dummy base at 0xA6B + the 30 entries 0xA6C..0xA89; the draw
+                             # reads the byte at 0xA6B + rand(30) (D973-D984: r in 1..30), so index 30
+                             # (byte 0xA89) is legal and the base 0xA6B itself is never selected
     ATTEMPTS = 0xA8A         # [12, 16], indexed by (8319 == 0x0F) (D79D-D7B4)
     MINUTE_RANGE = 0xA8C     # [90, 120], same index (D8D1-D8ED)
     STATS1 = 0xA8E           # [33, 10], element 1 chance (D809-D83A)
-    STATS5 = 0xA90           # [60, 30], element 5 chance (D7C0-D7F1); [2..11] = 13-r (D5C1's map)
+    STATS5 = 0xA90           # [60, 30], element 5 chance (D7C0-D7F1); the same bytes read as a
+                             # slot map A90[r], r in 2..11 (= 13-r), pick D5C1's side-0 pitch slot
     POS_LINE = 0xD4E         # position -> line (seg_1771_02.asm:0D3D-0D68), 16 bytes
     FORMATION = 0x99A        # per position 8 bytes: count, then +7 roles (aae8: 0x99A + 8*(player+6),
                              #  seg_0791_17.asm:AB03-AB63)
@@ -145,11 +148,12 @@ class QuickMatch:
         self.eight30b = ((0 if self.eight31a == 0 else 11) + 10) & 0xFF
         # --- tables -------------------------------------------------------------------
         g = self._ds
-        self.t_scorer = g(self.SCORER_TABLE, 30)
+        self.t_scorer = g(self.SCORER_TABLE, 31)   # 31 bytes: t_scorer[r] = byte at 0xA6B + r, r in 1..30
         self.t_attempts = g(self.ATTEMPTS, 2)
         self.t_minutes = g(self.MINUTE_RANGE, 2)
         self.t_stats1 = g(self.STATS1, 2)
         self.t_stats5 = g(self.STATS5, 2)
+        self.t_slotmap = g(0xA90, 12)    # D5C1's slot map: byte at 0xA90 + r (D5D7)
         self.t_posline = g(self.POS_LINE, 16)
         self.t_formation = g(self.FORMATION, 8 * 16)
         self.t_posstring = g(self.POS_STRING, 0x18)
@@ -298,9 +302,11 @@ class QuickMatch:
     # --- the line sums: 1771:0BC4 (seg_1771_02.asm:124-378) --------------------------
 
     def manager_bonus(self, c):
-        """1771:0AA7 (seg_1771_02.asm:7-35): (signed manager[3*(+0x2E)+1]) idiv 8 + 0x10."""
+        """1771:0AA7 (seg_1771_02.asm:7-35): (manager[3*(+0x2E)+1]) idiv 8 + 0x10. The quality
+        byte is ZERO-extended (`xor ah,ah` at 0AD9) before the `idiv`, so it is read unsigned
+        (0..255) and the idiv never sees a negative dividend."""
         country = self._country(c)
-        b = s8(self.managers[3 * country["managed"] + 1])
+        b = self.managers[3 * country["managed"] + 1]
         return (idiv(b, 8) + 0x10) & 0xFFFF
 
     def line_sums(self, flag, side, c):
@@ -423,6 +429,8 @@ class QuickMatch:
             if self.unavailable(w):
                 continue
             p[6] = self.t_newpos[1 if self.two_fad(w) >= 0x48 else 0]
+            break                                   # BF5A: after the write, jump to the return
+            # path (BF65) — only the FIRST qualifying player is re-placed (BF56 is the only write)
 
     def c01a(self, t):
         """seg_0791_19.asm:849-930."""
@@ -435,9 +443,9 @@ class QuickMatch:
         self.bbff(self._country(c)["tactics"], c)
         self.once_8332[t] = 1
         w = self._country(c)["squad"][8]            # the word at +0x10 (C0A9-C0BB)
-        if self._player(w)[6] in {12, 13}:          # the set at CS:0xBFFA = 00 30 -> elements {12,13}
-            self.bec7(c)
-            self.apply_230c()                       # 0791:230C: re-sort the pitch by position
+        if self._player(w)[6] not in {12, 13}:      # the set at CS:0xBFFA = 00 30 -> elements
+            self.bec7(c)                            # {12,13}; C0CA `je` calls BEC7/230C when the
+            self.apply_230c()                       # position is NOT a member (membership zero)
 
     def c0df(self, t):
         """seg_0791_19.asm:932-994."""
@@ -469,14 +477,23 @@ class QuickMatch:
                 self.c01a(t)
 
     def apply_230c(self):
-        """0791:230C (seg_0791_04.asm:357-2570): per team, swap pitch records until the position
-        keys (0xE for unavailable players, else +6) no longer rise towards the lower slot: the
-        inner-outer compare is `jb` (23B2-23C0), so a record with a smaller key swaps up. The
-        830B/830C/830D bytes are re-pointed at the swapped slots (2432-252C); only 830B matters
-        here (6337's keeper gate)."""
+        """0791:230C (seg_0791_04.asm:357-2619): per team, three parts.
+        1. The pitch sort: swap pitch records until the position keys (0xE for unavailable
+           players, else +6) no longer rise towards the lower slot: the inner-outer compare is
+           `jb` (23B2-23C0), so a record with a smaller key swaps up. Each pitch swap also calls
+           `0791:2218` (23C4), which swaps the SAME two squad words of the team's country record
+           (2242-226B; the squad slots are the loop indices themselves, 1..11), so the squad
+           array follows the sort — scorer selection and later substitutions read it.
+        2. `a260` per slot base+1..base+10 (2541-258A) re-derives pitch+6 (:= the address slot)
+           and pitch+0xD from the squad; base+11 is left with its traveled +6.
+        3. The bench sort (258C-25F3): squad slots 12..20 are ordered by the players' +6
+           (`jb` at 25E3), each swap again a bare `2218` (25E6) on the squad words.
+        The 830B/830C/830D bytes are re-pointed at the swapped slots (2432-252C); only 830B
+        matters here (6337's keeper gate)."""
         for t in (0, 1):
             base = self.side_base[t]
             slots = [base + i for i in range(1, 12)]
+            squad = self._country(self.teams[t])["squad"]
 
             def key(slot):
                 w = self.pitch[slot]["player"]
@@ -488,10 +505,17 @@ class QuickMatch:
                         continue
                     a, b = slots[outer], slots[inner]
                     self.pitch[a], self.pitch[b] = self.pitch[b], self.pitch[a]
+                    squad[outer], squad[inner] = squad[inner], squad[outer]   # 2218 (23C4)
                     if self.eight30b == a:
                         self.eight30b = b
                     elif self.eight30b == b:
                         self.eight30b = a
+            for g in slots[:10]:                     # a260 (2541-258A); base+11 is excluded
+                self.pitch[g]["slot_no"] = g
+            for outer in range(11, 19):              # the bench sort (258C-25F3)
+                for inner in range(outer + 1, 20):
+                    if self._player(squad[inner])[6] < self._player(squad[outer])[6]:
+                        squad[outer], squad[inner] = squad[inner], squad[outer]   # 2218 (25E6)
 
     # --- after a goal: 0791:65FE/65A4/6337 -------------------------------------------
 
@@ -550,8 +574,9 @@ class QuickMatch:
         return best
 
     def a9b8(self, t, pos):
-        """seg_0791_17.asm:A9B8-AAE5: best bench slot 12..20 by BENCH_VALUE[14*(+6) + (+7)],
-        the outgoing keeper's position gives the foot expectation."""
+        """seg_0791_17.asm:A9B8-AAE5: best bench slot 12..20 by BENCH_VALUE[14*pos + (+7)], where
+        pos is the POSITION ARGUMENT ([bp+6], AA56: the outgoing keeper's position), not the
+        candidate's own +6; that argument also gives the foot expectation."""
         country = self._country(self.teams[t])
         count = self._pos_string_index(pos)
         expect = 1 if count > 3 else 0
@@ -561,7 +586,7 @@ class QuickMatch:
             if self.unavailable(w):
                 continue
             p = self._player(w)
-            v = self.t_benchvalue[14 * p[6] + p[7]]
+            v = self.t_benchvalue[14 * pos + p[7]]          # AA4E (+7) then AA56 (14*[bp+6])
             if count > 0 and not self.two_footed(w) and self.foot_index(w) != expect:
                 v //= 2                             # AAAD-AAB7
             if v > best_v:                          # AABA-AACB
@@ -572,21 +597,33 @@ class QuickMatch:
         """seg_0791_20.asm:C5DC-C7E8 (quick mode: the display paths C50C/1E8D are skipped).
         a2e6 (C6E5) re-derives pitch+0xD from the already-swapped squad BEFORE the C6FA-C724
         block, so the 0x2747 word, the +0xF clear and 3431 hit the INCOMING player (and only for
-        an unmanaged team, C700); the 0C79(3) mark at C612 hits the OUTGOING one."""
+        an unmanaged team, C700); the 0C79(3) mark at C612 hits the OUTGOING one. After the
+        DS:9978 marking games, 230C runs unconditionally (C7A7, re-sorting pitch records and
+        squad words), then the budget is decremented (C7DC)."""
         outgoing = self.pitch[slot]["player"]
         self._player(outgoing)[0x10] |= 1 << 2         # 0C79(3): mark element 3 (unavailable via 3216)
+        # a2e6 (C6E5): the pitch record's +6 := the address slot, then +0xD := the squad word at
+        # 2bb1 of that — the incoming player — BEFORE the 0x2747/+0xF block and the 230C sort
+        self.pitch[slot]["slot_no"] = slot
+        self.pitch[slot]["player"] = self._squad(t)[self._pitch_squad_index(slot) - 1]
         if not self._country(self.teams[t])["managed"] > 0x80:
             p = self._player(incoming)
             p[0x12:0x14] = (0x2747).to_bytes(2, "little")   # C6FA
             p[0xF] = 0                                      # C718
             self.set_player_tactics(incoming)                # 3431 (C724)
+        if not self._country(self.teams[t])["managed"] > 0x80:
+            p = self._player(incoming)
+            p[0x12:0x14] = (0x2747).to_bytes(2, "little")   # C6FA
+            p[0xF] = 0                                      # C718
+            self.set_player_tactics(incoming)                # 3431 (C724)
+        # the DS:9978 marking games (C733-C7D4) touch only managed teams' display records
+        self.apply_230c()                                    # C7A7: 230C re-sorts pitch AND squad
         self.sub_budget[t] = (self.sub_budget[t] - 1) & 0xFF                     # C7DC
-        # the DS:9978 marking games touch only managed teams' display records
 
     def c88d(self, t, slot):
         """seg_0791_20.asm:C88D-CAAA. Returns True when a substitution was made."""
         country = self._country(self.teams[t])
-        s = self._pitch_squad_index(slot)
+        s = slot - self.side_base[t]                   # C8AE: s = slot - 0668[t] (address-based)
         outgoing = self.pitch[slot]["player"]
         if self.sub_budget[t] == 0:                 # C899
             # only a forced C48D swap on an exhausted player; not reached by E010's runs
@@ -604,10 +641,9 @@ class QuickMatch:
         squad[s - 1], squad[chosen - 1] = squad[chosen - 1], squad[s - 1]  # 214B:007B swaps 2 bytes
         # (the shadow words at 9A3E+0x28*t and the byte at 9B07+0x14*t swap the same way; nothing
         # the quick engine reads looks at them)
-        # c5dc runs while pitch+0xD still names the OUTGOING player (a2e6, which re-derives
-        # pitch+0xD from the swapped squad, runs inside c5dc, C6E5; the marking at C612 comes first)
+        # c5dc runs while pitch+0xD still names the OUTGOING player (the C612 mark comes first);
+        # a2e6 inside c5dc (C6E5) then re-points the record at the incoming before the 230C sort
         self.c5dc(chosen, slot, t, incoming=squad[s - 1])
-        self.pitch[slot]["player"] = squad[s - 1]
         return True
 
     def check_substitutions(self, minute_831b):
@@ -644,11 +680,12 @@ class QuickMatch:
         for t in (0, 1):
             self.rng.chance(self.t_stats5[bit_elem(5, self._tactics(t))])
             self.rng.chance(self.t_stats1[bit_elem(1, self._tactics(t))])
-        # the minute fill (D873-D90B): per team t, only when its fresh count exceeds its saved
-        # score (D88F `ja`), 9B3C[t] is reduced by the saved score (D8A5 `sub`) and minutes are
-        # then drawn for BOTH teams — j = 0 and 1 — from the CURRENT 9B3C[j] counts (D8B2-D8FC),
-        # so the other team's raw, unsubtracted count is drawn for too, and a team with excess
-        # whose turn comes second is drawn for again
+        # the minute fill (D873-DA4C): per team t, only when its fresh count exceeds its saved score
+        # (D88F `ja`; otherwise the code jumps straight to the DA4C loop test, no fill and no goal
+        # phase), 9B3C[t] is reduced by the saved score (D8A5 `sub`) and minutes are then drawn for
+        # BOTH teams — j = 0 and 1 — from the CURRENT 9B3C[j] counts (D8B2-D8FC), so the other
+        # team's raw, unsubtracted count is drawn for too; the goal phase (D911-DA43) is the j loop
+        # the fill's own j loop falls into, so it runs only after a fill
         counts = fresh[:]
         minutes = [[], []]
         scored = False
@@ -658,33 +695,36 @@ class QuickMatch:
                 for j in (0, 1):
                     minutes[j] = [self.rng.rand(self.t_minutes[idx])
                                   for _ in range(counts[j])]
-            # the goal phase (D911-DA43) is the j loop the fill's own j loop falls into: it runs
-            # after EVERY team's fill attempt, not once at the end — the buffer still holds the
-            # first fill's minutes when team 1's turn refills them, so a minute equal to 831F in
-            # the first fill scores before the second fill can overwrite it
-            for j in (0, 1):
-                for k in range(counts[j]):
-                    if scored:                       # D93C-D944: one goal per D733 call
-                        break
-                    m = minutes[j][k] if k < len(minutes[j]) else 0    # cleared buffer (D767-D76E)
-                    if m != minute_831f:             # D945-D961
-                        continue
-                    if saved[j] >= 0xF:              # D964-D970
-                        continue
-                    while True:
-                        slotv = self.t_scorer[self.rng.rand(30)]    # D973-D984: byte at 0xA6B + r, r in 1..30 (t_scorer dumped from 0xA6B)
-                        w = self._squad(j)[slotv - 1]
-                        if not self.unavailable(w):                   # D9A7-D9B2
+                # the buffer still holds the first fill's minutes when team 1's turn refills them,
+                # so a minute equal to 831F in the first fill scores before the second fill can
+                # overwrite it
+                for j in (0, 1):
+                    for k in range(counts[j]):
+                        if scored:                   # D93C-D944: one goal per D733 call
                             break
-                    saved[j] += 1                    # D9B4-D9BA
-                    squad_slot = 1
-                    while (self._squad(j)[squad_slot - 1] != w and squad_slot < 20):
-                        squad_slot += 1              # 3A82 (seg_1771_05.asm:3A9C-3ACA)
-                    self.eight30b = (self.side_base[j] + squad_slot) & 0xFF              # D9FB-DA09
-                    self.goals.append({"team": j, "minute": m, "player": w,
-                                       "squad_slot": squad_slot,
-                                       "stored_byte": m | self.minute_mark})  # 6443 (DA16-DA2C)
-                    scored = True
+                        m = minutes[j][k] if k < len(minutes[j]) else 0    # cleared buffer (D767-D76E)
+                        if m != minute_831f:         # D945-D961
+                            continue
+                        if saved[j] >= 0xF:          # D964-D970
+                            continue
+                        while True:
+                            slotv = self.t_scorer[self.rng.rand(30)]    # D973-D984: byte at 0xA6B + r, r in 1..30
+                            w = self._squad(j)[slotv - 1]
+                            if not self.unavailable(w):                   # D9A7-D9B2
+                                break
+                        saved[j] += 1                # D9B4-D9BA
+                        squad_slot = 1
+                        while (self._squad(j)[squad_slot - 1] != w and squad_slot < 20):
+                            squad_slot += 1          # 3A82 (seg_1771_05.asm:3A9C-3ACA)
+                        self.eight30b = (self.side_base[j] + squad_slot) & 0xFF              # D9FB-DA09
+                        self.goals.append({"team": j, "minute": m, "player": w,
+                                           "squad_slot": squad_slot,
+                                           "stored_byte": m | self.minute_mark})  # 6443 (DA16-DA2C)
+                        scored = True
+            if scored:
+                # DA34: a scored goal sets the outer team byte to 1, so the DA4C loop test ends the
+                # fill after this team — team 1's fill (and its minute draws) never runs
+                break
         self.score = saved
         # the energy loop (DA6F-DAC9): every fifth minute, pitch players above 1 lose one
         if minute_831b % 5 == 0:
@@ -702,14 +742,14 @@ class QuickMatch:
 
     def d5c1(self):
         """0791:D5C1 (seg_0791_21.asm:621-792): the foul rolls, as far as the model goes."""
-        r = self.rng.rand(10)                       # r in 1..10; slots r and 13 - r (D786-D797)
-        slot1, slot0 = r + self.side_base[1], (13 - r) + self.side_base[0]
-        own = 1 if self.rng.rand(2) == 1 else 0     # 06FA coin flip (D7B5-D7BC)
-        other = 1 - own
-        if self.unavailable(self.pitch[slot0]["player"]) or \
-                self.unavailable(self.pitch[slot1]["player"]):
-            return                                  # 2956 gates (D7A2-D7C0)
-        _ = own, other
+        r = self.rng.rand(10) + 1                   # D5CB rand(10), D5D0 `inc ax` -> r in 2..11
+        slot1 = (r + self.side_base[1]) & 0xFF      # D5E9-D5FF: slot[side] += 0668[side] ([bp-3])
+        slot0 = (self.t_slotmap[r] + self.side_base[0]) & 0xFF   # D5D7: DS:0xA90[r] (= 13-r; [bp-5])
+        if self.unavailable(self.pitch[slot1]["player"]):        # D618 (the r slot first)
+            return
+        if self.unavailable(self.pitch[slot0]["player"]):        # D634
+            return
+        _ = 1 if self.rng.rand(2) == 1 else 0       # D63E: the coin is drawn only after both checks
         raise FoulPathNotModelled("D5C1 reached the 278A/7EEF branch with 9A3D set")
 
     # --- the half ---------------------------------------------------------------------

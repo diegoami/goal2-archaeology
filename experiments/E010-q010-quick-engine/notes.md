@@ -399,3 +399,56 @@ decodes fixed on the way (all listing-verified, the notes above were wrong or th
   draw count on the model's chain; polls taken MID-D733 (e.g. 0xc6ba = 3 draws into minute 85's
   fill) pin draw counts, not outcomes — the per-poll SUMS probe (DS:9B45.. read at the stall and
   at the mid-85 goal pause) was what exposed the one-m8-share difference (727/389 vs 730/386).
+
+## Batch 5 (2026-10-06, rework round 1): nine model rules corrected from the listing (review R1-R9)
+
+Each item corrects `runtime/model/quick_engine.py`; the listing line is the authority.
+
+- **R1, scorer table extent (D973-D984)**: the draw reads the byte at `DS:0xA6B + rand(30)`,
+  r in 1..30, so the array runs 0xA6B..0xA89 = 31 bytes: a dummy base at 0xA6B plus the 30
+  entries. The model had loaded only 30 bytes from 0xA6B, so r = 30 (byte 0xA89, value 0x0B)
+  raised IndexError. Batch 4's wording "bytes 0xA6C..0xA89" was right; the load length was not.
+- **R2, D733's fill loop control (DA30-DA55)**: batch 4's "the goal phase runs after EVERY
+  team's fill attempt" is RETRACTED. The goal phase (D911-DA43) is entered only by falling
+  through D90B at the end of a fill (fresh > saved, D88F `ja`; otherwise D893 jumps straight to
+  the DA4C loop test). And when a goal is scored, DA34 sets the outer team byte [bp-0x2d] to 1,
+  so DA4C ends the fill: team 1's fill (and its `rand(0xA8C)` draws) never runs after a goal.
+- **R3, C01A's tail branch (C0C5-C0D6)**: batch 3's "if +6 is in the set at CS:0xBFFA →
+  BEC7 + 230C" is RETRACTED: `23E4:08DF` membership ZERO takes C0CA's `je` to C0CE (the
+  BEC7/230C calls); membership in {12,13} skips them (C0CC → return). So the tail fires when
+  the +0x10 player's +6 is NOT 12 or 13.
+- **R4, BEC7 stops after the first write (BF56-BF5A)**: after BF56 stores the replacement
+  position, BF5A jumps to the return at BF65; only the FIRST qualifying back-four player is
+  re-placed (batch 3's "per slot 1..11" wording implied all).
+- **R5, 230C's swaps are squad swaps too (23C4 → 2218, 2242-226B)**: every pitch-record swap
+  calls 2218, which swaps the same two squad words (loop indices 1..11) of the team's country
+  record (and the shadow words at 9A3E+0x28t and the 9B07 bytes, which the engine does not
+  read). Scorer selection and later substitutions read those squad words.
+- **R6, c5dc calls 230C unconditionally (C7A7)**: after the DS:9978 marking games and BEFORE
+  the `dec 9B3A` at C7DC. The substitution path therefore re-sorts pitch and squad every time.
+  With R5/R6 faithful, two more decodes fell out (both listing-verified):
+  - a2e6 inside c5dc (C6E5) runs BEFORE the sort and re-points the pitch record (+6 := the
+    address slot, +0xD := the squad word = the incoming); reading `squad[s-1]` after the sort
+    is wrong, and C88D's s is address-based (C8AE: `slot - 0668[t]`), not 2bb1-based;
+  - 230C is three parts: the pitch sort, then `a260` for slots base+1..base+10 re-deriving
+    pitch+6/+0xD (2541-258A; base+11 is left with its traveled +6), then a BENCH sort of squad
+    slots 12..20 by +6 (258C-25F3, `jb` at 25E3, swaps via 2218 at 25E6).
+  In the ten E010 fixtures the pitch sort after a substitution is a no-op (the incoming inherits
+  the outgoing's position, and 8062 scans s = 11 downwards), which is why the pre-rework model
+  could match without any of this.
+- **R7, a9b8's table index (AA4E-AA62)**: `BENCH_VALUE[14*[bp+6] + (+7)]` — the POSITION
+  ARGUMENT passed by C88D (the outgoing keeper's +6), not the candidate's own +6. Batch 3's
+  "DS:0x8D5[14*(+7) + (+6)]" has the operands of the product swapped.
+- **R8, the manager quality byte is zero-extended (0AD9)**: `xor ah,ah` before `cdq; idiv 8` —
+  the byte is unsigned (0..255), so the bonus is byte/8 + 16 (0x80 → 32). The "signed idiv 8"
+  claim in the 0BC4 section above is RETRACTED (the idiv itself is signed, but its dividend
+  cannot be negative).
+- **R9, D5C1's prefix (D5CB-D63E)**: D5D0 `inc ax` — r = rand(10)+1 in 2..11 (the model had
+  used the raw draw, giving pitch slot 24-r in 14..23 and slot 23 out of range); and the 2956
+  availability checks (D618 for the r slot, D634 for the other) come BEFORE the 06FA coin at
+  D63E — a return at either check saves the coin draw. Batch 1's D5C1 trace (lines 157-162)
+  already said this; the model had drifted from it.
+
+The ten records still compare 9/10 (E010-r0010's documented DS:7B62 divergence unchanged:
+score, goals and DS:8336 match). R10 (run.py's "match read" ordinal) is a locator wording fix
+in the run script, not an engine rule.

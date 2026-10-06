@@ -102,7 +102,8 @@ class Run:
         self.obs, self.step, self.keys, self.pre_keys = [], 0, [], list(e004.TO_CAPTAIN)
         self.reads, self.seconds, self.final = 0, None, None
         self.tracker = commentary.Tracker()
-        self.halftime_blob, self.halftime_step, self.prev_digest = None, None, None
+        self.halftime_blob, self.halftime_step, self.halftime_read = None, None, None
+        self.prev_digest = None
 
     def add_full(self, label, read):
         self.obs.extend(e004.full_observations(self.step, label, read[0], read[1]))
@@ -123,6 +124,7 @@ class Run:
                 and "hit any key" in sc.lines()[-1]):
             self.halftime_blob = self.d.last_blob
             self.halftime_step = self.step
+            self.halftime_read = self.reads   # the match-only ordinal (self.step counts pre-match actions too)
 
     def go(self):
         status, d = "completed", self.d
@@ -169,7 +171,7 @@ class Run:
             self.add_full("full time", self.final)
             self.obs.append({"step": self.step, "source": "memory",
                              "field": "half-time stall: the read whose savestate is this run's half-time state (9A3E=1, 831F=46, stable screen, hit any key)",
-                             "value": f"match read {self.halftime_step} of {self.reads}; DS:7B62=0x{self.final_halftime_seed:04x}"})
+                             "value": f"match read {self.halftime_read} of {self.reads} (global step {self.halftime_step}); DS:7B62=0x{self.final_halftime_seed:04x}"})
             self.obs.append({"step": self.step, "source": "memory",
                              "field": "goals the engine stored (0791:6443, DS:7BD1 + side*0x21 + n*3): [[player word, minute byte] per engine team]",
                              "value": json.dumps(goal_store(self.final[1]))})
