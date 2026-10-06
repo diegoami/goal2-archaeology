@@ -75,6 +75,24 @@
       "variant": "low",
       "family": "glm",
       "watch": "Heavy: low (L54). The same model as zai-glm-5.3 on the Alibaba pool, for when Z.ai's windows are exhausted; probed only (2026-10-05, PONG in 6 s). Its key is the env var ALIBABA_TOKEN_PLAN_API_KEY (never opencode auth login: an auth.json entry overrides it); in WSL it comes from ~/.config/ai-keys.env (loaded by ~/.bashrc and ~/.profile) and, for commands started from Windows, from WSLENV; 'Provider not found' means it is missing: restart the session or shell, and tell the owner if it still is. One monthly pool shared by all alibaba models (quota-tracker /quota/alibaba); night discount 22:00-08:00 UTC+8."
+    },
+    "mm-m3": {
+      "id": "minimax/MiniMax-M3",
+      "variant": "thinking",
+      "family": "minimax",
+      "watch": "Heavy: offers only none (thinking off) and thinking (adaptive); thinking. A new family here, a candidate implementer or an independent reviewer. Probed only (2026-10-06, PONG in 8 s). Its key is the env var MINIMAX_API_KEY from ~/.config/ai-keys.env (loaded by ~/.bashrc and ~/.profile); 'Provider not found' means it is missing: restart the session or shell. quota-tracker does not track MiniMax yet, so its quota cannot be checked before a run (rule 1): tell the owner before relying on it."
+    },
+    "mm-m2.7": {
+      "id": "minimax/MiniMax-M2.7",
+      "variant": "high",
+      "family": "minimax",
+      "watch": "Offers no effort variants (the variant is ignored). Probed only (2026-10-06, PONG in 5 s). Its key is the env var MINIMAX_API_KEY from ~/.config/ai-keys.env (loaded by ~/.bashrc and ~/.profile); 'Provider not found' means it is missing: restart the session or shell. quota-tracker does not track MiniMax yet, so its quota cannot be checked before a run (rule 1): tell the owner before relying on it."
+    },
+    "mm-m2.7-highspeed": {
+      "id": "minimax/MiniMax-M2.7-highspeed",
+      "variant": "high",
+      "family": "minimax",
+      "watch": "Light, fast; offers no effort variants (the variant is ignored). Probed only (2026-10-06, PONG in 5 s). Its key is the env var MINIMAX_API_KEY from ~/.config/ai-keys.env (loaded by ~/.bashrc and ~/.profile); 'Provider not found' means it is missing: restart the session or shell. quota-tracker does not track MiniMax yet, so its quota cannot be checked before a run (rule 1): tell the owner before relying on it."
     }
   },
   "implementer": {
