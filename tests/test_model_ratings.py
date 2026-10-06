@@ -103,6 +103,73 @@ class TestWords(unittest.TestCase):
         self.assertEqual(r.word(212), R.SUB_IN + 40)
 
 
+class TestChallenge(unittest.TestCase):
+    """The one ring-invisible writer, 0791:56CB: 5565's +10 to the challenger of a template-65
+    "challenge by" line whose invocation ran to its end (DS:8303 set, no bail). A completed
+    challenge nets 0 (table −10 + 10); a bailed one keeps the table's −10 — and 5565's bail
+    paths are visible in the ring as the FOLLOWING line (539F's 0x0E/0x21 pair, 408E's
+    0x16-0x18, 8206's 0x35-0x37, 3FAD(9)'s 0x15), or are silent only when a goalkeeper is the
+    holder or the challenger (45d, 4D3F). E012-r0001's first half, positions 294-297, is the
+    observed pair: a completed challenge (followed by another player's 0x41) and a bailed one
+    (followed by 539F's 0x0E/0x21 pair naming the same player)."""
+
+    def test_completed_challenge_nets_zero(self):
+        # 123's line at position 294: followed by 124's 0x41 (a new invocation, not a bail
+        # line) -> 56CB fired -> 123's word stays 0x37 (the record's half-time read: 0x8C =
+        # 0x37 + the rest of his lines; the plain table gave 0x82, one −10 short)
+        r = R.Ratings(TEAMS)
+        r.apply_lines([(65, 101, 0), (65, 102, 0)])
+        self.assertEqual(r.word(101), R.START, "a completed challenge nets 0, not -10")
+        self.assertEqual(r.word(102), R.START, "the follower is judged by its own follower")
+
+    def test_bailed_challenge_keeps_the_table_delta(self):
+        # 124's line at position 295: followed by 539F's 0x0E/0x21 pair naming 124 ->
+        # 5474's comparison was won, 5565 bailed before 56CB -> the plain -10 stands
+        r = R.Ratings(TEAMS)
+        r.apply_lines([(65, 101, 0), (14, 101, 0), (33, 101, 0)])
+        self.assertEqual(r.word(101), R.START - 10 + 20 + 0, "the bailed challenge keeps -10")
+
+    def test_every_bail_template_stops_the_bonus(self):
+        # each of 5565's visible bail lines (CHALLENGE_BAIL) makes the 0x41 line's net -10;
+        # any other follower (or none) completes the invocation and nets 0
+        for follower in R.CHALLENGE_BAIL:
+            r = R.Ratings(TEAMS)
+            r.apply_lines([(65, 101, 0), (follower, 101, 0)])
+            self.assertEqual(r.word(101) - R.DELTA_TABLE[follower] - R.START, -10,
+                             f"follower template {follower} must keep the table's -10")
+        for follower in (11, 65, 38, 66, 0):                   # tackle, another challenge, goal...
+            r = R.Ratings(TEAMS)
+            r.apply_lines([(65, 101, 0), (follower, 102, 0)])
+            self.assertEqual(r.word(101), R.START,
+                             f"follower template {follower} must complete the challenge")
+
+    def test_last_line_of_a_batch_is_judged_without_a_follower(self):
+        # the decision needs the follower, so a trailing 0x41 completes (56CB); a log split
+        # at half time must not leave a 0x41 last (none does, in the E012 records)
+        r = R.Ratings(TEAMS)
+        r.apply_lines([(65, 101, 0)])
+        self.assertEqual(r.word(101), R.START)
+
+    def test_the_e012_r0001_record(self):
+        # regression: the whole record — its start squads, its line log, its full-time reads
+        # and its MoM word. Before the 56CB rule this failed on side 0 slot 3 (predicted
+        # 0x00BA, read 0x00C4 at full time; 0x0082 vs 0x008C at half time).
+        import json
+        d = json.loads((ROOT / "runs" / "E012" / "E012-r0001.json").read_text())
+        obs = d["observations"]
+
+        def field(needle):
+            return next(o["value"] for o in obs if needle in o.get("field", ""))
+
+        start = json.loads(field("the match's start"))
+        full = json.loads(field("full time (the summary screen)"))
+        mom = int(field("full time: man of the match").split()[0], 16)
+        lines = [(t, p1, p2) for _, t, p1, p2, _ in json.loads(field("line log in ring order"))]
+        r = R.Ratings([s["squad"] for s in start]).apply_lines(lines)
+        self.assertEqual(r.snapshot(), [s["perf12"] for s in full])
+        self.assertEqual(r.man_of_the_match(), mom)
+
+
 class TestDecode(unittest.TestCase):
     def test_bucket_rule(self):
         # 1771:3855/0791:CB2E: the flag is stripped only when the SIGNED word is above 5000

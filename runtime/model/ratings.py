@@ -11,7 +11,9 @@ addresses SEGMENT:OFFSET; data offsets are DS offsets, the table read from
 
 - every ring line applies `s8(DS:0x720[template])` to the word the line names as player 1
   (`0791:1E53`, the `add word es:[di+0x12], ax` at 1EAB, reached through `0791:1EB5` from every
-  2AA3-family emitter; the ring record itself is written by `0791:1D4A` AFTER the delta);
+  2AA3-family emitter; the ring record itself is written by `0791:1D4A` AFTER the delta) — except
+  a completed "challenge by" line, whose net is 0 (the −10 of the table plus `0791:56CB`'s +10,
+  the one ring-invisible writer; the rule below);
 - the starting XI (squad slots 1..11 of both teams) begins at 0x37 (`0791:F2C7` in run_match),
   every other player at 0x7FFF (blank, `1771:97C0` at new game);
 - a substitution line (template 0, `on for`) sets the incoming player's word to 0x2747
@@ -23,11 +25,19 @@ addresses SEGMENT:OFFSET; data offsets are DS offsets, the table read from
   winning ties; the scan runs after the match (F1F6 at F2F8) and its word is drawn on the
   summary only when the match was watched (0106's DS:9A3F gate).
 
-Known edge, never observed in any analysed half (E012 notes.md §4): `0791:56CB` adds +10
-directly, without a ring line, when DS:8303 is set inside `0791:5565`; every encoding the
-writers produce makes template 65 ("challenge by") the only line whose net effect could differ
-from the table (−10 + 10 = 0 when 5565 emits it, plain −10 when 5B36 does). No template-65 line
-appeared in the E011 halves or the E012 records, so the model applies the table value.
+Known edge (E012 notes.md §4.3): `0791:56CB` adds +10 directly, without a ring line, to the
+challenger of a "challenge by" line (template 65) that `0791:5565` emitted while DS:8303 was
+set and whose invocation ran to its end — the completed challenge nets 0, not the table's −10.
+5565's 8303-set invocation can, after its 0x41 line, only emit further lines when it bails
+before 56CB (5474/5513 → 539F's 0x0E/0x21 pair or 408E's 0x16/0x17/0x18; 5513 → 8206's
+substitution lines 0x35-0x37; 4151 → 3FAD(9)'s 0x15) or bail silently (a goalkeeper holder,
+`45d(8303B)`; a goalkeeper challenger, 4D3F) — so a 0x41 line whose FOLLOWING line's template
+is none of those came from an invocation that reached 56CB and nets 0. `0791:5B36` can also
+emit a 0x41 line with 8303 set and never adds the +10; its follow-ups (5A8E's 5A33 lines) are
+the rule's remaining ambiguity, recorded in the notes. The E012 record pins the mechanism: its
+two adjacent 0x41 lines (positions 294/295) are a completed challenge (followed by the other
+player's 0x41 — +10 observed on the read) and a 539F-bailed one (followed by the 0x0E/0x21
+pair naming the same player — the plain −10).
 
 Standard library only."""
 from pathlib import Path
@@ -52,6 +62,13 @@ FLAG = 0x2710            # 1771:385C / 0791:CB43: the flag stripped by readers
 SQUAD_SLOTS = 20         # the squad's 20 words (F007); CAB0 scans them 1..20
 SUB_TEMPLATE = 0         # the "on for" template (E004's EVENTS)
 N_TEMPLATES = len(DELTA_TABLE)
+CHALLENGE = 65           # 0791:5653 (in 5565) / 0791:5B8F (in 5B36): "challenge by", 8303 set
+CHALLENGE_BONUS = 10     # 0791:56CB: 5565's ring-invisible +10 to the challenger
+# the templates 5565's 8303-set invocation emits when it BAILS between its 0x41 line and 56CB
+# (seg_0791_09.asm 5474/5513 → 539F: 0x0E then 0x21 (5465/5468) or 408E's 0x16-0x18; 5513 →
+# 8206's 0x35-0x37; 4151 → 3FAD(9)'s 0x15): a 0x41 line whose following line is none of these
+# completed (56CB) and nets 0; the two silent bails need a goalkeeper (holder or challenger)
+CHALLENGE_BAIL = frozenset({0x0E, 0x21, 0x15, 0x16, 0x17, 0x18, 0x35, 0x36, 0x37})
 
 
 def s16(v):
@@ -92,7 +109,9 @@ class Ratings:
         self.subbed_off = set()      # the outgoing of every substitution line (status bit 3)
 
     def apply_line(self, template, p1, p2=0):
-        """One ring line, as 1D4A wrote it: (template, player-1 word, player-2 word)."""
+        """One ring line, as 1D4A wrote it: (template, player-1 word, player-2 word). A
+        template-65 line is applied with its table delta; `apply_lines` adds 56CB's +10 to the
+        completed ones (a single line carries no follower to decide completion)."""
         if not 0 <= template < N_TEMPLATES:
             raise RatingsError(f"template {template} outside the table (0..{N_TEMPLATES - 1})")
         if template == SUB_TEMPLATE:
@@ -113,9 +132,19 @@ class Ratings:
             self.words[p1] = (self.words.get(p1, 0) + DELTA_TABLE[template]) & 0xFFFF
 
     def apply_lines(self, lines):
-        """`lines`: an iterable of (template, p1, p2) in ring order."""
-        for template, p1, p2 in lines:
+        """`lines`: an iterable of (template, p1, p2) in ring order.
+
+        A template-65 "challenge by" line nets 0 (the table's −10 plus 56CB's +10) when the
+        line AFTER it is not one of 5565's bail lines (CHALLENGE_BAIL) — that invocation ran
+        to 56CB. The decision needs the follower, so the last line of a batch is judged
+        without one: split a log at half time only where no 0x41 line is last (none is, in
+        the E012 records)."""
+        lines = list(lines)
+        for i, (template, p1, p2) in enumerate(lines):
             self.apply_line(template, p1, p2)
+            if template == CHALLENGE and p1 and \
+                    (i + 1 == len(lines) or lines[i + 1][0] not in CHALLENGE_BAIL):
+                self.words[p1] = (self.words.get(p1, 0) + CHALLENGE_BONUS) & 0xFFFF
         return self
 
     def word(self, player_word):
