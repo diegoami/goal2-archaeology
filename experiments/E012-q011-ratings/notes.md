@@ -200,8 +200,10 @@ record's own byte field at pitch+0x12, F013)
 player at `0x7FFF`; for every ring line `(template t, p1, p2, team)` in order: `t == 0` →
 the substitution's incoming player (`p1`) := `0x2747`, the squad words swapping slots;
 `t ∈ {51, 52}` (sent off / injured) → `p1` leaves the pitch and his side's slots 1..11 are
-stable-partitioned, the off-pitch players to the tail in their original relative order
-(`0791:7B77` → `C48D`; a booking, 50, re-orders nothing); `t == 65` → the challenge nets 0
+re-sorted by `230C`'s pairwise compare-and-swap — key 14 for the unavailable, else the
+player's key (the predictor keys him by his starting slot), equal keys never swap but every
+strictly smaller key does, so the removed can reverse their original relative order
+(`0791:7B77`/`0791:7D56` → `C48D` → `C503` → `230C`; a booking, 50, re-orders nothing); `t == 65` → the challenge nets 0
 (the table's −10 plus 56CB's +10, §4.3) when the FOLLOWING line's template is none of
 {0x0E, 0x21, 0x15, 0x16, 0x17, 0x18, 0x35, 0x36, 0x37} AND the duel's holder (tracked from
 the 2AA3/2AD4 lines, or the line's p2 when it carries one) is not on a side's slot 1 — the
@@ -256,9 +258,10 @@ refused NONZERO delta occurred in them — a refused nonzero delta would leave t
 predictor's word one delta short of the read.
 
 Check 3 (the records): `check_ratings.py` over `runs/E012` — r0001 (the 56CB case, §4.3),
-r0002/r0003 (two sendings-off and an injury: the XI partition; the half-time and full-time
-squad reads are the partitioned order, one slot out from the first removal without the
-rule) — ends `match: 3/3`, every slot's word at both reads and the MoM equal to the read.
+r0002/r0003 (two sendings-off and an injury: the XI re-sort; the half-time and full-time
+squad reads are the re-sorted order, one slot out from the first removal without the
+rule) — ends `match: 3/3`, every slot's word at both reads and the MoM equal to the read,
+and no UNDECIDED challenge (§4.3) in any of them.
 
 ## 7. The runs (E012)
 

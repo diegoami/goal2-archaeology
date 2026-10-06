@@ -1,4 +1,4 @@
-# F014 The performance ratings: every commentary line adds a signed byte of the table at DS:0x720 to its named player, a completed "challenge by" nets 0, a sending-off or injury partitions the XI, and the man of the match is CAB0's max-scan
+# F014 The performance ratings: every commentary line adds a signed byte of the table at DS:0x720 to its named player, a completed "challenge by" nets 0, a sending-off or injury re-sorts the XI, and the man of the match is CAB0's max-scan
 
 - **Status**: proposed
 - **Question**: How are performance ratings (the player-record word at `+0x12`, F008) and the man
@@ -56,14 +56,23 @@
   0x8C where the plain table gives 0x82) and a bailed one (124: followed by the 0x0E/0x21 pair
   naming 124; the plain −10). `5B36` can also emit 0x41 with 8303 set (`5B88`) without the +10;
   no 5B36-emitted 0x41 appeared in any analysed half — the rule's one recorded ambiguity.
-- **A sending-off or injury partitions the XI (both).** A template-51 (sent off, `0791:7B77`) or
-  template-52 (injury) line takes its player off the pitch and re-orders his side's squad slots
-  1..11 as a stable partition: the still-available keep their order, the off-pitch move to the
-  tail of the XI in their original relative order; the bench (slots 12..20) is untouched
-  (`0791:7B77` → `0791:C48D`, seg_0791_13.asm:7C99-7CAE; a booking, 50, re-orders nothing).
-  E012-r0002/r0003: side 1's XI ends ...,131,126,130 — the injured 126 then the sent-off 130,
-  both in original relative order (the event order would give 130,126); side 0's sent-off 173
-  moves slot 5 → 11.
+- **A sending-off or injury re-sorts the XI with `0791:230C`'s pairwise compare-and-swap (both).**
+  A template-51 (sent off, `0791:7B77`) or template-52 (injury, `0791:7D56`) line takes its player
+  off the pitch and re-sorts his side's squad slots 1..11 through `230C`: each slot's key is
+  `0x0E` when `1771:3216` says so, else the record's position byte `+6` (which is not in the line
+  log; the model keys a player by his starting slot, and the E012 records corroborate the keying
+  since every analysed XI was already in ascending key order); for `j = 1..10`, `i = j+1..11`,
+  `key[i] < key[j]` swaps the two slots fully — squad words (`2218`), the `9B07` form bytes, the
+  `0x80E8` pitch records, and the keys themselves. Equal keys never swap, so the still-available
+  keep their order, but every strictly smaller key does, so two removed players can REVERSE their
+  original relative order (review R2's case: XI 101–111, removing 103 then 108, ends with the tail
+  `108, 103`). The bench (slots 12..20) is untouched; a booking (50) re-orders nothing. The
+  callers are `7B77 → C48D → C503 → 230C` and `7D56 → C88D → C503 → 230C`; the same routine also
+  sorts the bench and re-points `DS:830B/830C/830D` after the sort (the established annotation
+  row at `0791:230C resort_pitch_and_bench`). E012-r0002/r0003: side 1's XI ends
+  ...,131,126,130 — the injured 126 then the sent-off 130, in original relative order here because
+  the removals were far enough apart that no swap reversed them; side 0's sent-off 173 moves
+  slot 5 → 11; the predictor matches all three records (`check_ratings.py` `match: 3/3`).
 - **The man of the match is CAB0's max-scan (both).** `0791:CAB0`
   (seg_0791_20.asm:918-975): for side 0 then side 1, squad slots 1..20 — slots 1..11 always,
   12..20 only for players substituted off (status bit 3, `214B:0C57`) — skip `0x7FFF`, decode
@@ -105,13 +114,16 @@ Static first (rule 22): every rule above was read from the listing — the write
 delta table (the data segment bytes), CAB0 (its decompiled body), the encodings (the readers'
 compares). The runs corroborate: the three E012 records provide the behavioural ground truth
 (their +0x12 reads at half time and full time and the MoM word, which the predictor matches
-exactly — including the two cases the static reading alone left ambiguous: the completed
-challenge's +10, whose ring signature the record pins, and the XI partition, whose order the
-records pin to the players' original relative order); the Unicorn emulations of the original
-binary's own halves (from E011's published savestates) instrument the writers directly and show
-no invisible writer other than 56CB in ~1660 line events. What static analysis could not answer
-and the runs did: whether 56CB's bail conditions are observable in the ring log (the record's
-adjacent 0x41 pair shows they are), and the exact partition order (the record's squad reads).
-What the runs cannot yet show: a 5B36-emitted 0x41 line's net (never observed), a dedup
-refusal (never observed), and a second-half sending-off's partition (r0002/r0003's second
-halves had none) — each recorded as the rule's stated limits in the notes.
+exactly — including the cases the static reading alone left ambiguous: the completed challenge's
++10, whose ring signature the record pins, the silent goalkeeper-holder bail at `5692-5697`
+(which the records corroborate as a followable branch, §4.3), and the XI re-sort, whose order
+the records pin — side 1's `...,131,126,130` is the exchange-sort result, not a stable partition);
+the Unicorn emulations of the original binary's own halves (from E011's published savestates)
+instrument the writers directly and show no invisible writer other than 56CB in ~1660 line events
+(first half `emu_firsthalf.py` 580 entries, 523 accepted, 57 dedup refusals measured; second-half
+scratch 550 entries, 507 accepted, 43 refusals — all template-6 repeats with delta 0). What static
+analysis could not answer and the runs did: whether 56CB's bail conditions are observable in the
+ring log (the record's adjacent 0x41 pair shows they are), the exact re-sort order (the record's
+squad reads), and the dedup rate (non-zero — measured). What the runs cannot yet show: a
+5B36-emitted 0x41 line's net (never observed) and a second-half sending-off's re-sort (r0002/r0003's
+second halves had none) — each recorded as the rule's stated limits in the notes.

@@ -20,13 +20,16 @@ addresses SEGMENT:OFFSET; data offsets are DS offsets, the table read from
   (`0791:C6FA` in refresh_pitch_slot) — the +10000 flag readers strip when the word is above
   5000 (`1771:385C`, `0791:CB43`);
 - a sending-off (template 51) or injury (template 52) line removes its player from the pitch
-  and re-orders his side's slots 1..11 as a stable partition: the still-available players keep
-  their order, the unavailable ones move to the tail of the XI in their own relative order
-  (0791:7B77 → 0791:C48D; observed in E012-r0002/r0003, where side 1's XI ends
-  121,122,123,124,125,127,128,129,131,126,130 — the injured 126 then the sent-off 130, both
-  in their original relative order, the bench untouched); a booking (template 50) re-orders
-  nothing — r0002's booked-and-remaining players (131, 127) stay among the available in the
-  half-time read, and the reorder is the removal, not the card;
+  and re-sorts his side's slots 1..11 with `0791:230C`'s pairwise compare-and-swap (reached
+  from `7B77`/`7D56` through `C48D → C503`): each player's key is 0x0E when unavailable
+  (1771:3216), else his position byte `+6` — the model keys a player by his starting slot,
+  which the records corroborate; equal keys never swap, but the scan swaps on every strictly
+  smaller key, so the sort is an exchange sort, not a stable partition — two removed players
+  can REVERSE their original relative order (XI 101-111, removing 103 then 108, ends with the
+  tail 108,103; observed in E012-r0002/r0003, whose tails 126,130 and side-0 173-at-slot-11
+  this rule and the keying reproduce); a booking (template 50) re-orders nothing — r0002's
+  booked-and-remaining players (131, 127) stay among the available in the half-time read,
+  and the reorder is the removal, not the card;
 - the man of the match is `0791:CAB0`'s max-scan over both sides' squad slots 1..20 (slots
   12..20 only when the player was substituted off, status bit 3 — from the log, the player a
   substitution line names as player 2), decoded value compared strictly, first in scan order
@@ -90,9 +93,13 @@ SUB_TEMPLATE = 0         # the "on for" template (E004's EVENTS)
 N_TEMPLATES = len(DELTA_TABLE)
 CHALLENGE = 65           # 0791:5653 (in 5565) / 0791:5B8F (in 5B36): "challenge by", 8303 set
 CHALLENGE_BONUS = 10     # 0791:56CB: 5565's ring-invisible +10 to the challenger
-SENT_OFF = 51            # 0791:7B77: the sending-off line; the player leaves the pitch
-INJURY = 52              # the injury line; the player leaves the pitch (E004's EVENTS)
+SENT_OFF = 51            # 0791:7B77 (2AD4 0x33): the sending-off line; the player leaves the pitch
+INJURY = 52              # 0791:7D56 (2B28 0x34): the injury line; the player leaves the pitch (E004's EVENTS)
 XI = 0xB                 # the XI: squad slots 1..11 = slice length 11 (F2A8's bound; CAB0 always scans them)
+# 0791:230C's sort key for an unavailable player (seg_0791_04.asm:2378-237B): 1771:3216
+# returns 1 (unavailable) when the record's +0xE >= 1 or status byte +0x10 has bit 8, 6 or 3,
+# and 230C then writes the key 0x0E instead of the record's position byte +6 (2381-238B)
+UNAVAILABLE_KEY = 0x0E
 # the templates 5565's 8303-set invocation emits when it BAILS between its 0x41 line and 56CB
 # (seg_0791_09.asm 5474/5513 → 539F: 0x0E then 0x21 (5465/5468) or 408E's 0x16-0x18; 5513 →
 # 8206's 0x35-0x37; 4151 → 3FAD(9)'s 0x15): a 0x41 line whose following line is one of these
@@ -155,7 +162,12 @@ class Ratings:
                     # F2A8: only slots below 0xC get the 0x37 store; the rest keep their blank
                     self.words[word] = START if slot < 0xC else BLANK
         self.subbed_off = set()      # the outgoing of every substitution line (status bit 3)
-        self.off_pitch = set()       # sent off or injured: the XI partitions them to the tail
+        self.off_pitch = set()       # sent off or injured: 230C keys them 14, to the XI's tail
+        self.key = {}                # each XI player's sort key: his STARTING slot (see _sort_xi)
+        for squad in self.squads:
+            for slot, word in enumerate(squad, start=1):
+                if word and slot < 0xC:
+                    self.key[word] = slot
         self.holder = None           # the ball holder's word (2AA3/2AD4 lines name him)
         self.undecided = []          # (player word, why) — a challenge the log cannot decide
 
@@ -171,6 +183,37 @@ class Ratings:
                 return squad.index(holder) == 0
         return None
 
+    def _sort_xi(self, side):
+        """`0791:230C` (reached from `C48D`'s tail `C503`, called by `7B77`'s sending-off at
+        `7CAB`, `7D56`'s injury through `C88D` at `7E33`, and the quick engine's substitution
+        path `8062 → C88D` at `81DB`; seg_0791_04.asm:357-465): build a key per side-slot
+        1..11 — 0x0E when `1771:3216` says the player is unavailable (`2378-237B`), else the
+        record's position byte +6 (`2381-238B`) — then the pairwise compare-and-swap: for
+        j = 1..10 (`239E`/`2538`), for i = j+1..11 (`23B2`/`252F`), `key[i] < key[j]`
+        (`23B5-23BE`, `jb`) swaps slots i and j fully — squad words (`2218`, `2239-22B4`),
+        the 9B07 form bytes and the 0x80E8 pitch records (`23C7-23DB`/`23FA-241C`), and the
+        keys themselves (`23C7-23DB`). This is an exchange sort, NOT a stable partition:
+        equal keys never swap, but the scan swaps on EVERY strictly smaller key, so two
+        removed players can reverse their original relative order (review R2's case: XI
+        101-111, removing 103 then 108, ends with the tail 108,103). The predictor's key is
+        the player's STARTING slot index — the position byte +6 is not in the line log;
+        every E012 record's available XI stays in its starting order through the sorts, and
+        the reads match this keying (r0002/r0003's tails and r0002's side 0). The sort also
+        runs on the quick engine's substitution path; a substituted-in player's own +6 is
+        likewise not in the log, so he inherits the outgoing's key — with the XI sorted by
+        ascending key after every removal, that makes the sub-path sort a no-op on this
+        model, which is what the records show (r0001's two subs left the swap order)."""
+        squad = self.squads[side]
+        xi = squad[:XI]
+        keys = [UNAVAILABLE_KEY if (w in self.off_pitch or w not in self.key)
+                else self.key[w] for w in xi]
+        for j in range(XI - 1):              # [bp-5] = 1..10
+            for i in range(j + 1, XI):       # [bp-3] = j+1..11
+                if keys[i] < keys[j]:        # 23B5-23BE: jb -> 23C3 swaps i and j
+                    xi[i], xi[j] = xi[j], xi[i]
+                    keys[i], keys[j] = keys[j], keys[i]
+        squad[:XI] = xi
+
     def apply_line(self, template, p1, p2=0):
         """One ring line, as 1D4A wrote it: (template, player-1 word, player-2 word). A
         template-65 line is applied with its table delta; `apply_lines` decides 56CB's +10
@@ -184,10 +227,11 @@ class Ratings:
             # is marked (status bit 3) and keeps accumulating nothing (off the pitch)
             if p1:
                 self.words[p1] = SUB_IN
-                for squad in self.squads:
+                for side, squad in enumerate(self.squads):
                     if p1 in squad and p2 in squad:
                         i, j = squad.index(p1), squad.index(p2)
                         squad[i], squad[j] = p2, p1
+                        self.key[p1] = self.key.get(p2)   # the incoming inherits the slot's key
                         break
             if p2:
                 self.subbed_off.add(p2)
@@ -196,14 +240,13 @@ class Ratings:
             # 1E53: add s8(DS:0x720[template]) to p1's word, 16-bit with wraparound
             self.words[p1] = (self.words.get(p1, 0) + DELTA_TABLE[template]) & 0xFFFF
         if template in (SENT_OFF, INJURY) and p1:
-            # the player leaves the pitch: his side's XI is stable-partitioned, the
-            # unavailable to the tail (0791:7B77 → C48D; E012-r0002/r0003's reads)
+            # the player leaves the pitch (7B77's 2AD4(0x33) / 7D56's 2B28(0x34), both -> C48D
+            # -> C503 -> 230C) and his side's XI is re-sorted by 230C's exchange sort: the
+            # unavailable (key 14) fall to the tail, the rest keep ascending key order
             self.off_pitch.add(p1)
-            for squad in self.squads:
+            for side, squad in enumerate(self.squads):
                 if p1 in squad:
-                    xi = squad[:XI]
-                    squad[:XI] = [w for w in xi if w not in self.off_pitch] + \
-                                  [w for w in xi if w in self.off_pitch]
+                    self._sort_xi(side)
                     break
         if p1 and template in HOLDER_P1:
             self.holder = p1          # 2AA3: the line's p1 is the ball holder

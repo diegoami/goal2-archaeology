@@ -251,10 +251,14 @@ class TestChallenge(unittest.TestCase):
 
 class TestUnavailable(unittest.TestCase):
     """A sending-off (template 51) or injury (template 52) takes the player off the pitch and
-    stable-partitions his side's XI: the still-available keep their order, the unavailable move
-    to the tail of slots 1..11 in their own relative order; the bench is untouched (0791:7B77 →
-    C48D; E012-r0002/r0003, whose side 1 XI ends ...,131,126,130 — the injured 126 then the
-    sent-off 130, both in their original relative order). A booking re-orders nothing."""
+    re-sorts his side's XI with 0791:230C's pairwise compare-and-swap (7B77/7D56 → C48D →
+    C503 → 230C): key = 0x0E for the unavailable (1771:3216), else the position byte +6
+    (2381-238B); for j = 1..10, i = j+1..11, key[i] < key[j] swaps slots i and j — squad
+    words (2218), form bytes, pitch records and the keys (23C7-23DB). Equal keys never swap,
+    so the sort is an EXCHANGE sort, not a stable partition: the removed players fall to the
+    tail but can reverse their original relative order, and the available keep ascending key
+    order. The model keys a player by his starting slot (the +6 byte is not in the log; the
+    E012 reads corroborate the keying). A booking re-orders nothing."""
 
     def test_one_removal_moves_the_player_to_slot_11(self):
         # side 0 of E012-r0002: 173 sent off from slot 5 -> slot 11, the others shift up
@@ -268,11 +272,41 @@ class TestUnavailable(unittest.TestCase):
     def test_two_removals_keep_their_original_relative_order(self):
         # side 1 of E012-r0002: 130 sent off first (slot 10), 126 injured later (slot 6);
         # the XI ends with the injured 126 then the sent-off 130 — the ORDER OF EVENTS would
-        # give 130, 126, the ORIGINAL relative order gives 126, 130 (the read's order)
+        # give 130, 126, the ORIGINAL relative order gives 126, 130 (the read's order), and
+        # the exchange sort over the keys [1,2,3,4,5,14,7,8,9,11,14] gives 126, 130 too:
+        # the removals are far enough apart that no swap reverses them
         r = R.Ratings(TEAMS)
         r.apply_lines([(51, 210, 0), (52, 206, 0)])
         self.assertEqual(r.squads[1][:13], [201, 202, 203, 204, 205, 207, 208, 209, 211, 206, 210, 212, 213])
-        # only the XI is partitioned: slot 12 keeps the bench player 212, slots 13+ untouched
+        # only the XI is re-sorted: slot 12 keeps the bench player 212, slots 13+ untouched
+
+    def test_two_removals_can_reverse_their_original_order(self):
+        # review R2's case, re-derived from the listing: XI 101-111, removing 103 (slot 3)
+        # then 108 — after the first sort 108 sits at slot 7, and the second exchange sort
+        # swaps it down past 103's equal key only via the strictly-smaller keys around it,
+        # ending with the tail 108, 103 — REVERSED original order. A stable partition would
+        # give 103, 108 (the old model's claim, contradicted by the listing).
+        r = R.Ratings(TEAMS)
+        r.apply_lines([(51, 103, 0), (52, 108, 0)])
+        self.assertEqual(r.squads[0][:11], [101, 102, 104, 105, 106, 107, 109, 110, 111, 108, 103])
+        # the same two players removed in the OPPOSITE order (108 from slot 8 sinks to
+        # slot 11; 103 from slot 3 then swaps past every strictly smaller key but stops
+        # before 108's equal one): the tail is 103, 108 — in both orders the LAST-removed
+        # player ends first in the tail, a property of the exchange sort's swap dynamics,
+        # not of stability
+        r = R.Ratings(TEAMS)
+        r.apply_lines([(51, 108, 0), (52, 103, 0)])
+        self.assertEqual(r.squads[0][:11], [101, 102, 104, 105, 106, 107, 109, 110, 111, 103, 108])
+
+    def test_model_key_is_the_starting_slot(self):
+        # the model keys each XI player by his STARTING slot (the record's position byte +6
+        # is not in the line log; the records corroborate the keying — every analysed XI was
+        # already in ascending key order, so the sort never reorders the available). The key
+        # follows the player, not the slot: after one removal the survivors' keys stay 1..N
+        r = R.Ratings(TEAMS)
+        r.apply_line(51, 105)
+        self.assertEqual([r.key[w] for w in r.squads[0][:10]], [1, 2, 3, 4, 6, 7, 8, 9, 10, 11])
+        self.assertEqual(r.key[105], 5)
 
     def test_a_booking_reorders_nothing(self):
         # a booking (template 50) does not take the player off the pitch
@@ -282,7 +316,7 @@ class TestUnavailable(unittest.TestCase):
         self.assertEqual(r.word(105), R.START - 20)
 
     def test_off_pitch_player_is_still_scanned_for_the_man_of_the_match(self):
-        # the partition keeps the unavailable inside slots 1..11, which CAB0 always scans:
+        # the sort keeps the unavailable inside slots 1..11, which CAB0 always scans:
         # a sent-off player who scored enough still wins it
         r = R.Ratings(TEAMS)
         r.apply_lines([(38, 201, 0)] * 5 + [(51, 201, 0)])
