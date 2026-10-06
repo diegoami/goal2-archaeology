@@ -149,8 +149,10 @@ class TestPendingKeyGuard(unittest.TestCase):
     """R4: an unchanged screen while a key is pending neither resends nor resets."""
 
     def test_unchanged_screen_never_resends_and_aborts(self):
+        # timeout 2 s: ample for the fixed probe (it aborts at read 13) but bounded
+        # for the round-1 defect, which would otherwise spin resending for 900 s
         d = FakeDriver([TEAM_SCREEN] * 50)
-        rc, _ = poll_with(d)
+        rc, _ = poll_with(d, timeout=2.0)
         self.assertEqual(rc, 1)
         # exactly ONE Enter: the first send; every later read waits without resending
         self.assertEqual(d.keys_sent, ["Enter"])
