@@ -107,8 +107,9 @@ With the template strings (ds_2581_01.hex, E004's table): 38 `**** GOAL **** by`
 `** OWN GOAL ** by` −50, 50 `BOOKED` −20, 51 `SENT OFF` −100, 54 `is OFFSIDE` −2, 0 `on for`
 (substitution) +0, 65 `challenge by` −10, 11 `tackle by` −10, 12 `dodged by` +20, 14 `wins the
 ball` +20, 8/9/10 `good/long/high ball` +10, 25 `on the ball` +1, 34 `intercepts` +4, 47
-`to take penalty` −20, 66 `** LINESMAN FLAGS **` −10 (a flavour line that still rates the dummy
-player 0 — no real player is affected), 63/64 full/half time 0.
+`to take penalty` −20, 66 `** LINESMAN FLAGS **` 0, 63/64 full/half time 0 (66 and the two
+time lines are 2B0F flavour lines, p1 = 0; an earlier draft of this note wrote 66 as −10 —
+the byte at `DS:0x720+66` is 0, and 65 `challenge by` is the −10).
 
 ## 4. Every writer of player +0x12 (word writes; all others in the listing are the pitch
 record's own byte field at pitch+0x12, F013)
@@ -195,30 +196,44 @@ Check 1 (the second halves, emulated): the Unicorn harness (`runtime/emul/watche
 the ORIGINAL binary's own second half from each E011 half-time savestate (the published
 release assets, fetched into `scratch/` and manifest-verified), instrumented (a scratch
 script, not committed) to log every `1E53` call — (id, team, slot, player, delta) — every
-`1D4A` entry, the `56CB`/`C6FA` writers, and the final words. Over both E011 halves
-(identical second halves, r0001/r0002): 550 ring lines each, 550 `1E53` calls, **no dedup
-refusal** (every `1D4A` entry advanced the counter), **no `56CB` +10**, 2 substitutions
-(`0x2747` + deltas), goals 0x26/0x27 absent (both goals fell in the first half). Per player,
-the sum of `s8(0x720[template])` over the lines naming him equals the sum of the `1E53`
-deltas the binary applied (including the two template-66 "LINESMAN FLAGS" lines whose −10
-lands on the dummy player word 65025/25857 — beyond the array, no real record), and the
-end-to-end predictor (half-time words + second-half lines → full-time words) matches the
-emulated final words for **40/40 squad players of both teams, both halves** (`mismatched: 0`).
-The check is not vacuous: the template histogram of a watched half (96 "makes a run", 66
-"on the ball", 57 "tackle by", 45 "wins the ball", 36 "intercepts", 3 "to take penalty"…)
-exercises 34 different deltas, and a first version with one mistyped table entry mismatched
-5 players per half (found and fixed before any predictor was written; the table in §3 is the
-byte-exact one).
+`1D4A` ENTRY, the line only at `0791:1D66` (the accepted-write path; a refused call jumps
+`1D61 → 1D63 → 1E4A` and never reaches it — T26 rework R3: the first instrumentation logged
+a "ring line" at `1D4A`'s entry, which a refused duplicate also reaches, so it could not
+detect a refusal), the `56CB`/`C6FA` writers, and the final words. Over both E011 halves
+(identical second halves, r0001/r0002): 550 `1E53` calls, 550 `1D4A` entries, **507
+accepted ring lines — 43 dedup refusals measured** (7.8%; every refused invocation a repeat
+of the immediately preceding line, all of them template-6 "makes a run" pairs — `1C78`
+refuses only a line identical in template/p1/p2/team to the ring's comparison line — and
+`DS:0x720[6]` is 0, so no rating moved: the refused delta is still applied by `1E53`, but
+it is 0), **no `56CB` +10**, 2 substitutions (`0x2747` + deltas), goals 0x26/0x27 absent
+(both goals fell in the first half). Per player, the sum of `s8(0x720[template])` over the
+accepted lines naming him equals the sum of the `1E53` deltas the binary applied, and the
+end-to-end predictor (half-time words + second-half accepted lines → full-time words)
+matches the emulated final words for **40/40 squad players of both teams, both halves**
+(`mismatched: 0`). The check is not vacuous: the template histogram of a watched half
+(50 "makes a run", 66 "on the ball", 57 "tackle by", 45 "wins the ball", 36 "intercepts",
+3 "to take penalty"…) exercises 34 different deltas, and a first version with one mistyped
+table entry mismatched 5 players per half (found and fixed before any predictor was
+written; the table in §3 is the byte-exact one).
 
-Check 2 (a first half, emulated): `emu_firsthalf.py` (this folder) runs the ORIGINAL binary's
-own FIRST half from E011's published `watchstart` savestate (the captain-screen state of the
-same deterministic match), entering at `998C` after applying F1F6's pre-match loop by hand.
-580 lines, 580 `1E53` calls (no dedup refusal), **no 56CB, no C6FA**, and the plain-table
-predictor replays its line log to its final words 40/40 (`emu-firsthalf-r0001.txt/.json`,
-committed). The emulated half is NOT the record's own first half: the DOSBox run consumed
-main-seed draws in the team-screen key wait that the emulator's "no key" thunk does not
-reproduce (the line logs diverge at line 7), so it corroborates the mechanism, not the
-record's trajectory.
+Check 2 (a first half, emulated): `emu_firsthalf.py` (this folder) runs the ORIGINAL
+binary's own FIRST half from E011's published `watchstart` savestate (the captain-screen
+state of the same deterministic match), entering at `998C` after applying F1F6's pre-match
+loop by hand. 580 `1E53` calls, 580 `1D4A` entries, **523 accepted ring lines — 57 dedup
+refusals measured (9.8%, every one a template-6 repeat, delta 0)**, **no 56CB, no C6FA**,
+and the plain-table predictor replays the 523 accepted lines to its final words 40/40
+(`emu-firsthalf-r0002.txt/.json`, committed; `emu-firsthalf-r0001.txt/.json` is the earlier
+run with the entry-logging defect — its "580 ring lines / no dedup refusal" counts entries,
+not writes, and is superseded). The emulated half is NOT the record's own first half: the
+DOSBox run consumed main-seed draws in the team-screen key wait that the emulator's "no
+key" thunk does not reproduce (with the refused entries no longer polluting the log, the
+emulated accepted lines are identical to the record's ring lines for the first 123 lines —
+r0001's "divergence at line 7" was the same instrumentation artifact — the true divergence
+is at line 124), so it corroborates the mechanism, not the record's trajectory. For the
+DOSBox records themselves the refusal count is not directly observable (a refused line
+never enters the ring); the reads matching the written-line replay (Check 3) implies no
+refused NONZERO delta occurred in them — a refused nonzero delta would leave the
+predictor's word one delta short of the read.
 
 Check 3 (the records): `check_ratings.py` over `runs/E012` — r0001 (the 56CB case, §4.3),
 r0002/r0003 (two sendings-off and an injury: the XI partition; the half-time and full-time

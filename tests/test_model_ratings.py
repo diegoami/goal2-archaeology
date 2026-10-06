@@ -85,7 +85,7 @@ class TestWords(unittest.TestCase):
         r = R.Ratings(TEAMS)
         before = r.snapshot()
         r.apply_line(63, 0)                                # ---- FULL TIME ----, delta 0
-        r.apply_line(66, 0)                                # ** LINESMAN FLAGS **, -10
+        r.apply_line(66, 0)                                # ** LINESMAN FLAGS **, delta 0 (DS:0x720[66])
         self.assertEqual(r.snapshot(), before)
 
     def test_substitution(self):

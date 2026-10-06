@@ -20,14 +20,22 @@ and logged, LCG draws and ticks recorded):
 
 - `0791:1E53` (the delta applier): the event frame (id at bp+4, p2 slot bp+6, p1 slot bp+8,
   team bp+0xA), the pitch record's player word and the table delta;
-- `0791:1D4A` (the ring writer): every line as written — (n, template, p1, p2, team);
+- `0791:1D4A` (the ring writer): a counter of its ENTRIES (every call, whether the routine
+  accepts the line or refuses it as a duplicate), and — at `0791:1D66`, the instruction
+  reached only when the write proceeds (`1D54`: counter zero, or `1C78` returned nonzero;
+  a refused call jumps straight to the epilogue at `1E4A`, `1D61`→`1D63`) — the line as
+  written: (n, template, p1, p2, team). Entries minus accepted lines is the MEASURED dedup
+  refusal count (T26 rework R3: logging at 1D4A's entry counts refused writes too, so it
+  cannot detect a refusal);
 - `0791:56CB` (the only ring-invisible +0x12 writer): the player word it adds 10 to;
 - `0791:C6FA` (the incoming substitute's 0x2747 store): the player word.
 
 Output (stdout, redirected by the caller into the experiment's committed emu logs): the line
-log, the 56CB/C6FA events with the ring index they fall between, 1E53-vs-ring counts (a
-difference is a dedup refusal, notes.md §2), and every squad slot's final +0x12 word; against a
-record, the line log and the final words are diffed with the record's first-half extent."""
+log (accepted writes only), the 56CB/C6FA events with the ring index they fall between, the
+1E53/1D4A-entry/accepted-line counts (a 1E53 count above the accepted count is a delta whose
+line was refused — the delta is still applied, notes.md §2), and every squad slot's final
++0x12 word; against a record, the line log and the final words are diffed with the record's
+first-half extent."""
 import json
 import sys
 from pathlib import Path
@@ -52,7 +60,8 @@ class FirstHalf(WatchedHalf):
         super().__init__(data)
         self.raw = data
         self.writes = []   # (kind, player word, delta, ring index at the moment)
-        self.lines = []    # (n, template, p1, p2, team) as 1D4A writes them
+        self.lines = []    # (n, template, p1, p2, team) as 1D4A ACCEPTS them (hook at 1D66)
+        self.entries = 0   # 1D4A entries, accepted or refused (hook at 1D4A)
         self.deltas = []   # 1E53 events: (id, team, slot, player word, delta)
         CODE = self.CODE * 16
         mu = self.mu
@@ -77,6 +86,13 @@ class FirstHalf(WatchedHalf):
             self.writes.append(("ring", pw, TAB[rid] if rid < len(TAB) else None, len(self.lines)))
 
         def hook_1d4a(uc, addr, size, data):
+            # entry: count the invocation, accepted or refused (1D4A's head, before 1C78)
+            self.entries += 1
+
+        def hook_1d66(uc, addr, size, data):
+            # the accepted-write path: 1D66 is reached only when the line will be written
+            # (1D54: ring counter 0, or 1C78 returned nonzero; a refused call jumps 1D61 ->
+            # 1D63 -> 1E4A, the epilogue, and never gets here). bp is 1D4A's frame.
             bp = uc.reg_read(UC_X86_REG_BP)
             ss = uc.reg_read(UC_X86_REG_SS) * 16
             rid = int.from_bytes(uc.mem_read(ss + bp + 4, 1), "little")
@@ -103,6 +119,7 @@ class FirstHalf(WatchedHalf):
 
         mu.hook_add(UC_HOOK_CODE, hook_1e53, begin=CODE + 0x1E53, end=CODE + 0x1E53)
         mu.hook_add(UC_HOOK_CODE, hook_1d4a, begin=CODE + 0x1D4A, end=CODE + 0x1D4A)
+        mu.hook_add(UC_HOOK_CODE, hook_1d66, begin=CODE + 0x1D66, end=CODE + 0x1D66)
         mu.hook_add(UC_HOOK_CODE, hook_56cb, begin=CODE + 0x56CB, end=CODE + 0x56CB)
         mu.hook_add(UC_HOOK_CODE, hook_c6fa, begin=CODE + 0xC6FA, end=CODE + 0xC6FA)
 
@@ -157,15 +174,18 @@ def main(argv):
     h = FirstHalf(data).run()
     if len(argv) > 3:
         out = Path(argv[3])
-        out.write_text(json.dumps({"lines": h.lines, "words": h.final_words(),
+        out.write_text(json.dumps({"lines": h.lines, "entries": h.entries,
+                                    "words": h.final_words(),
                                     "writes": h.writes, "deltas": h.deltas,
                                     "draws": len(h.draws), "ticks": h.ticks,
                                     "strays": h.strays}, separators=(",", ":")) + "\n")
         print("dumped to", out)
     print("final clock/seed:", h.rd(0x831F), h.rd(0x831D), h.rd(0x8325, 1), "0x%04x" % h.rd(0x7B62))
     print("ticks:", h.ticks, "draws:", len(h.draws), "strays(000E, must be empty):", h.strays)
-    print("1E53 delta events:", len(h.deltas), "ring lines:", len(h.lines),
-          "(a difference is a dedup refusal, notes.md §2)")
+    print("1E53 delta events:", len(h.deltas), "1D4A entries:", h.entries,
+          "accepted ring lines:", len(h.lines),
+          "(entries - accepted = measured dedup refusals; 1E53 - accepted = deltas whose",
+          "line was refused, notes.md §2)")
     print("+0x12 writers other than 1E53:",
           [w for w in h.writes if w[0] != "ring"])
     print("final +0x12 words (side 0 then side 1, slots 1..20):")
