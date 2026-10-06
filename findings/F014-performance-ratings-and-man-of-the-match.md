@@ -37,8 +37,10 @@
   `0x80E8 + 0x16*(0668[team] + slot)`, takes its `+0xD` player word, and executes
   `add word es:[di+0x12], ax` at `1EAB` with `ax = s8(DS:0x720[template])` — then `call 1D4A`
   writes the ring line. A dedup refusal (`1C78`, the new line identical to the newest) stops the
-  ring write and the counter but NOT the delta; in ~1660 instrumented line events (two emulated
-  second halves, one emulated first half) no refusal ever fired. A line with no player (slot ≤ 0)
+  ring write and the counter but NOT the delta; the instrumented halves measured it: 580
+  entries / 523 accepted writes / 57 refusals in the emulated first half, 550 / 507 / 43 in
+  the second-half scratch — every refusal a template-6 repeat (delta 0), so no refused write
+  changes a rating. A line with no player (slot ≤ 0)
   lands its delta on the dummy pitch record 0's player word — beyond the array, harmless.
 - **The delta table is the 67 signed bytes at DS:0x720..0x762, indexed by template id (both).**
   Goal (38) +40, own goal (39) −50, booked (50) −20, sent off (51) −100, "wins the ball" (14)
@@ -107,10 +109,14 @@
   (e006-2100-r0005, e006-1001-r0002; r0003 the deterministic replay of r0002): full line logs,
   half-time and full-time reads of every slot's `+0x12` both sides, the MoM word, the start
   squads.
-- `experiments/E012-q011-ratings/emu-firsthalf-r0001.{txt,json}` — the instrumented Unicorn
-  emulation of the original binary's own first half from E011's published watchstart savestate:
-  580 lines, no 56CB, no dedup refusal, the plain-table predictor matching its final words
-  40/40.
+- `experiments/E012-q011-ratings/emu-firsthalf-r0002.{txt,json}` — the regenerated
+  instrumented Unicorn emulation of the original binary's own first half from E011's published
+  watchstart savestate, logging at the accepted-write path (`1D66`): 580 entries, 523 accepted
+  ring lines, 57 dedup refusals (all template-6 repeats, delta 0), no 56CB, the plain-table
+  predictor matching the accepted lines' final words 40/40. The second-half scratch harness
+  (E012 notes.md §6) measured 550 entries / 507 accepted / 43 refusals the same way.
+  `emu-firsthalf-r0001.{txt,json}` is superseded history: its entry logging counted `1D4A`
+  entries, not accepted writes, and its "no dedup refusal" was inferred from that defect.
 - `runtime/model/ratings.py` (the predictor), `tests/test_model_ratings.py` (21 tests, a
   14-mutation matrix), `experiments/E012-q011-ratings/check_ratings.py` (`match: 3/3`).
 
