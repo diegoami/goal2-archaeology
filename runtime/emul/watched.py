@@ -123,12 +123,21 @@ class WatchedHalf:
             self.ticks += 1
             self.tick_marks.append((self.rd(0x831F), self.rd(0x831D), self.rd(0x7B62)))
 
+        def save_line(uc, addr, size, data):
+            # 0791:5A8E `write_save_line` — the win branch of 5B36's save duel; one call writes
+            # exactly one `saved by` commentary line (template 0x1D = 29, the E013's match for
+            # `saves`). Counts every reach of 5A8E (a coin-flip branch inside 5B36 also
+            # re-enters 5A8E, so every reach is a save, not a path).
+            self.save_calls += 1
+
+        self.save_calls = 0
         mu.hook_add(UC_HOOK_INTR, lambda uc, i, d: None)
         mu.hook_add(UC_HOOK_CODE, skip_keychk, begin=self.SEG214B * 16 + KEYTHUNK, end=self.SEG214B * 16 + KEYTHUNK)
         for off, nb in WAIT_FAMILY:
             mu.hook_add(UC_HOOK_CODE, skip_ret(nb), begin=self.SEG000E * 16 + off, end=self.SEG000E * 16 + off)
         mu.hook_add(UC_HOOK_CODE, rng, begin=self.SEG214B * 16 + LCG, end=self.SEG214B * 16 + LCG)
         mu.hook_add(UC_HOOK_CODE, tick, begin=self.CODE * 16 + 0x970C, end=self.CODE * 16 + 0x970C)
+        mu.hook_add(UC_HOOK_CODE, save_line, begin=self.CODE * 16 + 0x5A8E, end=self.CODE * 16 + 0x5A8E)
 
     def apply_resume_tail(self):
         """0791:9A32's tail after the ED8A wait (seg_0791_16.asm:9AE3-9B05), exactly as the
@@ -148,7 +157,8 @@ class WatchedHalf:
         self.mu.emu_start(self.CODE * 16 + HALF_ENTRY, self.CODE * 16 + HALF_END, timeout=timeout_s * 1000000)
         self.final = {"831F": self.rd(0x831F), "831B": self.rd(0x831B), "8325": self.rd(0x8325, 1),
                       "7B62": self.rd(0x7B62), "score": [self.rd(0x9B3C, 1), self.rd(0x9B3D, 1)],
-                      "ticks": self.ticks, "draws": len(self.draws), "strays": list(self.strays)}
+                      "ticks": self.ticks, "draws": len(self.draws), "strays": list(self.strays),
+                      "save_calls": self.save_calls}
         return self
 
     def tick_values(self):

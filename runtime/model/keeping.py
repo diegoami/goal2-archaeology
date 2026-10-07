@@ -31,6 +31,8 @@ The tables `DS:6D25` (14 positions x 12 classes) and `DS:6DCD` (16 profiles x 12
 initialised data, NOT part of the record: a prediction from a savestate must read them from that
 savestate (F008's hazard; here they arrive as arguments). Standard library only.
 """
+import sys
+from pathlib import Path
 
 # --- 1771:3A06 (seg_1771_05.asm:1032-3A7F) -------------------------------------------
 SKILL_DIVISOR = 32            # 3A71-3A74: mov cx, 0x20; div cx  (3947, the screen's painter, uses 0x100 at 39C1)
@@ -187,8 +189,14 @@ def keeper_save_predictions(savestate_bytes, new4, edited_keeping):
                 "analytical_derivation": True}
     if savestate_bytes is None:
         return {"requires_state": "edit not 0x00 — the count is seed-dependent; emulate the half-time-edit savestate via runtime/emul/watched.py and hook 0791:5A8E"}
-    # Run the emulator; the hook counts 5A8E (write_save_line) calls.
-    from runtime.emul.watched import WatchedHalf   # local import: the emul harness is heavy
+    # Run the emulator; the hook counts 5A8E (write_save_line) calls. The runtime/emul package
+    # may not be on sys.path when this module is imported directly; the caller (check_keeping.py)
+    # inserts it, but in case the model is exercised standalone, fall back to a path insert.
+    try:
+        from watched import WatchedHalf   # local import: the emul harness is heavy
+    except ImportError:
+        sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "emul"))
+        from watched import WatchedHalf
     with_saves = WatchedHalf(savestate_bytes).run()
     n = with_saves.save_calls
     return {"saves_count": n, "saves_at_least": n, "saves_at_most": n,
@@ -206,7 +214,11 @@ def outfield_edit_predictions(savestate_bytes, new4, edited_keeping_before, edit
     `savestate_bytes` is the edited half-time savestate (the run's `evidence/E013-r*.hafl`).
     The emulated save count is the truth; the predictor returns it and asserts the prediction
     matches the record's count. No "unchanged" flag is encoded."""
-    from runtime.emul.watched import WatchedHalf
+    try:
+        from watched import WatchedHalf
+    except ImportError:
+        sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "emul"))
+        from watched import WatchedHalf
     run = WatchedHalf(savestate_bytes).run()
     n = run.save_calls
     return {"saves_count": n, "saves_at_least": n, "saves_at_most": n,

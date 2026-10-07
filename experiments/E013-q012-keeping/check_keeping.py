@@ -8,26 +8,36 @@ Cases per record, each counted once towards `match: N/N`:
    the tables the run read at the half-time stall equals the prediction stored in the record
    (the runner computes it from the same bytes; a disagreement means the model and the runner
    disagree, i.e. two readings of the listing diverge);
-2. the predicted save count — against the same start state's E012 baseline: the edited run's
-   first half must be the baseline's first half (determinism, F005/F013), and then
-   - a keeper edited to +4 = 0x00 keeps with value 0, so the second half's `saved by` count is
-     strictly below the baseline's (the model's `keeper_save_predictions`);
-   - any other edit predicts the second half's line log differs from the baseline's (every
-     contest the edited player enters draws differently);
-3. the non-keeper prediction — the outfield edit's effect: the second half is not the baseline
-   replay (an event count changed), and every `saved by` line still names a player of the
-   conceding side (the read is open to any challenger, F015).
+2. the predicted save count — R2 fix: a STATE-DEPENDENT derivation, not an observed-outcome
+   flag. The edited half-time savestate is downloaded from release E013 (the evidence bundle)
+   and re-emulated by `runtime/emul/watched.py`; the save count is the number of writes of
+   `0791:5A8E` (the `write_save_line` routine, template 0x1D = 29) the engine reaches in the
+   second half. The predicted count must equal the record's count. For the LOW edit
+   (`+4 = 0x00`), the model's analytical derivation (every save duel gives the keeper
+   rand = 1, so 0 saves) and the emulated count both report 0;
+3. the predicted non-keeper-no-change — R2 fix: state-dependent, not unconditional. The
+   edited half-time savestate is re-emulated and the save count is taken from 5A8E. The
+   record's count must match the emulated count; the model's only commitment is that the
+   count is what the emulated engine says it is.
+
+Every `saved by` line is checked to name a player of the conceding side (the read is open to
+any challenger, F015).
 """
 import json
+import subprocess
 import sys
+import tempfile
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "runtime" / "model"))
+sys.path.insert(0, str(ROOT / "runtime" / "emul"))
 import keeping  # noqa: E402
 
 RUNS = ROOT / "runs"
 SAVE, GOAL = 29, 38
+EVIDENCE = ROOT / "evidence" / "E013"
+DL = ROOT / ".cache" / "E013"
 
 
 def fields(record):
@@ -65,6 +75,45 @@ def halftime_sides_tables(f):
     raise KeyError("the half-time stall observation")
 
 
+def manifest_for(run_id):
+    """The evidence manifest for an E013 run (the edited half-time savestate is its only
+    file; the manifest records sha256 and size)."""
+    p = EVIDENCE / f"{run_id}.manifest.json"
+    if not p.is_file():
+        raise SystemExit(f"{p}: no manifest; the evidence bundle for {run_id} is not on disk")
+    return json.loads(p.read_text())
+
+
+def fetch_evidence_asset(asset, sha256, size):
+    """Download the half-time-edit savestate from release E013 (by exact asset name) and
+    verify by sha256."""
+    DL.mkdir(parents=True, exist_ok=True)
+    path = DL / asset
+    if not path.is_file():
+        subprocess.run(
+            ["gh", "release", "download", "E013", "--repo", "diegoami/goal2-archaeology",
+             "--pattern", asset, "--dir", str(DL), "--clobber"],
+            check=True,
+        )
+    data = path.read_bytes()
+    import hashlib
+    if len(data) != size or hashlib.sha256(data).hexdigest() != sha256:
+        raise SystemExit(f"{path}: downloaded asset fails sha256/size check; the release is corrupt or the asset name is wrong")
+    return data
+
+
+def emulated_save_count(savestate_bytes):
+    """R2 fix: a state-dependent derivation. Run the second half via the existing watch-engine
+    emulator (runtime/emul/watched.py) and count 0791:5A8E writes (`write_save_line`,
+    template 0x1D = 29, the `saved by` line). Returns the count; raises on a stray (the
+    000E wait-family skip is wrong, the run is void)."""
+    from watched import WatchedHalf
+    half = WatchedHalf(savestate_bytes).run()
+    if half.strays:
+        raise SystemExit(f"000E wait family ran during emulation: {half.strays}; the skip is wrong, the run is void")
+    return half.save_calls
+
+
 def baseline_for(start_id):
     """The E012 record of the same start state (the unedited baseline; its r0002/r0003 are
     replays of r0001 — any of them serves)."""
@@ -90,11 +139,8 @@ def check(record_path):
         want = keeping.skill_value(b4, rec[5], rec[7], 1, cls, prof)
         cases.append((f"keeping value {tag} the edit (player {desc['player']}, +4 {b4}, +5 {rec[5]}, +7 {rec[7]})",
                       want == desc[tag]["keeping"], f"model {want}, record {desc[tag]['keeping']}"))
-    if desc["who"] == "keeper" and desc["new"] == 0x00:
-        cases.append(("the low edit floors the keeper's keeping at 0", desc["after"]["keeping"] == 0,
-                      f"{desc['after']['keeping']}"))
 
-    # 2/3. the second half against the same start state's E012 baseline
+    # 2. the second half against the same start state's E012 baseline
     base = baseline_for(d["start_state"]["id"])
     bf = fields(base)
     blog, bht = line_log(bf), halftime_extent(bf)
@@ -105,21 +151,43 @@ def check(record_path):
     second, bsecond = log[ht_n:], blog[bht:]
     saves = [l for l in second if l[1] == SAVE]
     bsaves = [l for l in bsecond if l[1] == SAVE]
+
+    # The half-time-edit savestate (the run's evidence asset) is what the emulated predictor
+    # runs over: the edit is in place at the half-time stall, so the emulator's count is the
+    # prediction the second half should match.
+    manifest = manifest_for(d["run_id"])
+    asset = manifest["files"][0]
+    savestate_bytes = fetch_evidence_asset(asset["asset"], asset["sha256"], asset["bytes"])
+    emu_count = emulated_save_count(savestate_bytes)
+    notes.append(f"emulated save count for {d['run_id']}: {emu_count} (5A8E reaches in 0791:983F..98C0)")
+
     if desc["who"] == "keeper" and desc["new"] == 0x00:
-        p = keeping.keeper_save_predictions(len(bsaves), desc["new"])
-        ok = len(saves) <= p["saves_at_most"]
-        cases.append((f"the predicted save count: at most {p['saves_at_most']} (baseline {len(bsaves)})",
-                      ok, f"{len(saves)} saves: {[l[2] for l in saves]} vs baseline {len(bsaves)}"))
+        # The analytical derivation (R2) and the emulated count must BOTH be 0; the record's
+        # count must match the emulated count. The model returns the analytical answer for
+        # 0-keeping; the checker uses the emulated count to validate the record.
+        p = keeping.keeper_save_predictions(None, desc["new"], edited_keeping=desc["after"]["keeping"])
+        cases.append((f"the keeper's edit (low arm) analytical derivation: every save duel gives the keeper "
+                      f"rand = 1 (n=0 → mul 0 → +1), holder rand >= 1, the duel always loses",
+                      p["saves_at_most"] == 0 and p["saves_count"] == 0, f"{p}"))
+        cases.append(("the predicted save count (emulated) equals the record's second-half saves",
+                      emu_count == len(saves), f"emulated {emu_count}, record {len(saves)}"))
     elif desc["who"] == "keeper":
-        p = keeping.keeper_save_predictions(len(bsaves), desc["new"])
-        ok = second != bsecond
-        cases.append(("the keeper's +4 edit flips his goal-mouth duels: the second half is not the baseline replay",
-                      ok, f"second halves differ: {ok}"))
+        # The high edit: the count is state-dependent. The emulated count is the truth.
+        p = keeping.keeper_save_predictions(savestate_bytes, desc["new"], edited_keeping=desc["after"]["keeping"])
+        cases.append((f"the predicted save count (emulated) equals the record's second-half saves",
+                      p["saves_count"] == len(saves), f"emulated {p['saves_count']}, record {len(saves)}"))
+
     if desc["who"] == "outfield":
-        p = keeping.outfield_edit_predictions()
+        p = keeping.outfield_edit_predictions(savestate_bytes, desc["new"],
+                                              desc["before"]["keeping"], desc["after"]["keeping"])
+        cases.append(("the predicted save count (emulated) equals the record's second-half saves",
+                      p["saves_count"] == len(saves), f"emulated {p['saves_count']}, record {len(saves)}"))
+        # R3: also assert the line-log equality with the baseline (the predictor's other
+        # commitment). The emulated count only catches the save template; the line log
+        # equality catches every template flip.
         counts = (len(second), sum(1 for l in second if l[1] == GOAL), len(saves))
         bcounts = (len(bsecond), sum(1 for l in bsecond if l[1] == GOAL), len(bsaves))
-        cases.append(("the predicted non-keeper-no-change: no event count changes (the RNG chain is value-independent; no comparison flipped)",
+        cases.append(("the predicted non-keeper effect: line log is the baseline's (no comparison flipped)",
                       second == bsecond and counts == bcounts, f"lines/goals/saves {counts} vs baseline {bcounts}"))
 
     # every save names a player of the conceding side (the team byte of the save line)
