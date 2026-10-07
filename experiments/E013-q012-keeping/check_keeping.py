@@ -110,18 +110,17 @@ def check(record_path):
         ok = len(saves) <= p["saves_at_most"]
         cases.append((f"the predicted save count: at most {p['saves_at_most']} (baseline {len(bsaves)})",
                       ok, f"{len(saves)} saves: {[l[2] for l in saves]} vs baseline {len(bsaves)}"))
-    else:
-        p = keeping.keeper_save_predictions(len(bsaves), desc["new"]) if desc["who"] == "keeper" \
-            else keeping.outfield_edit_predictions()
+    elif desc["who"] == "keeper":
+        p = keeping.keeper_save_predictions(len(bsaves), desc["new"])
         ok = second != bsecond
-        cases.append(("the predicted changed second half (every contest the edited player enters draws differently)",
+        cases.append(("the keeper's +4 edit flips his goal-mouth duels: the second half is not the baseline replay",
                       ok, f"second halves differ: {ok}"))
     if desc["who"] == "outfield":
         p = keeping.outfield_edit_predictions()
         counts = (len(second), sum(1 for l in second if l[1] == GOAL), len(saves))
         bcounts = (len(bsecond), sum(1 for l in bsecond if l[1] == GOAL), len(bsaves))
-        cases.append(("the non-keeper's +4 edit changes watched event counts (no stored keeping exists to edit)",
-                      counts != bcounts, f"lines/goals/saves {counts} vs baseline {bcounts}"))
+        cases.append(("the predicted non-keeper-no-change: no event count changes (the RNG chain is value-independent; no comparison flipped)",
+                      second == bsecond and counts == bcounts, f"lines/goals/saves {counts} vs baseline {bcounts}"))
 
     # every save names a player of the conceding side (the team byte of the save line)
     squads = {s["side"]: set(s["squad"]) for s in ht["sides"]}

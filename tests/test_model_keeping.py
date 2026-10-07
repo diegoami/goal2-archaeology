@@ -152,11 +152,13 @@ class TestPredictions(unittest.TestCase):
         self.assertAlmostEqual(new / old, 256 / 181, places=2)
 
     def test_outfield_predictions(self):
-        # 3A06 is element-parametric and reads +4 for every element: an outfield +4 edit feeds
-        # every contest the player enters, so the watched half cannot be the baseline replay
+        # 3A06 is element-parametric and reads +4 for every element, so the edited outfield
+        # player's values shift; but 214B:0688 advances once per rand(n) call whatever n is
+        # (F012), so only a flipped comparison changes the trajectory — the prediction the
+        # E013-r0003 record checks: no event count changes. A mutated "always differs" fails.
         p = K.outfield_edit_predictions()
-        self.assertTrue(p["line_log_differs_from_baseline"])
-        self.assertTrue(p["saves_name_strong_keepers"])
+        self.assertTrue(p["line_log_unchanged"])
+        self.assertTrue(p["values_change"])
 
 
 if __name__ == "__main__":

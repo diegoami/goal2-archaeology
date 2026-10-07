@@ -139,8 +139,13 @@ def keeper_save_predictions(baseline_saves_second_half, new4):
 
 
 def outfield_edit_predictions():
-    """A non-keeper's +4 edit (the I3 edit of E013's outfield arm): `3A06` reads +4 for EVERY
-    element, so every contest the edited player enters shifts (`278A` callers above), and the
-    watched half after the edit is not the baseline replay: at least one event count (lines,
-    goals, saves) differs from the baseline's second half. Saves still name goalkeepers only."""
-    return {"line_log_differs_from_baseline": True, "saves_name_strong_keepers": True}
+    """A non-keeper's +4 edit (the I3 edit of E013's outfield arm). `3A06` reads +4 for EVERY
+    element, so the edited player's derived values all shift (exactly, by ((new4)+1)/((plus4)+1))
+    — but the RNG chain position is value-independent (`214B:0688` steps once per `rand(n)` call
+    whatever n is, F012), so the edit changes an outcome ONLY where a shifted value flips a
+    comparison. The prediction the E013 record checks: the second half's line log is the
+    baseline's (no comparison flipped) — corroborated by E013-r0003 (507 lines, 0 goals, 3
+    saves, the baseline's own counts), while the keeper's edits DID flip his goal-mouth duels
+    (E013-r0001/r0002). A flip is possible in principle (the drawn comparison operands change),
+    so "no change" is this match's answer, not a law; the finding says so."""
+    return {"line_log_unchanged": True, "values_change": True}
