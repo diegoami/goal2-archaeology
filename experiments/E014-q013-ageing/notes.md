@@ -166,3 +166,50 @@ savestate, the derived-skill values before and after.
 - +2, +3, +5, +6, +7 unchanged across the year for continuing players (section 2);
 - the tables `DS:6D25`/`DS:6DCD` are not mutated by the yearly path (F008's hazard): the
   year-end records carry both years' copies and `check_ageing.py` compares them.
+
+## 7. The auto-play path: the pre-match team screen's silent refusal, and the assistant
+
+Static, read while fixing the r0002-r0004 stall (the runner sent 15-1193 Enters on one
+`location:` screen with no advance):
+
+- `0791:ED8A` (`in_match_menu`, the pre-match team screen; seg_0791_11.c:405-538): the option
+  cursor is `local_9` (1..10); ` play ` is the fall-through Enter branch (`local_3 = 1`,
+  seg_0791_11.c:529-531), and the menu loop's exit is
+  `while ((local_3 == 0) || (EA09() == 0))` (seg_0791_11.c:533) — Enter on ` play ` leaves the
+  menu ONLY when `0791:EA09` returns 1; otherwise the screen is redrawn and the key waits again,
+  with no message: a silent refusal.
+- `0791:EA09` (seg_0791_11.c:258-402): for every managed side (`is_managed` of `DS:9B34[side]`),
+  walks the first eleven squad words `squad[0..10]`; a player `player_unavailable` while
+  `DS:0C1F == 0` sets the side invalid outright (seg_0791_11.c:299-303); position counts are
+  taken only over available players (`local_12[position]`, seg_0791_11.c:296-298), and the
+  keeper/count warnings ("X has an ineligible player in the first team", `0791:E9A2`;
+  "X has too many/no ... ", `0791:E9CE`/`E9E0`) are shown by `u214b_message_if_flag`
+  (214B:1765: copies the message, shows it with the press-any-key box 04F8 when the flag is
+  set, returns the flag) — each shown warning also marks the side invalid. EA09 returns 1 only
+  when both sides stayed valid. So one injured/suspended player among the eleven makes ` play `
+  a silent infinite loop — which is what r0002-r0004 hit after two quick friendlies.
+- The recovery, from the same screen: Space opens the players screen directly
+  (seg_0791_11.c:498-500: `DS:A976 == ' '` → `0791:E949`, which for a managed side runs
+  `select_team_screen` `0791:E44F`); there the Ins key (`cVar3 == -0x4a`,
+  seg_0791_09.c/select_team_screen key chain) with the squad list side up and `DS:0C1F == 0`
+  calls `0791:DC7E`: the assistant's recommended 20 — two passes over the 20 squad slots, and
+  for each slot the whole pool is scanned for a same-position player whose `player_strength`
+  (1771:...) exceeds the incumbent's; the stronger pool player is swapped in
+  (u214b_swap_bytes, seg_0791_10.c:742-790). GOAL.HLP P58 documents the key ("Hit Ins for
+  assistant's recommended 20", sources/goal-hlp.md:324-325 and the screen string 2581:58FD).
+  Esc exits the screen (the `local_7 == 1` Esc branch, seg_0791_09.c:83-89), and ` play ` then
+  passes EA09. r0005 confirms: after the Space/Ins/Esc recovery at fixture 114 the season ran
+  on to the stage-2→3 year end at fixture 769.
+
+## 8. Match speed on the E014 path (owner direction, GOAL.HLP P102/P106)
+
+The E014 runner never watches a match at variable speed: the managed side's matches go through
+the captain screen's quick arm (Enter+r, F004's d3b: `r` at the first running-clock poll
+`0791:92FC`, the immediate result F005 calls the quick engine — match.py `START_KEYS["quick"]`),
+and every other fixture is refused at `0791:E80D` (n → the fixture byte 0xFE, simulated by
+`000E:6970`). So the R quick-result path is the only match path the corroborating years run
+through, for every match of every year. The ageing loop is not on the match path at all: it
+runs in the year-end settling after the stage byte `[A923]+0x3C` enters a stage in {2,3,5,7}
+(notes §1), which the quick path still traverses — r0005's capture 1 (stage 2→3, fixture 769,
+fix_cnt 769→1345) is on that path, and its records are the corroboration input. The Left/Right
+match-speed keys ([DS:A923]+0x3F, seg_0791_15.asm:785-791) are therefore never needed.
