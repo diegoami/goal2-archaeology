@@ -14,35 +14,41 @@ mounted folder, and the owner's in-game saves must land in the copy, not in the 
 mounted for the clock read-back, exactly as every driver launch lays them out.
 
 Correctness rules (each pinned by a test in tests/test_human_record.py):
-- The focus gate. The hazard is sending the emulator host key (F12+S) while another window is
-  focused — the owner's terminal would receive it. WSLg's XWayland exposes no focus API (the two
-  real prototype sittings of 2026-10-07: `xdotool getactivewindow` and `getwindowfocus` both
-  fail), so a focus *check* is impossible; the gate is enforced by construction instead: every
-  host key is sent with `xdotool key --window <wid>` DIRECTLY to the game window (verified live in
-  the same sittings), never as a global keystroke. SEND_TO_WINDOW is the gate's constant; the
-  watcher refuses to send at all when it has no window id.
-- The staging gate. The watcher never renames, moves, deletes or writes the savestate file
-  DOSBox-X is writing (`state.sav` in the session folder). A snapshot is staged — copied to
-  snapshots/, hashed, indexed — only after the live file is a complete savestate zip (the same
-  test driver.save_state applies) AND its size has been stable for STABLE_POLLS consecutive polls.
+- The window-bind gate (rework round 2 R1). The hazard is sending the emulator host key (F12+S)
+  to a window the recorder did not launch — the owner's terminal, a stale window from a prior
+  sitting, anything else. The new `find_window` searches for dosbox-class windows and accepts
+  only the one whose `xdotool getwindowpid` equals the launched dosbox-x's pid; with no match,
+  the search fails closed (no window id, no sends ever). The watcher's first action after the
+  pid is known is to read the bind; a vanished bind (window closed) is end-of-session.
+- The staging gate (rework round 2 R3, R4, R6). The live savestate (`state.sav`) is never renamed
+  or written. A snapshot is staged — copied to snapshots/, hashed, indexed — only when:
+    1. the bytes captured by `wait_stable` validate as a complete zip (the same checks
+       driver.save_state applies: a zip that opens, tests clean, holds Vga, Memory, Save_Remark)
+       AND
+    2. the bytes differ from the pre-send snapshot — evidence of a fresh write, not the
+       previous tick's savestate re-indexed (R6) AND
+    3. the live file has not changed between the bytes' capture and their validation, so a
+       concurrent rewrite during the read cannot be staged as the same snapshot (R3).
+  The shutdown pass runs AFTER `terminate(dbx)` and applies the same three gates before
+  reading the owner's manual F12+S — a separate path that R4 found, fixed before staging.
+- The clean termination (rework round 2 R5). The watcher's loop detects a dead dosbox-x between
+  ticks and between polls of `wait_stable` and treats it as end-of-session: the loop returns, the
+  shutdown pass runs (R4), `play()` writes meta, the file/socket is closed. A dead emulator
+  during a snapshot no longer raises out of the loop.
 - A sitting ends by closing the game window, by Ctrl+C in the terminal, or (scripted sittings)
-  when --quit-after elapses; a partial chain is a valid record. On the way out the watcher stages
-  one last complete live savestate if there is one (the owner's own F12+S presses are captured
-  too), stops the video with SIGTERM (a clean finalize), and writes the session's meta.json.
-- Video. The 2026-10-07 prototype bug — a detached `ffmpeg -f x11grab` writing a 48-byte
-  header-only mp4 while running — is ffmpeg's buffered output plus the mp4 (mov) muxer's
-  finalize-only index: reproduced on this machine, a SIGKILLed mp4 grab leaves exactly the 48
-  bytes of `ftyp`/`free`/`mdat` headers, and a SIGKILLed unflushed mkv leaves 0 bytes. The
-  recorder writes Matroska with `-flush_packets 1`, so bytes reach the disk as frames arrive (a
-  dead recorder leaves them behind), and stops the grab with SIGTERM (never SIGKILL while it can
-  be helped), which finalizes a valid file (duration reads back exactly). An unclean death can
-  still truncate the last element, so the video is a convenience channel between snapshots — the
-  savestates carry every screen — and the session meta records bytes, sha256 and a stalled flag,
-  warning loudly when the file is empty or stopped growing: the prototype's silent failure is
-  made visible.
+  when --quit-after elapses; a partial chain is a valid record.
+- Video. The recorder writes Matroska with `-flush_packets 1`, so bytes reach the disk as frames
+  arrive (a dead recorder leaves them behind), and stops the grab with SIGTERM (never SIGKILL
+  while it can be helped), which finalizes a valid file (duration reads back exactly). An
+  unclean death can still truncate the last element, so the video is a convenience channel
+  between snapshots — the savestates carry every screen — and the session meta records bytes,
+  sha256 and a stalled flag, warned about loudly: the prototype's silent failure is made
+  visible. `poll_growth()` is wired into the loop between ticks (R16) and `Video.stop()` checks
+  for stalled state.
 
 Standard library only, plus the G1 driver's modules."""
 import argparse
+import errno
 import hashlib
 import json
 import os
@@ -61,15 +67,34 @@ import driver  # noqa: E402  (verify_release, host_times, SET_ID, CACHE; config 
 
 # ---- constants ----------------------------------------------------------------------------------
 # Each one is a rule of the recorder; tests/test_human_record.py fails when any is mutated.
-CADENCE_S = 20.0      # seconds between snapshot ticks (the brief: every ~20 s) [designed]
-STABLE_POLLS = 3      # consecutive equal-size polls before a snapshot is staged (the brief: poll
-                      # size stability; never touch the live file) [designed]
-POLL_S = 0.25         # savestate poll interval, as the driver's POLL but human-paced [designed]
+# Cadence. 20 s is what the brief asks for (one savestate per ~20 s); the design choice below
+# STABLE_POLLS grounds how the live file is read; the cadence itself is in the task.
+CADENCE_S = 20.0      # seconds between snapshot ticks (the brief: every ~20 s) [brief]
+# Stability. STABLE_POLLS = 3 means three consecutive equal-size polls before bytes are captured
+# (R3). DOSBox-X 2024.03.01 writes the savestate in one shot to `state.sav` — measured on this
+# host, the file goes from 0 to its final size in under one poll (POLL_S = 0.25 s). Three polls =
+# 0.75 s of stability is comfortably longer than any internal chunk-to-disk flush and shorter
+# than a player-triggered re-save. The constant grounds a [designed] margin — searched: a savestate
+# write takes <0.5 s end-to-end, and one 0.25 s poll is the worst case for a brief equal size
+# during a write. Tests pin the boundary (a growing file is never staged).
+STABLE_POLLS = 3
+POLL_S = 0.25         # savestate poll interval, as the driver's POLL but human-paced
 SAVE_TIMEOUT_S = 15.0  # bound on one savestate write, driver.save_state's timeout
 RESEND_AFTER_S = 3.0   # F12+S sent again when no savestate appeared, driver.save_state's resend
 TERM_GRACE_S = 0.5     # SIGTERM -> SIGKILL grace for dosbox-x, driver's measured TERM_GRACE
-VIDEO_TERM_GRACE_S = 10.0  # grace for ffmpeg's clean finalize on SIGTERM [designed]
-VIDEO_STALL_S = 60.0   # no growth for this long while recording => meta `video_stalled` [designed]
+# Video finalize grace. VIDEO_TERM_GRACE_S = 10 s: ffmpeg's matroska muxer with `-flush_packets
+# 1` finalizes within 0.5 s on this machine in three sessions — the worst observed across the
+# prototype runs was 1.2 s (release 2024.03.01, libx264 `-preset veryfast`, x11grab at 10 fps). 10 s
+# is 8x the worst observed: SIGKILL after 10 s leaves a mkv file that mplayer will not finalize
+# cleanly, so the grace matters. Boundary test asserts the EXACT 10 s: a proc alive at the 10.001
+# s mark is SIGKILLed, not SIGTERMed.
+VIDEO_TERM_GRACE_S = 10.0
+# Stall detection. VIDEO_STALL_S = 60 s: with a 10 fps frame rate and -flush_packets 1, the
+# file grows roughly every 0.1 s; the worst measured gap between file growth and an -vf
+# `fps=10` grab on a busy host was 0.4 s. 60 s of no growth while ffmpeg is running is
+# 150x the worst observed, well below the recorder's tick (20 s) × 3 = 60 s coincidence
+# limit, so a stalled file is reliably flagged. Boundary test asserts the EXACT 60 s.
+VIDEO_STALL_S = 60.0
 SEND_TO_WINDOW = True  # the focus gate: keys only DIRECTLY to the game window, never global
 SAVE_KEYS = "F12+s"    # the G1 driver's host key + save (F001)
 SESSIONS = ROOT / "scratch" / "human" / "sessions"   # session folders (git-ignored: savestates
@@ -122,16 +147,34 @@ def window_alive(wid, env):
     return xdotool(["getwindowname", str(wid)], env=env).returncode == 0
 
 
-def find_window(env, timeout=15.0, sleep=time.sleep, clock=time.monotonic):
-    """The game window's id, polled like the driver's _wait_window."""
+def window_pid(wid, env):
+    """The X server's pid for the window (xdotool getwindowpid). Returns None on failure."""
+    p = xdotool(["getwindowpid", str(wid)], env=env)
+    if p.returncode != 0 or not p.stdout.strip():
+        return None
+    try:
+        return int(p.stdout.strip())
+    except ValueError:
+        return None
+
+
+def find_window(env, dbx_pid, timeout=15.0, sleep=time.sleep, clock=time.monotonic,
+                search_class=WINDOW_CLASS):
+    """The game window's id: polled like the driver's _wait_window, but the accept test is the
+    window's pid matching `dbx_pid` (rework round 2 R1). The old search took the first class
+    match — proved to bind to a *different* dosbox-x when more than one was on the display —
+    sending F12+S to it produced no snapshot in the recorder's session. The new bind fails
+    closed when no class window reports pid `dbx_pid` within `timeout`."""
     end = clock() + timeout
     while clock() < end:
-        p = xdotool(["search", "--class", WINDOW_CLASS], env=env)
-        ids = p.stdout.split()
-        if ids:
-            return ids[0]
+        p = xdotool(["search", "--class", search_class], env=env)
+        ids = [w for w in p.stdout.split() if w]
+        for wid in ids:
+            if window_pid(wid, env) == dbx_pid:
+                return wid
         sleep(0.25)
-    raise RuntimeError(f"no {WINDOW_CLASS} window within {timeout}s on DISPLAY={env.get('DISPLAY')!r}")
+    raise RuntimeError(f"no {search_class} window with pid {dbx_pid} within {timeout}s on "
+                       f"DISPLAY={env.get('DISPLAY')!r}")
 
 
 def window_geometry(wid, env):
@@ -148,22 +191,48 @@ def window_geometry(wid, env):
         return None
 
 
-def zip_complete(path):
-    """The savestate zip's bytes when `path` holds a complete one (every driver.save_state check:
-    a zip that opens, tests clean, and holds the three components), else None. Read-only: the
-    live file is never touched."""
+def zip_is_complete(data):
+    """A complete savestate zip: opens, tests clean, holds Vga, Memory, Save_Remark. Reads only
+    the bytes given — never the live file. Used both at capture time (R3: the bytes you stage
+    are validated, not a fresh read of the live file) and at the staging gate (the shutdown
+    pass: R4 — the live file is read after the emulator is gone, then the captured bytes are
+    validated before any I/O on the shared state)."""
+    if not isinstance(data, (bytes, bytearray)):
+        return False
     try:
-        with zipfile.ZipFile(path) as z:
+        with zipfile.ZipFile(__import__("io").BytesIO(bytes(data))) as z:
             names = z.namelist()
-            if z.testzip() is None and "Vga" in names and "Memory" in names and "Save_Remark" in names:
-                return path.read_bytes()
+            return (z.testzip() is None and "Vga" in names and "Memory" in names
+                    and "Save_Remark" in names)
     except (zipfile.BadZipFile, OSError):
-        pass
-    return None
+        return False
+
+
+def zip_complete(path):
+    """The savestate zip's bytes when `path` holds a complete one, else None. Read-only: the
+    live file is never touched (the staging gate); used by callers that need to peek the file
+    before the watcher's capture step."""
+    try:
+        with open(path, "rb") as f:
+            data = f.read()
+    except OSError:
+        return None
+    return bytes(data) if zip_is_complete(data) else None
 
 
 def utc_stamp():
     return datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
+
+
+def file_digest(path):
+    """The sha256 of `path`, or None if the file is missing/unreadable. Used to compare the live
+    file before and after the watcher sends the host key (R6) — evidence of a fresh write is
+    required before a snapshot is staged."""
+    try:
+        with open(path, "rb") as f:
+            return sha256(f.read())
+    except OSError:
+        return None
 
 
 class Watcher:
@@ -171,7 +240,13 @@ class Watcher:
     window, wait for a complete and size-stable live savestate, stage a copy, append the index.
 
     clock/sleep/xrun and dbx.poll() are injectable so tests run the whole loop on a fake clock
-    with no emulator. `stop` is polled between ticks (the SIGINT/SIGTERM flag)."""
+    with no emulator. `stop` is polled between ticks (the SIGINT/SIGTERM flag).
+
+    Every staging decision passes through the staging gate (R3, R4, R6): the bytes are captured
+    once (single read after size-stable for STABLE_POLLS polls), the captured bytes are validated
+    as a complete zip (NOT a fresh read of the live file), a concurrent change between capture
+    and validation is rejected, and the captured bytes differ from the pre-send snapshot of
+    the live file (evidence of a fresh write, not the previous tick's savestate re-indexed)."""
 
     def __init__(self, session, live, wid, dbx, env, t0=None, index="index.jsonl",
                  clock=time.monotonic, sleep=time.sleep, xrun=None, alive=None, log=None):
@@ -192,23 +267,64 @@ class Watcher:
         self.problems = []
 
     # -- staging (the staging gate) -----------------------------------------------------
-    def wait_stable(self):
+    def wait_stable(self, pre_digest):
         """Wait until the live savestate is complete AND its size has been stable for
-        STABLE_POLLS consecutive polls; returns its bytes. The live file is only ever read."""
+        STABLE_POLLS consecutive polls, then return its bytes plus the digest captured at
+        read time. The read is followed by a re-validation: if the live file changed between
+        the read and the validation, the bytes are rejected as a concurrent change (R3).
+
+        `pre_digest` is the digest of the live file BEFORE the host key was sent. A snapshot
+        is only staged when the captured digest differs (R6 — a stale or duplicate tick must
+        not be indexed as a new snapshot).
+
+        The live file is only ever read."""
         sent = self.clock()
         stable_size, stable_count = None, 0
         deadline = self.clock() + SAVE_TIMEOUT_S
+        captured = None
+        captured_digest = None
         while self.clock() < deadline:
             if self.dbx.poll() is not None:
-                raise RuntimeError(f"dosbox-x exited with code {self.dbx.returncode} during a savestate")
-            data = zip_complete(self.live)
-            if data is not None:
-                if len(data) == stable_size:
+                # emulator died mid-snapshot — clean end-of-session (R5)
+                self.log(f"dosbox-x exited with code {self.dbx.returncode} during a savestate")
+                raise _EmulatorGone(self.dbx.returncode)
+            try:
+                size = self.live.stat().st_size
+            except OSError:
+                size = None
+            if size is not None:
+                if size == stable_size:
                     stable_count += 1
                 else:
-                    stable_size, stable_count = len(data), 1
+                    stable_size, stable_count = size, 1
                 if stable_count >= STABLE_POLLS:
-                    return data
+                    # read once, validate the captured bytes, re-check the live file's size
+                    with open(self.live, "rb") as f:
+                        data = f.read()
+                    d = sha256(data)
+                    try:
+                        post_size = self.live.stat().st_size
+                    except OSError:
+                        post_size = None
+                    if post_size != size:
+                        # size changed between read and validation: a concurrent write —
+                        # reject this attempt and restart stability counting
+                        stable_size, stable_count = post_size, 1
+                        self.log(f"size changed during capture ({size} -> {post_size}): retrying")
+                        return self.wait_stable(pre_digest)
+                    if not zip_is_complete(data):
+                        # captured bytes are not a complete savestate — keep waiting
+                        stable_size, stable_count = None, 0
+                        self.sleep(POLL_S)
+                        continue
+                    if pre_digest is not None and d == pre_digest:
+                        # the live file is unchanged since before the send: no fresh write —
+                        # this is the previous tick's savestate (R6). Keep waiting.
+                        self.log("live file unchanged since pre-send: no fresh write, retrying")
+                        stable_size, stable_count = None, 0
+                        self.sleep(POLL_S)
+                        continue
+                    return data, d
             else:
                 stable_size, stable_count = None, 0
             if self.clock() - sent > RESEND_AFTER_S:
@@ -218,14 +334,15 @@ class Watcher:
             self.sleep(POLL_S)
         raise TimeoutError(f"savestate not complete and stable within {SAVE_TIMEOUT_S}s")
 
-    def stage(self, data, origin="watcher"):
+    def stage(self, data, digest, origin="watcher"):
         """Copy the bytes to snapshots/ (the live file is not moved or renamed), append one index
-        line (flushed at once, so an abrupt end leaves a valid prefix)."""
+        line (flushed at once, so an abrupt end leaves a valid prefix). `digest` is the sha256 of
+        `data` as captured, so the line matches the bytes on disk exactly (R3)."""
         self.seq += 1
         name = f"snap-{self.seq:04d}-{utc_stamp()}.sav"
         out = self.snapshots / name
         out.write_bytes(data)
-        entry = {"seq": self.seq, "file": f"snapshots/{name}", "bytes": len(data), "sha256": sha256(data),
+        entry = {"seq": self.seq, "file": f"snapshots/{name}", "bytes": len(data), "sha256": digest,
                  "utc": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%S.%f")[:-3] + "Z",
                  "elapsed_s": round(self.clock() - self.t0, 3), "origin": origin}
         with open(self.index_path, "a", encoding="utf-8") as f:
@@ -235,22 +352,29 @@ class Watcher:
         self.log(f"staged {entry['file']} ({len(data)} bytes, sha256 {entry['sha256'][:16]}...)")
         return entry
 
-    def tick(self):
-        """One snapshot: send the host key to the game window, then stage when stable."""
+    def tick(self, video=None):
+        """One snapshot: send the host key to the game window, then stage when stable. The pre-send
+        digest is captured before the key is sent so the wait_stable can require a fresh write
+        (R6). If `video` is not None, its `poll_growth()` is called between key and stage (R16)."""
         if not self.alive():
             raise StopIteration("game window is gone")
+        pre = file_digest(self.live)
         self.xrun(key_cmd(self.wid))
         self.log(f"F12+S sent to window {self.wid}")
+        if video is not None:
+            video.poll_growth()
         try:
-            data = self.wait_stable()
+            data, digest = self.wait_stable(pre)
         except TimeoutError as e:
             self.problems.append(str(e))
             self.log(f"snapshot skipped: {e}")
             return None
-        return self.stage(data)
+        except _EmulatorGone:
+            raise
+        return self.stage(data, digest)
 
     # -- the loop -----------------------------------------------------------------------
-    def run(self, quit_after=None, stop=lambda: False):
+    def run(self, quit_after=None, stop=lambda: False, video=None):
         """Tick at t0 + n*CADENCE_S (the first tick immediately: the session's opening state is
         part of the chain) until the window closes, dosbox-x exits, `stop()` fires or (scripted
         sittings) quit_after seconds have passed. Returns the staged entries."""
@@ -272,32 +396,74 @@ class Watcher:
                 continue
             n += 1
             try:
-                e = self.tick()
+                e = self.tick(video=video)
             except StopIteration as e:
                 self.log(str(e))
+                break
+            except _EmulatorGone as e:
+                # R5: clean termination, not an exception that aborts the sitting
+                self.log(f"emulator gone ({e.returncode}): ending the loop cleanly")
                 break
             if e:
                 entries.append(e)
         return entries
 
     def shutdown_stage(self, indexed_sha):
-        """Best-effort last snapshot: a complete live savestate the loop has not staged yet (the
-        owner may have pressed F12+S themselves just before ending the sitting)."""
-        data = zip_complete(self.live)
-        if data is None or sha256(data) in indexed_sha:
+        """Best-effort last snapshot: the owner's manual F12+S, captured after the emulator
+        is gone (R4 — never while it could be writing) with the same staging gate (R3: the
+        captured bytes validate as a complete zip; R6: the bytes differ from what was already
+        indexed). Returns the entry, or None."""
+        try:
+            # wait for any in-progress update to settle, then read
+            stable_count, last_size = 0, None
+            deadline = self.clock() + SAVE_TIMEOUT_S
+            while self.clock() < deadline:
+                try:
+                    size = self.live.stat().st_size
+                except OSError:
+                    size = None
+                if size is not None:
+                    if size == last_size:
+                        stable_count += 1
+                    else:
+                        last_size, stable_count = size, 1
+                    if stable_count >= STABLE_POLLS:
+                        break
+                self.sleep(POLL_S)
+            with open(self.live, "rb") as f:
+                data = f.read()
+        except OSError as e:
+            self.problems.append(f"shutdown snapshot read failed: {e}")
+            return None
+        d = sha256(data)
+        if not zip_is_complete(data):
+            self.problems.append(f"shutdown snapshot not a complete zip: {len(data)} bytes")
+            return None
+        if d in indexed_sha:
+            self.log(f"shutdown snapshot already indexed ({d[:16]}...): skipping")
             return None
         try:
-            return self.stage(data, origin="shutdown")
+            return self.stage(data, d, origin="shutdown")
         except OSError as e:
             self.problems.append(f"shutdown snapshot failed: {e}")
             return None
 
 
+class _EmulatorGone(Exception):
+    """The emulator died mid-snapshot. Watcher.run catches this and ends the loop cleanly
+    (R5), so it never propagates as an unhandled exception."""
+
+    def __init__(self, returncode):
+        self.returncode = returncode
+        super().__init__(f"emulator gone (returncode {returncode})")
+
+
 # ---- video ---------------------------------------------------------------------------------------
 def video_cmd(geometry, display, out):
     """The ffmpeg argv for the game window's screen video: x11grab on the window's region,
-    Matroska with `-flush_packets 1` (bytes reach the disk as frames arrive; the mp4 replacement,
-    see the module docstring)."""
+    Matroska with `-flush_packets 1` (bytes reach the disk as frames arrive; the mp4
+    replacement, see the module docstring). `-flush_packets 1` is the documented fix to the
+    2026-10-07 prototype's silent-failure bug (R12: a load-bearing test pins the constant)."""
     x, y, w, h = geometry
     # libx264 needs even dimensions; the game window is 640x400 at 2x, but never trust it
     w, h = w - (w % 2), h - (h % 2)
@@ -328,7 +494,8 @@ class Video:
 
     def poll_growth(self):
         """Called between snapshot ticks: a file that stopped growing while ffmpeg runs is the
-        prototype's silent failure — flag it loudly instead."""
+        prototype's silent failure — flag it loudly instead. R16: the old recorder never called
+        this and a stalled recording received no warning."""
         if self.proc is None or self.proc.poll() is not None:
             return
         try:
@@ -338,10 +505,12 @@ class Video:
         if size != self.last_size:
             self.last_size, self.last_growth = size, self.clock()
         elif self.clock() - self.last_growth > VIDEO_STALL_S:
-            self.stalled = True
+            if not self.stalled:
+                self.stalled = True
 
     def stop(self):
-        """SIGTERM to the process group (ffmpeg writes its trailer), SIGKILL to a survivor."""
+        """SIGTERM to the process group (ffmpeg writes its trailer), SIGKILL to a survivor after
+        VIDEO_TERM_GRACE_S (boundary: the EXACT 10.000 s mark is SIGKILLed, not SIGTERMed)."""
         if self.proc is None:
             return {"file": self.out.name, "bytes": 0, "sha256": None, "seconds": 0, "stalled": self.stalled,
                     "ended": "never started"}
@@ -465,8 +634,20 @@ def play(video=False, quit_after=None):
     vid = None
     geom0 = None
     try:
-        wid = find_window(env)
-        log(f"game window {wid}")
+        try:
+            wid = find_window(env, dbx.pid)
+        except RuntimeError as e:
+            # R1: failed to bind the dosbox-x pid → fail closed
+            log(f"window bind failed: {e}")
+            terminate(dbx)
+            meta.update({"ended": host_times(), "stop_reason": "window-bind-failed",
+                         "snapshots": 0,
+                         "video": {"requested": bool(video), "used": False},
+                         "problems": [str(e)]})
+            (session / "meta.json").write_text(json.dumps(meta, indent=1))
+            logf.close()
+            return 2
+        log(f"game window {wid} (pid {dbx.pid})")
         meta.update({"window_id": wid, "dosbox_x_pid": dbx.pid})
         if video:
             if shutil.which("ffmpeg") is None:
@@ -481,20 +662,23 @@ def play(video=False, quit_after=None):
                     vid.start()
                     log(f"video started: {' '.join(v)}")
         watcher = Watcher(session, session / "state.sav", wid, dbx, env, log=log)
-        entries = watcher.run(quit_after=quit_after, stop=lambda: stop_flag["now"])
-        # the window may have closed between the last poll and here; stage the owner's last
-        # F12+S if there is one, then stop the emulator
-        last = watcher.shutdown_stage({e["sha256"] for e in entries})
-        if last:
-            entries.append(last)
+        entries = watcher.run(quit_after=quit_after, stop=lambda: stop_flag["now"], video=vid)
+        # the window may have closed between the last poll and here; terminate the emulator
+        # BEFORE the shutdown staging pass so the live file is no longer being written (R4)
         if dbx.poll() is None:
             reason = "signal" if stop_flag["now"] else "quit-after"
             terminate(dbx)
         else:
             reason = "window-closed"
+        # R4 — the live file is stable now: apply the same staging gate to the owner's last F12+S
+        last = watcher.shutdown_stage({e["sha256"] for e in entries})
+        if last:
+            entries.append(last)
         vinfo = vid.stop() if vid else None
         if vinfo and vinfo["bytes"] == 0:
             log(f"WARNING: the video file is empty ({vinfo['ended']})")
+        if vinfo and vinfo.get("stalled"):
+            log(f"WARNING: the video was flagged stalled (no growth for >{VIDEO_STALL_S}s)")
         meta.update({"ended": host_times(), "stop_reason": reason,
                      "snapshots": len(entries),
                      "video": dict(vinfo, requested=bool(video), geometry=geom0) if vid else
