@@ -365,36 +365,53 @@ class TestPredictions(unittest.TestCase):
         self.assertFalse(K.keeper_saves(5, 5, jle_opcode=0x76))            # jbe: same as jle
 
     def test_duel_contests_uses_constants(self):
-        # R2 round-3 fix: the helpers `duel_contests`, `duel_operand`, `keeper_saves` must
-        # actually USE the constants `DUEL_KEEPER_ELEMENT`, `DUEL_HOLDER_ELEMENTS`,
-        # `DUEL_AIR_MULTIPLIER`, `DUEL_GROUND_BONUS`, `DUEL_SAVE_JLE_OPCODE`. A bug that
-        # swaps `duel_contests` for `None` or for a function returning constant values would
-        # fail this test: the helpers are CALLED with their listing-derived inputs and the
-        # helpers' outputs are checked at the boundary.
-        # Minimal recorder player / holder records (20 bytes): only +4/+5/+7/+0xC/+0xE are read.
-        rec_a = bytes(20)
-        rec_b = bytes(20)
-        rec_a = rec_a[:4] + bytes([180, 1, 0]) + rec_a[7:]    # +4=180, +5=1, +7=0
-        rec_b = rec_b[:4] + bytes([180, 1, 0]) + rec_b[7:]    # same keeper-as-challenger
-        rec_a = rec_a[:0xC] + bytes([30, 0, 4]) + rec_a[0xF:]  # form=30, energy=4
-        rec_b = rec_b[:0xC] + bytes([30, 0, 4]) + rec_b[0xF:]
-        # Both records identical → equal keeping. jle says no save; jl says save.
-        ch, hh = K.duel_contests(rec_a, rec_b, CLASS_TABLE, PROFILE_TABLE, ground=True)
-        # A mutation of DUEL_HOLDER_ELEMENTS from (10, 4) to (10, 5) changes the holder's
-        # contest; pin the listing-derived (10, 4).
+        # R2 round-3 + R1 round-4 fix: the helpers `duel_contests`, `duel_operand`,
+        # `keeper_saves` must actually USE the constants `DUEL_KEEPER_ELEMENT`,
+        # `DUEL_HOLDER_ELEMENTS`, `DUEL_AIR_MULTIPLIER`, `DUEL_GROUND_BONUS`,
+        # `DUEL_SAVE_JLE_OPCODE`. The round-3 test only compared `2 * ch > hh`, which a
+        # constant-returning fake `(100, 0)` could pass too. The fix pins the EXACT
+        # listing-derived values for both branches; a constant-returning fake breaks the
+        # equality.
+        rec_a = bytearray(20)
+        rec_b = bytearray(20)
+        rec_a[4] = 180; rec_a[5] = 1; rec_a[7] = 0
+        rec_b[4] = 180; rec_b[5] = 1; rec_b[7] = 0
+        rec_a[0xC] = 30; rec_a[0xE] = 4
+        rec_b[0xC] = 30; rec_b[0xE] = 4
+        # Compute the EXACT expected values independently, so a fake returning constant
+        # values breaks the equality.
+        expected_ch = K.contest_value(plus4=180, plus5=1, plus7=0, plus_c=30, plus_e=4,
+                                     element=K.DUEL_KEEPER_ELEMENT,
+                                     class_table=CLASS_TABLE, profile_table=PROFILE_TABLE,
+                                     event_code=K.KEEPING_EVENT)
+        expected_hh_ground = K.contest_value(plus4=180, plus5=1, plus7=0, plus_c=30, plus_e=4,
+                                             element=K.DUEL_HOLDER_ELEMENTS[0],
+                                             class_table=CLASS_TABLE, profile_table=PROFILE_TABLE)
+        expected_hh_air = K.contest_value(plus4=180, plus5=1, plus7=0, plus_c=30, plus_e=4,
+                                         element=K.DUEL_HOLDER_ELEMENTS[1],
+                                         class_table=CLASS_TABLE, profile_table=PROFILE_TABLE)
+        # Ground branch: holder reads element 10
+        ch_g, hh_g = K.duel_contests(rec_a, rec_b, CLASS_TABLE, PROFILE_TABLE, ground=True)
+        self.assertEqual(ch_g, expected_ch)
+        self.assertEqual(hh_g, expected_hh_ground)
+        # Air branch: holder reads element 4
+        ch_a, hh_a = K.duel_contests(rec_a, rec_b, CLASS_TABLE, PROFILE_TABLE, ground=False)
+        self.assertEqual(ch_a, expected_ch)
+        self.assertEqual(hh_a, expected_hh_air)
+        # The two holder values must differ (different elements).
+        self.assertNotEqual(expected_hh_ground, expected_hh_air)
+        # The constants are USED: changing DUEL_HOLDER_ELEMENTS changes the holder's value.
         self.assertEqual(K.DUEL_HOLDER_ELEMENTS, (10, 4))
-        # A mutation of DUEL_KEEPER_ELEMENT from 1 to anything else changes the
-        # challenger's contest.
-        self.assertEqual(K.DUEL_KEEPER_ELEMENT, 1)
-        # The operand air-multiplier must be applied to the challenger (5BDB shl ax, 1).
-        operand_air = K.duel_operand(ch, ground=False)
-        self.assertEqual(operand_air, 2 * ch)
-        # Pin the save comparison with hand-equal operands: jle (default) says no-save on
-        # equal; jl says save. Use values that don't depend on the records' matching.
-        self.assertFalse(K.keeper_saves(5, 5))                             # jle default: no save
-        self.assertTrue(K.keeper_saves(5, 5, jle_opcode=0x7C))              # jl: save (flip)
-        # ch > hh (doubled ch > hh) → save
-        self.assertTrue(K.keeper_saves(operand_air, hh))
+        # Saving with the air operand: doubled ch > hh (high element, lower value).
+        operand_air = K.duel_operand(ch_a, ground=False)
+        self.assertEqual(operand_air, 2 * ch_a)
+        self.assertGreater(operand_air, hh_a)
+        # Ground operand: +1
+        operand_ground = K.duel_operand(ch_g, ground=True)
+        self.assertEqual(operand_ground, ch_g + 1)
+        # Pin the jle/jl save comparison with hand-equal operands.
+        self.assertFalse(K.keeper_saves(5, 5))
+        self.assertTrue(K.keeper_saves(5, 5, jle_opcode=0x7C))
 
 
 if __name__ == "__main__":
