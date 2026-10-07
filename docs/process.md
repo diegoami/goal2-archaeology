@@ -99,6 +99,9 @@ You implement <T<nn>>. The task file above is the contract.
 - Commit and push after each step, at least every 20 minutes and before any command that runs longer
   than 5 minutes; after your first push, open the PR as a draft (`gh pr create --draft`). A crash then
   loses one step, and the branch shows where you are. (L103)
+- A command that can run past 10 minutes never pipes through `tail`/`head`: the run is killed at
+  900 s of session silence (L10), before any bash timeout. Run it detached (`nohup … > log 2>&1 &`
+  or `setsid`), verify it survived the tool call with `ps`, then poll the log in short calls.
 - PR body: Closes #<issue>; Scope (files and why); a fenced block with each Done-when command and
   the tail of its output; Docs changed.
 ```
