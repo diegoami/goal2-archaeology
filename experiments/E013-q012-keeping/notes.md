@@ -76,9 +76,9 @@ through the same `3A06` derivation; there is no special-cased keeping arithmetic
   (seg_0791_04.c named view 1003-1022: `f_0791_5A33(param_1, 0x1d)`), and `5A8E` is exactly the
   branch target of the duel inside `0791:5B36` (seg_0791_10.asm:5BC4-5C3E, named
   seg_0791_05.c:104-137): with the goal-mouth flag `DS:8303` clear,
-  `rand(278A(holder 830B, 10))` (5BC4) against `rand(278A(challenger, 1) + (tackle? 0 : 1))`
-  (5BD8) — the challenger's **keeping** against the holder's dribbling; with `8303` set it is
-  `rand(278A(830B, 4))` (5C06) against `rand(2·278A(challenger, 1))` (5C1A). The keeper is not
+  `rand(278A(holder 830B, 4))` (5BC4) against `rand(278A(challenger, 1) + (tackle? 0 : 1))`
+  (5BD8) — the challenger's **keeping** against the holder's heading; with `8303` set it is
+  `rand(278A(830B, 10))` (5C06) against `rand(2·278A(challenger, 1))` (5C1A). The keeper is not
   chosen by a record byte here: he is whatever pitch record reaches the duel — the goalkeeper
   route is the keeper special of `9564` (below), which hands the side's slot-1 record to
   `8AE9`, whose state machine brings him to the duel.

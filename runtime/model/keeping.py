@@ -173,7 +173,7 @@ def duel_contests(challenger_record, holder_record, class_table, profile_table, 
 
     The challenger's contest is `278A(challenger, DUEL_KEEPER_ELEMENT)` (element 1 = keeping, read
     at 5BD8/5C1A); the holder's is `278A(holder, DUEL_HOLDER_ELEMENTS[0 if ground else 1])`
-    (element 10 dribbling on the ground at 5BC4, element 4 heading in the air at 5C06). A record
+    (element 10 dribbling on the ground at 5C06, element 4 heading in the air at 5BC4). A record
     is the player's 20 bytes: record[4]=+4, [5]=+5, [7]=+7, [0xC]=form, [0xE]=energy. The
     constants DUEL_KEEPER_ELEMENT and DUEL_HOLDER_ELEMENTS are USED here, so mutating either one
     changes the returned contests and fails the tests that pin them."""

@@ -12,13 +12,16 @@ Cases per record, each counted once towards `match: N/N`:
    flag. The edited half-time savestate is downloaded from release E013 (the evidence bundle)
    and re-emulated by `runtime/emul/watched.py`; the save count is the number of writes of
    `0791:5A8E` (the `write_save_line` routine, template 0x1D = 29) the engine reaches in the
-   second half. The predicted count must equal the record's count. For the LOW edit
-   (`+4 = 0x00`), the model's analytical derivation (every save duel gives the keeper
-   rand = 1, so 0 saves) and the emulated count both report 0;
+   second half. The predicted count must equal the record's count. For BOTH the LOW edit
+   (`+4 = 0x00`) and the HIGH edit (`+4 = 0xFF`), the count is the emulated count: the
+   round-3 review reproduced a path where zero-keeping still records saves via
+   `5C44 → 4DA9 → 06FA → 5C69 → 5A8E`, so no analytical shortcut applies;
 3. the predicted non-keeper-no-change — R2 fix: state-dependent, not unconditional. The
-   edited half-time savestate is re-emulated and the save count is taken from 5A8E. The
-   record's count must match the emulated count; the model's only commitment is that the
-   count is what the emulated engine says it is.
+   edited half-time savestate is re-emulated; the predictor returns the edited (saves,
+   goals) tuple and the check verifies (a) equality with the baseline's (saves, goals)
+   and (b) the full line log equals the baseline's (every commentary event — saves,
+   goals, bookings, injuries, own goals, etc. — must match; any other template change
+   fails the check).
 
 Every `saved by` line is checked to name a player of the conceding side (the read is open to
 any challenger, F015).
