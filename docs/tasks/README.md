@@ -35,3 +35,4 @@ exists.
 | T26 | Q011: how performance ratings and the man of the match are computed | 83 | T24 |
 | T27 | Q012: where keeping is read (only the keeper), and where penalties are read (only in `A10A`) | 88 | T26 |
 | T28 | Q013: how skills change with age, and what is a player's peak age (G5 Q004) | opened at dispatch | T27 |
+| T29 | recorder: the owner's playthrough as a complete behavioural record | opened at dispatch | T28 |
