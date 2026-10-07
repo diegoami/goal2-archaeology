@@ -30,11 +30,16 @@ Correctness rules (each pinned by a test in tests/test_human_record.py):
   one last complete live savestate if there is one (the owner's own F12+S presses are captured
   too), stops the video with SIGTERM (a clean finalize), and writes the session's meta.json.
 - Video. The 2026-10-07 prototype bug — a detached `ffmpeg -f x11grab` writing a 48-byte
-  header-only mp4 while running — is the mp4 (mov) muxer's finalize-only index: an unclean death
-  leaves `ftyp` alone. The recorder replaces mp4 with Matroska, whose clusters are written as
-  frames arrive, finalizes it with SIGTERM (never SIGKILL while it can be helped), polls the file's
-  growth while recording, and records bytes, sha256 and a stalled flag in the session meta — so a
-  grab that stopped producing frames is visible in the record instead of silent.
+  header-only mp4 while running — is ffmpeg's buffered output plus the mp4 (mov) muxer's
+  finalize-only index: reproduced on this machine, a SIGKILLed mp4 grab leaves exactly the 48
+  bytes of `ftyp`/`free`/`mdat` headers, and a SIGKILLed unflushed mkv leaves 0 bytes. The
+  recorder writes Matroska with `-flush_packets 1`, so bytes reach the disk as frames arrive (a
+  dead recorder leaves them behind), and stops the grab with SIGTERM (never SIGKILL while it can
+  be helped), which finalizes a valid file (duration reads back exactly). An unclean death can
+  still truncate the last element, so the video is a convenience channel between snapshots — the
+  savestates carry every screen — and the session meta records bytes, sha256 and a stalled flag,
+  warning loudly when the file is empty or stopped growing: the prototype's silent failure is
+  made visible.
 
 Standard library only, plus the G1 driver's modules."""
 import argparse
@@ -291,14 +296,15 @@ class Watcher:
 # ---- video ---------------------------------------------------------------------------------------
 def video_cmd(geometry, display, out):
     """The ffmpeg argv for the game window's screen video: x11grab on the window's region,
-    Matroska output (clusters written as frames arrive; a killed recorder leaves a playable
-    prefix — the mp4 replacement, see the module docstring)."""
+    Matroska with `-flush_packets 1` (bytes reach the disk as frames arrive; the mp4 replacement,
+    see the module docstring)."""
     x, y, w, h = geometry
     # libx264 needs even dimensions; the game window is 640x400 at 2x, but never trust it
     w, h = w - (w % 2), h - (h % 2)
     return ["ffmpeg", "-nostdin", "-loglevel", "level", "-y",
             "-f", "x11grab", "-framerate", "10", "-video_size", f"{w}x{h}", "-i", f"{display}+{x},{y}",
             "-c:v", "libx264", "-preset", "veryfast", "-crf", "25", "-pix_fmt", "yuv420p",
+            "-flush_packets", "1",
             str(out)]
 
 
