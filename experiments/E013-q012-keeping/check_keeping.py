@@ -46,14 +46,14 @@ def line_log(f):
 
 def halftime_extent(f):
     for k, v in f.items():
-        if "lines seen (the first half's extent)" in k:
+        if "commentary lines seen" in k and "extent" in k:
             return int(v)
     raise KeyError("first-half extent")
 
 
 def edit_desc(f):
     for k, v in f.items():
-        if k.startswith("the I3 edit"):
+        if k.startswith("the I3 edit") or "the I3 edit" in k[:40]:
             return json.loads(v)
     raise KeyError("the I3 edit observation")
 
