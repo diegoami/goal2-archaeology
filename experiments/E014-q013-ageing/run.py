@@ -360,7 +360,8 @@ class Session:
                     continue
                 self.unknown = 0
             if len(self.captures) < 2:
-                status = f"stopped: only {len(self.captures)} capture(s) within the budget"
+                status = (f"aborted: stopped: only {len(self.captures)} capture(s) within the budget "
+                          f"(the run/1 schema admits only completed or aborted: ...)")
         except Exception as e:  # noqa: BLE001
             status = f"aborted: {type(e).__name__}: {e}".splitlines()[0][:300]
             traceback.print_exc()
