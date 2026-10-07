@@ -24,7 +24,7 @@ void f_0791_B3B7(int param_1,int param_2)
   else {
     local_4 = 5;
   }
-  ppVar1[param_2].field_0x11 = ppVar1[param_2].field_0x11 + '\x01';
+  ppVar1[param_2].year_end_clear = ppVar1[param_2].year_end_clear + 1;
   local_8 = 0;
   local_6 = 1;
   while( true ) {
@@ -41,7 +41,7 @@ void f_0791_B3B7(int param_1,int param_2)
     while( true ) {
       iVar3 = iVar2 + local_4 * 0x60 + local_6 * 0x10;
       local_10 = (undefined1 *)CONCAT22(uVar5,(undefined1 *)(iVar3 + -0x70));
-      if (*(uint *)(iVar3 + -100) < (uint)(byte)ppVar1[param_2].field_0x11) break;
+      if (*(uint *)(iVar3 + -100) < (uint)ppVar1[param_2].year_end_clear) break;
       if (local_6 == 3) {
         return;
       }
@@ -56,11 +56,11 @@ void f_0791_B3B7(int param_1,int param_2)
     sys_str_store_max_0644
               (10,iVar3 + -0x6f,uVar5,(int)DS:9B6C + param_2 * 0xb,
                (int)((ulong)DS:9B6C >> 0x10));
-    *(uint *)(iVar3 + -100) = (uint)(byte)ppVar1[param_2].field_0x11;
+    *(uint *)(iVar3 + -100) = (uint)ppVar1[param_2].year_end_clear;
   }
   else {
-    *(uint *)(iVar2 + local_4 * 0x60 + local_8 * 0x10 + -100) =
-         (uint)(byte)ppVar1[param_2].field_0x11;
+    *(uint *)(iVar2 + local_4 * 0x60 + local_8 * 0x10 + -100) = (uint)ppVar1[param_2].year_end_clear
+    ;
     for (local_6 = local_8; 1 < local_6; local_6 = local_6 - 1) {
       uVar4 = (undefined2)((ulong)DS:A93F >> 0x10);
       iVar2 = (int)DS:A93F;

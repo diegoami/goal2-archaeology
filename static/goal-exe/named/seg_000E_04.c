@@ -772,7 +772,7 @@ undefined1 f_000E_57E5(int param_1)
     {
       local_5 = 1;
       while( true ) {
-        cVar2 = f_1771_7F40(pcVar7[param_1].squad[local_5 + -1]);
+        cVar2 = retirement_test(pcVar7[param_1].squad[local_5 + -1]);
         if (cVar2 != '\0') {
           f_000E_56F3(&stack0xfffe,CONCAT11((char)(local_5 * 2 >> 8),1),
                       pcVar7[param_1].squad[local_5 + -1]);
@@ -786,7 +786,7 @@ undefined1 f_000E_57E5(int param_1)
     uVar5 = (((word *)pool_base_table)[iVar3] - 1) + iVar4;
     local_5 = uVar5;
     do {
-      cVar2 = f_1771_7F40(((word *)pool_indices)[local_5]);
+      cVar2 = retirement_test(((word *)pool_indices)[local_5]);
       if (cVar2 != '\0') {
         uVar8 = (undefined2)((ulong)pool_indices >> 0x10);
         wVar1 = ((word *)pool_indices)[local_5];

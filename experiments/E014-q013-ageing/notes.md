@@ -42,7 +42,7 @@ suggested; it is `1771:7FDF` per country, reached from the stage machinery:
 
 So one 4-year cycle = one pass of stages 2..8; the players age **four times per cycle**, on entry
 to stages 2, 3, 5 and 7 — one ageing per displayed year: the displayed year is
-`2·(+0x38) + (+0x3A)` (`000E:5978`, named/seg_000E_04.c:691 decompiled line; fixture dates add
+`2·(+0x38) + (+0x3A)` (`000E:5978`, decompiled/seg_000E_04.c:691; fixture dates add
 `(+0x40 != side)·(−2)`, decompiled/seg_1771_04.c:40-41), `+0x38` increments twice per cycle
 (stages 2 and 5) and `+0x3A` is the new-game base year (init_new_game `1771:9B85`,
 seg_1771_14.asm:394-400 area, annotation; the state word write `9BF0` area). New games start at
@@ -136,7 +136,7 @@ Q014's subject, not modelled here.
 `1771:7E80(player)` (seg_1771_11.asm:871-948, `7E80`-`7F3D`) replaces a retired
 computer-country player: `make_player(1, old +7, old +0, player)` (`7EA6-7EC0`) re-draws +5, +2
 (roll_peak_age), +3 = country rating + 0x7F (make_player's param_1 ≠ 0 branch,
-named/seg_1771_06.c:904-906), morale, tactics, fitness/energy, performance = 0x7FFF; then age
+named/seg_1771_06.c:953-957), morale, tactics, fitness/energy, performance = 0x7FFF; then age
 `+1 = DS:110C[gk] + rand(6) − rand(6)` (`DS:110C = 19 1C` = base 25/28; `7EC3-7EF9`),
 compute_ability (`7F01`), caps +8 = 0 (`7F09`), goals +0xA = 0 (`7F12`), status +0x10 = 0
 (`7F19`), a new name-initial byte at `[DS:9B70] + player` from `1771:0000` (`7F1E-7F2D`), and
