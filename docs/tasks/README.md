@@ -33,4 +33,5 @@ exists.
 | T24 | Q010 (quick engine) milestone 2: r0010's divergence, model tests, F012 and the annotations | #75 | T23 |
 | T25 | Q010 (watched engine `9564`) milestone 1: the tick map, the Unicorn ground truth and F013 | #81 | T24 |
 | T26 | Q011: how performance ratings and the man of the match are computed | 83 | T24 |
-| T27 | Q012: where keeping is read (only the keeper), and where penalties are read (only in `A10A`) | opened at dispatch | T26 |
+| T27 | Q012: where keeping is read (only the keeper), and where penalties are read (only in `A10A`) | 88 | T26 |
+| T28 | Q013: how skills change with age, and what is a player's peak age (G5 Q004) | opened at dispatch | T27 |
