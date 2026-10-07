@@ -4,7 +4,7 @@ folder) and emit one immutable `run/1` record in runs/E015/ — the sitting mine
 readings, no question answered here (that is each question's own task, e.g. T28's corroboration).
 
     python3 experiments/E015-human-playthrough/extract.py <session-dir> [--countries 1,4]
-                                                         [--runs-dir runs] [--machine ubuntu-24-04-wsl2]
+                                                          [--runs-dir runs] [--machine ubuntu-24-04-wsl2]
 
 Per staged savestate (skipping, never failing on, one that does not parse — the owner's sitting
 is unscripted and a partial chain is a valid record):
@@ -14,24 +14,37 @@ is unscripted and a partial chain is a valid record):
   index +0x26, fixture count +0x28, year word +0x3A, stage byte +0x3C, speed byte +0x3F (F002,
   F004, F006);
 - for each chosen country c: its 0xBF country record at [A917] (its first 20 words are the
-  squad, R012 — emitted decoded with that licence), and the 20 records of 0x14 bytes at [A91B]
-  for players (c-1)*20+1..c*20 (F002);
+  squad, R012 — emitted decoded with that licence), and the player records of the squad's
+  current members — keyed by player number so a transfer's pool player is included in the diff
+  even when the squad changes (R10);
 - `players.check`'s verdict on the arrays (T15), so a state where the layout is not the start
   layout (transfers happened) is visible in the record instead of silently read wrong.
 
 Between consecutive parsed states, a structured diff: the changed bytes of the game state, the
-squad changes per country, the changed bytes per player record, and whether the screen changed.
+squad changes per country, the changed bytes per current squad member's player record, and
+whether the screen changed.
 
 The record names every file the pass read with its sha256 (snapshots, index, meta, config,
 video), so the chain stays checkable after the session folder (git-ignored: savestates and
-videos never enter the tree) is gone; the savestates themselves are published as evidence
+videos never enter the tree) is gone. Every file is hashed regardless of parse success
+(rework round 2 R11 — the prior `was` "sha256 mismatch" and "not a savestate this reader
+parses" states had no observation). The savestates themselves are published as evidence
 (tools/publish_evidence.py). Records are never overwritten: the pass takes the next free
-E015-r<nnnn> and stops if that file exists.
+E015-r<nnnn> and creates it with O_CREAT|O_EXCL (rework round 2 R2 — a check-then-write race
+on the path file would otherwise let two concurrent calls return E015-r0001.json).
+
+Memory readings are marked `memory_unavailable` when GOAL.EXE cannot be located in the guest
+or when the game state pointer at [A923] is 0000:0000 (rework round 2 R8 — the prior code
+read IVT bytes at linear 0 as the game state tuple); the screen is still preserved. A broken
+final JSONL line is skipped, not fatal (rework round 2 R7 — abrupt termination used to leave
+a partial line that raised JSONDecodeError before any state was extracted).
 
 Standard library only, plus the G1 driver's modules."""
 import argparse
+import errno
 import hashlib
 import json
+import os
 import subprocess
 import sys
 import time
@@ -45,15 +58,20 @@ import players  # noqa: E402
 import savestate  # noqa: E402
 
 # ---- constants of the diff rules (each pinned by tests/test_human_record.py) ---------------------
-GAME_RECORD_PTR = 0xA923   # DS offset of the far pointer to the game state
-GAME_RECORD_BYTES = 0x10E  # its allocation, 2139:0000 (static/goal-exe/code/seg_2139_01.asm)
-STAGE_OFFSET = 0x3C        # the stage byte inside it (F004: 2 or 5 = "qualifying")
-YEAR_OFFSET = 0x3A         # the year word (F004: GetDate's year + 1, made even)
-FIXTURE_INDEX_OFFSET = 0x26
-FIXTURE_COUNT_OFFSET = 0x28
-SPEED_OFFSET = 0x3F        # the match delay byte, 0 fastest (F006)
-MANAGERS_OFFSET = 0x00     # the manager count word (F011)
-SQUAD_WORDS = players.SQUAD  # 20 words of a country record name its squad (R012)
+# F002 / static/goal-exe/code/seg_2139_01.asm: `2139:0000` allocates 0x10E bytes for the game state;
+# the far pointer to it is held at DS:A923 (the data-segment offset used by every routine that
+# touches it). The named offsets inside the tuple are the static-known fields the screens and
+# the bot depend on (F002, F004, F006); changing any one reads the wrong byte.
+GAME_RECORD_PTR = 0xA923       # DS offset of the far pointer to the game state (R12 mutation pin)
+GAME_RECORD_BYTES = 0x10E      # allocation, 2139:0000 (R12 mutation pin)
+STAGE_OFFSET = 0x3C            # the stage byte inside it (F004: 2 or 5 = "qualifying"; R12 pin)
+YEAR_OFFSET = 0x3A             # the year word (F004: GetDate's year + 1, made even; R12 pin)
+FIXTURE_INDEX_OFFSET = 0x26    # the fixture index word; R12 pin (was 0x27 in a missed mutation)
+FIXTURE_COUNT_OFFSET = 0x28    # the fixture count word; R12 pin
+SPEED_OFFSET = 0x3F            # the match delay byte, 0 fastest (F006); R12 pin (was 0x40 in a
+                               # missed mutation)
+MANAGERS_OFFSET = 0x00         # the manager count word (F011); R12 pin (was 1 in a missed mutation)
+SQUAD_WORDS = players.SQUAD    # 20 words of a country record name its squad (R012)
 N_COUNTRIES = players.SQUAD_COUNTRIES  # 128 countries own squads (1771:9A40)
 DEFAULT_COUNTRIES = "1"
 
@@ -72,19 +90,32 @@ def hexs(b):
 
 
 def read_index(session):
-    """The staged chain in order: index.jsonl's lines when present, else the snapshots folder
-    sorted by name (names carry the UTC stamp and the sequence)."""
+    """The staged chain in order: index.jsonl's lines when present (valid prefix only — a
+    truncated final line from abrupt termination is skipped, never fatal: rework round 2 R7),
+    else the snapshots folder sorted by name (names carry the UTC stamp and the sequence).
+
+    Returns (entries, malformed_count) so the record can name the dropped lines."""
     index = Path(session) / "index.jsonl"
-    entries = []
+    entries, malformed = [], 0
     if index.is_file():
-        for line in index.read_text(encoding="utf-8").splitlines():
-            line = line.strip()
-            if line:
-                entries.append(json.loads(line))
+        with open(index, "rb") as f:
+            for raw in f:
+                try:
+                    line = raw.decode("utf-8").strip()
+                except UnicodeDecodeError:
+                    malformed += 1
+                    continue
+                if not line:
+                    continue
+                try:
+                    entries.append(json.loads(line))
+                except json.JSONDecodeError:
+                    malformed += 1
+                    continue
     else:
         for p in sorted((Path(session) / "snapshots").glob("*.sav")):
             entries.append({"file": f"snapshots/{p.name}", "seq": None, "sha256": None})
-    return entries
+    return entries, malformed
 
 
 def squad_words(country_record):
@@ -92,12 +123,24 @@ def squad_words(country_record):
     return [int.from_bytes(country_record[2 * i:2 * i + 2], "little") for i in range(SQUAD_WORDS)]
 
 
-def parse_state(session, entry, countries):
-    """One staged savestate into raw readings; a state that does not parse comes back with an
-    `error` and no fields, and the pass goes on."""
+def player_record_bytes(player_array, n):
+    """The 0x14 bytes of player `n` in the player array: n*0x14..(n+1)*0x14. Records are 1-indexed
+    (record 0 is unused). Reading the current squad by player number — not by slot — is what
+    rework round 2 R10 pinned: a transfer's pool player is a squad member in the *new* state and
+    was not in the *old* one, so a slot-keyed diff silently omitted the change."""
+    return player_array[n * players.PLAYER_SIZE:(n + 1) * players.PLAYER_SIZE]
+
+
+def read_snapshot(session, entry, countries):
+    """Read the staged file's bytes and hash them (every read happens, every read is hashed —
+    rework round 2 R11). Returns a state dict carrying the file identity and, if available, the
+    screen text; errors are reported in `error`, never raised."""
     out = {"entry": entry, "file": entry["file"],
            "label": f"{entry['seq']} ({entry['file']})" if entry.get("seq") else entry["file"],
-           "error": None}
+           "memory_unavailable": None, "program_error": None, "state_tuple": None,
+           "country_array": None, "player_array": None, "check_problems": None,
+           "countries": {}, "screen_digest": None, "screen_text": None, "program": None,
+           "state_ptr": None, "state_linear": None, "error": None}
     p = Path(entry["file"])
     if not p.is_absolute():
         p = Path(session) / entry["file"]
@@ -117,36 +160,57 @@ def parse_state(session, entry, countries):
     except (zipfile.BadZipFile, ValueError, OSError, KeyError) as e:
         out["error"] = f"not a savestate this reader parses: {e}"
         return out
-    sc = st.screen()
+    try:
+        sc = st.screen()
+    except ValueError as e:
+        out["error"] = f"screen read failed: {e}"
+        return out
     out["screen_digest"] = sc.digest()
     out["screen_text"] = sc.text()
     try:
         prog = st.program()
     except ValueError as e:
         out["program_error"] = str(e)
+        out["memory_unavailable"] = "GOAL.EXE not located in the guest (no MCB+PSP)"
         return out
     out["program"] = prog.describe()
-    ptr = players.far_pointer(st, GAME_RECORD_PTR)
+    # rework round 2 R8: refuse to read the game-state tuple when [A923] is uninitialized (the
+    # far pointer holds 0000:0000), and refuse to read the country/player arrays when their
+    # pointers are. Linear 0 is the IVT; reading it would be data, not a game state.
+    try:
+        ptr = players.far_pointer(st, GAME_RECORD_PTR)
+    except ValueError as e:
+        out["memory_unavailable"] = f"[A923] read failed: {e}"
+        return out
     out["state_ptr"] = f"{ptr[0]:04X}:{ptr[1]:04X}"
     out["state_linear"] = ptr[2]
-    out["state_tuple"] = st.memory(ptr[2], GAME_RECORD_BYTES)
-    out["country_array"] = players.countries(st)
-    out["player_array"] = players.players(st)
+    if ptr[2] == 0:
+        out["memory_unavailable"] = "game state pointer [A923] is 0000:0000 (uninitialized)"
+        return out
+    try:
+        out["state_tuple"] = st.memory(ptr[2], GAME_RECORD_BYTES)
+    except ValueError as e:
+        out["memory_unavailable"] = f"game state memory read failed: {e}"
+        return out
+    try:
+        out["country_array"] = players.countries(st)
+        out["player_array"] = players.players(st)
+    except ValueError as e:
+        out["memory_unavailable"] = f"country or player array read failed: {e}"
+        return out
     out["check_problems"] = players.check(out["player_array"], out["country_array"])
-    out["countries"] = {}
     for c in countries:
         crec = players.record(out["country_array"], players.COUNTRY_SIZE, c)
-        # player p's record is the slice at p*0x14 (record 0 unused): country c's own records are
-        # players (c-1)*20+1..c*20 (R012, F002)
-        first = ((c - 1) * players.SQUAD + 1) * players.PLAYER_SIZE
-        block = out["player_array"][first:first + players.SQUAD * players.PLAYER_SIZE]
-        out["countries"][c] = {
-            "record": crec,
-            "record_linear": players.far_pointer(st, players.COUNTRIES_PTR)[2] + (c - 1) * players.COUNTRY_SIZE,
-            "squad": squad_words(crec),
-            "block": block,
-            "block_linear": players.far_pointer(st, players.PLAYERS_PTR)[2] + first,
-        }
+        # rework round 2 R9: country record c lives at (base + c * COUNTRY_SIZE), not
+        # (c - 1) * COUNTRY_SIZE. The prior address claimed offset 0x90 for country 1 while
+        # reading at 0xBF; the test fixture pins the correct address (0x600BF for country 1
+        # when COUNTRY_AT=0x60000).
+        base_addr = players.far_pointer(st, players.COUNTRIES_PTR)[2] + c * players.COUNTRY_SIZE
+        squad = squad_words(crec)
+        members = {n: player_record_bytes(out["player_array"], n) for n in squad}
+        out["countries"][c] = {"record": crec, "record_linear": base_addr,
+                               "squad": squad, "members": members,
+                               "members_base": players.far_pointer(st, players.PLAYERS_PTR)[2]}
     return out
 
 
@@ -158,7 +222,8 @@ def byte_changes(before, after):
 
 def diff_states(prev, cur):
     """The structured diff between two parsed states (diff rules: game-state bytes, squad words
-    per chosen country, player-record bytes per chosen country, screen changed)."""
+    per chosen country, current squad members' records per chosen country keyed by player
+    number — rework round 2 R10 — and whether the screen changed)."""
     d = {"after_seq": cur["entry"].get("seq", cur["file"]), "screen_changed": False,
          "state_changes": [], "squad_changes": [], "record_changes": []}
     if prev.get("screen_digest") != cur.get("screen_digest"):
@@ -169,40 +234,56 @@ def diff_states(prev, cur):
         pc, cc = prev["countries"][c], cur.get("countries", {}).get(c)
         if not cc:
             continue
+        # squad slot moves (R012): the first SQUAD_WORDS words of the country record
         for slot, (b, a) in enumerate(zip(pc["squad"], cc["squad"])):
             if b != a:
                 d["squad_changes"].append({"country": c, "slot": slot, "before": b, "after": a})
-        pb, cb = {}, {}
-        for i in range(players.SQUAD):
-            n = (c - 1) * players.SQUAD + 1 + i
-            size = players.PLAYER_SIZE
-            pb[n] = pc["block"][i * size:(i + 1) * size]
-            cb[n] = cc["block"][i * size:(i + 1) * size]
-        for n in pb:
-            ch = byte_changes(pb[n], cb[n])
+        # current squad members' records keyed by player number: a transfer's pool player
+        # is in the union of prev and cur, and the diff names them by player number (R10).
+        all_n = sorted(set(pc["members"]) | set(cc["members"]))
+        for n in all_n:
+            pr = pc["members"].get(n)
+            cr = cc["members"].get(n)
+            if pr is None:
+                d["record_changes"].append(
+                    {"country": c, "player": n, "status": "added", "changes": None,
+                     "after": hexs(cr)})
+                continue
+            if cr is None:
+                d["record_changes"].append(
+                    {"country": c, "player": n, "status": "removed", "changes": None,
+                     "before": hexs(pr)})
+                continue
+            ch = byte_changes(pr, cr)
             if ch:
-                d["record_changes"].append({"country": c, "player": n, "changes": ch})
+                d["record_changes"].append({"country": c, "player": n, "status": "changed",
+                                             "changes": ch})
     return d
 
 
 def named_bytes(state):
     """The game state's named raw bytes, one (field, value) pair each; raw values, E004-style
-    field names."""
-    t = state["state_tuple"]
+    field names. Skipped when the state tuple was unavailable (R8)."""
+    t = state.get("state_tuple")
+    if t is None:
+        return []
 
     def word(off):
         return int.from_bytes(t[off:off + 2], "little")
 
     return [(f"managers word [A923]+0x{MANAGERS_OFFSET:02X}", str(word(MANAGERS_OFFSET))),
-            (f"fixture index word [A923]+0x{FIXTURE_INDEX_OFFSET:02X}", str(word(FIXTURE_INDEX_OFFSET))),
-            (f"fixture count word [A923]+0x{FIXTURE_COUNT_OFFSET:02X}", str(word(FIXTURE_COUNT_OFFSET))),
+            (f"fixture index word [A923]+0x{FIXTURE_INDEX_OFFSET:02X}",
+             str(word(FIXTURE_INDEX_OFFSET))),
+            (f"fixture count word [A923]+0x{FIXTURE_COUNT_OFFSET:02X}",
+             str(word(FIXTURE_COUNT_OFFSET))),
             (f"year word [A923]+0x{YEAR_OFFSET:02X}", str(word(YEAR_OFFSET))),
             (f"stage byte [A923]+0x{STAGE_OFFSET:02X}", f"0x{t[STAGE_OFFSET]:02X}"),
-            (f"match delay byte [A923]+0x{SPEED_OFFSET:02X} (0 fastest)", f"0x{t[SPEED_OFFSET]:02X}")]
+            (f"match delay byte [A923]+0x{SPEED_OFFSET:02X} (0 fastest)",
+             f"0x{t[SPEED_OFFSET]:02X}")]
 
 
 def next_run_id(runs_dir):
-    """The next free E015-r<nnnn>: records are immutable and never overwritten (L207)."""
+    """The next free E015-r<nnnn>: records are immutable and never overwritten (L207, R2)."""
     d = Path(runs_dir) / "E015"
     d.mkdir(parents=True, exist_ok=True)
     n = 1
@@ -211,9 +292,22 @@ def next_run_id(runs_dir):
     return f"E015-r{n:04d}", d / f"E015-r{n:04d}.json"
 
 
-def build_record(session, states, diffs, countries, runs_dir, machine, started):
+def atomic_write(path, data):
+    """Exclusive creation: O_WRONLY|O_CREAT|O_EXCL refuses to overwrite an existing file.
+    On EEXIST the caller's chosen-name logic raised a clear error before; this guard catches a
+    race where two `build_record()` calls reach the same slot concurrently (R2)."""
+    fd = os.open(path, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o644)
+    try:
+        os.write(fd, data)
+        os.fsync(fd)
+    finally:
+        os.close(fd)
+
+
+def build_record(session, states, diffs, countries, runs_dir, machine, started, malformed):
     """The run/1 document: one step per parsed state, the diffs after their later state, every
-    file the pass read named with its sha256."""
+    file the pass read named with its sha256 (every file — R11 — and every country record
+    address uses c * COUNTRY_SIZE, not (c-1) * COUNTRY_SIZE, R9)."""
     run_id, out_path = next_run_id(runs_dir)
     parsed = [s for s in states if s.get("error") is None]
     conf_path = session / "dosbox.conf"
@@ -261,7 +355,7 @@ def build_record(session, states, diffs, countries, runs_dir, machine, started):
         "actions": {
             "script": "experiments/E015-human-playthrough/extract.py",
             "sha256": sha256_file(__file__),
-            "args": ["--session", str(session), "--countries", ",".join(map(str, countries))],
+            "args": [str(session), "--countries", ",".join(map(str, countries))],
         },
         "observations": [],
         "outputs": [],
@@ -284,17 +378,40 @@ def build_record(session, states, diffs, countries, runs_dir, machine, started):
                     ("session dosbox config", conf_path)):
         if p.is_file():
             add("file", f"read {name}: {p.name} (bytes {p.stat().st_size})", sha256_file(p))
+    if malformed:
+        add("log", f"index.jsonl: {malformed} malformed line(s) skipped (valid-prefix recovery, R7)",
+            str(malformed))
     for s in states:
+        # rework round 2 R11: every file is hashed and named in the record, whether the parse
+        # succeeded or not. The "unreadable" case has no bytes to hash; "sha256 mismatch" and
+        # "not a savestate this reader parses" both have bytes and were silently dropped before.
+        if s.get("bytes") is not None and s.get("sha256") is not None:
+            add("file", f"read snapshot {s['file']} (bytes {s['bytes']})", s["sha256"])
         if s.get("error"):
             add("log", f"state {s['file']} skipped", s["error"])
+            step += 1
             continue
-        add("save", f"state {s['label']} (bytes {s['bytes']})", s["sha256"])
+        if s.get("memory_unavailable"):
+            add("save", f"state {s['label']} (bytes {s['bytes']}, parsed)", s["sha256"])
+            add("screen", f"state {s['label']}: text screen 80x25, chars+attributes (4000 bytes), sha256",
+                s["screen_digest"])
+            if s.get("program"):
+                add("log", f"state {s['label']}: GOAL.EXE data segment located", s["program"])
+            elif s.get("program_error"):
+                add("log", f"state {s['label']}: GOAL.EXE data segment not found", s["program_error"])
+            add("log", f"state {s['label']}: memory readings unavailable", s["memory_unavailable"])
+            seen = rec.setdefault("_screens", {})
+            if s["screen_digest"] not in seen:
+                seen[s["screen_digest"]] = True
+                add("ui-text", f"state {s['label']}: text screen rows 0-24, CP437 decoded, trailing "
+                               f"blanks trimmed (digest {s['screen_digest']})", s["screen_text"])
+            step += 1
+            continue
+        add("save", f"state {s['label']} (bytes {s['bytes']}, parsed)", s["sha256"])
         add("screen", f"state {s['label']}: text screen 80x25, chars+attributes (4000 bytes), sha256",
             s["screen_digest"])
         if s.get("program"):
             add("log", f"state {s['label']}: GOAL.EXE data segment located", s["program"])
-        elif s.get("program_error"):
-            add("log", f"state {s['label']}: GOAL.EXE data segment not found", s["program_error"])
         if s.get("state_tuple") is not None:
             add("memory", f"state {s['label']}: the game state, {GAME_RECORD_BYTES:#x} bytes at the "
                           f"far pointer DS:A923 -> {s['state_ptr']} (linear 0x{s['state_linear']:X}), hex",
@@ -311,12 +428,13 @@ def build_record(session, states, diffs, countries, runs_dir, machine, started):
                            f"blanks trimmed (digest {s['screen_digest']})", s["screen_text"])
         for c, cc in s.get("countries", {}).items():
             add("memory", f"state {s['label']}: country record {c} ({players.COUNTRY_SIZE:#x} bytes "
-                          f"at [A917]+(c-1)*{players.COUNTRY_SIZE:#x}), hex",
+                          f"at [A917]+c*{players.COUNTRY_SIZE:#x}={hex(cc['record_linear'])}), hex",
                 hexs(cc["record"]), addr=f"0x{cc['record_linear']:X}")
-            add("memory", f"state {s['label']}: the player records of country {c}: 20 records of "
-                          f"{players.PLAYER_SIZE:#x} bytes, records "
-                          f"{(c - 1) * players.SQUAD + 1}..{c * players.SQUAD} at [A91B], hex",
-                hexs(cc["block"]), addr=f"0x{cc['block_linear']:X}")
+            for n in sorted(cc["members"]):
+                add("memory", f"state {s['label']}: country {c} squad player {n} record "
+                              f"({players.PLAYER_SIZE:#x} bytes at [A91B]+n*{players.PLAYER_SIZE:#x}"
+                              f"={hex(cc['members_base'] + n * players.PLAYER_SIZE)}), hex",
+                    hexs(cc["members"][n]), addr=f"0x{cc['members_base'] + n * players.PLAYER_SIZE:X}")
         # the diffs after the later state's readings
         if diffs.get(s["file"]):
             d = diffs[s["file"]]
@@ -334,14 +452,8 @@ def build_record(session, states, diffs, countries, runs_dir, machine, started):
                     "; ".join(f"slot {x['slot']}: {x['before']} -> {x['after']}" for x in sc) or "none")
                 add("log", f"diff {prev_file} -> {s['file']}: country {c} player record changes "
                            f"(player: offset: before -> after)",
-                    "; ".join(f"player {x['player']}: " + "; ".join(
-                        f"{y['offset']}: {y['before']} -> {y['after']}" for y in x["changes"])
-                        for x in rc) or "none")
+                    "; ".join(_render_record_change(x) for x in rc) or "none")
         step += 1
-    # every file read, with its sha256 (the video too, when the sitting recorded one)
-    for s in states:
-        if s.get("error") is None:
-            add("file", f"read snapshot {s['file']} (bytes {s.get('bytes')})", s["sha256"])
     vpath = session / "video.mkv"
     if meta.get("video"):
         if vpath.is_file():
@@ -353,11 +465,11 @@ def build_record(session, states, diffs, countries, runs_dir, machine, started):
         {"field": f"state {s['label']}: country {c} squad (player numbers)",
          "value": json.dumps(s["countries"][c]["squad"]),
          "via": "R012"}
-        for s in states if s.get("error") is None
+        for s in states if s.get("error") is None and s.get("memory_unavailable") is None
         for c in s.get("countries", {})
     ]
     screens = {s["screen_digest"] for s in states if s.get("error") is None}
-    partial = sum(1 for s in states if s.get("error") is None and s.get("state_tuple") is None)
+    partial = sum(1 for s in states if s.get("error") is None and s.get("memory_unavailable"))
     add("log", "summary",
         f"states: {len(parsed)}, screens: {len(screens)} unique, diffs: {len(diffs)}"
         + (f", skipped: {len(states) - len(parsed)}" if len(states) > len(parsed) else "")
@@ -366,10 +478,24 @@ def build_record(session, states, diffs, countries, runs_dir, machine, started):
     if not parsed:
         rec["status"] = "aborted: no savestate in the session parsed"
     text = json.dumps(rec, indent=1)
-    if out_path.exists():
-        raise SystemExit(f"{out_path} exists: records are never overwritten")
-    out_path.write_text(text + "\n", encoding="utf-8")
+    try:
+        atomic_write(out_path, (text + "\n").encode("utf-8"))
+    except OSError as e:
+        if e.errno == errno.EEXIST:
+            raise SystemExit(f"{out_path} exists: records are never overwritten")
+        raise
     return rec, out_path
+
+
+def _render_record_change(x):
+    """One diff entry for a squad member, as it appears in the per-country observation."""
+    status = x["status"]
+    if status == "added":
+        return f"player {x['player']}: added ({x['after']})"
+    if status == "removed":
+        return f"player {x['player']}: removed ({x['before']})"
+    return f"player {x['player']}: " + "; ".join(
+        f"{y['offset']}: {y['before']} -> {y['after']}" for y in x["changes"])
 
 
 def main(argv=None):
@@ -394,10 +520,10 @@ def main(argv=None):
         countries.append(c)
     started = driver.host_times()["utc"]
     t0 = time.monotonic()
-    entries = read_index(session)
+    entries, malformed = read_index(session)
     if not entries:
         raise SystemExit(f"{session}: no staged savestates (no index.jsonl and no snapshots/)")
-    states = [parse_state(session, e, countries) for e in entries]
+    states = [read_snapshot(session, e, countries) for e in entries]
     diffs = {}
     last = None
     for s in states:
@@ -408,10 +534,11 @@ def main(argv=None):
             d["prev_file"] = last["file"]
             diffs[s["file"]] = d
         last = s
-    rec, out_path = build_record(session, states, diffs, countries, a.runs_dir, a.machine, started)
+    rec, out_path = build_record(session, states, diffs, countries, a.runs_dir, a.machine, started,
+                                 malformed)
     parsed = [s for s in states if s.get("error") is None]
-    screens = {s["screen_digest"] for s in parsed}
-    partial = sum(1 for s in parsed if s.get("state_tuple") is None)
+    screens = {s["screen_digest"] for s in parsed if s.get("screen_digest") is not None}
+    partial = sum(1 for s in parsed if s.get("memory_unavailable"))
     print(f"states: {len(parsed)}, screens: {len(screens)} unique, diffs: {len(diffs)}"
           + (f", skipped: {len(states) - len(parsed)}" if len(states) > len(parsed) else "")
           + (f", partial: {partial}" if partial else ""))

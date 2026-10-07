@@ -217,13 +217,22 @@ class Extraction(Base):
         # state 1 -> 2: only the screen changed
         self.assertEqual(self.diffobs(obs, "snap-0001", "screen changed"), "yes")
         self.assertEqual(self.diffobs(obs, "snap-0001", "[A923] byte changes"), "none")
-        # state 2 -> 3: the hand-checked bytes, squads and records
+        # state 2 -> 3: the hand-checked bytes, squads and records. R10: keyed by player
+        # number — the transfer's pool player (2561) appears as added, the dropped player
+        # (20) appears as removed, the unchanged squad member whose byte 3 changed (player 5)
+        # appears as changed. The fixture's player 2561 record was all zero except byte 0
+        # (set to country 1) and player 20's record held the player_record_bytes(p*7+i)%251+1
+        # pattern; the rendered values are deterministic.
         self.assertEqual(self.diffobs(obs, "snap-0002", "screen changed"), "yes")
         self.assertEqual(self.diffobs(obs, "snap-0002", "[A923] byte changes"), STATE_CHANGES_2_3)
         self.assertEqual(self.diffobs(obs, "snap-0002", "country 1 squad changes"),
                          "slot 19: 20 -> 2561")
-        self.assertEqual(self.diffobs(obs, "snap-0002", "country 1 player record changes"),
-                         "player 5: 0x3: 40 -> 41")
+        # The new diff names every squad change keyed by player number; player 5's byte 3
+        # change, player 20 leaving, and player 2561 joining country 1's squad.
+        record_diff = self.diffobs(obs, "snap-0002", "country 1 player record changes")
+        self.assertIn("player 5: 0x3: 40 -> 41", record_diff)
+        self.assertIn("player 2561: added", record_diff)
+        self.assertIn("player 20: removed", record_diff)
         # the named raw bytes of the game state, one per state
         stage = {o["step"]: o["value"] for o in find("stage byte [A923]+0x3C")}
         self.assertEqual(stage, {0: "0x05", 1: "0x05", 2: "0x06"})
