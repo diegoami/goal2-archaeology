@@ -359,7 +359,9 @@ class Video:
             how = "SIGKILL"
         data = self.out.read_bytes() if self.out.is_file() else b""
         return {"file": self.out.name, "bytes": len(data), "sha256": sha256(data) if data else None,
-                "seconds": round(self.clock() - t0, 3), "stalled": self.stalled, "ended": how}
+                "seconds": round(self.clock() - (self.started or self.clock()), 3),
+                "stop_seconds": round(self.clock() - t0, 3),
+                "stalled": self.stalled, "ended": how}
 
 
 # ---- session -------------------------------------------------------------------------------------
@@ -563,6 +565,10 @@ def main(argv=None):
     argv = list(sys.argv[1:] if argv is None else argv)
     if argv and argv[0] == "--self-test":   # play.sh --self-test: the brief's spelling
         argv[0] = "self-test"
+    if argv and argv[0] not in ("self-test", "play") and not argv[0].startswith("-"):
+        argv.insert(0, "play")
+    if argv and argv[0].startswith("-"):    # flags without a subcommand mean play
+        argv.insert(0, "play")
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     sub = ap.add_subparsers(dest="cmd", required=True)
     st = sub.add_parser("self-test", help="verify the release copy and tools, write a config, exit")
