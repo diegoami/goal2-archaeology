@@ -182,19 +182,15 @@ class TestContest(unittest.TestCase):
 
 class TestPredictions(unittest.TestCase):
     def test_save_predictions(self):
-        # R2 fix: the predictor derives the save count from the SAVESTATE, not from a baseline
-        # delta. With a keeper keeping value of 0 (the +4=0x00 edit), the challenger rand is
-        # `u214b_random_1_to_n(0) = ((seed * 0) >> 16) + 1 = 1` and the holder rand is in [1, n],
-        # so the duel always loses — a pure analytical derivation that 0 saves means "the keeper
-        # cannot win any save duel" without consulting the seed.
-        low = K.keeper_save_predictions(None, 0x00, edited_keeping=0)
-        self.assertEqual(low["saves_at_most"], 0)
-        self.assertEqual(low["analytical_derivation"], True)
-        # The high edit (keeping > 0): the count is state-dependent (the holder rand falls in
-        # [1, n_holder], and the keeper wins only when challenger rand > holder rand; with seed-
-        # dependent values, the count is unknowable without the actual seed draws).
-        high = K.keeper_save_predictions(None, 0xFF, edited_keeping=208)
-        self.assertIn("requires_state", high)
+        # R1 round-3 fix: no analytical shortcut for edited_keeping == 0. The fallback
+        # path 5C44 → 4DA9 → 06FA → 5C69 reaches `5A8E` (write_save_line) without going
+        # through the keeper-vs-holder duel, so a zero-keeping analogue can record saves
+        # (the round-3 review reproduced this with the original binary). Every prediction
+        # requires the savestate.
+        no_state = K.keeper_save_predictions(None, 0x00, edited_keeping=0)
+        self.assertIn("requires_state", no_state)
+        no_state2 = K.keeper_save_predictions(None, 0xFF, edited_keeping=208)
+        self.assertIn("requires_state", no_state2)
 
     def test_edited_values_are_linear(self):
         # 3A2C: inc — the value is linear in (+4)+1, so the edit ratio is exact
@@ -333,6 +329,72 @@ class TestPredictions(unittest.TestCase):
         p = K.outfield_edit_predictions(b"placeholder", 0xFF, 100, 200, emulation_cls=ZeroFake)
         self.assertEqual(p["event_counts"], (0, 0, 0))
         self.assertEqual(p["saves_count"], 0)
+
+    def test_duel_operand_air_multiplier(self):
+        # R2 round-3 fix: the duel operand at `0791:5BDB` (the air branch) doubles the
+        # challenger's keeping before the rand; the ground branch at `5C23-5C31` adds
+        # `DUEL_GROUND_BONUS`. A mutation of `DUEL_AIR_MULTIPLIER` from 2 to 3 changes
+        # the air branch's operand; a mutation of `DUEL_GROUND_BONUS` from 1 to 2
+        # changes the ground branch's operand. Pin both branches:
+        #   - `duel_operand(contest, ground=False) == contest * DUEL_AIR_MULTIPLIER`
+        #   - `duel_operand(contest, ground=True)  == contest + DUEL_GROUND_BONUS`
+        # A regression that returns None or constant values fails.
+        self.assertEqual(K.duel_operand(100, ground=False), 200)      # air: contest * 2
+        self.assertEqual(K.duel_operand(100, ground=True), 101)       # ground: contest + 1
+        self.assertEqual(K.duel_operand(0, ground=False), 0)
+        self.assertEqual(K.duel_operand(255, ground=True), 256)
+        # The two branches must remain distinct — a mutation that collapses them to one
+        # branch fails.
+        self.assertNotEqual(K.duel_operand(100, ground=False), K.duel_operand(100, ground=True))
+
+    def test_keeper_saves_jle_opcode(self):
+        # R2 round-3 fix: the duel's jle at `5C3C` (cmp ax, dx at 5C3A). The opcode
+        # `0x7E` (jle) saves iff challenger > holder; the boundary flip on equal draws.
+        # Pin the listing-derived behaviour:
+        #   - jle (0x7E) / jbe (0x76): challenger > holder → save
+        #   - jl  (0x7C)            : challenger >= holder → save (the equal-boundary flip)
+        # A mutation that drops the opcode argument (defaults to jle) still passes for the
+        # jle-boundary test; an explicit non-jle opcode must show the difference.
+        self.assertTrue(K.keeper_saves(10, 5))                              # 10 > 5: jle save
+        self.assertFalse(K.keeper_saves(5, 10))                          # 5 < 10: jle no-save
+        # The boundary: equal draws (5 == 5). jle (0x7E) → no-save; jl (0x7C) → save. The
+        # boundary flip is what makes a mutation detectable.
+        self.assertFalse(K.keeper_saves(5, 5))                             # jle default: no
+        self.assertTrue(K.keeper_saves(5, 5, jle_opcode=0x7C))              # jl: yes (flip)
+        # jbe coincides with jle for non-negative draws.
+        self.assertFalse(K.keeper_saves(5, 5, jle_opcode=0x76))            # jbe: same as jle
+
+    def test_duel_contests_uses_constants(self):
+        # R2 round-3 fix: the helpers `duel_contests`, `duel_operand`, `keeper_saves` must
+        # actually USE the constants `DUEL_KEEPER_ELEMENT`, `DUEL_HOLDER_ELEMENTS`,
+        # `DUEL_AIR_MULTIPLIER`, `DUEL_GROUND_BONUS`, `DUEL_SAVE_JLE_OPCODE`. A bug that
+        # swaps `duel_contests` for `None` or for a function returning constant values would
+        # fail this test: the helpers are CALLED with their listing-derived inputs and the
+        # helpers' outputs are checked at the boundary.
+        # Minimal recorder player / holder records (20 bytes): only +4/+5/+7/+0xC/+0xE are read.
+        rec_a = bytes(20)
+        rec_b = bytes(20)
+        rec_a = rec_a[:4] + bytes([180, 1, 0]) + rec_a[7:]    # +4=180, +5=1, +7=0
+        rec_b = rec_b[:4] + bytes([180, 1, 0]) + rec_b[7:]    # same keeper-as-challenger
+        rec_a = rec_a[:0xC] + bytes([30, 0, 4]) + rec_a[0xF:]  # form=30, energy=4
+        rec_b = rec_b[:0xC] + bytes([30, 0, 4]) + rec_b[0xF:]
+        # Both records identical → equal keeping. jle says no save; jl says save.
+        ch, hh = K.duel_contests(rec_a, rec_b, CLASS_TABLE, PROFILE_TABLE, ground=True)
+        # A mutation of DUEL_HOLDER_ELEMENTS from (10, 4) to (10, 5) changes the holder's
+        # contest; pin the listing-derived (10, 4).
+        self.assertEqual(K.DUEL_HOLDER_ELEMENTS, (10, 4))
+        # A mutation of DUEL_KEEPER_ELEMENT from 1 to anything else changes the
+        # challenger's contest.
+        self.assertEqual(K.DUEL_KEEPER_ELEMENT, 1)
+        # The operand air-multiplier must be applied to the challenger (5BDB shl ax, 1).
+        operand_air = K.duel_operand(ch, ground=False)
+        self.assertEqual(operand_air, 2 * ch)
+        # Pin the save comparison with hand-equal operands: jle (default) says no-save on
+        # equal; jl says save. Use values that don't depend on the records' matching.
+        self.assertFalse(K.keeper_saves(5, 5))                             # jle default: no save
+        self.assertTrue(K.keeper_saves(5, 5, jle_opcode=0x7C))              # jl: save (flip)
+        # ch > hh (doubled ch > hh) → save
+        self.assertTrue(K.keeper_saves(operand_air, hh))
 
 
 if __name__ == "__main__":

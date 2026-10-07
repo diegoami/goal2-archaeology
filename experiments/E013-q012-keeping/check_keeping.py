@@ -161,18 +161,10 @@ def check(record_path):
     emu_count = emulated_save_count(savestate_bytes)
     notes.append(f"emulated save count for {d['run_id']}: {emu_count} (5A8E reaches in 0791:983F..98C0)")
 
-    if desc["who"] == "keeper" and desc["new"] == 0x00:
-        # The analytical derivation (R2) and the emulated count must BOTH be 0; the record's
-        # count must match the emulated count. The model returns the analytical answer for
-        # 0-keeping; the checker uses the emulated count to validate the record.
-        p = keeping.keeper_save_predictions(None, desc["new"], edited_keeping=desc["after"]["keeping"])
-        cases.append((f"the keeper's edit (low arm) analytical derivation: every save duel gives the keeper "
-                      f"rand = 1 (n=0 → mul 0 → +1), holder rand >= 1, the duel always loses",
-                      p["saves_at_most"] == 0 and p["saves_count"] == 0, f"{p}"))
-        cases.append(("the predicted save count (emulated) equals the record's second-half saves",
-                      emu_count == len(saves), f"emulated {emu_count}, record {len(saves)}"))
-    elif desc["who"] == "keeper":
-        # The high edit: the count is state-dependent. The emulated count is the truth.
+    if desc["who"] == "keeper":
+        # The count is state-dependent (the round-3 review showed an analytical shortcut for
+        # edited_keeping == 0 misses the fallback path 5C44 → 4DA9 → 06FA → 5C69; we always
+        # emulate). The emulated count is the truth; the record's count must match it.
         p = keeping.keeper_save_predictions(savestate_bytes, desc["new"], edited_keeping=desc["after"]["keeping"])
         cases.append((f"the predicted save count (emulated) equals the record's second-half saves",
                       p["saves_count"] == len(saves), f"emulated {p['saves_count']}, record {len(saves)}"))

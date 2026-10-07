@@ -115,7 +115,7 @@ void pick_shootout_takers_managed(int param_1)
 
 
 // ---- 0791:9ED3  pick_shootout_takers  (f_0791_9ED3; Ghidra 2000:9ED3, __stdcall16near; found by routines.tsv)
-// the unmanaged side's shoot-out takers: fills [bp-0x1A + 12*team + i] with the side's pitch slots 1..11 (the keeper IS in the array: the outer index initialises to 1 at 9F1B, the inner to outer+1 at 9F25-9F31, and the compare/exchange at 9F39-9FE9), then sorts entries 1..11 downward by 278A(pitch, 0xC) — the derived penalties skill; called only from A10A  [established; F015; read code/seg_0791_16.asm]
+// the unmanaged side's shoot-out takers: fills [bp-0x1A + 12*team + i] with the side's pitch slots 1..11 (the keeper IS in the array — the outer index initialises to 1 at 9F1B, the inner to outer+1 at 9F25-9F31, and the compare/exchange at 9F39-9FE9), then sorts entries 1..11 downward by 278A(pitch, 0xC) — the derived penalties skill; called only from A10A  [established; F015; read code/seg_0791_16.asm]
 
 void pick_shootout_takers(int param_1)
 

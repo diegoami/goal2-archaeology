@@ -245,26 +245,26 @@ def keeper_save_predictions(savestate_bytes, new4, edited_keeping, emulation_cls
     observed-outcome flag. R2 follow-up: the emulation class is an injectable parameter so the
     test suite can substitute a fake and assert the predictor's return depends on the emulation.
 
-    For `new4 = 0x00` (keeping value = 0), the derivation is purely analytical: every save duel
-    in `0791:5B36` (seg_0791_10.asm:5BC4-5C3E) draws the challenger's rand as
-    `u214b_random_1_to_n(0)`, which is `((seed * 0) >> 16) + 1 = 1` for every seed. The holder's
-    rand is at least 1 (positive n), so the duel always loses: 0 saves. A "0 saves" prediction
-    is derived from the listing, not from the baseline's count.
+    R1 round-3 fix: the previous "edited_keeping == 0" analytical shortcut was wrong. The
+    fallback path `5C44 → 4DA9 → 06FA → 5C69` reaches `5A8E` (`write_save_line`) without
+    going through the keeper-vs-holder duel at all, so a keeper with zero keeping can still
+    record a `saved by` line when the fallback fires (the round-3 review reproduced this with
+    the original binary + E013-r0001's savestate). The fix is to never short-circuit: every
+    prediction is the emulation's count.
 
     For `new4 > 0`, the count depends on the actual seed draws; without running the engine we
     cannot enumerate them, so the prediction asks for the actual emulation: the check
     `check_keeping.py` runs `runtime/emul/watched.py` over the half-time-edit savestate and
     counts saves via a hook on `0791:5A8E` (the template-29 writer, `write_save_line`).
 
-    `savestate_bytes` may be None for the LOW edit (the analytical derivation covers it).
+    `savestate_bytes` is required for every edit (the analytical shortcut is gone).
     `emulation_cls` may be a fake class for the test suite; the model returns its result."""
-    if edited_keeping == 0:
-        # Every save duel the keeper enters, his rand = 1 and the holder's rand >= 1: the keeper
-        # cannot win a single duel. The derivation is independent of the seed.
-        return {"saves_at_most": 0, "saves_at_least": 0, "saves_count": 0,
-                "analytical_derivation": True}
     if savestate_bytes is None:
-        return {"requires_state": "edit not 0x00 — the count is seed-dependent; emulate the half-time-edit savestate via runtime/emul/watched.py and hook 0791:5A8E"}
+        return {"requires_state":
+                "the half-time-edit savestate is required (the count is emulation-seed; the "
+                "fallback path 5C44 -> 4DA9 -> 06FA -> 5C69 can reach 5A8E without the duel, "
+                "so an analytical bound doesn't hold for edited_keeping == 0 either). Run the "
+                "emulation via runtime/emul/watched.py and hook 0791:5A8E."}
     Emul = _emulation_cls(emulation_cls)
     with_saves = Emul(savestate_bytes).run()
     n = with_saves.save_calls
@@ -272,7 +272,7 @@ def keeper_save_predictions(savestate_bytes, new4, edited_keeping, emulation_cls
             "goal_count": with_saves.goal_calls,
             "ticks": with_saves.ticks, "draws": len(with_saves.draws),
             "score": with_saves.final.get("score", [0, 0]),
-            "analytical_derivation": True, "emulated": True,
+            "analytical_derivation": False, "emulated": True,
             "emulation_cls_used": getattr(Emul, "__name__", str(Emul))}
 
 
