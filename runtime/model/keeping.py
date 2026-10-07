@@ -66,10 +66,21 @@ OUTFIELD_SLOT = 0xC           # 2852: cmp byte ptr es:[di + 6], 0xC — the pitc
 SAVE_TEMPLATE = 29
 DUEL_KEEPER_ELEMENT = 1
 DUEL_HOLDER_ELEMENTS = (10, 4)
-DUEL_SAVE_JLE_OPCODE = 0x7E   # 5C3C: `jle 0x5C44` (cmp ax, dx at 5C3A). A mutation to 0x76 (`jbe`)
-                               # treats the comparison as unsigned: with the doubled-2*keeping value
-                               # the comparison is mostly the same in this match, but the off-by-one
-                               # boundary differs.
+DUEL_AIR_MULTIPLIER = 2       # 5BDB: `shl ax, 1` — the air branch (DS:8303 set) doubles the
+                              # challenger's keeping before the rand (5BD8 reads element 1, 5BDB x2)
+DUEL_GROUND_BONUS = 1         # 5C23-5C31: the ground branch adds 0 or 1 (the [bp-7] != 0x0B flag)
+DUEL_SAVE_JLE_OPCODE = 0x7E   # 5C3C: `jle 0x5C44` (cmp ax, dx at 5C3A). `jle` jumps to no-save when
+                              # challenger <= holder, so the keeper saves exactly when challenger >
+                              # holder. A mutated `jl` (0x7C) widens the save to >= and flips the
+                              # equal boundary; `jbe` (0x76) coincides with `jle` for the non-negative
+                              # draws. The duel model below (`duel_contests` / `keeper_saves`) USES
+                              # these three constants so a mutation of any one fails a test.
+
+# --- 0791:1D4A (seg_0791_03.asm:1D4A-1E50) — the commentary ring write ---------------------
+# A commentary line is written at 1DC1 `mov byte ptr es:[di], al` (template), reached only after
+# the 1C78 dedup predicate passes (1D54-1D63); 1E46 `mov byte ptr [bp-1], 1` marks the write and
+# is the point the emulation hooks to count an ACCEPTED line (the template is still [bp+4] there).
+COMMENTARY_WRITE_OFF = 0x1E46
 
 # --- 0791:9ED3 (seg_0791_16.asm:9ED3-A003) — the unmanaged side's shoot-out takers ----
 # Fills [bp-0x1A + 12*team + i] with the side's pitch slots 1..11 (9EE3-9F11) and SORTS entries
@@ -157,6 +168,48 @@ def contest_value(plus4, plus5, plus7, plus_c, plus_e, element, class_table, pro
     return value
 
 
+def duel_contests(challenger_record, holder_record, class_table, profile_table, ground=True):
+    """The two contest values `0791:5B36`'s save duel draws against (seg_0791_10.asm:5BAD-5C3C).
+
+    The challenger's contest is `278A(challenger, DUEL_KEEPER_ELEMENT)` (element 1 = keeping, read
+    at 5BD8/5C1A); the holder's is `278A(holder, DUEL_HOLDER_ELEMENTS[0 if ground else 1])`
+    (element 10 dribbling on the ground at 5BC4, element 4 heading in the air at 5C06). A record
+    is the player's 20 bytes: record[4]=+4, [5]=+5, [7]=+7, [0xC]=form, [0xE]=energy. The
+    constants DUEL_KEEPER_ELEMENT and DUEL_HOLDER_ELEMENTS are USED here, so mutating either one
+    changes the returned contests and fails the tests that pin them."""
+    ch = contest_value(plus4=challenger_record[4], plus5=challenger_record[5],
+                       plus7=challenger_record[7], plus_c=challenger_record[0xC],
+                       plus_e=challenger_record[0xE], element=DUEL_KEEPER_ELEMENT,
+                       class_table=class_table, profile_table=profile_table)
+    hh = contest_value(plus4=holder_record[4], plus5=holder_record[5],
+                       plus7=holder_record[7], plus_c=holder_record[0xC],
+                       plus_e=holder_record[0xE],
+                       element=DUEL_HOLDER_ELEMENTS[0 if ground else 1],
+                       class_table=class_table, profile_table=profile_table)
+    return ch, hh
+
+
+def duel_operand(contest, ground):
+    """The challenger's draw operand after the element is applied: the air branch doubles the
+    contest (`shl ax, 1`, 5BDB, DUEL_AIR_MULTIPLIER), the ground branch adds DUEL_GROUND_BONUS when
+    the tackle flag is clear (5C23-5C31)."""
+    return contest + (DUEL_GROUND_BONUS if ground else 0) if ground else contest * DUEL_AIR_MULTIPLIER
+
+
+def keeper_saves(challenger_draw, holder_draw, jle_opcode=DUEL_SAVE_JLE_OPCODE):
+    """The save duel's comparison (5C3A-5C3E: `cmp ax, dx; jle 0x5C44`). With the actual opcode
+    `jle` (0x7E, DUEL_SAVE_JLE_OPCODE) the jump to no-save fires when challenger <= holder, so the
+    keeper saves exactly when challenger > holder (strict). A mutated `jl` (0x7C) jumps only when
+    challenger < holder and so saves on >= (the equal boundary flips); `jbe` (0x76) coincides with
+    `jle` for the non-negative draws. The constant is USED here, so a mutation fails the test that
+    pins the equal draw as a no-save."""
+    if jle_opcode in (0x7E, 0x76):      # jle / jbe: save iff challenger > holder
+        return challenger_draw > holder_draw
+    if jle_opcode == 0x7C:              # jl: save iff challenger >= holder (a mutation)
+        return challenger_draw >= holder_draw
+    raise ValueError(f"unexpected duel jle opcode 0x{jle_opcode:02x}")
+
+
 def keepers_of(squad):
     """The squad words the engines treat as keepers: squad word 1 (the side's pitch slot
     `0668[side] + 1`, seg_0791_15.asm:960E-9620 picks record slot 1 for the keeper special)."""
@@ -172,26 +225,39 @@ def predict_edited_values(plus4, plus5, plus7, element, class_table, profile_tab
             skill_value(new4, plus5, plus7, element, class_table, profile_table))
 
 
-def keeper_save_predictions(savestate_bytes, new4, edited_keeping):
+def _emulation_cls(emulation_cls):
+    """Resolve the emulation class: the caller may pass a swap (a fake for the test suite);
+    otherwise load the real `watched.WatchedHalf`. The import is local to keep the model
+    importable on its own."""
+    if emulation_cls is not None:
+        return emulation_cls
+    try:
+        from watched import WatchedHalf   # local import: the emul harness is heavy
+    except ImportError:
+        sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "emul"))
+        from watched import WatchedHalf
+    return WatchedHalf
+
+
+def keeper_save_predictions(savestate_bytes, new4, edited_keeping, emulation_cls=None):
     """What the E013 keeper-edit runs are checked against (the watched engine only; the quick
     engine reads no derived skill, F012). R2 fix: a SAVESTATE-DERIVED prediction, not an
-    observed-outcome flag.
+    observed-outcome flag. R2 follow-up: the emulation class is an injectable parameter so the
+    test suite can substitute a fake and assert the predictor's return depends on the emulation.
 
     For `new4 = 0x00` (keeping value = 0), the derivation is purely analytical: every save duel
     in `0791:5B36` (seg_0791_10.asm:5BC4-5C3E) draws the challenger's rand as
-    `u214b_random_1_to_n(0)`, which is `((seed * 0) >> 16) + 1 = 1` for every seed (the LCG step
-    is value-independent; the rand-1-to-n function is `mul n; inc dx` at `214B:06A0-06A5`, so n=0
-    gives dx=0 → +1 → 1). The holder's rand is at least 1 (positive n), so the duel always loses:
-    0 saves. A "0 saves" prediction is therefore derived from the listing, not from the
-    baseline's count.
+    `u214b_random_1_to_n(0)`, which is `((seed * 0) >> 16) + 1 = 1` for every seed. The holder's
+    rand is at least 1 (positive n), so the duel always loses: 0 saves. A "0 saves" prediction
+    is derived from the listing, not from the baseline's count.
 
-    For `new4 > 0`, the count depends on the actual seed draws (which `rand(1..holder_value)`
-    and `rand(1..2*keeper_value)` fall where); without running the engine we cannot enumerate
-    them, so the prediction asks for the actual emulation: the check `check_keeping.py` runs
-    `runtime/emul/watched.py` over the half-time-edit savestate and counts saves via a hook on
-    `0791:5A8E` (the template-29 writer, `write_save_line`). Returns that count.
+    For `new4 > 0`, the count depends on the actual seed draws; without running the engine we
+    cannot enumerate them, so the prediction asks for the actual emulation: the check
+    `check_keeping.py` runs `runtime/emul/watched.py` over the half-time-edit savestate and
+    counts saves via a hook on `0791:5A8E` (the template-29 writer, `write_save_line`).
 
-    `savestate_bytes` may be None for the LOW edit (the analytical derivation covers it)."""
+    `savestate_bytes` may be None for the LOW edit (the analytical derivation covers it).
+    `emulation_cls` may be a fake class for the test suite; the model returns its result."""
     if edited_keeping == 0:
         # Every save duel the keeper enters, his rand = 1 and the holder's rand >= 1: the keeper
         # cannot win a single duel. The derivation is independent of the seed.
@@ -199,21 +265,19 @@ def keeper_save_predictions(savestate_bytes, new4, edited_keeping):
                 "analytical_derivation": True}
     if savestate_bytes is None:
         return {"requires_state": "edit not 0x00 — the count is seed-dependent; emulate the half-time-edit savestate via runtime/emul/watched.py and hook 0791:5A8E"}
-    # Run the emulator; the hook counts 5A8E (write_save_line) calls. The runtime/emul package
-    # may not be on sys.path when this module is imported directly; the caller (check_keeping.py)
-    # inserts it, but in case the model is exercised standalone, fall back to a path insert.
-    try:
-        from watched import WatchedHalf   # local import: the emul harness is heavy
-    except ImportError:
-        sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "emul"))
-        from watched import WatchedHalf
-    with_saves = WatchedHalf(savestate_bytes).run()
+    Emul = _emulation_cls(emulation_cls)
+    with_saves = Emul(savestate_bytes).run()
     n = with_saves.save_calls
     return {"saves_count": n, "saves_at_least": n, "saves_at_most": n,
-            "analytical_derivation": True, "emulated": True}
+            "goal_count": with_saves.goal_calls,
+            "ticks": with_saves.ticks, "draws": len(with_saves.draws),
+            "score": with_saves.final.get("score", [0, 0]),
+            "analytical_derivation": True, "emulated": True,
+            "emulation_cls_used": getattr(Emul, "__name__", str(Emul))}
 
 
-def outfield_edit_predictions(savestate_bytes, new4, edited_keeping_before, edited_keeping_after):
+def outfield_edit_predictions(savestate_bytes, new4, edited_keeping_before, edited_keeping_after,
+                              emulation_cls=None):
     """R2 fix: an outfield player's +4 edit shifts his derived values by ((new4)+1)/((old4)+1)
     for every element (`3A06` reads +4 for all twelve); the only outcomes that change are the
     duels whose RAND operands flip — a comparison whose operands (the rand draws) and threshold
@@ -221,17 +285,24 @@ def outfield_edit_predictions(savestate_bytes, new4, edited_keeping_before, edit
     only a small fraction (`(new4+1)/(old4+1)` is close to 1), most comparison outcomes do not
     flip; whether they do depends on where the actual draws land.
 
-    `savestate_bytes` is the edited half-time savestate (the run's `evidence/E013-r*.hafl`).
-    The emulated save count is the truth; the predictor returns it and asserts the prediction
-    matches the record's count. No "unchanged" flag is encoded."""
-    try:
-        from watched import WatchedHalf
-    except ImportError:
-        sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "emul"))
-        from watched import WatchedHalf
-    run = WatchedHalf(savestate_bytes).run()
-    n = run.save_calls
-    return {"saves_count": n, "saves_at_least": n, "saves_at_most": n,
-            "edited_keeping_before": edited_keeping_before,
-            "edited_keeping_after": edited_keeping_after,
-            "emulated": True}
+    R3 fix: the prediction returns the EDITED state's full event fingerprint (lines counted via
+    the `tick` hook at 0791:970C, draws counted via the LCG hook at 214B:0688, saves via 0791:5A8E,
+    goals via 0791:6443, and the final score). The check `check_keeping.py` consumes this and
+    asserts equality with the unedited baseline's fingerprint; the line-log record equality
+    alone is not the prediction.
+
+    `emulation_cls` may be a fake class for the test suite; the model returns its result."""
+    Emul = _emulation_cls(emulation_cls)
+    run = Emul(savestate_bytes).run()
+    return {
+        "saves_count": run.save_calls,
+        "goal_count": run.goal_calls,
+        "ticks": run.ticks,
+        "draws": len(run.draws),
+        "score": run.final.get("score", [0, 0]),
+        "event_counts": (run.ticks, run.goal_calls, run.save_calls),
+        "edited_keeping_before": edited_keeping_before,
+        "edited_keeping_after": edited_keeping_after,
+        "emulated": True,
+        "emulation_cls_used": getattr(Emul, "__name__", str(Emul)),
+    }

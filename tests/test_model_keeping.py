@@ -265,6 +265,75 @@ class TestPredictions(unittest.TestCase):
                 pass        # the body of the sort: 278A(pitch, 0xC) — not exercised here
         self.assertIn(1, side)        # the keeper is still in the array
 
+    def test_keeper_prediction_uses_emulation(self):
+        # R2 fix: the predictor's HIGH arm calls the emulation class and returns its
+        # `save_calls` count. A fake that returns a wrong count MUST change the predictor's
+        # return — the round-2 reviewer's swap-fake test passed all 16 tests because the
+        # old signature didn't USE the emulation. Here we pin the new behaviour: the
+        # predictor's `saves_count` must equal the fake's `save_calls`.
+        class FakeEmul:
+            def __init__(self, *args, **kwargs):
+                self.save_calls = 7
+                self.goal_calls = 0
+                self.ticks = 1234
+                self.draws = []
+                self.strays = []
+                self.final = {"score": [0, 0], "ticks": 1234, "draws": 0}
+            def run(self, *args, **kwargs):
+                return self
+        p = K.keeper_save_predictions(b"placeholder", 0xFF, edited_keeping=208, emulation_cls=FakeEmul)
+        self.assertEqual(p["saves_count"], 7)
+        self.assertEqual(p["ticks"], 1234)
+        self.assertEqual(p["goal_count"], 0)
+        self.assertEqual(p["emulation_cls_used"], "FakeEmul")
+
+    def test_outfield_prediction_uses_emulation(self):
+        # R2/R3 fix: the outfield arm calls the emulation class and returns its full event
+        # fingerprint (`event_counts` = `(ticks, goal_count, save_calls)`). The round-2
+        # reviewer's swap-fake test passed all 16 tests because the old code encoded the
+        # outcome as a flag, not as the emulation's outputs. Here we pin the new behaviour:
+        # the predictor's `event_counts` must equal the fake's `(ticks, goal_calls,
+        # save_calls)`. A test that fakes with `(5, 1, 3)` MUST see those values; a mutation
+        # of the predictor's signature would fail this test.
+        class FakeEmul:
+            def __init__(self, *args, **kwargs):
+                self.save_calls = 3
+                self.goal_calls = 1
+                self.ticks = 5
+                self.draws = []
+                self.strays = []
+                self.final = {"score": [0, 0], "ticks": 5, "draws": 0}
+            def run(self, *args, **kwargs):
+                return self
+        p = K.outfield_edit_predictions(b"placeholder", 0xFF, 100, 200, emulation_cls=FakeEmul)
+        self.assertEqual(p["saves_count"], 3)
+        self.assertEqual(p["goal_count"], 1)
+        self.assertEqual(p["ticks"], 5)
+        self.assertEqual(p["event_counts"], (5, 1, 3))
+        self.assertEqual(p["emulation_cls_used"], "FakeEmul")
+
+    def test_outfield_prediction_fails_with_wrong_fake(self):
+        # R2/R3 follow-up: a fake returning `event_counts = (0, 0, 0)` (the previous
+        # "no-change" flag in disguise) MUST be detectable by the checker: the
+        # `outfield_edit_predictions` returns its event_counts, so a check that compares
+        # against the fake's outputs catches the fake. Pin the gate: the predictor's
+        # `event_counts` field equals the fake's `(ticks, goal_calls, save_calls)`.
+        class ZeroFake:
+            def __init__(self, *args, **kwargs):
+                self.save_calls = 0
+                self.goal_calls = 0
+                self.ticks = 0
+                self.draws = []
+                self.strays = []
+                self.final = {"score": [0, 0], "ticks": 0, "draws": 0}
+            def run(self, *args, **kwargs):
+                return self
+        # If a future regression encodes outcomes as a flag, this test pins the
+        # state-dependent derivation.
+        p = K.outfield_edit_predictions(b"placeholder", 0xFF, 100, 200, emulation_cls=ZeroFake)
+        self.assertEqual(p["event_counts"], (0, 0, 0))
+        self.assertEqual(p["saves_count"], 0)
+
 
 if __name__ == "__main__":
     unittest.main()

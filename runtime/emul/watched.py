@@ -130,7 +130,14 @@ class WatchedHalf:
             # re-enters 5A8E, so every reach is a save, not a path).
             self.save_calls += 1
 
+        def goal_line(uc, addr, size, data):
+            # 0791:6443 (F012 notes §1, the goal routine) writes the scorer commentary line
+            # (template 0x26 = 38). One call per goal scored; matches the E013 record's GOAL
+            # template count.
+            self.goal_calls += 1
+
         self.save_calls = 0
+        self.goal_calls = 0
         mu.hook_add(UC_HOOK_INTR, lambda uc, i, d: None)
         mu.hook_add(UC_HOOK_CODE, skip_keychk, begin=self.SEG214B * 16 + KEYTHUNK, end=self.SEG214B * 16 + KEYTHUNK)
         for off, nb in WAIT_FAMILY:
@@ -138,6 +145,7 @@ class WatchedHalf:
         mu.hook_add(UC_HOOK_CODE, rng, begin=self.SEG214B * 16 + LCG, end=self.SEG214B * 16 + LCG)
         mu.hook_add(UC_HOOK_CODE, tick, begin=self.CODE * 16 + 0x970C, end=self.CODE * 16 + 0x970C)
         mu.hook_add(UC_HOOK_CODE, save_line, begin=self.CODE * 16 + 0x5A8E, end=self.CODE * 16 + 0x5A8E)
+        mu.hook_add(UC_HOOK_CODE, goal_line, begin=self.CODE * 16 + 0x6443, end=self.CODE * 16 + 0x6443)
 
     def apply_resume_tail(self):
         """0791:9A32's tail after the ED8A wait (seg_0791_16.asm:9AE3-9B05), exactly as the
