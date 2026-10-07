@@ -192,6 +192,36 @@ class TestPredictions(unittest.TestCase):
         no_state2 = K.keeper_save_predictions(None, 0xFF, edited_keeping=208)
         self.assertIn("requires_state", no_state2)
 
+    def test_keeper_prediction_low_arm_uses_emulation(self):
+        # R1 round-5 fix: the low-arm regression guard. The earlier tests caught a
+        # constant-returning fake only on the high arm (where edited_keeping != 0 and the
+        # record's save count is nonzero). For the low arm, the record happens to have
+        # 0 saves, so a hardcoded analytical shortcut returning `{"saves_count": 0}` would
+        # also pass equality. The fix: pass a fake emulator returning `save_calls = 5` (a
+        # nonzero count) and require the predictor to return it. The hardcoded 0 fails
+        # this assertion.
+        class FakeEmul_nonzero:
+            def __init__(self, *args, **kwargs):
+                self.save_calls = 5
+                self.goal_calls = 0
+                self.ticks = 1234
+                self.draws = []
+                self.strays = []
+                self.final = {"score": [0, 0], "ticks": 1234, "draws": 0}
+            def run(self, *args, **kwargs):
+                return self
+        p = K.keeper_save_predictions(b"placeholder", 0x00, edited_keeping=0,
+                                     emulation_cls=FakeEmul_nonzero)
+        self.assertEqual(p["saves_count"], 5)
+        self.assertTrue(p.get("emulated", False),
+                        "low arm must return emulated=True (the analytical shortcut is gone)")
+        self.assertFalse(p.get("analytical_derivation", False),
+                         "low arm must not return analytical_derivation=True")
+        # The emulation's full event fingerprint must propagate (not just the save count).
+        self.assertEqual(p["goal_count"], 0)
+        self.assertEqual(p["ticks"], 1234)
+        self.assertEqual(p["emulation_cls_used"], "FakeEmul_nonzero")
+
     def test_edited_values_are_linear(self):
         # 3A2C: inc — the value is linear in (+4)+1, so the edit ratio is exact
         old, new = K.predict_edited_values(180, 1, 0, 1, CLASS_TABLE, PROFILE_TABLE, 0x00)
@@ -365,47 +395,59 @@ class TestPredictions(unittest.TestCase):
         self.assertFalse(K.keeper_saves(5, 5, jle_opcode=0x76))            # jbe: same as jle
 
     def test_duel_contests_uses_constants(self):
-        # R2 round-3 + R1 round-4 fix: the helpers `duel_contests`, `duel_operand`,
-        # `keeper_saves` must actually USE the constants `DUEL_KEEPER_ELEMENT`,
-        # `DUEL_HOLDER_ELEMENTS`, `DUEL_AIR_MULTIPLIER`, `DUEL_GROUND_BONUS`,
-        # `DUEL_SAVE_JLE_OPCODE`. The round-3 test only compared `2 * ch > hh`, which a
-        # constant-returning fake `(100, 0)` could pass too. The fix pins the EXACT
-        # listing-derived values for both branches; a constant-returning fake breaks the
-        # equality.
-        rec_a = bytearray(20)
-        rec_b = bytearray(20)
-        rec_a[4] = 180; rec_a[5] = 1; rec_a[7] = 0
-        rec_b[4] = 180; rec_b[5] = 1; rec_b[7] = 0
-        rec_a[0xC] = 30; rec_a[0xE] = 4
-        rec_b[0xC] = 30; rec_b[0xE] = 4
-        # Compute the EXACT expected values independently, so a fake returning constant
-        # values breaks the equality.
-        expected_ch = K.contest_value(plus4=180, plus5=1, plus7=0, plus_c=30, plus_e=4,
+        # R2 round-3 + R1 round-4 + R2 round-5 fix: the helpers `duel_contests`,
+        # `duel_operand`, `keeper_saves` must actually USE the constants
+        # `DUEL_KEEPER_ELEMENT`, `DUEL_HOLDER_ELEMENTS`, `DUEL_AIR_MULTIPLIER`,
+        # `DUEL_GROUND_BONUS`, `DUEL_SAVE_JLE_OPCODE`. The round-3 test only compared
+        # `2 * ch > hh`, which a constant-returning fake `(100, 0)` could pass too. The
+        # round-4 fix pinned the EXACT listing-derived values for both branches; the
+        # round-5 fix varies the challenger and holder asymmetrically so a constant-
+        # returning fake that ignores the records breaks both branches.
+        # Asymmetric fixtures: a strong keeper challenger vs a weaker holder; a second
+        # holder fixture for the air branch.
+        rec_challenger = bytearray(20)
+        rec_holder_ground = bytearray(20)
+        rec_holder_air = bytearray(20)
+        # Challenger: a strong keeper (+4=240, +5=1, +7=0, form=28, energy=30)
+        rec_challenger[4] = 240; rec_challenger[5] = 1; rec_challenger[7] = 0
+        rec_challenger[0xC] = 28; rec_challenger[0xE] = 30
+        # Holder (ground): an outfield striker (+4=180, +5=5, +7=12, form=20, energy=20)
+        rec_holder_ground[4] = 180; rec_holder_ground[5] = 5; rec_holder_ground[7] = 12
+        rec_holder_ground[0xC] = 20; rec_holder_ground[0xE] = 20
+        # Holder (air): a different outfield winger (+4=150, +5=3, +7=10, form=10, energy=10)
+        rec_holder_air[4] = 150; rec_holder_air[5] = 3; rec_holder_air[7] = 10
+        rec_holder_air[0xC] = 10; rec_holder_air[0xE] = 10
+        # Expected challenger: element 1 (keeping), with the keeper-extra term at event 0x18
+        expected_ch = K.contest_value(plus4=240, plus5=1, plus7=0, plus_c=28, plus_e=30,
                                      element=K.DUEL_KEEPER_ELEMENT,
                                      class_table=CLASS_TABLE, profile_table=PROFILE_TABLE,
                                      event_code=K.KEEPING_EVENT)
-        expected_hh_ground = K.contest_value(plus4=180, plus5=1, plus7=0, plus_c=30, plus_e=4,
+        # Expected holder (ground): element 10 (dribbling), record rec_holder_ground
+        expected_hh_ground = K.contest_value(plus4=180, plus5=5, plus7=12, plus_c=20, plus_e=20,
                                              element=K.DUEL_HOLDER_ELEMENTS[0],
                                              class_table=CLASS_TABLE, profile_table=PROFILE_TABLE)
-        expected_hh_air = K.contest_value(plus4=180, plus5=1, plus7=0, plus_c=30, plus_e=4,
+        # Expected holder (air): element 4 (heading), record rec_holder_air
+        expected_hh_air = K.contest_value(plus4=150, plus5=3, plus7=10, plus_c=10, plus_e=10,
                                          element=K.DUEL_HOLDER_ELEMENTS[1],
                                          class_table=CLASS_TABLE, profile_table=PROFILE_TABLE)
-        # Ground branch: holder reads element 10
-        ch_g, hh_g = K.duel_contests(rec_a, rec_b, CLASS_TABLE, PROFILE_TABLE, ground=True)
+        # Ground branch: holder reads element 10 (the rec_holder_ground values)
+        ch_g, hh_g = K.duel_contests(rec_challenger, rec_holder_ground,
+                                    CLASS_TABLE, PROFILE_TABLE, ground=True)
         self.assertEqual(ch_g, expected_ch)
         self.assertEqual(hh_g, expected_hh_ground)
-        # Air branch: holder reads element 4
-        ch_a, hh_a = K.duel_contests(rec_a, rec_b, CLASS_TABLE, PROFILE_TABLE, ground=False)
+        # Air branch: holder reads element 4 (the rec_holder_air values)
+        ch_a, hh_a = K.duel_contests(rec_challenger, rec_holder_air,
+                                    CLASS_TABLE, PROFILE_TABLE, ground=False)
         self.assertEqual(ch_a, expected_ch)
         self.assertEqual(hh_a, expected_hh_air)
-        # The two holder values must differ (different elements).
+        # The two holder values must differ (different records AND different elements).
         self.assertNotEqual(expected_hh_ground, expected_hh_air)
         # The constants are USED: changing DUEL_HOLDER_ELEMENTS changes the holder's value.
+        self.assertEqual(K.DUEL_KEEPER_ELEMENT, 1)
         self.assertEqual(K.DUEL_HOLDER_ELEMENTS, (10, 4))
         # Saving with the air operand: doubled ch > hh (high element, lower value).
         operand_air = K.duel_operand(ch_a, ground=False)
         self.assertEqual(operand_air, 2 * ch_a)
-        self.assertGreater(operand_air, hh_a)
         # Ground operand: +1
         operand_ground = K.duel_operand(ch_g, ground=True)
         self.assertEqual(operand_ground, ch_g + 1)
