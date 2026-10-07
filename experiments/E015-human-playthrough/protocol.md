@@ -10,7 +10,7 @@ record: start, stop, and restart whenever you like; the recorder and the extract
 ## Before
 
 ```
-bash setup/goal2-runtime.sh        # once: the verified release copy in .cache/goal2
+bash setup/goal2-runtime.sh            # once: the verified release copy in .cache/goal2
 bash runtime/human/play.sh --self-test
 ```
 
@@ -20,9 +20,11 @@ One command starts everything (from a graphical session, so the game window open
 display):
 
 ```
-bash runtime/human/play.sh --countries …   # see below; --video adds the screen video
+bash runtime/human/play.sh [--video] [--quit-after SECS]
 ```
 
+The recorder's `--countries` argument does not exist; country selection is an extraction
+parameter (rework round 2 R15: `--countries 1,4` is passed to `extract.py`, not to `play.sh`).
 A windowed DOSBox-X appears, booted from a per-session copy of the verified release. From then
 on you simply play. The watcher (invisible) sends the savestate host key **directly to the game
 window** (`xdotool key --window`, never a global keystroke — your terminal can keep the focus the
@@ -43,9 +45,15 @@ What makes the sitting maximally informative (each row of the map below is fed b
   lands within 20 s) and check the news screens. Year-end player-record and squad diffs (Q013,
   Q014) come from the states either side of the turnover.
 - **Do transfers / pre-season squad edits** while the recorder runs: squad diffs are read from
-  the same states (Q014).
+  the same states (Q014). Pick a player from the pool into your country, drop one out, change
+  tactic bytes (R008, open finding #65) and the captain/penalty/corner presets (F015's reading
+  paths), watch the squad slots move.
 - **Play a knockout cup run to a penalty shoot-out** if the fixture list offers one (F015's
   shoot-out arm has never been watched: `0791:A10A`).
+- **Reposition a player on the pitch** (national repositioning: F008's +6/+7 written live),
+  with the watched match's states either side of the move.
+- **Take a corner / a penalty / make a substitution** during a watched match (F015's reading
+  paths; Q09.5 replays).
 - **Visit the board / news screens** between rounds (Q016, Q017): the screens are captured.
 - **Play a World Cup cycle** if you reach one: the stage and fixture bytes of the chain are the
   bot's map of the competition path.
@@ -60,25 +68,55 @@ your last F12+S if one is pending, and writes the session's meta.
 ```
 python3 experiments/E015-human-playthrough/extract.py scratch/human/sessions/<date-time> --countries 1,4
 python3 tools/validate_runs.py runs/E015
-python3 tools/publish_evidence.py E015 --run E015-r0001 --file <snapshot> …   # the savestates
+python3 tools/publish_evidence.py E015 --run E015-r<nnnn> --file <snapshot> …   # the savestates
 python3 tools/verify_evidence.py E015
 ```
 
-`--countries` picks whose records the chain carries: pass the countries you manage (their
-numbers as GOAL shows them). The record lands in `runs/E015/`, never overwriting an earlier one.
+`extract.py <session-dir>` is positional; it accepts `--countries` (the countries whose records
+the chain carries — pass the ones you manage, their numbers as GOAL shows them), `--runs-dir`,
+and `--machine`. The record lands in `runs/E015/`, never overwriting an earlier one
+(`O_CREAT|O_EXCL`, rework round 2 R2).
 
-## The map: open question → what in the chain answers it
+## The living coverage map
 
-| Question | What in the chain answers it |
-| --- | --- |
-| Q013 ageing / peak age (T28 corroboration) | the player-record diffs across the states either side of a year-end, against the year word `[A923]+0x3A` in the same states |
-| Q014 retirements and new players | the same year-end states: squad changes (slot moves) and `players.check` flipping from the start layout |
-| Q015 energy through a match | player-record diffs across consecutive states of a *watched* match, before/after side |
-| #40 exact commentary identity | consecutive `ui-text` screens of a watched match at moderate speed: commentary rows move between snapshots without lapping the 200-record ring |
-| F015 shoot-out arm | states during a knockout match that reaches penalties (`0791:A10A` runs it watched); screens show the shoot-out, records carry the takers |
-| #65 R008 tactic bytes across seasons | the country record (`+0x2D` among the 0xBF bytes) of the managed country, season over season |
-| Q016/Q017 confidence, morale, board | the `ui-text` of the states where the board/news screens were up |
-| the bot's World Cup path | the stage byte `[A923]+0x3C`, fixture index/count `[A923]+0x26/+0x28` across a cycle's chain |
+The owner plays unscripted, and the map below is how the project's main session reports what one
+sitting filled and what remains. Each row is a knowledge item the project will eventually need:
+the byte (or set of bytes) in guest memory, the open question or finding it belongs to, the
+coverage status, and the named session that fills it. The map is updated after every sitting.
+
+Coverage statuses (the project-recognised vocabulary):
+
+- **static-known** — the byte location and reading rules are confirmed by static analysis (one of
+  `static/goal-exe/named/`, the decompiled listings, or an annotation row); no behavioural run
+  needed for the location; a run may still be wanted to corroborate a value.
+- **corroborated** — a behavioural run confirmed the static answer; named session cited.
+- **needs-play** — no static answer; the row will be filled the first time the owner happens to
+  act on the item during a sitting.
+- **covered-by-a-named-session** — a sitting already captured it; the record's id is cited.
+
+| Knowledge item | Byte / observation | Question / finding | Status | Named session |
+| --- | --- | --- | --- | --- |
+| Selection picks and drops (the pool into the squad, out of it) | country record `c` first 20 words `[A917]+c*0xBF`..`+c*0xBF+0x28` | F011's pool, Q014 | static-known | E015-r0001 (initial layout) |
+| Repositioning on the pitch (national, between matches) | country record bytes `+0x2D..+0x35` (F008's +6/+7 written live) | F008, open finding | needs-play | — |
+| Team-tactic changes | country record bytes `+0x2D..+0x33` (R008, open finding #65) | #65 R008 | static-known | E015-r0001 |
+| Captain / penalty / corner presets | F015's reading paths in the country record's `+0x33..+0x3F` | F015 | needs-play | — |
+| Transfer promise line | `000E:544D` (the screen line "the transfer promise") | Q014, open question | needs-play | — |
+| Training / fitness recovery | player-record bytes (skill / fitness bytes) across consecutive states of a watched match | Q015 | needs-play | — |
+| Watched-match substitutions | player record changes between states either side of a substitution key | Q09.5 | needs-play | — |
+| Watched-match replays | screen-history of a watched match with replays on (commentary ring position) | Q09.5, #40 | needs-play | — |
+| Knockout shoot-out arm | the screen + takers' records during `0791:A10A` | F015 (follow-up) | needs-play | — |
+| Year-end player-record diffs | states either side of a year turnover, against `[A923]+0x3A` | Q013 (T28 corroboration) | static-known | E015-r0001 (year word present) |
+| Year-end squad diffs (retirements, new players) | squad words either side of a year turnover, `players.check` flipping from the start layout | Q014 | static-known | E015-r0001 (initial layout) |
+| Energy through a watched match | player-record diffs across consecutive states, before/after side | Q015 | needs-play | — |
+| Exact commentary identity | consecutive `ui-text` screens of a watched match at moderate speed | #40 | needs-play | — |
+| Board / confidence / morale | `ui-text` of the states where the board/news screens were up | Q016, Q017 | needs-play | — |
+| Bot's World Cup path | stage `[A923]+0x3C`, fixture index/count `[A923]+0x26/+0x28` across a cycle's chain | bot input | needs-play | — |
+
+After a sitting, the main session appends a row per knowledge item the chain covered, with the
+session's run id (e.g. `covered-by-a-named-session — E015-r0001` for the items the first sitting
+already captured), and moves the relevant `needs-play` rows to `covered-by-a-named-session` once
+the next sitting captures them. The map is the project's way of saying which facts still depend on
+the owner's normal play, not on scripted scenarios.
 
 The analysis of any one row is **not** this experiment's: it belongs to the question's own task,
 which corroborates its finding against the chain.
