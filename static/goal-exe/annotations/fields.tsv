@@ -1,13 +1,14 @@
 record	offset	name	type	purpose	confidence	basis
 player	0x00	country	byte	the player's country, 1..128	established	F007; F008
-player	0x01	age	byte	age (22..37 at a new game); the player screen shows it	established	F007; F008
-player	0x02	peak_age	byte	inferred peak age: +4 equals +3 while +1 lies in +2 .. +2+3; not shown on the player screen	likely	F007; F008
+player	0x01	age	byte	age (22..37 at a new game); the player screen shows it; incremented once per displayed year by the yearly loop 1771:7E4A (7E6F, wraps at 255)	established	F007; F008; F016
+player	0x02	peak_age	byte	the peak age: +4 equals +3 while +1 lies in +2 .. +2+3 (1771:32EB's band), the retirement test 1771:7F40 also reads it (+1 > +2+5 retires); drawn once at creation by roll_peak_age 1771:3291 (25..29 outfield, 28..32 goalkeeper) and never moved afterwards; not shown on the player screen	established	F007; F008; F016
 player	0x03	rating	byte	the country's rating (1771:10E7) + 0x7F at creation, the player's ceiling (inferred potential, about 70%)	established	F007
-player	0x04	ability	byte	current ability (the reading, about 85%): +3 reduced by the distance of +1 from +2 .. +2+3; the scale of all twelve skill bars	likely	F007; F008
+player	0x04	ability	byte	current ability (the reading, about 85%): the yearly loop recomputes it from +1/+2/+3 by 1771:32EB (the band +2..+2+3 holds the ceiling +3, below it +3*(0x10-(+2-+1 div 2)) div 16, above it one step of +3/16 per year); the scale of all twelve skill bars	established	F007; F008; F016
 player	0x05	skill_profile	byte	the skill profile 1..16: how steep the twelve skills' curve is; also feeds hardness, leadership and two-footed	established	F007; F008
 player	0x06	position	byte	the position code (0 the goalkeeper), shown as position; the mark row and the name colour read it. +6 = +7 in a new game, so which shown cell each feeds is static only	established	F007; F008
 player	0x07	club_position	byte	the position code too, shown as club position; written first, then copied to +6; feeds height, foot and the skills	established	F007; F008
-player	0x08	caps	word	caps, a 16-bit word (0 in a new game; values beyond 0 static only)	likely	F008
+player	0x08	caps	word	caps, a 16-bit word (0 in a new game; values beyond 0 static only); the retirement test 1771:7F40 reads it (== 0 with age past DS:110E[gk] retires a computer-country player)	likely	F008; F016
+player	0x11	year_end_clear	byte	written 0 by the yearly loop's 1771:7FB1 (7FD4) unconditionally, every ageing stage; no code reads it (F008: of the 20 bytes only +0x11 is not read by the screen's routines)	established	F016
 player	0x0A	goals	word	goals, a 16-bit word (0 in a new game; values beyond 0 static only)	likely	F008
 player	0x0C	morale	byte	morale, 1..32: word DS:78A3[min(+0x0C, 0x20)], a bar only below 0x20	established	F007; F008
 player	0x0D	fitness	byte	fitness, word DS:78D5[+0x0D] and a bar of 32 steps; +0x0D = +0x0E in a new game, so which feeds fitness and which energy is static only	likely	F007; F008
