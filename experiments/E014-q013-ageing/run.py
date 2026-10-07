@@ -38,6 +38,7 @@ import json
 import platform
 import subprocess
 import sys
+import threading
 import time
 import traceback
 from pathlib import Path
@@ -149,6 +150,22 @@ def pick_countries(state):
     return chosen
 
 
+def _headline(sc):
+    """The screen's headline: its first non-empty row, the row the game titles a screen with."""
+    for ln in sc.lines():
+        if ln.strip():
+            return ln.strip()
+    return ""
+
+
+def _headline(sc):
+    """The screen's headline: its first non-empty row, the row the game titles a screen with."""
+    for ln in sc.lines():
+        if ln.strip():
+            return ln.strip()
+    return ""
+
+
 class Session:
     def __init__(self, n, args, commit):
         self.run_id = f"{EXPERIMENT}-r{n:04d}"
@@ -160,6 +177,12 @@ class Session:
         self.chosen = [int(x) for x in args.countries.split(",")] if args.countries else None
         self.prev_tuple = None
         self.unknown = 0
+        # live progress (owner direction 2026-10-07): what the heartbeat prints, and the
+        # stuck-screen watchdog's state — the screen digest the loop last acted on and how
+        # many keys in a row have left it unchanged.
+        self.matches = 0
+        self.last_text, self.last_tuple = "", {}
+        self.last_digest, self.same_digest_keys = None, 0
 
     # --- observation helpers ---------------------------------------------------------------
     def add(self, source, field, value, addr=None):
@@ -207,14 +230,25 @@ class Session:
                            "savestate's sha256 (the savestate is staged as start state " + name + ")",
                  json.dumps(cap, separators=(",", ":")))
         self.add("ui-text", f"capture {k} ({when}): the settled screen at the capture", state.screen().text())
-        print(f"{self.run_id}: capture {k} ({when}) {json.dumps(cap['state'])} countries {self.chosen}")
+        print(f"{self.run_id}: capture {k} ({when}) {json.dumps(cap['state'])} countries {self.chosen}", flush=True)
         return True
+
+    def heartbeat(self, stop):
+        """Print live progress at most every 60 s (owner direction): elapsed wall clock, the
+        current screen's headline, the state tuple and the matches played. stdout is unbuffered
+        (main reconfigures it), so a detached run's log shows real progress."""
+        while not stop.wait(60):
+            print(f"{self.run_id}: {round(time.monotonic() - self.d.t0)} s: {self.last_text[:60]!r} "
+                  f"{json.dumps(self.last_tuple)} matches {self.matches} captures {len(self.captures)}",
+                  flush=True)
 
     # --- the auto-play loop --------------------------------------------------------------------
     def go(self):
         status = "completed"
         gone = False
         deadline = time.monotonic() + self.args.budget
+        stop = threading.Event()
+        threading.Thread(target=self.heartbeat, args=(stop,), daemon=True).start()
         try:
             sc = self.d.launch(self.st)
             times, state, blob = self.d.read()
@@ -224,11 +258,23 @@ class Session:
             while len(self.captures) < self.args.years + 1 and time.monotonic() < deadline:
                 sc, times, state, blob = self.stable()
                 if self.maybe_capture(state, blob, "year end"):
+                    self.last_text, self.last_tuple = _headline(sc), state_tuple(state)
                     continue
                 text = sc.text()
+                self.last_text, self.last_tuple = _headline(sc), state_tuple(state)
+                # stuck-screen watchdog: a key that leaves the screen unchanged 12 times in a
+                # row is a responder bug, not slow play — abort naming the screen (r0002 looped
+                # 1193 Enters on one `location:` screen without ever identifying it).
+                dg = sc.digest()
+                self.same_digest_keys = self.same_digest_keys + 1 if dg == self.last_digest else 0
+                self.last_digest = dg
+                if self.same_digest_keys >= 12:
+                    raise RuntimeError(f"12 keys left the screen unchanged: " + sc.lines()[-1].strip()
+                                       + " | screen: " + " / ".join(ln.strip() for ln in sc.lines()[:6] if ln.strip()))
                 if "How many players" in text:
                     raise RuntimeError("the game is back at its title screen")
                 if match.is_full_time(sc):
+                    self.matches += 1
                     self.log_key("Enter", "the full-time board")
                     self.d.keys("Enter")
                 elif "watch this match" in text:
@@ -279,6 +325,7 @@ class Session:
             status = f"aborted: {type(e).__name__}: {e}".splitlines()[0][:300]
             traceback.print_exc()
         finally:
+            stop.set()
             gone = self.d.terminate()
         return self.record(status, gone)
 
@@ -335,7 +382,7 @@ class Session:
         OUT.mkdir(parents=True, exist_ok=True)
         with open(OUT / f"{self.run_id}.json", "x", encoding="utf-8") as f:  # never overwrite (L207)
             f.write(text)
-        print(f"{self.run_id}: {status}; captures {len(self.captures)}")
+        print(f"{self.run_id}: {status}; captures {len(self.captures)}", flush=True)
         return status == "completed", OUT / f"{self.run_id}.json"
 
 
@@ -359,6 +406,7 @@ def parser():
 
 
 def main(argv=None):
+    sys.stdout.reconfigure(line_buffering=True)   # live progress when redirected (owner direction)
     argv = sys.argv[1:] if argv is None else list(argv)
     a = parser().parse_args(argv)
     a.argv = argv
