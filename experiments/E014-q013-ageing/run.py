@@ -185,6 +185,7 @@ class Session:
         self.last_digest, self.same_digest_keys = None, 0
         self.same_reason, self.same_reason_keys = None, 0
         self.cur_text = ""
+        self.team_enters, self.recovering = 0, False
 
     # --- observation helpers ---------------------------------------------------------------
     def add(self, source, field, value, addr=None):
@@ -289,6 +290,8 @@ class Session:
                                        + " | screen: " + " / ".join(ln.strip() for ln in sc.lines()[:6] if ln.strip()))
                 if "How many players" in text:
                     raise RuntimeError("the game is back at its title screen")
+                if not e004.team_screen(sc):
+                    self.team_enters = 0    # the pre-match screen advanced; the recovery counter restarts
                 if match.is_full_time(sc):
                     self.matches += 1
                     self.log_key("Enter", "the full-time board")
@@ -303,11 +306,32 @@ class Session:
                                        for s, k, w in ks)
                     self.d.log(f"match quick: {reads} reads, {secs} s")
                 elif e004.team_screen(sc):
-                    self.log_key("Enter", "the team screen (location:), its default option ' play '")
-                    self.d.keys("Enter")
+                    # the pre-match team screen is ED8A (in_match_menu) whose ' play ' exits only
+                    # when EA09 validates both managed sides' first elevens; an ineligible player
+                    # (injury, suspension) makes EA09 return 0 silently, so Enter loops forever
+                    # (r0004: 15 Enters, no advance). The recovery: Space opens the players screen
+                    # (0791:E949 → select_team_screen E44F), Ins there runs the assistant's
+                    # recommended 20 (the -0x4a branch, 0791:DC7E; GOAL.HLP P58, "Hit Ins for
+                    # assistant's recommended 20"), Esc returns, and ' play ' passes EA09.
+                    self.team_enters += 1
+                    if self.team_enters == 3:
+                        self.recovering = True
+                        self.log_key("Space", "the team screen thrice unadvanced: open the players screen "
+                                                "(0791:E949; EA09's silent ineligible-player refusal)")
+                        self.d.keys("Space")
+                    else:
+                        self.log_key("Enter", "the team screen (location:), its default option ' play '")
+                        self.d.keys("Enter")
                 elif "F2-new name" in text or "R,C-reposition" in text:
-                    self.log_key("Esc", "the select-squad screen (menu item 5, reached in error): Esc-exit")
-                    self.d.keys("Esc")
+                    if self.recovering:
+                        self.recovering = False
+                        self.log_key("Insert", "the select-team screen: the assistant's recommended 20 "
+                                               "(Ins, 0791:DC7E; GOAL.HLP P58), replacing the ineligible "
+                                               "first-eleven player")
+                        self.d.keys("Insert")
+                    else:
+                        self.log_key("Esc", "the select-squad screen (menu item 5, reached in error): Esc-exit")
+                        self.d.keys("Esc")
                 elif "play next game" in text:
                     # the main menu: the selected item is the word DS:00B0, moved 1..6 with wrap by
                     # 214B:15B1 (u214b_menu_move_word_wrap(6, 0xB0, ...) in main_menu_loop 000E:7439);
