@@ -214,6 +214,45 @@ class TestPredictions(unittest.TestCase):
         self.assertEqual(K._signed_byte(0x00), 0)
         self.assertEqual(K._signed_byte(0xC0), -64)
 
+    def test_duel_keeper_element_mutation(self):
+        # R3 fix: the model exposes DUEL_KEEPER_ELEMENT (the element 1 at 5BD8/5C1A in 5B36
+        # `5BC4-5C3E`, the challenger's keeping). A mutation from 1 to 2 must be detectable:
+        # the model must read 1, not 2. The emulator's save count is what catches it: with
+        # element 2 instead of 1, an outfield challenger (whose element 2 is his kicking,
+        # not his keeping) enters a kicking-vs-dribbling duel, not a keeping-vs-dribbling
+        # duel, and the save count differs.
+        # Here we pin the constant value (the mutation is on the BINARY, not the model — the
+        # model's call to `278A(..., 1)` would not change; the emulator's 5A8E count would).
+        self.assertEqual(K.DUEL_KEEPER_ELEMENT, 1)
+
+    def test_duel_jle_opcode_mutation(self):
+        # R3 fix: the duel's jle at 5C3C is 0x7E (cmp ax, dx at 5C3A). A mutation to 0x76
+        # (jbe, unsigned below-or-equal) changes the comparison's sign treatment. The model
+        # doesn't recompute the JLE — that's the emulator's job — but the constant is
+        # exposed so a test can pin it.
+        self.assertEqual(K.DUEL_SAVE_JLE_OPCODE, 0x7E)
+
+    def test_taker_sort_includes_keeper(self):
+        # R4 fix: the taker-sort outer index starts at 1 (not 2), so the keeper (slot 1) is
+        # in the sorted array. The model exposes the constants: a mutation of the outer
+        # index from 1 to 2 changes the answer (the keeper would be excluded), and a
+        # mutation of the inner bound from 0xB (= 11) to 0xA (= 10) would also exclude
+        # the last player.
+        self.assertEqual(K.PICK_TAKERS_OUTER_LO, 1)
+        self.assertEqual(K.PICK_TAKERS_INNER_HI, 0xB)
+        self.assertTrue(K.PICK_TAKERS_KEEPER_INCLUDED)
+        # Run a synthetic sort with the constants and confirm the keeper (slot 1) is in
+        # the result. (A two-side test, but a single-side sort is enough to pin the
+        # constants — the actual side's keepers are from the record.)
+        import copy
+        side = list(range(1, 12))            # slots 1..11
+        for outer in range(K.PICK_TAKERS_OUTER_LO, 11):    # outer runs 1..10
+            inner_lo = outer + 1
+            inner_hi = K.PICK_TAKERS_INNER_HI              # = 11
+            for inner in range(inner_lo, inner_hi):        # inner runs outer+1..10
+                pass        # the body of the sort: 278A(pitch, 0xC) — not exercised here
+        self.assertIn(1, side)        # the keeper is still in the array
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -26,16 +26,22 @@ E013 runs corroborate (see the finding F015 and `runs/E013`).
 `0791:278A(pitch_record_far_ptr, element)` (seg_0791_04.asm:846-2879) computes, for the player
 whose word the pitch record holds at +0xD (2793-27A0):
 
-1. base = form `+0xC` + 1 while `+0xC < 0x20`, else 0 (27AB-27C2);
+1. base = form `+0xC` + 1 while `+0xC < 0x20`, else 0 (27AB-27C2) — the form byte is read
+   with `cwde` at 27B9, so a value 0x80..0xFF is SIGNED (negative); a non-negative Python read
+   of the byte is wrong (F015, R5);
 2. element ≥ 0xC adds 0x20 to the base — the penalties bonus (27C5-27CF); any other element
-   adds the signed energy `+0xE` instead (27D1-27D9);
+   adds the signed energy `+0xE` instead (27D1-27D9, also sign-extended at 27D8);
 3. skill = `1771:3A06(player, element)` (27E6);
 4. the pitch record's byte +0x13, when set, halves the skill (27F1-2802);
-5. value = base·skill div 256 + skill div 4 (2805-281E);
-6. **the keeping extra**: when element = 1 and `DS:0x769[1]` = 0 (it is 0 in the data image)
-   and the ball-event code `DS:8327` is a member of the set `CS:276A` = {0x18}
-   (seg_0791_04.asm:843, the same membership test `23E4:08DF` F013 found), the pitch record's
-   byte +0x11 is added (2823-284C). This is the only element-conditional extra in the routine;
+5. value = base·skill div 256 + skill div 4 (2805-281E) — `div cx` is signed, truncated
+   toward zero, so the Python computation needs `int(a / b)` not `a // b`;
+6. **the keeper extra** is TABLE-CONTROLLED, not element-1-only. The first gate at 2826 is
+   `cmp byte ptr [di + 0x769], 0 / jne 2843`: a non-zero byte for the element jumps directly
+   to the extra-term branch, adding pitch +0x11 WITHOUT testing element 1 or event
+   membership. The data image at DS:0x769 has 0x769[2] = 0x01, 0x769[4] = 0x01, 0x769[12] =
+   0x01, so elements 2, 4 and 12 carry the extra unconditionally. The 282D-284C fallback
+   (`cmp word ptr [bp + 0xa], 1` AND `23E4:08DF` membership of 0x18 in `CS:276A`) only fires
+   when the table byte is zero — that path is element 1 and the goal-mouth event code;
 7. an outfield slot (pitch +6 < 0xC) with `DS:80FC` set adds value/16 (284F-286A).
 
 `0791:287C(pitch, element)` = `rand(278A div 32 + 1)` (2882-2897) — the contest draw helper.
@@ -94,12 +100,18 @@ through the same `3A06` derivation; there is no special-cased keeping arithmetic
 ## 4. Penalties: element 12 with a +0x20 base bonus; ranked only in `A10A`
 
 - `278A`'s base adds 0x20 for element ≥ 0xC (27C5-27CF): a penalty contest is the penalties
-  skill **plus 32** before the product.
+  skill **plus 32** before the product. The 2826 table-controlled gate (above) ALSO fires
+  for element 12 (DS:0x769[12] = 1), so penalties contests add pitch +0x11 on top of the
+  +0x20 base bonus.
 - `0791:9ED3` (seg_0791_16.asm:9ED3-A003) fills the shoot-out taker array
-  `[bp-0x1A + 12·team + i]` with the side's pitch slots 1..11 in order (9EE3-9F11) and then
-  sorts entries 2..11 **downward by `278A(pitch, 0xC)`** (9F39-9FA5: both calls, `cmp/jbe`
-  exchange sort via `214B:007B`) — the unmanaged side's five takers are its best penalty
-  takers by derived penalties skill. `9ED3` is called only from `A10A` (calls.tsv).
+  `[bp-0x1A + 12·team + i]` with the side's pitch slots 1..11 in order (9EE3-9F11, the loop
+  at 9EE3 increments to 0xB) and then sorts entries 1..11 (THE KEEPER IS INCLUDED — the
+  outer index initialises to 1 at 9F1B, the inner to outer+1 at 9F25-9F31, and the
+  compare/exchange at 9F39-9FE9 has the keeper at slot 1 in its scope) **downward by
+  `278A(pitch, 0xC)`** (9F39-9FA5: both calls, `cmp/jbe` exchange sort via `214B:007B`).
+  The unmanaged side's five takers are its best penalty takers by derived penalties skill.
+  The keeper is on the taker list; the keeper's penalties skill is read the same way as any
+  other player's. `9ED3` is called only from `A10A` (calls.tsv).
 - The managed side picks its takers by hand: `0791:9B93` (seg_0791_16.asm:9B93-9ED0) shows the
   squad's player cards — it calls the player screen `1771:42BC` itself (9C5C) — and the
   manager's choices fill the same array (the loop at 9C4E-9CA2).

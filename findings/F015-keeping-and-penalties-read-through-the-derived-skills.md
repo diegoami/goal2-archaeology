@@ -34,13 +34,18 @@
   player screen `1771:42BC`. No stored skill byte exists anywhere (F008), and no engine reads a
   skill except through `278A`. High confidence.
 - **`0791:278A(pitch, element)` is the engines' one skill reader** (static; the runs exercise
-  it): form base (`+0xC`+1 below 0x20, else 0; 27AB-27C2), the **penalties bonus** (element
-  ≥ 0xC adds 0x20 to the base; 27C5-27CF), energy for other elements (27D1-27D9), the `3A06`
-  skill (27E6), a pitch-record halving flag (+0x13; 27F1-2802), `base·skill div 256 + skill
-  div 4` (2805-281E), a **keeping-only extra** — element 1 under ball-event code 0x18 (the set
-  `CS:276A`; 2823-284C) adds the pitch record's +0x11 — and an `80FC` share for outfield slots
-  (284F-286A). Its callers and their elements are tabulated in
-  `experiments/E013-q012-keeping/notes.md` §2. High confidence.
+  it): form base (`+0xC`+1 below 0x20, else 0; 27AB-27C2, **SIGNED** form byte read at 27B9
+  via `cwde`), the **penalties bonus** (element ≥ 0xC adds 0x20 to the base; 27C5-27CF),
+  **SIGNED** energy for other elements (27D1-27D9, sign-extended at 27D8), the `3A06` skill
+  (27E6), a pitch-record halving flag (+0x13; 27F1-2802), `base·skill div 256 + skill div 4`
+  (2805-281E — the `div cx` truncates toward zero), a **table-controlled keeper extra** at
+  2823-284C — the FIRST gate is `cmp byte ptr [di + 0x769], 0 / jne 2843` (2826-282B): a
+  non-zero byte for the element fires the extra, adding pitch +0x11, WITHOUT testing
+  element 1 or event-code membership; the data image has DS:0x769[2] = 1, DS:0x769[4] = 1,
+  DS:0x769[12] = 1, so elements 2, 4 and 12 carry the extra unconditionally. Only when
+  the table byte is zero does the 282D-284C fallback apply (element 1 and event code 0x18
+  in CS:276A) — and an `80FC` share for outfield slots (284F-286A). Its callers and their
+  elements are tabulated in `experiments/E013-q012-keeping/notes.md` §2. High confidence.
 - **Keeping is read in the watched engine's save duel, of ANY challenger — the keeper's edge is
   the class column, not a gate** (both). The "saved by X" line (template 29) is written by
   `0791:5A8E` (`5A33(·, 0x1D)`), and `5A8E` is the win branch of the duel inside `0791:5B36`
@@ -62,13 +67,16 @@
   calls `278A`/`3A06` (calls.tsv). High confidence.
 - **Penalties is element 12 with a +0x20 base bonus, ranked only in the shoot-out** (static).
   The unmanaged side's five shoot-out takers are the side's best penalty takers:
-  `0791:9ED3` (called only from `A10A`) sorts pitch slots 2..11 downward by
-  `278A(pitch, 0xC)` (seg_0791_16.asm:9F39-9FA5). The managed side picks by hand: `0791:9B93`
-  shows the player cards (`1771:42BC` itself, 9C5C). The kick (`A006` → `6BF1(0xA, taker)`)
-  plays through the watched engine with `DS:8324` set — `5B36`'s `8324` branch rates the taker
-  by element 12, halved (`0x800[(8327 == 4)]`) — and `690C`'s element table `0x80C[8327]` is
-  12 at event codes 3 and 4. Outside `A10A`, penalties is read only through those table
-  columns. High confidence.
+  `0791:9ED3` (called only from `A10A`) fills the taker array with the side's pitch slots
+  1..11 in order (the keeper IS in the array — the outer index initialises to 1 at 9F1B,
+  the inner to outer+1 at 9F25-9F31, and the compare/exchange at 9F39-9FE9 covers entries
+  1..11) and then sorts entries 1..11 downward by `278A(pitch, 0xC)`
+  (seg_0791_16.asm:9F39-9FA5). The managed side picks by hand: `0791:9B93` shows the player
+  cards (`1771:42BC` itself, 9C5C). The kick (`A006` → `6BF1(0xA, taker)`) plays through
+  the watched engine with `DS:8324` set — `5B36`'s `8324` branch rates the taker by element
+  12, halved (`0x800[(8327 == 4)]`) — and `690C`'s element table `0x80C[8327]` is 12 at
+  event codes 3 and 4. Outside `A10A`, penalties is read only through those table columns.
+  High confidence.
 - **`A10A` needs a decider fixture**: it runs only when the fixture record's +3 = 2 (a draw)
   and `DS:7C36` ≠ 0 (`0791:F0F6-F10C`), and `7C36` is set at match start from "fixture byte
   +2 is a member of the set `DS:693A` = {0x10}" (`0791:A417`). A drawn friendly ends at FULL
