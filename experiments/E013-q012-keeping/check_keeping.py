@@ -179,6 +179,9 @@ def check(record_path):
         # (saves, goals) — both the emulator and the record carry these in the same units.
         # (ticks is the clock reaches, not commentary events; line log != line count of
         # accepted entries; only saves/goals compare like-for-like.)
+        # R6 fix: the LINE LOG itself is the gate too — every commentary event must match
+        # the baseline line-for-line, not just saves/goals. A change to another template
+        # (booking/injury/etc.) without a save/goal change now fails the check.
         counts = (len(second), sum(1 for l in second if l[1] == GOAL), len(saves))
         bcounts = (len(bsecond), sum(1 for l in bsecond if l[1] == GOAL), len(bsaves))
         pred_counts = (p["saves_count"], p["goal_count"])
@@ -187,11 +190,21 @@ def check(record_path):
                       "(no comparison flipped)",
                       pred_counts == base_sav_goal,
                       f"predictor {pred_counts} vs baseline {base_sav_goal}"))
-        if second != bsecond:
-            notes.append(f"DIAGNOSTIC: line log second half != baseline (lines/goals/saves "
-                         f"{counts} vs baseline {bcounts}); the prediction still passes if its "
-                         f"event_counts match the baseline, but the records' commentary rings "
-                         f"differ in some template other than GOAL ({GOAL}) or SAVE ({SAVE})")
+        # R6 follow-up: the line log equality is a GATE, not a diagnostic. Any template
+        # other than saves/goals (e.g. booking, injury) must also match.
+        first_diff = None
+        for i, (a, b) in enumerate(zip(second, bsecond)):
+            if a != b:
+                first_diff = (i, a, b)
+                break
+        if first_diff is None and len(second) != len(bsecond):
+            first_diff = (min(len(second), len(bsecond)),
+                          second[-1] if second else None,
+                          bsecond[-1] if bsecond else None)
+        cases.append(("the predicted non-keeper effect: every commentary event matches the "
+                      "baseline (line log equality)",
+                      second == bsecond,
+                      f"{len(second)} lines vs {len(bsecond)}; first diff: {first_diff}"))
 
     # every save names a player of the conceding side (the team byte of the save line)
     squads = {s["side"]: set(s["squad"]) for s in ht["sides"]}

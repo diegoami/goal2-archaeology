@@ -196,13 +196,19 @@ def duel_operand(contest, ground):
     return contest + (DUEL_GROUND_BONUS if ground else 0) if ground else contest * DUEL_AIR_MULTIPLIER
 
 
-def keeper_saves(challenger_draw, holder_draw, jle_opcode=DUEL_SAVE_JLE_OPCODE):
+def keeper_saves(challenger_draw, holder_draw, jle_opcode=None):
     """The save duel's comparison (5C3A-5C3E: `cmp ax, dx; jle 0x5C44`). With the actual opcode
     `jle` (0x7E, DUEL_SAVE_JLE_OPCODE) the jump to no-save fires when challenger <= holder, so the
     keeper saves exactly when challenger > holder (strict). A mutated `jl` (0x7C) jumps only when
     challenger < holder and so saves on >= (the equal boundary flips); `jbe` (0x76) coincides with
     `jle` for the non-negative draws. The constant is USED here, so a mutation fails the test that
-    pins the equal draw as a no-save."""
+    pins the equal draw as a no-save.
+
+    R6 fix: the opcode is resolved against `DUEL_SAVE_JLE_OPCODE` at CALL TIME, not at
+    import time (the previous default-argument capture made runtime mutations no-ops).
+    Passing `jle_opcode` explicitly always wins."""
+    if jle_opcode is None:
+        jle_opcode = DUEL_SAVE_JLE_OPCODE
     if jle_opcode in (0x7E, 0x76):      # jle / jbe: save iff challenger > holder
         return challenger_draw > holder_draw
     if jle_opcode == 0x7C:              # jl: save iff challenger >= holder (a mutation)
