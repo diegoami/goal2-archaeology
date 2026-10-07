@@ -183,6 +183,8 @@ class Session:
         self.matches = 0
         self.last_text, self.last_tuple = "", {}
         self.last_digest, self.same_digest_keys = None, 0
+        self.same_reason, self.same_reason_keys = None, 0
+        self.cur_text = ""
 
     # --- observation helpers ---------------------------------------------------------------
     def add(self, source, field, value, addr=None):
@@ -194,6 +196,19 @@ class Session:
     def log_key(self, key, why):
         self.keys.append((round(time.monotonic() - self.d.t0, 2), key, why))
         self.d.log(f"key {key!r}: {why}")
+        # stuck-screen watchdog: 15 keys sent for the same reason with no other screen acted on
+        # between them is a responder bug, not slow play (r0002: 1193 Enters on one `location:`
+        # screen). The digest watchdog in go() misses screens with a blinking element, so this
+        # counts reasons; at the threshold the loop's current screen is recorded in full.
+        if why == self.same_reason:
+            self.same_reason_keys += 1
+        else:
+            self.same_reason, self.same_reason_keys = why, 1
+        if self.same_reason_keys >= 15:
+            self.add("ui-text", f"stuck screen: {self.same_reason_keys} keys, one reason ({why}); its full text",
+                     self.cur_text)
+            raise RuntimeError(f"15 keys, one reason ({why}), no advance; screen recorded: "
+                               + " / ".join(ln.strip() for ln in self.cur_text.splitlines()[:6] if ln.strip()))
 
     def stable(self, max_reads=40):
         """Poll reads until the screen digest repeats; returns (screen, times, state, blob)."""
@@ -261,6 +276,7 @@ class Session:
                     self.last_text, self.last_tuple = _headline(sc), state_tuple(state)
                     continue
                 text = sc.text()
+                self.cur_text = text
                 self.last_text, self.last_tuple = _headline(sc), state_tuple(state)
                 # stuck-screen watchdog: a key that leaves the screen unchanged 12 times in a
                 # row is a responder bug, not slow play — abort naming the screen (r0002 looped
