@@ -33,8 +33,12 @@ whose word the pitch record holds at +0xD (2793-27A0):
    adds the signed energy `+0xE` instead (27D1-27D9, also sign-extended at 27D8);
 3. skill = `1771:3A06(player, element)` (27E6);
 4. the pitch record's byte +0x13, when set, halves the skill (27F1-2802);
-5. value = base·skill div 256 + skill div 4 (2805-281E) — `div cx` is signed, truncated
-   toward zero, so the Python computation needs `int(a / b)` not `a // b`;
+5. value = base·skill div 256 + skill div 4 (2805-281E) — the multiply is UNSIGNED
+   (`mul word ptr [bp - 6]` at 2814), the product's high word is DISCARDED (`xor dx, dx` at
+   2817), and the divide is UNSIGNED (`mov cx, 0x100` / `div cx` at 2819-281C): the value is
+   `((base·skill) & 0xFFFF) div 256 + skill div 4`, the low word in two's complement for a
+   negative base; the `skill div 4` quarter at 2808-280D is also unsigned. There is no IDIV
+   and no sign extension of the product;
 6. **the keeper extra** is TABLE-CONTROLLED, not element-1-only. The first gate at 2826 is
    `cmp byte ptr [di + 0x769], 0 / jne 2843`: a non-zero byte for the element jumps directly
    to the extra-term branch, adding pitch +0x11 WITHOUT testing element 1 or event

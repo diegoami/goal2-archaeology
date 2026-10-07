@@ -16,7 +16,9 @@ E013 records check (`check_keeping.py`):
 - `skill_value` — `1771:3A06`: `DS:6DCD[12*+5 + DS:6D25[12*+7 + element]] * ((+4) + 1) div 32`;
 - `contest_value` — `0791:278A`: form base (SIGNED read at +0xC; 27AB uses `jge`), the element
   >= 0xC penalty bonus, the energy add (SIGNED read at +0xE; 27D8's `cwde` sign-extends), the
-  pitch-record halving flag, the goal-mouth product, the **table-controlled keeper extra** at
+  pitch-record halving flag, the UNSIGNED low-word product-and-divide (2814 `mul` / 2817 `xor
+  dx, dx` / 281C `div` — no IDIV, no sign extension of the product), the **table-controlled
+  keeper extra** at
   2823-284C (the extra fires when `DS:0x769[element]` ≠ 0 for ANY element, not just 1 — the
   data image has 0x769[2] = 1, so element 2 under event 0x17 also adds pitch +0x11) and the
   manager's `80FC` share;
@@ -90,12 +92,22 @@ def _signed_byte(b):
     return b - 0x100 if b >= 0x80 else b
 
 
-def _idiv16(a, b):
-    """x86 `div cx` on a signed 16-bit value: quotient is integer-division truncated toward zero
-    (28D-2819 `mul word ptr [bp - 6]; xor dx, dx; mov cx, 0x100; div cx` — the high word of the
-    product is sign-extended by `cwd` after `mul`; IDIV truncates toward zero, so
-    `int(a / b)` matches the binary, NOT Python's `//` which floors)."""
-    return int(a / b)
+def _contest_product(base, skill):
+    """`0791:278A`'s value product-and-divide (2805-281E), exactly as the listing computes it.
+
+    `mov ax, [bp-6]; xor dx, dx; mov cx, 4; div cx` (2805-280D, UNSIGNED) puts bx = skill / 4
+    (skill is non-negative, so this is an ordinary floor). `mov ax, [bp-4]; mul word ptr [bp-6]`
+    (2811-2814) is the UNSIGNED 16x16 multiply base x skill — base is the SIGNED form/energy
+    blend (27AB-27D9), so a negative base is its two's-complement word. `xor dx, dx` (2817)
+    DISCARDS the product's high word; `mov cx, 0x100; div cx` (2819-281C, UNSIGNED) divides the
+    low word by 256; `add ax, bx` (281E) adds the skill/4 quarter.
+
+    There is no IDIV and no sign extension of the product. The value is therefore
+    `((base * skill) & 0xFFFF) // 256 + skill // 4` — NOT `int(base * skill / 256) + skill // 4`,
+    which truncates toward zero and drops the borrow for a negative base (the review's
+    +4=180, +5=1, +7=0, form=0, energy=0xFE, element=1 example: base -1, skill 147,
+    listing ((−147) & 0xFFFF) // 256 + 36 = 255 + 36 = 291; the old truncation gave 36)."""
+    return ((base * skill) & 0xFFFF) // CONTEST_DIVISOR + (skill // CONTEST_QUARTER)
 
 
 def skill_value(plus4, plus5, plus7, element, class_table, profile_table):
@@ -129,11 +141,9 @@ def contest_value(plus4, plus5, plus7, plus_c, plus_e, element, class_table, pro
     skill = skill_value(plus4, plus5, plus7, element, class_table, profile_table)
     if pitch_13:
         skill //= 2                                                     # 27F1-2802 (`shr` with sign bit preserved)
-    # 2805-281E: `mul word ptr [bp - 6]` (signed 16x16→32, in DX:AX), `xor dx, dx; mov cx, 0x100;
-    # div cx` (unsigned 32/16→16 — DX is cleared, but the high byte of the BXLINT product is
-    # discarded; in practice the unsigned and signed results agree for the small base values the
-    # watch engine uses). The `shr ax, 2` (280A-280D) for skill//4 is unsigned.
-    value = _idiv16(base * skill, CONTEST_DIVISOR) + skill // CONTEST_QUARTER
+    # 2805-281E: the product-and-divide is UNSIGNED (`mul` at 2814, `xor dx, dx` at 2817 discards
+    # the high word, `div cx` at 281C divides the low word) — see _contest_product.
+    value = _contest_product(base, skill)
     # The keeper extra: 2826 `cmp byte ptr [di + 0x769], 0 / jne 2843` — the FIRST gate is
     # byte-membership (the data image's DS:0x769 has nonzero bytes for elements 2, 4, 12 — see
     # KEEPER_EXTRA_TABLE), and a nonzero value jumps to the extra-term branch without testing

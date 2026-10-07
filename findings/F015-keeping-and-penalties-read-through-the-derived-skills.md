@@ -38,7 +38,9 @@
   via `cwde`), the **penalties bonus** (element ≥ 0xC adds 0x20 to the base; 27C5-27CF),
   **SIGNED** energy for other elements (27D1-27D9, sign-extended at 27D8), the `3A06` skill
   (27E6), a pitch-record halving flag (+0x13; 27F1-2802), `base·skill div 256 + skill div 4`
-  (2805-281E — the `div cx` truncates toward zero), a **table-controlled keeper extra** at
+  (2805-281E — UNSIGNED `mul` at 2814, the product's high word discarded at 2817, UNSIGNED
+  `div cx` at 281C: `((base·skill) & 0xFFFF) div 256 + skill div 4`), a **table-controlled
+  keeper extra** at
   2823-284C — the FIRST gate is `cmp byte ptr [di + 0x769], 0 / jne 2843` (2826-282B): a
   non-zero byte for the element fires the extra, adding pitch +0x11, WITHOUT testing
   element 1 or event-code membership; the data image has DS:0x769[2] = 1, DS:0x769[4] = 1,

@@ -132,26 +132,38 @@ class TestContest(unittest.TestCase):
         # R5 fix: 27AB uses `jge` (signed) and 27B9 / 27D8 use `cwde` (sign-extend 8-bit to
         # 16-bit). The old code treated both as nonnegative Python ints; with the form byte
         # (= +0xC of the record) at value 0 and the energy byte (= +0xE) at 0xFF (= -1 signed),
-        # the listing's base is (0 + 1) + (-1) = 0, value = (0 * skill) // 256 + skill // 4
-        # = skill // 4 (skill 147 // 4 = 36). The unsigned read produced base = 1 + 255 = 256,
-        # giving contest value 183 (brief, page 5). A test with the signed inputs fails when the
+        # the listing's base is (0 + 1) + (-1) = 0, value = ((0 * skill) & 0xFFFF) // 256 +
+        # skill // 4 = skill // 4 (skill 147 // 4 = 36). An unsigned read produced base =
+        # 1 + 255 = 256, giving contest value 183. A test with the signed inputs fails when the
         # byte reads are unsigned.
         skill = SV(180, 1, 0, 1)        # 147
         signed = CV(plus4=180, plus5=1, plus7=0, plus_c=0, plus_e=0xFF, element=1)
         self.assertEqual(signed, skill // 4)        # 36
         # Form byte 0x80 (= 128 unsigned, -128 signed): unsigned form_s = 128 is NOT < 32 so
         # the +1 branch is skipped (base = 0); signed form_s = -128 IS < 32 so base = -127.
-        # Energy 0x00: base += 0.
-        # With element 4, skill_e4 = 159 (profile 1, class 8):
-        #   signed: value = int(-127 * 159 / 256) + 159 // 4 = int(-78.89) + 39 = -78 + 39 = -39
-        #   unsigned: value = int(0 * 159 / 256) + 159 // 4 = 0 + 39 = 39
-        #   These are different; an unsigned read fails the signed equality.
+        # Energy 0x00: base += 0. With element 4, skill_e4 = 159 (profile 1, class 8). The
+        # UNSIGNED low-word divide gives ((-127 * 159) & 0xFFFF) // 256 + 159 // 4 =
+        # 45343 // 256 + 39 = 177 + 39 = 216; an unsigned BYTE read would give base = 0 and
+        # value 39 — the two disagree, so an unsigned byte read fails this equality.
         signed_neg_form = CV(plus4=300, plus5=1, plus7=0, plus_c=0x80, plus_e=0x00, element=4)
         skill_e4 = SV(300, 1, 0, 4)
-        self.assertEqual(signed_neg_form, int(-127 * skill_e4 / 256) + skill_e4 // 4)
+        self.assertEqual(signed_neg_form, ((-127 * skill_e4) & 0xFFFF) // 256 + skill_e4 // 4)
         # A separate call with the same byte 0x80 — the model must sign-extend it (the BYTE is
         # the same; the model's INTERPRETATION is what differs).
         self.assertEqual(K._signed_byte(0x80), -128)
+
+    def test_unsigned_product_divide(self):
+        # R1 fix: 2805-281E is an UNSIGNED `mul` (2814) with the product's high word discarded
+        # (`xor dx, dx`, 2817) and an UNSIGNED `div cx` (281C). For +4=180, +5=1, +7=0, form=0,
+        # energy=0xFE (=-2 signed), element=1: base = 0 + 1 + (-2) = -1, skill = 147, and the
+        # listing computes ((-147) & 0xFFFF) // 256 + 147 // 4 = 65389 // 256 + 36 = 255 + 36 =
+        # 291. The old truncation toward zero gave int(-147 / 256) + 36 = 0 + 36 = 36 — a
+        # mutation back to a signed/truncating divide fails this equality.
+        self.assertEqual(SV(180, 1, 0, 1), 147)                     # the derived skill
+        value = CV(plus4=180, plus5=1, plus7=0, plus_c=0, plus_e=0xFE, element=1)
+        self.assertEqual(value, ((-147) & 0xFFFF) // 256 + 147 // 4)   # 291
+        self.assertNotEqual(value, int(-147 / 256) + 147 // 4)          # 36 is the old, wrong value
+        self.assertEqual(K._contest_product(-1, 147), 291)
 
     def test_manager_share(self):
         # 284F-286A: an outfield slot (pitch +6 < 0xC) with 80FC set adds value/16
