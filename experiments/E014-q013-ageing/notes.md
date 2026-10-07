@@ -162,8 +162,18 @@ savestate, the derived-skill values before and after.
 - the year-end timing: after entry to a stage in {2,3,5,7} the players' +1/+4/+0x11 are as
   predicted from the previous year-end's records (sections 2, 3);
 - the retirement predicate on computer countries: every player it flags is replaced (name
-  initial / age / caps discontinuity) and no unflagged player is (section 4);
-- +2, +3, +5, +6, +7 unchanged across the year for continuing players (section 2);
+  initial / age / caps discontinuity) and no unflagged player is (section 4) — including the
+  one same-name replacement of r0006 (player 57 'R Douwen', country 3: retired at year-end age
+  33 > peak 28 + 5, and the re-create drew the same surname and initial; recognised by the
+  creation bytes +2/+3/+5 changing, `check_ageing.py`);
+- +2, +3, +5, +7 unchanged across the year for continuing players (section 2). **+6 (position)
+  is not year-invariant**: 7 of r0006's 263 continuing players moved (05 → 08 and back, 01 → 04)
+  — the per-match bookkeeping of the national team's repositioning, not the yearly loop: the
+  program's writers of player +6 are 0791:AD8F's substitution path (`position = <pitch slot>`
+  then `position = club_position` on the way out, seg_0791_08.c:910/921-922), the 'C' key of
+  the player screen (1771:4952, seg_1771_03.c:1062), and unmanage_country's bench copy
+  (000E:0290, squad slots 12..20) — none is in the yearly loop's callee set (section 2's
+  calls.tsv claim stands: the LOOP writes only +1/+4/+0x11);
 - the tables `DS:6D25`/`DS:6DCD` are not mutated by the yearly path (F008's hazard): the
   year-end records carry both years' copies and `check_ageing.py` compares them.
 

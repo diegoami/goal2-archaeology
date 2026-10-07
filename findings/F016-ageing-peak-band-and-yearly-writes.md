@@ -42,11 +42,15 @@
   by `7E6F` (`inc byte ptr es:[di + 1]`, seg_1771_11.asm:861, wrapping at 255), +4 (ability)
   written only by `compute_ability` `1771:32EB` (seg_1771_05.asm:312/366), +0x11 cleared
   unconditionally by `7FD4` (:1015 — the byte's only writer in the whole program, and no reader).
-  **+2 (peak), +3 (rating), +5, +6, +7 never move in the yearly loop** (+2's only writer is
+  **+2 (peak), +3 (rating), +5, +7 never move in the yearly loop** (+2's only writer is
   `roll_peak_age` `1771:3291`, called only from `make_player` `1771:96D3` — creation, calls.tsv);
-  so the task's "+5 profile / +7 club position?" is answered: untouched. The engines' derived
-  skills (`1771:3A06`, F015) therefore change by the +4 ratio alone: all twelve skills scale by
-  (new +4 + 1)/(old +4 + 1) under the integer division.
+  so the task's "+5 profile / +7 club position?" is answered: untouched. +6 (position) is
+  written outside the yearly loop only (the substitution bookkeeping `0791:AD8F`, the player
+  screen's 'C' key `1771:4952`, unmanage_country's bench copy `000E:0290`), but a year of
+  matches may leave it moved (r0006: 7 of 263 continuing players, 05 → 08 and back) — so the
+  corroborated invariant set is +2/+3/+5/+7, and +6 is per-match bookkeeping. The engines'
+  derived skills (`1771:3A06`, F015) therefore change by the +4 ratio alone: all twelve skills
+  scale by (new +4 + 1)/(old +4 + 1) under the integer division.
 - **The peak-age rule** (`compute_ability` `1771:32EB`, seg_1771_05.asm:283-370; a = +1, p = +2,
   r = +3): inside the band `p ≤ a ≤ p + 3` the ability is the ceiling **r** (:296-312); above it
   k = a − (p + 3) (:337-347); below it k = (p − a) div 2 signed (:348-361); then
@@ -76,9 +80,11 @@ find the loop or the rule. What static analysis could not give: the confirmation
 game's year end agrees byte-for-byte with the read rule over the recorded countries — the four
 previous stalled rounds and the pre-match stall (below) meant no corroborated pair existed until
 E014-r0005. The runs corroborate: each consecutive capture pair of every E014 record is compared
-against `runtime/model/ageing.py` by `check_ageing.py` (`match: N/N`), including the untouched
-bytes +2/+3/+5/+6/+7, the tables' constancy (F008's hazard), the retirement predicate (every
-replaced player flagged, no unflagged player replaced) and the replacements' `7E80` marks. Every
+against `runtime/model/ageing.py` by `check_ageing.py` (`match: 338/338` over the 5 pairs of
+r0005-r0006), including the untouched bytes +2/+3/+5/+7, the tables' constancy (F008's hazard),
+the retirement predicate (every replaced player flagged, no unflagged player replaced —
+including the one same-name replacement, recognised by the creation bytes +2/+3/+5 changing)
+and the replacements' `7E80` marks. Every
 match of every corroborating year ran through the R quick-result path (the captain screen's
 Enter+r, F005's quick engine; all other fixtures refused at `0791:E80D` and simulated) — the
 ageing runs in the stage settling, which that path still traverses (notes.md §8); the stage

@@ -7,12 +7,16 @@ For every consecutive capture pair of every E014 record (the start capture and e
 capture order), for every squad player of the 3 captured countries:
 
 - a CONTINUING player (found in the next capture by surname+initial, the name `1771:2E93`
-  prints): the yearly loop's writes must match — +1 = old +1 + 1 (mod 256, `7E6F`), +4 =
+  prints, AND with the creation bytes +2/+3/+5 unchanged — a same draw): the yearly loop's
+  writes must match — +1 = old +1 + 1 (mod 256, `7E6F`), +4 =
   compute_ability(new +1, +2, +3) (`1771:32EB`), +0x11 = 0 (`7FD4`) — and its untouched bytes
-  +2, +3, +5, +6, +7 must be unchanged (notes.md section 2). One comparison per player.
-- a REPLACED player (the name is gone): `1771:7F40`'s deterministic predicate on the OLD record
-  must have fired (retirement_flag = 1), and the replacement must show the re-create's marks
-  (caps +8 = 0, goals +0xA = 0, status +0x10 = 0, `7F09`-`7F19`). One comparison per player.
+  +2, +3, +5, +7 must be unchanged (notes.md section 2; +6 is excluded: the per-match
+  bookkeeping repositions national players, r0006). One comparison per player.
+- a REPLACED player (the name is gone, or the creation bytes changed — the re-create `7E80`
+  drew the same surname and initial, r0006 player 57): `1771:7F40`'s deterministic predicate on
+  the OLD record must have fired (retirement_flag = 1), and the replacement must show the
+  re-create's marks (caps +8 = 0, goals +0xA = 0, status +0x10 = 0, `7F09`-`7F19`). One
+  comparison per player.
   The new bytes themselves are the RNG re-create of `1771:7E80` — Q014, not predicted.
 - an UNEXPLAINED new name with no flagged retirement, a continuing player whose writes diverge,
   or a flagged player whose name survives: a mismatch, printed in full.
@@ -32,7 +36,16 @@ ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "runtime" / "model"))
 import ageing as A  # noqa: E402
 
-INVARIANT = (0x02, 0x03, 0x05, 0x06, 0x07)   # bytes the yearly loop never writes (notes.md §2)
+INVARIANT = (0x02, 0x03, 0x05, 0x07)       # bytes the yearly loop never writes (notes.md §2);
+# +6 (position) is excluded: the per-match bookkeeping repositions national players
+# (0791:AD8F's substitution path sets position from the pitch slot and later restores
+# club_position; 1771:4952's 'C' key and unmanage_country's bench copy are the other
+# writers) — none of them is the yearly loop, but a year of matches may leave +6 moved
+# (r0006: 7 players, e.g. 05 -> 08 and back). +2/+3/+5 are the creation bytes: for a
+# name that continues they cannot change, so a change marks a same-name REPLACEMENT
+# (r0006 player 57 'R Douwen': retired at 33 > peak 28 + 5, the re-create drew the same
+# surname and initial; caps/goals/status zero, the 7E80 marks).
+CREATION = (0x02, 0x03, 0x05)
 
 
 def captures(record):
@@ -84,7 +97,10 @@ def check_pair(before, after, mismatches):
     b, a = by_name(before), by_name(after)
     for key, (w, rec) in sorted(b.items()):
         n += 1
-        if key in a:                                   # a continuing player
+        same_name = key in a
+        if same_name and any(a[key][1][off] != rec[off] for off in CREATION):
+            same_name = False          # the creation bytes changed: a same-name replacement
+        if same_name:                   # a continuing player
             w2, new = a[key]
             pred = A.ageing_value(rec, 0, None, None, 0)
             for off, want in ((A.AGE, pred[A.AGE]), (A.ABILITY, pred[A.ABILITY]), (A.DEAD_BYTE, 0)):
@@ -109,11 +125,12 @@ def check_pair(before, after, mismatches):
                 if not A.RETIRE_LIMIT[gk] < year_end_age(rec):
                     mismatches.append(f"{key} (player {w}): the name is gone but retirement_flag cannot "
                                       f"have fired (rec {rec.hex()})")
-    # every new name must sit at the squad word of a replaced player of the same country
-    gone = {key: (w, rec) for key, (w, rec) in b.items() if key not in a}
+    # every new name (or same-name replacement) must sit at the squad word of a replaced player
+    gone = {key: (w, rec) for key, (w, rec) in b.items()
+            if key not in a or any(a[key][1][off] != rec[off] for off in CREATION)}
     for key, (w, rec) in sorted(a.items()):
-        if key in b:
-            continue
+        if key in b and not any(rec[off] != b[key][1][off] for off in CREATION):
+            continue          # a continuing player, checked above
         n += 1
         slot = [(k, ww, rr) for k, (ww, rr) in gone.items() if k[0] == key[0] and ww == w]
         if not slot:
@@ -144,6 +161,8 @@ def main(argv=None):
                     if k in m1:
                         old = bytes.fromhex(m1[k]["rec"])
                         new = bytes.fromhex(q["rec"])
+                        if any(new[off] != old[off] for off in CREATION):
+                            continue      # a same-name replacement, not a year of ageing
                         deltas.append(new[A.ABILITY] - old[A.ABILITY])
     for m in mismatches:
         print("MISMATCH:", m)
