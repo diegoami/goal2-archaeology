@@ -243,10 +243,22 @@ class Session:
                 elif e004.team_screen(sc):
                     self.log_key("Enter", "the team screen (location:), its default option ' play '")
                     self.d.keys("Enter")
+                elif "F2-new name" in text or "R,C-reposition" in text:
+                    self.log_key("Esc", "the select-squad screen (menu item 5, reached in error): Esc-exit")
+                    self.d.keys("Esc")
                 elif "play next game" in text:
-                    self.log_key("Up+Enter", "the main menu: item 6, play next game (E003's SEQ_A)")
-                    self.d.keys("Up")
-                    self.d.keys("Enter")
+                    # the main menu: the selected item is the word DS:00B0, moved 1..6 with wrap by
+                    # 214B:15B1 (u214b_menu_move_word_wrap(6, 0xB0, ...) in main_menu_loop 000E:7439);
+                    # Enter runs item 6 (play_round, 000E:70B9). The cursor survives from the last
+                    # Enter, so Up/Down are sent by the read item, never blind (E014-r0001: a blind
+                    # Up from a remembered 6 selected item 5, the squad screen).
+                    item = state.ds_word(0x00B0)
+                    if item == 6:
+                        self.log_key("Enter", "the main menu: item 6 (DS:00B0 = 6), play next game")
+                        self.d.keys("Enter")
+                    else:
+                        self.log_key("Down", f"the main menu: item {item}, moving toward 6 (DS:00B0)")
+                        self.d.keys("Down")
                 elif "spacebar-players" in text:
                     self.log_key("Esc", "the team screen: open the main menu")
                     self.d.keys("Esc")
