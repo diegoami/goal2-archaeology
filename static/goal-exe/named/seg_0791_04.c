@@ -54,13 +54,15 @@ undefined1 f_0791_47C5(int param_1)
           return 0;
         }
         local_7 = 1;
-        uVar4 = f_0791_278A((int)*(undefined4 *)(param_1 + 6),
-                            (int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10),5);
-        uVar5 = f_0791_278A((pitch *)pitch_records + *(int *)(param_1 + -4),0xb000,8);
+        uVar4 = skill_of_pitch_record
+                          ((int)*(undefined4 *)(param_1 + 6),
+                           (int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10),5);
+        uVar5 = skill_of_pitch_record((pitch *)pitch_records + *(int *)(param_1 + -4),0xb000,8);
         if (uVar4 < uVar5) {
-          iVar6 = f_0791_278A((int)*(undefined4 *)(param_1 + 6),
-                              (int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10),5);
-          iVar7 = f_0791_278A((pitch *)pitch_records + *(int *)(param_1 + -4),0xb000,8);
+          iVar6 = skill_of_pitch_record
+                            ((int)*(undefined4 *)(param_1 + 6),
+                             (int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10),5);
+          iVar7 = skill_of_pitch_record((pitch *)pitch_records + *(int *)(param_1 + -4),0xb000,8);
           local_7 = (uint)(iVar7 - iVar6) / 0x10 + 1;
         }
         cVar2 = u214b_random_1_to_n(local_7);
@@ -593,7 +595,7 @@ void foul_outcome_line(int param_1)
     if ((DS:8303 == '\0') &&
        ((cVar2 = u214b_random_coin_flip(), cVar2 != '\0' ||
         (uVar1 = *(undefined4 *)(*(int *)(param_1 + 4) + 6),
-        cVar2 = f_0791_287C((int)uVar1,(int)((ulong)uVar1 >> 0x10),3), cVar2 != '\0')))) {
+        cVar2 = rand_skill((int)uVar1,(int)((ulong)uVar1 >> 0x10),3), cVar2 != '\0')))) {
       uVar1 = *(undefined4 *)(*(int *)(param_1 + 4) + 6);
       f_0791_869F((int)uVar1,(int)((ulong)uVar1 >> 0x10));
       f_0791_2AA3(CONCAT11(extraout_AH,0xe));
@@ -629,8 +631,9 @@ bool f_0791_5474(int param_1)
   int iVar6;
   undefined2 unaff_SS;
   
-  uVar3 = f_0791_278A((pitch *)pitch_records + DS:830B,0xb000,
-                      *(undefined1 *)(DS:8303 + 0x7f6));
+  uVar3 = skill_of_pitch_record
+                    ((pitch *)pitch_records + DS:830B,0xb000,
+                     *(undefined1 *)(DS:8303 + 0x7f6));
   iVar4 = u214b_random_1_to_n(uVar3);
   if (DS:8303 == '\0') {
     uVar1 = *(undefined4 *)(*(int *)(param_1 + 4) + 6);
@@ -644,8 +647,8 @@ bool f_0791_5474(int param_1)
 LAB_0791_54CA:
   uVar5 = (uint)*(byte *)(cVar2 + 0x7f8);
   uVar1 = *(undefined4 *)(*(int *)(param_1 + 4) + 6);
-  iVar6 = f_0791_278A((int)uVar1,(int)((ulong)uVar1 >> 0x10),*(undefined1 *)(DS:8303 + 0x7f4))
-  ;
+  iVar6 = skill_of_pitch_record
+                    ((int)uVar1,(int)((ulong)uVar1 >> 0x10),*(undefined1 *)(DS:8303 + 0x7f4));
   iVar6 = u214b_random_1_to_n(iVar6 * uVar5);
   if (iVar4 < iVar6) {
     foul_outcome_line(param_1);
@@ -711,9 +714,9 @@ undefined1 challenge_duel(int param_1)
       ) && ((cVar3 = attack_direction((int)*(undefined4 *)(param_1 + 6),
                                       (int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10)),
             (int)*(char *)((int)*(undefined4 *)(param_1 + 6) + 1) * (int)cVar3 < 1 ||
-            (cVar3 = f_0791_287C((int)*(undefined4 *)(param_1 + 6),
-                                 (int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10),3),
-            cVar3 != '\0')))) {
+            (cVar3 = rand_skill((int)*(undefined4 *)(param_1 + 6),
+                                (int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10),3), cVar3 != '\0'
+            )))) {
     local_3 = 1;
     if (DS:830E == '\0') {
       cVar3 = f_0791_045D(*(undefined1 *)((int)*(undefined4 *)(param_1 + 6) + 6));
@@ -1005,9 +1008,10 @@ void f_0791_5A33(int param_1,undefined1 param_2)
 }
 
 
-// ---- 0791:5A8E  f_0791_5A8E  (f_0791_5A8E; Ghidra 2000:5A8E, __stdcall16near; found by routines.tsv)
+// ---- 0791:5A8E  write_save_line  (f_0791_5A8E; Ghidra 2000:5A8E, __stdcall16near; found by routines.tsv)
+// writes the `saved by X` commentary line (template 0x1D = 29) via 5A33 and clears the ball phase; the win branch of 5B36's save duel, reached also from its coin-flip branch  [established; F015; read code/seg_0791_10.asm]
 
-void f_0791_5A8E(int param_1)
+void write_save_line(int param_1)
 
 {
   char cVar1;
