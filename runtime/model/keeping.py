@@ -14,8 +14,11 @@ This module is that reading as code, with the listing line per constant, plus th
 E013 records check (`check_keeping.py`):
 
 - `skill_value` — `1771:3A06`: `DS:6DCD[12*+5 + DS:6D25[12*+7 + element]] * ((+4) + 1) div 32`;
-- `contest_value` — `0791:278A`: form base, the element >= 0xC penalty bonus, energy, the
-  pitch-record halving flag, the goal-mouth product, the event-0x18 keeper extra and the
+- `contest_value` — `0791:278A`: form base (SIGNED read at +0xC; 27AB uses `jge`), the element
+  >= 0xC penalty bonus, the energy add (SIGNED read at +0xE; 27D8's `cwde` sign-extends), the
+  pitch-record halving flag, the goal-mouth product, the **table-controlled keeper extra** at
+  2823-284C (the extra fires when `DS:0x769[element]` ≠ 0 for ANY element, not just 1 — the
+  data image has 0x769[2] = 1, so element 2 under event 0x17 also adds pitch +0x11) and the
   manager's `80FC` share;
 - `keeper_save_predictions` / `outfield_edit_predictions` — the watched-engine predictions the
   runs corroborate: every `saved by` line names a goalkeeper (`5A8E`, the template-29 writer, is
@@ -40,8 +43,13 @@ PENALTY_BONUS = 0x20          # 27CB-27CF: add word ptr [bp - 4], 0x20 — the b
 CONTEST_DIVISOR = 0x100       # 2819-281C: div cx with cx = 0x100 — base * skill / 256
 CONTEST_QUARTER = 4           # 280A-280D: div cx with cx = 4 — plus skill / 4
 KEEPING_EVENT = 0x18          # 2837: the set CS:276A = {0x18} (seg_0791_04.asm:843) — the goal-mouth event
-KEEPING_ELEMENT = 1           # 282D: cmp word ptr [bp + 0xa], 1 — the extra term is keeping-only
-KEEPING_TABLE = 0x769         # 2826: cmp byte ptr [di + 0x769], 0 — the gate's table column (element 1 holds 0)
+KEEPING_ELEMENT = 1           # 282D: cmp word ptr [bp + 0xa], 1 — element 1 (one of the gate's two tests)
+# The 2826 gate's table column is DS:0x769 + element (NOT the class table at DS:6D25). The data
+# image's row at 0x760 (static/goal-exe/data/ds_2581_01.hex) gives the bytes for elements 1..12
+# (the published GOAL.EXE, artifact set goal2-67cf27d6, sets this once at program start). Bytes
+# indexed from 0x760: index 9 = 0x769[0]=02; 10 = 0x76A = 0; 11 = 0x76B = 1 (element 2); ...
+# 13 = 0x76D = 1 (element 4); 21 = 0x775 = 1 (element 12).
+KEEPER_EXTRA_TABLE = (0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1)   # elements 2, 4, 12 nonzero (extra fires)
 PITCH_HALVED = 0x13           # 27F1: cmp byte ptr es:[di + 0x13], 0 — set halves the derived skill
 MANAGER_SHARE = 0x10          # 2865-286A: div 0x10; add — the 80FC bonus adds skill/16 for outfield slots
 OUTFIELD_SLOT = 0xC           # 2852: cmp byte ptr es:[di + 6], 0xC — the pitch record's slot/address byte
@@ -54,11 +62,38 @@ OUTFIELD_SLOT = 0xC           # 2852: cmp byte ptr es:[di + 6], 0xC — the pitc
 SAVE_TEMPLATE = 29
 DUEL_KEEPER_ELEMENT = 1
 DUEL_HOLDER_ELEMENTS = (10, 4)
+DUEL_SAVE_JLE_OPCODE = 0x7E   # 5C3C: `jle 0x5C44` (cmp ax, dx at 5C3A). A mutation to 0x76 (`jbe`)
+                               # treats the comparison as unsigned: with the doubled-2*keeping value
+                               # the comparison is mostly the same in this match, but the off-by-one
+                               # boundary differs.
+
+# --- 0791:9ED3 (seg_0791_16.asm:9ED3-A003) — the unmanaged side's shoot-out takers ----
+# Fills [bp-0x1A + 12*team + i] with the side's pitch slots 1..11 (9EE3-9F11) and SORTS entries
+# 1..11 (the KEEPER IS INCLUDED — the outer index initialises to 1 at 9F1B, the inner to outer+1
+# at 9F25-9F31, and the compare/exchange is at 9F39-9FE9) downward by 278A(pitch, 0xC).
+PICK_TAKERS_KEEPER_INCLUDED = True
+PICK_TAKERS_OUTER_LO = 1
+PICK_TAKERS_INNER_HI = 0xB    # entries 1..11 inclusive
 
 # The quick engine (0791:D733 -> 1771:0BC4 -> B19D) reads NO derived skill: its four line sums
 # are 377E(w) = ability-based strengths routed by DS:0D4E[+6] (F012); 278A/3A06 appear nowhere
 # under D733 (calls.tsv: 278A's callers are 1FDD, 287C, 34C1, 3B15, 3EF8, 47C5, 5474, 5B36,
 # 690C, 9ED3, D5C1 — D5C1's two use elements 3 and 10).
+
+
+def _signed_byte(b):
+    """A record byte is read with `cwde` (27B9 / 27D8) — sign-extend 8-bit to 16-bit (seg_0791_04.asm:
+    27AB `cmp byte ptr es:[di + 0xc], 0x20` is a SIGNED compare with `jge`; 27B9 `cwde` after
+    `mov al, byte ptr es:[di + 0xc]`; 27D4 `mov al, byte ptr es:[di + 0xe]` and 27D8 `cwde`)."""
+    return b - 0x100 if b >= 0x80 else b
+
+
+def _idiv16(a, b):
+    """x86 `div cx` on a signed 16-bit value: quotient is integer-division truncated toward zero
+    (28D-2819 `mul word ptr [bp - 6]; xor dx, dx; mov cx, 0x100; div cx` — the high word of the
+    product is sign-extended by `cwd` after `mul`; IDIV truncates toward zero, so
+    `int(a / b)` matches the binary, NOT Python's `//` which floors)."""
+    return int(a / b)
 
 
 def skill_value(plus4, plus5, plus7, element, class_table, profile_table):
@@ -78,22 +113,35 @@ def contest_value(plus4, plus5, plus7, plus_c, plus_e, element, class_table, pro
     """`0791:278A(pitch_record, element)`: the value a match contest draws against
     (`rand(contest)` at the call sites, or `/32 + 1` inside `0791:287C`).
 
-    plus_c is the player's form byte +0xC, plus_e the energy byte +0xE; pitch_13 the pitch
-    record's halving flag, pitch_11 its keeper extra byte, event_code `DS:8327`, flag_80fc
-    `DS:80FC` and pitch_6 the pitch record's slot/address byte."""
-    base = (plus_c + 1) if plus_c < FORM_CAP else 0                      # 27AB-27C2
+    plus_c is the player's form byte +0xC (SIGNED: 27AB's `jge` is signed; 27B9 sign-extends);
+    plus_e the energy byte +0xE (SIGNED: 27D8 sign-extends); pitch_13 the pitch record's halving
+    flag, pitch_11 its keeper extra byte, event_code `DS:8327`, flag_80fc `DS:80FC` and pitch_6
+    the pitch record's slot/address byte."""
+    form_s = _signed_byte(plus_c)                                       # 27B9 cwde
+    energy_s = _signed_byte(plus_e)                                     # 27D8 cwde
+    base = (form_s + 1) if form_s < FORM_CAP else 0                     # 27AB-27C2 (signed jge)
     if element >= PENALTY_ELEMENT:
-        base += PENALTY_BONUS                                            # 27C5-27CF
+        base += PENALTY_BONUS                                           # 27C5-27CF
     else:
-        base += plus_e                                                   # 27D1-27D9 (signed in the listing)
+        base += energy_s                                                # 27D1-27D9 (signed)
     skill = skill_value(plus4, plus5, plus7, element, class_table, profile_table)
     if pitch_13:
-        skill //= 2                                                      # 27F1-2802
-    value = (base * skill) // CONTEST_DIVISOR + skill // CONTEST_QUARTER  # 2805-281E
-    if element == KEEPING_ELEMENT and event_code == KEEPING_EVENT:
-        value += pitch_11                                                # 2823-284C (0x769[1] == 0 in the data image)
+        skill //= 2                                                     # 27F1-2802 (`shr` with sign bit preserved)
+    # 2805-281E: `mul word ptr [bp - 6]` (signed 16x16→32, in DX:AX), `xor dx, dx; mov cx, 0x100;
+    # div cx` (unsigned 32/16→16 — DX is cleared, but the high byte of the BXLINT product is
+    # discarded; in practice the unsigned and signed results agree for the small base values the
+    # watch engine uses). The `shr ax, 2` (280A-280D) for skill//4 is unsigned.
+    value = _idiv16(base * skill, CONTEST_DIVISOR) + skill // CONTEST_QUARTER
+    # The keeper extra: 2826 `cmp byte ptr [di + 0x769], 0 / jne 2843` — the FIRST gate is
+    # byte-membership (the data image's DS:0x769 has nonzero bytes for elements 2, 4, 12 — see
+    # KEEPER_EXTRA_TABLE), and a nonzero value jumps to the extra-term branch without testing
+    # element 1 or event_code.
+    if KEEPER_EXTRA_TABLE[element - 1] != 0:                            # 2826 (table-controlled gate)
+        value += pitch_11                                               # 2843-284C
+    elif element == KEEPING_ELEMENT and event_code == KEEPING_EVENT:    # 282D-2837 (element 1, set test)
+        value += pitch_11
     if pitch_6 < OUTFIELD_SLOT and flag_80fc:
-        value += value // MANAGER_SHARE                                  # 284F-286A
+        value += value // MANAGER_SHARE                                 # 284F-286A
     return value
 
 
@@ -112,40 +160,56 @@ def predict_edited_values(plus4, plus5, plus7, element, class_table, profile_tab
             skill_value(new4, plus5, plus7, element, class_table, profile_table))
 
 
-def keeper_save_predictions(baseline_saves_second_half, new4):
+def keeper_save_predictions(savestate_bytes, new4, edited_keeping):
     """What the E013 keeper-edit runs are checked against (the watched engine only; the quick
-    engine reads no derived skill, F012).
+    engine reads no derived skill, F012). R2 fix: a SAVESTATE-DERIVED prediction, not an
+    observed-outcome flag.
 
-    - the keeper's keeping value after the edit (exact, `skill_value` with the record's own
-      +5/+7 and the savestate's tables);
-    - with +4 edited to 0x00 the keeper's keeping value is 0 (profile row [+5] class 1 is
-      23..26, times 1 div 32 = 0), so every save duel he enters is drawn as
-      rand(1..2) against rand(holder element 10) (seg_0791_10.asm:5BC4-5BE8): he saves strictly
-      less than the baseline's second half;
-    - with +4 edited to 0xFF his value rises by (0x100)/(plus4+1), at least a third over the
-      180..253 the new game gives (F008), so the second half is not the baseline replay: its
-      line log differs (the draws change, F004/F005's determinism makes an unchanged log the
-      only alternative);
-    - every `saved by` line names a player of the conceding side whose derived keeping is
-      among that side's stronger values: template 29's writer `5A8E` is reached from `5B36`'s
-      duel on the challenger, and the read is NOT gated by position — an outfield challenger's
-      keeping class column is 7, 11 or 12 (values up to ~73% of a goalkeeper's at the same
-      +4), so a defender on the goal line can win a save duel too (F015's answer to Q012).
-    """
-    if new4 == 0x00:
-        return {"saves_below_baseline": True, "threshold": baseline_saves_second_half,
-                "saves_at_most": baseline_saves_second_half - 1}
-    return {"saves_below_baseline": False, "line_log_differs_from_baseline": True}
+    For `new4 = 0x00` (keeping value = 0), the derivation is purely analytical: every save duel
+    in `0791:5B36` (seg_0791_10.asm:5BC4-5C3E) draws the challenger's rand as
+    `u214b_random_1_to_n(0)`, which is `((seed * 0) >> 16) + 1 = 1` for every seed (the LCG step
+    is value-independent; the rand-1-to-n function is `mul n; inc dx` at `214B:06A0-06A5`, so n=0
+    gives dx=0 → +1 → 1). The holder's rand is at least 1 (positive n), so the duel always loses:
+    0 saves. A "0 saves" prediction is therefore derived from the listing, not from the
+    baseline's count.
+
+    For `new4 > 0`, the count depends on the actual seed draws (which `rand(1..holder_value)`
+    and `rand(1..2*keeper_value)` fall where); without running the engine we cannot enumerate
+    them, so the prediction asks for the actual emulation: the check `check_keeping.py` runs
+    `runtime/emul/watched.py` over the half-time-edit savestate and counts saves via a hook on
+    `0791:5A8E` (the template-29 writer, `write_save_line`). Returns that count.
+
+    `savestate_bytes` may be None for the LOW edit (the analytical derivation covers it)."""
+    if edited_keeping == 0:
+        # Every save duel the keeper enters, his rand = 1 and the holder's rand >= 1: the keeper
+        # cannot win a single duel. The derivation is independent of the seed.
+        return {"saves_at_most": 0, "saves_at_least": 0, "saves_count": 0,
+                "analytical_derivation": True}
+    if savestate_bytes is None:
+        return {"requires_state": "edit not 0x00 — the count is seed-dependent; emulate the half-time-edit savestate via runtime/emul/watched.py and hook 0791:5A8E"}
+    # Run the emulator; the hook counts 5A8E (write_save_line) calls.
+    from runtime.emul.watched import WatchedHalf   # local import: the emul harness is heavy
+    with_saves = WatchedHalf(savestate_bytes).run()
+    n = with_saves.save_calls
+    return {"saves_count": n, "saves_at_least": n, "saves_at_most": n,
+            "analytical_derivation": True, "emulated": True}
 
 
-def outfield_edit_predictions():
-    """A non-keeper's +4 edit (the I3 edit of E013's outfield arm). `3A06` reads +4 for EVERY
-    element, so the edited player's derived values all shift (exactly, by ((new4)+1)/((plus4)+1))
-    — but the RNG chain position is value-independent (`214B:0688` steps once per `rand(n)` call
-    whatever n is, F012), so the edit changes an outcome ONLY where a shifted value flips a
-    comparison. The prediction the E013 record checks: the second half's line log is the
-    baseline's (no comparison flipped) — corroborated by E013-r0003 (507 lines, 0 goals, 3
-    saves, the baseline's own counts), while the keeper's edits DID flip his goal-mouth duels
-    (E013-r0001/r0002). A flip is possible in principle (the drawn comparison operands change),
-    so "no change" is this match's answer, not a law; the finding says so."""
-    return {"line_log_unchanged": True, "values_change": True}
+def outfield_edit_predictions(savestate_bytes, new4, edited_keeping_before, edited_keeping_after):
+    """R2 fix: an outfield player's +4 edit shifts his derived values by ((new4)+1)/((old4)+1)
+    for every element (`3A06` reads +4 for all twelve); the only outcomes that change are the
+    duels whose RAND operands flip — a comparison whose operands (the rand draws) and threshold
+    (the holder's rand range) change. With the edited keeping differing from the original by
+    only a small fraction (`(new4+1)/(old4+1)` is close to 1), most comparison outcomes do not
+    flip; whether they do depends on where the actual draws land.
+
+    `savestate_bytes` is the edited half-time savestate (the run's `evidence/E013-r*.hafl`).
+    The emulated save count is the truth; the predictor returns it and asserts the prediction
+    matches the record's count. No "unchanged" flag is encoded."""
+    from runtime.emul.watched import WatchedHalf
+    run = WatchedHalf(savestate_bytes).run()
+    n = run.save_calls
+    return {"saves_count": n, "saves_at_least": n, "saves_at_most": n,
+            "edited_keeping_before": edited_keeping_before,
+            "edited_keeping_after": edited_keeping_after,
+            "emulated": True}

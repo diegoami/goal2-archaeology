@@ -103,17 +103,55 @@ class TestContest(unittest.TestCase):
         self.assertNotEqual(halved, plain)
 
     def test_keeper_extra_gate(self):
-        # 2823-284C: only element 1 under event code 0x18 (the set CS:276A) adds pitch +0x11;
-        # any other element or event adds nothing — the mutated gate (element 2, or event 0x17)
-        # fails these two
-        base = CV(plus4=180, plus5=1, plus7=0, plus_c=30, plus_e=4, element=1)
+        # 2826-284C: the FIRST gate is the table at DS:0x769 (2826 `cmp / jne 2843`); any nonzero
+        # byte for the element fires the extra, regardless of element 1 or event membership. The
+        # data image (KEEPER_EXTRA_TABLE) has element 2 nonzero, so element 2 carries the extra
+        # even under event 0x17; element 1 only carries it when event 0x18 is in CS:276A; element 3
+        # (zero in the table) carries it neither under event 0x18 nor 0x17. Mutating
+        # KEEPER_EXTRA_TABLE to zeros fails these; so does mutating KEEPING_ELEMENT to 2.
+        base_e1 = CV(plus4=180, plus5=1, plus7=0, plus_c=30, plus_e=4, element=1)
+        base_e2 = CV(plus4=180, plus5=1, plus7=0, plus_c=30, plus_e=4, element=2)
+        base_e3 = CV(plus4=180, plus5=1, plus7=0, plus_c=30, plus_e=4, element=3)
         self.assertEqual(CV(plus4=180, plus5=1, plus7=0, plus_c=30, plus_e=4, element=1,
-                            pitch_11=7, event_code=K.KEEPING_EVENT), base + 7)
+                            pitch_11=7, event_code=K.KEEPING_EVENT), base_e1 + 7)
         self.assertEqual(CV(plus4=180, plus5=1, plus7=0, plus_c=30, plus_e=4, element=1,
-                            pitch_11=7, event_code=0x17), base)
+                            pitch_11=7, event_code=0x17), base_e1)
+        # R1 fix: element 2 IS "extra" — the data image has 0x769[2] = 1, and 2826's
+        # `cmp byte ptr [di + 0x769], 0 / jne 2843` fires regardless of element or event.
         self.assertEqual(CV(plus4=180, plus5=1, plus7=0, plus_c=30, plus_e=4, element=2,
-                            pitch_11=7, event_code=K.KEEPING_EVENT),
-                         CV(plus4=180, plus5=1, plus7=0, plus_c=30, plus_e=4, element=2))
+                            pitch_11=7, event_code=0x17), base_e2 + 7)
+        self.assertEqual(CV(plus4=180, plus5=1, plus7=0, plus_c=30, plus_e=4, element=2,
+                            pitch_11=7, event_code=K.KEEPING_EVENT), base_e2 + 7)
+        # Element 3 has 0x769[3] = 0 in the data image, so neither branch fires.
+        self.assertEqual(CV(plus4=180, plus5=1, plus7=0, plus_c=30, plus_e=4, element=3,
+                            pitch_11=7, event_code=K.KEEPING_EVENT), base_e3)
+        self.assertEqual(CV(plus4=180, plus5=1, plus7=0, plus_c=30, plus_e=4, element=3,
+                            pitch_11=7, event_code=0x17), base_e3)
+
+    def test_signed_form_and_energy(self):
+        # R5 fix: 27AB uses `jge` (signed) and 27B9 / 27D8 use `cwde` (sign-extend 8-bit to
+        # 16-bit). The old code treated both as nonnegative Python ints; with the form byte
+        # (= +0xC of the record) at value 0 and the energy byte (= +0xE) at 0xFF (= -1 signed),
+        # the listing's base is (0 + 1) + (-1) = 0, value = (0 * skill) // 256 + skill // 4
+        # = skill // 4 (skill 147 // 4 = 36). The unsigned read produced base = 1 + 255 = 256,
+        # giving contest value 183 (brief, page 5). A test with the signed inputs fails when the
+        # byte reads are unsigned.
+        skill = SV(180, 1, 0, 1)        # 147
+        signed = CV(plus4=180, plus5=1, plus7=0, plus_c=0, plus_e=0xFF, element=1)
+        self.assertEqual(signed, skill // 4)        # 36
+        # Form byte 0x80 (= 128 unsigned, -128 signed): unsigned form_s = 128 is NOT < 32 so
+        # the +1 branch is skipped (base = 0); signed form_s = -128 IS < 32 so base = -127.
+        # Energy 0x00: base += 0.
+        # With element 4, skill_e4 = 159 (profile 1, class 8):
+        #   signed: value = int(-127 * 159 / 256) + 159 // 4 = int(-78.89) + 39 = -78 + 39 = -39
+        #   unsigned: value = int(0 * 159 / 256) + 159 // 4 = 0 + 39 = 39
+        #   These are different; an unsigned read fails the signed equality.
+        signed_neg_form = CV(plus4=300, plus5=1, plus7=0, plus_c=0x80, plus_e=0x00, element=4)
+        skill_e4 = SV(300, 1, 0, 4)
+        self.assertEqual(signed_neg_form, int(-127 * skill_e4 / 256) + skill_e4 // 4)
+        # A separate call with the same byte 0x80 — the model must sign-extend it (the BYTE is
+        # the same; the model's INTERPRETATION is what differs).
+        self.assertEqual(K._signed_byte(0x80), -128)
 
     def test_manager_share(self):
         # 284F-286A: an outfield slot (pitch +6 < 0xC) with 80FC set adds value/16
@@ -132,16 +170,19 @@ class TestContest(unittest.TestCase):
 
 class TestPredictions(unittest.TestCase):
     def test_save_predictions(self):
-        # the E013 arms: +4 -> 0x00 predicts strictly fewer saves than the baseline's second
-        # half (the keeper's contest value collapses, seg_0791_10.asm:5BD8); +4 -> 0xFF
-        # predicts a changed line log. A mutated order (the low edit predicting no change)
-        # fails this test
-        low = K.keeper_save_predictions(3, 0x00)
-        self.assertTrue(low["saves_below_baseline"])
-        self.assertEqual(low["saves_at_most"], 2)
-        high = K.keeper_save_predictions(3, 0xFF)
-        self.assertFalse(high["saves_below_baseline"])
-        self.assertTrue(high["line_log_differs_from_baseline"])
+        # R2 fix: the predictor derives the save count from the SAVESTATE, not from a baseline
+        # delta. With a keeper keeping value of 0 (the +4=0x00 edit), the challenger rand is
+        # `u214b_random_1_to_n(0) = ((seed * 0) >> 16) + 1 = 1` and the holder rand is in [1, n],
+        # so the duel always loses — a pure analytical derivation that 0 saves means "the keeper
+        # cannot win any save duel" without consulting the seed.
+        low = K.keeper_save_predictions(None, 0x00, edited_keeping=0)
+        self.assertEqual(low["saves_at_most"], 0)
+        self.assertEqual(low["analytical_derivation"], True)
+        # The high edit (keeping > 0): the count is state-dependent (the holder rand falls in
+        # [1, n_holder], and the keeper wins only when challenger rand > holder rand; with seed-
+        # dependent values, the count is unknowable without the actual seed draws).
+        high = K.keeper_save_predictions(None, 0xFF, edited_keeping=208)
+        self.assertIn("requires_state", high)
 
     def test_edited_values_are_linear(self):
         # 3A2C: inc — the value is linear in (+4)+1, so the edit ratio is exact
@@ -152,13 +193,26 @@ class TestPredictions(unittest.TestCase):
         self.assertAlmostEqual(new / old, 256 / 181, places=2)
 
     def test_outfield_predictions(self):
-        # 3A06 is element-parametric and reads +4 for every element, so the edited outfield
-        # player's values shift; but 214B:0688 advances once per rand(n) call whatever n is
-        # (F012), so only a flipped comparison changes the trajectory — the prediction the
-        # E013-r0003 record checks: no event count changes. A mutated "always differs" fails.
-        p = K.outfield_edit_predictions()
-        self.assertTrue(p["line_log_unchanged"])
-        self.assertTrue(p["values_change"])
+        # R2 fix: the outfield arm no longer hardcodes "unchanged"; it derives the count by
+        # emulating the edited savestate. With no savestate (the model is called from a unit
+        # test), the function raises a clear error rather than fabricate a flag. The
+        # distinguishing mutation is to swap the old unconditional return for a state-dependent
+        # one — the test exercises that the new signature is what the model exposes.
+        import inspect
+        sig = inspect.signature(K.outfield_edit_predictions)
+        self.assertIn("savestate_bytes", sig.parameters)
+        self.assertIn("edited_keeping_before", sig.parameters)
+        self.assertIn("edited_keeping_after", sig.parameters)
+        # And the keeper-extra mutation (R3): the KEEPER_EXTRA_TABLE itself is exposed so the
+        # mutation suite can flip the table-controlled gate. KEEPING_ELEMENT must also be
+        # mutable so a test can assert that an element-2 edit still fires the extra.
+        self.assertEqual(len(K.KEEPER_EXTRA_TABLE), 12)
+        self.assertEqual(K.KEEPER_EXTRA_TABLE[1], 1)        # element 2 is nonzero
+        self.assertEqual(K.KEEPER_EXTRA_TABLE[11], 1)       # element 12 is nonzero
+        # The signed byte helper is exposed (R5): mutations flip it back to unsigned.
+        self.assertEqual(K._signed_byte(0xFF), -1)
+        self.assertEqual(K._signed_byte(0x00), 0)
+        self.assertEqual(K._signed_byte(0xC0), -64)
 
 
 if __name__ == "__main__":
