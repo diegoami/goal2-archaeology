@@ -38,3 +38,4 @@ sprite	0x01	column	byte	the sprite's column	likely	F013
 sprite	0x04	glyph	word	the glyph word drawn into the screen buffer at row*0xA0 + 2*column (9119: 91B1)	likely	F013
 sprite	0x06	target_row	byte	the row the sprite moves toward	likely	F013
 sprite	0x07	target_column	byte	the column the sprite moves toward (rand(2)-based, the per-tick draw)	likely	F013
+pitch	0x11	keeping_extra	byte	added by 278A to the element-1 (keeping) contest value under ball-event code 0x18 (the set CS:276A); what writes it was not traced	likely	F015

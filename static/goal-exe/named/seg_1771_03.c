@@ -434,9 +434,10 @@ void draw_skill_bars(int param_1,int param_2,int param_3)
 }
 
 
-// ---- 1771:3A06  f_1771_3A06  (f_1771_3A06; Ghidra 4000:3A06, __stdcall16far; found by routines.tsv)
+// ---- 1771:3A06  derived_skill  (f_1771_3A06; Ghidra 4000:3A06, __stdcall16far; found by routines.tsv)
+// the engine's twelve-skill derivation: DS:6DCD[12*(+5) + DS:6D25[12*(+7) + element]] * ((+4)+1) div 32 for element 1..12 — the same three record bytes and tables as the screen's bar painter 1771:3947 (F008), whose divisor is 256 (39C1) where this is 32 (3A71); called only by 0791:278A, so no engine reads a stored skill byte  [established; F008; F015; read code/seg_1771_05.asm]
 
-undefined2 __stdcall16far f_1771_3A06(int param_1,int param_2)
+undefined2 __stdcall16far derived_skill(int param_1,int param_2)
 
 {
   player *ppVar1;
@@ -1070,75 +1071,5 @@ void __stdcall16far f_1771_4952(int param_1)
       set_marking_words();
     }
   }
-  return;
-}
-
-
-// ---- 1771:49B8  f_1771_49B8  (f_1771_49B8; Ghidra 4000:49B8, __stdcall16near; found by routines.tsv)
-
-void f_1771_49B8(int param_1)
-
-{
-  uint uVar1;
-  int iVar2;
-  int iVar3;
-  char cVar4;
-  int iVar5;
-  player *ppVar6;
-  undefined2 uVar7;
-  undefined2 unaff_SS;
-  bool bVar8;
-  undefined4 local_d;
-  uint local_5;
-  
-  uVar7 = (undefined2)((ulong)players >> 0x10);
-  ppVar6 = (player *)players + *(int *)(param_1 + 8);
-  local_d = (player *)CONCAT22(uVar7,ppVar6);
-  bVar8 = local_d->country == DS:9B36;
-  iVar5 = squad_slot_of_player(local_d->country,*(undefined2 *)(param_1 + 8));
-  iVar2 = ((undefined2 *)&DS:9B34)[!bVar8];
-  if (ppVar6->position < 2) {
-    u214b_set_exclude_bit(&ppVar6->status,uVar7,7);
-  }
-  else {
-    cVar4 = u214b_set_test_bit(ppVar6->status,7);
-    if (cVar4 == '\0') {
-      local_5 = 0;
-      uVar1 = local_5;
-    }
-    else {
-      local_5 = 0xc;
-      do {
-        uVar1 = local_5 - 1;
-        if (uVar1 == 1) break;
-        iVar3 = local_5 - 2;
-        local_5 = uVar1;
-      } while (*(word *)((undefined1 *)&DS:9A3E + bVar8 * 0x28 + iVar5 * 2) !=
-               ((country *)countries)[iVar2].squad[iVar3]);
-    }
-    do {
-      local_5 = uVar1;
-      local_5 = local_5 + 1;
-      if (0xb < local_5) {
-        local_5 = 0;
-      }
-    } while ((1 < local_5) &&
-            (cVar4 = player_unavailable(((country *)countries)[iVar2].squad[local_5 - 1]),
-            uVar1 = local_5, cVar4 != '\0'));
-    if (local_5 == 0) {
-      u214b_set_exclude_bit(&ppVar6->status,uVar7,7);
-    }
-    else {
-      u214b_set_include_bit(&ppVar6->status,uVar7,7);
-    }
-    if (local_5 < 2) {
-      *(undefined2 *)((undefined1 *)&DS:9A3E + bVar8 * 0x28 + iVar5 * 2) = 0;
-    }
-    else {
-      *(word *)((undefined1 *)&DS:9A3E + bVar8 * 0x28 + iVar5 * 2) =
-           ((country *)countries)[iVar2].squad[local_5 - 1];
-    }
-  }
-  set_marking_words();
   return;
 }

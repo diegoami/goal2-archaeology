@@ -276,7 +276,7 @@ void __stdcall16far f_0791_34C1(undefined4 param_1,uint param_2,undefined2 param
     sys_set_bit_mask_08DF(0x34a1,0xa000,CONCAT11(extraout_AH,(undefined1)param_2));
     if (bVar8) {
       if ((((param_2 != 8) && (1 < ball_record.timer)) && (DS:830B != DS:830C)) &&
-         (cVar1 = f_0791_287C(iVar6,uVar7,*(undefined1 *)(param_2 + 0x779)), cVar1 == '\0')) {
+         (cVar1 = rand_skill(iVar6,uVar7,*(undefined1 *)(param_2 + 0x779)), cVar1 == '\0')) {
         DS:830C = '\0';
         cVar1 = f_0791_045D(*(undefined1 *)(iVar6 + 6));
         if (cVar1 == '\0') {
@@ -312,14 +312,14 @@ void __stdcall16far f_0791_34C1(undefined4 param_1,uint param_2,undefined2 param
     else {
       iVar2 = ball_record.timer + 5;
       uVar10 = 0;
-      uVar4 = f_0791_278A(iVar6,uVar7,*(undefined1 *)(param_2 + 0x779));
+      uVar4 = skill_of_pitch_record(iVar6,uVar7,*(undefined1 *)(param_2 + 0x779));
       ball_record.timer = u214b_max_longint(uVar4 / 3,0,iVar2,uVar10);
     }
   }
   else {
     iVar2 = ball_record.timer + 5;
     uVar10 = 0;
-    iVar3 = f_0791_278A(iVar6,uVar7,*(undefined1 *)(param_2 + 0x779));
+    iVar3 = skill_of_pitch_record(iVar6,uVar7,*(undefined1 *)(param_2 + 0x779));
     ball_record.timer =
          u214b_max_longint(((uint)*(byte *)(iVar6 + 0x11) + iVar3) / 3,0,iVar2,uVar10);
   }
@@ -411,7 +411,7 @@ void __stdcall16far f_0791_384C(undefined4 param_1,uint param_2)
         cVar2 = (byte)local_4 + cVar2;
         local_4 = CONCAT11(local_4._1_1_ + cVar3,cVar2);
         cVar3 = f_0791_2DCA(local_4);
-        if ((cVar3 == '\0') && (cVar3 = f_0791_287C(iVar7,uVar8,10), cVar3 != '\0')) {
+        if ((cVar3 == '\0') && (cVar3 = rand_skill(iVar7,uVar8,10), cVar3 != '\0')) {
           iVar7 = (int)cVar2;
           if (iVar7 < 0) {
             iVar7 = -iVar7;
@@ -500,7 +500,7 @@ void __stdcall16far f_0791_3B15(undefined4 param_1)
   uVar7 = 0x1e;
   uVar6 = (undefined2)((ulong)param_1 >> 0x10);
   uVar5 = (undefined2)param_1;
-  uVar3 = f_0791_278A(uVar5,uVar6,2);
+  uVar3 = skill_of_pitch_record(uVar5,uVar6,2);
   iVar4 = u214b_random_1_to_n(uVar3 / 4);
   u214b_max_longint(iVar4,iVar4 >> 0xf,uVar7,uVar8);
   attack_direction(uVar5,uVar6);
@@ -601,7 +601,7 @@ void __stdcall16far f_0791_3C3F(undefined4 param_1,int param_2,undefined1 param_
   uVar5 = (undefined2)param_1;
   uVar6 = (undefined2)((ulong)param_1 >> 0x10);
   if ((DS:8324 == '\0') &&
-     (((cVar2 = f_0791_287C(uVar5,uVar6,*(undefined1 *)((param_2 == 2) + 0x78e)), cVar2 != '\0' ||
+     (((cVar2 = rand_skill(uVar5,uVar6,*(undefined1 *)((param_2 == 2) + 0x78e)), cVar2 != '\0' ||
        (cVar2 = u214b_random_is_one(4), cVar2 != '\0')) || (cVar2 = f_0791_29B3(), cVar2 != '\0'))))
   {
     pitch_records[0]._19_1_ = 1;
@@ -763,7 +763,7 @@ void __stdcall16far f_0791_3EF8(undefined4 param_1,int param_2)
   uVar4 = (uint)*(byte *)(bVar9 + 0x798);
   uVar8 = (undefined2)((ulong)param_1 >> 0x10);
   uVar7 = (undefined2)param_1;
-  uVar5 = f_0791_278A(uVar7,uVar8,*(undefined1 *)(bVar9 + 0x796));
+  uVar5 = skill_of_pitch_record(uVar7,uVar8,*(undefined1 *)(bVar9 + 0x796));
   iVar6 = u214b_random_1_to_n(uVar5 / uVar4);
   u214b_max_longint(iVar6,iVar6 >> 0xf,uVar3,uVar10);
   attack_direction(uVar7,uVar8);

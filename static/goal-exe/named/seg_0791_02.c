@@ -218,8 +218,8 @@ void f_0791_1FDD(int param_1,undefined2 param_2,char param_3)
         uVar7 = param_2;
         iVar4 = f_0791_A920(*(undefined2 *)
                              ((undefined1 *)&DS:9976 + param_3 * 10 + param_1 * 2),param_2);
-        uVar5 = f_0791_278A((pitch *)pitch_records + iVar4,0xb000,uVar7);
-        uVar6 = f_0791_278A((pitch *)pitch_records + iVar3,0xb000,param_2);
+        uVar5 = skill_of_pitch_record((pitch *)pitch_records + iVar4,0xb000,uVar7);
+        uVar6 = skill_of_pitch_record((pitch *)pitch_records + iVar3,0xb000,param_2);
         if (uVar6 <= uVar5) goto LAB_0791_20D4;
       }
       *(undefined2 *)((undefined1 *)&DS:9976 + param_3 * 10 + param_1 * 2) =
@@ -270,7 +270,7 @@ void __cdecl16near f_0791_20E3(void)
     while( true ) {
       bVar2 = *(byte *)(local_3 + 0x668);
       cVar3 = player_leadership(*(undefined2 *)(local_3 * 10 + -0x6688));
-      pcVar1 = (char *)((int)&pitch_records[0].field_0x11 + ((uint)bVar2 + local_6) * 0x16);
+      pcVar1 = (char *)((int)&pitch_records[0].keeping_extra + ((uint)bVar2 + local_6) * 0x16);
       *pcVar1 = *pcVar1 + cVar3 * '\x02';
       if (local_6 == 0xb) break;
       local_6 = local_6 + 1;
@@ -521,9 +521,10 @@ undefined1 __stdcall16far player_effective_tactic(undefined4 param_1,uint param_
 }
 
 
-// ---- 0791:278A  f_0791_278A  (f_0791_278A; Ghidra 2000:278A, __stdcall16far; found by routines.tsv)
+// ---- 0791:278A  skill_of_pitch_record  (f_0791_278A; Ghidra 2000:278A, __stdcall16far; found by routines.tsv)
+// the engines' only skill reader: takes a pitch record and an element; base = SIGNED form +0xC +1 below 0x20 else 0 (27AB's `jge` is signed; 27B9 `cwde` sign-extends), element >= 0xC adds 0x20 (the penalties bonus) else the SIGNED energy +0xE (27D4 / 27D8 sign-extends), skill = 1771:3A06 of the record at pitch+0xD, pitch+0x13 set halves it, value = base*skill div 256 + skill div 4; the **table-controlled keeper extra** at 2823-284C: `cmp byte ptr [di + 0x769], 0 / jne 2843` is the FIRST gate — any nonzero byte for the element (the data image's 0x769[2] = 0x01, 0x769[4] = 0x01, 0x769[12] = 0x01) jumps to the extra-term branch, adding pitch+0x11, WITHOUT testing element 1 or event-code membership; only when the byte is zero does the second gate (element 1 and event code 0x18 in CS:276A) apply; pitch+6 < 0xC with DS:80FC set adds value/16. Callers (calls.tsv): 1FDD, 287C, 34C1, 3B15, 3EF8, 47C5, 5474, 5B36, 690C, 9ED3, D5C1  [established; F015; read code/seg_0791_04.asm]
 
-uint __stdcall16far f_0791_278A(undefined4 param_1,uint param_2)
+uint __stdcall16far skill_of_pitch_record(undefined4 param_1,uint param_2)
 
 {
   int iVar1;
@@ -552,7 +553,7 @@ uint __stdcall16far f_0791_278A(undefined4 param_1,uint param_2)
   else {
     local_6 = local_6 + 0x20;
   }
-  local_8 = f_1771_3A06(param_2,*(undefined2 *)(iVar2 + 0xd));
+  local_8 = derived_skill(param_2,*(undefined2 *)(iVar2 + 0xd));
   if (*(char *)(iVar2 + 0x13) != '\0') {
     local_8 = local_8 / 2;
   }
@@ -572,15 +573,16 @@ LAB_0791_284F:
 }
 
 
-// ---- 0791:287C  f_0791_287C  (f_0791_287C; Ghidra 2000:287C, __stdcall16far; found by routines.tsv)
+// ---- 0791:287C  rand_skill  (f_0791_287C; Ghidra 2000:287C, __stdcall16far; found by routines.tsv)
+// rand(278A(pitch, element) div 32 + 1) — the contest draw helper over a player's derived skill  [established; F015; read code/seg_0791_04.asm]
 
-bool __stdcall16far f_0791_287C(undefined4 param_1,undefined2 param_2)
+bool __stdcall16far rand_skill(undefined4 param_1,undefined2 param_2)
 
 {
   char cVar1;
   uint uVar2;
   
-  uVar2 = f_0791_278A((int)param_1,(int)((ulong)param_1 >> 0x10),param_2);
+  uVar2 = skill_of_pitch_record((int)param_1,(int)((ulong)param_1 >> 0x10),param_2);
   cVar1 = u214b_random_is_one(uVar2 / 0x20 + 1);
   return cVar1 == '\0';
 }
