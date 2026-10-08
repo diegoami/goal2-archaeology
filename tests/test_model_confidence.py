@@ -1,10 +1,19 @@
 """Literal inputs/outputs for the listing's confidence arithmetic."""
 import unittest
 
-from runtime.model.confidence import change, result_delta, participant_values, country_rating
+from runtime.model.confidence import change, result_delta, participant_values, country_rating, match_form
 
 
 class ConfidenceTests(unittest.TestCase):
+    def test_persisting_and_temporary_match_form(self):
+        for inputs, expected in [((16, 16, 1, False), (17, 16)),
+                                 ((17, 16, 1, True), (18, 18)),
+                                 ((32, 32, 1, True), (33, 32)),
+                                 ((127, 16, 1, True), (128, 128)),
+                                 ((127, 16, 200, False), (255, 16)),
+                                 ((1, 16, -2, True), (1, 1))]:
+            self.assertEqual(match_form(*inputs), expected)
+
     def test_ranks_not_line_sums(self):
         for inputs, expected in [((1, 1, 1), 128), ((4, 32, 128), 1),
                                  ((2, 5, 20), 96), ((5, 1, 132), -1)]:

@@ -53,14 +53,15 @@ def main():
             country = bytearray(mu.mem_read(cb + (side + 1) * 191, 191))
             country[42:47] = bytes((crank, wrank, continent, 0, 0))
             words = list(range(1 + side * 20, 21 + side * 20))
-            country[47:87] = b''.join(w.to_bytes(2, 'little') for w in words)
+            country[0:40] = b''.join(w.to_bytes(2, 'little') for w in words)
             mu.mem_write(cb + (side + 1) * 191, bytes(country))
             countries.append({'country_word': side + 1, 'record': country.hex()})
             for slot, word in enumerate(words, 1):
                 record = bytearray(mu.mem_read(pb + word * 20, 20))
                 # Healthy, age 25; literal confidence edges; slot 12 participated.
                 record[1], record[12], record[13], record[14] = 25, (1, 16, 32)[slot % 3], 16, 16
-                record[7:9] = (8 if slot == 12 else 0).to_bytes(2, 'little')
+                # Pascal element 3 occupies bit 2, not zero-based bit 3.
+                record[16] = 4 if slot == 12 else 0
                 mu.mem_write(pb + word * 20, bytes(record))
                 before.append({'player_word': word, 'side': side, 'slot': slot, 'record': record.hex()})
         draws, operations = [], []

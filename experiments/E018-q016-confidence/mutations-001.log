@@ -1,0 +1,1294 @@
+BASELINE exit=0
+test_bench_draws_and_sequential_clipping (tests.test_model_confidence.ConfidenceTests.test_bench_draws_and_sequential_clipping) ... ok
+test_clipping_and_signed_byte (tests.test_model_confidence.ConfidenceTests.test_clipping_and_signed_byte) ... ok
+test_exact_given_draws (tests.test_model_confidence.ConfidenceTests.test_exact_given_draws) ... ok
+test_persisting_and_temporary_match_form (tests.test_model_confidence.ConfidenceTests.test_persisting_and_temporary_match_form) ... ok
+test_ranks_not_line_sums (tests.test_model_confidence.ConfidenceTests.test_ranks_not_line_sums) ... ok
+test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.000s
+
+OK
+
+BYTE_BITS 8->9: KILLED exit=1
+test_bench_draws_and_sequential_clipping (tests.test_model_confidence.ConfidenceTests.test_bench_draws_and_sequential_clipping) ... ok
+test_clipping_and_signed_byte (tests.test_model_confidence.ConfidenceTests.test_clipping_and_signed_byte) ... 
+  test_clipping_and_signed_byte (tests.test_model_confidence.ConfidenceTests.test_clipping_and_signed_byte) (before=255, delta=3) ... FAIL
+  test_clipping_and_signed_byte (tests.test_model_confidence.ConfidenceTests.test_clipping_and_signed_byte) (before=128, delta=127) ... FAIL
+test_exact_given_draws (tests.test_model_confidence.ConfidenceTests.test_exact_given_draws) ... ok
+test_persisting_and_temporary_match_form (tests.test_model_confidence.ConfidenceTests.test_persisting_and_temporary_match_form) ... FAIL
+test_ranks_not_line_sums (tests.test_model_confidence.ConfidenceTests.test_ranks_not_line_sums) ... ok
+test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) ... 
+  test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) (inputs=(100, 164, (255, 1), 0, 0, False)) ... FAIL
+
+======================================================================
+FAIL: test_clipping_and_signed_byte (tests.test_model_confidence.ConfidenceTests.test_clipping_and_signed_byte) (before=255, delta=3)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 27, in test_clipping_and_signed_byte
+    self.assertEqual(change(before, delta), after)
+AssertionError: 32 != 2
+
+======================================================================
+FAIL: test_clipping_and_signed_byte (tests.test_model_confidence.ConfidenceTests.test_clipping_and_signed_byte) (before=128, delta=127)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 27, in test_clipping_and_signed_byte
+    self.assertEqual(change(before, delta), after)
+AssertionError: 32 != 1
+
+======================================================================
+FAIL: test_persisting_and_temporary_match_form (tests.test_model_confidence.ConfidenceTests.test_persisting_and_temporary_match_form)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 15, in test_persisting_and_temporary_match_form
+    self.assertEqual(match_form(*inputs), expected)
+AssertionError: Tuples differ: (128, 32) != (128, 128)
+
+First differing element 1:
+32
+128
+
+- (128, 32)
+?       ^
+
++ (128, 128)
+?       ^ +
+
+
+======================================================================
+FAIL: test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) (inputs=(100, 164, (255, 1), 0, 0, False))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 44, in test_result_term
+    self.assertEqual(result_delta(*inputs), expected)
+AssertionError: 512 != 8
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.001s
+
+FAILED (failures=4)
+
+BYTE_BITS 8->7: KILLED exit=1
+test_bench_draws_and_sequential_clipping (tests.test_model_confidence.ConfidenceTests.test_bench_draws_and_sequential_clipping) ... ok
+test_clipping_and_signed_byte (tests.test_model_confidence.ConfidenceTests.test_clipping_and_signed_byte) ... 
+  test_clipping_and_signed_byte (tests.test_model_confidence.ConfidenceTests.test_clipping_and_signed_byte) (before=128, delta=127) ... FAIL
+test_exact_given_draws (tests.test_model_confidence.ConfidenceTests.test_exact_given_draws) ... ok
+test_persisting_and_temporary_match_form (tests.test_model_confidence.ConfidenceTests.test_persisting_and_temporary_match_form) ... FAIL
+test_ranks_not_line_sums (tests.test_model_confidence.ConfidenceTests.test_ranks_not_line_sums) ... ok
+test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) ... ok
+
+======================================================================
+FAIL: test_clipping_and_signed_byte (tests.test_model_confidence.ConfidenceTests.test_clipping_and_signed_byte) (before=128, delta=127)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 27, in test_clipping_and_signed_byte
+    self.assertEqual(change(before, delta), after)
+AssertionError: 32 != 1
+
+======================================================================
+FAIL: test_persisting_and_temporary_match_form (tests.test_model_confidence.ConfidenceTests.test_persisting_and_temporary_match_form)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 15, in test_persisting_and_temporary_match_form
+    self.assertEqual(match_form(*inputs), expected)
+AssertionError: Tuples differ: (1, 1) != (128, 128)
+
+First differing element 0:
+1
+128
+
+- (1, 1)
++ (128, 128)
+?   ++   ++
+
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.001s
+
+FAILED (failures=2)
+
+WORD_BITS 16->17: KILLED exit=1
+test_bench_draws_and_sequential_clipping (tests.test_model_confidence.ConfidenceTests.test_bench_draws_and_sequential_clipping) ... ok
+test_clipping_and_signed_byte (tests.test_model_confidence.ConfidenceTests.test_clipping_and_signed_byte) ... 
+  test_clipping_and_signed_byte (tests.test_model_confidence.ConfidenceTests.test_clipping_and_signed_byte) (before=16, delta=65535) ... FAIL
+  test_clipping_and_signed_byte (tests.test_model_confidence.ConfidenceTests.test_clipping_and_signed_byte) (before=32, delta=32767) ... FAIL
+test_exact_given_draws (tests.test_model_confidence.ConfidenceTests.test_exact_given_draws) ... ok
+test_persisting_and_temporary_match_form (tests.test_model_confidence.ConfidenceTests.test_persisting_and_temporary_match_form) ... ok
+test_ranks_not_line_sums (tests.test_model_confidence.ConfidenceTests.test_ranks_not_line_sums) ... ok
+test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) ... ok
+
+======================================================================
+FAIL: test_clipping_and_signed_byte (tests.test_model_confidence.ConfidenceTests.test_clipping_and_signed_byte) (before=16, delta=65535)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 27, in test_clipping_and_signed_byte
+    self.assertEqual(change(before, delta), after)
+AssertionError: 1 != 15
+
+======================================================================
+FAIL: test_clipping_and_signed_byte (tests.test_model_confidence.ConfidenceTests.test_clipping_and_signed_byte) (before=32, delta=32767)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 27, in test_clipping_and_signed_byte
+    self.assertEqual(change(before, delta), after)
+AssertionError: 32 != 1
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.001s
+
+FAILED (failures=2)
+
+WORD_BITS 16->15: KILLED exit=1
+test_bench_draws_and_sequential_clipping (tests.test_model_confidence.ConfidenceTests.test_bench_draws_and_sequential_clipping) ... ok
+test_clipping_and_signed_byte (tests.test_model_confidence.ConfidenceTests.test_clipping_and_signed_byte) ... 
+  test_clipping_and_signed_byte (tests.test_model_confidence.ConfidenceTests.test_clipping_and_signed_byte) (before=32, delta=32767) ... FAIL
+test_exact_given_draws (tests.test_model_confidence.ConfidenceTests.test_exact_given_draws) ... ok
+test_persisting_and_temporary_match_form (tests.test_model_confidence.ConfidenceTests.test_persisting_and_temporary_match_form) ... ok
+test_ranks_not_line_sums (tests.test_model_confidence.ConfidenceTests.test_ranks_not_line_sums) ... ok
+test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) ... ok
+
+======================================================================
+FAIL: test_clipping_and_signed_byte (tests.test_model_confidence.ConfidenceTests.test_clipping_and_signed_byte) (before=32, delta=32767)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 27, in test_clipping_and_signed_byte
+    self.assertEqual(change(before, delta), after)
+AssertionError: 31 != 1
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.001s
+
+FAILED (failures=1)
+
+LOWER 1->2: KILLED exit=1
+test_bench_draws_and_sequential_clipping (tests.test_model_confidence.ConfidenceTests.test_bench_draws_and_sequential_clipping) ... FAIL
+test_clipping_and_signed_byte (tests.test_model_confidence.ConfidenceTests.test_clipping_and_signed_byte) ... 
+  test_clipping_and_signed_byte (tests.test_model_confidence.ConfidenceTests.test_clipping_and_signed_byte) (before=1, delta=-1) ... FAIL
+  test_clipping_and_signed_byte (tests.test_model_confidence.ConfidenceTests.test_clipping_and_signed_byte) (before=128, delta=127) ... FAIL
+  test_clipping_and_signed_byte (tests.test_model_confidence.ConfidenceTests.test_clipping_and_signed_byte) (before=32, delta=-31) ... FAIL
+  test_clipping_and_signed_byte (tests.test_model_confidence.ConfidenceTests.test_clipping_and_signed_byte) (before=32, delta=32767) ... FAIL
+test_exact_given_draws (tests.test_model_confidence.ConfidenceTests.test_exact_given_draws) ... ok
+test_persisting_and_temporary_match_form (tests.test_model_confidence.ConfidenceTests.test_persisting_and_temporary_match_form) ... FAIL
+test_ranks_not_line_sums (tests.test_model_confidence.ConfidenceTests.test_ranks_not_line_sums) ... ok
+test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) ... ok
+
+======================================================================
+FAIL: test_bench_draws_and_sequential_clipping (tests.test_model_confidence.ConfidenceTests.test_bench_draws_and_sequential_clipping)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 49, in test_bench_draws_and_sequential_clipping
+    self.assertEqual(participant_values(1, -4, 'substitute'), (1, 2))
+AssertionError: Tuples differ: (2, 3) != (1, 2)
+
+First differing element 0:
+2
+1
+
+- (2, 3)
++ (1, 2)
+
+======================================================================
+FAIL: test_clipping_and_signed_byte (tests.test_model_confidence.ConfidenceTests.test_clipping_and_signed_byte) (before=1, delta=-1)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 27, in test_clipping_and_signed_byte
+    self.assertEqual(change(before, delta), after)
+AssertionError: 2 != 1
+
+======================================================================
+FAIL: test_clipping_and_signed_byte (tests.test_model_confidence.ConfidenceTests.test_clipping_and_signed_byte) (before=128, delta=127)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 27, in test_clipping_and_signed_byte
+    self.assertEqual(change(before, delta), after)
+AssertionError: 2 != 1
+
+======================================================================
+FAIL: test_clipping_and_signed_byte (tests.test_model_confidence.ConfidenceTests.test_clipping_and_signed_byte) (before=32, delta=-31)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 27, in test_clipping_and_signed_byte
+    self.assertEqual(change(before, delta), after)
+AssertionError: 2 != 1
+
+======================================================================
+FAIL: test_clipping_and_signed_byte (tests.test_model_confidence.ConfidenceTests.test_clipping_and_signed_byte) (before=32, delta=32767)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 27, in test_clipping_and_signed_byte
+    self.assertEqual(change(before, delta), after)
+AssertionError: 2 != 1
+
+======================================================================
+FAIL: test_persisting_and_temporary_match_form (tests.test_model_confidence.ConfidenceTests.test_persisting_and_temporary_match_form)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 15, in test_persisting_and_temporary_match_form
+    self.assertEqual(match_form(*inputs), expected)
+AssertionError: Tuples differ: (2, 2) != (1, 1)
+
+First differing element 0:
+2
+1
+
+- (2, 2)
++ (1, 1)
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.002s
+
+FAILED (failures=6)
+
+LOWER 1->0: KILLED exit=1
+test_bench_draws_and_sequential_clipping (tests.test_model_confidence.ConfidenceTests.test_bench_draws_and_sequential_clipping) ... FAIL
+test_clipping_and_signed_byte (tests.test_model_confidence.ConfidenceTests.test_clipping_and_signed_byte) ... 
+  test_clipping_and_signed_byte (tests.test_model_confidence.ConfidenceTests.test_clipping_and_signed_byte) (before=1, delta=-1) ... FAIL
+  test_clipping_and_signed_byte (tests.test_model_confidence.ConfidenceTests.test_clipping_and_signed_byte) (before=128, delta=127) ... FAIL
+  test_clipping_and_signed_byte (tests.test_model_confidence.ConfidenceTests.test_clipping_and_signed_byte) (before=32, delta=32767) ... FAIL
+test_exact_given_draws (tests.test_model_confidence.ConfidenceTests.test_exact_given_draws) ... ok
+test_persisting_and_temporary_match_form (tests.test_model_confidence.ConfidenceTests.test_persisting_and_temporary_match_form) ... FAIL
+test_ranks_not_line_sums (tests.test_model_confidence.ConfidenceTests.test_ranks_not_line_sums) ... ok
+test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) ... ok
+
+======================================================================
+FAIL: test_bench_draws_and_sequential_clipping (tests.test_model_confidence.ConfidenceTests.test_bench_draws_and_sequential_clipping)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 49, in test_bench_draws_and_sequential_clipping
+    self.assertEqual(participant_values(1, -4, 'substitute'), (1, 2))
+AssertionError: Tuples differ: (0, 1) != (1, 2)
+
+First differing element 0:
+0
+1
+
+- (0, 1)
++ (1, 2)
+
+======================================================================
+FAIL: test_clipping_and_signed_byte (tests.test_model_confidence.ConfidenceTests.test_clipping_and_signed_byte) (before=1, delta=-1)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 27, in test_clipping_and_signed_byte
+    self.assertEqual(change(before, delta), after)
+AssertionError: 0 != 1
+
+======================================================================
+FAIL: test_clipping_and_signed_byte (tests.test_model_confidence.ConfidenceTests.test_clipping_and_signed_byte) (before=128, delta=127)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 27, in test_clipping_and_signed_byte
+    self.assertEqual(change(before, delta), after)
+AssertionError: 0 != 1
+
+======================================================================
+FAIL: test_clipping_and_signed_byte (tests.test_model_confidence.ConfidenceTests.test_clipping_and_signed_byte) (before=32, delta=32767)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 27, in test_clipping_and_signed_byte
+    self.assertEqual(change(before, delta), after)
+AssertionError: 0 != 1
+
+======================================================================
+FAIL: test_persisting_and_temporary_match_form (tests.test_model_confidence.ConfidenceTests.test_persisting_and_temporary_match_form)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 15, in test_persisting_and_temporary_match_form
+    self.assertEqual(match_form(*inputs), expected)
+AssertionError: Tuples differ: (0, 0) != (1, 1)
+
+First differing element 0:
+0
+1
+
+- (0, 0)
++ (1, 1)
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.002s
+
+FAILED (failures=5)
+
+UPPER 32->33: KILLED exit=1
+test_bench_draws_and_sequential_clipping (tests.test_model_confidence.ConfidenceTests.test_bench_draws_and_sequential_clipping) ... FAIL
+test_clipping_and_signed_byte (tests.test_model_confidence.ConfidenceTests.test_clipping_and_signed_byte) ... 
+  test_clipping_and_signed_byte (tests.test_model_confidence.ConfidenceTests.test_clipping_and_signed_byte) (before=32, delta=1) ... FAIL
+test_exact_given_draws (tests.test_model_confidence.ConfidenceTests.test_exact_given_draws) ... FAIL
+test_persisting_and_temporary_match_form (tests.test_model_confidence.ConfidenceTests.test_persisting_and_temporary_match_form) ... FAIL
+test_ranks_not_line_sums (tests.test_model_confidence.ConfidenceTests.test_ranks_not_line_sums) ... ok
+test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) ... ok
+
+======================================================================
+FAIL: test_bench_draws_and_sequential_clipping (tests.test_model_confidence.ConfidenceTests.test_bench_draws_and_sequential_clipping)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 48, in test_bench_draws_and_sequential_clipping
+    self.assertEqual(participant_values(32, 4, 'substitute'), (31, 32))
+AssertionError: Tuples differ: (32, 33) != (31, 32)
+
+First differing element 0:
+32
+31
+
+- (32, 33)
++ (31, 32)
+
+======================================================================
+FAIL: test_clipping_and_signed_byte (tests.test_model_confidence.ConfidenceTests.test_clipping_and_signed_byte) (before=32, delta=1)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 27, in test_clipping_and_signed_byte
+    self.assertEqual(change(before, delta), after)
+AssertionError: 33 != 32
+
+======================================================================
+FAIL: test_exact_given_draws (tests.test_model_confidence.ConfidenceTests.test_exact_given_draws)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 55, in test_exact_given_draws
+    self.assertEqual(participant_values(32, 4, 'substitute', (2, 1)), (31,))
+AssertionError: Tuples differ: (32,) != (31,)
+
+First differing element 0:
+32
+31
+
+- (32,)
+?   ^
+
++ (31,)
+?   ^
+
+
+======================================================================
+FAIL: test_persisting_and_temporary_match_form (tests.test_model_confidence.ConfidenceTests.test_persisting_and_temporary_match_form)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 15, in test_persisting_and_temporary_match_form
+    self.assertEqual(match_form(*inputs), expected)
+AssertionError: Tuples differ: (33, 33) != (33, 32)
+
+First differing element 1:
+33
+32
+
+- (33, 33)
+?       ^
+
++ (33, 32)
+?       ^
+
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.012s
+
+FAILED (failures=4)
+
+UPPER 32->31: KILLED exit=1
+test_bench_draws_and_sequential_clipping (tests.test_model_confidence.ConfidenceTests.test_bench_draws_and_sequential_clipping) ... FAIL
+test_clipping_and_signed_byte (tests.test_model_confidence.ConfidenceTests.test_clipping_and_signed_byte) ... 
+  test_clipping_and_signed_byte (tests.test_model_confidence.ConfidenceTests.test_clipping_and_signed_byte) (before=32, delta=1) ... FAIL
+test_exact_given_draws (tests.test_model_confidence.ConfidenceTests.test_exact_given_draws) ... FAIL
+test_persisting_and_temporary_match_form (tests.test_model_confidence.ConfidenceTests.test_persisting_and_temporary_match_form) ... FAIL
+test_ranks_not_line_sums (tests.test_model_confidence.ConfidenceTests.test_ranks_not_line_sums) ... ok
+test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) ... ok
+
+======================================================================
+FAIL: test_bench_draws_and_sequential_clipping (tests.test_model_confidence.ConfidenceTests.test_bench_draws_and_sequential_clipping)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 48, in test_bench_draws_and_sequential_clipping
+    self.assertEqual(participant_values(32, 4, 'substitute'), (31, 32))
+AssertionError: Tuples differ: (30, 31) != (31, 32)
+
+First differing element 0:
+30
+31
+
+- (30, 31)
+?   ^   ^
+
++ (31, 32)
+?   ^   ^
+
+
+======================================================================
+FAIL: test_clipping_and_signed_byte (tests.test_model_confidence.ConfidenceTests.test_clipping_and_signed_byte) (before=32, delta=1)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 27, in test_clipping_and_signed_byte
+    self.assertEqual(change(before, delta), after)
+AssertionError: 31 != 32
+
+======================================================================
+FAIL: test_exact_given_draws (tests.test_model_confidence.ConfidenceTests.test_exact_given_draws)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 55, in test_exact_given_draws
+    self.assertEqual(participant_values(32, 4, 'substitute', (2, 1)), (31,))
+AssertionError: Tuples differ: (30,) != (31,)
+
+First differing element 0:
+30
+31
+
+- (30,)
+?   ^
+
++ (31,)
+?   ^
+
+
+======================================================================
+FAIL: test_persisting_and_temporary_match_form (tests.test_model_confidence.ConfidenceTests.test_persisting_and_temporary_match_form)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 15, in test_persisting_and_temporary_match_form
+    self.assertEqual(match_form(*inputs), expected)
+AssertionError: Tuples differ: (33, 31) != (33, 32)
+
+First differing element 1:
+31
+32
+
+- (33, 31)
+?       ^
+
++ (33, 32)
+?       ^
+
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.002s
+
+FAILED (failures=4)
+
+EXPECTED_DIVISOR 32->33: KILLED exit=1
+test_bench_draws_and_sequential_clipping (tests.test_model_confidence.ConfidenceTests.test_bench_draws_and_sequential_clipping) ... ok
+test_clipping_and_signed_byte (tests.test_model_confidence.ConfidenceTests.test_clipping_and_signed_byte) ... ok
+test_exact_given_draws (tests.test_model_confidence.ConfidenceTests.test_exact_given_draws) ... ok
+test_persisting_and_temporary_match_form (tests.test_model_confidence.ConfidenceTests.test_persisting_and_temporary_match_form) ... ok
+test_ranks_not_line_sums (tests.test_model_confidence.ConfidenceTests.test_ranks_not_line_sums) ... ok
+test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) ... 
+  test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) (inputs=(100, 132, (0, 0), 2, 0, False)) ... FAIL
+  test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) (inputs=(132, 100, (0, 0), 2, 1, True)) ... FAIL
+  test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) (inputs=(100, 164, (1, 2), 1, 0, False)) ... FAIL
+  test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) (inputs=(100, 164, (255, 1), 0, 0, False)) ... FAIL
+
+======================================================================
+FAIL: test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) (inputs=(100, 132, (0, 0), 2, 0, False))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 44, in test_result_term
+    self.assertEqual(result_delta(*inputs), expected)
+AssertionError: 0 != 1
+
+======================================================================
+FAIL: test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) (inputs=(132, 100, (0, 0), 2, 1, True))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 44, in test_result_term
+    self.assertEqual(result_delta(*inputs), expected)
+AssertionError: 0 != -1
+
+======================================================================
+FAIL: test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) (inputs=(100, 164, (1, 2), 1, 0, False))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 44, in test_result_term
+    self.assertEqual(result_delta(*inputs), expected)
+AssertionError: 0 != 1
+
+======================================================================
+FAIL: test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) (inputs=(100, 164, (255, 1), 0, 0, False))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 44, in test_result_term
+    self.assertEqual(result_delta(*inputs), expected)
+AssertionError: 6 != 8
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.001s
+
+FAILED (failures=4)
+
+EXPECTED_DIVISOR 32->31: KILLED exit=1
+test_bench_draws_and_sequential_clipping (tests.test_model_confidence.ConfidenceTests.test_bench_draws_and_sequential_clipping) ... ok
+test_clipping_and_signed_byte (tests.test_model_confidence.ConfidenceTests.test_clipping_and_signed_byte) ... ok
+test_exact_given_draws (tests.test_model_confidence.ConfidenceTests.test_exact_given_draws) ... ok
+test_persisting_and_temporary_match_form (tests.test_model_confidence.ConfidenceTests.test_persisting_and_temporary_match_form) ... ok
+test_ranks_not_line_sums (tests.test_model_confidence.ConfidenceTests.test_ranks_not_line_sums) ... ok
+test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) ... 
+  test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) (inputs=(100, 131, (0, 0), 2, 0, False)) ... FAIL
+  test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) (inputs=(131, 100, (0, 0), 2, 0, False)) ... FAIL
+
+======================================================================
+FAIL: test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) (inputs=(100, 131, (0, 0), 2, 0, False))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 44, in test_result_term
+    self.assertEqual(result_delta(*inputs), expected)
+AssertionError: 1 != 0
+
+======================================================================
+FAIL: test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) (inputs=(131, 100, (0, 0), 2, 0, False))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 44, in test_result_term
+    self.assertEqual(result_delta(*inputs), expected)
+AssertionError: -1 != 0
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.001s
+
+FAILED (failures=2)
+
+CONTINENT_BASE 5->6: KILLED exit=1
+test_bench_draws_and_sequential_clipping (tests.test_model_confidence.ConfidenceTests.test_bench_draws_and_sequential_clipping) ... ok
+test_clipping_and_signed_byte (tests.test_model_confidence.ConfidenceTests.test_clipping_and_signed_byte) ... ok
+test_exact_given_draws (tests.test_model_confidence.ConfidenceTests.test_exact_given_draws) ... ok
+test_persisting_and_temporary_match_form (tests.test_model_confidence.ConfidenceTests.test_persisting_and_temporary_match_form) ... ok
+test_ranks_not_line_sums (tests.test_model_confidence.ConfidenceTests.test_ranks_not_line_sums) ... FAIL
+test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) ... ok
+
+======================================================================
+FAIL: test_ranks_not_line_sums (tests.test_model_confidence.ConfidenceTests.test_ranks_not_line_sums)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 20, in test_ranks_not_line_sums
+    self.assertEqual(country_rating(*inputs), expected)
+AssertionError: 144 != 128
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.001s
+
+FAILED (failures=1)
+
+CONTINENT_BASE 5->4: KILLED exit=1
+test_bench_draws_and_sequential_clipping (tests.test_model_confidence.ConfidenceTests.test_bench_draws_and_sequential_clipping) ... ok
+test_clipping_and_signed_byte (tests.test_model_confidence.ConfidenceTests.test_clipping_and_signed_byte) ... ok
+test_exact_given_draws (tests.test_model_confidence.ConfidenceTests.test_exact_given_draws) ... ok
+test_persisting_and_temporary_match_form (tests.test_model_confidence.ConfidenceTests.test_persisting_and_temporary_match_form) ... ok
+test_ranks_not_line_sums (tests.test_model_confidence.ConfidenceTests.test_ranks_not_line_sums) ... FAIL
+test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) ... ok
+
+======================================================================
+FAIL: test_ranks_not_line_sums (tests.test_model_confidence.ConfidenceTests.test_ranks_not_line_sums)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 20, in test_ranks_not_line_sums
+    self.assertEqual(country_rating(*inputs), expected)
+AssertionError: 112 != 128
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.001s
+
+FAILED (failures=1)
+
+CONTINENT_RANK_BASE 33->34: KILLED exit=1
+test_bench_draws_and_sequential_clipping (tests.test_model_confidence.ConfidenceTests.test_bench_draws_and_sequential_clipping) ... ok
+test_clipping_and_signed_byte (tests.test_model_confidence.ConfidenceTests.test_clipping_and_signed_byte) ... ok
+test_exact_given_draws (tests.test_model_confidence.ConfidenceTests.test_exact_given_draws) ... ok
+test_persisting_and_temporary_match_form (tests.test_model_confidence.ConfidenceTests.test_persisting_and_temporary_match_form) ... ok
+test_ranks_not_line_sums (tests.test_model_confidence.ConfidenceTests.test_ranks_not_line_sums) ... FAIL
+test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) ... ok
+
+======================================================================
+FAIL: test_ranks_not_line_sums (tests.test_model_confidence.ConfidenceTests.test_ranks_not_line_sums)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 20, in test_ranks_not_line_sums
+    self.assertEqual(country_rating(*inputs), expected)
+AssertionError: 130 != 128
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.001s
+
+FAILED (failures=1)
+
+CONTINENT_RANK_BASE 33->32: KILLED exit=1
+test_bench_draws_and_sequential_clipping (tests.test_model_confidence.ConfidenceTests.test_bench_draws_and_sequential_clipping) ... ok
+test_clipping_and_signed_byte (tests.test_model_confidence.ConfidenceTests.test_clipping_and_signed_byte) ... ok
+test_exact_given_draws (tests.test_model_confidence.ConfidenceTests.test_exact_given_draws) ... ok
+test_persisting_and_temporary_match_form (tests.test_model_confidence.ConfidenceTests.test_persisting_and_temporary_match_form) ... ok
+test_ranks_not_line_sums (tests.test_model_confidence.ConfidenceTests.test_ranks_not_line_sums) ... FAIL
+test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) ... ok
+
+======================================================================
+FAIL: test_ranks_not_line_sums (tests.test_model_confidence.ConfidenceTests.test_ranks_not_line_sums)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 20, in test_ranks_not_line_sums
+    self.assertEqual(country_rating(*inputs), expected)
+AssertionError: 126 != 128
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.001s
+
+FAILED (failures=1)
+
+WORLD_RANK_BASE 129->130: KILLED exit=1
+test_bench_draws_and_sequential_clipping (tests.test_model_confidence.ConfidenceTests.test_bench_draws_and_sequential_clipping) ... ok
+test_clipping_and_signed_byte (tests.test_model_confidence.ConfidenceTests.test_clipping_and_signed_byte) ... ok
+test_exact_given_draws (tests.test_model_confidence.ConfidenceTests.test_exact_given_draws) ... ok
+test_persisting_and_temporary_match_form (tests.test_model_confidence.ConfidenceTests.test_persisting_and_temporary_match_form) ... ok
+test_ranks_not_line_sums (tests.test_model_confidence.ConfidenceTests.test_ranks_not_line_sums) ... FAIL
+test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) ... ok
+
+======================================================================
+FAIL: test_ranks_not_line_sums (tests.test_model_confidence.ConfidenceTests.test_ranks_not_line_sums)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 20, in test_ranks_not_line_sums
+    self.assertEqual(country_rating(*inputs), expected)
+AssertionError: 97 != 96
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.001s
+
+FAILED (failures=1)
+
+WORLD_RANK_BASE 129->128: KILLED exit=1
+test_bench_draws_and_sequential_clipping (tests.test_model_confidence.ConfidenceTests.test_bench_draws_and_sequential_clipping) ... ok
+test_clipping_and_signed_byte (tests.test_model_confidence.ConfidenceTests.test_clipping_and_signed_byte) ... ok
+test_exact_given_draws (tests.test_model_confidence.ConfidenceTests.test_exact_given_draws) ... ok
+test_persisting_and_temporary_match_form (tests.test_model_confidence.ConfidenceTests.test_persisting_and_temporary_match_form) ... ok
+test_ranks_not_line_sums (tests.test_model_confidence.ConfidenceTests.test_ranks_not_line_sums) ... FAIL
+test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) ... ok
+
+======================================================================
+FAIL: test_ranks_not_line_sums (tests.test_model_confidence.ConfidenceTests.test_ranks_not_line_sums)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 20, in test_ranks_not_line_sums
+    self.assertEqual(country_rating(*inputs), expected)
+AssertionError: 127 != 128
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.001s
+
+FAILED (failures=1)
+
+RATING_DIVISOR 2->3: KILLED exit=1
+test_bench_draws_and_sequential_clipping (tests.test_model_confidence.ConfidenceTests.test_bench_draws_and_sequential_clipping) ... ok
+test_clipping_and_signed_byte (tests.test_model_confidence.ConfidenceTests.test_clipping_and_signed_byte) ... ok
+test_exact_given_draws (tests.test_model_confidence.ConfidenceTests.test_exact_given_draws) ... ok
+test_persisting_and_temporary_match_form (tests.test_model_confidence.ConfidenceTests.test_persisting_and_temporary_match_form) ... ok
+test_ranks_not_line_sums (tests.test_model_confidence.ConfidenceTests.test_ranks_not_line_sums) ... FAIL
+test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) ... ok
+
+======================================================================
+FAIL: test_ranks_not_line_sums (tests.test_model_confidence.ConfidenceTests.test_ranks_not_line_sums)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 20, in test_ranks_not_line_sums
+    self.assertEqual(country_rating(*inputs), expected)
+AssertionError: 85 != 128
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.001s
+
+FAILED (failures=1)
+
+RATING_DIVISOR 2->1: KILLED exit=1
+test_bench_draws_and_sequential_clipping (tests.test_model_confidence.ConfidenceTests.test_bench_draws_and_sequential_clipping) ... ok
+test_clipping_and_signed_byte (tests.test_model_confidence.ConfidenceTests.test_clipping_and_signed_byte) ... ok
+test_exact_given_draws (tests.test_model_confidence.ConfidenceTests.test_exact_given_draws) ... ok
+test_persisting_and_temporary_match_form (tests.test_model_confidence.ConfidenceTests.test_persisting_and_temporary_match_form) ... ok
+test_ranks_not_line_sums (tests.test_model_confidence.ConfidenceTests.test_ranks_not_line_sums) ... FAIL
+test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) ... ok
+
+======================================================================
+FAIL: test_ranks_not_line_sums (tests.test_model_confidence.ConfidenceTests.test_ranks_not_line_sums)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 20, in test_ranks_not_line_sums
+    self.assertEqual(country_rating(*inputs), expected)
+AssertionError: 256 != 128
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.001s
+
+FAILED (failures=1)
+
+DOUBLE 2->3: KILLED exit=1
+test_bench_draws_and_sequential_clipping (tests.test_model_confidence.ConfidenceTests.test_bench_draws_and_sequential_clipping) ... ok
+test_clipping_and_signed_byte (tests.test_model_confidence.ConfidenceTests.test_clipping_and_signed_byte) ... ok
+test_exact_given_draws (tests.test_model_confidence.ConfidenceTests.test_exact_given_draws) ... ok
+test_persisting_and_temporary_match_form (tests.test_model_confidence.ConfidenceTests.test_persisting_and_temporary_match_form) ... ok
+test_ranks_not_line_sums (tests.test_model_confidence.ConfidenceTests.test_ranks_not_line_sums) ... ok
+test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) ... 
+  test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) (inputs=(100, 100, (3, 1), 0, 0, False)) ... FAIL
+  test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) (inputs=(100, 100, (3, 1), 0, 1, False)) ... FAIL
+  test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) (inputs=(100, 100, (1, 3), 1, 1, True)) ... FAIL
+  test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) (inputs=(100, 164, (255, 1), 0, 0, False)) ... FAIL
+
+======================================================================
+FAIL: test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) (inputs=(100, 100, (3, 1), 0, 0, False))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 44, in test_result_term
+    self.assertEqual(result_delta(*inputs), expected)
+AssertionError: 6 != 4
+
+======================================================================
+FAIL: test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) (inputs=(100, 100, (3, 1), 0, 1, False))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 44, in test_result_term
+    self.assertEqual(result_delta(*inputs), expected)
+AssertionError: -6 != -4
+
+======================================================================
+FAIL: test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) (inputs=(100, 100, (1, 3), 1, 1, True))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 44, in test_result_term
+    self.assertEqual(result_delta(*inputs), expected)
+AssertionError: 6 != 4
+
+======================================================================
+FAIL: test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) (inputs=(100, 164, (255, 1), 0, 0, False))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 44, in test_result_term
+    self.assertEqual(result_delta(*inputs), expected)
+AssertionError: 12 != 8
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.001s
+
+FAILED (failures=4)
+
+DOUBLE 2->1: KILLED exit=1
+test_bench_draws_and_sequential_clipping (tests.test_model_confidence.ConfidenceTests.test_bench_draws_and_sequential_clipping) ... ok
+test_clipping_and_signed_byte (tests.test_model_confidence.ConfidenceTests.test_clipping_and_signed_byte) ... ok
+test_exact_given_draws (tests.test_model_confidence.ConfidenceTests.test_exact_given_draws) ... ok
+test_persisting_and_temporary_match_form (tests.test_model_confidence.ConfidenceTests.test_persisting_and_temporary_match_form) ... ok
+test_ranks_not_line_sums (tests.test_model_confidence.ConfidenceTests.test_ranks_not_line_sums) ... ok
+test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) ... 
+  test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) (inputs=(100, 100, (3, 1), 0, 0, False)) ... FAIL
+  test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) (inputs=(100, 100, (3, 1), 0, 1, False)) ... FAIL
+  test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) (inputs=(100, 100, (1, 3), 1, 1, True)) ... FAIL
+  test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) (inputs=(100, 164, (255, 1), 0, 0, False)) ... FAIL
+
+======================================================================
+FAIL: test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) (inputs=(100, 100, (3, 1), 0, 0, False))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 44, in test_result_term
+    self.assertEqual(result_delta(*inputs), expected)
+AssertionError: 2 != 4
+
+======================================================================
+FAIL: test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) (inputs=(100, 100, (3, 1), 0, 1, False))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 44, in test_result_term
+    self.assertEqual(result_delta(*inputs), expected)
+AssertionError: -2 != -4
+
+======================================================================
+FAIL: test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) (inputs=(100, 100, (1, 3), 1, 1, True))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 44, in test_result_term
+    self.assertEqual(result_delta(*inputs), expected)
+AssertionError: 2 != 4
+
+======================================================================
+FAIL: test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) (inputs=(100, 164, (255, 1), 0, 0, False))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 44, in test_result_term
+    self.assertEqual(result_delta(*inputs), expected)
+AssertionError: 4 != 8
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.017s
+
+FAILED (failures=4)
+
+SMALL_DRAW 2->3: KILLED exit=1
+test_bench_draws_and_sequential_clipping (tests.test_model_confidence.ConfidenceTests.test_bench_draws_and_sequential_clipping) ... FAIL
+test_clipping_and_signed_byte (tests.test_model_confidence.ConfidenceTests.test_clipping_and_signed_byte) ... ok
+test_exact_given_draws (tests.test_model_confidence.ConfidenceTests.test_exact_given_draws) ... ok
+test_persisting_and_temporary_match_form (tests.test_model_confidence.ConfidenceTests.test_persisting_and_temporary_match_form) ... ok
+test_ranks_not_line_sums (tests.test_model_confidence.ConfidenceTests.test_ranks_not_line_sums) ... ok
+test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) ... ok
+
+======================================================================
+FAIL: test_bench_draws_and_sequential_clipping (tests.test_model_confidence.ConfidenceTests.test_bench_draws_and_sequential_clipping)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 48, in test_bench_draws_and_sequential_clipping
+    self.assertEqual(participant_values(32, 4, 'substitute'), (31, 32))
+AssertionError: Tuples differ: (30, 31, 32) != (31, 32)
+
+First differing element 0:
+30
+31
+
+First tuple contains 1 additional elements.
+First extra element 2:
+32
+
+- (30, 31, 32)
+?  ----
+
++ (31, 32)
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.001s
+
+FAILED (failures=1)
+
+SMALL_DRAW 2->1: KILLED exit=1
+test_bench_draws_and_sequential_clipping (tests.test_model_confidence.ConfidenceTests.test_bench_draws_and_sequential_clipping) ... FAIL
+test_clipping_and_signed_byte (tests.test_model_confidence.ConfidenceTests.test_clipping_and_signed_byte) ... ok
+test_exact_given_draws (tests.test_model_confidence.ConfidenceTests.test_exact_given_draws) ... ERROR
+test_persisting_and_temporary_match_form (tests.test_model_confidence.ConfidenceTests.test_persisting_and_temporary_match_form) ... ok
+test_ranks_not_line_sums (tests.test_model_confidence.ConfidenceTests.test_ranks_not_line_sums) ... ok
+test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) ... ok
+
+======================================================================
+ERROR: test_exact_given_draws (tests.test_model_confidence.ConfidenceTests.test_exact_given_draws)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 55, in test_exact_given_draws
+    self.assertEqual(participant_values(32, 4, 'substitute', (2, 1)), (31,))
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T32/runtime/model/confidence.py", line 89, in participant_values
+    raise ValueError('invalid bench-confidence draws')
+ValueError: invalid bench-confidence draws
+
+======================================================================
+FAIL: test_bench_draws_and_sequential_clipping (tests.test_model_confidence.ConfidenceTests.test_bench_draws_and_sequential_clipping)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 48, in test_bench_draws_and_sequential_clipping
+    self.assertEqual(participant_values(32, 4, 'substitute'), (31, 32))
+AssertionError: Tuples differ: (32,) != (31, 32)
+
+First differing element 0:
+32
+31
+
+Second tuple contains 1 additional elements.
+First extra element 1:
+32
+
+- (32,)
++ (31, 32)
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.001s
+
+FAILED (failures=1, errors=1)
+
+UNUSED_DRAW 4->5: KILLED exit=1
+test_bench_draws_and_sequential_clipping (tests.test_model_confidence.ConfidenceTests.test_bench_draws_and_sequential_clipping) ... FAIL
+test_clipping_and_signed_byte (tests.test_model_confidence.ConfidenceTests.test_clipping_and_signed_byte) ... ok
+test_exact_given_draws (tests.test_model_confidence.ConfidenceTests.test_exact_given_draws) ... ok
+test_persisting_and_temporary_match_form (tests.test_model_confidence.ConfidenceTests.test_persisting_and_temporary_match_form) ... ok
+test_ranks_not_line_sums (tests.test_model_confidence.ConfidenceTests.test_ranks_not_line_sums) ... ok
+test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) ... ok
+
+======================================================================
+FAIL: test_bench_draws_and_sequential_clipping (tests.test_model_confidence.ConfidenceTests.test_bench_draws_and_sequential_clipping)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 50, in test_bench_draws_and_sequential_clipping
+    self.assertEqual(participant_values(16, 99, 'unused'), (13, 14, 15, 16, 17))
+AssertionError: Tuples differ: (12, 13, 14, 15, 16, 17) != (13, 14, 15, 16, 17)
+
+First differing element 0:
+12
+13
+
+First tuple contains 1 additional elements.
+First extra element 5:
+17
+
+- (12, 13, 14, 15, 16, 17)
+?  ----
+
++ (13, 14, 15, 16, 17)
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.001s
+
+FAILED (failures=1)
+
+UNUSED_DRAW 4->3: KILLED exit=1
+test_bench_draws_and_sequential_clipping (tests.test_model_confidence.ConfidenceTests.test_bench_draws_and_sequential_clipping) ... FAIL
+test_clipping_and_signed_byte (tests.test_model_confidence.ConfidenceTests.test_clipping_and_signed_byte) ... ok
+test_exact_given_draws (tests.test_model_confidence.ConfidenceTests.test_exact_given_draws) ... ERROR
+test_persisting_and_temporary_match_form (tests.test_model_confidence.ConfidenceTests.test_persisting_and_temporary_match_form) ... ok
+test_ranks_not_line_sums (tests.test_model_confidence.ConfidenceTests.test_ranks_not_line_sums) ... ok
+test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) ... ok
+
+======================================================================
+ERROR: test_exact_given_draws (tests.test_model_confidence.ConfidenceTests.test_exact_given_draws)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 56, in test_exact_given_draws
+    self.assertEqual(participant_values(16, 99, 'unused', (4, 1)), (13,))
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T32/runtime/model/confidence.py", line 89, in participant_values
+    raise ValueError('invalid bench-confidence draws')
+ValueError: invalid bench-confidence draws
+
+======================================================================
+FAIL: test_bench_draws_and_sequential_clipping (tests.test_model_confidence.ConfidenceTests.test_bench_draws_and_sequential_clipping)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 50, in test_bench_draws_and_sequential_clipping
+    self.assertEqual(participant_values(16, 99, 'unused'), (13, 14, 15, 16, 17))
+AssertionError: Tuples differ: (14, 15, 16, 17) != (13, 14, 15, 16, 17)
+
+First differing element 0:
+14
+13
+
+Second tuple contains 1 additional elements.
+First extra element 4:
+17
+
+- (14, 15, 16, 17)
++ (13, 14, 15, 16, 17)
+?  ++++
+
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.001s
+
+FAILED (failures=1, errors=1)
+
+LIVE_UPPER 255->256: KILLED exit=1
+test_bench_draws_and_sequential_clipping (tests.test_model_confidence.ConfidenceTests.test_bench_draws_and_sequential_clipping) ... ok
+test_clipping_and_signed_byte (tests.test_model_confidence.ConfidenceTests.test_clipping_and_signed_byte) ... ok
+test_exact_given_draws (tests.test_model_confidence.ConfidenceTests.test_exact_given_draws) ... ok
+test_persisting_and_temporary_match_form (tests.test_model_confidence.ConfidenceTests.test_persisting_and_temporary_match_form) ... FAIL
+test_ranks_not_line_sums (tests.test_model_confidence.ConfidenceTests.test_ranks_not_line_sums) ... ok
+test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) ... ok
+
+======================================================================
+FAIL: test_persisting_and_temporary_match_form (tests.test_model_confidence.ConfidenceTests.test_persisting_and_temporary_match_form)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 15, in test_persisting_and_temporary_match_form
+    self.assertEqual(match_form(*inputs), expected)
+AssertionError: Tuples differ: (256, 16) != (255, 16)
+
+First differing element 0:
+256
+255
+
+- (256, 16)
+?    ^
+
++ (255, 16)
+?    ^
+
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.001s
+
+FAILED (failures=1)
+
+LIVE_UPPER 255->254: KILLED exit=1
+test_bench_draws_and_sequential_clipping (tests.test_model_confidence.ConfidenceTests.test_bench_draws_and_sequential_clipping) ... ok
+test_clipping_and_signed_byte (tests.test_model_confidence.ConfidenceTests.test_clipping_and_signed_byte) ... ok
+test_exact_given_draws (tests.test_model_confidence.ConfidenceTests.test_exact_given_draws) ... ok
+test_persisting_and_temporary_match_form (tests.test_model_confidence.ConfidenceTests.test_persisting_and_temporary_match_form) ... FAIL
+test_ranks_not_line_sums (tests.test_model_confidence.ConfidenceTests.test_ranks_not_line_sums) ... ok
+test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) ... ok
+
+======================================================================
+FAIL: test_persisting_and_temporary_match_form (tests.test_model_confidence.ConfidenceTests.test_persisting_and_temporary_match_form)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 15, in test_persisting_and_temporary_match_form
+    self.assertEqual(match_form(*inputs), expected)
+AssertionError: Tuples differ: (254, 16) != (255, 16)
+
+First differing element 0:
+254
+255
+
+- (254, 16)
+?    ^
+
++ (255, 16)
+?    ^
+
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.001s
+
+FAILED (failures=1)
+
+reverse expected margin: KILLED exit=1
+test_bench_draws_and_sequential_clipping (tests.test_model_confidence.ConfidenceTests.test_bench_draws_and_sequential_clipping) ... ok
+test_clipping_and_signed_byte (tests.test_model_confidence.ConfidenceTests.test_clipping_and_signed_byte) ... ok
+test_exact_given_draws (tests.test_model_confidence.ConfidenceTests.test_exact_given_draws) ... ok
+test_persisting_and_temporary_match_form (tests.test_model_confidence.ConfidenceTests.test_persisting_and_temporary_match_form) ... ok
+test_ranks_not_line_sums (tests.test_model_confidence.ConfidenceTests.test_ranks_not_line_sums) ... ok
+test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) ... 
+  test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) (inputs=(100, 132, (0, 0), 2, 0, False)) ... FAIL
+  test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) (inputs=(132, 100, (0, 0), 2, 1, True)) ... FAIL
+  test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) (inputs=(100, 164, (1, 2), 1, 0, False)) ... FAIL
+  test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) (inputs=(100, 164, (255, 1), 0, 0, False)) ... FAIL
+
+======================================================================
+FAIL: test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) (inputs=(100, 132, (0, 0), 2, 0, False))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 44, in test_result_term
+    self.assertEqual(result_delta(*inputs), expected)
+AssertionError: -1 != 1
+
+======================================================================
+FAIL: test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) (inputs=(132, 100, (0, 0), 2, 1, True))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 44, in test_result_term
+    self.assertEqual(result_delta(*inputs), expected)
+AssertionError: 1 != -1
+
+======================================================================
+FAIL: test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) (inputs=(100, 164, (1, 2), 1, 0, False))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 44, in test_result_term
+    self.assertEqual(result_delta(*inputs), expected)
+AssertionError: -3 != 1
+
+======================================================================
+FAIL: test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) (inputs=(100, 164, (255, 1), 0, 0, False))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 44, in test_result_term
+    self.assertEqual(result_delta(*inputs), expected)
+AssertionError: 0 != 8
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.001s
+
+FAILED (failures=4)
+
+ignore continent: KILLED exit=1
+test_bench_draws_and_sequential_clipping (tests.test_model_confidence.ConfidenceTests.test_bench_draws_and_sequential_clipping) ... ok
+test_clipping_and_signed_byte (tests.test_model_confidence.ConfidenceTests.test_clipping_and_signed_byte) ... ok
+test_exact_given_draws (tests.test_model_confidence.ConfidenceTests.test_exact_given_draws) ... ok
+test_persisting_and_temporary_match_form (tests.test_model_confidence.ConfidenceTests.test_persisting_and_temporary_match_form) ... ok
+test_ranks_not_line_sums (tests.test_model_confidence.ConfidenceTests.test_ranks_not_line_sums) ... FAIL
+test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) ... ok
+
+======================================================================
+FAIL: test_ranks_not_line_sums (tests.test_model_confidence.ConfidenceTests.test_ranks_not_line_sums)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 20, in test_ranks_not_line_sums
+    self.assertEqual(country_rating(*inputs), expected)
+AssertionError: 2 != 1
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.001s
+
+FAILED (failures=1)
+
+ignore continent rank: KILLED exit=1
+test_bench_draws_and_sequential_clipping (tests.test_model_confidence.ConfidenceTests.test_bench_draws_and_sequential_clipping) ... ok
+test_clipping_and_signed_byte (tests.test_model_confidence.ConfidenceTests.test_clipping_and_signed_byte) ... ok
+test_exact_given_draws (tests.test_model_confidence.ConfidenceTests.test_exact_given_draws) ... ok
+test_persisting_and_temporary_match_form (tests.test_model_confidence.ConfidenceTests.test_persisting_and_temporary_match_form) ... ok
+test_ranks_not_line_sums (tests.test_model_confidence.ConfidenceTests.test_ranks_not_line_sums) ... FAIL
+test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) ... ok
+
+======================================================================
+FAIL: test_ranks_not_line_sums (tests.test_model_confidence.ConfidenceTests.test_ranks_not_line_sums)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 20, in test_ranks_not_line_sums
+    self.assertEqual(country_rating(*inputs), expected)
+AssertionError: 16 != 1
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.001s
+
+FAILED (failures=1)
+
+ignore world rank: KILLED exit=1
+test_bench_draws_and_sequential_clipping (tests.test_model_confidence.ConfidenceTests.test_bench_draws_and_sequential_clipping) ... ok
+test_clipping_and_signed_byte (tests.test_model_confidence.ConfidenceTests.test_clipping_and_signed_byte) ... ok
+test_exact_given_draws (tests.test_model_confidence.ConfidenceTests.test_exact_given_draws) ... ok
+test_persisting_and_temporary_match_form (tests.test_model_confidence.ConfidenceTests.test_persisting_and_temporary_match_form) ... ok
+test_ranks_not_line_sums (tests.test_model_confidence.ConfidenceTests.test_ranks_not_line_sums) ... FAIL
+test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) ... ok
+
+======================================================================
+FAIL: test_ranks_not_line_sums (tests.test_model_confidence.ConfidenceTests.test_ranks_not_line_sums)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 20, in test_ranks_not_line_sums
+    self.assertEqual(country_rating(*inputs), expected)
+AssertionError: 64 != 1
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.001s
+
+FAILED (failures=1)
+
+wrong doubling predicate: KILLED exit=1
+test_bench_draws_and_sequential_clipping (tests.test_model_confidence.ConfidenceTests.test_bench_draws_and_sequential_clipping) ... ok
+test_clipping_and_signed_byte (tests.test_model_confidence.ConfidenceTests.test_clipping_and_signed_byte) ... ok
+test_exact_given_draws (tests.test_model_confidence.ConfidenceTests.test_exact_given_draws) ... ok
+test_persisting_and_temporary_match_form (tests.test_model_confidence.ConfidenceTests.test_persisting_and_temporary_match_form) ... ok
+test_ranks_not_line_sums (tests.test_model_confidence.ConfidenceTests.test_ranks_not_line_sums) ... ok
+test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) ... 
+  test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) (inputs=(100, 100, (3, 1), 0, 0, False)) ... FAIL
+  test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) (inputs=(100, 100, (3, 1), 0, 1, False)) ... FAIL
+  test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) (inputs=(100, 100, (1, 3), 1, 0, False)) ... FAIL
+  test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) (inputs=(100, 100, (1, 3), 1, 1, False)) ... FAIL
+  test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) (inputs=(100, 100, (1, 3), 1, 1, True)) ... FAIL
+  test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) (inputs=(100, 164, (1, 2), 1, 0, False)) ... FAIL
+  test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) (inputs=(100, 164, (255, 1), 0, 0, False)) ... FAIL
+
+======================================================================
+FAIL: test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) (inputs=(100, 100, (3, 1), 0, 0, False))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 44, in test_result_term
+    self.assertEqual(result_delta(*inputs), expected)
+AssertionError: 2 != 4
+
+======================================================================
+FAIL: test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) (inputs=(100, 100, (3, 1), 0, 1, False))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 44, in test_result_term
+    self.assertEqual(result_delta(*inputs), expected)
+AssertionError: -2 != -4
+
+======================================================================
+FAIL: test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) (inputs=(100, 100, (1, 3), 1, 0, False))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 44, in test_result_term
+    self.assertEqual(result_delta(*inputs), expected)
+AssertionError: -4 != -2
+
+======================================================================
+FAIL: test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) (inputs=(100, 100, (1, 3), 1, 1, False))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 44, in test_result_term
+    self.assertEqual(result_delta(*inputs), expected)
+AssertionError: 4 != 2
+
+======================================================================
+FAIL: test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) (inputs=(100, 100, (1, 3), 1, 1, True))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 44, in test_result_term
+    self.assertEqual(result_delta(*inputs), expected)
+AssertionError: 2 != 4
+
+======================================================================
+FAIL: test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) (inputs=(100, 164, (1, 2), 1, 0, False))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 44, in test_result_term
+    self.assertEqual(result_delta(*inputs), expected)
+AssertionError: 2 != 1
+
+======================================================================
+FAIL: test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) (inputs=(100, 164, (255, 1), 0, 0, False))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 44, in test_result_term
+    self.assertEqual(result_delta(*inputs), expected)
+AssertionError: 4 != 8
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.001s
+
+FAILED (failures=7)
+
+draw treated as win: KILLED exit=1
+test_bench_draws_and_sequential_clipping (tests.test_model_confidence.ConfidenceTests.test_bench_draws_and_sequential_clipping) ... ok
+test_clipping_and_signed_byte (tests.test_model_confidence.ConfidenceTests.test_clipping_and_signed_byte) ... ok
+test_exact_given_draws (tests.test_model_confidence.ConfidenceTests.test_exact_given_draws) ... ok
+test_persisting_and_temporary_match_form (tests.test_model_confidence.ConfidenceTests.test_persisting_and_temporary_match_form) ... ok
+test_ranks_not_line_sums (tests.test_model_confidence.ConfidenceTests.test_ranks_not_line_sums) ... ok
+test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) ... 
+  test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) (inputs=(100, 100, (3, 1), 0, 0, False)) ... FAIL
+  test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) (inputs=(100, 100, (3, 1), 0, 1, False)) ... FAIL
+  test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) (inputs=(100, 164, (255, 1), 0, 0, False)) ... FAIL
+
+======================================================================
+FAIL: test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) (inputs=(100, 100, (3, 1), 0, 0, False))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 44, in test_result_term
+    self.assertEqual(result_delta(*inputs), expected)
+AssertionError: 0 != 4
+
+======================================================================
+FAIL: test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) (inputs=(100, 100, (3, 1), 0, 1, False))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 44, in test_result_term
+    self.assertEqual(result_delta(*inputs), expected)
+AssertionError: 0 != -4
+
+======================================================================
+FAIL: test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) (inputs=(100, 164, (255, 1), 0, 0, False))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 44, in test_result_term
+    self.assertEqual(result_delta(*inputs), expected)
+AssertionError: 2 != 8
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.001s
+
+FAILED (failures=3)
+
+drop persistence: KILLED exit=1
+test_bench_draws_and_sequential_clipping (tests.test_model_confidence.ConfidenceTests.test_bench_draws_and_sequential_clipping) ... ok
+test_clipping_and_signed_byte (tests.test_model_confidence.ConfidenceTests.test_clipping_and_signed_byte) ... ok
+test_exact_given_draws (tests.test_model_confidence.ConfidenceTests.test_exact_given_draws) ... ok
+test_persisting_and_temporary_match_form (tests.test_model_confidence.ConfidenceTests.test_persisting_and_temporary_match_form) ... FAIL
+test_ranks_not_line_sums (tests.test_model_confidence.ConfidenceTests.test_ranks_not_line_sums) ... ok
+test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) ... ok
+
+======================================================================
+FAIL: test_persisting_and_temporary_match_form (tests.test_model_confidence.ConfidenceTests.test_persisting_and_temporary_match_form)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 15, in test_persisting_and_temporary_match_form
+    self.assertEqual(match_form(*inputs), expected)
+AssertionError: Tuples differ: (18, 16) != (18, 18)
+
+First differing element 1:
+16
+18
+
+- (18, 16)
+?       ^
+
++ (18, 18)
+?       ^
+
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.001s
+
+FAILED (failures=1)
+
+killed: 33/33
