@@ -643,9 +643,10 @@ void f_000E_544D(int param_1)
 }
 
 
-// ---- 000E:54F0  f_000E_54F0  (f_000E_54F0; Ghidra 1000:54F0, __stdcall16near; found by routines.tsv)
+// ---- 000E:54F0  create_managed_replacement  (f_000E_54F0; Ghidra 1000:54F0, __stdcall16near; found by routines.tsv)
+// the managed-side retiree-replacement routine: calls 1771:96D3 with param_1=1 (so +3 = country_rating + 0x7F as in 7E80), then re-draws +1 with the same rand(6) − rand(6) pattern from a different base table DS:0x76[gk] (named view shows 0x76/0x77, the literal in the listing is 0x76 — see also the data image test for confirmation), then runs 1771:32EB, zeros caps/goals/status, draws a new initial byte from 1771:0000; a young-squad override at 56B4-:56E8 may rewrite +1 with `DS:0x76[gk] + rand(3)` when fewer than 20 of the squad+pool are below DS:0x76[gk] + 4. Out of Q014's scope (the brief lists "transfers between countries; the bot" — this is the user's offer path), but the byte-level contract is the same as 7E80 (+3 = country_rating + 0x7F when param_1 = 1)  [likely; F017; read decompiled/seg_000E_04.c; read code/seg_000E_07.asm]
 
-void f_000E_54F0(int param_1,int param_2)
+void create_managed_replacement(int param_1,int param_2)
 
 {
   int iVar1;
@@ -674,7 +675,7 @@ void f_000E_54F0(int param_1,int param_2)
   ppVar7[iVar1].caps = 0;
   ppVar7[iVar1].goals = 0;
   ppVar7[iVar1].status = 0;
-  uVar5 = f_1771_0000();
+  uVar5 = lcg_byte();
   *(undefined1 *)((int)DS:9B70 + *(int *)(param_1 + -9)) = uVar5;
   local_4 = 0;
   local_6 = 1;
@@ -709,9 +710,10 @@ void f_000E_54F0(int param_1,int param_2)
 }
 
 
-// ---- 000E:56F3  f_000E_56F3  (f_000E_56F3; Ghidra 1000:56F3, __stdcall16near; found by routines.tsv)
+// ---- 000E:56F3  replace_retiree  (f_000E_56F3; Ghidra 1000:56F3, __stdcall16near; found by routines.tsv)
+// the managed-side retiree replacement binder: runs 000E:50D4 (the retirement news; out of scope per brief) when announced is 1, calls 1771:1B2E twice (the squad-book update), 1771:4CF7 to obtain a fresh player number, writes the new number into either the squad slot or the manager's pool (`[A917]+0xBF*country + 2*slot` vs `A927+2*pool_idx`, the manager record's `+0x4D` byte decides), then 000E:54F0 to draw the new player's record, zeros the retiree's 20-byte record via 214B:0018 (the fill_bytes routine), then 000E:544D and 000E:05F6 when announced (the offer news + menu refresh)  [likely; F017; read decompiled/seg_000E_04.c; read code/seg_000E_07.asm]
 
-void f_000E_56F3(int param_1,char param_2,int param_3)
+void replace_retiree(int param_1,char param_2,int param_3)
 
 {
   byte extraout_AH;
@@ -735,7 +737,7 @@ void f_000E_56F3(int param_1,char param_2,int param_3)
   else {
     ((word *)pool_indices)[*(int *)(param_1 + -3)] = *(word *)(param_1 + -9);
   }
-  f_000E_54F0(param_1,param_3);
+  create_managed_replacement(param_1,param_3);
   u214b_fill_bytes(0,0x14,(player *)players + param_3,(int)((ulong)players >> 0x10));
   if (param_2 != '\0') {
     f_000E_544D(param_1);
@@ -745,9 +747,10 @@ void f_000E_56F3(int param_1,char param_2,int param_3)
 }
 
 
-// ---- 000E:57E5  f_000E_57E5  (f_000E_57E5; Ghidra 1000:57E5, __stdcall16near; found by routines.tsv)
+// ---- 000E:57E5  offer_retire_player  (f_000E_57E5; Ghidra 1000:57E5, __stdcall16near; found by routines.tsv)
+// once per main-menu `Enter` on item 6 (when the user's country is managed): if the year word [DS:A923]+0x38 != 0 and the manager-record byte [+0x4D] is clear, scans the 20 squad slots 1..20 calling 1771:7F40 (retirement_test) and, on a return 1, calls 000E:56F3 (replace_retiree) and returns 1; if no squad retiree, draws rand(0x50) and walks the manager's pool ([A927+2*base..A927+2*base+0x4F]) looking for a retiree, replaces it via 56F3 with the cap-aware flag (the new index lands in pool, not squad); the bottom path, 0791:DB38, is a "retirees waiting" flag check (F011), bypassed when 0; the F008 hazard: the manager's bytes +0x4D and +0x13 are "this manager retired players" state  [likely; F011; F017; read decompiled/seg_000E_04.c; read code/seg_000E_07.asm]
 
-undefined1 f_000E_57E5(int param_1)
+undefined1 offer_retire_player(int param_1)
 
 {
   word wVar1;
@@ -774,8 +777,8 @@ undefined1 f_000E_57E5(int param_1)
       while( true ) {
         cVar2 = retirement_test(pcVar7[param_1].squad[local_5 + -1]);
         if (cVar2 != '\0') {
-          f_000E_56F3(&stack0xfffe,CONCAT11((char)(local_5 * 2 >> 8),1),
-                      pcVar7[param_1].squad[local_5 + -1]);
+          replace_retiree(&stack0xfffe,CONCAT11((char)(local_5 * 2 >> 8),1),
+                          pcVar7[param_1].squad[local_5 + -1]);
           return 1;
         }
         if (local_5 == 0x14) break;
@@ -797,7 +800,7 @@ undefined1 f_000E_57E5(int param_1)
         else {
           iVar4 = CONCAT11(bVar6,1);
         }
-        f_000E_56F3(&stack0xfffe,iVar4,((word *)pool_indices)[local_5]);
+        replace_retiree(&stack0xfffe,iVar4,((word *)pool_indices)[local_5]);
         return 1;
       }
       local_5 = local_5 + 1;

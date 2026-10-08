@@ -982,9 +982,10 @@ void main_menu_loop(void)
       uVar6 = (undefined2)((ulong)local_8 >> 0x10);
       if (cVar2 == '\0') {
         if ((pbVar3[pbVar3[1] + 0x47] != 0) ||
-           ((cVar2 = f_000E_57E5(((byte *)manager_countries)[(pbVar3[1] + 0x80) * 3]), cVar2 == '\0'
-            && (cVar2 = f_000E_5CF4(((byte *)manager_countries)[(((byte *)local_8)[1] + 0x80) * 3]),
-               cVar2 == '\0')))) {
+           ((cVar2 = offer_retire_player(((byte *)manager_countries)[(pbVar3[1] + 0x80) * 3]),
+            cVar2 == '\0' &&
+            (cVar2 = f_000E_5CF4(((byte *)manager_countries)[(((byte *)local_8)[1] + 0x80) * 3]),
+            cVar2 == '\0')))) {
           uVar6 = (undefined2)((ulong)local_8 >> 0x10);
           if (((byte *)local_8)[1] == *local_8) {
             play_round();
