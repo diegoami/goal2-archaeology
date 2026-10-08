@@ -53,7 +53,7 @@ MUTATIONS = [
      "    r[POSITION] = record[POSITION]                            # 9700-970A"),
     (M, "make_player gk from the record, not the argument", "    gk = 1 if club_position == 0 else 0                       # 9736-9746, 32C3-32D3",
      "    gk = 1 if record[A.CLUB_POSITION] == 0 else 0              # 9736-9746, 32C3-32D3"),
-    (M, "morale drawn before the ability (order)", "    r[A.ABILITY] = A.compute_ability(r[A.AGE], r[A.PEAK], r[A.RATING])   # 979C\n    r[MORALE], w = draw(w, MORALE_DRAW)",
+    (M, "morale drawn before the ability (order; expected equivalent: 32EB draws nothing)", "    r[A.ABILITY] = A.compute_ability(r[A.AGE], r[A.PEAK], r[A.RATING])   # 979C\n    r[MORALE], w = draw(w, MORALE_DRAW)",
      "    r[MORALE], w = draw(w, MORALE_DRAW)\n    r[A.ABILITY] = A.compute_ability(r[A.AGE], r[A.PEAK], r[A.RATING])   # 979C"),
     (M, "tactics clears +0xF first", "    r[TACTICS] = (r[TACTICS] | s) & ~c & 0xFF", "    r[TACTICS] = s & ~c & 0xFF"),
     # tactics 3431

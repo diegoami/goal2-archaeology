@@ -223,11 +223,12 @@ class RecreateExactTests(unittest.TestCase):
         self.assertEqual(R.recreate(R0006_C1[0][0], 34, 0xFDF6)[2], w)
 
     def test_carries_position_tactics_and_scorer_count(self):
-        old = h("01221ca18c03030703000000092020c50407ff7f")   # +6 3 (moved), +0xF c5, +0x10 4, +0x11 7
+        old = h("01221ca18c03030703000500092020c50407ff7f")   # +6 3 (moved), goals 5, +0xF c5, +0x10 4, +0x11 7
         got, _, _ = R.recreate(old, 34, 0xFDF6)
         self.assertEqual(got[6], 0x03)       # 7F36 restores the old +6
         self.assertEqual(got[7], 0x07)
         self.assertEqual(got[0x0F], 0xC5)    # position 7, hardness >= 4: no bit set or cleared
+        self.assertEqual((got[8], got[9], got[0x0A], got[0x0B]), (0, 0, 0, 0))   # 7F09, 7F12
         self.assertEqual(got[0x10], 0x00)    # 7F19
         self.assertEqual(got[0x11], 0x07)    # nothing in 7E80's callee set writes +0x11
 
@@ -276,6 +277,17 @@ class ManagedReplacementTests(unittest.TestCase):
         got = R.managed_replacement(bytes(20), gk_old, 7, 40, [gk20] * 20 + [gk24] * 79, 0x0000)[0]
         self.assertEqual(got[1], 0x1F)                              # no override: 28 + b - a
 
+    def test_the_new_record_counts_itself(self):
+        # seed 0x29: the new record is 20 (25 + b - a, b - a = -5), young; with 19 young others it
+        # makes the count 20, so no override (55B5-5628 read its slot after 56F3 stored it)
+        got = self.run_with([self.YOUNG] * 19 + [self.OLD] * 80, 0x0029)[0]
+        self.assertEqual(got, h("07141ba7870d090900000000070505000000ff7f"))
+
+    def test_override_values(self):
+        # +1 = 17 + rand(3): 18, 19, 20 and nothing else over 4096 seeds
+        ages = {self.run_with([self.OLD] * 99, w)[0][1] for w in range(4096)}
+        self.assertEqual(ages, {0x12, 0x13, 0x14})
+
     def test_age_base_without_override(self):
         got = self.run_with([self.YOUNG] * 20 + [self.OLD] * 79, 0x4321)[0]
         self.assertEqual(got, h("07171aa79c07090900000000170b0b000000ff7f"))
@@ -300,6 +312,10 @@ class ContractTests(unittest.TestCase):
         with_rating = R.recreate_contract(self.OLD, 34)
         self.assertEqual(with_rating["exact"][3], 0xA1)
         self.assertNotIn(3, with_rating["range"])
+
+    def test_contract_carries_scorer_count(self):
+        c = R.recreate_contract(h("011f19a18c0f01010c000000011e1e110007ff7f"))
+        self.assertEqual(c["exact"][17], 0x07)
 
     def test_contract_goalkeeper(self):
         c = R.recreate_contract(h("01231ea18c0a000014000000012020110000ff7f"))
@@ -468,6 +484,65 @@ class CheckerTests(unittest.TestCase):
 
     def test_empty_set_fails(self):
         self.assertEqual(K.main(["--runs", "tests/no-such-directory"]), 1)
+
+    def test_replacement_errors_direct(self):
+        # word 2's re-create (r0006 0->1, country 1): +4 wrong alone -> the ability error; +6 moved
+        # (5, not +7) is not checked and 3431's bits are taken with +6 = +7
+        old = h("011e19a18c0f01010c000000011e1e110000ff7f")
+        good = h("01191ca1960e010100000000171b1b110000ff7f")
+        names = ("0443697069000000000000", "52"), ("0443697069000000000000", "4e")
+        self.assertEqual(K.replacement_errors(old, good, *names), [])
+        bad4 = h("01191ca1970e010100000000171b1b110000ff7f")
+        self.assertTrue(any(e.startswith("+0x04") for e in K.replacement_errors(old, bad4, *names)))
+        moved = h("01191ca1960e050100000000171b1b110000ff7f")
+        self.assertEqual(K.replacement_errors(old, moved, *names), [])
+
+    def test_continued_with_caps_zero(self):
+        # r0005 0->1, country 1, word 14: undecided, continued with a cap; caps 0 -> retirement fires
+        def edit(cap):
+            r = bytearray(h(self.player(cap, 1, 14)["rec"]))
+            r[8] = r[9] = 0
+            self.player(cap, 1, 14)["rec"] = r.hex()
+        _, mm = self.pair(self.r5, 0, edit)
+        self.assertTrue(any("player 14" in m and "caps 0" in m for m in mm), mm)
+
+    def write_record(self, d, name, caps, status="completed"):
+        obs = [{"source": "memory", "field": f"capture {i} (x): the state bytes", "value": json.dumps(c)}
+               for i, c in enumerate(caps)]
+        (Path(d) / name).write_text(json.dumps({"observations": obs, "status": status}))
+
+    def test_no_comparison_and_no_recreate_fail(self):
+        import tempfile
+        with tempfile.TemporaryDirectory() as d:
+            self.write_record(d, "E014-r0001.json", self.r6[:1], "aborted: one capture")
+            total, mm, *_ = K.check_runs({"x": sorted(Path(d).glob("E0*-r*.json"))})
+            self.assertEqual(total, 0)
+            self.assertIn("no comparison was made: nothing corroborated", mm)
+        with tempfile.TemporaryDirectory() as d:
+            # the second capture: every record aged and given a cap (all continuing), so nothing
+            # can be a re-create
+            after = copy.deepcopy(self.r6[1])
+            first = {(c["n"], p["w"]): p for c in self.r6[0]["countries"] for p in c["players"]}
+            for c in after["countries"]:
+                for p in c["players"]:
+                    q = first[(c["n"], p["w"])]
+                    r = bytearray(A.aged_record(h(q["rec"])))
+                    r[8] = max(r[8], 1)
+                    p["rec"], p["surname"], p["initial"] = r.hex(), q["surname"], q["initial"]
+            self.write_record(d, "E014-r0002.json", [self.r6[0], after])
+            total, mm, _, made, *_ = K.check_runs({"x": sorted(Path(d).glob("E0*-r*.json"))})
+            self.assertEqual((total, made), (60, 0))
+            self.assertIn("no re-create was compared", mm)
+
+    def test_exit_on_a_mismatch(self):
+        import tempfile
+        b, a = copy.deepcopy(self.r6[0]), copy.deepcopy(self.r6[1])
+        self.set_byte(1, 2, 0x0C, 0xFF)(a)
+        with tempfile.TemporaryDirectory() as d:
+            self.write_record(d, "E014-r0003.json", [b, a])
+            self.assertEqual(K.main(["--runs", d]), 1)
+            self.write_record(d, "E014-r0003.json", self.r6[:2])
+            self.assertEqual(K.main(["--runs", d]), 0)
 
 
 if __name__ == "__main__":
