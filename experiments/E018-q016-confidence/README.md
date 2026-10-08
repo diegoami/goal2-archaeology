@@ -81,3 +81,12 @@ defective run's own consistency checks are printed by record name.
 `checker-mutations-002.log` kills 4/4, including removal of that equality
 guard: the run-observation divergence test fails without it and passes
 after restoration.
+
+`mutations-004.log` repeats the 33/33 model sweep on the final eleven-test
+suite. `acceptance-001.log` retains the checker, model unit tests, run
+validation, release evidence verification, annotations and link checks.
+`suite-001.log` retains full discovery (534 tests, only the known E008
+host-path environment error with an in-worktree TMPDIR, issue #100/L57);
+`static-suite-001.log` retains static discovery (95 tests, OK). Named-view
+regeneration and the E008 host-path test under an external TMPDIR are
+main-session checks, not performed by this worktree run.
