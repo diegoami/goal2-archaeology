@@ -349,9 +349,12 @@ class Watcher:
            so far, whose flush moves mtime/ctime although the bytes still compare equal
            (round-3 R1);
         4. require that no write session on the file is open (WriteWatch: an IN_MODIFY not yet
-           followed by IN_CLOSE_WRITE). A writer that pauses mid-write leaves bytes and
-           metadata still, so only the kernel's events show the write is unfinished
-           (round-4 R1). A check that cannot be made counts as a writer: fail closed.
+           followed by IN_CLOSE_WRITE), checked BEFORE the content reads — nothing reads the
+           live file during a write (round-5 R1) — and again after them. A writer that pauses
+           mid-write leaves bytes and metadata still, so only the kernel's events show the
+           write is unfinished (round-4 R1). A check that cannot be made counts as a writer:
+           fail closed. The writer model is single-writer (the task's hazards): the session
+           folder is private and the launched DOSBox-X its only writer.
 
         With `live_emulator`, a dead emulator ends the sitting (_EmulatorGone, R5) and the key
         is re-sent after RESEND_AFTER_S. Returns (bytes, sha256); raises TimeoutError."""
@@ -370,18 +373,18 @@ class Watcher:
             else:
                 last_sig, count = sig, 1
             if count >= STABLE_POLLS and (pre_sig is None or last_sig != pre_sig):
+                # no content read while a write session is open (round-5 R1): the session is
+                # checked before the reads, and again after them for one that began meanwhile
+                if self._writer_busy():
+                    self.log("a write session on the savestate is still open: waiting")
+                    self.sleep(POLL_S)
+                    continue
                 data = self._read_live()
                 if data is not None and zip_is_complete(data):
                     again = self._read_live()
-                    if again == data and file_signature(self.live) == last_sig:
-                        try:
-                            busy = self.writing()
-                        except OSError as e:          # cannot tell: fail closed
-                            self.log(f"writer check failed ({e}): not staging")
-                            busy = True
-                        if not busy:
-                            return data, sha256(data)
-                        self.log("a write session on the savestate is still open: waiting")
+                    if (again == data and file_signature(self.live) == last_sig
+                            and not self._writer_busy()):
+                        return data, sha256(data)
                 self.log("live savestate changed or incomplete during capture: retrying")
                 last_sig, count = None, 0
             if live_emulator and self.clock() - sent > RESEND_AFTER_S:
@@ -390,6 +393,15 @@ class Watcher:
                 sent = self.clock()
             self.sleep(POLL_S)
         raise TimeoutError(f"savestate not complete and stable within {SAVE_TIMEOUT_S}s")
+
+    def _writer_busy(self):
+        """True while a write session on the live savestate is open, or when that cannot be told
+        (fail closed)."""
+        try:
+            return bool(self.writing())
+        except OSError as e:
+            self.log(f"writer check failed ({e}): treating as a write in progress")
+            return True
 
     def _read_live(self):
         """The live savestate's bytes, or None when it cannot be read. Called only by `capture`,

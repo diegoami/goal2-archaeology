@@ -1030,10 +1030,70 @@ class LiveFileReads(Base):
             if sends[0] == 1:            # the session legitimately (the paused writer then
                 first_only(argv)         # writes to the unlinked old inode)
         w.xrun = xrun
+        staged_while, read_while = [], []
+        real_stage, real_read = w.stage, w._read_live
+        w.stage = lambda *a, **kw: (staged_while.append(state["writer"]), real_stage(*a, **kw))[1]
+        w._read_live = lambda: (read_while.append(state["writer"]), real_read())[1]
+        entry = w.tick()
+        self.assertEqual(staged_while, ["done"])
+        self.assertEqual(entry["sha256"], hashlib.sha256(final).hexdigest())
+        # round-5 R1: no content read of the live file while the write session was open
+        self.assertNotIn("active", read_while)
+        self.assertTrue(read_while)
+
+    def test_a_write_that_begins_during_the_reads_is_never_staged(self):
+        # round-5 R1: the session is idle at the pre-read check; a writer opens the file in place
+        # during the first read, writes its unchanged first byte and pauses. The bytes compare
+        # equal and, with timestamps too coarse to move, so does the signature; only the
+        # session check after the reads sees the open write. Its finished file is staged later.
+        real_open = open
+        state = {"writer": "idle", "polls": 0, "handle": None}
+        final = tiny_zip(b"finished after starting mid-read")
+
+        def racing_open(path, *a, **kw):
+            f = real_open(path, *a, **kw)
+            if Path(path).name == "state.sav" and state["writer"] == "idle" and "r" in (a[0] if a else "r") and "+" not in (a[0] if a else ""):
+                data = f.read()
+                f.close()
+                h = real_open(path, "r+b")
+                h.write(data[:1])
+                h.flush()
+                state.update(writer="active", handle=h)
+                return io.BytesIO(data)
+            return f
+
+        class Finishes(FakeClock):
+            def sleep(self, s):
+                super().sleep(s)
+                if state["writer"] == "active":
+                    state["polls"] += 1
+                    if state["polls"] == 8:
+                        h = state["handle"]
+                        h.seek(0)
+                        h.truncate()
+                        h.write(final)
+                        h.close()
+                        state["writer"] = "done"
+
+        clock = Finishes()
+        session, live, w = self.watcher("r5-midread", None, clock=clock)
+        self.addCleanup(lambda: state["handle"] and not state["handle"].closed and state["handle"].close())
+        sends = [0]
+
+        def xrun(argv):                  # one fresh savestate, of another length than the
+            sends[0] += 1                # one before it, so the coarse signature sees it
+            if sends[0] == 1:
+                tmp = live.with_name("state.sav.tmp")
+                tmp.write_bytes(tiny_zip(b"the key's fresh savestate"))
+                tmp.replace(live)
+        w.xrun = xrun
         staged_while = []
         real_stage = w.stage
         w.stage = lambda *a, **kw: (staged_while.append(state["writer"]), real_stage(*a, **kw))[1]
-        entry = w.tick()
+        coarse = lambda path: (1, live.stat().st_size) if live.exists() else None
+        with mock.patch.object(recorder, "open", racing_open, create=True), \
+                mock.patch.object(recorder, "file_signature", coarse):
+            entry = w.tick()
         self.assertEqual(staged_while, ["done"])
         self.assertEqual(entry["sha256"], hashlib.sha256(final).hexdigest())
 
@@ -1045,8 +1105,12 @@ class LiveFileReads(Base):
         def unreadable():
             raise PermissionError("/proc/1234/fd")
         w.writing = unreadable
+        reads = []
+        real_read = w._read_live
+        w._read_live = lambda: (reads.append(1), real_read())[1]
         self.assertIsNone(w.tick())
         self.assertEqual(list((session / "snapshots").glob("*.sav")), [])
+        self.assertEqual(reads, [])              # fail closed before any content read
 
     def test_write_watch_follows_the_kernels_write_sessions(self):
         # the probe itself: a write opens a session, the writer's close ends it, our own reads
