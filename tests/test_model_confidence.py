@@ -39,6 +39,23 @@ class CheckerTests(unittest.TestCase):
         record['cases'][0]['after'][0]['confidence'] = 0
         self.assertEqual(self.run_checker({'fixture-probe-new.json': record}, {}), 1)
 
+    def test_run_observation_divergence_fails(self):
+        with tempfile.TemporaryDirectory(dir=ROOT) as directory:
+            root = Path(directory)
+            (root / 'runs/E018').mkdir(parents=True)
+            record = self.record()
+            (root / 'fixture-probe-new.json').write_text(json.dumps(record))
+            (root / 'supersessions.json').write_text('{}')
+            case = record['cases'][0]
+            case['after'][0]['confidence'] = 0
+            run = {'observations': [{'field': 'trace fixture-probe-new.json'},
+                                    {'value': json.dumps(case)}]}
+            (root / 'runs/E018/E018-r0001.json').write_text(json.dumps(run))
+            with patch.object(CHECKER, 'ROOT', root), patch.object(CHECKER, '__file__', str(root / 'check_confidence.py')):
+                with patch('sys.argv', ['checker', '--directory', directory]):
+                    with self.assertRaisesRegex(ValueError, 'run observations disagree'):
+                        CHECKER.main()
+
 from runtime.model.confidence import change, result_delta, participant_values, country_rating, match_form
 
 

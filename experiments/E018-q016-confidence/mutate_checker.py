@@ -13,6 +13,7 @@ def main():
         ('defective consistency', 'if not failures:', 'if False:'),
         ('empty comparison', 'if not total:', 'if False:'),
         ('kept mismatch', 'return int(matches != total)', 'return 0'),
+        ('run trace consistency', "if cases != records[trace_name]['cases']:", 'if False:'),
     ]
     killed = 0
     try:
@@ -27,9 +28,9 @@ def main():
                                         cwd=ROOT, capture_output=True, text=True, timeout=30)
                 log.write(f'{label}: exit={result.returncode}\n{result.stderr}\n')
                 killed += result.returncode != 0
-            log.write(f'killed: {killed}/3\n')
-        print(f'killed: {killed}/3')
-        return int(killed != 3)
+            log.write(f'killed: {killed}/{len(edits)}\n')
+        print(f'killed: {killed}/{len(edits)}')
+        return int(killed != len(edits))
     finally:
         SOURCE.write_text(original)
         for cache in (SOURCE.parent / '__pycache__').glob('check_confidence.*.pyc'):

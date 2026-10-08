@@ -72,3 +72,12 @@ relevant constants are shifted, and pass after source restoration.
 The two E018 manifests publish the original E011 half-time state again under
 release E018, by its unchanged SHA256. Registration/probe traces remain
 tracked separately; no new guest execution was needed to publish evidence.
+
+`comparison-003.log` additionally checks every formal E018 run observation:
+the kept trace and its run each contribute 240 word comparisons, hence
+`match: 480/480` (240 distinct player/case pairs, not 480 independent
+measurements). Run observations must equal their retained trace, and the
+defective run's own consistency checks are printed by record name.
+`checker-mutations-002.log` kills 4/4, including removal of that equality
+guard: the run-observation divergence test fails without it and passes
+after restoration.

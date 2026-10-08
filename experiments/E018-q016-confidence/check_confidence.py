@@ -98,6 +98,29 @@ def main():
             n, count = check_case(case)
             matches += n
             total += count
+    # Run observations are retained comparisons too, not merely metadata.
+    if directory.resolve() == Path(__file__).parent.resolve():
+        for path in sorted((ROOT / 'runs/E018').glob('*.json')):
+            run = json.loads(path.read_text())
+            trace_name = run['observations'][0]['field'].split()[-1]
+            cases = [json.loads(o['value']) for o in run['observations'][1:]]
+            if cases != records[trace_name]['cases']:
+                raise ValueError(f'{path.name}: run observations disagree with retained trace')
+            if trace_name in supersessions:
+                failures = []
+                for case in cases:
+                    try:
+                        check_case(case)
+                    except ValueError as exc:
+                        failures.append(str(exc))
+                if len(failures) == 0:
+                    raise ValueError(f'{path.name} passes its consistency check; cannot declare defective')
+                print(f"defective {path.name}: {'; '.join(failures)}; replacement {supersessions[trace_name]['replacement']}")
+            else:
+                for case in cases:
+                    n, count = check_case(case)
+                    matches += n
+                    total += count
     if not total:
         raise ValueError('empty comparison set')
     print(f'match: {matches}/{total}')
