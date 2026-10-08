@@ -63,6 +63,13 @@ class Energy(unittest.TestCase):
             with self.assertRaises(ValueError):
                 energy.recover(record, 1, draws, [32, 24])
 
+    def test_form_instruction_and_injury_store(self):
+        record = bytes.fromhex('001e190040000000000000001018020000000000')
+        self.assertEqual(energy.form_delta(record, -2)[12:15], b'\x0e\x18\x02')
+        self.assertEqual(energy.form_delta(record, -20)[12:15], b'\x01\x18\x02')
+        self.assertEqual(energy.form_delta(record, 256)[12:15], b'\xff\x18\x02')
+        self.assertEqual(energy.injure(record)[12:15], b'\x10\x18\x00')
+
 
 if __name__ == '__main__':
     unittest.main()

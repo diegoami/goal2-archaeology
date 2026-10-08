@@ -23,6 +23,7 @@ SMALL_DRAW = 2  # 1771:3680,36A3,36C8
 LARGE_DRAW = 8  # 1771:368A,36AD
 REST_DRAW = 3  # 1771:36BE
 HEAL_DRAW = 3  # 1771:375D
+FORM_MAX = 255  # 0791:7CFA; existing F012 instruction, not a morale-outcome rule
 
 
 def signed(value):
@@ -61,6 +62,23 @@ def restore(record, match_form):
     out[FORM] = match_form
     if signed(out[ENERGY]) > 0:
         out[ENERGY] = out[FITNESS]
+    return bytes(out)
+
+
+def form_delta(record, delta):
+    """The already-established F012 7CC5 store, for whole-half byte accounting."""
+    out = _record(record)
+    value = (signed(out[FORM]) + delta) & 65535
+    if value >= 32768:
+        value -= 65536
+    out[FORM] = min(FORM_MAX, max(FLOOR, value))
+    return bytes(out)
+
+
+def injure(record):
+    """7D9B's store only; does not model or infer injury causes."""
+    out = _record(record)
+    out[ENERGY] = 0
     return bytes(out)
 
 
