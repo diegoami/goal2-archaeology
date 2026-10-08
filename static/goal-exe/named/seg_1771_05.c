@@ -1051,7 +1051,7 @@ void advance_player_age(int param_1)
 
 
 // ---- 1771:7E80  recreate_retired_player  (f_1771_7E80; Ghidra 4000:7E80, __stdcall16near; found by routines.tsv)
-// replaces a retired computer-country player: make_player(1, old +7, old +0) redraws +5, +2, +3 (= country rating + 0x7F), morale, tactics, fitness/energy, performance 0x7FFF; age +1 = DS:110C[gk] + rand(6) - rand(6), 1771:32EB, caps/goals/status zeroed, a new name-initial byte, +6 = old +6 restored — all RNG, so the new bytes are not predictable from the record  [established; F016; read code/seg_1771_11.asm]
+// replaces a retired computer-country player in place: make_player(1, old +7, old +0) redraws +5, +2, +3 (= country rating + 0x7F), morale, tactics, fitness/energy, performance 0x7FFF; age +1 = DS:110C[gk] + rand(6) - rand(6) (214B:06B1 at 7EC7/7ED1), 1771:32EB, caps/goals/status zeroed, a new name-initial byte (1771:0000), +6 = old +6 restored; the drawn bytes need the LCG state, the rest is fixed by the old record  [established; F016; read code/seg_1771_11.asm]
 
 void recreate_retired_player(int param_1)
 
@@ -1084,7 +1084,7 @@ void recreate_retired_player(int param_1)
 
 
 // ---- 1771:7F40  retirement_test  (f_1771_7F40; Ghidra 4000:7F40, __stdcall16far; found by routines.tsv)
-// retires when (DS:110E[gk] < +1 AND the caps word +8 == 0) OR (+1 > +2 + 5), gk = (+7 == 0), DS:110E = 1E 21 (30 outfield, 33 goalkeeper); deterministic, no RNG; runs at the year end only for computer countries (7FDF's 0B77 branch)  [established; F016; read code/seg_1771_11.asm]
+// retires when (DS:110E[gk] < +1 AND the caps word +8 == 0) OR (+1 > +2 + 5), gk = (+7 == 0), DS:110E = 1E 21 (30 outfield, 33 goalkeeper); deterministic, no RNG; at the year end 1771:7FDF runs it only for computer countries (its 0B77 branch), in the second pass, on the record the first pass aged  [established; F016; read code/seg_1771_11.asm]
 
 undefined4 __stdcall16far retirement_test(uint param_1)
 
@@ -1112,7 +1112,7 @@ undefined4 __stdcall16far retirement_test(uint param_1)
 
 
 // ---- 1771:7FB1  age_one_player  (f_1771_7FB1; Ghidra 4000:7FB1, __stdcall16near; found by routines.tsv)
-// calls 1771:7E4A, then writes +0x11 = 0 unconditionally (7FD4) — the byte's only writer in the whole program, and no reader exists  [established; F016; read code/seg_1771_11.asm]
+// calls 1771:7E4A, then writes +0x11 (scorer_count) = 0 unconditionally (7FD4), resetting the year's top-scorer count that 0791:B3B7 keeps  [established; F016; read code/seg_1771_11.asm]
 
 void age_one_player(undefined2 param_1,int param_2)
 
@@ -1123,7 +1123,7 @@ void age_one_player(undefined2 param_1,int param_2)
   uVar1 = (ulong)players >> 0x10;
   ppVar2 = (player *)players;
   advance_player_age(param_2);
-  ppVar2[param_2].year_end_clear = 0;
+  ppVar2[param_2].scorer_count = 0;
   return;
 }
 

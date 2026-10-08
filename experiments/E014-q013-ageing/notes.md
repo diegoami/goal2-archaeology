@@ -62,7 +62,9 @@ stage `DS:118E[+0x40]` = 2 or 5 (`data/ds_2581_01.hex:147`, offset 118E = `02 05
     `7FB1`. No retirement test runs for a managed country here;
   - **computer**: a second pass over squad slots 1..20 → `1771:7F40(player)` (the retirement
     test, :1086-1099, the call at :1098) and, when it returns 1, `1771:7E80(player)`
-    (re-create, :1100-1107, the call at :1106).
+    (re-create, :1100-1107, the call at :1106). The second pass starts after the first has
+    finished (`8015-8019` loops the first to slot 0x14 before `801B`), so 7F40 sees the record
+    **already aged**: the age it tests is the incremented +1, and +4 is the recomputed ability.
 
 `1771:7FB1(player)` (seg_1771_11.asm:1001-1018): calls `1771:7E4A(player)` (:1013), then writes
 **`+0x11` = 0** unconditionally (:1015, `7FD4 mov byte ptr es:[di + 0x11], 0`).
@@ -76,16 +78,53 @@ wraps at 255) and calls `1771:32EB(player)` (compute_ability, :864).
 Evidence that nothing else writes the record in this path: `calls.tsv` gives 7FDF's callees
 (0B77, 7E80, 7F40, 7FB1), 7FB1's (7E4A), 7E4A's (32EB) and 32EB's (none); 32EB's only record
 writes are `+4` (seg_1771_05.asm:312 `333A` and :366 `33C3`, both `mov byte ptr es:[di + 4],
-al`). **+2 (peak age) never moves in the yearly loop**: its only writer is `roll_peak_age`
-(`1771:3291`), whose only caller is `make_player` (`1771:96D3`; calls.tsv) — the creation path.
-The loop writes neither +2, +3, +5, +6 nor +7 (the task's "+5 profile, +7 club position?" is
-answered: untouched; only the retirement re-create 7E80 redraws them, section 4). **+0x11's only
-writer in the whole program is `7FD4`**: every other `es:[di + 0x11]` access in `code/` is
-0791's 22-byte pitch record (a different struct — grep over the listing, e.g.
-seg_0791_04.asm:246, seg_0791_18.asm:677), and no reader of the player's +0x11 exists (F008:
-"of the 20 bytes only +0x11 is not read by the screen's routines"; the named view has no
-`players[n]` field for it and no raw `·0x14 + 0x11` read — the only `0x14 + 0x11` hit in
-`decompiled/` is the write itself, seg_1771_05.c:288).
+al`). **+2 (peak age) never moves for a continuing player**: its only writer is
+`roll_peak_age` (`1771:3291`), whose only caller is `make_player` (`1771:96D3`; calls.tsv) — the
+creation path, which the yearly loop reaches only through the re-create 7E80 (`7EC0`), i.e. for
+a new player in a retiree's slot. On a continuing player the loop writes neither +2, +3, +5, +6
+nor +7 (the task's "+5 profile, +7 club position?" is answered: untouched; only the retirement
+re-create 7E80 redraws +2/+3/+5 and restores +6, section 4).
+
+**+0x11 is the player's goal count for the top-scorers tables**, not a dead byte. Every
+`[reg + 0x11]` access in `code/` (69 lines match `0x11]`; all but nine are stack locals
+`[bp - 0x11]`), traced back to the pointer it uses:
+
+| access | routine | base | what |
+|---|---|---|---|
+| `B3EC inc byte ptr es:[di + 0x11]` (seg_0791_18.asm:677) | `0791:B3B7` | `[A91B] + 0x14·player` (`B3BD-B3CE`, :660-666) | writer: +1 per goal |
+| `B446 mov al, es:[di + 0x11]` (:712) | `0791:B3B7` | the same pointer `[bp - 0xA]` | reader: stored as an existing entry's count |
+| `B53B mov al, es:[di + 0x11]` (:814) | `0791:B3B7` | the same | reader: compared with an entry's count word +0xC (`B544`) |
+| `B5E4 mov al, es:[di + 0x11]` (:881) | `0791:B3B7` | the same | reader: the new entry's count (`B5ED`) |
+| `7FD4 mov byte ptr es:[di + 0x11], 0` (seg_1771_11.asm:1015) | `1771:7FB1` | `[A91B] + 0x14·player` (`7FB7-7FC8`) | writer: cleared at every ageing stage |
+| `2201 add byte ptr es:[di + 0x11], al` (seg_0791_04.asm:246) | `0791:20E3` | `0x16·slot + 0x80E8` (`21D7-21E2`) | the 22-byte pitch record, not a player |
+| `2846` (seg_0791_04.asm:922), `3692` (seg_0791_06.asm:409) | `0791:278A`, `0791:34C1` | the far pointer argument `[bp + 6]`, a pitch record (278A reads its +0xD player index, `2793`) | pitch record |
+| `A2C9 mov es:[di + 0x11], al` (seg_0791_17.asm:51) | `0791:A260` | `[bp + 6]`, whose +0xD it sets to the player index (`A2A2`) | pitch record |
+
+`0791:B3B7(c, player)` is called after a goal (from `0791:B602`, which increments the scorer's
+goals +0xA, and from `0791:6443`; calls.tsv) and keeps three 16-byte entries per competition at
+`[DS:A93F] + 0x60·c + 0x10·rank − 0x70` (c = its first argument, or 5 when `[A923]+0x40` is set,
+`B3D5-B3E6`): initial, name, the count word +0xC, the player index +0xE — the top-scorers table,
+sorted by count (named/seg_0791_09.c:28-67, `update_top_scorers` in the annotations). So the
+yearly loop's `7FD4` resets each player's count at every ageing stage — the count is per
+displayed year. F008's "+0x11 is not read by the screen's routines" stands for the player
+screen; the program reads it in B3B7.
+
+### Readers of the bytes the update reads or writes (the named view's typed accesses)
+
+Every `.peak_age` / `.ability` / `.scorer_count` access in `named/*.c` (Ghidra's typed player
+record), with the raw listing for +0x11 above; an access through an untyped pointer would not
+show here, so for +0x11 the listing table is the inventory:
+
+- **+2 (peak)**: `compute_ability` 1771:32EB (`330F`, `3318`, `3350`, `336B`, `339B`;
+  named/seg_1771_03.c:110-116), `retirement_test` 1771:7F40 (`7F87`; seg_1771_05.c:1104),
+  `is_two_footed` 1771:3041 (+5 + +2 = 30; seg_1771_02.c:1062), `roll_fitness_energy`
+  1771:3558 (T = DS:0E82[a > p + 4]; seg_1771_03.c:223) and the fitness update 1771:3651 (cap
+  DS:0E84[a > p + 3]; seg_1771_03.c:282-284). Written only by `roll_peak_age` 1771:3291 (`32E1`,
+  seg_1771_03.c:91).
+- **+4 (ability)**: written only by `compute_ability` (`333A`, `33C3`; seg_1771_03.c:119/123);
+  read by `player_strength` 1771:377E (+4 − 0x3E, seg_1771_03.c:311), `draw_skill_bars`
+  1771:3947 (seg_1771_03.c:419) and `derived_skill` 1771:3A06 (seg_1771_03.c:452).
+- **+0x11**: the table above.
 
 ## 3. The peak-age rule: `compute_ability` `1771:32EB` (seg_1771_05.asm:283-370)
 
@@ -102,23 +141,47 @@ With a = age (+1), p = peak (+2), r = rating (+3), each a zero-extended byte:
   `33B6 mul word ptr [bp - 2]` (unsigned 16×16→32), `33B9 xor dx, dx` DISCARDS the high
   product, `33BB-33BE div cx` with cx = 0x10 (unsigned), `al` stored (:366).
 
-So ability **rises** by r/16 per two years below the band, equals the ceiling r inside the band
-p..p+3 (four ages), and **falls** by r/16 per year above it — the backlog's "rise to a peak,
-fall after", with the peak a 4-age band, not one year. The peak differs per player from
-creation: `roll_peak_age` `1771:3291` (seg_1771_05.asm:242-281) draws
-`+2 = DS:0E80[gk] + b − a` with a then b = `214B:06B1(3)` (rand 1..3; :249-260), gk = (+7 == 0)
-(:261-270, `32C3-32CE`), and stores at `32E1` (:277); `DS:0E80 = 1B 1E`
-(data/ds_2581_01.hex:123) → peak 25..29 outfield, 28..32 goalkeeper. F008's byte check
-(`+2` set to 0/0xFF changes 2 shown values) is consistent: the screen reads +2 only for the
-two-footed test; the ageing rule reads it every year.
+The resulting curve, for an age a reached by the yearly increment:
 
-**No randomness in the yearly path**: calls.tsv shows 8208, 80DA, 7FDF, 7FB1, 7E4A, 32EB and
-7F40 call no RNG routine (the RNG entry points are `214B:06B1`, `214B:0674`-family and
-`1771:0000`; none appears in those callee rows). The ageing of a continuing player is
-deterministic given its record — the year-to-year variance between players is the creation draw
-(+2, +3), not a yearly draw. `1771:6730` (stage_qualifying) re-seeds `DS:7B62` from the DOS
-time on entry to stages 2/5 (annotation, F004) — AFTER the ageing of that transition (8208
-calls 80DA, and play_round calls 76B1 only afterwards, seg_000E_09.asm:492-500).
+- **the maximum r holds for five ages, p−1..p+3**: the copy branch (`333A`) covers the four
+  ages p..p+3, and at a = p−1 the below branch gives k = (1) idiv 2 = 0 (`33A7`), factor 0x10,
+  and r·16 div 16 = r. E014 shows it: r0005 country 1 player 6 (p = 29, r = 0xA1) went from 0x96
+  at 27 to 0xA1 at 28 (tests/test_model_ageing.py, the `CONTINUING` rows at a − p = −1);
+- **below**: k = floor((p − a)/2), so the ability rises by one step of r/16 every two years —
+  15r/16 at p−2 and p−3, 14r/16 at p−4 and p−5, … (integer division, so the steps differ by one
+  for ratings that are not multiples of 16);
+- **above**: k = a − (p+3), one step of r/16 per year — 15r/16 at p+4, … — down to 0 at
+  a = p+19 (k = 16, factor 0). Up to there the factor is 0..16, the quotient is at most r, and
+  `33C3` stores it whole.
+- **past p+19 the stored byte wraps**: from k = 17 the factor word is 0x10000 − (k − 16)
+  (`3386 sub ax, dx`), the product is taken mod 65536 (`33B9`), and `33C3` stores only `al`,
+  the low byte of the 16-bit quotient: a = 47, p = 27, r = 240 gives (240·0xFFFF mod 65536)
+  div 16 = 4081 = 0x0FF1 → +4 = 0xF1. So the decline is monotone only to p+19. A computer-
+  country player never gets there (7F40 retires him once a > p+5, section 4); a managed
+  country's players are not tested at the year end (section 2), so the wrap is reachable only
+  for a managed player kept past p+19 — no E014 record shows one.
+
+The backlog's "rise to a peak, fall after" holds, with the peak a plateau of five ages at the
+maximum, not one year. The peak differs per player from creation: `roll_peak_age` `1771:3291`
+(seg_1771_05.asm:242-281) draws `+2 = DS:0E80[gk] + b − a` with a then b = `214B:06B1(3)`
+(rand 1..3; :249-260), gk = (+7 == 0) (:261-270, `32C3-32CE`), and stores at `32E1` (:277);
+`DS:0E80 = 1B 1E` (data/ds_2581_01.hex:123) → peak 25..29 outfield, 28..32 goalkeeper. F008's
+byte check (`+2` set to 0/0xFF changes 2 shown values) is consistent: of the player screen's
+routines only the two-footed test reads +2 (the other readers are listed in section 2).
+
+**The continuing-player update draws no random number; the yearly path as a whole does.** The
+continuing update's callee closure is 7FB1 → 7E4A → 32EB, plus the test 7F40 (calls.tsv:
+7FB1's callee is 7E4A, 7E4A's is 32EB, 32EB and 7F40 have none); none of them calls an RNG
+entry point (`214B:06B1` `u214b_random_1_to_n`, `1771:0000`). So the new +1/+4/+0x11 of a
+continuing player, and the retirement decision, are deterministic given the record (and the
+year end's caps word). The **re-create** in the same 7FDF call is not: `7E80` calls
+`214B:06B1` twice for the age (`7EC7`, `7ED1`), `make_player` (`7EC0`, which draws +5, the
+age, +2 through roll_peak_age, morale, the fitness/energy draws) and `1771:0000` for the
+initial (`7F1F`) — section 4. The year-to-year variance between continuing players is the
+creation draw (+2, +3), not a yearly draw. `1771:6730` (stage_qualifying) re-seeds `DS:7B62`
+from the DOS time on entry to stages 2/5 (annotation, F004) — AFTER the ageing of that
+transition (8208 calls 80DA, and play_round calls 76B1 only afterwards,
+seg_000E_09.asm:492-500).
 
 ## 4. The retirement test `1771:7F40` and the re-create `1771:7E80` (context; Q014's territory)
 
@@ -126,7 +189,11 @@ calls 80DA, and play_round calls 76B1 only afterwards, seg_000E_09.asm:492-500).
 `(DS:110E[gk] < +1 AND the caps word +8 == 0) OR (+1 > +2 + 5)` (`7F5A-7F9D`: gk = (+7 == 0) at
 `7F5D-7F6A`, the limit compare at `7F74-7F78`, the caps test at `7F7D-7F82`, the peak+5 compare
 at `7F87-7F9D`; `DS:110E = 1E 21` = 30 outfield / 33 goalkeeper, data/ds_2581_01.hex:143). No
-RNG. It runs at the year end **only for computer countries** (7FDF's 0B77 branch); for the
+RNG. 7FDF calls it in its second pass, so +1 here is the **incremented** age (section 2): a
+player of 32 with peak 27 and caps retires at this year end (aged 33 > 32), one of 31 does not;
+an outfield player with no caps retires from aged 31 (30 < 31), a goalkeeper from aged 34. The
+`jae` at `7F78` and the `jg` at `7F9D` make both comparisons strict. It runs at the year end
+**only for computer countries** (7FDF's 0B77 branch); for the
 managed country the same test drives the menu's offer path `000E:57E5` → `000E:56F3` (the
 retirement news `000E:50D4`, the promise line `000E:544D`, the new player `000E:54F0`), which
 is RNG-selected (`57E5` draws `u214b_random_1_to_n(0x50)` over the pool; `54F0` draws rand(6)
@@ -140,10 +207,17 @@ named/seg_1771_06.c:953-957), morale, tactics, fitness/energy, performance = 0x7
 `+1 = DS:110C[gk] + rand(6) − rand(6)` (`DS:110C = 19 1C` = base 25/28; `7EC3-7EF9`),
 compute_ability (`7F01`), caps +8 = 0 (`7F09`), goals +0xA = 0 (`7F12`), status +0x10 = 0
 (`7F19`), a new name-initial byte at `[DS:9B70] + player` from `1771:0000` (`7F1E-7F2D`), and
-`+6 = old +6` restored (`7F30-7F36`). All RNG — a year-end prediction cannot give a replaced
-player's new bytes without the LCG state and every draw of the year between; the predictor marks
-such players "replaced" (the predicate is deterministic) and does not predict their bytes
-(Q014).
+`+6 = old +6` restored (`7F30-7F36`). The drawn bytes (+1, +2, +5, morale, fitness/energy,
+the initial) need the LCG state and every draw of the year before, so the predictor does not
+predict them (Q014). What the listing fixes, `ageing.recreate_constraints` returns and
+`check_ageing.py` checks on every replaced player: +0 and +7 carried into make_player; caps,
+goals, status zero; +0x11 zero (7FB1's first pass cleared it, and neither 7E80 nor make_player
+writes it); performance 0x7FFF; +1 in DS:110C[gk] ± 5 (rand(6) − rand(6), rand 1..6); +2 in
+DS:0E80[gk] ± 2; +5 in 1..16; +4 = compute_ability of the new +1/+2/+3 (`7F01`); one +3 for all
+re-creates of one country in one 7FDF call (country_rating reads the country record, which the
+call does not write); the surname kept (7E80 writes only the initial, `7F2D`). +6 is not
+checked: it is restored from the year end's +6, which a capture a year earlier does not show
+(section 6).
 
 ## 5. The derived-skill consequence (F015/F008)
 
@@ -154,20 +228,30 @@ of the three inputs (+5, +7 untouched, section 2), so one year of ageing scales 
 engine skills by the same ratio of `(new +4 + 1)` to `(old +4 + 1)` under that integer
 division — inside the band the skills rise to the profile's ceiling, above it they fall by up to
 1/16 of the ceiling per year. The player screen's bars (divisor 256, `1771:3947`, F008) move the
-same way. `check_ageing.py` reports both the record bytes and, with the tables of the same
-savestate, the derived-skill values before and after.
+same way. `ageing.ageing_value` returns, with the tables of the same savestate, the twelve
+derived-skill values before and after; `check_ageing.py` checks the record bytes and that both
+tables are unchanged across every pair.
 
 ## 6. What the runs corroborate (E014)
 
-- the year-end timing: after entry to a stage in {2,3,5,7} the players' +1/+4/+0x11 are as
-  predicted from the previous year-end's records (sections 2, 3);
-- the retirement predicate on computer countries: every player it flags is replaced (name
-  initial / age / caps discontinuity) and no unflagged player is (section 4) — including the
-  one same-name replacement of r0006 (player 57 'R Douwen', country 3: retired at year-end age
-  33 > peak 28 + 5, and the re-create drew the same surname and initial; recognised by the
-  creation bytes +2/+3/+5 changing, `check_ageing.py`);
-- +2, +3, +5, +7 unchanged across the year for continuing players (section 2). **+6 (position)
-  is not year-invariant**: 7 of r0006's 263 continuing players moved (05 → 08 and back, 01 → 04)
+`check_ageing.py` over the six records: r0001-r0004 aborted with only their start capture (no
+pair; reported, not counted); r0005 gives 1 pair and r0006 4, each spanning exactly one ageing
+stage (2→3; 3→5, 5→7, 7→2, 2→3). Every squad player word of the 3 computer countries is one
+comparison, matched by the word (the player's identity), not by name: **300 comparisons, 300
+matched** — 262 continuing players, 38 re-created.
+
+- the year-end timing: after entry to a stage in {2,3,5,7} the continuing players' +1/+4/+0x11
+  are as predicted from the previous capture (sections 2, 3), the plateau's lower end p−1
+  included;
+- the retirement predicate on the AGED record (section 4): every player it certainly flags is
+  re-created and satisfies 7E80's fixed bytes, no player it certainly clears is; 19 players had
+  caps 0 at the earlier capture with the age clause open — 12 won a cap in the year and
+  continued, 7 were re-created. One re-create drew the old initial again (r0006, country 3,
+  word 57 'R Douwen': aged 34 > peak 28 + 5, caps 30) — identity by word, and the new +1/+2/+3
+  and the zeroed caps, show it;
+- +0, +2, +3, +5, +7 and the name unchanged across the year for continuing players (section 2),
+  their caps never smaller. **+6 (position) is not year-invariant**: 7 of r0006's 211
+  continuing players moved (05 → 08 and back, 01 → 04)
   — the per-match bookkeeping of the national team's repositioning, not the yearly loop: the
   program's writers of player +6 are 0791:AD8F's substitution path (`position = <pitch slot>`
   then `position = club_position` on the way out, seg_0791_08.c:910/921-922), the 'C' key of

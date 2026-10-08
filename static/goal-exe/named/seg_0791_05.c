@@ -533,8 +533,8 @@ void record_goal(undefined1 param_1,int param_2,char param_3)
     *pwVar1 = *pwVar1 + 1;
     cVar5 = f_1771_5A03((int)DS:7C2A,(int)((ulong)DS:7C2A >> 0x10));
     if (cVar5 != '\0') {
-      f_0791_B3B7(((country *)countries)[((undefined2 *)&DS:9B34)[param_3]].continent,
-                  *(undefined2 *)((int)&pitch_records[0].player_index + iVar8));
+      update_top_scorers(((country *)countries)[((undefined2 *)&DS:9B34)[param_3]].continent,
+                         *(undefined2 *)((int)&pitch_records[0].player_index + iVar8));
     }
   }
   else {
