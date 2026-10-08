@@ -455,7 +455,7 @@ void __cdecl16near f_0791_2648(void)
   int local_4;
   
   uVar2 = (undefined2)((ulong)DS:A923 >> 0x10);
-  *DS:A978 = (*(int *)((int)DS:A923 + 0x38) + 1) * *(int *)((int)DS:A923 + 0x26);
+  *rng_word_ptr = (*(int *)((int)DS:A923 + 0x38) + 1) * *(int *)((int)DS:A923 + 0x26);
   local_4 = 1;
   while( true ) {
     cVar1 = u214b_random_1_to_n(0x10);

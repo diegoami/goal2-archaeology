@@ -644,7 +644,7 @@ void f_000E_544D(int param_1)
 
 
 // ---- 000E:54F0  create_managed_replacement  (f_000E_54F0; Ghidra 1000:54F0, __stdcall16near; found by routines.tsv)
-// the managed-side retiree-replacement routine: calls 1771:96D3 with param_1=1 (so +3 = country_rating + 0x7F as in 7E80), then re-draws +1 with the same rand(6) − rand(6) pattern from a different base table DS:0x76[gk] (named view shows 0x76/0x77, the literal in the listing is 0x76 — see also the data image test for confirmation), then runs 1771:32EB, zeros caps/goals/status, draws a new initial byte from 1771:0000; a young-squad override at 56B4-:56E8 may rewrite +1 with `DS:0x76[gk] + rand(3)` when fewer than 20 of the squad+pool are below DS:0x76[gk] + 4. Out of Q014's scope (the brief lists "transfers between countries; the bot" — this is the user's offer path), but the byte-level contract is the same as 7E80 (+3 = country_rating + 0x7F when param_1 = 1)  [likely; F017; read decompiled/seg_000E_04.c; read code/seg_000E_07.asm]
+// makes a managed country's replacement in the fresh record 000E:56F3 put in the retiree's slot: 1771:96D3(1, retiree +7, country, new) with the managed fitness branch (550E-5534), then +1 = DS:0x78[gk] + b - a with a, b = rand(6) (5539-556F; DS:0078 = 19 1C, 25/28), 1771:32EB, caps/goals/status zeroed (5584-5594), a new initial from 1771:0000 (5599-55AD); then counts squad slots 1..20 and the manager's 80 pool words with +1 < DS:0x76[gk] + 4 (55B5-56AA; DS:0076 = 11 14), the new record included, and below 0x14 sets +1 = DS:0x76[gk] + rand(3) and runs 32EB again (56AC-56E8)  [established; F017; read code/seg_000E_07.asm]
 
 void create_managed_replacement(int param_1,int param_2)
 
@@ -675,7 +675,7 @@ void create_managed_replacement(int param_1,int param_2)
   ppVar7[iVar1].caps = 0;
   ppVar7[iVar1].goals = 0;
   ppVar7[iVar1].status = 0;
-  uVar5 = lcg_byte();
+  uVar5 = draw_initial();
   *(undefined1 *)((int)DS:9B70 + *(int *)(param_1 + -9)) = uVar5;
   local_4 = 0;
   local_6 = 1;
@@ -711,7 +711,7 @@ void create_managed_replacement(int param_1,int param_2)
 
 
 // ---- 000E:56F3  replace_retiree  (f_000E_56F3; Ghidra 1000:56F3, __stdcall16near; found by routines.tsv)
-// the managed-side retiree replacement binder: runs 000E:50D4 (the retirement news; out of scope per brief) when announced is 1, calls 1771:1B2E twice (the squad-book update), 1771:4CF7 to obtain a fresh player number, writes the new number into either the squad slot or the manager's pool (`[A917]+0xBF*country + 2*slot` vs `A927+2*pool_idx`, the manager record's `+0x4D` byte decides), then 000E:54F0 to draw the new player's record, zeros the retiree's 20-byte record via 214B:0018 (the fill_bytes routine), then 000E:544D and 000E:05F6 when announced (the offer news + menu refresh)  [likely; F017; read decompiled/seg_000E_04.c; read code/seg_000E_07.asm]
+// replaces one managed-country retiree: sets the manager's flag [A923]+0x4D+m (570D), runs the retirement news 000E:50D4 when announced (5712-571E), 1771:1B2E twice, takes a fresh record from 1771:4CF7 (5745) and stores its number in the retiree's pool slot or squad slot (574D-579C), makes it with 000E:54F0 (57A6), zeroes the retiree's 20 bytes with 214B:0018 (57C0), then 000E:544D and 000E:05F6 when announced  [established; F017; read code/seg_000E_07.asm]
 
 void replace_retiree(int param_1,char param_2,int param_3)
 
@@ -728,7 +728,7 @@ void replace_retiree(int param_1,char param_2,int param_3)
   }
   f_1771_1B2E(1,*(undefined2 *)(param_1 + -7),param_3);
   f_1771_1B2E((uint)extraout_AH << 8,*(undefined2 *)(param_1 + -7),param_3);
-  uVar1 = f_1771_4CF7();
+  uVar1 = find_free_player();
   *(undefined2 *)(param_1 + -9) = uVar1;
   if (*(char *)(param_1 + -0xd) == '\0') {
     ((country *)countries)[*(int *)(param_1 + 4)].squad[*(int *)(param_1 + -3) + -1] =
@@ -747,10 +747,10 @@ void replace_retiree(int param_1,char param_2,int param_3)
 }
 
 
-// ---- 000E:57E5  offer_retire_player  (f_000E_57E5; Ghidra 1000:57E5, __stdcall16near; found by routines.tsv)
-// once per main-menu `Enter` on item 6 (when the user's country is managed): if the year word [DS:A923]+0x38 != 0 and the manager-record byte [+0x4D] is clear, scans the 20 squad slots 1..20 calling 1771:7F40 (retirement_test) and, on a return 1, calls 000E:56F3 (replace_retiree) and returns 1; if no squad retiree, draws rand(0x50) and walks the manager's pool ([A927+2*base..A927+2*base+0x4F]) looking for a retiree, replaces it via 56F3 with the cap-aware flag (the new index lands in pool, not squad); the bottom path, 0791:DB38, is a "retirees waiting" flag check (F011), bypassed when 0; the F008 hazard: the manager's bytes +0x4D and +0x13 are "this manager retired players" state  [likely; F011; F017; read decompiled/seg_000E_04.c; read code/seg_000E_07.asm]
+// ---- 000E:57E5  managed_retirement_scan  (f_000E_57E5; Ghidra 1000:57E5, __stdcall16near; found by routines.tsv)
+// the managed countries' retirement path, from the main menu's Enter on item 6 (000E:7439, 7785): returns 0 in year 0 (+0x38, 580C) or when the manager's flag +0x4D+m is set (5824); unless +0x13+m is set or 0791:DB38 returns nonzero, the first squad slot 1..20 that 1771:7F40 retires is replaced at once by 000E:56F3(retiree, 1) (5864-5897); else the 80 pool words are walked cyclically from DS:6D18[m] - 1 + rand(0x50) (58A3-5946) and the first retiree is replaced by 56F3(retiree, caps > 0); returns 1 after a replacement; no step asks the user  [established; F017; read code/seg_000E_07.asm]
 
-undefined1 offer_retire_player(int param_1)
+undefined1 managed_retirement_scan(int param_1)
 
 {
   word wVar1;

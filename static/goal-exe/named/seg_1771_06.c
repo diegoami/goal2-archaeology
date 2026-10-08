@@ -806,13 +806,13 @@ void f_1771_91CE(int param_1)
     if (*(int *)(iVar1 + 0x572) != 0) {
       uVar3 = (undefined2)((ulong)DS:A92B >> 0x10);
       if (*(byte *)((int)DS:A92B + *(int *)(iVar1 + 0x572) * 8 + -8) < 0xfe) {
-        uVar3 = f_1771_5C94((int)DS:A92B + *(int *)(iVar1 + 0x572) * 8 + -8,uVar3);
+        uVar3 = fixture_winner((int)DS:A92B + *(int *)(iVar1 + 0x572) * 8 + -8,uVar3);
         draw_country_name(0x3c,10,uVar3);
-        uVar3 = f_1771_5CCB((int)DS:A92B + *(int *)(iVar1 + 0x572) * 8 + -8,
-                            (int)((ulong)DS:A92B >> 0x10));
+        uVar3 = fixture_loser((int)DS:A92B + *(int *)(iVar1 + 0x572) * 8 + -8,
+                              (int)((ulong)DS:A92B >> 0x10));
         draw_country_name(0x3c,0xc,uVar3);
-        uVar2 = f_1771_5C94((int)DS:A92B + *(int *)(iVar1 + 0x570) * 8 + -8,
-                            (int)((ulong)DS:A92B >> 0x10));
+        uVar2 = fixture_winner((int)DS:A92B + *(int *)(iVar1 + 0x570) * 8 + -8,
+                               (int)((ulong)DS:A92B >> 0x10));
         draw_country_name(0x3c,0xe,uVar2);
       }
     }
@@ -862,14 +862,14 @@ void f_1771_937C(int param_1)
         (*(int *)(iVar1 + 0x28) - *(int *)(iVar1 + 0x2a) == 0x10)) &&
        (*(byte *)((int)DS:A92B + (*(int *)(iVar1 + 0x2a) + 0xf) * 8 + -8) < 0xfe)) {
       u214b_unpack_screen_to_buffer((undefined4 *)&DS:A96E,0xb000,0x2c02,0xb000);
-      uVar2 = f_1771_5C94((int)DS:A92B + (*(int *)(iVar1 + 0x2a) + 0xf) * 8 + -8,
-                          (int)((ulong)DS:A92B >> 0x10));
+      uVar2 = fixture_winner((int)DS:A92B + (*(int *)(iVar1 + 0x2a) + 0xf) * 8 + -8,
+                             (int)((ulong)DS:A92B >> 0x10));
       draw_country_name(0x41,2,uVar2);
-      uVar2 = f_1771_5CCB((int)DS:A92B + (*(int *)(iVar1 + 0x2a) + 0xf) * 8 + -8,
-                          (int)((ulong)DS:A92B >> 0x10));
+      uVar2 = fixture_loser((int)DS:A92B + (*(int *)(iVar1 + 0x2a) + 0xf) * 8 + -8,
+                            (int)((ulong)DS:A92B >> 0x10));
       draw_country_name(0x41,4,uVar2);
-      uVar4 = f_1771_5C94((int)DS:A92B + (*(int *)(iVar1 + 0x2a) + 0xe) * 8 + -8,
-                          (int)((ulong)DS:A92B >> 0x10));
+      uVar4 = fixture_winner((int)DS:A92B + (*(int *)(iVar1 + 0x2a) + 0xe) * 8 + -8,
+                             (int)((ulong)DS:A92B >> 0x10));
       draw_country_name(0x41,6,uVar4);
     }
   }
@@ -965,7 +965,7 @@ void __stdcall16far f_1771_958D(int param_1,int param_2,char param_3)
 
 
 // ---- 1771:96D3  make_player  (f_1771_96D3; Ghidra 4000:96D3, __stdcall16far; found by routines.tsv)
-// draws one player's record (country, position, age, rating, ...) from the LCG  [established; F007]
+// makes one player record (flag, club position, country, player): +0 country, +7 club position, +6 = +7, +5 = rand(16), +1 = DS:118A[gk] - b + a (rand(7) each), +2 via 1771:3291, +3 = country_rating + 0x7F (flag 1) or that - 10 - rand(10) (flag 0), +4 via 32EB, +0xC = rand(32), +0xF's bits via 1771:3431, +0xD/+0xE via 1771:3558, +0x12 = 0x7FFF; writes no name byte and not +8..+0xB, +0x10, +0x11  [established; F007; F017; read code/seg_1771_13.asm]
 
 void __stdcall16far make_player(char param_1,byte param_2,undefined2 param_3,int param_4)
 
@@ -987,7 +987,7 @@ void __stdcall16far make_player(char param_1,byte param_2,undefined2 param_3,int
   ppVar4->skill_profile = bVar1;
   cVar2 = u214b_random_1_to_n(7);
   cVar3 = u214b_random_1_to_n(7);
-  ppVar4->age = (((undefined1 *)&DS:118A)[ppVar4->club_position == 0] - cVar3) + cVar2;
+  ppVar4->age = (((char *)new_player_age_base)[ppVar4->club_position == 0] - cVar3) + cVar2;
   roll_peak_age(param_4);
   if (param_1 == '\0') {
     cVar2 = u214b_random_1_to_n(10);
@@ -1009,9 +1009,9 @@ void __stdcall16far make_player(char param_1,byte param_2,undefined2 param_3,int
 
 
 // ---- 1771:97CC  make_squad  (f_1771_97CC; Ghidra 4000:97CC, __stdcall16far; found by routines.tsv)
-// seeds the LCG with the country number and makes its 20 players through 1771:96D3  [established; F007]
+// sets the RNG word to the country number (97ED), copies +0x2B to +0x29 and +0x2A to +0x28, stores country_rating in [A91F]+3(+0x2E)+1, then makes squad slots 1..20 with 1771:96D3(1, DS:9F02[20 country + slot], country, player); called by 1771:9A40 at a new game and by a rank-swap branch of 1771:26B9  [established; F007; F017; read code/seg_1771_14.asm]
 
-void __stdcall16far make_squad(int param_1)
+void __stdcall16far make_squad(word param_1)
 
 {
   byte bVar1;
@@ -1021,7 +1021,7 @@ void __stdcall16far make_squad(int param_1)
   
   uVar3 = (undefined2)((ulong)countries >> 0x10);
   pcVar2 = (country *)countries;
-  *DS:A978 = param_1;
+  *rng_word_ptr = param_1;
   pcVar2[param_1].field_0x29 = pcVar2[param_1].world_rank;
   pcVar2[param_1].field_0x28 = pcVar2[param_1].continent_rank;
   bVar1 = country_rating(param_1);
@@ -1094,7 +1094,7 @@ void __cdecl16far make_managed_pool(void)
     uVar9 = (undefined2)((ulong)players >> 0x10);
     ppVar7 = (player *)players;
     cVar4 = u214b_random_1_to_n(3);
-    ppVar7[wVar2].age = ((undefined1 *)&DS:118C)[ppVar7[wVar2].club_position == 0] + cVar4;
+    ppVar7[wVar2].age = ((char *)pool_age_base)[ppVar7[wVar2].club_position == 0] + cVar4;
     compute_ability(((word *)pool_indices)[iVar5]);
     if (local_6 == 0x14) break;
     local_6 = local_6 + 1;

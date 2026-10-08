@@ -205,7 +205,7 @@ void __stdcall16far reset_own_tactics(int param_1)
 
 
 // ---- 1771:3558  roll_fitness_energy  (f_1771_3558; Ghidra 4000:3558, __stdcall16far; found by routines.tsv)
-// draws +0x0D and +0x0E: T = DS:0E82[+1 > +2 + 4], then a managed or an unmanaged draw around T  [established; F007; read decompiled/seg_1771_02.c]
+// draws +0x0D and +0x0E: T = DS:0E82[+1 > +2 + 4] (16/13); a managed country (1771:0B77) T + rand(3T) - rand(T + 1), a computer country one draw, T + rand(2T); capped at 0x20, copied to +0x0E, then +0x0D floored at 1  [established; F007; F017; read code/seg_1771_05.asm]
 
 void __stdcall16far roll_fitness_energy(int param_1)
 

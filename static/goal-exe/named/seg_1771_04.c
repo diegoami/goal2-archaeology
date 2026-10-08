@@ -142,9 +142,10 @@ void __stdcall16far edit_own_tactics(char param_1,int param_2)
 }
 
 
-// ---- 1771:4CF7  f_1771_4CF7  (f_1771_4CF7; Ghidra 4000:4CF7, __cdecl16far; found by routines.tsv)
+// ---- 1771:4CF7  find_free_player  (f_1771_4CF7; Ghidra 4000:4CF7, __cdecl16far; found by routines.tsv)
+// a free player record for a managed replacement: from 0xA00 + rand(0x1F3) + 1 the first record in 0xA01..0xBF4 whose country byte is 0, cyclically  [likely; F017; read code/seg_1771_07.asm]
 
-uint __cdecl16far f_1771_4CF7(void)
+uint __cdecl16far find_free_player(void)
 
 {
   int iVar1;
@@ -868,9 +869,10 @@ int __stdcall16far f_1771_5C60(char *param_1)
 }
 
 
-// ---- 1771:5C94  f_1771_5C94  (f_1771_5C94; Ghidra 4000:5C94, __stdcall16far; found by routines.tsv)
+// ---- 1771:5C94  fixture_winner  (f_1771_5C94; Ghidra 4000:5C94, __stdcall16far; found by routines.tsv)
+// the side word +4 + 2 (+3 == 1) of a fixture: the side its +3 byte names  [likely; F017; read code/seg_1771_08.asm]
 
-undefined2 __stdcall16far f_1771_5C94(undefined4 param_1)
+undefined2 __stdcall16far fixture_winner(undefined4 param_1)
 
 {
   undefined2 uVar1;
@@ -880,9 +882,10 @@ undefined2 __stdcall16far f_1771_5C94(undefined4 param_1)
 }
 
 
-// ---- 1771:5CCB  f_1771_5CCB  (f_1771_5CCB; Ghidra 4000:5CCB, __stdcall16far; found by routines.tsv)
+// ---- 1771:5CCB  fixture_loser  (f_1771_5CCB; Ghidra 4000:5CCB, __stdcall16far; found by routines.tsv)
+// the side word +4 + 2 (+3 == 0) of a fixture: the side 1771:5C94 does not return  [likely; F017; read code/seg_1771_08.asm]
 
-undefined2 __stdcall16far f_1771_5CCB(undefined4 param_1)
+undefined2 __stdcall16far fixture_loser(undefined4 param_1)
 
 {
   undefined2 uVar1;
@@ -950,12 +953,13 @@ void f_1771_5D94(undefined1 param_1,undefined1 param_2,undefined2 param_3,undefi
 }
 
 
-// ---- 1771:5E3A  f_1771_5E3A  (f_1771_5E3A; Ghidra 4000:5E3A, __stdcall16near; found by routines.tsv)
+// ---- 1771:5E3A  add_fixture_with_bonus  (f_1771_5E3A; Ghidra 4000:5E3A, __stdcall16near; found by routines.tsv)
+// adds a fixture through 1771:5D94 and, when its third argument is not 1, adds 200 to both countries' +0x2F (5E79, 5E8D); called by the stage routines 6B55, 6E59, 71B2, 74BE  [likely; F017; read code/seg_1771_09.asm]
 
-void f_1771_5E3A(int param_1,undefined2 param_2,int param_3,int param_4,int param_5)
+void add_fixture_with_bonus(int param_1,undefined2 param_2,int param_3,int param_4,int param_5)
 
 {
-  int *piVar1;
+  word *pwVar1;
   
   if (param_4 == param_1) {
     f_1771_5D94(param_2,param_3,param_5,param_4);
@@ -964,10 +968,10 @@ void f_1771_5E3A(int param_1,undefined2 param_2,int param_3,int param_4,int para
     f_1771_5D94(param_2,param_3,param_4,param_5);
   }
   if (param_3 != 1) {
-    piVar1 = (int *)&((country *)countries)[param_4].field_0x2f;
-    *piVar1 = *piVar1 + 200;
-    piVar1 = (int *)&((country *)countries)[param_5].field_0x2f;
-    *piVar1 = *piVar1 + 200;
+    pwVar1 = &((country *)countries)[param_4].points;
+    *pwVar1 = *pwVar1 + 200;
+    pwVar1 = &((country *)countries)[param_5].points;
+    *pwVar1 = *pwVar1 + 200;
   }
   return;
 }
@@ -994,13 +998,14 @@ void f_1771_5E99(byte param_1)
 }
 
 
-// ---- 1771:5EE1  f_1771_5EE1  (f_1771_5EE1; Ghidra 4000:5EE1, __stdcall16near; found by routines.tsv)
+// ---- 1771:5EE1  sort_countries_by_points  (f_1771_5EE1; Ghidra 4000:5EE1, __stdcall16near; found by routines.tsv)
+// quicksorts the range [lo, hi] of the order array [DS:9B56] by the countries' +0x2F word, largest first (5F1D-5F69), swapping with 214B:007B  [established; F017; read code/seg_1771_09.asm]
 
-void f_1771_5EE1(undefined2 param_1,uint param_2,uint param_3)
+void sort_countries_by_points(undefined2 param_1,uint param_2,uint param_3)
 
 {
   uint uVar1;
-  int iVar2;
+  byte *pbVar2;
   undefined2 uVar3;
   undefined2 uVar4;
   uint local_6;
@@ -1008,38 +1013,38 @@ void f_1771_5EE1(undefined2 param_1,uint param_2,uint param_3)
   
   local_4 = param_3;
   local_6 = param_2;
-  uVar1 = *(uint *)&((country *)countries)[*(byte *)((int)DS:9B56 + (param_3 + param_2) / 2)].
-                    field_0x2f;
+  uVar1 = ((country *)countries)[((byte *)country_order_ptr)[(param_3 + param_2) / 2]].points;
   do {
     while( true ) {
-      uVar3 = (undefined2)((ulong)DS:9B56 >> 0x10);
-      iVar2 = (int)DS:9B56;
+      uVar3 = (undefined2)((ulong)country_order_ptr >> 0x10);
+      pbVar2 = (byte *)country_order_ptr;
       uVar4 = (undefined2)((ulong)countries >> 0x10);
-      if (*(uint *)&((country *)countries)[*(byte *)(iVar2 + local_4)].field_0x2f <= uVar1) break;
+      if (((country *)countries)[pbVar2[local_4]].points <= uVar1) break;
       local_4 = local_4 + 1;
     }
-    while (*(uint *)&((country *)countries)[*(byte *)(iVar2 + local_6)].field_0x2f < uVar1) {
+    while (((country *)countries)[pbVar2[local_6]].points < uVar1) {
       local_6 = local_6 - 1;
     }
     if (local_4 <= local_6) {
-      u214b_swap_bytes(1,iVar2 + local_6,uVar3,iVar2 + local_4,uVar3);
+      u214b_swap_bytes(1,pbVar2 + local_6,uVar3,pbVar2 + local_4,uVar3);
       local_4 = local_4 + 1;
       local_6 = local_6 - 1;
     }
   } while (local_4 <= local_6);
   if (param_3 < local_6) {
-    f_1771_5EE1(param_1,local_6,param_3);
+    sort_countries_by_points(param_1,local_6,param_3);
   }
   if (local_4 < param_2) {
-    f_1771_5EE1(param_1,param_2,local_4);
+    sort_countries_by_points(param_1,param_2,local_4);
   }
   return;
 }
 
 
-// ---- 1771:5FD1  f_1771_5FD1  (f_1771_5FD1; Ghidra 4000:5FD1, __stdcall16near; found by routines.tsv)
+// ---- 1771:5FD1  add_placement_bonus  (f_1771_5FD1; Ghidra 4000:5FD1, __stdcall16near; found by routines.tsv)
+// for country, bonus, place, flag: +0x41 := DS:10FD[place], +0x2F += bonus, increments the byte +0x32 + 4 flag + place  [established; F017; read code/seg_1771_09.asm]
 
-void f_1771_5FD1(undefined2 param_1,char param_2,int param_3,int param_4,int param_5)
+void add_placement_bonus(undefined2 param_1,char param_2,int param_3,int param_4,int param_5)
 
 {
   char *pcVar1;
@@ -1051,16 +1056,17 @@ void f_1771_5FD1(undefined2 param_1,char param_2,int param_3,int param_4,int par
   pcVar2 = (country *)countries;
   local_a = (undefined1 *)CONCAT22(uVar3,&pcVar2[param_5].field_0x41);
   *local_a = *(undefined1 *)(param_3 + 0x10fd);
-  *(int *)&pcVar2[param_5].field_0x2f = *(int *)&pcVar2[param_5].field_0x2f + param_4;
+  pcVar2[param_5].points = pcVar2[param_5].points + param_4;
   pcVar1 = (char *)((int)pcVar2[param_5].squad + param_3 + param_2 * 4 + 0x32);
   *pcVar1 = *pcVar1 + '\x01';
   return;
 }
 
 
-// ---- 1771:602D  f_1771_602D  (f_1771_602D; Ghidra 4000:602D, __stdcall16near; found by routines.tsv)
+// ---- 1771:602D  world_placement_bonuses  (f_1771_602D; Ghidra 4000:602D, __stdcall16near; found by routines.tsv)
+// 1771:5FD1 for the winner and loser (1771:5C94/5CCB) of two fixtures of [A92B] indexed by [A923]+0x2A: 800 and 600, then 400 and 200, flag 1  [established; F017; read code/seg_1771_09.asm]
 
-void f_1771_602D(undefined2 param_1)
+void world_placement_bonuses(undefined2 param_1)
 
 {
   int iVar1;
@@ -1069,25 +1075,26 @@ void f_1771_602D(undefined2 param_1)
   
   uVar3 = (undefined2)((ulong)DS:A923 >> 0x10);
   iVar1 = (int)DS:A923;
-  uVar2 = f_1771_5C94((int)DS:A92B + (*(int *)(iVar1 + 0x2a) + 0xf) * 8 + -8,
-                      (int)((ulong)DS:A92B >> 0x10));
-  f_1771_5FD1(param_1,1,1,800,uVar2);
-  uVar2 = f_1771_5CCB((int)DS:A92B + (*(int *)(iVar1 + 0x2a) + 0xf) * 8 + -8,
-                      (int)((ulong)DS:A92B >> 0x10));
-  f_1771_5FD1(param_1,1,2,600,uVar2);
-  uVar2 = f_1771_5C94((int)DS:A92B + (*(int *)(iVar1 + 0x2a) + 0xe) * 8 + -8,
-                      (int)((ulong)DS:A92B >> 0x10));
-  f_1771_5FD1(param_1,1,3,400,uVar2);
-  uVar2 = f_1771_5CCB((int)DS:A92B + (*(int *)(iVar1 + 0x2a) + 0xe) * 8 + -8,
-                      (int)((ulong)DS:A92B >> 0x10));
-  f_1771_5FD1(param_1,1,4,200,uVar2);
+  uVar2 = fixture_winner((int)DS:A92B + (*(int *)(iVar1 + 0x2a) + 0xf) * 8 + -8,
+                         (int)((ulong)DS:A92B >> 0x10));
+  add_placement_bonus(param_1,1,1,800,uVar2);
+  uVar2 = fixture_loser((int)DS:A92B + (*(int *)(iVar1 + 0x2a) + 0xf) * 8 + -8,
+                        (int)((ulong)DS:A92B >> 0x10));
+  add_placement_bonus(param_1,1,2,600,uVar2);
+  uVar2 = fixture_winner((int)DS:A92B + (*(int *)(iVar1 + 0x2a) + 0xe) * 8 + -8,
+                         (int)((ulong)DS:A92B >> 0x10));
+  add_placement_bonus(param_1,1,3,400,uVar2);
+  uVar2 = fixture_loser((int)DS:A92B + (*(int *)(iVar1 + 0x2a) + 0xe) * 8 + -8,
+                        (int)((ulong)DS:A92B >> 0x10));
+  add_placement_bonus(param_1,1,4,200,uVar2);
   return;
 }
 
 
-// ---- 1771:6103  f_1771_6103  (f_1771_6103; Ghidra 4000:6103, __stdcall16near; found by routines.tsv)
+// ---- 1771:6103  continent_placement_bonuses  (f_1771_6103; Ghidra 4000:6103, __stdcall16near; found by routines.tsv)
+// for each continent 1..4, 1771:5FD1 for the winner and loser of two fixtures named in [A933] + 0x1C0 k + 0x540 (+0x32, +0x30): 800 and 600, then 400 and 200, flag 0  [established; F017; read code/seg_1771_09.asm]
 
-void f_1771_6103(undefined2 param_1)
+void continent_placement_bonuses(undefined2 param_1)
 
 {
   undefined2 uVar1;
@@ -1099,18 +1106,18 @@ void f_1771_6103(undefined2 param_1)
   while( true ) {
     uVar3 = (undefined2)((ulong)DS:A933 >> 0x10);
     iVar2 = (int)DS:A933 + local_4 * 0x1c0;
-    uVar1 = f_1771_5C94((int)DS:A92B + *(int *)(iVar2 + 0x572) * 8 + -8,
-                        (int)((ulong)DS:A92B >> 0x10));
-    f_1771_5FD1(param_1,0,1,800,uVar1);
-    uVar1 = f_1771_5CCB((int)DS:A92B + *(int *)(iVar2 + 0x572) * 8 + -8,
-                        (int)((ulong)DS:A92B >> 0x10));
-    f_1771_5FD1(param_1,0,2,600,uVar1);
-    uVar1 = f_1771_5C94((int)DS:A92B + *(int *)(iVar2 + 0x570) * 8 + -8,
-                        (int)((ulong)DS:A92B >> 0x10));
-    f_1771_5FD1(param_1,0,3,400,uVar1);
-    uVar1 = f_1771_5CCB((int)DS:A92B + *(int *)(iVar2 + 0x570) * 8 + -8,
-                        (int)((ulong)DS:A92B >> 0x10));
-    f_1771_5FD1(param_1,0,4,200,uVar1);
+    uVar1 = fixture_winner((int)DS:A92B + *(int *)(iVar2 + 0x572) * 8 + -8,
+                           (int)((ulong)DS:A92B >> 0x10));
+    add_placement_bonus(param_1,0,1,800,uVar1);
+    uVar1 = fixture_loser((int)DS:A92B + *(int *)(iVar2 + 0x572) * 8 + -8,
+                          (int)((ulong)DS:A92B >> 0x10));
+    add_placement_bonus(param_1,0,2,600,uVar1);
+    uVar1 = fixture_winner((int)DS:A92B + *(int *)(iVar2 + 0x570) * 8 + -8,
+                           (int)((ulong)DS:A92B >> 0x10));
+    add_placement_bonus(param_1,0,3,400,uVar1);
+    uVar1 = fixture_loser((int)DS:A92B + *(int *)(iVar2 + 0x570) * 8 + -8,
+                          (int)((ulong)DS:A92B >> 0x10));
+    add_placement_bonus(param_1,0,4,200,uVar1);
     if (local_4 == 4) break;
     local_4 = local_4 + 1;
   }
@@ -1118,12 +1125,13 @@ void f_1771_6103(undefined2 param_1)
 }
 
 
-// ---- 1771:61F8  f_1771_61F8  (f_1771_61F8; Ghidra 4000:61F8, __stdcall16near; found by routines.tsv)
+// ---- 1771:61F8  add_group_points  (f_1771_61F8; Ghidra 4000:61F8, __stdcall16near; found by routines.tsv)
+// adds (5 - k) x the points byte +7 of every group entry of the tables at [A933] (k = 1..4) to that country's +0x2F; a second loop does the same for the rounds DS:1102 names  [established; F017; read code/seg_1771_09.asm]
 
-void f_1771_61F8(void)
+void add_group_points(void)
 
 {
-  int *piVar1;
+  word *pwVar1;
   byte bVar2;
   int iVar3;
   int iVar4;
@@ -1148,8 +1156,8 @@ void f_1771_61F8(void)
         iVar4 = (int)DS:A933 + (*(char *)(iVar3 + 0x40) == '\0') * 0xe00 + local_4 * 0x1c0 +
                 local_6 * 0x38 + local_8 * 8;
         local_10 = (int *)CONCAT22(uVar7,(int *)(iVar4 + -0x200));
-        piVar1 = (int *)&((country *)countries)[*local_10].field_0x2f;
-        *piVar1 = *piVar1 + (uint)*(byte *)(iVar4 + -0x1f9) * (5 - local_4);
+        pwVar1 = &((country *)countries)[*local_10].points;
+        *pwVar1 = *pwVar1 + (uint)*(byte *)(iVar4 + -0x1f9) * (5 - local_4);
         if (local_8 == 4) break;
         local_8 = local_8 + 1;
       }
@@ -1173,8 +1181,8 @@ void f_1771_61F8(void)
             iVar5 = (int)DS:A933 + (*(char *)(iVar3 + 0x40) == '\0') * 0xe00 + local_4 * 0x1c0
                     + local_6 * 0x38 + local_8 * 8;
             local_14 = (int *)CONCAT22(uVar7,(int *)(iVar5 + 0x500));
-            piVar1 = (int *)&((country *)countries)[*local_14].field_0x2f;
-            *piVar1 = *piVar1 + (uint)*(byte *)(iVar5 + 0x507) * (5 - local_4);
+            pwVar1 = &((country *)countries)[*local_14].points;
+            *pwVar1 = *pwVar1 + (uint)*(byte *)(iVar5 + 0x507) * (5 - local_4);
             if (local_8 == 4) break;
             local_8 = local_8 + 1;
           }

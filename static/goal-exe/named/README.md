@@ -19,9 +19,9 @@ rewrites every file here byte for byte (the same Ghidra run as `../decompiled/`,
 | --- | --- | --- |
 | 0000 | 1 | 1 |
 | 000E | 10 | 58 |
-| 0791 | 94 | 283 |
+| 0791 | 95 | 283 |
 | 16D6 | 0 | 26 |
-| 1771 | 64 | 154 |
+| 1771 | 73 | 154 |
 | 2138 (run-time library) | 1 | 1 |
 | 2139 (run-time library) | 1 | 1 |
 | 214B (run-time library) | 85 | 85 |
@@ -29,7 +29,7 @@ rewrites every file here byte for byte (the same Ghidra run as `../decompiled/`,
 | 2382 (run-time library) | 17 | 17 |
 | 23E4 (run-time library) | 88 | 88 |
 
-- The scripts' own report: GOALSETUP moved 7 bytes back to segment 2138; GOALSETUP segments 12 relocations 1916; GOALSETUP routines 726 functions 726; GOALANNOTATE records 5 fields 41 globals 15 routines 373; GOALDECOMPILE functions 729 renamed 3 ok 726 failed 3.
+- The scripts' own report: GOALSETUP moved 7 bytes back to segment 2138; GOALSETUP segments 12 relocations 1916; GOALSETUP routines 726 functions 726; GOALANNOTATE records 5 fields 42 globals 27 routines 383; GOALDECOMPILE functions 729 renamed 3 ok 726 failed 3.
 
 | File | What |
 | --- | --- |

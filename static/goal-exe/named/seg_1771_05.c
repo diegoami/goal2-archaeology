@@ -2,7 +2,7 @@
 // Headings give listing addresses (SEGMENT:OFFSET, as in ../code/). DS:XXXX is the data segment 2581. A segment number written in the code (a far pointer's segment, a far call's) is Ghidra's: listing=Ghidra 0000=0000, 000E=1000, 0791=2000, 16D6=3000, 1771=4000, 2138=5000, 2139=6000, 214B=7000, 235C=8000, 2382=9000, 23E4=A000, 2581=B000.
 
 // ---- 1771:63A4  recompute_country_ranks  (f_1771_63A4; Ghidra 4000:63A4, __cdecl16near; found by routines.tsv)
-// at entry to stage 2 (world stage, writes +0x2B) or stage 5 (finals, writes +0x2A): calls 1771:602D when [DS:A923]+0x40 == 0 (the world stage), 1771:6103 when +0x40 == 1 (the finals) to sort the 128 countries by the points table, then 1771:61F8 to stabilise, then a loop over the sorted order that writes either +0x2B = position-in-world-order or +0x2A = (position-1) mod 32 + 1 and updates every manager's best-continent-rank / best-country-rating score (1771:114B); the re-create's +3 (make_player's country_rating + 0x7F, see 0177:10E7) reads these rank bytes last written by this routine — so a re-create's +3 reflects the prior season's stage 2/5 standings (recomputed only at the next stage 2/5 entry, AFTER the ageing, hence the 1-cycle lag the F017 finding notes)  [established; F017; read decompiled/seg_1771_05.c; read code/seg_1771_09.asm]
+// from 1771:6730 at stages 2 and 5 (+0x38 > 0): +0x40 = 0 (stage 2): 1771:602D, 1771:61F8, sort all 128 by +0x2F (1771:5EE1 on DS:9BFD) and +0x2B := place (6530); +0x40 = 1 (stage 5): 1771:6103, 61F8, sort each continent's 32 (5EE1 on DS:9C7E from DS:10F9[c]) and +0x2A := (place - 1) mod 32 + 1 (6524); per country also the best ranks +0x29/+0x28, a managed country's manager records, the manager byte [A91F]+3(+0x2E)+1 := clamp(country_rating + signed [A91F]+3(+0x2E)+2, 1, 128) and +2 := 0 (6572-65ED), and +0x2F := 5 - continent (6605)  [established; F017; read code/seg_1771_09.asm]
 
 void __cdecl16near recompute_country_ranks(void)
 
@@ -22,42 +22,43 @@ void __cdecl16near recompute_country_ranks(void)
   uVar7 = (undefined2)((ulong)DS:A923 >> 0x10);
   iVar2 = (int)DS:A923;
   if (*(char *)(iVar2 + 0x40) == '\0') {
-    f_1771_602D(&stack0xfffe);
+    world_placement_bonuses(&stack0xfffe);
   }
   else {
-    f_1771_6103(&stack0xfffe);
+    continent_placement_bonuses(&stack0xfffe);
   }
-  f_1771_61F8(&stack0xfffe);
+  add_group_points(&stack0xfffe);
   if (*(char *)(iVar2 + 0x40) == '\0') {
-    DS:9B56._0_2_ = 0x9bfd;
+    country_order_ptr._0_2_ = (byte *)0x9bfd;
   }
   else {
-    DS:9B56._0_2_ = 0x9c7e;
+    country_order_ptr._0_2_ = (byte *)0x9c7e;
   }
-  DS:9B56 = CONCAT22(0xb000,(undefined2)DS:9B56);
+  country_order_ptr = (byte *)CONCAT22(0xb000,(byte *)country_order_ptr);
   if (*(char *)(iVar2 + 0x40) == '\0') {
-    f_1771_5EE1(&stack0xfffe,0x80,1);
+    sort_countries_by_points(&stack0xfffe,0x80,1);
   }
   else {
     for (local_4 = 1;
-        f_1771_5EE1(&stack0xfffe,*(byte *)(local_4 + 0x10f9) + 0x1f,
-                    *(undefined1 *)(local_4 + 0x10f9)), local_4 != 4; local_4 = local_4 + 1) {
+        sort_countries_by_points
+                  (&stack0xfffe,*(byte *)(local_4 + 0x10f9) + 0x1f,*(undefined1 *)(local_4 + 0x10f9)
+                  ), local_4 != 4; local_4 = local_4 + 1) {
     }
   }
   local_4 = 1;
   while( true ) {
-    uVar8 = (undefined2)((ulong)DS:9B56 >> 0x10);
-    bVar1 = *(byte *)((int)DS:9B56 + local_4);
+    uVar8 = (undefined2)((ulong)country_order_ptr >> 0x10);
+    bVar1 = ((byte *)country_order_ptr)[local_4];
     uVar9 = (undefined2)((ulong)countries >> 0x10);
     pcVar6 = (country *)countries;
-    cVar3 = is_managed(*(undefined1 *)((int)DS:9B56 + local_4));
+    cVar3 = is_managed(((byte *)country_order_ptr)[local_4]);
     if (cVar3 != '\0') {
       if (pcVar6[bVar1].continent_rank < *(byte *)(iVar2 + (uint)pcVar6[bVar1].manager + -0x79)) {
         *(byte *)(iVar2 + (uint)pcVar6[bVar1].manager + -0x79) = pcVar6[bVar1].continent_rank;
       }
-      iVar5 = f_1771_114B(*(undefined1 *)((int)DS:9B56 + local_4));
+      iVar5 = f_1771_114B(((byte *)country_order_ptr)[local_4]);
       if (iVar5 < (int)(uint)*(byte *)(iVar2 + (uint)pcVar6[bVar1].manager + -0x73)) {
-        uVar4 = f_1771_114B(*(undefined1 *)((int)DS:9B56 + local_4));
+        uVar4 = f_1771_114B(((byte *)country_order_ptr)[local_4]);
         *(undefined1 *)(iVar2 + (uint)pcVar6[bVar1].manager + -0x73) = uVar4;
       }
     }
@@ -73,7 +74,7 @@ void __cdecl16near recompute_country_ranks(void)
     else if (pcVar6[bVar1].continent_rank < (byte)pcVar6[bVar1].field_0x28) {
       pcVar6[bVar1].field_0x28 = pcVar6[bVar1].continent_rank;
     }
-    local_6 = country_rating(*(undefined1 *)((int)DS:9B56 + local_4));
+    local_6 = country_rating(((byte *)country_order_ptr)[local_4]);
     uVar8 = (undefined2)((ulong)manager_countries >> 0x10);
     local_6 = (char)((byte *)manager_countries)[(uint)pcVar6[bVar1].manager * 3 + 2] + local_6;
     if (local_6 < 1) {
@@ -84,7 +85,7 @@ void __cdecl16near recompute_country_ranks(void)
     }
     ((byte *)manager_countries)[(uint)pcVar6[bVar1].manager * 3 + 1] = (byte)local_6;
     ((byte *)manager_countries)[(uint)pcVar6[bVar1].manager * 3 + 2] = 0;
-    *(uint *)&pcVar6[bVar1].field_0x2f = 5 - (uint)pcVar6[bVar1].continent;
+    pcVar6[bVar1].points = 5 - pcVar6[bVar1].continent;
     if (local_4 == 0x80) break;
     local_4 = local_4 + 1;
   }
@@ -139,7 +140,7 @@ void f_1771_6617(char param_1)
 
 
 // ---- 1771:6730  stage_qualifying  (f_1771_6730; Ghidra 4000:6730, __cdecl16near; found by routines.tsv)
-// the stage routine for stage code 2 or 5 ("qualifying"); reads the DOS time through 23E4:11D7 and seeds DS:7B62 from it; when [DS:A923]+0x38 > 0 calls 0177:63A4 (recompute_country_ranks) — when +0x40 == 0 writes +0x2B from the world stage's standings, when +0x40 == 1 writes +0x2A from the finals standings — plus the manager's score byte update via 1771:114B; on the year-0 path (no prior season) it initialises every country record's +0x2F to `5 - continent` instead and 23E4:11D7 reads the DOS time without seeding the LCG  [established; F004; F007; F017; read code/seg_1771_09.asm]
+// the stage routine for stages 2 and 5 (1771:76B1): when the year word [A923]+0x38 is 0 sets every country's +0x2F = 5 - continent and calls 23E4:11D7, which seeds DS:7B62 from the DOS time (675B-67A3); otherwise calls 1771:63A4, the rank recompute (6762); then builds the stage's fixtures (shuffled with 214B:06B1, 6804-6846). 80DA raises +0x38 at every {2, 5} gate before this runs, so the DOS time seeds once per new game  [established; F004; F007; F017; read code/seg_1771_09.asm]
 
 void __cdecl16near stage_qualifying(void)
 
@@ -163,9 +164,8 @@ void __cdecl16near stage_qualifying(void)
   f_1771_56FF();
   if (*(int *)(iVar1 + 0x38) == 0) {
     for (local_8 = 1; uVar5 = (undefined2)((ulong)countries >> 0x10),
-        *(uint *)&((country *)countries)[local_8].field_0x2f =
-             5 - (uint)((country *)countries)[local_8].continent, local_8 != 0x80;
-        local_8 = local_8 + 1) {
+        ((country *)countries)[local_8].points = 5 - ((country *)countries)[local_8].continent,
+        local_8 != 0x80; local_8 = local_8 + 1) {
     }
     sys_get_time();
   }
@@ -353,10 +353,10 @@ void __cdecl16near f_1771_6B55(void)
         if (6 < local_e) {
           if (local_6 < 3) {
             *(undefined2 *)(iVar2 + (local_e - 6) * 2 + 0x1e) = *(undefined2 *)(iVar1 + 0x28);
-            f_1771_5E3A(*(undefined2 *)(iVar1 + local_4 * 2 + 0x2c),local_6,3,
-                        *(undefined2 *)
-                         (iVar2 + (uint)*(byte *)((local_e - 6) * 2 + 0x10bc) * 8 + -8),
-                        *(undefined2 *)
+            add_fixture_with_bonus
+                      (*(undefined2 *)(iVar1 + local_4 * 2 + 0x2c),local_6,3,
+                       *(undefined2 *)(iVar2 + (uint)*(byte *)((local_e - 6) * 2 + 0x10bc) * 8 + -8)
+                       ,*(undefined2 *)
                          (iVar2 + (uint)*(byte *)((local_e - 6) * 2 + 0x10bd) * 8 + -8));
             uVar4 = extraout_AH;
           }
@@ -405,25 +405,27 @@ void __cdecl16near f_1771_6E59(void)
     local_c = (undefined2 *)CONCAT22(uVar6,(undefined2 *)(iVar4 + 0x540));
     if (*(char *)(iVar1 + 0x3d) == '\x02') {
       *(undefined2 *)(iVar4 + 0x56c) = *(undefined2 *)(iVar1 + 0x28);
-      f_1771_5E3A(*(undefined2 *)(iVar1 + local_4 * 2 + 0x2c),0,0x65,
-                  *(undefined2 *)((int)DS:A933 + local_4 * 0x1c0 + 0x580),*local_c);
+      add_fixture_with_bonus
+                (*(undefined2 *)(iVar1 + local_4 * 2 + 0x2c),0,0x65,
+                 *(undefined2 *)((int)DS:A933 + local_4 * 0x1c0 + 0x580),*local_c);
       *(undefined2 *)(iVar4 + 0x56e) = *(undefined2 *)(iVar1 + 0x28);
-      f_1771_5E3A(*(undefined2 *)(iVar1 + local_4 * 2 + 0x2c),0,0x65,*(undefined2 *)(iVar4 + 0x548),
-                  *(undefined2 *)((int)DS:A933 + local_4 * 0x1c0 + 0x578));
+      add_fixture_with_bonus
+                (*(undefined2 *)(iVar1 + local_4 * 2 + 0x2c),0,0x65,*(undefined2 *)(iVar4 + 0x548),
+                 *(undefined2 *)((int)DS:A933 + local_4 * 0x1c0 + 0x578));
     }
     else if (*(char *)(iVar1 + 0x3d) == '\x01') {
       *(undefined2 *)(iVar4 + 0x570) = *(undefined2 *)(iVar1 + 0x28);
-      uVar2 = f_1771_5CCB((int)DS:A92B + *(int *)(iVar4 + 0x56c) * 8 + -8,
-                          (int)((ulong)DS:A92B >> 0x10));
-      uVar3 = f_1771_5CCB((int)DS:A92B + *(int *)(iVar4 + 0x56e) * 8 + -8,
-                          (int)((ulong)DS:A92B >> 0x10));
-      f_1771_5E3A(*(undefined2 *)(iVar1 + local_4 * 2 + 0x2c),0,0x66,uVar3,uVar2);
+      uVar2 = fixture_loser((int)DS:A92B + *(int *)(iVar4 + 0x56c) * 8 + -8,
+                            (int)((ulong)DS:A92B >> 0x10));
+      uVar3 = fixture_loser((int)DS:A92B + *(int *)(iVar4 + 0x56e) * 8 + -8,
+                            (int)((ulong)DS:A92B >> 0x10));
+      add_fixture_with_bonus(*(undefined2 *)(iVar1 + local_4 * 2 + 0x2c),0,0x66,uVar3,uVar2);
       *(undefined2 *)(iVar4 + 0x572) = *(undefined2 *)(iVar1 + 0x28);
-      uVar2 = f_1771_5C94((int)DS:A92B + *(int *)(iVar4 + 0x56c) * 8 + -8,
-                          (int)((ulong)DS:A92B >> 0x10));
-      uVar6 = f_1771_5C94((int)DS:A92B + *(int *)(iVar4 + 0x56e) * 8 + -8,
-                          (int)((ulong)DS:A92B >> 0x10));
-      f_1771_5E3A(*(undefined2 *)(iVar1 + local_4 * 2 + 0x2c),0,0x67,uVar6,uVar2);
+      uVar2 = fixture_winner((int)DS:A92B + *(int *)(iVar4 + 0x56c) * 8 + -8,
+                             (int)((ulong)DS:A92B >> 0x10));
+      uVar6 = fixture_winner((int)DS:A92B + *(int *)(iVar4 + 0x56e) * 8 + -8,
+                             (int)((ulong)DS:A92B >> 0x10));
+      add_fixture_with_bonus(*(undefined2 *)(iVar1 + local_4 * 2 + 0x2c),0,0x67,uVar6,uVar2);
     }
     if (local_4 == 4) break;
     local_4 = local_4 + 1;
@@ -547,8 +549,8 @@ void __cdecl16near f_1771_71B2(void)
          *(undefined2 *)((int)DS:A933 + (9 - local_c) * 0x38 + 0xdd0);
     *(undefined2 *)(iVar3 + (uint)*(byte *)(iVar2 * 4 + 0xf74) * 8 + -8) =
          *(undefined2 *)((int)DS:A933 + local_c * 0x38 + 0xf88);
-    uVar4 = f_1771_5C94((int)DS:A92B + (local_c + 0x960) * 8 + -8,
-                        (int)((ulong)DS:A92B >> 0x10));
+    uVar4 = fixture_winner((int)DS:A92B + (local_c + 0x960) * 8 + -8,
+                           (int)((ulong)DS:A92B >> 0x10));
     *(undefined2 *)(iVar3 + (uint)*(byte *)(iVar2 * 4 + 0xf75) * 8 + -8) = uVar4;
     local_e = 1;
     while( true ) {
@@ -596,9 +598,10 @@ void __cdecl16near f_1771_71B2(void)
       uVar4 = (undefined2)((ulong)DS:A933 >> 0x10);
       iVar2 = (int)DS:A933 + local_a * 0x38 + 0x14c8;
       *(undefined2 *)(iVar2 + local_4 * 2 + 0x1e) = *(undefined2 *)(iVar1 + 0x28);
-      f_1771_5E3A(*(undefined2 *)(iVar1 + 0x36),local_a,7,
-                  *(undefined2 *)(iVar2 + (uint)*(byte *)(local_4 * 2 + 0x10bc) * 8 + -8),
-                  *(undefined2 *)(iVar2 + (uint)*(byte *)(local_4 * 2 + 0x10bd) * 8 + -8));
+      add_fixture_with_bonus
+                (*(undefined2 *)(iVar1 + 0x36),local_a,7,
+                 *(undefined2 *)(iVar2 + (uint)*(byte *)(local_4 * 2 + 0x10bc) * 8 + -8),
+                 *(undefined2 *)(iVar2 + (uint)*(byte *)(local_4 * 2 + 0x10bd) * 8 + -8));
       if (local_a == 8) break;
       local_a = local_a + 1;
     }
@@ -630,19 +633,20 @@ void __cdecl16near f_1771_74BE(void)
   if (cVar1 == '\x04') {
     *(undefined2 *)(iVar3 + 0x2a) = *(undefined2 *)(iVar3 + 0x28);
     for (local_4 = 1; uVar6 = (undefined2)((ulong)DS:A933 >> 0x10),
-        f_1771_5E3A(uVar2,0,8,*(undefined2 *)((int)DS:A933 + (9 - local_4) * 0x38 + 0x14d0),
-                    *(undefined2 *)((int)DS:A933 + local_4 * 0x38 + 0x14c8)), local_4 != 8;
+        add_fixture_with_bonus
+                  (uVar2,0,8,*(undefined2 *)((int)DS:A933 + (9 - local_4) * 0x38 + 0x14d0),
+                   *(undefined2 *)((int)DS:A933 + local_4 * 0x38 + 0x14c8)), local_4 != 8;
         local_4 = local_4 + 1) {
     }
   }
   else if (cVar1 == '\x03') {
     local_4 = 1;
     while( true ) {
-      uVar4 = f_1771_5C94((int)DS:A92B + (local_4 * 2 + *(int *)(iVar3 + 0x2a) + -2) * 8 + -8,
-                          (int)((ulong)DS:A92B >> 0x10));
-      uVar5 = f_1771_5C94((int)DS:A92B + (local_4 * 2 + *(int *)(iVar3 + 0x2a) + -1) * 8 + -8,
-                          (int)((ulong)DS:A92B >> 0x10));
-      f_1771_5E3A(uVar2,0,200,uVar5,uVar4);
+      uVar4 = fixture_winner((int)DS:A92B + (local_4 * 2 + *(int *)(iVar3 + 0x2a) + -2) * 8 +
+                             -8,(int)((ulong)DS:A92B >> 0x10));
+      uVar5 = fixture_winner((int)DS:A92B + (local_4 * 2 + *(int *)(iVar3 + 0x2a) + -1) * 8 +
+                             -8,(int)((ulong)DS:A92B >> 0x10));
+      add_fixture_with_bonus(uVar2,0,200,uVar5,uVar4);
       if (local_4 == 4) break;
       local_4 = local_4 + 1;
     }
@@ -650,26 +654,26 @@ void __cdecl16near f_1771_74BE(void)
   else if (cVar1 == '\x02') {
     local_4 = 1;
     while( true ) {
-      uVar4 = f_1771_5C94((int)DS:A92B + (local_4 * 2 + *(int *)(iVar3 + 0x2a) + 6) * 8 + -8,
-                          (int)((ulong)DS:A92B >> 0x10));
-      uVar5 = f_1771_5C94((int)DS:A92B + (local_4 * 2 + *(int *)(iVar3 + 0x2a) + 7) * 8 + -8,
-                          (int)((ulong)DS:A92B >> 0x10));
-      f_1771_5E3A(uVar2,0,0xc9,uVar5,uVar4);
+      uVar4 = fixture_winner((int)DS:A92B + (local_4 * 2 + *(int *)(iVar3 + 0x2a) + 6) * 8 +
+                             -8,(int)((ulong)DS:A92B >> 0x10));
+      uVar5 = fixture_winner((int)DS:A92B + (local_4 * 2 + *(int *)(iVar3 + 0x2a) + 7) * 8 +
+                             -8,(int)((ulong)DS:A92B >> 0x10));
+      add_fixture_with_bonus(uVar2,0,0xc9,uVar5,uVar4);
       if (local_4 == 2) break;
       local_4 = local_4 + 1;
     }
   }
   else if (cVar1 == '\x01') {
-    uVar4 = f_1771_5CCB((int)DS:A92B + (*(int *)(iVar3 + 0x2a) + 0xc) * 8 + -8,
-                        (int)((ulong)DS:A92B >> 0x10));
-    uVar5 = f_1771_5CCB((int)DS:A92B + (*(int *)(iVar3 + 0x2a) + 0xd) * 8 + -8,
-                        (int)((ulong)DS:A92B >> 0x10));
-    f_1771_5E3A(uVar2,0,0xca,uVar5,uVar4);
-    uVar4 = f_1771_5C94((int)DS:A92B + (*(int *)(iVar3 + 0x2a) + 0xc) * 8 + -8,
-                        (int)((ulong)DS:A92B >> 0x10));
-    uVar6 = f_1771_5C94((int)DS:A92B + (*(int *)(iVar3 + 0x2a) + 0xd) * 8 + -8,
-                        (int)((ulong)DS:A92B >> 0x10));
-    f_1771_5E3A(uVar2,0,0xcb,uVar6,uVar4);
+    uVar4 = fixture_loser((int)DS:A92B + (*(int *)(iVar3 + 0x2a) + 0xc) * 8 + -8,
+                          (int)((ulong)DS:A92B >> 0x10));
+    uVar5 = fixture_loser((int)DS:A92B + (*(int *)(iVar3 + 0x2a) + 0xd) * 8 + -8,
+                          (int)((ulong)DS:A92B >> 0x10));
+    add_fixture_with_bonus(uVar2,0,0xca,uVar5,uVar4);
+    uVar4 = fixture_winner((int)DS:A92B + (*(int *)(iVar3 + 0x2a) + 0xc) * 8 + -8,
+                           (int)((ulong)DS:A92B >> 0x10));
+    uVar6 = fixture_winner((int)DS:A92B + (*(int *)(iVar3 + 0x2a) + 0xd) * 8 + -8,
+                           (int)((ulong)DS:A92B >> 0x10));
+    add_fixture_with_bonus(uVar2,0,0xcb,uVar6,uVar4);
   }
   return;
 }
@@ -1052,7 +1056,7 @@ void advance_player_age(int param_1)
 
 
 // ---- 1771:7E80  recreate_retired_player  (f_1771_7E80; Ghidra 4000:7E80, __stdcall16near; found by routines.tsv)
-// replaces a retired computer-country player in place: make_player(1, old +7, old +0) redraws +5, +2, +3 (= country rating + 0x7F, called country_rating 1771:10E7 at 96D3/9768), morale, tactics, fitness/energy, performance 0x7FFF; age +1 = DS:110C[gk] + rand(6) - rand(6) (214B:06B1 at 7EC7/7ED1), 1771:32EB, caps/goals/status zeroed, a new name-initial byte (1771:0000), +6 = old +6 restored; the drawn bytes need the LCG state, the rest is fixed by the old record; the result checker (experiments/E016-q014-retirement/check_recreate.py) confirms 300/300 over runs/E014 (38 re-creates across 5 pairs)  [established; F016; F017; read code/seg_1771_11.asm]
+// re-creates a computer country's retiree in place (from 1771:7FDF at the ageing gate): saves +6 (7E9D), make_player(1, old +7, old +0, player) (7EA6-7EC0), +1 = DS:110C[gk] + b - a with a, b = rand(6) (7EC3-7EF9; DS:110C = 19 1C), 1771:32EB (7F01), +8..+0xB and +0x10 zeroed (7F09-7F19), a new initial from 1771:0000 at [DS:9B70]+player (7F1F-7F2D), +6 restored (7F36); keeps the surname, +0x11 and +0xF's other bits; ten draws  [established; F016; F017; read code/seg_1771_11.asm]
 
 void recreate_retired_player(int param_1)
 
@@ -1072,12 +1076,12 @@ void recreate_retired_player(int param_1)
   make_player(1,ppVar5->club_position,local_8->country,param_1);
   cVar2 = u214b_random_1_to_n(6);
   cVar3 = u214b_random_1_to_n(6);
-  ppVar5->age = (((undefined1 *)&DS:110C)[ppVar5->club_position == 0] + cVar3) - cVar2;
+  ppVar5->age = (((char *)recreate_age_base)[ppVar5->club_position == 0] + cVar3) - cVar2;
   compute_ability(param_1);
   ppVar5->caps = 0;
   ppVar5->goals = 0;
   ppVar5->status = 0;
-  uVar4 = lcg_byte();
+  uVar4 = draw_initial();
   *(undefined1 *)((int)DS:9B70 + param_1) = uVar4;
   ppVar5->position = bVar1;
   return;
@@ -1100,7 +1104,7 @@ undefined4 __stdcall16far retirement_test(uint param_1)
   iVar2 = (int)((ulong)param_1 * 0x14);
   uVar5 = (undefined2)((ulong)players >> 0x10);
   ppVar4 = (player *)players;
-  if ((((byte)((undefined1 *)&DS:110E)[(&ppVar4->club_position)[iVar2] == 0] <
+  if ((((byte)((char *)retire_age_limit)[(&ppVar4->club_position)[iVar2] == 0] <
         (&ppVar4->age)[iVar2]) && (*(int *)((int)&ppVar4->caps + iVar2) == 0)) ||
      (uVar3 = (&ppVar4->peak_age)[iVar2] + 5, uVar3 < (&ppVar4->age)[iVar2])) {
     bVar1 = 1;

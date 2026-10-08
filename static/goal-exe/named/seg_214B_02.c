@@ -1023,8 +1023,8 @@ void __cdecl16far u214b_unit_init(void)
   u214b_get_mem_zeroed(4000,(undefined4 *)&DS:A96E,0xb000);
   u214b_get_mem_zeroed(4000,(undefined4 *)&DS:A972,0xb000);
   u214b_hide_cursor();
-  DS:A978._0_2_ = (undefined2 *)&DS:7B62;
-  DS:A978._2_2_ = 0xb000;
+  rng_word_ptr._0_2_ = (word *)&rng_word;
+  rng_word_ptr._2_2_ = 0xb000;
   DS:7B52 = 0x136b;
   DS:7B54 = 0x7000;
   u214b_hide_cursor();

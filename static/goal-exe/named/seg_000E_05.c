@@ -290,11 +290,11 @@ void f_000E_6685(undefined4 param_1)
     sys_str_concat_06B7(0x664b,0x7000);
     f_000E_070B(puVar6,uVar5,uVar7);
   }
-  iVar3 = f_1771_5C94(iVar1,uVar4);
+  iVar3 = fixture_winner(iVar1,uVar4);
   sys_str_store_max_0644
             (0xf,local_12,unaff_SS,(int)DS:9B68 + iVar3 * 0x10,
              (int)((ulong)DS:9B68 >> 0x10));
-  iVar3 = f_1771_5CCB(iVar1,uVar4);
+  iVar3 = fixture_loser(iVar1,uVar4);
   sys_str_store_max_0644
             (0xf,local_22,unaff_SS,(int)DS:9B68 + iVar3 * 0x10,
              (int)((ulong)DS:9B68 >> 0x10));
@@ -305,7 +305,7 @@ void f_000E_6685(undefined4 param_1)
   sys_str_concat_06B7(0x6652,0xa000);
   f_000E_070B(puVar6,uVar5,uVar7);
   uVar5 = 2;
-  uVar4 = f_1771_5C94(iVar1,uVar4);
+  uVar4 = fixture_winner(iVar1,uVar4);
   f_000E_5978(uVar4,uVar5);
   iVar1 = u214b_random_1_to_n(3);
   f_000E_062F(0x6658,0x7000,local_12,unaff_SS,iVar1 * 0x10 + 0x6a,0xb000);
@@ -618,7 +618,7 @@ LAB_000E_6E15:
             uVar8 = f_0791_B71C(CONCAT11((char)((uint)iVar4 >> 8),local_5),
                                 (int)DS:A92B + iVar4 + -8,(int)((ulong)DS:A92B >> 0x10))
             ;
-            f_0791_B6CC(uVar8,uVar3);
+            add_manager_delta(uVar8,uVar3);
             if (local_5 == '\x01') break;
             local_5 = local_5 + '\x01';
           }
@@ -982,7 +982,7 @@ void main_menu_loop(void)
       uVar6 = (undefined2)((ulong)local_8 >> 0x10);
       if (cVar2 == '\0') {
         if ((pbVar3[pbVar3[1] + 0x47] != 0) ||
-           ((cVar2 = offer_retire_player(((byte *)manager_countries)[(pbVar3[1] + 0x80) * 3]),
+           ((cVar2 = managed_retirement_scan(((byte *)manager_countries)[(pbVar3[1] + 0x80) * 3]),
             cVar2 == '\0' &&
             (cVar2 = f_000E_5CF4(((byte *)manager_countries)[(((byte *)local_8)[1] + 0x80) * 3]),
             cVar2 == '\0')))) {
