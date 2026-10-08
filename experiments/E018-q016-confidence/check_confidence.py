@@ -79,7 +79,15 @@ def main():
         new_cases = [c['case'] for c in records[new]['cases']]
         if not old_cases or len(set(old_cases)) != len(old_cases) or set(old_cases) != set(new_cases):
             raise ValueError('replacement does not cover every superseded case')
-        print(f"superseded {old} -> {new}: {declaration['reason']}")
+        failures = []
+        for case in records[old]['cases']:
+            try:
+                check_case(case)
+            except ValueError as exc:
+                failures.append(f"case {case['case']}: {exc}")
+        if not failures:
+            raise ValueError(f'{old} passes its consistency check; cannot declare defective')
+        print(f"defective {old} -> {new}: {'; '.join(failures)}; {declaration['reason']}")
     matches = total = 0
     for name, record in records.items():
         if name in supersessions:

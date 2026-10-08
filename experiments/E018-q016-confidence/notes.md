@@ -8,7 +8,7 @@ Read the named view first: `seg_0791_09.c` B71C/B7FA/BA4E/BB2F,
 broken reconstruction of Pascal set membership, determines branches.
 No DOSBox game run has been taken. After this reading, two isolated
 original-routine probe batches were made, each with six fixture inputs.
-The first is retained as incomplete; the replacement checks all 240
+The first is retained as defective (its declared slots disagree with its injected squads); the replacement checks all 240
 player words. These probe B7FA, not the entire watched fixture route.
 
 ## Result-relative confidence

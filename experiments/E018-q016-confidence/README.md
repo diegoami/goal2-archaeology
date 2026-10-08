@@ -10,7 +10,7 @@ declared input changes are retained. No original guest image is committed.
 
 | Record | Superseded by | Reason |
 | --- | --- | --- |
-| `fixture-probe-002.json` | `fixture-probe-003.json` | The probe mistakenly injected squads at country +47 instead of +0 and status at player +7 instead of +10. It did not execute the declared player/role cases. All six cases require replacement. |
+| `fixture-probe-002.json` / `E018-r0001` (defective) | `fixture-probe-003.json` / `E018-r0002` | The probe mistakenly injected squads at country +47 instead of +0 and status at player +7 instead of +10. Its own consistency check fails: `declared slot disagrees with injected squad`. It did not execute the declared player/role cases. All six cases require replacement. The checker executes this check before setting the record aside, and refuses to set aside a consistent record. |
 
 `fixture-probe-001.log` is a pre-execution failure (wrong manifest filename);
 no guest execution or comparison record was produced.
