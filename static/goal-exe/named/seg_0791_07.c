@@ -105,7 +105,7 @@ LAB_0791_89E5:
 
 
 // ---- 0791:8AE9  update_player  (f_0791_8AE9; Ghidra 2000:8AE9, __stdcall16far; found by routines.tsv)
-// runs a handler chosen by the state byte +0x12 (1,2,3,5,6,7,8,9,10,11,13); then 8889, 8537 (draw); counts +0x14 and, past 0xB4 in a quick result (DS:8325), decrements the player's +0xE (not below 1)  [likely; read decompiled/seg_0791_06.c]
+// runs the +0x12 state handler, then 8889; adds one to pitch +0x14 when unsigned pitch +0xF <5; after ball and drawing calls, when DS:8325 nonzero and unsigned counter >180, decrements signed player energy >1 by one, and resets counter even if decrement suppressed; fitness untouched  [established; F013; F018]
 
 void __stdcall16far update_player(undefined4 param_1)
 
@@ -903,7 +903,7 @@ void __cdecl16near f_0791_998C(void)
 
 
 // ---- 0791:9A32  pre_half_sequence  (f_0791_9A32; Ghidra 2000:9A32, __cdecl16near; found by routines.tsv)
-// the pre-half routine both engines share: per pitch slot 1..22 the player's +0xE gains 2 when the player is in the set CS:99F2, DS:9B41=1, screen copies (23E4:025D), 0106, then the wait ED8A (the team screen; it runs unless DS:80FD=0 AND the key DS:A977 is NOT a member of the set CS:9A12 = {13 Enter, 27 Esc} - 23E4:08DF returns in ZF, ZF set = not a member, so with E004's discipline the preceding Enter leaves A977=13, a member, and it waits; the wait consumes no RNG), then the kick-off slot DS:830B = 0668[(DS:831A==0 ? 1 : 0)]+10 (a ONE-byte store at 9AFC, DS:830C preserved), DS:832A=0x50, and the half itself (983F); the savestate at the ED8A wait is the exact input of the next half  [established; F013; F012]
+// the pre-half routine both engines share: per pitch slot 1..22 energy +E gains 2 only when its byte is in CS:99F2={1..30}; no fitness write; DS:9B41=1, screen copies (23E4:025D), 0106, then the wait ED8A (the team screen; it runs unless DS:80FD=0 AND the key DS:A977 is NOT a member of CS:9A12={13 Enter,27 Esc}; 08DF ZF set means not a member, so the preceding Enter makes it wait; no RNG), then kick-off slot DS:830B=0668[(DS:831A==0 ? 1 : 0)]+10 (ONE-byte store 9AFC preserves DS:830C), DS:832A=0x50, then 983F; the team-screen state is after the energy increment  [established; F013; F012; F018]
 
 void __cdecl16near pre_half_sequence(void)
 

@@ -391,7 +391,7 @@ void __cdecl16near resort_pitch_and_bench(void)
     uVar6 = *(byte *)(local_3 + 0x668) + 0xb;
     uVar7 = *(byte *)(local_3 + 0x668) + 1;
     if (uVar7 <= uVar6) {
-      while (local_5 = uVar7, f_0791_A260((pitch *)pitch_records + local_5,0xb000,local_5),
+      while (local_5 = uVar7, bind_pitch_player((pitch *)pitch_records + local_5,0xb000,local_5),
             local_5 != uVar6) {
         uVar7 = local_5 + 1;
       }
