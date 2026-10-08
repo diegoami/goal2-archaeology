@@ -266,6 +266,19 @@ class Extraction(Base):
         self.assertEqual(rec["experiment"], "E015")
         self.assertEqual(rec["status"], "completed")
 
+    def test_the_record_names_no_home_directory(self):
+        # T34 R9: the session path and the shell's `mount c <path>` echo carry the owner's home
+        home = str(Path.home())
+        session = self.workdir("host-free")
+        self.assertTrue(str(session).startswith(home + "/"))
+        shell = {0: f"Z:\\>mount c {home}/goal2/game", 1: "Z:\\>goal"}
+        write_session(session, [(shell,) + CHAIN[0][1:]] + CHAIN[1:])
+        runs = self.workdir("host-free-runs")
+        rec, path, _ = self.extract(session, runs)
+        self.assertNotIn(home, path.read_text())
+        self.assertIn("Z:\\\\>mount c ~/goal2/game", path.read_text())
+        self.assertEqual(extract.host_free(home + "/x"), "~/x")
+
     def test_a_record_is_never_overwritten(self):
         session = self.workdir("imm")
         write_session(session, CHAIN)

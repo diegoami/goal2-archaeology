@@ -87,7 +87,7 @@ class NestedDisplayTests(unittest.TestCase):
                                  find=lambda outer, title: None, clock=lambda: now[0],
                                  sleep=lambda s: now.__setitem__(0, now[0] + s))
         term.assert_called_once_with(alive)
-        self.assertGreaterEqual(now[0], rec.NESTED_START_S)
+        self.assertAlmostEqual(now[0], 10.0, delta=0.06)   # NESTED_START_S, the [designed] bound
 
     def test_the_xephyr_window_is_the_unique_exact_title(self):
         names = {"1": "t-3 and more", "2": "other", "3": "t-3", "4": "t-3"}
@@ -265,6 +265,8 @@ class VideoTests(unittest.TestCase):
             self.assertGreater(meta["video"]["bytes"], max(sizes))
             self.assertEqual(meta["video"]["geometry"][2:], [640, 400])
             self.assertEqual(meta["video"]["ended"], "SIGTERM")
+            self.assertEqual((meta["burst_quiet_s"], meta["capture_margin_s"]),
+                             (rec.BURST_QUIET_S, rec.CAPTURE_MARGIN_S))   # R7: the map reads these
         finally:
             rec.terminate(sitting)
             rec.terminate(outer)
@@ -393,7 +395,7 @@ class MapTests(unittest.TestCase):
             chain = [({0: text}, fixture.player_array(), fixture.country_array(), fixture.state_tuple(), 0) for text in ("MENU", "TEAM", "MENU")]
             fixture.write_session(session, chain)
             meta = json.loads((session / "meta.json").read_text())
-            meta.update({"monotonic_start_s": 100.0, "burst_quiet_s": 0.5, "capture_margin_s": 0.05})
+            meta.update({"monotonic_start_s": 100.0, "burst_quiet_s": 0.6, "capture_margin_s": 0.07})
             (session / "meta.json").write_text(json.dumps(meta))
             events = [{"monotonic_s": t, "utc": "2026-10-09T00:00:00+00:00", "event": kind, "keycode": code, "keysym": sym} for t, kind, code, sym in ((121.0, "press", 38, "a"), (121.1, "release", 38, "a"), (141.0, "press", 9, "Escape"), (141.1, "release", 9, "Escape"))]
             (session / "keys.jsonl").write_text("".join(json.dumps(e) + "\n" for e in events))
@@ -401,6 +403,8 @@ class MapTests(unittest.TestCase):
             self.assertEqual(result["summary"], "screens: 2, transitions: 2, keys: 2")
             self.assertEqual(rows(result), [("MENU", ["a"], "TEAM", 1), ("TEAM", ["Escape"], "MENU", 1)])
             self.assertEqual(result["unmapped_keys"], 0)
+            # R7: the session's own recorded constants, not whatever the code says today
+            self.assertEqual((result["burst_quiet_s"], result["capture_margin_s"]), (0.6, 0.07))
             states = [fixture.extract.read_snapshot(session, e, [1]) for e in fixture.extract.read_index(session)[0]]
             record, _ = fixture.extract.build_record(session, states, {}, [1], session / "runs", "fixture", "2026-10-09T00:00:00Z", 0)
             self.assertEqual(json.loads(next(o["value"] for o in record["observations"] if o["field"] == "screen/key map (JSON)")), result)
@@ -410,6 +414,8 @@ class MapTests(unittest.TestCase):
             result = self.keymap.read_session(session)
             self.assertEqual(rows(result), [("TEAM", ["Escape"], "MENU", 1)])
             self.assertEqual(result["unmapped_keys"], 1)
+            record, _ = fixture.extract.build_record(session, states, {}, [1], session / "runs", "fixture", "2026-10-09T00:00:00Z", 0)
+            self.assertIn("read save requests requests.jsonl", [o["field"] for o in record["observations"]])
 
     def test_keymap_prints_and_writes_no_record(self):
         # R5: one record per sitting (extract.py's); keymap.py only prints

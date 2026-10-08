@@ -948,7 +948,7 @@ def play(video=False, quit_after=None, res="1280x800"):
     geom0 = None
     dbx = None
     try:
-        # the logger starts before the emulator (T34 review R6): no key of the sitting precedes it
+        # the logger starts before the emulator is launched (T34 review R6)
         keys = KeyLogger(env, outer_env["DISPLAY"], session / "keys.jsonl")
         keys.start()
         argv = [os.environ.get("DOSBOX_X", "dosbox-x"), "-conf", str(session / "dosbox.conf"),
