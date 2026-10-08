@@ -43,6 +43,30 @@ from runtime.model.confidence import change, result_delta, participant_values, c
 
 
 class ConfidenceTests(unittest.TestCase):
+    def test_literal_arithmetic_boundaries(self):
+        for before, delta, expected in [(0, 0, 1), (1, 0, 1), (2, 0, 2),
+                                        (31, 0, 31), (32, 0, 32), (33, 0, 32),
+                                        (127, 0, 32), (128, 0, 1), (255, 0, 1),
+                                        (1, 32767, 1), (1, 32768, 1)]:
+            self.assertEqual(change(before, delta), expected)
+        for opponent, expected in [(67, -1), (68, -1), (69, 0),
+                                   (131, 0), (132, 1), (133, 1)]:
+            self.assertEqual(result_delta(100, opponent, (0, 0), 2, 0, False), expected)
+        for live, expected in [(0, (1, 1)), (1, (1, 1)), (31, (31, 31)),
+                               (32, (32, 32)), (33, (33, 32)),
+                               (127, (127, 32)), (128, (1, 1))]:
+            self.assertEqual(match_form(live, 16, 0, True), expected)
+        for role, draws, expected in [('substitute', (1, 1), (16,)),
+                                      ('substitute', (2, 2), (16,)),
+                                      ('unused', (1, 1), (16,)),
+                                      ('unused', (4, 2), (14,))]:
+            self.assertEqual(participant_values(16, 0, role, draws), expected)
+        for role, draws in [('substitute', (0, 1)), ('substitute', (3, 1)),
+                            ('unused', (0, 1)), ('unused', (5, 1)),
+                            ('unused', (1, 0)), ('unused', (1, 3))]:
+            with self.assertRaises(ValueError):
+                participant_values(16, 0, role, draws)
+
     def test_persisting_and_temporary_match_form(self):
         for inputs, expected in [((16, 16, 1, False), (17, 16)),
                                  ((17, 16, 1, True), (18, 18)),

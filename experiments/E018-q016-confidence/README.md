@@ -55,3 +55,20 @@ all thirteen declared numeric constants were shifted by both +1 and -1,
 then seven input/branch/persistence operators were changed independently;
 33/33 mutations failed the literal-output tests. Source restoration ran
 in `finally` after the sweep.
+
+The continuation's `checker-red-001.log` shows the consistent-record rejection
+test failing before the guard was added. `checker-green-001.log` passes;
+`checker-mutations-001.log` removes each of the consistency, empty-set and
+kept-mismatch guards independently and kills 3/3. The latter two guards
+already existed: their tests fail with those guards removed, not on the
+unmodified continuation baseline. `comparison-002.log` prints each defective
+case's failed consistency check and matches 240/240 kept player words.
+`mutations-002.log` repeats the bidirectional sweep; `mutations-003.log`
+includes literal boundary cases for clipping, signed interpretation,
+expected-margin truncation, saved-form clipping and bounded draws. Each
+sweep kills 33/33 in-place mutants. These boundary assertions fail when the
+relevant constants are shifted, and pass after source restoration.
+
+The two E018 manifests publish the original E011 half-time state again under
+release E018, by its unchanged SHA256. Registration/probe traces remain
+tracked separately; no new guest execution was needed to publish evidence.
