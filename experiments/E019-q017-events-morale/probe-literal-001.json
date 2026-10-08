@@ -1,0 +1,328 @@
+{
+  "schema": "E019-events-morale-probe/1",
+  "cases": [
+    {
+      "case": "injury_high_morale",
+      "method": "literal listing arithmetic; 0791:7CC5 with named delta",
+      "before": 30,
+      "delta_high": 65534,
+      "delta_low": 1,
+      "side": 0,
+      "slot": 1,
+      "after_live": 28,
+      "after_saved": 28
+    },
+    {
+      "case": "injury_low_morale",
+      "method": "literal listing arithmetic; 0791:7CC5 with named delta",
+      "before": 2,
+      "delta_high": 65534,
+      "delta_low": 1,
+      "side": 0,
+      "slot": 1,
+      "after_live": 1,
+      "after_saved": 1
+    },
+    {
+      "case": "injury_floor_morale",
+      "method": "literal listing arithmetic; 0791:7CC5 with named delta",
+      "before": 1,
+      "delta_high": 65534,
+      "delta_low": 1,
+      "side": 0,
+      "slot": 1,
+      "after_live": 1,
+      "after_saved": 1
+    },
+    {
+      "case": "scorer_plus_one",
+      "method": "literal listing arithmetic; 0791:7CC5 with named delta",
+      "before": 16,
+      "delta_high": 1,
+      "delta_low": 1,
+      "side": 0,
+      "slot": 1,
+      "after_live": 17,
+      "after_saved": 17
+    },
+    {
+      "case": "scorer_minus_one",
+      "method": "literal listing arithmetic; 0791:7CC5 with named delta",
+      "before": 16,
+      "delta_high": 65535,
+      "delta_low": 65281,
+      "side": 1,
+      "slot": 1,
+      "after_live": 15,
+      "after_saved": 15
+    },
+    {
+      "case": "team_reaction_no_persist_pos",
+      "method": "literal listing arithmetic; 0791:7CC5 with named delta",
+      "before": 16,
+      "delta_high": 1,
+      "delta_low": 0,
+      "side": 0,
+      "slot": 1,
+      "after_live": 17,
+      "after_saved": 0
+    },
+    {
+      "case": "team_reaction_no_persist_neg",
+      "method": "literal listing arithmetic; 0791:7CC5 with named delta",
+      "before": 16,
+      "delta_high": 65535,
+      "delta_low": 0,
+      "side": 1,
+      "slot": 1,
+      "after_live": 15,
+      "after_saved": 0
+    },
+    {
+      "case": "send_off_tail_other_team",
+      "method": "literal listing arithmetic; 0791:7CC5 with named delta",
+      "before": 16,
+      "delta_high": 2,
+      "delta_low": 0,
+      "side": 1,
+      "slot": 1,
+      "after_live": 18,
+      "after_saved": 0
+    },
+    {
+      "case": "clamp_below_one",
+      "method": "literal listing arithmetic; 0791:7CC5 with named delta",
+      "before": 0,
+      "delta_high": 65535,
+      "delta_low": 1,
+      "side": 0,
+      "slot": 1,
+      "after_live": 1,
+      "after_saved": 1
+    },
+    {
+      "case": "clamp_above_255",
+      "method": "literal listing arithmetic; 0791:7CC5 with named delta",
+      "before": 200,
+      "delta_high": 32769,
+      "delta_low": 1,
+      "side": 0,
+      "slot": 1,
+      "after_live": 255,
+      "after_saved": 255
+    },
+    {
+      "case": "clamp_signed_overflow",
+      "method": "literal listing arithmetic; 0791:7CC5 with named delta",
+      "before": 254,
+      "delta_high": 32769,
+      "delta_low": 1,
+      "side": 0,
+      "slot": 1,
+      "after_live": 255,
+      "after_saved": 255
+    },
+    {
+      "case": "signed_wrap_floor",
+      "method": "literal listing arithmetic; 0791:7CC5 with named delta",
+      "before": 128,
+      "delta_high": 65534,
+      "delta_low": 1,
+      "side": 0,
+      "slot": 1,
+      "after_live": 1,
+      "after_saved": 1
+    },
+    {
+      "case": "signed_wrap_high_persist",
+      "method": "literal listing arithmetic; 0791:7CC5 with named delta",
+      "before": 127,
+      "delta_high": 65534,
+      "delta_low": 1,
+      "side": 0,
+      "slot": 1,
+      "after_live": 125,
+      "after_saved": 32
+    },
+    {
+      "case": "all_zero",
+      "method": "literal listing arithmetic; 1771:13D0 over available starters",
+      "starters": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "expected_panel": 1,
+      "got_panel": 1,
+      "pass": true
+    },
+    {
+      "case": "all_32",
+      "method": "literal listing arithmetic; 1771:13D0 over available starters",
+      "starters": [
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32,
+        32
+      ],
+      "expected_panel": 32,
+      "got_panel": 32,
+      "pass": true
+    },
+    {
+      "case": "all_16",
+      "method": "literal listing arithmetic; 1771:13D0 over available starters",
+      "starters": [
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16,
+        16
+      ],
+      "expected_panel": 16,
+      "got_panel": 16,
+      "pass": true
+    },
+    {
+      "case": "mixed_low_high",
+      "method": "literal listing arithmetic; 1771:13D0 over available starters",
+      "starters": [
+        1,
+        32,
+        16,
+        8,
+        0,
+        24,
+        28,
+        4,
+        12,
+        20,
+        5
+      ],
+      "expected_panel": 14,
+      "got_panel": 14,
+      "pass": true
+    },
+    {
+      "case": "signed_negative_clamped",
+      "method": "literal listing arithmetic; 1771:13D0 over available starters",
+      "starters": [
+        -128,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "expected_panel": 1,
+      "got_panel": 1,
+      "pass": true
+    },
+    {
+      "case": "above_32_clamped",
+      "method": "literal listing arithmetic; 1771:13D0 over available starters",
+      "starters": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        32
+      ],
+      "expected_panel": 3,
+      "got_panel": 3,
+      "pass": true
+    },
+    {
+      "case": "all_signed_negative",
+      "method": "literal listing arithmetic; 1771:13D0 over available starters",
+      "starters": [
+        -128,
+        -128,
+        -128,
+        -128,
+        -128,
+        -128,
+        -128,
+        -128,
+        -128,
+        -128,
+        -128
+      ],
+      "expected_panel": 1,
+      "got_panel": 1,
+      "pass": true
+    },
+    {
+      "case": "exactly_below_one",
+      "method": "literal listing arithmetic; 1771:13D0 over available starters",
+      "starters": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1
+      ],
+      "expected_panel": 1,
+      "got_panel": 1,
+      "pass": true
+    },
+    {
+      "case": "one_starter_signed_negative",
+      "method": "literal listing arithmetic; 1771:13D0 over available starters",
+      "starters": [
+        -128,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "expected_panel": 1,
+      "got_panel": 1,
+      "pass": true
+    }
+  ]
+}
