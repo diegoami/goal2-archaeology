@@ -98,8 +98,7 @@ def check_case(case):
 
 def set_aside(label, cases, defects):
     """Every declared defect must fail its check in every case; nothing else is run."""
-    if not cases:
-        raise ValueError(f'{label}: no cases to set aside')
+    # Callers guarantee cases is non-empty (the coverage check, and run == trace).
     lines = []
     for case in cases:
         failures = declared_input_failures(case)

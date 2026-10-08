@@ -152,6 +152,16 @@ class CheckerTests(unittest.TestCase):
         record['schema'] = 'E018-confidence-probe/0'
         self.assert_kept_fails(record, 'unknown record schema')
 
+    def test_checker_reads_the_kind_set(self):
+        # Kind 3 is in the retained DS:0F3E bytes (0x98: bits 3, 4, 7). Declaring
+        # it for case 1 (3-1, side 1 lost) removes side 1's doubling, so the
+        # guest's recorded delta (from kind 1) no longer agrees.
+        record = self.record()
+        fixture = bytearray(bytes.fromhex(record['cases'][0]['fixture']))
+        fixture[2] = 3
+        record['cases'][0]['fixture'] = fixture.hex()
+        self.assert_kept_fails(record, 'result delta disagrees with original B71C')
+
     def test_empty_comparisons_fail(self):
         with self.assertRaisesRegex(ValueError, 'empty comparison set'):
             self.run_checker({}, {})
@@ -272,6 +282,17 @@ class ConfidenceTests(unittest.TestCase):
 
     def test_participating_substitute_gets_result_term(self):
         self.assertEqual(participant_values(16, 4, 'substitute', (1, 1)), (20,))
+
+    def test_invalid_inputs_rejected(self):
+        for inputs in [(100, 100, (1, 0), 0, 2, False), (100, 100, (1, 0), 3, 0, False),
+                       (100, 100, (1, 0, 0), 0, 0, False)]:
+            with self.subTest(inputs=inputs):
+                with self.assertRaises(ValueError):
+                    result_delta(*inputs)
+        with self.assertRaises(ValueError):
+            participant_values(16, 4, 'starter', (1, 1))
+        with self.assertRaises(ValueError):
+            participant_values(16, 4, 'reserve', (1, 1))
 
     def test_exact_given_draws(self):
         self.assertEqual(participant_values(32, 4, 'substitute', (2, 1)), (31,))
