@@ -39,5 +39,5 @@ exists.
 | T30 | Q014: how retirements happen, how new players are made, and whether results feed new talent | opened at dispatch | T28 |
 | T31 | Q015: how energy falls in a match and recovers between matches | #99 | T28 |
 | T32 | Q016: how confidence changes after a match, and against what expected margin | #103 | T31 |
-| T33 | Q017: do injuries, cards and friendlies change confidence, and how does team morale follow | opened at dispatch | T32 |
+| T33 | Q017: do injuries, cards and friendlies change confidence, and how does team morale follow | #107 | T32 |
 | T34 | recorder 2: the keys typed into the game, and the screen/key map they draw | #105 | T29 |
