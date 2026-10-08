@@ -739,9 +739,10 @@ LAB_0791_DC72:
 }
 
 
-// ---- 0791:DC7E  f_0791_DC7E  (f_0791_DC7E; Ghidra 2000:DC7E, __cdecl16near; found by routines.tsv)
+// ---- 0791:DC7E  assistant_recommend_squad  (f_0791_DC7E; Ghidra 2000:DC7E, __cdecl16near; found by routines.tsv)
+// the assistant's recommended squad of 20 (GOAL.HLP P58, the Ins key of the SELECT TEAM screen): for the manager's country, two passes over the 20 squad slots, and for each slot the whole pool is scanned for a same-position player whose player_strength exceeds the incumbent's, swapped in by u214b_swap_bytes  [likely; read named/seg_0791_10.c]
 
-void __cdecl16near f_0791_DC7E(void)
+void __cdecl16near assistant_recommend_squad(void)
 
 {
   int iVar1;
