@@ -32,7 +32,8 @@ Retirement `1771:7F40` (:950-1000), on the AGED record: (DS:110E[gk] < a AND cap
 a > p + 5, gk = (+7 == 0), DS:110E = 1E 21 (data/ds_2581_01.hex:143). The re-create `7E80`
 (:871-948) is RNG: two `214B:06B1` draws at `7EC7`/`7ED1` for the age, make_player's draws
 (`7EC0`) and the initial from `1771:0000` (`7F1F`). Its deterministic part is what
-`recreate_constraints` returns; the drawn bytes are not predicted (Q014). For a MANAGED country
+`recreate_constraints` (runtime/model/recreate.py, T30) returns; recreate.py models the draws
+too (Q014, F017). For a MANAGED country
 the loop ages the manager's 80 pool players instead (base DS:6D18[+0x2E-0x80], indices [A927],
 :1050-1085) and runs no retirement test.
 
@@ -171,15 +172,15 @@ def year_end_bytes(player, record, year=0, class_table=None, profile_table=None,
 
 
 def recreate_constraints(old, country_record=None):
-    """DEPRECATED shim: re-export `recreate.recreate_constraints` (T30). The Q014 model's
-    source of truth moved to `runtime/model/recreate.py`; ageing.py keeps a thin wrapper so
-    existing `import ageing; ageing.recreate_constraints` callers (notably
-    tests/test_model_ageing.py and experiments/E014-q013-ageing/check_ageing.py) keep
-    working without the runtime model becoming a package. `country_record` is forwarded
-    when supplied; absent it, the wrapper behaves as the original F016 function did.
-    """
-    from runtime.model.recreate import recreate_constraints as _impl
-    return _impl(old, country_record=country_record)
+    """Re-export of `recreate.recreate_constraints` (T30 moved it to runtime/model/recreate.py,
+    with 7E80's complete contract next to it). Both import styles work: `import ageing` with
+    runtime/model on sys.path (experiments/E014-q013-ageing/check_ageing.py) and
+    `runtime.model.ageing` from the repository root (tests.test_model_recreate pins both)."""
+    try:
+        from . import recreate as _r
+    except ImportError:
+        import recreate as _r
+    return _r.recreate_constraints(old, country_record=country_record)
 
 
 def derived_skills(ability, record, class_table, profile_table):

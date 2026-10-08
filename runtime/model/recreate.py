@@ -1,189 +1,340 @@
 #!/usr/bin/env python3
-"""How a retired computer-country player is re-created at the year end, and how results feed
-new talent (T30, Q014; E016).
+"""How a retired player is replaced and how a new player is made (T30, Q014; F017, E016).
 
-The yearly loop (experiments/E016-q014-retirement/notes.md, every constant with its listing
-line): for a computer country the second pass of `0177:7FDF` (seg_1771_11.asm:1086-1107) calls
-`0177:7F40(retirement_test)` (seg_1771_11.asm:949-998) per squad slot, and on a 1 from it
-`0177:7E80(recreate_retired_player)` (seg_1771_11.asm:870-947) replaces the slot in place.
-`7E80` calls `0177:96D3(make_player)` (seg_1771_13.asm:1105-1201) with the retiree's country
-and club position; `make_player` writes everything but the age, and `7E80` then overwrites the
-age with a draw from `DS:0x110C` (= 19 1C, base 25/28 outfield/goalkeeper) ± rand(6) − rand(6),
-runs `0177:32EB(compute_ability)` again, zeros caps/goals/status, draws a new surname-initial
-byte from `0177:0000`, and restores the old `+6` (position).
+Every constant carries its listing line; the claim-by-claim map is
+experiments/E016-q014-retirement/notes.md.
 
-The deterministic byte set of a re-create, then, depends on:
-- the OLD record (carries `+0`, `+6`, `+7` over; sets the +3 `country_rating` index via
-  country; size of the age/peak spread via `+7`);
-- the COUNTRY RECORD at the moment of re-create (its `+0x2A`/`+0x2B`/`+0x2C` go straight into
-  `country_rating` 0177:10E7, seg_1771_02.asm:697-738).
+- The RNG is one 16-bit word, the one the far pointer DS:A978 points to (214B:206A sets it to
+  DS:7B62, F004). `214B:06B1(n)` (seg_214B_01.asm:897-911) passes that pointer to `214B:0688`
+  (:871-894), which stores `w = w * 0x7ABD + 0x1B0F` (mod 2^16, :880-886) and returns
+  `hi16(w * n) + 1`, 1..n (:887-889). `lcg_step` / `draw` below.
+- `1771:96D3` make_player(flag, club_position, country, player) (seg_1771_13.asm:1107-1201)
+  writes +0, +7, +6 (= +7), +5, +1, +2 (via 1771:3291), +3 (via 1771:10E7), +4 (1771:32EB),
+  +0xC, +0xF (1771:3431, bits only), +0xD/+0xE (1771:3558) and +0x12 = 0x7FFF, drawing in a
+  fixed order (`make_player`).
+- `1771:7E80` (seg_1771_11.asm:872-947) re-creates a computer country's retiree IN PLACE:
+  make_player(1, old +7, old +0, player), then +1 = DS:110C[gk] + b - a (a, b = rand(6)),
+  32EB again, caps/goals/status zeroed, a new initial DS:0C38[rand(DS:0C38)] at
+  [DS:9B70] + player, and the old +6 restored (`recreate`). Ten draws per re-create.
+- `000E:54F0` (seg_000E_07.asm:84-283) makes a MANAGED country's replacement in a fresh
+  record: the same make_player (managed fitness branch), +1 = DS:0x78[gk] + b - a, 32EB,
+  zeroed caps/goals/status, a new initial, then the young-squad override
+  (`managed_replacement`).
 
-The LCG (single 16-bit word at `DS:0x7B62`, F004) drives all drawn bytes; the routine does
-multiple LCG byte draws per re-create (see section 5 of notes.md and the listing). The model
-returns what the listing fixes deterministically (`recreate_constraints`) and brackets the
-drawn bytes; `check_recreate.py` then handles the exact match where the LCG state is in hand.
-
-The results -> talent chain (notes section 4): `country_rating(country)` reads `+0x2C` (continent,
-static), `+0x2A` (continent_rank) and `+0x2B` (world_rank); these ranks are recomputed by
-`0177:63A4` (seg_1771_09.asm:1019+, named/seg_1771_05.c:23+, here annotated) when
-`0177:6730` (`stage_qualifying`, F004) runs at the next stage 2 (writes +0x2B) or stage 5
-(writes +0x2A) entry. The re-create happens BEFORE 6730 within a stage transition (8208
-calls 80DA, then play_round calls 76B1, seg_000E_09.asm:486-498), so a re-create reads the
-rank values that were LAST written — typically from the PRECEDING season's relevant stage
-(world_rank from the world-qualifying stage 2, continent_rank from the finals-qualifying
-stage 5).
-
-So a re-created player's `+3 = country_rating(country) + 0x7F` is determined by the PRIOR
-season's results at the time of this re-create, with a one-cycle lag for the world rank when
-the current cycle hasn't yet entered its stage 2 settling. The HELP FILE's claim that
-"replacements are better in a country whose points beat its expected points"
-(`GOAL.HLP` 196-205) is therefore TRUE: a better results table ⇒ smaller world_rank ⇒ LARGER
-(129 - world_rank) ⇒ LARGER country_rating ⇒ LARGER `+3`.
+`recreate_contract` is 7E80's complete instantaneous contract in range form (no RNG state);
+`recreate` is the same routine exactly, given the RNG state; `recreate_constraints` is F016's
+reduced form (moved here from ageing.py, which re-exports it). `NOT_IN_CAPTURES` says which
+part of the contract year-apart captures cannot show, and why.
 
 Standard library only.
 """
 
-# --- the record's bytes (F008; annotations/fields.tsv) -----------------------------------
-COUNTRY = 0x00        # 7EAC: mov al, es:[di] — make_player's country argument
-AGE = 0x01            # 7E6F: inc byte ptr es:[di + 1]
-PEAK = 0x02           # 330F/3318/3350/336B/339B: es:[di + 2] — read, never written, in the loop
-RATING = 0x03         # 3333/3344: es:[di + 3] — the ceiling r
-ABILITY = 0x04        # 333A/33C3: es:[di + 4] — compute_ability's only write
-PROFILE = 0x05        # 3A51-3A60: the profile row of 1771:3A06; make_player's rand(0x10)
-POSITION = 0x06       # 7F30-7F36: 7E80 restores the OLD +6 after make_player overwrites it
-CLUB_POSITION = 0x07  # 7F5D/32C3: es:[di + 7] == 0 is the goalkeeper test, also 96FC's arg
-CAPS = 0x08           # 7F09: mov word ptr es:[di + 8], ax — zeroed by the re-create
-GOALS = 0x0A          # 7F12: mov word ptr es:[di + 0xa], ax — zeroed by the re-create
-STATUS = 0x10         # 7F19: mov byte ptr es:[di + 0x10], 0 — zeroed by the re-create
-SCORER_COUNT = 0x11   # 7FD4: mov byte ptr es:[di + 0x11], 0; 0791:B3B7 increments it (B3EC)
-PERFORMANCE = 0x12    # make_player: performance = 0x7FFF (97C0), named/seg_1771_06.c
-MORALE = 0x0C         # make_player: +0xC = rand(0x20), :97A2-97AB
-FITNESS = 0x0D        # roll_fitness_energy 1771:3558 (TBD by the LCG)
-ENERGY = 0x0E         # roll_fitness_energy 1771:3558 (TBD by the LCG)
-INITIAL_OFFSET = 0x00  # the surname byte at [DS:9B70] + player; f_1771_0000() draws a fresh byte
+try:                                   # imported as runtime.model.recreate (the tests)
+    from . import ageing as A
+except ImportError:                    # imported as a top-level module (runtime/model on sys.path)
+    import ageing as A
 
-# --- the re-create draws, list of LCG byte readers in 7E80 (notes section 2.2) -------------
-# a 7E80 call path consumes 6 RNG entries: a rand(0x10) for +5 (make_player), a rand(7) + rand(7)
-# for +1 (make_player), 2 rand(3) for +2 via roll_peak_age (make_player), a rand(0x20) for +0xC,
-# then 2 rand(6) for the +1 override, then a final byte from 1771:0000 for the initial.
-# The exact order matters for reproducibility from the LCG, but the model brackets +1, +2, +5
-# and reports whether the LCG state is recoverable from a savestate.
+# --- the record's bytes beyond F016's (F007/F008; annotations/fields.tsv) ------------------
+POSITION = 0x06       # 970A: +6 = +7 in make_player; 7E9D saves the old +6, 7F36 restores it
+MORALE = 0x0C         # 97AB: mov byte ptr es:[di + 0xc], al
+FITNESS = 0x0D        # 35E8/3615/3626/3646 (1771:3558)
+ENERGY = 0x0E         # 3635: +0xE = +0xD after the cap, before the floor
+TACTICS = 0x0F        # 214B:0C79/0CA1 on +0xF from 1771:3431 / 33CD
 
-# --- re-create's age base 1771:7EEB (notes section 2) ------------------------------------
-# +1 = DS:0x110C[gk] + rand(6) - rand(6), where gk = (+7 == 0)
-RECREATE_AGE_BASE = (0x19, 0x1C)   # 7EEB: [di + 0x110c] by (+7 == 0); DS:110C = 19 1C (ds_2581_01.hex:143)
-RECREATE_AGE_SPREAD = 5             # 7EC7/7ED1: rand 1..6 — first and second rand, the difference
+# --- the generator 214B:0688 (seg_214B_01.asm:880-889; F004) -------------------------------
+LCG_MUL = 0x7ABD      # 0695: mov bx, 0x7abd
+LCG_INC = 0x1B0F      # 069A: add ax, 0x1b0f (the low word only: stosw at 069F)
 
-# --- roll_peak_age 1771:3291 (called by make_player 96D3 via 975B) -------------------------
-PEAK_BASE = (0x1B, 0x1E)            # 32D3: [di + 0xe80] by (+7 == 0); DS:0E80 = 1B 1E (ds_2581_01.hex:123)
-PEAK_SPREAD = 2                     # 32AB-32DC: base + rand(3) − rand(3), rand 1..3
+# --- make_player 1771:96D3 (seg_1771_13.asm:1107-1201) -------------------------------------
+PROFILE_DRAW = 0x10                # 970E-9712: rand(0x10) -> +5 (971A)
+MP_AGE_DRAW = 7                    # 971E/9728: a, b = rand(7)
+MP_AGE_BASE = (0x1C, 0x1F)         # 9746: [di + 0x118a] by (+7 == 0); DS:118A = 1C 1F (ds_2581_01.hex:147)
+PEAK_DRAW = 3                      # 1771:3291, 32AB/32B5: a, b = rand(3); +2 = DS:0E80[gk] + b - a (32D3-32E1)
+POOL_RATING_DRAW = 10              # 9777-977B: rand(0xa), only when flag == 0
+POOL_RATING_CUT = 10               # 978B: sub ax, 0xa
+RATING_OFFSET = 0x7F               # 976B / 9788: add ax, 0x7f
+MORALE_DRAW = 0x20                 # 979F-97A3: rand(0x20) -> +0xC (97AB)
+PERFORMANCE_INIT = 0x7FFF          # 97C0: mov word ptr es:[di + 0x12], 0x7fff
 
-# --- make_player's profile +5 + morale +0xC ------------------------------------------------
-PROFILE_RANGE = (1, 16)             # 96D3: 9711 rand(0x10), DS:6DCD is 16 rows × 12 columns
-MORALE_RANGE = (1, 32)              # 96D3: 97A2 rand(0x20), DS:78A3 lookup below 0x20
+# --- set_player_tactics 1771:3431, 33CD, 2FFB (seg_1771_05.asm:372-481, seg_1771_04.asm:1102-1131)
+HARDNESS_LIMIT = 4                 # 3452: cmp al, 4; jae skips 33CD
+OVERRIDE_BIT = 0x80                # 33E7-33F4: include element 8 (bit 7)
+TACKLE_BIT = 0x08                  # 33F9-3406: exclude element 4 (bit 3)
+BACK_POSITIONS = frozenset({0, 1, 3, 4})   # CS:3411 = 1B (set test 346A): positions 0, 1, 3, 4
+BACK_BITS = 0x10 | 0x01            # 3471-3490: elements 5 and 1
+CENTRE_BACK = 2                    # 349A: cmp byte ptr es:[di + 6], 2
+CENTRE_BACK_PROFILE = 0x0E         # 34A4: cmp byte ptr es:[di + 5], 0xe; jae skips element 5
+CENTRE_BACK_BITS = 0x20 | 0x02     # 34BD-34DC: elements 6 and 2
 
-# --- country_rating 1771:10E7 (notes section 4) -------------------------------------------
-RATING_BASE = 0x7F                  # 96D3 :976B add ax, 0x7F: +3 = country_rating + 0x7F
-CONTINENT_FIELDS = ('continent', 'continent_rank', 'world_rank')  # country rating's three inputs
+# --- roll_fitness_energy 1771:3558 (seg_1771_05.asm:532-633) -------------------------------
+FITNESS_BASE = (0x10, 0x0D)        # 35AD/35F4: [di + 0xe82] by (+1 > +2 + 4); DS:0E82 = 10 0D (ds_2581_01.hex:123)
+FITNESS_OLD_MARGIN = 4             # 357B: add ax, 4 (the index is +1 > +2 + 4, 3589 jg)
+FITNESS_CAP = 0x20                 # 361C/3626: +0xD > 0x20 (signed, jle) -> 0x20
+FITNESS_FLOOR = 1                  # 363C/3646: +0xD < 1 (signed, jge) -> 1, after +0xE is copied
+
+# --- the re-create 1771:7E80 (seg_1771_11.asm:872-947) and the initial 1771:0000 ------------
+RECREATE_AGE_DRAW = 6              # 7EC3/7ECD: a, b = rand(6); +1 = DS:110C[gk] + b - a (7EEB-7EF9)
+INITIAL_LETTERS = b"ABCDEFGHIJKLMNOPRSTVW"  # DS:0C38 = 0x15, then these 21 bytes (ds_2581_01.hex:104-105)
+#   1771:0000 (seg_1771_01.asm:9-22): r = rand(byte DS:0C38) (0006-000C), returns DS:0C38[r] (0013)
+
+# --- the managed replacement 000E:54F0 (seg_000E_07.asm:84-283) ----------------------------
+MANAGED_AGE_BASE = (0x19, 0x1C)    # 5561: [di + 0x78] by (+7 == 0); DS:0078 = 19 1C (ds_2581_01.hex:10)
+YOUNG_BASE = (0x11, 0x14)          # 5609/5689/56D2: [di + 0x76]; DS:0076 = 11 14 (ds_2581_01.hex:10)
+YOUNG_MARGIN = 4                   # 560F/568F: add ax, 4 — "young" is +1 < DS:76[gk] + 4
+YOUNG_QUOTA = 0x14                 # 56AC: cmp word ptr [bp - 2], 0x14; jb -> the override
+YOUNG_DRAW = 3                     # 56B4: rand(3); +1 = DS:76[gk] + rand(3) (56D2-56DD)
+
+# --- country_rating 1771:10E7 (seg_1771_02.asm:697-738) ------------------------------------
+CONTINENT_WEIGHT = 5               # 110C: mov ax, 5; sub ax, continent (+0x2C)
+CONTINENT_RANKS = 0x21             # 111E: mov ax, 0x21; sub ax, continent rank (+0x2A)
+WORLD_RANKS = 0x81                 # 1132: mov ax, 0x81; sub ax, world rank (+0x2B)
+RATING_DIVISOR = 2                 # 1139-113D: cwd; mov cx, 2; idiv cx (signed, toward zero)
+
+# What year-apart captures cannot show of 7E80's contract (check_recreate.py skips exactly these
+# and prints them): the re-create copies or keeps bytes of the retiree AS THEY STAND AT THE
+# INSTANT, and a year of matches between two captures rewrites those bytes of the retiree.
+NOT_IN_CAPTURES = {
+    POSITION: "+6 = the retiree's +6 at the instant (7E9D/7F36); +6 is moved per match "
+              "(0791:AD8F, 1771:4952, 000E:0290, 0791:BC5D; E014 notes section 6), so a capture "
+              "a year earlier does not give it",
+    TACTICS: "+0xF keeps the retiree's +0xF bits that 1771:3431 neither sets nor clears; "
+             "0791:BC5D, 0791:C5DC and 1771:34E7 clear and re-derive +0xF between captures; the "
+             "bits 3431 sets or clears are checked",
+    A.RATING: "+3 = country_rating + 0x7F reads the country record (+0x2A/+0x2B/+0x2C), which "
+              "the E014 captures do not hold; checked as one byte per country per 7FDF call and "
+              "in the domain 0x80..0xFF",
+}
+
+
+def lcg_step(w):
+    """`214B:0688`'s store: the next value of the word (mod 2^16)."""
+    return (w * LCG_MUL + LCG_INC) & 0xFFFF
+
+
+def draw(w, n):
+    """`214B:06B1(n)`: (value 1..n, the new word)."""
+    w = lcg_step(w)
+    return ((w * n) >> 16) + 1, w
 
 
 def country_rating(continent, continent_rank, world_rank):
-    """`1771:10E7` (seg_1771_02.asm:697-738): the formula (signed 16-bit, then signed idiv 2).
+    """`1771:10E7`: ((5 - continent) * (0x21 - continent rank) + (0x81 - world rank)) idiv 2.
 
-    lines 1113-1133:
-    ```
-    cx = 5 − continent                         ; 1113 sub ax, dx
-    ax = 33 − continent_rank                   ; 111E-1121
-    cx = cx * ax  (imul cx)                    ; 1123
-    ax = 129 − world_rank                      ; 1132-1135
-    ax = ax + cx                               ; 1137
-    (cdq, mov cx, 2, idiv cx: signed divide by 2)
-    return ax
-    ```
-    Note the cdq + idiv at 1139-113D makes the divide SIGNED even though the operands are
-    positive in the game's domain (continent 0..4, continent_rank 1..32, world_rank 1..128):
-    a 16-bit positive dividend divided by 2 in two's complement is correct.
-    """
-    cx = 5 - continent
-    ax = 33 - continent_rank
-    cx = cx * ax
-    ax = (129 - world_rank) + cx
-    # signed idiv 2; both operands positive here, so the sign extension is benign
-    return ax // 2 if (ax >= 0) else -((-ax + 1) // 2)
+    The three are the country record's +0x2C, +0x2A, +0x2B (1104, 1116, 112A). The subtractions
+    are 16-bit (110F, 1121, 1135), the product `imul cx` (1123), the divide SIGNED toward zero
+    (`cwd` 1139, `idiv cx` 113D). A smaller (better) rank makes its difference larger, so a
+    better rank gives a larger rating. In the game's domain (continent 1..4, the four groups
+    1771:63A4 sorts at 6408-6431; continent rank 1..32, 6514-6524; world rank 1..128, 652A-6530)
+    the rating runs 1 (4, 32, 128) .. 128 (1, 1, 1), so +3 = rating + 0x7F is 0x80..0xFF."""
+    a = ((CONTINENT_WEIGHT - continent) * (CONTINENT_RANKS - continent_rank)
+         + (WORLD_RANKS - world_rank))
+    a = ((a + 0x8000) & 0xFFFF) - 0x8000          # the 16-bit word idiv sees
+    q = abs(a) // RATING_DIVISOR
+    return q if a >= 0 else -q
+
+
+def rating_of(country_record):
+    """country_rating of a 0xBF-byte country record, or of (continent, continent rank, world rank)."""
+    if len(country_record) == 3:
+        return country_rating(*country_record)
+    return country_rating(country_record[0x2C], country_record[0x2A], country_record[0x2B])
+
+
+def hardness(record):
+    """`1771:2FFB`: +5 - (+3 and 1), a byte (3018-3033)."""
+    return (record[A.PROFILE] - (record[A.RATING] & 1)) & 0xFF
+
+
+def tactics_bits(record):
+    """`1771:3431` on `record` (+5, +3, +6 as they stand): (bits it sets, bits it clears).
+
+    Hardness below 4 calls 33CD first (344F-345A): include element 8, exclude element 4. Then
+    position +6 in CS:3411 = {0, 1, 3, 4} sets elements 5 and 1 (346A-3490); position 2 sets
+    element 5 when +5 < 14 (34A4-34B8), then elements 6 and 2 (34BD-34DC). It never clears
+    +0xF first: the result is (old +0xF | set) & ~clear."""
+    set_, clear = 0, 0
+    if hardness(record) < HARDNESS_LIMIT:
+        set_, clear = OVERRIDE_BIT, TACKLE_BIT
+    if record[POSITION] in BACK_POSITIONS:
+        set_ |= BACK_BITS
+    elif record[POSITION] == CENTRE_BACK:
+        if record[A.PROFILE] < CENTRE_BACK_PROFILE:
+            set_ |= 0x10
+        set_ |= CENTRE_BACK_BITS
+    return set_, clear
+
+
+def fitness(record, managed, w):
+    """`1771:3558` on `record` (+1, +2 as they stand): (+0xD, +0xE, the new word).
+
+    T = DS:0E82[+1 > +2 + 4] (3572-3593, 35AD). A managed country (1771:0B77 at 35A0) draws
+    a = rand(T + 1), then b = rand(3T), value T + b - a (35AD-35E8); a computer country draws
+    once, value T + rand(2T) (35EE-3615). The value is capped at 0x20 (361C-3626), +0xE takes
+    it (3635), then +0xD is floored at 1 (363C-3646)."""
+    t = FITNESS_BASE[1 if record[A.AGE] > record[A.PEAK] + FITNESS_OLD_MARGIN else 0]
+    if managed:
+        a, w = draw(w, t + 1)
+        b, w = draw(w, 3 * t)
+        v = t + b - a
+    else:
+        r, w = draw(w, 2 * t)
+        v = t + r
+    v = min(v, FITNESS_CAP)
+    return max(v, FITNESS_FLOOR) & 0xFF, v & 0xFF, w
+
+
+def make_player(record, flag, club_position, country, rating, managed, w):
+    """`1771:96D3` on the 20 bytes `record` (what the slot held): (new record, new word).
+
+    rating: country_rating(country) (1771:10E7 at 9768/9785). managed: 1771:0B77(country), the
+    fitness branch. Bytes it does not write (+8..+0xB, +0x10, +0x11) are carried, and +0xF keeps
+    the bits 3431 does not touch."""
+    r = bytearray(record)
+    r[A.COUNTRY] = country                                    # 96ED-96F3
+    r[A.CLUB_POSITION] = club_position                        # 96F6-96FC
+    r[POSITION] = club_position                               # 9700-970A
+    gk = 1 if club_position == 0 else 0                       # 9736-9746, 32C3-32D3
+    r[A.PROFILE], w = draw(w, PROFILE_DRAW)                   # 970E-971A
+    a, w = draw(w, MP_AGE_DRAW)                               # 971E-9722 (pushed)
+    b, w = draw(w, MP_AGE_DRAW)                               # 9728-9731
+    r[A.AGE] = (MP_AGE_BASE[gk] - b + a) & 0xFF               # 9746-9754
+    a, w = draw(w, PEAK_DRAW)                                 # 3291: 32AB-32B4 (pushed)
+    b, w = draw(w, PEAK_DRAW)                                 # 32B5-32BE
+    r[A.PEAK] = (A.PEAK_BASE[gk] + b - a) & 0xFF              # 32D3-32E1
+    if flag:                                                  # 975E-9771
+        r[A.RATING] = (rating + RATING_OFFSET) & 0xFF
+    else:                                                     # 9777-9794
+        d, w = draw(w, POOL_RATING_DRAW)
+        r[A.RATING] = (rating + RATING_OFFSET - POOL_RATING_CUT - d) & 0xFF
+    r[A.ABILITY] = A.compute_ability(r[A.AGE], r[A.PEAK], r[A.RATING])   # 979C
+    r[MORALE], w = draw(w, MORALE_DRAW)                       # 979F-97AB
+    s, c = tactics_bits(r)                                    # 97B3: 1771:3431
+    r[TACTICS] = (r[TACTICS] | s) & ~c & 0xFF
+    r[FITNESS], r[ENERGY], w = fitness(r, managed, w)         # 97BA: 1771:3558
+    r[0x12], r[0x13] = PERFORMANCE_INIT & 0xFF, PERFORMANCE_INIT >> 8   # 97C0
+    return bytes(r), w
+
+
+def initial(w):
+    """`1771:0000`: (the initial byte DS:0C38[rand(21)], the new word)."""
+    r, w = draw(w, len(INITIAL_LETTERS))
+    return INITIAL_LETTERS[r - 1], w
+
+
+def recreate(old, rating, w):
+    """`1771:7E80(player)` exactly: (new record, new initial, new word), from the record `old`
+    as 7FDF's second pass sees it (the aged record), the country's rating at that instant and
+    the RNG word. A computer country only (7FDF reaches 7E80 only there), so the fitness
+    branch is the unmanaged one. The surname is not written."""
+    gk = 1 if old[A.CLUB_POSITION] == 0 else 0                # 7EDB-7EE9: the OLD +7 (= new +7)
+    r, w = make_player(old, 1, old[A.CLUB_POSITION], old[A.COUNTRY], rating, False, w)  # 7EA6-7EC0
+    r = bytearray(r)
+    a, w = draw(w, RECREATE_AGE_DRAW)                         # 7EC3-7ECC (pushed)
+    b, w = draw(w, RECREATE_AGE_DRAW)                         # 7ECD-7ED6
+    r[A.AGE] = (A.RECREATE_AGE_BASE[gk] + b - a) & 0xFF       # 7EEB-7EF9
+    r[A.ABILITY] = A.compute_ability(r[A.AGE], r[A.PEAK], r[A.RATING])   # 7F01
+    r[A.CAPS] = r[A.CAPS + 1] = 0                             # 7F09
+    r[A.GOALS] = r[A.GOALS + 1] = 0                           # 7F12
+    r[A.STATUS] = 0                                           # 7F19
+    ini, w = initial(w)                                       # 7F1F-7F2D
+    r[POSITION] = old[POSITION]                               # 7E9D-7EA3 saved, 7F30-7F36
+    return bytes(r), ini, w
+
+
+def young(rec):
+    """54F0's count test for one record: +1 < DS:0x76[gk] + 4 (55F6-561F, 5676-569F)."""
+    return rec[A.AGE] < YOUNG_BASE[1 if rec[A.CLUB_POSITION] == 0 else 0] + YOUNG_MARGIN
+
+
+def managed_replacement(fresh, retiree, country, rating, others, w):
+    """`000E:54F0` exactly: (new record, new initial, new word).
+
+    fresh: the 20 bytes of the record 1771:4CF7 chose (a record with country byte 0; 56F3
+    stores its number in the retiree's squad or pool slot before calling 54F0, 574A-579C).
+    retiree: the retiring record (its +7 is make_player's club position, 551C-552A). others: the
+    records of the other 99 words the count reads (squad slots 1..20, 55B5-5628, and the
+    manager's 80 pool words DS:6D18[m] .. +0x4F, 562A-56AA), the new word's own record being
+    the new one. A managed country: make_player's managed fitness branch."""
+    r, w = make_player(fresh, 1, retiree[A.CLUB_POSITION], country, rating, True, w)  # 550E-5534
+    r = bytearray(r)
+    gk = 1 if r[A.CLUB_POSITION] == 0 else 0                  # 554E-555F: the new record's +7
+    a, w = draw(w, RECREATE_AGE_DRAW)                         # 5539-5542 (pushed)
+    b, w = draw(w, RECREATE_AGE_DRAW)                         # 5543-554C
+    r[A.AGE] = (MANAGED_AGE_BASE[gk] + b - a) & 0xFF          # 5561-556F
+    r[A.ABILITY] = A.compute_ability(r[A.AGE], r[A.PEAK], r[A.RATING])   # 557A
+    r[A.CAPS] = r[A.CAPS + 1] = 0                             # 5584
+    r[A.GOALS] = r[A.GOALS + 1] = 0                           # 558D
+    r[A.STATUS] = 0                                           # 5594
+    ini, w = initial(w)                                       # 5599-55AD
+    count = sum(1 for o in others if young(o)) + (1 if young(r) else 0)
+    if count < YOUNG_QUOTA:                                   # 56AC-56B2
+        d, w = draw(w, YOUNG_DRAW)                            # 56B4-56BD
+        r[A.AGE] = (YOUNG_BASE[gk] + d) & 0xFF                # 56BF-56DD
+        r[A.ABILITY] = A.compute_ability(r[A.AGE], r[A.PEAK], r[A.RATING])   # 56E8
+    return bytes(r), ini, w
+
+
+def _spread(base, n):
+    """base + b - a with a, b = rand(n): base - (n - 1) .. base + (n - 1)."""
+    return (base - (n - 1), base + (n - 1))
+
+
+def recreate_contract(old, rating=None):
+    """7E80's complete instantaneous contract in range form (no RNG state), given the record
+    `old` as the second pass sees it and, when known, the country's rating.
+
+    Returns {'exact': {off: byte}, 'range': {off: (lo, hi)}, 'same_as': {off: off},
+    'tactics': (old +0xF, function new -> (set, clear)), 'initial': letters,
+    'surname': 'kept', 'ability_of_own_bytes': True, 'same_rating_per_country': True}:
+    - exact: +0 = old +0 and +7 = old +7 (make_player's arguments, 7EAC/7EB5 -> 96F3/96FC);
+      +6 = old +6 (7E9D/7F36); +8..+0xB = 0 (7F09, 7F12); +0x10 = 0 (7F19); +0x11 = old
+      +0x11 (nothing in 7E80's callee set writes it; 7FB1 zeroed it in the first pass, 7FD4);
+      +0x12/+0x13 = FF 7F (97C0); +3 = rating + 0x7F when the rating is given (976B-9771);
+    - range: +1 in DS:110C[gk] +- 5 (7EC3-7EF9); +2 in DS:0E80[gk] +- 2 (3291); +5 in 1..16
+      (9711); +0xC in 1..32 (97A3); +0xD in min(T)+1 .. min(3 max(T), 0x20) = 14..32 (3558's
+      computer branch; which T is the index of make_player's intermediate age, overwritten at
+      7EF9); +3 in 0x80..0xFF when the rating is not given (country_rating's domain);
+    - same_as: +0xE = +0xD (3635: the floor at 363C cannot fire, the value is at least T + 1);
+    - +4 = compute_ability of the new +1/+2/+3 (7F01); the initial one of DS:0C38's 21 letters
+      (7F1F); the surname kept (7E80 writes only [DS:9B70] + player, 7F2D)."""
+    gk = 1 if old[A.CLUB_POSITION] == 0 else 0
+    exact = {A.COUNTRY: old[A.COUNTRY], A.CLUB_POSITION: old[A.CLUB_POSITION],
+             POSITION: old[POSITION],
+             A.CAPS: 0, A.CAPS + 1: 0, A.GOALS: 0, A.GOALS + 1: 0, A.STATUS: 0,
+             A.SCORER_COUNT: old[A.SCORER_COUNT],
+             0x12: PERFORMANCE_INIT & 0xFF, 0x13: PERFORMANCE_INIT >> 8}
+    t_lo, t_hi = min(FITNESS_BASE), max(FITNESS_BASE)
+    rng = {A.AGE: _spread(A.RECREATE_AGE_BASE[gk], RECREATE_AGE_DRAW),
+           A.PEAK: _spread(A.PEAK_BASE[gk], PEAK_DRAW),
+           A.PROFILE: (1, PROFILE_DRAW),
+           MORALE: (1, MORALE_DRAW),
+           FITNESS: (t_lo + 1, min(3 * t_hi, FITNESS_CAP))}
+    if rating is None:
+        rng[A.RATING] = ((1 + RATING_OFFSET) & 0xFF, (128 + RATING_OFFSET) & 0xFF)
+    else:
+        exact[A.RATING] = (rating + RATING_OFFSET) & 0xFF
+    return {"exact": exact, "range": rng, "same_as": {ENERGY: FITNESS},
+            "tactics": (old[TACTICS], tactics_bits), "initial": INITIAL_LETTERS,
+            "surname": "kept", "ability_of_own_bytes": True, "same_rating_per_country": True}
 
 
 def recreate_constraints(old, country_record=None):
-    """What `1771:7E80(player)` fixes deterministically in the re-created record, given the
-    retiree's record `old` as the second pass saw it, and the country record at re-create time.
-
-    Returns `{'exact': {offset: byte}, 'range': {offset: (lo, hi)}}`:
-
-    - **exact**:
-        +0 (country) = old[+0]; +7 (club_position) = old[+7] — make_player's two args at
-          :96F3/:96FC carry the old values over;
-        +6 (position) = old[+6] — restored at :7F30-7F36 after make_player sets +6 = +7;
-        +8/+9 (caps) = 0 at :7F09, +0xA/+0xB (goals) = 0 at :7F12, +0x10 (status) = 0 at :7F19;
-        +0x11 (scorer_count) = 0 — 7FB1 cleared it in the first pass (:7FD4) and 7E80 writes
-          nothing here, leaving it as it was (zero);
-        +0x12/+0x13 (performance) = 0xFF/0x7F at :97C0 (make_player writes performance = 0x7FFF).
-    - **range**:
-        +1 (age) in (DS:0x110C[gk] − 5) .. (DS:0x110C[gk] + 5)  (rand(6) − rand(6) at :7EC7/:7ED1);
-        +2 (peak) in (DS:0x0E80[gk] − 2) .. (DS:0x0E80[gk] + 2) (rand(3) − rand(3) via make_player
-          calling roll_peak_age :3291);
-        +5 (profile) in 1..16 (rand(0x10) at :9711);
-        +0xC (morale) in 1..32 (rand(0x20) at :97A2) — predicted for completeness, but not
-          checked in `check_recreate` (the layout doesn't carry it into the runner's
-          record capture as a high-confidence byte, see check_recreate's selection).
-
-    - **NOT computed here**:
-        +3 (rating) depends on `country_record`: a re-create reads the country record's
-        +0x2C / +0x2A / +0x2B at make_player call 0x10E7 (:9764-:9771). The model assumes
-        the caller passes the country record (or its three rank bytes) for that prediction;
-        if absent, +3 is not in the constraints.
-        +4 (ability) = compute_ability(+1, +2, +3) of the new bytes — the final compute_ability
-        at :7F01 runs AFTER +1 has been overridden. So given +1/+2/+3, +4 is deterministic
-        and check_recreate's `compute_ability` self-test verifies it.
-        +0xD / +0xE (fitness / energy) — drawn by roll_fitness_energy :3558; bracketed by the
-        initialization tables DS:0x78D5/DS:0x78F6, but the model brackets them as range too.
-        the surname byte (at +0..+10 of [DS:9B6C] + 11·player, F008) is left unchanged by 7E80
-        (only the initial at [DS:9B70] + player is redrawn).
-        the new initial byte at [DS:9B70] + player — drawn from 1771:0000 (a uniform byte from
-        an LCG word). `check_recreate` does not bracket this; the runner captures the initial.
-
-    The arguments:
-        old: the retiree's 20-byte record as the second pass of 7FDF saw it (i.e. aged).
-        country_record: optional — when supplied, used for the +3 prediction. Either a 0xBF-byte
-            country record (offsets +0x2A/+0x2B/+0x2C used) or a 3-tuple
-            (continent, continent_rank, world_rank).
-    """
-    gk = 1 if old[CLUB_POSITION] == 0 else 0
-    age_base, peak_base = RECREATE_AGE_BASE[gk], PEAK_BASE[gk]
-    # +6 is fixed by 7E80 (7F30-7F36: position = old +6) but the comparator does not check it
-    # because captures are one year apart and the per-match repositioning (0791:AD8F, the player
-    # screen's 'C' key 1771:4952, unmanage_country 000E:0290, reset_team_tactics 0791:BC5D;
-    # notes of E014, section 6) changes +6 between captures. The literal record at the
-    # instant of re-create has +6 = the retiree's +6 as the second pass of 7FDF saw it.
-    exact = {COUNTRY: old[COUNTRY], CLUB_POSITION: old[CLUB_POSITION],
-             CAPS: 0, CAPS + 1: 0, GOALS: 0, GOALS + 1: 0, STATUS: 0,
-             SCORER_COUNT: 0,
-             PERFORMANCE: 0xFF, PERFORMANCE + 1: 0x7F}
-    rng = {AGE: (age_base - RECREATE_AGE_SPREAD, age_base + RECREATE_AGE_SPREAD),
-           PEAK: (peak_base - PEAK_SPREAD, peak_base + PEAK_SPREAD),
-           PROFILE: PROFILE_RANGE}
+    """F016's reduced form of 7E80's contract (T28; moved from ageing.py, which re-exports it):
+    the bytes a capture a year earlier fixes, given the retiree's record `old` as the second
+    pass saw it. {'exact', 'range', 'ability_of_own_bytes', 'same_rating_per_country'}:
+    +0/+7 carried, +8..+0xB/+0x10/+0x11 = 0, +0x12/+0x13 = FF 7F; +1 in DS:110C[gk] +- 5, +2 in
+    DS:0E80[gk] +- 2, +5 in 1..16 (ageing.py's constants, F016). With `country_record` (0xBF
+    bytes, or the three rank bytes) +3 = country_rating + 0x7F is exact too. The complete
+    contract is `recreate_contract`."""
+    gk = 1 if old[A.CLUB_POSITION] == 0 else 0
+    exact = {A.COUNTRY: old[A.COUNTRY], A.CLUB_POSITION: old[A.CLUB_POSITION],
+             A.CAPS: 0, A.CAPS + 1: 0, A.GOALS: 0, A.GOALS + 1: 0, A.STATUS: 0,
+             A.SCORER_COUNT: 0, A.PERFORMANCE: 0xFF, A.PERFORMANCE + 1: 0x7F}
+    rng = {A.AGE: (A.RECREATE_AGE_BASE[gk] - A.RECREATE_AGE_SPREAD,
+                   A.RECREATE_AGE_BASE[gk] + A.RECREATE_AGE_SPREAD),
+           A.PEAK: (A.PEAK_BASE[gk] - A.PEAK_SPREAD, A.PEAK_BASE[gk] + A.PEAK_SPREAD),
+           A.PROFILE: A.PROFILE_RANGE}
     if country_record is not None:
-        if isinstance(country_record, dict):
-            cr = country_rating(country_record['continent'],
-                                country_record['continent_rank'],
-                                country_record['world_rank'])
-        elif isinstance(country_record, (tuple, list)) and len(country_record) == 3:
-            cr = country_rating(*country_record)
-        else:
-            cr = country_rating(country_record[0x2C], country_record[0x2A], country_record[0x2B])
-        exact[RATING] = (cr + RATING_BASE) & 0xFF
-    return {"exact": exact, "range": rng,
-            # the re-create's +4 = compute_ability(+1, +2, +3) at :7F01
-            "ability_of_own_bytes": True,
-            # one +3 per country in one 7FDF call (country record is read but not written
-            # between re-creates within the same 7FDF call)
-            "same_rating_per_country": True,
-            "gk": gk}
+        exact[A.RATING] = (rating_of(country_record) + RATING_OFFSET) & 0xFF
+    return {"exact": exact, "range": rng, "ability_of_own_bytes": True,
+            "same_rating_per_country": True}
