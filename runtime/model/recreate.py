@@ -84,6 +84,14 @@ YOUNG_MARGIN = 4                   # 560F/568F: add ax, 4 — "young" is +1 < DS
 YOUNG_QUOTA = 0x14                 # 56AC: cmp word ptr [bp - 2], 0x14; jb -> the override
 YOUNG_DRAW = 3                     # 56B4: rand(3); +1 = DS:76[gk] + rand(3) (56D2-56DD)
 
+# --- the new game: make_squad 1771:97CC and make_managed_pool 1771:98C4 (seg_1771_14.asm) ---
+SQUAD_SLOTS = 20                   # 9867: cmp word ptr [bp - 2], 0x14
+POOL_POSITIONS = 14                # 9955: cmp word ptr [bp - 4], 0xd (positions 0..13)
+POOL_PER_POSITION = 4              # 994F: cmp word ptr [bp - 6], 4
+POOL_AGE_BASE = (0x11, 0x14)       # 99DA: [di + 0x118c] by (+7 == 0); DS:118C = 11 14 (ds_2581_01.hex:147)
+POOL_AGE_DRAW = 3                  # 99BC: rand(3)
+POOL_EXTRA_SLOTS = (6, 9)          # 9A04: from slot 6; 9A32: cmp word ptr [bp - 4], 9
+
 # --- country_rating 1771:10E7 (seg_1771_02.asm:697-738) ------------------------------------
 CONTINENT_WEIGHT = 5               # 110C: mov ax, 5; sub ax, continent (+0x2C)
 CONTINENT_RANKS = 0x21             # 111E: mov ax, 0x21; sub ax, continent rank (+0x2A)
@@ -272,6 +280,45 @@ def managed_replacement(fresh, retiree, country, rating, others, w):
         r[A.AGE] = (YOUNG_BASE[gk] + d) & 0xFF                # 56BF-56DD
         r[A.ABILITY] = A.compute_ability(r[A.AGE], r[A.PEAK], r[A.RATING])   # 56E8
     return bytes(r), ini, w
+
+
+def new_game_squad(country, rating, club_positions, before=None):
+    """`1771:97CC(country)` at a new game (seg_1771_14.asm:6-70): the word := country (97E6-97ED),
+    then make_player(1, DS:9F02[20 * country + slot], country, squad[slot]) for slots 1..20
+    (982D-986B; club_positions are those 20 bytes). No country is managed yet (1771:2D15 runs
+    after 1771:9B85, seg_0000_01.asm:24-25), so the fitness branch is the unmanaged one.
+    before: the 20 records as they were (zeros by default). Returns (20 records, the word)."""
+    w, out = country & 0xFFFF, []
+    for slot in range(SQUAD_SLOTS):
+        rec = bytes(20) if before is None else before[slot]
+        rec, w = make_player(rec, 1, club_positions[slot], country, rating, False, w)
+        out.append(rec)
+    return out, w
+
+
+def managed_pool(w, country, rating, squad_club_positions):
+    """`1771:98C4` (seg_1771_14.asm:106-256): the manager's 80 extra players through
+    `1771:9873` = make_player(0, position, country, 0xA00 + counter) (987D-98BB), the country
+    already managed (2D15 set its +0x2E): four per position 0..13 (993E-9959); one per squad
+    slot 1..20 with that slot's +7, its age then redrawn DS:118C[gk] + rand(3) and +4
+    recomputed (9976-99F8); then slots 6..9 again (9A04-9A36). Returns (80 records in the
+    order made, the word). 1771:5532 then sorts the pool's word list, not the records."""
+    out = []
+    for pos in range(POOL_POSITIONS):
+        for _ in range(POOL_PER_POSITION):
+            rec, w = make_player(bytes(20), 0, pos, country, rating, True, w)
+            out.append(rec)
+    for slot in range(SQUAD_SLOTS):
+        rec, w = make_player(bytes(20), 0, squad_club_positions[slot], country, rating, True, w)
+        rec = bytearray(rec)
+        d, w = draw(w, POOL_AGE_DRAW)                                   # 99BC-99C0
+        rec[A.AGE] = (POOL_AGE_BASE[1 if rec[A.CLUB_POSITION] == 0 else 0] + d) & 0xFF  # 99C7-99E5
+        rec[A.ABILITY] = A.compute_ability(rec[A.AGE], rec[A.PEAK], rec[A.RATING])  # 99F8
+        out.append(bytes(rec))
+    for slot in range(POOL_EXTRA_SLOTS[0], POOL_EXTRA_SLOTS[1] + 1):
+        rec, w = make_player(bytes(20), 0, squad_club_positions[slot - 1], country, rating, True, w)
+        out.append(rec)
+    return out, w
 
 
 def _spread(base, n):
