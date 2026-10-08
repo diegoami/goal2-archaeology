@@ -14,3 +14,15 @@ DS:0A6B	quick_scorer_slots	char[31]	the goal-scorer slot table: a dummy base at 
 DS:80E8	pitch_records	pitch[23]	the pitch record array: record k at 0x80E8+0x16*k, the 22 on-pitch slots 1..22 (0x80FE..0x82E1); the byte table DS:883[k] maps 9564's loop index to a record number	established	F012; F013
 DS:82F6	ball_record	ball	the ball record: position +0/+1, velocities +6/+8 (DS:82FC/82FE), timer +0xA (DS:8300)	established	F005; F013
 DS:82EE	referee_record	sprite	the referee sprite record 9119 moves every watched tick (row +0, column +1, glyph +4, target +6/+7)	likely	F013
+DS:A978	rng_word_ptr	word far*	far pointer to the RNG word every 214B:06B1 / 06D0 / 06FA draw steps (214B:0688); 214B:206A sets it to DS:7B62	established	F004; F017
+DS:7B62	rng_word	word	the RNG word: := country by 1771:97CC, := hour*256 + minute by 23E4:11D7 (year 0 only, through 1771:6730), stepped by 214B:0688 as w * 0x7ABD + 0x1B0F	established	F004; F007; F017
+DS:0C38	initial_letters	char[22]	Pascal string of the 21 letters a new initial is drawn from (1771:0000): ABCDEFGHIJKLMNOPRSTVW	established	F017
+DS:0076	young_age_base	char[2]	000E:54F0's young limit and override base by (+7 == 0): 17, 20 (young is +1 < this + 4; override +1 = this + rand(3))	established	F017
+DS:0078	managed_age_base	char[2]	000E:54F0's age base by (+7 == 0): 25, 28 (+1 = this + rand(6) - rand(6))	established	F017
+DS:110C	recreate_age_base	char[2]	1771:7E80's age base by (+7 == 0): 25, 28 (+1 = this + rand(6) - rand(6))	established	F016; F017
+DS:110E	retire_age_limit	char[2]	1771:7F40's age limit by (+7 == 0): 30, 33 (retires above it with caps 0)	established	F016
+DS:118A	new_player_age_base	char[2]	make_player's age base by (+7 == 0): 28, 31 (+1 = this - rand(7) + rand(7))	established	F007; F017
+DS:118C	pool_age_base	char[2]	1771:98C4's age base for the pool copies of the squad slots by (+7 == 0): 17, 20 (+1 = this + rand(3))	established	F007; F017
+DS:0E80	peak_age_base	char[2]	1771:3291's peak base by (+7 == 0): 27, 30 (+2 = this + rand(3) - rand(3))	established	F007; F016
+DS:0E82	fitness_base	char[2]	1771:3558's T by (+1 > +2 + 4): 16, 13	established	F007; F017
+DS:9B56	country_order_ptr	byte far*	far pointer to the country order 1771:5EE1 sorts and 1771:63A4 ranks by: DS:9BFD (world, 128) or DS:9C7E (four continents of 32)	established	F017

@@ -1,426 +1,268 @@
-# E016 (T30, Q014): how retirements happen, how new players are made, and whether results feed new talent — the static map
+# E016 (T30, Q014): retirement, the making of players, and results -> talent — the static map
 
-Static first (rule 22): every claim below is read from `static/goal-exe/` — the named view
-`named/` first, then the raw `code/` listing, with `calls.tsv`, `datarefs.tsv` and the initialised
-data image `data/ds_2581_01.hex` closing the reader/writer sets. The prior finding F016 / T28
-(`findings/F016-ageing-peak-band-and-yearly-writes.md`, the notes of `experiments/E014-q013-ageing/`)
-is the stage-2, retirement-test, re-create and +3-as-country_rating context. Listing citations
-are `file:line` with the routine address; addresses are the listing's own left column. No run
-was needed to find any byte the re-create writes, the RNG entries it reaches, or the chain that
-might bring results to a retiree.
+Static first (rule 22). Every claim is read from `static/goal-exe/code/` (cited `file:line` and the
+instruction address), with `calls.tsv` for callee sets and the initialised data image
+`data/ds_2581_01.hex` for every table value; the named view was read first and corrected where it
+was wrong (section 9). The committed records then corroborate: E014's six year-end records (the
+38 re-creates, F016) and E006's twelve new games (F007). No run was taken (section 8 says why
+none was needed). Files are under `static/goal-exe/code/`; `ds:N` is `data/ds_2581_01.hex:N`.
 
-## 1. The retirement test for computer countries (`1771:7F40`)
+## 1. When old players leave: computer countries at the ageing gate
 
-`1771:7F40(player)` (seg_1771_11.asm:949-998). On the AGED record (`7FDF`'s second pass,
-:1086-1099 the call at :1098):
+- `000E:70B9` (play next game; seg_000E_09.asm:476) routes a fixture (`6CA7`, :484); when the
+  stage's fixtures are done it calls `1771:8208` (:492), then `000E:7072`, then the stage routine
+  `1771:76B1` (:498). So a transition's ageing always runs before that transition's stage routine.
+- `1771:8208` (seg_1771_12.asm:123) steps the stage byte `[A923]+0x3C` in [2,8] (`8251`, :154) and
+  calls `1771:80DA` when the new stage is in the set at CS:81E8 = 0xAC = **{2, 3, 5, 7}** (`8263`,
+  :161; `826A`, :163); only afterwards it sets `+0x40 = (stage >= 5)` (`8280`, :174).
+- `1771:80DA` (seg_1771_12.asm:8) calls `1771:7FDF` for countries 1..128 in that order (`80F7`,
+  :20); then, for the set CS:80BA = 0x24 = {2, 5}, increments the year word `[A923]+0x38`
+  (`811B`, :34) and moves the countries' +0x3B..+0x40 history.
+- `1771:7FDF(country)` (seg_1771_11.asm:1022): first pass, every squad slot 1..20 through
+  `7FB1` (`8012`, :1043: age +1 at `7E6F` :861, `32EB`, +0x11 = 0 at `7FD4` :1015); then
+  `1771:0B77` (`801F`, :1048). A **managed** country (0B77 true) ages its manager's 80 pool
+  players too (`8024`-`8079`, :1050-1080) and runs **no retirement test**. A **computer** country
+  runs `1771:7F40` on each squad slot (`8096`, :1098) and, on 1, `1771:7E80` (`80AB`, :1106).
+- `1771:7F40(player)` (seg_1771_11.asm:951-998), deterministic, no callee: retires when
+  `(DS:110E[gk] < +1 AND word +8 == 0) OR +1 > +2 + 5`, gk = (+7 == 0) (`7F5D`); `DS:110E = 1E 21`
+  (ds:143: 30 outfield, 33 keeper); both comparisons strict (`7F78 jae`, :974; `7F9D jg`, :988).
+  On the record the first pass aged (F016).
 
-- `gk = record[+7] == 0` (:7F5D, byte compare; al = 1 if gk, else 0, then cwde into di);
-- cap the test uses: `DS:0x110E[gk]` is the strict age limit, compared against `+1` (the AGE byte
-  already incremented by `7E4A`): `cmp al, byte ptr es:[di + 1]; jae 0x7f84` (:7F74-:7F78).
-  `DS:0x110E = 1E 21` (data/ds_2581_01.hex:143): 30 outfield, 33 goalkeeper;
-- the caps clause: only when the age clause is OPEN (DS:0x110E[gk] strictly less than +1) does
-  the caps test run: `cmp word ptr es:[di + 8], 0; je 0x7fa3` (:7F7D-:7F82) — both compared as
-  16-bit (`83 7D 08 00` is a word compare per the `83` opcode). Equal zero closes the clause;
-- when the age clause is closed (or caps nonzero), the peak clause runs:
-  `peak + 5` (signed 16-bit +5, :7F87-:7F8D), then `cmp +1, peak+5; jg 0x7fa3` (:7F9B-:7F9D).
-  The `jg` is a signed GREATER (so a player aged to peak+6 retires);
-- result: 1 returned when the (age AND caps-zero) clause fired OR peak+5 < +1 (signed, strict);
-  otherwise 0.
+## 2. What happens to a managed country's old players
 
-The test is deterministic; its callees are empty (`calls.tsv` 7F40 has none). It runs only for
-computer countries and only at the year end (`7FDF`'s 0B77 branch, :1046; `7F40` is in the
-else-branch at :1086-1099). Reading `DS:0x110E` is the only non-record data access.
+There is a retirement path for them, outside the year end:
 
-```text
-R = (DS:0x110E[gk] < +1 AND caps == 0) OR (+1 > peak + 5)
-gk = (+7 == 0)
-caps = word
-DS:0x110E = 1E 21 (30 / 33)
-```
+- `000E:7439` (the main-menu loop): on Enter with item 6, for the current manager m
+  (`[A923]+1`) whose `[A923]+0x47+m` is 0, it calls `000E:57E5(country of m)` (`7785`,
+  seg_000E_09.asm:1210); a 1 returns to the menu (`7788`), a 0 goes on to `000E:5CF4` and, for the
+  last manager, to `000E:70B9` (play next game, `77BF`, :1233).
+- `000E:57E5(country)` (seg_000E_07.asm:383): returns 0 when the year word `+0x38` is 0
+  (`580C`, :397) or the manager's flag `[A923]+0x4D+m` is set (`5824`, :405). Otherwise, when
+  `[A923]+0x13+m` is 0 and `0791:DB38(country)` returns 0 (`5851`/`585B`, :421-424), it tests the
+  squad slots 1..20 with `1771:7F40` (`587C`, :437) and replaces the **first** retiree at once:
+  `000E:56F3(retiree, 1)` (`5897`, :448), return 1. Else it draws `rand(0x50)` (`58AB`, :457) and
+  walks the 80 pool words cyclically from `DS:6D18[m] - 1 + rand` (`58BA`, :463) with `7F40`
+  (`58DC`, :477); the first retiree is replaced by `56F3(retiree, caps > 0)` (`590C`-`591B`,
+  :494-503), return 1; none: return 0 (`5948`, :521). The predicate's 1 leads straight to the
+  replacement: the path has no question or acceptance step.
+- `000E:56F3(retiree, announced)` (seg_000E_07.asm:289): sets the manager's flag `+0x4D+m = 1`
+  (`570D`, :298); announced: the retirement news `000E:50D4` (`571E`, :303); `1771:1B2E` twice
+  (:310, :316); a fresh record from `1771:4CF7` (`5745`, :317: rand(0x1F3) then the first record
+  with country byte 0 in 0xA01..0xBF4, seg_1771_07.asm:517-529); its number into the retiree's
+  pool slot or squad slot (`5771`, :330 / `579C`, :346); `000E:54F0` (`57A6`, :350); the retiree's
+  20 bytes zeroed (`214B:0018`, `57C0`, :362); announced: `000E:544D` and `000E:05F6` (:368).
+- The flags `[A923]+0x4E..+0x53` (the six managers' +0x4D) are cleared by `000E:6CA7` at every
+  fixture (`6CC8`-`6CD5`, seg_000E_09.asm:67-74). So a managed country loses **at most one old
+  player per manager between two fixtures**, the squad before the pool, from the first game
+  after year 0 on; computer countries lose every retiree at each ageing gate.
 
-## 2. The re-create of a retired computer-country player (`1771:7E80`) — every byte
+## 3. `1771:96D3` make_player(flag, club_position, country, player): every byte
 
-`1771:7E80(player)` (seg_1771_11.asm:870-947, the routine `recreate_retired_player` in
-`named/seg_1771_05.c`). Called from `7FDF`'s second pass at the year end, on the AGED record.
-The routine address is read once at the top:
+Arguments by the callers' push order (first pushed = highest `[bp + n]`): `[bp+0xC]` player,
+`[bp+0xA]` country, `[bp+8]` club position, `[bp+6]` flag (7E80 pushes player, +0, +7, 1 at
+`7EA6`-`7EBE`, seg_1771_11.asm:886-897). seg_1771_13.asm:1107-1201:
 
-- `:7E83-7E97`: `local_6` ← record pointer `es:di + 20·player` from `[0xA91B]` (`7E58`: 0x14·player,
-  `7E92` adds it; matches the F008 20-byte player record layout).
-- `:7E9D-7EA3`: saves `bVar1 = record[+6]` (the player screen's old position, untouched by 7FB1/7E4A).
+| byte | write | draw (214B:06B1 arguments, in order) |
+| --- | --- | --- |
+| +0 | country (`96F3`, :1119) | - |
+| +7 | club position (`96FC`, :1122) | - |
+| +6 | = +7 (`970A`, :1126) | - |
+| +5 | rand(0x10), 1..16 (`9711`-`971A`, :1128-1131) | 1: rand(16) |
+| +1 | DS:118A[gk] - b + a, a then b = rand(7) (`9722`-`9754`, :1134-1156); DS:118A = 1C 1F (ds:147): 22..34 / 25..37 | 2, 3: rand(7), rand(7) |
+| +2 | `1771:3291` (`975B`, :1158): DS:0E80[gk] + b - a, a then b = rand(3) (seg_1771_05.asm:255-277); DS:0E80 = 1B 1E (ds:123) | 4, 5: rand(3), rand(3) |
+| +3 | flag != 0: country_rating(country) + 0x7F (`9768`-`9771`, :1163-1166); flag 0: country_rating + 0x7F - 10 - rand(10) (`977B`-`9794`, :1171-1181) | flag 0 only: rand(10) |
+| +4 | `1771:32EB` of +1/+2/+3 (`979C`, :1185) | - |
+| +0xC | rand(0x20), 1..32 (`97A3`-`97AB`, :1188-1190) | rand(32) |
+| +0xF | `1771:3431` (`97B3`, :1193), bits only (below) | - |
+| +0xD, +0xE | `1771:3558` (`97BA`, :1196) (below) | computer: rand(2T); managed: rand(T+1), rand(3T) |
+| +0x12/+0x13 | 0x7FFF (`97C0`, :1198) | - |
 
-Then the deterministic calls:
+Not written: +8..+0xB, +0x10, +0x11, and +0xF's other bits. No name byte (the initial and the
+surname live in `[DS:9B70]` and `[DS:9B6C]`).
 
-- `:7EA6-7EC0`: `call 0x96d3` with stack `[+0][player]`, `[+7][player]`, `1[player]` — the
-  __stdcall16far convention pushes right-to-left, so the call is
-  `make_player(1, record[+7], record[+0], player)` — param_1=1 forces the re-create's
-  `+3 = country_rating(country) + 0x7F` rule (no `−10 − rand(10)` for pool). make_player is
-  `1771:96D3` (seg_1771_13.asm:1105-1201, the named view's `make_player`):
-  - `:96ED-96FC`: writes `[player].country = arg_2 (= param_3 = record[+0])` — the carry-back of
-    the OLD +0;
-  - `:96F6-96FC`: writes `[player].club_position = arg_1 (= param_2 = record[+7])` — the
-    carry-back of the OLD +7;
-  - `:9700-970A`: copies `+7` to `+6` (position);
-  - `:970E-971A`: `+5 = rand(0x10)` (`u214b_random_1_to_n`, returns 1..16 — `97` `97`
-    `97` `97` `FB` `CF` are sequential `214B:06B1` far calls in seg_214B_02.asm);
-  - `:971E-9756`: `+1 = DS:0x118A[+7==0] − rand(7) + rand(7)` (`DS:0x118A = 1C 1F` per
-    data/ds_2581_01.hex:147 — 28 outfield / 31 goalkeeper; with two `rand(7)` draws in [1..7]
-    the final +1 lies in base−6..base+6, i.e. 22..34 outfield / 25..37 goalkeeper). This draw
-    is consumed by the LCG on the re-create path even though 7E80 OVERWRITES +1 at :7EF9 with
-    its own `DS:0x110C[gk] ± rand(6) − rand(6)` draw — the make_player's draws still shift the
-    LCG for downstream draws of the same year end.
-  - `:975B`: `roll_peak_age` (1771:3291, seg_1771_05.asm:243-281): two `214B:06B1(3)` draws
-    (32AB-32BF) give +2 = `DS:0x0E80[+7==0] + rand(3) − rand(3)`. `DS:0x0E80 = 1B 1E` so peak
-    25..29 outfield, 28..32 goalkeeper (`:32D3-32DB`, :32DC-32E1 store it). NOT REACHED by the
-    re-create path either (the carry is already from make_player's own call).
-  - `:9764-9775 (param_1 != 0)`: `+3 = country_rating(country) + 0x7F` — `country_rating` at
-    `1771:10E7` (seg_1771_02.asm:697-738, named `country_rating`): the call at `:9768`
-    `call 0x10e7` with the country arg, then `add ax, 0x7F` at `:976B`. `country_rating(country)`
-    itself reads the country record +0x2C/0x2A/0x2B at `:1104-1137`:
-    ```
-    ax = (5 − continent) · (33 − continent_rank) + (129 − world_rank)   ; signed 16-bit
-    ax = idiv 2                                                       ; signed
-    ```
-    so a higher world_rank (better country) ⇒ LOWER (129-world_rank) ⇒ LOWER rating ⇒ WORSE
-    prospective `+3`. The strongest countries (world_rank 1) yield a rating of
-    `(5-cont)·(33-cr) + 128` divided by 2; the weakest (world_rank 128) yields
-    `(5-cont)·(33-cr) + 1` divided by 2. Note: better results lower world_rank, so better results
-    LOWER the `+3` of the next cycle's re-creates — the chain exists; the reading is the
-    opposite of "results → talent" being a simple "+talent"; see section 4 for the full chain.
-  - `:979C`: `compute_ability(player)` recomputes +4 from the new +1/+2/+3 (32EB, seg_1771_05.asm
-    :282-370; the F016 plateau of p−1..p+3, the F016 wrap past p+19).
-  - `:97A2-97AB`: `+0xC = rand(0x20)` (morale).
-  - `:97B3`: `set_player_tactics` (1771:3431, the player's own-tactics default writes of
-    seg_1771_05.asm).
-  - `:97BA`: `roll_fitness_energy` (1771:3558, seg_1771_05.asm:223+/the fitness /energy draws).
-  - `:97C0`: `performance = 0x7FFF` (the "blank" sentinel).
+- `1771:3431` (seg_1771_05.asm:407-481): hardness `1771:2FFB` = +5 - (+3 and 1) (seg_1771_04.asm:
+  1113-1126); below 4 (`3452`, :420) `1771:33CD` includes element 8 (bit 7) and excludes element
+  4 (bit 3) (:390, :397). Then +6 in the set CS:3411 = 1B = {0, 1, 3, 4} (`346A`, :432; the set
+  bytes at :402) includes elements 5 and 1 (`347E`, `3490`); +6 = 2 (`349A`, :451) includes element
+  5 when +5 < 14 (`34A4`-`34B8`, :454-462), then elements 6 and 2 (`34CA`, `34DC`). `214B:0C79`
+  ORs a bit (seg_214B_02.asm:441-460): 3431 never clears the byte first. In make_player +6 = +7.
+- `1771:3558` (seg_1771_05.asm:532-633): T = DS:0E82[+1 > +2 + 4] (`3583`-`3589`, `35AD`, :548-569;
+  DS:0E82 = 10 0D, ds:123), read with make_player's +1 and +2. `1771:0B77(+0)` (`35A0`, :563):
+  managed: a = rand(T + 1), b = rand(3T), value T + b - a (`35B5`-`35E8`, :573-594); computer:
+  value T + rand(2T) (`35FD`-`3615`, :604-613). Capped at 0x20 (`361C`/`3626`, signed `jle`),
+  copied to +0xE (`3635`, :624), then +0xD floored at 1 (`363C`/`3646`, signed `jge`). In the
+  computer branch the value is at least T + 1 = 14, so +0xE = +0xD, 14..32; in the managed branch
+  0 is possible (energy 0, fitness 1; tests.test_model_recreate visits it).
+- `1771:10E7` (seg_1771_02.asm:699-738): ((5 - +0x2C) * (0x21 - +0x2A) + (0x81 - +0x2B)) idiv 2,
+  reads at `1104`, `1116`, `112A`, signed (`cwd` :731, `idiv cx` :733). Each difference grows as
+  its rank gets better (smaller), so a better rank gives a larger rating. Domain: continent 1..4
+  (63A4 sorts four continent groups, `6408`-`6431`), continent rank 1..32 (`6514`-`6524`), world
+  rank 1..128 (`6530`): rating 1..128, +3 = 0x80..0xFF.
 
-After make_player, `7E80` continues:
+`recreate.make_player` is this table; it reproduces every byte of the 2560 squad players and the
+80 pool players of the E006 new game (tests.test_model_recreate.NewGameTests).
 
-- `:7EC3-7EF9`: two `214B:06B1(6)` draws (the order matters — `cVar3` then `cVar2`):
-  `:7EC7` first rand(6) saved on stack, `:7ED1` second rand(6) assigned to `dx`. Then
-  `ax = DS:0x110C[+7==0] + second_rand`, `sub ax, first_rand`, stored as the new `+1`. So
-  `+1 = DS:0x110C[gk] + rand(6) − rand(6)`, range DS:0x110C[gk] − 5 .. DS:0x110C[gk] + 5.
-  `DS:0x110C = 19 1C` (data/ds_2581_01.hex:143) so 20..30 outfield, 23..33 goalkeeper.
-  - Calls.tsv: 7E80's RNG draws are exactly these two `214B:06B1(6)` calls plus make_player's
-    (which uses 0x10, 7, 7 — `21 4B 06 B1` calls) plus `roll_peak_age`'s two 0x10-3 draws (NOT
-    reached on the re-create path), plus the LCG byte from `1771:0000` (:7F1F).
-- `:7EFD-7F01`: `call 0x32eb` — `compute_ability(player)` again, with the OVERWRITTEN +1 (the
-  one written at :7EF9). This computes +4 from +1 (new), +2 (set by make_player at 975B), +3
-  (= country_rating+0x7F). The first compute_ability at make_player used the values as make_player
-  drew them — for the re-create path that means `+1 = DS:0x118A[gk] − rand(7) + rand(7)`,
-  `+2 = DS:0x0E80[gk] + b − a` and `+3 = country_rating+0x7F`. The second compute_ability
-  after the +1 override recomputes with the final new +1.
-- `:7F04-7F09`: `[player].caps = 0` (`F09` is `mov word ptr es:[di + 8], ax` with ax = 0 from
-  :7F07 xor ax,ax).
-- `:7F0D-7F12`: `[player].goals = 0` (word). +0xA is bytes 0xA,0xB.
-- `:7F16-7F19`: `[player].status = 0` (`mov byte ptr es:[di + 0x10], 0`).
-- `:7F1E-7F2D`: `[DS:9B70] + player = f_1771_0000()` — a new initial byte from the LCG. The
-  surname is unchanged.
-- `:7F30-7F36`: `[player].position = old_+6` (the byte saved at :7E9D-7EA3 / :7F30 `mov al, [bp-2];
-  :7F33-7F36 stores it). This `+6 = old +6` is the F008 "which shown cell each feeds is static
-  only" — the position the new player inherits from the retiree.
-- `:7F3A-7F3D`: ret 2.
+## 4. The callers of make_player, caller by caller (calls.tsv: 7E80, 54F0, 97CC, 9873)
 
-### 2.1 The re-create's byte set
+| caller | when | flag | club position | branch of 3558 | after make_player |
+| --- | --- | --- | --- | --- | --- |
+| `1771:97CC` | new game: `1771:9B85` -> `9A40` -> `97CC` per country (seg_1771_14.asm:393, :374); also `1771:26B9`'s rank-swap branch (below) | 1 | DS:9F02[20 country + slot] (`9859`, :59) | computer (no country is managed yet) | nothing |
+| `1771:9873` <- `1771:98C4` | new game: `1771:2D15` -> `98C4` (seg_1771_04.asm:878), the managed country chosen | 0 | 0..13 four times; each squad slot's +7; slots 6..9 again | managed | squad-slot copies: +1 = DS:118C[gk] + rand(3) (`99C0`-`99E5`, :203-219; DS:118C = 11 14, ds:147), `32EB` (`99F8`) |
+| `1771:7E80` | ageing gate, computer country (section 1) | 1 | the retiree's +7 (`7EB5`) | computer | +1 = DS:110C[gk] + b - a, a then b = rand(6) (`7EC7`/`7ED1`, `7EEB`-`7EF9`, :901-923; DS:110C = 19 1C, ds:143); `32EB` (`7F01`, :926); +8/+9 = 0 (`7F09`), +0xA/+0xB = 0 (`7F12`), +0x10 = 0 (`7F19`); the initial `[DS:9B70]+player` = `1771:0000` (`7F1F`-`7F2D`, :936-941); +6 = the retiree's +6 saved at `7E9D` (:883), restored at `7F36` (:944) |
+| `000E:54F0` | between fixtures, managed country (section 2) | 1 | the retiree's +7 (`552A`, :105), into the fresh record | managed | +1 = **DS:0x78**[gk] + b - a, a then b = rand(6) (`553D`/`5547`, `5561`-`556F`, :113-135; DS:0078 = 19 1C, ds:10); `32EB`; caps/goals/status zeroed (`5584`, `558D`, `5594`); the initial (`5599`-`55AD`); then the young count: squad slots 1..20 and the 80 pool words with +1 < **DS:0x76**[gk] + 4 (`55B5`-`56AA`, :156-254; DS:0076 = 11 14, ds:10; the fresh record is already in its slot); fewer than 0x14 (`56AC`, :256): +1 = DS:0x76[gk] + rand(3) (`56B8`-`56DD`, :262-278), `32EB` (`56E8`) |
 
-What `7E80` writes, listing line by line:
+- `1771:0000` (seg_1771_01.asm:9-22): `r = rand(byte DS:0C38)` (`0006`-`000C`), returns
+  `DS:0C38[r]` (`0013`): DS:0C38 = 0x15 then "ABCDEFGHIJKLMNOPRSTVW" (ds:104-105) — one of 21
+  letters, never Q, U, X, Y, Z. One draw.
+- `97CC(country)` (seg_1771_14.asm:8-70): the RNG word := country (`97ED`, :20); +0x29 := +0x2B and
+  +0x28 := +0x2A (`97FA`, `9808`); `[A91F]+3(+0x2E)+1 := country_rating` (`9810`-`9829`); then the
+  20 make_player calls (`9864`, :65).
+- `98C4` (seg_1771_14.asm:107-256) starts one draw after 97CC(128) ends in E006 (`1771:2D15` calls
+  `1771:09A0`, which draws an initial for an empty manager name, seg_1771_01.asm:1087), and its
+  80 records then match E006 exactly.
+- `1771:26B9` (seg_1771_04.asm:591-683): a branch swaps two countries' +0x2B (world view,
+  `2B99`) or +0x2A (`2BE2`) and their places in the order (`2C01`), then re-makes both squads with
+  `97CC` (`2C16`, `2C29`): seeded by the country number again, with the swapped ranks.
 
-| offset | writes | source line | deterministic? |
-|---|---|---|---|
-| +0 (country) | record[+0] (make_player arg) | 7EAC, 96F3 | yes — carry from old |
-| +1 (age) | DS:0x110C[gk] + rand(6) − rand(6) | 7EF9 | NO (LCG state) |
-| +2 (peak) | country_rating(country) + 0x7F... wait that's +3. +2 from make_player: roll_peak_age sets it. But the re-create entry DID call make_player which set +2 via roll_peak_age. Hmm — see "roll_peak_age from make_player" below — +2 is reached via the make_player call at 7EC0 (just before 7EC7), so it is set. | 975B+32E1 | NO (LCG state for the peak draw) |
-| +3 (rating) | country_rating(country) + 0x7F | 976B+9771 | depends on country record state |
-| +4 (ability) | compute_ability of (final +1, +2, +3) | 33C3 | deterministic given +1/+2/+3 |
-| +5 (skill_profile) | rand(0x10) | 971A | NO (LCG state) |
-| +6 (position) | old +6 | 7F36 | yes — carry from old |
-| +7 (club_position) | record[+7] (make_player arg) | 96FC | yes — carry from old |
-| +8/+9 (caps) | 0 | 7F09 | yes |
-| +0xA/+0xB (goals) | 0 | 7F12 | yes |
-| +0xC (morale) | rand(0x20) | 97AB | NO |
-| +0xD (fitness) | DS:0x78D5[+0xD], drawn by roll_fitness_energy | 3558 | NO (the draws) |
-| +0xE (energy) | DS:0x78F6[+0xE], drawn by roll_fitness_energy | 3558 | NO (the draws) |
-| +0xF (own_tactics) | set_player_tactics 3431 | 97B3 | deterministic (the routine) |
-| +0x10 (status) | 0 | 7F19 | yes |
-| +0x11 (scorer_count) | unchanged (= 0, since 7FB1 cleared it in the first pass) | — | yes (zero) |
-| +0x12/+0x13 (performance) | 0x7F 0xFF | 97C0 | yes |
-| [9B70] + player (initial) | f_1771_0000() | 7F1F-7F2D | NO (LCG state) |
-| surname | unchanged | — | yes |
+`recreate.recreate`, `managed_replacement`, `new_game_squad`, `managed_pool` are these rows.
 
-The deterministic bytes (exact), given the old record and the country record at re-create time:
+## 5. The RNG at a year end, and whether a savestate recovers it
 
-```python
-exact = {
-    COUNTRY:           old[COUNTRY],
-    CLUB_POSITION:     old[CLUB_POSITION],
-    CAPS:              0, CAPS+1: 0,
-    GOALS:             0, GOALS+1: 0,
-    STATUS:            0,
-    SCORER_COUNT:      0,                      # 7FB1's first pass cleared it; 7E80 writes nothing here
-    PERFORMANCE:       0xFF, PERFORMANCE+1: 0x7F,
-    POSITION:          old[POSITION],          # carry
-}
-```
+- The state is the 16-bit word the far pointer DS:A978 points to. `214B:06B1(n)`
+  (seg_214B_01.asm:897-911) loads that pointer (`06B7`, :901) and calls `214B:0688` (:906), which
+  stores `w * 0x7ABD + 0x1B0F` mod 2^16 (`0694`-`069F`, :880-886) and returns `hi16(w * n) + 1`
+  (`06A0`-`06A4`, :887-889). The pointer's only writer is `214B:206A`: DS:A978 := DS:7B62
+  (seg_214B_04.asm:435-436, F004). Writers of the word: `1771:97CC` (:20, := country), `23E4:11D7`
+  (seg_23E4_02.asm:807, DS:7B62 := CX = hour·256 + minute; :808 also writes DS:7B64 := DX),
+  `0791:2648` (seg_0791_04.asm:732, := (year + 1) * state +0x26) and the save/restore at
+  `0791:17F7`/`0791:0F1D` (seg_0791_03.asm:250-251, seg_0791_02.asm:626-627), both match-time.
+- `1771:6730` (seg_1771_09.asm:1094) calls `23E4:11D7` only when the year word `+0x38` is 0
+  (`675B`, :1111, then `67A3`, :1138); otherwise it calls `1771:63A4` (`6762`, :1113). 80DA
+  increments +0x38 at every {2, 5} gate (`811B`) before that transition's 6730, and 9B85 sets it
+  to 0 at a new game: the DOS time seeds the word once, at the new game's first 6730, and never
+  again in that game. (A loaded game was not traced.)
+- Draws at an ageing gate: the first pass and 7F40 draw nothing (calls.tsv; 7E4A, 7FB1, 32EB,
+  7F40 have no RNG callee). Each computer-country re-create draws **ten** times, in this order:
+  rand(16) +5; rand(7), rand(7) make_player's +1; rand(3), rand(3) +2; rand(32) +0xC; rand(2T) +0xD;
+  rand(6), rand(6) +1; rand(21) the initial (no rand(10): flag 1). Countries 1..128, slots 1..20.
+  A managed replacement draws rand(0x1F3) in 4CF7 (more when that record is taken), rand(0x50)
+  when the squad has no retiree, then make_player's 7 + 2 (managed fitness), rand(6) x 2,
+  rand(21), and rand(3) when the young count is short.
+- Recoverable? The word is in every savestate (guest memory). A savestate taken at 80DA's entry
+  gives it directly, and from there the gate's draws are the sequence above. A savestate taken
+  earlier needs the draws in between (the last fixture's match, 6CA7); one taken after (the
+  E014 capture's) has the stage routine's draws after it too (6730 shuffles fixtures with 128
+  draws at `6808`-`6846`, :1179-1207); neither count was traced. The E014 records carry no RNG
+  word, but the 16-bit word at 80DA's entry is **recovered from the records themselves**: the
+  captured countries are 1, 2, 3, the first of 80DA's order, so their re-creates make the gate's
+  first draws, and exactly one of the 65536 words reproduces every drawn byte of every re-create
+  of the pair, for each of the five pairs (0xbb1a, 0xfdf6, 0x8827, 0x36ca, 0x1a42;
+  `check_recreate.py`).
 
-The drawn bytes (range), given `gk = (+7 == 0)`:
+## 6. Readers and writers
 
-```python
-range = {
-    AGE:       (DS_110C[gk] - 5, DS_110C[gk] + 5),   # rand(6) is 1..6
-    PEAK:      (DS_0E80[gk] - 2, DS_0E80[gk] + 2),   # rand(3) is 1..3
-    PROFILE:   (1, 16),                                # rand(0x10)
-    # MORALE, FITNESS, ENERGY, INITIAL drawn but the model does not predict exact bytes unless the
-    # LCG state is known — see section 5.
-}
-```
+Player bytes the creation writes, with their writers in the creation paths: +0, +7 (`96F3`,
+`96FC`); +6 (`970A`; `7F36` in 7E80); +5 (`971A`); +1 (`9754`; `7EF9` 7E80; `556F`, `56DD` 54F0;
+`99E5` 98C4); +2 (`32E1`); +3 (`9771`, `9794`); +4 (`32EB`, after each age write: `979C`, `7F01`,
+`557A`, `56E8`, `99F8`); +0xC (`97AB`); +0xD/+0xE (`3615`/`35E8`, `3626`, `3635`, `3646`); +0xF
+(`214B:0C79`/`0CA1` from `3431`/`33CD`); +8..+0xB, +0x10 (`7F09`, `7F12`, `7F19`; `5584`,
+`558D`, `5594`); +0x12 (`97C0`); the initial `[DS:9B70]+n` (`7F2D`, `55AD`). +0x11: no writer in
+these paths; `7FD4` cleared it in the gate's first pass.
 
-`+3 = country_rating(country) + 0x7F` is FIXED PER country in one 7FDF call: the country record
-is read but `+0x2A/+0x2B/+0x2C` are not written between two re-creates of the same 7FDF call
-(`0177:7FB1` and `0177:7F40` and `0177:7E80` walk squad slots but never touch the country
-record; `make_player` doesn't either — verified by all writers of `[di + 0x2A..0x2C]`: only the
-seasonal recompute `0177:63A4` writes them, and it runs OUTSIDE the 7FDF loop, between stage
-transitions; see section 4).
+Country bytes the creation reads: +0x2A/+0x2B/+0x2C (`10E7`), +0x2E (`0B77`). Writers of
++0x2A/+0x2B: `9A40` at a new game (`9A75`, `9AB4`, seg_1771_14.asm:281/306, from GOAL.DAT),
+`63A4` (`6524`, `6530`), and `26B9`'s swap through `214B:007B` (`2B99`, `2BE2`); of +0x2C: `9AC7`
+only. Nothing in 80DA writes them, so every re-create of one country at one gate reads one
+rating.
 
-### 2.2 The RNG draws in the re-create path — the exact sequence
+Between a gate's re-creates and E014's capture: the capture is the first settled screen after
+the stage byte changed (experiments/E014-q013-ageing/run.py `maybe_capture`), so no fixture is
+played in between. The call closure of `1771:76B1`, `000E:7072` and `000E:60CB` (calls.tsv, 131
+routines) holds no direct writer of a player's +6, +0xC, +0xD, +0xE or +0xF (the writers:
+3431, 33CD, 3558, 3651, 34E7, 96D3, 0791:474D/4B64/69BD/7CC5/7D56/83A2/8AE9/9A32/A260/A375/B364/
+B3B7/BC5D/C5DC/CB7D/D733, 1771:1B2E, 2D15); it does reach the generic `214B:0018`/`003C`/`007B`
+(fill, move, swap), whose call sites there were not traced byte by byte. The checker reads
+morale, fitness, energy and the tactics bits at the capture on that basis.
 
-In order of consumption by `7E80` (called from `7FDF`'s second pass at the year end):
+## 7. Results -> talent
 
-```text
-[7F40 — retirement test, deterministic, NO RNG entry — see section 1]
-call 1771:7E80            ; the re-create path
-  call 1771:96D3          ; make_player(1, old+7, old+0, player)
-    214B:06B1(0x10)        ; +5 = rand(0x10)              (1 draw, 1..16)
-    214B:06B1(7)           ; +1 = base − rand(7)         (the THIRD rand of +1; 1 draw, 1..7)
-    214B:06B1(7)           ;                                then base+ (NEW rand, 1..7)
-    call 1771:3291         ; roll_peak_age
-      214B:06B1(3)         ; b = rand(3)               (the THIRD rand of +2; 1 draw, 1..3)
-      214B:06B1(3)         ; a = rand(3)               (NEW; 1 draw, 1..3)
-    call 1771:10E7         ; country_rating → +3
-    call 1771:32EB          ; compute_ability
-    214B:06B1(0x20)         ; +0xC morale (1 draw, 1..32)
-    call 1771:3431          ; set_player_tactics (deterministic given +7/+6/+5)
-    call 1771:3558          ; roll_fitness_energy (3 draws?)
-    performance = 0x7FFF
-  214B:06B1(6)              ; first rand of +1 (stored)
-  214B:06B1(6)              ; +1 = DS:0x110C[gk] + SECOND_RAND(6) - FIRST_RAND(6)
-  call 1771:32EB            ; compute_ability again — note the order matters
-  214B:0018(0, 0x14, +0/+7/...) nope
-  caps = goals = status = 0
-  call 1771:0000            ; initial byte
-  position = old_position
-```
+The only input of a re-created player's bytes that results move is the country's rating, through
+its ranks; the chain, as far as it is traced:
 
-(The +1 / roll_peak_age draws inside make_player are NOT used by the re-create's final bytes:
-the re-create overwrites +1 at 7EF9 with its OWN draws from `DS:0x110C[gk] ± 5`, and roll_peak_age
-has set +2 once — make_player's draws for +1/+2 are wasted on the re-create path because they
-are overridden. The runs do consume the LCG though, so they shift the RNG state for any subsequent
-draw in the same year end; tests must not assume the LCG skips.)
+1. **Points.** The country's +0x2F word accumulates: `1771:61F8` (seg_1771_09.asm:538-639) adds
+   (5 - k) x (the group entry's points byte +7) for groups k = 1..4 of the tables at `[A933]`
+   (`627A`-`6295`, :595-605; a second loop `62E9`-`637E`); `602D` (world, :333) and `6103` (each of
+   the four continents, :429) add placement bonuses through `1771:5FD1` (:296; +0x2F += bonus at
+   `600B`, :316): 800, 600, 400, 200 (`605C`, `608C`, `60BC`, `60EC`; `6151`, `617E`, `61AB`, `61D8`)
+   to the sides `5C94` and `5CCB` pick from two fixtures (the side the fixture's +3 byte names and
+   the other, seg_1771_08.asm:1082/1109); `1771:5E3A` adds 200 to both countries of a fixture it
+   schedules with an argument other than 1 (`5E79`, `5E8D`, :150/156; called by the stage routines
+   6B55, 6E59, 71B2, 74BE). +0x2F is reset to 5 - continent at each recompute (`6605`, :964) and
+   by 6730's year-0 path (`6798`, :1135).
+2. **Order.** `1771:5EE1` (:197-292) quicksorts a range of the order array `[DS:9B56]` by +0x2F,
+   largest first (`5F3D jbe`, `5F64 jae`); 63A4 points DS:9B56 at DS:9BFD (world) or DS:9C7E
+   (continents) (`63D6`-`63EC`) and sorts 1..128 (`6403`) or each continent's 32 from
+   DS:10F9[c] (`642A`, c = 1..4).
+3. **Ranks.** `1771:63A4` (:726-967), from 6730 at stages 2 and 5 when +0x38 > 0: with +0x40 = 0
+   (stage 2) `602D`, `61F8`, the world sort, then +0x2B := place 1..128 (`6530`, :888); with +0x40
+   = 1 (stage 5) `6103`, `61F8`, the continent sorts, then +0x2A := (place - 1) mod 32 + 1
+   (`6524`, :883). Per country it also keeps the best ranks +0x29/+0x28 (`6537`-`656E`) and, for a
+   managed one, the manager's records (`6476`-`6506`).
+4. **Rating and +3.** `10E7` turns the ranks into the rating (section 3); make_player writes +3 =
+   rating + 0x7F for every caller with flag 1 (7E80, 54F0, 97CC). A rank one better raises the
+   rating by about (5 - continent)/2 (continent rank) or 1/2 (world rank) and +3 with it; +4
+   follows +3 through `32EB`.
 
-### 2.3 Note on the ACTIVE age compute
+The other byte 63A4 writes from the rating, `[A91F]+3(+0x2E)+1 := clamp(country_rating +
+signed [A91F]+3(+0x2E)+2, 1, 128)`, then `+2 := 0` (`6582`-`65ED`, :918-956), is the manager
+byte `1771:0AA7` adds to match strength (F012); its accumulator +2 is moved by `0791:B6CC`
+(seg_0791_18.asm:982-1012, a signed sum clamped to -127..127; callers 000E:6CA7 and 0791:B7FA).
+make_player and its callees never read [A91F] (section 3), so this byte does not reach a new
+player.
 
-Order matters: `7E80` calls `make_player`, which calls `compute_ability` at `:979C-979F`. Then
-`7E80` overrides `+1` at `:7EF9`, then calls `compute_ability` again at `:7F01`. The final
-`+4` is from the SECOND call, which used the OVERRIDDEN `+1`. This matters because:
-- `make_player`'s `compute_ability` runs at `+1 = DS:0x118A[gk] − rand(7) + rand(7)` (28±6/31±6);
-- `7E80`'s `compute_ability` runs at `+1 = DS:0x110C[gk] + rand(6) − rand(6)` (25±5/28±5).
+**Which recompute each replacement reads** (the gate's re-creates run before the gate's 6730):
 
-The two ages DIFFER. So the +4 byte of a re-created player is the result of
-`compute_ability(DS:0x110C[gk] ± 5, peak, country_rating+0x7F)`,
-NOT `compute_ability(DS:0x118A[gk] ± rand-symmetric, peak, country_rating+0x7F)`.
+| gate | +0x2B (world rank) | +0x2A (continent rank) |
+| --- | --- | --- |
+| entry to 2 | the previous cycle's stage-2 recompute | the previous cycle's stage-5 recompute |
+| entry to 3 | this cycle's stage-2 recompute (6730 ran after the stage-2 gate) | the previous cycle's stage-5 recompute |
+| entry to 5 | this cycle's stage-2 recompute | the previous cycle's stage-5 recompute (this one runs after the gate) |
+| entry to 7 | this cycle's stage-2 recompute | this cycle's stage-5 recompute |
 
-The full byte sequence make_player draws for a re-create:
+Before the first recompute of each kind the ranks are GOAL.DAT's (9A40). Stage 8 is no gate. A
+managed replacement (54F0, between fixtures) reads the latest of each. Each recompute reads the
++0x2F points gathered since the previous recompute (both kinds reset +0x2F, step 1).
 
-1. `+5 = rand(0x10)` — :9711-971A
-2. `+1a = rand(7)` (the THREE-draw slot) — :9722-972C
-3. `+1b = rand(7)` — :972C-9732
-4. (roll_peak_age, which draws two `rand(3)` :32AF-32B9) — :975B call
-5. (country_rating, no RNG)
-6. (compute_ability with the OLD new +1 / +2 / +3) — :979C call
-7. `+0xC = rand(0x20)` — :97A3-97AB (morale)
-8. (set_player_tactics 3431, no RNG)
-9. (roll_fitness_energy 3558 — its draws)
-10. (LCG byte for no record write here)
+**Answer: yes, results feed new talent**: points, placements and knockout fixtures
+(+0x2F) -> the sort -> the ranks -> country_rating -> +3 (and +4) of every re-created and every
+managed replacement. What the trace does not show is the help file's "better than expected
+(from your country's skill ratings)": no step of the chain reads a skill rating or an expected
+value; a country's ranks come from its points against every other country's (the world) or its
+continent's (the continent rank), so whether a weak country's points count for more (Q04.7) is
+not established by this chain.
 
-Then `7E80`'s overrides/draws:
+## 8. What the records corroborate, and why no run was taken
 
-11. `+1 = cVar3(cVar4) = ...` Actually the order is reversed — :7EC7 stores first rand,
-    :7ED1 stores second rand; :7EF9 final `+1 = DS:0x110C[gk] + cVar4 - cVar2`. The earlier
-    variable-c is `(cVar3, then cVar2) := (rand(6), rand(6))` with `cVar3` first on stack — but
-    the SUBTRACTION order is `+rand(cVar3) - rand(cVar2)` where cVar3 is the FIRST rand and
-    cVar2 is the SECOND. So +1 = DS:0x110C[gk] + first_rand - second_rand, range DS:0x110C[gk]
-    − 5 .. DS:0x110C[gk] + 5.
-12. compute_ability — :7F01
-13. `+0x11 = 0` (well, +0xC was already set, but I mean write to it — see actual writes below)
-14. (LCG byte from `1771:0000` for the initial at :7B70 + player)
+- E014 (F016's six records, five pairs, three computer countries): `check_recreate.py` compares
+  every squad word (300); 262 continue, 38 are re-created, and every re-create meets the
+  contract a capture can show; for every pair exactly one RNG word at 80DA's entry reproduces all
+  its re-creates' drawn bytes and initials (38 of 38): the draw order, the arguments, the T index
+  and the initial table of section 5.
+- E006 (F007's twelve new games): make_player reproduces all 2560 squad players and the 80 pool
+  players (tests.test_model_recreate).
+- Not corroborated by a record: the managed path (54F0/56F3/57E5; no committed record shows a
+  managed retirement) and the exact +3 of a re-create (the E014 captures hold no country record;
+  checked only as one byte per country and in 0x80..0xFF). Both are static only. A run could
+  show them (a managed country's sitting past year 0; a capture with the country records), but
+  the task's question is answered without it, so the run budget (4) was not used.
 
-## 3. The managed-country retirement replacement path
+## 9. Corrections to earlier text
 
-For a MANAGED country, the main menu's offer to retire a player is reached from `000E:57E5`
-(seg_000E_07.asm:381-526, `f_000E_57E5`). It walks the 20 squad slots 1..20, calls
-`1771:7F40(retirement_test)` for each, and on retirement calls `000E:56F3`
-(seg_000E_07.asm:287-379, `f_000E_56F3`). `56F3` runs the retirement news (`000E:50D4` if any),
-two `1771:1B2E` calls to update the squad book, then `1771:4CF7` to obtain a NEW player number
-(a free pool slot), then writes the new index into either the squad slot or the pool (the
-manager-record `+0x4D` byte, "the new index is in the pool" indicator), then calls
-`000E:54F0` to make the new player. If no squad retiree is available, `57E5` falls through to
-a pool walk (drawn from `rand(0x50)` + base, `:58A3-:58CE`).
-
-`000E:54F0(new_player_index, retiree_index)` (seg_000E_07.asm:83-285, `f_000E_54F0`):
-
-- pushes (new_index, retiree[+7], 1) and `call far 1771:96D3` (`:5534-5539`) — the same
-  `make_player(1, retiree[+7], country, new_index)` as 7E80's call, but with `country` from
-  the menu's frame, not from `retiree[+0]`;
-- two `214B:06B1(6)` draws (`:553D-5542`, `:5547-554C`) and `+1 = DS:0x78[gk] + rand − rand`.
-  `DS:0x78 = 19 1C` (data/ds_2581_01.hex:10) — same as `DS:0x110C`. So the BASE ages are
-  `25 / 28` (outfield / goalkeeper), with `±rand(6) − rand(6)` spread `5`: same range as
-  7E80 (20..30 / 23..33);
-- compute_ability for the new +1 — `:557A-5582`;
-- caps = goals = status = 0 — `:5584-:5596`;
-- `1771:0000()` for the new initial at `[DS:9B70] + new_player_index` — `:5599-:55AD`;
-- after the make_player returns, the rest of `54F0` (`:55B0-:56CB`) is "young squad" detection
-  — counts how many of the squad / pool players are younger than `DS:0x76[gk] + 4`; if younger
-  than 0x14 (= 20) of them, override with `+1 = DS:0x76[gk] + rand(3)` and re-`compute_ability`
-  (`:56B4-:56E8`). So when few young players are present in the squad/pool, the managed
-  retirement replacement gets a YOUNGER age (`+1 = DS:0x76[gk] + rand(3)`, with a draw of 1..3).
-
-This path is OUT OF SCOPE for the Q014 model (the brief lists it as the BOT's
-"transfers between countries" — the managed retirement replacement is a user-initiated offer).
-The bytes the path writes follow the same make_player contract as 7E80, with `+3 =
-country_rating(country) + 0x7F` (param_1 = 1, so the same form). So the BOT's claim "do results
-feed talent for managed countries" would also be YES, with a possible age override at the end.
-
-A `runtime/model/recreate.py` PREDICTOR for this path would mirror `recreate_constraints` but
-consume the LCG state (4 RNG calls per re-create plus the make_player's draws), and apply the
-young-squad override when `count_young < 20`. The current task does not model it: the brief
-says "the bot" is out of scope, and the model here is for the COMPUTER retirement re-create
-that the 38 E014 re-creates exercise.
-
-## 4. Results and talent — does anything a country's results change reach a re-created player's bytes?
-
-The chain from results to a re-created player's `+3`:
-
-```
-country results (points/wins/goal diff, scored over a stage)
-   ↓
-written into the points/wins/diff byte of [DS:A923] + ... + [A91F+...]  ; per side per manager
-   ↓
-on entry to stages 2 / 5, 0177:6730 (stage_qualifying, seg_1771_09.asm:1092-1164) calls
-0177:63A4 (recompute ranks) which sorts countries by points (0177:602D for stages 2,3,4
-world qualifying, 0177:6103 for stages 5,6,7,8 finals — chosen by [A923]+0x40 = (stage > 4))
-and writes either [country]+0x2B = world_rank or [country]+0x2A = continent_rank.
-   ↓
-at the year end, 0177:8208 (stage_end) calls 0177:80DA (yearly_ageing) → 0177:7FDF →
-0177:7F40 → 0171:7E80 → 0177:96D3 (make_player) which calls 0177:10E7 (country_rating)
-which READS +0x2A/0x2B/0x2C off the country record (seg_1771_02.asm:1116/112A/1104).
-country_rating = ((5 - continent) * (33 - continent_rank) + (129 - world_rank)) / 2   ; signed
-   ↓
-+3 = country_rating + 0x7F    (1771:96D3 :976B add ax, 0x7F; :9771 store al to es:[di+3])
-```
-
-So YES: results DO feed new talent. The direction is:
-- A country with a BETTER world_rank (smaller +0x2B) gives +3 a LARGER value of
-  (129 - world_rank) → country_rating is LARGER → +3 is LARGER. So a country that does better
-  produces re-created players with HIGHER `+3` (and therefore higher `+4` ceilings).
-
-BUT, the timing matters:
-
-- Stage transition ordering: per `000E:70B9` (play_round, seg_000E_09.asm:475-542), the calls
-  are `:70E6 call 1771:8208` THEN `:70F4 call 1771:76B1`. So ageing happens BEFORE run_stage.
-- `8208` calls `80DA` for new stage ∈ {2,3,5,7} (`:162-163`). `80DA` ages every country in
-  `7FDF`, which re-creates via `7E80` (`:1106`). The country's +0x2A/+0x2B are what they were
-  BEFORE this stage transition's rank recompute.
-- `76B1` dispatches the new stage; for stages 2 and 5 it routes to `6730`, which calls `63A4`
-  ONLY when `[A923]+0x38 > 0` (the year counter, seg_1771_09.asm:1111-1112). So the rank
-  recompute at stage 2/5 entries uses points from the PRECEDING stage's results.
-
-Therefore: when a country loses or wins its matches, the change in points during THIS stage's
-matches is not reflected in the +0x2A/+0x2B until the NEXT stage 2/5 entry — and even then, the
-ageing of THAT stage 2/5 entry has already run with the OLD ranks.
-
-Concrete: at the entry to stage 5 (finals qualifying), the COMPUTER-side re-creates for the
-finals use the world_rank from the world-qualifying stage 2 entry (i.e. WORLDCUP qualifier
-results). At the entry to stage 2 of the next cycle, re-creates use the continent_rank from the
-last stage 5 entry (FINALS results). The world_rank and continent_rank read by `country_rating`
-in the re-create were both LAST refreshed at the most recent stage 2 / stage 5 entry BEFORE
-the current ageing — i.e. on average (over a season's 4 re-creates) reflecting results from at
-least one cycle earlier.
-
-So the precise finding is: a re-created player's `+3` is `country_rating(country) + 0x7F` where
-country_rating reads `+0x2A/+0x2B/+0x2C` last written at the most recent stage 2 (world_rank)
-or stage 5 (continent_rank) entry BEFORE this year's ageing — which reflects the PRECEDING
-season's results in those competitions. The CHAIN EXISTS. It is INDIRECT (1-cycle lag for
-world_rank) and PER-SIDE (+0x2B updates in world stage, +0x2A in finals stage).
-
-Are there any other reads of `+0x2A/+0x2B/+0x2C` by an actual player-byte writer? No — `grep`
-for writers finds only `1771:63A4` (`+0x2B`, `+0x2A`), and the helper `1771:114B` is a
-country-info panel score, not a writer. So `+3` is the ONLY player byte that depends on
-results.
-
-Are there other results-driven bytes? The country rating also drives `manager_countries[3*m + 1]`
-(the manager's score byte at `1791:114B`, line 84 in the decompiled view, written at
-seg_1771_05.c:84) — but this is a manager record, not a player record. So:
-
-- Q014's claim "do results feed new talent?" → YES, via `+3 = country_rating + 0x7F`.
-- The direction: better results → smaller world_rank → larger (129 - world_rank) → larger
-  country_rating → larger `+3`.
-
-## 5. The RNG state at a year-end savestate — can it be recovered?
-
-The LCG state is the single 16-bit word `DS:0x7B62` (per F004's annotation:
-`0177:6730 re-seeds DS:7B62 from the DOS time`); `0177:0000` returns a byte from it, `214B:06B1`
-is the only consumer. Both are called multiple times per re-create (section 2.2). The state
-is therefore not recoverable from a single savestate without reading `DS:0x7B62` itself (the
-savestate must include the byte image, which it does for DOSBox-X's `Vga`+`Memory` components).
-E014 reads include the whole process memory, so `DS:0x7B62` is reachable — but the model
-reproduces the deterministic bytes and the drawn-byte ranges, which suffices for check_ageing
-without recovering the LCG. The model **does not** pretend to know the drawn bytes exactly;
-that is a `[Likely]` carve-out in section 2.1.
-
-## 6. Where the records (E014) corroborate — six records, 38 re-creates
-
-`runs/E014/E014-r000{01..06}.json` capture 5 stage transitions across 6 sessions (r0001-r0004
-aborted, r0005 + r0006 carry 5 corroborating pairs). `experiments/E014-q013-ageing/check_ageing.py`
-checks every squad player with the F016 model; its `replacement_errors` uses
-`ageing.recreate_constraints(old)` (the function this task moves to `runtime/model/recreate.py`
-unchanged in semantics) and additionally requires:
-- `+4 = compute_ability(+1, +2, +3)` of the new bytes (the model's `ability_of_own_bytes`
-  invariant, section 2.1, line 2);
-- all `+3` (country_rating + 0x7F) of one country in one 7FDF call are equal (the
-  `same_rating_per_country` invariant, section 2.1, line 1).
-
-E014's `300/300` check_ageing match (T28) is the only behavioural evidence this task needs:
-the static map above was read from the listing, the records corroborate the deterministic bytes
-and the per-country +3 invariant, the per-byte draws are bracketed by their ranges and can be
-predicted exactly only when the LCG state is in hand.
-
-## 7. Files this task creates / changes
-
-- `experiments/E016-q014-retirement/notes.md` — this file
-- `experiments/E016-q014-retirement/check_recreate.py` — checker, mirrors check_ageing
-- `runtime/model/recreate.py` — NEW, holds `recreate_constraints` + helpers (moved from
-  `runtime/model/ageing.py` and re-exported there as the brief's note says)
-- `runtime/model/ageing.py` — keep a re-export so `import ageing` keeps working
-- `runtime/README.md` — the moved constants are listed
-- `tests/test_model_recreate.py` — literal-record, literal-expected tests; mutation tests
-- `tests/static/test_annotations.py` — re-add the F017 routines to the routine-naming-check
-- `findings/F017-retirement-and-talent.md` — the proposed finding (T28-style claim-by-claim)
-- `static/goal-exe/annotations/routines.tsv` (+ globals, fields) — F017's reader/writer rows
-- `static/goal-exe/named/…` — regenerated
-
-The new annotation rows the brief implies (and that `check_annotations.py` then verifies):
-
-| routine | name | basis |
-|---|---|---|
-| `000E:54F0` | `create_managed_replacement` (likely) | this task: draws +1 from `DS:0x78[gk] ± rand(6)` (a 54F0-specific base — distinct from `0x118A`) |
-| `000E:56F3` | `replace_retiree` (likely) | this task: zero-pad the retiree record before continuing to the offer path |
-| `000E:57E5` | `offer_retire_player` (likely) | F011 + this task: walks squad slots for retirement, then pool |
-| `000E:6730` | `stage_qualifying` | exists (F004 / F007) — base, no change |
-| `0177:63A4` | `recompute_country_ranks` (established) | this task: writes +0x2A/+0x2B from points, gated by stage |
-| `0177:6730` | `stage_qualifying` | exists — no change |
-| `0177:7E80` | `recreate_retired_player` | exists — annotation already covers section 2 |
-| `0177:7F40` | `retirement_test` | exists — annotation already covers section 1 |
-| `0177:96D3` | `make_player` | exists — annotation row carries section 2 paragraph |
-| `0177:10E7` | `country_rating` | new annotation row (the three-byte formula, signed divide) |
-| `1771:114B` | `update_manager_score` (likely) | this task: writes the manager's score byte per cycle |
-| `0177:0000` | `lcg_byte` (likely) | this task's RNG-byte reader |
-| `214B:06B1` | `u214b_random_1_to_n` | exists |
+- The 6730 annotation said the DOS time seeds DS:7B62 on every entry to stages 2/5, and round 1
+  that its year-0 call reads the time without seeding: 23E4:11D7 writes DS:7B62 and DS:7B64, and
+  6730 calls it only in year 0 (section 5). E014's notes (section 3, "re-seeds DS:7B62 from the
+  DOS time on entry to stages 2/5") carry the first form; that file is not this task's (reported).
+- `1771:0000` is a bounded draw indexing DS:0C38 (section 4), not "one byte of the LCG".
+- Round 1's chain named 602D/6103 as sorts, 61F8 as a stabiliser, the manager byte as
+  min(prior, rating), the managed age base as DS:0x76, and the managed path as out of scope with
+  a user acceptance; sections 2, 4 and 7 replace those.
