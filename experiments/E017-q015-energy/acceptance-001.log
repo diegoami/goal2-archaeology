@@ -1,0 +1,38 @@
+superseded recovery-001.json by recovery-002.json: Incomplete healing input: 214B:06D0 calls 0688 directly, bypassing the original 06B1 hook (static/goal-exe/code/seg_214B_01.asm:913–935). recovery-002 captures that draw at 0688 in a repeat of the same cases.
+match: 48/48
+test_exact_draw_consumption (tests.test_model_energy.Energy.test_exact_draw_consumption) ... ok
+test_form_instruction_and_injury_store (tests.test_model_energy.Energy.test_form_instruction_and_injury_store) ... ok
+test_healing_draw_literal_upper_bound (tests.test_model_energy.Energy.test_healing_draw_literal_upper_bound) ... ok
+test_injured_draw_and_recovery_gate (tests.test_model_energy.Energy.test_injured_draw_and_recovery_gate) ... ok
+test_negative_energy_uses_noninjured_branch_but_gate_draw (tests.test_model_energy.Energy.test_negative_energy_uses_noninjured_branch_but_gate_draw) ... ok
+test_quick_period_and_signed_floor (tests.test_model_energy.Energy.test_quick_period_and_signed_floor) ... ok
+test_recovery_bounds_age_strict_and_signed_fitness (tests.test_model_energy.Energy.test_recovery_bounds_age_strict_and_signed_fitness) ... ok
+test_recovery_flag_nonzero_draw_order (tests.test_model_energy.Energy.test_recovery_flag_nonzero_draw_order) ... ok
+test_recovery_flag_zero_extra_below_16 (tests.test_model_energy.Energy.test_recovery_flag_zero_extra_below_16) ... ok
+test_rest_draw_literal_upper_bound (tests.test_model_energy.Energy.test_rest_draw_literal_upper_bound) ... ok
+test_restore_not_full_32 (tests.test_model_energy.Energy.test_restore_not_full_32) ... ok
+test_watched_strict_threshold_and_reset (tests.test_model_energy.Energy.test_watched_strict_threshold_and_reset) ... ok
+test_every_other_record_is_retained (tests.test_model_energy.Supersession.test_every_other_record_is_retained) ... ok
+test_missing_successor_fails (tests.test_model_energy.Supersession.test_missing_successor_fails) ... ok
+test_prints_name_and_reason (tests.test_model_energy.Supersession.test_prints_name_and_reason) ... ok
+
+----------------------------------------------------------------------
+Ran 15 tests in 0.001s
+
+OK
+segment	named	routines
+0000	1	1
+000E	7	58
+0791	101	283
+16D6	0	26
+1771	63	154
+2138	1	1  (run-time library)
+2139	1	1  (run-time library)
+214B	85	85  (run-time library)
+235C	12	12  (run-time library)
+2382	17	17  (run-time library)
+23E4	88	88  (run-time library)
+records 5, fields 41, globals 17
+check_annotations: ok
+goal2-a949da2f: verified in /home/diego/projects/goal2-archaeology-work/T31/.cache/artifacts/goal2-a949da2f
+links and JSON ok (932 files)

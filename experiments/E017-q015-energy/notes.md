@@ -225,7 +225,8 @@ direct role, minutes, marking or substitution test in the decrement tail.
 
 **Man-marker loses more? No as an unconditional arithmetic rule; an indirect
 movement effect exists.** F010's 3EF8 uses country +2D element 8 for marking
-words, with player +10 element 7 (Protect zone) exempt; +F overrides only tactic
+words, with player +10 element 7 (Protect zone) exempt
+(seg_1771_06.asm:715–802); +F overrides only tactic
 elements 1..4, never marking (26D7, seg_0791_04.asm:787–835). 47C5 reads the
 assigned opponent word at 4832 and, when zero, selects an eligible target by
 the zone tests (seg_0791_08.asm:190–254 and named/seg_0791_04.c:23–79).

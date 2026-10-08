@@ -145,7 +145,7 @@ not directly write C/D/E; a computer retiree's recreation does, through
 
 **Man-marker loses more? No unconditional extra decrement; an indirect
 activity effect exists.** Country +2D element 8 supplies marking assignments
-(3EF8, F010); player +F overrides only elements 1..4, not marking
+(3EF8, `seg_1771_06.asm:715–802`, F010); player +F overrides only elements 1..4, not marking
 (`seg_0791_04.asm:787–835`). 47C5 uses the assigned opponent word or selects
 a zone-tested target when the word is zero (`seg_0791_08.asm:190–254`;
 `static/goal-exe/named/seg_0791_04.c:23–79`). 4A28 can copy that target's
@@ -159,7 +159,7 @@ is placed in the model.
 **Substitute starts full? No automatic full-energy store.** C88D swaps squad
 words and shadows and calls C5DC; C5DC calls A2E6 to rebind the incoming word
 and reset the pitch activity/direction, not player fitness or energy
-(`seg_0791_20.asm:490–518`;
+(`seg_0791_20.asm:661–888,490–518`;
 `seg_0791_17.asm:6–120`; F012's C88D trace). The manual E022 swap also calls
 C5DC (`static/goal-exe/named/seg_0791_10.c:969–980`). He brings his own E,
 normally unspent while on the bench, rather than receiving 32 or a D-to-E
