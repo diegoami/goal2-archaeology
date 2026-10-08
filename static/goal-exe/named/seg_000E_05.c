@@ -400,8 +400,9 @@ void simulate_fixture(int param_1)
   update_fixture_player_state
             ((int)DS:A92B + *(int *)(iVar4 + 0x26) * 8 + -8,
              (int)((ulong)DS:A92B >> 0x10));
-  f_0791_B602((int)DS:A92B + *(int *)(iVar4 + 0x26) * 8 + -8,
-              (int)((ulong)DS:A92B >> 0x10));
+  credit_silent_match_scorers
+            ((int)DS:A92B + *(int *)(iVar4 + 0x26) * 8 + -8,
+             (int)((ulong)DS:A92B >> 0x10));
   f_0791_D050((int)DS:A92B + *(int *)(iVar4 + 0x26) * 8 + -8,
               (int)((ulong)DS:A92B >> 0x10));
   for (local_3 = '\0'; reset_team_tactics(*(undefined2 *)(pcVar6 + local_3 * 2 + 4)),
@@ -616,9 +617,9 @@ LAB_000E_6E15:
           while( true ) {
             uVar3 = (uint)((country *)countries)[*(int *)(pcVar7 + local_5 * 2 + 4)].manager;
             iVar4 = *(int *)((byte *)local_12 + 0x26) * 8;
-            uVar8 = f_0791_B71C(CONCAT11((char)((uint)iVar4 >> 8),local_5),
-                                (int)DS:A92B + iVar4 + -8,(int)((ulong)DS:A92B >> 0x10))
-            ;
+            uVar8 = fixture_confidence_delta
+                              (CONCAT11((char)((uint)iVar4 >> 8),local_5),
+                               (int)DS:A92B + iVar4 + -8,(int)((ulong)DS:A92B >> 0x10));
             add_manager_delta(uVar8,uVar3);
             if (local_5 == '\x01') break;
             local_5 = local_5 + '\x01';

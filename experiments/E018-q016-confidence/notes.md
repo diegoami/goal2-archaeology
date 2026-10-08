@@ -32,7 +32,7 @@ player words. These probe B7FA, not the entire watched fixture route.
   participants; participating bench additionally receives draw(2)-draw(2),
   in that call order (first draw is subtracted). An unused bench player
   instead receives draw(2)-draw(4), not the result term. Empty words are
-  ignored. `named/seg_0791_09.c:218–278`,
+  ignored. `named/seg_0791_09.c:219–279`,
   `code/seg_0791_19.asm:9` onward.
 * BA4E applies draw(4)-draw(4) independently to every word in the managed
   pool. It precedes the result term on the watched/managed route, not after
@@ -55,7 +55,7 @@ player words. These probe B7FA, not the entire watched fixture route.
   result clipping and is not restored on this route.
   `named/seg_000E_05.c:392–406`, `named/seg_0791_09.c:96–116`.
 * Unplayed fixtures: BB2F calls fitness rolling and B364 with
-  draw(2)-draw(4), without B71C. `named/seg_0791_09.c:323` onward;
+  draw(2)-draw(4), without B71C. `named/seg_0791_09.c:324` onward;
   `code/seg_0791_19.asm:337` onward. The router selects this branch for
   fixture +2 = 0 on the 6E15 path (`named/seg_000E_05.c:605–612`).
 
@@ -75,11 +75,11 @@ direct/indirect table-reference sweep.
 ### Table readers (all references to the 6EB4 root in the code listing)
 
 * `1771:0AF8`, manager description: `code/seg_1771_02.asm:82`
-  (0B59), `named/seg_1771_01.c:548–561`.
+  (0B59), `named/seg_1771_01.c:549–562`.
 * `1771:157D`, team panel, four descriptions: `code/seg_1771_03.asm:201,218,235,252`
   (16D1,16F7,171D,1743), `named/seg_1771_02.c:73–84`.
 * The preceding player-quality text routine: `code/seg_1771_03.asm:31`
-  (155D), `named/seg_1771_01.c:1048–1060`.
+  (155D), `named/seg_1771_01.c:1049–1061`.
 * `1771:42BC`, player panel, hardness/fitness/energy/morale/leadership:
   `code/seg_1771_06.asm:1048,1071,1093,1114,1142,1162`
   (447A,44B0,44DE,450A,4545,4570), `named/seg_1771_03.c:862–889`.
@@ -103,17 +103,17 @@ unchanged, not a second confidence rule.
 | 0791:B364 | reads/writes signed +C, clamp1..32 | code/seg_0791_18.asm:621 onward; named/seg_0791_08.c:1118–1126 |
 | 0791:CB7D | writes +C from saved DS:9B07 | code/seg_0791_20.asm:973 onward; named/seg_0791_10.c:62–83 |
 | 0791:F1F6 | reads +C into saved DS:9B07 | code/seg_0791_23.asm:1035 onward; named/seg_0791_11.c:632–649 |
-| 1771:13D0 | reads capped +C into team aggregate DS:9B5A | named/seg_1771_01.c:1015–1037 |
+| 1771:13D0 | reads capped +C into team aggregate DS:9B5A | named/seg_1771_01.c:1016–1038 |
 | 1771:377E | reads signed +C into player strength, special branch >=32 | named/seg_1771_03.c:308–325 |
 | 1771:42BC | reads +C for description and bar | code/seg_1771_06.asm:1114–1142; named/seg_1771_03.c:881–892 |
-| 1771:96D3 | writes draw(32) at player creation | named/seg_1771_06.c:959–964 |
+| 1771:96D3 | writes draw(32) at player creation | named/seg_1771_06.c:1001–1006 |
 
 ### Callers that cause field or saved-field writes
 
 * B364: B602 goal scorer (+1; `named/seg_0791_09.c:104–112`),
   B7FA result/bench (`code/seg_0791_19.asm:137–187`), BA4E managed
-  pool (`named/seg_0791_09.c:296–311`), BB2F unplayed fixture
-  (`named/seg_0791_09.c:339` onward).
+  pool (`named/seg_0791_09.c:297–312`), BB2F unplayed fixture
+  (`named/seg_0791_09.c:340` onward).
 * 7CC5: 6443 scorer with flag one (`named/seg_0791_05.c:543–545`);
   65FE team-wide goal reaction with flag zero (`:628–643`);
   card/removal paths 7A9D and 7D56 (`named/seg_0791_06.c:565–572,656`).

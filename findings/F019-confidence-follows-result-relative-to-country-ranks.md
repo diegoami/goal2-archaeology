@@ -37,7 +37,7 @@ unless its original-routine check is explicitly stated.
 
 The help's result-relative player confidence is **player +0xC**, the byte
 already called morale/form. B7FA passes its result term to B364, whose
-player store is +0xC (`named/seg_0791_09.c:223–257`;
+player store is +0xC (`named/seg_0791_09.c:224–258`;
 `named/seg_0791_08.c:1110–1127`). B364 adds a signed word to the signed
 byte, with signed-word wrapping and a separate clamp to 1..32 on every
 call (`code/seg_0791_18.asm:621` onward). It is not team morale (Q017).
@@ -87,7 +87,7 @@ B7FA ignores zero squad words. Slots 1..11 and bench status-bit-3
 participants receive the result term. Participating bench then receives
 `draw(2) - draw(2)`; the first draw is subtracted. Unused bench receives
 `draw(2) - draw(4)` instead of the result term
-(`named/seg_0791_09.c:218–278`; `code/seg_0791_19.asm:137–187`).
+(`named/seg_0791_09.c:219–279`; `code/seg_0791_19.asm:137–187`).
 Each B364 call clips independently, so a substitute on 32 with positive
 result and a later -1 ends on 31, not 32. Literal boundary tests visit this
 edge. `participant_values` returns exact possible bytes or a singleton
@@ -101,7 +101,7 @@ scorer after result clipping (`named/seg_0791_09.c:96–116`).
 On the watched/managed route, F1F6 saves +0xC, plays, and restores through
 CB7D before pool updates (`named/seg_0791_11.c:632–649,674–700`). BA4E
 gives each managed-pool word independent `draw(4)-draw(4)`
-(`named/seg_0791_09.c:296–311`), before the caller's B7FA result update
+(`named/seg_0791_09.c:297–312`), before the caller's B7FA result update
 (`named/seg_000E_05.c:605–640`). Overlapping pool/squad words receive both.
 
 Restoration does **not** imply every in-match change disappears. 7CC5
@@ -113,7 +113,7 @@ confidence alone do not determine a watched player's saved confidence:
 event order matters. `match_form` models the write given that order.
 
 BB2F's unplayed branch applies `draw(2)-draw(4)`, never B71C
-(`named/seg_0791_09.c:339–360`; router `named/seg_000E_05.c:605–612`).
+(`named/seg_0791_09.c:340–361`; router `named/seg_000E_05.c:605–612`).
 This is the listing's unplayed route; a distinct abandoned-match confidence
 rule is **not established** by these lines. The result updater is shared
 by routed fixtures, with the explicit kind predicate above; arranging a
