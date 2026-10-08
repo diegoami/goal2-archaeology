@@ -97,6 +97,16 @@ class Energy(unittest.TestCase):
             with self.assertRaises(ValueError):
                 energy.recover(record, 1, draws, [32, 24])
 
+    def test_rest_draw_literal_upper_bound(self):
+        record = bytes.fromhex('001e190040000000000000001010080000000000')
+        with self.assertRaises(ValueError):
+            energy.recover(record, 0, [4, 1], [32, 24])
+
+    def test_healing_draw_literal_upper_bound(self):
+        record = bytes.fromhex('001e190040000000000000001010000000000000')
+        with self.assertRaises(ValueError):
+            energy.recover(record, 0, [1, 8, 4], [32, 24])
+
     def test_form_instruction_and_injury_store(self):
         record = bytes.fromhex('001e190040000000000000001018020000000000')
         self.assertEqual(energy.form_delta(record, -2)[12:15], b'\x0e\x18\x02')
