@@ -31,8 +31,9 @@ Correctness rules (each pinned by a test in tests/test_human_record.py):
        write); AND
     3. the bytes read then validate as a complete zip (the same checks driver.save_state
        applies: opens, tests clean, holds Vga, Memory, Save_Remark) AND a second read equals
-       them byte for byte, so a concurrent rewrite — a same-size one included — is never
-       staged.
+       them byte for byte AND the signature re-taken after it still equals the stable one, so
+       a concurrent rewrite — a same-size one, or one still in progress with unchanged bytes
+       so far — is never staged.
   The shutdown pass runs AFTER `terminate(dbx)` through the same `capture` (no pre-send
   signature); one deadline bounds every capture, retries included.
 - The clean termination (rework round 2 R5). The watcher's loop detects a dead dosbox-x between
@@ -280,11 +281,14 @@ class Watcher:
            has been identical for STABLE_POLLS consecutive polls;
         2. require that signature to differ from `pre_sig`, the one taken before the key was
            sent (evidence of a fresh write; R6), when `pre_sig` is given;
-        3. read the bytes, validate THOSE bytes as a complete zip, then read the file again:
-           the second read must equal the first byte for byte, or the capture is rejected and
-           counting restarts. The byte comparison catches a rewrite during the capture — a
-           same-size one included, even when the file system's timestamps are too coarse to
-           move between two writes (round-2 R2).
+        3. read the bytes, validate THOSE bytes as a complete zip, read the file again, then
+           re-take the signature: the second read must equal the first byte for byte AND the
+           signature must still equal the stable one, or the capture is rejected and counting
+           restarts. The two checks cover each other's blind spot: the byte comparison catches
+           a rewrite the file system's coarse timestamps cannot show (round-2 R2); the
+           signature catches a writer that is rewriting the file in place with unchanged bytes
+           so far, whose flush moves mtime/ctime although the bytes still compare equal
+           (round-3 R1).
 
         With `live_emulator`, a dead emulator ends the sitting (_EmulatorGone, R5) and the key
         is re-sent after RESEND_AFTER_S. Returns (bytes, sha256); raises TimeoutError."""
@@ -306,7 +310,7 @@ class Watcher:
                 data = self._read_live()
                 if data is not None and zip_is_complete(data):
                     again = self._read_live()
-                    if again == data:
+                    if again == data and file_signature(self.live) == last_sig:
                         return data, sha256(data)
                 self.log("live savestate changed or incomplete during capture: retrying")
                 last_sig, count = None, 0

@@ -953,6 +953,47 @@ class LiveFileReads(Base):
         self.assertIsNone(entry)
         self.assertEqual(list((session / "snapshots").glob("*.sav")), [])
 
+    def test_a_writer_still_rewriting_in_place_is_never_staged(self):
+        # round-3 R1: a writer opens the live file in place, rewrites its unchanged first byte
+        # and flushes (which moves mtime), then pauses; both content reads still compare equal.
+        # The signature re-check rejects that capture; only the writer's finished file is staged.
+        import os as _os
+        real_open = open
+        reads = [0]
+        state = {"writer": "idle"}
+        final = tiny_zip(b"the writer's finished savestate")
+
+        def racing_open(path, *a, **kw):
+            f = real_open(path, *a, **kw)
+            if Path(path).name == "state.sav":
+                reads[0] += 1
+                if reads[0] == 1:
+                    data = f.read()
+                    f.close()
+                    with real_open(path, "r+b") as g:         # in place, unchanged byte
+                        g.write(data[:1])
+                        g.flush()
+                    st = _os.stat(path)                        # the flush moves mtime
+                    _os.utime(path, ns=(st.st_atime_ns, st.st_mtime_ns + 1_000_000))
+                    state["writer"] = "active"
+                    return io.BytesIO(data)
+            return f
+
+        class WriterFinishes(FakeClock):
+            def sleep(self, s):
+                super().sleep(s)
+                if state["writer"] == "active":
+                    live.write_bytes(final)
+                    state["writer"] = "done"
+
+        clock = WriterFinishes()
+        session, live, w = self.watcher("r1-inplace", None, clock=clock)
+        w.xrun = key_writes(live)
+        with mock.patch.object(recorder, "open", racing_open, create=True):
+            entry = w.tick()
+        self.assertEqual(state["writer"], "done")
+        self.assertEqual(entry["sha256"], hashlib.sha256(final).hexdigest())
+
     def test_one_deadline_bounds_a_capture_that_keeps_racing(self):
         # round-2 R9: retries never reset the deadline (the old code recursed with a fresh one).
         # The live file is stable but never a complete zip, so every STABLE_POLLS cycle reaches
@@ -1057,6 +1098,24 @@ class Unavailable(Base):
         self.assertEqual(rec["decoded"], [])
         self.assertTrue([o for o in obs if "arrays unavailable" in o["field"]
                          and "[A917]" in o["value"]])
+
+    def test_a_null_player_array_pointer_emits_no_country_or_player_data(self):
+        # round-3 R3: [A91B] = 0000:0000 with valid [A923] and [A917]: the player-array guard on
+        # its own keeps squad members (read through [A91B]) and the country readings out
+        session = self.workdir("null-a91b")
+        write_session(session, [CHAIN[0] + ((0xA91B,),), CHAIN[1] + ((0xA91B,),)])
+        rec, _, out = self.extract(session, self.workdir("null-a91b-runs"))
+        self.assertIn("partial: 2", out)
+        obs = rec["observations"]
+        self.assertTrue([o for o in obs if "the game state" in o["field"]])
+        self.assertFalse([o for o in obs if "country record" in o["field"]])
+        self.assertFalse([o for o in obs if "squad player" in o["field"]])
+        self.assertFalse([o for o in obs if "players.check" in o["field"]])
+        self.assertEqual(rec["decoded"], [])
+        self.assertTrue([o for o in obs if "arrays unavailable" in o["field"]
+                         and "[A91B]" in o["value"]])
+        self.assertEqual(self.diffobs(obs, "snap-0001", "country squads and player records"),
+                         "unavailable")
 
     def test_a_partial_state_keeps_its_screen_diff_and_says_what_was_not_compared(self):
         # round-2 R6: state 2 has a changed screen and a null [A923]: the screen diff is kept,

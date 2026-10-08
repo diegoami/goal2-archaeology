@@ -51,3 +51,15 @@ python3 tools/validate_runs.py runs/E015
 python3 tools/publish_evidence.py E015 --run E015-r0001 --file <snapshot> ...
 python3 tools/verify_evidence.py E015
 ```
+
+## Records
+
+All three records are extractions of the same scripted sitting, `20261007-174403`, whose four
+savestates are published on release `E015`. Records are never rewritten (L207), so a defective
+record stays where it is and a later record supersedes it:
+
+| Record | Extraction pass | Superseded by, and why |
+| --- | --- | --- |
+| `E015-r0001` | round 1 (before review) | `E015-r0003`: it reads interrupt-vector bytes as the game state when `[A923]` is 0000:0000, and puts country records one record off (review round 1, R8 and R9) |
+| `E015-r0002` | round 2 | `E015-r0003`: its `run_id` reads `E015-r0001` because it was extracted into a scratch directory and copied in (review round 2, R5) |
+| `E015-r0003` | round 3 (`claim_record`: the id is the slot claimed) | — |
