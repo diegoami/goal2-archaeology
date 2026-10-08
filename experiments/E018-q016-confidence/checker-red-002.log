@@ -1,0 +1,92 @@
+experiments/E018-q016-confidence/check_confidence.py at ff0f18b, tests of the working tree: exit=1
+FFFF.F.F.F...F..........
+======================================================================
+FAIL: test_consistent_record_cannot_be_declared_defective (tests.test_model_confidence.CheckerTests.test_consistent_record_cannot_be_declared_defective)
+----------------------------------------------------------------------
+ValueError: fixture-probe-old.json passes its consistency check; cannot declare defective
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a9cb57e96bc0b1712/tests/test_model_confidence.py", line 50, in test_consistent_record_cannot_be_declared_defective
+    with self.assertRaisesRegex(ValueError, 'case 1 passes its declared squad check'):
+AssertionError: "case 1 passes its declared squad check" does not match "fixture-probe-old.json passes its consistency check; cannot declare defective"
+
+======================================================================
+FAIL: test_declaration_must_name_known_defects (tests.test_model_confidence.CheckerTests.test_declaration_must_name_known_defects) (defects=[])
+----------------------------------------------------------------------
+ValueError: fixture-probe-old.json passes its consistency check; cannot declare defective
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a9cb57e96bc0b1712/tests/test_model_confidence.py", line 89, in test_declaration_must_name_known_defects
+    with self.assertRaisesRegex(ValueError, 'declared defects'):
+AssertionError: "declared defects" does not match "fixture-probe-old.json passes its consistency check; cannot declare defective"
+
+======================================================================
+FAIL: test_declaration_must_name_known_defects (tests.test_model_confidence.CheckerTests.test_declaration_must_name_known_defects) (defects=['squad', 'squad'])
+----------------------------------------------------------------------
+ValueError: fixture-probe-old.json passes its consistency check; cannot declare defective
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a9cb57e96bc0b1712/tests/test_model_confidence.py", line 89, in test_declaration_must_name_known_defects
+    with self.assertRaisesRegex(ValueError, 'declared defects'):
+AssertionError: "declared defects" does not match "fixture-probe-old.json passes its consistency check; cannot declare defective"
+
+======================================================================
+FAIL: test_declaration_must_name_known_defects (tests.test_model_confidence.CheckerTests.test_declaration_must_name_known_defects) (defects=['delta'])
+----------------------------------------------------------------------
+ValueError: fixture-probe-old.json passes its consistency check; cannot declare defective
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a9cb57e96bc0b1712/tests/test_model_confidence.py", line 89, in test_declaration_must_name_known_defects
+    with self.assertRaisesRegex(ValueError, 'declared defects'):
+AssertionError: "declared defects" does not match "fixture-probe-old.json passes its consistency check; cannot declare defective"
+
+======================================================================
+FAIL: test_every_declared_defect_must_fail (tests.test_model_confidence.CheckerTests.test_every_declared_defect_must_fail)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a9cb57e96bc0b1712/tests/test_model_confidence.py", line 72, in test_every_declared_defect_must_fail
+    with self.assertRaisesRegex(ValueError, 'case 1 passes its declared status check'):
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_kept_record_checks_declared_inputs (tests.test_model_confidence.CheckerTests.test_kept_record_checks_declared_inputs)
+----------------------------------------------------------------------
+ValueError: player word 12: unexpected confidence call sites [47441, 47505]
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a9cb57e96bc0b1712/tests/test_model_confidence.py", line 110, in test_kept_record_checks_declared_inputs
+    self.assert_kept_fails(record, r'declared status disagrees with injected \+0x10')
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a9cb57e96bc0b1712/tests/test_model_confidence.py", line 101, in assert_kept_fails
+    with self.assertRaisesRegex(ValueError, message):
+AssertionError: "declared status disagrees with injected \+0x10" does not match "player word 12: unexpected confidence call sites [47441, 47505]"
+
+======================================================================
+FAIL: test_one_defective_case_is_not_set_aside (tests.test_model_confidence.CheckerTests.test_one_defective_case_is_not_set_aside)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a9cb57e96bc0b1712/tests/test_model_confidence.py", line 65, in test_one_defective_case_is_not_set_aside
+    with self.assertRaisesRegex(ValueError, 'case 2 passes its declared squad check'):
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_wrong_delta_with_consistent_squad_is_not_set_aside (tests.test_model_confidence.CheckerTests.test_wrong_delta_with_consistent_squad_is_not_set_aside)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a9cb57e96bc0b1712/tests/test_model_confidence.py", line 56, in test_wrong_delta_with_consistent_squad_is_not_set_aside
+    with self.assertRaisesRegex(ValueError, 'case 1 passes its declared squad check'):
+AssertionError: ValueError not raised
+
+----------------------------------------------------------------------
+Ran 22 tests in 0.069s
+
+FAILED (failures=8)

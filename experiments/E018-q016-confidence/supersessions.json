@@ -1,6 +1,7 @@
 {
   "fixture-probe-002.json": {
     "replacement": "fixture-probe-003.json",
+    "defects": ["squad", "status"],
     "reason": "Wrong squad and status injection offsets; all six declared cases require replacement."
   }
 }

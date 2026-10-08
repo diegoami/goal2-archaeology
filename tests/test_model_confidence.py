@@ -24,11 +24,133 @@ class CheckerTests(unittest.TestCase):
     def record(self):
         return json.loads((ROOT / 'experiments/E018-q016-confidence/fixture-probe-003.json').read_text())
 
+    OLD, NEW = 'fixture-probe-old.json', 'fixture-probe-new.json'
+
+    def declare(self, defects=('squad', 'status')):
+        return {self.OLD: {'replacement': self.NEW, 'defects': list(defects), 'reason': 'defective'}}
+
+    def op(self, case, word, site):
+        return next(o for o in case['operations'] if o['player_word'] == word and o['return_ip'] == site)
+
+    def break_squad(self, case):
+        # Swap the injected squad words of slots 1 and 2 of country 1 (literal bytes).
+        country = case['countries'][0]
+        record = bytes.fromhex(country['record'])
+        country['record'] = (record[2:4] + record[0:2] + record[4:]).hex()
+
+    def break_status(self, case):
+        # The participant's status written at +7 instead of +0x10, as the declared defect.
+        p = next(p for p in case['before'] if p['slot'] == 12)
+        record = bytearray(bytes.fromhex(p['record']))
+        record[16], record[7] = 0, 8
+        p['record'] = record.hex()
+
     def test_consistent_record_cannot_be_declared_defective(self):
         record = self.record()
-        with self.assertRaisesRegex(ValueError, 'passes its consistency check'):
-            self.run_checker({'fixture-probe-old.json': record, 'fixture-probe-new.json': record},
-                             {'fixture-probe-old.json': {'replacement': 'fixture-probe-new.json', 'reason': 'defective'}})
+        with self.assertRaisesRegex(ValueError, 'case 1 passes its declared squad check'):
+            self.run_checker({self.OLD: record, self.NEW: record}, self.declare())
+
+    def test_wrong_delta_with_consistent_squad_is_not_set_aside(self):
+        old = self.record()
+        self.op(old['cases'][0], 1, 0xB951)['delta_word'] += 1
+        with self.assertRaisesRegex(ValueError, 'case 1 passes its declared squad check'):
+            self.run_checker({self.OLD: old, self.NEW: self.record()}, self.declare())
+        with self.assertRaisesRegex(ValueError, 'case 1 passes its declared squad check'):
+            self.run_checker({self.OLD: old, self.NEW: self.record()}, self.declare(['squad']))
+
+    def test_one_defective_case_is_not_set_aside(self):
+        old = self.record()
+        self.break_squad(old['cases'][0])
+        self.break_status(old['cases'][0])
+        with self.assertRaisesRegex(ValueError, 'case 2 passes its declared squad check'):
+            self.run_checker({self.OLD: old, self.NEW: self.record()}, self.declare())
+
+    def test_every_declared_defect_must_fail(self):
+        old = self.record()
+        for case in old['cases']:
+            self.break_squad(case)
+        with self.assertRaisesRegex(ValueError, 'case 1 passes its declared status check'):
+            self.run_checker({self.OLD: old, self.NEW: self.record()}, self.declare())
+        self.assertEqual(self.run_checker({self.OLD: old, self.NEW: self.record()}, self.declare(['squad'])), 0)
+        for case in old['cases']:
+            self.break_status(case)
+        self.assertEqual(self.run_checker({self.OLD: old, self.NEW: self.record()}, self.declare()), 0)
+
+    def test_retained_defective_probe_is_set_aside_by_its_declaration(self):
+        directory = ROOT / 'experiments/E018-q016-confidence'
+        records = {name: json.loads((directory / name).read_text())
+                   for name in ('fixture-probe-002.json', 'fixture-probe-003.json')}
+        supersessions = json.loads((directory / 'supersessions.json').read_text())
+        self.assertEqual(self.run_checker(records, supersessions), 0)
+
+    def test_declaration_must_name_known_defects(self):
+        for defects in ([], ['squad', 'squad'], ['delta']):
+            with self.subTest(defects=defects):
+                with self.assertRaisesRegex(ValueError, 'declared defects'):
+                    self.run_checker({self.OLD: self.record(), self.NEW: self.record()}, self.declare(defects))
+
+    def test_unpaired_or_uncovered_supersession_fails(self):
+        with self.assertRaisesRegex(ValueError, 'unpaired or chained'):
+            self.run_checker({self.OLD: self.record()}, self.declare())
+        short = self.record()
+        short['cases'] = short['cases'][1:]
+        with self.assertRaisesRegex(ValueError, 'does not cover'):
+            self.run_checker({self.OLD: self.record(), self.NEW: short}, self.declare())
+
+    def assert_kept_fails(self, record, message):
+        with self.assertRaisesRegex(ValueError, message):
+            self.run_checker({self.NEW: record}, {})
+
+    def test_kept_record_checks_declared_inputs(self):
+        record = self.record()
+        self.break_squad(record['cases'][3])
+        self.assert_kept_fails(record, 'declared slot disagrees with injected squad')
+        record = self.record()
+        self.break_status(record['cases'][3])
+        self.assert_kept_fails(record, r'declared status disagrees with injected \+0x10')
+        record = self.record()
+        p = record['cases'][3]['before'][0]
+        p['record'] = (bytes.fromhex(p['record'])[:16] + b'\x04' + bytes.fromhex(p['record'])[17:]).hex()
+        self.assert_kept_fails(record, r'declared status disagrees with injected \+0x10')
+
+    def test_kept_record_guards(self):
+        # One literal edit per guard of check_case; each must fail the checker.
+        def strays(case):
+            case['strays'] = [{'ip': 1}]
+
+        def sites(case):
+            self.op(case, 1, 0xB951)['return_ip'] = 0xB991
+
+        def b71c(case):
+            self.op(case, 1, 0xB951)['delta_word'] += 1
+
+        def bounds(case):
+            count = self.op(case, 13, 0xB9BB)['draw_count']
+            case['draws'][count - 2]['bound'] = 2
+
+        def arithmetic(case):
+            self.op(case, 13, 0xB9BB)['delta_word'] += 1
+
+        def unaccounted(case):
+            case['operations'].append({'return_ip': 0xB951, 'delta_word': 0, 'player_word': 999, 'draw_count': 0})
+
+        def missing(case):
+            del case['after'][0]
+
+        for edit, message in [(strays, 'skipped a reachable call'),
+                              (sites, 'unexpected confidence call sites'),
+                              (b71c, 'result delta disagrees with original B71C'),
+                              (bounds, 'confidence draw bounds disagree'),
+                              (arithmetic, 'confidence draw arithmetic disagrees'),
+                              (unaccounted, 'unaccounted confidence calls'),
+                              (missing, 'missing or duplicate player-word comparison')]:
+            with self.subTest(guard=message):
+                record = self.record()
+                edit(record['cases'][0])
+                self.assert_kept_fails(record, message)
+        record = self.record()
+        record['schema'] = 'E018-confidence-probe/0'
+        self.assert_kept_fails(record, 'unknown record schema')
 
     def test_empty_comparisons_fail(self):
         with self.assertRaisesRegex(ValueError, 'empty comparison set'):
@@ -129,6 +251,27 @@ class ConfidenceTests(unittest.TestCase):
         self.assertEqual(participant_values(16, 99, 'unused'), (13, 14, 15, 16, 17))
         self.assertEqual(participant_values(1, 99, 'unused'), (1, 2))
         self.assertEqual(participant_values(32, 99, 'unused'), (29, 30, 31, 32))
+
+    def test_term_size_not_monotonic_in_margin(self):
+        # Ratings 128 vs 1, q = +/-3; the sign follows margin minus -q, the
+        # doubling (winner==side) == (side==0 or 5A03) breaks monotonicity.
+        cases = [((128, 1, (1, 0), 0, 0, False), -4),   # strong side 0 wins by 1
+                 ((128, 1, (0, 0), 2, 0, False), -3),   # strong side 0 draws
+                 ((128, 1, (0, 1), 1, 0, False), -4),   # strong side 0 loses by 1
+                 ((1, 128, (1, 0), 0, 1, False), 4),    # weak side 1 loses by 1
+                 ((1, 128, (0, 0), 2, 1, False), 3),    # weak side 1 draws
+                 ((1, 128, (0, 1), 1, 1, False), 4)]    # weak side 1 wins by 1
+        for inputs, expected in cases:
+            with self.subTest(inputs=inputs):
+                self.assertEqual(result_delta(*inputs), expected)
+
+    def test_equal_scores_with_winner_byte_are_not_a_draw(self):
+        # 1-1 with winner byte 0 (a shoot-out): not the draw branch; doubling applies.
+        self.assertEqual(result_delta(100, 164, (1, 1), 0, 0, False), 4)
+        self.assertEqual(result_delta(100, 164, (1, 1), 2, 0, False), 2)
+
+    def test_participating_substitute_gets_result_term(self):
+        self.assertEqual(participant_values(16, 4, 'substitute', (1, 1)), (20,))
 
     def test_exact_given_draws(self):
         self.assertEqual(participant_values(32, 4, 'substitute', (2, 1)), (31,))

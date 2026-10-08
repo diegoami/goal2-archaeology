@@ -1,5 +1,11 @@
 #!/usr/bin/env python3
-"""Compare every retained confidence probe by player word, fail closed."""
+"""Compare every retained confidence probe by player word, fail closed.
+
+A record declared defective in supersessions.json is set aside only by its
+declared-input check (the squad and status injection the probe declares),
+and only if each declared defect fails in every one of its cases. Any other
+error, in a kept or a superseded record, trace or run, fails the checker.
+"""
 import argparse
 import json
 import sys
@@ -9,8 +15,37 @@ ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT))
 from runtime.model.confidence import country_rating, result_delta, participant_values
 
+# probe_fixture.py's declared injection: record[16] = 4 if slot == 12 else 0
+# (player +0x10, Pascal set element 3 = bit 2; B7FA reads it, notes.md).
+STATUS_OFFSET = 16
+PARTICIPATED = 4
+DECLARED_PARTICIPANT_SLOT = 12
+DEFECT_CHECKS = ('squad', 'status')
+
+
+def squad_word(case, side, slot):
+    fixture = bytes.fromhex(case['fixture'])
+    word = int.from_bytes(fixture[4 + side * 2:6 + side * 2], 'little')
+    country = {c['country_word']: bytes.fromhex(c['record']) for c in case['countries']}[word]
+    return int.from_bytes(country[(slot - 1) * 2:slot * 2], 'little')
+
+
+def declared_input_failures(case):
+    """The probe's declared inputs against what the record shows it injected."""
+    failures = {}
+    for p in case['before']:
+        if 'squad' not in failures and squad_word(case, p['side'], p['slot']) != p['player_word']:
+            failures['squad'] = 'declared slot disagrees with injected squad'
+        declared = PARTICIPATED if p['slot'] == DECLARED_PARTICIPANT_SLOT else 0
+        if 'status' not in failures and bytes.fromhex(p['record'])[STATUS_OFFSET] != declared:
+            failures['status'] = 'declared status disagrees with injected +0x10'
+    return failures
+
 
 def check_case(case):
+    failures = declared_input_failures(case)
+    if failures:
+        raise ValueError('; '.join(failures.values()))
     if case['strays']:
         raise ValueError('probe skipped a reachable call')
     fixture = bytes.fromhex(case['fixture'])
@@ -32,10 +67,7 @@ def check_case(case):
     for word, p in before.items():
         record = bytes.fromhex(p['record'])
         side, slot = p['side'], p['slot']
-        country = countries[int.from_bytes(fixture[4 + side * 2:6 + side * 2], 'little')]
-        if int.from_bytes(country[(slot - 1) * 2:slot * 2], 'little') != word:
-            raise ValueError('declared slot disagrees with injected squad')
-        role = 'starter' if slot <= 11 else 'substitute' if record[16] & 4 else 'unused'
+        role = 'starter' if slot <= 11 else 'substitute' if record[STATUS_OFFSET] & PARTICIPATED else 'unused'
         delta = result_delta(ratings[side], ratings[1 - side], fixture[:2], fixture[3], side, special)
         ops = [o for o in case['operations'] if o['player_word'] == word]
         sites = [o['return_ip'] for o in ops]
@@ -64,6 +96,20 @@ def check_case(case):
     return matched, len(before)
 
 
+def set_aside(label, cases, defects):
+    """Every declared defect must fail its check in every case; nothing else is run."""
+    if not cases:
+        raise ValueError(f'{label}: no cases to set aside')
+    lines = []
+    for case in cases:
+        failures = declared_input_failures(case)
+        for defect in defects:
+            if defect not in failures:
+                raise ValueError(f"{label} case {case['case']} passes its declared {defect} check; cannot set aside")
+        lines.append(f"case {case['case']}: " + '; '.join(failures[d] for d in defects))
+    return '; '.join(lines)
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument('--directory', type=Path, default=Path(__file__).parent)
@@ -75,19 +121,14 @@ def main():
         new = declaration['replacement']
         if old not in records or new not in records or old == new or new in supersessions or not declaration['reason']:
             raise ValueError('unpaired or chained supersession')
+        defects = declaration['defects']
+        if not defects or len(set(defects)) != len(defects) or not set(defects) <= set(DEFECT_CHECKS):
+            raise ValueError(f'{old}: declared defects must be a non-empty subset of {DEFECT_CHECKS}')
         old_cases = [c['case'] for c in records[old]['cases']]
         new_cases = [c['case'] for c in records[new]['cases']]
         if not old_cases or len(set(old_cases)) != len(old_cases) or set(old_cases) != set(new_cases):
             raise ValueError('replacement does not cover every superseded case')
-        failures = []
-        for case in records[old]['cases']:
-            try:
-                check_case(case)
-            except ValueError as exc:
-                failures.append(f"case {case['case']}: {exc}")
-        if not failures:
-            raise ValueError(f'{old} passes its consistency check; cannot declare defective')
-        print(f"defective {old} -> {new}: {'; '.join(failures)}; {declaration['reason']}")
+        print(f"defective {old} -> {new}: {set_aside(old, records[old]['cases'], defects)}; {declaration['reason']}")
     matches = total = 0
     for name, record in records.items():
         if name in supersessions:
@@ -98,6 +139,7 @@ def main():
             n, count = check_case(case)
             matches += n
             total += count
+    distinct_matches, distinct = matches, total
     # Run observations are retained comparisons too, not merely metadata.
     if directory.resolve() == Path(__file__).parent.resolve():
         for path in sorted((ROOT / 'runs/E018').glob('*.json')):
@@ -107,15 +149,8 @@ def main():
             if cases != records[trace_name]['cases']:
                 raise ValueError(f'{path.name}: run observations disagree with retained trace')
             if trace_name in supersessions:
-                failures = []
-                for case in cases:
-                    try:
-                        check_case(case)
-                    except ValueError as exc:
-                        failures.append(str(exc))
-                if len(failures) == 0:
-                    raise ValueError(f'{path.name} passes its consistency check; cannot declare defective')
-                print(f"defective {path.name}: {'; '.join(failures)}; replacement {supersessions[trace_name]['replacement']}")
+                declaration = supersessions[trace_name]
+                print(f"defective {path.name}: {set_aside(path.name, cases, declaration['defects'])}; replacement {declaration['replacement']}")
             else:
                 for case in cases:
                     n, count = check_case(case)
@@ -123,7 +158,7 @@ def main():
                     total += count
     if not total:
         raise ValueError('empty comparison set')
-    print(f'match: {matches}/{total}')
+    print(f'match: {distinct_matches}/{distinct} ({total} incl. run observations)')
     return int(matches != total)
 
 
