@@ -52,3 +52,50 @@ that ordering edge.
 The released `goal2-a949da2f` artifact verified by hash. Regenerating the
 unmodified annotations with `decompile.sh --annotations` reproduced every
 committed named-view file byte for byte (`diff -qr` returned zero).
+
+## Probe records and limits
+
+`probe_watched.py` uses the released E011 half-time state, SHA-256
+`092f5f74bc5dc0c0f133709ca46be04122d3813a716c54fd23a686e9194ab9ff`.
+It reads counter inputs at 8C35, form-delta inputs at 7CE3 and injury stores at
+7D9B, and audits writes to the two squads' +0xC/+0xD/+0xE. The model starts
+from every squad player word's initial record, replays the input operations,
+and compares all three final bytes for each word. It does not use an observed
+energy value to decide a decrement or discard bench players. This is a replay
+of field-write inputs, **not** an independent movement/tactic simulator.
+
+The immutable `watched-half-001.log` records a failed attempt (the initial
+Unicorn memory-hook callback omitted its access-type argument). The second
+attempt's `records/watched-half-002.json` contains 40 player comparisons,
+184 activity tails and 182 actual decrement stores at 8C54; no unknown field
+stores and no skipped wait-family calls. Its final clock is 91, with 2077 ticks.
+On that record alone the checker returned `match: 40/40` before the recovery
+records were added. The recording omits the terminal CS:IP, so the final clock
+is evidence of progress but not a separately asserted terminal-address check.
+
+`probe_recovery.py` runs original 1771:3651 on eight declared literal records
+in the same hash-verified guest image. It records every final +0xC/+0xD/+0xE;
+the original executable, not the model, supplies the expected bytes and caps.
+No DOSBox-X game runs or E015 sitting records are used by these probes.
+
+The immutable `records/recovery-001.json` has an input-transcript defect:
+the initial recorder hooked 214B:06B1 only. **06D0 calls 0688 directly**, not
+06B1 (`static/goal-exe/code/seg_214B_01.asm:913–935`, 06D0–06F7), so its healing
+draw is absent even though the final expected bytes are recorded. Reading that
+listing led to the corrected 0688 hook, whose independent repeat is retained
+as `records/recovery-002.json`. Neither record is overwritten or excluded.
+Consequently the full checker rejects the first transcript with
+`ValueError: missing recovery draw`; the later transcript does not retroactively
+supply the earlier record's omitted input. This prevents a passing comparison
+from being obtained by inferring the missing draw from an expected energy byte.
+
+## Unestablished coverage
+
+`inventory.py` enumerates candidate listing accesses whose routine loads the
+player-array pointer. It does not prove that each access uses that pointer:
+pitch +0xD is a player word, pitch +0xC is a movement byte, and scorer-table
+words at +0xC/+0xE also appear in this candidate set. An exhaustive semantic
+reader/writer inventory, the pre-half energy-set check at 9A32, year-end paths,
+marking's effect on activity, and substitution's energy semantics are not
+established by this map. No F018 finding or settled field annotations follow
+from the partial inventory.
