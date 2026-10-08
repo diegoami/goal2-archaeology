@@ -1,9 +1,9 @@
-"""Candidate player field accesses; a filter, not a semantic proof.
+"""All direct DI + C/D/E listing accesses, without a player-pointer filter.
 
-Like E008 readers.py, require a load of the player-array far pointer in the
-same routine. Printed references are instruction listing lines, not decompiler
-line numbers. A pitch access in a routine that also loads players is still a
-false positive and must be disambiguated by reading its pointer construction.
+Printed references are instruction listing lines, not decompiler line numbers.
+Classification and pointer provenance are in notes.md: a pitch access in a
+routine that also loads players is not a player-field access. Removing the
+old player-load filter also exposes the unrelated runtime and manager records.
 """
 import re
 from pathlib import Path
@@ -17,7 +17,7 @@ def candidates():
         line = 1
         for chunk in chunks:
             heading = re.match(r'; ---- routine ([0-9A-F]+:[0-9A-F]+)', chunk)
-            if heading and '[0xa91b]' in chunk.lower():
+            if heading:
                 refs = []
                 for n, text in enumerate(chunk.splitlines(), line):
                     if re.search(r'es:\[di \+ 0x[cde]\]|add di, 0x[cde]$', text):
