@@ -20,18 +20,24 @@ One command starts everything (from a graphical session, so the game window open
 display):
 
 ```
-bash runtime/human/play.sh [--video] [--quit-after SECS]
+bash runtime/human/play.sh [--video] [--quit-after SECS] [--res WIDTHxHEIGHT]
 ```
 
 The recorder's `--countries` argument does not exist; country selection is an extraction
 parameter (rework round 2 R15: `--countries 1,4` is passed to `extract.py`, not to `play.sh`).
-A windowed DOSBox-X appears, booted from a per-session copy of the verified release. From then
+A Xephyr window contains DOSBox-X on a private nested display, booted from a per-session copy of the verified release. From then
 on you simply play. The watcher (invisible) sends the savestate host key **directly to the game
-window** (`xdotool key --window`, never a global keystroke — your terminal can keep the focus the
-whole time) and stages a timestamped snapshot every 20 s, hashed into the session's index. The
+window** (explicit XSendEvent, never a global keystroke — your terminal can keep the focus the
+whole time) and stages a timestamped snapshot every 20 s and after a key burst's 0.5 s quiet interval, hashed into the session's index. The
 session folder is `scratch/human/sessions/<date-time>/` (git-ignored: the savestates and the
 video never enter the repository; only the extracted record does). The sitting is silent: the
 config family is the G1 driver's, with `nosound=true`.
+
+The logger listens only on that nested display. It writes press/release events,
+UTC and monotonic timestamps, keycodes and base keysyms to `keys.jsonl`, flushed
+per line; it never attaches to the outer desktop. The key log stays out of git.
+The burst interval is [designed], not a measured game timing: T29's timings and
+the T34 brief were searched, and neither specified a human typing interval.
 
 What makes the sitting maximally informative (each row of the map below is fed by one of these):
 
@@ -67,6 +73,7 @@ your last F12+S if one is pending, and writes the session's meta.
 
 ```
 python3 experiments/E015-human-playthrough/extract.py scratch/human/sessions/<date-time> --countries 1,4
+python3 experiments/E015-human-playthrough/keymap.py scratch/human/sessions/<date-time>
 python3 tools/validate_runs.py runs/E015
 python3 tools/publish_evidence.py E015 --run E015-r<nnnn> --file <snapshot> …   # the savestates
 python3 tools/verify_evidence.py E015
@@ -76,6 +83,15 @@ python3 tools/verify_evidence.py E015
 the chain carries — pass the ones you manage, their numbers as GOAL shows them), `--runs-dir`,
 and `--machine`. The record lands in `runs/E015/`, never overwriting an earlier one
 (`O_CREAT|O_EXCL`, rework round 2 R2).
+
+The key map identifies screens by SHA256 of their UTF-8 decoded text, not their
+attributes, and associates each ordered key burst with the nearest preceding
+snapshot and first snapshot after the quiet interval. It does not assert that
+each individual key caused the eventual screen. Missing bracketing snapshots
+are counted as unmapped presses. Extraction carries the map as JSON in a run/1
+observation and writes a readable `<run-id>-keymap.md` beside this protocol.
+`keymap.py` creates another new record, never amending an earlier one. Raw events
+may be included with `--scripted-keys` only for scripted acceptance sittings.
 
 ## The living coverage map
 

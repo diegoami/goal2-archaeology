@@ -120,3 +120,26 @@ class KeyTests(unittest.TestCase):
                     logger.stop()
                 for proc in (app, nested, outer):
                     rec.terminate(proc)
+
+
+class MapTests(unittest.TestCase):
+    def test_literal_session_map(self):
+        from tests import test_human_record as fixture
+        import keymap
+        with tempfile.TemporaryDirectory() as folder:
+            session = Path(folder)
+            chain = [({0: text}, fixture.player_array(), fixture.country_array(), fixture.state_tuple(), 0) for text in ("MENU", "TEAM", "MENU")]
+            fixture.write_session(session, chain)
+            meta = json.loads((session / "meta.json").read_text())
+            meta["monotonic_start_s"] = 100.0
+            (session / "meta.json").write_text(json.dumps(meta))
+            events = [{"monotonic_s": t, "utc": "2026-10-09T00:00:00+00:00", "event": kind, "keycode": code, "keysym": sym} for t, kind, code, sym in ((121.0, "press", 38, "a"), (121.1, "release", 38, "a"), (141.0, "press", 9, "Escape"), (141.1, "release", 9, "Escape"))]
+            (session / "keys.jsonl").write_text("".join(json.dumps(e) + "\n" for e in events))
+            result = keymap.read_session(session)
+            self.assertEqual(result["summary"], "screens: 2, transitions: 2, keys: 2")
+            rows = [(r["headline"], r["keys"], r["after_headline"], r["count"]) for r in result["transitions"]]
+            self.assertEqual(rows, [("MENU", ["a"], "TEAM", 1), ("TEAM", ["Escape"], "MENU", 1)])
+            self.assertEqual(result["unmapped_keys"], 0)
+            states = [fixture.extract.read_snapshot(session, e, [1]) for e in fixture.extract.read_index(session)[0]]
+            record, _ = fixture.extract.build_record(session, states, {}, [1], session / "runs", "fixture", "2026-10-09T00:00:00Z", 0)
+            self.assertEqual(json.loads(next(o["value"] for o in record["observations"] if o["field"] == "screen/key map (JSON)")), result)

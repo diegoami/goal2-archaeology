@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
-"""The T29 human-playthrough recorder: one command that runs GOAL2 windowed on the owner's display
+"""The human-playthrough recorder: one command that runs GOAL2 on a private nested display
 and turns the sitting into a complete behavioural record — a timestamped chain of whole-machine
 savestates, an index of them, and (optionally) a screen video of the game window.
 
     python3 runtime/human/recorder.py self-test [--video]
     python3 runtime/human/recorder.py play [--video] [--quit-after SECS]
 
-Windows on the display $DISPLAY points at (the owner's session); there is no headless mode here.
+Xephyr is shown on $DISPLAY; the game and raw key logger use only its nested display.
 The emulator, config family and session layout follow the G1 driver (runtime/driver/driver.py):
 windowed `surface` output, `savefile` in the session folder, drive C: mounted from a per-session
 copy of the verified release (never the release cache itself — F001: a savestate remembers the
@@ -253,6 +253,47 @@ def key_cmd(wid):
     if not SEND_TO_WINDOW:
         return ["xdotool", "key", SAVE_KEYS]
     return ["xdotool", "key", "--window", str(wid), SAVE_KEYS]
+
+
+def send_save_event(wid, env):
+    """Explicit XSendEvent: xdotool uses XTEST for the focused window, which
+    would feed our own snapshot keys back into the raw-input burst scheduler.
+    X11 KeyPress/KeyRelease masks and event layouts are protocol constants.
+    """
+    import ctypes as c
+    class KeyEvent(c.Structure):
+        _fields_ = [("type", c.c_int), ("serial", c.c_ulong), ("send_event", c.c_int),
+                    ("display", c.c_void_p), ("window", c.c_ulong), ("root", c.c_ulong),
+                    ("subwindow", c.c_ulong), ("time", c.c_ulong), ("x", c.c_int),
+                    ("y", c.c_int), ("x_root", c.c_int), ("y_root", c.c_int),
+                    ("state", c.c_uint), ("keycode", c.c_uint), ("same_screen", c.c_int)]
+    class Event(c.Union):
+        _fields_ = [("key", KeyEvent), ("pad", c.c_long * 24)]
+    lib = c.CDLL("libX11.so.6")
+    lib.XOpenDisplay.argtypes, lib.XOpenDisplay.restype = [c.c_char_p], c.c_void_p
+    lib.XDefaultRootWindow.argtypes, lib.XDefaultRootWindow.restype = [c.c_void_p], c.c_ulong
+    lib.XKeysymToKeycode.argtypes, lib.XKeysymToKeycode.restype = [c.c_void_p, c.c_ulong], c.c_ubyte
+    lib.XSendEvent.argtypes = [c.c_void_p, c.c_ulong, c.c_int, c.c_long, c.POINTER(Event)]
+    lib.XFlush.argtypes = lib.XCloseDisplay.argtypes = [c.c_void_p]
+    display = lib.XOpenDisplay(env["DISPLAY"].encode())
+    if not display:
+        raise RuntimeError("cannot open nested display to send save event")
+    try:
+        codes = [lib.XKeysymToKeycode(display, symbol) for symbol in (0xFFC9, ord("s"))]
+        for kind, mask in ((2, 1), (3, 2)):
+            for code in codes:
+                event = Event()
+                event.key.type, event.key.display = kind, display
+                event.key.window, event.key.root = int(wid), lib.XDefaultRootWindow(display)
+                event.key.keycode, event.key.same_screen = code, 1
+                if not lib.XSendEvent(display, int(wid), 0, mask, c.byref(event)):
+                    raise RuntimeError("save event send failed")
+                lib.XFlush(display)
+                # [designed] Match xdotool's roughly 6 ms inter-event spacing,
+                # observed in T34-scripted-20261009-01.log's host-save events.
+                time.sleep(0.006)
+    finally:
+        lib.XCloseDisplay(display)
 
 
 def window_alive(wid, env):
@@ -873,7 +914,8 @@ def play(video=False, quit_after=None, res="1280x800"):
                     vid = Video(v, session / "video.mkv")
                     vid.start()
                     log(f"video started: {' '.join(v)}")
-        watcher = Watcher(session, session / "state.sav", wid, dbx, env, log=log)
+        watcher = Watcher(session, session / "state.sav", wid, dbx, env, log=log,
+                          xrun=lambda argv: send_save_event(wid, env))
         meta["monotonic_start_s"] = watcher.t0
         (session / "meta.json").write_text(json.dumps(meta, indent=1))
         entries = watcher.run(quit_after=quit_after, stop=lambda: stop_flag["now"], video=vid, keys=keys)

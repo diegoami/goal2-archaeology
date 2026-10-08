@@ -1,0 +1,363 @@
+{
+ "schema": "run/1",
+ "run_id": "E015-r0005",
+ "experiment": "E015",
+ "arm": "human-playthrough",
+ "rep": 1,
+ "code_commit": "e157891",
+ "machine": "ubuntu-24-04-wsl2",
+ "artifact": {
+  "set": "goal2-67cf27d6",
+  "variant": null
+ },
+ "runtime": {
+  "driver": "runtime/human/recorder.py@e157891",
+  "platform": "python-3.12.3/ubuntu-24-04-wsl2",
+  "fingerprint": {
+   "dosbox-x": "DOSBox-X version 2024.03.01 SDL2, copyright 2011-2024 The DOSBox-X Team.",
+   "extract_py_sha256": "de4542be93c4d441825569cf5a2b07664ab51966c54262f71fa4da18851d897a",
+   "keymap_py_sha256": "4a0ecf5a64fc17481bce354c6e6fb61f873889aed02c4852560745248dfa39e2"
+  }
+ },
+ "interventions": [
+  {
+   "level": "I2",
+   "what": "the recorder's watcher sent the host key F12+S directly to the game window (xdotool key --window, never a global keystroke) every ~20 s of the sitting; DOSBox-X wrote state.sav and the watcher staged a copy per snapshot (a savestate written; neutrality not tested)"
+  },
+  {
+   "level": "I1",
+   "what": "each staged savestate's Vga and Memory components read (text screen and guest memory), as the G1 driver reads savestates (F001 route A)"
+  }
+ ],
+ "start_state": {
+  "id": "first-savestate",
+  "sha256": "5eb1da94ed1d5e7313c6455f29d226a5c40cde3dd0299aaafa6bceca8baff9ae",
+  "restore": "no start state was restored: runtime/human/play.sh launched dosbox-x windowed (config sha256 6d4215ee0efc0b31661a8f36c55b5c0e6dedb3d36ce56ba6f3482ee139819803) with drive C: mounted from a per-session copy of the verified release set goal2-67cf27d6; GOAL booted under the player's own keys. The session's earliest staged savestate is the earliest state on record."
+ },
+ "seed": null,
+ "actions": {
+  "script": "experiments/E015-human-playthrough/extract.py",
+  "sha256": "de4542be93c4d441825569cf5a2b07664ab51966c54262f71fa4da18851d897a",
+  "args": [
+   "/home/diego/projects/goal2-archaeology-work/T34/scratch/human/sessions/20261009-004935",
+   "--countries",
+   ""
+  ]
+ },
+ "observations": [
+  {
+   "step": 0,
+   "source": "log",
+   "field": "session folder (input; git-ignored: savestates and videos stay out of git)",
+   "value": "/home/diego/projects/goal2-archaeology-work/T34/scratch/human/sessions/20261009-004935"
+  },
+  {
+   "step": 0,
+   "source": "file",
+   "field": "read session index: index.jsonl (bytes 697)",
+   "value": "5dc48dd1363ac477477df39d64fcacae86b73c855edc71db6b817f72b6968fe5"
+  },
+  {
+   "step": 0,
+   "source": "file",
+   "field": "read session meta: meta.json (bytes 1590)",
+   "value": "e8b567956f33d19666f72781867cf62d59ca71e4fe5939c612fa11803eb054e6"
+  },
+  {
+   "step": 0,
+   "source": "file",
+   "field": "read session dosbox config: dosbox.conf (bytes 662)",
+   "value": "6d4215ee0efc0b31661a8f36c55b5c0e6dedb3d36ce56ba6f3482ee139819803"
+  },
+  {
+   "step": 0,
+   "source": "file",
+   "field": "read snapshot snapshots/snap-0001-20261008T224937Z.sav (bytes 210123)",
+   "value": "5eb1da94ed1d5e7313c6455f29d226a5c40cde3dd0299aaafa6bceca8baff9ae"
+  },
+  {
+   "step": 0,
+   "source": "save",
+   "field": "state 1 (snapshots/snap-0001-20261008T224937Z.sav) (bytes 210123, parsed)",
+   "value": "5eb1da94ed1d5e7313c6455f29d226a5c40cde3dd0299aaafa6bceca8baff9ae"
+  },
+  {
+   "step": 0,
+   "source": "screen",
+   "field": "state 1 (snapshots/snap-0001-20261008T224937Z.sav): text screen 80x25, chars+attributes (4000 bytes), sha256",
+   "value": "3658bfdd30d2a8176893e3043ece36bdeea343b87e5f4133776b816201fd6e01"
+  },
+  {
+   "step": 0,
+   "source": "log",
+   "field": "state 1 (snapshots/snap-0001-20261008T224937Z.sav): GOAL.EXE data segment located",
+   "value": "MCB at segment 0812 (owner 0813, name GOAL), PSP 0813, load segment 0823 = PSP + 10h, DS 2DA4 = load + 2581h, linear base 0x2DA40"
+  },
+  {
+   "step": 0,
+   "source": "log",
+   "field": "state 1 (snapshots/snap-0001-20261008T224937Z.sav): memory readings unavailable",
+   "value": "game state pointer [A923] is 0000:0000 (uninitialized)"
+  },
+  {
+   "step": 0,
+   "source": "ui-text",
+   "field": "state 1 (snapshots/snap-0001-20261008T224937Z.sav): text screen rows 0-24, CP437 decoded, trailing blanks trimmed (digest 3658bfdd30d2a8176893e3043ece36bdeea343b87e5f4133776b816201fd6e01)",
+   "value": "Z:\\>mount c /home/diego/projects/goal2-archaeology-work/T34/scratch/human/sessio\nns/20261009-004935/game\nDrive C is mounted as local directory /home/diego/projects/goal2-archaeology-wor\nk/T34/scratch/human/sessions/20261009-004935/game/\nZ:\\>c:\nC:\\>mount d /home/diego/projects/goal2-archaeology-work/T34/scratch/human/sessio\nns/20261009-004935/dosclock\nDrive D is mounted as local directory /home/diego/projects/goal2-archaeology-wor\nk/T34/scratch/human/sessions/20261009-004935/dosclock/\nC:\\>date /t > d:\\clock.txt\nC:\\>time /t >> d:\\clock.txt\nC:\\>c:\nC:\\>goal\n\n\n\n\n\n\n\n\n\n\n\n"
+  },
+  {
+   "step": 1,
+   "source": "file",
+   "field": "read snapshot snapshots/snap-0002-20261008T224939Z.sav (bytes 181642)",
+   "value": "f4ec5c7194efd04a3e75a9d7760a29b510ef039bbdc7965e0f9fac8458965dfb"
+  },
+  {
+   "step": 1,
+   "source": "save",
+   "field": "state 2 (snapshots/snap-0002-20261008T224939Z.sav) (bytes 181642, parsed)",
+   "value": "f4ec5c7194efd04a3e75a9d7760a29b510ef039bbdc7965e0f9fac8458965dfb"
+  },
+  {
+   "step": 1,
+   "source": "screen",
+   "field": "state 2 (snapshots/snap-0002-20261008T224939Z.sav): text screen 80x25, chars+attributes (4000 bytes), sha256",
+   "value": "487df15f2d57c3acb753f9b43d2bf81001147cfdd18b8b88e5b427f9403b39e2"
+  },
+  {
+   "step": 1,
+   "source": "log",
+   "field": "state 2 (snapshots/snap-0002-20261008T224939Z.sav): GOAL.EXE data segment located",
+   "value": "MCB at segment 0812 (owner 0813, name GOAL), PSP 0813, load segment 0823 = PSP + 10h, DS 2DA4 = load + 2581h, linear base 0x2DA40"
+  },
+  {
+   "step": 1,
+   "source": "memory",
+   "field": "state 2 (snapshots/snap-0002-20261008T224939Z.sav): the game state, 0x10e bytes at the far pointer DS:A923 -> 5D67:0006 (linear 0x5D676), hex",
+   "value": "00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00",
+   "addr": "0x5D676"
+  },
+  {
+   "step": 1,
+   "source": "log",
+   "field": "state 2 (snapshots/snap-0002-20261008T224939Z.sav): managers word [A923]+0x00",
+   "value": "0"
+  },
+  {
+   "step": 1,
+   "source": "log",
+   "field": "state 2 (snapshots/snap-0002-20261008T224939Z.sav): fixture index word [A923]+0x26",
+   "value": "0"
+  },
+  {
+   "step": 1,
+   "source": "log",
+   "field": "state 2 (snapshots/snap-0002-20261008T224939Z.sav): fixture count word [A923]+0x28",
+   "value": "0"
+  },
+  {
+   "step": 1,
+   "source": "log",
+   "field": "state 2 (snapshots/snap-0002-20261008T224939Z.sav): year word [A923]+0x3A",
+   "value": "0"
+  },
+  {
+   "step": 1,
+   "source": "log",
+   "field": "state 2 (snapshots/snap-0002-20261008T224939Z.sav): stage byte [A923]+0x3C",
+   "value": "0x00"
+  },
+  {
+   "step": 1,
+   "source": "log",
+   "field": "state 2 (snapshots/snap-0002-20261008T224939Z.sav): match delay byte [A923]+0x3F (0 fastest)",
+   "value": "0x00"
+  },
+  {
+   "step": 1,
+   "source": "log",
+   "field": "state 2 (snapshots/snap-0002-20261008T224939Z.sav): players.check problems (T15)",
+   "value": "country 1: squad words [0, 0, 0]... not [1, 2, 3]...; country 2: squad words [0, 0, 0]... not [21, 22, 23]...; country 3: squad words [0, 0, 0]... not [41, 42, 43]...; country 4: squad words [0, 0, 0]... not [61, 62, 63]...; country 5: squad words [0, 0, 0]... not [81, 82, 83]...; country 6: squad words [0, 0, 0]... not [101, 102, 103]...; country 7: squad words [0, 0, 0]... not [121, 122, 123]...; country 8: squad words [0, 0, 0]... not [141, 142, 143]...; country 9: squad words [0, 0, 0]... not [161, 162, 163]...; country 10: squad words [0, 0, 0]... not [181, 182, 183]...; country 11: squad words [0, 0, 0]... not [201, 202, 203]...; country 12: squad words [0, 0, 0]... not [221, 222, 223]...; country 13: squad words [0, 0, 0]... not [241, 242, 243]...; country 14: squad words [0, 0, 0]... not [261, 262, 263]...; country 15: squad words [0, 0, 0]... not [281, 282, 283]...; country 16: squad words [0, 0, 0]... not [301, 302, 303]...; country 17: squad words [0, 0, 0]... not [321, 322, 323]...; country 18: squad words [0, 0, 0]... not [341, 342, 343]...; country 19: squad words [0, 0, 0]... not [361, 362, 363]...; country 20: squad words [0, 0, 0]... not [381, 382, 383]...; country 21: squad words [0, 0, 0]... not [401, 402, 403]...; country 22: squad words [0, 0, 0]... not [421, 422, 423]...; country 23: squad words [0, 0, 0]... not [441, 442, 443]...; country 24: squad words [0, 0, 0]... not [461, 462, 463]...; country 25: squad words [0, 0, 0]... not [481, 482, 483]...; country 26: squad words [0, 0, 0]... not [501, 502, 503]...; country 27: squad words [0, 0, 0]... not [521, 522, 523]...; country 28: squad words [0, 0, 0]... not [541, 542, 543]...; country 29: squad words [0, 0, 0]... not [561, 562, 563]...; country 30: squad words [0, 0, 0]... not [581, 582, 583]...; country 31: squad words [0, 0, 0]... not [601, 602, 603]...; country 32: squad words [0, 0, 0]... not [621, 622, 623]...; country 33: squad words [0, 0, 0]... not [641, 642, 643]...; country 34: squad words [0, 0, 0]... not [661, 662, 663]...; country 35: squad words [0, 0, 0]... not [681, 682, 683]...; country 36: squad words [0, 0, 0]... not [701, 702, 703]...; country 37: squad words [0, 0, 0]... not [721, 722, 723]...; country 38: squad words [0, 0, 0]... not [741, 742, 743]...; country 39: squad words [0, 0, 0]... not [761, 762, 763]...; country 40: squad words [0, 0, 0]... not [781, 782, 783]...; country 41: squad words [0, 0, 0]... not [801, 802, 803]...; country 42: squad words [0, 0, 0]... not [821, 822, 823]...; country 43: squad words [0, 0, 0]... not [841, 842, 843]...; country 44: squad words [0, 0, 0]... not [861, 862, 863]...; country 45: squad words [0, 0, 0]... not [881, 882, 883]...; country 46: squad words [0, 0, 0]... not [901, 902, 903]...; country 47: squad words [0, 0, 0]... not [921, 922, 923]...; country 48: squad words [0, 0, 0]... not [941, 942, 943]...; country 49: squad words [0, 0, 0]... not [961, 962, 963]...; country 50: squad words [0, 0, 0]... not [981, 982, 983]...; country 51: squad words [0, 0, 0]... not [1001, 1002, 1003]...; country 52: squad words [0, 0, 0]... not [1021, 1022, 1023]...; country 53: squad words [0, 0, 0]... not [1041, 1042, 1043]...; country 54: squad words [0, 0, 0]... not [1061, 1062, 1063]...; country 55: squad words [0, 0, 0]... not [1081, 1082, 1083]...; country 56: squad words [0, 0, 0]... not [1101, 1102, 1103]...; country 57: squad words [0, 0, 0]... not [1121, 1122, 1123]...; country 58: squad words [0, 0, 0]... not [1141, 1142, 1143]...; country 59: squad words [0, 0, 0]... not [1161, 1162, 1163]...; country 60: squad words [0, 0, 0]... not [1181, 1182, 1183]...; country 61: squad words [0, 0, 0]... not [1201, 1202, 1203]...; country 62: squad words [0, 0, 0]... not [1221, 1222, 1223]...; country 63: squad words [0, 0, 0]... not [1241, 1242, 1243]...; country 64: squad words [0, 0, 0]... not [1261, 1262, 1263]...; country 65: squad words [0, 0, 0]... not [1281, 1282, 1283]...; country 66: squad words [0, 0, 0]... not [1301, 1302, 1303]...; country 67: squad words [0, 0, 0]... not [1321, 1322, 1323]...; country 68: squad words [0, 0, 0]... not [1341, 1342, 1343]...; country 69: squad words [0, 0, 0]... not [1361, 1362, 1363]...; country 70: squad words [0, 0, 0]... not [1381, 1382, 1383]...; country 71: squad words [0, 0, 0]... not [1401, 1402, 1403]...; country 72: squad words [0, 0, 0]... not [1421, 1422, 1423]...; country 73: squad words [0, 0, 0]... not [1441, 1442, 1443]...; country 74: squad words [0, 0, 0]... not [1461, 1462, 1463]...; country 75: squad words [0, 0, 0]... not [1481, 1482, 1483]...; country 76: squad words [0, 0, 0]... not [1501, 1502, 1503]...; country 77: squad words [0, 0, 0]... not [1521, 1522, 1523]...; country 78: squad words [0, 0, 0]... not [1541, 1542, 1543]...; country 79: squad words [0, 0, 0]... not [1561, 1562, 1563]...; country 80: squad words [0, 0, 0]... not [1581, 1582, 1583]...; country 81: squad words [0, 0, 0]... not [1601, 1602, 1603]...; country 82: squad words [0, 0, 0]... not [1621, 1622, 1623]...; country 83: squad words [0, 0, 0]... not [1641, 1642, 1643]...; country 84: squad words [0, 0, 0]... not [1661, 1662, 1663]...; country 85: squad words [0, 0, 0]... not [1681, 1682, 1683]...; country 86: squad words [0, 0, 0]... not [1701, 1702, 1703]...; country 87: squad words [0, 0, 0]... not [1721, 1722, 1723]...; country 88: squad words [0, 0, 0]... not [1741, 1742, 1743]...; country 89: squad words [0, 0, 0]... not [1761, 1762, 1763]...; country 90: squad words [0, 0, 0]... not [1781, 1782, 1783]...; country 91: squad words [0, 0, 0]... not [1801, 1802, 1803]...; country 92: squad words [0, 0, 0]... not [1821, 1822, 1823]...; country 93: squad words [0, 0, 0]... not [1841, 1842, 1843]...; country 94: squad words [0, 0, 0]... not [1861, 1862, 1863]...; country 95: squad words [0, 0, 0]... not [1881, 1882, 1883]...; country 96: squad words [0, 0, 0]... not [1901, 1902, 1903]...; country 97: squad words [0, 0, 0]... not [1921, 1922, 1923]...; country 98: squad words [0, 0, 0]... not [1941, 1942, 1943]...; country 99: squad words [0, 0, 0]... not [1961, 1962, 1963]...; country 100: squad words [0, 0, 0]... not [1981, 1982, 1983]...; country 101: squad words [0, 0, 0]... not [2001, 2002, 2003]...; country 102: squad words [0, 0, 0]... not [2021, 2022, 2023]...; country 103: squad words [0, 0, 0]... not [2041, 2042, 2043]...; country 104: squad words [0, 0, 0]... not [2061, 2062, 2063]...; country 105: squad words [0, 0, 0]... not [2081, 2082, 2083]...; country 106: squad words [0, 0, 0]... not [2101, 2102, 2103]...; country 107: squad words [0, 0, 0]... not [2121, 2122, 2123]...; country 108: squad words [0, 0, 0]... not [2141, 2142, 2143]...; country 109: squad words [0, 0, 0]... not [2161, 2162, 2163]...; country 110: squad words [0, 0, 0]... not [2181, 2182, 2183]...; country 111: squad words [0, 0, 0]... not [2201, 2202, 2203]...; country 112: squad words [0, 0, 0]... not [2221, 2222, 2223]...; country 113: squad words [0, 0, 0]... not [2241, 2242, 2243]...; country 114: squad words [0, 0, 0]... not [2261, 2262, 2263]...; country 115: squad words [0, 0, 0]... not [2281, 2282, 2283]...; country 116: squad words [0, 0, 0]... not [2301, 2302, 2303]...; country 117: squad words [0, 0, 0]... not [2321, 2322, 2323]...; country 118: squad words [0, 0, 0]... not [2341, 2342, 2343]...; country 119: squad words [0, 0, 0]... not [2361, 2362, 2363]...; country 120: squad words [0, 0, 0]... not [2381, 2382, 2383]...; country 121: squad words [0, 0, 0]... not [2401, 2402, 2403]...; country 122: squad words [0, 0, 0]... not [2421, 2422, 2423]...; country 123: squad words [0, 0, 0]... not [2441, 2442, 2443]...; country 124: squad words [0, 0, 0]... not [2461, 2462, 2463]...; country 125: squad words [0, 0, 0]... not [2481, 2482, 2483]...; country 126: squad words [0, 0, 0]... not [2501, 2502, 2503]...; country 127: squad words [0, 0, 0]... not [2521, 2522, 2523]...; country 128: squad words [0, 0, 0]... not [2541, 2542, 2543]..."
+  },
+  {
+   "step": 1,
+   "source": "ui-text",
+   "field": "state 2 (snapshots/snap-0002-20261008T224939Z.sav): text screen rows 0-24, CP437 decoded, trailing blanks trimmed (digest 487df15f2d57c3acb753f9b43d2bf81001147cfdd18b8b88e5b427f9403b39e2)",
+   "value": " (c) NE'93\u2502 \u2502                                                    \u2502     (c)\n \u250c\u2500\u2510\u250c\u2500\u2510\u250c\u2500\u2510\u2502 \u2502                                                    \u2502     new\n \u2502 \u2502\u2502 \u2502\u2502 \u2502\u2502 \u2502                                                    \u2502     era\n \u2514\u2500\u2524\u2514\u2500\u2518\u2514\u2500\u2524\u2502 \u2502                                                    \u2502   software\n\u2500\u2500\u2500\u2518 v.2    \u2502                                                    \u2502     1993\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518                                                    \u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n\n\n\n\n\n\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n                        How many players  1 2 3 4 5 6  ?\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n                    design and coding : Mantra and L.B.\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n     testing and feedback : Celtic Ray, Mr Scott, Big Mac and Carl Wilky\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n               distribution : Silverwitch and Tom de Notre Dame\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n\n                     Use \u2190\u2192 to choose number, \u25c4\u2518 to select"
+  },
+  {
+   "step": 1,
+   "source": "log",
+   "field": "diff snapshots/snap-0001-20261008T224937Z.sav -> snapshots/snap-0002-20261008T224939Z.sav: screen changed",
+   "value": "yes"
+  },
+  {
+   "step": 1,
+   "source": "log",
+   "field": "diff snapshots/snap-0001-20261008T224937Z.sav -> snapshots/snap-0002-20261008T224939Z.sav: game state [A923] byte changes",
+   "value": "unavailable"
+  },
+  {
+   "step": 1,
+   "source": "log",
+   "field": "diff snapshots/snap-0001-20261008T224937Z.sav -> snapshots/snap-0002-20261008T224939Z.sav: country squads and player records",
+   "value": "unavailable"
+  },
+  {
+   "step": 2,
+   "source": "file",
+   "field": "read snapshot snapshots/snap-0003-20261008T224941Z.sav (bytes 181111)",
+   "value": "c88bba4ed3592c29be81a1564cef1940de8f3536854ab4f270b0c4ee38cb8b0f"
+  },
+  {
+   "step": 2,
+   "source": "save",
+   "field": "state 3 (snapshots/snap-0003-20261008T224941Z.sav) (bytes 181111, parsed)",
+   "value": "c88bba4ed3592c29be81a1564cef1940de8f3536854ab4f270b0c4ee38cb8b0f"
+  },
+  {
+   "step": 2,
+   "source": "screen",
+   "field": "state 3 (snapshots/snap-0003-20261008T224941Z.sav): text screen 80x25, chars+attributes (4000 bytes), sha256",
+   "value": "487df15f2d57c3acb753f9b43d2bf81001147cfdd18b8b88e5b427f9403b39e2"
+  },
+  {
+   "step": 2,
+   "source": "log",
+   "field": "state 3 (snapshots/snap-0003-20261008T224941Z.sav): GOAL.EXE data segment located",
+   "value": "MCB at segment 0812 (owner 0813, name GOAL), PSP 0813, load segment 0823 = PSP + 10h, DS 2DA4 = load + 2581h, linear base 0x2DA40"
+  },
+  {
+   "step": 2,
+   "source": "memory",
+   "field": "state 3 (snapshots/snap-0003-20261008T224941Z.sav): the game state, 0x10e bytes at the far pointer DS:A923 -> 5D67:0006 (linear 0x5D676), hex",
+   "value": "00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00",
+   "addr": "0x5D676"
+  },
+  {
+   "step": 2,
+   "source": "log",
+   "field": "state 3 (snapshots/snap-0003-20261008T224941Z.sav): managers word [A923]+0x00",
+   "value": "0"
+  },
+  {
+   "step": 2,
+   "source": "log",
+   "field": "state 3 (snapshots/snap-0003-20261008T224941Z.sav): fixture index word [A923]+0x26",
+   "value": "0"
+  },
+  {
+   "step": 2,
+   "source": "log",
+   "field": "state 3 (snapshots/snap-0003-20261008T224941Z.sav): fixture count word [A923]+0x28",
+   "value": "0"
+  },
+  {
+   "step": 2,
+   "source": "log",
+   "field": "state 3 (snapshots/snap-0003-20261008T224941Z.sav): year word [A923]+0x3A",
+   "value": "0"
+  },
+  {
+   "step": 2,
+   "source": "log",
+   "field": "state 3 (snapshots/snap-0003-20261008T224941Z.sav): stage byte [A923]+0x3C",
+   "value": "0x00"
+  },
+  {
+   "step": 2,
+   "source": "log",
+   "field": "state 3 (snapshots/snap-0003-20261008T224941Z.sav): match delay byte [A923]+0x3F (0 fastest)",
+   "value": "0x00"
+  },
+  {
+   "step": 2,
+   "source": "log",
+   "field": "state 3 (snapshots/snap-0003-20261008T224941Z.sav): players.check problems (T15)",
+   "value": "country 1: squad words [0, 0, 0]... not [1, 2, 3]...; country 2: squad words [0, 0, 0]... not [21, 22, 23]...; country 3: squad words [0, 0, 0]... not [41, 42, 43]...; country 4: squad words [0, 0, 0]... not [61, 62, 63]...; country 5: squad words [0, 0, 0]... not [81, 82, 83]...; country 6: squad words [0, 0, 0]... not [101, 102, 103]...; country 7: squad words [0, 0, 0]... not [121, 122, 123]...; country 8: squad words [0, 0, 0]... not [141, 142, 143]...; country 9: squad words [0, 0, 0]... not [161, 162, 163]...; country 10: squad words [0, 0, 0]... not [181, 182, 183]...; country 11: squad words [0, 0, 0]... not [201, 202, 203]...; country 12: squad words [0, 0, 0]... not [221, 222, 223]...; country 13: squad words [0, 0, 0]... not [241, 242, 243]...; country 14: squad words [0, 0, 0]... not [261, 262, 263]...; country 15: squad words [0, 0, 0]... not [281, 282, 283]...; country 16: squad words [0, 0, 0]... not [301, 302, 303]...; country 17: squad words [0, 0, 0]... not [321, 322, 323]...; country 18: squad words [0, 0, 0]... not [341, 342, 343]...; country 19: squad words [0, 0, 0]... not [361, 362, 363]...; country 20: squad words [0, 0, 0]... not [381, 382, 383]...; country 21: squad words [0, 0, 0]... not [401, 402, 403]...; country 22: squad words [0, 0, 0]... not [421, 422, 423]...; country 23: squad words [0, 0, 0]... not [441, 442, 443]...; country 24: squad words [0, 0, 0]... not [461, 462, 463]...; country 25: squad words [0, 0, 0]... not [481, 482, 483]...; country 26: squad words [0, 0, 0]... not [501, 502, 503]...; country 27: squad words [0, 0, 0]... not [521, 522, 523]...; country 28: squad words [0, 0, 0]... not [541, 542, 543]...; country 29: squad words [0, 0, 0]... not [561, 562, 563]...; country 30: squad words [0, 0, 0]... not [581, 582, 583]...; country 31: squad words [0, 0, 0]... not [601, 602, 603]...; country 32: squad words [0, 0, 0]... not [621, 622, 623]...; country 33: squad words [0, 0, 0]... not [641, 642, 643]...; country 34: squad words [0, 0, 0]... not [661, 662, 663]...; country 35: squad words [0, 0, 0]... not [681, 682, 683]...; country 36: squad words [0, 0, 0]... not [701, 702, 703]...; country 37: squad words [0, 0, 0]... not [721, 722, 723]...; country 38: squad words [0, 0, 0]... not [741, 742, 743]...; country 39: squad words [0, 0, 0]... not [761, 762, 763]...; country 40: squad words [0, 0, 0]... not [781, 782, 783]...; country 41: squad words [0, 0, 0]... not [801, 802, 803]...; country 42: squad words [0, 0, 0]... not [821, 822, 823]...; country 43: squad words [0, 0, 0]... not [841, 842, 843]...; country 44: squad words [0, 0, 0]... not [861, 862, 863]...; country 45: squad words [0, 0, 0]... not [881, 882, 883]...; country 46: squad words [0, 0, 0]... not [901, 902, 903]...; country 47: squad words [0, 0, 0]... not [921, 922, 923]...; country 48: squad words [0, 0, 0]... not [941, 942, 943]...; country 49: squad words [0, 0, 0]... not [961, 962, 963]...; country 50: squad words [0, 0, 0]... not [981, 982, 983]...; country 51: squad words [0, 0, 0]... not [1001, 1002, 1003]...; country 52: squad words [0, 0, 0]... not [1021, 1022, 1023]...; country 53: squad words [0, 0, 0]... not [1041, 1042, 1043]...; country 54: squad words [0, 0, 0]... not [1061, 1062, 1063]...; country 55: squad words [0, 0, 0]... not [1081, 1082, 1083]...; country 56: squad words [0, 0, 0]... not [1101, 1102, 1103]...; country 57: squad words [0, 0, 0]... not [1121, 1122, 1123]...; country 58: squad words [0, 0, 0]... not [1141, 1142, 1143]...; country 59: squad words [0, 0, 0]... not [1161, 1162, 1163]...; country 60: squad words [0, 0, 0]... not [1181, 1182, 1183]...; country 61: squad words [0, 0, 0]... not [1201, 1202, 1203]...; country 62: squad words [0, 0, 0]... not [1221, 1222, 1223]...; country 63: squad words [0, 0, 0]... not [1241, 1242, 1243]...; country 64: squad words [0, 0, 0]... not [1261, 1262, 1263]...; country 65: squad words [0, 0, 0]... not [1281, 1282, 1283]...; country 66: squad words [0, 0, 0]... not [1301, 1302, 1303]...; country 67: squad words [0, 0, 0]... not [1321, 1322, 1323]...; country 68: squad words [0, 0, 0]... not [1341, 1342, 1343]...; country 69: squad words [0, 0, 0]... not [1361, 1362, 1363]...; country 70: squad words [0, 0, 0]... not [1381, 1382, 1383]...; country 71: squad words [0, 0, 0]... not [1401, 1402, 1403]...; country 72: squad words [0, 0, 0]... not [1421, 1422, 1423]...; country 73: squad words [0, 0, 0]... not [1441, 1442, 1443]...; country 74: squad words [0, 0, 0]... not [1461, 1462, 1463]...; country 75: squad words [0, 0, 0]... not [1481, 1482, 1483]...; country 76: squad words [0, 0, 0]... not [1501, 1502, 1503]...; country 77: squad words [0, 0, 0]... not [1521, 1522, 1523]...; country 78: squad words [0, 0, 0]... not [1541, 1542, 1543]...; country 79: squad words [0, 0, 0]... not [1561, 1562, 1563]...; country 80: squad words [0, 0, 0]... not [1581, 1582, 1583]...; country 81: squad words [0, 0, 0]... not [1601, 1602, 1603]...; country 82: squad words [0, 0, 0]... not [1621, 1622, 1623]...; country 83: squad words [0, 0, 0]... not [1641, 1642, 1643]...; country 84: squad words [0, 0, 0]... not [1661, 1662, 1663]...; country 85: squad words [0, 0, 0]... not [1681, 1682, 1683]...; country 86: squad words [0, 0, 0]... not [1701, 1702, 1703]...; country 87: squad words [0, 0, 0]... not [1721, 1722, 1723]...; country 88: squad words [0, 0, 0]... not [1741, 1742, 1743]...; country 89: squad words [0, 0, 0]... not [1761, 1762, 1763]...; country 90: squad words [0, 0, 0]... not [1781, 1782, 1783]...; country 91: squad words [0, 0, 0]... not [1801, 1802, 1803]...; country 92: squad words [0, 0, 0]... not [1821, 1822, 1823]...; country 93: squad words [0, 0, 0]... not [1841, 1842, 1843]...; country 94: squad words [0, 0, 0]... not [1861, 1862, 1863]...; country 95: squad words [0, 0, 0]... not [1881, 1882, 1883]...; country 96: squad words [0, 0, 0]... not [1901, 1902, 1903]...; country 97: squad words [0, 0, 0]... not [1921, 1922, 1923]...; country 98: squad words [0, 0, 0]... not [1941, 1942, 1943]...; country 99: squad words [0, 0, 0]... not [1961, 1962, 1963]...; country 100: squad words [0, 0, 0]... not [1981, 1982, 1983]...; country 101: squad words [0, 0, 0]... not [2001, 2002, 2003]...; country 102: squad words [0, 0, 0]... not [2021, 2022, 2023]...; country 103: squad words [0, 0, 0]... not [2041, 2042, 2043]...; country 104: squad words [0, 0, 0]... not [2061, 2062, 2063]...; country 105: squad words [0, 0, 0]... not [2081, 2082, 2083]...; country 106: squad words [0, 0, 0]... not [2101, 2102, 2103]...; country 107: squad words [0, 0, 0]... not [2121, 2122, 2123]...; country 108: squad words [0, 0, 0]... not [2141, 2142, 2143]...; country 109: squad words [0, 0, 0]... not [2161, 2162, 2163]...; country 110: squad words [0, 0, 0]... not [2181, 2182, 2183]...; country 111: squad words [0, 0, 0]... not [2201, 2202, 2203]...; country 112: squad words [0, 0, 0]... not [2221, 2222, 2223]...; country 113: squad words [0, 0, 0]... not [2241, 2242, 2243]...; country 114: squad words [0, 0, 0]... not [2261, 2262, 2263]...; country 115: squad words [0, 0, 0]... not [2281, 2282, 2283]...; country 116: squad words [0, 0, 0]... not [2301, 2302, 2303]...; country 117: squad words [0, 0, 0]... not [2321, 2322, 2323]...; country 118: squad words [0, 0, 0]... not [2341, 2342, 2343]...; country 119: squad words [0, 0, 0]... not [2361, 2362, 2363]...; country 120: squad words [0, 0, 0]... not [2381, 2382, 2383]...; country 121: squad words [0, 0, 0]... not [2401, 2402, 2403]...; country 122: squad words [0, 0, 0]... not [2421, 2422, 2423]...; country 123: squad words [0, 0, 0]... not [2441, 2442, 2443]...; country 124: squad words [0, 0, 0]... not [2461, 2462, 2463]...; country 125: squad words [0, 0, 0]... not [2481, 2482, 2483]...; country 126: squad words [0, 0, 0]... not [2501, 2502, 2503]...; country 127: squad words [0, 0, 0]... not [2521, 2522, 2523]...; country 128: squad words [0, 0, 0]... not [2541, 2542, 2543]..."
+  },
+  {
+   "step": 2,
+   "source": "log",
+   "field": "diff snapshots/snap-0002-20261008T224939Z.sav -> snapshots/snap-0003-20261008T224941Z.sav: screen changed",
+   "value": "no"
+  },
+  {
+   "step": 2,
+   "source": "log",
+   "field": "diff snapshots/snap-0002-20261008T224939Z.sav -> snapshots/snap-0003-20261008T224941Z.sav: game state [A923] byte changes",
+   "value": "none"
+  },
+  {
+   "step": 2,
+   "source": "log",
+   "field": "diff snapshots/snap-0002-20261008T224939Z.sav -> snapshots/snap-0003-20261008T224941Z.sav: country squads and player records",
+   "value": "unavailable"
+  },
+  {
+   "step": 3,
+   "source": "log",
+   "field": "video named by the session meta but not present",
+   "value": "{\"requested\": false, \"used\": false}"
+  },
+  {
+   "step": 3,
+   "source": "log",
+   "field": "summary",
+   "value": "states: 3, screens: 2 unique, diffs: 2, partial: 1"
+  },
+  {
+   "step": 3,
+   "source": "file",
+   "field": "read key log keys.jsonl",
+   "value": "3b4f4d9f9c369a19fca7d10f92a05b3fd99e7176c81dd6b22a88e01de77e00f7"
+  },
+  {
+   "step": 3,
+   "source": "log",
+   "field": "screen/key map summary",
+   "value": "screens: 2, transitions: 2, keys: 2"
+  },
+  {
+   "step": 3,
+   "source": "log",
+   "field": "scripted sitting key events (explicit opt-in; never for human sittings)",
+   "value": "{\"event\": \"press\", \"keycode\": 38, \"keysym\": \"a\", \"utc\": \"2026-10-08T22:49:37.873290+00:00\", \"monotonic_s\": 54268.997387653}\n{\"event\": \"release\", \"keycode\": 38, \"keysym\": \"a\", \"utc\": \"2026-10-08T22:49:37.879541+00:00\", \"monotonic_s\": 54269.003636077}\n{\"event\": \"press\", \"keycode\": 56, \"keysym\": \"b\", \"utc\": \"2026-10-08T22:49:39.888916+00:00\", \"monotonic_s\": 54271.013013637}\n{\"event\": \"release\", \"keycode\": 56, \"keysym\": \"b\", \"utc\": \"2026-10-08T22:49:39.895535+00:00\", \"monotonic_s\": 54271.019633282}\n"
+  }
+ ],
+ "outputs": [],
+ "started": "2026-10-08T22:50:22.540Z",
+ "ended": "2026-10-08T22:50:22.628Z",
+ "status": "completed",
+ "decoded": [],
+ "keymap": {
+  "summary": "screens: 2, transitions: 2, keys: 2",
+  "screens": {
+   "d4dbc7643053a0b3432041975a50800d4d8f3704b1a4416c2129c60495b6072b": "Z:\\>mount c /home/diego/projects/goal2-archaeology-work/T34/scratch/human/sessio",
+   "09d3e90107083a2572775145684a07e01699729386824fc55379d98391c6c90c": "(c) NE'93\u2502 \u2502                                                    \u2502     (c)"
+  },
+  "transitions": [
+   {
+    "screen": "d4dbc7643053a0b3432041975a50800d4d8f3704b1a4416c2129c60495b6072b",
+    "headline": "Z:\\>mount c /home/diego/projects/goal2-archaeology-work/T34/scratch/human/sessio",
+    "keys": [
+     "a"
+    ],
+    "after": "09d3e90107083a2572775145684a07e01699729386824fc55379d98391c6c90c",
+    "after_headline": "(c) NE'93\u2502 \u2502                                                    \u2502     (c)",
+    "count": 1
+   },
+   {
+    "screen": "09d3e90107083a2572775145684a07e01699729386824fc55379d98391c6c90c",
+    "headline": "(c) NE'93\u2502 \u2502                                                    \u2502     (c)",
+    "keys": [
+     "b"
+    ],
+    "after": "09d3e90107083a2572775145684a07e01699729386824fc55379d98391c6c90c",
+    "after_headline": "(c) NE'93\u2502 \u2502                                                    \u2502     (c)",
+    "count": 1
+   }
+  ],
+  "unmapped_keys": 0,
+  "method": "nearest snapshot before burst and first snapshot after quiet interval; ordered burst keys, not individual-key causality; text SHA256 UTF-8"
+ }
+}
