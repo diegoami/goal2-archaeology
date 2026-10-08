@@ -65,14 +65,16 @@ void f_000E_11D9(int param_1)
       f_000E_062F(0xd0a,0x1000,0xd35,0x1000,puVar5,unaff_SS);
     }
     else {
-      uVar3 = f_1771_5C60((int)*(undefined4 *)(param_1 + 4),
-                          (int)((ulong)*(undefined4 *)(param_1 + 4) >> 0x10));
+      uVar3 = fixture_absolute_margin
+                        ((int)*(undefined4 *)(param_1 + 4),
+                         (int)((ulong)*(undefined4 *)(param_1 + 4) >> 0x10));
       if ((uVar3 < 3) && (*(char *)(*(char *)(param_1 + -1) * 10 + 0x7b86) != '\0')) {
         f_000E_0C3A(&stack0xfffe);
       }
       else {
-        iVar2 = f_1771_5C60((int)*(undefined4 *)(param_1 + 4),
-                            (int)((ulong)*(undefined4 *)(param_1 + 4) >> 0x10));
+        iVar2 = fixture_absolute_margin
+                          ((int)*(undefined4 *)(param_1 + 4),
+                           (int)((ulong)*(undefined4 *)(param_1 + 4) >> 0x10));
         if (iVar2 == 0) {
           cVar1 = f_000E_09DB(param_1);
           if (cVar1 == '\0') {
@@ -87,8 +89,9 @@ void f_000E_11D9(int param_1)
           }
         }
         else {
-          iVar2 = f_0791_B71C(*(undefined1 *)(param_1 + -1),(int)*(undefined4 *)(param_1 + 4),
-                              (int)((ulong)*(undefined4 *)(param_1 + 4) >> 0x10));
+          iVar2 = fixture_confidence_delta
+                            (*(undefined1 *)(param_1 + -1),(int)*(undefined4 *)(param_1 + 4),
+                             (int)((ulong)*(undefined4 *)(param_1 + 4) >> 0x10));
           if ((iVar2 < -0xff) || (-5 < iVar2)) {
             if ((iVar2 < -4) || (-2 < iVar2)) {
               if (iVar2 == -1) {
@@ -118,8 +121,9 @@ void f_000E_11D9(int param_1)
                 }
               }
               else if (iVar2 == 0) {
-                iVar2 = f_1771_5C60((int)*(undefined4 *)(param_1 + 4),
-                                    (int)((ulong)*(undefined4 *)(param_1 + 4) >> 0x10));
+                iVar2 = fixture_absolute_margin
+                                  ((int)*(undefined4 *)(param_1 + 4),
+                                   (int)((ulong)*(undefined4 *)(param_1 + 4) >> 0x10));
                 if (iVar2 == 1) {
                   iVar2 = u214b_random_1_to_n(4);
                   if (iVar2 == 1) {
@@ -403,8 +407,9 @@ void f_000E_11D9(int param_1)
       f_000E_062F(0xd0a,0x1000,0x1021,0x1000,puVar5,unaff_SS);
     }
     else {
-      iVar2 = f_1771_5C60((int)*(undefined4 *)(param_1 + 4),
-                          (int)((ulong)*(undefined4 *)(param_1 + 4) >> 0x10));
+      iVar2 = fixture_absolute_margin
+                        ((int)*(undefined4 *)(param_1 + 4),
+                         (int)((ulong)*(undefined4 *)(param_1 + 4) >> 0x10));
       if (iVar2 == 0) {
         cVar1 = f_000E_09DB(param_1);
         if (cVar1 == '\0') {
@@ -453,8 +458,9 @@ void f_000E_11D9(int param_1)
         }
       }
       else {
-        uVar3 = f_1771_5C60((int)*(undefined4 *)(param_1 + 4),
-                            (int)((ulong)*(undefined4 *)(param_1 + 4) >> 0x10));
+        uVar3 = fixture_absolute_margin
+                          ((int)*(undefined4 *)(param_1 + 4),
+                           (int)((ulong)*(undefined4 *)(param_1 + 4) >> 0x10));
         if ((uVar3 < 3) && (*(char *)(*(char *)(param_1 + -1) * 10 + 0x7b86) != '\0')) {
           f_000E_0C3A(&stack0xfffe);
         }
@@ -479,8 +485,9 @@ void f_000E_11D9(int param_1)
           }
           else if ((iVar2 < -10) || (-8 < iVar2)) {
             if ((iVar2 < -0xff) || (-0xb < iVar2)) {
-              uVar3 = f_1771_5C60((int)*(undefined4 *)(param_1 + 4),
-                                  (int)((ulong)*(undefined4 *)(param_1 + 4) >> 0x10));
+              uVar3 = fixture_absolute_margin
+                                ((int)*(undefined4 *)(param_1 + 4),
+                                 (int)((ulong)*(undefined4 *)(param_1 + 4) >> 0x10));
               if (uVar3 < 3) {
                 cVar1 = f_000E_09DB(param_1);
                 if (cVar1 == '\0') {

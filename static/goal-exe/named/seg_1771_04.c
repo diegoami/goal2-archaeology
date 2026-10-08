@@ -719,9 +719,10 @@ bool __cdecl16far f_1771_59D8(void)
 }
 
 
-// ---- 1771:5A03  f_1771_5A03  (f_1771_5A03; Ghidra 4000:5A03, __stdcall16far; found by routines.tsv)
+// ---- 1771:5A03  fixture_kind_in_result_set  (f_1771_5A03; Ghidra 4000:5A03, __stdcall16far; found by routines.tsv)
+// tests fixture byte +2 for membership in DS:0F3E through 23E4:08DF; used by B71C's side-dependent doubling predicate, not a strength reader  [established; F019]
 
-bool __stdcall16far f_1771_5A03(undefined4 param_1)
+bool __stdcall16far fixture_kind_in_result_set(undefined4 param_1)
 
 {
   bool bVar1;
@@ -769,7 +770,7 @@ undefined1 __stdcall16far f_1771_5A8F(undefined4 param_1,undefined2 param_2)
   
   uVar2 = (undefined2)((ulong)param_1 >> 0x10);
   cVar1 = f_1771_5A38((int)param_1,uVar2,param_2);
-  if ((cVar1 == '\0') && (cVar1 = f_1771_5A03((int)param_1,uVar2), cVar1 == '\0')) {
+  if ((cVar1 == '\0') && (cVar1 = fixture_kind_in_result_set((int)param_1,uVar2), cVar1 == '\0')) {
     return 0;
   }
   return 1;
@@ -853,9 +854,10 @@ void __cdecl16far f_1771_5BF6(void)
 }
 
 
-// ---- 1771:5C60  f_1771_5C60  (f_1771_5C60; Ghidra 4000:5C60, __stdcall16far; found by routines.tsv)
+// ---- 1771:5C60  fixture_absolute_margin  (f_1771_5C60; Ghidra 4000:5C60, __stdcall16far; found by routines.tsv)
+// absolute difference of the two signed fixture score bytes, used by B71C's non-draw term  [established; F019]
 
-int __stdcall16far f_1771_5C60(char *param_1)
+int __stdcall16far fixture_absolute_margin(char *param_1)
 
 {
   int iVar1;
