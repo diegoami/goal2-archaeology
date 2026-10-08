@@ -12,6 +12,9 @@ import subprocess
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
+# The project's machine id, as every other run record writes it (runs/E014, runs/E015); the run
+# schema wants a lowercase identifier, and platform.node() gave the Windows host name.
+MACHINE = 'ubuntu-24-04-wsl2'
 HERE = Path(__file__).resolve().parent
 
 
@@ -32,7 +35,7 @@ def main():
         record = {
             'schema': 'run/1', 'run_id': run_id, 'experiment': 'E018',
             'arm': 'original-fixture-routine-trace-extraction', 'rep': rep,
-            'code_commit': commit, 'machine': platform.node(),
+            'code_commit': commit, 'machine': MACHINE,
             'artifact': {'set': 'goal2-67cf27d6', 'variant': None},
             'runtime': {'driver': f'experiments/E018-q016-confidence/register_probes.py@{commit}',
                         'platform': f'python-{platform.python_version()}/linux',

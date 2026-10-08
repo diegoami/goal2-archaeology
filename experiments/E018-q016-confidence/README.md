@@ -36,12 +36,14 @@ execution times. `E018-r0001` records the defective first probe;
 `E018-r0002` records its replacement.
 
 The first schema check (`run-validation-001.log`) rejected both records:
-the script recorded the literal host name `WINDOWS-BJ0PUMB`, whereas
-`run/1` requires `^[a-z0-9][a-z0-9-]*$` for `machine`. These outputs are
-retained unchanged. A replacement cannot make the task's directory-wide
-`validate_runs.py runs/E018` command pass: that validator still validates
-the retained originals. Editing/deleting them would violate the immutable
-record contract. No evidence release was published for these records.
+the script recorded the literal host name `WINDOWS-BJ0PUMB` (`platform.node()`), whereas
+`run/1` requires `^[a-z0-9][a-z0-9-]*$` for `machine`. Those two files were never valid run
+records, and they are not measurements: `register_probes.py` derives them from the retained probe
+traces `fixture-probe-002.json` / `-003.json`, which stay unchanged. The main session (2026-10-09)
+fixed the script to write the project's machine id `ubuntu-24-04-wsl2`, as every other record
+does, and regenerated both records from the same traces before the PR merged; `validate_runs.py
+runs/E018` now passes. The rejected originals remain in git history at 110476c, and
+`run-validation-001.log` keeps the rejection.
 
 ## Recorded model checks
 

@@ -4,14 +4,14 @@
   "experiment": "E018",
   "arm": "original-fixture-routine-trace-extraction",
   "rep": 2,
-  "code_commit": "573371af5a69f3353085c04035e26c21e4f2bf87",
-  "machine": "WINDOWS-BJ0PUMB",
+  "code_commit": "110476c925e209f4b27520b005b5a16350fc6cfd",
+  "machine": "ubuntu-24-04-wsl2",
   "artifact": {
     "set": "goal2-67cf27d6",
     "variant": null
   },
   "runtime": {
-    "driver": "experiments/E018-q016-confidence/register_probes.py@573371af5a69f3353085c04035e26c21e4f2bf87",
+    "driver": "experiments/E018-q016-confidence/register_probes.py@110476c925e209f4b27520b005b5a16350fc6cfd",
     "platform": "python-3.12.3/linux",
     "fingerprint": {
       "unicorn": "2.1.4",
@@ -36,7 +36,7 @@
   "seed": null,
   "actions": {
     "script": "experiments/E018-q016-confidence/register_probes.py",
-    "sha256": "8e82dee5ad4feea1bdbeea7abc28c6c096d532a21c580fa7d6b13960c3820593",
+    "sha256": "2b7e5f579b06893447a4f7676448801e5011e1b95f3dcc313b4d8b3d2f3c1b19",
     "args": [
       "fixture-probe-003.json"
     ]
@@ -86,7 +86,7 @@
     }
   ],
   "outputs": [],
-  "started": "2026-10-08T22:14:14.717931+00:00",
-  "ended": "2026-10-08T22:14:14.719296+00:00",
+  "started": "2026-10-08T22:18:16.305328+00:00",
+  "ended": "2026-10-08T22:18:16.306714+00:00",
   "status": "completed"
 }
