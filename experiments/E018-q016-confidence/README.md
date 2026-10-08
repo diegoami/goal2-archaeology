@@ -1,0 +1,117 @@
+# E018 Q016 confidence
+
+Static-first investigation of the result-relative player byte +0C. The
+original-routine probe uses E011-r0002's hash-verified half-time guest image
+and Unicorn, following E017's method. It is not a complete played match or
+a DOSBox run; no DOSBox runs have been taken. Probe batches and their
+declared input changes are retained. No original guest image is committed.
+
+## Immutable records and supersession
+
+| Record | Superseded by | Reason |
+| --- | --- | --- |
+| `fixture-probe-002.json` / `E018-r0001` (defective) | `fixture-probe-003.json` / `E018-r0002` | The probe mistakenly injected squads at country +47 instead of +0 and status at player +7 instead of +10. Its declared-input check fails in all six cases, for both declared defects: `declared slot disagrees with injected squad` and `declared status disagrees with injected +0x10`. It did not execute the declared player/role cases. |
+
+`supersessions.json` declares the defects (`squad`, `status`). The checker
+sets a record aside only by that declared-input check (the squad words at
+country +0 and the status byte +0x10 that `probe_fixture.py` declares:
+4 for slot 12, else 0), and only if every declared defect fails in every
+case. Any other failure (B71C delta, call sites, draw bounds or arithmetic,
+strays, unaccounted calls) fails the checker, for traces and runs alike;
+the declared-input check also runs on every kept record.
+
+`fixture-probe-001.log` is a pre-execution failure (wrong manifest filename);
+no guest execution or comparison record was produced.
+
+## Commands
+
+```sh
+python3 experiments/E018-q016-confidence/probe_fixture.py scratch/t32/9820b47814dd9670-E011-r0002-halftime.sav experiments/E018-q016-confidence/fixture-probe-003.json
+python3 -m unittest -v tests.test_model_confidence
+```
+
+The model's new tests were run without the module first
+(`model-red-001.log`: import failure), then with it (`model-green-001.log`:
+four tests passed). The expanded test suite's baseline and mutations are
+retained in `mutations-001.log`.
+
+## Retrospective extraction records
+
+`register_probes.py` registered both immutable probe traces under
+`runs/E018/`, retaining the complete input, draw and per-player result
+objects as observations. Its timestamps are extraction times, not guest
+execution times. `E018-r0001` records the defective first probe;
+`E018-r0002` records its replacement.
+
+The first schema check (`run-validation-001.log`) rejected both records:
+the script recorded the literal host name `WINDOWS-BJ0PUMB` (`platform.node()`), whereas
+`run/1` requires `^[a-z0-9][a-z0-9-]*$` for `machine`. Those two files were never valid run
+records, and they are not measurements: `register_probes.py` derives them from the retained probe
+traces `fixture-probe-002.json` / `-003.json`, which stay unchanged. The main session (2026-10-09)
+fixed the script to write the project's machine id `ubuntu-24-04-wsl2`, as every other record
+does, and regenerated both records from the same traces before the PR merged; `validate_runs.py
+runs/E018` now passes. The rejected originals remain in git history at 110476c, and
+`run-validation-001.log` keeps the rejection.
+
+## Recorded model checks
+
+`comparison-001.log` reports the explicit first-probe supersession and
+`match: 240/240` for the replacement's six cases. No E015 match pair was
+used (the available sitting is the four-state scripted recording).
+`mutations-001.log` records the baseline and each in-place mutation:
+all thirteen declared numeric constants were shifted by both +1 and -1,
+then seven input/branch/persistence operators were changed independently;
+33/33 mutations failed the literal-output tests. Source restoration ran
+in `finally` after the sweep.
+
+The continuation's `checker-red-001.log` shows the consistent-record rejection
+test failing before the guard was added. `checker-green-001.log` passes;
+`checker-mutations-001.log` removes each of the consistency, empty-set and
+kept-mismatch guards independently and kills 3/3. The latter two guards
+already existed: their tests fail with those guards removed, not on the
+unmodified continuation baseline. `comparison-002.log` prints each defective
+case's failed consistency check and matches 240/240 kept player words.
+`mutations-002.log` repeats the bidirectional sweep; `mutations-003.log`
+includes literal boundary cases for clipping, signed interpretation,
+expected-margin truncation, saved-form clipping and bounded draws. Each
+sweep kills 33/33 in-place mutants. These boundary assertions fail when the
+relevant constants are shifted, and pass after source restoration.
+
+The two E018 manifests publish the original E011 half-time state again under
+release E018, by its unchanged SHA256. Registration/probe traces remain
+tracked separately; no new guest execution was needed to publish evidence.
+
+`comparison-003.log` additionally checks every formal E018 run observation:
+the kept trace and its run each contribute 240 word comparisons, hence
+`match: 480/480` (240 distinct player/case pairs, not 480 independent
+measurements). Run observations must equal their retained trace, and the
+defective run's own consistency checks are printed by record name.
+`checker-mutations-002.log` kills 4/4, including removal of that equality
+guard: the run-observation divergence test fails without it and passes
+after restoration.
+
+`mutations-004.log` repeats the 33/33 model sweep on the final eleven-test
+suite. `acceptance-001.log` retains the checker, model unit tests, run
+validation, release evidence verification, annotations and link checks.
+`suite-001.log` retains full discovery (534 tests, only the known E008
+host-path environment error with an in-worktree TMPDIR, issue #100/L57);
+`static-suite-001.log` retains static discovery (95 tests, OK). Named-view
+regeneration and the E008 host-path test under an external TMPDIR are
+main-session checks, not performed by this worktree run.
+
+## Rework round 1 (review R1-R8)
+
+`checker-red-002.log` runs the round's tests against the round-0 checker
+(ff0f18b) in place: eight failures, among them a consistent-squad record
+with a wrong delta and a record with one defective case, both set aside by
+the old checker. `comparison-004.log` is the reworked checker:
+`match: 240/240 (480 incl. run observations)`. `mutation_sweep.py` shifts
+every int constant of `runtime/model/confidence.py` and `check_confidence.py`
+by +1 and -1, applies named behaviour mutants (among them the review's R3
+and R5 mutants) and deletes every `raise` of both files, each in place with
+a 60 s timeout, restoring in finally and checking the sha256.
+`mutations-005.log` killed 66/70 (three model input guards and the
+checker's use of the kind set survived); after a literal test for each,
+`mutations-006.log` killed 70/70. The runs loop's call of the set-aside
+check is not mutated separately: runs must equal their trace, whose
+declaration has already passed the same check.

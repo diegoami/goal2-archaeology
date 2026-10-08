@@ -224,8 +224,9 @@ void f_000E_26F2(int param_1)
     else {
       cVar1 = f_000E_2071(&stack0xfffe);
       if (cVar1 == '\0') {
-        uVar3 = f_1771_5C60((int)*(undefined4 *)(param_1 + 4),
-                            (int)((ulong)*(undefined4 *)(param_1 + 4) >> 0x10));
+        uVar3 = fixture_absolute_margin
+                          ((int)*(undefined4 *)(param_1 + 4),
+                           (int)((ulong)*(undefined4 *)(param_1 + 4) >> 0x10));
         if (uVar3 < 2) {
           if ((uint)*(byte *)(*(char *)(param_1 + -1) * 10 + 0x7b81) +
               (uint)(byte)((undefined1 *)&DS:7B7E)[*(char *)(param_1 + -1) * 10] < 8) {
@@ -459,7 +460,7 @@ void f_000E_319B(int param_1)
     }
     else {
       uVar1 = *(undefined4 *)(*(int *)(param_1 + 4) + 4);
-      iVar4 = f_1771_5C60((int)uVar1,(int)((ulong)uVar1 >> 0x10));
+      iVar4 = fixture_absolute_margin((int)uVar1,(int)((ulong)uVar1 >> 0x10));
       if (iVar4 == 0) {
         puVar7 = local_10a;
         uVar9 = unaff_SS;
@@ -857,7 +858,7 @@ undefined1 f_000E_3CC8(int param_1)
     }
     else {
       uVar1 = *(undefined4 *)(*(int *)(param_1 + 4) + 4);
-      uVar3 = f_1771_5C60((int)uVar1,(int)((ulong)uVar1 >> 0x10));
+      uVar3 = fixture_absolute_margin((int)uVar1,(int)((ulong)uVar1 >> 0x10));
       bVar5 = uVar3 == 2;
       if (uVar3 < 3) {
         sys_set_bit_mask_08DF(0xa943,0xb000,*(undefined1 *)(local_7 + 2));

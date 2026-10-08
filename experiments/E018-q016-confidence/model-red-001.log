@@ -1,0 +1,19 @@
+test_model_confidence (unittest.loader._FailedTest.test_model_confidence) ... ERROR
+
+======================================================================
+ERROR: test_model_confidence (unittest.loader._FailedTest.test_model_confidence)
+----------------------------------------------------------------------
+ImportError: Failed to import test module: test_model_confidence
+Traceback (most recent call last):
+  File "/usr/lib/python3.12/unittest/loader.py", line 137, in loadTestsFromName
+    module = __import__(module_name)
+             ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 4, in <module>
+    from runtime.model.confidence import change, result_delta, participant_values
+ModuleNotFoundError: No module named 'runtime.model.confidence'
+
+
+----------------------------------------------------------------------
+Ran 1 test in 0.000s
+
+FAILED (errors=1)

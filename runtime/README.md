@@ -28,3 +28,12 @@ energy. The pre-half +2 step precedes E011's team-screen input. The helper's
 recovery path is 1771:3651, not 3558's separate redraw selected by other caller
 branches. See `findings/F018-energy-is-expended-in-matches-and-restored-from-fitness.md`
 and E017's reader/writer inventory for the exact gates and limitations.
+
+`model/confidence.py` (T32, proposed F019) models the country-rank-derived
+result term, signed per-call confidence clipping, exact or draw-dependent
+bench outcomes, and live/saved watched form writes. It does not infer a
+watched event sequence from the final score: callers supply that sequence,
+pool draws and silent-route scorer bonuses in order. E018 checks original
+B7FA probes by player word, retaining its defective probe only after its
+own declared-input consistency check fails. See
+`findings/F019-confidence-follows-result-relative-to-country-ranks.md`.

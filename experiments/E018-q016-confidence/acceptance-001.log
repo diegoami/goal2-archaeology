@@ -1,0 +1,38 @@
+defective fixture-probe-002.json -> fixture-probe-003.json: case 1: declared slot disagrees with injected squad; case 2: declared slot disagrees with injected squad; case 3: declared slot disagrees with injected squad; case 4: declared slot disagrees with injected squad; case 5: declared slot disagrees with injected squad; case 6: declared slot disagrees with injected squad; Wrong squad and status injection offsets; all six declared cases require replacement.
+defective E018-r0001.json: declared slot disagrees with injected squad; declared slot disagrees with injected squad; declared slot disagrees with injected squad; declared slot disagrees with injected squad; declared slot disagrees with injected squad; declared slot disagrees with injected squad; replacement fixture-probe-003.json
+match: 480/480
+test_consistent_record_cannot_be_declared_defective (tests.test_model_confidence.CheckerTests.test_consistent_record_cannot_be_declared_defective) ... ok
+test_empty_comparisons_fail (tests.test_model_confidence.CheckerTests.test_empty_comparisons_fail) ... ok
+test_kept_mismatch_fails (tests.test_model_confidence.CheckerTests.test_kept_mismatch_fails) ... ok
+test_run_observation_divergence_fails (tests.test_model_confidence.CheckerTests.test_run_observation_divergence_fails) ... ok
+test_bench_draws_and_sequential_clipping (tests.test_model_confidence.ConfidenceTests.test_bench_draws_and_sequential_clipping) ... ok
+test_clipping_and_signed_byte (tests.test_model_confidence.ConfidenceTests.test_clipping_and_signed_byte) ... ok
+test_exact_given_draws (tests.test_model_confidence.ConfidenceTests.test_exact_given_draws) ... ok
+test_literal_arithmetic_boundaries (tests.test_model_confidence.ConfidenceTests.test_literal_arithmetic_boundaries) ... ok
+test_persisting_and_temporary_match_form (tests.test_model_confidence.ConfidenceTests.test_persisting_and_temporary_match_form) ... ok
+test_ranks_not_line_sums (tests.test_model_confidence.ConfidenceTests.test_ranks_not_line_sums) ... ok
+test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) ... ok
+
+----------------------------------------------------------------------
+Ran 11 tests in 0.012s
+
+OK
+MISS case 1 player-word 1: expected (20,), observed 0
+match: 239/240
+ok: 2 document(s) valid
+ok: 2 manifest(s) verified
+segment	named	routines
+0000	1	1
+000E	7	58
+0791	104	283
+16D6	0	26
+1771	65	154
+2138	1	1  (run-time library)
+2139	1	1  (run-time library)
+214B	85	85  (run-time library)
+235C	12	12  (run-time library)
+2382	17	17  (run-time library)
+23E4	88	88  (run-time library)
+records 5, fields 41, globals 17
+check_annotations: ok
+links and JSON ok (972 files)

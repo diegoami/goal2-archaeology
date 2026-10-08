@@ -1,0 +1,2261 @@
+BASELINE exit=0
+test_consistent_record_cannot_be_declared_defective (tests.test_model_confidence.CheckerTests.test_consistent_record_cannot_be_declared_defective) ... ok
+test_empty_comparisons_fail (tests.test_model_confidence.CheckerTests.test_empty_comparisons_fail) ... ok
+test_kept_mismatch_fails (tests.test_model_confidence.CheckerTests.test_kept_mismatch_fails) ... ok
+test_run_observation_divergence_fails (tests.test_model_confidence.CheckerTests.test_run_observation_divergence_fails) ... ok
+test_bench_draws_and_sequential_clipping (tests.test_model_confidence.ConfidenceTests.test_bench_draws_and_sequential_clipping) ... ok
+test_clipping_and_signed_byte (tests.test_model_confidence.ConfidenceTests.test_clipping_and_signed_byte) ... ok
+test_exact_given_draws (tests.test_model_confidence.ConfidenceTests.test_exact_given_draws) ... ok
+test_literal_arithmetic_boundaries (tests.test_model_confidence.ConfidenceTests.test_literal_arithmetic_boundaries) ... ok
+test_persisting_and_temporary_match_form (tests.test_model_confidence.ConfidenceTests.test_persisting_and_temporary_match_form) ... ok
+test_ranks_not_line_sums (tests.test_model_confidence.ConfidenceTests.test_ranks_not_line_sums) ... ok
+test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) ... ok
+
+----------------------------------------------------------------------
+Ran 11 tests in 0.013s
+
+OK
+
+BYTE_BITS 8->9: KILLED exit=1
+test_consistent_record_cannot_be_declared_defective (tests.test_model_confidence.CheckerTests.test_consistent_record_cannot_be_declared_defective) ... ok
+test_empty_comparisons_fail (tests.test_model_confidence.CheckerTests.test_empty_comparisons_fail) ... ok
+test_kept_mismatch_fails (tests.test_model_confidence.CheckerTests.test_kept_mismatch_fails) ... ok
+test_run_observation_divergence_fails (tests.test_model_confidence.CheckerTests.test_run_observation_divergence_fails) ... ok
+test_bench_draws_and_sequential_clipping (tests.test_model_confidence.ConfidenceTests.test_bench_draws_and_sequential_clipping) ... ok
+test_clipping_and_signed_byte (tests.test_model_confidence.ConfidenceTests.test_clipping_and_signed_byte) ... 
+  test_clipping_and_signed_byte (tests.test_model_confidence.ConfidenceTests.test_clipping_and_signed_byte) (before=255, delta=3) ... FAIL
+  test_clipping_and_signed_byte (tests.test_model_confidence.ConfidenceTests.test_clipping_and_signed_byte) (before=128, delta=127) ... FAIL
+test_exact_given_draws (tests.test_model_confidence.ConfidenceTests.test_exact_given_draws) ... ok
+test_literal_arithmetic_boundaries (tests.test_model_confidence.ConfidenceTests.test_literal_arithmetic_boundaries) ... FAIL
+test_persisting_and_temporary_match_form (tests.test_model_confidence.ConfidenceTests.test_persisting_and_temporary_match_form) ... FAIL
+test_ranks_not_line_sums (tests.test_model_confidence.ConfidenceTests.test_ranks_not_line_sums) ... ok
+test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) ... 
+  test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) (inputs=(100, 164, (255, 1), 0, 0, False)) ... FAIL
+
+======================================================================
+FAIL: test_clipping_and_signed_byte (tests.test_model_confidence.ConfidenceTests.test_clipping_and_signed_byte) (before=255, delta=3)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 106, in test_clipping_and_signed_byte
+    self.assertEqual(change(before, delta), after)
+AssertionError: 32 != 2
+
+======================================================================
+FAIL: test_clipping_and_signed_byte (tests.test_model_confidence.ConfidenceTests.test_clipping_and_signed_byte) (before=128, delta=127)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 106, in test_clipping_and_signed_byte
+    self.assertEqual(change(before, delta), after)
+AssertionError: 32 != 1
+
+======================================================================
+FAIL: test_literal_arithmetic_boundaries (tests.test_model_confidence.ConfidenceTests.test_literal_arithmetic_boundaries)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 68, in test_literal_arithmetic_boundaries
+    self.assertEqual(change(before, delta), expected)
+AssertionError: 32 != 1
+
+======================================================================
+FAIL: test_persisting_and_temporary_match_form (tests.test_model_confidence.ConfidenceTests.test_persisting_and_temporary_match_form)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 94, in test_persisting_and_temporary_match_form
+    self.assertEqual(match_form(*inputs), expected)
+AssertionError: Tuples differ: (128, 32) != (128, 128)
+
+First differing element 1:
+32
+128
+
+- (128, 32)
+?       ^
+
++ (128, 128)
+?       ^ +
+
+
+======================================================================
+FAIL: test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) (inputs=(100, 164, (255, 1), 0, 0, False))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 123, in test_result_term
+    self.assertEqual(result_delta(*inputs), expected)
+AssertionError: 512 != 8
+
+----------------------------------------------------------------------
+Ran 11 tests in 0.013s
+
+FAILED (failures=5)
+
+BYTE_BITS 8->7: KILLED exit=1
+test_consistent_record_cannot_be_declared_defective (tests.test_model_confidence.CheckerTests.test_consistent_record_cannot_be_declared_defective) ... ok
+test_empty_comparisons_fail (tests.test_model_confidence.CheckerTests.test_empty_comparisons_fail) ... ok
+test_kept_mismatch_fails (tests.test_model_confidence.CheckerTests.test_kept_mismatch_fails) ... ok
+test_run_observation_divergence_fails (tests.test_model_confidence.CheckerTests.test_run_observation_divergence_fails) ... ok
+test_bench_draws_and_sequential_clipping (tests.test_model_confidence.ConfidenceTests.test_bench_draws_and_sequential_clipping) ... ok
+test_clipping_and_signed_byte (tests.test_model_confidence.ConfidenceTests.test_clipping_and_signed_byte) ... 
+  test_clipping_and_signed_byte (tests.test_model_confidence.ConfidenceTests.test_clipping_and_signed_byte) (before=128, delta=127) ... FAIL
+test_exact_given_draws (tests.test_model_confidence.ConfidenceTests.test_exact_given_draws) ... ok
+test_literal_arithmetic_boundaries (tests.test_model_confidence.ConfidenceTests.test_literal_arithmetic_boundaries) ... FAIL
+test_persisting_and_temporary_match_form (tests.test_model_confidence.ConfidenceTests.test_persisting_and_temporary_match_form) ... FAIL
+test_ranks_not_line_sums (tests.test_model_confidence.ConfidenceTests.test_ranks_not_line_sums) ... ok
+test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) ... ok
+
+======================================================================
+FAIL: test_clipping_and_signed_byte (tests.test_model_confidence.ConfidenceTests.test_clipping_and_signed_byte) (before=128, delta=127)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 106, in test_clipping_and_signed_byte
+    self.assertEqual(change(before, delta), after)
+AssertionError: 32 != 1
+
+======================================================================
+FAIL: test_literal_arithmetic_boundaries (tests.test_model_confidence.ConfidenceTests.test_literal_arithmetic_boundaries)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 68, in test_literal_arithmetic_boundaries
+    self.assertEqual(change(before, delta), expected)
+AssertionError: 1 != 32
+
+======================================================================
+FAIL: test_persisting_and_temporary_match_form (tests.test_model_confidence.ConfidenceTests.test_persisting_and_temporary_match_form)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 94, in test_persisting_and_temporary_match_form
+    self.assertEqual(match_form(*inputs), expected)
+AssertionError: Tuples differ: (1, 1) != (128, 128)
+
+First differing element 0:
+1
+128
+
+- (1, 1)
++ (128, 128)
+?   ++   ++
+
+
+----------------------------------------------------------------------
+Ran 11 tests in 0.012s
+
+FAILED (failures=3)
+
+WORD_BITS 16->17: KILLED exit=1
+test_consistent_record_cannot_be_declared_defective (tests.test_model_confidence.CheckerTests.test_consistent_record_cannot_be_declared_defective) ... ok
+test_empty_comparisons_fail (tests.test_model_confidence.CheckerTests.test_empty_comparisons_fail) ... ok
+test_kept_mismatch_fails (tests.test_model_confidence.CheckerTests.test_kept_mismatch_fails) ... ok
+test_run_observation_divergence_fails (tests.test_model_confidence.CheckerTests.test_run_observation_divergence_fails) ... ok
+test_bench_draws_and_sequential_clipping (tests.test_model_confidence.ConfidenceTests.test_bench_draws_and_sequential_clipping) ... ok
+test_clipping_and_signed_byte (tests.test_model_confidence.ConfidenceTests.test_clipping_and_signed_byte) ... 
+  test_clipping_and_signed_byte (tests.test_model_confidence.ConfidenceTests.test_clipping_and_signed_byte) (before=16, delta=65535) ... FAIL
+  test_clipping_and_signed_byte (tests.test_model_confidence.ConfidenceTests.test_clipping_and_signed_byte) (before=32, delta=32767) ... FAIL
+test_exact_given_draws (tests.test_model_confidence.ConfidenceTests.test_exact_given_draws) ... ok
+test_literal_arithmetic_boundaries (tests.test_model_confidence.ConfidenceTests.test_literal_arithmetic_boundaries) ... FAIL
+test_persisting_and_temporary_match_form (tests.test_model_confidence.ConfidenceTests.test_persisting_and_temporary_match_form) ... ok
+test_ranks_not_line_sums (tests.test_model_confidence.ConfidenceTests.test_ranks_not_line_sums) ... ok
+test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) ... ok
+
+======================================================================
+FAIL: test_clipping_and_signed_byte (tests.test_model_confidence.ConfidenceTests.test_clipping_and_signed_byte) (before=16, delta=65535)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 106, in test_clipping_and_signed_byte
+    self.assertEqual(change(before, delta), after)
+AssertionError: 1 != 15
+
+======================================================================
+FAIL: test_clipping_and_signed_byte (tests.test_model_confidence.ConfidenceTests.test_clipping_and_signed_byte) (before=32, delta=32767)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 106, in test_clipping_and_signed_byte
+    self.assertEqual(change(before, delta), after)
+AssertionError: 32 != 1
+
+======================================================================
+FAIL: test_literal_arithmetic_boundaries (tests.test_model_confidence.ConfidenceTests.test_literal_arithmetic_boundaries)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 68, in test_literal_arithmetic_boundaries
+    self.assertEqual(change(before, delta), expected)
+AssertionError: 32 != 1
+
+----------------------------------------------------------------------
+Ran 11 tests in 0.013s
+
+FAILED (failures=3)
+
+WORD_BITS 16->15: KILLED exit=1
+test_consistent_record_cannot_be_declared_defective (tests.test_model_confidence.CheckerTests.test_consistent_record_cannot_be_declared_defective) ... ok
+test_empty_comparisons_fail (tests.test_model_confidence.CheckerTests.test_empty_comparisons_fail) ... ok
+test_kept_mismatch_fails (tests.test_model_confidence.CheckerTests.test_kept_mismatch_fails) ... ok
+test_run_observation_divergence_fails (tests.test_model_confidence.CheckerTests.test_run_observation_divergence_fails) ... ok
+test_bench_draws_and_sequential_clipping (tests.test_model_confidence.ConfidenceTests.test_bench_draws_and_sequential_clipping) ... ok
+test_clipping_and_signed_byte (tests.test_model_confidence.ConfidenceTests.test_clipping_and_signed_byte) ... 
+  test_clipping_and_signed_byte (tests.test_model_confidence.ConfidenceTests.test_clipping_and_signed_byte) (before=32, delta=32767) ... FAIL
+test_exact_given_draws (tests.test_model_confidence.ConfidenceTests.test_exact_given_draws) ... ok
+test_literal_arithmetic_boundaries (tests.test_model_confidence.ConfidenceTests.test_literal_arithmetic_boundaries) ... ok
+test_persisting_and_temporary_match_form (tests.test_model_confidence.ConfidenceTests.test_persisting_and_temporary_match_form) ... ok
+test_ranks_not_line_sums (tests.test_model_confidence.ConfidenceTests.test_ranks_not_line_sums) ... ok
+test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) ... ok
+
+======================================================================
+FAIL: test_clipping_and_signed_byte (tests.test_model_confidence.ConfidenceTests.test_clipping_and_signed_byte) (before=32, delta=32767)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 106, in test_clipping_and_signed_byte
+    self.assertEqual(change(before, delta), after)
+AssertionError: 31 != 1
+
+----------------------------------------------------------------------
+Ran 11 tests in 0.013s
+
+FAILED (failures=1)
+
+LOWER 1->2: KILLED exit=1
+test_consistent_record_cannot_be_declared_defective (tests.test_model_confidence.CheckerTests.test_consistent_record_cannot_be_declared_defective) ... ok
+test_empty_comparisons_fail (tests.test_model_confidence.CheckerTests.test_empty_comparisons_fail) ... ok
+test_kept_mismatch_fails (tests.test_model_confidence.CheckerTests.test_kept_mismatch_fails) ... ok
+test_run_observation_divergence_fails (tests.test_model_confidence.CheckerTests.test_run_observation_divergence_fails) ... ok
+test_bench_draws_and_sequential_clipping (tests.test_model_confidence.ConfidenceTests.test_bench_draws_and_sequential_clipping) ... FAIL
+test_clipping_and_signed_byte (tests.test_model_confidence.ConfidenceTests.test_clipping_and_signed_byte) ... 
+  test_clipping_and_signed_byte (tests.test_model_confidence.ConfidenceTests.test_clipping_and_signed_byte) (before=1, delta=-1) ... FAIL
+  test_clipping_and_signed_byte (tests.test_model_confidence.ConfidenceTests.test_clipping_and_signed_byte) (before=128, delta=127) ... FAIL
+  test_clipping_and_signed_byte (tests.test_model_confidence.ConfidenceTests.test_clipping_and_signed_byte) (before=32, delta=-31) ... FAIL
+  test_clipping_and_signed_byte (tests.test_model_confidence.ConfidenceTests.test_clipping_and_signed_byte) (before=32, delta=32767) ... FAIL
+test_exact_given_draws (tests.test_model_confidence.ConfidenceTests.test_exact_given_draws) ... ok
+test_literal_arithmetic_boundaries (tests.test_model_confidence.ConfidenceTests.test_literal_arithmetic_boundaries) ... FAIL
+test_persisting_and_temporary_match_form (tests.test_model_confidence.ConfidenceTests.test_persisting_and_temporary_match_form) ... FAIL
+test_ranks_not_line_sums (tests.test_model_confidence.ConfidenceTests.test_ranks_not_line_sums) ... ok
+test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) ... ok
+
+======================================================================
+FAIL: test_bench_draws_and_sequential_clipping (tests.test_model_confidence.ConfidenceTests.test_bench_draws_and_sequential_clipping)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 128, in test_bench_draws_and_sequential_clipping
+    self.assertEqual(participant_values(1, -4, 'substitute'), (1, 2))
+AssertionError: Tuples differ: (2, 3) != (1, 2)
+
+First differing element 0:
+2
+1
+
+- (2, 3)
++ (1, 2)
+
+======================================================================
+FAIL: test_clipping_and_signed_byte (tests.test_model_confidence.ConfidenceTests.test_clipping_and_signed_byte) (before=1, delta=-1)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 106, in test_clipping_and_signed_byte
+    self.assertEqual(change(before, delta), after)
+AssertionError: 2 != 1
+
+======================================================================
+FAIL: test_clipping_and_signed_byte (tests.test_model_confidence.ConfidenceTests.test_clipping_and_signed_byte) (before=128, delta=127)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 106, in test_clipping_and_signed_byte
+    self.assertEqual(change(before, delta), after)
+AssertionError: 2 != 1
+
+======================================================================
+FAIL: test_clipping_and_signed_byte (tests.test_model_confidence.ConfidenceTests.test_clipping_and_signed_byte) (before=32, delta=-31)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 106, in test_clipping_and_signed_byte
+    self.assertEqual(change(before, delta), after)
+AssertionError: 2 != 1
+
+======================================================================
+FAIL: test_clipping_and_signed_byte (tests.test_model_confidence.ConfidenceTests.test_clipping_and_signed_byte) (before=32, delta=32767)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 106, in test_clipping_and_signed_byte
+    self.assertEqual(change(before, delta), after)
+AssertionError: 2 != 1
+
+======================================================================
+FAIL: test_literal_arithmetic_boundaries (tests.test_model_confidence.ConfidenceTests.test_literal_arithmetic_boundaries)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 68, in test_literal_arithmetic_boundaries
+    self.assertEqual(change(before, delta), expected)
+AssertionError: 2 != 1
+
+======================================================================
+FAIL: test_persisting_and_temporary_match_form (tests.test_model_confidence.ConfidenceTests.test_persisting_and_temporary_match_form)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 94, in test_persisting_and_temporary_match_form
+    self.assertEqual(match_form(*inputs), expected)
+AssertionError: Tuples differ: (2, 2) != (1, 1)
+
+First differing element 0:
+2
+1
+
+- (2, 2)
++ (1, 1)
+
+----------------------------------------------------------------------
+Ran 11 tests in 0.013s
+
+FAILED (failures=7)
+
+LOWER 1->0: KILLED exit=1
+test_consistent_record_cannot_be_declared_defective (tests.test_model_confidence.CheckerTests.test_consistent_record_cannot_be_declared_defective) ... ok
+test_empty_comparisons_fail (tests.test_model_confidence.CheckerTests.test_empty_comparisons_fail) ... ok
+test_kept_mismatch_fails (tests.test_model_confidence.CheckerTests.test_kept_mismatch_fails) ... ok
+test_run_observation_divergence_fails (tests.test_model_confidence.CheckerTests.test_run_observation_divergence_fails) ... ok
+test_bench_draws_and_sequential_clipping (tests.test_model_confidence.ConfidenceTests.test_bench_draws_and_sequential_clipping) ... FAIL
+test_clipping_and_signed_byte (tests.test_model_confidence.ConfidenceTests.test_clipping_and_signed_byte) ... 
+  test_clipping_and_signed_byte (tests.test_model_confidence.ConfidenceTests.test_clipping_and_signed_byte) (before=1, delta=-1) ... FAIL
+  test_clipping_and_signed_byte (tests.test_model_confidence.ConfidenceTests.test_clipping_and_signed_byte) (before=128, delta=127) ... FAIL
+  test_clipping_and_signed_byte (tests.test_model_confidence.ConfidenceTests.test_clipping_and_signed_byte) (before=32, delta=32767) ... FAIL
+test_exact_given_draws (tests.test_model_confidence.ConfidenceTests.test_exact_given_draws) ... ok
+test_literal_arithmetic_boundaries (tests.test_model_confidence.ConfidenceTests.test_literal_arithmetic_boundaries) ... FAIL
+test_persisting_and_temporary_match_form (tests.test_model_confidence.ConfidenceTests.test_persisting_and_temporary_match_form) ... FAIL
+test_ranks_not_line_sums (tests.test_model_confidence.ConfidenceTests.test_ranks_not_line_sums) ... ok
+test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) ... ok
+
+======================================================================
+FAIL: test_bench_draws_and_sequential_clipping (tests.test_model_confidence.ConfidenceTests.test_bench_draws_and_sequential_clipping)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 128, in test_bench_draws_and_sequential_clipping
+    self.assertEqual(participant_values(1, -4, 'substitute'), (1, 2))
+AssertionError: Tuples differ: (0, 1) != (1, 2)
+
+First differing element 0:
+0
+1
+
+- (0, 1)
++ (1, 2)
+
+======================================================================
+FAIL: test_clipping_and_signed_byte (tests.test_model_confidence.ConfidenceTests.test_clipping_and_signed_byte) (before=1, delta=-1)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 106, in test_clipping_and_signed_byte
+    self.assertEqual(change(before, delta), after)
+AssertionError: 0 != 1
+
+======================================================================
+FAIL: test_clipping_and_signed_byte (tests.test_model_confidence.ConfidenceTests.test_clipping_and_signed_byte) (before=128, delta=127)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 106, in test_clipping_and_signed_byte
+    self.assertEqual(change(before, delta), after)
+AssertionError: 0 != 1
+
+======================================================================
+FAIL: test_clipping_and_signed_byte (tests.test_model_confidence.ConfidenceTests.test_clipping_and_signed_byte) (before=32, delta=32767)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 106, in test_clipping_and_signed_byte
+    self.assertEqual(change(before, delta), after)
+AssertionError: 0 != 1
+
+======================================================================
+FAIL: test_literal_arithmetic_boundaries (tests.test_model_confidence.ConfidenceTests.test_literal_arithmetic_boundaries)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 68, in test_literal_arithmetic_boundaries
+    self.assertEqual(change(before, delta), expected)
+AssertionError: 0 != 1
+
+======================================================================
+FAIL: test_persisting_and_temporary_match_form (tests.test_model_confidence.ConfidenceTests.test_persisting_and_temporary_match_form)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 94, in test_persisting_and_temporary_match_form
+    self.assertEqual(match_form(*inputs), expected)
+AssertionError: Tuples differ: (0, 0) != (1, 1)
+
+First differing element 0:
+0
+1
+
+- (0, 0)
++ (1, 1)
+
+----------------------------------------------------------------------
+Ran 11 tests in 0.013s
+
+FAILED (failures=6)
+
+UPPER 32->33: KILLED exit=1
+test_consistent_record_cannot_be_declared_defective (tests.test_model_confidence.CheckerTests.test_consistent_record_cannot_be_declared_defective) ... ok
+test_empty_comparisons_fail (tests.test_model_confidence.CheckerTests.test_empty_comparisons_fail) ... ok
+test_kept_mismatch_fails (tests.test_model_confidence.CheckerTests.test_kept_mismatch_fails) ... ok
+test_run_observation_divergence_fails (tests.test_model_confidence.CheckerTests.test_run_observation_divergence_fails) ... ok
+test_bench_draws_and_sequential_clipping (tests.test_model_confidence.ConfidenceTests.test_bench_draws_and_sequential_clipping) ... FAIL
+test_clipping_and_signed_byte (tests.test_model_confidence.ConfidenceTests.test_clipping_and_signed_byte) ... 
+  test_clipping_and_signed_byte (tests.test_model_confidence.ConfidenceTests.test_clipping_and_signed_byte) (before=32, delta=1) ... FAIL
+test_exact_given_draws (tests.test_model_confidence.ConfidenceTests.test_exact_given_draws) ... FAIL
+test_literal_arithmetic_boundaries (tests.test_model_confidence.ConfidenceTests.test_literal_arithmetic_boundaries) ... FAIL
+test_persisting_and_temporary_match_form (tests.test_model_confidence.ConfidenceTests.test_persisting_and_temporary_match_form) ... FAIL
+test_ranks_not_line_sums (tests.test_model_confidence.ConfidenceTests.test_ranks_not_line_sums) ... ok
+test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) ... ok
+
+======================================================================
+FAIL: test_bench_draws_and_sequential_clipping (tests.test_model_confidence.ConfidenceTests.test_bench_draws_and_sequential_clipping)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 127, in test_bench_draws_and_sequential_clipping
+    self.assertEqual(participant_values(32, 4, 'substitute'), (31, 32))
+AssertionError: Tuples differ: (32, 33) != (31, 32)
+
+First differing element 0:
+32
+31
+
+- (32, 33)
++ (31, 32)
+
+======================================================================
+FAIL: test_clipping_and_signed_byte (tests.test_model_confidence.ConfidenceTests.test_clipping_and_signed_byte) (before=32, delta=1)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 106, in test_clipping_and_signed_byte
+    self.assertEqual(change(before, delta), after)
+AssertionError: 33 != 32
+
+======================================================================
+FAIL: test_exact_given_draws (tests.test_model_confidence.ConfidenceTests.test_exact_given_draws)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 134, in test_exact_given_draws
+    self.assertEqual(participant_values(32, 4, 'substitute', (2, 1)), (31,))
+AssertionError: Tuples differ: (32,) != (31,)
+
+First differing element 0:
+32
+31
+
+- (32,)
+?   ^
+
++ (31,)
+?   ^
+
+
+======================================================================
+FAIL: test_literal_arithmetic_boundaries (tests.test_model_confidence.ConfidenceTests.test_literal_arithmetic_boundaries)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 68, in test_literal_arithmetic_boundaries
+    self.assertEqual(change(before, delta), expected)
+AssertionError: 33 != 32
+
+======================================================================
+FAIL: test_persisting_and_temporary_match_form (tests.test_model_confidence.ConfidenceTests.test_persisting_and_temporary_match_form)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 94, in test_persisting_and_temporary_match_form
+    self.assertEqual(match_form(*inputs), expected)
+AssertionError: Tuples differ: (33, 33) != (33, 32)
+
+First differing element 1:
+33
+32
+
+- (33, 33)
+?       ^
+
++ (33, 32)
+?       ^
+
+
+----------------------------------------------------------------------
+Ran 11 tests in 0.012s
+
+FAILED (failures=5)
+
+UPPER 32->31: KILLED exit=1
+test_consistent_record_cannot_be_declared_defective (tests.test_model_confidence.CheckerTests.test_consistent_record_cannot_be_declared_defective) ... ok
+test_empty_comparisons_fail (tests.test_model_confidence.CheckerTests.test_empty_comparisons_fail) ... ok
+test_kept_mismatch_fails (tests.test_model_confidence.CheckerTests.test_kept_mismatch_fails) ... ok
+test_run_observation_divergence_fails (tests.test_model_confidence.CheckerTests.test_run_observation_divergence_fails) ... ok
+test_bench_draws_and_sequential_clipping (tests.test_model_confidence.ConfidenceTests.test_bench_draws_and_sequential_clipping) ... FAIL
+test_clipping_and_signed_byte (tests.test_model_confidence.ConfidenceTests.test_clipping_and_signed_byte) ... 
+  test_clipping_and_signed_byte (tests.test_model_confidence.ConfidenceTests.test_clipping_and_signed_byte) (before=32, delta=1) ... FAIL
+test_exact_given_draws (tests.test_model_confidence.ConfidenceTests.test_exact_given_draws) ... FAIL
+test_literal_arithmetic_boundaries (tests.test_model_confidence.ConfidenceTests.test_literal_arithmetic_boundaries) ... FAIL
+test_persisting_and_temporary_match_form (tests.test_model_confidence.ConfidenceTests.test_persisting_and_temporary_match_form) ... FAIL
+test_ranks_not_line_sums (tests.test_model_confidence.ConfidenceTests.test_ranks_not_line_sums) ... ok
+test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) ... ok
+
+======================================================================
+FAIL: test_bench_draws_and_sequential_clipping (tests.test_model_confidence.ConfidenceTests.test_bench_draws_and_sequential_clipping)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 127, in test_bench_draws_and_sequential_clipping
+    self.assertEqual(participant_values(32, 4, 'substitute'), (31, 32))
+AssertionError: Tuples differ: (30, 31) != (31, 32)
+
+First differing element 0:
+30
+31
+
+- (30, 31)
+?   ^   ^
+
++ (31, 32)
+?   ^   ^
+
+
+======================================================================
+FAIL: test_clipping_and_signed_byte (tests.test_model_confidence.ConfidenceTests.test_clipping_and_signed_byte) (before=32, delta=1)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 106, in test_clipping_and_signed_byte
+    self.assertEqual(change(before, delta), after)
+AssertionError: 31 != 32
+
+======================================================================
+FAIL: test_exact_given_draws (tests.test_model_confidence.ConfidenceTests.test_exact_given_draws)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 134, in test_exact_given_draws
+    self.assertEqual(participant_values(32, 4, 'substitute', (2, 1)), (31,))
+AssertionError: Tuples differ: (30,) != (31,)
+
+First differing element 0:
+30
+31
+
+- (30,)
+?   ^
+
++ (31,)
+?   ^
+
+
+======================================================================
+FAIL: test_literal_arithmetic_boundaries (tests.test_model_confidence.ConfidenceTests.test_literal_arithmetic_boundaries)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 68, in test_literal_arithmetic_boundaries
+    self.assertEqual(change(before, delta), expected)
+AssertionError: 31 != 32
+
+======================================================================
+FAIL: test_persisting_and_temporary_match_form (tests.test_model_confidence.ConfidenceTests.test_persisting_and_temporary_match_form)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 94, in test_persisting_and_temporary_match_form
+    self.assertEqual(match_form(*inputs), expected)
+AssertionError: Tuples differ: (33, 31) != (33, 32)
+
+First differing element 1:
+31
+32
+
+- (33, 31)
+?       ^
+
++ (33, 32)
+?       ^
+
+
+----------------------------------------------------------------------
+Ran 11 tests in 0.013s
+
+FAILED (failures=5)
+
+EXPECTED_DIVISOR 32->33: KILLED exit=1
+test_consistent_record_cannot_be_declared_defective (tests.test_model_confidence.CheckerTests.test_consistent_record_cannot_be_declared_defective) ... ok
+test_empty_comparisons_fail (tests.test_model_confidence.CheckerTests.test_empty_comparisons_fail) ... ok
+test_kept_mismatch_fails (tests.test_model_confidence.CheckerTests.test_kept_mismatch_fails) ... ok
+test_run_observation_divergence_fails (tests.test_model_confidence.CheckerTests.test_run_observation_divergence_fails) ... ok
+test_bench_draws_and_sequential_clipping (tests.test_model_confidence.ConfidenceTests.test_bench_draws_and_sequential_clipping) ... ok
+test_clipping_and_signed_byte (tests.test_model_confidence.ConfidenceTests.test_clipping_and_signed_byte) ... ok
+test_exact_given_draws (tests.test_model_confidence.ConfidenceTests.test_exact_given_draws) ... ok
+test_literal_arithmetic_boundaries (tests.test_model_confidence.ConfidenceTests.test_literal_arithmetic_boundaries) ... FAIL
+test_persisting_and_temporary_match_form (tests.test_model_confidence.ConfidenceTests.test_persisting_and_temporary_match_form) ... ok
+test_ranks_not_line_sums (tests.test_model_confidence.ConfidenceTests.test_ranks_not_line_sums) ... ok
+test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) ... 
+  test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) (inputs=(100, 132, (0, 0), 2, 0, False)) ... FAIL
+  test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) (inputs=(132, 100, (0, 0), 2, 1, True)) ... FAIL
+  test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) (inputs=(100, 164, (1, 2), 1, 0, False)) ... FAIL
+  test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) (inputs=(100, 164, (255, 1), 0, 0, False)) ... FAIL
+
+======================================================================
+FAIL: test_literal_arithmetic_boundaries (tests.test_model_confidence.ConfidenceTests.test_literal_arithmetic_boundaries)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 71, in test_literal_arithmetic_boundaries
+    self.assertEqual(result_delta(100, opponent, (0, 0), 2, 0, False), expected)
+AssertionError: 0 != -1
+
+======================================================================
+FAIL: test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) (inputs=(100, 132, (0, 0), 2, 0, False))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 123, in test_result_term
+    self.assertEqual(result_delta(*inputs), expected)
+AssertionError: 0 != 1
+
+======================================================================
+FAIL: test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) (inputs=(132, 100, (0, 0), 2, 1, True))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 123, in test_result_term
+    self.assertEqual(result_delta(*inputs), expected)
+AssertionError: 0 != -1
+
+======================================================================
+FAIL: test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) (inputs=(100, 164, (1, 2), 1, 0, False))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 123, in test_result_term
+    self.assertEqual(result_delta(*inputs), expected)
+AssertionError: 0 != 1
+
+======================================================================
+FAIL: test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) (inputs=(100, 164, (255, 1), 0, 0, False))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 123, in test_result_term
+    self.assertEqual(result_delta(*inputs), expected)
+AssertionError: 6 != 8
+
+----------------------------------------------------------------------
+Ran 11 tests in 0.012s
+
+FAILED (failures=5)
+
+EXPECTED_DIVISOR 32->31: KILLED exit=1
+test_consistent_record_cannot_be_declared_defective (tests.test_model_confidence.CheckerTests.test_consistent_record_cannot_be_declared_defective) ... FAIL
+test_empty_comparisons_fail (tests.test_model_confidence.CheckerTests.test_empty_comparisons_fail) ... ok
+test_kept_mismatch_fails (tests.test_model_confidence.CheckerTests.test_kept_mismatch_fails) ... ERROR
+test_run_observation_divergence_fails (tests.test_model_confidence.CheckerTests.test_run_observation_divergence_fails) ... FAIL
+test_bench_draws_and_sequential_clipping (tests.test_model_confidence.ConfidenceTests.test_bench_draws_and_sequential_clipping) ... ok
+test_clipping_and_signed_byte (tests.test_model_confidence.ConfidenceTests.test_clipping_and_signed_byte) ... ok
+test_exact_given_draws (tests.test_model_confidence.ConfidenceTests.test_exact_given_draws) ... ok
+test_literal_arithmetic_boundaries (tests.test_model_confidence.ConfidenceTests.test_literal_arithmetic_boundaries) ... FAIL
+test_persisting_and_temporary_match_form (tests.test_model_confidence.ConfidenceTests.test_persisting_and_temporary_match_form) ... ok
+test_ranks_not_line_sums (tests.test_model_confidence.ConfidenceTests.test_ranks_not_line_sums) ... ok
+test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) ... 
+  test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) (inputs=(100, 131, (0, 0), 2, 0, False)) ... FAIL
+  test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) (inputs=(131, 100, (0, 0), 2, 0, False)) ... FAIL
+
+======================================================================
+ERROR: test_kept_mismatch_fails (tests.test_model_confidence.CheckerTests.test_kept_mismatch_fails)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 40, in test_kept_mismatch_fails
+    self.assertEqual(self.run_checker({'fixture-probe-new.json': record}, {}), 1)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 22, in run_checker
+    return CHECKER.main()
+           ^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T32/experiments/E018-q016-confidence/check_confidence.py", line 98, in main
+    n, count = check_case(case)
+               ^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T32/experiments/E018-q016-confidence/check_confidence.py", line 46, in check_case
+    raise ValueError(f'player word {word}: result delta disagrees with original B71C')
+ValueError: player word 1: result delta disagrees with original B71C
+
+======================================================================
+FAIL: test_consistent_record_cannot_be_declared_defective (tests.test_model_confidence.CheckerTests.test_consistent_record_cannot_be_declared_defective)
+----------------------------------------------------------------------
+ValueError: player word 1: result delta disagrees with original B71C
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 29, in test_consistent_record_cannot_be_declared_defective
+    with self.assertRaisesRegex(ValueError, 'passes its consistency check'):
+AssertionError: "passes its consistency check" does not match "player word 1: result delta disagrees with original B71C"
+
+======================================================================
+FAIL: test_run_observation_divergence_fails (tests.test_model_confidence.CheckerTests.test_run_observation_divergence_fails)
+----------------------------------------------------------------------
+ValueError: player word 1: result delta disagrees with original B71C
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 56, in test_run_observation_divergence_fails
+    with self.assertRaisesRegex(ValueError, 'run observations disagree'):
+AssertionError: "run observations disagree" does not match "player word 1: result delta disagrees with original B71C"
+
+======================================================================
+FAIL: test_literal_arithmetic_boundaries (tests.test_model_confidence.ConfidenceTests.test_literal_arithmetic_boundaries)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 71, in test_literal_arithmetic_boundaries
+    self.assertEqual(result_delta(100, opponent, (0, 0), 2, 0, False), expected)
+AssertionError: -1 != 0
+
+======================================================================
+FAIL: test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) (inputs=(100, 131, (0, 0), 2, 0, False))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 123, in test_result_term
+    self.assertEqual(result_delta(*inputs), expected)
+AssertionError: 1 != 0
+
+======================================================================
+FAIL: test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) (inputs=(131, 100, (0, 0), 2, 0, False))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 123, in test_result_term
+    self.assertEqual(result_delta(*inputs), expected)
+AssertionError: -1 != 0
+
+----------------------------------------------------------------------
+Ran 11 tests in 0.011s
+
+FAILED (failures=5, errors=1)
+
+CONTINENT_BASE 5->6: KILLED exit=1
+test_consistent_record_cannot_be_declared_defective (tests.test_model_confidence.CheckerTests.test_consistent_record_cannot_be_declared_defective) ... FAIL
+test_empty_comparisons_fail (tests.test_model_confidence.CheckerTests.test_empty_comparisons_fail) ... ok
+test_kept_mismatch_fails (tests.test_model_confidence.CheckerTests.test_kept_mismatch_fails) ... ERROR
+test_run_observation_divergence_fails (tests.test_model_confidence.CheckerTests.test_run_observation_divergence_fails) ... FAIL
+test_bench_draws_and_sequential_clipping (tests.test_model_confidence.ConfidenceTests.test_bench_draws_and_sequential_clipping) ... ok
+test_clipping_and_signed_byte (tests.test_model_confidence.ConfidenceTests.test_clipping_and_signed_byte) ... ok
+test_exact_given_draws (tests.test_model_confidence.ConfidenceTests.test_exact_given_draws) ... ok
+test_literal_arithmetic_boundaries (tests.test_model_confidence.ConfidenceTests.test_literal_arithmetic_boundaries) ... ok
+test_persisting_and_temporary_match_form (tests.test_model_confidence.ConfidenceTests.test_persisting_and_temporary_match_form) ... ok
+test_ranks_not_line_sums (tests.test_model_confidence.ConfidenceTests.test_ranks_not_line_sums) ... FAIL
+test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) ... ok
+
+======================================================================
+ERROR: test_kept_mismatch_fails (tests.test_model_confidence.CheckerTests.test_kept_mismatch_fails)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 40, in test_kept_mismatch_fails
+    self.assertEqual(self.run_checker({'fixture-probe-new.json': record}, {}), 1)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 22, in run_checker
+    return CHECKER.main()
+           ^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T32/experiments/E018-q016-confidence/check_confidence.py", line 98, in main
+    n, count = check_case(case)
+               ^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T32/experiments/E018-q016-confidence/check_confidence.py", line 46, in check_case
+    raise ValueError(f'player word {word}: result delta disagrees with original B71C')
+ValueError: player word 1: result delta disagrees with original B71C
+
+======================================================================
+FAIL: test_consistent_record_cannot_be_declared_defective (tests.test_model_confidence.CheckerTests.test_consistent_record_cannot_be_declared_defective)
+----------------------------------------------------------------------
+ValueError: player word 1: result delta disagrees with original B71C
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 29, in test_consistent_record_cannot_be_declared_defective
+    with self.assertRaisesRegex(ValueError, 'passes its consistency check'):
+AssertionError: "passes its consistency check" does not match "player word 1: result delta disagrees with original B71C"
+
+======================================================================
+FAIL: test_run_observation_divergence_fails (tests.test_model_confidence.CheckerTests.test_run_observation_divergence_fails)
+----------------------------------------------------------------------
+ValueError: player word 1: result delta disagrees with original B71C
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 56, in test_run_observation_divergence_fails
+    with self.assertRaisesRegex(ValueError, 'run observations disagree'):
+AssertionError: "run observations disagree" does not match "player word 1: result delta disagrees with original B71C"
+
+======================================================================
+FAIL: test_ranks_not_line_sums (tests.test_model_confidence.ConfidenceTests.test_ranks_not_line_sums)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 99, in test_ranks_not_line_sums
+    self.assertEqual(country_rating(*inputs), expected)
+AssertionError: 144 != 128
+
+----------------------------------------------------------------------
+Ran 11 tests in 0.011s
+
+FAILED (failures=3, errors=1)
+
+CONTINENT_BASE 5->4: KILLED exit=1
+test_consistent_record_cannot_be_declared_defective (tests.test_model_confidence.CheckerTests.test_consistent_record_cannot_be_declared_defective) ... ok
+test_empty_comparisons_fail (tests.test_model_confidence.CheckerTests.test_empty_comparisons_fail) ... ok
+test_kept_mismatch_fails (tests.test_model_confidence.CheckerTests.test_kept_mismatch_fails) ... ok
+test_run_observation_divergence_fails (tests.test_model_confidence.CheckerTests.test_run_observation_divergence_fails) ... ok
+test_bench_draws_and_sequential_clipping (tests.test_model_confidence.ConfidenceTests.test_bench_draws_and_sequential_clipping) ... ok
+test_clipping_and_signed_byte (tests.test_model_confidence.ConfidenceTests.test_clipping_and_signed_byte) ... ok
+test_exact_given_draws (tests.test_model_confidence.ConfidenceTests.test_exact_given_draws) ... ok
+test_literal_arithmetic_boundaries (tests.test_model_confidence.ConfidenceTests.test_literal_arithmetic_boundaries) ... ok
+test_persisting_and_temporary_match_form (tests.test_model_confidence.ConfidenceTests.test_persisting_and_temporary_match_form) ... ok
+test_ranks_not_line_sums (tests.test_model_confidence.ConfidenceTests.test_ranks_not_line_sums) ... FAIL
+test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) ... ok
+
+======================================================================
+FAIL: test_ranks_not_line_sums (tests.test_model_confidence.ConfidenceTests.test_ranks_not_line_sums)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 99, in test_ranks_not_line_sums
+    self.assertEqual(country_rating(*inputs), expected)
+AssertionError: 112 != 128
+
+----------------------------------------------------------------------
+Ran 11 tests in 0.012s
+
+FAILED (failures=1)
+
+CONTINENT_RANK_BASE 33->34: KILLED exit=1
+test_consistent_record_cannot_be_declared_defective (tests.test_model_confidence.CheckerTests.test_consistent_record_cannot_be_declared_defective) ... FAIL
+test_empty_comparisons_fail (tests.test_model_confidence.CheckerTests.test_empty_comparisons_fail) ... ok
+test_kept_mismatch_fails (tests.test_model_confidence.CheckerTests.test_kept_mismatch_fails) ... ERROR
+test_run_observation_divergence_fails (tests.test_model_confidence.CheckerTests.test_run_observation_divergence_fails) ... FAIL
+test_bench_draws_and_sequential_clipping (tests.test_model_confidence.ConfidenceTests.test_bench_draws_and_sequential_clipping) ... ok
+test_clipping_and_signed_byte (tests.test_model_confidence.ConfidenceTests.test_clipping_and_signed_byte) ... ok
+test_exact_given_draws (tests.test_model_confidence.ConfidenceTests.test_exact_given_draws) ... ok
+test_literal_arithmetic_boundaries (tests.test_model_confidence.ConfidenceTests.test_literal_arithmetic_boundaries) ... ok
+test_persisting_and_temporary_match_form (tests.test_model_confidence.ConfidenceTests.test_persisting_and_temporary_match_form) ... ok
+test_ranks_not_line_sums (tests.test_model_confidence.ConfidenceTests.test_ranks_not_line_sums) ... FAIL
+test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) ... ok
+
+======================================================================
+ERROR: test_kept_mismatch_fails (tests.test_model_confidence.CheckerTests.test_kept_mismatch_fails)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 40, in test_kept_mismatch_fails
+    self.assertEqual(self.run_checker({'fixture-probe-new.json': record}, {}), 1)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 22, in run_checker
+    return CHECKER.main()
+           ^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T32/experiments/E018-q016-confidence/check_confidence.py", line 98, in main
+    n, count = check_case(case)
+               ^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T32/experiments/E018-q016-confidence/check_confidence.py", line 46, in check_case
+    raise ValueError(f'player word {word}: result delta disagrees with original B71C')
+ValueError: player word 1: result delta disagrees with original B71C
+
+======================================================================
+FAIL: test_consistent_record_cannot_be_declared_defective (tests.test_model_confidence.CheckerTests.test_consistent_record_cannot_be_declared_defective)
+----------------------------------------------------------------------
+ValueError: player word 1: result delta disagrees with original B71C
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 29, in test_consistent_record_cannot_be_declared_defective
+    with self.assertRaisesRegex(ValueError, 'passes its consistency check'):
+AssertionError: "passes its consistency check" does not match "player word 1: result delta disagrees with original B71C"
+
+======================================================================
+FAIL: test_run_observation_divergence_fails (tests.test_model_confidence.CheckerTests.test_run_observation_divergence_fails)
+----------------------------------------------------------------------
+ValueError: player word 1: result delta disagrees with original B71C
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 56, in test_run_observation_divergence_fails
+    with self.assertRaisesRegex(ValueError, 'run observations disagree'):
+AssertionError: "run observations disagree" does not match "player word 1: result delta disagrees with original B71C"
+
+======================================================================
+FAIL: test_ranks_not_line_sums (tests.test_model_confidence.ConfidenceTests.test_ranks_not_line_sums)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 99, in test_ranks_not_line_sums
+    self.assertEqual(country_rating(*inputs), expected)
+AssertionError: 130 != 128
+
+----------------------------------------------------------------------
+Ran 11 tests in 0.011s
+
+FAILED (failures=3, errors=1)
+
+CONTINENT_RANK_BASE 33->32: KILLED exit=1
+test_consistent_record_cannot_be_declared_defective (tests.test_model_confidence.CheckerTests.test_consistent_record_cannot_be_declared_defective) ... ok
+test_empty_comparisons_fail (tests.test_model_confidence.CheckerTests.test_empty_comparisons_fail) ... ok
+test_kept_mismatch_fails (tests.test_model_confidence.CheckerTests.test_kept_mismatch_fails) ... ok
+test_run_observation_divergence_fails (tests.test_model_confidence.CheckerTests.test_run_observation_divergence_fails) ... ok
+test_bench_draws_and_sequential_clipping (tests.test_model_confidence.ConfidenceTests.test_bench_draws_and_sequential_clipping) ... ok
+test_clipping_and_signed_byte (tests.test_model_confidence.ConfidenceTests.test_clipping_and_signed_byte) ... ok
+test_exact_given_draws (tests.test_model_confidence.ConfidenceTests.test_exact_given_draws) ... ok
+test_literal_arithmetic_boundaries (tests.test_model_confidence.ConfidenceTests.test_literal_arithmetic_boundaries) ... ok
+test_persisting_and_temporary_match_form (tests.test_model_confidence.ConfidenceTests.test_persisting_and_temporary_match_form) ... ok
+test_ranks_not_line_sums (tests.test_model_confidence.ConfidenceTests.test_ranks_not_line_sums) ... FAIL
+test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) ... ok
+
+======================================================================
+FAIL: test_ranks_not_line_sums (tests.test_model_confidence.ConfidenceTests.test_ranks_not_line_sums)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 99, in test_ranks_not_line_sums
+    self.assertEqual(country_rating(*inputs), expected)
+AssertionError: 126 != 128
+
+----------------------------------------------------------------------
+Ran 11 tests in 0.012s
+
+FAILED (failures=1)
+
+WORLD_RANK_BASE 129->130: KILLED exit=1
+test_consistent_record_cannot_be_declared_defective (tests.test_model_confidence.CheckerTests.test_consistent_record_cannot_be_declared_defective) ... FAIL
+test_empty_comparisons_fail (tests.test_model_confidence.CheckerTests.test_empty_comparisons_fail) ... ok
+test_kept_mismatch_fails (tests.test_model_confidence.CheckerTests.test_kept_mismatch_fails) ... ERROR
+test_run_observation_divergence_fails (tests.test_model_confidence.CheckerTests.test_run_observation_divergence_fails) ... FAIL
+test_bench_draws_and_sequential_clipping (tests.test_model_confidence.ConfidenceTests.test_bench_draws_and_sequential_clipping) ... ok
+test_clipping_and_signed_byte (tests.test_model_confidence.ConfidenceTests.test_clipping_and_signed_byte) ... ok
+test_exact_given_draws (tests.test_model_confidence.ConfidenceTests.test_exact_given_draws) ... ok
+test_literal_arithmetic_boundaries (tests.test_model_confidence.ConfidenceTests.test_literal_arithmetic_boundaries) ... ok
+test_persisting_and_temporary_match_form (tests.test_model_confidence.ConfidenceTests.test_persisting_and_temporary_match_form) ... ok
+test_ranks_not_line_sums (tests.test_model_confidence.ConfidenceTests.test_ranks_not_line_sums) ... FAIL
+test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) ... ok
+
+======================================================================
+ERROR: test_kept_mismatch_fails (tests.test_model_confidence.CheckerTests.test_kept_mismatch_fails)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 40, in test_kept_mismatch_fails
+    self.assertEqual(self.run_checker({'fixture-probe-new.json': record}, {}), 1)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 22, in run_checker
+    return CHECKER.main()
+           ^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T32/experiments/E018-q016-confidence/check_confidence.py", line 98, in main
+    n, count = check_case(case)
+               ^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T32/experiments/E018-q016-confidence/check_confidence.py", line 46, in check_case
+    raise ValueError(f'player word {word}: result delta disagrees with original B71C')
+ValueError: player word 1: result delta disagrees with original B71C
+
+======================================================================
+FAIL: test_consistent_record_cannot_be_declared_defective (tests.test_model_confidence.CheckerTests.test_consistent_record_cannot_be_declared_defective)
+----------------------------------------------------------------------
+ValueError: player word 1: result delta disagrees with original B71C
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 29, in test_consistent_record_cannot_be_declared_defective
+    with self.assertRaisesRegex(ValueError, 'passes its consistency check'):
+AssertionError: "passes its consistency check" does not match "player word 1: result delta disagrees with original B71C"
+
+======================================================================
+FAIL: test_run_observation_divergence_fails (tests.test_model_confidence.CheckerTests.test_run_observation_divergence_fails)
+----------------------------------------------------------------------
+ValueError: player word 1: result delta disagrees with original B71C
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 56, in test_run_observation_divergence_fails
+    with self.assertRaisesRegex(ValueError, 'run observations disagree'):
+AssertionError: "run observations disagree" does not match "player word 1: result delta disagrees with original B71C"
+
+======================================================================
+FAIL: test_ranks_not_line_sums (tests.test_model_confidence.ConfidenceTests.test_ranks_not_line_sums)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 99, in test_ranks_not_line_sums
+    self.assertEqual(country_rating(*inputs), expected)
+AssertionError: 97 != 96
+
+----------------------------------------------------------------------
+Ran 11 tests in 0.013s
+
+FAILED (failures=3, errors=1)
+
+WORLD_RANK_BASE 129->128: KILLED exit=1
+test_consistent_record_cannot_be_declared_defective (tests.test_model_confidence.CheckerTests.test_consistent_record_cannot_be_declared_defective) ... FAIL
+test_empty_comparisons_fail (tests.test_model_confidence.CheckerTests.test_empty_comparisons_fail) ... ok
+test_kept_mismatch_fails (tests.test_model_confidence.CheckerTests.test_kept_mismatch_fails) ... ERROR
+test_run_observation_divergence_fails (tests.test_model_confidence.CheckerTests.test_run_observation_divergence_fails) ... FAIL
+test_bench_draws_and_sequential_clipping (tests.test_model_confidence.ConfidenceTests.test_bench_draws_and_sequential_clipping) ... ok
+test_clipping_and_signed_byte (tests.test_model_confidence.ConfidenceTests.test_clipping_and_signed_byte) ... ok
+test_exact_given_draws (tests.test_model_confidence.ConfidenceTests.test_exact_given_draws) ... ok
+test_literal_arithmetic_boundaries (tests.test_model_confidence.ConfidenceTests.test_literal_arithmetic_boundaries) ... ok
+test_persisting_and_temporary_match_form (tests.test_model_confidence.ConfidenceTests.test_persisting_and_temporary_match_form) ... ok
+test_ranks_not_line_sums (tests.test_model_confidence.ConfidenceTests.test_ranks_not_line_sums) ... FAIL
+test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) ... ok
+
+======================================================================
+ERROR: test_kept_mismatch_fails (tests.test_model_confidence.CheckerTests.test_kept_mismatch_fails)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 40, in test_kept_mismatch_fails
+    self.assertEqual(self.run_checker({'fixture-probe-new.json': record}, {}), 1)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 22, in run_checker
+    return CHECKER.main()
+           ^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T32/experiments/E018-q016-confidence/check_confidence.py", line 98, in main
+    n, count = check_case(case)
+               ^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T32/experiments/E018-q016-confidence/check_confidence.py", line 46, in check_case
+    raise ValueError(f'player word {word}: result delta disagrees with original B71C')
+ValueError: player word 1: result delta disagrees with original B71C
+
+======================================================================
+FAIL: test_consistent_record_cannot_be_declared_defective (tests.test_model_confidence.CheckerTests.test_consistent_record_cannot_be_declared_defective)
+----------------------------------------------------------------------
+ValueError: player word 1: result delta disagrees with original B71C
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 29, in test_consistent_record_cannot_be_declared_defective
+    with self.assertRaisesRegex(ValueError, 'passes its consistency check'):
+AssertionError: "passes its consistency check" does not match "player word 1: result delta disagrees with original B71C"
+
+======================================================================
+FAIL: test_run_observation_divergence_fails (tests.test_model_confidence.CheckerTests.test_run_observation_divergence_fails)
+----------------------------------------------------------------------
+ValueError: player word 1: result delta disagrees with original B71C
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 56, in test_run_observation_divergence_fails
+    with self.assertRaisesRegex(ValueError, 'run observations disagree'):
+AssertionError: "run observations disagree" does not match "player word 1: result delta disagrees with original B71C"
+
+======================================================================
+FAIL: test_ranks_not_line_sums (tests.test_model_confidence.ConfidenceTests.test_ranks_not_line_sums)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 99, in test_ranks_not_line_sums
+    self.assertEqual(country_rating(*inputs), expected)
+AssertionError: 127 != 128
+
+----------------------------------------------------------------------
+Ran 11 tests in 0.013s
+
+FAILED (failures=3, errors=1)
+
+RATING_DIVISOR 2->3: KILLED exit=1
+test_consistent_record_cannot_be_declared_defective (tests.test_model_confidence.CheckerTests.test_consistent_record_cannot_be_declared_defective) ... FAIL
+test_empty_comparisons_fail (tests.test_model_confidence.CheckerTests.test_empty_comparisons_fail) ... ok
+test_kept_mismatch_fails (tests.test_model_confidence.CheckerTests.test_kept_mismatch_fails) ... ERROR
+test_run_observation_divergence_fails (tests.test_model_confidence.CheckerTests.test_run_observation_divergence_fails) ... FAIL
+test_bench_draws_and_sequential_clipping (tests.test_model_confidence.ConfidenceTests.test_bench_draws_and_sequential_clipping) ... ok
+test_clipping_and_signed_byte (tests.test_model_confidence.ConfidenceTests.test_clipping_and_signed_byte) ... ok
+test_exact_given_draws (tests.test_model_confidence.ConfidenceTests.test_exact_given_draws) ... ok
+test_literal_arithmetic_boundaries (tests.test_model_confidence.ConfidenceTests.test_literal_arithmetic_boundaries) ... ok
+test_persisting_and_temporary_match_form (tests.test_model_confidence.ConfidenceTests.test_persisting_and_temporary_match_form) ... ok
+test_ranks_not_line_sums (tests.test_model_confidence.ConfidenceTests.test_ranks_not_line_sums) ... FAIL
+test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) ... ok
+
+======================================================================
+ERROR: test_kept_mismatch_fails (tests.test_model_confidence.CheckerTests.test_kept_mismatch_fails)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 40, in test_kept_mismatch_fails
+    self.assertEqual(self.run_checker({'fixture-probe-new.json': record}, {}), 1)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 22, in run_checker
+    return CHECKER.main()
+           ^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T32/experiments/E018-q016-confidence/check_confidence.py", line 98, in main
+    n, count = check_case(case)
+               ^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T32/experiments/E018-q016-confidence/check_confidence.py", line 46, in check_case
+    raise ValueError(f'player word {word}: result delta disagrees with original B71C')
+ValueError: player word 1: result delta disagrees with original B71C
+
+======================================================================
+FAIL: test_consistent_record_cannot_be_declared_defective (tests.test_model_confidence.CheckerTests.test_consistent_record_cannot_be_declared_defective)
+----------------------------------------------------------------------
+ValueError: player word 1: result delta disagrees with original B71C
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 29, in test_consistent_record_cannot_be_declared_defective
+    with self.assertRaisesRegex(ValueError, 'passes its consistency check'):
+AssertionError: "passes its consistency check" does not match "player word 1: result delta disagrees with original B71C"
+
+======================================================================
+FAIL: test_run_observation_divergence_fails (tests.test_model_confidence.CheckerTests.test_run_observation_divergence_fails)
+----------------------------------------------------------------------
+ValueError: player word 1: result delta disagrees with original B71C
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 56, in test_run_observation_divergence_fails
+    with self.assertRaisesRegex(ValueError, 'run observations disagree'):
+AssertionError: "run observations disagree" does not match "player word 1: result delta disagrees with original B71C"
+
+======================================================================
+FAIL: test_ranks_not_line_sums (tests.test_model_confidence.ConfidenceTests.test_ranks_not_line_sums)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 99, in test_ranks_not_line_sums
+    self.assertEqual(country_rating(*inputs), expected)
+AssertionError: 85 != 128
+
+----------------------------------------------------------------------
+Ran 11 tests in 0.011s
+
+FAILED (failures=3, errors=1)
+
+RATING_DIVISOR 2->1: KILLED exit=1
+test_consistent_record_cannot_be_declared_defective (tests.test_model_confidence.CheckerTests.test_consistent_record_cannot_be_declared_defective) ... FAIL
+test_empty_comparisons_fail (tests.test_model_confidence.CheckerTests.test_empty_comparisons_fail) ... ok
+test_kept_mismatch_fails (tests.test_model_confidence.CheckerTests.test_kept_mismatch_fails) ... ERROR
+test_run_observation_divergence_fails (tests.test_model_confidence.CheckerTests.test_run_observation_divergence_fails) ... FAIL
+test_bench_draws_and_sequential_clipping (tests.test_model_confidence.ConfidenceTests.test_bench_draws_and_sequential_clipping) ... ok
+test_clipping_and_signed_byte (tests.test_model_confidence.ConfidenceTests.test_clipping_and_signed_byte) ... ok
+test_exact_given_draws (tests.test_model_confidence.ConfidenceTests.test_exact_given_draws) ... ok
+test_literal_arithmetic_boundaries (tests.test_model_confidence.ConfidenceTests.test_literal_arithmetic_boundaries) ... ok
+test_persisting_and_temporary_match_form (tests.test_model_confidence.ConfidenceTests.test_persisting_and_temporary_match_form) ... ok
+test_ranks_not_line_sums (tests.test_model_confidence.ConfidenceTests.test_ranks_not_line_sums) ... FAIL
+test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) ... ok
+
+======================================================================
+ERROR: test_kept_mismatch_fails (tests.test_model_confidence.CheckerTests.test_kept_mismatch_fails)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 40, in test_kept_mismatch_fails
+    self.assertEqual(self.run_checker({'fixture-probe-new.json': record}, {}), 1)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 22, in run_checker
+    return CHECKER.main()
+           ^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T32/experiments/E018-q016-confidence/check_confidence.py", line 98, in main
+    n, count = check_case(case)
+               ^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T32/experiments/E018-q016-confidence/check_confidence.py", line 46, in check_case
+    raise ValueError(f'player word {word}: result delta disagrees with original B71C')
+ValueError: player word 1: result delta disagrees with original B71C
+
+======================================================================
+FAIL: test_consistent_record_cannot_be_declared_defective (tests.test_model_confidence.CheckerTests.test_consistent_record_cannot_be_declared_defective)
+----------------------------------------------------------------------
+ValueError: player word 1: result delta disagrees with original B71C
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 29, in test_consistent_record_cannot_be_declared_defective
+    with self.assertRaisesRegex(ValueError, 'passes its consistency check'):
+AssertionError: "passes its consistency check" does not match "player word 1: result delta disagrees with original B71C"
+
+======================================================================
+FAIL: test_run_observation_divergence_fails (tests.test_model_confidence.CheckerTests.test_run_observation_divergence_fails)
+----------------------------------------------------------------------
+ValueError: player word 1: result delta disagrees with original B71C
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 56, in test_run_observation_divergence_fails
+    with self.assertRaisesRegex(ValueError, 'run observations disagree'):
+AssertionError: "run observations disagree" does not match "player word 1: result delta disagrees with original B71C"
+
+======================================================================
+FAIL: test_ranks_not_line_sums (tests.test_model_confidence.ConfidenceTests.test_ranks_not_line_sums)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 99, in test_ranks_not_line_sums
+    self.assertEqual(country_rating(*inputs), expected)
+AssertionError: 256 != 128
+
+----------------------------------------------------------------------
+Ran 11 tests in 0.011s
+
+FAILED (failures=3, errors=1)
+
+DOUBLE 2->3: KILLED exit=1
+test_consistent_record_cannot_be_declared_defective (tests.test_model_confidence.CheckerTests.test_consistent_record_cannot_be_declared_defective) ... FAIL
+test_empty_comparisons_fail (tests.test_model_confidence.CheckerTests.test_empty_comparisons_fail) ... ok
+test_kept_mismatch_fails (tests.test_model_confidence.CheckerTests.test_kept_mismatch_fails) ... ERROR
+test_run_observation_divergence_fails (tests.test_model_confidence.CheckerTests.test_run_observation_divergence_fails) ... FAIL
+test_bench_draws_and_sequential_clipping (tests.test_model_confidence.ConfidenceTests.test_bench_draws_and_sequential_clipping) ... ok
+test_clipping_and_signed_byte (tests.test_model_confidence.ConfidenceTests.test_clipping_and_signed_byte) ... ok
+test_exact_given_draws (tests.test_model_confidence.ConfidenceTests.test_exact_given_draws) ... ok
+test_literal_arithmetic_boundaries (tests.test_model_confidence.ConfidenceTests.test_literal_arithmetic_boundaries) ... ok
+test_persisting_and_temporary_match_form (tests.test_model_confidence.ConfidenceTests.test_persisting_and_temporary_match_form) ... ok
+test_ranks_not_line_sums (tests.test_model_confidence.ConfidenceTests.test_ranks_not_line_sums) ... ok
+test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) ... 
+  test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) (inputs=(100, 100, (3, 1), 0, 0, False)) ... FAIL
+  test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) (inputs=(100, 100, (3, 1), 0, 1, False)) ... FAIL
+  test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) (inputs=(100, 100, (1, 3), 1, 1, True)) ... FAIL
+  test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) (inputs=(100, 164, (255, 1), 0, 0, False)) ... FAIL
+
+======================================================================
+ERROR: test_kept_mismatch_fails (tests.test_model_confidence.CheckerTests.test_kept_mismatch_fails)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 40, in test_kept_mismatch_fails
+    self.assertEqual(self.run_checker({'fixture-probe-new.json': record}, {}), 1)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 22, in run_checker
+    return CHECKER.main()
+           ^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T32/experiments/E018-q016-confidence/check_confidence.py", line 98, in main
+    n, count = check_case(case)
+               ^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T32/experiments/E018-q016-confidence/check_confidence.py", line 46, in check_case
+    raise ValueError(f'player word {word}: result delta disagrees with original B71C')
+ValueError: player word 1: result delta disagrees with original B71C
+
+======================================================================
+FAIL: test_consistent_record_cannot_be_declared_defective (tests.test_model_confidence.CheckerTests.test_consistent_record_cannot_be_declared_defective)
+----------------------------------------------------------------------
+ValueError: player word 1: result delta disagrees with original B71C
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 29, in test_consistent_record_cannot_be_declared_defective
+    with self.assertRaisesRegex(ValueError, 'passes its consistency check'):
+AssertionError: "passes its consistency check" does not match "player word 1: result delta disagrees with original B71C"
+
+======================================================================
+FAIL: test_run_observation_divergence_fails (tests.test_model_confidence.CheckerTests.test_run_observation_divergence_fails)
+----------------------------------------------------------------------
+ValueError: player word 1: result delta disagrees with original B71C
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 56, in test_run_observation_divergence_fails
+    with self.assertRaisesRegex(ValueError, 'run observations disagree'):
+AssertionError: "run observations disagree" does not match "player word 1: result delta disagrees with original B71C"
+
+======================================================================
+FAIL: test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) (inputs=(100, 100, (3, 1), 0, 0, False))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 123, in test_result_term
+    self.assertEqual(result_delta(*inputs), expected)
+AssertionError: 6 != 4
+
+======================================================================
+FAIL: test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) (inputs=(100, 100, (3, 1), 0, 1, False))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 123, in test_result_term
+    self.assertEqual(result_delta(*inputs), expected)
+AssertionError: -6 != -4
+
+======================================================================
+FAIL: test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) (inputs=(100, 100, (1, 3), 1, 1, True))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 123, in test_result_term
+    self.assertEqual(result_delta(*inputs), expected)
+AssertionError: 6 != 4
+
+======================================================================
+FAIL: test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) (inputs=(100, 164, (255, 1), 0, 0, False))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 123, in test_result_term
+    self.assertEqual(result_delta(*inputs), expected)
+AssertionError: 12 != 8
+
+----------------------------------------------------------------------
+Ran 11 tests in 0.010s
+
+FAILED (failures=6, errors=1)
+
+DOUBLE 2->1: KILLED exit=1
+test_consistent_record_cannot_be_declared_defective (tests.test_model_confidence.CheckerTests.test_consistent_record_cannot_be_declared_defective) ... FAIL
+test_empty_comparisons_fail (tests.test_model_confidence.CheckerTests.test_empty_comparisons_fail) ... ok
+test_kept_mismatch_fails (tests.test_model_confidence.CheckerTests.test_kept_mismatch_fails) ... ERROR
+test_run_observation_divergence_fails (tests.test_model_confidence.CheckerTests.test_run_observation_divergence_fails) ... FAIL
+test_bench_draws_and_sequential_clipping (tests.test_model_confidence.ConfidenceTests.test_bench_draws_and_sequential_clipping) ... ok
+test_clipping_and_signed_byte (tests.test_model_confidence.ConfidenceTests.test_clipping_and_signed_byte) ... ok
+test_exact_given_draws (tests.test_model_confidence.ConfidenceTests.test_exact_given_draws) ... ok
+test_literal_arithmetic_boundaries (tests.test_model_confidence.ConfidenceTests.test_literal_arithmetic_boundaries) ... ok
+test_persisting_and_temporary_match_form (tests.test_model_confidence.ConfidenceTests.test_persisting_and_temporary_match_form) ... ok
+test_ranks_not_line_sums (tests.test_model_confidence.ConfidenceTests.test_ranks_not_line_sums) ... ok
+test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) ... 
+  test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) (inputs=(100, 100, (3, 1), 0, 0, False)) ... FAIL
+  test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) (inputs=(100, 100, (3, 1), 0, 1, False)) ... FAIL
+  test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) (inputs=(100, 100, (1, 3), 1, 1, True)) ... FAIL
+  test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) (inputs=(100, 164, (255, 1), 0, 0, False)) ... FAIL
+
+======================================================================
+ERROR: test_kept_mismatch_fails (tests.test_model_confidence.CheckerTests.test_kept_mismatch_fails)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 40, in test_kept_mismatch_fails
+    self.assertEqual(self.run_checker({'fixture-probe-new.json': record}, {}), 1)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 22, in run_checker
+    return CHECKER.main()
+           ^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T32/experiments/E018-q016-confidence/check_confidence.py", line 98, in main
+    n, count = check_case(case)
+               ^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T32/experiments/E018-q016-confidence/check_confidence.py", line 46, in check_case
+    raise ValueError(f'player word {word}: result delta disagrees with original B71C')
+ValueError: player word 1: result delta disagrees with original B71C
+
+======================================================================
+FAIL: test_consistent_record_cannot_be_declared_defective (tests.test_model_confidence.CheckerTests.test_consistent_record_cannot_be_declared_defective)
+----------------------------------------------------------------------
+ValueError: player word 1: result delta disagrees with original B71C
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 29, in test_consistent_record_cannot_be_declared_defective
+    with self.assertRaisesRegex(ValueError, 'passes its consistency check'):
+AssertionError: "passes its consistency check" does not match "player word 1: result delta disagrees with original B71C"
+
+======================================================================
+FAIL: test_run_observation_divergence_fails (tests.test_model_confidence.CheckerTests.test_run_observation_divergence_fails)
+----------------------------------------------------------------------
+ValueError: player word 1: result delta disagrees with original B71C
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 56, in test_run_observation_divergence_fails
+    with self.assertRaisesRegex(ValueError, 'run observations disagree'):
+AssertionError: "run observations disagree" does not match "player word 1: result delta disagrees with original B71C"
+
+======================================================================
+FAIL: test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) (inputs=(100, 100, (3, 1), 0, 0, False))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 123, in test_result_term
+    self.assertEqual(result_delta(*inputs), expected)
+AssertionError: 2 != 4
+
+======================================================================
+FAIL: test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) (inputs=(100, 100, (3, 1), 0, 1, False))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 123, in test_result_term
+    self.assertEqual(result_delta(*inputs), expected)
+AssertionError: -2 != -4
+
+======================================================================
+FAIL: test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) (inputs=(100, 100, (1, 3), 1, 1, True))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 123, in test_result_term
+    self.assertEqual(result_delta(*inputs), expected)
+AssertionError: 2 != 4
+
+======================================================================
+FAIL: test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) (inputs=(100, 164, (255, 1), 0, 0, False))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 123, in test_result_term
+    self.assertEqual(result_delta(*inputs), expected)
+AssertionError: 4 != 8
+
+----------------------------------------------------------------------
+Ran 11 tests in 0.014s
+
+FAILED (failures=6, errors=1)
+
+SMALL_DRAW 2->3: KILLED exit=1
+test_consistent_record_cannot_be_declared_defective (tests.test_model_confidence.CheckerTests.test_consistent_record_cannot_be_declared_defective) ... ok
+test_empty_comparisons_fail (tests.test_model_confidence.CheckerTests.test_empty_comparisons_fail) ... ok
+test_kept_mismatch_fails (tests.test_model_confidence.CheckerTests.test_kept_mismatch_fails) ... ok
+test_run_observation_divergence_fails (tests.test_model_confidence.CheckerTests.test_run_observation_divergence_fails) ... ok
+test_bench_draws_and_sequential_clipping (tests.test_model_confidence.ConfidenceTests.test_bench_draws_and_sequential_clipping) ... FAIL
+test_clipping_and_signed_byte (tests.test_model_confidence.ConfidenceTests.test_clipping_and_signed_byte) ... ok
+test_exact_given_draws (tests.test_model_confidence.ConfidenceTests.test_exact_given_draws) ... ok
+test_literal_arithmetic_boundaries (tests.test_model_confidence.ConfidenceTests.test_literal_arithmetic_boundaries) ... FAIL
+test_persisting_and_temporary_match_form (tests.test_model_confidence.ConfidenceTests.test_persisting_and_temporary_match_form) ... ok
+test_ranks_not_line_sums (tests.test_model_confidence.ConfidenceTests.test_ranks_not_line_sums) ... ok
+test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) ... ok
+
+======================================================================
+FAIL: test_bench_draws_and_sequential_clipping (tests.test_model_confidence.ConfidenceTests.test_bench_draws_and_sequential_clipping)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 127, in test_bench_draws_and_sequential_clipping
+    self.assertEqual(participant_values(32, 4, 'substitute'), (31, 32))
+AssertionError: Tuples differ: (30, 31, 32) != (31, 32)
+
+First differing element 0:
+30
+31
+
+First tuple contains 1 additional elements.
+First extra element 2:
+32
+
+- (30, 31, 32)
+?  ----
+
++ (31, 32)
+
+======================================================================
+FAIL: test_literal_arithmetic_boundaries (tests.test_model_confidence.ConfidenceTests.test_literal_arithmetic_boundaries)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 84, in test_literal_arithmetic_boundaries
+    with self.assertRaises(ValueError):
+AssertionError: ValueError not raised
+
+----------------------------------------------------------------------
+Ran 11 tests in 0.012s
+
+FAILED (failures=2)
+
+SMALL_DRAW 2->1: KILLED exit=1
+test_consistent_record_cannot_be_declared_defective (tests.test_model_confidence.CheckerTests.test_consistent_record_cannot_be_declared_defective) ... FAIL
+test_empty_comparisons_fail (tests.test_model_confidence.CheckerTests.test_empty_comparisons_fail) ... ok
+test_kept_mismatch_fails (tests.test_model_confidence.CheckerTests.test_kept_mismatch_fails) ... ERROR
+test_run_observation_divergence_fails (tests.test_model_confidence.CheckerTests.test_run_observation_divergence_fails) ... FAIL
+test_bench_draws_and_sequential_clipping (tests.test_model_confidence.ConfidenceTests.test_bench_draws_and_sequential_clipping) ... FAIL
+test_clipping_and_signed_byte (tests.test_model_confidence.ConfidenceTests.test_clipping_and_signed_byte) ... ok
+test_exact_given_draws (tests.test_model_confidence.ConfidenceTests.test_exact_given_draws) ... ERROR
+test_literal_arithmetic_boundaries (tests.test_model_confidence.ConfidenceTests.test_literal_arithmetic_boundaries) ... ERROR
+test_persisting_and_temporary_match_form (tests.test_model_confidence.ConfidenceTests.test_persisting_and_temporary_match_form) ... ok
+test_ranks_not_line_sums (tests.test_model_confidence.ConfidenceTests.test_ranks_not_line_sums) ... ok
+test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) ... ok
+
+======================================================================
+ERROR: test_kept_mismatch_fails (tests.test_model_confidence.CheckerTests.test_kept_mismatch_fails)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 40, in test_kept_mismatch_fails
+    self.assertEqual(self.run_checker({'fixture-probe-new.json': record}, {}), 1)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 22, in run_checker
+    return CHECKER.main()
+           ^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T32/experiments/E018-q016-confidence/check_confidence.py", line 98, in main
+    n, count = check_case(case)
+               ^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T32/experiments/E018-q016-confidence/check_confidence.py", line 56, in check_case
+    predicted = participant_values(record[12], delta, role, draws)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T32/runtime/model/confidence.py", line 89, in participant_values
+    raise ValueError('invalid bench-confidence draws')
+ValueError: invalid bench-confidence draws
+
+======================================================================
+ERROR: test_exact_given_draws (tests.test_model_confidence.ConfidenceTests.test_exact_given_draws)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 134, in test_exact_given_draws
+    self.assertEqual(participant_values(32, 4, 'substitute', (2, 1)), (31,))
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T32/runtime/model/confidence.py", line 89, in participant_values
+    raise ValueError('invalid bench-confidence draws')
+ValueError: invalid bench-confidence draws
+
+======================================================================
+ERROR: test_literal_arithmetic_boundaries (tests.test_model_confidence.ConfidenceTests.test_literal_arithmetic_boundaries)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 80, in test_literal_arithmetic_boundaries
+    self.assertEqual(participant_values(16, 0, role, draws), expected)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T32/runtime/model/confidence.py", line 89, in participant_values
+    raise ValueError('invalid bench-confidence draws')
+ValueError: invalid bench-confidence draws
+
+======================================================================
+FAIL: test_consistent_record_cannot_be_declared_defective (tests.test_model_confidence.CheckerTests.test_consistent_record_cannot_be_declared_defective)
+----------------------------------------------------------------------
+ValueError: invalid bench-confidence draws
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 29, in test_consistent_record_cannot_be_declared_defective
+    with self.assertRaisesRegex(ValueError, 'passes its consistency check'):
+AssertionError: "passes its consistency check" does not match "invalid bench-confidence draws"
+
+======================================================================
+FAIL: test_run_observation_divergence_fails (tests.test_model_confidence.CheckerTests.test_run_observation_divergence_fails)
+----------------------------------------------------------------------
+ValueError: invalid bench-confidence draws
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 56, in test_run_observation_divergence_fails
+    with self.assertRaisesRegex(ValueError, 'run observations disagree'):
+AssertionError: "run observations disagree" does not match "invalid bench-confidence draws"
+
+======================================================================
+FAIL: test_bench_draws_and_sequential_clipping (tests.test_model_confidence.ConfidenceTests.test_bench_draws_and_sequential_clipping)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 127, in test_bench_draws_and_sequential_clipping
+    self.assertEqual(participant_values(32, 4, 'substitute'), (31, 32))
+AssertionError: Tuples differ: (32,) != (31, 32)
+
+First differing element 0:
+32
+31
+
+Second tuple contains 1 additional elements.
+First extra element 1:
+32
+
+- (32,)
++ (31, 32)
+
+----------------------------------------------------------------------
+Ran 11 tests in 0.011s
+
+FAILED (failures=3, errors=3)
+
+UNUSED_DRAW 4->5: KILLED exit=1
+test_consistent_record_cannot_be_declared_defective (tests.test_model_confidence.CheckerTests.test_consistent_record_cannot_be_declared_defective) ... ok
+test_empty_comparisons_fail (tests.test_model_confidence.CheckerTests.test_empty_comparisons_fail) ... ok
+test_kept_mismatch_fails (tests.test_model_confidence.CheckerTests.test_kept_mismatch_fails) ... ok
+test_run_observation_divergence_fails (tests.test_model_confidence.CheckerTests.test_run_observation_divergence_fails) ... ok
+test_bench_draws_and_sequential_clipping (tests.test_model_confidence.ConfidenceTests.test_bench_draws_and_sequential_clipping) ... FAIL
+test_clipping_and_signed_byte (tests.test_model_confidence.ConfidenceTests.test_clipping_and_signed_byte) ... ok
+test_exact_given_draws (tests.test_model_confidence.ConfidenceTests.test_exact_given_draws) ... ok
+test_literal_arithmetic_boundaries (tests.test_model_confidence.ConfidenceTests.test_literal_arithmetic_boundaries) ... FAIL
+test_persisting_and_temporary_match_form (tests.test_model_confidence.ConfidenceTests.test_persisting_and_temporary_match_form) ... ok
+test_ranks_not_line_sums (tests.test_model_confidence.ConfidenceTests.test_ranks_not_line_sums) ... ok
+test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) ... ok
+
+======================================================================
+FAIL: test_bench_draws_and_sequential_clipping (tests.test_model_confidence.ConfidenceTests.test_bench_draws_and_sequential_clipping)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 129, in test_bench_draws_and_sequential_clipping
+    self.assertEqual(participant_values(16, 99, 'unused'), (13, 14, 15, 16, 17))
+AssertionError: Tuples differ: (12, 13, 14, 15, 16, 17) != (13, 14, 15, 16, 17)
+
+First differing element 0:
+12
+13
+
+First tuple contains 1 additional elements.
+First extra element 5:
+17
+
+- (12, 13, 14, 15, 16, 17)
+?  ----
+
++ (13, 14, 15, 16, 17)
+
+======================================================================
+FAIL: test_literal_arithmetic_boundaries (tests.test_model_confidence.ConfidenceTests.test_literal_arithmetic_boundaries)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 84, in test_literal_arithmetic_boundaries
+    with self.assertRaises(ValueError):
+AssertionError: ValueError not raised
+
+----------------------------------------------------------------------
+Ran 11 tests in 0.013s
+
+FAILED (failures=2)
+
+UNUSED_DRAW 4->3: KILLED exit=1
+test_consistent_record_cannot_be_declared_defective (tests.test_model_confidence.CheckerTests.test_consistent_record_cannot_be_declared_defective) ... FAIL
+test_empty_comparisons_fail (tests.test_model_confidence.CheckerTests.test_empty_comparisons_fail) ... ok
+test_kept_mismatch_fails (tests.test_model_confidence.CheckerTests.test_kept_mismatch_fails) ... ERROR
+test_run_observation_divergence_fails (tests.test_model_confidence.CheckerTests.test_run_observation_divergence_fails) ... FAIL
+test_bench_draws_and_sequential_clipping (tests.test_model_confidence.ConfidenceTests.test_bench_draws_and_sequential_clipping) ... FAIL
+test_clipping_and_signed_byte (tests.test_model_confidence.ConfidenceTests.test_clipping_and_signed_byte) ... ok
+test_exact_given_draws (tests.test_model_confidence.ConfidenceTests.test_exact_given_draws) ... ERROR
+test_literal_arithmetic_boundaries (tests.test_model_confidence.ConfidenceTests.test_literal_arithmetic_boundaries) ... ERROR
+test_persisting_and_temporary_match_form (tests.test_model_confidence.ConfidenceTests.test_persisting_and_temporary_match_form) ... ok
+test_ranks_not_line_sums (tests.test_model_confidence.ConfidenceTests.test_ranks_not_line_sums) ... ok
+test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) ... ok
+
+======================================================================
+ERROR: test_kept_mismatch_fails (tests.test_model_confidence.CheckerTests.test_kept_mismatch_fails)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 40, in test_kept_mismatch_fails
+    self.assertEqual(self.run_checker({'fixture-probe-new.json': record}, {}), 1)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 22, in run_checker
+    return CHECKER.main()
+           ^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T32/experiments/E018-q016-confidence/check_confidence.py", line 98, in main
+    n, count = check_case(case)
+               ^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T32/experiments/E018-q016-confidence/check_confidence.py", line 56, in check_case
+    predicted = participant_values(record[12], delta, role, draws)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T32/runtime/model/confidence.py", line 89, in participant_values
+    raise ValueError('invalid bench-confidence draws')
+ValueError: invalid bench-confidence draws
+
+======================================================================
+ERROR: test_exact_given_draws (tests.test_model_confidence.ConfidenceTests.test_exact_given_draws)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 135, in test_exact_given_draws
+    self.assertEqual(participant_values(16, 99, 'unused', (4, 1)), (13,))
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T32/runtime/model/confidence.py", line 89, in participant_values
+    raise ValueError('invalid bench-confidence draws')
+ValueError: invalid bench-confidence draws
+
+======================================================================
+ERROR: test_literal_arithmetic_boundaries (tests.test_model_confidence.ConfidenceTests.test_literal_arithmetic_boundaries)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 80, in test_literal_arithmetic_boundaries
+    self.assertEqual(participant_values(16, 0, role, draws), expected)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T32/runtime/model/confidence.py", line 89, in participant_values
+    raise ValueError('invalid bench-confidence draws')
+ValueError: invalid bench-confidence draws
+
+======================================================================
+FAIL: test_consistent_record_cannot_be_declared_defective (tests.test_model_confidence.CheckerTests.test_consistent_record_cannot_be_declared_defective)
+----------------------------------------------------------------------
+ValueError: invalid bench-confidence draws
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 29, in test_consistent_record_cannot_be_declared_defective
+    with self.assertRaisesRegex(ValueError, 'passes its consistency check'):
+AssertionError: "passes its consistency check" does not match "invalid bench-confidence draws"
+
+======================================================================
+FAIL: test_run_observation_divergence_fails (tests.test_model_confidence.CheckerTests.test_run_observation_divergence_fails)
+----------------------------------------------------------------------
+ValueError: invalid bench-confidence draws
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 56, in test_run_observation_divergence_fails
+    with self.assertRaisesRegex(ValueError, 'run observations disagree'):
+AssertionError: "run observations disagree" does not match "invalid bench-confidence draws"
+
+======================================================================
+FAIL: test_bench_draws_and_sequential_clipping (tests.test_model_confidence.ConfidenceTests.test_bench_draws_and_sequential_clipping)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 129, in test_bench_draws_and_sequential_clipping
+    self.assertEqual(participant_values(16, 99, 'unused'), (13, 14, 15, 16, 17))
+AssertionError: Tuples differ: (14, 15, 16, 17) != (13, 14, 15, 16, 17)
+
+First differing element 0:
+14
+13
+
+Second tuple contains 1 additional elements.
+First extra element 4:
+17
+
+- (14, 15, 16, 17)
++ (13, 14, 15, 16, 17)
+?  ++++
+
+
+----------------------------------------------------------------------
+Ran 11 tests in 0.011s
+
+FAILED (failures=3, errors=3)
+
+LIVE_UPPER 255->256: KILLED exit=1
+test_consistent_record_cannot_be_declared_defective (tests.test_model_confidence.CheckerTests.test_consistent_record_cannot_be_declared_defective) ... ok
+test_empty_comparisons_fail (tests.test_model_confidence.CheckerTests.test_empty_comparisons_fail) ... ok
+test_kept_mismatch_fails (tests.test_model_confidence.CheckerTests.test_kept_mismatch_fails) ... ok
+test_run_observation_divergence_fails (tests.test_model_confidence.CheckerTests.test_run_observation_divergence_fails) ... ok
+test_bench_draws_and_sequential_clipping (tests.test_model_confidence.ConfidenceTests.test_bench_draws_and_sequential_clipping) ... ok
+test_clipping_and_signed_byte (tests.test_model_confidence.ConfidenceTests.test_clipping_and_signed_byte) ... ok
+test_exact_given_draws (tests.test_model_confidence.ConfidenceTests.test_exact_given_draws) ... ok
+test_literal_arithmetic_boundaries (tests.test_model_confidence.ConfidenceTests.test_literal_arithmetic_boundaries) ... ok
+test_persisting_and_temporary_match_form (tests.test_model_confidence.ConfidenceTests.test_persisting_and_temporary_match_form) ... FAIL
+test_ranks_not_line_sums (tests.test_model_confidence.ConfidenceTests.test_ranks_not_line_sums) ... ok
+test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) ... ok
+
+======================================================================
+FAIL: test_persisting_and_temporary_match_form (tests.test_model_confidence.ConfidenceTests.test_persisting_and_temporary_match_form)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 94, in test_persisting_and_temporary_match_form
+    self.assertEqual(match_form(*inputs), expected)
+AssertionError: Tuples differ: (256, 16) != (255, 16)
+
+First differing element 0:
+256
+255
+
+- (256, 16)
+?    ^
+
++ (255, 16)
+?    ^
+
+
+----------------------------------------------------------------------
+Ran 11 tests in 0.012s
+
+FAILED (failures=1)
+
+LIVE_UPPER 255->254: KILLED exit=1
+test_consistent_record_cannot_be_declared_defective (tests.test_model_confidence.CheckerTests.test_consistent_record_cannot_be_declared_defective) ... ok
+test_empty_comparisons_fail (tests.test_model_confidence.CheckerTests.test_empty_comparisons_fail) ... ok
+test_kept_mismatch_fails (tests.test_model_confidence.CheckerTests.test_kept_mismatch_fails) ... ok
+test_run_observation_divergence_fails (tests.test_model_confidence.CheckerTests.test_run_observation_divergence_fails) ... ok
+test_bench_draws_and_sequential_clipping (tests.test_model_confidence.ConfidenceTests.test_bench_draws_and_sequential_clipping) ... ok
+test_clipping_and_signed_byte (tests.test_model_confidence.ConfidenceTests.test_clipping_and_signed_byte) ... ok
+test_exact_given_draws (tests.test_model_confidence.ConfidenceTests.test_exact_given_draws) ... ok
+test_literal_arithmetic_boundaries (tests.test_model_confidence.ConfidenceTests.test_literal_arithmetic_boundaries) ... ok
+test_persisting_and_temporary_match_form (tests.test_model_confidence.ConfidenceTests.test_persisting_and_temporary_match_form) ... FAIL
+test_ranks_not_line_sums (tests.test_model_confidence.ConfidenceTests.test_ranks_not_line_sums) ... ok
+test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) ... ok
+
+======================================================================
+FAIL: test_persisting_and_temporary_match_form (tests.test_model_confidence.ConfidenceTests.test_persisting_and_temporary_match_form)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 94, in test_persisting_and_temporary_match_form
+    self.assertEqual(match_form(*inputs), expected)
+AssertionError: Tuples differ: (254, 16) != (255, 16)
+
+First differing element 0:
+254
+255
+
+- (254, 16)
+?    ^
+
++ (255, 16)
+?    ^
+
+
+----------------------------------------------------------------------
+Ran 11 tests in 0.012s
+
+FAILED (failures=1)
+
+reverse expected margin: KILLED exit=1
+test_consistent_record_cannot_be_declared_defective (tests.test_model_confidence.CheckerTests.test_consistent_record_cannot_be_declared_defective) ... FAIL
+test_empty_comparisons_fail (tests.test_model_confidence.CheckerTests.test_empty_comparisons_fail) ... ok
+test_kept_mismatch_fails (tests.test_model_confidence.CheckerTests.test_kept_mismatch_fails) ... ERROR
+test_run_observation_divergence_fails (tests.test_model_confidence.CheckerTests.test_run_observation_divergence_fails) ... FAIL
+test_bench_draws_and_sequential_clipping (tests.test_model_confidence.ConfidenceTests.test_bench_draws_and_sequential_clipping) ... ok
+test_clipping_and_signed_byte (tests.test_model_confidence.ConfidenceTests.test_clipping_and_signed_byte) ... ok
+test_exact_given_draws (tests.test_model_confidence.ConfidenceTests.test_exact_given_draws) ... ok
+test_literal_arithmetic_boundaries (tests.test_model_confidence.ConfidenceTests.test_literal_arithmetic_boundaries) ... FAIL
+test_persisting_and_temporary_match_form (tests.test_model_confidence.ConfidenceTests.test_persisting_and_temporary_match_form) ... ok
+test_ranks_not_line_sums (tests.test_model_confidence.ConfidenceTests.test_ranks_not_line_sums) ... ok
+test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) ... 
+  test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) (inputs=(100, 132, (0, 0), 2, 0, False)) ... FAIL
+  test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) (inputs=(132, 100, (0, 0), 2, 1, True)) ... FAIL
+  test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) (inputs=(100, 164, (1, 2), 1, 0, False)) ... FAIL
+  test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) (inputs=(100, 164, (255, 1), 0, 0, False)) ... FAIL
+
+======================================================================
+ERROR: test_kept_mismatch_fails (tests.test_model_confidence.CheckerTests.test_kept_mismatch_fails)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 40, in test_kept_mismatch_fails
+    self.assertEqual(self.run_checker({'fixture-probe-new.json': record}, {}), 1)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 22, in run_checker
+    return CHECKER.main()
+           ^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T32/experiments/E018-q016-confidence/check_confidence.py", line 98, in main
+    n, count = check_case(case)
+               ^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T32/experiments/E018-q016-confidence/check_confidence.py", line 46, in check_case
+    raise ValueError(f'player word {word}: result delta disagrees with original B71C')
+ValueError: player word 1: result delta disagrees with original B71C
+
+======================================================================
+FAIL: test_consistent_record_cannot_be_declared_defective (tests.test_model_confidence.CheckerTests.test_consistent_record_cannot_be_declared_defective)
+----------------------------------------------------------------------
+ValueError: player word 1: result delta disagrees with original B71C
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 29, in test_consistent_record_cannot_be_declared_defective
+    with self.assertRaisesRegex(ValueError, 'passes its consistency check'):
+AssertionError: "passes its consistency check" does not match "player word 1: result delta disagrees with original B71C"
+
+======================================================================
+FAIL: test_run_observation_divergence_fails (tests.test_model_confidence.CheckerTests.test_run_observation_divergence_fails)
+----------------------------------------------------------------------
+ValueError: player word 1: result delta disagrees with original B71C
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 56, in test_run_observation_divergence_fails
+    with self.assertRaisesRegex(ValueError, 'run observations disagree'):
+AssertionError: "run observations disagree" does not match "player word 1: result delta disagrees with original B71C"
+
+======================================================================
+FAIL: test_literal_arithmetic_boundaries (tests.test_model_confidence.ConfidenceTests.test_literal_arithmetic_boundaries)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 71, in test_literal_arithmetic_boundaries
+    self.assertEqual(result_delta(100, opponent, (0, 0), 2, 0, False), expected)
+AssertionError: 1 != -1
+
+======================================================================
+FAIL: test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) (inputs=(100, 132, (0, 0), 2, 0, False))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 123, in test_result_term
+    self.assertEqual(result_delta(*inputs), expected)
+AssertionError: -1 != 1
+
+======================================================================
+FAIL: test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) (inputs=(132, 100, (0, 0), 2, 1, True))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 123, in test_result_term
+    self.assertEqual(result_delta(*inputs), expected)
+AssertionError: 1 != -1
+
+======================================================================
+FAIL: test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) (inputs=(100, 164, (1, 2), 1, 0, False))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 123, in test_result_term
+    self.assertEqual(result_delta(*inputs), expected)
+AssertionError: -3 != 1
+
+======================================================================
+FAIL: test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) (inputs=(100, 164, (255, 1), 0, 0, False))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 123, in test_result_term
+    self.assertEqual(result_delta(*inputs), expected)
+AssertionError: 0 != 8
+
+----------------------------------------------------------------------
+Ran 11 tests in 0.011s
+
+FAILED (failures=7, errors=1)
+
+ignore continent: KILLED exit=1
+test_consistent_record_cannot_be_declared_defective (tests.test_model_confidence.CheckerTests.test_consistent_record_cannot_be_declared_defective) ... FAIL
+test_empty_comparisons_fail (tests.test_model_confidence.CheckerTests.test_empty_comparisons_fail) ... ok
+test_kept_mismatch_fails (tests.test_model_confidence.CheckerTests.test_kept_mismatch_fails) ... ERROR
+test_run_observation_divergence_fails (tests.test_model_confidence.CheckerTests.test_run_observation_divergence_fails) ... FAIL
+test_bench_draws_and_sequential_clipping (tests.test_model_confidence.ConfidenceTests.test_bench_draws_and_sequential_clipping) ... ok
+test_clipping_and_signed_byte (tests.test_model_confidence.ConfidenceTests.test_clipping_and_signed_byte) ... ok
+test_exact_given_draws (tests.test_model_confidence.ConfidenceTests.test_exact_given_draws) ... ok
+test_literal_arithmetic_boundaries (tests.test_model_confidence.ConfidenceTests.test_literal_arithmetic_boundaries) ... ok
+test_persisting_and_temporary_match_form (tests.test_model_confidence.ConfidenceTests.test_persisting_and_temporary_match_form) ... ok
+test_ranks_not_line_sums (tests.test_model_confidence.ConfidenceTests.test_ranks_not_line_sums) ... FAIL
+test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) ... ok
+
+======================================================================
+ERROR: test_kept_mismatch_fails (tests.test_model_confidence.CheckerTests.test_kept_mismatch_fails)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 40, in test_kept_mismatch_fails
+    self.assertEqual(self.run_checker({'fixture-probe-new.json': record}, {}), 1)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 22, in run_checker
+    return CHECKER.main()
+           ^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T32/experiments/E018-q016-confidence/check_confidence.py", line 98, in main
+    n, count = check_case(case)
+               ^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T32/experiments/E018-q016-confidence/check_confidence.py", line 46, in check_case
+    raise ValueError(f'player word {word}: result delta disagrees with original B71C')
+ValueError: player word 1: result delta disagrees with original B71C
+
+======================================================================
+FAIL: test_consistent_record_cannot_be_declared_defective (tests.test_model_confidence.CheckerTests.test_consistent_record_cannot_be_declared_defective)
+----------------------------------------------------------------------
+ValueError: player word 1: result delta disagrees with original B71C
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 29, in test_consistent_record_cannot_be_declared_defective
+    with self.assertRaisesRegex(ValueError, 'passes its consistency check'):
+AssertionError: "passes its consistency check" does not match "player word 1: result delta disagrees with original B71C"
+
+======================================================================
+FAIL: test_run_observation_divergence_fails (tests.test_model_confidence.CheckerTests.test_run_observation_divergence_fails)
+----------------------------------------------------------------------
+ValueError: player word 1: result delta disagrees with original B71C
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 56, in test_run_observation_divergence_fails
+    with self.assertRaisesRegex(ValueError, 'run observations disagree'):
+AssertionError: "run observations disagree" does not match "player word 1: result delta disagrees with original B71C"
+
+======================================================================
+FAIL: test_ranks_not_line_sums (tests.test_model_confidence.ConfidenceTests.test_ranks_not_line_sums)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 99, in test_ranks_not_line_sums
+    self.assertEqual(country_rating(*inputs), expected)
+AssertionError: 2 != 1
+
+----------------------------------------------------------------------
+Ran 11 tests in 0.012s
+
+FAILED (failures=3, errors=1)
+
+ignore continent rank: KILLED exit=1
+test_consistent_record_cannot_be_declared_defective (tests.test_model_confidence.CheckerTests.test_consistent_record_cannot_be_declared_defective) ... ok
+test_empty_comparisons_fail (tests.test_model_confidence.CheckerTests.test_empty_comparisons_fail) ... ok
+test_kept_mismatch_fails (tests.test_model_confidence.CheckerTests.test_kept_mismatch_fails) ... ok
+test_run_observation_divergence_fails (tests.test_model_confidence.CheckerTests.test_run_observation_divergence_fails) ... ok
+test_bench_draws_and_sequential_clipping (tests.test_model_confidence.ConfidenceTests.test_bench_draws_and_sequential_clipping) ... ok
+test_clipping_and_signed_byte (tests.test_model_confidence.ConfidenceTests.test_clipping_and_signed_byte) ... ok
+test_exact_given_draws (tests.test_model_confidence.ConfidenceTests.test_exact_given_draws) ... ok
+test_literal_arithmetic_boundaries (tests.test_model_confidence.ConfidenceTests.test_literal_arithmetic_boundaries) ... ok
+test_persisting_and_temporary_match_form (tests.test_model_confidence.ConfidenceTests.test_persisting_and_temporary_match_form) ... ok
+test_ranks_not_line_sums (tests.test_model_confidence.ConfidenceTests.test_ranks_not_line_sums) ... FAIL
+test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) ... ok
+
+======================================================================
+FAIL: test_ranks_not_line_sums (tests.test_model_confidence.ConfidenceTests.test_ranks_not_line_sums)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 99, in test_ranks_not_line_sums
+    self.assertEqual(country_rating(*inputs), expected)
+AssertionError: 16 != 1
+
+----------------------------------------------------------------------
+Ran 11 tests in 0.011s
+
+FAILED (failures=1)
+
+ignore world rank: KILLED exit=1
+test_consistent_record_cannot_be_declared_defective (tests.test_model_confidence.CheckerTests.test_consistent_record_cannot_be_declared_defective) ... FAIL
+test_empty_comparisons_fail (tests.test_model_confidence.CheckerTests.test_empty_comparisons_fail) ... ok
+test_kept_mismatch_fails (tests.test_model_confidence.CheckerTests.test_kept_mismatch_fails) ... ERROR
+test_run_observation_divergence_fails (tests.test_model_confidence.CheckerTests.test_run_observation_divergence_fails) ... FAIL
+test_bench_draws_and_sequential_clipping (tests.test_model_confidence.ConfidenceTests.test_bench_draws_and_sequential_clipping) ... ok
+test_clipping_and_signed_byte (tests.test_model_confidence.ConfidenceTests.test_clipping_and_signed_byte) ... ok
+test_exact_given_draws (tests.test_model_confidence.ConfidenceTests.test_exact_given_draws) ... ok
+test_literal_arithmetic_boundaries (tests.test_model_confidence.ConfidenceTests.test_literal_arithmetic_boundaries) ... ok
+test_persisting_and_temporary_match_form (tests.test_model_confidence.ConfidenceTests.test_persisting_and_temporary_match_form) ... ok
+test_ranks_not_line_sums (tests.test_model_confidence.ConfidenceTests.test_ranks_not_line_sums) ... FAIL
+test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) ... ok
+
+======================================================================
+ERROR: test_kept_mismatch_fails (tests.test_model_confidence.CheckerTests.test_kept_mismatch_fails)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 40, in test_kept_mismatch_fails
+    self.assertEqual(self.run_checker({'fixture-probe-new.json': record}, {}), 1)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 22, in run_checker
+    return CHECKER.main()
+           ^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T32/experiments/E018-q016-confidence/check_confidence.py", line 98, in main
+    n, count = check_case(case)
+               ^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T32/experiments/E018-q016-confidence/check_confidence.py", line 46, in check_case
+    raise ValueError(f'player word {word}: result delta disagrees with original B71C')
+ValueError: player word 1: result delta disagrees with original B71C
+
+======================================================================
+FAIL: test_consistent_record_cannot_be_declared_defective (tests.test_model_confidence.CheckerTests.test_consistent_record_cannot_be_declared_defective)
+----------------------------------------------------------------------
+ValueError: player word 1: result delta disagrees with original B71C
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 29, in test_consistent_record_cannot_be_declared_defective
+    with self.assertRaisesRegex(ValueError, 'passes its consistency check'):
+AssertionError: "passes its consistency check" does not match "player word 1: result delta disagrees with original B71C"
+
+======================================================================
+FAIL: test_run_observation_divergence_fails (tests.test_model_confidence.CheckerTests.test_run_observation_divergence_fails)
+----------------------------------------------------------------------
+ValueError: player word 1: result delta disagrees with original B71C
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 56, in test_run_observation_divergence_fails
+    with self.assertRaisesRegex(ValueError, 'run observations disagree'):
+AssertionError: "run observations disagree" does not match "player word 1: result delta disagrees with original B71C"
+
+======================================================================
+FAIL: test_ranks_not_line_sums (tests.test_model_confidence.ConfidenceTests.test_ranks_not_line_sums)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 99, in test_ranks_not_line_sums
+    self.assertEqual(country_rating(*inputs), expected)
+AssertionError: 64 != 1
+
+----------------------------------------------------------------------
+Ran 11 tests in 0.011s
+
+FAILED (failures=3, errors=1)
+
+wrong doubling predicate: KILLED exit=1
+test_consistent_record_cannot_be_declared_defective (tests.test_model_confidence.CheckerTests.test_consistent_record_cannot_be_declared_defective) ... FAIL
+test_empty_comparisons_fail (tests.test_model_confidence.CheckerTests.test_empty_comparisons_fail) ... ok
+test_kept_mismatch_fails (tests.test_model_confidence.CheckerTests.test_kept_mismatch_fails) ... ERROR
+test_run_observation_divergence_fails (tests.test_model_confidence.CheckerTests.test_run_observation_divergence_fails) ... FAIL
+test_bench_draws_and_sequential_clipping (tests.test_model_confidence.ConfidenceTests.test_bench_draws_and_sequential_clipping) ... ok
+test_clipping_and_signed_byte (tests.test_model_confidence.ConfidenceTests.test_clipping_and_signed_byte) ... ok
+test_exact_given_draws (tests.test_model_confidence.ConfidenceTests.test_exact_given_draws) ... ok
+test_literal_arithmetic_boundaries (tests.test_model_confidence.ConfidenceTests.test_literal_arithmetic_boundaries) ... ok
+test_persisting_and_temporary_match_form (tests.test_model_confidence.ConfidenceTests.test_persisting_and_temporary_match_form) ... ok
+test_ranks_not_line_sums (tests.test_model_confidence.ConfidenceTests.test_ranks_not_line_sums) ... ok
+test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) ... 
+  test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) (inputs=(100, 100, (3, 1), 0, 0, False)) ... FAIL
+  test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) (inputs=(100, 100, (3, 1), 0, 1, False)) ... FAIL
+  test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) (inputs=(100, 100, (1, 3), 1, 0, False)) ... FAIL
+  test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) (inputs=(100, 100, (1, 3), 1, 1, False)) ... FAIL
+  test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) (inputs=(100, 100, (1, 3), 1, 1, True)) ... FAIL
+  test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) (inputs=(100, 164, (1, 2), 1, 0, False)) ... FAIL
+  test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) (inputs=(100, 164, (255, 1), 0, 0, False)) ... FAIL
+
+======================================================================
+ERROR: test_kept_mismatch_fails (tests.test_model_confidence.CheckerTests.test_kept_mismatch_fails)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 40, in test_kept_mismatch_fails
+    self.assertEqual(self.run_checker({'fixture-probe-new.json': record}, {}), 1)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 22, in run_checker
+    return CHECKER.main()
+           ^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T32/experiments/E018-q016-confidence/check_confidence.py", line 98, in main
+    n, count = check_case(case)
+               ^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T32/experiments/E018-q016-confidence/check_confidence.py", line 46, in check_case
+    raise ValueError(f'player word {word}: result delta disagrees with original B71C')
+ValueError: player word 1: result delta disagrees with original B71C
+
+======================================================================
+FAIL: test_consistent_record_cannot_be_declared_defective (tests.test_model_confidence.CheckerTests.test_consistent_record_cannot_be_declared_defective)
+----------------------------------------------------------------------
+ValueError: player word 1: result delta disagrees with original B71C
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 29, in test_consistent_record_cannot_be_declared_defective
+    with self.assertRaisesRegex(ValueError, 'passes its consistency check'):
+AssertionError: "passes its consistency check" does not match "player word 1: result delta disagrees with original B71C"
+
+======================================================================
+FAIL: test_run_observation_divergence_fails (tests.test_model_confidence.CheckerTests.test_run_observation_divergence_fails)
+----------------------------------------------------------------------
+ValueError: player word 1: result delta disagrees with original B71C
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 56, in test_run_observation_divergence_fails
+    with self.assertRaisesRegex(ValueError, 'run observations disagree'):
+AssertionError: "run observations disagree" does not match "player word 1: result delta disagrees with original B71C"
+
+======================================================================
+FAIL: test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) (inputs=(100, 100, (3, 1), 0, 0, False))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 123, in test_result_term
+    self.assertEqual(result_delta(*inputs), expected)
+AssertionError: 2 != 4
+
+======================================================================
+FAIL: test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) (inputs=(100, 100, (3, 1), 0, 1, False))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 123, in test_result_term
+    self.assertEqual(result_delta(*inputs), expected)
+AssertionError: -2 != -4
+
+======================================================================
+FAIL: test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) (inputs=(100, 100, (1, 3), 1, 0, False))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 123, in test_result_term
+    self.assertEqual(result_delta(*inputs), expected)
+AssertionError: -4 != -2
+
+======================================================================
+FAIL: test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) (inputs=(100, 100, (1, 3), 1, 1, False))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 123, in test_result_term
+    self.assertEqual(result_delta(*inputs), expected)
+AssertionError: 4 != 2
+
+======================================================================
+FAIL: test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) (inputs=(100, 100, (1, 3), 1, 1, True))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 123, in test_result_term
+    self.assertEqual(result_delta(*inputs), expected)
+AssertionError: 2 != 4
+
+======================================================================
+FAIL: test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) (inputs=(100, 164, (1, 2), 1, 0, False))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 123, in test_result_term
+    self.assertEqual(result_delta(*inputs), expected)
+AssertionError: 2 != 1
+
+======================================================================
+FAIL: test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) (inputs=(100, 164, (255, 1), 0, 0, False))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 123, in test_result_term
+    self.assertEqual(result_delta(*inputs), expected)
+AssertionError: 4 != 8
+
+----------------------------------------------------------------------
+Ran 11 tests in 0.010s
+
+FAILED (failures=9, errors=1)
+
+draw treated as win: KILLED exit=1
+test_consistent_record_cannot_be_declared_defective (tests.test_model_confidence.CheckerTests.test_consistent_record_cannot_be_declared_defective) ... FAIL
+test_empty_comparisons_fail (tests.test_model_confidence.CheckerTests.test_empty_comparisons_fail) ... ok
+test_kept_mismatch_fails (tests.test_model_confidence.CheckerTests.test_kept_mismatch_fails) ... ERROR
+test_run_observation_divergence_fails (tests.test_model_confidence.CheckerTests.test_run_observation_divergence_fails) ... FAIL
+test_bench_draws_and_sequential_clipping (tests.test_model_confidence.ConfidenceTests.test_bench_draws_and_sequential_clipping) ... ok
+test_clipping_and_signed_byte (tests.test_model_confidence.ConfidenceTests.test_clipping_and_signed_byte) ... ok
+test_exact_given_draws (tests.test_model_confidence.ConfidenceTests.test_exact_given_draws) ... ok
+test_literal_arithmetic_boundaries (tests.test_model_confidence.ConfidenceTests.test_literal_arithmetic_boundaries) ... ok
+test_persisting_and_temporary_match_form (tests.test_model_confidence.ConfidenceTests.test_persisting_and_temporary_match_form) ... ok
+test_ranks_not_line_sums (tests.test_model_confidence.ConfidenceTests.test_ranks_not_line_sums) ... ok
+test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) ... 
+  test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) (inputs=(100, 100, (3, 1), 0, 0, False)) ... FAIL
+  test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) (inputs=(100, 100, (3, 1), 0, 1, False)) ... FAIL
+  test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) (inputs=(100, 164, (255, 1), 0, 0, False)) ... FAIL
+
+======================================================================
+ERROR: test_kept_mismatch_fails (tests.test_model_confidence.CheckerTests.test_kept_mismatch_fails)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 40, in test_kept_mismatch_fails
+    self.assertEqual(self.run_checker({'fixture-probe-new.json': record}, {}), 1)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 22, in run_checker
+    return CHECKER.main()
+           ^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T32/experiments/E018-q016-confidence/check_confidence.py", line 98, in main
+    n, count = check_case(case)
+               ^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T32/experiments/E018-q016-confidence/check_confidence.py", line 46, in check_case
+    raise ValueError(f'player word {word}: result delta disagrees with original B71C')
+ValueError: player word 1: result delta disagrees with original B71C
+
+======================================================================
+FAIL: test_consistent_record_cannot_be_declared_defective (tests.test_model_confidence.CheckerTests.test_consistent_record_cannot_be_declared_defective)
+----------------------------------------------------------------------
+ValueError: player word 1: result delta disagrees with original B71C
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 29, in test_consistent_record_cannot_be_declared_defective
+    with self.assertRaisesRegex(ValueError, 'passes its consistency check'):
+AssertionError: "passes its consistency check" does not match "player word 1: result delta disagrees with original B71C"
+
+======================================================================
+FAIL: test_run_observation_divergence_fails (tests.test_model_confidence.CheckerTests.test_run_observation_divergence_fails)
+----------------------------------------------------------------------
+ValueError: player word 1: result delta disagrees with original B71C
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 56, in test_run_observation_divergence_fails
+    with self.assertRaisesRegex(ValueError, 'run observations disagree'):
+AssertionError: "run observations disagree" does not match "player word 1: result delta disagrees with original B71C"
+
+======================================================================
+FAIL: test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) (inputs=(100, 100, (3, 1), 0, 0, False))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 123, in test_result_term
+    self.assertEqual(result_delta(*inputs), expected)
+AssertionError: 0 != 4
+
+======================================================================
+FAIL: test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) (inputs=(100, 100, (3, 1), 0, 1, False))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 123, in test_result_term
+    self.assertEqual(result_delta(*inputs), expected)
+AssertionError: 0 != -4
+
+======================================================================
+FAIL: test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) (inputs=(100, 164, (255, 1), 0, 0, False))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 123, in test_result_term
+    self.assertEqual(result_delta(*inputs), expected)
+AssertionError: 2 != 8
+
+----------------------------------------------------------------------
+Ran 11 tests in 0.010s
+
+FAILED (failures=5, errors=1)
+
+drop persistence: KILLED exit=1
+test_consistent_record_cannot_be_declared_defective (tests.test_model_confidence.CheckerTests.test_consistent_record_cannot_be_declared_defective) ... ok
+test_empty_comparisons_fail (tests.test_model_confidence.CheckerTests.test_empty_comparisons_fail) ... ok
+test_kept_mismatch_fails (tests.test_model_confidence.CheckerTests.test_kept_mismatch_fails) ... ok
+test_run_observation_divergence_fails (tests.test_model_confidence.CheckerTests.test_run_observation_divergence_fails) ... ok
+test_bench_draws_and_sequential_clipping (tests.test_model_confidence.ConfidenceTests.test_bench_draws_and_sequential_clipping) ... ok
+test_clipping_and_signed_byte (tests.test_model_confidence.ConfidenceTests.test_clipping_and_signed_byte) ... ok
+test_exact_given_draws (tests.test_model_confidence.ConfidenceTests.test_exact_given_draws) ... ok
+test_literal_arithmetic_boundaries (tests.test_model_confidence.ConfidenceTests.test_literal_arithmetic_boundaries) ... FAIL
+test_persisting_and_temporary_match_form (tests.test_model_confidence.ConfidenceTests.test_persisting_and_temporary_match_form) ... FAIL
+test_ranks_not_line_sums (tests.test_model_confidence.ConfidenceTests.test_ranks_not_line_sums) ... ok
+test_result_term (tests.test_model_confidence.ConfidenceTests.test_result_term) ... ok
+
+======================================================================
+FAIL: test_literal_arithmetic_boundaries (tests.test_model_confidence.ConfidenceTests.test_literal_arithmetic_boundaries)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 75, in test_literal_arithmetic_boundaries
+    self.assertEqual(match_form(live, 16, 0, True), expected)
+AssertionError: Tuples differ: (1, 16) != (1, 1)
+
+First differing element 1:
+16
+1
+
+- (1, 16)
+?      -
+
++ (1, 1)
+
+======================================================================
+FAIL: test_persisting_and_temporary_match_form (tests.test_model_confidence.ConfidenceTests.test_persisting_and_temporary_match_form)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 94, in test_persisting_and_temporary_match_form
+    self.assertEqual(match_form(*inputs), expected)
+AssertionError: Tuples differ: (18, 16) != (18, 18)
+
+First differing element 1:
+16
+18
+
+- (18, 16)
+?       ^
+
++ (18, 18)
+?       ^
+
+
+----------------------------------------------------------------------
+Ran 11 tests in 0.012s
+
+FAILED (failures=2)
+
+killed: 33/33

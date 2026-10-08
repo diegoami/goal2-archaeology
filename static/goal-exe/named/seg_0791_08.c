@@ -520,7 +520,7 @@ undefined2 f_0791_A6E4(undefined4 param_1)
   iVar1 = (int)param_1;
   uVar5 = (undefined2)((ulong)DS:A923 >> 0x10);
   iVar2 = (int)DS:A923;
-  cVar3 = f_1771_5A03(iVar1,uVar4);
+  cVar3 = fixture_kind_in_result_set(iVar1,uVar4);
   if (cVar3 == '\0') {
     local_4 = *(undefined2 *)(iVar1 + 6);
   }
@@ -1107,9 +1107,10 @@ void f_0791_B27F(int param_1)
 }
 
 
-// ---- 0791:B364  f_0791_B364  (f_0791_B364; Ghidra 2000:B364, __stdcall16near; found by routines.tsv)
+// ---- 0791:B364  adjust_player_confidence  (f_0791_B364; Ghidra 2000:B364, __stdcall16near; found by routines.tsv)
+// adds signed delta word to signed player +0xC with word wrapping; clips to 1..32 on each call; result, bench, pool and scorer callers  [established; F019]
 
-void f_0791_B364(int param_1,int param_2)
+void adjust_player_confidence(int param_1,int param_2)
 
 {
   undefined2 uVar1;

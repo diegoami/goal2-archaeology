@@ -531,7 +531,7 @@ void record_goal(undefined1 param_1,int param_2,char param_3)
     f_0791_2AA3(CONCAT11(uVar7,0x26));
     pwVar1 = &((player *)players)[*(int *)((int)&pitch_records[0].player_index + iVar8)].goals;
     *pwVar1 = *pwVar1 + 1;
-    cVar5 = f_1771_5A03((int)DS:7C2A,(int)((ulong)DS:7C2A >> 0x10));
+    cVar5 = fixture_kind_in_result_set((int)DS:7C2A,(int)((ulong)DS:7C2A >> 0x10));
     if (cVar5 != '\0') {
       update_top_scorers(((country *)countries)[((undefined2 *)&DS:9B34)[param_3]].continent,
                          *(undefined2 *)((int)&pitch_records[0].player_index + iVar8));
