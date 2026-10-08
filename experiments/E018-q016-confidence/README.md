@@ -10,7 +10,15 @@ declared input changes are retained. No original guest image is committed.
 
 | Record | Superseded by | Reason |
 | --- | --- | --- |
-| `fixture-probe-002.json` / `E018-r0001` (defective) | `fixture-probe-003.json` / `E018-r0002` | The probe mistakenly injected squads at country +47 instead of +0 and status at player +7 instead of +10. Its own consistency check fails: `declared slot disagrees with injected squad`. It did not execute the declared player/role cases. All six cases require replacement. The checker executes this check before setting the record aside, and refuses to set aside a consistent record. |
+| `fixture-probe-002.json` / `E018-r0001` (defective) | `fixture-probe-003.json` / `E018-r0002` | The probe mistakenly injected squads at country +47 instead of +0 and status at player +7 instead of +10. Its declared-input check fails in all six cases, for both declared defects: `declared slot disagrees with injected squad` and `declared status disagrees with injected +0x10`. It did not execute the declared player/role cases. |
+
+`supersessions.json` declares the defects (`squad`, `status`). The checker
+sets a record aside only by that declared-input check (the squad words at
+country +0 and the status byte +0x10 that `probe_fixture.py` declares:
+4 for slot 12, else 0), and only if every declared defect fails in every
+case. Any other failure (B71C delta, call sites, draw bounds or arithmetic,
+strays, unaccounted calls) fails the checker, for traces and runs alike;
+the declared-input check also runs on every kept record.
 
 `fixture-probe-001.log` is a pre-execution failure (wrong manifest filename);
 no guest execution or comparison record was produced.
@@ -90,3 +98,20 @@ host-path environment error with an in-worktree TMPDIR, issue #100/L57);
 `static-suite-001.log` retains static discovery (95 tests, OK). Named-view
 regeneration and the E008 host-path test under an external TMPDIR are
 main-session checks, not performed by this worktree run.
+
+## Rework round 1 (review R1-R8)
+
+`checker-red-002.log` runs the round's tests against the round-0 checker
+(ff0f18b) in place: eight failures, among them a consistent-squad record
+with a wrong delta and a record with one defective case, both set aside by
+the old checker. `comparison-004.log` is the reworked checker:
+`match: 240/240 (480 incl. run observations)`. `mutation_sweep.py` shifts
+every int constant of `runtime/model/confidence.py` and `check_confidence.py`
+by +1 and -1, applies named behaviour mutants (among them the review's R3
+and R5 mutants) and deletes every `raise` of both files, each in place with
+a 60 s timeout, restoring in finally and checking the sha256.
+`mutations-005.log` killed 66/70 (three model input guards and the
+checker's use of the kind set survived); after a literal test for each,
+`mutations-006.log` killed 70/70. The runs loop's call of the set-aside
+check is not mutated separately: runs must equal their trace, whose
+declaration has already passed the same check.

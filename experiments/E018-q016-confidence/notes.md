@@ -122,6 +122,20 @@ unchanged, not a second confidence rule.
   it is not a post-match result-relative update.
 * CB7D is called by F1F6 after the summary (`named/seg_0791_11.c:674`).
 
+### B71C's term outside player +0C (for T33)
+
+B71C's term is also consumed by 0791:B6CC, which adds it as a signed word
+to the byte [DS:A91F]+3*manager+2 and clamps the sum to -127..127
+(`code/seg_0791_18.asm:979` onward, B6E9-B712). Two callers pass it:
+B7FA, for each side, when neither country is managed (1771:0B77 false for
+both, B81C-B82F) and fixture +2 is not 1 (B86B-B889,
+`code/seg_0791_19.asm:20–66`; `named/seg_0791_09.c:214–230`); and the
+000E:6E15 route after `run_match`, when its local flag is set and fixture
++2 is not 1 (`named/seg_000E_05.c:614–624`). 1771:63A4 later folds that
+byte into the manager byte +1 and clears it (annotation row, F017). This
+is a manager/country quantity, not player confidence; its meaning for
+team morale is T33's question and is not established here.
+
 ### What can be predicted from before state and score alone
 
 The B71C term is exact from the country rank bytes and fixture result.

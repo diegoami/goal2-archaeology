@@ -7,8 +7,11 @@
 - **Artifact**: `goal2-67cf27d6`; input E011 half-time state SHA256
   `9820b47814dd96709b0844c7c970a208c4532de7dbf9f4d5e3ddbe597cbea8be`.
 - **Confidence**: static-derived, unreviewed; B7FA's result and bench operations
-  additionally checked against original guest execution (240 player words).
-  No independent whole-match or human-sitting corroboration is claimed.
+  additionally checked against original guest execution (240 player words) for
+  fixture kinds 1 and 2 only, neither of which is in the DS:0F3E set, so
+  1771:5A03 returned false in every probed case. The 5A03-true doubling branch
+  rests on the listing alone. No independent whole-match or human-sitting
+  corroboration is claimed.
 
 ## Method
 
@@ -20,9 +23,11 @@ in `experiments/E018-q016-confidence/notes.md`, with listing lines.
 Static analysis establishes the arithmetic and routes but not concrete RNG
 draws or the watched event sequence. The isolated B7FA probes corroborate
 draw ordering, clipping and the rank-based term, not the complete fixture.
-The first probe injected wrong offsets; its own consistency check fails
-`declared slot disagrees with injected squad`. It is retained, printed and
-replaced, never used as a successful comparison. Both start-state manifests
+The first probe injected wrong offsets (squads at country +47, status at
+player +7 instead of +0x10); its declared-input check fails both
+`declared slot disagrees with injected squad` and `declared status disagrees
+with injected +0x10` in all six cases. It is retained, printed and replaced,
+never used as a successful comparison; no other check can set a record aside. Both start-state manifests
 are under `evidence/E018/`. No further guest runs were taken on continuation.
 The available E015 records describe one four-state scripted sitting, not
 established before/after played-match pairs; none is used here (E015 README
@@ -67,19 +72,32 @@ nonzero. Otherwise add the absolute difference of the signed score bytes
 for the winner, subtract it for the loser (`code/seg_0791_18.asm:1047–1070`;
 margin helper `code/seg_1771_08.asm:1047` onward). The winner byte governs
 this branch, including a shoot-out winner; equal score bytes do not by
-themselves take the draw branch. Then, only for a non-draw, double the
+themselves take the draw branch (literal test: 1-1 with winner byte 0, ratings
+100 vs 164, gives 4, not the draw's 2). Then, only for a non-draw, double the
 word if `(winner == side) == (side == 0 or 1771:5A03(fixture))`
 (`code/seg_0791_18.asm:1071–1109`). 5A03 tests fixture +2 in DS:0F3E
 (`code/seg_1771_08.asm:762–787`), the fixture-kind set predicate,
-not a strength calculation. The model takes its observed classification;
-it does not replace it with a guessed friendly/competition flag.
+not a strength calculation. The retained DS:0F3E bytes (`98 ff`x24 `0f`,
+then zeros) hold kinds 3, 4, 7 and 8..203; kinds 0, 1, 2, 5, 6 and 204..255
+are outside it. Which kind is a friendly is **not established** by these
+lines. The model takes the observed classification; it does not replace it
+with a guessed friendly/competition flag.
 
-**Help claim: yes, for the result-relative component**—a better margin
-relative to this rank-derived baseline gives a better term. **No, if read
-as a complete deterministic before/after rule or a comparison of current
-squad strength**: the routine uses country ranks, applies asymmetric
-doubling, clips, and other ordered writes and draws affect the byte.
-The help's wording alone does not establish a different forecast.
+**Help claim: yes for the sign, no for the size.** The term's **sign**
+follows the margin minus the expected margin `-q`: before doubling the term
+is `q + margin` for the winner and `q - margin` for the loser, and doubling
+keeps the sign. Its **size is not monotonic** in the margin, because the
+doubling applies only when `(winner == side) == (side == 0 or 5A03)`
+(`code/seg_0791_18.asm:1071–1109`): a narrow win can score worse than a
+draw, and a narrow loss better than a draw. With ratings 128 vs 1 (q = -3 for the strong
+side, +3 for the weak), non-special kind: the strong side 0 gets -4 for a
+win by 1, -3 for a draw and -4 for a loss by 1; the weak side 1 gets +4 for
+a loss by 1, +3 for a draw and +4 for a win by 1 (literal tests of
+`result_delta`; the non-special branch matched the guest in all probed
+cases). The expected margin comes from country ranks, not current squad
+strength, and the byte is also moved by clipping and by other ordered writes
+and draws, so the help's claim is not a complete before/after rule. The
+help's wording alone does not establish a different forecast.
 
 ### Participation and draws (original-routine checked)
 
@@ -123,13 +141,16 @@ this finding.
 ## Reproduction and limits
 
 `python3 experiments/E018-q016-confidence/check_confidence.py` checks by
-player word, prints the defective record's failed checks, and reports
-`match: 480/480` (the same 240 trace comparisons repeated in the formal run
-observations, not independent measurements). Empty sets, consistent records declared defective and a
-kept mismatch fail closed. The tests use literal inputs and expected bytes.
-The in-place +/-1 sweep of all 13 numeric constants plus seven independent
-input/branch/persistence mutations kills 33/33; the three checker-guard
-removals plus the run/trace equality guard removal kill 4/4. Logs, including the red test, remain under E018.
+player word, prints the defective record's failed declared-input checks,
+and reports `match: 240/240 (480 incl. run observations)`: 240 distinct
+player/case comparisons, repeated once in the formal run observations.
+Empty sets, a record declared defective whose declared check passes in any
+case, any other check failure and a kept mismatch fail closed. The tests use
+literal inputs and expected bytes. `mutation_sweep.py` (`mutations-006.log`)
+shifts every numeric constant of the model and the checker by +1 and -1,
+applies 19 behaviour mutants and deletes every `raise` of both files, in
+place: 70/70 killed (`mutations-005.log`, before the last tests: 66/70).
+Earlier logs remain under E018.
 
 This does not claim a whole-match simulator, full watched corroboration,
 an exact RNG-free prediction for bench/pool players, or an established
