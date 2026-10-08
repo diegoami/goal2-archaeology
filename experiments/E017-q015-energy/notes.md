@@ -18,9 +18,8 @@ or a model of Q016/Q017's morale outcomes.
 | Post-match restoration, 0791:CB7D | `static/goal-exe/code/seg_0791_20.asm:1010–1041`, CBD2–CC27 | For nonzero squad words on both match sides, copy DS:9B07[side*20+slot] into +0xC, then copy +0xD to +0xE only if signed +0xE is greater than zero. Slots 1 through 20. This is not a fixed increment or a clamp to 32. |
 
 The watched increment seen in the named view (`seg_0791_07.c:161–179`)
-is `pitch[+0x14] += (pitch[+0xF] < 5)`; it is not yet a proof that the
-help file's man-marking comparison holds, because the movement and tactic
-paths that supply pitch +0xF must also be read.
+is `pitch[+0x14] += (pitch[+0xF] < 5)`. The movement and tactic analysis below
+explains why this does not prove an unconditional man-marking penalty.
 
 ## Recovery routine checked in assembly
 
@@ -177,7 +176,6 @@ offset. The base is the pitch far argument unless explicitly shown otherwise.
 | 0791:9A32 | seg_0791_16.asm:362 | D word R; DS:80E8+22*slot |
 | 0791:9B93 | seg_0791_16.asm:672 | D word R |
 | 0791:A260 | seg_0791_17.asm:38,40,53 | D word W/R; assignment from country squad, 29–38 |
-| 0791:A375 | seg_0791_17.asm:132,134 | C,D byte W on passed pitch object; not player fitness |
 | 0791:C5DC | seg_0791_20.asm:400,459,497,506,513 | D word R on DS:80E8+22*slot, 390–396 |
 | 0791:D5C1 | seg_0791_21.asm:762 | D word R |
 | 0791:D733 | seg_0791_21.asm:1173 | D word R; DS:80E8+22*slot |
@@ -187,8 +185,9 @@ offset. The base is the pitch far argument unless explicitly shown otherwise.
 | Routine | Assembly file:lines | Base / classification |
 | --- | --- | --- |
 | 000E:6685 | seg_000E_08.asm:651,654,691 | A93F scorer record, built at 642–649; +E player word and +C goal-count word R |
-| 0791:83A2 | seg_0791_14.asm:117,133 | passed ball record; +D byte R/W (ball timer), not fitness |
+| 0791:83A2 | seg_0791_14.asm:117,133 | passed ball record; +D control byte R/W, not fitness (movement timer is +A, lines 111–114) |
 | 0791:8F10 | seg_0791_15.asm:317 | passed ball record +D R |
+| 0791:A375 | seg_0791_17.asm:132,134 | C,D byte W on passed ball object (match setup caller named/seg_0791_08.c:436); not player fitness |
 | 0791:B3B7 | seg_0791_18.asm:699,817,859,884 | saved scorer pointer A93F+96*category+16*entry-112 (692–697); +E word R/W, +C word R/W; player pointer saved separately at 665–666 |
 | 1771:1B2E | seg_1771_03.asm:829 | caps/goals historical table A937/A93B, 14-byte entry; +C word W (named/seg_1771_02.c:232–256) |
 | 1771:1D5C | seg_1771_03.asm:1606,1637,1774,1805 | historical goals/caps table pointers A93B/A937; +C word R, not morale |
@@ -261,7 +260,8 @@ pool words, with the same selector (245–301). BB2F's unplayed-match path alway
 calls 3558 for its squad words (named/seg_0791_09.c:320–358). The flag is an
 actual caller input, not inferred by the recovery model from the final energy.
 
-3558 redraws from B=DS:0E82[age>peak_age+3]: managed player fitness is
+3558 redraws from B=DS:0E82[age>peak_age+4] (357B,
+seg_1771_05.asm:543–550): managed player fitness is
 byte(B+rand(3*B)-rand(B+1)), with the latter draw first; unmanaged is
 byte(B+rand(2*B)). It clamps **signed byte** D above 32, copies D to E, then
 clamps signed D below 1; hence pathological byte inputs can leave D/E unequal

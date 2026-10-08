@@ -20,3 +20,11 @@ established stores when replaying a watched-half transcript. The E017 checker
 compares all three bytes by player word and rejects absent draws, unknown stores,
 missing final players and an empty comparison set. E017's notes describe the
 transcript formats and their evidential limits.
+
+F018 settles fitness as +0xD and expendable energy as +0xE. The watched
+counter measures active updates (direction <5), not a role/marking weight;
+substitutions reset the pitch counter but do not refill the incoming player's
+energy. The pre-half +2 step precedes E011's team-screen input. The helper's
+recovery path is 1771:3651, not 3558's separate redraw selected by other caller
+branches. See `findings/F018-energy-is-expended-in-matches-and-restored-from-fitness.md`
+and E017's reader/writer inventory for the exact gates and limitations.
