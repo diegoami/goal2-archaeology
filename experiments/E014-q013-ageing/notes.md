@@ -255,8 +255,11 @@ matched** — 262 continuing players, 38 re-created.
   — the per-match bookkeeping of the national team's repositioning, not the yearly loop: the
   program's writers of player +6 are 0791:AD8F's substitution path (`position = <pitch slot>`
   then `position = club_position` on the way out, seg_0791_08.c:910/921-922), the 'C' key of
-  the player screen (1771:4952, seg_1771_03.c:1062), and unmanage_country's bench copy
-  (000E:0290, squad slots 12..20) — none is in the yearly loop's callee set (section 2's
+  the player screen (1771:4952, seg_1771_03.c:1062), unmanage_country's bench copy
+  (000E:0290, squad slots 12..20), and reset_team_tactics (0791:BC5D, F010), which sets +6 of
+  squad slots 1..11 from R011 (DS:9F02 + 20 country + slot) before a match, for both teams from
+  000E:01FA, 000E:6970 and 0791:E80D (named/seg_0791_09.c:393-417) — none is in the yearly
+  loop's callee set (section 2's
   calls.tsv claim stands: the LOOP writes only +1/+4/+0x11);
 - the tables `DS:6D25`/`DS:6DCD` are not mutated by the yearly path (F008's hazard): the
   year-end records carry both years' copies and `check_ageing.py` compares them.

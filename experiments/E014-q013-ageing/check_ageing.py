@@ -51,6 +51,8 @@ import ageing as A  # noqa: E402
 
 MANAGED_ABOVE = 0x80   # 1771:0B77: managed when the country's +0x2E > 0x80
 SQUAD_SIZE = 20        # 7FDF: slots 1..0x14 (8015 cmp word ptr [bp - 2], 0x14)
+COUNTRIES = 3          # run.py's pick_countries: the first 3 unmanaged full-squad countries
+                       # (T28 Scope 3: "the player records of 3 countries")
 CONTINUING_SAME = (A.COUNTRY, A.PEAK, A.RATING, A.PROFILE, A.CLUB_POSITION)
 
 
@@ -161,8 +163,16 @@ def check_pair(before, after, mismatches):
         mismatches.append(f"tables DS:6D25/DS:6DCD differ between the captures ({when})")
     nb = [c["n"] for c in before["countries"]]
     na = [c["n"] for c in after["countries"]]
-    if nb != na or not nb:
-        mismatches.append(f"{when}: the captured countries differ or are empty: {nb} -> {na}")
+    # three distinct countries on both sides, the same three (review round 2 R1): a duplicate
+    # identity would overwrite its twin in the map below and hide that twin's records
+    for side, ns in (("first", nb), ("second", na)):
+        if len(ns) != COUNTRIES or len(set(ns)) != len(ns):
+            mismatches.append(f"{when}: the {side} capture holds countries {ns}, "
+                              f"not {COUNTRIES} distinct ones")
+            return 0
+    if nb != na:
+        mismatches.append(f"{when}: the captured countries differ: {nb} -> {na}")
+        return 0
     after_by_n = {c["n"]: c for c in after["countries"]}
     n = 0
     for cb in before["countries"]:

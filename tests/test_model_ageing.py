@@ -334,6 +334,28 @@ class CheckerTests(unittest.TestCase):
         self.assertEqual(n, 60)
         self.assertTrue(any("player 13" in m for m in mism), mism)
 
+    def test_duplicate_country_cannot_hide_a_player(self):
+        # review round 2 R1: country 2 replaced by a copy of country 1 in both captures; the
+        # first copy's player 13 is left unaged, the second copy aged right. A map keyed by
+        # country would keep only the last copy and see nothing wrong.
+        import copy
+        b, a = load_pair()
+        for cap in (b, a):
+            cap["countries"][1] = copy.deepcopy(cap["countries"][0])
+        _, q = player({"countries": [a["countries"][0]]}, 1, 13)
+        q["rec"] = player(b, 1, 13)[1]["rec"]          # the first copy's player 13 not aged
+        n, mism = self.check(b, a)
+        self.assertEqual(n, 0)
+        self.assertTrue(any("not 3 distinct" in m for m in mism), mism)
+
+    def test_a_missing_country_is_a_mismatch(self):
+        # review round 2 R1: one country captured instead of three
+        b, a = load_pair()
+        for cap in (b, a):
+            cap["countries"] = cap["countries"][:1]
+        n, mism = self.check(b, a)
+        self.assertTrue(any("not 3 distinct" in m for m in mism), mism)
+
     def test_disappearance_needs_a_replacement(self):
         # R2: the retiree r0005 2/29 vanishes from the second capture (record and squad word).
         b, a = load_pair()
