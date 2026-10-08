@@ -57,6 +57,10 @@ FINDING_CITED = [
     "0791:C0DF", "0791:A3DE", "0791:C5DC", "0791:26D7", "0791:E80D", "0791:D47E", "0791:BB2F",
     "1771:52CC", "1771:517A", "1771:3EF8", "1771:4B61", "1771:3E2F", "1771:34E7", "1771:1981",
     "000E:01FA", "000E:6970", "000E:6CA7", "000E:6C21",
+    # T30 (F017): the routines the retirement/re-create finding establishes — the managed-side
+    # retiree replacement binder, its predicate-driven scanner, the rank-recompute routine,
+    # and the LCG byte reader used by 7E80.
+    "000E:54F0", "000E:56F3", "000E:57E5", "1771:63A4", "1771:0000",
 ]
 # The fields F007 and F008 establish, by offset: every player byte but +0x09, +0x0B and +0x13 (the
 # high bytes of the words at +8, +0xA, +0x12) and +0x11 (read by no screen routine; F008).
