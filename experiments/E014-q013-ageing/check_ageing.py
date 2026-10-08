@@ -28,7 +28,8 @@ in capture order):
   - predicate certainly 1 -> REPLACED by 7E80: every constraint of
     `ageing.recreate_constraints(old)` (+0/+7 carried into make_player, the zeroed bytes, the
     age/peak/profile draw ranges, +4 of its own bytes, one +3 per country), the surname kept
-    (7E80 writes only the initial, 7F2D), and the record must not be the continuing prediction;
+    (7E80 writes only the initial, 7F2D) — a continuing record never passes them when 7F40
+    fires (the aged age is then above the re-create's age range; test_model_ageing pins it);
   - undecided (caps 0, the age clause open) -> continuing with caps > 0 in the second capture
     (a cap won: the clause closed), or replaced as above; continuing with caps 0 is a mismatch.
 - a record that ends "completed" must carry at least one pair; an aborted record's pairs are
@@ -142,8 +143,10 @@ def replacement_errors(rec, new, name_old, name_new):
         err.append(f"+0x04 = {new[A.ABILITY]:02x} is not compute_ability of its own +1/+2/+3")
     if name_new[0] != name_old[0]:
         err.append(f"the surname changed {name_old[0]} -> {name_new[0]} (7E80 writes only the initial)")
-    if not continuing_errors(rec, new, name_old, name_new):
-        err.append("the record is exactly the continuing prediction")
+    # A continuing record cannot pass these when 7F40 fires: the caps clause needs an aged age
+    # above DS:110E[gk] = DS:110C[gk] + 5, the peak clause one above p + 5 with p >= DS:0E80[gk]
+    # - 2 = DS:110C[gk] (roll_peak_age's range) — both above the re-create's age range
+    # (test_model_ageing.CheckerTests.test_retiree_never_passes_as_recreate visits the edge).
     return err
 
 

@@ -162,6 +162,7 @@ class BandRuleTests(unittest.TestCase):
     def test_rating_byte_operand(self):
         # 3344: the rating is one byte, zero-extended (xor ah, ah at 3348)
         self.assertEqual(A.compute_ability(31, 27, 0x1F0), 225)
+        self.assertEqual(A.compute_ability(28, 27, 0x1F0), 0xF0)   # the copy branch (3333)
 
     def test_age_byte_wrap(self):
         # 7E6F: inc byte ptr es:[di + 1] — a byte increment, wraps 255 -> 0.
@@ -427,6 +428,62 @@ class CheckerTests(unittest.TestCase):
             Path(d, "E014-r0001.json").write_text(json.dumps(single))
             total, mism, pairs, _, _ = C.check_runs([Path(d, "E014-r0001.json")])
             self.assertTrue(any("completed" in m for m in mism), mism)
+
+    def test_one_rating_per_country(self):
+        # r0005 country 2 re-creates 29, 30, 32, 35 in one 7FDF call: one +3 (country_rating +
+        # 0x7F). Give 30 another rating (and the +4 its own bytes give) -> a mismatch.
+        b, a = load_pair()
+        _, p = player(a, 2, 30)
+        r = bytearray(bytes.fromhex(p["rec"]))
+        self.assertEqual(r[3], 0xC1)
+        r[3] = 0xC2
+        r[4] = A.compute_ability(r[1], r[2], r[3])
+        p["rec"] = r.hex()
+        self.assertTrue(any("different +3" in m for m in self.check(b, a)[1]))
+
+    def test_caps_cannot_fall_and_names_hold(self):
+        b, a = load_pair("r0006")
+        _, p = player(a, 1, 12)                    # caps 1 -> 5 in the first r0006 pair
+        r = bytearray(bytes.fromhex(p["rec"]))
+        self.assertEqual((r[8], player(b, 1, 12)[1]["rec"][16:18]), (5, "01"))
+        r[8] = 0
+        p["rec"] = r.hex()
+        self.assertTrue(any("caps fell" in m for m in self.check(b, a)[1]))
+        for field in ("surname", "initial"):        # a continuing player keeps both
+            b, a = load_pair()
+            _, p = player(a, 1, 13)
+            p[field] = "00" + p[field][2:]
+            with self.subTest(field=field):
+                self.assertTrue(self.check(b, a)[1])
+        b, a = load_pair()                          # a re-create keeps the surname (7F2D: initial)
+        _, p = player(a, 2, 29)
+        p["surname"] = "00" + p["surname"][2:]
+        self.assertTrue(self.check(b, a)[1])
+        b, a = load_pair()
+        _, p = player(a, 2, 29)
+        p["initial"] = "41"
+        self.assertEqual(self.check(b, a)[1], [])
+
+    def test_retiree_never_passes_as_recreate(self):
+        # check_ageing.replacement_errors' comment: when 7F40 fires (caps 0 or 1, every age,
+        # both position classes, every peak roll_peak_age can draw), the continuing prediction
+        # is not a valid re-create — its aged age lies above DS:110C[gk] + 5.
+        names = ("0a", "41")
+        for club, peaks in ((3, range(25, 30)), (0, range(28, 33))):
+            for peak in peaks:
+                for age in range(0, 255):
+                    for caps in (0, 1):
+                        r = rec("011d1bf0f005030300000000000000000000ff7f", o01=age, o02=peak,
+                                o07=club, o08=caps)
+                        if not A.ageing_value(r, 0, None, None, 0)["retires"]:
+                            continue
+                        aged = A.aged_record(r)
+                        errs = C.replacement_errors(r, aged, names, names)
+                        self.assertTrue(any("+0x01" in e for e in errs), (club, peak, age, caps))
+        # and the edge itself: an outfield retiree's aged age is 31 at the least, one above 30
+        self.assertEqual(min(a + 1 for a in range(0, 255) for pk in range(25, 30)
+                             if A.ageing_value(rec(BASE, o01=a, o02=pk, o08=0), 0, None, None, 0)
+                             ["retires"]), 31)
 
     def test_committed_records(self):
         total, mism, pairs, deltas, notes = C.check_runs(sorted((ROOT / "runs" / "E014").glob("E014-r*.json")))
