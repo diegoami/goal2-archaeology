@@ -1,0 +1,33 @@
+{
+  "schema": "evidence-manifest/1",
+  "run_id": "E015-r0004",
+  "experiment": "E015",
+  "store": "release:E015",
+  "artifact": {
+    "set": "goal2-67cf27d6",
+    "variant": null
+  },
+  "files": [
+    {
+      "name": "snap-0001-20261008T224937Z.sav",
+      "bytes": 210123,
+      "sha256": "5eb1da94ed1d5e7313c6455f29d226a5c40cde3dd0299aaafa6bceca8baff9ae",
+      "asset": "5eb1da94ed1d5e73-snap-0001-20261008T224937Z.sav",
+      "class": "save"
+    },
+    {
+      "name": "snap-0002-20261008T224939Z.sav",
+      "bytes": 181642,
+      "sha256": "f4ec5c7194efd04a3e75a9d7760a29b510ef039bbdc7965e0f9fac8458965dfb",
+      "asset": "f4ec5c7194efd04a-snap-0002-20261008T224939Z.sav",
+      "class": "save"
+    },
+    {
+      "name": "snap-0003-20261008T224941Z.sav",
+      "bytes": 181111,
+      "sha256": "c88bba4ed3592c29be81a1564cef1940de8f3536854ab4f270b0c4ee38cb8b0f",
+      "asset": "c88bba4ed3592c29-snap-0003-20261008T224941Z.sav",
+      "class": "save"
+    }
+  ]
+}

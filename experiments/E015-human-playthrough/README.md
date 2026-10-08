@@ -63,3 +63,58 @@ record stays where it is and a later record supersedes it:
 | `E015-r0001` | round 1 (before review) | `E015-r0003`: it reads interrupt-vector bytes as the game state when `[A923]` is 0000:0000, and puts country records one record off (review round 1, R8 and R9) |
 | `E015-r0002` | round 2 | `E015-r0003`: its `run_id` reads `E015-r0001` because it was extracted into a scratch directory and copied in (review round 2, R5) |
 | `E015-r0003` | round 3 (`claim_record`: the id is the slot claimed) | — |
+
+## T34 recorder extension and scripted acceptance
+
+T34 (#105) extends the T29 recorder without changing the sitting's research
+question. The current invocation and design are in [protocol.md](protocol.md):
+DOSBox-X and an XInput2 raw-key logger share a private nested Xephyr display;
+other desktop applications are structurally outside it. The watcher saves every
+20 s and after 0.5 s of quiet, through the same single-writer capture gate.
+Its save keys now use explicit window-targeted XSendEvent rather than xdotool's
+raw input path, preventing recursive burst captures. Optional video covers the
+Xephyr window. This paragraph supersedes the original Runtime/Design wording
+above; the original experiment description is retained append-only.
+
+The map is a JSON observation in run/1, never a top-level property. Screen
+identity is SHA256 of decoded UTF-8 text, ignoring attributes; ordered bursts
+associate the nearest earlier snapshot with the first snapshot after quiet.
+Neither boot progress nor a multi-key burst proves individual-key causality.
+
+| Record | Scripted sitting | Map |
+| --- | --- | --- |
+| `E015-r0004` | `20261009-004935`, re-extracted with the schema-valid observation | [table](E015-r0004-keymap.md) |
+| `E015-r0005` | `20261009-010044`, fresh acceptance sitting | [table](E015-r0005-keymap.md) |
+
+Both sittings logged only game `a/b` press/release events, not `x/y/z` sent to an
+xev application window on the outer display, and staged two burst snapshots.
+Each yields `screens: 2, transitions: 2, keys: 2`, with no unmapped presses.
+Their three savestates each are published on release E015, indexed by the
+corresponding manifests in `evidence/E015/`.
+
+The earlier schema-invalid records were removed by the main session in c5000af
+before this extraction. Their original derived tables are retained unchanged as
+`T34-original-r0004-keymap.md`, `T34-original-r0005-keymap.md` and
+`T34-original-r0006-keymap.md`; those names do not refer to the new valid records.
+The first scripted failure and the successful earlier sitting remain in
+`T34-scripted-20261009-01.log` and `-02.log`; the fresh sitting is `-03.log`.
+
+### Method and regression proofs
+
+Static first: `static/goal-exe/named/seg_0791_11.c` already names the SELECT TEAM
+handler and its Insert assistant path. No new game handler claim or annotation
+is established here: static analysis cannot prove host display isolation,
+logger delivery or snapshot scheduling. The scripted runs test those tooling
+properties, not the unvisited `C/N/Insert` controls. Coverage is limited to the
+rows explicitly added in the protocol.
+
+`T34-tests-20261009-04.log` records 62 passing combined recorder/map tests.
+`mutate_keys.py` makes one mutation at a time **in place**, tests, then restores
+the source in a `finally` block. The `-03` mutation log retains the first sweep,
+including its survivors. The new boundary/order/count fixture fails with those
+surviving rules removed and passes with them restored, as `-04` shows: all 20
+selected mutations fail. These include display restriction and burst removal,
+both quiet constants at +1 and -1, text identity, headline, invalid-snapshot
+filtering, sample/event ordering, grouping, release filtering, before/after
+choice and boundaries, missing-bracket counts, repeated-transition counts and
+press counts. No mutated source is committed.

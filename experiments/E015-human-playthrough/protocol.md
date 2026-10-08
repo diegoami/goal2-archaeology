@@ -127,6 +127,9 @@ Coverage statuses (the project-recognised vocabulary):
 | Exact commentary identity | consecutive `ui-text` screens of a watched match at moderate speed | #40 | needs-play | — |
 | Board / confidence / morale | `ui-text` of the states where the board/news screens were up | Q016, Q017 | needs-play | — |
 | Bot's World Cup path | stage `[A923]+0x3C`, fixture index/count `[A923]+0x26/+0x28` across a cycle's chain (E014 notes, T28, PR #91) | bot input | needs-play | — |
+| Scripted opening-screen key burst | shell/mount text → title text after `a`; nearest snapshots bracket the burst, not proof that `a` caused the boot transition | T34 recorder/map acceptance | covered-by-a-named-session | E015-r0004, E015-r0005; their `<run-id>-keymap.md` tables |
+| Scripted title-screen key burst | title text → same title text after `b`; two burst captures per sitting, all four press/release events recorded, outer-app `x/y/z` absent | T34 recorder privacy and timing | covered-by-a-named-session | E015-r0004, E015-r0005 |
+| Screen-flow controls during normal play | `C`, `N`, `Insert`, and recovery keys on the relevant screens; the scripted acceptance keys do not visit those screens | T34 screen/key map; T28 EA09 stall | needs-play | — |
 
 After a sitting, the main session appends a row per knowledge item the chain covered, with the
 session's run id (e.g. `covered-by-a-named-session — E015-r0001` for the items the first sitting
