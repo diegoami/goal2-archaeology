@@ -29,13 +29,11 @@ Correctness rules (each pinned by a test in tests/test_human_record.py):
        write, not the previous tick's savestate re-indexed; nothing reads the live file's bytes
        before the key is sent (round 3: a pre-send content read could catch an in-progress
        write); AND
-    3. the bytes read then validate as a complete zip (the same checks driver.save_state
-       applies: opens, tests clean, holds Vga, Memory, Save_Remark) AND a second read equals
-       them byte for byte AND the signature re-taken after it still equals the stable one, so
-       a concurrent rewrite — a same-size one, or one still in progress with unchanged bytes
-       so far — is never staged; AND
-    4. no write session on the file is open (inotify: a modify not yet followed by a
-       close-write), so a writer paused mid-write is never mistaken for a finished one.
+    3. no write session on the file is open before the read (inotify: a modify not yet
+       followed by a close-write), the bytes read validate as a complete zip (the same checks
+       driver.save_state applies: opens, tests clean, holds Vga, Memory, Save_Remark), AND the
+       kernel reports no write event on the file between the check and the end of the read —
+       so bytes read while a write was in progress are never staged (the task's hazard).
   The shutdown pass runs AFTER `terminate(dbx)` through the same `capture` (no pre-send
   signature); one deadline bounds every capture, retries included.
 - The clean termination (rework round 2 R5). The watcher's loop detects a dead dosbox-x between
@@ -272,6 +270,7 @@ class WriteWatch:
             os.close(self.fd)
             raise OSError(err, f"inotify_add_watch on {Path(path).parent} failed")
         self.open_session = False
+        self.events = 0                   # write events on the file seen so far (round-6 R1)
 
     def writing(self):
         """Drain the pending events; True while a write session on the file is open."""
@@ -287,11 +286,18 @@ class WriteWatch:
                 i += 16 + size
                 if mask & self.IN_Q_OVERFLOW:
                     self.open_session = True
+                    self.events += 1
                 elif name == self.name:
+                    self.events += 1
                     if mask & (self.IN_CLOSE_WRITE | self.IN_MOVED_TO):
                         self.open_session = False
                     elif mask & self.IN_MODIFY:
                         self.open_session = True
+
+    def activity(self):
+        """(a write session is open, the number of write events so far), after draining."""
+        busy = self.writing()
+        return busy, self.events
 
     def close(self):
         os.close(self.fd)
@@ -323,8 +329,13 @@ class Watcher:
         self.xrun = xrun or (lambda argv: xdotool(argv[1:], env=env))
         self.alive = alive or (lambda: window_alive(wid, env))
         self.log = log or (lambda msg: None)
-        # whether a write session on the live savestate is still open (round-4 R1)
-        self.writing = writing or WriteWatch(self.live).writing
+        # the live savestate's write activity (round-4/6 R1): `activity()` gives (a write session
+        # is open, the number of write events so far); an injected `writing` has no event count
+        if writing is None:
+            ww = WriteWatch(self.live)
+            self.activity = ww.activity
+        else:
+            self.activity = lambda: (writing(), 0)
         self.index_path = self.session / index
         self.snapshots = self.session / "snapshots"
         self.t0 = self.clock() if t0 is None else t0
@@ -340,19 +351,13 @@ class Watcher:
            has been identical for STABLE_POLLS consecutive polls;
         2. require that signature to differ from `pre_sig`, the one taken before the key was
            sent (evidence of a fresh write; R6), when `pre_sig` is given;
-        3. read the bytes, validate THOSE bytes as a complete zip, read the file again, then
-           re-take the signature: the second read must equal the first byte for byte AND the
-           signature must still equal the stable one, or the capture is rejected and counting
-           restarts. The two checks cover each other's blind spot: the byte comparison catches
-           a rewrite the file system's coarse timestamps cannot show (round-2 R2); the
-           signature catches a writer that is rewriting the file in place with unchanged bytes
-           so far, whose flush moves mtime/ctime although the bytes still compare equal
-           (round-3 R1);
-        4. require that no write session on the file is open (WriteWatch: an IN_MODIFY not yet
-           followed by IN_CLOSE_WRITE), checked BEFORE the content reads — nothing reads the
-           live file during a write (round-5 R1) — and again after them. A writer that pauses
-           mid-write leaves bytes and metadata still, so only the kernel's events show the
-           write is unfinished (round-4 R1). A check that cannot be made counts as a writer:
+        3. check that no write session on the file is open (WriteWatch: an IN_MODIFY not yet
+           followed by IN_CLOSE_WRITE), and note the kernel's write-event count; read the bytes
+           once (read-only) and validate THOSE bytes as a complete zip; then take the event
+           count again: any write event on the file in between — a write that began, ended or
+           rewrote identical bytes during the read, which neither the content nor coarse
+           timestamps can show — rejects the bytes and counting restarts (rounds 4-6 R1). An
+           event-queue overflow counts as a write event; a check that cannot be made rejects:
            fail closed. The writer model is single-writer (the task's hazards): the session
            folder is private and the launched DOSBox-X its only writer.
 
@@ -373,17 +378,20 @@ class Watcher:
             else:
                 last_sig, count = sig, 1
             if count >= STABLE_POLLS and (pre_sig is None or last_sig != pre_sig):
-                # no content read while a write session is open (round-5 R1): the session is
-                # checked before the reads, and again after them for one that began meanwhile
-                if self._writer_busy():
+                # bytes read while a write was in progress are never staged (the task's hazard,
+                # b7777fd): no read starts while a session is open, and any write event between
+                # the check before the reads and the one after them rejects the bytes — the
+                # kernel's event count sees a write the content and the timestamps cannot
+                # (round-6 R1). Reads are read-only and cannot disturb the writer.
+                busy, before = self._write_state()
+                if busy:
                     self.log("a write session on the savestate is still open: waiting")
                     self.sleep(POLL_S)
                     continue
                 data = self._read_live()
                 if data is not None and zip_is_complete(data):
-                    again = self._read_live()
-                    if (again == data and file_signature(self.live) == last_sig
-                            and not self._writer_busy()):
+                    _, after = self._write_state()
+                    if after == before:            # None (check failed) never equals a count
                         return data, sha256(data)
                 self.log("live savestate changed or incomplete during capture: retrying")
                 last_sig, count = None, 0
@@ -394,14 +402,15 @@ class Watcher:
             self.sleep(POLL_S)
         raise TimeoutError(f"savestate not complete and stable within {SAVE_TIMEOUT_S}s")
 
-    def _writer_busy(self):
-        """True while a write session on the live savestate is open, or when that cannot be told
-        (fail closed)."""
+    def _write_state(self):
+        """(a write session is open, the write-event count); when it cannot be told, (True, None):
+        fail closed."""
         try:
-            return bool(self.writing())
+            busy, events = self.activity()
+            return bool(busy), events
         except OSError as e:
             self.log(f"writer check failed ({e}): treating as a write in progress")
-            return True
+            return True, None
 
     def _read_live(self):
         """The live savestate's bytes, or None when it cannot be read. Called only by `capture`,

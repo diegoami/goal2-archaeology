@@ -1097,6 +1097,51 @@ class LiveFileReads(Base):
         self.assertEqual(staged_while, ["done"])
         self.assertEqual(entry["sha256"], hashlib.sha256(final).hexdigest())
 
+    def test_bytes_read_while_a_write_was_in_progress_are_never_staged(self):
+        # round-6 R1, the task's guarantee (b7777fd): a writer opens the file during the first
+        # read, rewrites identical bytes and closes before the second. Content, coarse
+        # timestamps and the session flag all look clean afterwards; only the kernel's write
+        # events between the two checks show the overlap. Those bytes are never staged; the
+        # next capture, with no write during its reads, is.
+        real_open = open
+        reads, wrote_during = [], []
+
+        def racing_open(path, *a, **kw):
+            f = real_open(path, *a, **kw)
+            mode = a[0] if a else "r"
+            if Path(path).name == "state.sav" and "+" not in mode and "w" not in mode:
+                reads.append(len(reads) + 1)
+                if len(reads) == 1:                       # the write overlaps read 1 only
+                    data = f.read()
+                    f.close()
+                    with real_open(path, "r+b") as h:     # identical bytes, opened and closed
+                        h.write(data)
+                    wrote_during.append(1)
+                    return io.BytesIO(data)
+            return f
+
+        session, live, w = self.watcher("r6-overlap", None)
+        sends = [0]
+
+        def xrun(argv):
+            sends[0] += 1
+            if sends[0] == 1:
+                tmp = live.with_name("state.sav.tmp")
+                tmp.write_bytes(tiny_zip(b"the key's fresh savestate"))
+                tmp.replace(live)
+        w.xrun = xrun
+        staged_after_reads = []
+        real_stage = w.stage
+        w.stage = lambda *a, **kw: (staged_after_reads.append(len(reads)), real_stage(*a, **kw))[1]
+        coarse = lambda path: (1, live.stat().st_size) if live.exists() else None
+        with mock.patch.object(recorder, "open", racing_open, create=True), \
+                mock.patch.object(recorder, "file_signature", coarse):
+            entry = w.tick()
+        self.assertEqual(wrote_during, [1])
+        self.assertIsNotNone(entry)
+        # read 1 overlapped the write and was rejected; the staged bytes are read 2's
+        self.assertEqual(staged_after_reads, [2])
+
     def test_a_writer_check_that_cannot_be_made_stages_nothing(self):
         # round-4 R1: fail closed when the emulator's descriptors cannot be read
         session, live, w = self.watcher("r4-closed", None)
@@ -1104,7 +1149,7 @@ class LiveFileReads(Base):
 
         def unreadable():
             raise PermissionError("/proc/1234/fd")
-        w.writing = unreadable
+        w.activity = unreadable
         reads = []
         real_read = w._read_live
         w._read_live = lambda: (reads.append(1), real_read())[1]
