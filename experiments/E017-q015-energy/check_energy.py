@@ -62,9 +62,14 @@ def main():
     files = sorted(Path(__file__).with_name('records').glob('*.json'))
     good = total = 0
     for path in files:
-        matched, count = compare(json.loads(path.read_text()))
-        good += matched
-        total += count
+        record = json.loads(path.read_text())
+        cases = record['cases'] if 'cases' in record else [record]
+        if not cases:
+            raise ValueError('empty case batch')
+        for case in cases:
+            matched, count = compare(case)
+            good += matched
+            total += count
     print(f'match: {good}/{total}')
     return 0 if total and good == total else 1
 
