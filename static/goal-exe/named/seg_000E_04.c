@@ -643,9 +643,10 @@ void f_000E_544D(int param_1)
 }
 
 
-// ---- 000E:54F0  f_000E_54F0  (f_000E_54F0; Ghidra 1000:54F0, __stdcall16near; found by routines.tsv)
+// ---- 000E:54F0  create_managed_replacement  (f_000E_54F0; Ghidra 1000:54F0, __stdcall16near; found by routines.tsv)
+// makes a managed country's replacement in the fresh record 000E:56F3 put in the retiree's slot: 1771:96D3(1, retiree +7, country, new) with the managed fitness branch (550E-5534), then +1 = DS:0x78[gk] + b - a with a, b = rand(6) (5539-556F; DS:0078 = 19 1C, 25/28), 1771:32EB, caps/goals/status zeroed (5584-5594), a new initial from 1771:0000 (5599-55AD); then counts squad slots 1..20 and the manager's 80 pool words with +1 < DS:0x76[gk] + 4 (55B5-56AA; DS:0076 = 11 14), the new record included, and below 0x14 sets +1 = DS:0x76[gk] + rand(3) and runs 32EB again (56AC-56E8)  [established; F017; read code/seg_000E_07.asm]
 
-void f_000E_54F0(int param_1,int param_2)
+void create_managed_replacement(int param_1,int param_2)
 
 {
   int iVar1;
@@ -674,7 +675,7 @@ void f_000E_54F0(int param_1,int param_2)
   ppVar7[iVar1].caps = 0;
   ppVar7[iVar1].goals = 0;
   ppVar7[iVar1].status = 0;
-  uVar5 = f_1771_0000();
+  uVar5 = draw_initial();
   *(undefined1 *)((int)DS:9B70 + *(int *)(param_1 + -9)) = uVar5;
   local_4 = 0;
   local_6 = 1;
@@ -709,9 +710,10 @@ void f_000E_54F0(int param_1,int param_2)
 }
 
 
-// ---- 000E:56F3  f_000E_56F3  (f_000E_56F3; Ghidra 1000:56F3, __stdcall16near; found by routines.tsv)
+// ---- 000E:56F3  replace_retiree  (f_000E_56F3; Ghidra 1000:56F3, __stdcall16near; found by routines.tsv)
+// replaces one managed-country retiree: sets the manager's flag [A923]+0x4D+m (570D), runs the retirement news 000E:50D4 when announced (5712-571E), 1771:1B2E twice, takes a fresh record from 1771:4CF7 (5745) and stores its number in the retiree's pool slot or squad slot (574D-579C), makes it with 000E:54F0 (57A6), zeroes the retiree's 20 bytes with 214B:0018 (57C0), then 000E:544D and 000E:05F6 when announced  [established; F017; read code/seg_000E_07.asm]
 
-void f_000E_56F3(int param_1,char param_2,int param_3)
+void replace_retiree(int param_1,char param_2,int param_3)
 
 {
   byte extraout_AH;
@@ -726,7 +728,7 @@ void f_000E_56F3(int param_1,char param_2,int param_3)
   }
   f_1771_1B2E(1,*(undefined2 *)(param_1 + -7),param_3);
   f_1771_1B2E((uint)extraout_AH << 8,*(undefined2 *)(param_1 + -7),param_3);
-  uVar1 = f_1771_4CF7();
+  uVar1 = find_free_player();
   *(undefined2 *)(param_1 + -9) = uVar1;
   if (*(char *)(param_1 + -0xd) == '\0') {
     ((country *)countries)[*(int *)(param_1 + 4)].squad[*(int *)(param_1 + -3) + -1] =
@@ -735,7 +737,7 @@ void f_000E_56F3(int param_1,char param_2,int param_3)
   else {
     ((word *)pool_indices)[*(int *)(param_1 + -3)] = *(word *)(param_1 + -9);
   }
-  f_000E_54F0(param_1,param_3);
+  create_managed_replacement(param_1,param_3);
   u214b_fill_bytes(0,0x14,(player *)players + param_3,(int)((ulong)players >> 0x10));
   if (param_2 != '\0') {
     f_000E_544D(param_1);
@@ -745,9 +747,10 @@ void f_000E_56F3(int param_1,char param_2,int param_3)
 }
 
 
-// ---- 000E:57E5  f_000E_57E5  (f_000E_57E5; Ghidra 1000:57E5, __stdcall16near; found by routines.tsv)
+// ---- 000E:57E5  managed_retirement_scan  (f_000E_57E5; Ghidra 1000:57E5, __stdcall16near; found by routines.tsv)
+// the managed countries' retirement path, from the main menu's Enter on item 6 (000E:7439, 7785): returns 0 in year 0 (+0x38, 580C) or when the manager's flag +0x4D+m is set (5824); unless +0x13+m is set or 0791:DB38 returns nonzero, the first squad slot 1..20 that 1771:7F40 retires is replaced at once by 000E:56F3(retiree, 1) (5864-5897); else the 80 pool words are walked cyclically from DS:6D18[m] - 1 + rand(0x50) (58A3-5946) and the first retiree is replaced by 56F3(retiree, caps > 0); returns 1 after a replacement; no step asks the user  [established; F017; read code/seg_000E_07.asm]
 
-undefined1 f_000E_57E5(int param_1)
+undefined1 managed_retirement_scan(int param_1)
 
 {
   word wVar1;
@@ -774,8 +777,8 @@ undefined1 f_000E_57E5(int param_1)
       while( true ) {
         cVar2 = retirement_test(pcVar7[param_1].squad[local_5 + -1]);
         if (cVar2 != '\0') {
-          f_000E_56F3(&stack0xfffe,CONCAT11((char)(local_5 * 2 >> 8),1),
-                      pcVar7[param_1].squad[local_5 + -1]);
+          replace_retiree(&stack0xfffe,CONCAT11((char)(local_5 * 2 >> 8),1),
+                          pcVar7[param_1].squad[local_5 + -1]);
           return 1;
         }
         if (local_5 == 0x14) break;
@@ -797,7 +800,7 @@ undefined1 f_000E_57E5(int param_1)
         else {
           iVar4 = CONCAT11(bVar6,1);
         }
-        f_000E_56F3(&stack0xfffe,iVar4,((word *)pool_indices)[local_5]);
+        replace_retiree(&stack0xfffe,iVar4,((word *)pool_indices)[local_5]);
         return 1;
       }
       local_5 = local_5 + 1;

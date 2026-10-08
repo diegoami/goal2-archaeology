@@ -17,11 +17,12 @@ player	0x0F	own_tactic_set	byte	the player's own tactic set (Pascal set, element
 player	0x10	status	byte	status bits: cards (bits 3..5), suspended or sent off (bits 6, 8: name colour 5), "Protect zone" (bit 7); static only, none set in a new game	likely	F008
 player	0x12	performance	word	performance: 0x7FFF blank, else the raw rating (a starter 0x37; +0x2710 flags an incoming substitute's word, readers strip it when the signed word is above 5000); every commentary line adds s8(DS:0x720[template]) to it	established	F007; F008; F014
 country	0x00	squad	word[20]	the 20 player indices (into the player array) of the country's squad, in the squad list's order	established	F007; F008
-country	0x2A	continent_rank	byte	rank in its continent, one of the three rating inputs	likely	F007
-country	0x2B	world_rank	byte	world rank, one of the three rating inputs	likely	F007
+country	0x2A	continent_rank	byte	rank in its continent, 1..32, one of the three rating inputs (1771:10E7); written by 1771:9A40 at a new game and by 1771:63A4 at stage 5 ((place - 1) mod 32 + 1 of the continent's points order)	established	F007; F017
+country	0x2B	world_rank	byte	world rank, 1..128, one of the three rating inputs (1771:10E7); written by 1771:9A40 at a new game and by 1771:63A4 at stage 2 (place in the world points order)	established	F007; F017
 country	0x2C	continent	byte	the continent, one of the three rating inputs; also picks the name colour DS:6905[+0x2C]	likely	F007; F008
 country	0x2D	default_team_tactic_set	byte	R008, the country's default team tactic set (Pascal set, element k at bit k-1): 1 position (stay back/push forward), 2 possession (keep ball/quick pass), 3 passing (short passes/long passes), 4 tackling (avoid injury/go in hard), 5 (half pitch/full pitch), 6 (sag back to box/stand ground), 7 (play safe/offside trap), 8 mark (zonal/man to man); written from R008 at a new game by 1771:9A40, put back to R008 by 0791:BBFF; a player's own_tactic_set overrides its elements 1..4	established	F007; F008; F010
 country	0x2E	manager	byte	0x80 + the manager's number when a human manages the country (1771:0B77: managed when > 0x80)	established	F007; F008
+country	0x2F	points	word	the points the ranks are sorted by (1771:5EE1, largest first): weighted group points (1771:61F8), placement bonuses (1771:5FD1) and 200 per knockout fixture (1771:5E3A); reset to 5 - continent at each recompute (1771:63A4) and in year 0 (1771:6730)	established	F017
 pitch	0x00	x	byte	the record's column; with +1 the position word 2CEC compares with the ball's DS:82F6	likely	F013
 pitch	0x01	y	byte	the record's row; times the side's attack direction (2BE5) measures advancement, 8CF5's compare	likely	F013
 pitch	0x06	side	byte	the record's side/address slot (a260 re-derives it; 2974 reads it, < 0x0C selects side 1)	likely	F013

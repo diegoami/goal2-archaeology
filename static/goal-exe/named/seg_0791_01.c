@@ -761,7 +761,7 @@ void __cdecl16near action_replay(void)
     DS:9B3A = DS:9B38;
     DS:9B3C = DS:9B3E;
     DS:9B41 = DS:9B42;
-    *DS:A978 = DS:9974;
+    *rng_word_ptr = DS:9974;
     sys_move_025D(0x14,0x9978,0xb000,0x998c,0xb000);
     f_0791_A841();
     sys_move_025D(4000,(int)DS:7C16,(int)((ulong)DS:7C16 >> 0x10),(int)DS:7C1E,
@@ -1043,7 +1043,7 @@ void __cdecl16near f_0791_15B9(void)
   DS:9B38 = DS:9B3A;
   DS:9B3E = DS:9B3C;
   DS:9B42 = DS:9B41;
-  DS:9974 = *DS:A978;
+  DS:9974 = *rng_word_ptr;
   sys_move_025D(0x14,0x998c,0xb000,0x9978,0xb000);
   u214b_unpack_screen_to_buffer((undefined4 *)&DS:A96A,0xb000,0x6120,0xb000);
   return;
