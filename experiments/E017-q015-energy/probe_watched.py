@@ -80,7 +80,7 @@ def main():
             raise ValueError('injury pointer is not a player record')
         operations.append({'kind': 'injury', 'player_word': word})
 
-    def store(uc, address, size, value, user):
+    def store(uc, access, address, size, value, user):
         for offset in range(size):
             word, field = divmod(address + offset - base, 20)
             if word in words and field in (12, 13, 14):
