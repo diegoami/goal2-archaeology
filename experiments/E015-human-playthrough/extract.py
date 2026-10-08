@@ -327,6 +327,16 @@ def claim_record(runs_dir, rec):
         return path
 
 
+def host_free(value):
+    """A recorded string without the owner's home directory (T34 review R9): the session path and
+    DOSBox-X's `mount c <path>` echo on the shell screen name it. It becomes `~`; nothing else in
+    the string changes, and a non-string is returned as it is."""
+    home = str(Path.home())
+    if isinstance(value, str) and len(home) > 1:
+        return value.replace(home, "~")
+    return value
+
+
 def build_record(session, states, diffs, countries, runs_dir, machine, started, malformed, scripted_keys=False):
     """The run/1 document: one step per parsed state, the diffs after their later state, every
     file the pass read named with its sha256 (every file — R11 — and every country record
@@ -377,7 +387,7 @@ def build_record(session, states, diffs, countries, runs_dir, machine, started, 
         "actions": {
             "script": "experiments/E015-human-playthrough/extract.py",
             "sha256": sha256_file(__file__),
-            "args": [str(session), "--countries", ",".join(map(str, countries))],
+            "args": [host_free(str(session)), "--countries", ",".join(map(str, countries))],
         },
         "observations": [],
         "outputs": [],
@@ -389,7 +399,7 @@ def build_record(session, states, diffs, countries, runs_dir, machine, started, 
     step = 0
 
     def add(source, field, value, addr=None):
-        item = {"step": step, "source": source, "field": field, "value": value}
+        item = {"step": step, "source": source, "field": field, "value": host_free(value)}
         if addr:
             item["addr"] = addr
         obs.append(item)
@@ -518,6 +528,8 @@ def build_record(session, states, diffs, countries, runs_dir, machine, started, 
         screen_key_map = keymap.read_session(session, states)
         rec["runtime"]["fingerprint"]["keymap_py_sha256"] = sha256_file(keymap.__file__)
         add("file", "read key log keys.jsonl", sha256_file(session / "keys.jsonl"))
+        if (session / "requests.jsonl").is_file():
+            add("file", "read save requests requests.jsonl", sha256_file(session / "requests.jsonl"))
         add("log", "screen/key map summary", screen_key_map["summary"])
         add("log", "screen/key map (JSON)", json.dumps(screen_key_map, sort_keys=True))
         if scripted_keys:

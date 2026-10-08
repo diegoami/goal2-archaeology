@@ -114,6 +114,18 @@ WINDOW_CLASS = "dosbox"  # the driver's window search
 # the 20 s cadence. Searched T29 timing constants and T34 brief: neither
 # specifies a human burst interval. This is recorder policy, not game timing.
 BURST_QUIET_S = 0.5
+# [designed] A snapshot's screen is taken when DOSBox-X handles the save key, which the X server
+# delivers after the recorder's request (the clock read before the send) and before the send's last
+# event is flushed (`sent_s`). A key the logger stamps later than `sent_s` may still have reached
+# the nested server first: the logger's delivery latency. Measured on this host
+# (T34-probe-20261009-05.log, 200 XTEST presses with the main thread busy): median 0.08 ms, max
+# 5.7 ms. 50 ms is ~9x the worst observed; a key stamped inside [request_s, sent_s + margin] is
+# ambiguous and its burst unmapped (keymap.py). It is no game timing.
+CAPTURE_MARGIN_S = 0.05
+# [designed] Bound on Xephyr showing its window on the outer display. Xephyr binds its display
+# socket before it creates the host window, so a titled window proves the display number is the
+# launched Xephyr's own; on a busy number it exits in ~25 ms without one (T34-probe-20261009-05.log).
+NESTED_START_S = 10.0
 
 
 class Burst:
@@ -153,6 +165,7 @@ class KeyLogger:
         if not env.get("DISPLAY") or env["DISPLAY"] == outer_display:
             raise ValueError("key logger requires a distinct nested display")
         self.env, self.path = dict(env), Path(path)
+        self.outer_display = outer_display   # never read from: kept for the error message only
         self.events = queue.Queue()
         self.proc, self.thread = None, None
         self.error = None
@@ -486,6 +499,10 @@ class Watcher:
         else:
             self.activity = lambda: (writing(), 0)
         self.index_path = self.session / index
+        # every save request, staged or skipped (T34 R2): the map must know a missing snapshot
+        self.requests_path = self.session / "requests.jsonl"
+        self.last_sent = None
+        self.last_staged_request = None
         self.snapshots = self.session / "snapshots"
         self.t0 = self.clock() if t0 is None else t0
         self.seq = 0
@@ -547,7 +564,7 @@ class Watcher:
             if live_emulator and self.clock() - sent > RESEND_AFTER_S:
                 self.log(f"F12+S sent again: no complete savestate after {RESEND_AFTER_S}s")
                 self.xrun(key_cmd(self.wid))
-                sent = self.clock()
+                sent = self.last_sent = self.clock()
             self.sleep(POLL_S)
         raise TimeoutError(f"savestate not complete and stable within {SAVE_TIMEOUT_S}s")
 
@@ -570,7 +587,7 @@ class Watcher:
         except OSError:
             return None
 
-    def stage(self, data, digest, origin="watcher"):
+    def stage(self, data, digest, origin="watcher", request=None, sent=None):
         """Copy the bytes to snapshots/ (the live file is not moved or renamed), append one index
         line (flushed at once, so an abrupt end leaves a valid prefix). `digest` is the sha256 of
         `data` as captured, so the line matches the bytes on disk exactly (R3)."""
@@ -580,7 +597,13 @@ class Watcher:
         out.write_bytes(data)
         entry = {"seq": self.seq, "file": f"snapshots/{name}", "bytes": len(data), "sha256": digest,
                  "utc": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%S.%f")[:-3] + "Z",
-                 "elapsed_s": round(self.clock() - self.t0, 3), "origin": origin}
+                 "elapsed_s": round(self.clock() - self.t0, 3), "origin": origin,
+                 # the save request's window (T34 R1): the screen was taken between the clock read
+                 # before the first send and the end of the last send, not at staging (elapsed_s)
+                 "request_s": None if request is None else round(request - self.t0, 3),
+                 "sent_s": None if sent is None else round(sent - self.t0, 3)}
+        if request is not None and origin != "shutdown":
+            self.last_staged_request = request
         with open(self.index_path, "a", encoding="utf-8") as f:
             f.write(json.dumps(entry) + "\n")
             f.flush()
@@ -595,7 +618,9 @@ class Watcher:
         if not self.alive():
             raise StopIteration("game window is gone")
         pre = file_signature(self.live)
+        request = self.clock()
         self.xrun(key_cmd(self.wid))
+        self.last_sent = self.clock()
         self.log(f"F12+S sent to window {self.wid}")
         if video is not None:
             video.poll_growth()
@@ -604,10 +629,24 @@ class Watcher:
         except TimeoutError as e:
             self.problems.append(str(e))
             self.log(f"snapshot skipped: {e}")
+            self.note_request(request, origin, None)
             return None
         except _EmulatorGone:
+            self.note_request(request, origin, None)
             raise
-        return self.stage(data, digest, origin=origin)
+        entry = self.stage(data, digest, origin=origin, request=request, sent=self.last_sent)
+        self.note_request(request, origin, entry["seq"])
+        return entry
+
+    def note_request(self, request, origin, seq):
+        """One flushed line per save request in requests.jsonl; `seq` is the staged entry's, None
+        for a request that staged nothing (a skipped snapshot), which keymap.py counts as a screen
+        it could not see (T34 R2)."""
+        line = {"request_s": round(request - self.t0, 3),
+                "sent_s": round(self.last_sent - self.t0, 3), "origin": origin, "seq": seq}
+        with open(self.requests_path, "a", encoding="utf-8") as f:
+            f.write(json.dumps(line) + "\n")
+            f.flush()
 
     # -- the loop -----------------------------------------------------------------------
     def run(self, quit_after=None, stop=lambda: False, video=None, keys=None):
@@ -659,6 +698,9 @@ class Watcher:
         gone (R4) through the same staging gate as every tick (capture, with no pre-send
         signature and no emulator to poll); skipped when its bytes are already indexed.
         Returns the entry, or None."""
+        # the owner's save was written after the last staged write, whose window opened at that
+        # entry's request: [that request, now] is all the map may assume about its screen (R1)
+        lo = self.t0 if self.last_staged_request is None else self.last_staged_request
         try:
             data, d = self.capture(None, live_emulator=False)
         except TimeoutError as e:
@@ -668,7 +710,7 @@ class Watcher:
             self.log(f"shutdown snapshot already indexed ({d[:16]}...): skipping")
             return None
         try:
-            return self.stage(data, d, origin="shutdown")
+            return self.stage(data, d, origin="shutdown", request=lo, sent=self.clock())
         except OSError as e:
             self.problems.append(f"shutdown snapshot failed: {e}")
             return None
@@ -827,22 +869,47 @@ def terminate(p, grace=TERM_GRACE_S):
     p.wait()
 
 
-def start_nested(outer_env, res, logf):
-    """Try explicit display numbers; no inspection of system socket/lock files.
+def find_xephyr_window(outer_env, title):
+    """The launched Xephyr's own window on the outer display, or None. Xephyr sets no _NET_WM_PID
+    (T34 review R4), so the pid bind of `find_window` cannot serve; the window is the one Xephyr
+    class window whose WM_NAME is exactly this sitting's `title`, a random per-session token. Zero
+    or several matches give None: a foreign window is never picked (fail closed)."""
+    p = xdotool(["search", "--class", "Xephyr"], env=outer_env)
+    ids = [w for w in p.stdout.split() if w]
+    named = [w for w in ids
+             if xdotool(["getwindowname", w], env=outer_env).stdout.rstrip("\n") == title]
+    return named[0] if len(named) == 1 else None
 
-    [designed] One second startup grace and candidates 600..699 follow the
-    dispatch probe in T34; these are allocation policy, not game timings.
-    """
+
+def start_nested(outer_env, res, logf, title=None, find=find_xephyr_window,
+                 clock=time.monotonic, sleep=time.sleep):
+    """Start Xephyr on the first free display from 600 (never :99, never the outer display);
+    returns (process, nested env, Xephyr's window id on the outer display).
+
+    No system socket or lock file is inspected (WSLg's /tmp/.X11-unix is shared): each candidate
+    is tried. A candidate is accepted only once the launched Xephyr's titled window appears on the
+    outer display (`find`), which it creates after binding its display socket; a process that
+    exits first had a busy number, and the next one is tried. [designed] The 600..699 candidates
+    follow the T34 dispatch probe; NESTED_START_S bounds the wait for the window."""
+    title = title or f"goal2-recorder-{os.getpid()}-{os.urandom(8).hex()}"
     for number in range(600, 700):
         display = f":{number}"
-        if display == outer_env.get("DISPLAY"):
+        if display in (outer_env.get("DISPLAY"), ":99"):
             continue
-        proc = subprocess.Popen(["Xephyr", display, "-screen", res, "-nolisten", "tcp"],
+        proc = subprocess.Popen(["Xephyr", display, "-screen", res, "-nolisten", "tcp",
+                                 "-title", title],
                                 env=outer_env, stdout=logf, stderr=logf,
                                 start_new_session=True)
-        time.sleep(1)
+        end = clock() + NESTED_START_S
+        while proc.poll() is None and clock() < end:
+            wid = find(outer_env, title)
+            if wid is not None:
+                return proc, dict(outer_env, DISPLAY=display), wid
+            sleep(0.05)
         if proc.poll() is None:
-            return proc, dict(outer_env, DISPLAY=display)
+            terminate(proc)
+            raise RuntimeError(f"Xephyr on {display} showed no window titled {title!r} "
+                               f"within {NESTED_START_S}s")
     raise RuntimeError("no free nested display in candidates 600 through 699")
 
 
@@ -862,14 +929,12 @@ def play(video=False, quit_after=None, res="1280x800"):
 
     log(f"session {session}")
     outer_env = dict(os.environ)
-    xephyr, env = start_nested(outer_env, res, logf)
+    title = f"goal2-recorder-{session.name}-{os.urandom(8).hex()}"
+    xephyr, env, xephyr_wid = start_nested(outer_env, res, logf, title=title)
     meta.update({"outer_display": outer_env["DISPLAY"], "display": env["DISPLAY"],
-                 "xephyr_pid": xephyr.pid, "resolution": res})
-    argv = [os.environ.get("DOSBOX_X", "dosbox-x"), "-conf", str(session / "dosbox.conf"),
-            "-fastlaunch", "-nogui", "-nomenu", "-savedir", str(session),
-            "-set", f"dosbox savefile={session / 'state.sav'}"]
-    dbx = subprocess.Popen(argv, env=env, stdout=logf, stderr=subprocess.STDOUT, start_new_session=True)
-    log(f"dosbox-x started (pid {dbx.pid})")
+                 "xephyr_pid": xephyr.pid, "xephyr_title": title, "xephyr_window_id": xephyr_wid,
+                 "resolution": res, "burst_quiet_s": BURST_QUIET_S,
+                 "capture_margin_s": CAPTURE_MARGIN_S})
     stop_flag = {"now": False}
 
     def on_signal(signum, frame):
@@ -881,7 +946,17 @@ def play(video=False, quit_after=None, res="1280x800"):
     vid = None
     keys = None
     geom0 = None
+    dbx = None
     try:
+        # the logger starts before the emulator (T34 review R6): no key of the sitting precedes it
+        keys = KeyLogger(env, outer_env["DISPLAY"], session / "keys.jsonl")
+        keys.start()
+        argv = [os.environ.get("DOSBOX_X", "dosbox-x"), "-conf", str(session / "dosbox.conf"),
+                "-fastlaunch", "-nogui", "-nomenu", "-savedir", str(session),
+                "-set", f"dosbox savefile={session / 'state.sav'}"]
+        dbx = subprocess.Popen(argv, env=env, stdout=logf, stderr=subprocess.STDOUT,
+                               start_new_session=True)
+        log(f"dosbox-x started (pid {dbx.pid})")
         try:
             wid = find_window(env, dbx.pid)
         except RuntimeError as e:
@@ -893,27 +968,23 @@ def play(video=False, quit_after=None, res="1280x800"):
                          "video": {"requested": bool(video), "used": False},
                          "problems": [str(e)]})
             (session / "meta.json").write_text(json.dumps(meta, indent=1))
-            logf.close()
             return 2
         log(f"game window {wid} (pid {dbx.pid})")
         meta.update({"window_id": wid, "dosbox_x_pid": dbx.pid})
-        keys = KeyLogger(env, outer_env["DISPLAY"], session / "keys.jsonl")
-        keys.start()
         meta["monotonic_start_s"] = time.monotonic()
         (session / "meta.json").write_text(json.dumps(meta, indent=1))
         if video:
+            # the video is a convenience channel: no failure here ends the sitting (T34 R4)
+            geom0 = window_geometry(xephyr_wid, outer_env)
             if shutil.which("ffmpeg") is None:
                 log("--video requested but ffmpeg is not installed: continuing without video")
+            elif geom0 is None:
+                log("--video requested but the window geometry is unknown: continuing without video")
             else:
-                xephyr_wid = find_window(outer_env, xephyr.pid, search_class="Xephyr")
-                geom0 = window_geometry(xephyr_wid, outer_env)
-                if geom0 is None:
-                    log("--video requested but the window geometry is unknown: continuing without video")
-                else:
-                    v = video_cmd(geom0, outer_env["DISPLAY"], session / "video.mkv")
-                    vid = Video(v, session / "video.mkv")
-                    vid.start()
-                    log(f"video started: {' '.join(v)}")
+                v = video_cmd(geom0, outer_env["DISPLAY"], session / "video.mkv")
+                vid = Video(v, session / "video.mkv")
+                vid.start()
+                log(f"video started: {' '.join(v)}")
         watcher = Watcher(session, session / "state.sav", wid, dbx, env, log=log,
                           xrun=lambda argv: send_save_event(wid, env))
         meta["monotonic_start_s"] = watcher.t0
