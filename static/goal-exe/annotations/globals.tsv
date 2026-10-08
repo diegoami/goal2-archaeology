@@ -8,7 +8,7 @@ DS:0668	side_base	char[2]	two adjacent bytes, the pitch-slot base per engine tea
 DS:066B	sub_budgets	char[2]	the substitution budget per team at a match start: DS:066B[9A3D] (5 per team in a friendly)	established	F012
 DS:0720	perf_delta	char[67]	the performance delta per commentary template id, added by 0791:1E53 to the line's named player (38 goal +40, 39 own goal -50, 50 booked -20, 51 sent off -100, 65 challenge -10); nothing writes it at runtime	established	F012; F014
 DS:7C3A	man_of_the_match	word	the man of the match's squad word, CAB0's winner (cleared per match by A4A1); drawn on the summary only when DS:9A3F is clear	established	F014
-DS:9B07	match_form	char[40]	the starting XI's form snapshot per side and slot (0x14*side + slot; writes reach offset 34, the extent beyond that not pinned), written by F1F6's pre-match loop and restored by CB7D after the match	likely	F014
+DS:9B07	match_form	char[41]	morale snapshot per side and squad slot: dummy offset 0 then offsets 1..40 (20*side+slot, side 0..1, slot 1..20); written by F1F6's pre-match loop for nonzero words and restored by CB7D; substitutions swap matching bytes	established	F014; F018
 DS:7920	form_delta	char[2]	65FE's per-goal form deltas: byte 0 = -1 (the side without the ball), byte 1 = +1 (the side of DS:830B); 6443 gives the scorer byte [7C39 != 0 ? 0 : 1]	established	F012
 DS:0A6B	quick_scorer_slots	char[31]	the goal-scorer slot table: a dummy base at 0xA6B plus 30 entries (values 2..11, weighted), read as the byte at 0xA6B + rand(30)	established	F012
 DS:80E8	pitch_records	pitch[23]	the pitch record array: record k at 0x80E8+0x16*k, the 22 on-pitch slots 1..22 (0x80FE..0x82E1); the byte table DS:883[k] maps 9564's loop index to a record number	established	F012; F013
@@ -24,5 +24,6 @@ DS:110E	retire_age_limit	char[2]	1771:7F40's age limit by (+7 == 0): 30, 33 (ret
 DS:118A	new_player_age_base	char[2]	make_player's age base by (+7 == 0): 28, 31 (+1 = this - rand(7) + rand(7))	established	F007; F017
 DS:118C	pool_age_base	char[2]	1771:98C4's age base for the pool copies of the squad slots by (+7 == 0): 17, 20 (+1 = this + rand(3))	established	F007; F017
 DS:0E80	peak_age_base	char[2]	1771:3291's peak base by (+7 == 0): 27, 30 (+2 = this + rand(3) - rand(3))	established	F007; F016
-DS:0E82	fitness_base	char[2]	1771:3558's T by (+1 > +2 + 4): 16, 13	established	F007; F017
+DS:0E82	fitness_redraw_base	byte[2]	3558's base B selected by unsigned age>peak_age+4; managed and unmanaged draws around B	established	F007; F017; F018
 DS:9B56	country_order_ptr	byte far*	far pointer to the country order 1771:5EE1 sorts and 1771:63A4 ranks by: DS:9BFD (world, 128) or DS:9C7E (four continents of 32)	established	F017
+DS:0E84	fitness_recovery_cap	byte[2]	3651 upper fitness cap selected by unsigned age>peak_age+3; lower clamp to 1 bypasses this table	established	F018

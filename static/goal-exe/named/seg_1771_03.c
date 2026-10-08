@@ -205,7 +205,7 @@ void __stdcall16far reset_own_tactics(int param_1)
 
 
 // ---- 1771:3558  roll_fitness_energy  (f_1771_3558; Ghidra 4000:3558, __stdcall16far; found by routines.tsv)
-// draws +0x0D and +0x0E: T = DS:0E82[+1 > +2 + 4] (16/13); a managed country (1771:0B77) T + rand(3T) - rand(T + 1), a computer country one draw, T + rand(2T); capped at 0x20, copied to +0x0E, then +0x0D floored at 1  [established; F007; F017; read code/seg_1771_05.asm]
+// B=DS:0E82[age>peak_age+4]; managed fitness byte=B+rand(3B)-rand(B+1), latter draw first; unmanaged=B+rand(2B); signed fitness upper clamp 32, copy to energy, then signed fitness lower clamp 1 (energy copy precedes lower clamp)  [established; F007; F017; F018; read code/seg_1771_05.asm]
 
 void __stdcall16far roll_fitness_energy(int param_1)
 
@@ -242,9 +242,10 @@ void __stdcall16far roll_fitness_energy(int param_1)
 }
 
 
-// ---- 1771:3651  f_1771_3651  (f_1771_3651; Ghidra 4000:3651, __stdcall16far; found by routines.tsv)
+// ---- 1771:3651  recover_fitness_energy  (f_1771_3651; Ghidra 4000:3651, __stdcall16far; found by routines.tsv)
+// signed fitness plus ordered draws: injured energy==0 rand(2)-rand(8); nonzero flag rand(8)-rand(2), with rand(2) first; flag zero rand(2)-rand(3), with rand(3) first, plus one below 16; lower 1 bypasses upper cap DS:0E84[age>peak_age+3]; store fitness then restore energy when signed >0 or random-is-one(3)  [established; F018]
 
-void __stdcall16far f_1771_3651(char param_1,int param_2)
+void __stdcall16far recover_fitness_energy(char param_1,int param_2)
 
 {
   char cVar1;

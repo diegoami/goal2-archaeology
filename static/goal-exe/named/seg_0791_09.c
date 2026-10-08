@@ -184,9 +184,10 @@ int __stdcall16far f_0791_B71C(char param_1,undefined4 param_2)
 }
 
 
-// ---- 0791:B7FA  f_0791_B7FA  (f_0791_B7FA; Ghidra 2000:B7FA, __stdcall16far; found by routines.tsv)
+// ---- 0791:B7FA  update_fixture_player_state  (f_0791_B7FA; Ghidra 2000:B7FA, __stdcall16far; found by routines.tsv)
+// for both squads' nonzero words selects 3651 when 5A8F nonzero, 3558 otherwise; 3651 flag 1 for XI or status-bit-3 participants, flag 0 for unused bench; morale deltas are separate B364 calls  [established; F018]
 
-void __stdcall16far f_0791_B7FA(undefined4 param_1)
+void __stdcall16far update_fixture_player_state(undefined4 param_1)
 
 {
   int iVar1;
@@ -238,7 +239,8 @@ void __stdcall16far f_0791_B7FA(undefined4 param_1)
             roll_fitness_energy(pcVar9[iVar1].squad[local_4 - 1]);
           }
           else {
-            f_1771_3651(CONCAT11((char)(local_4 * 2 >> 8),1),pcVar9[iVar1].squad[local_4 - 1]);
+            recover_fitness_energy
+                      (CONCAT11((char)(local_4 * 2 >> 8),1),pcVar9[iVar1].squad[local_4 - 1]);
           }
           f_0791_B364(uVar6,pcVar9[iVar1].squad[local_4 - 1]);
           if (0xb < local_4) {
@@ -258,7 +260,7 @@ void __stdcall16far f_0791_B7FA(undefined4 param_1)
             roll_fitness_energy(pcVar9[iVar1].squad[local_4 - 1]);
           }
           else {
-            f_1771_3651(((local_4 & 0x7fff) >> 7) << 8,pcVar9[iVar1].squad[local_4 - 1]);
+            recover_fitness_energy(((local_4 & 0x7fff) >> 7) << 8,pcVar9[iVar1].squad[local_4 - 1]);
           }
         }
         f_0791_B27F(pcVar9[iVar1].squad[local_4 - 1]);
@@ -278,9 +280,10 @@ void __stdcall16far f_0791_B7FA(undefined4 param_1)
 }
 
 
-// ---- 0791:BA4E  f_0791_BA4E  (f_0791_BA4E; Ghidra 2000:BA4E, __stdcall16near; found by routines.tsv)
+// ---- 0791:BA4E  update_pool_player_state  (f_0791_BA4E; Ghidra 2000:BA4E, __stdcall16near; found by routines.tsv)
+// for manager pool's 80 words selects 3651 when 5A8F nonzero, 3558 otherwise; passes recovery flag 0; separate B364 morale delta calls  [established; F018]
 
-void f_0791_BA4E(int param_1)
+void update_pool_player_state(int param_1)
 
 {
   char cVar1;
@@ -301,7 +304,7 @@ void f_0791_BA4E(int param_1)
         roll_fitness_energy(((word *)pool_indices)[local_4]);
       }
       else {
-        f_1771_3651(((local_4 & 0x7fff) >> 7) << 8,((word *)pool_indices)[local_4]);
+        recover_fitness_energy(((local_4 & 0x7fff) >> 7) << 8,((word *)pool_indices)[local_4]);
       }
       wVar6 = ((word *)pool_indices)[local_4];
       iVar3 = u214b_random_1_to_n(4);
@@ -355,7 +358,7 @@ void __stdcall16far prepare_unplayed_match(undefined1 *param_1)
       reset_team_tactics(((undefined2 *)&DS:9B34)[local_3]);
     }
     else {
-      f_0791_BA4E(((undefined2 *)&DS:9B34)[local_3]);
+      update_pool_player_state(((undefined2 *)&DS:9B34)[local_3]);
     }
     if (local_3 == '\x01') break;
     local_3 = local_3 + '\x01';
@@ -877,7 +880,7 @@ void f_0791_C50C(int param_1,int param_2)
 
 
 // ---- 0791:C5DC  refresh_pitch_slot  (f_0791_C5DC; Ghidra 2000:C5DC, __stdcall16near; found by routines.tsv)
-// per pitch slot s of team t: sets +0x10 element 3 of the slot's player; when 0B77 is zero for team t, calls 0791:1E8D, then C50C (only when the other team is managed and DS:9A3E is 0), then 1EB5; then calls 0791:A2E6; then, for an unmanaged team, clears +0xF of the player then in slot s and re-derives it through 1771:3431; what +0x10 element 3 means, and whether A2E6 puts another player in the slot, were not read  [established; F010]
+// per pitch slot s of team t: sets +0x10 element 3 of the outgoing player; for an unmanaged team calls C50C when the other team is managed and match watched, then 1EB5; A2E6 rebinds the pitch player word from the squad and resets activity/direction; sets incoming performance 0x2747; unmanaged incoming +F is cleared and re-derived through 3431; no player fitness/energy refill  [established; F010; F018]
 
 void refresh_pitch_slot(undefined2 param_1,int param_2,char param_3)
 
@@ -913,7 +916,7 @@ void refresh_pitch_slot(undefined2 param_1,int param_2,char param_3)
   else {
     local_4 = *(undefined2 *)((int)&pitch_records[0].field_0x2 + iVar1);
   }
-  f_0791_A2E6((pitch *)pitch_records + param_2,0xb000,param_2);
+  initialize_pitch_player((pitch *)pitch_records + param_2,0xb000,param_2);
   ((player *)players)[*(int *)((int)&pitch_records[0].player_index + iVar1)].performance = 0x2747;
   if (local_8[3] == '\0') {
     ((player *)players)[*(int *)((int)&pitch_records[0].player_index + iVar1)].own_tactic_set = 0;
@@ -1038,61 +1041,4 @@ void substitute_player(char param_1,char param_2,int param_3,undefined4 param_4)
     }
   }
   return;
-}
-
-
-// ---- 0791:CAB0  select_man_of_the_match  (f_0791_CAB0; Ghidra 2000:CAB0, __cdecl16near; found by routines.tsv)
-// max-scan over both sides' squad slots 1..20 (12..20 only for players substituted off, status bit 3): skip 0x7FFF, decode (>5000 -> -0x2710), strict compare with best starting at 1, ties keep the first in scan order; the winner's squad word -> DS:7C3A; called only by F1F6 at F2F8, after the match  [established; F014]
-
-void __cdecl16near select_man_of_the_match(void)
-
-{
-  int iVar1;
-  word wVar2;
-  char cVar3;
-  country *pcVar4;
-  player *ppVar5;
-  undefined2 uVar6;
-  undefined2 uVar7;
-  word local_9;
-  word local_7;
-  int local_5;
-  char local_3;
-  
-  local_7 = 1;
-  local_3 = '\0';
-LAB_0791_CAC4:
-  iVar1 = ((undefined2 *)&DS:9B34)[local_3];
-  uVar6 = (undefined2)((ulong)countries >> 0x10);
-  pcVar4 = (country *)countries;
-  local_5 = 1;
-  do {
-    wVar2 = pcVar4[iVar1].squad[local_5 + -1];
-    uVar7 = (undefined2)((ulong)players >> 0x10);
-    ppVar5 = (player *)players;
-    if (local_5 < 0xc) {
-LAB_0791_CB27:
-      if (ppVar5[wVar2].performance != 0x7fff) {
-        local_9 = ppVar5[wVar2].performance;
-        if (5000 < (int)local_9) {
-          local_9 = local_9 + 0xd8f0;
-        }
-        if ((int)local_7 < (int)local_9) {
-          man_of_the_match = pcVar4[iVar1].squad[local_5 + -1];
-          local_7 = local_9;
-        }
-      }
-    }
-    else {
-      cVar3 = u214b_set_test_bit(ppVar5[wVar2].status,3);
-      if (cVar3 != '\0') goto LAB_0791_CB27;
-    }
-    if (local_5 == 0x14) break;
-    local_5 = local_5 + 1;
-  } while( true );
-  if (local_3 == '\x01') {
-    return;
-  }
-  local_3 = local_3 + '\x01';
-  goto LAB_0791_CAC4;
 }

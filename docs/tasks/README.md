@@ -37,3 +37,5 @@ exists.
 | T28 | Q013: how skills change with age, and what is a player's peak age (G5 Q004) | opened at dispatch | T27 |
 | T29 | recorder: the owner's playthrough as a complete behavioural record | opened at dispatch | T28 |
 | T30 | Q014: how retirements happen, how new players are made, and whether results feed new talent | opened at dispatch | T28 |
+| T31 | Q015: how energy falls in a match and recovers between matches | #99 | T28 |
+| T32 | Q016: how confidence changes after a match, and against what expected margin | opened at dispatch | T31 |
