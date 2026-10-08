@@ -36,3 +36,4 @@ exists.
 | T27 | Q012: where keeping is read (only the keeper), and where penalties are read (only in `A10A`) | 88 | T26 |
 | T28 | Q013: how skills change with age, and what is a player's peak age (G5 Q004) | opened at dispatch | T27 |
 | T29 | recorder: the owner's playthrough as a complete behavioural record | opened at dispatch | T28 |
+| T30 | Q014: how retirements happen, how new players are made, and whether results feed new talent | opened at dispatch | T28 |

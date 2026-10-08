@@ -95,7 +95,7 @@ void roll_peak_age(int param_1)
 
 
 // ---- 1771:32EB  compute_ability  (f_1771_32EB; Ghidra 4000:32EB, __stdcall16far; found by routines.tsv)
-// computes +4 from +1, +2, +3: +3 inside the peak band, else (+3 * k) div 16  [established; F007; F009; read decompiled/seg_1771_02.c]
+// computes +4 from +1, +2, +3: +3 inside the copy branch +2..+2+3; below it k = (+2 - +1) div 2 (SIGNED idiv; k = 0 at +2-1, so the maximum spans five ages), above it k = +1 - (+2+3); +4 = AL, the low byte of ((+3 * (0x10 - k)) mod 65536) div 16, with the factor a wrapping 16-bit word (k > 16)  [established; F007; F009; F016; read decompiled/seg_1771_02.c; read code/seg_1771_05.asm]
 
 void __stdcall16far compute_ability(int param_1)
 

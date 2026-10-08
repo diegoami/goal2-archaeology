@@ -707,7 +707,7 @@ void __cdecl16near play_round(void)
   pbVar2[1] = 1;
   route_fixture();
   if (*(int *)(pbVar2 + 0x26) == *(int *)(pbVar2 + 0x28)) {
-    f_1771_8208();
+    stage_end();
     cVar4 = f_000E_7072();
     uVar6 = cVar4 == '\0';
     if ((bool)uVar6) {

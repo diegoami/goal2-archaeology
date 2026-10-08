@@ -1033,9 +1033,10 @@ void __stdcall16far f_1771_7BA2(int param_1)
 }
 
 
-// ---- 1771:7E4A  f_1771_7E4A  (f_1771_7E4A; Ghidra 4000:7E4A, __stdcall16near; found by routines.tsv)
+// ---- 1771:7E4A  advance_player_age  (f_1771_7E4A; Ghidra 4000:7E4A, __stdcall16near; found by routines.tsv)
+// skips player 0 (7E64), else increments the age byte +1 (7E6F, wraps at 255) and calls 1771:32EB to recompute +4  [established; F016; read code/seg_1771_11.asm]
 
-void f_1771_7E4A(int param_1)
+void advance_player_age(int param_1)
 
 {
   byte *pbVar1;
@@ -1049,9 +1050,10 @@ void f_1771_7E4A(int param_1)
 }
 
 
-// ---- 1771:7E80  f_1771_7E80  (f_1771_7E80; Ghidra 4000:7E80, __stdcall16near; found by routines.tsv)
+// ---- 1771:7E80  recreate_retired_player  (f_1771_7E80; Ghidra 4000:7E80, __stdcall16near; found by routines.tsv)
+// replaces a retired computer-country player in place: make_player(1, old +7, old +0) redraws +5, +2, +3 (= country rating + 0x7F), morale, tactics, fitness/energy, performance 0x7FFF; age +1 = DS:110C[gk] + rand(6) - rand(6) (214B:06B1 at 7EC7/7ED1), 1771:32EB, caps/goals/status zeroed, a new name-initial byte (1771:0000), +6 = old +6 restored; the drawn bytes need the LCG state, the rest is fixed by the old record  [established; F016; read code/seg_1771_11.asm]
 
-void f_1771_7E80(int param_1)
+void recreate_retired_player(int param_1)
 
 {
   byte bVar1;
@@ -1081,9 +1083,10 @@ void f_1771_7E80(int param_1)
 }
 
 
-// ---- 1771:7F40  f_1771_7F40  (f_1771_7F40; Ghidra 4000:7F40, __stdcall16far; found by routines.tsv)
+// ---- 1771:7F40  retirement_test  (f_1771_7F40; Ghidra 4000:7F40, __stdcall16far; found by routines.tsv)
+// retires when (DS:110E[gk] < +1 AND the caps word +8 == 0) OR (+1 > +2 + 5), gk = (+7 == 0), DS:110E = 1E 21 (30 outfield, 33 goalkeeper); deterministic, no RNG; at the year end 1771:7FDF runs it only for computer countries (its 0B77 branch), in the second pass, on the record the first pass aged  [established; F016; read code/seg_1771_11.asm]
 
-undefined4 __stdcall16far f_1771_7F40(uint param_1)
+undefined4 __stdcall16far retirement_test(uint param_1)
 
 {
   byte bVar1;
@@ -1108,9 +1111,10 @@ undefined4 __stdcall16far f_1771_7F40(uint param_1)
 }
 
 
-// ---- 1771:7FB1  f_1771_7FB1  (f_1771_7FB1; Ghidra 4000:7FB1, __stdcall16near; found by routines.tsv)
+// ---- 1771:7FB1  age_one_player  (f_1771_7FB1; Ghidra 4000:7FB1, __stdcall16near; found by routines.tsv)
+// calls 1771:7E4A, then writes +0x11 (scorer_count) = 0 unconditionally (7FD4), resetting the year's top-scorer count that 0791:B3B7 keeps  [established; F016; read code/seg_1771_11.asm]
 
-void f_1771_7FB1(undefined2 param_1,int param_2)
+void age_one_player(undefined2 param_1,int param_2)
 
 {
   ulong uVar1;
@@ -1118,15 +1122,16 @@ void f_1771_7FB1(undefined2 param_1,int param_2)
   
   uVar1 = (ulong)players >> 0x10;
   ppVar2 = (player *)players;
-  f_1771_7E4A(param_2);
-  ppVar2[param_2].field_0x11 = 0;
+  advance_player_age(param_2);
+  ppVar2[param_2].scorer_count = 0;
   return;
 }
 
 
-// ---- 1771:7FDF  f_1771_7FDF  (f_1771_7FDF; Ghidra 4000:7FDF, __stdcall16near; found by routines.tsv)
+// ---- 1771:7FDF  age_country_squad  (f_1771_7FDF; Ghidra 4000:7FDF, __stdcall16near; found by routines.tsv)
+// per country: every squad word 1..20 -> 1771:7FB1; then (0B77) for a managed country the manager's 80 pool players at [A927] base DS:6D18[+0x2E-0x80] -> 7FB1 (no retirement test), for a computer country squad slots -> 1771:7F40 and on 1 -> 1771:7E80  [established; F016; read code/seg_1771_11.asm]
 
-void f_1771_7FDF(int param_1)
+void age_country_squad(int param_1)
 
 {
   char cVar1;
@@ -1137,16 +1142,16 @@ void f_1771_7FDF(int param_1)
   
   uVar4 = (undefined2)((ulong)countries >> 0x10);
   pcVar3 = (country *)countries;
-  for (local_4 = 1; f_1771_7FB1(&stack0xfffe,pcVar3[param_1].squad[local_4 + -1]), local_4 != 0x14;
-      local_4 = local_4 + 1) {
+  for (local_4 = 1; age_one_player(&stack0xfffe,pcVar3[param_1].squad[local_4 + -1]),
+      local_4 != 0x14; local_4 = local_4 + 1) {
   }
   cVar1 = is_managed(param_1);
   if (cVar1 == '\0') {
     local_4 = 1;
     while( true ) {
-      cVar1 = f_1771_7F40(pcVar3[param_1].squad[local_4 + -1]);
+      cVar1 = retirement_test(pcVar3[param_1].squad[local_4 + -1]);
       if (cVar1 != '\0') {
-        f_1771_7E80(pcVar3[param_1].squad[local_4 + -1]);
+        recreate_retired_player(pcVar3[param_1].squad[local_4 + -1]);
       }
       if (local_4 == 0x14) break;
       local_4 = local_4 + 1;
@@ -1156,56 +1161,9 @@ void f_1771_7FDF(int param_1)
     uVar2 = ((word *)pool_base_table)[pcVar3[param_1].manager - 0x80] + 0x4f;
     local_4 = ((word *)pool_base_table)[pcVar3[param_1].manager - 0x80];
     if (local_4 <= uVar2) {
-      for (; f_1771_7FB1(&stack0xfffe,((word *)pool_indices)[local_4]), local_4 != uVar2;
+      for (; age_one_player(&stack0xfffe,((word *)pool_indices)[local_4]), local_4 != uVar2;
           local_4 = local_4 + 1) {
       }
-    }
-  }
-  return;
-}
-
-
-// ---- 1771:80DA  f_1771_80DA  (f_1771_80DA; Ghidra 4000:80DA, __cdecl16near; found by routines.tsv)
-
-void __cdecl16near f_1771_80DA(void)
-
-{
-  int iVar1;
-  char cVar2;
-  undefined1 extraout_AH;
-  country *pcVar3;
-  undefined2 uVar4;
-  undefined2 uVar5;
-  bool bVar6;
-  int local_4;
-  
-  uVar4 = (undefined2)((ulong)DS:A923 >> 0x10);
-  iVar1 = (int)DS:A923;
-  local_4 = 1;
-  while( true ) {
-    f_1771_7FDF(local_4);
-    bVar6 = local_4 == 0x80;
-    if (bVar6) break;
-    local_4 = local_4 + 1;
-  }
-  sys_set_bit_mask_08DF(0x80ba,0x4000,CONCAT11(extraout_AH,*(undefined1 *)(iVar1 + 0x3c)));
-  if (!bVar6) {
-    *(int *)(iVar1 + 0x38) = *(int *)(iVar1 + 0x38) + 1;
-    local_4 = 1;
-    while( true ) {
-      uVar5 = (undefined2)((ulong)countries >> 0x10);
-      pcVar3 = (country *)countries;
-      cVar2 = is_managed(local_4);
-      if ((cVar2 != '\0') &&
-         (*(byte *)(iVar1 + *(char *)(iVar1 + 0x40) * 6 + (uint)pcVar3[local_4].manager + -0x67) <
-          (byte)pcVar3[local_4].field_0x3b)) {
-        *(undefined1 *)(iVar1 + *(char *)(iVar1 + 0x40) * 6 + (uint)pcVar3[local_4].manager + -0x67)
-             = pcVar3[local_4].field_0x3b;
-      }
-      u214b_move_bytes(0x36,&pcVar3[local_4].field_0x41,uVar5,&pcVar3[local_4].field_0x3b,uVar5);
-      u214b_fill_bytes(0,6,&pcVar3[local_4].field_0x3b,uVar5);
-      if (local_4 == 0x80) break;
-      local_4 = local_4 + 1;
     }
   }
   return;

@@ -1,0 +1,98 @@
+baseline: rc 0 Ran 41 tests in 0.083s OK
+KILLED	ageing.py	COUNTRY 0x00->0x01	Ran 41 tests in 0.091s FAILED (failures=10)	test_caps_cannot_fall_and_names_hold, test_captured_recreates_satisfy_them, test_committed_pair_matches, test_committed_records
+KILLED	ageing.py	AGE 0x01->0x02	Ran 41 tests in 0.077s FAILED (failures=34, errors=2)	test_age_byte_wrap, test_aged_record_matches_the_next_capture, test_caps_cannot_fall_and_names_hold, test_caps_clause_boundary
+KILLED	ageing.py	PEAK 0x02->0x03	Ran 41 tests in 0.089s FAILED (failures=35)	test_aged_record_matches_the_next_capture, test_caps_cannot_fall_and_names_hold, test_captured_recreates_satisfy_them, test_captured_retirements_fire
+KILLED	ageing.py	PEAK 0x02->0x0A	Ran 41 tests in 0.068s FAILED (failures=36)	test_aged_record_matches_the_next_capture, test_caps_cannot_fall_and_names_hold, test_caps_clause_boundary, test_captured_recreates_satisfy_them
+KILLED	ageing.py	RATING 0x03->0x04	Ran 41 tests in 0.088s FAILED (failures=15)	test_aged_record_matches_the_next_capture, test_caps_cannot_fall_and_names_hold, test_committed_pair_matches, test_committed_records
+KILLED	ageing.py	RATING 0x03->0x0B	Ran 41 tests in 0.090s FAILED (failures=26)	test_aged_record_matches_the_next_capture, test_caps_cannot_fall_and_names_hold, test_committed_pair_matches, test_committed_records
+KILLED	ageing.py	ABILITY 0x04->0x05	Ran 41 tests in 0.089s FAILED (failures=25, errors=1)	test_aged_record_matches_the_next_capture, test_caps_cannot_fall_and_names_hold, test_committed_pair_matches, test_committed_records
+KILLED	ageing.py	PROFILE 0x05->0x06	Ran 41 tests in 0.079s FAILED (failures=8)	test_caps_cannot_fall_and_names_hold, test_captured_recreates_satisfy_them, test_committed_pair_matches, test_committed_records
+KILLED	ageing.py	CLUB_POSITION 0x07->0x06	Ran 41 tests in 0.082s FAILED (failures=6, errors=1)	test_caps_clause_boundary, test_committed_records, test_continuing_byte_changes_fail, test_goalkeeper_constraints_literal
+KILLED	ageing.py	CAPS 0x08->0x0A	Ran 41 tests in 0.074s FAILED (failures=9)	test_aged_record_matches_the_next_capture, test_caps_cannot_fall_and_names_hold, test_caps_clause_boundary, test_committed_pair_matches
+KILLED	ageing.py	GOALS 0x0A->0x0B	Ran 41 tests in 0.083s FAILED (failures=9)	test_caps_cannot_fall_and_names_hold, test_captured_recreates_satisfy_them, test_committed_pair_matches, test_committed_records
+KILLED	ageing.py	STATUS 0x10->0x0F	Ran 41 tests in 0.084s FAILED (failures=9)	test_caps_cannot_fall_and_names_hold, test_captured_recreates_satisfy_them, test_committed_pair_matches, test_committed_records
+KILLED	ageing.py	SCORER_COUNT 0x11->0x10	Ran 41 tests in 0.086s FAILED (failures=7, errors=17)	test_aged_record_matches_the_next_capture, test_caps_cannot_fall_and_names_hold, test_committed_pair_matches, test_committed_records
+KILLED	ageing.py	PERFORMANCE 0x12->0x13	Ran 41 tests in 0.040s FAILED (failures=4, errors=31)	test_caps_cannot_fall_and_names_hold, test_captured_records_are_the_squad, test_captured_recreates_satisfy_them, test_committed_pair_matches
+KILLED	ageing.py	AGEING_STAGES drop 7	Ran 41 tests in 0.084s FAILED (failures=2)	test_ageings_between, test_committed_records
+KILLED	ageing.py	AGEING_STAGES add 4	Ran 41 tests in 0.085s FAILED (failures=2)	test_ageings_between, test_committed_records
+KILLED	ageing.py	STAGE_RANGE hi 8->9	Ran 41 tests in 0.087s FAILED (failures=1)	test_ageings_between
+KILLED	ageing.py	STAGE_RANGE lo 2->1	Ran 41 tests in 0.083s FAILED (failures=1)	test_ageings_between
+KILLED	ageing.py	PEAK_BAND 3->2	Ran 41 tests in 0.089s FAILED (failures=17)	test_aged_record_matches_the_next_capture, test_caps_cannot_fall_and_names_hold, test_committed_pair_matches, test_committed_records
+KILLED	ageing.py	PEAK_BAND 3->4	Ran 41 tests in 0.087s FAILED (failures=14)	test_aged_record_matches_the_next_capture, test_caps_cannot_fall_and_names_hold, test_committed_pair_matches, test_committed_records
+KILLED	ageing.py	BELOW_DIVISOR 2->1	Ran 41 tests in 0.088s FAILED (failures=19)	test_aged_record_matches_the_next_capture, test_caps_cannot_fall_and_names_hold, test_captured_recreates_satisfy_them, test_committed_pair_matches
+KILLED	ageing.py	BELOW_DIVISOR 2->3	Ran 41 tests in 0.093s FAILED (failures=14)	test_aged_record_matches_the_next_capture, test_caps_cannot_fall_and_names_hold, test_captured_recreates_satisfy_them, test_committed_pair_matches
+KILLED	ageing.py	FACTOR_BASE 0x10->0x11	Ran 41 tests in 0.089s FAILED (failures=26)	test_aged_record_matches_the_next_capture, test_caps_cannot_fall_and_names_hold, test_captured_recreates_satisfy_them, test_committed_pair_matches
+KILLED	ageing.py	FACTOR_BASE 0x10->0x0F	Ran 41 tests in 0.090s FAILED (failures=26)	test_aged_record_matches_the_next_capture, test_caps_cannot_fall_and_names_hold, test_captured_recreates_satisfy_them, test_committed_pair_matches
+KILLED	ageing.py	ABILITY_DIVISOR 16->15	Ran 41 tests in 0.087s FAILED (failures=26)	test_aged_record_matches_the_next_capture, test_caps_cannot_fall_and_names_hold, test_captured_recreates_satisfy_them, test_committed_pair_matches
+KILLED	ageing.py	ABILITY_DIVISOR 16->32	Ran 41 tests in 0.087s FAILED (failures=26)	test_aged_record_matches_the_next_capture, test_caps_cannot_fall_and_names_hold, test_captured_recreates_satisfy_them, test_committed_pair_matches
+KILLED	ageing.py	RETIRE_LIMIT outfield 30->31	Ran 41 tests in 0.079s FAILED (failures=7)	test_caps_cannot_fall_and_names_hold, test_caps_clause_boundary, test_captured_retirements_fire, test_committed_pair_matches
+KILLED	ageing.py	RETIRE_LIMIT keeper 33->34	Ran 41 tests in 0.080s FAILED (failures=5)	test_caps_cannot_fall_and_names_hold, test_caps_clause_boundary, test_committed_pair_matches, test_committed_records
+KILLED	ageing.py	RETIRE_LIMIT swapped	Ran 41 tests in 0.071s FAILED (failures=8)	test_caps_cannot_fall_and_names_hold, test_caps_clause_boundary, test_captured_retirements_fire, test_committed_pair_matches
+KILLED	ageing.py	RETIRE_PEAK_MARGIN 5->4	Ran 41 tests in 0.059s FAILED (failures=9)	test_aged_record_matches_the_next_capture, test_caps_cannot_fall_and_names_hold, test_committed_pair_matches, test_committed_records
+KILLED	ageing.py	RETIRE_PEAK_MARGIN 5->6	Ran 41 tests in 0.082s FAILED (failures=5)	test_captured_retirements_fire, test_committed_records, test_flag_is_on_the_aged_record, test_peak_clause_boundary
+KILLED	ageing.py	RECREATE_AGE_BASE outfield 25->26	Ran 41 tests in 0.057s FAILED (failures=6)	test_caps_cannot_fall_and_names_hold, test_committed_pair_matches, test_committed_records, test_managed_country_and_two_ageings_fail
+KILLED	ageing.py	RECREATE_AGE_BASE keeper 28->29	Ran 41 tests in 0.068s FAILED (failures=2)	test_goalkeeper_constraints_literal, test_retiree_never_passes_as_recreate
+KILLED	ageing.py	RECREATE_AGE_SPREAD 5->4	Ran 41 tests in 0.083s FAILED (failures=6)	test_caps_cannot_fall_and_names_hold, test_committed_pair_matches, test_committed_records, test_goalkeeper_constraints_literal
+KILLED	ageing.py	RECREATE_AGE_SPREAD 5->6	Ran 41 tests in 0.064s FAILED (failures=3)	test_goalkeeper_constraints_literal, test_outfield_constraints_literal, test_retiree_never_passes_as_recreate
+KILLED	ageing.py	PEAK_BASE outfield 27->28	Ran 41 tests in 0.084s FAILED (failures=2)	test_committed_records, test_outfield_constraints_literal
+KILLED	ageing.py	PEAK_BASE keeper 30->31	Ran 41 tests in 0.080s FAILED (failures=2)	test_committed_records, test_goalkeeper_constraints_literal
+KILLED	ageing.py	PEAK_SPREAD 2->3	Ran 41 tests in 0.082s FAILED (failures=2)	test_goalkeeper_constraints_literal, test_outfield_constraints_literal
+KILLED	ageing.py	PEAK_SPREAD 2->1	Ran 41 tests in 0.081s FAILED (failures=7)	test_caps_cannot_fall_and_names_hold, test_captured_recreates_satisfy_them, test_committed_pair_matches, test_committed_records
+KILLED	ageing.py	PROFILE_RANGE lo 1->0	Ran 41 tests in 0.079s FAILED (failures=3)	test_goalkeeper_constraints_literal, test_outfield_constraints_literal, test_replacement_invariants
+KILLED	ageing.py	PROFILE_RANGE hi 16->15	Ran 41 tests in 0.081s FAILED (failures=3)	test_committed_records, test_goalkeeper_constraints_literal, test_outfield_constraints_literal
+KILLED	ageing.py	SKILL_DIVISOR 32->31	Ran 41 tests in 0.079s FAILED (failures=2)	test_goalkeeper_keeping, test_skills_literal_formula
+KILLED	ageing.py	SKILL_STRIDE 12->11	Ran 41 tests in 0.080s FAILED (failures=2)	test_goalkeeper_keeping, test_skills_literal_formula
+KILLED	ageing.py	SKILL_ELEMENTS 12->11	Ran 41 tests in 0.079s FAILED (failures=1)	test_skills_literal_formula
+KILLED	ageing.py	band upper <= -> <	Ran 41 tests in 0.081s FAILED (failures=10)	test_aged_record_matches_the_next_capture, test_caps_cannot_fall_and_names_hold, test_committed_pair_matches, test_committed_records
+SURVIVED	ageing.py	band lower <= -> < (expected equivalent: k = 0 at a = p)	Ran 41 tests in 0.080s OK	
+KILLED	ageing.py	band lower <= -> >=	Ran 41 tests in 0.088s FAILED (failures=24)	test_aged_record_matches_the_next_capture, test_caps_cannot_fall_and_names_hold, test_captured_recreates_satisfy_them, test_committed_pair_matches
+KILLED	ageing.py	above > -> < (direction)	Ran 41 tests in 0.090s FAILED (failures=26)	test_aged_record_matches_the_next_capture, test_caps_cannot_fall_and_names_hold, test_captured_recreates_satisfy_them, test_committed_pair_matches
+SURVIVED	ageing.py	above > -> >= (expected equivalent: equality is in the band)	Ran 41 tests in 0.078s OK	
+KILLED	ageing.py	below k sign (a - p)	Ran 41 tests in 0.085s FAILED (failures=19)	test_aged_record_matches_the_next_capture, test_caps_cannot_fall_and_names_hold, test_captured_recreates_satisfy_them, test_committed_pair_matches
+KILLED	ageing.py	above k = a - p	Ran 41 tests in 0.086s FAILED (failures=14)	test_aged_record_matches_the_next_capture, test_caps_cannot_fall_and_names_hold, test_committed_pair_matches, test_committed_records
+KILLED	ageing.py	copy branch returns the ability, not the rating	Ran 41 tests in 0.087s FAILED (failures=17)	test_aged_record_matches_the_next_capture, test_caps_cannot_fall_and_names_hold, test_committed_pair_matches, test_committed_records
+KILLED	ageing.py	drop the stored-byte mask (33C3 al)	Ran 41 tests in 0.058s FAILED (failures=2, errors=1)	test_factor_wrap_edge, test_retiree_never_passes_as_recreate, test_the_whole_curve_literal
+SURVIVED	ageing.py	drop the product mask (expected equivalent: 65536/16 = 4096 is a multiple of 256)	Ran 41 tests in 0.080s OK	
+SURVIVED	ageing.py	drop the factor word mask (expected equivalent: & 0xFFFF of the product folds it)	Ran 41 tests in 0.082s OK	
+KILLED	ageing.py	rating operand mask dropped (above)	Ran 41 tests in 0.079s FAILED (failures=1)	test_rating_byte_operand
+KILLED	ageing.py	rating operand mask dropped (copy)	Ran 41 tests in 0.079s FAILED (failures=1)	test_rating_byte_operand
+KILLED	ageing.py	limit < -> <= (7F78 jae)	Ran 41 tests in 0.058s FAILED (failures=6)	test_caps_cannot_fall_and_names_hold, test_caps_clause_boundary, test_committed_pair_matches, test_committed_records
+KILLED	ageing.py	limit < -> > (direction)	Ran 41 tests in 0.061s FAILED (failures=13)	test_aged_record_matches_the_next_capture, test_caps_cannot_fall_and_names_hold, test_caps_clause_boundary, test_captured_retirements_fire
+KILLED	ageing.py	caps == 0 -> != 0	Ran 41 tests in 0.081s FAILED (failures=6)	test_aged_record_matches_the_next_capture, test_caps_clause_boundary, test_captured_retirements_fire, test_committed_records
+KILLED	ageing.py	and -> or	Ran 41 tests in 0.061s FAILED (failures=14)	test_aged_record_matches_the_next_capture, test_caps_cannot_fall_and_names_hold, test_caps_clause_boundary, test_committed_pair_matches
+KILLED	ageing.py	peak clause > -> >= (7F9D jg)	Ran 41 tests in 0.059s FAILED (failures=9)	test_aged_record_matches_the_next_capture, test_caps_cannot_fall_and_names_hold, test_committed_pair_matches, test_committed_records
+KILLED	ageing.py	peak clause > -> < (direction)	Ran 41 tests in 0.066s FAILED (failures=27)	test_aged_record_matches_the_next_capture, test_caps_cannot_fall_and_names_hold, test_caps_clause_boundary, test_captured_retirements_fire
+KILLED	ageing.py	gk test inverted (7F5D)	Ran 41 tests in 0.070s FAILED (failures=8)	test_caps_cannot_fall_and_names_hold, test_caps_clause_boundary, test_captured_retirements_fire, test_committed_pair_matches
+KILLED	ageing.py	caps low byte only	Ran 41 tests in 0.082s FAILED (failures=1)	test_caps_clause_boundary
+KILLED	ageing.py	R5: flag on the record before the increment	Ran 41 tests in 0.081s FAILED (failures=13)	test_caps_cannot_fall_and_names_hold, test_caps_clause_boundary, test_captured_retirements_fire, test_committed_pair_matches
+KILLED	ageing.py	age increment +2	Ran 41 tests in 0.093s FAILED (failures=29)	test_age_byte_wrap, test_aged_record_matches_the_next_capture, test_caps_cannot_fall_and_names_hold, test_caps_clause_boundary
+KILLED	ageing.py	age wrap mask dropped	Ran 41 tests in 0.085s FAILED (errors=1)	test_age_byte_wrap
+KILLED	ageing.py	ability from the old age	Ran 41 tests in 0.089s FAILED (failures=13)	test_aged_record_matches_the_next_capture, test_caps_cannot_fall_and_names_hold, test_committed_pair_matches, test_committed_records
+KILLED	ageing.py	+0x11 not cleared	Ran 41 tests in 0.080s FAILED (failures=1)	test_writes_exactly_three_bytes
+KILLED	ageing.py	player 0 ages	Ran 41 tests in 0.085s FAILED (failures=1)	test_player_zero_skips_the_age
+KILLED	ageing.py	seed consumed (a variance term)	Ran 41 tests in 0.080s FAILED (failures=2)	test_observed_variance_is_the_records_own, test_seed_is_not_consumed
+KILLED	ageing.py	re-create gk inverted	Ran 41 tests in 0.061s FAILED (failures=8)	test_caps_cannot_fall_and_names_hold, test_captured_recreates_satisfy_them, test_committed_pair_matches, test_committed_records
+KILLED	ageing.py	re-create performance bytes swapped	Ran 41 tests in 0.088s FAILED (failures=9)	test_caps_cannot_fall_and_names_hold, test_captured_recreates_satisfy_them, test_committed_pair_matches, test_committed_records
+KILLED	ageing.py	re-create keeps country dropped	Ran 41 tests in 0.084s FAILED (failures=2)	test_outfield_constraints_literal, test_replacement_invariants
+KILLED	ageing.py	re-create keeps +7 dropped	Ran 41 tests in 0.081s FAILED (failures=2, errors=1)	test_goalkeeper_constraints_literal, test_outfield_constraints_literal, test_replacement_keeps_club_position
+KILLED	ageing.py	skills (ability + 1) -> ability	Ran 41 tests in 0.082s FAILED (failures=1)	test_skills_literal_formula
+KILLED	check_ageing.py	MANAGED_ABOVE 0x80->0x7F	Ran 41 tests in 0.078s FAILED (failures=1)	test_managed_country_and_two_ageings_fail
+KILLED	check_ageing.py	SQUAD_SIZE 20->19	Ran 41 tests in 0.078s FAILED (failures=5)	test_caps_cannot_fall_and_names_hold, test_committed_pair_matches, test_committed_records, test_managed_country_and_two_ageings_fail
+KILLED	check_ageing.py	continuing invariants drop +7	Ran 41 tests in 0.080s FAILED (failures=1)	test_continuing_byte_changes_fail
+KILLED	check_ageing.py	decided always (undecided caps clause ignored)	Ran 41 tests in 0.081s FAILED (failures=6)	test_caps_cannot_fall_and_names_hold, test_committed_pair_matches, test_committed_records, test_flagged_player_continuing_fails
+KILLED	check_ageing.py	undecided continuing with caps 0 accepted	Ran 41 tests in 0.080s FAILED (failures=1)	test_flagged_player_continuing_fails
+KILLED	check_ageing.py	per-country rating check off	Ran 41 tests in 0.078s FAILED (failures=1)	test_one_rating_per_country
+KILLED	check_ageing.py	zero comparisons accepted (R4)	Ran 41 tests in 0.080s FAILED (failures=1)	test_check_runs_guards
+KILLED	check_ageing.py	completed record without a pair accepted (R4)	Ran 41 tests in 0.081s FAILED (failures=1)	test_no_evidence_is_a_failure
+KILLED	check_ageing.py	no record accepted (R4)	Ran 41 tests in 0.081s FAILED (failures=1)	test_check_runs_guards
+KILLED	check_ageing.py	squad size check off (R2)	Ran 41 tests in 0.078s FAILED (failures=1)	test_squad_is_twenty_distinct_words
+KILLED	check_ageing.py	missing second record accepted (R2)	Ran 41 tests in 0.080s FAILED (failures=1)	test_disappearance_needs_a_replacement
+KILLED	check_ageing.py	coverage check off (R2)	Ran 41 tests in 0.079s FAILED (failures=1)	test_captured_records_are_the_squad
+KILLED	check_ageing.py	re-create ranges off (R3)	Ran 41 tests in 0.057s FAILED (failures=2)	test_replacement_invariants, test_retiree_never_passes_as_recreate
+KILLED	check_ageing.py	re-create exact bytes off (R3)	Ran 41 tests in 0.073s FAILED (failures=6)	test_replacement_invariants, test_replacement_keeps_club_position
+KILLED	check_ageing.py	tables check off	Ran 41 tests in 0.081s FAILED (failures=1)	test_tables_must_not_change
+KILLED	check_ageing.py	one-ageing span check off	Ran 41 tests in 0.080s FAILED (failures=1)	test_managed_country_and_two_ageings_fail
+KILLED	check_ageing.py	caps fall accepted	Ran 41 tests in 0.074s FAILED (failures=1)	test_caps_cannot_fall_and_names_hold
+KILLED	check_ageing.py	exit 0 on zero comparisons	Ran 41 tests in 0.079s FAILED (failures=1)	test_check_runs_guards
+restored: runtime/model/ageing.py sha256 9426b53c4a8b, experiments/E014-q013-ageing/check_ageing.py sha256 cf23ed9f82df
+mutations: 91 killed, 4 survived

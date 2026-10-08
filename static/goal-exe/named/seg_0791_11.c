@@ -2,7 +2,7 @@
 // Headings give listing addresses (SEGMENT:OFFSET, as in ../code/). DS:XXXX is the data segment 2581. A segment number written in the code (a far pointer's segment, a far call's) is Ghidra's: listing=Ghidra 0000=0000, 000E=1000, 0791=2000, 16D6=3000, 1771=4000, 2138=5000, 2139=6000, 214B=7000, 235C=8000, 2382=9000, 23E4=A000, 2581=B000.
 
 // ---- 0791:E44F  select_team_screen  (f_0791_E44F; Ghidra 2000:E44F, __stdcall16far; found by routines.tsv)
-// the SELECT TEAM screen of the current manager's country: the squad list and the selected player's card (1771:4E22), toggled Left/Right to the pool list (0791:E2E6); Esc exits  [established; F011; read decompiled/seg_0791_09.c; read code/seg_0791_22.asm]
+// the SELECT TEAM screen of the current manager's country: the squad list and the selected player's card (1771:4E22), toggled Left/Right to the pool list (0791:E2E6); Enter swaps the selected squad and pool players (0791:DEA6, when DS:0C1F == 0), R/C/T act on the selected player, and Ins with the squad side up and DS:0C1F == 0 runs the assistant's recommended 20 (0791:DC7E); Esc exits  [established; F011; F016; read decompiled/seg_0791_09.c; read code/seg_0791_22.asm]
 
 /* WARNING: Removing unreachable block (0791:E5A5) */
 /* WARNING: Removing unreachable block (0791:E5AC) */
@@ -145,7 +145,7 @@ void __stdcall16far select_team_screen(int param_1)
     else if (cVar3 == -0x4a) {
       if (((local_7 == 1) && (*(char *)(iVar1 + (uint)*(byte *)(iVar1 + 1) + 0x47) == '\0')) &&
          (DS:0C1F == '\0')) {
-        f_0791_DC7E();
+        assistant_recommend_squad();
       }
     }
     else if (local_7 == 1) {
@@ -255,9 +255,10 @@ void f_0791_E949(int param_1)
 }
 
 
-// ---- 0791:EA09  f_0791_EA09  (f_0791_EA09; Ghidra 2000:EA09, __stdcall16near; found by routines.tsv)
+// ---- 0791:EA09  first_team_valid  (f_0791_EA09; Ghidra 2000:EA09, __stdcall16near; found by routines.tsv)
+// checks both managed sides' first elevens (squad[0..10]): a player_unavailable member while DS:0C1F == 0 marks the side invalid outright, position counts are taken over available players only, and each warning it shows ("X has an ineligible player in the first team", 0791:E9A2; "X has too many / no ...", 0791:E9CE/E9E0, through u214b_message_if_flag 214B:1765) also marks the side invalid; returns 1 only when both sides stayed valid - ED8A's ' play ' silently loops while it returns 0 (F016's r0002-r0004 stall)  [likely; F016; read named/seg_0791_11.c]
 
-undefined1 f_0791_EA09(int param_1)
+undefined1 first_team_valid(int param_1)
 
 {
   char cVar1;
@@ -403,7 +404,7 @@ LAB_0791_EC64:
 
 
 // ---- 0791:ED8A  in_match_menu  (f_0791_ED8A; Ghidra 2000:ED8A, __stdcall16near; found by routines.tsv)
-// the in-match menu (screen DS:2598), with the left and right side items: 1/6 team tactics (1771:1981; sets DS:9B55 if +0x2D changed), 2/7 and Space 0791:E949, 3/8 0791:E929 (unless DS:0C21), 4/9 the match board 0791:0106, 5/10 leave (confirmed by 0791:EA09); one key toggles [DS:A923]+0x41; loops until left  [likely; F005; F006; F010; read decompiled/seg_0791_09.c]
+// the in-match menu (screen DS:2598), with the left and right side items: 1/6 team tactics (1771:1981; sets DS:9B55 if +0x2D changed), 2/7 and Space 0791:E949, 3/8 0791:E929 (unless DS:0C21), 4/9 the match board 0791:0106, 5/10 leave (confirmed by 0791:EA09); one key toggles [DS:A923]+0x41; the loop exits only when an item set local_3 AND EA09 returns 1, so ' play ' with an invalid first eleven redraws silently and waits again  [likely; F005; F006; F010; F016; read decompiled/seg_0791_09.c]
 
 void in_match_menu(char param_1)
 
@@ -533,7 +534,7 @@ void in_match_menu(char param_1)
         local_3 = '\x01';
       }
     }
-  } while ((local_3 == '\0') || (cVar2 = f_0791_EA09(&stack0xfffe), cVar2 == '\0'));
+  } while ((local_3 == '\0') || (cVar2 = first_team_valid(&stack0xfffe), cVar2 == '\0'));
   if (DS:0C1F != '\0') {
     sys_move_025D(4000,(int)DS:A96A,(int)((ulong)DS:A96A >> 0x10),(int)DS:A972,
                   (int)((ulong)DS:A972 >> 0x10));
