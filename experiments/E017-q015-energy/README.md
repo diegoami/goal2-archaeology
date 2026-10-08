@@ -47,3 +47,12 @@ the tests. Each log includes the exact failing tests, not just a kill count.
 | REST_DRAW | 3 -> 4 | killed (new literal rest-bound test) |
 | HEAL_DRAW | 3 -> 4 | killed (new literal healing-bound test) |
 | FORM_MAX | 255 -> 256 | killed |
+
+## Annotation regression proof
+
+`annotations-red-001.log` records the two F018 annotation tests against the
+pre-annotation TSVs from commit `2948249`: the routine test fails for the absent
+or non-F018-backed rows, and the field test fails because fitness, energy and
+activity are still `likely`. Both pass against the new TSVs. These tests check
+the annotations, not generated `named/`; generation is the main session's
+`decompile.sh --annotations` line under L57.
