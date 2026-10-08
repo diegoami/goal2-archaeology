@@ -3,29 +3,41 @@
 
     python3 experiments/E014-q013-ageing/check_ageing.py [--runs runs/E014]
 
-For every consecutive capture pair of every E014 record (the start capture and each year end, in
-capture order), for every squad player of the 3 captured countries:
+For every consecutive capture pair of every E014 record (the start capture and each year end,
+in capture order):
 
-- a CONTINUING player (found in the next capture by surname+initial, the name `1771:2E93`
-  prints, AND with the creation bytes +2/+3/+5 unchanged — a same draw): the yearly loop's
-  writes must match — +1 = old +1 + 1 (mod 256, `7E6F`), +4 =
-  compute_ability(new +1, +2, +3) (`1771:32EB`), +0x11 = 0 (`7FD4`) — and its untouched bytes
-  +2, +3, +5, +7 must be unchanged (notes.md section 2; +6 is excluded: the per-match
-  bookkeeping repositions national players, r0006). One comparison per player.
-- a REPLACED player (the name is gone, or the creation bytes changed — the re-create `7E80`
-  drew the same surname and initial, r0006 player 57): `1771:7F40`'s deterministic predicate on
-  the OLD record must have fired (retirement_flag = 1), and the replacement must show the
-  re-create's marks (caps +8 = 0, goals +0xA = 0, status +0x10 = 0, `7F09`-`7F19`). One
-  comparison per player.
-  The new bytes themselves are the RNG re-create of `1771:7E80` — Q014, not predicted.
-- an UNEXPLAINED new name with no flagged retirement, a continuing player whose writes diverge,
-  or a flagged player whose name survives: a mismatch, printed in full.
+- the pair must span exactly ONE ageing: the stage path from the first capture's stage byte to
+  the second's (+1 steps wrapped in [2, 8], 214B:1D6F) enters exactly one stage of the gate set
+  {2, 3, 5, 7} (CS:81E8, seg_1771_12.asm:118/156-163); the derivation tables DS:6D25/DS:6DCD
+  must be identical (F008's hazard);
+- the same countries, each a COMPUTER country in both captures (+0x2E <= 0x80, 1771:0B77 —
+  the retirement pass runs only there), each squad 20 nonzero, distinct player words, with
+  exactly one captured record per squad word, and the same SET of words in both captures
+  (7E80 re-creates in place, so no word joins or leaves);
+- every squad player WORD of the first capture is one comparison, matched by identity (the
+  word), never by name. 7F40's predicate is applied by the model to the AGED record
+  (`ageing_value(...)['retires']`; 7FDF's first pass ages, its second tests,
+  seg_1771_11.asm:1043/:1098). The year end's caps word is not captured; caps only grow for a
+  computer-country player between year ends (the writers of +8 are 0791:B908 `inc`, the
+  re-create's 7F09 and the managed offer path's 000E:5584), so a first-capture caps > 0 settles
+  the caps clause; with caps 0 and the age clause open the outcome depends on whether a cap
+  was won, and the second capture decides it:
+  - predicate certainly 0 -> CONTINUING: +0, +2, +3, +5, +7, the surname and the initial
+    unchanged, +1 = old + 1 (7E6F), +4 = compute_ability (32EB), +0x11 = 0 (7FD4), caps not
+    smaller; (+6 is not compared: per-match repositioning, notes.md section 6);
+  - predicate certainly 1 -> REPLACED by 7E80: every constraint of
+    `ageing.recreate_constraints(old)` (+0/+7 carried into make_player, the zeroed bytes, the
+    age/peak/profile draw ranges, +4 of its own bytes, one +3 per country), the surname kept
+    (7E80 writes only the initial, 7F2D), and the record must not be the continuing prediction;
+  - undecided (caps 0, the age clause open) -> continuing with caps > 0 in the second capture
+    (a cap won: the clause closed), or replaced as above; continuing with caps 0 is a mismatch.
+- a record that ends "completed" must carry at least one pair; an aborted record's pairs are
+  checked like any other and the abort is reported. No record, or no comparison at all, is a
+  failure, not a match.
 
-Also per pair: the derivation tables DS:6D25/DS:6DCD must be identical in both captures (F008's
-hazard: the yearly path must not mutate them), and the observed year-over-year deltas of +4 are
-reported (the `observed variance` — the spread the creation draws of +2/+3 produce, which the
-model reproduces from the records' own bytes, not from a seed). Ends with `match: N/N`; exit 0
-only when every comparison matched.
+Reports the observed +4 deltas of the continuing players (the `observed variance`: the spread
+the creation draws of +2/+3 produce, reproduced from the records' own bytes, not from a seed).
+Ends with `match: N/N`; exit 0 only when N > 0 and every comparison matched.
 """
 import argparse
 import json
@@ -36,16 +48,9 @@ ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "runtime" / "model"))
 import ageing as A  # noqa: E402
 
-INVARIANT = (0x02, 0x03, 0x05, 0x07)       # bytes the yearly loop never writes (notes.md §2);
-# +6 (position) is excluded: the per-match bookkeeping repositions national players
-# (0791:AD8F's substitution path sets position from the pitch slot and later restores
-# club_position; 1771:4952's 'C' key and unmanage_country's bench copy are the other
-# writers) — none of them is the yearly loop, but a year of matches may leave +6 moved
-# (r0006: 7 players, e.g. 05 -> 08 and back). +2/+3/+5 are the creation bytes: for a
-# name that continues they cannot change, so a change marks a same-name REPLACEMENT
-# (r0006 player 57 'R Douwen': retired at 33 > peak 28 + 5, the re-create drew the same
-# surname and initial; caps/goals/status zero, the 7E80 marks).
-CREATION = (0x02, 0x03, 0x05)
+MANAGED_ABOVE = 0x80   # 1771:0B77: managed when the country's +0x2E > 0x80
+SQUAD_SIZE = 20        # 7FDF: slots 1..0x14 (8015 cmp word ptr [bp - 2], 0x14)
+CONTINUING_SAME = (A.COUNTRY, A.PEAK, A.RATING, A.PROFILE, A.CLUB_POSITION)
 
 
 def captures(record):
@@ -57,89 +62,180 @@ def captures(record):
     return [c for _, c in sorted(out)]
 
 
-def by_name(cap):
-    """{(country, surname_hex, initial_hex): (squad_word, record_bytes)} of one capture."""
-    out = {}
-    for c in cap["countries"]:
-        for p in c["players"]:
-            out[(c["n"], p["surname"], p["initial"])] = (p["w"], bytes.fromhex(p["rec"]))
-    return out
-
-
-def year_end_age(rec):
-    return (rec[A.AGE] + 1) & 0xFF          # 7E6F increments before 7F40 tests (7FDF's two passes)
-
-
-def peak_clause(rec):
-    """7F40's second clause at the year end: age (after the increment) > peak + 5. Deterministic
-    from the capture's own bytes — the loop writes neither +1's base nor +2 (notes.md §2)."""
-    return 1 if year_end_age(rec) > rec[A.PEAK] + A.RETIRE_PEAK_MARGIN else 0
-
-
-def caps_clause(rec, caps_word):
-    """7F40's first clause: DS:110E[gk] < age AND the caps word == 0, with the age after the
-    increment and the caps the year end saw (they only grow during a season, so a capture's
-    caps > 0 excludes the clause, and caps == 0 leaves it open until the year-end value)."""
-    gk = 1 if rec[A.CLUB_POSITION] == 0 else 0
-    return 1 if A.RETIRE_LIMIT[gk] < year_end_age(rec) and caps_word == 0 else 0
+def ageings_between(stage_before, stage_after):
+    """The number of gate stages entered on the way from one stage byte to the other; None
+    when either is not a stage of 214B:1D6F's range [2, 8]."""
+    lo, hi = A.STAGE_RANGE
+    if not (lo <= stage_before <= hi and lo <= stage_after <= hi):
+        return None
+    s, n, steps = stage_before, 0, 0
+    while True:
+        s = lo if s >= hi else s + 1          # 214B:1D6F(+0x3C, 2, 8, 1)
+        steps += 1
+        if s in A.AGEING_STAGES:
+            n += 1
+        if s == stage_after or steps > hi - lo + 1:
+            return n
 
 
 def caps_word(rec):
     return rec[A.CAPS] | (rec[A.CAPS + 1] << 8)
 
 
+def with_caps(rec, caps):
+    r = bytearray(rec)
+    r[A.CAPS], r[A.CAPS + 1] = caps & 0xFF, (caps >> 8) & 0xFF
+    return bytes(r)
+
+
+def squad_map(country, when, mismatches):
+    """{word: (rec, surname, initial)} of one captured country, with the coverage checks."""
+    tag = f"country {country.get('n')} ({when})"
+    squad = country.get("squad", [])
+    if len(squad) != SQUAD_SIZE or 0 in squad or len(set(squad)) != len(squad):
+        mismatches.append(f"{tag}: the squad is not {SQUAD_SIZE} distinct nonzero words: {squad}")
+    words = [p["w"] for p in country.get("players", [])]
+    if sorted(words) != sorted(set(squad)) or len(words) != len(set(words)):
+        mismatches.append(f"{tag}: the captured records {sorted(words)} are not the squad "
+                          f"{sorted(squad)}, one each")
+    if country.get("manager_byte", 0) > MANAGED_ABOVE:
+        mismatches.append(f"{tag}: a managed country (+0x2E = {country['manager_byte']:#x}): "
+                          f"no retirement pass, not a computer country")
+    out = {}
+    for p in country.get("players", []):
+        rec = bytes.fromhex(p["rec"])
+        if len(rec) != 20:
+            mismatches.append(f"{tag}: player {p['w']}'s record is {len(rec)} bytes")
+            continue
+        out[p["w"]] = (rec, p["surname"], p["initial"])
+    return out
+
+
+def continuing_errors(rec, new, name_old, name_new):
+    """Why `new` is not the continuing prediction from `rec` ([] when it is)."""
+    pred = A.ageing_value(rec, 0, None, None, 0)
+    err = []
+    for off in (A.AGE, A.ABILITY, A.SCORER_COUNT):
+        if new[off] != pred[off]:
+            err.append(f"+0x{off:02X} is {new[off]:02x}, predicted {pred[off]:02x}")
+    for off in CONTINUING_SAME:
+        if new[off] != rec[off]:
+            err.append(f"+0x{off:02X} changed {rec[off]:02x} -> {new[off]:02x}")
+    if caps_word(new) < caps_word(rec):
+        err.append(f"caps fell {caps_word(rec)} -> {caps_word(new)}")
+    if name_new != name_old:
+        err.append(f"the name changed {name_old} -> {name_new}")
+    return err
+
+
+def replacement_errors(rec, new, name_old, name_new):
+    """Why `new` is not a 7E80 re-create of `rec` ([] when it can be one)."""
+    c = A.recreate_constraints(rec)
+    err = []
+    for off, want in sorted(c["exact"].items()):
+        if new[off] != want:
+            err.append(f"+0x{off:02X} is {new[off]:02x}, the re-create gives {want:02x}")
+    for off, (lo, hi) in sorted(c["range"].items()):
+        if not lo <= new[off] <= hi:
+            err.append(f"+0x{off:02X} = {new[off]} outside the re-create's {lo}..{hi}")
+    if new[A.ABILITY] != A.compute_ability(new[A.AGE], new[A.PEAK], new[A.RATING]):
+        err.append(f"+0x04 = {new[A.ABILITY]:02x} is not compute_ability of its own +1/+2/+3")
+    if name_new[0] != name_old[0]:
+        err.append(f"the surname changed {name_old[0]} -> {name_new[0]} (7E80 writes only the initial)")
+    if not continuing_errors(rec, new, name_old, name_new):
+        err.append("the record is exactly the continuing prediction")
+    return err
+
+
 def check_pair(before, after, mismatches):
-    """Every comparison of one capture pair; returns the number of comparisons."""
-    n = 0
+    """Every comparison of one capture pair; returns the number of comparisons (one per squad
+    player word of `before`). Each mismatch is appended to `mismatches`."""
+    when = f"{before.get('when')} -> {after.get('when')}"
+    sb, sa = before["state"]["stage"], after["state"]["stage"]
+    if ageings_between(sb, sa) != 1:
+        mismatches.append(f"{when}: stage {sb} -> {sa} spans {ageings_between(sb, sa)} ageings, not 1")
     if before["tables"] != after["tables"]:
-        mismatches.append(f"tables DS:6D25/DS:6DCD differ between the captures "
-                          f"({before['when']} -> {after['when']})")
-    b, a = by_name(before), by_name(after)
-    for key, (w, rec) in sorted(b.items()):
-        n += 1
-        same_name = key in a
-        if same_name and any(a[key][1][off] != rec[off] for off in CREATION):
-            same_name = False          # the creation bytes changed: a same-name replacement
-        if same_name:                   # a continuing player
-            w2, new = a[key]
-            pred = A.ageing_value(rec, 0, None, None, 0)
-            for off, want in ((A.AGE, pred[A.AGE]), (A.ABILITY, pred[A.ABILITY]), (A.DEAD_BYTE, 0)):
-                if new[off] != want:
-                    mismatches.append(f"{key} (player {w}): +0x{off:02X} is {new[off]:02x}, predicted {want:02x}")
-            for off in INVARIANT:
-                if new[off] != rec[off]:
-                    mismatches.append(f"{key} (player {w}): +0x{off:02X} changed {rec[off]:02x} -> {new[off]:02x}")
-            if peak_clause(rec):
-                mismatches.append(f"{key} (player {w}): the peak clause fired (year-end age "
-                                  f"{year_end_age(rec)} > peak {rec[A.PEAK]} + 5) but the player continued")
-            elif caps_clause(rec, caps_word(new)):
-                mismatches.append(f"{key} (player {w}): the caps clause fired (year-end age "
-                                  f"{year_end_age(rec)}, caps {caps_word(new)}) but the player continued")
-        else:                                          # replaced: a clause must have fired
-            if caps_word(rec) > 0 and not peak_clause(rec):
-                mismatches.append(f"{key} (player {w}): the name is gone but no clause can have fired "
-                                  f"(caps {caps_word(rec)} > 0, year-end age {year_end_age(rec)}, peak "
-                                  f"{rec[A.PEAK]}; rec {rec.hex()})")
-            elif caps_word(rec) == 0 and not peak_clause(rec):
-                gk = 1 if rec[A.CLUB_POSITION] == 0 else 0
-                if not A.RETIRE_LIMIT[gk] < year_end_age(rec):
-                    mismatches.append(f"{key} (player {w}): the name is gone but retirement_flag cannot "
-                                      f"have fired (rec {rec.hex()})")
-    # every new name (or same-name replacement) must sit at the squad word of a replaced player
-    gone = {key: (w, rec) for key, (w, rec) in b.items()
-            if key not in a or any(a[key][1][off] != rec[off] for off in CREATION)}
-    for key, (w, rec) in sorted(a.items()):
-        if key in b and not any(rec[off] != b[key][1][off] for off in CREATION):
-            continue          # a continuing player, checked above
-        n += 1
-        slot = [(k, ww, rr) for k, (ww, rr) in gone.items() if k[0] == key[0] and ww == w]
-        if not slot:
-            mismatches.append(f"{key} (player {w}): a new name with no replaced player at the same slot")
-        else:
-            if rec[A.CAPS] or rec[A.CAPS + 1] or rec[0x0A] or rec[0x0B] or rec[0x10]:
-                mismatches.append(f"{key} (player {w}): the replacement does not show 7E80's marks "
-                                  f"(caps/goals/status not zero: {rec.hex()})")
+        mismatches.append(f"tables DS:6D25/DS:6DCD differ between the captures ({when})")
+    nb = [c["n"] for c in before["countries"]]
+    na = [c["n"] for c in after["countries"]]
+    if nb != na or not nb:
+        mismatches.append(f"{when}: the captured countries differ or are empty: {nb} -> {na}")
+    after_by_n = {c["n"]: c for c in after["countries"]}
+    n = 0
+    for cb in before["countries"]:
+        b = squad_map(cb, before.get("when"), mismatches)
+        ca = after_by_n.get(cb["n"], {"n": cb["n"], "squad": [], "players": []})
+        a = squad_map(ca, after.get("when"), mismatches)
+        if set(b) != set(a):
+            mismatches.append(f"country {cb['n']} ({when}): the squad words differ: gone "
+                              f"{sorted(set(b) - set(a))}, new {sorted(set(a) - set(b))}")
+        ratings = {}
+        for w in sorted(b):
+            n += 1
+            rec, sur, ini = b[w]
+            tag = f"country {cb['n']} player {w} ({when})"
+            if w not in a:
+                mismatches.append(f"{tag}: no record in the second capture")
+                continue
+            new, sur2, ini2 = a[w]
+            caps_lo = caps_word(rec)
+            fire_lo = A.ageing_value(with_caps(rec, max(caps_lo, 1)), 0, None, None, 0)["retires"]
+            fire_zero = A.ageing_value(with_caps(rec, 0), 0, None, None, 0)["retires"]
+            decided = caps_lo > 0 or fire_lo == fire_zero
+            cont = continuing_errors(rec, new, (sur, ini), (sur2, ini2))
+            repl = replacement_errors(rec, new, (sur, ini), (sur2, ini2))
+            if decided and not fire_lo:
+                if cont:
+                    mismatches.append(f"{tag}: retirement cannot fire, but: {'; '.join(cont)} "
+                                      f"(rec {rec.hex()} -> {new.hex()})")
+            elif decided:
+                if repl:
+                    mismatches.append(f"{tag}: retirement fires, but not a re-create: {'; '.join(repl)} "
+                                      f"(rec {rec.hex()} -> {new.hex()})")
+                else:
+                    ratings.setdefault(new[A.RATING], []).append(w)
+            elif not cont:                       # undecided, continuing
+                if caps_word(new) == 0:
+                    mismatches.append(f"{tag}: continued with caps 0 at year-end age "
+                                      f"{(rec[A.AGE] + 1) & 0xFF}: retirement fires (rec {rec.hex()})")
+            elif repl:
+                mismatches.append(f"{tag}: neither continuing ({'; '.join(cont)}) nor a re-create "
+                                  f"({'; '.join(repl)}) (rec {rec.hex()} -> {new.hex()})")
+            else:
+                ratings.setdefault(new[A.RATING], []).append(w)
+        if len(ratings) > 1:
+            mismatches.append(f"country {cb['n']} ({when}): re-creates of one 7FDF call carry "
+                              f"different +3 (country_rating + 0x7F): {ratings}")
     return n
+
+
+def check_runs(paths):
+    """(total comparisons, mismatches, pairs, deltas, notes) over the record files."""
+    total, mismatches, pairs, deltas, notes = 0, [], 0, [], []
+    if not paths:
+        mismatches.append("no E014 record found")
+    for p in paths:
+        record = json.loads(Path(p).read_text())
+        caps = captures(record)
+        status = record.get("status", "")
+        if len(caps) < 2:
+            if status == "completed":
+                mismatches.append(f"{Path(p).name}: completed with {len(caps)} capture(s), no pair")
+            else:
+                notes.append(f"{Path(p).name}: {len(caps)} capture(s), no pair ({status[:60]})")
+        for before, after in zip(caps, caps[1:]):
+            pairs += 1
+            total += check_pair(before, after, mismatches)
+            for c1, c2 in zip(before["countries"], after["countries"]):
+                m2 = {q["w"]: bytes.fromhex(q["rec"]) for q in c2["players"]}
+                for q in c1["players"]:
+                    old, new = bytes.fromhex(q["rec"]), m2.get(q["w"])
+                    if new is not None and all(new[o] == old[o] for o in CONTINUING_SAME) \
+                            and new[A.AGE] == (old[A.AGE] + 1) & 0xFF:
+                        deltas.append(new[A.ABILITY] - old[A.ABILITY])
+    if total == 0:
+        mismatches.append("no comparison was made: nothing corroborated")
+    return total, mismatches, pairs, deltas, notes
 
 
 def main(argv=None):
@@ -147,23 +243,9 @@ def main(argv=None):
     ap.add_argument("--runs", default=str(ROOT / "runs" / "E014"))
     a = ap.parse_args(argv)
     runs = sorted(Path(a.runs).glob("E014-r*.json"))
-    total, mismatches, pairs, deltas = 0, [], 0, []
-    for p in runs:
-        record = json.loads(p.read_text())
-        caps = captures(record)
-        for before, after in zip(caps, caps[1:]):
-            pairs += 1
-            total += check_pair(before, after, mismatches)
-            for c1, c2 in zip(before["countries"], after["countries"]):
-                m1 = {(q["surname"], q["initial"]): q for q in c1["players"]}
-                for q in c2["players"]:
-                    k = (q["surname"], q["initial"])
-                    if k in m1:
-                        old = bytes.fromhex(m1[k]["rec"])
-                        new = bytes.fromhex(q["rec"])
-                        if any(new[off] != old[off] for off in CREATION):
-                            continue      # a same-name replacement, not a year of ageing
-                        deltas.append(new[A.ABILITY] - old[A.ABILITY])
+    total, mismatches, pairs, deltas, notes = check_runs(runs)
+    for m in notes:
+        print("aborted:", m)
     for m in mismatches:
         print("MISMATCH:", m)
     if deltas:
@@ -173,8 +255,9 @@ def main(argv=None):
         print(f"observed variance: {len(deltas)} continuing players, +4 deltas "
               f"{json.dumps({str(k): hist[k] for k in sorted(hist)})}")
     print(f"captures in {len(runs)} record(s), {pairs} consecutive pair(s)")
-    print(f"match: {total - len(mismatches)}/{total}")
-    return 0 if not mismatches else 1
+    failed = len(mismatches)
+    print(f"match: {max(total - failed, 0)}/{total}")
+    return 0 if total > 0 and not mismatches else 1
 
 
 if __name__ == "__main__":

@@ -1,19 +1,29 @@
 #!/usr/bin/env python3
-"""Unit tests for runtime/model/ageing.py (T28, Q013; E014). Every constant the tests pin cites
-the listing line it comes from (experiments/E014-q013-ageing/notes.md). The mutation checks of
-Done-when 2 — the peak-band rule, a branch direction, a divisor, the variance seed — are pinned
-by test_band_edges, test_below_band_halves, test_above_band_and_divisor,
-test_retirement_predicate_edges and test_seed_is_not_consumed (each fails when its constant is
-changed; the PR lists the mutations run). These tests fail before the change (runtime/model/
-ageing.py does not exist on main) and pass after it.
+"""Unit tests for runtime/model/ageing.py and the E014 checker (T28, Q013; E014).
+
+Every fixture is a literal 20-byte record and every expected value a literal byte or a literal
+offset (1 age, 2 peak, 3 rating, 4 ability, 5 profile, 7 club position, 8/9 caps, 0x11 the
+scorer count), never the predictor's own offset constants — so a changed constant in
+runtime/model/ageing.py cannot carry its fixtures with it (review R9). The continuing-player
+fixtures are real pairs from the committed captures (runs/E014, the record, country and player
+word named on each row): the expected aged record is the first capture's bytes with +1, +4 and
++0x11 taken from the second capture. Listing lines: experiments/E014-q013-ageing/notes.md.
+The PR lists the in-place mutations run against these tests (Done-when 2).
 Run: python3 -m unittest -v tests.test_model_ageing"""
+import contextlib
+import copy
+import io
+import json
 import sys
+import tempfile
 import unittest
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "runtime" / "model"))
+sys.path.insert(0, str(ROOT / "experiments" / "E014-q013-ageing"))
 import ageing as A  # noqa: E402
+import check_ageing as C  # noqa: E402
 
 
 def hex_bytes(path):
@@ -43,190 +53,384 @@ CLASS_TABLE = bytes(DATA[0x6D25 + i] for i in range(14 * 12))    # DS:6D25 (F008
 PROFILE_TABLE = bytes(DATA[0x6DCD + i] for i in range(16 * 12))  # DS:6DCD (F008/F015)
 DATA1 = hex_bytes(ROOT / "static" / "goal-exe" / "data" / "ds_2581_01.hex")
 
+# (record, country, word, first capture, second capture): continuing players, every branch of
+# 1771:32EB at the AGED age a = +1 + 1 against p = +2 — below by 1..6, the copy band 0..3,
+# above by 4..5 — for outfield players and goalkeepers (+7 == 0).
+CONTINUING = [
+    ("r0005", 1, 13, "01161da1820b010100000000072020110000ff7f", "01171da1820b010100000000012020110000ff7f"),  # a-p = -6
+    ("r0005", 2, 36, "02171dc19c09050500000000062020000000ff7f", "02181dc1a809050500000000012020000000ff7f"),  # -5
+    ("r0005", 3, 60, "03161bceb40f0d0d000000001e2020000000ff7f", "03171bceb40f0d0d040001001c20200000004727"),  # -4
+    ("r0005", 2, 27, "02171bc1a808070700000000122020000000ff7f", "02181bc1b408070700000000081a1a000000ff7f"),  # -3
+    ("r0005", 1, 3, "011a1da1960c0202000000001e1414320000ff7f", "011b1da1960c020203000000161c1c320000ff7f"),   # -2
+    ("r0006", 2, 32, "021c1fc1b4040000000000001c2020910000ff7f", "021d1fc1b4040000050000001b2020910000ff7f"),  # -2 gk
+    ("r0005", 1, 6, "011b1da19602060600000000042020800000ff7f", "011c1da1a102060600000000022020800000ff7f"),   # -1
+    ("r0006", 2, 32, "021d1fc1b4040000050000001b2020910000ff7f", "021e1fc1c10400000b000000111414910000ff7f"),  # -1 gk
+    ("r0005", 2, 33, "021a1bc1c1090202000000001d1e1e320000ff7f", "021b1bc1c10902020c000000192020320000ff7f"),  # 0
+    ("r0005", 3, 52, "031e1fcece0e0000000000001b2020110000ff7f", "031f1fcece0e0000030000000c20201100003700"),  # 0 gk
+    ("r0005", 1, 8, "011b1ba1a1070808000000001e1414000000ff7f", "011c1ba1a10708080c000000172020000000ff7f"),   # 1
+    ("r0005", 1, 5, "011a19a1a106050500000000132020000000ff7f", "011b19a1a10605050c0000000d1919000000ff7f"),   # 2
+    ("r0005", 1, 17, "011f1da1a10c070700000000071212000000ff7f", "01201da1a10c070709000000052020000000ff7f"),  # 3
+    ("r0005", 1, 1, "01201ea1a10a000000000000082020110000ff7f", "01211ea1a10a00000b000000022020110000ff7f"),   # 3 gk
+    ("r0005", 1, 4, "011d1aa1a10b020200000000181717320000ff7f", "011e1aa1960b02020b000000101212320000ff7f"),   # 4
+    ("r0006", 1, 12, "01201da1a10d000001000000011212110000ff7f", "01211da1960d000005000000022020110000ff7f"),  # 4 gk
+    ("r0005", 1, 2, "011d19a1960f010100000000051212110000ff7f", "011e19a18c0f01010c000000011e1e110000ff7f"),   # 5
+]
 
-def record(age=27, peak=27, rating=0xF0, profile=5, club=3, caps=0, **kw):
-    r = bytearray(20)
-    r[0] = 7                      # country (any nonzero)
-    r[A.AGE] = age
-    r[A.PEAK] = peak
-    r[A.RATING] = rating
-    r[A.ABILITY] = A.compute_ability(age, peak, rating)
-    r[0x05] = profile
-    r[0x06] = club
-    r[A.CLUB_POSITION] = club
-    r[A.CAPS] = caps & 0xFF       # caps, a word (F008: +8/+9)
-    r[A.CAPS + 1] = caps >> 8
-    r[0x0C] = 0x10
-    r[0x0D] = 0x10
-    r[0x0E] = 0x10
-    r[0x12] = 0xFF                # performance 0x7FFF low byte (F014)
-    r[0x13] = 0x7F
-    for k, v in kw.items():
-        r[int(k, 0) if isinstance(k, str) else k] = v
+# (record, country, word, the retiree, its re-create): 7F40 fired on the aged record and 7E80
+# replaced the player (the captures' bytes, as above).
+REPLACED = [
+    # caps clause: age 30 -> 31 > DS:110E[0] = 30, caps 0; peak 26: 31 > 31 is false
+    ("r0005", 2, 29, "021e1ac1b403090900000000102020800000ff7f", "02181dc1a8050909000000000d2020800000ff7f"),
+    # peak clause: age 30 -> 31 > 25 + 5, caps 12 (the caps clause closed)
+    ("r0006", 1, 2, "011e19a18c0f01010c000000011e1e110000ff7f", "01191ca1960e010100000000171b1b110000ff7f"),
+    # a goalkeeper (+7 = 0) by the peak clause: age 35 -> 36 > 30 + 5, caps 20
+    ("r0006", 1, 1, "01231ea18c0a000014000000012020110000ff7f", "011c1e9b910e000000000000062020110000ff7f"),
+]
+
+
+def rec(hexstr, **edits):
+    r = bytearray(bytes.fromhex(hexstr))
+    for k, v in edits.items():
+        r[int(k[1:], 16)] = v                 # edits like o01=30 (offset 0x01)
     return bytes(r)
+
+
+# a literal outfield record: country 1, age 29, peak 27, rating 0xF0, ability 0xF0, profile 5,
+# positions 3/3, caps 0, morale/fitness/energy 0x10, performance 0x7FFF
+BASE = "011d1bf0f005030300000000101010000000ff7f"
+
+
+class LiteralRecordTests(unittest.TestCase):
+    def test_base_fixture_layout(self):
+        r = bytes.fromhex(BASE)
+        self.assertEqual(len(r), 20)
+        self.assertEqual((r[1], r[2], r[3], r[4], r[7]), (29, 27, 0xF0, 0xF0, 3))
+
+
+class CapturedPairTests(unittest.TestCase):
+    """The yearly first pass 7FB1 -> 7E4A -> 32EB on real records (notes.md sections 2-3)."""
+
+    def test_aged_record_matches_the_next_capture(self):
+        for run, n, w, before, after in CONTINUING:
+            b, a = bytes.fromhex(before), bytes.fromhex(after)
+            want = bytearray(b)
+            want[1], want[4], want[0x11] = a[1], a[4], 0       # 7E6F, 32EB, 7FD4 — literal offsets
+            with self.subTest(run=run, country=n, word=w):
+                self.assertEqual(A.aged_record(b).hex(), bytes(want).hex())
+                out = A.ageing_value(b, 0, None, None, 0)
+                self.assertEqual((out[1], out[4], out[0x11]), (a[1], a[4], 0))
+                # the year end's caps word is the second capture's (r0005 1/17 won 9 caps
+                # in the year, closing the caps clause at aged age 32)
+                yc = bytearray(b)
+                yc[8], yc[9] = a[8], a[9]
+                self.assertEqual(A.ageing_value(bytes(yc), 0, None, None, 0)["retires"], 0)
+
+    def test_literal_ability_bytes_of_the_captures(self):
+        # The same pairs as literal (aged age, peak, rating) -> ability: 0xa1 = 161 at p - 1 is
+        # the five-age plateau's lower end (k = 0 from the idiv 2 at 33A7, notes.md section 3).
+        rows = [(0x17, 0x1D, 0x82, 0x82 * 13 // 16), (0x18, 0x1D, 0x9C, 0x9C * 14 // 16),
+                (0x1C, 0x1D, 0xA1, 0xA1), (0x1B, 0x1B, 0xC1, 0xC1), (0x20, 0x1D, 0xA1, 0xA1),
+                (0x1E, 0x1A, 0xA1, 0x96), (0x1E, 0x19, 0xA1, 0x8C)]
+        for age, peak, rating, ability in rows:
+            self.assertEqual(A.compute_ability(age, peak, rating), ability, (age, peak, rating))
 
 
 class BandRuleTests(unittest.TestCase):
     """compute_ability 1771:32EB, seg_1771_05.asm:283-370 (notes.md section 3)."""
 
-    def test_band_edges(self):
-        # 3308-332E: inside p..p+3 -> +4 = +3 (333A). Mutating PEAK_BAND (3 -> 2 or 4) moves
-        # an edge and fails this test; so does swapping either branch direction (jb/jg).
-        r = 0xF0
-        for age in (27, 28, 29, 30):                 # p = 27: the band 27..30
-            self.assertEqual(A.compute_ability(age, 27, r), r, f"age {age} inside the band")
-        self.assertEqual(A.compute_ability(31, 27, r), (r * 15) // 16, "p+4: k = 1 (337F)")
-        self.assertEqual(A.compute_ability(26, 27, r), r, "p-1: k = 0 (33A1-33A7)")
+    def test_the_whole_curve_literal(self):
+        # p = 27, r = 240, ages 20..47; below: k = (p - a) idiv 2; the copy band 27..30; above:
+        # k = a - 30; factor 16 - k; 46 gives k = 16 -> 0; 47 wraps (k = 17, factor 0xFFFF).
+        want = [195, 195, 210, 210, 225, 225, 240, 240, 240, 240, 240, 225, 210, 195, 180, 165,
+                150, 135, 120, 105, 90, 75, 60, 45, 30, 15, 0, 241]
+        self.assertEqual([A.compute_ability(a, 27, 240) for a in range(20, 48)], want)
 
-    def test_below_band_halves(self):
-        # 338D-33A7: k = (p - a) idiv 2 (signed, cdq at 33A3) — floor for p > a.
-        # Mutating BELOW_DIVISOR (2 -> 1) fails this test.
-        r = 0xF0
-        self.assertEqual(A.compute_ability(25, 27, r), (r * 15) // 16)   # k = 2//2 = 1
-        self.assertEqual(A.compute_ability(24, 27, r), (r * 15) // 16)   # k = 3//2 = 1 (floor)
-        self.assertEqual(A.compute_ability(23, 27, r), (r * 14) // 16)   # k = 4//2 = 2
-        self.assertEqual(A.compute_ability(21, 27, r), (r * 13) // 16)   # k = 6//2 = 3
-
-    def test_above_band_and_divisor(self):
-        # 3368-3388: k = a - (p + 3), one step per year; 33B3-33C3: +4 = ((r * (16 - k)) mod
-        # 65536) div 16, low byte. Mutating ABILITY_DIVISOR (16 -> 15) or FACTOR_BASE fails.
-        r = 0xF0
-        self.assertEqual(A.compute_ability(32, 27, r), (r * 14) // 16)   # k = 2
-        self.assertEqual(A.compute_ability(37, 27, r), (r * 9) // 16)    # k = 7
-        self.assertEqual(A.compute_ability(31, 27, 240), 225)            # 240 * 15 // 16
-        # the whole curve is monotone in the three branches: rises below the band, flat inside,
-        # falls above (the backlog's hypothesis, from the listing's branches)
-        curve = [A.compute_ability(a, 27, r) for a in range(20, 38)]
-        below = curve[:7]
-        self.assertEqual(below, sorted(below), "rises to the band")
-        self.assertEqual(curve[7:11], [r] * 4, "flat inside the band 27..30")
-        above = curve[11:]
-        self.assertEqual(above, sorted(above, reverse=True), "falls after the band")
+    def test_five_age_maximum_four_age_copy(self):
+        # The maximum r holds at p-1..p+3 (five ages); the copy branch (333A) is p..p+3 and
+        # p-1 reaches r through k = 0. A rating with a remainder shows the below branch's
+        # arithmetic at p-2: 0xA1 * 15 // 16 = 150.
+        self.assertEqual([A.compute_ability(a, 29, 0xA1) for a in range(26, 34)],
+                         [150, 150, 161, 161, 161, 161, 161, 150])
 
     def test_factor_wrap_edge(self):
-        # 3386/33AE: factor = 0x10 - k is a 16-bit WORD — k > 16 wraps negative; 33B6 mul is
-        # unsigned 16x16, 33B9 `xor dx, dx` keeps only the low product, 33BE div 16 unsigned.
-        # a = p + 20 -> k = 17 -> factor 0xFFFF: (240 * 0xFFFF) mod 65536 = 65296, // 16 = 4081,
-        # low byte 0xF1. The listing's arithmetic, not a Python negative floor.
-        self.assertEqual(A.compute_ability(47, 27, 240), ((240 * 0xFFFF) & 0xFFFF) // 16 & 0xFF)
+        # 3386/33AE: factor = 0x10 - k is a 16-bit WORD — k = 17 gives 0xFFFF; 33B6 mul keeps
+        # the low product (33B9 xor dx, dx): (240 * 0xFFFF) mod 65536 = 65296, div 16 = 4081 =
+        # 0x0FF1; 33C3 stores al = 0xF1.
         self.assertEqual(A.compute_ability(47, 27, 240), 0xF1)
+        self.assertEqual(A.compute_ability(48, 27, 240), 0xE2)   # 65536-480 = 65056 // 16 = 0x0FE2
+
+    def test_rating_byte_operand(self):
+        # 3344: the rating is one byte, zero-extended (xor ah, ah at 3348)
+        self.assertEqual(A.compute_ability(31, 27, 0x1F0), 225)
 
     def test_age_byte_wrap(self):
         # 7E6F: inc byte ptr es:[di + 1] — a byte increment, wraps 255 -> 0.
-        out = A.year_end_bytes(1, record(age=255, peak=30, rating=100))
-        self.assertEqual(out[A.AGE], 0)
+        out = A.year_end_bytes(1, rec(BASE, o01=255))
+        self.assertEqual(out[1], 0)
 
 
 class YearEndBytesTests(unittest.TestCase):
     """The loop's per-player writes: 7FB1/7E4A (notes.md section 2)."""
 
     def test_writes_exactly_three_bytes(self):
-        # The yearly loop's complete write set on a continuing player is {+1, +4, +0x11}
-        # (7E6F, 333A/33C3, 7FD4) — +2, +3, +5, +6, +7 are never written.
-        out = A.year_end_bytes(1, record())
+        out = A.year_end_bytes(1, rec(BASE, o11=9))
         self.assertEqual(sorted(k for k in out if isinstance(k, int)), [0x01, 0x04, 0x11])
-        self.assertEqual(out[0x11], 0)                       # 7FD4
-        self.assertIn("retires", out)
+        self.assertEqual((out[1], out[4], out[0x11]), (30, 0xF0, 0))
+        self.assertEqual(A.aged_record(rec(BASE, o11=9)).hex(),
+                         "011e1bf0f005030300000000101010000000ff7f")
 
     def test_player_zero_skips_the_age(self):
         # 7E64-7E6A: 7E4A returns without the increment for player 0; 7FB1's +0x11 write (7FD4)
-        # is unconditional, so player 0's record still gets +0x11 = 0 and nothing else.
-        out = A.year_end_bytes(0, record(age=25, peak=27, rating=0xF0))
-        self.assertEqual(sorted(k for k in out if isinstance(k, int)), [0x11])
-
-    def test_retirement_flag_is_reported(self):
-        self.assertEqual(A.year_end_bytes(1, record(age=28, peak=27))["retires"], 0)
-        self.assertEqual(A.year_end_bytes(1, record(age=34, peak=28))["retires"], 1)
+        # is unconditional.
+        self.assertEqual(A.year_end_bytes(0, rec(BASE)), {0x11: 0})
 
 
 class RetirementTests(unittest.TestCase):
-    """1771:7F40 (seg_1771_11.asm:950-1000; notes.md section 4)."""
+    """1771:7F40 on the AGED record (seg_1771_11.asm:950-1000, 7FDF's second pass :1098)."""
 
-    def test_retirement_predicate_edges(self):
-        # (DS:110E[gk] < a AND caps == 0) OR a > p + 5. DS:110E = 1E 21 (ds_2581_01.hex:143);
-        # the data image itself, so the constants are not hand-copied:
-        self.assertEqual((DATA1[0x110E], DATA1[0x110F]), tuple(A.RETIRE_LIMIT))
-        f = A.retirement_flag
-        self.assertEqual(f(record(age=30, peak=27, club=3, caps=0)), 0)   # 30 < 30 false
-        self.assertEqual(f(record(age=31, peak=27, club=3, caps=0)), 1)   # 30 < 31, caps 0
-        self.assertEqual(f(record(age=31, peak=27, club=3, caps=4)), 0)   # caps nonzero, 31<=32
-        self.assertEqual(f(record(age=33, peak=27, club=3, caps=40)), 1)  # 33 > 27+5
-        self.assertEqual(f(record(age=33, peak=28, club=3, caps=40)), 0)  # 33 <= 28+5
-        # goalkeeper: DS:110E[1] = 0x21 = 33 (club_position 0, 7F5D-7F6A)
-        self.assertEqual(f(record(age=33, peak=30, club=0, caps=0)), 0)   # 33 < 33 false
-        self.assertEqual(f(record(age=34, peak=30, club=0, caps=0)), 1)
-        self.assertEqual(f(record(age=35, peak=30, club=0, caps=9)), 0)   # 35 <= 30+5
-        self.assertEqual(f(record(age=36, peak=30, club=0, caps=9)), 1)   # 36 > 30+5
-        # mutating RETIRE_PEAK_MARGIN (5 -> 4) flips age=33/peak=28 and fails this test
-        self.assertEqual(f(record(age=33, peak=28, club=3, caps=9)), 0)   # 33 <= 28+5
-        self.assertEqual(f(record(age=34, peak=28, club=3, caps=9)), 1)   # 34 > 28+5
+    def test_data_image_constants(self):
+        # DS:110E = 1E 21, DS:110C = 19 1C, DS:0E80 = 1B 1E (ds_2581_01.hex:123,143)
+        self.assertEqual((DATA1[0x110E], DATA1[0x110F]), (30, 33))
+        self.assertEqual((DATA1[0x110C], DATA1[0x110D]), (25, 28))
+        self.assertEqual((DATA1[0x0E80], DATA1[0x0E81]), (27, 30))
+        self.assertEqual((DATA1[0x118E], DATA1[0x118F]), (0x02, 0x05))
+
+    def test_flag_is_on_the_aged_record(self):
+        # R5: age 32, peak 27, caps 10 ages to 33 > 27 + 5 -> retires; the record as it stood
+        # (32 > 32 false) would not.
+        r = rec(BASE, o01=32, o08=10)
+        self.assertEqual(A.retirement_flag(r), 0)
+        self.assertEqual(A.ageing_value(r, 0, None, None, 0)["retires"], 1)
+        self.assertEqual(A.year_end_bytes(1, r)["retires"], 1)
+
+    def test_peak_clause_boundary(self):
+        f = lambda r: A.ageing_value(r, 0, None, None, 0)["retires"]
+        self.assertEqual(f(rec(BASE, o01=31, o08=10)), 0)   # aged 32 = 27 + 5: jg not taken
+        self.assertEqual(f(rec(BASE, o01=32, o08=10)), 1)   # aged 33 > 32
+        self.assertEqual(f(rec(BASE, o01=32, o02=28, o08=10)), 0)   # 33 = 28 + 5
+        self.assertEqual(f(rec(BASE, o01=33, o02=28, o08=10)), 1)
+
+    def test_caps_clause_boundary(self):
+        f = lambda r: A.ageing_value(r, 0, None, None, 0)["retires"]
+        # outfield (+7 = 3): DS:110E[0] = 30 < aged age, caps 0; peak 27 keeps the peak clause off
+        self.assertEqual(f(rec(BASE, o01=29)), 0)            # aged 30: 30 < 30 false (jae)
+        self.assertEqual(f(rec(BASE, o01=30)), 1)            # aged 31
+        self.assertEqual(f(rec(BASE, o01=30, o08=1)), 0)     # caps 1
+        self.assertEqual(f(rec(BASE, o01=30, o09=1)), 0)     # caps 0x0100: the WORD at +8
+        # goalkeeper (+7 = 0): DS:110E[1] = 33; peak 30 keeps the peak clause off to 35
+        gk = rec(BASE, o02=30, o07=0)
+        self.assertEqual(f(rec(gk.hex(), o01=32)), 0)        # aged 33: 33 < 33 false
+        self.assertEqual(f(rec(gk.hex(), o01=33)), 1)        # aged 34
+        # the club position byte decides, not +6 (7F5D: es:[di + 7])
+        self.assertEqual(f(rec(BASE, o01=31, o06=0, o02=30)), 1)   # +6 = 0, +7 = 3: limit 30
+
+    def test_captured_retirements_fire(self):
+        for run, n, w, old, new in REPLACED:
+            with self.subTest(run=run, country=n, word=w):
+                self.assertEqual(A.ageing_value(bytes.fromhex(old), 0, None, None, 0)["retires"], 1)
+
+
+class RecreateTests(unittest.TestCase):
+    """1771:7E80's deterministic part (seg_1771_11.asm:871-948)."""
+
+    def test_outfield_constraints_literal(self):
+        c = A.recreate_constraints(bytes.fromhex(REPLACED[1][3]))       # +0 = 1, +7 = 1
+        self.assertEqual(c["exact"], {0: 1, 7: 1, 8: 0, 9: 0, 10: 0, 11: 0, 16: 0, 17: 0,
+                                      18: 0xFF, 19: 0x7F})
+        self.assertEqual(c["range"], {1: (20, 30), 2: (25, 29), 5: (1, 16)})
+
+    def test_goalkeeper_constraints_literal(self):
+        c = A.recreate_constraints(bytes.fromhex(REPLACED[2][3]))       # +7 = 0
+        self.assertEqual(c["exact"][7], 0)
+        self.assertEqual(c["range"], {1: (23, 33), 2: (28, 32), 5: (1, 16)})
+
+    def test_captured_recreates_satisfy_them(self):
+        for run, n, w, old, new in REPLACED:
+            o, r = bytes.fromhex(old), bytes.fromhex(new)
+            c = A.recreate_constraints(o)
+            with self.subTest(run=run, country=n, word=w):
+                self.assertTrue(all(r[k] == v for k, v in c["exact"].items()))
+                self.assertTrue(all(lo <= r[k] <= hi for k, (lo, hi) in c["range"].items()))
+                self.assertEqual(A.compute_ability(r[1], r[2], r[3]), r[4])
 
 
 class SeedTests(unittest.TestCase):
-    """The variance question (notes.md section 3): the yearly path consumes no RNG."""
+    """The continuing-player update consumes no RNG (notes.md section 3)."""
 
     def test_seed_is_not_consumed(self):
-        # calls.tsv: 8208/80DA/7FDF/7FB1/7E4A/32EB/7F40 have no RNG callee — the prediction of
-        # a continuing player is seed-independent. Mutating the predictor to consume `seed`
-        # (a variance term) fails this test; the observed year-to-year variance of the records
-        # (check_ageing.py's `observed variance` report) is the creation draw (+2, +3), which
-        # the record itself carries.
-        rec = record(age=29, peak=27, rating=0xC8)
-        a = A.ageing_value(rec, 1, CLASS_TABLE, PROFILE_TABLE, 0)
-        b = A.ageing_value(rec, 1, CLASS_TABLE, PROFILE_TABLE, 12345)
-        self.assertEqual(a, b)
+        r = rec(BASE, o01=31)
+        outs = [A.ageing_value(r, 1, CLASS_TABLE, PROFILE_TABLE, s) for s in (0, 1, 12345, 2**31)]
+        self.assertTrue(all(o == outs[0] for o in outs))
 
-    def test_observed_variance_matches_the_records_curve(self):
-        # The help file's "differ by year" (GOAL.HLP 327-332): two players of the same rating
-        # and age differ per year ONLY through their creation draws (+2 peak, +3 rating) — the
-        # actual variance the E014 records show. Same age, different peaks -> different deltas.
-        r = record(age=29, peak=26, rating=0xC8)   # past his band: falls
-        s = record(age=29, peak=29, rating=0xC8)   # inside his band: at the ceiling
-        dr = A.ageing_value(r, 1, CLASS_TABLE, PROFILE_TABLE, 1)[A.ABILITY] - r[A.ABILITY]
-        ds = A.ageing_value(s, 1, CLASS_TABLE, PROFILE_TABLE, 1)[A.ABILITY] - s[A.ABILITY]
-        self.assertLess(dr, 0)
-        self.assertEqual(ds, 0xC8 - A.compute_ability(29, 29, 0xC8))
+    def test_observed_variance_is_the_records_own(self):
+        # Two captured players of one year differ in their +4 deltas only through +1/+2/+3:
+        # r0005 1/4 (above the band) fell 0xa1 -> 0x96, r0005 1/8 (inside) held 0xa1.
+        d = []
+        for row in (CONTINUING[14], CONTINUING[10]):
+            b, a = bytes.fromhex(row[3]), bytes.fromhex(row[4])
+            d.append(A.ageing_value(b, 0, None, None, 99)[4] - b[4])
+            self.assertEqual(d[-1], a[4] - b[4])
+        self.assertEqual(d, [-11, 0])
 
 
 class DerivedSkillTests(unittest.TestCase):
     """1771:3A06 through the year end (notes.md section 5; F015)."""
 
-    def test_skills_scale_with_ability_only(self):
-        # The loop writes +4 only, so all twelve engine skills move by the same integer formula
-        # t * (ability + 1) div 32 with the SAME table values (3A51-3A74).
-        rec = record(age=30, peak=27, rating=0xF0, profile=5, club=3)
-        out = A.ageing_value(rec, 1, CLASS_TABLE, PROFILE_TABLE, 7)
-        before, after = out["skills"]
-        self.assertEqual(len(before), 12)
-        expect_after = tuple(
-            PROFILE_TABLE[12 * rec[0x05] + CLASS_TABLE[12 * rec[A.CLUB_POSITION] + e]]
-            * (out[A.ABILITY] + 1) // A.SKILL_DIVISOR for e in range(12))
-        self.assertEqual(after, expect_after)
-        # a goalkeeper's keeping (element 0) is class 1 (F008): the profile row's first value
-        gk = record(age=30, peak=30, rating=0xF0, club=0)
-        self.assertEqual(CLASS_TABLE[0], 1)
-        out_gk = A.ageing_value(gk, 1, CLASS_TABLE, PROFILE_TABLE, 7)
-        gb, ga = out_gk["skills"]
-        self.assertEqual(ga[0], PROFILE_TABLE[12 * gk[0x05] + 1]
-                         * (out_gk[A.ABILITY] + 1) // 32)
-        # 30 -> 31 stays inside the band 30..33: the ability holds at the ceiling and the
-        # twelve skills do not move ...
-        self.assertEqual(out_gk[A.ABILITY], gk[A.ABILITY])
-        self.assertEqual(gb, ga)
-        # ... while one year past the band (34 -> 35, k = 2) drops all twelve
-        old = record(age=34, peak=30, rating=0xF0, club=0)
-        b2, a2 = A.ageing_value(old, 1, CLASS_TABLE, PROFILE_TABLE, 7)["skills"]
-        self.assertTrue(all(x >= y for x, y in zip(b2, a2)))
-        self.assertTrue(any(x > y for x, y in zip(b2, a2)))
+    def test_skills_literal_formula(self):
+        r = rec(BASE, o01=31)                       # aged 32: k = 2, 0xF0 -> 0xD2
+        before, after = A.ageing_value(r, 1, CLASS_TABLE, PROFILE_TABLE, 7)["skills"]
+        want = lambda ab: tuple(PROFILE_TABLE[12 * 5 + CLASS_TABLE[12 * 3 + e]] * (ab + 1) // 32
+                                for e in range(12))
+        self.assertEqual(before, want(0xF0))
+        self.assertEqual(after, want(0xD2))
+        self.assertNotEqual(before, after)
+
+    def test_goalkeeper_keeping(self):
+        g = rec(BASE, o07=0, o02=30)
+        self.assertEqual(CLASS_TABLE[0], 1)        # a goalkeeper's element 0 is class 1 (F008)
+        b, a = A.ageing_value(g, 1, CLASS_TABLE, PROFILE_TABLE, 7)["skills"]
+        self.assertEqual(a[0], PROFILE_TABLE[12 * 5 + 1] * (0xF0 + 1) // 32)
 
 
-class TableConstantTests(unittest.TestCase):
-    def test_tables_come_from_the_data_image(self):
-        # DS:0E80 = 1B 1E and DS:110C = 19 1C (ds_2581_01.hex:123,143) — the creation bases the
-        # notes cite; pinned so a hand-copied constant cannot drift from the image.
-        self.assertEqual((DATA1[0x0E80], DATA1[0x0E81]), (0x1B, 0x1E))
-        self.assertEqual((DATA1[0x110C], DATA1[0x110D]), (0x19, 0x1C))
-        self.assertEqual((DATA1[0x118E], DATA1[0x118F]), (0x02, 0x05))
+def load_pair(run="r0005"):
+    record = json.loads((ROOT / "runs" / "E014" / f"E014-{run}.json").read_text())
+    caps = C.captures(record)
+    return copy.deepcopy(caps[0]), copy.deepcopy(caps[1])
+
+
+def player(cap, n, w):
+    for c in cap["countries"]:
+        if c["n"] == n:
+            for p in c["players"]:
+                if p["w"] == w:
+                    return c, p
+    raise KeyError((n, w))
+
+
+class CheckerTests(unittest.TestCase):
+    """experiments/E014-q013-ageing/check_ageing.py (review R1-R4)."""
+
+    def check(self, before, after):
+        mism = []
+        n = C.check_pair(before, after, mism)
+        return n, mism
+
+    def test_committed_pair_matches(self):
+        b, a = load_pair()
+        n, mism = self.check(b, a)
+        self.assertEqual((n, mism), (60, []))
+
+    def test_identity_not_name(self):
+        # R1: two players with one name; the second is aged right, the first left unaged.
+        b, a = load_pair()
+        for cap in (b, a):
+            _, p1 = player(cap, 1, 13)
+            _, p2 = player(cap, 1, 6)
+            p1["surname"], p1["initial"] = p2["surname"], p2["initial"]
+        _, q = player(a, 1, 13)
+        q["rec"] = player(b, 1, 13)[1]["rec"]          # player 13 not aged
+        n, mism = self.check(b, a)
+        self.assertEqual(n, 60)
+        self.assertTrue(any("player 13" in m for m in mism), mism)
+
+    def test_disappearance_needs_a_replacement(self):
+        # R2: the retiree r0005 2/29 vanishes from the second capture (record and squad word).
+        b, a = load_pair()
+        c, p = player(a, 2, 29)
+        c["players"].remove(p)
+        c["squad"].remove(29)
+        n, mism = self.check(b, a)
+        self.assertTrue(mism)
+        # and an empty second capture of a country
+        b, a = load_pair()
+        a["countries"][1]["players"] = []
+        n, mism = self.check(b, a)
+        self.assertTrue(any("player 29" in m for m in mism), mism)
+
+    def test_replacement_keeps_club_position(self):
+        # R3: the re-create of r0005 2/29 with +7 changed (old +7 = 9 -> 0)
+        b, a = load_pair()
+        _, p = player(a, 2, 29)
+        r = bytearray(bytes.fromhex(p["rec"]))
+        r[7] = 0
+        p["rec"] = r.hex()
+        n, mism = self.check(b, a)
+        self.assertTrue(any("player 29" in m and "+0x07" in m for m in mism), mism)
+
+    def test_replacement_invariants(self):
+        for off, val in ((0, 3), (8, 1), (10, 1), (0x10, 1), (0x11, 1), (1, 40), (2, 20), (5, 0),
+                         (4, 0)):
+            b, a = load_pair()
+            _, p = player(a, 2, 29)
+            r = bytearray(bytes.fromhex(p["rec"]))
+            r[off] = val
+            p["rec"] = r.hex()
+            with self.subTest(offset=off):
+                self.assertTrue(self.check(b, a)[1])
+
+    def test_continuing_byte_changes_fail(self):
+        for off in (0, 1, 2, 3, 4, 5, 7, 0x11):
+            b, a = load_pair()
+            _, p = player(a, 1, 13)
+            r = bytearray(bytes.fromhex(p["rec"]))
+            r[off] ^= 0x01
+            p["rec"] = r.hex()
+            with self.subTest(offset=off):
+                self.assertTrue(self.check(b, a)[1])
+
+    def test_unflagged_player_replaced_fails(self):
+        # r0005 1/13 (age 22, caps 0 but far from every clause) re-created in the second capture
+        b, a = load_pair()
+        _, p = player(a, 1, 13)
+        p["rec"] = "01191ca1960e010100000000171b1b000000ff7f"
+        self.assertTrue(self.check(b, a)[1])
+
+    def test_flagged_player_continuing_fails(self):
+        # r0005 2/29 retires (caps clause, caps 0): continuing with caps 0 is a mismatch
+        b, a = load_pair()
+        _, p = player(a, 2, 29)
+        old = bytes.fromhex(player(b, 2, 29)[1]["rec"])
+        p["rec"] = A.aged_record(old).hex()
+        self.assertTrue(self.check(b, a)[1])
+
+    def test_managed_country_and_two_ageings_fail(self):
+        b, a = load_pair()
+        a["countries"][0]["manager_byte"] = 0x81
+        self.assertTrue(self.check(b, a)[1])
+        b, a = load_pair()
+        b["countries"][0]["manager_byte"] = 0x80        # 0B77: > 0x80 is managed, 0x80 is not
+        self.assertEqual(self.check(b, a)[1], [])
+        b, a = load_pair()
+        a["state"]["stage"] = 5                          # 2 -> 5 enters 3 and 5
+        self.assertTrue(self.check(b, a)[1])
+
+    def test_ageings_between(self):
+        self.assertEqual([C.ageings_between(s, t) for s, t in
+                          ((2, 3), (3, 5), (5, 7), (7, 2), (8, 2), (3, 4), (2, 5), (4, 5))],
+                         [1, 1, 1, 1, 1, 0, 2, 1])
+        self.assertIsNone(C.ageings_between(1, 2))
+        self.assertIsNone(C.ageings_between(2, 9))
+
+    def test_tables_must_not_change(self):
+        b, a = load_pair()
+        a["tables"] = {"changed": True}
+        self.assertTrue(self.check(b, a)[1])
+
+    def test_no_evidence_is_a_failure(self):
+        # R4: no records, a completed record with one capture, and only aborted single captures
+        with tempfile.TemporaryDirectory() as d, contextlib.redirect_stdout(io.StringIO()):
+            self.assertEqual(C.main(["--runs", d]), 1)
+            single = json.loads((ROOT / "runs" / "E014" / "E014-r0001.json").read_text())
+            Path(d, "E014-r0001.json").write_text(json.dumps(single))
+            self.assertEqual(C.main(["--runs", d]), 1)          # aborted only: 0 comparisons
+            single["status"] = "completed"
+            Path(d, "E014-r0001.json").write_text(json.dumps(single))
+            total, mism, pairs, _, _ = C.check_runs([Path(d, "E014-r0001.json")])
+            self.assertTrue(any("completed" in m for m in mism), mism)
+
+    def test_committed_records(self):
+        total, mism, pairs, deltas, notes = C.check_runs(sorted((ROOT / "runs" / "E014").glob("E014-r*.json")))
+        self.assertEqual((total, mism, pairs, len(notes)), (300, [], 5, 4))
 
 
 if __name__ == "__main__":
