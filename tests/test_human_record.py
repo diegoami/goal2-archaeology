@@ -994,6 +994,105 @@ class LiveFileReads(Base):
         self.assertEqual(state["writer"], "done")
         self.assertEqual(entry["sha256"], hashlib.sha256(final).hexdigest())
 
+    def test_a_writer_paused_mid_write_is_never_staged(self):
+        # round-4 R1, with the real kernel: the writer opens the live file in place, writes its
+        # unchanged first byte, flushes and holds the file open for 20 polls (5 s) before it
+        # finishes and closes. The bytes and metadata are still the whole time; nothing is
+        # staged until the close, then the finished file is.
+        state = {"writer": "idle", "polls": 0, "handle": None}
+        final = tiny_zip(b"finished after a long pause")
+
+        class PausedWriter(FakeClock):
+            def sleep(self, s):
+                super().sleep(s)
+                if state["writer"] == "idle" and self.t >= 0.25:
+                    h = open(live, "r+b")
+                    h.write(live.read_bytes()[:1])
+                    h.flush()
+                    state.update(writer="active", handle=h)
+                elif state["writer"] == "active":
+                    state["polls"] += 1
+                    if state["polls"] == 20:
+                        h = state["handle"]
+                        h.seek(0)
+                        h.truncate()
+                        h.write(final)
+                        h.close()
+                        state["writer"] = "done"
+
+        clock = PausedWriter()
+        session, live, w = self.watcher("r4-paused", None, clock=clock)
+        self.addCleanup(lambda: state["handle"] and state["handle"].close())
+        first_only, sends = key_writes(live), [0]
+
+        def xrun(argv):                  # the emulator answers the first key only: a re-send
+            sends[0] += 1                # renaming a new finished file into place would end
+            if sends[0] == 1:            # the session legitimately (the paused writer then
+                first_only(argv)         # writes to the unlinked old inode)
+        w.xrun = xrun
+        staged_while = []
+        real_stage = w.stage
+        w.stage = lambda *a, **kw: (staged_while.append(state["writer"]), real_stage(*a, **kw))[1]
+        entry = w.tick()
+        self.assertEqual(staged_while, ["done"])
+        self.assertEqual(entry["sha256"], hashlib.sha256(final).hexdigest())
+
+    def test_a_writer_check_that_cannot_be_made_stages_nothing(self):
+        # round-4 R1: fail closed when the emulator's descriptors cannot be read
+        session, live, w = self.watcher("r4-closed", None)
+        w.xrun = key_writes(live)
+
+        def unreadable():
+            raise PermissionError("/proc/1234/fd")
+        w.writing = unreadable
+        self.assertIsNone(w.tick())
+        self.assertEqual(list((session / "snapshots").glob("*.sav")), [])
+
+    def test_write_watch_follows_the_kernels_write_sessions(self):
+        # the probe itself: a write opens a session, the writer's close ends it, our own reads
+        # touch nothing, and a finished file renamed into place is not a session
+        d = self.workdir("r4-watch")
+        f = d / "state.sav"
+        f.write_bytes(b"x")
+        ww = recorder.WriteWatch(f)
+        self.addCleanup(ww.close)
+        self.assertFalse(ww.writing())
+        h = open(f, "r+b")
+        h.write(b"y")
+        h.flush()
+        self.assertTrue(ww.writing())
+        f.read_bytes()                                  # a reader changes nothing
+        self.assertTrue(ww.writing())
+        h.close()
+        self.assertFalse(ww.writing())
+        f.read_bytes()
+        self.assertFalse(ww.writing())
+        (d / "next.tmp").write_bytes(b"z")
+        (d / "next.tmp").replace(f)
+        self.assertFalse(ww.writing())
+        (d / "other.sav").write_bytes(b"not ours")      # another file in the directory
+        with open(d / "other.sav", "r+b") as g:
+            g.write(b"n")
+            g.flush()
+            self.assertFalse(ww.writing())
+
+    def test_an_event_queue_overflow_counts_as_an_open_session(self):
+        # fail closed: lost events could have hidden a write
+        d = self.workdir("r4-overflow")
+        f = d / "state.sav"
+        f.write_bytes(b"x")
+        ww = recorder.WriteWatch(f)
+        self.addCleanup(ww.close)
+        overflow = recorder.struct.pack("iIII", -1, recorder.WriteWatch.IN_Q_OVERFLOW, 0, 0)
+        reads = [overflow]
+
+        def fake_read(fd, n):
+            if reads:
+                return reads.pop()
+            raise BlockingIOError
+        with mock.patch.object(recorder.os, "read", fake_read):
+            self.assertTrue(ww.writing())
+
     def test_one_deadline_bounds_a_capture_that_keeps_racing(self):
         # round-2 R9: retries never reset the deadline (the old code recursed with a fresh one).
         # The live file is stable but never a complete zip, so every STABLE_POLLS cycle reaches

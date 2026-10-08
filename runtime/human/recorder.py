@@ -33,7 +33,9 @@ Correctness rules (each pinned by a test in tests/test_human_record.py):
        applies: opens, tests clean, holds Vga, Memory, Save_Remark) AND a second read equals
        them byte for byte AND the signature re-taken after it still equals the stable one, so
        a concurrent rewrite — a same-size one, or one still in progress with unchanged bytes
-       so far — is never staged.
+       so far — is never staged; AND
+    4. no write session on the file is open (inotify: a modify not yet followed by a
+       close-write), so a writer paused mid-write is never mistaken for a finished one.
   The shutdown pass runs AFTER `terminate(dbx)` through the same `capture` (no pre-send
   signature); one deadline bounds every capture, retries included.
 - The clean termination (rework round 2 R5). The watcher's loop detects a dead dosbox-x between
@@ -57,6 +59,7 @@ import errno
 import hashlib
 import json
 import os
+import struct
 import shutil
 import signal
 import subprocess
@@ -241,6 +244,59 @@ def file_signature(path):
     return (st.st_ino, st.st_size, st.st_mtime_ns, st.st_ctime_ns)
 
 
+class WriteWatch:
+    """Whether a write session on the live savestate is still open, from the kernel's inotify
+    events on its directory (round-4 R1). A writer that pauses mid-write leaves the file's bytes
+    and metadata still, so stillness cannot show the write is over. The kernel can: IN_MODIFY
+    (a write, or an O_TRUNC open) opens a session, and IN_CLOSE_WRITE (the writer closed it) or
+    IN_MOVED_TO (a finished file renamed into place) ends it. Our own reads raise neither.
+    /proc/<pid>/fd cannot serve: /usr/bin/dosbox-x carries cap_net_raw, so the kernel makes it
+    non-dumpable and hides its descriptors even from its parent (found 2026-10-08).
+    An event queue overflow (IN_Q_OVERFLOW) counts as an open session until the next close:
+    the check fails closed."""
+    IN_MODIFY, IN_CLOSE_WRITE, IN_MOVED_TO, IN_Q_OVERFLOW = 0x2, 0x8, 0x80, 0x4000
+    IN_NONBLOCK, IN_CLOEXEC = 0o4000, 0o2000000
+
+    def __init__(self, path):
+        import ctypes
+        import ctypes.util
+        self.name = Path(path).name.encode()
+        libc = ctypes.CDLL(ctypes.util.find_library("c"), use_errno=True)
+        self.fd = libc.inotify_init1(self.IN_NONBLOCK | self.IN_CLOEXEC)
+        if self.fd < 0:
+            raise OSError(ctypes.get_errno(), "inotify_init1 failed")
+        wd = libc.inotify_add_watch(self.fd, str(Path(path).parent).encode(),
+                                    self.IN_MODIFY | self.IN_CLOSE_WRITE | self.IN_MOVED_TO)
+        if wd < 0:
+            err = ctypes.get_errno()
+            os.close(self.fd)
+            raise OSError(err, f"inotify_add_watch on {Path(path).parent} failed")
+        self.open_session = False
+
+    def writing(self):
+        """Drain the pending events; True while a write session on the file is open."""
+        while True:
+            try:
+                buf = os.read(self.fd, 65536)
+            except BlockingIOError:
+                return self.open_session
+            i = 0
+            while i < len(buf):
+                _wd, mask, _cookie, size = struct.unpack_from("iIII", buf, i)
+                name = buf[i + 16:i + 16 + size].rstrip(b"\0")
+                i += 16 + size
+                if mask & self.IN_Q_OVERFLOW:
+                    self.open_session = True
+                elif name == self.name:
+                    if mask & (self.IN_CLOSE_WRITE | self.IN_MOVED_TO):
+                        self.open_session = False
+                    elif mask & self.IN_MODIFY:
+                        self.open_session = True
+
+    def close(self):
+        os.close(self.fd)
+
+
 class Watcher:
     """The snapshot loop: one tick every CADENCE_S — send the host save key straight to the game
     window, wait for a complete and size-stable live savestate, stage a copy, append the index.
@@ -255,7 +311,8 @@ class Watcher:
     the live file (evidence of a fresh write, not the previous tick's savestate re-indexed)."""
 
     def __init__(self, session, live, wid, dbx, env, t0=None, index="index.jsonl",
-                 clock=time.monotonic, sleep=time.sleep, xrun=None, alive=None, log=None):
+                 clock=time.monotonic, sleep=time.sleep, xrun=None, alive=None, log=None,
+                 writing=None):
         self.session = Path(session)
         self.live = Path(live)
         self.wid = wid
@@ -266,6 +323,8 @@ class Watcher:
         self.xrun = xrun or (lambda argv: xdotool(argv[1:], env=env))
         self.alive = alive or (lambda: window_alive(wid, env))
         self.log = log or (lambda msg: None)
+        # whether a write session on the live savestate is still open (round-4 R1)
+        self.writing = writing or WriteWatch(self.live).writing
         self.index_path = self.session / index
         self.snapshots = self.session / "snapshots"
         self.t0 = self.clock() if t0 is None else t0
@@ -288,7 +347,11 @@ class Watcher:
            a rewrite the file system's coarse timestamps cannot show (round-2 R2); the
            signature catches a writer that is rewriting the file in place with unchanged bytes
            so far, whose flush moves mtime/ctime although the bytes still compare equal
-           (round-3 R1).
+           (round-3 R1);
+        4. require that no write session on the file is open (WriteWatch: an IN_MODIFY not yet
+           followed by IN_CLOSE_WRITE). A writer that pauses mid-write leaves bytes and
+           metadata still, so only the kernel's events show the write is unfinished
+           (round-4 R1). A check that cannot be made counts as a writer: fail closed.
 
         With `live_emulator`, a dead emulator ends the sitting (_EmulatorGone, R5) and the key
         is re-sent after RESEND_AFTER_S. Returns (bytes, sha256); raises TimeoutError."""
@@ -311,7 +374,14 @@ class Watcher:
                 if data is not None and zip_is_complete(data):
                     again = self._read_live()
                     if again == data and file_signature(self.live) == last_sig:
-                        return data, sha256(data)
+                        try:
+                            busy = self.writing()
+                        except OSError as e:          # cannot tell: fail closed
+                            self.log(f"writer check failed ({e}): not staging")
+                            busy = True
+                        if not busy:
+                            return data, sha256(data)
+                        self.log("a write session on the savestate is still open: waiting")
                 self.log("live savestate changed or incomplete during capture: retrying")
                 last_sig, count = None, 0
             if live_emulator and self.clock() - sent > RESEND_AFTER_S:
