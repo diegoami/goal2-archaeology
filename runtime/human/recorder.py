@@ -63,6 +63,8 @@ import signal
 import subprocess
 import sys
 import time
+import threading
+import queue
 import zipfile
 from datetime import datetime, timezone
 from pathlib import Path
@@ -107,6 +109,112 @@ SESSIONS = ROOT / "scratch" / "human" / "sessions"   # session folders (git-igno
 SELFTEST = ROOT / "scratch" / "human" / "selftest"   # and videos stay out of git, like run states)
 WANT_DOSBOX = "2024.03.01"
 WINDOW_CLASS = "dosbox"  # the driver's window search
+
+# [designed] A 0.5 s quiet interval groups human typing without waiting for
+# the 20 s cadence. Searched T29 timing constants and T34 brief: neither
+# specifies a human burst interval. This is recorder policy, not game timing.
+BURST_QUIET_S = 0.5
+
+
+class Burst:
+    def __init__(self):
+        self.last = None
+
+    def add(self, event):
+        self.last = event["monotonic_s"]
+
+    def due(self, now):
+        return self.last is not None and now >= self.last + BURST_QUIET_S
+
+    def consume(self):
+        self.last = None
+
+
+class KeyParser:
+    """Parse raw XI2 events only (ordinary events would duplicate each key)."""
+    def __init__(self, symbols):
+        self.symbols, self.event = symbols, None
+
+    def line(self, line):
+        if line.startswith("EVENT"):
+            self.event = ("press" if "(RawKeyPress)" in line else
+                          "release" if "(RawKeyRelease)" in line else None)
+        elif self.event and line.strip().startswith("detail:"):
+            code = int(line.split(":", 1)[1].strip())
+            event, self.event = self.event, None
+            return {"event": event, "keycode": code,
+                    "keysym": self.symbols.get(code, f"keycode-{code}")}
+        return None
+
+
+class KeyLogger:
+    """The only event source is the child display, never the outer desktop."""
+    def __init__(self, env, outer_display, path):
+        if not env.get("DISPLAY") or env["DISPLAY"] == outer_display:
+            raise ValueError("key logger requires a distinct nested display")
+        self.env, self.path = dict(env), Path(path)
+        self.events = queue.Queue()
+        self.proc, self.thread = None, None
+        self.error = None
+
+    def start(self):
+        import ctypes
+        xlib = ctypes.CDLL("libX11.so.6")
+        xlib.XOpenDisplay.argtypes = [ctypes.c_char_p]
+        xlib.XOpenDisplay.restype = ctypes.c_void_p
+        xlib.XKeycodeToKeysym.argtypes = [ctypes.c_void_p, ctypes.c_ubyte, ctypes.c_int]
+        xlib.XKeycodeToKeysym.restype = ctypes.c_ulong
+        xlib.XKeysymToString.argtypes = [ctypes.c_ulong]
+        xlib.XKeysymToString.restype = ctypes.c_char_p
+        xlib.XCloseDisplay.argtypes = [ctypes.c_void_p]
+        display = xlib.XOpenDisplay(self.env["DISPLAY"].encode())
+        if not display:
+            raise RuntimeError("cannot open nested display for key symbols")
+        try:
+            symbols = {}
+            # X11 keycodes are one byte, with protocol range 8 through 255.
+            for code in range(8, 256):
+                name = xlib.XKeysymToString(xlib.XKeycodeToKeysym(display, code, 0))
+                if name:
+                    symbols[code] = name.decode()
+        finally:
+            xlib.XCloseDisplay(display)
+        self.proc = subprocess.Popen(["stdbuf", "-oL", "xinput", "test-xi2", "--root"],
+                                     env=self.env, stdout=subprocess.PIPE,
+                                     stderr=subprocess.DEVNULL, text=True,
+                                     start_new_session=True)
+        parser = KeyParser(symbols)
+
+        def read():
+            try:
+                with open(self.path, "x", encoding="utf-8") as out:
+                    for line in self.proc.stdout:
+                        event = parser.line(line)
+                        if event is not None:
+                            event.update({"utc": datetime.now(timezone.utc).isoformat(),
+                                          "monotonic_s": time.monotonic()})
+                            out.write(json.dumps(event) + "\n")
+                            out.flush()
+                            self.events.put(event)
+            except Exception as e:
+                self.error = str(e)
+        self.thread = threading.Thread(target=read, daemon=True)
+        self.thread.start()
+
+    def drain(self):
+        events = []
+        while True:
+            try:
+                events.append(self.events.get_nowait())
+            except queue.Empty:
+                return events
+
+    def stop(self):
+        terminate(self.proc)
+        if self.thread:
+            self.thread.join(timeout=2)
+        if self.proc and self.proc.stdout:
+            self.proc.stdout.close()
 
 
 def sha256(b):
@@ -439,7 +547,7 @@ class Watcher:
         self.log(f"staged {entry['file']} ({len(data)} bytes, sha256 {entry['sha256'][:16]}...)")
         return entry
 
-    def tick(self, video=None):
+    def tick(self, video=None, origin="watcher"):
         """One snapshot: send the host key to the game window, then stage when stable. The pre-send
         signature (metadata only) is taken before the key is sent so `capture` can require a
         fresh write (R6). If `video` is not None, its `poll_growth()` is called between key and stage (R16)."""
@@ -458,15 +566,21 @@ class Watcher:
             return None
         except _EmulatorGone:
             raise
-        return self.stage(data, digest)
+        return self.stage(data, digest, origin=origin)
 
     # -- the loop -----------------------------------------------------------------------
-    def run(self, quit_after=None, stop=lambda: False, video=None):
+    def run(self, quit_after=None, stop=lambda: False, video=None, keys=None):
         """Tick at t0 + n*CADENCE_S (the first tick immediately: the session's opening state is
         part of the chain) until the window closes, dosbox-x exits, `stop()` fires or (scripted
         sittings) quit_after seconds have passed. Returns the staged entries."""
         entries, n = [], 0
+        burst = Burst()
         while True:
+            if keys:
+                for event in keys.drain():
+                    burst.add(event)
+                if keys.error or keys.proc.poll() is not None:
+                    raise RuntimeError(f"key logger stopped: {keys.error}")
             if stop():
                 self.log("stop requested")
                 break
@@ -478,12 +592,16 @@ class Watcher:
                 break
             next_tick = self.t0 + n * CADENCE_S
             now = self.clock()
-            if now < next_tick:
-                self.sleep(min(next_tick - now, 0.5))
+            is_burst = burst.due(now)
+            if now < next_tick and not is_burst:
+                self.sleep(min(next_tick - now, 0.05 if keys else 0.5))
                 continue
-            n += 1
+            if now >= next_tick:
+                n += 1
+            if is_burst:
+                burst.consume()
             try:
-                e = self.tick(video=video)
+                e = self.tick(video=video, origin="burst") if is_burst else self.tick(video=video)
             except StopIteration as e:
                 self.log(str(e))
                 break
@@ -720,6 +838,7 @@ def play(video=False, quit_after=None, res="1280x800"):
     signal.signal(signal.SIGINT, on_signal)
     signal.signal(signal.SIGTERM, on_signal)
     vid = None
+    keys = None
     geom0 = None
     try:
         try:
@@ -737,6 +856,10 @@ def play(video=False, quit_after=None, res="1280x800"):
             return 2
         log(f"game window {wid} (pid {dbx.pid})")
         meta.update({"window_id": wid, "dosbox_x_pid": dbx.pid})
+        keys = KeyLogger(env, outer_env["DISPLAY"], session / "keys.jsonl")
+        keys.start()
+        meta["monotonic_start_s"] = time.monotonic()
+        (session / "meta.json").write_text(json.dumps(meta, indent=1))
         if video:
             if shutil.which("ffmpeg") is None:
                 log("--video requested but ffmpeg is not installed: continuing without video")
@@ -751,7 +874,9 @@ def play(video=False, quit_after=None, res="1280x800"):
                     vid.start()
                     log(f"video started: {' '.join(v)}")
         watcher = Watcher(session, session / "state.sav", wid, dbx, env, log=log)
-        entries = watcher.run(quit_after=quit_after, stop=lambda: stop_flag["now"], video=vid)
+        meta["monotonic_start_s"] = watcher.t0
+        (session / "meta.json").write_text(json.dumps(meta, indent=1))
+        entries = watcher.run(quit_after=quit_after, stop=lambda: stop_flag["now"], video=vid, keys=keys)
         # the window may have closed between the last poll and here; terminate the emulator
         # BEFORE the shutdown staging pass so the live file is no longer being written (R4)
         if dbx.poll() is None:
@@ -772,11 +897,16 @@ def play(video=False, quit_after=None, res="1280x800"):
                      "snapshots": len(entries),
                      "video": dict(vinfo, requested=bool(video), geometry=geom0) if vid else
                               {"requested": bool(video), "used": False},
-                     "problems": watcher.problems})
+                      "problems": watcher.problems})
+        keys.stop()
+        keydata = (session / "keys.jsonl").read_bytes()
+        meta["keys"] = {"file": "keys.jsonl", "sha256": sha256(keydata), "bytes": len(keydata)}
         (session / "meta.json").write_text(json.dumps(meta, indent=1))
         log(f"done: {len(entries)} snapshots, stop {reason}"
             + (f", video {vinfo['bytes']} bytes" if vinfo else ""))
     finally:
+        if keys:
+            keys.stop()
         terminate(dbx)
         terminate(xephyr)
         if vid and vid.proc and vid.proc.poll() is None:
@@ -823,7 +953,7 @@ def self_test(with_video=False):
             problems.append("ffmpeg (needed for --video)")
         else:
             print("ffmpeg     present")
-    for tool in ("Xephyr", "xinput"):
+    for tool in ("Xephyr", "xinput", "stdbuf"):
         if shutil.which(tool) is None:
             problems.append(tool)
         else:

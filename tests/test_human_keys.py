@@ -1,6 +1,11 @@
 """T34 nested-display recorder tests."""
 import importlib.util
 import unittest
+import tempfile
+import subprocess
+import os
+import time
+import json
 from pathlib import Path
 from unittest.mock import patch, Mock
 
@@ -26,3 +31,92 @@ class NestedDisplayTests(unittest.TestCase):
     def test_self_test_requires_nested_tools(self):
         with patch.object(rec, "ensure_cache", return_value="fixture"), patch.object(rec, "dosbox_version", return_value="2024.03.01"), patch.object(rec.shutil, "which", side_effect=lambda name: None if name in ("Xephyr", "xinput") else name):
             self.assertEqual(rec.self_test(), 1)
+
+
+class KeyTests(unittest.TestCase):
+    def test_logger_rejects_outer_display(self):
+        with self.assertRaises(ValueError):
+            rec.KeyLogger({"DISPLAY": ":612"}, ":612", Path("unused"))
+
+    def test_raw_events_only_and_key_fields(self):
+        parser = rec.KeyParser({38: "a"})
+        self.assertIsNone(parser.line("EVENT type 2 (KeyPress)"))
+        self.assertIsNone(parser.line("    detail: 38"))
+        self.assertIsNone(parser.line("EVENT type 13 (RawKeyPress)"))
+        self.assertEqual(parser.line("    detail: 38"), {"event": "press", "keycode": 38, "keysym": "a"})
+        parser.line("EVENT type 14 (RawKeyRelease)")
+        self.assertEqual(parser.line("    detail: 38"), {"event": "release", "keycode": 38, "keysym": "a"})
+
+    def test_burst_waits_for_quiet_and_only_consumes_once(self):
+        burst = rec.Burst()
+        burst.add({"monotonic_s": 10.0})
+        burst.add({"monotonic_s": 10.2})
+        self.assertFalse(burst.due(10.699))
+        self.assertTrue(burst.due(10.7))
+        burst.consume()
+        self.assertFalse(burst.due(12.0))
+        burst.add({"monotonic_s": 12.1})
+        self.assertTrue(burst.due(12.6))
+
+    def test_loop_takes_burst_snapshot_between_cadence_ticks(self):
+        now = [0.0]
+        watcher = rec.Watcher.__new__(rec.Watcher)
+        watcher.clock = lambda: now[0]
+        watcher.sleep = lambda secs: now.__setitem__(0, now[0] + secs)
+        watcher.t0 = 0
+        watcher.dbx = Mock()
+        watcher.dbx.poll.return_value = None
+        watcher.log = lambda msg: None
+        ticks = []
+        watcher.tick = lambda **kw: ticks.append((now[0], kw.get("origin", "watcher")))
+        keys = Mock()
+        keys.error = None
+        keys.proc.poll.return_value = None
+        sent = [False]
+        def drain():
+            if now[0] >= 1 and not sent[0]:
+                sent[0] = True
+                return [{"monotonic_s": 1.0}]
+            return []
+        keys.drain = drain
+        watcher.run(quit_after=2, keys=keys)
+        self.assertEqual(len(ticks), 2)
+        self.assertEqual(ticks[0], (0.0, "watcher"))
+        self.assertAlmostEqual(ticks[1][0], 1.5)
+        self.assertEqual(ticks[1][1], "burst")
+
+    def test_private_display_logs_game_keys_not_outer_app_keys(self):
+        outer = None
+        nested = None
+        app = None
+        logger = None
+        with tempfile.TemporaryDirectory() as folder:
+            try:
+                for number in range(710, 730):
+                    outer = subprocess.Popen(["Xvfb", f":{number}", "-screen", "0", "800x600x24"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, start_new_session=True)
+                    time.sleep(1)
+                    if outer.poll() is None:
+                        break
+                self.assertIsNone(outer.poll())
+                env = dict(os.environ, DISPLAY=f":{number}")
+                nested, child = rec.start_nested(env, "640x400", subprocess.DEVNULL)
+                app = subprocess.Popen(["xev", "-name", "T34-other-app"], env=env, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, start_new_session=True)
+                logger = rec.KeyLogger(child, env["DISPLAY"], Path(folder) / "keys.jsonl")
+                logger.start()
+                time.sleep(1)
+                subprocess.run(["xdotool", "key", "a", "b"], env=child, check=True)
+                wid = subprocess.check_output(["xdotool", "search", "--name", "T34-other-app"], env=env, text=True).split()[0]
+                subprocess.run(["xdotool", "key", "--window", wid, "x", "y", "z"], env=env, check=True)
+                time.sleep(0.5)
+                logger.stop()
+                events = [json.loads(line) for line in (Path(folder) / "keys.jsonl").read_text().splitlines()]
+                self.assertEqual([(e["event"], e["keysym"]) for e in events], [("press", "a"), ("release", "a"), ("press", "b"), ("release", "b")])
+                for e in events:
+                    self.assertIsInstance(e["monotonic_s"], float)
+                    self.assertIn("+00:00", e["utc"])
+                    self.assertIsInstance(e["keycode"], int)
+            finally:
+                if logger:
+                    logger.stop()
+                for proc in (app, nested, outer):
+                    rec.terminate(proc)
