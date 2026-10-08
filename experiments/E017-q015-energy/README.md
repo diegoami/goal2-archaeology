@@ -13,10 +13,17 @@ checker omits a record only when Done-when 1's conditions hold (review round 1 R
 exist; the successor is not itself superseded and comes later; it holds the same cases, identical
 outside the declared fields; and the superseded record really is incomplete — at least one of its
 cases fails alone, and every failure is the declared one. Anything else is a failure, never a
-silent omission. It prints each superseded record and its reason, and checks every comparison in
+silent omission. The declaration cannot widen what it may exempt: only a case's `draw_bounds`
+and an operation's `draws` are exemptible (`EXEMPTIBLE` in the checker), and only by completion
+— the old capture must be a strict prefix of the new one. The players' initial records and the
+expected comparisons are always compared. A superseded record with any ordinary mismatch beside
+its declared defect is rejected (delta review R1, R2). It prints each superseded record and its
+reason, and checks every comparison in
 all remaining records. Original captures remain unchanged. Tests: `tests/test_model_energy.py`
 `Supersession` (an unrelated successor, a complete record, an earlier successor, a difference
-outside the fields, fewer cases, a different failure, a missing successor — each rejected).
+outside the fields, fewer cases, a different failure, a missing successor, an attempt to exempt
+the records or comparisons, a mismatch beside the defect, replaced draws or draw bounds — each
+rejected).
 
 | Record | Superseded by | Why |
 | --- | --- | --- |

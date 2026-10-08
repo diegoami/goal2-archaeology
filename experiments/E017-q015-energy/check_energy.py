@@ -63,6 +63,19 @@ def _cases(path):
     return record['cases'] if 'cases' in record else [record]
 
 
+# The only fields a declared defect may exempt (delta review R1): a missing listing input shows in
+# the captured draws of an operation and the case's draw bounds, nowhere else. The players'
+# initial records (`before`), the expected comparisons (`after`), the operations' kinds, words
+# and every other field are compared unconditionally, whatever a declaration says.
+EXEMPTIBLE = {'case': {'draw_bounds'}, 'operation': {'draws'}}
+
+
+def _is_prefix(old, new):
+    """A completion only adds what was missing: the old capture is a strict prefix of the new."""
+    return (isinstance(old, list) and isinstance(new, list) and len(old) < len(new)
+            and new[:len(old)] == old)
+
+
 def _without(case, fields):
     """The case with the declared defect fields removed (top-level and per operation)."""
     out = {k: v for k, v in case.items() if k not in fields['case']}
@@ -89,6 +102,10 @@ def select_records(files, supersessions):
         if order.index(successor) <= order.index(name):
             raise ValueError(f'{successor} does not come after {name}')
         fields = entry['differs_only_in']
+        for level in ('case', 'operation'):
+            extra = set(fields.get(level, [])) - EXEMPTIBLE[level]
+            if extra:
+                raise ValueError(f'{name}: a defect may not exempt {level} fields {sorted(extra)}')
         old, new = _cases(by_name[name]), _cases(by_name[successor])
         if len(old) != len(new) or any(len(a['operations']) != len(b['operations'])
                                        for a, b in zip(old, new)):
@@ -96,15 +113,28 @@ def select_records(files, supersessions):
         if any(_without(a, fields) != _without(b, fields) for a, b in zip(old, new)):
             raise ValueError(f'{successor} differs from {name} outside the declared defect '
                              f'fields {fields}')
+        for a, b in zip(old, new):           # the exempt fields may only gain what was missing
+            for key in fields.get('case', []):
+                if a.get(key) != b.get(key) and not _is_prefix(a.get(key), b.get(key)):
+                    raise ValueError(f'{successor} replaces {key} instead of completing it')
+            for p, q in zip(a['operations'], b['operations']):
+                for key in fields.get('operation', []):
+                    if p.get(key) != q.get(key) and not _is_prefix(p.get(key), q.get(key)):
+                        raise ValueError(f'{successor} replaces an operation\'s {key} '
+                                         f'instead of completing it')
         error = entry['fails_alone_with']
         failed = 0
         for case in old:
             try:
-                compare(case)
+                good, total = compare(case)
             except ValueError as e:
                 if error not in str(e):
                     raise ValueError(f'{name} fails otherwise than declared: {e}')
                 failed += 1
+                continue
+            if good != total:                 # delta review R2: an ordinary mismatch is never
+                raise ValueError(f'{name} has a mismatch beside its declared defect: '
+                                 f'{good}/{total}')     # carried off by a superseded record
         if not failed:
             raise ValueError(f'{name} is complete on its own: nothing to supersede')
     for name, entry in sorted(supersessions.items()):

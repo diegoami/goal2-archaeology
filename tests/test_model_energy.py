@@ -94,6 +94,54 @@ class Supersession(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'fails otherwise than declared'):
             checker.select_records(files, DECLARED)
 
+    def test_a_declaration_cannot_exempt_the_records_or_the_comparisons(self):
+        # delta review R1: before/after (and any field but the draws) are compared whatever a
+        # declaration says
+        for level, field in (('case', 'before'), ('case', 'after'), ('operation', 'player_word')):
+            declared = {'recovery-001.json': dict(DECLARED['recovery-001.json'])}
+            fields = {k: list(v) for k, v in DECLARED['recovery-001.json']['differs_only_in'].items()}
+            fields[level].append(field)
+            declared['recovery-001.json']['differs_only_in'] = fields
+            with self.assertRaisesRegex(ValueError, 'may not exempt'):
+                checker.select_records(sorted(RECORDS.glob('*.json')), declared)
+
+    def test_a_mismatch_beside_the_declared_defect_is_rejected(self):
+        # delta review R2: case 0 is complete in both records; give it a draw that mispredicts
+        # (the same edit on both, so only the mismatch guard can see it)
+        def mispredict(data):
+            for op in data['cases'][0]['operations']:
+                if op['kind'] == 'recover':
+                    op['draws'] = [1, 1]
+        files = self.copies([('recovery-001.json', 'recovery-001.json'),
+                             ('recovery-002.json', 'recovery-002.json')],
+                            edit={'recovery-001.json': mispredict, 'recovery-002.json': mispredict})
+        with self.assertRaisesRegex(ValueError, 'mismatch beside its declared defect'):
+            checker.select_records(files, DECLARED)
+
+    def test_a_successor_that_replaces_the_captured_draws_is_rejected(self):
+        # a completion only adds the missing draw: the old draws stay a prefix of the new
+        def replace(data):
+            for case in data['cases']:
+                for op in case['operations']:
+                    if op.get('draws') == [2, 4, 1]:
+                        op['draws'] = [5, 4, 1]
+        files = self.copies([('recovery-001.json', 'recovery-001.json'),
+                             ('recovery-002.json', 'recovery-002.json')],
+                            edit={'recovery-002.json': replace})
+        with self.assertRaisesRegex(ValueError, 'instead of completing it'):
+            checker.select_records(files, DECLARED)
+
+    def test_a_successor_that_replaces_the_draw_bounds_is_rejected(self):
+        def replace(data):
+            for case in data['cases']:
+                if case.get('draw_bounds') == [2, 8, 3]:
+                    case['draw_bounds'] = [5, 8, 3]
+        files = self.copies([('recovery-001.json', 'recovery-001.json'),
+                             ('recovery-002.json', 'recovery-002.json')],
+                            edit={'recovery-002.json': replace})
+        with self.assertRaisesRegex(ValueError, 'replaces draw_bounds instead of completing it'):
+            checker.select_records(files, DECLARED)
+
     def test_a_missing_successor_fails(self):
         with self.assertRaises(ValueError):
             checker.select_records([RECORDS / 'recovery-001.json'], DECLARED)
