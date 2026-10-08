@@ -390,9 +390,10 @@ class CheckerTests(unittest.TestCase):
         # r0005 2/29 retires (caps clause, caps 0): continuing with caps 0 is a mismatch
         b, a = load_pair()
         _, p = player(a, 2, 29)
-        old = bytes.fromhex(player(b, 2, 29)[1]["rec"])
-        p["rec"] = A.aged_record(old).hex()
-        self.assertTrue(self.check(b, a)[1])
+        _, q = player(b, 2, 29)
+        p["rec"], p["initial"] = A.aged_record(bytes.fromhex(q["rec"])).hex(), q["initial"]
+        mism = self.check(b, a)[1]
+        self.assertTrue(any("continued with caps 0" in m for m in mism), mism)
 
     def test_managed_country_and_two_ageings_fail(self):
         b, a = load_pair()
@@ -416,6 +417,48 @@ class CheckerTests(unittest.TestCase):
         b, a = load_pair()
         a["tables"] = {"changed": True}
         self.assertTrue(self.check(b, a)[1])
+
+    def test_captured_records_are_the_squad(self):
+        # a record for a word outside the squad, or two records for one word: coverage
+        b, a = load_pair()
+        extra = dict(a["countries"][0]["players"][0], w=999)
+        a["countries"][0]["players"].append(extra)
+        self.assertTrue(any("are not the squad" in m for m in self.check(b, a)[1]))
+        b, a = load_pair()
+        dup = dict(b["countries"][0]["players"][0])
+        b["countries"][0]["players"].append(dup)
+        self.assertTrue(any("are not the squad" in m for m in self.check(b, a)[1]))
+
+    def test_squad_is_twenty_distinct_words(self):
+        # a squad of 19 (the word and its record gone from both captures), or a 0 word
+        b, a = load_pair()
+        for cap in (b, a):
+            c, p = player(cap, 1, 13)
+            c["players"].remove(p)
+            c["squad"].remove(13)
+        self.assertTrue(any("not 20 distinct" in m for m in self.check(b, a)[1]))
+        b, a = load_pair()
+        for cap in (b, a):
+            c = cap["countries"][0]
+            c["squad"][c["squad"].index(13)] = 0
+            player(cap, 1, 13)[1]["w"] = 0
+        self.assertTrue(any("not 20 distinct" in m for m in self.check(b, a)[1]))
+
+    def test_check_runs_guards(self):
+        # each guard of R4 on its own: no record; records with no pair
+        total, mism, *_ = C.check_runs([])
+        self.assertEqual(total, 0)
+        self.assertTrue(any("no E014 record" in m for m in mism), mism)
+        total, mism, *_ = C.check_runs([ROOT / "runs" / "E014" / "E014-r0001.json"])
+        self.assertEqual(mism, ["no comparison was made: nothing corroborated"])
+        # and main's exit, even if check_runs reported nothing for zero comparisons
+        saved = C.check_runs
+        try:
+            C.check_runs = lambda paths: (0, [], 0, [], [])
+            with contextlib.redirect_stdout(io.StringIO()):
+                self.assertEqual(C.main(["--runs", str(ROOT / "runs" / "E014")]), 1)
+        finally:
+            C.check_runs = saved
 
     def test_no_evidence_is_a_failure(self):
         # R4: no records, a completed record with one capture, and only aborted single captures

@@ -169,9 +169,8 @@ def check_pair(before, after, mismatches):
         b = squad_map(cb, before.get("when"), mismatches)
         ca = after_by_n.get(cb["n"], {"n": cb["n"], "squad": [], "players": []})
         a = squad_map(ca, after.get("when"), mismatches)
-        if set(b) != set(a):
-            mismatches.append(f"country {cb['n']} ({when}): the squad words differ: gone "
-                              f"{sorted(set(b) - set(a))}, new {sorted(set(a) - set(b))}")
+        # the word sets: each word of `b` must be in `a` (below), and both hold 20 distinct
+        # words (squad_map), so the sets are equal exactly when every comparison found its word
         ratings = {}
         for w in sorted(b):
             n += 1
