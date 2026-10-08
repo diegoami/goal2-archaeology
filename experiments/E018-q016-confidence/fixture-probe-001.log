@@ -1,0 +1,13 @@
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/experiments/E018-q016-confidence/probe_fixture.py", line 113, in <module>
+    main()
+  File "/home/diego/projects/goal2-archaeology-work/T32/experiments/E018-q016-confidence/probe_fixture.py", line 29, in main
+    manifest = json.loads((ROOT / 'evidence/E011/manifest.json').read_text())
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/pathlib.py", line 1029, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/pathlib.py", line 1015, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/home/diego/projects/goal2-archaeology-work/T32/evidence/E011/manifest.json'
