@@ -20,19 +20,23 @@ Correctness rules (each pinned by a test in tests/test_human_record.py):
   only the one whose `xdotool getwindowpid` equals the launched dosbox-x's pid; with no match,
   the search fails closed (no window id, no sends ever). The watcher's first action after the
   pid is known is to read the bind; a vanished bind (window closed) is end-of-session.
-- The staging gate (rework round 2 R3, R4, R6). The live savestate (`state.sav`) is never renamed
-  or written. A snapshot is staged — copied to snapshots/, hashed, indexed — only when:
-    1. the bytes captured by `wait_stable` validate as a complete zip (the same checks
-       driver.save_state applies: a zip that opens, tests clean, holds Vga, Memory, Save_Remark)
-       AND
-    2. the bytes differ from the pre-send snapshot — evidence of a fresh write, not the
-       previous tick's savestate re-indexed (R6) AND
-    3. the live file has not changed between the bytes' capture and their validation, so a
-       concurrent rewrite during the read cannot be staged as the same snapshot (R3).
-  The shutdown pass runs AFTER `terminate(dbx)` and applies the same three gates before
-  reading the owner's manual F12+S — a separate path that R4 found, fixed before staging.
+- The staging gate (rework rounds 2 and 3). The live savestate (`state.sav`) is never renamed
+  or written, and only `Watcher.capture` reads it. A snapshot is staged — copied to snapshots/,
+  hashed, indexed — only when:
+    1. the file's signature (inode, size, mtime_ns, ctime_ns — metadata, no content read) has
+       been identical for STABLE_POLLS consecutive polls; AND
+    2. that signature differs from the one taken before the key was sent — evidence of a fresh
+       write, not the previous tick's savestate re-indexed; nothing reads the live file's bytes
+       before the key is sent (round 3: a pre-send content read could catch an in-progress
+       write); AND
+    3. the bytes read then validate as a complete zip (the same checks driver.save_state
+       applies: opens, tests clean, holds Vga, Memory, Save_Remark) AND a second read equals
+       them byte for byte, so a concurrent rewrite — a same-size one included — is never
+       staged.
+  The shutdown pass runs AFTER `terminate(dbx)` through the same `capture` (no pre-send
+  signature); one deadline bounds every capture, retries included.
 - The clean termination (rework round 2 R5). The watcher's loop detects a dead dosbox-x between
-  ticks and between polls of `wait_stable` and treats it as end-of-session: the loop returns, the
+  ticks and between polls of `capture` and treats it as end-of-session: the loop returns, the
   shutdown pass runs (R4), `play()` writes meta, the file/socket is closed. A dead emulator
   during a snapshot no longer raises out of the loop.
 - A sitting ends by closing the game window, by Ctrl+C in the terminal, or (scripted sittings)
@@ -224,15 +228,16 @@ def utc_stamp():
     return datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
 
 
-def file_digest(path):
-    """The sha256 of `path`, or None if the file is missing/unreadable. Used to compare the live
-    file before and after the watcher sends the host key (R6) — evidence of a fresh write is
-    required before a snapshot is staged."""
+def file_signature(path):
+    """The live file's identity without reading its content: (inode, size, mtime_ns, ctime_ns),
+    or None when it is missing. The staging gate compares signatures, never bytes, so nothing
+    reads the live savestate before it has held still (round-2 R1: the pre-send digest read an
+    in-progress write). A rewrite of the same length still moves mtime_ns/ctime_ns (round-2 R2)."""
     try:
-        with open(path, "rb") as f:
-            return sha256(f.read())
+        st = os.stat(path)
     except OSError:
         return None
+    return (st.st_ino, st.st_size, st.st_mtime_ns, st.st_ctime_ns)
 
 
 class Watcher:
@@ -267,72 +272,59 @@ class Watcher:
         self.problems = []
 
     # -- staging (the staging gate) -----------------------------------------------------
-    def wait_stable(self, pre_digest):
-        """Wait until the live savestate is complete AND its size has been stable for
-        STABLE_POLLS consecutive polls, then return its bytes plus the digest captured at
-        read time. The read is followed by a re-validation: if the live file changed between
-        the read and the validation, the bytes are rejected as a concurrent change (R3).
+    def capture(self, pre_sig, live_emulator=True):
+        """The staging gate, the one path that reads the live savestate (round 2: R1, R2, R4,
+        and the R9 follow-up). Iterative, one deadline:
 
-        `pre_digest` is the digest of the live file BEFORE the host key was sent. A snapshot
-        is only staged when the captured digest differs (R6 — a stale or duplicate tick must
-        not be indexed as a new snapshot).
+        1. poll the file's signature (file_signature: metadata only, no content read) until it
+           has been identical for STABLE_POLLS consecutive polls;
+        2. require that signature to differ from `pre_sig`, the one taken before the key was
+           sent (evidence of a fresh write; R6), when `pre_sig` is given;
+        3. read the bytes, validate THOSE bytes as a complete zip, then read the file again:
+           the second read must equal the first byte for byte, or the capture is rejected and
+           counting restarts. The byte comparison catches a rewrite during the capture — a
+           same-size one included, even when the file system's timestamps are too coarse to
+           move between two writes (round-2 R2).
 
-        The live file is only ever read."""
-        sent = self.clock()
-        stable_size, stable_count = None, 0
+        With `live_emulator`, a dead emulator ends the sitting (_EmulatorGone, R5) and the key
+        is re-sent after RESEND_AFTER_S. Returns (bytes, sha256); raises TimeoutError."""
         deadline = self.clock() + SAVE_TIMEOUT_S
-        captured = None
-        captured_digest = None
+        sent = self.clock()
+        last_sig, count = None, 0
         while self.clock() < deadline:
-            if self.dbx.poll() is not None:
-                # emulator died mid-snapshot — clean end-of-session (R5)
+            if live_emulator and self.dbx.poll() is not None:
                 self.log(f"dosbox-x exited with code {self.dbx.returncode} during a savestate")
                 raise _EmulatorGone(self.dbx.returncode)
-            try:
-                size = self.live.stat().st_size
-            except OSError:
-                size = None
-            if size is not None:
-                if size == stable_size:
-                    stable_count += 1
-                else:
-                    stable_size, stable_count = size, 1
-                if stable_count >= STABLE_POLLS:
-                    # read once, validate the captured bytes, re-check the live file's size
-                    with open(self.live, "rb") as f:
-                        data = f.read()
-                    d = sha256(data)
-                    try:
-                        post_size = self.live.stat().st_size
-                    except OSError:
-                        post_size = None
-                    if post_size != size:
-                        # size changed between read and validation: a concurrent write —
-                        # reject this attempt and restart stability counting
-                        stable_size, stable_count = post_size, 1
-                        self.log(f"size changed during capture ({size} -> {post_size}): retrying")
-                        return self.wait_stable(pre_digest)
-                    if not zip_is_complete(data):
-                        # captured bytes are not a complete savestate — keep waiting
-                        stable_size, stable_count = None, 0
-                        self.sleep(POLL_S)
-                        continue
-                    if pre_digest is not None and d == pre_digest:
-                        # the live file is unchanged since before the send: no fresh write —
-                        # this is the previous tick's savestate (R6). Keep waiting.
-                        self.log("live file unchanged since pre-send: no fresh write, retrying")
-                        stable_size, stable_count = None, 0
-                        self.sleep(POLL_S)
-                        continue
-                    return data, d
+            sig = file_signature(self.live)
+            if sig is None or sig[1] == 0:
+                last_sig, count = None, 0
+            elif sig == last_sig:
+                count += 1
             else:
-                stable_size, stable_count = None, 0
-            if self.clock() - sent > RESEND_AFTER_S:
+                last_sig, count = sig, 1
+            if count >= STABLE_POLLS and (pre_sig is None or last_sig != pre_sig):
+                data = self._read_live()
+                if data is not None and zip_is_complete(data):
+                    again = self._read_live()
+                    if again == data:
+                        return data, sha256(data)
+                self.log("live savestate changed or incomplete during capture: retrying")
+                last_sig, count = None, 0
+            if live_emulator and self.clock() - sent > RESEND_AFTER_S:
                 self.log(f"F12+S sent again: no complete savestate after {RESEND_AFTER_S}s")
                 self.xrun(key_cmd(self.wid))
                 sent = self.clock()
             self.sleep(POLL_S)
         raise TimeoutError(f"savestate not complete and stable within {SAVE_TIMEOUT_S}s")
+
+    def _read_live(self):
+        """The live savestate's bytes, or None when it cannot be read. Called only by `capture`,
+        after the signature has held still (the staging gate's only content read)."""
+        try:
+            with open(self.live, "rb") as f:
+                return f.read()
+        except OSError:
+            return None
 
     def stage(self, data, digest, origin="watcher"):
         """Copy the bytes to snapshots/ (the live file is not moved or renamed), append one index
@@ -354,17 +346,17 @@ class Watcher:
 
     def tick(self, video=None):
         """One snapshot: send the host key to the game window, then stage when stable. The pre-send
-        digest is captured before the key is sent so the wait_stable can require a fresh write
-        (R6). If `video` is not None, its `poll_growth()` is called between key and stage (R16)."""
+        signature (metadata only) is taken before the key is sent so `capture` can require a
+        fresh write (R6). If `video` is not None, its `poll_growth()` is called between key and stage (R16)."""
         if not self.alive():
             raise StopIteration("game window is gone")
-        pre = file_digest(self.live)
+        pre = file_signature(self.live)
         self.xrun(key_cmd(self.wid))
         self.log(f"F12+S sent to window {self.wid}")
         if video is not None:
             video.poll_growth()
         try:
-            data, digest = self.wait_stable(pre)
+            data, digest = self.capture(pre)
         except TimeoutError as e:
             self.problems.append(str(e))
             self.log(f"snapshot skipped: {e}")
@@ -409,35 +401,14 @@ class Watcher:
         return entries
 
     def shutdown_stage(self, indexed_sha):
-        """Best-effort last snapshot: the owner's manual F12+S, captured after the emulator
-        is gone (R4 — never while it could be writing) with the same staging gate (R3: the
-        captured bytes validate as a complete zip; R6: the bytes differ from what was already
-        indexed). Returns the entry, or None."""
+        """Best-effort last snapshot: the owner's manual F12+S, captured after the emulator is
+        gone (R4) through the same staging gate as every tick (capture, with no pre-send
+        signature and no emulator to poll); skipped when its bytes are already indexed.
+        Returns the entry, or None."""
         try:
-            # wait for any in-progress update to settle, then read
-            stable_count, last_size = 0, None
-            deadline = self.clock() + SAVE_TIMEOUT_S
-            while self.clock() < deadline:
-                try:
-                    size = self.live.stat().st_size
-                except OSError:
-                    size = None
-                if size is not None:
-                    if size == last_size:
-                        stable_count += 1
-                    else:
-                        last_size, stable_count = size, 1
-                    if stable_count >= STABLE_POLLS:
-                        break
-                self.sleep(POLL_S)
-            with open(self.live, "rb") as f:
-                data = f.read()
-        except OSError as e:
-            self.problems.append(f"shutdown snapshot read failed: {e}")
-            return None
-        d = sha256(data)
-        if not zip_is_complete(data):
-            self.problems.append(f"shutdown snapshot not a complete zip: {len(data)} bytes")
+            data, d = self.capture(None, live_emulator=False)
+        except TimeoutError as e:
+            self.problems.append(f"shutdown snapshot not captured: {e}")
             return None
         if d in indexed_sha:
             self.log(f"shutdown snapshot already indexed ({d[:16]}...): skipping")

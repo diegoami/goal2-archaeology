@@ -96,21 +96,21 @@ Coverage statuses (the project-recognised vocabulary):
 
 | Knowledge item | Byte / observation | Question / finding | Status | Named session |
 | --- | --- | --- | --- | --- |
-| Selection picks and drops (the pool into the squad, out of it) | country record `c` first 20 words `[A917]+c*0xBF`..`+c*0xBF+0x28` | F011's pool, Q014 | static-known | E015-r0001 (initial layout) |
-| Repositioning on the pitch (national, between matches) | country record bytes `+0x2D..+0x35` (F008's +6/+7 written live) | F008, open finding | needs-play | — |
-| Team-tactic changes | country record bytes `+0x2D..+0x33` (R008, open finding #65) | #65 R008 | static-known | E015-r0001 |
-| Captain / penalty / corner presets | F015's reading paths in the country record's `+0x33..+0x3F` | F015 | needs-play | — |
+| Selection picks and drops (the pool into the squad, out of it) | country record `c` at `[A917]+c*0xBF`: the squad, 20 words at `+0x00..+0x27` (fields.tsv `country 0x00 squad`; F007, F008); a pool player's record `+0` (country) | F011's pool, Q014 | static-known | E015-r0001 (initial layout) |
+| Repositioning on the pitch (national, between matches) | player record `+6` (position) and `+7` (club position) at `[A91B]+n*0x14` (F008); the squad words' order, sorted by `+6` in `1771:52CC` (F010) | F008, open finding | needs-play | — |
+| Team-tactic changes | country record byte `+0x2D`, R008, the default team tactic set (F010; fields.tsv `country 0x2D`); a player's own overrides of elements 1..4 in player record `+0xF` (F010) | #65 R008 | static-known | E015-r0001 |
+| Captain / penalty / corner presets | not established: no finding names a stored byte for them (F015 ranks the shoot-out takers by the derived penalty skill, element 12, rather than reading a stored choice); found by diffing the states either side of the owner setting one | F015 | needs-play | — |
 | Transfer promise line | `000E:544D` (the screen line "the transfer promise") | Q014, open question | needs-play | — |
-| Training / fitness recovery | player-record bytes (skill / fitness bytes) across consecutive states of a watched match | Q015 | needs-play | — |
+| Training / fitness recovery | player record `+0xC` morale, `+0xD` fitness, `+0xE` energy (F008's record layout) across consecutive states between matches | Q015 | needs-play | — |
 | Watched-match substitutions | player record changes between states either side of a substitution key | Q09.5 | needs-play | — |
 | Watched-match replays | screen-history of a watched match with replays on (commentary ring position) | Q09.5, #40 | needs-play | — |
 | Knockout shoot-out arm | the screen + takers' records during `0791:A10A` | F015 (follow-up) | needs-play | — |
-| Year-end player-record diffs | states either side of a year turnover, against `[A923]+0x3A` | Q013 (T28 corroboration) | static-known | E015-r0001 (year word present) |
-| Year-end squad diffs (retirements, new players) | squad words either side of a year turnover, `players.check` flipping from the start layout | Q014 | static-known | E015-r0001 (initial layout) |
-| Energy through a watched match | player-record diffs across consecutive states, before/after side | Q015 | needs-play | — |
+| Year-end player-record diffs | states either side of a year end: the stage byte `[A923]+0x3C` entering 2, 3, 5 or 7, the season word `[A923]+0x38` (E014 notes, T28, PR #91; `+0x3A` is the new game's base year and does not move) | Q013 (T28 corroboration) | static-known | E015-r0001 (state words present) |
+| Year-end squad diffs (retirements, new players) | squad words `+0x00..+0x27` either side of the same year ends, `players.check` flipping from the start layout | Q014 | static-known | E015-r0001 (initial layout) |
+| Energy through a watched match | player record `+0xE` energy and `+0xD` fitness (F008's layout) across consecutive states of a watched match | Q015 | needs-play | — |
 | Exact commentary identity | consecutive `ui-text` screens of a watched match at moderate speed | #40 | needs-play | — |
 | Board / confidence / morale | `ui-text` of the states where the board/news screens were up | Q016, Q017 | needs-play | — |
-| Bot's World Cup path | stage `[A923]+0x3C`, fixture index/count `[A923]+0x26/+0x28` across a cycle's chain | bot input | needs-play | — |
+| Bot's World Cup path | stage `[A923]+0x3C`, fixture index/count `[A923]+0x26/+0x28` across a cycle's chain (E014 notes, T28, PR #91) | bot input | needs-play | — |
 
 After a sitting, the main session appends a row per knowledge item the chain covered, with the
 session's run id (e.g. `covered-by-a-named-session — E015-r0001` for the items the first sitting

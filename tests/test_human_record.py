@@ -114,7 +114,7 @@ def state_tuple(stage=5, year=1994, speed=2, last=0x00):
     return bytes(t)
 
 
-def memory_component(parr, carr, tup, ticks):
+def memory_component(parr, carr, tup, ticks, null=()):
     """Guest memory: GOAL.EXE's MCB and PSP (savestate.find_program's markers), the DS far
     pointers to the three arrays, the arrays, the BDA bytes. Guest address 0 sits at the
     component's MEM_BASE (prefixed by the caller)."""
@@ -132,9 +132,9 @@ def memory_component(parr, carr, tup, ticks):
         mem[DS_BASE + ds_off:DS_BASE + ds_off + 2] = off.to_bytes(2, "little")
         mem[DS_BASE + ds_off + 2:DS_BASE + ds_off + 4] = seg.to_bytes(2, "little")
 
-    far(0xA917, COUNTRY_AT)
-    far(0xA91B, PLAYER_AT)
-    far(0xA923, STATE_AT)
+    far(0xA917, 0 if 0xA917 in null else COUNTRY_AT)
+    far(0xA91B, 0 if 0xA91B in null else PLAYER_AT)
+    far(0xA923, 0 if 0xA923 in null else STATE_AT)
     mem[PLAYER_AT:PLAYER_AT + len(parr)] = parr
     mem[COUNTRY_AT:COUNTRY_AT + len(carr)] = carr
     mem[STATE_AT:STATE_AT + len(tup)] = tup
@@ -143,12 +143,12 @@ def memory_component(parr, carr, tup, ticks):
     return bytes(mem)
 
 
-def savestate_bytes(rows, parr, carr, tup, ticks):
+def savestate_bytes(rows, parr, carr, tup, ticks, null=()):
     buf = io.BytesIO()
     with zipfile.ZipFile(buf, "w") as z:
         z.writestr("Save_Remark", b"")
         z.writestr("Vga", zlib.compress(screen_component(rows)))
-        z.writestr("Memory", zlib.compress(b"\x00" * MEM_BASE + memory_component(parr, carr, tup, ticks)))
+        z.writestr("Memory", zlib.compress(b"\x00" * MEM_BASE + memory_component(parr, carr, tup, ticks, null)))
     return buf.getvalue()
 
 
@@ -164,7 +164,7 @@ def write_session(session, chain, with_index=True, with_meta=True):
     (session / "snapshots").mkdir(parents=True, exist_ok=True)
     index = []
     for n, state in enumerate(chain, 1):
-        data = savestate_bytes(*state)
+        data = savestate_bytes(*state[:5], null=state[5] if len(state) > 5 else ())
         name = f"snap-{n:04d}-20261007T17000{n}Z.sav"
         (session / "snapshots" / name).write_bytes(data)
         index.append({"seq": n, "file": f"snapshots/{name}", "bytes": len(data),
@@ -319,6 +319,10 @@ class Extraction(Base):
 
 # ---- the watcher's rules -------------------------------------------------------------------------
 class FakeClock:
+    """Fake time. Bounded: no test runs past an hour of fake time, so a loop whose deadline
+    never arrives fails the test instead of hanging the suite."""
+    LIMIT_S = 3600.0
+
     def __init__(self):
         self.t = 0.0
 
@@ -327,6 +331,8 @@ class FakeClock:
 
     def sleep(self, s):
         self.t += s
+        if self.t > self.LIMIT_S:
+            raise AssertionError(f"fake clock past {self.LIMIT_S}s: a loop never reached its deadline")
 
 
 class FreshWriteClock:
@@ -436,17 +442,33 @@ class WindowBind(Base):
                                      clock=clock)
 
 
+def key_writes(live, log=None):
+    """An xrun fake: each F12+S writes one fresh complete savestate to `live` by atomic replace
+    (a new inode, so its signature always differs from the pre-send one), like DOSBox-X's own
+    write. `log`, when given, records ("key",) for each send."""
+    n = [0]
+
+    def xrun(argv):
+        n[0] += 1
+        if log is not None:
+            log.append(("key",))
+        tmp = live.with_name(live.name + ".tmp")
+        tmp.write_bytes(tiny_zip(b"vga-" + str(n[0]).encode()))
+        tmp.replace(live)
+    return xrun
+
+
 class Cadence(Base):
     def test_ticks_at_the_cadence_from_zero(self):
-        # R6: every tick the live file gets a fresh, distinct savestate (FreshWriteClock),
-        # so the staging gate admits each one. The cadence is unchanged: t0 + n*CADENCE_S.
+        # each tick's key press produces one fresh savestate, staged once the signature has held
+        # for STABLE_POLLS polls (3 x 0.25 s = 0.75 s after the send)
         session = self.workdir("cadence")
         (session / "snapshots").mkdir(parents=True)
         live = session / "state.sav"
         live.write_bytes(tiny_zip(b"vga-0"))
-        clock = FreshWriteClock(live)
+        clock = FakeClock()
         w = recorder.Watcher(session, live, "77", FakeDbx(), {"DISPLAY": ":0"}, clock=clock,
-                             sleep=clock.sleep, xrun=lambda a: None, alive=lambda: True,
+                             sleep=clock.sleep, xrun=key_writes(live), alive=lambda: True,
                              log=lambda m: None)
         entries = w.run(quit_after=45.0)
         self.assertEqual([e["elapsed_s"] for e in entries], [0.5, 20.5, 40.5])
@@ -504,7 +526,7 @@ class StagingGate(Base):
                              sleep=clock.sleep, xrun=lambda a: None, alive=lambda: True,
                              log=lambda m: None)
         with self.assertRaises(TimeoutError):
-            w.wait_stable(pre_digest=None)
+            w.capture(None)
 
     def test_the_shutdown_pass_stages_the_owners_last_savestate_once(self):
         session = self.workdir("shutdown")
@@ -576,7 +598,7 @@ class CleanTermination(Base):
         live = session / "state.sav"
         live.write_bytes(tiny_zip(b"vga"))
         clock = FakeClock()
-        # Die as soon as wait_stable starts polling
+        # Die as soon as capture starts polling
         w = recorder.Watcher(session, live, "77", FakeDbx(die_at=0.1), {"DISPLAY": ":0"},
                              clock=clock, sleep=clock.sleep, xrun=lambda a: None,
                              alive=lambda: True, log=lambda m: None)
@@ -584,8 +606,8 @@ class CleanTermination(Base):
         entries = w.run(quit_after=600.0)
         self.assertEqual(entries, [])
 
-    def test_dead_emulator_raises_a_named_exception_inside_wait_stable(self):
-        # The watcher.run catches _EmulatorGone; direct wait_stable raises it.
+    def test_dead_emulator_raises_a_named_exception_inside_capture(self):
+        # The watcher.run catches _EmulatorGone; direct capture raises it.
         session = self.workdir("dead-direct")
         (session / "snapshots").mkdir(parents=True)
         live = session / "state.sav"
@@ -595,7 +617,7 @@ class CleanTermination(Base):
                              clock=clock, sleep=clock.sleep, xrun=lambda a: None,
                              alive=lambda: True, log=lambda m: None)
         with self.assertRaises(recorder._EmulatorGone):
-            w.wait_stable(pre_digest=None)
+            w.capture(None)
 
 
 class ShutdownStageGate(Base):
@@ -867,6 +889,187 @@ class VideoCmd(Base):
         info = v.stop()
         self.assertEqual(info["bytes"], 0)
         self.assertIsNone(info["sha256"])
+
+
+# ---- review round 2 (rework round 3): each test fails when its guard is removed ---------------
+class LiveFileReads(Base):
+    """The live savestate is read only by the staging gate, after its signature has held."""
+
+    def watcher(self, name, xrun, clock=None):
+        session = self.workdir(name)
+        (session / "snapshots").mkdir(parents=True)
+        live = session / "state.sav"
+        live.write_bytes(tiny_zip(b"vga-0"))
+        clock = clock or FakeClock()
+        w = recorder.Watcher(session, live, "77", FakeDbx(), {"DISPLAY": ":0"}, clock=clock,
+                             sleep=clock.sleep, xrun=xrun, alive=lambda: True, log=lambda m: None)
+        return session, live, w
+
+    def test_no_content_read_of_the_live_file_before_the_key_is_sent(self):
+        # round-2 R1: the pre-send freshness check must not read an in-progress write
+        events = []
+        real_open = open
+
+        def spy_open(path, *a, **kw):
+            if Path(path).name == "state.sav":
+                events.append(("read",))
+            return real_open(path, *a, **kw)
+
+        session, live, w = self.watcher("r1-noread", None)
+        w.xrun = key_writes(live, log=events)
+        with mock.patch.object(recorder, "open", spy_open, create=True):
+            entry = w.tick()
+        self.assertIsNotNone(entry)
+        self.assertEqual(events[0], ("key",), f"the live file was read before the key: {events}")
+
+    def test_a_same_size_rewrite_during_capture_is_never_staged(self):
+        # round-2 R2: the file is replaced by same-length garbage right after the capture read;
+        # the valid bytes read first must not be staged while the live file is invalid
+        real_open = open
+        reads = [0]
+
+        def racing_open(path, *a, **kw):
+            f = real_open(path, *a, **kw)
+            if Path(path).name == "state.sav":
+                reads[0] += 1
+                if reads[0] == 1:
+                    data = f.read()
+                    f.close()
+                    Path(path).write_bytes(b"X" * len(data))   # same size, not a zip
+                    return io.BytesIO(data)
+            return f
+
+        session, live, w = self.watcher("r2-samesize", None)
+        first_only = key_writes(live)
+        sends = [0]
+
+        def xrun(argv):                     # the emulator answers the first key only, so the
+            sends[0] += 1                   # raced bytes are the only savestate there ever is
+            if sends[0] == 1:
+                first_only(argv)
+        w.xrun = xrun
+        with mock.patch.object(recorder, "open", racing_open, create=True):
+            entry = w.tick()
+        self.assertIsNone(entry)
+        self.assertEqual(list((session / "snapshots").glob("*.sav")), [])
+
+    def test_one_deadline_bounds_a_capture_that_keeps_racing(self):
+        # round-2 R9: retries never reset the deadline (the old code recursed with a fresh one).
+        # The live file is stable but never a complete zip, so every STABLE_POLLS cycle reaches
+        # the reject branch; the clock fails the test long before an endless retry would end.
+        class Bounded(FakeClock):
+            def sleep(self, s):
+                super().sleep(s)
+                if self.t > 2 * recorder.SAVE_TIMEOUT_S:
+                    raise AssertionError(f"capture still retrying at t={self.t}")
+        clock = Bounded()
+        session, live, w = self.watcher("r9-deadline", lambda a: None, clock=clock)
+        live.write_bytes(b"not a zip, and it never becomes one")
+        with self.assertRaises(TimeoutError):
+            w.capture(None)
+        self.assertLessEqual(clock.t, recorder.SAVE_TIMEOUT_S + recorder.POLL_S)
+
+    def test_a_rewrite_invisible_to_coarse_timestamps_is_caught_by_the_second_read(self):
+        # round-2 R2: with a signature that cannot see the rewrite (coarse timestamps, same
+        # size, same inode), only the byte comparison of the two reads rejects the capture
+        real_open = open
+        reads = [0]
+
+        def racing_open(path, *a, **kw):
+            f = real_open(path, *a, **kw)
+            if Path(path).name == "state.sav":
+                reads[0] += 1
+                if reads[0] == 1:
+                    data = f.read()
+                    f.close()
+                    with real_open(path, "r+b") as g:      # same file, same size, new bytes
+                        g.write(b"X" * len(data))
+                    return io.BytesIO(data)
+            return f
+
+        session, live, w = self.watcher("r2-coarse", lambda a: None)
+        coarse = lambda path: (1, live.stat().st_size) if live.exists() else None
+        with mock.patch.object(recorder, "open", racing_open, create=True), \
+                mock.patch.object(recorder, "file_signature", coarse):
+            with self.assertRaises(TimeoutError):
+                w.capture(None)
+        self.assertEqual(list((session / "snapshots").glob("*.sav")), [])
+
+    def test_the_shutdown_pass_never_stages_a_file_still_being_written(self):
+        # round-2 R4/R7: the shutdown capture needs the same stability as a tick; a file that
+        # changes between every poll is never staged (with STABLE_POLLS=1 it would be)
+        class Growing(FakeClock):
+            def sleep(self, s):
+                super().sleep(s)
+                live.write_bytes(tiny_zip(b"g" * (1 + int(self.t * 4))))
+        clock = Growing()
+        session, live, w = self.watcher("r4-shutdown", lambda a: None, clock=clock)
+        self.assertIsNone(w.shutdown_stage(indexed_sha=set()))
+        self.assertEqual(list((session / "snapshots").glob("*.sav")), [])
+        self.assertTrue(w.problems)
+
+
+class RecordIdentity(Base):
+    extract = Extraction.extract
+    diffobs = staticmethod(Extraction.diffobs)
+
+    def test_a_taken_slot_is_skipped_and_the_id_matches_the_file(self):
+        # round-2 R2/R5/R7: an existing record (another extraction's) is never overwritten, and
+        # the new record's run_id is the slot it claimed
+        session = self.workdir("ident")
+        write_session(session, CHAIN)
+        runs = self.workdir("ident-runs")
+        (runs / "E015").mkdir(parents=True)
+        foreign = runs / "E015" / "E015-r0001.json"
+        foreign.write_text("another extraction's record\n")
+        rec, path, _ = self.extract(session, runs)
+        self.assertEqual(foreign.read_text(), "another extraction's record\n")
+        self.assertEqual(path.name, "E015-r0002.json")
+        self.assertEqual(rec["run_id"], "E015-r0002")
+        self.assertEqual(json.loads(path.read_text())["run_id"], path.stem)
+
+
+class Unavailable(Base):
+    extract = Extraction.extract
+    diffobs = staticmethod(Extraction.diffobs)
+
+    def test_a_null_game_state_pointer_emits_no_game_state(self):
+        # round-2 R7 (the R8 gate): [A923] = 0000:0000 reads nothing as the game state
+        session = self.workdir("null-a923")
+        write_session(session, [CHAIN[0] + ((0xA923,),)])
+        rec, _, out = self.extract(session, self.workdir("null-a923-runs"))
+        self.assertIn("partial: 1", out)
+        obs = rec["observations"]
+        self.assertFalse([o for o in obs if "the game state" in o["field"]])
+        self.assertTrue([o for o in obs if "memory readings unavailable" in o["field"]])
+
+    def test_a_null_country_array_pointer_emits_no_country_data(self):
+        # round-2 R4: [A917] = 0000:0000 with a valid [A923]: the game state is read, the
+        # country and player arrays are not (no invented country record or squad member 0)
+        session = self.workdir("null-a917")
+        write_session(session, [CHAIN[0] + ((0xA917,),)])
+        rec, _, out = self.extract(session, self.workdir("null-a917-runs"))
+        self.assertIn("partial: 1", out)
+        obs = rec["observations"]
+        self.assertTrue([o for o in obs if "the game state" in o["field"]])
+        self.assertFalse([o for o in obs if "country record" in o["field"]])
+        self.assertFalse([o for o in obs if "squad player" in o["field"]])
+        self.assertEqual(rec["decoded"], [])
+        self.assertTrue([o for o in obs if "arrays unavailable" in o["field"]
+                         and "[A917]" in o["value"]])
+
+    def test_a_partial_state_keeps_its_screen_diff_and_says_what_was_not_compared(self):
+        # round-2 R6: state 2 has a changed screen and a null [A923]: the screen diff is kept,
+        # the memory comparison reads "unavailable", never "none"
+        session = self.workdir("partial-diff")
+        write_session(session, [CHAIN[0], CHAIN[1] + ((0xA923,),)])
+        rec, _, out = self.extract(session, self.workdir("partial-diff-runs"))
+        self.assertIn("diffs: 1", out)
+        obs = rec["observations"]
+        self.assertEqual(self.diffobs(obs, "snap-0001", "screen changed"), "yes")
+        self.assertEqual(self.diffobs(obs, "snap-0001", "[A923] byte changes"), "unavailable")
+        self.assertEqual(self.diffobs(obs, "snap-0001", "country squads and player records"),
+                         "unavailable")
 
 
 if __name__ == "__main__":

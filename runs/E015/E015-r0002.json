@@ -1,21 +1,21 @@
 {
  "schema": "run/1",
- "run_id": "E015-r0001",
+ "run_id": "E015-r0002",
  "experiment": "E015",
  "arm": "human-playthrough",
  "rep": 1,
- "code_commit": "9cb8dd8",
+ "code_commit": "680a515",
  "machine": "ubuntu-24-04-wsl2",
  "artifact": {
   "set": "goal2-67cf27d6",
   "variant": null
  },
  "runtime": {
-  "driver": "runtime/human/recorder.py@9cb8dd8",
+  "driver": "runtime/human/recorder.py@680a515",
   "platform": "python-3.12.3/ubuntu-24-04-wsl2",
   "fingerprint": {
    "dosbox-x": "DOSBox-X version 2024.03.01 SDL2, copyright 2011-2024 The DOSBox-X Team.",
-   "extract_py_sha256": "7a549f69358feb33a6daa1229122e03e67ee5611112381faebe9059b08e2ea9d"
+   "extract_py_sha256": "9ba7ef2719798e9f2b21d9dce5cc5aff46849746da47620643d0b88342bd5802"
   }
  },
  "interventions": [
@@ -36,7 +36,7 @@
  "seed": null,
  "actions": {
   "script": "experiments/E015-human-playthrough/extract.py",
-  "sha256": "7a549f69358feb33a6daa1229122e03e67ee5611112381faebe9059b08e2ea9d",
+  "sha256": "9ba7ef2719798e9f2b21d9dce5cc5aff46849746da47620643d0b88342bd5802",
   "args": [
    "/home/diego/projects/goal2-archaeology-work/T29/scratch/human/sessions/20261007-174403",
    "--countries",
@@ -221,7 +221,13 @@
    "step": 1,
    "source": "log",
    "field": "diff snapshots/snap-0001-20261007T154404Z.sav -> snapshots/snap-0002-20261007T154424Z.sav: game state [A923] byte changes",
-   "value": "none"
+   "value": "unavailable"
+  },
+  {
+   "step": 1,
+   "source": "log",
+   "field": "diff snapshots/snap-0001-20261007T154404Z.sav -> snapshots/snap-0002-20261007T154424Z.sav: country squads and player records",
+   "value": "unavailable"
   },
   {
    "step": 2,
@@ -463,8 +469,8 @@
   }
  ],
  "outputs": [],
- "started": "2026-10-07T16:32:38.400Z",
- "ended": "2026-10-07T16:32:38.505Z",
+ "started": "2026-10-08T18:35:31.440Z",
+ "ended": "2026-10-08T18:35:31.544Z",
  "status": "completed",
  "decoded": [
   {

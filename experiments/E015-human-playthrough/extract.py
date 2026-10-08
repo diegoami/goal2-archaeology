@@ -35,13 +35,15 @@ on the path file would otherwise let two concurrent calls return E015-r0001.json
 
 Memory readings are marked `memory_unavailable` when GOAL.EXE cannot be located in the guest
 or when the game state pointer at [A923] is 0000:0000 (rework round 2 R8 — the prior code
-read IVT bytes at linear 0 as the game state tuple); the screen is still preserved. A broken
+read IVT bytes at linear 0 as the game state tuple); the screen is still preserved. The
+country and player arrays are checked the same way through their own far pointers [A917] and
+[A91B] (`arrays_unavailable`; review round 2 R4), and a diff whose side lacks a reading says
+"unavailable", never "none" (R6). A record's run_id is the slot it claimed (R5). A broken
 final JSONL line is skipped, not fatal (rework round 2 R7 — abrupt termination used to leave
 a partial line that raised JSONDecodeError before any state was extracted).
 
 Standard library only, plus the G1 driver's modules."""
 import argparse
-import errno
 import hashlib
 import json
 import os
@@ -137,7 +139,8 @@ def read_snapshot(session, entry, countries):
     screen text; errors are reported in `error`, never raised."""
     out = {"entry": entry, "file": entry["file"],
            "label": f"{entry['seq']} ({entry['file']})" if entry.get("seq") else entry["file"],
-           "memory_unavailable": None, "program_error": None, "state_tuple": None,
+           "memory_unavailable": None, "arrays_unavailable": None, "program_error": None,
+           "state_tuple": None,
            "country_array": None, "player_array": None, "check_problems": None,
            "countries": {}, "screen_digest": None, "screen_text": None, "program": None,
            "state_ptr": None, "state_linear": None, "error": None}
@@ -192,11 +195,24 @@ def read_snapshot(session, entry, countries):
     except ValueError as e:
         out["memory_unavailable"] = f"game state memory read failed: {e}"
         return out
+    # round 3 (review round 2 R4): the country and player arrays have their own far pointers,
+    # [A917] and [A91B]; each is checked like [A923] before anything is read through it. An
+    # uninitialized one makes the arrays unavailable while the game state above stays valid.
+    for name, off in (("[A917] (country array)", players.COUNTRIES_PTR),
+                      ("[A91B] (player array)", players.PLAYERS_PTR)):
+        try:
+            aptr = players.far_pointer(st, off)
+        except ValueError as e:
+            out["arrays_unavailable"] = f"{name} read failed: {e}"
+            return out
+        if aptr[2] == 0:
+            out["arrays_unavailable"] = f"pointer {name} is 0000:0000 (uninitialized)"
+            return out
     try:
         out["country_array"] = players.countries(st)
         out["player_array"] = players.players(st)
     except ValueError as e:
-        out["memory_unavailable"] = f"country or player array read failed: {e}"
+        out["arrays_unavailable"] = f"country or player array read failed: {e}"
         return out
     out["check_problems"] = players.check(out["player_array"], out["country_array"])
     for c in countries:
@@ -228,8 +244,13 @@ def diff_states(prev, cur):
          "state_changes": [], "squad_changes": [], "record_changes": []}
     if prev.get("screen_digest") != cur.get("screen_digest"):
         d["screen_changed"] = True
-    if prev.get("state_tuple") and cur.get("state_tuple"):
+    # round 3 (review round 2 R6): a side without readings makes the comparison unavailable
+    # (None), which the record renders as such — never as "none" (unchanged).
+    if prev.get("state_tuple") is not None and cur.get("state_tuple") is not None:
         d["state_changes"] = byte_changes(prev["state_tuple"], cur["state_tuple"])
+    else:
+        d["state_changes"] = None
+    d["countries_compared"] = bool(prev.get("countries")) and bool(cur.get("countries"))
     for c in prev.get("countries", {}):
         pc, cc = prev["countries"][c], cur.get("countries", {}).get(c)
         if not cc:
@@ -282,33 +303,34 @@ def named_bytes(state):
              f"0x{t[SPEED_OFFSET]:02X}")]
 
 
-def next_run_id(runs_dir):
-    """The next free E015-r<nnnn>: records are immutable and never overwritten (L207, R2)."""
+def claim_record(runs_dir, rec):
+    """Write `rec` as the next free E015-r<nnnn>.json. Records are immutable (L207): the slot is
+    claimed with O_CREAT|O_EXCL, and on EEXIST (another extraction took it, R2) the next number
+    is tried. rec["run_id"] is set to the claimed slot's id before its bytes are written, so a
+    record's id always equals its filename (review round 2 R5). Returns the path."""
     d = Path(runs_dir) / "E015"
     d.mkdir(parents=True, exist_ok=True)
     n = 1
-    while (d / f"E015-r{n:04d}.json").exists():
-        n += 1
-    return f"E015-r{n:04d}", d / f"E015-r{n:04d}.json"
-
-
-def atomic_write(path, data):
-    """Exclusive creation: O_WRONLY|O_CREAT|O_EXCL refuses to overwrite an existing file.
-    On EEXIST the caller's chosen-name logic raised a clear error before; this guard catches a
-    race where two `build_record()` calls reach the same slot concurrently (R2)."""
-    fd = os.open(path, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o644)
-    try:
-        os.write(fd, data)
-        os.fsync(fd)
-    finally:
-        os.close(fd)
+    while True:
+        path = d / f"E015-r{n:04d}.json"
+        try:
+            fd = os.open(path, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o644)
+        except FileExistsError:
+            n += 1
+            continue
+        rec["run_id"] = f"E015-r{n:04d}"
+        try:
+            os.write(fd, (json.dumps(rec, indent=1) + "\n").encode("utf-8"))
+            os.fsync(fd)
+        finally:
+            os.close(fd)
+        return path
 
 
 def build_record(session, states, diffs, countries, runs_dir, machine, started, malformed):
     """The run/1 document: one step per parsed state, the diffs after their later state, every
     file the pass read named with its sha256 (every file — R11 — and every country record
     address uses c * COUNTRY_SIZE, not (c-1) * COUNTRY_SIZE, R9)."""
-    run_id, out_path = next_run_id(runs_dir)
     parsed = [s for s in states if s.get("error") is None]
     conf_path = session / "dosbox.conf"
     meta_path = session / "meta.json"
@@ -318,7 +340,7 @@ def build_record(session, states, diffs, countries, runs_dir, machine, started, 
     commit = short_commit()
     rec = {
         "schema": "run/1",
-        "run_id": run_id,
+        "run_id": None,  # set by claim_record to the slot it claims (R5)
         "experiment": "E015",
         "arm": "human-playthrough",
         "rep": 1,
@@ -381,6 +403,33 @@ def build_record(session, states, diffs, countries, runs_dir, machine, started, 
     if malformed:
         add("log", f"index.jsonl: {malformed} malformed line(s) skipped (valid-prefix recovery, R7)",
             str(malformed))
+    def emit_diff(s):
+        """The diff that ends at state s, for every parsed state — partial ones included (review
+        round 2 R6). A comparison one side cannot make is rendered "unavailable", never "none"."""
+        d = diffs.get(s["file"])
+        if not d:
+            return
+        prev_file = d.get("prev_file")
+        add("log", f"diff {prev_file} -> {s['file']}: screen changed",
+            "yes" if d["screen_changed"] else "no")
+        ch = d["state_changes"]
+        add("log", f"diff {prev_file} -> {s['file']}: game state [A923] byte changes",
+            "unavailable" if ch is None else
+            "; ".join(f"{x['offset']}: {x['before']} -> {x['after']}" for x in ch) or "none")
+        if not d.get("countries_compared"):
+            add("log", f"diff {prev_file} -> {s['file']}: country squads and player records",
+                "unavailable")
+            return
+        for c in sorted({x["country"] for x in d["squad_changes"]} | {x["country"] for x in d["record_changes"]}):
+            sc = [x for x in d["squad_changes"] if x["country"] == c]
+            rc = [x for x in d["record_changes"] if x["country"] == c]
+            add("log", f"diff {prev_file} -> {s['file']}: country {c} squad changes (slot: "
+                       f"before -> after)",
+                "; ".join(f"slot {x['slot']}: {x['before']} -> {x['after']}" for x in sc) or "none")
+            add("log", f"diff {prev_file} -> {s['file']}: country {c} player record changes "
+                       f"(player: offset: before -> after)",
+                "; ".join(_render_record_change(x) for x in rc) or "none")
+
     for s in states:
         # rework round 2 R11: every file is hashed and named in the record, whether the parse
         # succeeded or not. The "unreadable" case has no bytes to hash; "sha256 mismatch" and
@@ -405,6 +454,7 @@ def build_record(session, states, diffs, countries, runs_dir, machine, started, 
                 seen[s["screen_digest"]] = True
                 add("ui-text", f"state {s['label']}: text screen rows 0-24, CP437 decoded, trailing "
                                f"blanks trimmed (digest {s['screen_digest']})", s["screen_text"])
+            emit_diff(s)
             step += 1
             continue
         add("save", f"state {s['label']} (bytes {s['bytes']}, parsed)", s["sha256"])
@@ -418,6 +468,9 @@ def build_record(session, states, diffs, countries, runs_dir, machine, started, 
                 hexs(s["state_tuple"]), addr=f"0x{s['state_linear']:X}")
             for field, value in named_bytes(s):
                 add("log", f"state {s['label']}: {field}", value)
+        if s.get("arrays_unavailable"):
+            add("log", f"state {s['label']}: country and player arrays unavailable",
+                s["arrays_unavailable"])
         if s.get("check_problems") is not None:
             add("log", f"state {s['label']}: players.check problems (T15)",
                 "; ".join(s["check_problems"]) or "none")
@@ -435,24 +488,7 @@ def build_record(session, states, diffs, countries, runs_dir, machine, started, 
                               f"({players.PLAYER_SIZE:#x} bytes at [A91B]+n*{players.PLAYER_SIZE:#x}"
                               f"={hex(cc['members_base'] + n * players.PLAYER_SIZE)}), hex",
                     hexs(cc["members"][n]), addr=f"0x{cc['members_base'] + n * players.PLAYER_SIZE:X}")
-        # the diffs after the later state's readings
-        if diffs.get(s["file"]):
-            d = diffs[s["file"]]
-            prev_file = d.get("prev_file")
-            add("log", f"diff {prev_file} -> {s['file']}: screen changed",
-                "yes" if d["screen_changed"] else "no")
-            ch = d["state_changes"]
-            add("log", f"diff {prev_file} -> {s['file']}: game state [A923] byte changes",
-                "; ".join(f"{x['offset']}: {x['before']} -> {x['after']}" for x in ch) or "none")
-            for c in {x["country"] for x in d["squad_changes"]} | {x["country"] for x in d["record_changes"]}:
-                sc = [x for x in d["squad_changes"] if x["country"] == c]
-                rc = [x for x in d["record_changes"] if x["country"] == c]
-                add("log", f"diff {prev_file} -> {s['file']}: country {c} squad changes (slot: "
-                           f"before -> after)",
-                    "; ".join(f"slot {x['slot']}: {x['before']} -> {x['after']}" for x in sc) or "none")
-                add("log", f"diff {prev_file} -> {s['file']}: country {c} player record changes "
-                           f"(player: offset: before -> after)",
-                    "; ".join(_render_record_change(x) for x in rc) or "none")
+        emit_diff(s)
         step += 1
     vpath = session / "video.mkv"
     if meta.get("video"):
@@ -469,7 +505,8 @@ def build_record(session, states, diffs, countries, runs_dir, machine, started, 
         for c in s.get("countries", {})
     ]
     screens = {s["screen_digest"] for s in states if s.get("error") is None}
-    partial = sum(1 for s in states if s.get("error") is None and s.get("memory_unavailable"))
+    partial = sum(1 for s in states if s.get("error") is None
+                  and (s.get("memory_unavailable") or s.get("arrays_unavailable")))
     add("log", "summary",
         f"states: {len(parsed)}, screens: {len(screens)} unique, diffs: {len(diffs)}"
         + (f", skipped: {len(states) - len(parsed)}" if len(states) > len(parsed) else "")
@@ -477,13 +514,7 @@ def build_record(session, states, diffs, countries, runs_dir, machine, started, 
     rec.pop("_screens", None)
     if not parsed:
         rec["status"] = "aborted: no savestate in the session parsed"
-    text = json.dumps(rec, indent=1)
-    try:
-        atomic_write(out_path, (text + "\n").encode("utf-8"))
-    except OSError as e:
-        if e.errno == errno.EEXIST:
-            raise SystemExit(f"{out_path} exists: records are never overwritten")
-        raise
+    out_path = claim_record(runs_dir, rec)
     return rec, out_path
 
 
@@ -538,7 +569,7 @@ def main(argv=None):
                                  malformed)
     parsed = [s for s in states if s.get("error") is None]
     screens = {s["screen_digest"] for s in parsed if s.get("screen_digest") is not None}
-    partial = sum(1 for s in parsed if s.get("memory_unavailable"))
+    partial = sum(1 for s in parsed if s.get("memory_unavailable") or s.get("arrays_unavailable"))
     print(f"states: {len(parsed)}, screens: {len(screens)} unique, diffs: {len(diffs)}"
           + (f", skipped: {len(states) - len(parsed)}" if len(states) > len(parsed) else "")
           + (f", partial: {partial}" if partial else ""))
