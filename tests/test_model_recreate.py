@@ -496,6 +496,11 @@ class CheckerTests(unittest.TestCase):
         self.assertTrue(any(e.startswith("+0x04") for e in K.replacement_errors(old, bad4, *names)))
         moved = h("01191ca1960e050100000000171b1b110000ff7f")
         self.assertEqual(K.replacement_errors(old, moved, *names), [])
+        # word 20's re-create (+7 13, +0xF 00): +6 moved to 0 later must not demand the back bits
+        old20 = h("01201ba18c0b0d0d08000000142020000000ff7f")
+        new20 = h("01181ca18c06000d000000001b1212000000ff7f")
+        names20 = ("044b657061000000000000", "53"), ("044b657061000000000000", "4d")
+        self.assertEqual(K.replacement_errors(old20, new20, *names20), [])
 
     def test_continued_with_caps_zero(self):
         # r0005 0->1, country 1, word 14: undecided, continued with a cap; caps 0 -> retirement fires
