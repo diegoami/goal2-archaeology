@@ -123,6 +123,35 @@ class KeyTests(unittest.TestCase):
 
 
 class MapTests(unittest.TestCase):
+    def test_map_boundaries_order_identity_and_counts(self):
+        from tests import test_human_record  # registers extract for keymap
+        import keymap
+        import hashlib
+
+        def state(when, text, error=None):
+            return {"entry": {"elapsed_s": when}, "screen_text": text,
+                    "screen_digest": "attributes-digest", "error": error}
+
+        def press(when, key, kind="press"):
+            return {"monotonic_s": when, "event": kind, "keysym": key}
+
+        # Deliberately shuffled inputs; snapshots at the exact input/quiet
+        # boundaries distinguish strict-before from inclusive-after.
+        states = [state(6.8, "LATER"), state(5.7, "TEAM"), state(1, "MENU"), state(2, "AT KEY"),
+                  state(2.7, "TEAM"), state(2.3, "TOO EARLY"),
+                  state(2.6, "INVALID", "bad snapshot"), state(4, "MENU")]
+        events = [press(5.2, "b", "release"), press(2.2, "b", "release"),
+                  press(5.1, "b"), press(2.1, "b"), press(5, "a"),
+                  press(2, "a"), press(0, "unbracketed"),
+                  press(9, "unbracketed"), press(8, "release-only", "release")]
+        result = keymap.build_map(states, events, 0)
+        self.assertEqual(result["summary"], "screens: 5, transitions: 1, keys: 6")
+        self.assertEqual(result["unmapped_keys"], 2)
+        self.assertEqual(result["transitions"], [{
+            "screen": hashlib.sha256(b"MENU").hexdigest(), "headline": "MENU",
+            "keys": ["a", "b"], "after": hashlib.sha256(b"TEAM").hexdigest(),
+            "after_headline": "TEAM", "count": 2}])
+
     def test_literal_session_map(self):
         from tests import test_human_record as fixture
         import keymap
