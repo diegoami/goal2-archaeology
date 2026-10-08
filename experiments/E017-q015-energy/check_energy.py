@@ -58,8 +58,26 @@ def compare(record):
     return good, total
 
 
+def select_records(files, supersessions):
+    """Validate explicit supersessions before omitting any incomplete capture."""
+    names = {path.name for path in files}
+    for name, entry in supersessions.items():
+        successor = entry['superseded_by']
+        if name not in names or successor not in names:
+            raise ValueError('supersession requires both committed records')
+        if successor == name or successor in supersessions:
+            raise ValueError('superseding record must itself be complete')
+        if not isinstance(entry['reason'], str) or not entry['reason'].strip():
+            raise ValueError('supersession requires a reason')
+    for name, entry in sorted(supersessions.items()):
+        print(f"superseded {name} by {entry['superseded_by']}: {entry['reason']}")
+    return [path for path in files if path.name not in supersessions]
+
+
 def main():
     files = sorted(Path(__file__).with_name('records').glob('*.json'))
+    supersessions = json.loads(Path(__file__).with_name('supersessions.json').read_text())
+    files = select_records(files, supersessions)
     good = total = 0
     for path in files:
         record = json.loads(path.read_text())

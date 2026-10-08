@@ -1,7 +1,41 @@
 """Literal player records and expected bytes for Q015's instruction paths."""
 import unittest
+import importlib.util
+import contextlib
+import io
+from pathlib import Path
 
 from runtime.model import energy
+
+spec = importlib.util.spec_from_file_location(
+    'check_energy', Path(__file__).resolve().parents[1] /
+    'experiments/E017-q015-energy/check_energy.py')
+checker = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(checker)
+
+
+class Supersession(unittest.TestCase):
+    def test_prints_name_and_reason(self):
+        output = io.StringIO()
+        with contextlib.redirect_stdout(output):
+            selected = checker.select_records(
+                [Path('old.json'), Path('new.json')],
+                {'old.json': {'superseded_by': 'new.json', 'reason': 'missing draw'}})
+        self.assertEqual(selected, [Path('new.json')])
+        self.assertIn('old.json', output.getvalue())
+        self.assertIn('missing draw', output.getvalue())
+
+    def test_missing_successor_fails(self):
+        with self.assertRaises(ValueError):
+            checker.select_records([Path('old.json')],
+                {'old.json': {'superseded_by': 'new.json', 'reason': 'missing draw'}})
+
+    def test_every_other_record_is_retained(self):
+        with contextlib.redirect_stdout(io.StringIO()):
+            selected = checker.select_records(
+                [Path('old.json'), Path('new.json'), Path('other.json')],
+                {'old.json': {'superseded_by': 'new.json', 'reason': 'missing draw'}})
+        self.assertEqual(selected, [Path('new.json'), Path('other.json')])
 
 
 class Energy(unittest.TestCase):

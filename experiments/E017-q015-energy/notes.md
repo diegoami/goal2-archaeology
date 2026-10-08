@@ -83,11 +83,11 @@ the initial recorder hooked 214B:06B1 only. **06D0 calls 0688 directly**, not
 06B1 (`static/goal-exe/code/seg_214B_01.asm:913–935`, 06D0–06F7), so its healing
 draw is absent even though the final expected bytes are recorded. Reading that
 listing led to the corrected 0688 hook, whose independent repeat is retained
-as `records/recovery-002.json`. Neither record is overwritten or excluded.
-Consequently the full checker rejects the first transcript with
-`ValueError: missing recovery draw`; the later transcript does not retroactively
-supply the earlier record's omitted input. This prevents a passing comparison
-from being obtained by inferring the missing draw from an expected energy byte.
+as `records/recovery-002.json`. Neither record is overwritten. The experiment's
+README and `supersessions.json` declare the incomplete first capture superseded
+by the complete repeat. The checker prints this declaration and rejects a
+missing successor; it does not retroactively supply the omitted input or infer
+the missing draw from an expected energy byte.
 
 ## Unestablished coverage
 
