@@ -668,7 +668,26 @@ def terminate(p, grace=TERM_GRACE_S):
     p.wait()
 
 
-def play(video=False, quit_after=None):
+def start_nested(outer_env, res, logf):
+    """Try explicit display numbers; no inspection of system socket/lock files.
+
+    [designed] One second startup grace and candidates 600..699 follow the
+    dispatch probe in T34; these are allocation policy, not game timings.
+    """
+    for number in range(600, 700):
+        display = f":{number}"
+        if display == outer_env.get("DISPLAY"):
+            continue
+        proc = subprocess.Popen(["Xephyr", display, "-screen", res, "-nolisten", "tcp"],
+                                env=outer_env, stdout=logf, stderr=logf,
+                                start_new_session=True)
+        time.sleep(1)
+        if proc.poll() is None:
+            return proc, dict(outer_env, DISPLAY=display)
+    raise RuntimeError("no free nested display in candidates 600 through 699")
+
+
+def play(video=False, quit_after=None, res="1280x800"):
     """One sitting: launch windowed dosbox-x, watch it, stop cleanly, write meta. Returns 0."""
     if not os.environ.get("DISPLAY"):
         print("play: DISPLAY is not set; run from a graphical session", file=sys.stderr)
@@ -683,11 +702,14 @@ def play(video=False, quit_after=None):
         print(line, flush=True)
 
     log(f"session {session}")
-    env = dict(os.environ)
+    outer_env = dict(os.environ)
+    xephyr, env = start_nested(outer_env, res, logf)
+    meta.update({"outer_display": outer_env["DISPLAY"], "display": env["DISPLAY"],
+                 "xephyr_pid": xephyr.pid, "resolution": res})
     argv = [os.environ.get("DOSBOX_X", "dosbox-x"), "-conf", str(session / "dosbox.conf"),
             "-fastlaunch", "-nogui", "-nomenu", "-savedir", str(session),
             "-set", f"dosbox savefile={session / 'state.sav'}"]
-    dbx = subprocess.Popen(argv, stdout=logf, stderr=subprocess.STDOUT, start_new_session=True)
+    dbx = subprocess.Popen(argv, env=env, stdout=logf, stderr=subprocess.STDOUT, start_new_session=True)
     log(f"dosbox-x started (pid {dbx.pid})")
     stop_flag = {"now": False}
 
@@ -719,11 +741,12 @@ def play(video=False, quit_after=None):
             if shutil.which("ffmpeg") is None:
                 log("--video requested but ffmpeg is not installed: continuing without video")
             else:
-                geom0 = window_geometry(wid, env)
+                xephyr_wid = find_window(outer_env, xephyr.pid, search_class="Xephyr")
+                geom0 = window_geometry(xephyr_wid, outer_env)
                 if geom0 is None:
                     log("--video requested but the window geometry is unknown: continuing without video")
                 else:
-                    v = video_cmd(geom0, env["DISPLAY"], session / "video.mkv")
+                    v = video_cmd(geom0, outer_env["DISPLAY"], session / "video.mkv")
                     vid = Video(v, session / "video.mkv")
                     vid.start()
                     log(f"video started: {' '.join(v)}")
@@ -755,6 +778,7 @@ def play(video=False, quit_after=None):
             + (f", video {vinfo['bytes']} bytes" if vinfo else ""))
     finally:
         terminate(dbx)
+        terminate(xephyr)
         if vid and vid.proc and vid.proc.poll() is None:
             vid.stop()
         logf.close()
@@ -799,6 +823,11 @@ def self_test(with_video=False):
             problems.append("ffmpeg (needed for --video)")
         else:
             print("ffmpeg     present")
+    for tool in ("Xephyr", "xinput"):
+        if shutil.which(tool) is None:
+            problems.append(tool)
+        else:
+            print(f"{tool:10} present")
     if not problems:
         SELFTEST.mkdir(parents=True, exist_ok=True)
         conf = conf_for(SELFTEST)
@@ -825,12 +854,15 @@ def main(argv=None):
     st.add_argument("--video", action="store_true", help="also require ffmpeg")
     pl = sub.add_parser("play", help="record one sitting")
     pl.add_argument("--video", action="store_true", help="also record the game window (mkv)")
+    pl.add_argument("--res", default="1280x800", help="nested window size WIDTHxHEIGHT")
     pl.add_argument("--quit-after", type=float, default=None, metavar="SECS",
                     help="stop the sitting after SECS seconds (scripted sittings)")
     a = ap.parse_args(argv)
     if a.cmd == "self-test":
         return self_test(with_video=a.video)
-    return play(video=a.video, quit_after=a.quit_after)
+    if not __import__("re").fullmatch(r"[1-9][0-9]*x[1-9][0-9]*", a.res):
+        ap.error("--res must be WIDTHxHEIGHT")
+    return play(video=a.video, quit_after=a.quit_after, res=a.res)
 
 
 if __name__ == "__main__":
