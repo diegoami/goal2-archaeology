@@ -47,8 +47,12 @@ There is a retirement path for them, outside the year end:
   replacement: the path has no question or acceptance step.
 - `000E:56F3(retiree, announced)` (seg_000E_07.asm:289): sets the manager's flag `+0x4D+m = 1`
   (`570D`, :298); announced: the retirement news `000E:50D4` (`571E`, :303); `1771:1B2E` twice
-  (:310, :316); a fresh record from `1771:4CF7` (`5745`, :317: rand(0x1F3) then the first record
-  with country byte 0 in 0xA01..0xBF4, seg_1771_07.asm:517-529); its number into the retiree's
+  (:310, :316); a fresh record from `1771:4CF7` (`5745`, :317; seg_1771_07.asm:511-559): start =
+  0xA00 + rand(0x1F3) (`4CFD`-`4D09`), then from start + 1 the first record with country byte
+  0, wrapping 0xBF4 -> 0xA01 (`4D13`-`4D40`), and stopping if it comes back round to start; only
+  then (the extra range 0xA01..0xBF4 full, `4D42`-`4D48`) a second search from rand(0xBF3)
+  (`4D4A`-`4D53`) scans cyclically through **1..0xBF4**, wrapping 0xBF4 -> 1, to the first free
+  record (`4D56`-`4D7B`, with no stop: it relies on one existing). Review round 2 R2; its number into the retiree's
   pool slot or squad slot (`5771`, :330 / `579C`, :346); `000E:54F0` (`57A6`, :350); the retiree's
   20 bytes zeroed (`214B:0018`, `57C0`, :362); announced: `000E:544D` and `000E:05F6` (:368).
 - The flags `[A923]+0x4E..+0x53` (the six managers' +0x4D) are cleared by `000E:6CA7` at every
@@ -145,9 +149,12 @@ surname live in `[DS:9B70]` and `[DS:9B6C]`).
   7F40 have no RNG callee). Each computer-country re-create draws **ten** times, in this order:
   rand(16) +5; rand(7), rand(7) make_player's +1; rand(3), rand(3) +2; rand(32) +0xC; rand(2T) +0xD;
   rand(6), rand(6) +1; rand(21) the initial (no rand(10): flag 1). Countries 1..128, slots 1..20.
-  A managed replacement draws rand(0x1F3) in 4CF7 (more when that record is taken), rand(0x50)
-  when the squad has no retiree, then make_player's 7 + 2 (managed fitness), rand(6) x 2,
-  rand(21), and rand(3) when the young count is short.
+  A managed replacement draws rand(0x1F3) in 4CF7, and rand(0xBF3) only when the extra range
+  holds no free record (`4D4A`); rand(0x50) when the squad has no retiree; then 54F0 draws
+  **11** — make_player's **8** (six with flag 1, which skips rand(10), then two for the managed
+  fitness), rand(6) x 2, rand(21) — or **12** with rand(3) when the young count is short (review
+  round 2 R3; a traced call from word 0: [16, 7, 7, 3, 3, 32, 17, 48, 6, 6, 21], final word
+  0x72b1).
 - Recoverable? The word is in every savestate (guest memory). A savestate taken at 80DA's entry
   gives it directly, and from there the gate's draws are the sequence above. A savestate taken
   earlier needs the draws in between (the last fixture's match, 6CA7); one taken after (the

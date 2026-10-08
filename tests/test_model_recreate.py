@@ -550,5 +550,20 @@ class CheckerTests(unittest.TestCase):
             self.assertEqual(K.main(["--runs", d]), 0)
 
 
+class MakePlayerCarriesUnwrittenBytes(unittest.TestCase):
+    """Review round 2 R1: 96D3 writes neither caps (+8/+9), goals (+0xA/+0xB), status (+0x10) nor
+    +0x11; they are carried from the slot's record. New-game fixtures hold zeros there and the
+    re-create clears them afterwards, so only a nonzero sentinel record shows a write."""
+
+    def test_sentinels_survive_make_player(self):
+        import recreate as R
+        record = bytes.fromhex('071a1b904005050511223344101010a05566ff7f')
+        out, w = R.make_player(record, 1, 5, 3, 100, 0, 0x1234)
+        self.assertEqual(out.hex(), '031c1be3e3060505112233440a2020a05566ff7f')
+        self.assertEqual(w, 0xE011)
+        self.assertEqual(out[8:12], bytes.fromhex('11223344'))
+        self.assertEqual(out[16:18], bytes.fromhex('5566'))
+
+
 if __name__ == "__main__":
     unittest.main()

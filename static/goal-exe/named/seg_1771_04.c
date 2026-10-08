@@ -143,7 +143,7 @@ void __stdcall16far edit_own_tactics(char param_1,int param_2)
 
 
 // ---- 1771:4CF7  find_free_player  (f_1771_4CF7; Ghidra 4000:4CF7, __cdecl16far; found by routines.tsv)
-// a free player record for a managed replacement: from 0xA00 + rand(0x1F3) + 1 the first record in 0xA01..0xBF4 whose country byte is 0, cyclically  [likely; F017; read code/seg_1771_07.asm]
+// a free player record for a managed replacement: first from 0xA00 + rand(0x1F3) + 1 the first record in 0xA01..0xBF4 whose country byte is 0, cyclically (4CFD-4D40); when that range is full, from rand(0xBF3) the first free record in 1..0xBF4, cyclically, with no stop (4D4A-4D7B)  [established; F017; read code/seg_1771_07.asm]
 
 uint __cdecl16far find_free_player(void)
 

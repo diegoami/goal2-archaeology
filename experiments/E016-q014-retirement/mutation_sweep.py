@@ -56,6 +56,12 @@ MUTATIONS = [
     (M, "morale drawn before the ability (order; expected equivalent: 32EB draws nothing)", "    r[A.ABILITY] = A.compute_ability(r[A.AGE], r[A.PEAK], r[A.RATING])   # 979C\n    r[MORALE], w = draw(w, MORALE_DRAW)",
      "    r[MORALE], w = draw(w, MORALE_DRAW)\n    r[A.ABILITY] = A.compute_ability(r[A.AGE], r[A.PEAK], r[A.RATING])   # 979C"),
     (M, "tactics clears +0xF first", "    r[TACTICS] = (r[TACTICS] | s) & ~c & 0xFF", "    r[TACTICS] = s & ~c & 0xFF"),
+    # review round 2 R1: make_player's carried bytes
+    (M, "make_player writes +0x8 (carried byte zeroed)", "    r = bytearray(record)\n    r[A.COUNTRY] = country", "    r = bytearray(record)\n    r[8] = 0\n    r[A.COUNTRY] = country"),
+    (M, "make_player writes +0x9 (carried byte zeroed)", "    r = bytearray(record)\n    r[A.COUNTRY] = country", "    r = bytearray(record)\n    r[9] = 0\n    r[A.COUNTRY] = country"),
+    (M, "make_player writes +0xA (carried byte zeroed)", "    r = bytearray(record)\n    r[A.COUNTRY] = country", "    r = bytearray(record)\n    r[10] = 0\n    r[A.COUNTRY] = country"),
+    (M, "make_player writes +0xB (carried byte zeroed)", "    r = bytearray(record)\n    r[A.COUNTRY] = country", "    r = bytearray(record)\n    r[11] = 0\n    r[A.COUNTRY] = country"),
+    (M, "make_player writes +0x10 (carried byte zeroed)", "    r = bytearray(record)\n    r[A.COUNTRY] = country", "    r = bytearray(record)\n    r[16] = 0\n    r[A.COUNTRY] = country"),
     # tactics 3431
     (M, "HARDNESS_LIMIT 4->5", "HARDNESS_LIMIT = 4 ", "HARDNESS_LIMIT = 5 "),
     (M, "HARDNESS_LIMIT 4->3", "HARDNESS_LIMIT = 4 ", "HARDNESS_LIMIT = 3 "),
