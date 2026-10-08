@@ -1,0 +1,131 @@
+baseline: rc 0 Ran 47 tests in 4.683s OK
+KILLED	recreate.py	POSITION 0x06->0x07	Ran 47 tests in 4.692s FAILED (failures=10)	test_age_base_without_override, test_centre_back_profile_edge, test_contract_literal, test_country_one_literal
+KILLED	recreate.py	MORALE 0x0C->0x0B	Ran 47 tests in 0.104s FAILED (failures=17)	test_age_base_without_override, test_all_records, test_baseline_pair, test_contract_holds_for_the_exact_recreates
+KILLED	recreate.py	FITNESS 0x0D->0x0E	Ran 47 tests in 4.323s FAILED (failures=10)	test_age_base_without_override, test_contract_literal, test_country_one_literal, test_every_squad_player
+KILLED	recreate.py	ENERGY 0x0E->0x0D	Ran 47 tests in 4.650s FAILED (failures=10)	test_age_base_without_override, test_contract_literal, test_country_one_literal, test_every_squad_player
+KILLED	recreate.py	TACTICS 0x0F->0x10	Ran 47 tests in 4.009s FAILED (failures=14)	test_all_records, test_baseline_pair, test_contract_literal, test_country_one_literal
+KILLED	recreate.py	LCG_MUL 0x7ABD->0x7ABF	Ran 47 tests in 4.929s FAILED (failures=19)	test_162_steps_from_ten_oclock, test_age_base_without_override, test_all_records, test_baseline_pair
+KILLED	recreate.py	LCG_INC 0x1B0F->0x1B0E	Ran 47 tests in 4.713s FAILED (failures=19)	test_162_steps_from_ten_oclock, test_age_base_without_override, test_all_records, test_baseline_pair
+KILLED	recreate.py	draw returns 0..n-1	Ran 47 tests in 4.698s FAILED (failures=17)	test_age_base_without_override, test_all_records, test_baseline_pair, test_computer_branch
+KILLED	recreate.py	draw multiplies the old word	Ran 47 tests in 4.821s FAILED (failures=16)	test_age_base_without_override, test_computer_branch, test_country_one_literal, test_draw_literals
+KILLED	recreate.py	PROFILE_DRAW 16->15	Ran 47 tests in 4.646s FAILED (failures=11)	test_age_base_without_override, test_all_records, test_baseline_pair, test_contract_literal
+KILLED	recreate.py	MP_AGE_DRAW 7->6	Ran 47 tests in 4.571s FAILED (failures=3)	test_country_one_literal, test_every_squad_player, test_managed_pool
+KILLED	recreate.py	MP_AGE_BASE outfield 28->29	Ran 47 tests in 4.631s FAILED (failures=8)	test_age_base_without_override, test_all_records, test_baseline_pair, test_country_one_literal
+KILLED	recreate.py	MP_AGE_BASE keeper 31->30	Ran 47 tests in 4.629s FAILED (failures=3)	test_country_one_literal, test_every_squad_player, test_managed_pool
+KILLED	recreate.py	make_player age a/b swapped	Ran 47 tests in 4.712s FAILED (failures=9)	test_all_records, test_baseline_pair, test_country_one_literal, test_e016_checker_standalone
+KILLED	recreate.py	PEAK_DRAW 3->4	Ran 47 tests in 4.672s FAILED (failures=12)	test_age_base_without_override, test_all_records, test_baseline_pair, test_contract_goalkeeper
+KILLED	recreate.py	peak a/b swapped	Ran 47 tests in 4.603s FAILED (failures=11)	test_age_base_without_override, test_all_records, test_baseline_pair, test_country_one_literal
+KILLED	recreate.py	POOL_RATING_DRAW 10->9	Ran 47 tests in 4.588s FAILED (failures=1)	test_managed_pool
+KILLED	recreate.py	POOL_RATING_CUT 10->9	Ran 47 tests in 4.711s FAILED (failures=2)	test_managed_pool, test_pool_rating_draw
+KILLED	recreate.py	RATING_OFFSET 0x7F->0x80	Ran 47 tests in 0.106s FAILED (failures=17)	test_age_base_without_override, test_all_records, test_baseline_pair, test_constraints_f016_form
+KILLED	recreate.py	flag branches swapped	Ran 47 tests in 5.069s FAILED (failures=16)	test_age_base_without_override, test_all_records, test_baseline_pair, test_contract_holds_for_the_exact_recreates
+KILLED	recreate.py	MORALE_DRAW 32->31	Ran 47 tests in 4.993s FAILED (failures=13)	test_age_base_without_override, test_all_records, test_baseline_pair, test_contract_literal
+KILLED	recreate.py	PERFORMANCE_INIT 0x7FFF->0x7FFE	Ran 47 tests in 0.106s FAILED (failures=16)	test_age_base_without_override, test_all_records, test_baseline_pair, test_contract_literal
+KILLED	recreate.py	make_player club position not copied to +6	Ran 47 tests in 4.778s FAILED (failures=7)	test_age_base_without_override, test_carries_position_tactics_and_scorer_count, test_country_one_literal, test_every_squad_player
+KILLED	recreate.py	make_player gk from the record, not the argument	Ran 47 tests in 4.793s FAILED (failures=6)	test_age_base_without_override, test_country_one_literal, test_every_squad_player, test_managed_pool
+SURVIVED	recreate.py	morale drawn before the ability (order)	Ran 47 tests in 4.771s OK	
+KILLED	recreate.py	tactics clears +0xF first	Ran 47 tests in 4.666s FAILED (failures=2)	test_carries_position_tactics_and_scorer_count, test_three_recreates_of_one_country
+KILLED	recreate.py	HARDNESS_LIMIT 4->5	Ran 47 tests in 4.558s FAILED (failures=5)	test_all_records, test_e016_checker_standalone, test_every_squad_player, test_hardness_edge
+KILLED	recreate.py	HARDNESS_LIMIT 4->3	Ran 47 tests in 4.727s FAILED (failures=3)	test_every_squad_player, test_hardness_edge, test_managed_pool
+KILLED	recreate.py	OVERRIDE_BIT 0x80->0x40	Ran 47 tests in 4.588s FAILED (failures=8)	test_all_records, test_e016_checker_standalone, test_every_squad_player, test_goalkeeper_bases
+KILLED	recreate.py	TACKLE_BIT 0x08->0x04	Ran 47 tests in 4.723s FAILED (failures=1)	test_hardness_edge
+KILLED	recreate.py	BACK_POSITIONS drop 4	Ran 47 tests in 4.765s FAILED (failures=3)	test_every_squad_player, test_managed_pool, test_positions
+KILLED	recreate.py	BACK_POSITIONS add 5	Ran 47 tests in 4.768s FAILED (failures=6)	test_all_records, test_e016_checker_standalone, test_every_squad_player, test_managed_pool
+KILLED	recreate.py	BACK_BITS drop element 1	Ran 47 tests in 6.612s FAILED (failures=5)	test_country_one_literal, test_every_squad_player, test_goalkeeper_young_base, test_managed_pool
+KILLED	recreate.py	CENTRE_BACK 2->3	Ran 47 tests in 5.529s FAILED (failures=4)	test_centre_back_profile_edge, test_country_one_literal, test_every_squad_player, test_managed_pool
+KILLED	recreate.py	CENTRE_BACK_PROFILE 14->13	Ran 47 tests in 5.089s FAILED (failures=2)	test_centre_back_profile_edge, test_every_squad_player
+KILLED	recreate.py	CENTRE_BACK_BITS drop element 2	Ran 47 tests in 4.980s FAILED (failures=4)	test_centre_back_profile_edge, test_country_one_literal, test_every_squad_player, test_managed_pool
+KILLED	recreate.py	hardness without the rating bit	Ran 47 tests in 4.797s FAILED (failures=3)	test_every_squad_player, test_hardness_edge, test_managed_pool
+KILLED	recreate.py	FITNESS_BASE young 16->15	Ran 47 tests in 4.908s FAILED (failures=13)	test_age_base_without_override, test_all_records, test_baseline_pair, test_computer_branch
+KILLED	recreate.py	FITNESS_BASE old 13->14	Ran 47 tests in 4.938s FAILED (failures=7)	test_all_records, test_computer_branch, test_contract_literal, test_e016_checker_standalone
+KILLED	recreate.py	FITNESS_OLD_MARGIN 4->3	Ran 47 tests in 4.771s FAILED (failures=8)	test_age_base_without_override, test_all_records, test_baseline_pair, test_computer_branch
+KILLED	recreate.py	FITNESS_OLD_MARGIN 4->5	Ran 47 tests in 4.749s FAILED (failures=4)	test_all_records, test_e016_checker_standalone, test_every_squad_player, test_managed_pool
+KILLED	recreate.py	FITNESS_CAP 32->31	Ran 47 tests in 4.013s FAILED (failures=13)	test_all_records, test_baseline_pair, test_computer_branch, test_contract_literal
+KILLED	recreate.py	FITNESS_FLOOR 1->0	Ran 47 tests in 4.805s FAILED (failures=1)	test_managed_floor_visits_zero
+KILLED	recreate.py	FITNESS_FLOOR 1->2	Ran 47 tests in 4.733s FAILED (failures=1)	test_managed_floor_visits_zero
+KILLED	recreate.py	computer branch draws 3T	Ran 47 tests in 4.731s FAILED (failures=8)	test_all_records, test_baseline_pair, test_computer_branch, test_country_one_literal
+KILLED	recreate.py	managed branch a/b swapped	Ran 47 tests in 4.713s FAILED (failures=6)	test_age_base_without_override, test_managed_branch, test_managed_floor_visits_zero, test_managed_pool
+KILLED	recreate.py	managed branch draws T, not T + 1	Ran 47 tests in 4.757s FAILED (failures=2)	test_managed_floor_visits_zero, test_managed_pool
+KILLED	recreate.py	energy after the floor	Ran 47 tests in 5.144s FAILED (failures=1)	test_managed_floor_visits_zero
+KILLED	recreate.py	RECREATE_AGE_DRAW 6->5	Ran 47 tests in 4.952s FAILED (failures=6)	test_age_base_without_override, test_all_records, test_baseline_pair, test_contract_goalkeeper
+KILLED	recreate.py	re-create age a/b swapped	Ran 47 tests in 4.896s FAILED (failures=5)	test_all_records, test_baseline_pair, test_e016_checker_standalone, test_goalkeeper_bases
+KILLED	recreate.py	re-create keeps make_player's ability	Ran 47 tests in 4.552s FAILED (failures=4)	test_all_records, test_baseline_pair, test_e016_checker_standalone, test_three_recreates_of_one_country
+KILLED	recreate.py	re-create keeps the caps	Ran 47 tests in 4.713s FAILED (failures=4)	test_contract_holds_for_the_exact_recreates, test_goalkeeper_bases, test_package_import, test_three_recreates_of_one_country
+SURVIVED	recreate.py	re-create keeps the goals	Ran 47 tests in 4.783s OK	
+KILLED	recreate.py	re-create keeps the status	Ran 47 tests in 4.664s FAILED (failures=1)	test_carries_position_tactics_and_scorer_count
+KILLED	recreate.py	re-create does not restore +6	Ran 47 tests in 4.678s FAILED (failures=1)	test_carries_position_tactics_and_scorer_count
+KILLED	recreate.py	re-create takes the managed fitness branch	Ran 47 tests in 4.971s FAILED (failures=7)	test_all_records, test_baseline_pair, test_e016_checker_standalone, test_goalkeeper_bases
+KILLED	recreate.py	INITIAL_LETTERS W->X	Ran 47 tests in 5.166s FAILED (failures=2)	test_contract_literal, test_initial_letters
+KILLED	recreate.py	INITIAL_LETTERS with Q (22 letters)	Ran 47 tests in 4.693s FAILED (failures=7)	test_all_records, test_baseline_pair, test_contract_literal, test_e016_checker_standalone
+KILLED	recreate.py	initial indexed from 1	Ran 47 tests in 6.285s FAILED (failures=7)	test_all_records, test_baseline_pair, test_e016_checker_standalone, test_goalkeeper_bases
+KILLED	recreate.py	MANAGED_AGE_BASE outfield 25->26 (the R7 table: 0x76 would give 17)	Ran 47 tests in 5.387s FAILED (failures=3)	test_age_base_without_override, test_quota_edge, test_young_margin_edge
+KILLED	recreate.py	MANAGED_AGE_BASE keeper 28->29	Ran 47 tests in 4.859s FAILED (failures=1)	test_goalkeeper_young_base
+KILLED	recreate.py	MANAGED_AGE_BASE = DS:0x76 (R7)	Ran 47 tests in 4.847s FAILED (failures=4)	test_age_base_without_override, test_goalkeeper_young_base, test_quota_edge, test_young_margin_edge
+KILLED	recreate.py	YOUNG_BASE outfield 17->18	Ran 47 tests in 4.901s FAILED (failures=2)	test_quota_edge, test_young_margin_edge
+KILLED	recreate.py	YOUNG_BASE keeper 20->21	Ran 47 tests in 4.802s FAILED (failures=1)	test_goalkeeper_young_base
+KILLED	recreate.py	YOUNG_MARGIN 4->3	Ran 47 tests in 4.837s FAILED (failures=2)	test_goalkeeper_young_base, test_young_margin_edge
+KILLED	recreate.py	YOUNG_MARGIN 4->5	Ran 47 tests in 4.919s FAILED (failures=2)	test_goalkeeper_young_base, test_young_margin_edge
+KILLED	recreate.py	YOUNG_QUOTA 20->19	Ran 47 tests in 4.843s FAILED (failures=3)	test_goalkeeper_young_base, test_quota_edge, test_young_margin_edge
+KILLED	recreate.py	YOUNG_QUOTA 20->21	Ran 47 tests in 4.766s FAILED (failures=4)	test_age_base_without_override, test_goalkeeper_young_base, test_quota_edge, test_young_margin_edge
+SURVIVED	recreate.py	YOUNG_DRAW 3->4	Ran 47 tests in 4.759s OK	
+KILLED	recreate.py	young test <= (560F/561F jge)	Ran 47 tests in 4.832s FAILED (failures=2)	test_goalkeeper_young_base, test_young_margin_edge
+SURVIVED	recreate.py	54F0 does not count the new record	Ran 47 tests in 4.794s OK	
+KILLED	recreate.py	54F0 takes the unmanaged fitness branch	Ran 47 tests in 4.782s FAILED (failures=4)	test_age_base_without_override, test_goalkeeper_young_base, test_quota_edge, test_young_margin_edge
+KILLED	recreate.py	SQUAD_SLOTS 20->19	Ran 47 tests in 4.829s FAILED (failures=1, errors=1)	test_every_squad_player, test_managed_pool
+KILLED	recreate.py	POOL_POSITIONS 14->13	Ran 47 tests in 4.881s FAILED (failures=1)	test_managed_pool
+KILLED	recreate.py	POOL_PER_POSITION 4->3	Ran 47 tests in 4.875s FAILED (failures=1)	test_managed_pool
+KILLED	recreate.py	POOL_AGE_BASE outfield 17->18	Ran 47 tests in 4.835s FAILED (failures=1)	test_managed_pool
+KILLED	recreate.py	POOL_AGE_BASE keeper 20->21	Ran 47 tests in 4.830s FAILED (failures=1)	test_managed_pool
+KILLED	recreate.py	POOL_AGE_DRAW 3->2	Ran 47 tests in 4.877s FAILED (failures=1)	test_managed_pool
+KILLED	recreate.py	POOL_EXTRA_SLOTS 6..9 -> 6..8	Ran 47 tests in 4.870s FAILED (failures=1)	test_managed_pool
+KILLED	recreate.py	POOL_EXTRA_SLOTS 6..9 -> 5..8	Ran 47 tests in 4.689s FAILED (failures=1)	test_managed_pool
+KILLED	recreate.py	new game seed = country + 1	Ran 47 tests in 4.737s FAILED (failures=3)	test_country_one_literal, test_every_squad_player, test_managed_pool
+KILLED	recreate.py	CONTINENT_WEIGHT 5->4	Ran 47 tests in 4.752s FAILED (failures=6)	test_constraints_f016_form, test_domain_edges, test_e006_countries, test_every_squad_player
+KILLED	recreate.py	CONTINENT_RANKS 0x21->0x20	Ran 47 tests in 4.722s FAILED (failures=5)	test_constraints_f016_form, test_domain_edges, test_e006_countries, test_every_squad_player
+KILLED	recreate.py	WORLD_RANKS 0x81->0x80	Ran 47 tests in 4.626s FAILED (failures=5)	test_domain_edges, test_e006_countries, test_every_squad_player, test_managed_pool
+KILLED	recreate.py	RATING_DIVISOR 2->3	Ran 47 tests in 4.728s FAILED (failures=7)	test_better_rank_raises_the_rating, test_constraints_f016_form, test_domain_edges, test_e006_countries
+KILLED	recreate.py	floor divide (not toward zero)	Ran 47 tests in 4.720s FAILED (failures=1)	test_signed_divide_truncates_toward_zero
+KILLED	recreate.py	world rank subtraction reversed (R6)	Ran 47 tests in 4.650s FAILED (failures=7)	test_better_rank_raises_the_rating, test_constraints_f016_form, test_domain_edges, test_e006_countries
+KILLED	recreate.py	contract: fitness lower bound T + 1 -> T	Ran 47 tests in 4.687s FAILED (failures=1)	test_contract_literal
+KILLED	recreate.py	contract: energy not tied to fitness	Ran 47 tests in 4.411s FAILED (failures=2)	test_contract_literal, test_morale_fitness_energy_tactics
+KILLED	recreate.py	contract: +6 not carried	Ran 47 tests in 4.591s FAILED (failures=1)	test_contract_literal
+SURVIVED	recreate.py	contract: +0x11 zeroed (it is carried)	Ran 47 tests in 4.761s OK	
+KILLED	recreate.py	contract: rating domain from 0	Ran 47 tests in 4.769s FAILED (failures=1)	test_contract_literal
+KILLED	recreate.py	NOT_IN_CAPTURES drops +6	Ran 47 tests in 4.752s FAILED (failures=1)	test_not_in_captures
+KILLED	ageing.py	RECREATE_AGE_BASE outfield 25->26	Ran 47 tests in 4.673s FAILED (failures=8)	test_all_records, test_baseline_pair, test_constraints_f016_form, test_contract_literal
+KILLED	ageing.py	RECREATE_AGE_BASE keeper 28->29	Ran 47 tests in 4.657s FAILED (failures=4)	test_all_records, test_contract_goalkeeper, test_e016_checker_standalone, test_goalkeeper_bases
+KILLED	ageing.py	RECREATE_AGE_SPREAD 5->4	Ran 47 tests in 4.795s FAILED (failures=3)	test_constraints_f016_form, test_e014_checker_standalone, test_package_import
+KILLED	ageing.py	PEAK_BASE outfield 27->28	Ran 47 tests in 3.981s FAILED (failures=16)	test_age_base_without_override, test_all_records, test_baseline_pair, test_constraints_f016_form
+KILLED	ageing.py	PEAK_BASE keeper 30->31	Ran 47 tests in 4.669s FAILED (failures=8)	test_all_records, test_contract_goalkeeper, test_country_one_literal, test_e014_checker_standalone
+KILLED	ageing.py	PEAK_SPREAD 2->1	Ran 47 tests in 4.998s FAILED (failures=3)	test_constraints_f016_form, test_e014_checker_standalone, test_package_import
+KILLED	ageing.py	PROFILE_RANGE 1..16 -> 1..15	Ran 47 tests in 4.793s FAILED (failures=3)	test_constraints_f016_form, test_e014_checker_standalone, test_package_import
+KILLED	ageing.py	RETIRE_LIMIT outfield 30->31	Ran 47 tests in 3.925s FAILED (failures=9)	test_age_limits, test_all_records, test_baseline_pair, test_drawn_byte_inside_its_range
+KILLED	ageing.py	RETIRE_LIMIT keeper 33->32	Ran 47 tests in 4.558s FAILED (failures=1)	test_age_limits
+KILLED	ageing.py	RETIRE_PEAK_MARGIN 5->6	Ran 47 tests in 3.962s FAILED (failures=9)	test_all_records, test_baseline_pair, test_drawn_byte_inside_its_range, test_e014_checker_standalone
+KILLED	ageing.py	shim breaks the top-level import (R9)	Ran 47 tests in 4.687s FAILED (failures=1)	test_e014_checker_standalone
+KILLED	check_recreate.py	undecided: a record matching neither accepted as a re-create (R1)	Ran 47 tests in 4.668s FAILED (failures=2)	test_undecided_continuing_matching_neither, test_undecided_recreate_matching_neither
+SURVIVED	check_recreate.py	undecided continuing with caps 0 accepted	Ran 47 tests in 4.753s OK	
+KILLED	check_recreate.py	decided always (undecided caps clause ignored)	Ran 47 tests in 4.032s FAILED (failures=8)	test_all_records, test_baseline_pair, test_drawn_byte_inside_its_range, test_e016_checker_standalone
+KILLED	check_recreate.py	per-country rating check off (R1)	Ran 47 tests in 4.633s FAILED (failures=1)	test_undecided_recreate_joins_the_rating_check
+KILLED	check_recreate.py	surname check off (R2)	Ran 47 tests in 4.608s FAILED (failures=1)	test_surname
+KILLED	check_recreate.py	initial table check off (R2)	Ran 47 tests in 4.593s FAILED (failures=1)	test_initial_outside_the_table
+KILLED	check_recreate.py	exact bytes off (R3)	Ran 47 tests in 4.565s FAILED (failures=1)	test_undecided_recreate_matching_neither
+KILLED	check_recreate.py	range checks off (R3)	Ran 47 tests in 4.042s FAILED (failures=1)	test_morale_fitness_energy_tactics
+KILLED	check_recreate.py	energy = fitness check off (R3)	Ran 47 tests in 4.830s FAILED (failures=1)	test_morale_fitness_energy_tactics
+KILLED	check_recreate.py	tactics bits check off (R3)	Ran 47 tests in 5.109s FAILED (failures=1)	test_morale_fitness_energy_tactics
+SURVIVED	check_recreate.py	ability of its own bytes off	Ran 47 tests in 4.968s OK	
+KILLED	check_recreate.py	exact check: a pair with no RNG word accepted	Ran 47 tests in 4.205s FAILED (failures=2)	test_drawn_byte_inside_its_range, test_initial_inside_the_table
+KILLED	check_recreate.py	exact check never applied	Ran 47 tests in 0.121s FAILED (failures=4)	test_all_records, test_baseline_pair, test_drawn_byte_inside_its_range, test_initial_inside_the_table
+KILLED	check_recreate.py	exact check: morale not compared	Ran 47 tests in 4.800s FAILED (failures=1)	test_drawn_byte_inside_its_range
+KILLED	check_recreate.py	exact check: age not compared	Ran 47 tests in 4.062s FAILED (failures=1)	test_drawn_byte_inside_its_range
+SURVIVED	check_recreate.py	exact check: ability not compared (expected equivalent: the contract checks +4 of +1/+2/+3)	Ran 47 tests in 4.579s OK	
+KILLED	check_recreate.py	exact check: initial not compared	Ran 47 tests in 5.430s FAILED (failures=1)	test_initial_inside_the_table
+KILLED	check_recreate.py	exact check: half the RNG words	Ran 47 tests in 2.556s FAILED (failures=3)	test_all_records, test_baseline_pair, test_e016_checker_standalone
+KILLED	check_recreate.py	exact check in the first capture's slot order	Ran 47 tests in 4.819s FAILED (failures=3)	test_all_records, test_baseline_pair, test_e016_checker_standalone
+SURVIVED	check_recreate.py	+6 checked too (expected equivalent on E014: every re-create kept the capture's +6)	Ran 47 tests in 5.032s OK	
+SURVIVED	check_recreate.py	3431's +6 taken as the record's +6 (expected equivalent on E014: +6 = +7 in every re-create)	Ran 47 tests in 6.124s OK	
+SURVIVED	check_recreate.py	zero comparisons accepted	Ran 47 tests in 4.985s OK	
+SURVIVED	check_recreate.py	no re-create accepted	Ran 47 tests in 4.865s OK	
+SURVIVED	check_recreate.py	exit 0 with mismatches	Ran 47 tests in 5.039s OK	
+restored: experiments/E016-q014-retirement/check_recreate.py sha256 005d3c901a3a, runtime/model/ageing.py sha256 015fd463686f, runtime/model/recreate.py sha256 e183aa437aee
+mutations: 115 killed, 13 survived, 0 timeout, 0 bad

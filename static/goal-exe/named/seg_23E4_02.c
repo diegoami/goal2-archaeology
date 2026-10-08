@@ -840,12 +840,12 @@ void __cdecl16far sys_get_time(void)
 
 {
   code *pcVar1;
-  undefined2 in_CX;
+  word in_CX;
   undefined2 extraout_DX;
   
   pcVar1 = (code *)swi(0x21);
   (*pcVar1)();
-  DS:7B62 = in_CX;
+  rng_word = in_CX;
   DS:7B64 = extraout_DX;
   return;
 }

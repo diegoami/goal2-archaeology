@@ -119,9 +119,10 @@ void __stdcall16far credit_silent_match_scorers(undefined4 param_1)
 }
 
 
-// ---- 0791:B6CC  f_0791_B6CC  (f_0791_B6CC; Ghidra 2000:B6CC, __stdcall16far; found by routines.tsv)
+// ---- 0791:B6CC  add_manager_delta  (f_0791_B6CC; Ghidra 2000:B6CC, __stdcall16far; found by routines.tsv)
+// adds a signed amount to the byte [A91F]+3k+2, clamped to -127..127; 1771:63A4 folds it into the manager byte +1 and clears it  [established; F017; read code/seg_0791_18.asm]
 
-void __stdcall16far f_0791_B6CC(int param_1,int param_2)
+void __stdcall16far add_manager_delta(int param_1,int param_2)
 
 {
   undefined2 uVar1;
@@ -225,7 +226,7 @@ void __stdcall16far update_fixture_player_state(undefined4 param_1)
     uVar6 = fixture_confidence_delta
                       (CONCAT11((char)((uint)(iVar1 * 0xbf) >> 8),local_9),iVar2,uVar11);
     if ((!bVar3) && (*(char *)(iVar2 + 2) != '\x01')) {
-      f_0791_B6CC(uVar6,pcVar9[iVar1].manager);
+      add_manager_delta(uVar6,pcVar9[iVar1].manager);
     }
     cVar4 = f_1771_5A8F(iVar2,uVar11,*(undefined2 *)(iVar2 + local_9 * 2 + 4));
     local_4 = 1;

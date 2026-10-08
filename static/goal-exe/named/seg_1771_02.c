@@ -142,8 +142,7 @@ void f_1771_1934(int param_1)
   u214b_unpack_screen_to_buffer((undefined4 *)&DS:A96E,0xb000,0x17a8,0xb000);
   local_4 = 1;
   while( true ) {
-    draw_country_name(0x41,local_4 + 7,*(undefined1 *)((int)DS:9B56 + local_4 + param_1 + -1))
-    ;
+    draw_country_name(0x41,local_4 + 7,((byte *)country_order_ptr)[local_4 + param_1 + -1]);
     if (local_4 == 0x10) break;
     local_4 = local_4 + 1;
   }
@@ -621,23 +620,23 @@ void f_1771_25EA(int param_1,uint param_2)
 
 {
   undefined2 unaff_SS;
-  undefined2 local_6;
-  undefined2 local_4;
+  int local_6;
+  int local_4;
   
   if (*(char *)(param_1 + -3) == '\0') {
-    DS:9B56._0_2_ = -0x6382;
+    country_order_ptr._0_2_ = (byte *)0x9c7e;
   }
   else {
-    DS:9B56._0_2_ = -0x6403;
+    country_order_ptr._0_2_ = (byte *)0x9bfd;
   }
-  DS:9B56 = CONCAT22(0xb000,(int)DS:9B56);
+  country_order_ptr = (byte *)CONCAT22(0xb000,(byte *)country_order_ptr);
   DS:0DB4 = 1;
   DS:0DB6 = '\x01';
   if (param_2 != 0) {
     local_6 = 0;
     local_4 = 1;
     while( true ) {
-      if (*(byte *)((int)DS:9B56 + local_4) == param_2) {
+      if (((byte *)country_order_ptr)[local_4] == param_2) {
         local_6 = local_4;
       }
       if (local_4 == 0x80) break;
@@ -675,11 +674,13 @@ void __stdcall16far country_list_screen(uint param_1)
   undefined1 uVar4;
   undefined1 extraout_AH_02;
   undefined2 uVar3;
-  country *pcVar5;
-  undefined2 uVar6;
+  byte *pbVar5;
+  country *pcVar6;
+  undefined2 uVar7;
+  undefined2 uVar8;
   undefined2 unaff_SS;
-  bool bVar7;
-  undefined1 *puVar8;
+  bool bVar9;
+  undefined1 *puVar10;
   undefined1 local_109 [256];
   uint local_9;
   int local_7;
@@ -689,30 +690,29 @@ void __stdcall16far country_list_screen(uint param_1)
   
   local_5 = *(char *)((int)DS:A923 + 0x40);
   local_3 = '\0';
-  bVar7 = false;
+  bVar9 = false;
   sys_set_bit_mask_08DF(0x2688,0x4000,param_1 & 0xff);
-  if (bVar7) {
+  if (bVar9) {
     f_1771_25EA(&stack0xfffe,
                 ((byte *)manager_countries)[(*(byte *)((int)DS:A923 + 1) + 0x80) * 3]);
   }
   if (param_1 == 3) {
-    f_1771_1D5C(*(undefined1 *)((int)DS:9B56 + DS:0DB6 + DS:0DB4 + -1));
+    f_1771_1D5C(((byte *)country_order_ptr)[DS:0DB6 + DS:0DB4 + -1]);
   }
   do {
     if (local_5 == '\0') {
-      DS:9B56._0_2_ = -0x6382;
+      country_order_ptr._0_2_ = (byte *)0x9c7e;
     }
     else {
-      DS:9B56._0_2_ = -0x6403;
+      country_order_ptr._0_2_ = (byte *)0x9bfd;
     }
-    DS:9B56._2_2_ = 0xb000;
+    country_order_ptr = (byte *)CONCAT22(0xb000,(byte *)country_order_ptr);
     u214b_unpack_screen_to_buffer((undefined4 *)&DS:A96E,0xb000,0x5f66,0xb000);
     u214b_unpack_screen_to_buffer((undefined4 *)&DS:A96E,0xb000,0x26f2,0xb000);
     if (local_3 == '\0') {
       if (param_1 == 1) {
         u214b_unpack_screen_to_buffer((undefined4 *)&DS:A96E,0xb000,0x18e6,0xb000);
-        cVar1 = is_managed(*(undefined1 *)((int)DS:9B56 + DS:0DB6 + DS:0DB4 + -1))
-        ;
+        cVar1 = is_managed(((byte *)country_order_ptr)[DS:0DB6 + DS:0DB4 + -1]);
         if (cVar1 != '\0') {
           u214b_unpack_screen_to_buffer((undefined4 *)&DS:A96E,0xb000,0x27fc,0xb000);
         }
@@ -726,12 +726,12 @@ void __stdcall16far country_list_screen(uint param_1)
       else if (param_1 == 2) {
         u214b_unpack_screen_to_buffer((undefined4 *)&DS:A96E,0xb000,0x14f4,0xb000);
         uVar3 = CONCAT11(extraout_AH,0x70);
-        puVar8 = local_109;
-        uVar6 = unaff_SS;
+        puVar10 = local_109;
+        uVar8 = unaff_SS;
         u214b_number_to_string(*(undefined1 *)((int)DS:A923 + 1),0);
         u214b_write_string_at_fwd_set_attr
                   ((undefined4 *)&DS:A96E,0xb000,CONCAT11(extraout_AH_00,0x1a),
-                   CONCAT11(extraout_AH_00,1),puVar8,uVar6,uVar3);
+                   CONCAT11(extraout_AH_00,1),puVar10,uVar8,uVar3);
       }
     }
     else {
@@ -745,21 +745,20 @@ void __stdcall16far country_list_screen(uint param_1)
       u214b_fill_back_attr_70(7,0x43,3);
     }
     u214b_fill_back_attr_70(0xf,0x41,DS:0DB6 + 7);
-    draw_team_panel(*(undefined1 *)((int)DS:9B56 + DS:0DB6 + DS:0DB4 + -1));
+    draw_team_panel(((byte *)country_order_ptr)[DS:0DB6 + DS:0DB4 + -1]);
     if (param_1 == 2) {
-      uVar6 = CONCAT11(extraout_AH_01,0x70);
-      iVar2 = country_rating(*(undefined1 *)
-                              ((int)DS:9B56 + DS:0DB6 + DS:0DB4 + -1));
+      uVar8 = CONCAT11(extraout_AH_01,0x70);
+      iVar2 = country_rating(((byte *)country_order_ptr)[DS:0DB6 + DS:0DB4 + -1]);
       iVar2 = (iVar2 / 10) * 0xb;
       uVar4 = (undefined1)((uint)iVar2 >> 8);
       u214b_write_string_at_fwd_set_attr
                 ((undefined4 *)&DS:A96E,0xb000,CONCAT11(uVar4,0x2b),CONCAT11(uVar4,5),
-                 iVar2 + 0xdb7,0xb000,uVar6);
+                 iVar2 + 0xdb7,0xb000,uVar8);
     }
     sys_move_025D(4000,(int)DS:A96A,(int)((ulong)DS:A96A >> 0x10),(int)DS:A96E,
                   (int)((ulong)DS:A96E >> 0x10));
     u214b_read_key();
-    uVar6 = 0xa000;
+    uVar8 = 0xa000;
     DS:A976 = sys_upcase_19B2(CONCAT11(extraout_AH_02,DS:A976));
     local_4 = DS:A976 == '\x1b';
     if (DS:A976 == -0x54) {
@@ -801,37 +800,36 @@ void __stdcall16far country_list_screen(uint param_1)
       DS:0DB6 = 0x10;
     }
     else if (((DS:A976 == 'T') && (param_1 == 1)) &&
-            (cVar1 = is_managed(*(undefined1 *)
-                                 ((int)DS:9B56 + DS:0DB6 + DS:0DB4 + -1)),
+            (cVar1 = is_managed(((byte *)country_order_ptr)[DS:0DB6 + DS:0DB4 + -1]),
             cVar1 != '\0')) {
-      uVar6 = 0x7000;
+      uVar8 = 0x7000;
       u214b_unpack_screen_to_buffer((undefined4 *)&DS:A96E,0xb000,0x280e,0xb000);
-      edit_team_tactics(*(undefined1 *)((int)DS:9B56 + DS:0DB6 + DS:0DB4 + -1));
+      edit_team_tactics(((byte *)country_order_ptr)[DS:0DB6 + DS:0DB4 + -1]);
     }
     if ((local_3 == '\0') || (DS:A976 != '\x1b')) {
+      pbVar5 = (byte *)country_order_ptr;
+      uVar3 = (undefined2)((ulong)country_order_ptr >> 0x10);
       if (DS:A976 == ' ') {
-        view_squad_screen(1,*(undefined1 *)((int)DS:9B56 + DS:0DB6 + DS:0DB4 + -1)
-                         );
+        view_squad_screen(1,pbVar5[DS:0DB6 + DS:0DB4 + -1]);
       }
       else if (DS:A976 == -0x4a) {
         local_5 = local_5 == '\0';
       }
       else if (DS:A976 == -0x60) {
-        f_1771_101A(*(undefined1 *)((int)DS:9B56 + DS:0DB6 + DS:0DB4 + -1));
+        f_1771_101A(pbVar5[DS:0DB6 + DS:0DB4 + -1]);
       }
       else {
-        pcVar5 = (country *)countries;
-        uVar3 = (undefined2)((ulong)countries >> 0x10);
+        pcVar6 = (country *)countries;
+        uVar7 = (undefined2)((ulong)countries >> 0x10);
         if (DS:A976 == -0x5f) {
-          f_1771_09A0(2,10,pcVar5[*(byte *)((int)DS:9B56 + DS:0DB6 + DS:0DB4 + -1)
-                                 ].manager);
+          f_1771_09A0(2,10,pcVar6[pbVar5[DS:0DB6 + DS:0DB4 + -1]].manager);
         }
         else if (DS:A976 == '\r') {
           if (local_3 == '\0') {
             if (param_1 == 2) {
-              local_9 = (uint)*(byte *)((int)DS:9B56 + DS:0DB6 + DS:0DB4 + -1);
+              local_9 = (uint)pbVar5[DS:0DB6 + DS:0DB4 + -1];
               uVar3 = is_managed(local_9);
-              cVar1 = u214b_message_if_flag(0x26a8,uVar6,uVar3);
+              cVar1 = u214b_message_if_flag(0x26a8,uVar8,uVar3);
               local_4 = cVar1 == '\0';
               if ((bool)local_4) {
                 ((byte *)manager_countries)[(*(byte *)((int)DS:A923 + 1) + 0x80) * 3] =
@@ -839,32 +837,31 @@ void __stdcall16far country_list_screen(uint param_1)
               }
             }
             else if (param_1 == 4) {
-              DS:9B66 =
-                   (uint)*(byte *)((int)DS:9B56 + DS:0DB6 + DS:0DB4 + -1);
+              DS:9B66 = (uint)pbVar5[DS:0DB6 + DS:0DB4 + -1];
               local_4 = '\x01';
             }
             else if (param_1 == 1) {
-              f_1771_7BA2(*(undefined1 *)((int)DS:9B56 + DS:0DB6 + DS:0DB4 + -1));
+              f_1771_7BA2(pbVar5[DS:0DB6 + DS:0DB4 + -1]);
             }
             else if (param_1 == 3) {
-              f_1771_1D5C(*(undefined1 *)((int)DS:9B56 + DS:0DB6 + DS:0DB4 + -1));
+              f_1771_1D5C(pbVar5[DS:0DB6 + DS:0DB4 + -1]);
             }
           }
           else {
             local_9 = (DS:0DB6 + DS:0DB4) - 1;
             if (local_5 == '\0') {
-              u214b_swap_bytes(1,&pcVar5[*(byte *)((int)DS:9B56 + local_7)].continent_rank,
-                               uVar3,&pcVar5[*(byte *)((int)DS:9B56 + local_9)].continent_rank
-                               ,uVar3);
+              u214b_swap_bytes(1,&pcVar6[pbVar5[local_7]].continent_rank,uVar7,
+                               &pcVar6[pbVar5[local_9]].continent_rank,uVar7);
             }
             else {
-              u214b_swap_bytes(1,&pcVar5[*(byte *)((int)DS:9B56 + local_7)].world_rank,uVar3,
-                               &pcVar5[*(byte *)((int)DS:9B56 + local_9)].world_rank,uVar3);
+              u214b_swap_bytes(1,&pcVar6[pbVar5[local_7]].world_rank,uVar7,
+                               &pcVar6[pbVar5[local_9]].world_rank,uVar7);
             }
-            u214b_swap_bytes(1,(int)DS:9B56 + local_7,DS:9B56._2_2_,
-                             (int)DS:9B56 + local_9,DS:9B56._2_2_);
-            make_squad(*(undefined1 *)((int)DS:9B56 + local_9));
-            make_squad(*(undefined1 *)((int)DS:9B56 + local_7));
+            uVar8 = (undefined2)((ulong)country_order_ptr >> 0x10);
+            u214b_swap_bytes(1,(byte *)country_order_ptr + local_7,uVar8,
+                             (byte *)country_order_ptr + local_9,uVar8);
+            make_squad(((byte *)country_order_ptr)[local_9]);
+            make_squad(((byte *)country_order_ptr)[local_7]);
             local_3 = '\0';
             DS:0C1A = 1;
           }

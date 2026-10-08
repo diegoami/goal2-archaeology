@@ -609,7 +609,7 @@ undefined2 __stdcall16far u214b_random_1_to_n(undefined2 param_1)
 {
   undefined2 uVar1;
   
-  uVar1 = u214b_lcg_step(param_1,(int)DS:A978,(int)((ulong)DS:A978 >> 0x10));
+  uVar1 = u214b_lcg_step(param_1,rng_word_ptr);
   return uVar1;
 }
 
@@ -622,7 +622,7 @@ bool __stdcall16far u214b_random_is_one(undefined2 param_1)
 {
   int iVar1;
   
-  iVar1 = u214b_lcg_step(param_1,(int)DS:A978,(int)((ulong)DS:A978 >> 0x10));
+  iVar1 = u214b_lcg_step(param_1,rng_word_ptr);
   return iVar1 == 1;
 }
 
@@ -635,7 +635,7 @@ bool __cdecl16far u214b_random_coin_flip(void)
 {
   int iVar1;
   
-  iVar1 = u214b_lcg_step(2,(int)DS:A978,(int)((ulong)DS:A978 >> 0x10));
+  iVar1 = u214b_lcg_step(2,rng_word_ptr);
   return iVar1 == 1;
 }
 
