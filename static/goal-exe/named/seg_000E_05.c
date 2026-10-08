@@ -397,8 +397,9 @@ void simulate_fixture(int param_1)
   local_c = (char *)CONCAT22(uVar8,pcVar6);
   cVar1 = *local_c;
   quick_result_silent((int)DS:A92B + *(int *)(iVar4 + 0x26) * 8 + -8,uVar8);
-  f_0791_B7FA((int)DS:A92B + *(int *)(iVar4 + 0x26) * 8 + -8,
-              (int)((ulong)DS:A92B >> 0x10));
+  update_fixture_player_state
+            ((int)DS:A92B + *(int *)(iVar4 + 0x26) * 8 + -8,
+             (int)((ulong)DS:A92B >> 0x10));
   f_0791_B602((int)DS:A92B + *(int *)(iVar4 + 0x26) * 8 + -8,
               (int)((ulong)DS:A92B >> 0x10));
   f_0791_D050((int)DS:A92B + *(int *)(iVar4 + 0x26) * 8 + -8,
@@ -634,8 +635,9 @@ LAB_000E_6E15:
           if (local_5 == '\x01') break;
           local_5 = local_5 + '\x01';
         }
-        f_0791_B7FA((int)DS:A92B + *(int *)((byte *)local_12 + 0x26) * 8 + -8,
-                    (int)((ulong)DS:A92B >> 0x10));
+        update_fixture_player_state
+                  ((int)DS:A92B + *(int *)((byte *)local_12 + 0x26) * 8 + -8,
+                   (int)((ulong)DS:A92B >> 0x10));
       }
       *(int *)((byte *)local_12 + 0x26) = *(int *)((byte *)local_12 + 0x26) + 1;
       f_1771_8757();

@@ -1,0 +1,15 @@
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T31/experiments/E017-q015-energy/probe_watched.py", line 112, in <module>
+    main()
+  File "/home/diego/projects/goal2-archaeology-work/T31/experiments/E017-q015-energy/probe_watched.py", line 97, in main
+    half.run()
+  File "/home/diego/projects/goal2-archaeology-work/T31/runtime/emul/watched.py", line 165, in run
+    self.mu.emu_start(self.CODE * 16 + HALF_ENTRY, self.CODE * 16 + HALF_END, timeout=timeout_s * 1000000)
+  File "/home/diego/.local/lib/python3.12/site-packages/unicorn/unicorn_py3/unicorn.py", line 769, in emu_start
+    raise self._hook_exception
+  File "/home/diego/.local/lib/python3.12/site-packages/unicorn/unicorn_py3/unicorn.py", line 363, in wrapper
+    return func(uc, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/.local/lib/python3.12/site-packages/unicorn/unicorn_py3/unicorn.py", line 1077, in __hook_mem_access_cb
+    callback(uc, access, address, size, value, user_data)
+TypeError: main.<locals>.store() takes 5 positional arguments but 6 were given

@@ -1,0 +1,2331 @@
+In-place +1 and -1 sweep of every top-level numeric model constant, then the named operator mutants
+Command: python3 -m unittest -v tests.test_model_energy
+Per subprocess timeout: 30 seconds; source restored in finally
+BASELINE exit=0
+test_exact_draw_consumption (tests.test_model_energy.Energy.test_exact_draw_consumption) ... ok
+test_form_instruction_and_injury_store (tests.test_model_energy.Energy.test_form_instruction_and_injury_store) ... ok
+test_healing_draw_literal_upper_bound (tests.test_model_energy.Energy.test_healing_draw_literal_upper_bound) ... ok
+test_injured_draw_and_recovery_gate (tests.test_model_energy.Energy.test_injured_draw_and_recovery_gate) ... ok
+test_negative_energy_uses_noninjured_branch_but_gate_draw (tests.test_model_energy.Energy.test_negative_energy_uses_noninjured_branch_but_gate_draw) ... ok
+test_quick_period_and_signed_floor (tests.test_model_energy.Energy.test_quick_period_and_signed_floor) ... ok
+test_recovery_bounds_age_strict_and_signed_fitness (tests.test_model_energy.Energy.test_recovery_bounds_age_strict_and_signed_fitness) ... ok
+test_recovery_flag_nonzero_draw_order (tests.test_model_energy.Energy.test_recovery_flag_nonzero_draw_order) ... ok
+test_recovery_flag_zero_extra_below_16 (tests.test_model_energy.Energy.test_recovery_flag_zero_extra_below_16) ... ok
+test_rest_draw_literal_upper_bound (tests.test_model_energy.Energy.test_rest_draw_literal_upper_bound) ... ok
+test_restore_not_full_32 (tests.test_model_energy.Energy.test_restore_not_full_32) ... ok
+test_watched_strict_threshold_and_reset (tests.test_model_energy.Energy.test_watched_strict_threshold_and_reset) ... ok
+test_a_difference_outside_the_declared_fields_is_rejected (tests.test_model_energy.Supersession.test_a_difference_outside_the_declared_fields_is_rejected) ... ok
+test_a_missing_successor_fails (tests.test_model_energy.Supersession.test_a_missing_successor_fails) ... ok
+test_an_earlier_successor_is_rejected (tests.test_model_energy.Supersession.test_an_earlier_successor_is_rejected) ... ok
+test_an_unrelated_successor_is_rejected (tests.test_model_energy.Supersession.test_an_unrelated_successor_is_rejected) ... ok
+test_superseding_a_complete_record_is_rejected (tests.test_model_energy.Supersession.test_superseding_a_complete_record_is_rejected) ... ok
+test_the_committed_supersession_is_selected_and_printed (tests.test_model_energy.Supersession.test_the_committed_supersession_is_selected_and_printed) ... ok
+
+----------------------------------------------------------------------
+Ran 18 tests in 0.003s
+
+OK
+
+RECORD_SIZE 20->21: KILLED exit=1
+test_exact_draw_consumption (tests.test_model_energy.Energy.test_exact_draw_consumption) ... ok
+test_form_instruction_and_injury_store (tests.test_model_energy.Energy.test_form_instruction_and_injury_store) ... ERROR
+test_healing_draw_literal_upper_bound (tests.test_model_energy.Energy.test_healing_draw_literal_upper_bound) ... ok
+test_injured_draw_and_recovery_gate (tests.test_model_energy.Energy.test_injured_draw_and_recovery_gate) ... ERROR
+test_negative_energy_uses_noninjured_branch_but_gate_draw (tests.test_model_energy.Energy.test_negative_energy_uses_noninjured_branch_but_gate_draw) ... ERROR
+test_quick_period_and_signed_floor (tests.test_model_energy.Energy.test_quick_period_and_signed_floor) ... ERROR
+test_recovery_bounds_age_strict_and_signed_fitness (tests.test_model_energy.Energy.test_recovery_bounds_age_strict_and_signed_fitness) ... ERROR
+test_recovery_flag_nonzero_draw_order (tests.test_model_energy.Energy.test_recovery_flag_nonzero_draw_order) ... ERROR
+test_recovery_flag_zero_extra_below_16 (tests.test_model_energy.Energy.test_recovery_flag_zero_extra_below_16) ... ERROR
+test_rest_draw_literal_upper_bound (tests.test_model_energy.Energy.test_rest_draw_literal_upper_bound) ... ok
+test_restore_not_full_32 (tests.test_model_energy.Energy.test_restore_not_full_32) ... ERROR
+test_watched_strict_threshold_and_reset (tests.test_model_energy.Energy.test_watched_strict_threshold_and_reset) ... ERROR
+test_a_difference_outside_the_declared_fields_is_rejected (tests.test_model_energy.Supersession.test_a_difference_outside_the_declared_fields_is_rejected) ... ok
+test_a_missing_successor_fails (tests.test_model_energy.Supersession.test_a_missing_successor_fails) ... ok
+test_an_earlier_successor_is_rejected (tests.test_model_energy.Supersession.test_an_earlier_successor_is_rejected) ... ok
+test_an_unrelated_successor_is_rejected (tests.test_model_energy.Supersession.test_an_unrelated_successor_is_rejected) ... ok
+test_superseding_a_complete_record_is_rejected (tests.test_model_energy.Supersession.test_superseding_a_complete_record_is_rejected) ... FAIL
+test_the_committed_supersession_is_selected_and_printed (tests.test_model_energy.Supersession.test_the_committed_supersession_is_selected_and_printed) ... ERROR
+
+======================================================================
+ERROR: test_form_instruction_and_injury_store (tests.test_model_energy.Energy.test_form_instruction_and_injury_store)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T31/tests/test_model_energy.py", line 160, in test_form_instruction_and_injury_store
+    self.assertEqual(energy.form_delta(record, -2)[12:15], b'\x0e\x18\x02')
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T31/runtime/model/energy.py", line 70, in form_delta
+    out = _record(record)
+          ^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T31/runtime/model/energy.py", line 35, in _record
+    raise ValueError('a player record must be 20 bytes')
+ValueError: a player record must be 20 bytes
+
+======================================================================
+ERROR: test_injured_draw_and_recovery_gate (tests.test_model_energy.Energy.test_injured_draw_and_recovery_gate)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T31/tests/test_model_energy.py", line 127, in test_injured_draw_and_recovery_gate
+    self.assertEqual(energy.recover(record, 1, [1, 8, 2], [32, 24])[12:15], b'\x10\x09\x00')
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T31/runtime/model/energy.py", line 91, in recover
+    out = _record(record)
+          ^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T31/runtime/model/energy.py", line 35, in _record
+    raise ValueError('a player record must be 20 bytes')
+ValueError: a player record must be 20 bytes
+
+======================================================================
+ERROR: test_negative_energy_uses_noninjured_branch_but_gate_draw (tests.test_model_energy.Energy.test_negative_energy_uses_noninjured_branch_but_gate_draw)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T31/tests/test_model_energy.py", line 132, in test_negative_energy_uses_noninjured_branch_but_gate_draw
+    self.assertEqual(energy.recover(record, 1, [2, 8, 3], [32, 24])[12:15], b'\x10\x16\xff')
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T31/runtime/model/energy.py", line 91, in recover
+    out = _record(record)
+          ^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T31/runtime/model/energy.py", line 35, in _record
+    raise ValueError('a player record must be 20 bytes')
+ValueError: a player record must be 20 bytes
+
+======================================================================
+ERROR: test_quick_period_and_signed_floor (tests.test_model_energy.Energy.test_quick_period_and_signed_floor)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T31/tests/test_model_energy.py", line 86, in test_quick_period_and_signed_floor
+    self.assertEqual(energy.quick_tick(record, 4), record)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T31/runtime/model/energy.py", line 41, in quick_tick
+    out = _record(record)
+          ^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T31/runtime/model/energy.py", line 35, in _record
+    raise ValueError('a player record must be 20 bytes')
+ValueError: a player record must be 20 bytes
+
+======================================================================
+ERROR: test_recovery_bounds_age_strict_and_signed_fitness (tests.test_model_energy.Energy.test_recovery_bounds_age_strict_and_signed_fitness)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T31/tests/test_model_energy.py", line 136, in test_recovery_bounds_age_strict_and_signed_fitness
+    self.assertEqual(energy.recover(record, 1, [1, 8], [32, 24])[12:15], b'\x10\x20\x20')
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T31/runtime/model/energy.py", line 91, in recover
+    out = _record(record)
+          ^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T31/runtime/model/energy.py", line 35, in _record
+    raise ValueError('a player record must be 20 bytes')
+ValueError: a player record must be 20 bytes
+
+======================================================================
+ERROR: test_recovery_flag_nonzero_draw_order (tests.test_model_energy.Energy.test_recovery_flag_nonzero_draw_order)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T31/tests/test_model_energy.py", line 115, in test_recovery_flag_nonzero_draw_order
+    self.assertEqual(energy.recover(record, 1, [2, 8], [32, 24])[12:15], b'\x10\x16\x16')
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T31/runtime/model/energy.py", line 91, in recover
+    out = _record(record)
+          ^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T31/runtime/model/energy.py", line 35, in _record
+    raise ValueError('a player record must be 20 bytes')
+ValueError: a player record must be 20 bytes
+
+======================================================================
+ERROR: test_recovery_flag_zero_extra_below_16 (tests.test_model_energy.Energy.test_recovery_flag_zero_extra_below_16)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T31/tests/test_model_energy.py", line 120, in test_recovery_flag_zero_extra_below_16
+    self.assertEqual(energy.recover(record, 0, [3, 1], [32, 24])[12:15], b'\x10\x0f\x0f')
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T31/runtime/model/energy.py", line 91, in recover
+    out = _record(record)
+          ^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T31/runtime/model/energy.py", line 35, in _record
+    raise ValueError('a player record must be 20 bytes')
+ValueError: a player record must be 20 bytes
+
+======================================================================
+ERROR: test_restore_not_full_32 (tests.test_model_energy.Energy.test_restore_not_full_32)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T31/tests/test_model_energy.py", line 108, in test_restore_not_full_32
+    self.assertEqual(energy.restore(record, 7)[12:15], b'\x07\x18\x18')
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T31/runtime/model/energy.py", line 61, in restore
+    out = _record(record)
+          ^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T31/runtime/model/energy.py", line 35, in _record
+    raise ValueError('a player record must be 20 bytes')
+ValueError: a player record must be 20 bytes
+
+======================================================================
+ERROR: test_watched_strict_threshold_and_reset (tests.test_model_energy.Energy.test_watched_strict_threshold_and_reset)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T31/tests/test_model_energy.py", line 94, in test_watched_strict_threshold_and_reset
+    self.assertEqual(energy.watched_step(record, 180, True), (record, 180))
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T31/runtime/model/energy.py", line 49, in watched_step
+    out = _record(record)
+          ^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T31/runtime/model/energy.py", line 35, in _record
+    raise ValueError('a player record must be 20 bytes')
+ValueError: a player record must be 20 bytes
+
+======================================================================
+ERROR: test_the_committed_supersession_is_selected_and_printed (tests.test_model_energy.Supersession.test_the_committed_supersession_is_selected_and_printed)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T31/experiments/E017-q015-energy/check_energy.py", line 103, in select_records
+    compare(case)
+  File "/home/diego/projects/goal2-archaeology-work/T31/experiments/E017-q015-energy/check_energy.py", line 36, in compare
+    players[word] = energy.recover(old, op['flag'], op['draws'], op['caps'])
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T31/runtime/model/energy.py", line 91, in recover
+    out = _record(record)
+          ^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T31/runtime/model/energy.py", line 35, in _record
+    raise ValueError('a player record must be 20 bytes')
+ValueError: a player record must be 20 bytes
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T31/tests/test_model_energy.py", line 45, in test_the_committed_supersession_is_selected_and_printed
+    selected = checker.select_records(files, DECLARED)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T31/experiments/E017-q015-energy/check_energy.py", line 106, in select_records
+    raise ValueError(f'{name} fails otherwise than declared: {e}')
+ValueError: recovery-001.json fails otherwise than declared: a player record must be 20 bytes
+
+======================================================================
+FAIL: test_superseding_a_complete_record_is_rejected (tests.test_model_energy.Supersession.test_superseding_a_complete_record_is_rejected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T31/experiments/E017-q015-energy/check_energy.py", line 103, in select_records
+    compare(case)
+  File "/home/diego/projects/goal2-archaeology-work/T31/experiments/E017-q015-energy/check_energy.py", line 36, in compare
+    players[word] = energy.recover(old, op['flag'], op['draws'], op['caps'])
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T31/runtime/model/energy.py", line 91, in recover
+    out = _record(record)
+          ^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T31/runtime/model/energy.py", line 35, in _record
+    raise ValueError('a player record must be 20 bytes')
+ValueError: a player record must be 20 bytes
+
+During handling of the above exception, another exception occurred:
+
+ValueError: a.json fails otherwise than declared: a player record must be 20 bytes
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T31/tests/test_model_energy.py", line 60, in test_superseding_a_complete_record_is_rejected
+    with self.assertRaisesRegex(ValueError, 'complete on its own'):
+AssertionError: "complete on its own" does not match "a.json fails otherwise than declared: a player record must be 20 bytes"
+
+----------------------------------------------------------------------
+Ran 18 tests in 0.004s
+
+FAILED (failures=1, errors=10)
+
+RECORD_SIZE 20->19: KILLED exit=1
+test_exact_draw_consumption (tests.test_model_energy.Energy.test_exact_draw_consumption) ... ok
+test_form_instruction_and_injury_store (tests.test_model_energy.Energy.test_form_instruction_and_injury_store) ... ERROR
+test_healing_draw_literal_upper_bound (tests.test_model_energy.Energy.test_healing_draw_literal_upper_bound) ... ok
+test_injured_draw_and_recovery_gate (tests.test_model_energy.Energy.test_injured_draw_and_recovery_gate) ... ERROR
+test_negative_energy_uses_noninjured_branch_but_gate_draw (tests.test_model_energy.Energy.test_negative_energy_uses_noninjured_branch_but_gate_draw) ... ERROR
+test_quick_period_and_signed_floor (tests.test_model_energy.Energy.test_quick_period_and_signed_floor) ... ERROR
+test_recovery_bounds_age_strict_and_signed_fitness (tests.test_model_energy.Energy.test_recovery_bounds_age_strict_and_signed_fitness) ... ERROR
+test_recovery_flag_nonzero_draw_order (tests.test_model_energy.Energy.test_recovery_flag_nonzero_draw_order) ... ERROR
+test_recovery_flag_zero_extra_below_16 (tests.test_model_energy.Energy.test_recovery_flag_zero_extra_below_16) ... ERROR
+test_rest_draw_literal_upper_bound (tests.test_model_energy.Energy.test_rest_draw_literal_upper_bound) ... ok
+test_restore_not_full_32 (tests.test_model_energy.Energy.test_restore_not_full_32) ... ERROR
+test_watched_strict_threshold_and_reset (tests.test_model_energy.Energy.test_watched_strict_threshold_and_reset) ... ERROR
+test_a_difference_outside_the_declared_fields_is_rejected (tests.test_model_energy.Supersession.test_a_difference_outside_the_declared_fields_is_rejected) ... ok
+test_a_missing_successor_fails (tests.test_model_energy.Supersession.test_a_missing_successor_fails) ... ok
+test_an_earlier_successor_is_rejected (tests.test_model_energy.Supersession.test_an_earlier_successor_is_rejected) ... ok
+test_an_unrelated_successor_is_rejected (tests.test_model_energy.Supersession.test_an_unrelated_successor_is_rejected) ... ok
+test_superseding_a_complete_record_is_rejected (tests.test_model_energy.Supersession.test_superseding_a_complete_record_is_rejected) ... FAIL
+test_the_committed_supersession_is_selected_and_printed (tests.test_model_energy.Supersession.test_the_committed_supersession_is_selected_and_printed) ... ERROR
+
+======================================================================
+ERROR: test_form_instruction_and_injury_store (tests.test_model_energy.Energy.test_form_instruction_and_injury_store)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T31/tests/test_model_energy.py", line 160, in test_form_instruction_and_injury_store
+    self.assertEqual(energy.form_delta(record, -2)[12:15], b'\x0e\x18\x02')
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T31/runtime/model/energy.py", line 70, in form_delta
+    out = _record(record)
+          ^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T31/runtime/model/energy.py", line 35, in _record
+    raise ValueError('a player record must be 20 bytes')
+ValueError: a player record must be 20 bytes
+
+======================================================================
+ERROR: test_injured_draw_and_recovery_gate (tests.test_model_energy.Energy.test_injured_draw_and_recovery_gate)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T31/tests/test_model_energy.py", line 127, in test_injured_draw_and_recovery_gate
+    self.assertEqual(energy.recover(record, 1, [1, 8, 2], [32, 24])[12:15], b'\x10\x09\x00')
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T31/runtime/model/energy.py", line 91, in recover
+    out = _record(record)
+          ^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T31/runtime/model/energy.py", line 35, in _record
+    raise ValueError('a player record must be 20 bytes')
+ValueError: a player record must be 20 bytes
+
+======================================================================
+ERROR: test_negative_energy_uses_noninjured_branch_but_gate_draw (tests.test_model_energy.Energy.test_negative_energy_uses_noninjured_branch_but_gate_draw)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T31/tests/test_model_energy.py", line 132, in test_negative_energy_uses_noninjured_branch_but_gate_draw
+    self.assertEqual(energy.recover(record, 1, [2, 8, 3], [32, 24])[12:15], b'\x10\x16\xff')
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T31/runtime/model/energy.py", line 91, in recover
+    out = _record(record)
+          ^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T31/runtime/model/energy.py", line 35, in _record
+    raise ValueError('a player record must be 20 bytes')
+ValueError: a player record must be 20 bytes
+
+======================================================================
+ERROR: test_quick_period_and_signed_floor (tests.test_model_energy.Energy.test_quick_period_and_signed_floor)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T31/tests/test_model_energy.py", line 86, in test_quick_period_and_signed_floor
+    self.assertEqual(energy.quick_tick(record, 4), record)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T31/runtime/model/energy.py", line 41, in quick_tick
+    out = _record(record)
+          ^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T31/runtime/model/energy.py", line 35, in _record
+    raise ValueError('a player record must be 20 bytes')
+ValueError: a player record must be 20 bytes
+
+======================================================================
+ERROR: test_recovery_bounds_age_strict_and_signed_fitness (tests.test_model_energy.Energy.test_recovery_bounds_age_strict_and_signed_fitness)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T31/tests/test_model_energy.py", line 136, in test_recovery_bounds_age_strict_and_signed_fitness
+    self.assertEqual(energy.recover(record, 1, [1, 8], [32, 24])[12:15], b'\x10\x20\x20')
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T31/runtime/model/energy.py", line 91, in recover
+    out = _record(record)
+          ^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T31/runtime/model/energy.py", line 35, in _record
+    raise ValueError('a player record must be 20 bytes')
+ValueError: a player record must be 20 bytes
+
+======================================================================
+ERROR: test_recovery_flag_nonzero_draw_order (tests.test_model_energy.Energy.test_recovery_flag_nonzero_draw_order)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T31/tests/test_model_energy.py", line 115, in test_recovery_flag_nonzero_draw_order
+    self.assertEqual(energy.recover(record, 1, [2, 8], [32, 24])[12:15], b'\x10\x16\x16')
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T31/runtime/model/energy.py", line 91, in recover
+    out = _record(record)
+          ^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T31/runtime/model/energy.py", line 35, in _record
+    raise ValueError('a player record must be 20 bytes')
+ValueError: a player record must be 20 bytes
+
+======================================================================
+ERROR: test_recovery_flag_zero_extra_below_16 (tests.test_model_energy.Energy.test_recovery_flag_zero_extra_below_16)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T31/tests/test_model_energy.py", line 120, in test_recovery_flag_zero_extra_below_16
+    self.assertEqual(energy.recover(record, 0, [3, 1], [32, 24])[12:15], b'\x10\x0f\x0f')
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T31/runtime/model/energy.py", line 91, in recover
+    out = _record(record)
+          ^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T31/runtime/model/energy.py", line 35, in _record
+    raise ValueError('a player record must be 20 bytes')
+ValueError: a player record must be 20 bytes
+
+======================================================================
+ERROR: test_restore_not_full_32 (tests.test_model_energy.Energy.test_restore_not_full_32)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T31/tests/test_model_energy.py", line 108, in test_restore_not_full_32
+    self.assertEqual(energy.restore(record, 7)[12:15], b'\x07\x18\x18')
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T31/runtime/model/energy.py", line 61, in restore
+    out = _record(record)
+          ^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T31/runtime/model/energy.py", line 35, in _record
+    raise ValueError('a player record must be 20 bytes')
+ValueError: a player record must be 20 bytes
+
+======================================================================
+ERROR: test_watched_strict_threshold_and_reset (tests.test_model_energy.Energy.test_watched_strict_threshold_and_reset)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T31/tests/test_model_energy.py", line 94, in test_watched_strict_threshold_and_reset
+    self.assertEqual(energy.watched_step(record, 180, True), (record, 180))
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T31/runtime/model/energy.py", line 49, in watched_step
+    out = _record(record)
+          ^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T31/runtime/model/energy.py", line 35, in _record
+    raise ValueError('a player record must be 20 bytes')
+ValueError: a player record must be 20 bytes
+
+======================================================================
+ERROR: test_the_committed_supersession_is_selected_and_printed (tests.test_model_energy.Supersession.test_the_committed_supersession_is_selected_and_printed)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T31/experiments/E017-q015-energy/check_energy.py", line 103, in select_records
+    compare(case)
+  File "/home/diego/projects/goal2-archaeology-work/T31/experiments/E017-q015-energy/check_energy.py", line 36, in compare
+    players[word] = energy.recover(old, op['flag'], op['draws'], op['caps'])
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T31/runtime/model/energy.py", line 91, in recover
+    out = _record(record)
+          ^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T31/runtime/model/energy.py", line 35, in _record
+    raise ValueError('a player record must be 20 bytes')
+ValueError: a player record must be 20 bytes
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T31/tests/test_model_energy.py", line 45, in test_the_committed_supersession_is_selected_and_printed
+    selected = checker.select_records(files, DECLARED)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T31/experiments/E017-q015-energy/check_energy.py", line 106, in select_records
+    raise ValueError(f'{name} fails otherwise than declared: {e}')
+ValueError: recovery-001.json fails otherwise than declared: a player record must be 20 bytes
+
+======================================================================
+FAIL: test_superseding_a_complete_record_is_rejected (tests.test_model_energy.Supersession.test_superseding_a_complete_record_is_rejected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T31/experiments/E017-q015-energy/check_energy.py", line 103, in select_records
+    compare(case)
+  File "/home/diego/projects/goal2-archaeology-work/T31/experiments/E017-q015-energy/check_energy.py", line 36, in compare
+    players[word] = energy.recover(old, op['flag'], op['draws'], op['caps'])
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T31/runtime/model/energy.py", line 91, in recover
+    out = _record(record)
+          ^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T31/runtime/model/energy.py", line 35, in _record
+    raise ValueError('a player record must be 20 bytes')
+ValueError: a player record must be 20 bytes
+
+During handling of the above exception, another exception occurred:
+
+ValueError: a.json fails otherwise than declared: a player record must be 20 bytes
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T31/tests/test_model_energy.py", line 60, in test_superseding_a_complete_record_is_rejected
+    with self.assertRaisesRegex(ValueError, 'complete on its own'):
+AssertionError: "complete on its own" does not match "a.json fails otherwise than declared: a player record must be 20 bytes"
+
+----------------------------------------------------------------------
+Ran 18 tests in 0.004s
+
+FAILED (failures=1, errors=10)
+
+FORM 12->13: KILLED exit=1
+test_exact_draw_consumption (tests.test_model_energy.Energy.test_exact_draw_consumption) ... ok
+test_form_instruction_and_injury_store (tests.test_model_energy.Energy.test_form_instruction_and_injury_store) ... FAIL
+test_healing_draw_literal_upper_bound (tests.test_model_energy.Energy.test_healing_draw_literal_upper_bound) ... ok
+test_injured_draw_and_recovery_gate (tests.test_model_energy.Energy.test_injured_draw_and_recovery_gate) ... ok
+test_negative_energy_uses_noninjured_branch_but_gate_draw (tests.test_model_energy.Energy.test_negative_energy_uses_noninjured_branch_but_gate_draw) ... ok
+test_quick_period_and_signed_floor (tests.test_model_energy.Energy.test_quick_period_and_signed_floor) ... ok
+test_recovery_bounds_age_strict_and_signed_fitness (tests.test_model_energy.Energy.test_recovery_bounds_age_strict_and_signed_fitness) ... ok
+test_recovery_flag_nonzero_draw_order (tests.test_model_energy.Energy.test_recovery_flag_nonzero_draw_order) ... ok
+test_recovery_flag_zero_extra_below_16 (tests.test_model_energy.Energy.test_recovery_flag_zero_extra_below_16) ... ok
+test_rest_draw_literal_upper_bound (tests.test_model_energy.Energy.test_rest_draw_literal_upper_bound) ... ok
+test_restore_not_full_32 (tests.test_model_energy.Energy.test_restore_not_full_32) ... FAIL
+test_watched_strict_threshold_and_reset (tests.test_model_energy.Energy.test_watched_strict_threshold_and_reset) ... ok
+test_a_difference_outside_the_declared_fields_is_rejected (tests.test_model_energy.Supersession.test_a_difference_outside_the_declared_fields_is_rejected) ... ok
+test_a_missing_successor_fails (tests.test_model_energy.Supersession.test_a_missing_successor_fails) ... ok
+test_an_earlier_successor_is_rejected (tests.test_model_energy.Supersession.test_an_earlier_successor_is_rejected) ... ok
+test_an_unrelated_successor_is_rejected (tests.test_model_energy.Supersession.test_an_unrelated_successor_is_rejected) ... ok
+test_superseding_a_complete_record_is_rejected (tests.test_model_energy.Supersession.test_superseding_a_complete_record_is_rejected) ... ok
+test_the_committed_supersession_is_selected_and_printed (tests.test_model_energy.Supersession.test_the_committed_supersession_is_selected_and_printed) ... ok
+
+======================================================================
+FAIL: test_form_instruction_and_injury_store (tests.test_model_energy.Energy.test_form_instruction_and_injury_store)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T31/tests/test_model_energy.py", line 160, in test_form_instruction_and_injury_store
+    self.assertEqual(energy.form_delta(record, -2)[12:15], b'\x0e\x18\x02')
+AssertionError: b'\x10\x16\x02' != b'\x0e\x18\x02'
+
+======================================================================
+FAIL: test_restore_not_full_32 (tests.test_model_energy.Energy.test_restore_not_full_32)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T31/tests/test_model_energy.py", line 108, in test_restore_not_full_32
+    self.assertEqual(energy.restore(record, 7)[12:15], b'\x07\x18\x18')
+AssertionError: b'\x10\x07\x07' != b'\x07\x18\x18'
+
+----------------------------------------------------------------------
+Ran 18 tests in 0.003s
+
+FAILED (failures=2)
+
+FORM 12->11: KILLED exit=1
+test_exact_draw_consumption (tests.test_model_energy.Energy.test_exact_draw_consumption) ... ok
+test_form_instruction_and_injury_store (tests.test_model_energy.Energy.test_form_instruction_and_injury_store) ... FAIL
+test_healing_draw_literal_upper_bound (tests.test_model_energy.Energy.test_healing_draw_literal_upper_bound) ... ok
+test_injured_draw_and_recovery_gate (tests.test_model_energy.Energy.test_injured_draw_and_recovery_gate) ... ok
+test_negative_energy_uses_noninjured_branch_but_gate_draw (tests.test_model_energy.Energy.test_negative_energy_uses_noninjured_branch_but_gate_draw) ... ok
+test_quick_period_and_signed_floor (tests.test_model_energy.Energy.test_quick_period_and_signed_floor) ... ok
+test_recovery_bounds_age_strict_and_signed_fitness (tests.test_model_energy.Energy.test_recovery_bounds_age_strict_and_signed_fitness) ... ok
+test_recovery_flag_nonzero_draw_order (tests.test_model_energy.Energy.test_recovery_flag_nonzero_draw_order) ... ok
+test_recovery_flag_zero_extra_below_16 (tests.test_model_energy.Energy.test_recovery_flag_zero_extra_below_16) ... ok
+test_rest_draw_literal_upper_bound (tests.test_model_energy.Energy.test_rest_draw_literal_upper_bound) ... ok
+test_restore_not_full_32 (tests.test_model_energy.Energy.test_restore_not_full_32) ... FAIL
+test_watched_strict_threshold_and_reset (tests.test_model_energy.Energy.test_watched_strict_threshold_and_reset) ... ok
+test_a_difference_outside_the_declared_fields_is_rejected (tests.test_model_energy.Supersession.test_a_difference_outside_the_declared_fields_is_rejected) ... ok
+test_a_missing_successor_fails (tests.test_model_energy.Supersession.test_a_missing_successor_fails) ... ok
+test_an_earlier_successor_is_rejected (tests.test_model_energy.Supersession.test_an_earlier_successor_is_rejected) ... ok
+test_an_unrelated_successor_is_rejected (tests.test_model_energy.Supersession.test_an_unrelated_successor_is_rejected) ... ok
+test_superseding_a_complete_record_is_rejected (tests.test_model_energy.Supersession.test_superseding_a_complete_record_is_rejected) ... ok
+test_the_committed_supersession_is_selected_and_printed (tests.test_model_energy.Supersession.test_the_committed_supersession_is_selected_and_printed) ... ok
+
+======================================================================
+FAIL: test_form_instruction_and_injury_store (tests.test_model_energy.Energy.test_form_instruction_and_injury_store)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T31/tests/test_model_energy.py", line 160, in test_form_instruction_and_injury_store
+    self.assertEqual(energy.form_delta(record, -2)[12:15], b'\x0e\x18\x02')
+AssertionError: b'\x10\x18\x02' != b'\x0e\x18\x02'
+
+======================================================================
+FAIL: test_restore_not_full_32 (tests.test_model_energy.Energy.test_restore_not_full_32)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T31/tests/test_model_energy.py", line 108, in test_restore_not_full_32
+    self.assertEqual(energy.restore(record, 7)[12:15], b'\x07\x18\x18')
+AssertionError: b'\x10\x18\x18' != b'\x07\x18\x18'
+
+----------------------------------------------------------------------
+Ran 18 tests in 0.003s
+
+FAILED (failures=2)
+
+FITNESS 13->14: KILLED exit=1
+test_exact_draw_consumption (tests.test_model_energy.Energy.test_exact_draw_consumption) ... ok
+test_form_instruction_and_injury_store (tests.test_model_energy.Energy.test_form_instruction_and_injury_store) ... ok
+test_healing_draw_literal_upper_bound (tests.test_model_energy.Energy.test_healing_draw_literal_upper_bound) ... ok
+test_injured_draw_and_recovery_gate (tests.test_model_energy.Energy.test_injured_draw_and_recovery_gate) ... ERROR
+test_negative_energy_uses_noninjured_branch_but_gate_draw (tests.test_model_energy.Energy.test_negative_energy_uses_noninjured_branch_but_gate_draw) ... ERROR
+test_quick_period_and_signed_floor (tests.test_model_energy.Energy.test_quick_period_and_signed_floor) ... ok
+test_recovery_bounds_age_strict_and_signed_fitness (tests.test_model_energy.Energy.test_recovery_bounds_age_strict_and_signed_fitness) ... FAIL
+test_recovery_flag_nonzero_draw_order (tests.test_model_energy.Energy.test_recovery_flag_nonzero_draw_order) ... FAIL
+test_recovery_flag_zero_extra_below_16 (tests.test_model_energy.Energy.test_recovery_flag_zero_extra_below_16) ... FAIL
+test_rest_draw_literal_upper_bound (tests.test_model_energy.Energy.test_rest_draw_literal_upper_bound) ... ok
+test_restore_not_full_32 (tests.test_model_energy.Energy.test_restore_not_full_32) ... FAIL
+test_watched_strict_threshold_and_reset (tests.test_model_energy.Energy.test_watched_strict_threshold_and_reset) ... ok
+test_a_difference_outside_the_declared_fields_is_rejected (tests.test_model_energy.Supersession.test_a_difference_outside_the_declared_fields_is_rejected) ... ok
+test_a_missing_successor_fails (tests.test_model_energy.Supersession.test_a_missing_successor_fails) ... ok
+test_an_earlier_successor_is_rejected (tests.test_model_energy.Supersession.test_an_earlier_successor_is_rejected) ... ok
+test_an_unrelated_successor_is_rejected (tests.test_model_energy.Supersession.test_an_unrelated_successor_is_rejected) ... ok
+test_superseding_a_complete_record_is_rejected (tests.test_model_energy.Supersession.test_superseding_a_complete_record_is_rejected) ... FAIL
+test_the_committed_supersession_is_selected_and_printed (tests.test_model_energy.Supersession.test_the_committed_supersession_is_selected_and_printed) ... ERROR
+
+======================================================================
+ERROR: test_injured_draw_and_recovery_gate (tests.test_model_energy.Energy.test_injured_draw_and_recovery_gate)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T31/tests/test_model_energy.py", line 127, in test_injured_draw_and_recovery_gate
+    self.assertEqual(energy.recover(record, 1, [1, 8, 2], [32, 24])[12:15], b'\x10\x09\x00')
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T31/runtime/model/energy.py", line 123, in recover
+    raise ValueError('unused recovery draw')
+ValueError: unused recovery draw
+
+======================================================================
+ERROR: test_negative_energy_uses_noninjured_branch_but_gate_draw (tests.test_model_energy.Energy.test_negative_energy_uses_noninjured_branch_but_gate_draw)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T31/tests/test_model_energy.py", line 132, in test_negative_energy_uses_noninjured_branch_but_gate_draw
+    self.assertEqual(energy.recover(record, 1, [2, 8, 3], [32, 24])[12:15], b'\x10\x16\xff')
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T31/runtime/model/energy.py", line 123, in recover
+    raise ValueError('unused recovery draw')
+ValueError: unused recovery draw
+
+======================================================================
+ERROR: test_the_committed_supersession_is_selected_and_printed (tests.test_model_energy.Supersession.test_the_committed_supersession_is_selected_and_printed)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T31/tests/test_model_energy.py", line 45, in test_the_committed_supersession_is_selected_and_printed
+    selected = checker.select_records(files, DECLARED)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T31/experiments/E017-q015-energy/check_energy.py", line 109, in select_records
+    raise ValueError(f'{name} is complete on its own: nothing to supersede')
+ValueError: recovery-001.json is complete on its own: nothing to supersede
+
+======================================================================
+FAIL: test_recovery_bounds_age_strict_and_signed_fitness (tests.test_model_energy.Energy.test_recovery_bounds_age_strict_and_signed_fitness)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T31/tests/test_model_energy.py", line 136, in test_recovery_bounds_age_strict_and_signed_fitness
+    self.assertEqual(energy.recover(record, 1, [1, 8], [32, 24])[12:15], b'\x10\x20\x20')
+AssertionError: b'\x10\x1f\x0f' != b'\x10  '
+
+======================================================================
+FAIL: test_recovery_flag_nonzero_draw_order (tests.test_model_energy.Energy.test_recovery_flag_nonzero_draw_order)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T31/tests/test_model_energy.py", line 115, in test_recovery_flag_nonzero_draw_order
+    self.assertEqual(energy.recover(record, 1, [2, 8], [32, 24])[12:15], b'\x10\x16\x16')
+AssertionError: b'\x10\x10\x0e' != b'\x10\x16\x16'
+
+======================================================================
+FAIL: test_recovery_flag_zero_extra_below_16 (tests.test_model_energy.Energy.test_recovery_flag_zero_extra_below_16)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T31/tests/test_model_energy.py", line 120, in test_recovery_flag_zero_extra_below_16
+    self.assertEqual(energy.recover(record, 0, [3, 1], [32, 24])[12:15], b'\x10\x0f\x0f')
+AssertionError: b'\x10\x10\x07' != b'\x10\x0f\x0f'
+
+======================================================================
+FAIL: test_restore_not_full_32 (tests.test_model_energy.Energy.test_restore_not_full_32)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T31/tests/test_model_energy.py", line 108, in test_restore_not_full_32
+    self.assertEqual(energy.restore(record, 7)[12:15], b'\x07\x18\x18')
+AssertionError: b'\x07\x18\x02' != b'\x07\x18\x18'
+
+======================================================================
+FAIL: test_superseding_a_complete_record_is_rejected (tests.test_model_energy.Supersession.test_superseding_a_complete_record_is_rejected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T31/experiments/E017-q015-energy/check_energy.py", line 103, in select_records
+    compare(case)
+  File "/home/diego/projects/goal2-archaeology-work/T31/experiments/E017-q015-energy/check_energy.py", line 36, in compare
+    players[word] = energy.recover(old, op['flag'], op['draws'], op['caps'])
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T31/runtime/model/energy.py", line 123, in recover
+    raise ValueError('unused recovery draw')
+ValueError: unused recovery draw
+
+During handling of the above exception, another exception occurred:
+
+ValueError: a.json fails otherwise than declared: unused recovery draw
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T31/tests/test_model_energy.py", line 60, in test_superseding_a_complete_record_is_rejected
+    with self.assertRaisesRegex(ValueError, 'complete on its own'):
+AssertionError: "complete on its own" does not match "a.json fails otherwise than declared: unused recovery draw"
+
+----------------------------------------------------------------------
+Ran 18 tests in 0.004s
+
+FAILED (failures=5, errors=3)
+
+FITNESS 13->12: KILLED exit=1
+test_exact_draw_consumption (tests.test_model_energy.Energy.test_exact_draw_consumption) ... ok
+test_form_instruction_and_injury_store (tests.test_model_energy.Energy.test_form_instruction_and_injury_store) ... ok
+test_healing_draw_literal_upper_bound (tests.test_model_energy.Energy.test_healing_draw_literal_upper_bound) ... ok
+test_injured_draw_and_recovery_gate (tests.test_model_energy.Energy.test_injured_draw_and_recovery_gate) ... FAIL
+test_negative_energy_uses_noninjured_branch_but_gate_draw (tests.test_model_energy.Energy.test_negative_energy_uses_noninjured_branch_but_gate_draw) ... FAIL
+test_quick_period_and_signed_floor (tests.test_model_energy.Energy.test_quick_period_and_signed_floor) ... ok
+test_recovery_bounds_age_strict_and_signed_fitness (tests.test_model_energy.Energy.test_recovery_bounds_age_strict_and_signed_fitness) ... FAIL
+test_recovery_flag_nonzero_draw_order (tests.test_model_energy.Energy.test_recovery_flag_nonzero_draw_order) ... FAIL
+test_recovery_flag_zero_extra_below_16 (tests.test_model_energy.Energy.test_recovery_flag_zero_extra_below_16) ... FAIL
+test_rest_draw_literal_upper_bound (tests.test_model_energy.Energy.test_rest_draw_literal_upper_bound) ... ok
+test_restore_not_full_32 (tests.test_model_energy.Energy.test_restore_not_full_32) ... FAIL
+test_watched_strict_threshold_and_reset (tests.test_model_energy.Energy.test_watched_strict_threshold_and_reset) ... ok
+test_a_difference_outside_the_declared_fields_is_rejected (tests.test_model_energy.Supersession.test_a_difference_outside_the_declared_fields_is_rejected) ... ok
+test_a_missing_successor_fails (tests.test_model_energy.Supersession.test_a_missing_successor_fails) ... ok
+test_an_earlier_successor_is_rejected (tests.test_model_energy.Supersession.test_an_earlier_successor_is_rejected) ... ok
+test_an_unrelated_successor_is_rejected (tests.test_model_energy.Supersession.test_an_unrelated_successor_is_rejected) ... ok
+test_superseding_a_complete_record_is_rejected (tests.test_model_energy.Supersession.test_superseding_a_complete_record_is_rejected) ... ok
+test_the_committed_supersession_is_selected_and_printed (tests.test_model_energy.Supersession.test_the_committed_supersession_is_selected_and_printed) ... ok
+
+======================================================================
+FAIL: test_injured_draw_and_recovery_gate (tests.test_model_energy.Energy.test_injured_draw_and_recovery_gate)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T31/tests/test_model_energy.py", line 127, in test_injured_draw_and_recovery_gate
+    self.assertEqual(energy.recover(record, 1, [1, 8, 2], [32, 24])[12:15], b'\x10\x09\x00')
+AssertionError: b'\t\x10\x00' != b'\x10\t\x00'
+
+======================================================================
+FAIL: test_negative_energy_uses_noninjured_branch_but_gate_draw (tests.test_model_energy.Energy.test_negative_energy_uses_noninjured_branch_but_gate_draw)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T31/tests/test_model_energy.py", line 132, in test_negative_energy_uses_noninjured_branch_but_gate_draw
+    self.assertEqual(energy.recover(record, 1, [2, 8, 3], [32, 24])[12:15], b'\x10\x16\xff')
+AssertionError: b'\x16\x10\xff' != b'\x10\x16\xff'
+
+======================================================================
+FAIL: test_recovery_bounds_age_strict_and_signed_fitness (tests.test_model_energy.Energy.test_recovery_bounds_age_strict_and_signed_fitness)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T31/tests/test_model_energy.py", line 136, in test_recovery_bounds_age_strict_and_signed_fitness
+    self.assertEqual(energy.recover(record, 1, [1, 8], [32, 24])[12:15], b'\x10\x20\x20')
+AssertionError: b'\x17\x1f\x17' != b'\x10  '
+
+======================================================================
+FAIL: test_recovery_flag_nonzero_draw_order (tests.test_model_energy.Energy.test_recovery_flag_nonzero_draw_order)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T31/tests/test_model_energy.py", line 115, in test_recovery_flag_nonzero_draw_order
+    self.assertEqual(energy.recover(record, 1, [2, 8], [32, 24])[12:15], b'\x10\x16\x16')
+AssertionError: b'\x16\x10\x16' != b'\x10\x16\x16'
+
+======================================================================
+FAIL: test_recovery_flag_zero_extra_below_16 (tests.test_model_energy.Energy.test_recovery_flag_zero_extra_below_16)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T31/tests/test_model_energy.py", line 120, in test_recovery_flag_zero_extra_below_16
+    self.assertEqual(energy.recover(record, 0, [3, 1], [32, 24])[12:15], b'\x10\x0f\x0f')
+AssertionError: b'\x0f\x10\x0f' != b'\x10\x0f\x0f'
+
+======================================================================
+FAIL: test_restore_not_full_32 (tests.test_model_energy.Energy.test_restore_not_full_32)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T31/tests/test_model_energy.py", line 108, in test_restore_not_full_32
+    self.assertEqual(energy.restore(record, 7)[12:15], b'\x07\x18\x18')
+AssertionError: b'\x07\x18\x07' != b'\x07\x18\x18'
+
+----------------------------------------------------------------------
+Ran 18 tests in 0.004s
+
+FAILED (failures=6)
+
+ENERGY 14->15: KILLED exit=1
+test_exact_draw_consumption (tests.test_model_energy.Energy.test_exact_draw_consumption) ... FAIL
+test_form_instruction_and_injury_store (tests.test_model_energy.Energy.test_form_instruction_and_injury_store) ... FAIL
+test_healing_draw_literal_upper_bound (tests.test_model_energy.Energy.test_healing_draw_literal_upper_bound) ... ok
+test_injured_draw_and_recovery_gate (tests.test_model_energy.Energy.test_injured_draw_and_recovery_gate) ... FAIL
+test_negative_energy_uses_noninjured_branch_but_gate_draw (tests.test_model_energy.Energy.test_negative_energy_uses_noninjured_branch_but_gate_draw) ... FAIL
+test_quick_period_and_signed_floor (tests.test_model_energy.Energy.test_quick_period_and_signed_floor) ... FAIL
+test_recovery_bounds_age_strict_and_signed_fitness (tests.test_model_energy.Energy.test_recovery_bounds_age_strict_and_signed_fitness) ... ERROR
+test_recovery_flag_nonzero_draw_order (tests.test_model_energy.Energy.test_recovery_flag_nonzero_draw_order) ... ERROR
+test_recovery_flag_zero_extra_below_16 (tests.test_model_energy.Energy.test_recovery_flag_zero_extra_below_16) ... ERROR
+test_rest_draw_literal_upper_bound (tests.test_model_energy.Energy.test_rest_draw_literal_upper_bound) ... ok
+test_restore_not_full_32 (tests.test_model_energy.Energy.test_restore_not_full_32) ... FAIL
+test_watched_strict_threshold_and_reset (tests.test_model_energy.Energy.test_watched_strict_threshold_and_reset) ... FAIL
+test_a_difference_outside_the_declared_fields_is_rejected (tests.test_model_energy.Supersession.test_a_difference_outside_the_declared_fields_is_rejected) ... ok
+test_a_missing_successor_fails (tests.test_model_energy.Supersession.test_a_missing_successor_fails) ... ok
+test_an_earlier_successor_is_rejected (tests.test_model_energy.Supersession.test_an_earlier_successor_is_rejected) ... ok
+test_an_unrelated_successor_is_rejected (tests.test_model_energy.Supersession.test_an_unrelated_successor_is_rejected) ... ok
+test_superseding_a_complete_record_is_rejected (tests.test_model_energy.Supersession.test_superseding_a_complete_record_is_rejected) ... FAIL
+test_the_committed_supersession_is_selected_and_printed (tests.test_model_energy.Supersession.test_the_committed_supersession_is_selected_and_printed) ... ERROR
+
+======================================================================
+ERROR: test_recovery_bounds_age_strict_and_signed_fitness (tests.test_model_energy.Energy.test_recovery_bounds_age_strict_and_signed_fitness)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T31/runtime/model/energy.py", line 96, in draw
+    value = next(draws)
+            ^^^^^^^^^^^
+StopIteration
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T31/tests/test_model_energy.py", line 136, in test_recovery_bounds_age_strict_and_signed_fitness
+    self.assertEqual(energy.recover(record, 1, [1, 8], [32, 24])[12:15], b'\x10\x20\x20')
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T31/runtime/model/energy.py", line 120, in recover
+    if signed(out[ENERGY]) > 0 or draw(HEAL_DRAW) == 1:
+                                  ^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T31/runtime/model/energy.py", line 98, in draw
+    raise ValueError('missing recovery draw') from exc
+ValueError: missing recovery draw
+
+======================================================================
+ERROR: test_recovery_flag_nonzero_draw_order (tests.test_model_energy.Energy.test_recovery_flag_nonzero_draw_order)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T31/runtime/model/energy.py", line 96, in draw
+    value = next(draws)
+            ^^^^^^^^^^^
+StopIteration
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T31/tests/test_model_energy.py", line 115, in test_recovery_flag_nonzero_draw_order
+    self.assertEqual(energy.recover(record, 1, [2, 8], [32, 24])[12:15], b'\x10\x16\x16')
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T31/runtime/model/energy.py", line 120, in recover
+    if signed(out[ENERGY]) > 0 or draw(HEAL_DRAW) == 1:
+                                  ^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T31/runtime/model/energy.py", line 98, in draw
+    raise ValueError('missing recovery draw') from exc
+ValueError: missing recovery draw
+
+======================================================================
+ERROR: test_recovery_flag_zero_extra_below_16 (tests.test_model_energy.Energy.test_recovery_flag_zero_extra_below_16)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T31/tests/test_model_energy.py", line 120, in test_recovery_flag_zero_extra_below_16
+    self.assertEqual(energy.recover(record, 0, [3, 1], [32, 24])[12:15], b'\x10\x0f\x0f')
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T31/runtime/model/energy.py", line 105, in recover
+    value += draw(SMALL_DRAW) - draw(LARGE_DRAW)
+             ^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T31/runtime/model/energy.py", line 100, in draw
+    raise ValueError(f'draw {value} outside 1..{bound}')
+ValueError: draw 3 outside 1..2
+
+======================================================================
+ERROR: test_the_committed_supersession_is_selected_and_printed (tests.test_model_energy.Supersession.test_the_committed_supersession_is_selected_and_printed)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T31/experiments/E017-q015-energy/check_energy.py", line 103, in select_records
+    compare(case)
+  File "/home/diego/projects/goal2-archaeology-work/T31/experiments/E017-q015-energy/check_energy.py", line 36, in compare
+    players[word] = energy.recover(old, op['flag'], op['draws'], op['caps'])
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T31/runtime/model/energy.py", line 105, in recover
+    value += draw(SMALL_DRAW) - draw(LARGE_DRAW)
+             ^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T31/runtime/model/energy.py", line 100, in draw
+    raise ValueError(f'draw {value} outside 1..{bound}')
+ValueError: draw 3 outside 1..2
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T31/tests/test_model_energy.py", line 45, in test_the_committed_supersession_is_selected_and_printed
+    selected = checker.select_records(files, DECLARED)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T31/experiments/E017-q015-energy/check_energy.py", line 106, in select_records
+    raise ValueError(f'{name} fails otherwise than declared: {e}')
+ValueError: recovery-001.json fails otherwise than declared: draw 3 outside 1..2
+
+======================================================================
+FAIL: test_exact_draw_consumption (tests.test_model_energy.Energy.test_exact_draw_consumption)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T31/tests/test_model_energy.py", line 145, in test_exact_draw_consumption
+    with self.assertRaises(ValueError):
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_form_instruction_and_injury_store (tests.test_model_energy.Energy.test_form_instruction_and_injury_store)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T31/tests/test_model_energy.py", line 163, in test_form_instruction_and_injury_store
+    self.assertEqual(energy.injure(record)[12:15], b'\x10\x18\x00')
+AssertionError: b'\x10\x18\x02' != b'\x10\x18\x00'
+
+======================================================================
+FAIL: test_injured_draw_and_recovery_gate (tests.test_model_energy.Energy.test_injured_draw_and_recovery_gate)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T31/tests/test_model_energy.py", line 128, in test_injured_draw_and_recovery_gate
+    self.assertEqual(energy.recover(record, 0, [1, 8, 1], [32, 24])[12:15], b'\x10\x09\x09')
+AssertionError: b'\x10\t\x00' != b'\x10\t\t'
+
+======================================================================
+FAIL: test_negative_energy_uses_noninjured_branch_but_gate_draw (tests.test_model_energy.Energy.test_negative_energy_uses_noninjured_branch_but_gate_draw)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T31/tests/test_model_energy.py", line 132, in test_negative_energy_uses_noninjured_branch_but_gate_draw
+    self.assertEqual(energy.recover(record, 1, [2, 8, 3], [32, 24])[12:15], b'\x10\x16\xff')
+AssertionError: b'\x10\n\xff' != b'\x10\x16\xff'
+
+======================================================================
+FAIL: test_quick_period_and_signed_floor (tests.test_model_energy.Energy.test_quick_period_and_signed_floor)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T31/tests/test_model_energy.py", line 87, in test_quick_period_and_signed_floor
+    self.assertEqual(energy.quick_tick(record, 5)[12:15], b'\x10\x18\x01')
+AssertionError: b'\x10\x18\x02' != b'\x10\x18\x01'
+
+======================================================================
+FAIL: test_restore_not_full_32 (tests.test_model_energy.Energy.test_restore_not_full_32)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T31/tests/test_model_energy.py", line 108, in test_restore_not_full_32
+    self.assertEqual(energy.restore(record, 7)[12:15], b'\x07\x18\x18')
+AssertionError: b'\x07\x18\x02' != b'\x07\x18\x18'
+
+======================================================================
+FAIL: test_watched_strict_threshold_and_reset (tests.test_model_energy.Energy.test_watched_strict_threshold_and_reset)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T31/tests/test_model_energy.py", line 97, in test_watched_strict_threshold_and_reset
+    self.assertEqual(changed[12:15], b'\x10\x18\x01')
+AssertionError: b'\x10\x18\x02' != b'\x10\x18\x01'
+
+======================================================================
+FAIL: test_superseding_a_complete_record_is_rejected (tests.test_model_energy.Supersession.test_superseding_a_complete_record_is_rejected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T31/experiments/E017-q015-energy/check_energy.py", line 103, in select_records
+    compare(case)
+  File "/home/diego/projects/goal2-archaeology-work/T31/experiments/E017-q015-energy/check_energy.py", line 36, in compare
+    players[word] = energy.recover(old, op['flag'], op['draws'], op['caps'])
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T31/runtime/model/energy.py", line 105, in recover
+    value += draw(SMALL_DRAW) - draw(LARGE_DRAW)
+             ^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T31/runtime/model/energy.py", line 100, in draw
+    raise ValueError(f'draw {value} outside 1..{bound}')
+ValueError: draw 3 outside 1..2
+
+During handling of the above exception, another exception occurred:
+
+ValueError: a.json fails otherwise than declared: draw 3 outside 1..2
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T31/tests/test_model_energy.py", line 60, in test_superseding_a_complete_record_is_rejected
+    with self.assertRaisesRegex(ValueError, 'complete on its own'):
+AssertionError: "complete on its own" does not match "a.json fails otherwise than declared: draw 3 outside 1..2"
+
+----------------------------------------------------------------------
+Ran 18 tests in 0.005s
+
+FAILED (failures=8, errors=4)
+
+ENERGY 14->13: KILLED exit=1
+test_exact_draw_consumption (tests.test_model_energy.Energy.test_exact_draw_consumption) ... ok
+test_form_instruction_and_injury_store (tests.test_model_energy.Energy.test_form_instruction_and_injury_store) ... FAIL
+test_healing_draw_literal_upper_bound (tests.test_model_energy.Energy.test_healing_draw_literal_upper_bound) ... ok
+test_injured_draw_and_recovery_gate (tests.test_model_energy.Energy.test_injured_draw_and_recovery_gate) ... ERROR
+test_negative_energy_uses_noninjured_branch_but_gate_draw (tests.test_model_energy.Energy.test_negative_energy_uses_noninjured_branch_but_gate_draw) ... ERROR
+test_quick_period_and_signed_floor (tests.test_model_energy.Energy.test_quick_period_and_signed_floor) ... FAIL
+test_recovery_bounds_age_strict_and_signed_fitness (tests.test_model_energy.Energy.test_recovery_bounds_age_strict_and_signed_fitness) ... FAIL
+test_recovery_flag_nonzero_draw_order (tests.test_model_energy.Energy.test_recovery_flag_nonzero_draw_order) ... FAIL
+test_recovery_flag_zero_extra_below_16 (tests.test_model_energy.Energy.test_recovery_flag_zero_extra_below_16) ... FAIL
+test_rest_draw_literal_upper_bound (tests.test_model_energy.Energy.test_rest_draw_literal_upper_bound) ... ok
+test_restore_not_full_32 (tests.test_model_energy.Energy.test_restore_not_full_32) ... FAIL
+test_watched_strict_threshold_and_reset (tests.test_model_energy.Energy.test_watched_strict_threshold_and_reset) ... FAIL
+test_a_difference_outside_the_declared_fields_is_rejected (tests.test_model_energy.Supersession.test_a_difference_outside_the_declared_fields_is_rejected) ... ok
+test_a_missing_successor_fails (tests.test_model_energy.Supersession.test_a_missing_successor_fails) ... ok
+test_an_earlier_successor_is_rejected (tests.test_model_energy.Supersession.test_an_earlier_successor_is_rejected) ... ok
+test_an_unrelated_successor_is_rejected (tests.test_model_energy.Supersession.test_an_unrelated_successor_is_rejected) ... ok
+test_superseding_a_complete_record_is_rejected (tests.test_model_energy.Supersession.test_superseding_a_complete_record_is_rejected) ... FAIL
+test_the_committed_supersession_is_selected_and_printed (tests.test_model_energy.Supersession.test_the_committed_supersession_is_selected_and_printed) ... ERROR
+
+======================================================================
+ERROR: test_injured_draw_and_recovery_gate (tests.test_model_energy.Energy.test_injured_draw_and_recovery_gate)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T31/tests/test_model_energy.py", line 127, in test_injured_draw_and_recovery_gate
+    self.assertEqual(energy.recover(record, 1, [1, 8, 2], [32, 24])[12:15], b'\x10\x09\x00')
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T31/runtime/model/energy.py", line 123, in recover
+    raise ValueError('unused recovery draw')
+ValueError: unused recovery draw
+
+======================================================================
+ERROR: test_negative_energy_uses_noninjured_branch_but_gate_draw (tests.test_model_energy.Energy.test_negative_energy_uses_noninjured_branch_but_gate_draw)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T31/tests/test_model_energy.py", line 132, in test_negative_energy_uses_noninjured_branch_but_gate_draw
+    self.assertEqual(energy.recover(record, 1, [2, 8, 3], [32, 24])[12:15], b'\x10\x16\xff')
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T31/runtime/model/energy.py", line 123, in recover
+    raise ValueError('unused recovery draw')
+ValueError: unused recovery draw
+
+======================================================================
+ERROR: test_the_committed_supersession_is_selected_and_printed (tests.test_model_energy.Supersession.test_the_committed_supersession_is_selected_and_printed)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T31/experiments/E017-q015-energy/check_energy.py", line 103, in select_records
+    compare(case)
+  File "/home/diego/projects/goal2-archaeology-work/T31/experiments/E017-q015-energy/check_energy.py", line 36, in compare
+    players[word] = energy.recover(old, op['flag'], op['draws'], op['caps'])
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T31/runtime/model/energy.py", line 111, in recover
+    value += draw(SMALL_DRAW) - first
+             ^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T31/runtime/model/energy.py", line 100, in draw
+    raise ValueError(f'draw {value} outside 1..{bound}')
+ValueError: draw 4 outside 1..2
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T31/tests/test_model_energy.py", line 45, in test_the_committed_supersession_is_selected_and_printed
+    selected = checker.select_records(files, DECLARED)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T31/experiments/E017-q015-energy/check_energy.py", line 106, in select_records
+    raise ValueError(f'{name} fails otherwise than declared: {e}')
+ValueError: recovery-001.json fails otherwise than declared: draw 4 outside 1..2
+
+======================================================================
+FAIL: test_form_instruction_and_injury_store (tests.test_model_energy.Energy.test_form_instruction_and_injury_store)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T31/tests/test_model_energy.py", line 163, in test_form_instruction_and_injury_store
+    self.assertEqual(energy.injure(record)[12:15], b'\x10\x18\x00')
+AssertionError: b'\x10\x00\x02' != b'\x10\x18\x00'
+
+======================================================================
+FAIL: test_quick_period_and_signed_floor (tests.test_model_energy.Energy.test_quick_period_and_signed_floor)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T31/tests/test_model_energy.py", line 87, in test_quick_period_and_signed_floor
+    self.assertEqual(energy.quick_tick(record, 5)[12:15], b'\x10\x18\x01')
+AssertionError: b'\x10\x17\x02' != b'\x10\x18\x01'
+
+======================================================================
+FAIL: test_recovery_bounds_age_strict_and_signed_fitness (tests.test_model_energy.Energy.test_recovery_bounds_age_strict_and_signed_fitness)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T31/tests/test_model_energy.py", line 136, in test_recovery_bounds_age_strict_and_signed_fitness
+    self.assertEqual(energy.recover(record, 1, [1, 8], [32, 24])[12:15], b'\x10\x20\x20')
+AssertionError: b'\x10 \x08' != b'\x10  '
+
+======================================================================
+FAIL: test_recovery_flag_nonzero_draw_order (tests.test_model_energy.Energy.test_recovery_flag_nonzero_draw_order)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T31/tests/test_model_energy.py", line 115, in test_recovery_flag_nonzero_draw_order
+    self.assertEqual(energy.recover(record, 1, [2, 8], [32, 24])[12:15], b'\x10\x16\x16')
+AssertionError: b'\x10\x16\x08' != b'\x10\x16\x16'
+
+======================================================================
+FAIL: test_recovery_flag_zero_extra_below_16 (tests.test_model_energy.Energy.test_recovery_flag_zero_extra_below_16)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T31/tests/test_model_energy.py", line 120, in test_recovery_flag_zero_extra_below_16
+    self.assertEqual(energy.recover(record, 0, [3, 1], [32, 24])[12:15], b'\x10\x0f\x0f')
+AssertionError: b'\x10\x0f\x08' != b'\x10\x0f\x0f'
+
+======================================================================
+FAIL: test_restore_not_full_32 (tests.test_model_energy.Energy.test_restore_not_full_32)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T31/tests/test_model_energy.py", line 108, in test_restore_not_full_32
+    self.assertEqual(energy.restore(record, 7)[12:15], b'\x07\x18\x18')
+AssertionError: b'\x07\x18\x02' != b'\x07\x18\x18'
+
+======================================================================
+FAIL: test_watched_strict_threshold_and_reset (tests.test_model_energy.Energy.test_watched_strict_threshold_and_reset)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T31/tests/test_model_energy.py", line 97, in test_watched_strict_threshold_and_reset
+    self.assertEqual(changed[12:15], b'\x10\x18\x01')
+AssertionError: b'\x10\x17\x02' != b'\x10\x18\x01'
+
+======================================================================
+FAIL: test_superseding_a_complete_record_is_rejected (tests.test_model_energy.Supersession.test_superseding_a_complete_record_is_rejected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T31/experiments/E017-q015-energy/check_energy.py", line 103, in select_records
+    compare(case)
+  File "/home/diego/projects/goal2-archaeology-work/T31/experiments/E017-q015-energy/check_energy.py", line 36, in compare
+    players[word] = energy.recover(old, op['flag'], op['draws'], op['caps'])
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T31/runtime/model/energy.py", line 123, in recover
+    raise ValueError('unused recovery draw')
+ValueError: unused recovery draw
+
+During handling of the above exception, another exception occurred:
+
+ValueError: a.json fails otherwise than declared: unused recovery draw
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T31/tests/test_model_energy.py", line 60, in test_superseding_a_complete_record_is_rejected
+    with self.assertRaisesRegex(ValueError, 'complete on its own'):
+AssertionError: "complete on its own" does not match "a.json fails otherwise than declared: unused recovery draw"
+
+----------------------------------------------------------------------
+Ran 18 tests in 0.004s
+
+FAILED (failures=8, errors=3)
+
+QUICK_PERIOD 5->6: KILLED exit=1
+test_exact_draw_consumption (tests.test_model_energy.Energy.test_exact_draw_consumption) ... ok
+test_form_instruction_and_injury_store (tests.test_model_energy.Energy.test_form_instruction_and_injury_store) ... ok
+test_healing_draw_literal_upper_bound (tests.test_model_energy.Energy.test_healing_draw_literal_upper_bound) ... ok
+test_injured_draw_and_recovery_gate (tests.test_model_energy.Energy.test_injured_draw_and_recovery_gate) ... ok
+test_negative_energy_uses_noninjured_branch_but_gate_draw (tests.test_model_energy.Energy.test_negative_energy_uses_noninjured_branch_but_gate_draw) ... ok
+test_quick_period_and_signed_floor (tests.test_model_energy.Energy.test_quick_period_and_signed_floor) ... FAIL
+test_recovery_bounds_age_strict_and_signed_fitness (tests.test_model_energy.Energy.test_recovery_bounds_age_strict_and_signed_fitness) ... ok
+test_recovery_flag_nonzero_draw_order (tests.test_model_energy.Energy.test_recovery_flag_nonzero_draw_order) ... ok
+test_recovery_flag_zero_extra_below_16 (tests.test_model_energy.Energy.test_recovery_flag_zero_extra_below_16) ... ok
+test_rest_draw_literal_upper_bound (tests.test_model_energy.Energy.test_rest_draw_literal_upper_bound) ... ok
+test_restore_not_full_32 (tests.test_model_energy.Energy.test_restore_not_full_32) ... ok
+test_watched_strict_threshold_and_reset (tests.test_model_energy.Energy.test_watched_strict_threshold_and_reset) ... ok
+test_a_difference_outside_the_declared_fields_is_rejected (tests.test_model_energy.Supersession.test_a_difference_outside_the_declared_fields_is_rejected) ... ok
+test_a_missing_successor_fails (tests.test_model_energy.Supersession.test_a_missing_successor_fails) ... ok
+test_an_earlier_successor_is_rejected (tests.test_model_energy.Supersession.test_an_earlier_successor_is_rejected) ... ok
+test_an_unrelated_successor_is_rejected (tests.test_model_energy.Supersession.test_an_unrelated_successor_is_rejected) ... ok
+test_superseding_a_complete_record_is_rejected (tests.test_model_energy.Supersession.test_superseding_a_complete_record_is_rejected) ... ok
+test_the_committed_supersession_is_selected_and_printed (tests.test_model_energy.Supersession.test_the_committed_supersession_is_selected_and_printed) ... ok
+
+======================================================================
+FAIL: test_quick_period_and_signed_floor (tests.test_model_energy.Energy.test_quick_period_and_signed_floor)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T31/tests/test_model_energy.py", line 87, in test_quick_period_and_signed_floor
+    self.assertEqual(energy.quick_tick(record, 5)[12:15], b'\x10\x18\x01')
+AssertionError: b'\x10\x18\x02' != b'\x10\x18\x01'
+
+----------------------------------------------------------------------
+Ran 18 tests in 0.003s
+
+FAILED (failures=1)
+
+QUICK_PERIOD 5->4: KILLED exit=1
+test_exact_draw_consumption (tests.test_model_energy.Energy.test_exact_draw_consumption) ... ok
+test_form_instruction_and_injury_store (tests.test_model_energy.Energy.test_form_instruction_and_injury_store) ... ok
+test_healing_draw_literal_upper_bound (tests.test_model_energy.Energy.test_healing_draw_literal_upper_bound) ... ok
+test_injured_draw_and_recovery_gate (tests.test_model_energy.Energy.test_injured_draw_and_recovery_gate) ... ok
+test_negative_energy_uses_noninjured_branch_but_gate_draw (tests.test_model_energy.Energy.test_negative_energy_uses_noninjured_branch_but_gate_draw) ... ok
+test_quick_period_and_signed_floor (tests.test_model_energy.Energy.test_quick_period_and_signed_floor) ... FAIL
+test_recovery_bounds_age_strict_and_signed_fitness (tests.test_model_energy.Energy.test_recovery_bounds_age_strict_and_signed_fitness) ... ok
+test_recovery_flag_nonzero_draw_order (tests.test_model_energy.Energy.test_recovery_flag_nonzero_draw_order) ... ok
+test_recovery_flag_zero_extra_below_16 (tests.test_model_energy.Energy.test_recovery_flag_zero_extra_below_16) ... ok
+test_rest_draw_literal_upper_bound (tests.test_model_energy.Energy.test_rest_draw_literal_upper_bound) ... ok
+test_restore_not_full_32 (tests.test_model_energy.Energy.test_restore_not_full_32) ... ok
+test_watched_strict_threshold_and_reset (tests.test_model_energy.Energy.test_watched_strict_threshold_and_reset) ... ok
+test_a_difference_outside_the_declared_fields_is_rejected (tests.test_model_energy.Supersession.test_a_difference_outside_the_declared_fields_is_rejected) ... ok
+test_a_missing_successor_fails (tests.test_model_energy.Supersession.test_a_missing_successor_fails) ... ok
+test_an_earlier_successor_is_rejected (tests.test_model_energy.Supersession.test_an_earlier_successor_is_rejected) ... ok
+test_an_unrelated_successor_is_rejected (tests.test_model_energy.Supersession.test_an_unrelated_successor_is_rejected) ... ok
+test_superseding_a_complete_record_is_rejected (tests.test_model_energy.Supersession.test_superseding_a_complete_record_is_rejected) ... ok
+test_the_committed_supersession_is_selected_and_printed (tests.test_model_energy.Supersession.test_the_committed_supersession_is_selected_and_printed) ... ok
+
+======================================================================
+FAIL: test_quick_period_and_signed_floor (tests.test_model_energy.Energy.test_quick_period_and_signed_floor)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T31/tests/test_model_energy.py", line 86, in test_quick_period_and_signed_floor
+    self.assertEqual(energy.quick_tick(record, 4), record)
+AssertionError: b'\x00\x1e\x19\x00@\x00\x00\x00\x00\x00\x00\x00\x10\x18\x01\x00\x00\x00\x00\x00' != b'\x00\x1e\x19\x00@\x00\x00\x00\x00\x00\x00\x00\x10\x18\x02\x00\x00\x00\x00\x00'
+
+----------------------------------------------------------------------
+Ran 18 tests in 0.003s
+
+FAILED (failures=1)
+
+ACTIVITY_THRESHOLD 180->181: KILLED exit=1
+test_exact_draw_consumption (tests.test_model_energy.Energy.test_exact_draw_consumption) ... ok
+test_form_instruction_and_injury_store (tests.test_model_energy.Energy.test_form_instruction_and_injury_store) ... ok
+test_healing_draw_literal_upper_bound (tests.test_model_energy.Energy.test_healing_draw_literal_upper_bound) ... ok
+test_injured_draw_and_recovery_gate (tests.test_model_energy.Energy.test_injured_draw_and_recovery_gate) ... ok
+test_negative_energy_uses_noninjured_branch_but_gate_draw (tests.test_model_energy.Energy.test_negative_energy_uses_noninjured_branch_but_gate_draw) ... ok
+test_quick_period_and_signed_floor (tests.test_model_energy.Energy.test_quick_period_and_signed_floor) ... ok
+test_recovery_bounds_age_strict_and_signed_fitness (tests.test_model_energy.Energy.test_recovery_bounds_age_strict_and_signed_fitness) ... ok
+test_recovery_flag_nonzero_draw_order (tests.test_model_energy.Energy.test_recovery_flag_nonzero_draw_order) ... ok
+test_recovery_flag_zero_extra_below_16 (tests.test_model_energy.Energy.test_recovery_flag_zero_extra_below_16) ... ok
+test_rest_draw_literal_upper_bound (tests.test_model_energy.Energy.test_rest_draw_literal_upper_bound) ... ok
+test_restore_not_full_32 (tests.test_model_energy.Energy.test_restore_not_full_32) ... ok
+test_watched_strict_threshold_and_reset (tests.test_model_energy.Energy.test_watched_strict_threshold_and_reset) ... FAIL
+test_a_difference_outside_the_declared_fields_is_rejected (tests.test_model_energy.Supersession.test_a_difference_outside_the_declared_fields_is_rejected) ... ok
+test_a_missing_successor_fails (tests.test_model_energy.Supersession.test_a_missing_successor_fails) ... ok
+test_an_earlier_successor_is_rejected (tests.test_model_energy.Supersession.test_an_earlier_successor_is_rejected) ... ok
+test_an_unrelated_successor_is_rejected (tests.test_model_energy.Supersession.test_an_unrelated_successor_is_rejected) ... ok
+test_superseding_a_complete_record_is_rejected (tests.test_model_energy.Supersession.test_superseding_a_complete_record_is_rejected) ... ok
+test_the_committed_supersession_is_selected_and_printed (tests.test_model_energy.Supersession.test_the_committed_supersession_is_selected_and_printed) ... ok
+
+======================================================================
+FAIL: test_watched_strict_threshold_and_reset (tests.test_model_energy.Energy.test_watched_strict_threshold_and_reset)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T31/tests/test_model_energy.py", line 97, in test_watched_strict_threshold_and_reset
+    self.assertEqual(changed[12:15], b'\x10\x18\x01')
+AssertionError: b'\x10\x18\x02' != b'\x10\x18\x01'
+
+----------------------------------------------------------------------
+Ran 18 tests in 0.003s
+
+FAILED (failures=1)
+
+ACTIVITY_THRESHOLD 180->179: KILLED exit=1
+test_exact_draw_consumption (tests.test_model_energy.Energy.test_exact_draw_consumption) ... ok
+test_form_instruction_and_injury_store (tests.test_model_energy.Energy.test_form_instruction_and_injury_store) ... ok
+test_healing_draw_literal_upper_bound (tests.test_model_energy.Energy.test_healing_draw_literal_upper_bound) ... ok
+test_injured_draw_and_recovery_gate (tests.test_model_energy.Energy.test_injured_draw_and_recovery_gate) ... ok
+test_negative_energy_uses_noninjured_branch_but_gate_draw (tests.test_model_energy.Energy.test_negative_energy_uses_noninjured_branch_but_gate_draw) ... ok
+test_quick_period_and_signed_floor (tests.test_model_energy.Energy.test_quick_period_and_signed_floor) ... ok
+test_recovery_bounds_age_strict_and_signed_fitness (tests.test_model_energy.Energy.test_recovery_bounds_age_strict_and_signed_fitness) ... ok
+test_recovery_flag_nonzero_draw_order (tests.test_model_energy.Energy.test_recovery_flag_nonzero_draw_order) ... ok
+test_recovery_flag_zero_extra_below_16 (tests.test_model_energy.Energy.test_recovery_flag_zero_extra_below_16) ... ok
+test_rest_draw_literal_upper_bound (tests.test_model_energy.Energy.test_rest_draw_literal_upper_bound) ... ok
+test_restore_not_full_32 (tests.test_model_energy.Energy.test_restore_not_full_32) ... ok
+test_watched_strict_threshold_and_reset (tests.test_model_energy.Energy.test_watched_strict_threshold_and_reset) ... FAIL
+test_a_difference_outside_the_declared_fields_is_rejected (tests.test_model_energy.Supersession.test_a_difference_outside_the_declared_fields_is_rejected) ... ok
+test_a_missing_successor_fails (tests.test_model_energy.Supersession.test_a_missing_successor_fails) ... ok
+test_an_earlier_successor_is_rejected (tests.test_model_energy.Supersession.test_an_earlier_successor_is_rejected) ... ok
+test_an_unrelated_successor_is_rejected (tests.test_model_energy.Supersession.test_an_unrelated_successor_is_rejected) ... ok
+test_superseding_a_complete_record_is_rejected (tests.test_model_energy.Supersession.test_superseding_a_complete_record_is_rejected) ... ok
+test_the_committed_supersession_is_selected_and_printed (tests.test_model_energy.Supersession.test_the_committed_supersession_is_selected_and_printed) ... ok
+
+======================================================================
+FAIL: test_watched_strict_threshold_and_reset (tests.test_model_energy.Energy.test_watched_strict_threshold_and_reset)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T31/tests/test_model_energy.py", line 94, in test_watched_strict_threshold_and_reset
+    self.assertEqual(energy.watched_step(record, 180, True), (record, 180))
+AssertionError: Tuples differ: (b'\x[19 chars]\x00\x00\x00\x00\x00\x00\x10\x18\x01\x00\x00\x00\x00\x00', 0) != (b'\x[19 chars]\x00\x00\x00\x00\x00\x00\x10\x18\x02\x00\x00\x00\x00\x00', 180)
+
+First differing element 0:
+b'\x00\x1e\x19\x00@\x00\x00\x00\x00\x00\x00\x00\x10\x18\x01\x00\x00\x00\x00\x00'
+b'\x00\x1e\x19\x00@\x00\x00\x00\x00\x00\x00\x00\x10\x18\x02\x00\x00\x00\x00\x00'
+
+- (b'\x00\x1e\x19\x00@\x00\x00\x00\x00\x00\x00\x00\x10\x18\x01\x00'
+?                                                            ^
+
++ (b'\x00\x1e\x19\x00@\x00\x00\x00\x00\x00\x00\x00\x10\x18\x02\x00'
+?                                                            ^
+
+   b'\x00\x00\x00\x00',
+-  0)
++  180)
+?  ++
+
+
+----------------------------------------------------------------------
+Ran 18 tests in 0.004s
+
+FAILED (failures=1)
+
+DECREMENT 1->2: KILLED exit=1
+test_exact_draw_consumption (tests.test_model_energy.Energy.test_exact_draw_consumption) ... ok
+test_form_instruction_and_injury_store (tests.test_model_energy.Energy.test_form_instruction_and_injury_store) ... ok
+test_healing_draw_literal_upper_bound (tests.test_model_energy.Energy.test_healing_draw_literal_upper_bound) ... ok
+test_injured_draw_and_recovery_gate (tests.test_model_energy.Energy.test_injured_draw_and_recovery_gate) ... ok
+test_negative_energy_uses_noninjured_branch_but_gate_draw (tests.test_model_energy.Energy.test_negative_energy_uses_noninjured_branch_but_gate_draw) ... ok
+test_quick_period_and_signed_floor (tests.test_model_energy.Energy.test_quick_period_and_signed_floor) ... FAIL
+test_recovery_bounds_age_strict_and_signed_fitness (tests.test_model_energy.Energy.test_recovery_bounds_age_strict_and_signed_fitness) ... ok
+test_recovery_flag_nonzero_draw_order (tests.test_model_energy.Energy.test_recovery_flag_nonzero_draw_order) ... ok
+test_recovery_flag_zero_extra_below_16 (tests.test_model_energy.Energy.test_recovery_flag_zero_extra_below_16) ... ok
+test_rest_draw_literal_upper_bound (tests.test_model_energy.Energy.test_rest_draw_literal_upper_bound) ... ok
+test_restore_not_full_32 (tests.test_model_energy.Energy.test_restore_not_full_32) ... ok
+test_watched_strict_threshold_and_reset (tests.test_model_energy.Energy.test_watched_strict_threshold_and_reset) ... FAIL
+test_a_difference_outside_the_declared_fields_is_rejected (tests.test_model_energy.Supersession.test_a_difference_outside_the_declared_fields_is_rejected) ... ok
+test_a_missing_successor_fails (tests.test_model_energy.Supersession.test_a_missing_successor_fails) ... ok
+test_an_earlier_successor_is_rejected (tests.test_model_energy.Supersession.test_an_earlier_successor_is_rejected) ... ok
+test_an_unrelated_successor_is_rejected (tests.test_model_energy.Supersession.test_an_unrelated_successor_is_rejected) ... ok
+test_superseding_a_complete_record_is_rejected (tests.test_model_energy.Supersession.test_superseding_a_complete_record_is_rejected) ... ok
+test_the_committed_supersession_is_selected_and_printed (tests.test_model_energy.Supersession.test_the_committed_supersession_is_selected_and_printed) ... ok
+
+======================================================================
+FAIL: test_quick_period_and_signed_floor (tests.test_model_energy.Energy.test_quick_period_and_signed_floor)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T31/tests/test_model_energy.py", line 87, in test_quick_period_and_signed_floor
+    self.assertEqual(energy.quick_tick(record, 5)[12:15], b'\x10\x18\x01')
+AssertionError: b'\x10\x18\x00' != b'\x10\x18\x01'
+
+======================================================================
+FAIL: test_watched_strict_threshold_and_reset (tests.test_model_energy.Energy.test_watched_strict_threshold_and_reset)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T31/tests/test_model_energy.py", line 97, in test_watched_strict_threshold_and_reset
+    self.assertEqual(changed[12:15], b'\x10\x18\x01')
+AssertionError: b'\x10\x18\x00' != b'\x10\x18\x01'
+
+----------------------------------------------------------------------
+Ran 18 tests in 0.004s
+
+FAILED (failures=2)
+
+DECREMENT 1->0: KILLED exit=1
+test_exact_draw_consumption (tests.test_model_energy.Energy.test_exact_draw_consumption) ... ok
+test_form_instruction_and_injury_store (tests.test_model_energy.Energy.test_form_instruction_and_injury_store) ... ok
+test_healing_draw_literal_upper_bound (tests.test_model_energy.Energy.test_healing_draw_literal_upper_bound) ... ok
+test_injured_draw_and_recovery_gate (tests.test_model_energy.Energy.test_injured_draw_and_recovery_gate) ... ok
+test_negative_energy_uses_noninjured_branch_but_gate_draw (tests.test_model_energy.Energy.test_negative_energy_uses_noninjured_branch_but_gate_draw) ... ok
+test_quick_period_and_signed_floor (tests.test_model_energy.Energy.test_quick_period_and_signed_floor) ... FAIL
+test_recovery_bounds_age_strict_and_signed_fitness (tests.test_model_energy.Energy.test_recovery_bounds_age_strict_and_signed_fitness) ... ok
+test_recovery_flag_nonzero_draw_order (tests.test_model_energy.Energy.test_recovery_flag_nonzero_draw_order) ... ok
+test_recovery_flag_zero_extra_below_16 (tests.test_model_energy.Energy.test_recovery_flag_zero_extra_below_16) ... ok
+test_rest_draw_literal_upper_bound (tests.test_model_energy.Energy.test_rest_draw_literal_upper_bound) ... ok
+test_restore_not_full_32 (tests.test_model_energy.Energy.test_restore_not_full_32) ... ok
+test_watched_strict_threshold_and_reset (tests.test_model_energy.Energy.test_watched_strict_threshold_and_reset) ... FAIL
+test_a_difference_outside_the_declared_fields_is_rejected (tests.test_model_energy.Supersession.test_a_difference_outside_the_declared_fields_is_rejected) ... ok
+test_a_missing_successor_fails (tests.test_model_energy.Supersession.test_a_missing_successor_fails) ... ok
+test_an_earlier_successor_is_rejected (tests.test_model_energy.Supersession.test_an_earlier_successor_is_rejected) ... ok
+test_an_unrelated_successor_is_rejected (tests.test_model_energy.Supersession.test_an_unrelated_successor_is_rejected) ... ok
+test_superseding_a_complete_record_is_rejected (tests.test_model_energy.Supersession.test_superseding_a_complete_record_is_rejected) ... ok
+test_the_committed_supersession_is_selected_and_printed (tests.test_model_energy.Supersession.test_the_committed_supersession_is_selected_and_printed) ... ok
+
+======================================================================
+FAIL: test_quick_period_and_signed_floor (tests.test_model_energy.Energy.test_quick_period_and_signed_floor)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T31/tests/test_model_energy.py", line 87, in test_quick_period_and_signed_floor
+    self.assertEqual(energy.quick_tick(record, 5)[12:15], b'\x10\x18\x01')
+AssertionError: b'\x10\x18\x02' != b'\x10\x18\x01'
+
+======================================================================
+FAIL: test_watched_strict_threshold_and_reset (tests.test_model_energy.Energy.test_watched_strict_threshold_and_reset)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T31/tests/test_model_energy.py", line 97, in test_watched_strict_threshold_and_reset
+    self.assertEqual(changed[12:15], b'\x10\x18\x01')
+AssertionError: b'\x10\x18\x02' != b'\x10\x18\x01'
+
+----------------------------------------------------------------------
+Ran 18 tests in 0.004s
+
+FAILED (failures=2)
+
+FLOOR 1->2: KILLED exit=1
+test_exact_draw_consumption (tests.test_model_energy.Energy.test_exact_draw_consumption) ... ok
+test_form_instruction_and_injury_store (tests.test_model_energy.Energy.test_form_instruction_and_injury_store) ... FAIL
+test_healing_draw_literal_upper_bound (tests.test_model_energy.Energy.test_healing_draw_literal_upper_bound) ... ok
+test_injured_draw_and_recovery_gate (tests.test_model_energy.Energy.test_injured_draw_and_recovery_gate) ... ok
+test_negative_energy_uses_noninjured_branch_but_gate_draw (tests.test_model_energy.Energy.test_negative_energy_uses_noninjured_branch_but_gate_draw) ... ok
+test_quick_period_and_signed_floor (tests.test_model_energy.Energy.test_quick_period_and_signed_floor) ... FAIL
+test_recovery_bounds_age_strict_and_signed_fitness (tests.test_model_energy.Energy.test_recovery_bounds_age_strict_and_signed_fitness) ... FAIL
+test_recovery_flag_nonzero_draw_order (tests.test_model_energy.Energy.test_recovery_flag_nonzero_draw_order) ... ok
+test_recovery_flag_zero_extra_below_16 (tests.test_model_energy.Energy.test_recovery_flag_zero_extra_below_16) ... ok
+test_rest_draw_literal_upper_bound (tests.test_model_energy.Energy.test_rest_draw_literal_upper_bound) ... ok
+test_restore_not_full_32 (tests.test_model_energy.Energy.test_restore_not_full_32) ... ok
+test_watched_strict_threshold_and_reset (tests.test_model_energy.Energy.test_watched_strict_threshold_and_reset) ... FAIL
+test_a_difference_outside_the_declared_fields_is_rejected (tests.test_model_energy.Supersession.test_a_difference_outside_the_declared_fields_is_rejected) ... ok
+test_a_missing_successor_fails (tests.test_model_energy.Supersession.test_a_missing_successor_fails) ... ok
+test_an_earlier_successor_is_rejected (tests.test_model_energy.Supersession.test_an_earlier_successor_is_rejected) ... ok
+test_an_unrelated_successor_is_rejected (tests.test_model_energy.Supersession.test_an_unrelated_successor_is_rejected) ... ok
+test_superseding_a_complete_record_is_rejected (tests.test_model_energy.Supersession.test_superseding_a_complete_record_is_rejected) ... ok
+test_the_committed_supersession_is_selected_and_printed (tests.test_model_energy.Supersession.test_the_committed_supersession_is_selected_and_printed) ... ok
+
+======================================================================
+FAIL: test_form_instruction_and_injury_store (tests.test_model_energy.Energy.test_form_instruction_and_injury_store)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T31/tests/test_model_energy.py", line 161, in test_form_instruction_and_injury_store
+    self.assertEqual(energy.form_delta(record, -20)[12:15], b'\x01\x18\x02')
+AssertionError: b'\x02\x18\x02' != b'\x01\x18\x02'
+
+======================================================================
+FAIL: test_quick_period_and_signed_floor (tests.test_model_energy.Energy.test_quick_period_and_signed_floor)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T31/tests/test_model_energy.py", line 87, in test_quick_period_and_signed_floor
+    self.assertEqual(energy.quick_tick(record, 5)[12:15], b'\x10\x18\x01')
+AssertionError: b'\x10\x18\x02' != b'\x10\x18\x01'
+
+======================================================================
+FAIL: test_recovery_bounds_age_strict_and_signed_fitness (tests.test_model_energy.Energy.test_recovery_bounds_age_strict_and_signed_fitness)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T31/tests/test_model_energy.py", line 140, in test_recovery_bounds_age_strict_and_signed_fitness
+    self.assertEqual(energy.recover(negative, 0, [1, 8, 1], [32, 24])[12:15], b'\x10\x01\x01')
+AssertionError: b'\x10\x02\x02' != b'\x10\x01\x01'
+
+======================================================================
+FAIL: test_watched_strict_threshold_and_reset (tests.test_model_energy.Energy.test_watched_strict_threshold_and_reset)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T31/tests/test_model_energy.py", line 97, in test_watched_strict_threshold_and_reset
+    self.assertEqual(changed[12:15], b'\x10\x18\x01')
+AssertionError: b'\x10\x18\x02' != b'\x10\x18\x01'
+
+----------------------------------------------------------------------
+Ran 18 tests in 0.004s
+
+FAILED (failures=4)
+
+FLOOR 1->0: KILLED exit=1
+test_exact_draw_consumption (tests.test_model_energy.Energy.test_exact_draw_consumption) ... ok
+test_form_instruction_and_injury_store (tests.test_model_energy.Energy.test_form_instruction_and_injury_store) ... FAIL
+test_healing_draw_literal_upper_bound (tests.test_model_energy.Energy.test_healing_draw_literal_upper_bound) ... ok
+test_injured_draw_and_recovery_gate (tests.test_model_energy.Energy.test_injured_draw_and_recovery_gate) ... ok
+test_negative_energy_uses_noninjured_branch_but_gate_draw (tests.test_model_energy.Energy.test_negative_energy_uses_noninjured_branch_but_gate_draw) ... ok
+test_quick_period_and_signed_floor (tests.test_model_energy.Energy.test_quick_period_and_signed_floor) ... FAIL
+test_recovery_bounds_age_strict_and_signed_fitness (tests.test_model_energy.Energy.test_recovery_bounds_age_strict_and_signed_fitness) ... FAIL
+test_recovery_flag_nonzero_draw_order (tests.test_model_energy.Energy.test_recovery_flag_nonzero_draw_order) ... ok
+test_recovery_flag_zero_extra_below_16 (tests.test_model_energy.Energy.test_recovery_flag_zero_extra_below_16) ... ok
+test_rest_draw_literal_upper_bound (tests.test_model_energy.Energy.test_rest_draw_literal_upper_bound) ... ok
+test_restore_not_full_32 (tests.test_model_energy.Energy.test_restore_not_full_32) ... ok
+test_watched_strict_threshold_and_reset (tests.test_model_energy.Energy.test_watched_strict_threshold_and_reset) ... FAIL
+test_a_difference_outside_the_declared_fields_is_rejected (tests.test_model_energy.Supersession.test_a_difference_outside_the_declared_fields_is_rejected) ... ok
+test_a_missing_successor_fails (tests.test_model_energy.Supersession.test_a_missing_successor_fails) ... ok
+test_an_earlier_successor_is_rejected (tests.test_model_energy.Supersession.test_an_earlier_successor_is_rejected) ... ok
+test_an_unrelated_successor_is_rejected (tests.test_model_energy.Supersession.test_an_unrelated_successor_is_rejected) ... ok
+test_superseding_a_complete_record_is_rejected (tests.test_model_energy.Supersession.test_superseding_a_complete_record_is_rejected) ... ok
+test_the_committed_supersession_is_selected_and_printed (tests.test_model_energy.Supersession.test_the_committed_supersession_is_selected_and_printed) ... ok
+
+======================================================================
+FAIL: test_form_instruction_and_injury_store (tests.test_model_energy.Energy.test_form_instruction_and_injury_store)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T31/tests/test_model_energy.py", line 161, in test_form_instruction_and_injury_store
+    self.assertEqual(energy.form_delta(record, -20)[12:15], b'\x01\x18\x02')
+AssertionError: b'\x00\x18\x02' != b'\x01\x18\x02'
+
+======================================================================
+FAIL: test_quick_period_and_signed_floor (tests.test_model_energy.Energy.test_quick_period_and_signed_floor)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T31/tests/test_model_energy.py", line 90, in test_quick_period_and_signed_floor
+    self.assertEqual(energy.quick_tick(r, 5), r)
+AssertionError: b'\x00\x1e\x19\x00@\x00\x00\x00\x00\x00\x00\x00\x10\x18\x00\x00\x00\x00\x00\x00' != b'\x00\x1e\x19\x00@\x00\x00\x00\x00\x00\x00\x00\x10\x18\x01\x00\x00\x00\x00\x00'
+
+======================================================================
+FAIL: test_recovery_bounds_age_strict_and_signed_fitness (tests.test_model_energy.Energy.test_recovery_bounds_age_strict_and_signed_fitness)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T31/tests/test_model_energy.py", line 140, in test_recovery_bounds_age_strict_and_signed_fitness
+    self.assertEqual(energy.recover(negative, 0, [1, 8, 1], [32, 24])[12:15], b'\x10\x01\x01')
+AssertionError: b'\x10\x00\x00' != b'\x10\x01\x01'
+
+======================================================================
+FAIL: test_watched_strict_threshold_and_reset (tests.test_model_energy.Energy.test_watched_strict_threshold_and_reset)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T31/tests/test_model_energy.py", line 104, in test_watched_strict_threshold_and_reset
+    self.assertEqual(energy.watched_step(r, 181, True), (r, 0))
+AssertionError: Tuples differ: (b'\x[17 chars]00\x00\x00\x00\x00\x00\x00\x10\x18\x00\x00\x00\x00\x00\x00', 0) != (b'\x[17 chars]00\x00\x00\x00\x00\x00\x00\x10\x18\x01\x00\x00\x00\x00\x00', 0)
+
+First differing element 0:
+b'\x00\x1e\x19\x00@\x00\x00\x00\x00\x00\x00\x00\x10\x18\x00\x00\x00\x00\x00\x00'
+b'\x00\x1e\x19\x00@\x00\x00\x00\x00\x00\x00\x00\x10\x18\x01\x00\x00\x00\x00\x00'
+
+- (b'\x00\x1e\x19\x00@\x00\x00\x00\x00\x00\x00\x00\x10\x18\x00\x00'
+?                                                            ^
+
++ (b'\x00\x1e\x19\x00@\x00\x00\x00\x00\x00\x00\x00\x10\x18\x01\x00'
+?                                                            ^
+
+   b'\x00\x00\x00\x00',
+   0)
+
+----------------------------------------------------------------------
+Ran 18 tests in 0.004s
+
+FAILED (failures=4)
+
+REST_THRESHOLD 16->17: KILLED exit=1
+test_exact_draw_consumption (tests.test_model_energy.Energy.test_exact_draw_consumption) ... ok
+test_form_instruction_and_injury_store (tests.test_model_energy.Energy.test_form_instruction_and_injury_store) ... ok
+test_healing_draw_literal_upper_bound (tests.test_model_energy.Energy.test_healing_draw_literal_upper_bound) ... ok
+test_injured_draw_and_recovery_gate (tests.test_model_energy.Energy.test_injured_draw_and_recovery_gate) ... ok
+test_negative_energy_uses_noninjured_branch_but_gate_draw (tests.test_model_energy.Energy.test_negative_energy_uses_noninjured_branch_but_gate_draw) ... ok
+test_quick_period_and_signed_floor (tests.test_model_energy.Energy.test_quick_period_and_signed_floor) ... ok
+test_recovery_bounds_age_strict_and_signed_fitness (tests.test_model_energy.Energy.test_recovery_bounds_age_strict_and_signed_fitness) ... ok
+test_recovery_flag_nonzero_draw_order (tests.test_model_energy.Energy.test_recovery_flag_nonzero_draw_order) ... ok
+test_recovery_flag_zero_extra_below_16 (tests.test_model_energy.Energy.test_recovery_flag_zero_extra_below_16) ... FAIL
+test_rest_draw_literal_upper_bound (tests.test_model_energy.Energy.test_rest_draw_literal_upper_bound) ... ok
+test_restore_not_full_32 (tests.test_model_energy.Energy.test_restore_not_full_32) ... ok
+test_watched_strict_threshold_and_reset (tests.test_model_energy.Energy.test_watched_strict_threshold_and_reset) ... ok
+test_a_difference_outside_the_declared_fields_is_rejected (tests.test_model_energy.Supersession.test_a_difference_outside_the_declared_fields_is_rejected) ... ok
+test_a_missing_successor_fails (tests.test_model_energy.Supersession.test_a_missing_successor_fails) ... ok
+test_an_earlier_successor_is_rejected (tests.test_model_energy.Supersession.test_an_earlier_successor_is_rejected) ... ok
+test_an_unrelated_successor_is_rejected (tests.test_model_energy.Supersession.test_an_unrelated_successor_is_rejected) ... ok
+test_superseding_a_complete_record_is_rejected (tests.test_model_energy.Supersession.test_superseding_a_complete_record_is_rejected) ... ok
+test_the_committed_supersession_is_selected_and_printed (tests.test_model_energy.Supersession.test_the_committed_supersession_is_selected_and_printed) ... ok
+
+======================================================================
+FAIL: test_recovery_flag_zero_extra_below_16 (tests.test_model_energy.Energy.test_recovery_flag_zero_extra_below_16)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T31/tests/test_model_energy.py", line 121, in test_recovery_flag_zero_extra_below_16
+    self.assertEqual(energy.recover(record, 0, [2, 2], [32, 24])[12:15], b'\x10\x10\x10')
+AssertionError: b'\x10\x11\x11' != b'\x10\x10\x10'
+
+----------------------------------------------------------------------
+Ran 18 tests in 0.004s
+
+FAILED (failures=1)
+
+REST_THRESHOLD 16->15: KILLED exit=1
+test_exact_draw_consumption (tests.test_model_energy.Energy.test_exact_draw_consumption) ... ok
+test_form_instruction_and_injury_store (tests.test_model_energy.Energy.test_form_instruction_and_injury_store) ... ok
+test_healing_draw_literal_upper_bound (tests.test_model_energy.Energy.test_healing_draw_literal_upper_bound) ... ok
+test_injured_draw_and_recovery_gate (tests.test_model_energy.Energy.test_injured_draw_and_recovery_gate) ... ok
+test_negative_energy_uses_noninjured_branch_but_gate_draw (tests.test_model_energy.Energy.test_negative_energy_uses_noninjured_branch_but_gate_draw) ... ok
+test_quick_period_and_signed_floor (tests.test_model_energy.Energy.test_quick_period_and_signed_floor) ... ok
+test_recovery_bounds_age_strict_and_signed_fitness (tests.test_model_energy.Energy.test_recovery_bounds_age_strict_and_signed_fitness) ... ok
+test_recovery_flag_nonzero_draw_order (tests.test_model_energy.Energy.test_recovery_flag_nonzero_draw_order) ... ok
+test_recovery_flag_zero_extra_below_16 (tests.test_model_energy.Energy.test_recovery_flag_zero_extra_below_16) ... FAIL
+test_rest_draw_literal_upper_bound (tests.test_model_energy.Energy.test_rest_draw_literal_upper_bound) ... ok
+test_restore_not_full_32 (tests.test_model_energy.Energy.test_restore_not_full_32) ... ok
+test_watched_strict_threshold_and_reset (tests.test_model_energy.Energy.test_watched_strict_threshold_and_reset) ... ok
+test_a_difference_outside_the_declared_fields_is_rejected (tests.test_model_energy.Supersession.test_a_difference_outside_the_declared_fields_is_rejected) ... ok
+test_a_missing_successor_fails (tests.test_model_energy.Supersession.test_a_missing_successor_fails) ... ok
+test_an_earlier_successor_is_rejected (tests.test_model_energy.Supersession.test_an_earlier_successor_is_rejected) ... ok
+test_an_unrelated_successor_is_rejected (tests.test_model_energy.Supersession.test_an_unrelated_successor_is_rejected) ... ok
+test_superseding_a_complete_record_is_rejected (tests.test_model_energy.Supersession.test_superseding_a_complete_record_is_rejected) ... ok
+test_the_committed_supersession_is_selected_and_printed (tests.test_model_energy.Supersession.test_the_committed_supersession_is_selected_and_printed) ... ok
+
+======================================================================
+FAIL: test_recovery_flag_zero_extra_below_16 (tests.test_model_energy.Energy.test_recovery_flag_zero_extra_below_16)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T31/tests/test_model_energy.py", line 123, in test_recovery_flag_zero_extra_below_16
+    self.assertEqual(energy.recover(record, 0, [2, 1], [32, 24])[12:15], b'\x10\x10\x10')
+AssertionError: b'\x10\x0f\x0f' != b'\x10\x10\x10'
+
+----------------------------------------------------------------------
+Ran 18 tests in 0.004s
+
+FAILED (failures=1)
+
+REST_BONUS 1->2: KILLED exit=1
+test_exact_draw_consumption (tests.test_model_energy.Energy.test_exact_draw_consumption) ... ok
+test_form_instruction_and_injury_store (tests.test_model_energy.Energy.test_form_instruction_and_injury_store) ... ok
+test_healing_draw_literal_upper_bound (tests.test_model_energy.Energy.test_healing_draw_literal_upper_bound) ... ok
+test_injured_draw_and_recovery_gate (tests.test_model_energy.Energy.test_injured_draw_and_recovery_gate) ... ok
+test_negative_energy_uses_noninjured_branch_but_gate_draw (tests.test_model_energy.Energy.test_negative_energy_uses_noninjured_branch_but_gate_draw) ... ok
+test_quick_period_and_signed_floor (tests.test_model_energy.Energy.test_quick_period_and_signed_floor) ... ok
+test_recovery_bounds_age_strict_and_signed_fitness (tests.test_model_energy.Energy.test_recovery_bounds_age_strict_and_signed_fitness) ... ok
+test_recovery_flag_nonzero_draw_order (tests.test_model_energy.Energy.test_recovery_flag_nonzero_draw_order) ... ok
+test_recovery_flag_zero_extra_below_16 (tests.test_model_energy.Energy.test_recovery_flag_zero_extra_below_16) ... FAIL
+test_rest_draw_literal_upper_bound (tests.test_model_energy.Energy.test_rest_draw_literal_upper_bound) ... ok
+test_restore_not_full_32 (tests.test_model_energy.Energy.test_restore_not_full_32) ... ok
+test_watched_strict_threshold_and_reset (tests.test_model_energy.Energy.test_watched_strict_threshold_and_reset) ... ok
+test_a_difference_outside_the_declared_fields_is_rejected (tests.test_model_energy.Supersession.test_a_difference_outside_the_declared_fields_is_rejected) ... ok
+test_a_missing_successor_fails (tests.test_model_energy.Supersession.test_a_missing_successor_fails) ... ok
+test_an_earlier_successor_is_rejected (tests.test_model_energy.Supersession.test_an_earlier_successor_is_rejected) ... ok
+test_an_unrelated_successor_is_rejected (tests.test_model_energy.Supersession.test_an_unrelated_successor_is_rejected) ... ok
+test_superseding_a_complete_record_is_rejected (tests.test_model_energy.Supersession.test_superseding_a_complete_record_is_rejected) ... ok
+test_the_committed_supersession_is_selected_and_printed (tests.test_model_energy.Supersession.test_the_committed_supersession_is_selected_and_printed) ... ok
+
+======================================================================
+FAIL: test_recovery_flag_zero_extra_below_16 (tests.test_model_energy.Energy.test_recovery_flag_zero_extra_below_16)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T31/tests/test_model_energy.py", line 120, in test_recovery_flag_zero_extra_below_16
+    self.assertEqual(energy.recover(record, 0, [3, 1], [32, 24])[12:15], b'\x10\x0f\x0f')
+AssertionError: b'\x10\x10\x10' != b'\x10\x0f\x0f'
+
+----------------------------------------------------------------------
+Ran 18 tests in 0.003s
+
+FAILED (failures=1)
+
+REST_BONUS 1->0: KILLED exit=1
+test_exact_draw_consumption (tests.test_model_energy.Energy.test_exact_draw_consumption) ... ok
+test_form_instruction_and_injury_store (tests.test_model_energy.Energy.test_form_instruction_and_injury_store) ... ok
+test_healing_draw_literal_upper_bound (tests.test_model_energy.Energy.test_healing_draw_literal_upper_bound) ... ok
+test_injured_draw_and_recovery_gate (tests.test_model_energy.Energy.test_injured_draw_and_recovery_gate) ... ok
+test_negative_energy_uses_noninjured_branch_but_gate_draw (tests.test_model_energy.Energy.test_negative_energy_uses_noninjured_branch_but_gate_draw) ... ok
+test_quick_period_and_signed_floor (tests.test_model_energy.Energy.test_quick_period_and_signed_floor) ... ok
+test_recovery_bounds_age_strict_and_signed_fitness (tests.test_model_energy.Energy.test_recovery_bounds_age_strict_and_signed_fitness) ... ok
+test_recovery_flag_nonzero_draw_order (tests.test_model_energy.Energy.test_recovery_flag_nonzero_draw_order) ... ok
+test_recovery_flag_zero_extra_below_16 (tests.test_model_energy.Energy.test_recovery_flag_zero_extra_below_16) ... FAIL
+test_rest_draw_literal_upper_bound (tests.test_model_energy.Energy.test_rest_draw_literal_upper_bound) ... ok
+test_restore_not_full_32 (tests.test_model_energy.Energy.test_restore_not_full_32) ... ok
+test_watched_strict_threshold_and_reset (tests.test_model_energy.Energy.test_watched_strict_threshold_and_reset) ... ok
+test_a_difference_outside_the_declared_fields_is_rejected (tests.test_model_energy.Supersession.test_a_difference_outside_the_declared_fields_is_rejected) ... ok
+test_a_missing_successor_fails (tests.test_model_energy.Supersession.test_a_missing_successor_fails) ... ok
+test_an_earlier_successor_is_rejected (tests.test_model_energy.Supersession.test_an_earlier_successor_is_rejected) ... ok
+test_an_unrelated_successor_is_rejected (tests.test_model_energy.Supersession.test_an_unrelated_successor_is_rejected) ... ok
+test_superseding_a_complete_record_is_rejected (tests.test_model_energy.Supersession.test_superseding_a_complete_record_is_rejected) ... ok
+test_the_committed_supersession_is_selected_and_printed (tests.test_model_energy.Supersession.test_the_committed_supersession_is_selected_and_printed) ... ok
+
+======================================================================
+FAIL: test_recovery_flag_zero_extra_below_16 (tests.test_model_energy.Energy.test_recovery_flag_zero_extra_below_16)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T31/tests/test_model_energy.py", line 120, in test_recovery_flag_zero_extra_below_16
+    self.assertEqual(energy.recover(record, 0, [3, 1], [32, 24])[12:15], b'\x10\x0f\x0f')
+AssertionError: b'\x10\x0e\x0e' != b'\x10\x0f\x0f'
+
+----------------------------------------------------------------------
+Ran 18 tests in 0.003s
+
+FAILED (failures=1)
+
+AGE_MARGIN 3->4: KILLED exit=1
+test_exact_draw_consumption (tests.test_model_energy.Energy.test_exact_draw_consumption) ... ok
+test_form_instruction_and_injury_store (tests.test_model_energy.Energy.test_form_instruction_and_injury_store) ... ok
+test_healing_draw_literal_upper_bound (tests.test_model_energy.Energy.test_healing_draw_literal_upper_bound) ... ok
+test_injured_draw_and_recovery_gate (tests.test_model_energy.Energy.test_injured_draw_and_recovery_gate) ... ok
+test_negative_energy_uses_noninjured_branch_but_gate_draw (tests.test_model_energy.Energy.test_negative_energy_uses_noninjured_branch_but_gate_draw) ... ok
+test_quick_period_and_signed_floor (tests.test_model_energy.Energy.test_quick_period_and_signed_floor) ... ok
+test_recovery_bounds_age_strict_and_signed_fitness (tests.test_model_energy.Energy.test_recovery_bounds_age_strict_and_signed_fitness) ... FAIL
+test_recovery_flag_nonzero_draw_order (tests.test_model_energy.Energy.test_recovery_flag_nonzero_draw_order) ... ok
+test_recovery_flag_zero_extra_below_16 (tests.test_model_energy.Energy.test_recovery_flag_zero_extra_below_16) ... ok
+test_rest_draw_literal_upper_bound (tests.test_model_energy.Energy.test_rest_draw_literal_upper_bound) ... ok
+test_restore_not_full_32 (tests.test_model_energy.Energy.test_restore_not_full_32) ... ok
+test_watched_strict_threshold_and_reset (tests.test_model_energy.Energy.test_watched_strict_threshold_and_reset) ... ok
+test_a_difference_outside_the_declared_fields_is_rejected (tests.test_model_energy.Supersession.test_a_difference_outside_the_declared_fields_is_rejected) ... ok
+test_a_missing_successor_fails (tests.test_model_energy.Supersession.test_a_missing_successor_fails) ... ok
+test_an_earlier_successor_is_rejected (tests.test_model_energy.Supersession.test_an_earlier_successor_is_rejected) ... ok
+test_an_unrelated_successor_is_rejected (tests.test_model_energy.Supersession.test_an_unrelated_successor_is_rejected) ... ok
+test_superseding_a_complete_record_is_rejected (tests.test_model_energy.Supersession.test_superseding_a_complete_record_is_rejected) ... ok
+test_the_committed_supersession_is_selected_and_printed (tests.test_model_energy.Supersession.test_the_committed_supersession_is_selected_and_printed) ... ok
+
+======================================================================
+FAIL: test_recovery_bounds_age_strict_and_signed_fitness (tests.test_model_energy.Energy.test_recovery_bounds_age_strict_and_signed_fitness)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T31/tests/test_model_energy.py", line 138, in test_recovery_bounds_age_strict_and_signed_fitness
+    self.assertEqual(energy.recover(older, 1, [1, 8], [32, 24])[12:15], b'\x10\x18\x18')
+AssertionError: b'\x10  ' != b'\x10\x18\x18'
+
+----------------------------------------------------------------------
+Ran 18 tests in 0.003s
+
+FAILED (failures=1)
+
+AGE_MARGIN 3->2: KILLED exit=1
+test_exact_draw_consumption (tests.test_model_energy.Energy.test_exact_draw_consumption) ... ok
+test_form_instruction_and_injury_store (tests.test_model_energy.Energy.test_form_instruction_and_injury_store) ... ok
+test_healing_draw_literal_upper_bound (tests.test_model_energy.Energy.test_healing_draw_literal_upper_bound) ... ok
+test_injured_draw_and_recovery_gate (tests.test_model_energy.Energy.test_injured_draw_and_recovery_gate) ... ok
+test_negative_energy_uses_noninjured_branch_but_gate_draw (tests.test_model_energy.Energy.test_negative_energy_uses_noninjured_branch_but_gate_draw) ... ok
+test_quick_period_and_signed_floor (tests.test_model_energy.Energy.test_quick_period_and_signed_floor) ... ok
+test_recovery_bounds_age_strict_and_signed_fitness (tests.test_model_energy.Energy.test_recovery_bounds_age_strict_and_signed_fitness) ... FAIL
+test_recovery_flag_nonzero_draw_order (tests.test_model_energy.Energy.test_recovery_flag_nonzero_draw_order) ... ok
+test_recovery_flag_zero_extra_below_16 (tests.test_model_energy.Energy.test_recovery_flag_zero_extra_below_16) ... ok
+test_rest_draw_literal_upper_bound (tests.test_model_energy.Energy.test_rest_draw_literal_upper_bound) ... ok
+test_restore_not_full_32 (tests.test_model_energy.Energy.test_restore_not_full_32) ... ok
+test_watched_strict_threshold_and_reset (tests.test_model_energy.Energy.test_watched_strict_threshold_and_reset) ... ok
+test_a_difference_outside_the_declared_fields_is_rejected (tests.test_model_energy.Supersession.test_a_difference_outside_the_declared_fields_is_rejected) ... ok
+test_a_missing_successor_fails (tests.test_model_energy.Supersession.test_a_missing_successor_fails) ... ok
+test_an_earlier_successor_is_rejected (tests.test_model_energy.Supersession.test_an_earlier_successor_is_rejected) ... ok
+test_an_unrelated_successor_is_rejected (tests.test_model_energy.Supersession.test_an_unrelated_successor_is_rejected) ... ok
+test_superseding_a_complete_record_is_rejected (tests.test_model_energy.Supersession.test_superseding_a_complete_record_is_rejected) ... ok
+test_the_committed_supersession_is_selected_and_printed (tests.test_model_energy.Supersession.test_the_committed_supersession_is_selected_and_printed) ... ok
+
+======================================================================
+FAIL: test_recovery_bounds_age_strict_and_signed_fitness (tests.test_model_energy.Energy.test_recovery_bounds_age_strict_and_signed_fitness)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T31/tests/test_model_energy.py", line 136, in test_recovery_bounds_age_strict_and_signed_fitness
+    self.assertEqual(energy.recover(record, 1, [1, 8], [32, 24])[12:15], b'\x10\x20\x20')
+AssertionError: b'\x10\x18\x18' != b'\x10  '
+
+----------------------------------------------------------------------
+Ran 18 tests in 0.003s
+
+FAILED (failures=1)
+
+SMALL_DRAW 2->3: KILLED exit=1
+test_exact_draw_consumption (tests.test_model_energy.Energy.test_exact_draw_consumption) ... FAIL
+test_form_instruction_and_injury_store (tests.test_model_energy.Energy.test_form_instruction_and_injury_store) ... ok
+test_healing_draw_literal_upper_bound (tests.test_model_energy.Energy.test_healing_draw_literal_upper_bound) ... ok
+test_injured_draw_and_recovery_gate (tests.test_model_energy.Energy.test_injured_draw_and_recovery_gate) ... ok
+test_negative_energy_uses_noninjured_branch_but_gate_draw (tests.test_model_energy.Energy.test_negative_energy_uses_noninjured_branch_but_gate_draw) ... ok
+test_quick_period_and_signed_floor (tests.test_model_energy.Energy.test_quick_period_and_signed_floor) ... ok
+test_recovery_bounds_age_strict_and_signed_fitness (tests.test_model_energy.Energy.test_recovery_bounds_age_strict_and_signed_fitness) ... ok
+test_recovery_flag_nonzero_draw_order (tests.test_model_energy.Energy.test_recovery_flag_nonzero_draw_order) ... ok
+test_recovery_flag_zero_extra_below_16 (tests.test_model_energy.Energy.test_recovery_flag_zero_extra_below_16) ... ok
+test_rest_draw_literal_upper_bound (tests.test_model_energy.Energy.test_rest_draw_literal_upper_bound) ... ok
+test_restore_not_full_32 (tests.test_model_energy.Energy.test_restore_not_full_32) ... ok
+test_watched_strict_threshold_and_reset (tests.test_model_energy.Energy.test_watched_strict_threshold_and_reset) ... ok
+test_a_difference_outside_the_declared_fields_is_rejected (tests.test_model_energy.Supersession.test_a_difference_outside_the_declared_fields_is_rejected) ... ok
+test_a_missing_successor_fails (tests.test_model_energy.Supersession.test_a_missing_successor_fails) ... ok
+test_an_earlier_successor_is_rejected (tests.test_model_energy.Supersession.test_an_earlier_successor_is_rejected) ... ok
+test_an_unrelated_successor_is_rejected (tests.test_model_energy.Supersession.test_an_unrelated_successor_is_rejected) ... ok
+test_superseding_a_complete_record_is_rejected (tests.test_model_energy.Supersession.test_superseding_a_complete_record_is_rejected) ... ok
+test_the_committed_supersession_is_selected_and_printed (tests.test_model_energy.Supersession.test_the_committed_supersession_is_selected_and_printed) ... ok
+
+======================================================================
+FAIL: test_exact_draw_consumption (tests.test_model_energy.Energy.test_exact_draw_consumption)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T31/tests/test_model_energy.py", line 145, in test_exact_draw_consumption
+    with self.assertRaises(ValueError):
+AssertionError: ValueError not raised
+
+----------------------------------------------------------------------
+Ran 18 tests in 0.003s
+
+FAILED (failures=1)
+
+SMALL_DRAW 2->1: KILLED exit=1
+test_exact_draw_consumption (tests.test_model_energy.Energy.test_exact_draw_consumption) ... ok
+test_form_instruction_and_injury_store (tests.test_model_energy.Energy.test_form_instruction_and_injury_store) ... ok
+test_healing_draw_literal_upper_bound (tests.test_model_energy.Energy.test_healing_draw_literal_upper_bound) ... ok
+test_injured_draw_and_recovery_gate (tests.test_model_energy.Energy.test_injured_draw_and_recovery_gate) ... ok
+test_negative_energy_uses_noninjured_branch_but_gate_draw (tests.test_model_energy.Energy.test_negative_energy_uses_noninjured_branch_but_gate_draw) ... ERROR
+test_quick_period_and_signed_floor (tests.test_model_energy.Energy.test_quick_period_and_signed_floor) ... ok
+test_recovery_bounds_age_strict_and_signed_fitness (tests.test_model_energy.Energy.test_recovery_bounds_age_strict_and_signed_fitness) ... ok
+test_recovery_flag_nonzero_draw_order (tests.test_model_energy.Energy.test_recovery_flag_nonzero_draw_order) ... ERROR
+test_recovery_flag_zero_extra_below_16 (tests.test_model_energy.Energy.test_recovery_flag_zero_extra_below_16) ... ERROR
+test_rest_draw_literal_upper_bound (tests.test_model_energy.Energy.test_rest_draw_literal_upper_bound) ... ok
+test_restore_not_full_32 (tests.test_model_energy.Energy.test_restore_not_full_32) ... ok
+test_watched_strict_threshold_and_reset (tests.test_model_energy.Energy.test_watched_strict_threshold_and_reset) ... ok
+test_a_difference_outside_the_declared_fields_is_rejected (tests.test_model_energy.Supersession.test_a_difference_outside_the_declared_fields_is_rejected) ... ok
+test_a_missing_successor_fails (tests.test_model_energy.Supersession.test_a_missing_successor_fails) ... ok
+test_an_earlier_successor_is_rejected (tests.test_model_energy.Supersession.test_an_earlier_successor_is_rejected) ... ok
+test_an_unrelated_successor_is_rejected (tests.test_model_energy.Supersession.test_an_unrelated_successor_is_rejected) ... ok
+test_superseding_a_complete_record_is_rejected (tests.test_model_energy.Supersession.test_superseding_a_complete_record_is_rejected) ... FAIL
+test_the_committed_supersession_is_selected_and_printed (tests.test_model_energy.Supersession.test_the_committed_supersession_is_selected_and_printed) ... ERROR
+
+======================================================================
+ERROR: test_negative_energy_uses_noninjured_branch_but_gate_draw (tests.test_model_energy.Energy.test_negative_energy_uses_noninjured_branch_but_gate_draw)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T31/tests/test_model_energy.py", line 132, in test_negative_energy_uses_noninjured_branch_but_gate_draw
+    self.assertEqual(energy.recover(record, 1, [2, 8, 3], [32, 24])[12:15], b'\x10\x16\xff')
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T31/runtime/model/energy.py", line 107, in recover
+    first = draw(SMALL_DRAW)
+            ^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T31/runtime/model/energy.py", line 100, in draw
+    raise ValueError(f'draw {value} outside 1..{bound}')
+ValueError: draw 2 outside 1..1
+
+======================================================================
+ERROR: test_recovery_flag_nonzero_draw_order (tests.test_model_energy.Energy.test_recovery_flag_nonzero_draw_order)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T31/tests/test_model_energy.py", line 115, in test_recovery_flag_nonzero_draw_order
+    self.assertEqual(energy.recover(record, 1, [2, 8], [32, 24])[12:15], b'\x10\x16\x16')
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T31/runtime/model/energy.py", line 107, in recover
+    first = draw(SMALL_DRAW)
+            ^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T31/runtime/model/energy.py", line 100, in draw
+    raise ValueError(f'draw {value} outside 1..{bound}')
+ValueError: draw 2 outside 1..1
+
+======================================================================
+ERROR: test_recovery_flag_zero_extra_below_16 (tests.test_model_energy.Energy.test_recovery_flag_zero_extra_below_16)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T31/tests/test_model_energy.py", line 121, in test_recovery_flag_zero_extra_below_16
+    self.assertEqual(energy.recover(record, 0, [2, 2], [32, 24])[12:15], b'\x10\x10\x10')
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T31/runtime/model/energy.py", line 111, in recover
+    value += draw(SMALL_DRAW) - first
+             ^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T31/runtime/model/energy.py", line 100, in draw
+    raise ValueError(f'draw {value} outside 1..{bound}')
+ValueError: draw 2 outside 1..1
+
+======================================================================
+ERROR: test_the_committed_supersession_is_selected_and_printed (tests.test_model_energy.Supersession.test_the_committed_supersession_is_selected_and_printed)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T31/experiments/E017-q015-energy/check_energy.py", line 103, in select_records
+    compare(case)
+  File "/home/diego/projects/goal2-archaeology-work/T31/experiments/E017-q015-energy/check_energy.py", line 36, in compare
+    players[word] = energy.recover(old, op['flag'], op['draws'], op['caps'])
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T31/runtime/model/energy.py", line 107, in recover
+    first = draw(SMALL_DRAW)
+            ^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T31/runtime/model/energy.py", line 100, in draw
+    raise ValueError(f'draw {value} outside 1..{bound}')
+ValueError: draw 2 outside 1..1
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T31/tests/test_model_energy.py", line 45, in test_the_committed_supersession_is_selected_and_printed
+    selected = checker.select_records(files, DECLARED)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T31/experiments/E017-q015-energy/check_energy.py", line 106, in select_records
+    raise ValueError(f'{name} fails otherwise than declared: {e}')
+ValueError: recovery-001.json fails otherwise than declared: draw 2 outside 1..1
+
+======================================================================
+FAIL: test_superseding_a_complete_record_is_rejected (tests.test_model_energy.Supersession.test_superseding_a_complete_record_is_rejected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T31/experiments/E017-q015-energy/check_energy.py", line 103, in select_records
+    compare(case)
+  File "/home/diego/projects/goal2-archaeology-work/T31/experiments/E017-q015-energy/check_energy.py", line 36, in compare
+    players[word] = energy.recover(old, op['flag'], op['draws'], op['caps'])
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T31/runtime/model/energy.py", line 107, in recover
+    first = draw(SMALL_DRAW)
+            ^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T31/runtime/model/energy.py", line 100, in draw
+    raise ValueError(f'draw {value} outside 1..{bound}')
+ValueError: draw 2 outside 1..1
+
+During handling of the above exception, another exception occurred:
+
+ValueError: a.json fails otherwise than declared: draw 2 outside 1..1
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T31/tests/test_model_energy.py", line 60, in test_superseding_a_complete_record_is_rejected
+    with self.assertRaisesRegex(ValueError, 'complete on its own'):
+AssertionError: "complete on its own" does not match "a.json fails otherwise than declared: draw 2 outside 1..1"
+
+----------------------------------------------------------------------
+Ran 18 tests in 0.004s
+
+FAILED (failures=1, errors=4)
+
+LARGE_DRAW 8->9: KILLED exit=1
+test_exact_draw_consumption (tests.test_model_energy.Energy.test_exact_draw_consumption) ... FAIL
+test_form_instruction_and_injury_store (tests.test_model_energy.Energy.test_form_instruction_and_injury_store) ... ok
+test_healing_draw_literal_upper_bound (tests.test_model_energy.Energy.test_healing_draw_literal_upper_bound) ... ok
+test_injured_draw_and_recovery_gate (tests.test_model_energy.Energy.test_injured_draw_and_recovery_gate) ... ok
+test_negative_energy_uses_noninjured_branch_but_gate_draw (tests.test_model_energy.Energy.test_negative_energy_uses_noninjured_branch_but_gate_draw) ... ok
+test_quick_period_and_signed_floor (tests.test_model_energy.Energy.test_quick_period_and_signed_floor) ... ok
+test_recovery_bounds_age_strict_and_signed_fitness (tests.test_model_energy.Energy.test_recovery_bounds_age_strict_and_signed_fitness) ... ok
+test_recovery_flag_nonzero_draw_order (tests.test_model_energy.Energy.test_recovery_flag_nonzero_draw_order) ... ok
+test_recovery_flag_zero_extra_below_16 (tests.test_model_energy.Energy.test_recovery_flag_zero_extra_below_16) ... ok
+test_rest_draw_literal_upper_bound (tests.test_model_energy.Energy.test_rest_draw_literal_upper_bound) ... ok
+test_restore_not_full_32 (tests.test_model_energy.Energy.test_restore_not_full_32) ... ok
+test_watched_strict_threshold_and_reset (tests.test_model_energy.Energy.test_watched_strict_threshold_and_reset) ... ok
+test_a_difference_outside_the_declared_fields_is_rejected (tests.test_model_energy.Supersession.test_a_difference_outside_the_declared_fields_is_rejected) ... ok
+test_a_missing_successor_fails (tests.test_model_energy.Supersession.test_a_missing_successor_fails) ... ok
+test_an_earlier_successor_is_rejected (tests.test_model_energy.Supersession.test_an_earlier_successor_is_rejected) ... ok
+test_an_unrelated_successor_is_rejected (tests.test_model_energy.Supersession.test_an_unrelated_successor_is_rejected) ... ok
+test_superseding_a_complete_record_is_rejected (tests.test_model_energy.Supersession.test_superseding_a_complete_record_is_rejected) ... ok
+test_the_committed_supersession_is_selected_and_printed (tests.test_model_energy.Supersession.test_the_committed_supersession_is_selected_and_printed) ... ok
+
+======================================================================
+FAIL: test_exact_draw_consumption (tests.test_model_energy.Energy.test_exact_draw_consumption)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T31/tests/test_model_energy.py", line 145, in test_exact_draw_consumption
+    with self.assertRaises(ValueError):
+AssertionError: ValueError not raised
+
+----------------------------------------------------------------------
+Ran 18 tests in 0.004s
+
+FAILED (failures=1)
+
+LARGE_DRAW 8->7: KILLED exit=1
+test_exact_draw_consumption (tests.test_model_energy.Energy.test_exact_draw_consumption) ... ok
+test_form_instruction_and_injury_store (tests.test_model_energy.Energy.test_form_instruction_and_injury_store) ... ok
+test_healing_draw_literal_upper_bound (tests.test_model_energy.Energy.test_healing_draw_literal_upper_bound) ... ok
+test_injured_draw_and_recovery_gate (tests.test_model_energy.Energy.test_injured_draw_and_recovery_gate) ... ERROR
+test_negative_energy_uses_noninjured_branch_but_gate_draw (tests.test_model_energy.Energy.test_negative_energy_uses_noninjured_branch_but_gate_draw) ... ERROR
+test_quick_period_and_signed_floor (tests.test_model_energy.Energy.test_quick_period_and_signed_floor) ... ok
+test_recovery_bounds_age_strict_and_signed_fitness (tests.test_model_energy.Energy.test_recovery_bounds_age_strict_and_signed_fitness) ... ERROR
+test_recovery_flag_nonzero_draw_order (tests.test_model_energy.Energy.test_recovery_flag_nonzero_draw_order) ... ERROR
+test_recovery_flag_zero_extra_below_16 (tests.test_model_energy.Energy.test_recovery_flag_zero_extra_below_16) ... ok
+test_rest_draw_literal_upper_bound (tests.test_model_energy.Energy.test_rest_draw_literal_upper_bound) ... ok
+test_restore_not_full_32 (tests.test_model_energy.Energy.test_restore_not_full_32) ... ok
+test_watched_strict_threshold_and_reset (tests.test_model_energy.Energy.test_watched_strict_threshold_and_reset) ... ok
+test_a_difference_outside_the_declared_fields_is_rejected (tests.test_model_energy.Supersession.test_a_difference_outside_the_declared_fields_is_rejected) ... ok
+test_a_missing_successor_fails (tests.test_model_energy.Supersession.test_a_missing_successor_fails) ... ok
+test_an_earlier_successor_is_rejected (tests.test_model_energy.Supersession.test_an_earlier_successor_is_rejected) ... ok
+test_an_unrelated_successor_is_rejected (tests.test_model_energy.Supersession.test_an_unrelated_successor_is_rejected) ... ok
+test_superseding_a_complete_record_is_rejected (tests.test_model_energy.Supersession.test_superseding_a_complete_record_is_rejected) ... ok
+test_the_committed_supersession_is_selected_and_printed (tests.test_model_energy.Supersession.test_the_committed_supersession_is_selected_and_printed) ... ok
+
+======================================================================
+ERROR: test_injured_draw_and_recovery_gate (tests.test_model_energy.Energy.test_injured_draw_and_recovery_gate)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T31/tests/test_model_energy.py", line 127, in test_injured_draw_and_recovery_gate
+    self.assertEqual(energy.recover(record, 1, [1, 8, 2], [32, 24])[12:15], b'\x10\x09\x00')
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T31/runtime/model/energy.py", line 105, in recover
+    value += draw(SMALL_DRAW) - draw(LARGE_DRAW)
+                                ^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T31/runtime/model/energy.py", line 100, in draw
+    raise ValueError(f'draw {value} outside 1..{bound}')
+ValueError: draw 8 outside 1..7
+
+======================================================================
+ERROR: test_negative_energy_uses_noninjured_branch_but_gate_draw (tests.test_model_energy.Energy.test_negative_energy_uses_noninjured_branch_but_gate_draw)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T31/tests/test_model_energy.py", line 132, in test_negative_energy_uses_noninjured_branch_but_gate_draw
+    self.assertEqual(energy.recover(record, 1, [2, 8, 3], [32, 24])[12:15], b'\x10\x16\xff')
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T31/runtime/model/energy.py", line 108, in recover
+    value += draw(LARGE_DRAW) - first
+             ^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T31/runtime/model/energy.py", line 100, in draw
+    raise ValueError(f'draw {value} outside 1..{bound}')
+ValueError: draw 8 outside 1..7
+
+======================================================================
+ERROR: test_recovery_bounds_age_strict_and_signed_fitness (tests.test_model_energy.Energy.test_recovery_bounds_age_strict_and_signed_fitness)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T31/tests/test_model_energy.py", line 136, in test_recovery_bounds_age_strict_and_signed_fitness
+    self.assertEqual(energy.recover(record, 1, [1, 8], [32, 24])[12:15], b'\x10\x20\x20')
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T31/runtime/model/energy.py", line 108, in recover
+    value += draw(LARGE_DRAW) - first
+             ^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T31/runtime/model/energy.py", line 100, in draw
+    raise ValueError(f'draw {value} outside 1..{bound}')
+ValueError: draw 8 outside 1..7
+
+======================================================================
+ERROR: test_recovery_flag_nonzero_draw_order (tests.test_model_energy.Energy.test_recovery_flag_nonzero_draw_order)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T31/tests/test_model_energy.py", line 115, in test_recovery_flag_nonzero_draw_order
+    self.assertEqual(energy.recover(record, 1, [2, 8], [32, 24])[12:15], b'\x10\x16\x16')
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T31/runtime/model/energy.py", line 108, in recover
+    value += draw(LARGE_DRAW) - first
+             ^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T31/runtime/model/energy.py", line 100, in draw
+    raise ValueError(f'draw {value} outside 1..{bound}')
+ValueError: draw 8 outside 1..7
+
+----------------------------------------------------------------------
+Ran 18 tests in 0.004s
+
+FAILED (errors=4)
+
+REST_DRAW 3->4: KILLED exit=1
+test_exact_draw_consumption (tests.test_model_energy.Energy.test_exact_draw_consumption) ... ok
+test_form_instruction_and_injury_store (tests.test_model_energy.Energy.test_form_instruction_and_injury_store) ... ok
+test_healing_draw_literal_upper_bound (tests.test_model_energy.Energy.test_healing_draw_literal_upper_bound) ... ok
+test_injured_draw_and_recovery_gate (tests.test_model_energy.Energy.test_injured_draw_and_recovery_gate) ... ok
+test_negative_energy_uses_noninjured_branch_but_gate_draw (tests.test_model_energy.Energy.test_negative_energy_uses_noninjured_branch_but_gate_draw) ... ok
+test_quick_period_and_signed_floor (tests.test_model_energy.Energy.test_quick_period_and_signed_floor) ... ok
+test_recovery_bounds_age_strict_and_signed_fitness (tests.test_model_energy.Energy.test_recovery_bounds_age_strict_and_signed_fitness) ... ok
+test_recovery_flag_nonzero_draw_order (tests.test_model_energy.Energy.test_recovery_flag_nonzero_draw_order) ... ok
+test_recovery_flag_zero_extra_below_16 (tests.test_model_energy.Energy.test_recovery_flag_zero_extra_below_16) ... ok
+test_rest_draw_literal_upper_bound (tests.test_model_energy.Energy.test_rest_draw_literal_upper_bound) ... FAIL
+test_restore_not_full_32 (tests.test_model_energy.Energy.test_restore_not_full_32) ... ok
+test_watched_strict_threshold_and_reset (tests.test_model_energy.Energy.test_watched_strict_threshold_and_reset) ... ok
+test_a_difference_outside_the_declared_fields_is_rejected (tests.test_model_energy.Supersession.test_a_difference_outside_the_declared_fields_is_rejected) ... ok
+test_a_missing_successor_fails (tests.test_model_energy.Supersession.test_a_missing_successor_fails) ... ok
+test_an_earlier_successor_is_rejected (tests.test_model_energy.Supersession.test_an_earlier_successor_is_rejected) ... ok
+test_an_unrelated_successor_is_rejected (tests.test_model_energy.Supersession.test_an_unrelated_successor_is_rejected) ... ok
+test_superseding_a_complete_record_is_rejected (tests.test_model_energy.Supersession.test_superseding_a_complete_record_is_rejected) ... ok
+test_the_committed_supersession_is_selected_and_printed (tests.test_model_energy.Supersession.test_the_committed_supersession_is_selected_and_printed) ... ok
+
+======================================================================
+FAIL: test_rest_draw_literal_upper_bound (tests.test_model_energy.Energy.test_rest_draw_literal_upper_bound)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T31/tests/test_model_energy.py", line 150, in test_rest_draw_literal_upper_bound
+    with self.assertRaises(ValueError):
+AssertionError: ValueError not raised
+
+----------------------------------------------------------------------
+Ran 18 tests in 0.004s
+
+FAILED (failures=1)
+
+REST_DRAW 3->2: KILLED exit=1
+test_exact_draw_consumption (tests.test_model_energy.Energy.test_exact_draw_consumption) ... ok
+test_form_instruction_and_injury_store (tests.test_model_energy.Energy.test_form_instruction_and_injury_store) ... ok
+test_healing_draw_literal_upper_bound (tests.test_model_energy.Energy.test_healing_draw_literal_upper_bound) ... ok
+test_injured_draw_and_recovery_gate (tests.test_model_energy.Energy.test_injured_draw_and_recovery_gate) ... ok
+test_negative_energy_uses_noninjured_branch_but_gate_draw (tests.test_model_energy.Energy.test_negative_energy_uses_noninjured_branch_but_gate_draw) ... ok
+test_quick_period_and_signed_floor (tests.test_model_energy.Energy.test_quick_period_and_signed_floor) ... ok
+test_recovery_bounds_age_strict_and_signed_fitness (tests.test_model_energy.Energy.test_recovery_bounds_age_strict_and_signed_fitness) ... ok
+test_recovery_flag_nonzero_draw_order (tests.test_model_energy.Energy.test_recovery_flag_nonzero_draw_order) ... ok
+test_recovery_flag_zero_extra_below_16 (tests.test_model_energy.Energy.test_recovery_flag_zero_extra_below_16) ... ERROR
+test_rest_draw_literal_upper_bound (tests.test_model_energy.Energy.test_rest_draw_literal_upper_bound) ... ok
+test_restore_not_full_32 (tests.test_model_energy.Energy.test_restore_not_full_32) ... ok
+test_watched_strict_threshold_and_reset (tests.test_model_energy.Energy.test_watched_strict_threshold_and_reset) ... ok
+test_a_difference_outside_the_declared_fields_is_rejected (tests.test_model_energy.Supersession.test_a_difference_outside_the_declared_fields_is_rejected) ... ok
+test_a_missing_successor_fails (tests.test_model_energy.Supersession.test_a_missing_successor_fails) ... ok
+test_an_earlier_successor_is_rejected (tests.test_model_energy.Supersession.test_an_earlier_successor_is_rejected) ... ok
+test_an_unrelated_successor_is_rejected (tests.test_model_energy.Supersession.test_an_unrelated_successor_is_rejected) ... ok
+test_superseding_a_complete_record_is_rejected (tests.test_model_energy.Supersession.test_superseding_a_complete_record_is_rejected) ... FAIL
+test_the_committed_supersession_is_selected_and_printed (tests.test_model_energy.Supersession.test_the_committed_supersession_is_selected_and_printed) ... ERROR
+
+======================================================================
+ERROR: test_recovery_flag_zero_extra_below_16 (tests.test_model_energy.Energy.test_recovery_flag_zero_extra_below_16)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T31/tests/test_model_energy.py", line 120, in test_recovery_flag_zero_extra_below_16
+    self.assertEqual(energy.recover(record, 0, [3, 1], [32, 24])[12:15], b'\x10\x0f\x0f')
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T31/runtime/model/energy.py", line 110, in recover
+    first = draw(REST_DRAW)
+            ^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T31/runtime/model/energy.py", line 100, in draw
+    raise ValueError(f'draw {value} outside 1..{bound}')
+ValueError: draw 3 outside 1..2
+
+======================================================================
+ERROR: test_the_committed_supersession_is_selected_and_printed (tests.test_model_energy.Supersession.test_the_committed_supersession_is_selected_and_printed)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T31/experiments/E017-q015-energy/check_energy.py", line 103, in select_records
+    compare(case)
+  File "/home/diego/projects/goal2-archaeology-work/T31/experiments/E017-q015-energy/check_energy.py", line 36, in compare
+    players[word] = energy.recover(old, op['flag'], op['draws'], op['caps'])
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T31/runtime/model/energy.py", line 110, in recover
+    first = draw(REST_DRAW)
+            ^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T31/runtime/model/energy.py", line 100, in draw
+    raise ValueError(f'draw {value} outside 1..{bound}')
+ValueError: draw 3 outside 1..2
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T31/tests/test_model_energy.py", line 45, in test_the_committed_supersession_is_selected_and_printed
+    selected = checker.select_records(files, DECLARED)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T31/experiments/E017-q015-energy/check_energy.py", line 106, in select_records
+    raise ValueError(f'{name} fails otherwise than declared: {e}')
+ValueError: recovery-001.json fails otherwise than declared: draw 3 outside 1..2
+
+======================================================================
+FAIL: test_superseding_a_complete_record_is_rejected (tests.test_model_energy.Supersession.test_superseding_a_complete_record_is_rejected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T31/experiments/E017-q015-energy/check_energy.py", line 103, in select_records
+    compare(case)
+  File "/home/diego/projects/goal2-archaeology-work/T31/experiments/E017-q015-energy/check_energy.py", line 36, in compare
+    players[word] = energy.recover(old, op['flag'], op['draws'], op['caps'])
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T31/runtime/model/energy.py", line 110, in recover
+    first = draw(REST_DRAW)
+            ^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T31/runtime/model/energy.py", line 100, in draw
+    raise ValueError(f'draw {value} outside 1..{bound}')
+ValueError: draw 3 outside 1..2
+
+During handling of the above exception, another exception occurred:
+
+ValueError: a.json fails otherwise than declared: draw 3 outside 1..2
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T31/tests/test_model_energy.py", line 60, in test_superseding_a_complete_record_is_rejected
+    with self.assertRaisesRegex(ValueError, 'complete on its own'):
+AssertionError: "complete on its own" does not match "a.json fails otherwise than declared: draw 3 outside 1..2"
+
+----------------------------------------------------------------------
+Ran 18 tests in 0.005s
+
+FAILED (failures=1, errors=2)
+
+HEAL_DRAW 3->4: KILLED exit=1
+test_exact_draw_consumption (tests.test_model_energy.Energy.test_exact_draw_consumption) ... ok
+test_form_instruction_and_injury_store (tests.test_model_energy.Energy.test_form_instruction_and_injury_store) ... ok
+test_healing_draw_literal_upper_bound (tests.test_model_energy.Energy.test_healing_draw_literal_upper_bound) ... FAIL
+test_injured_draw_and_recovery_gate (tests.test_model_energy.Energy.test_injured_draw_and_recovery_gate) ... ok
+test_negative_energy_uses_noninjured_branch_but_gate_draw (tests.test_model_energy.Energy.test_negative_energy_uses_noninjured_branch_but_gate_draw) ... ok
+test_quick_period_and_signed_floor (tests.test_model_energy.Energy.test_quick_period_and_signed_floor) ... ok
+test_recovery_bounds_age_strict_and_signed_fitness (tests.test_model_energy.Energy.test_recovery_bounds_age_strict_and_signed_fitness) ... ok
+test_recovery_flag_nonzero_draw_order (tests.test_model_energy.Energy.test_recovery_flag_nonzero_draw_order) ... ok
+test_recovery_flag_zero_extra_below_16 (tests.test_model_energy.Energy.test_recovery_flag_zero_extra_below_16) ... ok
+test_rest_draw_literal_upper_bound (tests.test_model_energy.Energy.test_rest_draw_literal_upper_bound) ... ok
+test_restore_not_full_32 (tests.test_model_energy.Energy.test_restore_not_full_32) ... ok
+test_watched_strict_threshold_and_reset (tests.test_model_energy.Energy.test_watched_strict_threshold_and_reset) ... ok
+test_a_difference_outside_the_declared_fields_is_rejected (tests.test_model_energy.Supersession.test_a_difference_outside_the_declared_fields_is_rejected) ... ok
+test_a_missing_successor_fails (tests.test_model_energy.Supersession.test_a_missing_successor_fails) ... ok
+test_an_earlier_successor_is_rejected (tests.test_model_energy.Supersession.test_an_earlier_successor_is_rejected) ... ok
+test_an_unrelated_successor_is_rejected (tests.test_model_energy.Supersession.test_an_unrelated_successor_is_rejected) ... ok
+test_superseding_a_complete_record_is_rejected (tests.test_model_energy.Supersession.test_superseding_a_complete_record_is_rejected) ... ok
+test_the_committed_supersession_is_selected_and_printed (tests.test_model_energy.Supersession.test_the_committed_supersession_is_selected_and_printed) ... ok
+
+======================================================================
+FAIL: test_healing_draw_literal_upper_bound (tests.test_model_energy.Energy.test_healing_draw_literal_upper_bound)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T31/tests/test_model_energy.py", line 155, in test_healing_draw_literal_upper_bound
+    with self.assertRaises(ValueError):
+AssertionError: ValueError not raised
+
+----------------------------------------------------------------------
+Ran 18 tests in 0.004s
+
+FAILED (failures=1)
+
+HEAL_DRAW 3->2: KILLED exit=1
+test_exact_draw_consumption (tests.test_model_energy.Energy.test_exact_draw_consumption) ... ok
+test_form_instruction_and_injury_store (tests.test_model_energy.Energy.test_form_instruction_and_injury_store) ... ok
+test_healing_draw_literal_upper_bound (tests.test_model_energy.Energy.test_healing_draw_literal_upper_bound) ... ok
+test_injured_draw_and_recovery_gate (tests.test_model_energy.Energy.test_injured_draw_and_recovery_gate) ... ok
+test_negative_energy_uses_noninjured_branch_but_gate_draw (tests.test_model_energy.Energy.test_negative_energy_uses_noninjured_branch_but_gate_draw) ... ERROR
+test_quick_period_and_signed_floor (tests.test_model_energy.Energy.test_quick_period_and_signed_floor) ... ok
+test_recovery_bounds_age_strict_and_signed_fitness (tests.test_model_energy.Energy.test_recovery_bounds_age_strict_and_signed_fitness) ... ok
+test_recovery_flag_nonzero_draw_order (tests.test_model_energy.Energy.test_recovery_flag_nonzero_draw_order) ... ok
+test_recovery_flag_zero_extra_below_16 (tests.test_model_energy.Energy.test_recovery_flag_zero_extra_below_16) ... ok
+test_rest_draw_literal_upper_bound (tests.test_model_energy.Energy.test_rest_draw_literal_upper_bound) ... ok
+test_restore_not_full_32 (tests.test_model_energy.Energy.test_restore_not_full_32) ... ok
+test_watched_strict_threshold_and_reset (tests.test_model_energy.Energy.test_watched_strict_threshold_and_reset) ... ok
+test_a_difference_outside_the_declared_fields_is_rejected (tests.test_model_energy.Supersession.test_a_difference_outside_the_declared_fields_is_rejected) ... ok
+test_a_missing_successor_fails (tests.test_model_energy.Supersession.test_a_missing_successor_fails) ... ok
+test_an_earlier_successor_is_rejected (tests.test_model_energy.Supersession.test_an_earlier_successor_is_rejected) ... ok
+test_an_unrelated_successor_is_rejected (tests.test_model_energy.Supersession.test_an_unrelated_successor_is_rejected) ... ok
+test_superseding_a_complete_record_is_rejected (tests.test_model_energy.Supersession.test_superseding_a_complete_record_is_rejected) ... ok
+test_the_committed_supersession_is_selected_and_printed (tests.test_model_energy.Supersession.test_the_committed_supersession_is_selected_and_printed) ... ok
+
+======================================================================
+ERROR: test_negative_energy_uses_noninjured_branch_but_gate_draw (tests.test_model_energy.Energy.test_negative_energy_uses_noninjured_branch_but_gate_draw)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T31/tests/test_model_energy.py", line 132, in test_negative_energy_uses_noninjured_branch_but_gate_draw
+    self.assertEqual(energy.recover(record, 1, [2, 8, 3], [32, 24])[12:15], b'\x10\x16\xff')
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T31/runtime/model/energy.py", line 120, in recover
+    if signed(out[ENERGY]) > 0 or draw(HEAL_DRAW) == 1:
+                                  ^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T31/runtime/model/energy.py", line 100, in draw
+    raise ValueError(f'draw {value} outside 1..{bound}')
+ValueError: draw 3 outside 1..2
+
+----------------------------------------------------------------------
+Ran 18 tests in 0.004s
+
+FAILED (errors=1)
+
+FORM_MAX 255->256: KILLED exit=1
+test_exact_draw_consumption (tests.test_model_energy.Energy.test_exact_draw_consumption) ... ok
+test_form_instruction_and_injury_store (tests.test_model_energy.Energy.test_form_instruction_and_injury_store) ... ERROR
+test_healing_draw_literal_upper_bound (tests.test_model_energy.Energy.test_healing_draw_literal_upper_bound) ... ok
+test_injured_draw_and_recovery_gate (tests.test_model_energy.Energy.test_injured_draw_and_recovery_gate) ... ok
+test_negative_energy_uses_noninjured_branch_but_gate_draw (tests.test_model_energy.Energy.test_negative_energy_uses_noninjured_branch_but_gate_draw) ... ok
+test_quick_period_and_signed_floor (tests.test_model_energy.Energy.test_quick_period_and_signed_floor) ... ok
+test_recovery_bounds_age_strict_and_signed_fitness (tests.test_model_energy.Energy.test_recovery_bounds_age_strict_and_signed_fitness) ... ok
+test_recovery_flag_nonzero_draw_order (tests.test_model_energy.Energy.test_recovery_flag_nonzero_draw_order) ... ok
+test_recovery_flag_zero_extra_below_16 (tests.test_model_energy.Energy.test_recovery_flag_zero_extra_below_16) ... ok
+test_rest_draw_literal_upper_bound (tests.test_model_energy.Energy.test_rest_draw_literal_upper_bound) ... ok
+test_restore_not_full_32 (tests.test_model_energy.Energy.test_restore_not_full_32) ... ok
+test_watched_strict_threshold_and_reset (tests.test_model_energy.Energy.test_watched_strict_threshold_and_reset) ... ok
+test_a_difference_outside_the_declared_fields_is_rejected (tests.test_model_energy.Supersession.test_a_difference_outside_the_declared_fields_is_rejected) ... ok
+test_a_missing_successor_fails (tests.test_model_energy.Supersession.test_a_missing_successor_fails) ... ok
+test_an_earlier_successor_is_rejected (tests.test_model_energy.Supersession.test_an_earlier_successor_is_rejected) ... ok
+test_an_unrelated_successor_is_rejected (tests.test_model_energy.Supersession.test_an_unrelated_successor_is_rejected) ... ok
+test_superseding_a_complete_record_is_rejected (tests.test_model_energy.Supersession.test_superseding_a_complete_record_is_rejected) ... ok
+test_the_committed_supersession_is_selected_and_printed (tests.test_model_energy.Supersession.test_the_committed_supersession_is_selected_and_printed) ... ok
+
+======================================================================
+ERROR: test_form_instruction_and_injury_store (tests.test_model_energy.Energy.test_form_instruction_and_injury_store)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T31/tests/test_model_energy.py", line 162, in test_form_instruction_and_injury_store
+    self.assertEqual(energy.form_delta(record, 256)[12:15], b'\xff\x18\x02')
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T31/runtime/model/energy.py", line 74, in form_delta
+    out[FORM] = min(FORM_MAX, max(FLOOR, value))
+    ~~~^^^^^^
+ValueError: byte must be in range(0, 256)
+
+----------------------------------------------------------------------
+Ran 18 tests in 0.005s
+
+FAILED (errors=1)
+
+FORM_MAX 255->254: KILLED exit=1
+test_exact_draw_consumption (tests.test_model_energy.Energy.test_exact_draw_consumption) ... ok
+test_form_instruction_and_injury_store (tests.test_model_energy.Energy.test_form_instruction_and_injury_store) ... FAIL
+test_healing_draw_literal_upper_bound (tests.test_model_energy.Energy.test_healing_draw_literal_upper_bound) ... ok
+test_injured_draw_and_recovery_gate (tests.test_model_energy.Energy.test_injured_draw_and_recovery_gate) ... ok
+test_negative_energy_uses_noninjured_branch_but_gate_draw (tests.test_model_energy.Energy.test_negative_energy_uses_noninjured_branch_but_gate_draw) ... ok
+test_quick_period_and_signed_floor (tests.test_model_energy.Energy.test_quick_period_and_signed_floor) ... ok
+test_recovery_bounds_age_strict_and_signed_fitness (tests.test_model_energy.Energy.test_recovery_bounds_age_strict_and_signed_fitness) ... ok
+test_recovery_flag_nonzero_draw_order (tests.test_model_energy.Energy.test_recovery_flag_nonzero_draw_order) ... ok
+test_recovery_flag_zero_extra_below_16 (tests.test_model_energy.Energy.test_recovery_flag_zero_extra_below_16) ... ok
+test_rest_draw_literal_upper_bound (tests.test_model_energy.Energy.test_rest_draw_literal_upper_bound) ... ok
+test_restore_not_full_32 (tests.test_model_energy.Energy.test_restore_not_full_32) ... ok
+test_watched_strict_threshold_and_reset (tests.test_model_energy.Energy.test_watched_strict_threshold_and_reset) ... ok
+test_a_difference_outside_the_declared_fields_is_rejected (tests.test_model_energy.Supersession.test_a_difference_outside_the_declared_fields_is_rejected) ... ok
+test_a_missing_successor_fails (tests.test_model_energy.Supersession.test_a_missing_successor_fails) ... ok
+test_an_earlier_successor_is_rejected (tests.test_model_energy.Supersession.test_an_earlier_successor_is_rejected) ... ok
+test_an_unrelated_successor_is_rejected (tests.test_model_energy.Supersession.test_an_unrelated_successor_is_rejected) ... ok
+test_superseding_a_complete_record_is_rejected (tests.test_model_energy.Supersession.test_superseding_a_complete_record_is_rejected) ... ok
+test_the_committed_supersession_is_selected_and_printed (tests.test_model_energy.Supersession.test_the_committed_supersession_is_selected_and_printed) ... ok
+
+======================================================================
+FAIL: test_form_instruction_and_injury_store (tests.test_model_energy.Energy.test_form_instruction_and_injury_store)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T31/tests/test_model_energy.py", line 162, in test_form_instruction_and_injury_store
+    self.assertEqual(energy.form_delta(record, 256)[12:15], b'\xff\x18\x02')
+AssertionError: b'\xfe\x18\x02' != b'\xff\x18\x02'
+
+----------------------------------------------------------------------
+Ran 18 tests in 0.004s
+
+FAILED (failures=1)
+
+watched floor unsigned: KILLED exit=1
+test_exact_draw_consumption (tests.test_model_energy.Energy.test_exact_draw_consumption) ... ok
+test_form_instruction_and_injury_store (tests.test_model_energy.Energy.test_form_instruction_and_injury_store) ... ok
+test_healing_draw_literal_upper_bound (tests.test_model_energy.Energy.test_healing_draw_literal_upper_bound) ... ok
+test_injured_draw_and_recovery_gate (tests.test_model_energy.Energy.test_injured_draw_and_recovery_gate) ... ok
+test_negative_energy_uses_noninjured_branch_but_gate_draw (tests.test_model_energy.Energy.test_negative_energy_uses_noninjured_branch_but_gate_draw) ... ok
+test_quick_period_and_signed_floor (tests.test_model_energy.Energy.test_quick_period_and_signed_floor) ... ok
+test_recovery_bounds_age_strict_and_signed_fitness (tests.test_model_energy.Energy.test_recovery_bounds_age_strict_and_signed_fitness) ... ok
+test_recovery_flag_nonzero_draw_order (tests.test_model_energy.Energy.test_recovery_flag_nonzero_draw_order) ... ok
+test_recovery_flag_zero_extra_below_16 (tests.test_model_energy.Energy.test_recovery_flag_zero_extra_below_16) ... ok
+test_rest_draw_literal_upper_bound (tests.test_model_energy.Energy.test_rest_draw_literal_upper_bound) ... ok
+test_restore_not_full_32 (tests.test_model_energy.Energy.test_restore_not_full_32) ... ok
+test_watched_strict_threshold_and_reset (tests.test_model_energy.Energy.test_watched_strict_threshold_and_reset) ... FAIL
+test_a_difference_outside_the_declared_fields_is_rejected (tests.test_model_energy.Supersession.test_a_difference_outside_the_declared_fields_is_rejected) ... ok
+test_a_missing_successor_fails (tests.test_model_energy.Supersession.test_a_missing_successor_fails) ... ok
+test_an_earlier_successor_is_rejected (tests.test_model_energy.Supersession.test_an_earlier_successor_is_rejected) ... ok
+test_an_unrelated_successor_is_rejected (tests.test_model_energy.Supersession.test_an_unrelated_successor_is_rejected) ... ok
+test_superseding_a_complete_record_is_rejected (tests.test_model_energy.Supersession.test_superseding_a_complete_record_is_rejected) ... ok
+test_the_committed_supersession_is_selected_and_printed (tests.test_model_energy.Supersession.test_the_committed_supersession_is_selected_and_printed) ... ok
+
+======================================================================
+FAIL: test_watched_strict_threshold_and_reset (tests.test_model_energy.Energy.test_watched_strict_threshold_and_reset)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T31/tests/test_model_energy.py", line 104, in test_watched_strict_threshold_and_reset
+    self.assertEqual(energy.watched_step(r, 181, True), (r, 0))
+AssertionError: Tuples differ: (b'\x[17 chars]00\x00\x00\x00\x00\x00\x00\x10\x18\x7f\x00\x00\x00\x00\x00', 0) != (b'\x[17 chars]00\x00\x00\x00\x00\x00\x00\x10\x18\x80\x00\x00\x00\x00\x00', 0)
+
+First differing element 0:
+b'\x00\x1e\x19\x00@\x00\x00\x00\x00\x00\x00\x00\x10\x18\x7f\x00\x00\x00\x00\x00'
+b'\x00\x1e\x19\x00@\x00\x00\x00\x00\x00\x00\x00\x10\x18\x80\x00\x00\x00\x00\x00'
+
+- (b'\x00\x1e\x19\x00@\x00\x00\x00\x00\x00\x00\x00\x10\x18\x7f\x00'
+?                                                           ^^
+
++ (b'\x00\x1e\x19\x00@\x00\x00\x00\x00\x00\x00\x00\x10\x18\x80\x00'
+?                                                           ^^
+
+   b'\x00\x00\x00\x00',
+   0)
+
+----------------------------------------------------------------------
+Ran 18 tests in 0.004s
+
+FAILED (failures=1)
+
+watched floor >=: KILLED exit=1
+test_exact_draw_consumption (tests.test_model_energy.Energy.test_exact_draw_consumption) ... ok
+test_form_instruction_and_injury_store (tests.test_model_energy.Energy.test_form_instruction_and_injury_store) ... ok
+test_healing_draw_literal_upper_bound (tests.test_model_energy.Energy.test_healing_draw_literal_upper_bound) ... ok
+test_injured_draw_and_recovery_gate (tests.test_model_energy.Energy.test_injured_draw_and_recovery_gate) ... ok
+test_negative_energy_uses_noninjured_branch_but_gate_draw (tests.test_model_energy.Energy.test_negative_energy_uses_noninjured_branch_but_gate_draw) ... ok
+test_quick_period_and_signed_floor (tests.test_model_energy.Energy.test_quick_period_and_signed_floor) ... ok
+test_recovery_bounds_age_strict_and_signed_fitness (tests.test_model_energy.Energy.test_recovery_bounds_age_strict_and_signed_fitness) ... ok
+test_recovery_flag_nonzero_draw_order (tests.test_model_energy.Energy.test_recovery_flag_nonzero_draw_order) ... ok
+test_recovery_flag_zero_extra_below_16 (tests.test_model_energy.Energy.test_recovery_flag_zero_extra_below_16) ... ok
+test_rest_draw_literal_upper_bound (tests.test_model_energy.Energy.test_rest_draw_literal_upper_bound) ... ok
+test_restore_not_full_32 (tests.test_model_energy.Energy.test_restore_not_full_32) ... ok
+test_watched_strict_threshold_and_reset (tests.test_model_energy.Energy.test_watched_strict_threshold_and_reset) ... FAIL
+test_a_difference_outside_the_declared_fields_is_rejected (tests.test_model_energy.Supersession.test_a_difference_outside_the_declared_fields_is_rejected) ... ok
+test_a_missing_successor_fails (tests.test_model_energy.Supersession.test_a_missing_successor_fails) ... ok
+test_an_earlier_successor_is_rejected (tests.test_model_energy.Supersession.test_an_earlier_successor_is_rejected) ... ok
+test_an_unrelated_successor_is_rejected (tests.test_model_energy.Supersession.test_an_unrelated_successor_is_rejected) ... ok
+test_superseding_a_complete_record_is_rejected (tests.test_model_energy.Supersession.test_superseding_a_complete_record_is_rejected) ... ok
+test_the_committed_supersession_is_selected_and_printed (tests.test_model_energy.Supersession.test_the_committed_supersession_is_selected_and_printed) ... ok
+
+======================================================================
+FAIL: test_watched_strict_threshold_and_reset (tests.test_model_energy.Energy.test_watched_strict_threshold_and_reset)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T31/tests/test_model_energy.py", line 104, in test_watched_strict_threshold_and_reset
+    self.assertEqual(energy.watched_step(r, 181, True), (r, 0))
+AssertionError: Tuples differ: (b'\x[17 chars]00\x00\x00\x00\x00\x00\x00\x10\x18\x00\x00\x00\x00\x00\x00', 0) != (b'\x[17 chars]00\x00\x00\x00\x00\x00\x00\x10\x18\x01\x00\x00\x00\x00\x00', 0)
+
+First differing element 0:
+b'\x00\x1e\x19\x00@\x00\x00\x00\x00\x00\x00\x00\x10\x18\x00\x00\x00\x00\x00\x00'
+b'\x00\x1e\x19\x00@\x00\x00\x00\x00\x00\x00\x00\x10\x18\x01\x00\x00\x00\x00\x00'
+
+- (b'\x00\x1e\x19\x00@\x00\x00\x00\x00\x00\x00\x00\x10\x18\x00\x00'
+?                                                            ^
+
++ (b'\x00\x1e\x19\x00@\x00\x00\x00\x00\x00\x00\x00\x10\x18\x01\x00'
+?                                                            ^
+
+   b'\x00\x00\x00\x00',
+   0)
+
+----------------------------------------------------------------------
+Ran 18 tests in 0.004s
+
+FAILED (failures=1)
+
+quick floor unsigned: KILLED exit=1
+test_exact_draw_consumption (tests.test_model_energy.Energy.test_exact_draw_consumption) ... ok
+test_form_instruction_and_injury_store (tests.test_model_energy.Energy.test_form_instruction_and_injury_store) ... ok
+test_healing_draw_literal_upper_bound (tests.test_model_energy.Energy.test_healing_draw_literal_upper_bound) ... ok
+test_injured_draw_and_recovery_gate (tests.test_model_energy.Energy.test_injured_draw_and_recovery_gate) ... ok
+test_negative_energy_uses_noninjured_branch_but_gate_draw (tests.test_model_energy.Energy.test_negative_energy_uses_noninjured_branch_but_gate_draw) ... ok
+test_quick_period_and_signed_floor (tests.test_model_energy.Energy.test_quick_period_and_signed_floor) ... FAIL
+test_recovery_bounds_age_strict_and_signed_fitness (tests.test_model_energy.Energy.test_recovery_bounds_age_strict_and_signed_fitness) ... ok
+test_recovery_flag_nonzero_draw_order (tests.test_model_energy.Energy.test_recovery_flag_nonzero_draw_order) ... ok
+test_recovery_flag_zero_extra_below_16 (tests.test_model_energy.Energy.test_recovery_flag_zero_extra_below_16) ... ok
+test_rest_draw_literal_upper_bound (tests.test_model_energy.Energy.test_rest_draw_literal_upper_bound) ... ok
+test_restore_not_full_32 (tests.test_model_energy.Energy.test_restore_not_full_32) ... ok
+test_watched_strict_threshold_and_reset (tests.test_model_energy.Energy.test_watched_strict_threshold_and_reset) ... ok
+test_a_difference_outside_the_declared_fields_is_rejected (tests.test_model_energy.Supersession.test_a_difference_outside_the_declared_fields_is_rejected) ... ok
+test_a_missing_successor_fails (tests.test_model_energy.Supersession.test_a_missing_successor_fails) ... ok
+test_an_earlier_successor_is_rejected (tests.test_model_energy.Supersession.test_an_earlier_successor_is_rejected) ... ok
+test_an_unrelated_successor_is_rejected (tests.test_model_energy.Supersession.test_an_unrelated_successor_is_rejected) ... ok
+test_superseding_a_complete_record_is_rejected (tests.test_model_energy.Supersession.test_superseding_a_complete_record_is_rejected) ... ok
+test_the_committed_supersession_is_selected_and_printed (tests.test_model_energy.Supersession.test_the_committed_supersession_is_selected_and_printed) ... ok
+
+======================================================================
+FAIL: test_quick_period_and_signed_floor (tests.test_model_energy.Energy.test_quick_period_and_signed_floor)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T31/tests/test_model_energy.py", line 90, in test_quick_period_and_signed_floor
+    self.assertEqual(energy.quick_tick(r, 5), r)
+AssertionError: b'\x00\x1e\x19\x00@\x00\x00\x00\x00\x00\x00\x00\x10\x18\x7f\x00\x00\x00\x00\x00' != b'\x00\x1e\x19\x00@\x00\x00\x00\x00\x00\x00\x00\x10\x18\x80\x00\x00\x00\x00\x00'
+
+----------------------------------------------------------------------
+Ran 18 tests in 0.004s
+
+FAILED (failures=1)
+
+quick floor >=: KILLED exit=1
+test_exact_draw_consumption (tests.test_model_energy.Energy.test_exact_draw_consumption) ... ok
+test_form_instruction_and_injury_store (tests.test_model_energy.Energy.test_form_instruction_and_injury_store) ... ok
+test_healing_draw_literal_upper_bound (tests.test_model_energy.Energy.test_healing_draw_literal_upper_bound) ... ok
+test_injured_draw_and_recovery_gate (tests.test_model_energy.Energy.test_injured_draw_and_recovery_gate) ... ok
+test_negative_energy_uses_noninjured_branch_but_gate_draw (tests.test_model_energy.Energy.test_negative_energy_uses_noninjured_branch_but_gate_draw) ... ok
+test_quick_period_and_signed_floor (tests.test_model_energy.Energy.test_quick_period_and_signed_floor) ... FAIL
+test_recovery_bounds_age_strict_and_signed_fitness (tests.test_model_energy.Energy.test_recovery_bounds_age_strict_and_signed_fitness) ... ok
+test_recovery_flag_nonzero_draw_order (tests.test_model_energy.Energy.test_recovery_flag_nonzero_draw_order) ... ok
+test_recovery_flag_zero_extra_below_16 (tests.test_model_energy.Energy.test_recovery_flag_zero_extra_below_16) ... ok
+test_rest_draw_literal_upper_bound (tests.test_model_energy.Energy.test_rest_draw_literal_upper_bound) ... ok
+test_restore_not_full_32 (tests.test_model_energy.Energy.test_restore_not_full_32) ... ok
+test_watched_strict_threshold_and_reset (tests.test_model_energy.Energy.test_watched_strict_threshold_and_reset) ... ok
+test_a_difference_outside_the_declared_fields_is_rejected (tests.test_model_energy.Supersession.test_a_difference_outside_the_declared_fields_is_rejected) ... ok
+test_a_missing_successor_fails (tests.test_model_energy.Supersession.test_a_missing_successor_fails) ... ok
+test_an_earlier_successor_is_rejected (tests.test_model_energy.Supersession.test_an_earlier_successor_is_rejected) ... ok
+test_an_unrelated_successor_is_rejected (tests.test_model_energy.Supersession.test_an_unrelated_successor_is_rejected) ... ok
+test_superseding_a_complete_record_is_rejected (tests.test_model_energy.Supersession.test_superseding_a_complete_record_is_rejected) ... ok
+test_the_committed_supersession_is_selected_and_printed (tests.test_model_energy.Supersession.test_the_committed_supersession_is_selected_and_printed) ... ok
+
+======================================================================
+FAIL: test_quick_period_and_signed_floor (tests.test_model_energy.Energy.test_quick_period_and_signed_floor)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T31/tests/test_model_energy.py", line 90, in test_quick_period_and_signed_floor
+    self.assertEqual(energy.quick_tick(r, 5), r)
+AssertionError: b'\x00\x1e\x19\x00@\x00\x00\x00\x00\x00\x00\x00\x10\x18\x00\x00\x00\x00\x00\x00' != b'\x00\x1e\x19\x00@\x00\x00\x00\x00\x00\x00\x00\x10\x18\x01\x00\x00\x00\x00\x00'
+
+----------------------------------------------------------------------
+Ran 18 tests in 0.004s
+
+FAILED (failures=1)
+
+draw lower bound 0: KILLED exit=1
+test_exact_draw_consumption (tests.test_model_energy.Energy.test_exact_draw_consumption) ... FAIL
+test_form_instruction_and_injury_store (tests.test_model_energy.Energy.test_form_instruction_and_injury_store) ... ok
+test_healing_draw_literal_upper_bound (tests.test_model_energy.Energy.test_healing_draw_literal_upper_bound) ... ok
+test_injured_draw_and_recovery_gate (tests.test_model_energy.Energy.test_injured_draw_and_recovery_gate) ... ok
+test_negative_energy_uses_noninjured_branch_but_gate_draw (tests.test_model_energy.Energy.test_negative_energy_uses_noninjured_branch_but_gate_draw) ... ok
+test_quick_period_and_signed_floor (tests.test_model_energy.Energy.test_quick_period_and_signed_floor) ... ok
+test_recovery_bounds_age_strict_and_signed_fitness (tests.test_model_energy.Energy.test_recovery_bounds_age_strict_and_signed_fitness) ... ok
+test_recovery_flag_nonzero_draw_order (tests.test_model_energy.Energy.test_recovery_flag_nonzero_draw_order) ... ok
+test_recovery_flag_zero_extra_below_16 (tests.test_model_energy.Energy.test_recovery_flag_zero_extra_below_16) ... ok
+test_rest_draw_literal_upper_bound (tests.test_model_energy.Energy.test_rest_draw_literal_upper_bound) ... ok
+test_restore_not_full_32 (tests.test_model_energy.Energy.test_restore_not_full_32) ... ok
+test_watched_strict_threshold_and_reset (tests.test_model_energy.Energy.test_watched_strict_threshold_and_reset) ... ok
+test_a_difference_outside_the_declared_fields_is_rejected (tests.test_model_energy.Supersession.test_a_difference_outside_the_declared_fields_is_rejected) ... ok
+test_a_missing_successor_fails (tests.test_model_energy.Supersession.test_a_missing_successor_fails) ... ok
+test_an_earlier_successor_is_rejected (tests.test_model_energy.Supersession.test_an_earlier_successor_is_rejected) ... ok
+test_an_unrelated_successor_is_rejected (tests.test_model_energy.Supersession.test_an_unrelated_successor_is_rejected) ... ok
+test_superseding_a_complete_record_is_rejected (tests.test_model_energy.Supersession.test_superseding_a_complete_record_is_rejected) ... ok
+test_the_committed_supersession_is_selected_and_printed (tests.test_model_energy.Supersession.test_the_committed_supersession_is_selected_and_printed) ... ok
+
+======================================================================
+FAIL: test_exact_draw_consumption (tests.test_model_energy.Energy.test_exact_draw_consumption)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T31/tests/test_model_energy.py", line 145, in test_exact_draw_consumption
+    with self.assertRaises(ValueError):
+AssertionError: ValueError not raised
+
+----------------------------------------------------------------------
+Ran 18 tests in 0.004s
+
+FAILED (failures=1)
+
+killed: 37/37

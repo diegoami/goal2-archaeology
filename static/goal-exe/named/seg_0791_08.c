@@ -260,9 +260,10 @@ void __cdecl16near penalty_shootout(void)
 }
 
 
-// ---- 0791:A260  f_0791_A260  (f_0791_A260; Ghidra 2000:A260, __stdcall16far; found by routines.tsv)
+// ---- 0791:A260  bind_pitch_player  (f_0791_A260; Ghidra 2000:A260, __stdcall16far; found by routines.tsv)
+// writes the slot byte and pitch player_index from the corresponding country's current squad word; derives keeping extra and pitch +13; no player fitness/energy store  [established; F018]
 
-void __stdcall16far f_0791_A260(undefined4 param_1,undefined1 param_2)
+void __stdcall16far bind_pitch_player(undefined4 param_1,undefined1 param_2)
 
 {
   char cVar1;
@@ -289,9 +290,10 @@ void __stdcall16far f_0791_A260(undefined4 param_1,undefined1 param_2)
 }
 
 
-// ---- 0791:A2E6  f_0791_A2E6  (f_0791_A2E6; Ghidra 2000:A2E6, __stdcall16far; found by routines.tsv)
+// ---- 0791:A2E6  initialize_pitch_player  (f_0791_A2E6; Ghidra 2000:A2E6, __stdcall16far; found by routines.tsv)
+// calls A260 to bind squad word, initializes pitch coordinates and display fields; resets activity word +14 to zero and run_direction +F to 5; does not refill the incoming player's energy  [established; F018]
 
-void __stdcall16far f_0791_A2E6(undefined2 *param_1,undefined2 param_2)
+void __stdcall16far initialize_pitch_player(undefined2 *param_1,undefined2 param_2)
 
 {
   char cVar1;
@@ -300,7 +302,7 @@ void __stdcall16far f_0791_A2E6(undefined2 *param_1,undefined2 param_2)
   
   uVar3 = (undefined2)((ulong)param_1 >> 0x10);
   puVar2 = (undefined2 *)param_1;
-  f_0791_A260(puVar2,uVar3,param_2);
+  bind_pitch_player(puVar2,uVar3,param_2);
   *param_1 = DS:0644;
   puVar2[1] = *param_1;
   cVar1 = f_0791_045D(*(undefined1 *)(puVar2 + 3));
@@ -436,8 +438,8 @@ void match_setup(undefined4 param_1)
   f_0791_A375((ball *)&ball_record,0xb000);
   f_0791_A3B6((sprite *)&referee_record,0xb000);
   f_0791_A3B6(0x8304,0xb000);
-  for (local_4 = 1; f_0791_A2E6((pitch *)pitch_records + local_4,0xb000,local_4), local_4 != 0x16;
-      local_4 = local_4 + 1) {
+  for (local_4 = 1; initialize_pitch_player((pitch *)pitch_records + local_4,0xb000,local_4),
+      local_4 != 0x16; local_4 = local_4 + 1) {
   }
   DS:0C1F = 0;
   DS:8326 = 0;

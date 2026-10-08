@@ -671,7 +671,7 @@ void __stdcall16far run_match(undefined4 param_1)
       save_goal_file();
     }
   }
-  f_0791_CB7D();
+  restore_match_player_state();
   DS:066D = 0;
   if (*(char *)(iVar4 + 2) != '\x01') {
     f_0791_E929((uint)extraout_AH_04 << 8,DS:9B36);
@@ -693,7 +693,7 @@ void __stdcall16far run_match(undefined4 param_1)
   while( true ) {
     cVar2 = is_managed(((undefined2 *)&DS:9B34)[local_3]);
     if (cVar2 != '\0') {
-      f_0791_BA4E(((undefined2 *)&DS:9B34)[local_3]);
+      update_pool_player_state(((undefined2 *)&DS:9B34)[local_3]);
     }
     if (local_3 == '\x01') break;
     local_3 = local_3 + '\x01';

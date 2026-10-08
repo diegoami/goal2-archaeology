@@ -235,6 +235,32 @@ class CheckerTests(unittest.TestCase):
 
 
 class CommittedTests(unittest.TestCase):
+    def test_f018_routines_are_finding_backed(self):
+        c = check_annotations.Checker(ANNOTATIONS, ROOT / 'static/goal-exe/routines.tsv',
+                                      ROOT / 'findings', ROOT / 'static/goal-exe')
+        c.load()
+        rows = {r['address']: r for _, r in c.rows['routines.tsv']}
+        for address in ('0791:47C5', '0791:4A28', '0791:8AE9', '0791:9A32',
+                        '0791:A260', '0791:A2E6', '0791:B7FA', '0791:BA4E',
+                        '0791:C5DC', '0791:CB7D', '0791:D733', '1771:3558',
+                        '1771:3651'):
+            with self.subTest(address=address):
+                self.assertIn(address, rows)
+                self.assertEqual(rows[address]['confidence'], 'established')
+                self.assertIn('F018', rows[address]['basis'].split('; '))
+
+    def test_f018_fitness_energy_and_activity_settled(self):
+        c = check_annotations.Checker(ANNOTATIONS, ROOT / 'static/goal-exe/routines.tsv',
+                                      ROOT / 'findings', ROOT / 'static/goal-exe')
+        c.load()
+        rows = {(r['record'], int(r['offset'], 16)): r for _, r in c.rows['fields.tsv']}
+        for key, name in ((('player', 13), 'fitness'), (('player', 14), 'energy'),
+                          (('pitch', 20), 'activity')):
+            with self.subTest(field=key):
+                self.assertEqual(rows[key]['name'], name)
+                self.assertEqual(rows[key]['confidence'], 'established')
+                self.assertIn('F018', rows[key]['basis'].split('; '))
+
     def test_finding_cited_routines_named(self):
         rows = check_annotations.Checker(ANNOTATIONS, ROOT / "static/goal-exe/routines.tsv",
                                          ROOT / "findings", ROOT / "static/goal-exe")
