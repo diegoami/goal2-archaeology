@@ -1,0 +1,5983 @@
+{
+  "schema": "E018-confidence-probe/1",
+  "cases": [
+    {
+      "case": 1,
+      "method": "original 0791:B7FA in Unicorn; no skipped reachable calls",
+      "source_sha256": "9820b47814dd96709b0844c7c970a208c4532de7dbf9f4d5e3ddbe597cbea8be",
+      "source_release": "E011",
+      "fixture": "0301010001000200",
+      "countries": [
+        {
+          "country_word": 1,
+          "record": "0100020003000400050006000700080009000a000b000c000d000e000f00100011001200130014001c500101010000040000000000000000000000020000010003000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000301010100060000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000010001010001010001010001000000000000"
+        },
+        {
+          "country_word": 2,
+          "record": "150016001700180019001a001b001c001d001e001f002000210022002300240025002600270028001b1401010100000400000000000000000000000200010100030000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000003010102001c0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000010001000000020002020002010001010001"
+        }
+      ],
+      "classification_set": "98ffffffffffffffffffffffffffffffffffffffffffffffff0f000000000000",
+      "before": [
+        {
+          "player_word": 1,
+          "side": 0,
+          "slot": 1,
+          "record": "01191ea1a10a000001000000101010110000ff7f"
+        },
+        {
+          "player_word": 2,
+          "side": 0,
+          "slot": 2,
+          "record": "011919a1960f010101000000201010110000ff7f"
+        },
+        {
+          "player_word": 3,
+          "side": 0,
+          "slot": 3,
+          "record": "01191da1960c020200000000011010320000ff7f"
+        },
+        {
+          "player_word": 4,
+          "side": 0,
+          "slot": 4,
+          "record": "01191aa1a10b020201000000101010320000ff7f"
+        },
+        {
+          "player_word": 5,
+          "side": 0,
+          "slot": 5,
+          "record": "011919a1a106050501000000201010000000ff7f"
+        },
+        {
+          "player_word": 6,
+          "side": 0,
+          "slot": 6,
+          "record": "01191da19602060600000000011010800000ff7f"
+        },
+        {
+          "player_word": 7,
+          "side": 0,
+          "slot": 7,
+          "record": "01191ca19603070701000000101010800000ff7f"
+        },
+        {
+          "player_word": 8,
+          "side": 0,
+          "slot": 8,
+          "record": "01191ba1a107080801000000201010000000ff7f"
+        },
+        {
+          "player_word": 9,
+          "side": 0,
+          "slot": 9,
+          "record": "01191ba182100c0c01000000011010000000ff7f"
+        },
+        {
+          "player_word": 10,
+          "side": 0,
+          "slot": 10,
+          "record": "01191ba1960d0d0d01000000101010000000ff7f"
+        },
+        {
+          "player_word": 11,
+          "side": 0,
+          "slot": 11,
+          "record": "01191ca1a10d0d0d00000000201010000000ff7f"
+        },
+        {
+          "player_word": 12,
+          "side": 0,
+          "slot": 12,
+          "record": "01191da1a10d000000000000011010110400ff7f"
+        },
+        {
+          "player_word": 13,
+          "side": 0,
+          "slot": 13,
+          "record": "01191da1820b010100000000101010110000ff7f"
+        },
+        {
+          "player_word": 14,
+          "side": 0,
+          "slot": 14,
+          "record": "01191ca1a110020201000000201010220000ff7f"
+        },
+        {
+          "player_word": 15,
+          "side": 0,
+          "slot": 15,
+          "record": "01191ca19606050500000000011010000000ff7f"
+        },
+        {
+          "player_word": 16,
+          "side": 0,
+          "slot": 16,
+          "record": "01191ca19601060601000000101010800000ff7f"
+        },
+        {
+          "player_word": 17,
+          "side": 0,
+          "slot": 17,
+          "record": "01191da1a10c070700000000201010000000ff7f"
+        },
+        {
+          "player_word": 18,
+          "side": 0,
+          "slot": 18,
+          "record": "01191ba196040c0c00000000011010800000ff7f"
+        },
+        {
+          "player_word": 19,
+          "side": 0,
+          "slot": 19,
+          "record": "01191ca1a10f0d0d00000000101010000000ff7f"
+        },
+        {
+          "player_word": 20,
+          "side": 0,
+          "slot": 20,
+          "record": "01191ba1960b0d0d01000000201010000000ff7f"
+        },
+        {
+          "player_word": 21,
+          "side": 1,
+          "slot": 1,
+          "record": "02191ec1c102000002000000101010910000ff7f"
+        },
+        {
+          "player_word": 22,
+          "side": 1,
+          "slot": 2,
+          "record": "02191bc1c10a010102000000201010110000ff7f"
+        },
+        {
+          "player_word": 23,
+          "side": 1,
+          "slot": 3,
+          "record": "02191dc1c10a020202000000011010320000ff7f"
+        },
+        {
+          "player_word": 24,
+          "side": 1,
+          "slot": 4,
+          "record": "02191ac1c105020200000000101010320000ff7f"
+        },
+        {
+          "player_word": 25,
+          "side": 1,
+          "slot": 5,
+          "record": "02191cc1c106050502000000201010000000ff7f"
+        },
+        {
+          "player_word": 26,
+          "side": 1,
+          "slot": 6,
+          "record": "02191bc1c10b060602000000011010000000ff7f"
+        },
+        {
+          "player_word": 27,
+          "side": 1,
+          "slot": 7,
+          "record": "02191bc1a808070700000000101010000000ff7f"
+        },
+        {
+          "player_word": 28,
+          "side": 1,
+          "slot": 8,
+          "record": "02191dc1b409080802000000201010000000ff7f"
+        },
+        {
+          "player_word": 29,
+          "side": 1,
+          "slot": 9,
+          "record": "02191ac1b403090900000000011010800000ff7f"
+        },
+        {
+          "player_word": 30,
+          "side": 1,
+          "slot": 10,
+          "record": "02191ac1a80f0d0d00000000101010000000ff7f"
+        },
+        {
+          "player_word": 31,
+          "side": 1,
+          "slot": 11,
+          "record": "02191bc1c1010d0d02000000201010800000ff7f"
+        },
+        {
+          "player_word": 32,
+          "side": 1,
+          "slot": 12,
+          "record": "02191dc1b40d000000000000011010110400ff7f"
+        },
+        {
+          "player_word": 33,
+          "side": 1,
+          "slot": 13,
+          "record": "02191bc1c109020202000000101010320000ff7f"
+        },
+        {
+          "player_word": 34,
+          "side": 1,
+          "slot": 14,
+          "record": "02191ac1c102020200000000201010b20000ff7f"
+        },
+        {
+          "player_word": 35,
+          "side": 1,
+          "slot": 15,
+          "record": "02191cc1c107040400000000011010110000ff7f"
+        },
+        {
+          "player_word": 36,
+          "side": 1,
+          "slot": 16,
+          "record": "02191dc19c09050500000000101010000000ff7f"
+        },
+        {
+          "player_word": 37,
+          "side": 1,
+          "slot": 17,
+          "record": "02191cc1c10e070702000000201010000000ff7f"
+        },
+        {
+          "player_word": 38,
+          "side": 1,
+          "slot": 18,
+          "record": "02191cc1c105090902000000011010000000ff7f"
+        },
+        {
+          "player_word": 39,
+          "side": 1,
+          "slot": 19,
+          "record": "02191cc1a8020d0d00000000101010800000ff7f"
+        },
+        {
+          "player_word": 40,
+          "side": 1,
+          "slot": 20,
+          "record": "02191bc1c1050d0d02000000201010000000ff7f"
+        }
+      ],
+      "draws": [
+        {
+          "bound": 32,
+          "value": 31
+        },
+        {
+          "bound": 32,
+          "value": 15
+        },
+        {
+          "bound": 32,
+          "value": 3
+        },
+        {
+          "bound": 32,
+          "value": 24
+        },
+        {
+          "bound": 32,
+          "value": 13
+        },
+        {
+          "bound": 32,
+          "value": 3
+        },
+        {
+          "bound": 32,
+          "value": 29
+        },
+        {
+          "bound": 32,
+          "value": 22
+        },
+        {
+          "bound": 32,
+          "value": 26
+        },
+        {
+          "bound": 32,
+          "value": 12
+        },
+        {
+          "bound": 32,
+          "value": 19
+        },
+        {
+          "bound": 32,
+          "value": 5
+        },
+        {
+          "bound": 2,
+          "value": 1
+        },
+        {
+          "bound": 2,
+          "value": 2
+        },
+        {
+          "bound": 4,
+          "value": 3
+        },
+        {
+          "bound": 2,
+          "value": 2
+        },
+        {
+          "bound": 32,
+          "value": 7
+        },
+        {
+          "bound": 4,
+          "value": 2
+        },
+        {
+          "bound": 2,
+          "value": 2
+        },
+        {
+          "bound": 32,
+          "value": 17
+        },
+        {
+          "bound": 4,
+          "value": 3
+        },
+        {
+          "bound": 2,
+          "value": 2
+        },
+        {
+          "bound": 32,
+          "value": 23
+        },
+        {
+          "bound": 4,
+          "value": 2
+        },
+        {
+          "bound": 2,
+          "value": 2
+        },
+        {
+          "bound": 32,
+          "value": 15
+        },
+        {
+          "bound": 4,
+          "value": 4
+        },
+        {
+          "bound": 2,
+          "value": 2
+        },
+        {
+          "bound": 32,
+          "value": 21
+        },
+        {
+          "bound": 4,
+          "value": 4
+        },
+        {
+          "bound": 2,
+          "value": 2
+        },
+        {
+          "bound": 32,
+          "value": 24
+        },
+        {
+          "bound": 4,
+          "value": 1
+        },
+        {
+          "bound": 2,
+          "value": 2
+        },
+        {
+          "bound": 32,
+          "value": 4
+        },
+        {
+          "bound": 4,
+          "value": 3
+        },
+        {
+          "bound": 2,
+          "value": 2
+        },
+        {
+          "bound": 32,
+          "value": 14
+        },
+        {
+          "bound": 32,
+          "value": 22
+        },
+        {
+          "bound": 32,
+          "value": 26
+        },
+        {
+          "bound": 32,
+          "value": 3
+        },
+        {
+          "bound": 32,
+          "value": 25
+        },
+        {
+          "bound": 32,
+          "value": 24
+        },
+        {
+          "bound": 32,
+          "value": 20
+        },
+        {
+          "bound": 32,
+          "value": 25
+        },
+        {
+          "bound": 32,
+          "value": 14
+        },
+        {
+          "bound": 32,
+          "value": 25
+        },
+        {
+          "bound": 32,
+          "value": 24
+        },
+        {
+          "bound": 32,
+          "value": 32
+        },
+        {
+          "bound": 32,
+          "value": 6
+        },
+        {
+          "bound": 2,
+          "value": 1
+        },
+        {
+          "bound": 2,
+          "value": 1
+        },
+        {
+          "bound": 4,
+          "value": 1
+        },
+        {
+          "bound": 2,
+          "value": 1
+        },
+        {
+          "bound": 32,
+          "value": 25
+        },
+        {
+          "bound": 4,
+          "value": 3
+        },
+        {
+          "bound": 2,
+          "value": 2
+        },
+        {
+          "bound": 32,
+          "value": 9
+        },
+        {
+          "bound": 4,
+          "value": 4
+        },
+        {
+          "bound": 2,
+          "value": 1
+        },
+        {
+          "bound": 32,
+          "value": 13
+        },
+        {
+          "bound": 4,
+          "value": 2
+        },
+        {
+          "bound": 2,
+          "value": 1
+        },
+        {
+          "bound": 32,
+          "value": 27
+        },
+        {
+          "bound": 4,
+          "value": 3
+        },
+        {
+          "bound": 2,
+          "value": 1
+        },
+        {
+          "bound": 32,
+          "value": 23
+        },
+        {
+          "bound": 4,
+          "value": 4
+        },
+        {
+          "bound": 2,
+          "value": 1
+        },
+        {
+          "bound": 32,
+          "value": 19
+        },
+        {
+          "bound": 4,
+          "value": 1
+        },
+        {
+          "bound": 2,
+          "value": 1
+        },
+        {
+          "bound": 32,
+          "value": 14
+        },
+        {
+          "bound": 4,
+          "value": 4
+        },
+        {
+          "bound": 2,
+          "value": 1
+        },
+        {
+          "bound": 32,
+          "value": 13
+        }
+      ],
+      "operations": [
+        {
+          "return_ip": 47441,
+          "delta_word": 4,
+          "player_word": 1,
+          "draw_count": 1
+        },
+        {
+          "return_ip": 47441,
+          "delta_word": 4,
+          "player_word": 2,
+          "draw_count": 2
+        },
+        {
+          "return_ip": 47441,
+          "delta_word": 4,
+          "player_word": 3,
+          "draw_count": 3
+        },
+        {
+          "return_ip": 47441,
+          "delta_word": 4,
+          "player_word": 4,
+          "draw_count": 4
+        },
+        {
+          "return_ip": 47441,
+          "delta_word": 4,
+          "player_word": 5,
+          "draw_count": 5
+        },
+        {
+          "return_ip": 47441,
+          "delta_word": 4,
+          "player_word": 6,
+          "draw_count": 6
+        },
+        {
+          "return_ip": 47441,
+          "delta_word": 4,
+          "player_word": 7,
+          "draw_count": 7
+        },
+        {
+          "return_ip": 47441,
+          "delta_word": 4,
+          "player_word": 8,
+          "draw_count": 8
+        },
+        {
+          "return_ip": 47441,
+          "delta_word": 4,
+          "player_word": 9,
+          "draw_count": 9
+        },
+        {
+          "return_ip": 47441,
+          "delta_word": 4,
+          "player_word": 10,
+          "draw_count": 10
+        },
+        {
+          "return_ip": 47441,
+          "delta_word": 4,
+          "player_word": 11,
+          "draw_count": 11
+        },
+        {
+          "return_ip": 47441,
+          "delta_word": 4,
+          "player_word": 12,
+          "draw_count": 12
+        },
+        {
+          "return_ip": 47505,
+          "delta_word": 1,
+          "player_word": 12,
+          "draw_count": 14
+        },
+        {
+          "return_ip": 47547,
+          "delta_word": 65535,
+          "player_word": 13,
+          "draw_count": 16
+        },
+        {
+          "return_ip": 47547,
+          "delta_word": 0,
+          "player_word": 14,
+          "draw_count": 19
+        },
+        {
+          "return_ip": 47547,
+          "delta_word": 65535,
+          "player_word": 15,
+          "draw_count": 22
+        },
+        {
+          "return_ip": 47547,
+          "delta_word": 0,
+          "player_word": 16,
+          "draw_count": 25
+        },
+        {
+          "return_ip": 47547,
+          "delta_word": 65534,
+          "player_word": 17,
+          "draw_count": 28
+        },
+        {
+          "return_ip": 47547,
+          "delta_word": 65534,
+          "player_word": 18,
+          "draw_count": 31
+        },
+        {
+          "return_ip": 47547,
+          "delta_word": 1,
+          "player_word": 19,
+          "draw_count": 34
+        },
+        {
+          "return_ip": 47547,
+          "delta_word": 65535,
+          "player_word": 20,
+          "draw_count": 37
+        },
+        {
+          "return_ip": 47441,
+          "delta_word": 65532,
+          "player_word": 21,
+          "draw_count": 39
+        },
+        {
+          "return_ip": 47441,
+          "delta_word": 65532,
+          "player_word": 22,
+          "draw_count": 40
+        },
+        {
+          "return_ip": 47441,
+          "delta_word": 65532,
+          "player_word": 23,
+          "draw_count": 41
+        },
+        {
+          "return_ip": 47441,
+          "delta_word": 65532,
+          "player_word": 24,
+          "draw_count": 42
+        },
+        {
+          "return_ip": 47441,
+          "delta_word": 65532,
+          "player_word": 25,
+          "draw_count": 43
+        },
+        {
+          "return_ip": 47441,
+          "delta_word": 65532,
+          "player_word": 26,
+          "draw_count": 44
+        },
+        {
+          "return_ip": 47441,
+          "delta_word": 65532,
+          "player_word": 27,
+          "draw_count": 45
+        },
+        {
+          "return_ip": 47441,
+          "delta_word": 65532,
+          "player_word": 28,
+          "draw_count": 46
+        },
+        {
+          "return_ip": 47441,
+          "delta_word": 65532,
+          "player_word": 29,
+          "draw_count": 47
+        },
+        {
+          "return_ip": 47441,
+          "delta_word": 65532,
+          "player_word": 30,
+          "draw_count": 48
+        },
+        {
+          "return_ip": 47441,
+          "delta_word": 65532,
+          "player_word": 31,
+          "draw_count": 49
+        },
+        {
+          "return_ip": 47441,
+          "delta_word": 65532,
+          "player_word": 32,
+          "draw_count": 50
+        },
+        {
+          "return_ip": 47505,
+          "delta_word": 0,
+          "player_word": 32,
+          "draw_count": 52
+        },
+        {
+          "return_ip": 47547,
+          "delta_word": 0,
+          "player_word": 33,
+          "draw_count": 54
+        },
+        {
+          "return_ip": 47547,
+          "delta_word": 65535,
+          "player_word": 34,
+          "draw_count": 57
+        },
+        {
+          "return_ip": 47547,
+          "delta_word": 65533,
+          "player_word": 35,
+          "draw_count": 60
+        },
+        {
+          "return_ip": 47547,
+          "delta_word": 65535,
+          "player_word": 36,
+          "draw_count": 63
+        },
+        {
+          "return_ip": 47547,
+          "delta_word": 65534,
+          "player_word": 37,
+          "draw_count": 66
+        },
+        {
+          "return_ip": 47547,
+          "delta_word": 65533,
+          "player_word": 38,
+          "draw_count": 69
+        },
+        {
+          "return_ip": 47547,
+          "delta_word": 0,
+          "player_word": 39,
+          "draw_count": 72
+        },
+        {
+          "return_ip": 47547,
+          "delta_word": 65533,
+          "player_word": 40,
+          "draw_count": 75
+        }
+      ],
+      "after": [
+        {
+          "player_word": 1,
+          "confidence": 20
+        },
+        {
+          "player_word": 2,
+          "confidence": 32
+        },
+        {
+          "player_word": 3,
+          "confidence": 5
+        },
+        {
+          "player_word": 4,
+          "confidence": 20
+        },
+        {
+          "player_word": 5,
+          "confidence": 32
+        },
+        {
+          "player_word": 6,
+          "confidence": 5
+        },
+        {
+          "player_word": 7,
+          "confidence": 20
+        },
+        {
+          "player_word": 8,
+          "confidence": 32
+        },
+        {
+          "player_word": 9,
+          "confidence": 5
+        },
+        {
+          "player_word": 10,
+          "confidence": 20
+        },
+        {
+          "player_word": 11,
+          "confidence": 32
+        },
+        {
+          "player_word": 12,
+          "confidence": 6
+        },
+        {
+          "player_word": 13,
+          "confidence": 15
+        },
+        {
+          "player_word": 14,
+          "confidence": 32
+        },
+        {
+          "player_word": 15,
+          "confidence": 1
+        },
+        {
+          "player_word": 16,
+          "confidence": 16
+        },
+        {
+          "player_word": 17,
+          "confidence": 30
+        },
+        {
+          "player_word": 18,
+          "confidence": 1
+        },
+        {
+          "player_word": 19,
+          "confidence": 17
+        },
+        {
+          "player_word": 20,
+          "confidence": 31
+        },
+        {
+          "player_word": 21,
+          "confidence": 12
+        },
+        {
+          "player_word": 22,
+          "confidence": 28
+        },
+        {
+          "player_word": 23,
+          "confidence": 1
+        },
+        {
+          "player_word": 24,
+          "confidence": 12
+        },
+        {
+          "player_word": 25,
+          "confidence": 28
+        },
+        {
+          "player_word": 26,
+          "confidence": 1
+        },
+        {
+          "player_word": 27,
+          "confidence": 12
+        },
+        {
+          "player_word": 28,
+          "confidence": 28
+        },
+        {
+          "player_word": 29,
+          "confidence": 1
+        },
+        {
+          "player_word": 30,
+          "confidence": 12
+        },
+        {
+          "player_word": 31,
+          "confidence": 28
+        },
+        {
+          "player_word": 32,
+          "confidence": 1
+        },
+        {
+          "player_word": 33,
+          "confidence": 16
+        },
+        {
+          "player_word": 34,
+          "confidence": 31
+        },
+        {
+          "player_word": 35,
+          "confidence": 1
+        },
+        {
+          "player_word": 36,
+          "confidence": 15
+        },
+        {
+          "player_word": 37,
+          "confidence": 30
+        },
+        {
+          "player_word": 38,
+          "confidence": 1
+        },
+        {
+          "player_word": 39,
+          "confidence": 16
+        },
+        {
+          "player_word": 40,
+          "confidence": 29
+        }
+      ],
+      "strays": []
+    },
+    {
+      "case": 2,
+      "method": "original 0791:B7FA in Unicorn; no skipped reachable calls",
+      "source_sha256": "9820b47814dd96709b0844c7c970a208c4532de7dbf9f4d5e3ddbe597cbea8be",
+      "source_release": "E011",
+      "fixture": "0103010101000200",
+      "countries": [
+        {
+          "country_word": 1,
+          "record": "0100020003000400050006000700080009000a000b000c000d000e000f00100011001200130014001c500101010000040000000000000000000000020000010003000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000301010100060000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000010001010001010001010001000000000000"
+        },
+        {
+          "country_word": 2,
+          "record": "150016001700180019001a001b001c001d001e001f002000210022002300240025002600270028001b1401010100000400000000000000000000000200010100030000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000003010102001c0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000010001000000020002020002010001010001"
+        }
+      ],
+      "classification_set": "98ffffffffffffffffffffffffffffffffffffffffffffffff0f000000000000",
+      "before": [
+        {
+          "player_word": 1,
+          "side": 0,
+          "slot": 1,
+          "record": "01191ea1a10a000001000000101010110000ff7f"
+        },
+        {
+          "player_word": 2,
+          "side": 0,
+          "slot": 2,
+          "record": "011919a1960f010101000000201010110000ff7f"
+        },
+        {
+          "player_word": 3,
+          "side": 0,
+          "slot": 3,
+          "record": "01191da1960c020200000000011010320000ff7f"
+        },
+        {
+          "player_word": 4,
+          "side": 0,
+          "slot": 4,
+          "record": "01191aa1a10b020201000000101010320000ff7f"
+        },
+        {
+          "player_word": 5,
+          "side": 0,
+          "slot": 5,
+          "record": "011919a1a106050501000000201010000000ff7f"
+        },
+        {
+          "player_word": 6,
+          "side": 0,
+          "slot": 6,
+          "record": "01191da19602060600000000011010800000ff7f"
+        },
+        {
+          "player_word": 7,
+          "side": 0,
+          "slot": 7,
+          "record": "01191ca19603070701000000101010800000ff7f"
+        },
+        {
+          "player_word": 8,
+          "side": 0,
+          "slot": 8,
+          "record": "01191ba1a107080801000000201010000000ff7f"
+        },
+        {
+          "player_word": 9,
+          "side": 0,
+          "slot": 9,
+          "record": "01191ba182100c0c01000000011010000000ff7f"
+        },
+        {
+          "player_word": 10,
+          "side": 0,
+          "slot": 10,
+          "record": "01191ba1960d0d0d01000000101010000000ff7f"
+        },
+        {
+          "player_word": 11,
+          "side": 0,
+          "slot": 11,
+          "record": "01191ca1a10d0d0d00000000201010000000ff7f"
+        },
+        {
+          "player_word": 12,
+          "side": 0,
+          "slot": 12,
+          "record": "01191da1a10d000000000000011010110400ff7f"
+        },
+        {
+          "player_word": 13,
+          "side": 0,
+          "slot": 13,
+          "record": "01191da1820b010100000000101010110000ff7f"
+        },
+        {
+          "player_word": 14,
+          "side": 0,
+          "slot": 14,
+          "record": "01191ca1a110020201000000201010220000ff7f"
+        },
+        {
+          "player_word": 15,
+          "side": 0,
+          "slot": 15,
+          "record": "01191ca19606050500000000011010000000ff7f"
+        },
+        {
+          "player_word": 16,
+          "side": 0,
+          "slot": 16,
+          "record": "01191ca19601060601000000101010800000ff7f"
+        },
+        {
+          "player_word": 17,
+          "side": 0,
+          "slot": 17,
+          "record": "01191da1a10c070700000000201010000000ff7f"
+        },
+        {
+          "player_word": 18,
+          "side": 0,
+          "slot": 18,
+          "record": "01191ba196040c0c00000000011010800000ff7f"
+        },
+        {
+          "player_word": 19,
+          "side": 0,
+          "slot": 19,
+          "record": "01191ca1a10f0d0d00000000101010000000ff7f"
+        },
+        {
+          "player_word": 20,
+          "side": 0,
+          "slot": 20,
+          "record": "01191ba1960b0d0d01000000201010000000ff7f"
+        },
+        {
+          "player_word": 21,
+          "side": 1,
+          "slot": 1,
+          "record": "02191ec1c102000002000000101010910000ff7f"
+        },
+        {
+          "player_word": 22,
+          "side": 1,
+          "slot": 2,
+          "record": "02191bc1c10a010102000000201010110000ff7f"
+        },
+        {
+          "player_word": 23,
+          "side": 1,
+          "slot": 3,
+          "record": "02191dc1c10a020202000000011010320000ff7f"
+        },
+        {
+          "player_word": 24,
+          "side": 1,
+          "slot": 4,
+          "record": "02191ac1c105020200000000101010320000ff7f"
+        },
+        {
+          "player_word": 25,
+          "side": 1,
+          "slot": 5,
+          "record": "02191cc1c106050502000000201010000000ff7f"
+        },
+        {
+          "player_word": 26,
+          "side": 1,
+          "slot": 6,
+          "record": "02191bc1c10b060602000000011010000000ff7f"
+        },
+        {
+          "player_word": 27,
+          "side": 1,
+          "slot": 7,
+          "record": "02191bc1a808070700000000101010000000ff7f"
+        },
+        {
+          "player_word": 28,
+          "side": 1,
+          "slot": 8,
+          "record": "02191dc1b409080802000000201010000000ff7f"
+        },
+        {
+          "player_word": 29,
+          "side": 1,
+          "slot": 9,
+          "record": "02191ac1b403090900000000011010800000ff7f"
+        },
+        {
+          "player_word": 30,
+          "side": 1,
+          "slot": 10,
+          "record": "02191ac1a80f0d0d00000000101010000000ff7f"
+        },
+        {
+          "player_word": 31,
+          "side": 1,
+          "slot": 11,
+          "record": "02191bc1c1010d0d02000000201010800000ff7f"
+        },
+        {
+          "player_word": 32,
+          "side": 1,
+          "slot": 12,
+          "record": "02191dc1b40d000000000000011010110400ff7f"
+        },
+        {
+          "player_word": 33,
+          "side": 1,
+          "slot": 13,
+          "record": "02191bc1c109020202000000101010320000ff7f"
+        },
+        {
+          "player_word": 34,
+          "side": 1,
+          "slot": 14,
+          "record": "02191ac1c102020200000000201010b20000ff7f"
+        },
+        {
+          "player_word": 35,
+          "side": 1,
+          "slot": 15,
+          "record": "02191cc1c107040400000000011010110000ff7f"
+        },
+        {
+          "player_word": 36,
+          "side": 1,
+          "slot": 16,
+          "record": "02191dc19c09050500000000101010000000ff7f"
+        },
+        {
+          "player_word": 37,
+          "side": 1,
+          "slot": 17,
+          "record": "02191cc1c10e070702000000201010000000ff7f"
+        },
+        {
+          "player_word": 38,
+          "side": 1,
+          "slot": 18,
+          "record": "02191cc1c105090902000000011010000000ff7f"
+        },
+        {
+          "player_word": 39,
+          "side": 1,
+          "slot": 19,
+          "record": "02191cc1a8020d0d00000000101010800000ff7f"
+        },
+        {
+          "player_word": 40,
+          "side": 1,
+          "slot": 20,
+          "record": "02191bc1c1050d0d02000000201010000000ff7f"
+        }
+      ],
+      "draws": [
+        {
+          "bound": 32,
+          "value": 31
+        },
+        {
+          "bound": 32,
+          "value": 15
+        },
+        {
+          "bound": 32,
+          "value": 3
+        },
+        {
+          "bound": 32,
+          "value": 24
+        },
+        {
+          "bound": 32,
+          "value": 13
+        },
+        {
+          "bound": 32,
+          "value": 3
+        },
+        {
+          "bound": 32,
+          "value": 29
+        },
+        {
+          "bound": 32,
+          "value": 22
+        },
+        {
+          "bound": 32,
+          "value": 26
+        },
+        {
+          "bound": 32,
+          "value": 12
+        },
+        {
+          "bound": 32,
+          "value": 19
+        },
+        {
+          "bound": 32,
+          "value": 5
+        },
+        {
+          "bound": 2,
+          "value": 1
+        },
+        {
+          "bound": 2,
+          "value": 2
+        },
+        {
+          "bound": 4,
+          "value": 3
+        },
+        {
+          "bound": 2,
+          "value": 2
+        },
+        {
+          "bound": 32,
+          "value": 7
+        },
+        {
+          "bound": 4,
+          "value": 2
+        },
+        {
+          "bound": 2,
+          "value": 2
+        },
+        {
+          "bound": 32,
+          "value": 17
+        },
+        {
+          "bound": 4,
+          "value": 3
+        },
+        {
+          "bound": 2,
+          "value": 2
+        },
+        {
+          "bound": 32,
+          "value": 23
+        },
+        {
+          "bound": 4,
+          "value": 2
+        },
+        {
+          "bound": 2,
+          "value": 2
+        },
+        {
+          "bound": 32,
+          "value": 15
+        },
+        {
+          "bound": 4,
+          "value": 4
+        },
+        {
+          "bound": 2,
+          "value": 2
+        },
+        {
+          "bound": 32,
+          "value": 21
+        },
+        {
+          "bound": 4,
+          "value": 4
+        },
+        {
+          "bound": 2,
+          "value": 2
+        },
+        {
+          "bound": 32,
+          "value": 24
+        },
+        {
+          "bound": 4,
+          "value": 1
+        },
+        {
+          "bound": 2,
+          "value": 2
+        },
+        {
+          "bound": 32,
+          "value": 4
+        },
+        {
+          "bound": 4,
+          "value": 3
+        },
+        {
+          "bound": 2,
+          "value": 2
+        },
+        {
+          "bound": 32,
+          "value": 14
+        },
+        {
+          "bound": 32,
+          "value": 22
+        },
+        {
+          "bound": 32,
+          "value": 26
+        },
+        {
+          "bound": 32,
+          "value": 3
+        },
+        {
+          "bound": 32,
+          "value": 25
+        },
+        {
+          "bound": 32,
+          "value": 24
+        },
+        {
+          "bound": 32,
+          "value": 20
+        },
+        {
+          "bound": 32,
+          "value": 25
+        },
+        {
+          "bound": 32,
+          "value": 14
+        },
+        {
+          "bound": 32,
+          "value": 25
+        },
+        {
+          "bound": 32,
+          "value": 24
+        },
+        {
+          "bound": 32,
+          "value": 32
+        },
+        {
+          "bound": 32,
+          "value": 6
+        },
+        {
+          "bound": 2,
+          "value": 1
+        },
+        {
+          "bound": 2,
+          "value": 1
+        },
+        {
+          "bound": 4,
+          "value": 1
+        },
+        {
+          "bound": 2,
+          "value": 1
+        },
+        {
+          "bound": 32,
+          "value": 25
+        },
+        {
+          "bound": 4,
+          "value": 3
+        },
+        {
+          "bound": 2,
+          "value": 2
+        },
+        {
+          "bound": 32,
+          "value": 9
+        },
+        {
+          "bound": 4,
+          "value": 4
+        },
+        {
+          "bound": 2,
+          "value": 1
+        },
+        {
+          "bound": 32,
+          "value": 13
+        },
+        {
+          "bound": 4,
+          "value": 2
+        },
+        {
+          "bound": 2,
+          "value": 1
+        },
+        {
+          "bound": 32,
+          "value": 27
+        },
+        {
+          "bound": 4,
+          "value": 3
+        },
+        {
+          "bound": 2,
+          "value": 1
+        },
+        {
+          "bound": 32,
+          "value": 23
+        },
+        {
+          "bound": 4,
+          "value": 4
+        },
+        {
+          "bound": 2,
+          "value": 1
+        },
+        {
+          "bound": 32,
+          "value": 19
+        },
+        {
+          "bound": 4,
+          "value": 1
+        },
+        {
+          "bound": 2,
+          "value": 1
+        },
+        {
+          "bound": 32,
+          "value": 14
+        },
+        {
+          "bound": 4,
+          "value": 4
+        },
+        {
+          "bound": 2,
+          "value": 1
+        },
+        {
+          "bound": 32,
+          "value": 13
+        }
+      ],
+      "operations": [
+        {
+          "return_ip": 47441,
+          "delta_word": 65534,
+          "player_word": 1,
+          "draw_count": 1
+        },
+        {
+          "return_ip": 47441,
+          "delta_word": 65534,
+          "player_word": 2,
+          "draw_count": 2
+        },
+        {
+          "return_ip": 47441,
+          "delta_word": 65534,
+          "player_word": 3,
+          "draw_count": 3
+        },
+        {
+          "return_ip": 47441,
+          "delta_word": 65534,
+          "player_word": 4,
+          "draw_count": 4
+        },
+        {
+          "return_ip": 47441,
+          "delta_word": 65534,
+          "player_word": 5,
+          "draw_count": 5
+        },
+        {
+          "return_ip": 47441,
+          "delta_word": 65534,
+          "player_word": 6,
+          "draw_count": 6
+        },
+        {
+          "return_ip": 47441,
+          "delta_word": 65534,
+          "player_word": 7,
+          "draw_count": 7
+        },
+        {
+          "return_ip": 47441,
+          "delta_word": 65534,
+          "player_word": 8,
+          "draw_count": 8
+        },
+        {
+          "return_ip": 47441,
+          "delta_word": 65534,
+          "player_word": 9,
+          "draw_count": 9
+        },
+        {
+          "return_ip": 47441,
+          "delta_word": 65534,
+          "player_word": 10,
+          "draw_count": 10
+        },
+        {
+          "return_ip": 47441,
+          "delta_word": 65534,
+          "player_word": 11,
+          "draw_count": 11
+        },
+        {
+          "return_ip": 47441,
+          "delta_word": 65534,
+          "player_word": 12,
+          "draw_count": 12
+        },
+        {
+          "return_ip": 47505,
+          "delta_word": 1,
+          "player_word": 12,
+          "draw_count": 14
+        },
+        {
+          "return_ip": 47547,
+          "delta_word": 65535,
+          "player_word": 13,
+          "draw_count": 16
+        },
+        {
+          "return_ip": 47547,
+          "delta_word": 0,
+          "player_word": 14,
+          "draw_count": 19
+        },
+        {
+          "return_ip": 47547,
+          "delta_word": 65535,
+          "player_word": 15,
+          "draw_count": 22
+        },
+        {
+          "return_ip": 47547,
+          "delta_word": 0,
+          "player_word": 16,
+          "draw_count": 25
+        },
+        {
+          "return_ip": 47547,
+          "delta_word": 65534,
+          "player_word": 17,
+          "draw_count": 28
+        },
+        {
+          "return_ip": 47547,
+          "delta_word": 65534,
+          "player_word": 18,
+          "draw_count": 31
+        },
+        {
+          "return_ip": 47547,
+          "delta_word": 1,
+          "player_word": 19,
+          "draw_count": 34
+        },
+        {
+          "return_ip": 47547,
+          "delta_word": 65535,
+          "player_word": 20,
+          "draw_count": 37
+        },
+        {
+          "return_ip": 47441,
+          "delta_word": 2,
+          "player_word": 21,
+          "draw_count": 39
+        },
+        {
+          "return_ip": 47441,
+          "delta_word": 2,
+          "player_word": 22,
+          "draw_count": 40
+        },
+        {
+          "return_ip": 47441,
+          "delta_word": 2,
+          "player_word": 23,
+          "draw_count": 41
+        },
+        {
+          "return_ip": 47441,
+          "delta_word": 2,
+          "player_word": 24,
+          "draw_count": 42
+        },
+        {
+          "return_ip": 47441,
+          "delta_word": 2,
+          "player_word": 25,
+          "draw_count": 43
+        },
+        {
+          "return_ip": 47441,
+          "delta_word": 2,
+          "player_word": 26,
+          "draw_count": 44
+        },
+        {
+          "return_ip": 47441,
+          "delta_word": 2,
+          "player_word": 27,
+          "draw_count": 45
+        },
+        {
+          "return_ip": 47441,
+          "delta_word": 2,
+          "player_word": 28,
+          "draw_count": 46
+        },
+        {
+          "return_ip": 47441,
+          "delta_word": 2,
+          "player_word": 29,
+          "draw_count": 47
+        },
+        {
+          "return_ip": 47441,
+          "delta_word": 2,
+          "player_word": 30,
+          "draw_count": 48
+        },
+        {
+          "return_ip": 47441,
+          "delta_word": 2,
+          "player_word": 31,
+          "draw_count": 49
+        },
+        {
+          "return_ip": 47441,
+          "delta_word": 2,
+          "player_word": 32,
+          "draw_count": 50
+        },
+        {
+          "return_ip": 47505,
+          "delta_word": 0,
+          "player_word": 32,
+          "draw_count": 52
+        },
+        {
+          "return_ip": 47547,
+          "delta_word": 0,
+          "player_word": 33,
+          "draw_count": 54
+        },
+        {
+          "return_ip": 47547,
+          "delta_word": 65535,
+          "player_word": 34,
+          "draw_count": 57
+        },
+        {
+          "return_ip": 47547,
+          "delta_word": 65533,
+          "player_word": 35,
+          "draw_count": 60
+        },
+        {
+          "return_ip": 47547,
+          "delta_word": 65535,
+          "player_word": 36,
+          "draw_count": 63
+        },
+        {
+          "return_ip": 47547,
+          "delta_word": 65534,
+          "player_word": 37,
+          "draw_count": 66
+        },
+        {
+          "return_ip": 47547,
+          "delta_word": 65533,
+          "player_word": 38,
+          "draw_count": 69
+        },
+        {
+          "return_ip": 47547,
+          "delta_word": 0,
+          "player_word": 39,
+          "draw_count": 72
+        },
+        {
+          "return_ip": 47547,
+          "delta_word": 65533,
+          "player_word": 40,
+          "draw_count": 75
+        }
+      ],
+      "after": [
+        {
+          "player_word": 1,
+          "confidence": 14
+        },
+        {
+          "player_word": 2,
+          "confidence": 30
+        },
+        {
+          "player_word": 3,
+          "confidence": 1
+        },
+        {
+          "player_word": 4,
+          "confidence": 14
+        },
+        {
+          "player_word": 5,
+          "confidence": 30
+        },
+        {
+          "player_word": 6,
+          "confidence": 1
+        },
+        {
+          "player_word": 7,
+          "confidence": 14
+        },
+        {
+          "player_word": 8,
+          "confidence": 30
+        },
+        {
+          "player_word": 9,
+          "confidence": 1
+        },
+        {
+          "player_word": 10,
+          "confidence": 14
+        },
+        {
+          "player_word": 11,
+          "confidence": 30
+        },
+        {
+          "player_word": 12,
+          "confidence": 2
+        },
+        {
+          "player_word": 13,
+          "confidence": 15
+        },
+        {
+          "player_word": 14,
+          "confidence": 32
+        },
+        {
+          "player_word": 15,
+          "confidence": 1
+        },
+        {
+          "player_word": 16,
+          "confidence": 16
+        },
+        {
+          "player_word": 17,
+          "confidence": 30
+        },
+        {
+          "player_word": 18,
+          "confidence": 1
+        },
+        {
+          "player_word": 19,
+          "confidence": 17
+        },
+        {
+          "player_word": 20,
+          "confidence": 31
+        },
+        {
+          "player_word": 21,
+          "confidence": 18
+        },
+        {
+          "player_word": 22,
+          "confidence": 32
+        },
+        {
+          "player_word": 23,
+          "confidence": 3
+        },
+        {
+          "player_word": 24,
+          "confidence": 18
+        },
+        {
+          "player_word": 25,
+          "confidence": 32
+        },
+        {
+          "player_word": 26,
+          "confidence": 3
+        },
+        {
+          "player_word": 27,
+          "confidence": 18
+        },
+        {
+          "player_word": 28,
+          "confidence": 32
+        },
+        {
+          "player_word": 29,
+          "confidence": 3
+        },
+        {
+          "player_word": 30,
+          "confidence": 18
+        },
+        {
+          "player_word": 31,
+          "confidence": 32
+        },
+        {
+          "player_word": 32,
+          "confidence": 3
+        },
+        {
+          "player_word": 33,
+          "confidence": 16
+        },
+        {
+          "player_word": 34,
+          "confidence": 31
+        },
+        {
+          "player_word": 35,
+          "confidence": 1
+        },
+        {
+          "player_word": 36,
+          "confidence": 15
+        },
+        {
+          "player_word": 37,
+          "confidence": 30
+        },
+        {
+          "player_word": 38,
+          "confidence": 1
+        },
+        {
+          "player_word": 39,
+          "confidence": 16
+        },
+        {
+          "player_word": 40,
+          "confidence": 29
+        }
+      ],
+      "strays": []
+    },
+    {
+      "case": 3,
+      "method": "original 0791:B7FA in Unicorn; no skipped reachable calls",
+      "source_sha256": "9820b47814dd96709b0844c7c970a208c4532de7dbf9f4d5e3ddbe597cbea8be",
+      "source_release": "E011",
+      "fixture": "0000020201000200",
+      "countries": [
+        {
+          "country_word": 1,
+          "record": "0100020003000400050006000700080009000a000b000c000d000e000f00100011001200130014001c500101010000040000000000000000000000020000010003000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000301010100060000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000010001010001010001010001000000000000"
+        },
+        {
+          "country_word": 2,
+          "record": "150016001700180019001a001b001c001d001e001f002000210022002300240025002600270028001b1420800400000400000000000000000000000200010100030000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000003010102001c0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000010001000000020002020002010001010001"
+        }
+      ],
+      "classification_set": "98ffffffffffffffffffffffffffffffffffffffffffffffff0f000000000000",
+      "before": [
+        {
+          "player_word": 1,
+          "side": 0,
+          "slot": 1,
+          "record": "01191ea1a10a000001000000101010110000ff7f"
+        },
+        {
+          "player_word": 2,
+          "side": 0,
+          "slot": 2,
+          "record": "011919a1960f010101000000201010110000ff7f"
+        },
+        {
+          "player_word": 3,
+          "side": 0,
+          "slot": 3,
+          "record": "01191da1960c020200000000011010320000ff7f"
+        },
+        {
+          "player_word": 4,
+          "side": 0,
+          "slot": 4,
+          "record": "01191aa1a10b020201000000101010320000ff7f"
+        },
+        {
+          "player_word": 5,
+          "side": 0,
+          "slot": 5,
+          "record": "011919a1a106050501000000201010000000ff7f"
+        },
+        {
+          "player_word": 6,
+          "side": 0,
+          "slot": 6,
+          "record": "01191da19602060600000000011010800000ff7f"
+        },
+        {
+          "player_word": 7,
+          "side": 0,
+          "slot": 7,
+          "record": "01191ca19603070701000000101010800000ff7f"
+        },
+        {
+          "player_word": 8,
+          "side": 0,
+          "slot": 8,
+          "record": "01191ba1a107080801000000201010000000ff7f"
+        },
+        {
+          "player_word": 9,
+          "side": 0,
+          "slot": 9,
+          "record": "01191ba182100c0c01000000011010000000ff7f"
+        },
+        {
+          "player_word": 10,
+          "side": 0,
+          "slot": 10,
+          "record": "01191ba1960d0d0d01000000101010000000ff7f"
+        },
+        {
+          "player_word": 11,
+          "side": 0,
+          "slot": 11,
+          "record": "01191ca1a10d0d0d00000000201010000000ff7f"
+        },
+        {
+          "player_word": 12,
+          "side": 0,
+          "slot": 12,
+          "record": "01191da1a10d000000000000011010110400ff7f"
+        },
+        {
+          "player_word": 13,
+          "side": 0,
+          "slot": 13,
+          "record": "01191da1820b010100000000101010110000ff7f"
+        },
+        {
+          "player_word": 14,
+          "side": 0,
+          "slot": 14,
+          "record": "01191ca1a110020201000000201010220000ff7f"
+        },
+        {
+          "player_word": 15,
+          "side": 0,
+          "slot": 15,
+          "record": "01191ca19606050500000000011010000000ff7f"
+        },
+        {
+          "player_word": 16,
+          "side": 0,
+          "slot": 16,
+          "record": "01191ca19601060601000000101010800000ff7f"
+        },
+        {
+          "player_word": 17,
+          "side": 0,
+          "slot": 17,
+          "record": "01191da1a10c070700000000201010000000ff7f"
+        },
+        {
+          "player_word": 18,
+          "side": 0,
+          "slot": 18,
+          "record": "01191ba196040c0c00000000011010800000ff7f"
+        },
+        {
+          "player_word": 19,
+          "side": 0,
+          "slot": 19,
+          "record": "01191ca1a10f0d0d00000000101010000000ff7f"
+        },
+        {
+          "player_word": 20,
+          "side": 0,
+          "slot": 20,
+          "record": "01191ba1960b0d0d01000000201010000000ff7f"
+        },
+        {
+          "player_word": 21,
+          "side": 1,
+          "slot": 1,
+          "record": "02191ec1c102000002000000101010910000ff7f"
+        },
+        {
+          "player_word": 22,
+          "side": 1,
+          "slot": 2,
+          "record": "02191bc1c10a010102000000201010110000ff7f"
+        },
+        {
+          "player_word": 23,
+          "side": 1,
+          "slot": 3,
+          "record": "02191dc1c10a020202000000011010320000ff7f"
+        },
+        {
+          "player_word": 24,
+          "side": 1,
+          "slot": 4,
+          "record": "02191ac1c105020200000000101010320000ff7f"
+        },
+        {
+          "player_word": 25,
+          "side": 1,
+          "slot": 5,
+          "record": "02191cc1c106050502000000201010000000ff7f"
+        },
+        {
+          "player_word": 26,
+          "side": 1,
+          "slot": 6,
+          "record": "02191bc1c10b060602000000011010000000ff7f"
+        },
+        {
+          "player_word": 27,
+          "side": 1,
+          "slot": 7,
+          "record": "02191bc1a808070700000000101010000000ff7f"
+        },
+        {
+          "player_word": 28,
+          "side": 1,
+          "slot": 8,
+          "record": "02191dc1b409080802000000201010000000ff7f"
+        },
+        {
+          "player_word": 29,
+          "side": 1,
+          "slot": 9,
+          "record": "02191ac1b403090900000000011010800000ff7f"
+        },
+        {
+          "player_word": 30,
+          "side": 1,
+          "slot": 10,
+          "record": "02191ac1a80f0d0d00000000101010000000ff7f"
+        },
+        {
+          "player_word": 31,
+          "side": 1,
+          "slot": 11,
+          "record": "02191bc1c1010d0d02000000201010800000ff7f"
+        },
+        {
+          "player_word": 32,
+          "side": 1,
+          "slot": 12,
+          "record": "02191dc1b40d000000000000011010110400ff7f"
+        },
+        {
+          "player_word": 33,
+          "side": 1,
+          "slot": 13,
+          "record": "02191bc1c109020202000000101010320000ff7f"
+        },
+        {
+          "player_word": 34,
+          "side": 1,
+          "slot": 14,
+          "record": "02191ac1c102020200000000201010b20000ff7f"
+        },
+        {
+          "player_word": 35,
+          "side": 1,
+          "slot": 15,
+          "record": "02191cc1c107040400000000011010110000ff7f"
+        },
+        {
+          "player_word": 36,
+          "side": 1,
+          "slot": 16,
+          "record": "02191dc19c09050500000000101010000000ff7f"
+        },
+        {
+          "player_word": 37,
+          "side": 1,
+          "slot": 17,
+          "record": "02191cc1c10e070702000000201010000000ff7f"
+        },
+        {
+          "player_word": 38,
+          "side": 1,
+          "slot": 18,
+          "record": "02191cc1c105090902000000011010000000ff7f"
+        },
+        {
+          "player_word": 39,
+          "side": 1,
+          "slot": 19,
+          "record": "02191cc1a8020d0d00000000101010800000ff7f"
+        },
+        {
+          "player_word": 40,
+          "side": 1,
+          "slot": 20,
+          "record": "02191bc1c1050d0d02000000201010000000ff7f"
+        }
+      ],
+      "draws": [
+        {
+          "bound": 32,
+          "value": 31
+        },
+        {
+          "bound": 32,
+          "value": 15
+        },
+        {
+          "bound": 32,
+          "value": 3
+        },
+        {
+          "bound": 32,
+          "value": 24
+        },
+        {
+          "bound": 32,
+          "value": 13
+        },
+        {
+          "bound": 32,
+          "value": 3
+        },
+        {
+          "bound": 32,
+          "value": 29
+        },
+        {
+          "bound": 32,
+          "value": 22
+        },
+        {
+          "bound": 32,
+          "value": 26
+        },
+        {
+          "bound": 32,
+          "value": 12
+        },
+        {
+          "bound": 32,
+          "value": 19
+        },
+        {
+          "bound": 32,
+          "value": 5
+        },
+        {
+          "bound": 2,
+          "value": 1
+        },
+        {
+          "bound": 2,
+          "value": 2
+        },
+        {
+          "bound": 4,
+          "value": 3
+        },
+        {
+          "bound": 2,
+          "value": 2
+        },
+        {
+          "bound": 32,
+          "value": 7
+        },
+        {
+          "bound": 4,
+          "value": 2
+        },
+        {
+          "bound": 2,
+          "value": 2
+        },
+        {
+          "bound": 32,
+          "value": 17
+        },
+        {
+          "bound": 4,
+          "value": 3
+        },
+        {
+          "bound": 2,
+          "value": 2
+        },
+        {
+          "bound": 32,
+          "value": 23
+        },
+        {
+          "bound": 4,
+          "value": 2
+        },
+        {
+          "bound": 2,
+          "value": 2
+        },
+        {
+          "bound": 32,
+          "value": 15
+        },
+        {
+          "bound": 4,
+          "value": 4
+        },
+        {
+          "bound": 2,
+          "value": 2
+        },
+        {
+          "bound": 32,
+          "value": 21
+        },
+        {
+          "bound": 4,
+          "value": 4
+        },
+        {
+          "bound": 2,
+          "value": 2
+        },
+        {
+          "bound": 32,
+          "value": 24
+        },
+        {
+          "bound": 4,
+          "value": 1
+        },
+        {
+          "bound": 2,
+          "value": 2
+        },
+        {
+          "bound": 32,
+          "value": 4
+        },
+        {
+          "bound": 4,
+          "value": 3
+        },
+        {
+          "bound": 2,
+          "value": 2
+        },
+        {
+          "bound": 32,
+          "value": 14
+        },
+        {
+          "bound": 32,
+          "value": 22
+        },
+        {
+          "bound": 32,
+          "value": 26
+        },
+        {
+          "bound": 32,
+          "value": 3
+        },
+        {
+          "bound": 32,
+          "value": 25
+        },
+        {
+          "bound": 32,
+          "value": 24
+        },
+        {
+          "bound": 32,
+          "value": 20
+        },
+        {
+          "bound": 32,
+          "value": 25
+        },
+        {
+          "bound": 32,
+          "value": 14
+        },
+        {
+          "bound": 32,
+          "value": 25
+        },
+        {
+          "bound": 32,
+          "value": 24
+        },
+        {
+          "bound": 32,
+          "value": 32
+        },
+        {
+          "bound": 32,
+          "value": 6
+        },
+        {
+          "bound": 2,
+          "value": 1
+        },
+        {
+          "bound": 2,
+          "value": 1
+        },
+        {
+          "bound": 4,
+          "value": 1
+        },
+        {
+          "bound": 2,
+          "value": 1
+        },
+        {
+          "bound": 32,
+          "value": 25
+        },
+        {
+          "bound": 4,
+          "value": 3
+        },
+        {
+          "bound": 2,
+          "value": 2
+        },
+        {
+          "bound": 32,
+          "value": 9
+        },
+        {
+          "bound": 4,
+          "value": 4
+        },
+        {
+          "bound": 2,
+          "value": 1
+        },
+        {
+          "bound": 32,
+          "value": 13
+        },
+        {
+          "bound": 4,
+          "value": 2
+        },
+        {
+          "bound": 2,
+          "value": 1
+        },
+        {
+          "bound": 32,
+          "value": 27
+        },
+        {
+          "bound": 4,
+          "value": 3
+        },
+        {
+          "bound": 2,
+          "value": 1
+        },
+        {
+          "bound": 32,
+          "value": 23
+        },
+        {
+          "bound": 4,
+          "value": 4
+        },
+        {
+          "bound": 2,
+          "value": 1
+        },
+        {
+          "bound": 32,
+          "value": 19
+        },
+        {
+          "bound": 4,
+          "value": 1
+        },
+        {
+          "bound": 2,
+          "value": 1
+        },
+        {
+          "bound": 32,
+          "value": 14
+        },
+        {
+          "bound": 4,
+          "value": 4
+        },
+        {
+          "bound": 2,
+          "value": 1
+        },
+        {
+          "bound": 32,
+          "value": 13
+        }
+      ],
+      "operations": [
+        {
+          "return_ip": 47441,
+          "delta_word": 65533,
+          "player_word": 1,
+          "draw_count": 1
+        },
+        {
+          "return_ip": 47441,
+          "delta_word": 65533,
+          "player_word": 2,
+          "draw_count": 2
+        },
+        {
+          "return_ip": 47441,
+          "delta_word": 65533,
+          "player_word": 3,
+          "draw_count": 3
+        },
+        {
+          "return_ip": 47441,
+          "delta_word": 65533,
+          "player_word": 4,
+          "draw_count": 4
+        },
+        {
+          "return_ip": 47441,
+          "delta_word": 65533,
+          "player_word": 5,
+          "draw_count": 5
+        },
+        {
+          "return_ip": 47441,
+          "delta_word": 65533,
+          "player_word": 6,
+          "draw_count": 6
+        },
+        {
+          "return_ip": 47441,
+          "delta_word": 65533,
+          "player_word": 7,
+          "draw_count": 7
+        },
+        {
+          "return_ip": 47441,
+          "delta_word": 65533,
+          "player_word": 8,
+          "draw_count": 8
+        },
+        {
+          "return_ip": 47441,
+          "delta_word": 65533,
+          "player_word": 9,
+          "draw_count": 9
+        },
+        {
+          "return_ip": 47441,
+          "delta_word": 65533,
+          "player_word": 10,
+          "draw_count": 10
+        },
+        {
+          "return_ip": 47441,
+          "delta_word": 65533,
+          "player_word": 11,
+          "draw_count": 11
+        },
+        {
+          "return_ip": 47441,
+          "delta_word": 65533,
+          "player_word": 12,
+          "draw_count": 12
+        },
+        {
+          "return_ip": 47505,
+          "delta_word": 1,
+          "player_word": 12,
+          "draw_count": 14
+        },
+        {
+          "return_ip": 47547,
+          "delta_word": 65535,
+          "player_word": 13,
+          "draw_count": 16
+        },
+        {
+          "return_ip": 47547,
+          "delta_word": 0,
+          "player_word": 14,
+          "draw_count": 19
+        },
+        {
+          "return_ip": 47547,
+          "delta_word": 65535,
+          "player_word": 15,
+          "draw_count": 22
+        },
+        {
+          "return_ip": 47547,
+          "delta_word": 0,
+          "player_word": 16,
+          "draw_count": 25
+        },
+        {
+          "return_ip": 47547,
+          "delta_word": 65534,
+          "player_word": 17,
+          "draw_count": 28
+        },
+        {
+          "return_ip": 47547,
+          "delta_word": 65534,
+          "player_word": 18,
+          "draw_count": 31
+        },
+        {
+          "return_ip": 47547,
+          "delta_word": 1,
+          "player_word": 19,
+          "draw_count": 34
+        },
+        {
+          "return_ip": 47547,
+          "delta_word": 65535,
+          "player_word": 20,
+          "draw_count": 37
+        },
+        {
+          "return_ip": 47441,
+          "delta_word": 3,
+          "player_word": 21,
+          "draw_count": 39
+        },
+        {
+          "return_ip": 47441,
+          "delta_word": 3,
+          "player_word": 22,
+          "draw_count": 40
+        },
+        {
+          "return_ip": 47441,
+          "delta_word": 3,
+          "player_word": 23,
+          "draw_count": 41
+        },
+        {
+          "return_ip": 47441,
+          "delta_word": 3,
+          "player_word": 24,
+          "draw_count": 42
+        },
+        {
+          "return_ip": 47441,
+          "delta_word": 3,
+          "player_word": 25,
+          "draw_count": 43
+        },
+        {
+          "return_ip": 47441,
+          "delta_word": 3,
+          "player_word": 26,
+          "draw_count": 44
+        },
+        {
+          "return_ip": 47441,
+          "delta_word": 3,
+          "player_word": 27,
+          "draw_count": 45
+        },
+        {
+          "return_ip": 47441,
+          "delta_word": 3,
+          "player_word": 28,
+          "draw_count": 46
+        },
+        {
+          "return_ip": 47441,
+          "delta_word": 3,
+          "player_word": 29,
+          "draw_count": 47
+        },
+        {
+          "return_ip": 47441,
+          "delta_word": 3,
+          "player_word": 30,
+          "draw_count": 48
+        },
+        {
+          "return_ip": 47441,
+          "delta_word": 3,
+          "player_word": 31,
+          "draw_count": 49
+        },
+        {
+          "return_ip": 47441,
+          "delta_word": 3,
+          "player_word": 32,
+          "draw_count": 50
+        },
+        {
+          "return_ip": 47505,
+          "delta_word": 0,
+          "player_word": 32,
+          "draw_count": 52
+        },
+        {
+          "return_ip": 47547,
+          "delta_word": 0,
+          "player_word": 33,
+          "draw_count": 54
+        },
+        {
+          "return_ip": 47547,
+          "delta_word": 65535,
+          "player_word": 34,
+          "draw_count": 57
+        },
+        {
+          "return_ip": 47547,
+          "delta_word": 65533,
+          "player_word": 35,
+          "draw_count": 60
+        },
+        {
+          "return_ip": 47547,
+          "delta_word": 65535,
+          "player_word": 36,
+          "draw_count": 63
+        },
+        {
+          "return_ip": 47547,
+          "delta_word": 65534,
+          "player_word": 37,
+          "draw_count": 66
+        },
+        {
+          "return_ip": 47547,
+          "delta_word": 65533,
+          "player_word": 38,
+          "draw_count": 69
+        },
+        {
+          "return_ip": 47547,
+          "delta_word": 0,
+          "player_word": 39,
+          "draw_count": 72
+        },
+        {
+          "return_ip": 47547,
+          "delta_word": 65533,
+          "player_word": 40,
+          "draw_count": 75
+        }
+      ],
+      "after": [
+        {
+          "player_word": 1,
+          "confidence": 13
+        },
+        {
+          "player_word": 2,
+          "confidence": 29
+        },
+        {
+          "player_word": 3,
+          "confidence": 1
+        },
+        {
+          "player_word": 4,
+          "confidence": 13
+        },
+        {
+          "player_word": 5,
+          "confidence": 29
+        },
+        {
+          "player_word": 6,
+          "confidence": 1
+        },
+        {
+          "player_word": 7,
+          "confidence": 13
+        },
+        {
+          "player_word": 8,
+          "confidence": 29
+        },
+        {
+          "player_word": 9,
+          "confidence": 1
+        },
+        {
+          "player_word": 10,
+          "confidence": 13
+        },
+        {
+          "player_word": 11,
+          "confidence": 29
+        },
+        {
+          "player_word": 12,
+          "confidence": 2
+        },
+        {
+          "player_word": 13,
+          "confidence": 15
+        },
+        {
+          "player_word": 14,
+          "confidence": 32
+        },
+        {
+          "player_word": 15,
+          "confidence": 1
+        },
+        {
+          "player_word": 16,
+          "confidence": 16
+        },
+        {
+          "player_word": 17,
+          "confidence": 30
+        },
+        {
+          "player_word": 18,
+          "confidence": 1
+        },
+        {
+          "player_word": 19,
+          "confidence": 17
+        },
+        {
+          "player_word": 20,
+          "confidence": 31
+        },
+        {
+          "player_word": 21,
+          "confidence": 19
+        },
+        {
+          "player_word": 22,
+          "confidence": 32
+        },
+        {
+          "player_word": 23,
+          "confidence": 4
+        },
+        {
+          "player_word": 24,
+          "confidence": 19
+        },
+        {
+          "player_word": 25,
+          "confidence": 32
+        },
+        {
+          "player_word": 26,
+          "confidence": 4
+        },
+        {
+          "player_word": 27,
+          "confidence": 19
+        },
+        {
+          "player_word": 28,
+          "confidence": 32
+        },
+        {
+          "player_word": 29,
+          "confidence": 4
+        },
+        {
+          "player_word": 30,
+          "confidence": 19
+        },
+        {
+          "player_word": 31,
+          "confidence": 32
+        },
+        {
+          "player_word": 32,
+          "confidence": 4
+        },
+        {
+          "player_word": 33,
+          "confidence": 16
+        },
+        {
+          "player_word": 34,
+          "confidence": 31
+        },
+        {
+          "player_word": 35,
+          "confidence": 1
+        },
+        {
+          "player_word": 36,
+          "confidence": 15
+        },
+        {
+          "player_word": 37,
+          "confidence": 30
+        },
+        {
+          "player_word": 38,
+          "confidence": 1
+        },
+        {
+          "player_word": 39,
+          "confidence": 16
+        },
+        {
+          "player_word": 40,
+          "confidence": 29
+        }
+      ],
+      "strays": []
+    },
+    {
+      "case": 4,
+      "method": "original 0791:B7FA in Unicorn; no skipped reachable calls",
+      "source_sha256": "9820b47814dd96709b0844c7c970a208c4532de7dbf9f4d5e3ddbe597cbea8be",
+      "source_release": "E011",
+      "fixture": "0008020101000200",
+      "countries": [
+        {
+          "country_word": 1,
+          "record": "0100020003000400050006000700080009000a000b000c000d000e000f00100011001200130014001c502080040000040000000000000000000000020000010003000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000301010100060000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000010001010001010001010001000000000000"
+        },
+        {
+          "country_word": 2,
+          "record": "150016001700180019001a001b001c001d001e001f002000210022002300240025002600270028001b1401010100000400000000000000000000000200010100030000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000003010102001c0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000010001000000020002020002010001010001"
+        }
+      ],
+      "classification_set": "98ffffffffffffffffffffffffffffffffffffffffffffffff0f000000000000",
+      "before": [
+        {
+          "player_word": 1,
+          "side": 0,
+          "slot": 1,
+          "record": "01191ea1a10a000001000000101010110000ff7f"
+        },
+        {
+          "player_word": 2,
+          "side": 0,
+          "slot": 2,
+          "record": "011919a1960f010101000000201010110000ff7f"
+        },
+        {
+          "player_word": 3,
+          "side": 0,
+          "slot": 3,
+          "record": "01191da1960c020200000000011010320000ff7f"
+        },
+        {
+          "player_word": 4,
+          "side": 0,
+          "slot": 4,
+          "record": "01191aa1a10b020201000000101010320000ff7f"
+        },
+        {
+          "player_word": 5,
+          "side": 0,
+          "slot": 5,
+          "record": "011919a1a106050501000000201010000000ff7f"
+        },
+        {
+          "player_word": 6,
+          "side": 0,
+          "slot": 6,
+          "record": "01191da19602060600000000011010800000ff7f"
+        },
+        {
+          "player_word": 7,
+          "side": 0,
+          "slot": 7,
+          "record": "01191ca19603070701000000101010800000ff7f"
+        },
+        {
+          "player_word": 8,
+          "side": 0,
+          "slot": 8,
+          "record": "01191ba1a107080801000000201010000000ff7f"
+        },
+        {
+          "player_word": 9,
+          "side": 0,
+          "slot": 9,
+          "record": "01191ba182100c0c01000000011010000000ff7f"
+        },
+        {
+          "player_word": 10,
+          "side": 0,
+          "slot": 10,
+          "record": "01191ba1960d0d0d01000000101010000000ff7f"
+        },
+        {
+          "player_word": 11,
+          "side": 0,
+          "slot": 11,
+          "record": "01191ca1a10d0d0d00000000201010000000ff7f"
+        },
+        {
+          "player_word": 12,
+          "side": 0,
+          "slot": 12,
+          "record": "01191da1a10d000000000000011010110400ff7f"
+        },
+        {
+          "player_word": 13,
+          "side": 0,
+          "slot": 13,
+          "record": "01191da1820b010100000000101010110000ff7f"
+        },
+        {
+          "player_word": 14,
+          "side": 0,
+          "slot": 14,
+          "record": "01191ca1a110020201000000201010220000ff7f"
+        },
+        {
+          "player_word": 15,
+          "side": 0,
+          "slot": 15,
+          "record": "01191ca19606050500000000011010000000ff7f"
+        },
+        {
+          "player_word": 16,
+          "side": 0,
+          "slot": 16,
+          "record": "01191ca19601060601000000101010800000ff7f"
+        },
+        {
+          "player_word": 17,
+          "side": 0,
+          "slot": 17,
+          "record": "01191da1a10c070700000000201010000000ff7f"
+        },
+        {
+          "player_word": 18,
+          "side": 0,
+          "slot": 18,
+          "record": "01191ba196040c0c00000000011010800000ff7f"
+        },
+        {
+          "player_word": 19,
+          "side": 0,
+          "slot": 19,
+          "record": "01191ca1a10f0d0d00000000101010000000ff7f"
+        },
+        {
+          "player_word": 20,
+          "side": 0,
+          "slot": 20,
+          "record": "01191ba1960b0d0d01000000201010000000ff7f"
+        },
+        {
+          "player_word": 21,
+          "side": 1,
+          "slot": 1,
+          "record": "02191ec1c102000002000000101010910000ff7f"
+        },
+        {
+          "player_word": 22,
+          "side": 1,
+          "slot": 2,
+          "record": "02191bc1c10a010102000000201010110000ff7f"
+        },
+        {
+          "player_word": 23,
+          "side": 1,
+          "slot": 3,
+          "record": "02191dc1c10a020202000000011010320000ff7f"
+        },
+        {
+          "player_word": 24,
+          "side": 1,
+          "slot": 4,
+          "record": "02191ac1c105020200000000101010320000ff7f"
+        },
+        {
+          "player_word": 25,
+          "side": 1,
+          "slot": 5,
+          "record": "02191cc1c106050502000000201010000000ff7f"
+        },
+        {
+          "player_word": 26,
+          "side": 1,
+          "slot": 6,
+          "record": "02191bc1c10b060602000000011010000000ff7f"
+        },
+        {
+          "player_word": 27,
+          "side": 1,
+          "slot": 7,
+          "record": "02191bc1a808070700000000101010000000ff7f"
+        },
+        {
+          "player_word": 28,
+          "side": 1,
+          "slot": 8,
+          "record": "02191dc1b409080802000000201010000000ff7f"
+        },
+        {
+          "player_word": 29,
+          "side": 1,
+          "slot": 9,
+          "record": "02191ac1b403090900000000011010800000ff7f"
+        },
+        {
+          "player_word": 30,
+          "side": 1,
+          "slot": 10,
+          "record": "02191ac1a80f0d0d00000000101010000000ff7f"
+        },
+        {
+          "player_word": 31,
+          "side": 1,
+          "slot": 11,
+          "record": "02191bc1c1010d0d02000000201010800000ff7f"
+        },
+        {
+          "player_word": 32,
+          "side": 1,
+          "slot": 12,
+          "record": "02191dc1b40d000000000000011010110400ff7f"
+        },
+        {
+          "player_word": 33,
+          "side": 1,
+          "slot": 13,
+          "record": "02191bc1c109020202000000101010320000ff7f"
+        },
+        {
+          "player_word": 34,
+          "side": 1,
+          "slot": 14,
+          "record": "02191ac1c102020200000000201010b20000ff7f"
+        },
+        {
+          "player_word": 35,
+          "side": 1,
+          "slot": 15,
+          "record": "02191cc1c107040400000000011010110000ff7f"
+        },
+        {
+          "player_word": 36,
+          "side": 1,
+          "slot": 16,
+          "record": "02191dc19c09050500000000101010000000ff7f"
+        },
+        {
+          "player_word": 37,
+          "side": 1,
+          "slot": 17,
+          "record": "02191cc1c10e070702000000201010000000ff7f"
+        },
+        {
+          "player_word": 38,
+          "side": 1,
+          "slot": 18,
+          "record": "02191cc1c105090902000000011010000000ff7f"
+        },
+        {
+          "player_word": 39,
+          "side": 1,
+          "slot": 19,
+          "record": "02191cc1a8020d0d00000000101010800000ff7f"
+        },
+        {
+          "player_word": 40,
+          "side": 1,
+          "slot": 20,
+          "record": "02191bc1c1050d0d02000000201010000000ff7f"
+        }
+      ],
+      "draws": [
+        {
+          "bound": 32,
+          "value": 31
+        },
+        {
+          "bound": 32,
+          "value": 15
+        },
+        {
+          "bound": 32,
+          "value": 3
+        },
+        {
+          "bound": 32,
+          "value": 24
+        },
+        {
+          "bound": 32,
+          "value": 13
+        },
+        {
+          "bound": 32,
+          "value": 3
+        },
+        {
+          "bound": 32,
+          "value": 29
+        },
+        {
+          "bound": 32,
+          "value": 22
+        },
+        {
+          "bound": 32,
+          "value": 26
+        },
+        {
+          "bound": 32,
+          "value": 12
+        },
+        {
+          "bound": 32,
+          "value": 19
+        },
+        {
+          "bound": 32,
+          "value": 5
+        },
+        {
+          "bound": 2,
+          "value": 1
+        },
+        {
+          "bound": 2,
+          "value": 2
+        },
+        {
+          "bound": 4,
+          "value": 3
+        },
+        {
+          "bound": 2,
+          "value": 2
+        },
+        {
+          "bound": 32,
+          "value": 7
+        },
+        {
+          "bound": 4,
+          "value": 2
+        },
+        {
+          "bound": 2,
+          "value": 2
+        },
+        {
+          "bound": 32,
+          "value": 17
+        },
+        {
+          "bound": 4,
+          "value": 3
+        },
+        {
+          "bound": 2,
+          "value": 2
+        },
+        {
+          "bound": 32,
+          "value": 23
+        },
+        {
+          "bound": 4,
+          "value": 2
+        },
+        {
+          "bound": 2,
+          "value": 2
+        },
+        {
+          "bound": 32,
+          "value": 15
+        },
+        {
+          "bound": 4,
+          "value": 4
+        },
+        {
+          "bound": 2,
+          "value": 2
+        },
+        {
+          "bound": 32,
+          "value": 21
+        },
+        {
+          "bound": 4,
+          "value": 4
+        },
+        {
+          "bound": 2,
+          "value": 2
+        },
+        {
+          "bound": 32,
+          "value": 24
+        },
+        {
+          "bound": 4,
+          "value": 1
+        },
+        {
+          "bound": 2,
+          "value": 2
+        },
+        {
+          "bound": 32,
+          "value": 4
+        },
+        {
+          "bound": 4,
+          "value": 3
+        },
+        {
+          "bound": 2,
+          "value": 2
+        },
+        {
+          "bound": 32,
+          "value": 14
+        },
+        {
+          "bound": 32,
+          "value": 22
+        },
+        {
+          "bound": 32,
+          "value": 26
+        },
+        {
+          "bound": 32,
+          "value": 3
+        },
+        {
+          "bound": 32,
+          "value": 25
+        },
+        {
+          "bound": 32,
+          "value": 24
+        },
+        {
+          "bound": 32,
+          "value": 20
+        },
+        {
+          "bound": 32,
+          "value": 25
+        },
+        {
+          "bound": 32,
+          "value": 14
+        },
+        {
+          "bound": 32,
+          "value": 25
+        },
+        {
+          "bound": 32,
+          "value": 24
+        },
+        {
+          "bound": 32,
+          "value": 32
+        },
+        {
+          "bound": 32,
+          "value": 6
+        },
+        {
+          "bound": 2,
+          "value": 1
+        },
+        {
+          "bound": 2,
+          "value": 1
+        },
+        {
+          "bound": 4,
+          "value": 1
+        },
+        {
+          "bound": 2,
+          "value": 1
+        },
+        {
+          "bound": 32,
+          "value": 25
+        },
+        {
+          "bound": 4,
+          "value": 3
+        },
+        {
+          "bound": 2,
+          "value": 2
+        },
+        {
+          "bound": 32,
+          "value": 9
+        },
+        {
+          "bound": 4,
+          "value": 4
+        },
+        {
+          "bound": 2,
+          "value": 1
+        },
+        {
+          "bound": 32,
+          "value": 13
+        },
+        {
+          "bound": 4,
+          "value": 2
+        },
+        {
+          "bound": 2,
+          "value": 1
+        },
+        {
+          "bound": 32,
+          "value": 27
+        },
+        {
+          "bound": 4,
+          "value": 3
+        },
+        {
+          "bound": 2,
+          "value": 1
+        },
+        {
+          "bound": 32,
+          "value": 23
+        },
+        {
+          "bound": 4,
+          "value": 4
+        },
+        {
+          "bound": 2,
+          "value": 1
+        },
+        {
+          "bound": 32,
+          "value": 19
+        },
+        {
+          "bound": 4,
+          "value": 1
+        },
+        {
+          "bound": 2,
+          "value": 1
+        },
+        {
+          "bound": 32,
+          "value": 14
+        },
+        {
+          "bound": 4,
+          "value": 4
+        },
+        {
+          "bound": 2,
+          "value": 1
+        },
+        {
+          "bound": 32,
+          "value": 13
+        }
+      ],
+      "operations": [
+        {
+          "return_ip": 47441,
+          "delta_word": 65531,
+          "player_word": 1,
+          "draw_count": 1
+        },
+        {
+          "return_ip": 47441,
+          "delta_word": 65531,
+          "player_word": 2,
+          "draw_count": 2
+        },
+        {
+          "return_ip": 47441,
+          "delta_word": 65531,
+          "player_word": 3,
+          "draw_count": 3
+        },
+        {
+          "return_ip": 47441,
+          "delta_word": 65531,
+          "player_word": 4,
+          "draw_count": 4
+        },
+        {
+          "return_ip": 47441,
+          "delta_word": 65531,
+          "player_word": 5,
+          "draw_count": 5
+        },
+        {
+          "return_ip": 47441,
+          "delta_word": 65531,
+          "player_word": 6,
+          "draw_count": 6
+        },
+        {
+          "return_ip": 47441,
+          "delta_word": 65531,
+          "player_word": 7,
+          "draw_count": 7
+        },
+        {
+          "return_ip": 47441,
+          "delta_word": 65531,
+          "player_word": 8,
+          "draw_count": 8
+        },
+        {
+          "return_ip": 47441,
+          "delta_word": 65531,
+          "player_word": 9,
+          "draw_count": 9
+        },
+        {
+          "return_ip": 47441,
+          "delta_word": 65531,
+          "player_word": 10,
+          "draw_count": 10
+        },
+        {
+          "return_ip": 47441,
+          "delta_word": 65531,
+          "player_word": 11,
+          "draw_count": 11
+        },
+        {
+          "return_ip": 47441,
+          "delta_word": 65531,
+          "player_word": 12,
+          "draw_count": 12
+        },
+        {
+          "return_ip": 47505,
+          "delta_word": 1,
+          "player_word": 12,
+          "draw_count": 14
+        },
+        {
+          "return_ip": 47547,
+          "delta_word": 65535,
+          "player_word": 13,
+          "draw_count": 16
+        },
+        {
+          "return_ip": 47547,
+          "delta_word": 0,
+          "player_word": 14,
+          "draw_count": 19
+        },
+        {
+          "return_ip": 47547,
+          "delta_word": 65535,
+          "player_word": 15,
+          "draw_count": 22
+        },
+        {
+          "return_ip": 47547,
+          "delta_word": 0,
+          "player_word": 16,
+          "draw_count": 25
+        },
+        {
+          "return_ip": 47547,
+          "delta_word": 65534,
+          "player_word": 17,
+          "draw_count": 28
+        },
+        {
+          "return_ip": 47547,
+          "delta_word": 65534,
+          "player_word": 18,
+          "draw_count": 31
+        },
+        {
+          "return_ip": 47547,
+          "delta_word": 1,
+          "player_word": 19,
+          "draw_count": 34
+        },
+        {
+          "return_ip": 47547,
+          "delta_word": 65535,
+          "player_word": 20,
+          "draw_count": 37
+        },
+        {
+          "return_ip": 47441,
+          "delta_word": 5,
+          "player_word": 21,
+          "draw_count": 39
+        },
+        {
+          "return_ip": 47441,
+          "delta_word": 5,
+          "player_word": 22,
+          "draw_count": 40
+        },
+        {
+          "return_ip": 47441,
+          "delta_word": 5,
+          "player_word": 23,
+          "draw_count": 41
+        },
+        {
+          "return_ip": 47441,
+          "delta_word": 5,
+          "player_word": 24,
+          "draw_count": 42
+        },
+        {
+          "return_ip": 47441,
+          "delta_word": 5,
+          "player_word": 25,
+          "draw_count": 43
+        },
+        {
+          "return_ip": 47441,
+          "delta_word": 5,
+          "player_word": 26,
+          "draw_count": 44
+        },
+        {
+          "return_ip": 47441,
+          "delta_word": 5,
+          "player_word": 27,
+          "draw_count": 45
+        },
+        {
+          "return_ip": 47441,
+          "delta_word": 5,
+          "player_word": 28,
+          "draw_count": 46
+        },
+        {
+          "return_ip": 47441,
+          "delta_word": 5,
+          "player_word": 29,
+          "draw_count": 47
+        },
+        {
+          "return_ip": 47441,
+          "delta_word": 5,
+          "player_word": 30,
+          "draw_count": 48
+        },
+        {
+          "return_ip": 47441,
+          "delta_word": 5,
+          "player_word": 31,
+          "draw_count": 49
+        },
+        {
+          "return_ip": 47441,
+          "delta_word": 5,
+          "player_word": 32,
+          "draw_count": 50
+        },
+        {
+          "return_ip": 47505,
+          "delta_word": 0,
+          "player_word": 32,
+          "draw_count": 52
+        },
+        {
+          "return_ip": 47547,
+          "delta_word": 0,
+          "player_word": 33,
+          "draw_count": 54
+        },
+        {
+          "return_ip": 47547,
+          "delta_word": 65535,
+          "player_word": 34,
+          "draw_count": 57
+        },
+        {
+          "return_ip": 47547,
+          "delta_word": 65533,
+          "player_word": 35,
+          "draw_count": 60
+        },
+        {
+          "return_ip": 47547,
+          "delta_word": 65535,
+          "player_word": 36,
+          "draw_count": 63
+        },
+        {
+          "return_ip": 47547,
+          "delta_word": 65534,
+          "player_word": 37,
+          "draw_count": 66
+        },
+        {
+          "return_ip": 47547,
+          "delta_word": 65533,
+          "player_word": 38,
+          "draw_count": 69
+        },
+        {
+          "return_ip": 47547,
+          "delta_word": 0,
+          "player_word": 39,
+          "draw_count": 72
+        },
+        {
+          "return_ip": 47547,
+          "delta_word": 65533,
+          "player_word": 40,
+          "draw_count": 75
+        }
+      ],
+      "after": [
+        {
+          "player_word": 1,
+          "confidence": 11
+        },
+        {
+          "player_word": 2,
+          "confidence": 27
+        },
+        {
+          "player_word": 3,
+          "confidence": 1
+        },
+        {
+          "player_word": 4,
+          "confidence": 11
+        },
+        {
+          "player_word": 5,
+          "confidence": 27
+        },
+        {
+          "player_word": 6,
+          "confidence": 1
+        },
+        {
+          "player_word": 7,
+          "confidence": 11
+        },
+        {
+          "player_word": 8,
+          "confidence": 27
+        },
+        {
+          "player_word": 9,
+          "confidence": 1
+        },
+        {
+          "player_word": 10,
+          "confidence": 11
+        },
+        {
+          "player_word": 11,
+          "confidence": 27
+        },
+        {
+          "player_word": 12,
+          "confidence": 2
+        },
+        {
+          "player_word": 13,
+          "confidence": 15
+        },
+        {
+          "player_word": 14,
+          "confidence": 32
+        },
+        {
+          "player_word": 15,
+          "confidence": 1
+        },
+        {
+          "player_word": 16,
+          "confidence": 16
+        },
+        {
+          "player_word": 17,
+          "confidence": 30
+        },
+        {
+          "player_word": 18,
+          "confidence": 1
+        },
+        {
+          "player_word": 19,
+          "confidence": 17
+        },
+        {
+          "player_word": 20,
+          "confidence": 31
+        },
+        {
+          "player_word": 21,
+          "confidence": 21
+        },
+        {
+          "player_word": 22,
+          "confidence": 32
+        },
+        {
+          "player_word": 23,
+          "confidence": 6
+        },
+        {
+          "player_word": 24,
+          "confidence": 21
+        },
+        {
+          "player_word": 25,
+          "confidence": 32
+        },
+        {
+          "player_word": 26,
+          "confidence": 6
+        },
+        {
+          "player_word": 27,
+          "confidence": 21
+        },
+        {
+          "player_word": 28,
+          "confidence": 32
+        },
+        {
+          "player_word": 29,
+          "confidence": 6
+        },
+        {
+          "player_word": 30,
+          "confidence": 21
+        },
+        {
+          "player_word": 31,
+          "confidence": 32
+        },
+        {
+          "player_word": 32,
+          "confidence": 6
+        },
+        {
+          "player_word": 33,
+          "confidence": 16
+        },
+        {
+          "player_word": 34,
+          "confidence": 31
+        },
+        {
+          "player_word": 35,
+          "confidence": 1
+        },
+        {
+          "player_word": 36,
+          "confidence": 15
+        },
+        {
+          "player_word": 37,
+          "confidence": 30
+        },
+        {
+          "player_word": 38,
+          "confidence": 1
+        },
+        {
+          "player_word": 39,
+          "confidence": 16
+        },
+        {
+          "player_word": 40,
+          "confidence": 29
+        }
+      ],
+      "strays": []
+    },
+    {
+      "case": 5,
+      "method": "original 0791:B7FA in Unicorn; no skipped reachable calls",
+      "source_sha256": "9820b47814dd96709b0844c7c970a208c4532de7dbf9f4d5e3ddbe597cbea8be",
+      "source_release": "E011",
+      "fixture": "0800020001000200",
+      "countries": [
+        {
+          "country_word": 1,
+          "record": "0100020003000400050006000700080009000a000b000c000d000e000f00100011001200130014001c502080040000040000000000000000000000020000010003000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000301010100060000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000010001010001010001010001000000000000"
+        },
+        {
+          "country_word": 2,
+          "record": "150016001700180019001a001b001c001d001e001f002000210022002300240025002600270028001b1401010100000400000000000000000000000200010100030000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000003010102001c0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000010001000000020002020002010001010001"
+        }
+      ],
+      "classification_set": "98ffffffffffffffffffffffffffffffffffffffffffffffff0f000000000000",
+      "before": [
+        {
+          "player_word": 1,
+          "side": 0,
+          "slot": 1,
+          "record": "01191ea1a10a000001000000101010110000ff7f"
+        },
+        {
+          "player_word": 2,
+          "side": 0,
+          "slot": 2,
+          "record": "011919a1960f010101000000201010110000ff7f"
+        },
+        {
+          "player_word": 3,
+          "side": 0,
+          "slot": 3,
+          "record": "01191da1960c020200000000011010320000ff7f"
+        },
+        {
+          "player_word": 4,
+          "side": 0,
+          "slot": 4,
+          "record": "01191aa1a10b020201000000101010320000ff7f"
+        },
+        {
+          "player_word": 5,
+          "side": 0,
+          "slot": 5,
+          "record": "011919a1a106050501000000201010000000ff7f"
+        },
+        {
+          "player_word": 6,
+          "side": 0,
+          "slot": 6,
+          "record": "01191da19602060600000000011010800000ff7f"
+        },
+        {
+          "player_word": 7,
+          "side": 0,
+          "slot": 7,
+          "record": "01191ca19603070701000000101010800000ff7f"
+        },
+        {
+          "player_word": 8,
+          "side": 0,
+          "slot": 8,
+          "record": "01191ba1a107080801000000201010000000ff7f"
+        },
+        {
+          "player_word": 9,
+          "side": 0,
+          "slot": 9,
+          "record": "01191ba182100c0c01000000011010000000ff7f"
+        },
+        {
+          "player_word": 10,
+          "side": 0,
+          "slot": 10,
+          "record": "01191ba1960d0d0d01000000101010000000ff7f"
+        },
+        {
+          "player_word": 11,
+          "side": 0,
+          "slot": 11,
+          "record": "01191ca1a10d0d0d00000000201010000000ff7f"
+        },
+        {
+          "player_word": 12,
+          "side": 0,
+          "slot": 12,
+          "record": "01191da1a10d000000000000011010110400ff7f"
+        },
+        {
+          "player_word": 13,
+          "side": 0,
+          "slot": 13,
+          "record": "01191da1820b010100000000101010110000ff7f"
+        },
+        {
+          "player_word": 14,
+          "side": 0,
+          "slot": 14,
+          "record": "01191ca1a110020201000000201010220000ff7f"
+        },
+        {
+          "player_word": 15,
+          "side": 0,
+          "slot": 15,
+          "record": "01191ca19606050500000000011010000000ff7f"
+        },
+        {
+          "player_word": 16,
+          "side": 0,
+          "slot": 16,
+          "record": "01191ca19601060601000000101010800000ff7f"
+        },
+        {
+          "player_word": 17,
+          "side": 0,
+          "slot": 17,
+          "record": "01191da1a10c070700000000201010000000ff7f"
+        },
+        {
+          "player_word": 18,
+          "side": 0,
+          "slot": 18,
+          "record": "01191ba196040c0c00000000011010800000ff7f"
+        },
+        {
+          "player_word": 19,
+          "side": 0,
+          "slot": 19,
+          "record": "01191ca1a10f0d0d00000000101010000000ff7f"
+        },
+        {
+          "player_word": 20,
+          "side": 0,
+          "slot": 20,
+          "record": "01191ba1960b0d0d01000000201010000000ff7f"
+        },
+        {
+          "player_word": 21,
+          "side": 1,
+          "slot": 1,
+          "record": "02191ec1c102000002000000101010910000ff7f"
+        },
+        {
+          "player_word": 22,
+          "side": 1,
+          "slot": 2,
+          "record": "02191bc1c10a010102000000201010110000ff7f"
+        },
+        {
+          "player_word": 23,
+          "side": 1,
+          "slot": 3,
+          "record": "02191dc1c10a020202000000011010320000ff7f"
+        },
+        {
+          "player_word": 24,
+          "side": 1,
+          "slot": 4,
+          "record": "02191ac1c105020200000000101010320000ff7f"
+        },
+        {
+          "player_word": 25,
+          "side": 1,
+          "slot": 5,
+          "record": "02191cc1c106050502000000201010000000ff7f"
+        },
+        {
+          "player_word": 26,
+          "side": 1,
+          "slot": 6,
+          "record": "02191bc1c10b060602000000011010000000ff7f"
+        },
+        {
+          "player_word": 27,
+          "side": 1,
+          "slot": 7,
+          "record": "02191bc1a808070700000000101010000000ff7f"
+        },
+        {
+          "player_word": 28,
+          "side": 1,
+          "slot": 8,
+          "record": "02191dc1b409080802000000201010000000ff7f"
+        },
+        {
+          "player_word": 29,
+          "side": 1,
+          "slot": 9,
+          "record": "02191ac1b403090900000000011010800000ff7f"
+        },
+        {
+          "player_word": 30,
+          "side": 1,
+          "slot": 10,
+          "record": "02191ac1a80f0d0d00000000101010000000ff7f"
+        },
+        {
+          "player_word": 31,
+          "side": 1,
+          "slot": 11,
+          "record": "02191bc1c1010d0d02000000201010800000ff7f"
+        },
+        {
+          "player_word": 32,
+          "side": 1,
+          "slot": 12,
+          "record": "02191dc1b40d000000000000011010110400ff7f"
+        },
+        {
+          "player_word": 33,
+          "side": 1,
+          "slot": 13,
+          "record": "02191bc1c109020202000000101010320000ff7f"
+        },
+        {
+          "player_word": 34,
+          "side": 1,
+          "slot": 14,
+          "record": "02191ac1c102020200000000201010b20000ff7f"
+        },
+        {
+          "player_word": 35,
+          "side": 1,
+          "slot": 15,
+          "record": "02191cc1c107040400000000011010110000ff7f"
+        },
+        {
+          "player_word": 36,
+          "side": 1,
+          "slot": 16,
+          "record": "02191dc19c09050500000000101010000000ff7f"
+        },
+        {
+          "player_word": 37,
+          "side": 1,
+          "slot": 17,
+          "record": "02191cc1c10e070702000000201010000000ff7f"
+        },
+        {
+          "player_word": 38,
+          "side": 1,
+          "slot": 18,
+          "record": "02191cc1c105090902000000011010000000ff7f"
+        },
+        {
+          "player_word": 39,
+          "side": 1,
+          "slot": 19,
+          "record": "02191cc1a8020d0d00000000101010800000ff7f"
+        },
+        {
+          "player_word": 40,
+          "side": 1,
+          "slot": 20,
+          "record": "02191bc1c1050d0d02000000201010000000ff7f"
+        }
+      ],
+      "draws": [
+        {
+          "bound": 32,
+          "value": 31
+        },
+        {
+          "bound": 32,
+          "value": 15
+        },
+        {
+          "bound": 32,
+          "value": 3
+        },
+        {
+          "bound": 32,
+          "value": 24
+        },
+        {
+          "bound": 32,
+          "value": 13
+        },
+        {
+          "bound": 32,
+          "value": 3
+        },
+        {
+          "bound": 32,
+          "value": 29
+        },
+        {
+          "bound": 32,
+          "value": 22
+        },
+        {
+          "bound": 32,
+          "value": 26
+        },
+        {
+          "bound": 32,
+          "value": 12
+        },
+        {
+          "bound": 32,
+          "value": 19
+        },
+        {
+          "bound": 32,
+          "value": 5
+        },
+        {
+          "bound": 2,
+          "value": 1
+        },
+        {
+          "bound": 2,
+          "value": 2
+        },
+        {
+          "bound": 4,
+          "value": 3
+        },
+        {
+          "bound": 2,
+          "value": 2
+        },
+        {
+          "bound": 32,
+          "value": 7
+        },
+        {
+          "bound": 4,
+          "value": 2
+        },
+        {
+          "bound": 2,
+          "value": 2
+        },
+        {
+          "bound": 32,
+          "value": 17
+        },
+        {
+          "bound": 4,
+          "value": 3
+        },
+        {
+          "bound": 2,
+          "value": 2
+        },
+        {
+          "bound": 32,
+          "value": 23
+        },
+        {
+          "bound": 4,
+          "value": 2
+        },
+        {
+          "bound": 2,
+          "value": 2
+        },
+        {
+          "bound": 32,
+          "value": 15
+        },
+        {
+          "bound": 4,
+          "value": 4
+        },
+        {
+          "bound": 2,
+          "value": 2
+        },
+        {
+          "bound": 32,
+          "value": 21
+        },
+        {
+          "bound": 4,
+          "value": 4
+        },
+        {
+          "bound": 2,
+          "value": 2
+        },
+        {
+          "bound": 32,
+          "value": 24
+        },
+        {
+          "bound": 4,
+          "value": 1
+        },
+        {
+          "bound": 2,
+          "value": 2
+        },
+        {
+          "bound": 32,
+          "value": 4
+        },
+        {
+          "bound": 4,
+          "value": 3
+        },
+        {
+          "bound": 2,
+          "value": 2
+        },
+        {
+          "bound": 32,
+          "value": 14
+        },
+        {
+          "bound": 32,
+          "value": 22
+        },
+        {
+          "bound": 32,
+          "value": 26
+        },
+        {
+          "bound": 32,
+          "value": 3
+        },
+        {
+          "bound": 32,
+          "value": 25
+        },
+        {
+          "bound": 32,
+          "value": 24
+        },
+        {
+          "bound": 32,
+          "value": 20
+        },
+        {
+          "bound": 32,
+          "value": 25
+        },
+        {
+          "bound": 32,
+          "value": 14
+        },
+        {
+          "bound": 32,
+          "value": 25
+        },
+        {
+          "bound": 32,
+          "value": 24
+        },
+        {
+          "bound": 32,
+          "value": 32
+        },
+        {
+          "bound": 32,
+          "value": 6
+        },
+        {
+          "bound": 2,
+          "value": 1
+        },
+        {
+          "bound": 2,
+          "value": 1
+        },
+        {
+          "bound": 4,
+          "value": 1
+        },
+        {
+          "bound": 2,
+          "value": 1
+        },
+        {
+          "bound": 32,
+          "value": 25
+        },
+        {
+          "bound": 4,
+          "value": 3
+        },
+        {
+          "bound": 2,
+          "value": 2
+        },
+        {
+          "bound": 32,
+          "value": 9
+        },
+        {
+          "bound": 4,
+          "value": 4
+        },
+        {
+          "bound": 2,
+          "value": 1
+        },
+        {
+          "bound": 32,
+          "value": 13
+        },
+        {
+          "bound": 4,
+          "value": 2
+        },
+        {
+          "bound": 2,
+          "value": 1
+        },
+        {
+          "bound": 32,
+          "value": 27
+        },
+        {
+          "bound": 4,
+          "value": 3
+        },
+        {
+          "bound": 2,
+          "value": 1
+        },
+        {
+          "bound": 32,
+          "value": 23
+        },
+        {
+          "bound": 4,
+          "value": 4
+        },
+        {
+          "bound": 2,
+          "value": 1
+        },
+        {
+          "bound": 32,
+          "value": 19
+        },
+        {
+          "bound": 4,
+          "value": 1
+        },
+        {
+          "bound": 2,
+          "value": 1
+        },
+        {
+          "bound": 32,
+          "value": 14
+        },
+        {
+          "bound": 4,
+          "value": 4
+        },
+        {
+          "bound": 2,
+          "value": 1
+        },
+        {
+          "bound": 32,
+          "value": 13
+        }
+      ],
+      "operations": [
+        {
+          "return_ip": 47441,
+          "delta_word": 22,
+          "player_word": 1,
+          "draw_count": 1
+        },
+        {
+          "return_ip": 47441,
+          "delta_word": 22,
+          "player_word": 2,
+          "draw_count": 2
+        },
+        {
+          "return_ip": 47441,
+          "delta_word": 22,
+          "player_word": 3,
+          "draw_count": 3
+        },
+        {
+          "return_ip": 47441,
+          "delta_word": 22,
+          "player_word": 4,
+          "draw_count": 4
+        },
+        {
+          "return_ip": 47441,
+          "delta_word": 22,
+          "player_word": 5,
+          "draw_count": 5
+        },
+        {
+          "return_ip": 47441,
+          "delta_word": 22,
+          "player_word": 6,
+          "draw_count": 6
+        },
+        {
+          "return_ip": 47441,
+          "delta_word": 22,
+          "player_word": 7,
+          "draw_count": 7
+        },
+        {
+          "return_ip": 47441,
+          "delta_word": 22,
+          "player_word": 8,
+          "draw_count": 8
+        },
+        {
+          "return_ip": 47441,
+          "delta_word": 22,
+          "player_word": 9,
+          "draw_count": 9
+        },
+        {
+          "return_ip": 47441,
+          "delta_word": 22,
+          "player_word": 10,
+          "draw_count": 10
+        },
+        {
+          "return_ip": 47441,
+          "delta_word": 22,
+          "player_word": 11,
+          "draw_count": 11
+        },
+        {
+          "return_ip": 47441,
+          "delta_word": 22,
+          "player_word": 12,
+          "draw_count": 12
+        },
+        {
+          "return_ip": 47505,
+          "delta_word": 1,
+          "player_word": 12,
+          "draw_count": 14
+        },
+        {
+          "return_ip": 47547,
+          "delta_word": 65535,
+          "player_word": 13,
+          "draw_count": 16
+        },
+        {
+          "return_ip": 47547,
+          "delta_word": 0,
+          "player_word": 14,
+          "draw_count": 19
+        },
+        {
+          "return_ip": 47547,
+          "delta_word": 65535,
+          "player_word": 15,
+          "draw_count": 22
+        },
+        {
+          "return_ip": 47547,
+          "delta_word": 0,
+          "player_word": 16,
+          "draw_count": 25
+        },
+        {
+          "return_ip": 47547,
+          "delta_word": 65534,
+          "player_word": 17,
+          "draw_count": 28
+        },
+        {
+          "return_ip": 47547,
+          "delta_word": 65534,
+          "player_word": 18,
+          "draw_count": 31
+        },
+        {
+          "return_ip": 47547,
+          "delta_word": 1,
+          "player_word": 19,
+          "draw_count": 34
+        },
+        {
+          "return_ip": 47547,
+          "delta_word": 65535,
+          "player_word": 20,
+          "draw_count": 37
+        },
+        {
+          "return_ip": 47441,
+          "delta_word": 65514,
+          "player_word": 21,
+          "draw_count": 39
+        },
+        {
+          "return_ip": 47441,
+          "delta_word": 65514,
+          "player_word": 22,
+          "draw_count": 40
+        },
+        {
+          "return_ip": 47441,
+          "delta_word": 65514,
+          "player_word": 23,
+          "draw_count": 41
+        },
+        {
+          "return_ip": 47441,
+          "delta_word": 65514,
+          "player_word": 24,
+          "draw_count": 42
+        },
+        {
+          "return_ip": 47441,
+          "delta_word": 65514,
+          "player_word": 25,
+          "draw_count": 43
+        },
+        {
+          "return_ip": 47441,
+          "delta_word": 65514,
+          "player_word": 26,
+          "draw_count": 44
+        },
+        {
+          "return_ip": 47441,
+          "delta_word": 65514,
+          "player_word": 27,
+          "draw_count": 45
+        },
+        {
+          "return_ip": 47441,
+          "delta_word": 65514,
+          "player_word": 28,
+          "draw_count": 46
+        },
+        {
+          "return_ip": 47441,
+          "delta_word": 65514,
+          "player_word": 29,
+          "draw_count": 47
+        },
+        {
+          "return_ip": 47441,
+          "delta_word": 65514,
+          "player_word": 30,
+          "draw_count": 48
+        },
+        {
+          "return_ip": 47441,
+          "delta_word": 65514,
+          "player_word": 31,
+          "draw_count": 49
+        },
+        {
+          "return_ip": 47441,
+          "delta_word": 65514,
+          "player_word": 32,
+          "draw_count": 50
+        },
+        {
+          "return_ip": 47505,
+          "delta_word": 0,
+          "player_word": 32,
+          "draw_count": 52
+        },
+        {
+          "return_ip": 47547,
+          "delta_word": 0,
+          "player_word": 33,
+          "draw_count": 54
+        },
+        {
+          "return_ip": 47547,
+          "delta_word": 65535,
+          "player_word": 34,
+          "draw_count": 57
+        },
+        {
+          "return_ip": 47547,
+          "delta_word": 65533,
+          "player_word": 35,
+          "draw_count": 60
+        },
+        {
+          "return_ip": 47547,
+          "delta_word": 65535,
+          "player_word": 36,
+          "draw_count": 63
+        },
+        {
+          "return_ip": 47547,
+          "delta_word": 65534,
+          "player_word": 37,
+          "draw_count": 66
+        },
+        {
+          "return_ip": 47547,
+          "delta_word": 65533,
+          "player_word": 38,
+          "draw_count": 69
+        },
+        {
+          "return_ip": 47547,
+          "delta_word": 0,
+          "player_word": 39,
+          "draw_count": 72
+        },
+        {
+          "return_ip": 47547,
+          "delta_word": 65533,
+          "player_word": 40,
+          "draw_count": 75
+        }
+      ],
+      "after": [
+        {
+          "player_word": 1,
+          "confidence": 32
+        },
+        {
+          "player_word": 2,
+          "confidence": 32
+        },
+        {
+          "player_word": 3,
+          "confidence": 23
+        },
+        {
+          "player_word": 4,
+          "confidence": 32
+        },
+        {
+          "player_word": 5,
+          "confidence": 32
+        },
+        {
+          "player_word": 6,
+          "confidence": 23
+        },
+        {
+          "player_word": 7,
+          "confidence": 32
+        },
+        {
+          "player_word": 8,
+          "confidence": 32
+        },
+        {
+          "player_word": 9,
+          "confidence": 23
+        },
+        {
+          "player_word": 10,
+          "confidence": 32
+        },
+        {
+          "player_word": 11,
+          "confidence": 32
+        },
+        {
+          "player_word": 12,
+          "confidence": 24
+        },
+        {
+          "player_word": 13,
+          "confidence": 15
+        },
+        {
+          "player_word": 14,
+          "confidence": 32
+        },
+        {
+          "player_word": 15,
+          "confidence": 1
+        },
+        {
+          "player_word": 16,
+          "confidence": 16
+        },
+        {
+          "player_word": 17,
+          "confidence": 30
+        },
+        {
+          "player_word": 18,
+          "confidence": 1
+        },
+        {
+          "player_word": 19,
+          "confidence": 17
+        },
+        {
+          "player_word": 20,
+          "confidence": 31
+        },
+        {
+          "player_word": 21,
+          "confidence": 1
+        },
+        {
+          "player_word": 22,
+          "confidence": 10
+        },
+        {
+          "player_word": 23,
+          "confidence": 1
+        },
+        {
+          "player_word": 24,
+          "confidence": 1
+        },
+        {
+          "player_word": 25,
+          "confidence": 10
+        },
+        {
+          "player_word": 26,
+          "confidence": 1
+        },
+        {
+          "player_word": 27,
+          "confidence": 1
+        },
+        {
+          "player_word": 28,
+          "confidence": 10
+        },
+        {
+          "player_word": 29,
+          "confidence": 1
+        },
+        {
+          "player_word": 30,
+          "confidence": 1
+        },
+        {
+          "player_word": 31,
+          "confidence": 10
+        },
+        {
+          "player_word": 32,
+          "confidence": 1
+        },
+        {
+          "player_word": 33,
+          "confidence": 16
+        },
+        {
+          "player_word": 34,
+          "confidence": 31
+        },
+        {
+          "player_word": 35,
+          "confidence": 1
+        },
+        {
+          "player_word": 36,
+          "confidence": 15
+        },
+        {
+          "player_word": 37,
+          "confidence": 30
+        },
+        {
+          "player_word": 38,
+          "confidence": 1
+        },
+        {
+          "player_word": 39,
+          "confidence": 16
+        },
+        {
+          "player_word": 40,
+          "confidence": 29
+        }
+      ],
+      "strays": []
+    },
+    {
+      "case": 6,
+      "method": "original 0791:B7FA in Unicorn; no skipped reachable calls",
+      "source_sha256": "9820b47814dd96709b0844c7c970a208c4532de7dbf9f4d5e3ddbe597cbea8be",
+      "source_release": "E011",
+      "fixture": "0101010201000200",
+      "countries": [
+        {
+          "country_word": 1,
+          "record": "0100020003000400050006000700080009000a000b000c000d000e000f00100011001200130014001c500514020000040000000000000000000000020000010003000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000301010100060000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000010001010001010001010001000000000000"
+        },
+        {
+          "country_word": 2,
+          "record": "150016001700180019001a001b001c001d001e001f002000210022002300240025002600270028001b1420800400000400000000000000000000000200010100030000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000003010102001c0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000010001000000020002020002010001010001"
+        }
+      ],
+      "classification_set": "98ffffffffffffffffffffffffffffffffffffffffffffffff0f000000000000",
+      "before": [
+        {
+          "player_word": 1,
+          "side": 0,
+          "slot": 1,
+          "record": "01191ea1a10a000001000000101010110000ff7f"
+        },
+        {
+          "player_word": 2,
+          "side": 0,
+          "slot": 2,
+          "record": "011919a1960f010101000000201010110000ff7f"
+        },
+        {
+          "player_word": 3,
+          "side": 0,
+          "slot": 3,
+          "record": "01191da1960c020200000000011010320000ff7f"
+        },
+        {
+          "player_word": 4,
+          "side": 0,
+          "slot": 4,
+          "record": "01191aa1a10b020201000000101010320000ff7f"
+        },
+        {
+          "player_word": 5,
+          "side": 0,
+          "slot": 5,
+          "record": "011919a1a106050501000000201010000000ff7f"
+        },
+        {
+          "player_word": 6,
+          "side": 0,
+          "slot": 6,
+          "record": "01191da19602060600000000011010800000ff7f"
+        },
+        {
+          "player_word": 7,
+          "side": 0,
+          "slot": 7,
+          "record": "01191ca19603070701000000101010800000ff7f"
+        },
+        {
+          "player_word": 8,
+          "side": 0,
+          "slot": 8,
+          "record": "01191ba1a107080801000000201010000000ff7f"
+        },
+        {
+          "player_word": 9,
+          "side": 0,
+          "slot": 9,
+          "record": "01191ba182100c0c01000000011010000000ff7f"
+        },
+        {
+          "player_word": 10,
+          "side": 0,
+          "slot": 10,
+          "record": "01191ba1960d0d0d01000000101010000000ff7f"
+        },
+        {
+          "player_word": 11,
+          "side": 0,
+          "slot": 11,
+          "record": "01191ca1a10d0d0d00000000201010000000ff7f"
+        },
+        {
+          "player_word": 12,
+          "side": 0,
+          "slot": 12,
+          "record": "01191da1a10d000000000000011010110400ff7f"
+        },
+        {
+          "player_word": 13,
+          "side": 0,
+          "slot": 13,
+          "record": "01191da1820b010100000000101010110000ff7f"
+        },
+        {
+          "player_word": 14,
+          "side": 0,
+          "slot": 14,
+          "record": "01191ca1a110020201000000201010220000ff7f"
+        },
+        {
+          "player_word": 15,
+          "side": 0,
+          "slot": 15,
+          "record": "01191ca19606050500000000011010000000ff7f"
+        },
+        {
+          "player_word": 16,
+          "side": 0,
+          "slot": 16,
+          "record": "01191ca19601060601000000101010800000ff7f"
+        },
+        {
+          "player_word": 17,
+          "side": 0,
+          "slot": 17,
+          "record": "01191da1a10c070700000000201010000000ff7f"
+        },
+        {
+          "player_word": 18,
+          "side": 0,
+          "slot": 18,
+          "record": "01191ba196040c0c00000000011010800000ff7f"
+        },
+        {
+          "player_word": 19,
+          "side": 0,
+          "slot": 19,
+          "record": "01191ca1a10f0d0d00000000101010000000ff7f"
+        },
+        {
+          "player_word": 20,
+          "side": 0,
+          "slot": 20,
+          "record": "01191ba1960b0d0d01000000201010000000ff7f"
+        },
+        {
+          "player_word": 21,
+          "side": 1,
+          "slot": 1,
+          "record": "02191ec1c102000002000000101010910000ff7f"
+        },
+        {
+          "player_word": 22,
+          "side": 1,
+          "slot": 2,
+          "record": "02191bc1c10a010102000000201010110000ff7f"
+        },
+        {
+          "player_word": 23,
+          "side": 1,
+          "slot": 3,
+          "record": "02191dc1c10a020202000000011010320000ff7f"
+        },
+        {
+          "player_word": 24,
+          "side": 1,
+          "slot": 4,
+          "record": "02191ac1c105020200000000101010320000ff7f"
+        },
+        {
+          "player_word": 25,
+          "side": 1,
+          "slot": 5,
+          "record": "02191cc1c106050502000000201010000000ff7f"
+        },
+        {
+          "player_word": 26,
+          "side": 1,
+          "slot": 6,
+          "record": "02191bc1c10b060602000000011010000000ff7f"
+        },
+        {
+          "player_word": 27,
+          "side": 1,
+          "slot": 7,
+          "record": "02191bc1a808070700000000101010000000ff7f"
+        },
+        {
+          "player_word": 28,
+          "side": 1,
+          "slot": 8,
+          "record": "02191dc1b409080802000000201010000000ff7f"
+        },
+        {
+          "player_word": 29,
+          "side": 1,
+          "slot": 9,
+          "record": "02191ac1b403090900000000011010800000ff7f"
+        },
+        {
+          "player_word": 30,
+          "side": 1,
+          "slot": 10,
+          "record": "02191ac1a80f0d0d00000000101010000000ff7f"
+        },
+        {
+          "player_word": 31,
+          "side": 1,
+          "slot": 11,
+          "record": "02191bc1c1010d0d02000000201010800000ff7f"
+        },
+        {
+          "player_word": 32,
+          "side": 1,
+          "slot": 12,
+          "record": "02191dc1b40d000000000000011010110400ff7f"
+        },
+        {
+          "player_word": 33,
+          "side": 1,
+          "slot": 13,
+          "record": "02191bc1c109020202000000101010320000ff7f"
+        },
+        {
+          "player_word": 34,
+          "side": 1,
+          "slot": 14,
+          "record": "02191ac1c102020200000000201010b20000ff7f"
+        },
+        {
+          "player_word": 35,
+          "side": 1,
+          "slot": 15,
+          "record": "02191cc1c107040400000000011010110000ff7f"
+        },
+        {
+          "player_word": 36,
+          "side": 1,
+          "slot": 16,
+          "record": "02191dc19c09050500000000101010000000ff7f"
+        },
+        {
+          "player_word": 37,
+          "side": 1,
+          "slot": 17,
+          "record": "02191cc1c10e070702000000201010000000ff7f"
+        },
+        {
+          "player_word": 38,
+          "side": 1,
+          "slot": 18,
+          "record": "02191cc1c105090902000000011010000000ff7f"
+        },
+        {
+          "player_word": 39,
+          "side": 1,
+          "slot": 19,
+          "record": "02191cc1a8020d0d00000000101010800000ff7f"
+        },
+        {
+          "player_word": 40,
+          "side": 1,
+          "slot": 20,
+          "record": "02191bc1c1050d0d02000000201010000000ff7f"
+        }
+      ],
+      "draws": [
+        {
+          "bound": 2,
+          "value": 2
+        },
+        {
+          "bound": 8,
+          "value": 4
+        },
+        {
+          "bound": 2,
+          "value": 1
+        },
+        {
+          "bound": 8,
+          "value": 6
+        },
+        {
+          "bound": 2,
+          "value": 1
+        },
+        {
+          "bound": 8,
+          "value": 1
+        },
+        {
+          "bound": 2,
+          "value": 2
+        },
+        {
+          "bound": 8,
+          "value": 6
+        },
+        {
+          "bound": 2,
+          "value": 2
+        },
+        {
+          "bound": 8,
+          "value": 3
+        },
+        {
+          "bound": 2,
+          "value": 2
+        },
+        {
+          "bound": 8,
+          "value": 2
+        },
+        {
+          "bound": 2,
+          "value": 1
+        },
+        {
+          "bound": 8,
+          "value": 7
+        },
+        {
+          "bound": 2,
+          "value": 2
+        },
+        {
+          "bound": 8,
+          "value": 7
+        },
+        {
+          "bound": 2,
+          "value": 1
+        },
+        {
+          "bound": 8,
+          "value": 3
+        },
+        {
+          "bound": 2,
+          "value": 2
+        },
+        {
+          "bound": 8,
+          "value": 5
+        },
+        {
+          "bound": 2,
+          "value": 2
+        },
+        {
+          "bound": 8,
+          "value": 7
+        },
+        {
+          "bound": 2,
+          "value": 2
+        },
+        {
+          "bound": 8,
+          "value": 4
+        },
+        {
+          "bound": 2,
+          "value": 2
+        },
+        {
+          "bound": 2,
+          "value": 1
+        },
+        {
+          "bound": 4,
+          "value": 4
+        },
+        {
+          "bound": 2,
+          "value": 2
+        },
+        {
+          "bound": 3,
+          "value": 2
+        },
+        {
+          "bound": 2,
+          "value": 2
+        },
+        {
+          "bound": 4,
+          "value": 4
+        },
+        {
+          "bound": 2,
+          "value": 2
+        },
+        {
+          "bound": 3,
+          "value": 1
+        },
+        {
+          "bound": 2,
+          "value": 2
+        },
+        {
+          "bound": 4,
+          "value": 1
+        },
+        {
+          "bound": 2,
+          "value": 2
+        },
+        {
+          "bound": 3,
+          "value": 3
+        },
+        {
+          "bound": 2,
+          "value": 1
+        },
+        {
+          "bound": 4,
+          "value": 3
+        },
+        {
+          "bound": 2,
+          "value": 2
+        },
+        {
+          "bound": 3,
+          "value": 1
+        },
+        {
+          "bound": 2,
+          "value": 2
+        },
+        {
+          "bound": 4,
+          "value": 3
+        },
+        {
+          "bound": 2,
+          "value": 2
+        },
+        {
+          "bound": 3,
+          "value": 3
+        },
+        {
+          "bound": 2,
+          "value": 1
+        },
+        {
+          "bound": 4,
+          "value": 4
+        },
+        {
+          "bound": 2,
+          "value": 2
+        },
+        {
+          "bound": 3,
+          "value": 3
+        },
+        {
+          "bound": 2,
+          "value": 1
+        },
+        {
+          "bound": 4,
+          "value": 2
+        },
+        {
+          "bound": 2,
+          "value": 1
+        },
+        {
+          "bound": 3,
+          "value": 1
+        },
+        {
+          "bound": 2,
+          "value": 1
+        },
+        {
+          "bound": 4,
+          "value": 4
+        },
+        {
+          "bound": 2,
+          "value": 2
+        },
+        {
+          "bound": 3,
+          "value": 2
+        },
+        {
+          "bound": 2,
+          "value": 1
+        },
+        {
+          "bound": 32,
+          "value": 30
+        },
+        {
+          "bound": 32,
+          "value": 3
+        },
+        {
+          "bound": 32,
+          "value": 13
+        },
+        {
+          "bound": 32,
+          "value": 13
+        },
+        {
+          "bound": 32,
+          "value": 11
+        },
+        {
+          "bound": 32,
+          "value": 27
+        },
+        {
+          "bound": 32,
+          "value": 18
+        },
+        {
+          "bound": 32,
+          "value": 5
+        },
+        {
+          "bound": 32,
+          "value": 23
+        },
+        {
+          "bound": 32,
+          "value": 27
+        },
+        {
+          "bound": 32,
+          "value": 12
+        },
+        {
+          "bound": 32,
+          "value": 19
+        },
+        {
+          "bound": 2,
+          "value": 1
+        },
+        {
+          "bound": 2,
+          "value": 1
+        },
+        {
+          "bound": 4,
+          "value": 2
+        },
+        {
+          "bound": 2,
+          "value": 2
+        },
+        {
+          "bound": 32,
+          "value": 16
+        },
+        {
+          "bound": 4,
+          "value": 2
+        },
+        {
+          "bound": 2,
+          "value": 2
+        },
+        {
+          "bound": 32,
+          "value": 26
+        },
+        {
+          "bound": 4,
+          "value": 3
+        },
+        {
+          "bound": 2,
+          "value": 2
+        },
+        {
+          "bound": 32,
+          "value": 28
+        },
+        {
+          "bound": 4,
+          "value": 4
+        },
+        {
+          "bound": 2,
+          "value": 2
+        },
+        {
+          "bound": 32,
+          "value": 29
+        },
+        {
+          "bound": 4,
+          "value": 3
+        },
+        {
+          "bound": 2,
+          "value": 1
+        },
+        {
+          "bound": 32,
+          "value": 14
+        },
+        {
+          "bound": 4,
+          "value": 2
+        },
+        {
+          "bound": 2,
+          "value": 1
+        },
+        {
+          "bound": 32,
+          "value": 28
+        },
+        {
+          "bound": 4,
+          "value": 2
+        },
+        {
+          "bound": 2,
+          "value": 2
+        },
+        {
+          "bound": 32,
+          "value": 7
+        },
+        {
+          "bound": 4,
+          "value": 3
+        },
+        {
+          "bound": 2,
+          "value": 1
+        },
+        {
+          "bound": 32,
+          "value": 8
+        }
+      ],
+      "operations": [
+        {
+          "return_ip": 47441,
+          "delta_word": 65534,
+          "player_word": 1,
+          "draw_count": 2
+        },
+        {
+          "return_ip": 47441,
+          "delta_word": 65534,
+          "player_word": 2,
+          "draw_count": 4
+        },
+        {
+          "return_ip": 47441,
+          "delta_word": 65534,
+          "player_word": 3,
+          "draw_count": 6
+        },
+        {
+          "return_ip": 47441,
+          "delta_word": 65534,
+          "player_word": 4,
+          "draw_count": 8
+        },
+        {
+          "return_ip": 47441,
+          "delta_word": 65534,
+          "player_word": 5,
+          "draw_count": 10
+        },
+        {
+          "return_ip": 47441,
+          "delta_word": 65534,
+          "player_word": 6,
+          "draw_count": 12
+        },
+        {
+          "return_ip": 47441,
+          "delta_word": 65534,
+          "player_word": 7,
+          "draw_count": 14
+        },
+        {
+          "return_ip": 47441,
+          "delta_word": 65534,
+          "player_word": 8,
+          "draw_count": 16
+        },
+        {
+          "return_ip": 47441,
+          "delta_word": 65534,
+          "player_word": 9,
+          "draw_count": 18
+        },
+        {
+          "return_ip": 47441,
+          "delta_word": 65534,
+          "player_word": 10,
+          "draw_count": 20
+        },
+        {
+          "return_ip": 47441,
+          "delta_word": 65534,
+          "player_word": 11,
+          "draw_count": 22
+        },
+        {
+          "return_ip": 47441,
+          "delta_word": 65534,
+          "player_word": 12,
+          "draw_count": 24
+        },
+        {
+          "return_ip": 47505,
+          "delta_word": 65535,
+          "player_word": 12,
+          "draw_count": 26
+        },
+        {
+          "return_ip": 47547,
+          "delta_word": 65534,
+          "player_word": 13,
+          "draw_count": 28
+        },
+        {
+          "return_ip": 47547,
+          "delta_word": 65534,
+          "player_word": 14,
+          "draw_count": 32
+        },
+        {
+          "return_ip": 47547,
+          "delta_word": 1,
+          "player_word": 15,
+          "draw_count": 36
+        },
+        {
+          "return_ip": 47547,
+          "delta_word": 65535,
+          "player_word": 16,
+          "draw_count": 40
+        },
+        {
+          "return_ip": 47547,
+          "delta_word": 65535,
+          "player_word": 17,
+          "draw_count": 44
+        },
+        {
+          "return_ip": 47547,
+          "delta_word": 65534,
+          "player_word": 18,
+          "draw_count": 48
+        },
+        {
+          "return_ip": 47547,
+          "delta_word": 65535,
+          "player_word": 19,
+          "draw_count": 52
+        },
+        {
+          "return_ip": 47547,
+          "delta_word": 65534,
+          "player_word": 20,
+          "draw_count": 56
+        },
+        {
+          "return_ip": 47441,
+          "delta_word": 2,
+          "player_word": 21,
+          "draw_count": 59
+        },
+        {
+          "return_ip": 47441,
+          "delta_word": 2,
+          "player_word": 22,
+          "draw_count": 60
+        },
+        {
+          "return_ip": 47441,
+          "delta_word": 2,
+          "player_word": 23,
+          "draw_count": 61
+        },
+        {
+          "return_ip": 47441,
+          "delta_word": 2,
+          "player_word": 24,
+          "draw_count": 62
+        },
+        {
+          "return_ip": 47441,
+          "delta_word": 2,
+          "player_word": 25,
+          "draw_count": 63
+        },
+        {
+          "return_ip": 47441,
+          "delta_word": 2,
+          "player_word": 26,
+          "draw_count": 64
+        },
+        {
+          "return_ip": 47441,
+          "delta_word": 2,
+          "player_word": 27,
+          "draw_count": 65
+        },
+        {
+          "return_ip": 47441,
+          "delta_word": 2,
+          "player_word": 28,
+          "draw_count": 66
+        },
+        {
+          "return_ip": 47441,
+          "delta_word": 2,
+          "player_word": 29,
+          "draw_count": 67
+        },
+        {
+          "return_ip": 47441,
+          "delta_word": 2,
+          "player_word": 30,
+          "draw_count": 68
+        },
+        {
+          "return_ip": 47441,
+          "delta_word": 2,
+          "player_word": 31,
+          "draw_count": 69
+        },
+        {
+          "return_ip": 47441,
+          "delta_word": 2,
+          "player_word": 32,
+          "draw_count": 70
+        },
+        {
+          "return_ip": 47505,
+          "delta_word": 0,
+          "player_word": 32,
+          "draw_count": 72
+        },
+        {
+          "return_ip": 47547,
+          "delta_word": 0,
+          "player_word": 33,
+          "draw_count": 74
+        },
+        {
+          "return_ip": 47547,
+          "delta_word": 0,
+          "player_word": 34,
+          "draw_count": 77
+        },
+        {
+          "return_ip": 47547,
+          "delta_word": 65535,
+          "player_word": 35,
+          "draw_count": 80
+        },
+        {
+          "return_ip": 47547,
+          "delta_word": 65534,
+          "player_word": 36,
+          "draw_count": 83
+        },
+        {
+          "return_ip": 47547,
+          "delta_word": 65534,
+          "player_word": 37,
+          "draw_count": 86
+        },
+        {
+          "return_ip": 47547,
+          "delta_word": 65535,
+          "player_word": 38,
+          "draw_count": 89
+        },
+        {
+          "return_ip": 47547,
+          "delta_word": 0,
+          "player_word": 39,
+          "draw_count": 92
+        },
+        {
+          "return_ip": 47547,
+          "delta_word": 65534,
+          "player_word": 40,
+          "draw_count": 95
+        }
+      ],
+      "after": [
+        {
+          "player_word": 1,
+          "confidence": 14
+        },
+        {
+          "player_word": 2,
+          "confidence": 30
+        },
+        {
+          "player_word": 3,
+          "confidence": 1
+        },
+        {
+          "player_word": 4,
+          "confidence": 14
+        },
+        {
+          "player_word": 5,
+          "confidence": 30
+        },
+        {
+          "player_word": 6,
+          "confidence": 1
+        },
+        {
+          "player_word": 7,
+          "confidence": 14
+        },
+        {
+          "player_word": 8,
+          "confidence": 30
+        },
+        {
+          "player_word": 9,
+          "confidence": 1
+        },
+        {
+          "player_word": 10,
+          "confidence": 14
+        },
+        {
+          "player_word": 11,
+          "confidence": 30
+        },
+        {
+          "player_word": 12,
+          "confidence": 1
+        },
+        {
+          "player_word": 13,
+          "confidence": 14
+        },
+        {
+          "player_word": 14,
+          "confidence": 30
+        },
+        {
+          "player_word": 15,
+          "confidence": 2
+        },
+        {
+          "player_word": 16,
+          "confidence": 15
+        },
+        {
+          "player_word": 17,
+          "confidence": 31
+        },
+        {
+          "player_word": 18,
+          "confidence": 1
+        },
+        {
+          "player_word": 19,
+          "confidence": 15
+        },
+        {
+          "player_word": 20,
+          "confidence": 30
+        },
+        {
+          "player_word": 21,
+          "confidence": 18
+        },
+        {
+          "player_word": 22,
+          "confidence": 32
+        },
+        {
+          "player_word": 23,
+          "confidence": 3
+        },
+        {
+          "player_word": 24,
+          "confidence": 18
+        },
+        {
+          "player_word": 25,
+          "confidence": 32
+        },
+        {
+          "player_word": 26,
+          "confidence": 3
+        },
+        {
+          "player_word": 27,
+          "confidence": 18
+        },
+        {
+          "player_word": 28,
+          "confidence": 32
+        },
+        {
+          "player_word": 29,
+          "confidence": 3
+        },
+        {
+          "player_word": 30,
+          "confidence": 18
+        },
+        {
+          "player_word": 31,
+          "confidence": 32
+        },
+        {
+          "player_word": 32,
+          "confidence": 3
+        },
+        {
+          "player_word": 33,
+          "confidence": 16
+        },
+        {
+          "player_word": 34,
+          "confidence": 32
+        },
+        {
+          "player_word": 35,
+          "confidence": 1
+        },
+        {
+          "player_word": 36,
+          "confidence": 14
+        },
+        {
+          "player_word": 37,
+          "confidence": 30
+        },
+        {
+          "player_word": 38,
+          "confidence": 1
+        },
+        {
+          "player_word": 39,
+          "confidence": 16
+        },
+        {
+          "player_word": 40,
+          "confidence": 30
+        }
+      ],
+      "strays": []
+    }
+  ]
+}

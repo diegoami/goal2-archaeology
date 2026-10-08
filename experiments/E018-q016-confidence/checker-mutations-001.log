@@ -1,0 +1,55 @@
+defective consistency: exit=1
+test_consistent_record_cannot_be_declared_defective (tests.test_model_confidence.CheckerTests.test_consistent_record_cannot_be_declared_defective) ... FAIL
+test_empty_comparisons_fail (tests.test_model_confidence.CheckerTests.test_empty_comparisons_fail) ... ok
+test_kept_mismatch_fails (tests.test_model_confidence.CheckerTests.test_kept_mismatch_fails) ... ok
+
+======================================================================
+FAIL: test_consistent_record_cannot_be_declared_defective (tests.test_model_confidence.CheckerTests.test_consistent_record_cannot_be_declared_defective)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 29, in test_consistent_record_cannot_be_declared_defective
+    with self.assertRaisesRegex(ValueError, 'passes its consistency check'):
+AssertionError: ValueError not raised
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.009s
+
+FAILED (failures=1)
+
+empty comparison: exit=1
+test_consistent_record_cannot_be_declared_defective (tests.test_model_confidence.CheckerTests.test_consistent_record_cannot_be_declared_defective) ... ok
+test_empty_comparisons_fail (tests.test_model_confidence.CheckerTests.test_empty_comparisons_fail) ... FAIL
+test_kept_mismatch_fails (tests.test_model_confidence.CheckerTests.test_kept_mismatch_fails) ... ok
+
+======================================================================
+FAIL: test_empty_comparisons_fail (tests.test_model_confidence.CheckerTests.test_empty_comparisons_fail)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 34, in test_empty_comparisons_fail
+    with self.assertRaisesRegex(ValueError, 'empty comparison set'):
+AssertionError: ValueError not raised
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.008s
+
+FAILED (failures=1)
+
+kept mismatch: exit=1
+test_consistent_record_cannot_be_declared_defective (tests.test_model_confidence.CheckerTests.test_consistent_record_cannot_be_declared_defective) ... ok
+test_empty_comparisons_fail (tests.test_model_confidence.CheckerTests.test_empty_comparisons_fail) ... ok
+test_kept_mismatch_fails (tests.test_model_confidence.CheckerTests.test_kept_mismatch_fails) ... FAIL
+
+======================================================================
+FAIL: test_kept_mismatch_fails (tests.test_model_confidence.CheckerTests.test_kept_mismatch_fails)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 40, in test_kept_mismatch_fails
+    self.assertEqual(self.run_checker({'fixture-probe-new.json': record}, {}), 1)
+AssertionError: 0 != 1
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.008s
+
+FAILED (failures=1)
+
+killed: 3/3

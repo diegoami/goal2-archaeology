@@ -76,9 +76,10 @@ void update_top_scorers(int param_1,int param_2)
 }
 
 
-// ---- 0791:B602  f_0791_B602  (f_0791_B602; Ghidra 2000:B602, __stdcall16far; found by routines.tsv)
+// ---- 0791:B602  credit_silent_match_scorers  (f_0791_B602; Ghidra 2000:B602, __stdcall16far; found by routines.tsv)
+// selects silent-result scorers, updates scorer tables and applies +1 confidence through B364 after B7FA result clipping  [established; F019]
 
-void __stdcall16far f_0791_B602(undefined4 param_1)
+void __stdcall16far credit_silent_match_scorers(undefined4 param_1)
 
 {
   word *pwVar1;
@@ -95,7 +96,7 @@ void __stdcall16far f_0791_B602(undefined4 param_1)
   
   uVar8 = (undefined2)((ulong)param_1 >> 0x10);
   iVar4 = (int)param_1;
-  cVar5 = f_1771_5A03(iVar4,uVar8);
+  cVar5 = fixture_kind_in_result_set(iVar4,uVar8);
   local_3 = '\0';
   while( true ) {
     iVar2 = *(int *)(iVar4 + local_3 * 2 + 4);
@@ -109,7 +110,7 @@ void __stdcall16far f_0791_B602(undefined4 param_1)
       if (cVar5 != '\0') {
         update_top_scorers(pcVar7[iVar2].continent,wVar3);
       }
-      f_0791_B364(1,wVar3);
+      adjust_player_confidence(1,wVar3);
     }
     if (local_3 == '\x01') break;
     local_3 = local_3 + '\x01';
@@ -140,9 +141,10 @@ void __stdcall16far add_manager_delta(int param_1,int param_2)
 }
 
 
-// ---- 0791:B71C  f_0791_B71C  (f_0791_B71C; Ghidra 2000:B71C, __stdcall16far; found by routines.tsv)
+// ---- 0791:B71C  fixture_confidence_delta  (f_0791_B71C; Ghidra 2000:B71C, __stdcall16far; found by routines.tsv)
+// (opponent country_rating - own country_rating) signed idiv 32; non-draw adds signed-score absolute margin for winner or subtracts for loser; doubles when winner==side equals side==0 or 5A03; draw keeps rank term  [established; F019]
 
-int __stdcall16far f_0791_B71C(char param_1,undefined4 param_2)
+int __stdcall16far fixture_confidence_delta(char param_1,undefined4 param_2)
 
 {
   int iVar1;
@@ -161,16 +163,16 @@ int __stdcall16far f_0791_B71C(char param_1,undefined4 param_2)
   local_6 = (iVar5 - iVar4) / 0x20;
   if (*(char *)(iVar1 + 3) != '\x02') {
     if (*(char *)(iVar1 + 3) == param_1) {
-      iVar4 = f_1771_5C60(iVar1,uVar7);
+      iVar4 = fixture_absolute_margin(iVar1,uVar7);
       local_6 = local_6 + iVar4;
     }
     else {
-      uVar6 = f_1771_5C60(iVar1,uVar7);
+      uVar6 = fixture_absolute_margin(iVar1,uVar7);
       local_6 = local_6 + ~uVar6 + 1;
     }
   }
   if (*(char *)(iVar1 + 3) != '\x02') {
-    if ((param_1 == '\0') || (cVar2 = f_1771_5A03(iVar1,uVar7), cVar2 != '\0')) {
+    if ((param_1 == '\0') || (cVar2 = fixture_kind_in_result_set(iVar1,uVar7), cVar2 != '\0')) {
       bVar3 = true;
     }
     else {
@@ -185,7 +187,7 @@ int __stdcall16far f_0791_B71C(char param_1,undefined4 param_2)
 
 
 // ---- 0791:B7FA  update_fixture_player_state  (f_0791_B7FA; Ghidra 2000:B7FA, __stdcall16far; found by routines.tsv)
-// for both squads' nonzero words selects 3651 when 5A8F nonzero, 3558 otherwise; 3651 flag 1 for XI or status-bit-3 participants, flag 0 for unused bench; morale deltas are separate B364 calls  [established; F018]
+// both squads' nonzero words: selects 3651 when 5A8F nonzero, 3558 otherwise; recovery flag 1 for XI or status-bit-3 participants else 0; B364 applies B71C result to participants, then draw(2)-draw(2) to participating bench; unused bench instead draw(2)-draw(4)  [established; F018; F019]
 
 void __stdcall16far update_fixture_player_state(undefined4 param_1)
 
@@ -221,7 +223,8 @@ void __stdcall16far update_fixture_player_state(undefined4 param_1)
     iVar1 = *(int *)(iVar2 + local_9 * 2 + 4);
     uVar12 = (undefined2)((ulong)countries >> 0x10);
     pcVar9 = (country *)countries;
-    uVar6 = f_0791_B71C(CONCAT11((char)((uint)(iVar1 * 0xbf) >> 8),local_9),iVar2,uVar11);
+    uVar6 = fixture_confidence_delta
+                      (CONCAT11((char)((uint)(iVar1 * 0xbf) >> 8),local_9),iVar2,uVar11);
     if ((!bVar3) && (*(char *)(iVar2 + 2) != '\x01')) {
       add_manager_delta(uVar6,pcVar9[iVar1].manager);
     }
@@ -242,20 +245,20 @@ void __stdcall16far update_fixture_player_state(undefined4 param_1)
             recover_fitness_energy
                       (CONCAT11((char)(local_4 * 2 >> 8),1),pcVar9[iVar1].squad[local_4 - 1]);
           }
-          f_0791_B364(uVar6,pcVar9[iVar1].squad[local_4 - 1]);
+          adjust_player_confidence(uVar6,pcVar9[iVar1].squad[local_4 - 1]);
           if (0xb < local_4) {
             u214b_set_exclude_bit(&ppVar10[wVar14].status,uVar13,3);
             wVar14 = pcVar9[iVar1].squad[local_4 - 1];
             iVar7 = u214b_random_1_to_n(2);
             iVar8 = u214b_random_1_to_n(2);
-            f_0791_B364(iVar8 - iVar7,wVar14);
+            adjust_player_confidence(iVar8 - iVar7,wVar14);
           }
         }
         else {
           wVar14 = pcVar9[iVar1].squad[local_4 - 1];
           iVar7 = u214b_random_1_to_n(4);
           iVar8 = u214b_random_1_to_n(2);
-          f_0791_B364(iVar8 - iVar7,wVar14);
+          adjust_player_confidence(iVar8 - iVar7,wVar14);
           if (cVar4 == '\0') {
             roll_fitness_energy(pcVar9[iVar1].squad[local_4 - 1]);
           }
@@ -281,7 +284,7 @@ void __stdcall16far update_fixture_player_state(undefined4 param_1)
 
 
 // ---- 0791:BA4E  update_pool_player_state  (f_0791_BA4E; Ghidra 2000:BA4E, __stdcall16near; found by routines.tsv)
-// for manager pool's 80 words selects 3651 when 5A8F nonzero, 3558 otherwise; passes recovery flag 0; separate B364 morale delta calls  [established; F018]
+// manager pool's 80 words: selects 3651 when 5A8F nonzero, 3558 otherwise with recovery flag 0; B364 applies draw(4)-draw(4) per word, before caller route_fixture applies B7FA result updates  [established; F018; F019]
 
 void update_pool_player_state(int param_1)
 
@@ -309,7 +312,7 @@ void update_pool_player_state(int param_1)
       wVar6 = ((word *)pool_indices)[local_4];
       iVar3 = u214b_random_1_to_n(4);
       iVar4 = u214b_random_1_to_n(4);
-      f_0791_B364(iVar4 - iVar3,wVar6);
+      adjust_player_confidence(iVar4 - iVar3,wVar6);
       if (*(char *)((int)DS:7C2A + 2) != '\0') {
         f_0791_B27F(((word *)pool_indices)[local_4]);
       }
@@ -349,7 +352,7 @@ void __stdcall16far prepare_unplayed_match(undefined1 *param_1)
       wVar7 = pcVar5[iVar1].squad[local_5 + -1];
       iVar3 = u214b_random_1_to_n(4);
       iVar4 = u214b_random_1_to_n(2);
-      f_0791_B364(iVar4 - iVar3,wVar7);
+      adjust_player_confidence(iVar4 - iVar3,wVar7);
       if (local_5 == 0x14) break;
       local_5 = local_5 + 1;
     }

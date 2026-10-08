@@ -1,0 +1,20 @@
+test_consistent_record_cannot_be_declared_defective (tests.test_model_confidence.CheckerTests.test_consistent_record_cannot_be_declared_defective) ... FAIL
+test_empty_comparisons_fail (tests.test_model_confidence.CheckerTests.test_empty_comparisons_fail) ... ok
+test_kept_mismatch_fails (tests.test_model_confidence.CheckerTests.test_kept_mismatch_fails) ... ok
+
+======================================================================
+FAIL: test_consistent_record_cannot_be_declared_defective (tests.test_model_confidence.CheckerTests.test_consistent_record_cannot_be_declared_defective)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T32/tests/test_model_confidence.py", line 29, in test_consistent_record_cannot_be_declared_defective
+    with self.assertRaisesRegex(ValueError, 'passes its consistency check'):
+AssertionError: ValueError not raised
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.008s
+
+FAILED (failures=1)
+superseded fixture-probe-old.json -> fixture-probe-new.json: defective
+match: 240/240
+MISS case 1 player-word 1: expected (20,), observed 0
+match: 239/240

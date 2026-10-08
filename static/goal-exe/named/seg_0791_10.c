@@ -351,7 +351,7 @@ void __stdcall16far f_0791_D050(undefined4 param_1)
       iVar1 = *(int *)(iVar2 + (char)local_3 * 2 + 4);
       uVar10 = (undefined2)((ulong)countries >> 0x10);
       pcVar8 = (country *)countries;
-      cVar3 = f_1771_5A03(iVar2,uVar9);
+      cVar3 = fixture_kind_in_result_set(iVar2,uVar9);
       if ((cVar3 == '\0') ||
          (iVar5 = f_0791_A6E4(iVar2,uVar9), *(int *)(iVar2 + (char)local_3 * 2 + 4) == iVar5)) {
         local_5 = (uint)local_3;
@@ -359,9 +359,10 @@ void __stdcall16far f_0791_D050(undefined4 param_1)
       else {
         local_5 = 2;
       }
-      uVar6 = f_1771_5C60((int)pcVar8[iVar1].squad +
-                          local_5 * 8 + (*(byte *)(iVar2 + 3) == local_3) * 0x18 + 0x77,uVar10);
-      uVar7 = f_1771_5C60(iVar2,uVar9);
+      uVar6 = fixture_absolute_margin
+                        ((int)pcVar8[iVar1].squad +
+                         local_5 * 8 + (*(byte *)(iVar2 + 3) == local_3) * 0x18 + 0x77,uVar10);
+      uVar7 = fixture_absolute_margin(iVar2,uVar9);
       if (uVar6 <= uVar7) {
         sys_move_025D(8,(int)pcVar8[iVar1].squad +
                         local_5 * 8 + (*(byte *)(iVar2 + 3) == local_3) * 0x18 + 0x77,uVar10,iVar2,

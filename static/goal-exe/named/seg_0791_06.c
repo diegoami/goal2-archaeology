@@ -592,7 +592,7 @@ void __stdcall16far send_off(undefined4 param_1)
 
 
 // ---- 0791:7CC5  adjust_player_form  (f_0791_7CC5; Ghidra 2000:7CC5, __stdcall16far; found by routines.tsv)
-// (pitch, flag, delta): reads the player at pitch+0xD and sets its +0xC := clamp(s8(+0xC) + delta, 1, 0xFF) through 214B:2000; a nonzero flag also draws the fitness card (2BB1/2974 path); 0791:6443 calls it for the scorer (delta = DS:0x7920[7C39!=0?0:1]) and 0791:65FE's per-slot loop for every available player  [established; F012]
+// (pitch, flag, delta): sets live +0xC to clamp(s8(+0xC)+delta,1,255); nonzero flag writes min(32,s8(new live)) to DS:9B07[side*20+slot] via 2BB1/2974, not a card draw; scorer 6443 uses flag one, team-wide 65FE uses zero  [established; F012; F019]
 
 void __stdcall16far adjust_player_form(undefined4 param_1,char param_2,int param_3)
 
