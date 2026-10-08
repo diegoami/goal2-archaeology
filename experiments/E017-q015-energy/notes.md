@@ -22,7 +22,7 @@ is `pitch[+0x14] += (pitch[+0xF] < 5)`; it is not yet a proof that the
 help file's man-marking comparison holds, because the movement and tactic
 paths that supply pitch +0xF must also be read.
 
-## Recovery routine to check in assembly
+## Recovery routine checked in assembly
 
 The named view of 1771:3651 (`seg_1771_03.c:245–290`) indicates:
 
@@ -34,10 +34,21 @@ The named view of 1771:3651 (`seg_1771_03.c:245–290`) indicates:
 - store fitness; restore energy from fitness when signed energy is positive,
   otherwise only after the rand-is-one(3) draw succeeds.
 
-These are draw-dependent operations, not constants. The listing must settle
-draw order, 16-bit wrapping and the callers' flag meanings before modelling.
+These are draw-dependent operations, not constants. The assembly confirms the
+branches and order (`static/goal-exe/code/seg_1771_05.asm:647–757`,
+366B–3774). Draw order is rand(2), rand(8) in both the injured and flag-nonzero
+branches, and rand(3), rand(2) in the flag-zero branch. Fitness is sign-extended
+at 3672. The intermediate fits a signed word for every possible input byte
+and legal draw; no word wrapping occurs. Lower clamping bypasses the upper
+clamp (36E6–36EB), rather than applying both in sequence.
 Fixture update 0791:B7FA and managed pool update 0791:BA4E call this routine
 or 1771:3558, selected by 1771:5A8F (`seg_0791_09.c:226–260,293–303`).
 1771:3558 sets energy before the final fitness lower clamp in the named view
 (`seg_1771_03.c:234–239`); treating the two bytes as always equal would lose
 that ordering edge.
+
+## Baseline verification
+
+The released `goal2-a949da2f` artifact verified by hash. Regenerating the
+unmodified annotations with `decompile.sh --annotations` reproduced every
+committed named-view file byte for byte (`diff -qr` returned zero).
