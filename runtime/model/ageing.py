@@ -170,33 +170,16 @@ def year_end_bytes(player, record, year=0, class_table=None, profile_table=None,
     return writes
 
 
-def recreate_constraints(old):
-    """What `1771:7E80(player)` fixes deterministically in the re-created record (Q014 draws
-    the rest), given the retiree's record `old` as the second pass saw it.
-
-    Returns {'exact': {offset: byte}, 'range': {offset: (lo, hi)}, 'ability_of_own_bytes':
-    True, 'same_rating_per_country': True}:
-    - +0 = old +0, +7 = old +7: make_player(1, old +7, old +0, player) (7EA6-7EC0), which
-      writes country and club_position from its arguments;
-    - +8/+9, +0xA/+0xB, +0x10 = 0 (7F09, 7F12, 7F19); +0x11 = 0: 7FB1's first pass cleared it
-      (7FD4) and neither 7E80 nor make_player writes it; +0x12/+0x13 = 0x7FFF (make_player);
-    - +1 in DS:110C[gk] +- 5 (7EC3-7EF9: base + rand(6) - rand(6)), +2 in DS:0E80[gk] +- 2
-      (roll_peak_age 32AB-32E1), +5 in 1..16 (rand(0x10)), gk = (+7 == 0) — +7 is old +7;
-    - +4 = compute_ability(+1, +2, +3) of the new bytes (7F01, after the age write 7EF9);
-    - +3 = country_rating(country) + 0x7F (make_player's param_1 != 0 branch): the same for
-      every re-create of one country in one 7FDF call, which writes no country record.
-    Not fixed here: +6 = old +6 at the year end (7F30-7F36), which a capture taken before a
-    year of matches does not show (per-match repositioning, notes.md section 6)."""
-    gk = 1 if old[CLUB_POSITION] == 0 else 0
-    age_base, peak_base = RECREATE_AGE_BASE[gk], PEAK_BASE[gk]
-    exact = {COUNTRY: old[COUNTRY], CLUB_POSITION: old[CLUB_POSITION],
-             CAPS: 0, CAPS + 1: 0, GOALS: 0, GOALS + 1: 0, STATUS: 0, SCORER_COUNT: 0,
-             PERFORMANCE: 0xFF, PERFORMANCE + 1: 0x7F}
-    rng = {AGE: (age_base - RECREATE_AGE_SPREAD, age_base + RECREATE_AGE_SPREAD),
-           PEAK: (peak_base - PEAK_SPREAD, peak_base + PEAK_SPREAD),
-           PROFILE: PROFILE_RANGE}
-    return {"exact": exact, "range": rng, "ability_of_own_bytes": True,
-            "same_rating_per_country": True}
+def recreate_constraints(old, country_record=None):
+    """DEPRECATED shim: re-export `recreate.recreate_constraints` (T30). The Q014 model's
+    source of truth moved to `runtime/model/recreate.py`; ageing.py keeps a thin wrapper so
+    existing `import ageing; ageing.recreate_constraints` callers (notably
+    tests/test_model_ageing.py and experiments/E014-q013-ageing/check_ageing.py) keep
+    working without the runtime model becoming a package. `country_record` is forwarded
+    when supplied; absent it, the wrapper behaves as the original F016 function did.
+    """
+    from runtime.model.recreate import recreate_constraints as _impl
+    return _impl(old, country_record=country_record)
 
 
 def derived_skills(ability, record, class_table, profile_table):
