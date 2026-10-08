@@ -1,6 +1,15 @@
 {
   "recovery-001.json": {
     "superseded_by": "recovery-002.json",
-    "reason": "Incomplete healing input: 214B:06D0 calls 0688 directly, bypassing the original 06B1 hook (static/goal-exe/code/seg_214B_01.asm:913–935). recovery-002 captures that draw at 0688 in a repeat of the same cases."
+    "reason": "Incomplete healing input: 214B:06D0 calls 0688 directly, bypassing the original 06B1 hook (static/goal-exe/code/seg_214B_01.asm:913–935). recovery-002 captures that draw at 0688 in a repeat of the same cases.",
+    "differs_only_in": {
+      "case": [
+        "draw_bounds"
+      ],
+      "operation": [
+        "draws"
+      ]
+    },
+    "fails_alone_with": "missing recovery draw"
   }
 }

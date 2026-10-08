@@ -1,4 +1,5 @@
-"""DW2: mutate each declared model constant in place, with clean bytecode.
+"""DW2: mutate each declared model constant in place, by +1 AND -1 (review round 1 R2: a +1-only
+sweep missed REST_THRESHOLD 16->15), and the reviewer's named operator mutants, with clean bytecode.
 
 No copied module and no runtime monkeypatch: each subprocess imports the real
 energy.py. The source is restored even on a failed test/timeout. The supplied
@@ -12,6 +13,16 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 MODEL = ROOT / 'runtime/model/energy.py'
 COMMAND = [sys.executable, '-m', 'unittest', '-v', 'tests.test_model_energy']
+
+
+# the reviewer's operator mutants (review round 1 R3, R4), each pattern unique in energy.py
+OPERATOR_MUTANTS = [
+    ('watched floor unsigned', '        if signed(out[ENERGY]) > FLOOR:', '        if out[ENERGY] > FLOOR:'),
+    ('watched floor >=', '        if signed(out[ENERGY]) > FLOOR:', '        if signed(out[ENERGY]) >= FLOOR:'),
+    ('quick floor unsigned', 'QUICK_PERIOD == 0 and signed(out[ENERGY]) > FLOOR', 'QUICK_PERIOD == 0 and out[ENERGY] > FLOOR'),
+    ('quick floor >=', 'QUICK_PERIOD == 0 and signed(out[ENERGY]) > FLOOR', 'QUICK_PERIOD == 0 and signed(out[ENERGY]) >= FLOOR'),
+    ('draw lower bound 0', 'if not 1 <= value <= bound:', 'if not 0 <= value <= bound:'),
+]
 
 
 def clear_bytecode():
@@ -37,9 +48,10 @@ def main():
             pairs = [(names, values)]
         for name, value in pairs:
             if isinstance(name, ast.Name) and isinstance(value, ast.Constant):
-                mutants.append((name.id, value))
+                for delta in (+1, -1):
+                    mutants.append((name.id, value, delta))
     with destination.open('x') as log:
-        log.write('In-place +1 sweep of every top-level numeric model constant\n')
+        log.write('In-place +1 and -1 sweep of every top-level numeric model constant, then the named operator mutants\n')
         log.write('Command: python3 -m unittest -v tests.test_model_energy\n')
         log.write('Per subprocess timeout: 30 seconds; source restored in finally\n')
         killed = 0
@@ -50,28 +62,35 @@ def main():
             log.write(f'BASELINE exit={baseline.returncode}\n{baseline.stderr}\n')
             if baseline.returncode:
                 return 1
-            for name, value in mutants:
+            edits = []
+            for name, value, delta in mutants:
                 changed = lines.copy()
                 line = changed[value.lineno - 1]
                 changed[value.lineno - 1] = (line[:value.col_offset] +
-                    str(value.value + 1) + line[value.end_col_offset:])
-                MODEL.write_text(''.join(changed))
+                    str(value.value + delta) + line[value.end_col_offset:])
+                edits.append((f'{name} {value.value}->{value.value + delta}', ''.join(changed)))
+            for label, old, new in OPERATOR_MUTANTS:
+                if original.count(old) != 1:
+                    raise ValueError(f'operator mutant {label}: pattern not unique')
+                edits.append((label, original.replace(old, new)))
+            for label, text in edits:
+                MODEL.write_text(text)
                 clear_bytecode()
                 try:
                     result = subprocess.run(COMMAND, cwd=ROOT, capture_output=True,
                                             text=True, timeout=30)
                 except subprocess.TimeoutExpired:
-                    log.write(f'{name} {value.value}->{value.value + 1}: TIMEOUT (not a kill)\n')
+                    log.write(f'{label}: TIMEOUT (not a kill)\n')
                     continue
                 status = 'KILLED' if result.returncode else 'SURVIVED'
                 killed += result.returncode != 0
-                log.write(f'{name} {value.value}->{value.value + 1}: {status} exit={result.returncode}\n')
+                log.write(f'{label}: {status} exit={result.returncode}\n')
                 if result.returncode:
                     log.write(result.stderr + '\n')
                 log.flush()
-            log.write(f'killed: {killed}/{len(mutants)}\n')
-            print(f'killed: {killed}/{len(mutants)}; log: {sys.argv[1]}')
-            return int(killed != len(mutants))
+            log.write(f'killed: {killed}/{len(edits)}\n')
+            print(f'killed: {killed}/{len(edits)}; log: {sys.argv[1]}')
+            return int(killed != len(edits))
         finally:
             MODEL.write_text(original)
             clear_bytecode()

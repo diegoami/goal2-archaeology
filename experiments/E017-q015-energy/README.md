@@ -7,9 +7,16 @@ Empty comparison sets fail.
 ## Superseded by, and why
 
 The machine-readable declaration is `supersessions.json` in this directory.
-The checker validates that both named records exist and that the successor is
-not itself superseded, prints each superseded record and its reason, and checks
-every comparison in all remaining records. Original captures remain unchanged.
+Each entry names the defect: `differs_only_in` (the case and operation fields the missing input
+concerns) and `fails_alone_with` (the error the superseded record raises on its own). The
+checker omits a record only when Done-when 1's conditions hold (review round 1 R1): both records
+exist; the successor is not itself superseded and comes later; it holds the same cases, identical
+outside the declared fields; and the superseded record really is incomplete — at least one of its
+cases fails alone, and every failure is the declared one. Anything else is a failure, never a
+silent omission. It prints each superseded record and its reason, and checks every comparison in
+all remaining records. Original captures remain unchanged. Tests: `tests/test_model_energy.py`
+`Supersession` (an unrelated successor, a complete record, an earlier successor, a difference
+outside the fields, fewer cases, a different failure, a missing successor — each rejected).
 
 | Record | Superseded by | Why |
 | --- | --- | --- |
@@ -28,6 +35,13 @@ added. `mutations-002.log` records the new tests **failing on those in-place
 mutants**, then passing with the original listing constants restored; all
 16 declared constants kill. The model itself was not changed to accommodate
 the tests. Each log includes the exact failing tests, not just a kill count.
+
+That sweep tried +1 only, and missed REST_THRESHOLD 16 -> 15 (review round 1 R2): no test
+reached the intermediate value 15 below the `jge 0x10` at 1771:36D7. `mutations-003.log` is the
+sweep after the review: every constant by +1 AND -1, plus the review's operator mutants (the
+watched and quick floors made unsigned or `>=`, review R3; the draw lower bound 1 -> 0, R4):
+**37/37 killed**, with the new literal tests (intermediate 15; energy 1/128/255 at the watched
+step's edge; a draw of 0).
 
 | Constant | In-place change | Result in mutations-002.log |
 | --- | --- | --- |

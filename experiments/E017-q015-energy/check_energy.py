@@ -58,17 +58,55 @@ def compare(record):
     return good, total
 
 
+def _cases(path):
+    record = json.loads(path.read_text())
+    return record['cases'] if 'cases' in record else [record]
+
+
+def _without(case, fields):
+    """The case with the declared defect fields removed (top-level and per operation)."""
+    out = {k: v for k, v in case.items() if k not in fields['case']}
+    out['operations'] = [{k: v for k, v in op.items() if k not in fields['operation']}
+                         for op in case['operations']]
+    return out
+
+
 def select_records(files, supersessions):
-    """Validate explicit supersessions before omitting any incomplete capture."""
-    names = {path.name for path in files}
+    """Omit a superseded capture only when Done-when 1's conditions hold (review round 1 R1):
+    the successor is a later record of the SAME cases — identical but for the fields the declared
+    defect concerns — and the superseded record really is incomplete: on its own it fails with the
+    declared error. Anything else is a failure, never a silent omission."""
+    order = [path.name for path in files]
+    by_name = {path.name: path for path in files}
     for name, entry in supersessions.items():
         successor = entry['superseded_by']
-        if name not in names or successor not in names:
+        if name not in by_name or successor not in by_name:
             raise ValueError('supersession requires both committed records')
         if successor == name or successor in supersessions:
             raise ValueError('superseding record must itself be complete')
         if not isinstance(entry['reason'], str) or not entry['reason'].strip():
             raise ValueError('supersession requires a reason')
+        if order.index(successor) <= order.index(name):
+            raise ValueError(f'{successor} does not come after {name}')
+        fields = entry['differs_only_in']
+        old, new = _cases(by_name[name]), _cases(by_name[successor])
+        if len(old) != len(new) or any(len(a['operations']) != len(b['operations'])
+                                       for a, b in zip(old, new)):
+            raise ValueError(f'{successor} does not hold the cases of {name}')
+        if any(_without(a, fields) != _without(b, fields) for a, b in zip(old, new)):
+            raise ValueError(f'{successor} differs from {name} outside the declared defect '
+                             f'fields {fields}')
+        error = entry['fails_alone_with']
+        failed = 0
+        for case in old:
+            try:
+                compare(case)
+            except ValueError as e:
+                if error not in str(e):
+                    raise ValueError(f'{name} fails otherwise than declared: {e}')
+                failed += 1
+        if not failed:
+            raise ValueError(f'{name} is complete on its own: nothing to supersede')
     for name, entry in sorted(supersessions.items()):
         print(f"superseded {name} by {entry['superseded_by']}: {entry['reason']}")
     return [path for path in files if path.name not in supersessions]
