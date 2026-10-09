@@ -1,0 +1,42 @@
+test_the_r4_r1_reproduction_is_refused (tests.test_human_keys.ReproductionWrapperTests.test_the_r4_r1_reproduction_is_refused) ... FAIL
+test_the_r4_r2_reproduction_is_refused (tests.test_human_keys.ReproductionWrapperTests.test_the_r4_r2_reproduction_is_refused) ... FAIL
+
+======================================================================
+FAIL: test_the_r4_r1_reproduction_is_refused (tests.test_human_keys.ReproductionWrapperTests.test_the_r4_r1_reproduction_is_refused)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T35/tests/test_human_keys.py", line 1134, in test_the_r4_r1_reproduction_is_refused
+    self.assertEqual(r.returncode, 1, out[-4000:])
+AssertionError: 0 != 1 : T35 r4-R1 reproduction: injected clock, _submitted=2, _finished=0, keys a;b;c
+  A: stability fallback, consumed (events, sig) pair: refused
+      log (x58): stable live savestate ignored on the fast path: no owned write
+      log (x4): F12+S sent again: no complete savestate after 3.0s
+      log: snapshot skipped: savestate not complete and stable within 15.0s
+      request line: {"origin": "burst", "pre_events": 0, "request_s": 0.0, "sent_s": 13.0, "seq": null}
+  B: fresh arrival, the review's event advance: STAGED under the earlier request
+      log: staged snapshots/snap-0001-20261009T175605Z.sav (312 bytes, sha256 b4abd0d738b36367...)
+      request line: {"accept_events": 2, "origin": "burst", "pre_events": 0, "request_file": "requests/rq-0001.sav", "request_s": 0.0, "request_sha256": "b4abd0d738b36367ceb59d0a4730ccd5a58b0c08aff1cf92db5b3b97fec90480", "sent_s": 0.03, "seq": 1}
+  C: fresh arrival, one save's write events: STAGED under the earlier request
+      log: staged snapshots/snap-0001-20261009T175605Z.sav (312 bytes, sha256 b4abd0d738b36367...)
+      request line: {"accept_events": 54, "origin": "burst", "pre_events": 0, "request_file": "requests/rq-0001.sav", "request_s": 0.0, "request_sha256": "b4abd0d738b36367ceb59d0a4730ccd5a58b0c08aff1cf92db5b3b97fec90480", "sent_s": 0.03, "seq": 1}
+R1 BYPASS: the live savestate's bytes were staged under the earlier request (B: fresh arrival, the review's event advance; C: fresh arrival, one save's write events)
+
+
+======================================================================
+FAIL: test_the_r4_r2_reproduction_is_refused (tests.test_human_keys.ReproductionWrapperTests.test_the_r4_r2_reproduction_is_refused)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T35/tests/test_human_keys.py", line 1140, in test_the_r4_r2_reproduction_is_refused
+    self.assertEqual(r.returncode, 1, out[-4000:])
+AssertionError: 0 != 1 : T35 r4-R2 reproduction: bracketing snapshot + key event, later-request bytes, keys a;b;c
+  attribution: PASS — 2 save requests, every staged request owns its savestate bytes
+  burst count: PASS — 1 burst snapshots for 1 key group(s)
+  request-window timing: PASS — 1 request windows interleaved with their key groups
+  mapped coverage: PASS — screens: 2, transitions: 1, keys: 3; every press mapped
+R2 BYPASS: all four checks green on later-request bytes (evidence-free guard)
+
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.126s
+
+FAILED (failures=2)

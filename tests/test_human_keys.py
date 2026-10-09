@@ -786,13 +786,13 @@ class DeferredCaptureTests(unittest.TestCase):
         self.assertIn("request attribution lost", why)
         self.assertIn("lost boundary", why)
         clean = [{"request_s": 0.0, "sent_s": 0.03, "origin": "watcher", "seq": 1,
-                  "pre_events": 0, "accept_events": 54, "request_file": "requests/rq-0001.sav",
-                  "request_sha256": "h1"},
+                  "pre_sig": [1, 4096, 10, 11], "pre_events": 0, "accept_events": 54,
+                  "request_file": "requests/rq-0001.sav", "request_sha256": "h1"},
                  {"request_s": 20.0, "sent_s": 20.03, "origin": "watcher", "seq": 2,
-                  "pre_events": 54, "accept_events": 108, "request_file": "requests/rq-0002.sav",
-                  "request_sha256": "h2"},
+                  "pre_sig": [1, 4096, 20, 21], "pre_events": 54, "accept_events": 108,
+                  "request_file": "requests/rq-0002.sav", "request_sha256": "h2"},
                  {"request_s": 40.0, "sent_s": 40.03, "origin": "watcher", "seq": 3,
-                  "pre_events": 108, "accept_events": 162,
+                  "pre_sig": [1, 4096, 40, 41], "pre_events": 108, "accept_events": 162,
                   "request_file": "requests/rq-0003.sav", "request_sha256": "h3"}]
         ok, why = scripted_keys.check_attribution(clean)
         self.assertTrue(ok)
@@ -883,6 +883,36 @@ class AttributionBypassTests(unittest.TestCase):
         ok, why = scripted_keys.check_attribution([line])
         self.assertFalse(ok)
 
+    def test_a_one_save_of_later_write_events_is_not_staged_under_the_earlier_request(self):
+        # Sol delta r4 R1, the residual (issue #111 R1): the every-poll ownership check
+        # only bounds the UPPER end of the event advance (> ONE_SAVE_MAX_EVENTS), and the
+        # r3 lag check runs only on the first poll. So when a job's first poll sees NO
+        # completed write (lag already > 1: a later request is queued) and a later
+        # request's save then lands within one save's bound of write events, the
+        # fresh-arrival branch staged those bytes under the earlier request's window with
+        # an ordinary, successful line — the reviewer's 'STAGED LATER BYTES UNDER FIRST
+        # REQUEST: True' (PR #106 delta r4 review, R1). The injection is the Sol
+        # reproduction's: injected clock, _submitted=2/_finished=0, event count 0 at the
+        # first poll, then one write of LATER REQUEST BYTES advancing the count to 2.
+        from tests import test_human_record as fixture
+        import scripted_keys
+        session, w, live, state = self._sitting([])
+        pre = rec.file_signature(live)
+        state["events"] = 0
+        self.clock.actions.append(
+            lambda: (live.write_bytes(fixture.tiny_zip(b"LATER REQUEST BYTES")),
+                     state.__setitem__("events", 2)))
+        entry = w._stage_job(pre, 0.0, 0.03, "burst", 0,
+                             session / "requests" / "rq-0001.sav")
+        line = json.loads((session / "requests.jsonl").read_text())
+        self.assertIsNone(entry)                    # nothing staged under its window
+        self.assertTrue(line.get("superseded"), line)
+        self.assertIsNone(line["seq"])
+        self.assertFalse((session / "index.jsonl").exists())
+        ok, why = scripted_keys.check_attribution([line])
+        self.assertFalse(ok)
+        self.assertIn("lost boundary", why)
+
     def test_the_stability_fallback_never_restages_consumed_bytes(self):
         # reproduction 2: the live savestate already holds the later request's save,
         # an earlier job already consumed it (_fast_consumed matches its event count
@@ -919,19 +949,46 @@ class GuardAttributionTests(unittest.TestCase):
         import scripted_keys
         self.sk = scripted_keys
 
-    def _evidenced(self, seq, request_s, pre, acc):
-        return {"request_s": request_s, "sent_s": request_s + 0.03, "origin": "burst",
+    def _evidenced(self, seq, request_s, pre, acc, pre_sig=True):
+        line = {"request_s": request_s, "sent_s": request_s + 0.03, "origin": "burst",
                 "seq": seq, "pre_events": pre, "accept_events": acc,
                 "request_file": f"requests/rq-{seq:04d}.sav",
                 "request_sha256": f"hash-{seq}"}
+        if pre_sig:
+            line["pre_sig"] = [1234, 4096, 1_700_000_000_000_000_000, 1_700_000_000_000_000_001]
+        return line
 
     def test_an_ordinary_staged_line_without_evidence_is_rejected(self):
         # the exact line shape the bypasses produced (all four acceptance checks
         # returned true on it pre-fix)
-        ok, why = self.sk.check_attribution(
-            [{"request_s": 0.0, "sent_s": 0.03, "origin": "burst", "seq": 1}])
+        line = self._evidenced(1, 0.0, 0, 54, pre_sig=False)
+        del line["pre_events"], line["accept_events"], line["request_file"], line["request_sha256"]
+        ok, why = self.sk.check_attribution([line])
         self.assertFalse(ok)
         self.assertIn("ownership evidence", why)
+
+    def test_a_line_with_write_accounting_but_no_pre_send_state_is_rejected(self):
+        # Sol delta r4 R2 (issue #111 R2): the r4 R1 bypass's request line carries the
+        # recorder's whole write accounting (pre_events/accept_events, the per-request
+        # file and its hash) yet ties those bytes to no pre-send state — the bytes on
+        # the live savestate when the request was sent. Absence of `superseded` plus
+        # self-reported counts is evidence-free: the guard must reject it, with the
+        # bracketing snapshot and key event that made the other three checks pass.
+        line = self._evidenced(1, 0.0, 0, 2, pre_sig=False)
+        ok, why = self.sk.check_attribution([line])
+        self.assertFalse(ok)
+        self.assertIn("evidence-free", why)
+        self.assertIn("pre-send state", why)
+
+    def test_a_request_that_staged_nothing_is_rejected(self):
+        # 'Missing-staged requests fail' (T35 Scope 2): a request line with no seq is a
+        # screen the recorder could not see; certifying it would certify a boundary it
+        # never owned.
+        ok, why = self.sk.check_attribution(
+            [{"request_s": 0.0, "sent_s": 0.03, "origin": "burst", "seq": None,
+              "pre_sig": None, "pre_events": 0}])
+        self.assertFalse(ok)
+        self.assertIn("staged nothing", why)
 
     def test_two_saves_in_one_request_window_are_rejected(self):
         line = self._evidenced(1, 0.0, 0, 108)      # > ONE_SAVE_MAX_EVENTS
@@ -946,8 +1003,7 @@ class GuardAttributionTests(unittest.TestCase):
         self.assertIn("distinct writes", why)
 
     def test_a_well_evidenced_sitting_passes(self):
-        lines = [self._evidenced(1, 0.0, 0, 54), self._evidenced(2, 1.0, 54, 108),
-                 {"request_s": 2.0, "sent_s": 2.03, "origin": "burst", "seq": None}]
+        lines = [self._evidenced(1, 0.0, 0, 54), self._evidenced(2, 1.0, 54, 108)]
         ok, _ = self.sk.check_attribution(lines)
         self.assertTrue(ok)
 
@@ -1052,3 +1108,34 @@ class GuardTests(unittest.TestCase):
         finally:
             if session is not None:
                 shutil.rmtree(session, ignore_errors=True)
+
+
+class ReproductionWrapperTests(unittest.TestCase):
+    """T35 (issue #111): the two Sol delta r4 reproductions are commands, and the wrapper
+    compares their exit — exit 1 means the recorder (R1) or the acceptance guard (R2) rejected
+    the bypass, anything else means the bypass sailed through. Both commands exited 0 on the
+    tree they were written against (evidence/E015/T35-r*/pre-fix-*.log): the r4-R1 fresh-arrival
+    path staged a later request's bytes under the earlier request's window, and all four
+    acceptance checks were green on those bytes."""
+
+    def _run(self, *args):
+        tmp = ROOT / "scratch" / "t34-tmp"
+        tmp.mkdir(parents=True, exist_ok=True)
+        env = dict(os.environ, PYTHONDONTWRITEBYTECODE="1", TMPDIR=str(tmp))
+        return subprocess.run(
+            [sys.executable,
+             str(ROOT / "experiments" / "E015-human-playthrough" / "mutate_keys.py"), *args],
+            cwd=ROOT, env=env, capture_output=True, text=True, timeout=300)
+
+    def test_the_r4_r1_reproduction_is_refused(self):
+        r = self._run("--r4-r1", "--clock", "injected", "--_submitted=2", "--_finished=0",
+                      "--keys", "a;b;c")
+        out = r.stdout + r.stderr
+        self.assertEqual(r.returncode, 1, out[-4000:])
+        self.assertIn("stability fallback", out)
+
+    def test_the_r4_r2_reproduction_is_refused(self):
+        r = self._run("--r4-r2", "--bracket", "--later-bytes", "--keys", "a;b;c")
+        out = r.stdout + r.stderr
+        self.assertEqual(r.returncode, 1, out[-4000:])
+        self.assertIn("evidence-free", out)
