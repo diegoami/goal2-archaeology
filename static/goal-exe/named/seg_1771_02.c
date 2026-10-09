@@ -2,7 +2,7 @@
 // Headings give listing addresses (SEGMENT:OFFSET, as in ../code/). DS:XXXX is the data segment 2581. A segment number written in the code (a far pointer's segment, a far call's) is Ghidra's: listing=Ghidra 0000=0000, 000E=1000, 0791=2000, 16D6=3000, 1771=4000, 2138=5000, 2139=6000, 214B=7000, 235C=8000, 2382=9000, 23E4=A000, 2581=B000.
 
 // ---- 1771:157D  draw_team_panel  (f_1771_157D; Ghidra 4000:157D, __stdcall16near; found by routines.tsv)
-// a country's information panel (template DS:4BBE): name, manager, ranks (world_rank, continent_rank, +0x28, +0x29), line counts (1771:0E6C), word bars DS:9B5A..9B60, the 8 team-tactic flags of +0x2D, line strengths (1771:0BC4), continent  [likely; F008; F010; read decompiled/seg_1771_01.c]
+// a country's information panel (template DS:4BBE): name, manager, ranks (world_rank, continent_rank, +0x28, +0x29), line counts (1771:0E6C), word bars DS:9B5A..9B60, the 8 team-tactic flags of +0x2D, line strengths (1771:0BC4), continent. The bar at row 0x17 is filled from DS:9B5A via DS:78A3[DS:9B5A] (the team morale string index in the same 6EB4-rooted table the player panel reads for individual morale). The team morale aggregate DS:9B5A is recomputed here by 1771:13D0 every panel render; it is NEVER persisted into the country record (the listing has no other writer of DS:9B5A)  [likely; F008; F010; F020; read decompiled/seg_1771_01.c]
 
 void draw_team_panel(int param_1)
 
@@ -69,7 +69,7 @@ void draw_team_panel(int param_1)
   u214b_write_string_at_attr_var
             ((undefined4 *)&DS:A96E,0xb000,CONCAT11(extraout_AH_04,0x21),
              CONCAT11(extraout_AH_04,0xc),puVar4,uVar5);
-  f_1771_13D0(param_1);
+  team_panel_aggregate(param_1);
   u214b_write_string_at_fwd
             ((undefined4 *)&DS:A96E,0xb000,0x2e,0x14,
              (uint)*(byte *)(DS:9B5E + 0x78c4) * 0x10 + 0x6eb4,0xb000);
@@ -1074,24 +1074,4 @@ undefined2 __stdcall16far foot_index(uint param_1)
   return CONCAT11((char)((ulong)lVar1 >> 8),
                   *(undefined1 *)
                    ((int)lVar1 + (uint)((player *)players)[param_1].club_position + 0xe60));
-}
-
-
-// ---- 1771:30D9  player_leadership  (f_1771_30D9; Ghidra 4000:30D9, __stdcall16far; found by routines.tsv)
-// leadership v = ((+3) - (+5)) mod 8, halved when +1 < 0x15  [established; F008; read decompiled/seg_1771_02.c]
-
-uint __stdcall16far player_leadership(int param_1)
-
-{
-  player *ppVar1;
-  undefined2 uVar2;
-  uint local_6;
-  
-  uVar2 = (undefined2)((ulong)players >> 0x10);
-  ppVar1 = (player *)players;
-  local_6 = (int)((uint)ppVar1[param_1].rating - (uint)ppVar1[param_1].skill_profile) % 8;
-  if (ppVar1[param_1].age < 0x15) {
-    local_6 = local_6 / 2;
-  }
-  return local_6;
 }

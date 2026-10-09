@@ -28,7 +28,7 @@ char __stdcall16far f_0791_3111(char *param_1)
   else {
     bVar2 = true;
   }
-  iVar4 = f_0791_261A();
+  iVar4 = draw_table_byte();
   local_c = (uint)*(byte *)(bVar2 + 0x778) + iVar4;
   cVar1 = pcVar7[6];
   uVar5 = f_0791_30EA(pcVar7,uVar8,2);
@@ -367,7 +367,7 @@ void __stdcall16far f_0791_384C(undefined4 param_1,uint param_2)
       uVar8 = (undefined2)((ulong)param_1 >> 0x10);
       iVar7 = (int)param_1;
       if (*(byte *)(iVar7 + 6) == param_2) {
-        iVar4 = f_0791_261A();
+        iVar4 = draw_table_byte();
         iVar4 = iVar4 + 1;
         cVar2 = attack_direction(iVar7,uVar8);
         local_4 = CONCAT11(local_4._1_1_ + (char)((cVar2 * iVar4) / 2),(byte)local_4);
@@ -699,7 +699,7 @@ void __stdcall16far f_0791_3DF6(char *param_1)
   pcVar3 = (char *)param_1;
   f_0791_3D38(pcVar3[6],&local_4,unaff_SS);
   if (local_4 == 0) {
-    iVar2 = f_0791_261A();
+    iVar2 = draw_table_byte();
     local_4 = CONCAT11(local_4._1_1_,
                        ((char *)form_delta)[*param_1 < '\0'] * ((char)(iVar2 / 4) + '\x04'));
     cVar1 = u214b_random_1_to_n(10);
