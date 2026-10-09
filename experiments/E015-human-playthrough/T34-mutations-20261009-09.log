@@ -1,0 +1,9 @@
+MUTATION: r3-R1: deferred-capture check removed (runtime/human/recorder.py); exit=1; failing tests: 2
+    FAIL: test_a_deferred_stage_job_is_marked_superseded_and_never_stages (tests.test_human_keys.DeferredCaptureTests.test_a_deferred_stage_job_is_marked_superseded_and_never_stages)
+    FAIL: test_the_guard_rejects_a_superseded_sitting (tests.test_human_keys.DeferredCaptureTests.test_the_guard_rejects_a_superseded_sitting)
+    stdbuf     present
+MUTATION: r3-R2: deferred-capture regression's wrap-_stage_job sleeps no more (tests/test_human_keys.py); exit=1; failing tests: 2
+    FAIL: test_a_deferred_stage_job_is_marked_superseded_and_never_stages (tests.test_human_keys.DeferredCaptureTests.test_a_deferred_stage_job_is_marked_superseded_and_never_stages)
+    FAIL: test_the_guard_rejects_a_superseded_sitting (tests.test_human_keys.DeferredCaptureTests.test_the_guard_rejects_a_superseded_sitting)
+    stdbuf     present
+Mutations: 2; survivors: []
