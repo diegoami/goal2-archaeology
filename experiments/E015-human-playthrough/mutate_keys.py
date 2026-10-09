@@ -37,7 +37,7 @@ MUTATIONS = [
      '    subprocess.run(["xdotool", "key", "F12+s"], env=env)\n    return\n'
      '    import ctypes as c\n    class KeyEvent(c.Structure):'),
     # the burst snapshot
-    ("burst capture removed", REC, 'is_burst = burst.due(now)', 'is_burst = False'),
+    ("burst capture removed", REC, 'send_burst = True', 'send_burst = False'),
     # constants, +1 and -1
     ("BURST_QUIET_S +1", REC, 'BURST_QUIET_S = 0.5\n', 'BURST_QUIET_S = 1.5\n'),
     ("BURST_QUIET_S -1", REC, 'BURST_QUIET_S = 0.5\n', 'BURST_QUIET_S = -0.5\n'),
@@ -60,7 +60,7 @@ MUTATIONS = [
     ("a resend does not move the window", REC,
      'sent = self.last_sent = self.clock()', 'sent = self.clock()'),
     ("a skipped request is not logged", REC,
-     '            self.note_request(request, origin, None)\n            return None',
+     '            self.note_request(request, self.last_sent, origin, None)\n            return None',
      '            return None'),
     ("the shutdown window opens at shutdown", REC,
      'lo = self.t0 if self.last_staged_request is None else self.last_staged_request',
@@ -130,20 +130,37 @@ MUTATIONS = [
     ("R3: guard accepts fewer snapshots than groups", SCRIPTED,
      'if len(bursts) != len(groups):',
      'if len(bursts) > len(groups):'),
+    # Sol delta r2: the settle wait removed, the request window opens at the key event itself
+    # and swallows the key's own release (and any key spaced just over the quiet): the burst
+    # is ambiguous. Killed by the 10-key mapping test (releases land in the windows).
+    ("r2-R1: burst request sent without the settle wait", REC,
+     'send_burst = bool(burst.groups) and now >= last_event + EVENT_SETTLE_S',
+     'send_burst = bool(burst.groups)'),
+    # Sol delta r2: the acceptance guard must verify mapped coverage, not only counts.
+    ("r2-R2: guard counts snapshots only", SCRIPTED,
+     'if result["unmapped_keys"]:', 'if False:'),
+    # Sol delta r2: the scheduler must not wait for the previous capture before sending the
+    # next group's request; with the modelled 0.6 s write latency the requests fall behind
+    # the 0.527 s key spacing and key pairs share a gap (unmapped).
+    ("r2-R3: scheduler waits for the previous capture", REC,
+     'jobs.put((pre, request, sent, origin, pre_events))',
+     'jobs.put((pre, request, sent, origin, pre_events)); jobs.join()'),
 ]
 
 
-def main():
+def main(argv=None):
+    argv = list(sys.argv[1:] if argv is None else argv)
+    mutations = [m for m in MUTATIONS if m[0].startswith("r2-")] if "--only-r2" in argv else MUTATIONS
     survivors = []
     tmp = ROOT / "scratch" / "t34-tmp"
     tmp.mkdir(parents=True, exist_ok=True)
     env = dict(os.environ, PYTHONDONTWRITEBYTECODE="1", TMPDIR=str(tmp), MUTATION_SWEEP="1")
     # pre-flight: every target string must occur exactly once in the pristine source, so a run
     # that starts on a source left mutated by an aborted earlier run fails before mutating
-    for name, filename, old, _ in MUTATIONS:
+    for name, filename, old, _ in mutations:
         count = (ROOT / filename).read_text().count(old)
         assert count == 1, (name, count, "source not pristine?")
-    for name, filename, old, new in MUTATIONS:
+    for name, filename, old, new in mutations:
         path = ROOT / filename
         original = path.read_bytes()
         text = original.decode()
@@ -165,7 +182,7 @@ def main():
                 survivors.append(name)
         finally:
             path.write_bytes(original)
-    print(f"Mutations: {len(MUTATIONS)}; survivors: {survivors}", flush=True)
+    print(f"Mutations: {len(mutations)}; survivors: {survivors}", flush=True)
     return 1 if survivors else 0
 
 

@@ -4,11 +4,14 @@ import hashlib
 import importlib.util
 import json
 import os
+import queue
 import shutil
 import subprocess
 import sys
 import tempfile
+import threading
 import time
+import types
 import unittest
 from pathlib import Path
 from unittest.mock import patch, Mock
@@ -189,8 +192,55 @@ class KeyTests(unittest.TestCase):
         watcher.run(quit_after=2, keys=keys)
         self.assertEqual(len(ticks), 2)
         self.assertEqual(ticks[0], (0.0, "watcher"))
-        self.assertAlmostEqual(ticks[1][0], 1.5)
+        # the settled episode's request goes out EVENT_SETTLE_S after its last key event —
+        # long before the group's due time (1.5 s), where the window could never fit between
+        # keys spaced just over the quiet interval
+        self.assertAlmostEqual(ticks[1][0], 1.0 + rec.EVENT_SETTLE_S)
         self.assertEqual(ticks[1][1], "burst")
+
+    def test_a_key_episodes_request_goes_out_at_the_settle_not_at_due(self):
+        # Sol r2 R1: the request window must open EVENT_SETTLE_S after the episode's newest
+        # event — after that key's release, and well before the due time (last key + quiet),
+        # where the window (~0.08 s wide) could never fit between keys spaced 0.527 s apart
+        # (the reproduction's measured wire spacing): every pair would share a gap or the
+        # next key would land inside the window.
+        now = [0.0]
+        watcher = rec.Watcher.__new__(rec.Watcher)
+        watcher.clock = lambda: now[0]
+        watcher.sleep = lambda secs: now.__setitem__(0, now[0] + secs)
+        watcher.t0 = 0
+        watcher.dbx = Mock()
+        watcher.dbx.poll.return_value = None
+        watcher.log = lambda msg: None
+        ticks = []
+        watcher.tick = lambda **kw: ticks.append((now[0], kw.get("origin", "watcher")))
+        keys = Mock()
+        keys.error = None
+        keys.proc.poll.return_value = None
+        arrivals = [1.0 + 0.527 * k for k in range(3)]
+        seen = [0]
+        def drain():
+            out = []
+            while seen[0] < len(arrivals) and arrivals[seen[0]] <= now[0]:
+                out.append({"monotonic_s": arrivals[seen[0]]})
+                seen[0] += 1
+            return out
+        keys.drain = drain
+        watcher.run(quit_after=4, keys=keys)
+        bursts = [t for t in ticks if t[1] == "burst"]
+        # group 0 (key 1.0) is due at 1.5; the next key lands 1.527 > due + defer? no: 1.6 is
+        # the defer deadline and 1.527 < 1.6, so the key arrives first and the request follows
+        # it (1.53), never at 1.5 where its window would swallow the 1.527 key
+        self.assertEqual(len(bursts), 3, bursts)
+        # each episode's request follows its own key by EVENT_SETTLE_S (not at due: 1.5+)
+        self.assertAlmostEqual(bursts[0][0], 1.0 + rec.EVENT_SETTLE_S, delta=0.02)
+        self.assertAlmostEqual(bursts[1][0], 1.527 + rec.EVENT_SETTLE_S, delta=0.02)
+        for (t, _), a in zip(bursts, arrivals):
+            self.assertLess(t, a + 0.5)     # each episode's request, before its due time
+        for t, _ in bursts:
+            # no request window [t, t + margin] covers a key: each key arrived first
+            for a in arrivals:
+                self.assertFalse(t <= a <= t + rec.CAPTURE_MARGIN_S, (t, a))
 
     def test_human_paced_keys_produce_one_burst_snapshot_each(self):
         # R2 end-to-end at the requested 0.5-1.5 s human pace: 10 single-key groups 0.51 s apart
@@ -506,6 +556,114 @@ class MapTests(unittest.TestCase):
                              ["index.jsonl", "keys.jsonl", "meta.json", "snapshots"])
 
 
+class BurstPipelineTests(unittest.TestCase):
+    """Sol delta r2 R1: keys ~0.53 s apart (the 0.51 s-sleep reproduction's measured wire
+    spacing) must EACH be mapped — one request window between every pair of keys, with the
+    staging captures off the loop's critical path (a ~0.8 s capture used to delay the next
+    request until after the next key had arrived, leaving key pairs between two windows)."""
+
+    def test_ten_keys_at_051_s_gaps_are_all_mapped(self):
+        from tests import test_human_record as fixture
+        import keymap
+        with tempfile.TemporaryDirectory() as folder:
+            session = Path(folder)
+            (session / "snapshots").mkdir()
+            live = session / "state.sav"
+            live.write_bytes(fixture.tiny_zip(b"vga-0"))
+            writes = queue.Queue()
+
+            def serve_writes():
+                # [designed] a serialized stand-in for DOSBox-X's savestate writer: each save
+                # request is answered 0.6 s later with one fresh atomic write (a new inode),
+                # slower than the 0.527 s key spacing — a scheduler that waits for the previous
+                # capture cannot keep up, which is the blocking defect the pipeline removes
+                n = 0
+                while True:
+                    item = writes.get()
+                    if item is None:
+                        return
+                    time.sleep(0.6)
+                    tmp = live.with_name(live.name + ".tmp")
+                    tmp.write_bytes(fixture.tiny_zip(f"vga-{item}".encode()))
+                    tmp.replace(live)
+
+            threading.Thread(target=serve_writes, daemon=True).start()
+            counter = [0]
+
+            def xrun(argv):
+                time.sleep(0.03)          # the XSendEvent send duration (probe: ~26 ms)
+                counter[0] += 1
+                writes.put(counter[0])
+
+            w = rec.Watcher(session, live, "77", fixture.FakeDbx(), {"DISPLAY": ":0"},
+                            xrun=xrun, alive=lambda: True, log=lambda m: None)
+            arrivals = [w.t0 + 1.0 + 0.527 * k for k in range(10)]
+
+            class FakeKeys:
+                error = None
+                proc = types.SimpleNamespace(poll=lambda: None)
+
+                def __init__(self):
+                    self.events = []
+                    for k, t in enumerate(arrivals):
+                        self.events.append({"monotonic_s": t, "event": "press", "keysym": f"k{k}"})
+                        # [designed] the release lag is xdotool's ~12 ms key duration: the
+                        # recorder groups on ALL events, so a slower release (0.05 s) would
+                        # chain every pair into one group (0.527 < 0.05 + quiet)
+                        self.events.append({"monotonic_s": t + 0.012, "event": "release",
+                                            "keysym": f"k{k}"})
+                    self.i = 0
+
+                def drain(self):
+                    now = time.monotonic()
+                    out = []
+                    while self.i < len(self.events) and self.events[self.i]["monotonic_s"] <= now:
+                        out.append(self.events[self.i])
+                        self.i += 1
+                    return out
+
+            entries = w.run(quit_after=8.5, keys=FakeKeys())
+            writes.put(None)
+            index = [json.loads(line) for line in (session / "index.jsonl").read_text().splitlines()]
+            requests = [json.loads(line) for line in
+                        (session / "requests.jsonl").read_text().splitlines()]
+            self.assertEqual(len(entries), 11)
+            self.assertEqual([e["origin"] for e in index],
+                             ["watcher"] + ["burst"] * 10)
+            self.assertEqual([r["seq"] is not None for r in requests], [True] * 11)
+            states = [{"entry": e, "screen_text": f"SCREEN-{e['seq']}", "error": None}
+                      for e in index]
+            events = sorted(FakeKeys().events, key=lambda e: e["monotonic_s"])
+            result = keymap.build_map(states, events, w.t0,
+                                      quiet=rec.BURST_QUIET_S, margin=rec.CAPTURE_MARGIN_S)
+            # not "11/11 burst snapshots" but 10/10 mapped presses: the reproduction's record
+            # had 10 snapshots and still 6 unmapped presses
+            self.assertEqual((result["summary"], result["unmapped_keys"]),
+                             ("screens: 11, transitions: 10, keys: 10", 0))
+
+    def test_a_pipeline_timeout_marks_the_request_skipped(self):
+        # Sol r2 R1c: a capture that times out is logged as a request that staged nothing —
+        # its group is skipped (its bursts unmapped), never silently covered by a later
+        # group's snapshot
+        from tests import test_human_record as fixture
+        with tempfile.TemporaryDirectory() as folder:
+            session = Path(folder)
+            (session / "snapshots").mkdir()
+            live = session / "state.sav"
+            live.write_bytes(fixture.tiny_zip(b"vga"))
+            clock = fixture.FakeClock()
+            w = rec.Watcher(session, live, "77", fixture.FakeDbx(), {"DISPLAY": ":0"},
+                            clock=clock, sleep=clock.sleep, xrun=lambda a: None,
+                            alive=lambda: True, log=lambda m: None)
+            self.assertIsNone(w._stage_job(rec.file_signature(live), 0.0, 0.03, "burst", 0))
+            line = json.loads((session / "requests.jsonl").read_text())
+            # the group is marked skipped: a request that staged nothing (its window may span
+            # the gate's resends; what the map needs is the seq of None)
+            self.assertEqual((line["request_s"], line["origin"], line["seq"]),
+                             (0.0, "burst", None))
+            self.assertFalse((session / "index.jsonl").exists())
+
+
 class GuardTests(unittest.TestCase):
     """R3: the acceptance guard (scripted_keys.check_bursts) requires a distinct, correctly timed
     burst snapshot per key group — never "any later snapshot" for every group."""
@@ -541,6 +699,45 @@ class GuardTests(unittest.TestCase):
         bursts = [{"elapsed_s": 99.0}]
         ok, _ = self.sk.check_bursts(groups, bursts, 0.0)
         self.assertFalse(ok)
+
+    def test_request_windows_clustered_after_every_group_fail(self):
+        # Sol r2 R2a: 3 for 3 snapshots staged after each group, but every request window
+        # opened at 8.5 s — after the last key (2.0 s). The late windows cannot recover the
+        # screen boundaries between groups; the guard must reject the sitting.
+        groups = [[0.0], [1.0], [2.0]]
+        bursts = [{"request_s": 8.5, "elapsed_s": 9.3}, {"request_s": 8.6, "elapsed_s": 9.4},
+                  {"request_s": 8.7, "elapsed_s": 9.5}]
+        ok, why = self.sk.check_request_windows(groups, bursts, 0.0, 0.05)
+        self.assertFalse(ok)
+        self.assertIn("after group 1 had ended", why)
+
+    def test_request_windows_interleaved_with_their_groups_pass(self):
+        # the pipeline's timing at the reproduction's 0.527 s spacing: group 0's request
+        # opens just after group 1's only key arrived, group 1's after group 2's, and the
+        # last group's after its defer
+        groups = [[0.0], [0.527], [1.054]]
+        bursts = [{"request_s": 0.53, "elapsed_s": 1.2}, {"request_s": 1.06, "elapsed_s": 1.8},
+                  {"request_s": 1.654, "elapsed_s": 2.4}]
+        ok, _ = self.sk.check_request_windows(groups, bursts, 0.0, 0.05)
+        self.assertTrue(ok)
+
+    def test_a_request_window_opened_before_its_group_fails(self):
+        groups = [[1.0], [2.0]]
+        bursts = [{"request_s": 0.9, "elapsed_s": 1.7}, {"request_s": 2.5, "elapsed_s": 3.3}]
+        ok, why = self.sk.check_request_windows(groups, bursts, 0.0, 0.05)
+        self.assertFalse(ok)
+        self.assertIn("before the group's last key", why)
+
+    def test_unmapped_presses_fail_the_coverage_guard(self):
+        # Sol r2 R2b/R2c: the pre-fix clean sitting exited 0 with '10 for 10 key group(s)'
+        # while 6 of 10 presses were unmapped; the guard must reject that and exit 1
+        ok, why = self.sk.check_mapped({"summary": "screens: 2, transitions: 4, keys: 10",
+                                        "unmapped_keys": 6})
+        self.assertFalse(ok)
+        self.assertIn("6 unmapped presses", why)
+        ok, _ = self.sk.check_mapped({"summary": "screens: 11, transitions: 10, keys: 10",
+                                      "unmapped_keys": 0})
+        self.assertTrue(ok)
 
     @unittest.skipIf(os.environ.get("MUTATION_SWEEP"),
                      "heavy end-to-end scripted sitting; run once in the full suite, skipped per-mutation")

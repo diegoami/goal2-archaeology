@@ -44,10 +44,10 @@ def group_presses(events, quiet):
 
 
 def check_bursts(groups, bursts, t0):
-    """The acceptance guard (R3): each key group has its own burst snapshot, staged after the
-    group's last key. Distinct, not just any later snapshot — the old `any(...)` let one final
-    snapshot satisfy every group, so a recorder that merged groups (4 snapshots for 10 groups)
-    still passed. Returns (ok, message)."""
+    """The acceptance guard, count half (R3): each key group has its own burst snapshot, staged
+    after the group's last key. Distinct, not just any later snapshot — the old `any(...)` let
+    one final snapshot satisfy every group, so a recorder that merged groups (4 snapshots for
+    10 groups) still passed. Returns (ok, message)."""
     if len(bursts) != len(groups):
         return False, (f"{len(bursts)} burst snapshots for {len(groups)} key group(s); each "
                        f"group needs its own snapshot staged after its last key")
@@ -56,6 +56,37 @@ def check_bursts(groups, bursts, t0):
         if b["elapsed_s"] + t0 < group[-1]:
             return False, f"a burst snapshot staged before key group ending {group[-1]}"
     return True, f"{len(bursts)} burst snapshots for {len(groups)} key group(s)"
+
+
+def check_request_windows(groups, bursts, t0, margin):
+    """The acceptance guard, timing half (Sol r2 R2a): each key group's save request must open
+    inside its own bracket — at or after the group's last key, and before the next group's keys
+    are all in. The blocking scheduler sent the ten-key reproduction's requests at 8.5 s, after
+    the last key at 5.6 s: equal counts staged after each group still certified that, and the
+    late windows could not recover the screen boundaries between groups. Returns (ok, message)."""
+    if len(bursts) != len(groups):
+        return False, f"{len(bursts)} burst snapshots for {len(groups)} key group(s)"
+    by_request = sorted(bursts, key=lambda b: b["request_s"])
+    for i, (group, b) in enumerate(zip(groups, by_request)):
+        request = t0 + b["request_s"]
+        if request < group[-1]:
+            return False, (f"group {i}'s save request opened at {b['request_s']:.3f}s, before "
+                           f"the group's last key")
+        if i + 1 < len(groups) and request > groups[i + 1][-1] + margin:
+            return False, (f"group {i}'s save request opened at {b['request_s']:.3f}s, after "
+                           f"group {i + 1} had ended; requests must interleave with the keys, "
+                           f"not follow them")
+    return True, f"{len(bursts)} request windows interleaved with their key groups"
+
+
+def check_mapped(result):
+    """The acceptance guard, coverage half (Sol r2 R2b): every press must be mapped. Equal
+    snapshot counts are not enough — the pre-fix clean sitting exited 0 with '10 for 10 key
+    group(s)' while 6 of 10 presses were unmapped. Returns (ok, message)."""
+    if result["unmapped_keys"]:
+        return False, (f"{result['unmapped_keys']} unmapped presses ({result['summary']}); "
+                       "every group must map from the screen before it to the screen after it")
+    return True, f"{result['summary']}; every press mapped"
 
 
 def main():
@@ -139,9 +170,24 @@ def main():
         bursts = [entry for entry in index if entry["origin"] == "burst"]
         t0 = meta["monotonic_start_s"]
         quiet = meta.get("burst_quiet_s", recorder.BURST_QUIET_S)
+        margin = meta.get("capture_margin_s", recorder.CAPTURE_MARGIN_S)
         groups = group_presses(events, quiet)
         ok, why = check_bursts(groups, bursts, t0)
         assert ok, why
+        # Sol r2 R2a: request-window timing per group (not clustered after every group) ...
+        ok, why = check_request_windows(groups, bursts, t0, margin)
+        if not ok:
+            print(f"acceptance guard FAILED: {why}", file=sys.stderr)
+            return 1
+        # ... and R2b/R2c: mapped coverage — reject a sitting whose presses do not all map
+        sys.path.insert(0, str(ROOT / "experiments" / "E015-human-playthrough"))
+        import keymap
+        result = keymap.read_session(session)
+        ok, why = check_mapped(result)
+        if not ok:
+            print(f"acceptance guard FAILED: {why}", file=sys.stderr)
+            return 1
+        print(f"map coverage OK: {why}", flush=True)
         print(f"privacy OK: {'/'.join(keys)} game keys only; outer-app x/y/z excluded "
               f"(xev log holds them; outer raw reader saw {raw_presses} RawKeyPress); "
               f"burst snapshots: {len(bursts)} for {len(groups)} key group(s)", flush=True)
