@@ -41,11 +41,21 @@ team aggregate:
 
 `experiments/E019-q017-events-morale/check_morale.py` replays every
 probe by player word and by routine; `python3 -m unittest -v
-tests.test_model_morale` runs 33 literal tests; `tests.test_check_morale`
-runs 10 negative tests for the checker. The mutation sweep
+tests.test_model_morale` runs 33 literal tests; `tests/test_check_morale`
+runs 19 negative tests for the checker. The mutation sweep
 (`mutations_morale.py`) shifts each of the 9 numeric constants by
 `+1` and `-1`, deletes each of the 5 named helpers, and reruns the
 unit suite in a fresh subprocess; **23/23 mutants killed**.
+
+The probe file's `expected_*` and `got_*` fields are both
+listing-derived (hand-traced from the listing bytes). The probe
+generator (`probe_literal.py`) does NOT import `runtime.model.morale`;
+the model's output is verified independently by the checker against
+both listing-derived fields. Every case is identified by `player_word`
+(the 16-bit squad slot the routine reads from `pitch[+0xD]`, the
+player's record identity) — `side` and `slot` are the DS:9B07
+persistence index, kept for completeness but not used as the
+comparison key.
 
 ## Direct `+0xC` writers outside F019's result rule
 

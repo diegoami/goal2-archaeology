@@ -251,19 +251,37 @@ replays every E019 probe by player word; the probe record
 adjust-form cases covering the named event deltas, including
 clamp boundaries, signed-byte edges, and a persist-vs-no-persist
 comparison; 9 team-panel cases covering the seed, divisor, floor,
-signed-byte clamp, and the R1 reproduction case). Every
-`expected_*` and `got_*` field is hand-traced from the listing
-bytes (`code/seg_0791_13.asm:484..548` for the adjust-form cases;
-`code/seg_1771_02.asm:1001..1126` for the panel cases); the
-`got_*` fields are captured from the model at probe generation
-and the checker enforces that they match the model's output at
-check time. The probe fails closed on empty sets, on a literal
-mismatch, and on a missing or mutated `got_*` field:
+signed-byte clamp, and the R1 reproduction case). Every case
+carries a `player_word` (single 16-bit int for adjust) or
+`player_words` (list of 11 16-bit ints for panel) — the squad slot
+the routine reads from `pitch[+0xD]`, the player's record
+identity. `side` and `slot` remain in the record as the DS:9B07
+persistence index, kept for completeness; the comparison is keyed
+by `player_word`.
+
+Every `expected_*` and `got_*` field is hand-traced from the
+listing bytes (`code/seg_0791_13.asm:484..548` for the
+adjust-form cases; `code/seg_1771_02.asm:1001..1126` for the
+panel cases). The probe generator (`probe_literal.py`) does NOT
+import `runtime.model.morale` — both `expected_*` and `got_*` come
+from a hand-coded `_listing_event_clamp` / `_listing_team_panel`
+in the generator, which mirrors the original routine arithmetic
+without calling the model. The checker then re-runs the model and
+verifies its output equals both listing-derived fields. The
+probe fails closed on empty sets, on a literal mismatch, on a
+missing or mutated `got_*` field, and on a missing `player_word`:
 `match: 22/22`.
 
 `python3 -m unittest -v tests.test_model_morale` runs 33 literal
-tests; `python3 -m unittest -v tests.test_check_morale` runs 10
-negative tests for the checker; the mutation sweep
+tests; `python3 -m unittest -v tests.test_check_morale` runs 19
+negative tests for the checker (the R1 regressions
+`test_r1_monkey_patch_event_clamp_fails_checker` and
+`test_r1_wrong_expected_live_fails_checker` prove the checker
+actually compares the model against the listing, not against
+itself; the R2 regressions
+`test_r2_missing_player_word_fails` and
+`test_r2_side_slot_only_no_player_word_fails` prove every record
+is keyed by `player_word`); the mutation sweep
 `experiments/E019-q017-events-morale/mutations_morale.py` shifts
 each of the 9 numeric constants by `+1` and `-1`, deletes each
 of the 5 named helpers, and reruns the unit suite in a fresh

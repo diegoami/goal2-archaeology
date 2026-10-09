@@ -62,11 +62,18 @@ team aggregate:
   `1771:13D0` and never persisted into the country record.
 
 `experiments/E019-q017-events-morale/check_morale.py` replays every
-probe by player word; the checker compares both the hand-derived
-`expected_*` and the captured `got_*` (model's output) per case, and
-rejects mismatches and missing fields (R2, R3). `python3 -m unittest
--v tests.test_model_morale` runs 33 literal tests;
-`tests.test_check_morale` runs 10 negative tests. The mutation
+probe by player word; the checker compares the model's output to
+both the listing-derived `expected_*` and `got_*` per case, and
+rejects mismatches, missing fields, and records that lack a
+`player_word` (R1, R2, R3). The probe generator
+(`probe_literal.py`) does NOT import `runtime.model.morale`; both
+`expected_*` and `got_*` are listing-derived (hand-traced from
+`code/seg_0791_13.asm:484..548` and
+`code/seg_1771_02.asm:1001..1126`). Every case carries a
+`player_word` (single 16-bit int for adjust) or `player_words`
+(list of 11 16-bit ints for panel). `python3 -m unittest -v
+tests.test_model_morale` runs 33 literal tests;
+`tests.test_check_morale` runs 19 negative tests. The mutation
 sweep (`mutations_morale.py`) shifts each of the 9 numeric
 constants by `+1` and `-1`, deletes each of the 5 named helpers,
 and reruns the unit suite in a fresh subprocess; **23/23 mutants

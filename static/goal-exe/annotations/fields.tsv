@@ -26,7 +26,7 @@ country	0x2F	points	word	the points the ranks are sorted by (1771:5EE1, largest 
 pitch	0x00	x	byte	the record's column; with +1 the position word 2CEC compares with the ball's DS:82F6	likely	F013
 pitch	0x01	y	byte	the record's row; times the side's attack direction (2BE5) measures advancement, 8CF5's compare	likely	F013
 pitch	0x06	side	byte	the record's side/address slot (a260 re-derives it; 2974 reads it, < 0x0C selects side 1)	likely	F013
-pitch	0x0D	player_index	word	the player record index this slot holds (2956 and 9A32 read it as a word)	likely	F013
+pitch	0x0D	player_index	word	the player record index this slot holds (2956 and 9A32 read it as a word); also called the player_word in F020 — the 16-bit squad slot the routine reads from `pitch[+0xD]` and indexes the squad by (`mov ax, word ptr es:[di + 0xd]; mul 0x14; les di, [0xa91b]; add di, ax`, `code/seg_0791_13.asm:487-495`); distinct from the pitch position (side, slot) used for the DS:9B07 persistence index	established	F013; F020
 pitch	0x0F	run_direction	byte	8889's run direction (1 or 2 by the x sign, else 3 or 4 by y; 8A26/8A79 write it)	likely	F013
 pitch	0x12	state	byte	the state byte 8AE9's handler dispatches on and 6188 tests (13 = walking off; 65A4's kick-off states 5, 6)	likely	F013
 pitch	0x14	activity	word	active-update counter: A2E6 resets it; 8AE9 adds one when unsigned run_direction <5; with DS:8325 nonzero and unsigned counter >180 it decrements player energy only if signed >1 and always resets the counter; not a quick-mode flag or role weight	established	F013; F018
