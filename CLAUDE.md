@@ -13,8 +13,9 @@ indexed in `docs/tasks/README.md`.
    a trial, and images and audio to OpenRouter or ElevenLabs models, whose ids come from live lists,
    never memory. Before choosing, recommending or delegating to a model, check its provider's quota
    with quota-tracker and skip an exhausted one for the next of the chain with quota, saying so
-   (L50, `docs/environment.md`); the light OpenAI reviewer `luna` is GPT-5.6 Luna on its own weekly
-   pool (L51). Heavy models run at effort low, medium only when justified.
+   (L50, `docs/environment.md`); the light OpenAI reviewer `luna` is GPT-5.6 Luna on the direct OpenAI
+   route (L51; the gpt-5.6-luna:7d window is gone — Luna shares OpenAI's main quota with Sol,
+   per L65). Heavy models run at effort low, medium only when justified.
 2. Nobody works in the main checkout but the main session: OpenCode runs in the worktree the script
    makes, Claude agents run with worktree isolation. Never `git stash`.
 3. Status lives in GitHub labels. No document carries a status snapshot.
