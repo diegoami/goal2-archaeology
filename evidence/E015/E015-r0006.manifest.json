@@ -1,0 +1,40 @@
+{
+  "schema": "evidence-manifest/1",
+  "run_id": "E015-r0006",
+  "experiment": "E015",
+  "store": "release:E015",
+  "artifact": {
+    "set": "goal2-67cf27d6",
+    "variant": null
+  },
+  "files": [
+    {
+      "name": "snap-0001-20261009T093148Z.sav",
+      "bytes": 208406,
+      "sha256": "d53847774de2183c7efae3b90ffc7e4cfad5140a873bf160dc5c908f71664a0f",
+      "asset": "d53847774de2183c-snap-0001-20261009T093148Z.sav",
+      "class": "save"
+    },
+    {
+      "name": "snap-0002-20261009T093149Z.sav",
+      "bytes": 182575,
+      "sha256": "9ce812ea58aef87a895230ba63c10a53d3f4f4c8e5a7bb80180756ecfd15e809",
+      "asset": "9ce812ea58aef87a-snap-0002-20261009T093149Z.sav",
+      "class": "save"
+    },
+    {
+      "name": "snap-0003-20261009T093150Z.sav",
+      "bytes": 183613,
+      "sha256": "8c7815540ac7cc62ffa8b4171df7965102b4d58641be47d25abca4ea14708413",
+      "asset": "8c7815540ac7cc62-snap-0003-20261009T093150Z.sav",
+      "class": "save"
+    },
+    {
+      "name": "snap-0004-20261009T093151Z.sav",
+      "bytes": 183008,
+      "sha256": "628cb24e71dff9312893f757ec39df7b91f6b09992e049894cf0bef0bef0fae5",
+      "asset": "628cb24e71dff931-snap-0004-20261009T093151Z.sav",
+      "class": "save"
+    }
+  ]
+}
