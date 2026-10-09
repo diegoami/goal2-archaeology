@@ -1,10 +1,11 @@
 {
   "worktreeRoot": "../{repo}-work",
   "models": {
-    "deepseek-flash": {
-      "id": "opencode-go/deepseek-v4.1-flash",
+    "mimo-flash": {
+      "id": "opencode-go/mimo-v2.6-flash",
       "variant": "high",
-      "family": "deepseek"
+      "family": "mimo",
+      "watch": "Light: tested 2026-10-09 on implement, fix, review; passed (owner, 2026-10-09). The OpenCode Go route; MiMo is its own family for the reviewer-family rule."
     },
     "luna": {
       "id": "openai/gpt-5.6-luna",
@@ -22,11 +23,11 @@
       "family": "openai",
       "watch": "Heavy: effort low, medium only when justified, never high (the owner, 2026-10-05). Sol reviews complex tasks (L101)."
     },
-    "deepseek-pro": {
-      "id": "opencode-go/deepseek-v4-pro",
+    "mimo-pro": {
+      "id": "opencode-go/mimo-v2.6-pro",
       "variant": "high",
-      "family": "deepseek",
-      "watch": "Heavy: OpenCode Go offers only high and max for this model, so high is its lowest effort (checked 2026-10-05, opencode models opencode-go --verbose). A candidate, probed only (2026-10-03, L35): compare with deepseek-flash on the same kind of task; as a reviewer it ran a read-only brief without a rejection (L31)."
+      "family": "mimo",
+      "watch": "Heavy: tested 2026-10-09 on implement, fix, review; passed (owner, 2026-10-09). The OpenCode Go route; MiMo is its own family for the reviewer-family rule."
     },
     "zai-glm-5.3-flash": {
       "id": "zai-coding-plan/glm-5.3-flash",
@@ -50,31 +51,19 @@
       "id": "alibaba-token-plan/qwen3.8-max",
       "variant": "low",
       "family": "qwen",
-      "watch": "Heavy: offers low, medium, xhigh; low (L54). Probed 2026-10-05 (PONG in 7 s) and 2026-10-06 19:39. A new family here, a candidate implementer or reviewer for hard tasks. Its key is the env var ALIBABA_TOKEN_PLAN_API_KEY (never opencode auth login: an auth.json entry overrides it); in WSL it comes from ~/.config/ai-keys.env (loaded by ~/.bashrc and ~/.profile) and, for commands started from Windows, from WSLENV; 'Provider not found' means it is missing: restart the session or shell, and tell the owner if it still is. One monthly pool shared by all alibaba models (quota-tracker /quota/alibaba; pricing.discount_now says whether the night discount is live). Night discount 22:00-08:00 UTC+8: qwen3.8 60% off, deepseek-v4-pro-0813 and v4.1-flash 50% off, glm-5.3 none -- prefer long alibaba runs while discount_now is true (the owner, 2026-10-06)."
+      "watch": "Heavy: offers low, medium, xhigh; low (L54). Probed 2026-10-05 (PONG in 7 s) and 2026-10-06 19:39. A new family here, a candidate implementer or reviewer for hard tasks. Its key is the env var ALIBABA_TOKEN_PLAN_API_KEY (never opencode auth login: an auth.json entry overrides it); in WSL it comes from ~/.config/ai-keys.env (loaded by ~/.bashrc and ~/.profile) and, for commands started from Windows, from WSLENV; 'Provider not found' means it is missing: restart the session or shell, and tell the owner if it still is. One monthly pool shared by all alibaba models (quota-tracker /quota/alibaba; pricing.discount_now says whether the night discount is live). Night discount 22:00-08:00 UTC+8: qwen3.8 60% off, glm-5.3 none -- prefer long alibaba runs while discount_now is true (the owner, 2026-10-06). (DeepSeek variants removed 2026-10-09: blacklisted on any route.)"
     },
     "ali-qwen-flash": {
       "id": "alibaba-token-plan/qwen3.8-flash",
       "variant": "medium",
       "family": "qwen",
-      "watch": "Light: offers low, medium, xhigh (no high); medium (the owner, 2026-10-06; xhigh until then). Probed 2026-10-05 (PONG in 7 s) and 2026-10-06 19:39. Its key is the env var ALIBABA_TOKEN_PLAN_API_KEY (never opencode auth login: an auth.json entry overrides it); in WSL it comes from ~/.config/ai-keys.env (loaded by ~/.bashrc and ~/.profile) and, for commands started from Windows, from WSLENV; 'Provider not found' means it is missing: restart the session or shell, and tell the owner if it still is. One monthly pool shared by all alibaba models (quota-tracker /quota/alibaba; pricing.discount_now says whether the night discount is live). Night discount 22:00-08:00 UTC+8: qwen3.8 60% off, deepseek-v4-pro-0813 and v4.1-flash 50% off, glm-5.3 none -- prefer long alibaba runs while discount_now is true (the owner, 2026-10-06)."
-    },
-    "ali-deepseek-pro-0813": {
-      "id": "alibaba-token-plan/deepseek-v4-pro-0813",
-      "variant": "high",
-      "family": "deepseek",
-      "watch": "Heavy: high is its lowest effort. The same model as deepseek-pro on the Alibaba pool; the dated -0813 id is the one that gets the 50% night discount (the undated id gets none -- the owner, 2026-10-06). Probed 2026-10-05 (PONG in 7 s) and 2026-10-06 19:39. DeepSeek V4 Pro writes scratch to /tmp and starts commands with cd /abs && (L57). Its key is the env var ALIBABA_TOKEN_PLAN_API_KEY (never opencode auth login: an auth.json entry overrides it); in WSL it comes from ~/.config/ai-keys.env (loaded by ~/.bashrc and ~/.profile) and, for commands started from Windows, from WSLENV; 'Provider not found' means it is missing: restart the session or shell, and tell the owner if it still is. One monthly pool shared by all alibaba models (quota-tracker /quota/alibaba; pricing.discount_now says whether the night discount is live). Night discount 22:00-08:00 UTC+8: qwen3.8 60% off, deepseek-v4-pro-0813 and v4.1-flash 50% off, glm-5.3 none -- prefer long alibaba runs while discount_now is true (the owner, 2026-10-06). The explicit-model relief when opencode_go is out (the owner, 2026-10-06)."
-    },
-    "ali-deepseek-flash": {
-      "id": "alibaba-token-plan/deepseek-v4.1-flash",
-      "variant": "high",
-      "family": "deepseek",
-      "watch": "Light: offers low, high, max; high. The same model as deepseek-flash on the Alibaba pool; the dated pro id and this one get the 50% night discount. Probed 2026-10-05 (PONG in 5 s) and 2026-10-06 19:39. Its key is the env var ALIBABA_TOKEN_PLAN_API_KEY (never opencode auth login: an auth.json entry overrides it); in WSL it comes from ~/.config/ai-keys.env (loaded by ~/.bashrc and ~/.profile) and, for commands started from Windows, from WSLENV; 'Provider not found' means it is missing: restart the session or shell, and tell the owner if it still is. One monthly pool shared by all alibaba models (quota-tracker /quota/alibaba; pricing.discount_now says whether the night discount is live). Night discount 22:00-08:00 UTC+8: qwen3.8 60% off, deepseek-v4-pro-0813 and v4.1-flash 50% off, glm-5.3 none -- prefer long alibaba runs while discount_now is true (the owner, 2026-10-06). The explicit-model relief when opencode_go is out (the owner, 2026-10-06)."
+      "watch": "Light: offers low, medium, xhigh (no high); medium (the owner, 2026-10-06; xhigh until then). Probed 2026-10-05 (PONG in 7 s) and 2026-10-06 19:39. Its key is the env var ALIBABA_TOKEN_PLAN_API_KEY (never opencode auth login: an auth.json entry overrides it); in WSL it comes from ~/.config/ai-keys.env (loaded by ~/.bashrc and ~/.profile) and, for commands started from Windows, from WSLENV; 'Provider not found' means it is missing: restart the session or shell, and tell the owner if it still is. One monthly pool shared by all alibaba models (quota-tracker /quota/alibaba; pricing.discount_now says whether the night discount is live). Night discount 22:00-08:00 UTC+8: qwen3.8 60% off, glm-5.3 none -- prefer long alibaba runs while discount_now is true (the owner, 2026-10-06). (DeepSeek variants removed 2026-10-09: blacklisted on any route.)"
     },
     "ali-glm": {
       "id": "alibaba-token-plan/glm-5.3",
       "variant": "low",
       "family": "glm",
-      "watch": "Heavy: low (L54). The same model as zai-glm-5.3 on the Alibaba pool, for when Z.ai's windows are exhausted (and from 8 Oct 2026, when zai's 3x weekday-peak pricing bites); no night discount on glm-5.3. Probed 2026-10-05 (PONG in 6 s) and 2026-10-06 19:39. Its key is the env var ALIBABA_TOKEN_PLAN_API_KEY (never opencode auth login: an auth.json entry overrides it); in WSL it comes from ~/.config/ai-keys.env (loaded by ~/.bashrc and ~/.profile) and, for commands started from Windows, from WSLENV; 'Provider not found' means it is missing: restart the session or shell, and tell the owner if it still is. One monthly pool shared by all alibaba models (quota-tracker /quota/alibaba; pricing.discount_now says whether the night discount is live). Night discount 22:00-08:00 UTC+8: qwen3.8 60% off, deepseek-v4-pro-0813 and v4.1-flash 50% off, glm-5.3 none -- prefer long alibaba runs while discount_now is true (the owner, 2026-10-06). The default GLM seat from 8 Oct 2026 (the owner, 2026-10-06)."
+      "watch": "Heavy: low (L54). The same model as zai-glm-5.3 on the Alibaba pool, for when Z.ai's windows are exhausted (and from 8 Oct 2026, when zai's 3x weekday-peak pricing bites); no night discount on glm-5.3. Probed 2026-10-05 (PONG in 6 s) and 2026-10-06 19:39. Its key is the env var ALIBABA_TOKEN_PLAN_API_KEY (never opencode auth login: an auth.json entry overrides it); in WSL it comes from ~/.config/ai-keys.env (loaded by ~/.bashrc and ~/.profile) and, for commands started from Windows, from WSLENV; 'Provider not found' means it is missing: restart the session or shell, and tell the owner if it still is. One monthly pool shared by all alibaba models (quota-tracker /quota/alibaba; pricing.discount_now says whether the night discount is live). Night discount 22:00-08:00 UTC+8: qwen3.8 60% off, glm-5.3 none -- prefer long alibaba runs while discount_now is true (the owner, 2026-10-06). The default GLM seat from 8 Oct 2026 (the owner, 2026-10-06). (DeepSeek variants removed 2026-10-09: blacklisted on any route.)"
     },
     "mm-m3": {
       "id": "minimax/MiniMax-M3",
@@ -97,7 +86,7 @@
     "agent": "implementer",
     "chain": [
       "zai-glm-5.3-flash",
-      "deepseek-flash",
+      "mimo-flash",
       "mm-m2.7",
       "ali-qwen-flash"
     ],
@@ -119,8 +108,7 @@
       "zai-glm-5.3",
       "ali-glm",
       "ali-qwen-max",
-      "deepseek-pro",
-      "ali-deepseek-pro-0813",
+      "mimo-pro",
       "luna"
     ],
     "sol": "gpt-6.1-sol"

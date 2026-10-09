@@ -45,7 +45,7 @@ another way, or tell the user what is missing (`docs/environment.md`).
    editing `harness.json` for quota.
    When a task needs both an implementer and a reviewer, use `/recommend`'s `pair` field
    (`curl -s 'localhost:8765/recommend?tier=heavy' | jq .pair`): `pair.implementer` and
-   `pair.reviewer`, the reviewer from another family (claude, openai, glm, deepseek, minimax;
+   `pair.reviewer`, the reviewer from another family (claude, openai, glm, mimo, minimax;
    each free model its own). Add `review_tier=light` for a lighter reviewer; `private=0` is for
    code that is not private (the free OpenRouter models may then be in the pair). With
    `tier=heavy`, the same response also offers `free_reviewer` — a free second opinion on the

@@ -77,31 +77,32 @@ below are the owner's live checks.
 | `ali-glm` | `alibaba-token-plan/glm-5.3` | low | heavy | GLM-5.3 on the monthly pool; no night discount; zai relief (and its 3x weekday-peak price from 8 Oct 2026) |
 | `ali-qwen-max` | `alibaba-token-plan/qwen3.8-max` | low | heavy | new family; offers low, medium, xhigh |
 | `ali-qwen-flash` | `alibaba-token-plan/qwen3.8-flash` | medium | light | offers low, medium, xhigh (no high); medium since 2026-10-06 (xhigh before) |
-| `ali-deepseek-pro-0813` | `alibaba-token-plan/deepseek-v4-pro-0813` | high | heavy | only the dated `-0813` id gets the 50% night discount |
-| `ali-deepseek-flash` | `alibaba-token-plan/deepseek-v4.1-flash` | high | light | same model as `deepseek-flash` on Go |
+| `mimo-pro` | `opencode-go/mimo-v2.6-pro` | high | heavy | tested 2026-10-09 on implement, fix, review; MiMo is its own family |
+| `mimo-flash` | `opencode-go/mimo-v2.6-flash` | high | light | tested 2026-10-09 on implement, fix, review |
 | `mm-m3` | `minimax/MiniMax-M3` | thinking | heavy | offers only none and thinking; a new family, independent reviewer material |
 | `mm-m2.7`, `mm-m2.7-highspeed` | `minimax/MiniMax-M2.7(-highspeed)` | — | light | no effort variants; a variant is ignored if sent |
 
 Alibaba is one monthly pool for all its models (`curl -s localhost:8765/quota/alibaba`;
 `pricing.discount_now` says whether the night discount is live, 22:00–08:00 UTC+8: qwen3.8 60% off,
-`deepseek-v4-pro-0813` and `v4.1-flash` 50% off, `glm-5.3` none — prefer long alibaba runs while it
-is true). MiniMax has 5-hour and weekly windows (`curl -s localhost:8765/quota/minimax`). Alibaba's
-Kimi and MiniMax models are Team-edition only and fail; not registered. This repo's pinned
-`lib/quota.mjs` predates alibaba/minimax window knowledge — see `harness.lock`'s bump note.
+`glm-5.3` none — prefer long alibaba runs while it is true). DeepSeek is blacklisted on any
+route as of 2026-10-09. MiniMax has 5-hour and weekly windows
+(`curl -s localhost:8765/quota/minimax`). Alibaba's Kimi and MiniMax models are Team-edition only
+and fail; not registered. This repo's pinned `lib/quota.mjs` predates alibaba/minimax window
+knowledge — see `harness.lock`'s bump note.
 
-Placements (the owner, 2026-10-06): the implementer chain runs `zai-glm-5.3-flash`, `deepseek-flash`,
+Placements (the owner, 2026-10-09): the implementer chain runs `zai-glm-5.3-flash`, `mimo-flash`,
 `mm-m2.7`, `ali-qwen-flash` (then Claude sonnet); the hard reviewer chain runs `zai-glm-5.3`,
-`ali-glm`, `ali-qwen-max`, `deepseek-pro`, `ali-deepseek-pro-0813`, `luna` (then Claude opus).
-`mm-m3` is the L38 heavy escalation rung before the Claude fallback and the alternate for the Sol
-seat when openai is exhausted. `ali-deepseek-pro-0813` and `ali-deepseek-flash` are the
-explicit-model reliefs when opencode_go is out. From 8 Oct 2026 `ali-glm` is the default GLM seat
-(zai's 3x weekday peak). The lock bump to `b8c6cde` awaits the owner's separate word.
+`ali-glm`, `ali-qwen-max`, `mimo-pro`, `luna` (then Claude opus). `mm-m3` is the L38 heavy
+escalation rung before the Claude fallback and the alternate for the Sol seat when openai is
+exhausted. From 8 Oct 2026 `ali-glm` is the default GLM seat (zai's 3x weekday peak). From
+9 Oct 2026 DeepSeek is blacklisted and MiMo replaces it on OpenCode Go. The lock bump to
+`b8c6cde` awaits the owner's separate word.
 
 ## Quota: quota-tracker
 
 Where the machine runs quota-tracker, a local service, it reports how much subscription quota is
 left on each provider: `claude` (the main session and Claude agents), `openai` (Sol and Luna, via
-OpenCode), `zai` (GLM-5.3 and GLM-5.3 Flash), `opencode_go` (DeepSeek) and `openrouter` (prepaid
+OpenCode), `zai` (GLM-5.3 and GLM-5.3 Flash), `opencode_go` (MiMo v2.6) and `openrouter` (prepaid
 credit). Check it before choosing, recommending or delegating to a model (L50). It is read-only, on
 localhost, with no auth; results are cached 60 s, and `?refresh` bypasses the cache:
 - `curl -s localhost:8765/quota`, or `/quota/<provider>` for one;
@@ -133,8 +134,8 @@ The models per provider, heavy and light:
 | claude | `claude --model opus` | `claude --model sonnet` |
 | openai | `opencode -m openai/gpt-6.1-sol` | `opencode -m openai/gpt-5.6-luna` |
 | zai | `opencode -m zai-coding-plan/glm-5.3` | `opencode -m zai-coding-plan/glm-5.3-flash` |
-| opencode_go | `opencode -m opencode-go/deepseek-v4-pro` | `opencode -m opencode-go/deepseek-v4.1-flash` |
-| openrouter | `opencode -m openrouter/deepseek/deepseek-v4-pro` | `opencode -m openrouter/deepseek/deepseek-v4.1-flash` |
+| opencode_go | `opencode -m opencode-go/mimo-v2.6-pro` | `opencode -m opencode-go/mimo-v2.6-flash` |
+| openrouter | `opencode -m openrouter/<model>` | `opencode -m openrouter/<model>` |
 
 GPT-5.6 Luna, the reviewer (L51), uses OpenAI's main quota like Sol. When OpenAI is `exhausted`,
 Luna alone can still run while `/quota/openai`'s `when_exhausted.usable_models` lists
