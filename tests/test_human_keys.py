@@ -33,9 +33,11 @@ def xvfb(first, last, size="1280x800x24"):
     raise RuntimeError(f"no free display in {first}..{last - 1}")
 
 
-def xev(env, name):
-    """An ordinary application window on `env`'s display; returns (process, window id)."""
-    proc = subprocess.Popen(["xev", "-name", name], env=env, stdout=subprocess.DEVNULL,
+def xev(env, name, stdout=subprocess.DEVNULL):
+    """An ordinary application window on `env`'s display; returns (process, window id). `stdout`
+    is where xev's own KeyPress log goes — an open file when a caller wants to read what the
+    foreign application actually received (R1's positive control)."""
+    proc = subprocess.Popen(["xev", "-name", name], env=env, stdout=stdout,
                             stderr=subprocess.DEVNULL, start_new_session=True)
     end = time.monotonic() + 10
     while time.monotonic() < end:
@@ -147,6 +149,22 @@ class KeyTests(unittest.TestCase):
         burst.add({"monotonic_s": 12.1})
         self.assertTrue(burst.due(12.6))
 
+    def test_burst_preserves_group_boundaries_across_drains(self):
+        # R2: keys >= BURST_QUIET_S apart are separate groups, even when they arrive in one drain
+        # (while a burst snapshot's capture blocked the loop). The overwriting Burst.last merged
+        # them into one; the queue keeps each its own, so each becomes its own snapshot.
+        burst = rec.Burst()
+        burst.add({"monotonic_s": 0.0})
+        burst.add({"monotonic_s": 0.51})   # 0.51 > quiet 0.5: a new group
+        burst.add({"monotonic_s": 1.02})   # 1.02 >= 0.51 + 0.5: a new group
+        self.assertTrue(burst.due(0.5))    # group 0 due at 0.0 + 0.5
+        burst.consume()
+        self.assertTrue(burst.due(1.01))   # group 1 due at 0.51 + 0.5
+        burst.consume()
+        self.assertTrue(burst.due(1.52))   # group 2 due at 1.02 + 0.5
+        burst.consume()
+        self.assertFalse(burst.due(2.0))
+
     def test_loop_takes_burst_snapshot_between_cadence_ticks(self):
         now = [0.0]
         watcher = rec.Watcher.__new__(rec.Watcher)
@@ -174,13 +192,52 @@ class KeyTests(unittest.TestCase):
         self.assertAlmostEqual(ticks[1][0], 1.5)
         self.assertEqual(ticks[1][1], "burst")
 
+    def test_human_paced_keys_produce_one_burst_snapshot_each(self):
+        # R2 end-to-end at the requested 0.5-1.5 s human pace: 10 single-key groups 0.51 s apart
+        # (above the 0.5 s quiet) must produce 10 burst snapshots, not the 4 the overwriting
+        # Burst.last produced. Each tick (save + capture) advances the clock 0.75 s, longer than
+        # the 0.51 s gap, so keys keep arriving while a burst snapshot is being captured — the
+        # exact condition that merged groups before.
+        now = [0.0]
+        watcher = rec.Watcher.__new__(rec.Watcher)
+        watcher.clock = lambda: now[0]
+        watcher.sleep = lambda secs: now.__setitem__(0, now[0] + secs)
+        watcher.t0 = 0.0
+        watcher.dbx = Mock()
+        watcher.dbx.poll.return_value = None
+        watcher.log = lambda msg: None
+        ticks = []
+
+        def tick(**kw):
+            ticks.append((now[0], kw.get("origin", "watcher")))
+            now[0] += 0.75      # the save + staging capture latency
+        watcher.tick = tick
+        keys = Mock()
+        keys.error = None
+        keys.proc.poll.return_value = None
+        arrivals = [1.0 + 0.51 * k for k in range(10)]
+        sent = [0]
+
+        def drain():
+            out = []
+            while sent[0] < len(arrivals) and arrivals[sent[0]] <= now[0]:
+                out.append({"monotonic_s": arrivals[sent[0]], "keysym": f"k{sent[0]}"})
+                sent[0] += 1
+            return out
+        keys.drain = drain
+        watcher.run(quit_after=30, keys=keys)
+        bursts = [t for t in ticks if t[1] == "burst"]
+        self.assertEqual(len(bursts), 10, bursts)
+
     def test_private_display_logs_game_keys_not_outer_app_keys(self):
         outer, env = xvfb(710, 730, "800x600x24")
         nested = app = logger = None
         with tempfile.TemporaryDirectory() as folder:
             try:
                 nested, child, xephyr_wid = rec.start_nested(env, "640x400", subprocess.DEVNULL)
-                app, wid = xev(env, "T34-other-app")
+                xev_log = Path(folder) / "xev-other-app.log"
+                with open(xev_log, "w") as xev_out:
+                    app, wid = xev(env, "T34-other-app", stdout=xev_out)
                 logger = rec.KeyLogger(child, env["DISPLAY"], Path(folder) / "keys.jsonl")
                 logger.start()
                 time.sleep(1)
@@ -204,6 +261,13 @@ class KeyTests(unittest.TestCase):
                     self.assertIsInstance(e["monotonic_s"], float)
                     self.assertIn("+00:00", e["utc"])
                     self.assertIsInstance(e["keycode"], int)
+                # R1 positive control: the foreign application really received x/y/z (the focused
+                # XTEST keys are what a logger on the outer display would have leaked; the XSendEvent
+                # `x` and both real XTEST keys must all be in xev's own log). Removing the focused
+                # XTEST sends therefore fails this test, and so does a logger that reads the outer
+                # display (it would add x/y/z to keys.jsonl).
+                foreign = [p["keysym"] for p in rec.xev_presses(xev_log)]
+                self.assertEqual(foreign, ["x", "y", "z"])
             finally:
                 if logger:
                     logger.stop()
@@ -440,3 +504,40 @@ class MapTests(unittest.TestCase):
             self.assertEqual(sorted(ROOT.joinpath("experiments", "E015-human-playthrough").iterdir()), tables)
             self.assertEqual(sorted(p.name for p in session.iterdir()),
                              ["index.jsonl", "keys.jsonl", "meta.json", "snapshots"])
+
+
+class GuardTests(unittest.TestCase):
+    """R3: the acceptance guard (scripted_keys.check_bursts) requires a distinct, correctly timed
+    burst snapshot per key group — never "any later snapshot" for every group."""
+
+    def setUp(self):
+        import scripted_keys
+        self.sk = scripted_keys
+
+    def test_group_presses_splits_on_the_quiet_interval(self):
+        events = [{"event": "press", "monotonic_s": t, "keysym": k} for t, k in
+                  ((0.0, "a"), (0.2, "b"), (0.9, "c"), (1.6, "d"))]
+        self.assertEqual(self.sk.group_presses(events, 0.5), [[0.0, 0.2], [0.9], [1.6]])
+
+    def test_one_snapshot_per_group_passes(self):
+        # 3 groups, 3 distinct burst snapshots staged after each group's last key
+        groups = [[0.0], [1.0], [2.0]]
+        bursts = [{"elapsed_s": 0.7}, {"elapsed_s": 1.7}, {"elapsed_s": 2.7}]
+        ok, _ = self.sk.check_bursts(groups, bursts, 100.0)
+        self.assertTrue(ok)
+
+    def test_fewer_snapshots_than_groups_fails(self):
+        # the R2/R3 bug: 4 snapshots for 10 groups. The old `any(...)` let one final snapshot
+        # satisfy every group; the guard must reject it.
+        groups = [[k * 0.51] for k in range(10)]
+        bursts = [{"elapsed_s": 2.0}, {"elapsed_s": 3.0}, {"elapsed_s": 4.0}, {"elapsed_s": 5.0}]
+        ok, why = self.sk.check_bursts(groups, bursts, 0.0)
+        self.assertFalse(ok)
+        self.assertIn("4 burst snapshots for 10 key group(s)", why)
+
+    def test_the_same_snapshot_cannot_bracket_two_groups(self):
+        # one snapshot staged after every key is not "correctly timed": each group needs its own.
+        groups = [[0.0], [1.0], [2.0]]
+        bursts = [{"elapsed_s": 99.0}]
+        ok, _ = self.sk.check_bursts(groups, bursts, 0.0)
+        self.assertFalse(ok)

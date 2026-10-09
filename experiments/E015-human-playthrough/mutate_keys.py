@@ -13,6 +13,8 @@ ROOT = Path(__file__).resolve().parents[2]
 REC = "runtime/human/recorder.py"
 MAP = "experiments/E015-human-playthrough/keymap.py"
 EXT = "experiments/E015-human-playthrough/extract.py"
+SCRIPTED = "experiments/E015-human-playthrough/scripted_keys.py"
+TEST = "tests/test_human_keys.py"
 MUTATIONS = [
     # the display restriction (privacy)
     ("display restriction removed", REC,
@@ -112,6 +114,22 @@ MUTATIONS = [
     ("press count removed", MAP, 'total += n', 'total += 0'),
     # the record (R9)
     ("record keeps the home directory", EXT, 'return value.replace(home, "~")', 'return value'),
+    # R1 (Sol delta): the privacy test's positive control — the focused real-XTEST sends to the
+    # foreign application. Removing them must fail the privacy test (xev never receives y/z).
+    ("R1: focused-XTEST foreign sends removed", TEST,
+     '                subprocess.run(["xdotool", "windowfocus", "--sync", wid], env=env, check=True)\n'
+     '                subprocess.run(["xdotool", "key", "y", "z"], env=env, check=True)\n',
+     ''),
+    # R2 (Sol delta): the drain-events-overwrite — every drained key joins the first group, so N
+    # groups become one burst (the pre-fix behaviour). The human-pace test must fail.
+    ("drain-events-overwrite: every key joins one group", REC,
+     'if not self.groups or t >= self.groups[-1]["last"] + self.quiet:',
+     'if not self.groups:'),
+    # R3 (Sol delta): the acceptance guard accepts fewer snapshots than groups. With `>` the
+    # 4-for-10 case slips past the count check and zip() pairs only the first four groups.
+    ("R3: guard accepts fewer snapshots than groups", SCRIPTED,
+     'if len(bursts) != len(groups):',
+     'if len(bursts) > len(groups):'),
 ]
 
 

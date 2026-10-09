@@ -27,6 +27,37 @@ sys.path.insert(0, str(ROOT / "runtime/human"))
 import recorder
 
 
+def group_presses(events, quiet):
+    """The key groups: consecutive press times no two > quiet apart form one group. Returns a
+    list of groups, each a list of press monotonic times in order (releases are not listed)."""
+    groups, current = [], []
+    for e in events:
+        if e["event"] != "press":
+            continue
+        if current and e["monotonic_s"] > current[-1] + quiet:
+            groups.append(current)
+            current = []
+        current.append(e["monotonic_s"])
+    if current:
+        groups.append(current)
+    return groups
+
+
+def check_bursts(groups, bursts, t0):
+    """The acceptance guard (R3): each key group has its own burst snapshot, staged after the
+    group's last key. Distinct, not just any later snapshot — the old `any(...)` let one final
+    snapshot satisfy every group, so a recorder that merged groups (4 snapshots for 10 groups)
+    still passed. Returns (ok, message)."""
+    if len(bursts) != len(groups):
+        return False, (f"{len(bursts)} burst snapshots for {len(groups)} key group(s); each "
+                       f"group needs its own snapshot staged after its last key")
+    by_stage = sorted(bursts, key=lambda b: b["elapsed_s"] + t0)
+    for group, b in zip(groups, by_stage):
+        if b["elapsed_s"] + t0 < group[-1]:
+            return False, f"a burst snapshot staged before key group ending {group[-1]}"
+    return True, f"{len(bursts)} burst snapshots for {len(groups)} key group(s)"
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("--keys", default="a;b;c", help="game keys as a ';'-separated list")
@@ -97,29 +128,20 @@ def main():
         raw = raw_log.read_text()
         raw_presses = raw.count("RawKeyPress")
         assert raw_presses >= 2, raw_presses   # y and z were really typed on the outer display
-        # ...and xev (the other application) received every one of them (its KeyPress lines
-        # carry `keycode NN (keysym 0xNN, <name>),`)
-        xev = xev_log.read_text()
-        for name in ("x", "y", "z"):
-            assert f", {name})," in xev, f"key {name} missing from the xev log"
+        # ...and xev (the other application) received every one of them: its own KeyPress log is
+        # the positive control, written as one JSON line per press alongside the session (R1)
+        foreign = recorder.xev_presses(xev_log)
+        (session / "foreign-keys.jsonl").write_text(
+            "".join(json.dumps(p) + "\n" for p in foreign))
+        assert [p["keysym"] for p in foreign] == ["x", "y", "z"], foreign
         # DW1: a burst snapshot after each key burst (keys grouped by the recorder's quiet gap)
         index = [json.loads(line) for line in (session / "index.jsonl").read_text().splitlines()]
         bursts = [entry for entry in index if entry["origin"] == "burst"]
         t0 = meta["monotonic_start_s"]
         quiet = meta.get("burst_quiet_s", recorder.BURST_QUIET_S)
-        groups, current = [], []
-        for e in events:
-            if e["event"] != "press":
-                continue
-            if current and e["monotonic_s"] > current[-1] + quiet:
-                groups.append(current)
-                current = []
-            current.append(e["monotonic_s"])
-        if current:
-            groups.append(current)
-        for group in groups:
-            assert any(b["elapsed_s"] + t0 >= group[-1] for b in bursts), \
-                f"no burst snapshot after key group ending {group[-1]}"
+        groups = group_presses(events, quiet)
+        ok, why = check_bursts(groups, bursts, t0)
+        assert ok, why
         print(f"privacy OK: {'/'.join(keys)} game keys only; outer-app x/y/z excluded "
               f"(xev log holds them; outer raw reader saw {raw_presses} RawKeyPress); "
               f"burst snapshots: {len(bursts)} for {len(groups)} key group(s)", flush=True)

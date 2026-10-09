@@ -129,17 +129,33 @@ NESTED_START_S = 10.0
 
 
 class Burst:
-    def __init__(self):
-        self.last = None
+    """The pending key groups, one burst each. A group is a run of key events no two consecutive
+    of which are BURST_QUIET_S apart; a new key at least a quiet interval after the group's last
+    starts the next group. The oldest group is `due` once quiet has elapsed since its last key,
+    and `consume()` drops it after its snapshot is taken.
+
+    The groups are a queue, not one `last` (R2): keys that arrive while a burst snapshot is being
+    captured are appended as their own groups, never merged into the one just snapshotted, so N
+    groups produce N burst snapshots, one per loop pass. Each group keeps `first` (the pre-send
+    start of the burst) and `last` (the key that schedules its snapshot)."""
+
+    def __init__(self, quiet=BURST_QUIET_S):
+        self.quiet = quiet
+        self.groups = []
 
     def add(self, event):
-        self.last = event["monotonic_s"]
+        t = event["monotonic_s"]
+        if not self.groups or t >= self.groups[-1]["last"] + self.quiet:
+            self.groups.append({"first": t, "last": t})
+        else:
+            self.groups[-1]["last"] = t
 
     def due(self, now):
-        return self.last is not None and now >= self.last + BURST_QUIET_S
+        return bool(self.groups) and now >= self.groups[0]["last"] + self.quiet
 
     def consume(self):
-        self.last = None
+        if self.groups:
+            self.groups.pop(0)
 
 
 class KeyParser:
@@ -256,6 +272,31 @@ def xdotool(args, env=None, timeout=10):
     """One xdotool call on the recorder's display; returns the CompletedProcess (never raises for
     a non-zero exit: callers check)."""
     return subprocess.run(["xdotool", *args], env=env, capture_output=True, text=True, timeout=timeout)
+
+
+def xev_presses(path):
+    """The KeyPress events an `xev` window received, parsed from its captured stdout (one JSON
+    dict per press, in order). xev's KeyPress and KeyRelease lines both read
+    `... keycode NN (keysym 0xNN, name), ...`; this records only the press line's keycode, so
+    a press is listed once, not press-and-release.
+
+    Used only by the privacy proof's positive control (R1): the foreign application's own log
+    proves the keys were really typed on the outer display — a raw logger on that display would
+    have seen them, so their absence from keys.jsonl is the privacy claim, not a silent no-op."""
+    import re
+    out = []
+    event = None
+    for line in Path(path).read_text(errors="replace").splitlines():
+        if line.startswith("KeyPress event"):
+            event = "press"
+        elif line.startswith("KeyRelease event"):
+            event = "release"
+        elif event == "press":
+            m = re.search(r"keycode (\d+) \(keysym 0x[0-9a-fA-F]+, ([^)]*)\)", line)
+            if m:
+                out.append({"event": "press", "keycode": int(m.group(1)), "keysym": m.group(2)})
+                event = None
+    return out
 
 
 def key_cmd(wid):
