@@ -90,3 +90,6 @@ how the run works.
   with nothing after it. The script reads exactly this shape. A review without its closing verdict,
   or with a finding after it, is posted flagged and gets no label. Never put
   close/closes/fix/fixes/resolve/resolves directly before `#<n>`.
+- **Read `RUN-NOTES.md`** at the worktree root before the diff (see `docs/running-notes.md`).
+  It tells you the design rationale and the deferred items — the review grades against the
+  *design*, not just the final state.

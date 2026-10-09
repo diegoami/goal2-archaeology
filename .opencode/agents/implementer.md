@@ -55,3 +55,8 @@ the run works.
   final message the report: what you built, each Done-when line with the command you ran and its
   result, anything you could not verify. Never put close/closes/fix/fixes/resolve/resolves
   directly before `#<n>` except in the PR body's own `Closes #<issue>`.
+- **Track your progress in `RUN-NOTES.md`** at the worktree root (see `docs/running-notes.md`).
+  Three rules: read it first (if a previous round left it); append a `## <step>` bullet to
+  **Progress** after every commit; append a `## END` block to **Notes** before
+  `git -C <worktree> checkout --detach`. Never `git add` or `git commit` it. On first touch,
+  add it to `.git/info/exclude` so it's never accidentally staged.
