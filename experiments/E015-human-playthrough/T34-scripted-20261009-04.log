@@ -1,0 +1,41 @@
+[09:31:47] session /home/diego/projects/goal2-archaeology-work/T34/scratch/human/sessions/20261009-113147
+[09:31:47] dosbox-x started (pid 336153)
+[09:31:47] game window 6291461 (pid 336153)
+[09:31:47] F12+S sent to window 6291461
+[09:31:48] staged snapshots/snap-0001-20261009T093148Z.sav (208406 bytes, sha256 d53847774de2183c...)
+[09:31:49] F12+S sent to window 6291461
+[09:31:49] staged snapshots/snap-0002-20261009T093149Z.sav (182575 bytes, sha256 9ce812ea58aef87a...)
+[09:31:50] F12+S sent to window 6291461
+XGetInputFocus returned the focused window of 1. This is likely a bug in the X server.
+XGetInputFocus returned the focused window of 1. This is likely a bug in the X server.
+[09:31:50] staged snapshots/snap-0003-20261009T093150Z.sav (183613 bytes, sha256 8c7815540ac7cc62...)
+[09:31:50] F12+S sent to window 6291461
+[09:31:51] staged snapshots/snap-0004-20261009T093151Z.sav (183008 bytes, sha256 628cb24e71dff931...)
+[09:32:04] quit-after 18.0s reached
+[09:32:05] shutdown snapshot already indexed (628cb24e71dff931...): skipping
+[09:32:05] done: 4 snapshots, stop quit-after
+privacy OK: a/b/c game keys only; outer-app x/y/z excluded (xev log holds them; outer raw reader saw 2 RawKeyPress); burst snapshots: 3 for 3 key group(s)
+gaps (s): [1.261, 0.89]
+session: scratch/human/sessions/20261009-113147
+screens: 2, transitions: 3, keys: 3
+# Observed screen/key map
+
+screens: 2, transitions: 3, keys: 3
+
+Ordered bursts are associations between snapshots, not proof of individual-key causality.
+
+| Before (text digest) | Keys pressed | After (text digest) | Count |
+| --- | --- | --- | --- |
+| Z:\>c: (f5dadee40d04) | a | (c) NE'93│ │                                                    │     (c) (09d3e9010708) | 1 |
+| (c) NE'93│ │                                                    │     (c) (09d3e9010708) | b | (c) NE'93│ │                                                    │     (c) (09d3e9010708) | 1 |
+| (c) NE'93│ │                                                    │     (c) (09d3e9010708) | c | (c) NE'93│ │                                                    │     (c) (09d3e9010708) | 1 |
+
+Unmapped presses: 0
+
+states: 4, screens: 2 unique, diffs: 3, partial: 1
+/home/diego/projects/goal2-archaeology-work/T34/runs/E015/E015-r0006.json (0.1s)
+/home/diego/projects/goal2-archaeology-work/T34/evidence/E015/E015-r0006.manifest.json: written
+d53847774de2183c-snap-0001-20261009T093148Z.sav: uploaded
+9ce812ea58aef87a-snap-0002-20261009T093149Z.sav: uploaded
+8c7815540ac7cc62-snap-0003-20261009T093150Z.sav: uploaded
+628cb24e71dff931-snap-0004-20261009T093151Z.sav: uploaded

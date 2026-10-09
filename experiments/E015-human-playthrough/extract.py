@@ -327,7 +327,17 @@ def claim_record(runs_dir, rec):
         return path
 
 
-def build_record(session, states, diffs, countries, runs_dir, machine, started, malformed):
+def host_free(value):
+    """A recorded string without the owner's home directory (T34 review R9): the session path and
+    DOSBox-X's `mount c <path>` echo on the shell screen name it. It becomes `~`; nothing else in
+    the string changes, and a non-string is returned as it is."""
+    home = str(Path.home())
+    if isinstance(value, str) and len(home) > 1:
+        return value.replace(home, "~")
+    return value
+
+
+def build_record(session, states, diffs, countries, runs_dir, machine, started, malformed, scripted_keys=False):
     """The run/1 document: one step per parsed state, the diffs after their later state, every
     file the pass read named with its sha256 (every file — R11 — and every country record
     address uses c * COUNTRY_SIZE, not (c-1) * COUNTRY_SIZE, R9)."""
@@ -377,7 +387,7 @@ def build_record(session, states, diffs, countries, runs_dir, machine, started, 
         "actions": {
             "script": "experiments/E015-human-playthrough/extract.py",
             "sha256": sha256_file(__file__),
-            "args": [str(session), "--countries", ",".join(map(str, countries))],
+            "args": [host_free(str(session)), "--countries", ",".join(map(str, countries))],
         },
         "observations": [],
         "outputs": [],
@@ -389,7 +399,7 @@ def build_record(session, states, diffs, countries, runs_dir, machine, started, 
     step = 0
 
     def add(source, field, value, addr=None):
-        item = {"step": step, "source": source, "field": field, "value": value}
+        item = {"step": step, "source": source, "field": field, "value": host_free(value)}
         if addr:
             item["addr"] = addr
         obs.append(item)
@@ -512,9 +522,29 @@ def build_record(session, states, diffs, countries, runs_dir, machine, started, 
         + (f", skipped: {len(states) - len(parsed)}" if len(states) > len(parsed) else "")
         + (f", partial: {partial}" if partial else ""))
     rec.pop("_screens", None)
+    screen_key_map = None
+    if (session / "keys.jsonl").is_file():
+        import keymap
+        screen_key_map = keymap.read_session(session, states)
+        rec["runtime"]["fingerprint"]["keymap_py_sha256"] = sha256_file(keymap.__file__)
+        add("file", "read key log keys.jsonl", sha256_file(session / "keys.jsonl"))
+        if (session / "requests.jsonl").is_file():
+            add("file", "read save requests requests.jsonl", sha256_file(session / "requests.jsonl"))
+        add("log", "screen/key map summary", screen_key_map["summary"])
+        add("log", "screen/key map (JSON)", json.dumps(screen_key_map, sort_keys=True))
+        if scripted_keys:
+            add("log", "scripted sitting key events (explicit opt-in; never for human sittings)",
+                (session / "keys.jsonl").read_text())
     if not parsed:
         rec["status"] = "aborted: no savestate in the session parsed"
     out_path = claim_record(runs_dir, rec)
+    if screen_key_map is not None:
+        table_path = ROOT / "experiments" / "E015-human-playthrough" / f"{rec['run_id']}-keymap.md"
+        # Tables follow the record's immutable id; fixture runs stay in their run folder.
+        if Path(runs_dir).resolve() != (ROOT / "runs").resolve():
+            table_path = out_path.with_suffix(".keymap.md")
+        with open(table_path, "x", encoding="utf-8") as f:
+            f.write(keymap.table(screen_key_map))
     return rec, out_path
 
 
@@ -536,6 +566,7 @@ def main(argv=None):
                     help=f"comma-separated country numbers 1..{N_COUNTRIES} (default {DEFAULT_COUNTRIES})")
     ap.add_argument("--runs-dir", type=Path, default=ROOT / "runs")
     ap.add_argument("--machine", default="ubuntu-24-04-wsl2")
+    ap.add_argument("--scripted-keys", action="store_true", help="include raw keys ONLY for a scripted acceptance sitting")
     a = ap.parse_args(argv)
     session = a.session.resolve()
     if not session.is_dir():
@@ -566,7 +597,7 @@ def main(argv=None):
             diffs[s["file"]] = d
         last = s
     rec, out_path = build_record(session, states, diffs, countries, a.runs_dir, a.machine, started,
-                                 malformed)
+                                 malformed, scripted_keys=a.scripted_keys)
     parsed = [s for s in states if s.get("error") is None]
     screens = {s["screen_digest"] for s in parsed if s.get("screen_digest") is not None}
     partial = sum(1 for s in parsed if s.get("memory_unavailable") or s.get("arrays_unavailable"))

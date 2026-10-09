@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
-"""The T29 human-playthrough recorder: one command that runs GOAL2 windowed on the owner's display
+"""The human-playthrough recorder: one command that runs GOAL2 on a private nested display
 and turns the sitting into a complete behavioural record — a timestamped chain of whole-machine
 savestates, an index of them, and (optionally) a screen video of the game window.
 
     python3 runtime/human/recorder.py self-test [--video]
     python3 runtime/human/recorder.py play [--video] [--quit-after SECS]
 
-Windows on the display $DISPLAY points at (the owner's session); there is no headless mode here.
+Xephyr is shown on $DISPLAY; the game and raw key logger use only its nested display.
 The emulator, config family and session layout follow the G1 driver (runtime/driver/driver.py):
 windowed `surface` output, `savefile` in the session folder, drive C: mounted from a per-session
 copy of the verified release (never the release cache itself — F001: a savestate remembers the
@@ -36,6 +36,15 @@ Correctness rules (each pinned by a test in tests/test_human_record.py):
        so bytes read while a write was in progress are never staged (the task's hazard).
   The shutdown pass runs AFTER `terminate(dbx)` through the same `capture` (no pre-send
   signature); one deadline bounds every capture, retries included.
+- The capture pipeline (T34 Sol-r2 R1). With keys attached, each settled key episode's save
+  request is sent EVENT_SETTLE_S after its newest event (the scheduling quiet; the grouping
+  quiet BURST_QUIET_S is what the map reads), and its staging capture runs in a worker thread,
+  so a savestate that takes ~0.8 s never delays the next request: keys ~0.53 s apart still get
+  one request window each — a due-time window (last key + BURST_QUIET_S) can never fit between
+  two such keys — and the map can place every press. The worker's fast path takes the kernel's
+  write-event count (inotify CLOSE_WRITE/MOVED_TO past the pre-send count) as the
+  write-completed evidence — the stability polls cannot fit between writes 0.5 s apart. Every
+  other gate check is unchanged.
 - The clean termination (rework round 2 R5). The watcher's loop detects a dead dosbox-x between
   ticks and between polls of `capture` and treats it as end-of-session: the loop returns, the
   shutdown pass runs (R4), `play()` writes meta, the file/socket is closed. A dead emulator
@@ -63,6 +72,8 @@ import signal
 import subprocess
 import sys
 import time
+import threading
+import queue
 import zipfile
 from datetime import datetime, timezone
 from pathlib import Path
@@ -108,6 +119,170 @@ SELFTEST = ROOT / "scratch" / "human" / "selftest"   # and videos stay out of gi
 WANT_DOSBOX = "2024.03.01"
 WINDOW_CLASS = "dosbox"  # the driver's window search
 
+# [designed] A 0.5 s quiet interval groups human typing without waiting for
+# the 20 s cadence. Searched T29 timing constants and T34 brief: neither
+# specifies a human burst interval. This is recorder policy, not game timing.
+BURST_QUIET_S = 0.5
+# [designed] The SCHEDULING quiet: how long the key stream must be still before the settled
+# episode's save request goes out (one snapshot per episode — the grouping quiet above stays
+# what keymap.py reads from meta). Two measured facts fix its value (session 20261009-142948,
+# the Sol-r2 reproduction): a key's release follows its press by ~12 ms (xdotool's key
+# duration), and keys slept 0.51 s apart arrive 0.525-0.529 s apart on the wire. A window
+# opened at the due time (last key + BURST_QUIET_S) can never fit between two such keys —
+# it needs spacing >= quiet + window width (~0.58 s at width = send ~26 ms + margin 50 ms)
+# — so it either swallows the next key or, sent later, leaves the pair unseparated; either
+# way the pair is unmapped. Sent instead EVENT_SETTLE_S after the newest event, the window
+# opens after that key's release and still ~0.39 s before the next key. 0.05 s is ~4x the
+# measured release lag; the honest cost is a dead zone — an event arriving inside the open
+# window ([settle, settle + width] after the last event) makes its gap ambiguous, the
+# ambiguity keymap.py already documents. Searched: T34-probe-20261009-05.log (send ~26 ms,
+# logger delivery max 5.7 ms) and the session's press/release intervals. Recorder policy,
+# not game timing.
+EVENT_SETTLE_S = 0.05
+# [designed] The write-event bound of ONE save request. Measured on this host
+# (evidence/E015/T34-probe-closes-20261009-01.log, three real saves): a single
+# DOSBox-X save produces 53-54 write events on state.sav (27 CLOSE_WRITE plus as
+# many MODIFY — the old docstring's '27 close events' counted only half). 80 is
+# ~1.5x the measured worst save, far above one save's jitter and far below two
+# saves' ~108: a fast pipeline job whose live savestate has advanced by more than
+# this since its request was sent is reading a LATER request's save (the single
+# serialized writer answers requests in order). Searched: the probe above; no
+# prior measurement of per-save event counts existed. Recorder policy.
+ONE_SAVE_MAX_EVENTS = 80
+# [designed] A snapshot's screen is taken when DOSBox-X handles the save key, which the X server
+# delivers after the recorder's request (the clock read before the send) and before the send's last
+# event is flushed (`sent_s`). A key the logger stamps later than `sent_s` may still have reached
+# the nested server first: the logger's delivery latency. Measured on this host
+# (T34-probe-20261009-05.log, 200 XTEST presses with the main thread busy): median 0.08 ms, max
+# 5.7 ms. 50 ms is ~9x the worst observed; a key stamped inside [request_s, sent_s + margin] is
+# ambiguous and its burst unmapped (keymap.py). It is no game timing.
+CAPTURE_MARGIN_S = 0.05
+# [designed] Bound on Xephyr showing its window on the outer display. Xephyr binds its display
+# socket before it creates the host window, so a titled window proves the display number is the
+# launched Xephyr's own; on a busy number it exits in ~25 ms without one (T34-probe-20261009-05.log).
+NESTED_START_S = 10.0
+
+
+class Burst:
+    """The pending key groups, one burst each. A group is a run of key events no two consecutive
+    of which are BURST_QUIET_S apart; a new key at least a quiet interval after the group's last
+    starts the next group. The oldest group is `due` once quiet has elapsed since its last key,
+    and `consume()` drops it after its snapshot is taken.
+
+    The groups are a queue, not one `last` (R2): keys that arrive while a burst snapshot is being
+    captured are appended as their own groups, never merged into the one just snapshotted, so N
+    groups produce N burst snapshots, one per loop pass. Each group keeps `first` (the pre-send
+    start of the burst), `last` (the key that schedules its snapshot) and, once its save request
+    has been sent, `request_time`/`sent` — the pre-send clock and the send's end, the window the
+    map reads (T34 Sol-r2 R1a), recorded on the group at the moment of the send, never at
+    staging."""
+
+    def __init__(self, quiet=BURST_QUIET_S):
+        self.quiet = quiet
+        self.groups = []
+
+    def add(self, event):
+        t = event["monotonic_s"]
+        if not self.groups or t >= self.groups[-1]["last"] + self.quiet:
+            self.groups.append({"first": t, "last": t})
+        else:
+            self.groups[-1]["last"] = t
+
+    def due(self, now):
+        return bool(self.groups) and now >= self.groups[0]["last"] + self.quiet
+
+    def consume(self):
+        if self.groups:
+            self.groups.pop(0)
+
+
+class KeyParser:
+    """Parse raw XI2 events only (ordinary events would duplicate each key)."""
+    def __init__(self, symbols):
+        self.symbols, self.event = symbols, None
+
+    def line(self, line):
+        if line.startswith("EVENT"):
+            self.event = ("press" if "(RawKeyPress)" in line else
+                          "release" if "(RawKeyRelease)" in line else None)
+        elif self.event and line.strip().startswith("detail:"):
+            code = int(line.split(":", 1)[1].strip())
+            event, self.event = self.event, None
+            return {"event": event, "keycode": code,
+                    "keysym": self.symbols.get(code, f"keycode-{code}")}
+        return None
+
+
+class KeyLogger:
+    """The only event source is the child display, never the outer desktop."""
+    def __init__(self, env, outer_display, path):
+        if not env.get("DISPLAY") or env["DISPLAY"] == outer_display:
+            raise ValueError("key logger requires a distinct nested display")
+        self.env, self.path = dict(env), Path(path)
+        self.outer_display = outer_display   # never read from: kept for the error message only
+        self.events = queue.Queue()
+        self.proc, self.thread = None, None
+        self.error = None
+
+    def start(self):
+        import ctypes
+        xlib = ctypes.CDLL("libX11.so.6")
+        xlib.XOpenDisplay.argtypes = [ctypes.c_char_p]
+        xlib.XOpenDisplay.restype = ctypes.c_void_p
+        xlib.XKeycodeToKeysym.argtypes = [ctypes.c_void_p, ctypes.c_ubyte, ctypes.c_int]
+        xlib.XKeycodeToKeysym.restype = ctypes.c_ulong
+        xlib.XKeysymToString.argtypes = [ctypes.c_ulong]
+        xlib.XKeysymToString.restype = ctypes.c_char_p
+        xlib.XCloseDisplay.argtypes = [ctypes.c_void_p]
+        display = xlib.XOpenDisplay(self.env["DISPLAY"].encode())
+        if not display:
+            raise RuntimeError("cannot open nested display for key symbols")
+        try:
+            symbols = {}
+            # X11 keycodes are one byte, with protocol range 8 through 255.
+            for code in range(8, 256):
+                name = xlib.XKeysymToString(xlib.XKeycodeToKeysym(display, code, 0))
+                if name:
+                    symbols[code] = name.decode()
+        finally:
+            xlib.XCloseDisplay(display)
+        self.proc = subprocess.Popen(["stdbuf", "-oL", "xinput", "test-xi2", "--root"],
+                                     env=self.env, stdout=subprocess.PIPE,
+                                     stderr=subprocess.DEVNULL, text=True,
+                                     start_new_session=True)
+        parser = KeyParser(symbols)
+
+        def read():
+            try:
+                with open(self.path, "x", encoding="utf-8") as out:
+                    for line in self.proc.stdout:
+                        event = parser.line(line)
+                        if event is not None:
+                            event.update({"utc": datetime.now(timezone.utc).isoformat(),
+                                          "monotonic_s": time.monotonic()})
+                            out.write(json.dumps(event) + "\n")
+                            out.flush()
+                            self.events.put(event)
+            except Exception as e:
+                self.error = str(e)
+        self.thread = threading.Thread(target=read, daemon=True)
+        self.thread.start()
+
+    def drain(self):
+        events = []
+        while True:
+            try:
+                events.append(self.events.get_nowait())
+            except queue.Empty:
+                return events
+
+    def stop(self):
+        terminate(self.proc)
+        if self.thread:
+            self.thread.join(timeout=2)
+        if self.proc and self.proc.stdout:
+            self.proc.stdout.close()
+
 
 def sha256(b):
     return hashlib.sha256(b).hexdigest()
@@ -137,6 +312,31 @@ def xdotool(args, env=None, timeout=10):
     return subprocess.run(["xdotool", *args], env=env, capture_output=True, text=True, timeout=timeout)
 
 
+def xev_presses(path):
+    """The KeyPress events an `xev` window received, parsed from its captured stdout (one JSON
+    dict per press, in order). xev's KeyPress and KeyRelease lines both read
+    `... keycode NN (keysym 0xNN, name), ...`; this records only the press line's keycode, so
+    a press is listed once, not press-and-release.
+
+    Used only by the privacy proof's positive control (R1): the foreign application's own log
+    proves the keys were really typed on the outer display — a raw logger on that display would
+    have seen them, so their absence from keys.jsonl is the privacy claim, not a silent no-op."""
+    import re
+    out = []
+    event = None
+    for line in Path(path).read_text(errors="replace").splitlines():
+        if line.startswith("KeyPress event"):
+            event = "press"
+        elif line.startswith("KeyRelease event"):
+            event = "release"
+        elif event == "press":
+            m = re.search(r"keycode (\d+) \(keysym 0x[0-9a-fA-F]+, ([^)]*)\)", line)
+            if m:
+                out.append({"event": "press", "keycode": int(m.group(1)), "keysym": m.group(2)})
+                event = None
+    return out
+
+
 def key_cmd(wid):
     """The argv that sends the host save key. The focus gate lives here: with SEND_TO_WINDOW the
     keys go to the game window only (--window wid, an XSendEvent to that one window); turning the
@@ -145,6 +345,47 @@ def key_cmd(wid):
     if not SEND_TO_WINDOW:
         return ["xdotool", "key", SAVE_KEYS]
     return ["xdotool", "key", "--window", str(wid), SAVE_KEYS]
+
+
+def send_save_event(wid, env):
+    """Explicit XSendEvent: xdotool uses XTEST for the focused window, which
+    would feed our own snapshot keys back into the raw-input burst scheduler.
+    X11 KeyPress/KeyRelease masks and event layouts are protocol constants.
+    """
+    import ctypes as c
+    class KeyEvent(c.Structure):
+        _fields_ = [("type", c.c_int), ("serial", c.c_ulong), ("send_event", c.c_int),
+                    ("display", c.c_void_p), ("window", c.c_ulong), ("root", c.c_ulong),
+                    ("subwindow", c.c_ulong), ("time", c.c_ulong), ("x", c.c_int),
+                    ("y", c.c_int), ("x_root", c.c_int), ("y_root", c.c_int),
+                    ("state", c.c_uint), ("keycode", c.c_uint), ("same_screen", c.c_int)]
+    class Event(c.Union):
+        _fields_ = [("key", KeyEvent), ("pad", c.c_long * 24)]
+    lib = c.CDLL("libX11.so.6")
+    lib.XOpenDisplay.argtypes, lib.XOpenDisplay.restype = [c.c_char_p], c.c_void_p
+    lib.XDefaultRootWindow.argtypes, lib.XDefaultRootWindow.restype = [c.c_void_p], c.c_ulong
+    lib.XKeysymToKeycode.argtypes, lib.XKeysymToKeycode.restype = [c.c_void_p, c.c_ulong], c.c_ubyte
+    lib.XSendEvent.argtypes = [c.c_void_p, c.c_ulong, c.c_int, c.c_long, c.POINTER(Event)]
+    lib.XFlush.argtypes = lib.XCloseDisplay.argtypes = [c.c_void_p]
+    display = lib.XOpenDisplay(env["DISPLAY"].encode())
+    if not display:
+        raise RuntimeError("cannot open nested display to send save event")
+    try:
+        codes = [lib.XKeysymToKeycode(display, symbol) for symbol in (0xFFC9, ord("s"))]
+        for kind, mask in ((2, 1), (3, 2)):
+            for code in codes:
+                event = Event()
+                event.key.type, event.key.display = kind, display
+                event.key.window, event.key.root = int(wid), lib.XDefaultRootWindow(display)
+                event.key.keycode, event.key.same_screen = code, 1
+                if not lib.XSendEvent(display, int(wid), 0, mask, c.byref(event)):
+                    raise RuntimeError("save event send failed")
+                lib.XFlush(display)
+                # [designed] Match xdotool's roughly 6 ms inter-event spacing,
+                # observed in T34-scripted-20261009-01.log's host-save events.
+                time.sleep(0.006)
+    finally:
+        lib.XCloseDisplay(display)
 
 
 def window_alive(wid, env):
@@ -337,13 +578,26 @@ class Watcher:
         else:
             self.activity = lambda: (writing(), 0)
         self.index_path = self.session / index
+        # every save request, staged or skipped (T34 R2): the map must know a missing snapshot
+        self.requests_path = self.session / "requests.jsonl"
+        self.last_sent = None
+        self.last_staged_request = None
         self.snapshots = self.session / "snapshots"
         self.t0 = self.clock() if t0 is None else t0
         self.seq = 0
         self.problems = []
+        # the last fast capture's (event count, signature): what the pipeline already consumed,
+        # and its pending-job watermark (submitted - finished > 1 at a job's first poll means
+        # later requests were already queued before that job began — Sol delta r3 R1's
+        # deferred-capture signal; one writer thread, no lock needed)
+        self._fast_consumed = None
+        self._submitted = 0
+        self._finished = 0
+        self._request_seq = 0            # pipeline requests, for the per-request savestate path
 
     # -- staging (the staging gate) -----------------------------------------------------
-    def capture(self, pre_sig, live_emulator=True):
+    def capture(self, pre_sig, live_emulator=True, pre_events=None, fast=False, sent_box=None,
+                req_path=None):
         """The staging gate, the one path that reads the live savestate (round 2: R1, R2, R4,
         and the R9 follow-up). Iterative, one deadline:
 
@@ -362,15 +616,110 @@ class Watcher:
            folder is private and the launched DOSBox-X its only writer.
 
         With `live_emulator`, a dead emulator ends the sitting (_EmulatorGone, R5) and the key
-        is re-sent after RESEND_AFTER_S. Returns (bytes, sha256); raises TimeoutError."""
+        is re-sent after RESEND_AFTER_S (`sent_box[0]`, when given, receives the last send's
+        clock, so a pipeline job's window widens to it). Returns (bytes, sha256); raises
+        TimeoutError.
+
+        With `fast` and `pre_events` (the write-event count taken before the request was sent,
+        T34 Sol-r2 R1), the kernel replaces the 0.75 s stability wait as the write-completed
+        evidence: an event count past `pre_events` means inotify saw this request's write close
+        (IN_CLOSE_WRITE/IN_MOVED_TO) — the same completed-write fact STABLE_POLLS polls infer
+        from 0.75 s of quiet, available at the speed overlapping burst requests need: keys
+        ~0.53 s apart rewrite the live file faster than the stability window could ever elapse
+        between two writes. Every other check is unchanged (fresh signature vs `pre_sig`, no
+        open write session, the event-count bracket around the read, zip validation). A count
+        of None (the check failed) never takes the fast path: fail closed.
+
+        Per-request attribution (Sol delta r3 R1). A real DOSBox-X save is fast — the whole
+        write (many close events; 27 were measured on this host for one save) can complete
+        before the worker's first poll — so "the job began before its save completed" cannot be
+        the test. What makes an already-completed, UNCONSUMED write (its event count and
+        signature differ from the last accepted capture's) unattributable is the pipeline
+        having moved past this job: when later requests were already submitted before this
+        job began (lag > 1), such a write is some LATER request's save, and staging its bytes
+        under this request's window misattributes the screen — the deferred capture of the r3
+        reproduction (a stage job that waited while later requests overwrote the live file).
+        That raises _AttributionLost; the caller marks the request superseded and the
+        acceptance guard rejects the sitting (r3 R2). With lag == 1 (this job is the pipeline's
+        head) the only save past the pre-send count is this request's own: accepted at once. A
+        job that begins before its save completes accepts on FRESH ARRIVAL — at least one
+        write event arriving during its polling, the count past its first poll's. Bytes
+        already consumed by the previous acceptance are never re-staged, and identical bytes
+        from an unchanged screen are NOT rejected: the rules compare event counts and
+        signatures against the pipeline's own consumption, never hashes.
+
+        Request ownership on every poll (Sol delta r4 R1): a pipeline job whose live savestate
+        has advanced by more than ONE_SAVE_MAX_EVENTS write events since its request was sent
+        is reading a LATER request's save — _AttributionLost on the first-poll path, the
+        fresh-arrival path and the stability fallback alike. With `req_path`, the accepted
+        bytes are also written to that per-request path (the single source of truth the
+        staging reads back), and a fast job never stages from a merely stable live file.
+        Returns (bytes, sha256, accept_events) — accept_events is the write-event count at
+        the accepted capture (the ownership evidence the guard checks), None on the
+        non-fast paths."""
         deadline = self.clock() + SAVE_TIMEOUT_S
         sent = self.clock()
         last_sig, count = None, 0
+        entry_events = None               # the event count at this job's first poll
         while self.clock() < deadline:
             if live_emulator and self.dbx.poll() is not None:
                 self.log(f"dosbox-x exited with code {self.dbx.returncode} during a savestate")
                 raise _EmulatorGone(self.dbx.returncode)
+            busy, events = self._write_state()
+            # r4 R1: request ownership on BOTH capture paths. More than one save's
+            # write events since this request was sent mean the live savestate holds
+            # a LATER request's save (the single serialized writer answers requests
+            # in order; one save is ~53-54 events on this host, ONE_SAVE_MAX_EVENTS
+            # bounds it). The check runs at EVERY poll of a pipeline job, so it
+            # covers the first-poll fast path, the fresh-arrival path AND the
+            # stability fallback — the r3 lag check saw only the first poll.
+            if (fast and pre_events is not None and events is not None
+                    and events - pre_events > ONE_SAVE_MAX_EVENTS):
+                raise _AttributionLost(
+                    f"{events - pre_events} write events on the live savestate since this "
+                    f"request was sent (more than one save's bound of {ONE_SAVE_MAX_EVENTS}): "
+                    "a later request's savestate has already overwritten it "
+                    "(request attribution lost)")
             sig = file_signature(self.live)
+            first_poll = entry_events is None
+            if first_poll:
+                entry_events = events
+            fast_ready = (fast and pre_events is not None and events is not None
+                          and events > pre_events and not busy and sig is not None
+                          and (pre_sig is None or sig != pre_sig))
+            accept = False
+            if fast_ready:
+                if self._fast_consumed == (events, sig):
+                    # r4 R1: bytes an earlier job already staged are never re-staged
+                    # on any path; this request's own write has not arrived (the
+                    # deadline bounds the wait)
+                    pass
+                elif first_poll:
+                    if self._submitted - self._finished > 1:
+                        raise _AttributionLost(
+                            "a savestate write completed before this capture began while later "
+                            "requests were already pending (deferred capture: request "
+                            "attribution lost: lost boundary)")
+                    accept = True   # the pipeline's head: the completed write is its own save
+                elif (events is not None and entry_events is not None
+                      and events > entry_events):
+                    accept = True   # a write event arrived while this job polled: a fresh save
+            if accept:
+                # the write is finished (the fact the stability polls wait 0.75 s to infer),
+                # the signature is fresh, and no session is open — read once, bracketed by the
+                # event count exactly as the stability path does
+                data = self._read_live()
+                if data is not None and zip_is_complete(data):
+                    _, after = self._write_state()
+                    if after == events:
+                        if req_path is not None and not self._write_request_bytes(req_path, data):
+                            self.log("per-request savestate could not be written: retrying")
+                            last_sig, count = None, 0
+                        else:
+                            self._fast_consumed = (events, sig)
+                            return data, sha256(data), events
+                self.log("live savestate changed or incomplete during capture: retrying")
+                last_sig, count = None, 0
             if sig is None or sig[1] == 0:
                 last_sig, count = None, 0
             elif sig == last_sig:
@@ -378,27 +727,38 @@ class Watcher:
             else:
                 last_sig, count = sig, 1
             if count >= STABLE_POLLS and (pre_sig is None or last_sig != pre_sig):
-                # bytes read while a write was in progress are never staged (the task's hazard,
-                # b7777fd): no read starts while a session is open, and any write event between
-                # the check before the reads and the one after them rejects the bytes — the
-                # kernel's event count sees a write the content and the timestamps cannot
-                # (round-6 R1). Reads are read-only and cannot disturb the writer.
-                busy, before = self._write_state()
-                if busy:
-                    self.log("a write session on the savestate is still open: waiting")
-                    self.sleep(POLL_S)
-                    continue
-                data = self._read_live()
-                if data is not None and zip_is_complete(data):
-                    _, after = self._write_state()
-                    if after == before:            # None (check failed) never equals a count
-                        return data, sha256(data)
-                self.log("live savestate changed or incomplete during capture: retrying")
-                last_sig, count = None, 0
+                # r4 R1(c): a pipeline job NEVER stages a stable live file — stability
+                # says nothing about WHOSE save is on it (the stability-fallback
+                # bypass restaged bytes the pipeline had already consumed this way);
+                # only the write accounting above can own bytes, so the job keeps
+                # polling for its own write and the deadline bounds the wait
+                if fast:
+                    self.log("stable live savestate ignored on the fast path: no owned write")
+                else:
+                    # bytes read while a write was in progress are never staged (the task's
+                    # hazard, b7777fd): no read starts while a session is open, and any write
+                    # event between the check before the reads and the one after them rejects
+                    # the bytes — the kernel's event count sees a write the content and the
+                    # timestamps cannot (round-6 R1). Reads are read-only and cannot disturb
+                    # the writer.
+                    busy, before = self._write_state()
+                    if busy:
+                        self.log("a write session on the savestate is still open: waiting")
+                        self.sleep(POLL_S)
+                        continue
+                    data = self._read_live()
+                    if data is not None and zip_is_complete(data):
+                        _, after = self._write_state()
+                        if after == before:            # None (check failed) never equals a count
+                            return data, sha256(data), None
+                    self.log("live savestate changed or incomplete during capture: retrying")
+                    last_sig, count = None, 0
             if live_emulator and self.clock() - sent > RESEND_AFTER_S:
                 self.log(f"F12+S sent again: no complete savestate after {RESEND_AFTER_S}s")
                 self.xrun(key_cmd(self.wid))
-                sent = self.clock()
+                sent = self.last_sent = self.clock()
+                if sent_box is not None:
+                    sent_box[0] = sent
             self.sleep(POLL_S)
         raise TimeoutError(f"savestate not complete and stable within {SAVE_TIMEOUT_S}s")
 
@@ -421,7 +781,22 @@ class Watcher:
         except OSError:
             return None
 
-    def stage(self, data, digest, origin="watcher"):
+    def _write_request_bytes(self, req_path, data):
+        """Atomically write a request's owned savestate bytes to its per-request path (r4 R1a):
+        tmp file + rename in the same folder, so a reader never sees a half-written file. The
+        per-request path is the SINGLE source of truth for the bytes staged under a request's
+        window; the live savestate is only an intermediate."""
+        try:
+            req_path.parent.mkdir(parents=True, exist_ok=True)
+            tmp = req_path.with_name(req_path.name + ".tmp")
+            tmp.write_bytes(data)
+            tmp.replace(req_path)
+            return True
+        except OSError as e:
+            self.log(f"per-request savestate write failed ({e})")
+            return False
+
+    def stage(self, data, digest, origin="watcher", request=None, sent=None):
         """Copy the bytes to snapshots/ (the live file is not moved or renamed), append one index
         line (flushed at once, so an abrupt end leaves a valid prefix). `digest` is the sha256 of
         `data` as captured, so the line matches the bytes on disk exactly (R3)."""
@@ -431,7 +806,13 @@ class Watcher:
         out.write_bytes(data)
         entry = {"seq": self.seq, "file": f"snapshots/{name}", "bytes": len(data), "sha256": digest,
                  "utc": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%S.%f")[:-3] + "Z",
-                 "elapsed_s": round(self.clock() - self.t0, 3), "origin": origin}
+                 "elapsed_s": round(self.clock() - self.t0, 3), "origin": origin,
+                 # the save request's window (T34 R1): the screen was taken between the clock read
+                 # before the first send and the end of the last send, not at staging (elapsed_s)
+                 "request_s": None if request is None else round(request - self.t0, 3),
+                 "sent_s": None if sent is None else round(sent - self.t0, 3)}
+        if request is not None and origin != "shutdown":
+            self.last_staged_request = request
         with open(self.index_path, "a", encoding="utf-8") as f:
             f.write(json.dumps(entry) + "\n")
             f.flush()
@@ -439,69 +820,256 @@ class Watcher:
         self.log(f"staged {entry['file']} ({len(data)} bytes, sha256 {entry['sha256'][:16]}...)")
         return entry
 
-    def tick(self, video=None):
+    def tick(self, video=None, origin="watcher", submit=None):
         """One snapshot: send the host key to the game window, then stage when stable. The pre-send
         signature (metadata only) is taken before the key is sent so `capture` can require a
-        fresh write (R6). If `video` is not None, its `poll_growth()` is called between key and stage (R16)."""
+        fresh write (R6). If `video` is not None, its `poll_growth()` is called between key and stage (R16).
+
+        With `submit` (the capture pipeline, T34 Sol-r2 R1), the request is sent here and the
+        staging is handed to the pipeline: the loop never waits for a savestate while later keys
+        arrive, and each group's window is its own send's. Returns the staged entry, or None
+        (skipped or pipelined)."""
         if not self.alive():
             raise StopIteration("game window is gone")
         pre = file_signature(self.live)
+        _, pre_events = self._write_state()   # the write-event count before this request
+        request = self.clock()
         self.xrun(key_cmd(self.wid))
+        self.last_sent = self.clock()
+        self.last_request = request
         self.log(f"F12+S sent to window {self.wid}")
         if video is not None:
             video.poll_growth()
+        if submit is not None:
+            submit(pre, request, self.last_sent, origin, pre_events)
+            return None
         try:
-            data, digest = self.capture(pre)
+            data, digest, _ = self.capture(pre)
         except TimeoutError as e:
             self.problems.append(str(e))
             self.log(f"snapshot skipped: {e}")
+            self.note_request(request, self.last_sent, origin, None)
             return None
         except _EmulatorGone:
+            self.note_request(request, self.last_sent, origin, None)
             raise
-        return self.stage(data, digest)
+        entry = self.stage(data, digest, origin=origin, request=request, sent=self.last_sent)
+        self.note_request(request, self.last_sent, origin, entry["seq"])
+        return entry
+
+    def note_request(self, request, sent, origin, seq, superseded=False, pre_events=None,
+                     accept_events=None, request_file=None, request_sha256=None):
+        """One flushed line per save request in requests.jsonl; `seq` is the staged entry's, None
+        for a request that staged nothing (a skipped snapshot), which keymap.py counts as a screen
+        it could not see (T34 R2). `sent` is this request's own last send (a resend widens the
+        window to it), never whatever send happened to be the watcher's latest. `superseded`
+        (Sol delta r3 R1) marks a request whose capture found a LATER request's write already on
+        the live savestate: it staged nothing by design, and the acceptance guard rejects the
+        sitting (R2) rather than certify a boundary it does not own.
+
+        The ownership evidence fields (Sol delta r4 R2) — `pre_events` (the write-event count
+        before this request was sent), `accept_events` (the count when its own write was
+        accepted), `request_file`/`request_sha256` (the per-request savestate the bytes were
+        staged from) — are what the guard's attribution check REQUIRES on a staged line:
+        absence of `superseded` alone proved nothing (the r4 bypasses produced ordinary
+        successful lines)."""
+        line = {"request_s": round(request - self.t0, 3),
+                "sent_s": round(sent - self.t0, 3), "origin": origin, "seq": seq}
+        if superseded:
+            line["superseded"] = True
+        if pre_events is not None:
+            line["pre_events"] = pre_events
+        if accept_events is not None:
+            line["accept_events"] = accept_events
+        if request_file is not None:
+            line["request_file"] = request_file
+        if request_sha256 is not None:
+            line["request_sha256"] = request_sha256
+        with open(self.requests_path, "a", encoding="utf-8") as f:
+            f.write(json.dumps(line) + "\n")
+            f.flush()
+
+    def _stage_job(self, pre, request, sent, origin, pre_events, req_path=None):
+        """One pipeline job: the staging gate for a request already sent (fast: the kernel's
+        write-event count is the write-completed evidence), then stage + note_request. A
+        timeout marks THIS request as staged-nothing — the group is skipped and its bursts
+        unmapped, never silently covered by a later group's snapshot (T34 Sol-r2 R1c) — and a
+        lost attribution (Sol delta r3 R1, r4 R1) marks it superseded the same way: no snapshot
+        is staged under a window whose bytes belong to another request. A dead emulator re-raises
+        _EmulatorGone for the pipeline to flag the loop (R5).
+
+        r4 R1(a)/(b): the staged bytes come from the request's per-request path, re-read and
+        verified (present, hash equal to the accepted digest, a complete zip) — the live
+        savestate is only the intermediate; a verification failure is a lost attribution."""
+        box = [sent]
+        try:
+            data, digest, accept_events = self.capture(pre, pre_events=pre_events, fast=True,
+                                                       sent_box=box, req_path=req_path)
+        except TimeoutError as e:
+            self.problems.append(str(e))
+            self.log(f"snapshot skipped: {e}")
+            self.note_request(request, box[0], origin, None, pre_events=pre_events)
+            return None
+        except _AttributionLost as e:
+            self.problems.append(str(e))
+            self.log(f"request superseded: {e}")
+            self.note_request(request, box[0], origin, None, superseded=True,
+                              pre_events=pre_events)
+            return None
+        except _EmulatorGone:
+            self.note_request(request, box[0], origin, None, pre_events=pre_events)
+            raise
+        if req_path is not None:
+            try:
+                owned = req_path.read_bytes()
+            except OSError:
+                owned = None
+            if owned is None or sha256(owned) != digest or not zip_is_complete(owned):
+                e = "the per-request savestate is missing or not the accepted bytes"
+                self.problems.append(e)
+                self.log(f"request superseded: {e}")
+                self.note_request(request, box[0], origin, None, superseded=True,
+                                  pre_events=pre_events)
+                return None
+            data = owned
+        entry = self.stage(data, digest, origin=origin, request=request, sent=box[0])
+        self.note_request(request, box[0], origin, entry["seq"], pre_events=pre_events,
+                          accept_events=accept_events,
+                          request_file=str(req_path.relative_to(self.session))
+                          if req_path is not None else None,
+                          request_sha256=digest)
+        return entry
 
     # -- the loop -----------------------------------------------------------------------
-    def run(self, quit_after=None, stop=lambda: False, video=None):
+    def run(self, quit_after=None, stop=lambda: False, video=None, keys=None):
         """Tick at t0 + n*CADENCE_S (the first tick immediately: the session's opening state is
         part of the chain) until the window closes, dosbox-x exits, `stop()` fires or (scripted
-        sittings) quit_after seconds have passed. Returns the staged entries."""
+        sittings) quit_after seconds have passed. Returns the staged entries.
+
+        With `keys`, staging runs on a capture pipeline off the loop (T34 Sol-r2 R1): each
+        settled key episode's save request is sent EVENT_SETTLE_S after its newest event —
+        after that key's release, and between it and the next key where a due-time window
+        (last key + BURST_QUIET_S) could never fit for keys spaced just over the quiet. The
+        capture/staging of every request happens in the worker, so a slow savestate never
+        delays the next request; each episode is bracketed by (Burst.request_time, its
+        staging time)."""
         entries, n = [], 0
-        while True:
-            if stop():
-                self.log("stop requested")
-                break
-            if quit_after is not None and self.clock() - self.t0 >= quit_after:
-                self.log(f"quit-after {quit_after}s reached")
-                break
-            if self.dbx.poll() is not None:
-                self.log(f"dosbox-x exited with code {self.dbx.returncode}: the sitting is over")
-                break
-            next_tick = self.t0 + n * CADENCE_S
-            now = self.clock()
-            if now < next_tick:
-                self.sleep(min(next_tick - now, 0.5))
-                continue
-            n += 1
-            try:
-                e = self.tick(video=video)
-            except StopIteration as e:
-                self.log(str(e))
-                break
-            except _EmulatorGone as e:
-                # R5: clean termination, not an exception that aborts the sitting
-                self.log(f"emulator gone ({e.returncode}): ending the loop cleanly")
-                break
-            if e:
-                entries.append(e)
-        return entries
+        burst = Burst()
+        self.last_request = self.last_sent = None
+        last_event = float("-inf")   # the newest key event seen (presses AND releases)
+        jobs = queue.Queue()
+        staged = []          # the pipeline's entries, in staging order
+        dead = []            # _EmulatorGone raised inside the pipeline (R5)
+
+        def submit(pre, request, sent, origin, pre_events):
+            self._submitted += 1
+            self._request_seq += 1
+            (self.session / "requests").mkdir(exist_ok=True)
+            jobs.put((pre, request, sent, origin, pre_events,
+                      self.session / "requests" / f"rq-{self._request_seq:04d}.sav"))
+
+        def pipeline():
+            while True:
+                job = jobs.get()
+                if job is None:
+                    return
+                try:
+                    entry = self._stage_job(*job)
+                except _EmulatorGone as e:
+                    dead.append(e)
+                    jobs.task_done()
+                    return
+                finally:
+                    self._finished += 1
+                if entry is not None:
+                    staged.append(entry)
+                jobs.task_done()
+
+        worker = threading.Thread(target=pipeline, daemon=True, name="capture-pipeline")
+        worker.start()
+        try:
+            while True:
+                drained = keys.drain() if keys else []
+                for event in drained:
+                    burst.add(event)
+                if drained:
+                    last_event = drained[-1]["monotonic_s"]
+                if keys and (keys.error or keys.proc.poll() is not None):
+                    raise RuntimeError(f"key logger stopped: {keys.error}")
+                if dead:
+                    self.log(f"emulator gone ({dead[0].returncode}): ending the loop cleanly")
+                    break
+                if stop():
+                    self.log("stop requested")
+                    break
+                if quit_after is not None and self.clock() - self.t0 >= quit_after:
+                    self.log(f"quit-after {quit_after}s reached")
+                    break
+                if self.dbx.poll() is not None:
+                    self.log(f"dosbox-x exited with code {self.dbx.returncode}: the sitting is over")
+                    break
+                next_tick = self.t0 + n * CADENCE_S
+                now = self.clock()
+                # the settled episode's request goes out EVENT_SETTLE_S after the newest key
+                # event: after that key's release, and — for keys spaced just over the
+                # grouping quiet (the 0.527 s reproduction) — still between it and the next
+                # key, where a due-time window could never fit; see EVENT_SETTLE_S
+                send_burst = bool(burst.groups) and now >= last_event + EVENT_SETTLE_S
+                if now < next_tick and not send_burst:
+                    self.sleep(min(next_tick - now, 0.01 if keys else 0.5))
+                    continue
+                if now >= next_tick:
+                    n += 1
+                if send_burst:
+                    head = burst.groups[0]
+                    try:
+                        e = self.tick(video=video, origin="burst",
+                                      submit=submit if keys else None)
+                    except StopIteration as e:
+                        self.log(str(e))
+                        break
+                    except _EmulatorGone as e:
+                        # R5: clean termination, not an exception that aborts the sitting
+                        self.log(f"emulator gone ({e.returncode}): ending the loop cleanly")
+                        break
+                    # Burst.request_time (R1a): the pre-send clock of this group's save request,
+                    # recorded at the send, never at staging
+                    if self.last_request is not None:
+                        head["request_time"], head["sent"] = self.last_request, self.last_sent
+                        self.log(f"burst group (last key +{head['last'] - self.t0:.3f}s) "
+                                 f"requested at +{head['request_time'] - self.t0:.3f}s")
+                    burst.consume()
+                    if e:
+                        entries.append(e)
+                else:
+                    try:
+                        e = self.tick(video=video, submit=submit if keys else None)
+                    except StopIteration as e:
+                        self.log(str(e))
+                        break
+                    except _EmulatorGone as e:
+                        # R5: clean termination, not an exception that aborts the sitting
+                        self.log(f"emulator gone ({e.returncode}): ending the loop cleanly")
+                        break
+                    if e:
+                        entries.append(e)
+        finally:
+            jobs.put(None)
+            worker.join(timeout=SAVE_TIMEOUT_S + 5.0)
+            if worker.is_alive():
+                self.log("capture pipeline did not finish before the join timeout")
+        return entries + staged
 
     def shutdown_stage(self, indexed_sha):
         """Best-effort last snapshot: the owner's manual F12+S, captured after the emulator is
         gone (R4) through the same staging gate as every tick (capture, with no pre-send
         signature and no emulator to poll); skipped when its bytes are already indexed.
         Returns the entry, or None."""
+        # the owner's save was written after the last staged write, whose window opened at that
+        # entry's request: [that request, now] is all the map may assume about its screen (R1)
+        lo = self.t0 if self.last_staged_request is None else self.last_staged_request
         try:
-            data, d = self.capture(None, live_emulator=False)
+            data, d, _ = self.capture(None, live_emulator=False)
         except TimeoutError as e:
             self.problems.append(f"shutdown snapshot not captured: {e}")
             return None
@@ -509,7 +1077,7 @@ class Watcher:
             self.log(f"shutdown snapshot already indexed ({d[:16]}...): skipping")
             return None
         try:
-            return self.stage(data, d, origin="shutdown")
+            return self.stage(data, d, origin="shutdown", request=lo, sent=self.clock())
         except OSError as e:
             self.problems.append(f"shutdown snapshot failed: {e}")
             return None
@@ -522,6 +1090,13 @@ class _EmulatorGone(Exception):
     def __init__(self, returncode):
         self.returncode = returncode
         super().__init__(f"emulator gone (returncode {returncode})")
+
+
+class _AttributionLost(Exception):
+    """The bytes on the live savestate cannot be tied to THIS save request (Sol delta r3 R1):
+    two or more writes completed since the request was sent, so the file holds a later
+    request's savestate. Watcher._stage_job marks the request superseded (nothing staged under
+    a window it does not own) and the acceptance guard rejects the sitting (R2)."""
 
 
 # ---- video ---------------------------------------------------------------------------------------
@@ -668,7 +1243,51 @@ def terminate(p, grace=TERM_GRACE_S):
     p.wait()
 
 
-def play(video=False, quit_after=None):
+def find_xephyr_window(outer_env, title):
+    """The launched Xephyr's own window on the outer display, or None. Xephyr sets no _NET_WM_PID
+    (T34 review R4), so the pid bind of `find_window` cannot serve; the window is the one Xephyr
+    class window whose WM_NAME is exactly this sitting's `title`, a random per-session token. Zero
+    or several matches give None: a foreign window is never picked (fail closed)."""
+    p = xdotool(["search", "--class", "Xephyr"], env=outer_env)
+    ids = [w for w in p.stdout.split() if w]
+    named = [w for w in ids
+             if xdotool(["getwindowname", w], env=outer_env).stdout.rstrip("\n") == title]
+    return named[0] if len(named) == 1 else None
+
+
+def start_nested(outer_env, res, logf, title=None, find=find_xephyr_window,
+                 clock=time.monotonic, sleep=time.sleep):
+    """Start Xephyr on the first free display from 600 (never :99, never the outer display);
+    returns (process, nested env, Xephyr's window id on the outer display).
+
+    No system socket or lock file is inspected (WSLg's /tmp/.X11-unix is shared): each candidate
+    is tried. A candidate is accepted only once the launched Xephyr's titled window appears on the
+    outer display (`find`), which it creates after binding its display socket; a process that
+    exits first had a busy number, and the next one is tried. [designed] The 600..699 candidates
+    follow the T34 dispatch probe; NESTED_START_S bounds the wait for the window."""
+    title = title or f"goal2-recorder-{os.getpid()}-{os.urandom(8).hex()}"
+    for number in range(600, 700):
+        display = f":{number}"
+        if display in (outer_env.get("DISPLAY"), ":99"):
+            continue
+        proc = subprocess.Popen(["Xephyr", display, "-screen", res, "-nolisten", "tcp",
+                                 "-title", title],
+                                env=outer_env, stdout=logf, stderr=logf,
+                                start_new_session=True)
+        end = clock() + NESTED_START_S
+        while proc.poll() is None and clock() < end:
+            wid = find(outer_env, title)
+            if wid is not None:
+                return proc, dict(outer_env, DISPLAY=display), wid
+            sleep(0.05)
+        if proc.poll() is None:
+            terminate(proc)
+            raise RuntimeError(f"Xephyr on {display} showed no window titled {title!r} "
+                               f"within {NESTED_START_S}s")
+    raise RuntimeError("no free nested display in candidates 600 through 699")
+
+
+def play(video=False, quit_after=None, res="1280x800"):
     """One sitting: launch windowed dosbox-x, watch it, stop cleanly, write meta. Returns 0."""
     if not os.environ.get("DISPLAY"):
         print("play: DISPLAY is not set; run from a graphical session", file=sys.stderr)
@@ -683,12 +1302,13 @@ def play(video=False, quit_after=None):
         print(line, flush=True)
 
     log(f"session {session}")
-    env = dict(os.environ)
-    argv = [os.environ.get("DOSBOX_X", "dosbox-x"), "-conf", str(session / "dosbox.conf"),
-            "-fastlaunch", "-nogui", "-nomenu", "-savedir", str(session),
-            "-set", f"dosbox savefile={session / 'state.sav'}"]
-    dbx = subprocess.Popen(argv, stdout=logf, stderr=subprocess.STDOUT, start_new_session=True)
-    log(f"dosbox-x started (pid {dbx.pid})")
+    outer_env = dict(os.environ)
+    title = f"goal2-recorder-{session.name}-{os.urandom(8).hex()}"
+    xephyr, env, xephyr_wid = start_nested(outer_env, res, logf, title=title)
+    meta.update({"outer_display": outer_env["DISPLAY"], "display": env["DISPLAY"],
+                 "xephyr_pid": xephyr.pid, "xephyr_title": title, "xephyr_window_id": xephyr_wid,
+                 "resolution": res, "burst_quiet_s": BURST_QUIET_S,
+                 "capture_margin_s": CAPTURE_MARGIN_S})
     stop_flag = {"now": False}
 
     def on_signal(signum, frame):
@@ -698,8 +1318,19 @@ def play(video=False, quit_after=None):
     signal.signal(signal.SIGINT, on_signal)
     signal.signal(signal.SIGTERM, on_signal)
     vid = None
+    keys = None
     geom0 = None
+    dbx = None
     try:
+        # the logger starts before the emulator is launched (T34 review R6)
+        keys = KeyLogger(env, outer_env["DISPLAY"], session / "keys.jsonl")
+        keys.start()
+        argv = [os.environ.get("DOSBOX_X", "dosbox-x"), "-conf", str(session / "dosbox.conf"),
+                "-fastlaunch", "-nogui", "-nomenu", "-savedir", str(session),
+                "-set", f"dosbox savefile={session / 'state.sav'}"]
+        dbx = subprocess.Popen(argv, env=env, stdout=logf, stderr=subprocess.STDOUT,
+                               start_new_session=True)
+        log(f"dosbox-x started (pid {dbx.pid})")
         try:
             wid = find_window(env, dbx.pid)
         except RuntimeError as e:
@@ -711,24 +1342,28 @@ def play(video=False, quit_after=None):
                          "video": {"requested": bool(video), "used": False},
                          "problems": [str(e)]})
             (session / "meta.json").write_text(json.dumps(meta, indent=1))
-            logf.close()
             return 2
         log(f"game window {wid} (pid {dbx.pid})")
         meta.update({"window_id": wid, "dosbox_x_pid": dbx.pid})
+        meta["monotonic_start_s"] = time.monotonic()
+        (session / "meta.json").write_text(json.dumps(meta, indent=1))
         if video:
+            # the video is a convenience channel: no failure here ends the sitting (T34 R4)
+            geom0 = window_geometry(xephyr_wid, outer_env)
             if shutil.which("ffmpeg") is None:
                 log("--video requested but ffmpeg is not installed: continuing without video")
+            elif geom0 is None:
+                log("--video requested but the window geometry is unknown: continuing without video")
             else:
-                geom0 = window_geometry(wid, env)
-                if geom0 is None:
-                    log("--video requested but the window geometry is unknown: continuing without video")
-                else:
-                    v = video_cmd(geom0, env["DISPLAY"], session / "video.mkv")
-                    vid = Video(v, session / "video.mkv")
-                    vid.start()
-                    log(f"video started: {' '.join(v)}")
-        watcher = Watcher(session, session / "state.sav", wid, dbx, env, log=log)
-        entries = watcher.run(quit_after=quit_after, stop=lambda: stop_flag["now"], video=vid)
+                v = video_cmd(geom0, outer_env["DISPLAY"], session / "video.mkv")
+                vid = Video(v, session / "video.mkv")
+                vid.start()
+                log(f"video started: {' '.join(v)}")
+        watcher = Watcher(session, session / "state.sav", wid, dbx, env, log=log,
+                          xrun=lambda argv: send_save_event(wid, env))
+        meta["monotonic_start_s"] = watcher.t0
+        (session / "meta.json").write_text(json.dumps(meta, indent=1))
+        entries = watcher.run(quit_after=quit_after, stop=lambda: stop_flag["now"], video=vid, keys=keys)
         # the window may have closed between the last poll and here; terminate the emulator
         # BEFORE the shutdown staging pass so the live file is no longer being written (R4)
         if dbx.poll() is None:
@@ -749,12 +1384,18 @@ def play(video=False, quit_after=None):
                      "snapshots": len(entries),
                      "video": dict(vinfo, requested=bool(video), geometry=geom0) if vid else
                               {"requested": bool(video), "used": False},
-                     "problems": watcher.problems})
+                      "problems": watcher.problems})
+        keys.stop()
+        keydata = (session / "keys.jsonl").read_bytes()
+        meta["keys"] = {"file": "keys.jsonl", "sha256": sha256(keydata), "bytes": len(keydata)}
         (session / "meta.json").write_text(json.dumps(meta, indent=1))
         log(f"done: {len(entries)} snapshots, stop {reason}"
             + (f", video {vinfo['bytes']} bytes" if vinfo else ""))
     finally:
+        if keys:
+            keys.stop()
         terminate(dbx)
+        terminate(xephyr)
         if vid and vid.proc and vid.proc.poll() is None:
             vid.stop()
         logf.close()
@@ -799,6 +1440,11 @@ def self_test(with_video=False):
             problems.append("ffmpeg (needed for --video)")
         else:
             print("ffmpeg     present")
+    for tool in ("Xephyr", "xinput", "stdbuf"):
+        if shutil.which(tool) is None:
+            problems.append(tool)
+        else:
+            print(f"{tool:10} present")
     if not problems:
         SELFTEST.mkdir(parents=True, exist_ok=True)
         conf = conf_for(SELFTEST)
@@ -825,12 +1471,15 @@ def main(argv=None):
     st.add_argument("--video", action="store_true", help="also require ffmpeg")
     pl = sub.add_parser("play", help="record one sitting")
     pl.add_argument("--video", action="store_true", help="also record the game window (mkv)")
+    pl.add_argument("--res", default="1280x800", help="nested window size WIDTHxHEIGHT")
     pl.add_argument("--quit-after", type=float, default=None, metavar="SECS",
                     help="stop the sitting after SECS seconds (scripted sittings)")
     a = ap.parse_args(argv)
     if a.cmd == "self-test":
         return self_test(with_video=a.video)
-    return play(video=a.video, quit_after=a.quit_after)
+    if not __import__("re").fullmatch(r"[1-9][0-9]*x[1-9][0-9]*", a.res):
+        ap.error("--res must be WIDTHxHEIGHT")
+    return play(video=a.video, quit_after=a.quit_after, res=a.res)
 
 
 if __name__ == "__main__":

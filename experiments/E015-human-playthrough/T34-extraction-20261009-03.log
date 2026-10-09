@@ -1,0 +1,25 @@
+states: 3, screens: 2 unique, diffs: 2, partial: 1
+/home/diego/projects/goal2-archaeology-work/T34/runs/E015/E015-r0004.json (0.1s)
+screens: 2, transitions: 2, keys: 2
+# Observed screen/key map
+
+screens: 2, transitions: 2, keys: 2
+
+Ordered bursts are associations between snapshots, not proof of individual-key causality.
+
+| Before (text digest) | Keys pressed | After (text digest) | Count |
+| --- | --- | --- | --- |
+| Z:\>mount c /home/diego/projects/goal2-archaeology-work/T34/scratch/human/sessio (d4dbc7643053) | a | (c) NE'93│ │                                                    │     (c) (09d3e9010708) | 1 |
+| (c) NE'93│ │                                                    │     (c) (09d3e9010708) | b | (c) NE'93│ │                                                    │     (c) (09d3e9010708) | 1 |
+
+Unmapped presses: 0
+
+ok: 4 document(s) valid
+release    /home/diego/projects/goal2-archaeology-work/T34/.cache/goal2 matches artifacts/known.json set goal2-67cf27d6
+dosbox-x   DOSBox-X version 2024.03.01 SDL2, copyright 2011-2024 The DOSBox-X Team.
+xdotool    present
+Xephyr     present
+xinput     present
+stdbuf     present
+config     /home/diego/projects/goal2-archaeology-work/T34/scratch/human/selftest/dosbox.conf (sha256 9bc16b1359392f2b56c3728c21405b292b802a40b5a7cbf3d26516be129dfbee)
+self-test ok (nothing was launched)

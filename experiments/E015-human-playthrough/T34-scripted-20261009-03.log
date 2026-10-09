@@ -1,0 +1,37 @@
+[23:00:44] session /home/diego/projects/goal2-archaeology-work/T34/scratch/human/sessions/20261009-010044
+[23:00:45] dosbox-x started (pid 2756522)
+[23:00:46] game window 2097157 (pid 2756522)
+[23:00:46] F12+S sent to window 2097157
+[23:00:46] staged snapshots/snap-0001-20261008T230046Z.sav (210877 bytes, sha256 f509570b8d03f4ec...)
+[23:00:47] F12+S sent to window 2097157
+[23:00:48] staged snapshots/snap-0002-20261008T230048Z.sav (182973 bytes, sha256 1725f8f237eaa7fb...)
+[23:00:49] F12+S sent to window 2097157
+[23:00:50] staged snapshots/snap-0003-20261008T230050Z.sav (180596 bytes, sha256 cac7ba7a340921a8...)
+XGetInputFocus returned the focused window of 1. This is likely a bug in the X server.
+XGetInputFocus returned the focused window of 1. This is likely a bug in the X server.
+XGetInputFocus returned the focused window of 1. This is likely a bug in the X server.
+XGetInputFocus returned the focused window of 1. This is likely a bug in the X server.
+XGetInputFocus returned the focused window of 1. This is likely a bug in the X server.
+XGetInputFocus returned the focused window of 1. This is likely a bug in the X server.
+[23:00:58] quit-after 12.0s reached
+[23:00:59] shutdown snapshot already indexed (cac7ba7a340921a8...): skipping
+[23:00:59] done: 3 snapshots, stop quit-after
+privacy OK: a/b game keys only; outer-app x/y/z excluded; burst snapshots: 2
+session: scratch/human/sessions/20261009-010044
+states: 3, screens: 2 unique, diffs: 2, partial: 1
+/home/diego/projects/goal2-archaeology-work/T34/runs/E015/E015-r0005.json (0.1s)
+screens: 2, transitions: 2, keys: 2
+# Observed screen/key map
+
+screens: 2, transitions: 2, keys: 2
+
+Ordered bursts are associations between snapshots, not proof of individual-key causality.
+
+| Before (text digest) | Keys pressed | After (text digest) | Count |
+| --- | --- | --- | --- |
+| Z:\>mount c /home/diego/projects/goal2-archaeology-work/T34/scratch/human/sessio (31f117947264) | a | (c) NE'93│ │                                                    │     (c) (09d3e9010708) | 1 |
+| (c) NE'93│ │                                                    │     (c) (09d3e9010708) | b | (c) NE'93│ │                                                    │     (c) (09d3e9010708) | 1 |
+
+Unmapped presses: 0
+
+ok: 5 document(s) valid

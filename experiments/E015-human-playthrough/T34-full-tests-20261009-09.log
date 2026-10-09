@@ -1,0 +1,2091 @@
+test_reads_counter_score_delay_and_lines (test_driver_commentary.SnapshotTest.test_reads_counter_score_delay_and_lines) ... ok
+test_a_large_step_is_noted_as_a_gap (test_driver_commentary.TrackerTest.test_a_large_step_is_noted_as_a_gap) ... ok
+test_a_read_between_the_counters_increment_and_the_write_keeps_the_line (test_driver_commentary.TrackerTest.test_a_read_between_the_counters_increment_and_the_write_keeps_the_line) ... ok
+test_a_record_still_unwritten_at_the_last_read_is_reported_unread (test_driver_commentary.TrackerTest.test_a_record_still_unwritten_at_the_last_read_is_reported_unread) ... ok
+test_accumulates_across_reads_and_wraps (test_driver_commentary.TrackerTest.test_accumulates_across_reads_and_wraps) ... ok
+test_an_end_marker_stops_the_read_until_the_record_is_written (test_driver_commentary.TrackerTest.test_an_end_marker_stops_the_read_until_the_record_is_written) ... ok
+test_events (test_driver_commentary.TrackerTest.test_events) ... ok
+test_no_new_line (test_driver_commentary.TrackerTest.test_no_new_line) ... ok
+test_check_clock (test_driver_dataseg.ClockApplied.test_check_clock) ... ok
+test_impossible_dates_and_times_refused (test_driver_dataseg.ClockApplied.test_impossible_dates_and_times_refused) ... ok
+test_launch_checks_the_read_back (test_driver_dataseg.ClockApplied.test_launch_checks_the_read_back) ... /home/diego/projects/goal2-archaeology-work/T34/runtime/driver/driver.py:276: ResourceWarning: unclosed file <_io.TextIOWrapper name='/home/diego/projects/goal2-archaeology-work/T34/scratch/t34-tmp/tmpjbtisvwn/work/dosbox.out' mode='w' encoding='UTF-8'>
+  self.dbx = subprocess.Popen(args, env=self.env, stdout=open(self.workdir / "dosbox.out", "w"),
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/home/diego/projects/goal2-archaeology-work/T34/runtime/driver/driver.py:276: ResourceWarning: unclosed file <_io.TextIOWrapper name='/home/diego/projects/goal2-archaeology-work/T34/scratch/t34-tmp/tmpfvah3nd_/work/dosbox.out' mode='w' encoding='UTF-8'>
+  self.dbx = subprocess.Popen(args, env=self.env, stdout=open(self.workdir / "dosbox.out", "w"),
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/home/diego/projects/goal2-archaeology-work/T34/runtime/driver/driver.py:276: ResourceWarning: unclosed file <_io.TextIOWrapper name='/home/diego/projects/goal2-archaeology-work/T34/scratch/t34-tmp/tmpqrqha2vm/work/dosbox.out' mode='w' encoding='UTF-8'>
+  self.dbx = subprocess.Popen(args, env=self.env, stdout=open(self.workdir / "dosbox.out", "w"),
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+ok
+test_readback_lines_follow_the_setting (test_driver_dataseg.ClockApplied.test_readback_lines_follow_the_setting) ... ok
+test_record_declares_what_dos_reported (test_driver_dataseg.ClockApplied.test_record_declares_what_dos_reported) ... ok
+test_record_never_declares_an_unapplied_clock_applied (test_driver_dataseg.ClockApplied.test_record_never_declares_an_unapplied_clock_applied) ... ok
+test_runner_refuses_before_any_run (test_driver_dataseg.ClockApplied.test_runner_refuses_before_any_run) ... ok
+test_date_and_time_lines_before_goal (test_driver_dataseg.ClockOption.test_date_and_time_lines_before_goal) ... ok
+test_forms_dosbox_ignores_are_refused (test_driver_dataseg.ClockOption.test_forms_dosbox_ignores_are_refused) ... ok
+test_no_clock_setting_by_default (test_driver_dataseg.ClockOption.test_no_clock_setting_by_default) ... ok
+test_same_drives_with_and_without_the_clock_option (test_driver_dataseg.ClockOption.test_same_drives_with_and_without_the_clock_option) ... ok
+test_describe_names_the_segments (test_driver_dataseg.DataSegment.test_describe_names_the_segments) ... ok
+test_goal_mcb_without_psp_signature_is_rejected (test_driver_dataseg.DataSegment.test_goal_mcb_without_psp_signature_is_rejected) ... ok
+test_mcb_owned_by_another_block_is_ignored (test_driver_dataseg.DataSegment.test_mcb_owned_by_another_block_is_ignored) ... ok
+test_no_or_two_programs_raise (test_driver_dataseg.DataSegment.test_no_or_two_programs_raise) ... ok
+test_other_program_is_ignored (test_driver_dataseg.DataSegment.test_other_program_is_ignored) ... ok
+test_program_found_where_planted (test_driver_dataseg.DataSegment.test_program_found_where_planted) ... ok
+test_seed_words (test_driver_dataseg.DataSegment.test_seed_words) ... ok
+test_cycle_refuses_before_any_record (test_driver_dataseg.StartStateLayout.test_cycle_refuses_before_any_record) ... ok
+test_cycle_reset_restore_refused (test_driver_dataseg.StartStateLayout.test_cycle_reset_restore_refused) ... ok
+test_direct_restore_refused_before_copy_and_host_l (test_driver_dataseg.StartStateLayout.test_direct_restore_refused_before_copy_and_host_l) ... ok
+test_run_d3_and_d3b_refuse_before_any_run (test_driver_dataseg.StartStateLayout.test_run_d3_and_d3b_refuse_before_any_run) ... ok
+test_state_made_without_d_refused (test_driver_dataseg.StartStateLayout.test_state_made_without_d_refused) ... ok
+test_state_with_this_layout_passes_the_check (test_driver_dataseg.StartStateLayout.test_state_with_this_layout_passes_the_check) ... ok
+test_state_without_layout_refused_before_restore (test_driver_dataseg.StartStateLayout.test_state_without_layout_refused_before_restore) ... ok
+test_clock_of_ticks (test_driver_dataseg.Summarise.test_clock_of_ticks) ... ok
+test_lcg_of_214B_0688 (test_driver_dataseg.Summarise.test_lcg_of_214B_0688) ... ok
+test_module_hashes_the_script_at_load (test_driver_e003.RecordNamesTheLoadedScript.test_module_hashes_the_script_at_load)
+The mechanism: the module computes its own hash once, at load, from the file as loaded. ... ok
+test_record_carries_the_load_time_script_hash (test_driver_e003.RecordNamesTheLoadedScript.test_record_carries_the_load_time_script_hash)
+A record names the code that ran: an edit of the script after the module was loaded ... ok
+test_captain_reached_directly (test_driver_e004.GoTest.test_captain_reached_directly) ... ok
+test_no_match_without_the_captain_screen (test_driver_e004.GoTest.test_no_match_without_the_captain_screen) ... ok
+test_team_screen_then_captain (test_driver_e004.GoTest.test_team_screen_then_captain) ... ok
+test_a_state_with_another_layout_is_refused_with_the_remake_command (test_driver_e004.LoadStateTest.test_a_state_with_another_layout_is_refused_with_the_remake_command) ... ok
+test_range (test_driver_e004.MinutesTest.test_range) ... ok
+test_refusals (test_driver_e004.MinutesTest.test_refusals) ... ok
+test_state_names (test_driver_e004.MinutesTest.test_state_names) ... ok
+test_an_id_taken_meanwhile_is_skipped (test_driver_e004.ReserveTest.test_an_id_taken_meanwhile_is_skipped)
+Another slot reserves the same number between the scan and the mkdir: the next is taken. ... ok
+test_next_free_number_over_records_and_reservations (test_driver_e004.ReserveTest.test_next_free_number_over_records_and_reservations) ... ok
+test_captain_and_team_screens (test_driver_e004.ScreensTest.test_captain_and_team_screens) ... ok
+test_disallowed_goal_is_the_one_followed_by_offside (test_driver_e004.SummariseTest.test_disallowed_goal_is_the_one_followed_by_offside) ... ok
+test_load_takes_goals_from_the_score_bytes_and_the_rest_from_the_commentary (test_driver_e004.SummariseTest.test_load_takes_goals_from_the_score_bytes_and_the_rest_from_the_commentary) ... ok
+test_same (test_driver_e004.SummariseTest.test_same) ... ok
+test_scoreboard (test_driver_e004.SummariseTest.test_scoreboard) ... ok
+test_stats_screen (test_driver_e004.SummariseTest.test_stats_screen) ... ok
+test_tests_separate_equal_from_different_samples (test_driver_e004.SummariseTest.test_tests_separate_equal_from_different_samples) ... ok
+test_half_time_before_the_probes_first_key (test_driver_e005.BeforeFirstKeyTest.test_half_time_before_the_probes_first_key) ... ok
+test_a_record_naming_its_cycles_passes (test_driver_e005.CheckTest.test_a_record_naming_its_cycles_passes) ... ok
+test_a_record_not_naming_its_cycles_fails (test_driver_e005.CheckTest.test_a_record_not_naming_its_cycles_fails) ... ok
+test_named_cycles_must_agree_with_the_config_fingerprint_and_arm (test_driver_e005.CheckTest.test_named_cycles_must_agree_with_the_config_fingerprint_and_arm) ... ok
+test_reading_the_clock_back_is_not_setting_it (test_driver_e005.CheckTest.test_reading_the_clock_back_is_not_setting_it) ... ok
+test_setting_the_clock_without_i3_fails (test_driver_e005.CheckTest.test_setting_the_clock_without_i3_fails) ... ok
+test_since_counts_from_the_first_call (test_driver_e005.ClockTest.test_since_counts_from_the_first_call) ... ok
+test_observations_carry_the_count_and_the_ticks (test_driver_e005.DelayCountTest.test_observations_carry_the_count_and_the_ticks) ... ok
+test_reads_the_dword_low_word_at_a9ff_high_word_at_aa01 (test_driver_e005.DelayCountTest.test_reads_the_dword_low_word_at_a9ff_high_word_at_aa01) ... ok
+test_the_savestate_lines_of_dosbox_out_are_counted_not_kept (test_driver_e005.DelayCountTest.test_the_savestate_lines_of_dosbox_out_are_counted_not_kept) ... ok
+test_lists_other_dosbox_and_xvfb_only (test_driver_e005.EmulatorsTest.test_lists_other_dosbox_and_xvfb_only) ... ok
+test_host_and_guest_seconds_of_each_half (test_driver_e005.HalvesTest.test_host_and_guest_seconds_of_each_half) ... ok
+test_no_halves_without_half_time (test_driver_e005.HalvesTest.test_no_halves_without_half_time) ... ok
+test_the_compact_form_gives_the_same_halves (test_driver_e005.HalvesTest.test_the_compact_form_gives_the_same_halves) ... ok
+test_the_verdict_on_f001s_unequal_halves (test_driver_e005.HalvesTest.test_the_verdict_on_f001s_unequal_halves) ... ok
+test_identical_needs_score_events_seed_counter_and_every_line (test_driver_e005.IdentityTest.test_identical_needs_score_events_seed_counter_and_every_line) ... ok
+test_reference_is_the_first_30000_restore_of_the_same_state_and_arm (test_driver_e005.IdentityTest.test_reference_is_the_first_30000_restore_of_the_same_state_and_arm) ... ok
+test_last_counter_in_each_form (test_driver_e005.LastCounterTest.test_last_counter_in_each_form) ... ok
+test_polls_are_decoded_only_inside_the_match_and_the_keys_are_the_probes (test_driver_e005.ProbeWrapperTest.test_polls_are_decoded_only_inside_the_match_and_the_keys_are_the_probes) ... ok
+test_the_pre_read_is_poll_0_before_the_probes_first_key (test_driver_e005.ProbeWrapperTest.test_the_pre_read_is_poll_0_before_the_probes_first_key) ... ok
+test_a_clean_tree_runs (test_driver_e005.RecordIntegrityTest.test_a_clean_tree_runs) ... ok
+test_a_record_holding_a_host_path_is_refused_unwritten (test_driver_e005.RecordIntegrityTest.test_a_record_holding_a_host_path_is_refused_unwritten) ... ok
+test_a_record_is_never_replaced (test_driver_e005.RecordIntegrityTest.test_a_record_is_never_replaced) ... ok
+test_uncommitted_sources_stop_the_runner_before_any_run (test_driver_e005.RecordIntegrityTest.test_uncommitted_sources_stop_the_runner_before_any_run) ... ok
+test_arm_names_route_state_and_cycles (test_driver_e005.RunTest.test_arm_names_route_state_and_cycles) ... ok
+test_each_read_is_one_row_of_one_observation (test_driver_e005.RunTest.test_each_read_is_one_row_of_one_observation) ... ok
+test_fresh_launch_sets_the_states_clock_and_the_restore_does_not (test_driver_e005.RunTest.test_fresh_launch_sets_the_states_clock_and_the_restore_does_not) ... ok
+test_load_state_refuses_a_state_made_at_another_setting (test_driver_e005.RunTest.test_load_state_refuses_a_state_made_at_another_setting) ... ok
+test_refuses_a_cycles_setting_outside_the_task (test_driver_e005.RunTest.test_refuses_a_cycles_setting_outside_the_task) ... ok
+test_the_match_gets_e005s_bound_and_the_runs_clock (test_driver_e005.RunTest.test_the_match_gets_e005s_bound_and_the_runs_clock) ... ok
+test_a_line_the_run_never_read_is_undetermined_whatever_it_held (test_driver_e005.VerdictPathsTest.test_a_line_the_run_never_read_is_undetermined_whatever_it_held) ... ok
+test_a_recovered_record_is_counted_once_and_leaves_no_flag (test_driver_e005.VerdictPathsTest.test_a_recovered_record_is_counted_once_and_leaves_no_flag) ... ok
+test_a_reference_with_only_stride_flags_has_no_unread_lines (test_driver_e005.VerdictPathsTest.test_a_reference_with_only_stride_flags_has_no_unread_lines) ... ok
+test_a_stride_flag_beside_an_unknown_flag_is_undetermined (test_driver_e005.VerdictPathsTest.test_a_stride_flag_beside_an_unknown_flag_is_undetermined) ... ok
+test_a_stride_flag_is_reported_and_does_not_decide (test_driver_e005.VerdictPathsTest.test_a_stride_flag_is_reported_and_does_not_decide) ... ok
+test_an_incomplete_reference_makes_a_complete_run_undetermined (test_driver_e005.VerdictPathsTest.test_an_incomplete_reference_makes_a_complete_run_undetermined) ... ok
+test_an_undetermined_verdict_claims_line_equality_only_when_lines_were_compared (test_driver_e005.VerdictPathsTest.test_an_undetermined_verdict_claims_line_equality_only_when_lines_were_compared) ... ok
+test_both_sides_missed_the_same_line_is_never_identical (test_driver_e005.VerdictPathsTest.test_both_sides_missed_the_same_line_is_never_identical) ... ok
+test_memory_read_at_full_time_differs_whatever_the_lines (test_driver_e005.VerdictPathsTest.test_memory_read_at_full_time_differs_whatever_the_lines) ... ok
+test_more_lines_written_is_differs_even_with_a_side_incomplete (test_driver_e005.VerdictPathsTest.test_more_lines_written_is_differs_even_with_a_side_incomplete) ... ok
+test_sols_hidden_laps_get_no_claim_of_completeness (test_driver_e005.VerdictPathsTest.test_sols_hidden_laps_get_no_claim_of_completeness) ... ok
+test_the_occurrence_is_the_flagged_reads_not_any_with_that_record_number (test_driver_e005.VerdictPathsTest.test_the_occurrence_is_the_flagged_reads_not_any_with_that_record_number) ... ok
+test_unequal_totals_differ_even_when_losses_cannot_be_located (test_driver_e005.VerdictPathsTest.test_unequal_totals_differ_even_when_losses_cannot_be_located) ... ok
+test_unlocatable_losses_are_undetermined (test_driver_e005.VerdictPathsTest.test_unlocatable_losses_are_undetermined) ... ok
+test_unread_occurrences (test_driver_e005.VerdictPathsTest.test_unread_occurrences) ... ok
+test_verdict_counts (test_driver_e005.VerdictPathsTest.test_verdict_counts) ... ok
+test_what_both_read_and_differs_makes_differs_even_when_incomplete (test_driver_e005.VerdictPathsTest.test_what_both_read_and_differs_makes_differs_even_when_incomplete) ... ok
+test_arrays_are_the_allocations (test_driver_e006.Arrays.test_arrays_are_the_allocations) ... ok
+test_check_places_the_arrays (test_driver_e006.Arrays.test_check_places_the_arrays) ... ok
+test_check_refuses_a_shifted_country_array (test_driver_e006.Arrays.test_check_refuses_a_shifted_country_array) ... ok
+test_check_refuses_a_shifted_player_array (test_driver_e006.Arrays.test_check_refuses_a_shifted_player_array) ... ok
+test_check_refuses_a_short_array (test_driver_e006.Arrays.test_check_refuses_a_short_array) ... ok
+test_last_country_last_player (test_driver_e006.Arrays.test_last_country_last_player) ... ok
+test_pointers (test_driver_e006.Arrays.test_pointers) ... ok
+test_squad_words (test_driver_e006.Arrays.test_squad_words) ... ok
+test_r007_r008_offsets (test_driver_e006.GoalDat.test_r007_r008_offsets) ... ok
+test_lcg_matches_f004 (test_driver_e006.Model.test_lcg_matches_f004) ... ok
+test_ratings (test_driver_e006.Model.test_ratings) ... ok
+test_seed_search_finds_0xf5db (test_driver_e006.Model.test_seed_search_finds_0xf5db) ... ok
+test_squads_of_countries_1_and_2 (test_driver_e006.Model.test_squads_of_countries_1_and_2) ... ok
+test_the_80_players_of_the_managed_country (test_driver_e006.Model.test_the_80_players_of_the_managed_country) ... ok
+test_recorded_args_are_the_argv_and_parse (test_driver_e006.RecordedInvocation.test_recorded_args_are_the_argv_and_parse) ... ok
+test_country_colour_is_0x0f_above_0x80_else_ds_6905 (test_driver_e007.Formulas.test_country_colour_is_0x0f_above_0x80_else_ds_6905) ... ok
+test_fitness_follows_plus_0xD_and_energy_plus_0xE (test_driver_e007.Formulas.test_fitness_follows_plus_0xD_and_energy_plus_0xE) ... ok
+test_glyph_is_ds_69a8_and_its_colour_ds_699a_by_plus_6 (test_driver_e007.Formulas.test_glyph_is_ds_69a8_and_its_colour_ds_699a_by_plus_6) ... ok
+test_hardness_takes_one_off_when_plus_3_is_odd (test_driver_e007.Formulas.test_hardness_takes_one_off_when_plus_3_is_odd) ... ok
+test_leadership_is_the_remainder_by_8_halved_under_21 (test_driver_e007.Formulas.test_leadership_is_the_remainder_by_8_halved_under_21) ... ok
+test_mark_by_position_and_flags (test_driver_e007.Formulas.test_mark_by_position_and_flags) ... ok
+test_morale_index_stops_at_0x20_and_the_bar_is_drawn_below_it (test_driver_e007.Formulas.test_morale_index_stops_at_0x20_and_the_bar_is_drawn_below_it) ... ok
+test_name_colour_injured_then_suspended_or_sent_off_then_the_position (test_driver_e007.Formulas.test_name_colour_injured_then_suspended_or_sent_off_then_the_position) ... ok
+test_position_is_plus_6_and_club_position_plus_7_and_the_height_and_skills_follow_plus_7 (test_driver_e007.Formulas.test_position_is_plus_6_and_club_position_plus_7_and_the_height_and_skills_follow_plus_7) ... ok
+test_skill_bars_are_the_class_value_times_plus_4_plus_1_over_256 (test_driver_e007.Formulas.test_skill_bars_are_the_class_value_times_plus_4_plus_1_over_256) ... ok
+test_skill_tables_are_read_row_by_row_to_the_last_position_and_profile (test_driver_e007.Formulas.test_skill_tables_are_read_row_by_row_to_the_last_position_and_profile) ... ok
+test_squad_numbers_are_the_country_records_first_20_words (test_driver_e007.Formulas.test_squad_numbers_are_the_country_records_first_20_words) ... ok
+test_squad_slot_highlight_paints_the_twelve_name_cells (test_driver_e007.Formulas.test_squad_slot_highlight_paints_the_twelve_name_cells) ... ok
+test_static_image_rows_and_repeats (test_driver_e007.Formulas.test_static_image_rows_and_repeats) ... ok
+test_status_takes_the_first_test_that_holds (test_driver_e007.Formulas.test_status_takes_the_first_test_that_holds) ... ok
+test_status_text_is_ready_to_play_when_ds_0c1e_is_0 (test_driver_e007.Formulas.test_status_text_is_ready_to_play_when_ds_0c1e_is_0) ... ok
+test_tables_refuse_a_byte_two_records_give_differently (test_driver_e007.Formulas.test_tables_refuse_a_byte_two_records_give_differently) ... ok
+test_tactics_are_the_players_own_when_the_flag_is_set_else_the_countrys (test_driver_e007.Formulas.test_tactics_are_the_players_own_when_the_flag_is_set_else_the_countrys) ... ok
+test_the_static_image_has_the_header_bytes (test_driver_e007.Formulas.test_the_static_image_has_the_header_bytes) ... ok
+test_two_footed_is_a_sum_of_30 (test_driver_e007.Formulas.test_two_footed_is_a_sum_of_30) ... ok
+test_a_length_byte_beyond_the_record_stays_in_the_record (test_driver_e007.Names.test_a_length_byte_beyond_the_record_stays_in_the_record) ... ok
+test_arrays_are_the_allocations (test_driver_e007.Names.test_arrays_are_the_allocations) ... ok
+test_full_name (test_driver_e007.Names.test_full_name) ... ok
+test_80_players_from_4_countries_every_value_as_the_model_says (test_driver_e007.Records.test_80_players_from_4_countries_every_value_as_the_model_says) ... ok
+test_a_changed_header_is_seen (test_driver_e007.Records.test_a_changed_header_is_seen) ... ok
+test_a_changed_squad_list_value_is_seen (test_driver_e007.Records.test_a_changed_squad_list_value_is_seen) ... ok
+test_a_wrong_formula_is_seen (test_driver_e007.Records.test_a_wrong_formula_is_seen) ... ok
+test_every_cell_that_changes_between_screens_is_transcribed (test_driver_e007.Records.test_every_cell_that_changes_between_screens_is_transcribed) ... ok
+test_every_goalkeeper_shows_goalkeeper_twice (test_driver_e007.Records.test_every_goalkeeper_shows_goalkeeper_twice) ... ok
+test_every_record_byte_but_0x11_is_needed (test_driver_e007.Records.test_every_record_byte_but_0x11_is_needed) ... ok
+test_replication_counts_a_changed_and_a_missing_screen (test_driver_e007.Records.test_replication_counts_a_changed_and_a_missing_screen) ... ok
+test_the_analysed_records_are_the_full_ones_and_the_earlier_ones_replicate (test_driver_e007.Records.test_the_analysed_records_are_the_full_ones_and_the_earlier_ones_replicate) ... ok
+test_the_card_is_the_highlighted_list_row (test_driver_e007.Records.test_the_card_is_the_highlighted_list_row) ... ok
+test_the_comparison_visits_every_shown_value (test_driver_e007.Records.test_the_comparison_visits_every_shown_value) ... ok
+test_candidates_are_the_players_with_the_shown_name (test_driver_e007.Runner.test_candidates_are_the_players_with_the_shown_name) ... ok
+test_every_word_a_player_shows_is_in_the_kept_range (test_driver_e007.Runner.test_every_word_a_player_shows_is_in_the_kept_range) ... ok
+test_table_observations_are_the_planted_bytes (test_driver_e007.Runner.test_table_observations_are_the_planted_bytes) ... ok
+test_tables_cover_every_byte_the_model_reads (test_driver_e007.Runner.test_tables_cover_every_byte_the_model_reads) ... ok
+test_the_player_is_found_by_name_and_age (test_driver_e007.Runner.test_the_player_is_found_by_name_and_age) ... ok
+test_a_word_as_wide_as_the_field_has_no_filler (test_driver_e007.Screens.test_a_word_as_wide_as_the_field_has_no_filler) ... ok
+test_country_header (test_driver_e007.Screens.test_country_header) ... ok
+test_full_bar (test_driver_e007.Screens.test_full_bar) ... ok
+test_goalkeeper_left_footed (test_driver_e007.Screens.test_goalkeeper_left_footed) ... ok
+test_only_a_player_screen_is_parsed (test_driver_e007.Screens.test_only_a_player_screen_is_parsed) ... ok
+test_squad_list_background_after_the_name (test_driver_e007.Screens.test_squad_list_background_after_the_name) ... ok
+test_squad_list_name_is_cols_64_to_75_and_the_glyph_col_77 (test_driver_e007.Screens.test_squad_list_name_is_cols_64_to_75_and_the_glyph_col_77) ... ok
+test_squad_list_rows_names_glyphs_and_the_highlight (test_driver_e007.Screens.test_squad_list_rows_names_glyphs_and_the_highlight) ... ok
+test_tactics_rows (test_driver_e007.Screens.test_tactics_rows) ... ok
+test_the_bar_field_is_cols_10_to_35 (test_driver_e007.Screens.test_the_bar_field_is_cols_10_to_35) ... ok
+test_the_longest_position_name_and_two_footed (test_driver_e007.Screens.test_the_longest_position_name_and_two_footed) ... ok
+test_the_right_bar_field_is_cols_47_to_60 (test_driver_e007.Screens.test_the_right_bar_field_is_cols_47_to_60) ... ok
+test_e006_means_skip_records_not_completed (test_driver_e008.Ranks.test_e006_means_skip_records_not_completed) ... ok
+test_not_a_permutation_refused (test_driver_e008.Ranks.test_not_a_permutation_refused) ... ok
+test_order (test_driver_e008.Ranks.test_order) ... ok
+test_positions_become_ranks (test_driver_e008.Ranks.test_positions_become_ranks) ... ok
+test_rating_formula (test_driver_e008.Ranks.test_rating_formula) ... ok
+test_access_counted_only_with_its_array_pointer (test_driver_e008.Readers.test_access_counted_only_with_its_array_pointer) ... ok
+test_reach_follows_edges (test_driver_e008.Readers.test_reach_follows_edges) ... ok
+test_a_byte_that_did_not_load_aborts_the_run (test_driver_e008.Runner.test_a_byte_that_did_not_load_aborts_the_run) ... ok
+test_a_host_path_in_the_record_is_refused (test_driver_e008.Runner.test_a_host_path_in_the_record_is_refused) ... ERROR
+test_a_record_is_never_overwritten (test_driver_e008.Runner.test_a_record_is_never_overwritten) ... ok
+test_edited_arm_loads_the_xor_and_completes (test_driver_e008.Runner.test_edited_arm_loads_the_xor_and_completes) ... ok
+test_not_at_the_captain_screen_aborts_the_run (test_driver_e008.Runner.test_not_at_the_captain_screen_aborts_the_run) ... ok
+test_unchanged_arm_loads_the_captain_state_as_saved (test_driver_e008.Runner.test_unchanged_arm_loads_the_captain_state_as_saved) ... ok
+test_uncommitted_changes_refused (test_driver_e008.Runner.test_uncommitted_changes_refused) ... ok
+test_unknown_arm_refused (test_driver_e008.Runner.test_unknown_arm_refused) ... ok
+test_edits_only_the_named_bytes (test_driver_e008.WithMemory.test_edits_only_the_named_bytes) ... ok
+test_other_components_order_compression_and_trailer_kept (test_driver_e008.WithMemory.test_other_components_order_compression_and_trailer_kept) ... ok
+test_outside_memory_refused (test_driver_e008.WithMemory.test_outside_memory_refused) ... ok
+test_every_check_holds_on_the_record (test_driver_e009.CommittedRecord.test_every_check_holds_on_the_record) ... ok
+test_the_pool_is_the_80_records_past_2560 (test_driver_e009.CommittedRecord.test_the_pool_is_the_80_records_past_2560) ... ok
+test_there_is_one_completed_record (test_driver_e009.CommittedRecord.test_there_is_one_completed_record) ... ok
+test_observations_round_trip (test_driver_e009.Parsing.test_observations_round_trip) ... ok
+test_base_ok (test_driver_e009.Predicates.test_base_ok) ... ok
+test_pool_ok (test_driver_e009.Predicates.test_pool_ok) ... ok
+test_pool_records_ok (test_driver_e009.Predicates.test_pool_records_ok) ... ok
+test_positions_sorted_ok (test_driver_e009.Predicates.test_positions_sorted_ok) ... ok
+test_screen_has (test_driver_e009.Predicates.test_screen_has) ... ok
+test_a_key_not_acted_on_aborts (test_driver_match.PlayTest.test_a_key_not_acted_on_aborts) ... ok
+test_a_long_match_inside_the_deadline_is_not_cut_short (test_driver_match.PlayTest.test_a_long_match_inside_the_deadline_is_not_cut_short)
+300 reads of play, then full time, well inside the deadline: completed, every read made. ... ok
+test_enter_on_hit_any_key_and_team_screen_only_when_stable (test_driver_match.PlayTest.test_enter_on_hit_any_key_and_team_screen_only_when_stable) ... ok
+test_full_time_needs_two_equal_reads (test_driver_match.PlayTest.test_full_time_needs_two_equal_reads) ... ok
+test_full_time_with_hit_any_key_ends_without_a_key (test_driver_match.PlayTest.test_full_time_with_hit_any_key_ends_without_a_key) ... ok
+test_keys_sent_are_held_by_the_caller_when_the_match_aborts (test_driver_match.PlayTest.test_keys_sent_are_held_by_the_caller_when_the_match_aborts) ... ok
+test_no_key_on_a_stable_screen_that_is_not_a_wait (test_driver_match.PlayTest.test_no_key_on_a_stable_screen_that_is_not_a_wait) ... ok
+test_no_second_key_while_the_first_is_pending (test_driver_match.PlayTest.test_no_second_key_while_the_first_is_pending) ... ok
+test_one_read_of_hit_any_key_gets_no_key (test_driver_match.PlayTest.test_one_read_of_hit_any_key_gets_no_key) ... ok
+test_starting_burst_per_arm (test_driver_match.PlayTest.test_starting_burst_per_arm) ... ok
+test_the_deadline_and_nothing_else_ends_a_match_without_full_time (test_driver_match.PlayTest.test_the_deadline_and_nothing_else_ends_a_match_without_full_time)
+Review round 2 R2: the match ends by the clock passing the deadline, not by any read count. ... ok
+test_timeout (test_driver_match.PlayTest.test_timeout) ... ok
+test_unknown_arm_refused (test_driver_match.PlayTest.test_unknown_arm_refused) ... ok
+test_cases (test_driver_match.WantsKeyTest.test_cases) ... ok
+test_an_aborted_record_keeps_launch_time_and_the_reads_made (test_driver_savestate.AbortedCycle.test_an_aborted_record_keeps_launch_time_and_the_reads_made) ... ok
+test_host_times_carry_utc_and_local_with_offset (test_driver_savestate.RecordObservations.test_host_times_carry_utc_and_local_with_offset) ... ok
+test_one_read_gives_clock_screen_mode_and_ticks (test_driver_savestate.RecordObservations.test_one_read_gives_clock_screen_mode_and_ticks) ... ok
+test_memory_at_the_measured_offset (test_driver_savestate.SavestateParser.test_memory_at_the_measured_offset) ... ok
+test_out_of_range_memory_is_refused (test_driver_savestate.SavestateParser.test_out_of_range_memory_is_refused) ... ok
+test_reads_a_file_too (test_driver_savestate.SavestateParser.test_reads_a_file_too) ... ok
+test_short_vga_component_is_refused (test_driver_savestate.SavestateParser.test_short_vga_component_is_refused) ... ok
+test_text_page_at_the_measured_offset (test_driver_savestate.SavestateParser.test_text_page_at_the_measured_offset) ... ok
+test_a_changed_savestate_is_refused (test_driver_savestate.StartStates.test_a_changed_savestate_is_refused) ... ok
+test_a_state_from_another_mounted_folder_is_refused_before_launch (test_driver_savestate.StartStates.test_a_state_from_another_mounted_folder_is_refused_before_launch) ... ok
+test_launch_never_restores_into_a_dos_prompt_session (test_driver_terminate.DosPromptRestoreEdge.test_launch_never_restores_into_a_dos_prompt_session) ... /home/diego/projects/goal2-archaeology-work/T34/runtime/driver/driver.py:276: ResourceWarning: unclosed file <_io.TextIOWrapper name='/home/diego/projects/goal2-archaeology-work/T34/scratch/driver/test-dosprompt/dosbox.out' mode='w' encoding='UTF-8'>
+  self.dbx = subprocess.Popen(args, env=self.env, stdout=open(self.workdir / "dosbox.out", "w"),
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+ok
+test_where_the_release_verifies_the_edge_tests_own_setUp_does_not_skip (test_driver_terminate.ReleaseGuard.test_where_the_release_verifies_the_edge_tests_own_setUp_does_not_skip)
+R1 rework (#63 review): the test above re-reads release_problem(), so a regression that ... ok
+test_where_the_release_verifies_the_skip_condition_is_false (test_driver_terminate.ReleaseGuard.test_where_the_release_verifies_the_skip_condition_is_false)
+Done-when 3: after setup/goal2-runtime.sh, the same check the driver makes passes, so the ... ok
+test_with_an_unverified_cache_the_edge_test_skips_instead_of_erroring (test_driver_terminate.ReleaseGuard.test_with_an_unverified_cache_the_edge_test_skips_instead_of_erroring)
+Done-when 1 with the driver's cache pointed at an empty directory, so this runs wherever ... ok
+test_a_clean_sigterm_exit_is_never_sigkilled (test_driver_terminate.Terminate.test_a_clean_sigterm_exit_is_never_sigkilled) ... ok
+test_a_sigterm_ignoring_process_is_gone_within_2s (test_driver_terminate.Terminate.test_a_sigterm_ignoring_process_is_gone_within_2s) ... ok
+test_no_group_the_driver_did_not_start_is_signalled (test_driver_terminate.Terminate.test_no_group_the_driver_did_not_start_is_signalled) ... ok
+test_the_log_names_the_method_and_the_time_for_each_process (test_driver_terminate.Terminate.test_the_log_names_the_method_and_the_time_for_each_process) ... ok
+test_initial_subtick_one_lower_is_rejected (test_emul_watched.MutationTests.test_initial_subtick_one_lower_is_rejected) ... ok
+test_holder_write_preserves_830c (test_emul_watched.ResumeTests.test_holder_write_preserves_830c) ... ok
+test_word_write_would_clobber_830c (test_emul_watched.ResumeTests.test_word_write_would_clobber_830c) ... ok
+test_read_on_its_own_tick_matches (test_emul_watched.TickValuesTests.test_read_on_its_own_tick_matches) ... ok
+test_shifted_by_one_sub_tick_misses (test_emul_watched.TickValuesTests.test_shifted_by_one_sub_tick_misses) ... ok
+test_tick_without_draws_holds_its_value (test_emul_watched.TickValuesTests.test_tick_without_draws_holds_its_value) ... ok
+test_check_never_downloads (test_fetch_artifact.FakeReleaseTest.test_check_never_downloads) ... ok
+test_download_of_an_unknown_set_exits_naming_it (test_fetch_artifact.FakeReleaseTest.test_download_of_an_unknown_set_exits_naming_it) ... ok
+test_download_takes_every_file_from_the_release (test_fetch_artifact.FakeReleaseTest.test_download_takes_every_file_from_the_release) ... ok
+test_failing_gh_stops_the_download (test_fetch_artifact.FakeReleaseTest.test_failing_gh_stops_the_download) ... ok
+test_fetch_downloads_only_when_the_cache_does_not_verify (test_fetch_artifact.FakeReleaseTest.test_fetch_downloads_only_when_the_cache_does_not_verify) ... ok
+test_fetch_exits_when_the_download_does_not_verify (test_fetch_artifact.FakeReleaseTest.test_fetch_exits_when_the_download_does_not_verify) ... ok
+test_missing_file_is_reported (test_fetch_artifact.FakeReleaseTest.test_missing_file_is_reported) ... ok
+test_wrong_byte_count_is_reported (test_fetch_artifact.FakeReleaseTest.test_wrong_byte_count_is_reported) ... ok
+test_cli_exits_1_when_one_byte_is_flipped (test_fetch_artifact.FetchArtifactTest.test_cli_exits_1_when_one_byte_is_flipped) ... ok
+test_set_verifies_against_known_json (test_fetch_artifact.FetchArtifactTest.test_set_verifies_against_known_json) ... ok
+test_unknown_set_is_reported (test_fetch_artifact.FetchArtifactTest.test_unknown_set_is_reported) ... ok
+test_complete_cache_is_used_and_nothing_is_downloaded (test_ga.GaFetchTest.test_complete_cache_is_used_and_nothing_is_downloaded) ... ok
+test_edited_cached_tool_is_a_named_blob_sha_error (test_ga.GaFetchTest.test_edited_cached_tool_is_a_named_blob_sha_error) ... ok
+test_gh_failure_is_a_named_error (test_ga.GaFetchTest.test_gh_failure_is_a_named_error) ... ok
+test_git_blob_sha_is_the_sha_git_gives_the_blob (test_ga.GaFetchTest.test_git_blob_sha_is_the_sha_git_gives_the_blob) ... ok
+test_partial_cache_is_fetched_again (test_ga.GaFetchTest.test_partial_cache_is_fetched_again) ... ok
+test_root_is_the_cache_path_for_that_commit (test_ga.GaFetchTest.test_root_is_the_cache_path_for_that_commit) ... ok
+test_stale_cached_pyc_is_never_run (test_ga.GaFetchTest.test_stale_cached_pyc_is_never_run) ... ok
+test_stale_pyc_under_a_pycache_prefix_is_never_run (test_ga.GaFetchTest.test_stale_pyc_under_a_pycache_prefix_is_never_run) ... ok
+test_symlinked_cache_root_or_commit_is_a_named_error (test_ga.GaFetchTest.test_symlinked_cache_root_or_commit_is_a_named_error) ... ok
+test_unreadable_tools_directory_is_a_named_error (test_ga.GaFetchTest.test_unreadable_tools_directory_is_a_named_error) ... ok
+test_a_tool_killed_by_a_signal_terminates_the_wrapper_with_it (test_ga.WrapperPassThroughTest.test_a_tool_killed_by_a_signal_terminates_the_wrapper_with_it) ... ok
+test_check_citations_passes_arguments_and_exit_code (test_ga.WrapperPassThroughTest.test_check_citations_passes_arguments_and_exit_code) ... ok
+test_fetched_tool_never_runs_stale_pyc_under_a_pycache_prefix (test_ga.WrapperPassThroughTest.test_fetched_tool_never_runs_stale_pyc_under_a_pycache_prefix) ... ok
+test_launch_failure_is_a_named_error_and_exits_1 (test_ga.WrapperPassThroughTest.test_launch_failure_is_a_named_error_and_exits_1) ... ok
+test_verify_evidence_passes_arguments_and_exit_code (test_ga.WrapperPassThroughTest.test_verify_evidence_passes_arguments_and_exit_code) ... ok
+test_wrapper_reports_the_ga_error_by_name_and_exits_1 (test_ga.WrapperPassThroughTest.test_wrapper_reports_the_ga_error_by_name_and_exits_1) ... ok
+test_a_pipeline_timeout_marks_the_request_skipped (test_human_keys.BurstPipelineTests.test_a_pipeline_timeout_marks_the_request_skipped) ... ok
+test_ten_keys_at_051_s_gaps_are_all_mapped (test_human_keys.BurstPipelineTests.test_ten_keys_at_051_s_gaps_are_all_mapped) ... ok
+test_a_clean_pipeline_sitting_has_no_superseded_requests (test_human_keys.DeferredCaptureTests.test_a_clean_pipeline_sitting_has_no_superseded_requests) ... ok
+test_a_deferred_stage_job_is_marked_superseded_and_never_stages (test_human_keys.DeferredCaptureTests.test_a_deferred_stage_job_is_marked_superseded_and_never_stages) ... ok
+test_the_guard_rejects_a_superseded_sitting (test_human_keys.DeferredCaptureTests.test_the_guard_rejects_a_superseded_sitting) ... ok
+test_a_request_window_opened_before_its_group_fails (test_human_keys.GuardTests.test_a_request_window_opened_before_its_group_fails) ... ok
+test_fewer_snapshots_than_groups_fails (test_human_keys.GuardTests.test_fewer_snapshots_than_groups_fails) ... ok
+test_group_presses_splits_on_the_quiet_interval (test_human_keys.GuardTests.test_group_presses_splits_on_the_quiet_interval) ... ok
+test_one_snapshot_per_group_passes (test_human_keys.GuardTests.test_one_snapshot_per_group_passes) ... ok
+test_request_windows_clustered_after_every_group_fail (test_human_keys.GuardTests.test_request_windows_clustered_after_every_group_fail) ... ok
+test_request_windows_interleaved_with_their_groups_pass (test_human_keys.GuardTests.test_request_windows_interleaved_with_their_groups_pass) ... ok
+test_scripted_sitting_produces_one_burst_snapshot_per_key_group (test_human_keys.GuardTests.test_scripted_sitting_produces_one_burst_snapshot_per_key_group) ... ok
+test_the_same_snapshot_cannot_bracket_two_groups (test_human_keys.GuardTests.test_the_same_snapshot_cannot_bracket_two_groups) ... ok
+test_unmapped_presses_fail_the_coverage_guard (test_human_keys.GuardTests.test_unmapped_presses_fail_the_coverage_guard) ... ok
+test_a_key_episodes_request_goes_out_at_the_settle_not_at_due (test_human_keys.KeyTests.test_a_key_episodes_request_goes_out_at_the_settle_not_at_due) ... ok
+test_burst_preserves_group_boundaries_across_drains (test_human_keys.KeyTests.test_burst_preserves_group_boundaries_across_drains) ... ok
+test_burst_waits_for_quiet_and_only_consumes_once (test_human_keys.KeyTests.test_burst_waits_for_quiet_and_only_consumes_once) ... ok
+test_human_paced_keys_produce_one_burst_snapshot_each (test_human_keys.KeyTests.test_human_paced_keys_produce_one_burst_snapshot_each) ... ok
+test_logger_rejects_outer_display (test_human_keys.KeyTests.test_logger_rejects_outer_display) ... ok
+test_loop_takes_burst_snapshot_between_cadence_ticks (test_human_keys.KeyTests.test_loop_takes_burst_snapshot_between_cadence_ticks) ... ok
+test_private_display_logs_game_keys_not_outer_app_keys (test_human_keys.KeyTests.test_private_display_logs_game_keys_not_outer_app_keys) ... XGetInputFocus returned the focused window of 1. This is likely a bug in the X server.
+XGetInputFocus returned the focused window of 1. This is likely a bug in the X server.
+ok
+test_raw_events_only_and_key_fields (test_human_keys.KeyTests.test_raw_events_only_and_key_fields) ... ok
+test_the_recorders_own_save_events_make_no_raw_key_burst (test_human_keys.KeyTests.test_the_recorders_own_save_events_make_no_raw_key_burst) ... ok
+test_a_key_between_a_snapshots_send_and_its_staging_is_on_that_snapshots_screen (test_human_keys.MapTests.test_a_key_between_a_snapshots_send_and_its_staging_is_on_that_snapshots_screen) ... ok
+test_a_key_inside_a_request_window_is_ambiguous (test_human_keys.MapTests.test_a_key_inside_a_request_window_is_ambiguous) ... ok
+test_a_skipped_snapshot_request_unmaps_its_burst (test_human_keys.MapTests.test_a_skipped_snapshot_request_unmaps_its_burst) ... ok
+test_a_snapshot_inside_a_burst_splits_it (test_human_keys.MapTests.test_a_snapshot_inside_a_burst_splits_it) ... ok
+test_an_entry_without_a_request_time_brackets_nothing_before_its_staging (test_human_keys.MapTests.test_an_entry_without_a_request_time_brackets_nothing_before_its_staging) ... ok
+test_keymap_prints_and_writes_no_record (test_human_keys.MapTests.test_keymap_prints_and_writes_no_record) ... ok
+test_literal_session_map (test_human_keys.MapTests.test_literal_session_map) ... ok
+test_map_boundaries_order_identity_and_counts (test_human_keys.MapTests.test_map_boundaries_order_identity_and_counts) ... ok
+test_the_headline_skips_host_paths (test_human_keys.MapTests.test_the_headline_skips_host_paths) ... ok
+test_the_quiet_interval_decides_one_burst_or_two (test_human_keys.MapTests.test_the_quiet_interval_decides_one_burst_or_two) ... ok
+test_two_bursts_between_the_same_snapshots_are_unmapped (test_human_keys.MapTests.test_two_bursts_between_the_same_snapshots_are_unmapped) ... ok
+test_a_live_xephyr_without_its_titled_window_is_never_accepted (test_human_keys.NestedDisplayTests.test_a_live_xephyr_without_its_titled_window_is_never_accepted) ... ok
+test_self_test_requires_nested_tools (test_human_keys.NestedDisplayTests.test_self_test_requires_nested_tools) ... missing: Xephyr; xinput
+ok
+test_start_nested_binds_the_real_xephyr_window (test_human_keys.NestedDisplayTests.test_start_nested_binds_the_real_xephyr_window) ... ok
+test_the_xephyr_window_is_the_unique_exact_title (test_human_keys.NestedDisplayTests.test_the_xephyr_window_is_the_unique_exact_title) ... ok
+test_try_start_skips_busy_number_and_changes_only_child_display (test_human_keys.NestedDisplayTests.test_try_start_skips_busy_number_and_changes_only_child_display) ... ok
+test_a_video_sitting_records_the_xephyr_window (test_human_keys.VideoTests.test_a_video_sitting_records_the_xephyr_window) ... ok
+test_a_resend_widens_the_window_to_the_last_send (test_human_record.Cadence.test_a_resend_widens_the_window_to_the_last_send) ... ok
+test_a_skipped_snapshot_is_a_request_with_no_entry (test_human_record.Cadence.test_a_skipped_snapshot_is_a_request_with_no_entry) ... ok
+test_each_entry_carries_its_save_request_window_not_its_staging_time (test_human_record.Cadence.test_each_entry_carries_its_save_request_window_not_its_staging_time) ... ok
+test_the_shutdown_window_opens_at_the_last_staged_request (test_human_record.Cadence.test_the_shutdown_window_opens_at_the_last_staged_request) ... ok
+test_ticks_at_the_cadence_from_zero (test_human_record.Cadence.test_ticks_at_the_cadence_from_zero) ... ok
+test_dead_emulator_during_snapshot_ends_the_loop (test_human_record.CleanTermination.test_dead_emulator_during_snapshot_ends_the_loop) ... ok
+test_dead_emulator_raises_a_named_exception_inside_capture (test_human_record.CleanTermination.test_dead_emulator_raises_a_named_exception_inside_capture) ... ok
+test_named_offsets_match_extract (test_human_record.ConstantsPin.test_named_offsets_match_extract) ... ok
+test_offset_constants_match_the_static_source (test_human_record.ConstantsPin.test_offset_constants_match_the_static_source) ... ok
+test_video_cmd_includes_flush_packets_1 (test_human_record.ConstantsPin.test_video_cmd_includes_flush_packets_1) ... ok
+test_a_broken_snapshot_is_skipped_and_the_chain_still_yields_a_record (test_human_record.Extraction.test_a_broken_snapshot_is_skipped_and_the_chain_still_yields_a_record) ... ok
+test_a_record_is_never_overwritten (test_human_record.Extraction.test_a_record_is_never_overwritten) ... ok
+test_a_single_state_session_has_no_diffs (test_human_record.Extraction.test_a_single_state_session_has_no_diffs) ... ok
+test_hand_checked_chain_gives_the_hand_checked_diffs (test_human_record.Extraction.test_hand_checked_chain_gives_the_hand_checked_diffs) ... ok
+test_the_index_can_be_lost_the_snapshots_folder_still_walks (test_human_record.Extraction.test_the_index_can_be_lost_the_snapshots_folder_still_walks) ... ok
+test_the_offset_of_the_state_tuple_is_the_readers_own (test_human_record.Extraction.test_the_offset_of_the_state_tuple_is_the_readers_own) ... ok
+test_the_record_is_a_valid_run_1_document (test_human_record.Extraction.test_the_record_is_a_valid_run_1_document) ... ok
+test_the_record_names_no_home_directory (test_human_record.Extraction.test_the_record_names_no_home_directory) ... ok
+test_keys_go_to_the_game_window_and_nowhere_else (test_human_record.FocusGate.test_keys_go_to_the_game_window_and_nowhere_else) ... ok
+test_the_loop_never_sends_a_global_keystroke (test_human_record.FocusGate.test_the_loop_never_sends_a_global_keystroke) ... ok
+test_unchanged_live_file_is_not_staged (test_human_record.FreshWriteGate.test_unchanged_live_file_is_not_staged) ... ok
+test_a_rewrite_invisible_to_coarse_timestamps_is_caught_by_the_second_read (test_human_record.LiveFileReads.test_a_rewrite_invisible_to_coarse_timestamps_is_caught_by_the_second_read) ... ok
+test_a_same_size_rewrite_during_capture_is_never_staged (test_human_record.LiveFileReads.test_a_same_size_rewrite_during_capture_is_never_staged) ... ok
+test_a_write_that_begins_during_the_reads_is_never_staged (test_human_record.LiveFileReads.test_a_write_that_begins_during_the_reads_is_never_staged) ... ok
+test_a_writer_check_that_cannot_be_made_stages_nothing (test_human_record.LiveFileReads.test_a_writer_check_that_cannot_be_made_stages_nothing) ... ok
+test_a_writer_paused_mid_write_is_never_staged (test_human_record.LiveFileReads.test_a_writer_paused_mid_write_is_never_staged) ... ok
+test_a_writer_still_rewriting_in_place_is_never_staged (test_human_record.LiveFileReads.test_a_writer_still_rewriting_in_place_is_never_staged) ... ok
+test_an_event_queue_overflow_counts_as_an_open_session (test_human_record.LiveFileReads.test_an_event_queue_overflow_counts_as_an_open_session) ... ok
+test_bytes_read_while_a_write_was_in_progress_are_never_staged (test_human_record.LiveFileReads.test_bytes_read_while_a_write_was_in_progress_are_never_staged) ... ok
+test_no_content_read_of_the_live_file_before_the_key_is_sent (test_human_record.LiveFileReads.test_no_content_read_of_the_live_file_before_the_key_is_sent) ... ok
+test_one_deadline_bounds_a_capture_that_keeps_racing (test_human_record.LiveFileReads.test_one_deadline_bounds_a_capture_that_keeps_racing) ... ok
+test_the_shutdown_pass_never_stages_a_file_still_being_written (test_human_record.LiveFileReads.test_the_shutdown_pass_never_stages_a_file_still_being_written) ... ok
+test_write_watch_follows_the_kernels_write_sessions (test_human_record.LiveFileReads.test_write_watch_follows_the_kernels_write_sessions) ... ok
+test_a_taken_slot_is_skipped_and_the_id_matches_the_file (test_human_record.RecordIdentity.test_a_taken_slot_is_skipped_and_the_id_matches_the_file) ... ok
+test_zip_complete_accepts_only_whole_savestates (test_human_record.SavestateGate.test_zip_complete_accepts_only_whole_savestates) ... ok
+test_zip_is_complete_validates_bytes_not_the_live_file (test_human_record.SavestateGate.test_zip_is_complete_validates_bytes_not_the_live_file) ... ok
+test_self_test_reports_missing_tools (test_human_record.SelfTest.test_self_test_reports_missing_tools) ... ok
+test_self_test_verifies_writes_a_config_and_never_launches (test_human_record.SelfTest.test_self_test_verifies_writes_a_config_and_never_launches) ... ok
+test_shutdown_stage_waits_for_size_stability (test_human_record.ShutdownStageGate.test_shutdown_stage_waits_for_size_stability) ... ok
+test_an_incomplete_zip_is_never_staged (test_human_record.StagingGate.test_an_incomplete_zip_is_never_staged) ... ok
+test_only_a_complete_and_size_stable_savestate_is_staged (test_human_record.StagingGate.test_only_a_complete_and_size_stable_savestate_is_staged) ... ok
+test_the_shutdown_pass_stages_the_owners_last_savestate_once (test_human_record.StagingGate.test_the_shutdown_pass_stages_the_owners_last_savestate_once) ... ok
+test_stable_polls_boundary_growing_file_does_not_stage (test_human_record.ThresholdBoundaries.test_stable_polls_boundary_growing_file_does_not_stage) ... ok
+test_stable_polls_constant_value (test_human_record.ThresholdBoundaries.test_stable_polls_constant_value) ... ok
+test_video_stall_constant_value (test_human_record.ThresholdBoundaries.test_video_stall_constant_value) ... ok
+test_video_term_grace_boundary_sigkill_at_exact_grace (test_human_record.ThresholdBoundaries.test_video_term_grace_boundary_sigkill_at_exact_grace) ... ok
+test_video_term_grace_constant_value (test_human_record.ThresholdBoundaries.test_video_term_grace_constant_value) ... ok
+test_a_null_country_array_pointer_emits_no_country_data (test_human_record.Unavailable.test_a_null_country_array_pointer_emits_no_country_data) ... ok
+test_a_null_game_state_pointer_emits_no_game_state (test_human_record.Unavailable.test_a_null_game_state_pointer_emits_no_game_state) ... ok
+test_a_null_player_array_pointer_emits_no_country_or_player_data (test_human_record.Unavailable.test_a_null_player_array_pointer_emits_no_country_or_player_data) ... ok
+test_a_partial_state_keeps_its_screen_diff_and_says_what_was_not_compared (test_human_record.Unavailable.test_a_partial_state_keeps_its_screen_diff_and_says_what_was_not_compared) ... ok
+test_an_empty_video_is_reported_not_silent (test_human_record.VideoCmd.test_an_empty_video_is_reported_not_silent) ... ok
+test_the_video_is_matroska_of_the_window_region (test_human_record.VideoCmd.test_the_video_is_matroska_of_the_window_region) ... ok
+test_poll_growth_flags_stalled_when_size_does_not_change (test_human_record.VideoMonitoring.test_poll_growth_flags_stalled_when_size_does_not_change) ... ok
+test_poll_growth_with_no_size_change_past_stall_threshold (test_human_record.VideoMonitoring.test_poll_growth_with_no_size_change_past_stall_threshold) ... ok
+test_video_stop_sends_sigkill_after_exact_grace (test_human_record.VideoMonitoring.test_video_stop_sends_sigkill_after_exact_grace) ... ok
+test_window_bind_fails_closed_when_no_pid_matches (test_human_record.WindowBind.test_window_bind_fails_closed_when_no_pid_matches) ... ok
+test_window_is_selected_by_pid_not_class (test_human_record.WindowBind.test_window_is_selected_by_pid_not_class) ... ok
+test_the_driver_constants_set_id_is_the_successor (test_known_sets.DriverSetTest.test_the_driver_constants_set_id_is_the_successor) ... skipped "the successor's release copy is not in .cache/artifacts/goal2-67cf27d6"
+test_verify_release_verifies_and_names_the_successor (test_known_sets.DriverSetTest.test_verify_release_verifies_and_names_the_successor) ... skipped "the successor's release copy is not in .cache/artifacts/goal2-67cf27d6"
+test_the_pinned_tool_validates_both_sets (test_known_sets.KnownSetsTest.test_the_pinned_tool_validates_both_sets) ... ok
+test_the_sets_name_each_other_and_the_evidence_in_their_notes (test_known_sets.KnownSetsTest.test_the_sets_name_each_other_and_the_evidence_in_their_notes) ... ok
+test_the_successor_declares_exactly_the_writes_f001_observed (test_known_sets.KnownSetsTest.test_the_successor_declares_exactly_the_writes_f001_observed) ... ok
+test_the_successors_files_equal_the_predecessors (test_known_sets.KnownSetsTest.test_the_successors_files_equal_the_predecessors) ... ok
+test_age_byte_wrap (test_model_ageing.BandRuleTests.test_age_byte_wrap) ... ok
+test_factor_wrap_edge (test_model_ageing.BandRuleTests.test_factor_wrap_edge) ... ok
+test_five_age_maximum_four_age_copy (test_model_ageing.BandRuleTests.test_five_age_maximum_four_age_copy) ... ok
+test_rating_byte_operand (test_model_ageing.BandRuleTests.test_rating_byte_operand) ... ok
+test_the_whole_curve_literal (test_model_ageing.BandRuleTests.test_the_whole_curve_literal) ... ok
+test_aged_record_matches_the_next_capture (test_model_ageing.CapturedPairTests.test_aged_record_matches_the_next_capture) ... ok
+test_literal_ability_bytes_of_the_captures (test_model_ageing.CapturedPairTests.test_literal_ability_bytes_of_the_captures) ... ok
+test_a_missing_country_is_a_mismatch (test_model_ageing.CheckerTests.test_a_missing_country_is_a_mismatch) ... ok
+test_ageings_between (test_model_ageing.CheckerTests.test_ageings_between) ... ok
+test_caps_cannot_fall_and_names_hold (test_model_ageing.CheckerTests.test_caps_cannot_fall_and_names_hold) ... ok
+test_captured_records_are_the_squad (test_model_ageing.CheckerTests.test_captured_records_are_the_squad) ... ok
+test_check_runs_guards (test_model_ageing.CheckerTests.test_check_runs_guards) ... ok
+test_committed_pair_matches (test_model_ageing.CheckerTests.test_committed_pair_matches) ... ok
+test_committed_records (test_model_ageing.CheckerTests.test_committed_records) ... ok
+test_continuing_byte_changes_fail (test_model_ageing.CheckerTests.test_continuing_byte_changes_fail) ... ok
+test_disappearance_needs_a_replacement (test_model_ageing.CheckerTests.test_disappearance_needs_a_replacement) ... ok
+test_duplicate_country_cannot_hide_a_player (test_model_ageing.CheckerTests.test_duplicate_country_cannot_hide_a_player) ... ok
+test_flagged_player_continuing_fails (test_model_ageing.CheckerTests.test_flagged_player_continuing_fails) ... ok
+test_identity_not_name (test_model_ageing.CheckerTests.test_identity_not_name) ... ok
+test_managed_country_and_two_ageings_fail (test_model_ageing.CheckerTests.test_managed_country_and_two_ageings_fail) ... ok
+test_no_evidence_is_a_failure (test_model_ageing.CheckerTests.test_no_evidence_is_a_failure) ... ok
+test_one_rating_per_country (test_model_ageing.CheckerTests.test_one_rating_per_country) ... ok
+test_replacement_invariants (test_model_ageing.CheckerTests.test_replacement_invariants) ... ok
+test_replacement_keeps_club_position (test_model_ageing.CheckerTests.test_replacement_keeps_club_position) ... ok
+test_retiree_never_passes_as_recreate (test_model_ageing.CheckerTests.test_retiree_never_passes_as_recreate) ... ok
+test_squad_is_twenty_distinct_words (test_model_ageing.CheckerTests.test_squad_is_twenty_distinct_words) ... ok
+test_tables_must_not_change (test_model_ageing.CheckerTests.test_tables_must_not_change) ... ok
+test_unflagged_player_replaced_fails (test_model_ageing.CheckerTests.test_unflagged_player_replaced_fails) ... ok
+test_goalkeeper_keeping (test_model_ageing.DerivedSkillTests.test_goalkeeper_keeping) ... ok
+test_skills_literal_formula (test_model_ageing.DerivedSkillTests.test_skills_literal_formula) ... ok
+test_base_fixture_layout (test_model_ageing.LiteralRecordTests.test_base_fixture_layout) ... ok
+test_captured_recreates_satisfy_them (test_model_ageing.RecreateTests.test_captured_recreates_satisfy_them) ... ok
+test_goalkeeper_constraints_literal (test_model_ageing.RecreateTests.test_goalkeeper_constraints_literal) ... ok
+test_outfield_constraints_literal (test_model_ageing.RecreateTests.test_outfield_constraints_literal) ... ok
+test_caps_clause_boundary (test_model_ageing.RetirementTests.test_caps_clause_boundary) ... ok
+test_captured_retirements_fire (test_model_ageing.RetirementTests.test_captured_retirements_fire) ... ok
+test_data_image_constants (test_model_ageing.RetirementTests.test_data_image_constants) ... ok
+test_flag_is_on_the_aged_record (test_model_ageing.RetirementTests.test_flag_is_on_the_aged_record) ... ok
+test_peak_clause_boundary (test_model_ageing.RetirementTests.test_peak_clause_boundary) ... ok
+test_observed_variance_is_the_records_own (test_model_ageing.SeedTests.test_observed_variance_is_the_records_own) ... ok
+test_seed_is_not_consumed (test_model_ageing.SeedTests.test_seed_is_not_consumed) ... ok
+test_player_zero_skips_the_age (test_model_ageing.YearEndBytesTests.test_player_zero_skips_the_age) ... ok
+test_writes_exactly_three_bytes (test_model_ageing.YearEndBytesTests.test_writes_exactly_three_bytes) ... ok
+test_checker_reads_the_kind_set (test_model_confidence.CheckerTests.test_checker_reads_the_kind_set) ... ok
+test_consistent_record_cannot_be_declared_defective (test_model_confidence.CheckerTests.test_consistent_record_cannot_be_declared_defective) ... ok
+test_declaration_must_name_known_defects (test_model_confidence.CheckerTests.test_declaration_must_name_known_defects) ... ok
+test_empty_comparisons_fail (test_model_confidence.CheckerTests.test_empty_comparisons_fail) ... ok
+test_every_declared_defect_must_fail (test_model_confidence.CheckerTests.test_every_declared_defect_must_fail) ... ok
+test_kept_mismatch_fails (test_model_confidence.CheckerTests.test_kept_mismatch_fails) ... ok
+test_kept_record_checks_declared_inputs (test_model_confidence.CheckerTests.test_kept_record_checks_declared_inputs) ... ok
+test_kept_record_guards (test_model_confidence.CheckerTests.test_kept_record_guards) ... ok
+test_one_defective_case_is_not_set_aside (test_model_confidence.CheckerTests.test_one_defective_case_is_not_set_aside) ... ok
+test_retained_defective_probe_is_set_aside_by_its_declaration (test_model_confidence.CheckerTests.test_retained_defective_probe_is_set_aside_by_its_declaration) ... ok
+test_run_observation_divergence_fails (test_model_confidence.CheckerTests.test_run_observation_divergence_fails) ... ok
+test_unpaired_or_uncovered_supersession_fails (test_model_confidence.CheckerTests.test_unpaired_or_uncovered_supersession_fails) ... ok
+test_wrong_delta_with_consistent_squad_is_not_set_aside (test_model_confidence.CheckerTests.test_wrong_delta_with_consistent_squad_is_not_set_aside) ... ok
+test_bench_draws_and_sequential_clipping (test_model_confidence.ConfidenceTests.test_bench_draws_and_sequential_clipping) ... ok
+test_clipping_and_signed_byte (test_model_confidence.ConfidenceTests.test_clipping_and_signed_byte) ... ok
+test_equal_scores_with_winner_byte_are_not_a_draw (test_model_confidence.ConfidenceTests.test_equal_scores_with_winner_byte_are_not_a_draw) ... ok
+test_exact_given_draws (test_model_confidence.ConfidenceTests.test_exact_given_draws) ... ok
+test_invalid_inputs_rejected (test_model_confidence.ConfidenceTests.test_invalid_inputs_rejected) ... ok
+test_literal_arithmetic_boundaries (test_model_confidence.ConfidenceTests.test_literal_arithmetic_boundaries) ... ok
+test_participating_substitute_gets_result_term (test_model_confidence.ConfidenceTests.test_participating_substitute_gets_result_term) ... ok
+test_persisting_and_temporary_match_form (test_model_confidence.ConfidenceTests.test_persisting_and_temporary_match_form) ... ok
+test_ranks_not_line_sums (test_model_confidence.ConfidenceTests.test_ranks_not_line_sums) ... ok
+test_result_term (test_model_confidence.ConfidenceTests.test_result_term) ... ok
+test_term_size_not_monotonic_in_margin (test_model_confidence.ConfidenceTests.test_term_size_not_monotonic_in_margin) ... ok
+test_exact_draw_consumption (test_model_energy.Energy.test_exact_draw_consumption) ... ok
+test_form_instruction_and_injury_store (test_model_energy.Energy.test_form_instruction_and_injury_store) ... ok
+test_healing_draw_literal_upper_bound (test_model_energy.Energy.test_healing_draw_literal_upper_bound) ... ok
+test_injured_draw_and_recovery_gate (test_model_energy.Energy.test_injured_draw_and_recovery_gate) ... ok
+test_negative_energy_uses_noninjured_branch_but_gate_draw (test_model_energy.Energy.test_negative_energy_uses_noninjured_branch_but_gate_draw) ... ok
+test_quick_period_and_signed_floor (test_model_energy.Energy.test_quick_period_and_signed_floor) ... ok
+test_recovery_bounds_age_strict_and_signed_fitness (test_model_energy.Energy.test_recovery_bounds_age_strict_and_signed_fitness) ... ok
+test_recovery_flag_nonzero_draw_order (test_model_energy.Energy.test_recovery_flag_nonzero_draw_order) ... ok
+test_recovery_flag_zero_extra_below_16 (test_model_energy.Energy.test_recovery_flag_zero_extra_below_16) ... ok
+test_rest_draw_literal_upper_bound (test_model_energy.Energy.test_rest_draw_literal_upper_bound) ... ok
+test_restore_not_full_32 (test_model_energy.Energy.test_restore_not_full_32) ... ok
+test_watched_strict_threshold_and_reset (test_model_energy.Energy.test_watched_strict_threshold_and_reset) ... ok
+test_a_declaration_cannot_exempt_the_records_or_the_comparisons (test_model_energy.Supersession.test_a_declaration_cannot_exempt_the_records_or_the_comparisons) ... ok
+test_a_difference_outside_the_declared_fields_is_rejected (test_model_energy.Supersession.test_a_difference_outside_the_declared_fields_is_rejected) ... ok
+test_a_mismatch_beside_the_declared_defect_is_rejected (test_model_energy.Supersession.test_a_mismatch_beside_the_declared_defect_is_rejected) ... ok
+test_a_missing_successor_fails (test_model_energy.Supersession.test_a_missing_successor_fails) ... ok
+test_a_record_failing_otherwise_than_declared_is_rejected (test_model_energy.Supersession.test_a_record_failing_otherwise_than_declared_is_rejected) ... ok
+test_a_successor_that_replaces_the_captured_draws_is_rejected (test_model_energy.Supersession.test_a_successor_that_replaces_the_captured_draws_is_rejected) ... ok
+test_a_successor_that_replaces_the_draw_bounds_is_rejected (test_model_energy.Supersession.test_a_successor_that_replaces_the_draw_bounds_is_rejected) ... ok
+test_a_successor_with_fewer_cases_is_rejected (test_model_energy.Supersession.test_a_successor_with_fewer_cases_is_rejected) ... ok
+test_an_earlier_successor_is_rejected (test_model_energy.Supersession.test_an_earlier_successor_is_rejected) ... ok
+test_an_unrelated_successor_is_rejected (test_model_energy.Supersession.test_an_unrelated_successor_is_rejected) ... ok
+test_superseding_a_complete_record_is_rejected (test_model_energy.Supersession.test_superseding_a_complete_record_is_rejected) ... ok
+test_the_committed_supersession_is_selected_and_printed (test_model_energy.Supersession.test_the_committed_supersession_is_selected_and_printed) ... ok
+test_form_and_energy_base (test_model_keeping.TestContest.test_form_and_energy_base) ... ok
+test_keeper_extra_gate (test_model_keeping.TestContest.test_keeper_extra_gate) ... ok
+test_manager_share (test_model_keeping.TestContest.test_manager_share) ... ok
+test_outfield_keeping_is_not_gated_away (test_model_keeping.TestContest.test_outfield_keeping_is_not_gated_away) ... ok
+test_penalty_bonus (test_model_keeping.TestContest.test_penalty_bonus) ... ok
+test_pitch_halving (test_model_keeping.TestContest.test_pitch_halving) ... ok
+test_signed_form_and_energy (test_model_keeping.TestContest.test_signed_form_and_energy) ... ok
+test_unsigned_product_divide (test_model_keeping.TestContest.test_unsigned_product_divide) ... ok
+test_duel_contests_uses_constants (test_model_keeping.TestPredictions.test_duel_contests_uses_constants) ... ok
+test_duel_jle_opcode_mutation (test_model_keeping.TestPredictions.test_duel_jle_opcode_mutation) ... ok
+test_duel_keeper_element_mutation (test_model_keeping.TestPredictions.test_duel_keeper_element_mutation) ... ok
+test_duel_operand_air_multiplier (test_model_keeping.TestPredictions.test_duel_operand_air_multiplier) ... ok
+test_edited_values_are_linear (test_model_keeping.TestPredictions.test_edited_values_are_linear) ... ok
+test_keeper_prediction_low_arm_uses_emulation (test_model_keeping.TestPredictions.test_keeper_prediction_low_arm_uses_emulation) ... ok
+test_keeper_prediction_uses_emulation (test_model_keeping.TestPredictions.test_keeper_prediction_uses_emulation) ... ok
+test_keeper_saves_jle_opcode (test_model_keeping.TestPredictions.test_keeper_saves_jle_opcode) ... ok
+test_outfield_prediction_fails_with_wrong_fake (test_model_keeping.TestPredictions.test_outfield_prediction_fails_with_wrong_fake) ... ok
+test_outfield_prediction_uses_emulation (test_model_keeping.TestPredictions.test_outfield_prediction_uses_emulation) ... ok
+test_outfield_predictions (test_model_keeping.TestPredictions.test_outfield_predictions) ... ok
+test_save_predictions (test_model_keeping.TestPredictions.test_save_predictions) ... ok
+test_taker_sort_includes_keeper (test_model_keeping.TestPredictions.test_taker_sort_includes_keeper) ... ok
+test_class_columns (test_model_keeping.TestTables.test_class_columns) ... ok
+test_keeper_keeping_value (test_model_keeping.TestTables.test_keeper_keeping_value) ... ok
+test_skill_divisor_is_32 (test_model_keeping.TestTables.test_skill_divisor_is_32) ... ok
+test_last_slot_gets_its_own_address (test_model_quick_engine.A260Extent.test_last_slot_gets_its_own_address) ... ok
+test_set_player_tactics_called_once (test_model_quick_engine.C5dcSingleTacticsCall.test_set_player_tactics_called_once) ... ok
+test_keeper_fallback_selection (test_model_quick_engine.TestA9B8KeeperFallback.test_keeper_fallback_selection) ... ok
+test_no_bench_value_beats_255 (test_model_quick_engine.TestA9B8KeeperFallback.test_no_bench_value_beats_255) ... ok
+test_6337_keeper_redraw (test_model_quick_engine.TestAfterGoal.test_6337_keeper_redraw) ... ok
+test_form_swing_follows_830b_side (test_model_quick_engine.TestAfterGoal.test_form_swing_follows_830b_side) ... ok
+test_form_swing_sides_clamp_and_skip (test_model_quick_engine.TestAfterGoal.test_form_swing_sides_clamp_and_skip) ... ok
+test_scorer_effects (test_model_quick_engine.TestAfterGoal.test_scorer_effects)
+6443's scorer writes: +0A++, +0xC clamp(+1), +0x12 += fitness[0x26] = 40. ... ok
+test_swing_runs_after_c173 (test_model_quick_engine.TestAfterGoal.test_swing_runs_after_c173)
+65FE's order: 6337 -> C173 -> the form loop (6666 comes after 665C). ... ok
+test_first_only_and_threshold (test_model_quick_engine.TestBec7.test_first_only_and_threshold) ... ok
+test_aae8_picks_formation_role (test_model_quick_engine.TestC88dBenchPick.test_aae8_picks_formation_role) ... ok
+test_no_candidate_no_sub (test_model_quick_engine.TestC88dBenchPick.test_no_candidate_no_sub) ... ok
+test_clock_gates (test_model_quick_engine.TestCheckSubstitutions.test_clock_gates) ... ok
+test_energy_gate_boundary (test_model_quick_engine.TestCheckSubstitutions.test_energy_gate_boundary) ... ok
+test_player_gates (test_model_quick_engine.TestCheckSubstitutions.test_player_gates) ... ok
+test_bd83_resets_to_r008 (test_model_quick_engine.TestComputerTactics.test_bd83_resets_to_r008) ... ok
+test_bd83_strength_draws_two_includes (test_model_quick_engine.TestComputerTactics.test_bd83_strength_draws_two_includes) ... ok
+test_bf6b_three_includes_or_excludes (test_model_quick_engine.TestComputerTactics.test_bf6b_three_includes_or_excludes) ... ok
+test_c01a_once_flag_and_elements (test_model_quick_engine.TestComputerTactics.test_c01a_once_flag_and_elements) ... ok
+test_c0df_excludes_five_plus_six (test_model_quick_engine.TestComputerTactics.test_c0df_excludes_five_plus_six) ... ok
+test_c173_routes_by_score (test_model_quick_engine.TestComputerTactics.test_c173_routes_by_score) ... ok
+test_r_then_coin_when_both_available (test_model_quick_engine.TestD5C1Prefix.test_r_then_coin_when_both_available) ... ok
+test_unavailable_r_slot_returns_before_coin (test_model_quick_engine.TestD5C1Prefix.test_unavailable_r_slot_returns_before_coin) ... ok
+test_d5c1_gated_on_9a3d (test_model_quick_engine.TestD733Structure.test_d5c1_gated_on_9a3d) ... ok
+test_energy_every_fifth_minute (test_model_quick_engine.TestD733Structure.test_energy_every_fifth_minute) ... ok
+test_fill_and_goal_phase (test_model_quick_engine.TestD733Structure.test_fill_and_goal_phase) ... ok
+test_goal_ends_the_team_loop (test_model_quick_engine.TestD733Structure.test_goal_ends_the_team_loop) ... ok
+test_no_goal_when_minute_differs (test_model_quick_engine.TestD733Structure.test_no_goal_when_minute_differs) ... ok
+test_one_goal_even_with_two_equal_minutes (test_model_quick_engine.TestD733Structure.test_one_goal_even_with_two_equal_minutes) ... ok
+test_scored_goal_invokes_scorer_effects (test_model_quick_engine.TestD733Structure.test_scored_goal_invokes_scorer_effects)
+T24 rework R2: D733's goal path must run 6443's scorer writes on the ... ok
+test_scorer_redrawn_while_unavailable (test_model_quick_engine.TestD733Structure.test_scorer_redrawn_while_unavailable) ... ok
+test_scorer_table_last_entry (test_model_quick_engine.TestD733Structure.test_scorer_table_last_entry) ... ok
+test_stats_draws_and_no_fill_without_fresh (test_model_quick_engine.TestD733Structure.test_stats_draws_and_no_fill_without_fresh) ... ok
+test_base_sums (test_model_quick_engine.TestLineSums.test_base_sums) ... ok
+test_flag_boosts_eighths (test_model_quick_engine.TestLineSums.test_flag_boosts_eighths) ... ok
+test_manager_bonus_zero_extended (test_model_quick_engine.TestLineSums.test_manager_bonus_zero_extended) ... ok
+test_player_f_share_moves_to_attack (test_model_quick_engine.TestLineSums.test_player_f_share_moves_to_attack) ... ok
+test_tactics_bit_moves_share (test_model_quick_engine.TestLineSums.test_tactics_bit_moves_share) ... ok
+test_foot_index_table (test_model_quick_engine.TestPlayerPredicates.test_foot_index_table) ... ok
+test_hardness (test_model_quick_engine.TestPlayerPredicates.test_hardness) ... ok
+test_two_footed_is_sum_30 (test_model_quick_engine.TestPlayerPredicates.test_two_footed_is_sum_30) ... ok
+test_unavailable_energy_and_elements (test_model_quick_engine.TestPlayerPredicates.test_unavailable_energy_and_elements) ... ok
+test_wrong_foot_positions (test_model_quick_engine.TestPlayerPredicates.test_wrong_foot_positions) ... ok
+test_clamp_both_ends (test_model_quick_engine.TestPlayerStrength.test_clamp_both_ends) ... ok
+test_high_form_shrinks (test_model_quick_engine.TestPlayerStrength.test_high_form_shrinks) ... ok
+test_low_form_adds (test_model_quick_engine.TestPlayerStrength.test_low_form_adds) ... ok
+test_unavailable_is_zero (test_model_quick_engine.TestPlayerStrength.test_unavailable_is_zero) ... ok
+test_wrong_foot_halves (test_model_quick_engine.TestPlayerStrength.test_wrong_foot_halves) ... ok
+test_chance_is_equality_with_one (test_model_quick_engine.TestRNG.test_chance_is_equality_with_one) ... ok
+test_step_and_value (test_model_quick_engine.TestRNG.test_step_and_value) ... ok
+test_value_uses_the_new_seed_and_n (test_model_quick_engine.TestRNG.test_value_uses_the_new_seed_and_n) ... ok
+test_equal_values_lose (test_model_quick_engine.TestRollQuickGoals.test_equal_values_lose) ... ok
+test_goal_needs_all_three (test_model_quick_engine.TestRollQuickGoals.test_goal_needs_all_three) ... ok
+test_order_and_stop (test_model_quick_engine.TestRollQuickGoals.test_order_and_stop) ... ok
+test_second_contest_uses_double_defence (test_model_quick_engine.TestRollQuickGoals.test_second_contest_uses_double_defence) ... ok
+test_run_shape_and_clock (test_model_quick_engine.TestRun.test_run_shape_and_clock) ... ok
+test_all_branches (test_model_quick_engine.TestSetPlayerTactics.test_all_branches) ... ok
+test_a_goalkeeper_challenger_still_gets_the_bonus (test_model_ratings.TestChallenge.test_a_goalkeeper_challenger_still_gets_the_bonus) ... ok
+test_bailed_challenge_keeps_the_table_delta (test_model_ratings.TestChallenge.test_bailed_challenge_keeps_the_table_delta) ... ok
+test_completed_challenge_nets_zero (test_model_ratings.TestChallenge.test_completed_challenge_nets_zero) ... ok
+test_every_bail_template_stops_the_bonus (test_model_ratings.TestChallenge.test_every_bail_template_stops_the_bonus) ... ok
+test_reviewer_case_r1 (test_model_ratings.TestChallenge.test_reviewer_case_r1) ... ok
+test_silent_bail_from_tracked_holder (test_model_ratings.TestChallenge.test_silent_bail_from_tracked_holder) ... ok
+test_the_e012_r0001_record (test_model_ratings.TestChallenge.test_the_e012_r0001_record) ... ok
+test_the_e012_r0002_record (test_model_ratings.TestChallenge.test_the_e012_r0002_record) ... ok
+test_undecidable_holder (test_model_ratings.TestChallenge.test_undecidable_holder) ... ok
+test_undecidable_trailing_line (test_model_ratings.TestChallenge.test_undecidable_trailing_line) ... ok
+test_bucket_rule (test_model_ratings.TestDecode.test_bucket_rule) ... ok
+test_goal_and_own_goal (test_model_ratings.TestDeltaTable.test_goal_and_own_goal) ... ok
+test_table_is_the_image_bytes (test_model_ratings.TestDeltaTable.test_table_is_the_image_bytes) ... ok
+test_bench_and_blank_eligibility (test_model_ratings.TestManOfTheMatch.test_bench_and_blank_eligibility) ... ok
+test_blank_squad_slot (test_model_ratings.TestManOfTheMatch.test_blank_squad_slot) ... ok
+test_max_scan_and_tie_order (test_model_ratings.TestManOfTheMatch.test_max_scan_and_tie_order) ... ok
+test_substituted_players_scanned (test_model_ratings.TestManOfTheMatch.test_substituted_players_scanned) ... ok
+test_a_booking_reorders_nothing (test_model_ratings.TestUnavailable.test_a_booking_reorders_nothing) ... ok
+test_model_key_is_the_starting_slot (test_model_ratings.TestUnavailable.test_model_key_is_the_starting_slot) ... ok
+test_off_pitch_player_is_still_scanned_for_the_man_of_the_match (test_model_ratings.TestUnavailable.test_off_pitch_player_is_still_scanned_for_the_man_of_the_match) ... ok
+test_one_removal_moves_the_player_to_slot_11 (test_model_ratings.TestUnavailable.test_one_removal_moves_the_player_to_slot_11) ... ok
+test_two_removals_can_reverse_their_original_order (test_model_ratings.TestUnavailable.test_two_removals_can_reverse_their_original_order) ... ok
+test_two_removals_keep_their_original_relative_order (test_model_ratings.TestUnavailable.test_two_removals_keep_their_original_relative_order) ... ok
+test_flavour_line_rates_dummy_only (test_model_ratings.TestWords.test_flavour_line_rates_dummy_only) ... ok
+test_initial_words (test_model_ratings.TestWords.test_initial_words) ... ok
+test_line_deltas_and_wraparound (test_model_ratings.TestWords.test_line_deltas_and_wraparound) ... ok
+test_substitution (test_model_ratings.TestWords.test_substitution) ... ok
+test_all_records (test_model_recreate.CheckerTests.test_all_records) ... ok
+test_baseline_pair (test_model_recreate.CheckerTests.test_baseline_pair) ... ok
+test_continued_with_caps_zero (test_model_recreate.CheckerTests.test_continued_with_caps_zero) ... ok
+test_drawn_byte_inside_its_range (test_model_recreate.CheckerTests.test_drawn_byte_inside_its_range) ... ok
+test_empty_set_fails (test_model_recreate.CheckerTests.test_empty_set_fails) ... ok
+test_exit_on_a_mismatch (test_model_recreate.CheckerTests.test_exit_on_a_mismatch) ... ok
+test_initial_inside_the_table (test_model_recreate.CheckerTests.test_initial_inside_the_table) ... ok
+test_initial_outside_the_table (test_model_recreate.CheckerTests.test_initial_outside_the_table) ... ok
+test_morale_fitness_energy_tactics (test_model_recreate.CheckerTests.test_morale_fitness_energy_tactics) ... ok
+test_no_comparison_and_no_recreate_fail (test_model_recreate.CheckerTests.test_no_comparison_and_no_recreate_fail) ... ok
+test_replacement_errors_direct (test_model_recreate.CheckerTests.test_replacement_errors_direct) ... ok
+test_surname (test_model_recreate.CheckerTests.test_surname) ... ok
+test_undecided_continuing_matching_neither (test_model_recreate.CheckerTests.test_undecided_continuing_matching_neither) ... ok
+test_undecided_recreate_joins_the_rating_check (test_model_recreate.CheckerTests.test_undecided_recreate_joins_the_rating_check) ... ok
+test_undecided_recreate_matching_neither (test_model_recreate.CheckerTests.test_undecided_recreate_matching_neither) ... ok
+test_constraints_f016_form (test_model_recreate.ContractTests.test_constraints_f016_form) ... ok
+test_contract_carries_scorer_count (test_model_recreate.ContractTests.test_contract_carries_scorer_count) ... ok
+test_contract_goalkeeper (test_model_recreate.ContractTests.test_contract_goalkeeper) ... ok
+test_contract_holds_for_the_exact_recreates (test_model_recreate.ContractTests.test_contract_holds_for_the_exact_recreates) ... ok
+test_contract_literal (test_model_recreate.ContractTests.test_contract_literal) ... ok
+test_not_in_captures (test_model_recreate.ContractTests.test_not_in_captures) ... ok
+test_better_rank_raises_the_rating (test_model_recreate.CountryRatingTests.test_better_rank_raises_the_rating) ... ok
+test_domain_edges (test_model_recreate.CountryRatingTests.test_domain_edges) ... ok
+test_e006_countries (test_model_recreate.CountryRatingTests.test_e006_countries) ... ok
+test_signed_divide_truncates_toward_zero (test_model_recreate.CountryRatingTests.test_signed_divide_truncates_toward_zero) ... ok
+test_162_steps_from_ten_oclock (test_model_recreate.GeneratorTests.test_162_steps_from_ten_oclock) ... ok
+test_draw_literals (test_model_recreate.GeneratorTests.test_draw_literals) ... ok
+test_e014_checker_standalone (test_model_recreate.ImportStyleTests.test_e014_checker_standalone) ... ok
+test_e016_checker_standalone (test_model_recreate.ImportStyleTests.test_e016_checker_standalone) ... ok
+test_package_import (test_model_recreate.ImportStyleTests.test_package_import) ... ok
+test_top_level_import (test_model_recreate.ImportStyleTests.test_top_level_import) ... ok
+test_sentinels_survive_make_player (test_model_recreate.MakePlayerCarriesUnwrittenBytes.test_sentinels_survive_make_player) ... ok
+test_age_base_without_override (test_model_recreate.ManagedReplacementTests.test_age_base_without_override) ... ok
+test_goalkeeper_young_base (test_model_recreate.ManagedReplacementTests.test_goalkeeper_young_base) ... ok
+test_override_values (test_model_recreate.ManagedReplacementTests.test_override_values) ... ok
+test_quota_edge (test_model_recreate.ManagedReplacementTests.test_quota_edge) ... ok
+test_the_new_record_counts_itself (test_model_recreate.ManagedReplacementTests.test_the_new_record_counts_itself) ... ok
+test_young_margin_edge (test_model_recreate.ManagedReplacementTests.test_young_margin_edge) ... ok
+test_country_one_literal (test_model_recreate.NewGameTests.test_country_one_literal) ... ok
+test_every_squad_player (test_model_recreate.NewGameTests.test_every_squad_player) ... ok
+test_managed_pool (test_model_recreate.NewGameTests.test_managed_pool) ... ok
+test_pool_rating_draw (test_model_recreate.NewGameTests.test_pool_rating_draw) ... ok
+test_carries_position_tactics_and_scorer_count (test_model_recreate.RecreateExactTests.test_carries_position_tactics_and_scorer_count) ... ok
+test_goalkeeper_bases (test_model_recreate.RecreateExactTests.test_goalkeeper_bases) ... ok
+test_ten_draws_each (test_model_recreate.RecreateExactTests.test_ten_draws_each) ... ok
+test_three_recreates_of_one_country (test_model_recreate.RecreateExactTests.test_three_recreates_of_one_country) ... ok
+test_age_limits (test_model_recreate.RetirementTests.test_age_limits) ... ok
+test_peak_margin (test_model_recreate.RetirementTests.test_peak_margin) ... ok
+test_centre_back_profile_edge (test_model_recreate.TacticsAndFitnessTests.test_centre_back_profile_edge) ... ok
+test_computer_branch (test_model_recreate.TacticsAndFitnessTests.test_computer_branch) ... ok
+test_hardness_edge (test_model_recreate.TacticsAndFitnessTests.test_hardness_edge) ... ok
+test_initial_letters (test_model_recreate.TacticsAndFitnessTests.test_initial_letters) ... ok
+test_managed_branch (test_model_recreate.TacticsAndFitnessTests.test_managed_branch) ... ok
+test_managed_floor_visits_zero (test_model_recreate.TacticsAndFitnessTests.test_managed_floor_visits_zero) ... ok
+test_positions (test_model_recreate.TacticsAndFitnessTests.test_positions) ... ok
+test_acted_key_allows_the_next_wait (test_model_replay_guards.TestPendingKeyGuard.test_acted_key_allows_the_next_wait) ... E003-r9999 d0-time-100000-date-10041993: aborted: RuntimeError: stop after launch (test)
+E003-r9999 d0-time-100000-date-10041993: aborted: ClockNotApplied: DOS date set to 10/04/1993, DOS reports 10/04/2026
+E003-r8888 d0-time-free: completed
+2 of 2 runs completed
+E005-r9999 quick-restore-e004-1001-cycles-5000: completed
+E006-r0007 10:00:00: completed
+release    /home/diego/projects/goal2-archaeology-work/T34/.cache/goal2 matches artifacts/known.json set fixture
+dosbox-x   2024.03.01
+xdotool    present
+stdbuf     present
+defective fixture-probe-old.json -> fixture-probe-new.json: case 1: declared slot disagrees with injected squad; case 2: declared slot disagrees with injected squad; case 3: declared slot disagrees with injected squad; case 4: declared slot disagrees with injected squad; case 5: declared slot disagrees with injected squad; case 6: declared slot disagrees with injected squad; defective
+match: 240/240 (240 incl. run observations)
+defective fixture-probe-old.json -> fixture-probe-new.json: case 1: declared slot disagrees with injected squad; declared status disagrees with injected +0x10; case 2: declared slot disagrees with injected squad; declared status disagrees with injected +0x10; case 3: declared slot disagrees with injected squad; declared status disagrees with injected +0x10; case 4: declared slot disagrees with injected squad; declared status disagrees with injected +0x10; case 5: declared slot disagrees with injected squad; declared status disagrees with injected +0x10; case 6: declared slot disagrees with injected squad; declared status disagrees with injected +0x10; defective
+match: 240/240 (240 incl. run observations)
+MISS case 1 player-word 1: expected (20,), observed 0
+match: 239/240 (240 incl. run observations)
+defective fixture-probe-002.json -> fixture-probe-003.json: case 1: declared slot disagrees with injected squad; declared status disagrees with injected +0x10; case 2: declared slot disagrees with injected squad; declared status disagrees with injected +0x10; case 3: declared slot disagrees with injected squad; declared status disagrees with injected +0x10; case 4: declared slot disagrees with injected squad; declared status disagrees with injected +0x10; case 5: declared slot disagrees with injected squad; declared status disagrees with injected +0x10; case 6: declared slot disagrees with injected squad; declared status disagrees with injected +0x10; Wrong squad and status injection offsets; all six declared cases require replacement.
+match: 240/240 (240 incl. run observations)
+MISS player word 361: 101010 != 100f0f
+not in captures: +0x03: +3 = country_rating + 0x7F reads the country record (+0x2A/+0x2B/+0x2C), which the E014 captures do not hold; checked as one byte per country per 7FDF call and in the domain 0x80..0xFF
+not in captures: +0x06: +6 = the retiree's +6 at the instant (7E9D/7F36); +6 is moved per match (0791:AD8F, 1771:4952, 000E:0290, 0791:BC5D; E014 notes section 6), so a capture a year earlier does not give it
+not in captures: +0x0F: +0xF keeps the retiree's +0xF bits that 1771:3431 neither sets nor clears; 0791:BC5D, 0791:C5DC and 1771:34E7 clear and re-derive +0xF between captures; the bits 3431 sets or clears are checked
+note: tests/no-such-directory: no record
+MISMATCH: no record found in any of the runs directories
+MISMATCH: no comparison was made: nothing corroborated
+comparisons: 0 squad words across 0 consecutive pair(s) of 0 record(s); 2 mismatch(es)
+re-creates: 0, of which 0 reproduced exactly from a recovered RNG word
+match: 0/0
+not in captures: +0x03: +3 = country_rating + 0x7F reads the country record (+0x2A/+0x2B/+0x2C), which the E014 captures do not hold; checked as one byte per country per 7FDF call and in the domain 0x80..0xFF
+not in captures: +0x06: +6 = the retiree's +6 at the instant (7E9D/7F36); +6 is moved per match (0791:AD8F, 1771:4952, 000E:0290, 0791:BC5D; E014 notes section 6), so a capture a year earlier does not give it
+not in captures: +0x0F: +0xF keeps the retiree's +0xF bits that 1771:3431 neither sets nor clears; 0791:BC5D, 0791:C5DC and 1771:34E7 clear and re-derive +0xF between captures; the bits 3431 sets or clears are checked
+note: E014-r0003 captures 0-1: start -> year end: 7 re-creates reproduced exactly from the RNG word 0xa5b0 at 80DA's entry (1 of 65536 words do)
+MISMATCH: country 1 player 2 (E014-r0003 captures 0-1: start -> year end): retirement fires, but not a re-create: +0x0C = 255 outside the re-create's 1..32 (rec 011e19a18c0f01010c000000011e1e110000ff7f -> 01191ca1960e010100000000ff1b1b110000ff7f)
+comparisons: 60 squad words across 1 consecutive pair(s) of 1 record(s); 1 mismatch(es)
+re-creates: 7, of which 7 reproduced exactly from a recovered RNG word
+match: 6/7
+not in captures: +0x03: +3 = country_rating + 0x7F reads the country record (+0x2A/+0x2B/+0x2C), which the E014 captures do not hold; checked as one byte per country per 7FDF call and in the domain 0x80..0xFF
+not in captures: +0x06: +6 = the retiree's +6 at the instant (7E9D/7F36); +6 is moved per match (0791:AD8F, 1771:4952, 000E:0290, 0791:BC5D; E014 notes section 6), so a capture a year earlier does not give it
+not in captures: +0x0F: +0xF keeps the retiree's +0xF bits that 1771:3431 neither sets nor clears; 0791:BC5D, 0791:C5DC and 1771:34E7 clear and re-derive +0xF between captures; the bits 3431 sets or clears are checked
+note: E014-r0003 captures 0-1: start -> year end: 8 re-creates reproduced exactly from the RNG word 0xfdf6 at 80DA's entry (1 of 65536 words do)
+comparisons: 60 squad words across 1 consecutive pair(s) of 1 record(s); 0 mismatch(es)
+re-creates: 8, of which 8 reproduced exactly from a recovered RNG word
+match: 8/8
+read 1: t=0.0 831F=1 seed=0001 score=[0, 0] ft=False key=team screen
+read 2: t=0.0 831F=1 seed=0001 score=[0, 0] ft=False key=team screen
+  Enter (team screen) at t=0.0
+read 3: t=0.0 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 4: t=0.0 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 5: t=0.0 831F=1 seed=0001 score=[0, 0] ft=False key=team screen
+read 6: t=0.0 831F=1 seed=0001 score=[0, 0] ft=False key=team screen
+  Enter (team screen) at t=0.0
+read 7: t=0.0 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 8: t=0.0 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 9: t=0.0 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 10: t=0.0 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 11: t=0.0 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 12: t=0.0 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 13: t=0.001 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 14: t=0.001 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 15: t=0.001 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 16: t=0.001 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 17: t=0.001 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 18: t=0.001 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 19: t=0.001 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 20: t=0.001 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 21: t=0.001 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 22: t=0.001 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 23: t=0.001 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 24: t=0.001 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 25: t=0.001 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 26: t=0.001 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 27: t=0.001 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 28: t=0.001 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 29: t=0.001 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 30: t=0.001 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 31: t=0.002 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 32: t=0.002 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 33: t=0.002 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 34: t=0.002 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 35: t=0.002 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 36: t=0.002 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 37: t=0.002 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 38: t=0.002 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 39: t=0.002 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 40: t=0.002 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 41: t=0.002 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 42: t=0.002 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 43: t=0.002 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 44: t=0.002 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 45: t=0.003 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 46: t=0.003 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 47: t=0.003 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 48: t=0.003 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 49: t=0.003 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 50: t=0.003 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 51: t=0.003 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 52: t=0.003 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 53: t=0.003 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 54: t=0.003 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 55: t=0.003 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 56: t=0.004 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 57: t=0.004 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 58: t=0.004 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 59: t=0.004 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 60: t=0.004 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 61: t=0.004 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 62: t=0.004 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 63: t=0.004 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 64: t=0.004 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 65: t=0.004 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 66: t=0.005 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 67: t=0.005 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 68: t=0.005 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 69: t=0.005 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 70: t=0.005 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 71: t=0.005 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 72: t=0.005 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 73: t=0.005 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 74: t=0.005 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 75: t=0.006 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 76: t=0.006 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 77: t=0.006 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 78: t=0.006 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 79: t=0.006 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 80: t=0.006 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 81: t=0.006 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 82: t=0.006 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 83: t=0.007 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 84: t=0.007 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 85: t=0.007 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 86: t=0.007 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 87: t=0.007 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 88: t=0.007 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 89: t=0.007 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 90: t=0.007 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 91: t=0.008 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 92: t=0.008 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 93: t=0.008 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 94: t=0.008 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 95: t=0.008 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 96: t=0.008 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 97: t=0.008 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 98: t=0.009 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 99: t=0.009 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 100: t=0.009 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 101: t=0.009 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 102: t=0.009 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 103: t=0.009 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 104: t=0.009 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 105: t=0.01 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 106: t=0.01 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 107: t=0.01 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 108: t=0.01 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 109: t=0.01 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 110: t=0.01 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 111: t=0.01 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 112: t=0.011 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 113: t=0.011 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 114: t=0.011 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 115: t=0.011 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 116: t=0.011 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 117: t=0.011 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 118: t=0.012 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 119: t=0.012 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 120: t=0.012 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 121: t=0.012 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 122: t=0.012 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 123: t=0.012 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 124: t=0.013 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 125: t=0.013 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 126: t=0.013 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 127: t=0.013 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 128: t=0.013 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 129: t=0.014 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 130: t=0.014 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 131: t=0.014 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 132: t=0.014 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 133: t=0.014 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 134: t=0.014 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 135: t=0.015 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 136: t=0.015 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 137: t=0.015 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 138: t=0.015 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 139: t=0.015 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 140: t=0.015 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 141: t=0.016 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 142: t=0.016 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 143: t=0.016 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 144: t=0.016 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 145: t=0.016 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 146: t=0.017 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 147: t=0.017 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 148: t=0.017 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 149: t=0.017 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 150: t=0.017 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 151: t=0.018 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 152: t=0.018 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 153: t=0.018 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 154: t=0.018 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 155: t=0.018 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 156: t=0.019 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 157: t=0.019 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 158: t=0.019 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 159: t=0.019 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 160: t=0.019 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 161: t=0.02 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 162: t=0.02 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 163: t=0.02 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 164: t=0.02 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 165: t=0.02 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 166: t=0.021 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 167: t=0.021 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 168: t=0.021 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 169: t=0.021 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 170: t=0.021 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 171: t=0.022 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 172: t=0.022 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 173: t=0.022 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 174: t=0.022 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 175: t=0.023 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 176: t=0.023 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 177: t=0.023 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 178: t=0.023 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 179: t=0.023 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 180: t=0.024 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 181: t=0.024 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 182: t=0.024 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 183: t=0.024 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 184: t=0.025 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 185: t=0.025 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 186: t=0.025 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 187: t=0.025 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 188: t=0.025 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 189: t=0.026 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 190: t=0.026 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 191: t=0.026 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 192: t=0.026 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 193: t=0.027 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 194: t=0.027 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 195: t=0.027 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 196: t=0.027 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 197: t=0.028 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 198: t=0.028 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 199: t=0.028 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 200: t=0.028 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 201: t=0.029 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 202: t=0.029 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 203: t=0.029 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 204: t=0.03 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 205: t=0.03 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 206: t=0.03 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 207: t=0.03 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 208: t=0.031 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 209: t=0.031 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 210: t=0.031 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 211: t=0.031 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 212: t=0.032 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 213: t=0.032 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 214: t=0.032 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 215: t=0.032 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 216: t=0.033 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 217: t=0.033 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 218: t=0.033 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 219: t=0.033 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 220: t=0.034 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 221: t=0.034 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 222: t=0.034 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 223: t=0.034 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 224: t=0.035 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 225: t=0.035 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 226: t=0.035 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 227: t=0.035 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 228: t=0.036 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 229: t=0.036 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 230: t=0.036 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 231: t=0.036 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 232: t=0.037 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 233: t=0.037 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 234: t=0.037 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 235: t=0.038 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 236: t=0.038 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 237: t=0.038 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 238: t=0.038 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 239: t=0.039 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 240: t=0.039 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 241: t=0.039 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 242: t=0.039 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 243: t=0.04 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 244: t=0.04 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 245: t=0.04 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 246: t=0.04 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 247: t=0.041 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 248: t=0.041 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 249: t=0.041 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 250: t=0.042 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 251: t=0.042 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 252: t=0.042 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 253: t=0.043 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 254: t=0.043 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 255: t=0.043 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 256: t=0.043 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 257: t=0.044 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 258: t=0.044 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 259: t=0.044 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 260: t=0.045 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 261: t=0.045 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 262: t=0.045 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 263: t=0.046 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 264: t=0.046 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 265: t=0.046 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 266: t=0.046 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 267: t=0.047 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 268: t=0.047 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 269: t=0.047 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 270: t=0.048 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 271: t=0.048 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 272: t=0.048 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 273: t=0.049 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 274: t=0.049 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 275: t=0.049 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 276: t=0.05 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 277: t=0.05 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 278: t=0.05 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 279: t=0.051 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 280: t=0.051 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 281: t=0.051 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 282: t=0.052 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 283: t=0.052 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 284: t=0.052 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 285: t=0.053 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 286: t=0.053 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 287: t=0.053 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 288: t=0.054 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 289: t=0.054 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 290: t=0.054 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 291: t=0.055 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 292: t=0.055 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 293: t=0.056 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 294: t=0.056 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 295: t=0.056 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 296: t=0.057 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 297: t=0.057 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 298: t=0.057 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 299: t=0.058 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 300: t=0.058 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 301: t=0.058 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 302: t=0.059 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 303: t=0.059 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 304: t=0.06 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 305: t=0.06 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 306: t=0.06 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 307: t=0.061 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 308: t=0.061 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 309: t=0.061 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 310: t=0.062 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 311: t=0.062 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 312: t=0.062 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 313: t=0.063 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 314: t=0.063 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 315: t=0.063 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 316: t=0.064 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 317: t=0.064 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 318: t=0.065 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 319: t=0.065 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 320: t=0.065 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 321: t=0.066 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 322: t=0.066 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 323: t=0.066 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 324: t=0.067 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 325: t=0.067 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 326: t=0.068 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 327: t=0.068 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 328: t=0.069 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 329: t=0.069 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 330: t=0.069 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 331: t=0.07 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 332: t=0.07 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 333: t=0.071 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 334: t=0.071 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 335: t=0.071 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 336: t=0.072 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 337: t=0.072 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 338: t=0.073 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 339: t=0.073 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 340: t=0.073 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 341: t=0.074 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 342: t=0.074 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 343: t=0.075 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 344: t=0.075 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 345: t=0.076 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 346: t=0.076 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 347: t=0.077 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 348: t=0.077 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 349: t=0.077 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 350: t=0.078 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 351: t=0.078 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 352: t=0.079 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 353: t=0.079 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 354: t=0.08 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 355: t=0.08 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 356: t=0.08 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 357: t=0.081 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 358: t=0.081 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 359: t=0.082 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 360: t=0.082 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 361: t=0.083 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 362: t=0.083 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 363: t=0.083 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 364: t=0.084 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 365: t=0.084 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 366: t=0.085 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 367: t=0.085 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 368: t=0.086 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 369: t=0.086 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 370: t=0.086 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 371: t=0.087 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 372: t=0.087 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 373: t=0.088 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 374: t=0.088 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 375: t=0.089 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 376: t=0.089 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 377: t=0.09 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 378: t=0.09 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 379: t=0.091 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 380: t=0.091 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 381: t=0.091 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 382: t=0.092 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 383: t=0.092 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 384: t=0.093 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 385: t=0.093 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 386: t=0.094 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 387: t=0.094 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 388: t=0.095 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 389: t=0.095 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 390: t=0.096 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 391: t=0.096 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 392: t=0.096 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 393: t=0.097 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 394: t=0.097 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 395: t=0.098 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 396: t=0.098 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 397: t=0.099 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 398: t=0.099 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 399: t=0.1 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 400: t=0.1 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 401: t=0.101 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 402: t=0.101 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 403: t=0.102 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 404: t=0.102 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 405: t=0.103 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 406: t=0.103 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 407: t=0.104 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 408: t=0.104 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 409: t=0.105 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 410: t=0.105 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 411: t=0.106 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 412: t=0.106 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 413: t=0.107 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 414: t=0.107 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 415: t=0.108 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 416: t=0.108 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 417: t=0.109 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 418: t=0.109 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 419: t=0.11 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 420: t=0.11 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 421: t=0.111 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 422: t=0.111 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 423: t=0.112 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 424: t=0.112 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 425: t=0.113 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 426: t=0.113 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 427: t=0.114 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 428: t=0.114 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 429: t=0.115 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 430: t=0.115 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 431: t=0.116 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 432: t=0.116 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 433: t=0.117 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 434: t=0.117 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 435: t=0.118 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 436: t=0.118 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 437: t=0.119 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 438: t=0.119 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 439: t=0.12 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 440: t=0.12 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 441: t=0.121 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 442: t=0.121 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 443: t=0.122 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 444: t=0.122 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 445: t=0.123 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 446: t=0.123 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 447: t=0.124 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 448: t=0.124 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 449: t=0.125 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 450: t=0.125 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 451: t=0.126 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 452: t=0.126 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 453: t=0.127 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 454: t=0.127 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 455: t=0.128 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 456: t=0.128 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 457: t=0.129 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 458: t=0.13 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 459: t=0.13 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 460: t=0.131 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 461: t=0.131 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 462: t=0.132 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 463: t=0.132 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 464: t=0.133 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 465: t=0.133 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 466: t=0.134 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 467: t=0.134 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 468: t=0.135 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 469: t=0.135 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 470: t=0.136 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 471: t=0.136 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 472: t=0.137 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 473: t=0.138 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 474: t=0.138 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 475: t=0.139 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 476: t=0.139 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 477: t=0.14 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 478: t=0.14 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 479: t=0.141 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 480: t=0.141 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 481: t=0.142 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 482: t=0.142 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 483: t=0.143 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 484: t=0.144 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 485: t=0.144 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 486: t=0.145 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 487: t=0.145 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 488: t=0.146 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 489: t=0.146 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 490: t=0.147 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 491: t=0.147 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 492: t=0.148 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 493: t=0.149 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 494: t=0.149 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 495: t=0.15 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 496: t=0.15 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 497: t=0.151 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 498: t=0.152 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 499: t=0.152 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 500: t=0.153 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 501: t=0.153 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 502: t=0.154 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 503: t=0.154 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 504: t=0.155 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 505: t=0.156 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 506: t=0.156 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 507: t=0.157 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 508: t=0.157 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 509: t=0.158 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 510: t=0.158 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 511: t=0.159 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 512: t=0.16 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 513: t=0.16 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 514: t=0.161 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 515: t=0.161 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 516: t=0.162 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 517: t=0.162 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 518: t=0.163 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 519: t=0.164 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 520: t=0.164 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 521: t=0.165 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 522: t=0.166 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 523: t=0.166 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 524: t=0.167 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 525: t=0.167 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 526: t=0.168 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 527: t=0.169 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 528: t=0.169 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 529: t=0.17 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 530: t=0.171 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 531: t=0.171 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 532: t=0.172 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 533: t=0.172 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 534: t=0.173 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 535: t=0.174 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 536: t=0.174 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 537: t=0.175 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 538: t=0.175 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 539: t=0.176 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 540: t=0.177 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 541: t=0.177 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 542: t=0.178 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 543: t=0.178 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 544: t=0.179 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 545: t=0.18 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 546: t=0.18 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 547: t=0.181 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 548: t=0.182 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 549: t=0.182 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 550: t=0.183 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 551: t=0.183 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 552: t=0.184 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 553: t=0.185 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 554: t=0.185 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 555: t=0.186 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 556: t=0.187 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 557: t=0.187 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 558: t=0.188 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 559: t=0.188 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 560: t=0.189 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 561: t=0.19 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 562: t=0.19 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 563: t=0.191 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 564: t=0.192 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 565: t=0.192 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 566: t=0.193 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 567: t=0.193 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 568: t=0.194 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 569: t=0.195 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 570: t=0.195 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 571: t=0.196 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 572: t=0.197 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 573: t=0.197 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 574: t=0.198 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 575: t=0.199 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 576: t=0.199 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 577: t=0.2 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 578: t=0.201 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 579: t=0.201 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 580: t=0.202 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 581: t=0.203 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 582: t=0.203 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 583: t=0.204 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 584: t=0.204 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 585: t=0.205 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 586: t=0.206 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 587: t=0.206 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 588: t=0.207 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 589: t=0.208 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 590: t=0.208 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 591: t=0.209 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 592: t=0.21 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 593: t=0.21 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 594: t=0.211 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 595: t=0.212 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 596: t=0.212 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 597: t=0.213 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 598: t=0.214 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 599: t=0.215 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 600: t=0.215 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 601: t=0.216 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 602: t=0.217 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 603: t=0.217 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 604: t=0.218 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 605: t=0.219 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 606: t=0.219 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 607: t=0.22 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 608: t=0.221 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 609: t=0.221 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 610: t=0.222 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 611: t=0.223 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 612: t=0.223 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 613: t=0.224 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 614: t=0.225 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 615: t=0.225 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 616: t=0.226 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 617: t=0.227 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 618: t=0.228 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 619: t=0.228 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 620: t=0.229 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 621: t=0.23 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 622: t=0.231 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 623: t=0.231 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 624: t=0.232 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 625: t=0.233 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 626: t=0.233 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 627: t=0.234 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 628: t=0.235 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 629: t=0.235 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 630: t=0.236 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 631: t=0.237 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 632: t=0.237 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 633: t=0.238 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 634: t=0.239 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 635: t=0.24 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 636: t=0.24 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 637: t=0.241 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 638: t=0.242 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 639: t=0.242 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 640: t=0.243 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 641: t=0.244 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 642: t=0.244 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 643: t=0.245 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 644: t=0.246 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 645: t=0.247 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 646: t=0.247 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 647: t=0.248 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 648: t=0.249 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 649: t=0.249 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 650: t=0.25 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 651: t=0.251 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 652: t=0.252 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 653: t=0.252 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 654: t=0.253 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 655: t=0.254 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 656: t=0.255 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 657: t=0.255 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 658: t=0.256 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 659: t=0.257 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 660: t=0.258 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 661: t=0.258 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 662: t=0.259 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 663: t=0.26 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 664: t=0.26 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 665: t=0.261 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 666: t=0.262 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 667: t=0.263 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 668: t=0.263 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 669: t=0.264 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 670: t=0.265 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 671: t=0.266 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 672: t=0.267 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 673: t=0.267 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 674: t=0.268 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 675: t=0.269 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 676: t=0.27 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 677: t=0.27 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 678: t=0.271 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 679: t=0.272 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 680: t=0.273 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 681: t=0.273 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 682: t=0.274 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 683: t=0.275 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 684: t=0.276 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 685: t=0.276 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 686: t=0.277 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 687: t=0.278 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 688: t=0.279 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 689: t=0.279 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 690: t=0.28 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 691: t=0.281 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 692: t=0.282 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 693: t=0.282 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 694: t=0.283 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 695: t=0.284 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 696: t=0.285 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 697: t=0.285 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 698: t=0.286 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 699: t=0.287 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 700: t=0.288 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 701: t=0.289 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 702: t=0.289 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 703: t=0.29 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 704: t=0.291 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 705: t=0.292 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 706: t=0.292 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 707: t=0.293 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 708: t=0.294 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 709: t=0.295 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 710: t=0.295 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 711: t=0.296 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 712: t=0.297 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 713: t=0.297 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 714: t=0.298 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 715: t=0.299 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 716: t=0.3 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 717: t=0.3 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 718: t=0.301 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 719: t=0.302 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 720: t=0.302 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 721: t=0.303 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 722: t=0.304 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 723: t=0.305 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 724: t=0.305 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 725: t=0.306 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 726: t=0.307 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 727: t=0.307 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 728: t=0.308 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 729: t=0.309 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 730: t=0.31 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 731: t=0.31 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 732: t=0.311 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 733: t=0.312 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 734: t=0.313 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 735: t=0.314 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 736: t=0.314 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 737: t=0.315 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 738: t=0.316 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 739: t=0.317 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 740: t=0.318 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 741: t=0.318 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 742: t=0.319 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 743: t=0.32 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 744: t=0.321 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 745: t=0.322 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 746: t=0.322 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 747: t=0.323 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 748: t=0.324 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 749: t=0.325 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 750: t=0.325 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 751: t=0.326 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 752: t=0.327 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 753: t=0.328 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 754: t=0.329 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 755: t=0.329 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 756: t=0.33 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 757: t=0.331 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 758: t=0.332 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 759: t=0.333 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 760: t=0.333 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 761: t=0.334 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 762: t=0.335 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 763: t=0.336 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 764: t=0.337 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 765: t=0.338 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 766: t=0.338 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 767: t=0.339 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 768: t=0.34 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 769: t=0.341 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 770: t=0.342 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 771: t=0.343 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 772: t=0.343 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 773: t=0.344 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 774: t=0.345 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 775: t=0.346 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 776: t=0.347 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 777: t=0.347 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 778: t=0.348 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 779: t=0.349 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 780: t=0.35 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 781: t=0.351 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 782: t=0.352 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 783: t=0.352 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 784: t=0.353 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 785: t=0.354 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 786: t=0.355 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 787: t=0.356 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 788: t=0.357 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 789: t=0.358 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 790: t=0.358 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 791: t=0.359 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 792: t=0.36 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 793: t=0.361 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 794: t=0.362 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 795: t=0.363 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 796: t=0.364 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 797: t=0.364 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 798: t=0.365 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 799: t=0.366 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 800: t=0.367 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 801: t=0.368 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 802: t=0.369 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 803: t=0.37 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 804: t=0.37 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 805: t=0.372 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 806: t=0.373 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 807: t=0.374 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 808: t=0.375 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 809: t=0.375 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 810: t=0.376 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 811: t=0.377 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 812: t=0.378 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 813: t=0.379 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 814: t=0.38 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 815: t=0.381 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 816: t=0.382 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 817: t=0.383 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 818: t=0.383 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 819: t=0.384 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 820: t=0.385 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 821: t=0.386 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 822: t=0.387 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 823: t=0.388 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 824: t=0.389 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 825: t=0.39 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 826: t=0.391 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 827: t=0.391 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 828: t=0.392 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 829: t=0.393 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 830: t=0.394 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 831: t=0.395 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 832: t=0.396 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 833: t=0.397 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 834: t=0.398 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 835: t=0.399 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 836: t=0.4 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 837: t=0.401 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 838: t=0.402 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 839: t=0.403 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 840: t=0.404 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 841: t=0.405 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 842: t=0.406 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 843: t=0.407 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 844: t=0.407 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 845: t=0.408 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 846: t=0.409 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 847: t=0.41 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 848: t=0.411 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 849: t=0.412 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 850: t=0.413 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 851: t=0.415 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 852: t=0.416 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 853: t=0.418 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 854: t=0.419 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 855: t=0.42 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 856: t=0.421 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 857: t=0.421 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 858: t=0.422 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 859: t=0.423 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 860: t=0.424 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 861: t=0.425 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 862: t=0.426 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 863: t=0.427 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 864: t=0.428 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 865: t=0.429 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 866: t=0.43 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 867: t=0.431 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 868: t=0.432 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 869: t=0.433 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 870: t=0.434 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 871: t=0.435 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 872: t=0.436 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 873: t=0.437 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 874: t=0.438 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 875: t=0.439 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 876: t=0.44 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 877: t=0.441 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 878: t=0.442 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 879: t=0.443 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 880: t=0.443 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 881: t=0.444 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 882: t=0.445 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 883: t=0.446 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 884: t=0.448 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 885: t=0.449 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 886: t=0.45 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 887: t=0.451 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 888: t=0.452 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 889: t=0.453 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 890: t=0.454 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 891: t=0.455 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 892: t=0.456 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 893: t=0.457 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 894: t=0.458 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 895: t=0.459 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 896: t=0.46 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 897: t=0.461 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 898: t=0.462 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 899: t=0.463 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 900: t=0.464 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 901: t=0.465 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 902: t=0.466 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 903: t=0.467 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 904: t=0.468 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 905: t=0.469 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 906: t=0.47 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 907: t=0.471 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 908: t=0.472 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 909: t=0.473 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 910: t=0.474 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 911: t=0.475 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 912: t=0.476 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 913: t=0.477 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 914: t=0.478 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 915: t=0.479 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 916: t=0.48 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 917: t=0.481 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 918: t=0.482 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 919: t=0.483 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 920: t=0.484 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 921: t=0.485 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 922: t=0.486 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 923: t=0.487 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 924: t=0.488 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 925: t=0.489 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 926: t=0.49 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 927: t=0.491 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 928: t=0.492 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 929: t=0.494 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 930: t=0.495 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 931: t=0.496 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 932: t=0.497 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 933: t=0.498 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 934: t=0.499 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 935: t=0.5 831F=1 seed=0001 score=[0, 0] ft=False key=-
+timeout without full time; failing
+ok
+test_full_time_success (test_model_replay_guards.TestPendingKeyGuard.test_full_time_success) ... read 1: t=0.0 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 2: t=0.0 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 3: t=0.0 831F=1 seed=0001 score=[0, 0] ft=True key=-
+read 4: t=0.0 831F=1 seed=0001 score=[0, 0] ft=True key=-
+ok
+test_timeout_without_full_time_fails (test_model_replay_guards.TestPendingKeyGuard.test_timeout_without_full_time_fails) ... 4 reads
+read 1: t=0.0 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 2: t=0.0 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 3: t=0.0 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 4: t=0.0 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 5: t=0.0 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 6: t=0.0 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 7: t=0.0 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 8: t=0.0 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 9: t=0.0 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 10: t=0.0 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 11: t=0.0 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 12: t=0.0 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 13: t=0.0 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 14: t=0.0 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 15: t=0.0 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 16: t=0.0 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 17: t=0.0 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 18: t=0.0 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 19: t=0.001 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 20: t=0.001 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 21: t=0.001 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 22: t=0.001 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 23: t=0.001 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 24: t=0.001 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 25: t=0.001 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 26: t=0.001 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 27: t=0.001 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 28: t=0.001 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 29: t=0.001 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 30: t=0.001 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 31: t=0.001 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 32: t=0.001 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 33: t=0.001 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 34: t=0.001 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 35: t=0.001 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 36: t=0.001 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 37: t=0.002 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 38: t=0.002 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 39: t=0.002 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 40: t=0.002 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 41: t=0.002 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 42: t=0.002 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 43: t=0.002 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 44: t=0.002 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 45: t=0.002 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 46: t=0.002 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 47: t=0.002 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 48: t=0.002 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 49: t=0.002 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 50: t=0.002 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 51: t=0.003 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 52: t=0.003 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 53: t=0.003 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 54: t=0.003 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 55: t=0.003 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 56: t=0.003 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 57: t=0.003 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 58: t=0.003 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 59: t=0.003 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 60: t=0.003 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 61: t=0.003 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 62: t=0.003 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 63: t=0.004 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 64: t=0.004 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 65: t=0.004 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 66: t=0.004 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 67: t=0.004 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 68: t=0.004 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 69: t=0.004 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 70: t=0.004 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 71: t=0.004 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 72: t=0.004 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 73: t=0.004 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 74: t=0.005 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 75: t=0.005 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 76: t=0.005 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 77: t=0.005 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 78: t=0.005 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 79: t=0.005 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 80: t=0.005 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 81: t=0.005 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 82: t=0.005 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 83: t=0.005 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 84: t=0.006 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 85: t=0.006 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 86: t=0.006 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 87: t=0.006 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 88: t=0.006 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 89: t=0.006 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 90: t=0.006 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 91: t=0.006 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 92: t=0.006 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 93: t=0.007 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 94: t=0.007 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 95: t=0.007 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 96: t=0.007 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 97: t=0.007 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 98: t=0.007 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 99: t=0.007 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 100: t=0.007 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 101: t=0.008 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 102: t=0.008 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 103: t=0.008 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 104: t=0.008 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 105: t=0.008 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 106: t=0.008 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 107: t=0.008 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 108: t=0.009 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 109: t=0.009 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 110: t=0.009 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 111: t=0.009 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 112: t=0.009 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 113: t=0.009 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 114: t=0.009 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 115: t=0.01 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 116: t=0.01 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 117: t=0.01 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 118: t=0.01 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 119: t=0.01 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 120: t=0.01 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 121: t=0.01 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 122: t=0.011 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 123: t=0.011 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 124: t=0.011 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 125: t=0.011 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 126: t=0.011 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 127: t=0.011 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 128: t=0.012 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 129: t=0.012 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 130: t=0.012 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 131: t=0.012 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 132: t=0.012 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 133: t=0.012 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 134: t=0.013 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 135: t=0.013 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 136: t=0.013 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 137: t=0.013 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 138: t=0.013 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 139: t=0.013 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 140: t=0.013 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 141: t=0.014 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 142: t=0.014 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 143: t=0.014 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 144: t=0.014 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 145: t=0.014 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 146: t=0.014 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 147: t=0.015 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 148: t=0.015 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 149: t=0.015 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 150: t=0.015 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 151: t=0.015 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 152: t=0.015 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 153: t=0.016 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 154: t=0.016 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 155: t=0.016 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 156: t=0.016 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 157: t=0.017 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 158: t=0.017 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 159: t=0.017 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 160: t=0.017 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 161: t=0.018 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 162: t=0.018 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 163: t=0.018 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 164: t=0.018 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 165: t=0.018 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 166: t=0.019 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 167: t=0.019 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 168: t=0.019 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 169: t=0.019 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 170: t=0.019 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 171: t=0.02 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 172: t=0.02 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 173: t=0.02 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 174: t=0.02 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 175: t=0.02 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 176: t=0.021 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 177: t=0.021 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 178: t=0.021 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 179: t=0.021 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 180: t=0.021 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 181: t=0.022 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 182: t=0.022 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 183: t=0.022 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 184: t=0.022 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 185: t=0.023 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 186: t=0.023 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 187: t=0.023 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 188: t=0.023 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 189: t=0.023 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 190: t=0.024 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 191: t=0.024 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 192: t=0.024 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 193: t=0.024 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 194: t=0.025 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 195: t=0.025 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 196: t=0.025 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 197: t=0.025 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 198: t=0.026 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 199: t=0.026 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 200: t=0.026 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 201: t=0.026 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 202: t=0.027 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 203: t=0.027 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 204: t=0.027 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 205: t=0.027 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 206: t=0.027 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 207: t=0.028 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 208: t=0.028 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 209: t=0.028 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 210: t=0.028 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 211: t=0.029 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 212: t=0.029 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 213: t=0.029 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 214: t=0.029 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 215: t=0.03 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 216: t=0.03 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 217: t=0.03 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 218: t=0.03 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 219: t=0.031 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 220: t=0.031 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 221: t=0.031 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 222: t=0.031 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 223: t=0.032 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 224: t=0.032 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 225: t=0.032 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 226: t=0.032 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 227: t=0.033 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 228: t=0.033 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 229: t=0.033 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 230: t=0.034 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 231: t=0.034 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 232: t=0.034 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 233: t=0.034 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 234: t=0.035 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 235: t=0.035 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 236: t=0.035 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 237: t=0.035 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 238: t=0.036 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 239: t=0.036 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 240: t=0.036 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 241: t=0.037 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 242: t=0.037 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 243: t=0.037 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 244: t=0.037 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 245: t=0.038 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 246: t=0.038 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 247: t=0.038 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 248: t=0.039 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 249: t=0.039 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 250: t=0.039 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 251: t=0.039 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 252: t=0.04 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 253: t=0.04 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 254: t=0.04 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 255: t=0.041 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 256: t=0.041 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 257: t=0.041 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 258: t=0.042 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 259: t=0.042 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 260: t=0.042 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 261: t=0.043 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 262: t=0.043 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 263: t=0.043 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 264: t=0.043 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 265: t=0.044 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 266: t=0.044 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 267: t=0.044 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 268: t=0.045 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 269: t=0.045 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 270: t=0.045 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 271: t=0.046 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 272: t=0.046 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 273: t=0.046 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 274: t=0.046 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 275: t=0.047 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 276: t=0.047 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 277: t=0.047 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 278: t=0.048 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 279: t=0.048 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 280: t=0.048 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 281: t=0.049 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 282: t=0.049 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 283: t=0.049 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 284: t=0.05 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 285: t=0.05 831F=1 seed=0001 score=[0, 0] ft=False key=-
+timeout without full time; failing
+ok
+test_unchanged_screen_never_resends_and_aborts (test_model_replay_guards.TestPendingKeyGuard.test_unchanged_screen_never_resends_and_aborts) ... read 1: t=0.0 831F=1 seed=0001 score=[0, 0] ft=False key=team screen
+read 2: t=0.0 831F=1 seed=0001 score=[0, 0] ft=False key=team screen
+  Enter (team screen) at t=0.0
+read 3: t=0.0 831F=1 seed=0001 score=[0, 0] ft=False key=team screen
+read 4: t=0.0 831F=1 seed=0001 score=[0, 0] ft=False key=team screen
+read 5: t=0.0 831F=1 seed=0001 score=[0, 0] ft=False key=team screen
+read 6: t=0.0 831F=1 seed=0001 score=[0, 0] ft=False key=team screen
+read 7: t=0.0 831F=1 seed=0001 score=[0, 0] ft=False key=team screen
+read 8: t=0.0 831F=1 seed=0001 score=[0, 0] ft=False key=team screen
+read 9: t=0.0 831F=1 seed=0001 score=[0, 0] ft=False key=team screen
+read 10: t=0.0 831F=1 seed=0001 score=[0, 0] ft=False key=team screen
+read 11: t=0.0 831F=1 seed=0001 score=[0, 0] ft=False key=team screen
+read 12: t=0.001 831F=1 seed=0001 score=[0, 0] ft=False key=team screen
+read 13: t=0.001 831F=1 seed=0001 score=[0, 0] ft=False key=team screen
+key not acted on within 10 reads; aborting
+ok
+test_existing_path_refused_and_not_overwritten (test_model_replay_guards.TestTraceWriter.test_existing_path_refused_and_not_overwritten) ... ok
+test_fresh_path_dumps_incrementally (test_model_replay_guards.TestTraceWriter.test_fresh_path_dumps_incrementally) ... ok
+test_main_refuses_committed_trace_before_launch (test_model_replay_guards.TestTraceWriter.test_main_refuses_committed_trace_before_launch) ... ok
+test_two_writers_same_fresh_path_second_refused_first_intact (test_model_replay_guards.TestTraceWriter.test_two_writers_same_fresh_path_second_refused_first_intact) ... ok
+test_asset_already_present_with_another_sha256_stops_and_writes_no_manifest (test_publish_evidence.PublishEvidenceTest.test_asset_already_present_with_another_sha256_stops_and_writes_no_manifest) ... ok
+test_asset_already_present_with_the_same_sha256_is_not_uploaded_again (test_publish_evidence.PublishEvidenceTest.test_asset_already_present_with_the_same_sha256_is_not_uploaded_again) ... ok
+test_asset_read_back_after_upload_with_another_sha256_stops_and_writes_no_manifest (test_publish_evidence.PublishEvidenceTest.test_asset_read_back_after_upload_with_another_sha256_stops_and_writes_no_manifest) ... ok
+test_download_failing_after_upload_stops_and_writes_no_manifest (test_publish_evidence.PublishEvidenceTest.test_download_failing_after_upload_stops_and_writes_no_manifest) ... ok
+test_existing_manifest_with_other_content_is_never_overwritten (test_publish_evidence.PublishEvidenceTest.test_existing_manifest_with_other_content_is_never_overwritten) ... ok
+test_missing_file_and_missing_run_record_stop_with_an_error (test_publish_evidence.PublishEvidenceTest.test_missing_file_and_missing_run_record_stop_with_an_error) ... ok
+test_publish_creates_the_release_uploads_and_writes_the_manifest_last (test_publish_evidence.PublishEvidenceTest.test_publish_creates_the_release_uploads_and_writes_the_manifest_last) ... ok
+test_rerunning_the_same_command_changes_nothing (test_publish_evidence.PublishEvidenceTest.test_rerunning_the_same_command_changes_nothing) ... ok
+test_check_rehashes_a_copy_against_a_known_json_entry (test_register_artifact.RegisterArtifactTest.test_check_rehashes_a_copy_against_a_known_json_entry) ... ok
+test_manifest_registers_a_directory_and_runtime_writes_leave_files (test_register_artifact.RegisterArtifactTest.test_manifest_registers_a_directory_and_runtime_writes_leave_files) ... ok
+test_manifest_the_schema_rejects_exits_1 (test_register_artifact.RegisterArtifactTest.test_manifest_the_schema_rejects_exits_1) ... ok
+test_no_subcommand_is_a_usage_error (test_register_artifact.RegisterArtifactTest.test_no_subcommand_is_a_usage_error) ... ok
+test_special_file_in_the_directory_fails_manifest (test_register_artifact.RegisterArtifactTest.test_special_file_in_the_directory_fails_manifest) ... ok
+test_symbolic_link_out_of_the_directory_fails_manifest (test_register_artifact.RegisterArtifactTest.test_symbolic_link_out_of_the_directory_fails_manifest) ... ok
+test_canonical_set_hash_is_exposed (test_validate_runs.ValidateRunsTest.test_canonical_set_hash_is_exposed) ... ok
+test_directory_validates_each_json_document (test_validate_runs.ValidateRunsTest.test_directory_validates_each_json_document) ... ok
+test_duplicate_json_key_is_invalid (test_validate_runs.ValidateRunsTest.test_duplicate_json_key_is_invalid) ... ok
+test_help_prints_usage_and_runs_directory_behaves_as_before (test_validate_runs.ValidateRunsTest.test_help_prints_usage_and_runs_directory_behaves_as_before) ... ok
+test_invalid_example_exits_1 (test_validate_runs.ValidateRunsTest.test_invalid_example_exits_1) ... ok
+test_missing_path_invalid_json_and_unknown_schema_exit_1 (test_validate_runs.ValidateRunsTest.test_missing_path_invalid_json_and_unknown_schema_exit_1) ... ok
+test_semantic_rule_is_applied (test_validate_runs.ValidateRunsTest.test_semantic_rule_is_applied) ... ok
+test_valid_evidence_manifest_exits_0 (test_validate_runs.ValidateRunsTest.test_valid_evidence_manifest_exits_0) ... ok
+test_valid_example_exits_0 (test_validate_runs.ValidateRunsTest.test_valid_example_exits_0) ... ok
+
+======================================================================
+ERROR: test_a_host_path_in_the_record_is_refused (test_driver_e008.Runner.test_a_host_path_in_the_record_is_refused)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T34/tests/test_driver_e008.py", line 298, in test_a_host_path_in_the_record_is_refused
+    self.go("unchanged", batch=host)      # ROOT not in the record: written
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T34/tests/test_driver_e008.py", line 260, in go
+    ok = run.Run(1, arm, args, "c0ffee").go()
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T34/experiments/E008-q005-r008-tactics/run.py", line 157, in go
+    return self.record(status, gone)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology-work/T34/experiments/E008-q005-r008-tactics/run.py", line 207, in record
+    raise SystemExit(f"{self.run_id}: a host path leaked into the record")
+SystemExit: E008-r0001: a host path leaked into the record
+
+----------------------------------------------------------------------
+Ran 647 tests in 142.643s
+
+FAILED (errors=1, skipped=2)
+discover-tests exit=1
+test_address_not_in_routines (test_annotations.CheckerTests.test_address_not_in_routines) ... ok
+test_basis_finding_without_file (test_annotations.CheckerTests.test_basis_finding_without_file) ... ok
+test_basis_not_a_finding_or_read (test_annotations.CheckerTests.test_basis_not_a_finding_or_read) ... ok
+test_basis_read_without_file (test_annotations.CheckerTests.test_basis_read_without_file) ... ok
+test_committed_annotations_pass (test_annotations.CheckerTests.test_committed_annotations_pass) ... ok
+test_confidence_outside_the_set (test_annotations.CheckerTests.test_confidence_outside_the_set) ... ok
+test_coverage_printed_per_segment (test_annotations.CheckerTests.test_coverage_printed_per_segment) ... ok
+test_duplicate_field_name (test_annotations.CheckerTests.test_duplicate_field_name) ... ok
+test_duplicate_global_address (test_annotations.CheckerTests.test_duplicate_global_address) ... ok
+test_duplicate_name (test_annotations.CheckerTests.test_duplicate_name) ... ok
+test_duplicate_routine_address (test_annotations.CheckerTests.test_duplicate_routine_address) ... ok
+test_empty_array (test_annotations.CheckerTests.test_empty_array) ... ok
+test_established_needs_a_finding (test_annotations.CheckerTests.test_established_needs_a_finding) ... ok
+test_field_of_unknown_record (test_annotations.CheckerTests.test_field_of_unknown_record) ... ok
+test_field_offset_not_hex (test_annotations.CheckerTests.test_field_offset_not_hex) ... ok
+test_field_past_record_end (test_annotations.CheckerTests.test_field_past_record_end) ... ok
+test_fields_overlap (test_annotations.CheckerTests.test_fields_overlap) ... ok
+test_generated_name_refused (test_annotations.CheckerTests.test_generated_name_refused) ... ok
+test_global_address_format (test_annotations.CheckerTests.test_global_address_format) ... ok
+test_global_and_routine_share_a_name (test_annotations.CheckerTests.test_global_and_routine_share_a_name) ... ok
+test_global_outside_data_segment (test_annotations.CheckerTests.test_global_outside_data_segment) ... ok
+test_invalid_identifier (test_annotations.CheckerTests.test_invalid_identifier) ... ok
+test_keyword_refused (test_annotations.CheckerTests.test_keyword_refused) ... ok
+test_missing_basis (test_annotations.CheckerTests.test_missing_basis) ... ok
+test_missing_file (test_annotations.CheckerTests.test_missing_file) ... ok
+test_record_defined_twice (test_annotations.CheckerTests.test_record_defined_twice) ... ok
+test_record_size_not_hex (test_annotations.CheckerTests.test_record_size_not_hex) ... ok
+test_run_time_library_routine_without_row (test_annotations.CheckerTests.test_run_time_library_routine_without_row) ... ok
+test_unknown_type (test_annotations.CheckerTests.test_unknown_type) ... ok
+test_wrong_header (test_annotations.CheckerTests.test_wrong_header) ... ok
+test_f018_fitness_energy_and_activity_settled (test_annotations.CommittedTests.test_f018_fitness_energy_and_activity_settled) ... ok
+test_f018_routines_are_finding_backed (test_annotations.CommittedTests.test_f018_routines_are_finding_backed) ... ok
+test_finding_cited_routines_named (test_annotations.CommittedTests.test_finding_cited_routines_named) ... ok
+test_finding_fields_named (test_annotations.CommittedTests.test_finding_fields_named) ... ok
+test_run_time_library_fully_labelled (test_annotations.CommittedTests.test_run_time_library_fully_labelled) ... ok
+test_f013_routines_named (test_annotations.F013Tests.test_f013_routines_named) ... ok
+test_pre_half_sequence_waits_and_resumes (test_annotations.F013Tests.test_pre_half_sequence_waits_and_resumes) ... ok
+test_run_one_half_runs_the_loop (test_annotations.F013Tests.test_run_one_half_runs_the_loop) ... ok
+test_the_raw_view_fails_the_same_checks (test_annotations.F013Tests.test_the_raw_view_fails_the_same_checks) ... ok
+test_tick_loop_calls_the_watched_callees_by_name (test_annotations.F013Tests.test_tick_loop_calls_the_watched_callees_by_name) ... ok
+test_country_rating_reads_fields_by_name (test_annotations.NamedViewTests.test_country_rating_reads_fields_by_name) ... ok
+test_pool_view_reads_pool_globals_by_name (test_annotations.NamedViewTests.test_pool_view_reads_pool_globals_by_name) ... ok
+test_render_names_headings_and_calls (test_annotations.NamedViewTests.test_render_names_headings_and_calls) ... ok
+test_set_player_tactics_reads_own_set_by_name (test_annotations.NamedViewTests.test_set_player_tactics_reads_own_set_by_name) ... ok
+test_set_team_tactics_stores_field_by_name (test_annotations.NamedViewTests.test_set_team_tactics_stores_field_by_name) ... ok
+test_the_raw_view_fails_the_same_checks (test_annotations.NamedViewTests.test_the_raw_view_fails_the_same_checks) ... ok
+test_each_heading_is_at_its_indexed_line (test_decompile.CommittedOutputTests.test_each_heading_is_at_its_indexed_line) ... ok
+test_files_stay_under_the_size_limit (test_decompile.CommittedOutputTests.test_files_stay_under_the_size_limit) ... ok
+test_flag_counter_sees_a_flag_read_only_after_a_call (test_decompile.CommittedOutputTests.test_flag_counter_sees_a_flag_read_only_after_a_call) ... ok
+test_flag_results_across_calls_are_counted_as_f009_says (test_decompile.CommittedOutputTests.test_flag_results_across_calls_are_counted_as_f009_says) ... ok
+test_index_covers_every_routine (test_decompile.CommittedOutputTests.test_index_covers_every_routine) ... ok
+test_ds_operands_land_in_the_data_segment (test_decompile.GhidraMappingTests.test_ds_operands_land_in_the_data_segment) ... ok
+test_far_calls_follow_the_remapped_relocations (test_decompile.GhidraMappingTests.test_far_calls_follow_the_remapped_relocations) ... ok
+test_known_routines_sit_at_their_listing_addresses (test_decompile.GhidraMappingTests.test_known_routines_sit_at_their_listing_addresses) ... ok
+test_near_call_with_a_wrapping_displacement_reaches_its_routine (test_decompile.GhidraMappingTests.test_near_call_with_a_wrapping_displacement_reaches_its_routine) ... ok
+test_near_calls_across_a_linear_64k_line_reach_their_routines (test_decompile.GhidraMappingTests.test_near_calls_across_a_linear_64k_line_reach_their_routines) ... ok
+test_relocated_segment_words_hold_the_mapped_segment (test_decompile.GhidraMappingTests.test_relocated_segment_words_hold_the_mapped_segment) ... ok
+test_a_segment_splits_into_parts_under_the_size_limit (test_decompile.RenderTests.test_a_segment_splits_into_parts_under_the_size_limit) ... ok
+test_files_index_and_failures (test_decompile.RenderTests.test_files_index_and_failures) ... ok
+test_any_other_unsuccessful_result_is_written_as_a_failure_at_once (test_decompile.RetryConditionTests.test_any_other_unsuccessful_result_is_written_as_a_failure_at_once) ... ok
+test_retry_happens_only_when_the_error_message_says_the_process_died (test_decompile.RetryConditionTests.test_retry_happens_only_when_the_error_message_says_the_process_died) ... ok
+test_code_labels_get_listing_numbering (test_decompile.RewriteTests.test_code_labels_get_listing_numbering) ... ok
+test_data_segment_names_become_ds_offsets (test_decompile.RewriteTests.test_data_segment_names_become_ds_offsets) ... ok
+test_linear_addresses_get_listing_numbering (test_decompile.RewriteTests.test_linear_addresses_get_listing_numbering) ... ok
+test_memory_outside_the_program_is_physical (test_decompile.RewriteTests.test_memory_outside_the_program_is_physical) ... ok
+test_other_text_is_left_alone (test_decompile.RewriteTests.test_other_text_is_left_alone) ... ok
+test_block_sizes_cover_the_file (test_goaldat.GoalDatTests.test_block_sizes_cover_the_file) ... ok
+test_each_claim_fails_when_its_property_is_broken (test_goaldat.GoalDatTests.test_each_claim_fails_when_its_property_is_broken) ... ok
+test_squad_run_split_is_reported_not_required (test_goaldat.GoalDatTests.test_squad_run_split_is_reported_not_required) ... ok
+test_synthetic_file_passes_every_structural_claim (test_goaldat.GoalDatTests.test_synthetic_file_passes_every_structural_claim) ... ok
+test_relocated_words_are_named_in_the_listing (test_listing.ListingTests.test_relocated_words_are_named_in_the_listing) ... ok
+test_rendering_marks_data_and_routines (test_listing.ListingTests.test_rendering_marks_data_and_routines) ... ok
+test_segments_entry_and_far_target (test_listing.ListingTests.test_segments_entry_and_far_target) ... ok
+test_without_the_relocation_table_the_far_call_is_not_followed (test_listing.ListingTests.test_without_the_relocation_table_the_far_call_is_not_followed) ... ok
+test_beside_it_strings_are_next_to_the_routine (test_map.MapTests.test_beside_it_strings_are_next_to_the_routine)
+'beside it' rows: the quoted strings are in the code segment just before the routine ... ok
+test_every_quoted_string_is_in_the_listing (test_map.MapTests.test_every_quoted_string_is_in_the_listing) ... ok
+test_every_routine_cited_exists (test_map.MapTests.test_every_routine_cited_exists)
+Any SSSS:OOOO in backticks is a routine start, or the address of a listed string. ... ok
+test_every_row_is_marked (test_map.MapTests.test_every_row_is_marked) ... ok
+test_first_cell_data_addresses_are_listed_strings (test_map.MapTests.test_first_cell_data_addresses_are_listed_strings) ... ok
+test_loader_sizes_add_up_to_the_file (test_map.MapTests.test_loader_sizes_add_up_to_the_file) ... ok
+test_there_are_rows (test_map.MapTests.test_there_are_rows) ... ok
+test_unit_table_matches_routines_tsv (test_map.MapTests.test_unit_table_matches_routines_tsv) ... ok
+test_known_hashes (test_unlzexe.ReleasedFileTests.test_known_hashes) ... ok
+test_a_test_that_ignores_the_relocation_table_fails (test_unlzexe.UnlzexeTests.test_a_test_that_ignores_the_relocation_table_fails)
+If the unpacker dropped the table, check_relocations (used above) must fail. ... ok
+test_command_line (test_unlzexe.UnlzexeTests.test_command_line) ... ok
+test_deterministic (test_unlzexe.UnlzexeTests.test_deterministic) ... ok
+test_entry_point_and_stack_come_from_the_stub (test_unlzexe.UnlzexeTests.test_entry_point_and_stack_come_from_the_stub) ... ok
+test_minalloc_is_packed_minalloc_less_growth (test_unlzexe.UnlzexeTests.test_minalloc_is_packed_minalloc_less_growth) ... ok
+test_rejects_a_truncated_stream (test_unlzexe.UnlzexeTests.test_rejects_a_truncated_stream) ... ok
+test_rejects_other_files (test_unlzexe.UnlzexeTests.test_rejects_other_files) ... ok
+test_relocated_words_follow_the_load_segment (test_unlzexe.UnlzexeTests.test_relocated_words_follow_the_load_segment)
+What a loader does with the table: add the load segment to each target word. ... ok
+test_relocation_table_is_decoded_exactly (test_unlzexe.UnlzexeTests.test_relocation_table_is_decoded_exactly) ... ok
+test_round_trip (test_unlzexe.UnlzexeTests.test_round_trip) ... ok
+test_segment_change_marker_is_a_noop (test_unlzexe.UnlzexeTests.test_segment_change_marker_is_a_noop) ... ok
+test_the_fixture_uses_every_token_form (test_unlzexe.UnlzexeTests.test_the_fixture_uses_every_token_form)
+Otherwise a decoder that mishandles a form would still pass the round trip. ... ok
+
+----------------------------------------------------------------------
+Ran 95 tests in 16.420s
+
+OK
+discover-static exit=0
+links and JSON ok (1032 files)
+check_links exit=0

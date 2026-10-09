@@ -20,18 +20,31 @@ One command starts everything (from a graphical session, so the game window open
 display):
 
 ```
-bash runtime/human/play.sh [--video] [--quit-after SECS]
+bash runtime/human/play.sh [--video] [--quit-after SECS] [--res WIDTHxHEIGHT]
 ```
 
 The recorder's `--countries` argument does not exist; country selection is an extraction
 parameter (rework round 2 R15: `--countries 1,4` is passed to `extract.py`, not to `play.sh`).
-A windowed DOSBox-X appears, booted from a per-session copy of the verified release. From then
+A Xephyr window contains DOSBox-X on a private nested display, booted from a per-session copy of the verified release. From then
 on you simply play. The watcher (invisible) sends the savestate host key **directly to the game
-window** (`xdotool key --window`, never a global keystroke — your terminal can keep the focus the
-whole time) and stages a timestamped snapshot every 20 s, hashed into the session's index. The
+window** (explicit XSendEvent, never a global keystroke — your terminal can keep the focus the
+whole time) and stages a timestamped snapshot every 20 s and 0.05 s after each settled key
+episode (the scheduling quiet `EVENT_SETTLE_S`; the 0.5 s `BURST_QUIET_S` remains the grouping
+quiet the map reads), hashed into the session's index. The
 session folder is `scratch/human/sessions/<date-time>/` (git-ignored: the savestates and the
 video never enter the repository; only the extracted record does). The sitting is silent: the
 config family is the G1 driver's, with `nosound=true`.
+
+The logger listens only on that nested display. It writes press/release events,
+UTC and monotonic timestamps, keycodes and base keysyms to `keys.jsonl`, flushed
+per line; it never attaches to the outer desktop. The key log stays out of git.
+The burst intervals are [designed], not measured game timings: T29's timings and
+the T34 brief were searched, and neither specified a human typing interval. The
+grouping quiet (0.5 s) groups keys into bursts; the scheduling quiet (0.05 s,
+~4x the measured 12 ms press-release lag) is when the episode's save request
+goes out — later than that and the ~0.08 s request window cannot fit between
+keys spaced just over the grouping quiet (measured 0.525-0.529 s in the
+20261009-142948 session).
 
 What makes the sitting maximally informative (each row of the map below is fed by one of these):
 
@@ -77,6 +90,17 @@ the chain carries — pass the ones you manage, their numbers as GOAL shows them
 and `--machine`. The record lands in `runs/E015/`, never overwriting an earlier one
 (`O_CREAT|O_EXCL`, rework round 2 R2).
 
+The key map identifies screens by SHA256 of their UTF-8 decoded text, not their
+attributes, and associates each ordered key burst with the nearest preceding
+snapshot and first snapshot after the quiet interval. It does not assert that
+each individual key caused the eventual screen. Missing bracketing snapshots
+are counted as unmapped presses. `extract.py` carries the map as a JSON
+observation in the sitting's one run/1 record (T34 review R5: there is no
+separate map-writing step; `keymap.py <session>` merely prints the summary and
+table again from the session). A readable `<run-id>-keymap.md` table sits beside
+this protocol, written from `keymap.py`'s output. Raw events
+may be included with `--scripted-keys` only for scripted acceptance sittings.
+
 ## The living coverage map
 
 The owner plays unscripted, and the map below is how the project's main session reports what one
@@ -111,6 +135,9 @@ Coverage statuses (the project-recognised vocabulary):
 | Exact commentary identity | consecutive `ui-text` screens of a watched match at moderate speed | #40 | needs-play | — |
 | Board / confidence / morale | `ui-text` of the states where the board/news screens were up | Q016, Q017 | needs-play | — |
 | Bot's World Cup path | stage `[A923]+0x3C`, fixture index/count `[A923]+0x26/+0x28` across a cycle's chain (E014 notes, T28, PR #91) | bot input | needs-play | — |
+| Scripted opening-screen key burst | shell/mount text → title text after `a`; nearest snapshots bracket the burst, not proof that `a` caused the boot transition | T34 recorder/map acceptance | covered-by-a-named-session | E015-r0004, E015-r0005, E015-r0006; their `<run-id>-keymap.md` tables |
+| Scripted title-screen key burst | title text → same title text after `b`/`c`; burst captures per key group (0.5–1.5 s human-paced gaps), all press/release events recorded, outer-app `x/y/z` absent while xev and an outer raw reader prove they were really typed | T34 recorder privacy and timing | covered-by-a-named-session | E015-r0004, E015-r0005, E015-r0006 |
+| Screen-flow controls during normal play | `C`, `N`, `Insert`, and recovery keys on the relevant screens; the scripted acceptance keys do not visit those screens | T34 screen/key map; T28 EA09 stall | needs-play | — |
 
 After a sitting, the main session appends a row per knowledge item the chain covered, with the
 session's run id (e.g. `covered-by-a-named-session — E015-r0001` for the items the first sitting

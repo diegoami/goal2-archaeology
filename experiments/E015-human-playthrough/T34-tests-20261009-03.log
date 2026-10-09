@@ -1,0 +1,77 @@
+test_burst_waits_for_quiet_and_only_consumes_once (tests.test_human_keys.KeyTests.test_burst_waits_for_quiet_and_only_consumes_once) ... ok
+test_logger_rejects_outer_display (tests.test_human_keys.KeyTests.test_logger_rejects_outer_display) ... ok
+test_loop_takes_burst_snapshot_between_cadence_ticks (tests.test_human_keys.KeyTests.test_loop_takes_burst_snapshot_between_cadence_ticks) ... ok
+test_private_display_logs_game_keys_not_outer_app_keys (tests.test_human_keys.KeyTests.test_private_display_logs_game_keys_not_outer_app_keys) ... XGetInputFocus returned the focused window of 1. This is likely a bug in the X server.
+XGetInputFocus returned the focused window of 1. This is likely a bug in the X server.
+XGetInputFocus returned the focused window of 1. This is likely a bug in the X server.
+XGetInputFocus returned the focused window of 1. This is likely a bug in the X server.
+XGetInputFocus returned the focused window of 1. This is likely a bug in the X server.
+XGetInputFocus returned the focused window of 1. This is likely a bug in the X server.
+ok
+test_raw_events_only_and_key_fields (tests.test_human_keys.KeyTests.test_raw_events_only_and_key_fields) ... ok
+test_literal_session_map (tests.test_human_keys.MapTests.test_literal_session_map) ... ok
+test_self_test_requires_nested_tools (tests.test_human_keys.NestedDisplayTests.test_self_test_requires_nested_tools) ... missing: Xephyr; xinput
+ok
+test_try_start_skips_busy_number_and_changes_only_child_display (tests.test_human_keys.NestedDisplayTests.test_try_start_skips_busy_number_and_changes_only_child_display) ... ok
+test_ticks_at_the_cadence_from_zero (tests.test_human_record.Cadence.test_ticks_at_the_cadence_from_zero) ... ok
+test_dead_emulator_during_snapshot_ends_the_loop (tests.test_human_record.CleanTermination.test_dead_emulator_during_snapshot_ends_the_loop) ... ok
+test_dead_emulator_raises_a_named_exception_inside_capture (tests.test_human_record.CleanTermination.test_dead_emulator_raises_a_named_exception_inside_capture) ... ok
+test_named_offsets_match_extract (tests.test_human_record.ConstantsPin.test_named_offsets_match_extract) ... ok
+test_offset_constants_match_the_static_source (tests.test_human_record.ConstantsPin.test_offset_constants_match_the_static_source) ... ok
+test_video_cmd_includes_flush_packets_1 (tests.test_human_record.ConstantsPin.test_video_cmd_includes_flush_packets_1) ... ok
+test_a_broken_snapshot_is_skipped_and_the_chain_still_yields_a_record (tests.test_human_record.Extraction.test_a_broken_snapshot_is_skipped_and_the_chain_still_yields_a_record) ... ok
+test_a_record_is_never_overwritten (tests.test_human_record.Extraction.test_a_record_is_never_overwritten) ... ok
+test_a_single_state_session_has_no_diffs (tests.test_human_record.Extraction.test_a_single_state_session_has_no_diffs) ... ok
+test_hand_checked_chain_gives_the_hand_checked_diffs (tests.test_human_record.Extraction.test_hand_checked_chain_gives_the_hand_checked_diffs) ... ok
+test_the_index_can_be_lost_the_snapshots_folder_still_walks (tests.test_human_record.Extraction.test_the_index_can_be_lost_the_snapshots_folder_still_walks) ... ok
+test_the_offset_of_the_state_tuple_is_the_readers_own (tests.test_human_record.Extraction.test_the_offset_of_the_state_tuple_is_the_readers_own) ... ok
+test_the_record_is_a_valid_run_1_document (tests.test_human_record.Extraction.test_the_record_is_a_valid_run_1_document) ... ok
+test_keys_go_to_the_game_window_and_nowhere_else (tests.test_human_record.FocusGate.test_keys_go_to_the_game_window_and_nowhere_else) ... ok
+test_the_loop_never_sends_a_global_keystroke (tests.test_human_record.FocusGate.test_the_loop_never_sends_a_global_keystroke) ... ok
+test_unchanged_live_file_is_not_staged (tests.test_human_record.FreshWriteGate.test_unchanged_live_file_is_not_staged) ... ok
+test_a_rewrite_invisible_to_coarse_timestamps_is_caught_by_the_second_read (tests.test_human_record.LiveFileReads.test_a_rewrite_invisible_to_coarse_timestamps_is_caught_by_the_second_read) ... ok
+test_a_same_size_rewrite_during_capture_is_never_staged (tests.test_human_record.LiveFileReads.test_a_same_size_rewrite_during_capture_is_never_staged) ... ok
+test_a_write_that_begins_during_the_reads_is_never_staged (tests.test_human_record.LiveFileReads.test_a_write_that_begins_during_the_reads_is_never_staged) ... ok
+test_a_writer_check_that_cannot_be_made_stages_nothing (tests.test_human_record.LiveFileReads.test_a_writer_check_that_cannot_be_made_stages_nothing) ... ok
+test_a_writer_paused_mid_write_is_never_staged (tests.test_human_record.LiveFileReads.test_a_writer_paused_mid_write_is_never_staged) ... ok
+test_a_writer_still_rewriting_in_place_is_never_staged (tests.test_human_record.LiveFileReads.test_a_writer_still_rewriting_in_place_is_never_staged) ... ok
+test_an_event_queue_overflow_counts_as_an_open_session (tests.test_human_record.LiveFileReads.test_an_event_queue_overflow_counts_as_an_open_session) ... ok
+test_bytes_read_while_a_write_was_in_progress_are_never_staged (tests.test_human_record.LiveFileReads.test_bytes_read_while_a_write_was_in_progress_are_never_staged) ... ok
+test_no_content_read_of_the_live_file_before_the_key_is_sent (tests.test_human_record.LiveFileReads.test_no_content_read_of_the_live_file_before_the_key_is_sent) ... ok
+test_one_deadline_bounds_a_capture_that_keeps_racing (tests.test_human_record.LiveFileReads.test_one_deadline_bounds_a_capture_that_keeps_racing) ... ok
+test_the_shutdown_pass_never_stages_a_file_still_being_written (tests.test_human_record.LiveFileReads.test_the_shutdown_pass_never_stages_a_file_still_being_written) ... ok
+test_write_watch_follows_the_kernels_write_sessions (tests.test_human_record.LiveFileReads.test_write_watch_follows_the_kernels_write_sessions) ... ok
+test_a_taken_slot_is_skipped_and_the_id_matches_the_file (tests.test_human_record.RecordIdentity.test_a_taken_slot_is_skipped_and_the_id_matches_the_file) ... ok
+test_zip_complete_accepts_only_whole_savestates (tests.test_human_record.SavestateGate.test_zip_complete_accepts_only_whole_savestates) ... ok
+test_zip_is_complete_validates_bytes_not_the_live_file (tests.test_human_record.SavestateGate.test_zip_is_complete_validates_bytes_not_the_live_file) ... ok
+test_self_test_reports_missing_tools (tests.test_human_record.SelfTest.test_self_test_reports_missing_tools) ... ok
+test_self_test_verifies_writes_a_config_and_never_launches (tests.test_human_record.SelfTest.test_self_test_verifies_writes_a_config_and_never_launches) ... ok
+test_shutdown_stage_waits_for_size_stability (tests.test_human_record.ShutdownStageGate.test_shutdown_stage_waits_for_size_stability) ... ok
+test_an_incomplete_zip_is_never_staged (tests.test_human_record.StagingGate.test_an_incomplete_zip_is_never_staged) ... ok
+test_only_a_complete_and_size_stable_savestate_is_staged (tests.test_human_record.StagingGate.test_only_a_complete_and_size_stable_savestate_is_staged) ... ok
+test_the_shutdown_pass_stages_the_owners_last_savestate_once (tests.test_human_record.StagingGate.test_the_shutdown_pass_stages_the_owners_last_savestate_once) ... ok
+test_stable_polls_boundary_growing_file_does_not_stage (tests.test_human_record.ThresholdBoundaries.test_stable_polls_boundary_growing_file_does_not_stage) ... ok
+test_stable_polls_constant_value (tests.test_human_record.ThresholdBoundaries.test_stable_polls_constant_value) ... ok
+test_video_stall_constant_value (tests.test_human_record.ThresholdBoundaries.test_video_stall_constant_value) ... ok
+test_video_term_grace_boundary_sigkill_at_exact_grace (tests.test_human_record.ThresholdBoundaries.test_video_term_grace_boundary_sigkill_at_exact_grace) ... ok
+test_video_term_grace_constant_value (tests.test_human_record.ThresholdBoundaries.test_video_term_grace_constant_value) ... ok
+test_a_null_country_array_pointer_emits_no_country_data (tests.test_human_record.Unavailable.test_a_null_country_array_pointer_emits_no_country_data) ... ok
+test_a_null_game_state_pointer_emits_no_game_state (tests.test_human_record.Unavailable.test_a_null_game_state_pointer_emits_no_game_state) ... ok
+test_a_null_player_array_pointer_emits_no_country_or_player_data (tests.test_human_record.Unavailable.test_a_null_player_array_pointer_emits_no_country_or_player_data) ... ok
+test_a_partial_state_keeps_its_screen_diff_and_says_what_was_not_compared (tests.test_human_record.Unavailable.test_a_partial_state_keeps_its_screen_diff_and_says_what_was_not_compared) ... ok
+test_an_empty_video_is_reported_not_silent (tests.test_human_record.VideoCmd.test_an_empty_video_is_reported_not_silent) ... ok
+test_the_video_is_matroska_of_the_window_region (tests.test_human_record.VideoCmd.test_the_video_is_matroska_of_the_window_region) ... ok
+test_poll_growth_flags_stalled_when_size_does_not_change (tests.test_human_record.VideoMonitoring.test_poll_growth_flags_stalled_when_size_does_not_change) ... ok
+test_poll_growth_with_no_size_change_past_stall_threshold (tests.test_human_record.VideoMonitoring.test_poll_growth_with_no_size_change_past_stall_threshold) ... ok
+test_video_stop_sends_sigkill_after_exact_grace (tests.test_human_record.VideoMonitoring.test_video_stop_sends_sigkill_after_exact_grace) ... ok
+test_window_bind_fails_closed_when_no_pid_matches (tests.test_human_record.WindowBind.test_window_bind_fails_closed_when_no_pid_matches) ... ok
+test_window_is_selected_by_pid_not_class (tests.test_human_record.WindowBind.test_window_is_selected_by_pid_not_class) ... ok
+
+----------------------------------------------------------------------
+Ran 61 tests in 5.754s
+
+OK
+release    /home/diego/projects/goal2-archaeology-work/T34/.cache/goal2 matches artifacts/known.json set fixture
+dosbox-x   2024.03.01
+xdotool    present
+stdbuf     present

@@ -169,7 +169,8 @@ def write_session(session, chain, with_index=True, with_meta=True):
         (session / "snapshots" / name).write_bytes(data)
         index.append({"seq": n, "file": f"snapshots/{name}", "bytes": len(data),
                       "sha256": hashlib.sha256(data).hexdigest(),
-                      "utc": f"2026-10-07T17:00:0{n}.000Z", "elapsed_s": n * 20.0, "origin": "watcher"})
+                      "utc": f"2026-10-07T17:00:0{n}.000Z", "elapsed_s": n * 20.0, "origin": "watcher",
+                      "request_s": n * 20.0 - 0.75, "sent_s": n * 20.0 - 0.72})
     if with_index:
         (session / "index.jsonl").write_text("".join(json.dumps(e) + "\n" for e in index))
     if with_meta:
@@ -264,6 +265,19 @@ class Extraction(Base):
         self.assertEqual(rec["run_id"], "E015-r0001")
         self.assertEqual(rec["experiment"], "E015")
         self.assertEqual(rec["status"], "completed")
+
+    def test_the_record_names_no_home_directory(self):
+        # T34 R9: the session path and the shell's `mount c <path>` echo carry the owner's home
+        home = str(Path.home())
+        session = self.workdir("host-free")
+        self.assertTrue(str(session).startswith(home + "/"))
+        shell = {0: f"Z:\\>mount c {home}/goal2/game", 1: "Z:\\>goal"}
+        write_session(session, [(shell,) + CHAIN[0][1:]] + CHAIN[1:])
+        runs = self.workdir("host-free-runs")
+        rec, path, _ = self.extract(session, runs)
+        self.assertNotIn(home, path.read_text())
+        self.assertIn("Z:\\\\>mount c ~/goal2/game", path.read_text())
+        self.assertEqual(extract.host_free(home + "/x"), "~/x")
 
     def test_a_record_is_never_overwritten(self):
         session = self.workdir("imm")
@@ -473,6 +487,80 @@ class Cadence(Base):
         entries = w.run(quit_after=45.0)
         self.assertEqual([e["elapsed_s"] for e in entries], [0.5, 20.5, 40.5])
         self.assertEqual([e["seq"] for e in entries], [1, 2, 3])
+
+    def test_each_entry_carries_its_save_request_window_not_its_staging_time(self):
+        # T34 R1: the screen is taken when the key is handled, ~0.75 s before staging here
+        session = self.workdir("request-window")
+        (session / "snapshots").mkdir(parents=True)
+        live = session / "state.sav"
+        live.write_bytes(tiny_zip(b"vga-0"))
+        clock = FakeClock()
+        writes = key_writes(live)
+
+        def slow_send(argv):           # the send itself takes 0.03 s of the clock
+            clock.t += 0.03
+            writes(argv)
+        w = recorder.Watcher(session, live, "77", FakeDbx(), {"DISPLAY": ":0"}, clock=clock,
+                             sleep=clock.sleep, xrun=slow_send, alive=lambda: True,
+                             log=lambda m: None)
+        entries = w.run(quit_after=25.0)
+        self.assertEqual([(e["request_s"], e["sent_s"], e["elapsed_s"]) for e in entries],
+                         [(0.0, 0.03, 0.53), (20.0, 20.03, 20.53)])
+        lines = [json.loads(x) for x in (session / "requests.jsonl").read_text().splitlines()]
+        self.assertEqual(lines, [{"request_s": 0.0, "sent_s": 0.03, "origin": "watcher", "seq": 1},
+                                 {"request_s": 20.0, "sent_s": 20.03, "origin": "watcher", "seq": 2}])
+
+    def test_a_skipped_snapshot_is_a_request_with_no_entry(self):
+        # T34 R2: the map must know a burst's snapshot is missing
+        session = self.workdir("request-skipped")
+        (session / "snapshots").mkdir(parents=True)
+        live = session / "state.sav"
+        live.write_bytes(tiny_zip(b"vga-0"))
+        clock = FakeClock()
+        w = recorder.Watcher(session, live, "77", FakeDbx(), {"DISPLAY": ":0"}, clock=clock,
+                             sleep=clock.sleep, xrun=lambda a: None, alive=lambda: True,
+                             log=lambda m: None)
+        self.assertIsNone(w.tick(origin="burst"))
+        line = json.loads((session / "requests.jsonl").read_text())
+        self.assertEqual((line["request_s"], line["origin"], line["seq"]), (0.0, "burst", None))
+        self.assertFalse((session / "index.jsonl").exists())
+
+    def test_a_resend_widens_the_window_to_the_last_send(self):
+        session = self.workdir("request-resend")
+        (session / "snapshots").mkdir(parents=True)
+        live = session / "state.sav"
+        live.write_bytes(tiny_zip(b"vga-0"))
+        clock = FakeClock()
+        writes, sends = key_writes(live), [0]
+
+        def lost_first(argv):          # the first F12+S is lost; the resend writes
+            sends[0] += 1
+            if sends[0] > 1:
+                writes(argv)
+        w = recorder.Watcher(session, live, "77", FakeDbx(), {"DISPLAY": ":0"}, clock=clock,
+                             sleep=clock.sleep, xrun=lost_first, alive=lambda: True,
+                             log=lambda m: None)
+        entry = w.tick()
+        self.assertEqual(sends[0], 2)
+        self.assertEqual(entry["request_s"], 0.0)
+        self.assertGreater(entry["sent_s"], recorder.RESEND_AFTER_S)
+        self.assertLess(entry["sent_s"], entry["elapsed_s"])
+
+    def test_the_shutdown_window_opens_at_the_last_staged_request(self):
+        session = self.workdir("request-shutdown")
+        (session / "snapshots").mkdir(parents=True)
+        live = session / "state.sav"
+        live.write_bytes(tiny_zip(b"vga-0"))
+        clock = FakeClock()
+        w = recorder.Watcher(session, live, "77", FakeDbx(), {"DISPLAY": ":0"}, clock=clock,
+                             sleep=clock.sleep, xrun=key_writes(live), alive=lambda: True,
+                             log=lambda m: None)
+        first = w.tick()
+        clock.t = 30.0
+        live.write_bytes(tiny_zip(b"owner-pressed-f12-s"))
+        last = w.shutdown_stage({first["sha256"]})
+        self.assertEqual(last["request_s"], first["request_s"])
+        self.assertGreaterEqual(last["sent_s"], 30.0)
 
 
 class StagingGate(Base):

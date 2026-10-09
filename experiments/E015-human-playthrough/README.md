@@ -63,3 +63,121 @@ record stays where it is and a later record supersedes it:
 | `E015-r0001` | round 1 (before review) | `E015-r0003`: it reads interrupt-vector bytes as the game state when `[A923]` is 0000:0000, and puts country records one record off (review round 1, R8 and R9) |
 | `E015-r0002` | round 2 | `E015-r0003`: its `run_id` reads `E015-r0001` because it was extracted into a scratch directory and copied in (review round 2, R5) |
 | `E015-r0003` | round 3 (`claim_record`: the id is the slot claimed) | — |
+
+## T34 recorder extension and scripted acceptance
+
+T34 (#105) extends the T29 recorder without changing the sitting's research
+question. The current invocation and design are in [protocol.md](protocol.md):
+DOSBox-X and an XInput2 raw-key logger share a private nested Xephyr display;
+other desktop applications are structurally outside it. The watcher saves every
+20 s and 0.05 s (`EVENT_SETTLE_S`) after each settled key episode, through the
+same single-writer capture gate.
+Its save keys now use explicit window-targeted XSendEvent rather than xdotool's
+raw input path, preventing recursive burst captures. Optional video covers the
+Xephyr window. This paragraph supersedes the original Runtime/Design wording
+above; the original experiment description is retained append-only.
+
+The map is a JSON observation in run/1, never a top-level property. Screen
+identity is SHA256 of decoded UTF-8 text, ignoring attributes; ordered bursts
+associate the nearest earlier snapshot with the first snapshot after quiet.
+Neither boot progress nor a multi-key burst proves individual-key causality.
+A snapshot's screen is bracketed by its save-request window
+(`request_s`..`sent_s` plus the 50 ms delivery margin measured in
+[T34-probe-20261009-05.log](T34-probe-20261009-05.log)), never by its staging
+time; a key inside that window is ambiguous and its burst unmapped.
+
+The key logger attaches to the nested display only and is started **before**
+DOSBox-X is launched (T34 review R6): the startup window between the logger and
+the emulator cannot swallow a key, because there is no such window — the only
+gap is before the logger itself, when nothing of the game exists yet.
+
+| Record | Scripted sitting | Map |
+| --- | --- | --- |
+| `E015-r0004` | `20261009-004935`, re-extracted with the schema-valid observation | [table](E015-r0004-keymap.md) |
+| `E015-r0005` | `20261009-010044`, fresh acceptance sitting | [table](E015-r0005-keymap.md) |
+| `E015-r0006` | `20261009-100804`, human-paced gaps (0.5–1.5 s) and the focused-XTEST privacy proof | [table](E015-r0006-keymap.md) |
+
+The first two sittings logged only game `a/b` press/release events, not `x/y/z` sent to an
+xev application window on the outer display, and staged two burst snapshots each.
+`E015-r0006`'s sitting (`scripted_keys.py --keys a;b;c` with gaps drawn from 0.5–1.5 s)
+adds the real-key half of the privacy proof: while the xev window held the outer focus,
+`y`/`z` were typed on the outer display as real XTEST keys — an outer raw reader saw them
+and xev received them, so a logger on the outer display would have leaked them, yet
+`keys.jsonl` holds only the game's `a`/`b`/`c`. Their savestates are published on release
+E015, indexed by the corresponding manifests in `evidence/E015/`.
+
+The earlier schema-invalid records were removed by the main session in c5000af
+before this extraction. Their original derived tables are retained unchanged as
+`T34-original-r0004-keymap.md`, `T34-original-r0005-keymap.md` and
+`T34-original-r0006-keymap.md`; those names do not refer to the new valid records.
+The first scripted failure and the successful earlier sitting remain in
+`T34-scripted-20261009-01.log` and `-02.log`; the fresh sitting is `-03.log`.
+
+### Method and regression proofs
+
+Static first: `static/goal-exe/named/seg_0791_11.c` already names the SELECT TEAM
+handler and its Insert assistant path. No new game handler claim or annotation
+is established here: static analysis cannot prove host display isolation,
+logger delivery or snapshot scheduling. The scripted runs test those tooling
+properties, not the unvisited `C/N/Insert` controls. Coverage is limited to the
+rows explicitly added in the protocol.
+
+`T34-tests-20261009-04.log` records 62 passing combined recorder/map tests.
+`mutate_keys.py` makes one mutation at a time **in place**, tests, then restores
+the source in a `finally` block. The `-03` mutation log retains the first sweep,
+including its survivors. The new boundary/order/count fixture fails with those
+surviving rules removed and passes with them restored, as `-04` shows: all 20
+selected mutations fail. These include display restriction and burst removal,
+both quiet constants at +1 and -1, text identity, headline, invalid-snapshot
+filtering, sample/event ordering, grouping, release filtering, before/after
+choice and boundaries, missing-bracket counts, repeated-transition counts and
+press counts. No mutated source is committed.
+
+The `-05` sweep re-runs the whole current mutation list against the reworked
+sources: the R1 request-window rules, the R2 gap and skipped-request rules, the
+R3 privacy mutations (the focused-XTEST one is killed only by the real-key
+`y`/`z` path, the XSendEvent keys alone generate no raw events to leak), the R4
+window-bind rules, the constants, the R8 save-event rule and the R9 host-path
+rule. `T34-mutations-20261009-05.log` is its record. The delivery latency the
+50 ms margin bounds was measured by the probe kept as
+[T34-probe-20261009-05.log](T34-probe-20261009-05.log) (a probe log, not a
+finding).
+
+The `-07` sweep (Sol delta rework) fixes the two scheduler/guard defects the
+delta found at human pace and extends the sweep to 52 mutations, all killed
+(`T34-mutations-20261009-07.log`, survivors `[]`). The recorder's burst
+scheduler is now a queue of key groups — each group separated by at least
+`BURST_QUIET_S` gets its own burst snapshot, one per loop pass, instead of the
+four snapshots ten groups produced when one `Burst.last` was overwritten during
+a capture. The acceptance guard (`scripted_keys.check_bursts`) now requires
+exactly one distinct, correctly timed burst snapshot per key group, not "any
+later snapshot", and the privacy proof's positive control is explicit: the
+foreign application's own `xev` log is parsed (`recorder.xev_presses`) and its
+`x`/`y`/`z` asserted, written as `foreign-keys.jsonl` beside the session. The
+three new mutations remove the focused-XTEST foreign sends (R1), merge every
+key back into one group (R2), and let the guard accept fewer snapshots (R3).
+The end-to-end scripted sitting (10 keys at 0.51 s → 10 burst snapshots) is the
+manual acceptance; the same sitting runs once in the full suite as a regression
+test, skipped per-mutation by the sweep (`MUTATION_SWEEP=1`).
+
+## Sol delta r2 addendum (2026-10-09)
+
+The `-07` scheduler still sent each group's save request at its due time (last
+key + `BURST_QUIET_S`, 0.5 s) and staged it on the loop: at the delta review's
+reproduction (keys slept 0.51 s apart, 0.525-0.529 s on the wire) only 4 of 10
+presses mapped. Two facts make a due-time window impossible there: it is
+~0.08 s wide (send ~26 ms + 50 ms margin) and must fit between keys spaced
+0.527 s apart with 0.5 s of that already consumed by the quiet — it needs
+spacing >= ~0.58 s. The fix (commit `82c501d`): the request for each settled
+key episode goes out `EVENT_SETTLE_S` (0.05 s, ~4x the measured 12 ms
+press-release lag) after the episode's newest event, and staging runs on a
+capture pipeline off the loop, whose fast path takes the kernel's write-event
+count (inotify close past the pre-send count) as the write-completed evidence —
+the 0.75 s stability polls cannot fit between savestate writes 0.53 s apart;
+every other gate check is unchanged. `BURST_QUIET_S` (0.5 s) stays the grouping
+quiet the map reads. The acceptance guard now also verifies request-window
+timing per group (`check_request_windows`: never clustered after every group)
+and mapped coverage (`check_mapped`: every press mapped, else exit 1). The
+reproduction now reports `screens: 2, transitions: 10, keys: 10; every press
+mapped` (`T34-scripted-20261009-05.log`); three new mutations cover the r2 code
+(`T34-mutations-20261009-08.log`, survivors `[]`).
