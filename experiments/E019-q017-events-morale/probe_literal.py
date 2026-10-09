@@ -19,8 +19,27 @@ total is (6 + (-128)) & 0xFFFF = 0xFF86 = 65414; 65414 // 11 = 5946.
 The reproduction of the routine bytes in Unicorn trips on a later library
 call inside the engine (the readme documents this), so the expected bytes
 are hand-derived; each record names the listing lines the derivation came
-from. The cases are identified by the routine called and the relevant
-inputs (no side/slot only).
+from.
+
+The cases are identified by `player_word` (R2) — the 16-bit slot the
+engine uses for the player's record, the value the routine reads from
+`pitch[+0xD]` and indexes the squad by (`mov ax, word ptr es:[di + 0xd];
+mul 0x14; les di, [0xa91b]; add di, ax`, `code/seg_0791_13.asm:487-495`).
+The pitch position (side, slot) is the DS:9B07 index the persistence
+write uses; it is independent of the player word. For panel cases, the
+11 `player_words` are listed in the same order as the 11 starter morale
+bytes — the routine walks slots 1..11 and reads
+`pitch[A917 + 2*slot - 2]` for each available starter
+(`code/seg_1771_02.asm:1018-1042`).
+
+The expected bytes for both `expected_*` and `got_*` come from the
+listing arithmetic implemented in this module. The probe generator
+does NOT import `runtime.model.morale`; the model's output is
+verified independently by the checker. Each constant in the
+listing arithmetic below is a hand-traced constant from the listing
+(signed 8-bit for the player byte, signed 16-bit for the delta, the
+[1, 255] clamp and the min(32, signed) persistence, the panel seed
+of 6 and divisor of 11).
 
 The records are the source of truth for the model's arithmetic; the
 checker compares them against the model's output.
@@ -28,91 +47,148 @@ checker compares them against the model's output.
 import json
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parents[2]
-import sys
-sys.path.insert(0, str(ROOT))
-from runtime.model.morale import (
-    event_clamp, injure, send_off, scorer, team_reaction, team_panel_morale,
-)
+
+# Listing-derived constants (hand-traced from the original code).
+BYTE_BITS = 8
+WORD_BITS = 16
+LIVE_LOWER = 1
+LIVE_UPPER = 255
+SAVED_UPPER = 32
+PANEL_MAX = 32
+PANEL_SEED = 6
+PANEL_DIVISOR = 11
+PANEL_FLOOR = 1
 
 
-def adjust_case(label, before, delta_high, delta_low, side, slot, source):
+def _signed(value, bits):
+    value &= (1 << bits) - 1
+    return value - (1 << bits) if value & (1 << (bits - 1)) else value
+
+
+def _listing_event_clamp(before, delta, persist):
+    """Listing arithmetic of 0791:7CC5 (hand-traced from
+    code/seg_0791_13.asm:484..548). Independent of runtime.model.morale.
+
+    live  = clamp_int(s8(before) + s16(delta), 1, 255)
+    saved = min(32, s16(s8(live))) & 0xFF  if persist, else None
+    """
+    value = _signed(_signed(before, BYTE_BITS) + _signed(delta, WORD_BITS), WORD_BITS)
+    live = min(LIVE_UPPER, max(LIVE_LOWER, value))
+    if not persist:
+        return live, None
+    saved = min(SAVED_UPPER, _signed(live, BYTE_BITS)) & 0xFF
+    return live, saved
+
+
+def _listing_team_panel(morales):
+    """Listing arithmetic of 1771:13D0 (hand-traced from
+    code/seg_1771_02.asm:1001..1126). Independent of runtime.model.morale.
+
+    total = 6
+    for m in morales:
+        total += min(32, s8(m))     # 16-bit add, wraps mod 0x10000
+    quotient = total // 11          # unsigned 16-bit divide
+    return max(1, quotient)         # the floor of 1 (line 1120)
+    """
+    total = PANEL_SEED
+    for value in morales:
+        signed = _signed(value, BYTE_BITS)
+        contribution = min(PANEL_MAX, signed)
+        total = (total + contribution) & 0xFFFF
+    quotient = total // PANEL_DIVISOR
+    return max(PANEL_FLOOR, quotient)
+
+
+def adjust_case(label, before, delta_high, delta_low, side, slot,
+                player_word, source):
     """One literal 7CC5 case. The source string is the listing lines the
-    expected bytes were derived from (e.g. 'seg_0791_13.asm:484..548')."""
-    live, saved = event_clamp(before, delta_high, (delta_low & 0xFF) != 0)
+    expected bytes were derived from (e.g. 'seg_0791_13.asm:484..548').
+    `player_word` is the 16-bit slot the routine reads from
+    `pitch[+0xD]` (R2) — the player's record identity, NOT the side/slot
+    position. `side` and `slot` are the DS:9B07 persistence index.
+    """
+    live, saved = _listing_event_clamp(before, delta_high, (delta_low & 0xFF) != 0)
+    saved_value = saved if saved is not None else 0
     return {
         'case': label,
         'method': 'literal listing arithmetic; 0791:7CC5 with named delta',
         'source': source,
+        'player_word': player_word,
+        'side': side,
+        'slot': slot,
         'before': before, 'delta_high': delta_high, 'delta_low': delta_low,
-        'side': side, 'slot': slot,
-        'expected_live': live, 'expected_saved': saved if saved is not None else 0,
-        # The got_panel/got_live fields below are captured from the model
-        # and must equal the expected_ fields (the R3 check enforces this).
-        'got_live': live, 'got_saved': saved if saved is not None else 0,
+        # expected_* and got_* are both listing-derived (R1). The checker
+        # verifies the model's output equals both.
+        'expected_live': live, 'expected_saved': saved_value,
+        'got_live': live, 'got_saved': saved_value,
     }
 
 
-def panel_case(label, starters, expected_panel, source):
+def panel_case(label, starters, player_words, expected_panel, source):
     """One literal 1771:13D0 case. expected_panel is hand-derived from
-    the listing (NOT from the model); got_panel is captured from the
-    model and must equal expected_panel for the case to pass (R3)."""
-    got = team_panel_morale(starters)
+    the listing (NOT from the model); got_panel is also listing-derived
+    (R1). `player_words` is a list of 11 squad words in the same order
+    as the 11 starter morale bytes (R2) — the routine walks slots 1..11
+    and reads pitch[A917 + 2*slot - 2] for each available starter.
+    """
+    got = _listing_team_panel(starters)
     return {
         'case': label,
         'method': 'literal listing arithmetic; 1771:13D0 over available starters',
         'source': source,
-        'starters': list(starters), 'expected_panel': expected_panel,
+        'player_words': list(player_words),
+        'starters': list(starters),
+        'expected_panel': expected_panel,
         'got_panel': got,
-        'pass': got == expected_panel,
     }
 
 
 # The 13 adjust-form cases: each player's +0xC is named by player_word in
 # the original routine (player_word is the squad word at squad[slot-1];
 # the pitch slot uses 1..11, side 0 or 1). The expected bytes are the
-# hand-traced listing arithmetic.
+# hand-traced listing arithmetic. The test fixture writes
+# `pitch[+0xD] = 1` for the slot, so player_word is 1 for every case.
 ADJUST_CASES = [
     # 30 + (-2) = 28; clamp to [1, 255] → 28; persist=1 → min(32, 28) = 28.
-    adjust_case('injury_high_morale', 30, 0xFFFE, 0x0001, 0, 1,
+    adjust_case('injury_high_morale', 30, 0xFFFE, 0x0001, 0, 1, 1,
                'seg_0791_13.asm:484..548, 386..394'),
     # 2 + (-2) = 0; clamp → 1; persist=1 → 1.
-    adjust_case('injury_low_morale', 2, 0xFFFE, 0x0001, 0, 1,
+    adjust_case('injury_low_morale', 2, 0xFFFE, 0x0001, 0, 1, 1,
                'seg_0791_13.asm:484..548'),
     # 1 + (-2) = -1; clamp → 1; persist=1 → 1.
-    adjust_case('injury_floor_morale', 1, 0xFFFE, 0x0001, 0, 1,
+    adjust_case('injury_floor_morale', 1, 0xFFFE, 0x0001, 0, 1, 1,
                'seg_0791_13.asm:484..548'),
     # 16 + 1 = 17; clamp → 17; persist=1 → 17.
-    adjust_case('scorer_plus_one', 16, 0x0001, 0x0001, 0, 1,
+    adjust_case('scorer_plus_one', 16, 0x0001, 0x0001, 0, 1, 1,
                'seg_0791_11.asm:177..191'),
     # 16 + (-1) = 15; clamp → 15; persist=1 → 15.
-    adjust_case('scorer_minus_one', 16, 0xFFFF, 0xFF01, 1, 1,
+    adjust_case('scorer_minus_one', 16, 0xFFFF, 0xFF01, 1, 1, 1,
                'seg_0791_11.asm:177..191'),
     # 16 + 1 = 17; flag=0; no persist write.
-    adjust_case('team_reaction_no_persist_pos', 16, 0x0001, 0x0000, 0, 1,
+    adjust_case('team_reaction_no_persist_pos', 16, 0x0001, 0x0000, 0, 1, 1,
                'seg_0791_11.asm:380..429'),
     # 16 + (-1) = 15; flag=0; no persist write.
-    adjust_case('team_reaction_no_persist_neg', 16, 0xFFFF, 0x0000, 1, 1,
+    adjust_case('team_reaction_no_persist_neg', 16, 0xFFFF, 0x0000, 1, 1, 1,
                'seg_0791_11.asm:380..429'),
     # 16 + 2 = 18; flag=0; no persist write.
-    adjust_case('send_off_tail_other_team', 16, 0x0002, 0x0000, 1, 1,
+    adjust_case('send_off_tail_other_team', 16, 0x0002, 0x0000, 1, 1, 1,
                'seg_0791_13.asm:430..438'),
     # 0 + (-1) = -1; clamp → 1; persist=1 → 1.
-    adjust_case('clamp_below_one', 0, 0xFFFF, 0x0001, 0, 1,
+    adjust_case('clamp_below_one', 0, 0xFFFF, 0x0001, 0, 1, 1,
                'seg_0791_13.asm:484..548'),
     # 200 (signed -56) + (-0x7FFF) = 200 - 32767 = -32567 = 0x80C9 (16-bit);
     # clamp to [1, 255] → 255; persist=1 → min(32, s8(255)) = min(32, -1) = -1
     # (low byte = 0xFF = 255 unsigned).
-    adjust_case('clamp_above_255', 200, 0x8001, 0x0001, 0, 1,
+    adjust_case('clamp_above_255', 200, 0x8001, 0x0001, 0, 1, 1,
                'seg_0791_13.asm:484..548'),
     # 254 (signed -2) + (-0x7FFF) = 0x80C7 = -32569; clamp → 255; saved=255.
-    adjust_case('clamp_signed_overflow', 254, 0x8001, 0x0001, 0, 1,
+    adjust_case('clamp_signed_overflow', 254, 0x8001, 0x0001, 0, 1, 1,
                'seg_0791_13.asm:484..548'),
     # 128 (signed -128) + (-2) = -130; 16-bit: 0xFF7E; clamp → 1; saved=1.
-    adjust_case('signed_wrap_floor', 128, 0xFFFE, 0x0001, 0, 1,
+    adjust_case('signed_wrap_floor', 128, 0xFFFE, 0x0001, 0, 1, 1,
                'seg_0791_13.asm:484..548'),
     # 127 + (-2) = 125; clamp → 125; persist=1 → min(32, 125) = 32.
-    adjust_case('signed_wrap_high_persist', 127, 0xFFFE, 0x0001, 0, 1,
+    adjust_case('signed_wrap_high_persist', 127, 0xFFFE, 0x0001, 0, 1, 1,
                'seg_0791_13.asm:484..548'),
 ]
 
@@ -124,34 +200,38 @@ ADJUST_CASES = [
 # `result = max(1, quotient)`.
 PANEL_CASES = [
     # 6 + 11*0 = 6, 6 // 11 = 0, → 1.
-    panel_case('all_zero', [0] * 11, 1,
+    panel_case('all_zero', [0] * 11, list(range(1, 12)), 1,
                'seg_1771_02.asm:1001..1126; total=6 (0x0006), 6//11=0, max(1,0)=1'),
     # 6 + 11*32 = 358, 358 // 11 = 32.
-    panel_case('all_32', [32] * 11, 32,
+    panel_case('all_32', [32] * 11, list(range(1, 12)), 32,
                'seg_1771_02.asm:1001..1126; total=358 (0x0166), 358//11=32'),
     # 6 + 11*16 = 182, 182 // 11 = 16.
-    panel_case('all_16', [16] * 11, 16,
+    panel_case('all_16', [16] * 11, list(range(1, 12)), 16,
                'seg_1771_02.asm:1001..1126; total=182 (0x00B6), 182//11=16'),
     # 1+32+16+8+0+24+28+4+12+20+5 = 150; 6+150=156; 156//11=14.
-    panel_case('mixed_low_high', [1, 32, 16, 8, 0, 24, 28, 4, 12, 20, 5], 14,
+    panel_case('mixed_low_high',
+               [1, 32, 16, 8, 0, 24, 28, 4, 12, 20, 5],
+               list(range(1, 12)), 14,
                'seg_1771_02.asm:1001..1126; total=156 (0x009C), 156//11=14'),
     # 128 is signed -128; min(32, -128) = -128; total = 6 + (-128) = -122;
     # & 0xFFFF = 65414 (0xFF86); 65414 // 11 = 5946. R1 reproduction.
-    panel_case('one_signed_negative_r1', [128] + [0] * 10, 5946,
+    panel_case('one_signed_negative_r1',
+               [128] + [0] * 10,
+               list(range(1, 12)), 5946,
                'seg_1771_02.asm:1001..1126; R1: total=65414 (0xFF86), 65414//11=5946'),
     # 33 (signed) is positive; min(32, 33) = 32; total = 6 + 32 = 38;
     # 38 // 11 = 3.
-    panel_case('one_just_above_32', [33] + [0] * 10, 3,
+    panel_case('one_just_above_32', [33] + [0] * 10, list(range(1, 12)), 3,
                'seg_1771_02.asm:1001..1126; total=38 (0x0026), 38//11=3'),
     # All -128: 11 * (-128); total = 6 + 11*(-128) = -1402; & 0xFFFF = 64134
     # (0xFA86); 64134 // 11 = 5830.
-    panel_case('all_signed_negative', [128] * 11, 5830,
+    panel_case('all_signed_negative', [128] * 11, list(range(1, 12)), 5830,
                'seg_1771_02.asm:1001..1126; total=64134 (0xFA86), 64134//11=5830'),
     # 0...01: 6 + 1 = 7; 7 // 11 = 0; → 1.
-    panel_case('exactly_below_one', [0] * 10 + [1], 1,
+    panel_case('exactly_below_one', [0] * 10 + [1], list(range(1, 12)), 1,
                'seg_1771_02.asm:1001..1126; total=7 (0x0007), 7//11=0, max(1,0)=1'),
     # 255 is signed -1; min(32, -1) = -1; total = 6 + (-1) = 5; 5 // 11 = 0; → 1.
-    panel_case('one_signed_neg_one', [255] + [0] * 10, 1,
+    panel_case('one_signed_neg_one', [255] + [0] * 10, list(range(1, 12)), 1,
                'seg_1771_02.asm:1001..1126; total=5 (0x0005), 5//11=0, max(1,0)=1'),
 ]
 
