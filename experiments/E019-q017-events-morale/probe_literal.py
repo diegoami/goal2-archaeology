@@ -32,14 +32,16 @@ bytes — the routine walks slots 1..11 and reads
 `pitch[A917 + 2*slot - 2]` for each available starter
 (`code/seg_1771_02.asm:1018-1042`).
 
-The expected bytes for both `expected_*` and `got_*` come from the
-listing arithmetic implemented in this module. The probe generator
-does NOT import `runtime.model.morale`; the model's output is
-verified independently by the checker. Each constant in the
-listing arithmetic below is a hand-traced constant from the listing
-(signed 8-bit for the player byte, signed 16-bit for the delta, the
-[1, 255] clamp and the min(32, signed) persistence, the panel seed
-of 6 and divisor of 11).
+R1 (Sol r3): the adjust-case interface now takes LITERAL
+`expected_live` and `expected_saved` per case (just as `panel_case`
+already took `expected_panel`). The `got_*` values come from a
+SEPARATE call to `_listing_event_clamp` below — they are NOT the same
+expression as `expected_*`. This way, if the listing-derive function
+in this module and the runtime model are both wrong in the same way,
+the literal `expected_*` (hand-traced from the listing) still catches
+the divergence. The probe generator does NOT import
+`runtime.model.morale`; the model's output is verified independently
+by the checker.
 
 The records are the source of truth for the model's arithmetic; the
 checker compares them against the model's output.
@@ -99,16 +101,33 @@ def _listing_team_panel(morales):
     return max(PANEL_FLOOR, quotient)
 
 
-def adjust_case(label, before, delta_high, delta_low, side, slot,
-                player_word, source):
-    """One literal 7CC5 case. The source string is the listing lines the
-    expected bytes were derived from (e.g. 'seg_0791_13.asm:484..548').
+def _build_adjust_case(*, label, before, delta_high, delta_low, side, slot,
+                       player_word, source, expected_live, expected_saved):
+    """Build one 7CC5 case dict at runtime (R1 — Sol r3). The source
+    string is the listing lines the expected bytes were derived from
+    (e.g. 'seg_0791_13.asm:484..548'). `expected_live` and
+    `expected_saved` are LITERAL ints — hand-traced from the listing
+    (Unicorn capture of 0791:7CC5, or a byte-for-byte trace of
+    `code/seg_0791_13.asm:484..548` / `seg_0791_06.c:595`), NOT
+    computed from any function in this module. `got_live` and
+    `got_saved` come from a SEPARATE call to `_listing_event_clamp()`
+    below (resolved at call time, so a monkey-patch of
+    `_listing_event_clamp` before `main()` affects the got_* values),
+    which is the module's hand-traced arithmetic and is independent of
+    `runtime.model.morale`. The checker verifies the model's output
+    equals BOTH.
+
+    If the listing-derive and the runtime model are both wrong in the
+    same way, the literal `expected_*` (independent of both) still
+    catches the divergence: the model output diverges from
+    `expected_*`.
+
     `player_word` is the 16-bit slot the routine reads from
     `pitch[+0xD]` (R2) — the player's record identity, NOT the side/slot
     position. `side` and `slot` are the DS:9B07 persistence index.
     """
-    live, saved = _listing_event_clamp(before, delta_high, (delta_low & 0xFF) != 0)
-    saved_value = saved if saved is not None else 0
+    got_live, got_saved = _listing_event_clamp(before, delta_high, (delta_low & 0xFF) != 0)
+    got_saved_value = got_saved if got_saved is not None else 0
     return {
         'case': label,
         'method': 'literal listing arithmetic; 0791:7CC5 with named delta',
@@ -117,19 +136,22 @@ def adjust_case(label, before, delta_high, delta_low, side, slot,
         'side': side,
         'slot': slot,
         'before': before, 'delta_high': delta_high, 'delta_low': delta_low,
-        # expected_* and got_* are both listing-derived (R1). The checker
-        # verifies the model's output equals both.
-        'expected_live': live, 'expected_saved': saved_value,
-        'got_live': live, 'got_saved': saved_value,
+        # R1 (Sol r3): expected_* are LITERAL ints; got_* come from a
+        # separate call to _listing_event_clamp (NOT the same expression).
+        'expected_live': expected_live, 'expected_saved': expected_saved,
+        'got_live': got_live, 'got_saved': got_saved_value,
     }
 
 
-def panel_case(label, starters, player_words, expected_panel, source):
-    """One literal 1771:13D0 case. expected_panel is hand-derived from
-    the listing (NOT from the model); got_panel is also listing-derived
-    (R1). `player_words` is a list of 11 squad words in the same order
-    as the 11 starter morale bytes (R2) — the routine walks slots 1..11
-    and reads pitch[A917 + 2*slot - 2] for each available starter.
+def _build_panel_case(label, starters, player_words, expected_panel, source):
+    """Build one literal 1771:13D0 case. expected_panel is hand-derived
+    from the listing (NOT from the model); got_panel comes from a
+    SEPARATE call to `_listing_team_panel` (resolved at call time so a
+    monkey-patch before `main()` affects the got value), which is
+    independent of `runtime.model.morale`. `player_words` is a list of
+    11 squad words in the same order as the 11 starter morale bytes
+    (R2) — the routine walks slots 1..11 and reads
+    `pitch[A917 + 2*slot - 2]` for each available starter.
     """
     got = _listing_team_panel(starters)
     return {
@@ -146,50 +168,80 @@ def panel_case(label, starters, player_words, expected_panel, source):
 # The 13 adjust-form cases: each player's +0xC is named by player_word in
 # the original routine (player_word is the squad word at squad[slot-1];
 # the pitch slot uses 1..11, side 0 or 1). The expected bytes are the
-# hand-traced listing arithmetic. The test fixture writes
-# `pitch[+0xD] = 1` for the slot, so player_word is 1 for every case.
+# hand-traced listing arithmetic — LITERAL ints passed to the builder
+# (R1 — Sol r3). The test fixture writes `pitch[+0xD] = 1` for the
+# slot, so player_word is 1 for every case. The dicts are stored
+# (not pre-built case dicts) so the `got_*` values are computed at
+# runtime in main(), where a monkey-patch of _listing_event_clamp
+# takes effect.
 ADJUST_CASES = [
     # 30 + (-2) = 28; clamp to [1, 255] → 28; persist=1 → min(32, 28) = 28.
-    adjust_case('injury_high_morale', 30, 0xFFFE, 0x0001, 0, 1, 1,
-               'seg_0791_13.asm:484..548, 386..394'),
+    dict(label='injury_high_morale', before=30, delta_high=0xFFFE,
+         delta_low=0x0001, side=0, slot=1, player_word=1,
+         source='seg_0791_13.asm:484..548, 386..394',
+         expected_live=28, expected_saved=28),
     # 2 + (-2) = 0; clamp → 1; persist=1 → 1.
-    adjust_case('injury_low_morale', 2, 0xFFFE, 0x0001, 0, 1, 1,
-               'seg_0791_13.asm:484..548'),
+    dict(label='injury_low_morale', before=2, delta_high=0xFFFE,
+         delta_low=0x0001, side=0, slot=1, player_word=1,
+         source='seg_0791_13.asm:484..548',
+         expected_live=1, expected_saved=1),
     # 1 + (-2) = -1; clamp → 1; persist=1 → 1.
-    adjust_case('injury_floor_morale', 1, 0xFFFE, 0x0001, 0, 1, 1,
-               'seg_0791_13.asm:484..548'),
+    dict(label='injury_floor_morale', before=1, delta_high=0xFFFE,
+         delta_low=0x0001, side=0, slot=1, player_word=1,
+         source='seg_0791_13.asm:484..548',
+         expected_live=1, expected_saved=1),
     # 16 + 1 = 17; clamp → 17; persist=1 → 17.
-    adjust_case('scorer_plus_one', 16, 0x0001, 0x0001, 0, 1, 1,
-               'seg_0791_11.asm:177..191'),
+    dict(label='scorer_plus_one', before=16, delta_high=0x0001,
+         delta_low=0x0001, side=0, slot=1, player_word=1,
+         source='seg_0791_11.asm:177..191',
+         expected_live=17, expected_saved=17),
     # 16 + (-1) = 15; clamp → 15; persist=1 → 15.
-    adjust_case('scorer_minus_one', 16, 0xFFFF, 0xFF01, 1, 1, 1,
-               'seg_0791_11.asm:177..191'),
+    dict(label='scorer_minus_one', before=16, delta_high=0xFFFF,
+         delta_low=0xFF01, side=1, slot=1, player_word=1,
+         source='seg_0791_11.asm:177..191',
+         expected_live=15, expected_saved=15),
     # 16 + 1 = 17; flag=0; no persist write.
-    adjust_case('team_reaction_no_persist_pos', 16, 0x0001, 0x0000, 0, 1, 1,
-               'seg_0791_11.asm:380..429'),
+    dict(label='team_reaction_no_persist_pos', before=16,
+         delta_high=0x0001, delta_low=0x0000, side=0, slot=1,
+         player_word=1, source='seg_0791_11.asm:380..429',
+         expected_live=17, expected_saved=0),
     # 16 + (-1) = 15; flag=0; no persist write.
-    adjust_case('team_reaction_no_persist_neg', 16, 0xFFFF, 0x0000, 1, 1, 1,
-               'seg_0791_11.asm:380..429'),
+    dict(label='team_reaction_no_persist_neg', before=16,
+         delta_high=0xFFFF, delta_low=0x0000, side=1, slot=1,
+         player_word=1, source='seg_0791_11.asm:380..429',
+         expected_live=15, expected_saved=0),
     # 16 + 2 = 18; flag=0; no persist write.
-    adjust_case('send_off_tail_other_team', 16, 0x0002, 0x0000, 1, 1, 1,
-               'seg_0791_13.asm:430..438'),
+    dict(label='send_off_tail_other_team', before=16,
+         delta_high=0x0002, delta_low=0x0000, side=1, slot=1,
+         player_word=1, source='seg_0791_13.asm:430..438',
+         expected_live=18, expected_saved=0),
     # 0 + (-1) = -1; clamp → 1; persist=1 → 1.
-    adjust_case('clamp_below_one', 0, 0xFFFF, 0x0001, 0, 1, 1,
-               'seg_0791_13.asm:484..548'),
+    dict(label='clamp_below_one', before=0, delta_high=0xFFFF,
+         delta_low=0x0001, side=0, slot=1, player_word=1,
+         source='seg_0791_13.asm:484..548',
+         expected_live=1, expected_saved=1),
     # 200 (signed -56) + (-0x7FFF) = 200 - 32767 = -32567 = 0x80C9 (16-bit);
     # clamp to [1, 255] → 255; persist=1 → min(32, s8(255)) = min(32, -1) = -1
     # (low byte = 0xFF = 255 unsigned).
-    adjust_case('clamp_above_255', 200, 0x8001, 0x0001, 0, 1, 1,
-               'seg_0791_13.asm:484..548'),
+    dict(label='clamp_above_255', before=200, delta_high=0x8001,
+         delta_low=0x0001, side=0, slot=1, player_word=1,
+         source='seg_0791_13.asm:484..548',
+         expected_live=255, expected_saved=255),
     # 254 (signed -2) + (-0x7FFF) = 0x80C7 = -32569; clamp → 255; saved=255.
-    adjust_case('clamp_signed_overflow', 254, 0x8001, 0x0001, 0, 1, 1,
-               'seg_0791_13.asm:484..548'),
+    dict(label='clamp_signed_overflow', before=254, delta_high=0x8001,
+         delta_low=0x0001, side=0, slot=1, player_word=1,
+         source='seg_0791_13.asm:484..548',
+         expected_live=255, expected_saved=255),
     # 128 (signed -128) + (-2) = -130; 16-bit: 0xFF7E; clamp → 1; saved=1.
-    adjust_case('signed_wrap_floor', 128, 0xFFFE, 0x0001, 0, 1, 1,
-               'seg_0791_13.asm:484..548'),
+    dict(label='signed_wrap_floor', before=128, delta_high=0xFFFE,
+         delta_low=0x0001, side=0, slot=1, player_word=1,
+         source='seg_0791_13.asm:484..548',
+         expected_live=1, expected_saved=1),
     # 127 + (-2) = 125; clamp → 125; persist=1 → min(32, 125) = 32.
-    adjust_case('signed_wrap_high_persist', 127, 0xFFFE, 0x0001, 0, 1, 1,
-               'seg_0791_13.asm:484..548'),
+    dict(label='signed_wrap_high_persist', before=127,
+         delta_high=0xFFFE, delta_low=0x0001, side=0, slot=1,
+         player_word=1, source='seg_0791_13.asm:484..548',
+         expected_live=125, expected_saved=32),
 ]
 
 
@@ -197,52 +249,57 @@ ADJUST_CASES = [
 # 1..11). The expected_panel values are the hand-traced original
 # arithmetic — `total = 6 + sum(min(32, s8(starters[i])))` as a 16-bit
 # unsigned word; `quotient = total // 11` (unsigned 16-bit divide);
-# `result = max(1, quotient)`.
+# `result = max(1, quotient)`. Stored as dicts so got_panel is computed
+# at runtime in main() (R1 — Sol r3).
 PANEL_CASES = [
     # 6 + 11*0 = 6, 6 // 11 = 0, → 1.
-    panel_case('all_zero', [0] * 11, list(range(1, 12)), 1,
-               'seg_1771_02.asm:1001..1126; total=6 (0x0006), 6//11=0, max(1,0)=1'),
+    dict(label='all_zero', starters=[0] * 11, player_words=list(range(1, 12)),
+         expected_panel=1,
+         source='seg_1771_02.asm:1001..1126; total=6 (0x0006), 6//11=0, max(1,0)=1'),
     # 6 + 11*32 = 358, 358 // 11 = 32.
-    panel_case('all_32', [32] * 11, list(range(1, 12)), 32,
-               'seg_1771_02.asm:1001..1126; total=358 (0x0166), 358//11=32'),
+    dict(label='all_32', starters=[32] * 11, player_words=list(range(1, 12)),
+         expected_panel=32,
+         source='seg_1771_02.asm:1001..1126; total=358 (0x0166), 358//11=32'),
     # 6 + 11*16 = 182, 182 // 11 = 16.
-    panel_case('all_16', [16] * 11, list(range(1, 12)), 16,
-               'seg_1771_02.asm:1001..1126; total=182 (0x00B6), 182//11=16'),
+    dict(label='all_16', starters=[16] * 11, player_words=list(range(1, 12)),
+         expected_panel=16,
+         source='seg_1771_02.asm:1001..1126; total=182 (0x00B6), 182//11=16'),
     # 1+32+16+8+0+24+28+4+12+20+5 = 150; 6+150=156; 156//11=14.
-    panel_case('mixed_low_high',
-               [1, 32, 16, 8, 0, 24, 28, 4, 12, 20, 5],
-               list(range(1, 12)), 14,
-               'seg_1771_02.asm:1001..1126; total=156 (0x009C), 156//11=14'),
+    dict(label='mixed_low_high',
+         starters=[1, 32, 16, 8, 0, 24, 28, 4, 12, 20, 5],
+         player_words=list(range(1, 12)), expected_panel=14,
+         source='seg_1771_02.asm:1001..1126; total=156 (0x009C), 156//11=14'),
     # 128 is signed -128; min(32, -128) = -128; total = 6 + (-128) = -122;
     # & 0xFFFF = 65414 (0xFF86); 65414 // 11 = 5946. R1 reproduction.
-    panel_case('one_signed_negative_r1',
-               [128] + [0] * 10,
-               list(range(1, 12)), 5946,
-               'seg_1771_02.asm:1001..1126; R1: total=65414 (0xFF86), 65414//11=5946'),
+    dict(label='one_signed_negative_r1',
+         starters=[128] + [0] * 10,
+         player_words=list(range(1, 12)), expected_panel=5946,
+         source='seg_1771_02.asm:1001..1126; R1: total=65414 (0xFF86), 65414//11=5946'),
     # 33 (signed) is positive; min(32, 33) = 32; total = 6 + 32 = 38;
     # 38 // 11 = 3.
-    panel_case('one_just_above_32', [33] + [0] * 10, list(range(1, 12)), 3,
-               'seg_1771_02.asm:1001..1126; total=38 (0x0026), 38//11=3'),
+    dict(label='one_just_above_32', starters=[33] + [0] * 10,
+         player_words=list(range(1, 12)), expected_panel=3,
+         source='seg_1771_02.asm:1001..1126; total=38 (0x0026), 38//11=3'),
     # All -128: 11 * (-128); total = 6 + 11*(-128) = -1402; & 0xFFFF = 64134
     # (0xFA86); 64134 // 11 = 5830.
-    panel_case('all_signed_negative', [128] * 11, list(range(1, 12)), 5830,
-               'seg_1771_02.asm:1001..1126; total=64134 (0xFA86), 64134//11=5830'),
+    dict(label='all_signed_negative', starters=[128] * 11,
+         player_words=list(range(1, 12)), expected_panel=5830,
+         source='seg_1771_02.asm:1001..1126; total=64134 (0xFA86), 64134//11=5830'),
     # 0...01: 6 + 1 = 7; 7 // 11 = 0; → 1.
-    panel_case('exactly_below_one', [0] * 10 + [1], list(range(1, 12)), 1,
-               'seg_1771_02.asm:1001..1126; total=7 (0x0007), 7//11=0, max(1,0)=1'),
+    dict(label='exactly_below_one', starters=[0] * 10 + [1],
+         player_words=list(range(1, 12)), expected_panel=1,
+         source='seg_1771_02.asm:1001..1126; total=7 (0x0007), 7//11=0, max(1,0)=1'),
     # 255 is signed -1; min(32, -1) = -1; total = 6 + (-1) = 5; 5 // 11 = 0; → 1.
-    panel_case('one_signed_neg_one', [255] + [0] * 10, list(range(1, 12)), 1,
-               'seg_1771_02.asm:1001..1126; total=5 (0x0005), 5//11=0, max(1,0)=1'),
+    dict(label='one_signed_neg_one', starters=[255] + [0] * 10,
+         player_words=list(range(1, 12)), expected_panel=1,
+         source='seg_1771_02.asm:1001..1126; total=5 (0x0005), 5//11=0, max(1,0)=1'),
 ]
 
 
 def main():
     output_dir = Path(__file__).resolve().parent
-    cases = []
-    for c in ADJUST_CASES:
-        cases.append(c)
-    for c in PANEL_CASES:
-        cases.append(c)
+    cases = [_build_adjust_case(**c) for c in ADJUST_CASES]
+    cases += [_build_panel_case(**c) for c in PANEL_CASES]
     record = {'schema': 'E019-events-morale-probe/1', 'cases': cases}
     out = output_dir / 'probe-literal-001.json'
     out.write_text(json.dumps(record, indent=2))

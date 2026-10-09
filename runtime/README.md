@@ -48,19 +48,27 @@ sending-off `0791:7B77` (the sent-off player push 0xfffe with flag 1,
 the OTHER team's available pitch slots push 2 with flag 0), the injury
 `0791:7D56` (push 0xfffe with flag 1; the +0xE := 0 injury store is
 F018's), and the team aggregate `1771:13D0 team_panel_aggregate`
-(`team_panel_morale(starters)` = `max(1, (6 + sum_of_min(32, max(0,
-s8(+0xC))) over the 11 available starters) // 11)`, recomputed every
-`1771:157D draw_team_panel` render and never persisted). The yellow-card
-routine `0791:798D booking` does **not** call `7CC5` and so does not write
-+0xC by these lines — the help claim "booking damages confidence" is
-not established by the listing; the help claim "injury and sending-off
-damage confidence" is established. The helper does not choose call
-order: callers pass the events in match order. E019 checks 22 literal-input
-probe cases by player word (13 `7CC5` cases covering the named deltas,
-clamp boundaries and signed-byte edges; 9 `1771:13D0` cases covering the
-seed, divisor, floor and signed-byte clamp); `mutations_morale.py` shifts
-each of the 10 numeric constants by +1 and -1 and deletes each named
-helper, rerunning the unit suite in a fresh subprocess — 25/25 mutants
+(`team_panel_morale(starters)` = `max(1, ((6 + sum_of_min(32, s8(+0xC)))
+over the 11 available starters) & 0xFFFF) // 11)` — no lower clamp on
+the per-starter contribution (a -128 signed byte contributes -128; the
+`add word ptr [0x9B5A], ax` at `code/seg_1771_02.asm:1067` wraps mod
+0x10000; the `div cx` at line 1093 is the 16-bit unsigned divide) —
+recomputed every `1771:157D draw_team_panel` render and never
+persisted. The yellow-card routine `0791:798D booking` does **not** call
+`7CC5` and so does not write +0xC by these lines — the help claim
+"booking damages confidence" is not established by the listing; the
+help claim "injury and sending-off damage confidence" is established.
+The helper does not choose call order: callers pass the events in
+match order. E019 checks 22 literal-input probe cases by player word
+(13 `7CC5` cases covering the named deltas, clamp boundaries and
+signed-byte edges; 9 `1771:13D0` cases covering the seed, divisor,
+floor and signed-byte clamp); the probe generator does NOT import
+`runtime.model.morale` — `expected_*` are LITERAL ints (hand-traced
+from the listing, R1) and `got_*` come from a separate call to the
+module's listing-arithmetic helper; the checker verifies the model's
+output equals both. `mutations_morale.py` shifts each of the 9 numeric
+constants by +1 and -1 and deletes each of the 5 named helpers,
+rerunning the unit suite in a fresh subprocess — 23/23 mutants
 killed. See `findings/F020-events-change-confidence-and-team-morale-aggregates-it.md`
 and E019's `notes.md` for the inventory, listing lines and the booking
 limitation.

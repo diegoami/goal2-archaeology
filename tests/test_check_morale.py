@@ -168,6 +168,97 @@ class CheckerTests(unittest.TestCase):
         # The checker returns non-zero on a mismatch.
         self.assertEqual(self.run_checker(record, monkey=monkey), 1)
 
+    def test_r1_monkey_patch_listing_event_clamp_fails_checker(self):
+        """R1 (Sol r3): the probe file's `expected_*` and `got_*` must
+        come from DIFFERENT sources — the former is a LITERAL int in
+        the case record (hand-traced from the listing), the latter
+        comes from a separate call to `_listing_event_clamp`. Before
+        the fix, both came from the same call, so a broken
+        listing-derive produced matching `expected_*` and `got_*`, and
+        if the model was "updated" to match the same wrong value, the
+        checker accepted the divergence.
+
+        This regression patches the listing-derive AND the model's
+        `event_clamp` to return (99, 99) — the exact R1 scenario where
+        both are "wrong" in the same way. With the fix, the literal
+        `expected_live=28` (hand-traced from the listing) catches the
+        divergence: the model output (99) does not equal
+        `expected_live=28`. Without the fix, the checker would accept
+        (`match: 22/22`).
+        """
+        import importlib
+        import importlib.util
+        # Save the original probe file content so we can restore it.
+        canonical = ROOT / 'experiments/E019-q017-events-morale/probe-literal-001.json'
+        original_content = canonical.read_text()
+        try:
+            # Load the probe_literal module fresh.
+            spec = importlib.util.spec_from_file_location(
+                'probe_literal_for_test',
+                ROOT / 'experiments/E019-q017-events-morale/probe_literal.py'
+            )
+            probe_mod = importlib.util.module_from_spec(spec)
+            sys.modules['probe_literal_for_test'] = probe_mod
+            spec.loader.exec_module(probe_mod)
+            # Monkey-patch the listing-derive BEFORE main() runs.
+            probe_mod._listing_event_clamp = lambda *a, **kw: (99, 99)
+            # Regenerate the probe file with the broken listing-derive.
+            probe_mod.main()
+            # The probe file is now broken. Also patch the model's
+            # event_clamp in the checker module to return (99, 99), so
+            # both the listing-derive and the model are "wrong" in the
+            # same way (the exact R1 scenario).
+            saved = CHECKER.event_clamp
+            CHECKER.event_clamp = lambda *a, **kw: (99, 99)
+            try:
+                ret = self.run_checker(json.loads(canonical.read_text()))
+            finally:
+                CHECKER.event_clamp = saved
+        finally:
+            # Restore the canonical probe file.
+            canonical.write_text(original_content)
+        # The checker must fail: expected_live (literal 28) != model
+        # output (99) for every adjust case, even though got_live (99)
+        # matches the model output. Without the R1 fix, the checker
+        # would accept (match: 22/22).
+        self.assertEqual(ret, 1)
+
+    def test_r1_monkey_patch_listing_team_panel_fails_checker(self):
+        """R1 (Sol r3): the panel case's `expected_panel` and
+        `got_panel` must come from DIFFERENT sources — the former is a
+        LITERAL int in the case record (hand-traced from the listing),
+        the latter comes from a separate call to `_listing_team_panel`.
+        Before the fix's generalisation, the panel case already had a
+        literal `expected_panel`, but the adjust case did not. This
+        regression patches the listing-derive AND the model's
+        `team_panel_morale` to return 99 — the exact R1 scenario.
+        With the fix, the literal `expected_panel=1` (hand-traced from
+        the listing) catches the divergence.
+        """
+        import importlib
+        import importlib.util
+        canonical = ROOT / 'experiments/E019-q017-events-morale/probe-literal-001.json'
+        original_content = canonical.read_text()
+        try:
+            spec = importlib.util.spec_from_file_location(
+                'probe_literal_for_test_panel',
+                ROOT / 'experiments/E019-q017-events-morale/probe_literal.py'
+            )
+            probe_mod = importlib.util.module_from_spec(spec)
+            sys.modules['probe_literal_for_test_panel'] = probe_mod
+            spec.loader.exec_module(probe_mod)
+            probe_mod._listing_team_panel = lambda *a, **kw: 99
+            probe_mod.main()
+            saved = CHECKER.team_panel_morale
+            CHECKER.team_panel_morale = lambda *a, **kw: 99
+            try:
+                ret = self.run_checker(json.loads(canonical.read_text()))
+            finally:
+                CHECKER.team_panel_morale = saved
+        finally:
+            canonical.write_text(original_content)
+        self.assertEqual(ret, 1)
+
     def test_r1_monkey_patch_team_panel_fails_checker(self):
         """If the model's team_panel_morale returns 99, the checker must
         fail: the listing-derived expected_panel (1 for all_zero) does
