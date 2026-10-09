@@ -1,0 +1,16 @@
+test_a_fast_overwrite_is_superseded_not_staged (tests.test_human_keys.AttributionBypassTests.test_a_fast_overwrite_is_superseded_not_staged) ... ok
+test_a_one_save_of_later_write_events_is_not_staged_under_the_earlier_request (tests.test_human_keys.AttributionBypassTests.test_a_one_save_of_later_write_events_is_not_staged_under_the_earlier_request) ... ok
+test_the_stability_fallback_never_restages_consumed_bytes (tests.test_human_keys.AttributionBypassTests.test_the_stability_fallback_never_restages_consumed_bytes) ... ok
+test_a_line_with_write_accounting_but_no_pre_send_state_is_rejected (tests.test_human_keys.GuardAttributionTests.test_a_line_with_write_accounting_but_no_pre_send_state_is_rejected) ... ok
+test_a_line_without_the_accept_time_state_is_rejected (tests.test_human_keys.GuardAttributionTests.test_a_line_without_the_accept_time_state_is_rejected) ... ok
+test_a_request_that_staged_nothing_is_rejected (tests.test_human_keys.GuardAttributionTests.test_a_request_that_staged_nothing_is_rejected) ... ok
+test_a_well_evidenced_sitting_passes (tests.test_human_keys.GuardAttributionTests.test_a_well_evidenced_sitting_passes) ... ok
+test_an_ordinary_staged_line_without_evidence_is_rejected (tests.test_human_keys.GuardAttributionTests.test_an_ordinary_staged_line_without_evidence_is_rejected) ... ok
+test_staged_requests_must_own_increasing_writes (tests.test_human_keys.GuardAttributionTests.test_staged_requests_must_own_increasing_writes) ... ok
+test_two_saves_in_one_request_window_are_rejected (tests.test_human_keys.GuardAttributionTests.test_two_saves_in_one_request_window_are_rejected) ... ok
+
+----------------------------------------------------------------------
+Ran 10 tests in 0.035s
+
+OK
+exit=0

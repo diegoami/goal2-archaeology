@@ -786,13 +786,16 @@ class DeferredCaptureTests(unittest.TestCase):
         self.assertIn("request attribution lost", why)
         self.assertIn("lost boundary", why)
         clean = [{"request_s": 0.0, "sent_s": 0.03, "origin": "watcher", "seq": 1,
-                  "pre_sig": [1, 4096, 10, 11], "pre_events": 0, "accept_events": 54,
+                  "pre_sig": [1, 4096, 10, 11], "accept_sig": [1, 4096, 12, 13],
+                  "pre_events": 0, "accept_events": 54,
                   "request_file": "requests/rq-0001.sav", "request_sha256": "h1"},
                  {"request_s": 20.0, "sent_s": 20.03, "origin": "watcher", "seq": 2,
-                  "pre_sig": [1, 4096, 20, 21], "pre_events": 54, "accept_events": 108,
+                  "pre_sig": [1, 4096, 20, 21], "accept_sig": [1, 4096, 22, 23],
+                  "pre_events": 54, "accept_events": 108,
                   "request_file": "requests/rq-0002.sav", "request_sha256": "h2"},
                  {"request_s": 40.0, "sent_s": 40.03, "origin": "watcher", "seq": 3,
-                  "pre_sig": [1, 4096, 40, 41], "pre_events": 108, "accept_events": 162,
+                  "pre_sig": [1, 4096, 40, 41], "accept_sig": [1, 4096, 42, 43],
+                  "pre_events": 108, "accept_events": 162,
                   "request_file": "requests/rq-0003.sav", "request_sha256": "h3"}]
         ok, why = scripted_keys.check_attribution(clean)
         self.assertTrue(ok)
@@ -912,6 +915,30 @@ class AttributionBypassTests(unittest.TestCase):
         ok, why = scripted_keys.check_attribution([line])
         self.assertFalse(ok)
         self.assertIn("lost boundary", why)
+
+    def test_a_head_jobs_two_saves_in_one_poll_gap_are_refused(self):
+        # the every-poll magnitude check's own shape (T34 r4 R1), which the T35 unanchored-
+        # capture gate deliberately does NOT cover: this job IS the pipeline's head (lag 1,
+        # no later request queued), so the fresh-arrival gate accepts on head grounds — but
+        # two saves' write events (108 > ONE_SAVE_MAX_EVENTS) in one poll gap mean the live
+        # file now holds the NEXT request's save. The magnitude check must still refuse it:
+        # T35's mutation sweep showed the check had become redundant against every test this
+        # suite visits (the lag-2 shapes now die on the gate instead), so this visits the
+        # lag-1 shape the gate cannot see.
+        from tests import test_human_record as fixture
+        session, w, live, state = self._sitting([])
+        w._submitted, w._finished = 1, 0        # the pipeline's head: nothing else queued
+        pre = rec.file_signature(live)
+        state["events"] = 0
+        self.clock.actions.append(
+            lambda: (live.write_bytes(fixture.tiny_zip(b"TWO SAVES LATER")),
+                     state.__setitem__("events", 2 * 54)))
+        entry = w._stage_job(pre, 0.0, 0.03, "burst", 0,
+                             session / "requests" / "rq-0001.sav")
+        line = json.loads((session / "requests.jsonl").read_text())
+        self.assertIsNone(entry)                # nothing staged under its window
+        self.assertTrue(line.get("superseded"), line)
+        self.assertIn("more than one save", (w.problems or [""])[0])
 
     def test_the_stability_fallback_never_restages_consumed_bytes(self):
         # reproduction 2: the live savestate already holds the later request's save,
