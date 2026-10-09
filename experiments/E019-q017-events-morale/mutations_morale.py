@@ -25,7 +25,6 @@ CONSTANTS = [
     ('LIVE_LOWER', 1),
     ('LIVE_UPPER', 255),
     ('SAVED_UPPER', 32),
-    ('PANEL_MIN', 0),
     ('PANEL_MAX', 32),
     ('PANEL_SEED', 6),
     ('PANEL_DIVISOR', 11),
