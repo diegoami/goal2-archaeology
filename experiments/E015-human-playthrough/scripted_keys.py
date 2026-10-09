@@ -11,7 +11,8 @@ The privacy proof has both halves of T34 review R3:
   every key was really delivered.
 
 Game keys are sent with gaps drawn from [0.5, 1.5] s (T34 rework: the earlier 2 s gap hid the
-burst/request-window behaviour the map rules handle).
+burst/request-window behaviour the map rules handle); `--sleep N` replaces the draw with a fixed
+N-second gap, the r3-era 2 s pacing (T35 Done-when 4).
 """
 import argparse
 import json
@@ -80,9 +81,9 @@ def check_request_windows(groups, bursts, t0, margin):
 
 
 def check_attribution(requests, session=None, index=()):
-    """The acceptance guard, attribution half (Sol delta r3 R2, r4 R2): no save request may be
-    superseded — a request whose capture found a later request's write already on the live
-    savestate staged nothing and the screen boundary it was sent to catch is lost. The old
+    """The acceptance guard, attribution half (Sol delta r3 R2, r4 R2; T35 issue #111): no save
+    request may be superseded — a request whose capture found a later request's write already on
+    the live savestate staged nothing and the screen boundary it was sent to catch is lost. The old
     guard certified that sitting ("every press mapped", "10 for 10") because it trusted the
     recorder's request windows; with a superseded request those windows are exactly what is
     wrong.
@@ -96,7 +97,22 @@ def check_attribution(requests, session=None, index=()):
     session folder is given — a per-request savestate whose bytes hash to the recorded
     request_sha256 and to the staged snapshot's own sha256. The check is on this accounting,
     never on hash uniqueness: legitimately identical screens (a 20 s cadence snapshot between
-    key groups) still pass. Returns (ok, message)."""
+    key groups) still pass.
+
+    T35 (issue #111 R2): the accounting is not enough on its own either — it is written by the
+    same capture that staged the bytes, so a capture that staged a LATER request's bytes wrote
+    plausible accounting beside them and the r4 review's bracketing snapshot + key event sailed
+    through all four checks. The line must therefore also carry the recorder's signature PAIR:
+    `pre_sig` (the live savestate's signature hash taken before the save key was sent, via
+    note_request) and `accept_sig` (its hash at the accepted capture). Either missing is an
+    evidence-free line — the recorder writes both on every staged line, so absence is a line no
+    capture of this tree produced — and when both are there they must DIFFER: a fresh write
+    inside this request's own window. A request that staged nothing fails (Scope:
+    missing-staged requests fail — its screen is not in the chain), superseded requests fail
+    above, and with an index the sequence the line names must be in it (the staged snapshot
+    itself) and that snapshot's request window must be THIS request's: a snapshot whose
+    `request_s` is a later request's window is later-request bytes under this line, which no
+    amount of green elsewhere can make this request's. Returns (ok, message)."""
     lost = [i for i, r in enumerate(requests) if r.get("superseded")]
     if lost:
         return False, (f"request attribution lost: lost boundary at request line(s) {lost} "
@@ -106,12 +122,38 @@ def check_attribution(requests, session=None, index=()):
     seen = None
     for i, r in enumerate(requests):
         if r.get("seq") is None:
-            continue
+            # T35 (issue #111 R2, Scope: missing-staged requests fail): a request line with
+            # no staged entry is a screen the recorder could not see — the boundary it was
+            # sent to catch is not in the chain. Certifying it would certify a boundary this
+            # request never owned; superseded lines are caught above with their own reason.
+            return False, (f"request attribution lost: request line {i} (request_s "
+                           f"{r['request_s']}) staged nothing: no snapshot carries this "
+                           "request's window (evidence-free)")
         pre, acc = r.get("pre_events"), r.get("accept_events")
         if pre is None or acc is None:
             return False, (f"request attribution lost: request line {i} (request_s "
                            f"{r['request_s']}) staged without ownership evidence: no write "
                            "accounting ties the staged bytes to this request's own save")
+        pre_sig, accept_sig = r.get("pre_sig"), r.get("accept_sig")
+        if pre_sig is None:
+            return False, (f"request attribution lost: request line {i} (request_s "
+                           f"{r['request_s']}) staged without the request's pre-send state "
+                           "hash (no pre_sig): an evidence-free line — nothing ties the "
+                           "staged bytes to the live savestate this request was sent against")
+        if accept_sig is None:
+            # T35 sweep, the same class as the missing pre_sig: the recorder writes the
+            # signature PAIR on every staged line (capture always returns an accept-time
+            # signature), so a line with only half of it is evidence-free the same way —
+            # the absence of one side of the evidence is never evidence.
+            return False, (f"request attribution lost: request line {i} (request_s "
+                           f"{r['request_s']}) staged without the accept-time state hash "
+                           "(no accept_sig): an evidence-free line — nothing ties the "
+                           "staged bytes to a fresh write inside this request's window")
+        if pre_sig == accept_sig:
+            return False, (f"request attribution lost: request line {i} (request_s "
+                           f"{r['request_s']}) records the accept-time state equal to its "
+                           "pre-send state: no write happened inside this request's window "
+                           "(evidence-free)")
         if acc <= pre:
             return False, (f"request attribution lost: request line {i} (request_s "
                            f"{r['request_s']}) records no write between its send and its "
@@ -135,11 +177,21 @@ def check_attribution(requests, session=None, index=()):
                 return False, (f"request attribution lost: request line {i} (request_s "
                                f"{r['request_s']}): the per-request savestate is missing or "
                                "not the recorded bytes")
+        if index:
             entry = by_seq.get(r.get("seq"))
-            if entry is not None and entry.get("sha256") != r.get("request_sha256"):
+            if entry is None:
+                return False, (f"request attribution lost: request line {i} (request_s "
+                               f"{r['request_s']}) names sequence {r.get('seq')}, which the "
+                               "index does not hold: the staged snapshot is missing")
+            if entry.get("sha256") != r.get("request_sha256"):
                 return False, (f"request attribution lost: request line {i} (request_s "
                                f"{r['request_s']}): the staged snapshot's bytes differ from "
                                "the per-request savestate")
+            if entry.get("request_s") != r.get("request_s"):
+                return False, (f"request attribution lost: request line {i} (request_s "
+                               f"{r['request_s']}) staged the snapshot of a LATER request's "
+                               f"window (snapshot request_s {entry.get('request_s')}): the "
+                               "staged bytes are evidence-free for this request")
     return True, f"{len(requests)} save requests, every staged request owns its savestate bytes"
 
 
@@ -159,6 +211,9 @@ def main():
     ap.add_argument("--gap-min", type=float, default=0.5, help="minimum gap between game keys (s)")
     ap.add_argument("--gap-max", type=float, default=1.5, help="maximum gap between game keys (s)")
     ap.add_argument("--seed", type=int, default=None, help="seed the gap draw (reproducible gaps)")
+    ap.add_argument("--sleep", type=float, default=None,
+                    help="a fixed gap between game keys (s), instead of the draw: the r3-era "
+                         "2 s-paced reproduction runs as --sleep 2 (T35 Done-when 4)")
     a = ap.parse_args()
     keys = [k for k in a.keys.split(";") if k]
     rng = random.Random(a.seed)
@@ -205,7 +260,7 @@ def main():
         gaps = []
         for i, key in enumerate(keys):
             if i:
-                gap = rng.uniform(a.gap_min, a.gap_max)
+                gap = a.sleep if a.sleep is not None else rng.uniform(a.gap_min, a.gap_max)
                 gaps.append(round(gap, 3))
                 time.sleep(gap)
             subprocess.run(["xdotool", "key", key], env=child, check=True)

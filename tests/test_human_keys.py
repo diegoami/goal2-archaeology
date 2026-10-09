@@ -955,7 +955,11 @@ class GuardAttributionTests(unittest.TestCase):
                 "request_file": f"requests/rq-{seq:04d}.sav",
                 "request_sha256": f"hash-{seq}"}
         if pre_sig:
+            # the signature pair every staged line of this tree carries (T35 R2): the live
+            # savestate's signature hash before the send and at the accepted capture, taken
+            # a write apart so the pair differs
             line["pre_sig"] = [1234, 4096, 1_700_000_000_000_000_000, 1_700_000_000_000_000_001]
+            line["accept_sig"] = [1235, 4096, 1_700_000_000_000_000_100, 1_700_000_000_000_000_101]
         return line
 
     def test_an_ordinary_staged_line_without_evidence_is_rejected(self):
@@ -979,6 +983,19 @@ class GuardAttributionTests(unittest.TestCase):
         self.assertFalse(ok)
         self.assertIn("evidence-free", why)
         self.assertIn("pre-send state", why)
+
+    def test_a_line_without_the_accept_time_state_is_rejected(self):
+        # T35's class sweep, the missing half of the same evidence: the recorder writes the
+        # signature pair on every staged line (capture always returns an accept-time
+        # signature), so a line that names a pre-send state but no accept-time state is
+        # evidence-free in exactly the way the r4 bypass's line was — nothing ties its bytes
+        # to a fresh write inside this request's window.
+        line = self._evidenced(1, 0.0, 0, 54)
+        del line["accept_sig"]
+        ok, why = self.sk.check_attribution([line])
+        self.assertFalse(ok)
+        self.assertIn("evidence-free", why)
+        self.assertIn("accept-time state", why)
 
     def test_a_request_that_staged_nothing_is_rejected(self):
         # 'Missing-staged requests fail' (T35 Scope 2): a request line with no seq is a

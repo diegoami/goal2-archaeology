@@ -69,8 +69,11 @@ MUTATIONS = [
      '    import ctypes as c\n    class KeyEvent(c.Structure):',
      '    subprocess.run(["xdotool", "key", "F12+s"], env=env)\n    return\n'
      '    import ctypes as c\n    class KeyEvent(c.Structure):'),
-    # the burst snapshot
-    ("burst capture removed", REC, 'send_burst = True', 'send_burst = False'),
+    # the burst snapshot (target refreshed for the r2 rework: the loop's due-time condition
+    # replaced the old `send_burst = True`, which the pre-flight then found zero times)
+    ("burst capture removed", REC,
+     'send_burst = bool(burst.groups) and now >= last_event + EVENT_SETTLE_S',
+     'send_burst = False'),
     # constants, +1 and -1
     ("BURST_QUIET_S +1", REC, 'BURST_QUIET_S = 0.5\n', 'BURST_QUIET_S = 1.5\n'),
     ("BURST_QUIET_S -1", REC, 'BURST_QUIET_S = 0.5\n', 'BURST_QUIET_S = -0.5\n'),
@@ -93,7 +96,8 @@ MUTATIONS = [
     ("a resend does not move the window", REC,
      'sent = self.last_sent = self.clock()', 'sent = self.clock()'),
     ("a skipped request is not logged", REC,
-     '            self.note_request(request, self.last_sent, origin, None)\n            return None',
+     '            self.note_request(request, self.last_sent, origin, None, pre_sig=sig_hash(pre))\n'
+     '            return None',
      '            return None'),
     ("the shutdown window opens at shutdown", REC,
      'lo = self.t0 if self.last_staged_request is None else self.last_staged_request',
@@ -160,9 +164,14 @@ MUTATIONS = [
      'if not self.groups:'),
     # R3 (Sol delta): the acceptance guard accepts fewer snapshots than groups. With `>` the
     # 4-for-10 case slips past the count check and zip() pairs only the first four groups.
+    # The target is the two lines below `def check_bursts`: the one-line
+    # `if len(bursts) != len(groups):` also guards the request-window check, so the
+    # pre-flight's "exactly once" rule failed on it (found by T35's sweep pre-flight).
     ("R3: guard accepts fewer snapshots than groups", SCRIPTED,
-     'if len(bursts) != len(groups):',
-     'if len(bursts) > len(groups):'),
+     '    if len(bursts) != len(groups):\n'
+     '        return False, (f"{len(bursts)} burst snapshots for {len(groups)} key group(s); each "',
+     '    if len(bursts) > len(groups):\n'
+     '        return False, (f"{len(bursts)} burst snapshots for {len(groups)} key group(s); each "'),
     # Sol delta r2: the settle wait removed, the request window opens at the key event itself
     # and swallows the key's own release (and any key spaced just over the quiet): the burst
     # is ambiguous. Killed by the 10-key mapping test (releases land in the windows).
@@ -199,6 +208,38 @@ MUTATIONS = [
     # GuardAttributionTests.
     ("r4-R2: guard accepts evidence-free staged lines", SCRIPTED,
      'if pre is None or acc is None:', 'if False:'),
+    # T35 r5 R1 (issue #111 R1), two mutations of the unanchored-capture class: every shape
+    # a capture uses to order the live file's write against the queued requests. (a) the
+    # fresh-arrival gate removed — any write that arrives while a lagging job polls is its
+    # own again; (b) every capture counted as the pipeline's head — the injected
+    # `_submitted=2/_finished=0` state can no longer be told from an empty queue. Both must
+    # fail AttributionBypassTests.test_a_one_save_of_later_write_events_is_not_staged_under_
+    # the_earlier_request (the r4 R1 reproduction as a unit test).
+    ("r5-R1: the unanchored-capture gate removed", REC,
+     'and (entry_head or self._fast_consumed is not None)):',
+     'and True):'),
+    ("r5-R1: every capture counted as the pipeline's head", REC,
+     'entry_head = self._submitted - self._finished <= 1',
+     'entry_head = True'),
+    # T35 r5 R2 (issue #111 R2), three mutations of the evidence-free-guard class: each
+    # piece of the signature-pair requirement and the missing-staged rule, the absences the
+    # guard must never treat as ownership. Killed by GuardAttributionTests: (a) the pre-send
+    # state requirement, (b) the accept-time state requirement, (c) the staged-nothing rule.
+    ("r5-R2: the pre-send state requirement removed", SCRIPTED,
+     '        if pre_sig is None:', '        if False:'),
+    ("r5-R2: the accept-time state requirement removed", SCRIPTED,
+     '        if accept_sig is None:', '        if False:'),
+    ("r5-R2: a staged-nothing request is skipped again", SCRIPTED,
+     '        if r.get("seq") is None:\n'
+     '            # T35 (issue #111 R2, Scope: missing-staged requests fail): a request line with\n'
+     '            # no staged entry is a screen the recorder could not see — the boundary it was\n'
+     '            # sent to catch is not in the chain. Certifying it would certify a boundary this\n'
+     '            # request never owned; superseded lines are caught above with their own reason.\n'
+     '            return False, (f"request attribution lost: request line {i} (request_s "\n'
+     '                           f"{r[\'request_s\']}) staged nothing: no snapshot carries this "\n'
+     '                           "request\'s window (evidence-free)")',
+     '        if r.get("seq") is None:\n'
+     '            continue'),
 ]
 
 
