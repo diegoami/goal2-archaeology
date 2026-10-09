@@ -79,20 +79,67 @@ def check_request_windows(groups, bursts, t0, margin):
     return True, f"{len(bursts)} request windows interleaved with their key groups"
 
 
-def check_attribution(requests):
-    """The acceptance guard, attribution half (Sol delta r3 R2): no save request may be
+def check_attribution(requests, session=None, index=()):
+    """The acceptance guard, attribution half (Sol delta r3 R2, r4 R2): no save request may be
     superseded — a request whose capture found a later request's write already on the live
     savestate staged nothing and the screen boundary it was sent to catch is lost. The old
     guard certified that sitting ("every press mapped", "10 for 10") because it trusted the
     recorder's request windows; with a superseded request those windows are exactly what is
-    wrong. The check is on the recorder's own superseded marks, never on hash equality:
-    legitimately identical screens (a 20 s cadence snapshot between key groups) still pass.
-    Returns (ok, message)."""
+    wrong.
+
+    r4 R2: absence of `superseded` is NOT ownership evidence — the r4 bypasses staged a later
+    request's bytes with ordinary successful lines. Every STAGED request must carry the
+    recorder's write accounting: `pre_events`/`accept_events` with at most one save's worth of
+    write events in between (ONE_SAVE_MAX_EVENTS; one real save is ~53-54 events on this host,
+    evidence/E015/T34-probe-closes-20261009-01.log), staged requests owning strictly increasing
+    write counts (the single serialized writer answers requests in order), and — when the
+    session folder is given — a per-request savestate whose bytes hash to the recorded
+    request_sha256 and to the staged snapshot's own sha256. The check is on this accounting,
+    never on hash uniqueness: legitimately identical screens (a 20 s cadence snapshot between
+    key groups) still pass. Returns (ok, message)."""
     lost = [i for i, r in enumerate(requests) if r.get("superseded")]
     if lost:
         return False, (f"request attribution lost: lost boundary at request line(s) {lost} "
                        f"(request_s {[requests[i]['request_s'] for i in lost]}): another "
                        "request's savestate write completed first")
+    by_seq = {e.get("seq"): e for e in index if isinstance(e, dict)}
+    seen = None
+    for i, r in enumerate(requests):
+        if r.get("seq") is None:
+            continue
+        pre, acc = r.get("pre_events"), r.get("accept_events")
+        if pre is None or acc is None:
+            return False, (f"request attribution lost: request line {i} (request_s "
+                           f"{r['request_s']}) staged without ownership evidence: no write "
+                           "accounting ties the staged bytes to this request's own save")
+        if acc <= pre:
+            return False, (f"request attribution lost: request line {i} (request_s "
+                           f"{r['request_s']}) records no write between its send and its "
+                           "staging")
+        if acc - pre > recorder.ONE_SAVE_MAX_EVENTS:
+            return False, (f"request attribution lost: request line {i} (request_s "
+                           f"{r['request_s']}) spans {acc - pre} write events — more than "
+                           f"one save's bound of {recorder.ONE_SAVE_MAX_EVENTS}: a later "
+                           "request's savestate was staged under this window")
+        if seen is not None and acc <= seen:
+            return False, (f"request attribution lost: request lines do not own distinct "
+                           f"writes (accept_events not increasing at line {i})")
+        seen = acc
+        if session is not None:
+            name = r.get("request_file")
+            if not name:
+                return False, (f"request attribution lost: request line {i} (request_s "
+                               f"{r['request_s']}) names no per-request savestate")
+            path = Path(session) / name
+            if not path.is_file() or recorder.sha256(path.read_bytes()) != r.get("request_sha256"):
+                return False, (f"request attribution lost: request line {i} (request_s "
+                               f"{r['request_s']}): the per-request savestate is missing or "
+                               "not the recorded bytes")
+            entry = by_seq.get(r.get("seq"))
+            if entry is not None and entry.get("sha256") != r.get("request_sha256"):
+                return False, (f"request attribution lost: request line {i} (request_s "
+                               f"{r['request_s']}): the staged snapshot's bytes differ from "
+                               "the per-request savestate")
     return True, f"{len(requests)} save requests, every staged request owns its savestate bytes"
 
 
@@ -196,7 +243,7 @@ def main():
         if (session / "requests.jsonl").is_file():
             request_lines = [json.loads(line) for line in
                              (session / "requests.jsonl").read_text().splitlines() if line.strip()]
-        ok, why = check_attribution(request_lines)
+        ok, why = check_attribution(request_lines, session=session, index=index)
         if not ok:
             print(f"acceptance guard FAILED: {why}", file=sys.stderr)
             return 1

@@ -139,6 +139,16 @@ BURST_QUIET_S = 0.5
 # logger delivery max 5.7 ms) and the session's press/release intervals. Recorder policy,
 # not game timing.
 EVENT_SETTLE_S = 0.05
+# [designed] The write-event bound of ONE save request. Measured on this host
+# (evidence/E015/T34-probe-closes-20261009-01.log, three real saves): a single
+# DOSBox-X save produces 53-54 write events on state.sav (27 CLOSE_WRITE plus as
+# many MODIFY — the old docstring's '27 close events' counted only half). 80 is
+# ~1.5x the measured worst save, far above one save's jitter and far below two
+# saves' ~108: a fast pipeline job whose live savestate has advanced by more than
+# this since its request was sent is reading a LATER request's save (the single
+# serialized writer answers requests in order). Searched: the probe above; no
+# prior measurement of per-save event counts existed. Recorder policy.
+ONE_SAVE_MAX_EVENTS = 80
 # [designed] A snapshot's screen is taken when DOSBox-X handles the save key, which the X server
 # delivers after the recorder's request (the clock read before the send) and before the send's last
 # event is flushed (`sent_s`). A key the logger stamps later than `sent_s` may still have reached
@@ -583,9 +593,11 @@ class Watcher:
         self._fast_consumed = None
         self._submitted = 0
         self._finished = 0
+        self._request_seq = 0            # pipeline requests, for the per-request savestate path
 
     # -- staging (the staging gate) -----------------------------------------------------
-    def capture(self, pre_sig, live_emulator=True, pre_events=None, fast=False, sent_box=None):
+    def capture(self, pre_sig, live_emulator=True, pre_events=None, fast=False, sent_box=None,
+                req_path=None):
         """The staging gate, the one path that reads the live savestate (round 2: R1, R2, R4,
         and the R9 follow-up). Iterative, one deadline:
 
@@ -634,7 +646,17 @@ class Watcher:
         write event arriving during its polling, the count past its first poll's. Bytes
         already consumed by the previous acceptance are never re-staged, and identical bytes
         from an unchanged screen are NOT rejected: the rules compare event counts and
-        signatures against the pipeline's own consumption, never hashes."""
+        signatures against the pipeline's own consumption, never hashes.
+
+        Request ownership on every poll (Sol delta r4 R1): a pipeline job whose live savestate
+        has advanced by more than ONE_SAVE_MAX_EVENTS write events since its request was sent
+        is reading a LATER request's save — _AttributionLost on the first-poll path, the
+        fresh-arrival path and the stability fallback alike. With `req_path`, the accepted
+        bytes are also written to that per-request path (the single source of truth the
+        staging reads back), and a fast job never stages from a merely stable live file.
+        Returns (bytes, sha256, accept_events) — accept_events is the write-event count at
+        the accepted capture (the ownership evidence the guard checks), None on the
+        non-fast paths."""
         deadline = self.clock() + SAVE_TIMEOUT_S
         sent = self.clock()
         last_sig, count = None, 0
@@ -644,6 +666,20 @@ class Watcher:
                 self.log(f"dosbox-x exited with code {self.dbx.returncode} during a savestate")
                 raise _EmulatorGone(self.dbx.returncode)
             busy, events = self._write_state()
+            # r4 R1: request ownership on BOTH capture paths. More than one save's
+            # write events since this request was sent mean the live savestate holds
+            # a LATER request's save (the single serialized writer answers requests
+            # in order; one save is ~53-54 events on this host, ONE_SAVE_MAX_EVENTS
+            # bounds it). The check runs at EVERY poll of a pipeline job, so it
+            # covers the first-poll fast path, the fresh-arrival path AND the
+            # stability fallback — the r3 lag check saw only the first poll.
+            if (fast and pre_events is not None and events is not None
+                    and events - pre_events > ONE_SAVE_MAX_EVENTS):
+                raise _AttributionLost(
+                    f"{events - pre_events} write events on the live savestate since this "
+                    f"request was sent (more than one save's bound of {ONE_SAVE_MAX_EVENTS}): "
+                    "a later request's savestate has already overwritten it "
+                    "(request attribution lost)")
             sig = file_signature(self.live)
             first_poll = entry_events is None
             if first_poll:
@@ -653,7 +689,12 @@ class Watcher:
                           and (pre_sig is None or sig != pre_sig))
             accept = False
             if fast_ready:
-                if first_poll and self._fast_consumed != (events, sig):
+                if self._fast_consumed == (events, sig):
+                    # r4 R1: bytes an earlier job already staged are never re-staged
+                    # on any path; this request's own write has not arrived (the
+                    # deadline bounds the wait)
+                    pass
+                elif first_poll:
                     if self._submitted - self._finished > 1:
                         raise _AttributionLost(
                             "a savestate write completed before this capture began while later "
@@ -671,8 +712,12 @@ class Watcher:
                 if data is not None and zip_is_complete(data):
                     _, after = self._write_state()
                     if after == events:
-                        self._fast_consumed = (events, sig)
-                        return data, sha256(data)
+                        if req_path is not None and not self._write_request_bytes(req_path, data):
+                            self.log("per-request savestate could not be written: retrying")
+                            last_sig, count = None, 0
+                        else:
+                            self._fast_consumed = (events, sig)
+                            return data, sha256(data), events
                 self.log("live savestate changed or incomplete during capture: retrying")
                 last_sig, count = None, 0
             if sig is None or sig[1] == 0:
@@ -682,23 +727,32 @@ class Watcher:
             else:
                 last_sig, count = sig, 1
             if count >= STABLE_POLLS and (pre_sig is None or last_sig != pre_sig):
-                # bytes read while a write was in progress are never staged (the task's hazard,
-                # b7777fd): no read starts while a session is open, and any write event between
-                # the check before the reads and the one after them rejects the bytes — the
-                # kernel's event count sees a write the content and the timestamps cannot
-                # (round-6 R1). Reads are read-only and cannot disturb the writer.
-                busy, before = self._write_state()
-                if busy:
-                    self.log("a write session on the savestate is still open: waiting")
-                    self.sleep(POLL_S)
-                    continue
-                data = self._read_live()
-                if data is not None and zip_is_complete(data):
-                    _, after = self._write_state()
-                    if after == before:            # None (check failed) never equals a count
-                        return data, sha256(data)
-                self.log("live savestate changed or incomplete during capture: retrying")
-                last_sig, count = None, 0
+                # r4 R1(c): a pipeline job NEVER stages a stable live file — stability
+                # says nothing about WHOSE save is on it (the stability-fallback
+                # bypass restaged bytes the pipeline had already consumed this way);
+                # only the write accounting above can own bytes, so the job keeps
+                # polling for its own write and the deadline bounds the wait
+                if fast:
+                    self.log("stable live savestate ignored on the fast path: no owned write")
+                else:
+                    # bytes read while a write was in progress are never staged (the task's
+                    # hazard, b7777fd): no read starts while a session is open, and any write
+                    # event between the check before the reads and the one after them rejects
+                    # the bytes — the kernel's event count sees a write the content and the
+                    # timestamps cannot (round-6 R1). Reads are read-only and cannot disturb
+                    # the writer.
+                    busy, before = self._write_state()
+                    if busy:
+                        self.log("a write session on the savestate is still open: waiting")
+                        self.sleep(POLL_S)
+                        continue
+                    data = self._read_live()
+                    if data is not None and zip_is_complete(data):
+                        _, after = self._write_state()
+                        if after == before:            # None (check failed) never equals a count
+                            return data, sha256(data), None
+                    self.log("live savestate changed or incomplete during capture: retrying")
+                    last_sig, count = None, 0
             if live_emulator and self.clock() - sent > RESEND_AFTER_S:
                 self.log(f"F12+S sent again: no complete savestate after {RESEND_AFTER_S}s")
                 self.xrun(key_cmd(self.wid))
@@ -726,6 +780,21 @@ class Watcher:
                 return f.read()
         except OSError:
             return None
+
+    def _write_request_bytes(self, req_path, data):
+        """Atomically write a request's owned savestate bytes to its per-request path (r4 R1a):
+        tmp file + rename in the same folder, so a reader never sees a half-written file. The
+        per-request path is the SINGLE source of truth for the bytes staged under a request's
+        window; the live savestate is only an intermediate."""
+        try:
+            req_path.parent.mkdir(parents=True, exist_ok=True)
+            tmp = req_path.with_name(req_path.name + ".tmp")
+            tmp.write_bytes(data)
+            tmp.replace(req_path)
+            return True
+        except OSError as e:
+            self.log(f"per-request savestate write failed ({e})")
+            return False
 
     def stage(self, data, digest, origin="watcher", request=None, sent=None):
         """Copy the bytes to snapshots/ (the live file is not moved or renamed), append one index
@@ -775,7 +844,7 @@ class Watcher:
             submit(pre, request, self.last_sent, origin, pre_events)
             return None
         try:
-            data, digest = self.capture(pre)
+            data, digest, _ = self.capture(pre)
         except TimeoutError as e:
             self.problems.append(str(e))
             self.log(f"snapshot skipped: {e}")
@@ -788,48 +857,87 @@ class Watcher:
         self.note_request(request, self.last_sent, origin, entry["seq"])
         return entry
 
-    def note_request(self, request, sent, origin, seq, superseded=False):
+    def note_request(self, request, sent, origin, seq, superseded=False, pre_events=None,
+                     accept_events=None, request_file=None, request_sha256=None):
         """One flushed line per save request in requests.jsonl; `seq` is the staged entry's, None
         for a request that staged nothing (a skipped snapshot), which keymap.py counts as a screen
         it could not see (T34 R2). `sent` is this request's own last send (a resend widens the
         window to it), never whatever send happened to be the watcher's latest. `superseded`
-        (Sol delta r3 R1) marks a request whose capture found a LATER request's write already
-        on the live savestate: it staged nothing by design, and the acceptance guard rejects
-        the sitting (R2) rather than certify a boundary it does not own."""
+        (Sol delta r3 R1) marks a request whose capture found a LATER request's write already on
+        the live savestate: it staged nothing by design, and the acceptance guard rejects the
+        sitting (R2) rather than certify a boundary it does not own.
+
+        The ownership evidence fields (Sol delta r4 R2) — `pre_events` (the write-event count
+        before this request was sent), `accept_events` (the count when its own write was
+        accepted), `request_file`/`request_sha256` (the per-request savestate the bytes were
+        staged from) — are what the guard's attribution check REQUIRES on a staged line:
+        absence of `superseded` alone proved nothing (the r4 bypasses produced ordinary
+        successful lines)."""
         line = {"request_s": round(request - self.t0, 3),
                 "sent_s": round(sent - self.t0, 3), "origin": origin, "seq": seq}
         if superseded:
             line["superseded"] = True
+        if pre_events is not None:
+            line["pre_events"] = pre_events
+        if accept_events is not None:
+            line["accept_events"] = accept_events
+        if request_file is not None:
+            line["request_file"] = request_file
+        if request_sha256 is not None:
+            line["request_sha256"] = request_sha256
         with open(self.requests_path, "a", encoding="utf-8") as f:
             f.write(json.dumps(line) + "\n")
             f.flush()
 
-    def _stage_job(self, pre, request, sent, origin, pre_events):
+    def _stage_job(self, pre, request, sent, origin, pre_events, req_path=None):
         """One pipeline job: the staging gate for a request already sent (fast: the kernel's
         write-event count is the write-completed evidence), then stage + note_request. A
         timeout marks THIS request as staged-nothing — the group is skipped and its bursts
         unmapped, never silently covered by a later group's snapshot (T34 Sol-r2 R1c) — and a
-        lost attribution (Sol delta r3 R1) marks it superseded the same way: no snapshot is
-        staged under a window whose bytes belong to another request. A dead emulator re-raises
-        _EmulatorGone for the pipeline to flag the loop (R5)."""
+        lost attribution (Sol delta r3 R1, r4 R1) marks it superseded the same way: no snapshot
+        is staged under a window whose bytes belong to another request. A dead emulator re-raises
+        _EmulatorGone for the pipeline to flag the loop (R5).
+
+        r4 R1(a)/(b): the staged bytes come from the request's per-request path, re-read and
+        verified (present, hash equal to the accepted digest, a complete zip) — the live
+        savestate is only the intermediate; a verification failure is a lost attribution."""
         box = [sent]
         try:
-            data, digest = self.capture(pre, pre_events=pre_events, fast=True, sent_box=box)
+            data, digest, accept_events = self.capture(pre, pre_events=pre_events, fast=True,
+                                                       sent_box=box, req_path=req_path)
         except TimeoutError as e:
             self.problems.append(str(e))
             self.log(f"snapshot skipped: {e}")
-            self.note_request(request, box[0], origin, None)
+            self.note_request(request, box[0], origin, None, pre_events=pre_events)
             return None
         except _AttributionLost as e:
             self.problems.append(str(e))
             self.log(f"request superseded: {e}")
-            self.note_request(request, box[0], origin, None, superseded=True)
+            self.note_request(request, box[0], origin, None, superseded=True,
+                              pre_events=pre_events)
             return None
         except _EmulatorGone:
-            self.note_request(request, box[0], origin, None)
+            self.note_request(request, box[0], origin, None, pre_events=pre_events)
             raise
+        if req_path is not None:
+            try:
+                owned = req_path.read_bytes()
+            except OSError:
+                owned = None
+            if owned is None or sha256(owned) != digest or not zip_is_complete(owned):
+                e = "the per-request savestate is missing or not the accepted bytes"
+                self.problems.append(e)
+                self.log(f"request superseded: {e}")
+                self.note_request(request, box[0], origin, None, superseded=True,
+                                  pre_events=pre_events)
+                return None
+            data = owned
         entry = self.stage(data, digest, origin=origin, request=request, sent=box[0])
-        self.note_request(request, box[0], origin, entry["seq"])
+        self.note_request(request, box[0], origin, entry["seq"], pre_events=pre_events,
+                          accept_events=accept_events,
+                          request_file=str(req_path.relative_to(self.session))
+                          if req_path is not None else None,
+                          request_sha256=digest)
         return entry
 
     # -- the loop -----------------------------------------------------------------------
@@ -855,7 +963,10 @@ class Watcher:
 
         def submit(pre, request, sent, origin, pre_events):
             self._submitted += 1
-            jobs.put((pre, request, sent, origin, pre_events))
+            self._request_seq += 1
+            (self.session / "requests").mkdir(exist_ok=True)
+            jobs.put((pre, request, sent, origin, pre_events,
+                      self.session / "requests" / f"rq-{self._request_seq:04d}.sav"))
 
         def pipeline():
             while True:
@@ -958,7 +1069,7 @@ class Watcher:
         # entry's request: [that request, now] is all the map may assume about its screen (R1)
         lo = self.t0 if self.last_staged_request is None else self.last_staged_request
         try:
-            data, d = self.capture(None, live_emulator=False)
+            data, d, _ = self.capture(None, live_emulator=False)
         except TimeoutError as e:
             self.problems.append(f"shutdown snapshot not captured: {e}")
             return None

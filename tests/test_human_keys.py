@@ -785,9 +785,15 @@ class DeferredCaptureTests(unittest.TestCase):
         self.assertFalse(ok)
         self.assertIn("request attribution lost", why)
         self.assertIn("lost boundary", why)
-        clean = [{"request_s": 0.0, "sent_s": 0.03, "origin": "watcher", "seq": 1},
-                 {"request_s": 20.0, "sent_s": 20.03, "origin": "watcher", "seq": 2},
-                 {"request_s": 40.0, "sent_s": 40.03, "origin": "watcher", "seq": 3}]
+        clean = [{"request_s": 0.0, "sent_s": 0.03, "origin": "watcher", "seq": 1,
+                  "pre_events": 0, "accept_events": 54, "request_file": "requests/rq-0001.sav",
+                  "request_sha256": "h1"},
+                 {"request_s": 20.0, "sent_s": 20.03, "origin": "watcher", "seq": 2,
+                  "pre_events": 54, "accept_events": 108, "request_file": "requests/rq-0002.sav",
+                  "request_sha256": "h2"},
+                 {"request_s": 40.0, "sent_s": 40.03, "origin": "watcher", "seq": 3,
+                  "pre_events": 108, "accept_events": 162,
+                  "request_file": "requests/rq-0003.sav", "request_sha256": "h3"}]
         ok, why = scripted_keys.check_attribution(clean)
         self.assertTrue(ok)
         no_requests_ok, _ = scripted_keys.check_attribution([])
@@ -828,8 +834,9 @@ class AttributionBypassTests(unittest.TestCase):
         class ScriptedClock:
             LIMIT_S = 3600.0
 
-            def __init__(self):
+            def __init__(self, actions):
                 self.t = 0.0
+                self.actions = list(actions)
 
             def __call__(self):
                 return self.t
@@ -838,10 +845,10 @@ class AttributionBypassTests(unittest.TestCase):
                 self.t += s
                 if self.t > self.LIMIT_S:
                     raise AssertionError("fake clock ran away")
-                if actions:
-                    actions.pop(0)()
+                if self.actions:
+                    self.actions.pop(0)()
 
-        self.clock = ScriptedClock()
+        self.clock = ScriptedClock(actions)
         w = rec.Watcher(session, live, "77", fixture.FakeDbx(), {"DISPLAY": ":0"},
                         clock=self.clock, sleep=self.clock.sleep, xrun=lambda a: None,
                         alive=lambda: True, log=lambda m: None)
@@ -865,7 +872,7 @@ class AttributionBypassTests(unittest.TestCase):
         state["events"] = 0
         # arm the write after the pre-send snapshot: the first capture sleep serves
         # both queued requests
-        self.clock.actions = [lambda: later_writes(live, state)]
+        self.clock.actions.append(lambda: later_writes(live, state))
         entry = w._stage_job(pre, 0.0, 0.03, "burst", 0,
                              session / "requests" / "rq-0001.sav")
         line = json.loads((session / "requests.jsonl").read_text())
@@ -933,7 +940,7 @@ class GuardAttributionTests(unittest.TestCase):
         self.assertIn("more than one save", why)
 
     def test_staged_requests_must_own_increasing_writes(self):
-        lines = [self._evidenced(1, 0.0, 0, 54), self._evidenced(2, 1.0, 54, 54)]
+        lines = [self._evidenced(1, 0.0, 0, 54), self._evidenced(2, 1.0, 0, 54)]
         ok, why = self.sk.check_attribution(lines)
         self.assertFalse(ok)
         self.assertIn("distinct writes", why)
