@@ -137,7 +137,7 @@ def main():
     survivors = []
     tmp = ROOT / "scratch" / "t34-tmp"
     tmp.mkdir(parents=True, exist_ok=True)
-    env = dict(os.environ, PYTHONDONTWRITEBYTECODE="1", TMPDIR=str(tmp))
+    env = dict(os.environ, PYTHONDONTWRITEBYTECODE="1", TMPDIR=str(tmp), MUTATION_SWEEP="1")
     # pre-flight: every target string must occur exactly once in the pristine source, so a run
     # that starts on a source left mutated by an aborted earlier run fails before mutating
     for name, filename, old, _ in MUTATIONS:

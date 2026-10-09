@@ -141,3 +141,20 @@ rule. `T34-mutations-20261009-05.log` is its record. The delivery latency the
 50 ms margin bounds was measured by the probe kept as
 [T34-probe-20261009-05.log](T34-probe-20261009-05.log) (a probe log, not a
 finding).
+
+The `-07` sweep (Sol delta rework) fixes the two scheduler/guard defects the
+delta found at human pace and extends the sweep to 52 mutations, all killed
+(`T34-mutations-20261009-07.log`, survivors `[]`). The recorder's burst
+scheduler is now a queue of key groups — each group separated by at least
+`BURST_QUIET_S` gets its own burst snapshot, one per loop pass, instead of the
+four snapshots ten groups produced when one `Burst.last` was overwritten during
+a capture. The acceptance guard (`scripted_keys.check_bursts`) now requires
+exactly one distinct, correctly timed burst snapshot per key group, not "any
+later snapshot", and the privacy proof's positive control is explicit: the
+foreign application's own `xev` log is parsed (`recorder.xev_presses`) and its
+`x`/`y`/`z` asserted, written as `foreign-keys.jsonl` beside the session. The
+three new mutations remove the focused-XTEST foreign sends (R1), merge every
+key back into one group (R2), and let the guard accept fewer snapshots (R3).
+The end-to-end scripted sitting (10 keys at 0.51 s → 10 burst snapshots) is the
+manual acceptance; the same sitting runs once in the full suite as a regression
+test, skipped per-mutation by the sweep (`MUTATION_SWEEP=1`).

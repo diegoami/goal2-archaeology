@@ -1,0 +1,224 @@
+MUTATION: display restriction removed (runtime/human/recorder.py); exit=1; failing tests: 1
+    FAIL: test_logger_rejects_outer_display (tests.test_human_keys.KeyTests.test_logger_rejects_outer_display)
+    stdbuf     present
+MUTATION: R3 focused-XTEST: logger also reads the outer display (runtime/human/recorder.py); exit=1; failing tests: 1
+    FAIL: test_private_display_logs_game_keys_not_outer_app_keys (tests.test_human_keys.KeyTests.test_private_display_logs_game_keys_not_outer_app_keys)
+    stdbuf     present
+MUTATION: R3: logger reads the outer display instead (runtime/human/recorder.py); exit=1; failing tests: 2
+    FAIL: test_private_display_logs_game_keys_not_outer_app_keys (tests.test_human_keys.KeyTests.test_private_display_logs_game_keys_not_outer_app_keys)
+    FAIL: test_the_recorders_own_save_events_make_no_raw_key_burst (tests.test_human_keys.KeyTests.test_the_recorders_own_save_events_make_no_raw_key_burst)
+    stdbuf     present
+MUTATION: R3: play() attaches the logger to the outer display (runtime/human/recorder.py); exit=1; failing tests: 1
+    FAIL: test_a_video_sitting_records_the_xephyr_window (tests.test_human_keys.VideoTests.test_a_video_sitting_records_the_xephyr_window)
+    stdbuf     present
+MUTATION: R8: save keys through XTEST (runtime/human/recorder.py); exit=1; failing tests: 1
+    FAIL: test_the_recorders_own_save_events_make_no_raw_key_burst (tests.test_human_keys.KeyTests.test_the_recorders_own_save_events_make_no_raw_key_burst)
+    stdbuf     present
+MUTATION: burst capture removed (runtime/human/recorder.py); exit=1; failing tests: 2
+    FAIL: test_human_paced_keys_produce_one_burst_snapshot_each (tests.test_human_keys.KeyTests.test_human_paced_keys_produce_one_burst_snapshot_each)
+    FAIL: test_loop_takes_burst_snapshot_between_cadence_ticks (tests.test_human_keys.KeyTests.test_loop_takes_burst_snapshot_between_cadence_ticks)
+    stdbuf     present
+MUTATION: BURST_QUIET_S +1 (runtime/human/recorder.py); exit=1; failing tests: 4
+    FAIL: test_burst_preserves_group_boundaries_across_drains (tests.test_human_keys.KeyTests.test_burst_preserves_group_boundaries_across_drains)
+    FAIL: test_burst_waits_for_quiet_and_only_consumes_once (tests.test_human_keys.KeyTests.test_burst_waits_for_quiet_and_only_consumes_once)
+    FAIL: test_human_paced_keys_produce_one_burst_snapshot_each (tests.test_human_keys.KeyTests.test_human_paced_keys_produce_one_burst_snapshot_each)
+    FAIL: test_loop_takes_burst_snapshot_between_cadence_ticks (tests.test_human_keys.KeyTests.test_loop_takes_burst_snapshot_between_cadence_ticks)
+    stdbuf     present
+MUTATION: BURST_QUIET_S -1 (runtime/human/recorder.py); exit=1; failing tests: 4
+    FAIL: test_burst_waits_for_quiet_and_only_consumes_once (tests.test_human_keys.KeyTests.test_burst_waits_for_quiet_and_only_consumes_once)
+    FAIL: test_loop_takes_burst_snapshot_between_cadence_ticks (tests.test_human_keys.KeyTests.test_loop_takes_burst_snapshot_between_cadence_ticks)
+    FAIL: test_map_boundaries_order_identity_and_counts (tests.test_human_keys.MapTests.test_map_boundaries_order_identity_and_counts)
+    FAIL: test_the_quiet_interval_decides_one_burst_or_two (tests.test_human_keys.MapTests.test_the_quiet_interval_decides_one_burst_or_two)
+    stdbuf     present
+MUTATION: CAPTURE_MARGIN_S +1 (runtime/human/recorder.py); exit=1; failing tests: 3
+    FAIL: test_a_key_between_a_snapshots_send_and_its_staging_is_on_that_snapshots_screen (tests.test_human_keys.MapTests.test_a_key_between_a_snapshots_send_and_its_staging_is_on_that_snapshots_screen)
+    FAIL: test_a_snapshot_inside_a_burst_splits_it (tests.test_human_keys.MapTests.test_a_snapshot_inside_a_burst_splits_it)
+    FAIL: test_map_boundaries_order_identity_and_counts (tests.test_human_keys.MapTests.test_map_boundaries_order_identity_and_counts)
+    stdbuf     present
+MUTATION: CAPTURE_MARGIN_S -1 (runtime/human/recorder.py); exit=1; failing tests: 1
+    FAIL: test_a_key_inside_a_request_window_is_ambiguous (tests.test_human_keys.MapTests.test_a_key_inside_a_request_window_is_ambiguous)
+    stdbuf     present
+MUTATION: NESTED_START_S +1 (runtime/human/recorder.py); exit=1; failing tests: 1
+    FAIL: test_a_live_xephyr_without_its_titled_window_is_never_accepted (tests.test_human_keys.NestedDisplayTests.test_a_live_xephyr_without_its_titled_window_is_never_accepted)
+    stdbuf     present
+MUTATION: NESTED_START_S -1 (runtime/human/recorder.py); exit=1; failing tests: 1
+    FAIL: test_a_live_xephyr_without_its_titled_window_is_never_accepted (tests.test_human_keys.NestedDisplayTests.test_a_live_xephyr_without_its_titled_window_is_never_accepted)
+    stdbuf     present
+MUTATION: first display +1 (runtime/human/recorder.py); exit=1; failing tests: 1
+    FAIL: test_try_start_skips_busy_number_and_changes_only_child_display (tests.test_human_keys.NestedDisplayTests.test_try_start_skips_busy_number_and_changes_only_child_display)
+    stdbuf     present
+MUTATION: first display -1 (runtime/human/recorder.py); exit=1; failing tests: 1
+    FAIL: test_try_start_skips_busy_number_and_changes_only_child_display (tests.test_human_keys.NestedDisplayTests.test_try_start_skips_busy_number_and_changes_only_child_display)
+    stdbuf     present
+MUTATION: request time taken after the send (runtime/human/recorder.py); exit=1; failing tests: 1
+    FAIL: test_each_entry_carries_its_save_request_window_not_its_staging_time (tests.test_human_record.Cadence.test_each_entry_carries_its_save_request_window_not_its_staging_time)
+    stdbuf     present
+MUTATION: request_s is the staging time (runtime/human/recorder.py); exit=1; failing tests: 3
+    FAIL: test_a_resend_widens_the_window_to_the_last_send (tests.test_human_record.Cadence.test_a_resend_widens_the_window_to_the_last_send)
+    FAIL: test_each_entry_carries_its_save_request_window_not_its_staging_time (tests.test_human_record.Cadence.test_each_entry_carries_its_save_request_window_not_its_staging_time)
+    FAIL: test_the_shutdown_window_opens_at_the_last_staged_request (tests.test_human_record.Cadence.test_the_shutdown_window_opens_at_the_last_staged_request)
+    stdbuf     present
+MUTATION: sent_s is the request time (runtime/human/recorder.py); exit=1; failing tests: 3
+    FAIL: test_a_resend_widens_the_window_to_the_last_send (tests.test_human_record.Cadence.test_a_resend_widens_the_window_to_the_last_send)
+    FAIL: test_each_entry_carries_its_save_request_window_not_its_staging_time (tests.test_human_record.Cadence.test_each_entry_carries_its_save_request_window_not_its_staging_time)
+    FAIL: test_the_shutdown_window_opens_at_the_last_staged_request (tests.test_human_record.Cadence.test_the_shutdown_window_opens_at_the_last_staged_request)
+    stdbuf     present
+MUTATION: a resend does not move the window (runtime/human/recorder.py); exit=1; failing tests: 1
+    FAIL: test_a_resend_widens_the_window_to_the_last_send (tests.test_human_record.Cadence.test_a_resend_widens_the_window_to_the_last_send)
+    stdbuf     present
+MUTATION: a skipped request is not logged (runtime/human/recorder.py); exit=1; failing tests: 1
+    ERROR: test_a_skipped_snapshot_is_a_request_with_no_entry (tests.test_human_record.Cadence.test_a_skipped_snapshot_is_a_request_with_no_entry)
+    stdbuf     present
+MUTATION: the shutdown window opens at shutdown (runtime/human/recorder.py); exit=1; failing tests: 1
+    FAIL: test_the_shutdown_window_opens_at_the_last_staged_request (tests.test_human_record.Cadence.test_the_shutdown_window_opens_at_the_last_staged_request)
+    stdbuf     present
+MUTATION: quiet and margin not in meta (runtime/human/recorder.py); exit=1; failing tests: 1
+    ERROR: test_a_video_sitting_records_the_xephyr_window (tests.test_human_keys.VideoTests.test_a_video_sitting_records_the_xephyr_window)
+    stdbuf     present
+MUTATION: R4: accept a live Xephyr without its window (runtime/human/recorder.py); exit=1; failing tests: 5
+    FAIL: test_private_display_logs_game_keys_not_outer_app_keys (tests.test_human_keys.KeyTests.test_private_display_logs_game_keys_not_outer_app_keys)
+    FAIL: test_a_live_xephyr_without_its_titled_window_is_never_accepted (tests.test_human_keys.NestedDisplayTests.test_a_live_xephyr_without_its_titled_window_is_never_accepted)
+    FAIL: test_start_nested_binds_the_real_xephyr_window (tests.test_human_keys.NestedDisplayTests.test_start_nested_binds_the_real_xephyr_window)
+    FAIL: test_try_start_skips_busy_number_and_changes_only_child_display (tests.test_human_keys.NestedDisplayTests.test_try_start_skips_busy_number_and_changes_only_child_display)
+    FAIL: test_a_video_sitting_records_the_xephyr_window (tests.test_human_keys.VideoTests.test_a_video_sitting_records_the_xephyr_window)
+    stdbuf     present
+MUTATION: R4: no per-session title (runtime/human/recorder.py); exit=1; failing tests: 4
+    ERROR: test_private_display_logs_game_keys_not_outer_app_keys (tests.test_human_keys.KeyTests.test_private_display_logs_game_keys_not_outer_app_keys)
+    ERROR: test_start_nested_binds_the_real_xephyr_window (tests.test_human_keys.NestedDisplayTests.test_start_nested_binds_the_real_xephyr_window)
+    FAIL: test_try_start_skips_busy_number_and_changes_only_child_display (tests.test_human_keys.NestedDisplayTests.test_try_start_skips_busy_number_and_changes_only_child_display)
+    FAIL: test_a_video_sitting_records_the_xephyr_window (tests.test_human_keys.VideoTests.test_a_video_sitting_records_the_xephyr_window)
+    stdbuf     present
+MUTATION: R4: title match not exact (runtime/human/recorder.py); exit=1; failing tests: 1
+    FAIL: test_the_xephyr_window_is_the_unique_exact_title (tests.test_human_keys.NestedDisplayTests.test_the_xephyr_window_is_the_unique_exact_title)
+    stdbuf     present
+MUTATION: R4: several title matches accepted (runtime/human/recorder.py); exit=1; failing tests: 1
+    FAIL: test_the_xephyr_window_is_the_unique_exact_title (tests.test_human_keys.NestedDisplayTests.test_the_xephyr_window_is_the_unique_exact_title)
+    stdbuf     present
+MUTATION: R4: video window found by pid (runtime/human/recorder.py); exit=1; failing tests: 1
+    FAIL: test_a_video_sitting_records_the_xephyr_window (tests.test_human_keys.VideoTests.test_a_video_sitting_records_the_xephyr_window)
+    stdbuf     present
+MUTATION: headline keeps host paths (experiments/E015-human-playthrough/keymap.py); exit=1; failing tests: 2
+    FAIL: test_a_key_between_a_snapshots_send_and_its_staging_is_on_that_snapshots_screen (tests.test_human_keys.MapTests.test_a_key_between_a_snapshots_send_and_its_staging_is_on_that_snapshots_screen)
+    FAIL: test_the_headline_skips_host_paths (tests.test_human_keys.MapTests.test_the_headline_skips_host_paths)
+    stdbuf     present
+MUTATION: text identity removed (experiments/E015-human-playthrough/keymap.py); exit=1; failing tests: 8
+    ERROR: test_an_entry_without_a_request_time_brackets_nothing_before_its_staging (tests.test_human_keys.MapTests.test_an_entry_without_a_request_time_brackets_nothing_before_its_staging)
+    FAIL: test_a_key_between_a_snapshots_send_and_its_staging_is_on_that_snapshots_screen (tests.test_human_keys.MapTests.test_a_key_between_a_snapshots_send_and_its_staging_is_on_that_snapshots_screen)
+    FAIL: test_a_key_inside_a_request_window_is_ambiguous (tests.test_human_keys.MapTests.test_a_key_inside_a_request_window_is_ambiguous)
+    FAIL: test_a_skipped_snapshot_request_unmaps_its_burst (tests.test_human_keys.MapTests.test_a_skipped_snapshot_request_unmaps_its_burst)
+    FAIL: test_a_snapshot_inside_a_burst_splits_it (tests.test_human_keys.MapTests.test_a_snapshot_inside_a_burst_splits_it)
+    FAIL: test_map_boundaries_order_identity_and_counts (tests.test_human_keys.MapTests.test_map_boundaries_order_identity_and_counts)
+    FAIL: test_the_quiet_interval_decides_one_burst_or_two (tests.test_human_keys.MapTests.test_the_quiet_interval_decides_one_burst_or_two)
+    FAIL: test_two_bursts_between_the_same_snapshots_are_unmapped (tests.test_human_keys.MapTests.test_two_bursts_between_the_same_snapshots_are_unmapped)
+    stdbuf     present
+MUTATION: headline removed (experiments/E015-human-playthrough/keymap.py); exit=1; failing tests: 7
+    FAIL: test_a_key_between_a_snapshots_send_and_its_staging_is_on_that_snapshots_screen (tests.test_human_keys.MapTests.test_a_key_between_a_snapshots_send_and_its_staging_is_on_that_snapshots_screen)
+    FAIL: test_a_key_inside_a_request_window_is_ambiguous (tests.test_human_keys.MapTests.test_a_key_inside_a_request_window_is_ambiguous)
+    FAIL: test_a_skipped_snapshot_request_unmaps_its_burst (tests.test_human_keys.MapTests.test_a_skipped_snapshot_request_unmaps_its_burst)
+    FAIL: test_a_snapshot_inside_a_burst_splits_it (tests.test_human_keys.MapTests.test_a_snapshot_inside_a_burst_splits_it)
+    FAIL: test_literal_session_map (tests.test_human_keys.MapTests.test_literal_session_map)
+    FAIL: test_map_boundaries_order_identity_and_counts (tests.test_human_keys.MapTests.test_map_boundaries_order_identity_and_counts)
+    FAIL: test_the_quiet_interval_decides_one_burst_or_two (tests.test_human_keys.MapTests.test_the_quiet_interval_decides_one_burst_or_two)
+    stdbuf     present
+MUTATION: invalid snapshot filter removed (experiments/E015-human-playthrough/keymap.py); exit=1; failing tests: 1
+    FAIL: test_map_boundaries_order_identity_and_counts (tests.test_human_keys.MapTests.test_map_boundaries_order_identity_and_counts)
+    stdbuf     present
+MUTATION: skipped requests ignored (experiments/E015-human-playthrough/keymap.py); exit=1; failing tests: 2
+    FAIL: test_a_skipped_snapshot_request_unmaps_its_burst (tests.test_human_keys.MapTests.test_a_skipped_snapshot_request_unmaps_its_burst)
+    FAIL: test_literal_session_map (tests.test_human_keys.MapTests.test_literal_session_map)
+    stdbuf     present
+MUTATION: legacy entry bracketed at staging (experiments/E015-human-playthrough/keymap.py); exit=1; failing tests: 1
+    FAIL: test_an_entry_without_a_request_time_brackets_nothing_before_its_staging (tests.test_human_keys.MapTests.test_an_entry_without_a_request_time_brackets_nothing_before_its_staging)
+    stdbuf     present
+MUTATION: resend window ignored (experiments/E015-human-playthrough/keymap.py); exit=1; failing tests: 1
+    FAIL: test_a_key_inside_a_request_window_is_ambiguous (tests.test_human_keys.MapTests.test_a_key_inside_a_request_window_is_ambiguous)
+    stdbuf     present
+MUTATION: snapshot ordering removed (experiments/E015-human-playthrough/keymap.py); exit=1; failing tests: 3
+    FAIL: test_a_skipped_snapshot_request_unmaps_its_burst (tests.test_human_keys.MapTests.test_a_skipped_snapshot_request_unmaps_its_burst)
+    FAIL: test_literal_session_map (tests.test_human_keys.MapTests.test_literal_session_map)
+    FAIL: test_map_boundaries_order_identity_and_counts (tests.test_human_keys.MapTests.test_map_boundaries_order_identity_and_counts)
+    stdbuf     present
+MUTATION: event ordering removed (experiments/E015-human-playthrough/keymap.py); exit=1; failing tests: 1
+    FAIL: test_map_boundaries_order_identity_and_counts (tests.test_human_keys.MapTests.test_map_boundaries_order_identity_and_counts)
+    stdbuf     present
+MUTATION: split: a key at a request joins the earlier gap (experiments/E015-human-playthrough/keymap.py); exit=1; failing tests: 1
+    FAIL: test_a_key_inside_a_request_window_is_ambiguous (tests.test_human_keys.MapTests.test_a_key_inside_a_request_window_is_ambiguous)
+    stdbuf     present
+MUTATION: ambiguous window rule removed (experiments/E015-human-playthrough/keymap.py); exit=1; failing tests: 1
+    FAIL: test_a_key_inside_a_request_window_is_ambiguous (tests.test_human_keys.MapTests.test_a_key_inside_a_request_window_is_ambiguous)
+    stdbuf     present
+MUTATION: ambiguous window opens after the request (experiments/E015-human-playthrough/keymap.py); exit=1; failing tests: 1
+    FAIL: test_a_key_inside_a_request_window_is_ambiguous (tests.test_human_keys.MapTests.test_a_key_inside_a_request_window_is_ambiguous)
+    stdbuf     present
+MUTATION: burst grouping removed (experiments/E015-human-playthrough/keymap.py); exit=1; failing tests: 2
+    FAIL: test_map_boundaries_order_identity_and_counts (tests.test_human_keys.MapTests.test_map_boundaries_order_identity_and_counts)
+    FAIL: test_the_quiet_interval_decides_one_burst_or_two (tests.test_human_keys.MapTests.test_the_quiet_interval_decides_one_burst_or_two)
+    stdbuf     present
+MUTATION: adjacency: two bursts in a gap mapped (experiments/E015-human-playthrough/keymap.py); exit=1; failing tests: 2
+    FAIL: test_the_quiet_interval_decides_one_burst_or_two (tests.test_human_keys.MapTests.test_the_quiet_interval_decides_one_burst_or_two)
+    FAIL: test_two_bursts_between_the_same_snapshots_are_unmapped (tests.test_human_keys.MapTests.test_two_bursts_between_the_same_snapshots_are_unmapped)
+    stdbuf     present
+MUTATION: release filter removed (experiments/E015-human-playthrough/keymap.py); exit=1; failing tests: 3
+    FAIL: test_a_key_between_a_snapshots_send_and_its_staging_is_on_that_snapshots_screen (tests.test_human_keys.MapTests.test_a_key_between_a_snapshots_send_and_its_staging_is_on_that_snapshots_screen)
+    FAIL: test_literal_session_map (tests.test_human_keys.MapTests.test_literal_session_map)
+    FAIL: test_map_boundaries_order_identity_and_counts (tests.test_human_keys.MapTests.test_map_boundaries_order_identity_and_counts)
+    stdbuf     present
+MUTATION: before is the snapshot after (experiments/E015-human-playthrough/keymap.py); exit=1; failing tests: 7
+    FAIL: test_a_key_between_a_snapshots_send_and_its_staging_is_on_that_snapshots_screen (tests.test_human_keys.MapTests.test_a_key_between_a_snapshots_send_and_its_staging_is_on_that_snapshots_screen)
+    FAIL: test_a_key_inside_a_request_window_is_ambiguous (tests.test_human_keys.MapTests.test_a_key_inside_a_request_window_is_ambiguous)
+    FAIL: test_a_skipped_snapshot_request_unmaps_its_burst (tests.test_human_keys.MapTests.test_a_skipped_snapshot_request_unmaps_its_burst)
+    FAIL: test_a_snapshot_inside_a_burst_splits_it (tests.test_human_keys.MapTests.test_a_snapshot_inside_a_burst_splits_it)
+    FAIL: test_literal_session_map (tests.test_human_keys.MapTests.test_literal_session_map)
+    FAIL: test_map_boundaries_order_identity_and_counts (tests.test_human_keys.MapTests.test_map_boundaries_order_identity_and_counts)
+    FAIL: test_the_quiet_interval_decides_one_burst_or_two (tests.test_human_keys.MapTests.test_the_quiet_interval_decides_one_burst_or_two)
+    stdbuf     present
+MUTATION: after is the snapshot before (experiments/E015-human-playthrough/keymap.py); exit=1; failing tests: 7
+    FAIL: test_a_key_between_a_snapshots_send_and_its_staging_is_on_that_snapshots_screen (tests.test_human_keys.MapTests.test_a_key_between_a_snapshots_send_and_its_staging_is_on_that_snapshots_screen)
+    FAIL: test_a_key_inside_a_request_window_is_ambiguous (tests.test_human_keys.MapTests.test_a_key_inside_a_request_window_is_ambiguous)
+    FAIL: test_a_skipped_snapshot_request_unmaps_its_burst (tests.test_human_keys.MapTests.test_a_skipped_snapshot_request_unmaps_its_burst)
+    FAIL: test_a_snapshot_inside_a_burst_splits_it (tests.test_human_keys.MapTests.test_a_snapshot_inside_a_burst_splits_it)
+    FAIL: test_literal_session_map (tests.test_human_keys.MapTests.test_literal_session_map)
+    FAIL: test_map_boundaries_order_identity_and_counts (tests.test_human_keys.MapTests.test_map_boundaries_order_identity_and_counts)
+    FAIL: test_the_quiet_interval_decides_one_burst_or_two (tests.test_human_keys.MapTests.test_the_quiet_interval_decides_one_burst_or_two)
+    stdbuf     present
+MUTATION: missing-bracket rule removed (experiments/E015-human-playthrough/keymap.py); exit=1; failing tests: 3
+    ERROR: test_a_skipped_snapshot_request_unmaps_its_burst (tests.test_human_keys.MapTests.test_a_skipped_snapshot_request_unmaps_its_burst)
+    ERROR: test_literal_session_map (tests.test_human_keys.MapTests.test_literal_session_map)
+    ERROR: test_map_boundaries_order_identity_and_counts (tests.test_human_keys.MapTests.test_map_boundaries_order_identity_and_counts)
+    stdbuf     present
+MUTATION: session constants ignored (experiments/E015-human-playthrough/keymap.py); exit=1; failing tests: 1
+    FAIL: test_literal_session_map (tests.test_human_keys.MapTests.test_literal_session_map)
+    stdbuf     present
+MUTATION: missing-bracket count removed (experiments/E015-human-playthrough/keymap.py); exit=1; failing tests: 7
+    FAIL: test_a_key_inside_a_request_window_is_ambiguous (tests.test_human_keys.MapTests.test_a_key_inside_a_request_window_is_ambiguous)
+    FAIL: test_a_skipped_snapshot_request_unmaps_its_burst (tests.test_human_keys.MapTests.test_a_skipped_snapshot_request_unmaps_its_burst)
+    FAIL: test_an_entry_without_a_request_time_brackets_nothing_before_its_staging (tests.test_human_keys.MapTests.test_an_entry_without_a_request_time_brackets_nothing_before_its_staging)
+    FAIL: test_literal_session_map (tests.test_human_keys.MapTests.test_literal_session_map)
+    FAIL: test_map_boundaries_order_identity_and_counts (tests.test_human_keys.MapTests.test_map_boundaries_order_identity_and_counts)
+    FAIL: test_the_quiet_interval_decides_one_burst_or_two (tests.test_human_keys.MapTests.test_the_quiet_interval_decides_one_burst_or_two)
+    FAIL: test_two_bursts_between_the_same_snapshots_are_unmapped (tests.test_human_keys.MapTests.test_two_bursts_between_the_same_snapshots_are_unmapped)
+    stdbuf     present
+MUTATION: transition count removed (experiments/E015-human-playthrough/keymap.py); exit=1; failing tests: 1
+    FAIL: test_map_boundaries_order_identity_and_counts (tests.test_human_keys.MapTests.test_map_boundaries_order_identity_and_counts)
+    stdbuf     present
+MUTATION: press count removed (experiments/E015-human-playthrough/keymap.py); exit=1; failing tests: 4
+    FAIL: test_keymap_prints_and_writes_no_record (tests.test_human_keys.MapTests.test_keymap_prints_and_writes_no_record)
+    FAIL: test_literal_session_map (tests.test_human_keys.MapTests.test_literal_session_map)
+    FAIL: test_map_boundaries_order_identity_and_counts (tests.test_human_keys.MapTests.test_map_boundaries_order_identity_and_counts)
+    FAIL: test_two_bursts_between_the_same_snapshots_are_unmapped (tests.test_human_keys.MapTests.test_two_bursts_between_the_same_snapshots_are_unmapped)
+    stdbuf     present
+MUTATION: record keeps the home directory (experiments/E015-human-playthrough/extract.py); exit=1; failing tests: 1
+    FAIL: test_the_record_names_no_home_directory (tests.test_human_record.Extraction.test_the_record_names_no_home_directory)
+    stdbuf     present
+MUTATION: R1: focused-XTEST foreign sends removed (tests/test_human_keys.py); exit=1; failing tests: 1
+    FAIL: test_private_display_logs_game_keys_not_outer_app_keys (tests.test_human_keys.KeyTests.test_private_display_logs_game_keys_not_outer_app_keys)
+    stdbuf     present
+MUTATION: drain-events-overwrite: every key joins one group (runtime/human/recorder.py); exit=1; failing tests: 2
+    FAIL: test_burst_preserves_group_boundaries_across_drains (tests.test_human_keys.KeyTests.test_burst_preserves_group_boundaries_across_drains)
+    FAIL: test_human_paced_keys_produce_one_burst_snapshot_each (tests.test_human_keys.KeyTests.test_human_paced_keys_produce_one_burst_snapshot_each)
+    stdbuf     present
+MUTATION: R3: guard accepts fewer snapshots than groups (experiments/E015-human-playthrough/scripted_keys.py); exit=1; failing tests: 2
+    FAIL: test_fewer_snapshots_than_groups_fails (tests.test_human_keys.GuardTests.test_fewer_snapshots_than_groups_fails)
+    FAIL: test_the_same_snapshot_cannot_bracket_two_groups (tests.test_human_keys.GuardTests.test_the_same_snapshot_cannot_bracket_two_groups)
+    stdbuf     present
+Mutations: 52; survivors: []

@@ -541,3 +541,29 @@ class GuardTests(unittest.TestCase):
         bursts = [{"elapsed_s": 99.0}]
         ok, _ = self.sk.check_bursts(groups, bursts, 0.0)
         self.assertFalse(ok)
+
+    @unittest.skipIf(os.environ.get("MUTATION_SWEEP"),
+                     "heavy end-to-end scripted sitting; run once in the full suite, skipped per-mutation")
+    def test_scripted_sitting_produces_one_burst_snapshot_per_key_group(self):
+        # R3(b)/R2(c) end to end: scripted_keys.py with N keys at the 0.5-1.5 s human pace must
+        # produce N distinct burst snapshots in the index (the pre-fix recorder merged ten groups
+        # into four and the `any` guard still exited 0). Skipped during the mutation sweep so the
+        # sweep stays fast; the full suite runs it once.
+        before = set(rec.SESSIONS.glob("*")) if rec.SESSIONS.is_dir() else set()
+        session = None
+        try:
+            r = subprocess.run([sys.executable,
+                                str(ROOT / "experiments/E015-human-playthrough/scripted_keys.py"),
+                                "--keys", "a;b;c;d;e", "--gap-min", "0.7", "--gap-max", "0.7",
+                                "--seed", "34"],
+                               capture_output=True, text=True, timeout=240)
+            self.assertEqual(r.returncode, 0, (r.stdout + r.stderr)[-4000:])
+            fresh = (set(rec.SESSIONS.glob("*")) if rec.SESSIONS.is_dir() else set()) - before
+            self.assertEqual(len(fresh), 1, fresh)
+            session = fresh.pop()
+            index = [json.loads(line) for line in (session / "index.jsonl").read_text().splitlines()]
+            bursts = [e for e in index if e["origin"] == "burst"]
+            self.assertEqual(len(bursts), 5, bursts)
+        finally:
+            if session is not None:
+                shutil.rmtree(session, ignore_errors=True)
