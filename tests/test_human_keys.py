@@ -655,13 +655,145 @@ class BurstPipelineTests(unittest.TestCase):
             w = rec.Watcher(session, live, "77", fixture.FakeDbx(), {"DISPLAY": ":0"},
                             clock=clock, sleep=clock.sleep, xrun=lambda a: None,
                             alive=lambda: True, log=lambda m: None)
-            self.assertIsNone(w._stage_job(rec.file_signature(live), 0.0, 0.03, "burst", 0))
+            self.assertIsNone(w._stage_job(rec.file_signature(live), 0.0, 0.03, "burst", 0, 0))
             line = json.loads((session / "requests.jsonl").read_text())
             # the group is marked skipped: a request that staged nothing (its window may span
             # the gate's resends; what the map needs is the seq of None)
             self.assertEqual((line["request_s"], line["origin"], line["seq"]),
                              (0.0, "burst", None))
             self.assertFalse((session / "index.jsonl").exists())
+
+
+class DeferredCaptureTests(unittest.TestCase):
+    """Sol delta r3 R1/R2: a stage job that runs late (the reviewer's wrap-_stage_job 2 s
+    sleep) must not stage the live savestate's CURRENT bytes under the slow request's window —
+    by then later requests have overwritten the file. The request is marked superseded, the
+    map unmaps its group, and the acceptance guard rejects the sitting with 'request
+    attribution lost'."""
+
+    def _sitting(self, delay_first_job, quit_after):
+        # the r2 reproduction's harness: a serialized stand-in writer (0.6 s per atomic save),
+        # keys 0.527 s apart, staging off the loop's critical path
+        from tests import test_human_record as fixture
+        session = Path(tempfile.mkdtemp())
+        self.addCleanup(shutil.rmtree, session, ignore_errors=True)
+        (session / "snapshots").mkdir()
+        live = session / "state.sav"
+        live.write_bytes(fixture.tiny_zip(b"vga-0"))
+        writes = queue.Queue()
+
+        def serve_writes():
+            n = 0
+            while True:
+                item = writes.get()
+                if item is None:
+                    return
+                time.sleep(0.6)
+                tmp = live.with_name(live.name + ".tmp")
+                tmp.write_bytes(fixture.tiny_zip(f"vga-{item}".encode()))
+                tmp.replace(live)
+
+        threading.Thread(target=serve_writes, daemon=True).start()
+        counter = [0]
+
+        def xrun(argv):
+            time.sleep(0.03)
+            counter[0] += 1
+            writes.put(counter[0])
+
+        w = rec.Watcher(session, live, "77", fixture.FakeDbx(), {"DISPLAY": ":0"},
+                        xrun=xrun, alive=lambda: True, log=lambda m: None)
+        if delay_first_job:
+            # the r3 reproduction: the recorder child's _stage_job sleeps 2 s before its
+            # first burst capture; while it waits, later requests rewrite the live savestate
+            original = w._stage_job
+            slept = [False]
+
+            def slow_first(*args, **kwargs):
+                if not slept[0]:
+                    slept[0] = True
+                    time.sleep(2.0)
+                return original(*args, **kwargs)
+            w._stage_job = slow_first
+        arrivals = [w.t0 + 1.0 + 0.527 * k for k in range(10)]
+
+        class FakeKeys:
+            error = None
+            proc = types.SimpleNamespace(poll=lambda: None)
+
+            def __init__(self):
+                self.events = []
+                for k, t in enumerate(arrivals):
+                    self.events.append({"monotonic_s": t, "event": "press", "keysym": f"k{k}"})
+                    self.events.append({"monotonic_s": t + 0.012, "event": "release",
+                                        "keysym": f"k{k}"})
+                self.i = 0
+
+            def drain(self):
+                now = time.monotonic()
+                out = []
+                while self.i < len(self.events) and self.events[self.i]["monotonic_s"] <= now:
+                    out.append(self.events[self.i])
+                    self.i += 1
+                return out
+
+        entries = w.run(quit_after=quit_after, keys=FakeKeys())
+        writes.put(None)
+        index = [json.loads(line) for line in (session / "index.jsonl").read_text().splitlines()]
+        requests = [json.loads(line) for line in
+                    (session / "requests.jsonl").read_text().splitlines()]
+        return session, w, entries, index, requests
+
+    def test_a_deferred_stage_job_is_marked_superseded_and_never_stages(self):
+        # R1: the slow job wakes to a live savestate later requests have already rewritten
+        # (two or more completed writes past its pre-send count); it must stage NOTHING under
+        # its own request window and be marked superseded in requests.jsonl
+        import keymap
+        session, w, entries, index, requests = self._sitting(True, quit_after=14)
+        superseded = [r for r in requests if r.get("superseded")]
+        self.assertTrue(superseded, requests)          # the deferred capture was caught
+        for r in superseded:
+            self.assertIsNone(r["seq"])                # superseded requests stage nothing
+        # no staged entry carries a superseded request's window
+        windows = {(e["request_s"]) for e in index}
+        for r in superseded:
+            self.assertNotIn(r["request_s"], windows)
+        # the map unmaps the superseded groups' presses: their boundary is lost, not guessed
+        states = [{"entry": e, "screen_text": f"SCREEN-{e['seq']}", "error": None}
+                  for e in index]
+        events = []
+        for k in range(10):
+            events.append({"monotonic_s": w.t0 + 1.0 + 0.527 * k, "event": "press",
+                           "keysym": f"k{k}"})
+        result = keymap.build_map(states, events, w.t0, quiet=rec.BURST_QUIET_S,
+                                  margin=rec.CAPTURE_MARGIN_S, requests=requests)
+        self.assertGreaterEqual(result["unmapped_keys"], len(superseded))
+
+    def test_the_guard_rejects_a_superseded_sitting(self):
+        # R2: the acceptance guard (check_attribution, as scripted_keys.main runs it first)
+        # must reject the deferred-capture sitting with the attribution error, and must NOT
+        # reject a clean sitting's requests — including identical staged screens — on hash
+        # grounds (R2c: the check is on attribution, not uniqueness)
+        import scripted_keys
+        _, _, _, _, requests = self._sitting(True, quit_after=14)
+        ok, why = scripted_keys.check_attribution(requests)
+        self.assertFalse(ok)
+        self.assertIn("request attribution lost", why)
+        self.assertIn("lost boundary", why)
+        clean = [{"request_s": 0.0, "sent_s": 0.03, "origin": "watcher", "seq": 1},
+                 {"request_s": 20.0, "sent_s": 20.03, "origin": "watcher", "seq": 2},
+                 {"request_s": 40.0, "sent_s": 40.03, "origin": "watcher", "seq": 3}]
+        ok, why = scripted_keys.check_attribution(clean)
+        self.assertTrue(ok)
+        no_requests_ok, _ = scripted_keys.check_attribution([])
+        self.assertTrue(no_requests_ok)
+
+    def test_a_clean_pipeline_sitting_has_no_superseded_requests(self):
+        # control: without the injected delay the same sitting (the r2 10/10 reproduction)
+        # must stage every request — the attribution check is additive, not breaking
+        _, _, entries, _, requests = self._sitting(False, quit_after=8.5)
+        self.assertEqual(len(entries), 11)
+        self.assertFalse([r for r in requests if r.get("superseded")], requests)
 
 
 class GuardTests(unittest.TestCase):

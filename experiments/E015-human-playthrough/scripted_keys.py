@@ -79,6 +79,23 @@ def check_request_windows(groups, bursts, t0, margin):
     return True, f"{len(bursts)} request windows interleaved with their key groups"
 
 
+def check_attribution(requests):
+    """The acceptance guard, attribution half (Sol delta r3 R2): no save request may be
+    superseded — a request whose capture found a later request's write already on the live
+    savestate staged nothing and the screen boundary it was sent to catch is lost. The old
+    guard certified that sitting ("every press mapped", "10 for 10") because it trusted the
+    recorder's request windows; with a superseded request those windows are exactly what is
+    wrong. The check is on the recorder's own superseded marks, never on hash equality:
+    legitimately identical screens (a 20 s cadence snapshot between key groups) still pass.
+    Returns (ok, message)."""
+    lost = [i for i, r in enumerate(requests) if r.get("superseded")]
+    if lost:
+        return False, (f"request attribution lost: lost boundary at request line(s) {lost} "
+                       f"(request_s {[requests[i]['request_s'] for i in lost]}): another "
+                       "request's savestate write completed first")
+    return True, f"{len(requests)} save requests, every staged request owns its savestate bytes"
+
+
 def check_mapped(result):
     """The acceptance guard, coverage half (Sol r2 R2b): every press must be mapped. Equal
     snapshot counts are not enough — the pre-fix clean sitting exited 0 with '10 for 10 key
@@ -172,6 +189,17 @@ def main():
         quiet = meta.get("burst_quiet_s", recorder.BURST_QUIET_S)
         margin = meta.get("capture_margin_s", recorder.CAPTURE_MARGIN_S)
         groups = group_presses(events, quiet)
+        # Sol delta r3 R2: per-request attribution FIRST — a superseded request (its bytes
+        # taken by a later request's write) rejects the sitting before any coverage is
+        # claimed; the count checks below would only crash on the missing snapshots
+        request_lines = []
+        if (session / "requests.jsonl").is_file():
+            request_lines = [json.loads(line) for line in
+                             (session / "requests.jsonl").read_text().splitlines() if line.strip()]
+        ok, why = check_attribution(request_lines)
+        if not ok:
+            print(f"acceptance guard FAILED: {why}", file=sys.stderr)
+            return 1
         ok, why = check_bursts(groups, bursts, t0)
         assert ok, why
         # Sol r2 R2a: request-window timing per group (not clustered after every group) ...

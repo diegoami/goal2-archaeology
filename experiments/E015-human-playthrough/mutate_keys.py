@@ -143,8 +143,8 @@ MUTATIONS = [
     # next group's request; with the modelled 0.6 s write latency the requests fall behind
     # the 0.527 s key spacing and key pairs share a gap (unmapped).
     ("r2-R3: scheduler waits for the previous capture", REC,
-     'jobs.put((pre, request, sent, origin, pre_events))',
-     'jobs.put((pre, request, sent, origin, pre_events)); jobs.join()'),
+     'jobs.put((pre, request, sent, origin, pre_events, pre_closes))',
+     'jobs.put((pre, request, sent, origin, pre_events, pre_closes)); jobs.join()'),
 ]
 
 
