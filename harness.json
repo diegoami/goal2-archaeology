@@ -3,9 +3,8 @@
   "models": {
     "mimo-flash": {
       "id": "opencode-go/mimo-v2.6-flash",
-      "variant": "high",
       "family": "mimo",
-      "watch": "Light: tested 2026-10-09 on implement, fix, review; passed (owner, 2026-10-09). The OpenCode Go route; MiMo is its own family for the reviewer-family rule."
+      "watch": "New (the owner, 2026-10-09): takes the place of a model blacklisted on every route (L67). The owner tested it on implement, fix and review tasks, all passed; not yet run here. It offers no variants, so no variant field. A family of its own (mimo) for the reviewer-family rule."
     },
     "luna": {
       "id": "openai/gpt-5.6-luna",
@@ -21,74 +20,89 @@
       "id": "openai/gpt-6-sol",
       "variant": "low",
       "family": "openai",
-      "watch": "Heavy: effort low, medium only when justified, never high (the owner, 2026-10-05). Sol reviews complex tasks (L101)."
+      "watch": "A candidate, probed only (2026-10-03, L35): compare with luna on the same kind of review, or with mimo-flash on the same kind of task."
+    },
+    "sol-6.1": {
+      "id": "openai/gpt-6.1-sol",
+      "variant": "low",
+      "family": "openai",
+      "watch": "A candidate, probed only (2026-10-03, L35): compare with luna on the same kind of review, or with mimo-flash on the same kind of task."
     },
     "mimo-pro": {
       "id": "opencode-go/mimo-v2.6-pro",
-      "variant": "high",
       "family": "mimo",
-      "watch": "Heavy: tested 2026-10-09 on implement, fix, review; passed (owner, 2026-10-09). The OpenCode Go route; MiMo is its own family for the reviewer-family rule."
+      "watch": "New (the owner, 2026-10-09): takes the place of a model blacklisted on every route (L67). The owner tested it (the heavy model on OpenCode Go) on implement, fix and review tasks, all passed; not yet run here. It offers no variants, so no variant field. A family of its own (mimo) for the reviewer-family rule."
     },
-    "zai-glm-5.3-flash": {
+    "glm": {
+      "id": "zai-coding-plan/glm-5.3",
+      "variant": "low",
+      "family": "glm",
+      "watch": "Back on Z.AI's plan (L35) after ending long implementer runs early (L27): look for reading then exit 0 with no commit, and for cd chains rejected as external_directory (L31)."
+    },
+    "glm-flash": {
       "id": "zai-coding-plan/glm-5.3-flash",
       "variant": "high",
       "family": "glm",
       "watch": "Back on Z.AI's plan (L35) after going 900 s without a step and ending runs early (L27), and missing a must-fix as a reviewer: look for an idle timeout, exit 0 with no commit, and an approve with no DW evidence (L32)."
     },
-    "zai-glm-5.3": {
-      "id": "zai-coding-plan/glm-5.3",
+    "ali-glm": {
+      "id": "alibaba-token-plan/glm-5.3",
       "variant": "low",
       "family": "glm",
-      "watch": "Heavy: effort low, medium only when justified, never high (the owner, 2026-10-05). Back on Z.AI's plan (L35) after ending long implementer runs early (L27): look for reading then exit 0 with no commit, and for cd chains rejected as external_directory (L31). From 8 Oct 2026 glm-5.3 on Z.AI costs 3x in weekday peak: prefer ali-glm or another provider then (the owner, 2026-10-06)."
-    },
-    "gpt-6.1-sol": {
-      "id": "openai/gpt-6.1-sol",
-      "variant": "low",
-      "family": "openai",
-      "watch": "Heavy: effort low, medium only when justified, never high (the owner, 2026-10-05). Sol reviews complex tasks (L101)."
+      "watch": "A candidate, probed only (2026-10-06, L35): the same GLM-5.3 as glm, on Alibaba's route — no Z.AI peak multiplier, and no night discount. Not yet run on a task or review."
     },
     "ali-qwen-max": {
       "id": "alibaba-token-plan/qwen3.8-max",
       "variant": "low",
       "family": "qwen",
-      "watch": "Heavy: offers low, medium, xhigh; low (L54). Probed 2026-10-05 (PONG in 7 s) and 2026-10-06 19:39. A new family here, a candidate implementer or reviewer for hard tasks. Its key is the env var ALIBABA_TOKEN_PLAN_API_KEY (never opencode auth login: an auth.json entry overrides it); in WSL it comes from ~/.config/ai-keys.env (loaded by ~/.bashrc and ~/.profile) and, for commands started from Windows, from WSLENV; 'Provider not found' means it is missing: restart the session or shell, and tell the owner if it still is. One monthly pool shared by all alibaba models (quota-tracker /quota/alibaba; pricing.discount_now says whether the night discount is live). Night discount 22:00-08:00 UTC+8: qwen3.8 60% off, glm-5.3 none -- prefer long alibaba runs while discount_now is true (the owner, 2026-10-06). (DeepSeek variants removed 2026-10-09: blacklisted on any route.)"
+      "watch": "A candidate, probed only (2026-10-06, L35): Alibaba's heavy model (switch.mjs), at low like every heavy one (L54). Not yet run on a task or review."
     },
     "ali-qwen-flash": {
       "id": "alibaba-token-plan/qwen3.8-flash",
       "variant": "medium",
       "family": "qwen",
-      "watch": "Light: offers low, medium, xhigh (no high); medium (the owner, 2026-10-06; xhigh until then). Probed 2026-10-05 (PONG in 7 s) and 2026-10-06 19:39. Its key is the env var ALIBABA_TOKEN_PLAN_API_KEY (never opencode auth login: an auth.json entry overrides it); in WSL it comes from ~/.config/ai-keys.env (loaded by ~/.bashrc and ~/.profile) and, for commands started from Windows, from WSLENV; 'Provider not found' means it is missing: restart the session or shell, and tell the owner if it still is. One monthly pool shared by all alibaba models (quota-tracker /quota/alibaba; pricing.discount_now says whether the night discount is live). Night discount 22:00-08:00 UTC+8: qwen3.8 60% off, glm-5.3 none -- prefer long alibaba runs while discount_now is true (the owner, 2026-10-06). (DeepSeek variants removed 2026-10-09: blacklisted on any route.)"
-    },
-    "ali-glm": {
-      "id": "alibaba-token-plan/glm-5.3",
-      "variant": "low",
-      "family": "glm",
-      "watch": "Heavy: low (L54). The same model as zai-glm-5.3 on the Alibaba pool, for when Z.ai's windows are exhausted (and from 8 Oct 2026, when zai's 3x weekday-peak pricing bites); no night discount on glm-5.3. Probed 2026-10-05 (PONG in 6 s) and 2026-10-06 19:39. Its key is the env var ALIBABA_TOKEN_PLAN_API_KEY (never opencode auth login: an auth.json entry overrides it); in WSL it comes from ~/.config/ai-keys.env (loaded by ~/.bashrc and ~/.profile) and, for commands started from Windows, from WSLENV; 'Provider not found' means it is missing: restart the session or shell, and tell the owner if it still is. One monthly pool shared by all alibaba models (quota-tracker /quota/alibaba; pricing.discount_now says whether the night discount is live). Night discount 22:00-08:00 UTC+8: qwen3.8 60% off, glm-5.3 none -- prefer long alibaba runs while discount_now is true (the owner, 2026-10-06). The default GLM seat from 8 Oct 2026 (the owner, 2026-10-06). (DeepSeek variants removed 2026-10-09: blacklisted on any route.)"
+      "watch": "A candidate, probed only (2026-10-06, L35): light, but it offers no plain high (only low, medium, xhigh), so it runs at medium. Not yet run on a task or review."
     },
     "mm-m3": {
       "id": "minimax/MiniMax-M3",
       "variant": "thinking",
       "family": "minimax",
-      "watch": "MiniMax's heavy model (the owner, 2026-10-06): offers only none (thinking off) and thinking (adaptive); thinking. A new family here, a candidate implementer or an independent reviewer. Probed 2026-10-06 19:39. Its key is the env var MINIMAX_API_KEY from ~/.config/ai-keys.env (loaded by ~/.bashrc and ~/.profile); 'Provider not found' means it is missing: restart the session or shell. Quota: curl -s localhost:8765/quota/minimax (a 5-hour and a weekly window). The L38 heavy escalation rung before the Claude fallback, and the alternate for the Sol seat when openai is exhausted (the owner, 2026-10-06)."
+      "watch": "The heavy model of the MiniMax Token Plan (the owner, 2026-10-06); it offers only none and thinking, and runs at thinking. Probed only (2026-10-06, 4.7 s). Key from MINIMAX_API_KEY (~/.config/ai-keys.env; never opencode auth login). Quota: curl -s localhost:8765/quota/minimax (5-hour and weekly windows). A new family: an independent reviewer for GLM, MiMo, Qwen, OpenAI or Claude work."
     },
     "mm-m2.7": {
       "id": "minimax/MiniMax-M2.7",
       "family": "minimax",
-      "watch": "MiniMax's light model (the owner, 2026-10-06): offers no effort variants (no variant field; one is ignored if sent). Probed 2026-10-06 19:39. Its key is the env var MINIMAX_API_KEY from ~/.config/ai-keys.env; 'Provider not found' means it is missing: restart the session or shell. Quota: curl -s localhost:8765/quota/minimax (a 5-hour and a weekly window)."
+      "watch": "Light (the owner, 2026-10-06); it offers no variants, so no variant field. Probed only (2026-10-06, 4.2 s). Key and quota as mm-m3."
+    }
+  },
+  "chooser": {
+    "implementer": {
+      "easy": [
+        "glm-flash",
+        "mimo-flash"
+      ],
+      "hard": [
+        "mimo-flash",
+        "glm-flash"
+      ]
     },
-    "mm-m2.7-highspeed": {
-      "id": "minimax/MiniMax-M2.7-highspeed",
-      "family": "minimax",
-      "watch": "A faster variant of the light mm-m2.7; offers no effort variants (no variant field; one is ignored if sent). Probed 2026-10-06 19:39. Its key is the env var MINIMAX_API_KEY from ~/.config/ai-keys.env; 'Provider not found' means it is missing: restart the session or shell. Quota: curl -s localhost:8765/quota/minimax (a 5-hour and a weekly window)."
+    "reviewer": {
+      "easy": [
+        "luna"
+      ],
+      "hard": [
+        "glm",
+        "mm-m3",
+        "mimo-pro",
+        "luna"
+      ]
     }
   },
   "implementer": {
     "agent": "implementer",
     "chain": [
-      "zai-glm-5.3-flash",
-      "mimo-flash",
-      "mm-m2.7",
-      "ali-qwen-flash"
+      "glm-flash",
+      "mimo-flash"
     ],
     "claudeFallback": "sonnet",
     "startupTimeoutSec": 180,
@@ -105,13 +119,12 @@
     "idleTimeoutSec": 600,
     "totalTimeoutSec": 3600,
     "hard": [
-      "zai-glm-5.3",
-      "ali-glm",
-      "ali-qwen-max",
+      "glm",
+      "mm-m3",
       "mimo-pro",
       "luna"
     ],
-    "sol": "gpt-6.1-sol"
+    "sol": "sol-6.1"
   },
   "jev": {
     "model": "jev-1.13",

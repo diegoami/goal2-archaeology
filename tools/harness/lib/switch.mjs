@@ -6,15 +6,19 @@ export const ROLES = ['implementer', 'reviewer'];
 // A model's family, from its id: the family rule (L3) compares these. "opencode-go/gpt-6-luna" and
 // "openai/gpt-6-luna" are both openai: the vendor, not the route.
 const FAMILIES = [
-  [/^mimo/, 'mimo'], [/^glm/, 'glm'], [/^(gpt|o\d|codex|chatgpt)/, 'openai'],
+  [/^deepseek/, 'deepseek'], [/^glm/, 'glm'], [/^(gpt|o\d|codex|chatgpt)/, 'openai'],
   [/^claude/, 'anthropic'], [/^kimi/, 'kimi'], [/^qwen/, 'qwen'], [/^minimax/, 'minimax'],
-  [/^grok/, 'xai'], [/^gemini/, 'google'], [/^longcat/, 'longcat'],
+  [/^mimo/, 'mimo'], [/^grok/, 'xai'], [/^gemini/, 'google'], [/^longcat/, 'longcat'],
   [/^hy\d/, 'hunyuan'], [/^(llama|muse)/, 'meta'], [/^mistral|^devstral|^codestral/, 'mistral'],
 ];
 const modelPart = (id) => String(id).split('/').slice(1).join('/').toLowerCase();
 // The vendor's family when the id names a known vendor, else null: only then may --family name it.
+// The model's own name decides, also behind a vendor segment that is not a family name
+// (openrouter/xiaomi/mimo-v2.6-pro is mimo, Luna's R1 on PR 150).
 export function knownFamilyOf(id) {
-  return FAMILIES.find(([re]) => re.test(modelPart(id)))?.[1] ?? null;
+  const part = modelPart(id);
+  const own = part.split('/').at(-1);
+  return FAMILIES.find(([re]) => re.test(part) || re.test(own))?.[1] ?? null;
 }
 export function familyOf(id) {
   const model = modelPart(id);
@@ -22,20 +26,21 @@ export function familyOf(id) {
 }
 
 // Heavy models run at `low`, or `medium` at most; light ones at `high` (L54, #83). Heavy: Sol, GLM-5.3
-// (not Flash), MiMo v2.6 Pro, Qwen 3.8 Max, MiniMax-M3, Opus, wherever they are served from.
-// Exactly the models the rule names (Sol's R2 on PR 94): another GLM or MiMo release is not heavy.
+// (not Flash), DeepSeek V4 Pro, MiMo V2.6 Pro, Opus, wherever they are served from (DeepSeek is
+// blacklisted since 2026-10-09, but still recognised).
+// Exactly the models the rule names (Sol's R2 on PR 94): another GLM or DeepSeek release is not heavy.
+// A dated suffix is the same model, not a release: deepseek-v4-pro-0813 (the only Alibaba id with
+// the night discount) is the named DeepSeek V4 Pro.
 // Qwen 3.8 Max is the heavy model of Alibaba's Token Plan (the owner, 2026-10-05).
 // MiniMax-M3 is the heavy model of the MiniMax Token Plan (the owner, 2026-10-06); its ladder
 // is none/thinking, not the effort ladder, so its entry pins `thinking` itself.
-// (DeepSeek blacklisted 2026-10-09; removed from the HEAVY list.)
-const HEAVY = [/(^|\/)gpt-[\d.]+-sol(-fast)?$/, /(^|\/)glm-5\.3$/, /(^|\/)mimo-v2\.6-pro(-\d+)?$/, /(^|\/)qwen3\.8-max$/, /(^|\/)minimax-m3$/, /(^|\/)claude-opus/, /(^|\/)opus$/];
+const HEAVY = [/(^|\/)gpt-[\d.]+-sol(-fast)?$/, /(^|\/)glm-5\.3$/, /(^|\/)deepseek-v4-pro(-\d+)?$/, /(^|\/)mimo-v2\.6-pro$/, /(^|\/)qwen3\.8-max$/, /(^|\/)minimax-m3$/, /(^|\/)claude-opus/, /(^|\/)opus$/];
 export const isHeavy = (id) => HEAVY.some((re) => re.test(modelPart(id)));
 const EFFORTS = ['none', 'minimal', 'low', 'medium', 'high', 'xhigh', 'max'];
 
 // The effort a switch writes when --variant is not given, from the efforts OpenCode offers for the
 // model (`offered`, from `opencode models --verbose`; null when unknown): a light model `high`; a
-// heavy one `low`, else `medium`, else its lowest effort (MiMo v2.6 Pro offers only high and max,
-// like DeepSeek V4 Pro did before the 2026-10-09 blacklist).
+// heavy one `low`, else `medium`, else its lowest effort (DeepSeek V4 Pro offers only high and max).
 // A model whose variants are not the effort ladder keeps its own (MiniMax-M3 offers none/thinking,
 // so it gets `thinking`); one that offers none at all (MiniMax-M2.7) gets no variant. A light model
 // that offers no plain `high` gets the nearest below it (Qwen 3.8 Flash: `medium`).
