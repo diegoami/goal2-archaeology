@@ -143,14 +143,25 @@ MUTATIONS = [
     # next group's request; with the modelled 0.6 s write latency the requests fall behind
     # the 0.527 s key spacing and key pairs share a gap (unmapped).
     ("r2-R3: scheduler waits for the previous capture", REC,
-     'jobs.put((pre, request, sent, origin, pre_events, pre_closes))',
-     'jobs.put((pre, request, sent, origin, pre_events, pre_closes)); jobs.join()'),
+     'jobs.put((pre, request, sent, origin, pre_events))',
+     'jobs.put((pre, request, sent, origin, pre_events)); jobs.join()'),
+    # Sol delta r3 R1: the deferred-capture check removed — a job that begins after a save
+    # completed stages those (later request's) bytes under its own window again; the
+    # deferred-capture regression must fail (no superseded line is ever written).
+    ("r3-R1: deferred-capture check removed", REC,
+     'if self._submitted - self._finished > 1:', 'if False:'),
+    # Sol delta r3 R2: the deferred-capture regression's wrap-_stage_job sleeps no more, so
+    # the sitting is clean and the regression (and the guard test) must fail: the wrap is
+    # load-bearing, not vacuous.
+    ("r3-R2: deferred-capture regression's wrap-_stage_job sleeps no more", TEST,
+     'time.sleep(2.0)', 'pass'),
 ]
 
 
 def main(argv=None):
     argv = list(sys.argv[1:] if argv is None else argv)
     mutations = [m for m in MUTATIONS if m[0].startswith("r2-")] if "--only-r2" in argv else MUTATIONS
+    mutations = [m for m in MUTATIONS if m[0].startswith("r3-")] if "--only-r3" in argv else mutations
     survivors = []
     tmp = ROOT / "scratch" / "t34-tmp"
     tmp.mkdir(parents=True, exist_ok=True)

@@ -502,7 +502,6 @@ class WriteWatch:
             raise OSError(err, f"inotify_add_watch on {Path(path).parent} failed")
         self.open_session = False
         self.events = 0                   # write events on the file seen so far (round-6 R1)
-        self.closes = 0                   # COMPLETED writes seen so far (Sol delta r3 R1)
 
     def writing(self):
         """Drain the pending events; True while a write session on the file is open."""
@@ -519,23 +518,17 @@ class WriteWatch:
                 if mask & self.IN_Q_OVERFLOW:
                     self.open_session = True
                     self.events += 1
-                    self.closes += 1   # fail closed: lost events could hide a completed write
                 elif name == self.name:
                     self.events += 1
                     if mask & (self.IN_CLOSE_WRITE | self.IN_MOVED_TO):
                         self.open_session = False
-                        self.closes += 1
                     elif mask & self.IN_MODIFY:
                         self.open_session = True
 
     def activity(self):
-        """(a write session is open, the number of write events so far, the number of COMPLETED
-        writes so far), after draining. The completed-write count is what ties bytes on the live
-        file to one save request (Sol delta r3 R1): each save ends with exactly one
-        IN_CLOSE_WRITE or IN_MOVED_TO, so a request whose capture sees two or more new completed
-        writes is reading a LATER request's savestate."""
+        """(a write session is open, the number of write events so far), after draining."""
         busy = self.writing()
-        return busy, self.events, self.closes
+        return busy, self.events
 
     def close(self):
         os.close(self.fd)
@@ -567,14 +560,13 @@ class Watcher:
         self.xrun = xrun or (lambda argv: xdotool(argv[1:], env=env))
         self.alive = alive or (lambda: window_alive(wid, env))
         self.log = log or (lambda msg: None)
-        # the live savestate's write activity (round-4/6 R1; Sol delta r3 R1): `activity()` gives
-        # (a write session is open, the write-event count, the completed-write count); an
-        # injected `writing` has neither count
+        # the live savestate's write activity (round-4/6 R1): `activity()` gives (a write session
+        # is open, the number of write events so far); an injected `writing` has no event count
         if writing is None:
             ww = WriteWatch(self.live)
             self.activity = ww.activity
         else:
-            self.activity = lambda: (writing(), 0, 0)
+            self.activity = lambda: (writing(), 0)
         self.index_path = self.session / index
         # every save request, staged or skipped (T34 R2): the map must know a missing snapshot
         self.requests_path = self.session / "requests.jsonl"
@@ -584,10 +576,16 @@ class Watcher:
         self.t0 = self.clock() if t0 is None else t0
         self.seq = 0
         self.problems = []
+        # the last fast capture's (event count, signature): what the pipeline already consumed,
+        # and its pending-job watermark (submitted - finished > 1 at a job's first poll means
+        # later requests were already queued before that job began — Sol delta r3 R1's
+        # deferred-capture signal; one writer thread, no lock needed)
+        self._fast_consumed = None
+        self._submitted = 0
+        self._finished = 0
 
     # -- staging (the staging gate) -----------------------------------------------------
-    def capture(self, pre_sig, live_emulator=True, pre_events=None, fast=False, sent_box=None,
-                pre_closes=None):
+    def capture(self, pre_sig, live_emulator=True, pre_events=None, fast=False, sent_box=None):
         """The staging gate, the one path that reads the live savestate (round 2: R1, R2, R4,
         and the R9 follow-up). Iterative, one deadline:
 
@@ -620,48 +618,60 @@ class Watcher:
         open write session, the event-count bracket around the read, zip validation). A count
         of None (the check failed) never takes the fast path: fail closed.
 
-        Per-request attribution (Sol delta r3 R1): with `pre_closes` (the completed-write count
-        taken before the request was sent) the fast path accepts ONLY when exactly one write
-        has completed since — `closes == pre_closes + 1`. Two or more completed writes mean a
-        later request's save has already replaced the live savestate while this job waited (a
-        slow stage job, the r3 reproduction): the bytes on the file are the later request's,
-        and staging them under this request's window would misattribute the screen. That
-        raises _AttributionLost; the caller marks the request superseded and the acceptance
-        guard rejects the sitting. Identical bytes from an unchanged screen are NOT rejected:
-        the check counts completed writes, never compares hashes."""
+        Per-request attribution (Sol delta r3 R1). A real DOSBox-X save is fast — the whole
+        write (many close events; 27 were measured on this host for one save) can complete
+        before the worker's first poll — so "the job began before its save completed" cannot be
+        the test. What makes an already-completed, UNCONSUMED write (its event count and
+        signature differ from the last accepted capture's) unattributable is the pipeline
+        having moved past this job: when later requests were already submitted before this
+        job began (lag > 1), such a write is some LATER request's save, and staging its bytes
+        under this request's window misattributes the screen — the deferred capture of the r3
+        reproduction (a stage job that waited while later requests overwrote the live file).
+        That raises _AttributionLost; the caller marks the request superseded and the
+        acceptance guard rejects the sitting (r3 R2). With lag == 1 (this job is the pipeline's
+        head) the only save past the pre-send count is this request's own: accepted at once. A
+        job that begins before its save completes accepts on FRESH ARRIVAL — at least one
+        write event arriving during its polling, the count past its first poll's. Bytes
+        already consumed by the previous acceptance are never re-staged, and identical bytes
+        from an unchanged screen are NOT rejected: the rules compare event counts and
+        signatures against the pipeline's own consumption, never hashes."""
         deadline = self.clock() + SAVE_TIMEOUT_S
         sent = self.clock()
         last_sig, count = None, 0
+        entry_events = None               # the event count at this job's first poll
         while self.clock() < deadline:
             if live_emulator and self.dbx.poll() is not None:
                 self.log(f"dosbox-x exited with code {self.dbx.returncode} during a savestate")
                 raise _EmulatorGone(self.dbx.returncode)
-            busy, events, closes = self._write_state()
+            busy, events = self._write_state()
             sig = file_signature(self.live)
-            if fast and pre_events is not None and events is not None and events > pre_events:
-                # the attribution check runs as soon as any completed write exists past the
-                # pre-send count: a superseded request can never recover it (the count only
-                # grows), so waiting would only delay the rejection
-                if closes is None or pre_closes is None:
-                    raise _AttributionLost(
-                        "the completed-write count cannot be read: request attribution lost")
-                if closes > pre_closes + 1:
-                    raise _AttributionLost(
-                        f"{closes - pre_closes} savestate writes completed for one request "
-                        f"(request attribution lost: lost boundary)")
-            if (fast and pre_events is not None and events is not None and events > pre_events
-                    and closes is not None and pre_closes is not None and closes == pre_closes + 1
-                    and not busy and sig is not None and (pre_sig is None or sig != pre_sig)):
-                # the kernel saw exactly one write on the file close after this request was
-                # sent: those bytes are this request's (single writer, serialized saves), the
-                # write is finished (the fact the stability polls wait 0.75 s to infer), the
-                # signature is fresh, and no session is open — read once, bracketed by both
-                # the event count and the completed-write count exactly as the stability path
-                # brackets by events
+            first_poll = entry_events is None
+            if first_poll:
+                entry_events = events
+            fast_ready = (fast and pre_events is not None and events is not None
+                          and events > pre_events and not busy and sig is not None
+                          and (pre_sig is None or sig != pre_sig))
+            accept = False
+            if fast_ready:
+                if first_poll and self._fast_consumed != (events, sig):
+                    if self._submitted - self._finished > 1:
+                        raise _AttributionLost(
+                            "a savestate write completed before this capture began while later "
+                            "requests were already pending (deferred capture: request "
+                            "attribution lost: lost boundary)")
+                    accept = True   # the pipeline's head: the completed write is its own save
+                elif (events is not None and entry_events is not None
+                      and events > entry_events):
+                    accept = True   # a write event arrived while this job polled: a fresh save
+            if accept:
+                # the write is finished (the fact the stability polls wait 0.75 s to infer),
+                # the signature is fresh, and no session is open — read once, bracketed by the
+                # event count exactly as the stability path does
                 data = self._read_live()
                 if data is not None and zip_is_complete(data):
-                    _, after_events, after_closes = self._write_state()
-                    if after_events == events and after_closes == closes:
+                    _, after = self._write_state()
+                    if after == events:
+                        self._fast_consumed = (events, sig)
                         return data, sha256(data)
                 self.log("live savestate changed or incomplete during capture: retrying")
                 last_sig, count = None, 0
@@ -677,14 +687,14 @@ class Watcher:
                 # the check before the reads and the one after them rejects the bytes — the
                 # kernel's event count sees a write the content and the timestamps cannot
                 # (round-6 R1). Reads are read-only and cannot disturb the writer.
-                busy, before, _ = self._write_state()
+                busy, before = self._write_state()
                 if busy:
                     self.log("a write session on the savestate is still open: waiting")
                     self.sleep(POLL_S)
                     continue
                 data = self._read_live()
                 if data is not None and zip_is_complete(data):
-                    _, after, _ = self._write_state()
+                    _, after = self._write_state()
                     if after == before:            # None (check failed) never equals a count
                         return data, sha256(data)
                 self.log("live savestate changed or incomplete during capture: retrying")
@@ -699,14 +709,14 @@ class Watcher:
         raise TimeoutError(f"savestate not complete and stable within {SAVE_TIMEOUT_S}s")
 
     def _write_state(self):
-        """(a write session is open, the write-event count, the completed-write count); when it
-        cannot be told, (True, None, None): fail closed."""
+        """(a write session is open, the write-event count); when it cannot be told, (True, None):
+        fail closed."""
         try:
-            busy, events, closes = self.activity()
-            return bool(busy), events, closes
+            busy, events = self.activity()
+            return bool(busy), events
         except OSError as e:
             self.log(f"writer check failed ({e}): treating as a write in progress")
-            return True, None, None
+            return True, None
 
     def _read_live(self):
         """The live savestate's bytes, or None when it cannot be read. Called only by `capture`,
@@ -753,7 +763,7 @@ class Watcher:
         if not self.alive():
             raise StopIteration("game window is gone")
         pre = file_signature(self.live)
-        _, pre_events, pre_closes = self._write_state()   # both counts before this request
+        _, pre_events = self._write_state()   # the write-event count before this request
         request = self.clock()
         self.xrun(key_cmd(self.wid))
         self.last_sent = self.clock()
@@ -762,7 +772,7 @@ class Watcher:
         if video is not None:
             video.poll_growth()
         if submit is not None:
-            submit(pre, request, self.last_sent, origin, pre_events, pre_closes)
+            submit(pre, request, self.last_sent, origin, pre_events)
             return None
         try:
             data, digest = self.capture(pre)
@@ -794,7 +804,7 @@ class Watcher:
             f.write(json.dumps(line) + "\n")
             f.flush()
 
-    def _stage_job(self, pre, request, sent, origin, pre_events, pre_closes):
+    def _stage_job(self, pre, request, sent, origin, pre_events):
         """One pipeline job: the staging gate for a request already sent (fast: the kernel's
         write-event count is the write-completed evidence), then stage + note_request. A
         timeout marks THIS request as staged-nothing — the group is skipped and its bursts
@@ -804,8 +814,7 @@ class Watcher:
         _EmulatorGone for the pipeline to flag the loop (R5)."""
         box = [sent]
         try:
-            data, digest = self.capture(pre, pre_events=pre_events, fast=True, sent_box=box,
-                                        pre_closes=pre_closes)
+            data, digest = self.capture(pre, pre_events=pre_events, fast=True, sent_box=box)
         except TimeoutError as e:
             self.problems.append(str(e))
             self.log(f"snapshot skipped: {e}")
@@ -844,8 +853,9 @@ class Watcher:
         staged = []          # the pipeline's entries, in staging order
         dead = []            # _EmulatorGone raised inside the pipeline (R5)
 
-        def submit(pre, request, sent, origin, pre_events, pre_closes):
-            jobs.put((pre, request, sent, origin, pre_events, pre_closes))
+        def submit(pre, request, sent, origin, pre_events):
+            self._submitted += 1
+            jobs.put((pre, request, sent, origin, pre_events))
 
         def pipeline():
             while True:
@@ -858,6 +868,8 @@ class Watcher:
                     dead.append(e)
                     jobs.task_done()
                     return
+                finally:
+                    self._finished += 1
                 if entry is not None:
                     staged.append(entry)
                 jobs.task_done()

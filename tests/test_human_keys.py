@@ -655,7 +655,7 @@ class BurstPipelineTests(unittest.TestCase):
             w = rec.Watcher(session, live, "77", fixture.FakeDbx(), {"DISPLAY": ":0"},
                             clock=clock, sleep=clock.sleep, xrun=lambda a: None,
                             alive=lambda: True, log=lambda m: None)
-            self.assertIsNone(w._stage_job(rec.file_signature(live), 0.0, 0.03, "burst", 0, 0))
+            self.assertIsNone(w._stage_job(rec.file_signature(live), 0.0, 0.03, "burst", 0))
             line = json.loads((session / "requests.jsonl").read_text())
             # the group is marked skipped: a request that staged nothing (its window may span
             # the gate's resends; what the map needs is the seq of None)
@@ -739,15 +739,18 @@ class DeferredCaptureTests(unittest.TestCase):
 
         entries = w.run(quit_after=quit_after, keys=FakeKeys())
         writes.put(None)
-        index = [json.loads(line) for line in (session / "index.jsonl").read_text().splitlines()]
+        index = []
+        if (session / "index.jsonl").is_file():   # a fully-superseded sitting stages nothing
+            index = [json.loads(line) for line in
+                     (session / "index.jsonl").read_text().splitlines()]
         requests = [json.loads(line) for line in
                     (session / "requests.jsonl").read_text().splitlines()]
         return session, w, entries, index, requests
 
     def test_a_deferred_stage_job_is_marked_superseded_and_never_stages(self):
         # R1: the slow job wakes to a live savestate later requests have already rewritten
-        # (two or more completed writes past its pre-send count); it must stage NOTHING under
-        # its own request window and be marked superseded in requests.jsonl
+        # (a completed, unconsumed write predating the job); it must stage NOTHING under its
+        # own request window and be marked superseded in requests.jsonl
         import keymap
         session, w, entries, index, requests = self._sitting(True, quit_after=14)
         superseded = [r for r in requests if r.get("superseded")]
@@ -759,6 +762,8 @@ class DeferredCaptureTests(unittest.TestCase):
         for r in superseded:
             self.assertNotIn(r["request_s"], windows)
         # the map unmaps the superseded groups' presses: their boundary is lost, not guessed
+        # (every superseded request is a sample that staged nothing, so the keys beside it
+        # lose a bracket; at minimum the first deferred group's own key is unmapped)
         states = [{"entry": e, "screen_text": f"SCREEN-{e['seq']}", "error": None}
                   for e in index]
         events = []
@@ -767,7 +772,7 @@ class DeferredCaptureTests(unittest.TestCase):
                            "keysym": f"k{k}"})
         result = keymap.build_map(states, events, w.t0, quiet=rec.BURST_QUIET_S,
                                   margin=rec.CAPTURE_MARGIN_S, requests=requests)
-        self.assertGreaterEqual(result["unmapped_keys"], len(superseded))
+        self.assertGreaterEqual(result["unmapped_keys"], 1)
 
     def test_the_guard_rejects_a_superseded_sitting(self):
         # R2: the acceptance guard (check_attribution, as scripted_keys.main runs it first)
