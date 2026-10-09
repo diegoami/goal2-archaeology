@@ -55,11 +55,22 @@ Three live sections + one terminal block:
 3. **Final state on exit.** Before the agent exits (or before any detached `git
    checkout`), append a `## END` line to **Notes**: last commit hash, current PR state,
    what's deferred for the next round.
+4. **Verify the ignore, don't write it.** On first touch, run `git check-ignore -q
+   RUN-NOTES.md`. If the exit code is `1` (NOT ignored), **stop and report**: the
+   main session is responsible for keeping `RUN-NOTES.md` in the shared exclude
+   (`<main-checkout>/.git/info/exclude`). Do NOT attempt to write to `.git/info/exclude`
+   from inside a worktree — there, `.git` is a *file* (`gitdir: <main-checkout>/.git/
+   worktrees/<name>`), not a directory, and the write lands outside your worktree, where
+   OpenCode will reject it. The check is what matters; the rule is what enforces it.
 
 ## Reviewer's one rule
 
-Read `RUN-NOTES.md` before the diff. It tells you the design rationale and the deferred
-items — the review grades against the *design*, not just the final state.
+Read the implementer's **RUN-NOTES.md content** from the **review brief**, not the
+worktree. The reviewer runs in a fresh checkout of the PR head, where `RUN-NOTES.md`
+is **untracked** (git-ignored) and **does not exist**. The main session pastes the
+implementer's notes into the review brief before dispatch. They tell you the design
+rationale and the deferred items — the review grades against the *design* (and against
+the implementer's account of what was tried), not just the final diff.
 
 ## Why this concretely helps
 
@@ -67,8 +78,35 @@ items — the review grades against the *design*, not just the final state.
   reads `RUN-NOTES.md` and knows exactly what was tried, what landed, and what didn't.
 - **Long implementer run** — anyone with read access can `cat RUN-NOTES.md` mid-run to
   see where it's stuck (alternative to reading the live opencode db).
-- **Reviewer context loss** — the reviewer's first read is `RUN-NOTES.md`, which
-  carries the design rationale and the deferred items the implementer surfaced.
+- **Reviewer context loss** — the reviewer's first read is the **review-brief's
+  pasted RUN-NOTES.md** (set up by the main session). The reviewer grades against the
+  design rationale and the deferred items the implementer surfaced — the same reasons
+  as before; the path the content travels is different (brief, not worktree).
+
+## Main-session responsibilities (the bits the agent does NOT do)
+
+The agent is in a worktree and cannot write to the shared exclude. Two things must be
+done **by the main session** before the dispatcher calls the harness:
+
+1. **Ensure the shared exclude has `RUN-NOTES.md`.** On the **main checkout** (not a
+   worktree), run once per repo:
+
+   ```bash
+   printf 'RUN-NOTES.md\n' >> <repo>/.git/info/exclude
+   ```
+
+   Verify with `git check-ignore -q RUN-NOTES.md` from any worktree. This protects
+   every worktree simultaneously, because the shared exclude applies to all worktrees
+   in the repo.
+
+2. **Paste the implementer's RUN-NOTES.md into the reviewer brief.** When dispatching
+   the reviewer, the main session reads `RUN-NOTES.md` from the implementer's worktree
+   and embeds its content in the reviewer brief (under a labelled heading, e.g.
+   "Implementer's notes"). The reviewer reads the design rationale and the deferred
+   items from there — not from a `RUN-NOTES.md` it cannot see in its fresh checkout.
+
+   If the file is empty / absent at dispatch time, the review brief says so explicitly
+   ("no notes from the implementer were recovered") so the reviewer is not misled.
 
 ## Hazards
 
@@ -77,7 +115,14 @@ items — the review grades against the *design*, not just the final state.
 - **Never `git add` / `git commit`** the file, even if it ends up in `git status`. The
   `.git/info/exclude` line keeps it out; the rule keeps it from being staged by
   accident.
-- **Per-worktree ignore** — the agent adds it once on first touch:
-  `printf 'RUN-NOTES.md\n' >> .git/info/exclude` from the worktree root.
+- **Per-worktree ignore** — the shared exclude at `<repo>/.git/info/exclude`
+  applies to all worktrees in the repo. Adding it once on the main checkout (by the
+  main session) protects every worktree. The agent **never** writes
+  `.git/info/exclude` from inside a worktree — there, `.git` is a *file*, not a
+  directory, and OpenCode would reject the write as outside the worktree. The
+  agent's rule is to *verify* (with `git check-ignore -q RUN-NOTES.md`) and *stop
+  and report* if the exit code is `1`.
 - **Don't put the file in the PR body.** The PR carries the *result*; the notes file
-  carries the *narrative of getting there*.
+  carries the *narrative of getting there*. Mixing them bloats PR bodies. The
+  review brief is the right place for the notes — the main session pastes them
+  in before dispatching the reviewer (see "Main-session responsibilities" above).

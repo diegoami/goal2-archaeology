@@ -59,4 +59,8 @@ the run works.
   Three rules: read it first (if a previous round left it); append a `## <step>` bullet to
   **Progress** after every commit; append a `## END` block to **Notes** before
   `git -C <worktree> checkout --detach`. Never `git add` or `git commit` it. On first touch,
-  add it to `.git/info/exclude` so it's never accidentally staged.
+  run `git check-ignore -q RUN-NOTES.md`; if the exit code is `1`, **stop and report**
+  (the main session is responsible for keeping `RUN-NOTES.md` in the shared exclude at
+  `<main-checkout>/.git/info/exclude` — from inside a worktree, `.git` is a *file*, not a
+  directory, and writing the exclude would land outside your worktree, where OpenCode
+  rejects it).

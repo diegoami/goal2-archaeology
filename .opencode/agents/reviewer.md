@@ -90,6 +90,8 @@ how the run works.
   with nothing after it. The script reads exactly this shape. A review without its closing verdict,
   or with a finding after it, is posted flagged and gets no label. Never put
   close/closes/fix/fixes/resolve/resolves directly before `#<n>`.
-- **Read `RUN-NOTES.md`** at the worktree root before the diff (see `docs/running-notes.md`).
-  It tells you the design rationale and the deferred items — the review grades against the
-  *design*, not just the final state.
+- **Read the implementer's `RUN-NOTES.md` content** from the **review brief** (not the
+  worktree — see `docs/running-notes.md`). Your fresh checkout has no `RUN-NOTES.md` (it's
+  git-ignored, untracked, and not in the PR). The main session pastes the implementer's
+  notes into the brief; treat that as the implementer's account to verify, not as
+  evidence — your proof comes from re-running the Done-when lines yourself.
