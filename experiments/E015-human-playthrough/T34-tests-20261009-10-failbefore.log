@@ -1,0 +1,52 @@
+test_a_fast_overwrite_is_superseded_not_staged (tests.test_human_keys.AttributionBypassTests.test_a_fast_overwrite_is_superseded_not_staged) ... ERROR
+test_the_stability_fallback_never_restages_consumed_bytes (tests.test_human_keys.AttributionBypassTests.test_the_stability_fallback_never_restages_consumed_bytes) ... FAIL
+test_a_well_evidenced_sitting_passes (tests.test_human_keys.GuardAttributionTests.test_a_well_evidenced_sitting_passes) ... ok
+test_an_ordinary_staged_line_without_evidence_is_rejected (tests.test_human_keys.GuardAttributionTests.test_an_ordinary_staged_line_without_evidence_is_rejected) ... FAIL
+test_staged_requests_must_own_increasing_writes (tests.test_human_keys.GuardAttributionTests.test_staged_requests_must_own_increasing_writes) ... FAIL
+test_two_saves_in_one_request_window_are_rejected (tests.test_human_keys.GuardAttributionTests.test_two_saves_in_one_request_window_are_rejected) ... FAIL
+
+======================================================================
+ERROR: test_a_fast_overwrite_is_superseded_not_staged (tests.test_human_keys.AttributionBypassTests.test_a_fast_overwrite_is_superseded_not_staged)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T34/tests/test_human_keys.py", line 869, in test_a_fast_overwrite_is_superseded_not_staged
+    entry = w._stage_job(pre, 0.0, 0.03, "burst", 0,
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: Watcher._stage_job() takes 6 positional arguments but 7 were given
+
+======================================================================
+FAIL: test_the_stability_fallback_never_restages_consumed_bytes (tests.test_human_keys.AttributionBypassTests.test_the_stability_fallback_never_restages_consumed_bytes)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T34/tests/test_human_keys.py", line 893, in test_the_stability_fallback_never_restages_consumed_bytes
+    self.assertIsNone(entry)
+AssertionError: {'seq': 1, 'file': 'snapshots/snap-0001-20261009T154701Z.sav', 'bytes': 312, 'sha256': '69f43dac0520d6ae05e765d055c3edc286c2a983c419c2a4e39ec15311a5c72b', 'utc': '2026-10-09T15:47:01.286Z', 'elapsed_s': 0.5, 'origin': 'burst', 'request_s': 0.0, 'sent_s': 0.03} is not None
+
+======================================================================
+FAIL: test_an_ordinary_staged_line_without_evidence_is_rejected (tests.test_human_keys.GuardAttributionTests.test_an_ordinary_staged_line_without_evidence_is_rejected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T34/tests/test_human_keys.py", line 926, in test_an_ordinary_staged_line_without_evidence_is_rejected
+    self.assertFalse(ok)
+AssertionError: True is not false
+
+======================================================================
+FAIL: test_staged_requests_must_own_increasing_writes (tests.test_human_keys.GuardAttributionTests.test_staged_requests_must_own_increasing_writes)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T34/tests/test_human_keys.py", line 938, in test_staged_requests_must_own_increasing_writes
+    self.assertFalse(ok)
+AssertionError: True is not false
+
+======================================================================
+FAIL: test_two_saves_in_one_request_window_are_rejected (tests.test_human_keys.GuardAttributionTests.test_two_saves_in_one_request_window_are_rejected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T34/tests/test_human_keys.py", line 932, in test_two_saves_in_one_request_window_are_rejected
+    self.assertFalse(ok)
+AssertionError: True is not false
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.058s
+
+FAILED (failures=4, errors=1)

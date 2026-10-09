@@ -801,6 +801,150 @@ class DeferredCaptureTests(unittest.TestCase):
         self.assertFalse([r for r in requests if r.get("superseded")], requests)
 
 
+class AttributionBypassTests(unittest.TestCase):
+    """Sol delta r4 R1: the r3 fix caught the 2 s deferred capture, but faster
+    overwrites still pass — the lag check runs only on the first poll, and the
+    stability fallback re-stages bytes the pipeline already consumed. Both
+    bypasses stage a LATER request's savestate under an earlier request's window
+    with an ordinary, successful request line.
+
+    The injected write source models the MEASURED real writer: one DOSBox-X save
+    produces 53-54 write events on state.sav (evidence/E015/
+    T34-probe-closes-20261009-01.log; the old docstring's '27 close events'
+    counted only CLOSE_WRITE), so two saves landing in one poll gap are ~108
+    events — the write accounting that ownership needs."""
+
+    def _sitting(self, actions):
+        """A Watcher on a fake clock whose sleeps run `actions` (one per sleep),
+        with an injected write source (busy, events) the actions drive."""
+        from tests import test_human_record as fixture
+        session = Path(tempfile.mkdtemp())
+        self.addCleanup(shutil.rmtree, session, ignore_errors=True)
+        (session / "snapshots").mkdir()
+        live = session / "state.sav"
+        live.write_bytes(fixture.tiny_zip(b"vga-0"))
+        state = {"busy": False, "events": 0}
+
+        class ScriptedClock:
+            LIMIT_S = 3600.0
+
+            def __init__(self):
+                self.t = 0.0
+
+            def __call__(self):
+                return self.t
+
+            def sleep(self, s):
+                self.t += s
+                if self.t > self.LIMIT_S:
+                    raise AssertionError("fake clock ran away")
+                if actions:
+                    actions.pop(0)()
+
+        self.clock = ScriptedClock()
+        w = rec.Watcher(session, live, "77", fixture.FakeDbx(), {"DISPLAY": ":0"},
+                        clock=self.clock, sleep=self.clock.sleep, xrun=lambda a: None,
+                        alive=lambda: True, log=lambda m: None)
+        w.activity = lambda: (state["busy"], state["events"])   # the write source
+        w._submitted, w._finished = 2, 0    # a later request is already queued
+        return session, w, live, state
+
+    def test_a_fast_overwrite_is_superseded_not_staged(self):
+        # reproduction 1: the first poll sees no completed write (the r3 lag check's
+        # blind side); the first sleep serves BOTH queued requests, so two saves'
+        # write events (108) land in one gap and the live file holds the LATER
+        # request's bytes. Pre-fix, the fresh-arrival branch staged them.
+        from tests import test_human_record as fixture
+        import scripted_keys
+
+        def later_writes(live, state):
+            live.write_bytes(fixture.tiny_zip(b"LATER REQUEST BYTES"))
+            state["events"] = 108        # two saves' write events in one poll gap
+        session, w, live, state = self._sitting([])
+        pre = rec.file_signature(live)
+        state["events"] = 0
+        # arm the write after the pre-send snapshot: the first capture sleep serves
+        # both queued requests
+        self.clock.actions = [lambda: later_writes(live, state)]
+        entry = w._stage_job(pre, 0.0, 0.03, "burst", 0,
+                             session / "requests" / "rq-0001.sav")
+        line = json.loads((session / "requests.jsonl").read_text())
+        self.assertIsNone(entry)                    # nothing staged under its window
+        self.assertTrue(line.get("superseded"), line)
+        self.assertIsNone(line["seq"])
+        self.assertFalse((session / "index.jsonl").exists())
+        ok, why = scripted_keys.check_attribution([line])
+        self.assertFalse(ok)
+
+    def test_the_stability_fallback_never_restages_consumed_bytes(self):
+        # reproduction 2: the live savestate already holds the later request's save,
+        # an earlier job already consumed it (_fast_consumed matches its event count
+        # and signature). Pre-fix, the stability fallback read the LIVE file and
+        # staged those consumed bytes again under the earlier request.
+        from tests import test_human_record as fixture
+        session, w, live, state = self._sitting([])
+        pre = rec.file_signature(live)              # the pre-send savestate (vga-0)
+        live.write_bytes(fixture.tiny_zip(b"LATER REQUEST BYTES"))
+        state["events"] = 108
+        w._fast_consumed = (108, rec.file_signature(live))
+        entry = w._stage_job(pre, 0.0, 0.03, "burst", 0)   # no per-request path: the
+        #                                                     fallback must still not read live
+        line = json.loads((session / "requests.jsonl").read_text())
+        self.assertIsNone(entry)
+        self.assertIsNone(line["seq"], line)
+        self.assertFalse((session / "index.jsonl").exists())
+        # the sitting this produces is rejected: the skipped request (seq None)
+        # unmaps its group (the coverage guard, as test_a_skipped_snapshot_request_
+        # unmaps_its_burst proves), and the pre-fix ordinary staged line — what the
+        # bypass used to write — now fails the guard's evidence requirement
+        import scripted_keys
+        ok, why = scripted_keys.check_attribution(
+            [{"request_s": 0.0, "sent_s": 0.03, "origin": "burst", "seq": 1}])
+        self.assertFalse(ok)
+
+
+class GuardAttributionTests(unittest.TestCase):
+    """Sol delta r4 R2: absence of `superseded` is not ownership evidence — the
+    bypasses produced ordinary successful request lines. check_attribution must
+    require the recorder's write accounting on every staged request."""
+
+    def setUp(self):
+        import scripted_keys
+        self.sk = scripted_keys
+
+    def _evidenced(self, seq, request_s, pre, acc):
+        return {"request_s": request_s, "sent_s": request_s + 0.03, "origin": "burst",
+                "seq": seq, "pre_events": pre, "accept_events": acc,
+                "request_file": f"requests/rq-{seq:04d}.sav",
+                "request_sha256": f"hash-{seq}"}
+
+    def test_an_ordinary_staged_line_without_evidence_is_rejected(self):
+        # the exact line shape the bypasses produced (all four acceptance checks
+        # returned true on it pre-fix)
+        ok, why = self.sk.check_attribution(
+            [{"request_s": 0.0, "sent_s": 0.03, "origin": "burst", "seq": 1}])
+        self.assertFalse(ok)
+        self.assertIn("ownership evidence", why)
+
+    def test_two_saves_in_one_request_window_are_rejected(self):
+        line = self._evidenced(1, 0.0, 0, 108)      # > ONE_SAVE_MAX_EVENTS
+        ok, why = self.sk.check_attribution([line])
+        self.assertFalse(ok)
+        self.assertIn("more than one save", why)
+
+    def test_staged_requests_must_own_increasing_writes(self):
+        lines = [self._evidenced(1, 0.0, 0, 54), self._evidenced(2, 1.0, 54, 54)]
+        ok, why = self.sk.check_attribution(lines)
+        self.assertFalse(ok)
+        self.assertIn("distinct writes", why)
+
+    def test_a_well_evidenced_sitting_passes(self):
+        lines = [self._evidenced(1, 0.0, 0, 54), self._evidenced(2, 1.0, 54, 108),
+                 {"request_s": 2.0, "sent_s": 2.03, "origin": "burst", "seq": None}]
+        ok, _ = self.sk.check_attribution(lines)
+        self.assertTrue(ok)
+
+
 class GuardTests(unittest.TestCase):
     """R3: the acceptance guard (scripted_keys.check_bursts) requires a distinct, correctly timed
     burst snapshot per key group — never "any later snapshot" for every group."""
