@@ -1,0 +1,8 @@
+MUTATION: r4-R1: every-poll write-ownership check removed (runtime/human/recorder.py); exit=1; failing tests: 1
+    FAIL: test_a_fast_overwrite_is_superseded_not_staged (tests.test_human_keys.AttributionBypassTests.test_a_fast_overwrite_is_superseded_not_staged)
+    stdbuf     present
+MUTATION: r4-R2: guard accepts evidence-free staged lines (experiments/E015-human-playthrough/scripted_keys.py); exit=1; failing tests: 2
+    ERROR: test_the_stability_fallback_never_restages_consumed_bytes (tests.test_human_keys.AttributionBypassTests.test_the_stability_fallback_never_restages_consumed_bytes)
+    ERROR: test_an_ordinary_staged_line_without_evidence_is_rejected (tests.test_human_keys.GuardAttributionTests.test_an_ordinary_staged_line_without_evidence_is_rejected)
+    stdbuf     present
+Mutations: 2; survivors: []
