@@ -1,0 +1,12 @@
+MUTATION: r2-R1: burst request sent without the settle wait (runtime/human/recorder.py); exit=1; failing tests: 3
+    FAIL: test_ten_keys_at_051_s_gaps_are_all_mapped (tests.test_human_keys.BurstPipelineTests.test_ten_keys_at_051_s_gaps_are_all_mapped)
+    FAIL: test_a_key_episodes_request_goes_out_at_the_settle_not_at_due (tests.test_human_keys.KeyTests.test_a_key_episodes_request_goes_out_at_the_settle_not_at_due)
+    FAIL: test_loop_takes_burst_snapshot_between_cadence_ticks (tests.test_human_keys.KeyTests.test_loop_takes_burst_snapshot_between_cadence_ticks)
+    stdbuf     present
+MUTATION: r2-R2: guard counts snapshots only (experiments/E015-human-playthrough/scripted_keys.py); exit=1; failing tests: 1
+    FAIL: test_unmapped_presses_fail_the_coverage_guard (tests.test_human_keys.GuardTests.test_unmapped_presses_fail_the_coverage_guard)
+    stdbuf     present
+MUTATION: r2-R3: scheduler waits for the previous capture (runtime/human/recorder.py); exit=1; failing tests: 1
+    FAIL: test_ten_keys_at_051_s_gaps_are_all_mapped (tests.test_human_keys.BurstPipelineTests.test_ten_keys_at_051_s_gaps_are_all_mapped)
+    stdbuf     present
+Mutations: 3; survivors: []

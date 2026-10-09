@@ -70,7 +70,8 @@ T34 (#105) extends the T29 recorder without changing the sitting's research
 question. The current invocation and design are in [protocol.md](protocol.md):
 DOSBox-X and an XInput2 raw-key logger share a private nested Xephyr display;
 other desktop applications are structurally outside it. The watcher saves every
-20 s and after 0.5 s of quiet, through the same single-writer capture gate.
+20 s and 0.05 s (`EVENT_SETTLE_S`) after each settled key episode, through the
+same single-writer capture gate.
 Its save keys now use explicit window-targeted XSendEvent rather than xdotool's
 raw input path, preventing recursive burst captures. Optional video covers the
 Xephyr window. This paragraph supersedes the original Runtime/Design wording
@@ -158,3 +159,25 @@ key back into one group (R2), and let the guard accept fewer snapshots (R3).
 The end-to-end scripted sitting (10 keys at 0.51 s → 10 burst snapshots) is the
 manual acceptance; the same sitting runs once in the full suite as a regression
 test, skipped per-mutation by the sweep (`MUTATION_SWEEP=1`).
+
+## Sol delta r2 addendum (2026-10-09)
+
+The `-07` scheduler still sent each group's save request at its due time (last
+key + `BURST_QUIET_S`, 0.5 s) and staged it on the loop: at the delta review's
+reproduction (keys slept 0.51 s apart, 0.525-0.529 s on the wire) only 4 of 10
+presses mapped. Two facts make a due-time window impossible there: it is
+~0.08 s wide (send ~26 ms + 50 ms margin) and must fit between keys spaced
+0.527 s apart with 0.5 s of that already consumed by the quiet — it needs
+spacing >= ~0.58 s. The fix (commit `82c501d`): the request for each settled
+key episode goes out `EVENT_SETTLE_S` (0.05 s, ~4x the measured 12 ms
+press-release lag) after the episode's newest event, and staging runs on a
+capture pipeline off the loop, whose fast path takes the kernel's write-event
+count (inotify close past the pre-send count) as the write-completed evidence —
+the 0.75 s stability polls cannot fit between savestate writes 0.53 s apart;
+every other gate check is unchanged. `BURST_QUIET_S` (0.5 s) stays the grouping
+quiet the map reads. The acceptance guard now also verifies request-window
+timing per group (`check_request_windows`: never clustered after every group)
+and mapped coverage (`check_mapped`: every press mapped, else exit 1). The
+reproduction now reports `screens: 2, transitions: 10, keys: 10; every press
+mapped` (`T34-scripted-20261009-05.log`); three new mutations cover the r2 code
+(`T34-mutations-20261009-08.log`, survivors `[]`).

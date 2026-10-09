@@ -28,7 +28,9 @@ parameter (rework round 2 R15: `--countries 1,4` is passed to `extract.py`, not 
 A Xephyr window contains DOSBox-X on a private nested display, booted from a per-session copy of the verified release. From then
 on you simply play. The watcher (invisible) sends the savestate host key **directly to the game
 window** (explicit XSendEvent, never a global keystroke — your terminal can keep the focus the
-whole time) and stages a timestamped snapshot every 20 s and after a key burst's 0.5 s quiet interval, hashed into the session's index. The
+whole time) and stages a timestamped snapshot every 20 s and 0.05 s after each settled key
+episode (the scheduling quiet `EVENT_SETTLE_S`; the 0.5 s `BURST_QUIET_S` remains the grouping
+quiet the map reads), hashed into the session's index. The
 session folder is `scratch/human/sessions/<date-time>/` (git-ignored: the savestates and the
 video never enter the repository; only the extracted record does). The sitting is silent: the
 config family is the G1 driver's, with `nosound=true`.
@@ -36,8 +38,13 @@ config family is the G1 driver's, with `nosound=true`.
 The logger listens only on that nested display. It writes press/release events,
 UTC and monotonic timestamps, keycodes and base keysyms to `keys.jsonl`, flushed
 per line; it never attaches to the outer desktop. The key log stays out of git.
-The burst interval is [designed], not a measured game timing: T29's timings and
-the T34 brief were searched, and neither specified a human typing interval.
+The burst intervals are [designed], not measured game timings: T29's timings and
+the T34 brief were searched, and neither specified a human typing interval. The
+grouping quiet (0.5 s) groups keys into bursts; the scheduling quiet (0.05 s,
+~4x the measured 12 ms press-release lag) is when the episode's save request
+goes out — later than that and the ~0.08 s request window cannot fit between
+keys spaced just over the grouping quiet (measured 0.525-0.529 s in the
+20261009-142948 session).
 
 What makes the sitting maximally informative (each row of the map below is fed by one of these):
 
