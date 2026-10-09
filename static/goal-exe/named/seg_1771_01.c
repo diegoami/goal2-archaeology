@@ -990,9 +990,10 @@ void f_1771_1289(char param_1)
 }
 
 
-// ---- 1771:13D0  f_1771_13D0  (f_1771_13D0; Ghidra 4000:13D0, __stdcall16near; found by routines.tsv)
+// ---- 1771:13D0  team_panel_aggregate  (f_1771_13D0; Ghidra 4000:13D0, __stdcall16near; found by routines.tsv)
+// per country: sets DS:9B5A..9B64 := 6 (six 16-bit words). Then for slot = 1..11: if 1771:3216(squad[slot-1]) == 0 (available): DS:9B5A += min(32, max(0, s8(players[squad[slot-1]].morale))); DS:9B5C += s8(players.fitness) when s8(players.energy) > 0; DS:9B5E += (player_hardness(...) & 0xff); DS:9B60 += s8(players.energy); DS:9B62 += players.age; DS:9B64 += players.caps. Then DS:9B5A..DS:9B64 /= 0x0B (unsigned divide by 11), and DS:9B5A := max(1, quotient). DS:9B5A is therefore the team morale aggregate max(1, (6 + sum_of_min(32, max(0, s8(morale))) for available starters) // 11), recomputed every time 1771:157D draw_team_panel runs; the only consumer of DS:9B5A in the listing is the same routine's caller, which selects the morale string via DS:78A3[DS:9B5A]. No other writer of DS:9B5A exists in the listing  [established; F020]
 
-void f_1771_13D0(int param_1)
+void team_panel_aggregate(int param_1)
 
 {
   word wVar1;

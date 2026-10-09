@@ -523,7 +523,7 @@ void roll_quick_foul(void)
       if (iVar4 < iVar7) {
         DS:830C = (undefined1)local_7[local_3];
         DS:830B = (undefined1)local_7[local_3 == '\0'];
-        f_0791_7EEF();
+        foul_dispatch();
       }
     }
   }

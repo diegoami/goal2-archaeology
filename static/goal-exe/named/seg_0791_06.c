@@ -428,9 +428,10 @@ void walk_player_off(int param_1)
 }
 
 
-// ---- 0791:798D  f_0791_798D  (f_0791_798D; Ghidra 2000:798D, __stdcall16far; found by routines.tsv)
+// ---- 0791:798D  booking  (f_0791_798D; Ghidra 2000:798D, __stdcall16far; found by routines.tsv)
+// yellow card: emits 2AD4(0x32), walks the referee to the offender (90C5/9079), delays (match_delay), calls 214B:0C79 to set +0x10 bit 5, increments DS:7B85[side*10] (side booking count), increments DS:8321 (matches-bookings tally, capped at 5); when the side is unmanaged (1771:0B77 false) calls 1771:33CD force_tactic4_off (sets +0x0F bit 7 and clears bit 4 on the offender). The routine does NOT call 7CC5 and does NOT write +0xC — the listing shows no direct writer of player +0xC for the booking; the listing establishes that a yellow card is a status-bit store (and an unmanged-side tactic change), not a confidence drop  [established; F020]
 
-void __stdcall16far f_0791_798D(undefined4 param_1)
+void __stdcall16far booking(undefined4 param_1)
 
 {
   char *pcVar1;
@@ -533,7 +534,7 @@ void f_0791_7B24(int param_1,char param_2)
 
 
 // ---- 0791:7B77  send_off  (f_0791_7B77; Ghidra 2000:7B77, __stdcall16far; found by routines.tsv)
-// the sending-off: emits 2AD4(0x33), marks the player, and calls C48D(squad base, player) which takes him off the pitch; the XI is re-sorted by 230C's pairwise compare-and-swap (key 0x0E for unavailable, else the position byte +6; jb on key[i] < key[j] swaps slots i and j fully — squad words, 9B07 form bytes and 0x80E8 pitch records; equal keys never swap; two removed players can reverse their original relative order), the bench untouched  [established; F014]
+// the sending-off: emits 2AD4(0x33), sets +0x10 bit 6 and clears bit 5 (1791:7B24), walks the player off (7881); then calls 7CC5(pitch, delta_high=-2, flag=1) so the sent-off player's +0xC becomes clamp(s8(+0xC)-2,1,255) and DS:9B07[side*20+slot] is set; then loops slots 1..11 of the OTHER team (slot_by_2B51 = the side NOT carrying the ball): per slot 2956 == 0 (available) calls 7CC5(pitch, delta_high=+2, flag=0), so +0xC := clamp(s8(+0xC)+2,1,255) and DS:9B07 is NOT updated; finally 0x7B24 < 0xC (or substitute_player in the manage-then-C48D branch for unmanaged sides). The +2 to the other team is a static gain that follows every sending-off, with persist = False (DS:9B07 is preserved); the -2 to the sent-off player is the only sent-off-side store of the event; the XI is re-sorted by 230C's pairwise compare-and-swap (key 0x0E for unavailable, else the position byte +6; jb on key[i] < key[j] swaps slots i and j fully — squad words, 9B07 form bytes and 0x80E8 pitch records; equal keys never swap; two removed players can reverse their original relative order), the bench untouched  [established; F014; F020]
 
 void __stdcall16far send_off(undefined4 param_1)
 
@@ -592,7 +593,7 @@ void __stdcall16far send_off(undefined4 param_1)
 
 
 // ---- 0791:7CC5  adjust_player_form  (f_0791_7CC5; Ghidra 2000:7CC5, __stdcall16far; found by routines.tsv)
-// (pitch, flag, delta): sets live +0xC to clamp(s8(+0xC)+delta,1,255); nonzero flag writes min(32,s8(new live)) to DS:9B07[side*20+slot] via 2BB1/2974, not a card draw; scorer 6443 uses flag one, team-wide 65FE uses zero  [established; F012; F019]
+// (pitch, flag, delta): sets live +0xC to clamp(s8(+0xC)+delta,1,255); nonzero flag writes min(32,s8(new live)) to DS:9B07[side*20+slot] via 2BB1/2974, not a card draw; scorer 6443 uses flag one, team-wide 65FE uses zero; the calling convention is push(delta_high, delta_low, pitch_high, pitch_low, cs), then near call; the routine reads [bp + 6] = pitch_low, [bp + 8] = pitch_high, [bp + 0xc] = delta_high (the addend), and the LOW BYTE of [bp + 0xa] = delta_low as the persist flag (whether to write DS:9B07); send_off head (7B77) and injure (7D56) push (0xfffe, 0x0001) so delta_high=-2 and flag=1; send_off tail (7B77) pushes (2, 0) over the OTHER side's available pitch slots so delta_high=+2 and flag=0; scorer (6443) pushes s8(DS:0x7920[side_of_credit]) and 0x0001; team reaction (65FE) pushes s8(DS:0x7920[side_of_ball]) and 0x0000  [established; F012; F019; F020]
 
 void __stdcall16far adjust_player_form(undefined4 param_1,char param_2,int param_3)
 
@@ -627,9 +628,10 @@ void __stdcall16far adjust_player_form(undefined4 param_1,char param_2,int param
 }
 
 
-// ---- 0791:7D56  f_0791_7D56  (f_0791_7D56; Ghidra 2000:7D56, __stdcall16far; found by routines.tsv)
+// ---- 0791:7D56  injure  (f_0791_7D56; Ghidra 2000:7D56, __stdcall16far; found by routines.tsv)
+// the injury: emits 2B28(0x34), sets +0xE := 0 (the injury store, F018), walks the player off (7881), then calls 7CC5(pitch, delta_high=-2, flag=1) so the player's +0xC becomes clamp(s8(+0xC)-2,1,255) and DS:9B07[side*20+slot] is set; DS:8321 (matches-bookings tally) is incremented if below 5; for unmanaged sides (1771:0B77 false) calls C88D substitute_player (with the freshly unavailable slot, slot+5, country record) which calls C5DC refresh_pitch_slot to bring a bench player on, otherwise sets DS:9B40 = 1 to surface a managed-side in-match menu. The -2 confidence change is the same as send_off head; +0xE := 0 is the injury store (F018)  [established; F018; F020]
 
-void __stdcall16far f_0791_7D56(undefined4 param_1)
+void __stdcall16far injure(undefined4 param_1)
 
 {
   char *pcVar1;
@@ -709,9 +711,10 @@ void f_0791_7E60(undefined1 param_1)
 }
 
 
-// ---- 0791:7EEF  f_0791_7EEF  (f_0791_7EEF; Ghidra 2000:7EEF, __cdecl16near; found by routines.tsv)
+// ---- 0791:7EEF  foul_dispatch  (f_0791_7EEF; Ghidra 2000:7EEF, __cdecl16near; found by routines.tsv)
+// dispatches to a booking (798D), a sending off (7B77), or an injury (7D56) on the fouling slot DS:830C. With 261A() (a tick counter returning the previous count and incrementing) < 4 the routine picks booking or sending off based on +0x10 bit 5 (already booked? sending off : booking); else, with rand-is-one(0x20), it sends off unconditionally. After that, if 261A() == 1 it compares player_hardness(2FFB) on DS:830C and DS:830B and calls 7D56 on the lower-hardness side. The routine does NOT write +0xC directly; the effect is whatever the callee does. Reached from the quick engine's 0791:D5C1 foul handler and from the in-match foul path (5B36 / 8206)  [likely; F020]
 
-void __cdecl16near f_0791_7EEF(void)
+void __cdecl16near foul_dispatch(void)
 
 {
   uint uVar1;
@@ -729,7 +732,7 @@ void __cdecl16near f_0791_7EEF(void)
                                [*(int *)((int)&pitch_records[0].player_index + uVar1 * 0x16)].status
                                ,5);
     if (cVar2 == '\0') {
-      f_0791_798D(ppVar6,0xb000);
+      booking(ppVar6,0xb000);
     }
     else {
       send_off(ppVar6,0xb000);
@@ -748,10 +751,10 @@ void __cdecl16near f_0791_7EEF(void)
     bVar4 = player_hardness(*(undefined2 *)
                              ((int)&pitch_records[0].player_index + (uint)DS:830B * 0x16));
     if (bVar3 < bVar4) {
-      f_0791_7D56((pitch *)pitch_records + DS:830C,0xb000);
+      injure((pitch *)pitch_records + DS:830C,0xb000);
     }
     else {
-      f_0791_7D56((pitch *)pitch_records + DS:830B,0xb000);
+      injure((pitch *)pitch_records + DS:830B,0xb000);
     }
   }
   return;
@@ -885,7 +888,7 @@ void watched_substitution_sequence(byte param_1)
     ((undefined1 *)&DS:7B84)[(DS:830C < 0xc) * 10] =
          ((undefined1 *)&DS:7B84)[(DS:830C < 0xc) * 10] + '\x01';
     cVar2 = f_0791_2EB8((pitch *)pitch_records + DS:830C,0xb000,ball_record._0_2_);
-    f_0791_7EEF();
+    foul_dispatch();
     if (cVar2 == '\0') {
       f_0791_6FB6();
     }
@@ -1111,73 +1114,4 @@ void __stdcall16far f_0791_869F(undefined4 param_1)
   DS:8303 = 0;
   DS:8327 = 0;
   return;
-}
-
-
-// ---- 0791:86D0  f_0791_86D0  (f_0791_86D0; Ghidra 2000:86D0, __stdcall16near; found by routines.tsv)
-
-undefined2 f_0791_86D0(int param_1)
-
-{
-  undefined4 uVar1;
-  char *pcVar2;
-  int iVar3;
-  char cVar4;
-  int iVar5;
-  undefined2 uVar6;
-  undefined2 unaff_SS;
-  bool bVar7;
-  
-  uVar1 = *(undefined4 *)(*(int *)(param_1 + 4) + 6);
-  *(undefined2 *)*(undefined4 *)(*(int *)(param_1 + 4) + 6) = *(undefined2 *)((int)uVar1 + 2);
-  uVar1 = *(undefined4 *)(*(int *)(param_1 + 4) + 6);
-  cVar4 = *(char *)((int)uVar1 + 0xf);
-  if (cVar4 == '\x01') {
-    pcVar2 = (char *)*(undefined4 *)(*(int *)(param_1 + 4) + 6);
-    *pcVar2 = *pcVar2 + -1;
-  }
-  else if (cVar4 == '\x02') {
-    pcVar2 = (char *)*(undefined4 *)(*(int *)(param_1 + 4) + 6);
-    *pcVar2 = *pcVar2 + '\x01';
-  }
-  else if (cVar4 == '\x03') {
-    uVar1 = *(undefined4 *)(*(int *)(param_1 + 4) + 6);
-    pcVar2 = (char *)((int)uVar1 + 1);
-    *pcVar2 = *pcVar2 + -1;
-  }
-  else if (cVar4 == '\x04') {
-    uVar1 = *(undefined4 *)(*(int *)(param_1 + 4) + 6);
-    pcVar2 = (char *)((int)uVar1 + 1);
-    *pcVar2 = *pcVar2 + '\x01';
-  }
-  uVar1 = *(undefined4 *)(*(int *)(param_1 + 4) + 6);
-  if (*(char *)((int)uVar1 + 0xf) != '\x05') {
-    cVar4 = f_0791_2DCA(*(undefined2 *)*(undefined4 *)(*(int *)(param_1 + 4) + 6));
-    if (cVar4 == '\0') {
-      return 0;
-    }
-    if ((((DS:8325 != '\0') &&
-         (uVar1 = *(undefined4 *)(*(int *)(param_1 + 4) + 6),
-         *(char *)((int)uVar1 + 6) != DS:830C)) &&
-        (uVar1 = *(undefined4 *)(*(int *)(param_1 + 4) + 6),
-        *(char *)((int)uVar1 + 6) != DS:830B)) &&
-       (uVar1 = *(undefined4 *)(*(int *)(param_1 + 4) + 6),
-       ((player *)players)[*(int *)((int)uVar1 + 0xd)].position != 0)) {
-      uVar1 = *(undefined4 *)(*(int *)(param_1 + 4) + 6);
-      uVar6 = (undefined2)((ulong)DS:7C16 >> 0x10);
-      if (*(char *)((int)DS:7C16 + *(char *)*(undefined4 *)(*(int *)(param_1 + 4) + 6) * 0xa0
-                    + *(char *)((int)uVar1 + 1) * 2 + 0x90f) != '\r') {
-        uVar1 = *(undefined4 *)(*(int *)(param_1 + 4) + 6);
-        iVar3 = *(char *)*(undefined4 *)(*(int *)(param_1 + 4) + 6) * 0xa0;
-        iVar5 = (int)DS:7C16 + iVar3 + *(char *)((int)uVar1 + 1) * 2;
-        bVar7 = iVar5 == 0;
-        sys_set_bit_mask_08DF
-                  (0x648,0xb000,CONCAT11((char)((uint)iVar3 >> 8),*(undefined1 *)(iVar5 + 0x90e)));
-        if (!bVar7) {
-          return 0;
-        }
-      }
-    }
-  }
-  return 1;
 }
