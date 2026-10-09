@@ -37,3 +37,30 @@ pool draws and silent-route scorer bonuses in order. E018 checks original
 B7FA probes by player word, retaining its defective probe only after its
 own declared-input consistency check fails. See
 `findings/F019-confidence-follows-result-relative-to-country-ranks.md`.
+
+`model/morale.py` (T33, proposed F020) models the writers outside
+F019's result rule: `0791:7CC5 adjust_player_form` (named `event_clamp`
+with a [1, 255] clamp on the live byte and an optional DS:9B07 write
+when the persist flag is non-zero) and its five callers — the scorer
+`0791:6443` (s8(DS:0x7920[side_of_credit]), persist True), the team
+reaction `0791:65FE` (s8(DS:0x7920[side_of_ball]), persist False), the
+sending-off `0791:7B77` (the sent-off player push 0xfffe with flag 1,
+the OTHER team's available pitch slots push 2 with flag 0), the injury
+`0791:7D56` (push 0xfffe with flag 1; the +0xE := 0 injury store is
+F018's), and the team aggregate `1771:13D0 team_panel_aggregate`
+(`team_panel_morale(starters)` = `max(1, (6 + sum_of_min(32, max(0,
+s8(+0xC))) over the 11 available starters) // 11)`, recomputed every
+`1771:157D draw_team_panel` render and never persisted). The yellow-card
+routine `0791:798D booking` does **not** call `7CC5` and so does not write
++0xC by these lines — the help claim "booking damages confidence" is
+not established by the listing; the help claim "injury and sending-off
+damage confidence" is established. The helper does not choose call
+order: callers pass the events in match order. E019 checks 22 literal-input
+probe cases by player word (13 `7CC5` cases covering the named deltas,
+clamp boundaries and signed-byte edges; 9 `1771:13D0` cases covering the
+seed, divisor, floor and signed-byte clamp); `mutations_morale.py` shifts
+each of the 10 numeric constants by +1 and -1 and deletes each named
+helper, rerunning the unit suite in a fresh subprocess — 25/25 mutants
+killed. See `findings/F020-events-change-confidence-and-team-morale-aggregates-it.md`
+and E019's `notes.md` for the inventory, listing lines and the booking
+limitation.
