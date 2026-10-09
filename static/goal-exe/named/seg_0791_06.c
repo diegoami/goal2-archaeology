@@ -712,7 +712,7 @@ void f_0791_7E60(undefined1 param_1)
 
 
 // ---- 0791:7EEF  foul_dispatch  (f_0791_7EEF; Ghidra 2000:7EEF, __cdecl16near; found by routines.tsv)
-// dispatches to a booking (798D), a sending off (7B77), or an injury (7D56) on the fouling slot DS:830C. With 261A() (a tick counter returning the previous count and incrementing) < 4 the routine picks booking or sending off based on +0x10 bit 5 (already booked? sending off : booking); else, with rand-is-one(0x20), it sends off unconditionally. After that, if 261A() == 1 it compares player_hardness(2FFB) on DS:830C and DS:830B and calls 7D56 on the lower-hardness side. The routine does NOT write +0xC directly; the effect is whatever the callee does. Reached from the quick engine's 0791:D5C1 foul handler and from the in-match foul path (5B36 / 8206)  [likely; F020]
+// dispatches to a booking (798D), a sending off (7B77), or an injury (7D56) on the fouling slot DS:830C. The dispatch is gated by 0791:261A, a 255-element pre-shuffled draw table at DS:0x8337 (initialised by 0791:2648 with random(0x10)-1 for i=1..0xff, then DS:8437 := DS:9B36). With the first 261A() draw < 4 (table bytes 0..3, 4/16 of entries) the routine picks booking or sending off based on +0x10 bit 5 (already booked? sending off : booking); else, with random_is_one(0x20) (1/32), it sends off unconditionally. After that, if the second 261A() draw == 1 (1/16 of entries) it compares player_hardness(2FFB) on DS:830C and DS:830B and calls 7D56 on the lower-hardness side. The routine does NOT write +0xC directly; the effect is whatever the callee does. Reached from the quick engine's 0791:D5C1 foul handler and from the in-match foul path (5B36 / 8206)  [likely; F020]
 
 void __cdecl16near foul_dispatch(void)
 
@@ -726,7 +726,7 @@ void __cdecl16near foul_dispatch(void)
   
   uVar1 = (uint)DS:830C;
   ppVar6 = (pitch *)pitch_records + uVar1;
-  iVar5 = f_0791_261A();
+  iVar5 = draw_table_byte();
   if (iVar5 < 4) {
     cVar2 = u214b_set_test_bit(((player *)players)
                                [*(int *)((int)&pitch_records[0].player_index + uVar1 * 0x16)].status
@@ -744,7 +744,7 @@ void __cdecl16near foul_dispatch(void)
       send_off(ppVar6,0xb000);
     }
   }
-  iVar5 = f_0791_261A();
+  iVar5 = draw_table_byte();
   if (iVar5 == 1) {
     bVar3 = player_hardness(*(undefined2 *)
                              ((int)&pitch_records[0].player_index + (uint)DS:830C * 0x16));

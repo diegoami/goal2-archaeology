@@ -167,7 +167,7 @@ void __stdcall16far f_0791_4B64(undefined4 param_1)
         (cVar1 = attack_direction(iVar7,uVar9), 0x14 < (int)(char)ball_record.y * (int)cVar1)))) {
       cVar1 = slot_is_on_ball_side(iVar7,uVar9);
       if (cVar1 == '\0') {
-        cVar1 = f_0791_261A();
+        cVar1 = draw_table_byte();
         *(char *)(iVar7 + 0xc) = (-0x26 - *(char *)(iVar7 + 10)) + cVar1;
       }
       else {
@@ -177,11 +177,11 @@ void __stdcall16far f_0791_4B64(undefined4 param_1)
                    CONCAT11((char)((uint)(*(int *)(iVar7 + 0xd) * 0x14) >> 8),
                             ((player *)players)[*(int *)(iVar7 + 0xd)].position));
         if (bVar10) {
-          cVar1 = f_0791_261A();
+          cVar1 = draw_table_byte();
           *(char *)(iVar7 + 0xc) = ('&' - *(char *)(iVar7 + 10)) - cVar1;
         }
         else {
-          cVar2 = f_0791_261A();
+          cVar2 = draw_table_byte();
           cVar1 = *(char *)(iVar7 + 10);
           if (cVar1 < '\0') {
             cVar1 = -cVar1;
@@ -247,7 +247,7 @@ void __stdcall16far f_0791_4D3F(undefined2 *param_1)
   if ((cVar1 == '\0') || (cVar1 = f_0791_2EB8(puVar2,uVar3,*param_1), cVar1 != '\0')) {
     *(undefined1 *)(puVar2 + 9) = 0xd;
     *(undefined2 *)((int)puVar2 + 7) = *param_1;
-    cVar1 = f_0791_261A();
+    cVar1 = draw_table_byte();
     *(char *)(puVar2 + 8) = cVar1 + '\x04';
     cVar1 = f_0791_045D(*(undefined1 *)(puVar2 + 3));
     if (cVar1 != '\0') {
@@ -305,7 +305,7 @@ void f_0791_4E28(int param_1)
   iVar2 = *(int *)((int)*(undefined4 *)(param_1 + 6) + 0xd);
   uVar7 = (undefined2)((ulong)players >> 0x10);
   ppVar6 = (player *)players;
-  iVar4 = f_0791_261A();
+  iVar4 = draw_table_byte();
   iVar4 = iVar4 + 0x18;
   cVar3 = attack_direction((int)*(undefined4 *)(param_1 + 6),
                            (int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10));
@@ -324,7 +324,7 @@ void f_0791_4E28(int param_1)
   cVar3 = attack_direction((int)*(undefined4 *)(param_1 + 6),
                            (int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10));
   if (((int)*(char *)((int)*(undefined4 *)(param_1 + 6) + 1) * (int)cVar3 < -8) ||
-     (iVar4 = f_0791_261A(), iVar4 == 1)) {
+     (iVar4 = draw_table_byte(), iVar4 == 1)) {
     f_0791_3323((int)*(undefined4 *)(param_1 + 6),(int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10)
                );
   }
@@ -515,7 +515,7 @@ undefined1 f_0791_5049(int param_1)
       iVar2 = -iVar2;
     }
     if (1 < iVar2) goto LAB_0791_519F;
-    iVar2 = f_0791_261A();
+    iVar2 = draw_table_byte();
     iVar2 = iVar2 + 0x14;
     cVar1 = attack_direction((int)*(undefined4 *)(param_1 + 6),
                              (int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10));

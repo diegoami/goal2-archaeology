@@ -427,9 +427,10 @@ void __cdecl16near resort_pitch_and_bench(void)
 }
 
 
-// ---- 0791:261A  f_0791_261A  (f_0791_261A; Ghidra 2000:261A, __cdecl16near; found by routines.tsv)
+// ---- 0791:261A  draw_table_byte  (f_0791_261A; Ghidra 2000:261A, __cdecl16near; found by routines.tsv)
+// returns the next byte from the 255-element draw table at DS:0x8337 and advances the index DS:8437 (wrapping from 0xff to 1). The table is initialised by 0791:2648 with random(0x10)-1 (values 0..15). It is NOT a tick counter (R5); it is a pre-shuffled draw. Called twice by 0791:7EEF foul_dispatch and many times in the in-match engine (seg_0791_03 and seg_0791_04) for player movement, marking, tackle resolution and similar decisions gated by the same table  [established; F020; read code/seg_0791_04.asm]
 
-undefined1 __cdecl16near f_0791_261A(void)
+undefined1 __cdecl16near draw_table_byte(void)
 
 {
   int iVar1;

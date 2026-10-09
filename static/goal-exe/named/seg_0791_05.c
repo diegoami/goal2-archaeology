@@ -1002,7 +1002,7 @@ void f_0791_6BF1(char param_1,byte param_2)
   ball_record.y = DS:8316;
   cVar2 = f_0791_2F28(ppVar4,0xb000);
   cVar2 = cVar2 * '\n';
-  cVar3 = f_0791_261A();
+  cVar3 = draw_table_byte();
   *(char *)((int)&pitch_records[0].field_0x10 + iVar1) = cVar3 + '\n' + cVar2;
   return;
 }
