@@ -34,6 +34,10 @@ jobs:
       # The static tools need capstone, and the released-file tests the artifact fetched above.
       - run: pip install -r tools/static/requirements.txt
       - run: python3 -m unittest discover -s tests/static -v
+      # T34: the human-recorder tests need a nested X display stack (Xephyr inside Xvfb) and the
+      # emulator; tests that require it skip themselves (skipUnless) when a tool is missing, so
+      # the assertions still run wherever the stack is present.
+      - run: sudo apt-get update && sudo apt-get install -y xvfb xserver-xephyr xinput xdotool x11-utils ffmpeg dosbox-x
       # The record tools, their tests and fixtures (the fetched checker and artifact stay in .cache/).
       - run: python3 -m unittest discover -s tests -v
       # No original file is ever in the tree (U17: they are release assets only).

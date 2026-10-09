@@ -80,17 +80,30 @@ The map is a JSON observation in run/1, never a top-level property. Screen
 identity is SHA256 of decoded UTF-8 text, ignoring attributes; ordered bursts
 associate the nearest earlier snapshot with the first snapshot after quiet.
 Neither boot progress nor a multi-key burst proves individual-key causality.
+A snapshot's screen is bracketed by its save-request window
+(`request_s`..`sent_s` plus the 50 ms delivery margin measured in
+[T34-probe-20261009-05.log](T34-probe-20261009-05.log)), never by its staging
+time; a key inside that window is ambiguous and its burst unmapped.
+
+The key logger attaches to the nested display only and is started **before**
+DOSBox-X is launched (T34 review R6): the startup window between the logger and
+the emulator cannot swallow a key, because there is no such window — the only
+gap is before the logger itself, when nothing of the game exists yet.
 
 | Record | Scripted sitting | Map |
 | --- | --- | --- |
 | `E015-r0004` | `20261009-004935`, re-extracted with the schema-valid observation | [table](E015-r0004-keymap.md) |
 | `E015-r0005` | `20261009-010044`, fresh acceptance sitting | [table](E015-r0005-keymap.md) |
+| `E015-r0006` | `20261009-100804`, human-paced gaps (0.5–1.5 s) and the focused-XTEST privacy proof | [table](E015-r0006-keymap.md) |
 
-Both sittings logged only game `a/b` press/release events, not `x/y/z` sent to an
-xev application window on the outer display, and staged two burst snapshots.
-Each yields `screens: 2, transitions: 2, keys: 2`, with no unmapped presses.
-Their three savestates each are published on release E015, indexed by the
-corresponding manifests in `evidence/E015/`.
+The first two sittings logged only game `a/b` press/release events, not `x/y/z` sent to an
+xev application window on the outer display, and staged two burst snapshots each.
+`E015-r0006`'s sitting (`scripted_keys.py --keys a;b;c` with gaps drawn from 0.5–1.5 s)
+adds the real-key half of the privacy proof: while the xev window held the outer focus,
+`y`/`z` were typed on the outer display as real XTEST keys — an outer raw reader saw them
+and xev received them, so a logger on the outer display would have leaked them, yet
+`keys.jsonl` holds only the game's `a`/`b`/`c`. Their savestates are published on release
+E015, indexed by the corresponding manifests in `evidence/E015/`.
 
 The earlier schema-invalid records were removed by the main session in c5000af
 before this extraction. Their original derived tables are retained unchanged as
@@ -118,3 +131,13 @@ both quiet constants at +1 and -1, text identity, headline, invalid-snapshot
 filtering, sample/event ordering, grouping, release filtering, before/after
 choice and boundaries, missing-bracket counts, repeated-transition counts and
 press counts. No mutated source is committed.
+
+The `-05` sweep re-runs the whole current mutation list against the reworked
+sources: the R1 request-window rules, the R2 gap and skipped-request rules, the
+R3 privacy mutations (the focused-XTEST one is killed only by the real-key
+`y`/`z` path, the XSendEvent keys alone generate no raw events to leak), the R4
+window-bind rules, the constants, the R8 save-event rule and the R9 host-path
+rule. `T34-mutations-20261009-05.log` is its record. The delivery latency the
+50 ms margin bounds was measured by the probe kept as
+[T34-probe-20261009-05.log](T34-probe-20261009-05.log) (a probe log, not a
+finding).

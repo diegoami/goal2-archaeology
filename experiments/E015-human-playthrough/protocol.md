@@ -73,7 +73,6 @@ your last F12+S if one is pending, and writes the session's meta.
 
 ```
 python3 experiments/E015-human-playthrough/extract.py scratch/human/sessions/<date-time> --countries 1,4
-python3 experiments/E015-human-playthrough/keymap.py scratch/human/sessions/<date-time>
 python3 tools/validate_runs.py runs/E015
 python3 tools/publish_evidence.py E015 --run E015-r<nnnn> --file <snapshot> …   # the savestates
 python3 tools/verify_evidence.py E015
@@ -88,9 +87,11 @@ The key map identifies screens by SHA256 of their UTF-8 decoded text, not their
 attributes, and associates each ordered key burst with the nearest preceding
 snapshot and first snapshot after the quiet interval. It does not assert that
 each individual key caused the eventual screen. Missing bracketing snapshots
-are counted as unmapped presses. Extraction carries the map as JSON in a run/1
-observation and writes a readable `<run-id>-keymap.md` beside this protocol.
-`keymap.py` creates another new record, never amending an earlier one. Raw events
+are counted as unmapped presses. `extract.py` carries the map as a JSON
+observation in the sitting's one run/1 record (T34 review R5: there is no
+separate map-writing step; `keymap.py <session>` merely prints the summary and
+table again from the session). A readable `<run-id>-keymap.md` table sits beside
+this protocol, written from `keymap.py`'s output. Raw events
 may be included with `--scripted-keys` only for scripted acceptance sittings.
 
 ## The living coverage map
@@ -127,8 +128,8 @@ Coverage statuses (the project-recognised vocabulary):
 | Exact commentary identity | consecutive `ui-text` screens of a watched match at moderate speed | #40 | needs-play | — |
 | Board / confidence / morale | `ui-text` of the states where the board/news screens were up | Q016, Q017 | needs-play | — |
 | Bot's World Cup path | stage `[A923]+0x3C`, fixture index/count `[A923]+0x26/+0x28` across a cycle's chain (E014 notes, T28, PR #91) | bot input | needs-play | — |
-| Scripted opening-screen key burst | shell/mount text → title text after `a`; nearest snapshots bracket the burst, not proof that `a` caused the boot transition | T34 recorder/map acceptance | covered-by-a-named-session | E015-r0004, E015-r0005; their `<run-id>-keymap.md` tables |
-| Scripted title-screen key burst | title text → same title text after `b`; two burst captures per sitting, all four press/release events recorded, outer-app `x/y/z` absent | T34 recorder privacy and timing | covered-by-a-named-session | E015-r0004, E015-r0005 |
+| Scripted opening-screen key burst | shell/mount text → title text after `a`; nearest snapshots bracket the burst, not proof that `a` caused the boot transition | T34 recorder/map acceptance | covered-by-a-named-session | E015-r0004, E015-r0005, E015-r0006; their `<run-id>-keymap.md` tables |
+| Scripted title-screen key burst | title text → same title text after `b`/`c`; burst captures per key group (0.5–1.5 s human-paced gaps), all press/release events recorded, outer-app `x/y/z` absent while xev and an outer raw reader prove they were really typed | T34 recorder privacy and timing | covered-by-a-named-session | E015-r0004, E015-r0005, E015-r0006 |
 | Screen-flow controls during normal play | `C`, `N`, `Insert`, and recovery keys on the relevant screens; the scripted acceptance keys do not visit those screens | T34 screen/key map; T28 EA09 stall | needs-play | — |
 
 After a sitting, the main session appends a row per knowledge item the chain covered, with the

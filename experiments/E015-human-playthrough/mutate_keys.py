@@ -17,14 +17,19 @@ MUTATIONS = [
     # the display restriction (privacy)
     ("display restriction removed", REC,
      'if not env.get("DISPLAY") or env["DISPLAY"] == outer_display:', 'if False:'),
-    ("R3: logger also reads the outer display", REC,
+    ("R3 focused-XTEST: logger also reads the outer display", REC,
+     # only the focused real XTEST keys (y/z to a foreign focused window) generate raw events
+     # on the outer display, so only that test path can kill this mutation
      '["stdbuf", "-oL", "xinput", "test-xi2", "--root"],',
      '["sh", "-c", f"stdbuf -oL xinput test-xi2 --root & DISPLAY={self.outer_display} '
      'stdbuf -oL xinput test-xi2 --root; wait"],'),
     ("R3: logger reads the outer display instead", REC,
-     '                                     env=self.env, stdout=subprocess.PIPE,',
-     '                                     env=dict(self.env, DISPLAY=self.outer_display), '
-     'stdout=subprocess.PIPE,'),
+      '                                     env=self.env, stdout=subprocess.PIPE,',
+      '                                     env=dict(self.env, DISPLAY=self.outer_display), '
+      'stdout=subprocess.PIPE,'),
+    ("R3: play() attaches the logger to the outer display", REC,
+     '        keys = KeyLogger(env, outer_env["DISPLAY"], session / "keys.jsonl")',
+     '        keys = KeyLogger(outer_env, outer_env["DISPLAY"], session / "keys.jsonl")'),
     ("R8: save keys through XTEST", REC,
      '    import ctypes as c\n    class KeyEvent(c.Structure):',
      '    subprocess.run(["xdotool", "key", "F12+s"], env=env)\n    return\n'
@@ -115,6 +120,11 @@ def main():
     tmp = ROOT / "scratch" / "t34-tmp"
     tmp.mkdir(parents=True, exist_ok=True)
     env = dict(os.environ, PYTHONDONTWRITEBYTECODE="1", TMPDIR=str(tmp))
+    # pre-flight: every target string must occur exactly once in the pristine source, so a run
+    # that starts on a source left mutated by an aborted earlier run fails before mutating
+    for name, filename, old, _ in MUTATIONS:
+        count = (ROOT / filename).read_text().count(old)
+        assert count == 1, (name, count, "source not pristine?")
     for name, filename, old, new in MUTATIONS:
         path = ROOT / filename
         original = path.read_bytes()
