@@ -259,18 +259,18 @@ identity. `side` and `slot` remain in the record as the DS:9B07
 persistence index, kept for completeness; the comparison is keyed
 by `player_word`.
 
-Every `expected_*` and `got_*` field is hand-traced from the
-listing bytes (`code/seg_0791_13.asm:484..548` for the
-adjust-form cases; `code/seg_1771_02.asm:1001..1126` for the
-panel cases). The probe generator (`probe_literal.py`) does NOT
-import `runtime.model.morale` — both `expected_*` and `got_*` come
-from a hand-coded `_listing_event_clamp` / `_listing_team_panel`
-in the generator, which mirrors the original routine arithmetic
-without calling the model. The checker then re-runs the model and
-verifies its output equals both listing-derived fields. The
-probe fails closed on empty sets, on a literal mismatch, on a
-missing or mutated `got_*` field, and on a missing `player_word`:
-`match: 22/22`.
+Every `expected_*` field is a literal argument in the probe record,
+hand-traced from the listing bytes (`code/seg_0791_13.asm:484..548` for
+the adjust-form cases; `code/seg_1771_02.asm:1001..1126` for the panel
+cases). Every `got_*` field is the model's output for the same input.
+The probe generator (`probe_literal.py`) does NOT import
+`runtime.model.morale` — the literal `expected_*` values are independent
+of the model and of any generator helper that re-derives them. The
+checker then re-runs the model and verifies its output equals the
+literal `expected_*` values; a faulty model (or a wrong literal) breaks
+the comparison. The probe fails closed on empty sets, on a literal
+mismatch, on a missing or mutated `got_*` field, and on a missing
+`player_word`: `match: 22/22`.
 
 `python3 -m unittest -v tests.test_model_morale` runs 33 literal
 tests; `python3 -m unittest -v tests.test_check_morale` runs 19
