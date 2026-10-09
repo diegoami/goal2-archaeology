@@ -42,6 +42,21 @@ Scope, Done when, Hazards, Implementer, Reviewer, Merge after. Rules:
   static reading (a finding's first part), any tool that produces ground truth, then the deliverable
   piece by piece. A milestone's Done-when measures progress as a number (the first divergent minute,
   the records matched), committed with each push, so a resumed run starts from it. (L102)
+- **Orthogonal layers.** A task file's **Owns** and **Scope** sections name the layers it touches.
+  Two layers are orthogonal if they can be merged independently: each is testable in isolation, the
+  other layer's tests still pass without it, and the other layer is still useful in the field. When
+  a task touches more than 3 orthogonal layers, **split it into T<nn>a, T<nn>b, ...** before
+  dispatch. Each sub-task is its own mergeable PR with its own Done-when, reviewer, and merge
+  cycle. T34 (recorder 2) is the canonical case: 5 orthogonal layers (privacy & nested-display key
+  logger; burst detection; scheduler timing; keymap & acceptance guard; CI apt step & latency
+  probe) sat on one PR; the rework rounds each surfaced a defect in a different layer, the L38
+  / family-rule bind fired per-round for the whole ticket, the 900 s idle limit per round had to
+  cover all 5 layers, and the r3 round died without pushing. Per-layer splits would have closed
+  each layer in 1 round. Defensive check: when reviewing a task file, ask "could this be two or
+  three tasks instead?" If yes, split. The cost of splitting is small (more task files, more
+  PRs); the cost of not splitting is what we saw on T34. The retrospective is at
+  `goal2-archaeology-work/lessons/T34-too-big-split-by-orthogonal-layer.md` and in the local
+  memory as `task-sizing-by-orthogonal-layer.md`. (L104)
 
 ## 3. The loop
 
