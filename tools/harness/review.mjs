@@ -52,6 +52,7 @@ import path from 'node:path';
 import { randomBytes } from 'node:crypto';
 import { runOpenCodeWatched, resolveOpenCode, OpenCodeInfraError, keyProblem } from './lib/opencode.mjs';
 import { credentialJail, OFF_WARNING } from './lib/jail.mjs';
+import { namedModel } from './lib/named.mjs';
 import { runChain, excludeImplementers, readReview, doneWhenCount, briefTargets } from './lib/chain.mjs';
 import { planPost, publish, postComment, applyLabel, withdrawApproval, combinePlans } from './lib/post.mjs';
 import { selfTest, SAMPLES } from './lib/review-selftest.mjs';
@@ -89,7 +90,14 @@ const labelsOf = (kind, n) => sh('gh', [kind, 'view', String(n), '--json', 'labe
 const implementedBy = a.exclude ? a.exclude.split(',').map((s) => s.trim()).filter(Boolean)
   : [...labelsOf('pr', a.pr), ...(a.issue ? labelsOf('issue', a.issue) : [])]
     .filter((l) => l.startsWith('model:')).map((l) => l.slice(6));
-if (a.reviewer && !config.models[a.reviewer]) die(2, `Unknown reviewer ${a.reviewer}.`);
+// --reviewer: a harness.json key, or any OpenCode id the user names, provider/model[@variant]
+// (CLAUDE.md "Choosing models: the user decides", the owner, 2026-10-11; lib/named.mjs).
+if (a.reviewer) {
+  let model;
+  try { model = namedModel(a.reviewer, config.models); } catch (e) { die(2, e.message); }
+  if (!model) die(2, `Unknown reviewer ${a.reviewer}: give a harness.json key or an OpenCode id, provider/model[@variant].`);
+  config.models[a.reviewer] = model;
+}
 // --hard (L39): reviewer.hard, a heavy reviewer first, then reviewers on other providers and
 // families, so that one account's quota cannot block a hard review; the implementer's family is
 // skipped as in any chain. --sol (L41) puts reviewer.sol first, Sol being used sparingly.

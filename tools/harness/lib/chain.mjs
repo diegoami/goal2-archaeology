@@ -2,6 +2,7 @@
 // tested directly.
 
 import { failureClass } from './opencode.mjs';
+import { familyOfName } from './named.mjs';
 
 /**
  * Tries each model once. The next model runs only after an infrastructure failure, and only when
@@ -34,7 +35,8 @@ export async function runChain({ chain, attempt, leftWork = async () => false, r
  * harness.json, or bare family names such as "claude". Returns the chain without those families.
  */
 export function excludeImplementers(chain, models, implementedBy) {
-  const familyOf = (name) => models[name]?.family ?? name;
+  // A key of harness.json, a model id the user named, or a bare family (lib/named.mjs).
+  const familyOf = (name) => familyOfName(name, models);
   const banned = new Set(implementedBy.map(familyOf));
   return chain.filter((name) => !banned.has(familyOf(name)));
 }
