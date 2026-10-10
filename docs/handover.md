@@ -1,18 +1,17 @@
 # Session handover (goal2-archaeology, new machine)
 
-Wake up, then pick one of Options A / B / C below.
+Project-level only — no session-management notes. Pick one of Options A / B / C below.
 
-## Wake-up (3 commands)
+## Wake-up (2 commands)
 
 ```bash
-clother minimax                                  # set backend for this session
 gh auth status                                    # confirm GitHub login
 curl -sf localhost:8765/health                   # quota-tracker must be up
 ```
 
-If any fails, do NOT dispatch — the harness's `quota-tracker recommend?tier=heavy`
-falls back to `claude` (orchestrator family) when the service is dead, which breaks
-L27's heavy-review ladder.
+If either fails, do NOT dispatch — the harness's `quota-tracker recommend?tier=heavy`
+falls back to `claude` (orchestrator family) when the quota-tracker is dead, which
+breaks L27's heavy-review ladder.
 
 ## Live state at this handover
 
