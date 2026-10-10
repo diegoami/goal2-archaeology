@@ -12,8 +12,8 @@ yourself, check whether a delegate below does it better or cheaper.
 
 | Work | Delegate | How | Key |
 | --- | --- | --- | --- |
-| Code: implement a task or a fix | OpenCode GLM-5.3 Flash, then DeepSeek V4.1 Flash, then a Claude Sonnet agent | `/run-task` → `tools/harness/implement.mjs` | Z.AI's login (`opencode auth login`) and OpenCode Go's (`opencode console login`) to implement; OpenAI's (`opencode auth login`) to review |
-| Review a PR | GPT-5.6 Luna on OpenAI, through OpenCode (default), then a Claude Opus agent; never the implementer's family | `/run-task` → `tools/harness/review.mjs`, or Agent | as above |
+| Code: implement a task or a fix | The user's choice: the main session (its own worktree), a Claude agent on the model named, or OpenCode on the model named | ask first (CLAUDE.md "Choosing models" rule 1), then `/run-task` | the login of the named model's provider (`opencode auth login` / `opencode console login`) |
+| Review a PR | The external model the user names; never the implementer's family | ask first (rule 2), then `/run-task` → `tools/harness/review.mjs --reviewer <name>` | as above |
 | Repeated decisions with known answers (triage, routing, gating, labelling) | Jev | `/jev` → `tools/harness/jev.mjs` | `OPENROUTER_API_KEY` |
 | Images: sprites, icons, maps, mockups, illustrations | An image model on OpenRouter | pick one with `models.mjs openrouter --output image` | `OPENROUTER_API_KEY` |
 | A second opinion from another model family, or reading audio or images | A model on OpenRouter | `models.mjs openrouter --input image` (or `audio`) | `OPENROUTER_API_KEY` |
@@ -33,37 +33,27 @@ another way, or tell the user what is missing (`docs/environment.md`).
 
    Do the same when you are unsure a model still exists. (L25)
    To change the implementer's or reviewer's model itself, use `/switch-model`.
-2. **Check the quota first** (L50). Where quota-tracker runs (`curl -sf localhost:8765/health`),
-   `curl -s localhost:8765/avoid` lists the providers out of quota and when each is usable again,
-   and `curl -s 'localhost:8765/recommend?tier=heavy'` (or `tier=light`) ranks the models to use:
-   `pick` is the best, `ranking` lists them with `score`, spare calls per day until the pool's reset
-   (negative: it runs out before then at the current demand) (`docs/environment.md`). Never rank by
-   headroom: pools differ in size and period, and Claude sessions draw on some.
-   Skip a model whose provider is `exhausted`: name the next model of its chain that has quota
-   (`--model` for `implement.mjs`, `--reviewer` for `review.mjs`) and say so in the run's report.
-   Both scripts also skip such a model themselves and log why (L52); never pause a provider by
-   editing `harness.json` for quota.
-   When a task needs both an implementer and a reviewer, use `/recommend`'s `pair` field
-   (`curl -s 'localhost:8765/recommend?tier=heavy' | jq .pair`): `pair.implementer` and
-   `pair.reviewer`, the reviewer from another family (claude, openai, glm, mimo, minimax;
-   each free model its own). Add `review_tier=light` for a lighter reviewer; `private=0` is for
-   code that is not private (the free OpenRouter models may then be in the pair). With
-   `tier=heavy`, the same response also offers `free_reviewer` — a free second opinion on the
-   shared 1,000-requests-a-day allowance, lost at 00:00 UTC. Never use a free model for private
-   or client code, secrets or NDA material. A null reviewer means no other family has quota:
-   tell the owner. Project exclusions apply on top: if the suggested reviewer is one the
-   project rules out (rule 3, the family rule), take the next row of `ranking` whose reviewer
-   is from a different family than the implementer. Alibaba is never recommended and never
-   appears in `pair`.
+2. **The user chooses** (CLAUDE.md "Choosing models: the user decides", the owner, 2026-10-11).
+   Before implementing anything, ask ONE question with the question tool: the main session or a
+   subagent, and which model. Before every review, ask ONE question: which external model reviews.
+   With each question, show quota-tracker's recommendation as a suggestion only:
+   `curl -s 'localhost:8765/recommend?tier=heavy'` (or `tier=light`), its `pick`/`pair` with rank,
+   outlook and reliability; if it does not answer, ask without it. Fixed: the reviewer is never the
+   implementer's family; DeepSeek never (the scripts refuse it); Alibaba only when the user asks.
+   Pass the choice explicitly: `implement.mjs --model <key or provider/model[@variant]>`,
+   `review.mjs --reviewer <same>`. Never let a chain, tier or quota skip pick for you; a provider
+   that does not answer goes back to the user, who names another (rule 7). Never use a free model
+   for private or client code, secrets or NDA material.
+   (Superseded: the quota-first chain order, `/recommend`'s `pair` as the decision, and the
+   project exclusions on top of it.)
 3. **Choose on the evidence you have.** In order of preference:
    - this project's own measurements (review rounds and tokens per task, from the merge comments);
    - a small trial;
    - the listed price and capabilities.
 
    Vendor benchmarks come last.
-4. **Record the choice where it is used.** Implementer and reviewer models go in `harness.json`,
-   and a task's own choice goes in its task file, with the date and the reason in the commit
-   message. A generated asset gets a sidecar next to it, `<asset>.json`, with the provider, the
+4. **Record the choice where it is used.** Who implements and who reviews, on which model, and the
+   suggestion's reasons go in a comment on the issue or PR (rule 5). A generated asset gets a sidecar next to it, `<asset>.json`, with the provider, the
    model id, the prompt, the date and the cost. That records where it came from, and lets it be
    made again.
 5. **Say the cost first.** Before a batch (many images, a long narration), tell the user the
