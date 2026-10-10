@@ -20,8 +20,8 @@ Tag capability jumps, not phases. Release notes come from GitHub when the tag is
 | Role | Who | Does |
 | --- | --- | --- |
 | Main session | Claude, the session the user talks to | Plans, writes task files, runs `/run-task`, triages, merges, reports |
-| Implementer | OpenCode GLM-5.3 Flash, then DeepSeek V4.1 Flash, via `tools/harness/implement.mjs`, then a Claude Sonnet agent (L42); a heavier model only with the reason in the task file (L46) | One task, one branch, one PR, in its own worktree |
-| Reviewer | OpenCode via `tools/harness/review.mjs`, after the quota check (L50): GPT-6.1 Sol (`gpt-6.1-sol`, effort low, medium if justified, never high) for complex tasks (guards, harness or driver changes, measurement integrity, research deliverables, plans with many acceptance lines); GPT-5.6 Luna (`luna`, direct OpenAI, L51) for small, simple PRs (L101); then a Claude Opus agent; never the implementer's family (L27). Exit 3: Opus reviews; exit 4: the main session reads the flagged review and decides (L28) | Re-runs the Done-when, audits scope and evidence, posts one PR comment, applies the label |
+| Implementer | The user's choice (CLAUDE.md "Choosing models" rule 1): the main session in its own worktree, a Claude agent, or OpenCode via `tools/harness/implement.mjs --model <name>`. *Superseded: the GLM-5.3 Flash → DeepSeek V4.1 Flash → Sonnet chain (L42) and L46's heavier-model rule.* | One task, one branch, one PR, in its own worktree |
+| Reviewer | The external model the user names (rule 2), via `tools/harness/review.mjs --reviewer <name>`; never the implementer's family (L27). Exit 3: ask the user for another; exit 4: the main session reads the flagged review and decides (L28). *Superseded: the quota-checked Sol / Luna / Opus order (L50, L51, L101).* | Re-runs the Done-when, audits scope and evidence, posts one PR comment, applies the label |
 | Decider | Jev via `tools/harness/jev.mjs` (the `/jev` skill) | Repeated yes/no decisions over many items, at the confident ends only (§12) |
 | Generator | Models on OpenRouter (images, other families) and ElevenLabs (speech, sound, music) | Assets, each committed with a sidecar naming provider, model, prompt, date and cost |
 
@@ -74,10 +74,14 @@ What the implementer script guarantees, and why:
   command-line limit; the file is never committed, and on failure it is kept with the logs. (L60)
 - Each light OpenCode model runs at effort high; a heavy one (Sol, GLM-5.3, DeepSeek V4 Pro) at
   effort low, medium only when justified, never high, except where the provider offers nothing
-  lower (DeepSeek V4 Pro: high is its lowest). All run in the scripts' own data directory (L27, L29). The chain
-  moves on only after an infrastructure failure that left no work. (L12)
+  lower (DeepSeek V4 Pro: high is its lowest). All run in the scripts' own data directory (L27, L29). The model is the user's,
+  passed as `--model` (a harness.json key or `provider/model[@variant]`); the chain (L12) runs only
+  without it, which the main session no longer does.
 - Exit 0: a PR is open. 1: the main session reads the log (a stop and report, or an early end).
-  3: OpenCode unavailable, its model not listed, or not logged in; Claude Sonnet takes the task.
+  2: a refused model (DeepSeek, an unknown name). 3: OpenCode unavailable, its model not listed, or
+  not logged in; the user names another (rule 7).
+- A run our own idle or total limit killed is resumed, not restarted: `--session <ses_...>` with the
+  same `--model` and a longer `--total-timeout-sec`, in the kept worktree (rule 13).
 
 How the main session launches and watches a run (L103):
 - Detached from its own session, so a restart of Claude Code does not kill the run: `systemd-run --user

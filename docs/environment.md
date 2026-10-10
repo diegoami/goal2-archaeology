@@ -33,6 +33,8 @@ Then run `npm test` in the harness repository. The tests against the real OpenCo
 
 ## OpenCode Go
 
+**Superseded (the owner, 2026-10-11):** which model implements or reviews is the user's choice, asked one question at a time (CLAUDE.md "Choosing models: the user decides"); this section's seats, chains and placements no longer pick a model. Kept for the logins and probes.
+
 The second implementer, DeepSeek V4.1 Flash, is OpenCode Go's (`opencode-go/…`), a subscription. They are not OpenCode Zen's pay-per-token `opencode/…` models. Go comes from a console
 (organisation) login, not from a key; `opencode auth login` and `OPENCODE_API_KEY` reach only Zen
 (IC2 #551):
@@ -47,6 +49,8 @@ directory, another machine, WSL beside Windows, or a new cloud session each need
 
 ## OpenAI, for the reviewer
 
+**Superseded (the owner, 2026-10-11):** which model implements or reviews is the user's choice, asked one question at a time (CLAUDE.md "Choosing models: the user decides"); this section's seats, chains and placements no longer pick a model. Kept for the logins and probes.
+
 The reviewer is GPT-5.6 Luna on the direct OpenAI route (`openai/gpt-5.6-luna`, L51), never a Luna
 on Go (`opencode-go/…`): a third-party proxy behind Go's returned `Bad Request` in long agent loops
 (L27). OpenAI is an ordinary OpenCode provider: log in once with `opencode auth login`, choose
@@ -57,6 +61,8 @@ next run copies it.
 
 ## Z.AI, for the implementer and the GLM models
 
+**Superseded (the owner, 2026-10-11):** which model implements or reviews is the user's choice, asked one question at a time (CLAUDE.md "Choosing models: the user decides"); this section's seats, chains and placements no longer pick a model. Kept for the logins and probes.
+
 GLM-5.3 Flash, the default implementer (L42), and GLM-5.3, the first hard reviewer (L41), run on
 Z.AI's coding plan (`zai-coding-plan/…`); both stay on watch (L35). Log in once with `opencode auth login` and choose Z.AI Coding Plan (an API
 key; OpenCode also reads `ZHIPU_API_KEY`), then check with `opencode models zai-coding-plan`. The
@@ -64,6 +70,8 @@ key is kept in `auth.json`, which the scripts copy like OpenAI's. GLM-5.3-highsp
 the plan.
 
 ## Alibaba Token Plan and MiniMax, on watch
+
+**Superseded (the owner, 2026-10-11):** which model implements or reviews is the user's choice, asked one question at a time (CLAUDE.md "Choosing models: the user decides"); this section's seats, chains and placements no longer pick a model. Kept for the logins and probes.
 
 Registered 2026-10-05/06 (the owner), all on watch in `harness.json`, no chain seats. The key is the
 env var `ALIBABA_TOKEN_PLAN_API_KEY` (or `MINIMAX_API_KEY`) from `~/.config/ai-keys.env` — never
@@ -99,6 +107,8 @@ exhausted. From 8 Oct 2026 `ali-glm` is the default GLM seat (zai's 3x weekday p
 `b8c6cde` awaits the owner's separate word.
 
 ## Quota: quota-tracker
+
+**Superseded in part (the owner, 2026-10-11):** quota-tracker's `/recommend` is shown to the user as a suggestion only, with each question of CLAUDE.md "Choosing models"; it never decides, and neither do `harness.json`'s chains, the scripts' quota skip, nor the chooser below.
 
 Where the machine runs quota-tracker, a local service, it reports how much subscription quota is
 left on each provider: `claude` (the main session and Claude agents), `openai` (Sol and Luna, via

@@ -76,6 +76,7 @@
     }
   },
   "chooser": {
+    "supersededNote": "Superseded (the owner, 2026-10-11): no auto-chooser picks a model; quota-tracker's /recommend is a suggestion shown to the user.",
     "implementer": {
       "easy": [
         "glm-flash",
@@ -107,7 +108,8 @@
     "claudeFallback": "sonnet",
     "startupTimeoutSec": 180,
     "idleTimeoutSec": 900,
-    "totalTimeoutSec": 10800
+    "totalTimeoutSec": 10800,
+    "supersededNote": "Superseded (the owner, 2026-10-11): the user names each run's model (CLAUDE.md 'Choosing models: the user decides'); this order is used only by a script run without --model/--reviewer."
   },
   "reviewer": {
     "agent": "reviewer",
@@ -124,7 +126,8 @@
       "mimo-pro",
       "luna"
     ],
-    "sol": "sol-6.1"
+    "sol": "sol-6.1",
+    "supersededNote": "Superseded (the owner, 2026-10-11): the user names each run's model (CLAUDE.md 'Choosing models: the user decides'); this order is used only by a script run without --model/--reviewer."
   },
   "jev": {
     "model": "jev-1.13",
