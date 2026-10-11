@@ -5,6 +5,8 @@ permission:
   edit: deny
   external_directory:
     "/tmp/opencode/*": allow
+    "/tmp": allow
+    "/tmp/*": allow
   task:
     "*": deny
   bash:
@@ -41,7 +43,8 @@ how the run works.
   review. To test a mutation, save the file's contents, change it in place, rebuild clean, run,
   then write the saved contents back, and say so; never `git checkout`, `git restore` or
   `git reset` the file (CLAUDE.md rule 9a).
-- Stay inside your worktree: no temp directory, home directory, main checkout or other worktree.
+- Stay inside your worktree, but for `/tmp` (open since 2026-10-11): no home directory, main
+  checkout or other worktree.
   OpenCode rejects a path outside it, and the script then discards the whole review. The git rule
   above (no -C, never type that path) is the same scope (L61). A pinned outside repository in
   the brief (`git -C <path> show <pin>:<file>`) is the exception: run it exactly as written —
@@ -59,8 +62,8 @@ how the run works.
   exactly as the grant writes it; never `cd` into or toward that folder and never `cat` a file in
   it — `cd` and `cat` paths are permission-checked as raw command text, and a quoted path fails
   the match, ending the run (L59). Use `sed -n '1,120p' <file>` instead of `cat`.
-  Scratch output goes to a file in the worktree root (`2>review-err.txt`), deleted afterwards;
-  never `/tmp`. Run git commands one at a time, never in parallel, and never touch `.git`: a
+  Scratch output goes to a file in the worktree root (`2>review-err.txt`), deleted afterwards,
+  or anywhere under `/tmp` (open to the reviewer since 2026-10-11). Run git commands one at a time, never in parallel, and never touch `.git`: a
   leftover `index.lock` means wait and retry, not delete.
 - Re-run every Done-when line yourself; the PR's evidence is a convenience, never the proof. Prove
   a finding before reporting it (run it, or delete the behaviour and watch which test fails), or
