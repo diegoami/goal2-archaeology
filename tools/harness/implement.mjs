@@ -3,6 +3,10 @@
 //
 //   node tools/harness/implement.mjs --task T07 --slug calendar --issue 12 --brief brief.md [--model NAME]
 //   node tools/harness/implement.mjs --fix 34 --slug save-path --brief brief.md
+//     [--model NAME]         a harness.json key, or any OpenCode id the user names: provider/model[@variant]
+//     [--session ses_...]    resume that session in the kept worktree (needs --model); the brief is
+//                            then the short "continue where you stopped" message
+//     [--total-timeout-sec N] [--idle-timeout-sec N]   override harness.json's limits for this run
 //     [--copy local.ini]...  untracked files copied from the main checkout into the worktree
 //     [--env KEY=VALUE]...   environment for the run
 //   node tools/harness/implement.mjs --self-test   (the reset's save, on a throwaway repository)
@@ -11,8 +15,9 @@
 // round). This script creates or resumes the branch and worktree, runs OpenCode watched, and checks
 // the handover: a PR exists, the worktree is clean, pushed and detached.
 //
-// The model is harness.json's implementer.chain (one model, by the user's decision of 2026-10-02:
-// GLM-5.3 Flash, then MiMo V2.6 Flash, then Claude Sonnet); --model runs another alone. Runs use the scripts' own
+// The model is the one the user chose, passed as --model (CLAUDE.md "Choosing models: the user
+// decides", the owner, 2026-10-11). Without --model the script still runs harness.json's
+// implementer.chain, which the main session no longer relies on. Runs use the scripts' own
 // OpenCode data directory, and a model OpenCode does not list there exits 3 before anything is
 // billed. With a longer chain, the next model runs
 // only on an infrastructure failure, and only when the failed run left nothing behind (no new
@@ -30,9 +35,13 @@
 
 import fs from 'node:fs';
 import path from 'node:path';
-import { runOpenCodeWatched, resolveOpenCode, OpenCodeInfraError, keyProblem } from './lib/opencode.mjs';
+import { runOpenCodeWatched, resolveOpenCode, OpenCodeInfraError, keyProblem, isResumable, lookupSession } from './lib/opencode.mjs';
 import { runChain } from './lib/chain.mjs';
 import { resetWorktree, selfTest as unsavedSelfTest } from './lib/unsaved.mjs';
+import { namedModel, selfTest as namedSelfTest } from './lib/named.mjs';
+import { matchSession } from './lib/opencode.mjs';
+import { resumeSelfTest } from './lib/resume-selftest.mjs';
+import { resumeCommand, resumeCommandSelfTest } from './lib/resume.mjs';
 import {
   sh, requireTools, repoPaths, loadConfig, parseArgs, envWith, ensureAgent, ocArgs, prepareOpenCode, watchLine,
 } from './lib/common.mjs';
@@ -41,9 +50,10 @@ const say = (s) => console.log(s);
 const die = (code, s) => { console.error(s); process.exit(code); };
 
 const a = parseArgs(process.argv.slice(2), { flags: ['self-test'], repeatable: ['copy', 'env'] });
-// --self-test: the reset's save on a throwaway repository (lib/unsaved.mjs), with no OpenCode or gh.
+// --self-test: the reset's save on a throwaway repository (lib/unsaved.mjs), a named model's id
+// and family (lib/named.mjs), and a resumed session found by id; no OpenCode or gh.
 if (a['self-test']) {
-  const failures = unsavedSelfTest();
+  const failures = [...unsavedSelfTest(), ...namedSelfTest(), ...sessionSelfTest(), ...resumeCommandSelfTest(), ...await resumeSelfTest()];
   for (const f of failures) console.error(`FAIL ${f}`);
   say(`self-test: ${failures.length ? `${failures.length} checks failed` : 'all checks passed'}`);
   process.exit(failures.length ? 1 : 0);
@@ -52,6 +62,16 @@ if (!a.task === !a.fix) die(2, 'Give exactly one of --task T<nn> or --fix <issue
 if (a.task && !/^T\d{2,3}$/.test(a.task)) die(2, `--task must look like T07; got ${a.task}`);
 if (!a.slug || !a.brief) die(2, '--slug and --brief are required.');
 if (!fs.existsSync(a.brief)) die(2, `Brief not found: ${a.brief}`);
+if (a.session && !/^ses_\w+$/.test(a.session)) die(2, `--session takes an OpenCode session id (ses_...); got ${a.session}`);
+if (a.session && !a.model) die(2, '--session resumes on the model the user names: give --model too.');
+const seconds = (k) => {
+  if (a[k] === undefined) return null;
+  const n = Number(a[k]);
+  if (!Number.isInteger(n) || n <= 0) die(2, `--${k} takes a positive number of seconds; got ${a[k]}`);
+  return n;
+};
+const totalSec = seconds('total-timeout-sec');
+const idleSec = seconds('idle-timeout-sec');
 
 let opencode;
 try { opencode = resolveOpenCode(); } catch (e) {
@@ -65,7 +85,12 @@ const config = loadConfig(top0);
 const { top, commonDir, mainRoot, workRoot } = repoPaths(config);
 const impl = config.implementer;
 const chain = a.model ? [a.model] : impl.chain;
-for (const m of chain) if (!config.models[m]) die(2, `Unknown model ${m}; harness.json lists ${Object.keys(config.models).join(', ')}.`);
+for (const m of chain) {
+  let model;
+  try { model = namedModel(m, config.models); } catch (e) { die(2, e.message); }
+  if (!model) die(2, `Unknown model ${m}: give a harness.json key (${Object.keys(config.models).join(', ')}) or an OpenCode id, provider/model[@variant].`);
+  config.models[m] = model;
+}
 const fallback = `Fall back to a Claude implementer (${impl.claudeFallback ?? 'sonnet'}).`;
 const pre = await prepareOpenCode({ opencode, chain, models: config.models, env: envWith(a.env), cwd: top, log: say });
 for (const p of pre.problems) say(p);
@@ -77,6 +102,13 @@ const issue = a.issue ?? a.fix;
 const worktree = path.join(workRoot, name);
 const logFile = path.join(workRoot, `${name}.implementer.log`);
 fs.mkdirSync(workRoot, { recursive: true });
+// A resumed session continues in the worktree it ran in, kept as it stopped (rule 13).
+if (a.session && !fs.existsSync(worktree)) die(2, `--session ${a.session} resumes in the kept worktree ${worktree}, which does not exist.`);
+// ... and only a session of that worktree, checked before anything changes or runs (Sol's R2, PR 114).
+if (a.session) {
+  const found = await lookupSession(opencode, { workDir: fs.realpathSync(worktree), title: '', startedMs: 0, env: pre.env, sessionId: a.session, timeoutMs: 60_000 });
+  if (!found.session) die(2, `--session ${a.session}: ${found.miss}. Nothing was run.`);
+}
 
 // 1. The worktree and branch: resume a pushed branch, otherwise start from origin/main and push.
 sh('git', ['-C', top, 'fetch', '-q', 'origin']);
@@ -175,13 +207,16 @@ const result = await runChain({
     if (watch) say(watch);
     let reason = null;
     let output;
+    let sessionId = a.session ?? null;
     try {
       const run = await runOpenCodeWatched({
         args: ocArgs(worktree, impl.agent, model), prompt, workDir: worktree, title: `${name}-${m}`,
-        startupTimeoutMs: impl.startupTimeoutSec * 1000, idleTimeoutMs: impl.idleTimeoutSec * 1000,
-        totalTimeoutMs: impl.totalTimeoutSec * 1000, opencode, env: implementEnv, log: say,
+        sessionId: a.session ?? null,
+        startupTimeoutMs: impl.startupTimeoutSec * 1000, idleTimeoutMs: (idleSec ?? impl.idleTimeoutSec) * 1000,
+        totalTimeoutMs: (totalSec ?? impl.totalTimeoutSec) * 1000, opencode, env: implementEnv, log: say,
       });
       output = run.output;
+      sessionId = run.sessionId ?? sessionId;
       // OpenCode's own error stream on a failed run, never the model's output (Luna's R1, round 2).
       if (run.exitCode !== 0) reason = keyProblem(run.stderr, model.id, implementEnv.XDG_DATA_HOME) ?? `exit ${run.exitCode}`;
       else if (run.agentFallback) reason = 'fell back to the default agent';
@@ -190,9 +225,13 @@ const result = await runChain({
       if (!(e instanceof OpenCodeInfraError)) throw e;
       reason = e.reason;
       output = e.message;
+      sessionId = e.sessionId ?? sessionId;
     }
     fs.appendFileSync(logFile, `=== ${m} (${model.id}): ${reason ? `failed: ${reason}` : 'ran'} ===\n${watch ? `${watch}\n` : ''}${output}\n`);
-    return reason ? { ok: false, reason } : { ok: true, value: output };
+    // Stopped by our own limit, or a resumed run: the worktree stays as it stopped, to be resumed in
+    // its own session (rule 13), never reset or handed to another model (rule 7; Sol's R5 on PR 114).
+    if (reason) return { ok: false, reason, stop: Boolean(a.session) || isResumable(reason), sessionId };
+    return { ok: true, value: output };
   },
   leftWork: async () => {
     sh('git', ['-C', top, 'fetch', '-q', 'origin']);
@@ -211,6 +250,16 @@ say(`run log: ${logFile}`);
 // Every exit after the chain names the patches its resets saved (#87; Sol's R3 on PR 100).
 const saved = patches.length ? ` Unsaved work was saved before the reset: ${patches.join(', ')}.` : '';
 const reasons = result.failures.map((f) => `${f.name}: ${f.reason}`).join('; ');
+if (!result.ok && result.stopped) {
+  die(1, `The run stopped (${reasons}); its worktree ${worktree} is kept as it stopped.${saved} `
+    // The original arguments, less what a resume replaces (Sol's R1 on PR 114, round 2): --env,
+    // --copy, --idle-timeout-sec ... all carry over. The brief is the short continue brief.
+    + (result.sessionId ? `Resume: ${resumeCommand({
+      script: 'tools/harness/implement.mjs', argv: process.argv.slice(2), flags: ['self-test'],
+      set: [['model', result.failures[0].name], ['session', result.sessionId], ['brief', '<continue-brief-file>'], ['total-timeout-sec', '<longer>']],
+    })}`
+      : 'No session id was recorded: read the log, then decide with the user.'));
+}
 if (!result.ok) {
   if (result.leftWork) die(1, `The run failed (${reasons}) after committing, pushing or opening a PR on ${branch}; not retrying. The main session decides.${saved}`);
   die(3, `OpenCode unavailable: ${result.sameCause ? `same failure twice: ${result.sameCause} (${reasons})` : reasons}. ${fallback}${saved}`);
@@ -229,3 +278,18 @@ say('--- tail of the run ---');
 say(result.value.split(/\r?\n/).slice(-40).join('\n'));
 if (!pr) die(1, `No open PR for ${branch}. Read ${logFile}: an implementer that stopped and reported is not a failure.${saved}`);
 say(`PR: ${pr}`);
+
+// A resumed run finds its session by id, whatever its title or age, and only in its own directory.
+function sessionSelfTest() {
+  const failures = [];
+  const ok = (what, cond) => { if (!cond) failures.push(what); };
+  const dir = fs.realpathSync(process.cwd());
+  const old = { id: 'ses_old', title: 'T35-glm-abc', directory: dir, created: 1000, updated: 2000 };
+  const other = { id: 'ses_else', title: 'T35-glm-abc', directory: '/nowhere/else', created: 1000, updated: 2000 };
+  ok('resume finds the session by id', matchSession([other, old], { workDir: dir, title: 'T35-new-xyz', startedMs: 9e12, sessionId: 'ses_old' }).session === old);
+  ok('resume refuses the id in another directory', matchSession([other], { workDir: dir, title: 'x', startedMs: 0, sessionId: 'ses_else' }).session === null);
+  ok('resume misses an absent id', matchSession([old], { workDir: dir, title: 'x', startedMs: 0, sessionId: 'ses_none' }).session === null);
+  ok('a new run still needs a session created after it started', matchSession([old], { workDir: dir, title: old.title, startedMs: 9e12 }).session === null);
+  ok('a new run finds its titled session', matchSession([old], { workDir: dir, title: old.title, startedMs: 0 }).session === old);
+  return failures;
+}

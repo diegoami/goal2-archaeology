@@ -5,10 +5,12 @@ description: Switch the OpenCode model that implements or reviews (harness.json)
 
 # /switch-model: change the implementer's or the reviewer's model
 
-Each role runs its OpenCode chain, then Claude: today, GLM-5.3 Flash on Z.AI implements, then
-DeepSeek V4.1 Flash on Go (then Sonnet), and GPT-5.6 Luna on the direct OpenAI route reviews (then
-Opus). The user decided this on 2026-10-02 (L27) and on 2026-10-04 (L42, L51). A switch changes one role's model; it is the user's decision, so you
-propose it and the user says yes.
+**Superseded in part (the owner, 2026-10-11).** The user names each run's model (CLAUDE.md
+"Choosing models: the user decides"), passed as `implement.mjs --model` or `review.mjs --reviewer`,
+which take a `harness.json` key or any OpenCode id `provider/model[@variant]`. The roles' chains
+in `harness.json` no longer pick a model. Use this skill to register a model under a short key with
+a probed effort and a `watch` note, or to probe one the user wants to try; a switch of a chain is
+kept only for a script run without `--model`.
 
 1. **Why.** Name the reason: a measured failure (the run logs, the measurement comments), a
    cheaper or better candidate, or the user's request. A model that failed once on a strange task

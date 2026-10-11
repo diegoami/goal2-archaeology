@@ -1,4 +1,7 @@
 #!/usr/bin/env node
+// SUPERSEDED (the owner, 2026-10-11): the main session no longer calls this. The user names each
+// run's model (CLAUDE.md "Choosing models: the user decides"); quota-tracker's /recommend is shown
+// to the user as a suggestion only. Kept for reference until a harness bump removes it.
 // Which model should run this, right now? Ranks harness.json's models for a role and difficulty
 // by quota-tracker's /recommend over the owner's preference order (the `chooser` block;
 // absent: the chains). Advisory: it prints a ranking, `--pick` names the top one for

@@ -51,6 +51,9 @@ export function keyProblem(text, modelId, dataHome) {
 
 // A failure reason without its numbers, so a chain can tell the same failure twice (two startup
 // hangs, two idle kills) from two different ones.
+// Our own limits ended the run: it is resumed in its own session and worktree (rule 13).
+export const isResumable = (reason) => ['idle', 'total-timeout'].includes(failureClass(reason));
+
 export function failureClass(reason) {
   const r = String(reason);
   if (/^opencode not found/.test(r)) return 'not-found';
@@ -304,10 +307,28 @@ function sameDir(a, b) {
   return norm(a) === norm(b);
 }
 
-// This run's session: its unique title, in its directory, created after it started. `session list`
-// is scoped to the project of its working directory, so it runs in workDir. A miss says why, the
-// listing or the match, so that "exited without a session" can be diagnosed (#45).
-export async function lookupSession(cmd, { workDir, title, startedMs, timeoutMs, env }) {
+// This run's session: its unique title, in its directory, created after it started; or, for a
+// resumed run (`--session`), the session of that id in its directory, whatever its title and age.
+// `session list` is scoped to the project of its working directory, so it runs in workDir. A miss
+// says why, the listing or the match, so that "exited without a session" can be diagnosed (#45).
+export function matchSession(sessions, { workDir, title, startedMs, sessionId }) {
+  const miss = (why) => ({ session: null, miss: why });
+  if (sessionId) {
+    const byId = sessions.find((s) => s && s.id === sessionId);
+    if (!byId) return miss(`no session ${sessionId} among the ${sessions.length} listed`);
+    if (!byId.directory || !sameDir(byId.directory, workDir)) return miss(`session ${sessionId} is in ${byId.directory}, not ${workDir}`);
+    return { session: byId, miss: null };
+  }
+  const titled = sessions.filter((s) => s && s.title === title);
+  if (!titled.length) return miss(`no session titled ${title} among the ${sessions.length} listed`);
+  const here = titled.filter((s) => s.directory && sameDir(s.directory, workDir));
+  if (!here.length) return miss(`session ${titled[0].id} titled ${title} is in ${titled[0].directory}, not ${workDir}`);
+  const session = here.find((s) => Number(s.created) >= startedMs - 1000);
+  if (!session) return miss(`session ${here[0].id} titled ${title} was created at ${here[0].created}, before the run started at ${startedMs}`);
+  return { session, miss: null };
+}
+
+export async function lookupSession(cmd, { workDir, title, startedMs, timeoutMs, env, sessionId }) {
   const miss = (why) => ({ session: null, miss: why });
   if (timeoutMs <= 0) return miss('no time left to list sessions');
   const res = await execBounded(cmd, ['session', 'list', '--format', 'json', '-n', '20'], { cwd: workDir, timeoutMs, env });
@@ -317,13 +338,7 @@ export async function lookupSession(cmd, { workDir, title, startedMs, timeoutMs,
   let sessions;
   try { sessions = JSON.parse(res.stdout); } catch { return miss(`\`session list\` printed no JSON (exit ${res.code}): ${res.stdout.trim().slice(0, 200)}`); }
   if (!Array.isArray(sessions)) sessions = [sessions];
-  const titled = sessions.filter((s) => s && s.title === title);
-  if (!titled.length) return miss(`no session titled ${title} among the ${sessions.length} listed`);
-  const here = titled.filter((s) => s.directory && sameDir(s.directory, workDir));
-  if (!here.length) return miss(`session ${titled[0].id} titled ${title} is in ${titled[0].directory}, not ${workDir}`);
-  const session = here.find((s) => Number(s.created) >= startedMs - 1000);
-  if (!session) return miss(`session ${here[0].id} titled ${title} was created at ${here[0].created}, before the run started at ${startedMs}`);
-  return { session, miss: null };
+  return matchSession(sessions, { workDir, title, startedMs, sessionId });
 }
 
 // The agent OpenCode recorded for the session (`opencode export <id>`: .info.agent), or null.
@@ -370,7 +385,7 @@ export function briefFileName(title) {
  * A non-zero exit is returned, not thrown: the caller decides.
  */
 export async function runOpenCodeWatched({
-  args, prompt, workDir, title,
+  args, prompt, workDir, title, sessionId = null,
   startupTimeoutMs = 180_000, totalTimeoutMs = 3_600_000, idleTimeoutMs = 600_000, pollMs = 10_000,
   logDir = path.join(os.tmpdir(), 'harness-opencode'), opencode, env = process.env, log = () => {},
 }) {
@@ -378,6 +393,11 @@ export async function runOpenCodeWatched({
   const cmd = opencode ?? resolveOpenCode(env);
   workDir = fs.realpathSync(workDir);
   title = `${title}-${randomBytes(6).toString('hex')}`;
+  // A resumed session must exist in this run's directory before anything runs (Sol's R2 on PR 114).
+  if (sessionId) {
+    const pre = await lookupSession(cmd, { workDir, title, startedMs: 0, env, sessionId, timeoutMs: Math.min(startupTimeoutMs, 60_000) });
+    if (!pre.session) throw Object.assign(new OpenCodeInfraError('session not resumable', `cannot resume: ${pre.miss}; nothing was run`), { sessionId });
+  }
   fs.mkdirSync(logDir, { recursive: true });
   const outFile = path.join(logDir, `${title}.out.txt`);
   const errFile = path.join(logDir, `${title}.err.txt`);
@@ -386,7 +406,9 @@ export async function runOpenCodeWatched({
   const files = [outFile, errFile, briefFile];
   const pointer = `Your complete brief for this run is the file ${briefFileName(title)} at the root of this worktree.`
     + ' Read that file first and follow it exactly; never edit, commit or delete it.';
-  const all = [...args, '--title', title, pointer];
+  // A resumed run continues its own session (`--session`, the owner's rule 13 of 2026-10-11) and
+  // keeps its title; it is then found by id.
+  const all = sessionId ? [...args, '--session', sessionId, pointer] : [...args, '--title', title, pointer];
   // The brief leaves the worktree when the run is not clean (L60): kept for diagnosis with the
   // log files, but never left as untracked work a reset would save as the implementer's (#87).
   // A cross-device logDir makes rename fail (EXDEV), so a failed rename falls back to copy+delete;
@@ -439,7 +461,7 @@ export async function runOpenCodeWatched({
     let session = null;
     let lastMiss = 'no lookup ran';
     const lookup = async (timeoutMs) => {
-      const r = await lookupSession(cmd, { workDir, title, startedMs, env, timeoutMs });
+      const r = await lookupSession(cmd, { workDir, title, startedMs, env, timeoutMs, sessionId });
       if (r.miss) lastMiss = r.miss;
       return r.session;
     };
@@ -448,8 +470,8 @@ export async function runOpenCodeWatched({
       log(`opencode: session lookup missed: ${lastMiss}`);
       return fail(reason, `${message} (last lookup: ${lastMiss})`);
     };
-    const fail = (reason, message) => new OpenCodeInfraError(reason,
-      `${message}; files kept: ${files.join(', ')}. stderr tail:\n${tail(errFile)}`);
+    const fail = (reason, message) => Object.assign(new OpenCodeInfraError(reason,
+      `${message}; files kept: ${files.join(', ')}. stderr tail:\n${tail(errFile)}`), { sessionId: session?.id ?? sessionId });
     log(`opencode: pid ${child.pid}, session title ${title}, output ${outFile}`);
 
     try {
@@ -474,7 +496,8 @@ export async function runOpenCodeWatched({
       // Run watch: the total deadline, and the idle watch on the session's `updated` time. A lookup
       // that fails leaves `lastUpdated` unchanged, so the idle clock keeps running.
       const idlePollMs = Math.max(pollMs, Math.min(60_000, Math.ceil(idleTimeoutMs / 5)));
-      let lastUpdated = session ? Number(session.updated) : startedMs;
+      // A resumed session's `updated` predates this run: the idle clock starts no earlier than the run.
+      let lastUpdated = session ? Math.max(Number(session.updated), startedMs) : startedMs;
       while (!hasExited()) {
         const remaining = Math.max(0, totalTimeoutMs - elapsed());
         const wait = session && idleTimeoutMs > 0 ? Math.min(idlePollMs, remaining) : remaining;
@@ -485,7 +508,7 @@ export async function runOpenCodeWatched({
           throw fail(`no exit in ${secs} s`, `OpenCode did not finish within ${secs} s; killed pid ${child.pid}`);
         }
         if (!session || idleTimeoutMs <= 0) continue;
-        const { session: seen } = await lookupSession(cmd, { workDir, title, startedMs, env, timeoutMs: Math.max(0, Math.min(30_000, totalTimeoutMs - elapsed())) });
+        const { session: seen } = await lookupSession(cmd, { workDir, title, startedMs, env, sessionId, timeoutMs: Math.max(0, Math.min(30_000, totalTimeoutMs - elapsed())) });
         if (hasExited()) break;
         if (seen && Number(seen.updated) > lastUpdated) lastUpdated = Number(seen.updated);
         const idleFor = Date.now() - lastUpdated;

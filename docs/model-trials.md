@@ -1,8 +1,9 @@
 # Model trials
 
 How each reviewer and implementer model did on this project's tasks, one row per review or run that
-taught something. Used with game-archaeologist `docs/models.md` when routing; it records outcomes, not
-task status.
+taught something. It records outcomes, not task status, and informs the user's choice of model; it
+does not pick one (routing by game-archaeologist `docs/models.md` is superseded by CLAUDE.md
+"Choosing models: the user decides", the owner, 2026-10-11).
 
 | Date | Task / PR | Role | Model | What happened | Lesson |
 | --- | --- | --- | --- | --- | --- |
