@@ -578,7 +578,7 @@ class Watcher:
 
     def __init__(self, session, live, wid, dbx, env, t0=None, index="index.jsonl",
                  clock=time.monotonic, sleep=time.sleep, xrun=None, alive=None, log=None,
-                 writing=None):
+                 writing=None, watch=None):
         self.session = Path(session)
         self.live = Path(live)
         self.wid = wid
@@ -592,7 +592,9 @@ class Watcher:
         # the live savestate's write activity (round-4/6 R1): `activity()` gives (a write session
         # is open, the number of write events so far); an injected `writing` has no event count
         if writing is None:
-            ww = WriteWatch(self.live)
+            # `watch`: the sitting's own WriteWatch, started before the emulator was launched, so
+            # its count covers every save of the sitting (Sol's round-3 R1 on PR 112)
+            ww = watch if watch is not None else WriteWatch(self.live)
             self.activity = ww.activity
         else:
             self.activity = lambda: (writing(), 0)
@@ -1411,6 +1413,10 @@ def play(video=False, quit_after=None, res="1280x800"):
         # the logger starts before the emulator is launched (T34 review R6)
         keys = KeyLogger(env, outer_env["DISPLAY"], session / "keys.jsonl")
         keys.start()
+        # the write watch starts before the emulator too (Sol's round-3 R1 on PR 112): a save the
+        # running emulator writes before the Watcher exists must be in write_events_total, or a
+        # save before the first request goes unowned and uncounted
+        watch = WriteWatch(session / "state.sav")
         argv = [os.environ.get("DOSBOX_X", "dosbox-x"), "-conf", str(session / "dosbox.conf"),
                 "-fastlaunch", "-nogui", "-nomenu", "-savedir", str(session),
                 "-set", f"dosbox savefile={session / 'state.sav'}"]
@@ -1445,8 +1451,13 @@ def play(video=False, quit_after=None, res="1280x800"):
                 vid = Video(v, session / "video.mkv")
                 vid.start()
                 log(f"video started: {' '.join(v)}")
+        if os.environ.get("GOAL2_RECORDER_TEST_EARLY_SAVE") == "1":
+            # test only (tests.test_human_keys, the early-save regression): one save of the live
+            # emulator before the Watcher exists — the window Sol's round-3 R1 used
+            send_save_event(wid, env)
+            time.sleep(0.5)
         watcher = Watcher(session, session / "state.sav", wid, dbx, env, log=log,
-                          xrun=lambda argv: send_save_event(wid, env))
+                          xrun=lambda argv: send_save_event(wid, env), watch=watch)
         meta["monotonic_start_s"] = watcher.t0
         (session / "meta.json").write_text(json.dumps(meta, indent=1))
         entries = watcher.run(quit_after=quit_after, stop=lambda: stop_flag["now"], video=vid, keys=keys)

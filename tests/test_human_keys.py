@@ -1207,6 +1207,31 @@ class GuardTests(unittest.TestCase):
                 shutil.rmtree(session, ignore_errors=True)
 
 
+class EarlySaveTests(unittest.TestCase):
+    """Sol's round-3 R1 on PR 112: a save the running emulator writes before the Watcher exists
+    must be counted, so the acceptance guard sees it as a save before the first request (owned by
+    no line) and refuses the sitting. Before the fix the write watch started with the Watcher, the
+    early save was uncounted, and the sitting exited 0."""
+
+    @unittest.skipIf(os.environ.get("MUTATION_SWEEP"),
+                     "heavy end-to-end scripted sitting; run once in the full suite and by the sweep's heavy mutations")
+    def test_a_save_before_the_watcher_is_refused(self):
+        before = set(rec.SESSIONS.glob("*")) if rec.SESSIONS.is_dir() else set()
+        try:
+            r = subprocess.run([sys.executable,
+                                str(ROOT / "experiments/E015-human-playthrough/scripted_keys.py"),
+                                "--sleep", "2", "--keys", "a;b;c", "--seed", "34"],
+                               env=dict(os.environ, GOAL2_RECORDER_TEST_EARLY_SAVE="1"),
+                               capture_output=True, text=True, timeout=240)
+            out = r.stdout + r.stderr
+            self.assertEqual(r.returncode, 1, out[-4000:])
+            self.assertIn("a save before the first request is owned by no request line", out)
+        finally:
+            fresh = (set(rec.SESSIONS.glob("*")) if rec.SESSIONS.is_dir() else set()) - before
+            for session in fresh:
+                shutil.rmtree(session, ignore_errors=True)
+
+
 class ReproductionWrapperTests(unittest.TestCase):
     """T35 (issue #111): the two Sol delta r4 reproductions are commands, and the wrapper
     compares their exit — exit 1 means the recorder (R1) or the acceptance guard (R2) rejected

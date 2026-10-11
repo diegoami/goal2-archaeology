@@ -270,6 +270,11 @@ MUTATIONS = [
      'if session is not None and write_events_total is None:', 'if False:'),
     ("r6-R1: the recorder writes no write total", REC,
      'meta["write_events_total"] = watcher.activity()[1]', 'pass', "heavy"),
+    # Sol's round-3 R1 on PR 112: the write watch started with the Watcher again, after the
+    # emulator is up, so an early save goes uncounted (killed by EarlySaveTests; heavy)
+    ("r6-R1: the write watch starts after the emulator", REC,
+     'xrun=lambda argv: send_save_event(wid, env), watch=watch)',
+     'xrun=lambda argv: send_save_event(wid, env), watch=None)', "heavy"),
 ]
 
 
