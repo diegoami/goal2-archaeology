@@ -133,6 +133,29 @@ def _probe(path: Path, what: str) -> bool:
         raise GaError(f"cannot stat {path}: {e.strerror or e}") from None
 
 
+def _probe_tree(path: Path) -> None:
+    """Every entry of a cached folder that exists, probed before any gh call: an unreadable folder
+    or file under it is a named `GaError` (Luna's R1 on PR 122, round 1: an unreadable formats/
+    was first probed after the tree request). A missing folder is not an error here."""
+    try:
+        mode = os.stat(path).st_mode
+    except OSError as e:
+        if e.errno in (errno.ENOENT, errno.ENOTDIR, errno.ELOOP):
+            return
+        raise GaError(f"cannot stat {path}: {e.strerror or e}") from None
+    if not stat.S_ISDIR(mode):
+        return
+    try:
+        entries = sorted(os.scandir(path), key=lambda entry: entry.name)
+    except OSError as e:
+        raise GaError(f"cannot stat {path}: {e.strerror or e}") from None
+    for entry in entries:
+        child = Path(entry.path)
+        if _probe(child, "symlink") or _probe(child, "file"):
+            continue
+        _probe_tree(child)
+
+
 def _missing(dest: Path, wanted: dict[str, str]) -> list[str]:
     """The needed files the cache does not hold; a non-empty list makes the cache untrusted."""
     return [path for path in sorted(wanted) if not _probe(dest / path, "file")]
@@ -206,9 +229,11 @@ def fetch(commit: str | None = None) -> Path:
     if _probe(dest, "symlink"):
         raise GaError(f"cache for {commit} is a symlink: {dest}")
     # An unreadable cache is a named error before anything is asked of gh: probe the fixed tool
-    # paths first (the tree below only adds formats/, whose probes follow in `_missing`).
+    # paths and everything already cached under formats/ first.
     for path in NEEDED_FILES:
         _probe(dest / path, "file")
+    for prefix in NEEDED_PREFIXES:
+        _probe_tree(dest / prefix)
     wanted = _wanted(repo, commit)
     if _missing(dest, wanted):
         _download(repo, dest, wanted)
