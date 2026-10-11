@@ -396,7 +396,7 @@ def mark_before(mark, when):
 
 
 def build_record(session, states, diffs, countries, runs_dir, machine, started, malformed, scripted_keys=False,
-                 declared=()):
+                 declared=(), injected=()):
     """The run/1 document: one step per parsed state, the diffs after their later state, every
     file the pass read named with its sha256 (every file — R11 — and every country record
     address uses c * COUNTRY_SIZE, not (c-1) * COUNTRY_SIZE, R9)."""
@@ -447,7 +447,8 @@ def build_record(session, states, diffs, countries, runs_dir, machine, started, 
             "script": "experiments/E015-human-playthrough/extract.py",
             "sha256": sha256_file(__file__),
             "args": [host_free(str(session)), "--countries", ",".join(map(str, countries))]
-                    + [a for d in declared for a in ("--declare", d)],
+                    + [a for d in declared for a in ("--declare", d)]
+                    + [a for k, t, w in injected for a in ("--injected", f"{k}@{t}:{w}")],
         },
         "observations": [],
         "outputs": [],
@@ -467,10 +468,10 @@ def build_record(session, states, diffs, countries, runs_dir, machine, started, 
     if (session / "keys.jsonl").is_file():
         logged = [json.loads(line) for line in (session / "keys.jsonl").read_text().splitlines()
                   if line.strip()]
-        injected = sum(1 for e in logged if e.get("by") == "recorder" and e.get("event") == "press")
-        if injected:
+        n_recorder = sum(1 for e in logged if e.get("by") == "recorder" and e.get("event") == "press")
+        if n_recorder:
             rec["interventions"].append(
-                {"level": "I2", "what": f"the recorder pressed the Pause key {injected} time(s) "
+                {"level": "I2", "what": f"the recorder pressed the Pause key {n_recorder} time(s) "
                                          "(XTEST on the nested display, the game window focused) "
                                          "to end DOSBox-X's pause when the owner typed F12+P "
                                          "while paused; marked `by: recorder` in keys.jsonl"})
@@ -637,16 +638,20 @@ def build_record(session, states, diffs, countries, runs_dir, machine, started, 
     screen_key_map = None
     if (session / "keys.jsonl").is_file():
         import keymap
-        screen_key_map = keymap.read_session(session, states)
+        screen_key_map = keymap.read_session(session, states, injected=injected)
         rec["runtime"]["fingerprint"]["keymap_py_sha256"] = sha256_file(keymap.__file__)
         add("file", "read key log keys.jsonl", sha256_file(session / "keys.jsonl"))
-        logged = [json.loads(line) for line in (session / "keys.jsonl").read_text().splitlines()
-                  if line.strip()]
+        logged = keymap.mark_injected(
+            [json.loads(line) for line in (session / "keys.jsonl").read_text().splitlines()
+             if line.strip()], injected, meta.get("monotonic_start_s") or 0.0)
         add("log", "key log presses (keys.jsonl lines whose event is press, not the recorder's)",
-            str(sum(1 for e in logged if e.get("event") == "press" and e.get("by") != "recorder")))
+            str(sum(1 for e in logged if e.get("event") == "press" and not e.get("by"))))
         add("log", "key log presses the recorder injected (keys.jsonl `by: recorder`: the Pause "
                    "that resumes on F12+P)",
             str(sum(1 for e in logged if e.get("event") == "press" and e.get("by") == "recorder")))
+        for k, t, who in injected:
+            add("log", f"key log press named injected (--injected): {k} at +{t}s, by {who}; "
+                       "not counted as the owner's, the raw key log unchanged", who)
         if (session / "requests.jsonl").is_file():
             add("file", "read save requests requests.jsonl", sha256_file(session / "requests.jsonl"))
         add("log", "screen/key map summary", screen_key_map["summary"])
@@ -686,6 +691,10 @@ def main(argv=None):
     ap.add_argument("--runs-dir", type=Path, default=ROOT / "runs")
     ap.add_argument("--machine", default="ubuntu-24-04-wsl2")
     ap.add_argument("--scripted-keys", action="store_true", help="include raw keys ONLY for a scripted acceptance sitting")
+    ap.add_argument("--injected", action="append", default=[], metavar="KEYSYM@SECONDS:WHO",
+                    help="a logged key press that was injected, not the owner's (its keysym, its "
+                         "time into the sitting as keys.jsonl gives it, who pressed it); "
+                         "repeatable")
     ap.add_argument("--declare", action="append", default=[], metavar="LEVEL:TEXT",
                     help="an intervention the session folder does not record (I0..I3), declared "
                          "in the record (repeatable)")
@@ -697,6 +706,16 @@ def main(argv=None):
         level, _, what = d.partition(":")
         if level.strip() not in ("I0", "I1", "I2", "I3") or not what.strip():
             raise SystemExit(f"--declare {d!r}: LEVEL:TEXT with LEVEL one of I0..I3")
+    injected = []
+    for item in a.injected:
+        key, _, rest = item.partition("@")
+        at, _, who = rest.partition(":")
+        try:
+            injected.append((key, float(at), who.strip()))
+        except ValueError:
+            raise SystemExit(f"--injected {item!r}: KEYSYM@SECONDS:WHO")
+        if not key or not who.strip():
+            raise SystemExit(f"--injected {item!r}: KEYSYM@SECONDS:WHO")
     countries = []
     for part in a.countries.split(","):
         part = part.strip()
@@ -723,7 +742,8 @@ def main(argv=None):
             diffs[s["file"]] = d
         last = s
     rec, out_path = build_record(session, states, diffs, countries, a.runs_dir, a.machine, started,
-                                 malformed, scripted_keys=a.scripted_keys, declared=a.declare)
+                                 malformed, scripted_keys=a.scripted_keys, declared=a.declare,
+                                 injected=injected)
     parsed = [s for s in states if s.get("error") is None]
     screens = {s["screen_digest"] for s in parsed if s.get("screen_digest") is not None}
     partial = sum(1 for s in parsed if s.get("memory_unavailable") or s.get("arrays_unavailable"))

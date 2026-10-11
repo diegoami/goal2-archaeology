@@ -159,6 +159,31 @@ class ExtractMarksTests(unittest.TestCase):
         self.assertEqual(values["key log presses (keys.jsonl lines whose event is press, not the "
                                 "recorder's)"], "1")
 
+    def test_a_named_injected_key_is_no_owner_press_and_the_log_stays_raw(self):
+        # rework round 1, R2 (Sol): E015-r0009 declared the main session's Pause at +88.312 s yet
+        # counted it as the owner's; a key named --injected leaves the owner's count and the map
+        session = session_with_meta(self, "injected")
+        keys = [{"event": "press", "keysym": "Pause", "monotonic_s": T0 + 30.0},
+                {"event": "release", "keysym": "Pause", "monotonic_s": T0 + 30.007},
+                {"event": "press", "keysym": "Return", "monotonic_s": T0 + 31.0}]
+        raw = "".join(json.dumps(k) + "\n" for k in keys)
+        (session / "keys.jsonl").write_text(raw)
+        runs = workdir(self, "runs-injected")
+        with mock.patch("sys.stdout", io.StringIO()):
+            extract.main([str(session), "--countries", "1", "--runs-dir", str(runs),
+                          "--injected", "Pause@30.0:main session"])
+        rec = json.loads(sorted((runs / "E015").glob("*.json"))[-1].read_text())
+        values = {o["field"]: o["value"] for o in rec["observations"]}
+        self.assertEqual(values["key log presses (keys.jsonl lines whose event is press, not the "
+                                "recorder's)"], "1")
+        self.assertTrue(values["screen/key map summary"].endswith("keys: 1"),
+                        values["screen/key map summary"])
+        self.assertIn("--injected", rec["actions"]["args"])
+        self.assertEqual((session / "keys.jsonl").read_text(), raw)
+        with self.assertRaises(ValueError):            # a known injection must hit a known key
+            import keymap
+            keymap.mark_injected(keys, [("Pause", 40.0, "main session")], T0)
+
     def test_without_the_monotonic_clock_a_note_is_placed_by_utc(self):
         # an index entry without a request window (a sitting before T34) has only its UTC
         session = session_with_meta(self, "marks-utc")
