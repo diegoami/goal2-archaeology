@@ -113,7 +113,10 @@ the docs and `harness.json` that pick a model are superseded by them.
 ### Monitoring OpenCode sessions (and any other background agent)
 8. Start every OpenCode run in the background, with stdin from a file (never an inherited pipe:
    `opencode run` waits for stdin's end-of-file before it creates a session). Never wait on it blind.
-9. Watch it with one monitor that checks every 1-2 minutes:
+9. Watch it with one monitor that checks every 1-2 minutes. Test a job's life by its systemd unit
+   (`systemctl --user is-active <unit>`: start every long job as its own unit, L103) or its PID
+   (`kill -0 <pid>`), never with `pgrep -f`, which matches the watching shell's own command line
+   and never sees the job end (L48; isle-wars lost 1.5 h to it, 2026-10-11). It covers:
    - the session started (`opencode session list` in the run's directory, or the run's
      "session ses_... started" line), and the run's exit;
    - progress: the OpenCode log's size and the session's `updated` time, the worktree's changed
