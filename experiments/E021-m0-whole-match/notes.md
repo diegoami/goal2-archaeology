@@ -196,7 +196,7 @@ could still reproduce (Sol's three falsifiers). `Guest.hook(address, fn, prove=T
 the model at every call, side by side with the original:
 1. at the routine's entry the harness snapshots every register (`REGS_ALL`) and lets the ORIGINAL
    run as guest code, recording every write (address, old bytes, new bytes) through a memory-write
-   hook on the whole address space, added for that call only; the main-seed trace ignores these
+   hook on the whole address space (one for the run, recording only during a proved call); the main-seed trace ignores these
    guest writes (`suppress_guest_watch`), since they are undone;
 2. at the routine's own return instruction (from the listing: `214B:06AE retf 6`), with SP back
    at the entry's value, it takes the return state (`return_from` as that `retf`), undoes the

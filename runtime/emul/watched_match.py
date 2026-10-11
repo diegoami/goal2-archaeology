@@ -317,6 +317,8 @@ class Guest:
             uc.emu_stop()
 
         def record_original(uc, access, address, size, value, data):
+            if state["phase"] != "original":
+                return
             old = bytes(uc.mem_read(address, size))
             new = (value & ((1 << (8 * size)) - 1)).to_bytes(size, "little")
             state["writes"].append((address, old, new))
@@ -332,7 +334,6 @@ class Guest:
                     return
                 state.update(phase="original", writes=[], regs={r: self.reg(r) for r in REGS_ALL},
                              ss=self.reg("ss"), sp=self.reg("sp"))
-                state["mh"] = uc.hook_add(UC_HOOK_MEM_WRITE, record_original, begin=0, end=0x10FFFF)
                 self.suppress_guest_watch = True
             except Exception as e:        # stop the emulation and re-raise after it
                 stop(uc, e)
@@ -342,7 +343,6 @@ class Guest:
                 return                     # not the proved call's own return
             try:
                 state["phase"] = None
-                uc.hook_del(state["mh"])
                 self.suppress_guest_watch = False
                 self.return_from(far, pop)
                 frame = (state["ss"] * 16, state["ss"] * 16 + self.reg("sp"))
@@ -382,6 +382,10 @@ class Guest:
         lin = self.lin(key)
         self.mu.hook_add(UC_HOOK_CODE, at_entry, begin=lin, end=lin)
         if prove:
+            # one memory-write hook for the whole run, recording only while a call's original runs
+            # (a hook added and deleted per call slows Unicorn down call by call: deleted hooks
+            # stay listed until emu_start returns)
+            self.mu.hook_add(UC_HOOK_MEM_WRITE, record_original, begin=0, end=0x10FFFF)
             for r_off in ret_offsets:
                 rl = self.seg(seg) * 16 + r_off
                 self.mu.hook_add(UC_HOOK_CODE, at_return, begin=rl, end=rl)
