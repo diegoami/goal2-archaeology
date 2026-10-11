@@ -11,10 +11,18 @@ the middle of a key burst, a key typed while paused, two notes (note.py) and two
 - live.py printed the newest screen twice and left nothing in the session folder but the
   recorder's own files and the notes.
 
-    python3 experiments/E015-human-playthrough/scripted_pause.py
+    python3 experiments/E015-human-playthrough/scripted_pause.py [--resume pause|f12p]
+                                                                 [--load FILE.GL] [--end quit|close]
+
+`--resume f12p` resumes each pause with F12+P (T39b Scope 5: the recorder presses Pause, marked
+`by: recorder` in keys.jsonl); `--load` passes a saved game to play.sh (Scope 8; checked in
+meta.json); `--end close` ends the sitting by closing the Xephyr window (Scope 7: meta.json must
+still get `ended` and `stop_reason: window-closed`).
 
 Prints the session folder; extract it with extract.py --runs-dir <scratch dir> (a rehearsal is not
 an E015 record)."""
+import argparse
+import hashlib
 import json
 import os
 import subprocess
@@ -34,6 +42,11 @@ XDOTOOL_MODIFIERS = {"Alt_L", "Alt_R", "Shift_L", "Shift_R", "Control_L", "Contr
 
 
 def main():
+    ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
+    ap.add_argument("--resume", choices=("pause", "f12p"), default="pause")
+    ap.add_argument("--load", default=None)
+    ap.add_argument("--end", choices=("quit", "close"), default="quit")
+    a = ap.parse_args()
     try:
         recorder.driver.require_dosbox()
     except RuntimeError as e:
@@ -50,8 +63,9 @@ def main():
             if outer.poll() is None:
                 break
         env = dict(os.environ, DISPLAY=f":{number}")
-        quit_after = 70
-        sitting = subprocess.Popen(["bash", "runtime/human/play.sh", "--quit-after", str(quit_after)],
+        quit_after = 70 if a.end == "quit" else 400
+        play_args = ["--quit-after", str(quit_after)] + (["--load", a.load] if a.load else [])
+        sitting = subprocess.Popen(["bash", "runtime/human/play.sh", *play_args],
                                    cwd=ROOT, env=env, start_new_session=True)
         deadline = time.monotonic() + 60
         session = meta = None
@@ -86,6 +100,14 @@ def main():
             time.sleep(HOLD)
             x("keyup", "F12")
 
+        def resume():
+            if a.resume == "f12p":
+                pause_chord()
+                typed.extend(["F12", "p"])
+            else:
+                key("Pause")
+                typed.append("Pause")
+
         def note(text):
             subprocess.run([sys.executable, "runtime/human/note.py", str(session), text],
                            cwd=ROOT, check=True, stdout=subprocess.DEVNULL)
@@ -109,7 +131,7 @@ def main():
         time.sleep(3)
         key("x"); typed.append("x")       # typed while paused: DOSBox-X drops it
         time.sleep(1)
-        key("Pause"); typed.append("Pause")
+        resume()
         time.sleep(3)
         note("rehearsal note 2: resumed")
         # pause 2, in the middle of a burst: b, then F12+P 0.2 s later
@@ -117,13 +139,25 @@ def main():
         time.sleep(0.2)
         pause_chord(); typed += ["F12", "p"]
         time.sleep(4)
-        key("Pause"); typed.append("Pause")
+        resume()
         time.sleep(3)
         key("c"); typed.append("c")
         time.sleep(2)
         second = live_view(2)
+        if a.end == "close":
+            subprocess.run(["xdotool", "windowkill", meta["xephyr_window_id"]], env=env)
+            print("closed the Xephyr window (the owner's end)", flush=True)
         assert sitting.wait(timeout=quit_after + 60) == 0
         meta = json.loads((session / "meta.json").read_text())
+        print("meta end:", meta.get("ended", {}).get("utc") if meta.get("ended") else None,
+              meta.get("stop_reason"), flush=True)
+        assert meta.get("ended") and meta.get("stop_reason") == (
+            "window-closed" if a.end == "close" else "quit-after"), meta.get("stop_reason")
+        print("meta load:", json.dumps(meta.get("load")), flush=True)
+        if a.load:
+            data = Path(a.load).read_bytes()
+            assert meta["load"]["sha256"] == hashlib.sha256(data).hexdigest(), meta["load"]
+            assert (session / meta["load"]["file"]).read_bytes() == data
         t0 = meta["monotonic_start_s"]
         pauses = [json.loads(line) for line in (session / "pauses.jsonl").read_text().splitlines()]
         spans = [(p["monotonic_s"], r["monotonic_s"]) for p, r in zip(pauses[0::2], pauses[1::2])]
@@ -138,8 +172,15 @@ def main():
             after = [e for e in index if e["origin"] == "resume" and t0 + e["request_s"] >= hi]
             assert after, ("no resume snapshot after the pause ending", hi)
         events = [json.loads(line) for line in (session / "keys.jsonl").read_text().splitlines()]
-        presses = [e["keysym"] for e in events if e["event"] == "press"]
+        presses = [e["keysym"] for e in events if e["event"] == "press" and e.get("by") != "recorder"]
+        mine = [e["keysym"] for e in events if e["event"] == "press" and e.get("by") == "recorder"]
         print("presses:", presses, flush=True)
+        print("presses the recorder injected (by: recorder):", mine, flush=True)
+        if a.resume == "f12p":
+            assert mine == ["Pause", "Pause"], mine
+            assert [p.get("by") for p in pauses[1::2]] == ["recorder (F12+P)"] * 2, pauses
+        else:
+            assert mine == [], mine
         # xdotool presses a modifier of its own before F12 on the nested display (Alt_L in the
         # -01 run: its keysym lookup, not a key the rehearsal typed); a keyboard sends none
         added = [k for k in presses if k in XDOTOOL_MODIFIERS]
