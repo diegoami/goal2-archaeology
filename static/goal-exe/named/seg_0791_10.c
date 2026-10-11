@@ -150,7 +150,7 @@ word f_0791_CC7B(byte param_1,char param_2)
   cVar2 = player_unavailable(*(undefined2 *)
                               ((undefined1 *)&DS:9976 + param_2 * 10 + (uint)param_1 * 2));
   if ((cVar2 != '\0') || (uVar3 = f_0791_6B65(param_1,param_2), 0xb < uVar3)) {
-    f_0791_1FDD(param_1,*(undefined1 *)(param_1 + 0x764),param_2);
+    pick_marker_by_skill(param_1,*(undefined1 *)(param_1 + 0x764),param_2);
   }
   local_b = 1;
   while( true ) {
@@ -222,7 +222,7 @@ word f_0791_CC7B(byte param_1,char param_2)
           *(undefined2 *)(param_2 * 10 + -0x6688) = uVar4;
         }
         else {
-          f_0791_1FDD(param_1,*(undefined1 *)(param_1 + 0x764),param_2);
+          pick_marker_by_skill(param_1,*(undefined1 *)(param_1 + 0x764),param_2);
         }
         local_9 = *(word *)((undefined1 *)&DS:9976 + param_2 * 10 + (uint)param_1 * 2);
         local_5 = '\x01';

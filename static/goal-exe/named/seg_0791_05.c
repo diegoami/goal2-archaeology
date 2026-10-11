@@ -1019,7 +1019,7 @@ void f_0791_6D4E(undefined1 param_1,uint param_2,char param_3)
   
   cVar1 = is_managed(((undefined2 *)&DS:9B34)[param_3]);
   if (cVar1 == '\0') {
-    f_0791_1FDD(param_2,*(undefined1 *)(param_2 + 0x764),param_3);
+    pick_marker_by_skill(param_2,*(undefined1 *)(param_2 + 0x764),param_3);
   }
   else {
     uVar2 = f_0791_CC7B(param_2 & 0xff,param_3);
