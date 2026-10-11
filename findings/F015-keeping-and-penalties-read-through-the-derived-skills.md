@@ -27,7 +27,7 @@
 ## Answer
 
 - **The engines read the same derivation as the player screen, through `1771:3A06`, divisor 32**
-  (both). `1771:3A06(player, element)` (seg_1771_05.asm:1032-3A7F) computes
+  (both). `1771:3A06(player, element)` (static:static/goal-exe/code/seg_1771_05.asm:1032) computes
   `DS:6DCD[12·(+5) + DS:6D25[12·(+7) + element]] · ((+4)+1) div 32` — the same three record
   bytes and the same two tables as the screen's `1771:3947` (F008), whose divisor is 256
   (39C1). `calls.tsv`: `3A06`'s only caller is `0791:278A`, and `3947`'s only caller is the
@@ -47,11 +47,11 @@
   DS:0x769[12] = 1, so elements 2, 4 and 12 carry the extra unconditionally. Only when
   the table byte is zero does the 282D-284C fallback apply (element 1 and event code 0x18
   in CS:276A) — and an `80FC` share for outfield slots (284F-286A). Its callers and their
-  elements are tabulated in `experiments/E013-q012-keeping/notes.md` §2. High confidence.
+  elements are tabulated in `experiments/E013-q012-keeping/notes.md` §2. High confidence. (static:static/goal-exe/code/seg_0791_04.asm:848)
 - **Keeping is read in the watched engine's save duel, of ANY challenger — the keeper's edge is
   the class column, not a gate** (both). The "saved by X" line (template 29) is written by
   `0791:5A8E` (`5A33(·, 0x1D)`), and `5A8E` is the win branch of the duel inside `0791:5B36`
-  (seg_0791_10.asm:5BC4-5C3E): `rand(278A(holder, 10))` or `rand(278A(holder, 4))` against
+  (static:static/goal-exe/code/seg_0791_10.asm:237): `rand(278A(holder, 10))` or `rand(278A(holder, 4))` against
   `rand(278A(challenger, 1))` — the challenger's **keeping**. A goalkeeper's keeping class is 1
   (class-table row 0, column 1); every outfield position's is 7, 11 or 12, so a position-2
   defender keeps at up to ~73% of a goalkeeper's value at the same +4 — a goal-line defender
@@ -60,20 +60,17 @@
   confidence.
 - **The keeper special `0791:9636-9666` reads no player-record byte** (static). It runs when
   the ball-event code `DS:8327` is 0x1E (the set `CS:9544`), takes the side's **slot-1** pitch
-  record (`0668[side]+1`, seg_0791_15.asm:960E-9620), compares that record's x with the ball's
+  record (`0668[side]+1`, static:static/goal-exe/code/seg_0791_15.asm:1035), compares that record's x with the ball's
   (9646-964D) and calls `8AE9`. F013's candidate (a class-1 reading or a +7 = 0 guard) is
   refuted in both forms: "goalkeeper" there is a slot property, and the keeping read happens
   later, in `5B36`. High confidence.
-- **The quick engine reads NO keeping** (static): its `gk` line sum is the eleven `377E`
-  strengths (ability +4, form, energy; F012) routed by `DS:0D4E[+6]`; nothing under `D733`
-  calls `278A`/`3A06` (calls.tsv). High confidence.
 - **Penalties is element 12 with a +0x20 base bonus, ranked only in the shoot-out** (static).
   The unmanaged side's five shoot-out takers are the side's best penalty takers:
   `0791:9ED3` (called only from `A10A`) fills the taker array with the side's pitch slots
   1..11 in order (the keeper IS in the array — the outer index initialises to 1 at 9F1B,
   the inner to outer+1 at 9F25-9F31, and the compare/exchange at 9F39-9FE9 covers entries
   1..11) and then sorts entries 1..11 downward by `278A(pitch, 0xC)`
-  (seg_0791_16.asm:9F39-9FA5). The managed side picks by hand: `0791:9B93` shows the player
+  (static:static/goal-exe/code/seg_0791_16.asm:886). The managed side picks by hand: `0791:9B93` shows the player
   cards (`1771:42BC` itself, 9C5C). The kick (`A006` → `6BF1(0xA, taker)`) plays through
   the watched engine with `DS:8324` set — `5B36`'s `8324` branch rates the taker by element
   12, halved (`0x800[(8327 == 4)]`) — and `690C`'s element table `0x80C[8327]` is 12 at
@@ -95,6 +92,12 @@
   and none flipped. The backlog's hypothesis is corroborated with its mechanism: there is no
   stored keeping byte to edit; the +4 edit shifts every derived value, and only the keeper's
   marginal goal-mouth duels flip.
+
+## Inferences
+
+- **The quick engine reads NO keeping** (static): its `gk` line sum is the eleven `377E`
+  strengths (ability +4, form, energy; F012) routed by `DS:0D4E[+6]`; nothing under `D733`
+  calls `278A`/`3A06` (calls.tsv). High confidence. (static:static/goal-exe/calls.tsv)
 
 ## Method
 

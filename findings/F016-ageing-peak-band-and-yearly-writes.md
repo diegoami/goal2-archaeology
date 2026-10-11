@@ -31,11 +31,11 @@
 
 - **When**: the players age once per displayed year, at the year-end settling — `000E:70B9`
   (play_round) calls `1771:8208` when a stage's fixtures are exhausted; `8208` wraps the stage
-  byte `[A923]+0x3C` +1 into [2,8] (`214B:1D6F`, seg_1771_12.asm:143-155) and calls the ageing
+  byte `[A923]+0x3C` +1 into [2,8] (`214B:1D6F`, static:static/goal-exe/code/seg_1771_12.asm:143) and calls the ageing
   `1771:80DA` only when the NEW stage is in the set `CS:81E8` = 0xAC = {2, 3, 5, 7}
   (seg_1771_12.asm:118, :156-163). One 4-year cycle = stages 2..8 = four ageings; the year word
   `+0x38` increments only for the set {2, 5} (`CS:80BA` = 0x24, seg_1771_11.asm:1115).
-- **Who, in which order**: `1771:80DA` loops the 128 countries (seg_1771_12.asm:17-30);
+- **Who, in which order**: `1771:80DA` loops the 128 countries (static:static/goal-exe/code/seg_1771_12.asm:17);
   `1771:7FDF` per country first ages all 20 squad players (`7FB1` → `7E4A`, the call at
   seg_1771_11.asm:1043), and for a MANAGED country also the manager's 80 pool players
   (`DS:6D18[+0x2E − 0x80]`, indices `[A927]`, :1050-1085); only then, for a COMPUTER country,
@@ -43,7 +43,7 @@
   :1098) — on the record the first pass has aged — and re-creates retirees with `1771:7E80`
   (:1106).
 - **A continuing player's yearly writes are exactly {+1, +4, +0x11}**: +1 (age) incremented by
-  `7E6F` (`inc byte ptr es:[di + 1]`, seg_1771_11.asm:861, wrapping at 255), +4 (ability)
+  `7E6F` (`inc byte ptr es:[di + 1]`, static:static/goal-exe/code/seg_1771_11.asm:861, wrapping at 255), +4 (ability)
   written only by `compute_ability` `1771:32EB` (seg_1771_05.asm:312/366), +0x11 cleared
   unconditionally by `7FD4` (:1015). +0x11 is the player's goal count for the top-scorers
   tables: `0791:B3B7` increments it per goal (`B3EC`, seg_0791_18.asm:677) and reads it into or
@@ -60,7 +60,7 @@
   set is +0/+2/+3/+5/+7, and +6 is per-match bookkeeping. The engines' derived skills
   (`1771:3A06`, F015) therefore change by the +4 ratio alone: all twelve skills scale by
   (new +4 + 1)/(old +4 + 1) under the integer division.
-- **The peak-age rule** (`compute_ability` `1771:32EB`, seg_1771_05.asm:283-370; a = +1 after the
+- **The peak-age rule** (`compute_ability` `1771:32EB`, static:static/goal-exe/code/seg_1771_05.asm:283; a = +1 after the
   increment, p = +2, r = +3): the copy branch `p ≤ a ≤ p + 3` stores r (`333A`, :296-312);
   above it k = a − (p + 3) (:337-347); below it k = (p − a) idiv 2, signed (`33A7`, :348-361);
   then the stored byte is **AL, the low byte of ((r · (0x10 − k)) mod 65536) div 16**, the
@@ -68,10 +68,10 @@
   divide unsigned (`33BE`), `33C3 mov es:[di + 4], al` (:362-366). So:
   - **the maximum r holds for five ages, p−1..p+3** — the copy branch gives four of them
     (p..p+3), and at p−1 the below branch's k = 1 idiv 2 = 0 gives r · 16 div 16 = r. E014
-    shows it (r0005 country 1 word 6: p = 29, r = 0xA1, 0x96 at 27, 0xA1 at 28);
+    shows it (r0005 country 1 word 6: p = 29, r = 0xA1, 0x96 at 27, 0xA1 at 28); (static:static/goal-exe/code/seg_1771_05.asm:283)
   - **before it** the ability rises by one step of r/16 every two years (15r/16 at p−3 and
-    p−2, 14r/16 at p−5 and p−4, …);
-  - **after it** it falls by one step of r/16 per year (15r/16 at p+4, …) to 0 at p+19 (k = 16);
+    p−2, 14r/16 at p−5 and p−4, …); (static:static/goal-exe/code/seg_1771_05.asm:283)
+  - **after it** it falls by one step of r/16 per year (15r/16 at p+4, …) to 0 at p+19 (k = 16); (static:static/goal-exe/code/seg_1771_05.asm:283)
   - **past p+19 the stored byte wraps** (k ≥ 17: the factor word is 0x10000 − (k − 16), and AL
     keeps the low byte of the quotient — a = 47, p = 27, r = 240 gives 4081 = 0x0FF1, stored
     0xF1), so the fall is monotone only to p+19. A computer-country player is retired long
@@ -79,7 +79,18 @@
     could reach it, and no E014 record does.
   The peak differs between players only through the creation draw: `roll_peak_age` draws
   `+2 = DS:0E80[gk] + rand(3) − rand(3)` (25..29 outfield, 28..32 goalkeeper,
-  `DS:0E80 = 1B 1E`, data/ds_2581_01.hex:123).
+  `DS:0E80 = 1B 1E`, data/ds_2581_01.hex:123). (static:static/goal-exe/code/seg_1771_05.asm:283)
+- **Retirement (context, Q014)**: for computer countries `1771:7F40` retires the AGED record when
+  `(DS:110E[gk] < a AND caps word +8 == 0) OR a > p + 5`, both comparisons strict (`7F78 jae`,
+  `7F9D jg`; 30 outfield / 33 goalkeeper, `DS:110E = 1E 21`, data/ds_2581_01.hex:143) —
+  deterministic. So a player of 32 with peak 27 retires at this year end (aged 33 > 32). The
+  re-create `7E80` draws +1, +2, +5, morale, fitness/energy and the initial; the listing fixes
+  the rest — +0/+7 carried into make_player, caps/goals/status/+0x11 zero, performance 0x7FFF,
+  +1 within DS:110C[gk] ± 5, +2 within DS:0E80[gk] ± 2, +4 of its own bytes, one +3
+  (country_rating + 0x7F) per country — and `check_ageing.py` checks those on every re-create. (static:static/goal-exe/code/seg_1771_11.asm:951)
+
+## Inferences
+
 - **The continuing-player update draws no random number; the yearly path does** (the hazard's
   "differ by year" wording): the continuing update's callee closure — `7FB1` → `7E4A` →
   `32EB`, and the test `7F40` — calls no RNG entry point (calls.tsv; `214B:06B1` and
@@ -89,15 +100,7 @@
   (`7EC7`, `7ED1`), `make_player` (`7EC0`) and `1771:0000` for the initial (`7F1F`). The
   variance between continuing players is the creation draw of +2/+3, which the model reproduces
   from the records' own bytes (check_ageing's `observed variance` histogram: of 262 continuing
-  players, 149 held their +4, the rest moved by 10..15 — r/16-sized steps of their ratings).
-- **Retirement (context, Q014)**: for computer countries `1771:7F40` retires the AGED record when
-  `(DS:110E[gk] < a AND caps word +8 == 0) OR a > p + 5`, both comparisons strict (`7F78 jae`,
-  `7F9D jg`; 30 outfield / 33 goalkeeper, `DS:110E = 1E 21`, data/ds_2581_01.hex:143) —
-  deterministic. So a player of 32 with peak 27 retires at this year end (aged 33 > 32). The
-  re-create `7E80` draws +1, +2, +5, morale, fitness/energy and the initial; the listing fixes
-  the rest — +0/+7 carried into make_player, caps/goals/status/+0x11 zero, performance 0x7FFF,
-  +1 within DS:110C[gk] ± 5, +2 within DS:0E80[gk] ± 2, +4 of its own bytes, one +3
-  (country_rating + 0x7F) per country — and `check_ageing.py` checks those on every re-create.
+  players, 149 held their +4, the rest moved by 10..15 — r/16-sized steps of their ratings). (static:static/goal-exe/code/seg_214B_01.asm:898)
 
 ## Method
 

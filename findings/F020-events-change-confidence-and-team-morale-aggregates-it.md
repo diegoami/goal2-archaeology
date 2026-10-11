@@ -94,44 +94,43 @@ squad word's `+0xC` = 128 = -128 signed) gives total
 reviewer's Unicorn run of the original listing bytes confirms
 5946; the model returns 5946.
 
-## Answer and claim-by-claim basis
-
 All paths below are relative to `static/goal-exe/`. Each
 paragraph's listing citations are physical line numbers.
 
+## Answer
+
 ### Booking, sending-off and injury change `+0xC` by a fixed amount
 
-The single `+0xC` writer outside F019's result rule is `0791:7CC5`
-(`code/seg_0791_13.asm:484..548`, the only `add ax, word ptr [bp +
-0xc]` followed by `clamp_int` (line 507) and the `DS:9B07` write
-at 7D4C). Its calling convention is unusual: the routine's int
-parameter is pushed as two 16-bit words (right-to-left), then the
-pitch pointer is pushed as segment + offset, then `cs`, then a near
-call. After `push bp; mov bp, sp`, the routine reads `[bp + 6]`
-and `[bp + 8]` as the pitch pointer, `[bp + 0xc]` as the **high
-word of delta** (the actual addend), and the **low byte of
-`[bp + 0xa]`** as the persist flag (the bool that controls
-whether `DS:9B07[side*20+slot]` is written). All five callers in
-the listing push the matching `(delta_high, delta_low)` pair.
+- The single `+0xC` writer outside F019's result rule is `0791:7CC5`
+  (`static:static/goal-exe/code/seg_0791_13.asm:484`, the only `add ax, word ptr [bp +
+  0xc]` followed by `clamp_int` (line 507) and the `DS:9B07` write
+  at 7D4C). Its calling convention is unusual: the routine's int
+  parameter is pushed as two 16-bit words (right-to-left), then the
+  pitch pointer is pushed as segment + offset, then `cs`, then a near
+  call. After `push bp; mov bp, sp`, the routine reads `[bp + 6]`
+  and `[bp + 8]` as the pitch pointer, `[bp + 0xc]` as the **high
+  word of delta** (the actual addend), and the **low byte of
+  `[bp + 0xa]`** as the persist flag (the bool that controls
+  whether `DS:9B07[side*20+slot]` is written). All five callers in
+  the listing push the matching `(delta_high, delta_low)` pair.
+  The listing establishes:
 
-The listing establishes:
-
-* **Sending-off (`0791:7B77`, `code/seg_0791_13.asm:330..480`)**
+* **Sending-off (`0791:7B77`, `static:static/goal-exe/code/seg_0791_13.asm:330`)**
   drops the sent-off player's `+0xC` by 2
-  (`code/seg_0791_13.asm:386..394`, push `0xfffe` / push `0x0001`
+  (`static:static/goal-exe/code/seg_0791_13.asm:386`, push `0xfffe` / push `0x0001`
   / pitch ptr / call 7CC5) and adds 2 to every available pitch
   player on the OTHER side (line 430..438, push `0x0002` / push
   `0x0000` / pitch ptr / call 7CC5; flag=0 → DS:9B07 NOT
   updated). The -2 to the sent-off player is a `flag=1` write, so
   `DS:9B07` IS set for that player. There is no DS:9B07 store for
   the other-team +2.
-* **Injury (`0791:7D56`, `code/seg_0791_13.asm:551..672`)** also
+* **Injury (`0791:7D56`, `static:static/goal-exe/code/seg_0791_13.asm:551`)** also
   drops the injured player's `+0xC` by 2
-  (`code/seg_0791_13.asm:593..601`, same push sequence as
+  (`static:static/goal-exe/code/seg_0791_13.asm:593`, same push sequence as
   send_off head), and sets `+0xE := 0` (the injury store at line
   587, F018). On unmanaged sides it then calls C88D
   substitute_player to bring a bench player on.
-* **Yellow card (`0791:798D`, `code/seg_0791_13.asm:115..188`)**
+* **Yellow card (`0791:798D`, `static:static/goal-exe/code/seg_0791_13.asm:115`)**
   does **not** call `7CC5` (the only `7CC5` calls in
   `seg_0791_13.asm` are at lines 394 (send_off head), 438 (send_off
   tail), 601 (injure); grep confirms no `7CC5` reference inside
@@ -141,107 +140,107 @@ The listing establishes:
   calls `1771:33CD force_tactic4_off` on unmanaged sides (line
   184). The routine is a status-bit store; the listing does
   **not** establish that a yellow card drops confidence.
-
   → **Help claim "booked player loses confidence"**: not
     established by these lines for booking. Established for
     sending-off and injury.
 
 ### Foul dispatch: 0791:7EEF
 
-The foul dispatch (`code/seg_0791_06.asm:712..758`, F012) is
-reached from the quick engine's foul handler (`0791:D5C1
-roll_quick_foul`, F012) and from the in-match foul path
-(`0791:5B36`'s coin-flip branch and `0791:8206
-watched_substitution_sequence`). It draws twice from
-`0791:261A`, a 255-element pre-shuffled table at `DS:0x8337`
-initialised by `0791:2648` with `random(0x10) - 1` (values 0..15,
-`code/seg_0791_04.asm:716..750`); the table byte is **not a tick
-counter** (R5). With the first draw `< 4` (table bytes 0..3, 4/16
-of entries) the routine picks booking (`0791:798D`) or sending
-off (`0791:7B77`) based on whether the player's `+0x10` bit 5 is
-already set; else, with `random_is_one(0x20)` (1/32), it sends
-off unconditionally. After that, if the second draw `== 1` (1/16
-of entries) it compares `player_hardness(2FFB)` on `DS:830C` and
-`DS:830B` and calls `7D56` on the lower-hardness side. The routine
-does not itself write `+0xC`; the effect is whatever the callee
-does. Its listing establishes the dispatch tree; the strength
-comparison routing into injury is established by the same
-`player_hardness` call used elsewhere; the table semantics are
-established by `2648`'s fill loop and `261A`'s draw.
+- The foul dispatch (`static:static/goal-exe/code/seg_0791_06.asm:712`, F012) is
+  reached from the quick engine's foul handler (`0791:D5C1
+  roll_quick_foul`, F012) and from the in-match foul path
+  (`0791:5B36`'s coin-flip branch and `0791:8206
+  watched_substitution_sequence`). It draws twice from
+  `0791:261A`, a 255-element pre-shuffled table at `DS:0x8337`
+  initialised by `0791:2648` with `random(0x10) - 1` (values 0..15,
+  `static:static/goal-exe/code/seg_0791_04.asm:716`); the table byte is **not a tick
+  counter** (R5). With the first draw `< 4` (table bytes 0..3, 4/16
+  of entries) the routine picks booking (`0791:798D`) or sending
+  off (`0791:7B77`) based on whether the player's `+0x10` bit 5 is
+  already set; else, with `random_is_one(0x20)` (1/32), it sends
+  off unconditionally. After that, if the second draw `== 1` (1/16
+  of entries) it compares `player_hardness(2FFB)` on `DS:830C` and
+  `DS:830B` and calls `7D56` on the lower-hardness side. The routine
+  does not itself write `+0xC`; the effect is whatever the callee
+  does. Its listing establishes the dispatch tree; the strength
+  comparison routing into injury is established by the same
+  `player_hardness` call used elsewhere; the table semantics are
+  established by `2648`'s fill loop and `261A`'s draw.
 
 ### Friendlies vs competition matches: not established
 
-The fixture router (`000E:6970 simulate_fixture`, `000E:6CA7
-route_fixture`, `code/seg_000E_09.asm:1..200`) sends a fixture to
-`6970` (silent result) or to `6E15` (watched/managed path) by the
-first byte (`0xFE` for managed-team fixtures, otherwise) and by
-membership in `DS:0F3E` (the result-term set), `CS:695A`,
-`CS:697A`, and `CS:6C87` (the watch-prompt sets whose bytes happen
-to be instruction bytes at those code addresses). The literal
-"friendly" classification does not appear as a stored byte; F019
-already established the result-term set is `{kinds 4, 5, 8,
-9..196}` (the kinds whose set bits in the 32-byte `DS:0F3E` are 1,
-with gaps `{0, 1, 2, 3, 6, 7, 197..255}`). The injury and card
-dispatch (`0791:7EEF`) is not gated by fixture kind. Whether any
-one of those kinds is "friendly" is **not established** by these
-lines.
+- The fixture router (`000E:6970 simulate_fixture`, `000E:6CA7
+  route_fixture`, `static:static/goal-exe/code/seg_000E_09.asm:1`) sends a fixture to
+  `6970` (silent result) or to `6E15` (watched/managed path) by the
+  first byte (`0xFE` for managed-team fixtures, otherwise) and by
+  membership in `DS:0F3E` (the result-term set), `CS:695A`,
+  `CS:697A`, and `CS:6C87` (the watch-prompt sets whose bytes happen
+  to be instruction bytes at those code addresses). The literal
+  "friendly" classification does not appear as a stored byte; F019
+  already established the result-term set is `{kinds 4, 5, 8,
+  9..196}` (the kinds whose set bits in the 32-byte `DS:0F3E` are 1,
+  with gaps `{0, 1, 2, 3, 6, 7, 197..255}`). The injury and card
+  dispatch (`0791:7EEF`) is not gated by fixture kind. Whether any
+  one of those kinds is "friendly" is **not established** by these
+  lines.
 
 ### The team morale aggregate
 
-`1771:13D0 team_panel_aggregate`
-(`code/seg_1771_02.asm:1001..1126`) sums, over the 11
-starting-XI slots, `min(32, s8(+0xC))` per available starter
-(line 1038..1045), adds the 6 seed (line 1012), and
-unsigned-divides by 11 (line 1067) — `div cx` is the 16-bit
-unsigned divide. The accumulator is a 16-bit word, wrapped mod
-0x10000 on each add (line 1067, `add word ptr [0x9b5a], ax`). The
-result is the team morale aggregate `DS:9B5A`. It is then floored
-to `1` (line 1120..1122, `cmp word ptr [0x9b5a], 1; jae`). The
-value is recomputed every time `1771:157D draw_team_panel`
-renders the team panel; the only consumer of `DS:9B5A` is that
-same caller (the bar at row 0x17 is filled from `DS:9B5A`, and
-the morale string at row 0x17 is selected via `DS:78A3[DS:9B5A]`,
-the same 6EB4-rooted table the player panel reads for individual
-morale, `code/seg_1771_02.asm:81..88`). No other writer of
-`DS:9B5A` exists in the listing — `grep -rn 9B5A` over `code/`,
-`decompiled/`, `named/` returns only the lines cited here.
-
-The brief's "team morale moves with the mean confidence"
-therefore holds byte-for-byte: the team panel aggregate `DS:9B5A`
-is `max(1, ((6 + mean of min(32, s8(+0xC)) for the 11 starters) &
-0xFFFF) // 11)`. The brief's "team morale is also stored as a
-single byte on the country record" does **not** hold: `DS:9B5A`
-is a transient byte recomputed at every panel render and never
-persisted.
-
-Two consequences follow:
-
-* Saving a game and reloading it does not preserve the displayed
-  team morale; the panel computes it from the squad's current
-  `+0xC` bytes on every render.
-* The team panel reading only the 11 starting-XI slots means a
-  substitute's `+0xC` does not contribute. The aggregate
-  therefore reflects the team the manager picks to start, not the
-  squad as a whole.
+- `1771:13D0 team_panel_aggregate`
+  (`static:static/goal-exe/code/seg_1771_02.asm:1001`) sums, over the 11
+  starting-XI slots, `min(32, s8(+0xC))` per available starter
+  (line 1038..1045), adds the 6 seed (line 1012), and
+  unsigned-divides by 11 (line 1067) — `div cx` is the 16-bit
+  unsigned divide. The accumulator is a 16-bit word, wrapped mod
+  0x10000 on each add (line 1067, `add word ptr [0x9b5a], ax`). The
+  result is the team morale aggregate `DS:9B5A`. It is then floored
+  to `1` (line 1120..1122, `cmp word ptr [0x9b5a], 1; jae`). The
+  value is recomputed every time `1771:157D draw_team_panel`
+  renders the team panel; the only consumer of `DS:9B5A` is that
+  same caller (the bar at row 0x17 is filled from `DS:9B5A`, and
+  the morale string at row 0x17 is selected via `DS:78A3[DS:9B5A]`,
+  the same 6EB4-rooted table the player panel reads for individual
+  morale, `static:static/goal-exe/code/seg_1771_02.asm:81`). No other writer of
+  `DS:9B5A` exists in the listing — `grep -rn 9B5A` over `code/`,
+  `decompiled/`, `named/` returns only the lines cited here.
 
 ### The complete `+0xC` writer inventory (F019 + this task)
 
 | Routine | Reads / writes | Listing lines |
 | --- | --- | --- |
-| `0791:7CC5` `adjust_player_form` | reads live +C; writes clamp(s8(live)+delta,1,255); nonzero flag writes min(32,s8(new live)) to DS:9B07[side*20+slot] | `code/seg_0791_13.asm:484..548` |
-| `0791:B364` (F019 result rule) | reads/writes signed +C, clamp [1, 32] | `code/seg_0791_18.asm:621..653`; `named/seg_0791_08.c:1118..1126` |
-| `0791:798D` booking | sets +0x10 bit 5, increments side bookings, calls `1771:33CD force_tactic4_off` for unmanaged sides; does **not** write +0xC | `code/seg_0791_13.asm:115..188` |
-| `0791:7B77` `send_off` head | `7CC5(pitch, 0xfffe, 1)` → sent-off player: +0xC += -2, clamp [1,255], DS:9B07 set | `code/seg_0791_13.asm:386..394` |
-| `0791:7B77` `send_off` tail | `7CC5(pitch, 2, 0)` per available pitch player of the OTHER team (slots 1..11) → +0xC += +2, clamp [1,255], DS:9B07 NOT updated | `code/seg_0791_13.asm:430..438` |
-| `0791:7D56` injure | +0xE := 0 (F018 injury store), walks off, `7CC5(pitch, 0xfffe, 1)` → injured player: +0C += -2, clamp [1,255], DS:9B07 set | `code/seg_0791_13.asm:587..601` |
-| `0791:7EEF` foul_dispatch | dispatches to 798D / 7B77 / 7D56; does not write +0xC directly. Gated by a 255-byte pre-shuffled draw table at DS:0x8337 via 0791:261A (R5). | `code/seg_0791_06.asm:712..758` |
-| `0791:6443` `record_goal` scorer | `7CC5(pitch, s8(DS:0x7920[side_of_credit]), 1)` → scorer: +0C += ±1, clamp [1,255], DS:9B07 set | `code/seg_0791_11.asm:177..191` |
-| `0791:65FE` `after_goal` team reaction | per available pitch slot `7CC5(pitch, s8(DS:0x7920[side_of_ball]), 0)` → every available pitch player: +0C += ±1, clamp [1,255], DS:9B07 NOT updated | `code/seg_0791_11.asm:380..429` |
-| `1771:13D0` team_panel_aggregate | reads +0xC of each available starter; sums min(32, s8(+0xC)) (no lower clamp) into DS:9B5A; also writes DS:9B5C..9B64 | `code/seg_1771_02.asm:1001..1126` |
-| `1771:157D` `draw_team_panel` | reads DS:9B5A..9B64; the only consumer of DS:9B5A in the listing | `code/seg_1771_02.asm:7..110` |
+| `0791:7CC5` `adjust_player_form` | reads live +C; writes clamp(s8(live)+delta,1,255); nonzero flag writes min(32,s8(new live)) to DS:9B07[side*20+slot] | `static:static/goal-exe/code/seg_0791_13.asm:484` |
+| `0791:B364` (F019 result rule) | reads/writes signed +C, clamp [1, 32] | `static:static/goal-exe/code/seg_0791_18.asm:621`; `static:static/goal-exe/named/seg_0791_08.c:1118` |
+| `0791:798D` booking | sets +0x10 bit 5, increments side bookings, calls `1771:33CD force_tactic4_off` for unmanaged sides; does **not** write +0xC | `static:static/goal-exe/code/seg_0791_13.asm:115` |
+| `0791:7B77` `send_off` head | `7CC5(pitch, 0xfffe, 1)` → sent-off player: +0xC += -2, clamp [1,255], DS:9B07 set | `static:static/goal-exe/code/seg_0791_13.asm:386` |
+| `0791:7B77` `send_off` tail | `7CC5(pitch, 2, 0)` per available pitch player of the OTHER team (slots 1..11) → +0xC += +2, clamp [1,255], DS:9B07 NOT updated | `static:static/goal-exe/code/seg_0791_13.asm:430` |
+| `0791:7D56` injure | +0xE := 0 (F018 injury store), walks off, `7CC5(pitch, 0xfffe, 1)` → injured player: +0C += -2, clamp [1,255], DS:9B07 set | `static:static/goal-exe/code/seg_0791_13.asm:587` |
+| `0791:7EEF` foul_dispatch | dispatches to 798D / 7B77 / 7D56; does not write +0xC directly. Gated by a 255-byte pre-shuffled draw table at DS:0x8337 via 0791:261A (R5). | `static:static/goal-exe/code/seg_0791_06.asm:712` |
+| `0791:6443` `record_goal` scorer | `7CC5(pitch, s8(DS:0x7920[side_of_credit]), 1)` → scorer: +0C += ±1, clamp [1,255], DS:9B07 set | `static:static/goal-exe/code/seg_0791_11.asm:177` |
+| `0791:65FE` `after_goal` team reaction | per available pitch slot `7CC5(pitch, s8(DS:0x7920[side_of_ball]), 0)` → every available pitch player: +0C += ±1, clamp [1,255], DS:9B07 NOT updated | `static:static/goal-exe/code/seg_0791_11.asm:380` |
+| `1771:13D0` team_panel_aggregate | reads +0xC of each available starter; sums min(32, s8(+0xC)) (no lower clamp) into DS:9B5A; also writes DS:9B5C..9B64 | `static:static/goal-exe/code/seg_1771_02.asm:1001` |
+| `1771:157D` `draw_team_panel` | reads DS:9B5A..9B64; the only consumer of DS:9B5A in the listing | `static:static/goal-exe/code/seg_1771_02.asm:7` |
 
-No other direct `+0xC` writer is in the named view. `1771:13D0`
-is the only writer of `DS:9B5A`.
+## Inferences
+
+- The brief's "team morale moves with the mean confidence"
+  therefore holds byte-for-byte: the team panel aggregate `DS:9B5A`
+  is `max(1, ((6 + mean of min(32, s8(+0xC)) for the 11 starters) &
+  0xFFFF) // 11)`. The brief's "team morale is also stored as a
+  single byte on the country record" does **not** hold: `DS:9B5A`
+  is a transient byte recomputed at every panel render and never
+  persisted. (static:static/goal-exe/code/seg_1771_02.asm:1001)
+
+- Two consequences follow: (static:static/goal-exe/code/seg_1771_02.asm:1001)
+  - Saving a game and reloading it does not preserve the displayed
+      team morale; the panel computes it from the squad's current
+      `+0xC` bytes on every render. (static:static/goal-exe/code/seg_1771_02.asm:7)
+  - The team panel reading only the 11 starting-XI slots means a
+      substitute's `+0xC` does not contribute. The aggregate
+      therefore reflects the team the manager picks to start, not the
+      squad as a whole. (static:static/goal-exe/code/seg_1771_02.asm:1001)
+
+- No other direct `+0xC` writer is in the named view. `1771:13D0`
+  is the only writer of `DS:9B5A`. (static:static/goal-exe/code/seg_1771_02.asm:1001)
 
 ## Reproduction and limits
 

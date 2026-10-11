@@ -42,5 +42,7 @@ jobs:
       - run: sudo apt-get update && sudo apt-get install -y xvfb xserver-xephyr xinput xdotool x11-utils ffmpeg dosbox-x
       # The record tools, their tests and fixtures (the fetched checker and artifact stay in .cache/).
       - run: python3 -m unittest discover -s tests -v
+      # T37: every finding's citations resolve under the pinned checker (U25-U27).
+      - run: for f in findings/F*.md; do python3 tools/check_citations.py "$f"; done
       # No original file is ever in the tree (U17: they are release assets only).
       - run: "! git ls-files | grep -iE '\\.(exe|dat|hlp|hil|pif|bat)$'"

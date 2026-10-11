@@ -33,110 +33,112 @@ The available E015 records describe one four-state scripted sitting, not
 established before/after played-match pairs; none is used here (E015 README
 lines 55–65). No missing watched event sequence has been invented.
 
-## Answer and claim-by-claim basis
-
 Paths below are relative to `static/goal-exe/`. Each claim is static-derived
 unless its original-routine check is explicitly stated.
 
+## Answer
+
 ### Confidence and its storage
 
-The help's result-relative player confidence is **player +0xC**, the byte
-already called morale/form. B7FA passes its result term to B364, whose
-player store is +0xC (`named/seg_0791_09.c:224–258`;
-`named/seg_0791_08.c:1110–1127`). B364 adds a signed word to the signed
-byte, with signed-word wrapping and a separate clamp to 1..32 on every
-call (`code/seg_0791_18.asm:621` onward). It is not team morale (Q017).
+- The help's result-relative player confidence is **player +0xC**, the byte
+  already called morale/form. B7FA passes its result term to B364, whose
+  player store is +0xC (`static:static/goal-exe/named/seg_0791_09.c:224`;
+  `static:static/goal-exe/named/seg_0791_08.c:1110`). B364 adds a signed word to the signed
+  byte, with signed-word wrapping and a separate clamp to 1..32 on every
+  call (`static:static/goal-exe/code/seg_0791_18.asm:621` onward). It is not team morale (Q017).
 
-The suspected DS:6ED4..6FF4 words are descriptions in the Pascal string
-table rooted at 6EB4, with 16-byte strides, not expected-margin values
-(`strings.tsv:1195–1212`). The player panel selects the morale string
-using DS:78A3[min(+0xC,32)] (`named/seg_1771_03.c:881–892`). The notebook
-enumerates every reference to the table root and finds no writer in those
-routines; this is a listing sweep, not a guarantee against arbitrary memory
-corruption. No numerical expected-margin array is established there.
+- The suspected DS:6ED4..6FF4 words are descriptions in the Pascal string
+  table rooted at 6EB4, with 16-byte strides, not expected-margin values
+  (`static:static/goal-exe/strings.tsv:1195`). The player panel selects the morale string
+  using DS:78A3[min(+0xC,32)] (`static:static/goal-exe/named/seg_1771_03.c:881`). The notebook
+  enumerates every reference to the table root and finds no writer in those
+  routines; this is a listing sweep, not a guarantee against arbitrary memory
+  corruption. No numerical expected-margin array is established there.
 
 ### Expected margin and exact result term
 
-For each side, country rating is signed IDIV 2 of
-`(5 - continent) * (33 - continent_rank) + 129 - world_rank`, retaining
-the instruction path's low word. Inputs are country +2C, +2A and +2B,
-not selected players, skill ratings or the quick engine's line sums
-(`code/seg_1771_02.asm:697–738`). B71C computes
-`q = trunc_toward_zero((opponent_rating - own_rating) / 32)`
-with signed-word subtraction (`code/seg_0791_18.asm:1012–1046`). Thus the
-implicit expected own goal margin is `-q`; there is no separately stored
-forecast at this call.
+- For each side, country rating is signed IDIV 2 of
+  `(5 - continent) * (33 - continent_rank) + 129 - world_rank`, retaining
+  the instruction path's low word. Inputs are country +2C, +2A and +2B,
+  not selected players, skill ratings or the quick engine's line sums
+  (`static:static/goal-exe/code/seg_1771_02.asm:697`). B71C computes
+  `q = trunc_toward_zero((opponent_rating - own_rating) / 32)`
+  with signed-word subtraction (`static:static/goal-exe/code/seg_0791_18.asm:1012`). Thus the
+  implicit expected own goal margin is `-q`; there is no separately stored
+  forecast at this call.
 
-If fixture +3 is 2, it is a **draw**: the term remains q, which may be
-nonzero. Otherwise add the absolute difference of the signed score bytes
-for the winner, subtract it for the loser (`code/seg_0791_18.asm:1047–1070`;
-margin helper `code/seg_1771_08.asm:1047` onward). The winner byte governs
-this branch, including a shoot-out winner; equal score bytes do not by
-themselves take the draw branch (literal test: 1-1 with winner byte 0, ratings
-100 vs 164, gives 4, not the draw's 2). Then, only for a non-draw, double the
-word if `(winner == side) == (side == 0 or 1771:5A03(fixture))`
-(`code/seg_0791_18.asm:1071–1109`). 5A03 tests fixture +2 in DS:0F3E
-(`code/seg_1771_08.asm:762–787`), the fixture-kind set predicate,
-not a strength calculation. The retained DS:0F3E bytes (`98 ff`x24 `0f`,
-then zeros) hold kinds 3, 4, 7 and 8..203; kinds 0, 1, 2, 5, 6 and 204..255
-are outside it. Which kind is a friendly is **not established** by these
-lines. The model takes the observed classification; it does not replace it
-with a guessed friendly/competition flag.
-
-**Help claim: yes for the sign, no for the size.** The term's **sign**
-follows the margin minus the expected margin `-q`: before doubling the term
-is `q + margin` for the winner and `q - margin` for the loser, and doubling
-keeps the sign. Its **size is not monotonic** in the margin, because the
-doubling applies only when `(winner == side) == (side == 0 or 5A03)`
-(`code/seg_0791_18.asm:1071–1109`): a narrow win can score worse than a
-draw, and a narrow loss better than a draw. With ratings 128 vs 1 (q = -3 for the strong
-side, +3 for the weak), non-special kind: the strong side 0 gets -4 for a
-win by 1, -3 for a draw and -4 for a loss by 1; the weak side 1 gets +4 for
-a loss by 1, +3 for a draw and +4 for a win by 1 (literal tests of
-`result_delta`; the non-special branch matched the guest in all probed
-cases). The expected margin comes from country ranks, not current squad
-strength, and the byte is also moved by clipping and by other ordered writes
-and draws, so the help's claim is not a complete before/after rule. The
-help's wording alone does not establish a different forecast.
+- If fixture +3 is 2, it is a **draw**: the term remains q, which may be
+  nonzero. Otherwise add the absolute difference of the signed score bytes
+  for the winner, subtract it for the loser (`static:static/goal-exe/code/seg_0791_18.asm:1047`;
+  margin helper `static:static/goal-exe/code/seg_1771_08.asm:1047` onward). The winner byte governs
+  this branch, including a shoot-out winner; equal score bytes do not by
+  themselves take the draw branch (literal test: 1-1 with winner byte 0, ratings
+  100 vs 164, gives 4, not the draw's 2). Then, only for a non-draw, double the
+  word if `(winner == side) == (side == 0 or 1771:5A03(fixture))`
+  (`static:static/goal-exe/code/seg_0791_18.asm:1071`). 5A03 tests fixture +2 in DS:0F3E
+  (`static:static/goal-exe/code/seg_1771_08.asm:762`), the fixture-kind set predicate,
+  not a strength calculation. The retained DS:0F3E bytes (`98 ff`x24 `0f`,
+  then zeros) hold kinds 3, 4, 7 and 8..203; kinds 0, 1, 2, 5, 6 and 204..255
+  are outside it. Which kind is a friendly is **not established** by these
+  lines. The model takes the observed classification; it does not replace it
+  with a guessed friendly/competition flag.
 
 ### Participation and draws (original-routine checked)
 
-B7FA ignores zero squad words. Slots 1..11 and bench status-bit-3
-participants receive the result term. Participating bench then receives
-`draw(2) - draw(2)`; the first draw is subtracted. Unused bench receives
-`draw(2) - draw(4)` instead of the result term
-(`named/seg_0791_09.c:219–279`; `code/seg_0791_19.asm:137–187`).
-Each B364 call clips independently, so a substitute on 32 with positive
-result and a later -1 ends on 31, not 32. Literal boundary tests visit this
-edge. `participant_values` returns exact possible bytes or a singleton
-given the two actual bounded draws. These are draws, not fixed constants.
+- B7FA ignores zero squad words. Slots 1..11 and bench status-bit-3
+  participants receive the result term. Participating bench then receives
+  `draw(2) - draw(2)`; the first draw is subtracted. Unused bench receives
+  `draw(2) - draw(4)` instead of the result term
+  (`static:static/goal-exe/named/seg_0791_09.c:219`; `static:static/goal-exe/code/seg_0791_19.asm:137`).
+  Each B364 call clips independently, so a substitute on 32 with positive
+  result and a later -1 ends on 31, not 32. Literal boundary tests visit this
+  edge. `participant_values` returns exact possible bytes or a singleton
+  given the two actual bounded draws. These are draws, not fixed constants.
 
 ### Routes and other ordered writes
 
-On the silent-result route, 000E:6970 calls D47E, B7FA, B602 and D050
-in that order (`named/seg_000E_05.c:392–406`). B602 adds +1 per selected
-scorer after result clipping (`named/seg_0791_09.c:96–116`).
-On the watched/managed route, F1F6 saves +0xC, plays, and restores through
-CB7D before pool updates (`named/seg_0791_11.c:632–649,674–700`). BA4E
-gives each managed-pool word independent `draw(4)-draw(4)`
-(`named/seg_0791_09.c:297–312`), before the caller's B7FA result update
-(`named/seg_000E_05.c:605–640`). Overlapping pool/squad words receive both.
+- On the silent-result route, 000E:6970 calls D47E, B7FA, B602 and D050
+  in that order (`static:static/goal-exe/named/seg_000E_05.c:392`). B602 adds +1 per selected
+  scorer after result clipping (`static:static/goal-exe/named/seg_0791_09.c:96`).
+  On the watched/managed route, F1F6 saves +0xC, plays, and restores through
+  CB7D before pool updates (`static:static/goal-exe/named/seg_0791_11.c:632, static:static/goal-exe/named/seg_0791_11.c:674`). BA4E
+  gives each managed-pool word independent `draw(4)-draw(4)`
+  (`static:static/goal-exe/named/seg_0791_09.c:297`), before the caller's B7FA result update
+  (`static:static/goal-exe/named/seg_000E_05.c:605`). Overlapping pool/squad words receive both.
 
-Restoration does **not** imply every in-match change disappears. 7CC5
-clamps live signed +0xC plus delta to 1..255, and its nonzero flag writes
-min(32,signed new live) to DS:9B07 (`named/seg_0791_06.c:610–625`).
-The scorer call uses flag one; ordinary team-wide goal reactions use zero
-(`named/seg_0791_05.c:543–545,628–643`). Therefore score and kickoff
-confidence alone do not determine a watched player's saved confidence:
-event order matters. `match_form` models the write given that order.
+- Restoration does **not** imply every in-match change disappears. 7CC5
+  clamps live signed +0xC plus delta to 1..255, and its nonzero flag writes
+  min(32,signed new live) to DS:9B07 (`static:static/goal-exe/named/seg_0791_06.c:610`).
+  The scorer call uses flag one; ordinary team-wide goal reactions use zero
+  (`static:static/goal-exe/named/seg_0791_05.c:543, static:static/goal-exe/named/seg_0791_05.c:628`). Therefore score and kickoff
+  confidence alone do not determine a watched player's saved confidence:
+  event order matters. `match_form` models the write given that order.
 
-BB2F's unplayed branch applies `draw(2)-draw(4)`, never B71C
-(`named/seg_0791_09.c:340–361`; router `named/seg_000E_05.c:605–612`).
-This is the listing's unplayed route; a distinct abandoned-match confidence
-rule is **not established** by these lines. The result updater is shared
-by routed fixtures, with the explicit kind predicate above; arranging a
-friendly's separate effect, injuries/cards and team morale are outside
-this finding.
+- BB2F's unplayed branch applies `draw(2)-draw(4)`, never B71C
+  (`static:static/goal-exe/named/seg_0791_09.c:340`; router `static:static/goal-exe/named/seg_000E_05.c:605`).
+  This is the listing's unplayed route; a distinct abandoned-match confidence
+  rule is **not established** by these lines. The result updater is shared
+  by routed fixtures, with the explicit kind predicate above; arranging a
+  friendly's separate effect, injuries/cards and team morale are outside
+  this finding.
+
+## Inferences
+
+- **Help claim: yes for the sign, no for the size.** The term's **sign**
+  follows the margin minus the expected margin `-q`: before doubling the term
+  is `q + margin` for the winner and `q - margin` for the loser, and doubling
+  keeps the sign. Its **size is not monotonic** in the margin, because the
+  doubling applies only when `(winner == side) == (side == 0 or 5A03)`
+  (`static:static/goal-exe/code/seg_0791_18.asm:1071`): a narrow win can score worse than a
+  draw, and a narrow loss better than a draw. With ratings 128 vs 1 (q = -3 for the strong
+  side, +3 for the weak), non-special kind: the strong side 0 gets -4 for a
+  win by 1, -3 for a draw and -4 for a loss by 1; the weak side 1 gets +4 for
+  a loss by 1, +3 for a draw and +4 for a win by 1 (literal tests of
+  `result_delta`; the non-special branch matched the guest in all probed
+  cases). The expected margin comes from country ranks, not current squad
+  strength, and the byte is also moved by clipping and by other ordered writes
+  and draws, so the help's claim is not a complete before/after rule. The
+  help's wording alone does not establish a different forecast.
 
 ## Reproduction and limits
 
