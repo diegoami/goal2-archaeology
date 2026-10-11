@@ -240,6 +240,36 @@ MUTATIONS = [
      '                           "request\'s window (evidence-free)")',
      '        if r.get("seq") is None:\n'
      '            continue'),
+    # Sol's R2 on PR 112 (round 2): the shapes the r5 list lacked. (a) the unanchored-capture
+    # gate's consumption test inverted; (b) the stability fallback reading the live file on
+    # the fast path. Both must fail AttributionBypassTests.
+    ("r5-R1: the consumed-ledger test inverted (is not None -> is None)", REC,
+     'and (entry_head or self._fast_consumed is not None)):',
+     'and (entry_head or self._fast_consumed is None)):'),
+    ("r5-R1: the stability fallback reads the live file on the fast path", REC,
+     '                if fast:\n                    self.log("stability fallback: stable',
+     '                if False:\n                    self.log("stability fallback: stable'),
+    # T35 round 3 (Sol's R1 on PR 112; the owner's option A, 2026-10-11): every piece of the
+    # save-number binding. (a) dropped; (b) replaced by `length > 0`, the comparison a shallow
+    # fix would write; (c) the unowned save after the last line accepted; (d) a save before the
+    # first request accepted; (e) a session without its write total accepted. Killed by
+    # GuardAttributionTests and the matching-window reproduction. (f) the recorder no longer
+    # writes the total: only the end-to-end sitting can see it (heavy: run without
+    # MUTATION_SWEEP, so the scripted sitting test runs).
+    ("r6-R1: the save-number binding dropped", SCRIPTED,
+     'if not (recorder.ONE_SAVE_MIN_EVENTS <= step <= recorder.ONE_SAVE_MAX_EVENTS):',
+     'if False:'),
+    ("r6-R1: the save-number binding replaced by length > 0", SCRIPTED,
+     'if not (recorder.ONE_SAVE_MIN_EVENTS <= step <= recorder.ONE_SAVE_MAX_EVENTS):',
+     'if not (step > 0):'),
+    ("r6-R1: an unowned save after the last line accepted", SCRIPTED,
+     'if rest >= recorder.ONE_SAVE_MIN_EVENTS:', 'if False:'),
+    ("r6-R1: a save before the first request accepted", SCRIPTED,
+     'if seen is None and pre >= recorder.ONE_SAVE_MIN_EVENTS:', 'if False:'),
+    ("r6-R1: a session without its write total accepted", SCRIPTED,
+     'if session is not None and write_events_total is None:', 'if False:'),
+    ("r6-R1: the recorder writes no write total", REC,
+     'meta["write_events_total"] = watcher.activity()[1]', 'pass', "heavy"),
 ]
 
 
@@ -413,8 +443,11 @@ def _r2_session(args):
         {"seq": 2, "file": "snapshots/snap-0002.sav", "bytes": len(burst_bytes),
          "sha256": rec.sha256(burst_bytes), "elapsed_s": 3.0, "origin": "burst",
          # --later-bytes: this window is the LATER request's own save request (sent at
-         # 2.5 s); the request line below claims it under the burst request's window
-         "request_s": 2.5 if args.later_bytes else 2.05, "sent_s": 2.53},
+         # 2.5 s); the request line below claims it under the burst request's window.
+         # --matching-window (Sol's R1 on PR 112, round 2): the snapshot claims the burst
+         # request's own window too, so the window check sees nothing wrong
+         "request_s": 2.5 if args.later_bytes and not args.matching_window else 2.05,
+         "sent_s": 2.53},
     ]
     (session / "snapshots" / "snap-0001.sav").write_bytes(opening)
     (session / "snapshots" / "snap-0002.sav").write_bytes(burst_bytes)
@@ -434,7 +467,11 @@ def _r2_session(args):
          "pre_sig": _sig_hash((1, 4096, 300, 300)), "accept_sig": _sig_hash((1, 4096, 400, 400))},
     ]
     (session / "requests.jsonl").write_text("".join(json.dumps(x) + "\n" for x in lines))
-    return session, keys, events, lines, entries
+    # the recorder's whole-sitting write count (T35 round 3): the later request's save happened
+    # too — that is where the later bytes came from — but no line owns it, so a real sitting
+    # like this one counts three saves for two staged lines
+    total = 162 if args.later_bytes else 108
+    return session, keys, events, lines, entries, total
 
 
 def repro_r4_r2(args):
@@ -442,13 +479,14 @@ def repro_r4_r2(args):
     staged bytes belong to a later request, whatever the other three checks say. Exit 1 when
     any check rejects it."""
     import scripted_keys
-    session, keys, events, lines, entries = _r2_session(args)
+    session, keys, events, lines, entries, total = _r2_session(args)
     try:
         index = [json.loads(x) for x in (session / "index.jsonl").read_text().splitlines()]
         bursts = [e for e in index if e["origin"] == "burst"]
         groups = scripted_keys.group_presses(events, rec.BURST_QUIET_S)
         checks = []
-        ok, why = scripted_keys.check_attribution(lines, session=session, index=index)
+        ok, why = scripted_keys.check_attribution(lines, session=session, index=index,
+                                                  write_events_total=total)
         checks.append(("attribution", ok, why))
         ok2, why2 = scripted_keys.check_bursts(groups, bursts, 0.0)
         checks.append(("burst count", ok2, why2))
@@ -490,17 +528,21 @@ def run_sweep(argv):
         mutations = [m for m in MUTATIONS if m[0].startswith("r4-")]
     if "--only-r5" in argv:
         mutations = [m for m in MUTATIONS if m[0].startswith("r5-")]
+    if "--only-r6" in argv:
+        mutations = [m for m in MUTATIONS if m[0].startswith("r6-")]
     survivors = []
     tmp = ROOT / "scratch" / "t34-tmp"
     tmp.mkdir(parents=True, exist_ok=True)
     env = dict(os.environ, PYTHONDONTWRITEBYTECODE="1", TMPDIR=str(tmp), MUTATION_SWEEP="1")
     # pre-flight: every target string must occur exactly once in the pristine source, so a run
     # that starts on a source left mutated by an aborted earlier run fails before mutating
-    for name, filename, old, _ in mutations:
+    for name, filename, old, *_ in mutations:
         count = (ROOT / filename).read_text().count(old)
         assert count == 1, (name, count, "source not pristine?")
-    for name, filename, old, new in mutations:
+    for name, filename, old, new, *heavy in mutations:
         path = ROOT / filename
+        # a heavy mutation runs the suite with the end-to-end scripted sitting (no MUTATION_SWEEP)
+        run_env = {k: v for k, v in env.items() if k != "MUTATION_SWEEP"} if heavy else env
         original = path.read_bytes()
         text = original.decode()
         assert text.count(old) == 1, (name, text.count(old))
@@ -508,7 +550,7 @@ def run_sweep(argv):
             path.write_text(text.replace(old, new))
             result = subprocess.run([sys.executable, "-B", "-m", "unittest",
                                      "tests.test_human_keys", "tests.test_human_record"],
-                                    cwd=ROOT, env=env, stdout=subprocess.PIPE,
+                                    cwd=ROOT, env=run_env, stdout=subprocess.PIPE,
                                     stderr=subprocess.STDOUT, text=True, timeout=900)
             failing = [line for line in result.stdout.splitlines()
                        if line.startswith(("FAIL:", "ERROR:"))]
@@ -539,6 +581,9 @@ def main(argv=None):
                     help="pipeline requests finished at the reproduction's first poll")
     ap.add_argument("--bracket", action="store_true",
                     help="r4-r2: build the bracketing snapshot and key event")
+    ap.add_argument("--matching-window", action="store_true",
+                    help="r4-R2: the staged snapshot claims the burst request's own window "
+                         "(Sol's R1 on PR 112, round 2)")
     ap.add_argument("--later-bytes", action="store_true",
                     help="r4-r2: the staged bytes belong to a later request")
     ap.add_argument("--keys", default="a;b;c", help="the sitting's game keys (';'-separated)")
@@ -546,6 +591,7 @@ def main(argv=None):
     ap.add_argument("--only-r3", action="store_true")
     ap.add_argument("--only-r4", action="store_true")
     ap.add_argument("--only-r5", action="store_true")
+    ap.add_argument("--only-r6", action="store_true")
     a = ap.parse_args(argv)
     if a.r4_r1 and a.r4_r2:
         ap.error("--r4-r1 and --r4-r2 are separate reproductions")

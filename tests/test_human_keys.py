@@ -1050,6 +1050,59 @@ class GuardAttributionTests(unittest.TestCase):
         lines = [self._evidenced(1, 0.0, 0, 54), self._evidenced(2, 1.0, 54, 108)]
         ok, _ = self.sk.check_attribution(lines)
         self.assertTrue(ok)
+        ok, why = self.sk.check_attribution(lines, write_events_total=108)
+        self.assertTrue(ok, why)
+
+    def test_a_line_without_only_the_pre_send_state_is_rejected(self):
+        # Sol's R2 on PR 112 (round 2): the pre-send requirement must be proved on a line that
+        # lacks ONLY its pre-send state — with accept_sig present, removing the requirement
+        # must turn this rejection into a pass, not merely change the message
+        line = self._evidenced(1, 0.0, 0, 54)
+        del line["pre_sig"]
+        ok, why = self.sk.check_attribution([line])
+        self.assertFalse(ok)
+        self.assertIn("pre-send state", why)
+
+    def test_a_later_save_under_a_matching_window_is_rejected(self):
+        # Sol's R1 on PR 112 (round 2): plausible accounting, one save per line, the staged
+        # snapshot claiming this request's own window, yet the bytes are the LATER request's
+        # save. That save happened (the bytes came from it) and no line owns it: the sitting's
+        # write total counts three saves for two staged lines. The option-A binding (the
+        # owner, 2026-10-11) refuses it; without the total the same lines pass.
+        lines = [self._evidenced(1, 0.0, 0, 54), self._evidenced(2, 2.05, 54, 108)]
+        self.assertTrue(self.sk.check_attribution(lines)[0])
+        ok, why = self.sk.check_attribution(lines, write_events_total=162)
+        self.assertFalse(ok)
+        self.assertIn("a save no request line owns", why)
+
+    def test_a_line_two_saves_past_the_previous_is_rejected(self):
+        # a later save's bytes under line 2, with the save between owned by no line: its own
+        # pre-send count is one save back (54 events), but it accepted two saves past line 1
+        lines = [self._evidenced(1, 0.0, 0, 54), self._evidenced(2, 1.0, 108, 162)]
+        ok, why = self.sk.check_attribution(lines)
+        self.assertFalse(ok)
+        self.assertIn("not exactly one save", why)
+
+    def test_a_save_before_the_first_request_is_rejected(self):
+        # the first line's bytes are the SECOND save of the sitting: the first is owned by none
+        ok, why = self.sk.check_attribution([self._evidenced(1, 0.0, 54, 108)])
+        self.assertFalse(ok)
+        self.assertIn("before the first request", why)
+
+    def test_a_session_without_its_write_total_is_rejected(self):
+        # with the session folder the guard needs the recorder's write total: a sitting that
+        # records none proves nothing about unowned saves
+        with tempfile.TemporaryDirectory() as tmp:
+            (Path(tmp) / "requests").mkdir()
+            data = b"own save bytes"
+            (Path(tmp) / "requests" / "rq-0001.sav").write_bytes(data)
+            line = self._evidenced(1, 0.0, 0, 54)
+            line["request_sha256"] = rec.sha256(data)
+            ok, why = self.sk.check_attribution([line], session=tmp)
+            self.assertFalse(ok)
+            self.assertIn("no write_events_total", why)
+            ok, why = self.sk.check_attribution([line], session=tmp, write_events_total=54)
+            self.assertTrue(ok, why)
 
 
 class GuardTests(unittest.TestCase):
@@ -1183,3 +1236,11 @@ class ReproductionWrapperTests(unittest.TestCase):
         out = r.stdout + r.stderr
         self.assertEqual(r.returncode, 1, out[-4000:])
         self.assertIn("evidence-free", out)
+
+    def test_the_matching_window_reproduction_is_refused(self):
+        # Sol's R1 on PR 112 (round 2): the later bytes with the snapshot claiming the burst
+        # request's own window, which the round-2 guard certified
+        r = self._run("--r4-r2", "--bracket", "--later-bytes", "--matching-window", "--keys", "a;b;c")
+        out = r.stdout + r.stderr
+        self.assertEqual(r.returncode, 1, out[-4000:])
+        self.assertIn("a save no request line owns", out)

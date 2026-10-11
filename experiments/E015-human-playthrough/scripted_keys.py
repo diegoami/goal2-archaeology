@@ -80,7 +80,7 @@ def check_request_windows(groups, bursts, t0, margin):
     return True, f"{len(bursts)} request windows interleaved with their key groups"
 
 
-def check_attribution(requests, session=None, index=()):
+def check_attribution(requests, session=None, index=(), write_events_total=None):
     """The acceptance guard, attribution half (Sol delta r3 R2, r4 R2; T35 issue #111): no save
     request may be superseded — a request whose capture found a later request's write already on
     the live savestate staged nothing and the screen boundary it was sent to catch is lost. The old
@@ -112,7 +112,18 @@ def check_attribution(requests, session=None, index=()):
     above, and with an index the sequence the line names must be in it (the staged snapshot
     itself) and that snapshot's request window must be THIS request's: a snapshot whose
     `request_s` is a later request's window is later-request bytes under this line, which no
-    amount of green elsewhere can make this request's. Returns (ok, message)."""
+    amount of green elsewhere can make this request's.
+
+    T35 round 3 (Sol's R1 on PR 112; the owner's option A, 2026-10-11): the signature pair is
+    metadata, and the per-request hash is the recorder's own record of whatever it staged, so
+    neither binds the bytes to THIS request's save. The kernel's write count does: the single
+    serialized writer answers requests in order, one save each (ONE_SAVE_MIN_EVENTS to
+    ONE_SAVE_MAX_EVENTS write events), so every save in the sitting must be owned by exactly one
+    staged line, in order: no save before the first line, each line's accept count exactly one
+    save past the previous staged line's (past its own pre-send count for the first), and — with
+    the session — the recorder's `write_events_total` leaving no save after the last line.
+    Bytes of a later save under an earlier line leave a save owned twice or by no line, and fail
+    here. Returns (ok, message)."""
     lost = [i for i, r in enumerate(requests) if r.get("superseded")]
     if lost:
         return False, (f"request attribution lost: lost boundary at request line(s) {lost} "
@@ -166,6 +177,16 @@ def check_attribution(requests, session=None, index=()):
         if seen is not None and acc <= seen:
             return False, (f"request attribution lost: request lines do not own distinct "
                            f"writes (accept_events not increasing at line {i})")
+        if seen is None and pre >= recorder.ONE_SAVE_MIN_EVENTS:
+            return False, (f"request attribution lost: request line {i} (request_s "
+                           f"{r['request_s']}) was sent {pre} write events into the sitting: "
+                           "a save before the first request is owned by no request line")
+        step = acc - (pre if seen is None else seen)
+        if not (recorder.ONE_SAVE_MIN_EVENTS <= step <= recorder.ONE_SAVE_MAX_EVENTS):
+            return False, (f"request attribution lost: request line {i} (request_s "
+                           f"{r['request_s']}) accepted {step} write events past the previous "
+                           f"staged request, not exactly one save ({recorder.ONE_SAVE_MIN_EVENTS}"
+                           f"-{recorder.ONE_SAVE_MAX_EVENTS}): its bytes are another save's")
         seen = acc
         if session is not None:
             name = r.get("request_file")
@@ -192,6 +213,15 @@ def check_attribution(requests, session=None, index=()):
                                f"{r['request_s']}) staged the snapshot of a LATER request's "
                                f"window (snapshot request_s {entry.get('request_s')}): the "
                                "staged bytes are evidence-free for this request")
+    if session is not None and write_events_total is None:
+        return False, ("request attribution lost: the sitting records no write_events_total: "
+                       "nothing proves every save is owned by a request line (evidence-free)")
+    if write_events_total is not None:
+        rest = write_events_total - (seen if seen is not None else 0)
+        if rest >= recorder.ONE_SAVE_MIN_EVENTS:
+            return False, (f"request attribution lost: {rest} write events after the last staged "
+                           "request: a save no request line owns, so a staged line holds "
+                           "another save's bytes")
     return True, f"{len(requests)} save requests, every staged request owns its savestate bytes"
 
 
@@ -298,7 +328,8 @@ def main():
         if (session / "requests.jsonl").is_file():
             request_lines = [json.loads(line) for line in
                              (session / "requests.jsonl").read_text().splitlines() if line.strip()]
-        ok, why = check_attribution(request_lines, session=session, index=index)
+        ok, why = check_attribution(request_lines, session=session, index=index,
+                                    write_events_total=meta.get("write_events_total"))
         if not ok:
             print(f"acceptance guard FAILED: {why}", file=sys.stderr)
             return 1

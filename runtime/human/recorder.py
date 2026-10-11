@@ -149,6 +149,14 @@ EVENT_SETTLE_S = 0.05
 # serialized writer answers requests in order). Searched: the probe above; no
 # prior measurement of per-save event counts existed. Recorder policy.
 ONE_SAVE_MAX_EVENTS = 80
+# [designed] The write-event floor of ONE save (T35 round 3, the owner's option A of 2026-10-11:
+# each staged request owns exactly one save past the previous one). Measured: 53-54 events per
+# save in the probe above (three saves) and 53 for each of the 12 saves of T35's ten-key
+# reproduction on DOSBox-X 2024.03.01 (evidence/E015/T35-r3/dw3-write-events-20261011-01.log).
+# 40 sits well under one save's jitter and far above zero, so a request step of [40, 80] events
+# is one save and nothing else: none (0) or two (~106) fall outside it. DOSBox-X 2026.01.02
+# writes a save in 3 events (#117): this project runs 2024.03.01 only. Recorder policy.
+ONE_SAVE_MIN_EVENTS = 40
 # [designed] A snapshot's screen is taken when DOSBox-X handles the save key, which the X server
 # delivers after the recorder's request (the clock read before the send) and before the send's last
 # event is flushed (`sent_s`). A key the logger stamps later than `sent_s` may still have reached
@@ -1463,6 +1471,10 @@ def play(video=False, quit_after=None, res="1280x800"):
                      "video": dict(vinfo, requested=bool(video), geometry=geom0) if vid else
                               {"requested": bool(video), "used": False},
                       "problems": watcher.problems})
+        # T35 round 3: the sitting's whole write count on the live savestate, after the emulator
+        # is gone, so the acceptance guard can prove every save is owned by exactly one staged
+        # request (scripted_keys.check_attribution); 0 with an injected `writing`
+        meta["write_events_total"] = watcher.activity()[1]
         keys.stop()
         keydata = (session / "keys.jsonl").read_bytes()
         meta["keys"] = {"file": "keys.jsonl", "sha256": sha256(keydata), "bytes": len(keydata)}
