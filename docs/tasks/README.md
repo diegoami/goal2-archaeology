@@ -44,3 +44,6 @@ exists.
 | T36 | Q018: do fitness and confidence change match performance at equal skill | #121 | T35 |
 | T37 | Findings F010–F020 meet the pinned citation checker (#95) | #124 | — |
 | T38 | M0: the emulator runs whole watched matches, with inputs and a substitution hook | #135 | — |
+| T39a | the screen catalogue and the screenshot renderer | #137 | — |
+| T39b | the coaching kit: a pause key, live view and notes in the recorder | #138 | — |
+| T39c | screens read back from a sitting's video (a test) | #139 | T39a |
