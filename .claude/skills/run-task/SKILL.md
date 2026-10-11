@@ -92,8 +92,10 @@ For `#<issue>` of a bug labelled `fix`, the bug body replaces the task file, the
      exits 2 before anything runs (L33).
      - Exit 0: posted and labelled.
      - Exit 3: no review came back, or OpenCode or its login is unavailable (read the run's final
-       message first, as under step 2's *Read before you retry*). Nothing was posted: tell the
-       user and ask which reviewer instead (rule 7).
+       message first, as under step 2's *Read before you retry*). Nothing was posted. Stopped by our
+       own idle or total limit: the message prints a `Resume:` command (`--session <ses_...>
+       --worktree <kept tree>`); run it with a longer `--total-timeout-sec` (rule 13). Otherwise
+       tell the user and ask which reviewer instead (rule 7).
      - Exit 4: a review was posted whole under a note (it may be cut off, its verdict is
        unreadable, its verdicts differ, or a finding follows its closing verdict), or an approve
        left a Done-when line unaccounted for or not run (L32). No label was applied. For a
