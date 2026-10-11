@@ -4,6 +4,7 @@ Standard library only. A record is a committed `runs/E015/E015-r<nnnn>.json` (ru
 are read from the observations extract.py wrote: per state the sha256 of the 4000 chars+attributes
 bytes, and per unique digest the 80x25 CP437 text. Nothing here reads a savestate; render.py does.
 """
+import functools
 import json
 import re
 from pathlib import Path
@@ -18,6 +19,7 @@ STATE_DIGEST = re.compile(r"^state (\d+) \((.*?)\): text screen 80x25, chars\+at
 TEXT_DIGEST = re.compile(r"text screen rows 0-24, CP437 decoded.*\(digest ([0-9a-f]{64})\)")
 
 
+@functools.lru_cache(maxsize=None)
 def normalize(text):
     """Runs of whitespace (spaces and newlines) become one space: a phrase on one screen row is
     found whatever columns surround it."""
