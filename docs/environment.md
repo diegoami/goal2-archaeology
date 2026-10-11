@@ -172,6 +172,24 @@ Never read or edit `~/.config/quota-tracker/config.toml`: it holds account token
 login. Where the service is not installed, go on without it, and count a usage-limit error as
 `exhausted`.
 
+## DOSBox-X 2024.03.01, for every run of the original
+
+The project is calibrated to DOSBox-X **2024.03.01** (F001, `runtime/driver/savestate.py`): Ubuntu
+24.04's apt package. Ubuntu 26.04's apt offers only 2026.01.02, whose savestates store `Vga` raw
+and write a save in 3 events instead of 53-54, so no reader works on it (#117). On such a machine,
+`bash setup/dosbox-x-2024.03.01.sh` unpacks Ubuntu 24.04's packages (checksums pinned in the
+script; no sudo, nothing installed system-wide) into `~/tools/dosbox-x-2024.03.01`, with a
+`bin/dosbox-x` wrapper that supplies the libFLAC 12 26.04 lacks. The system package stays for other
+projects.
+- `runtime/driver/driver.py`'s `dosbox_x()` picks the binary: `$DOSBOX_X`, else that bundle, else
+  `dosbox-x` on PATH. The driver, the cycle fingerprint and the recorder (launch and version
+  check) use it; `setup/goal2-runtime.sh` resolves it the same way and refuses another version.
+- `experiments/E015-human-playthrough/scripted_keys.py` refuses another version before any display
+  or emulator starts. `runtime/spike/` (F001's frozen spike) still runs `dosbox-x` from PATH: put
+  `~/tools/dosbox-x-2024.03.01/bin` first on PATH for it.
+- An OpenCode run of the original needs the same: pass `--env "PATH=$HOME/tools/dosbox-x-2024.03.01/bin:$PATH"`
+  only for `runtime/spike/`; the driver and the recorder find the bundle themselves.
+
 ## Ghidra, for the decompiled and named views
 
 `tools/static/decompile.sh` (T18; with `--annotations`, T20's named view) needs these, outside the

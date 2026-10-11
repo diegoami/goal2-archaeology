@@ -245,6 +245,13 @@ def main():
                     help="a fixed gap between game keys (s), instead of the draw: the r3-era "
                          "2 s-paced reproduction runs as --sleep 2 (T35 Done-when 4)")
     a = ap.parse_args()
+    # the calibrated emulator or nothing (#117): another version's savestates cannot be read, and
+    # the sitting would fail only at extraction, after every key was typed
+    try:
+        recorder.driver.require_dosbox()
+    except RuntimeError as e:
+        print(f"refused: {e}", file=sys.stderr)
+        return 2
     keys = [k for k in a.keys.split(";") if k]
     rng = random.Random(a.seed)
     outer = app = sitting = raw_outer = None

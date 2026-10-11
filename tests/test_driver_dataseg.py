@@ -193,6 +193,7 @@ class ClockApplied(unittest.TestCase):
             screen = mock.Mock()
             screen.text.return_value = driver.TITLE_TEXT
             with mock.patch.object(driver, "verify_release"), mock.patch.object(driver.shutil, "copytree"), \
+                    mock.patch.object(driver, "require_dosbox", return_value="dosbox-x"), \
                     mock.patch.object(driver.subprocess, "Popen", popen), \
                     mock.patch.object(driver.Driver, "_start_xvfb"), \
                     mock.patch.object(driver.Driver, "_wait_window", return_value="1"), \

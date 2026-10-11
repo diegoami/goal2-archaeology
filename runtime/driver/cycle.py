@@ -54,7 +54,7 @@ def tool_first_line(cmd):
 
 
 def fingerprint(d, conf_sha):
-    dbx = tool_first_line(["dosbox-x", "-version"]).replace("DOSBox-X version ", "").split(",")[0]
+    dbx = tool_first_line([driver.dosbox_x(), "-version"]).replace("DOSBox-X version ", "").split(",")[0]
     fp = {"dosbox-x": re.sub(r"[/\\]", "-", dbx),
           "xvfb": tool_first_line(["dpkg-query", "-W", "-f=${Version}", "xvfb"]),
           "xdotool": tool_first_line(["xdotool", "--version"]),
