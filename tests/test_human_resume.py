@@ -82,7 +82,14 @@ class ResumeChordTests(unittest.TestCase):
         # "running"; no request until the resume at 3.0 is read
         with tempfile.TemporaryDirectory() as folder:
             w, sends, keys, _ = loop_watcher(folder, [], [])
-            w.pause_probe = lambda: None if w.clock() < 1.0 else w.clock() < 3.0
+            reads = [0]
+
+            def probe():
+                reads[0] += 1
+                if reads[0] > 5000:
+                    raise RuntimeError("the pause was read without the loop sleeping")
+                return None if w.clock() < 1.0 else w.clock() < 3.0
+            w.pause_probe = probe
             w.run(quit_after=5, keys=keys)
             self.assertTrue(sends and all(t >= 3.0 for t, _ in sends), sends)
             self.assertEqual([x["event"] for x in pauses(folder)], ["pause", "resume"])

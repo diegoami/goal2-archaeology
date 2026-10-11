@@ -21,6 +21,8 @@ ROOT = Path(__file__).resolve().parents[2]
 REC = "runtime/human/recorder.py"
 MAP = "experiments/E015-human-playthrough/keymap.py"
 EXT = "experiments/E015-human-playthrough/extract.py"
+SCRIPTED = "experiments/E015-human-playthrough/scripted_pause.py"
+TEST_TIMEOUT_S = 180   # the T39b tests take seconds; a hung mutant is a failing one
 TESTS = ["tests.test_human_pause", "tests.test_human_coach", "tests.test_human_resume"]
 MUTATIONS = [
     ("loop: the pause is not read after key events or periodically", REC,
@@ -28,20 +30,18 @@ MUTATIONS = [
     ("loop: the pause is not read again before a send", REC,
      "if self.pause_probe is not None and self.poll_pause():", "if False:"),
     ("loop: no paused branch (cadence not skipped, no sleep while paused)", REC,
-     "                if self.paused:\n                    # no save request while paused",
-     "                if False:\n                    # no save request while paused"),
+     "                if self.paused or self.pause_unknown:\n                    # no save request",
+     "                if False:\n                    # no save request"),
     ("loop: no resume snapshot", REC,
      "send_resume = self.resume_due and now >= last_event + EVENT_SETTLE_S", "send_resume = False"),
     ("loop: the resume request leaves the pause's key groups pending", REC,
      "burst.groups.clear()", "pass"),
     ("capture: resends whatever the pause", REC,
-     "and (self.paused or (epoch is not None and epoch != self.pause_epoch))):", "and False):"),
+     "and (self.paused or self.pause_unknown\n", "and (False\n"),
     ("capture: resends after a pause began (epoch ignored)", REC,
-     "and (self.paused or (epoch is not None and epoch != self.pause_epoch))):",
-     "and (self.paused)):"),
+     "or (epoch is not None and epoch != self.pause_epoch))):", "or False)):"),
     ("capture: resends while paused", REC,
-     "and (self.paused or (epoch is not None and epoch != self.pause_epoch))):",
-     "and ((epoch is not None and epoch != self.pause_epoch))):"),
+     "and (self.paused or self.pause_unknown\n", "and (self.pause_unknown\n"),
     ("poll_pause: the epoch is not bumped", REC, "self.pause_epoch += 1", "pass"),
     ("capture: a write after a later pause is taken as the request's own", REC,
      "if (after_pause is not None and events is not None and events > after_pause):",
@@ -97,9 +97,13 @@ MUTATIONS = [
      'line["by"] = "recorder (F12+P)"', "pass"),
     ("key log: injected keys not marked", REC, 'event["by"] = "recorder"', "pass"),
     ("key log: no count on the injected keys", REC,
-     "if want and want[0] > 0 and now <= want[1]:", "if want and now <= want[1]:"),
-    ("key log: no deadline on the injected keys", REC,
-     "if want and want[0] > 0 and now <= want[1]:", "if want and want[0] > 0:"),
+     'if self.expected.get(event["keysym"], 0) > 0:', 'if event["keysym"] in self.expected:'),
+    ("R1: an injected key expires 2 s after it is expected (the reviewed rule)", REC,
+     'if self.expected.get(event["keysym"], 0) > 0:',
+     'if self.expected.get(event["keysym"], 0) > 0 and (now or 0) - getattr(self, "_t", 0) < 2:'),
+    ("R1: a second injection replaces the first's owed events", REC,
+     "self.expected[keysym] = self.expected.get(keysym, 0) + events",
+     "self.expected[keysym] = events"),
     ("inject: the window is not focused", REC,
      'ok = xdotool(["windowfocus", str(wid)], env=env).returncode == 0', "ok = True"),
     ("inject: the key log is not told", REC,
@@ -107,7 +111,33 @@ MUTATIONS = [
     ("loop: the recorder's keys make bursts", REC,
      'drained = [e for e in drained if e.get("by") != "recorder"]', "drained = drained"),
     ("map: the recorder's keys counted as the owner's", MAP,
-     'events = [e for e in events if e.get("by") != "recorder"]', "events = list(events)"),
+     'events = [e for e in events if not e.get("by")]', "events = list(events)"),
+    ("R2 map: named injected keys counted as the owner's", MAP,
+     'events = [e for e in events if not e.get("by")]',
+     'events = [e for e in events if e.get("by") != "recorder"]'),
+    ("R2 map: a named injection's press not marked", MAP,
+     '        out[hits[0]]["by"] = who\n', ""),
+    ("R2 map: a named injection that matches nothing is accepted", MAP,
+     "        if len(hits) != 1:\n", "        if False:\n"),
+    ("R2 map: the session map ignores named injections", MAP,
+     "    events = mark_injected(events, injected, meta[\"monotonic_start_s\"])\n", ""),
+    ("R2 extract: named injections counted as the owner's", EXT,
+     'if e.get("event") == "press" and not e.get("by"))))',
+     'if e.get("event") == "press" and e.get("by") != "recorder")))'),
+    ("R3: an unreadable title means running", REC,
+     "            self.pause_unknown = True\n            return True",
+     "            return self.paused"),
+    ("R3: unknown does not hold the loop", REC,
+     "                if self.paused or self.pause_unknown:\n",
+     "                if self.paused:\n"),
+    ("R4: a held P's repeat without a release counts", REC,
+     "            repeat = self._p_down or (", "            repeat = False and ("),
+    ("R4: a host autorepeat pair counts", REC,
+     "and e[\"monotonic_s\"] - self._p_released < AUTOREPEAT_GAP_S)",
+     "and False)"),
+    ("R5: a later pause's resume snapshot counts for an earlier pause", SCRIPTED,
+     "bound = spans[i + 1][0] if i + 1 < len(spans) else float(\"inf\")",
+     "bound = float(\"inf\")"),
     ("title read: a timeout crashes the loop", REC,
      "    except subprocess.TimeoutExpired:\n        return None          # an unanswered",
      "    except ZeroDivisionError:\n        return None          # an unanswered"),
@@ -137,15 +167,20 @@ MUTATIONS = [
     ("extract: --declare dropped", EXT,
      '        rec["interventions"].append({"level": level.strip(), "what": what.strip()})', "        pass"),
     ("extract: the recorder's presses counted as the owner's", EXT,
-     'if e.get("event") == "press" and e.get("by") != "recorder")))',
+     'if e.get("event") == "press" and not e.get("by"))))',
      'if e.get("event") == "press")))'),
 ]
 
 
 def run_tests():
     env = dict(os.environ, PYTHONDONTWRITEBYTECODE="1")
-    p = subprocess.run([sys.executable, "-m", "unittest", "-v", *TESTS], cwd=ROOT, env=env,
-                       capture_output=True, text=True, timeout=600)
+    try:
+        p = subprocess.run([sys.executable, "-m", "unittest", "-v", *TESTS], cwd=ROOT, env=env,
+                           capture_output=True, text=True, timeout=TEST_TIMEOUT_S)
+    except subprocess.TimeoutExpired:
+        # a mutated loop that never sleeps never ends on a fake clock: the tests did not pass
+        # (-05 stopped the sweep here instead)
+        return 124, f"timed out after {TEST_TIMEOUT_S}s", "", 0
     tail = p.stderr.strip().splitlines()[-1] if p.stderr.strip() else ""
     ran = re.search(r"Ran (\d+) test", p.stderr)
     return p.returncode, tail, p.stderr, int(ran.group(1)) if ran else 0
