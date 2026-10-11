@@ -67,7 +67,7 @@
   only manager 1's block is made (one manager). About 95% (the table is read at `:990D`, `:E38B`,
   `:5546`, `0791:DDCB`; the run reads `DS:6D18` words 1..6).
 - **At most 6 managers, and the records allow exactly 6 full pools** (static). The new-game menu that
-  sets the manager count (`1771:0021`, `seg_1771_01.asm:0021`) is a 6-item menu (`push 6`,
+  sets the manager count (`1771:0021`, `static:static/goal-exe/code/seg_1771_01.asm:26`) is a 6-item menu (`push 6`,
   `call 214B:1507` at `:00A0`–`:00A4`) and accepts the keys `1`..`6` (`cmp al, 0x31`/`0x36`,
   `:00A9`–`:00B4`), so 1..6 managers; the base table's six entries (above) are read by the run. 6 managers
   × 80 = 480 pool records (2561..3040); the player array holds 3061 records (F002 R013), 2560 squad plus
@@ -76,7 +76,7 @@
 - **`1771:26B9` and `1771:9873` in this path** (static). `1771:26B9` (`country_list_screen`) in mode 2
   is the country picker `1771:2D15` (`set_managed_countries`) runs per manager: on Enter with a country
   that is not already managed it stores that country into `DS:A91F + 3·(0x80 + manager)`
-  (`cmp word ptr [bp+6], 2` `seg_1771_04.asm:2C38`; `is_managed` via `call 0xb77`, `214B:1765` refuses a
+  (`cmp word ptr [bp+6], 2` `static:static/goal-exe/code/seg_1771_04.asm:688`; `is_managed` via `call 0xb77`, `214B:1765` refuses a
   managed one; the store `mov byte ptr es:[di], cl` at `:2C96`). It does not make the pool itself;
   `2D15` calls `make_managed_pool` after. `1771:9873` (`make_pool_player`) is `98C4`'s one-player
   helper: increment the counter, write `A927[counter] = counter + 0xA00`, draw the record (above).
@@ -118,8 +118,8 @@
 - A rebuild's pool for manager m is the country's 20 squad records (the country record's first 20 words,
   R012) plus the 80 records `2560 + 80·(m−1) + 1 .. 2560 + 80·m`, listed in the pool view in the order
   `A927` holds after `sort_pool_by_position` (ascending by position +6). The names are `GOAL.DAT`'s
-  surnames/initials at the same record numbers.
-- The "100 names" of the backlog are two screens, not one list: 20 in the squad view, 80 in the pool view.
+  surnames/initials at the same record numbers (E009-r0001).
+- The "100 names" of the backlog are two screens, not one list: 20 in the squad view, 80 in the pool view (E009-r0001).
 
 ## Alternatives considered
 
