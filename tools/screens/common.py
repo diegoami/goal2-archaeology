@@ -71,6 +71,8 @@ def read_record(path):
     if not path.is_file() and not str(path).endswith(".json"):
         path = RUNS / f"{path}.json"
     rec = json.loads(path.read_text(encoding="utf-8"))
+    # run_id is the file's name: E015-r0002.json says "E015-r0001" inside (a known defect of that
+    # record, README "Records"; records are never rewritten).
     digests, texts, keymap = {}, {}, None
     for o in rec["observations"]:
         field = str(o.get("field"))
@@ -84,7 +86,7 @@ def read_record(path):
         elif field == "screen/key map (JSON)":
             keymap = json.loads(o["value"])
     states = {n: {"digest": d, "file": f, "text": texts.get(d)} for n, (d, f) in sorted(digests.items())}
-    return {"run_id": rec["run_id"], "states": states, "keymap": keymap}
+    return {"run_id": path.stem, "states": states, "keymap": keymap}
 
 
 def record_paths():
