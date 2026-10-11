@@ -1723,6 +1723,10 @@ def self_test(with_video=False):
             problems.append("ffmpeg (needed for --video)")
         else:
             print("ffmpeg     present")
+    try:
+        print(f"mapper     F12+P pauses (sha256 {sha256(mapper_text().encode())[:16]}...)")
+    except (OSError, RuntimeError) as e:
+        problems.append(f"session mapper: {e}")
     for tool in ("Xephyr", "xinput", "stdbuf"):
         if shutil.which(tool) is None:
             problems.append(tool)
