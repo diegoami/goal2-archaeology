@@ -247,10 +247,10 @@ def main():
     a = ap.parse_args()
     # the calibrated emulator or nothing (#117): another version's savestates cannot be read, and
     # the sitting would fail only at extraction, after every key was typed
-    version = recorder.dosbox_version()
-    if version is None or recorder.WANT_DOSBOX not in version:
-        print(f"refused: dosbox-x {recorder.WANT_DOSBOX} is required, found {version or 'none'} "
-              f"({recorder.driver.dosbox_x()}); run: bash setup/dosbox-x-2024.03.01.sh", file=sys.stderr)
+    try:
+        recorder.driver.require_dosbox()
+    except RuntimeError as e:
+        print(f"refused: {e}", file=sys.stderr)
         return 2
     keys = [k for k in a.keys.split(";") if k]
     rng = random.Random(a.seed)

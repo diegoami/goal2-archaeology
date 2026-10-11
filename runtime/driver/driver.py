@@ -36,6 +36,7 @@ CACHE = ROOT / ".cache" / "goal2"            # the verified release copy (setup/
 # 26.04's apt offers only 2026.01.02, whose savestates store Vga raw and the readers cannot parse
 # (#117), so setup/dosbox-x-2024.03.01.sh unpacks Ubuntu 24.04's package into this bundle.
 DOSBOX_BUNDLE = Path.home() / "tools" / "dosbox-x-2024.03.01" / "bin" / "dosbox-x"
+WANT_DOSBOX = "2024.03.01"
 
 
 def dosbox_x(env=None):
@@ -45,6 +46,36 @@ def dosbox_x(env=None):
     if env.get("DOSBOX_X"):
         return env["DOSBOX_X"]
     return str(DOSBOX_BUNDLE) if DOSBOX_BUNDLE.is_file() else "dosbox-x"
+
+
+def dosbox_version_of(exe):
+    """The exact version an executable's banner names (`DOSBox-X version 2024.03.01 ...`; it exits 1
+    and writes to stderr), or None."""
+    try:
+        out = subprocess.run([exe, "-version"], capture_output=True, text=True, timeout=30)
+    except (OSError, subprocess.TimeoutExpired):
+        return None
+    return version_in(out.stdout + out.stderr)
+
+
+def version_in(banner):
+    """The whole version token of a `DOSBox-X version X ...` banner, or of a bare version string:
+    2024.03.01.1 and 2024.03.010 are not 2024.03.01. None when there is none."""
+    m = re.search(r"^DOSBox-X version (\S+)", banner or "", re.M)
+    token = m.group(1) if m else ((banner or "").split() or [None])[0]
+    return token.rstrip(",") if token else None
+
+
+def require_dosbox(env=None):
+    """The resolved dosbox-x if it is exactly WANT_DOSBOX, else RuntimeError: every launch of the
+    driver and the recorder refuses another version, whichever way it was chosen (Luna's R1-R3 on
+    PR 120; #117)."""
+    exe = dosbox_x(env)
+    v = dosbox_version_of(exe)
+    if v != WANT_DOSBOX:
+        raise RuntimeError(f"dosbox-x {WANT_DOSBOX} is required, found {v or 'none'} ({exe}); "
+                           "run: bash setup/dosbox-x-2024.03.01.sh")
+    return exe
 # The registered set every launch verifies and every record names (artifacts/known.json): the
 # successor goal2-67cf27d6, which declares the runtime writes F001 observed; runs recorded before
 # it name its predecessor goal2-a949da2f, whose ten files are identical (U21, T11).
@@ -272,6 +303,7 @@ exit
                                f"({start_state.game_dir}); restoring it here would write there (F001 Anomalies)")
         if start_state is not None:
             self.check_start_state(start_state)  # its drives must be this driver's (StateLayoutMismatch)
+        dbx_exe = require_dosbox()          # before any folder, display or emulator (#117)
         self.workdir.mkdir(parents=True, exist_ok=True)
         (self.workdir / "cap").mkdir(exist_ok=True)
         shutil.rmtree(self.workdir / CLOCK_DIR, ignore_errors=True)
@@ -284,7 +316,7 @@ exit
         conf.write_text(self.conf)
         self._start_xvfb()
         self.env = dict(os.environ, DISPLAY=self.display, SDL_AUDIODRIVER="dummy")
-        args = [dosbox_x(), "-conf", str(conf), "-fastlaunch", "-nogui", "-nomenu",
+        args = [dbx_exe, "-conf", str(conf), "-fastlaunch", "-nogui", "-nomenu",
                 "-savedir", str(self.workdir), "-set", f"dosbox savefile={self.savefile}"]
         self.dbx = subprocess.Popen(args, env=self.env, stdout=open(self.workdir / "dosbox.out", "w"),
                                     stderr=subprocess.STDOUT, start_new_session=True)

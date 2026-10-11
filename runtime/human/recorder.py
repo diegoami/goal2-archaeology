@@ -116,7 +116,7 @@ SEND_TO_WINDOW = True  # the focus gate: keys only DIRECTLY to the game window, 
 SAVE_KEYS = "F12+s"    # the G1 driver's host key + save (F001)
 SESSIONS = ROOT / "scratch" / "human" / "sessions"   # session folders (git-ignored: savestates
 SELFTEST = ROOT / "scratch" / "human" / "selftest"   # and videos stay out of git, like run states)
-WANT_DOSBOX = "2024.03.01"
+WANT_DOSBOX = driver.WANT_DOSBOX
 WINDOW_CLASS = "dosbox"  # the driver's window search
 
 # [designed] A 0.5 s quiet interval groups human typing without waiting for
@@ -1381,6 +1381,12 @@ def play(video=False, quit_after=None, res="1280x800"):
     if not os.environ.get("DISPLAY"):
         print("play: DISPLAY is not set; run from a graphical session", file=sys.stderr)
         return 1
+    try:
+        # the calibrated emulator or nothing, before any session, display or logger (#117)
+        dbx_exe = driver.require_dosbox()
+    except RuntimeError as e:
+        print(f"play: refused: {e}", file=sys.stderr)
+        return 2
     session, meta = new_session()
     logf = open(session / "session.log", "a", encoding="utf-8")
 
@@ -1418,7 +1424,7 @@ def play(video=False, quit_after=None, res="1280x800"):
         # running emulator writes before the Watcher exists must be in write_events_total, or a
         # save before the first request goes unowned and uncounted
         watch = WriteWatch(session / "state.sav")
-        argv = [driver.dosbox_x(), "-conf", str(session / "dosbox.conf"),
+        argv = [dbx_exe, "-conf", str(session / "dosbox.conf"),
                 "-fastlaunch", "-nogui", "-nomenu", "-savedir", str(session),
                 "-set", f"dosbox savefile={session / 'state.sav'}"]
         dbx = subprocess.Popen(argv, env=env, stdout=logf, stderr=subprocess.STDOUT,
@@ -1529,7 +1535,7 @@ def self_test(with_video=False):
     except (SystemExit, OSError) as e:
         problems.append(f"release copy: {e}")
     v = dosbox_version()
-    if v is None or WANT_DOSBOX not in v:
+    if driver.version_in(v) != WANT_DOSBOX:
         problems.append(f"dosbox-x {WANT_DOSBOX} (found {v or 'none'})")
     else:
         print(f"dosbox-x   {v}")

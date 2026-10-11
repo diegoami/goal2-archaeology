@@ -47,6 +47,46 @@ class ResolverTests(unittest.TestCase):
                 self.assertIn("1999.09.09", recorder.dosbox_version())
 
 
+class ExactVersionTests(unittest.TestCase):
+    """Luna's R1-R3 on PR 120: the version is matched exactly, and every launch refuses another."""
+
+    def test_the_exact_version_passes(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            fake = fake_dosbox(tmp, "2024.03.01")
+            self.assertEqual(driver.require_dosbox({"DOSBOX_X": str(fake)}), str(fake))
+
+    def test_a_longer_or_other_version_is_refused(self):
+        for version in ("2024.03.010", "2024.03.01.1", "2024.03.01-rc", "2026.01.02", "12024.03.01"):
+            with tempfile.TemporaryDirectory() as tmp:
+                fake = fake_dosbox(tmp, version)
+                with self.assertRaises(RuntimeError, msg=version):
+                    driver.require_dosbox({"DOSBOX_X": str(fake)})
+
+    def test_the_driver_launch_refuses_before_anything_starts(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            d = driver.Driver({}, workdir=Path(tmp) / "work", game_dir=Path(tmp) / "game")
+            started = []
+            with mock.patch.object(driver, "require_dosbox", side_effect=RuntimeError("refused")), \
+                    mock.patch.object(driver.Driver, "_start_xvfb", lambda self: started.append("xvfb")):
+                with self.assertRaisesRegex(RuntimeError, "refused"):
+                    d.launch()
+            self.assertEqual(started, [])
+            self.assertFalse((Path(tmp) / "work").exists(), "a work folder was made before the check")
+
+    def test_bare_and_banner_versions_parse_exactly(self):
+        self.assertEqual(driver.version_in("DOSBox-X version 2024.03.01 SDL2, copyright"), "2024.03.01")
+        self.assertEqual(driver.version_in("2024.03.01"), "2024.03.01")
+        self.assertEqual(driver.version_in("DOSBox-X version 2024.03.01.1 SDL2"), "2024.03.01.1")
+        self.assertIsNone(driver.version_in(None))
+
+    def test_the_recorder_play_refuses_before_any_session(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            fake = fake_dosbox(tmp, "2026.01.02")
+            with mock.patch.dict(os.environ, {"DOSBOX_X": str(fake), "DISPLAY": ":12345"}), \
+                    mock.patch.object(recorder, "new_session", side_effect=AssertionError("a session was made")):
+                self.assertEqual(recorder.play(), 2)
+
+
 class ScriptedKeysRefusesTests(unittest.TestCase):
     def test_another_version_is_refused_before_anything_starts(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -57,6 +97,16 @@ class ScriptedKeysRefusesTests(unittest.TestCase):
             self.assertEqual(r.returncode, 2, r.stdout + r.stderr)
             self.assertIn("refused: dosbox-x 2024.03.01 is required, found", r.stderr)
             self.assertIn("2026.01.02", r.stderr)
+
+    def test_a_longer_version_is_refused_too(self):
+        # Luna's R3 on PR 120: the old substring check accepted 2024.03.010
+        with tempfile.TemporaryDirectory() as tmp:
+            fake = fake_dosbox(tmp, "2024.03.010")
+            r = subprocess.run([sys.executable, str(ROOT / "experiments/E015-human-playthrough/scripted_keys.py"),
+                                "--keys", "a"], env=dict(os.environ, DOSBOX_X=str(fake)),
+                               capture_output=True, text=True, timeout=60)
+            self.assertEqual(r.returncode, 2, r.stdout + r.stderr)
+            self.assertIn("found 2024.03.010", r.stderr)
 
 
 if __name__ == "__main__":
