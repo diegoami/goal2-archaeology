@@ -1,0 +1,31 @@
+$ python3 experiments/E015-human-playthrough/probe_pause.py --event hand_pause
+{"step": "launched", "event": "hand_pause", "dosbox": "2024.03.01", "mapper_sha256": "59fb900f8db64ec0695602923678bb1fe5579617c696d32c8adc449538ce44a0", "title": "DOSBox-X 2024.03.01: COMMAND - 3000 cycles/ms"}
+{"step": "save while running (XSendEvent F12+S)", "written": true, "prompt": "Z:\\>a"}
+{"step": "F12+P typed", "title": "DOSBox-X 2024.03.01: COMMAND - 3000 cycles/ms PAUSED", "paused": true}
+{"step": "save requested while paused (XSendEvent F12+S)", "written_while_paused": false, "prompt": null, "title": "DOSBox-X 2024.03.01: COMMAND - 3000 cycles/ms PAUSED"}
+{"step": "key b typed while paused", "title": "DOSBox-X 2024.03.01: COMMAND - 3000 cycles/ms PAUSED"}
+{"step": "F12+P typed again", "title": "DOSBox-X 2024.03.01: COMMAND - 3000 cycles/ms PAUSED", "paused": true}
+{"step": "Pause key typed (still paused after the second F12+P)", "title": "DOSBox-X 2024.03.01: COMMAND - 3000 cycles/ms", "paused": false}
+{"step": "the save requested while paused landed after the resume", "landed_after_resume": false}
+{"step": "save after resume", "written": true, "prompt": "Z:\\>ac", "note": "the prompt shows which typed keys DOS received: a, b (typed while paused), c"}
+exit 0
+$ python3 experiments/E015-human-playthrough/probe_pause.py --event hand_pauseints
+{"step": "launched", "event": "hand_pauseints", "dosbox": "2024.03.01", "mapper_sha256": "b4f59fbb548318e14000b6234543c6f51dc78b651d23d0317b46116fe37ec85e", "title": "DOSBox-X 2024.03.01: COMMAND - 3000 cycles/ms"}
+{"step": "save while running (XSendEvent F12+S)", "written": true, "prompt": "Z:\\>a"}
+{"step": "F12+P typed", "title": "DOSBox-X 2024.03.01: COMMAND - 3000 cycles/ms", "paused": false}
+{"step": "save requested while paused (XSendEvent F12+S)", "written_while_paused": true, "prompt": "Z:\\>a", "title": "DOSBox-X 2024.03.01: COMMAND - 3000 cycles/ms"}
+{"step": "key b typed while paused", "title": "DOSBox-X 2024.03.01: COMMAND - 3000 cycles/ms"}
+{"step": "F12+P typed again", "title": "DOSBox-X 2024.03.01: COMMAND - 3000 cycles/ms", "paused": false}
+{"step": "the save requested while paused landed after the resume", "landed_after_resume": false}
+{"step": "save after resume", "written": true, "prompt": "Z:\\>abc", "note": "the prompt shows which typed keys DOS received: a, b (typed while paused), c"}
+exit 0
+$ python3 experiments/E015-human-playthrough/probe_pause.py --event minimal
+{"step": "launched", "event": "minimal", "dosbox": "2024.03.01", "mapper_sha256": "82a346e4817eeb892ed57ff89ea4c4c44d90ce991c6c804cfc15fea52d53acd3", "title": "DOSBox-X 2024.03.01: COMMAND - 3000 cycles/ms"}
+{"step": "save while running (XSendEvent F12+S)", "written": false, "prompt": null}
+{"step": "F12+P typed", "title": "DOSBox-X 2024.03.01: COMMAND - 3000 cycles/ms", "paused": false}
+{"step": "save requested while paused (XSendEvent F12+S)", "written_while_paused": false, "prompt": null, "title": "DOSBox-X 2024.03.01: COMMAND - 3000 cycles/ms"}
+{"step": "key b typed while paused", "title": "DOSBox-X 2024.03.01: COMMAND - 3000 cycles/ms"}
+{"step": "F12+P typed again", "title": "DOSBox-X 2024.03.01: COMMAND - 3000 cycles/ms", "paused": false}
+{"step": "the save requested while paused landed after the resume", "landed_after_resume": false}
+{"step": "save after resume", "written": false, "prompt": null, "note": "the prompt shows which typed keys DOS received: a, b (typed while paused), c"}
+exit 0

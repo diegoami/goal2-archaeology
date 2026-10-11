@@ -169,6 +169,41 @@ CAPTURE_MARGIN_S = 0.05
 # socket before it creates the host window, so a titled window proves the display number is the
 # launched Xephyr's own; on a busy number it exits in ~25 ms without one (T34-probe-20261009-05.log).
 NESTED_START_S = 10.0
+# The pause key (T39b). The session's mapper file (the G1 config's `[sdl] mapperfile`) is DOSBox-X
+# 2024.03.01's own default bind set — saved by its mapper editor's Save button on a private Xvfb
+# (MAPPER_DEFAULT, sha256 MAPPER_DEFAULT_SHA256) — with one change: `hand_pause` (the event the
+# binary names mapper_pause, "Pause emulation") also answers F12+P. The file is complete because
+# a mapper file DOSBox-X finds replaces its default binds (probe_pause log). In that default set
+# F12+P (`key 19 host`, SDL scancode 19 = P) is the screenshot key `hand_scrshot`; the session file
+# takes it from the screenshot (the recorder takes no screenshots) and keeps DOSBox-X's own Host+
+# Pause (`key 72 host`) as a second pause bind. DOSBox-X appends " PAUSED" to the game window's
+# title while paused (a string in its binary; probe_pause log): the recorder reads the pause from
+# the title, the emulator's own state, never from guessing at the keys.
+MAPPER_DEFAULT = Path(__file__).resolve().parent / "dosbox-x-2024.03.01-default.map"
+MAPPER_DEFAULT_SHA256 = "1849ec80ad0b32949869ed8b2d38e7b2e1e89f5959965328b5f8c561196b589a"
+PAUSE_BINDS = {'hand_pause "key 72 host" ': 'hand_pause "key 72 host" "key 19 host" ',
+               'hand_scrshot "key 19 host" ': 'hand_scrshot '}
+PAUSED_TITLE = " PAUSED"
+# [designed] How often the loop reads the game window's title for the pause (one xdotool call,
+# ~5 ms). A key event always triggers a read at once (a pause chord is keys), so this period only
+# bounds how late a pause or resume with no logged key is seen. Recorder policy.
+PAUSE_POLL_S = 0.25
+
+
+def mapper_text(default=None):
+    """The session's mapper file: DOSBox-X 2024.03.01's default binds with F12+P bound to pause
+    (PAUSE_BINDS). Refuses a default file that is not the recorded one, or one missing a line it
+    changes: a wrong mapper file would leave keys unbound for the whole sitting."""
+    data = Path(default or MAPPER_DEFAULT).read_bytes()
+    if sha256(data) != MAPPER_DEFAULT_SHA256:
+        raise RuntimeError(f"{default or MAPPER_DEFAULT}: not DOSBox-X 2024.03.01's default mapper "
+                           f"(sha256 {sha256(data)})")
+    lines = data.decode("ascii").split("\n")
+    for old, new in PAUSE_BINDS.items():
+        if lines.count(old) != 1:
+            raise RuntimeError(f"default mapper: the line {old!r} is not there exactly once")
+        lines[lines.index(old)] = new
+    return "\n".join(lines)
 
 
 class Burst:
@@ -1285,8 +1320,12 @@ def new_session(when=None):
     shutil.copytree(driver.CACHE, session / "game")
     conf = conf_for(session)
     (session / "dosbox.conf").write_text(conf)
+    # the config's `[sdl] mapperfile` names this file: DOSBox-X's default binds + F12+P = pause (T39b)
+    mapper = mapper_text()
+    (session / "mapper.map").write_text(mapper)
     meta = {"created": host_times(), "ended": None, "stop_reason": None,
             "artifact_set": driver.SET_ID, "config": conf, "config_sha256": sha256(conf.encode()),
+            "mapper_sha256": sha256(mapper.encode()),
             "dosbox_x_version": dosbox_version(), "display": os.environ.get("DISPLAY"),
             "video": None, "problems": []}
     (session / "meta.json").write_text(json.dumps(meta, indent=1))
