@@ -209,10 +209,13 @@ HOST_KEYSYM, PAUSE_CHORD_KEYSYMS = "F12", ("p", "P")
 # [designed] One P press resumes once: a second within this many seconds of the recorder's own
 # Pause is the same request (a held key's autorepeat). Recorder policy.
 RESUME_DEBOUNCE_S = 1.0
-# [designed] A key's press closer than this to its own release is the host's autorepeat, not a new
-# press: sitting 20261011-215411's held F12 logged release/press pairs 0.0-0.5 ms apart, while
-# the owner's separate P presses there were 96-160 ms after their releases. Recorder policy.
-AUTOREPEAT_GAP_S = 0.01
+# A key's press within this many X-server milliseconds of its own release is the host's autorepeat
+# (a held key reaches the nested display as release/press pairs), not a new press. Measured on the
+# server's clock, so no delay in reading the logger's output moves it (rework round 2): the pairs
+# of a held key are 0 or 1 ms apart and a new press 137-138 ms after its release
+# (T39b-probe-autorepeat-20261012-01.log, two runs). [designed] 2 ms: the pair's 1 ms tick, far
+# under any human re-press. Recorder policy.
+AUTOREPEAT_SERVER_MS = 2
 
 
 def mapper_text(default=None):
@@ -265,19 +268,31 @@ class Burst:
 
 
 class KeyParser:
-    """Parse raw XI2 events only (ordinary events would duplicate each key)."""
+    """Parse raw XI2 events only (ordinary events would duplicate each key). Each event keeps the
+    X server's own time (`time:` before `detail:` in `xinput test-xi2`'s raw events, ms;
+    T39b-probe-xi2-time-20261012-01.log) as `server_ms`: when the key happened, which no delay in
+    reading the logger's output can change (rework round 2)."""
     def __init__(self, symbols):
-        self.symbols, self.event = symbols, None
+        self.symbols, self.event, self.server_ms = symbols, None, None
 
     def line(self, line):
         if line.startswith("EVENT"):
             self.event = ("press" if "(RawKeyPress)" in line else
                           "release" if "(RawKeyRelease)" in line else None)
+            self.server_ms = None
+        elif self.event and line.strip().startswith("time:"):
+            try:
+                self.server_ms = int(line.split(":", 1)[1].strip())
+            except ValueError:
+                self.server_ms = None
         elif self.event and line.strip().startswith("detail:"):
             code = int(line.split(":", 1)[1].strip())
             event, self.event = self.event, None
-            return {"event": event, "keycode": code,
-                    "keysym": self.symbols.get(code, f"keycode-{code}")}
+            out = {"event": event, "keycode": code,
+                   "keysym": self.symbols.get(code, f"keycode-{code}")}
+            if self.server_ms is not None:
+                out["server_ms"] = self.server_ms
+            return out
         return None
 
 
@@ -703,7 +718,9 @@ class Watcher:
     resume_key = None         # () -> presses Pause for the owner (inject_pause_key), or none
     _f12_down = False
     _p_down = False           # P held: a press before its release is its autorepeat (R4)
-    _p_released = None        # when P was last released
+    _p_released = None        # the X server time of P's last release
+    _chords = 0               # fresh F12+P presses since the last resume (the first pauses)
+    _chord_time = None        # the (server) time of the chord that last made the recorder resume
     _inject_time = None       # when the recorder last pressed Pause
     stop_cause = None         # why the loop ended, when no stop condition of its own did
 
@@ -1228,6 +1245,7 @@ class Watcher:
         else:
             line["paused_s"] = (None if self._pause_since is None
                                 else round(now - self._pause_since, 3))
+            self._chords = 0              # the next fresh chord pauses again
             if (self._inject_time is not None and self._pause_since is not None
                     and self._inject_time >= self._pause_since):
                 line["by"] = "recorder (F12+P)"   # the recorder's own Pause key ended it
@@ -1243,30 +1261,42 @@ class Watcher:
         """F12+P typed while DOSBox-X is paused (T39b Scope 5): the owner's keyboard has no Pause
         key and DOSBox-X resumes on Pause only, so the recorder presses it (resume_key). F12 is
         tracked across calls (its host autorepeat is press/release pairs: the last one wins); a
-        P press counts only after the pause was seen, so the chord that started the pause never
-        ends it, and one press resumes once (RESUME_DEBOUNCE_S). Only a FRESH P press counts
-        (rework round 1, R4): a press with no release since the previous one, or one within
-        AUTOREPEAT_GAP_S of a release (the host's autorepeat pairs), is the held P repeating."""
+        chord is classified by the key events alone, in their own order (one stream, one
+        order), never by when the logger's output was read (rework round 2):
+        - only a FRESH P press counts: not one with no release since the previous press, nor one
+          within AUTOREPEAT_SERVER_MS of its release on the X server's own clock (the host's
+          autorepeat pairs; T39b-probe-autorepeat-20261012-01.log);
+        - the first fresh chord since the last resume is the one that paused DOSBox-X, whether
+          it is delivered before or after the title shows the pause; only a later fresh chord,
+          while paused, resumes (`_chords`);
+        - one resume per RESUME_DEBOUNCE_S of the chords' own (server) time."""
         for e in events:
+            when = e.get("server_ms")
+            when = when / 1000.0 if when is not None else e["monotonic_s"]
             if e.get("keysym") == HOST_KEYSYM:
                 self._f12_down = e.get("event") == "press"
                 continue
             if e.get("keysym") not in PAUSE_CHORD_KEYSYMS:
                 continue
             if e.get("event") == "release":
-                self._p_down, self._p_released = False, e["monotonic_s"]
+                self._p_down, self._p_released = False, e.get("server_ms")
                 continue
-            repeat = self._p_down or (self._p_released is not None
-                                      and e["monotonic_s"] - self._p_released < AUTOREPEAT_GAP_S)
+            repeat = self._p_down or (
+                e.get("server_ms") is not None and self._p_released is not None
+                and e["server_ms"] - self._p_released < AUTOREPEAT_SERVER_MS)
             self._p_down = True
-            if (e.get("event") == "press" and not repeat
-                  and self._f12_down and self.paused and self._pause_since is not None
-                  and e["monotonic_s"] > self._pause_since
-                  and (self._inject_time is None
-                       or e["monotonic_s"] > self._inject_time + RESUME_DEBOUNCE_S)):
-                self._inject_time = self.clock()
-                self.log("F12+P while paused: the recorder presses Pause to resume")
-                self.resume_key()
+            if e.get("event") != "press" or repeat or not self._f12_down:
+                continue
+            if not self.paused or self._chords == 0:
+                self._chords = 1          # the chord that paused (or is pausing) DOSBox-X
+                continue
+            self._chords += 1
+            if self._chord_time is not None and when < self._chord_time + RESUME_DEBOUNCE_S:
+                continue
+            self._chord_time = when
+            self._inject_time = self.clock()
+            self.log("F12+P while paused: the recorder presses Pause to resume")
+            self.resume_key()
 
     # -- the loop -----------------------------------------------------------------------
     def run(self, quit_after=None, stop=lambda: False, video=None, keys=None):

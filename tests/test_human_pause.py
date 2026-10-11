@@ -48,7 +48,9 @@ def loop_watcher(session, paused_spans, arrivals):
     keys = Mock()
     keys.error = None
     keys.proc.poll.return_value = None
-    events = [{"monotonic_s": t, "event": e, "keysym": k} for t, e, k in arrivals]
+    # (time read, event, keysym[, the X server's time in ms]); the stream is in read order
+    events = [dict({"monotonic_s": a[0], "event": a[1], "keysym": a[2]},
+                   **({"server_ms": a[3]} if len(a) > 3 else {})) for a in arrivals]
     seen = [0]
 
     def drain():

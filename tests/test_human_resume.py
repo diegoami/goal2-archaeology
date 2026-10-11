@@ -23,15 +23,22 @@ sys.path.insert(0, str(ROOT / "tests"))
 from test_human_pause import loop_watcher, pauses  # noqa: E402
 
 
+def ms(t):
+    return int(round(t * 1000))
+
+
 def chord(t, n_p=1):
-    """F12 held from t with the host's autorepeat (press/release pairs every 25 ms), P pressed
-    n_p times 0.1 s apart from t + 0.3, F12 released after."""
-    ev = [(t, "press", "F12")]
+    """F12 held from t with the host's autorepeat (release/press pairs every 25 ms, one server
+    time each pair), P pressed n_p times 0.1 s apart from t + 0.3, F12 released after; read with
+    no delay (the read time is the server time)."""
+    ev = [(t, "press", "F12", ms(t))]
     for k in range(1, 8):
-        ev += [(t + 0.025 * k, "release", "F12"), (t + 0.025 * k + 0.0005, "press", "F12")]
+        a = t + 0.025 * k
+        ev += [(a, "release", "F12", ms(a)), (a + 0.0005, "press", "F12", ms(a))]
     for k in range(n_p):
-        ev += [(t + 0.3 + 0.1 * k, "press", "p"), (t + 0.35 + 0.1 * k, "release", "p")]
-    ev.append((t + 0.4 + 0.1 * n_p, "release", "F12"))
+        a, b = t + 0.3 + 0.1 * k, t + 0.35 + 0.1 * k
+        ev += [(a, "press", "p", ms(a)), (b, "release", "p", ms(b))]
+    ev.append((t + 0.4 + 0.1 * n_p, "release", "F12", ms(t + 0.4 + 0.1 * n_p)))
     return ev
 
 
@@ -69,13 +76,54 @@ class ResumeChordTests(unittest.TestCase):
         # rework round 1, R4 (Sol): F12 down 1.0, P down 1.3 (DOSBox-X pauses), the held P
         # repeats at 1.9 with no release (and as a host release/press pair at 2.2), P up 2.5,
         # F12 up 2.6: no Pause; a fresh F12+P at 4.0 resumes (the control)
-        arrivals = [(1.0, "press", "F12"), (1.3, "press", "p"), (1.9, "press", "p"),
-                    (2.2, "release", "p"), (2.2003, "press", "p"), (2.5, "release", "p"),
-                    (2.6, "release", "F12")] + chord(4.0)
+        arrivals = [(1.0, "press", "F12", 1000), (1.3, "press", "p", 1300),
+                    (1.9, "press", "p", 1900), (2.2, "release", "p", 2200),
+                    (2.2003, "press", "p", 2200), (2.5, "release", "p", 2500),
+                    (2.6, "release", "F12", 2600)] + chord(4.0)
         with tempfile.TemporaryDirectory() as folder:
             w, sends, pressed = self.sitting(folder, arrivals, pause_at=1.3)
             self.assertEqual(len(pressed), 1, pressed)
             self.assertAlmostEqual(pressed[0], 4.3, delta=0.02)
+
+    def test_a_late_delivered_pausing_p_never_resumes(self):
+        # rework round 2, R1 (Sol): F12 at 1.0, the title shows PAUSED at 1.3, the P that paused
+        # it is delivered at 1.9 (pressed at 1.3 on the server's clock): it is the pausing chord,
+        # not a resume; a fresh F12+P at 4.0 resumes (the control)
+        arrivals = [(1.0, "press", "F12", 1000), (1.9, "press", "p", 1300),
+                    (1.95, "release", "p", 1350), (2.0, "release", "F12", 1400)] + chord(4.0)
+        with tempfile.TemporaryDirectory() as folder:
+            w, sends, pressed = self.sitting(folder, arrivals, pause_at=1.3)
+            self.assertEqual(len(pressed), 1, pressed)
+            self.assertAlmostEqual(pressed[0], 4.3, delta=0.02)
+
+    def test_a_held_ps_repeat_pair_read_30_ms_apart_never_resumes(self):
+        # rework round 2, R2 (Sol): F12 and P held while paused; the logger's reader stalls 30 ms
+        # between a repeat pair's release and press (KeyLogger.pump on a raw stream): their
+        # server times are one, so no fresh press and no Pause
+        with tempfile.TemporaryDirectory() as folder:
+            k = rec.KeyLogger({"DISPLAY": ":601"}, ":0", Path(folder) / "keys.jsonl")
+
+            def stream():
+                for kind, code, t in (("Press", 96, 1000), ("Press", 33, 1300)):
+                    yield from (f"EVENT type 13 (Raw{'Key' + kind})\n", f"    time:   {t}\n",
+                                f"    detail: {code}\n")
+                yield from ("EVENT type 14 (RawKeyRelease)\n", "    time:   1800\n",
+                            "    detail: 33\n")
+                time.sleep(0.03)                       # the reader stalls inside the pair
+                yield from ("EVENT type 13 (RawKeyPress)\n", "    time:   1800\n",
+                            "    detail: 33\n")
+            k.proc = types.SimpleNamespace(stdout=stream())
+            k.pump(rec.KeyParser({96: "F12", 33: "p"}))
+            logged = [json.loads(x) for x in (Path(folder) / "keys.jsonl").read_text().splitlines()]
+            self.assertGreaterEqual(logged[3]["monotonic_s"] - logged[2]["monotonic_s"], 0.025)
+            w = rec.Watcher.__new__(rec.Watcher)
+            pressed = []
+            w.clock, w.log, w.resume_key = time.monotonic, (lambda m: None), (lambda: pressed.append(1))
+            w.paused = False
+            w.resume_chord(logged[:2])                 # F12+P: the chord that pauses
+            w.paused = True                            # the title shows the pause
+            w.resume_chord(logged[2:])                 # the held P's repeat pair
+            self.assertEqual(pressed, [])
 
     def test_an_unreadable_title_holds_every_send(self):
         # rework round 1, R3 (Sol): paused [0, 3), the title unreadable [0, 1): "unknown" is not
