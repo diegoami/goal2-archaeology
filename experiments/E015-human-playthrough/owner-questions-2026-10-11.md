@@ -11,9 +11,9 @@ looks at next. It never makes a game rule `corroborated` by itself (CLAUDE.md ru
 still needs its static reading, and a sitting where possible. "Don't know" and "not sure" are
 answers too; a guess marked as a guess is welcome.
 
-**How to fill it in.** Write after each `Answer:` (any length), on either computer, commit and
-push to the branch `e015/owner-answers` (or tell the main session the answers in chat). Leave out
-whatever you don't want to answer.
+**How to fill it in.** Write after each `Answer:` (any length): in GitHub's editor on PR #134's
+branch `e015/mined-and-questions`, in a clone on either computer (commit and push to that branch),
+or in chat to the main session, which writes them in. Leave out whatever you don't want to answer.
 
 Only questions the code and the sittings cannot answer cheaply are here. What static analysis
 will answer anyway (formulas, constants, the meaning of a byte) is not asked.
