@@ -126,8 +126,10 @@ Testimony (`owner`), read against the records; nothing here makes a rule `corrob
 - **A3 against the record.** The owner: substitutions do not change the starting squad. E015-r0007
   holds the substitutes in the first eleven from state 113 through state 224 (after the save), and
   the sitting ended before the next match. Both can hold: the stored order survives the match, and
-  the game may restore the eleven when the next match starts. Open: the next sitting shows whether
-  the Belgium qualifier starts with Maldini, Di Chiara and Vialli.
+  the game may restore the eleven when the next match starts. Answered by the owner's next sitting
+  (E015-r0010, on PR #144's branch until it merges): the Belgium qualifier's pre-match screen and
+  match use the stored eleven, with Vierchowod, Stroppa and Baggio in it; the game does not restore
+  the original eleven. The owner's memory (A3) is contradicted by the record.
 - **A4.** "level of difficulty : SIMPLE" on the country screen is not a game setting: it rates the
   country (Italy is strong). [E015-r0007-mined.md](E015-r0007-mined.md) is corrected; where the
   label comes from is a static question.
