@@ -214,11 +214,11 @@ def sweep():
 def before(ref="origin/main", only=None):
     """The tests on `ref`'s sources. With `only` (test-name fragments), only those tests must
     fail (the rework round's new tests on the commit the review read); else every test must."""
-    sources = [REC, MAP, EXT]
-    new = ["runtime/human/note.py", "runtime/human/live.py"]     # absent before T39b
-    absent = [rel for rel in new if subprocess.run(["git", "cat-file", "-e", f"{ref}:{rel}"],
-                                                   cwd=ROOT, capture_output=True).returncode]
-    saved = {rel: (ROOT / rel).read_bytes() for rel in sources + new}
+    files = [REC, MAP, EXT, SCRIPTED, "runtime/human/note.py", "runtime/human/live.py"]
+    absent = [rel for rel in files if subprocess.run(["git", "cat-file", "-e", f"{ref}:{rel}"],
+                                                     cwd=ROOT, capture_output=True).returncode]
+    sources = [rel for rel in files if rel not in absent]
+    saved = {rel: (ROOT / rel).read_bytes() for rel in files}
     try:
         for rel in absent:
             (ROOT / rel).unlink()
