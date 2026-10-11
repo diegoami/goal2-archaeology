@@ -4,7 +4,7 @@ An evidence-backed behavioural specification of *goal (version 2)* (New Era Soft
 text-mode international football team-management game. It follows the method of
 [game-archaeologist](https://github.com/diegoami/game-archaeologist) at the commit
 [archaeology.json](archaeology.json) pins. The spec feeds
-a faithful rebuild and a bot that maximises the World Cup win rate, in the private `goal2`. The
+a faithful rebuild and a bot that plays a country competently for idle play (the owner, 2026-10-11), in the private `goal2`. The
 owner's decisions are U14–U20 there.
 
 - **The artifact**: sets in [artifacts/known.json](artifacts/known.json): `goal2-a949da2f` and its

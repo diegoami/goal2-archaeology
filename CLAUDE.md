@@ -3,7 +3,8 @@
 An evidence-backed specification of *goal (version 2)* (New Era Software, 1993), a DOS text-mode
 international football team-management game, using the method of
 [game-archaeologist](https://github.com/diegoami/game-archaeologist) (decisions U14–U20). The spec
-feeds a faithful rebuild and a bot that maximises the World Cup win rate, in the private `goal2`.
+feeds a faithful rebuild and a bot that plays a country competently for idle play (the owner,
+2026-10-11), in the private `goal2`.
 The process is `docs/process.md`; read it before running a task. Tasks are `docs/tasks/T<nn>.md`,
 indexed in `docs/tasks/README.md`.
 

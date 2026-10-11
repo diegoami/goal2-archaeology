@@ -2,7 +2,8 @@
 
 From the owner's decisions U14–U20 (game-archaeologist `docs/phase0/README.md`, 2026-10-03): a
 behavioural spec of *goal (version 2)*, then a faithful rebuild that can simulate it, then a bot that
-maximises the World Cup win rate for every country, and modern databases from open data. This page
+manages a country competently enough for idle play (the owner, 2026-10-11, replacing U15's "the best
+World Cup win rate"), and modern databases from open data. This page
 holds no status; the labels do.
 
 ## What shapes the plan
@@ -28,7 +29,7 @@ holds no status; the labels do.
 | **G-M2 Static base** | the executable and the data file can be read | `GOAL.EXE` unpacked and its unpacked hash recorded; the routines indexed by area; `GOAL.DAT`'s layout proposed as representation claims, one confirmed by a run |
 | **G-M3 Simulatable spec** | the spec covers what a simulator needs | every knowledge-map area the rebuild needs (the match engine, attributes and their changes, competitions, the other managers) is `supported` or better, each by static and behavioural findings where it touches the match |
 | **G-M4 Faithful rebuild** (`goal2`) | the simulator behaves like the original | on matched start states, the rebuild's result distributions (goals, possession, shots, bookings, injuries) agree with the original's within stated tolerances over a stated n; a 4-year cycle's competition structure is reproduced exactly |
-| **G-M5 The bot** | U15: the best World Cup win rate for every country | a policy for squad, formation and tactics; a ranked table of each country's estimated World Cup win rate in the rebuild; for selected countries, a confirmation on the original that the bot beats the help file's assistant selection by a stated margin |
+| **G-M5 The bot** | competent idle play (the owner, 2026-10-11, replacing U15's World Cup win rate): the bot manages a country through whole campaigns with no human | a policy for squad, formation and tactics; for selected countries, whole 4-year cycles in the rebuild with no human input, every match fielding a legal, fit eleven by stated checks, and results no worse than the game's own computer choice (`C`) over a stated n; one cycle confirmed on the original |
 | **G-M6 Modern databases** (U20) | current teams and players in GOAL2's own format | a writer for `GOAL.DAT`, proven by the original loading it; facts from Wikidata and openfootball, with source and licence recorded; our own ratings formula, documented; private only |
 
 ## The first tasks
