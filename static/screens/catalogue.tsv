@@ -1,0 +1,122 @@
+kind	key	keysyms	effect	source	quote	state	to_kind	to_state	count	rule
+dos-shell			no key known	screen	Z:\>mount	E015-r0001 state 1				+Z:\>mount
+title-load-prompt	Y N	y n	answer the question the screen asks	screen	(Y/N)	E015-r0001 state 2				+THE international soccer management game ;; +Do you want to load a saved game
+title-player-count	←→	Left Right	choose number	screen	Use ←→ to choose number	E015-r0004 state 2				+How many players
+title-player-count	◄┘	Return	select	screen	to choose number, ◄┘ to select	E015-r0004 state 2				+How many players
+country-select-name-entry	Esc	Escape	abort	screen	Esc-abort	E015-r0007 state 10				+PLEASE SELECT YOUR COUNTRY ;; +Type in characters (maximum 14)
+country-select-name-entry	characters	(typed)	type in characters (maximum 14)	screen	Type in characters (maximum 14)	E015-r0007 state 10				+PLEASE SELECT YOUR COUNTRY ;; +Type in characters (maximum 14)
+country-select-name-entry	◄┘	Return	accept	screen	◄┘-accept	E015-r0007 state 10				+PLEASE SELECT YOUR COUNTRY ;; +Type in characters (maximum 14)
+country-select-name-entry	o	o	burst: country-select-name-entry -> country-select-name-entry	run:E015-r0007 state 12			country-select-name-entry	E015-r0007 state 13	1	+PLEASE SELECT YOUR COUNTRY ;; +Type in characters (maximum 14)
+country-select	INS	Insert	swap between world and continental rankings	screen	use INS to	E015-r0007 state 3				+PLEASE SELECT YOUR COUNTRY ;; -Type in characters (maximum 14)
+country-select	spacebar	space	players	screen	spacebar-players	E015-r0007 state 3				+PLEASE SELECT YOUR COUNTRY ;; -Type in characters (maximum 14)
+country-select	←→↑↓	Left Right Up Down	browse	screen	Use ←→↑↓ keys to browse	E015-r0007 state 3				+PLEASE SELECT YOUR COUNTRY ;; -Type in characters (maximum 14)
+country-select	◄┘	Return	select	screen	then hit ◄┘ to select	E015-r0007 state 3				+PLEASE SELECT YOUR COUNTRY ;; -Type in characters (maximum 14)
+country-select	Return	Return	burst: country-select -> country-select-name-entry	run:E015-r0007 state 9			country-select-name-entry	E015-r0007 state 10	1	+PLEASE SELECT YOUR COUNTRY ;; -Type in characters (maximum 14)
+bulletin	any key	(any)	(the screen says only: hit any key)	screen	hit any key	E015-r0007 state 14				+THE SOCCER BULLETIN
+bulletin	Return	Return	burst: bulletin -> bulletin	run:E015-r0007 state 14			bulletin	E015-r0007 state 15	1	+THE SOCCER BULLETIN
+manager-menu	F1	F1	help	screen	F1help	E015-r0007 state 16				+find option ;; +F1help
+manager-menu	F10	F10	quit	screen	F10quit	E015-r0007 state 16				+find option ;; +F1help
+manager-menu	F3	F3	load goal	screen	F3load goal	E015-r0007 state 16				+find option ;; +F1help
+manager-menu	F4	F4	load summary	screen	F4load summary	E015-r0007 state 16				+find option ;; +F1help
+manager-menu	F5	F5	print screen	screen	F5print screen	E015-r0007 state 16				+find option ;; +F1help
+manager-menu	F7	F7	save	screen	F7save	E015-r0007 state 16				+find option ;; +F1help
+manager-menu	↑↓	Up Down	find option	screen	Use ↑↓ to	E015-r0007 state 16				+find option ;; +F1help
+manager-menu	◄┘	Return	select option	screen	Hit ◄┘ to	E015-r0007 state 16				+find option ;; +F1help
+manager-menu	Return	Return	burst: manager-menu -> fixtures-watch	run:E015-r0007 state 16			fixtures-watch	E015-r0007 state 18	1	+find option ;; +F1help
+manager-menu	Return	Return	burst: manager-menu -> round-playing	run:E015-r0007 state 16			round-playing	E015-r0007 state 27	1	+find option ;; +F1help
+manager-menu	Down	Down	burst: manager-menu -> manager-menu	run:E015-r0007 state 213			manager-menu	E015-r0007 state 213	1	+find option ;; +F1help
+manager-menu	F10	F10	burst: manager-menu -> quit-confirm	run:E015-r0007 state 213			quit-confirm	E015-r0007 state 223	1	+find option ;; +F1help
+fixtures-watch	Esc	Escape	exit	screen	Esc-exit	E015-r0007 state 18				+and results ;; +watch match
+fixtures-watch	↑↓	Up Down	scroll	screen	Use ↑↓ to scroll	E015-r0007 state 18				+and results ;; +watch match
+fixtures-watch	◄┘	Return	watch match	screen	Hit ◄┘ to	E015-r0007 state 18				+and results ;; +watch match
+fixtures-watch	Down	Down	burst: fixtures-watch -> fixtures-watch	run:E015-r0007 state 18			fixtures-watch	E015-r0007 state 18	2	+and results ;; +watch match
+fixtures-watch	Return	Return	burst: fixtures-watch -> fixtures-auto	run:E015-r0007 state 18			fixtures-auto	E015-r0007 state 24	1	+and results ;; +watch match
+fixtures-auto	Esc	Escape	exit	screen	Esc-exit	E015-r0007 state 24				+and results ;; +auto result
+fixtures-auto	↑↓	Up Down	scroll	screen	Use ↑↓ to scroll	E015-r0007 state 24				+and results ;; +auto result
+fixtures-auto	◄┘	Return	auto result	screen	Hit ◄┘ for	E015-r0007 state 24				+and results ;; +auto result
+round-playing	spacebar	space	pause	screen	spacebar-pause	E015-r0007 state 27				+spacebar-pause ;; +speed
+round-playing	←→	Left Right	speed	screen	←→-speed	E015-r0007 state 27				+spacebar-pause ;; +speed
+round-results	any key	(any)	(the screen says only: hit any key)	screen	hit any key	E015-r0007 state 52				+hit any key ;; +friendly ;; -THE SOCCER BULLETIN ;; -MAN OF THE MATCH
+round-results	Return	Return	burst: round-results -> match-menu	run:E015-r0007 state 52			match-menu	E015-r0007 state 53	1	+hit any key ;; +friendly ;; -THE SOCCER BULLETIN ;; -MAN OF THE MATCH
+match-watch-prompt	N	n	no	screen	Hit Y for yes, N for no	E015-r0007 state 28				+Do you want to watch this match
+match-watch-prompt	Y	y	yes	screen	Hit Y for yes, N for no	E015-r0007 state 28				+Do you want to watch this match
+match-watch-prompt	Return	Return	burst: match-watch-prompt -> match-menu	run:E015-r0007 state 28			match-menu	E015-r0007 state 30	1	+Do you want to watch this match
+match-menu-halftime	INS	Insert	turn automatic action replay OFF	screen	Hit INS to turn automatic action replay	E015-r0007 state 44				+Hit INS to turn automatic action replay ;; +HALF TIME
+match-menu-halftime	↑↓←→	Up Down Left Right	select option	screen	Use ↑↓←→	E015-r0007 state 44				+Hit INS to turn automatic action replay ;; +HALF TIME
+match-menu-halftime	◄┘	Return	select option (after moving)	screen	then ◄┘	E015-r0007 state 44				+Hit INS to turn automatic action replay ;; +HALF TIME
+match-menu-halftime	Down	Down	burst: match-menu-halftime -> match-menu-halftime	run:E015-r0007 state 116			match-menu-halftime	E015-r0007 state 116	1	+Hit INS to turn automatic action replay ;; +HALF TIME
+match-menu-halftime	Return	Return	burst: match-menu-halftime -> team-tactics	run:E015-r0007 state 116			team-tactics	E015-r0007 state 119	1	+Hit INS to turn automatic action replay ;; +HALF TIME
+match-menu-halftime	Left	Left	burst: match-menu-halftime -> match-menu-halftime	run:E015-r0007 state 73			match-menu-halftime	E015-r0007 state 73	1	+Hit INS to turn automatic action replay ;; +HALF TIME
+match-menu-fulltime	INS	Insert	turn automatic action replay OFF	screen	Hit INS to turn automatic action replay	E015-r0007 state 50				+Hit INS to turn automatic action replay ;; +FULL TIME
+match-menu-fulltime	↑↓←→	Up Down Left Right	select option	screen	Use ↑↓←→	E015-r0007 state 50				+Hit INS to turn automatic action replay ;; +FULL TIME
+match-menu-fulltime	◄┘	Return	select option (after moving)	screen	then ◄┘	E015-r0007 state 50				+Hit INS to turn automatic action replay ;; +FULL TIME
+match-menu-fulltime	Return	Return	burst: match-menu-fulltime -> match-summary-save-prompt	run:E015-r0007 state 50			match-summary-save-prompt	E015-r0007 state 51	2	+Hit INS to turn automatic action replay ;; +FULL TIME
+match-menu	INS	Insert	turn automatic action replay OFF	screen	Hit INS to turn automatic action replay	E015-r0007 state 30				+Hit INS to turn automatic action replay ;; -HALF TIME ;; -FULL TIME
+match-menu	↑↓←→	Up Down Left Right	select option	screen	Use ↑↓←→	E015-r0007 state 30				+Hit INS to turn automatic action replay ;; -HALF TIME ;; -FULL TIME
+match-menu	◄┘	Return	select option (after moving)	screen	then ◄┘	E015-r0007 state 30				+Hit INS to turn automatic action replay ;; -HALF TIME ;; -FULL TIME
+match-menu	Down	Down	burst: match-menu -> match-menu	run:E015-r0007 state 53			match-menu	E015-r0007 state 53	3	+Hit INS to turn automatic action replay ;; -HALF TIME ;; -FULL TIME
+match-menu	F7	F7	burst: match-menu -> match-menu	run:E015-r0007 state 53			match-menu	E015-r0007 state 53	1	+Hit INS to turn automatic action replay ;; -HALF TIME ;; -FULL TIME
+match-live	Esc ◄┘	Escape Return	bench	screen	Esc,◄┘-bench	E015-r0007 state 31				+spacebar-commentary
+match-live	F9	F9	♫	screen	F9-♫	E015-r0007 state 31				+spacebar-commentary
+match-live	R	r	result	screen	R-result	E015-r0007 state 31				+spacebar-commentary
+match-live	spacebar	space	commentary	screen	spacebar-commentary	E015-r0007 state 31				+spacebar-commentary
+match-live	←→	Left Right	speed	screen	←→-speed	E015-r0007 state 31				+spacebar-commentary
+match-live	↓↑	Up Down	display	screen	↓↑-display	E015-r0007 state 31				+spacebar-commentary
+match-live	Left	Left	burst: match-live -> match-live	run:E015-r0007 state 31			match-live	E015-r0007 state 32	3	+spacebar-commentary
+match-live	n	n	burst: match-live -> match-live	run:E015-r0007 state 40			match-live	E015-r0007 state 41	1	+spacebar-commentary
+match-live	Return	Return	burst: match-live -> match-menu-halftime	run:E015-r0007 state 43			match-menu-halftime	E015-r0007 state 44	2	+spacebar-commentary
+match-live	Return	Return	burst: match-live -> match-menu-fulltime	run:E015-r0007 state 49			match-menu-fulltime	E015-r0007 state 50	1	+spacebar-commentary
+match-live	space	space	burst: match-live -> match-live	run:E015-r0007 state 65			match-live	E015-r0007 state 66	1	+spacebar-commentary
+match-live	c	c	burst: match-live -> match-live	run:E015-r0007 state 70			match-live	E015-r0007 state 71	1	+spacebar-commentary
+match-commentary	Esc	Escape	play	screen	Esc-play	E015-r0007 state 67				+view commentary
+match-commentary	↑↓ Pgup Pgdn Home End	Up Down Prior Next Home End	view commentary	screen	↑↓,Pgup,Pgdn,Home,End-view commentary	E015-r0007 state 67				+view commentary
+match-commentary	Escape	Escape	burst: match-commentary -> match-live	run:E015-r0007 state 67			match-live	E015-r0007 state 68	1	+view commentary
+match-summary-save-prompt	Y N	y n	answer the question the screen asks	screen	(Y/N)	E015-r0007 state 51				+Do you want to save the match summary
+match-summary	Esc ◄┘	Escape Return	bench	screen	Esc,◄┘-bench	E015-r0007 state 207				+MAN OF THE MATCH ;; -Do you want to save the match summary
+match-summary	any key	(any)	(the screen says only: hit any key)	screen	hit any key	E015-r0007 state 207				+MAN OF THE MATCH ;; -Do you want to save the match summary
+match-summary	Return	Return	burst: match-summary -> match-menu-fulltime	run:E015-r0007 state 207			match-menu-fulltime	E015-r0007 state 210	1	+MAN OF THE MATCH ;; -Do you want to save the match summary
+squad-substitution-illegal	any key	(any)	(the screen says only: PRESS ANY KEY)	screen	PRESS ANY KEY	E015-r0007 state 176				+Illegal substitution
+squad-substitution-illegal	Return	Return	burst: squad-substitution-illegal -> squad-substitution-take-off	run:E015-r0007 state 176			squad-substitution-take-off	E015-r0007 state 138	1	+Illegal substitution
+squad-substitution-take-off	Esc	Escape	exit	screen	Esc-exit	E015-r0007 state 76				+make substitutions now ;; +take off this player
+squad-substitution-take-off	F2	F2	new name	screen	F2-new name	E015-r0007 state 76				+make substitutions now ;; +take off this player
+squad-substitution-take-off	R,C	r c	reposition	screen	R,C-reposition	E015-r0007 state 76				+make substitutions now ;; +take off this player
+squad-substitution-take-off	T	t	tactics	screen	T-tactics	E015-r0007 state 76				+make substitutions now ;; +take off this player
+squad-substitution-take-off	◄┘	Return	take off this player	screen	◄┘-take off this player	E015-r0007 state 76				+make substitutions now ;; +take off this player
+squad-substitution-take-off	t	t	burst: squad-substitution-take-off -> squad-substitution-tactic	run:E015-r0007 state 144			squad-substitution-tactic	E015-r0007 state 160	1	+make substitutions now ;; +take off this player
+squad-substitution-take-off	Escape	Escape	burst: squad-substitution-take-off -> squad-substitution-take-off	run:E015-r0007 state 181			squad-substitution-take-off	E015-r0007 state 181	2	+make substitutions now ;; +take off this player
+squad-substitution-take-off	Escape	Escape	burst: squad-substitution-take-off -> match-menu-halftime	run:E015-r0007 state 197			match-menu-halftime	E015-r0007 state 116	1	+make substitutions now ;; +take off this player
+squad-substitution-take-off	Down	Down	burst: squad-substitution-take-off -> squad-substitution-take-off	run:E015-r0007 state 76			squad-substitution-take-off	E015-r0007 state 77	11	+make substitutions now ;; +take off this player
+squad-substitution-take-off	Up	Up	burst: squad-substitution-take-off -> squad-substitution-take-off	run:E015-r0007 state 79			squad-substitution-take-off	E015-r0007 state 78	6	+make substitutions now ;; +take off this player
+squad-substitution-take-off	Return	Return	burst: squad-substitution-take-off -> squad-substitution-take-off	run:E015-r0007 state 90			squad-substitution-take-off	E015-r0007 state 91	3	+make substitutions now ;; +take off this player
+squad-substitution-put-on	Esc	Escape	exit	screen	Esc-exit	E015-r0007 state 82				+make substitutions now ;; +put on this player
+squad-substitution-put-on	F2	F2	new name	screen	F2-new name	E015-r0007 state 82				+make substitutions now ;; +put on this player
+squad-substitution-put-on	R,C	r c	reposition	screen	R,C-reposition	E015-r0007 state 82				+make substitutions now ;; +put on this player
+squad-substitution-put-on	T	t	tactics	screen	T-tactics	E015-r0007 state 82				+make substitutions now ;; +put on this player
+squad-substitution-put-on	◄┘	Return	put on this player	screen	◄┘-put on this player	E015-r0007 state 82				+make substitutions now ;; +put on this player
+squad-substitution-put-on	Escape	Escape	burst: squad-substitution-put-on -> match-menu-halftime	run:E015-r0007 state 115			match-menu-halftime	E015-r0007 state 116	1	+make substitutions now ;; +put on this player
+squad-substitution-put-on	Up	Up	burst: squad-substitution-put-on -> squad-substitution-put-on	run:E015-r0007 state 131			squad-substitution-put-on	E015-r0007 state 132	1	+make substitutions now ;; +put on this player
+squad-substitution-put-on	Up	Up	burst: squad-substitution-put-on -> squad-substitution-take-off	run:E015-r0007 state 148			squad-substitution-take-off	E015-r0007 state 133	1	+make substitutions now ;; +put on this player
+squad-substitution-put-on	Down	Down	burst: squad-substitution-put-on -> squad-substitution-put-on	run:E015-r0007 state 82			squad-substitution-put-on	E015-r0007 state 83	1	+make substitutions now ;; +put on this player
+squad-substitution-put-on	Up Up Up Up Up Up Up Up Up Up Up Up Up Up Up	Up Up Up Up Up Up Up Up Up Up Up Up Up Up Up	burst: squad-substitution-put-on -> squad-substitution-put-on	run:E015-r0007 state 82			squad-substitution-put-on	E015-r0007 state 82	1	+make substitutions now ;; +put on this player
+squad-substitution-put-on	Return	Return	burst: squad-substitution-put-on -> squad-substitution-put-on	run:E015-r0007 state 83			squad-substitution-put-on	E015-r0007 state 83	2	+make substitutions now ;; +put on this player
+squad-substitution-tactic	Esc	Escape	exit	screen	Esc-exit	E015-r0007 state 150				+make substitutions now ;; +alter tactic
+squad-substitution-tactic	↑↓←→	Up Down Left Right	select	screen	↓↑←→-select	E015-r0007 state 150				+make substitutions now ;; +alter tactic
+squad-substitution-tactic	◄┘	Return	alter tactic	screen	◄┘-alter tactic	E015-r0007 state 150				+make substitutions now ;; +alter tactic
+squad-substitution-tactic	Escape	Escape	burst: squad-substitution-tactic -> squad-substitution-take-off	run:E015-r0007 state 150			squad-substitution-take-off	E015-r0007 state 133	1	+make substitutions now ;; +alter tactic
+squad-substitution-tactic	Down	Down	burst: squad-substitution-tactic -> squad-substitution-tactic	run:E015-r0007 state 160			squad-substitution-tactic	E015-r0007 state 160	1	+make substitutions now ;; +alter tactic
+squad-substitution-tactic	Return	Return	burst: squad-substitution-tactic -> squad-substitution-tactic	run:E015-r0007 state 165			squad-substitution-tactic	E015-r0007 state 166	7	+make substitutions now ;; +alter tactic
+team-tactics	Esc	Escape	exit	screen	Esc-exit	E015-r0007 state 119				+change tactic ;; +team
+team-tactics	◄┘	Return	change tactic	screen	◄┘-change tactic	E015-r0007 state 119				+change tactic ;; +team
+team-tactics	Return	Return	burst: team-tactics -> team-tactics	run:E015-r0007 state 119			team-tactics	E015-r0007 state 121	2	+change tactic ;; +team
+team-tactics	Up	Up	burst: team-tactics -> team-tactics	run:E015-r0007 state 119			team-tactics	E015-r0007 state 119	1	+change tactic ;; +team
+captain-select	C	c	computer select	screen	C-computer select	E015-r0007 state 63				+select CAPTAIN
+captain-select	↑↓	Up Down	move	screen	use ↑↓ to move	E015-r0007 state 63				+select CAPTAIN
+captain-select	◄┘	Return	select (captain)	screen	◄┘-select	E015-r0007 state 63				+select CAPTAIN
+save-game-name-entry	characters	(typed)	enter name of saved game	screen	Please enter name of saved game	E015-r0007 state 215				+Please enter name of saved game
+save-game-name-entry	1	1	burst: save-game-name-entry -> save-game-name-entry	run:E015-r0007 state 218			save-game-name-entry	E015-r0007 state 221	1	+Please enter name of saved game
+save-game-name-entry	Right	Right	burst: save-game-name-entry -> save-game-name-entry	run:E015-r0007 state 218			save-game-name-entry	E015-r0007 state 219	2	+Please enter name of saved game
+save-game-name-entry	Right Right Right Right Right Right Right Right Right Right Right Right Right Right	Right Right Right Right Right Right Right Right Right Right Right Right Right Right	burst: save-game-name-entry -> save-game-name-entry	run:E015-r0008 state 3			save-game-name-entry	E015-r0008 state 3	1	+Please enter name of saved game
+save-game-name-entry	BackSpace	BackSpace	burst: save-game-name-entry -> save-game-name-entry	run:E015-r0008 state 6			save-game-name-entry	E015-r0008 state 7	2	+Please enter name of saved game
+quit-confirm	Y N	y n	answer the question the screen asks	screen	(Y/N)	E015-r0007 state 223				+Are you sure you want to quit? (Y/N)
+save-game-prompt	Y N	y n	answer the question the screen asks	screen	(Y/N)	E015-r0007 state 224				+Do you want to save this game? (Y/N)
+file-not-found-prompt	Y N	y n	answer the question the screen asks	screen	(Y/N)	E015-r0008 state 10				+Illegal file name or file not found - try again? (Y/N)
