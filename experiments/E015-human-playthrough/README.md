@@ -265,3 +265,18 @@ stored order from the loaded save: Vierchowod (314), Stroppa (315) and Baggio (3
 and Maldini (303) and Di Chiara (305) are among the substitutes. The Belgium qualifier's
 pre-match screen (state 12) and its match (state 16, "Baggio intercepts") use that eleven: the
 game did not restore the original one when the match started.
+
+### Rework round 1 (Sol's review of PR #144): a superseded record
+
+Records are never rewritten (L207), so a defective record stays and a later one supersedes it:
+
+| Record | Extraction pass | Superseded by, and why |
+| --- | --- | --- |
+| `E015-r0009` | `extract_215411.py` | `E015-r0012`: it declares the main session's Pause keys but counts them as owner presses (310) and maps the one at +88.312 s as an owner transition (review R2). Its I2 text also says keys.jsonl holds no key around the +145.8 s resume; the log holds main-session Pause presses at +141.643 s and +148.438 s |
+| `E015-r0012` | `extract_215411_v2.py`: the same sitting `20261011-215411`, the three Pause presses named `--injected` (the main session's), the I2 text corrected | — ([table](E015-r0012-keymap.md); 307 owner presses, the map's 307; the same 42 snapshots, manifest `evidence/E015/E015-r0012.manifest.json`) |
+
+`E015-r0010` and `E015-r0011` need no correction: every Pause press in their key logs carries
+`by: recorder`, and no other key there was injected. In E015-r0010 the third pause
+(+90.7 s to +128.6 s) took three injected Pause keys (+96.2, +101.4, +108.9 s) that did not end it,
+and ended at +128.6 s with no logged key. The resume line still names the recorder, because the
+recorder had pressed Pause during that pause; what ended it is not shown.
