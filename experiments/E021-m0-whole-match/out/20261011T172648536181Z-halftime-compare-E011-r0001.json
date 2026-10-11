@@ -1,0 +1,37 @@
+{
+ "run_id": "E011-r0001",
+ "watchstart": {
+  "name": "E011-r0001-watchstart.sav",
+  "sha256": "d68e48c734a742a63e707a8c451b9011ef03b452ebd91f239d86f875464e07a9",
+  "store": "release:E011"
+ },
+ "halftime": {
+  "name": "E011-r0001-halftime.sav",
+  "sha256": "092f5f74bc5dc0c0f133709ca46be04122d3813a716c54fd23a686e9194ab9ff",
+  "store": "release:E011"
+ },
+ "emulated_clock_and_seed_at_the_team_screen_read": [
+  46,
+  36,
+  62551
+ ],
+ "savestate_clock_and_seed": [
+  46,
+  36,
+  62551
+ ],
+ "differing_bytes": 68,
+ "differing_ranges": [
+  "8336-8337",
+  "8B31-8B32",
+  "EA48-EA5B",
+  "EA94-EA97",
+  "EB4A-EB52",
+  "EB54-EB5C",
+  "EB5E-EB6F",
+  "EB71",
+  "EB84-EB85",
+  "EB9B"
+ ],
+ "stack_segment_offset_in_DS": 44304
+}
