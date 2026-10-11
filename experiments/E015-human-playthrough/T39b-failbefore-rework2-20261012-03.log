@@ -1,0 +1,10 @@
+T39b tests on 07c092b's runtime/human/recorder.py, experiments/E015-human-playthrough/keymap.py, experiments/E015-human-playthrough/extract.py, experiments/E015-human-playthrough/scripted_pause.py, runtime/human/note.py, runtime/human/live.py: exit 1, FAILED (failures=3, errors=1)
+the rework's new tests:
+test_a_held_f12_with_no_events_holds_requests_only_for_a_bound (tests.test_human_resume.ResumeChordTests.test_a_held_f12_with_no_events_holds_requests_only_for_a_bound) ... ERROR
+test_a_held_ps_repeat_pair_read_30_ms_apart_never_resumes (tests.test_human_resume.ResumeChordTests.test_a_held_ps_repeat_pair_read_30_ms_apart_never_resumes) ... FAIL
+test_a_late_delivered_pausing_p_never_resumes (tests.test_human_resume.ResumeChordTests.test_a_late_delivered_pausing_p_never_resumes) ... FAIL
+test_each_pause_is_started_by_one_chord_and_ended_by_the_next (tests.test_human_resume.ResumeChordTests.test_each_pause_is_started_by_one_chord_and_ended_by_the_next) ... ok
+test_no_save_request_while_the_owner_holds_f12 (tests.test_human_resume.ResumeChordTests.test_no_save_request_while_the_owner_holds_f12) ... FAIL
+passing: ['test_each_pause_is_started_by_one_chord_and_ended_by_the_next (tests.test_human_resume.ResumeChordTests.test_each_pause_is_started_by_one_chord_and_ended_by_the_next) ... ok']
+restored sources: OK
+exit 1
