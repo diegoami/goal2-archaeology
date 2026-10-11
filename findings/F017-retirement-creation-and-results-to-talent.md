@@ -27,7 +27,7 @@
 ## Answer
 
 1. **Computer countries: at the ageing gate.** `000E:70B9` calls `1771:8208` when a stage's
-   fixtures are done (seg_000E_09.asm:492), and 8208 calls the ageing `1771:80DA` on entry to a
+   fixtures are done (static:static/goal-exe/code/seg_000E_09.asm:492), and 8208 calls the ageing `1771:80DA` on entry to a
    stage in CS:81E8 = {2, 3, 5, 7} (seg_1771_12.asm:161-163). 80DA runs `1771:7FDF` for countries
    1..128 (:20); 7FDF ages the squad, then, for a computer country only (`1771:0B77`,
    seg_1771_11.asm:1048-1050), tests each slot with `1771:7F40` (:1098) and re-creates a retiree
@@ -35,7 +35,7 @@
    +1 > +2 + 5`, 30/33 (ds_2581_01.hex:143), strict (`7F78 jae`, `7F9D jg`), on the aged record.
    Confidence: high (static, and E014: every flagged player re-created, none other).
 2. **Managed countries: one at a time, between fixtures.** 7FDF runs no test for them
-   (:1050-1080). Instead the main menu's Enter on item 6 (`000E:7439`, seg_000E_09.asm:1210) calls
+   (:1050-1080). Instead the main menu's Enter on item 6 (`000E:7439`, static:static/goal-exe/code/seg_000E_09.asm:1210) calls
    `000E:57E5`, which from year 1 on (`580C`, seg_000E_07.asm:397), unless the manager's
    +0x4D flag is set (`5824`), tests squad slots 1..20 with the same 7F40 (`587C`) and else the 80
    pool players from a random start (`58AB`-`58DC`), and replaces the first retiree at once through
@@ -52,17 +52,17 @@
    (rand(3) each, `1771:3291`), +3 = country_rating + 0x7F (flag 1), +4 (`32EB`), +0xC = rand(32),
    +0xF's bits (`1771:3431`, never cleared first), +0xD/+0xE (`1771:3558`: T = DS:0E82[+1 > +2 + 4]
    = 16/13, computer T + rand(2T), managed T + rand(3T) - rand(T + 1), capped 32, energy before
-   the floor of 1) and +0x12 = 0x7FFF (seg_1771_13.asm:1107-1201, seg_1771_05.asm:243-633). It
+   the floor of 1) and +0x12 = 0x7FFF (static:static/goal-exe/code/seg_1771_13.asm:1107, seg_1771_05.asm:243-633). It
    writes no name byte and not +8..+0xB, +0x10, +0x11. Confidence: high (static, and E006: all
    2560 squad and 80 pool players byte for byte).
-4. **The re-create `7E80` exactly** (seg_1771_11.asm:872-947): make_player(1, old +7, old +0)
+4. **The re-create `7E80` exactly** (static:static/goal-exe/code/seg_1771_11.asm:872): make_player(1, old +7, old +0)
    (`7EA6`-`7EC0`), then +1 = DS:110C[gk] + b - a with a, b = rand(6) (`7EC7`, `7ED1`, `7EF9`;
    25/28 +- 5), `32EB` (`7F01`), +8..+0xB and +0x10 zeroed (`7F09`-`7F19`), a new initial
    DS:0C38[rand(21)] (`1771:0000`: one of "ABCDEFGHIJKLMNOPRSTVW", seg_1771_01.asm:12-17,
    ds_2581_01.hex:104-105) at `[DS:9B70]+player` (`7F2D`), and the old +6 restored (`7E9D`,
    `7F36`). The surname, +0x11 and +0xF's other bits are kept. Ten draws per re-create, in that
    order. Confidence: high (static; E014: 38 of 38, see Method).
-5. **The managed replacement `54F0`** (seg_000E_07.asm:85-283) is make_player(1, retiree +7,
+5. **The managed replacement `54F0`** (static:static/goal-exe/code/seg_000E_07.asm:85) is make_player(1, retiree +7,
    country) into the fresh record with the managed fitness branch, then +1 = **DS:0x78**[gk] + b -
    a (rand(6) each; DS:0078 = 19 1C: 25/28 +- 5, `5561`), `32EB`, caps/goals/status zeroed, a new
    initial; then if fewer than 20 of the squad and pool (the new record included) have +1 <
@@ -70,7 +70,7 @@
    rand(3) (18..20 / 21..23, `56D2`-`56DD`). Confidence: medium (static only).
 6. **The RNG.** One 16-bit word, the one DS:A978 points to (`214B:206A` sets it to DS:7B62, F004),
    stepped by `214B:0688` as w := w * 0x7ABD + 0x1B0F and returning hi16(w * n) + 1 through
-   `214B:06B1` (seg_214B_01.asm:880-911). `1771:6730` calls `23E4:11D7` (DS:7B62 := hour·256 +
+   `214B:06B1` (static:static/goal-exe/code/seg_214B_01.asm:880). `1771:6730` calls `23E4:11D7` (DS:7B62 := hour·256 +
    minute, DS:7B64 := seconds/hundredths) only when the year word is 0 (`675B`, seg_1771_09.asm:
    1111), and 80DA raises it at every {2, 5} gate before that transition's 6730: the DOS time
    seeds the word once per (new) game. The gate draws nothing but the re-creates' ten each, in
@@ -80,7 +80,7 @@
 7. **Results feed new talent: yes, through the ranks.** Points: +0x2F gathers weighted group
    points (`1771:61F8`, (5 - k) x points), placement bonuses 800/600/400/200 (`602D` world, `6103`
    continents, through `5FD1`) and 200 per knockout fixture (`5E3A`), reset at each recompute
-   (seg_1771_09.asm:125-639, :964). `1771:63A4` (from 6730 at stages 2 and 5) sorts by +0x2F with
+   (static:static/goal-exe/code/seg_1771_09.asm:125, :964). `1771:63A4` (from 6730 at stages 2 and 5) sorts by +0x2F with
    `5EE1` (largest first) and writes +0x2B = world place (stage 2) or +0x2A = place in the
    continent (stage 5) (:883, :888). `1771:10E7` = ((5 - continent)(33 - continent rank) + (129 -
    world rank)) idiv 2, larger for better ranks, 1..128 in the game's domain; +3 = that + 0x7F
@@ -91,10 +91,13 @@
    cycle's stage 2, the continent rank of the previous cycle's stage 5; entry to 7: both from
    this cycle; a managed replacement reads the latest. Confidence: high for the chain (static),
    medium for its effect (no record shows a rank change move a +3).
+
+## Inferences
+
 8. **"Better than expected" is not in the chain.** No step reads a skill rating or an expected
    value: a country's ranks come from its points against the others' (Q04.4's "better than
    expected" and Q04.7 are not established; Q04.6's points, placements and knockout success are,
-   as the inputs of +0x2F).
+   as the inputs of +0x2F). (static:static/goal-exe/code/seg_1771_09.asm:125)
 
 ## Method
 
