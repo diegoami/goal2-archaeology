@@ -49,9 +49,10 @@ For `#<issue>` of a bug labelled `fix`, the bug body replaces the task file, the
      - Exit 2 on a refused model (DeepSeek, an unknown name): tell the user.
      - Exit 3: OpenCode, the model's login or its provider does not answer. Tell the user and ask
        which model instead (rule 7); never re-route on your own.
-     - Killed by our own idle or total limit: resume it, don't restart it:
-       `implement.mjs ... --model <same> --session <ses_...> --total-timeout-sec <longer>` with a
-       short "continue where you stopped" brief, in the kept worktree (rule 13).
+     - Killed by our own idle or total limit: resume it, don't restart it. The printed `Resume:`
+       command already carries the original options (`--env`, `--copy`, ...); run it as printed,
+       substituting only its `<...>` placeholders: a short "continue where you stopped" brief and a
+       longer `--total-timeout-sec`, in the kept worktree (rule 13).
    - A Claude agent: `Agent(subagent_type: "implementer", isolation: "worktree")` on the model the
      user named, with the brief. Read its final report in full before acting, and post its
      `RUN-NOTES.md` on the issue.
@@ -93,8 +94,9 @@ For `#<issue>` of a bug labelled `fix`, the bug body replaces the task file, the
      - Exit 0: posted and labelled.
      - Exit 3: no review came back, or OpenCode or its login is unavailable (read the run's final
        message first, as under step 2's *Read before you retry*). Nothing was posted. Stopped by our
-       own idle or total limit: the message prints a `Resume:` command (`--session <ses_...>
-       --worktree <kept tree>`); run it with a longer `--total-timeout-sec` (rule 13). Otherwise
+       own idle or total limit: the message prints a `Resume:` command that already carries the
+       original options (`--dry-run`, `--env`, ...); run it as printed, substituting only its
+       `<...>` placeholder (a longer `--total-timeout-sec`) (rule 13). Otherwise
        tell the user and ask which reviewer instead (rule 7).
      - Exit 4: a review was posted whole under a note (it may be cut off, its verdict is
        unreadable, its verdicts differ, or a finding follows its closing verdict), or an approve
