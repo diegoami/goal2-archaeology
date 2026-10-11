@@ -148,8 +148,8 @@ Testimony (`owner`), read against the records; nothing here makes a rule `corrob
   tournament (Q008).
 - **D1.** The rebuild keeps most of the game; its UI can and should be improved.
 - **D2.** The bot need not win the World Cup: it must be competent enough to allow idle gaming.
-  This changes the plan's G-M5 goal (U15, "the best World Cup win rate"): a design decision for the
-  owner to confirm in [plan.md](../../docs/plan.md).
+  This changes the plan's G-M5 goal (U15, "the best World Cup win rate"); the owner confirmed it
+  (2026-10-11): [plan.md](../../docs/plan.md) now says competent idle play (main, 8a68955).
 - **E1.** No older saved games, summaries or highlights; the owner can produce them on request.
 - **E2.** Yes: `1.GL` may be published. A published manifest is never rewritten, so it needs its own
   record: a follow-up.
