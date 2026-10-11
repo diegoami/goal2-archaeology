@@ -27,11 +27,13 @@ from __future__ import annotations
 
 import base64
 import binascii
+import errno
 import hashlib
 import json
 import os
 import shutil
 import signal
+import stat
 import subprocess
 import sys
 import types
@@ -119,10 +121,39 @@ def _wanted(repo: str, commit: str) -> dict[str, str]:
 
 def _probe(path: Path, what: str) -> bool:
     """A filesystem probe (`is_file`, `is_symlink`) as a named `GaError`, never a traceback."""
+    # `os.stat`, not `Path.is_file`: from Python 3.14 `is_file` and `is_symlink` return False on
+    # any OSError, so an unreadable directory would pass for "missing" and trigger a refetch.
     try:
-        return bool(what == "file" and path.is_file() or what == "symlink" and path.is_symlink())
+        if what == "file":
+            return stat.S_ISREG(os.stat(path).st_mode)
+        return stat.S_ISLNK(os.lstat(path).st_mode)
+    except OSError as e:
+        if e.errno in (errno.ENOENT, errno.ENOTDIR, errno.ELOOP):
+            return False
+        raise GaError(f"cannot stat {path}: {e.strerror or e}") from None
+
+
+def _probe_tree(path: Path) -> None:
+    """Every entry of a cached folder that exists, probed before any gh call: an unreadable folder
+    or file under it is a named `GaError` (Luna's R1 on PR 122, round 1: an unreadable formats/
+    was first probed after the tree request). A missing folder is not an error here."""
+    try:
+        mode = os.stat(path).st_mode
+    except OSError as e:
+        if e.errno in (errno.ENOENT, errno.ENOTDIR, errno.ELOOP):
+            return
+        raise GaError(f"cannot stat {path}: {e.strerror or e}") from None
+    if not stat.S_ISDIR(mode):
+        return
+    try:
+        entries = sorted(os.scandir(path), key=lambda entry: entry.name)
     except OSError as e:
         raise GaError(f"cannot stat {path}: {e.strerror or e}") from None
+    for entry in entries:
+        child = Path(entry.path)
+        if _probe(child, "symlink") or _probe(child, "file"):
+            continue
+        _probe_tree(child)
 
 
 def _missing(dest: Path, wanted: dict[str, str]) -> list[str]:
@@ -197,6 +228,12 @@ def fetch(commit: str | None = None) -> Path:
         raise GaError(f"cache root {CACHE} is a symlink, not a directory")
     if _probe(dest, "symlink"):
         raise GaError(f"cache for {commit} is a symlink: {dest}")
+    # An unreadable cache is a named error before anything is asked of gh: probe the fixed tool
+    # paths and everything already cached under formats/ first.
+    for path in NEEDED_FILES:
+        _probe(dest / path, "file")
+    for prefix in NEEDED_PREFIXES:
+        _probe_tree(dest / prefix)
     wanted = _wanted(repo, commit)
     if _missing(dest, wanted):
         _download(repo, dest, wanted)

@@ -206,11 +206,27 @@ class GaFetchTest(unittest.TestCase):
         tools_dir = dest / "tools"
         tools_dir.chmod(0o000)
         self.addCleanup(tools_dir.chmod, 0o755)
-        wanted = {path: ga.git_blob_sha(text.encode()) for path, text in CONTENTS.items()}
-        with self.pinner, mock.patch.object(ga, "_wanted", return_value=wanted):
+        # the real fetch() path, nothing mocked but the cache folder; gh is the fake of setUp
+        with self.pinner, mock.patch.dict(os.environ, self.env):
             with self.assertRaises(ga.GaError) as raised:
                 ga.fetch()
         self.assertIn("cannot stat", str(raised.exception))
+        self.assertEqual([], self.calls())
+
+    def test_unreadable_formats_directory_is_a_named_error(self):
+        # Luna's R1 on PR 122 (round 1): an unreadable formats/ under the cache is a named error
+        # before any gh call too, not after the tree request
+        repo, commit = ga.pin()
+        dest = self.cache / commit
+        self.seed(dest)
+        formats_dir = dest / "formats"
+        formats_dir.chmod(0o000)
+        self.addCleanup(formats_dir.chmod, 0o755)
+        with self.pinner, mock.patch.dict(os.environ, self.env):
+            with self.assertRaises(ga.GaError) as raised:
+                ga.fetch()
+        self.assertIn("cannot stat", str(raised.exception))
+        self.assertEqual([], self.calls())
 
     def test_stale_cached_pyc_is_never_run(self):
         # R1: a same-length edit of the cached validator, byte-compiled and then restored to the

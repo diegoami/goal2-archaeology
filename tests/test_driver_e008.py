@@ -233,9 +233,16 @@ class FakeDriver:
         return True
 
 
+def _outside_checkout():
+    t = Path(tempfile.gettempdir()).resolve()
+    return None if run.ROOT.resolve() not in (t, *t.parents) else "/tmp"
+
+
 class Runner(unittest.TestCase):
     def setUp(self):
-        self.tmp = tempfile.TemporaryDirectory()
+        # outside the checkout whatever TMPDIR is: a scratch inside it would contain ROOT, and the
+        # record's own leak check (cycle.py) would refuse every record (#80, #100)
+        self.tmp = tempfile.TemporaryDirectory(dir=_outside_checkout())
         self.addCleanup(self.tmp.cleanup)
 
     def go(self, arm, batch="t", **fake):
