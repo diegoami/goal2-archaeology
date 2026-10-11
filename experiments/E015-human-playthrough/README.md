@@ -213,3 +213,36 @@ before F12 (a modifier no keyboard sends), [-02](T39b-scripted-pause-20261011-02
 showed a burst request sent after the P press being dropped as DOSBox-X paused — the shape the
 post-resume guard now refuses — and [-03](T39b-scripted-pause-20261011-03.log) passed with the
 guard. Rehearsals are extracted into scratch only; they are not E015 records.
+
+### The owner's test sitting and the amendment (2026-10-11)
+
+| Record | Sitting | Map |
+| --- | --- | --- |
+| `E015-r0009` | `20261011-215411`, the owner's T39b test sitting: Italy (`--countries 16`), from the owner's saved game, three pauses, four notes | [table](E015-r0009-keymap.md) |
+
+`extract_215411.py` made it, declaring what the session folder does not record: the main
+session's copy of the owner's `1.GL` into the game copy before launch (I3) and the Pause keys it
+pressed for the owner, who has no Pause key (I2). Its 42 snapshots are on release E015
+(`evidence/E015/E015-r0009.manifest.json`). It shows the first two pauses with their resumes
+and the snapshots on both sides, the four notes in place, and 310 presses in the record as in
+`keys.jsonl`. The third pause has no resume: `keys.jsonl` ends at +237.9 s and the main session's
+Pause at about 19:58:40Z is in neither file, so the recorder no longer read keys or the title by
+then; the sitting's terminal output, which would say why, was not kept. live.py ran once on it
+([T39b-live-20261011-01.log](T39b-live-20261011-01.log)).
+
+The task was amended after that sitting (Scope 5-8). Findings behind the changes:
+[T39b-repro-215411-20261011-01.log](T39b-repro-215411-20261011-01.log) replays the third pause's
+keys and the window closing on private displays: the third resume is logged there, and closing
+the window ends the key logger first, which the loop raised past `play()`'s meta write — the
+missing `ended` and `stop_reason`. [T39b-probe-resume-20261011-01.log](T39b-probe-resume-20261011-01.log):
+an XTEST Pause with the window focused and an XSendEvent Pause end the pause in a plain Xvfb;
+focus changes, clicks, F12+P, an unfocused XTEST Pause and a save request do not (the sitting's
+second resume, at +145.8 s with no key in `keys.jsonl`, fits an XSendEvent Pause). The recorder
+now resumes on F12+P with its own marked XTEST Pause, ends cleanly on a closed window, writes
+`ended` on any error, never crashes on an unanswered title read, and copies the saved game
+(`--load`, `--fresh`). Tests: `tests/test_human_resume.py`;
+[T39b-mutations-20261011-04.log](T39b-mutations-20261011-04.log) (52 mutations, survivors `[]`),
+[T39b-failbefore-20261011-04.log](T39b-failbefore-20261011-04.log) (every new test fails on
+origin/main's sources; `-03` found one that did not, fixed in `-04`). Rehearsal
+[-04](T39b-scripted-pause-20261011-04.log): two F12+P resumes, `--load`, and the window closed
+(`stop_reason: window-closed`).

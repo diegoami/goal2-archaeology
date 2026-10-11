@@ -97,7 +97,10 @@ The owner coaches the main session while playing; three pieces serve that, all g
   names) is DOSBox-X 2024.03.01's complete default bind set, saved by its own mapper editor
   (`runtime/human/dosbox-x-2024.03.01-default.map`, checked by sha256), with `hand_pause` also on
   F12+P (taken from the screenshot event). The file must be complete: a mapper file DOSBox-X finds
-  replaces its default binds. DOSBox-X's pause ends on the Pause key only, swallows every key and
+  replaces its default binds. DOSBox-X's pause ends on the Pause key only (an XTEST Pause with the
+  window focused or an XSendEvent Pause; `T39b-probe-resume-20261011-01.log`), so F12+P typed
+  while paused makes the recorder press Pause itself (XTEST, the window focused), marked `by:
+  recorder` in `keys.jsonl` and left out of the owner's presses and bursts. The pause swallows every key and
   every save request while it lasts (none is deferred), and appends ` PAUSED` to the window
   title (`experiments/E015-human-playthrough/T39b-probe-pause-20261011-01.log`). The watcher reads
   the pause from that title — after every key event, every `PAUSE_POLL_S` and again right before
@@ -107,6 +110,12 @@ The owner coaches the main session while playing; three pieces serve that, all g
   refuses (superseded) a write past the event count at a pause that began after its request:
   such a write landed after the resume. `keymap.py` counts a paused span as no time in its
   quiet-gap rule.
+- **A clean end.** Closing the window ends Xephyr, and the key logger on its display ends first:
+  the loop ends the sitting (no key may go unlogged) and `play()` names it `window-closed` when
+  DOSBox-X has exited, `key-logger-stopped` when not. Any error still writes `ended` and
+  `stop_reason` to `meta.json` and its traceback to `session.log`.
+- **Saved games.** `play.sh` copies the newest `.GL` of the previous sessions (or `--load FILE.GL`;
+  `--fresh` none) into the session's game copy before launch and records it in `meta.json`.
 - **Notes.** `runtime/human/note.py <session> "text"` appends UTC, the monotonic clock and the
   text to `notes.jsonl`; `extract.py` places each note, and each pause and resume, between the
   two states whose screens (their request windows) it falls between.

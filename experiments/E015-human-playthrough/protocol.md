@@ -20,8 +20,14 @@ One command starts everything (from a graphical session, so the game window open
 display):
 
 ```
-bash runtime/human/play.sh [--video] [--quit-after SECS] [--res WIDTHxHEIGHT]
+bash runtime/human/play.sh [--video] [--quit-after SECS] [--res WIDTHxHEIGHT] [--load FILE.GL | --fresh]
 ```
+
+With no subcommand `play.sh` plays. Before DOSBox-X starts, the recorder copies your newest saved
+game (`.GL`) from the previous sessions into the new session's game copy (`--load FILE.GL` names
+another, `--fresh` copies none); `meta.json` records the copy and its sha256 (an I3 intervention
+the record declares). Load it in the game yourself (Y at the title): the recorder never presses a
+key to load it.
 
 The recorder's `--countries` argument does not exist; country selection is an extraction
 parameter (rework round 2 R15: `--countries 1,4` is passed to `extract.py`, not to `play.sh`).
@@ -76,8 +82,10 @@ What makes the sitting maximally informative (each row of the map below is fed b
 ### Pausing and coaching (T39b)
 
 - **Pause: F12+P** (hold F12, press P). DOSBox-X stops and its window title ends in `PAUSED`.
-  **Resume: the Pause key** (Pause/Break; on a laptop often Fn plus a key). A second F12+P does
-  not resume: DOSBox-X's pause ends on the Pause key only.
+  **Resume: F12+P again.** DOSBox-X's pause ends on the Pause key only, so the recorder presses
+  Pause for you (an XTEST key on the nested display, the game window focused) and marks it
+  `by: recorder` in `keys.jsonl`; it is never counted as your key. A Pause key, if you have one,
+  resumes too.
 - While paused the game does not run and DOSBox-X ignores every key: what you type then reaches
   the key log, not the game. The recorder sends no snapshot request while paused and takes the
   pause's snapshot right after you resume (DOSBox-X writes none while paused), and `pauses.jsonl`
