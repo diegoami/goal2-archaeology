@@ -32,6 +32,19 @@ import savestate  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[2]
 CACHE = ROOT / ".cache" / "goal2"            # the verified release copy (setup/goal2-runtime.sh)
+# The DOSBox-X this project is calibrated to is 2024.03.01 (F001; savestate.py's layout). Ubuntu
+# 26.04's apt offers only 2026.01.02, whose savestates store Vga raw and the readers cannot parse
+# (#117), so setup/dosbox-x-2024.03.01.sh unpacks Ubuntu 24.04's package into this bundle.
+DOSBOX_BUNDLE = Path.home() / "tools" / "dosbox-x-2024.03.01" / "bin" / "dosbox-x"
+
+
+def dosbox_x(env=None):
+    """The dosbox-x to run: $DOSBOX_X, else the 2024.03.01 bundle when installed, else the one on
+    PATH (#117). Every launch and version check of the driver and the recorder goes through it."""
+    env = os.environ if env is None else env
+    if env.get("DOSBOX_X"):
+        return env["DOSBOX_X"]
+    return str(DOSBOX_BUNDLE) if DOSBOX_BUNDLE.is_file() else "dosbox-x"
 # The registered set every launch verifies and every record names (artifacts/known.json): the
 # successor goal2-67cf27d6, which declares the runtime writes F001 observed; runs recorded before
 # it name its predecessor goal2-a949da2f, whose ten files are identical (U21, T11).
@@ -271,7 +284,7 @@ exit
         conf.write_text(self.conf)
         self._start_xvfb()
         self.env = dict(os.environ, DISPLAY=self.display, SDL_AUDIODRIVER="dummy")
-        args = [os.environ.get("DOSBOX_X", "dosbox-x"), "-conf", str(conf), "-fastlaunch", "-nogui", "-nomenu",
+        args = [dosbox_x(), "-conf", str(conf), "-fastlaunch", "-nogui", "-nomenu",
                 "-savedir", str(self.workdir), "-set", f"dosbox savefile={self.savefile}"]
         self.dbx = subprocess.Popen(args, env=self.env, stdout=open(self.workdir / "dosbox.out", "w"),
                                     stderr=subprocess.STDOUT, start_new_session=True)

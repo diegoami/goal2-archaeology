@@ -19,11 +19,18 @@ need() { # need <command> <what>
   command -v "$1" >/dev/null 2>&1 || { missing+=("$2"); return 1; }
 }
 
-# dosbox-x, exact version (the task's runs-on pins it)
-if need dosbox-x "dosbox-x@$WANT_DOSBOX (sudo apt install dosbox-x)"; then
-  v=$(dosbox-x -version 2>&1 | sed -n 's/^DOSBox-X version \([0-9.]*\).*/\1/p' | head -1)
-  echo "dosbox-x    $v ($(command -v dosbox-x))"
-  [ "$v" = "$WANT_DOSBOX" ] || missing+=("dosbox-x $WANT_DOSBOX (found ${v:-unknown})")
+# dosbox-x, exact version (the task's runs-on pins it), resolved as runtime/driver/driver.py's
+# dosbox_x() does (#117): $DOSBOX_X, else the 2024.03.01 bundle, else the one on PATH
+BUNDLE="$HOME/tools/dosbox-x-2024.03.01/bin/dosbox-x"
+DBX=${DOSBOX_X:-}
+[ -z "$DBX" ] && [ -f "$BUNDLE" ] && DBX=$BUNDLE
+DBX=${DBX:-dosbox-x}
+if command -v "$DBX" >/dev/null 2>&1; then
+  v=$("$DBX" -version 2>&1 | sed -n 's/^DOSBox-X version \([0-9.]*\).*/\1/p' | head -1)
+  echo "dosbox-x    $v ($(command -v "$DBX"))"
+  [ "$v" = "$WANT_DOSBOX" ] || missing+=("dosbox-x $WANT_DOSBOX (found ${v:-unknown}: run bash setup/dosbox-x-2024.03.01.sh, or apt on Ubuntu 24.04)")
+else
+  missing+=("dosbox-x@$WANT_DOSBOX (bash setup/dosbox-x-2024.03.01.sh, or apt on Ubuntu 24.04)")
 fi
 
 # display: Xvfb to run on, xdotool to type with

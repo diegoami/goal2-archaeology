@@ -302,9 +302,10 @@ def host_times():
 
 
 def dosbox_version():
-    """The version banner of the dosbox-x on PATH (it exits 1 and writes to stderr), or None."""
+    """The version banner of the dosbox-x the recorder runs (driver.dosbox_x(), #117; it exits 1 and
+    writes to stderr), or None."""
     try:
-        out = subprocess.run(["dosbox-x", "-version"], capture_output=True, text=True, timeout=30)
+        out = subprocess.run([driver.dosbox_x(), "-version"], capture_output=True, text=True, timeout=30)
     except (OSError, subprocess.TimeoutExpired):
         return None
     lines = [ln.strip() for ln in (out.stdout + out.stderr).splitlines() if ln.strip()]
@@ -1417,7 +1418,7 @@ def play(video=False, quit_after=None, res="1280x800"):
         # running emulator writes before the Watcher exists must be in write_events_total, or a
         # save before the first request goes unowned and uncounted
         watch = WriteWatch(session / "state.sav")
-        argv = [os.environ.get("DOSBOX_X", "dosbox-x"), "-conf", str(session / "dosbox.conf"),
+        argv = [driver.dosbox_x(), "-conf", str(session / "dosbox.conf"),
                 "-fastlaunch", "-nogui", "-nomenu", "-savedir", str(session),
                 "-set", f"dosbox savefile={session / 'state.sav'}"]
         dbx = subprocess.Popen(argv, env=env, stdout=logf, stderr=subprocess.STDOUT,
