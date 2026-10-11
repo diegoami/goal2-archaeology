@@ -59,6 +59,7 @@ import { isResumable, lookupSession } from './lib/opencode.mjs';
 import { runChain, excludeImplementers, readReview, doneWhenCount, briefTargets } from './lib/chain.mjs';
 import { planPost, publish, postComment, applyLabel, withdrawApproval, combinePlans } from './lib/post.mjs';
 import { selfTest, SAMPLES } from './lib/review-selftest.mjs';
+import { resumeCommand, resumeCommandSelfTest } from './lib/resume.mjs';
 import {
   sh, requireTools, repoPaths, loadConfig, parseArgs, envWith, ocArgs, prepareOpenCode, watchLine,
 } from './lib/common.mjs';
@@ -66,9 +67,10 @@ import {
 const say = (s) => console.log(s);
 const die = (code, s) => { console.error(s); process.exit(code); };
 
-const a = parseArgs(process.argv.slice(2), { flags: ['apply-label', 'dry-run', 'self-test', 'second-opinion', 'hard', 'sol'], repeatable: ['env'] });
+const REVIEW_FLAGS = ['apply-label', 'dry-run', 'self-test', 'second-opinion', 'hard', 'sol'];
+const a = parseArgs(process.argv.slice(2), { flags: REVIEW_FLAGS, repeatable: ['env'] });
 if (a['self-test']) {
-  const failures = selfTest();
+  const failures = [...selfTest(), ...resumeCommandSelfTest()];
   for (const f of failures) console.error(`FAIL ${f}`);
   say(`self-test: ${SAMPLES.length - failures.length} of ${SAMPLES.length} samples read as expected`);
   process.exit(failures.length ? 1 : 0);
@@ -291,8 +293,12 @@ const planOf = (r, list) => planPost({
 const result = await runReview(usable, false);
 if (!result.ok && result.stopped) {
   die(3, `The review stopped (${failed(result)}); nothing was posted, and its worktree ${worktree} is kept. `
-    + (result.sessionId ? `Resume: node tools/harness/review.mjs --pr ${a.pr} --brief ${a.brief} --reviewer ${result.failures[0].name}`
-      + ` --session ${result.sessionId} --worktree ${worktree} --total-timeout-sec <longer>${a.issue ? ` --issue ${a.issue}` : ''}${a['apply-label'] ? ' --apply-label' : ''}`
+    // The original arguments, less what a resume replaces (Sol's R1 on PR 114, round 2): --dry-run,
+    // --exclude, --env, --done-when ... all carry over. A resume takes no --second-opinion.
+    + (result.sessionId ? `Resume: ${resumeCommand({
+      script: 'tools/harness/review.mjs', argv: process.argv.slice(2), flags: REVIEW_FLAGS, drop: ['second-opinion'],
+      set: [['reviewer', result.failures[0].name], ['session', result.sessionId], ['worktree', worktree], ['total-timeout-sec', '<longer>']],
+    })}`
       : 'No session id was recorded: read the log, then decide with the user.'));
 }
 if (!result.ok) die(3, `OpenCode unavailable: ${why(result)}. ${fallback}`);

@@ -116,15 +116,27 @@ export async function resumeSelfTest() {
     fs.writeFileSync(brief, 'Do the task.\n');
     const node = (script, args, extra = {}) => spawnSync(process.execPath, [path.join(here, '..', script), ...args],
       { cwd: repo, env: { ...env, ...extra }, encoding: 'utf8', timeout: 120000 });
+    // The resumed runs are made by the printed `Resume:` command itself (Sol's R1 on PR 114, round 2),
+    // its <placeholders> filled in, never by the test's own argument arrays: what the user would run.
+    const printed = (out) => {
+      const line = out.split('\n').find((l) => l.includes('Resume: '))?.split('Resume: ')[1] ?? '';
+      const toks = [...line.matchAll(/'((?:[^']|'\\'')*)'|(\S+)/g)].map((m) => (m[1] ?? m[2]).replace(/'\\''/g, "'"));
+      return { line, script: toks[1], args: toks.slice(2).map((t) => (t === '<longer>' ? '120' : t === '<continue-brief-file>' ? brief : t)) };
+    };
+    const nodeAt = (script, args, extra = {}) => spawnSync(process.execPath, [path.join(here, '..', '..', '..', script), ...args],
+      { cwd: repo, env: { ...env, ...extra }, encoding: 'utf8', timeout: 120000 });
     const implArgs = ['--task', 'T01', '--slug', 'x', '--brief', brief, '--model', 'fake'];
     const tree = path.join(root, 'work', 'T01');
 
     setSessions([]);
     const before = runs().length;
-    const r1 = node('implement.mjs', implArgs, { FAKE_AGENT: 'implementer' });
+    const r1 = node('implement.mjs', [...implArgs, '--env', 'FOO=bar'], { FAKE_AGENT: 'implementer' });
     const out1 = `${r1.stdout}\n${r1.stderr}`;
     ok('implement: an idle-stopped run exits 1', r1.status === 1);
+    const rp1 = printed(out1);
     ok('implement: an idle-stopped run names its resume command', /Resume: .*--session ses_fake0/.test(out1));
+    ok('implement: the resume command keeps the original --env (R1)', /--env FOO=bar\b/.test(rp1.line));
+    ok('implement: the resume command asks for a brief and a longer limit', /--brief <[^>]+>/.test(rp1.line) && /--total-timeout-sec <longer>/.test(rp1.line));
     ok('implement: an idle-stopped worktree keeps its uncommitted work (R5)', fs.existsSync(path.join(tree, 'wip.txt')));
 
     setSessions([...sessions(), { id: 'ses_other', title: 'o', directory: path.join(root, 'elsewhere'), created: 1, updated: 1 }]);
@@ -133,7 +145,7 @@ export async function resumeSelfTest() {
     ok('implement: a session of another worktree is refused with exit 2 (R2)', r2.status === 2);
     ok('implement: nothing runs for a refused session (R2)', runs().length === n2);
 
-    const r3 = node('implement.mjs', [...implArgs, '--session', 'ses_fake0'], { FAKE_AGENT: 'implementer' });
+    const r3 = nodeAt(rp1.script, rp1.args, { FAKE_AGENT: 'implementer' });
     const l3 = runs().at(-1) ?? [];
     ok('implement: --session reaches opencode run (R6)', runs().length === n2 + 1 && l3[l3.indexOf('--session') + 1] === 'ses_fake0');
     const resumed = path.join(tree, 'resumed.txt');
@@ -152,18 +164,22 @@ export async function resumeSelfTest() {
     git(repo, 'checkout', '-q', 'main');
     const rbrief = path.join(root, 'review-brief.md');
     fs.writeFileSync(rbrief, 'PR7 review (rev)\nReview it.\n');
-    const revArgs = ['--pr', '7', '--brief', rbrief, '--reviewer', 'rev', '--exclude', 'fakeimpl', '--dry-run'];
+    const revArgs = ['--pr', '7', '--brief', rbrief, '--reviewer', 'rev', '--exclude', 'fakeimpl', '--dry-run', '--done-when', '0'];
     const rv1 = node('review.mjs', revArgs, { FAKE_AGENT: 'reviewer', FAKE_HEAD: head });
     const outR = `${rv1.stdout}\n${rv1.stderr}`;
+    const rp2 = printed(outR);
     const kept = outR.match(/--worktree (\S+)/)?.[1];
     const sid = outR.match(/--session (ses_\w+)/)?.[1];
+    ok('review: the resume command keeps --dry-run, --exclude and --done-when (R1)',
+      /--dry-run\b/.test(rp2.line) && /--exclude fakeimpl\b/.test(rp2.line) && /--done-when 0\b/.test(rp2.line));
     ok('review: an idle-stopped review exits 3 with its resume command', rv1.status === 3 && kept && sid);
     ok('review: an idle-stopped review keeps its worktree (R4)', Boolean(kept) && fs.existsSync(kept));
     const review = 'PR7 review (rev)\nrework\nR1 - change.txt:1, blocking\nFinal pass done\nrework\n';
-    const rv2 = kept && sid ? node('review.mjs', [...revArgs, '--session', sid, '--worktree', kept], { FAKE_AGENT: 'reviewer', FAKE_HEAD: head, FAKE_OUTPUT: review }) : null;
+    const rv2 = kept && sid ? nodeAt(rp2.script, rp2.args, { FAKE_AGENT: 'reviewer', FAKE_HEAD: head, FAKE_OUTPUT: review }) : null;
     const lr = runs().at(-1) ?? [];
     ok('review: --session resumes the kept review (R4)', rv2?.status === 0 && lr[lr.indexOf('--session') + 1] === sid);
     ok('review: the resumed review is read and planned', /^PR7 review \(rev\)$/m.test(rv2?.stdout ?? '') && /dry run: would post the above/.test(rv2?.stdout ?? ''));
+    ok('review: the resumed review is still a dry run, never posted (R1)', !/posted:/.test(`${rv2?.stdout}\n${rv2?.stderr}`));
     ok('review: the resumed tree is removed once done', Boolean(kept) && !fs.existsSync(kept));
     if (failures.length) failures.push(`(resume self-test logs: implement ${r1.status}/${r3.status}, review ${rv1.status}/${rv2?.status}; ${(rv2?.stderr || rv1.stderr || r3.stderr).slice(-400)})`);
   } finally {

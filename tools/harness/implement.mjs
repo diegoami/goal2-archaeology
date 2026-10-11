@@ -41,6 +41,7 @@ import { resetWorktree, selfTest as unsavedSelfTest } from './lib/unsaved.mjs';
 import { namedModel, selfTest as namedSelfTest } from './lib/named.mjs';
 import { matchSession } from './lib/opencode.mjs';
 import { resumeSelfTest } from './lib/resume-selftest.mjs';
+import { resumeCommand, resumeCommandSelfTest } from './lib/resume.mjs';
 import {
   sh, requireTools, repoPaths, loadConfig, parseArgs, envWith, ensureAgent, ocArgs, prepareOpenCode, watchLine,
 } from './lib/common.mjs';
@@ -52,7 +53,7 @@ const a = parseArgs(process.argv.slice(2), { flags: ['self-test'], repeatable: [
 // --self-test: the reset's save on a throwaway repository (lib/unsaved.mjs), a named model's id
 // and family (lib/named.mjs), and a resumed session found by id; no OpenCode or gh.
 if (a['self-test']) {
-  const failures = [...unsavedSelfTest(), ...namedSelfTest(), ...sessionSelfTest(), ...await resumeSelfTest()];
+  const failures = [...unsavedSelfTest(), ...namedSelfTest(), ...sessionSelfTest(), ...resumeCommandSelfTest(), ...await resumeSelfTest()];
   for (const f of failures) console.error(`FAIL ${f}`);
   say(`self-test: ${failures.length ? `${failures.length} checks failed` : 'all checks passed'}`);
   process.exit(failures.length ? 1 : 0);
@@ -250,9 +251,13 @@ say(`run log: ${logFile}`);
 const saved = patches.length ? ` Unsaved work was saved before the reset: ${patches.join(', ')}.` : '';
 const reasons = result.failures.map((f) => `${f.name}: ${f.reason}`).join('; ');
 if (!result.ok && result.stopped) {
-  const again = `node tools/harness/implement.mjs ${a.task ? `--task ${a.task}` : `--fix ${a.fix}`} --slug ${a.slug}${a.issue ? ` --issue ${a.issue}` : ''} --model ${result.failures[0].name}`;
   die(1, `The run stopped (${reasons}); its worktree ${worktree} is kept as it stopped.${saved} `
-    + (result.sessionId ? `Resume: ${again} --session ${result.sessionId} --brief <a short "continue where you stopped" brief> --total-timeout-sec <longer>`
+    // The original arguments, less what a resume replaces (Sol's R1 on PR 114, round 2): --env,
+    // --copy, --idle-timeout-sec ... all carry over. The brief is the short continue brief.
+    + (result.sessionId ? `Resume: ${resumeCommand({
+      script: 'tools/harness/implement.mjs', argv: process.argv.slice(2), flags: ['self-test'],
+      set: [['model', result.failures[0].name], ['session', result.sessionId], ['brief', '<continue-brief-file>'], ['total-timeout-sec', '<longer>']],
+    })}`
       : 'No session id was recorded: read the log, then decide with the user.'));
 }
 if (!result.ok) {
