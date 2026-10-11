@@ -126,18 +126,23 @@ Coverage statuses (the project-recognised vocabulary):
 | Captain / penalty / corner presets | not established: no finding names a stored byte for them (F015 ranks the shoot-out takers by the derived penalty skill, element 12, rather than reading a stored choice); found by diffing the states either side of the owner setting one | F015 | needs-play | — |
 | Transfer promise line | `000E:544D` (the screen line "the transfer promise") | Q014, open question | needs-play | — |
 | Training / fitness recovery | player record `+0xC` morale, `+0xD` fitness, `+0xE` energy (F008's record layout) across consecutive states between matches | Q015 | needs-play | — |
-| Watched-match substitutions | player record changes between states either side of a substitution key | Q09.5 | needs-play | — |
+| Watched-match substitutions | player record changes between states either side of a substitution key | Q09.5 | covered-by-a-named-session | E015-r0007 (substitution screens during the watched friendly; squad reorders at seq 91, 99, 113; status `+0x10` changed 10 times) |
 | Watched-match replays | screen-history of a watched match with replays on (commentary ring position) | Q09.5, #40 | needs-play | — |
 | Knockout shoot-out arm | the screen + takers' records during `0791:A10A` | F015 (follow-up) | needs-play | — |
 | Year-end player-record diffs | states either side of a year end: the stage byte `[A923]+0x3C` entering 2, 3, 5 or 7, the season word `[A923]+0x38` (E014 notes, T28, PR #91; `+0x3A` is the new game's base year and does not move) | Q013 (T28 corroboration) | static-known | E015-r0001 (state words present) |
 | Year-end squad diffs (retirements, new players) | squad words `+0x00..+0x27` either side of the same year ends, `players.check` flipping from the start layout | Q014 | static-known | E015-r0001 (initial layout) |
-| Energy through a watched match | player record `+0xE` energy and `+0xD` fitness (F008's layout) across consecutive states of a watched match | Q015 | needs-play | — |
+| Energy through a watched match | player record `+0xE` energy and `+0xD` fitness (F008's layout) across consecutive states of a watched match | Q015 | covered-by-a-named-session | E015-r0007 (a watched friendly, Italy: `+0xE` changed 115 times, `+0xD` 14 times across consecutive states) |
 | Exact commentary identity | consecutive `ui-text` screens of a watched match at moderate speed | #40 | needs-play | — |
 | Board / confidence / morale | `ui-text` of the states where the board/news screens were up | Q016, Q017 | needs-play | — |
 | Bot's World Cup path | stage `[A923]+0x3C`, fixture index/count `[A923]+0x26/+0x28` across a cycle's chain (E014 notes, T28, PR #91) | bot input | needs-play | — |
 | Scripted opening-screen key burst | shell/mount text → title text after `a`; nearest snapshots bracket the burst, not proof that `a` caused the boot transition | T34 recorder/map acceptance | covered-by-a-named-session | E015-r0004, E015-r0005, E015-r0006; their `<run-id>-keymap.md` tables |
 | Scripted title-screen key burst | title text → same title text after `b`/`c`; burst captures per key group (0.5–1.5 s human-paced gaps), all press/release events recorded, outer-app `x/y/z` absent while xev and an outer raw reader prove they were really typed | T34 recorder privacy and timing | covered-by-a-named-session | E015-r0004, E015-r0005, E015-r0006 |
 | Screen-flow controls during normal play | `C`, `N`, `Insert`, and recovery keys on the relevant screens; the scripted acceptance keys do not visit those screens | T34 screen/key map; T28 EA09 stall | needs-play | — |
+
+E015-r0007 (2026-10-11, 10.5 min, a watched friendly with Italy, DOSBox-X 2024.03.01 on the new
+machine): 224 snapshots kept, but 313 of 537 save requests were superseded while the owner scrolled
+lists with the arrow keys (#128), so its key/screen map has gaps in the menu and formation minutes;
+the commentary screens it holds are not consecutive enough for the exact-commentary row.
 
 After a sitting, the main session appends a row per knowledge item the chain covered, with the
 session's run id (e.g. `covered-by-a-named-session — E015-r0001` for the items the first sitting
