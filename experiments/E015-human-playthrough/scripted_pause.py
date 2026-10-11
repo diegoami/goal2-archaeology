@@ -41,6 +41,19 @@ RECORDER_FILES = {"cap", "dosclock", "game", "snapshots", "requests", "dosbox.co
 XDOTOOL_MODIFIERS = {"Alt_L", "Alt_R", "Shift_L", "Shift_R", "Control_L", "Control_R"}
 
 
+def missing_resume_snapshots(spans, index, t0):
+    """The (start, end) pause spans with no `resume` snapshot requested between the pause's end and
+    the next pause's start (rework round 1, R5: a later pause's resume snapshot never counts for
+    an earlier pause)."""
+    missing = []
+    for i, (lo, hi) in enumerate(spans):
+        bound = spans[i + 1][0] if i + 1 < len(spans) else float("inf")
+        if not any(e.get("origin") == "resume" and hi <= t0 + e["request_s"] < bound
+                   for e in index):
+            missing.append((lo, hi))
+    return missing
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("--resume", choices=("pause", "f12p"), default="pause")
@@ -169,8 +182,9 @@ def main():
         for lo, hi in spans:
             inside = [r for r in requests if lo <= t0 + r["request_s"] <= hi]
             assert not inside, ("a save request opened while paused", inside)
-            after = [e for e in index if e["origin"] == "resume" and t0 + e["request_s"] >= hi]
-            assert after, ("no resume snapshot after the pause ending", hi)
+        missing = missing_resume_snapshots(spans, index, t0)
+        assert not missing, ("no resume snapshot between these pauses' ends and the next pause",
+                             missing)
         events = [json.loads(line) for line in (session / "keys.jsonl").read_text().splitlines()]
         presses = [e["keysym"] for e in events if e["event"] == "press" and e.get("by") != "recorder"]
         mine = [e["keysym"] for e in events if e["event"] == "press" and e.get("by") == "recorder"]

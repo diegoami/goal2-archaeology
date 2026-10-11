@@ -256,6 +256,18 @@ class CleanEndTests(unittest.TestCase):
             self.assertIn("something broke", meta["stop_reason"])
 
 
+class RehearsalGuardTests(unittest.TestCase):
+    def test_a_later_pauses_resume_snapshot_never_counts_for_an_earlier_pause(self):
+        # rework round 1, R5 (Sol): pause 1 [10, 15) has no resume snapshot; pause 2 [20, 25)'s,
+        # at 25.05, must not be credited to pause 1
+        import scripted_pause
+        spans = [(10.0, 15.0), (20.0, 25.0)]
+        index = [{"origin": "watcher", "request_s": 0.0}, {"origin": "resume", "request_s": 25.05}]
+        self.assertEqual(scripted_pause.missing_resume_snapshots(spans, index, 0.0), [(10.0, 15.0)])
+        index.append({"origin": "resume", "request_s": 15.05})
+        self.assertEqual(scripted_pause.missing_resume_snapshots(spans, index, 0.0), [])
+
+
 class SavedGameTests(unittest.TestCase):
     def sessions(self, folder):
         base = Path(folder)
