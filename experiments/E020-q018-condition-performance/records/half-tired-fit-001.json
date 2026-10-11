@@ -1,0 +1,403 @@
+{
+ "schema": "E020-half/1",
+ "method": "Unicorn original 0791:97D3..983C on an edited half-time state",
+ "source_sha256": "3c7983fa4869d3278fe9f1f6140e5ca1b84f602e97b5862f547c6332d086e1e6",
+ "source_release": "E010",
+ "scenario": {
+  "A_team0": "tired",
+  "B_team1": "fit",
+  "A_energy_form": [
+   1,
+   1
+  ],
+  "B_energy_form": [
+   32,
+   31
+  ]
+ },
+ "edits": [
+  {
+   "player_word": 372,
+   "offset": 0,
+   "hex": "131e20f1e1080000000000001f15201100003700"
+  },
+  {
+   "player_word": 121,
+   "offset": 12,
+   "hex": "01"
+  },
+  {
+   "player_word": 121,
+   "offset": 14,
+   "hex": "01"
+  },
+  {
+   "player_word": 362,
+   "offset": 0,
+   "hex": "131919f1f10e0101000000001f20201100003700"
+  },
+  {
+   "player_word": 122,
+   "offset": 12,
+   "hex": "01"
+  },
+  {
+   "player_word": 122,
+   "offset": 14,
+   "hex": "01"
+  },
+  {
+   "player_word": 364,
+   "offset": 0,
+   "hex": "131c19f1f1020202000000001f2020b200003700"
+  },
+  {
+   "player_word": 123,
+   "offset": 12,
+   "hex": "01"
+  },
+  {
+   "player_word": 123,
+   "offset": 14,
+   "hex": "01"
+  },
+  {
+   "player_word": 363,
+   "offset": 0,
+   "hex": "131d1cf1f10b0202000000001f17203200003700"
+  },
+  {
+   "player_word": 124,
+   "offset": 12,
+   "hex": "01"
+  },
+  {
+   "player_word": 124,
+   "offset": 14,
+   "hex": "01"
+  },
+  {
+   "player_word": 365,
+   "offset": 0,
+   "hex": "13201bf1d2060303000000001f0e201100003700"
+  },
+  {
+   "player_word": 125,
+   "offset": 12,
+   "hex": "01"
+  },
+  {
+   "player_word": 125,
+   "offset": 14,
+   "hex": "01"
+  },
+  {
+   "player_word": 376,
+   "offset": 0,
+   "hex": "131b1df1e10a0404000000001f14201100003700"
+  },
+  {
+   "player_word": 126,
+   "offset": 12,
+   "hex": "01"
+  },
+  {
+   "player_word": 126,
+   "offset": 14,
+   "hex": "01"
+  },
+  {
+   "player_word": 367,
+   "offset": 0,
+   "hex": "13171cf1d2100505000000001f20200000003700"
+  },
+  {
+   "player_word": 127,
+   "offset": 12,
+   "hex": "01"
+  },
+  {
+   "player_word": 127,
+   "offset": 14,
+   "hex": "01"
+  },
+  {
+   "player_word": 379,
+   "offset": 0,
+   "hex": "131c19f1f1060707000000001f1b200000003700"
+  },
+  {
+   "player_word": 128,
+   "offset": 12,
+   "hex": "01"
+  },
+  {
+   "player_word": 128,
+   "offset": 14,
+   "hex": "01"
+  },
+  {
+   "player_word": 380,
+   "offset": 0,
+   "hex": "13221bf1b40f0808000000001f20200000003700"
+  },
+  {
+   "player_word": 129,
+   "offset": 12,
+   "hex": "01"
+  },
+  {
+   "player_word": 129,
+   "offset": 14,
+   "hex": "01"
+  },
+  {
+   "player_word": 370,
+   "offset": 0,
+   "hex": "131c1af1f10d0909000000001f19200000003700"
+  },
+  {
+   "player_word": 130,
+   "offset": 12,
+   "hex": "01"
+  },
+  {
+   "player_word": 130,
+   "offset": 14,
+   "hex": "01"
+  },
+  {
+   "player_word": 378,
+   "offset": 0,
+   "hex": "131d1cf1f1100d0d000000001f14200000003700"
+  },
+  {
+   "player_word": 131,
+   "offset": 12,
+   "hex": "01"
+  },
+  {
+   "player_word": 131,
+   "offset": 14,
+   "hex": "01"
+  },
+  {
+   "player_word": 361,
+   "offset": 0,
+   "hex": "131d1ff1e10f0000000000001f1320110000ff7f"
+  },
+  {
+   "player_word": 132,
+   "offset": 12,
+   "hex": "01"
+  },
+  {
+   "player_word": 132,
+   "offset": 14,
+   "hex": "01"
+  },
+  {
+   "player_word": 373,
+   "offset": 0,
+   "hex": "131b1bf1f1100101000000001f1e20110000ff7f"
+  },
+  {
+   "player_word": 133,
+   "offset": 12,
+   "hex": "01"
+  },
+  {
+   "player_word": 133,
+   "offset": 14,
+   "hex": "01"
+  },
+  {
+   "player_word": 374,
+   "offset": 0,
+   "hex": "13161bf1d20b0202000000001f2020320000ff7f"
+  },
+  {
+   "player_word": 134,
+   "offset": 12,
+   "hex": "01"
+  },
+  {
+   "player_word": 134,
+   "offset": 14,
+   "hex": "01"
+  },
+  {
+   "player_word": 375,
+   "offset": 0,
+   "hex": "131d1af1f1080303000000001f2020110000ff7f"
+  },
+  {
+   "player_word": 135,
+   "offset": 12,
+   "hex": "01"
+  },
+  {
+   "player_word": 135,
+   "offset": 14,
+   "hex": "01"
+  },
+  {
+   "player_word": 366,
+   "offset": 0,
+   "hex": "131a1af1f10d0505000000001f2020000000ff7f"
+  },
+  {
+   "player_word": 136,
+   "offset": 12,
+   "hex": "01"
+  },
+  {
+   "player_word": 136,
+   "offset": 14,
+   "hex": "01"
+  },
+  {
+   "player_word": 377,
+   "offset": 0,
+   "hex": "131d19f1e10a0a0a000000001f1320000000ff7f"
+  },
+  {
+   "player_word": 137,
+   "offset": 12,
+   "hex": "01"
+  },
+  {
+   "player_word": 137,
+   "offset": 14,
+   "hex": "01"
+  },
+  {
+   "player_word": 368,
+   "offset": 0,
+   "hex": "131f1cf1f10c0c0c000000001f1620000000ff7f"
+  },
+  {
+   "player_word": 138,
+   "offset": 12,
+   "hex": "01"
+  },
+  {
+   "player_word": 138,
+   "offset": 14,
+   "hex": "01"
+  },
+  {
+   "player_word": 369,
+   "offset": 0,
+   "hex": "13211af1b4020d0d000000001f1620800000ff7f"
+  },
+  {
+   "player_word": 139,
+   "offset": 12,
+   "hex": "01"
+  },
+  {
+   "player_word": 139,
+   "offset": 14,
+   "hex": "01"
+  },
+  {
+   "player_word": 371,
+   "offset": 0,
+   "hex": "131c1bf1f1080d0d000000001f2020000000ff7f"
+  },
+  {
+   "player_word": 140,
+   "offset": 12,
+   "hex": "01"
+  },
+  {
+   "player_word": 140,
+   "offset": 14,
+   "hex": "01"
+  },
+  {
+   "country": 19,
+   "offset": 45,
+   "hex": "ba81"
+  },
+  {
+   "ds_offset": 33020,
+   "hex": "00"
+  }
+ ],
+ "comparisons": [
+  {
+   "seed": 0,
+   "score": [
+    1,
+    1
+   ],
+   "final_seed": 36098,
+   "draws": 3682
+  },
+  {
+   "seed": 1,
+   "score": [
+    0,
+    0
+   ],
+   "final_seed": 45233,
+   "draws": 3760
+  },
+  {
+   "seed": 777,
+   "score": [
+    1,
+    1
+   ],
+   "final_seed": 37068,
+   "draws": 3705
+  },
+  {
+   "seed": 12345,
+   "score": [
+    0,
+    0
+   ],
+   "final_seed": 62718,
+   "draws": 3643
+  },
+  {
+   "seed": 31337,
+   "score": [
+    0,
+    0
+   ],
+   "final_seed": 65154,
+   "draws": 3743
+  },
+  {
+   "seed": 40000,
+   "score": [
+    0,
+    1
+   ],
+   "final_seed": 35574,
+   "draws": 3622
+  },
+  {
+   "seed": 50000,
+   "score": [
+    1,
+    1
+   ],
+   "final_seed": 40698,
+   "draws": 3690
+  },
+  {
+   "seed": 65535,
+   "score": [
+    1,
+    1
+   ],
+   "final_seed": 47676,
+   "draws": 3611
+  }
+ ]
+}

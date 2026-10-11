@@ -395,11 +395,13 @@ class Strength(unittest.TestCase):
     def test_scenarios(self):
         self.assertEqual(condition.SCENARIOS, {
             "fit": (32, 31), "tired": (1, 1), "fit_form32": (32, 32),
+            "energy_only": (32, 1), "form_only": (1, 31),
             "example_high": (0x7F, 0x3F), "example_low": (0x3E, 0x00)})
         base = rec(0xE1, 0, 0)
         got = {name: s377(condition.with_condition(base, e, f))
                for name, (e, f) in condition.SCENARIOS.items()}
         self.assertEqual(got, {"fit": 226, "tired": 165, "fit_form32": 183,
+                               "energy_only": 196, "form_only": 195,
                                "example_high": 256, "example_low": 225})
 
 

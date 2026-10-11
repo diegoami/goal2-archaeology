@@ -394,5 +394,26 @@ class NamedViewTests(unittest.TestCase):
         self.assertEqual(rows[0][1], "")
 
 
+class F021Tests(unittest.TestCase):
+    """T36: the routines and player fields F021 establishes carry F021 in their basis."""
+
+    ROUTINES = ["1771:377E", "0791:278A", "0791:2B7B", "0791:4A28", "0791:5049", "0791:8AE9",
+                "1771:3216", "1771:13D0", "1771:0BC4", "0791:7CC5", "0791:D733", "0791:BD03",
+                "0791:D47E", "0791:CB7D", "1771:157D"]
+
+    def test_f021_routines_and_fields(self):
+        c = check_annotations.Checker(ANNOTATIONS, ROOT / "static/goal-exe/routines.tsv",
+                                      ROOT / "findings", ROOT / "static/goal-exe")
+        c.load()
+        rows = {r["address"]: r for _, r in c.rows["routines.tsv"]}
+        for address in self.ROUTINES:
+            with self.subTest(address=address):
+                self.assertIn("F021", rows[address]["basis"].split("; "))
+        fields = {(r["record"], int(r["offset"], 16)): r for _, r in c.rows["fields.tsv"]}
+        for offset in (0xC, 0xD, 0xE):
+            with self.subTest(field=offset):
+                self.assertIn("F021", fields[("player", offset)]["basis"].split("; "))
+
+
 if __name__ == "__main__":
     unittest.main()

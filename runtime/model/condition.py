@@ -45,12 +45,15 @@ SEED_COUNT = 0x10000        # the main seed DS:7B62 is a 16-bit LCG word (F004):
 # keeping.py's KEEPING_EVENT = 0x18 names the BYTE, not a member; the members are these.
 KEEPER_EVENTS = (3, 4)
 
-# (energy +0xE, form +0xC); the first two are the ends of what play produces, the last two the
-# task's boundary examples.
+# (energy +0xE, form +0xC); `fit` and `tired` are the ends of what play produces, `fit_form32` has the
+# form clamp's top value, `energy_only` and `form_only` each change one byte from `tired`, the last
+# two are the task's boundary examples.
 SCENARIOS = {
     "fit": (32, 31),
     "tired": (1, 1),
     "fit_form32": (32, 32),
+    "energy_only": (32, 1),
+    "form_only": (1, 31),
     "example_high": (0x7F, 0x3F),
     "example_low": (0x3E, 0x00),
 }

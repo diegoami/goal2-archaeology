@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """The effect of condition at equal skill, through the quick-engine model, over all 65,536 seeds.
 
-    python3 experiments/E020-q018-condition-performance/effect.py effect-001.json [--pairs ...]
+    python3 experiments/E020-q018-condition-performance/effect.py effect-001.json [A:B ...]
 
 For each scenario pair (A, B) of (energy +0xE, form +0xC) - see runtime/model/condition.py SCENARIOS -
 the E010-r0010 half-time state is edited (common.equal_skill_edits) so both sides have identical
@@ -72,8 +72,9 @@ def run_pair(a, b):
 
 def main():
     out = HERE / sys.argv[1]
+    pairs = [tuple(arg.split(":")) for arg in sys.argv[2:]] or PAIRS    # optional A:B arguments
     results = []
-    for a, b in PAIRS:
+    for a, b in pairs:
         for first, second in ((a, b), (b, a)) if a != b else ((a, b),):
             r = run_pair(first, second)
             print(first, "vs", second, r["team0_wins"], r["draws"], r["team1_wins"],
