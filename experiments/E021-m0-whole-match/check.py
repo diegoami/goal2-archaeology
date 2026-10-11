@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Check the whole-match harness against the E011 ground truth (T38 Done-when 1 and 2).
 
-    python3 experiments/E021-m0-whole-match/check.py [--hook none|f004|f004-mult+1|f004-inc+1]
+    python3 experiments/E021-m0-whole-match/check.py [--hook NAME]
 
 For each E011 record: take its watchstart savestate (the captain screen before the kick-off; the
 release E011 asset named by sha256, downloaded into .cache/dl/ when missing), emulate the whole
@@ -14,10 +14,16 @@ exactly the declared ones, and the seed word and the text screen (4000 bytes, sh
 equal the record's "full time" read. Ends with `match: N/N` (N = the records' reads) and the
 hooked-call count; exits non-zero on an empty set, any miss or any failed check.
 
---hook substitutes 214B:0688 (F004's RNG step) with a Python LCG: `f004` is F004's
+--hook substitutes 214B:0688 (F004's RNG step) with a Python LCG and PROVES it side by side at
+every call (runtime/emul/watched_match.py, `hook(prove=True)`): the original routine runs to its
+return with every byte it writes recorded, the state is put back, the model runs on it, and the
+two must write the same bytes in the same order and return the same registers; the first
+difference stops the run with a ProofError naming the call, the address and the byte. The hooks: `f004` is F004's
 `seed = seed * 0x7ABD + 0x1B0F`, returning 1 + (seed * n) >> 16; `f004-mult+1` and `f004-inc+1`
-change the multiplier or the increment by +1, and `f004+hidden-write` writes 0xDEAD to the seed
-and restores it before each F004 step (the hook's falsifiers). A hooked run is also compared with
+change the multiplier or the increment by +1; `f004+hidden-write` writes 0xDEAD to the seed and
+restores it before each F004 step, `f004+raw-write` does the same with raw `mu.mem_write` calls,
+`f004+831D-write` writes 0xDEAD to DS:831D and restores it, and `f004+inc+1-off-seed` steps with
+increment + 1 only when the seed pointer is not DS:7B62 (the hook's falsifiers). A hooked run is also compared with
 an unhooked run of the same state: every write of the seed word (value before and after, clock
 reading) must be the original's, in order.
 Each emulated run's outputs (without the draw list, whose count and sha256 they carry) are written
@@ -81,7 +87,41 @@ def trace_difference(reference, draws):
     return None
 
 
+def raw_write(step):
+    """A falsifier (review round 2, R1): 0xDEAD written to the seed word and restored with raw
+    Unicorn writes (`g.mu.mem_write`), then F004's step."""
+    def fn(g):
+        lin = g.arg(2) * 16 + g.arg(1)
+        saved = g.mem(lin, 2)
+        g.mu.mem_write(lin, b"\xad\xde")
+        g.mu.mem_write(lin, saved)
+        step(g)
+    return fn
+
+
+def clock_write(step):
+    """A falsifier (review round 2, R2): 0xDEAD written to DS:831D (the sub-tick) and restored,
+    then F004's step."""
+    def fn(g):
+        saved = g.rd(0x831D)
+        g.set_word(g.DS, 0x831D, 0xDEAD)
+        g.set_word(g.DS, 0x831D, saved)
+        step(g)
+    return fn
+
+
+def off_seed_increment(step, wrong):
+    """A falsifier (review round 2, R3): F004's step on DS:7B62, the wrong step (increment + 1)
+    when the seed pointer is elsewhere (DS:8336, the speaker stream)."""
+    def fn(g):
+        on_main = g.arg(2) * 16 + g.arg(1) == g.DS * 16 + 0x7B62
+        (step if on_main else wrong)(g)
+    return fn
+
+
 HOOKS = {"none": None, "f004": f004_step(), "f004+hidden-write": hidden_write(f004_step()),
+         "f004+raw-write": raw_write(f004_step()), "f004+831D-write": clock_write(f004_step()),
+         "f004+inc+1-off-seed": off_seed_increment(f004_step(), f004_step(inc=INC + 1)),
          "f004-mult+1": f004_step(mult=MULT + 1),
          "f004-inc+1": f004_step(inc=INC + 1)}
 
@@ -131,7 +171,7 @@ def write_out(label, run_id, payload):
 def emulate(data, hook_name, inputs=()):
     m = WatchedMatch(data)
     if HOOKS[hook_name] is not None:
-        m.hook(LCG_STEP, HOOKS[hook_name])
+        m.hook(LCG_STEP, HOOKS[hook_name], prove=True)
     for fn in inputs:
         fn(m)
     error = None
@@ -152,7 +192,8 @@ def main(argv=None):
     records = sorted(Path(a.runs).glob("E011-r*.json"))
     n = ok = 0
     failed = []
-    hooked = 0
+    hooked = proved = 0
+    differences = []
     for p in records:
         record = json.loads(p.read_text())
         rid = record["run_id"]
@@ -169,6 +210,7 @@ def main(argv=None):
         n += len(cps)
         ok += hit
         hooked += m.hook_counts.get(LCG_STEP, 0)
+        proved += m.proved_calls.get(LCG_STEP, 0)
         ft = full_time(record)
         out = m.outputs() if m.stopped_at_board else {"final": m.final, "key_log": m.key_log, "strays": m.strays,
                                                       "hook_counts": m.hook_counts, "inputs": m.inputs}
@@ -191,6 +233,8 @@ def main(argv=None):
         if error:
             print(f"  VOID: {error}")
             failed.append(f"{rid}: {error}")
+            if error.startswith("ProofError"):
+                differences.append(f"{rid}: {error}")
         for name, good in checks.items():
             if not good:
                 print(f"  FAIL: {name}" + (f": first difference {trace}" if name.startswith("every seed write") else ""))
@@ -205,7 +249,11 @@ def main(argv=None):
                     "draws_count": len(m.draws), "draws_sha256": draws_digest(m.draws)})
         out.pop("draws", None)
         print(f"  outputs: {write_out(a.hook, rid, out).relative_to(ROOT)}")
-    print(f"hooked calls of {LCG_STEP}: {hooked}" if a.hook != "none" else "hooked calls: none (no hook)")
+    if a.hook != "none":
+        print(f"hooked calls of {LCG_STEP}: {hooked}; proved side by side with no difference: {proved};"
+              f" differences: {len(differences)}" + (f" (first: {differences[0]})" if differences else ""))
+    else:
+        print("hooked calls: none (no hook)")
     print(f"match: {ok}/{n}")
     if n == 0:
         print("no reads: an empty set fails")

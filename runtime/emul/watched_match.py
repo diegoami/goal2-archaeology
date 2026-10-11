@@ -91,9 +91,15 @@ def parse_address(address):
 def routine_return(address):
     """How the routine at `address` returns, from its block in the listing: (far, pop bytes).
     Every `ret`/`retf` of the block must agree; a block without one, or with two forms, raises."""
+    return routine_returns(address)[:2]
+
+
+def routine_returns(address):
+    """(far, pop bytes, [offsets of the block's ret/retf instructions]) from the listing."""
     seg, off = parse_address(address)
     head = f"; ---- routine {seg:04X}:{off:04X} "
     forms = set()
+    offsets = []
     for path in sorted(LISTINGS.glob(f"seg_{seg:04X}_*.asm")):
         lines = path.read_text().splitlines()
         for i, line in enumerate(lines):
@@ -104,10 +110,39 @@ def routine_return(address):
                     m = re.match(r"^[0-9A-F]{4}  [0-9A-F ]+?\s{2,}(retf|ret)(?: (0x[0-9a-f]+|\d+))?\s*$", body)
                     if m:
                         forms.add((m.group(1) == "retf", int(m.group(2), 0) if m.group(2) else 0))
+                        offsets.append(int(body[:4], 16))
                 if len(forms) != 1:
                     raise ValueError(f"routine {seg:04X}:{off:04X}: return forms {sorted(forms)} in {path.name}")
-                return forms.pop()
+                far, pop = forms.pop()
+                return far, pop, offsets
     raise ValueError(f"routine {seg:04X}:{off:04X} not found under {LISTINGS}")
+
+
+class ProofError(RuntimeError):
+    """A hooked model differs from the original routine at one call (Guest.hook(prove=True))."""
+
+
+# Compared at a proved call's return: the Turbo Pascal convention's result registers (AX, DX)
+# and the state the caller relies on (SP, BP, SS, DS, and the return address CS:IP). BX, CX,
+# SI, DI, ES and the flags are scratch across a call in that convention (E021 notes.md §5).
+REGS_RETURNED = ("AX", "DX", "SP", "BP", "SS", "DS", "CS", "IP")
+REGS_ALL = ("EAX", "EBX", "ECX", "EDX", "ESI", "EDI", "EBP", "ESP", "EFLAGS",
+            "CS", "DS", "ES", "SS", "FS", "GS", "EIP")
+
+
+class _RecordingUc:
+    """Stands in for the Unicorn object while a hook's fn runs: every `mem_write` (through
+    `Guest.put`, `set_word` or `guest.mu.mem_write` itself) is recorded byte by byte, in order,
+    and reported to the watched words at write time; everything else is the real object's."""
+
+    def __init__(self, guest, uc):
+        self._guest, self._uc = guest, uc
+
+    def __getattr__(self, name):
+        return getattr(self._uc, name)
+
+    def mem_write(self, address, data):
+        self._guest._fn_write(address, bytes(data))
 
 
 class KeyWaitError(RuntimeError):
@@ -122,7 +157,7 @@ class Guest:
     paragraphs, relocated by the load segment (`seg()`)."""
 
     def __init__(self, data=None, *, memory=None, load=0, regs=None):
-        self.mu = Uc(UC_ARCH_X86, UC_MODE_16)
+        self.mu = self._uc = Uc(UC_ARCH_X86, UC_MODE_16)
         self.mu.mem_map(0, 0x110000)
         if data is not None:
             st = savestate.Savestate(data)
@@ -139,7 +174,9 @@ class Guest:
             self.mu.reg_write(getattr(X, f"UC_X86_REG_{name}"), value)
         self.hook_counts = {}
         self._watch = []          # (linear, on_change(old, new)) words whose fn writes are reported
-        self._in_fn = False
+        self._fn_writes = None    # (linear, byte) per byte a running fn writes
+        self.suppress_guest_watch = False   # set while a proved call runs the original
+        self.proved_calls = {}    # address -> calls compared without a difference
         self.error = None         # an error a callback met; it stops the emulation
 
     # -- addresses and memory ------------------------------------------------------------------
@@ -157,16 +194,17 @@ class Guest:
         return int.from_bytes(self.mu.mem_read(linear, 2), "little")
 
     def put(self, linear, raw):
-        """Write guest memory. Inside a hook's fn, every write that touches a watched word is
-        reported at write time, with the word's value before and after it (a same-value write
-        and a write later undone included): Python writes do not reach Unicorn's memory hooks."""
-        raw = bytes(raw)
-        if not self._in_fn:
-            self.mu.mem_write(linear, raw)
-            return
+        """Write guest memory. Inside a hook's fn `mu` is a `_RecordingUc`, so the write is
+        recorded and every watched word it touches is reported at write time, with its value
+        before and after (a same-value write and a write later undone included): Python writes
+        do not reach Unicorn's memory hooks."""
+        self.mu.mem_write(linear, bytes(raw))
+
+    def _fn_write(self, linear, raw):
         touched = [(lin, self.word_at(lin), cb) for lin, cb in self._watch
                    if linear < lin + 2 and lin < linear + len(raw)]
-        self.mu.mem_write(linear, raw)
+        self._uc.mem_write(linear, raw)
+        self._fn_writes.extend((linear + i, b) for i, b in enumerate(raw))
         for lin, old, cb in touched:
             cb(old, self.word_at(lin))
 
@@ -217,44 +255,136 @@ class Guest:
         self._watch.append((linear, on_change))
 
     # -- the substitution hook ----------------------------------------------------------------
-    def hook(self, address, fn, ret=None):
+    def _run_fn(self, fn):
+        """Run a hook's fn with `mu` recording; return the bytes it wrote, in order."""
+        last = {lin: self.word_at(lin) for lin, cb in self._watch}
+
+        def seen(lin, cb):
+            def report(old, new):
+                last[lin] = new
+                cb(old, new)
+            return report
+        watch, self._watch = self._watch, [(lin, seen(lin, cb)) for lin, cb in self._watch]
+        self._fn_writes = []
+        self.mu = _RecordingUc(self, self._uc)
+        try:
+            fn(self)
+        finally:
+            self.mu = self._uc
+            self._watch = watch
+            writes, self._fn_writes = self._fn_writes, None
+        for lin, cb in watch:              # a change made past the recorder (guest._uc)
+            now = self.word_at(lin)
+            if now != last[lin]:
+                cb(last[lin], now)
+        return writes
+
+    def describe(self, linear):
+        ds = self.DS * 16
+        where = f" (DS:{linear - ds:04X})" if ds <= linear < ds + 0x10000 else ""
+        return f"linear 0x{linear:05X}{where}"
+
+    def hook(self, address, fn, ret=None, prove=False, ret_at=None):
         """Substitute the routine at `address` ('SSSS:OOOO', an image paragraph and offset): when
         the guest reaches its entry, `fn(self)` runs instead and the guest returns as the routine
-        would — `ret` = (far, pop bytes), by default read from the routine's listing block. The
-        routine's own code is not executed. Calls are counted in `hook_counts[address]`."""
+        would — `ret` = (far, pop bytes), by default read from the routine's listing block (with
+        `ret` given, `ret_at` lists the offsets of its return instructions, for a proof). The
+        routine's own code is not executed. Calls are counted in `hook_counts[address]`.
+
+        With `prove=True` every call is also a side-by-side proof (E021 notes.md §5): the CPU is
+        snapshotted, the ORIGINAL routine runs as guest code to its own `ret`/`retf` (the
+        listing's) with every byte it writes recorded in order (address, old, new), its return
+        state is taken, memory and registers are put back, `fn` runs on the same state with its
+        writes recorded the same way, and the two must be identical: the registers of
+        REGS_RETURNED after the return, and the written bytes and their order, outside the
+        routine's own stack frame (SS below the caller's SP after the return: the return address,
+        the arguments, saved registers and locals, dead once it returns). The first difference
+        raises ProofError naming the call number, the address and the byte (or the register).
+        The match continues from the model's state; `proved_calls[address]` counts clean calls.
+        (A proved call runs the original as guest code; the substituted run is `prove=False`.)"""
         seg, off = parse_address(address)
         key = f"{seg:04X}:{off:04X}"
-        far, pop = ret if ret is not None else routine_return(key)
+        far, pop, ret_offsets = routine_returns(key) if ret is None else (*ret, ret_at)
         self.hook_counts[key] = 0
+        state = {"phase": None}
+        if prove:
+            if not ret_offsets:
+                raise ValueError(f"{key}: a proof needs the routine's return instructions from the listing")
+            self.proved_calls[key] = 0
+
+        def stop(uc, e):
+            self.error = e
+            uc.emu_stop()
+
+        def record_original(uc, access, address, size, value, data):
+            old = bytes(uc.mem_read(address, size))
+            new = (value & ((1 << (8 * size)) - 1)).to_bytes(size, "little")
+            state["writes"].append((address, old, new))
 
         def at_entry(uc, addr, size, data):
+            if state["phase"] == "original":
+                return                     # a nested call inside the original runs as guest code
             try:
                 self.hook_counts[key] += 1
-                last = {lin: self.word_at(lin) for lin, cb in self._watch}
-
-                def seen(lin, cb):
-                    def report(old, new):
-                        last[lin] = new
-                        cb(old, new)
-                    return report
-                watch, self._watch = self._watch, [(lin, seen(lin, cb)) for lin, cb in self._watch]
-                self._in_fn = True
-                try:
-                    fn(self)
-                finally:
-                    self._in_fn = False
-                    self._watch = watch
-                for lin, cb in watch:              # a change that bypassed put
-                    now = self.word_at(lin)
-                    if now != last[lin]:
-                        cb(last[lin], now)
-                self.return_from(far, pop)
+                if not prove:
+                    self._run_fn(fn)
+                    self.return_from(far, pop)
+                    return
+                state.update(phase="original", writes=[], regs={r: self.reg(r) for r in REGS_ALL},
+                             ss=self.reg("ss"), sp=self.reg("sp"))
+                state["mh"] = uc.hook_add(UC_HOOK_MEM_WRITE, record_original, begin=0, end=0x10FFFF)
+                self.suppress_guest_watch = True
             except Exception as e:        # stop the emulation and re-raise after it
-                self.error = e
-                uc.emu_stop()
+                stop(uc, e)
+
+        def at_return(uc, addr, size, data):
+            if state["phase"] != "original" or self.reg("sp") != state["sp"] or self.reg("ss") != state["ss"]:
+                return                     # not the proved call's own return
+            try:
+                state["phase"] = None
+                uc.hook_del(state["mh"])
+                self.suppress_guest_watch = False
+                self.return_from(far, pop)
+                frame = (state["ss"] * 16, state["ss"] * 16 + self.reg("sp"))
+                original_regs = {r: self.reg(r) for r in REGS_RETURNED}
+                original = [(a + i, n[i]) for a, o, n in state["writes"] for i in range(len(n))]
+                for a, o, n in reversed(state["writes"]):     # undo the original
+                    uc.mem_write(a, o)
+                for r, v in state["regs"].items():
+                    self.set_reg(r, v)
+                model = self._run_fn(fn)
+                self.return_from(far, pop)
+                model_regs = {r: self.reg(r) for r in REGS_RETURNED}
+
+                def live(ws):
+                    return [(a, b) for a, b in ws if not frame[0] <= a < frame[1]]
+                original, model = live(original), live(model)
+                call = self.hook_counts[key]
+                for i, (o, m) in enumerate(zip(original, model)):
+                    if o != m:
+                        raise ProofError(
+                            f"call #{call} of {key}: written byte #{i} differs: the original wrote 0x{o[1]:02X}"
+                            f" at {self.describe(o[0])}, the model wrote 0x{m[1]:02X} at {self.describe(m[0])}")
+                if len(original) != len(model):
+                    i = min(len(original), len(model))
+                    who, extra = ("original", original[i]) if len(original) > i else ("model", model[i])
+                    raise ProofError(
+                        f"call #{call} of {key}: the {who} writes more: byte #{i}, 0x{extra[1]:02X} at"
+                        f" {self.describe(extra[0])} ({len(original)} original bytes, {len(model)} model bytes)")
+                for r in REGS_RETURNED:
+                    if original_regs[r] != model_regs[r]:
+                        raise ProofError(f"call #{call} of {key}: register {r} at the return: the original"
+                                         f" 0x{original_regs[r]:04X}, the model 0x{model_regs[r]:04X}")
+                self.proved_calls[key] += 1
+            except Exception as e:
+                stop(uc, e)
 
         lin = self.lin(key)
         self.mu.hook_add(UC_HOOK_CODE, at_entry, begin=lin, end=lin)
+        if prove:
+            for r_off in ret_offsets:
+                rl = self.seg(seg) * 16 + r_off
+                self.mu.hook_add(UC_HOOK_CODE, at_return, begin=rl, end=rl)
         return key
 
     def emulate(self, until, timeout_s):
@@ -322,6 +452,8 @@ class WatchedMatch(Guest):
         mu.hook_add(UC_HOOK_INTR, lambda uc, i, d: None)
 
         def seed_write(uc, access, address, size, value, data):
+            if self.suppress_guest_watch:      # a proved call's original run, undone after it
+                return
             old = self.word_at(self.seed_lin)
             raw = bytearray(old.to_bytes(2, "little"))
             for i in range(size):

@@ -111,6 +111,30 @@ class SyntheticHookTests(unittest.TestCase):
         self.assertEqual(reports, [(0, 0xDEAD), (0xDEAD, 0)] * 3)
 
 
+    def test_a_correct_model_is_proved_with_no_difference(self):
+        # round 2: side by side, the original's `inc word [0x100]` against a model writing the same
+        g, retf_runs = machine()
+        g.hook("2000:0000", lambda guest: guest.put(0x100, (guest.word_at(0x100) + 1).to_bytes(2, "little")),
+               ret=(True, 2), prove=True, ret_at=[4])
+        g.emulate(END, 5)
+        self.assertEqual(g.hook_counts, {"2000:0000": 3})
+        self.assertEqual(g.proved_calls, {"2000:0000": 3})
+        self.assertEqual(len(retf_runs), 3)          # the original ran to its retf at each call
+        self.assertEqual(g.word_at(0x100), 3)        # once per call: the original's write undone
+        self.assertEqual(g.reg("sp"), SP0)
+        self.assertEqual(g.reg("ip"), 14)
+
+    def test_a_model_writing_another_byte_is_stopped_with_the_call_and_address(self):
+        from watched_match import ProofError
+        g, _ = machine()
+        g.hook("2000:0000", lambda guest: guest.put(0x100, (guest.word_at(0x100) + 2).to_bytes(2, "little")),
+               ret=(True, 2), prove=True, ret_at=[4])
+        with self.assertRaises(ProofError) as cm:
+            g.emulate(END, 5)
+        self.assertEqual(str(cm.exception), "call #1 of 2000:0000: written byte #0 differs: the original wrote"
+                         " 0x01 at linear 0x00100, the model wrote 0x02 at linear 0x00100")
+
+
 class ListingReturnTests(unittest.TestCase):
     def test_lcg_step_returns_far_popping_six(self):
         self.assertEqual(routine_return("214B:0688"), (True, 6))   # seg_214B_01.asm:894 `retf 6`
@@ -165,6 +189,47 @@ class RealGuestTests(unittest.TestCase):
         self.assertIn(0xDEAD, [d[3] for d in m.draws])
         self.assertEqual(len(m.draws), 3 * len(plain.draws))   # every main-seed step: 3 writes
         self.assertIsNotNone(trace_difference(plain.draws, m.draws))
+
+    def prove(self, fn):
+        from watched_match import WatchedMatch
+        m = WatchedMatch(watchstart_or_skip(self))
+        m.hook("214B:0688", fn, prove=True)
+        m.run(max_ticks=self.TICKS)
+        return m
+
+    def test_f004_is_proved_at_every_call_with_no_difference(self):
+        from check import f004_step
+        plain, _ = self.run_match(False)
+        m = self.prove(f004_step())
+        self.assertEqual(m.hook_counts, {"214B:0688": 1558})
+        self.assertEqual(m.proved_calls, {"214B:0688": 1558})
+        self.assertEqual(m.draws, plain.draws)
+        self.assertEqual(m.tick_marks, plain.tick_marks)
+
+    def falsifier(self, fn, message):
+        from watched_match import ProofError
+        with self.assertRaises(ProofError) as cm:
+            self.prove(fn)
+        self.assertEqual(str(cm.exception), message)
+
+    def test_a_raw_write_to_the_seed_restored_is_stopped(self):
+        # round 2, R1: g.mu.mem_write(0xDEAD) then the saved bytes, then F004's step
+        from check import f004_step, raw_write
+        self.falsifier(raw_write(f004_step()), "call #1 of 214B:0688: written byte #0 differs: the original wrote"
+                       " 0x90 at linear 0x355A2 (DS:7B62), the model wrote 0xAD at linear 0x355A2 (DS:7B62)")
+
+    def test_a_write_to_the_sub_tick_restored_is_stopped(self):
+        # round 2, R2: DS:831D set to 0xDEAD and restored, then F004's step
+        from check import clock_write, f004_step
+        self.falsifier(clock_write(f004_step()), "call #1 of 214B:0688: written byte #0 differs: the original wrote"
+                       " 0x90 at linear 0x355A2 (DS:7B62), the model wrote 0xAD at linear 0x35D5D (DS:831D)")
+
+    def test_a_wrong_step_off_the_main_seed_is_stopped(self):
+        # round 2, R3: the right step on DS:7B62, increment + 1 on any other seed word (DS:8336)
+        from check import INC, f004_step, off_seed_increment
+        self.falsifier(off_seed_increment(f004_step(), f004_step(inc=INC + 1)),
+                       "call #2 of 214B:0688: written byte #0 differs: the original wrote"
+                       " 0x2F at linear 0x35D76 (DS:8336), the model wrote 0x30 at linear 0x35D76 (DS:8336)")
 
     def test_an_undeclared_first_key_read_raises(self):
         # review R2: the queued Enter is for CC7B's read (return 0791:CEED) only

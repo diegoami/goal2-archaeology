@@ -187,3 +187,46 @@ or the increment by one. `tests/test_emul_match.py` pins the mechanism: on a syn
 hooked routine's own instructions never execute and the count is exactly 3; on the real start
 state 40 clock ticks call `214B:0688` 1558 times, its second instruction never runs when hooked,
 and the seed writes and tick marks equal the unhooked run's.
+
+### 5a. The side-by-side proof (review round 2; T38 Done-when 2 as amended on main, ae8bf4e)
+
+The round-1 checks proved the main seed's sequence, not the model: a model could write anything
+else, or write the seed with raw Unicorn calls, or step another seed word wrongly, and the match
+could still reproduce (Sol's three falsifiers). `Guest.hook(address, fn, prove=True)` now proves
+the model at every call, side by side with the original:
+1. at the routine's entry the harness snapshots every register (`REGS_ALL`) and lets the ORIGINAL
+   run as guest code, recording every write (address, old bytes, new bytes) through a memory-write
+   hook on the whole address space, added for that call only; the main-seed trace ignores these
+   guest writes (`suppress_guest_watch`), since they are undone;
+2. at the routine's own return instruction (from the listing: `214B:06AE retf 6`), with SP back
+   at the entry's value, it takes the return state (`return_from` as that `retf`), undoes the
+   writes in reverse order and puts the snapshot's registers back;
+3. it runs the model on that state with `mu` replaced by a recorder (`_RecordingUc`), so every
+   write the fn makes — through `put`/`set_word` or `guest.mu.mem_write` itself — is recorded
+   byte by byte in order (and reported to the watched seed word at write time);
+4. it compares: the written bytes, in order, address and value, and the registers `REGS_RETURNED`
+   after the return. The first difference raises `ProofError`: "call #k of 214B:0688: written byte
+   #i differs: the original wrote 0xNN at linear 0x... (DS:xxxx), the model wrote ...", or the
+   register. Otherwise the call counts in `proved_calls` and the match continues from the
+   model's state.
+
+Two declared limits of the comparison, both from the calling convention, not from the routine:
+- **bytes written inside the routine's own stack frame are not compared**: SS below the caller's
+  SP after the return (the return address and arguments the `retf 6` pops, the saved BP and DS,
+  the pushed SI/DI pointer, the local word `[bp-2]`, `seg_214B_01.asm:873`-`893`). They are dead
+  once the routine returns (the next push of the caller overwrites them), and a model of what a
+  routine computes does not rebuild its frame. The same rule applies to both sides, so a model
+  that writes into that region is not credited either. A later routine reading an uninitialised
+  local would see the model's (pre-call) bytes there, not the original's; the whole-match checks
+  (every read, the full-time state, the seed-write trace against the unhooked run) are what would
+  catch that, and they stay in force;
+- **registers compared at the return**: AX and DX (the Turbo Pascal result registers; 0688 leaves
+  the result in both, `06A4`-`06A8`) and SP, BP, SS, DS, CS, IP (what the caller relies on). BX,
+  CX, SI, DI, ES and the flags are scratch across a call in that convention and are not compared
+  (0688 leaves BX = 0x7ABD and SI/DI past the seed word; no model is asked to reproduce that).
+
+`check.py --hook NAME` hooks with `prove=True` and prints the hooked calls, the calls proved with
+no difference, and the differences. The falsifiers: `f004+raw-write` (raw `mu.mem_write` of
+0xDEAD to the seed, restored), `f004+831D-write` (0xDEAD written to DS:831D, restored),
+`f004+inc+1-off-seed` (the increment + 1 only when the seed pointer is not DS:7B62: DS:8336), and
+the earlier `f004+hidden-write`, `f004-mult+1`, `f004-inc+1`; each stops at its first wrong call.
