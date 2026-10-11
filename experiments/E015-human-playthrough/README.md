@@ -181,3 +181,35 @@ and mapped coverage (`check_mapped`: every press mapped, else exit 1). The
 reproduction now reports `screens: 2, transitions: 10, keys: 10; every press
 mapped` (`T34-scripted-20261009-05.log`); three new mutations cover the r2 code
 (`T34-mutations-20261009-08.log`, survivors `[]`).
+
+## T39b addendum: pause, notes and live view (2026-10-11)
+
+T39b (#138) adds the coaching kit to the recorder without changing the research question:
+DOSBox-X's own pause on F12+P (resumed with the Pause key), `pauses.jsonl`, coaching notes
+(`runtime/human/note.py`, `notes.jsonl`) and a read-only live view (`runtime/human/live.py`).
+The design is in [docs/recorder-architecture.md](../../docs/recorder-architecture.md) and the
+sitting's side in [protocol.md](protocol.md). The record (`extract.py`) carries each note and
+each pause and resume between the two states whose screens it falls between, and the key log's
+press count beside the map's.
+
+Method. No game fact is established, so there is no annotation row and no static question:
+the pause is DOSBox-X's, not GOAL.EXE's. What DOSBox-X 2024.03.01 does around it was measured on
+a private Xvfb at the DOS prompt by `probe_pause.py`
+([T39b-probe-pause-20261011-01.log](T39b-probe-pause-20261011-01.log)): F12+P pauses and the
+title says `PAUSED`; a save request while paused is dropped, not deferred; keys typed while
+paused never reach DOS; only the Pause key resumes; F12+P on `hand_pauseints` instead changes no
+title and pauses nothing visible at the prompt; a mapper file holding the pause bind alone leaves
+F12+S unbound (a mapper file replaces the default binds).
+
+Tests and proofs: `tests/test_human_pause.py` and `tests/test_human_coach.py`;
+`mutate_pause.py` makes each mutation in place and restores the source in `finally`
+([T39b-mutations-20261011-02.log](T39b-mutations-20261011-02.log): 26 mutations, survivors
+`[]`); `mutate_pause.py --before` runs the new tests on origin/main's sources, every one failing
+([T39b-failbefore-20261011-02.log](T39b-failbefore-20261011-02.log)). `scripted_pause.py`
+rehearses the owner's test sitting on private displays (two pauses, the second in the middle of
+a key burst, a key typed while paused, two notes, two live views):
+[-01](T39b-scripted-pause-20261011-01.log) failed its own check on xdotool's added `Alt_L`
+before F12 (a modifier no keyboard sends), [-02](T39b-scripted-pause-20261011-02.log) passed and
+showed a burst request sent after the P press being dropped as DOSBox-X paused — the shape the
+post-resume guard now refuses — and [-03](T39b-scripted-pause-20261011-03.log) passed with the
+guard. Rehearsals are extracted into scratch only; they are not E015 records.

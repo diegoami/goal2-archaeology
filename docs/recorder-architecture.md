@@ -89,6 +89,34 @@ The T35 follow-up (PR #106 + #112) made those guards real — the absent-of-`sup
 became "per-request path hash matches `pre_sig`", and the stability-fallback's "fall back to
 the live savestate" became "never read the live savestate on the fast path".
 
+## The coaching kit: pause, notes, live view (T39b)
+
+The owner coaches the main session while playing; three pieces serve that, all game-agnostic:
+
+- **Pause.** The session's mapper file (`mapper.map`, the one the G1 config's `[sdl] mapperfile`
+  names) is DOSBox-X 2024.03.01's complete default bind set, saved by its own mapper editor
+  (`runtime/human/dosbox-x-2024.03.01-default.map`, checked by sha256), with `hand_pause` also on
+  F12+P (taken from the screenshot event). The file must be complete: a mapper file DOSBox-X finds
+  replaces its default binds. DOSBox-X's pause ends on the Pause key only, swallows every key and
+  every save request while it lasts (none is deferred), and appends ` PAUSED` to the window
+  title (`experiments/E015-human-playthrough/T39b-probe-pause-20261011-01.log`). The watcher reads
+  the pause from that title — after every key event, every `PAUSE_POLL_S` and again right before
+  every send — logs each pause and resume to `pauses.jsonl`, sends no save request while paused
+  (cadence ticks inside the pause are skipped; key groups wait), requests the pause's snapshot
+  (`origin: resume`) right after the resume, never re-sends a request a pause followed, and
+  refuses (superseded) a write past the event count at a pause that began after its request:
+  such a write landed after the resume. `keymap.py` counts a paused span as no time in its
+  quiet-gap rule.
+- **Notes.** `runtime/human/note.py <session> "text"` appends UTC, the monotonic clock and the
+  text to `notes.jsonl`; `extract.py` places each note, and each pause and resume, between the
+  two states whose screens (their request windows) it falls between.
+- **Live view.** `runtime/human/live.py <session>` prints the newest staged snapshot's screen and
+  the keys since its previous call; it only reads the session (its key cursor lives in
+  `scratch/human/live/`).
+
+None of the three adds a reader of the outer display: the title is the nested display's game
+window, and a note is text passed on the command line.
+
 ## What's GOAL2-specific (today's plugin)
 
 This is everything the recorder delegates to because GOAL2 has a specific byte layout and a

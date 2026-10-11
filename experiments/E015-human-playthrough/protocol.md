@@ -73,6 +73,21 @@ What makes the sitting maximally informative (each row of the map below is fed b
 - If you save in-game, the `.GL` save lands in the session's own game-folder copy — it stays with
   the session, never in the release cache.
 
+### Pausing and coaching (T39b)
+
+- **Pause: F12+P** (hold F12, press P). DOSBox-X stops and its window title ends in `PAUSED`.
+  **Resume: the Pause key** (Pause/Break; on a laptop often Fn plus a key). A second F12+P does
+  not resume: DOSBox-X's pause ends on the Pause key only.
+- While paused the game does not run and DOSBox-X ignores every key: what you type then reaches
+  the key log, not the game. The recorder sends no snapshot request while paused and takes the
+  pause's snapshot right after you resume (DOSBox-X writes none while paused), and `pauses.jsonl`
+  records each pause and resume with its time.
+- **Notes**: the main session writes your chat notes into the sitting with
+  `python3 runtime/human/note.py <session> "text"`; the record places each note between the two
+  snapshots it falls between.
+- **Live view**: `python3 runtime/human/live.py <session>` prints the newest snapshot's screen and
+  the keys since its previous call, without writing anything into the session.
+
 Stopping: close the game window (or Ctrl+C in the terminal). The watcher stops with it, stages
 your last F12+S if one is pending, and writes the session's meta.
 
