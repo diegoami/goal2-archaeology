@@ -20,6 +20,9 @@ export async function runChain({ chain, attempt, leftWork = async () => false, r
     if (r.ok) return { ok: true, name, value: r.value, failures };
     log(`${name} failed: ${r.reason}`);
     failures.push({ name, reason: r.reason, detail: r.detail });
+    // A run to be resumed in its own session keeps its worktree as it stopped: no reset, no next
+    // model (the owner's rules 7 and 13, 2026-10-11).
+    if (r.stop) return { ok: false, failures, sameCause: null, leftWork: false, stopped: true, sessionId: r.sessionId ?? null };
     if (await leftWork()) return { ok: false, failures, sameCause: null, leftWork: true };
     await reset();
     const n = failures.length;

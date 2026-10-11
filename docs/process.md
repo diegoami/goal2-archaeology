@@ -25,10 +25,13 @@ Tag capability jumps, not phases. Release notes come from GitHub when the tag is
 | Decider | Jev via `tools/harness/jev.mjs` (the `/jev` skill) | Repeated yes/no decisions over many items, at the confident ends only (§12) |
 | Generator | Models on OpenRouter (images, other families) and ElevenLabs (speech, sound, music) | Assets, each committed with a sidecar naming provider, model, prompt, date and cost |
 
-`/delegate` picks the delegate; model ids come from `models.mjs` or `opencode models`, never memory
-(L25), after a look at the provider's quota: skip an exhausted one for the next with quota, saying so (L50).
+The user names who implements and who reviews, on which model (CLAUDE.md "Choosing models"
+rules 1-2); model ids come from `models.mjs` or `opencode models`, never memory (L25). Quota-tracker's
+`/recommend` is shown with each question as a suggestion only; a model whose provider is exhausted
+or does not answer goes back to the user, who names another (rule 7). *Superseded: "skip an
+exhausted one for the next with quota, saying so" (L50).*
 The main session runs `implement.mjs` itself: a wrapper agent would spend tokens watching it.
-It watches each background job (start, end, no output for 10 min), never with `pgrep -f`. (L48), and checks quota with `docs/environment.md`'s quota-tracker.
+It watches each background job as CLAUDE.md rules 8-13 say, never with `pgrep -f` (L48).
 
 ## 2. Task files
 

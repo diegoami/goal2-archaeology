@@ -35,11 +35,12 @@
 
 import fs from 'node:fs';
 import path from 'node:path';
-import { runOpenCodeWatched, resolveOpenCode, OpenCodeInfraError, keyProblem } from './lib/opencode.mjs';
+import { runOpenCodeWatched, resolveOpenCode, OpenCodeInfraError, keyProblem, isResumable, lookupSession } from './lib/opencode.mjs';
 import { runChain } from './lib/chain.mjs';
 import { resetWorktree, selfTest as unsavedSelfTest } from './lib/unsaved.mjs';
 import { namedModel, selfTest as namedSelfTest } from './lib/named.mjs';
 import { matchSession } from './lib/opencode.mjs';
+import { resumeSelfTest } from './lib/resume-selftest.mjs';
 import {
   sh, requireTools, repoPaths, loadConfig, parseArgs, envWith, ensureAgent, ocArgs, prepareOpenCode, watchLine,
 } from './lib/common.mjs';
@@ -51,7 +52,7 @@ const a = parseArgs(process.argv.slice(2), { flags: ['self-test'], repeatable: [
 // --self-test: the reset's save on a throwaway repository (lib/unsaved.mjs), a named model's id
 // and family (lib/named.mjs), and a resumed session found by id; no OpenCode or gh.
 if (a['self-test']) {
-  const failures = [...unsavedSelfTest(), ...namedSelfTest(), ...sessionSelfTest()];
+  const failures = [...unsavedSelfTest(), ...namedSelfTest(), ...sessionSelfTest(), ...await resumeSelfTest()];
   for (const f of failures) console.error(`FAIL ${f}`);
   say(`self-test: ${failures.length ? `${failures.length} checks failed` : 'all checks passed'}`);
   process.exit(failures.length ? 1 : 0);
@@ -102,6 +103,11 @@ const logFile = path.join(workRoot, `${name}.implementer.log`);
 fs.mkdirSync(workRoot, { recursive: true });
 // A resumed session continues in the worktree it ran in, kept as it stopped (rule 13).
 if (a.session && !fs.existsSync(worktree)) die(2, `--session ${a.session} resumes in the kept worktree ${worktree}, which does not exist.`);
+// ... and only a session of that worktree, checked before anything changes or runs (Sol's R2, PR 114).
+if (a.session) {
+  const found = await lookupSession(opencode, { workDir: fs.realpathSync(worktree), title: '', startedMs: 0, env: pre.env, sessionId: a.session, timeoutMs: 60_000 });
+  if (!found.session) die(2, `--session ${a.session}: ${found.miss}. Nothing was run.`);
+}
 
 // 1. The worktree and branch: resume a pushed branch, otherwise start from origin/main and push.
 sh('git', ['-C', top, 'fetch', '-q', 'origin']);
@@ -200,6 +206,7 @@ const result = await runChain({
     if (watch) say(watch);
     let reason = null;
     let output;
+    let sessionId = a.session ?? null;
     try {
       const run = await runOpenCodeWatched({
         args: ocArgs(worktree, impl.agent, model), prompt, workDir: worktree, title: `${name}-${m}`,
@@ -208,6 +215,7 @@ const result = await runChain({
         totalTimeoutMs: (totalSec ?? impl.totalTimeoutSec) * 1000, opencode, env: implementEnv, log: say,
       });
       output = run.output;
+      sessionId = run.sessionId ?? sessionId;
       // OpenCode's own error stream on a failed run, never the model's output (Luna's R1, round 2).
       if (run.exitCode !== 0) reason = keyProblem(run.stderr, model.id, implementEnv.XDG_DATA_HOME) ?? `exit ${run.exitCode}`;
       else if (run.agentFallback) reason = 'fell back to the default agent';
@@ -216,9 +224,13 @@ const result = await runChain({
       if (!(e instanceof OpenCodeInfraError)) throw e;
       reason = e.reason;
       output = e.message;
+      sessionId = e.sessionId ?? sessionId;
     }
     fs.appendFileSync(logFile, `=== ${m} (${model.id}): ${reason ? `failed: ${reason}` : 'ran'} ===\n${watch ? `${watch}\n` : ''}${output}\n`);
-    return reason ? { ok: false, reason } : { ok: true, value: output };
+    // Stopped by our own limit, or a resumed run: the worktree stays as it stopped, to be resumed in
+    // its own session (rule 13), never reset or handed to another model (rule 7; Sol's R5 on PR 114).
+    if (reason) return { ok: false, reason, stop: Boolean(a.session) || isResumable(reason), sessionId };
+    return { ok: true, value: output };
   },
   leftWork: async () => {
     sh('git', ['-C', top, 'fetch', '-q', 'origin']);
@@ -237,6 +249,12 @@ say(`run log: ${logFile}`);
 // Every exit after the chain names the patches its resets saved (#87; Sol's R3 on PR 100).
 const saved = patches.length ? ` Unsaved work was saved before the reset: ${patches.join(', ')}.` : '';
 const reasons = result.failures.map((f) => `${f.name}: ${f.reason}`).join('; ');
+if (!result.ok && result.stopped) {
+  const again = `node tools/harness/implement.mjs ${a.task ? `--task ${a.task}` : `--fix ${a.fix}`} --slug ${a.slug}${a.issue ? ` --issue ${a.issue}` : ''} --model ${result.failures[0].name}`;
+  die(1, `The run stopped (${reasons}); its worktree ${worktree} is kept as it stopped.${saved} `
+    + (result.sessionId ? `Resume: ${again} --session ${result.sessionId} --brief <a short "continue where you stopped" brief> --total-timeout-sec <longer>`
+      : 'No session id was recorded: read the log, then decide with the user.'));
+}
 if (!result.ok) {
   if (result.leftWork) die(1, `The run failed (${reasons}) after committing, pushing or opening a PR on ${branch}; not retrying. The main session decides.${saved}`);
   die(3, `OpenCode unavailable: ${result.sameCause ? `same failure twice: ${result.sameCause} (${reasons})` : reasons}. ${fallback}${saved}`);

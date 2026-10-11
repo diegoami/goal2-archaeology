@@ -51,6 +51,9 @@ export function keyProblem(text, modelId, dataHome) {
 
 // A failure reason without its numbers, so a chain can tell the same failure twice (two startup
 // hangs, two idle kills) from two different ones.
+// Our own limits ended the run: it is resumed in its own session and worktree (rule 13).
+export const isResumable = (reason) => ['idle', 'total-timeout'].includes(failureClass(reason));
+
 export function failureClass(reason) {
   const r = String(reason);
   if (/^opencode not found/.test(r)) return 'not-found';
@@ -390,6 +393,11 @@ export async function runOpenCodeWatched({
   const cmd = opencode ?? resolveOpenCode(env);
   workDir = fs.realpathSync(workDir);
   title = `${title}-${randomBytes(6).toString('hex')}`;
+  // A resumed session must exist in this run's directory before anything runs (Sol's R2 on PR 114).
+  if (sessionId) {
+    const pre = await lookupSession(cmd, { workDir, title, startedMs: 0, env, sessionId, timeoutMs: Math.min(startupTimeoutMs, 60_000) });
+    if (!pre.session) throw Object.assign(new OpenCodeInfraError('session not resumable', `cannot resume: ${pre.miss}; nothing was run`), { sessionId });
+  }
   fs.mkdirSync(logDir, { recursive: true });
   const outFile = path.join(logDir, `${title}.out.txt`);
   const errFile = path.join(logDir, `${title}.err.txt`);
@@ -462,8 +470,8 @@ export async function runOpenCodeWatched({
       log(`opencode: session lookup missed: ${lastMiss}`);
       return fail(reason, `${message} (last lookup: ${lastMiss})`);
     };
-    const fail = (reason, message) => new OpenCodeInfraError(reason,
-      `${message}; files kept: ${files.join(', ')}. stderr tail:\n${tail(errFile)}`);
+    const fail = (reason, message) => Object.assign(new OpenCodeInfraError(reason,
+      `${message}; files kept: ${files.join(', ')}. stderr tail:\n${tail(errFile)}`), { sessionId: session?.id ?? sessionId });
     log(`opencode: pid ${child.pid}, session title ${title}, output ${outFile}`);
 
     try {

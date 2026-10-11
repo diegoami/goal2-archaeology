@@ -6,6 +6,12 @@
 
 const FAMILIES = [
   [/^glm/, 'glm'],
+  [/^gemini|^gemma/, 'google'],
+  [/^llama/, 'meta'],
+  [/^kimi/, 'moonshot'],
+  [/^grok/, 'xai'],
+  [/^(mistral|devstral|codestral|magistral)/, 'mistral'],
+  [/^nemotron/, 'nvidia'],
   [/^mimo/, 'mimo'],
   [/^minimax/, 'minimax'],
   [/^(gpt|o\d)/, 'openai'],
@@ -13,11 +19,13 @@ const FAMILIES = [
   [/^(claude|opus|sonnet|haiku)/, 'claude'],
 ];
 
-// The family of a model id's last segment ("openrouter/xiaomi/mimo-v2.6-pro" -> mimo), else its
-// provider, so that an unknown model is still its own family and never matches another's.
+// The family of a model id, read from its last segment only, so that one model reached through two
+// routes ("google/gemini-2.5-pro", "openrouter/google/gemini-2.5-pro") is one family (Sol's R1 on
+// PR 114): a known prefix, else the segment's leading word ("acme-widget-1" -> acme), never the
+// provider or route.
 export function familyOfId(id) {
   const base = id.split('/').pop().toLowerCase();
-  return FAMILIES.find(([re]) => re.test(base))?.[1] ?? id.split('/')[0];
+  return FAMILIES.find(([re]) => re.test(base))?.[1] ?? (base.match(/^[a-z]+/)?.[0] || base);
 }
 
 // harness.json's entry for `name`, else the model `name` spells, else null. Throws on DeepSeek.
@@ -50,7 +58,11 @@ export function selfTest() {
   ok('MiniMax family', namedModel('minimax/MiniMax-M3', models).family === 'minimax');
   ok('family from the last segment', namedModel('openrouter/xiaomi/mimo-v2.6-pro', models).family === 'mimo');
   ok('GLM on Alibaba is glm', namedModel('alibaba-token-plan/glm-5.3', models).family === 'glm');
-  ok('an unknown model is its provider', namedModel('acme/widget-1', models).family === 'acme');
+  ok('an unknown model is its leading word', namedModel('acme/widget-1', models).family === 'widget');
+  ok('one model on two routes is one family (Sol R1, PR 114)',
+    namedModel('google/gemini-2.5-pro', models).family === namedModel('openrouter/google/gemini-2.5-pro', models).family);
+  ok('an unknown model on two routes is one family',
+    namedModel('acme/widget-1', models).family === namedModel('openrouter/acme/widget-1', models).family);
   ok('a bare unknown word is not a model', namedModel('sonnet-ish', models) === null);
   let threw = false;
   try { namedModel('opencode-go/deepseek-v4-pro', models); } catch { threw = true; }

@@ -3,6 +3,8 @@
 //
 //   node tools/harness/review.mjs --pr 42 --brief brief.md [--reviewer NAME] [--exclude NAME,...]
 //     [--issue 12 --apply-label] [--done-when K] [--hard [--sol]] [--second-opinion] [--dry-run] [--env KEY=VALUE]...
+//     [--session ses_... --worktree <kept review worktree>]  resume a review our own limit stopped
+//     [--total-timeout-sec N] [--idle-timeout-sec N]          override harness.json's limits
 //   node tools/harness/review.mjs --self-test   (the reader's samples; no model is called)
 //
 // The brief's first line is the review header the model prints, e.g. "T07 review (Luna)"; with the
@@ -53,6 +55,7 @@ import { randomBytes } from 'node:crypto';
 import { runOpenCodeWatched, resolveOpenCode, OpenCodeInfraError, keyProblem } from './lib/opencode.mjs';
 import { credentialJail, OFF_WARNING } from './lib/jail.mjs';
 import { namedModel } from './lib/named.mjs';
+import { isResumable, lookupSession } from './lib/opencode.mjs';
 import { runChain, excludeImplementers, readReview, doneWhenCount, briefTargets } from './lib/chain.mjs';
 import { planPost, publish, postComment, applyLabel, withdrawApproval, combinePlans } from './lib/post.mjs';
 import { selfTest, SAMPLES } from './lib/review-selftest.mjs';
@@ -72,6 +75,20 @@ if (a['self-test']) {
 }
 if (!a.pr || !a.brief) die(2, '--pr and --brief are required.');
 if (a['apply-label'] && !a.issue) die(2, '--apply-label needs --issue.');
+// Resuming (the owner's rule 13, 2026-10-11; Sol's R4 on PR 114): the session and the worktree it
+// ran in, kept when our own limit stopped it, on the reviewer the user named.
+if (a.session && !/^ses_\w+$/.test(a.session)) die(2, `--session takes an OpenCode session id (ses_...); got ${a.session}`);
+if (a.session && (!a.reviewer || !a.worktree)) die(2, '--session resumes on the named reviewer in its kept worktree: give --reviewer and --worktree too.');
+if (a.worktree && !a.session) die(2, '--worktree goes with --session.');
+if (a.session && a['second-opinion']) die(2, '--session resumes one review; it does not take --second-opinion.');
+const limit = (k) => {
+  if (a[k] === undefined) return null;
+  const n = Number(a[k]);
+  if (!Number.isInteger(n) || n <= 0) die(2, `--${k} takes a positive number of seconds; got ${a[k]}`);
+  return n;
+};
+const totalSec = limit('total-timeout-sec');
+const idleSec = limit('idle-timeout-sec');
 const brief = fs.readFileSync(a.brief, 'utf8').split(/\r?\n/);
 const briefHeader = brief[0].trim();
 const doneWhen = a['done-when'] !== undefined ? Number(a['done-when']) : doneWhenCount(brief.join('\n'));
@@ -158,9 +175,23 @@ if (stale.length) {
     + 'GitHub updated: take it from the local branch (git rev-parse <branch>), or rerun once GitHub shows it.');
 }
 sh('git', ['-C', top, 'fetch', '-q', 'origin', `pull/${a.pr}/head`]);
-// A path of this invocation's own, recreated for each attempt; only this tree is ever removed.
-const worktree = path.join(workRoot, `${a.pr}-review-${randomBytes(4).toString('hex')}`);
+// A path of this invocation's own, recreated for each attempt; only this tree is ever removed. A
+// resumed review runs in its kept tree instead, which must be this PR's review tree at its head.
+let worktree = path.join(workRoot, `${a.pr}-review-${randomBytes(4).toString('hex')}`);
 let created = false;
+let keep = false;          // our own limit stopped the run: keep the tree for --session
+if (a.session) {
+  const kept = path.resolve(a.worktree);
+  if (path.dirname(kept) !== path.resolve(workRoot) || !path.basename(kept).startsWith(`${a.pr}-review-`) || !fs.existsSync(kept)) {
+    die(2, `--worktree must be a kept review worktree of PR ${a.pr} in ${workRoot}; got ${a.worktree}. Nothing was run.`);
+  }
+  const at = sh('git', ['-C', kept, 'rev-parse', 'HEAD'], { allowFail: true });
+  if (at !== headSha) die(2, `--worktree ${kept} is at ${at || 'no commit'}, not PR ${a.pr}'s head ${headSha}: review the new head afresh. Nothing was run.`);
+  const found = await lookupSession(opencode, { workDir: fs.realpathSync(kept), title: '', startedMs: 0, env: reviewEnv, sessionId: a.session, timeoutMs: 60_000 });
+  if (!found.session) die(2, `--session ${a.session}: ${found.miss}. Nothing was run.`);
+  worktree = kept;
+  created = true;          // ours to remove once the review is done
+}
 const removeTree = () => {
   if (!created) return;
   sh('git', ['-C', top, 'worktree', 'remove', '--force', worktree], { allowFail: true });
@@ -181,7 +212,7 @@ const runReview = async (names, second) => {
   try {
     return await runChain({ chain: names, log: say, reset: async () => {}, attempt: (m) => attempt(m, second) });
   } finally {
-    removeTree();
+    if (!keep) removeTree();
   }
 };
 const attempt = async (m, second) => {
@@ -214,18 +245,24 @@ OUTPUT RULES (from tools/harness/review.mjs; they override anything above that c
   (git -C <path> show <pin>:<file>); run that exactly as written — OpenCode does not path-check
   git -C — and read a granted outside path only with the L59 recipe.
 `;
-      newTree();
+      if (!a.session) newTree();
       const watch = watchLine(m, model);
       if (watch) say(watch);
       let run;
       try {
         run = await runOpenCodeWatched({
           args: ocArgs(worktree, rev.agent, model), prompt, workDir: worktree, title: `pr${a.pr}-${m}`,
-          startupTimeoutMs: rev.startupTimeoutSec * 1000, idleTimeoutMs: rev.idleTimeoutSec * 1000,
-          totalTimeoutMs: rev.totalTimeoutSec * 1000, opencode, env: reviewEnv, log: say,
+          sessionId: a.session ?? null,
+          startupTimeoutMs: rev.startupTimeoutSec * 1000, idleTimeoutMs: (idleSec ?? rev.idleTimeoutSec) * 1000,
+          totalTimeoutMs: (totalSec ?? rev.totalTimeoutSec) * 1000, opencode, env: reviewEnv, log: say,
         });
       } catch (e) {
         if (!(e instanceof OpenCodeInfraError)) throw e;
+        // Our own limit: keep the tree and stop, to resume in this session (rule 13).
+        if (isResumable(e.reason) || a.session) {
+          keep = true;
+          return { ok: false, reason: e.reason, detail: e.message, stop: true, sessionId: e.sessionId ?? a.session ?? null };
+        }
         return { ok: false, reason: e.reason, detail: e.message };
       }
       // OpenCode's own error stream on a failed run, never the model's output (Luna's R1, round 2).
@@ -252,6 +289,12 @@ const planOf = (r, list) => planPost({
 });
 
 const result = await runReview(usable, false);
+if (!result.ok && result.stopped) {
+  die(3, `The review stopped (${failed(result)}); nothing was posted, and its worktree ${worktree} is kept. `
+    + (result.sessionId ? `Resume: node tools/harness/review.mjs --pr ${a.pr} --brief ${a.brief} --reviewer ${result.failures[0].name}`
+      + ` --session ${result.sessionId} --worktree ${worktree} --total-timeout-sec <longer>${a.issue ? ` --issue ${a.issue}` : ''}${a['apply-label'] ? ' --apply-label' : ''}`
+      : 'No session id was recorded: read the log, then decide with the user.'));
+}
 if (!result.ok) die(3, `OpenCode unavailable: ${why(result)}. ${fallback}`);
 const plan = planOf(result, chain);
 if (!a['second-opinion']) {
