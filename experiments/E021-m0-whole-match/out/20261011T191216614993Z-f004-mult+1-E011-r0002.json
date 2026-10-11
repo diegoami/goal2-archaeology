@@ -1,0 +1,57 @@
+{
+ "final": {
+  "831F": 0,
+  "831D": 0,
+  "8325": 0,
+  "831B": 91,
+  "7B62": 4165,
+  "score": [
+   0,
+   0
+  ],
+  "ticks": 0,
+  "draws": 5799560
+ },
+ "key_log": [
+  [
+   "captain screen (the starting burst's Enter)",
+   13,
+   0,
+   0,
+   37141
+  ]
+ ],
+ "strays": [],
+ "hook_counts": {
+  "214B:0688": 5799565
+ },
+ "inputs": [
+  {
+   "what": "delay byte [DS:A923]+0x3F",
+   "linear": 382645,
+   "old": "01",
+   "new": "00"
+  }
+ ],
+ "run_id": "E011-r0002",
+ "hook": "f004-mult+1",
+ "start_state": {
+  "name": "E011-r0002-watchstart.sav",
+  "sha256": "9d475dcbec7822232aa7877c46e09ab9447520fc3e01fbc351d50ecb3155e100"
+ },
+ "reads_matched": 0,
+ "reads": 49,
+ "checks": {
+  "full-time score equals the record's": false,
+  "the 000E skip log is empty": true,
+  "keys: the three declared screens, Enter each": false,
+  "stopped at the full-time board's key wait": false,
+  "seed at the board equals the record's full-time read": false,
+  "board screen sha256 equals the record's full-time screen": false,
+  "every seed write equals the unhooked original's (hooked runs)": false
+ },
+ "error": null,
+ "seconds": 600.0,
+ "draws_count": 5799560,
+ "draws_sha256": "518e7daea2ae9613aa801f36ec8898b2702977c4cdab505e7b202efbd41004ec"
+}
