@@ -24,14 +24,14 @@
 - The watched engine reads form and energy in every skill read, `0791:278A`: `base = (s8(+0xC) < 0x20 ? s8(+0xC) + 1 : 0) + (element >= 0xC ? 0x20 : s8(+0xE))`, `value = ((base * skill) mod 65536) div 256 + skill div 4`. static:static/goal-exe/code/seg_0791_04.asm:860 static:static/goal-exe/code/seg_0791_04.asm:874 static:static/goal-exe/code/seg_0791_04.asm:878 static:static/goal-exe/code/seg_0791_04.asm:902
 - The original `278A` equals the model on 209 literal comparisons over elements 3, 10 and 12, energy 0..0xFE, form 0..0xFF, the halving flag, the keeper extra and the home share. static:experiments/E020-q018-condition-performance/records/contest-001.json static:experiments/E020-q018-condition-performance/records/contest-002-events.json static:experiments/E020-q018-condition-performance/records/contest-003-fitness.json
 - The watched engine reads energy alone in three chance gates: `2B7B` (true with probability 1/(33 - E), used by `4A28`), `4A28` (a marking target is followed only if signed E exceeds a 1..6 draw) and `5049` (random-is-one of E idiv 2). static:static/goal-exe/code/seg_0791_05.asm:220 static:static/goal-exe/code/seg_0791_08.asm:561 static:static/goal-exe/code/seg_0791_09.asm:353
-- The watched engine reaches `377E` only through `BD03`, the post-goal tactics comparison, and not through `0BC4`. static:experiments/E020-q018-condition-performance/reach-001.txt:161
+- The watched engine reaches `377E` only through `BD03`, the post-goal tactics comparison, and not through `0BC4`. static:experiments/E020-q018-condition-performance/reach-001.txt:98
 - Team morale `DS:9B5A` reaches no match code: its only readers are the team panel `157D` (label index and bar) and its writer `13D0`, reached from the team screens. static:static/goal-exe/code/seg_1771_03.asm:246 static:static/goal-exe/code/seg_1771_03.asm:303 static:static/goal-exe/code/seg_1771_02.asm:1056
 
 ### The rule
 
 - Both bytes are read signed: energy 0x80..0xFF and 0 make a player unavailable, form 0x80..0xFF subtracts. static:experiments/E020-q018-condition-performance/records/strength-001.json static:static/goal-exe/code/seg_1771_05.asm:777
-- In the quick engine one energy point is one strength point (`+1` per point of `+0xE`) and one form point is one strength point up to 0x1F; at form 0x20 and above the term turns into a loss of a sixteenth, so form 0x1F is the best value and the clamp's top value 0x20 is worse, for example 226 at (energy 32, form 31) against 183 at (32, 32) at skill +4 = 225. static:experiments/E020-q018-condition-performance/tables-001.txt:6 static:static/goal-exe/code/seg_1771_05.asm:796
-- In the watched engine the same cutoff holds (form adds `s8(+0xC) + 1` below 0x20 and nothing from 0x20 up), and a skill read at (energy 1, form 1) is 0.514 of the value at (32, 31), at element 3 of the sample record. static:experiments/E020-q018-condition-performance/tables-001.txt:21 static:static/goal-exe/code/seg_0791_04.asm:860
+- In the quick engine one energy point is one strength point (`+1` per point of `+0xE`) and one form point is one strength point up to 0x1F; at form 0x20 and above the term turns into a loss of a sixteenth, so form 0x1F is the best value and the clamp's top value 0x20 is worse, for example 226 at (energy 32, form 31) against 183 at (32, 32) at skill +4 = 225. static:experiments/E020-q018-condition-performance/tables-001.txt:7 static:static/goal-exe/code/seg_1771_05.asm:796
+- In the watched engine the same cutoff holds (form adds `s8(+0xC) + 1` below 0x20 and nothing from 0x20 up), and a skill read at (energy 1, form 1) is 0.514 of the value at (32, 31), at element 3 of the sample record. static:experiments/E020-q018-condition-performance/tables-001.txt:17 static:static/goal-exe/code/seg_0791_04.asm:860
 
 ### The size of the effect at equal skill (quick engine, second half from 0-0)
 
@@ -44,8 +44,8 @@
 
 ### The hypothesis, per engine
 
-- Quick engine: yes, with one exception for form, since energy always helps and form helps up to 0x1F and hurts at 0x20 and above. static:experiments/E020-q018-condition-performance/effect-001.json static:experiments/E020-q018-condition-performance/tables-001.txt:6
-- Watched engine: yes at the level of every skill read, which scales with energy and form, but the size of the effect on a match is not established, because no model of `9564` exists to play it. static:experiments/E020-q018-condition-performance/tables-001.txt:21 static:static/goal-exe/code/seg_0791_04.asm:902
+- Quick engine: yes, with one exception for form, since energy always helps and form helps up to 0x1F and hurts at 0x20 and above. static:experiments/E020-q018-condition-performance/effect-001.json static:experiments/E020-q018-condition-performance/tables-001.txt:7
+- Watched engine: yes at the level of every skill read, which scales with energy and form, but the size of the effect on a match is not established, because no model of `9564` exists to play it. static:experiments/E020-q018-condition-performance/tables-001.txt:17 static:static/goal-exe/code/seg_0791_04.asm:902
 
 ## Method
 

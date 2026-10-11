@@ -109,9 +109,9 @@ both engines' arithmetic trees.
 
 ## 4. Corroboration
 
-- Original `377E` on 193 literal records and original `278A` on 209 literal records, model and original
+- Original `377E` on 376 literal records and original `278A` on 209 literal records, model and original
   equal on all (`check_condition.py`, `match:` line in `check-001.log`).
-- Original quick second half on equal-skill states edited by player word, 16 seeds in two scenarios
+- Original quick second half on equal-skill states edited by player word, 32 halves (8 seeds in each of four scenarios)
   (`half-*` records), model and original equal on score, final seed and number of draws.
 - No DOSBox-X run was taken: the engines' arithmetic was answerable statically and by running the
   original's own code, which is what a DOSBox-X run of the same edited bytes would execute; the
