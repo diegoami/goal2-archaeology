@@ -129,14 +129,21 @@ REGS_RETURNED = ("AX", "DX", "SP", "BP", "SS", "DS", "CS", "IP")
 # Not compared, but a difference at the return is a WARNING, counted per register
 # (`scratch_differences`; the first one per register is printed to stderr): the owner, 2026-10-11.
 REGS_SCRATCH = ("BX", "CX", "SI", "DI", "ES", "FLAGS")
+# How far below the entry SP the original's own stack writes count as its frame: the routine's
+# pushes and locals (F004's reach 10 bytes, seg_214B_01.asm `214B:0688`); a write lower than this
+# is compared like any other. A [designed] bound, not from a finding.
+FRAME_WINDOW = 0x200
 REGS_ALL = ("EAX", "EBX", "ECX", "EDX", "ESI", "EDI", "EBP", "ESP", "EFLAGS",
             "CS", "DS", "ES", "SS", "FS", "GS", "EIP")
 
 
 class _RecordingUc:
-    """Stands in for the Unicorn object while a hook's fn runs: every `mem_write` (through
-    `Guest.put`, `set_word` or `guest.mu.mem_write` itself) is recorded byte by byte, in order,
-    and reported to the watched words at write time; everything else is the real object's."""
+    """`Guest.mu`, always (Sol's R1 on PR 136's round 2: a `mu.mem_write` bound before a hook was
+    registered bypassed a recorder swapped in only while the fn ran). While a hook's fn runs, every
+    `mem_write` through it (`Guest.put`, `set_word`, `guest.mu.mem_write`, or a method bound from
+    it earlier) is recorded byte by byte, in order, and reported to the watched words at write
+    time; otherwise it writes straight through. Everything else is the real Unicorn object's. The
+    harness's own writes use `Guest._uc`, the real object, which is private."""
 
     def __init__(self, guest, uc):
         self._guest, self._uc = guest, uc
@@ -145,7 +152,10 @@ class _RecordingUc:
         return getattr(self._uc, name)
 
     def mem_write(self, address, data):
-        self._guest._fn_write(address, bytes(data))
+        if getattr(self._guest, "_fn_writes", None) is None:
+            self._uc.mem_write(address, bytes(data))
+        else:
+            self._guest._fn_write(address, bytes(data))
 
 
 class KeyWaitError(RuntimeError):
@@ -160,7 +170,8 @@ class Guest:
     paragraphs, relocated by the load segment (`seg()`)."""
 
     def __init__(self, data=None, *, memory=None, load=0, regs=None):
-        self.mu = self._uc = Uc(UC_ARCH_X86, UC_MODE_16)
+        self._uc = Uc(UC_ARCH_X86, UC_MODE_16)
+        self.mu = _RecordingUc(self, self._uc)
         self.mu.mem_map(0, 0x110000)
         if data is not None:
             st = savestate.Savestate(data)
@@ -270,11 +281,9 @@ class Guest:
             return report
         watch, self._watch = self._watch, [(lin, seen(lin, cb)) for lin, cb in self._watch]
         self._fn_writes = []
-        self.mu = _RecordingUc(self, self._uc)
         try:
             fn(self)
         finally:
-            self.mu = self._uc
             self._watch = watch
             writes, self._fn_writes = self._fn_writes, None
         for lin, cb in watch:              # a change made past the recorder (guest._uc)
@@ -301,8 +310,9 @@ class Guest:
         state is taken, memory and registers are put back, `fn` runs on the same state with its
         writes recorded the same way, and the two must be identical: the registers of
         REGS_RETURNED after the return, and the written bytes and their order, outside the
-        routine's own stack frame (SS below the caller's SP after the return: the return address,
-        the arguments, saved registers and locals, dead once it returns). The first difference
+        routine's own dead frame: from the lowest stack byte the original wrote within
+        FRAME_WINDOW below its entry SP (its pushes and locals) up to the caller's SP after the
+        return (the return address and the arguments popped). The first difference
         raises ProofError naming the call number, the address and the byte (or the register).
         The match continues from the model's state; `proved_calls[address]` counts clean calls.
         A difference in BX, CX, SI, DI, ES or the flags at the return is not an error but a WARNING,
@@ -352,7 +362,14 @@ class Guest:
                 state["phase"] = None
                 self.suppress_guest_watch = False
                 self.return_from(far, pop)
-                frame = (state["ss"] * 16, state["ss"] * 16 + self.reg("sp"))
+                # the routine's own dead frame (Sol's R2 on PR 136's round 2): from the lowest stack
+                # byte the ORIGINAL wrote within FRAME_WINDOW below its entry SP (its pushes and
+                # locals) up to the caller's SP after the return (the return address and the
+                # arguments popped); every other byte is compared, an aliased output included
+                base = state["ss"] * 16 + state["sp"]
+                below = [a + i for a, o, n in state["writes"] for i in range(len(n))
+                         if base - FRAME_WINDOW <= a + i < base]
+                frame = (min(below, default=base), state["ss"] * 16 + self.reg("sp"))
                 original_regs = {r: self.reg(r) for r in REGS_RETURNED + REGS_SCRATCH}
                 original = [(a + i, n[i]) for a, o, n in state["writes"] for i in range(len(n))]
                 for a, o, n in reversed(state["writes"]):     # undo the original

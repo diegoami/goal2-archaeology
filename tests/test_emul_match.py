@@ -46,11 +46,11 @@ END = CODE * 16 + 14
 SP0 = 0xFF00
 
 
-def machine():
+def machine(ss=0x0800):
     mem = bytearray(0x30000)
     mem[CODE * 16:CODE * 16 + len(PROGRAM)] = PROGRAM
     mem[ROUTINE * 16:ROUTINE * 16 + len(BODY)] = BODY
-    g = Guest(memory=mem, regs={"CS": CODE, "EIP": 0, "SS": 0x0800, "ESP": SP0, "DS": 0, "ES": 0})
+    g = Guest(memory=mem, regs={"CS": CODE, "EIP": 0, "SS": ss, "ESP": SP0, "DS": 0, "ES": 0})
     retf_runs = []
     g.mu.hook_add(UC_HOOK_CODE, lambda uc, a, s, d: retf_runs.append(a),
                   begin=ROUTINE * 16 + 4, end=ROUTINE * 16 + 4)
@@ -153,6 +153,45 @@ class SyntheticHookTests(unittest.TestCase):
             g.emulate(END, 5)
         self.assertEqual(str(cm.exception), "call #1 of 2000:0000: written byte #0 differs: the original wrote"
                          " 0x01 at linear 0x00100, the model wrote 0x02 at linear 0x00100")
+
+
+    def test_a_write_through_a_mu_writer_bound_before_the_hook_is_recorded(self):
+        # Sol's R1 on PR 136's round 2: `write = g.mu.mem_write` taken before the hook was registered
+        from watched_match import ProofError
+        g, _ = machine()
+        write = g.mu.mem_write
+
+        def fn(guest):
+            saved = guest.mem(0x200, 2)
+            write(0x200, b"\xad\xde")
+            write(0x200, saved)
+            guest.put(0x100, (guest.word_at(0x100) + 1).to_bytes(2, "little"))
+
+        g.hook("2000:0000", fn, ret=(True, 2), prove=True, ret_at=[4])
+        with self.assertRaises(ProofError) as cm:
+            g.emulate(END, 5)
+        self.assertEqual(str(cm.exception), "call #1 of 2000:0000: written byte #0 differs: the original wrote"
+                         " 0x01 at linear 0x00100, the model wrote 0xAD at linear 0x00200")
+
+    def test_an_output_aliased_into_the_stack_segment_below_sp_is_compared(self):
+        # Sol's R2 on PR 136's round 2: with SS = DS = 0 the output word DS:0100 lies below SP;
+        # only the routine's own dead frame is excluded, so a model adding 2 is stopped
+        from watched_match import ProofError
+        g, _ = machine(ss=0)
+        g.hook("2000:0000", lambda guest: guest.put(0x100, (guest.word_at(0x100) + 2).to_bytes(2, "little")),
+               ret=(True, 2), prove=True, ret_at=[4])
+        with self.assertRaises(ProofError) as cm:
+            g.emulate(END, 5)
+        self.assertEqual(str(cm.exception), "call #1 of 2000:0000: written byte #0 differs: the original wrote"
+                         " 0x01 at linear 0x00100, the model wrote 0x02 at linear 0x00100")
+
+    def test_a_correct_model_still_passes_with_the_stack_aliased(self):
+        g, _ = machine(ss=0)
+        g.hook("2000:0000", lambda guest: guest.put(0x100, (guest.word_at(0x100) + 1).to_bytes(2, "little")),
+               ret=(True, 2), prove=True, ret_at=[4])
+        g.emulate(END, 5)
+        self.assertEqual(g.proved_calls, {"2000:0000": 3})
+        self.assertEqual(g.word_at(0x100), 3)
 
 
 class ListingReturnTests(unittest.TestCase):
