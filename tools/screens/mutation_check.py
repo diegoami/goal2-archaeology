@@ -5,6 +5,7 @@ rule 9a). Prints one line per mutation: `killed` when the tests failed, `SURVIVE
 
     python3 tools/screens/mutation_check.py
 """
+import os
 import subprocess
 import sys
 from pathlib import Path
@@ -46,7 +47,10 @@ def main():
                 bad += 1
                 continue
             path.write_text(saved.replace(old, new, 1), encoding="utf-8", newline="\n")
-            r = subprocess.run([sys.executable, "-m", "unittest", module], cwd=ROOT, capture_output=True, text=True)
+            # -B: a mutation and its restore can leave a file the same size within the same second,
+            # and a .pyc written from the mutant would then be read as the restored file's.
+            r = subprocess.run([sys.executable, "-B", "-m", "unittest", module], cwd=ROOT,
+                               capture_output=True, text=True, env={**os.environ, "PYTHONDONTWRITEBYTECODE": "1"})
             killed = r.returncode != 0
             print(f"{'killed' if killed else 'SURVIVED':12s} {rel}: {what}")
             bad += 0 if killed else 1
