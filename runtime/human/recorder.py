@@ -52,8 +52,8 @@ Correctness rules (each pinned by a test in tests/test_human_record.py):
   ticks and between polls of `capture` and treats it as end-of-session: the loop returns, the
   shutdown pass runs (R4), `play()` writes meta, the file/socket is closed. A dead emulator
   during a snapshot no longer raises out of the loop.
-- The pause (T39b). F12+P is DOSBox-X's own pause (the session's mapper file); the Pause key
-  resumes. The loop reads it from the game window's title (after every key event, every
+- The pause (T39b). F12+P is DOSBox-X's own pause (the session's mapper file); F12+P again
+  resumes (the recorder presses Pause, marked `by: recorder` in keys.jsonl), as does Pause. The loop reads it from the game window's title (after every key event, every
   PAUSE_POLL_S, and right before every send), logs pauses.jsonl, sends no save request while
   paused, requests the pause's snapshot right after the resume, and no capture re-sends, or
   accepts a write landed after, a pause that began after its request (tests/test_human_pause.py).
