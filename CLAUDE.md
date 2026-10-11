@@ -125,9 +125,12 @@ the docs and `harness.json` that pick a model are superseded by them.
      branch but not on origin for ~15 minutes (push it for the run and record it);
    - free memory, if the machine is short of it: run reviews and builds one at a time.
    For a Claude subagent, the progress signal is its transcript file's size plus its worktree.
-10. Tell the user, in plain language, what each running agent is doing: the step it is on, what it
-    committed, what it found (from its notes, commits and latest session messages). Never raw log
-    lines or byte counts.
+10. Tell the user, in plain language, what each running agent is doing: the step it is on (as "step k
+    of n" where the brief has steps), what it committed, what it found (from its notes, commits and
+    latest session messages). Never raw log lines or byte counts. As soon as an OpenCode run's log
+    shows `session ses_… started`, give the user the session id and the command to follow it,
+    `tools/harness/peek.sh ses_… [-n 20]` (or the run log's path), and repeat the id in every update
+    (the owner, 2026-10-11, after isle-wars-archaeology d1e0082).
 11. On a "possibly stuck" flag: check the process is alive, read its newest session messages
     (`opencode export <ses_...>`, or `/run-task` step 2's session reader); a long build or test step
     is not stuck. A dead or 20-minute-silent run is stuck: stop it, but only if it is ours (the
