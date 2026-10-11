@@ -1,0 +1,81 @@
+[18:43:51] session /home/diego/projects/goal2-archaeology-work/T35/scratch/human/sessions/20261009-204351
+[18:43:52] dosbox-x started (pid 476006)
+[18:43:52] game window 6291461 (pid 476006)
+[18:43:52] F12+S sent to window 6291461
+[18:43:52] live savestate changed or incomplete during capture: retrying
+[18:43:52] staged snapshots/snap-0001-20261009T184352Z.sav (210766 bytes, sha256 adf275d716f0c646...)
+[18:43:52] F12+S sent to window 6291461
+[18:43:52] burst group (last key +0.314s) requested at +0.369s
+[18:43:52] live savestate changed or incomplete during capture: retrying
+[18:43:52] staged snapshots/snap-0002-20261009T184352Z.sav (207394 bytes, sha256 a14a588d69ca4289...)
+[18:43:53] F12+S sent to window 6291461
+[18:43:53] burst group (last key +0.840s) requested at +0.898s
+[18:43:53] live savestate changed or incomplete during capture: retrying
+[18:43:53] staged snapshots/snap-0003-20261009T184353Z.sav (141190 bytes, sha256 8aa64cd0fea57215...)
+[18:43:53] F12+S sent to window 6291461
+[18:43:53] burst group (last key +1.367s) requested at +1.428s
+[18:43:53] live savestate changed or incomplete during capture: retrying
+[18:43:54] staged snapshots/snap-0004-20261009T184354Z.sav (181880 bytes, sha256 3dbb1f5ca9e9d8b9...)
+[18:43:54] F12+S sent to window 6291461
+[18:43:54] burst group (last key +1.892s) requested at +1.948s
+[18:43:54] live savestate changed or incomplete during capture: retrying
+[18:43:54] staged snapshots/snap-0005-20261009T184354Z.sav (183855 bytes, sha256 be357cf454e22b10...)
+[18:43:54] F12+S sent to window 6291461
+[18:43:54] burst group (last key +2.418s) requested at +2.475s
+[18:43:54] live savestate changed or incomplete during capture: retrying
+[18:43:55] staged snapshots/snap-0006-20261009T184355Z.sav (183145 bytes, sha256 3622ba2484325a96...)
+[18:43:55] F12+S sent to window 6291461
+[18:43:55] burst group (last key +2.943s) requested at +3.004s
+[18:43:55] live savestate changed or incomplete during capture: retrying
+[18:43:55] staged snapshots/snap-0007-20261009T184355Z.sav (181879 bytes, sha256 0d7236ba2dc0c957...)
+[18:43:55] F12+S sent to window 6291461
+[18:43:55] burst group (last key +3.469s) requested at +3.525s
+[18:43:55] live savestate changed or incomplete during capture: retrying
+[18:43:56] staged snapshots/snap-0008-20261009T184356Z.sav (182627 bytes, sha256 0272ab3ee21a6e44...)
+[18:43:56] F12+S sent to window 6291461
+[18:43:56] burst group (last key +3.995s) requested at +4.056s
+[18:43:56] live savestate changed or incomplete during capture: retrying
+[18:43:56] staged snapshots/snap-0009-20261009T184356Z.sav (182312 bytes, sha256 49dc51a4377bcadc...)
+[18:43:56] F12+S sent to window 6291461
+[18:43:56] burst group (last key +4.521s) requested at +4.584s
+[18:43:56] live savestate changed or incomplete during capture: retrying
+[18:43:57] staged snapshots/snap-0010-20261009T184357Z.sav (183792 bytes, sha256 ff5f613d7dcd2ad4...)
+XGetInputFocus returned the focused window of 1. This is likely a bug in the X server.
+XGetInputFocus returned the focused window of 1. This is likely a bug in the X server.
+[18:43:57] F12+S sent to window 6291461
+[18:43:57] burst group (last key +5.048s) requested at +5.105s
+[18:43:57] live savestate changed or incomplete during capture: retrying
+[18:43:57] staged snapshots/snap-0011-20261009T184357Z.sav (182328 bytes, sha256 a71d7e6b30d53ea9...)
+[18:44:12] F12+S sent to window 6291461
+[18:44:12] live savestate changed or incomplete during capture: retrying
+[18:44:12] staged snapshots/snap-0012-20261009T184412Z.sav (181442 bytes, sha256 3113d458b98035fe...)
+[18:44:24] quit-after 32.0s reached
+[18:44:25] shutdown snapshot already indexed (3113d458b98035fe...): skipping
+[18:44:25] done: 12 snapshots, stop quit-after
+map coverage OK: screens: 2, transitions: 10, keys: 10; every press mapped
+privacy OK: a/b/c/d/e/f/g/h/i/j game keys only; outer-app x/y/z excluded (xev log holds them; outer raw reader saw 2 RawKeyPress); burst snapshots: 10 for 10 key group(s)
+gaps (s): [0.51, 0.51, 0.51, 0.51, 0.51, 0.51, 0.51, 0.51, 0.51]
+session: scratch/human/sessions/20261009-204351
+screens: 2, transitions: 10, keys: 10
+# Observed screen/key map
+
+screens: 2, transitions: 10, keys: 10
+
+Ordered bursts are associations between snapshots, not proof of individual-key causality.
+
+| Before (text digest) | Keys pressed | After (text digest) | Count |
+| --- | --- | --- | --- |
+| Z:\>c: (bf21a67d0bdc) | a | Z:\>c: (bf21a67d0bdc) | 1 |
+| Z:\>c: (bf21a67d0bdc) | b | Z:\>c: (bf21a67d0bdc) | 1 |
+| Z:\>c: (bf21a67d0bdc) | c | (c) NE'93│ │                                                    │     (c) (09d3e9010708) | 1 |
+| (c) NE'93│ │                                                    │     (c) (09d3e9010708) | d | (c) NE'93│ │                                                    │     (c) (09d3e9010708) | 1 |
+| (c) NE'93│ │                                                    │     (c) (09d3e9010708) | e | (c) NE'93│ │                                                    │     (c) (09d3e9010708) | 1 |
+| (c) NE'93│ │                                                    │     (c) (09d3e9010708) | f | (c) NE'93│ │                                                    │     (c) (09d3e9010708) | 1 |
+| (c) NE'93│ │                                                    │     (c) (09d3e9010708) | g | (c) NE'93│ │                                                    │     (c) (09d3e9010708) | 1 |
+| (c) NE'93│ │                                                    │     (c) (09d3e9010708) | h | (c) NE'93│ │                                                    │     (c) (09d3e9010708) | 1 |
+| (c) NE'93│ │                                                    │     (c) (09d3e9010708) | i | (c) NE'93│ │                                                    │     (c) (09d3e9010708) | 1 |
+| (c) NE'93│ │                                                    │     (c) (09d3e9010708) | j | (c) NE'93│ │                                                    │     (c) (09d3e9010708) | 1 |
+
+Unmapped presses: 0
+
+EXIT=0

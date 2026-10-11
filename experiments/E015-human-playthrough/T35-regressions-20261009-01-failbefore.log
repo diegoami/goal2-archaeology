@@ -1,0 +1,39 @@
+test_a_fast_overwrite_is_superseded_not_staged (tests.test_human_keys.AttributionBypassTests.test_a_fast_overwrite_is_superseded_not_staged) ... ok
+test_a_one_save_of_later_write_events_is_not_staged_under_the_earlier_request (tests.test_human_keys.AttributionBypassTests.test_a_one_save_of_later_write_events_is_not_staged_under_the_earlier_request) ... FAIL
+test_the_stability_fallback_never_restages_consumed_bytes (tests.test_human_keys.AttributionBypassTests.test_the_stability_fallback_never_restages_consumed_bytes) ... ok
+test_a_line_with_write_accounting_but_no_pre_send_state_is_rejected (tests.test_human_keys.GuardAttributionTests.test_a_line_with_write_accounting_but_no_pre_send_state_is_rejected) ... FAIL
+test_a_request_that_staged_nothing_is_rejected (tests.test_human_keys.GuardAttributionTests.test_a_request_that_staged_nothing_is_rejected) ... FAIL
+test_a_well_evidenced_sitting_passes (tests.test_human_keys.GuardAttributionTests.test_a_well_evidenced_sitting_passes) ... ok
+test_an_ordinary_staged_line_without_evidence_is_rejected (tests.test_human_keys.GuardAttributionTests.test_an_ordinary_staged_line_without_evidence_is_rejected) ... ok
+test_staged_requests_must_own_increasing_writes (tests.test_human_keys.GuardAttributionTests.test_staged_requests_must_own_increasing_writes) ... ok
+test_two_saves_in_one_request_window_are_rejected (tests.test_human_keys.GuardAttributionTests.test_two_saves_in_one_request_window_are_rejected) ... ok
+
+======================================================================
+FAIL: test_a_one_save_of_later_write_events_is_not_staged_under_the_earlier_request (tests.test_human_keys.AttributionBypassTests.test_a_one_save_of_later_write_events_is_not_staged_under_the_earlier_request)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T35/tests/test_human_keys.py", line 908, in test_a_one_save_of_later_write_events_is_not_staged_under_the_earlier_request
+    self.assertIsNone(entry)                    # nothing staged under its window
+    ^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: {'seq': 1, 'file': 'snapshots/snap-0001-20261009T175744Z.sav', 'bytes': 312, 'sha256': 'b69f290e34605a41f66775cee987632d593a5ce17ba2ad25edf7f4f04b2d9ab7', 'utc': '2026-10-09T17:57:44.530Z', 'elapsed_s': 0.25, 'origin': 'burst', 'request_s': 0.0, 'sent_s': 0.03} is not None
+
+======================================================================
+FAIL: test_a_line_with_write_accounting_but_no_pre_send_state_is_rejected (tests.test_human_keys.GuardAttributionTests.test_a_line_with_write_accounting_but_no_pre_send_state_is_rejected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T35/tests/test_human_keys.py", line 979, in test_a_line_with_write_accounting_but_no_pre_send_state_is_rejected
+    self.assertFalse(ok)
+AssertionError: True is not false
+
+======================================================================
+FAIL: test_a_request_that_staged_nothing_is_rejected (tests.test_human_keys.GuardAttributionTests.test_a_request_that_staged_nothing_is_rejected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T35/tests/test_human_keys.py", line 990, in test_a_request_that_staged_nothing_is_rejected
+    self.assertFalse(ok)
+AssertionError: True is not false
+
+----------------------------------------------------------------------
+Ran 9 tests in 0.032s
+
+FAILED (failures=3)

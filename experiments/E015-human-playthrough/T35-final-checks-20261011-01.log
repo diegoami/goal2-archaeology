@@ -1,0 +1,61 @@
+# T35 round 3 final checks at aabbee1c3b6fe2161aee8c016bd546911120655a, 2026-10-11T08:26:28Z; DOSBox-X version 2024.03.01 SDL2, copyright 2011-2024 The DOSBox-X Team.
+## DW1
+test_a_one_save_of_later_write_events_is_not_staged_under_the_earlier_request (tests.test_human_keys.AttributionBypassTests.test_a_one_save_of_later_write_events_is_not_staged_under_the_earlier_request) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.029s
+
+OK
+exit 0
+## DW2
+test_a_request_that_staged_nothing_is_rejected (tests.test_human_keys.GuardAttributionTests.test_a_request_that_staged_nothing_is_rejected) ... ok
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.001s
+
+OK
+exit 0
+## DW2 (amended): the matching-window reproduction
+T35 r4-R2 reproduction: bracketing snapshot + key event, later-request bytes, keys a;b;c
+  attribution: FAIL — request attribution lost: 54 write events after the last staged request: a save no request line owns, so a staged line holds another save's bytes
+  burst count: PASS — 1 burst snapshots for 1 key group(s)
+  request-window timing: PASS — 1 request windows interleaved with their key groups
+  mapped coverage: PASS — screens: 2, transitions: 1, keys: 3; every press mapped
+evidence-free guard: attribution rejected the sitting — request attribution lost: 54 write events after the last staged request: a save no request line owns, so a staged line holds another save's bytes
+exit 1
+## DW3
+[08:26:49] live savestate changed or incomplete during capture: retrying
+[08:26:50] staged snapshots/snap-0012-20261011T082650Z.sav (183908 bytes, sha256 9a2e754b0322770f...)
+[08:27:01] quit-after 32.0s reached
+[08:27:02] shutdown snapshot already indexed (9a2e754b0322770f...): skipping
+[08:27:02] done: 12 snapshots, stop quit-after
+acceptance guard FAILED: request attribution lost: the sitting records no write_events_total: nothing proves every save is owned by a request line (evidence-free)
+exit 1
+## DW4
+[08:27:08] live savestate changed or incomplete during capture: retrying
+[08:27:09] staged snapshots/snap-0004-20261011T082709Z.sav (182008 bytes, sha256 eca6a2dc482e6d90...)
+[08:27:22] quit-after 18.0s reached
+[08:27:23] shutdown snapshot already indexed (eca6a2dc482e6d90...): skipping
+[08:27:23] done: 4 snapshots, stop quit-after
+acceptance guard FAILED: request attribution lost: the sitting records no write_events_total: nothing proves every save is owned by a request line (evidence-free)
+exit 1
+## DW5 tests (minus #100's host-path test)
+
+
+----------------------------------------------------------------------
+Ran 719 tests in 145.900s
+
+FAILED (failures=2, skipped=2)
+exit 1
+## DW5 tests/static
+
+
+----------------------------------------------------------------------
+Ran 89 tests in 6.999s
+
+FAILED (errors=1)
+exit 1
+## DW6
+links and JSON ok (1076 files)
+exit 0
+END

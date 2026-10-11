@@ -1,0 +1,43 @@
+[18:44:27] session /home/diego/projects/goal2-archaeology-work/T35/scratch/human/sessions/20261009-204427
+[18:44:27] dosbox-x started (pid 478050)
+[18:44:27] game window 6291461 (pid 478050)
+[18:44:27] F12+S sent to window 6291461
+[18:44:27] live savestate changed or incomplete during capture: retrying
+[18:44:28] staged snapshots/snap-0001-20261009T184428Z.sav (210876 bytes, sha256 51adeeaa4ea3f01d...)
+[18:44:28] F12+S sent to window 6291461
+[18:44:28] burst group (last key +0.335s) requested at +0.388s
+[18:44:28] live savestate changed or incomplete during capture: retrying
+[18:44:28] staged snapshots/snap-0002-20261009T184428Z.sav (205412 bytes, sha256 0c31af89b520a07d...)
+[18:44:30] F12+S sent to window 6291461
+[18:44:30] burst group (last key +2.351s) requested at +2.412s
+[18:44:30] live savestate changed or incomplete during capture: retrying
+[18:44:30] staged snapshots/snap-0003-20261009T184430Z.sav (182242 bytes, sha256 09c803639533d2b7...)
+XGetInputFocus returned the focused window of 1. This is likely a bug in the X server.
+XGetInputFocus returned the focused window of 1. This is likely a bug in the X server.
+[18:44:32] F12+S sent to window 6291461
+[18:44:32] burst group (last key +4.367s) requested at +4.428s
+[18:44:32] live savestate changed or incomplete during capture: retrying
+[18:44:32] staged snapshots/snap-0004-20261009T184432Z.sav (182270 bytes, sha256 25fdde687892c5d0...)
+[18:44:45] quit-after 18.0s reached
+[18:44:46] shutdown snapshot already indexed (25fdde687892c5d0...): skipping
+[18:44:46] done: 4 snapshots, stop quit-after
+map coverage OK: screens: 2, transitions: 3, keys: 3; every press mapped
+privacy OK: a/b/c game keys only; outer-app x/y/z excluded (xev log holds them; outer raw reader saw 2 RawKeyPress); burst snapshots: 3 for 3 key group(s)
+gaps (s): [2.0, 2.0]
+session: scratch/human/sessions/20261009-204427
+screens: 2, transitions: 3, keys: 3
+# Observed screen/key map
+
+screens: 2, transitions: 3, keys: 3
+
+Ordered bursts are associations between snapshots, not proof of individual-key causality.
+
+| Before (text digest) | Keys pressed | After (text digest) | Count |
+| --- | --- | --- | --- |
+| Z:\>c: (7c622b44f998) | a | Z:\>c: (7c622b44f998) | 1 |
+| Z:\>c: (7c622b44f998) | b | (c) NE'93│ │                                                    │     (c) (09d3e9010708) | 1 |
+| (c) NE'93│ │                                                    │     (c) (09d3e9010708) | c | (c) NE'93│ │                                                    │     (c) (09d3e9010708) | 1 |
+
+Unmapped presses: 0
+
+EXIT=0
