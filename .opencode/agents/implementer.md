@@ -7,6 +7,8 @@ permission:
     "/tmp/opencode/*": allow
     "/tmp": allow
     "/tmp/*": allow
+    "~/tools/dosbox-x-2024.03.01": allow
+    "~/tools/dosbox-x-2024.03.01/*": allow
   bash:
     "*": allow
     "git push --force *": deny

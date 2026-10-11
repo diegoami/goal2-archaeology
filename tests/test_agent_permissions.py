@@ -7,6 +7,8 @@ import unittest
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
+# the one grant outside /tmp: the DOSBox-X 2024.03.01 bundle (#117), the folder and what is in it
+BUNDLE = ("~/tools/dosbox-x-2024.03.01", "~/tools/dosbox-x-2024.03.01/*")
 
 
 def grants(agent):
@@ -40,10 +42,18 @@ class AgentTmpGrantTests(unittest.TestCase):
             self.assertEqual(g.get("/tmp"), "allow", agent)
             self.assertEqual(g.get("/tmp/*"), "allow", agent)
 
+    def test_the_dosbox_bundle_is_open_to_both_agents(self):
+        # the pinned emulator every run executes (#117, setup/dosbox-x-2024.03.01.sh): a reviewer
+        # reading its wrapper ended PR 120's re-check (the owner, 2026-10-11)
+        for agent in ("implementer", "reviewer"):
+            g = grants(agent)
+            for p in BUNDLE:
+                self.assertEqual(g.get(p), "allow", (agent, p))
+
     def test_nothing_else_outside_the_worktree_is_granted(self):
         for agent in ("implementer", "reviewer"):
             outside = {p for p, action in grants(agent).items()
-                       if action == "allow" and not under_tmp(p)}
+                       if action == "allow" and not under_tmp(p) and p not in BUNDLE}
             self.assertEqual(outside, set(), agent)
 
     def test_a_dotted_path_out_of_tmp_is_not_under_tmp(self):
