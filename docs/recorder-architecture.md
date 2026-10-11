@@ -101,8 +101,13 @@ The owner coaches the main session while playing; three pieces serve that, all g
   window focused or an XSendEvent Pause; `T39b-probe-resume-20261011-01.log`), so F12+P typed
   while paused makes the recorder press Pause itself (XTEST, the window focused), marked `by:
   recorder` in `keys.jsonl` (however late the logger delivers it: an injection never expires) and
-  left out of the owner's presses and bursts. Only a fresh P press resumes: the held pausing P and
-  its autorepeat never do. A title that cannot be read is "unknown", and holds every send until a
+  left out of the owner's presses and bursts. Chords are judged from the key events alone, never by
+  when the logger's output was read. Each event keeps the X server's own time (`server_ms`, from
+  xinput's raw events). A press 0-1 server ms after its own release is the host's autorepeat
+  (`T39b-probe-autorepeat-20261012-01.log`). The first fresh F12+P after a resume is the one
+  that pauses, even when it is delivered after the title shows the pause; only the next one
+  resumes. No save request goes out while the owner holds F12 (bounded by `HOST_HOLD_MAX_S`): its
+  F12 release would break the owner's chord. A title that cannot be read is "unknown", and holds every send until a
   read answers. The extraction can name other injected keys (`extract.py --injected`). The pause swallows every key and
   every save request while it lasts (none is deferred), and appends ` PAUSED` to the window
   title (`experiments/E015-human-playthrough/T39b-probe-pause-20261011-01.log`). The watcher reads
