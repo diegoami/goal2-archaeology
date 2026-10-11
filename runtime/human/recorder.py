@@ -4,7 +4,10 @@ and turns the sitting into a complete behavioural record — a timestamped chain
 savestates, an index of them, and (optionally) a screen video of the game window.
 
     python3 runtime/human/recorder.py self-test [--video]
-    python3 runtime/human/recorder.py play [--video] [--quit-after SECS]
+    python3 runtime/human/recorder.py [play] [--video] [--quit-after SECS] [--load FILE.GL | --fresh]
+
+With no subcommand it plays. The newest saved game (.GL) of the previous sessions is copied into
+the new session's game copy unless --load names one or --fresh asks for none (T39b).
 
 Xephyr is shown on $DISPLAY; the game and raw key logger use only its nested display.
 The emulator, config family and session layout follow the G1 driver (runtime/driver/driver.py):
@@ -193,6 +196,24 @@ PAUSED_TITLE = " PAUSED"
 # ~5 ms). A key event always triggers a read at once (a pause chord is keys), so this period only
 # bounds how late a pause or resume with no logged key is seen. Recorder policy.
 PAUSE_POLL_S = 0.25
+# [designed] Bound on one title read: a read that does not answer is "unknown", never a crash of
+# the loop (T39b Scope 6). Recorder policy.
+PAUSE_READ_TIMEOUT_S = 2.0
+# [designed] After the key logger ends, how long play() waits for DOSBox-X to exit on its own
+# (the window was closed: Xephyr is gone and DOSBox-X loses its display) before it names the end
+# "key-logger-stopped" and terminates it. Recorder policy.
+WINDOW_CLOSE_WAIT_S = 5.0
+# [designed] The window in which a Pause key on the key log is the recorder's own injected one
+# (T39b Scope 5): xdotool's XTEST press and release reach the logger within milliseconds
+# (T34-probe-20261009-05.log: logger delivery max 5.7 ms); 2 s is a wide margin, and the owner's
+# keyboard has no Pause key. Recorder policy.
+INJECT_MARK_S = 2.0
+# The chord that resumes: F12 held and P pressed while DOSBox-X is paused (T39b Scope 5). DOSBox-X
+# ends its pause on the Pause key only (probe_pause log); the recorder presses it.
+HOST_KEYSYM, PAUSE_CHORD_KEYSYMS = "F12", ("p", "P")
+# [designed] One P press resumes once: a second within this many seconds of the recorder's own
+# Pause is the same request (a held key's autorepeat). Recorder policy.
+RESUME_DEBOUNCE_S = 1.0
 
 
 def mapper_text(default=None):
@@ -271,6 +292,26 @@ class KeyLogger:
         self.events = queue.Queue()
         self.proc, self.thread = None, None
         self.error = None
+        # keys the recorder itself is about to inject (T39b: the XTEST Pause that resumes on
+        # F12+P): keysym -> [events still expected, deadline]; the reader marks them `by:
+        # recorder` in keys.jsonl, so they are never counted as the owner's
+        self.expected = {}
+        self.lock = threading.Lock()
+
+    def expect_injected(self, keysym, events=2, within=INJECT_MARK_S, clock=time.monotonic):
+        """Mark the next `events` events of `keysym` (a press and its release) arriving within
+        `within` seconds as the recorder's own."""
+        with self.lock:
+            self.expected[keysym] = [events, clock() + within]
+
+    def mark(self, event, now):
+        """Tag `event` `by: recorder` when it is an expected injected key; returns the event."""
+        with self.lock:
+            want = self.expected.get(event["keysym"])
+            if want and want[0] > 0 and now <= want[1]:
+                want[0] -= 1
+                event["by"] = "recorder"
+        return event
 
     def start(self):
         import ctypes
@@ -308,6 +349,7 @@ class KeyLogger:
                         if event is not None:
                             event.update({"utc": datetime.now(timezone.utc).isoformat(),
                                           "monotonic_s": time.monotonic()})
+                            self.mark(event, event["monotonic_s"])
                             out.write(json.dumps(event) + "\n")
                             out.flush()
                             self.events.put(event)
@@ -447,10 +489,28 @@ def window_paused(wid, env):
     """Whether DOSBox-X is paused, from the game window's own title (DOSBox-X appends PAUSED_TITLE
     while its pause loop runs; T39b probe log); None when the title cannot be read. A read of the
     nested display's game window, never a key logger and never the outer display."""
-    p = xdotool(["getwindowname", str(wid)], env=env)
+    try:
+        p = xdotool(["getwindowname", str(wid)], env=env, timeout=PAUSE_READ_TIMEOUT_S)
+    except subprocess.TimeoutExpired:
+        return None          # an unanswered read changes nothing; it never ends the sitting
     if p.returncode != 0:
         return None
     return PAUSED_TITLE in p.stdout
+
+
+def inject_pause_key(wid, env, keys=None, sleep=time.sleep):
+    """End DOSBox-X's pause for the owner (T39b Scope 5): the Pause key as XTEST input on the
+    nested display with the game window focused, down and up. The pause loop takes it only so;
+    the key logger marks it `by: recorder` (`keys.expect_injected`). Returns whether xdotool ran."""
+    if keys is not None:
+        keys.expect_injected("Pause")
+    try:
+        ok = xdotool(["windowfocus", str(wid)], env=env).returncode == 0
+        ok = xdotool(["keydown", "Pause"], env=env).returncode == 0 and ok
+        sleep(0.05)
+        return xdotool(["keyup", "Pause"], env=env).returncode == 0 and ok
+    except subprocess.TimeoutExpired:
+        return False
 
 
 def window_pid(wid, env):
@@ -637,10 +697,14 @@ class Watcher:
     _pause_since = None
     _hold_logged = False
     _events_at_pause = None   # {pause epoch: the write-event count when that pause was seen}
+    resume_key = None         # () -> presses Pause for the owner (inject_pause_key), or none
+    _f12_down = False
+    _inject_time = None       # when the recorder last pressed Pause
+    stop_cause = None         # why the loop ended, when no stop condition of its own did
 
     def __init__(self, session, live, wid, dbx, env, t0=None, index="index.jsonl",
                  clock=time.monotonic, sleep=time.sleep, xrun=None, alive=None, log=None,
-                 writing=None, watch=None, paused=None):
+                 writing=None, watch=None, paused=None, resume_key=None):
         self.session = Path(session)
         self.live = Path(live)
         self.wid = wid
@@ -678,6 +742,7 @@ class Watcher:
         self._finished = 0
         self._request_seq = 0            # pipeline requests, for the per-request savestate path
         self.pause_probe = paused
+        self.resume_key = resume_key
         self.pauses_path = self.session / "pauses.jsonl"
 
     # -- staging (the staging gate) -----------------------------------------------------
@@ -1149,6 +1214,9 @@ class Watcher:
         else:
             line["paused_s"] = (None if self._pause_since is None
                                 else round(now - self._pause_since, 3))
+            if (self._inject_time is not None and self._pause_since is not None
+                    and self._inject_time >= self._pause_since):
+                line["by"] = "recorder (F12+P)"   # the recorder's own Pause key ended it
             self.resume_due = True
         self.paused = bool(now_paused)
         with open(self.pauses_path, "a", encoding="utf-8") as f:
@@ -1156,6 +1224,24 @@ class Watcher:
             f.flush()
         self.log(f"{line['event']} at +{line['elapsed_s']:.3f}s")
         return self.paused
+
+    def resume_chord(self, events):
+        """F12+P typed while DOSBox-X is paused (T39b Scope 5): the owner's keyboard has no Pause
+        key and DOSBox-X resumes on Pause only, so the recorder presses it (resume_key). F12 is
+        tracked across calls (its host autorepeat is press/release pairs: the last one wins); a
+        P press counts only after the pause was seen, so the chord that started the pause never
+        ends it, and one press resumes once (RESUME_DEBOUNCE_S)."""
+        for e in events:
+            if e.get("keysym") == HOST_KEYSYM:
+                self._f12_down = e.get("event") == "press"
+            elif (e.get("event") == "press" and e.get("keysym") in PAUSE_CHORD_KEYSYMS
+                  and self._f12_down and self.paused and self._pause_since is not None
+                  and e["monotonic_s"] > self._pause_since
+                  and (self._inject_time is None
+                       or e["monotonic_s"] > self._inject_time + RESUME_DEBOUNCE_S)):
+                self._inject_time = self.clock()
+                self.log("F12+P while paused: the recorder presses Pause to resume")
+                self.resume_key()
 
     # -- the loop -----------------------------------------------------------------------
     def run(self, quit_after=None, stop=lambda: False, video=None, keys=None):
@@ -1208,12 +1294,20 @@ class Watcher:
         try:
             while True:
                 drained = keys.drain() if keys else []
+                # the recorder's own injected keys (T39b) are no episode of the owner's
+                drained = [e for e in drained if e.get("by") != "recorder"]
                 for event in drained:
                     burst.add(event)
                 if drained:
                     last_event = drained[-1]["monotonic_s"]
                 if keys and (keys.error or keys.proc.poll() is not None):
-                    raise RuntimeError(f"key logger stopped: {keys.error}")
+                    # T39b Scope 7: closing the window ends Xephyr, and the logger on its display
+                    # ends first; the sitting is over (play() names it), never a crash that
+                    # leaves meta.json without its end. A logger gone while the game runs ends
+                    # the sitting too: no key may go unlogged.
+                    self.stop_cause = f"key logger stopped: {keys.error}"
+                    self.log(self.stop_cause)
+                    break
                 if dead:
                     self.log(f"emulator gone ({dead[0].returncode}): ending the loop cleanly")
                     break
@@ -1232,6 +1326,8 @@ class Watcher:
                 if self.pause_probe is not None and (drained or now >= next_pause_poll):
                     self.poll_pause()
                     next_pause_poll = now + PAUSE_POLL_S
+                if self.resume_key is not None:
+                    self.resume_chord(drained)
                 if self.paused:
                     # no save request while paused (DOSBox-X would drop it: probe_pause log):
                     # the cadence ticks that fall in the pause are skipped, and the key groups
@@ -1438,10 +1534,44 @@ def conf_for(session):
     return driver.Driver(workdir=session, game_dir=Path(session) / "game").conf_text()
 
 
-def new_session(when=None):
+def newest_saved_game(sessions=None, exclude=None):
+    """The newest `.GL` (GOAL's saved game, by mtime) in the game copies of the previous
+    sessions, or None (T39b Scope 8)."""
+    found = [p for p in Path(sessions or SESSIONS).glob("*/game/*")
+             if p.is_file() and p.suffix.upper() == ".GL"
+             and (exclude is None or Path(exclude) not in p.parents)]
+    return max(found, key=lambda p: p.stat().st_mtime_ns) if found else None
+
+
+def place_saved_game(session, load=None, fresh=False):
+    """Copy the owner's saved game into the session's game copy before DOSBox-X starts (T39b
+    Scope 8): `load` names the file, else the newest `.GL` of the previous sessions; `fresh`
+    copies none. Returns meta's `load` entry: the copy and its sha256, a declared intervention
+    (the recorder never presses keys to load it: the owner does, in the game)."""
+    if fresh:
+        return {"fresh": True, "file": None}
+    src = Path(load) if load else newest_saved_game(Path(session).parent, exclude=session)
+    if src is None:
+        return {"fresh": False, "file": None, "why": "no .GL in the previous sessions"}
+    if not src.is_file() or src.suffix.upper() != ".GL":
+        raise SystemExit(f"--load {src}: not a GOAL saved game (.GL file)")
+    data = src.read_bytes()
+    dest = Path(session) / "game" / src.name.upper()
+    dest.write_bytes(data)
+    return {"fresh": False, "file": f"game/{dest.name}", "source": str(src.resolve()),
+            "chosen": "--load" if load else "newest .GL of the previous sessions",
+            "bytes": len(data), "sha256": sha256(data), "copied": host_times(),
+            "intervention": "I3: the owner's saved game placed in the guest's drive C: before "
+                            "launch; the owner loads it in the game"}
+
+
+def new_session(when=None, load=None, fresh=False):
     """Create the session folder and everything the launch needs: a per-session copy of the
     verified release (F001: the mount is remembered; the owner's in-game saves land here, never in
-    the release cache), the config, and empty cap/dosclock/snapshots folders."""
+    the release cache), the owner's saved game in it (place_saved_game), the config, and empty
+    cap/dosclock/snapshots folders."""
+    if load and fresh:
+        raise SystemExit("--load and --fresh exclude each other")
     verify_release_or_die()
     ts = (when or datetime.now()).strftime("%Y%m%d-%H%M%S")
     session = SESSIONS / ts
@@ -1450,6 +1580,7 @@ def new_session(when=None):
     (session / "cap").mkdir()
     (session / "dosclock").mkdir()
     shutil.copytree(driver.CACHE, session / "game")
+    loaded = place_saved_game(session, load=load, fresh=fresh)
     conf = conf_for(session)
     (session / "dosbox.conf").write_text(conf)
     # the config's `[sdl] mapperfile` names this file: DOSBox-X's default binds + F12+P = pause (T39b)
@@ -1459,7 +1590,7 @@ def new_session(when=None):
             "artifact_set": driver.SET_ID, "config": conf, "config_sha256": sha256(conf.encode()),
             "mapper_sha256": sha256(mapper.encode()),
             "dosbox_x_version": dosbox_version(), "display": os.environ.get("DISPLAY"),
-            "video": None, "problems": []}
+            "video": None, "problems": [], "load": loaded}
     (session / "meta.json").write_text(json.dumps(meta, indent=1))
     return session, meta
 
@@ -1547,7 +1678,7 @@ def start_nested(outer_env, res, logf, title=None, find=find_xephyr_window,
     raise RuntimeError("no free nested display in candidates 600 through 699")
 
 
-def play(video=False, quit_after=None, res="1280x800"):
+def play(video=False, quit_after=None, res="1280x800", load=None, fresh=False):
     """One sitting: launch windowed dosbox-x, watch it, stop cleanly, write meta. Returns 0."""
     if not os.environ.get("DISPLAY"):
         print("play: DISPLAY is not set; run from a graphical session", file=sys.stderr)
@@ -1558,16 +1689,23 @@ def play(video=False, quit_after=None, res="1280x800"):
     except RuntimeError as e:
         print(f"play: refused: {e}", file=sys.stderr)
         return 2
-    session, meta = new_session()
+    session, meta = new_session(load=load, fresh=fresh)
     logf = open(session / "session.log", "a", encoding="utf-8")
 
     def log(msg):
         line = f"[{datetime.now(timezone.utc).strftime('%H:%M:%S')}] {msg}"
         logf.write(line + "\n")
         logf.flush()
-        print(line, flush=True)
+        try:
+            print(line, flush=True)
+        except OSError:
+            pass                 # a gone terminal never stops the sitting; session.log has it
 
     log(f"session {session}")
+    ld = meta["load"]
+    log("saved game: " + (f"{ld['file']} ({ld['bytes']} bytes, sha256 {ld['sha256'][:16]}..., "
+                          f"{ld['chosen']}): load it in the game" if ld.get("file") else
+                          "none (" + ("--fresh" if ld.get("fresh") else ld.get("why", "")) + ")"))
     outer_env = dict(os.environ)
     title = f"goal2-recorder-{session.name}-{os.urandom(8).hex()}"
     xephyr, env, xephyr_wid = start_nested(outer_env, res, logf, title=title)
@@ -1636,17 +1774,26 @@ def play(video=False, quit_after=None, res="1280x800"):
             time.sleep(0.5)
         watcher = Watcher(session, session / "state.sav", wid, dbx, env, log=log,
                           xrun=lambda argv: send_save_event(wid, env), watch=watch,
-                          paused=lambda: window_paused(wid, env))
-        meta["pause"] = {"pause_key": "F12+P", "resume_key": "Pause",
+                          paused=lambda: window_paused(wid, env),
+                          resume_key=lambda: inject_pause_key(wid, env, keys))
+        meta["pause"] = {"pause_key": "F12+P",
+                         "resume_key": "F12+P (the recorder presses Pause) or Pause",
                          "file": "pauses.jsonl", "snapshot": "after-resume"}
-        log("pause: F12+P; resume: the Pause key (DOSBox-X's own pause ends on Pause only)")
+        log("pause: F12+P; resume: F12+P again (the recorder presses Pause) or the Pause key")
         meta["monotonic_start_s"] = watcher.t0
         (session / "meta.json").write_text(json.dumps(meta, indent=1))
         entries = watcher.run(quit_after=quit_after, stop=lambda: stop_flag["now"], video=vid, keys=keys)
         # the window may have closed between the last poll and here; terminate the emulator
         # BEFORE the shutdown staging pass so the live file is no longer being written (R4)
+        if watcher.stop_cause and dbx.poll() is None:
+            # the key logger ended: closing the window ends Xephyr, then DOSBox-X on it
+            try:
+                dbx.wait(timeout=WINDOW_CLOSE_WAIT_S)
+            except subprocess.TimeoutExpired:
+                pass
         if dbx.poll() is None:
-            reason = "signal" if stop_flag["now"] else "quit-after"
+            reason = ("key-logger-stopped" if watcher.stop_cause else
+                      "signal" if stop_flag["now"] else "quit-after")
             terminate(dbx)
         else:
             reason = "window-closed"
@@ -1674,6 +1821,18 @@ def play(video=False, quit_after=None, res="1280x800"):
         (session / "meta.json").write_text(json.dumps(meta, indent=1))
         log(f"done: {len(entries)} snapshots, stop {reason}"
             + (f", video {vinfo['bytes']} bytes" if vinfo else ""))
+    except BaseException as e:
+        # T39b Scope 7: whatever ends the sitting, meta.json gets its end and the cause, and the
+        # traceback goes to session.log (the terminal's copy may be lost)
+        import traceback
+        log("the sitting ended on an error:\n" + traceback.format_exc())
+        if meta.get("ended") is None:
+            meta.update({"ended": host_times(), "stop_reason": f"error: {e!r}"})
+            try:
+                (session / "meta.json").write_text(json.dumps(meta, indent=1))
+            except OSError:
+                pass
+        raise
     finally:
         if keys:
             keys.stop()
@@ -1750,9 +1909,13 @@ def main(argv=None):
         argv[0] = "self-test"
     if argv and argv[0] not in ("self-test", "play") and not argv[0].startswith("-"):
         argv.insert(0, "play")
-    if argv and argv[0].startswith("-"):    # flags without a subcommand mean play
+    if not argv or (argv[0].startswith("-") and argv[0] not in ("-h", "--help")):
+        # no subcommand, or flags only, means play
         argv.insert(0, "play")
-    ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
+    ap = argparse.ArgumentParser(description=__doc__.splitlines()[0],
+                                 usage="play.sh [play] [--video] [--quit-after SECS] "
+                                       "[--load FILE.GL | --fresh] | play.sh self-test [--video]"
+                                       "  (no subcommand: play)")
     sub = ap.add_subparsers(dest="cmd", required=True)
     st = sub.add_parser("self-test", help="verify the release copy and tools, write a config, exit")
     st.add_argument("--video", action="store_true", help="also require ffmpeg")
@@ -1761,12 +1924,16 @@ def main(argv=None):
     pl.add_argument("--res", default="1280x800", help="nested window size WIDTHxHEIGHT")
     pl.add_argument("--quit-after", type=float, default=None, metavar="SECS",
                     help="stop the sitting after SECS seconds (scripted sittings)")
+    pl.add_argument("--load", default=None, metavar="FILE.GL",
+                    help="copy this saved game into the session's game copy (default: the newest "
+                         ".GL of the previous sessions)")
+    pl.add_argument("--fresh", action="store_true", help="copy no saved game")
     a = ap.parse_args(argv)
     if a.cmd == "self-test":
         return self_test(with_video=a.video)
     if not __import__("re").fullmatch(r"[1-9][0-9]*x[1-9][0-9]*", a.res):
         ap.error("--res must be WIDTHxHEIGHT")
-    return play(video=a.video, quit_after=a.quit_after, res=a.res)
+    return play(video=a.video, quit_after=a.quit_after, res=a.res, load=a.load, fresh=a.fresh)
 
 
 if __name__ == "__main__":

@@ -1,0 +1,8 @@
+{"try": "focus", "paused_before": true, "paused_after": true, "resumed": false}
+{"try": "click", "paused_before": true, "paused_after": true, "resumed": false}
+{"try": "sendevent", "paused_before": true, "paused_after": false, "resumed": true}
+{"try": "save-request", "paused_before": true, "paused_after": true, "resumed": false}
+{"try": "f12p", "paused_before": true, "paused_after": true, "resumed": false}
+{"try": "xtest-unfocused", "paused_before": true, "paused_after": true, "resumed": false}
+{"try": "xtest-focused", "paused_before": true, "paused_after": false, "resumed": true}
+exit 0

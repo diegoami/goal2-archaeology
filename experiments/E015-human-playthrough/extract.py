@@ -395,7 +395,8 @@ def mark_before(mark, when):
     return at is not None and when["utc"] is not None and at < when["utc"]
 
 
-def build_record(session, states, diffs, countries, runs_dir, machine, started, malformed, scripted_keys=False):
+def build_record(session, states, diffs, countries, runs_dir, machine, started, malformed, scripted_keys=False,
+                 declared=()):
     """The run/1 document: one step per parsed state, the diffs after their later state, every
     file the pass read named with its sha256 (every file — R11 — and every country record
     address uses c * COUNTRY_SIZE, not (c-1) * COUNTRY_SIZE, R9)."""
@@ -445,7 +446,8 @@ def build_record(session, states, diffs, countries, runs_dir, machine, started, 
         "actions": {
             "script": "experiments/E015-human-playthrough/extract.py",
             "sha256": sha256_file(__file__),
-            "args": [host_free(str(session)), "--countries", ",".join(map(str, countries))],
+            "args": [host_free(str(session)), "--countries", ",".join(map(str, countries))]
+                    + [a for d in declared for a in ("--declare", d)],
         },
         "observations": [],
         "outputs": [],
@@ -453,6 +455,28 @@ def build_record(session, states, diffs, countries, runs_dir, machine, started, 
         "ended": driver.host_times()["utc"],
         "status": "completed",
     }
+    # T39b: the saved game the recorder placed in the game copy (meta.json `load`), the Pause keys
+    # it pressed to resume on F12+P, and what the caller declares (--declare LEVEL:TEXT)
+    load = meta.get("load") or {}
+    if load.get("file"):
+        rec["interventions"].append(
+            {"level": "I3", "what": f"the recorder copied a saved game into the session's game "
+                                     f"copy before DOSBox-X started: {load['file']} ({load['bytes']} "
+                                     f"bytes, sha256 {load['sha256']}, {load.get('chosen')}); "
+                                     "the owner loaded it with the game's own keys"})
+    if (session / "keys.jsonl").is_file():
+        logged = [json.loads(line) for line in (session / "keys.jsonl").read_text().splitlines()
+                  if line.strip()]
+        injected = sum(1 for e in logged if e.get("by") == "recorder" and e.get("event") == "press")
+        if injected:
+            rec["interventions"].append(
+                {"level": "I2", "what": f"the recorder pressed the Pause key {injected} time(s) "
+                                         "(XTEST on the nested display, the game window focused) "
+                                         "to end DOSBox-X's pause when the owner typed F12+P "
+                                         "while paused; marked `by: recorder` in keys.jsonl"})
+    for item in declared:
+        level, _, what = item.partition(":")
+        rec["interventions"].append({"level": level.strip(), "what": what.strip()})
     obs = rec["observations"]
     step = 0
 
@@ -616,9 +640,13 @@ def build_record(session, states, diffs, countries, runs_dir, machine, started, 
         screen_key_map = keymap.read_session(session, states)
         rec["runtime"]["fingerprint"]["keymap_py_sha256"] = sha256_file(keymap.__file__)
         add("file", "read key log keys.jsonl", sha256_file(session / "keys.jsonl"))
-        add("log", "key log presses (keys.jsonl lines whose event is press)",
-            str(sum(1 for line in (session / "keys.jsonl").read_text().splitlines()
-                    if line.strip() and json.loads(line).get("event") == "press")))
+        logged = [json.loads(line) for line in (session / "keys.jsonl").read_text().splitlines()
+                  if line.strip()]
+        add("log", "key log presses (keys.jsonl lines whose event is press, not the recorder's)",
+            str(sum(1 for e in logged if e.get("event") == "press" and e.get("by") != "recorder")))
+        add("log", "key log presses the recorder injected (keys.jsonl `by: recorder`: the Pause "
+                   "that resumes on F12+P)",
+            str(sum(1 for e in logged if e.get("event") == "press" and e.get("by") == "recorder")))
         if (session / "requests.jsonl").is_file():
             add("file", "read save requests requests.jsonl", sha256_file(session / "requests.jsonl"))
         add("log", "screen/key map summary", screen_key_map["summary"])
@@ -658,10 +686,17 @@ def main(argv=None):
     ap.add_argument("--runs-dir", type=Path, default=ROOT / "runs")
     ap.add_argument("--machine", default="ubuntu-24-04-wsl2")
     ap.add_argument("--scripted-keys", action="store_true", help="include raw keys ONLY for a scripted acceptance sitting")
+    ap.add_argument("--declare", action="append", default=[], metavar="LEVEL:TEXT",
+                    help="an intervention the session folder does not record (I0..I3), declared "
+                         "in the record (repeatable)")
     a = ap.parse_args(argv)
     session = a.session.resolve()
     if not session.is_dir():
         raise SystemExit(f"{session}: no such session folder")
+    for d in a.declare:
+        level, _, what = d.partition(":")
+        if level.strip() not in ("I0", "I1", "I2", "I3") or not what.strip():
+            raise SystemExit(f"--declare {d!r}: LEVEL:TEXT with LEVEL one of I0..I3")
     countries = []
     for part in a.countries.split(","):
         part = part.strip()
@@ -688,7 +723,7 @@ def main(argv=None):
             diffs[s["file"]] = d
         last = s
     rec, out_path = build_record(session, states, diffs, countries, a.runs_dir, a.machine, started,
-                                 malformed, scripted_keys=a.scripted_keys)
+                                 malformed, scripted_keys=a.scripted_keys, declared=a.declare)
     parsed = [s for s in states if s.get("error") is None]
     screens = {s["screen_digest"] for s in parsed if s.get("screen_digest") is not None}
     partial = sum(1 for s in parsed if s.get("memory_unavailable") or s.get("arrays_unavailable"))

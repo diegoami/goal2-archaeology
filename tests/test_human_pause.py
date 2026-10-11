@@ -330,7 +330,7 @@ class PauseKeyTests(unittest.TestCase):
 
     def test_the_pause_is_the_title_dosbox_x_shows(self):
         def name(text, code=0):
-            return lambda args, env=None: types.SimpleNamespace(returncode=code, stdout=text)
+            return lambda args, env=None, **kw: types.SimpleNamespace(returncode=code, stdout=text)
         with mock.patch.object(rec, "xdotool", name("DOSBox-X 2024.03.01: GOAL - 3000 cycles/ms PAUSED\n")):
             self.assertTrue(rec.window_paused("7", {}))
         with mock.patch.object(rec, "xdotool", name("DOSBox-X 2024.03.01: GOAL - 3000 cycles/ms\n")):

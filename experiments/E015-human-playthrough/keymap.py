@@ -79,6 +79,8 @@ def build_map(states, events, t0, quiet=None, margin=None, requests=(), pauses=(
     time to the quiet-gap rule: two keys a pause separates are one burst when their gap less the
     paused seconds between them is within the quiet."""
     quiet = recorder.BURST_QUIET_S if quiet is None else quiet
+    # the recorder's own injected keys (T39b: the Pause that resumes on F12+P) are not the owner's
+    events = [e for e in events if e.get("by") != "recorder"]
     margin = recorder.CAPTURE_MARGIN_S if margin is None else margin
     screens = {}
     samples = []                       # (lo, hi, digest or None)

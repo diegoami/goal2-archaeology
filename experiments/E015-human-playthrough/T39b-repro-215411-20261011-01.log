@@ -1,0 +1,43 @@
+title before the XTEST Pause: DOSBox-X 2024.03.01: GOAL - 100% PAUSED
+title after the XTEST Pause: DOSBox-X 2024.03.01: GOAL - 100%
+closed the Xephyr window
+play.sh exit: 1
+session: scratch/human/sessions/20261011-220230
+pauses.jsonl: {"event": "pause", "utc": "2026-10-11T20:02:42.104552+00:00", "monotonic_s": 21297.1613609, "elapsed_s": 11.724, "snapshot": "after-resume"}
+{"event": "resume", "utc": "2026-10-11T20:03:29.260180+00:00", "monotonic_s": 21344.316988675, "elapsed_s": 58.88, "paused_s": 47.156}
+
+last keys: [(28.28, 'press', 'p', None), (28.38, 'release', 'p', None), (28.77, 'release', 'Alt_L', None), (28.78, 'release', 'F12', None), (58.8, 'press', 'Pause', None), (58.87, 'release', 'Pause', None)]
+meta end: {'ended': None, 'stop_reason': None, 'problems': []}
+recorder output (tail):
+0261011T200239Z.sav (181616 bytes, sha256 c3a22e3aeb67ef70...)
+[20:02:39] stability fallback: stable live savestate not staged on the fast path (no owned write; only the per-request path may be read, and it holds no bytes for this request)
+[20:02:39] stability fallback: stable live savestate not staged on the fast path (no owned write; only the per-request path may be read, and it holds no bytes for this request)
+[20:02:40] stability fallback: stable live savestate not staged on the fast path (no owned write; only the per-request path may be read, and it holds no bytes for this request)
+[20:02:40] stability fallback: stable live savestate not staged on the fast path (no owned write; only the per-request path may be read, and it holds no bytes for this request)
+[20:02:40] stability fallback: stable live savestate not staged on the fast path (no owned write; only the per-request path may be read, and it holds no bytes for this request)
+[20:02:40] stability fallback: stable live savestate not staged on the fast path (no owned write; only the per-request path may be read, and it holds no bytes for this request)
+[20:02:41] F12+S sent to window 6291461
+[20:02:41] burst group (last key +10.498s) requested at +10.594s
+[20:02:41] live savestate changed or incomplete during capture: retrying
+[20:02:41] request superseded: 105 write events on the live savestate since this request was sent (more than one save's bound of 80): a later request's savestate has already overwritten it (request attribution lost)
+[20:02:41] staged snapshots/snap-0003-20261011T200241Z.sav (180429 bytes, sha256 4098c1c975c6cd53...)
+[20:02:42] pause at +11.724s
+[20:03:29] resume at +58.880s
+[20:03:29] F12+S sent to window 6291461
+[20:03:29] live savestate changed or incomplete during capture: retrying
+[20:03:29] staged snapshots/snap-0004-20261011T200329Z.sav (180745 bytes, sha256 4753e0499665029d...)
+[20:03:30] F12+S sent to window 6291461
+[20:03:30] live savestate changed or incomplete during capture: retrying
+[20:03:30] staged snapshots/snap-0005-20261011T200330Z.sav (181752 bytes, sha256 e71f06706ca64700...)
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-ab3d45e42aa95cade/runtime/human/recorder.py", line 1773, in <module>
+    sys.exit(main())
+             ~~~~^^
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-ab3d45e42aa95cade/runtime/human/recorder.py", line 1769, in main
+    return play(video=a.video, quit_after=a.quit_after, res=a.res)
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-ab3d45e42aa95cade/runtime/human/recorder.py", line 1645, in play
+    entries = watcher.run(quit_after=quit_after, stop=lambda: stop_flag["now"], video=vid, keys=keys)
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-ab3d45e42aa95cade/runtime/human/recorder.py", line 1216, in run
+    raise RuntimeError(f"key logger stopped: {keys.error}")
+RuntimeError: key logger stopped: None
+exit 0
