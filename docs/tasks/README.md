@@ -43,3 +43,4 @@ exists.
 | T34 | recorder 2: the keys typed into the game, and the screen/key map they draw | #105 | T29 |
 | T36 | Q018: do fitness and confidence change match performance at equal skill | #121 | T35 |
 | T37 | Findings F010–F020 meet the pinned citation checker (#95) | #124 | — |
+| T38 | M0: the emulator runs whole watched matches, with inputs and a substitution hook | #135 | — |

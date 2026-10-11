@@ -44,6 +44,33 @@ All start after G0 (this repository, T01). G1–G4 can run in parallel.
 | — | G4 | **The documentation map**: `GOAL.HLP` passages recorded as sources, moving knowledge-map cells to `documented` | by Jev |
 | T06 | G5 | **The research backlog** ([backlog.md](backlog.md)): falsifiable questions per area, ordered by what G-M3 needs, each naming its behavioural and static routes | — (an architecture task, main session) |
 
+## The watched match: read it and run it (the owner, 2026-10-11)
+
+The watched engine (`0791:9564`, F013) is learnt by two routes on one tool, together. **Read**
+(white box): a routine of the decompiled `GOAL.EXE` is read and modelled in Python. **Run** (black
+box): the Unicorn harness (`runtime/emul/watched.py`, F013) runs the original's own code on inputs
+we choose. They meet by **substitution**: the harness can replace a guest routine with its model,
+and a model is right when the match stays tick-exact against the original (the main seed's
+trajectory, F013's check). A model that is wrong shows where: the first tick that diverges. The
+same harness measures effects for the bot (G-M5) on the original code before the reading is done.
+
+Each milestone is a task that merges on its own and moves one number: the share of the watched
+engine's routines replaced by models while matches stay exact (L102).
+
+| M | Read | Run | Exit check |
+| --- | --- | --- | --- |
+| M0 | — | whole matches from kick-off; inputs (tactics, skills, positions, seed); a substitution hook | a recorded watched match reproduced tick-exactly; a hooked routine keeps it exact, a wrong hook breaks it |
+| M1 | the skill reader `278A` and strength `377E` (F015, F021) | substituted | matches stay exact |
+| M2 | contests: tackle, pass, shot, header (Q010) | substituted; contest odds by skill | exact; a table of odds |
+| M3 | a player's turn: what he chooses, from what | substituted | exact |
+| M4 | movement, formations, positions, the sweeper (Q021–Q023) | substituted; out-of-position and wrong-foot costs | exact; effect tables |
+| M5 | fouls, cards, injuries, keeper, set pieces (Q024–Q026, Q033) | substituted; offside trap, going in hard, marking | exact; effect tables |
+| M6 | what remains | the whole engine is the model | a batch of seeded matches all exact: the rebuild's engine (G-M4) |
+
+Effect measurements for the bot start right after M0, on the original's code. The owner's sittings
+corroborate (their commentary and the pitch records each savestate holds), and the owner's answers
+(`owner` testimony) give intent and the look of the game; neither replaces the code.
+
 ## Runtime prerequisites
 
 The owner installs DOSBox-X, Xvfb and xdotool (installing software is the owner's step).
