@@ -108,7 +108,7 @@ def emulate(data, hook_name, inputs=()):
     error = None
     t = time.time()
     try:
-        m.run()
+        m.run(timeout_s=600)
     except Exception as e:  # a void run: everything after it counts as missed
         error = f"{type(e).__name__}: {e}"
         m.final = m.state()
