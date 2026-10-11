@@ -176,11 +176,11 @@ RUN RULES (from tools/harness/implement.mjs; they override the brief where they 
   git worktree. Pass git -C "${worktree}" explicitly.
 - Everything else in the brief is binding: Owns, Done when, the PR body, the detach, the report.
 - The PR body's "Closes #${issue}" is the only place a closing keyword may precede #<n>.
-- Never read, write or redirect to any path outside your worktree: no /tmp, no home directory, no
-  git internals (in a worktree, .git points into the main checkout). Scratch files and any TMPDIR go
-  in a folder inside the worktree, which you never commit (add files by name, never git add -A), and
-  which you delete before your last commit. A test that needs a TMPDIR outside every checkout is
-  run by the main session, not by you. (L57)
+- Never read, write or redirect to any path outside your worktree but /tmp (open since 2026-10-11):
+  no home directory, no git internals (in a worktree, .git points into the main checkout). Scratch
+  files go in a folder inside the worktree, which you never commit (add files by name, never git
+  add -A) and delete before your last commit, or under /tmp (a \`mktemp -d\` folder). A test that
+  needs a TMPDIR outside every checkout may use one under /tmp. (L57)
 - Commit and push after each step, so a run that ends early keeps its work. (L57)
 `;
 const openPr = () => sh('gh', ['pr', 'list', '--head', branch, '--state', 'open', '--json', 'number', '--jq', '.[0].number'], { cwd: top, allowFail: true });

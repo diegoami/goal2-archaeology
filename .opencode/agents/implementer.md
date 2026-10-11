@@ -5,6 +5,8 @@ permission:
   edit: allow
   external_directory:
     "/tmp/opencode/*": allow
+    "/tmp": allow
+    "/tmp/*": allow
   bash:
     "*": allow
     "git push --force *": deny
@@ -32,7 +34,8 @@ the run works.
   commit or delete it (L60).
 - Commit and push to your branch after every meaningful step. Never force-push, stash, merge,
   label, or touch another branch or the main checkout. (`git stash` is shared by every worktree.)
-- Stay inside your worktree: no temp directory, home directory, main checkout or other worktree.
+- Stay inside your worktree, but for `/tmp` (open since 2026-10-11): no home directory, main
+  checkout or other worktree.
   OpenCode rejects a path outside it, and the script then counts the run as failed. Scratch files
   live in the worktree and are deleted before you commit. Call tools by name from PATH.
   Run every shell command from the worktree root with paths relative to it (`grep -n X src/a.cs`,
