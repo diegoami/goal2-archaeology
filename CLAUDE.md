@@ -28,6 +28,9 @@ indexed in `docs/tasks/README.md`.
    review, the next round's implementer moves one step up, never down (`/run-task`). (L38)
 8. Relay review findings in full. Read a run's final message before you retry or re-route it (L55).
 9. A test proves behaviour only if it fails without that behaviour; re-take a claim that nothing failed.
+9a. Undo a mutation or scratch edit by writing back the file's saved contents (read it first, restore
+    it in a `finally`), or commit first; never `git checkout`, `git restore` or `git reset` a file with
+    uncommitted work: they return the last commit and destroy the rest (PR 114 round 1).
 10. A comment asserting behaviour at an edge arrives with the test that visits that edge.
 11. Until the first playable build, schedule only bugs that break play; the rest are `post-playable`.
 12. A bug whose fix stays in the files it names and changes no outcome is a `fix`; a blocking

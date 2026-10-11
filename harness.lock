@@ -30,7 +30,7 @@ adapt docs/environment.md  (Ghidra 12.1.4 and the JDK in ~/tools (T18, T20); the
 MiniMax section with the registration table, pricing and the owner's placements (2026-10-06))
 adapt docs/tasks/README.md  (this repository's task index)
 15f1fcb3af4cd07482f39328e2255a71075f4889946901960116f9a3a5b4c16f  .claude/agents/implementer.md
-585e0f9cfc63fc1643e96a2ee0dc337f23598d1c7f632d0bf0926b7f139a6f6c  .claude/agents/reviewer.md
+adapt .claude/agents/reviewer.md  (rule 9a: undo a mutation by rewriting the saved file, 2026-10-11)
 6661ffc3140de393a054db11750b1c12245ac229bbc742d92d71624bbaea4ce3  .claude/hooks/session-start.sh
 9d2227215dcf47b9dc7c41d5c9b7f8c5b79dd962c3fb8c3f8f625032fa5eefae  .claude/settings.json
 adapt .claude/skills/delegate/SKILL.md  (quota step: /recommend, not /best (harness_imperial f91210b; the owner, 2026-10-08))
@@ -39,7 +39,7 @@ adapt .claude/skills/delegate/SKILL.md  (quota step: /recommend, not /best (harn
 e99fedef64f7850a76794396088568a4046692abfc6ff14aabadf81bc83fe65c  .claude/skills/switch-model/SKILL.md
 8a63c4093207e8f96230e8e6c92019c06897434ca8b70f287e76821ff09502d6  .github/pull_request_template.md
 612256c7d6a31d83ace0a69a445d11e1edf244e5f6da0cfc34b74a7b03cf7030  .opencode/agents/implementer.md
-3dc8d1d02c64f110249e5df0d759b26d05819a60ba4fbf6ebaac8d7a0611c0a3  .opencode/agents/reviewer.md
+adapt .opencode/agents/reviewer.md  (rule 9a: undo a mutation by rewriting the saved file, 2026-10-11)
 c6ffaa08eb490d11e8f208b7f8ec7a1e291d55c3cee01e58aa84466fe1983f89  docs/jev/blocks-release.md
 46c4f6e3ca23871e59c25366e8acf9818e43113546f0cd107571ae110f6c10cb  docs/jev/breaks-play.md
 325385ce86485b764e18a17dbee408d014b968f78a2e727c5116a8f9becf3511  docs/review-brief.md
