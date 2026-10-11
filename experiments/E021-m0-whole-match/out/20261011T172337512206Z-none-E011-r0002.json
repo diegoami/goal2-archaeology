@@ -1,0 +1,399 @@
+{
+ "final": {
+  "831F": 91,
+  "831D": 36,
+  "8325": 0,
+  "831B": 0,
+  "7B62": 46625,
+  "score": [
+   1,
+   1
+  ],
+  "ticks": 4149,
+  "draws": 182188
+ },
+ "full_time_at_F2E3": {
+  "831F": 91,
+  "831D": 36,
+  "8325": 0,
+  "831B": 0,
+  "7B62": 46625,
+  "score": [
+   1,
+   1
+  ],
+  "ticks": 4149,
+  "draws": 182188
+ },
+ "score": [
+  1,
+  1
+ ],
+ "scorers": [
+  [
+   {
+    "player": 131,
+    "name": "Povlsen",
+    "minute_byte_raw": 23
+   }
+  ],
+  [
+   {
+    "player": 364,
+    "name": "W'thington",
+    "minute_byte_raw": 16
+   }
+  ]
+ ],
+ "man_of_the_match_word": 127,
+ "man_of_the_match": "Vilfort",
+ "statistics_raw": [
+  {
+   "row_label": "Corners",
+   "raw_bytes": [
+    0,
+    1
+   ],
+   "address": "DS:7B7E+10*side"
+  },
+  {
+   "row_label": "Free kicks",
+   "raw_bytes": [
+    2,
+    4
+   ],
+   "address": "DS:7B7F+10*side"
+  },
+  {
+   "row_label": "Penalties",
+   "raw_bytes": [
+    0,
+    0
+   ],
+   "address": "DS:7B80+10*side"
+  },
+  {
+   "row_label": "Shots",
+   "raw_bytes": [
+    5,
+    2
+   ],
+   "address": "DS:7B81+10*side"
+  },
+  {
+   "row_label": "On target",
+   "raw_bytes": [
+    5,
+    1
+   ],
+   "address": "DS:7B82+10*side"
+  },
+  {
+   "row_label": "Saves",
+   "raw_bytes": [
+    1,
+    4
+   ],
+   "address": "DS:7B83+10*side"
+  },
+  {
+   "row_label": "Fouls",
+   "raw_bytes": [
+    2,
+    1
+   ],
+   "address": "DS:7B84+10*side"
+  },
+  {
+   "row_label": "Bookings",
+   "raw_bytes": [
+    0,
+    0
+   ],
+   "address": "DS:7B85+10*side"
+  },
+  {
+   "row_label": "Red cards",
+   "raw_bytes": [
+    0,
+    0
+   ],
+   "address": "DS:7B86+10*side"
+  },
+  {
+   "row_label": "Possession",
+   "raw_words": [
+    561,
+    464
+   ],
+   "address": "DS:80F2/80F4"
+  },
+  {
+   "row_label": "Territory",
+   "raw_words": [
+    1214,
+    1745
+   ],
+   "address": "DS:80F6/80F8"
+  }
+ ],
+ "commentary_lines_written": 1107,
+ "commentary": [
+  {
+   "n": 1,
+   "template": 42,
+   "p1": 129,
+   "p2": 0,
+   "team": 0,
+   "text": "Jensen to take throw in"
+  },
+  {
+   "n": 2,
+   "template": 3,
+   "p1": 129,
+   "p2": 126,
+   "team": 0,
+   "text": "Jensen throws the ball"
+  },
+  {
+   "n": 3,
+   "template": 25,
+   "p1": 126,
+   "p2": 129,
+   "team": 0,
+   "text": "Sivebaek on the ball"
+  },
+  {
+   "n": 4,
+   "template": 8,
+   "p1": 126,
+   "p2": 131,
+   "team": 0,
+   "text": "good ball for Povlsen"
+  },
+  {
+   "n": 5,
+   "template": 25,
+   "p1": 131,
+   "p2": 126,
+   "team": 0,
+   "text": "Povlsen on the ball"
+  },
+  {
+   "n": 6,
+   "template": 6,
+   "p1": 131,
+   "p2": 131,
+   "team": 0,
+   "text": "Povlsen makes a run"
+  },
+  {
+   "n": 7,
+   "template": 8,
+   "p1": 131,
+   "p2": 127,
+   "team": 0,
+   "text": "good ball for Vilfort"
+  },
+  {
+   "n": 8,
+   "template": 25,
+   "p1": 127,
+   "p2": 131,
+   "team": 0,
+   "text": "Vilfort on the ball"
+  },
+  {
+   "n": 9,
+   "template": 17,
+   "p1": 127,
+   "p2": 0,
+   "team": 0,
+   "text": "shot from Vilfort"
+  },
+  {
+   "n": 10,
+   "template": 29,
+   "p1": 372,
+   "p2": 0,
+   "team": 1,
+   "text": "saved by Kee"
+  },
+  {
+   "n": 11,
+   "template": 5,
+   "p1": 372,
+   "p2": 32769,
+   "team": 1,
+   "text": "long kick from Kee"
+  },
+  {
+   "n": 12,
+   "template": 34,
+   "p1": 127,
+   "p2": 0,
+   "team": 0,
+   "text": "Vilfort intercepts"
+  },
+  {
+   "n": 13,
+   "template": 8,
+   "p1": 127,
+   "p2": 131,
+   "team": 0,
+   "text": "good ball for Povlsen"
+  },
+  {
+   "n": 14,
+   "template": 25,
+   "p1": 131,
+   "p2": 127,
+   "team": 0,
+   "text": "Povlsen on the ball"
+  },
+  {
+   "n": 15,
+   "template": 6,
+   "p1": 131,
+   "p2": 131,
+   "team": 0,
+   "text": "Povlsen makes a run"
+  },
+  {
+   "n": 16,
+   "template": 11,
+   "p1": 364,
+   "p2": 0,
+   "team": 1,
+   "text": "tackle by W'thington"
+  },
+  {
+   "n": 17,
+   "template": 14,
+   "p1": 364,
+   "p2": 0,
+   "team": 1,
+   "text": "W'thington wins the ball"
+  },
+  {
+   "n": 18,
+   "template": 10,
+   "p1": 364,
+   "p2": 368,
+   "team": 1,
+   "text": "high ball towards Durnin"
+  },
+  {
+   "n": 19,
+   "template": 34,
+   "p1": 129,
+   "p2": 0,
+   "team": 0,
+   "text": "Jensen intercepts"
+  },
+  {
+   "n": 20,
+   "template": 10,
+   "p1": 129,
+   "p2": 131,
+   "team": 0,
+   "text": "high ball towards Povlsen"
+  },
+  {
+   "n": 21,
+   "template": 34,
+   "p1": 364,
+   "p2": 0,
+   "team": 1,
+   "text": "W'thington intercepts"
+  },
+  {
+   "n": 22,
+   "template": 1,
+   "p1": 364,
+   "p2": 0,
+   "team": 1,
+   "text": "pass by W'thington"
+  },
+  {
+   "n": 23,
+   "template": 34,
+   "p1": 126,
+   "p2": 0,
+   "team": 0,
+   "text": "Sivebaek intercepts"
+  },
+  {
+   "n": 24,
+   "template": 10,
+   "p1": 126,
+   "p2": 131,
+   "team": 0,
+   "text": "high ball towards Povlsen"
+  },
+  {
+   "n": 25,
+   "template": 63,
+   "p1": 0,
+   "p2": 0,
+   "team": 1,
+   "text": "---- FULL TIME ----"
+  }
+ ],
+ "board_screen_sha256": "af83875517ff679aefaff91bb59d5461071c21c1674cd4258f50da7af3a2f295",
+ "board_screen": " (c) NE'93\u2502 \u250c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u252c\u2500\u2500\u252cFRIENDLY\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510\u250c\u2500\u2500\u2500\u2510 \u2584\u2580\u2580\u2580\u2584\n \u250c\u2500\u2510\u250c\u2500\u2510\u250c\u2500\u2510\u2502 \u2502N.IRELAND------\u2502 1\u2502Sivebaek intercepts                \u2502\u2502   \u2502 \u2588   \u2588\n \u2502 \u2502\u2502 \u2502\u2502 \u2502\u2502 \u251cversus\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u253c\u2500\u2500\u2524high ball towards Povlsen          \u2502\u251c\u2500\u2500\u2500\u2524 \u2584\u2500\u2500\u2500\u2584\n \u2514\u2500\u2524\u2514\u2500\u2518\u2514\u2500\u2524\u2502 \u2502DENMARK--------\u2502 1\u2502---- FULL TIME ----                \u2502\u2502   \u2502 \u2588   \u2588\n\u2500\u2500\u2500\u2518 v.2    \u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2534\u2500\u2500\u2534\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518\u2514\u2500\u2500\u2500\u2518 \u2514\u2580\u2580\u2580\u2580\n (half time  1:1 ) \u250c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510    \u250c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510\n \u250c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2502 N.Ireland------ \u2502\u2500\u2510\u250c\u2500\u2502 Denmark-------- \u2502\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510\n \u2502                 \u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518 \u2502\u2502 \u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518                 \u2502\n \u2502 \u250c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510         Corners      1  \u2502\u2502  Corners      0     \u250c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510     \u2502\n \u2502 \u2502 Scorers \u2502         Free kicks   4  \u2502\u2502  Free kicks   2     \u2502 Scorers \u2502     \u2502\n\u250c\u2500\u2500\u2534\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2534\u2500\u2500\u252cmin\u2510  Penalties    0  \u2502\u2502  Penalties    0  \u250c\u2500\u2500\u2534\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2534\u2500\u2500\u252cmin\u2510\n\u2502N W'thington   \u2502 16\u2502  Shots        2  \u2502\u2502  Shots        5  \u2502F Povlsen      \u2502 23\u2502\n\u2502               \u2502   \u2502  On target    1  \u2502\u2502  On target    5  \u2502               \u2502   \u2502\n\u2502               \u2502   \u2502  Saves        4  \u2502\u2502  Saves        1  \u2502               \u2502   \u2502\n\u2502               \u2502   \u2502  Fouls        1  \u2502\u2502  Fouls        2  \u2502               \u2502   \u2502\n\u2502               \u2502   \u2502  Bookings     0  \u2502\u2502  Bookings     0  \u2502               \u2502   \u2502\n\u2502               \u2502   \u2502  Red cards    0  \u2514\u2518  Red cards    0  \u2502               \u2502   \u2502\n\u2502               \u2502   \u2502            \u250c\u2500\u2500\u2500\u252c\u2500\u2500\u2500\u252c\u2500\u2500\u250050\u2500\u2500\u2500\u252c\u2500\u2500\u2500\u252c\u2500\u2500\u2500\u2510\u2502               \u2502   \u2502\n\u2502               \u2502   \u2502  Possession:\u25a0\u25a0\u25a0\u25a0\u25a0\u25a0\u25a0\u25a0\u25a0\u25a0\u25a0\u25a0\u25a0\u25a0\u25a0\u25a0\u25a0\u25a0\u25a0\u25a0\u25a0\u25a0\u25a0\u25a0:\u2502               \u2502   \u2502\n\u2502               \u2502   \u2502  Territory :\u25a0\u25a0\u25a0\u25a0\u25a0\u25a0\u25a0\u25a0\u25a0\u25a0\u25a0\u25a0\u25a0\u25a0\u25a0\u25a0\u25a0\u25a0\u25a0\u25a0\u25a0\u25a0\u25a0\u25a0:\u2502               \u2502   \u2502\n\u2502               \u2502   \u2502 \u250c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510 \u2502               \u2502   \u2502\n\u2502               \u2502   \u2502 \u2502  MAN OF THE MATCH K Vilfort      \u2502 \u2502               \u2502   \u2502\n\u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2534\u2500\u2500\u2500\u2518 \u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518 \u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2534\u2500\u2500\u2500\u2518\n \u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518\n                                  hit any key                      Esc,\u25c4\u2518-bench",
+ "key_log": [
+  [
+   "captain screen (the starting burst's Enter)",
+   13,
+   0,
+   0,
+   37141
+  ],
+  [
+   "half-time board ('hit any key', 0791:0106)",
+   13,
+   46,
+   36,
+   62551
+  ],
+  [
+   "team screen (0791:ED8A, ' play ')",
+   13,
+   46,
+   36,
+   62551
+  ]
+ ],
+ "strays": [],
+ "inputs": [
+  {
+   "what": "delay byte [DS:A923]+0x3F",
+   "linear": 382645,
+   "old": "01",
+   "new": "00"
+  }
+ ],
+ "hook_counts": {},
+ "stopped_at_board": true,
+ "run_id": "E011-r0002",
+ "hook": "none",
+ "start_state": {
+  "name": "E011-r0002-watchstart.sav",
+  "sha256": "9d475dcbec7822232aa7877c46e09ab9447520fc3e01fbc351d50ecb3155e100"
+ },
+ "reads_matched": 49,
+ "reads": 49,
+ "checks": {
+  "full-time score equals the record's": true,
+  "the 000E skip log is empty": true,
+  "keys: the three declared screens, Enter each": true,
+  "stopped at the full-time board's key wait": true,
+  "seed at the board equals the record's full-time read": true,
+  "board screen sha256 equals the record's full-time screen": true
+ },
+ "error": null,
+ "seconds": 40.6,
+ "draws_count": 182188,
+ "draws_sha256": "939f25379c56da7a13d32d4a8d3a5830b0f30eb4db9bb71f459e3b47bd494749"
+}
