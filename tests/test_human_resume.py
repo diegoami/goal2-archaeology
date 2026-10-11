@@ -104,6 +104,27 @@ class ResumeChordTests(unittest.TestCase):
             self.assertEqual([round(t, 1) for t in pressed], [3.3, 8.3])
             self.assertEqual([x["event"] for x in pauses(folder)], ["pause", "resume"] * 2)
 
+    def test_no_save_request_while_the_owner_holds_f12(self):
+        # rework round 2 (the DW3 rehearsal T39b-scripted-pause-20261012-01.log): a request sent
+        # between the owner's F12 and P breaks the chord; none goes out while F12 is held
+        arrivals = [(1.0, "press", "F12", 1000), (1.13, "press", "p", 1130),
+                    (1.25, "release", "p", 1250), (1.5, "release", "F12", 1500)]
+        with tempfile.TemporaryDirectory() as folder:
+            w, sends, keys, _ = loop_watcher(folder, [], arrivals)
+            w.run(quit_after=3, keys=keys)
+            times = [t for t, o in sends if o == "burst"]
+            self.assertTrue(times and all(t >= 1.5 for t in times), sends)
+
+    def test_a_held_f12_with_no_events_holds_requests_only_for_a_bound(self):
+        # a missed F12 release must not stop the snapshots: requests resume HOST_HOLD_MAX_S after
+        # the last F12 event
+        with tempfile.TemporaryDirectory() as folder:
+            w, sends, keys, _ = loop_watcher(folder, [], [(1.0, "press", "F12", 1000)])
+            w.run(quit_after=6, keys=keys)
+            times = [t for t, o in sends if o == "burst"]
+            self.assertEqual(len(times), 1, sends)
+            self.assertAlmostEqual(times[0], 1.0 + rec.HOST_HOLD_MAX_S, delta=0.05)
+
     def test_a_late_delivered_pausing_p_never_resumes(self):
         # rework round 2, R1 (Sol): F12 at 1.0, the title shows PAUSED at 1.3, the P that paused
         # it is delivered at 1.9 (pressed at 1.3 on the server's clock): it is the pausing chord,

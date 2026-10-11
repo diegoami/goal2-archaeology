@@ -216,6 +216,11 @@ RESUME_DEBOUNCE_S = 1.0
 # (T39b-probe-autorepeat-20261012-01.log, two runs). [designed] 2 ms: the pair's 1 ms tick, far
 # under any human re-press. Recorder policy.
 AUTOREPEAT_SERVER_MS = 2
+# [designed] How long a held F12 (the host key) holds every save request when no F12 event arrives:
+# a held key keeps sending its autorepeat pairs every ~25-33 ms (sitting 20261011-215411; the
+# autorepeat probe), so 3 s without one means its release was missed, and requests resume.
+# Recorder policy.
+HOST_HOLD_MAX_S = 3.0
 
 
 def mapper_text(default=None):
@@ -1346,6 +1351,7 @@ class Watcher:
         worker = threading.Thread(target=pipeline, daemon=True, name="capture-pipeline")
         worker.start()
         next_pause_poll = float("-inf")
+        host_down, host_seen = False, float("-inf")   # the owner's F12, from the key log
         try:
             while True:
                 drained = keys.drain() if keys else []
@@ -1355,6 +1361,10 @@ class Watcher:
                     burst.add(event)
                 if drained:
                     last_event = drained[-1]["monotonic_s"]
+                for event in drained:
+                    if event.get("keysym") == HOST_KEYSYM:
+                        host_down = event.get("event") == "press"
+                        host_seen = event["monotonic_s"]
                 if keys and (keys.error or keys.proc.poll() is not None):
                     # T39b Scope 7: closing the window ends Xephyr, and the logger on its display
                     # ends first; the sitting is over (play() names it), never a crash that
@@ -1402,6 +1412,14 @@ class Watcher:
                 send_resume = self.resume_due and now >= last_event + EVENT_SETTLE_S
                 if now < next_tick and not send_burst and not send_resume:
                     self.sleep(min(next_tick - now, 0.01 if keys else 0.5))
+                    continue
+                if host_down and now - host_seen < HOST_HOLD_MAX_S:
+                    # rework round 2: the owner holds F12 for a chord. The save request is
+                    # F12+S sent to the window, its F12 release included, and sent between the
+                    # owner's F12 and P it made DOSBox-X take the P as a game key: the pause of
+                    # T39b-scripted-pause-20261012-01.log never happened (request at +11.264 s
+                    # between F12 at +11.206 s and P at +11.343 s). No request while F12 is held.
+                    self.sleep(0.01 if keys else 0.5)
                     continue
                 if self.pause_probe is not None and self.poll_pause():
                     # a fresh read before every send: a pause typed within its own keys'
