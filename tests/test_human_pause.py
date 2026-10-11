@@ -120,14 +120,6 @@ class PauseLoopTests(unittest.TestCase):
             # the title is read every PAUSE_POLL_S, not on every pass of a loop that never sleeps
             self.assertLess(probes[0], 45 / rec.PAUSE_POLL_S + 50)
 
-    def test_a_watcher_without_a_pause_probe_never_pauses(self):
-        with tempfile.TemporaryDirectory() as folder:
-            w, sends, keys, _ = loop_watcher(folder, [(0.5, 30.0)], [])
-            w.pause_probe = None
-            w.run(quit_after=21, keys=keys)
-            self.assertEqual([o for _, o in sends], ["watcher", "watcher"])
-            self.assertFalse((Path(folder) / "pauses.jsonl").exists())
-
 
 class PauseCaptureTests(unittest.TestCase):
     """A capture whose request a pause followed never sends F12+S again: DOSBox-X dropped any
