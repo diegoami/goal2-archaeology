@@ -58,8 +58,9 @@ Scope, Done when, Hazards, Implementer, Reviewer, Merge after. Rules:
   each layer in 1 round. Defensive check: when reviewing a task file, ask "could this be two or
   three tasks instead?" If yes, split. The cost of splitting is small (more task files, more
   PRs); the cost of not splitting is what we saw on T34. The retrospective is at
-  `goal2-archaeology-work/lessons/T34-too-big-split-by-orthogonal-layer.md` and in the local
-  memory as `task-sizing-by-orthogonal-layer.md`. (L104)
+  `goal2-archaeology-work/lessons/T34-too-big-split-by-orthogonal-layer.md`. (L104)
+- **Numbering.** Before writing a task file, `git pull` and take the next free number in
+  `docs/tasks/`: another session may have written one (T14 was overwritten once, 2026-10-05).
 
 ## 3. The loop
 
@@ -161,6 +162,12 @@ reports one blocker per round, stop after the second such round: the main sessio
 whole diff for the same class of problem before the next review, and records the pattern in
 `docs/model-trials.md` (L101).
 
+Practical, not theoretical (the owner, 2026-10-05, after T12 took 4 rounds over a bypass no run
+showed): a theoretical bypass is blocking only if it makes a claim false as worded, not merely
+unproven. Accept what is about 80-90% likely, worded with its confidence and what remains
+possible; narrow a claim's wording rather than add runs or rounds, and file stronger evidence as
+a follow-up.
+
 For a Claude reviewer, the main session also runs `/code-review <pr>` on architecture tasks,
 always with the PR number: a bare invocation from an agent reviews the wrong tree. (L8)
 
@@ -211,6 +218,12 @@ run, or the owner's decision with its basis. Plausible rules without either stay
   `<sha256[:16]>-<name>`, manifest under `evidence/E<nnn>/`, re-verified by
   `tools/verify_evidence.py`; ADR-008). A savestate holds the game's memory: release assets of
   this private repository only, never in the tree; an asset is never deleted or replaced.
+- The owner's sittings (E015, `runtime/human/play.sh`) are normal play, not a scenario for a bot
+  (the owner, 2026-10-07: "Do not treat me as your playing bot"): every sitting is mined. Run
+  `experiments/E015-human-playthrough/extract.py` on it, publish its savestates, update the
+  coverage map in that experiment's `protocol.md`, and report what filled and what remains, sorted
+  into "any normal play fills it" and "needs a specific moment". Ask for a moment by name only
+  when nothing else covers it.
 
 ## 12. Delegating decisions to Jev
 
@@ -232,3 +245,6 @@ raw baseline; where the two views disagree, the listing decides.
 Each research task adds or corrects the rows for what it establishes, with its finding as basis,
 runs `python3 tools/static/check_annotations.py`, and regenerates `named/` in its PR with the command
 in `static/goal-exe/named/README.md`. Only rows change by hand; `named/` never does.
+OpenCode runs cannot run Ghidra (it lives under `~/tools`, outside their worktree): an OpenCode
+brief says "do NOT run Ghidra; the main session regenerates named/ after you push (L57)", and
+its review brief says the same for the reviewer. Claude agents and the main session can run it.

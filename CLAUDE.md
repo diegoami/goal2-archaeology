@@ -32,7 +32,12 @@ indexed in `docs/tasks/README.md`.
    with the reason in the commit message.
 6. The reviewer is never the implementer's model family. It re-runs every Done-when line itself.
 7. Merge only with an approving review and green CI. Two rework rounds, then escalate. (L38's
-   ladder is superseded: each round's implementer is the user's choice.)
+   ladder is superseded: each round's implementer is the user's choice.) With both, merge at once
+   without asking (the owner, 2026-10-04): research PRs `--merge` (rule 20), the rest `--squash`.
+   The main session may grant a third, narrow round itself when the remaining findings are small
+   and change no result (the owner, 2026-10-05). When it escalates over small exact corrections,
+   it offers "small fix + delta review": it applies the corrections in the task's worktree and
+   the reviewer the user picks checks only `git diff <old>..<new>`.
 8. Relay review findings in full. Read a run's final message before you retry or re-route it (L55).
 9. A test proves behaviour only if it fails without that behaviour; re-take a claim that nothing failed.
 9a. Undo a mutation or scratch edit by writing back the file's saved contents (read it first, restore
@@ -43,6 +48,9 @@ indexed in `docs/tasks/README.md`.
 12. A bug whose fix stays in the files it names and changes no outcome is a `fix`; a blocking
     one-file mechanical fix may ride the PR that found it, declared under Scope.
 13. Design decisions go to the user; nothing else waits for the user.
+13a. A lesson or a decision of the owner goes into this file or `docs/` in a commit, never only
+    into Claude's memory, which stays on one computer (the owner, 2026-10-11). Memory holds nothing
+    the repository needs.
 14. At session start: `gh issue list --label triage:needed --state open`, any task in flight, and
     the worktree sweep (rule 2a).
 
@@ -64,7 +72,8 @@ indexed in `docs/tasks/README.md`.
     unpacked and decompiled. `corroborated` needs both a behavioural and a static finding.
 20. **Research follows game-archaeologist ADR-007/008 and `method/research-protocol.md`.** Run records
     are raw and immutable, evidence bundles are release assets, and findings start `proposed`. Only
-    the main session writes `spec/`, after review. Research PRs merge with a merge commit. Every
+    the main session writes `spec/`, after review. Research PRs merge with a merge commit (never squash: tag `research/T02`
+    keeps the commits `runs/E001` cites, from #12's mistaken squash; never delete it). Every
     measured output (run records, probe logs, timings) lives under a tracked path the task owns, is
     committed and pushed after each batch of runs and at least every 30 minutes, and is never deleted
     or overwritten (game-archaeologist L207).
@@ -116,7 +125,11 @@ the docs and `harness.json` that pick a model are superseded by them.
 9. Watch it with one monitor that checks every 1-2 minutes. Test a job's life by its systemd unit
    (`systemctl --user is-active <unit>`: start every long job as its own unit, L103) or its PID
    (`kill -0 <pid>`), never with `pgrep -f`, which matches the watching shell's own command line
-   and never sees the job end (L48; isle-wars lost 1.5 h to it, 2026-10-11). It covers:
+   and never sees the job end (L48; isle-wars lost 1.5 h to it, 2026-10-11). A unit gets only the
+   environment it is given: `systemd-run --user --unit=goal2-<name> --collect -E PATH="$PATH"
+   -E MINIMAX_API_KEY -p WorkingDirectory=<dir> -p StandardInput=null -p StandardOutput=file:<log>
+   -p StandardError=file:<log> <command>` (without the key a MiniMax run stops with "minimax lists
+   no models", 2026-10-11; never a `bash -c` script). It covers:
    - the session started (`opencode session list` in the run's directory, or the run's
      "session ses_... started" line), and the run's exit;
    - progress: the OpenCode log's size and the session's `updated` time, the worktree's changed

@@ -203,6 +203,20 @@ Ghidra runs headless with `-max-cpu 2`, one instance at a time (the machine is s
 them, `tests/static/test_decompile.py` skips its Ghidra tests and says why. One run takes about
 six minutes on two CPUs: start it in the background.
 
+## A shared machine
+
+Isle-wars' sessions run DOSBox-X and Xvfb on the same machine. Use another display than `:99` (a
+stray `Xvfb :99` belongs to neither project), and stop only processes you started, by PID: never
+`pkill dosbox-x` or `pkill Xvfb`.
+
+## OpenCode's agent permissions
+
+`.opencode/agents/{implementer,reviewer}.md` allow `/tmp` and `/tmp/*` (PR 119, the owner,
+2026-10-11: a model's scratch file in `/tmp` was refused and the run ended with nothing posted).
+The grant was lost twice, once by a harness bump; `tests/test_agent_permissions.py` now fails CI
+without it, and `harness.lock` lists both files as adapted: carry it over on every bump. A
+worktree made before a merge has the branch's copy of these files.
+
 ## The scripts' own data directory
 
 `implement.mjs` and `review.mjs` run OpenCode with a data directory of their own, so OpenCode's
