@@ -4,6 +4,7 @@ The synthetic savestate carries the text page at the offsets F001 measured and a
 render.py's docstring names, both written as literals here, so a renderer that reads a byte off, or
 paints a bit-7 attribute as blink, fails. The committed PNGs of E015-r0007 states 16 and 76 are
 decoded too, at cells whose attribute bytes were read from those savestates."""
+import contextlib
 import io
 import struct
 import sys
@@ -160,7 +161,8 @@ class SyntheticRender(unittest.TestCase):
                 z.writestr("Memory", zlib.compress(bytes(ss.mem)))
             sav.write_bytes(buf.getvalue())
             out = Path(d) / "x.png"
-            self.assertEqual(render.main(["--savestate", str(sav), "-o", str(out)]), 0)
+            with contextlib.redirect_stdout(io.StringIO()):
+                self.assertEqual(render.main(["--savestate", str(sav), "-o", str(out)]), 0)
             self.assertEqual(decode_png(out.read_bytes())[:2], (640, 400))
 
 
