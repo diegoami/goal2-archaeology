@@ -27,7 +27,7 @@
 ## Answer
 
 - **One watched tick is: the engine sweep `9564`, then `8CF5`, then `9119`, then the clock
-  `970C`** (both). `0791:97D0` (seg_0791_16.asm:97D3-983C): with `DS:9A3E` clear, in order —
+  `970C`** (both). `0791:97D0` (static:static/goal-exe/code/seg_0791_16.asm:98): with `DS:9A3E` clear, in order —
   the replay handling (`0C65` when `DS:7C37`, else `15B9` when `DS:9B55`, `97DF`-`97F2`),
   `9B55/0C20/7C37` cleared (`97F5`-`9806`), `call 9564` (`980B`), then while still watched
   `call 8CF5` and `call 9119` with `DS:82EE` and argument 0 (`9815`-`9821`), then `970C`
@@ -35,7 +35,7 @@
   clock's end-of-half. High confidence (listing; the emulation runs exactly this and matches).
 - **`9564` is one sweep of a slot loop 1..0x16 over the pitch records, not a physics step of
   the whole pitch at once** (static; the emulation runs it as guest code). Per slot
-  (seg_0791_15.asm:946-1140): the ball phase, gated by `DS:8302` nonzero (`9574`) and the
+  (static:static/goal-exe/code/seg_0791_15.asm:946): the ball phase, gated by `DS:8302` nonzero (`9574`) and the
   threshold byte at `0x899 + 0x16*flag + slot <= DS:8300` (`95AA`-`95B4`; flag = 1 exactly
   when `DS:8303` is set and `DS:8327` is NOT a member of the set `CS:9544` — `23E4:08DF`
   returns its result in ZF and ZF set means NOT a member, `958D`-`959D`; `0x899`
@@ -54,7 +54,7 @@
 - **The seed advances every tick of a watched match, through the display AND the movement
   code** (both). `9119`,
   called by the loop with argument 0 every tick, draws exactly one `rand(2)` — the referee's
-  target column (seg_0791_15.asm:91CC or 91F1; `214B:0D1C`/`0D56` are RNG-free min/max
+  target column (static:static/goal-exe/code/seg_0791_15.asm:546 or 91F1; `214B:0D1C`/`0D56` are RNG-free min/max
   clamps, seg_214B_02.asm:0D1C-0D53). `8889`, reached from `update_player` per updated
   record (up to 28 per sweep: the 22 slot tails returning to `96CB` plus the keeper
   special returning to `9669` once per ball phase — up to six ball phases per sweep;
@@ -72,13 +72,13 @@
   draws from the seed every tick", now quantified: a watched match cannot be modelled without
   emulating the display-side and movement draws. High confidence.
 - **A watched minute is the `0x24` sub-tick countdown, and `(DS:831F, DS:831D)` identifies a
-  tick** (both). `9564` never writes `DS:831D` (no `0x831d` operand in seg_0791_15.asm:946-1140;
+  tick** (both). `9564` never writes `DS:831D` (no `0x831d` operand in static:static/goal-exe/code/seg_0791_15.asm:946;
   `D733` zeroes it at D811, F012), so `970C` paces a watched half at ~0x25 loop iterations per
   minute: `831F` the minute, `831D` the sub-tick (reloaded 0x24 at each minute boundary,
   seg_0791_16.asm:972E-9762). The E011 records read both words at every savestate, which pins
   each read to its tick. High confidence.
 - **The watched half-time stall is the `ED8A` wait inside `9A32`, and the second half resumes
-  through `983F`** (both). `9A32` (seg_0791_16.asm:268-346): per slot the player's `+0xE` +2
+  through `983F`** (both). `9A32` (static:static/goal-exe/code/seg_0791_16.asm:268): per slot the player's `+0xE` +2
   (set-gated, `9A71`-`9A85`), `9B41=1`, screen copies, `0106`, the wait `ED8A` (`9AE0`,
   which runs unless `DS:80FD=0` AND the key `DS:A977` is NOT a member of the set
   `CS:9A12` = {13 (Enter), 27 (Esc)} — `23E4:08DF` returns in ZF and ZF set means NOT a
@@ -102,10 +102,6 @@
   both records' second-half reads; a one-sub-tick shift of the restored `DS:831D` drops
   r0001's 10 eligible checkpoints to 0/10 and the combined check to 3/19, and a mutated `830B` resume constant to 0/10, so the
   check is not vacuous). High confidence.
-- **The `000E` wait family (the crowd animation, an RNG consumer) is unreachable from the
-  match** (static, re-verified). Its callers are `000E` menu code only (`calls.tsv`); the
-  harness's skip log stayed empty through both emulated halves (E010's closure miss, closed
-  again for the watched tree). High confidence.
 - **`8CF5` tracks and draws each side's offside line, and can raise the offside path**
   (static): per side, over the side's outfield slots `0668[side]+2..+11`, it keeps in the
   six-byte per-side sprite at `DS:82E2+6*side` (the byte at +1) the minimum signed
@@ -117,7 +113,14 @@
   and when that y's sign equals the ball y's sign, `DS:8328` is set and the y is nonzero,
   calls `90C5` on the record at `DS:8304` (`8DD3`-`8E14`). No RNG anywhere in its tree
   (`8E24`, `90C5` make no RNG calls); called every tick by the loop. Likely (listing only;
-  what `90C5` does with `DS:8304` is milestone 2+).
+  what `90C5` does with `DS:8304` is milestone 2+). (static:static/goal-exe/code/seg_0791_15.asm:30)
+
+## Inferences
+
+- **The `000E` wait family (the crowd animation, an RNG consumer) is unreachable from the
+  match** (static, re-verified). Its callers are `000E` menu code only (`static:static/goal-exe/calls.tsv`); the
+  harness's skip log stayed empty through both emulated halves (E010's closure miss, closed
+  again for the watched tree). High confidence.
 
 ## Method
 
