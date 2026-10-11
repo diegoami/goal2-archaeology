@@ -73,6 +73,10 @@ the plan.
 
 **Superseded (the owner, 2026-10-11):** which model implements or reviews is the user's choice, asked one question at a time (CLAUDE.md "Choosing models: the user decides"); this section's seats, chains and placements no longer pick a model. Kept for the logins and probes.
 
+Alibaba is used only when the user asks (CLAUDE.md "Choosing models" rule 4). On an Alibaba quota or
+rate error, stop using it until the next day, tell the owner, and do not retry: its monthly pool is
+small and is not monitored.
+
 Registered 2026-10-05/06 (the owner), all on watch in `harness.json`, no chain seats. The key is the
 env var `ALIBABA_TOKEN_PLAN_API_KEY` (or `MINIMAX_API_KEY`) from `~/.config/ai-keys.env` — never
 `opencode auth login` for these (an `auth.json` entry overrides the variable). All probed

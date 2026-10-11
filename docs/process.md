@@ -37,6 +37,9 @@ It watches each background job as CLAUDE.md rules 8-13 say, never with `pgrep -f
 
 `docs/tasks/T<nn>.md`, 150–400 words, from `docs/tasks/TEMPLATE.md`: Kind, Evidence, Owns,
 Scope, Done when, Hazards, Implementer, Reviewer, Merge after. Rules:
+- **Scope** says in one line what the task protects (the claim, guard or measurement a reviewer must
+  not let anything past); on a guard task it lists the forbidden actions or results. The review
+  brief's "Blocking means" item 2 names the same.
 - **Owns** names directories or files. Go finer only when two tasks run at once in one file: function-level Owns made one project open 27 PRs that only widened a list. (L5)
 - **Done when**: each line is one check a command can run. The main session runs each line before dispatch: it fails on `main` and passes on a mock fix. (L45)
 - The main session edits task files directly on `main`, the reason in the commit; the reviewer sees it. (L6)
@@ -88,9 +91,12 @@ What the implementer script guarantees, and why:
   same `--model` and a longer `--total-timeout-sec`, in the kept worktree (rule 13).
 
 How the main session launches and watches a run (L103):
-- Detached from its own session, so a restart of Claude Code does not kill the run: `systemd-run --user
-  --unit=goal2-<task> --collect -E PATH="$PATH" -p WorkingDirectory=<repo> bash -lc '<implement.mjs or
-  review.mjs command> > <log> 2>&1'` (`bash -lc` loads the keys of `~/.profile`).
+- Detached from its own session, so a restart of Claude Code does not kill the run, in the form of
+  CLAUDE.md's monitoring rule 9: `systemd-run --user --unit=goal2-<task> --collect -E PATH="$PATH"
+  -E MINIMAX_API_KEY -p WorkingDirectory=<repo> -p StandardInput=null -p StandardOutput=file:<log>
+  -p StandardError=file:<log> <implement.mjs or review.mjs command>`. A unit gets only the
+  environment it is given, so each key a run needs is passed with `-E`; never a `bash -c` or
+  `bash -lc` script (the safety check flags it).
 - The watch follows the unit (`systemctl --user is-active goal2-<task>`), and when a run's worktree holds
   uncommitted work more than 20 minutes newer than its last commit, it archives it outside the worktree,
   read-only (it never touches the run's index).
@@ -168,6 +174,11 @@ unproven. Accept what is about 80-90% likely, worded with its confidence and wha
 possible; narrow a claim's wording rather than add runs or rounds, and file stronger evidence as
 a follow-up.
 
+Before merging an approval that carries non-blocking findings, the main session reads them: a
+proven way past what the task protects is rework whatever the reviewer rated it; it says so on the
+PR and records it in `docs/model-trials.md` (L47: GLM-5.3 proved three guard bypasses, rated them
+non-blocking and approved).
+
 For a Claude reviewer, the main session also runs `/code-review <pr>` on architecture tasks,
 always with the PR number: a bare invocation from an agent reviews the wrong tree. (L8)
 
@@ -185,8 +196,10 @@ Once `breaks-play` is trialled (§12), Jev settles the gate's confident ends; th
 
 ## 7. Escalate to the user when
 
-A design question; a Done-when would have to weaken; a third rework round; anything destructive
-(force-push, rewriting `main`, deleting an issue); a new external dependency.
+A design question; a Done-when would have to weaken; a third rework round, except the narrow one
+the main session may grant itself when the remaining findings are small and change no result
+(CLAUDE.md rule 7); anything destructive (force-push, rewriting `main`, deleting an issue); a new
+external dependency.
 
 ## 8. Labels
 
