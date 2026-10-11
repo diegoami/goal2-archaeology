@@ -17,6 +17,22 @@ def grants(agent):
     return dict(re.findall(r'^    "([^"]+)": (\w+)$', block.group(1), re.M))
 
 
+def under_tmp(pattern):
+    """Whether a grant stays inside /tmp once `.` and `..` are resolved (a glob is a name)."""
+    if not pattern.startswith("/"):
+        return False
+    parts = []
+    for part in pattern.split("/")[1:]:
+        if part in ("", "."):
+            continue
+        if part == "..":
+            if parts:
+                parts.pop()
+            continue
+        parts.append(part)
+    return bool(parts) and parts[0] == "tmp"
+
+
 class AgentTmpGrantTests(unittest.TestCase):
     def test_tmp_is_open_to_both_agents(self):
         for agent in ("implementer", "reviewer"):
@@ -27,8 +43,15 @@ class AgentTmpGrantTests(unittest.TestCase):
     def test_nothing_else_outside_the_worktree_is_granted(self):
         for agent in ("implementer", "reviewer"):
             outside = {p for p, action in grants(agent).items()
-                       if action == "allow" and not (p == "/tmp" or p.startswith("/tmp/"))}
+                       if action == "allow" and not under_tmp(p)}
             self.assertEqual(outside, set(), agent)
+
+    def test_a_dotted_path_out_of_tmp_is_not_under_tmp(self):
+        # Luna's R1 on PR 119: "/tmp/../home/*" starts with "/tmp/" but leaves /tmp
+        for p in ("/tmp/../home/*", "/tmp/./../etc", "/tmpfoo/*", "tmp/*"):
+            self.assertFalse(under_tmp(p), p)
+        for p in ("/tmp", "/tmp/*", "/tmp/opencode/*", "/tmp/a/./b"):
+            self.assertTrue(under_tmp(p), p)
 
 
 if __name__ == "__main__":

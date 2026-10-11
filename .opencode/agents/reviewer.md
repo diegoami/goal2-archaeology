@@ -43,7 +43,8 @@ how the run works.
   review. To test a mutation, save the file's contents, change it in place, rebuild clean, run,
   then write the saved contents back, and say so; never `git checkout`, `git restore` or
   `git reset` the file (CLAUDE.md rule 9a).
-- Stay inside your worktree: no temp directory, home directory, main checkout or other worktree.
+- Stay inside your worktree, but for `/tmp` (open since 2026-10-11): no home directory, main
+  checkout or other worktree.
   OpenCode rejects a path outside it, and the script then discards the whole review. The git rule
   above (no -C, never type that path) is the same scope (L61). A pinned outside repository in
   the brief (`git -C <path> show <pin>:<file>`) is the exception: run it exactly as written —
