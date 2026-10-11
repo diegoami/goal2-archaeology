@@ -206,14 +206,12 @@ class GaFetchTest(unittest.TestCase):
         tools_dir = dest / "tools"
         tools_dir.chmod(0o000)
         self.addCleanup(tools_dir.chmod, 0o755)
-        wanted = {path: ga.git_blob_sha(text.encode()) for path, text in CONTENTS.items()}
-        # gh is the fake of setUp: the test never reaches the network, and no blob is fetched
-        with self.pinner, mock.patch.dict(os.environ, self.env), \
-                mock.patch.object(ga, "_wanted", return_value=wanted):
+        # the real fetch() path, nothing mocked but the cache folder; gh is the fake of setUp
+        with self.pinner, mock.patch.dict(os.environ, self.env):
             with self.assertRaises(ga.GaError) as raised:
                 ga.fetch()
         self.assertIn("cannot stat", str(raised.exception))
-        self.assertEqual([], self.blob_calls())
+        self.assertEqual([], self.calls())
 
     def test_stale_cached_pyc_is_never_run(self):
         # R1: a same-length edit of the cached validator, byte-compiled and then restored to the

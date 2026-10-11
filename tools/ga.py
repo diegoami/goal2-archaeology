@@ -205,6 +205,10 @@ def fetch(commit: str | None = None) -> Path:
         raise GaError(f"cache root {CACHE} is a symlink, not a directory")
     if _probe(dest, "symlink"):
         raise GaError(f"cache for {commit} is a symlink: {dest}")
+    # An unreadable cache is a named error before anything is asked of gh: probe the fixed tool
+    # paths first (the tree below only adds formats/, whose probes follow in `_missing`).
+    for path in NEEDED_FILES:
+        _probe(dest / path, "file")
     wanted = _wanted(repo, commit)
     if _missing(dest, wanted):
         _download(repo, dest, wanted)
