@@ -190,9 +190,10 @@ word f_0791_1F3C(char param_1)
 }
 
 
-// ---- 0791:1FDD  f_0791_1FDD  (f_0791_1FDD; Ghidra 2000:1FDD, __stdcall16near; found by routines.tsv)
+// ---- 0791:1FDD  pick_marker_by_skill  (f_0791_1FDD; Ghidra 2000:1FDD, __stdcall16near; found by routines.tsv)
+// (slot k, element, side): clears the marking word for slot k, then over the side's available pitch slots from the first candidate to 11 compares 278A(candidate, element) with 278A(incumbent, element) (unsigned, strict greater replaces) and stores the winner's word in the table at DS:9976 (read by 6B65, 6D4E, CC7B); element and slot come from 20E3, so energy (elements below 12) and form change who is picked  [established; F021; read code/seg_0791_04.asm]
 
-void f_0791_1FDD(int param_1,undefined2 param_2,char param_3)
+void pick_marker_by_skill(int param_1,undefined2 param_2,char param_3)
 
 {
   int iVar1;
@@ -234,9 +235,10 @@ LAB_0791_20D4:
 }
 
 
-// ---- 0791:20E3  f_0791_20E3  (f_0791_20E3; Ghidra 2000:20E3, __cdecl16near; found by routines.tsv)
+// ---- 0791:20E3  assign_marking_slots  (f_0791_20E3; Ghidra 2000:20E3, __cdecl16near; found by routines.tsv)
+// for each of the two sides in DS:9B34 that 1771:0B77 says is unmanaged: 1F3C, then 1FDD(k, DS:0764[k], side) for k = 2..5 (elements 7, 12, 12, 2 in the E010 image); called by 230C (line 685 of seg_0791_04.asm), so both engines run it after a substitution or the computer's tactics  [established; F021; read code/seg_0791_04.asm]
 
-void __cdecl16near f_0791_20E3(void)
+void __cdecl16near assign_marking_slots(void)
 
 {
   char *pcVar1;
@@ -255,8 +257,8 @@ void __cdecl16near f_0791_20E3(void)
         uVar4 = f_0791_1F3C(local_3);
         *(undefined2 *)(local_3 * 10 + -0x6688) = uVar4;
       }
-      for (local_6 = 2; f_0791_1FDD(local_6,*(undefined1 *)(local_6 + 0x764),local_3), local_6 != 5;
-          local_6 = local_6 + 1) {
+      for (local_6 = 2; pick_marker_by_skill(local_6,*(undefined1 *)(local_6 + 0x764),local_3),
+          local_6 != 5; local_6 = local_6 + 1) {
       }
     }
     else if (DS:0C1F != '\0') {
@@ -419,7 +421,7 @@ void __cdecl16near resort_pitch_and_bench(void)
   }
   set_marking_words();
   f_0791_0691();
-  f_0791_20E3();
+  assign_marking_slots();
   f_0791_419C();
   pitch_records[1]._11_2_ = 0;
   pitch_records[0xc]._11_2_ = 0;
@@ -523,7 +525,7 @@ undefined1 __stdcall16far player_effective_tactic(undefined4 param_1,uint param_
 
 
 // ---- 0791:278A  skill_of_pitch_record  (f_0791_278A; Ghidra 2000:278A, __stdcall16far; found by routines.tsv)
-// the engines' only skill reader: takes a pitch record and an element; base = SIGNED form +0xC +1 below 0x20 else 0 (27AB's `jge` is signed; 27B9 `cwde` sign-extends), element >= 0xC adds 0x20 (the penalties bonus) else the SIGNED energy +0xE (27D4 / 27D8 sign-extends), skill = 1771:3A06 of the record at pitch+0xD, pitch+0x13 set halves it, value = base*skill div 256 + skill div 4; the **table-controlled keeper extra** at 2823-284C: `cmp byte ptr [di + 0x769], 0 / jne 2843` is the FIRST gate — any nonzero byte for the element (the data image's 0x769[2] = 0x01, 0x769[4] = 0x01, 0x769[12] = 0x01) jumps to the extra-term branch, adding pitch+0x11, WITHOUT testing element 1 or event-code membership; only when the byte is zero does the second gate (element 1 and event code 0x18 in CS:276A) apply; pitch+6 < 0xC with DS:80FC set adds value/16. Callers (calls.tsv): 1FDD, 287C, 34C1, 3B15, 3EF8, 47C5, 5474, 5B36, 690C, 9ED3, D5C1  [established; F015; read code/seg_0791_04.asm]
+// the engines' only skill reader: takes a pitch record and an element; base = SIGNED form +0xC +1 below 0x20 else 0 (27AB's `jge` is signed; 27B9 `cwde` sign-extends), element >= 0xC adds 0x20 (the penalties bonus) else the SIGNED energy +0xE (27D4 / 27D8 sign-extends), skill = 1771:3A06 of the record at pitch+0xD, pitch+0x13 set halves it, value = base*skill div 256 + skill div 4; the **table-controlled keeper extra** at 2823-284C: `cmp byte ptr [di + 0x769], 0 / jne 2843` is the FIRST gate — any nonzero byte for the element (the data image's 0x769[2] = 0x01, 0x769[4] = 0x01, 0x769[12] = 0x01) jumps to the extra-term branch, adding pitch+0x11, WITHOUT testing element 1 or event-code membership; only when the byte is zero does the second gate (element 1 and event code 0x18 in CS:276A) apply; pitch+6 < 0xC with DS:80FC set adds value/16. Callers (calls.tsv): 1FDD, 287C, 34C1, 3B15, 3EF8, 47C5, 5474, 5B36, 690C, 9ED3, D5C1  [established; F015; read code/seg_0791_04.asm; F021]
 
 uint __stdcall16far skill_of_pitch_record(undefined4 param_1,uint param_2)
 
@@ -805,9 +807,10 @@ bool __stdcall16far slot_is_on_ball_side(undefined4 param_1)
 }
 
 
-// ---- 0791:2B7B  f_0791_2B7B  (f_0791_2B7B; Ghidra 2000:2B7B, __stdcall16far; found by routines.tsv)
+// ---- 0791:2B7B  energy_gate_chance  (f_0791_2B7B; Ghidra 2000:2B7B, __stdcall16far; found by routines.tsv)
+// random-is-one(0x21 - signed player energy +0xE) for the pitch record at [bp+6]: true with probability 1/(33 - E) (214B:06D0); its only caller 4A28 goes to 4354 on a true (seg_0791_08.asm:480-500); energy is the only player byte it reads  [established; F021; read code/seg_0791_05.asm]
 
-undefined2 __stdcall16far f_0791_2B7B(undefined4 param_1)
+undefined2 __stdcall16far energy_gate_chance(undefined4 param_1)
 
 {
   undefined2 uVar1;
@@ -1173,82 +1176,4 @@ uint __stdcall16far f_0791_2F28(char *param_1)
     }
   }
   return uVar1 & 0xff00;
-}
-
-
-// ---- 0791:2FB1  find_nearest_to_ball  (f_0791_2FB1; Ghidra 2000:2FB1, __cdecl16near; found by routines.tsv)
-// for each side, over slots base+2..base+11 that can play, are not DS:830B and are not in state 13: nearest to the ball by Manhattan distance goes to DS:8311[side]; nearest that is goal-side of the ball goes to DS:830F[side]  [likely; read decompiled/seg_0791_02.c]
-
-void __cdecl16near find_nearest_to_ball(void)
-
-{
-  int iVar1;
-  char cVar2;
-  int iVar3;
-  int iVar4;
-  uint uVar5;
-  pitch *ppVar6;
-  undefined4 local_f;
-  uint local_9;
-  uint local_7;
-  int local_5;
-  char local_3;
-  
-  local_3 = '\0';
-  while( true ) {
-    ((undefined1 *)&DS:8311)[local_3] = 0;
-    *(undefined1 *)(local_3 + -0x7cf1) = 0;
-    local_7 = 100;
-    local_9 = 100;
-    local_5 = 2;
-    while( true ) {
-      iVar3 = (uint)*(byte *)(local_3 + 0x668) + local_5;
-      iVar1 = iVar3 * 0x16;
-      ppVar6 = (pitch *)pitch_records + iVar3;
-      local_f = (pitch *)CONCAT22(0xb000,ppVar6);
-      cVar2 = player_unavailable_on_pitch(ppVar6,0xb000);
-      if (((cVar2 == '\0') && (DS:830B != *(char *)((int)&pitch_records[0].side + iVar1))) &&
-         (*(char *)((int)&pitch_records[0].state + iVar1) != '\r')) {
-        iVar3 = (int)(char)local_f->x - (int)(char)ball_record.x;
-        if (iVar3 < 0) {
-          iVar3 = -iVar3;
-        }
-        iVar4 = (int)*(char *)((int)&pitch_records[0].y + iVar1) - (int)(char)ball_record.y;
-        if (iVar4 < 0) {
-          iVar4 = -iVar4;
-        }
-        uVar5 = iVar4 + iVar3;
-        if (uVar5 < local_7) {
-          ((undefined1 *)&DS:8311)[local_3] =
-               *(undefined1 *)((int)&pitch_records[0].side + iVar1);
-          local_7 = uVar5;
-        }
-        cVar2 = attack_direction(ppVar6,0xb000);
-        iVar3 = (int)(char)ball_record.y * (int)cVar2;
-        cVar2 = attack_direction(ppVar6,0xb000);
-        if (((int)*(char *)((int)&pitch_records[0].y + iVar1) * (int)cVar2 < iVar3) &&
-           (uVar5 < local_9)) {
-          *(undefined1 *)(local_3 + -0x7cf1) = *(undefined1 *)((int)&pitch_records[0].side + iVar1);
-          local_9 = uVar5;
-        }
-      }
-      if (local_5 == 0xb) break;
-      local_5 = local_5 + 1;
-    }
-    if (local_3 == '\x01') break;
-    local_3 = local_3 + '\x01';
-  }
-  return;
-}
-
-
-// ---- 0791:30EA  f_0791_30EA  (f_0791_30EA; Ghidra 2000:30EA, __stdcall16far; found by routines.tsv)
-
-int __stdcall16far f_0791_30EA(undefined4 param_1,int param_2)
-
-{
-  char cVar1;
-  
-  cVar1 = pitch_slot_side((int)param_1,(int)((ulong)param_1 >> 0x10));
-  return (uint)*(byte *)(cVar1 + 0x668) + param_2;
 }

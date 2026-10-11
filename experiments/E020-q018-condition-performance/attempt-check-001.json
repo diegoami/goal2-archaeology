@@ -1,0 +1,75 @@
+{
+ "schema": "E020-attempt-check/1",
+ "source_sha256": "3c7983fa4869d3278fe9f1f6140e5ca1b84f602e97b5862f547c6332d086e1e6",
+ "results": [
+  {
+   "A_team0": "fit",
+   "B_team1": "tired",
+   "line_sums_team0": [
+    242,
+    1022,
+    1045,
+    433
+   ],
+   "line_sums_team1": [
+    181,
+    778,
+    770,
+    341
+   ],
+   "attempts_per_team": 786432,
+   "scoring_attempts_team0": 54013,
+   "scoring_attempts_team1": 15409,
+   "observed_team0": 0.0686810811360677,
+   "observed_team1": 0.019593556722005207,
+   "exact_team0": 0.06919598209635434,
+   "exact_team1": 0.019698276497640936
+  },
+  {
+   "A_team0": "fit",
+   "B_team1": "fit",
+   "line_sums_team0": [
+    242,
+    1022,
+    1045,
+    433
+   ],
+   "line_sums_team1": [
+    242,
+    1022,
+    1045,
+    433
+   ],
+   "attempts_per_team": 786432,
+   "scoring_attempts_team0": 29832,
+   "scoring_attempts_team1": 29793,
+   "observed_team0": 0.037933349609375,
+   "observed_team1": 0.037883758544921875,
+   "exact_team0": 0.03797495141366224,
+   "exact_team1": 0.03797495141366224
+  },
+  {
+   "A_team0": "example_high",
+   "B_team1": "example_low",
+   "line_sums_team0": [
+    272,
+    1102,
+    1198,
+    454
+   ],
+   "line_sums_team1": [
+    241,
+    1018,
+    1040,
+    431
+   ],
+   "attempts_per_team": 786432,
+   "scoring_attempts_team0": 36137,
+   "scoring_attempts_team1": 22708,
+   "observed_team0": 0.04595057169596354,
+   "observed_team1": 0.028874715169270832,
+   "exact_team0": 0.04614570600243545,
+   "exact_team1": 0.02890437829350221
+  }
+ ]
+}

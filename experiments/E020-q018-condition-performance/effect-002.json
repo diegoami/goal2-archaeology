@@ -1,0 +1,135 @@
+{
+ "schema": "E020-effect/1",
+ "source_sha256": "3c7983fa4869d3278fe9f1f6140e5ca1b84f602e97b5862f547c6332d086e1e6",
+ "method": "quick-engine model over every 16-bit main seed; second half from 0-0",
+ "results": [
+  {
+   "A": "tired",
+   "B": "energy_only",
+   "A_energy_form": [
+    1,
+    1
+   ],
+   "B_energy_form": [
+    32,
+    1
+   ],
+   "line_sums_team0_gk_def_mid_att": [
+    181,
+    778,
+    770,
+    341
+   ],
+   "line_sums_team1_gk_def_mid_att": [
+    212,
+    902,
+    910,
+    388
+   ],
+   "attempt_probability_team0": "875891/31988528",
+   "attempt_probability_team1": "120571011/2197569920",
+   "seeds": 65536,
+   "team0_wins": 10082,
+   "draws": 38581,
+   "team1_wins": 16873,
+   "team0_goals": 14382,
+   "team1_goals": 22081
+  },
+  {
+   "A": "energy_only",
+   "B": "tired",
+   "A_energy_form": [
+    32,
+    1
+   ],
+   "B_energy_form": [
+    1,
+    1
+   ],
+   "line_sums_team0_gk_def_mid_att": [
+    212,
+    902,
+    910,
+    388
+   ],
+   "line_sums_team1_gk_def_mid_att": [
+    181,
+    778,
+    770,
+    341
+   ],
+   "attempt_probability_team0": "120571011/2197569920",
+   "attempt_probability_team1": "875891/31988528",
+   "seeds": 65536,
+   "team0_wins": 17392,
+   "draws": 37179,
+   "team1_wins": 10965,
+   "team0_goals": 22686,
+   "team1_goals": 15310
+  },
+  {
+   "A": "tired",
+   "B": "form_only",
+   "A_energy_form": [
+    1,
+    1
+   ],
+   "B_energy_form": [
+    1,
+    31
+   ],
+   "line_sums_team0_gk_def_mid_att": [
+    181,
+    778,
+    770,
+    341
+   ],
+   "line_sums_team1_gk_def_mid_att": [
+    211,
+    898,
+    905,
+    386
+   ],
+   "attempt_probability_team0": "3072155/110850916",
+   "attempt_probability_team1": "23600885/434845984",
+   "seeds": 65536,
+   "team0_wins": 9850,
+   "draws": 39167,
+   "team1_wins": 16519,
+   "team0_goals": 15090,
+   "team1_goals": 22854
+  },
+  {
+   "A": "form_only",
+   "B": "tired",
+   "A_energy_form": [
+    1,
+    31
+   ],
+   "B_energy_form": [
+    1,
+    1
+   ],
+   "line_sums_team0_gk_def_mid_att": [
+    211,
+    898,
+    905,
+    386
+   ],
+   "line_sums_team1_gk_def_mid_att": [
+    181,
+    778,
+    770,
+    341
+   ],
+   "attempt_probability_team0": "23600885/434845984",
+   "attempt_probability_team1": "3072155/110850916",
+   "seeds": 65536,
+   "team0_wins": 17640,
+   "draws": 37446,
+   "team1_wins": 10450,
+   "team0_goals": 23692,
+   "team1_goals": 15945
+  }
+ ]
+}

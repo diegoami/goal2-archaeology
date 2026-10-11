@@ -72,7 +72,7 @@ LAB_1771_320A:
 
 
 // ---- 1771:3216  player_unavailable  (f_1771_3216; Ghidra 4000:3216, __stdcall16far; found by routines.tsv)
-// returns 0 only when player +0x0E > 0 and bits 8, 6 and 3 of +0x10 are clear, else 1; 377E then gives strength 0 and D733 rerolls a scorer  [likely; read decompiled/seg_1771_02.c; read decompiled/seg_0791_08.c]
+// returns 0 only when player +0x0E > 0 and bits 8, 6 and 3 of +0x10 are clear, else 1; 377E then gives strength 0 and D733 rerolls a scorer  [likely; read decompiled/seg_1771_02.c; read decompiled/seg_0791_08.c; F021]
 
 undefined2 __stdcall16far player_unavailable(int param_1)
 
@@ -313,7 +313,7 @@ void __stdcall16far recover_fitness_energy(char param_1,int param_2)
 
 
 // ---- 1771:377E  player_strength  (f_1771_377E; Ghidra 4000:377E, __stdcall16far; found by routines.tsv)
-// a player's match strength: (+4 - 0x3E) + (+0x0E), plus +0x0C when it is below 32 else minus a sixteenth, clamped 0..256, halved when 1771:3179 is true; 0 when 1771:3216 says unavailable  [likely; F002; F007; read decompiled/seg_1771_02.c]
+// a player's match strength: (+4 - 0x3E) + (+0x0E), plus +0x0C when it is below 32 else minus a sixteenth, clamped 0..256, halved when 1771:3179 is true; 0 when 1771:3216 says unavailable  [likely; F002; F007; read decompiled/seg_1771_02.c; F021]
 
 int __stdcall16far player_strength(int param_1)
 
