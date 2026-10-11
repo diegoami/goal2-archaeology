@@ -1,0 +1,4 @@
+# T35 round 3: the heavy mutation alone, with the end-to-end scripted sitting (sweep -02 ran it before scripted_keys re-read meta.json, so its kill there proved nothing)
+baseline (unmutated): exit=0; OK
+MUTATION r6-R1: the recorder writes no write total: exit=1; FAILED (failures=1)
+RESULT: killed

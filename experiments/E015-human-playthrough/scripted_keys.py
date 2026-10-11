@@ -300,6 +300,9 @@ def main():
         subprocess.run(["xdotool", "windowfocus", "--sync", other], env=env, check=True)
         subprocess.run(["xdotool", "key", "y", "z"], env=env, check=True)
         assert sitting.wait(timeout=quit_after + 40) == 0
+        # the sitting's final meta.json: the copy read while the sitting started holds no
+        # write_events_total, which the recorder writes only once the emulator is gone (T35 r3)
+        meta = json.loads((session / "meta.json").read_text())
         events = [json.loads(line) for line in (session / "keys.jsonl").read_text().splitlines()]
         presses = [e["keysym"] for e in events if e["event"] == "press"]
         assert presses == list(keys), presses
