@@ -15,6 +15,16 @@ indexed in `docs/tasks/README.md`.
 2. Nobody works in the main checkout: the main session, when it implements, works in its own git
    worktree; OpenCode runs in the worktree the script makes; Claude agents run with worktree
    isolation. Never `git stash`.
+2a. **Never remove a worktree** (the owner, 2026-10-11, after the main session removed a running
+    review's worktree mid-run): not after a merge, not in a cleanup, not one that looks finished.
+    The harness scripts' removal of their own worktree at the end of their own run is theirs.
+    Old worktrees go only through the **sweep**, at session start (rule 14) and at least once a
+    day: a worktree is old when ALL hold — no process has its cwd or an open file in it
+    (`ls -l /proc/*/cwd`, `lsof +D`), no systemd unit or monitor of this or another session uses
+    it, its newest file and last commit are more than 7 days old, its branch is merged or gone
+    on origin, and it is clean (else its diff is saved as a patch beside it first). Keep its
+    savestates under `.cache/kept/` before removing it. Anything in doubt stays, and the sweep
+    lists what it removed and what it kept, and why.
 3. Status lives in GitHub labels. No document carries a status snapshot.
 4. A question is not a request to edit files. Answer it; propose any fix and wait.
 5. The Done-when is not negotiable by the implementer. It stops and reports; it never weakens an
@@ -33,7 +43,8 @@ indexed in `docs/tasks/README.md`.
 12. A bug whose fix stays in the files it names and changes no outcome is a `fix`; a blocking
     one-file mechanical fix may ride the PR that found it, declared under Scope.
 13. Design decisions go to the user; nothing else waits for the user.
-14. At session start: `gh issue list --label triage:needed --state open`, and any task in flight.
+14. At session start: `gh issue list --label triage:needed --state open`, any task in flight, and
+    the worktree sweep (rule 2a).
 
 ## Token economy
 15. A brief carries the task file pasted in full, never a pointer to it.
