@@ -137,6 +137,28 @@ class ExtractMarksTests(unittest.TestCase):
         summary = [o["value"] for o in obs if o["field"].startswith("notes and pauses")]
         self.assertEqual(summary, ["notes: 2, pauses: 1, resumes: 1"])
 
+    def test_the_saved_game_the_recorder_placed_and_declared_interventions_are_in_the_record(self):
+        session = session_with_meta(self, "interventions")
+        meta = json.loads((session / "meta.json").read_text())
+        meta["load"] = {"file": "game/1.GL", "bytes": 8, "sha256": "ab" * 32, "chosen": "--load"}
+        (session / "meta.json").write_text(json.dumps(meta))
+        (session / "keys.jsonl").write_text("".join(json.dumps(e) + "\n" for e in (
+            {"event": "press", "keysym": "Pause", "monotonic_s": T0 + 5, "by": "recorder"},
+            {"event": "release", "keysym": "Pause", "monotonic_s": T0 + 5.05, "by": "recorder"},
+            {"event": "press", "keysym": "Return", "monotonic_s": T0 + 6})))
+        runs = workdir(self, "runs-interventions")
+        with mock.patch("sys.stdout", io.StringIO()):
+            extract.main([str(session), "--countries", "1", "--runs-dir", str(runs),
+                          "--declare", "I3:a file copied by hand"])
+        rec = json.loads(sorted((runs / "E015").glob("*.json"))[-1].read_text())
+        whats = {(i["level"], i["what"]) for i in rec["interventions"]}
+        self.assertTrue(any(lv == "I3" and "ab" * 32 in w for lv, w in whats), whats)
+        self.assertIn(("I3", "a file copied by hand"), whats)
+        self.assertTrue(any(lv == "I2" and "Pause key 1 time" in w for lv, w in whats), whats)
+        values = {o["field"]: o["value"] for o in rec["observations"]}
+        self.assertEqual(values["key log presses (keys.jsonl lines whose event is press, not the "
+                                "recorder's)"], "1")
+
     def test_without_the_monotonic_clock_a_note_is_placed_by_utc(self):
         # an index entry without a request window (a sitting before T34) has only its UTC
         session = session_with_meta(self, "marks-utc")
