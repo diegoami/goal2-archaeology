@@ -31,8 +31,8 @@
   (a starter begins at `0x37` = 55, `0791:F2C7` in `run_match` F1F6), or `10000 + raw` for an
   incoming substitute (written whole as `0x2747`, `0791:C6FA`); readers decode `> 5000` (signed,
   `0x1388`) → subtract `0x2710` (`1771:3855-385C`, `0791:CB2E-CB43`), and `1771:3827` maps the
-  decoded value to the displayed 1..9 bucket by nine signed compares (`3865-38CF`).
-- **Every commentary line rates its named player (both).** `0791:1EB5` (seg_0791_03.asm:991-1063)
+  decoded value to the displayed 1..9 bucket by nine signed compares (`3865-38CF`). (static:static/goal-exe/code/seg_0791_23.asm:1122)
+- **Every commentary line rates its named player (both).** `0791:1EB5` (static:static/goal-exe/code/seg_0791_03.asm:991)
   is the tail of every emitter: `call 1E53` first — `0791:1E53` computes the pitch record
   `0x80E8 + 0x16*(0668[team] + slot)`, takes its `+0xD` player word, and executes
   `add word es:[di+0x12], ax` at `1EAB` with `ax = s8(DS:0x720[template])` — then `call 1D4A`
@@ -46,25 +46,7 @@
   Goal (38) +40, own goal (39) −50, booked (50) −20, sent off (51) −100, "wins the ball" (14)
   +20, "dodged by" (12) +20, tackle (11) −10, challenge (65) −10, substitution (0) +0, full/half
   time (63/64) 0 (E012 notes.md §3; byte-exact from `ds_2581_01.hex`, identical in every
-  savestate — nothing writes it).
-- **A completed "challenge by" nets 0, not −10 (both).** `0791:5565` with `DS:8303` set emits
-  `2B28(0x41)` ("challenge by", `5653`), then runs the chain `5474` (5676) → `5513` (567E) →
-  `4151` (5685) → `045D(DS:830B)` (5692) → `4D3F` (56A3) → the `DS:8303` test (56A6, `jne
-  56B5`) → `56CB`, which writes `add word es:[di+0x12], 0xA` at `0791:56CB` — a +10 with no
-  ring line, the only ring-invisible mid-match writer. The bail paths are visible as the line
-  immediately after the 0x41: `539F`'s 0x0E/0x21 pair (`5465`/`5468`), `408E`'s 0x16-0x18,
-  `8206`'s 0x35-0x37, `3FAD(9)`'s 0x15. The ONE silent bail is `045D(DS:830B)` at
-  `5692-5697`: `045D` (seg_0791_01.asm:511) returns 1 when its argument — the HOLDER's pitch
-  slot, `DS:830B` — is 1 or 12, i.e. when the ball holder stands on a side's slot 1 (pitch
-  slots 1 and 12 are the two keepers' slots; `0668 = [0x0B, 0x00]`: team 0 plays pitch 12..22,
-  team 1 plays 1..11), and the `jne 56D0` skips 56CB without emitting anything. `4D3F` at
-  `56A3` is NOT a bail: its return is never tested — `56A6`'s `cmp byte [0x8303],0` is the
-  next branch — so a goalkeeper CHALLENGER still gets the +10 (T26 rework R1 removed the
-  earlier claim that it does not). E012-r0001's positions 294-297 show both outcomes: a
-  completed challenge (123: followed by another player's 0x41; +10 on the read — slot 3 read
-  0x8C where the plain table gives 0x82) and a bailed one (124: followed by the 0x0E/0x21 pair
-  naming 124; the plain −10). `5B36` can also emit 0x41 with 8303 set (`5B88`) without the +10;
-  no 5B36-emitted 0x41 appeared in any analysed half — the rule's one recorded ambiguity.
+  savestate — nothing writes it). (static:static/goal-exe/data/ds_2581_01.hex)
 - **A sending-off or injury re-sorts the XI with `0791:230C`'s pairwise compare-and-swap (both).**
   A template-51 (sent off, `0791:7B77`) or template-52 (injury, `0791:7D56`) line takes its player
   off the pitch and re-sorts his side's squad slots 1..11 through `230C`: each slot's key is
@@ -83,7 +65,7 @@
   the removals were far enough apart that no swap reversed them; side 0's sent-off 173 moves
   slot 5 → 11; the predictor matches all three records (`check_ratings.py` `match: 3/3`).
 - **The man of the match is CAB0's max-scan (both).** `0791:CAB0`
-  (seg_0791_20.asm:918-975): for side 0 then side 1, squad slots 1..20 — slots 1..11 always,
+  (static:static/goal-exe/code/seg_0791_20.asm:918): for side 0 then side 1, squad slots 1..20 — slots 1..11 always,
   12..20 only for players substituted off (status bit 3, `214B:0C57`) — skip `0x7FFF`, decode
   (>5000 → −10000), strict compare against a best that starts at 1, ties keeping the first in
   scan order; the winner's squad word goes to `DS:7C3A` (cleared per match by `A4A1`), and
@@ -95,11 +77,32 @@
   every squad slot 1..20 with a player — copy the record's `+0xC` form to
   `DS:9B07 + 0x14*side + slot` (restored by `CB7D` after the match) and set slots 1..11 to
   `0x37` (`F2C7`). `D5A9` (the silent quick result) blanks both sides to `0x7FFF`, and
-  `1771:97C0` (new game) writes `0x7FFF`: a CPU-vs-CPU result carries no ratings.
+  `1771:97C0` (new game) writes `0x7FFF`: a CPU-vs-CPU result carries no ratings. (static:static/goal-exe/code/seg_0791_23.asm:1065)
 - **The readers (static).** `1771:3827` (the display, F008); `1771:1289`→`1301-1320` (the
   player-value calculation: `−0x37`, then `>0x1388: −0x2710`, `+0x64`); `214B:19F4` (tests bit 0
   of the word — every encoding the writers produce is odd and all but three deltas are even, a
-  persistent "rated" marker); `0791:81A2` (F012's sub-readiness compare `+0x12 < 0x5A − 831B`).
+  persistent "rated" marker); `0791:81A2` (F012's sub-readiness compare `+0x12 < 0x5A − 831B`). (static:static/goal-exe/code/seg_1771_05.asm:840)
+
+## Inferences
+
+- **A completed "challenge by" nets 0, not −10 (both).** `0791:5565` with `DS:8303` set emits
+  `2B28(0x41)` ("challenge by", `5653`), then runs the chain `5474` (5676) → `5513` (567E) →
+  `4151` (5685) → `045D(DS:830B)` (5692) → `4D3F` (56A3) → the `DS:8303` test (56A6, `jne
+  56B5`) → `56CB`, which writes `add word es:[di+0x12], 0xA` at `0791:56CB` — a +10 with no
+  ring line, the only ring-invisible mid-match writer. The bail paths are visible as the line
+  immediately after the 0x41: `539F`'s 0x0E/0x21 pair (`5465`/`5468`), `408E`'s 0x16-0x18,
+  `8206`'s 0x35-0x37, `3FAD(9)`'s 0x15. The ONE silent bail is `045D(DS:830B)` at
+  `5692-5697`: `045D` (seg_0791_01.asm:511) returns 1 when its argument — the HOLDER's pitch
+  slot, `DS:830B` — is 1 or 12, i.e. when the ball holder stands on a side's slot 1 (pitch
+  slots 1 and 12 are the two keepers' slots; `0668 = [0x0B, 0x00]`: team 0 plays pitch 12..22,
+  team 1 plays 1..11), and the `jne 56D0` skips 56CB without emitting anything. `4D3F` at
+  `56A3` is NOT a bail: its return is never tested — `56A6`'s `cmp byte [0x8303],0` is the
+  next branch — so a goalkeeper CHALLENGER still gets the +10 (T26 rework R1 removed the
+  earlier claim that it does not). E012-r0001's positions 294-297 show both outcomes: a
+  completed challenge (123: followed by another player's 0x41; +10 on the read — slot 3 read
+  0x8C where the plain table gives 0x82) and a bailed one (124: followed by the 0x0E/0x21 pair
+  naming 124; the plain −10). `5B36` can also emit 0x41 with 8303 set (`5B88`) without the +10;
+  no 5B36-emitted 0x41 appeared in any analysed half — the rule's one recorded ambiguity.
 
 ## Evidence
 
