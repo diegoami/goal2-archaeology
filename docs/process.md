@@ -146,7 +146,10 @@ because a static tool was missing, or a finding resting on runs whose Method doe
 static analysis was tried, is a contract defect: rework.
 
 Run mechanics, added to every brief here: the session is killed after 600 s without activity; keep
-every shell command under 5 minutes, and work only inside the review worktree. If a reviewer still
+every shell command under 5 minutes, and work only inside the review worktree. Undo a mutation by
+writing back the file's saved contents (read it first, restore it in a `finally`), never with
+`git checkout`, `git restore` or `git reset` of the file: those return the last commit and destroy
+any uncommitted work in it (PR 114 round 1). If a reviewer still
 reports one blocker per round, stop after the second such round: the main session goes through the
 whole diff for the same class of problem before the next review, and records the pattern in
 `docs/model-trials.md` (L101).
