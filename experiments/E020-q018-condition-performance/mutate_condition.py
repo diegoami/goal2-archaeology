@@ -11,8 +11,8 @@ Targets, each integer literal (bools excluded) in:
                                       calls, which is not copied
 Each mutant is a separate subprocess importing the real module (no copy, no monkeypatch); the
 source is restored from its saved contents in `finally` (never git checkout); bytecode is cleared
-before each run; the log is exclusive-create. Survivors are listed, not hidden: the exit status is
-non-zero unless every mutant is killed."""
+before each run; the log is exclusive-create. A survivor is allowed only when proven equivalent (EQUIVALENT, with the proof); it is counted apart.
+The exit status is non-zero when any other mutant survives."""
 import ast
 import subprocess
 import sys
@@ -20,6 +20,15 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 COMMAND = [sys.executable, "-m", "unittest", "tests.test_model_condition"]
+# Mutants proven equivalent (identical behaviour on every input), counted apart from kills. Key: the
+# label prefix `file:line:col`; the proof is printed in the log.
+EQUIVALENT = {
+    "quick_engine.py:257:20": "`if s16(v) < 0: v = 0 / elif s16(v) > 0x100: v = 0x100`: `< 1` differs from `< 0` only "
+                              "at s16(v) == 0, where the original skips to the elif (0 > 0x100 is false) and leaves "
+                              "v = 0, and the mutant assigns v = 0: the same value.",
+    "quick_engine.py:259:22": "`> 0xff` differs from `> 0x100` only at s16(v) == 0x100, where the mutant assigns "
+                              "v = 0x100, the value it already has: the same value.",
+}
 TARGETS = [(ROOT / "runtime/model/condition.py", None),
            (ROOT / "runtime/model/quick_engine.py", {"player_strength", "unavailable", "wrong_foot"})]
 
@@ -47,7 +56,7 @@ def clear_bytecode():
 def main():
     destination = ROOT / "experiments/E020-q018-condition-performance" / sys.argv[1]
     killed = total = 0
-    survivors = []
+    survivors, equivalent = [], []
     with destination.open("x") as log:
         log.write("In-place +1 and -1 sweep of every integer literal of the condition model\n")
         log.write("Command: python3 -m unittest tests.test_model_condition   (timeout 60 s per mutant)\n")
@@ -76,8 +85,12 @@ def main():
                             status = "KILLED" if result.returncode else "SURVIVED"
                         except subprocess.TimeoutExpired:
                             status = "TIMEOUT"       # not counted as a kill
+                        key = ":".join(label.split()[0].split(":")[:3])
                         if status == "KILLED":
                             killed += 1
+                        elif status == "SURVIVED" and key in EQUIVALENT:
+                            equivalent.append(label)
+                            status = "SURVIVED-EQUIVALENT"
                         else:
                             survivors.append(label)
                         log.write(f"{label}: {status}\n")
@@ -85,11 +98,14 @@ def main():
             finally:
                 path.write_text(original)
                 clear_bytecode()
-        log.write(f"killed: {killed}/{total}\n")
+        log.write(f"killed: {killed}; proven equivalent (counted apart): {len(equivalent)}; "
+                  f"surviving and not proven equivalent: {len(survivors)}; total {total}\n")
+        for label in equivalent:
+            log.write(f"EQUIVALENT {label}: {EQUIVALENT[':'.join(label.split()[0].split(':')[:3])]}\n")
         for label in survivors:
             log.write(f"SURVIVOR {label}\n")
-    print(f"killed: {killed}/{total}; log: {sys.argv[1]}")
-    return int(killed != total)
+    print(f"killed {killed}, equivalent {len(equivalent)}, unexplained survivors {len(survivors)} of {total}; log: {sys.argv[1]}")
+    return int(bool(survivors))
 
 
 if __name__ == "__main__":

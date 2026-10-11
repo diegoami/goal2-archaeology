@@ -8,7 +8,7 @@ runtime/model/keeping.py names KEEPING_EVENT. This runs the original on a litera
 value, whether the +0x11 extra (5) was added. Appends nothing to the tree: the output is the log
 the caller redirects to a new file.
 
-    python3 experiments/E020-q018-condition-performance/probe_event_gate.py > experiments/E020-q018-condition-performance/event-gate-001.log
+    python3 experiments/E020-q018-condition-performance/probe_event_gate.py > experiments/E020-q018-condition-performance/event-gate-002.log
 """
 import sys
 from pathlib import Path
@@ -20,7 +20,7 @@ import probe_original as P  # noqa: E402
 
 def main():
     h = P.Harness()
-    word = 3400
+    word = 2700     # inside the 3061-record player array (3400 would wrap the 16-bit word * 20)
     rec = bytearray(20)
     rec[4], rec[5], rec[7], rec[0xC], rec[0xE] = 0xB4, 8, 2, 0x10, 0x18
     h.put_player(word, rec)

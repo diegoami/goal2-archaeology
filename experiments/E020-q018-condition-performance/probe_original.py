@@ -182,17 +182,18 @@ def probe_contest(h, cases=None, base_word=None):
     class_table = h.ds_read(0x6D25, 14 * 12)
     profile_table = h.ds_read(0x6DCD, 16 * 12)
     keeper_gate = h.ds_read(0x769, 13)
-    word = base_word if base_word else (2800 if cases else 3100)
+    supplied = cases is not None      # the default grid is added only when no cases were supplied
+    word = base_word if base_word else (2800 if supplied else 3100)
     cases = [] if cases is None else cases
-    energies = [0, 1, 0x10, 0x20, 0x7F, 0x80, 0xFE] if not cases else []
+    energies = [0, 1, 0x10, 0x20, 0x7F, 0x80, 0xFE] if not supplied else []
     forms = [0, 1, 0x1F, 0x20, 0x3F, 0x80, 0xFF]
     n = 0
-    for element in ((3, 10, 12) if not cases else ()):
+    for element in ((3, 10, 12) if not supplied else ()):
         for e in energies:
             for c in forms:
                 cases.append(dict(element=element, c=c, e=e, halve=0, extra=0, slot=1, flag_80fc=0,
                                   event=0))
-    for element, halve, extra, slot, f80, event in (() if cases else (
+    for element, halve, extra, slot, f80, event in (() if supplied else (
             (1, 1, 5, 1, 0, 0x18), (1, 0, 5, 1, 0, 0x18),
             (1, 0, 5, 1, 0, 0), (2, 0, 7, 1, 0, 0),
             (4, 0, 7, 1, 0, 0), (10, 0, 7, 1, 1, 0),

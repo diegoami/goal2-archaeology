@@ -48,6 +48,11 @@ player unavailable.
 | Q6 | `0791:BD03` via `BD83` via `C173` | `seg_0791_19.asm:554,566` (`call far 1771:377E`) | after a goal the computer's tactics compare the two sides' 377E sums (F012): the same strengths, a second consumer. |
 | Q7 | `0791:D5C1` foul roll (competitive fixtures only: `9A3D != 0`) | `seg_0791_21.asm:712` and `:720` (`call 0x1278a` at D688/D696), `:723` (`jb`) | `278A(side-a slot, 10)` against `278A(side-b slot, 3)` (unsigned compare): the watched blend below, read by the quick engine in a non-friendly match. **Not modelled** (`quick_engine.FoulPathNotModelled`); static reading only. |
 | Q8 | `0791:9A32` half-time step | `seg_0791_16.asm:370` (+0xE read for the set test), `:378` (+0xE write) | `+0xE := +0xE + 2` when `+0xE` is in 1..30 (F018 s3). |
+| Q9 | `0791:278A` through `0791:1FDD`, called by `0791:20E3`, called by `0791:230C` (`seg_0791_04.asm:685`) | `seg_0791_04.asm:92-102` (`call 0x278a` twice: candidate and incumbent, `cmp ax,dx / jbe` at `:102-103`), `:6-40` (`1FDD`'s entry and slot loop), `:125-200` (`20E3`: for each of the two sides that `1771:0B77` says is unmanaged, `1F3C`, then `1FDD(k, DS:0764[k], side)` for k = 2..5) | reached with no foul path, in a friendly: `230C` runs after every substitution (`8062 -> C88D -> C48D -> 230C`) and from `C01A`'s tail after a goal when an unmanaged side is more than 2 behind (`C173 <- 65FE <- D733`, `reach-001.txt`). For each marking slot k the table `DS:0764 + k` (bytes `01 00 07 0c 0c 02` in the E010 image) gives the skill element (k = 2..5 -> 7, 12, 12, 2); the pitch slot with the larger `278A(pitch, element)` (unsigned, strict) replaces the incumbent, so the blend of C1 (energy for elements < 0xC, constant 0x20 for 12) picks the marker. The result is stored in the table at `DS:9976` (`seg_0791_04.asm:1FF9`), whose other readers are `6B65`, `6D4E`, `CC7B` (`datarefs.tsv`); `20E3` itself calls `6B65` and `CC7B` in the quick tree, and these were not traced here. The model omits all of it. None of the 32 E020 halves reached `230C` (counted with the model: 0 calls), so they do not exercise this path; F012's ten E010 records do (their second halves make substitutions, and the model without it is seed-exact on them), at the energies those records had, which were not varied. Whether energy changes the quick score through this path is therefore not shown. |
+
+Competitive-only quick subtree: `D5C1 -> 7EEF -> {7D56, 7B77 -> 7881 -> 8AE9 -> 57AC -> {4A28 -> 2B7B, 5049, 5565 -> 287C ...}}`
+(`reach-001.txt`, ROOT D733) puts the watched action code under the quick engine's foul roll, so in a
+non-friendly quick match the walk-off also runs W1-W5 (static reading only, not modelled).
 
 Not the same engine, same readers: `0791:D47E` (called only from `000E:6970`, `reach-001.txt`) runs
 `0BC4` twice (`seg_0791_21.asm:507,514`) and `B19D(12)` (`:515-517`) - the one-shot result of a
@@ -84,8 +89,10 @@ both engines' arithmetic trees.
   reads it, which the original code confirms: `strength-002-fitness` and `contest-003-fitness` vary
   +0xD over 0, 1, 0x10, 0x20, 0x7F, 0x80, 0xFF and the original returns one value per (form, energy).
   Fitness reaches a match only as the energy it is copied to at the end of the previous one.
-- **C2. Energy (+0xE) and form (+0xC) are read by the quick engine only through 377E (Q1), every
-  minute; and by the watched engine through 278A (W1) in every skill read, plus the three
+- **C2. Energy (+0xE) and form (+0xC) are read by the quick engine, in a friendly, by 377E (Q1) every
+  minute (the only read the model needs for seed-exactness in F012's records and E020's halves), by 278A inside the
+  marking pick (Q9, downstream effect untraced) and by the gates Q3/Q5/Q6/Q8; in a competitive
+  fixture also by the walk-off subtree under D5C1 (Q7); and by the watched engine through 278A (W1) in every skill read, plus the three
   energy-only gates W2-W4.**
 - **C3. Team morale `DS:9B5A` reaches no match code.** `static/goal-exe/datarefs.tsv`: `DS:9B5A`,
   `DS:9B5C`, `DS:9B60` are referenced by `1771:13D0` and `1771:157D` only; a grep of every
@@ -103,7 +110,9 @@ both engines' arithmetic trees.
   0x1F, not the clamp's 0x20 (`0791:B364` clamps a result/bench/pool change to 1..32, F019).
 - **C6. The keeper-extra gate of 278A is the set `{3, 4}` of `DS:8327`, not the value 0x18**
   (`seg_0791_04.asm:843` holds the set bytes `18 00 ...`; `probe_event_gate.py` /
-  `event-gate-001.log`: the original adds pitch+0x11 for `DS:8327` = 3 and 4 only). `keeping.py`'s
+  `event-gate-002.log`: the original adds pitch+0x11 for `DS:8327` = 3 and 4 only; the earlier
+  `event-gate-001.log` used player word 3400, which wraps `word * 20`, and is not evidence;
+  `records/contest-002-events.json` has the same result on in-array words). `keeping.py`'s
   `KEEPING_EVENT = 0x18` names the set's byte; `condition.contest` passes the membership instead.
   This is a T27 (F015) defect outside this task; reported.
 

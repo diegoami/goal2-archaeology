@@ -399,7 +399,7 @@ class F021Tests(unittest.TestCase):
 
     ROUTINES = ["1771:377E", "0791:278A", "0791:2B7B", "0791:4A28", "0791:5049", "0791:8AE9",
                 "1771:3216", "1771:13D0", "1771:0BC4", "0791:7CC5", "0791:D733", "0791:BD03",
-                "0791:D47E", "0791:CB7D", "1771:157D"]
+                "0791:D47E", "0791:CB7D", "1771:157D", "0791:1FDD", "0791:20E3"]
 
     def test_f021_routines_and_fields(self):
         c = check_annotations.Checker(ANNOTATIONS, ROOT / "static/goal-exe/routines.tsv",

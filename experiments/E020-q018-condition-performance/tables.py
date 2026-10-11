@@ -2,7 +2,7 @@
 """The per-player numbers F021 quotes, from the model (each value is checked against the original
 for the same inputs by check_condition.py where the record exists).
 
-    python3 experiments/E020-q018-condition-performance/tables.py > experiments/E020-q018-condition-performance/tables-001.txt
+    python3 experiments/E020-q018-condition-performance/tables.py > experiments/E020-q018-condition-performance/tables-002.txt
 
 1. 1771:377E at skill +4 = 0xE1 (225) and 0x4A (74), keeper-position record, over energy 1..32 and
    the form values 1, 16, 31, 32, 33.
@@ -34,10 +34,10 @@ for skill in (0xE1, 0x4A):
 print()
 print("278A element 3 (watched engine), record +4=0xB4 +5=8 +7=2, rows energy, columns form", FORMS)
 base = bytes([0, 0, 0, 0, 0xB4, 8, 0, 2] + [0] * 12)
-ref = condition.contest(condition.with_condition(base, 32, 31), 3, class_table, profile_table)
+ref = condition.contest(condition.with_condition(base, 32, 31), 3, class_table, profile_table, event=0)
 print("  value at (energy 32, form 31) =", ref)
 for e in (1, 8, 16, 24, 32):
-    row = [condition.contest(condition.with_condition(base, e, f), 3, class_table, profile_table) for f in FORMS]
+    row = [condition.contest(condition.with_condition(base, e, f), 3, class_table, profile_table, event=0) for f in FORMS]
     print(f"  energy {e:2d}: {row}  share of the (32,31) value: {[round(v / ref, 3) for v in row]}")
 print()
 print("energy-only gates (probability / condition) for energy 1..32")
