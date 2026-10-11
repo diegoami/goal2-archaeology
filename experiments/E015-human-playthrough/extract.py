@@ -337,6 +337,64 @@ def host_free(value):
     return value
 
 
+def _jsonl(path):
+    """The JSON objects of a JSONL file's well-formed lines, with their 1-based line numbers."""
+    out = []
+    if Path(path).is_file():
+        for n, raw in enumerate(Path(path).read_text(encoding="utf-8").splitlines(), 1):
+            try:
+                out.append((n, json.loads(raw)))
+            except json.JSONDecodeError:
+                continue
+    return out
+
+
+def _utc(text):
+    from datetime import datetime
+    try:
+        return datetime.fromisoformat(text.replace("Z", "+00:00"))
+    except (AttributeError, ValueError):
+        return None
+
+
+def session_marks(session, meta):
+    """The session's notes (notes.jsonl, runtime/human/note.py) and pauses (pauses.jsonl, the
+    recorder), in time order: each {kind: note|pause|resume, line, utc, monotonic_s, ...}."""
+    t0 = meta.get("monotonic_start_s")
+    marks = [{"kind": "note", "line": n, "utc": x.get("utc"), "monotonic_s": x.get("monotonic_s"),
+              "text": x.get("text", "")} for n, x in _jsonl(session / "notes.jsonl")]
+    for n, x in _jsonl(session / "pauses.jsonl"):
+        mono = x.get("monotonic_s")
+        marks.append({"kind": x.get("event"), "line": n, "utc": x.get("utc"), "monotonic_s": mono,
+                      "elapsed_s": x.get("elapsed_s") if x.get("elapsed_s") is not None else
+                      (round(mono - t0, 3) if mono is not None and t0 is not None else None)})
+    has_mono = t0 is not None and all(m["monotonic_s"] is not None for m in marks)
+    marks.sort(key=(lambda m: m["monotonic_s"]) if has_mono else
+               (lambda m: _utc(m["utc"] or "") or _utc("9999-12-31T00:00:00+00:00")))
+    for m in marks:
+        m["clock"] = "monotonic" if has_mono else "utc"
+    return marks
+
+
+def screen_time(entry, meta):
+    """When a state's screen was taken: the start of its save-request window on the recorder's
+    monotonic clock (meta's monotonic_start_s + request_s), else its staging UTC; None when
+    neither is known."""
+    t0 = meta.get("monotonic_start_s")
+    if t0 is not None and entry.get("request_s") is not None:
+        return {"monotonic": t0 + entry["request_s"], "utc": _utc(entry.get("utc") or "")}
+    return {"monotonic": None, "utc": _utc(entry.get("utc") or "")}
+
+
+def mark_before(mark, when):
+    """Whether a note or pause precedes the screen taken at `when` (screen_time): on the monotonic
+    clock both share, else on UTC. A state with no time places nothing before it."""
+    if mark["clock"] == "monotonic" and when["monotonic"] is not None:
+        return mark["monotonic_s"] < when["monotonic"]
+    at = _utc(mark["utc"] or "")
+    return at is not None and when["utc"] is not None and at < when["utc"]
+
+
 def build_record(session, states, diffs, countries, runs_dir, machine, started, malformed, scripted_keys=False):
     """The run/1 document: one step per parsed state, the diffs after their later state, every
     file the pass read named with its sha256 (every file — R11 — and every country record
@@ -440,7 +498,31 @@ def build_record(session, states, diffs, countries, runs_dir, machine, started, 
                        f"(player: offset: before -> after)",
                 "; ".join(_render_record_change(x) for x in rc) or "none")
 
-    for s in states:
+    # T39b: the owner's coaching notes and DOSBox-X's pauses, each emitted between the two states
+    # whose screens it falls between
+    marks = session_marks(session, meta)
+    for name in ("notes.jsonl", "pauses.jsonl"):
+        if (session / name).is_file():
+            add("file", f"read {name}", sha256_file(session / name))
+    labels = [s["label"] for s in states]
+    times = [screen_time(s["entry"], meta) for s in states]
+
+    def emit_marks(i):
+        """The marks before state i (all that remain when i == len(states)), between its
+        predecessor and it."""
+        while marks and (i == len(states) or mark_before(marks[0], times[i])):
+            m = marks.pop(0)
+            where = (f"between state {labels[i - 1] if i else '(start)'} and state "
+                     f"{labels[i] if i < len(states) else '(end)'}")
+            if m["kind"] == "note":
+                add("log", f"note (notes.jsonl line {m['line']}, UTC {m['utc']}) {where}",
+                    m["text"])
+            else:
+                add("log", f"{m['kind']} of DOSBox-X (pauses.jsonl line {m['line']}, UTC "
+                           f"{m['utc']}, +{m['elapsed_s']}s) {where}", m["kind"])
+
+    for i, s in enumerate(states):
+        emit_marks(i)
         # rework round 2 R11: every file is hashed and named in the record, whether the parse
         # succeeded or not. The "unreadable" case has no bytes to hash; "sha256 mismatch" and
         # "not a savestate this reader parses" both have bytes and were silently dropped before.
@@ -500,6 +582,7 @@ def build_record(session, states, diffs, countries, runs_dir, machine, started, 
                     hexs(cc["members"][n]), addr=f"0x{cc['members_base'] + n * players.PLAYER_SIZE:X}")
         emit_diff(s)
         step += 1
+    emit_marks(len(states))
     vpath = session / "video.mkv"
     if meta.get("video"):
         if vpath.is_file():
@@ -522,12 +605,20 @@ def build_record(session, states, diffs, countries, runs_dir, machine, started, 
         + (f", skipped: {len(states) - len(parsed)}" if len(states) > len(parsed) else "")
         + (f", partial: {partial}" if partial else ""))
     rec.pop("_screens", None)
+    if (session / "notes.jsonl").is_file() or (session / "pauses.jsonl").is_file():
+        kinds = [m["kind"] for m in session_marks(session, meta)]
+        add("log", "notes and pauses placed between states (T39b)",
+            f"notes: {kinds.count('note')}, pauses: {kinds.count('pause')}, "
+            f"resumes: {kinds.count('resume')}")
     screen_key_map = None
     if (session / "keys.jsonl").is_file():
         import keymap
         screen_key_map = keymap.read_session(session, states)
         rec["runtime"]["fingerprint"]["keymap_py_sha256"] = sha256_file(keymap.__file__)
         add("file", "read key log keys.jsonl", sha256_file(session / "keys.jsonl"))
+        add("log", "key log presses (keys.jsonl lines whose event is press)",
+            str(sum(1 for line in (session / "keys.jsonl").read_text().splitlines()
+                    if line.strip() and json.loads(line).get("event") == "press")))
         if (session / "requests.jsonl").is_file():
             add("file", "read save requests requests.jsonl", sha256_file(session / "requests.jsonl"))
         add("log", "screen/key map summary", screen_key_map["summary"])

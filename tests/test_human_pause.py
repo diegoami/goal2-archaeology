@@ -5,8 +5,10 @@ import importlib.util
 import json
 import sys
 import tempfile
+import types
 import unittest
 from pathlib import Path
+from unittest import mock
 from unittest.mock import Mock
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -87,6 +89,7 @@ class PauseLoopTests(unittest.TestCase):
             self.assertGreaterEqual(resume_t, 10.012 + rec.EVENT_SETTLE_S - 1e-9)
             self.assertLess(resume_t, 12.0)
             self.assertGreaterEqual(sends[2][0], 12.012)
+            self.assertEqual(w.pause_epoch, 1)    # the captures of earlier requests see the pause
             lines = pauses(folder)
             self.assertEqual([x["event"] for x in lines], ["pause", "resume"])
             self.assertEqual(lines[0]["snapshot"], "after-resume")
@@ -203,6 +206,15 @@ class PauseMapTests(unittest.TestCase):
         result = self.keymap.build_map(self.states(), two, 0, pauses=[(10.2, 10.6)])
         self.assertEqual(result["unmapped_keys"], 2)
 
+    def test_keys_typed_while_paused_join_the_burst_in_emulated_time(self):
+        # `x` typed at 20.0, inside the pause (10.1 to 30.0): 0.1 s of emulated time after `a`
+        events = [{"monotonic_s": 10.0, "event": "press", "keysym": "a"},
+                  {"monotonic_s": 20.0, "event": "press", "keysym": "x"},
+                  {"monotonic_s": 30.2, "event": "press", "keysym": "b"}]
+        result = self.keymap.build_map(self.states(), events, 0, pauses=[(10.1, 30.0)])
+        self.assertEqual(([r["keys"] for r in result["transitions"]], result["unmapped_keys"]),
+                         ([["a", "x", "b"]], 0))
+
     def test_pause_spans_pair_each_pause_with_its_resume(self):
         lines = [{"event": "resume", "monotonic_s": 20.0}, {"event": "pause", "monotonic_s": 10.0},
                  {"event": "pause", "monotonic_s": 30.0}]
@@ -220,6 +232,51 @@ class PauseMapTests(unittest.TestCase):
                 + json.dumps({"event": "resume", "monotonic_s": 30.0}) + "\n")
             result = self.keymap.read_session(session, states=self.states())
             self.assertEqual(result["unmapped_keys"], 0)
+
+
+class PauseKeyTests(unittest.TestCase):
+    """The session's mapper file and the title read."""
+
+    def binds(self, text):
+        return {line.split(" ", 1)[0]: line for line in text.split("\n") if line.strip()}
+
+    def test_the_session_mapper_binds_f12_p_to_pause_and_keeps_every_other_bind(self):
+        default = self.binds(rec.MAPPER_DEFAULT.read_text())
+        session = self.binds(rec.mapper_text())
+        self.assertEqual(session["hand_pause"], 'hand_pause "key 72 host" "key 19 host" ')
+        # F12+P was the screenshot key: it is the pause's alone now
+        self.assertEqual([k for k, v in session.items() if '"key 19 host"' in v], ["hand_pause"])
+        changed = sorted(k for k in default if default[k] != session[k])
+        self.assertEqual(changed, ["hand_pause", "hand_scrshot"])
+        self.assertEqual(sorted(default), sorted(session))
+
+    def test_a_default_mapper_that_is_not_the_recorded_one_is_refused(self):
+        with tempfile.TemporaryDirectory() as folder:
+            other = Path(folder) / "other.map"
+            other.write_text(rec.MAPPER_DEFAULT.read_text().replace("key 22 host", "key 23 host"))
+            with self.assertRaises(RuntimeError):
+                rec.mapper_text(other)
+
+    def test_a_new_session_writes_the_mapper_its_config_names(self):
+        with tempfile.TemporaryDirectory() as folder:
+            with mock.patch.object(rec, "SESSIONS", Path(folder)), \
+                    mock.patch.object(rec, "verify_release_or_die"), \
+                    mock.patch.object(rec.shutil, "copytree"), \
+                    mock.patch.object(rec, "dosbox_version", return_value="2024.03.01"):
+                session, meta = rec.new_session()
+            self.assertIn(f"mapperfile={session / 'mapper.map'}", meta["config"])
+            self.assertEqual((session / "mapper.map").read_text(), rec.mapper_text())
+            self.assertEqual(meta["mapper_sha256"], rec.sha256(rec.mapper_text().encode()))
+
+    def test_the_pause_is_the_title_dosbox_x_shows(self):
+        def name(text, code=0):
+            return lambda args, env=None: types.SimpleNamespace(returncode=code, stdout=text)
+        with mock.patch.object(rec, "xdotool", name("DOSBox-X 2024.03.01: GOAL - 3000 cycles/ms PAUSED\n")):
+            self.assertTrue(rec.window_paused("7", {}))
+        with mock.patch.object(rec, "xdotool", name("DOSBox-X 2024.03.01: GOAL - 3000 cycles/ms\n")):
+            self.assertFalse(rec.window_paused("7", {}))
+        with mock.patch.object(rec, "xdotool", name("", 1)):
+            self.assertIsNone(rec.window_paused("7", {}))
 
 
 if __name__ == "__main__":
