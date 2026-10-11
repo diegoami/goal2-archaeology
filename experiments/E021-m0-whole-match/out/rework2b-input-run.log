@@ -1,0 +1,6 @@
+E011-r0001: declared write country 7 +0x2D (default team tactic set) at linear 0x48ae4: 8b -> 8a (plus the declared delay byte [DS:A923]+0x3F := 00)
+  unchanged: score [1, 1], 182188 seed writes; changed: completed to full time True, score [1, 1], 182248 seed writes, strays none, error None
+  first differing seed write: #971 unchanged (1, 31, 18458, 47681) changed (1, 30, 18458, 47681)
+  first tick off the unchanged trajectory: {'write_index': 971, 'minute': 1, 'sub_tick': 30, 'value': 18458, 'unchanged_values_at_that_reading': 43}
+  record: experiments/E021-m0-whole-match/out/20261011T204141662694Z-input-tactics-side0-xor01-E011-r0001.json
+exit 0
