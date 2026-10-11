@@ -1,4 +1,4 @@
-// A model the user names (CLAUDE.md "Choosing models: the user decides", the owner, 2026-10-11).
+// A model named for a review (CLAUDE.md "Choosing models", the owner, 2026-10-11).
 // harness.json's keys stay as short names; any other name of the form `provider/model`, with an
 // optional `@variant`, is taken as the OpenCode model id the user chose. Its family, for the
 // reviewer-family rule, is read from the model's own name. DeepSeek is refused on every route

@@ -1,7 +1,8 @@
-"""The OpenCode agents' outside-the-worktree grants (the owner, 2026-10-11): all of /tmp is open to
-the implementer and the reviewer, so a model's loose scratch file there no longer ends a run with
-nothing posted (isle-wars-archaeology d30a137 hit it three times); every other path outside the
-worktree stays rejected."""
+"""The OpenCode reviewer's outside-the-worktree grants (the owner, 2026-10-11): all of /tmp is open
+to it, so a model's loose scratch file there no longer ends a run with nothing posted
+(isle-wars-archaeology d30a137 hit it three times); every other path outside the worktree stays
+rejected. The reviewer is the one OpenCode agent: the main session or a Claude agent implements
+(CLAUDE.md "Choosing models", 2026-10-11)."""
 import re
 import unittest
 from pathlib import Path
@@ -35,23 +36,30 @@ def under_tmp(pattern):
     return bool(parts) and parts[0] == "tmp"
 
 
+AGENTS = ("reviewer",)
+
+
 class AgentTmpGrantTests(unittest.TestCase):
-    def test_tmp_is_open_to_both_agents(self):
-        for agent in ("implementer", "reviewer"):
+    def test_the_reviewer_is_the_one_opencode_agent(self):
+        names = sorted(p.stem for p in (ROOT / ".opencode" / "agents").glob("*.md"))
+        self.assertEqual(names, ["reviewer"])
+
+    def test_tmp_is_open_to_the_reviewer(self):
+        for agent in AGENTS:
             g = grants(agent)
             self.assertEqual(g.get("/tmp"), "allow", agent)
             self.assertEqual(g.get("/tmp/*"), "allow", agent)
 
-    def test_the_dosbox_bundle_is_open_to_both_agents(self):
+    def test_the_dosbox_bundle_is_open_to_the_reviewer(self):
         # the pinned emulator every run executes (#117, setup/dosbox-x-2024.03.01.sh): a reviewer
         # reading its wrapper ended PR 120's re-check (the owner, 2026-10-11)
-        for agent in ("implementer", "reviewer"):
+        for agent in AGENTS:
             g = grants(agent)
             for p in BUNDLE:
                 self.assertEqual(g.get(p), "allow", (agent, p))
 
     def test_nothing_else_outside_the_worktree_is_granted(self):
-        for agent in ("implementer", "reviewer"):
+        for agent in AGENTS:
             outside = {p for p, action in grants(agent).items()
                        if action == "allow" and not under_tmp(p) and p not in BUNDLE}
             self.assertEqual(outside, set(), agent)

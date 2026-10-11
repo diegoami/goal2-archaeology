@@ -1,7 +1,6 @@
 ---
 name: implementer
-description: The Claude fallback implementer for one task or fix, for /run-task when the task file's Implementer is claude or OpenCode's implement.mjs exited 3. It works in its own worktree on its own branch, commits and pushes there, opens the PR, and reports.
-model: sonnet
+description: The Claude implementer for one task or fix, spawned by /run-task when the main session does not implement itself. It runs on the main session's model unless the main session names another Claude model; it works in its own worktree on its own branch, commits and pushes there, opens the PR, and reports.
 hooks:
   PreToolUse:
     - matcher: "Bash"

@@ -1,139 +1,95 @@
 {
+  "rules": "Who implements and who reviews (CLAUDE.md \"Choosing models\", the owner, 2026-10-11): the main session or a Claude agent implements; one OpenCode model reviews, reviewer.default unless the user names another (review.mjs --reviewer); never the implementer's family, never DeepSeek, Alibaba only when the user asks. No chains, no chooser, no quota check.",
   "worktreeRoot": "../{repo}-work",
   "models": {
     "mimo-flash": {
       "id": "opencode-go/mimo-v2.6-flash",
       "family": "mimo",
-      "watch": "New (the owner, 2026-10-09): takes the place of a model blacklisted on every route (L67). The owner tested it on implement, fix and review tasks, all passed; not yet run here. It offers no variants, so no variant field. A family of its own (mimo) for the reviewer-family rule."
+      "note": "MiMo v2.6 Flash on OpenCode Go, no variant (it offers none); its own family (mimo). Login: XDG_DATA_HOME=<scripts data dir> opencode console login."
     },
     "luna": {
       "id": "openai/gpt-5.6-luna",
+      "family": "openai",
       "variant": "high",
-      "family": "openai"
+      "note": "GPT-5.6 Luna on the direct OpenAI route, the default reviewer: fast, proves findings by mutation; fine for a narrow final check (T12). Never a Luna on OpenCode Go (L27)."
     },
     "luna-6": {
       "id": "openai/gpt-6-luna",
+      "family": "openai",
       "variant": "high",
-      "family": "openai"
+      "note": "GPT-6 Luna: registered only; it shares OpenAI's pool with Sol."
     },
     "sol": {
       "id": "openai/gpt-6-sol",
-      "variant": "low",
       "family": "openai",
-      "watch": "A candidate, probed only (2026-10-03, L35): compare with luna on the same kind of review, or with mimo-flash on the same kind of task."
+      "variant": "low",
+      "note": "GPT-6 Sol, the hard reviewer before 6.1; kept for an explicit --reviewer."
     },
     "sol-6.1": {
       "id": "openai/gpt-6.1-sol",
-      "variant": "low",
       "family": "openai",
-      "watch": "A candidate, probed only (2026-10-03, L35): compare with luna on the same kind of review, or with mimo-flash on the same kind of task."
+      "variant": "low",
+      "note": "GPT-6.1 Sol at effort low: the adversarial reviewer for hard research (every finding proven live on T08, T10, T12, T29); it holds to proof-level completeness, so the brief says \"practical, not theoretical\"."
     },
     "sol-6.1-medium": {
       "id": "openai/gpt-6.1-sol",
-      "variant": "medium",
       "family": "openai",
-      "watch": "The owner chose Sol at effort medium for T38's last-round re-check (2026-10-11); same model as sol-6.1."
+      "variant": "medium",
+      "note": "The same model at effort medium, for a last-round re-check when the owner asks (T38)."
     },
     "mimo-pro": {
       "id": "opencode-go/mimo-v2.6-pro",
       "family": "mimo",
-      "watch": "New (the owner, 2026-10-09): takes the place of a model blacklisted on every route (L67). The owner tested it (the heavy model on OpenCode Go) on implement, fix and review tasks, all passed; not yet run here. It offers no variants, so no variant field. A family of its own (mimo) for the reviewer-family rule."
+      "note": "MiMo v2.6 Pro on OpenCode Go, heavy, no variant; its own family (mimo)."
     },
     "glm": {
       "id": "zai-coding-plan/glm-5.3",
-      "variant": "low",
       "family": "glm",
-      "watch": "Back on Z.AI's plan (L35) after ending long implementer runs early (L27): look for reading then exit 0 with no commit, and for cd chains rejected as external_directory (L31)."
+      "variant": "low",
+      "note": "GLM-5.3 on the Z.AI coding plan at low (it offers no medium): thorough on evidence as a reviewer (T06, T07). 3x in weekday peak from 8 Oct 2026."
     },
     "glm-flash": {
       "id": "zai-coding-plan/glm-5.3-flash",
-      "variant": "high",
       "family": "glm",
-      "watch": "Back on Z.AI's plan (L35) after going 900 s without a step and ending runs early (L27), and missing a must-fix as a reviewer: look for an idle timeout, exit 0 with no commit, and an approve with no DW evidence (L32)."
+      "variant": "high",
+      "note": "GLM-5.3 Flash on the Z.AI coding plan: a light reviewer for small PRs; it once approved with a proven bypass rated non-blocking (L47), so the brief says what blocking means."
     },
     "ali-glm": {
       "id": "alibaba-token-plan/glm-5.3",
-      "variant": "low",
       "family": "glm",
-      "watch": "A candidate, probed only (2026-10-06, L35): the same GLM-5.3 as glm, on Alibaba's route — no Z.AI peak multiplier, and no night discount. Not yet run on a task or review."
+      "variant": "low",
+      "note": "GLM-5.3 on the Alibaba Token Plan at low: the same model as glm on another route. Alibaba only when the user asks; key: the env var ALIBABA_TOKEN_PLAN_API_KEY, never opencode auth login it."
     },
     "ali-qwen-max": {
       "id": "alibaba-token-plan/qwen3.8-max",
-      "variant": "low",
       "family": "qwen",
-      "watch": "A candidate, probed only (2026-10-06, L35): Alibaba's heavy model (switch.mjs), at low like every heavy one (L54). Not yet run on a task or review."
+      "variant": "low",
+      "note": "Qwen 3.8 Max on the Alibaba Token Plan at low; heavy; a family nothing else here shares. Alibaba only when the user asks; key as ali-glm."
     },
     "ali-qwen-flash": {
       "id": "alibaba-token-plan/qwen3.8-flash",
-      "variant": "medium",
       "family": "qwen",
-      "watch": "A candidate, probed only (2026-10-06, L35): light, but it offers no plain high (only low, medium, xhigh), so it runs at medium. Not yet run on a task or review."
+      "variant": "medium",
+      "note": "Qwen 3.8 Flash on the Alibaba Token Plan at medium (no plain high); light. Alibaba only when the user asks; key as ali-glm."
     },
     "mm-m3": {
       "id": "minimax/MiniMax-M3",
-      "variant": "thinking",
       "family": "minimax",
-      "watch": "The heavy model of the MiniMax Token Plan (the owner, 2026-10-06); it offers only none and thinking, and runs at thinking. Probed only (2026-10-06, 4.7 s). Key from MINIMAX_API_KEY (~/.config/ai-keys.env; never opencode auth login). Quota: curl -s localhost:8765/quota/minimax (5-hour and weekly windows). A new family: an independent reviewer for GLM, MiMo, Qwen, OpenAI or Claude work."
+      "variant": "thinking",
+      "note": "MiniMax-M3, variant thinking (it offers only none and thinking), heavy; a family of its own. Key: the env var MINIMAX_API_KEY (pass it to the unit with -E); never opencode auth login it."
     },
     "mm-m2.7": {
       "id": "minimax/MiniMax-M2.7",
       "family": "minimax",
-      "watch": "Light (the owner, 2026-10-06); it offers no variants, so no variant field. Probed only (2026-10-06, 4.2 s). Key and quota as mm-m3."
+      "note": "MiniMax-M2.7, light, no variant (it offers none). Key as mm-m3."
     }
-  },
-  "chooser": {
-    "supersededNote": "Superseded (the owner, 2026-10-11): no auto-chooser picks a model; quota-tracker's /recommend is a suggestion shown to the user.",
-    "implementer": {
-      "easy": [
-        "glm-flash",
-        "mimo-flash"
-      ],
-      "hard": [
-        "mimo-flash",
-        "glm-flash"
-      ]
-    },
-    "reviewer": {
-      "easy": [
-        "luna"
-      ],
-      "hard": [
-        "glm",
-        "mm-m3",
-        "mimo-pro",
-        "luna"
-      ]
-    }
-  },
-  "implementer": {
-    "agent": "implementer",
-    "chain": [
-      "glm-flash",
-      "mimo-flash"
-    ],
-    "claudeFallback": "sonnet",
-    "startupTimeoutSec": 180,
-    "idleTimeoutSec": 900,
-    "totalTimeoutSec": 10800,
-    "supersededNote": "Superseded (the owner, 2026-10-11): the user names each run's model (CLAUDE.md 'Choosing models: the user decides'); this order is used only by a script run without --model/--reviewer."
   },
   "reviewer": {
     "agent": "reviewer",
-    "chain": [
-      "luna"
-    ],
-    "claudeFallback": "opus",
+    "default": "luna",
     "startupTimeoutSec": 180,
     "idleTimeoutSec": 600,
-    "totalTimeoutSec": 3600,
-    "hard": [
-      "glm",
-      "mm-m3",
-      "mimo-pro",
-      "luna"
-    ],
-    "sol": "sol-6.1",
-    "supersededNote": "Superseded (the owner, 2026-10-11): the user names each run's model (CLAUDE.md 'Choosing models: the user decides'); this order is used only by a script run without --model/--reviewer."
+    "totalTimeoutSec": 3600
   },
   "jev": {
     "model": "jev-1.13",

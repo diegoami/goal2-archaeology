@@ -1,9 +1,11 @@
 # Model trials
 
 How each reviewer and implementer model did on this project's tasks, one row per review or run that
-taught something. It records outcomes, not task status, and informs the user's choice of model; it
-does not pick one (routing by game-archaeologist `docs/models.md` is superseded by CLAUDE.md
-"Choosing models: the user decides", the owner, 2026-10-11).
+taught something. It records outcomes, not task status, and informs the choice of the default
+reviewer and of a task file's reviewer; it does not pick one (CLAUDE.md "Choosing models", the
+owner, 2026-10-11: the main session or a Claude agent implements, OpenCode reviews). The rows up
+to 2026-10-11 are the evidence for that rule: OpenCode implementers died on rejected paths, idle
+kills and literal stops; Claude implementers' misses were review findings, fixed in a round.
 
 | Date | Task / PR | Role | Model | What happened | Lesson |
 | --- | --- | --- | --- | --- | --- |

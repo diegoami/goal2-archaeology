@@ -1,6 +1,6 @@
 ---
 name: delegate
-description: Choose who does a piece of work, and on which model. Claude agents review and judge; OpenCode implements and reviews code; Jev takes repeated decisions; models on OpenRouter make images and give other model families; ElevenLabs makes speech, sound effects and music. Use before doing work yourself that a cheaper or better-suited model could do, whenever a task needs an image, a sound or a voice, and whenever you are about to name a model id.
+description: Choose who does a piece of work, and on which model. The main session or a Claude agent implements; OpenCode reviews code; Jev takes repeated decisions; models on OpenRouter make images and give other model families; ElevenLabs makes speech, sound effects and music. Use before doing work yourself that a cheaper or better-suited model could do, whenever a task needs an image, a sound or a voice, and whenever you are about to name a model id.
 ---
 
 # /delegate: who does the work, and on which model
@@ -12,8 +12,8 @@ yourself, check whether a delegate below does it better or cheaper.
 
 | Work | Delegate | How | Key |
 | --- | --- | --- | --- |
-| Code: implement a task or a fix | The user's choice: the main session (its own worktree), a Claude agent on the model named, or OpenCode on the model named | ask first (CLAUDE.md "Choosing models" rule 1), then `/run-task` | the login of the named model's provider (`opencode auth login` / `opencode console login`) |
-| Review a PR | The external model the user names; never the implementer's family | ask first (rule 2), then `/run-task` → `tools/harness/review.mjs --reviewer <name>` | as above |
+| Code: implement a task or a fix | The main session in its own worktree, or the `implementer` Claude agent (CLAUDE.md "Choosing models" rule 1); never OpenCode | `/run-task` → yourself, or `Agent(subagent_type: "implementer", isolation: "worktree")` | — |
+| Review a PR | One OpenCode run: `harness.json`'s `reviewer.default`, or the model the user or the task file names; never the implementer's family | `/run-task` → `tools/harness/review.mjs [--reviewer <name>]` | OpenAI's login (`opencode auth login`) for Luna and Sol; Z.AI's for GLM; OpenCode Go's (`opencode console login`) for MiMo |
 | Repeated decisions with known answers (triage, routing, gating, labelling) | Jev | `/jev` → `tools/harness/jev.mjs` | `OPENROUTER_API_KEY` |
 | Images: sprites, icons, maps, mockups, illustrations | An image model on OpenRouter | pick one with `models.mjs openrouter --output image` | `OPENROUTER_API_KEY` |
 | A second opinion from another model family, or reading audio or images | A model on OpenRouter | `models.mjs openrouter --input image` (or `audio`) | `OPENROUTER_API_KEY` |
@@ -28,24 +28,20 @@ another way, or tell the user what is missing (`docs/environment.md`).
 1. **Never from memory.** Model ids and prices change faster than any document. List them live:
    - `node tools/harness/models.mjs openrouter --output image`;
    - `node tools/harness/models.mjs elevenlabs`;
-   - `opencode models opencode-go` for implementers (OpenCode Go), `opencode models openai` for the
-     reviewer.
+   - `opencode models openai` (and `zai-coding-plan`, `opencode-go`, `minimax`) for reviewers.
 
    Do the same when you are unsure a model still exists. (L25)
-   To change the implementer's or reviewer's model itself, use `/switch-model`.
-2. **The user chooses** (CLAUDE.md "Choosing models: the user decides", the owner, 2026-10-11).
-   Before implementing anything, ask ONE question with the question tool: the main session or a
-   subagent, and which model. Before every review, ask ONE question: which external model reviews.
-   With each question, show quota-tracker's recommendation as a suggestion only:
-   `curl -s 'localhost:8765/recommend?tier=heavy'` (or `tier=light`), its `pick`/`pair` with rank,
-   outlook and reliability; if it does not answer, ask without it. Fixed: the reviewer is never the
-   implementer's family; DeepSeek never (the scripts refuse it); Alibaba only when the user asks.
-   Pass the choice explicitly: `implement.mjs --model <key or provider/model[@variant]>`,
-   `review.mjs --reviewer <same>`. Never let a chain, tier or quota skip pick for you; a provider
-   that does not answer goes back to the user, who names another (rule 7). Never use a free model
-   for private or client code, secrets or NDA material.
-   (Superseded: the quota-first chain order, `/recommend`'s `pair` as the decision, and the
-   project exclusions on top of it.)
+   To change the default reviewer, use `/switch-model`.
+2. **Do not ask before a run** (CLAUDE.md "Choosing models", the owner, 2026-10-11). Code is
+   implemented by the main session or a Claude agent, and reviewed by `harness.json`'s default
+   reviewer; a task file or the user may name another reviewer (`review.mjs --reviewer <key or
+   provider/model[@variant]>`). No quota is checked. Fixed: the reviewer is never the implementer's
+   family; DeepSeek never (the scripts refuse it); Alibaba only when the user asks. Record on the
+   PR which model reviewed. A provider that does not answer: diagnose and fix; another model only
+   when the user names it (rule 5). Never use a free model for private content.
+   *Superseded on 2026-10-11 and kept as history (L104):* asking the user one question before each
+   implementation and review; quota-tracker's `/recommend` as a suggestion; the chains and
+   `choose.mjs`; OpenCode implementing.
 3. **Choose on the evidence you have.** In order of preference:
    - this project's own measurements (review rounds and tokens per task, from the merge comments);
    - a small trial;
