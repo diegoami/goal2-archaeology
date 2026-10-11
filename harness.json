@@ -28,6 +28,12 @@
       "family": "openai",
       "watch": "A candidate, probed only (2026-10-03, L35): compare with luna on the same kind of review, or with mimo-flash on the same kind of task."
     },
+    "sol-6.1-medium": {
+      "id": "openai/gpt-6.1-sol",
+      "variant": "medium",
+      "family": "openai",
+      "watch": "The owner chose Sol at effort medium for T38's last-round re-check (2026-10-11); same model as sol-6.1."
+    },
     "mimo-pro": {
       "id": "opencode-go/mimo-v2.6-pro",
       "family": "mimo",
