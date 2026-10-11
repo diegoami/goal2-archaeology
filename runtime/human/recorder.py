@@ -203,17 +203,16 @@ PAUSE_READ_TIMEOUT_S = 2.0
 # (the window was closed: Xephyr is gone and DOSBox-X loses its display) before it names the end
 # "key-logger-stopped" and terminates it. Recorder policy.
 WINDOW_CLOSE_WAIT_S = 5.0
-# [designed] The window in which a Pause key on the key log is the recorder's own injected one
-# (T39b Scope 5): xdotool's XTEST press and release reach the logger within milliseconds
-# (T34-probe-20261009-05.log: logger delivery max 5.7 ms); 2 s is a wide margin, and the owner's
-# keyboard has no Pause key. Recorder policy.
-INJECT_MARK_S = 2.0
 # The chord that resumes: F12 held and P pressed while DOSBox-X is paused (T39b Scope 5). DOSBox-X
 # ends its pause on the Pause key only (probe_pause log); the recorder presses it.
 HOST_KEYSYM, PAUSE_CHORD_KEYSYMS = "F12", ("p", "P")
 # [designed] One P press resumes once: a second within this many seconds of the recorder's own
 # Pause is the same request (a held key's autorepeat). Recorder policy.
 RESUME_DEBOUNCE_S = 1.0
+# [designed] A key's press closer than this to its own release is the host's autorepeat, not a new
+# press: sitting 20261011-215411's held F12 logged release/press pairs 0.0-0.5 ms apart, while
+# the owner's separate P presses there were 96-160 ms after their releases. Recorder policy.
+AUTOREPEAT_GAP_S = 0.01
 
 
 def mapper_text(default=None):
@@ -292,24 +291,25 @@ class KeyLogger:
         self.events = queue.Queue()
         self.proc, self.thread = None, None
         self.error = None
-        # keys the recorder itself is about to inject (T39b: the XTEST Pause that resumes on
-        # F12+P): keysym -> [events still expected, deadline]; the reader marks them `by:
+        # keys the recorder itself has injected and the logger has not seen yet (T39b: the XTEST
+        # Pause that resumes on F12+P): keysym -> events still owed; the reader marks them `by:
         # recorder` in keys.jsonl, so they are never counted as the owner's
         self.expected = {}
         self.lock = threading.Lock()
 
-    def expect_injected(self, keysym, events=2, within=INJECT_MARK_S, clock=time.monotonic):
-        """Mark the next `events` events of `keysym` (a press and its release) arriving within
-        `within` seconds as the recorder's own."""
+    def expect_injected(self, keysym, events=2):
+        """The next `events` events of `keysym` (a press and its release) are the recorder's own,
+        whenever the logger delivers them: an injection is known, so no delivery delay may turn
+        it into the owner's key (rework round 1, R1). The owner's keyboard has no Pause key."""
         with self.lock:
-            self.expected[keysym] = [events, clock() + within]
+            self.expected[keysym] = self.expected.get(keysym, 0) + events
 
-    def mark(self, event, now):
-        """Tag `event` `by: recorder` when it is an expected injected key; returns the event."""
+    def mark(self, event, now=None):
+        """Tag `event` `by: recorder` when it is an injected key still owed; returns the event.
+        `now` (the logger's time) plays no part: there is no expiry."""
         with self.lock:
-            want = self.expected.get(event["keysym"])
-            if want and want[0] > 0 and now <= want[1]:
-                want[0] -= 1
+            if self.expected.get(event["keysym"], 0) > 0:
+                self.expected[event["keysym"]] -= 1
                 event["by"] = "recorder"
         return event
 
@@ -340,23 +340,25 @@ class KeyLogger:
                                      stderr=subprocess.DEVNULL, text=True,
                                      start_new_session=True)
         parser = KeyParser(symbols)
-
-        def read():
-            try:
-                with open(self.path, "x", encoding="utf-8") as out:
-                    for line in self.proc.stdout:
-                        event = parser.line(line)
-                        if event is not None:
-                            event.update({"utc": datetime.now(timezone.utc).isoformat(),
-                                          "monotonic_s": time.monotonic()})
-                            self.mark(event, event["monotonic_s"])
-                            out.write(json.dumps(event) + "\n")
-                            out.flush()
-                            self.events.put(event)
-            except Exception as e:
-                self.error = str(e)
-        self.thread = threading.Thread(target=read, daemon=True)
+        self.thread = threading.Thread(target=self.pump, args=(parser,), daemon=True)
         self.thread.start()
+
+    def pump(self, parser):
+        """The reader: every raw event of the logger's output, stamped when it is read, marked
+        when it is an injected key (`mark`, whatever the delay), written to keys.jsonl."""
+        try:
+            with open(self.path, "x", encoding="utf-8") as out:
+                for line in self.proc.stdout:
+                    event = parser.line(line)
+                    if event is not None:
+                        event.update({"utc": datetime.now(timezone.utc).isoformat(),
+                                      "monotonic_s": time.monotonic()})
+                        self.mark(event, event["monotonic_s"])
+                        out.write(json.dumps(event) + "\n")
+                        out.flush()
+                        self.events.put(event)
+        except Exception as e:
+            self.error = str(e)
 
     def drain(self):
         events = []
@@ -691,6 +693,7 @@ class Watcher:
     # sitting that never pauses.
     pause_probe = None        # () -> True while DOSBox-X is paused (window_paused), else no pause
     paused = False            # the latest read of the pause
+    pause_unknown = False     # the latest read could not be made: sends are held (R3)
     pause_epoch = 0           # pauses seen so far: a capture compares it with its request's
     pauses_path = None        # pauses.jsonl: one flushed line per pause and per resume
     resume_due = False        # a resume was seen and its snapshot request is not yet sent
@@ -699,6 +702,8 @@ class Watcher:
     _events_at_pause = None   # {pause epoch: the write-event count when that pause was seen}
     resume_key = None         # () -> presses Pause for the owner (inject_pause_key), or none
     _f12_down = False
+    _p_down = False           # P held: a press before its release is its autorepeat (R4)
+    _p_released = None        # when P was last released
     _inject_time = None       # when the recorder last pressed Pause
     stop_cause = None         # why the loop ended, when no stop condition of its own did
 
@@ -963,7 +968,8 @@ class Watcher:
                     self.log("live savestate changed or incomplete during capture: retrying")
                     last_sig, count = None, 0
             if (live_emulator and self.clock() - sent > RESEND_AFTER_S
-                    and (self.paused or (epoch is not None and epoch != self.pause_epoch))):
+                    and (self.paused or self.pause_unknown
+                         or (epoch is not None and epoch != self.pause_epoch))):
                 # T39b: no save request while paused, and none for a request a pause began
                 # after: DOSBox-X drops a save key while paused (probe_pause log), so a resend
                 # after the resume would stage post-resume play under this pre-pause window.
@@ -1191,10 +1197,18 @@ class Watcher:
         """Read the pause (pause_probe: the game window's title) and log a change to pauses.jsonl,
         one flushed line per pause and per resume, with UTC, the monotonic clock and the sitting's
         elapsed seconds. A pause bumps pause_epoch (the captures of earlier requests never resend
-        after it); a resume makes the resume snapshot due. An unreadable title (None) changes
-        nothing. Returns whether the sitting is paused."""
+        after it); a resume makes the resume snapshot due. An unreadable title (None) is
+        "unknown", never "running" (rework round 1, R3): `pause_unknown` holds every send until a
+        read answers, and the known state is kept for the change it may yet show. Returns
+        whether sends are held (paused, or unknown)."""
         now_paused = self.pause_probe()
-        if now_paused is None or bool(now_paused) == self.paused:
+        if now_paused is None:
+            if not self.pause_unknown:
+                self.log("the pause cannot be read: no save request until it can")
+            self.pause_unknown = True
+            return True
+        self.pause_unknown = False
+        if bool(now_paused) == self.paused:
             return self.paused
         now = self.clock()
         line = {"event": "pause" if now_paused else "resume",
@@ -1230,11 +1244,22 @@ class Watcher:
         key and DOSBox-X resumes on Pause only, so the recorder presses it (resume_key). F12 is
         tracked across calls (its host autorepeat is press/release pairs: the last one wins); a
         P press counts only after the pause was seen, so the chord that started the pause never
-        ends it, and one press resumes once (RESUME_DEBOUNCE_S)."""
+        ends it, and one press resumes once (RESUME_DEBOUNCE_S). Only a FRESH P press counts
+        (rework round 1, R4): a press with no release since the previous one, or one within
+        AUTOREPEAT_GAP_S of a release (the host's autorepeat pairs), is the held P repeating."""
         for e in events:
             if e.get("keysym") == HOST_KEYSYM:
                 self._f12_down = e.get("event") == "press"
-            elif (e.get("event") == "press" and e.get("keysym") in PAUSE_CHORD_KEYSYMS
+                continue
+            if e.get("keysym") not in PAUSE_CHORD_KEYSYMS:
+                continue
+            if e.get("event") == "release":
+                self._p_down, self._p_released = False, e["monotonic_s"]
+                continue
+            repeat = self._p_down or (self._p_released is not None
+                                      and e["monotonic_s"] - self._p_released < AUTOREPEAT_GAP_S)
+            self._p_down = True
+            if (e.get("event") == "press" and not repeat
                   and self._f12_down and self.paused and self._pause_since is not None
                   and e["monotonic_s"] > self._pause_since
                   and (self._inject_time is None
@@ -1328,8 +1353,8 @@ class Watcher:
                     next_pause_poll = now + PAUSE_POLL_S
                 if self.resume_key is not None:
                     self.resume_chord(drained)
-                if self.paused:
-                    # no save request while paused (DOSBox-X would drop it: probe_pause log):
+                if self.paused or self.pause_unknown:
+                    # no save request while paused, or while the pause cannot be read (DOSBox-X would drop it: probe_pause log):
                     # the cadence ticks that fall in the pause are skipped, and the key groups
                     # typed before and during it wait for the resume's request (no key lost)
                     while self.t0 + n * CADENCE_S <= now:

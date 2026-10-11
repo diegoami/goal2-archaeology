@@ -65,6 +65,28 @@ class ResumeChordTests(unittest.TestCase):
             self.assertEqual(lines[1].get("by"), "recorder (F12+P)")
             self.assertIn("resume", [o for _, o in sends])
 
+    def test_the_held_pausing_p_repeating_never_resumes(self):
+        # rework round 1, R4 (Sol): F12 down 1.0, P down 1.3 (DOSBox-X pauses), the held P
+        # repeats at 1.9 with no release (and as a host release/press pair at 2.2), P up 2.5,
+        # F12 up 2.6: no Pause; a fresh F12+P at 4.0 resumes (the control)
+        arrivals = [(1.0, "press", "F12"), (1.3, "press", "p"), (1.9, "press", "p"),
+                    (2.2, "release", "p"), (2.2003, "press", "p"), (2.5, "release", "p"),
+                    (2.6, "release", "F12")] + chord(4.0)
+        with tempfile.TemporaryDirectory() as folder:
+            w, sends, pressed = self.sitting(folder, arrivals, pause_at=1.3)
+            self.assertEqual(len(pressed), 1, pressed)
+            self.assertAlmostEqual(pressed[0], 4.3, delta=0.02)
+
+    def test_an_unreadable_title_holds_every_send(self):
+        # rework round 1, R3 (Sol): paused [0, 3), the title unreadable [0, 1): "unknown" is not
+        # "running"; no request until the resume at 3.0 is read
+        with tempfile.TemporaryDirectory() as folder:
+            w, sends, keys, _ = loop_watcher(folder, [], [])
+            w.pause_probe = lambda: None if w.clock() < 1.0 else w.clock() < 3.0
+            w.run(quit_after=5, keys=keys)
+            self.assertTrue(sends and all(t >= 3.0 for t, _ in sends), sends)
+            self.assertEqual([x["event"] for x in pauses(folder)], ["pause", "resume"])
+
     def test_a_resume_with_no_logged_key_is_logged_within_the_poll_bound(self):
         with tempfile.TemporaryDirectory() as folder:
             w, sends, keys, _ = loop_watcher(folder, [(2.0, 10.0)], [])
@@ -89,18 +111,33 @@ class InjectedKeyTests(unittest.TestCase):
 
     def test_the_injected_pause_is_marked_as_the_recorders(self):
         k = self.logger()
-        k.expect_injected("Pause", clock=lambda: 100.0)
+        k.expect_injected("Pause")
+        now = time.monotonic()
         marks = [k.mark({"event": ev, "keysym": sym}, t).get("by") for ev, sym, t in
-                 (("press", "p", 100.1), ("press", "Pause", 100.1), ("release", "Pause", 100.2),
-                  ("press", "Pause", 100.3))]
+                 (("press", "p", now), ("press", "Pause", now), ("release", "Pause", now),
+                  ("press", "Pause", now))]
         # the press and its release are the recorder's; any other key, and a third Pause, are not
         self.assertEqual(marks, [None, "recorder", "recorder", None])
 
-    def test_an_injected_key_after_its_window_is_the_owners(self):
-        k = self.logger()
-        k.expect_injected("Pause", clock=lambda: 100.0)
-        self.assertNotIn("by", k.mark({"event": "press", "keysym": "Pause"},
-                                      100.0 + rec.INJECT_MARK_S + 0.1))
+    def test_a_delayed_logger_still_marks_the_injected_key(self):
+        # rework round 1, R1 (Sol): the logger delivers the injected Pause 2.3 s late (xinput
+        # stopped and continued); a known injection stays the recorder's
+        with tempfile.TemporaryDirectory() as folder:
+            k = rec.KeyLogger({"DISPLAY": ":601"}, ":0", Path(folder) / "keys.jsonl")
+            started = []
+
+            def late_lines():
+                started.append(time.monotonic())
+                time.sleep(2.3)
+                yield from ("EVENT type 13 (RawKeyPress)\n", "    detail: 110\n",
+                            "EVENT type 14 (RawKeyRelease)\n", "    detail: 110\n")
+            k.proc = types.SimpleNamespace(stdout=late_lines())
+            k.expect_injected("Pause")
+            k.pump(rec.KeyParser({110: "Pause"}))
+            logged = [json.loads(x) for x in (Path(folder) / "keys.jsonl").read_text().splitlines()]
+            self.assertEqual([(e["event"], e.get("by")) for e in logged],
+                             [("press", "recorder"), ("release", "recorder")])
+            self.assertGreater(logged[0]["monotonic_s"] - started[0], 2.2)
 
     def test_inject_pause_key_focuses_the_window_then_presses_pause_down_and_up(self):
         calls, expected = [], []

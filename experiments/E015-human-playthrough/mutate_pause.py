@@ -176,15 +176,19 @@ def sweep():
     return 1 if survivors or rc != 0 else 0
 
 
-def before():
+def before(ref="origin/main", only=None):
+    """The tests on `ref`'s sources. With `only` (test-name fragments), only those tests must
+    fail (the rework round's new tests on the commit the review read); else every test must."""
     sources = [REC, MAP, EXT]
     new = ["runtime/human/note.py", "runtime/human/live.py"]     # absent before T39b
+    absent = [rel for rel in new if subprocess.run(["git", "cat-file", "-e", f"{ref}:{rel}"],
+                                                   cwd=ROOT, capture_output=True).returncode]
     saved = {rel: (ROOT / rel).read_bytes() for rel in sources + new}
     try:
-        for rel in new:
+        for rel in absent:
             (ROOT / rel).unlink()
         for rel in sources:
-            old = subprocess.run(["git", "show", f"origin/main:{rel}"], cwd=ROOT, check=True,
+            old = subprocess.run(["git", "show", f"{ref}:{rel}"], cwd=ROOT, check=True,
                                  capture_output=True).stdout
             (ROOT / rel).write_bytes(old)
         rc, tail, err, ran = run_tests()
@@ -192,7 +196,12 @@ def before():
         for rel, data in saved.items():
             (ROOT / rel).write_bytes(data)
     passed = [line for line in err.splitlines() if line.endswith(" ... ok")]
-    print(f"T39b tests on origin/main's {', '.join(sources)}: exit {rc}, {tail}", flush=True)
+    print(f"T39b tests on {ref}'s {', '.join(sources)}: exit {rc}, {tail}", flush=True)
+    if only:
+        watched = [line for line in err.splitlines()
+                   if any(f in line for f in only) and " ... " in line]
+        print("the rework's new tests:\n" + "\n".join(watched), flush=True)
+        passed = [line for line in watched if line.endswith(" ... ok")]
     print(f"passing: {passed}", flush=True)
     rc2, tail2, _, _ = run_tests()
     print(f"restored sources: {tail2}", flush=True)
@@ -202,8 +211,11 @@ def before():
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("--before", action="store_true", help="the fail-before proof (see above)")
+    ap.add_argument("--ref", default="origin/main", help="--before: the commit whose sources run")
+    ap.add_argument("--only", action="append", default=None, metavar="TEST",
+                    help="--before: only these tests (name fragments) must fail")
     a = ap.parse_args(argv)
-    return before() if a.before else sweep()
+    return before(a.ref, a.only) if a.before else sweep()
 
 
 if __name__ == "__main__":
