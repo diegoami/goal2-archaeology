@@ -100,7 +100,10 @@ The owner coaches the main session while playing; three pieces serve that, all g
   replaces its default binds. DOSBox-X's pause ends on the Pause key only (an XTEST Pause with the
   window focused or an XSendEvent Pause; `T39b-probe-resume-20261011-01.log`), so F12+P typed
   while paused makes the recorder press Pause itself (XTEST, the window focused), marked `by:
-  recorder` in `keys.jsonl` and left out of the owner's presses and bursts. The pause swallows every key and
+  recorder` in `keys.jsonl` (however late the logger delivers it: an injection never expires) and
+  left out of the owner's presses and bursts. Only a fresh P press resumes: the held pausing P and
+  its autorepeat never do. A title that cannot be read is "unknown", and holds every send until a
+  read answers. The extraction can name other injected keys (`extract.py --injected`). The pause swallows every key and
   every save request while it lasts (none is deferred), and appends ` PAUSED` to the window
   title (`experiments/E015-human-playthrough/T39b-probe-pause-20261011-01.log`). The watcher reads
   the pause from that title — after every key event, every `PAUSE_POLL_S` and again right before
