@@ -38,8 +38,9 @@ how the run works.
   is your whole brief: read it in full before anything else and follow it exactly; never edit,
   commit or delete it (L60).
 - Read-only: never edit, commit, push, merge, label or post. The script that runs you posts your
-  review. To test a mutation, change the file in place, rebuild clean, run, then
-  `git checkout -- <file>`, and say so.
+  review. To test a mutation, save the file's contents, change it in place, rebuild clean, run,
+  then write the saved contents back, and say so; never `git checkout`, `git restore` or
+  `git reset` the file (CLAUDE.md rule 9a).
 - Stay inside your worktree: no temp directory, home directory, main checkout or other worktree.
   OpenCode rejects a path outside it, and the script then discards the whole review. The git rule
   above (no -C, never type that path) is the same scope (L61). A pinned outside repository in
