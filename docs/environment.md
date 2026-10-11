@@ -73,6 +73,10 @@ the plan.
 
 **Superseded (the owner, 2026-10-11):** which model implements or reviews is the user's choice, asked one question at a time (CLAUDE.md "Choosing models: the user decides"); this section's seats, chains and placements no longer pick a model. Kept for the logins and probes.
 
+Alibaba is used only when the user asks (CLAUDE.md "Choosing models" rule 4). On an Alibaba quota or
+rate error, stop using it until the next day, tell the owner, and do not retry: its monthly pool is
+small and is not monitored.
+
 Registered 2026-10-05/06 (the owner), all on watch in `harness.json`, no chain seats. The key is the
 env var `ALIBABA_TOKEN_PLAN_API_KEY` (or `MINIMAX_API_KEY`) from `~/.config/ai-keys.env` — never
 `opencode auth login` for these (an `auth.json` entry overrides the variable). All probed
@@ -202,6 +206,20 @@ repository; nothing else does:
 Ghidra runs headless with `-max-cpu 2`, one instance at a time (the machine is shared). Without
 them, `tests/static/test_decompile.py` skips its Ghidra tests and says why. One run takes about
 six minutes on two CPUs: start it in the background.
+
+## A shared machine
+
+Isle-wars' sessions run DOSBox-X and Xvfb on the same machine. Use another display than `:99` (a
+stray `Xvfb :99` belongs to neither project), and stop only processes you started, by PID: never
+`pkill dosbox-x` or `pkill Xvfb`.
+
+## OpenCode's agent permissions
+
+`.opencode/agents/{implementer,reviewer}.md` allow `/tmp` and `/tmp/*` (PR 119, the owner,
+2026-10-11: a model's scratch file in `/tmp` was refused and the run ended with nothing posted).
+The grant was lost twice, once by a harness bump; `tests/test_agent_permissions.py` now fails CI
+without it, and `harness.lock` lists both files as adapted: carry it over on every bump. A
+worktree made before a merge has the branch's copy of these files.
 
 ## The scripts' own data directory
 
