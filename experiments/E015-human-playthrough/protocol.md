@@ -144,6 +144,9 @@ machine): 224 snapshots kept, but 313 of 537 save requests were superseded while
 lists with the arrow keys (#128), so its key/screen map has gaps in the menu and formation minutes;
 the commentary screens it holds are not consecutive enough for the exact-commentary row.
 
+E015-r0008 (2026-10-11, 22 s, window closed, recorded just before E015-r0007): a false start of 11
+snapshots and 9 unique screens; no country record has +0x2E above 0x80 in it, and it covers no row.
+
 After a sitting, the main session appends a row per knowledge item the chain covered, with the
 session's run id (e.g. `covered-by-a-named-session — E015-r0001` for the items the first sitting
 already captured), and moves the relevant `needs-play` rows to `covered-by-a-named-session` once
