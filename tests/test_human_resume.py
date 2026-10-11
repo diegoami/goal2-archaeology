@@ -126,6 +126,16 @@ class InjectedKeyTests(unittest.TestCase):
         # the press and its release are the recorder's; any other key, and a third Pause, are not
         self.assertEqual(marks, [None, "recorder", "recorder", None])
 
+    def test_two_injections_before_the_logger_catches_up_are_both_marked(self):
+        # R1: with the logger behind, a second Pause injected before the first is delivered owes
+        # its own press and release
+        k = self.logger()
+        k.expect_injected("Pause")
+        k.expect_injected("Pause")
+        marks = [k.mark({"event": ev, "keysym": "Pause"}).get("by")
+                 for ev in ("press", "release", "press", "release", "press")]
+        self.assertEqual(marks, ["recorder"] * 4 + [None])
+
     def test_a_delayed_logger_still_marks_the_injected_key(self):
         # rework round 1, R1 (Sol): the logger delivers the injected Pause 2.3 s late (xinput
         # stopped and continued); a known injection stays the recorder's
