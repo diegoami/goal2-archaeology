@@ -98,25 +98,62 @@ def probe_strength(h):
             "comparisons": out_cases}
 
 
-def probe_contest(h):
+def event_cases():
+    """The keeper-extra gate: element 1 under DS:8327 in {0, 2, 3, 4, 5, 0x18} (members 3 and 4:
+    probe_event_gate.py), at two conditions."""
+    return [dict(element=1, c=c, e=e, halve=0, extra=5, slot=1, flag_80fc=0, event=ev)
+            for ev in (0, 2, 3, 4, 5, 0x18) for c, e in ((0x10, 0x18), (0, 1))]
+
+
+def probe_fitness_strength(h):
+    """377E with fitness +0xD varied at fixed skills, form and energy: nothing may change."""
+    out = []
+    word = 2900
+    for d in (0, 1, 0x10, 0x20, 0x7F, 0x80, 0xFF):
+        for c, e in ((0x10, 0x18), (0, 1), (0x20, 0x7F)):
+            word += 1
+            rec = bytearray(20)
+            rec[4], rec[5], rec[6], rec[7] = 0xB4, 8, 3, 0
+            rec[0xC], rec[0xD], rec[0xE] = c, d, e
+            h.put_player(word, rec)
+            out.append({"player_word": word, "record": bytes(rec).hex(), "strength": h.call(0x1771, 0x377E, [word])})
+    return {"schema": "E020-strength/1", "method": "Unicorn original 1771:377E, fitness +0xD varied",
+            "source_sha256": STATE_SHA256, "source_release": "E010",
+            "foot_table_DS_0E60": h.ds_read(0xE60, 0xE0).hex(), "foot_index_DS_0E7C": h.ds_read(0xE7C, 3).hex(),
+            "comparisons": out}
+
+
+def probe_fitness_contest(h):
+    """278A with fitness +0xD varied (elements 3, 10, 12): nothing may change."""
+    cases = []
+    for element in (3, 10, 12):
+        for d in (0, 1, 0x10, 0x20, 0x7F, 0x80, 0xFF):
+            for c, e in ((0x10, 0x18), (0, 1)):
+                cases.append(dict(element=element, c=c, e=e, halve=0, extra=0, slot=1, flag_80fc=0,
+                                  event=0, d=d))
+    return probe_contest(h, cases, base_word=2950)
+
+
+def probe_contest(h, cases=None, base_word=None):
     """0791:278A(pitch, element) for edge conditions; pitch record at slot 1 of DS:80E8."""
     class_table = h.ds_read(0x6D25, 14 * 12)
     profile_table = h.ds_read(0x6DCD, 16 * 12)
     keeper_gate = h.ds_read(0x769, 13)
-    word = 3100
-    cases = []
-    energies = [0, 1, 0x10, 0x20, 0x7F, 0x80, 0xFE]
+    word = base_word if base_word else (2800 if cases else 3100)
+    cases = [] if cases is None else cases
+    energies = [0, 1, 0x10, 0x20, 0x7F, 0x80, 0xFE] if not cases else []
     forms = [0, 1, 0x1F, 0x20, 0x3F, 0x80, 0xFF]
     n = 0
-    for element in (3, 10, 12):
+    for element in ((3, 10, 12) if not cases else ()):
         for e in energies:
             for c in forms:
                 cases.append(dict(element=element, c=c, e=e, halve=0, extra=0, slot=1, flag_80fc=0,
                                   event=0))
-    for element, halve, extra, slot, f80, event in ((1, 1, 5, 1, 0, 0x18), (1, 0, 5, 1, 0, 0x18),
-                                                   (1, 0, 5, 1, 0, 0), (2, 0, 7, 1, 0, 0),
-                                                   (4, 0, 7, 1, 0, 0), (10, 0, 7, 1, 1, 0),
-                                                   (10, 0, 7, 12, 1, 0), (10, 1, 7, 5, 1, 0)):
+    for element, halve, extra, slot, f80, event in (() if cases else (
+            (1, 1, 5, 1, 0, 0x18), (1, 0, 5, 1, 0, 0x18),
+            (1, 0, 5, 1, 0, 0), (2, 0, 7, 1, 0, 0),
+            (4, 0, 7, 1, 0, 0), (10, 0, 7, 1, 1, 0),
+            (10, 0, 7, 12, 1, 0), (10, 1, 7, 5, 1, 0))):
         cases.append(dict(element=element, c=0x10, e=0x18, halve=halve, extra=extra, slot=slot,
                           flag_80fc=f80, event=event))
     results = []
@@ -126,6 +163,7 @@ def probe_contest(h):
         rec = bytearray(20)
         rec[4], rec[5], rec[7] = 0xB4, 8, 2
         rec[0xC], rec[0xE] = case["c"], case["e"]
+        rec[0xD] = case.get("d", 0)
         h.put_player(word, rec)
         pitch = bytearray(h.ds_read(pitch_off, 0x16))
         pitch[6] = case["slot"]
@@ -148,7 +186,10 @@ def probe_contest(h):
 def main():
     kind, out = sys.argv[1], HERE / sys.argv[2]
     h = Harness()
-    record = {"strength": probe_strength, "contest": probe_contest}[kind](h)
+    record = {"strength": probe_strength, "contest": probe_contest,
+              "events": lambda hh: probe_contest(hh, event_cases()),
+              "fitness-strength": probe_fitness_strength,
+              "fitness-contest": probe_fitness_contest}[kind](h)
     out.parent.mkdir(exist_ok=True)
     with out.open("x") as f:
         json.dump(record, f, indent=1)
