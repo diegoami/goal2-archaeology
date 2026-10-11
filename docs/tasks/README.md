@@ -42,3 +42,4 @@ exists.
 | T33 | Q017: do injuries, cards and friendlies change confidence, and how does team morale follow | #107 | T32 |
 | T34 | recorder 2: the keys typed into the game, and the screen/key map they draw | #105 | T29 |
 | T36 | Q018: do fitness and confidence change match performance at equal skill | #121 | T35 |
+| T37 | Findings F010–F020 meet the pinned citation checker (#95) | #124 | — |
