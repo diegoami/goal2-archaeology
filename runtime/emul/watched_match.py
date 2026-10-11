@@ -126,6 +126,9 @@ class ProofError(RuntimeError):
 # and the state the caller relies on (SP, BP, SS, DS, and the return address CS:IP). BX, CX,
 # SI, DI, ES and the flags are scratch across a call in that convention (E021 notes.md §5).
 REGS_RETURNED = ("AX", "DX", "SP", "BP", "SS", "DS", "CS", "IP")
+# Not compared, but a difference at the return is a WARNING, counted per register
+# (`scratch_differences`; the first one per register is printed to stderr): the owner, 2026-10-11.
+REGS_SCRATCH = ("BX", "CX", "SI", "DI", "ES", "FLAGS")
 REGS_ALL = ("EAX", "EBX", "ECX", "EDX", "ESI", "EDI", "EBP", "ESP", "EFLAGS",
             "CS", "DS", "ES", "SS", "FS", "GS", "EIP")
 
@@ -177,6 +180,7 @@ class Guest:
         self._fn_writes = None    # (linear, byte) per byte a running fn writes
         self.suppress_guest_watch = False   # set while a proved call runs the original
         self.proved_calls = {}    # address -> calls compared without a difference
+        self.scratch_differences = {}   # address -> {register: proved calls where it differed}
         self.error = None         # an error a callback met; it stops the emulation
 
     # -- addresses and memory ------------------------------------------------------------------
@@ -301,6 +305,8 @@ class Guest:
         the arguments, saved registers and locals, dead once it returns). The first difference
         raises ProofError naming the call number, the address and the byte (or the register).
         The match continues from the model's state; `proved_calls[address]` counts clean calls.
+        A difference in BX, CX, SI, DI, ES or the flags at the return is not an error but a WARNING,
+        counted per register in `scratch_differences[address]`.
         (A proved call runs the original as guest code; the substituted run is `prove=False`.)"""
         seg, off = parse_address(address)
         key = f"{seg:04X}:{off:04X}"
@@ -311,6 +317,7 @@ class Guest:
             if not ret_offsets:
                 raise ValueError(f"{key}: a proof needs the routine's return instructions from the listing")
             self.proved_calls[key] = 0
+            self.scratch_differences[key] = {r: 0 for r in REGS_SCRATCH}
 
         def stop(uc, e):
             self.error = e
@@ -346,7 +353,7 @@ class Guest:
                 self.suppress_guest_watch = False
                 self.return_from(far, pop)
                 frame = (state["ss"] * 16, state["ss"] * 16 + self.reg("sp"))
-                original_regs = {r: self.reg(r) for r in REGS_RETURNED}
+                original_regs = {r: self.reg(r) for r in REGS_RETURNED + REGS_SCRATCH}
                 original = [(a + i, n[i]) for a, o, n in state["writes"] for i in range(len(n))]
                 for a, o, n in reversed(state["writes"]):     # undo the original
                     uc.mem_write(a, o)
@@ -354,7 +361,7 @@ class Guest:
                     self.set_reg(r, v)
                 model = self._run_fn(fn)
                 self.return_from(far, pop)
-                model_regs = {r: self.reg(r) for r in REGS_RETURNED}
+                model_regs = {r: self.reg(r) for r in REGS_RETURNED + REGS_SCRATCH}
 
                 def live(ws):
                     return [(a, b) for a, b in ws if not frame[0] <= a < frame[1]]
@@ -375,6 +382,14 @@ class Guest:
                     if original_regs[r] != model_regs[r]:
                         raise ProofError(f"call #{call} of {key}: register {r} at the return: the original"
                                          f" 0x{original_regs[r]:04X}, the model 0x{model_regs[r]:04X}")
+                counts = self.scratch_differences[key]
+                for r in REGS_SCRATCH:
+                    if original_regs[r] != model_regs[r]:
+                        if counts[r] == 0:
+                            print(f"WARNING: call #{call} of {key}: uncompared register {r} at the return:"
+                                  f" the original 0x{original_regs[r]:04X}, the model 0x{model_regs[r]:04X}"
+                                  f" (counted, not an error; further ones counted only)", file=sys.stderr)
+                        counts[r] += 1
                 self.proved_calls[key] += 1
             except Exception as e:
                 stop(uc, e)

@@ -193,6 +193,7 @@ def main(argv=None):
     n = ok = 0
     failed = []
     hooked = proved = 0
+    scratch = {}
     differences = []
     for p in records:
         record = json.loads(p.read_text())
@@ -211,6 +212,8 @@ def main(argv=None):
         ok += hit
         hooked += m.hook_counts.get(LCG_STEP, 0)
         proved += m.proved_calls.get(LCG_STEP, 0)
+        for r, c in m.scratch_differences.get(LCG_STEP, {}).items():
+            scratch[r] = scratch.get(r, 0) + c
         ft = full_time(record)
         out = m.outputs() if m.stopped_at_board else {"final": m.final, "key_log": m.key_log, "strays": m.strays,
                                                       "hook_counts": m.hook_counts, "inputs": m.inputs}
@@ -252,6 +255,8 @@ def main(argv=None):
     if a.hook != "none":
         print(f"hooked calls of {LCG_STEP}: {hooked}; proved side by side with no difference: {proved};"
               f" differences: {len(differences)}" + (f" (first: {differences[0]})" if differences else ""))
+        print("uncompared-register differences (warnings, proved calls): "
+              + ", ".join(f"{r} {c}" for r, c in scratch.items()))
     else:
         print("hooked calls: none (no hook)")
     print(f"match: {ok}/{n}")

@@ -224,6 +224,10 @@ Two declared limits of the comparison, both from the calling convention, not fro
   the result in both, `06A4`-`06A8`) and SP, BP, SS, DS, CS, IP (what the caller relies on). BX,
   CX, SI, DI, ES and the flags are scratch across a call in that convention and are not compared
   (0688 leaves BX = 0x7ABD and SI/DI past the seed word; no model is asked to reproduce that).
+  A difference in any of them at a proved call's return is a WARNING, not an error (the owner,
+  2026-10-11, accepting both limits): counted per register in `scratch_differences`, the first
+  one per register printed to stderr, and the counts printed in `check.py`'s summary line
+  "uncompared-register differences (warnings, proved calls): BX n, CX n, ...".
 
 `check.py --hook NAME` hooks with `prove=True` and prints the hooked calls, the calls proved with
 no difference, and the differences. The falsifiers: `f004+raw-write` (raw `mu.mem_write` of

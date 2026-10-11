@@ -13,6 +13,8 @@
   which then differs from the original's (review R1); a first key read from an undeclared return
   address raises KeyWaitError instead of taking the captain screen's queued Enter (review R2).
 """
+import contextlib
+import io
 import json
 import sys
 import unittest
@@ -123,6 +125,24 @@ class SyntheticHookTests(unittest.TestCase):
         self.assertEqual(g.word_at(0x100), 3)        # once per call: the original's write undone
         self.assertEqual(g.reg("sp"), SP0)
         self.assertEqual(g.reg("ip"), 14)
+
+    def test_a_model_leaving_another_cx_passes_with_a_warning_count(self):
+        # the owner, 2026-10-11: BX, CX, SI, DI, ES and the flags are not compared; a difference
+        # is a warning, counted per register
+        g, _ = machine()
+
+        def fn(guest):
+            guest.put(0x100, (guest.word_at(0x100) + 1).to_bytes(2, "little"))
+            guest.set_reg("cx", 0x55)
+
+        g.hook("2000:0000", fn, ret=(True, 2), prove=True, ret_at=[4])
+        with contextlib.redirect_stderr(io.StringIO()) as err:
+            g.emulate(CODE * 16 + 12, 5)            # stop at the loop: one call, CX still the model's
+        self.assertEqual(g.proved_calls, {"2000:0000": 1})
+        self.assertEqual(g.scratch_differences["2000:0000"],
+                         {"BX": 0, "CX": 1, "SI": 0, "DI": 0, "ES": 0, "FLAGS": 0})
+        self.assertIn("WARNING: call #1 of 2000:0000: uncompared register CX at the return:"
+                      " the original 0x0003, the model 0x0055", err.getvalue())
 
     def test_a_model_writing_another_byte_is_stopped_with_the_call_and_address(self):
         from watched_match import ProofError
