@@ -27,11 +27,13 @@ from __future__ import annotations
 
 import base64
 import binascii
+import errno
 import hashlib
 import json
 import os
 import shutil
 import signal
+import stat
 import subprocess
 import sys
 import types
@@ -119,9 +121,15 @@ def _wanted(repo: str, commit: str) -> dict[str, str]:
 
 def _probe(path: Path, what: str) -> bool:
     """A filesystem probe (`is_file`, `is_symlink`) as a named `GaError`, never a traceback."""
+    # `os.stat`, not `Path.is_file`: from Python 3.14 `is_file` and `is_symlink` return False on
+    # any OSError, so an unreadable directory would pass for "missing" and trigger a refetch.
     try:
-        return bool(what == "file" and path.is_file() or what == "symlink" and path.is_symlink())
+        if what == "file":
+            return stat.S_ISREG(os.stat(path).st_mode)
+        return stat.S_ISLNK(os.lstat(path).st_mode)
     except OSError as e:
+        if e.errno in (errno.ENOENT, errno.ENOTDIR, errno.ELOOP):
+            return False
         raise GaError(f"cannot stat {path}: {e.strerror or e}") from None
 
 
