@@ -1,0 +1,30 @@
+kind	rule	description
+dos-shell	+Z:\>mount	DOSBox-X's DOS prompt before GOAL starts (the mount echo)
+title-load-prompt	+THE international soccer management game ;; +Do you want to load a saved game	title screen asking whether to load a saved game
+title-player-count	+How many players	title screen asking for the number of players
+country-select-name-entry	+PLEASE SELECT YOUR COUNTRY ;; +Type in characters (maximum 14)	country selection with the name entry line open
+country-select	+PLEASE SELECT YOUR COUNTRY ;; -Type in characters (maximum 14)	country selection: browse countries with their team data
+bulletin	+THE SOCCER BULLETIN	the newspaper page (welcome, group news)
+manager-menu	+find option ;; +F1help	the manager's main menu (fixed boxes: team info, fixture list, tournament ...)
+fixtures-watch	+and results ;; +watch match	the round's fixture list, Enter watches the match
+fixtures-auto	+and results ;; +auto result	the round's fixture list, Enter plays the automatic result
+round-playing	+spacebar-pause ;; +speed	the other matches of the round being played
+round-results	+hit any key ;; +friendly ;; -THE SOCCER BULLETIN ;; -MAN OF THE MATCH	the round's results
+match-watch-prompt	+Do you want to watch this match	pre-match question
+match-menu-halftime	+Hit INS to turn automatic action replay ;; +HALF TIME	match menu at half time
+match-menu-fulltime	+Hit INS to turn automatic action replay ;; +FULL TIME	match menu at full time
+match-menu	+Hit INS to turn automatic action replay ;; -HALF TIME ;; -FULL TIME	match menu before kick-off
+match-live	+spacebar-commentary	the pitch view while a match is played
+match-commentary	+view commentary	the commentary log of the match
+match-summary-save-prompt	+Do you want to save the match summary	full-time summary asking to save it
+match-summary	+MAN OF THE MATCH ;; -Do you want to save the match summary	full-time statistics
+squad-substitution-illegal	+Illegal substitution	substitutions screen with the illegal-substitution message
+squad-substitution-take-off	+make substitutions now ;; +take off this player	substitutions: choose the player to take off
+squad-substitution-put-on	+make substitutions now ;; +put on this player	substitutions: choose the player to put on
+squad-substitution-tactic	+make substitutions now ;; +alter tactic	substitutions: alter a player's tactic
+team-tactics	+change tactic ;; +team	team tactics page
+captain-select	+select CAPTAIN	choose the captain
+save-game-name-entry	+Please enter name of saved game	the manager menu with the save-game name line open
+quit-confirm	+Are you sure you want to quit? (Y/N)	the manager menu asking to confirm quitting
+save-game-prompt	+Do you want to save this game? (Y/N)	the manager menu asking whether to save the game before quitting
+file-not-found-prompt	+Illegal file name or file not found - try again? (Y/N)	a load or save was refused: asks whether to try again
