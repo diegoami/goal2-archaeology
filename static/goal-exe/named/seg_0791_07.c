@@ -174,7 +174,7 @@ LAB_0791_89E5:
 
 
 // ---- 0791:8AE9  update_player  (f_0791_8AE9; Ghidra 2000:8AE9, __stdcall16far; found by routines.tsv)
-// runs the +0x12 state handler, then 8889; adds one to pitch +0x14 when unsigned pitch +0xF <5; after ball and drawing calls, when DS:8325 nonzero and unsigned counter >180, decrements signed player energy >1 by one, and resets counter even if decrement suppressed; fitness untouched  [established; F013; F018]
+// runs the +0x12 state handler, then 8889; adds one to pitch +0x14 when unsigned pitch +0xF <5; after ball and drawing calls, when DS:8325 nonzero and unsigned counter >180, decrements signed player energy >1 by one, and resets counter even if decrement suppressed; fitness untouched  [established; F013; F018; F021]
 
 void __stdcall16far update_player(undefined4 param_1)
 

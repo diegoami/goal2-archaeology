@@ -428,7 +428,7 @@ void __stdcall16far reset_team_tactics(int param_1)
 
 
 // ---- 0791:BD03  team_strength_greater  (f_0791_BD03; Ghidra 2000:BD03, __stdcall16near; found by routines.tsv)
-// 1 when the sum of 1771:377E over a's first 11 squad words exceeds b's (unsigned; the first team is the deeper stack argument); the comparison 0791:BD83 acts on  [established; F010]
+// 1 when the sum of 1771:377E over a's first 11 squad words exceeds b's (unsigned; the first team is the deeper stack argument); the comparison 0791:BD83 acts on  [established; F010; F021]
 
 undefined2 team_strength_greater(int param_1,int param_2)
 

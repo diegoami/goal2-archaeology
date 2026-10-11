@@ -59,7 +59,7 @@ LAB_0791_CB27:
 
 
 // ---- 0791:CB7D  restore_match_player_state  (f_0791_CB7D; Ghidra 2000:CB7D, __cdecl16near; found by routines.tsv)
-// both match squads slots 1..20, nonzero player words: restore morale from DS:9B07[side*20+slot], then copy fitness to energy only when signed energy >0; not a constant-32 refill  [established; F018]
+// both match squads slots 1..20, nonzero player words: restore morale from DS:9B07[side*20+slot], then copy fitness to energy only when signed energy >0; not a constant-32 refill  [established; F018; F021]
 
 void __cdecl16near restore_match_player_state(void)
 
@@ -418,7 +418,7 @@ bool __stdcall16far f_0791_D44C(undefined4 param_1)
 
 
 // ---- 0791:D47E  quick_result_silent  (f_0791_D47E; Ghidra 2000:D47E, __stdcall16far; found by routines.tsv)
-// a result without display: calls 0791:A3DE (the computer sides' set-up), then 1771:0BC4 and 0791:B19D, in that order; called by 000E:6970  [established; F010]
+// a result without display: calls 0791:A3DE (the computer sides' set-up), then 1771:0BC4 and 0791:B19D, in that order; called by 000E:6970  [established; F010; F021]
 
 void __stdcall16far quick_result_silent(byte *param_1)
 
@@ -532,7 +532,7 @@ void roll_quick_foul(void)
 
 
 // ---- 0791:D733  quick_match_engine  (f_0791_D733; Ghidra 2000:D733, __cdecl16near; found by routines.tsv)
-// the quick-result engine, one call per tick while DS:9A3E is set, in this order: saves the score word DS:9B3C and clears it; 1771:0BC4 for team 1 then team 0; 0791:B19D with DS:0A8A[0x0F] (12, or 16 when DS:8319 is 0x0F) attempts per team; per team it tests tactic elements 5 then 1 of +0x2D, adding with chances 1/DS:0A90[bit] and 1/DS:0A8E[bit] to the statistics bytes DS:7B7E + 10 t and DS:7B82 + 10 t (and the other team's DS:7B83); the fill runs only when a team's fresh count exceeds its saved score (ja D88F), draws minutes for BOTH teams from the current 9B3C counts and scores at most one goal per call, whose minute equals DS:831F, its scorer the byte at DS:0xA6B + rand(30) redrawn while unavailable; 0791:D5C1 when DS:9A3D is nonzero and no goal fell in the call; then 0791:8062 (no goal) or 0106(0) and 65FE (a goal); DA8D slot loop decrements signed energy >1 by one for slots 1..22 when unsigned DS:831B modulo 5=0, no role/marking gate or fitness write; last 9372; quick scoring model is seed-exact on ten E010 records  [established; F005; F010; F012; F018]
+// the quick-result engine, one call per tick while DS:9A3E is set, in this order: saves the score word DS:9B3C and clears it; 1771:0BC4 for team 1 then team 0; 0791:B19D with DS:0A8A[0x0F] (12, or 16 when DS:8319 is 0x0F) attempts per team; per team it tests tactic elements 5 then 1 of +0x2D, adding with chances 1/DS:0A90[bit] and 1/DS:0A8E[bit] to the statistics bytes DS:7B7E + 10 t and DS:7B82 + 10 t (and the other team's DS:7B83); the fill runs only when a team's fresh count exceeds its saved score (ja D88F), draws minutes for BOTH teams from the current 9B3C counts and scores at most one goal per call, whose minute equals DS:831F, its scorer the byte at DS:0xA6B + rand(30) redrawn while unavailable; 0791:D5C1 when DS:9A3D is nonzero and no goal fell in the call; then 0791:8062 (no goal) or 0106(0) and 65FE (a goal); DA8D slot loop decrements signed energy >1 by one for slots 1..22 when unsigned DS:831B modulo 5=0, no role/marking gate or fitness write; last 9372; quick scoring model is seed-exact on ten E010 records  [established; F005; F010; F012; F018; F021]
 
 void __cdecl16near quick_match_engine(void)
 

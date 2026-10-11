@@ -523,7 +523,7 @@ undefined1 __stdcall16far player_effective_tactic(undefined4 param_1,uint param_
 
 
 // ---- 0791:278A  skill_of_pitch_record  (f_0791_278A; Ghidra 2000:278A, __stdcall16far; found by routines.tsv)
-// the engines' only skill reader: takes a pitch record and an element; base = SIGNED form +0xC +1 below 0x20 else 0 (27AB's `jge` is signed; 27B9 `cwde` sign-extends), element >= 0xC adds 0x20 (the penalties bonus) else the SIGNED energy +0xE (27D4 / 27D8 sign-extends), skill = 1771:3A06 of the record at pitch+0xD, pitch+0x13 set halves it, value = base*skill div 256 + skill div 4; the **table-controlled keeper extra** at 2823-284C: `cmp byte ptr [di + 0x769], 0 / jne 2843` is the FIRST gate — any nonzero byte for the element (the data image's 0x769[2] = 0x01, 0x769[4] = 0x01, 0x769[12] = 0x01) jumps to the extra-term branch, adding pitch+0x11, WITHOUT testing element 1 or event-code membership; only when the byte is zero does the second gate (element 1 and event code 0x18 in CS:276A) apply; pitch+6 < 0xC with DS:80FC set adds value/16. Callers (calls.tsv): 1FDD, 287C, 34C1, 3B15, 3EF8, 47C5, 5474, 5B36, 690C, 9ED3, D5C1  [established; F015; read code/seg_0791_04.asm]
+// the engines' only skill reader: takes a pitch record and an element; base = SIGNED form +0xC +1 below 0x20 else 0 (27AB's `jge` is signed; 27B9 `cwde` sign-extends), element >= 0xC adds 0x20 (the penalties bonus) else the SIGNED energy +0xE (27D4 / 27D8 sign-extends), skill = 1771:3A06 of the record at pitch+0xD, pitch+0x13 set halves it, value = base*skill div 256 + skill div 4; the **table-controlled keeper extra** at 2823-284C: `cmp byte ptr [di + 0x769], 0 / jne 2843` is the FIRST gate — any nonzero byte for the element (the data image's 0x769[2] = 0x01, 0x769[4] = 0x01, 0x769[12] = 0x01) jumps to the extra-term branch, adding pitch+0x11, WITHOUT testing element 1 or event-code membership; only when the byte is zero does the second gate (element 1 and event code 0x18 in CS:276A) apply; pitch+6 < 0xC with DS:80FC set adds value/16. Callers (calls.tsv): 1FDD, 287C, 34C1, 3B15, 3EF8, 47C5, 5474, 5B36, 690C, 9ED3, D5C1  [established; F015; read code/seg_0791_04.asm; F021]
 
 uint __stdcall16far skill_of_pitch_record(undefined4 param_1,uint param_2)
 
@@ -805,9 +805,10 @@ bool __stdcall16far slot_is_on_ball_side(undefined4 param_1)
 }
 
 
-// ---- 0791:2B7B  f_0791_2B7B  (f_0791_2B7B; Ghidra 2000:2B7B, __stdcall16far; found by routines.tsv)
+// ---- 0791:2B7B  energy_gate_chance  (f_0791_2B7B; Ghidra 2000:2B7B, __stdcall16far; found by routines.tsv)
+// random-is-one(0x21 - signed player energy +0xE) for the pitch record at [bp+6]: true with probability 1/(33 - E) (214B:06D0); its only caller 4A28 goes to 4354 on a true (seg_0791_08.asm:480-500); energy is the only player byte it reads  [established; F021; read code/seg_0791_05.asm]
 
-undefined2 __stdcall16far f_0791_2B7B(undefined4 param_1)
+undefined2 __stdcall16far energy_gate_chance(undefined4 param_1)
 
 {
   undefined2 uVar1;
@@ -1239,16 +1240,4 @@ void __cdecl16near find_nearest_to_ball(void)
     local_3 = local_3 + '\x01';
   }
   return;
-}
-
-
-// ---- 0791:30EA  f_0791_30EA  (f_0791_30EA; Ghidra 2000:30EA, __stdcall16far; found by routines.tsv)
-
-int __stdcall16far f_0791_30EA(undefined4 param_1,int param_2)
-
-{
-  char cVar1;
-  
-  cVar1 = pitch_slot_side((int)param_1,(int)((ulong)param_1 >> 0x10));
-  return (uint)*(byte *)(cVar1 + 0x668) + param_2;
 }

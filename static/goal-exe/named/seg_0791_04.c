@@ -84,7 +84,7 @@ undefined1 choose_marking_target(int param_1)
 
 
 // ---- 0791:4A28  update_marking_destination  (f_0791_4A28; Ghidra 2000:4A28, __stdcall16far; found by routines.tsv)
-// in the defending outfield branch calls 47C5, compares rand(6) with signed player energy, applies half-pitch tactic guard and may copy target coordinates to pitch +7; indirect movement input, no extra energy decrement  [established; F018]
+// in the defending outfield branch calls 47C5, compares rand(6) with signed player energy, applies half-pitch tactic guard and may copy target coordinates to pitch +7; indirect movement input, no extra energy decrement  [established; F018; F021]
 
 void __stdcall16far update_marking_destination(undefined4 param_1)
 
@@ -131,7 +131,7 @@ void __stdcall16far update_marking_destination(undefined4 param_1)
     }
   }
   else {
-    cVar2 = f_0791_2B7B(iVar4,uVar6);
+    cVar2 = energy_gate_chance(iVar4,uVar6);
     if ((cVar2 != '\0') ||
        ((ppVar5[iVar1].position == 1 && (cVar2 = f_0791_2D10(iVar4,uVar6,10), cVar2 == '\0')))) {
       f_0791_4354(iVar4,uVar6);
@@ -399,9 +399,10 @@ undefined2 f_0791_500C(void)
 }
 
 
-// ---- 0791:5049  f_0791_5049  (f_0791_5049; Ghidra 2000:5049, __stdcall16near; found by routines.tsv)
+// ---- 0791:5049  energy_chance_branch  (f_0791_5049; Ghidra 2000:5049, __stdcall16near; found by routines.tsv)
+// a watched-engine decision of update_player: after the 26D7 and coin tests it calls 4E28 when a coin or random-is-one(signed +0xE idiv 2) succeeds (seg_0791_09.asm:330-361); energy is the only player byte it reads; what 4E28 does is not established  [likely; F021; read code/seg_0791_09.asm]
 
-undefined1 f_0791_5049(int param_1)
+undefined1 energy_chance_branch(int param_1)
 
 {
   char cVar1;
@@ -850,7 +851,7 @@ void __stdcall16far f_0791_57AC(undefined4 param_1)
   undefined2 uVar3;
   
   cVar1 = f_0791_56D9(&stack0xfffe);
-  if ((((cVar1 == '\0') && (cVar1 = f_0791_5049(&stack0xfffe), cVar1 == '\0')) &&
+  if ((((cVar1 == '\0') && (cVar1 = energy_chance_branch(&stack0xfffe), cVar1 == '\0')) &&
       (cVar1 = f_0791_533B(&stack0xfffe), cVar1 == '\0')) &&
      (cVar1 = challenge_duel(&stack0xfffe), cVar1 == '\0')) {
     cVar1 = f_0791_045D(DS:830B);
