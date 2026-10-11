@@ -76,7 +76,7 @@ runs to the full-time board as guest code. The interventions, and nothing else:
 - **the key read `214B:08DD`** (it waits through `INT 16h AH=0`, `08FF call far 235C:000B`,
   `seg_214B_02.asm:6`-`82`) is answered only at the stopped screens E004's discipline answers,
   with the key it sends there, by storing it in `DS:A976` and `DS:A977` (what `0947` and `097C`
-  store for Enter) and returning as its `retf`: the queued Enter (captain screen); the half-time
+  store for Enter) and returning as its `retf`: the queued Enter (captain screen), for the read whose return address is `0791:CEED` only (`CEE8 call far 214B:08DD`, `seg_0791_20.asm:1348`; review R2: a read from any other return raises with the key still queued); the half-time
   board; the half-time team screen. A read anywhere else raises `KeyWaitError` (the run is void);
   a read with the pushed-back flag `DS:79AE` set runs as guest code (`08E3`-`08EF`: no wait);
 - **the `000E` wait family** skipped and logged (its returns read from the listing: all four are
@@ -171,8 +171,14 @@ guest (`arg(i)`, `word`, `set_word`, `reg`, `set_reg` ...) — then returns as t
 return would: `ret` = (far, bytes popped), read by default from the routine's block in the listing
 (`routine_return`: every `ret`/`retf` of the block must agree; `214B:0688` gives `retf 6`,
 `seg_214B_01.asm:894`). The guest's routine is not executed; `hook_counts[address]` counts the
-calls. A change the fn makes to the seed word is recorded like a guest write (`watch_word`), so
-a hooked step's values are what the trajectory check sees, not the true LCG's.
+calls. Every write the fn makes to the seed word through the guest (`put`, `set_word`) is
+recorded at write time like a guest write (`watch_word`), a write later undone and a same-value
+write included, and a change made around `put` is recorded when the fn returns (review R1), so a
+hooked step's writes are what the trajectory check sees, not the true LCG's. `check.py` also runs
+each hooked match unhooked and requires the two seed-write traces to be identical, write for write
+(value before and after, clock reading): the reads alone cannot see an extra value, since a
+checkpoint only asks for membership; `--hook f004+hidden-write` (0xDEAD written and restored
+before each F004 step) is that check's falsifier.
 
 The proof (Done-when 2): `check.py --hook f004` hooks `214B:0688` with F004's step in Python
 (`seed = seed · 0x7ABD + 0x1B0F`, stored; AX = DX = 1 + (seed · n) >> 16,

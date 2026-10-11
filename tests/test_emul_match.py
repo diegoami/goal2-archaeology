@@ -8,7 +8,10 @@
 - ListingReturnTests pin the return form read from the listing: 214B:0688 ends in `retf 6`.
 - RealGuestTests (skipped without the E011 watchstart savestate) resume the captain screen and run
   40 clock ticks: unhooked, 214B:0688's body runs; hooked with F004's step, it never runs, the
-  count is the literal number of calls, and the seed word's trajectory is the same.
+  count is the literal number of calls, and the seed word's trajectory is the same; a hook that
+  writes 0xDEAD to the seed and restores it before F004's step leaves those writes in the trace,
+  which then differs from the original's (review R1); a first key read from an undeclared return
+  address raises KeyWaitError instead of taking the captain screen's queued Enter (review R2).
 """
 import json
 import sys
@@ -93,6 +96,21 @@ class SyntheticHookTests(unittest.TestCase):
         self.assertEqual(g.hook_counts, {"2000:0000": 1})
 
 
+    def test_every_fn_write_to_a_watched_word_is_reported(self):
+        # review R1: a write later undone, and the same-value restore, are reported at write time
+        g, _ = machine()
+        reports = []
+        g.watch_word(0x200, lambda old, new: reports.append((old, new)))
+
+        def fn(guest):
+            guest.set_word(0, 0x200, 0xDEAD)
+            guest.set_word(0, 0x200, 0)
+
+        g.hook("2000:0000", fn, ret=(True, 2))
+        g.emulate(END, 5)
+        self.assertEqual(reports, [(0, 0xDEAD), (0xDEAD, 0)] * 3)
+
+
 class ListingReturnTests(unittest.TestCase):
     def test_lcg_step_returns_far_popping_six(self):
         self.assertEqual(routine_return("214B:0688"), (True, 6))   # seg_214B_01.asm:894 `retf 6`
@@ -135,6 +153,32 @@ class RealGuestTests(unittest.TestCase):
         self.assertEqual(hooked.hook_counts, {"214B:0688": 1558})
         self.assertEqual(hooked.draws, plain.draws)
         self.assertEqual(hooked.tick_marks, plain.tick_marks)
+
+    def test_a_hidden_seed_write_is_in_the_trace_and_fails_the_comparison(self):
+        # review R1: F004's step with 0xDEAD written to the seed and restored before it
+        from check import f004_step, hidden_write, trace_difference
+        from watched_match import WatchedMatch
+        plain, _ = self.run_match(False)
+        m = WatchedMatch(watchstart_or_skip(self))
+        m.hook("214B:0688", hidden_write(f004_step()))
+        m.run(max_ticks=self.TICKS)
+        self.assertIn(0xDEAD, [d[3] for d in m.draws])
+        self.assertEqual(len(m.draws), 3 * len(plain.draws))   # every main-seed step: 3 writes
+        self.assertIsNotNone(trace_difference(plain.draws, m.draws))
+
+    def test_an_undeclared_first_key_read_raises(self):
+        # review R2: the queued Enter is for CC7B's read (return 0791:CEED) only
+        from watched_match import KeyWaitError, WatchedMatch
+        m = WatchedMatch(watchstart_or_skip(self))
+        sp = (m.reg("sp") - 4) & 0xFFFF
+        m.put(m.reg("ss") * 16 + sp, (0x1234).to_bytes(2, "little") + m.seg(0x791).to_bytes(2, "little"))
+        m.set_reg("sp", sp)
+        m.set_reg("cs", m.seg(0x214B))
+        m.set_reg("eip", 0x08DD)
+        with self.assertRaises(KeyWaitError):
+            m.emulate(m.lin("0791:1234"), 5)
+        self.assertEqual(m.key_log, [])
+        self.assertEqual(len(m.keys), 1)
 
 
 if __name__ == "__main__":

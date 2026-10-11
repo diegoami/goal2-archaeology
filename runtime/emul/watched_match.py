@@ -138,7 +138,8 @@ class Guest:
         for name, value in self.start_regs.items():
             self.mu.reg_write(getattr(X, f"UC_X86_REG_{name}"), value)
         self.hook_counts = {}
-        self._watch = []          # (linear, on_change(old, new)) words compared around each fn
+        self._watch = []          # (linear, on_change(old, new)) words whose fn writes are reported
+        self._in_fn = False
         self.error = None         # an error a callback met; it stops the emulation
 
     # -- addresses and memory ------------------------------------------------------------------
@@ -156,7 +157,18 @@ class Guest:
         return int.from_bytes(self.mu.mem_read(linear, 2), "little")
 
     def put(self, linear, raw):
-        self.mu.mem_write(linear, bytes(raw))
+        """Write guest memory. Inside a hook's fn, every write that touches a watched word is
+        reported at write time, with the word's value before and after it (a same-value write
+        and a write later undone included): Python writes do not reach Unicorn's memory hooks."""
+        raw = bytes(raw)
+        if not self._in_fn:
+            self.mu.mem_write(linear, raw)
+            return
+        touched = [(lin, self.word_at(lin), cb) for lin, cb in self._watch
+                   if linear < lin + 2 and lin < linear + len(raw)]
+        self.mu.mem_write(linear, raw)
+        for lin, old, cb in touched:
+            cb(old, self.word_at(lin))
 
     def word(self, segment, offset):
         """The word at segment:offset, with segment a runtime value (a far pointer's)."""
@@ -199,8 +211,9 @@ class Guest:
         self.set_reg("eip", ip)            # 16-bit mode: EIP is the offset in CS
 
     def watch_word(self, linear, on_change):
-        """Report every change of the word at `linear` that a hook's fn makes (guest writes are
-        the caller's to watch with a memory hook)."""
+        """Report every write a hook's fn makes to the word at `linear`, at write time (`put`);
+        a change made around `put` (straight to `mu`) is reported when the fn returns. Guest
+        writes are the caller's to watch with a memory hook."""
         self._watch.append((linear, on_change))
 
     # -- the substitution hook ----------------------------------------------------------------
@@ -217,12 +230,24 @@ class Guest:
         def at_entry(uc, addr, size, data):
             try:
                 self.hook_counts[key] += 1
-                before = [(lin, self.word_at(lin), cb) for lin, cb in self._watch]
-                fn(self)
-                for lin, old, cb in before:
-                    new = self.word_at(lin)
-                    if new != old:
+                last = {lin: self.word_at(lin) for lin, cb in self._watch}
+
+                def seen(lin, cb):
+                    def report(old, new):
+                        last[lin] = new
                         cb(old, new)
+                    return report
+                watch, self._watch = self._watch, [(lin, seen(lin, cb)) for lin, cb in self._watch]
+                self._in_fn = True
+                try:
+                    fn(self)
+                finally:
+                    self._in_fn = False
+                    self._watch = watch
+                for lin, cb in watch:              # a change that bypassed put
+                    now = self.word_at(lin)
+                    if now != last[lin]:
+                        cb(last[lin], now)
                 self.return_from(far, pop)
             except Exception as e:        # stop the emulation and re-raise after it
                 self.error = e
@@ -262,6 +287,7 @@ COMMENTARY_WRITE = "0791:1D4A"         # write_commentary_line
 MATCH_RETURN = "0791:F2E3"             # F1F6, after `F2E0 call 0xF098` (play_match)
 KEYPRESSED, READKEY = "214B:0723", "214B:08DD"
 BOARD_READ_RETURN = ("0791", 0x041A)   # 0106: `0415 call far 214B:08DD`
+CAPTAIN_READ_RETURN = ("0791", 0xCEED)  # CC7B: `CEE8 call far 214B:08DD` (seg_0791_20.asm:1348)
 MENU_READ_RETURN = ("214B", 0x157C)    # 1560: `1579 call 0x8DD` (push cs; near-as-far)
 MENU_CALLER_RETURN = ("0791", 0xEE9F)  # ED8A: `EE9A call far 214B:1560`
 PUSHED_BACK = 0x79AE                   # 08DD: `08E3 cmp byte ptr [0x79ae], 0`
@@ -276,7 +302,9 @@ class WatchedMatch(Guest):
         self.draws = []          # (minute, sub-tick, before, after) per change of DS:7B62
         self.tick_marks = []     # (minute, sub-tick, seed) at each 970C entry
         self.strays = []         # 000E wait-family skips: must stay empty
-        self.keys = [{"screen": "captain screen (the starting burst's Enter)", "key": ENTER}]
+        # the starting burst's Enter, for CC7B's read only (`CEE8 call far 214B:08DD` returns to CEED)
+        self.keys = [{"screen": "captain screen (the starting burst's Enter)", "key": ENTER,
+                      "read_return": CAPTAIN_READ_RETURN}]
         self.key_log = []        # (screen, key, minute, sub-tick, seed) per key delivered
         self.inputs = []         # declared writes
         self.lines_written = 0
@@ -335,6 +363,12 @@ class WatchedMatch(Guest):
                     return                      # the guest's own path: no wait
                 ret = (self.stack_word(2), self.stack_word(0))
                 if self.keys:
+                    want = self.keys[0]["read_return"]
+                    if ret != (self.seg(int(want[0], 16)), want[1]):
+                        raise KeyWaitError("undeclared key wait: 214B:08DD called from %04X:%04X with the %s"
+                                           " queued for the read returning to %s:%04X" % (
+                                               (ret[0] - self.load) & 0xFFFF, ret[1], self.keys[0]["screen"],
+                                               want[0], want[1]))
                     k = self.keys.pop(0)
                     screen, key = k["screen"], k["key"]
                 elif ret == (self.seg(0x791), BOARD_READ_RETURN[1]) and self.full_time is not None:

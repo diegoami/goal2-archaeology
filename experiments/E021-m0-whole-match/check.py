@@ -16,7 +16,10 @@ hooked-call count; exits non-zero on an empty set, any miss or any failed check.
 
 --hook substitutes 214B:0688 (F004's RNG step) with a Python LCG: `f004` is F004's
 `seed = seed * 0x7ABD + 0x1B0F`, returning 1 + (seed * n) >> 16; `f004-mult+1` and `f004-inc+1`
-change the multiplier or the increment by +1 (the hook's falsifiers).
+change the multiplier or the increment by +1, and `f004+hidden-write` writes 0xDEAD to the seed
+and restores it before each F004 step (the hook's falsifiers). A hooked run is also compared with
+an unhooked run of the same state: every write of the seed word (value before and after, clock
+reading) must be the original's, in order.
 Each emulated run's outputs (without the draw list, whose count and sha256 they carry) are written
 to a new file under experiments/E021-m0-whole-match/out/ (never overwritten)."""
 import argparse
@@ -53,7 +56,33 @@ def f004_step(mult=MULT, inc=INC):
     return fn
 
 
-HOOKS = {"none": None, "f004": f004_step(), "f004-mult+1": f004_step(mult=MULT + 1),
+def hidden_write(step):
+    """A falsifier (review R1): `step` preceded by a write of 0xDEAD to the seed word and its
+    restore, so the step's results are F004's but the word takes a value the original never
+    writes."""
+    def fn(g):
+        off, seg = g.arg(1), g.arg(2)
+        seed = g.word(seg, off)
+        g.set_word(seg, off, 0xDEAD)
+        g.set_word(seg, off, seed)
+        step(g)
+    return fn
+
+
+def trace_difference(reference, draws):
+    """None when the two seed-write traces are identical, else the first differing index with
+    both entries (a missing entry is None)."""
+    for i, (a, b) in enumerate(zip(reference, draws)):
+        if a != b:
+            return i, a, b
+    if len(reference) != len(draws):
+        i = min(len(reference), len(draws))
+        return i, reference[i] if i < len(reference) else None, draws[i] if i < len(draws) else None
+    return None
+
+
+HOOKS = {"none": None, "f004": f004_step(), "f004+hidden-write": hidden_write(f004_step()),
+         "f004-mult+1": f004_step(mult=MULT + 1),
          "f004-inc+1": f004_step(inc=INC + 1)}
 
 
@@ -128,7 +157,12 @@ def main(argv=None):
         record = json.loads(p.read_text())
         rid = record["run_id"]
         entry = next(o for o in record["outputs"] if o["name"].endswith("-watchstart.sav"))
-        m, error, secs = emulate(asset(entry), a.hook)
+        data = asset(entry)
+        m, error, secs = emulate(data, a.hook)
+        trace = None
+        if a.hook != "none":   # a substitution is right only if every seed write is the original's
+            ref, ref_error, _ = emulate(data, "none")
+            trace = "unhooked run void: " + ref_error if ref_error else trace_difference(ref.draws, m.draws)
         sets = m.tick_values()
         cps = reads(record)
         hit = sum(1 for mi, d, s in cps if s in sets.get((mi, d), ()))
@@ -147,6 +181,7 @@ def main(argv=None):
             "stopped at the full-time board's key wait": m.stopped_at_board,
             "seed at the board equals the record's full-time read": m.final["7B62"] == ft["seed"],
             "board screen sha256 equals the record's full-time screen": screen_sha == ft["screen_sha256"],
+            "every seed write equals the unhooked original's (hooked runs)": trace is None,
         }
         print(f"{rid}: start {entry['name']} (captain screen, seed 0x{m.start_state['7B62']:04x});"
               f" emulated {m.final['ticks']} clock ticks, {len(m.draws)} seed writes, {secs} s;"
@@ -158,7 +193,7 @@ def main(argv=None):
             failed.append(f"{rid}: {error}")
         for name, good in checks.items():
             if not good:
-                print(f"  FAIL: {name}")
+                print(f"  FAIL: {name}" + (f": first difference {trace}" if name.startswith("every seed write") else ""))
                 failed.append(f"{rid}: {name}")
         for mi, d, s in cps:
             if s not in sets.get((mi, d), ()):
