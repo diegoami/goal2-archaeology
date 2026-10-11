@@ -1,0 +1,10 @@
+# T35 round-3 delta (Sol's R1: the write watch before the emulator), at the working tree
+EarlySaveTests (fixed): exit=0; OK
+MUTATION: the write watch starts after the emulator (pre-fix shape): exit=1; FAILED (failures=1)
+RESULT: killed
+DW3: exit=0; XGetInputFocus returned the focused window of 1. This is likely a bug in the X server.
+DW4: exit=0; XGetInputFocus returned the focused window of 1. This is likely a bug in the X server.
+tests.test_human_keys + test_human_record (full, e2e included): exit=0; OK
+tests/static: exit=0; OK
+check_links: exit=0; links and JSON ok (1082 files)
+END

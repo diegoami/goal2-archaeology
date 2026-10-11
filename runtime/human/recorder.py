@@ -149,6 +149,14 @@ EVENT_SETTLE_S = 0.05
 # serialized writer answers requests in order). Searched: the probe above; no
 # prior measurement of per-save event counts existed. Recorder policy.
 ONE_SAVE_MAX_EVENTS = 80
+# [designed] The write-event floor of ONE save (T35 round 3, the owner's option A of 2026-10-11:
+# each staged request owns exactly one save past the previous one). Measured: 53-54 events per
+# save in the probe above (three saves) and 53 for each of the 12 saves of T35's ten-key
+# reproduction on DOSBox-X 2024.03.01 (evidence/E015/T35-r3/dw3-write-events-20261011-01.log).
+# 40 sits well under one save's jitter and far above zero, so a request step of [40, 80] events
+# is one save and nothing else: none (0) or two (~106) fall outside it. DOSBox-X 2026.01.02
+# writes a save in 3 events (#117): this project runs 2024.03.01 only. Recorder policy.
+ONE_SAVE_MIN_EVENTS = 40
 # [designed] A snapshot's screen is taken when DOSBox-X handles the save key, which the X server
 # delivers after the recorder's request (the clock read before the send) and before the send's last
 # event is flushed (`sent_s`). A key the logger stamps later than `sent_s` may still have reached
@@ -483,6 +491,17 @@ def file_signature(path):
     return (st.st_ino, st.st_size, st.st_mtime_ns, st.st_ctime_ns)
 
 
+def sig_hash(sig):
+    """A signature's digest as it goes into a request line: sha256 over the canonical JSON of
+    (inode, size, mtime_ns, ctime_ns), or over `null` when the file was absent (the opening
+    tick, before the first save created it). note_request records the request's PRE-SEND
+    signature and its accept-time signature this way (T35, issue #111 R2), so the acceptance
+    guard can require a pre-send state and an accept-time state that DIFFER — a fresh write
+    inside this request's own window — while still never reading the live savestate's bytes
+    before the key is sent (T35 R1 forbids that read; this is metadata only)."""
+    return sha256(json.dumps(list(sig) if sig is not None else None).encode("utf-8"))
+
+
 class WriteWatch:
     """Whether a write session on the live savestate is still open, from the kernel's inotify
     events on its directory (round-4 R1). A writer that pauses mid-write leaves the file's bytes
@@ -559,7 +578,7 @@ class Watcher:
 
     def __init__(self, session, live, wid, dbx, env, t0=None, index="index.jsonl",
                  clock=time.monotonic, sleep=time.sleep, xrun=None, alive=None, log=None,
-                 writing=None):
+                 writing=None, watch=None):
         self.session = Path(session)
         self.live = Path(live)
         self.wid = wid
@@ -573,7 +592,9 @@ class Watcher:
         # the live savestate's write activity (round-4/6 R1): `activity()` gives (a write session
         # is open, the number of write events so far); an injected `writing` has no event count
         if writing is None:
-            ww = WriteWatch(self.live)
+            # `watch`: the sitting's own WriteWatch, started before the emulator was launched, so
+            # its count covers every save of the sitting (Sol's round-3 R1 on PR 112)
+            ww = watch if watch is not None else WriteWatch(self.live)
             self.activity = ww.activity
         else:
             self.activity = lambda: (writing(), 0)
@@ -617,8 +638,8 @@ class Watcher:
 
         With `live_emulator`, a dead emulator ends the sitting (_EmulatorGone, R5) and the key
         is re-sent after RESEND_AFTER_S (`sent_box[0]`, when given, receives the last send's
-        clock, so a pipeline job's window widens to it). Returns (bytes, sha256); raises
-        TimeoutError.
+        clock, so a pipeline job's window widens to it). Returns the 4-tuple documented at the
+        end of this docstring; raises TimeoutError.
 
         With `fast` and `pre_events` (the write-event count taken before the request was sent,
         T34 Sol-r2 R1), the kernel replaces the 0.75 s stability wait as the write-completed
@@ -654,13 +675,33 @@ class Watcher:
         fresh-arrival path and the stability fallback alike. With `req_path`, the accepted
         bytes are also written to that per-request path (the single source of truth the
         staging reads back), and a fast job never stages from a merely stable live file.
-        Returns (bytes, sha256, accept_events) — accept_events is the write-event count at
-        the accepted capture (the ownership evidence the guard checks), None on the
-        non-fast paths."""
+
+        The unanchored capture (T35, issue #111 R1): FRESH ARRIVAL accepts a write that landed
+        while this job polled, which is its own save only while no OTHER save request could
+        have produced it. A capture that began with later save requests already queued
+        (`_submitted - _finished > 1` at its first poll) and with an EMPTY consumption ledger
+        (`_fast_consumed` is None: the pipeline has staged nothing yet) has nothing to order
+        those saves by — the Sol delta r4 R1 reproduction injects exactly that state
+        (`--_submitted=2 --_finished=0`, the write landing one poll in and within one save's
+        bound, so the magnitude check does not fire) and the live file then carries a later
+        request's save. Such a capture raises _AttributionLost instead of accepting: the
+        request is marked superseded, the acceptance guard rejects the sitting, and the
+        stability fallback — which NEVER reads the live savestate (stability says nothing
+        about whose save is on it; the per-request path, the only source it may read, holds
+        this request's bytes only when this job accepted, which it did not) — is what the
+        shapes that reach it fall through to. A capture that was the head at its first poll,
+        or that follows an already-consumed write, keeps the fresh-arrival path: the ledger or
+        the head position orders the saves.
+
+        Returns (bytes, sha256, accept_events, accept_sig): the write-event count and the live
+        savestate's signature at the accepted capture — the ownership evidence note_request
+        records and the guard checks. accept_events is None on the non-fast paths (no event
+        accounting there); accept_sig is then the signature the stable bytes were read under."""
         deadline = self.clock() + SAVE_TIMEOUT_S
         sent = self.clock()
         last_sig, count = None, 0
         entry_events = None               # the event count at this job's first poll
+        entry_head = False                # the pipeline had no later request queued then (T35)
         while self.clock() < deadline:
             if live_emulator and self.dbx.poll() is not None:
                 self.log(f"dosbox-x exited with code {self.dbx.returncode} during a savestate")
@@ -684,6 +725,11 @@ class Watcher:
             first_poll = entry_events is None
             if first_poll:
                 entry_events = events
+                # T35 (issue #111 R1): was this capture the pipeline's head when it began?
+                # With later save requests already queued, a write landing while it polls
+                # could be theirs — the ledger below is what orders the saves, and an empty
+                # one (nothing consumed yet) orders nothing.
+                entry_head = self._submitted - self._finished <= 1
             fast_ready = (fast and pre_events is not None and events is not None
                           and events > pre_events and not busy and sig is not None
                           and (pre_sig is None or sig != pre_sig))
@@ -702,8 +748,25 @@ class Watcher:
                             "attribution lost: lost boundary)")
                     accept = True   # the pipeline's head: the completed write is its own save
                 elif (events is not None and entry_events is not None
-                      and events > entry_events):
+                      and events > entry_events
+                      and (entry_head or self._fast_consumed is not None)):
                     accept = True   # a write event arrived while this job polled: a fresh save
+                elif (events is not None and entry_events is not None
+                      and events > entry_events):
+                    # T35 (issue #111 R1): the write arrived, but this capture began with
+                    # later save requests queued and the pipeline has consumed nothing, so
+                    # nothing orders those saves — the live file's write cannot be tied to
+                    # this request. The Sol delta r4 R1 reproduction injects exactly this
+                    # (an injected clock, `_submitted=2/_finished=0`, a later request's save
+                    # landing one poll in, within one save's bound of write events so the
+                    # every-poll magnitude check does not fire). Not accepted: _AttributionLost
+                    # marks the request superseded, and the stability fallback never runs for
+                    # a job that no longer owns its window (its log line is what the
+                    # reproduction's report quotes for the shapes that reach it).
+                    raise _AttributionLost(
+                        "a write arrived while later save requests were queued and the "
+                        "pipeline has consumed nothing: the live savestate's write cannot be "
+                        "tied to this request (unanchored capture: request attribution lost)")
             if accept:
                 # the write is finished (the fact the stability polls wait 0.75 s to infer),
                 # the signature is fresh, and no session is open — read once, bracketed by the
@@ -717,7 +780,7 @@ class Watcher:
                             last_sig, count = None, 0
                         else:
                             self._fast_consumed = (events, sig)
-                            return data, sha256(data), events
+                            return data, sha256(data), events, sig
                 self.log("live savestate changed or incomplete during capture: retrying")
                 last_sig, count = None, 0
             if sig is None or sig[1] == 0:
@@ -731,9 +794,15 @@ class Watcher:
                 # says nothing about WHOSE save is on it (the stability-fallback
                 # bypass restaged bytes the pipeline had already consumed this way);
                 # only the write accounting above can own bytes, so the job keeps
-                # polling for its own write and the deadline bounds the wait
+                # polling for its own write and the deadline bounds the wait.
+                # T35 (issue #111 R1): the fallback's only source is the PER-REQUEST
+                # path, and a job reaches this point without one (its per-request copy
+                # is written at acceptance, which returns), so it stages nothing and
+                # never reads the live savestate here.
                 if fast:
-                    self.log("stable live savestate ignored on the fast path: no owned write")
+                    self.log("stability fallback: stable live savestate not staged on the "
+                             "fast path (no owned write; only the per-request path may be "
+                             "read, and it holds no bytes for this request)")
                 else:
                     # bytes read while a write was in progress are never staged (the task's
                     # hazard, b7777fd): no read starts while a session is open, and any write
@@ -750,7 +819,7 @@ class Watcher:
                     if data is not None and zip_is_complete(data):
                         _, after = self._write_state()
                         if after == before:            # None (check failed) never equals a count
-                            return data, sha256(data), None
+                            return data, sha256(data), None, last_sig
                     self.log("live savestate changed or incomplete during capture: retrying")
                     last_sig, count = None, 0
             if live_emulator and self.clock() - sent > RESEND_AFTER_S:
@@ -844,21 +913,23 @@ class Watcher:
             submit(pre, request, self.last_sent, origin, pre_events)
             return None
         try:
-            data, digest, _ = self.capture(pre)
+            data, digest, _, accept_sig = self.capture(pre)
         except TimeoutError as e:
             self.problems.append(str(e))
             self.log(f"snapshot skipped: {e}")
-            self.note_request(request, self.last_sent, origin, None)
+            self.note_request(request, self.last_sent, origin, None, pre_sig=sig_hash(pre))
             return None
         except _EmulatorGone:
-            self.note_request(request, self.last_sent, origin, None)
+            self.note_request(request, self.last_sent, origin, None, pre_sig=sig_hash(pre))
             raise
         entry = self.stage(data, digest, origin=origin, request=request, sent=self.last_sent)
-        self.note_request(request, self.last_sent, origin, entry["seq"])
+        self.note_request(request, self.last_sent, origin, entry["seq"],
+                          pre_sig=sig_hash(pre), accept_sig=accept_sig)
         return entry
 
     def note_request(self, request, sent, origin, seq, superseded=False, pre_events=None,
-                     accept_events=None, request_file=None, request_sha256=None):
+                     accept_events=None, request_file=None, request_sha256=None,
+                     pre_sig=None, accept_sig=None):
         """One flushed line per save request in requests.jsonl; `seq` is the staged entry's, None
         for a request that staged nothing (a skipped snapshot), which keymap.py counts as a screen
         it could not see (T34 R2). `sent` is this request's own last send (a resend widens the
@@ -872,7 +943,15 @@ class Watcher:
         accepted), `request_file`/`request_sha256` (the per-request savestate the bytes were
         staged from) — are what the guard's attribution check REQUIRES on a staged line:
         absence of `superseded` alone proved nothing (the r4 bypasses produced ordinary
-        successful lines)."""
+        successful lines).
+
+        T35 (issue #111 R2) adds the signature pair: `pre_sig`, the live savestate's signature
+        hash taken before this request was sent, and `accept_sig`, its hash at the accepted
+        capture. Both on the line, the guard can require a pre-send state that DIFFERS from the
+        accept-time state — a fresh write inside this request's own window — which is the
+        closest thing to a byte-level proof of ownership that never reads the live savestate
+        before the send (round-2 R1). A staged line without the pair is evidence-free and the
+        guard rejects the sitting."""
         line = {"request_s": round(request - self.t0, 3),
                 "sent_s": round(sent - self.t0, 3), "origin": origin, "seq": seq}
         if superseded:
@@ -885,6 +964,11 @@ class Watcher:
             line["request_file"] = request_file
         if request_sha256 is not None:
             line["request_sha256"] = request_sha256
+        if pre_sig is not None:
+            # the line always carries the digest: a caller may hand over the signature tuple
+            line["pre_sig"] = pre_sig if isinstance(pre_sig, str) else sig_hash(pre_sig)
+        if accept_sig is not None:
+            line["accept_sig"] = accept_sig if isinstance(accept_sig, str) else sig_hash(accept_sig)
         with open(self.requests_path, "a", encoding="utf-8") as f:
             f.write(json.dumps(line) + "\n")
             f.flush()
@@ -902,22 +986,25 @@ class Watcher:
         verified (present, hash equal to the accepted digest, a complete zip) — the live
         savestate is only the intermediate; a verification failure is a lost attribution."""
         box = [sent]
+        pre_digest = sig_hash(pre)      # the pre-send state, recorded on every line (T35)
         try:
-            data, digest, accept_events = self.capture(pre, pre_events=pre_events, fast=True,
-                                                       sent_box=box, req_path=req_path)
+            data, digest, accept_events, accept_sig = self.capture(
+                pre, pre_events=pre_events, fast=True, sent_box=box, req_path=req_path)
         except TimeoutError as e:
             self.problems.append(str(e))
             self.log(f"snapshot skipped: {e}")
-            self.note_request(request, box[0], origin, None, pre_events=pre_events)
+            self.note_request(request, box[0], origin, None, pre_events=pre_events,
+                              pre_sig=pre_digest)
             return None
         except _AttributionLost as e:
             self.problems.append(str(e))
             self.log(f"request superseded: {e}")
             self.note_request(request, box[0], origin, None, superseded=True,
-                              pre_events=pre_events)
+                              pre_events=pre_events, pre_sig=pre_digest)
             return None
         except _EmulatorGone:
-            self.note_request(request, box[0], origin, None, pre_events=pre_events)
+            self.note_request(request, box[0], origin, None, pre_events=pre_events,
+                              pre_sig=pre_digest)
             raise
         if req_path is not None:
             try:
@@ -929,7 +1016,7 @@ class Watcher:
                 self.problems.append(e)
                 self.log(f"request superseded: {e}")
                 self.note_request(request, box[0], origin, None, superseded=True,
-                                  pre_events=pre_events)
+                                  pre_events=pre_events, pre_sig=pre_digest)
                 return None
             data = owned
         entry = self.stage(data, digest, origin=origin, request=request, sent=box[0])
@@ -937,7 +1024,8 @@ class Watcher:
                           accept_events=accept_events,
                           request_file=str(req_path.relative_to(self.session))
                           if req_path is not None else None,
-                          request_sha256=digest)
+                          request_sha256=digest,
+                          pre_sig=pre_digest, accept_sig=accept_sig)
         return entry
 
     # -- the loop -----------------------------------------------------------------------
@@ -1069,7 +1157,7 @@ class Watcher:
         # entry's request: [that request, now] is all the map may assume about its screen (R1)
         lo = self.t0 if self.last_staged_request is None else self.last_staged_request
         try:
-            data, d, _ = self.capture(None, live_emulator=False)
+            data, d, _, _ = self.capture(None, live_emulator=False)
         except TimeoutError as e:
             self.problems.append(f"shutdown snapshot not captured: {e}")
             return None
@@ -1325,6 +1413,10 @@ def play(video=False, quit_after=None, res="1280x800"):
         # the logger starts before the emulator is launched (T34 review R6)
         keys = KeyLogger(env, outer_env["DISPLAY"], session / "keys.jsonl")
         keys.start()
+        # the write watch starts before the emulator too (Sol's round-3 R1 on PR 112): a save the
+        # running emulator writes before the Watcher exists must be in write_events_total, or a
+        # save before the first request goes unowned and uncounted
+        watch = WriteWatch(session / "state.sav")
         argv = [os.environ.get("DOSBOX_X", "dosbox-x"), "-conf", str(session / "dosbox.conf"),
                 "-fastlaunch", "-nogui", "-nomenu", "-savedir", str(session),
                 "-set", f"dosbox savefile={session / 'state.sav'}"]
@@ -1359,8 +1451,13 @@ def play(video=False, quit_after=None, res="1280x800"):
                 vid = Video(v, session / "video.mkv")
                 vid.start()
                 log(f"video started: {' '.join(v)}")
+        if os.environ.get("GOAL2_RECORDER_TEST_EARLY_SAVE") == "1":
+            # test only (tests.test_human_keys, the early-save regression): one save of the live
+            # emulator before the Watcher exists — the window Sol's round-3 R1 used
+            send_save_event(wid, env)
+            time.sleep(0.5)
         watcher = Watcher(session, session / "state.sav", wid, dbx, env, log=log,
-                          xrun=lambda argv: send_save_event(wid, env))
+                          xrun=lambda argv: send_save_event(wid, env), watch=watch)
         meta["monotonic_start_s"] = watcher.t0
         (session / "meta.json").write_text(json.dumps(meta, indent=1))
         entries = watcher.run(quit_after=quit_after, stop=lambda: stop_flag["now"], video=vid, keys=keys)
@@ -1385,6 +1482,10 @@ def play(video=False, quit_after=None, res="1280x800"):
                      "video": dict(vinfo, requested=bool(video), geometry=geom0) if vid else
                               {"requested": bool(video), "used": False},
                       "problems": watcher.problems})
+        # T35 round 3: the sitting's whole write count on the live savestate, after the emulator
+        # is gone, so the acceptance guard can prove every save is owned by exactly one staged
+        # request (scripted_keys.check_attribution); 0 with an injected `writing`
+        meta["write_events_total"] = watcher.activity()[1]
         keys.stop()
         keydata = (session / "keys.jsonl").read_bytes()
         meta["keys"] = {"file": "keys.jsonl", "sha256": sha256(keydata), "bytes": len(keydata)}

@@ -1,0 +1,16 @@
+# T35 round 3: per-save write events on DOSBox-X 2024.03.01 (ten-key reproduction, DW3)
+# command: PATH=~/tools/dosbox-x-2024.03.01/bin:$PATH python3 experiments/E015-human-playthrough/scripted_keys.py --keys 'a;b;c;d;e;f;g;h;i;j' --gap-min 0.51 --gap-max 0.51 --seed 34  -> exit 0
+# session 20261011-085831; "dosbox_x_version": "DOSBox-X version 2024.03.01 SDL2, copyright 2011-2024 The DOSBox-X Team."
+{"origin": "watcher", "seq": 1, "pre_events": 0, "accept_events": 53, "own": 53, "since_prev": null}
+{"origin": "burst", "seq": 2, "pre_events": 53, "accept_events": 106, "own": 53, "since_prev": 53}
+{"origin": "burst", "seq": 3, "pre_events": 106, "accept_events": 159, "own": 53, "since_prev": 53}
+{"origin": "burst", "seq": 4, "pre_events": 159, "accept_events": 212, "own": 53, "since_prev": 53}
+{"origin": "burst", "seq": 5, "pre_events": 212, "accept_events": 265, "own": 53, "since_prev": 53}
+{"origin": "burst", "seq": 6, "pre_events": 265, "accept_events": 318, "own": 53, "since_prev": 53}
+{"origin": "burst", "seq": 7, "pre_events": 318, "accept_events": 371, "own": 53, "since_prev": 53}
+{"origin": "burst", "seq": 8, "pre_events": 371, "accept_events": 424, "own": 53, "since_prev": 53}
+{"origin": "burst", "seq": 9, "pre_events": 424, "accept_events": 477, "own": 53, "since_prev": 53}
+{"origin": "burst", "seq": 10, "pre_events": 477, "accept_events": 530, "own": 53, "since_prev": 53}
+{"origin": "burst", "seq": 11, "pre_events": 530, "accept_events": 583, "own": 53, "since_prev": 53}
+{"origin": "watcher", "seq": 12, "pre_events": 583, "accept_events": 636, "own": 53, "since_prev": 53}
+# the same reproduction on DOSBox-X 2026.01.02 (apt): exit 1, Vga stored raw, 3 write events per save (#117)

@@ -1,0 +1,6 @@
+T35 r4-R2 reproduction: bracketing snapshot + key event, later-request bytes, keys a;b;c
+  attribution: FAIL — request attribution lost: request line 1 (request_s 2.05) staged the snapshot of a LATER request's window (snapshot request_s 2.5): the staged bytes are evidence-free for this request
+  burst count: PASS — 1 burst snapshots for 1 key group(s)
+  request-window timing: PASS — 1 request windows interleaved with their key groups
+  mapped coverage: PASS — screens: 2, transitions: 1, keys: 3; every press mapped
+evidence-free guard: attribution rejected the sitting — request attribution lost: request line 1 (request_s 2.05) staged the snapshot of a LATER request's window (snapshot request_s 2.5): the staged bytes are evidence-free for this request

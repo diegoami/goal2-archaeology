@@ -507,8 +507,18 @@ class Cadence(Base):
         self.assertEqual([(e["request_s"], e["sent_s"], e["elapsed_s"]) for e in entries],
                          [(0.0, 0.03, 0.53), (20.0, 20.03, 20.53)])
         lines = [json.loads(x) for x in (session / "requests.jsonl").read_text().splitlines()]
-        self.assertEqual(lines, [{"request_s": 0.0, "sent_s": 0.03, "origin": "watcher", "seq": 1},
-                                 {"request_s": 20.0, "sent_s": 20.03, "origin": "watcher", "seq": 2}])
+        self.assertEqual([{k: v for k, v in line.items() if k not in ("pre_sig", "accept_sig")}
+                          for line in lines],
+                         [{"request_s": 0.0, "sent_s": 0.03, "origin": "watcher", "seq": 1},
+                          {"request_s": 20.0, "sent_s": 20.03, "origin": "watcher", "seq": 2}])
+        # T35 (issue #111 R2): every line also carries the request's pre-send state hash and
+        # the accept-time signature of the live savestate, and they differ — the signature
+        # pair is the fresh-write evidence the acceptance guard requires (a line without it
+        # is evidence-free), and here each request's save is exactly that fresh write.
+        for line in lines:
+            self.assertIn("pre_sig", line)
+            self.assertIn("accept_sig", line)
+            self.assertNotEqual(line["pre_sig"], line["accept_sig"], line)
 
     def test_a_skipped_snapshot_is_a_request_with_no_entry(self):
         # T34 R2: the map must know a burst's snapshot is missing

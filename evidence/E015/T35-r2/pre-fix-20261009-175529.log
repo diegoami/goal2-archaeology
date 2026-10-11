@@ -1,0 +1,6 @@
+T35 r4-R2 reproduction: bracketing snapshot + key event, later-request bytes, keys a;b;c
+  attribution: PASS — 2 save requests, every staged request owns its savestate bytes
+  burst count: PASS — 1 burst snapshots for 1 key group(s)
+  request-window timing: PASS — 1 request windows interleaved with their key groups
+  mapped coverage: PASS — screens: 2, transitions: 1, keys: 3; every press mapped
+R2 BYPASS: all four checks green on later-request bytes (evidence-free guard)

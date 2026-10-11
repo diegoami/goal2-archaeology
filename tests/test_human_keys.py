@@ -786,12 +786,15 @@ class DeferredCaptureTests(unittest.TestCase):
         self.assertIn("request attribution lost", why)
         self.assertIn("lost boundary", why)
         clean = [{"request_s": 0.0, "sent_s": 0.03, "origin": "watcher", "seq": 1,
-                  "pre_events": 0, "accept_events": 54, "request_file": "requests/rq-0001.sav",
-                  "request_sha256": "h1"},
+                  "pre_sig": [1, 4096, 10, 11], "accept_sig": [1, 4096, 12, 13],
+                  "pre_events": 0, "accept_events": 54,
+                  "request_file": "requests/rq-0001.sav", "request_sha256": "h1"},
                  {"request_s": 20.0, "sent_s": 20.03, "origin": "watcher", "seq": 2,
-                  "pre_events": 54, "accept_events": 108, "request_file": "requests/rq-0002.sav",
-                  "request_sha256": "h2"},
+                  "pre_sig": [1, 4096, 20, 21], "accept_sig": [1, 4096, 22, 23],
+                  "pre_events": 54, "accept_events": 108,
+                  "request_file": "requests/rq-0002.sav", "request_sha256": "h2"},
                  {"request_s": 40.0, "sent_s": 40.03, "origin": "watcher", "seq": 3,
+                  "pre_sig": [1, 4096, 40, 41], "accept_sig": [1, 4096, 42, 43],
                   "pre_events": 108, "accept_events": 162,
                   "request_file": "requests/rq-0003.sav", "request_sha256": "h3"}]
         ok, why = scripted_keys.check_attribution(clean)
@@ -883,6 +886,60 @@ class AttributionBypassTests(unittest.TestCase):
         ok, why = scripted_keys.check_attribution([line])
         self.assertFalse(ok)
 
+    def test_a_one_save_of_later_write_events_is_not_staged_under_the_earlier_request(self):
+        # Sol delta r4 R1, the residual (issue #111 R1): the every-poll ownership check
+        # only bounds the UPPER end of the event advance (> ONE_SAVE_MAX_EVENTS), and the
+        # r3 lag check runs only on the first poll. So when a job's first poll sees NO
+        # completed write (lag already > 1: a later request is queued) and a later
+        # request's save then lands within one save's bound of write events, the
+        # fresh-arrival branch staged those bytes under the earlier request's window with
+        # an ordinary, successful line — the reviewer's 'STAGED LATER BYTES UNDER FIRST
+        # REQUEST: True' (PR #106 delta r4 review, R1). The injection is the Sol
+        # reproduction's: injected clock, _submitted=2/_finished=0, event count 0 at the
+        # first poll, then one write of LATER REQUEST BYTES advancing the count to 2.
+        from tests import test_human_record as fixture
+        import scripted_keys
+        session, w, live, state = self._sitting([])
+        pre = rec.file_signature(live)
+        state["events"] = 0
+        self.clock.actions.append(
+            lambda: (live.write_bytes(fixture.tiny_zip(b"LATER REQUEST BYTES")),
+                     state.__setitem__("events", 2)))
+        entry = w._stage_job(pre, 0.0, 0.03, "burst", 0,
+                             session / "requests" / "rq-0001.sav")
+        line = json.loads((session / "requests.jsonl").read_text())
+        self.assertIsNone(entry)                    # nothing staged under its window
+        self.assertTrue(line.get("superseded"), line)
+        self.assertIsNone(line["seq"])
+        self.assertFalse((session / "index.jsonl").exists())
+        ok, why = scripted_keys.check_attribution([line])
+        self.assertFalse(ok)
+        self.assertIn("lost boundary", why)
+
+    def test_a_head_jobs_two_saves_in_one_poll_gap_are_refused(self):
+        # the every-poll magnitude check's own shape (T34 r4 R1), which the T35 unanchored-
+        # capture gate deliberately does NOT cover: this job IS the pipeline's head (lag 1,
+        # no later request queued), so the fresh-arrival gate accepts on head grounds — but
+        # two saves' write events (108 > ONE_SAVE_MAX_EVENTS) in one poll gap mean the live
+        # file now holds the NEXT request's save. The magnitude check must still refuse it:
+        # T35's mutation sweep showed the check had become redundant against every test this
+        # suite visits (the lag-2 shapes now die on the gate instead), so this visits the
+        # lag-1 shape the gate cannot see.
+        from tests import test_human_record as fixture
+        session, w, live, state = self._sitting([])
+        w._submitted, w._finished = 1, 0        # the pipeline's head: nothing else queued
+        pre = rec.file_signature(live)
+        state["events"] = 0
+        self.clock.actions.append(
+            lambda: (live.write_bytes(fixture.tiny_zip(b"TWO SAVES LATER")),
+                     state.__setitem__("events", 2 * 54)))
+        entry = w._stage_job(pre, 0.0, 0.03, "burst", 0,
+                             session / "requests" / "rq-0001.sav")
+        line = json.loads((session / "requests.jsonl").read_text())
+        self.assertIsNone(entry)                # nothing staged under its window
+        self.assertTrue(line.get("superseded"), line)
+        self.assertIn("more than one save", (w.problems or [""])[0])
+
     def test_the_stability_fallback_never_restages_consumed_bytes(self):
         # reproduction 2: the live savestate already holds the later request's save,
         # an earlier job already consumed it (_fast_consumed matches its event count
@@ -919,19 +976,63 @@ class GuardAttributionTests(unittest.TestCase):
         import scripted_keys
         self.sk = scripted_keys
 
-    def _evidenced(self, seq, request_s, pre, acc):
-        return {"request_s": request_s, "sent_s": request_s + 0.03, "origin": "burst",
+    def _evidenced(self, seq, request_s, pre, acc, pre_sig=True):
+        line = {"request_s": request_s, "sent_s": request_s + 0.03, "origin": "burst",
                 "seq": seq, "pre_events": pre, "accept_events": acc,
                 "request_file": f"requests/rq-{seq:04d}.sav",
                 "request_sha256": f"hash-{seq}"}
+        if pre_sig:
+            # the signature pair every staged line of this tree carries (T35 R2): the live
+            # savestate's signature hash before the send and at the accepted capture, taken
+            # a write apart so the pair differs
+            line["pre_sig"] = [1234, 4096, 1_700_000_000_000_000_000, 1_700_000_000_000_000_001]
+            line["accept_sig"] = [1235, 4096, 1_700_000_000_000_000_100, 1_700_000_000_000_000_101]
+        return line
 
     def test_an_ordinary_staged_line_without_evidence_is_rejected(self):
         # the exact line shape the bypasses produced (all four acceptance checks
         # returned true on it pre-fix)
-        ok, why = self.sk.check_attribution(
-            [{"request_s": 0.0, "sent_s": 0.03, "origin": "burst", "seq": 1}])
+        line = self._evidenced(1, 0.0, 0, 54, pre_sig=False)
+        del line["pre_events"], line["accept_events"], line["request_file"], line["request_sha256"]
+        ok, why = self.sk.check_attribution([line])
         self.assertFalse(ok)
         self.assertIn("ownership evidence", why)
+
+    def test_a_line_with_write_accounting_but_no_pre_send_state_is_rejected(self):
+        # Sol delta r4 R2 (issue #111 R2): the r4 R1 bypass's request line carries the
+        # recorder's whole write accounting (pre_events/accept_events, the per-request
+        # file and its hash) yet ties those bytes to no pre-send state — the bytes on
+        # the live savestate when the request was sent. Absence of `superseded` plus
+        # self-reported counts is evidence-free: the guard must reject it, with the
+        # bracketing snapshot and key event that made the other three checks pass.
+        line = self._evidenced(1, 0.0, 0, 2, pre_sig=False)
+        ok, why = self.sk.check_attribution([line])
+        self.assertFalse(ok)
+        self.assertIn("evidence-free", why)
+        self.assertIn("pre-send state", why)
+
+    def test_a_line_without_the_accept_time_state_is_rejected(self):
+        # T35's class sweep, the missing half of the same evidence: the recorder writes the
+        # signature pair on every staged line (capture always returns an accept-time
+        # signature), so a line that names a pre-send state but no accept-time state is
+        # evidence-free in exactly the way the r4 bypass's line was — nothing ties its bytes
+        # to a fresh write inside this request's window.
+        line = self._evidenced(1, 0.0, 0, 54)
+        del line["accept_sig"]
+        ok, why = self.sk.check_attribution([line])
+        self.assertFalse(ok)
+        self.assertIn("evidence-free", why)
+        self.assertIn("accept-time state", why)
+
+    def test_a_request_that_staged_nothing_is_rejected(self):
+        # 'Missing-staged requests fail' (T35 Scope 2): a request line with no seq is a
+        # screen the recorder could not see; certifying it would certify a boundary it
+        # never owned.
+        ok, why = self.sk.check_attribution(
+            [{"request_s": 0.0, "sent_s": 0.03, "origin": "burst", "seq": None,
+              "pre_sig": None, "pre_events": 0}])
+        self.assertFalse(ok)
+        self.assertIn("staged nothing", why)
 
     def test_two_saves_in_one_request_window_are_rejected(self):
         line = self._evidenced(1, 0.0, 0, 108)      # > ONE_SAVE_MAX_EVENTS
@@ -946,10 +1047,62 @@ class GuardAttributionTests(unittest.TestCase):
         self.assertIn("distinct writes", why)
 
     def test_a_well_evidenced_sitting_passes(self):
-        lines = [self._evidenced(1, 0.0, 0, 54), self._evidenced(2, 1.0, 54, 108),
-                 {"request_s": 2.0, "sent_s": 2.03, "origin": "burst", "seq": None}]
+        lines = [self._evidenced(1, 0.0, 0, 54), self._evidenced(2, 1.0, 54, 108)]
         ok, _ = self.sk.check_attribution(lines)
         self.assertTrue(ok)
+        ok, why = self.sk.check_attribution(lines, write_events_total=108)
+        self.assertTrue(ok, why)
+
+    def test_a_line_without_only_the_pre_send_state_is_rejected(self):
+        # Sol's R2 on PR 112 (round 2): the pre-send requirement must be proved on a line that
+        # lacks ONLY its pre-send state — with accept_sig present, removing the requirement
+        # must turn this rejection into a pass, not merely change the message
+        line = self._evidenced(1, 0.0, 0, 54)
+        del line["pre_sig"]
+        ok, why = self.sk.check_attribution([line])
+        self.assertFalse(ok)
+        self.assertIn("pre-send state", why)
+
+    def test_a_later_save_under_a_matching_window_is_rejected(self):
+        # Sol's R1 on PR 112 (round 2): plausible accounting, one save per line, the staged
+        # snapshot claiming this request's own window, yet the bytes are the LATER request's
+        # save. That save happened (the bytes came from it) and no line owns it: the sitting's
+        # write total counts three saves for two staged lines. The option-A binding (the
+        # owner, 2026-10-11) refuses it; without the total the same lines pass.
+        lines = [self._evidenced(1, 0.0, 0, 54), self._evidenced(2, 2.05, 54, 108)]
+        self.assertTrue(self.sk.check_attribution(lines)[0])
+        ok, why = self.sk.check_attribution(lines, write_events_total=162)
+        self.assertFalse(ok)
+        self.assertIn("a save no request line owns", why)
+
+    def test_a_line_two_saves_past_the_previous_is_rejected(self):
+        # a later save's bytes under line 2, with the save between owned by no line: its own
+        # pre-send count is one save back (54 events), but it accepted two saves past line 1
+        lines = [self._evidenced(1, 0.0, 0, 54), self._evidenced(2, 1.0, 108, 162)]
+        ok, why = self.sk.check_attribution(lines)
+        self.assertFalse(ok)
+        self.assertIn("not exactly one save", why)
+
+    def test_a_save_before_the_first_request_is_rejected(self):
+        # the first line's bytes are the SECOND save of the sitting: the first is owned by none
+        ok, why = self.sk.check_attribution([self._evidenced(1, 0.0, 54, 108)])
+        self.assertFalse(ok)
+        self.assertIn("before the first request", why)
+
+    def test_a_session_without_its_write_total_is_rejected(self):
+        # with the session folder the guard needs the recorder's write total: a sitting that
+        # records none proves nothing about unowned saves
+        with tempfile.TemporaryDirectory() as tmp:
+            (Path(tmp) / "requests").mkdir()
+            data = b"own save bytes"
+            (Path(tmp) / "requests" / "rq-0001.sav").write_bytes(data)
+            line = self._evidenced(1, 0.0, 0, 54)
+            line["request_sha256"] = rec.sha256(data)
+            ok, why = self.sk.check_attribution([line], session=tmp)
+            self.assertFalse(ok)
+            self.assertIn("no write_events_total", why)
+            ok, why = self.sk.check_attribution([line], session=tmp, write_events_total=54)
+            self.assertTrue(ok, why)
 
 
 class GuardTests(unittest.TestCase):
@@ -1052,3 +1205,67 @@ class GuardTests(unittest.TestCase):
         finally:
             if session is not None:
                 shutil.rmtree(session, ignore_errors=True)
+
+
+class EarlySaveTests(unittest.TestCase):
+    """Sol's round-3 R1 on PR 112: a save the running emulator writes before the Watcher exists
+    must be counted, so the acceptance guard sees it as a save before the first request (owned by
+    no line) and refuses the sitting. Before the fix the write watch started with the Watcher, the
+    early save was uncounted, and the sitting exited 0."""
+
+    @unittest.skipIf(os.environ.get("MUTATION_SWEEP"),
+                     "heavy end-to-end scripted sitting; run once in the full suite and by the sweep's heavy mutations")
+    def test_a_save_before_the_watcher_is_refused(self):
+        before = set(rec.SESSIONS.glob("*")) if rec.SESSIONS.is_dir() else set()
+        try:
+            r = subprocess.run([sys.executable,
+                                str(ROOT / "experiments/E015-human-playthrough/scripted_keys.py"),
+                                "--sleep", "2", "--keys", "a;b;c", "--seed", "34"],
+                               env=dict(os.environ, GOAL2_RECORDER_TEST_EARLY_SAVE="1"),
+                               capture_output=True, text=True, timeout=240)
+            out = r.stdout + r.stderr
+            self.assertEqual(r.returncode, 1, out[-4000:])
+            self.assertIn("a save before the first request is owned by no request line", out)
+        finally:
+            fresh = (set(rec.SESSIONS.glob("*")) if rec.SESSIONS.is_dir() else set()) - before
+            for session in fresh:
+                shutil.rmtree(session, ignore_errors=True)
+
+
+class ReproductionWrapperTests(unittest.TestCase):
+    """T35 (issue #111): the two Sol delta r4 reproductions are commands, and the wrapper
+    compares their exit — exit 1 means the recorder (R1) or the acceptance guard (R2) rejected
+    the bypass, anything else means the bypass sailed through. Both commands exited 0 on the
+    tree they were written against (evidence/E015/T35-r*/pre-fix-*.log): the r4-R1 fresh-arrival
+    path staged a later request's bytes under the earlier request's window, and all four
+    acceptance checks were green on those bytes."""
+
+    def _run(self, *args):
+        tmp = ROOT / "scratch" / "t34-tmp"
+        tmp.mkdir(parents=True, exist_ok=True)
+        env = dict(os.environ, PYTHONDONTWRITEBYTECODE="1", TMPDIR=str(tmp))
+        return subprocess.run(
+            [sys.executable,
+             str(ROOT / "experiments" / "E015-human-playthrough" / "mutate_keys.py"), *args],
+            cwd=ROOT, env=env, capture_output=True, text=True, timeout=300)
+
+    def test_the_r4_r1_reproduction_is_refused(self):
+        r = self._run("--r4-r1", "--clock", "injected", "--_submitted=2", "--_finished=0",
+                      "--keys", "a;b;c")
+        out = r.stdout + r.stderr
+        self.assertEqual(r.returncode, 1, out[-4000:])
+        self.assertIn("stability fallback", out)
+
+    def test_the_r4_r2_reproduction_is_refused(self):
+        r = self._run("--r4-r2", "--bracket", "--later-bytes", "--keys", "a;b;c")
+        out = r.stdout + r.stderr
+        self.assertEqual(r.returncode, 1, out[-4000:])
+        self.assertIn("evidence-free", out)
+
+    def test_the_matching_window_reproduction_is_refused(self):
+        # Sol's R1 on PR 112 (round 2): the later bytes with the snapshot claiming the burst
+        # request's own window, which the round-2 guard certified
+        r = self._run("--r4-r2", "--bracket", "--later-bytes", "--matching-window", "--keys", "a;b;c")
+        out = r.stdout + r.stderr
+        self.assertEqual(r.returncode, 1, out[-4000:])
+        self.assertIn("a save no request line owns", out)

@@ -1,0 +1,198 @@
+# T35 round 3 final checks at aabbee1c3b6fe2161aee8c016bd546911120655a, 2026-10-11T08:30:24Z; DOSBox-X version 2024.03.01 SDL2, copyright 2011-2024 The DOSBox-X Team.
+## DW1
+test_a_one_save_of_later_write_events_is_not_staged_under_the_earlier_request (tests.test_human_keys.AttributionBypassTests.test_a_one_save_of_later_write_events_is_not_staged_under_the_earlier_request) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.025s
+
+OK
+exit 0
+## DW2
+test_a_line_with_write_accounting_but_no_pre_send_state_is_rejected (tests.test_human_keys.GuardAttributionTests.test_a_line_with_write_accounting_but_no_pre_send_state_is_rejected) ... ok
+test_a_request_that_staged_nothing_is_rejected (tests.test_human_keys.GuardAttributionTests.test_a_request_that_staged_nothing_is_rejected) ... ok
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.001s
+
+OK
+exit 0
+## DW2 (amended): the matching-window reproduction
+T35 r4-R2 reproduction: bracketing snapshot + key event, later-request bytes, keys a;b;c
+  attribution: FAIL — request attribution lost: 54 write events after the last staged request: a save no request line owns, so a staged line holds another save's bytes
+  burst count: PASS — 1 burst snapshots for 1 key group(s)
+  request-window timing: PASS — 1 request windows interleaved with their key groups
+  mapped coverage: PASS — screens: 2, transitions: 1, keys: 3; every press mapped
+evidence-free guard: attribution rejected the sitting — request attribution lost: 54 write events after the last staged request: a save no request line owns, so a staged line holds another save's bytes
+exit 1
+## DW3
+[08:30:30] live savestate changed or incomplete during capture: retrying
+[08:30:30] staged snapshots/snap-0010-20261011T083030Z.sav (182909 bytes, sha256 87b128e8dc924846...)
+XGetInputFocus returned the focused window of 1. This is likely a bug in the X server.
+XGetInputFocus returned the focused window of 1. This is likely a bug in the X server.
+[08:30:30] F12+S sent to window 6291461
+[08:30:30] burst group (last key +5.034s) requested at +5.093s
+[08:30:30] live savestate changed or incomplete during capture: retrying
+[08:30:31] staged snapshots/snap-0011-20261011T083031Z.sav (182951 bytes, sha256 b5ff04826b181ac9...)
+[08:30:45] F12+S sent to window 6291461
+[08:30:45] live savestate changed or incomplete during capture: retrying
+[08:30:46] staged snapshots/snap-0012-20261011T083046Z.sav (183184 bytes, sha256 26f126ee73c40b04...)
+[08:30:57] quit-after 32.0s reached
+[08:30:58] shutdown snapshot already indexed (26f126ee73c40b04...): skipping
+[08:30:58] done: 12 snapshots, stop quit-after
+map coverage OK: screens: 2, transitions: 10, keys: 10; every press mapped
+privacy OK: a/b/c/d/e/f/g/h/i/j game keys only; outer-app x/y/z excluded (xev log holds them; outer raw reader saw 2 RawKeyPress); burst snapshots: 10 for 10 key group(s)
+gaps (s): [0.51, 0.51, 0.51, 0.51, 0.51, 0.51, 0.51, 0.51, 0.51]
+session: scratch/human/sessions/20261011-103025
+screens: 2, transitions: 10, keys: 10
+# Observed screen/key map
+
+screens: 2, transitions: 10, keys: 10
+
+Ordered bursts are associations between snapshots, not proof of individual-key causality.
+
+| Before (text digest) | Keys pressed | After (text digest) | Count |
+| --- | --- | --- | --- |
+| Z:\>c: (8f707b5afa9f) | a | Z:\>c: (8f707b5afa9f) | 1 |
+| Z:\>c: (8f707b5afa9f) | b | Z:\>c: (8f707b5afa9f) | 1 |
+| Z:\>c: (8f707b5afa9f) | c | (c) NE'93│ │                                                    │     (c) (09d3e9010708) | 1 |
+| (c) NE'93│ │                                                    │     (c) (09d3e9010708) | d | (c) NE'93│ │                                                    │     (c) (09d3e9010708) | 1 |
+| (c) NE'93│ │                                                    │     (c) (09d3e9010708) | e | (c) NE'93│ │                                                    │     (c) (09d3e9010708) | 1 |
+| (c) NE'93│ │                                                    │     (c) (09d3e9010708) | f | (c) NE'93│ │                                                    │     (c) (09d3e9010708) | 1 |
+| (c) NE'93│ │                                                    │     (c) (09d3e9010708) | g | (c) NE'93│ │                                                    │     (c) (09d3e9010708) | 1 |
+| (c) NE'93│ │                                                    │     (c) (09d3e9010708) | h | (c) NE'93│ │                                                    │     (c) (09d3e9010708) | 1 |
+| (c) NE'93│ │                                                    │     (c) (09d3e9010708) | i | (c) NE'93│ │                                                    │     (c) (09d3e9010708) | 1 |
+| (c) NE'93│ │                                                    │     (c) (09d3e9010708) | j | (c) NE'93│ │                                                    │     (c) (09d3e9010708) | 1 |
+
+Unmapped presses: 0
+
+exit 0
+## DW4
+[08:31:01] game window 6291461 (pid 2665220)
+[08:31:01] F12+S sent to window 6291461
+[08:31:01] live savestate changed or incomplete during capture: retrying
+[08:31:01] staged snapshots/snap-0001-20261011T083101Z.sav (211268 bytes, sha256 d83910cb1520848d...)
+[08:31:01] F12+S sent to window 6291461
+[08:31:01] burst group (last key +0.311s) requested at +0.366s
+[08:31:01] live savestate changed or incomplete during capture: retrying
+[08:31:01] staged snapshots/snap-0002-20261011T083101Z.sav (206911 bytes, sha256 b8ed589bdb185c7a...)
+[08:31:03] F12+S sent to window 6291461
+[08:31:03] burst group (last key +2.326s) requested at +2.381s
+[08:31:03] live savestate changed or incomplete during capture: retrying
+[08:31:03] staged snapshots/snap-0003-20261011T083103Z.sav (182089 bytes, sha256 7635874d4840beac...)
+XGetInputFocus returned the focused window of 1. This is likely a bug in the X server.
+XGetInputFocus returned the focused window of 1. This is likely a bug in the X server.
+[08:31:05] F12+S sent to window 6291461
+[08:31:05] burst group (last key +4.341s) requested at +4.405s
+[08:31:05] live savestate changed or incomplete during capture: retrying
+[08:31:05] staged snapshots/snap-0004-20261011T083105Z.sav (181940 bytes, sha256 e7ec4ce9b9048c65...)
+[08:31:19] quit-after 18.0s reached
+[08:31:20] shutdown snapshot already indexed (e7ec4ce9b9048c65...): skipping
+[08:31:20] done: 4 snapshots, stop quit-after
+map coverage OK: screens: 2, transitions: 3, keys: 3; every press mapped
+privacy OK: a/b/c game keys only; outer-app x/y/z excluded (xev log holds them; outer raw reader saw 2 RawKeyPress); burst snapshots: 3 for 3 key group(s)
+gaps (s): [2.0, 2.0]
+session: scratch/human/sessions/20261011-103100
+screens: 2, transitions: 3, keys: 3
+# Observed screen/key map
+
+screens: 2, transitions: 3, keys: 3
+
+Ordered bursts are associations between snapshots, not proof of individual-key causality.
+
+| Before (text digest) | Keys pressed | After (text digest) | Count |
+| --- | --- | --- | --- |
+| Z:\>c: (885bd84f35f6) | a | Z:\>c: (885bd84f35f6) | 1 |
+| Z:\>c: (885bd84f35f6) | b | (c) NE'93│ │                                                    │     (c) (09d3e9010708) | 1 |
+| (c) NE'93│ │                                                    │     (c) (09d3e9010708) | c | (c) NE'93│ │                                                    │     (c) (09d3e9010708) | 1 |
+
+Unmapped presses: 0
+
+exit 0
+## DW5 tests (minus #100's host-path test)
+read 300: t=0.047 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 301: t=0.048 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 302: t=0.048 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 303: t=0.048 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 304: t=0.048 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 305: t=0.049 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 306: t=0.049 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 307: t=0.049 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 308: t=0.05 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 309: t=0.05 831F=1 seed=0001 score=[0, 0] ft=False key=-
+timeout without full time; failing
+.read 1: t=0.0 831F=1 seed=0001 score=[0, 0] ft=False key=team screen
+read 2: t=0.0 831F=1 seed=0001 score=[0, 0] ft=False key=team screen
+  Enter (team screen) at t=0.0
+read 3: t=0.0 831F=1 seed=0001 score=[0, 0] ft=False key=team screen
+read 4: t=0.0 831F=1 seed=0001 score=[0, 0] ft=False key=team screen
+read 5: t=0.0 831F=1 seed=0001 score=[0, 0] ft=False key=team screen
+read 6: t=0.0 831F=1 seed=0001 score=[0, 0] ft=False key=team screen
+read 7: t=0.0 831F=1 seed=0001 score=[0, 0] ft=False key=team screen
+read 8: t=0.0 831F=1 seed=0001 score=[0, 0] ft=False key=team screen
+read 9: t=0.0 831F=1 seed=0001 score=[0, 0] ft=False key=team screen
+read 10: t=0.0 831F=1 seed=0001 score=[0, 0] ft=False key=team screen
+read 11: t=0.0 831F=1 seed=0001 score=[0, 0] ft=False key=team screen
+read 12: t=0.0 831F=1 seed=0001 score=[0, 0] ft=False key=team screen
+read 13: t=0.0 831F=1 seed=0001 score=[0, 0] ft=False key=team screen
+key not acted on within 10 reads; aborting
+............................
+======================================================================
+FAIL: test_unreadable_tools_directory_is_a_named_error (test_ga.GaFetchTest.test_unreadable_tools_directory_is_a_named_error)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology-work/T35/tests/test_ga.py", line 213, in test_unreadable_tools_directory_is_a_named_error
+    self.assertIn("cannot stat", str(raised.exception))
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'cannot stat' not found in 'gh api repos/diegoami/game-archaeologist/git/blobs/93253d14de5ac4c10ec6bf5e0fe37a9849262d71 failed: gh: Not Found (HTTP 404)'
+
+----------------------------------------------------------------------
+Ran 719 tests in 146.547s
+
+FAILED (failures=1, skipped=2)
+exit 1
+## DW5 tests/static
+    /home/diego/tools/ghidra_12.1.4_PUBLIC/Ghidra/Features/SystemEmulation/ghidra_scripts
+    /home/diego/projects/goal2-archaeology-work/T35/tools/static/ghidra
+    /home/diego/tools/ghidra_12.1.4_PUBLIC/Ghidra/Features/DecompilerDependent/ghidra_scripts
+    /home/diego/tools/ghidra_12.1.4_PUBLIC/Ghidra/Features/GnuDemangler/ghidra_scripts
+    /home/diego/tools/ghidra_12.1.4_PUBLIC/Ghidra/Debug/Debugger-rmi-trace/ghidra_scripts
+    /home/diego/tools/ghidra_12.1.4_PUBLIC/Ghidra/Processors/DATA/ghidra_scripts
+    /home/diego/tools/ghidra_12.1.4_PUBLIC/Ghidra/Features/VersionTracking/ghidra_scripts
+    /home/diego/tools/ghidra_12.1.4_PUBLIC/Ghidra/Processors/8051/ghidra_scripts
+    /home/diego/tools/ghidra_12.1.4_PUBLIC/Ghidra/Processors/PIC/ghidra_scripts
+    /home/diego/tools/ghidra_12.1.4_PUBLIC/Ghidra/Features/SwiftDemangler/ghidra_scripts
+    /home/diego/tools/ghidra_12.1.4_PUBLIC/Ghidra/Processors/JVM/ghidra_scripts
+    /home/diego/tools/ghidra_12.1.4_PUBLIC/Ghidra/Features/BSim/ghidra_scripts
+    /home/diego/tools/ghidra_12.1.4_PUBLIC/Ghidra/Features/FileFormats/ghidra_scripts
+    /home/diego/tools/ghidra_12.1.4_PUBLIC/Ghidra/Features/PDB/ghidra_scripts
+    /home/diego/tools/ghidra_12.1.4_PUBLIC/Ghidra/Debug/Debugger/ghidra_scripts
+    /home/diego/tools/ghidra_12.1.4_PUBLIC/Ghidra/Features/MicrosoftCodeAnalyzer/ghidra_scripts
+    /home/diego/tools/ghidra_12.1.4_PUBLIC/Ghidra/Processors/Atmel/ghidra_scripts
+    /home/diego/tools/ghidra_12.1.4_PUBLIC/Ghidra/Features/BytePatterns/ghidra_scripts
+    /home/diego/tools/ghidra_12.1.4_PUBLIC/Ghidra/Features/PyGhidra/ghidra_scripts (HeadlessAnalyzer)  
+INFO  HEADLESS: execution starts (HeadlessAnalyzer)  
+ERROR Abort due to Headless analyzer error: Path element starting with '.' is not permitted (HeadlessAnalyzer) java.lang.IllegalArgumentException: Path element starting with '.' is not permitted
+	at ghidra.util.NamingUtilities.checkName(NamingUtilities.java:108)
+	at ghidra.framework.protocol.ghidra.GhidraURL.checkValidProjectPath(GhidraURL.java:440)
+	at ghidra.framework.protocol.ghidra.GhidraURL.checkLocalAbsolutePath(GhidraURL.java:421)
+	at ghidra.framework.model.ProjectLocator.<init>(ProjectLocator.java:75)
+	at ghidra.framework.model.ProjectLocator.<init>(ProjectLocator.java:60)
+	at ghidra.app.util.headless.HeadlessAnalyzer.processLocal(HeadlessAnalyzer.java:420)
+	at ghidra.app.util.headless.AnalyzeHeadless.launch(AnalyzeHeadless.java:199)
+	at ghidra.GhidraLauncher.launch(GhidraLauncher.java:81)
+	at ghidra.Ghidra.main(Ghidra.java:54)
+ 
+openjdk version "21.0.12.1" 2026-08-18 LTS
+OpenJDK Runtime Environment Temurin-21.0.12.1+1 (build 21.0.12.1+1-LTS)
+OpenJDK 64-Bit Server VM Temurin-21.0.12.1+1 (build 21.0.12.1+1-LTS, mixed mode)
+
+
+----------------------------------------------------------------------
+Ran 89 tests in 6.039s
+
+FAILED (errors=1)
+exit 1
+## DW6
+links and JSON ok (1079 files)
+exit 0
+END
