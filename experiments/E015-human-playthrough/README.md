@@ -246,3 +246,22 @@ now resumes on F12+P with its own marked XTEST Pause, ends cleanly on a closed w
 origin/main's sources; `-03` found one that did not, fixed in `-04`). Rehearsal
 [-04](T39b-scripted-pause-20261011-04.log): two F12+P resumes, `--load`, and the window closed
 (`stop_reason: window-closed`).
+
+### The owner's second sittings (2026-10-11)
+
+| Record | Sitting | Map |
+| --- | --- | --- |
+| `E015-r0010` | `20261011-224811`: `--load 1.GL` (sha256 `4a0f9bc0…`), Italy into the Belgium qualifier; 39 snapshots, 170 owner presses and 6 Pause presses by the recorder; 5 pauses, 4 resumed by F12+P (the last pause ended when the window closed), `stop_reason: window-closed` | [table](E015-r0010-keymap.md) |
+| `E015-r0011` | `20261011-225621`: the newest `.GL` copied by default; 19 snapshots, 38 owner presses and 2 by the recorder; 2 pauses, each resumed by F12+P, a note and a live view in each (`T39b-live-20261011-03.log`), `stop_reason: window-closed` | [table](E015-r0011-keymap.md) |
+
+`extract_224811_225621.py` made both. The saved-game copy (I3) and the recorder's Pause keys (I2)
+come from the sessions themselves; the main session's notes and live views are declared (I0).
+E015-r0010's one note and second live view came after the window closed (20:52:35Z), so the note
+lies after the last state.
+
+The owner's question A3 (does the match start with the stored eleven or the original one?):
+**the stored one.** In E015-r0010 Italy's squad words never change. The first eleven stays the
+stored order from the loaded save: Vierchowod (314), Stroppa (315) and Baggio (318) are in it,
+and Maldini (303) and Di Chiara (305) are among the substitutes. The Belgium qualifier's
+pre-match screen (state 12) and its match (state 16, "Baggio intercepts") use that eleven: the
+game did not restore the original one when the match started.
