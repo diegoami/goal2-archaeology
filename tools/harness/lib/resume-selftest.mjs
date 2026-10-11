@@ -25,6 +25,7 @@ if (argv[0] === 'session') { console.log(JSON.stringify(sessions())); process.ex
 if (argv[0] === 'export') { console.log(JSON.stringify({ info: { agent: argv.includes('--agent') ? null : process.env.FAKE_AGENT }, messages: [] })); process.exit(0); }
 if (argv[0] === 'run') {
   fs.appendFileSync(path.join(dir, 'runs.jsonl'), JSON.stringify(argv) + '\\n');
+  fs.appendFileSync(path.join(dir, 'foo.txt'), (process.env.FOO ?? '') + '\\n');
   const wd = fs.realpathSync(opt('--dir'));
   const sid = opt('--session');
   if (!sid) {
@@ -61,6 +62,7 @@ export async function resumeSelfTest() {
   };
   const runs = () => (fs.existsSync(path.join(fake, 'runs.jsonl'))
     ? fs.readFileSync(path.join(fake, 'runs.jsonl'), 'utf8').trim().split('\n').filter(Boolean).map((l) => JSON.parse(l)) : []);
+  const lastFoo = () => fs.readFileSync(path.join(fake, 'foo.txt'), 'utf8').split('\n').at(-2);
   const setSessions = (list) => fs.writeFileSync(path.join(fake, 'sessions.json'), JSON.stringify(list));
   const sessions = () => JSON.parse(fs.readFileSync(path.join(fake, 'sessions.json'), 'utf8'));
   const opencode = { exe: process.execPath, prefix: [ocExe] };
@@ -150,6 +152,7 @@ export async function resumeSelfTest() {
     ok('implement: --session reaches opencode run (R6)', runs().length === n2 + 1 && l3[l3.indexOf('--session') + 1] === 'ses_fake0');
     const resumed = path.join(tree, 'resumed.txt');
     ok('implement: the resumed run ran in the kept worktree', fs.existsSync(resumed) && fs.readFileSync(resumed, 'utf8') === 'ses_fake0');
+    ok('implement: the resumed run still gets the original --env (R1)', lastFoo() === 'bar');
     ok('implement: the resumed run kept the earlier work', fs.existsSync(path.join(tree, 'wip.txt')));
     ok('implement: the resumed run ended at "no open PR"', r3.status === 1 && /No open PR/.test(r3.stderr));
     ok('implement: the first run started fresh', runs()[before] && !runs()[before].includes('--session'));
@@ -165,7 +168,7 @@ export async function resumeSelfTest() {
     const rbrief = path.join(root, 'review-brief.md');
     fs.writeFileSync(rbrief, 'PR7 review (rev)\nReview it.\n');
     const revArgs = ['--pr', '7', '--brief', rbrief, '--reviewer', 'rev', '--exclude', 'fakeimpl', '--dry-run', '--done-when', '0'];
-    const rv1 = node('review.mjs', revArgs, { FAKE_AGENT: 'reviewer', FAKE_HEAD: head });
+    const rv1 = node('review.mjs', [...revArgs, '--env', 'FOO=bar'], { FAKE_AGENT: 'reviewer', FAKE_HEAD: head });
     const outR = `${rv1.stdout}\n${rv1.stderr}`;
     const rp2 = printed(outR);
     const kept = outR.match(/--worktree (\S+)/)?.[1];
@@ -179,6 +182,7 @@ export async function resumeSelfTest() {
     const lr = runs().at(-1) ?? [];
     ok('review: --session resumes the kept review (R4)', rv2?.status === 0 && lr[lr.indexOf('--session') + 1] === sid);
     ok('review: the resumed review is read and planned', /^PR7 review \(rev\)$/m.test(rv2?.stdout ?? '') && /dry run: would post the above/.test(rv2?.stdout ?? ''));
+    ok('review: the resumed review still gets the original --env (R1)', lastFoo() === 'bar');
     ok('review: the resumed review is still a dry run, never posted (R1)', !/posted:/.test(`${rv2?.stdout}\n${rv2?.stderr}`));
     ok('review: the resumed tree is removed once done', Boolean(kept) && !fs.existsSync(kept));
     if (failures.length) failures.push(`(resume self-test logs: implement ${r1.status}/${r3.status}, review ${rv1.status}/${rv2?.status}; ${(rv2?.stderr || rv1.stderr || r3.stderr).slice(-400)})`);
