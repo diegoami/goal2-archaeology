@@ -85,6 +85,25 @@ class ResumeChordTests(unittest.TestCase):
             self.assertEqual(len(pressed), 1, pressed)
             self.assertAlmostEqual(pressed[0], 4.3, delta=0.02)
 
+    def test_each_pause_is_started_by_one_chord_and_ended_by_the_next(self):
+        # two pause cycles: F12+P pauses (1.3, 6.3), F12+P resumes (3.3, 8.3); after a resume the
+        # next chord pauses again and must not press Pause
+        spans = [[1.3, float("inf")]]
+        with tempfile.TemporaryDirectory() as folder:
+            w, sends, keys, _ = loop_watcher(folder, spans,
+                                             sorted(chord(1.0) + chord(3.0) + chord(6.0) + chord(8.0)))
+            pressed = []
+
+            def resume_key():
+                pressed.append(w.clock())
+                spans[-1][1] = w.clock() + 0.15
+                if len(spans) == 1:
+                    spans.append([6.3, float("inf")])
+            w.resume_key = resume_key
+            w.run(quit_after=10, keys=keys)
+            self.assertEqual([round(t, 1) for t in pressed], [3.3, 8.3])
+            self.assertEqual([x["event"] for x in pauses(folder)], ["pause", "resume"] * 2)
+
     def test_a_late_delivered_pausing_p_never_resumes(self):
         # rework round 2, R1 (Sol): F12 at 1.0, the title shows PAUSED at 1.3, the P that paused
         # it is delivered at 1.9 (pressed at 1.3 on the server's clock): it is the pausing chord,
@@ -121,7 +140,8 @@ class ResumeChordTests(unittest.TestCase):
             w.clock, w.log, w.resume_key = time.monotonic, (lambda m: None), (lambda: pressed.append(1))
             w.paused = False
             w.resume_chord(logged[:2])                 # F12+P: the chord that pauses
-            w.paused = True                            # the title shows the pause
+            w.paused = True                            # the title shows the pause, read
+            w._pause_since = logged[1]["monotonic_s"]  # right after the pausing P was
             w.resume_chord(logged[2:])                 # the held P's repeat pair
             self.assertEqual(pressed, [])
 
