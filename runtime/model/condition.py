@@ -89,11 +89,11 @@ def sweep(word, record, foot_table, foot_index, energies, forms):
             for e in energies for f in forms}
 
 
-def contest(record, element, class_table, profile_table, event=0, **flags):
+def contest(record, element, class_table, profile_table, event, **flags):
     """0791:278A(pitch, element) of the 20-byte record (the watched engine's only skill read);
     `event` is DS:8327. keeping.contest_value is called as it is, except that the event is passed
-    as the one value it tests for when the original's set holds it (KEEPER_EVENTS), else as -1."""
-    code = keeping.KEEPING_EVENT if event in KEEPER_EVENTS else -1
+    as the one value it tests for when the original's set holds it (KEEPER_EVENTS), else as None."""
+    code = keeping.KEEPING_EVENT if event in KEEPER_EVENTS else None
     return keeping.contest_value(plus4=record[4], plus5=record[5], plus7=record[7],
                                  plus_c=record[0xC], plus_e=record[0xE], element=element,
                                  class_table=class_table, profile_table=profile_table,
@@ -106,7 +106,7 @@ def draw_win(n_own, n_opp):
     if not 0 <= n_own < MAX_SUM or not 0 <= n_opp < MAX_SUM:
         raise ValueError("a sum outside 0..0x7FFF: B19D's signed compare would not be this")
     n_own, n_opp = max(n_own, 1), max(n_opp, 1)
-    wins = sum(min(b - 1, n_opp) for b in range(1, n_own + 1))    # a in 1..n_opp with a < b
+    wins = sum(min(b, n_opp) for b in range(n_own))     # b = value - 1: the a in 1..n_opp with a <= b
     return Fraction(wins, n_own * n_opp)
 
 

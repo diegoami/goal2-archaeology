@@ -134,6 +134,49 @@ def probe_fitness_contest(h):
     return probe_contest(h, cases, base_word=2950)
 
 
+def probe_structure(h):
+    """377E over what the strength grid leaves out: every position 0..13 x foot byte +7 in {0, 1} x
+    two-footed or not x the three residues of word mod 3 (3179/3088 read them), every single bit of
+    +0x10 (3216), other bytes (+0xF, +0x11) set with +0x10 clear, and the clamp boundaries
+    (strength exactly 0xFF/0x100/0x101 before the clamp, exactly 0/-1/+1 below it)."""
+    out = []
+    word = 2200
+
+    def add(rec):
+        nonlocal word
+        word += 1
+        h.put_player(word, rec)
+        out.append({"player_word": word, "record": bytes(rec).hex(),
+                    "strength": h.call(0x1771, 0x377E, [word])})
+
+    def rec(skill=0xB4, b5=8, pos=3, b7=0, b2=0, status=0, c=0x10, e=0x18, b0f=0, b11=0):
+        r = bytearray(20)
+        r[2], r[4], r[5], r[6], r[7] = b2, skill, b5, pos, b7
+        r[0xC], r[0xE], r[0x10], r[0xF], r[0x11] = c, e, status, b0f, b11
+        return r
+
+    for pos in range(14):
+        for b7 in (0, 1):
+            for two in (False, True):
+                for residue in range(3):
+                    while word % 3 != (residue - 1) % 3:
+                        word += 1
+                    add(rec(pos=pos, b7=b7, b5=0x0F if two else 8, b2=0x0F if two else 0))
+    for bit in range(8):
+        add(rec(status=1 << bit))
+    add(rec(b0f=0xFF, b11=0xFF))
+    # clamp boundaries: skill 0xE1 (225), form 0: v = 225 + E - 62 -> E = 92, 93, 94 give 255, 256, 257
+    for e in (92, 93, 94):
+        add(rec(skill=0xE1, pos=0, e=e, c=0))
+    # below: skill 74, E = 1 (v = 13), form -13, -14, -12 (0xF3, 0xF2, 0xF4) give 0, -1, 1
+    for c in (0xF3, 0xF2, 0xF4):
+        add(rec(skill=74, pos=0, e=1, c=c))
+    return {"schema": "E020-strength/1", "method": "Unicorn original 1771:377E, structure of 3179/3216/clamp",
+            "source_sha256": STATE_SHA256, "source_release": "E010",
+            "foot_table_DS_0E60": h.ds_read(0xE60, 0xE0).hex(), "foot_index_DS_0E7C": h.ds_read(0xE7C, 3).hex(),
+            "comparisons": out}
+
+
 def probe_contest(h, cases=None, base_word=None):
     """0791:278A(pitch, element) for edge conditions; pitch record at slot 1 of DS:80E8."""
     class_table = h.ds_read(0x6D25, 14 * 12)
@@ -188,7 +231,7 @@ def main():
     h = Harness()
     record = {"strength": probe_strength, "contest": probe_contest,
               "events": lambda hh: probe_contest(hh, event_cases()),
-              "fitness-strength": probe_fitness_strength,
+              "fitness-strength": probe_fitness_strength, "structure": probe_structure,
               "fitness-contest": probe_fitness_contest}[kind](h)
     out.parent.mkdir(exist_ok=True)
     with out.open("x") as f:
