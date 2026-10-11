@@ -631,6 +631,7 @@ class Watcher:
     resume_due = False        # a resume was seen and its snapshot request is not yet sent
     _pause_since = None
     _hold_logged = False
+    _events_at_pause = None   # {pause epoch: the write-event count when that pause was seen}
 
     def __init__(self, session, live, wid, dbx, env, t0=None, index="index.jsonl",
                  clock=time.monotonic, sleep=time.sleep, xrun=None, alive=None, log=None,
@@ -779,6 +780,17 @@ class Watcher:
                     f"request was sent (more than one save's bound of {ONE_SAVE_MAX_EVENTS}): "
                     "a later request's savestate has already overwritten it "
                     "(request attribution lost)")
+            # T39b: a pause that began after this request was sent. DOSBox-X writes no
+            # savestate while paused (probe_pause log), so a write past the event count at
+            # that pause's start landed after the resume: post-resume play, never this
+            # request's screen (the hazard of a save that "lands after resume as if it were
+            # later play"). Refused like any write this request does not own.
+            after_pause = (self._events_at_pause or {}).get(None if epoch is None else epoch + 1)
+            if (after_pause is not None and events is not None and events > after_pause):
+                raise _AttributionLost(
+                    f"a savestate write landed after a pause that began after this request "
+                    f"({events} write events, {after_pause} at the pause): post-resume play, "
+                    "not this request's screen (request attribution lost)")
             sig = file_signature(self.live)
             first_poll = entry_events is None
             if first_poll:
@@ -987,6 +999,13 @@ class Watcher:
             self.log(f"snapshot skipped: {e}")
             self.note_request(request, self.last_sent, origin, None, pre_sig=sig_hash(pre))
             return None
+        except _AttributionLost as e:
+            # T39b: a write after a pause that began after this request is not its own
+            self.problems.append(str(e))
+            self.log(f"request superseded: {e}")
+            self.note_request(request, self.last_sent, origin, None, superseded=True,
+                              pre_sig=sig_hash(pre))
+            return None
         except _EmulatorGone:
             self.note_request(request, self.last_sent, origin, None, pre_sig=sig_hash(pre))
             raise
@@ -1114,6 +1133,11 @@ class Watcher:
         if now_paused:
             self.pause_epoch += 1
             self._pause_since = now
+            # the writes before this pause: a capture of an earlier request refuses any past it
+            if self._events_at_pause is None:
+                self._events_at_pause = {}
+            self._events_at_pause[self.pause_epoch] = (
+                self._write_state()[1] if hasattr(self, "activity") else None)
             # DOSBox-X 2024.03.01 writes no savestate while paused and drops the request
             # (probe_pause log), so the pause's snapshot is requested right after it ends
             line["snapshot"] = "after-resume"

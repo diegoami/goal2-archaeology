@@ -163,6 +163,74 @@ class PauseCaptureTests(unittest.TestCase):
             self.assertGreater(len(sends), 0)
 
 
+class PostResumeWriteTests(unittest.TestCase):
+    """The rehearsal's shape (T39b-scripted-pause-20261011-02.log): a request sent just after the
+    P press, which DOSBox-X dropped as it paused; after the resume, the resume request's save is
+    the next write on the live savestate, one save past the dropped request's pre-send count —
+    a pipeline head would take it as its own. It is post-resume play: refused."""
+
+    def capture(self, epoch, pause_epoch, events_at_pause):
+        from tests import test_human_record as fixture
+        with tempfile.TemporaryDirectory() as folder:
+            session = Path(folder)
+            (session / "snapshots").mkdir()
+            live = session / "state.sav"
+            live.write_bytes(fixture.tiny_zip(b"before the pause"))
+            pre = rec.file_signature(live)
+            count = [53]
+
+            class Watch:
+                def activity(self):
+                    return False, count[0]
+            clock = fixture.FakeClock()
+            w = rec.Watcher(session, live, "77", fixture.FakeDbx(), {"DISPLAY": ":0"},
+                            clock=clock, sleep=clock.sleep, xrun=lambda argv: None,
+                            alive=lambda: True, log=lambda m: None, watch=Watch())
+            w.pause_epoch, w._events_at_pause = pause_epoch, events_at_pause
+            w._submitted, w._finished = 1, 0
+            # the resume request's save: a new file, one save (53 events) later
+            tmp = live.with_name("state.tmp")
+            tmp.write_bytes(fixture.tiny_zip(b"after the resume"))
+            tmp.replace(live)
+            count[0] = 106
+            return w.capture(pre, pre_events=53, fast=True, epoch=epoch)
+
+    def test_a_write_after_a_later_pause_is_not_the_requests_own(self):
+        with self.assertRaises(rec._AttributionLost):
+            self.capture(epoch=0, pause_epoch=1, events_at_pause={1: 53})
+
+    def test_a_pause_keeps_the_write_count_it_began_at(self):
+        with tempfile.TemporaryDirectory() as folder:
+            w = rec.Watcher.__new__(rec.Watcher)
+            w.clock, w.t0, w.log = (lambda: 5.0), 0.0, (lambda m: None)
+            w.pauses_path = Path(folder) / "pauses.jsonl"
+            w.activity = lambda: (False, 77)
+            w.pause_probe = lambda: True
+            self.assertTrue(w.poll_pause())
+            self.assertEqual((w.pause_epoch, w._events_at_pause), (1, {1: 77}))
+
+    def test_a_tick_off_the_pipeline_marks_such_a_request_superseded(self):
+        from tests import test_human_record as fixture
+        with tempfile.TemporaryDirectory() as folder:
+            session = Path(folder)
+            live = session / "state.sav"
+            live.write_bytes(fixture.tiny_zip())
+            w = rec.Watcher(session, live, "77", fixture.FakeDbx(), {"DISPLAY": ":0"},
+                            xrun=lambda argv: None, alive=lambda: True, log=lambda m: None,
+                            writing=lambda: False)
+
+            def lost(*args, **kw):
+                raise rec._AttributionLost("a write after a later pause")
+            w.capture = lost
+            self.assertIsNone(w.tick())
+            line = json.loads((session / "requests.jsonl").read_text())
+            self.assertEqual((line["seq"], line.get("superseded")), (None, True))
+
+    def test_control_without_a_pause_the_write_is_accepted(self):
+        data, _, events, _ = self.capture(epoch=1, pause_epoch=1, events_at_pause={1: 0})
+        self.assertEqual(events, 106)
+
+
 class PauseMapTests(unittest.TestCase):
     def setUp(self):
         from tests import test_human_record  # noqa: F401  (registers extract for keymap)
