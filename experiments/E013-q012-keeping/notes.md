@@ -42,8 +42,10 @@ whose word the pitch record holds at +0xD (2793-27A0):
 6. **the keeper extra** is TABLE-CONTROLLED, not element-1-only. The first gate at 2826 is
    `cmp byte ptr [di + 0x769], 0 / jne 2843`: a non-zero byte for the element jumps directly
    to the extra-term branch, adding pitch +0x11 WITHOUT testing element 1 or event
-   membership. The data image at DS:0x769 has 0x769[2] = 0x01, 0x769[4] = 0x01, 0x769[12] =
-   0x01, so elements 2, 4 and 12 carry the extra unconditionally. The 282D-284C fallback
+   membership. The data image at DS:0x769 has 0x769[2] = 0x01, 0x769[4] = 0x01, 0x769[11] =
+   0x01, 0x769[12] = 0x01, so elements 2, 4, 11 and 12 carry the extra unconditionally
+   (0x769[11] corrected 2026-10-12 by T42's proof, E011-r0001's 278A call #6682; this note had
+   listed 2, 4 and 12 only). The 282D-284C fallback
    (`cmp word ptr [bp + 0xa], 1` AND `23E4:08DF` membership of 0x18 in `CS:276A`) only fires
    when the table byte is zero — that path is element 1 and the goal-mouth event code;
 7. an outfield slot (pitch +6 < 0xC) with `DS:80FC` set adds value/16 (284F-286A).

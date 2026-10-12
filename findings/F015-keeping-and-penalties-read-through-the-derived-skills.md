@@ -44,7 +44,10 @@
   2823-284C — the FIRST gate is `cmp byte ptr [di + 0x769], 0 / jne 2843` (2826-282B): a
   non-zero byte for the element fires the extra, adding pitch +0x11, WITHOUT testing
   element 1 or event-code membership; the data image has DS:0x769[2] = 1, DS:0x769[4] = 1,
-  DS:0x769[12] = 1, so elements 2, 4 and 12 carry the extra unconditionally. Only when
+  DS:0x769[11] = 1, DS:0x769[12] = 1 (static/goal-exe/data/ds_2581_01.hex:66), so elements 2, 4,
+  11 and 12 carry the extra unconditionally (element 11 corrected by T42's proof: E011-r0001's
+  278A call #6682, element 11, where the original added pitch +0x11; the earlier reading listed
+  2, 4 and 12 only). Only when
   the table byte is zero does the 282D-284C fallback apply (element 1 and event codes 3 and 4
   (the set CS:276A = {3, 4})) — and an `80FC` share for outfield slots (284F-286A). Its callers and their
   elements are tabulated in `experiments/E013-q012-keeping/notes.md` §2. High confidence. (static:static/goal-exe/code/seg_0791_04.asm:848)
