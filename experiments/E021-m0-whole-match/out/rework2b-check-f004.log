@@ -1,0 +1,9 @@
+E011-r0001: start E011-r0001-watchstart.sav (captain screen, seed 0x9115); emulated 4149 clock ticks, 182188 seed writes, 298.3 s; full time: minute 91 sub-tick 36, seed 0xb621, score [1, 1] (record [1, 1], seed 0xb621); 000E strays: none; hook f004: {'214B:0688': 185789}
+  E011-r0001: reads 49/49
+  outputs: experiments/E021-m0-whole-match/out/20261011T202600879938Z-f004-E011-r0001.json
+E011-r0002: start E011-r0002-watchstart.sav (captain screen, seed 0x9115); emulated 4149 clock ticks, 182188 seed writes, 293.3 s; full time: minute 91 sub-tick 36, seed 0xb621, score [1, 1] (record [1, 1], seed 0xb621); 000E strays: none; hook f004: {'214B:0688': 185789}
+  E011-r0002: reads 49/49
+  outputs: experiments/E021-m0-whole-match/out/20261011T203134554203Z-f004-E011-r0002.json
+hooked calls of 214B:0688: 371578; proved side by side with no difference: 371578; differences: 0
+match: 98/98
+exit 0

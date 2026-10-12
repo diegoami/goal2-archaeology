@@ -1,0 +1,1798 @@
+{
+ "final": {
+  "831F": 91,
+  "831D": 36,
+  "8325": 0,
+  "831B": 0,
+  "7B62": 46625,
+  "score": [
+   1,
+   1
+  ],
+  "ticks": 4149,
+  "draws": 182188
+ },
+ "full_time_at_F2E3": {
+  "831F": 91,
+  "831D": 36,
+  "8325": 0,
+  "831B": 0,
+  "7B62": 46625,
+  "score": [
+   1,
+   1
+  ],
+  "ticks": 4149,
+  "draws": 182188
+ },
+ "score": [
+  1,
+  1
+ ],
+ "scorers": [
+  [
+   {
+    "player": 131,
+    "name": "Povlsen",
+    "minute_byte_raw": 23
+   }
+  ],
+  [
+   {
+    "player": 364,
+    "name": "W'thington",
+    "minute_byte_raw": 16
+   }
+  ]
+ ],
+ "man_of_the_match_word": 127,
+ "man_of_the_match": "Vilfort",
+ "statistics_raw": [
+  {
+   "row_label": "Corners",
+   "raw_bytes": [
+    0,
+    1
+   ],
+   "address": "DS:7B7E+10*t"
+  },
+  {
+   "row_label": "Free kicks",
+   "raw_bytes": [
+    2,
+    4
+   ],
+   "address": "DS:7B7F+10*t"
+  },
+  {
+   "row_label": "Penalties",
+   "raw_bytes": [
+    0,
+    0
+   ],
+   "address": "DS:7B80+10*t"
+  },
+  {
+   "row_label": "Shots",
+   "raw_bytes": [
+    5,
+    2
+   ],
+   "address": "DS:7B81+10*t"
+  },
+  {
+   "row_label": "On target",
+   "raw_bytes": [
+    5,
+    1
+   ],
+   "address": "DS:7B82+10*t"
+  },
+  {
+   "row_label": "Saves",
+   "raw_bytes": [
+    1,
+    4
+   ],
+   "address": "DS:7B83+10*t"
+  },
+  {
+   "row_label": "Fouls",
+   "raw_bytes": [
+    2,
+    1
+   ],
+   "address": "DS:7B84+10*t"
+  },
+  {
+   "row_label": "Bookings",
+   "raw_bytes": [
+    0,
+    0
+   ],
+   "address": "DS:7B85+10*t"
+  },
+  {
+   "row_label": "Red cards",
+   "raw_bytes": [
+    0,
+    0
+   ],
+   "address": "DS:7B86+10*t"
+  },
+  {
+   "row_label": "Possession",
+   "raw_words": [
+    561,
+    464
+   ],
+   "address": "DS:80F2/80F4"
+  },
+  {
+   "row_label": "Territory",
+   "raw_words": [
+    1214,
+    1745
+   ],
+   "address": "DS:80F6/80F8"
+  }
+ ],
+ "commentary_writer_calls_1D4A": 1107,
+ "sides_9B34": [
+  7,
+  19
+ ],
+ "commentary": [
+  {
+   "n": 27,
+   "template": 14,
+   "p1": 122,
+   "p2": 0,
+   "team": 0,
+   "text": "Olsen wins the ball"
+  },
+  {
+   "n": 28,
+   "template": 33,
+   "p1": 122,
+   "p2": 0,
+   "team": 0,
+   "text": "knocked on by Olsen"
+  },
+  {
+   "n": 29,
+   "template": 34,
+   "p1": 371,
+   "p2": 0,
+   "team": 1,
+   "text": "Dowie intercepts"
+  },
+  {
+   "n": 30,
+   "template": 2,
+   "p1": 371,
+   "p2": 0,
+   "team": 1,
+   "text": "Dowie makes a pass"
+  },
+  {
+   "n": 31,
+   "template": 66,
+   "p1": 0,
+   "p2": 0,
+   "team": 1,
+   "text": "** LINESMAN FLAGS **"
+  },
+  {
+   "n": 32,
+   "template": 34,
+   "p1": 123,
+   "p2": 0,
+   "team": 0,
+   "text": "Piechnik intercepts"
+  },
+  {
+   "n": 33,
+   "template": 54,
+   "p1": 378,
+   "p2": 364,
+   "team": 1,
+   "text": "Black is OFFSIDE"
+  },
+  {
+   "n": 34,
+   "template": 58,
+   "p1": 122,
+   "p2": 0,
+   "team": 0,
+   "text": "*** FREE KICK ***"
+  },
+  {
+   "n": 35,
+   "template": 48,
+   "p1": 122,
+   "p2": 0,
+   "team": 0,
+   "text": "Olsen to take free kick"
+  },
+  {
+   "n": 36,
+   "template": 10,
+   "p1": 122,
+   "p2": 131,
+   "team": 0,
+   "text": "high ball towards Povlsen"
+  },
+  {
+   "n": 37,
+   "template": 34,
+   "p1": 363,
+   "p2": 0,
+   "team": 1,
+   "text": "Taggart intercepts"
+  },
+  {
+   "n": 38,
+   "template": 1,
+   "p1": 363,
+   "p2": 0,
+   "team": 1,
+   "text": "pass by Taggart"
+  },
+  {
+   "n": 39,
+   "template": 35,
+   "p1": 378,
+   "p2": 0,
+   "team": 1,
+   "text": "Black collects"
+  },
+  {
+   "n": 40,
+   "template": 6,
+   "p1": 378,
+   "p2": 378,
+   "team": 1,
+   "text": "Black makes a run"
+  },
+  {
+   "n": 41,
+   "template": 11,
+   "p1": 122,
+   "p2": 0,
+   "team": 0,
+   "text": "tackle by Olsen"
+  },
+  {
+   "n": 42,
+   "template": 14,
+   "p1": 122,
+   "p2": 0,
+   "team": 0,
+   "text": "Olsen wins the ball"
+  },
+  {
+   "n": 43,
+   "template": 10,
+   "p1": 122,
+   "p2": 131,
+   "team": 0,
+   "text": "high ball towards Povlsen"
+  },
+  {
+   "n": 44,
+   "template": 32,
+   "p1": 362,
+   "p2": 0,
+   "team": 1,
+   "text": "headed on by Fleming"
+  },
+  {
+   "n": 45,
+   "template": 25,
+   "p1": 365,
+   "p2": 362,
+   "team": 1,
+   "text": "McDonald on the ball"
+  },
+  {
+   "n": 46,
+   "template": 1,
+   "p1": 365,
+   "p2": 0,
+   "team": 1,
+   "text": "pass by McDonald"
+  },
+  {
+   "n": 47,
+   "template": 43,
+   "p1": 126,
+   "p2": 0,
+   "team": 0,
+   "text": "*** THROW IN ***"
+  },
+  {
+   "n": 48,
+   "template": 42,
+   "p1": 126,
+   "p2": 0,
+   "team": 0,
+   "text": "Sivebaek to take throw in"
+  },
+  {
+   "n": 49,
+   "template": 3,
+   "p1": 126,
+   "p2": 130,
+   "team": 0,
+   "text": "Sivebaek throws the ball"
+  },
+  {
+   "n": 50,
+   "template": 25,
+   "p1": 130,
+   "p2": 126,
+   "team": 0,
+   "text": "Laudrup on the ball"
+  },
+  {
+   "n": 51,
+   "template": 8,
+   "p1": 130,
+   "p2": 126,
+   "team": 0,
+   "text": "good ball for Sivebaek"
+  },
+  {
+   "n": 52,
+   "template": 25,
+   "p1": 126,
+   "p2": 130,
+   "team": 0,
+   "text": "Sivebaek on the ball"
+  },
+  {
+   "n": 53,
+   "template": 6,
+   "p1": 126,
+   "p2": 126,
+   "team": 0,
+   "text": "Sivebaek makes a run"
+  },
+  {
+   "n": 54,
+   "template": 11,
+   "p1": 368,
+   "p2": 0,
+   "team": 1,
+   "text": "tackle by Durnin"
+  },
+  {
+   "n": 55,
+   "template": 14,
+   "p1": 368,
+   "p2": 0,
+   "team": 1,
+   "text": "Durnin wins the ball"
+  },
+  {
+   "n": 56,
+   "template": 6,
+   "p1": 368,
+   "p2": 368,
+   "team": 1,
+   "text": "Durnin makes a run"
+  },
+  {
+   "n": 57,
+   "template": 7,
+   "p1": 368,
+   "p2": 368,
+   "team": 1,
+   "text": "poor touch from Durnin"
+  },
+  {
+   "n": 58,
+   "template": 6,
+   "p1": 368,
+   "p2": 368,
+   "team": 1,
+   "text": "Durnin makes a run"
+  },
+  {
+   "n": 59,
+   "template": 11,
+   "p1": 126,
+   "p2": 0,
+   "team": 0,
+   "text": "tackle by Sivebaek"
+  },
+  {
+   "n": 60,
+   "template": 12,
+   "p1": 368,
+   "p2": 0,
+   "team": 1,
+   "text": "dodged by Durnin"
+  },
+  {
+   "n": 61,
+   "template": 6,
+   "p1": 368,
+   "p2": 368,
+   "team": 1,
+   "text": "Durnin makes a run"
+  },
+  {
+   "n": 62,
+   "template": 11,
+   "p1": 126,
+   "p2": 0,
+   "team": 0,
+   "text": "tackle by Sivebaek"
+  },
+  {
+   "n": 63,
+   "template": 14,
+   "p1": 126,
+   "p2": 0,
+   "team": 0,
+   "text": "Sivebaek wins the ball"
+  },
+  {
+   "n": 64,
+   "template": 10,
+   "p1": 126,
+   "p2": 131,
+   "team": 0,
+   "text": "high ball towards Povlsen"
+  },
+  {
+   "n": 65,
+   "template": 32,
+   "p1": 365,
+   "p2": 0,
+   "team": 1,
+   "text": "headed on by McDonald"
+  },
+  {
+   "n": 66,
+   "template": 35,
+   "p1": 367,
+   "p2": 0,
+   "team": 1,
+   "text": "Magilton collects"
+  },
+  {
+   "n": 67,
+   "template": 11,
+   "p1": 123,
+   "p2": 0,
+   "team": 0,
+   "text": "tackle by Piechnik"
+  },
+  {
+   "n": 68,
+   "template": 14,
+   "p1": 123,
+   "p2": 0,
+   "team": 0,
+   "text": "Piechnik wins the ball"
+  },
+  {
+   "n": 69,
+   "template": 8,
+   "p1": 123,
+   "p2": 131,
+   "team": 0,
+   "text": "good ball for Povlsen"
+  },
+  {
+   "n": 70,
+   "template": 25,
+   "p1": 131,
+   "p2": 123,
+   "team": 0,
+   "text": "Povlsen on the ball"
+  },
+  {
+   "n": 71,
+   "template": 1,
+   "p1": 131,
+   "p2": 0,
+   "team": 0,
+   "text": "pass by Povlsen"
+  },
+  {
+   "n": 72,
+   "template": 34,
+   "p1": 362,
+   "p2": 0,
+   "team": 1,
+   "text": "Fleming intercepts"
+  },
+  {
+   "n": 73,
+   "template": 11,
+   "p1": 127,
+   "p2": 0,
+   "team": 0,
+   "text": "tackle by Vilfort"
+  },
+  {
+   "n": 74,
+   "template": 14,
+   "p1": 127,
+   "p2": 0,
+   "team": 0,
+   "text": "Vilfort wins the ball"
+  },
+  {
+   "n": 75,
+   "template": 1,
+   "p1": 127,
+   "p2": 0,
+   "team": 0,
+   "text": "pass by Vilfort"
+  },
+  {
+   "n": 76,
+   "template": 35,
+   "p1": 128,
+   "p2": 0,
+   "team": 0,
+   "text": "Larsen collects"
+  },
+  {
+   "n": 77,
+   "template": 6,
+   "p1": 128,
+   "p2": 128,
+   "team": 0,
+   "text": "Larsen makes a run"
+  },
+  {
+   "n": 78,
+   "template": 11,
+   "p1": 376,
+   "p2": 0,
+   "team": 1,
+   "text": "tackle by Rogan"
+  },
+  {
+   "n": 79,
+   "template": 14,
+   "p1": 376,
+   "p2": 0,
+   "team": 1,
+   "text": "Rogan wins the ball"
+  },
+  {
+   "n": 80,
+   "template": 6,
+   "p1": 376,
+   "p2": 376,
+   "team": 1,
+   "text": "Rogan makes a run"
+  },
+  {
+   "n": 81,
+   "template": 17,
+   "p1": 376,
+   "p2": 0,
+   "team": 1,
+   "text": "shot from Rogan"
+  },
+  {
+   "n": 82,
+   "template": 56,
+   "p1": 123,
+   "p2": 0,
+   "team": 0,
+   "text": "*** GOAL KICK ***"
+  },
+  {
+   "n": 83,
+   "template": 46,
+   "p1": 123,
+   "p2": 0,
+   "team": 0,
+   "text": "Piechnik to take goal kick"
+  },
+  {
+   "n": 84,
+   "template": 5,
+   "p1": 123,
+   "p2": 36864,
+   "team": 0,
+   "text": "long kick from Piechnik"
+  },
+  {
+   "n": 85,
+   "template": 32,
+   "p1": 367,
+   "p2": 0,
+   "team": 1,
+   "text": "headed on by Magilton"
+  },
+  {
+   "n": 86,
+   "template": 35,
+   "p1": 371,
+   "p2": 0,
+   "team": 1,
+   "text": "Dowie collects"
+  },
+  {
+   "n": 87,
+   "template": 6,
+   "p1": 371,
+   "p2": 371,
+   "team": 1,
+   "text": "Dowie makes a run"
+  },
+  {
+   "n": 88,
+   "template": 1,
+   "p1": 371,
+   "p2": 0,
+   "team": 1,
+   "text": "pass by Dowie"
+  },
+  {
+   "n": 89,
+   "template": 35,
+   "p1": 368,
+   "p2": 0,
+   "team": 1,
+   "text": "Durnin collects"
+  },
+  {
+   "n": 90,
+   "template": 10,
+   "p1": 368,
+   "p2": 378,
+   "team": 1,
+   "text": "high ball towards Black"
+  },
+  {
+   "n": 91,
+   "template": 25,
+   "p1": 378,
+   "p2": 368,
+   "team": 1,
+   "text": "Black on the ball"
+  },
+  {
+   "n": 92,
+   "template": 2,
+   "p1": 378,
+   "p2": 0,
+   "team": 1,
+   "text": "Black makes a pass"
+  },
+  {
+   "n": 93,
+   "template": 34,
+   "p1": 129,
+   "p2": 0,
+   "team": 0,
+   "text": "Jensen intercepts"
+  },
+  {
+   "n": 94,
+   "template": 6,
+   "p1": 129,
+   "p2": 129,
+   "team": 0,
+   "text": "Jensen makes a run"
+  },
+  {
+   "n": 95,
+   "template": 1,
+   "p1": 129,
+   "p2": 0,
+   "team": 0,
+   "text": "pass by Jensen"
+  },
+  {
+   "n": 96,
+   "template": 35,
+   "p1": 127,
+   "p2": 0,
+   "team": 0,
+   "text": "Vilfort collects"
+  },
+  {
+   "n": 97,
+   "template": 8,
+   "p1": 127,
+   "p2": 129,
+   "team": 0,
+   "text": "good ball for Jensen"
+  },
+  {
+   "n": 98,
+   "template": 25,
+   "p1": 129,
+   "p2": 127,
+   "team": 0,
+   "text": "Jensen on the ball"
+  },
+  {
+   "n": 99,
+   "template": 11,
+   "p1": 365,
+   "p2": 0,
+   "team": 1,
+   "text": "tackle by McDonald"
+  },
+  {
+   "n": 100,
+   "template": 14,
+   "p1": 365,
+   "p2": 0,
+   "team": 1,
+   "text": "McDonald wins the ball"
+  },
+  {
+   "n": 101,
+   "template": 1,
+   "p1": 365,
+   "p2": 0,
+   "team": 1,
+   "text": "pass by McDonald"
+  },
+  {
+   "n": 102,
+   "template": 34,
+   "p1": 127,
+   "p2": 0,
+   "team": 0,
+   "text": "Vilfort intercepts"
+  },
+  {
+   "n": 103,
+   "template": 11,
+   "p1": 376,
+   "p2": 0,
+   "team": 1,
+   "text": "tackle by Rogan"
+  },
+  {
+   "n": 104,
+   "template": 14,
+   "p1": 376,
+   "p2": 0,
+   "team": 1,
+   "text": "Rogan wins the ball"
+  },
+  {
+   "n": 105,
+   "template": 33,
+   "p1": 376,
+   "p2": 0,
+   "team": 1,
+   "text": "knocked on by Rogan"
+  },
+  {
+   "n": 106,
+   "template": 34,
+   "p1": 130,
+   "p2": 0,
+   "team": 0,
+   "text": "Laudrup intercepts"
+  },
+  {
+   "n": 107,
+   "template": 1,
+   "p1": 130,
+   "p2": 0,
+   "team": 0,
+   "text": "pass by Laudrup"
+  },
+  {
+   "n": 108,
+   "template": 34,
+   "p1": 376,
+   "p2": 0,
+   "team": 1,
+   "text": "Rogan intercepts"
+  },
+  {
+   "n": 109,
+   "template": 6,
+   "p1": 376,
+   "p2": 376,
+   "team": 1,
+   "text": "Rogan makes a run"
+  },
+  {
+   "n": 110,
+   "template": 2,
+   "p1": 376,
+   "p2": 0,
+   "team": 1,
+   "text": "Rogan makes a pass"
+  },
+  {
+   "n": 111,
+   "template": 35,
+   "p1": 378,
+   "p2": 0,
+   "team": 1,
+   "text": "Black collects"
+  },
+  {
+   "n": 112,
+   "template": 6,
+   "p1": 378,
+   "p2": 378,
+   "team": 1,
+   "text": "Black makes a run"
+  },
+  {
+   "n": 113,
+   "template": 11,
+   "p1": 125,
+   "p2": 0,
+   "team": 0,
+   "text": "tackle by Andersen"
+  },
+  {
+   "n": 114,
+   "template": 12,
+   "p1": 378,
+   "p2": 0,
+   "team": 1,
+   "text": "dodged by Black"
+  },
+  {
+   "n": 115,
+   "template": 2,
+   "p1": 378,
+   "p2": 0,
+   "team": 1,
+   "text": "Black makes a pass"
+  },
+  {
+   "n": 116,
+   "template": 34,
+   "p1": 123,
+   "p2": 0,
+   "team": 0,
+   "text": "Piechnik intercepts"
+  },
+  {
+   "n": 117,
+   "template": 2,
+   "p1": 123,
+   "p2": 0,
+   "team": 0,
+   "text": "Piechnik makes a pass"
+  },
+  {
+   "n": 118,
+   "template": 35,
+   "p1": 129,
+   "p2": 0,
+   "team": 0,
+   "text": "Jensen collects"
+  },
+  {
+   "n": 119,
+   "template": 8,
+   "p1": 129,
+   "p2": 131,
+   "team": 0,
+   "text": "good ball for Povlsen"
+  },
+  {
+   "n": 120,
+   "template": 25,
+   "p1": 131,
+   "p2": 129,
+   "team": 0,
+   "text": "Povlsen on the ball"
+  },
+  {
+   "n": 121,
+   "template": 6,
+   "p1": 131,
+   "p2": 131,
+   "team": 0,
+   "text": "Povlsen makes a run"
+  },
+  {
+   "n": 122,
+   "template": 11,
+   "p1": 364,
+   "p2": 0,
+   "team": 1,
+   "text": "tackle by W'thington"
+  },
+  {
+   "n": 123,
+   "template": 14,
+   "p1": 364,
+   "p2": 0,
+   "team": 1,
+   "text": "W'thington wins the ball"
+  },
+  {
+   "n": 124,
+   "template": 10,
+   "p1": 364,
+   "p2": 378,
+   "team": 1,
+   "text": "high ball towards Black"
+  },
+  {
+   "n": 125,
+   "template": 32,
+   "p1": 368,
+   "p2": 0,
+   "team": 1,
+   "text": "headed on by Durnin"
+  },
+  {
+   "n": 126,
+   "template": 25,
+   "p1": 367,
+   "p2": 368,
+   "team": 1,
+   "text": "Magilton on the ball"
+  },
+  {
+   "n": 127,
+   "template": 10,
+   "p1": 367,
+   "p2": 378,
+   "team": 1,
+   "text": "high ball towards Black"
+  },
+  {
+   "n": 128,
+   "template": 25,
+   "p1": 378,
+   "p2": 367,
+   "team": 1,
+   "text": "Black on the ball"
+  },
+  {
+   "n": 129,
+   "template": 11,
+   "p1": 122,
+   "p2": 0,
+   "team": 0,
+   "text": "tackle by Olsen"
+  },
+  {
+   "n": 130,
+   "template": 14,
+   "p1": 122,
+   "p2": 0,
+   "team": 0,
+   "text": "Olsen wins the ball"
+  },
+  {
+   "n": 131,
+   "template": 33,
+   "p1": 122,
+   "p2": 0,
+   "team": 0,
+   "text": "knocked on by Olsen"
+  },
+  {
+   "n": 132,
+   "template": 34,
+   "p1": 371,
+   "p2": 0,
+   "team": 1,
+   "text": "Dowie intercepts"
+  },
+  {
+   "n": 133,
+   "template": 8,
+   "p1": 371,
+   "p2": 378,
+   "team": 1,
+   "text": "good ball for Black"
+  },
+  {
+   "n": 134,
+   "template": 25,
+   "p1": 378,
+   "p2": 371,
+   "team": 1,
+   "text": "Black on the ball"
+  },
+  {
+   "n": 135,
+   "template": 6,
+   "p1": 378,
+   "p2": 378,
+   "team": 1,
+   "text": "Black makes a run"
+  },
+  {
+   "n": 136,
+   "template": 11,
+   "p1": 122,
+   "p2": 0,
+   "team": 0,
+   "text": "tackle by Olsen"
+  },
+  {
+   "n": 137,
+   "template": 14,
+   "p1": 122,
+   "p2": 0,
+   "team": 0,
+   "text": "Olsen wins the ball"
+  },
+  {
+   "n": 138,
+   "template": 10,
+   "p1": 122,
+   "p2": 131,
+   "team": 0,
+   "text": "high ball towards Povlsen"
+  },
+  {
+   "n": 139,
+   "template": 32,
+   "p1": 363,
+   "p2": 0,
+   "team": 1,
+   "text": "headed on by Taggart"
+  },
+  {
+   "n": 140,
+   "template": 25,
+   "p1": 376,
+   "p2": 363,
+   "team": 1,
+   "text": "Rogan on the ball"
+  },
+  {
+   "n": 141,
+   "template": 6,
+   "p1": 376,
+   "p2": 376,
+   "team": 1,
+   "text": "Rogan makes a run"
+  },
+  {
+   "n": 142,
+   "template": 11,
+   "p1": 128,
+   "p2": 0,
+   "team": 0,
+   "text": "tackle by Larsen"
+  },
+  {
+   "n": 143,
+   "template": 14,
+   "p1": 128,
+   "p2": 0,
+   "team": 0,
+   "text": "Larsen wins the ball"
+  },
+  {
+   "n": 144,
+   "template": 6,
+   "p1": 128,
+   "p2": 128,
+   "team": 0,
+   "text": "Larsen makes a run"
+  },
+  {
+   "n": 145,
+   "template": 8,
+   "p1": 128,
+   "p2": 131,
+   "team": 0,
+   "text": "good ball for Povlsen"
+  },
+  {
+   "n": 146,
+   "template": 25,
+   "p1": 131,
+   "p2": 128,
+   "team": 0,
+   "text": "Povlsen on the ball"
+  },
+  {
+   "n": 147,
+   "template": 11,
+   "p1": 362,
+   "p2": 0,
+   "team": 1,
+   "text": "tackle by Fleming"
+  },
+  {
+   "n": 148,
+   "template": 12,
+   "p1": 131,
+   "p2": 0,
+   "team": 0,
+   "text": "dodged by Povlsen"
+  },
+  {
+   "n": 149,
+   "template": 6,
+   "p1": 131,
+   "p2": 131,
+   "team": 0,
+   "text": "Povlsen makes a run"
+  },
+  {
+   "n": 150,
+   "template": 8,
+   "p1": 131,
+   "p2": 128,
+   "team": 0,
+   "text": "good ball for Larsen"
+  },
+  {
+   "n": 151,
+   "template": 25,
+   "p1": 128,
+   "p2": 131,
+   "team": 0,
+   "text": "Larsen on the ball"
+  },
+  {
+   "n": 152,
+   "template": 6,
+   "p1": 128,
+   "p2": 128,
+   "team": 0,
+   "text": "Larsen makes a run"
+  },
+  {
+   "n": 153,
+   "template": 66,
+   "p1": 0,
+   "p2": 0,
+   "team": 1,
+   "text": "** LINESMAN FLAGS **"
+  },
+  {
+   "n": 154,
+   "template": 54,
+   "p1": 131,
+   "p2": 128,
+   "team": 0,
+   "text": "Povlsen is OFFSIDE"
+  },
+  {
+   "n": 155,
+   "template": 58,
+   "p1": 364,
+   "p2": 0,
+   "team": 1,
+   "text": "*** FREE KICK ***"
+  },
+  {
+   "n": 156,
+   "template": 48,
+   "p1": 364,
+   "p2": 0,
+   "team": 1,
+   "text": "W'thington to take free kick"
+  },
+  {
+   "n": 157,
+   "template": 10,
+   "p1": 364,
+   "p2": 368,
+   "team": 1,
+   "text": "high ball towards Durnin"
+  },
+  {
+   "n": 158,
+   "template": 34,
+   "p1": 125,
+   "p2": 0,
+   "team": 0,
+   "text": "Andersen intercepts"
+  },
+  {
+   "n": 159,
+   "template": 1,
+   "p1": 125,
+   "p2": 0,
+   "team": 0,
+   "text": "pass by Andersen"
+  },
+  {
+   "n": 160,
+   "template": 34,
+   "p1": 371,
+   "p2": 0,
+   "team": 1,
+   "text": "Dowie intercepts"
+  },
+  {
+   "n": 161,
+   "template": 6,
+   "p1": 371,
+   "p2": 371,
+   "team": 1,
+   "text": "Dowie makes a run"
+  },
+  {
+   "n": 162,
+   "template": 11,
+   "p1": 122,
+   "p2": 0,
+   "team": 0,
+   "text": "tackle by Olsen"
+  },
+  {
+   "n": 163,
+   "template": 14,
+   "p1": 122,
+   "p2": 0,
+   "team": 0,
+   "text": "Olsen wins the ball"
+  },
+  {
+   "n": 164,
+   "template": 23,
+   "p1": 122,
+   "p2": 0,
+   "team": 0,
+   "text": "punted away by Olsen"
+  },
+  {
+   "n": 165,
+   "template": 32,
+   "p1": 363,
+   "p2": 0,
+   "team": 1,
+   "text": "headed on by Taggart"
+  },
+  {
+   "n": 166,
+   "template": 25,
+   "p1": 365,
+   "p2": 363,
+   "team": 1,
+   "text": "McDonald on the ball"
+  },
+  {
+   "n": 167,
+   "template": 6,
+   "p1": 365,
+   "p2": 365,
+   "team": 1,
+   "text": "McDonald makes a run"
+  },
+  {
+   "n": 168,
+   "template": 11,
+   "p1": 131,
+   "p2": 0,
+   "team": 0,
+   "text": "tackle by Povlsen"
+  },
+  {
+   "n": 169,
+   "template": 14,
+   "p1": 131,
+   "p2": 0,
+   "team": 0,
+   "text": "Povlsen wins the ball"
+  },
+  {
+   "n": 170,
+   "template": 8,
+   "p1": 131,
+   "p2": 130,
+   "team": 0,
+   "text": "good ball for Laudrup"
+  },
+  {
+   "n": 171,
+   "template": 25,
+   "p1": 130,
+   "p2": 131,
+   "team": 0,
+   "text": "Laudrup on the ball"
+  },
+  {
+   "n": 172,
+   "template": 8,
+   "p1": 130,
+   "p2": 131,
+   "team": 0,
+   "text": "good ball for Povlsen"
+  },
+  {
+   "n": 173,
+   "template": 25,
+   "p1": 131,
+   "p2": 130,
+   "team": 0,
+   "text": "Povlsen on the ball"
+  },
+  {
+   "n": 174,
+   "template": 2,
+   "p1": 131,
+   "p2": 0,
+   "team": 0,
+   "text": "Povlsen makes a pass"
+  },
+  {
+   "n": 175,
+   "template": 34,
+   "p1": 362,
+   "p2": 0,
+   "team": 1,
+   "text": "Fleming intercepts"
+  },
+  {
+   "n": 176,
+   "template": 11,
+   "p1": 129,
+   "p2": 0,
+   "team": 0,
+   "text": "tackle by Jensen"
+  },
+  {
+   "n": 177,
+   "template": 14,
+   "p1": 129,
+   "p2": 0,
+   "team": 0,
+   "text": "Jensen wins the ball"
+  },
+  {
+   "n": 178,
+   "template": 8,
+   "p1": 129,
+   "p2": 131,
+   "team": 0,
+   "text": "good ball for Povlsen"
+  },
+  {
+   "n": 179,
+   "template": 25,
+   "p1": 131,
+   "p2": 129,
+   "team": 0,
+   "text": "Povlsen on the ball"
+  },
+  {
+   "n": 180,
+   "template": 6,
+   "p1": 131,
+   "p2": 131,
+   "team": 0,
+   "text": "Povlsen makes a run"
+  },
+  {
+   "n": 181,
+   "template": 11,
+   "p1": 364,
+   "p2": 0,
+   "team": 1,
+   "text": "tackle by W'thington"
+  },
+  {
+   "n": 182,
+   "template": 14,
+   "p1": 364,
+   "p2": 0,
+   "team": 1,
+   "text": "W'thington wins the ball"
+  },
+  {
+   "n": 183,
+   "template": 10,
+   "p1": 364,
+   "p2": 378,
+   "team": 1,
+   "text": "high ball towards Black"
+  },
+  {
+   "n": 184,
+   "template": 32,
+   "p1": 378,
+   "p2": 0,
+   "team": 1,
+   "text": "headed on by Black"
+  },
+  {
+   "n": 185,
+   "template": 25,
+   "p1": 371,
+   "p2": 378,
+   "team": 1,
+   "text": "Dowie on the ball"
+  },
+  {
+   "n": 186,
+   "template": 11,
+   "p1": 123,
+   "p2": 0,
+   "team": 0,
+   "text": "tackle by Piechnik"
+  },
+  {
+   "n": 187,
+   "template": 14,
+   "p1": 123,
+   "p2": 0,
+   "team": 0,
+   "text": "Piechnik wins the ball"
+  },
+  {
+   "n": 188,
+   "template": 10,
+   "p1": 123,
+   "p2": 131,
+   "team": 0,
+   "text": "high ball towards Povlsen"
+  },
+  {
+   "n": 189,
+   "template": 32,
+   "p1": 365,
+   "p2": 0,
+   "team": 1,
+   "text": "headed on by McDonald"
+  },
+  {
+   "n": 190,
+   "template": 25,
+   "p1": 367,
+   "p2": 365,
+   "team": 1,
+   "text": "Magilton on the ball"
+  },
+  {
+   "n": 191,
+   "template": 10,
+   "p1": 367,
+   "p2": 378,
+   "team": 1,
+   "text": "high ball towards Black"
+  },
+  {
+   "n": 192,
+   "template": 32,
+   "p1": 127,
+   "p2": 0,
+   "team": 0,
+   "text": "headed on by Vilfort"
+  },
+  {
+   "n": 193,
+   "template": 25,
+   "p1": 126,
+   "p2": 127,
+   "team": 0,
+   "text": "Sivebaek on the ball"
+  },
+  {
+   "n": 194,
+   "template": 1,
+   "p1": 126,
+   "p2": 0,
+   "team": 0,
+   "text": "pass by Sivebaek"
+  },
+  {
+   "n": 195,
+   "template": 43,
+   "p1": 365,
+   "p2": 0,
+   "team": 1,
+   "text": "*** THROW IN ***"
+  },
+  {
+   "n": 196,
+   "template": 42,
+   "p1": 365,
+   "p2": 0,
+   "team": 1,
+   "text": "McDonald to take throw in"
+  },
+  {
+   "n": 197,
+   "template": 3,
+   "p1": 365,
+   "p2": 0,
+   "team": 1,
+   "text": "McDonald throws the ball"
+  },
+  {
+   "n": 198,
+   "template": 35,
+   "p1": 364,
+   "p2": 0,
+   "team": 1,
+   "text": "W'thington collects"
+  },
+  {
+   "n": 199,
+   "template": 2,
+   "p1": 364,
+   "p2": 0,
+   "team": 1,
+   "text": "W'thington makes a pass"
+  },
+  {
+   "n": 200,
+   "template": 43,
+   "p1": 129,
+   "p2": 0,
+   "team": 0,
+   "text": "*** THROW IN ***"
+  },
+  {
+   "n": 1,
+   "template": 42,
+   "p1": 129,
+   "p2": 0,
+   "team": 0,
+   "text": "Jensen to take throw in"
+  },
+  {
+   "n": 2,
+   "template": 3,
+   "p1": 129,
+   "p2": 126,
+   "team": 0,
+   "text": "Jensen throws the ball"
+  },
+  {
+   "n": 3,
+   "template": 25,
+   "p1": 126,
+   "p2": 129,
+   "team": 0,
+   "text": "Sivebaek on the ball"
+  },
+  {
+   "n": 4,
+   "template": 8,
+   "p1": 126,
+   "p2": 131,
+   "team": 0,
+   "text": "good ball for Povlsen"
+  },
+  {
+   "n": 5,
+   "template": 25,
+   "p1": 131,
+   "p2": 126,
+   "team": 0,
+   "text": "Povlsen on the ball"
+  },
+  {
+   "n": 6,
+   "template": 6,
+   "p1": 131,
+   "p2": 131,
+   "team": 0,
+   "text": "Povlsen makes a run"
+  },
+  {
+   "n": 7,
+   "template": 8,
+   "p1": 131,
+   "p2": 127,
+   "team": 0,
+   "text": "good ball for Vilfort"
+  },
+  {
+   "n": 8,
+   "template": 25,
+   "p1": 127,
+   "p2": 131,
+   "team": 0,
+   "text": "Vilfort on the ball"
+  },
+  {
+   "n": 9,
+   "template": 17,
+   "p1": 127,
+   "p2": 0,
+   "team": 0,
+   "text": "shot from Vilfort"
+  },
+  {
+   "n": 10,
+   "template": 29,
+   "p1": 372,
+   "p2": 0,
+   "team": 1,
+   "text": "saved by Kee"
+  },
+  {
+   "n": 11,
+   "template": 5,
+   "p1": 372,
+   "p2": 32769,
+   "team": 1,
+   "text": "long kick from Kee"
+  },
+  {
+   "n": 12,
+   "template": 34,
+   "p1": 127,
+   "p2": 0,
+   "team": 0,
+   "text": "Vilfort intercepts"
+  },
+  {
+   "n": 13,
+   "template": 8,
+   "p1": 127,
+   "p2": 131,
+   "team": 0,
+   "text": "good ball for Povlsen"
+  },
+  {
+   "n": 14,
+   "template": 25,
+   "p1": 131,
+   "p2": 127,
+   "team": 0,
+   "text": "Povlsen on the ball"
+  },
+  {
+   "n": 15,
+   "template": 6,
+   "p1": 131,
+   "p2": 131,
+   "team": 0,
+   "text": "Povlsen makes a run"
+  },
+  {
+   "n": 16,
+   "template": 11,
+   "p1": 364,
+   "p2": 0,
+   "team": 1,
+   "text": "tackle by W'thington"
+  },
+  {
+   "n": 17,
+   "template": 14,
+   "p1": 364,
+   "p2": 0,
+   "team": 1,
+   "text": "W'thington wins the ball"
+  },
+  {
+   "n": 18,
+   "template": 10,
+   "p1": 364,
+   "p2": 368,
+   "team": 1,
+   "text": "high ball towards Durnin"
+  },
+  {
+   "n": 19,
+   "template": 34,
+   "p1": 129,
+   "p2": 0,
+   "team": 0,
+   "text": "Jensen intercepts"
+  },
+  {
+   "n": 20,
+   "template": 10,
+   "p1": 129,
+   "p2": 131,
+   "team": 0,
+   "text": "high ball towards Povlsen"
+  },
+  {
+   "n": 21,
+   "template": 34,
+   "p1": 364,
+   "p2": 0,
+   "team": 1,
+   "text": "W'thington intercepts"
+  },
+  {
+   "n": 22,
+   "template": 1,
+   "p1": 364,
+   "p2": 0,
+   "team": 1,
+   "text": "pass by W'thington"
+  },
+  {
+   "n": 23,
+   "template": 34,
+   "p1": 126,
+   "p2": 0,
+   "team": 0,
+   "text": "Sivebaek intercepts"
+  },
+  {
+   "n": 24,
+   "template": 10,
+   "p1": 126,
+   "p2": 131,
+   "team": 0,
+   "text": "high ball towards Povlsen"
+  },
+  {
+   "n": 25,
+   "template": 63,
+   "p1": 0,
+   "p2": 0,
+   "team": 1,
+   "text": "---- FULL TIME ----"
+  }
+ ],
+ "board_screen_sha256": "af83875517ff679aefaff91bb59d5461071c21c1674cd4258f50da7af3a2f295",
+ "board_screen": " (c) NE'93\u2502 \u250c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u252c\u2500\u2500\u252cFRIENDLY\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510\u250c\u2500\u2500\u2500\u2510 \u2584\u2580\u2580\u2580\u2584\n \u250c\u2500\u2510\u250c\u2500\u2510\u250c\u2500\u2510\u2502 \u2502N.IRELAND------\u2502 1\u2502Sivebaek intercepts                \u2502\u2502   \u2502 \u2588   \u2588\n \u2502 \u2502\u2502 \u2502\u2502 \u2502\u2502 \u251cversus\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u253c\u2500\u2500\u2524high ball towards Povlsen          \u2502\u251c\u2500\u2500\u2500\u2524 \u2584\u2500\u2500\u2500\u2584\n \u2514\u2500\u2524\u2514\u2500\u2518\u2514\u2500\u2524\u2502 \u2502DENMARK--------\u2502 1\u2502---- FULL TIME ----                \u2502\u2502   \u2502 \u2588   \u2588\n\u2500\u2500\u2500\u2518 v.2    \u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2534\u2500\u2500\u2534\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518\u2514\u2500\u2500\u2500\u2518 \u2514\u2580\u2580\u2580\u2580\n (half time  1:1 ) \u250c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510    \u250c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510\n \u250c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2502 N.Ireland------ \u2502\u2500\u2510\u250c\u2500\u2502 Denmark-------- \u2502\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510\n \u2502                 \u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518 \u2502\u2502 \u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518                 \u2502\n \u2502 \u250c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510         Corners      1  \u2502\u2502  Corners      0     \u250c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510     \u2502\n \u2502 \u2502 Scorers \u2502         Free kicks   4  \u2502\u2502  Free kicks   2     \u2502 Scorers \u2502     \u2502\n\u250c\u2500\u2500\u2534\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2534\u2500\u2500\u252cmin\u2510  Penalties    0  \u2502\u2502  Penalties    0  \u250c\u2500\u2500\u2534\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2534\u2500\u2500\u252cmin\u2510\n\u2502N W'thington   \u2502 16\u2502  Shots        2  \u2502\u2502  Shots        5  \u2502F Povlsen      \u2502 23\u2502\n\u2502               \u2502   \u2502  On target    1  \u2502\u2502  On target    5  \u2502               \u2502   \u2502\n\u2502               \u2502   \u2502  Saves        4  \u2502\u2502  Saves        1  \u2502               \u2502   \u2502\n\u2502               \u2502   \u2502  Fouls        1  \u2502\u2502  Fouls        2  \u2502               \u2502   \u2502\n\u2502               \u2502   \u2502  Bookings     0  \u2502\u2502  Bookings     0  \u2502               \u2502   \u2502\n\u2502               \u2502   \u2502  Red cards    0  \u2514\u2518  Red cards    0  \u2502               \u2502   \u2502\n\u2502               \u2502   \u2502            \u250c\u2500\u2500\u2500\u252c\u2500\u2500\u2500\u252c\u2500\u2500\u250050\u2500\u2500\u2500\u252c\u2500\u2500\u2500\u252c\u2500\u2500\u2500\u2510\u2502               \u2502   \u2502\n\u2502               \u2502   \u2502  Possession:\u25a0\u25a0\u25a0\u25a0\u25a0\u25a0\u25a0\u25a0\u25a0\u25a0\u25a0\u25a0\u25a0\u25a0\u25a0\u25a0\u25a0\u25a0\u25a0\u25a0\u25a0\u25a0\u25a0\u25a0:\u2502               \u2502   \u2502\n\u2502               \u2502   \u2502  Territory :\u25a0\u25a0\u25a0\u25a0\u25a0\u25a0\u25a0\u25a0\u25a0\u25a0\u25a0\u25a0\u25a0\u25a0\u25a0\u25a0\u25a0\u25a0\u25a0\u25a0\u25a0\u25a0\u25a0\u25a0:\u2502               \u2502   \u2502\n\u2502               \u2502   \u2502 \u250c\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2510 \u2502               \u2502   \u2502\n\u2502               \u2502   \u2502 \u2502  MAN OF THE MATCH K Vilfort      \u2502 \u2502               \u2502   \u2502\n\u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2534\u2500\u2500\u2500\u2518 \u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518 \u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2534\u2500\u2500\u2500\u2518\n \u2514\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2518\n                                  hit any key                      Esc,\u25c4\u2518-bench",
+ "key_log": [
+  [
+   "captain screen (the starting burst's Enter)",
+   13,
+   0,
+   0,
+   37141
+  ],
+  [
+   "half-time board ('hit any key', 0791:0106)",
+   13,
+   46,
+   36,
+   62551
+  ],
+  [
+   "team screen (0791:ED8A, ' play ')",
+   13,
+   46,
+   36,
+   62551
+  ]
+ ],
+ "strays": [],
+ "inputs": [
+  {
+   "what": "delay byte [DS:A923]+0x3F",
+   "linear": 382645,
+   "old": "01",
+   "new": "00"
+  }
+ ],
+ "hook_counts": {
+  "214B:0688": 185789
+ },
+ "stopped_at_board": true,
+ "run_id": "E011-r0002",
+ "hook": "f004",
+ "start_state": {
+  "name": "E011-r0002-watchstart.sav",
+  "sha256": "9d475dcbec7822232aa7877c46e09ab9447520fc3e01fbc351d50ecb3155e100"
+ },
+ "reads_matched": 49,
+ "reads": 49,
+ "checks": {
+  "full-time score equals the record's": true,
+  "the 000E skip log is empty": true,
+  "keys: the three declared screens, Enter each": true,
+  "stopped at the full-time board's key wait": true,
+  "seed at the board equals the record's full-time read": true,
+  "board screen sha256 equals the record's full-time screen": true,
+  "every seed write equals the unhooked original's (hooked runs)": true
+ },
+ "error": null,
+ "seconds": 52.2,
+ "draws_count": 182188,
+ "draws_sha256": "939f25379c56da7a13d32d4a8d3a5830b0f30eb4db9bb71f459e3b47bd494749"
+}

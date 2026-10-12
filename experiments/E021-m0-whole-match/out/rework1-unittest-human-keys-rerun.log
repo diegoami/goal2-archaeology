@@ -1,0 +1,118 @@
+.........F..................F........XGetInputFocus returned the focused window of 1. This is likely a bug in the X server.
+XGetInputFocus returned the focused window of 1. This is likely a bug in the X server.
+...............missing: Xephyr; xinput
+.......F
+======================================================================
+FAIL: test_a_save_before_the_watcher_is_refused (test_human_keys.EarlySaveTests.test_a_save_before_the_watcher_is_refused)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-aa2816605de83e340/tests/test_human_keys.py", line 1227, in test_a_save_before_the_watcher_is_refused
+    self.assertEqual(r.returncode, 1, out[-4000:])
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 0 != 1 : [19:24:22] session /home/diego/projects/goal2-archaeology/.claude/worktrees/agent-aa2816605de83e340/scratch/human/sessions/20261011-212422
+[19:24:23] dosbox-x started (pid 588290)
+[19:24:23] game window 6291461 (pid 588290)
+[19:24:24] F12+S sent to window 6291461
+[19:24:24] staged snapshots/snap-0001-20261011T192424Z.sav (34696 bytes, sha256 6613f5cf2373d0eb...)
+[19:24:24] F12+S sent to window 6291461
+[19:24:24] burst group (last key +0.448s) requested at +0.513s
+[19:24:24] live savestate changed or incomplete during capture: retrying
+[19:24:25] staged snapshots/snap-0002-20261011T192425Z.sav (210223 bytes, sha256 4f76e5523584e895...)
+[19:24:26] F12+S sent to window 6291461
+[19:24:26] burst group (last key +2.478s) requested at +2.550s
+[19:24:26] live savestate changed or incomplete during capture: retrying
+[19:24:27] staged snapshots/snap-0003-20261011T192427Z.sav (180385 bytes, sha256 cf4c63e9e8d332af...)
+[19:24:28] F12+S sent to window 6291461
+[19:24:28] burst group (last key +4.494s) requested at +4.554s
+[19:24:28] live savestate changed or incomplete during capture: retrying
+[19:24:29] staged snapshots/snap-0004-20261011T192429Z.sav (180862 bytes, sha256 1abfec95179ff333...)
+[19:24:42] quit-after 18.0s reached
+[19:24:43] shutdown snapshot already indexed (1abfec95179ff333...): skipping
+[19:24:43] done: 4 snapshots, stop quit-after
+map coverage OK: screens: 3, transitions: 3, keys: 3; every press mapped
+privacy OK: a/b/c game keys only; outer-app x/y/z excluded (xev log holds them; outer raw reader saw 2 RawKeyPress); burst snapshots: 3 for 3 key group(s)
+gaps (s): [2.0, 2.0]
+session: scratch/human/sessions/20261011-212422
+screens: 3, transitions: 3, keys: 3
+# Observed screen/key map
+
+screens: 3, transitions: 3, keys: 3
+
+Ordered bursts are associations between snapshots, not proof of individual-key causality.
+
+| Before (text digest) | Keys pressed | After (text digest) | Count |
+| --- | --- | --- | --- |
+| Z:\>c: (1811b40eeb94) | a | Z:\>c: (ca855e427ba5) | 1 |
+| Z:\>c: (ca855e427ba5) | b | (c) NE'93│ │                                                    │     (c) (09d3e9010708) | 1 |
+| (c) NE'93│ │                                                    │     (c) (09d3e9010708) | c | (c) NE'93│ │                                                    │     (c) (09d3e9010708) | 1 |
+
+Unmapped presses: 0
+
+XGetInputFocus returned the focused window of 1. This is likely a bug in the X server.
+XGetInputFocus returned the focused window of 1. This is likely a bug in the X server.
+
+
+======================================================================
+FAIL: test_scripted_sitting_produces_one_burst_snapshot_per_key_group (test_human_keys.GuardTests.test_scripted_sitting_produces_one_burst_snapshot_per_key_group)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-aa2816605de83e340/tests/test_human_keys.py", line 1198, in test_scripted_sitting_produces_one_burst_snapshot_per_key_group
+    self.assertEqual(r.returncode, 0, (r.stdout + r.stderr)[-4000:])
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 1 != 0 : [19:24:47] session /home/diego/projects/goal2-archaeology/.claude/worktrees/agent-aa2816605de83e340/scratch/human/sessions/20261011-212447
+[19:24:47] dosbox-x started (pid 589911)
+[19:24:47] game window 6291461 (pid 589911)
+[19:24:47] F12+S sent to window 6291461
+[19:24:47] live savestate changed or incomplete during capture: retrying
+[19:24:48] staged snapshots/snap-0001-20261011T192448Z.sav (177181 bytes, sha256 b9d802906d2ecfcc...)
+[19:24:48] F12+S sent to window 6291461
+[19:24:48] burst group (last key +0.931s) requested at +1.002s
+[19:24:48] live savestate changed or incomplete during capture: retrying
+[19:24:49] staged snapshots/snap-0002-20261011T192449Z.sav (223959 bytes, sha256 6a955efee4c152db...)
+[19:24:49] F12+S sent to window 6291461
+[19:24:49] burst group (last key +1.648s) requested at +1.729s
+[19:24:49] live savestate changed or incomplete during capture: retrying
+[19:24:50] F12+S sent to window 6291461
+[19:24:50] burst group (last key +2.373s) requested at +2.435s
+[19:24:50] live savestate changed or incomplete during capture: retrying
+[19:24:50] live savestate changed or incomplete during capture: retrying
+[19:24:50] request superseded: 106 write events on the live savestate since this request was sent (more than one save's bound of 80): a later request's savestate has already overwritten it (request attribution lost)
+[19:24:50] staged snapshots/snap-0003-20261011T192450Z.sav (205570 bytes, sha256 a4780b3daae66714...)
+[19:24:50] F12+S sent to window 6291461
+[19:24:50] burst group (last key +3.101s) requested at +3.174s
+[19:24:50] live savestate changed or incomplete during capture: retrying
+[19:24:51] staged snapshots/snap-0004-20261011T192451Z.sav (196998 bytes, sha256 bb364650841e112f...)
+[19:24:51] F12+S sent to window 6291461
+[19:24:51] burst group (last key +3.828s) requested at +3.902s
+[19:24:51] live savestate changed or incomplete during capture: retrying
+[19:24:52] staged snapshots/snap-0005-20261011T192452Z.sav (193313 bytes, sha256 0a59a4a29676b442...)
+[19:25:07] F12+S sent to window 6291461
+[19:25:08] live savestate changed or incomplete during capture: retrying
+[19:25:08] live savestate changed or incomplete during capture: retrying
+[19:25:08] live savestate changed or incomplete during capture: retrying
+[19:25:08] staged snapshots/snap-0006-20261011T192508Z.sav (180494 bytes, sha256 d14d413de9745c58...)
+[19:25:09] quit-after 22.0s reached
+[19:25:10] shutdown snapshot already indexed (d14d413de9745c58...): skipping
+[19:25:10] done: 6 snapshots, stop quit-after
+XGetInputFocus returned the focused window of 1. This is likely a bug in the X server.
+XGetInputFocus returned the focused window of 1. This is likely a bug in the X server.
+acceptance guard FAILED: request attribution lost: lost boundary at request line(s) [2] (request_s [1.729]): another request's savestate write completed first
+
+
+======================================================================
+FAIL: test_a_video_sitting_records_the_xephyr_window (test_human_keys.VideoTests.test_a_video_sitting_records_the_xephyr_window)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-aa2816605de83e340/tests/test_human_keys.py", line 379, in test_a_video_sitting_records_the_xephyr_window
+    self.assertGreater(meta["video"]["bytes"], max(sizes))
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 46739 not greater than 46739
+
+----------------------------------------------------------------------
+Ran 60 tests in 118.579s
+
+FAILED (failures=3)
+release    /home/diego/projects/goal2-archaeology/.claude/worktrees/agent-aa2816605de83e340/.cache/goal2 matches artifacts/known.json set fixture
+dosbox-x   2024.03.01
+xdotool    present
+stdbuf     present
