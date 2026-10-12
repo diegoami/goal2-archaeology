@@ -374,9 +374,16 @@ class RealGuestTests(unittest.TestCase):
     def test_the_skill_reader_falsifiers_are_stopped(self):
         from check import skill_reader
         from watched_match import ProofError
-        for fn in (skill_reader(product_plus=1), skill_reader(gate=frozenset({0x18}))):
-            with self.assertRaises(ProofError):
-                self.prove_reader(fn, ticks=3000)
+        with self.assertRaises(ProofError):
+            self.prove_reader(skill_reader(product_plus=1), ticks=3000)
+
+    def test_the_gate_falsifier_is_not_reached_by_e011(self):
+        # T42 DW2 as amended (2026-10-12): no 278A call in E011 reaches the 282D-2837 keeper set
+        # test with an event in {3, 4, 0x18}, so the pre-T40 gate proves; #164 tracks a match
+        # that reaches it, and then this test must expect a ProofError
+        from check import SKILL_READER, skill_reader
+        m = self.prove_reader(skill_reader(gate=frozenset({0x18})), ticks=3000)
+        self.assertGreater(m.proved_calls[SKILL_READER], 0)
 
     def test_an_undeclared_first_key_read_raises(self):
         # review R2: the queued Enter is for CC7B's read (return 0791:CEED) only
