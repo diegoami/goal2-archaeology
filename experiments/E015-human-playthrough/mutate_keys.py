@@ -186,7 +186,7 @@ MUTATIONS = [
     # the 0.527 s key spacing and key pairs share a gap (unmapped).
     ("r2-R3: scheduler waits for the previous capture", REC,
       'jobs.put((pre, request, sent, origin, pre_events,\n'
-      '                      self.session / "requests" / f"rq-{self._request_seq:04d}.sav"))',
+      '                      self.session / "requests" / f"rq-{self._request_seq:04d}.sav", epoch))',
       'jobs.put((pre, request, sent, origin, pre_events, None)); jobs.join()'),
     # Sol delta r3 R1: the deferred-capture check removed — a job that begins after a save
     # completed stages those (later request's) bytes under its own window again; the
@@ -273,8 +273,8 @@ MUTATIONS = [
     # Sol's round-3 R1 on PR 112: the write watch started with the Watcher again, after the
     # emulator is up, so an early save goes uncounted (killed by EarlySaveTests; heavy)
     ("r6-R1: the write watch starts after the emulator", REC,
-     'xrun=lambda argv: send_save_event(wid, env), watch=watch)',
-     'xrun=lambda argv: send_save_event(wid, env), watch=None)', "heavy"),
+     'xrun=lambda argv: send_save_event(wid, env), watch=watch,',
+     'xrun=lambda argv: send_save_event(wid, env), watch=None,', "heavy"),
 ]
 
 

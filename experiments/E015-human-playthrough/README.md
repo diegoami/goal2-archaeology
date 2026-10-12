@@ -181,3 +181,102 @@ and mapped coverage (`check_mapped`: every press mapped, else exit 1). The
 reproduction now reports `screens: 2, transitions: 10, keys: 10; every press
 mapped` (`T34-scripted-20261009-05.log`); three new mutations cover the r2 code
 (`T34-mutations-20261009-08.log`, survivors `[]`).
+
+## T39b addendum: pause, notes and live view (2026-10-11)
+
+T39b (#138) adds the coaching kit to the recorder without changing the research question:
+DOSBox-X's own pause on F12+P (resumed with the Pause key), `pauses.jsonl`, coaching notes
+(`runtime/human/note.py`, `notes.jsonl`) and a read-only live view (`runtime/human/live.py`).
+The design is in [docs/recorder-architecture.md](../../docs/recorder-architecture.md) and the
+sitting's side in [protocol.md](protocol.md). The record (`extract.py`) carries each note and
+each pause and resume between the two states whose screens it falls between, and the key log's
+press count beside the map's.
+
+Method. No game fact is established, so there is no annotation row and no static question:
+the pause is DOSBox-X's, not GOAL.EXE's. What DOSBox-X 2024.03.01 does around it was measured on
+a private Xvfb at the DOS prompt by `probe_pause.py`
+([T39b-probe-pause-20261011-01.log](T39b-probe-pause-20261011-01.log)): F12+P pauses and the
+title says `PAUSED`; a save request while paused is dropped, not deferred; keys typed while
+paused never reach DOS; only the Pause key resumes; F12+P on `hand_pauseints` instead changes no
+title and pauses nothing visible at the prompt; a mapper file holding the pause bind alone leaves
+F12+S unbound (a mapper file replaces the default binds).
+
+Tests and proofs: `tests/test_human_pause.py` and `tests/test_human_coach.py`;
+`mutate_pause.py` makes each mutation in place and restores the source in `finally`
+([T39b-mutations-20261011-02.log](T39b-mutations-20261011-02.log): 26 mutations, survivors
+`[]`); `mutate_pause.py --before` runs the new tests on origin/main's sources, every one failing
+([T39b-failbefore-20261011-02.log](T39b-failbefore-20261011-02.log)). `scripted_pause.py`
+rehearses the owner's test sitting on private displays (two pauses, the second in the middle of
+a key burst, a key typed while paused, two notes, two live views):
+[-01](T39b-scripted-pause-20261011-01.log) failed its own check on xdotool's added `Alt_L`
+before F12 (a modifier no keyboard sends), [-02](T39b-scripted-pause-20261011-02.log) passed and
+showed a burst request sent after the P press being dropped as DOSBox-X paused — the shape the
+post-resume guard now refuses — and [-03](T39b-scripted-pause-20261011-03.log) passed with the
+guard. Rehearsals are extracted into scratch only; they are not E015 records.
+
+### The owner's test sitting and the amendment (2026-10-11)
+
+| Record | Sitting | Map |
+| --- | --- | --- |
+| `E015-r0009` | `20261011-215411`, the owner's T39b test sitting: Italy (`--countries 16`), from the owner's saved game, three pauses, four notes | [table](E015-r0009-keymap.md) |
+
+`extract_215411.py` made it, declaring what the session folder does not record: the main
+session's copy of the owner's `1.GL` into the game copy before launch (I3) and the Pause keys it
+pressed for the owner, who has no Pause key (I2). Its 42 snapshots are on release E015
+(`evidence/E015/E015-r0009.manifest.json`). It shows the first two pauses with their resumes
+and the snapshots on both sides, the four notes in place, and 310 presses in the record as in
+`keys.jsonl`. The third pause has no resume: `keys.jsonl` ends at +237.9 s and the main session's
+Pause at about 19:58:40Z is in neither file, so the recorder no longer read keys or the title by
+then; the sitting's terminal output, which would say why, was not kept. live.py ran once on it
+([T39b-live-20261011-01.log](T39b-live-20261011-01.log)).
+
+The task was amended after that sitting (Scope 5-8). Findings behind the changes:
+[T39b-repro-215411-20261011-01.log](T39b-repro-215411-20261011-01.log) replays the third pause's
+keys and the window closing on private displays: the third resume is logged there, and closing
+the window ends the key logger first, which the loop raised past `play()`'s meta write — the
+missing `ended` and `stop_reason`. [T39b-probe-resume-20261011-01.log](T39b-probe-resume-20261011-01.log):
+an XTEST Pause with the window focused and an XSendEvent Pause end the pause in a plain Xvfb;
+focus changes, clicks, F12+P, an unfocused XTEST Pause and a save request do not (the sitting's
+second resume, at +145.8 s with no key in `keys.jsonl`, fits an XSendEvent Pause). The recorder
+now resumes on F12+P with its own marked XTEST Pause, ends cleanly on a closed window, writes
+`ended` on any error, never crashes on an unanswered title read, and copies the saved game
+(`--load`, `--fresh`). Tests: `tests/test_human_resume.py`;
+[T39b-mutations-20261011-04.log](T39b-mutations-20261011-04.log) (52 mutations, survivors `[]`),
+[T39b-failbefore-20261011-04.log](T39b-failbefore-20261011-04.log) (every new test fails on
+origin/main's sources; `-03` found one that did not, fixed in `-04`). Rehearsal
+[-04](T39b-scripted-pause-20261011-04.log): two F12+P resumes, `--load`, and the window closed
+(`stop_reason: window-closed`).
+
+### The owner's second sittings (2026-10-11)
+
+| Record | Sitting | Map |
+| --- | --- | --- |
+| `E015-r0010` | `20261011-224811`: `--load 1.GL` (sha256 `4a0f9bc0…`), Italy into the Belgium qualifier; 39 snapshots, 170 owner presses and 6 Pause presses by the recorder; 5 pauses, 4 resumed by F12+P (the last pause ended when the window closed), `stop_reason: window-closed` | [table](E015-r0010-keymap.md) |
+| `E015-r0011` | `20261011-225621`: the newest `.GL` copied by default; 19 snapshots, 38 owner presses and 2 by the recorder; 2 pauses, each resumed by F12+P, a note and a live view in each (`T39b-live-20261011-03.log`), `stop_reason: window-closed` | [table](E015-r0011-keymap.md) |
+
+`extract_224811_225621.py` made both. The saved-game copy (I3) and the recorder's Pause keys (I2)
+come from the sessions themselves; the main session's notes and live views are declared (I0).
+E015-r0010's one note and second live view came after the window closed (20:52:35Z), so the note
+lies after the last state.
+
+The owner's question A3 (does the match start with the stored eleven or the original one?):
+**the stored one.** In E015-r0010 Italy's squad words never change. The first eleven stays the
+stored order from the loaded save: Vierchowod (314), Stroppa (315) and Baggio (318) are in it,
+and Maldini (303) and Di Chiara (305) are among the substitutes. The Belgium qualifier's
+pre-match screen (state 12) and its match (state 16, "Baggio intercepts") use that eleven: the
+game did not restore the original one when the match started.
+
+### Rework round 1 (Sol's review of PR #144): a superseded record
+
+Records are never rewritten (L207), so a defective record stays and a later one supersedes it:
+
+| Record | Extraction pass | Superseded by, and why |
+| --- | --- | --- |
+| `E015-r0009` | `extract_215411.py` | `E015-r0012`: it declares the main session's Pause keys but counts them as owner presses (310) and maps the one at +88.312 s as an owner transition (review R2). Its I2 text also says keys.jsonl holds no key around the +145.8 s resume; the log holds main-session Pause presses at +141.643 s and +148.438 s |
+| `E015-r0012` | `extract_215411_v2.py`: the same sitting `20261011-215411`, the three Pause presses named `--injected` (the main session's), the I2 text corrected | — ([table](E015-r0012-keymap.md); 307 owner presses, the map's 307; the same 42 snapshots, manifest `evidence/E015/E015-r0012.manifest.json`) |
+
+`E015-r0010` and `E015-r0011` need no correction: every Pause press in their key logs carries
+`by: recorder`, and no other key there was injected. In E015-r0010 the third pause
+(+90.7 s to +128.6 s) took three injected Pause keys (+96.2, +101.4, +108.9 s) that did not end it,
+and ended at +128.6 s with no logged key. The resume line still names the recorder, because the
+recorder had pressed Pause during that pause; what ended it is not shown.

@@ -89,6 +89,51 @@ The T35 follow-up (PR #106 + #112) made those guards real — the absent-of-`sup
 became "per-request path hash matches `pre_sig`", and the stability-fallback's "fall back to
 the live savestate" became "never read the live savestate on the fast path".
 
+## The coaching kit: pause, notes, live view (T39b)
+
+The owner coaches the main session while playing; three pieces serve that, all game-agnostic:
+
+- **Pause.** The session's mapper file (`mapper.map`, the one the G1 config's `[sdl] mapperfile`
+  names) is DOSBox-X 2024.03.01's complete default bind set, saved by its own mapper editor
+  (`runtime/human/dosbox-x-2024.03.01-default.map`, checked by sha256), with `hand_pause` also on
+  F12+P (taken from the screenshot event). The file must be complete: a mapper file DOSBox-X finds
+  replaces its default binds. DOSBox-X's pause ends on the Pause key only (an XTEST Pause with the
+  window focused or an XSendEvent Pause; `T39b-probe-resume-20261011-01.log`), so F12+P typed
+  while paused makes the recorder press Pause itself (XTEST, the window focused), marked `by:
+  recorder` in `keys.jsonl` (however late the logger delivers it: an injection never expires) and
+  left out of the owner's presses and bursts. Chords are judged from the key events alone, never by
+  when the logger's output was read. Each event keeps the X server's own time (`server_ms`, from
+  xinput's raw events). A press 0-1 server ms after its own release is the host's autorepeat
+  (`T39b-probe-autorepeat-20261012-01.log`). The first fresh F12+P after a resume is the one
+  that pauses, even when it is delivered after the title shows the pause; only the next one
+  resumes. No save request goes out while the owner holds F12 (bounded by `HOST_HOLD_MAX_S`): its
+  F12 release would break the owner's chord. A title that cannot be read is "unknown", and holds every send until a
+  read answers. The extraction can name other injected keys (`extract.py --injected`). The pause swallows every key and
+  every save request while it lasts (none is deferred), and appends ` PAUSED` to the window
+  title (`experiments/E015-human-playthrough/T39b-probe-pause-20261011-01.log`). The watcher reads
+  the pause from that title — after every key event, every `PAUSE_POLL_S` and again right before
+  every send — logs each pause and resume to `pauses.jsonl`, sends no save request while paused
+  (cadence ticks inside the pause are skipped; key groups wait), requests the pause's snapshot
+  (`origin: resume`) right after the resume, never re-sends a request a pause followed, and
+  refuses (superseded) a write past the event count at a pause that began after its request:
+  such a write landed after the resume. `keymap.py` counts a paused span as no time in its
+  quiet-gap rule.
+- **A clean end.** Closing the window ends Xephyr, and the key logger on its display ends first:
+  the loop ends the sitting (no key may go unlogged) and `play()` names it `window-closed` when
+  DOSBox-X has exited, `key-logger-stopped` when not. Any error still writes `ended` and
+  `stop_reason` to `meta.json` and its traceback to `session.log`.
+- **Saved games.** `play.sh` copies the newest `.GL` of the previous sessions (or `--load FILE.GL`;
+  `--fresh` none) into the session's game copy before launch and records it in `meta.json`.
+- **Notes.** `runtime/human/note.py <session> "text"` appends UTC, the monotonic clock and the
+  text to `notes.jsonl`; `extract.py` places each note, and each pause and resume, between the
+  two states whose screens (their request windows) it falls between.
+- **Live view.** `runtime/human/live.py <session>` prints the newest staged snapshot's screen and
+  the keys since its previous call; it only reads the session (its key cursor lives in
+  `scratch/human/live/`).
+
+None of the three adds a reader of the outer display: the title is the nested display's game
+window, and a note is text passed on the command line.
+
 ## What's GOAL2-specific (today's plugin)
 
 This is everything the recorder delegates to because GOAL2 has a specific byte layout and a

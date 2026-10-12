@@ -1,0 +1,11 @@
+T39b tests on 6a42e88's runtime/human/recorder.py, experiments/E015-human-playthrough/keymap.py, experiments/E015-human-playthrough/extract.py, experiments/E015-human-playthrough/scripted_pause.py, runtime/human/note.py, runtime/human/live.py: exit 1, FAILED (failures=2, errors=4)
+the rework's new tests:
+test_a_named_injected_key_is_no_owner_press_and_the_log_stays_raw (tests.test_human_coach.ExtractMarksTests.test_a_named_injected_key_is_no_owner_press_and_the_log_stays_raw) ... usage: python3 -m unittest [-h] [--countries COUNTRIES] [--runs-dir RUNS_DIR]
+test_a_delayed_logger_still_marks_the_injected_key (tests.test_human_resume.InjectedKeyTests.test_a_delayed_logger_still_marks_the_injected_key) ... ERROR
+test_two_injections_before_the_logger_catches_up_are_both_marked (tests.test_human_resume.InjectedKeyTests.test_two_injections_before_the_logger_catches_up_are_both_marked) ... ERROR
+test_a_later_pauses_resume_snapshot_never_counts_for_an_earlier_pause (tests.test_human_resume.RehearsalGuardTests.test_a_later_pauses_resume_snapshot_never_counts_for_an_earlier_pause) ... ERROR
+test_an_unreadable_title_holds_every_send (tests.test_human_resume.ResumeChordTests.test_an_unreadable_title_holds_every_send) ... FAIL
+test_the_held_pausing_p_repeating_never_resumes (tests.test_human_resume.ResumeChordTests.test_the_held_pausing_p_repeating_never_resumes) ... FAIL
+passing: []
+restored sources: OK
+exit 0

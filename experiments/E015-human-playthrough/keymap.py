@@ -19,6 +19,8 @@ The rules (T34 review R1, R2; each pinned by tests/test_human_keys.py):
   are absent, unparsed, or a request that staged nothing (requests.jsonl, a skipped snapshot).
 - A mapped burst is (screen of the snapshot before, its presses in order, screen of the snapshot
   after). Releases are part of the timeline, not of the keys listed.
+- A span DOSBox-X was paused (pauses.jsonl, T39b) is no time to the quiet rule: the gap between
+  two keys counts only the seconds the emulator ran.
 """
 import argparse
 import hashlib
@@ -52,8 +54,34 @@ def window(entry, t0, margin):
     return t0 + entry["request_s"], t0 + sent + margin
 
 
-def build_map(states, events, t0, quiet=None, margin=None, requests=()):
+def paused_before(t, pauses):
+    """The paused seconds before monotonic time `t`: the sum of each pause span's part before it."""
+    return sum(max(0.0, min(t, hi) - lo) for lo, hi in pauses if lo < t)
+
+
+def pause_spans(lines, end=math.inf):
+    """(start, end) monotonic spans from pauses.jsonl's lines (T39b): each pause to the next
+    resume; a pause the sitting ended in runs to `end`."""
+    spans, start = [], None
+    for line in sorted(lines, key=lambda x: x["monotonic_s"]):
+        if line.get("event") == "pause" and start is None:
+            start = line["monotonic_s"]
+        elif line.get("event") == "resume" and start is not None:
+            spans.append((start, line["monotonic_s"]))
+            start = None
+    if start is not None:
+        spans.append((start, end))
+    return spans
+
+
+def build_map(states, events, t0, quiet=None, margin=None, requests=(), pauses=()):
+    """`pauses`: (start, end) monotonic spans DOSBox-X was paused (T39b). A paused span is no
+    time to the quiet-gap rule: two keys a pause separates are one burst when their gap less the
+    paused seconds between them is within the quiet."""
     quiet = recorder.BURST_QUIET_S if quiet is None else quiet
+    # injected keys are not the owner's: the recorder's own (`by: recorder` in the log, T39b) and
+    # those the extraction names (mark_injected, rework round 1 R2)
+    events = [e for e in events if not e.get("by")]
     margin = recorder.CAPTURE_MARGIN_S if margin is None else margin
     screens = {}
     samples = []                       # (lo, hi, digest or None)
@@ -83,6 +111,9 @@ def build_map(states, events, t0, quiet=None, margin=None, requests=()):
     transitions = {}
     total, unmapped = 0, 0
     for gap, gap_events in sorted(gaps.items()):
+        # the quiet rule runs on emulated time: each key's clock less the paused seconds before it
+        gap_events = [dict(e, monotonic_s=e["monotonic_s"] - paused_before(e["monotonic_s"], pauses))
+                      for e in gap_events]
         bursts = []
         for event in gap_events:
             if not bursts or event["monotonic_s"] > bursts[-1][-1]["monotonic_s"] + quiet:
@@ -114,7 +145,33 @@ def build_map(states, events, t0, quiet=None, margin=None, requests=()):
                       "keys, not individual-key causality; screen = SHA256 of UTF-8 text"}
 
 
-def read_session(session, states=None):
+# [designed] How far a named injected key's logged press may lie from the time given for it: the
+# record names it from its own keys.jsonl line (to the millisecond), so 10 ms is rounding, not a
+# search. Extraction policy.
+INJECTED_MATCH_S = 0.01
+
+
+def mark_injected(events, injected, t0, tolerance=INJECTED_MATCH_S):
+    """Copies of `events` with each named injected key marked (rework round 1, R2): `injected` is
+    [(keysym, elapsed seconds, who)]; the one press of `keysym` within `tolerance` of t0 +
+    elapsed, and the next release of that keysym, get `by: who`. The raw key log is never
+    changed. A name that matches no press, or more than one, is an error: a known injection
+    must land on a known key."""
+    out = [dict(e) for e in events]
+    for keysym, at, who in injected:
+        hits = [i for i, e in enumerate(out) if e.get("keysym") == keysym
+                and e.get("event") == "press" and abs(e["monotonic_s"] - (t0 + at)) <= tolerance]
+        if len(hits) != 1:
+            raise ValueError(f"injected {keysym}@{at}: {len(hits)} matching presses in keys.jsonl")
+        out[hits[0]]["by"] = who
+        for e in out[hits[0] + 1:]:
+            if e.get("keysym") == keysym and e.get("event") == "release":
+                e["by"] = who
+                break
+    return out
+
+
+def read_session(session, states=None, injected=()):
     import extract
     session = Path(session)
     meta = json.loads((session / "meta.json").read_text())
@@ -123,11 +180,16 @@ def read_session(session, states=None):
     if (session / "requests.jsonl").is_file():
         requests = [json.loads(line) for line in
                     (session / "requests.jsonl").read_text().splitlines() if line.strip()]
+    pauses = []
+    if (session / "pauses.jsonl").is_file():
+        pauses = pause_spans([json.loads(line) for line in
+                              (session / "pauses.jsonl").read_text().splitlines() if line.strip()])
     if states is None:
         states = [extract.read_snapshot(session, e, []) for e in extract.read_index(session)[0]]
+    events = mark_injected(events, injected, meta["monotonic_start_s"])
     return build_map(states, events, meta["monotonic_start_s"],
                      quiet=meta.get("burst_quiet_s"), margin=meta.get("capture_margin_s"),
-                     requests=requests)
+                     requests=requests, pauses=pauses)
 
 
 def table(result):

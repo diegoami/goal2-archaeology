@@ -1,0 +1,306 @@
+{
+  "schema": "evidence-manifest/1",
+  "run_id": "E015-r0009",
+  "experiment": "E015",
+  "store": "release:E015",
+  "artifact": {
+    "set": "goal2-67cf27d6",
+    "variant": null
+  },
+  "files": [
+    {
+      "name": "snap-0001-20261011T195411Z.sav",
+      "bytes": 211235,
+      "sha256": "89d9cec4cb16bc3644fd359862fdf3afb50ab608e722cc441e5d3638890d6816",
+      "asset": "89d9cec4cb16bc36-snap-0001-20261011T195411Z.sav",
+      "class": "save"
+    },
+    {
+      "name": "snap-0002-20261011T195414Z.sav",
+      "bytes": 140200,
+      "sha256": "f3c52459af0252ac3685fd8ed7c1c01e999769d47e821aefee31807d6a827e99",
+      "asset": "f3c52459af0252ac-snap-0002-20261011T195414Z.sav",
+      "class": "save"
+    },
+    {
+      "name": "snap-0003-20261011T195415Z.sav",
+      "bytes": 223452,
+      "sha256": "46bbf5dabaaa95537b7dd88de00563b9e8594db021fb3d4a75254ed379465bea",
+      "asset": "46bbf5dabaaa9553-snap-0003-20261011T195415Z.sav",
+      "class": "save"
+    },
+    {
+      "name": "snap-0004-20261011T195422Z.sav",
+      "bytes": 221690,
+      "sha256": "ad33ebf656397834ba93ecd89fb320ee978dcea7529458a0fe648007627e9a5f",
+      "asset": "ad33ebf656397834-snap-0004-20261011T195422Z.sav",
+      "class": "save"
+    },
+    {
+      "name": "snap-0005-20261011T195423Z.sav",
+      "bytes": 222624,
+      "sha256": "8319c571daff2e8673f7258aac20590b53b0791e6af107d07f80838ee70cfe25",
+      "asset": "8319c571daff2e86-snap-0005-20261011T195423Z.sav",
+      "class": "save"
+    },
+    {
+      "name": "snap-0006-20261011T195423Z.sav",
+      "bytes": 221367,
+      "sha256": "3b6aac10f464d819d63a246908cf2e3ff6ce4c3c4a2abacd79c2cbaaff579763",
+      "asset": "3b6aac10f464d819-snap-0006-20261011T195423Z.sav",
+      "class": "save"
+    },
+    {
+      "name": "snap-0007-20261011T195425Z.sav",
+      "bytes": 222382,
+      "sha256": "7500d91f83de78116f22cd525894d2e45b9047b928c2826b89db5e91a760ebf5",
+      "asset": "7500d91f83de7811-snap-0007-20261011T195425Z.sav",
+      "class": "save"
+    },
+    {
+      "name": "snap-0008-20261011T195426Z.sav",
+      "bytes": 221413,
+      "sha256": "aadd91ef1f5c53c8243f60cd0a87621de99d8a4c72cb1c3b95d0e5f01508774f",
+      "asset": "aadd91ef1f5c53c8-snap-0008-20261011T195426Z.sav",
+      "class": "save"
+    },
+    {
+      "name": "snap-0009-20261011T195426Z.sav",
+      "bytes": 220191,
+      "sha256": "5382296734c9c7646266d676d69bad1894100c812c778cc2796be89e929664e4",
+      "asset": "5382296734c9c764-snap-0009-20261011T195426Z.sav",
+      "class": "save"
+    },
+    {
+      "name": "snap-0010-20261011T195429Z.sav",
+      "bytes": 222435,
+      "sha256": "d71b2b611d802aac5a2079fb37f4265036a1ad018414da0b00e2a1cdc7e5e431",
+      "asset": "d71b2b611d802aac-snap-0010-20261011T195429Z.sav",
+      "class": "save"
+    },
+    {
+      "name": "snap-0011-20261011T195431Z.sav",
+      "bytes": 221757,
+      "sha256": "a8b16beda0c195a87c8d61b36f52da4d3a1f2677d8c8255021d02b09709f1526",
+      "asset": "a8b16beda0c195a8-snap-0011-20261011T195431Z.sav",
+      "class": "save"
+    },
+    {
+      "name": "snap-0012-20261011T195436Z.sav",
+      "bytes": 223466,
+      "sha256": "ea401eaff3e092953e68c7049c1617d51ba93b36bae9caacd9f1fa05549bd1f0",
+      "asset": "ea401eaff3e09295-snap-0012-20261011T195436Z.sav",
+      "class": "save"
+    },
+    {
+      "name": "snap-0013-20261011T195537Z.sav",
+      "bytes": 220225,
+      "sha256": "c7a70de0080df4ac0f9819fbea8c1d5fa419d8964473ea546976b15d91d72b09",
+      "asset": "c7a70de0080df4ac-snap-0013-20261011T195537Z.sav",
+      "class": "save"
+    },
+    {
+      "name": "snap-0014-20261011T195540Z.sav",
+      "bytes": 223458,
+      "sha256": "a65a853732cc73facf5fa0844f090857590174029ad4f3f6019af6c5f490dab2",
+      "asset": "a65a853732cc73fa-snap-0014-20261011T195540Z.sav",
+      "class": "save"
+    },
+    {
+      "name": "snap-0015-20261011T195549Z.sav",
+      "bytes": 222105,
+      "sha256": "0f17d59bbfef2f518a676690834d0b8a230f67f665773dbc68b5b3f58b79b168",
+      "asset": "0f17d59bbfef2f51-snap-0015-20261011T195549Z.sav",
+      "class": "save"
+    },
+    {
+      "name": "snap-0016-20261011T195550Z.sav",
+      "bytes": 222080,
+      "sha256": "4683694d8c6102f7ea617095da46a8cb0d24ab80db7fb293ac277db50909b7cb",
+      "asset": "4683694d8c6102f7-snap-0016-20261011T195550Z.sav",
+      "class": "save"
+    },
+    {
+      "name": "snap-0017-20261011T195551Z.sav",
+      "bytes": 219950,
+      "sha256": "262f447fb462aa676fa3dec93d4f68e0f8380926f03e880b88bc5f96b7f59134",
+      "asset": "262f447fb462aa67-snap-0017-20261011T195551Z.sav",
+      "class": "save"
+    },
+    {
+      "name": "snap-0018-20261011T195557Z.sav",
+      "bytes": 222397,
+      "sha256": "84ff164667035acb19b875ea06f5e59be79a0a153e03185a2e645be70151f482",
+      "asset": "84ff164667035acb-snap-0018-20261011T195557Z.sav",
+      "class": "save"
+    },
+    {
+      "name": "snap-0019-20261011T195557Z.sav",
+      "bytes": 221992,
+      "sha256": "34ba8b083ac91b437d64c8bab11f567b63820c2fa2c80aac289d194aa73c4dbb",
+      "asset": "34ba8b083ac91b43-snap-0019-20261011T195557Z.sav",
+      "class": "save"
+    },
+    {
+      "name": "snap-0020-20261011T195557Z.sav",
+      "bytes": 222103,
+      "sha256": "a69637f6adaa680e0f41dbaf9a6335f05667e1d0f493dd298805d954da2f9125",
+      "asset": "a69637f6adaa680e-snap-0020-20261011T195557Z.sav",
+      "class": "save"
+    },
+    {
+      "name": "snap-0021-20261011T195603Z.sav",
+      "bytes": 221158,
+      "sha256": "746c9eec9f51dd44e65f0d8c2d94afc90771c5e015364a15ad2a2ebf80a55b53",
+      "asset": "746c9eec9f51dd44-snap-0021-20261011T195603Z.sav",
+      "class": "save"
+    },
+    {
+      "name": "snap-0022-20261011T195604Z.sav",
+      "bytes": 222440,
+      "sha256": "d33c4e9490ed40a0c8b03987177e327252e5feb72cef57c8dab172f61540f48f",
+      "asset": "d33c4e9490ed40a0-snap-0022-20261011T195604Z.sav",
+      "class": "save"
+    },
+    {
+      "name": "snap-0023-20261011T195605Z.sav",
+      "bytes": 222375,
+      "sha256": "e54786e5b2eab79288be697a005b7f19d1edfd73fad012ea716d410b265e88c0",
+      "asset": "e54786e5b2eab792-snap-0023-20261011T195605Z.sav",
+      "class": "save"
+    },
+    {
+      "name": "snap-0024-20261011T195637Z.sav",
+      "bytes": 220552,
+      "sha256": "4da4de420771414bd46e73992eb0246cecf8961d563e432e3d917f89b20e4295",
+      "asset": "4da4de420771414b-snap-0024-20261011T195637Z.sav",
+      "class": "save"
+    },
+    {
+      "name": "snap-0025-20261011T195640Z.sav",
+      "bytes": 221715,
+      "sha256": "2dad71a3e5e56fd31a0b59a44224cf994a7575bef8e4f58e57c983903c06df9a",
+      "asset": "2dad71a3e5e56fd3-snap-0025-20261011T195640Z.sav",
+      "class": "save"
+    },
+    {
+      "name": "snap-0026-20261011T195651Z.sav",
+      "bytes": 220295,
+      "sha256": "061e5aa2cd806895b957f8a526645479bc055eaf07ce76733c428557d2d5511b",
+      "asset": "061e5aa2cd806895-snap-0026-20261011T195651Z.sav",
+      "class": "save"
+    },
+    {
+      "name": "snap-0027-20261011T195711Z.sav",
+      "bytes": 220921,
+      "sha256": "6b5b7a6ac098b9274dea115a9454d360f6ab5878c462b6f2a053d41ed1d38f12",
+      "asset": "6b5b7a6ac098b927-snap-0027-20261011T195711Z.sav",
+      "class": "save"
+    },
+    {
+      "name": "snap-0028-20261011T195730Z.sav",
+      "bytes": 221388,
+      "sha256": "d92b412b5de94854d4f582dac1f0f04cacf466b40038c6c41f26ef6bd91b9a94",
+      "asset": "d92b412b5de94854-snap-0028-20261011T195730Z.sav",
+      "class": "save"
+    },
+    {
+      "name": "snap-0029-20261011T195731Z.sav",
+      "bytes": 222173,
+      "sha256": "9b29ea1262735abc4edf148e14253c192225ddd99152a317bf953f64ec9d5b0f",
+      "asset": "9b29ea1262735abc-snap-0029-20261011T195731Z.sav",
+      "class": "save"
+    },
+    {
+      "name": "snap-0030-20261011T195731Z.sav",
+      "bytes": 221866,
+      "sha256": "7a3866792915fe375ab6343cb0b799aa194f227472b129e5e68f66ae02c88d3c",
+      "asset": "7a3866792915fe37-snap-0030-20261011T195731Z.sav",
+      "class": "save"
+    },
+    {
+      "name": "snap-0031-20261011T195733Z.sav",
+      "bytes": 221515,
+      "sha256": "0cbde465c15abd392613abc4946593a2bbb35d2d370558b20bb663ecda66b3a9",
+      "asset": "0cbde465c15abd39-snap-0031-20261011T195733Z.sav",
+      "class": "save"
+    },
+    {
+      "name": "snap-0032-20261011T195733Z.sav",
+      "bytes": 222013,
+      "sha256": "c4f3e853b7b15f4d990b039ccacf8433850257797455a53678f92f7c7e8c8980",
+      "asset": "c4f3e853b7b15f4d-snap-0032-20261011T195733Z.sav",
+      "class": "save"
+    },
+    {
+      "name": "snap-0033-20261011T195734Z.sav",
+      "bytes": 223504,
+      "sha256": "bf620498b552eacd82fbda7acf1bc9ff1c1c956283501bf35eae68a0af43ccc4",
+      "asset": "bf620498b552eacd-snap-0033-20261011T195734Z.sav",
+      "class": "save"
+    },
+    {
+      "name": "snap-0034-20261011T195735Z.sav",
+      "bytes": 221922,
+      "sha256": "7d15a3cdda4c324e68049ca2c86b6e5b7041615e5d4c65448d47eef7524626fd",
+      "asset": "7d15a3cdda4c324e-snap-0034-20261011T195735Z.sav",
+      "class": "save"
+    },
+    {
+      "name": "snap-0035-20261011T195737Z.sav",
+      "bytes": 222021,
+      "sha256": "31d4d5bfb8781fea957d0fabe7eda7779994eead83222960f6939e5689731df3",
+      "asset": "31d4d5bfb8781fea-snap-0035-20261011T195737Z.sav",
+      "class": "save"
+    },
+    {
+      "name": "snap-0036-20261011T195738Z.sav",
+      "bytes": 223223,
+      "sha256": "71eaff5016844b8c73d931459a65298633d1b34a001f66c6a5473da4c0711f6f",
+      "asset": "71eaff5016844b8c-snap-0036-20261011T195738Z.sav",
+      "class": "save"
+    },
+    {
+      "name": "snap-0037-20261011T195739Z.sav",
+      "bytes": 221820,
+      "sha256": "d4e30b7890ef1107a63d5460aa8f974eb20a6d91f99f8a3d7aa020d536436207",
+      "asset": "d4e30b7890ef1107-snap-0037-20261011T195739Z.sav",
+      "class": "save"
+    },
+    {
+      "name": "snap-0038-20261011T195740Z.sav",
+      "bytes": 219977,
+      "sha256": "ccb70e920a09bc196afc1dcef5ca6833fd9f0b6f6ab7c1fa9ab7463d56f50c67",
+      "asset": "ccb70e920a09bc19-snap-0038-20261011T195740Z.sav",
+      "class": "save"
+    },
+    {
+      "name": "snap-0039-20261011T195741Z.sav",
+      "bytes": 219902,
+      "sha256": "53414f64b6431aeb3fcba5a5cbe370083a5c96bdc66b9affd1fb1d45d00109c3",
+      "asset": "53414f64b6431aeb-snap-0039-20261011T195741Z.sav",
+      "class": "save"
+    },
+    {
+      "name": "snap-0040-20261011T195741Z.sav",
+      "bytes": 221006,
+      "sha256": "25f00f131c84d96946ad675abe71a89dd777dc5e9363e6f3cdb19a4ac98419ec",
+      "asset": "25f00f131c84d969-snap-0040-20261011T195741Z.sav",
+      "class": "save"
+    },
+    {
+      "name": "snap-0041-20261011T195742Z.sav",
+      "bytes": 220871,
+      "sha256": "6718509b9d9bebb71a53ada52abd844db7f7890abb79641472a58c710c3ed409",
+      "asset": "6718509b9d9bebb7-snap-0041-20261011T195742Z.sav",
+      "class": "save"
+    },
+    {
+      "name": "snap-0042-20261011T195743Z.sav",
+      "bytes": 221661,
+      "sha256": "9540325e4362c217fe0447f6ca16e997cdab0444bfe118f7f52e99e274ca111f",
+      "asset": "9540325e4362c217-snap-0042-20261011T195743Z.sav",
+      "class": "save"
+    }
+  ]
+}
