@@ -400,5 +400,95 @@ class RealGuestTests(unittest.TestCase):
         self.assertEqual(len(m.keys), 1)
 
 
+class FakeGuest:
+    """The few Guest methods a hook fn reads, over a flat memory: DS = 0x1000, the player array at
+    0x3000:0x0100 (DS:A91B holds the far pointer), the foot tables zero."""
+    DS = 0x1000
+
+    def __init__(self, w, record):
+        self.memory = bytearray(0x100000)
+        self.w = w
+        self.regs = {}
+        self.set(0xA91B, 0x0100)
+        self.set(0xA91D, 0x3000)
+        base = (0x0100 + ((w * 20) & 0xFFFF)) & 0xFFFF
+        self.memory[0x30000 + base:0x30000 + base + 20] = record
+
+    def set(self, off, value):
+        self.memory[self.DS * 16 + off:self.DS * 16 + off + 2] = value.to_bytes(2, "little")
+
+    def arg(self, i):
+        return self.w
+
+    def rd(self, off, n=2):
+        return int.from_bytes(self.memory[self.DS * 16 + off:self.DS * 16 + off + n], "little")
+
+    def mem(self, linear, n):
+        return bytes(self.memory[linear:linear + n])
+
+    def set_reg(self, name, value):
+        self.regs[name] = value
+
+
+def record(p2=0, p4=100, p5=7, p6=1, p7=1, form=5, energy=0x20, flags=0):
+    r = bytearray(20)
+    r[2], r[4], r[5], r[6], r[7], r[0xC], r[0xE], r[0x10] = p2, p4, p5, p6, p7, form, energy, flags
+    return bytes(r)
+
+
+class StrengthReaderTests(unittest.TestCase):
+    """T43: check.strength_reader (1771:377E) on literal guest memory; AX and DX are what the proof
+    compares, DX derived from the listing (the docstring)."""
+
+    def call(self, w=5, rec=None, **kw):
+        from check import strength_reader
+        g = FakeGuest(w, rec if rec is not None else record())
+        tally = {}
+        strength_reader(tally, **kw)(g)
+        return g.regs["ax"], g.regs["dx"], tally
+
+    def test_available_right_foot_ax_and_dx(self):
+        # 100 + 0x20 - 0x3E = 70; form 5 < 0x20: + 5 = 75; DX = +5 (3041's mov dx, ax)
+        ax, dx, tally = self.call()
+        self.assertEqual((ax, dx), (75, 7))
+        self.assertEqual(tally["form<0x20"], 1)
+
+    def test_wrong_foot_halves_and_leaves_the_remainder_in_dx(self):
+        # 3179 returns true for position 0 with +7 != 0; 75 // 2 = 37 remainder 1 (380F-3813)
+        ax, dx, tally = self.call(rec=record(p6=0, p7=1))
+        self.assertEqual((ax, dx, tally["wrong foot"]), (37, 1, 1))
+
+    def test_the_form_threshold_edge_0x20(self):
+        # form 0x20: 70 - 70 // 16 = 66 (37CD-37D8); form 0x1F: 70 + 31 = 101
+        self.assertEqual(self.call(rec=record(form=0x20))[0], 66)
+        self.assertEqual(self.call(rec=record(form=0x1F))[0], 101)
+        self.assertEqual(self.call(rec=record(form=0x20))[2]["form==0x20"], 1)
+
+    def test_the_clamp_edges(self):
+        # 255 + 127 - 62 = 320, + 5 > 0x100 -> 0x100 (37FA-37FC); 10 + 1 - 62 + 5 < 0 -> 0 (37EC-37F0)
+        ax, _, tally = self.call(rec=record(p4=255, energy=0x7F))
+        self.assertEqual((ax, tally["clamped"]), (0x100, 1))
+        ax, _, tally = self.call(rec=record(p4=10, energy=1))
+        self.assertEqual((ax, tally["clamped"]), (0, 1))
+
+    def test_unavailable_by_energy_leaves_the_high_word_of_the_record_offset(self):
+        # 3233: +0xE < 1 -> 0; DX = 3222's `mul dx` high word, w * 20 >> 16 (4000 * 20 = 80000 -> 1)
+        ax, dx, tally = self.call(w=4000, rec=record(energy=0))
+        self.assertEqual((ax, dx, tally["unavailable"]), (0, 1, 1))
+
+    def test_unavailable_by_flag_leaves_the_element_minus_one(self):
+        # 3248 (element 8, bit 7), 325F (6, bit 5), 3276 (3, bit 2): the first set one wins
+        for flags, dx in ((0x80, 7), (0x20, 5), (0x04, 2), (0xA4, 7), (0x24, 5)):
+            ax, got, _ = self.call(rec=record(flags=flags))
+            self.assertEqual((ax, got), (0, dx), hex(flags))
+
+    def test_the_falsifiers_change_the_result(self):
+        from check import ThresholdMutant
+        self.assertEqual(self.call(rec=record(form=0x20), result_plus=1)[0], 67)
+        # threshold 0x21: form 0x20 takes the `+ form` branch, 70 + 32
+        self.assertEqual(self.call(rec=record(form=0x20), record_class=ThresholdMutant)[0], 102)
+        self.assertEqual(self.call(rec=record(form=0x21), record_class=ThresholdMutant)[0], 70 - 70 // 16)
+
+
 if __name__ == "__main__":
     unittest.main()
