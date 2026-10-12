@@ -84,12 +84,12 @@ What the review script guarantees, and why:
   at high), in the scripts' own data directory (L27, L29). One model, one run; no chain. The model
   is `reviewer.default`, or `--reviewer` (a harness.json key or `provider/model[@variant]`).
 - Exit 0: posted and labelled. 2: a refused model (DeepSeek, an unknown name). 3: no review, nothing
-  posted: read the final message (rule 12), fix the cause, run again. 4: posted under a note, no
+  posted: read the final message ("Choosing models" rule 12), fix the cause, run again. 4: posted under a note, no
   label: the main session reads it and decides.
 
 How the main session launches and watches a run (L103):
 - Detached from its own session, so a restart of Claude Code does not kill the run, in the form of
-  CLAUDE.md's monitoring rule 9: `systemd-run --user --unit=goal2-<task> --collect -E PATH="$PATH"
+  CLAUDE.md "Choosing models" rule 9: `systemd-run --user --unit=goal2-<task> --collect -E PATH="$PATH"
   -E MINIMAX_API_KEY -E ANTHROPIC_BASE_URL -E HARNESS_SESSION_FAMILY -p WorkingDirectory=<repo> -p StandardInput=null -p StandardOutput=file:<log>
   -p StandardError=file:<log> <review.mjs command>`. A unit gets only the
   environment it is given, so each key a run needs is passed with `-E`; never a `bash -c` or
