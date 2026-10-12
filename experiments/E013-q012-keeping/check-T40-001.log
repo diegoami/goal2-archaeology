@@ -1,0 +1,28 @@
+E013-r0001
+  [ok] keeping value before the edit (player 372, +4 195, +5 3, +7 0): model 159, record 159
+  [ok] keeping value after the edit (player 372, +4 0, +5 3, +7 0): model 0, record 0
+  [ok] the first half is the baseline's (determinism; only the second half is edited): 518 lines vs the baseline's 518
+  [ok] the predicted save count (emulated) equals the record's second-half saves: emulated 0, record 0
+  [ok] every `saved by` line names a squad player of the conceding side: []
+    - emulated save count for E013-r0001: 0 (5A8E reaches in 0791:983F..98C0)
+    - saves name players []; keepers of the sides are [121, 372]
+E013-r0002
+  [ok] keeping value before the edit (player 372, +4 195, +5 3, +7 0): model 159, record 159
+  [ok] keeping value after the edit (player 372, +4 255, +5 3, +7 0): model 208, record 208
+  [ok] the first half is the baseline's (determinism; only the second half is edited): 518 lines vs the baseline's 518
+  [ok] the predicted save count (emulated) equals the record's second-half saves: emulated 3, record 3
+  [ok] every `saved by` line names a squad player of the conceding side: []
+    - emulated save count for E013-r0002: 3 (5A8E reaches in 0791:983F..98C0)
+    - saves name players [372, 372, 372]; keepers of the sides are [121, 372]
+E013-r0003
+  [ok] keeping value before the edit (player 122, +4 241, +5 14, +7 1): model 45, record 45
+  [ok] keeping value after the edit (player 122, +4 255, +5 14, +7 1): model 48, record 48
+  [ok] the first half is the baseline's (determinism; only the second half is edited): 518 lines vs the baseline's 518
+  [ok] the predicted save count (emulated) equals the record's second-half saves: emulated 3, record 3
+  [ok] the predicted non-keeper effect: predictor's (saves, goals) == baseline (no comparison flipped): predictor (3, 0) vs baseline (3, 0)
+  [ok] the predicted non-keeper effect: every commentary event matches the baseline (line log equality): 507 lines vs 507; first diff: None
+  [ok] every `saved by` line names a squad player of the conceding side: []
+    - emulated save count for E013-r0003: 3 (5A8E reaches in 0791:983F..98C0)
+    - saves name players [372, 372, 372]; keepers of the sides are [121, 372]
+match: 17/17
+exit 0
