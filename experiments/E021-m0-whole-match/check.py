@@ -170,26 +170,31 @@ EXPECTED_377E = {"calls": 88, "available": 88, "unavailable": 0, "form<0x20": 84
 
 
 class ThresholdMutant(_Record):
-    """A falsifier: the quick engine's player_strength with the form threshold moved to `threshold`
-    (the real one is 0x20, seg_1771_05.asm:37C8)."""
+    """A falsifier: quick_engine's strength_trace with the form threshold moved to 0x21 (the real one
+    is 0x20, seg_1771_05.asm:37C8)."""
     threshold = 0x21
 
-    def player_strength(self, w):
-        if self.unavailable(w):
-            return 0
+    def strength_trace(self, w):
+        trace = {"unavailable": self.unavailable_reason(w), "form_high": None, "clamped": False,
+                 "wrong_foot": False, "halved_from": None, "value": 0}
+        if trace["unavailable"] is not None:
+            return trace
         p = self._player(w)
         v = (p[4] + s8(p[0xE]) - 0x3E) & 0xFFFF
-        if s8(p[0xC]) >= self.threshold:
+        trace["form_high"] = s8(p[0xC]) >= self.threshold
+        if trace["form_high"]:
             v = (v - idiv(s16(v), 0x10)) & 0xFFFF
         else:
             v = (v + s8(p[0xC])) & 0xFFFF
         if s16(v) < 0:
-            v = 0
+            v, trace["clamped"] = 0, True
         elif s16(v) > 0x100:
-            v = 0x100
+            v, trace["clamped"] = 0x100, True
         if self.wrong_foot(w):
+            trace["wrong_foot"], trace["halved_from"] = True, v
             v = idiv(s16(v), 2) & 0xFFFF
-        return v
+        trace["value"] = v
+        return trace
 
 
 def strength_reader(tally=None, result_plus=0, record_class=_Record):
@@ -204,10 +209,10 @@ def strength_reader(tally=None, result_plus=0, record_class=_Record):
     - unavailable by +0x10 element 8, 6 or 3 (3248, 325F, 3276): 214B:0C57's `mov dx, ax` at 0C61 after
       `dec ax`, DX = element - 1 of the call that returned nonzero (7, 5 or 2);
     - available: 3179 ends with 3041's `mov dx, ax` at 3064 (DX = +5; 3088's `mul dx` at 30C3 runs before it,
-      and 23E4:08DF touches no DX), then the halving `cdq; idiv cx` at 380F-3813 leaves DX = v % 2 when the
-      foot is wrong, and nothing else touches DX.
-    `tally` (a dict) counts the branches taken, derived from the record's bytes and the model's own
-    unavailable() and wrong_foot(); `result_plus` adds to AX (a falsifier); `record_class` replaces the
+      and 23E4:08DF touches no DX), then the halving `cdq; idiv cx` at 380C-3813 leaves DX = the remainder of
+      the value BEFORE halving (v % 2, v in 0..0x100) when the foot is wrong, and nothing else touches DX.
+    The branches and the pre-halving value come from the model's own run (quick_engine.strength_trace);
+    `tally` (a dict) counts them; `result_plus` adds to AX (a falsifier); `record_class` replaces the
     model's class (a falsifier)."""
     def fn(g):
         w = g.arg(0)
@@ -217,30 +222,26 @@ def strength_reader(tally=None, result_plus=0, record_class=_Record):
         foot_table = g.mem(g.DS * 16 + 0xE60, 14 * 255 + 256)
         foot_index = g.mem(g.DS * 16 + 0xE7C, 3)
         m = record_class({w: p}, foot_table, foot_index)
-        value = m.player_strength(w)
-        sb = lambda b: b - 256 if b > 127 else b
-        unavailable = m.unavailable(w)
-        wrong = False
-        if unavailable:
-            if sb(p[0xE]) < 1:
-                dx = ((w * RECORD_SIZE) >> 16) & 0xFFFF
-            else:
-                dx = next(e - 1 for e in (8, 6, 3) if (p[0x10] >> (e - 1)) & 1)
+        trace = m.strength_trace(w)       # the model's own execution: AX, DX and the tally come from it
+        value = trace["value"]
+        if trace["unavailable"] == "energy":
+            dx = ((w * RECORD_SIZE) >> 16) & 0xFFFF
+        elif trace["unavailable"] is not None:
+            dx = trace["unavailable"] - 1
+        elif trace["wrong_foot"]:
+            dx = trace["halved_from"] & 1     # the remainder of the value BEFORE halving (idiv, 3813); 0..0x100
         else:
-            wrong = m.wrong_foot(w)
-            dx = (value & 1) if wrong else p[5]
+            dx = p[5]
         if tally is not None:
-            keys = ["calls", "unavailable" if unavailable else "available",
-                    "form<0x20" if sb(p[0xC]) < 0x20 else "form>=0x20"]
-            if sb(p[0xC]) == 0x20:
-                keys.append("form==0x20")
-            if not unavailable:
-                pre = p[4] + sb(p[0xE]) - 0x3E            # 37BD-37C2
-                pre = pre - int(pre / 16) if sb(p[0xC]) >= 0x20 else pre + sb(p[0xC])   # 37D6-37D8, 37E5
-                if pre < 0 or pre > 0x100:                # 37EC, 37FA
-                    keys.append("clamped")
-                if wrong:
-                    keys.append("wrong foot")
+            keys = ["calls", "available" if trace["unavailable"] is None else "unavailable"]
+            if trace["form_high"] is not None:
+                keys.append("form>=0x20" if trace["form_high"] else "form<0x20")
+                if p[0xC] == 0x20:
+                    keys.append("form==0x20")
+            if trace["clamped"]:
+                keys.append("clamped")
+            if trace["wrong_foot"]:
+                keys.append("wrong foot")
             for k in keys:
                 tally[k] = tally.get(k, 0) + 1
         g.set_reg("ax", (value + result_plus) & 0xFFFF)

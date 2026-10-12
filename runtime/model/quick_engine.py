@@ -211,12 +211,21 @@ class QuickMatch:
 
     # --- the player predicates (1771's segment) --------------------------------------
 
-    def unavailable(self, w):
-        """1771:3216 (seg_1771_05.asm:188-238): +0xE < 1 signed, or +0x10 element 8, 6 or 3."""
+    def unavailable_reason(self, w):
+        """1771:3216 (seg_1771_05.asm:188-238), the test that fired, in the listing's order: 'energy'
+        (+0xE < 1 signed, 3233), then the element of +0x10 that was set: 8 (3248), 6 (325F), 3 (3276);
+        None when the player is available."""
         p = self._player(w)
         if s8(p[0xE]) < 1:
-            return True
-        return bool(bit_elem(8, p[0x10]) or bit_elem(6, p[0x10]) or bit_elem(3, p[0x10]))
+            return "energy"
+        for element in (8, 6, 3):
+            if bit_elem(element, p[0x10]):
+                return element
+        return None
+
+    def unavailable(self, w):
+        """1771:3216 (seg_1771_05.asm:188-238): +0xE < 1 signed, or +0x10 element 8, 6 or 3."""
+        return self.unavailable_reason(w) is not None
 
     def two_footed(self, w):
         """1771:3041 (seg_1771_05.asm:40-84): (+5) + (+2) == 0x1E."""
@@ -246,21 +255,35 @@ class QuickMatch:
 
     def player_strength(self, w):
         """1771:377E (seg_1771_05.asm:763-824)."""
-        if self.unavailable(w):
-            return 0
+        return self.strength_trace(w)["value"]
+
+    def strength_trace(self, w):
+        """1771:377E's calculation, with what it took: `value`; `unavailable` (the reason of
+        unavailable_reason, 37A3); `form_high` (+0xC >= 0x20, 37C8); `clamped` (37EC-37FC fired);
+        `wrong_foot` (3805) and `halved_from`, the value 380C divided by 2 (None unless halved)."""
+        trace = {"unavailable": self.unavailable_reason(w), "form_high": None, "clamped": False,
+                 "wrong_foot": False, "halved_from": None, "value": 0}
+        if trace["unavailable"] is not None:
+            return trace
         p = self._player(w)
         v = (p[4] + s8(p[0xE]) - 0x3E) & 0xFFFF
-        if s8(p[0xC]) >= 0x20:
+        trace["form_high"] = s8(p[0xC]) >= 0x20
+        if trace["form_high"]:
             v = (v - idiv(s16(v), 0x10)) & 0xFFFF
         else:
             v = (v + s8(p[0xC])) & 0xFFFF
         if s16(v) < 0:
             v = 0
+            trace["clamped"] = True
         elif s16(v) > 0x100:
             v = 0x100
+            trace["clamped"] = True
         if self.wrong_foot(w):
+            trace["wrong_foot"] = True
+            trace["halved_from"] = v
             v = idiv(s16(v), 2) & 0xFFFF
-        return v
+        trace["value"] = v
+        return trace
 
     def hardness(self, w):
         """1771:2FFB (seg_1771_04.asm:1100-1113): (+5) - ((+3) & 1), as an unsigned byte."""
