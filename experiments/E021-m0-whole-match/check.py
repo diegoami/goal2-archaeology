@@ -26,6 +26,11 @@ restores it before each F004 step, `f004+raw-write` does the same with raw `mu.m
 increment + 1 only when the seed pointer is not DS:7B62 (the hook's falsifiers). A hooked run is also compared with
 an unhooked run of the same state: every write of the seed word (value before and after, clock
 reading) must be the original's, in order.
+--hook m2-287c (T46, M2b) substitutes 214B:0688, 0791:278A, 1771:377E and 0791:287C (runtime/model/contests.py), each
+proved at every call. While 287C's original runs in its proof, the hooks of the routines it calls (278A, 0688) do not
+fire: the original's inner calls are the original's own code (watched_match.original_running), so those routines'
+counts here are M1's minus what 287C's calls make (545 each of 278A and 0688 per record); they are printed per record.
+`m2-287c+inverted` flips 287C's AL, `m2-287c+n+1` adds 32 to the value it divides (n + 1): the falsifiers.
 Each emulated run's outputs (without the draw list, whose count and sha256 they carry) are written
 to a new file under experiments/E021-m0-whole-match/out/ (never overwritten)."""
 import argparse
