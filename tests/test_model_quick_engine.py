@@ -393,6 +393,26 @@ class TestPlayerStrength(unittest.TestCase):
         m = self._with(21, bits10=1 << 7)
         self.assertEqual(m.player_strength(21), 0)
 
+    def test_strength_trace_reports_what_the_run_took(self):
+        # T43 rework: the adapter's DX and tally come from this trace
+        t = self._with(21, skill=100, energy=10, form=5).strength_trace(21)
+        self.assertEqual((t["value"], t["unavailable"], t["form_high"], t["clamped"], t["wrong_foot"],
+                          t["halved_from"]), (53, None, False, False, False, None))
+        t = self._with(21, skill=220, energy=100, form=0x20).strength_trace(21)
+        self.assertEqual((t["form_high"], t["clamped"]), (True, False))
+        t = self._with(21, skill=250, energy=100, form=0).strength_trace(21)
+        self.assertEqual((t["value"], t["clamped"]), (0x100, True))
+        t = self._with(21, skill=100, energy=10, form=0, pos=3, role=7).strength_trace(21)
+        self.assertEqual((t["wrong_foot"], t["halved_from"], t["value"]), (True, 48, 24))
+
+    def test_unavailable_reason_follows_the_listings_order(self):
+        # 3233 energy first, then elements 8 (3248), 6 (325F), 3 (3276) of +0x10
+        for bits, why in ((1 << 7, 8), (1 << 5, 6), (1 << 2, 3), ((1 << 7) | (1 << 2), 8), (0, None)):
+            m = self._with(21, bits10=bits)
+            self.assertEqual(m.unavailable_reason(21), why, bits)
+            self.assertEqual(m.strength_trace(21)["unavailable"], why)
+        self.assertEqual(self._with(21, energy=0, bits10=1 << 7).unavailable_reason(21), "energy")
+
     def test_wrong_foot_halves(self):
         m = self._with(21, skill=100, energy=10, form=0, pos=3, role=7)  # foot 1
         self.assertEqual(m.player_strength(21), (100 + 10 - 0x3E) // 2)
