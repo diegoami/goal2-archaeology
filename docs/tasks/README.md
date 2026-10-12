@@ -47,3 +47,5 @@ exists.
 | T39a | the screen catalogue and the screenshot renderer | #137 | — |
 | T39b | the coaching kit: a pause key, live view and notes in the recorder | #138 | — |
 | T39c | screens read back from a sitting's video (a test) | #139 | T39a |
+| T40 | keeping.py: the keeper gate tests DS:8327 in {3, 4}, not == 0x18 | #126 | — |
+| T41 | F020 restates F019's result-term set wrongly; F010 cites a blank line | #127 | — |
