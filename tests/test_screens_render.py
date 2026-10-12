@@ -5,6 +5,7 @@ render.py's docstring names, both written as literals here, so a renderer that r
 paints a bit-7 attribute as blink, fails. The committed PNGs of E015-r0007 states 16 and 76 are
 decoded too, at cells whose attribute bytes were read from those savestates."""
 import contextlib
+import hashlib
 import io
 import struct
 import sys
@@ -185,6 +186,30 @@ class CommittedPngs(unittest.TestCase):
         w, h, rows = self.png(76)
         self.assertEqual((w, h), (640, 400))
         self.assertEqual(cell_pixels(rows, 1, 42), {(0x55, 0x55, 0x55)})
+
+
+
+class ResolveStateFromCache(unittest.TestCase):
+    """#143: a state fetched from the release is named <sha256[:16]>-<name>; no session folder exists."""
+
+    def setUp(self):
+        self.tmp = tempfile.TemporaryDirectory()
+        self.addCleanup(self.tmp.cleanup)
+        self.cache = Path(self.tmp.name)
+        self.data = b"fake savestate bytes"
+        self.sha = hashlib.sha256(self.data).hexdigest()
+        self.name = "snap-0016-x.sav"
+        self.asset = f"{self.sha[:16]}-{self.name}"
+
+    def test_finds_hash_prefixed_file(self):
+        (self.cache / self.asset).write_bytes(self.data)
+        got = render.resolve_state(self.name, self.sha, self.asset, [], self.cache)
+        self.assertEqual(got, self.cache / self.asset)
+
+    def test_refuses_wrong_bytes(self):
+        (self.cache / self.asset).write_bytes(b"other bytes")
+        with self.assertRaises(SystemExit):
+            render.resolve_state(self.name, self.sha, self.asset, [], self.cache)
 
 
 if __name__ == "__main__":
