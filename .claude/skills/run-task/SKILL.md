@@ -43,11 +43,11 @@ environment (`switch-model.mjs --show` prints it); the reviewer is never of that
      (`sonnet` under Opus; under Z.AI the same alias is GLM-5.3 Flash; a model id names the
      provider's model outright). Its agent file carries §4's block and the run mechanics; its
      hook refuses `git stash`, `git worktree`, a force-push and `gh pr merge`. Watch it by its
-     transcript file's size and its worktree (CLAUDE.md rules 9-11); tell the user in plain
-     language what it is doing. Read its final report in full before acting (rule 12), and post
+     transcript file's size and its worktree (CLAUDE.md "Choosing models" rules 9-11); tell the user in plain
+     language what it is doing. Read its final report in full before acting ("Choosing models" rule 12), and post
      its `RUN-NOTES.md` on the issue. A report that stops on a Done-when it cannot meet gets an
      answer (amend the task on `main`, decide, or escalate), never a blind retry; a subagent our
-     limits interrupted is resumed with a short "continue where you stopped" brief (rule 13).
+     limits interrupted is resumed with a short "continue where you stopped" brief ("Choosing models" rule 13).
      Ghidra and the pinned tools under `~/tools` are reachable from a subagent (L57); an OpenCode
      reviewer cannot reach them.
    - **The main session, directly**, only where the provider cannot spawn a subagent (one model,
@@ -62,17 +62,17 @@ environment (`switch-model.mjs --show` prints it); the reviewer is never of that
    blocked (`switch-model.mjs --show`). Record the answer on the PR. Label `status:in-review`.
    Name the PR's head in the brief only after the push has landed (`git rev-parse <branch>`); a
    brief naming another commit exits 2 before anything runs (L33). Then, as a systemd unit
-   (CLAUDE.md rule 9: `systemd-run --user --unit=goal2-<task> --collect -E PATH="$PATH"
+   (CLAUDE.md "Choosing models" rule 9: `systemd-run --user --unit=goal2-<task> --collect -E PATH="$PATH"
    -E MINIMAX_API_KEY -E ANTHROPIC_BASE_URL -E HARNESS_SESSION_FAMILY -p WorkingDirectory=<repo>
    -p StandardInput=null -p StandardOutput=file:<log> -p StandardError=file:<log>
    node tools/harness/review.mjs --pr <pr> --brief <file> --issue <n> --apply-label
-   [--reviewer <the answer>]`), watched (rules 9-11). The script reads the session's family from
+   [--reviewer <the answer>]`), watched ("Choosing models" rules 9-11). The script reads the session's family from
    `ANTHROPIC_BASE_URL`, so the unit must carry it.
    One review per PR unless the user asks for more. Relay its findings in full (rule 8).
    - Exit 0: posted and labelled.
    - Exit 2: a refused model (blocked in `harness.json`, or an unknown name): tell the user.
    - Exit 3: no review came back (OpenCode, the login, the model, a rejected path, or a review
-     the script could not find). Nothing was posted. Read the run's final message first (rule 12,
+     the script could not find). Nothing was posted. Read the run's final message first ("Choosing models" rule 12,
      the snippet below), fix the cause (a wider grant in `.opencode/agents/reviewer.md`, a login,
      a brief line), and run again; killed by our own limit, run again with a longer
      `--total-timeout-sec`. Another model only when the provider does not answer, and the user

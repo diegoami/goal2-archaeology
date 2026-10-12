@@ -51,7 +51,7 @@ export function keyProblem(text, modelId, dataHome) {
 
 // A failure reason without its numbers, so a chain can tell the same failure twice (two startup
 // hangs, two idle kills) from two different ones.
-// Our own limits ended the run: it is resumed in its own session and worktree (rule 13).
+// Our own limits ended the run: it is resumed in its own session and worktree ("Choosing models" rule 13).
 export const isResumable = (reason) => ['idle', 'total-timeout'].includes(failureClass(reason));
 
 export function failureClass(reason) {
@@ -406,7 +406,7 @@ export async function runOpenCodeWatched({
   const files = [outFile, errFile, briefFile];
   const pointer = `Your complete brief for this run is the file ${briefFileName(title)} at the root of this worktree.`
     + ' Read that file first and follow it exactly; never edit, commit or delete it.';
-  // A resumed run continues its own session (`--session`, the owner's rule 13 of 2026-10-11) and
+  // A resumed run continues its own session (`--session`, the owner's "Choosing models" rule 13 of 2026-10-11) and
   // keeps its title; it is then found by id.
   const all = sessionId ? [...args, '--session', sessionId, pointer] : [...args, '--title', title, pointer];
   // The brief leaves the worktree when the run is not clean (L60): kept for diagnosis with the

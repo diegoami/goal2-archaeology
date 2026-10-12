@@ -73,7 +73,7 @@ the plan.
 
 **History (the owner, 2026-10-11):** this section's seats, chains and placements no longer pick a model: the main session or a Claude agent implements, and `harness.json`'s `reviewer.default` reviews unless the user names another (CLAUDE.md "Choosing models"). Kept for the logins and probes.
 
-Alibaba is used only when the user asks (CLAUDE.md "Choosing models" rule 4). On an Alibaba quota or
+Alibaba is used only when the user asks (CLAUDE.md rule 3 of "Choosing models"). On an Alibaba quota or
 rate error, stop using it until the next day, tell the owner, and do not retry: its monthly pool is
 small and is not monitored.
 
