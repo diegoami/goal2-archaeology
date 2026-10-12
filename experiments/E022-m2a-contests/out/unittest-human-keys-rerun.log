@@ -1,0 +1,17 @@
+.....................................XGetInputFocus returned the focused window of 1. This is likely a bug in the X server.
+XGetInputFocus returned the focused window of 1. This is likely a bug in the X server.
+..................missing: Xephyr; xinput
+...............
+----------------------------------------------------------------------
+Ran 70 tests in 148.433s
+
+OK
+release    /home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a227edcb2f668fef8/.cache/goal2 matches artifacts/known.json set fixture
+dosbox-x   2024.03.01
+xdotool    present
+mapper     F12+P pauses (sha256 59fb900f8db64ec0...)
+stdbuf     present
+
+T44 scroll, keys every 0.15 s: 2 requests, 1 burst snapshots for 1 key group(s), merged (not captured) groups: 0
+
+T44 scroll, keys every 0.4 s: 7 requests, 6 burst snapshots for 1 key group(s), merged (not captured) groups: 0

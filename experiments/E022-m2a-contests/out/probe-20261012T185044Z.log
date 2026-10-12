@@ -1,0 +1,362 @@
+E011-r0001: ticks 4149, score [1, 1]
+  -- 278A calls by return address (run-time CS = image 0791)
+  288E: 545 (expected 545) OK
+  368D: 7 (expected 7) OK
+  3B35: 3 (expected 3) OK
+  3F4B: 5 (expected 5) OK
+  54A1: 120 (expected 120) OK
+  54F2: 120 (expected 120) OK
+  5D69: 13 (expected 13) OK
+  36DD: 0  [unreached site: 34C1 second call (36DA)]
+  5BC7: 0  [unreached site: 5B36 duel, air (5BC4)]
+  5BDB: 0  [unreached site: 5B36 duel, air (5BD8)]
+  5C09: 0  [unreached site: 5B36 duel, ground (5C06)]
+  5C1D: 0  [unreached site: 5B36 duel, ground (5C1A)]
+  696B: 0  [unreached site: 690C (6968)]
+  9F6D: 0  [unreached site: 9ED3 (9F6A)]
+  9FA2: 0  [unreached site: 9ED3 (9F9F)]
+  20A3: 194  [selection site: 1FDD incumbent]
+  20B0: 194  [selection site: 1FDD candidate]
+  494D: 12818  [selection site: 47C5 marker el.5]
+  496A: 12818  [selection site: 47C5 cand. el.8]
+  4980: 5402  [selection site: 47C5 marker el.5 (again)]
+  499D: 5402  [selection site: 47C5 cand. el.8 (again)]
+  -- elements passed to 278A per Scope-1 return address (ret: element x count)
+  288E: 2x9, 3x121, 4x92, 6x273, 7x3, 9x38, 10x2, 11x7
+  368D: 11x7
+  3B35: 2x3
+  3F4B: 2x5
+  54A1: 4x2, 10x118
+  54F2: 3x118, 4x2
+  5D69: 1x13
+  20A3: 2x50, 7x54, 12x90
+  20B0: 2x50, 7x54, 12x90
+  494D: 5x12818
+  496A: 8x12818
+  4980: 5x5402
+  499D: 8x5402
+  -- 287C: calls by return address and element; result = AL at the return address
+  3725 [34C1 (call 3722)]: elements 2x9, 4x39, 6x273, 7x3; AL non-zero 185, zero 139
+  39FC [384C (call 39F9)]: elements 10x2; AL non-zero 1, zero 1
+  3C89 [3C3F (call 3C86)]: elements 11x7; AL non-zero 5, zero 2
+  5401 [539F (call 53FE)]: elements 3x47; AL non-zero 24, zero 23
+  560F [5565 (call 560C)]: elements 3x41; AL non-zero 16, zero 25
+  6003 [5F8A (call 6000)]: elements 4x53; AL non-zero 40, zero 13
+  6071 [5F8A (call 606E)]: elements 3x12; AL non-zero 0, zero 12
+  60A8 [5F8A (call 60A5)]: elements 9x6; AL non-zero 2, zero 4
+  611C [5F8A (call 6119)]: elements 3x21, 9x32; AL non-zero 23, zero 30
+  287C calls in all: 545
+  -- 34C1 entries by return address and event code (the event is the argument at bp+0xA)
+  ret 3935, event 11: 39
+  ret 3947, event 6: 423
+  ret 3B76, event 10: 3
+  ret 3BD1, event 6: 9
+  ret 3BD1, event 8: 4
+  ret 3CC4, event 1: 7
+  ret 3E83, event 5: 3
+  ret 3F8E, event 10: 5
+  ret 406F, event 9: 1
+  ret 406F, event 11: 1
+  ret 5EA5, event 6: 24
+  ret 6AE4, event 6: 4
+  -- routine entries by state (the globals read at the entry)
+  5B36 ret 61C6 8302=1 8324=0 8325=1 8326=0 8327=1: 13
+  5B36 ret 61C6 8302=1 8324=0 8325=1 8326=0 8327=5: 1
+  5474 8303=0 8327=0: 118
+  5474 8303=1 8327=0: 2
+  690C 8327=1 7C39=0 80FB=1: 2
+  3C3F ret 3ED9 event=1: 7
+  3EF8 ret 52D3 param=9: 5
+  3B15 ret 3C0F: 1
+  3B15 ret 7223: 2
+  -- branches (address: count; the listing line)
+  34C1 (kick/launch: the 368D site)
+    362C     68  event 6 upgraded to 7 (8300 > 0x14)   [seg_0791_06.asm: mov word ptr [bp + 0xa], 7]
+    3655      0  event 6 upgraded to 8 (45D and 2EB8 true)   [seg_0791_06.asm: mov word ptr [bp + 0xa], 8]
+    3670      7  event in the set at 3481 (1, 2): the 278A site 368D   [seg_0791_06.asm: mov ax, word ptr [0x8300]]
+    36B0    516  not in 3481: test the set at 34A1 (3, 4)   [seg_0791_06.asm: mov al, byte ptr [bp + 0xa]]
+    36C0      0  event in 34A1 (3, 4): the 278A site 36DA   [seg_0791_06.asm: mov ax, word ptr [0x8300]]
+    36F3    516  event not in 1..4: the 287C site at 3722 follows the event-8, 8300 and 830B gates   [seg_0791_06.asm: cmp word ptr [bp + 0xa], 8]
+    3676      7  368D site: 8300 before   [seg_0791_06.asm: xor dx, dx]
+    36AA      7  368D site: 8300 after (max of 8300+5 and (skill+pitch+0x11)/3)   [seg_0791_06.asm: mov word ptr [0x8300], ax]
+    36F9      4  event 8: skip   [seg_0791_06.asm: jmp 0x37c2]
+    3703     56  8300 <= 1: skip   [seg_0791_06.asm: jmp 0x37c2]
+    370F    132  830B == 830C: skip   [seg_0791_06.asm: jmp 0x37c2]
+    3712    324  287C site set up   [seg_0791_06.asm: mov di, word ptr [bp + 0xa]]
+    3729    185  287C returned non-zero: skip   [seg_0791_06.asm: jmp 0x37c2]
+    372C    139  287C returned 0: the miscue path   [seg_0791_06.asm: mov byte ptr [0x830c], 0]
+    3742      3  miscue: 045D(slot) true: skip   [seg_0791_06.asm: jmp 0x37c2]
+    3745    136  miscue: coin   [seg_0791_06.asm: call far 214B:06FA]
+    3755     76  miscue: halve branch (timer -= rand(timer/2))   [seg_0791_06.asm: mov ax, word ptr [0x8300]]
+    376B     60  miscue: direction branch   [seg_0791_06.asm: cmp word ptr [0x82fc], 0]
+    379D     27  direction: 82FC != 0   [seg_0791_06.asm: mov ax, word ptr [0x82fe]]
+    3772     33  direction: 82FC == 0   [seg_0791_06.asm: call far 214B:06FA]
+    37AB      8  82FE magnitude 1: cleared   [seg_0791_06.asm: xor ax, ax]
+    37B2     19  82FE re-rolled   [seg_0791_06.asm: call far 214B:06FA]
+    37C2    523  common tail   [seg_0791_06.asm: mov byte ptr [0x8323], 0]
+  384C (pass to a slot: 287C at 39FC)
+    39EF      2  2DCA false: 287C(pitch, 10) is called   [seg_0791_06.asm: mov ax, 0xa]
+    3A00      1  287C non-zero   [seg_0791_06.asm: mov al, byte ptr [bp - 2]]
+    3A0F      1  |bp-2| > 8: 82FC := 0   [seg_0791_06.asm: xor ax, ax]
+    3A16      0  |bp-2| <= 8: 82FE adjusted   [seg_0791_06.asm: cmp word ptr [0x82fe], 0]
+    3A2F     69  tail   [seg_0791_06.asm: mov ax, word ptr [0x82f6]]
+  3C3F (shot/header: 287C at 3C89)
+    3C47      7  entry   [seg_0791_06.asm: cmp word ptr [bp + 0xa], 2]
+    3C63      7  8324 == 0 path   [seg_0791_06.asm: cmp byte ptr [0x8324], 0]
+    3C8D      2  287C returned 0: 06D0(4)   [seg_0791_06.asm: mov ax, 4]
+    3C9A      2  06D0 false: 29B3   [seg_0791_06.asm: call 0x29b3]
+    3CA1      2  80FB := 0   [seg_0791_06.asm: mov al, 0]
+    3CA5      5  80FB := 1   [seg_0791_06.asm: mov al, 1]
+  539F (the tackle's aftermath: 287C at 5401)
+    53E3     91  8303 == 0: coin   [seg_0791_09.asm: call far 214B:06FA]
+    53EC     47  coin 0: 287C(holder, 3)   [seg_0791_09.asm: mov ax, 3]
+    5405     68  win path (869F, template 0x0E)   [seg_0791_09.asm: mov di, word ptr [bp + 4]]
+    541E     24  lose path: 8303 test   [seg_0791_09.asm: cmp byte ptr [0x8303], 0]
+    5451     24  5E41 and templates 0x0E, 0x21   [seg_0791_09.asm: mov di, word ptr [bp + 4]]
+  5565 (challenge: 287C at 560F)
+    55FE     41  287C(pitch, 3) called   [seg_0791_09.asm: mov ax, 3]
+    5616    121  287C non-zero: result := 1   [seg_0791_09.asm: mov byte ptr [bp - 1], 1]
+    5613  69352  287C 0: return 0   [seg_0791_09.asm: jmp 0x56d0]
+    5675    120  2B28 emitted, 5474 next   [seg_0791_09.asm: push bp]
+    5679    120  after 5474   [seg_0791_09.asm: or al, al]
+  5F8A (loose-ball reaction: 287C at 6003, 6071, 60A8, 611C)
+    5FE1    368  8303 test   [seg_0791_10.asm: cmp byte ptr [0x8303], 0]
+    5FF2     53  8303 set, near: 287C(pitch, 4)   [seg_0791_10.asm: mov ax, 4]
+    6007     40  that 287C non-zero   [seg_0791_10.asm: push word ptr [0x82f6]]
+    601C      1  2EB8 true: 408E   [seg_0791_10.asm: mov di, word ptr [bp + 4]]
+    602B     39  2EB8 false   [seg_0791_10.asm: push word ptr [0x82f6]]
+    6040      0  2EF0 true: 3EDF   [seg_0791_10.asm: mov di, word ptr [bp + 4]]
+    604F     39  2EF0 false: 5F06   [seg_0791_10.asm: push bp]
+    6060     12  8303 clear, far: 287C(pitch, 3)   [seg_0791_10.asm: mov ax, 3]
+    6075      0  that 287C non-zero: 5F06   [seg_0791_10.asm: push bp]
+    607C    181  8303 clear, near   [seg_0791_10.asm: mov di, word ptr [bp + 4]]
+    6097      6  2F28 true: 287C(pitch, 9)   [seg_0791_10.asm: mov ax, 9]
+    60AC      2  that 287C non-zero   [seg_0791_10.asm: mov di, word ptr [bp + 4]]
+    60CC      1  06D0 true: 3EC5   [seg_0791_10.asm: mov di, word ptr [bp + 4]]
+    60F1    180  to the 8300 test   [seg_0791_10.asm: cmp word ptr [0x8300], 0]
+    6120    150  contest passed or 8300 == 0   [seg_0791_10.asm: mov di, word ptr [bp + 4]]
+  5474 (tackle roll: 54A1 and 54F2)
+    54C4     96  multiplier index 0 (8303 == 0 and 2C54 true)   [seg_0791_09.asm: mov al, 0]
+    54C8     24  multiplier index 1   [seg_0791_09.asm: mov al, 1]
+    5500     91  challenger roll > holder roll: 539F, result 1   [seg_0791_09.asm: push word ptr [bp + 4]]
+    550A    120  tail (result 0 when 5500 was not taken)   [seg_0791_09.asm: mov al, byte ptr [bp - 1]]
+  3B15 (long ball: 3B35)
+    3B4A      3  after max(0x1E, rand(skill/4))   [seg_0791_06.asm: push dx]
+  3EF8 (cross/long kick: 3F4B)
+    3F5E      5  after max(floor, rand(skill/divisor))   [seg_0791_07.asm: push dx]
+    3F8E      5  after 34C1   [seg_0791_07.asm: mov byte ptr [0x8303], 1]
+  5B36 (keeper: 5D69; the duel 5BC4-5C1E)
+    5B4A      0  8325 == 0 and 8324 == 0: return   [seg_0791_10.asm: jmp 0x5e3b]
+    5B4D     14  past the first gate   [seg_0791_10.asm: les di, ptr [bp + 6]]
+    5B5A      0  2B51 true: bail 5E25   [seg_0791_10.asm: jmp 0x5e25]
+    5B5D     14  past 2B51   [seg_0791_10.asm: mov al, byte ptr [0x830b]]
+    5B6C     14  8302 != 0: the flight block 5C88   [seg_0791_10.asm: jmp 0x5c88]
+    5B6F      0  8302 == 0: the duel (5BC4-5C1E)   [seg_0791_10.asm: les di, ptr [bp + 6]]
+    5C8F      0  8324 != 0: element := 1   [seg_0791_10.asm: mov word ptr [bp - 4], 1]
+    5C96     14  8324 == 0: element from DS:07FE   [seg_0791_10.asm: mov al, byte ptr [0x8327]]
+    5CD3      0  8324 != 0, 06D0(3) false: return   [seg_0791_10.asm: jmp 0x5e3b]
+    5CD8      0  8324 != 0, 06D0(3) true   [seg_0791_10.asm: cmp byte ptr [0x8327], 4]
+    5D0F     14  [bp-6] set   [seg_0791_10.asm: les di, ptr [bp + 6]]
+    5D22      0  2EB8 false: 3FAD(9)   [seg_0791_10.asm: mov ax, 9]
+    5D32     14  2EB8 true   [seg_0791_10.asm: cmp word ptr [0x8300], 0]
+    5D39     13  8300 != 0: the 5D69 contest   [seg_0791_10.asm: mov di, 0x82f6]
+    5D78      0  contest lost (high word)   [seg_0791_10.asm: jmp 0x5e23]
+    5D7F      9  contest lost (low word)   [seg_0791_10.asm: jmp 0x5e23]
+    5D82      5  past the contest (won, or 8300 == 0)   [seg_0791_10.asm: cmp byte ptr [0x8326], 0]
+    5D99      4  8326 == 0 and event in 5B16: 3C20 count   [seg_0791_10.asm: call 0x2996]
+    5DAE      0  rand(4) = 1: reverse   [seg_0791_10.asm: mov ax, word ptr [0x82fe]]
+    5DE9      1  rand(4) = 2: sideways   [seg_0791_10.asm: call far 214B:06FA]
+    5E1F      4  rand(4) = 3, 4: 5A8E   [seg_0791_10.asm: push bp]
+    5E25      0  bail (2B51)   [seg_0791_10.asm: cmp byte ptr [0x8326], 0]
+  690C (penalty contest: call 6968)
+    6912      2  entry   [seg_0791_11.asm: cmp byte ptr [0x8327], 4]
+    6919      0  8327 > 4: 6755   [seg_0791_11.asm: push bp]
+    691F      2  8327 <= 4   [seg_0791_11.asm: cmp byte ptr [0x7c39], 0]
+    692D      0  7C39 == 0 and 80FB == 0   [seg_0791_11.asm: mov al, byte ptr [0x8327]]
+    693D      0  8327 in 68EC (3, 4): the 278A site   [seg_0791_11.asm: mov ax, 0x20]
+    6976      2  67B6   [seg_0791_11.asm: push bp]
+    697C      0  6755   [seg_0791_11.asm: push bp]
+    368D: 8300 raised by the skill term: 7
+    3B35: result = 0x1E (floor): 3
+    3F4B: floor applied: 5
+E011-r0002: ticks 4149, score [1, 1]
+  -- 278A calls by return address (run-time CS = image 0791)
+  288E: 545 (expected 545) OK
+  368D: 7 (expected 7) OK
+  3B35: 3 (expected 3) OK
+  3F4B: 5 (expected 5) OK
+  54A1: 120 (expected 120) OK
+  54F2: 120 (expected 120) OK
+  5D69: 13 (expected 13) OK
+  36DD: 0  [unreached site: 34C1 second call (36DA)]
+  5BC7: 0  [unreached site: 5B36 duel, air (5BC4)]
+  5BDB: 0  [unreached site: 5B36 duel, air (5BD8)]
+  5C09: 0  [unreached site: 5B36 duel, ground (5C06)]
+  5C1D: 0  [unreached site: 5B36 duel, ground (5C1A)]
+  696B: 0  [unreached site: 690C (6968)]
+  9F6D: 0  [unreached site: 9ED3 (9F6A)]
+  9FA2: 0  [unreached site: 9ED3 (9F9F)]
+  20A3: 194  [selection site: 1FDD incumbent]
+  20B0: 194  [selection site: 1FDD candidate]
+  494D: 12818  [selection site: 47C5 marker el.5]
+  496A: 12818  [selection site: 47C5 cand. el.8]
+  4980: 5402  [selection site: 47C5 marker el.5 (again)]
+  499D: 5402  [selection site: 47C5 cand. el.8 (again)]
+  -- elements passed to 278A per Scope-1 return address (ret: element x count)
+  288E: 2x9, 3x121, 4x92, 6x273, 7x3, 9x38, 10x2, 11x7
+  368D: 11x7
+  3B35: 2x3
+  3F4B: 2x5
+  54A1: 4x2, 10x118
+  54F2: 3x118, 4x2
+  5D69: 1x13
+  20A3: 2x50, 7x54, 12x90
+  20B0: 2x50, 7x54, 12x90
+  494D: 5x12818
+  496A: 8x12818
+  4980: 5x5402
+  499D: 8x5402
+  -- 287C: calls by return address and element; result = AL at the return address
+  3725 [34C1 (call 3722)]: elements 2x9, 4x39, 6x273, 7x3; AL non-zero 185, zero 139
+  39FC [384C (call 39F9)]: elements 10x2; AL non-zero 1, zero 1
+  3C89 [3C3F (call 3C86)]: elements 11x7; AL non-zero 5, zero 2
+  5401 [539F (call 53FE)]: elements 3x47; AL non-zero 24, zero 23
+  560F [5565 (call 560C)]: elements 3x41; AL non-zero 16, zero 25
+  6003 [5F8A (call 6000)]: elements 4x53; AL non-zero 40, zero 13
+  6071 [5F8A (call 606E)]: elements 3x12; AL non-zero 0, zero 12
+  60A8 [5F8A (call 60A5)]: elements 9x6; AL non-zero 2, zero 4
+  611C [5F8A (call 6119)]: elements 3x21, 9x32; AL non-zero 23, zero 30
+  287C calls in all: 545
+  -- 34C1 entries by return address and event code (the event is the argument at bp+0xA)
+  ret 3935, event 11: 39
+  ret 3947, event 6: 423
+  ret 3B76, event 10: 3
+  ret 3BD1, event 6: 9
+  ret 3BD1, event 8: 4
+  ret 3CC4, event 1: 7
+  ret 3E83, event 5: 3
+  ret 3F8E, event 10: 5
+  ret 406F, event 9: 1
+  ret 406F, event 11: 1
+  ret 5EA5, event 6: 24
+  ret 6AE4, event 6: 4
+  -- routine entries by state (the globals read at the entry)
+  5B36 ret 61C6 8302=1 8324=0 8325=1 8326=0 8327=1: 13
+  5B36 ret 61C6 8302=1 8324=0 8325=1 8326=0 8327=5: 1
+  5474 8303=0 8327=0: 118
+  5474 8303=1 8327=0: 2
+  690C 8327=1 7C39=0 80FB=1: 2
+  3C3F ret 3ED9 event=1: 7
+  3EF8 ret 52D3 param=9: 5
+  3B15 ret 3C0F: 1
+  3B15 ret 7223: 2
+  -- branches (address: count; the listing line)
+  34C1 (kick/launch: the 368D site)
+    362C     68  event 6 upgraded to 7 (8300 > 0x14)   [seg_0791_06.asm: mov word ptr [bp + 0xa], 7]
+    3655      0  event 6 upgraded to 8 (45D and 2EB8 true)   [seg_0791_06.asm: mov word ptr [bp + 0xa], 8]
+    3670      7  event in the set at 3481 (1, 2): the 278A site 368D   [seg_0791_06.asm: mov ax, word ptr [0x8300]]
+    36B0    516  not in 3481: test the set at 34A1 (3, 4)   [seg_0791_06.asm: mov al, byte ptr [bp + 0xa]]
+    36C0      0  event in 34A1 (3, 4): the 278A site 36DA   [seg_0791_06.asm: mov ax, word ptr [0x8300]]
+    36F3    516  event not in 1..4: the 287C site at 3722 follows the event-8, 8300 and 830B gates   [seg_0791_06.asm: cmp word ptr [bp + 0xa], 8]
+    3676      7  368D site: 8300 before   [seg_0791_06.asm: xor dx, dx]
+    36AA      7  368D site: 8300 after (max of 8300+5 and (skill+pitch+0x11)/3)   [seg_0791_06.asm: mov word ptr [0x8300], ax]
+    36F9      4  event 8: skip   [seg_0791_06.asm: jmp 0x37c2]
+    3703     56  8300 <= 1: skip   [seg_0791_06.asm: jmp 0x37c2]
+    370F    132  830B == 830C: skip   [seg_0791_06.asm: jmp 0x37c2]
+    3712    324  287C site set up   [seg_0791_06.asm: mov di, word ptr [bp + 0xa]]
+    3729    185  287C returned non-zero: skip   [seg_0791_06.asm: jmp 0x37c2]
+    372C    139  287C returned 0: the miscue path   [seg_0791_06.asm: mov byte ptr [0x830c], 0]
+    3742      3  miscue: 045D(slot) true: skip   [seg_0791_06.asm: jmp 0x37c2]
+    3745    136  miscue: coin   [seg_0791_06.asm: call far 214B:06FA]
+    3755     76  miscue: halve branch (timer -= rand(timer/2))   [seg_0791_06.asm: mov ax, word ptr [0x8300]]
+    376B     60  miscue: direction branch   [seg_0791_06.asm: cmp word ptr [0x82fc], 0]
+    379D     27  direction: 82FC != 0   [seg_0791_06.asm: mov ax, word ptr [0x82fe]]
+    3772     33  direction: 82FC == 0   [seg_0791_06.asm: call far 214B:06FA]
+    37AB      8  82FE magnitude 1: cleared   [seg_0791_06.asm: xor ax, ax]
+    37B2     19  82FE re-rolled   [seg_0791_06.asm: call far 214B:06FA]
+    37C2    523  common tail   [seg_0791_06.asm: mov byte ptr [0x8323], 0]
+  384C (pass to a slot: 287C at 39FC)
+    39EF      2  2DCA false: 287C(pitch, 10) is called   [seg_0791_06.asm: mov ax, 0xa]
+    3A00      1  287C non-zero   [seg_0791_06.asm: mov al, byte ptr [bp - 2]]
+    3A0F      1  |bp-2| > 8: 82FC := 0   [seg_0791_06.asm: xor ax, ax]
+    3A16      0  |bp-2| <= 8: 82FE adjusted   [seg_0791_06.asm: cmp word ptr [0x82fe], 0]
+    3A2F     69  tail   [seg_0791_06.asm: mov ax, word ptr [0x82f6]]
+  3C3F (shot/header: 287C at 3C89)
+    3C47      7  entry   [seg_0791_06.asm: cmp word ptr [bp + 0xa], 2]
+    3C63      7  8324 == 0 path   [seg_0791_06.asm: cmp byte ptr [0x8324], 0]
+    3C8D      2  287C returned 0: 06D0(4)   [seg_0791_06.asm: mov ax, 4]
+    3C9A      2  06D0 false: 29B3   [seg_0791_06.asm: call 0x29b3]
+    3CA1      2  80FB := 0   [seg_0791_06.asm: mov al, 0]
+    3CA5      5  80FB := 1   [seg_0791_06.asm: mov al, 1]
+  539F (the tackle's aftermath: 287C at 5401)
+    53E3     91  8303 == 0: coin   [seg_0791_09.asm: call far 214B:06FA]
+    53EC     47  coin 0: 287C(holder, 3)   [seg_0791_09.asm: mov ax, 3]
+    5405     68  win path (869F, template 0x0E)   [seg_0791_09.asm: mov di, word ptr [bp + 4]]
+    541E     24  lose path: 8303 test   [seg_0791_09.asm: cmp byte ptr [0x8303], 0]
+    5451     24  5E41 and templates 0x0E, 0x21   [seg_0791_09.asm: mov di, word ptr [bp + 4]]
+  5565 (challenge: 287C at 560F)
+    55FE     41  287C(pitch, 3) called   [seg_0791_09.asm: mov ax, 3]
+    5616    121  287C non-zero: result := 1   [seg_0791_09.asm: mov byte ptr [bp - 1], 1]
+    5613  69352  287C 0: return 0   [seg_0791_09.asm: jmp 0x56d0]
+    5675    120  2B28 emitted, 5474 next   [seg_0791_09.asm: push bp]
+    5679    120  after 5474   [seg_0791_09.asm: or al, al]
+  5F8A (loose-ball reaction: 287C at 6003, 6071, 60A8, 611C)
+    5FE1    368  8303 test   [seg_0791_10.asm: cmp byte ptr [0x8303], 0]
+    5FF2     53  8303 set, near: 287C(pitch, 4)   [seg_0791_10.asm: mov ax, 4]
+    6007     40  that 287C non-zero   [seg_0791_10.asm: push word ptr [0x82f6]]
+    601C      1  2EB8 true: 408E   [seg_0791_10.asm: mov di, word ptr [bp + 4]]
+    602B     39  2EB8 false   [seg_0791_10.asm: push word ptr [0x82f6]]
+    6040      0  2EF0 true: 3EDF   [seg_0791_10.asm: mov di, word ptr [bp + 4]]
+    604F     39  2EF0 false: 5F06   [seg_0791_10.asm: push bp]
+    6060     12  8303 clear, far: 287C(pitch, 3)   [seg_0791_10.asm: mov ax, 3]
+    6075      0  that 287C non-zero: 5F06   [seg_0791_10.asm: push bp]
+    607C    181  8303 clear, near   [seg_0791_10.asm: mov di, word ptr [bp + 4]]
+    6097      6  2F28 true: 287C(pitch, 9)   [seg_0791_10.asm: mov ax, 9]
+    60AC      2  that 287C non-zero   [seg_0791_10.asm: mov di, word ptr [bp + 4]]
+    60CC      1  06D0 true: 3EC5   [seg_0791_10.asm: mov di, word ptr [bp + 4]]
+    60F1    180  to the 8300 test   [seg_0791_10.asm: cmp word ptr [0x8300], 0]
+    6120    150  contest passed or 8300 == 0   [seg_0791_10.asm: mov di, word ptr [bp + 4]]
+  5474 (tackle roll: 54A1 and 54F2)
+    54C4     96  multiplier index 0 (8303 == 0 and 2C54 true)   [seg_0791_09.asm: mov al, 0]
+    54C8     24  multiplier index 1   [seg_0791_09.asm: mov al, 1]
+    5500     91  challenger roll > holder roll: 539F, result 1   [seg_0791_09.asm: push word ptr [bp + 4]]
+    550A    120  tail (result 0 when 5500 was not taken)   [seg_0791_09.asm: mov al, byte ptr [bp - 1]]
+  3B15 (long ball: 3B35)
+    3B4A      3  after max(0x1E, rand(skill/4))   [seg_0791_06.asm: push dx]
+  3EF8 (cross/long kick: 3F4B)
+    3F5E      5  after max(floor, rand(skill/divisor))   [seg_0791_07.asm: push dx]
+    3F8E      5  after 34C1   [seg_0791_07.asm: mov byte ptr [0x8303], 1]
+  5B36 (keeper: 5D69; the duel 5BC4-5C1E)
+    5B4A      0  8325 == 0 and 8324 == 0: return   [seg_0791_10.asm: jmp 0x5e3b]
+    5B4D     14  past the first gate   [seg_0791_10.asm: les di, ptr [bp + 6]]
+    5B5A      0  2B51 true: bail 5E25   [seg_0791_10.asm: jmp 0x5e25]
+    5B5D     14  past 2B51   [seg_0791_10.asm: mov al, byte ptr [0x830b]]
+    5B6C     14  8302 != 0: the flight block 5C88   [seg_0791_10.asm: jmp 0x5c88]
+    5B6F      0  8302 == 0: the duel (5BC4-5C1E)   [seg_0791_10.asm: les di, ptr [bp + 6]]
+    5C8F      0  8324 != 0: element := 1   [seg_0791_10.asm: mov word ptr [bp - 4], 1]
+    5C96     14  8324 == 0: element from DS:07FE   [seg_0791_10.asm: mov al, byte ptr [0x8327]]
+    5CD3      0  8324 != 0, 06D0(3) false: return   [seg_0791_10.asm: jmp 0x5e3b]
+    5CD8      0  8324 != 0, 06D0(3) true   [seg_0791_10.asm: cmp byte ptr [0x8327], 4]
+    5D0F     14  [bp-6] set   [seg_0791_10.asm: les di, ptr [bp + 6]]
+    5D22      0  2EB8 false: 3FAD(9)   [seg_0791_10.asm: mov ax, 9]
+    5D32     14  2EB8 true   [seg_0791_10.asm: cmp word ptr [0x8300], 0]
+    5D39     13  8300 != 0: the 5D69 contest   [seg_0791_10.asm: mov di, 0x82f6]
+    5D78      0  contest lost (high word)   [seg_0791_10.asm: jmp 0x5e23]
+    5D7F      9  contest lost (low word)   [seg_0791_10.asm: jmp 0x5e23]
+    5D82      5  past the contest (won, or 8300 == 0)   [seg_0791_10.asm: cmp byte ptr [0x8326], 0]
+    5D99      4  8326 == 0 and event in 5B16: 3C20 count   [seg_0791_10.asm: call 0x2996]
+    5DAE      0  rand(4) = 1: reverse   [seg_0791_10.asm: mov ax, word ptr [0x82fe]]
+    5DE9      1  rand(4) = 2: sideways   [seg_0791_10.asm: call far 214B:06FA]
+    5E1F      4  rand(4) = 3, 4: 5A8E   [seg_0791_10.asm: push bp]
+    5E25      0  bail (2B51)   [seg_0791_10.asm: cmp byte ptr [0x8326], 0]
+  690C (penalty contest: call 6968)
+    6912      2  entry   [seg_0791_11.asm: cmp byte ptr [0x8327], 4]
+    6919      0  8327 > 4: 6755   [seg_0791_11.asm: push bp]
+    691F      2  8327 <= 4   [seg_0791_11.asm: cmp byte ptr [0x7c39], 0]
+    692D      0  7C39 == 0 and 80FB == 0   [seg_0791_11.asm: mov al, byte ptr [0x8327]]
+    693D      0  8327 in 68EC (3, 4): the 278A site   [seg_0791_11.asm: mov ax, 0x20]
+    6976      2  67B6   [seg_0791_11.asm: push bp]
+    697C      0  6755   [seg_0791_11.asm: push bp]
+    368D: 8300 raised by the skill term: 7
+    3B35: result = 0x1E (floor): 3
+    3F4B: floor applied: 5
