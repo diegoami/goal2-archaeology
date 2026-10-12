@@ -26,6 +26,11 @@ restores it before each F004 step, `f004+raw-write` does the same with raw `mu.m
 increment + 1 only when the seed pointer is not DS:7B62 (the hook's falsifiers). A hooked run is also compared with
 an unhooked run of the same state: every write of the seed word (value before and after, clock
 reading) must be the original's, in order.
+--hook m2-287c (T46, M2b) substitutes 214B:0688, 0791:278A, 1771:377E and 0791:287C (runtime/model/contests.py), each
+proved at every call. While 287C's original runs in its proof, the hooks of the routines it calls (278A, 0688) do not
+fire: the original's inner calls are the original's own code (watched_match.original_running), so those routines'
+counts here are M1's minus what 287C's calls make (545 each of 278A and 0688 per record); they are printed per record.
+`m2-287c+inverted` flips 287C's AL, `m2-287c+n+1` adds 32 to the value it divides (n + 1): the falsifiers.
 Each emulated run's outputs (without the draw list, whose count and sha256 they carry) are written
 to a new file under experiments/E021-m0-whole-match/out/ (never overwritten)."""
 import argparse
@@ -43,6 +48,7 @@ sys.path.insert(0, str(ROOT / "runtime" / "emul"))
 import driver  # noqa: E402
 from watched_match import WatchedMatch  # noqa: E402
 sys.path.insert(0, str(ROOT / "runtime" / "model"))
+import contests  # noqa: E402
 import keeping  # noqa: E402
 from condition import _Record  # noqa: E402  (a QuickMatch over literal records and the foot tables)
 from quick_engine import idiv, s16, s8  # noqa: E402
@@ -127,6 +133,28 @@ SKILL_READER = "0791:278A"
 RECORD_SIZE = 20            # 2797 `mov dx, 0x14; mul dx` (the player array's stride)
 
 
+def skill_trace(g, off, seg, element, gate=None):
+    """The model's run of 0791:278A on the guest's state (see skill_reader): (value, dx)."""
+    pitch = seg * 16 + off
+    index = g.word_at(pitch + 0xD)
+    rec = g.far(0xA91B) + RECORD_SIZE * index
+    p = lambda i: g.mem(rec + i, 1)[0]
+    pb = lambda i: g.mem(pitch + i, 1)[0]
+    # the tables are indexed by record bytes (+7, +5): the original reads DS memory past the
+    # documented 168 / 192 bytes (E011-r0001 call #77: +5 = 0x10, row 16 of DS:6DCD), so the
+    # model gets the following bytes of the data segment too (12 * 255 + 255 < 4096)
+    classes = g.mem(g.DS * 16 + 0x6D25, 4096)
+    profiles = g.mem(g.DS * 16 + 0x6DCD, 4096)
+    saved = keeping.KEEPER_EVENTS
+    if gate is not None:
+        keeping.KEEPER_EVENTS = gate
+    try:
+        return keeping.contest_trace(p(4), p(5), p(7), p(0xC), p(0xE), element, classes, profiles,
+                                     pb(0x13), pb(0x11), g.rd(0x8327, 1), g.rd(0x80FC, 1), pb(6))
+    finally:
+        keeping.KEEPER_EVENTS = saved
+
+
 def skill_reader(gate=None, product_plus=0):
     """0791:278A as a hook fn (M1a): reads the routine's inputs from the guest and decides its result
     with keeping.contest_trace. Far-called with `retf 6` (2879): stack args off (bp+6), seg (bp+8),
@@ -140,24 +168,7 @@ def skill_reader(gate=None, product_plus=0):
     (the falsifiers)."""
     def fn(g):
         off, seg, element = g.arg(0), g.arg(1), g.arg(2)
-        pitch = seg * 16 + off
-        index = g.word_at(pitch + 0xD)
-        rec = g.far(0xA91B) + RECORD_SIZE * index
-        p = lambda i: g.mem(rec + i, 1)[0]
-        pb = lambda i: g.mem(pitch + i, 1)[0]
-        # the tables are indexed by record bytes (+7, +5): the original reads DS memory past the
-        # documented 168 / 192 bytes (E011-r0001 call #77: +5 = 0x10, row 16 of DS:6DCD), so the
-        # model gets the following bytes of the data segment too (12 * 255 + 255 < 4096)
-        classes = g.mem(g.DS * 16 + 0x6D25, 4096)
-        profiles = g.mem(g.DS * 16 + 0x6DCD, 4096)
-        saved = keeping.KEEPER_EVENTS
-        if gate is not None:
-            keeping.KEEPER_EVENTS = gate
-        try:
-            value, dx = keeping.contest_trace(p(4), p(5), p(7), p(0xC), p(0xE), element, classes, profiles,
-                                              pb(0x13), pb(0x11), g.rd(0x8327, 1), g.rd(0x80FC, 1), pb(6))
-        finally:
-            keeping.KEEPER_EVENTS = saved
+        value, dx = skill_trace(g, off, seg, element, gate)
         g.set_reg("ax", (value + product_plus) & 0xFFFF)
         g.set_reg("dx", dx)
     return fn
@@ -249,6 +260,36 @@ def strength_reader(tally=None, result_plus=0, record_class=_Record):
     return fn
 
 
+CONTEST_GATE = "0791:287C"
+EXPECTED_287C = {"calls": 545, "non-zero": 296, "zero": 249}   # F022 / T46 Evidence, per record
+
+
+def gate_reader(tally=None, invert=False, value_plus=0):
+    """0791:287C as a hook fn (M2b): contests.gate, over the inputs read from the guest. Far-called with
+    `retf 6` (28AF), the same arguments as 278A (it pushes them on, 2882-2889): off (bp+6), seg (bp+8),
+    element (bp+0xA) = arg(0), arg(1), arg(2). Reads: whatever 278A reads (skill_trace: the model decides
+    278A's value; the original's inner call is NOT hooked while the original runs in a proof,
+    watched_match.original_running), and the seed word at the far pointer DS:A978 (06D6 `les di, [0xa978]`;
+    off at A978, seg at A97A), which 0688 steps and stores (069F `stosw`). Writes: the seed word, as
+    `stosw` does. Results (contests.py): AL the result, AH the draw's high byte, DX the draw.
+    `tally` (a dict) counts the results of the model's own run; `invert` flips AL and `value_plus` adds to
+    the value 278A returns (a falsifier: 32 makes n + 1)."""
+    def fn(g):
+        off, seg, element = g.arg(0), g.arg(1), g.arg(2)
+        value, _ = skill_trace(g, off, seg, element)
+        seed_lin = g.far(0xA978)
+        r = contests.gate((value + value_plus) & 0xFFFF, g.word_at(seed_lin))
+        g.put(seed_lin, r.seed.to_bytes(2, "little"))
+        result = r.result ^ 1 if invert else r.result
+        if tally is not None:
+            tally["calls"] = tally.get("calls", 0) + 1
+            key = "non-zero" if r.result else "zero"
+            tally[key] = tally.get(key, 0) + 1
+        g.set_reg("ax", (r.ax & 0xFF00) | result)
+        g.set_reg("dx", r.dx)
+    return fn
+
+
 HOOKS = {"none": None, "f004": f004_step(), "f004+hidden-write": hidden_write(f004_step()),
          "f004+raw-write": raw_write(f004_step()), "f004+831D-write": clock_write(f004_step()),
          "f004+inc+1-off-seed": off_seed_increment(f004_step(), f004_step(inc=INC + 1)),
@@ -261,6 +302,8 @@ M1 = {"m1-278a": {}, "m1-278a+gate-0x18": {"gate": frozenset({0x18})},
 # M1b: 214B:0688, 0791:278A and 1771:377E together; the value is strength_reader's arguments
 M1B = {"m1-377e": {}, "m1-377e+result+1": {"result_plus": 1},
        "m1-377e+form-0x21": {"record_class": ThresholdMutant}}
+# M2b: 214B:0688, 0791:278A, 1771:377E and 0791:287C together
+M2 = {"m2-287c": {}, "m2-287c+inverted": {"invert": True}, "m2-287c+n+1": {"value_plus": 32}}
 
 
 def asset(entry, release="E011"):
@@ -308,11 +351,14 @@ def write_out(label, run_id, payload):
 def emulate(data, hook_name, inputs=()):
     m = WatchedMatch(data)
     m.tally377e = dict.fromkeys(EXPECTED_377E, 0)
-    if hook_name in M1 or hook_name in M1B:     # M0's substitution, 278A's (and 377E's), each proved at every call
+    m.tally287c = {}
+    if hook_name in M1 or hook_name in M1B or hook_name in M2:     # M0's substitution, 278A's (and 377E's), each proved at every call
         m.hook(LCG_STEP, HOOKS["f004"], prove=True)
         m.hook(SKILL_READER, skill_reader(**M1.get(hook_name, {})), prove=True)
-        if hook_name in M1B:
-            m.hook(STRENGTH_READER, strength_reader(m.tally377e, **M1B[hook_name]), prove=True)
+        if hook_name in M1B or hook_name in M2:
+            m.hook(STRENGTH_READER, strength_reader(m.tally377e, **M1B.get(hook_name, {})), prove=True)
+        if hook_name in M2:
+            m.hook(CONTEST_GATE, gate_reader(m.tally287c, **M2[hook_name]), prove=True)
     elif HOOKS[hook_name] is not None:
         m.hook(LCG_STEP, HOOKS[hook_name], prove=True)
     for fn in inputs:
@@ -330,13 +376,13 @@ def emulate(data, hook_name, inputs=()):
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("--runs", default=str(ROOT / "runs/E011"))
-    ap.add_argument("--hook", choices=sorted(HOOKS) + sorted(M1) + sorted(M1B), default="none")
+    ap.add_argument("--hook", choices=sorted(HOOKS) + sorted(M1) + sorted(M1B) + sorted(M2), default="none")
     a = ap.parse_args(argv)
     records = sorted(Path(a.runs).glob("E011-r*.json"))
     n = ok = 0
     failed = []
     hooked = proved = reader_hooked = reader_proved = 0
-    strength_hooked = strength_proved = 0
+    strength_hooked = strength_proved = contest_hooked = contest_proved = 0
     scratch = {}
     differences = []
     for p in records:
@@ -359,13 +405,16 @@ def main(argv=None):
         per_record = m.hook_counts.get(SKILL_READER, 0)
         reader_hooked += per_record
         reader_proved += m.proved_calls.get(SKILL_READER, 0)
-        if a.hook in M1B:
+        if a.hook in M1B or a.hook in M2:
             per377 = m.hook_counts.get(STRENGTH_READER, 0)
             strength_hooked += per377
             strength_proved += m.proved_calls.get(STRENGTH_READER, 0)
             print(f"  {rid}: {STRENGTH_READER} calls {per377}, proved {m.proved_calls.get(STRENGTH_READER, 0)};"
                   f" branches {m.tally377e}")
-        if a.hook in M1 or a.hook in M1B:
+        if a.hook in M2:
+            print(f"  {rid}: calls per routine {m.hook_counts}, proved {m.proved_calls};"
+                  f" {CONTEST_GATE} results {m.tally287c}")
+        if a.hook in M1 or a.hook in M1B or a.hook in M2:
             print(f"  {rid}: {SKILL_READER} calls {per_record}, proved {m.proved_calls.get(SKILL_READER, 0)}")
         for r, c in m.scratch_differences.get(LCG_STEP, {}).items():
             scratch[r] = scratch.get(r, 0) + c
@@ -383,6 +432,12 @@ def main(argv=None):
             "board screen sha256 equals the record's full-time screen": screen_sha == ft["screen_sha256"],
             "every seed write equals the unhooked original's (hooked runs)": trace is None,
         }
+        contest_hooked += m.hook_counts.get(CONTEST_GATE, 0)
+        contest_proved += m.proved_calls.get(CONTEST_GATE, 0)
+        if a.hook == "m2-287c":
+            checks["287C's calls and results equal the Evidence's (545: 296 non-zero / 249 zero)"] = (
+                m.tally287c == EXPECTED_287C and m.hook_counts.get(CONTEST_GATE) == 545
+                and m.proved_calls.get(CONTEST_GATE) == 545)
         if a.hook == "m1-377e":
             checks["377E's calls and branch tally equal the measured original's (T43 Evidence)"] = (
                 m.tally377e == EXPECTED_377E and m.hook_counts.get(STRENGTH_READER) == 88)
@@ -413,10 +468,13 @@ def main(argv=None):
     if a.hook != "none":
         print(f"hooked calls of {LCG_STEP}: {hooked}; proved side by side with no difference: {proved};"
               f" differences: {len(differences)}" + (f" (first: {differences[0]})" if differences else ""))
-        if a.hook in M1 or a.hook in M1B:
+        if a.hook in M2:
+            print(f"hooked calls of {CONTEST_GATE}: {contest_hooked}; proved side by side with no difference:"
+                  f" {contest_proved}")
+        if a.hook in M1 or a.hook in M1B or a.hook in M2:
             print(f"hooked calls of {SKILL_READER}: {reader_hooked}; proved side by side with no difference:"
                   f" {reader_proved}")
-        if a.hook in M1B:
+        if a.hook in M1B or a.hook in M2:
             print(f"hooked calls of {STRENGTH_READER}: {strength_hooked}; proved side by side with no difference:"
                   f" {strength_proved}")
         print("uncompared-register differences (warnings, proved calls): "

@@ -248,6 +248,49 @@ class SyntheticHookTests(unittest.TestCase):
                     g.emulate(END, 5)
 
 
+class NestedProofTests(unittest.TestCase):
+    """T46: a proved call's original runs as the original's own code, calls inside it included: a hook of
+    ANOTHER routine does not fire there (else the proof would compare the model with the model of what
+    it calls), and the same routine called from outside the original is still substituted."""
+    INNER = 0x3000
+
+    def guest(self):
+        program = bytes([0xB8, 0x05, 0x00,                       # 0: mov ax, 5
+                         0x50,                                    # 3: push ax
+                         0x9A, 0x00, 0x00, 0x00, 0x20,            # 4: call far 2000:0000 (outer)
+                         0x9A, 0x00, 0x00, 0x00, 0x30,            # 9: call far 3000:0000 (inner, directly)
+                         0xF4])                                   # 14: hlt
+        outer = bytes([0x9A, 0x00, 0x00, 0x00, 0x30,              # 0: call far 3000:0000 (inner)
+                       0xCA, 0x02, 0x00])                         # 5: retf 2
+        inner = bytes([0xFF, 0x06, 0x00, 0x02,                    # 0: inc word ptr [0x0200]
+                       0xCB])                                     # 4: retf
+        mem = bytearray(0x40000)
+        for at, code in ((CODE, program), (ROUTINE, outer), (self.INNER, inner)):
+            mem[at * 16:at * 16 + len(code)] = code
+        return Guest(memory=mem, regs={"CS": CODE, "EIP": 0, "SS": 0x0800, "ESP": SP0, "DS": 0, "ES": 0})
+
+    @staticmethod
+    def inc(linear, by=1):
+        return lambda g: g.put(linear, (g.word_at(linear) + by).to_bytes(2, "little"))
+
+    def test_a_hook_inside_a_proved_original_does_not_fire_but_a_direct_call_does(self):
+        g = self.guest()
+        g.hook("2000:0000", self.inc(0x200), ret=(True, 2), prove=True, ret_at=[5])
+        g.hook("3000:0000", self.inc(0x200), ret=(True, 0), prove=True, ret_at=[4])
+        g.emulate(CODE * 16 + 14, 5)
+        self.assertEqual(g.hook_counts, {"2000:0000": 1, "3000:0000": 1})   # the original's inner call is not counted
+        self.assertEqual(g.proved_calls, {"2000:0000": 1, "3000:0000": 1})
+        self.assertEqual(g.word_at(0x200), 2)              # the outer's effect once, the direct call's once
+
+    def test_a_model_that_misses_the_inner_effect_is_stopped(self):
+        from watched_match import ProofError
+        g = self.guest()
+        g.hook("2000:0000", self.inc(0x200, 2), ret=(True, 2), prove=True, ret_at=[5])
+        g.hook("3000:0000", self.inc(0x200), ret=(True, 0), prove=True, ret_at=[4])
+        with self.assertRaises(ProofError):
+            g.emulate(CODE * 16 + 14, 5)
+
+
 class PushOpcodeTests(unittest.TestCase):
     def test_the_instructions_that_write_below_sp(self):
         from watched_match import pushes
@@ -536,6 +579,106 @@ class StrengthReaderTests(unittest.TestCase):
         # threshold 0x21: form 0x20 takes the `+ form` branch, 70 + 32
         self.assertEqual(self.call(rec=record(form=0x20), record_class=ThresholdMutant)[0], 102)
         self.assertEqual(self.call(rec=record(form=0x21), record_class=ThresholdMutant)[0], 70 - 70 // 16)
+
+
+class GateGuest:
+    """The Guest methods check.gate_reader reads, over a flat memory: DS = 0x1000; the far pointer at
+    DS:A978 (offset) / DS:A97A (segment) points to the seed word, which lies away from DS:7B62."""
+    DS = 0x1000
+    SEED_SEG, SEED_OFF = 0x2000, 0x0040
+
+    def __init__(self, seed, off=0x0123, seg=0x3000, element=7, decoy=0xBEEF):
+        self.memory = bytearray(0x100000)
+        self.args = (off, seg, element)
+        self.regs = {}
+        self.writes = []
+        self.set(0xA978, self.SEED_OFF)
+        self.set(0xA97A, self.SEED_SEG)
+        self.put(self.SEED_SEG * 16 + self.SEED_OFF, seed.to_bytes(2, "little"))
+        self.set(0x7B62, decoy)                       # the main seed: not the one 287C steps
+        self.writes.clear()
+
+    def set(self, off, value):
+        self.memory[self.DS * 16 + off:self.DS * 16 + off + 2] = value.to_bytes(2, "little")
+
+    def arg(self, i):
+        return self.args[i]
+
+    def rd(self, off, n=2):
+        return int.from_bytes(self.memory[self.DS * 16 + off:self.DS * 16 + off + n], "little")
+
+    def far(self, off):
+        return self.rd(off + 2) * 16 + self.rd(off)
+
+    def word_at(self, linear):
+        return int.from_bytes(self.memory[linear:linear + 2], "little")
+
+    def put(self, linear, raw):
+        self.writes.append((linear, bytes(raw)))
+        self.memory[linear:linear + len(raw)] = raw
+
+    def set_reg(self, name, value):
+        self.regs[name] = value
+
+
+class GateReaderTests(unittest.TestCase):
+    """T46: check.gate_reader (0791:287C) on literal guest memory, 278A's value given (check.skill_trace
+    is replaced: T42's proofs cover its reads). AL, AH, DX and the seed write are what the proof
+    compares; each read is covered by a case a one-off mutation breaks (the PR lists them)."""
+
+    def call(self, value=100, seed=0x1234, tally=None, **kw):
+        from unittest import mock
+        import check
+        g = GateGuest(seed)
+        seen = []
+
+        def stub(guest, off, seg, element, gate=None):
+            seen.append((off, seg, element))
+            return value, 0
+
+        with mock.patch.object(check, "skill_trace", stub):
+            check.gate_reader(tally, **kw)(g)
+        return g, seen
+
+    def test_result_registers_and_the_seed_write(self):
+        g, seen = self.call()
+        # n = 4, seed 0x1234 -> new 21363, draw 2: AL = 1, AH = 0, DX = 2 (contests.py)
+        self.assertEqual(g.regs, {"ax": 1, "dx": 2})
+        self.assertEqual(g.writes, [(GateGuest.SEED_SEG * 16 + GateGuest.SEED_OFF, (21363).to_bytes(2, "little"))])
+        self.assertEqual(g.rd(0x7B62), 0xBEEF)               # the decoy seed word is untouched
+
+    def test_the_arguments_reach_278a_in_the_stack_order(self):
+        self.assertEqual(self.call()[1], [(0x0123, 0x3000, 7)])
+
+    def test_the_seed_is_read_through_the_far_pointer(self):
+        # the draw follows the word DS:A978 points to (seed 0 -> draw 1 at n = 4 -> AL = 0)
+        g, _ = self.call(seed=0)
+        self.assertEqual(g.regs, {"ax": 0, "dx": 1})
+
+    def test_n_follows_278as_value(self):
+        # seed 0x1234: the draw is 1 up to n = 3 (values 31, 95), 2 for n = 4 (96, 100), 668 for n = 2048
+        for value, draw in ((31, 1), (95, 1), (96, 2), (100, 2), (0xFFFF, 668)):
+            self.assertEqual(self.call(value=value)[0].regs["dx"], draw, value)
+
+    def test_ah_is_the_draws_high_byte(self):
+        g, _ = self.call(value=0xFFFF, seed=1)               # draw 1199 = 0x4AF
+        self.assertEqual(g.regs, {"ax": 0x0401, "dx": 1199})
+
+    def test_the_tally_follows_the_models_own_run(self):
+        tally = {}
+        self.call(tally=tally)
+        self.call(seed=0, tally=tally)
+        self.assertEqual(tally, {"calls": 2, "non-zero": 1, "zero": 1})
+        tally = {}
+        self.call(tally=tally, invert=True)                  # the tally counts the model's draw, not the output
+        self.assertEqual(tally, {"calls": 1, "non-zero": 1})
+
+    def test_the_falsifiers_change_the_result(self):
+        self.assertEqual(self.call(invert=True)[0].regs["ax"], 0)
+        self.assertEqual(self.call(seed=0, invert=True)[0].regs["ax"], 1)
+        # n + 1: value + 32 -> n = 5; the seed's draw changes with n (the same seed, 4 -> 2, 5 -> 2 or 3)
+        base, plus = self.call(seed=0x0007)[0], self.call(seed=0x0007, value_plus=32)[0]
+        self.assertNotEqual(base.regs["dx"], plus.regs["dx"])
 
 
 if __name__ == "__main__":

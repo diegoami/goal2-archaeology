@@ -206,6 +206,7 @@ class Guest:
         self._watch = []          # (linear, on_change(old, new)) words whose fn writes are reported
         self._fn_writes = None    # (linear, byte) per byte a running fn writes
         self.suppress_guest_watch = False   # set while a proved call runs the original
+        self.original_running = False       # a proved call's original is running: hooks inside it do not fire
         self.proved_calls = {}    # address -> calls compared without a difference
         self.scratch_differences = {}   # address -> {register: proved calls where it differed}
         self.error = None         # an error a callback met; it stops the emulation
@@ -363,8 +364,9 @@ class Guest:
                 state["low"] = min(state["low"], sp)
 
         def at_entry(uc, addr, size, data):
-            if state["phase"] == "original":
-                return                     # a nested call inside the original runs as guest code
+            if state["phase"] == "original" or self.original_running:
+                return                     # a nested call inside the original runs as guest code (a hook of
+                                           # another routine too: the proof then rests on no other model)
             try:
                 self.hook_counts[key] += 1
                 if not prove:
@@ -375,6 +377,7 @@ class Guest:
                              ss=self.reg("ss"), sp=self.reg("sp"))
                 state["low"] = state["ss"] * 16 + state["sp"]
                 self.suppress_guest_watch = True
+                self.original_running = True
             except Exception as e:        # stop the emulation and re-raise after it
                 stop(uc, e)
 
@@ -384,6 +387,7 @@ class Guest:
             try:
                 state["phase"] = None
                 self.suppress_guest_watch = False
+                self.original_running = False
                 self.return_from(far, pop)
                 # the routine's own dead frame (Sol's R2 on PR 136's round 2 and R1 of the delta):
                 # from the lowest the ORIGINAL's stack reached while it wrote (record_original) up to
