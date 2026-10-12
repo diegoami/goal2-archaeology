@@ -101,11 +101,12 @@ defaults and the blocked list live in `harness.json` and change through `/switch
 a rule that names a model. No quota, tier or difficulty table picks a model.
 
 0. **The orchestrator is set by the Anthropic environment variables alone** (`ANTHROPIC_BASE_URL`,
-   `ANTHROPIC_AUTH_TOKEN`, `ANTHROPIC_MODEL`): Claude by default, and GLM-5.3 through Z.AI's
-   Anthropic-compatible endpoint when Claude's tokens are out, which then works like Claude. These
+   `ANTHROPIC_AUTH_TOKEN`, `ANTHROPIC_MODEL`): Claude by default; when Claude's tokens are out, GLM-5.3
+   through Z.AI's Anthropic-compatible endpoint, or MiniMax, or Moonshot's Kimi, which then work
+   like Claude. These
    rules never name the orchestrator's model. The harness reads the orchestrator's **family** from
    that environment (`lib/common.mjs` `sessionFamily`: Claude when the base URL is unset or
-   Anthropic's, GLM for Z.AI; `HARNESS_SESSION_FAMILY` overrides, and an unknown endpoint refuses
+   Anthropic's, GLM for Z.AI, MiniMax, Kimi for Moonshot; `HARNESS_SESSION_FAMILY` overrides, and an unknown endpoint refuses
    to review until it is set), because every subagent the session spawns, whatever its model,
    runs through the same endpoint and is of that provider's family. Pass `ANTHROPIC_BASE_URL` and `HARNESS_SESSION_FAMILY` to
    a review's systemd unit (rule 9).
@@ -115,7 +116,7 @@ a rule that names a model. No quota, tier or difficulty table picks a model.
    (`subagent_type: "implementer"`, `.claude/agents/implementer.md`, worktree isolation) on a
    model of its own, not the orchestrator's: Opus orchestrates and spawns Sonnet. The model is a
    Claude Code alias (`sonnet`, `opus`, `haiku`, `fable`) or any model id the session's provider
-   serves; under another Anthropic-compatible provider (Z.AI's GLM, MiniMax) the same alias
+   serves; under another Anthropic-compatible provider (Z.AI's GLM, MiniMax, Kimi) the same alias
    resolves to whatever that provider maps it to (GLM-5.3 Flash for `sonnet` on Z.AI), or the id
    names its model outright. When the provider cannot spawn a subagent (one model only, or the
    Agent tool's model is not honoured), the main session implements directly, in its own git

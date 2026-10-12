@@ -32,7 +32,7 @@ MiniMax section with the registration table, pricing and the owner's placements 
 adapt docs/tasks/README.md  (this repository's task index)
 af52af6d14ca0c065ef31cf4d25c58edcb43b4ad7a037da9fb74f4cd9af65dec  .claude/agents/implementer.md
 adapt .claude/agents/reviewer.md  (rule 9a: undo a mutation by rewriting the saved file, 2026-10-11)
-aaf3030742161fde6b652d1100fe9cdc93a612bd2d6b0d80c83b3ef333c20536  .claude/hooks/session-start.sh
+2cc6de4aac422533d108c0268a22a43f98629bb54541bf456405889ef7e53570  .claude/hooks/session-start.sh
 9d2227215dcf47b9dc7c41d5c9b7f8c5b79dd962c3fb8c3f8f625032fa5eefae  .claude/settings.json
 adapt .claude/skills/delegate/SKILL.md  (the user chooses models, /recommend a suggestion only (the owner, 2026-10-11); earlier: /recommend, not /best (f91210b, 2026-10-08))
 218462f453d5432db791c7697d7d34970491af106f8e1d1b95b0e0ef6f86747a  .claude/skills/jev/SKILL.md
@@ -51,7 +51,7 @@ adapt tools/harness/peek.sh  (new: an OpenCode run's latest steps, from isle-war
 adapt tools/harness/lib/named.mjs  (new: a model the user names and its family; DeepSeek refused (2026-10-11))
 9befbffd7ca14116d581da6fefefbe5d43514f8c3d4a7419467f4a7810e8f96b  tools/harness/jev.mjs
 adapt tools/harness/lib/chain.mjs  (the user chooses models, the owner 2026-10-11)
-d491ba463fe2a08c70736d8737558866b7fb3700447c6239da9fb9af8900f610  tools/harness/lib/common.mjs
+181e29b6c356e81597ab866f5a39ef3846f4b47cd09aa2fdb2c9a51406e0d23e  tools/harness/lib/common.mjs
 411151214b90b3847a643139417aad0b4863971c6d6ab4c271f249aa09e9ebc1  tools/harness/lib/guard.mjs
 2020f3a9dc6295089dde3481f2c08bce6d924fa031dffee1e68b6e0ce884e34a  tools/harness/lib/jail.mjs
 b65cc055307ca29a94c1f882262395737af1ae776b3561bd32d187740622b9af  tools/harness/lib/jev.mjs

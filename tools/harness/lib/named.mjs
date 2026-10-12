@@ -8,7 +8,7 @@ const FAMILIES = [
   [/^glm/, 'glm'],
   [/^gemini|^gemma/, 'google'],
   [/^llama/, 'meta'],
-  [/^kimi/, 'moonshot'],
+  [/^kimi/, 'kimi'],
   [/^grok/, 'xai'],
   [/^(mistral|devstral|codestral|magistral)/, 'mistral'],
   [/^nemotron/, 'nvidia'],
