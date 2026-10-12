@@ -49,3 +49,4 @@ exists.
 | T39c | screens read back from a sitting's video (a test) | #139 | T39a |
 | T40 | keeping.py: the keeper gate tests DS:8327 in {3, 4}, not == 0x18 | #126 | — |
 | T41 | F020 restates F019's result-term set wrongly; F010 cites a blank line | #127 | — |
+| T42 | M1a: the skill reader 0791:278A substituted in whole watched matches | #163 | — |
