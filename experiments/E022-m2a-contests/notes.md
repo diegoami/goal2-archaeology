@@ -29,3 +29,4 @@ Not measured by E022's probe. Their zero entry counts are in `experiments/E021-m
 ## 6. Full test suite
 
 `out/unittest-full-rework1.log`: `python3 -B -m unittest discover -s tests`.
+`out/unittest-full-rework1.log`: 900 tests, 1 failure, `test_human_keys.GuardTests.test_scripted_sitting_produces_one_burst_snapshot_per_key_group` (DOSBox-X exited with code -6 during a savestate; unrelated to this PR's files; not the TLS flake). `out/unittest-human-keys-rerun.log`: `python3 -B -m unittest tests.test_human_keys` alone: 70 tests OK.
