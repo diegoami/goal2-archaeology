@@ -92,6 +92,11 @@ menus where Up/Down is held. So:
   its screen before was not captured, so no transition is claimed); none of them counts as
   unmapped. A gap with several bursts is a merge only when the closing request's marker names at
   least as many groups; otherwise it stays unmapped as before.
+- **A scroll is one episode.** `EVENT_SETTLE_S` is 0.25 s (T34: 0.05 s): a request waits until the
+  key stream has been still that long, because a request opened between keys 0.03-0.15 s apart
+  meets the next key inside its own ~0.075 s window and leaves the rest of the scroll unmapped
+  (`T44-scripted-scroll-20261012-01.log`: 33 of 40 presses). The 0.527 s case still gets a window
+  per key (tested).
 - **Nothing of T35/T39b changes.** A merge changes which groups a request claims, never what proves
   the request's write: the per-request path, `pre_sig`/`accept_sig` and the write-event count are
   checked per request as before (`check_attribution` is untouched). The supersession checks stay
