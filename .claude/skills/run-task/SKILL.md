@@ -33,7 +33,10 @@ environment (`switch-model.mjs --show` prints it); the reviewer is never of that
 2. **Implement.** First ask the user ONE question with the question tool (CLAUDE.md "Choosing models"
    rule 1): which subagent implements (the `implementer` agent on `sonnet`, `opus`, `haiku`, `fable`
    or a model id the session's provider serves), or does the main session implement directly (only
-   where the provider cannot spawn one)? Put `harness.json`'s `implementer.default` first. Record the answer on the
+   where the provider cannot spawn one)? Put `harness.json`'s `implementer.default` first. A model on
+   `harness.json`'s `blocked` list never implements, whoever names it: check the answer against
+   `switch-model.mjs --show`'s blocked line (an alias that resolves to a blocked model included) and,
+   if it is blocked, say so and ask again. Record the answer on the
    issue. Label `status:in-progress`. Then:
    - **The `implementer` subagent**: `Agent(subagent_type: "implementer", model: <the answer>,
      isolation: "worktree")` with the brief, on a model of its own, not the orchestrator's

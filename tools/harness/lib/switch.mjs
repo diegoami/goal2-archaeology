@@ -10,6 +10,8 @@
 //   another; never the session's family.
 // - blocked: families or id fragments that never run (--block / --unblock).
 
+import { canonicalFamily, familiesOfModel, familyOfId } from './named.mjs';
+
 export const ROLES = ['implementer', 'reviewer'];
 export const IMPLEMENTER_ALIASES = ['sonnet', 'opus', 'haiku', 'fable'];
 export const IMPLEMENTER_CHOICES = ['session', ...IMPLEMENTER_ALIASES];
@@ -18,7 +20,7 @@ export const IMPLEMENTER_CHOICES = ['session', ...IMPLEMENTER_ALIASES];
 // "openai/gpt-6-luna" are both openai: the vendor, not the route.
 const FAMILIES = [
   [/^deepseek/, 'deepseek'], [/^glm/, 'glm'], [/^(gpt|o\d|codex|chatgpt)/, 'openai'],
-  [/^claude/, 'anthropic'], [/^kimi/, 'kimi'], [/^qwen/, 'qwen'], [/^minimax/, 'minimax'],
+  [/^(claude|opus|sonnet|haiku)/, 'claude'], [/^kimi/, 'kimi'], [/^qwen/, 'qwen'], [/^minimax/, 'minimax'],
   [/^mimo/, 'mimo'], [/^grok/, 'xai'], [/^gemini/, 'google'], [/^longcat/, 'longcat'],
   [/^hy\d/, 'hunyuan'], [/^(llama|muse)/, 'meta'], [/^mistral|^devstral|^codestral/, 'mistral'],
 ];
@@ -100,7 +102,7 @@ export function planSwitch(config, { role = 'reviewer', id, variant, name, famil
   const blocked = blockedBy(config, entry);
   if (blocked) throw new Error(`Refused: ${blocked}.`);
   const own = String(sessionFamily ?? '').toLowerCase();
-  const same = [entry.family, known].filter(Boolean).some((f) => f === own || (own === 'claude' && f === 'anthropic'));
+  const same = [...familiesOfModel(entry), known].filter(Boolean).some((f) => canonicalFamily(f) === canonicalFamily(own));
   if (same) throw new Error(`Refused: ${id} is of the session's family (${own}), which implements; the reviewer is never the implementer's family. Set HARNESS_SESSION_FAMILY if the session runs elsewhere.`);
   const next = structuredClone(config);
   next.models = { ...next.models, [n]: entry };
@@ -118,6 +120,12 @@ function planImplementer(config, choice) {
     throw new Error(`--model for the implementer is session, one of ${IMPLEMENTER_ALIASES.join(', ')}, or a model id the session's provider serves; got ${choice}`);
   }
   const value = IMPLEMENTER_CHOICES.includes(lower) ? lower : c;
+  // the blocked list holds for the implementer too (Sol's R3 on PR 149): a model id is checked by
+  // its own family and name; an alias names the session's provider's model, checked when it runs
+  if (!IMPLEMENTER_CHOICES.includes(lower)) {
+    const blocked = blockedBy(config, { id: value, family: familyOfId(value) });
+    if (blocked) throw new Error(`Refused: ${blocked}.`);
+  }
   const next = structuredClone(config);
   next.implementer = { ...next.implementer, default: value };
   return { config: next, name: value, entry: { id: value }, before: describeImplementer(config), after: describeImplementer(next) };

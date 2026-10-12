@@ -122,14 +122,18 @@ export async function prepareOpenCode({ opencode, chain, models, env, cwd, log }
 // (the owner, 2026-10-12), and the family rule must then keep that family out of the reviewer's
 // seat. The names match the families the reviewer models get (glm, minimax, kimi). HARNESS_SESSION_FAMILY
 // overrides the guess; an endpoint this list does not know returns null, and the caller refuses
-// to review until it is set.
-const ENDPOINT_FAMILIES = [[/z\.ai|bigmodel/, 'glm'], [/minimax/, 'minimax'], [/moonshot|kimi/, 'kimi'],
-  [/deepseek/, 'deepseek'], [/dashscope|aliyun/, 'qwen'], [/mimo|xiaomi/, 'mimo']];
+// to review until it is set. Only the URL's host is read, on domain boundaries: a path, a query or
+// a host that merely contains a name (api.anthropic.com.proxy.example) is unknown (Sol's R4 on PR 149).
+// The owner's endpoints: https://api.z.ai/api/anthropic, https://api.minimax.io/anthropic.
+const ENDPOINT_FAMILIES = [[['anthropic.com'], 'claude'], [['z.ai', 'bigmodel.cn'], 'glm'],
+  [['minimax.io', 'minimaxi.com'], 'minimax'], [['moonshot.ai', 'moonshot.cn', 'kimi.com'], 'kimi'],
+  [['deepseek.com'], 'deepseek'], [['aliyuncs.com'], 'qwen'], [['xiaomimimo.com'], 'mimo']];
 export function sessionFamily(env = process.env) {
   if (env.HARNESS_SESSION_FAMILY) return env.HARNESS_SESSION_FAMILY.trim().toLowerCase();
-  const url = String(env.ANTHROPIC_BASE_URL || '').toLowerCase();
-  if (!url || /anthropic\.com/.test(url)) return 'claude';
-  return ENDPOINT_FAMILIES.find(([re]) => re.test(url))?.[1] ?? null;
+  if (!env.ANTHROPIC_BASE_URL) return 'claude';
+  let host;
+  try { host = new URL(env.ANTHROPIC_BASE_URL).hostname.toLowerCase(); } catch { return null; }
+  return ENDPOINT_FAMILIES.find(([ds]) => ds.some((d) => host === d || host.endsWith(`.${d}`)))?.[1] ?? null;
 }
 
 // harness.json's `blocked` list, changed with switch-model.mjs --block/--unblock: a family name

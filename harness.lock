@@ -32,7 +32,7 @@ MiniMax section with the registration table, pricing and the owner's placements 
 adapt docs/tasks/README.md  (this repository's task index)
 af52af6d14ca0c065ef31cf4d25c58edcb43b4ad7a037da9fb74f4cd9af65dec  .claude/agents/implementer.md
 adapt .claude/agents/reviewer.md  (rule 9a: undo a mutation by rewriting the saved file, 2026-10-11)
-2cc6de4aac422533d108c0268a22a43f98629bb54541bf456405889ef7e53570  .claude/hooks/session-start.sh
+b129ad9bd8133fe5f6b3c6590efc2bc61d9a57c1bea3f29c1deee6f9166da1e2  .claude/hooks/session-start.sh
 9d2227215dcf47b9dc7c41d5c9b7f8c5b79dd962c3fb8c3f8f625032fa5eefae  .claude/settings.json
 adapt .claude/skills/delegate/SKILL.md  (the user chooses models, /recommend a suggestion only (the owner, 2026-10-11); earlier: /recommend, not /best (f91210b, 2026-10-08))
 218462f453d5432db791c7697d7d34970491af106f8e1d1b95b0e0ef6f86747a  .claude/skills/jev/SKILL.md
@@ -46,12 +46,11 @@ c6ffaa08eb490d11e8f208b7f8ec7a1e291d55c3cee01e58aa84466fe1983f89  docs/jev/block
 325385ce86485b764e18a17dbee408d014b968f78a2e727c5116a8f9becf3511  docs/review-brief.md
 4f1b39c9bc3a6131866898c068aa06f46ae39a096de178fcc65ac3aedf1dd78d  docs/tasks/TEMPLATE.md
 518ad06ab39fdd22407b864ba878acf404ffe9dac5a8e9b19b4d44b574fe6342  tools/harness/guard.mjs
-adapt tools/harness/implement.mjs  (the user chooses models, the owner 2026-10-11)
 adapt tools/harness/peek.sh  (new: an OpenCode run's latest steps, from isle-wars-archaeology d1e0082, 2026-10-11)
 adapt tools/harness/lib/named.mjs  (new: a model the user names and its family; DeepSeek refused (2026-10-11))
 9befbffd7ca14116d581da6fefefbe5d43514f8c3d4a7419467f4a7810e8f96b  tools/harness/jev.mjs
 adapt tools/harness/lib/chain.mjs  (the user chooses models, the owner 2026-10-11)
-181e29b6c356e81597ab866f5a39ef3846f4b47cd09aa2fdb2c9a51406e0d23e  tools/harness/lib/common.mjs
+3a115ef1b96ec8d971d636d8a304f2a0ca499a19e431ab5c3d1a1a44d52254a3  tools/harness/lib/common.mjs
 411151214b90b3847a643139417aad0b4863971c6d6ab4c271f249aa09e9ebc1  tools/harness/lib/guard.mjs
 2020f3a9dc6295089dde3481f2c08bce6d924fa031dffee1e68b6e0ce884e34a  tools/harness/lib/jail.mjs
 b65cc055307ca29a94c1f882262395737af1ae776b3561bd32d187740622b9af  tools/harness/lib/jev.mjs
@@ -59,8 +58,8 @@ a6bf727222667a4c1744a8d01206e3fd36208203d80df117ff1216e08339ecf7  tools/harness/
 adapt tools/harness/lib/opencode.mjs  (the user chooses models, the owner 2026-10-11)
 5005d641b97629f37b2e0e4874ca0e46358d101828169bd7b7d74eff3ee10e4c  tools/harness/lib/post.mjs
 66379ce8b5620f13ac48634a9f54e1eabfd6f451c06161219f6883b541bd3452  tools/harness/lib/review-selftest.mjs
-718290e2c3645ebcd4944420cc877d665378ec56c4a0a24acd6bdee814c6776b  tools/harness/lib/switch.mjs
+f0848995d84625b3800869975346bc33b013a690f47cb31f623089e861f2b2c4  tools/harness/lib/switch.mjs
 bf717caa54364e8e56a50bab0f07d0212b8300992bc0ad3629cf097ef58e4845  tools/harness/models.mjs
 4406fa454bd0d403e85230c2d3f08e3bfddd0c53f44731b23dbdf5c50bc9a92f  tools/harness/post-review.mjs
 adapt tools/harness/review.mjs  (the user chooses models, the owner 2026-10-11)
-ba43f7573f27e280e103e04dabf774388adf317f28662e0ce867151a19f3adda  tools/harness/switch-model.mjs
+026579695fea081c5fc0ec821115fd285c0101896519f87ed941ac3121e73cbc  tools/harness/switch-model.mjs

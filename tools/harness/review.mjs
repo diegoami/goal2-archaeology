@@ -45,8 +45,9 @@ import path from 'node:path';
 import { randomBytes } from 'node:crypto';
 import { runOpenCodeWatched, resolveOpenCode, OpenCodeInfraError, keyProblem } from './lib/opencode.mjs';
 import { credentialJail, OFF_WARNING } from './lib/jail.mjs';
-import { namedModel, familyOfName, selfTest as namedSelfTest } from './lib/named.mjs';
+import { namedModel, familyOfName, familiesOfModel, selfTest as namedSelfTest } from './lib/named.mjs';
 import { readReview, doneWhenCount, briefTargets } from './lib/chain.mjs';
+import { planSwitch } from './lib/switch.mjs';
 import { planPost, publish } from './lib/post.mjs';
 import { selfTest, SAMPLES } from './lib/review-selftest.mjs';
 import {
@@ -57,8 +58,34 @@ const say = (s) => console.log(s);
 const die = (code, s) => { console.error(s); process.exit(code); };
 
 const a = parseArgs(process.argv.slice(2), { flags: ['apply-label', 'dry-run', 'self-test'], repeatable: ['env'] });
+// The run's title names its files (the brief, the logs): a model id's '/' would make a directory
+// there (#145, Sol's R5 on PR 149). The id and variant passed to OpenCode stay as named.
+const fileSafe = (s) => String(s).replace(/[^\w.@-]+/g, '-');
+
+// The family guard's cases (Sol's R1-R5 on PR 149), for --self-test.
+function guardSelfTest() {
+  const failures = [];
+  const ok = (what, cond) => { if (!cond) failures.push(what); };
+  const fam = (u) => sessionFamily({ ANTHROPIC_BASE_URL: u });
+  ok('no endpoint is claude', fam('') === 'claude');
+  ok('Z.AI is glm', fam('https://api.z.ai/api/anthropic') === 'glm');
+  ok('MiniMax is minimax', fam('https://api.minimax.io/anthropic') === 'minimax');
+  ok('anthropic.com in a path is unknown (R4)', fam('https://unknown.example/anthropic.com') === null);
+  ok('a host containing anthropic.com is unknown (R4)', fam('https://api.anthropic.com.proxy.example') === null);
+  ok('the override wins', sessionFamily({ ANTHROPIC_BASE_URL: 'https://x.example', HARNESS_SESSION_FAMILY: 'Kimi' }) === 'kimi');
+  const cfg = { blocked: ['deepseek'], models: {}, reviewer: {}, implementer: {} };
+  const refused = (opts) => { try { planSwitch(cfg, opts); return false; } catch (e) { return /^Refused/.test(e.message); } };
+  ok('a blocked implementer is refused (R3)', refused({ role: 'implementer', id: 'DeepSeek-v4-pro' }));
+  ok('an alias implementer passes', !refused({ role: 'implementer', id: 'sonnet' }));
+  ok('a Claude reviewer in a Claude session is refused (R2)', refused({ id: 'anthropic/claude-sonnet-4-5', variant: 'high', sessionFamily: 'claude' }));
+  ok('a forced family does not pass the session family (R2)',
+    refused({ id: 'openai/gpt-5.6-luna', variant: 'high', family: 'other', force: true, sessionFamily: 'openai' }));
+  ok('a model id makes no directory in a title (R5)', !fileSafe('pr149-openai/gpt-6.1-sol@medium').includes('/'));
+  return failures;
+}
+
 if (a['self-test']) {
-  const failures = [...selfTest(), ...namedSelfTest()];
+  const failures = [...selfTest(), ...namedSelfTest(), ...guardSelfTest()];
   for (const f of failures) console.error(`FAIL ${f}`);
   say(`self-test: ${SAMPLES.length - failures.length} of ${SAMPLES.length} samples read as expected, and the named-model checks ${failures.length ? 'failed' : 'passed'}`);
   process.exit(failures.length ? 1 : 0);
@@ -86,14 +113,16 @@ const config = loadConfig(top0);
 const { top, workRoot } = repoPaths(config);
 const rev = config.reviewer;
 
-// The implementer's family never reviews: --exclude, else the model: labels, else the session's family.
+// The implementer's family never reviews: the session's family always (every Claude Code agent runs
+// through its endpoint), and with it --exclude and the model: labels (Sol's R1 on PR 149: they
+// replaced it).
 const labelsOf = (kind, n) => sh('gh', [kind, 'view', String(n), '--json', 'labels', '--jq', '.labels[].name'], { cwd: top, allowFail: true }).split('\n');
 const named = a.exclude ? a.exclude.split(',').map((s) => s.trim()).filter(Boolean)
   : [...labelsOf('pr', a.pr), ...(a.issue ? labelsOf('issue', a.issue) : [])]
     .filter((l) => l.startsWith('model:')).map((l) => l.slice(6));
 const own = sessionFamily();
-if (!named.length && !own) die(2, `The session's family cannot be told from ANTHROPIC_BASE_URL=${process.env.ANTHROPIC_BASE_URL}: set HARNESS_SESSION_FAMILY, or pass --exclude <family>.`);
-const implementedBy = named.length ? named : [own];
+if (!own) die(2, `The session's family cannot be told from ANTHROPIC_BASE_URL=${process.env.ANTHROPIC_BASE_URL}: set HARNESS_SESSION_FAMILY.`);
+const implementedBy = [...new Set([...named, own])];
 // The reviewer: the one named, else harness.json's reviewer.default; a harness.json key, or any
 // OpenCode id the user names, provider/model[@variant] (lib/named.mjs).
 const reviewer = a.reviewer ?? rev.default;
@@ -103,8 +132,8 @@ try { model = namedModel(reviewer, config.models, config.blocked ?? []); } catch
 if (!model) die(2, `Unknown reviewer ${reviewer}: give a harness.json key or an OpenCode id, provider/model[@variant].`);
 config.models[reviewer] = model;
 const families = [...new Set(implementedBy.map((n) => familyOfName(n, config.models)))];
-say(`implemented by: ${implementedBy.join(', ')}${named.length ? '' : ' (the session\'s family, from the Anthropic environment)'}`);
-if (families.includes(familyOfName(reviewer, config.models))) die(1, `Refused: ${reviewer} is the implementer's model family (${families.join(', ')}). Nothing posted.`);
+say(`implemented by: ${implementedBy.join(', ')} (${own}: the session's family, from the Anthropic environment)`);
+if (familiesOfModel(model).some((f) => families.includes(f))) die(1, `Refused: ${reviewer} is the implementer's model family (${families.join(', ')}). Nothing posted.`);
 const fallback = 'Nothing posted. Read the run\'s final message (CLAUDE.md, "Choosing models" rule 12) and fix the cause; another reviewer is the user\'s call.';
 // OpenCode is looked for only now, so that its absence is reported with the same fallback (Sol's R1 on PR 41).
 let opencode;
@@ -193,7 +222,7 @@ OUTPUT RULES (from tools/harness/review.mjs; they override anything above that c
       let run;
       try {
         run = await runOpenCodeWatched({
-          args: ocArgs(worktree, rev.agent, model), prompt, workDir: worktree, title: `pr${a.pr}-${m}`,
+          args: ocArgs(worktree, rev.agent, model), prompt, workDir: worktree, title: `pr${a.pr}-${fileSafe(m)}`,
           startupTimeoutMs: rev.startupTimeoutSec * 1000, idleTimeoutMs: (idleSec ?? rev.idleTimeoutSec) * 1000,
           totalTimeoutMs: (totalSec ?? rev.totalTimeoutSec) * 1000, opencode, env: reviewEnv, log: say,
         });

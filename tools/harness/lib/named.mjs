@@ -19,6 +19,13 @@ const FAMILIES = [
   [/^(claude|opus|sonnet|haiku)/, 'claude'],
 ];
 
+// Other spellings of a family, as harness.json entries or labels may carry them: the family rule
+// compares canonical names only (Sol's R2 on PR 149: switch.mjs stored "anthropic", the session is
+// "claude").
+const ALIASES = { anthropic: 'claude', zhipu: 'glm', 'z-ai': 'glm', zai: 'glm', moonshot: 'kimi', moonshotai: 'kimi',
+  xiaomi: 'mimo', alibaba: 'qwen', 'x-ai': 'xai', 'meta-llama': 'meta' };
+export const canonicalFamily = (f) => { const k = String(f ?? '').trim().toLowerCase(); return ALIASES[k] ?? k; };
+
 // The family of a model id, read from its last segment only, so that one model reached through two
 // routes ("google/gemini-2.5-pro", "openrouter/google/gemini-2.5-pro") is one family (Sol's R1 on
 // PR 114): a known prefix, else the segment's leading word ("acme-widget-1" -> acme), never the
@@ -42,10 +49,17 @@ export function namedModel(name, models, blocked = []) {
 }
 
 // The family of a name as review.mjs meets it (a harness.json key, a model id, or a bare family
-// from a `model:` label).
+// from a `model:` label), canonical.
 export function familyOfName(name, models) {
-  if (models[name]) return models[name].family;
-  return name.includes('/') ? familyOfId(name.replace(/@.*$/, '')) : name;
+  if (models[name]) return canonicalFamily(models[name].family);
+  return canonicalFamily(name.includes('/') ? familyOfId(name.replace(/@.*$/, '')) : name);
+}
+
+// Every family a reviewer entry belongs to: its stored family and the one its id spells, both
+// canonical, so that no stored `family` (an alias, or one forced with --force) carries a model past
+// the family rule (Sol's R2 on PR 149).
+export function familiesOfModel(entry) {
+  return [...new Set([canonicalFamily(entry.family), familyOfId(entry.id)].filter(Boolean))];
 }
 
 export function selfTest() {
@@ -76,5 +90,10 @@ export function selfTest() {
   ok('label with an id maps to its family', familyOfName('openai/gpt-6.1-sol@low', models) === 'openai');
   ok('label with a key maps to its family', familyOfName('luna', models) === 'openai');
   ok('a bare family stays itself', familyOfName('minimax', models) === 'minimax');
+  ok('anthropic is claude', familyOfName('anthropic', models) === 'claude'
+    && familyOfName('x', { x: { id: 'anthropic/claude-sonnet-4-5', family: 'anthropic' } }) === 'claude');
+  const forced = familiesOfModel({ id: 'openai/gpt-5.6-luna', family: 'other' });
+  ok('a forced family keeps the id\'s family too', forced.includes('openai') && forced.includes('other'));
+  ok('a Claude id is claude', familiesOfModel({ id: 'anthropic/claude-sonnet-4-5', family: 'anthropic' }).join() === 'claude');
   return failures;
 }
