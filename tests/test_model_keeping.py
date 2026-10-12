@@ -204,6 +204,39 @@ class TestContest(unittest.TestCase):
         self.assertGreater(SV(180, 1, 12, 1), 30)
 
 
+class TestKeeperExtraTable(unittest.TestCase):
+    def test_the_table_equals_the_data_image_bytes_for_every_element(self):
+        # 2826 reads DS:0x769 + element; the data image (ds_2581_01.hex row 0760) is the source.
+        # T42: element 11 (0x774 = 1) was missing; E011-r0001's 278A call #6682 added pitch +0x11 for it.
+        data = hex_bytes(ROOT / "static" / "goal-exe" / "data" / "ds_2581_01.hex")
+        self.assertEqual(K.KEEPER_EXTRA_TABLE, tuple(1 if data[0x769 + e] else 0 for e in range(1, 13)))
+
+    def test_element_11_adds_the_pitch_keeper_byte(self):
+        kw = dict(plus4=0xC3, plus5=11, plus7=2, plus_c=0x0C, plus_e=0x14, element=11,
+                  class_table=CLASS_TABLE, profile_table=PROFILE_TABLE)
+        self.assertEqual(K.contest_value(pitch_11=0x46, **kw), K.contest_value(**kw) + 0x46)
+
+
+class TestContestTrace(unittest.TestCase):
+    # DX at 278A's return (REGS_RETURNED, T42): what the last `div` left
+    def test_dx_is_the_product_remainder_without_the_manager_share(self):
+        # 281C: ((base * skill) & 0xFFFF) % 0x100 with base 35, skill 147 (see test_form_and_energy_base)
+        value, dx = K.contest_trace(plus4=180, plus5=1, plus7=0, plus_c=30, plus_e=4, element=1,
+                                    class_table=CLASS_TABLE, profile_table=PROFILE_TABLE)
+        self.assertEqual(dx, (35 * 147) % 256)
+        self.assertEqual(value, K.contest_value(plus4=180, plus5=1, plus7=0, plus_c=30, plus_e=4, element=1,
+                                                class_table=CLASS_TABLE, profile_table=PROFILE_TABLE))
+
+    def test_dx_is_the_value_remainder_when_the_manager_share_is_added(self):
+        # 2865: div cx (0x10) of the value before the share; pitch_6 < 0xC and DS:80FC set
+        kw = dict(plus4=180, plus5=1, plus7=0, plus_c=30, plus_e=4, element=1,
+                  class_table=CLASS_TABLE, profile_table=PROFILE_TABLE)
+        plain, _ = K.contest_trace(**kw)
+        value, dx = K.contest_trace(flag_80fc=1, pitch_6=3, **kw)
+        self.assertEqual(dx, plain % 16)
+        self.assertEqual(value, plain + plain // 16)
+
+
 class TestPredictions(unittest.TestCase):
     def test_save_predictions(self):
         # R1 round-3 fix: no analytical shortcut for edited_keeping == 0. The fallback

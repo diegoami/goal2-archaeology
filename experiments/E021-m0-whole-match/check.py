@@ -131,7 +131,7 @@ def skill_reader(gate=None, product_plus=0):
     element (bp+0xA) = arg(0), arg(1), arg(2). Reads: the pitch record's word +0xD (2793, the player
     index), +0x13 (27F1), +0x11 (2846), +6 (2852); the player record at the far pointer DS:A91B
     (279C) + 0x14 * index, bytes +0xC (27AB), +0xE (27D4), +4/+5/+7 (3A06, seg_1771_05.asm:3A06-3A7F,
-    keeping.skill_value), the tables DS:6D25 (168 bytes) and DS:6DCD (192 bytes), DS:8327 (2833) and
+    keeping.skill_value), the tables DS:6D25 and DS:6DCD (4096 bytes each: see below), DS:8327 (2833) and
     DS:80FC (2859). Results: AX = the value (2870-2873); DX is what the last `div` left (281C's
     remainder, or 2865's `value % 0x10` when the manager's share is added), which the proof compares
     (REGS_RETURNED). `gate` replaces keeping.KEEPER_EVENTS and `product_plus` adds to the value
@@ -143,8 +143,11 @@ def skill_reader(gate=None, product_plus=0):
         rec = g.far(0xA91B) + RECORD_SIZE * index
         p = lambda i: g.mem(rec + i, 1)[0]
         pb = lambda i: g.mem(pitch + i, 1)[0]
-        classes = g.mem(g.DS * 16 + 0x6D25, 168)
-        profiles = g.mem(g.DS * 16 + 0x6DCD, 192)
+        # the tables are indexed by record bytes (+7, +5): the original reads DS memory past the
+        # documented 168 / 192 bytes (E011-r0001 call #77: +5 = 0x10, row 16 of DS:6DCD), so the
+        # model gets the following bytes of the data segment too (12 * 255 + 255 < 4096)
+        classes = g.mem(g.DS * 16 + 0x6D25, 4096)
+        profiles = g.mem(g.DS * 16 + 0x6DCD, 4096)
         saved = keeping.KEEPER_EVENTS
         if gate is not None:
             keeping.KEEPER_EVENTS = gate

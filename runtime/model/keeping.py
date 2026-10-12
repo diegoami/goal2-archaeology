@@ -56,8 +56,9 @@ KEEPING_ELEMENT = 1           # 282D: cmp word ptr [bp + 0xa], 1 — element 1 (
 # image's row at 0x760 (static/goal-exe/data/ds_2581_01.hex) gives the bytes for elements 1..12
 # (the published GOAL.EXE, artifact set goal2-67cf27d6, sets this once at program start). Bytes
 # indexed from 0x760: index 9 = 0x769[0]=02; 10 = 0x76A = 0; 11 = 0x76B = 1 (element 2); ...
-# 13 = 0x76D = 1 (element 4); 21 = 0x775 = 1 (element 12).
-KEEPER_EXTRA_TABLE = (0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1)   # elements 2, 4, 12 nonzero (extra fires)
+# 13 = 0x76D = 1 (element 4); 20 = 0x774 = 1 (element 11, found by the T42 proof: E011-r0001's
+# 278A call #6682, element 11, the original added pitch +0x11 = 0x46); 21 = 0x775 = 1 (element 12).
+KEEPER_EXTRA_TABLE = (0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1)   # elements 2, 4, 11, 12 nonzero (extra fires)
 PITCH_HALVED = 0x13           # 27F1: cmp byte ptr es:[di + 0x13], 0 — set halves the derived skill
 MANAGER_SHARE = 0x10          # 2865-286A: div 0x10; add — the 80FC bonus adds skill/16 for outfield slots
 OUTFIELD_SLOT = 0xC           # 2852: cmp byte ptr es:[di + 6], 0xC — the pitch record's slot/address byte
@@ -161,7 +162,7 @@ def contest_trace(plus4, plus5, plus7, plus_c, plus_e, element, class_table, pro
     value = _contest_product(base, skill)
     dx = ((base * skill) & 0xFFFF) % CONTEST_DIVISOR                    # 281C `div cx` leaves DX = the remainder
     # The keeper extra: 2826 `cmp byte ptr [di + 0x769], 0 / jne 2843` — the FIRST gate is
-    # byte-membership (the data image's DS:0x769 has nonzero bytes for elements 2, 4, 12 — see
+    # byte-membership (the data image's DS:0x769 has nonzero bytes for elements 2, 4, 11, 12 — see
     # KEEPER_EXTRA_TABLE), and a nonzero value jumps to the extra-term branch without testing
     # element 1 or event_code.
     if KEEPER_EXTRA_TABLE[element - 1] != 0:                            # 2826 (table-controlled gate)
