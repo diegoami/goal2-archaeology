@@ -320,9 +320,19 @@ class PauseKeyTests(unittest.TestCase):
         self.assertEqual(session["hand_pause"], 'hand_pause "key 72 host" "key 19 host" ')
         # F12+P was the screenshot key: it is the pause's alone now
         self.assertEqual([k for k, v in session.items() if '"key 19 host"' in v], ["hand_pause"])
-        changed = sorted(k for k in default if default[k] != session[k])
-        self.assertEqual(changed, ["hand_pause", "hand_scrshot"])
         self.assertEqual(sorted(default), sorted(session))
+
+    def test_the_session_mapper_has_no_host_bind_but_save_and_pause(self):
+        """Issue 175: the save is sent as F12+S, and the owner's R inside that window was F12+R
+        (hand_reset), a reset of the emulated machine. Fails with hand_reset's bind put back."""
+        default = self.binds(rec.MAPPER_DEFAULT.read_text())
+        session = self.binds(rec.mapper_text())
+        self.assertEqual(sorted(default), sorted(session))     # every event line still there
+        hosted = sorted(k for k, v in session.items() if k.startswith("hand_") and " host" in v)
+        self.assertEqual(hosted, ["hand_pause", "hand_savestate"])
+        self.assertEqual(session["hand_savestate"], default["hand_savestate"])
+        for name in ("hand_reset", "hand_loadstate", "hand_reboot", "hand_rawscrshot"):
+            self.assertEqual(session[name], name + " ")
 
     def test_a_default_mapper_that_is_not_the_recorded_one_is_refused(self):
         with tempfile.TemporaryDirectory() as folder:
