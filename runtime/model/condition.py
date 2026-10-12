@@ -39,11 +39,6 @@ except ImportError:                    # imported as a top-level module (runtime
 DEFENCE_FACTOR = 2          # 0791:B207: rand(2 * the opponent's defence sum) (shl, seg_0791_18.asm)
 MAX_SUM = 0x8000            # B19D compares the draws with a signed `jle`: a sum >= 0x8000 would wrap
 SEED_COUNT = 0x10000        # the main seed DS:7B62 is a 16-bit LCG word (F004): 65,536 start seeds
-# 0791:278A's second keeper gate (282D-2842) tests DS:8327 against the 32-byte set at CS:276A
-# (seg_0791_04.asm:843), whose first byte 0x18 has bits 3 and 4 set; the original adds pitch+0x11
-# for DS:8327 = 3 and 4 and for no other value of 0..0x20 (E020 event-gate-001.log, original code).
-# keeping.py's KEEPING_EVENT = 0x18 names the BYTE, not a member; the members are these.
-KEEPER_EVENTS = (3, 4)
 
 # (energy +0xE, form +0xC); `fit` and `tired` are the ends of what play produces, `fit_form32` has the
 # form clamp's top value, `energy_only` and `form_only` each change one byte from `tired`, the last
@@ -91,13 +86,11 @@ def sweep(word, record, foot_table, foot_index, energies, forms):
 
 def contest(record, element, class_table, profile_table, event, **flags):
     """0791:278A(pitch, element) of the 20-byte record (the watched engine's only skill read);
-    `event` is DS:8327. keeping.contest_value is called as it is, except that the event is passed
-    as the one value it tests for when the original's set holds it (KEEPER_EVENTS), else as None."""
-    code = keeping.KEEPING_EVENT if event in KEEPER_EVENTS else None
+    `event` is DS:8327, passed to keeping.contest_value as it is."""
     return keeping.contest_value(plus4=record[4], plus5=record[5], plus7=record[7],
                                  plus_c=record[0xC], plus_e=record[0xE], element=element,
                                  class_table=class_table, profile_table=profile_table,
-                                 event_code=code, **flags)
+                                 event_code=event, **flags)
 
 
 def draw_win(n_own, n_opp):
