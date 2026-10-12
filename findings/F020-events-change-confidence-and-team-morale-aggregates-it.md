@@ -177,9 +177,13 @@ paragraph's listing citations are physical line numbers.
   `CS:697A`, and `CS:6C87` (the watch-prompt sets whose bytes happen
   to be instruction bytes at those code addresses). The literal
   "friendly" classification does not appear as a stored byte; F019
-  already established the result-term set is `{kinds 4, 5, 8,
-  9..196}` (the kinds whose set bits in the 32-byte `DS:0F3E` are 1,
-  with gaps `{0, 1, 2, 3, 6, 7, 197..255}`). The injury and card
+  already established the result-term set is `{3, 4, 7, 8..203}`
+  (F019 lines 80-82; the kinds whose bit n is 1 in the 32-byte
+  `DS:0F3E`, element n at bit n mod 8 of byte n div 8 by `23E4:08DF`,
+  fixture +2 tested at `1771:5A03`,
+  `static:static/goal-exe/code/seg_1771_08.asm:762` – `static:static/goal-exe/code/seg_1771_08.asm:782`;
+  bytes `98`, 24 x `FF`, `0F` in `ds_2581_01.hex` rows 0F20-0F40, with
+  gaps `{0, 1, 2, 5, 6, 204..255}`). The injury and card
   dispatch (`0791:7EEF`) is not gated by fixture kind. Whether any
   one of those kinds is "friendly" is **not established** by these
   lines.
@@ -307,7 +311,7 @@ This does **not** claim:
   is not spent here because static analysis already settles
   every claim the listing supports);
 * an established "friendly" classification (the listing names
-  the result-term set as kinds `{4, 5, 8, 9..196}`, not as
+  the result-term set as kinds `{3, 4, 7, 8..203}`, not as
   friendlies);
 * a confident claim that a yellow card drops confidence (the
   listing does not write `+0xC` from `0791:798D`; a static
