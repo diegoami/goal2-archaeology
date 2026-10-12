@@ -95,10 +95,10 @@ class WatchedHalf:
                 sp = uc.reg_read(UC_X86_REG_SP)
                 ss = uc.reg_read(UC_X86_REG_SS) * 16
                 rip = int.from_bytes(uc.mem_read(ss + sp, 2), "little")
-                rcs = int.from_bytes(uc.mem_read(ss + sp + 2, 2), "little")
+                # The four routines end in a NEAR `ret n` (seg_000E_01.asm:530, 576, 640, 668):
+                # IP only is popped, CS stays (fix #142: this once loaded CS from [SP+2]).
                 self.strays.append("000E:%04X" % (addr - self.SEG000E * 16))
                 uc.reg_write(UC_X86_REG_SP, sp + 2 + nbytes)
-                uc.reg_write(UC_X86_REG_CS, rcs)
                 uc.reg_write(UC_X86_REG_EIP, rip)
             return hook
 
