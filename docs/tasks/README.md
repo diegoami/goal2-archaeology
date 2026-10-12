@@ -53,3 +53,4 @@ exists.
 | T43 | M1b: the strength reader 1771:377E substituted in whole watched matches | #166 | T42 |
 | T44 | the recorder keeps one save in flight and merges the key groups that settle while it writes | #128 | — |
 | T45 | M2a: the contests a watched match reaches, read from the listing (Q010) | #170 | T43 |
+| T46 | M2b: the contest gate 0791:287C substituted in whole watched matches | #172 | T45 |
