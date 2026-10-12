@@ -50,7 +50,7 @@ adapt tools/harness/peek.sh  (new: an OpenCode run's latest steps, from isle-war
 adapt tools/harness/lib/named.mjs  (new: a model the user names and its family; DeepSeek refused (2026-10-11))
 9befbffd7ca14116d581da6fefefbe5d43514f8c3d4a7419467f4a7810e8f96b  tools/harness/jev.mjs
 adapt tools/harness/lib/chain.mjs  (the user chooses models, the owner 2026-10-11)
-3a115ef1b96ec8d971d636d8a304f2a0ca499a19e431ab5c3d1a1a44d52254a3  tools/harness/lib/common.mjs
+7dd90f6b7c5ee095a021cad8bcb2b7300b0a497e94effa409d6898fab3bc824f  tools/harness/lib/common.mjs
 411151214b90b3847a643139417aad0b4863971c6d6ab4c271f249aa09e9ebc1  tools/harness/lib/guard.mjs
 2020f3a9dc6295089dde3481f2c08bce6d924fa031dffee1e68b6e0ce884e34a  tools/harness/lib/jail.mjs
 b65cc055307ca29a94c1f882262395737af1ae776b3561bd32d187740622b9af  tools/harness/lib/jev.mjs
@@ -58,8 +58,8 @@ a6bf727222667a4c1744a8d01206e3fd36208203d80df117ff1216e08339ecf7  tools/harness/
 adapt tools/harness/lib/opencode.mjs  (the user chooses models, the owner 2026-10-11)
 5005d641b97629f37b2e0e4874ca0e46358d101828169bd7b7d74eff3ee10e4c  tools/harness/lib/post.mjs
 66379ce8b5620f13ac48634a9f54e1eabfd6f451c06161219f6883b541bd3452  tools/harness/lib/review-selftest.mjs
-f0848995d84625b3800869975346bc33b013a690f47cb31f623089e861f2b2c4  tools/harness/lib/switch.mjs
+06e186891afa10eb9e272ffb4e33d289b8b193f8a217dd6307b4d2bfb0c1bc1d  tools/harness/lib/switch.mjs
 bf717caa54364e8e56a50bab0f07d0212b8300992bc0ad3629cf097ef58e4845  tools/harness/models.mjs
 4406fa454bd0d403e85230c2d3f08e3bfddd0c53f44731b23dbdf5c50bc9a92f  tools/harness/post-review.mjs
 adapt tools/harness/review.mjs  (the user chooses models, the owner 2026-10-11)
-026579695fea081c5fc0ec821115fd285c0101896519f87ed941ac3121e73cbc  tools/harness/switch-model.mjs
+a778836225b6407d09220f034fe30b09018e0dc607e868eb4b3a81364164191c  tools/harness/switch-model.mjs

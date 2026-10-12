@@ -45,7 +45,7 @@ import path from 'node:path';
 import { randomBytes } from 'node:crypto';
 import { runOpenCodeWatched, resolveOpenCode, OpenCodeInfraError, keyProblem } from './lib/opencode.mjs';
 import { credentialJail, OFF_WARNING } from './lib/jail.mjs';
-import { namedModel, familyOfName, familiesOfModel, selfTest as namedSelfTest } from './lib/named.mjs';
+import { namedModel, familiesOfName, familiesOfModel, selfTest as namedSelfTest } from './lib/named.mjs';
 import { readReview, doneWhenCount, briefTargets } from './lib/chain.mjs';
 import { planSwitch } from './lib/switch.mjs';
 import { planPost, publish } from './lib/post.mjs';
@@ -80,6 +80,15 @@ function guardSelfTest() {
   ok('a Claude reviewer in a Claude session is refused (R2)', refused({ id: 'anthropic/claude-sonnet-4-5', variant: 'high', sessionFamily: 'claude' }));
   ok('a forced family does not pass the session family (R2)',
     refused({ id: 'openai/gpt-5.6-luna', variant: 'high', family: 'other', force: true, sessionFamily: 'openai' }));
+  ok('a blocked session refuses an alias implementer (round-1 R1)',
+    refused({ role: 'implementer', id: 'sonnet', sessionFamily: 'deepseek' }) && refused({ role: 'implementer', id: 'session', sessionFamily: 'deepseek' }));
+  ok('an unknown session refuses an alias implementer (round-1 R1)', refused({ role: 'implementer', id: 'sonnet', sessionFamily: null }));
+  ok('codex and chatgpt ids are openai (round-1 R2)',
+    familiesOfModel({ id: 'openai/codex-mini-latest' }).includes('openai') && familiesOfModel({ id: 'openai/chatgpt-4o-latest' }).includes('openai'));
+  ok('a forced implementer entry keeps its id\'s family (round-1 R3)',
+    familiesOfName('forced-openai', { 'forced-openai': { id: 'openai/gpt-5.6-luna', family: 'other' } }).includes('openai'));
+  ok('the switcher refuses codex and chatgpt in an openai session (round-1 R2)',
+    ['openai/codex-mini-latest', 'openai/chatgpt-4o-latest'].every((id) => refused({ id, variant: 'high', sessionFamily: 'openai' })));
   ok('a model id makes no directory in a title (R5)', !fileSafe('pr149-openai/gpt-6.1-sol@medium').includes('/'));
   return failures;
 }
@@ -117,9 +126,10 @@ const rev = config.reviewer;
 // through its endpoint), and with it --exclude and the model: labels (Sol's R1 on PR 149: they
 // replaced it).
 const labelsOf = (kind, n) => sh('gh', [kind, 'view', String(n), '--json', 'labels', '--jq', '.labels[].name'], { cwd: top, allowFail: true }).split('\n');
-const named = a.exclude ? a.exclude.split(',').map((s) => s.trim()).filter(Boolean)
-  : [...labelsOf('pr', a.pr), ...(a.issue ? labelsOf('issue', a.issue) : [])]
-    .filter((l) => l.startsWith('model:')).map((l) => l.slice(6));
+// All three are united (Sol's round-1 R4: --exclude dropped the labels).
+const named = [...(a.exclude ? a.exclude.split(',').map((s) => s.trim()).filter(Boolean) : []),
+  ...[...labelsOf('pr', a.pr), ...(a.issue ? labelsOf('issue', a.issue) : [])]
+    .filter((l) => l.startsWith('model:')).map((l) => l.slice(6))];
 const own = sessionFamily();
 if (!own) die(2, `The session's family cannot be told from ANTHROPIC_BASE_URL=${process.env.ANTHROPIC_BASE_URL}: set HARNESS_SESSION_FAMILY.`);
 const implementedBy = [...new Set([...named, own])];
@@ -131,7 +141,7 @@ let model;
 try { model = namedModel(reviewer, config.models, config.blocked ?? []); } catch (e) { die(2, e.message); }
 if (!model) die(2, `Unknown reviewer ${reviewer}: give a harness.json key or an OpenCode id, provider/model[@variant].`);
 config.models[reviewer] = model;
-const families = [...new Set(implementedBy.map((n) => familyOfName(n, config.models)))];
+const families = [...new Set(implementedBy.flatMap((n) => familiesOfName(n, config.models)))];
 say(`implemented by: ${implementedBy.join(', ')} (${own}: the session's family, from the Anthropic environment)`);
 if (familiesOfModel(model).some((f) => families.includes(f))) die(1, `Refused: ${reviewer} is the implementer's model family (${families.join(', ')}). Nothing posted.`);
 const fallback = 'Nothing posted. Read the run\'s final message (CLAUDE.md, "Choosing models" rule 12) and fix the cause; another reviewer is the user\'s call.';

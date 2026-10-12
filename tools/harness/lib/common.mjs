@@ -136,17 +136,5 @@ export function sessionFamily(env = process.env) {
   return ENDPOINT_FAMILIES.find(([ds]) => ds.some((d) => host === d || host.endsWith(`.${d}`)))?.[1] ?? null;
 }
 
-// harness.json's `blocked` list, changed with switch-model.mjs --block/--unblock: a family name
-// ("deepseek") or a piece of a model id ("deepseek-v4"), case-insensitive. The reason a model may
-// not run, or null.
-export function blockedReason(config, { id, family }) {
-  for (const b of config.blocked ?? []) {
-    const needle = String(b).toLowerCase();
-    if (family && family.toLowerCase() === needle) return `${family} is blocked in harness.json (switch-model.mjs --unblock ${b} lifts it)`;
-    if (id && id.toLowerCase().includes(needle)) return `${id} matches "${b}", blocked in harness.json (switch-model.mjs --unblock ${b} lifts it)`;
-  }
-  return null;
-}
-
 export const ocArgs = (worktree, agent, model) =>
   ['run', '--dir', worktree, '--agent', agent, '--model', model.id, ...(model.variant ? ['--variant', model.variant] : [])];

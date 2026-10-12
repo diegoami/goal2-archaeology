@@ -4,7 +4,13 @@
 // reviewer-family rule, is read from the model's own name. harness.json's blocked list is refused
 // (rule 4); Alibaba runs only when named, which this is.
 
+// The one classifier of model ids (Sol's round-1 R2 on PR 149: switch.mjs kept a second one, and
+// codex/chatgpt ids fell through here). switch.mjs and review.mjs both use it.
 const FAMILIES = [
+  [/^deepseek/, 'deepseek'],
+  [/^longcat/, 'longcat'],
+  [/^hy\d/, 'hunyuan'],
+  [/^muse/, 'meta'],
   [/^glm/, 'glm'],
   [/^gemini|^gemma/, 'google'],
   [/^llama/, 'meta'],
@@ -14,7 +20,7 @@ const FAMILIES = [
   [/^nemotron/, 'nvidia'],
   [/^mimo/, 'mimo'],
   [/^minimax/, 'minimax'],
-  [/^(gpt|o\d)/, 'openai'],
+  [/^(gpt|o\d|codex|chatgpt)/, 'openai'],
   [/^qwen/, 'qwen'],
   [/^(claude|opus|sonnet|haiku)/, 'claude'],
 ];
@@ -30,9 +36,21 @@ export const canonicalFamily = (f) => { const k = String(f ?? '').trim().toLower
 // routes ("google/gemini-2.5-pro", "openrouter/google/gemini-2.5-pro") is one family (Sol's R1 on
 // PR 114): a known prefix, else the segment's leading word ("acme-widget-1" -> acme), never the
 // provider or route.
+export function knownFamilyOfId(id) {
+  const base = String(id).split('/').pop().toLowerCase();
+  return FAMILIES.find(([re]) => re.test(base))?.[1] ?? null;
+}
 export function familyOfId(id) {
-  const base = id.split('/').pop().toLowerCase();
-  return FAMILIES.find(([re]) => re.test(base))?.[1] ?? (base.match(/^[a-z]+/)?.[0] || base);
+  const base = String(id).split('/').pop().toLowerCase();
+  return knownFamilyOfId(id) ?? (base.match(/^[a-z]+/)?.[0] || base);
+}
+
+// The one blocked check (harness.json's `blocked`: a family or a piece of an id, case-insensitive):
+// the entry `b` that blocks a model of these families or this id, or null.
+export function blockedHit(blocked, { id, families = [] }) {
+  const fams = families.map(canonicalFamily);
+  return (blocked ?? []).map(String).find((b) => fams.includes(canonicalFamily(b))
+    || (id && String(id).toLowerCase().includes(b.toLowerCase()))) ?? null;
 }
 
 // harness.json's entry for `name`, else the model `name` spells, else null. Throws on a model in
@@ -43,7 +61,7 @@ export function namedModel(name, models, blocked = []) {
   if (!known && !m) return null;
   const id = known ? known.id : m[1];
   const entry = known ?? { id, family: familyOfId(id), ...(m[2] ? { variant: m[2] } : {}) };
-  const hit = blocked.map(String).find((b) => entry.family === b.toLowerCase() || id.toLowerCase().includes(b.toLowerCase()));
+  const hit = blockedHit(blocked, { id, families: familiesOfModel(entry) });
   if (hit) throw new Error(`${name}: blocked in harness.json ("${hit}"; switch-model.mjs --unblock ${hit} lifts it).`);
   return entry;
 }
@@ -51,15 +69,21 @@ export function namedModel(name, models, blocked = []) {
 // The family of a name as review.mjs meets it (a harness.json key, a model id, or a bare family
 // from a `model:` label), canonical.
 export function familyOfName(name, models) {
-  if (models[name]) return canonicalFamily(models[name].family);
-  return canonicalFamily(name.includes('/') ? familyOfId(name.replace(/@.*$/, '')) : name);
+  return familiesOfName(name, models)[0];
+}
+
+// Every family a name stands for: a harness.json key is its stored family and its id's (Sol's
+// round-1 R3 on PR 149: a forced `family` hid an implementer's), an id its own, a bare word itself.
+export function familiesOfName(name, models) {
+  if (models[name]) return familiesOfModel(models[name]);
+  return [canonicalFamily(name.includes('/') ? familyOfId(name.replace(/@.*$/, '')) : name)];
 }
 
 // Every family a reviewer entry belongs to: its stored family and the one its id spells, both
 // canonical, so that no stored `family` (an alias, or one forced with --force) carries a model past
 // the family rule (Sol's R2 on PR 149).
 export function familiesOfModel(entry) {
-  return [...new Set([canonicalFamily(entry.family), familyOfId(entry.id)].filter(Boolean))];
+  return [...new Set([familyOfId(entry.id), canonicalFamily(entry.family)].filter(Boolean))];
 }
 
 export function selfTest() {

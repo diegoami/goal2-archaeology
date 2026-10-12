@@ -10,33 +10,17 @@
 //   another; never the session's family.
 // - blocked: families or id fragments that never run (--block / --unblock).
 
-import { canonicalFamily, familiesOfModel, familyOfId } from './named.mjs';
+import { canonicalFamily, familiesOfModel, familyOfId, knownFamilyOfId, blockedHit } from './named.mjs';
 
 export const ROLES = ['implementer', 'reviewer'];
 export const IMPLEMENTER_ALIASES = ['sonnet', 'opus', 'haiku', 'fable'];
 export const IMPLEMENTER_CHOICES = ['session', ...IMPLEMENTER_ALIASES];
 
-// A model's family, from its id: the family rule (L3) compares these. "opencode-go/gpt-6-luna" and
-// "openai/gpt-6-luna" are both openai: the vendor, not the route.
-const FAMILIES = [
-  [/^deepseek/, 'deepseek'], [/^glm/, 'glm'], [/^(gpt|o\d|codex|chatgpt)/, 'openai'],
-  [/^(claude|opus|sonnet|haiku)/, 'claude'], [/^kimi/, 'kimi'], [/^qwen/, 'qwen'], [/^minimax/, 'minimax'],
-  [/^mimo/, 'mimo'], [/^grok/, 'xai'], [/^gemini/, 'google'], [/^longcat/, 'longcat'],
-  [/^hy\d/, 'hunyuan'], [/^(llama|muse)/, 'meta'], [/^mistral|^devstral|^codestral/, 'mistral'],
-];
-const modelPart = (id) => String(id).split('/').slice(1).join('/').toLowerCase();
-// The vendor's family when the id names a known vendor, else null: only then may --family name it.
-// The model's own name decides, also behind a vendor segment that is not a family name
-// (openrouter/xiaomi/mimo-v2.6-pro is mimo, Luna's R1 on PR 150).
-export function knownFamilyOf(id) {
-  const part = modelPart(id);
-  const own = part.split('/').at(-1);
-  return FAMILIES.find(([re]) => re.test(part) || re.test(own))?.[1] ?? null;
-}
-export function familyOf(id) {
-  const model = modelPart(id);
-  return knownFamilyOf(id) ?? (model.match(/^[a-z]+/)?.[0] ?? model);
-}
+// A model's family, from its id: the family rule (L3) compares these, by named.mjs's one classifier
+// (the vendor, not the route: "opencode-go/gpt-6-luna" and "openai/gpt-6-luna" are both openai).
+// knownFamilyOf is null for an unknown vendor: only then may --family name it.
+export const knownFamilyOf = (id) => knownFamilyOfId(id);
+export const familyOf = (id) => familyOfId(id);
 
 // Heavy models run at `low`, or `medium` at most; light ones at `high` (L54, #83). Heavy: Sol, GLM-5.3
 // (not Flash), DeepSeek V4 Pro, MiMo V2.6 Pro, Opus, wherever they are served from (DeepSeek is
@@ -86,7 +70,7 @@ export function nameOf(config, id) {
  */
 export function planSwitch(config, { role = 'reviewer', id, variant, name, family, force = false, sessionFamily = 'claude' }) {
   if (!ROLES.includes(role)) throw new Error(`--role must be one of ${ROLES.join(', ')}; got ${role}`);
-  if (role === 'implementer') return planImplementer(config, id);
+  if (role === 'implementer') return planImplementer(config, id, sessionFamily);
   // `variant` has no default: a model that offers no variants (MiniMax-M2.7) must switch without
   // one, not inherit 'high' (Luna's round-2 R1, PR 115). Callers pass defaultVariant's answer.
   if (!/^[\w.-]+\/[\w./-]+$/.test(String(id ?? ''))) throw new Error(`--model must be a provider/model id, e.g. openai/gpt-5.6-luna; got ${id}`);
@@ -113,32 +97,35 @@ export function planSwitch(config, { role = 'reviewer', id, variant, name, famil
 // The implementer's default: the implementer subagent on a Claude Code alias or a model id the
 // session's provider serves, or `session` (the main session implements directly). A model id is
 // taken as given: the next run shows whether the provider honours it.
-function planImplementer(config, choice) {
+function planImplementer(config, choice, sessionFamily) {
   const c = String(choice ?? '').trim();
   const lower = c.toLowerCase();
   if (!IMPLEMENTER_CHOICES.includes(lower) && !/^[\w.:-]+$/.test(c)) {
     throw new Error(`--model for the implementer is session, one of ${IMPLEMENTER_ALIASES.join(', ')}, or a model id the session's provider serves; got ${choice}`);
   }
   const value = IMPLEMENTER_CHOICES.includes(lower) ? lower : c;
-  // the blocked list holds for the implementer too (Sol's R3 on PR 149): a model id is checked by
-  // its own family and name; an alias names the session's provider's model, checked when it runs
+  // the blocked list holds for the implementer too (Sol's R3 on PR 149): a model id by its own
+  // family and name; an alias or `session` by the session's family, whose endpoint serves it
+  // (Sol's round-1 R1: a DeepSeek endpoint's `sonnet` was accepted)
   if (!IMPLEMENTER_CHOICES.includes(lower)) {
     const blocked = blockedBy(config, { id: value, family: familyOfId(value) });
     if (blocked) throw new Error(`Refused: ${blocked}.`);
+  } else {
+    if (!sessionFamily) throw new Error(`Refused: ${value} runs on the session's endpoint, whose family cannot be told; set HARNESS_SESSION_FAMILY.`);
+    const blocked = blockedBy(config, { family: canonicalFamily(sessionFamily) });
+    if (blocked) throw new Error(`Refused: ${value} runs on the session's endpoint, and ${blocked}.`);
   }
   const next = structuredClone(config);
   next.implementer = { ...next.implementer, default: value };
   return { config: next, name: value, entry: { id: value }, before: describeImplementer(config), after: describeImplementer(next) };
 }
 
-// harness.json's blocked list: a family or an id fragment, case-insensitive. The reason, or null.
+// harness.json's blocked list (named.mjs blockedHit): the reason, or null. An entry is checked by
+// every family it stands for and its id.
 export function blockedBy(config, entry) {
-  for (const b of config.blocked ?? []) {
-    const needle = String(b).toLowerCase();
-    if (entry.family?.toLowerCase() === needle) return `${entry.family} is blocked in harness.json ("${b}"; --unblock ${b} lifts it)`;
-    if (entry.id?.toLowerCase().includes(needle)) return `${entry.id} matches "${b}", blocked in harness.json (--unblock ${b} lifts it)`;
-  }
-  return null;
+  const families = entry.id ? familiesOfModel(entry) : [entry.family].filter(Boolean);
+  const b = blockedHit(config.blocked, { id: entry.id, families });
+  return b ? `${entry.id ?? entry.family} is blocked in harness.json ("${b}"; --unblock ${b} lifts it)` : null;
 }
 
 // --block / --unblock: the new harness.json, or throws when nothing changes.
