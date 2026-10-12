@@ -140,6 +140,7 @@ def run_record(path, listing, out):
     calls278 = Counter()                # (return IP) -> count
     elem278 = Counter()                 # (return IP, element) -> count
     calls287 = Counter()                # (return IP, element) -> count
+    res287_el = Counter()               # (return IP, element, result) -> count
     res287 = Counter()                  # (return IP, AL != 0) -> count
     ev34 = Counter()                    # (return IP, event) -> count
     enter = {}                          # routine -> Counter of key tuples
@@ -163,6 +164,7 @@ def run_record(path, listing, out):
 
     def e287(uc, addr, size, data):
         calls287[(f"{stack(0):04X}", stack(4))] += 1
+        state["last287"] = stack(4)
     hook("287C", e287)
 
     def e34c1(uc, addr, size, data):    # args: [sp+4:+6] pitch, [sp+8] event, [sp+10] target word
@@ -193,6 +195,7 @@ def run_record(path, listing, out):
 
         def r(uc, addr, size, data, off=off):
             res287[(off, "non-zero" if m.reg("eax") & 0xFF else "zero")] += 1
+            res287_el[(off, state["last287"], "non-zero" if m.reg("eax") & 0xFF else "zero")] += 1
         hook(off, r)
 
     # branch hooks; two of them also read values (368D site: 8300 before and after)
@@ -234,6 +237,8 @@ def run_record(path, listing, out):
     for ret, label in S287C.items():
         els = ", ".join(f"{e}x{n}" for (r, e), n in sorted(calls287.items()) if r == ret)
         w(f"  {ret} [{label}]: elements {els}; AL non-zero {res287[(ret, 'non-zero')]}, zero {res287[(ret, 'zero')]}")
+    for (ret, el, res), n in sorted(res287_el.items()):
+        w(f"  {ret} element {el}: AL {res} x {n}")
     w(f"  287C calls in all: {sum(calls287.values())}")
     w("  -- 34C1 entries by return address and event code (the event is the argument at bp+0xA)")
     for (ret, ev), n in sorted(ev34.items()):
