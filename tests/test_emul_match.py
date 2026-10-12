@@ -248,6 +248,49 @@ class SyntheticHookTests(unittest.TestCase):
                     g.emulate(END, 5)
 
 
+class NestedProofTests(unittest.TestCase):
+    """T46: a proved call's original runs as the original's own code, calls inside it included: a hook of
+    ANOTHER routine does not fire there (else the proof would compare the model with the model of what
+    it calls), and the same routine called from outside the original is still substituted."""
+    INNER = 0x3000
+
+    def guest(self):
+        program = bytes([0xB8, 0x05, 0x00,                       # 0: mov ax, 5
+                         0x50,                                    # 3: push ax
+                         0x9A, 0x00, 0x00, 0x00, 0x20,            # 4: call far 2000:0000 (outer)
+                         0x9A, 0x00, 0x00, 0x00, 0x30,            # 9: call far 3000:0000 (inner, directly)
+                         0xF4])                                   # 14: hlt
+        outer = bytes([0x9A, 0x00, 0x00, 0x00, 0x30,              # 0: call far 3000:0000 (inner)
+                       0xCA, 0x02, 0x00])                         # 5: retf 2
+        inner = bytes([0xFF, 0x06, 0x00, 0x02,                    # 0: inc word ptr [0x0200]
+                       0xCB])                                     # 4: retf
+        mem = bytearray(0x40000)
+        for at, code in ((CODE, program), (ROUTINE, outer), (self.INNER, inner)):
+            mem[at * 16:at * 16 + len(code)] = code
+        return Guest(memory=mem, regs={"CS": CODE, "EIP": 0, "SS": 0x0800, "ESP": SP0, "DS": 0, "ES": 0})
+
+    @staticmethod
+    def inc(linear, by=1):
+        return lambda g: g.put(linear, (g.word_at(linear) + by).to_bytes(2, "little"))
+
+    def test_a_hook_inside_a_proved_original_does_not_fire_but_a_direct_call_does(self):
+        g = self.guest()
+        g.hook("2000:0000", self.inc(0x200), ret=(True, 2), prove=True, ret_at=[5])
+        g.hook("3000:0000", self.inc(0x200), ret=(True, 0), prove=True, ret_at=[4])
+        g.emulate(CODE * 16 + 14, 5)
+        self.assertEqual(g.hook_counts, {"2000:0000": 1, "3000:0000": 1})   # the original's inner call is not counted
+        self.assertEqual(g.proved_calls, {"2000:0000": 1, "3000:0000": 1})
+        self.assertEqual(g.word_at(0x200), 2)              # the outer's effect once, the direct call's once
+
+    def test_a_model_that_misses_the_inner_effect_is_stopped(self):
+        from watched_match import ProofError
+        g = self.guest()
+        g.hook("2000:0000", self.inc(0x200, 2), ret=(True, 2), prove=True, ret_at=[5])
+        g.hook("3000:0000", self.inc(0x200), ret=(True, 0), prove=True, ret_at=[4])
+        with self.assertRaises(ProofError):
+            g.emulate(CODE * 16 + 14, 5)
+
+
 class PushOpcodeTests(unittest.TestCase):
     def test_the_instructions_that_write_below_sp(self):
         from watched_match import pushes
