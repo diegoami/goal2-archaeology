@@ -44,6 +44,8 @@ import driver  # noqa: E402
 from watched_match import WatchedMatch  # noqa: E402
 sys.path.insert(0, str(ROOT / "runtime" / "model"))
 import keeping  # noqa: E402
+from condition import _Record  # noqa: E402  (a QuickMatch over literal records and the foot tables)
+from quick_engine import idiv, s16, s8  # noqa: E402
 
 OUT = Path(__file__).resolve().parent / "out"
 DL = ROOT / ".cache/dl"
@@ -160,6 +162,92 @@ def skill_reader(gate=None, product_plus=0):
         g.set_reg("dx", dx)
     return fn
 
+STRENGTH_READER = "1771:377E"
+# What E011-r0001 and r0002 each do at 1771:377E (T43 Evidence: experiments/E021-m0-whole-match/reach.py and
+# reach_377e_branches.py, logs out/t43-reach-377e-r2.log and out/t43-reach-377e-branches.log).
+EXPECTED_377E = {"calls": 88, "available": 88, "unavailable": 0, "form<0x20": 84, "form>=0x20": 4,
+                 "form==0x20": 2, "clamped": 0, "wrong foot": 0}
+
+
+class ThresholdMutant(_Record):
+    """A falsifier: quick_engine's strength_trace with the form threshold moved to 0x21 (the real one
+    is 0x20, seg_1771_05.asm:37C8)."""
+    threshold = 0x21
+
+    def strength_trace(self, w):
+        trace = {"unavailable": self.unavailable_reason(w), "form_high": None, "clamped": False,
+                 "wrong_foot": False, "halved_from": None, "value": 0}
+        if trace["unavailable"] is not None:
+            return trace
+        p = self._player(w)
+        v = (p[4] + s8(p[0xE]) - 0x3E) & 0xFFFF
+        trace["form_high"] = s8(p[0xC]) >= self.threshold
+        if trace["form_high"]:
+            v = (v - idiv(s16(v), 0x10)) & 0xFFFF
+        else:
+            v = (v + s8(p[0xC])) & 0xFFFF
+        if s16(v) < 0:
+            v, trace["clamped"] = 0, True
+        elif s16(v) > 0x100:
+            v, trace["clamped"] = 0x100, True
+        if self.wrong_foot(w):
+            trace["wrong_foot"], trace["halved_from"] = True, v
+            v = idiv(s16(v), 2) & 0xFFFF
+        trace["value"] = v
+        return trace
+
+
+def strength_reader(tally=None, result_plus=0, record_class=_Record):
+    """1771:377E as a hook fn (M1b): reads the routine's inputs from the guest and decides AX with
+    quick_engine.QuickMatch.player_strength, unchanged. Far-called with `retf 2` (3824): the player word
+    is [bp + 6] = arg(0) (3784). Reads: the far pointer DS:A91B (378C `les di, [0xa91b]`) + 0x14 * w
+    (3787-3790, the offset wraps at 16 bits as `add di, ax` does) and the record's bytes (+4 37B7, +0xC
+    37C8/37E0, +0xE 37AD; +5, +2, +6, +7 and +0x10 in 3216, 3041, 3088, 3179), the foot tables DS:0E60 (30C9)
+    and DS:0E7C (30BA; w % 3 indexes it, 30B2-30B5): 14 * 255 + 255 bytes of the first, the three of the second.
+    Result: AX = the strength (381E). DX is what the original leaves, which the proof compares:
+    - unavailable by energy (+0xE < 1, 3233): 3216's `mul dx` at 3222, DX = (w * 0x14) >> 16;
+    - unavailable by +0x10 element 8, 6 or 3 (3248, 325F, 3276): 214B:0C57's `mov dx, ax` at 0C61 after
+      `dec ax`, DX = element - 1 of the call that returned nonzero (7, 5 or 2);
+    - available: 3179 ends with 3041's `mov dx, ax` at 3064 (DX = +5; 3088's `mul dx` at 30C3 runs before it,
+      and 23E4:08DF touches no DX), then the halving `cdq; idiv cx` at 380C-3813 leaves DX = the remainder of
+      the value BEFORE halving (v % 2, v in 0..0x100) when the foot is wrong, and nothing else touches DX.
+    The branches and the pre-halving value come from the model's own run (quick_engine.strength_trace);
+    `tally` (a dict) counts them; `result_plus` adds to AX (a falsifier); `record_class` replaces the
+    model's class (a falsifier)."""
+    def fn(g):
+        w = g.arg(0)
+        base = (g.rd(0xA91B) + ((w * RECORD_SIZE) & 0xFFFF)) & 0xFFFF
+        rec = g.rd(0xA91D) * 16 + base
+        p = g.mem(rec, RECORD_SIZE)
+        foot_table = g.mem(g.DS * 16 + 0xE60, 14 * 255 + 256)
+        foot_index = g.mem(g.DS * 16 + 0xE7C, 3)
+        m = record_class({w: p}, foot_table, foot_index)
+        trace = m.strength_trace(w)       # the model's own execution: AX, DX and the tally come from it
+        value = trace["value"]
+        if trace["unavailable"] == "energy":
+            dx = ((w * RECORD_SIZE) >> 16) & 0xFFFF
+        elif trace["unavailable"] is not None:
+            dx = trace["unavailable"] - 1
+        elif trace["wrong_foot"]:
+            dx = trace["halved_from"] & 1     # the remainder of the value BEFORE halving (idiv, 3813); 0..0x100
+        else:
+            dx = p[5]
+        if tally is not None:
+            keys = ["calls", "available" if trace["unavailable"] is None else "unavailable"]
+            if trace["form_high"] is not None:
+                keys.append("form>=0x20" if trace["form_high"] else "form<0x20")
+                if p[0xC] == 0x20:
+                    keys.append("form==0x20")
+            if trace["clamped"]:
+                keys.append("clamped")
+            if trace["wrong_foot"]:
+                keys.append("wrong foot")
+            for k in keys:
+                tally[k] = tally.get(k, 0) + 1
+        g.set_reg("ax", (value + result_plus) & 0xFFFF)
+        g.set_reg("dx", dx)
+    return fn
+
 
 HOOKS = {"none": None, "f004": f004_step(), "f004+hidden-write": hidden_write(f004_step()),
          "f004+raw-write": raw_write(f004_step()), "f004+831D-write": clock_write(f004_step()),
@@ -170,6 +258,9 @@ HOOKS = {"none": None, "f004": f004_step(), "f004+hidden-write": hidden_write(f0
 
 M1 = {"m1-278a": {}, "m1-278a+gate-0x18": {"gate": frozenset({0x18})},
       "m1-278a+product+1": {"product_plus": 1}}
+# M1b: 214B:0688, 0791:278A and 1771:377E together; the value is strength_reader's arguments
+M1B = {"m1-377e": {}, "m1-377e+result+1": {"result_plus": 1},
+       "m1-377e+form-0x21": {"record_class": ThresholdMutant}}
 
 
 def asset(entry, release="E011"):
@@ -216,9 +307,12 @@ def write_out(label, run_id, payload):
 
 def emulate(data, hook_name, inputs=()):
     m = WatchedMatch(data)
-    if hook_name in M1:             # M0's substitution and 278A's, each proved at every call
+    m.tally377e = dict.fromkeys(EXPECTED_377E, 0)
+    if hook_name in M1 or hook_name in M1B:     # M0's substitution, 278A's (and 377E's), each proved at every call
         m.hook(LCG_STEP, HOOKS["f004"], prove=True)
-        m.hook(SKILL_READER, skill_reader(**M1[hook_name]), prove=True)
+        m.hook(SKILL_READER, skill_reader(**M1.get(hook_name, {})), prove=True)
+        if hook_name in M1B:
+            m.hook(STRENGTH_READER, strength_reader(m.tally377e, **M1B[hook_name]), prove=True)
     elif HOOKS[hook_name] is not None:
         m.hook(LCG_STEP, HOOKS[hook_name], prove=True)
     for fn in inputs:
@@ -226,7 +320,7 @@ def emulate(data, hook_name, inputs=()):
     error = None
     t = time.time()
     try:
-        m.run(timeout_s=600)
+        m.run(timeout_s=1800)
     except Exception as e:  # a void run: everything after it counts as missed
         error = f"{type(e).__name__}: {e}"
         m.final = m.state()
@@ -236,12 +330,13 @@ def emulate(data, hook_name, inputs=()):
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("--runs", default=str(ROOT / "runs/E011"))
-    ap.add_argument("--hook", choices=sorted(HOOKS) + sorted(M1), default="none")
+    ap.add_argument("--hook", choices=sorted(HOOKS) + sorted(M1) + sorted(M1B), default="none")
     a = ap.parse_args(argv)
     records = sorted(Path(a.runs).glob("E011-r*.json"))
     n = ok = 0
     failed = []
     hooked = proved = reader_hooked = reader_proved = 0
+    strength_hooked = strength_proved = 0
     scratch = {}
     differences = []
     for p in records:
@@ -264,7 +359,13 @@ def main(argv=None):
         per_record = m.hook_counts.get(SKILL_READER, 0)
         reader_hooked += per_record
         reader_proved += m.proved_calls.get(SKILL_READER, 0)
-        if a.hook in M1:
+        if a.hook in M1B:
+            per377 = m.hook_counts.get(STRENGTH_READER, 0)
+            strength_hooked += per377
+            strength_proved += m.proved_calls.get(STRENGTH_READER, 0)
+            print(f"  {rid}: {STRENGTH_READER} calls {per377}, proved {m.proved_calls.get(STRENGTH_READER, 0)};"
+                  f" branches {m.tally377e}")
+        if a.hook in M1 or a.hook in M1B:
             print(f"  {rid}: {SKILL_READER} calls {per_record}, proved {m.proved_calls.get(SKILL_READER, 0)}")
         for r, c in m.scratch_differences.get(LCG_STEP, {}).items():
             scratch[r] = scratch.get(r, 0) + c
@@ -282,6 +383,9 @@ def main(argv=None):
             "board screen sha256 equals the record's full-time screen": screen_sha == ft["screen_sha256"],
             "every seed write equals the unhooked original's (hooked runs)": trace is None,
         }
+        if a.hook == "m1-377e":
+            checks["377E's calls and branch tally equal the measured original's (T43 Evidence)"] = (
+                m.tally377e == EXPECTED_377E and m.hook_counts.get(STRENGTH_READER) == 88)
         print(f"{rid}: start {entry['name']} (captain screen, seed 0x{m.start_state['7B62']:04x});"
               f" emulated {m.final['ticks']} clock ticks, {len(m.draws)} seed writes, {secs} s;"
               f" full time: minute {m.final['831F']} sub-tick {m.final['831D']}, seed 0x{m.final['7B62']:04x},"
@@ -309,9 +413,12 @@ def main(argv=None):
     if a.hook != "none":
         print(f"hooked calls of {LCG_STEP}: {hooked}; proved side by side with no difference: {proved};"
               f" differences: {len(differences)}" + (f" (first: {differences[0]})" if differences else ""))
-        if a.hook in M1:
+        if a.hook in M1 or a.hook in M1B:
             print(f"hooked calls of {SKILL_READER}: {reader_hooked}; proved side by side with no difference:"
                   f" {reader_proved}")
+        if a.hook in M1B:
+            print(f"hooked calls of {STRENGTH_READER}: {strength_hooked}; proved side by side with no difference:"
+                  f" {strength_proved}")
         print("uncompared-register differences (warnings, proved calls): "
               + ", ".join(f"{r} {c}" for r, c in scratch.items()))
     else:

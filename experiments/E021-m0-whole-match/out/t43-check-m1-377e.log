@@ -1,0 +1,55 @@
+WARNING: call #1 of 0791:278A: uncompared register BX at the return: the original 0x001E, the model 0x016A (counted, not an error; further ones counted only)
+WARNING: call #1 of 0791:278A: uncompared register CX at the return: the original 0x0010, the model 0x0004 (counted, not an error; further ones counted only)
+WARNING: call #1 of 0791:278A: uncompared register ES at the return: the original 0x2DA4, the model 0x4E5B (counted, not an error; further ones counted only)
+WARNING: call #1 of 0791:278A: uncompared register FLAGS at the return: the original 0x7202, the model 0x7296 (counted, not an error; further ones counted only)
+WARNING: call #1 of 214B:0688: uncompared register BX at the return: the original 0x7ABD, the model 0x0000 (counted, not an error; further ones counted only)
+WARNING: call #1 of 214B:0688: uncompared register SI at the return: the original 0x7B64, the model 0x6130 (counted, not an error; further ones counted only)
+WARNING: call #1 of 214B:0688: uncompared register DI at the return: the original 0x7B64, the model 0x7B62 (counted, not an error; further ones counted only)
+WARNING: call #1 of 214B:0688: uncompared register FLAGS at the return: the original 0x7202, the model 0x7206 (counted, not an error; further ones counted only)
+WARNING: call #1 of 1771:377E: uncompared register BX at the return: the original 0x0000, the model 0x0001 (counted, not an error; further ones counted only)
+WARNING: call #1 of 1771:377E: uncompared register CX at the return: the original 0x0000, the model 0x0002 (counted, not an error; further ones counted only)
+WARNING: call #1 of 1771:377E: uncompared register DI at the return: the original 0x1D1D, the model 0x0E3D (counted, not an error; further ones counted only)
+WARNING: call #1 of 1771:377E: uncompared register ES at the return: the original 0x4E5B, the model 0x4857 (counted, not an error; further ones counted only)
+WARNING: call #1 of 1771:377E: uncompared register FLAGS at the return: the original 0x7246, the model 0x7202 (counted, not an error; further ones counted only)
+  E011-r0001: 1771:377E calls 88, proved 88; branches {'calls': 88, 'available': 88, 'unavailable': 0, 'form<0x20': 84, 'form>=0x20': 4, 'form==0x20': 2, 'clamped': 0, 'wrong foot': 0}
+  E011-r0001: 0791:278A calls 32761, proved 32761
+E011-r0001: start E011-r0001-watchstart.sav (captain screen, seed 0x9115); emulated 3601 clock ticks, 157119 seed writes, 600.0 s; full time: minute 79 sub-tick 11, seed 0x563e, score [1, 1] (record [1, 1], seed 0xb621); 000E strays: none; hook m1-377e: {'214B:0688': 160720, '0791:278A': 32761, '1771:377E': 88}
+WARNING: call #1 of 0791:278A: uncompared register BX at the return: the original 0x001E, the model 0x016A (counted, not an error; further ones counted only)
+WARNING: call #1 of 0791:278A: uncompared register CX at the return: the original 0x0010, the model 0x0004 (counted, not an error; further ones counted only)
+WARNING: call #1 of 0791:278A: uncompared register ES at the return: the original 0x2DA4, the model 0x4E5B (counted, not an error; further ones counted only)
+WARNING: call #1 of 0791:278A: uncompared register FLAGS at the return: the original 0x7202, the model 0x7296 (counted, not an error; further ones counted only)
+WARNING: call #1 of 214B:0688: uncompared register BX at the return: the original 0x7ABD, the model 0x0000 (counted, not an error; further ones counted only)
+WARNING: call #1 of 214B:0688: uncompared register SI at the return: the original 0x7B64, the model 0x6130 (counted, not an error; further ones counted only)
+WARNING: call #1 of 214B:0688: uncompared register DI at the return: the original 0x7B64, the model 0x7B62 (counted, not an error; further ones counted only)
+WARNING: call #1 of 214B:0688: uncompared register FLAGS at the return: the original 0x7202, the model 0x7206 (counted, not an error; further ones counted only)
+WARNING: call #1 of 1771:377E: uncompared register BX at the return: the original 0x0000, the model 0x0001 (counted, not an error; further ones counted only)
+WARNING: call #1 of 1771:377E: uncompared register CX at the return: the original 0x0000, the model 0x0002 (counted, not an error; further ones counted only)
+WARNING: call #1 of 1771:377E: uncompared register DI at the return: the original 0x1D1D, the model 0x0E3D (counted, not an error; further ones counted only)
+WARNING: call #1 of 1771:377E: uncompared register ES at the return: the original 0x4E5B, the model 0x4857 (counted, not an error; further ones counted only)
+WARNING: call #1 of 1771:377E: uncompared register FLAGS at the return: the original 0x7246, the model 0x7202 (counted, not an error; further ones counted only)
+  FAIL: stopped at the full-time board's key wait
+  FAIL: seed at the board equals the record's full-time read
+  FAIL: board screen sha256 equals the record's full-time screen
+  FAIL: every seed write equals the unhooked original's (hooked runs): first difference (157119, (79, 11, 22078, 21205), None)
+  MISS: read at minute 83 sub-tick 23 seed 0x8322 is not on the emulated trajectory (0 values under that clock reading)
+  MISS: read at minute 86 sub-tick 3 seed 0xbf8d is not on the emulated trajectory (0 values under that clock reading)
+  MISS: read at minute 91 sub-tick 26 seed 0x6239 is not on the emulated trajectory (0 values under that clock reading)
+  E011-r0001: reads 46/49
+  outputs: experiments/E021-m0-whole-match/out/20261012T132121759381Z-m1-377e-E011-r0001.json
+  E011-r0002: 1771:377E calls 88, proved 88; branches {'calls': 88, 'available': 88, 'unavailable': 0, 'form<0x20': 84, 'form>=0x20': 4, 'form==0x20': 2, 'clamped': 0, 'wrong foot': 0}
+  E011-r0002: 0791:278A calls 32761, proved 32761
+E011-r0002: start E011-r0002-watchstart.sav (captain screen, seed 0x9115); emulated 3601 clock ticks, 157119 seed writes, 600.0 s; full time: minute 79 sub-tick 11, seed 0x563e, score [1, 1] (record [1, 1], seed 0xb621); 000E strays: none; hook m1-377e: {'214B:0688': 160720, '0791:278A': 32761, '1771:377E': 88}
+  FAIL: stopped at the full-time board's key wait
+  FAIL: seed at the board equals the record's full-time read
+  FAIL: board screen sha256 equals the record's full-time screen
+  FAIL: every seed write equals the unhooked original's (hooked runs): first difference (157119, (79, 11, 22078, 21205), None)
+  MISS: read at minute 83 sub-tick 24 seed 0xf309 is not on the emulated trajectory (0 values under that clock reading)
+  MISS: read at minute 87 sub-tick 36 seed 0x15d0 is not on the emulated trajectory (0 values under that clock reading)
+  MISS: read at minute 91 sub-tick 30 seed 0xc6df is not on the emulated trajectory (0 values under that clock reading)
+  E011-r0002: reads 46/49
+  outputs: experiments/E021-m0-whole-match/out/20261012T133159959724Z-m1-377e-E011-r0002.json
+hooked calls of 214B:0688: 321440; proved side by side with no difference: 321440; differences: 0
+hooked calls of 0791:278A: 65522; proved side by side with no difference: 65522
+hooked calls of 1771:377E: 176; proved side by side with no difference: 176
+uncompared-register differences (warnings, proved calls): BX 321440, CX 0, SI 321440, DI 321440, ES 0, FLAGS 263970
+match: 92/98

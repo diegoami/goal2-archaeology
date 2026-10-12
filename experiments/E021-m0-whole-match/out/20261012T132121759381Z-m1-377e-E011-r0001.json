@@ -1,0 +1,74 @@
+{
+ "final": {
+  "831F": 79,
+  "831D": 11,
+  "8325": 0,
+  "831B": 12,
+  "7B62": 22078,
+  "score": [
+   1,
+   1
+  ],
+  "ticks": 3601,
+  "draws": 157119
+ },
+ "key_log": [
+  [
+   "captain screen (the starting burst's Enter)",
+   13,
+   0,
+   0,
+   37141
+  ],
+  [
+   "half-time board ('hit any key', 0791:0106)",
+   13,
+   46,
+   36,
+   62551
+  ],
+  [
+   "team screen (0791:ED8A, ' play ')",
+   13,
+   46,
+   36,
+   62551
+  ]
+ ],
+ "strays": [],
+ "hook_counts": {
+  "214B:0688": 160720,
+  "0791:278A": 32761,
+  "1771:377E": 88
+ },
+ "inputs": [
+  {
+   "what": "delay byte [DS:A923]+0x3F",
+   "linear": 382645,
+   "old": "01",
+   "new": "00"
+  }
+ ],
+ "run_id": "E011-r0001",
+ "hook": "m1-377e",
+ "start_state": {
+  "name": "E011-r0001-watchstart.sav",
+  "sha256": "d68e48c734a742a63e707a8c451b9011ef03b452ebd91f239d86f875464e07a9"
+ },
+ "reads_matched": 46,
+ "reads": 49,
+ "checks": {
+  "full-time score equals the record's": true,
+  "the 000E skip log is empty": true,
+  "keys: the three declared screens, Enter each": true,
+  "stopped at the full-time board's key wait": false,
+  "seed at the board equals the record's full-time read": false,
+  "board screen sha256 equals the record's full-time screen": false,
+  "every seed write equals the unhooked original's (hooked runs)": false,
+  "377E's calls and branch tally equal the measured original's (T43 Evidence)": true
+ },
+ "error": null,
+ "seconds": 600.0,
+ "draws_count": 157119,
+ "draws_sha256": "611f7019392732185e1dbf5a48d1f854e12664186f04f956cd25bb395e8158c8"
+}

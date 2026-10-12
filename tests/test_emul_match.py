@@ -400,5 +400,143 @@ class RealGuestTests(unittest.TestCase):
         self.assertEqual(len(m.keys), 1)
 
 
+class FakeGuest:
+    """The few Guest methods a hook fn reads, over a flat memory: DS = 0x1000, the player array at
+    0x3000:0x0100 (DS:A91B holds the far pointer), the foot tables DS:0E60 and DS:0E7C as given."""
+    DS = 0x1000
+
+    def __init__(self, w, record, foot=None, footix=(0, 0, 0)):
+        self.memory = bytearray(0x100000)
+        self.w = w
+        self.regs = {}
+        self.set(0xA91B, 0x0100)
+        self.set(0xA91D, 0x3000)
+        base = (0x0100 + ((w * 20) & 0xFFFF)) & 0xFFFF
+        self.memory[0x30000 + base:0x30000 + base + 20] = record
+        for i, v in (foot or {}).items():
+            self.memory[self.DS * 16 + 0xE60 + i] = v
+        self.memory[self.DS * 16 + 0xE7C:self.DS * 16 + 0xE7F] = bytes(footix)
+
+    def set(self, off, value):
+        self.memory[self.DS * 16 + off:self.DS * 16 + off + 2] = value.to_bytes(2, "little")
+
+    def arg(self, i):
+        return self.w if i == 0 else 0xBEEF       # 377E takes one argument word
+
+    def rd(self, off, n=2):
+        return int.from_bytes(self.memory[self.DS * 16 + off:self.DS * 16 + off + n], "little")
+
+    def mem(self, linear, n):
+        return bytes(self.memory[linear:linear + n])
+
+    def set_reg(self, name, value):
+        self.regs[name] = value
+
+
+def record(p2=0, p4=100, p5=7, p6=1, p7=1, form=5, energy=0x20, flags=0):
+    r = bytearray(20)
+    r[2], r[4], r[5], r[6], r[7], r[0xC], r[0xE], r[0x10] = p2, p4, p5, p6, p7, form, energy, flags
+    return bytes(r)
+
+
+class StrengthReaderTests(unittest.TestCase):
+    """T43: check.strength_reader (1771:377E) on literal guest memory; AX and DX are what the proof
+    compares, DX derived from the listing (the docstring). Every guest read is covered by a case
+    that a one-off or wrong-table read breaks (the mutations are listed in the PR)."""
+
+    def call(self, w=5, rec=None, foot=None, footix=(0, 0, 0), **kw):
+        from check import EXPECTED_377E, strength_reader
+        g = FakeGuest(w, rec if rec is not None else record(), foot, footix)
+        tally = dict.fromkeys(EXPECTED_377E, 0)
+        strength_reader(tally, **kw)(g)
+        return g.regs["ax"], g.regs["dx"], tally
+
+    def test_available_right_foot_ax_and_dx(self):
+        # 100 + 0x20 - 0x3E = 70; form 5 < 0x20: + 5 = 75; DX = +5 (3041's mov dx, ax)
+        ax, dx, tally = self.call()
+        self.assertEqual((ax, dx), (75, 7))
+        self.assertEqual(tally["form<0x20"], 1)
+
+    def test_the_word_decides_the_record(self):
+        # two words, two records: AX follows the argument word (3784-378C)
+        self.assertEqual(self.call(w=9, rec=record(p4=110))[0], 85)
+
+    def test_wrong_foot_dx_is_the_remainder_of_the_value_before_halving(self):
+        # position 0 with +7 != 0 is wrong (31DF-31EE); 380C-3813 divides the value by 2 and leaves the
+        # remainder of that value in DX: 75 -> 37 r 1, 74 -> 37 r 0, 77 -> 38 r 1, 76 -> 38 r 0
+        for form, ax, dx in ((5, 37, 1), (4, 37, 0), (7, 38, 1), (6, 38, 0)):
+            got = self.call(rec=record(p6=0, p7=1, form=form))
+            self.assertEqual(got[:2], (ax, dx), form)
+            self.assertEqual(got[2]["wrong foot"], 1)
+
+    def test_the_foot_table_decides_the_wrong_foot(self):
+        # DS:0E60[14 * DS:0E7C[w % 3] + (+7)]: w = 4 -> E7C[1] = 1 -> row 1, +7 = 2 -> byte 16 (3088; DS:0E7C = 0E60 + 28 starts the index table, so rows are 0 and 1);
+        # position 3, foot != 0, not two-footed -> wrong (3139 set, 31AE-31C0). Every other byte is 0.
+        rec = record(p6=3, p7=2)
+        got = self.call(w=4, rec=rec, foot={16: 1}, footix=(0, 1, 0))
+        self.assertEqual((got[:2], got[2]["wrong foot"]), ((37, 1), 1))
+        self.assertEqual(self.call(w=4, rec=rec)[2]["wrong foot"], 0)
+        # the neighbouring bytes and rows do not count
+        for other in (15, 17, 14, 2, 18, 27):
+            self.assertEqual(self.call(w=4, rec=rec, foot={other: 1}, footix=(0, 1, 0))[0], 75, other)
+
+    def test_the_foot_index_table_is_indexed_by_the_word_mod_3(self):
+        rec = record(p6=3, p7=2)
+        foot, footix = {16: 1}, (0, 1, 0)
+        self.assertEqual(self.call(w=4, rec=rec, foot=foot, footix=footix)[0], 37)   # 4 % 3 = 1 -> row 1
+        self.assertEqual(self.call(w=5, rec=rec, foot=foot, footix=footix)[0], 75)   # 5 % 3 = 2 -> row 0
+        self.assertEqual(self.call(w=3, rec=rec, foot=foot, footix=footix)[0], 75)   # 3 % 3 = 0 -> row 0
+
+    def test_foot_zero_in_the_second_position_set(self):
+        # foot byte 0 and position 4 (3159 set): wrong (31C8-31DA); with foot != 0 it is not
+        rec = record(p6=4, p7=2)
+        self.assertEqual(self.call(w=4, rec=rec, foot={}, footix=(0, 1, 0))[0], 37)
+        self.assertEqual(self.call(w=4, rec=rec, foot={16: 1}, footix=(0, 1, 0))[0], 75)
+
+    def test_the_form_threshold_edge_0x20(self):
+        # form 0x20: 70 - 70 // 16 = 66 (37CD-37D8); form 0x1F: 70 + 31 = 101
+        self.assertEqual(self.call(rec=record(form=0x20))[0], 66)
+        self.assertEqual(self.call(rec=record(form=0x1F))[0], 101)
+        self.assertEqual(self.call(rec=record(form=0x20))[2]["form==0x20"], 1)
+
+    def test_the_clamp_edges(self):
+        # 255 + 127 - 62 = 320, + 5 > 0x100 -> 0x100 (37FA-37FC); 10 + 1 - 62 + 5 < 0 -> 0 (37EC-37F0)
+        ax, _, tally = self.call(rec=record(p4=255, energy=0x7F))
+        self.assertEqual((ax, tally["clamped"]), (0x100, 1))
+        ax, _, tally = self.call(rec=record(p4=10, energy=1))
+        self.assertEqual((ax, tally["clamped"]), (0, 1))
+        self.assertEqual(self.call()[2]["clamped"], 0)
+
+    def test_the_tally_follows_the_models_own_run(self):
+        # R3 of review 1: a model that does not clamp (returns 325) is not reported as clamping, and one
+        # that reports a clamp is counted, whatever the record's bytes say
+        from check import _Record
+        for flag in (False, True):
+            class Injected(_Record):
+                def strength_trace(self, w, flag=flag):
+                    return {"unavailable": None, "form_high": False, "clamped": flag, "wrong_foot": False,
+                            "halved_from": None, "value": 325}
+            ax, _, tally = self.call(rec=record(p4=255, energy=0x7F), record_class=Injected)
+            self.assertEqual((ax, tally["clamped"]), (325, int(flag)))
+
+    def test_unavailable_by_energy_leaves_the_high_word_of_the_record_offset(self):
+        # 3233: +0xE < 1 -> 0; DX = 3222's `mul dx` high word, w * 20 >> 16 (4000 * 20 = 80000 -> 1)
+        ax, dx, tally = self.call(w=4000, rec=record(energy=0))
+        self.assertEqual((ax, dx, tally["unavailable"]), (0, 1, 1))
+
+    def test_unavailable_by_flag_leaves_the_element_minus_one(self):
+        # 3248 (element 8, bit 7), 325F (6, bit 5), 3276 (3, bit 2): the first set one wins
+        for flags, dx in ((0x80, 7), (0x20, 5), (0x04, 2), (0xA4, 7), (0x24, 5)):
+            ax, got, _ = self.call(rec=record(flags=flags))
+            self.assertEqual((ax, got), (0, dx), hex(flags))
+
+    def test_the_falsifiers_change_the_result(self):
+        from check import ThresholdMutant
+        self.assertEqual(self.call(rec=record(form=0x20), result_plus=1)[0], 67)
+        # threshold 0x21: form 0x20 takes the `+ form` branch, 70 + 32
+        self.assertEqual(self.call(rec=record(form=0x20), record_class=ThresholdMutant)[0], 102)
+        self.assertEqual(self.call(rec=record(form=0x21), record_class=ThresholdMutant)[0], 70 - 70 // 16)
+
+
 if __name__ == "__main__":
     unittest.main()
