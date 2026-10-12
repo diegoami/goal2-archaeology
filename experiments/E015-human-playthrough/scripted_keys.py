@@ -276,7 +276,7 @@ def main():
                                      stdout=open(raw_log, "w"), stderr=subprocess.DEVNULL,
                                      start_new_session=True)
         quit_after = 12 + 2 * len(keys)
-        sitting = subprocess.Popen(["bash", "runtime/human/play.sh", "--quit-after", str(quit_after)], env=env, start_new_session=True)
+        sitting = subprocess.Popen(["bash", "runtime/human/play.sh", "--scale", "1", "--quit-after", str(quit_after)], env=env, start_new_session=True)
         deadline = time.monotonic() + 15
         session = None
         while time.monotonic() < deadline:

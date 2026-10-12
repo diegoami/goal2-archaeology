@@ -42,7 +42,7 @@ def main():
             if outer.poll() is None:
                 break
         env = dict(os.environ, DISPLAY=f":{number}")
-        sitting = subprocess.Popen(["bash", "runtime/human/play.sh", *a.play_args.split(),
+        sitting = subprocess.Popen(["bash", "runtime/human/play.sh", "--scale", "1", *a.play_args.split(),
                                     "--quit-after", "150"], cwd=ROOT, env=env,
                                    stdout=open(out_path, "w"), stderr=subprocess.STDOUT,
                                    start_new_session=True)

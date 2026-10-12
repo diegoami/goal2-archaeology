@@ -77,7 +77,7 @@ def main():
                 break
         env = dict(os.environ, DISPLAY=f":{number}")
         quit_after = 70 if a.end == "quit" else 400
-        play_args = ["--quit-after", str(quit_after)] + (["--load", a.load] if a.load else [])
+        play_args = ["--scale", "1", "--quit-after", str(quit_after)] + (["--load", a.load] if a.load else [])
         sitting = subprocess.Popen(["bash", "runtime/human/play.sh", *play_args],
                                    cwd=ROOT, env=env, start_new_session=True)
         deadline = time.monotonic() + 60
