@@ -1307,3 +1307,165 @@ class ReproductionWrapperTests(unittest.TestCase):
         out = r.stdout + r.stderr
         self.assertEqual(r.returncode, 1, out[-4000:])
         self.assertIn("a save no request line owns", out)
+
+
+class OneSaveInFlightTests(unittest.TestCase):
+    """T44 (issue #128): the owner's first sitting on the new machine sent 537 save requests and 313
+    were superseded: the median gap between requests (0.15 s) was shorter than one DOSBox-X save
+    (about 0.8 s), so later saves overwrote earlier ones. The watcher keeps one save request in
+    flight (`_submitted == _finished` read before every send); the key groups that settle while
+    it is written wait, and ONE request answers them all (option A: its snapshot is the screen
+    after the last group, the earlier groups' screens are not captured)."""
+
+    def _sitting(self, save_s, arrivals, quit_after):
+        from tests import test_human_record as fixture
+        session = Path(tempfile.mkdtemp())
+        self.addCleanup(shutil.rmtree, session, ignore_errors=True)
+        (session / "snapshots").mkdir()
+        live = session / "state.sav"
+        live.write_bytes(fixture.tiny_zip(b"vga-0"))
+        writes = queue.Queue()
+
+        def serve_writes():
+            # [designed] a serialized stand-in for DOSBox-X's savestate writer: each request is
+            # answered `save_s` later with one fresh atomic write (a new inode)
+            while True:
+                item = writes.get()
+                if item is None:
+                    return
+                time.sleep(save_s)
+                tmp = live.with_name(live.name + ".tmp")
+                tmp.write_bytes(fixture.tiny_zip(f"vga-{item}".encode()))
+                tmp.replace(live)
+
+        threading.Thread(target=serve_writes, daemon=True).start()
+        counter, in_flight = [0], []
+
+        def xrun(argv):
+            # a request is being SENT: the previous ones' jobs must all have finished
+            in_flight.append(w._submitted - w._finished)
+            time.sleep(0.03)
+            counter[0] += 1
+            writes.put(counter[0])
+
+        w = rec.Watcher(session, live, "77", fixture.FakeDbx(), {"DISPLAY": ":0"},
+                        xrun=xrun, alive=lambda: True, log=lambda m: None)
+
+        class FakeKeys:
+            error = None
+            proc = types.SimpleNamespace(poll=lambda: None)
+
+            def __init__(self):
+                self.events = []
+                for k, t in enumerate(arrivals):
+                    self.events.append({"monotonic_s": w.t0 + t, "event": "press",
+                                        "keysym": f"k{k}"})
+                    self.events.append({"monotonic_s": w.t0 + t + 0.012, "event": "release",
+                                        "keysym": f"k{k}"})
+                self.i = 0
+
+            def drain(self):
+                now = time.monotonic()
+                out = []
+                while self.i < len(self.events) and self.events[self.i]["monotonic_s"] <= now:
+                    out.append(self.events[self.i])
+                    self.i += 1
+                return out
+
+        keys = FakeKeys()
+        w.run(quit_after=quit_after, keys=keys)
+        writes.put(None)
+        index = [json.loads(line) for line in (session / "index.jsonl").read_text().splitlines()]
+        requests = [json.loads(line) for line in
+                    (session / "requests.jsonl").read_text().splitlines()]
+        return w, keys.events, index, requests, in_flight
+
+    def test_a_scroll_faster_than_the_save_keeps_one_request_in_flight(self):
+        import scripted_keys
+        arrivals = [0.3 + 0.15 * k for k in range(40)]          # keys every 0.15 s for 6 s
+        w, events, index, requests, in_flight = self._sitting(0.8, arrivals, quit_after=9)
+        self.assertGreater(len(in_flight), 3, in_flight)
+        self.assertEqual(max(in_flight), 0, f"requests sent with others in flight: {in_flight}")
+        self.assertEqual([r for r in requests if r.get("superseded")], [])
+        self.assertEqual([r["seq"] is None for r in requests], [False] * len(requests))
+        bursts = [e for e in index if e["origin"] == "burst"]
+        groups = scripted_keys.group_presses(events, rec.BURST_QUIET_S)
+        ok, why = scripted_keys.check_bursts(groups, bursts, w.t0, requests=requests)
+        self.assertTrue(ok, why)
+        ok, why = scripted_keys.check_request_windows(groups, bursts, w.t0, rec.CAPTURE_MARGIN_S,
+                                                      requests=requests)
+        self.assertTrue(ok, why)
+        merged = sum(r["merge"]["size"] - 1 for r in requests if r.get("merge"))
+        print(f"\nT44 scroll: {len(requests)} requests, {len(bursts)} burst snapshots for "
+              f"{len(groups)} key group(s), merged (not captured) groups: {merged}")
+
+    def test_groups_that_settle_in_flight_wait_and_go_out_in_one_request(self):
+        import keymap
+        import scripted_keys
+        # a 2 s save (the opening request ends at ~2.05 s); keys 0.7 s apart: k0 starts a
+        # request, k1..k3 settle as groups of their own (gaps over the 0.5 s quiet) while it is
+        # written
+        arrivals = [2.3, 3.0, 3.7, 4.3, 8.0]
+        w, events, index, requests, in_flight = self._sitting(2.0, arrivals, quit_after=14)
+        self.assertEqual(max(in_flight), 0, in_flight)
+        self.assertEqual([r for r in requests if r.get("superseded")], [])
+        bursts = [r for r in requests if r["origin"] == "burst"]
+        self.assertEqual([r["merge"]["size"] for r in bursts], [1, 3, 1], bursts)
+        merged = bursts[1]["merge"]
+        # the marker names the merge: size 3, the last group claimed, the groups' last keys
+        self.assertEqual(merged["claimed"], 3)
+        self.assertEqual(len(merged["group_last_s"]), 3)
+        self.assertAlmostEqual(merged["group_last_s"][-1], 4.312, delta=0.05)
+        groups = scripted_keys.group_presses(events, rec.BURST_QUIET_S)
+        self.assertEqual(len(groups), 5)
+        bursts_idx = [e for e in index if e["origin"] == "burst"]
+        ok, why = scripted_keys.check_bursts(groups, bursts_idx, w.t0, requests=requests)
+        self.assertTrue(ok, why)
+        self.assertIn("2 not captured by merging", why)
+        ok, why = scripted_keys.check_request_windows(groups, bursts_idx, w.t0,
+                                                      rec.CAPTURE_MARGIN_S, requests=requests)
+        self.assertTrue(ok, why)
+        # option A in the map: the earlier two groups are listed as not captured with their
+        # keys, the third is claimed (screen after only), nothing is unmapped
+        states = [{"entry": e, "screen_text": f"SCREEN-{e['seq']}", "error": None} for e in index]
+        result = keymap.build_map(states, events, w.t0, requests=requests)
+        self.assertEqual(result["not_captured"], [{"keys": ["k1"]}, {"keys": ["k2"]}])
+        self.assertEqual([g["keys"] for g in result["merged_claimed"]], [["k3"]])
+        self.assertEqual(result["unmapped_keys"], 0)
+        self.assertEqual([r["keys"] for r in result["transitions"]], [["k0"], ["k4"]])
+        ok, why = scripted_keys.check_mapped(result)
+        self.assertTrue(ok, why)
+
+
+class MergedMapTests(unittest.TestCase):
+    """T44: a gap with several bursts is a merge only when the closing request's marker says so."""
+
+    def _states(self):
+        return [{"entry": {"seq": i, "request_s": r, "sent_s": r + 0.03, "elapsed_s": r + 1.0},
+                 "screen_text": f"S{i}", "error": None} for i, r in ((1, 0.0), (2, 10.0))]
+
+    def _events(self):
+        return [{"monotonic_s": t, "event": "press", "keysym": k}
+                for t, k in ((2.0, "a"), (3.0, "b"), (4.0, "c"))]
+
+    def test_without_a_marker_two_bursts_in_a_gap_stay_unmapped(self):
+        import keymap
+        r = keymap.build_map(self._states(), self._events(), 0.0, quiet=0.5, margin=0.05)
+        self.assertEqual((r["unmapped_keys"], r["not_captured"]), (3, []))
+
+    def test_a_marker_smaller_than_the_bursts_excuses_nothing(self):
+        import keymap
+        lines = [{"request_s": 10.0, "seq": 2, "merge": {"size": 2, "claimed": 2}}]
+        r = keymap.build_map(self._states(), self._events(), 0.0, quiet=0.5, margin=0.05,
+                             requests=lines)
+        self.assertEqual((r["unmapped_keys"], r["not_captured"]), (3, []))
+
+    def test_a_marker_naming_the_merge_lists_the_earlier_groups(self):
+        import keymap
+        lines = [{"request_s": 10.0, "seq": 2, "merge": {"size": 3, "claimed": 3}}]
+        r = keymap.build_map(self._states(), self._events(), 0.0, quiet=0.5, margin=0.05,
+                             requests=lines)
+        self.assertEqual(r["unmapped_keys"], 0)
+        self.assertEqual(r["not_captured"], [{"keys": ["a"]}, {"keys": ["b"]}])
+        self.assertEqual([g["keys"] for g in r["merged_claimed"]], [["c"]])
+        self.assertIn("not captured groups: 2", r["summary"])
