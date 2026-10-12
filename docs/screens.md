@@ -56,8 +56,8 @@ do?". The answer goes in `owner.tsv`, with a rule in `kinds.tsv` if the screen i
 `python3 tools/screens/render.py <record|run id> <state> [-o out.png]` (or `--savestate`) writes
 a 640x400 PNG: 80x25 cells of 8x16 dots, the 16 standard VGA colours, blink off (attribute bit 7 is a
 bright background). A record keeps only a screen's text and digest, not its attributes, so the
-picture comes from the state's savestate, found by name under `--from` directories, `.cache/evidence/E015`
-(`python3 tools/verify_evidence.py E015`) or `scratch/human/sessions/*/snapshots`, and checked against
+picture comes from the state's savestate, found by name under `--from` directories, or in `.cache/evidence/E015`
+(`python3 tools/verify_evidence.py E015`) by its release asset name `<sha256[:16]>-<name>` or `scratch/human/sessions/*/snapshots`, and checked against
 the sha256 of `evidence/E015/<run>.manifest.json`. The glyphs are the font in the savestate (VGA plane
 2); if it holds none, the pinned [`font-goal-8x16.bin`](../static/screens/font-goal-8x16.bin) is used
 and the run says so. PNGs and screens stay in this private repository and with the owner (CLAUDE.md

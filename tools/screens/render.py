@@ -125,24 +125,41 @@ def render_savestate(ss):
     return png(pixels(scr.chars, scr.attrs, glyphs), savestate.COLS * CELL_W, savestate.ROWS * CELL_H), source
 
 
+def resolve_state(name, want, asset, dirs, cache_dir, extra=()):
+    """The file of a state: by its name under `dirs` and `extra` (the owner's session folders), or in
+    `cache_dir` (the evidence cache of tools/verify_evidence.py) by its release asset name
+    `<sha256[:16]>-<name>` (ADR-008) or its plain name. Bytes are checked against `want` (the manifest's
+    sha256) before use; a file that does not match stops the run."""
+    candidates = [Path(d) / name for d in dirs]
+    if asset:
+        candidates.append(Path(cache_dir) / asset)
+    if want:
+        candidates.append(Path(cache_dir) / f"{want[:16]}-{name}")
+    candidates.append(Path(cache_dir) / name)
+    candidates += list(extra)
+    for p in candidates:
+        if p.is_file():
+            if want and hashlib.sha256(p.read_bytes()).hexdigest() != want:
+                raise SystemExit(f"{p} does not match the manifest sha256 {want}")
+            return p
+    return None
+
+
 def find_savestate(run_id, state, dirs):
-    """The savestate of a record state: found by name, verified by the manifest's sha256."""
+    """The savestate of a record state: found by name or release asset name, verified by the manifest's sha256."""
     rec = common.read_record(run_id)
     if state not in rec["states"]:
         raise SystemExit(f"{run_id} has no state {state}")
     name = Path(rec["states"][state]["file"]).name
-    manifest = common.ROOT / "evidence" / run_id.split("-")[0] / f"{run_id}.manifest.json"
-    want = {f["name"]: f["sha256"] for f in json.loads(manifest.read_text())["files"]}.get(name)
     exp = run_id.split("-")[0]
-    candidates = [Path(d) / name for d in dirs]
-    candidates.append(common.ROOT / ".cache" / "evidence" / exp / name)
-    candidates += sorted((common.ROOT / "scratch" / "human" / "sessions").glob(f"*/snapshots/{name}"))
-    for p in candidates:
-        if p.is_file():
-            if want and hashlib.sha256(p.read_bytes()).hexdigest() != want:
-                raise SystemExit(f"{p} does not match the sha256 in {manifest.name}")
-            return p
-    raise SystemExit(f"{name} not found; fetch it: python3 tools/verify_evidence.py {exp}, or pass --from DIR")
+    manifest = common.ROOT / "evidence" / exp / f"{run_id}.manifest.json"
+    entry = {f["name"]: f for f in json.loads(manifest.read_text())["files"]}.get(name, {})
+    extra = sorted((common.ROOT / "scratch" / "human" / "sessions").glob(f"*/snapshots/{name}"))
+    p = resolve_state(name, entry.get("sha256"), entry.get("asset"), dirs,
+                      common.ROOT / ".cache" / "evidence" / exp, extra)
+    if p is None:
+        raise SystemExit(f"{name} not found; fetch it: python3 tools/verify_evidence.py {exp}, or pass --from DIR")
+    return p
 
 
 def main(argv=None):
