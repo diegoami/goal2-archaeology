@@ -1,0 +1,17 @@
+WARNING: call #1 of 214B:0688: uncompared register BX at the return: the original 0x7ABD, the model 0x0000 (counted, not an error; further ones counted only)
+WARNING: call #1 of 214B:0688: uncompared register SI at the return: the original 0x7B64, the model 0x6130 (counted, not an error; further ones counted only)
+WARNING: call #1 of 214B:0688: uncompared register DI at the return: the original 0x7B64, the model 0x7B62 (counted, not an error; further ones counted only)
+WARNING: call #1 of 214B:0688: uncompared register FLAGS at the return: the original 0x7202, the model 0x7206 (counted, not an error; further ones counted only)
+E011-r0001: start E011-r0001-watchstart.sav (captain screen, seed 0x9115); emulated 4149 clock ticks, 182188 seed writes, 292.2 s; full time: minute 91 sub-tick 36, seed 0xb621, score [1, 1] (record [1, 1], seed 0xb621); 000E strays: none; hook f004: {'214B:0688': 185789}
+WARNING: call #1 of 214B:0688: uncompared register BX at the return: the original 0x7ABD, the model 0x0000 (counted, not an error; further ones counted only)
+WARNING: call #1 of 214B:0688: uncompared register SI at the return: the original 0x7B64, the model 0x6130 (counted, not an error; further ones counted only)
+WARNING: call #1 of 214B:0688: uncompared register DI at the return: the original 0x7B64, the model 0x7B62 (counted, not an error; further ones counted only)
+WARNING: call #1 of 214B:0688: uncompared register FLAGS at the return: the original 0x7202, the model 0x7206 (counted, not an error; further ones counted only)
+  E011-r0001: reads 49/49
+  outputs: experiments/E021-m0-whole-match/out/20261012T044957141282Z-f004-E011-r0001.json
+E011-r0002: start E011-r0002-watchstart.sav (captain screen, seed 0x9115); emulated 4149 clock ticks, 182188 seed writes, 330.7 s; full time: minute 91 sub-tick 36, seed 0xb621, score [1, 1] (record [1, 1], seed 0xb621); 000E strays: none; hook f004: {'214B:0688': 185789}
+  E011-r0002: reads 49/49
+  outputs: experiments/E021-m0-whole-match/out/20261012T045606238083Z-f004-E011-r0002.json
+hooked calls of 214B:0688: 371578; proved side by side with no difference: 371578; differences: 0
+uncompared-register differences (warnings, proved calls): BX 371578, CX 0, SI 371578, DI 371578, ES 0, FLAGS 301666
+match: 98/98
