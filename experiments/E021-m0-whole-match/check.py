@@ -42,6 +42,8 @@ sys.path.insert(0, str(ROOT / "runtime" / "driver"))
 sys.path.insert(0, str(ROOT / "runtime" / "emul"))
 import driver  # noqa: E402
 from watched_match import WatchedMatch  # noqa: E402
+sys.path.insert(0, str(ROOT / "runtime" / "model"))
+import keeping  # noqa: E402
 
 OUT = Path(__file__).resolve().parent / "out"
 DL = ROOT / ".cache/dl"
@@ -119,11 +121,55 @@ def off_seed_increment(step, wrong):
     return fn
 
 
+SKILL_READER = "0791:278A"
+RECORD_SIZE = 20            # 2797 `mov dx, 0x14; mul dx` (the player array's stride)
+
+
+def skill_reader(gate=None, product_plus=0):
+    """0791:278A as a hook fn (M1a): reads the routine's inputs from the guest and decides its result
+    with keeping.contest_trace. Far-called with `retf 6` (2879): stack args off (bp+6), seg (bp+8),
+    element (bp+0xA) = arg(0), arg(1), arg(2). Reads: the pitch record's word +0xD (2793, the player
+    index), +0x13 (27F1), +0x11 (2846), +6 (2852); the player record at the far pointer DS:A91B
+    (279C) + 0x14 * index, bytes +0xC (27AB), +0xE (27D4), +4/+5/+7 (3A06, seg_1771_05.asm:3A06-3A7F,
+    keeping.skill_value), the tables DS:6D25 and DS:6DCD (4096 bytes each: see below), DS:8327 (2833) and
+    DS:80FC (2859). Results: AX = the value (2870-2873); DX is what the last `div` left (281C's
+    remainder, or 2865's `value % 0x10` when the manager's share is added), which the proof compares
+    (REGS_RETURNED). `gate` replaces keeping.KEEPER_EVENTS and `product_plus` adds to the value
+    (the falsifiers)."""
+    def fn(g):
+        off, seg, element = g.arg(0), g.arg(1), g.arg(2)
+        pitch = seg * 16 + off
+        index = g.word_at(pitch + 0xD)
+        rec = g.far(0xA91B) + RECORD_SIZE * index
+        p = lambda i: g.mem(rec + i, 1)[0]
+        pb = lambda i: g.mem(pitch + i, 1)[0]
+        # the tables are indexed by record bytes (+7, +5): the original reads DS memory past the
+        # documented 168 / 192 bytes (E011-r0001 call #77: +5 = 0x10, row 16 of DS:6DCD), so the
+        # model gets the following bytes of the data segment too (12 * 255 + 255 < 4096)
+        classes = g.mem(g.DS * 16 + 0x6D25, 4096)
+        profiles = g.mem(g.DS * 16 + 0x6DCD, 4096)
+        saved = keeping.KEEPER_EVENTS
+        if gate is not None:
+            keeping.KEEPER_EVENTS = gate
+        try:
+            value, dx = keeping.contest_trace(p(4), p(5), p(7), p(0xC), p(0xE), element, classes, profiles,
+                                              pb(0x13), pb(0x11), g.rd(0x8327, 1), g.rd(0x80FC, 1), pb(6))
+        finally:
+            keeping.KEEPER_EVENTS = saved
+        g.set_reg("ax", (value + product_plus) & 0xFFFF)
+        g.set_reg("dx", dx)
+    return fn
+
+
 HOOKS = {"none": None, "f004": f004_step(), "f004+hidden-write": hidden_write(f004_step()),
          "f004+raw-write": raw_write(f004_step()), "f004+831D-write": clock_write(f004_step()),
          "f004+inc+1-off-seed": off_seed_increment(f004_step(), f004_step(inc=INC + 1)),
          "f004-mult+1": f004_step(mult=MULT + 1),
          "f004-inc+1": f004_step(inc=INC + 1)}
+
+
+M1 = {"m1-278a": {}, "m1-278a+gate-0x18": {"gate": frozenset({0x18})},
+      "m1-278a+product+1": {"product_plus": 1}}
 
 
 def asset(entry, release="E011"):
@@ -170,7 +216,10 @@ def write_out(label, run_id, payload):
 
 def emulate(data, hook_name, inputs=()):
     m = WatchedMatch(data)
-    if HOOKS[hook_name] is not None:
+    if hook_name in M1:             # M0's substitution and 278A's, each proved at every call
+        m.hook(LCG_STEP, HOOKS["f004"], prove=True)
+        m.hook(SKILL_READER, skill_reader(**M1[hook_name]), prove=True)
+    elif HOOKS[hook_name] is not None:
         m.hook(LCG_STEP, HOOKS[hook_name], prove=True)
     for fn in inputs:
         fn(m)
@@ -187,12 +236,12 @@ def emulate(data, hook_name, inputs=()):
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("--runs", default=str(ROOT / "runs/E011"))
-    ap.add_argument("--hook", choices=sorted(HOOKS), default="none")
+    ap.add_argument("--hook", choices=sorted(HOOKS) + sorted(M1), default="none")
     a = ap.parse_args(argv)
     records = sorted(Path(a.runs).glob("E011-r*.json"))
     n = ok = 0
     failed = []
-    hooked = proved = 0
+    hooked = proved = reader_hooked = reader_proved = 0
     scratch = {}
     differences = []
     for p in records:
@@ -212,6 +261,11 @@ def main(argv=None):
         ok += hit
         hooked += m.hook_counts.get(LCG_STEP, 0)
         proved += m.proved_calls.get(LCG_STEP, 0)
+        per_record = m.hook_counts.get(SKILL_READER, 0)
+        reader_hooked += per_record
+        reader_proved += m.proved_calls.get(SKILL_READER, 0)
+        if a.hook in M1:
+            print(f"  {rid}: {SKILL_READER} calls {per_record}, proved {m.proved_calls.get(SKILL_READER, 0)}")
         for r, c in m.scratch_differences.get(LCG_STEP, {}).items():
             scratch[r] = scratch.get(r, 0) + c
         ft = full_time(record)
@@ -255,6 +309,9 @@ def main(argv=None):
     if a.hook != "none":
         print(f"hooked calls of {LCG_STEP}: {hooked}; proved side by side with no difference: {proved};"
               f" differences: {len(differences)}" + (f" (first: {differences[0]})" if differences else ""))
+        if a.hook in M1:
+            print(f"hooked calls of {SKILL_READER}: {reader_hooked}; proved side by side with no difference:"
+                  f" {reader_proved}")
         print("uncompared-register differences (warnings, proved calls): "
               + ", ".join(f"{r} {c}" for r, c in scratch.items()))
     else:

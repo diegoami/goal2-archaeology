@@ -356,6 +356,35 @@ class RealGuestTests(unittest.TestCase):
                        "call #2 of 214B:0688: written byte #0 differs: the original wrote"
                        " 0x2F at linear 0x35D76 (DS:8336), the model wrote 0x30 at linear 0x35D76 (DS:8336)")
 
+    def prove_reader(self, fn, ticks=400):
+        from check import SKILL_READER, skill_reader
+        from watched_match import WatchedMatch
+        m = WatchedMatch(watchstart_or_skip(self))
+        m.hook(SKILL_READER, fn, prove=True)
+        m.run(max_ticks=ticks)
+        return m
+
+    def test_the_skill_reader_278a_is_proved_by_the_model(self):
+        # T42: keeping.contest_trace decides 0791:278A's AX and DX; every call proved
+        from check import SKILL_READER, skill_reader
+        m = self.prove_reader(skill_reader())
+        self.assertGreater(m.proved_calls[SKILL_READER], 0)
+        self.assertEqual(m.proved_calls[SKILL_READER], m.hook_counts[SKILL_READER])
+
+    def test_the_skill_reader_falsifiers_are_stopped(self):
+        from check import skill_reader
+        from watched_match import ProofError
+        with self.assertRaises(ProofError):
+            self.prove_reader(skill_reader(product_plus=1), ticks=3000)
+
+    def test_the_gate_falsifier_is_not_reached_by_e011(self):
+        # T42 DW2 as amended (2026-10-12): no 278A call in E011 reaches the 282D-2837 keeper set
+        # test with an event in {3, 4, 0x18}, so the pre-T40 gate proves; #164 tracks a match
+        # that reaches it, and then this test must expect a ProofError
+        from check import SKILL_READER, skill_reader
+        m = self.prove_reader(skill_reader(gate=frozenset({0x18})), ticks=3000)
+        self.assertGreater(m.proved_calls[SKILL_READER], 0)
+
     def test_an_undeclared_first_key_read_raises(self):
         # review R2: the queued Enter is for CC7B's read (return 0791:CEED) only
         from watched_match import KeyWaitError, WatchedMatch
