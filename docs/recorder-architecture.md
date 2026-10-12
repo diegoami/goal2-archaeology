@@ -68,6 +68,40 @@ layout, or any UI. Concretely:
   is the request-line writer (T35 R2 added `pre_sig`). It writes the per-request path bytes
   under `req_path`; that's the single source of truth the staging reads back.
 
+### One save in flight; groups that settle meanwhile merge (T44, issue #128)
+
+One DOSBox-X save takes about 0.8 s (about 53 write events). Requests sent faster than that
+overwrite each other's savestate, and the ownership guards (T35) refuse to stage the loser: the
+owner's first sitting on the new machine sent 537 requests, 313 of them superseded, in exactly the
+menus where Up/Down is held. So:
+
+- **At most one request in flight.** `Watcher.request_in_flight()` (`_submitted != _finished`) is
+  read before every send in `Watcher.run`; the pipeline worker counts `_finished` when a job ends,
+  however it ends: staged, superseded, timed out (`SAVE_TIMEOUT_S`) or the emulator gone. No burst,
+  cadence or resume request goes out while it is true. What is due waits, unconsumed.
+- **One request for the groups that settled meanwhile.** The key groups (`Burst`) that settle
+  while a request is in flight stay queued; when it finishes ONE request is sent for all of them
+  (`Burst.take_all`). Each group records the shared `request_time`/`sent` and its merge (`size`,
+  `position`); the request line in `requests.jsonl` carries `merge: {size, claimed, group_last_s}`
+  (a lone group is size 1). A cadence tick due meanwhile is sent once, after it (`n` catches up
+  past every tick due, none doubled).
+- **Option A (the owner, 2026-10-12): the snapshot of a merged request is claimed as the screen
+  after the LAST group.** The screens after the earlier groups of the merge were never captured, and
+  are recorded as such, never attributed. `keymap.build_map` lists them under `not_captured`
+  (their keys) and the claimed last group under `merged_claimed` (its screen after is the snapshot,
+  its screen before was not captured, so no transition is claimed); none of them counts as
+  unmapped. A gap with several bursts is a merge only when the closing request's marker names at
+  least as many groups; otherwise it stays unmapped as before.
+- **Nothing of T35/T39b changes.** A merge changes which groups a request claims, never what proves
+  the request's write: the per-request path, `pre_sig`/`accept_sig` and the write-event count are
+  checked per request as before (`check_attribution` is untouched). The supersession checks stay
+  as defence in depth (their tests switch the gate off). A pause still sends nothing.
+- **The checks follow the merge.** `scripted_keys.check_bursts` and `check_request_windows`, given
+  the sitting's request lines, check every press lies in the interval of a burst request's claimed
+  group, that no merge declares fewer groups than its presses form, and that each request opened
+  after its claimed group's last key and not after the next request's claimed group had ended;
+  without the lines they keep the old one-snapshot-per-group rule.
+
 `runtime/human/play.sh` is also game-agnostic. The interesting generic pieces:
 
 - Spawns DOSBox-X on a private nested X server (Xephyr), so a key logger attached to that

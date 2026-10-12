@@ -1487,6 +1487,27 @@ class OneSaveInFlightTests(unittest.TestCase):
         self.assertAlmostEqual(ticks[2], 60.0, delta=0.05)
         self.assertEqual(len(ticks), 3, ticks)
 
+    def test_the_resume_request_waits_for_the_request_in_flight(self):
+        now = [0.0]
+        watcher = rec.Watcher.__new__(rec.Watcher)
+        watcher.clock = lambda: now[0]
+        watcher.sleep = lambda secs: now.__setitem__(0, now[0] + secs)
+        watcher.t0 = 0.0
+        watcher.dbx = Mock()
+        watcher.dbx.poll.return_value = None
+        watcher.log = lambda msg: None
+        watcher.resume_due = True
+        watcher.request_in_flight = lambda: now[0] < 3.0
+        ticks = []
+        watcher.tick = lambda **kw: ticks.append((round(now[0], 2), kw.get("origin", "watcher")))
+        keys = Mock()
+        keys.error = None
+        keys.proc.poll.return_value = None
+        keys.drain = lambda: []
+        watcher.run(quit_after=5, keys=keys)
+        self.assertEqual(ticks[0][1], "resume", ticks)
+        self.assertGreaterEqual(ticks[0][0], 3.0, ticks)
+
 
 class MergedMapTests(unittest.TestCase):
     """T44: a gap with several bursts is a merge only when the closing request's marker says so."""
