@@ -576,10 +576,10 @@ LAB_0791_284F:
 }
 
 
-// ---- 0791:287C  rand_skill  (f_0791_287C; Ghidra 2000:287C, __stdcall16far; found by routines.tsv)
-// rand(278A(pitch, element) div 32 + 1) — the contest draw helper over a player's derived skill  [established; F015; read code/seg_0791_04.asm]
+// ---- 0791:287C  skill_draw_passes  (f_0791_287C; Ghidra 2000:287C, __stdcall16far; found by routines.tsv)
+// returns 1 with probability (n-1)/n, n = 278A(pitch, element) div 32 + 1, and 0 with probability 1/n: 06D0(n) is true exactly when the draw is 1 and 287C returns its negation (28A0-28A4); nine call sites in E011, each a pass/fail gate, none a comparison between players  [established; F015; F022; read code/seg_0791_04.asm]
 
-bool __stdcall16far rand_skill(undefined4 param_1,undefined2 param_2)
+bool __stdcall16far skill_draw_passes(undefined4 param_1,undefined2 param_2)
 
 {
   char cVar1;

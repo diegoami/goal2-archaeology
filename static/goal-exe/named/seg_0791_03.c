@@ -165,7 +165,7 @@ void __stdcall16far f_0791_3323(undefined4 param_1)
   
   uVar2 = (undefined2)((ulong)param_1 >> 0x10);
   uVar1 = f_0791_3111((int)param_1,uVar2);
-  f_0791_384C((int)param_1,uVar2,uVar1);
+  move_ball_to_slot((int)param_1,uVar2,uVar1);
   return;
 }
 
@@ -226,11 +226,12 @@ void f_0791_333F(int param_1)
 }
 
 
-// ---- 0791:34C1  f_0791_34C1  (f_0791_34C1; Ghidra 2000:34C1, __stdcall16far; found by routines.tsv)
+// ---- 0791:34C1  launch_ball  (f_0791_34C1; Ghidra 2000:34C1, __stdcall16far; found by routines.tsv)
+// (pitch, event, target): sets DS:8302 = 1 and DS:830B = the kicker's slot, derives the ball velocities (DS:82FC/82FE) and timer (DS:8300) from the target's distance, stores the event in DS:8327 (6 may become 7 or 8), then by event: 1-2 lengthen the timer by the skill DS:0779[event] (368D), 3-4 the same with penalties (36DA), any other (not 8, timer above 1, DS:830B != DS:830C) draw 287C and on 0 miscue the kick (372C-37C2)  [likely; F022]
 
 /* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
 
-void __stdcall16far f_0791_34C1(undefined4 param_1,uint param_2,undefined2 param_3)
+void __stdcall16far launch_ball(undefined4 param_1,uint param_2,undefined2 param_3)
 
 {
   char cVar1;
@@ -354,7 +355,7 @@ void __stdcall16far f_0791_34C1(undefined4 param_1,uint param_2,undefined2 param
     sys_set_bit_mask_08DF(0x34a1,0xa000,CONCAT11(extraout_AH,(undefined1)param_2));
     if (bVar8) {
       if ((((param_2 != 8) && (1 < ball_record.timer)) && (DS:830B != DS:830C)) &&
-         (cVar1 = rand_skill(iVar6,uVar7,*(undefined1 *)(param_2 + 0x779)), cVar1 == '\0')) {
+         (cVar1 = skill_draw_passes(iVar6,uVar7,*(undefined1 *)(param_2 + 0x779)), cVar1 == '\0')) {
         DS:830C = '\0';
         cVar1 = f_0791_045D(*(undefined1 *)(iVar6 + 6));
         if (cVar1 == '\0') {
@@ -420,11 +421,12 @@ void __stdcall16far f_0791_34C1(undefined4 param_1,uint param_2,undefined2 param
 }
 
 
-// ---- 0791:384C  f_0791_384C  (f_0791_384C; Ghidra 2000:384C, __stdcall16far; found by routines.tsv)
+// ---- 0791:384C  move_ball_to_slot  (f_0791_384C; Ghidra 2000:384C, __stdcall16far; found by routines.tsv)
+// (pitch, slot): launches the ball (34C1 event 6, or 0x0B when DS:80FA is set) toward a slot; when the pitch record is the slot itself and 06D0(3) holds, 287C(pitch, 10) decides a dribble's sideways adjustment (39F9-3A2B)  [likely; F022]
 
 /* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
 
-void __stdcall16far f_0791_384C(undefined4 param_1,uint param_2)
+void __stdcall16far move_ball_to_slot(undefined4 param_1,uint param_2)
 
 {
   undefined2 uVar1;
@@ -467,10 +469,10 @@ void __stdcall16far f_0791_384C(undefined4 param_1,uint param_2)
       *(undefined1 *)((int)&pitch_records[0].state + param_2 * 0x16) = 5;
       DS:830C = (char)param_2;
       if (pitch_records[0].state == 0) {
-        f_0791_34C1(iVar7,uVar8,6,local_4);
+        launch_ball(iVar7,uVar8,6,local_4);
       }
       else {
-        f_0791_34C1(iVar7,uVar8,0xb,local_4);
+        launch_ball(iVar7,uVar8,0xb,local_4);
       }
       local_4 = DS:8313;
       if (((*(byte *)(iVar7 + 6) == param_2) && (ball_record.vel_y != 0)) &&
@@ -489,7 +491,7 @@ void __stdcall16far f_0791_384C(undefined4 param_1,uint param_2)
         cVar2 = (byte)local_4 + cVar2;
         local_4 = CONCAT11(local_4._1_1_ + cVar3,cVar2);
         cVar3 = f_0791_2DCA(local_4);
-        if ((cVar3 == '\0') && (cVar3 = rand_skill(iVar7,uVar8,10), cVar3 != '\0')) {
+        if ((cVar3 == '\0') && (cVar3 = skill_draw_passes(iVar7,uVar8,10), cVar3 != '\0')) {
           iVar7 = (int)cVar2;
           if (iVar7 < 0) {
             iVar7 = -iVar7;
@@ -509,10 +511,10 @@ void __stdcall16far f_0791_384C(undefined4 param_1,uint param_2)
         cVar3 = sys_long_mul_0279();
         local_4 = CONCAT11(local_4._1_1_ + cVar2,(byte)local_4 + cVar3);
       }
-      uVar5 = f_0791_835F((ball *)&ball_record,0xb000);
+      uVar5 = ball_travel((ball *)&ball_record,0xb000);
       if ((uVar5 < 0x15) &&
          (((uVar5 = CONCAT11((char)(uVar5 >> 8),DS:830C), DS:830C == DS:830B ||
-           (uVar5 = f_0791_835F((ball *)&ball_record,0xb000), uVar5 < 0xb)) ||
+           (uVar5 = ball_travel((ball *)&ball_record,0xb000), uVar5 < 0xb)) ||
           (uVar5 = u214b_random_coin_flip(), (char)uVar5 == '\0')))) {
         uVar5 = uVar5 & 0xff00;
       }
@@ -558,9 +560,10 @@ void __stdcall16far f_0791_384C(undefined4 param_1,uint param_2)
 }
 
 
-// ---- 0791:3B15  f_0791_3B15  (f_0791_3B15; Ghidra 2000:3B15, __stdcall16far; found by routines.tsv)
+// ---- 0791:3B15  long_ball_target  (f_0791_3B15; Ghidra 2000:3B15, __stdcall16far; found by routines.tsv)
+// kicking (element 2) div 4 drawn by 06B1 with a floor of 0x1E, signed by 2BE5, added to the target row, then 34C1 with event 0x0A  [likely; F022]
 
-void __stdcall16far f_0791_3B15(undefined4 param_1)
+void __stdcall16far long_ball_target(undefined4 param_1)
 
 {
   undefined2 uVar1;
@@ -586,7 +589,7 @@ void __stdcall16far f_0791_3B15(undefined4 param_1)
   local_4._1_1_ = SUB21(uVar1,1);
   local_4 = CONCAT11(local_4._1_1_ + cVar2,(byte)uVar1);
   DS:830C = -1;
-  f_0791_34C1(uVar5,uVar6,10,local_4);
+  launch_ball(uVar5,uVar6,10,local_4);
   DS:8303 = 1;
   f_0791_2AA3(*(undefined1 *)((DS:830C == '\0') + 0x78a));
   DS:830C = 0;
@@ -611,7 +614,7 @@ void __stdcall16far f_0791_3B9E(undefined4 param_1,int param_2)
   uVar3 = (undefined2)((ulong)param_1 >> 0x10);
   uVar2 = (undefined2)param_1;
   cVar1 = f_0791_2C54(uVar2,uVar3);
-  f_0791_34C1(uVar2,uVar3,*(undefined1 *)(cVar1 + 0x78c),uVar4);
+  launch_ball(uVar2,uVar3,*(undefined1 *)(cVar1 + 0x78c),uVar4);
   f_0791_2AA3(CONCAT11(extraout_AH,3));
   DS:8303 = u214b_random_coin_flip();
   f_0791_4D3F(uVar2,uVar3);
@@ -634,7 +637,7 @@ void __stdcall16far f_0791_3BEE(undefined4 param_1)
       f_0791_3323((int)param_1,uVar2);
     }
     else {
-      f_0791_3B15((int)param_1,uVar2);
+      long_ball_target((int)param_1,uVar2);
     }
   }
   else {
@@ -657,9 +660,10 @@ void f_0791_3C20(char param_1)
 }
 
 
-// ---- 0791:3C3F  f_0791_3C3F  (f_0791_3C3F; Ghidra 2000:3C3F, __stdcall16far; found by routines.tsv)
+// ---- 0791:3C3F  shot_or_header  (f_0791_3C3F; Ghidra 2000:3C3F, __stdcall16far; found by routines.tsv)
+// (pitch, event 1-4, template): for DS:8324 = 0 draws 287C(pitch, DS:078E[event == 2]) (11, or 4 for event 2) and sets DS:80FB to 1 unless it, 06D0(4) and 29B3 all fail, then 34C1 with the event  [likely; F022]
 
-void __stdcall16far f_0791_3C3F(undefined4 param_1,int param_2,undefined1 param_3)
+void __stdcall16far shot_or_header(undefined4 param_1,int param_2,undefined1 param_3)
 
 {
   char *pcVar1;
@@ -679,16 +683,16 @@ void __stdcall16far f_0791_3C3F(undefined4 param_1,int param_2,undefined1 param_
   uVar5 = (undefined2)param_1;
   uVar6 = (undefined2)((ulong)param_1 >> 0x10);
   if ((DS:8324 == '\0') &&
-     (((cVar2 = rand_skill(uVar5,uVar6,*(undefined1 *)((param_2 == 2) + 0x78e)), cVar2 != '\0' ||
-       (cVar2 = u214b_random_is_one(4), cVar2 != '\0')) || (cVar2 = f_0791_29B3(), cVar2 != '\0'))))
-  {
+     (((cVar2 = skill_draw_passes(uVar5,uVar6,*(undefined1 *)((param_2 == 2) + 0x78e)),
+       cVar2 != '\0' || (cVar2 = u214b_random_is_one(4), cVar2 != '\0')) ||
+      (cVar2 = f_0791_29B3(), cVar2 != '\0')))) {
     pitch_records[0]._19_1_ = 1;
   }
   else {
     pitch_records[0]._19_1_ = 0;
   }
   uVar4 = f_0791_2C86(uVar5,uVar6,DS:0646);
-  f_0791_34C1(uVar5,uVar6,param_2,uVar4);
+  launch_ball(uVar5,uVar6,param_2,uVar4);
   f_0791_2AA3(CONCAT11(extraout_AH,param_3));
   if (DS:8326 == '\0') {
     cVar2 = pitch_slot_side(uVar5,uVar6);
@@ -785,7 +789,7 @@ void __stdcall16far f_0791_3DF6(char *param_1)
                       );
   }
   DS:830C = -1;
-  f_0791_34C1(pcVar3,uVar4,5,local_4);
+  launch_ball(pcVar3,uVar4,5,local_4);
   f_0791_2AA3(*(undefined1 *)((DS:830C == '\0') + 0x794));
   DS:830C = 0;
   cVar1 = u214b_random_is_one(8);
@@ -800,7 +804,7 @@ void __stdcall16far f_0791_3DF6(char *param_1)
 void __stdcall16far f_0791_3EC5(undefined4 param_1,undefined1 param_2)
 
 {
-  f_0791_3C3F((int)param_1,(int)((ulong)param_1 >> 0x10),1,param_2);
+  shot_or_header((int)param_1,(int)((ulong)param_1 >> 0x10),1,param_2);
   return;
 }
 
@@ -810,14 +814,15 @@ void __stdcall16far f_0791_3EC5(undefined4 param_1,undefined1 param_2)
 void __stdcall16far f_0791_3EDF(undefined4 param_1)
 
 {
-  f_0791_3C3F((int)param_1,(int)((ulong)param_1 >> 0x10),2,0x14);
+  shot_or_header((int)param_1,(int)((ulong)param_1 >> 0x10),2,0x14);
   return;
 }
 
 
-// ---- 0791:3EF8  f_0791_3EF8  (f_0791_3EF8; Ghidra 2000:3EF8, __stdcall16far; found by routines.tsv)
+// ---- 0791:3EF8  long_kick_target  (f_0791_3EF8; Ghidra 2000:3EF8, __stdcall16far; found by routines.tsv)
+// the same as 3B15 with b = (argument == 9): element DS:0796[b] (4 or 2), divisor DS:0798[b], floor DS:079C[b], event DS:079A[b], templates 0x18 or 0x17  [likely; F022]
 
-void __stdcall16far f_0791_3EF8(undefined4 param_1,int param_2)
+void __stdcall16far long_kick_target(undefined4 param_1,int param_2)
 
 {
   undefined2 uVar1;
@@ -848,7 +853,7 @@ void __stdcall16far f_0791_3EF8(undefined4 param_1,int param_2)
   cVar2 = sys_long_mul_0279();
   local_4._1_1_ = SUB21(uVar1,1);
   local_4 = CONCAT11(local_4._1_1_ + cVar2,(byte)uVar1);
-  f_0791_34C1(uVar7,uVar8,*(undefined1 *)(bVar9 + 0x79a),local_4);
+  launch_ball(uVar7,uVar8,*(undefined1 *)(bVar9 + 0x79a),local_4);
   DS:8303 = 1;
   if (bVar9) {
     f_0791_2AA3(CONCAT11(extraout_AH,0x17));
@@ -885,7 +890,7 @@ void __stdcall16far f_0791_3FAD(char *param_1,int param_2)
     cVar2 = u214b_random_1_to_n(0x28);
     local_4 = CONCAT11(((char *)form_delta)['\0' < pcVar3[1]] * cVar2,cVar1 * '\f');
   }
-  f_0791_34C1(pcVar3,uVar4,param_2,local_4);
+  launch_ball(pcVar3,uVar4,param_2,local_4);
   DS:8303 = 1;
   if (param_2 == 0xb) {
     f_0791_2AA3(CONCAT11(extraout_AH,0x16));
@@ -908,7 +913,7 @@ void __stdcall16far f_0791_408E(undefined4 param_1)
   cVar1 = u214b_random_coin_flip();
   uVar2 = (undefined2)((ulong)param_1 >> 0x10);
   if (cVar1 == '\0') {
-    f_0791_3EF8((int)param_1,uVar2,0xb);
+    long_kick_target((int)param_1,uVar2,0xb);
   }
   else {
     f_0791_3FAD((int)param_1,uVar2,0xb);
@@ -1258,58 +1263,6 @@ undefined1 f_0791_4532(int param_1)
       }
       else {
         local_3 = 1;
-      }
-    }
-  }
-  return local_3;
-}
-
-
-// ---- 0791:4649  f_0791_4649  (f_0791_4649; Ghidra 2000:4649, __stdcall16near; found by routines.tsv)
-
-undefined1 f_0791_4649(int param_1)
-
-{
-  char cVar1;
-  int iVar2;
-  int iVar3;
-  undefined2 unaff_SS;
-  undefined1 local_3;
-  
-  local_3 = 0;
-  iVar2 = f_0791_42CB((int)*(undefined4 *)(param_1 + 6),
-                      (int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10));
-  cVar1 = player_effective_tactic
-                    ((int)*(undefined4 *)(param_1 + 6),
-                     (int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10),6);
-  iVar3 = (int)cVar1 << 2;
-  cVar1 = player_effective_tactic
-                    ((int)*(undefined4 *)(param_1 + 6),
-                     (int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10),5);
-  if ((int)(uint)*(byte *)(cVar1 * 8 + iVar3 + iVar2 + 0x7cb) <
-      (int)*(char *)((int)*(undefined4 *)(param_1 + 6) + 0xc)) {
-    iVar2 = f_0791_42CB((int)*(undefined4 *)(param_1 + 6),
-                        (int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10));
-    if (iVar2 == 1) {
-      local_3 = f_0791_2D6D((int)*(undefined4 *)(param_1 + 6),
-                            (int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10),0xf);
-    }
-    else if (iVar2 == 2) {
-      local_3 = f_0791_2D6D((int)*(undefined4 *)(param_1 + 6),
-                            (int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10),0);
-    }
-    else if (iVar2 == 3) {
-      cVar1 = f_0791_2D10((int)*(undefined4 *)(param_1 + 6),
-                          (int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10),10);
-      if (((cVar1 == '\0') ||
-          (cVar1 = f_0791_2BB1((int)*(undefined4 *)(param_1 + 6),
-                               (int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10)), cVar1 == '\x02')
-          ) || (((player *)players)[*(int *)((int)*(undefined4 *)(param_1 + 6) + 0xd)].position == 1
-               )) {
-        local_3 = 1;
-      }
-      else {
-        local_3 = 0;
       }
     }
   }
