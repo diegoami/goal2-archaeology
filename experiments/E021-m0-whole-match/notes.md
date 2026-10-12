@@ -240,10 +240,11 @@ at every call. `strength_reader` is the adapter: it reads the word at `[bp+6]`, 
 through `DS:A91B` and the foot tables `DS:0E60` / `DS:0E7C`, calls `quick_engine.QuickMatch.player_strength`
 unchanged (through `condition._Record`) and sets AX; DX is what the original leaves, which the proof
 compares, and the docstring derives it from the listing (3216's `mul`, 214B:0C57's `mov dx, ax`, 3041's
-`mov dx, ax`, the halving `idiv`). The falsifiers `m1-377e+result+1` and `m1-377e+form-0x21` each stop
+`mov dx, ax`, the halving `idiv` of the value before halving). The branches, the pre-halving value and
+the tally come from the model's own run (`quick_engine.QuickMatch.strength_trace`, which
+`player_strength` returns the value of). The falsifiers `m1-377e+result+1` and `m1-377e+form-0x21` each stop
 with a ProofError naming 1771:377E. What E011 does not run is not proved by it: the unavailable
 branch, the clamp, the wrong-foot halving, and the callers 0791:AC67, AFA3, DC7E, 1771:0BC4 and
-000E:2071; F021's literal comparisons stand for those. The adapter's DX for them, and its tally of
-the clamp (derived from the record's bytes), are likewise unproven by E011. A run needs about 10 min
+000E:2071; F021's literal comparisons stand for those. The adapter's DX for them is likewise unproven by E011. A run needs about 10 min
 a record when it is alone on the machine; `emulate`'s limit is 1800 s (it was 600 s, which a loaded
 machine passed).
