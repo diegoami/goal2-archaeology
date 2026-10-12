@@ -1,0 +1,15 @@
+Traceback (most recent call last):
+  File "/home/diego/goal2-archaeology-work/t43-file/experiments/E021-m0-whole-match/reach.py", line 53, in <module>
+    main(sys.argv[1:])
+    ~~~~^^^^^^^^^^^^^^
+  File "/home/diego/goal2-archaeology-work/t43-file/experiments/E021-m0-whole-match/reach.py", line 28, in main
+    m = WatchedMatch(asset(entry))
+                     ~~~~~^^^^^^^
+  File "/home/diego/goal2-archaeology-work/t43-file/experiments/E021-m0-whole-match/check.py", line 180, in asset
+    DL.mkdir(parents=True, exist_ok=True)
+    ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/pathlib/__init__.py", line 1012, in mkdir
+    os.mkdir(self, mode)
+    ~~~~~~~~^^^^^^^^^^^^
+FileExistsError: [Errno 17] File exists: '/home/diego/goal2-archaeology-work/t43-file/.cache/dl'
+exit=1

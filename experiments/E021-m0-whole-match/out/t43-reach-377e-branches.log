@@ -1,0 +1,21 @@
+E011-r0001: ticks 4149, score [1, 1]
+  available: 88
+  calls: 88
+  form < 0x20 (v += form): 84
+  form >= 0x20 (v -= v idiv 16): 4
+  form exactly 0x20: 2
+  form exactly 0x21: 2
+  inside 1..0xFF: 88
+  right foot: 88
+  form values seen (signed): {4: 2, 5: 2, 6: 2, 7: 4, 8: 2, 9: 2, 10: 4, 11: 8, 12: 6, 13: 8, 14: 6, 15: 4, 16: 4, 17: 4, 18: 4, 19: 2, 23: 2, 24: 4, 25: 2, 26: 2, 27: 4, 28: 4, 29: 2, 32: 2, 33: 2}
+E011-r0002: ticks 4149, score [1, 1]
+  available: 88
+  calls: 88
+  form < 0x20 (v += form): 84
+  form >= 0x20 (v -= v idiv 16): 4
+  form exactly 0x20: 2
+  form exactly 0x21: 2
+  inside 1..0xFF: 88
+  right foot: 88
+  form values seen (signed): {4: 2, 5: 2, 6: 2, 7: 4, 8: 2, 9: 2, 10: 4, 11: 8, 12: 6, 13: 8, 14: 6, 15: 4, 16: 4, 17: 4, 18: 4, 19: 2, 23: 2, 24: 4, 25: 2, 26: 2, 27: 4, 28: 4, 29: 2, 32: 2, 33: 2}
+exit=0
