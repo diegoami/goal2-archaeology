@@ -3,8 +3,8 @@
 
 The set tested is the 32 bytes at CS:276A (seg_0791_04.asm:843, first byte 0x18, the rest zero); the
 membership test 23E4:08DF reads element e at bit e of byte e>>3 (quick_engine.wrong_foot's comment),
-so the byte 0x18 (bits 3 and 4) is the set {3, 4}, not the value 0x18 that
-runtime/model/keeping.py names KEEPING_EVENT. This runs the original on a literal record for DS:8327 in 0..0x20 and prints, per
+so the byte 0x18 (bits 3 and 4) is the set {3, 4}, which
+runtime/model/keeping.py names KEEPER_EVENTS. This runs the original on a literal record for DS:8327 in 0..0x20 and prints, per
 value, whether the +0x11 extra (5) was added. Appends nothing to the tree: the output is the log
 the caller redirects to a new file.
 
