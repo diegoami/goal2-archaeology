@@ -52,3 +52,4 @@ exists.
 | T42 | M1a: the skill reader 0791:278A substituted in whole watched matches | #163 | — |
 | T43 | M1b: the strength reader 1771:377E substituted in whole watched matches | #166 | T42 |
 | T44 | the recorder keeps one save in flight and merges the key groups that settle while it writes | #128 | — |
+| T45 | M2a: the contests a watched match reaches, read from the listing (Q010) | #170 | T43 |
