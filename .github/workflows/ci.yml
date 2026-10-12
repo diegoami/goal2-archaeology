@@ -1,15 +1,40 @@
 name: CI
 
+# CI minutes (the owner, 2026-10-12): no run on draft PRs; a new push cancels the run of the commit it
+# supersedes; a push that changes only measured outputs runs nothing; a push to main (the PR already
+# passed on its tree, or a task file, a lesson, a log committed there) runs only the quick checks.
 on:
   push:
     branches: [main]
+    paths-ignore: ['**/*.log', 'experiments/**/out/**']
   pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+    paths-ignore: ['**/*.log', 'experiments/**/out/**']
+
+concurrency:
+  group: ci-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 
 permissions:
   contents: read
 
 jobs:
+  quick:
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python3 tools/check_links.py
+      - run: for f in findings/F*.md; do python3 tools/check_citations.py "$f"; done
+      - run: "! git ls-files | grep -iE '\\.(exe|dat|hlp|hil|pif|bat)$'"
+
   checks:
+    if: github.event_name == 'pull_request' && !github.event.pull_request.draft
     runs-on: ubuntu-latest
     env:
       GH_TOKEN: ${{ github.token }}

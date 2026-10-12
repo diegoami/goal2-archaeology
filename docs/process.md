@@ -70,6 +70,10 @@ Scope, Done when, Hazards, Implementer, Reviewer, Merge after. Rules:
 Rework sends the full review back to the same branch, at most two rounds (one for a fix), then
 escalates. The implementer script resumes a pushed branch; it never starts over. Before a merge the
 main session re-runs the check the approval rests on most; a different result is rework. (L46)
+CI (the owner, 2026-10-12, to save minutes): no run on a draft PR, so a PR is marked ready before
+its review; a new push cancels the run it supersedes; a push that changes only measured outputs
+(`*.log`, `experiments/**/out/**`) runs nothing, so "green CI" is the newest run that covered the
+PR's code; a push to `main` runs only the quick checks (links, citations, no original file).
 
 What the review script guarantees, and why:
 - OpenCode starts with stdin closed; without it a run hangs before it starts. (L10)
