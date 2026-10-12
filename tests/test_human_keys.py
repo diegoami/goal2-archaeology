@@ -359,7 +359,7 @@ class VideoTests(unittest.TestCase):
         sitting, session = None, None
         try:
             sitting = subprocess.Popen(["bash", str(ROOT / "runtime/human/play.sh"), "--video",
-                                        "--quit-after", "8", "--res", "640x400"], env=env,
+                                        "--scale", "1", "--quit-after", "8", "--res", "640x400"], env=env,
                                        stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
                                        start_new_session=True)
             sizes, end = [], time.monotonic() + 30
