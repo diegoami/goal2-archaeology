@@ -75,7 +75,9 @@ export function familyOfName(name, models) {
 // Every family a name stands for: a harness.json key is its stored family and its id's (Sol's
 // round-1 R3 on PR 149: a forced `family` hid an implementer's), an id its own, a bare word itself.
 export function familiesOfName(name, models) {
-  if (models[name]) return familiesOfModel(models[name]);
+  // a bare name is also the family it spells, even when a harness.json key shares it (Sol's
+  // round-2 R1: a key named `claude` holding an OpenAI model replaced the family claude)
+  if (models[name]) return [...new Set([...familiesOfModel(models[name]), ...(name.includes('/') ? [] : [canonicalFamily(name)])])];
   return [canonicalFamily(name.includes('/') ? familyOfId(name.replace(/@.*$/, '')) : name)];
 }
 

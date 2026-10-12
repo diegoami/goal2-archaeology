@@ -32,6 +32,8 @@ export const familyOf = (id) => familyOfId(id);
 // MiniMax-M3 is the heavy model of the MiniMax Token Plan (the owner, 2026-10-06); its ladder
 // is none/thinking, not the effort ladder, so its entry pins `thinking` itself.
 const HEAVY = [/(^|\/)gpt-[\d.]+-sol(-fast)?$/, /(^|\/)glm-5\.3$/, /(^|\/)deepseek-v4-pro(-\d+)?$/, /(^|\/)mimo-v2\.6-pro$/, /(^|\/)qwen3\.8-max$/, /(^|\/)minimax-m3$/, /(^|\/)claude-opus/, /(^|\/)opus$/];
+// the id's model part, past its provider (Sol's round-2 R3 on PR 149: lost with the second classifier)
+const modelPart = (id) => String(id).split('/').slice(1).join('/').toLowerCase();
 export const isHeavy = (id) => HEAVY.some((re) => re.test(modelPart(id)));
 const EFFORTS = ['none', 'minimal', 'low', 'medium', 'high', 'xhigh', 'max'];
 
@@ -107,13 +109,14 @@ function planImplementer(config, choice, sessionFamily) {
   // the blocked list holds for the implementer too (Sol's R3 on PR 149): a model id by its own
   // family and name; an alias or `session` by the session's family, whose endpoint serves it
   // (Sol's round-1 R1: a DeepSeek endpoint's `sonnet` was accepted)
+  // every implementer choice runs on the session's endpoint (Sol's round-2 R2: a model id skipped
+  // this), and a model id is also checked by its own family and name
+  if (!sessionFamily) throw new Error(`Refused: ${value} runs on the session's endpoint, whose family cannot be told; set HARNESS_SESSION_FAMILY.`);
+  const onSession = blockedBy(config, { family: canonicalFamily(sessionFamily) });
+  if (onSession) throw new Error(`Refused: ${value} runs on the session's endpoint, and ${onSession}.`);
   if (!IMPLEMENTER_CHOICES.includes(lower)) {
     const blocked = blockedBy(config, { id: value, family: familyOfId(value) });
     if (blocked) throw new Error(`Refused: ${blocked}.`);
-  } else {
-    if (!sessionFamily) throw new Error(`Refused: ${value} runs on the session's endpoint, whose family cannot be told; set HARNESS_SESSION_FAMILY.`);
-    const blocked = blockedBy(config, { family: canonicalFamily(sessionFamily) });
-    if (blocked) throw new Error(`Refused: ${value} runs on the session's endpoint, and ${blocked}.`);
   }
   const next = structuredClone(config);
   next.implementer = { ...next.implementer, default: value };

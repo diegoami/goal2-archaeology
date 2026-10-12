@@ -45,9 +45,9 @@ import path from 'node:path';
 import { randomBytes } from 'node:crypto';
 import { runOpenCodeWatched, resolveOpenCode, OpenCodeInfraError, keyProblem } from './lib/opencode.mjs';
 import { credentialJail, OFF_WARNING } from './lib/jail.mjs';
-import { namedModel, familiesOfName, familiesOfModel, selfTest as namedSelfTest } from './lib/named.mjs';
+import { namedModel, familiesOfName, familiesOfModel, canonicalFamily, selfTest as namedSelfTest } from './lib/named.mjs';
 import { readReview, doneWhenCount, briefTargets } from './lib/chain.mjs';
-import { planSwitch } from './lib/switch.mjs';
+import { planSwitch, defaultVariant } from './lib/switch.mjs';
 import { planPost, publish } from './lib/post.mjs';
 import { selfTest, SAMPLES } from './lib/review-selftest.mjs';
 import {
@@ -89,6 +89,14 @@ function guardSelfTest() {
     familiesOfName('forced-openai', { 'forced-openai': { id: 'openai/gpt-5.6-luna', family: 'other' } }).includes('openai'));
   ok('the switcher refuses codex and chatgpt in an openai session (round-1 R2)',
     ['openai/codex-mini-latest', 'openai/chatgpt-4o-latest'].every((id) => refused({ id, variant: 'high', sessionFamily: 'openai' })));
+  ok('a key named after a family keeps that family (round-2 R1)',
+    familiesOfName('claude', { claude: { id: 'openai/gpt-5.6-luna', family: 'openai' } }).includes('claude'));
+  ok('a blocked session refuses a model-id implementer too (round-2 R2)',
+    refused({ role: 'implementer', id: 'glm-5.3', sessionFamily: 'deepseek' }) && refused({ role: 'implementer', id: 'gpt-5.6-luna', sessionFamily: 'deepseek' }));
+  ok('a model-id implementer on a Claude session passes', !refused({ role: 'implementer', id: 'glm-5.3', sessionFamily: 'claude' }));
+  let variantOk = true;
+  try { defaultVariant('openai/gpt-5.6-luna', null); defaultVariant('openai/gpt-6.1-sol', ['low', 'medium', 'high']); } catch { variantOk = false; }
+  ok('a reviewer switch without --variant works (round-2 R3)', variantOk);
   ok('a model id makes no directory in a title (R5)', !fileSafe('pr149-openai/gpt-6.1-sol@medium').includes('/'));
   return failures;
 }
@@ -141,7 +149,8 @@ let model;
 try { model = namedModel(reviewer, config.models, config.blocked ?? []); } catch (e) { die(2, e.message); }
 if (!model) die(2, `Unknown reviewer ${reviewer}: give a harness.json key or an OpenCode id, provider/model[@variant].`);
 config.models[reviewer] = model;
-const families = [...new Set(implementedBy.flatMap((n) => familiesOfName(n, config.models)))];
+// the session's own family stays in, whatever a harness.json key of that name holds (Sol's round-2 R1)
+const families = [...new Set([canonicalFamily(own), ...implementedBy.flatMap((n) => familiesOfName(n, config.models))])];
 say(`implemented by: ${implementedBy.join(', ')} (${own}: the session's family, from the Anthropic environment)`);
 if (familiesOfModel(model).some((f) => families.includes(f))) die(1, `Refused: ${reviewer} is the implementer's model family (${families.join(', ')}). Nothing posted.`);
 const fallback = 'Nothing posted. Read the run\'s final message (CLAUDE.md, "Choosing models" rule 12) and fix the cause; another reviewer is the user\'s call.';
