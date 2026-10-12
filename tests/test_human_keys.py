@@ -242,12 +242,14 @@ class KeyTests(unittest.TestCase):
             for a in arrivals:
                 self.assertFalse(t <= a <= t + rec.CAPTURE_MARGIN_S, (t, a))
 
-    def test_human_paced_keys_produce_one_burst_snapshot_each(self):
+    def test_human_paced_keys_account_for_every_group_in_a_request_or_a_merge(self):
         # R2 end-to-end at the requested 0.5-1.5 s human pace: 10 single-key groups 0.51 s apart
-        # (above the 0.5 s quiet) must produce 10 burst snapshots, not the 4 the overwriting
-        # Burst.last produced. Each tick (save + capture) advances the clock 0.75 s, longer than
-        # the 0.51 s gap, so keys keep arriving while a burst snapshot is being captured — the
-        # exact condition that merged groups before.
+        # (above the 0.5 s quiet). Each tick (save + capture) advances the clock 0.75 s, longer
+        # than the 0.51 s gap, so keys keep arriving while a burst snapshot is being captured.
+        # R2's overwriting Burst.last produced 4 requests and LOST groups. Since T44 (issue #128)
+        # the groups that settle during a save are answered by the next ONE request: fewer than
+        # 10 requests, but their merge markers add up to all 10 groups (the last of each merge
+        # claimed, the earlier ones recorded as not captured), none lost.
         now = [0.0]
         watcher = rec.Watcher.__new__(rec.Watcher)
         watcher.clock = lambda: now[0]
@@ -258,8 +260,12 @@ class KeyTests(unittest.TestCase):
         watcher.log = lambda msg: None
         ticks = []
 
+        merges = []
+
         def tick(**kw):
             ticks.append((now[0], kw.get("origin", "watcher")))
+            if kw.get("merge"):
+                merges.append(kw["merge"])
             now[0] += 0.75      # the save + staging capture latency
         watcher.tick = tick
         keys = Mock()
@@ -277,7 +283,11 @@ class KeyTests(unittest.TestCase):
         keys.drain = drain
         watcher.run(quit_after=30, keys=keys)
         bursts = [t for t in ticks if t[1] == "burst"]
-        self.assertEqual(len(bursts), 10, bursts)
+        self.assertEqual(len(bursts), len(merges))
+        self.assertEqual(sum(m["size"] for m in merges), 10, merges)   # no group lost
+        self.assertLess(len(bursts), 10)                    # and the saves did merge some
+        self.assertTrue(all(m["claimed"] == m["size"] == len(m["group_last_s"])
+                            for m in merges), merges)
 
     def test_private_display_logs_game_keys_not_outer_app_keys(self):
         outer, env = xvfb(710, 730, "800x600x24")
@@ -562,7 +572,7 @@ class BurstPipelineTests(unittest.TestCase):
     staging captures off the loop's critical path (a ~0.8 s capture used to delay the next
     request until after the next key had arrived, leaving key pairs between two windows)."""
 
-    def test_ten_keys_at_051_s_gaps_are_all_mapped(self):
+    def test_ten_keys_at_051_s_gaps_are_all_accounted_for(self):
         from tests import test_human_record as fixture
         import keymap
         with tempfile.TemporaryDirectory() as folder:
@@ -627,19 +637,25 @@ class BurstPipelineTests(unittest.TestCase):
             index = [json.loads(line) for line in (session / "index.jsonl").read_text().splitlines()]
             requests = [json.loads(line) for line in
                         (session / "requests.jsonl").read_text().splitlines()]
-            self.assertEqual(len(entries), 11)
-            self.assertEqual([e["origin"] for e in index],
-                             ["watcher"] + ["burst"] * 10)
-            self.assertEqual([r["seq"] is not None for r in requests], [True] * 11)
+            # T44 (issue #128): each save (0.6 s) is longer than the 0.527 s key spacing, so one
+            # request is in flight at a time and the groups that settle during it are answered
+            # by the next one request. The record accounts for every press: mapped, or listed
+            # under a merge (not captured / claimed), never unmapped
+            bursts = [r for r in requests if r["origin"] == "burst"]
+            self.assertEqual(len(entries), 1 + len(bursts))
+            self.assertEqual([e["origin"] for e in index], ["watcher"] + ["burst"] * len(bursts))
+            self.assertEqual([r["seq"] is not None for r in requests], [True] * len(requests))
+            self.assertEqual(sum(r["merge"]["size"] for r in bursts), 10)   # no group lost
             states = [{"entry": e, "screen_text": f"SCREEN-{e['seq']}", "error": None}
                       for e in index]
             events = sorted(FakeKeys().events, key=lambda e: e["monotonic_s"])
-            result = keymap.build_map(states, events, w.t0,
-                                      quiet=rec.BURST_QUIET_S, margin=rec.CAPTURE_MARGIN_S)
-            # not "11/11 burst snapshots" but 10/10 mapped presses: the reproduction's record
-            # had 10 snapshots and still 6 unmapped presses
-            self.assertEqual((result["summary"], result["unmapped_keys"]),
-                             ("screens: 11, transitions: 10, keys: 10", 0))
+            result = keymap.build_map(states, events, w.t0, quiet=rec.BURST_QUIET_S,
+                                      margin=rec.CAPTURE_MARGIN_S, requests=requests)
+            self.assertEqual(result["unmapped_keys"], 0)
+            accounted = (sum(r["count"] * len(r["keys"]) for r in result["transitions"])
+                         + sum(len(g["keys"]) for g in result["not_captured"])
+                         + sum(len(g["keys"]) for g in result["merged_claimed"]))
+            self.assertEqual(accounted, 10)
 
     def test_a_pipeline_timeout_marks_the_request_skipped(self):
         # Sol r2 R1c: a capture that times out is logged as a request that staged nothing —
@@ -703,6 +719,10 @@ class DeferredCaptureTests(unittest.TestCase):
 
         w = rec.Watcher(session, live, "77", fixture.FakeDbx(), {"DISPLAY": ":0"},
                         xrun=xrun, alive=lambda: True, log=lambda m: None)
+        # T44 (issue #128): the loop's one-in-flight gate keeps requests from piling up, which is
+        # what made these captures supersede each other. Here the gate is OFF: the defence in
+        # depth (the ownership guards of T35) must still catch a pile-up if one ever got through
+        w.request_in_flight = lambda: False
         if delay_first_job:
             # the r3 reproduction: the recorder child's _stage_job sleeps 2 s before its
             # first burst capture; while it waits, later requests rewrite the live savestate
@@ -1435,6 +1455,37 @@ class OneSaveInFlightTests(unittest.TestCase):
         self.assertEqual([r["keys"] for r in result["transitions"]], [["k0"], ["k4"]])
         ok, why = scripted_keys.check_mapped(result)
         self.assertTrue(ok, why)
+
+    def test_a_cadence_tick_due_in_flight_is_sent_after_it_once(self):
+        # the first request is in flight from 0 s to 45 s, over two cadence periods (CADENCE_S
+        # ticks at 20 s and 40 s fall inside it): neither is dropped (a tick goes out the moment
+        # the request finishes, at 45 s) and they are not doubled (one tick for both, the next
+        # at the grid's 60 s)
+        now = [0.0]
+        flight_ends = [0.0]
+        watcher = rec.Watcher.__new__(rec.Watcher)
+        watcher.clock = lambda: now[0]
+        watcher.sleep = lambda secs: now.__setitem__(0, now[0] + secs)
+        watcher.t0 = 0.0
+        watcher.dbx = Mock()
+        watcher.dbx.poll.return_value = None
+        watcher.log = lambda msg: None
+        watcher.request_in_flight = lambda: now[0] < flight_ends[0]
+        ticks = []
+
+        def tick(**kw):
+            ticks.append(round(now[0], 2))
+            flight_ends[0] = now[0] + (45.0 if len(ticks) == 1 else 0.5)
+        watcher.tick = tick
+        keys = Mock()
+        keys.error = None
+        keys.proc.poll.return_value = None
+        keys.drain = lambda: []
+        watcher.run(quit_after=70, keys=keys)
+        self.assertEqual(ticks[0], 0.0)
+        self.assertAlmostEqual(ticks[1], 45.0, delta=0.05)
+        self.assertAlmostEqual(ticks[2], 60.0, delta=0.05)
+        self.assertEqual(len(ticks), 3, ticks)
 
 
 class MergedMapTests(unittest.TestCase):

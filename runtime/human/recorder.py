@@ -739,6 +739,11 @@ class Watcher:
     and validation is rejected, and the captured bytes differ from the pre-send snapshot of
     the live file (evidence of a fresh write, not the previous tick's savestate re-indexed)."""
 
+    # The pipeline's request counters (T44): the loop sends nothing while `_submitted !=
+    # _finished`. Class defaults, so a Watcher made without __init__ has no request in flight.
+    _submitted = 0
+    _finished = 0
+
     # The pause (T39b). Class defaults, so a Watcher made without __init__ (the loop tests) is a
     # sitting that never pauses.
     pause_probe = None        # () -> True while DOSBox-X is paused (window_paused), else no pause
@@ -1370,6 +1375,13 @@ class Watcher:
             self.log("F12+P while paused: the recorder presses Pause to resume")
             self.resume_key()
 
+    def request_in_flight(self):
+        """Whether a save request's capture is still running: submitted to the pipeline and not
+        yet finished (T44). The pipeline counts `_finished` when a job ends, however it ends —
+        staged, superseded, timed out or the emulator gone — so this is the one place "finished"
+        is read, and the only gate between the loop and a send."""
+        return self._submitted != self._finished
+
     # -- the loop -----------------------------------------------------------------------
     def run(self, quit_after=None, stop=lambda: False, video=None, keys=None):
         """Tick at t0 + n*CADENCE_S (the first tick immediately: the session's opening state is
@@ -1476,7 +1488,7 @@ class Watcher:
                 if now < next_tick and not send_burst and not send_resume:
                     self.sleep(min(next_tick - now, 0.01 if keys else 0.5))
                     continue
-                if keys and self._submitted != self._finished:
+                if keys and self.request_in_flight():
                     # T44 (issue #128): at most one save request in flight. `_finished` is
                     # counted by the pipeline when the request's job ends — staged, superseded
                     # or timed out (SAVE_TIMEOUT_S) — so the wait is bounded. Whatever is due
