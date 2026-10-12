@@ -1,0 +1,62 @@
+[16:53:16] session /home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a9529573493004bd6/scratch/human/sessions/20261012-185316
+[16:53:16] saved game: none (no .GL in the previous sessions)
+[16:53:16] dosbox-x started (pid 842496)
+[16:53:16] game window 6291461 (pid 842496)
+[16:53:16] pause: F12+P; resume: F12+P again (the recorder presses Pause) or the Pause key
+[16:53:16] F12+S sent to window 6291461
+[16:53:16] live savestate changed or incomplete during capture: retrying
+[16:53:17] staged snapshots/snap-0001-20261012T165317Z.sav (209987 bytes, sha256 3f0b058daa45ff46...)
+[16:53:17] F12+S sent to window 6291461
+[16:53:17] burst group (last key +0.347s) requested at +0.617s
+[16:53:17] live savestate changed or incomplete during capture: retrying
+[16:53:17] staged snapshots/snap-0002-20261012T165317Z.sav (158346 bytes, sha256 8af77ce03117f146...)
+[16:53:18] F12+S sent to window 6291461
+[16:53:18] burst group (last key +1.804s) requested at +2.081s
+[16:53:18] live savestate changed or incomplete during capture: retrying
+[16:53:19] staged snapshots/snap-0003-20261012T165319Z.sav (182332 bytes, sha256 5367eb8ac3523f47...)
+[16:53:19] F12+S sent to window 6291461
+[16:53:19] burst group (last key +2.557s) requested at +2.818s
+[16:53:19] live savestate changed or incomplete during capture: retrying
+[16:53:19] staged snapshots/snap-0004-20261012T165319Z.sav (181842 bytes, sha256 b44acf9112b22046...)
+[16:53:20] F12+S sent to window 6291461
+[16:53:20] burst group (last key +3.584s) requested at +3.848s
+[16:53:20] live savestate changed or incomplete during capture: retrying
+[16:53:21] staged snapshots/snap-0005-20261012T165320Z.sav (183635 bytes, sha256 1216edf1c44466e0...)
+[16:53:21] F12+S sent to window 6291461
+[16:53:21] burst group (last key +4.234s) requested at +4.498s
+[16:53:21] live savestate changed or incomplete during capture: retrying
+XGetInputFocus returned the focused window of 1. This is likely a bug in the X server.
+XGetInputFocus returned the focused window of 1. This is likely a bug in the X server.
+[16:53:21] staged snapshots/snap-0006-20261012T165321Z.sav (181896 bytes, sha256 5f2366562b509650...)
+[16:53:21] F12+S sent to window 6291461
+[16:53:21] burst group (last key +4.780s) requested at +5.044s
+[16:53:21] live savestate changed or incomplete during capture: retrying
+[16:53:22] staged snapshots/snap-0007-20261012T165322Z.sav (182544 bytes, sha256 42677e33428e802c...)
+[16:53:36] F12+S sent to window 6291461
+[16:53:36] live savestate changed or incomplete during capture: retrying
+[16:53:37] staged snapshots/snap-0008-20261012T165337Z.sav (180541 bytes, sha256 ee00e6f0009f0add...)
+[16:53:40] quit-after 24.0s reached
+[16:53:41] shutdown snapshot already indexed (ee00e6f0009f0add...): skipping
+[16:53:41] done: 8 snapshots, stop quit-after
+map coverage OK: screens: 2, transitions: 6, keys: 6; every press mapped
+privacy OK: a/b/c/d/e/f game keys only; outer-app x/y/z excluded (xev log holds them; outer raw reader saw 2 RawKeyPress); burst snapshots: 6 for 6 key group(s)
+gaps (s): [1.44, 0.737, 1.012, 0.634, 0.529]
+session: scratch/human/sessions/20261012-185316
+screens: 2, transitions: 6, keys: 6
+# Observed screen/key map
+
+screens: 2, transitions: 6, keys: 6
+
+Ordered bursts are associations between snapshots, not proof of individual-key causality.
+
+| Before (text digest) | Keys pressed | After (text digest) | Count |
+| --- | --- | --- | --- |
+| Z:\>c: (47a90820ba59) | a | Z:\>c: (47a90820ba59) | 1 |
+| Z:\>c: (47a90820ba59) | b | (c) NE'93│ │                                                    │     (c) (09d3e9010708) | 1 |
+| (c) NE'93│ │                                                    │     (c) (09d3e9010708) | c | (c) NE'93│ │                                                    │     (c) (09d3e9010708) | 1 |
+| (c) NE'93│ │                                                    │     (c) (09d3e9010708) | d | (c) NE'93│ │                                                    │     (c) (09d3e9010708) | 1 |
+| (c) NE'93│ │                                                    │     (c) (09d3e9010708) | e | (c) NE'93│ │                                                    │     (c) (09d3e9010708) | 1 |
+| (c) NE'93│ │                                                    │     (c) (09d3e9010708) | f | (c) NE'93│ │                                                    │     (c) (09d3e9010708) | 1 |
+
+Unmapped presses: 0
+

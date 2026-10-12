@@ -1,0 +1,94 @@
+=== origin/main recorder.py: exit 1
+test_a_cadence_tick_due_in_flight_is_sent_after_it_once (tests.test_human_keys.OneSaveInFlightTests.test_a_cadence_tick_due_in_flight_is_sent_after_it_once) ... FAIL
+test_a_fast_run_of_keys_gets_its_one_request_after_the_run (tests.test_human_keys.OneSaveInFlightTests.test_a_fast_run_of_keys_gets_its_one_request_after_the_run) ... FAIL
+test_a_scroll_faster_than_the_save_keeps_one_request_in_flight (tests.test_human_keys.OneSaveInFlightTests.test_a_scroll_faster_than_the_save_keeps_one_request_in_flight) ... FAIL
+test_groups_that_settle_in_flight_wait_and_go_out_in_one_request (tests.test_human_keys.OneSaveInFlightTests.test_groups_that_settle_in_flight_wait_and_go_out_in_one_request) ... Exception in thread Thread-1 (serve_writes):
+test_keys_spaced_over_the_settle_get_one_request_each (tests.test_human_keys.OneSaveInFlightTests.test_keys_spaced_over_the_settle_get_one_request_each) ... ok
+test_requests_between_keys_wait_for_the_one_in_flight (tests.test_human_keys.OneSaveInFlightTests.test_requests_between_keys_wait_for_the_one_in_flight) ... Exception in thread capture-pipeline:
+test_the_resume_request_waits_for_the_request_in_flight (tests.test_human_keys.OneSaveInFlightTests.test_the_resume_request_waits_for_the_request_in_flight) ... FAIL
+test_a_marker_naming_the_merge_lists_the_earlier_groups (tests.test_human_keys.MergedMapTests.test_a_marker_naming_the_merge_lists_the_earlier_groups) ... ok
+test_a_marker_smaller_than_the_bursts_excuses_nothing (tests.test_human_keys.MergedMapTests.test_a_marker_smaller_than_the_bursts_excuses_nothing) ... ok
+test_without_a_marker_two_bursts_in_a_gap_stay_unmapped (tests.test_human_keys.MergedMapTests.test_without_a_marker_two_bursts_in_a_gap_stay_unmapped) ... ok
+FAIL: test_a_cadence_tick_due_in_flight_is_sent_after_it_once (tests.test_human_keys.OneSaveInFlightTests.test_a_cadence_tick_due_in_flight_is_sent_after_it_once)
+FAIL: test_a_fast_run_of_keys_gets_its_one_request_after_the_run (tests.test_human_keys.OneSaveInFlightTests.test_a_fast_run_of_keys_gets_its_one_request_after_the_run)
+FAIL: test_a_scroll_faster_than_the_save_keeps_one_request_in_flight (tests.test_human_keys.OneSaveInFlightTests.test_a_scroll_faster_than_the_save_keeps_one_request_in_flight)
+FAIL: test_groups_that_settle_in_flight_wait_and_go_out_in_one_request (tests.test_human_keys.OneSaveInFlightTests.test_groups_that_settle_in_flight_wait_and_go_out_in_one_request)
+FAIL: test_requests_between_keys_wait_for_the_one_in_flight (tests.test_human_keys.OneSaveInFlightTests.test_requests_between_keys_wait_for_the_one_in_flight)
+FAIL: test_the_resume_request_waits_for_the_request_in_flight (tests.test_human_keys.OneSaveInFlightTests.test_the_resume_request_waits_for_the_request_in_flight)
+Ran 10 tests in 56.273s
+FAILED (failures=6)
+    FileNotFoundError: [Errno 2] No such file or directory: '/tmp/tmpm4pg6884/state.sav.tmp'
+    TimeoutError: savestate not complete and stable within 15.0s
+    FileNotFoundError: [Errno 2] No such file or directory: '/tmp/tmpm4pg6884/requests.jsonl'
+    AssertionError: 20.0 != 45.0 within 0.05 delta (25.0 difference)
+    AssertionError: 30 != 1 : [(1.05, 'burst'), (1.15, 'burst'), (1.25, 'burst'), (1.35, 'burst'), (1.45, 'burst'), (1.55, 'burst'), (1.65, 'burst'), (1.75, 'burst'), (1.85, 'burst'), (1.95, 'burst'), (2.05, 'burst'), (2.16, 'burst'), (2.26, 'burst'), (2.36, 'burst'), (2.46, 'burst'), (2.56, 'burst'), (
+    AssertionError: 33 != 0 : requests sent with others in flight: [0, 1, 2, 3, 4, 5, 5, 6, 7, 8, 9, 9, 10, 11, 12, 13, 13, 14, 15, 16, 17, 17, 18, 19, 20, 21, 21, 22, 23, 24, 25, 26, 27, 27, 28, 29, 30, 31, 31, 32, 33]
+    AssertionError: 3 != 0 : [0, 0, 1, 2, 3, 2]
+    AssertionError: 8 != 0 : requests sent with others in flight: [0, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8]
+    AssertionError: 0.0 not greater than or equal to 3.0 : [(0.0, 'resume')]
+=== M1 in-flight gate removed: exit 1
+test_a_cadence_tick_due_in_flight_is_sent_after_it_once (tests.test_human_keys.OneSaveInFlightTests.test_a_cadence_tick_due_in_flight_is_sent_after_it_once) ... FAIL
+test_a_fast_run_of_keys_gets_its_one_request_after_the_run (tests.test_human_keys.OneSaveInFlightTests.test_a_fast_run_of_keys_gets_its_one_request_after_the_run) ... ok
+test_a_scroll_faster_than_the_save_keeps_one_request_in_flight (tests.test_human_keys.OneSaveInFlightTests.test_a_scroll_faster_than_the_save_keeps_one_request_in_flight) ... ok
+test_groups_that_settle_in_flight_wait_and_go_out_in_one_request (tests.test_human_keys.OneSaveInFlightTests.test_groups_that_settle_in_flight_wait_and_go_out_in_one_request) ... FAIL
+test_keys_spaced_over_the_settle_get_one_request_each (tests.test_human_keys.OneSaveInFlightTests.test_keys_spaced_over_the_settle_get_one_request_each) ... ok
+test_requests_between_keys_wait_for_the_one_in_flight (tests.test_human_keys.OneSaveInFlightTests.test_requests_between_keys_wait_for_the_one_in_flight) ... FAIL
+test_the_resume_request_waits_for_the_request_in_flight (tests.test_human_keys.OneSaveInFlightTests.test_the_resume_request_waits_for_the_request_in_flight) ... FAIL
+test_a_marker_naming_the_merge_lists_the_earlier_groups (tests.test_human_keys.MergedMapTests.test_a_marker_naming_the_merge_lists_the_earlier_groups) ... ok
+test_a_marker_smaller_than_the_bursts_excuses_nothing (tests.test_human_keys.MergedMapTests.test_a_marker_smaller_than_the_bursts_excuses_nothing) ... ok
+test_without_a_marker_two_bursts_in_a_gap_stay_unmapped (tests.test_human_keys.MergedMapTests.test_without_a_marker_two_bursts_in_a_gap_stay_unmapped) ... ok
+FAIL: test_a_cadence_tick_due_in_flight_is_sent_after_it_once (tests.test_human_keys.OneSaveInFlightTests.test_a_cadence_tick_due_in_flight_is_sent_after_it_once)
+FAIL: test_groups_that_settle_in_flight_wait_and_go_out_in_one_request (tests.test_human_keys.OneSaveInFlightTests.test_groups_that_settle_in_flight_wait_and_go_out_in_one_request)
+FAIL: test_requests_between_keys_wait_for_the_one_in_flight (tests.test_human_keys.OneSaveInFlightTests.test_requests_between_keys_wait_for_the_one_in_flight)
+FAIL: test_the_resume_request_waits_for_the_request_in_flight (tests.test_human_keys.OneSaveInFlightTests.test_the_resume_request_waits_for_the_request_in_flight)
+Ran 10 tests in 36.286s
+FAILED (failures=4)
+    AssertionError: 20.0 != 45.0 within 0.05 delta (25.0 difference)
+    AssertionError: 3 != 0 : [0, 0, 1, 2, 3, 2]
+    AssertionError: 8 != 0 : requests sent with others in flight: [0, 1, 2, 2, 3, 3, 3, 4, 4, 5, 5, 6, 7, 7, 8, 8]
+    AssertionError: 0.0 not greater than or equal to 3.0 : [(0.0, 'resume')]
+=== M2 merge removed (only the oldest group per request): exit 1
+test_a_cadence_tick_due_in_flight_is_sent_after_it_once (tests.test_human_keys.OneSaveInFlightTests.test_a_cadence_tick_due_in_flight_is_sent_after_it_once) ... ok
+test_a_fast_run_of_keys_gets_its_one_request_after_the_run (tests.test_human_keys.OneSaveInFlightTests.test_a_fast_run_of_keys_gets_its_one_request_after_the_run) ... ok
+test_a_scroll_faster_than_the_save_keeps_one_request_in_flight (tests.test_human_keys.OneSaveInFlightTests.test_a_scroll_faster_than_the_save_keeps_one_request_in_flight) ... ok
+test_groups_that_settle_in_flight_wait_and_go_out_in_one_request (tests.test_human_keys.OneSaveInFlightTests.test_groups_that_settle_in_flight_wait_and_go_out_in_one_request) ... FAIL
+test_keys_spaced_over_the_settle_get_one_request_each (tests.test_human_keys.OneSaveInFlightTests.test_keys_spaced_over_the_settle_get_one_request_each) ... ok
+test_requests_between_keys_wait_for_the_one_in_flight (tests.test_human_keys.OneSaveInFlightTests.test_requests_between_keys_wait_for_the_one_in_flight) ... ok
+test_the_resume_request_waits_for_the_request_in_flight (tests.test_human_keys.OneSaveInFlightTests.test_the_resume_request_waits_for_the_request_in_flight) ... ok
+test_a_marker_naming_the_merge_lists_the_earlier_groups (tests.test_human_keys.MergedMapTests.test_a_marker_naming_the_merge_lists_the_earlier_groups) ... ok
+test_a_marker_smaller_than_the_bursts_excuses_nothing (tests.test_human_keys.MergedMapTests.test_a_marker_smaller_than_the_bursts_excuses_nothing) ... ok
+test_without_a_marker_two_bursts_in_a_gap_stay_unmapped (tests.test_human_keys.MergedMapTests.test_without_a_marker_two_bursts_in_a_gap_stay_unmapped) ... ok
+FAIL: test_groups_that_settle_in_flight_wait_and_go_out_in_one_request (tests.test_human_keys.OneSaveInFlightTests.test_groups_that_settle_in_flight_wait_and_go_out_in_one_request)
+Ran 10 tests in 32.209s
+FAILED (failures=1)
+    AssertionError: Lists differ: [1, 1, 1, 1, 1] != [1, 3, 1]
+=== M3 cadence catch-up is a single step: exit 1
+test_a_cadence_tick_due_in_flight_is_sent_after_it_once (tests.test_human_keys.OneSaveInFlightTests.test_a_cadence_tick_due_in_flight_is_sent_after_it_once) ... FAIL
+test_a_fast_run_of_keys_gets_its_one_request_after_the_run (tests.test_human_keys.OneSaveInFlightTests.test_a_fast_run_of_keys_gets_its_one_request_after_the_run) ... ok
+test_a_scroll_faster_than_the_save_keeps_one_request_in_flight (tests.test_human_keys.OneSaveInFlightTests.test_a_scroll_faster_than_the_save_keeps_one_request_in_flight) ... ok
+test_groups_that_settle_in_flight_wait_and_go_out_in_one_request (tests.test_human_keys.OneSaveInFlightTests.test_groups_that_settle_in_flight_wait_and_go_out_in_one_request) ... ok
+test_keys_spaced_over_the_settle_get_one_request_each (tests.test_human_keys.OneSaveInFlightTests.test_keys_spaced_over_the_settle_get_one_request_each) ... ok
+test_requests_between_keys_wait_for_the_one_in_flight (tests.test_human_keys.OneSaveInFlightTests.test_requests_between_keys_wait_for_the_one_in_flight) ... ok
+test_the_resume_request_waits_for_the_request_in_flight (tests.test_human_keys.OneSaveInFlightTests.test_the_resume_request_waits_for_the_request_in_flight) ... ok
+test_a_marker_naming_the_merge_lists_the_earlier_groups (tests.test_human_keys.MergedMapTests.test_a_marker_naming_the_merge_lists_the_earlier_groups) ... ok
+test_a_marker_smaller_than_the_bursts_excuses_nothing (tests.test_human_keys.MergedMapTests.test_a_marker_smaller_than_the_bursts_excuses_nothing) ... ok
+test_without_a_marker_two_bursts_in_a_gap_stay_unmapped (tests.test_human_keys.MergedMapTests.test_without_a_marker_two_bursts_in_a_gap_stay_unmapped) ... ok
+FAIL: test_a_cadence_tick_due_in_flight_is_sent_after_it_once (tests.test_human_keys.OneSaveInFlightTests.test_a_cadence_tick_due_in_flight_is_sent_after_it_once)
+Ran 10 tests in 32.173s
+FAILED (failures=1)
+    AssertionError: 45.52 != 60.0 within 0.05 delta (14.479999999999997 difference)
+=== M4 gate also open for the resume request only (gate skipped when send_resume): exit 1
+test_a_cadence_tick_due_in_flight_is_sent_after_it_once (tests.test_human_keys.OneSaveInFlightTests.test_a_cadence_tick_due_in_flight_is_sent_after_it_once) ... ok
+test_a_fast_run_of_keys_gets_its_one_request_after_the_run (tests.test_human_keys.OneSaveInFlightTests.test_a_fast_run_of_keys_gets_its_one_request_after_the_run) ... ok
+test_a_scroll_faster_than_the_save_keeps_one_request_in_flight (tests.test_human_keys.OneSaveInFlightTests.test_a_scroll_faster_than_the_save_keeps_one_request_in_flight) ... ok
+test_groups_that_settle_in_flight_wait_and_go_out_in_one_request (tests.test_human_keys.OneSaveInFlightTests.test_groups_that_settle_in_flight_wait_and_go_out_in_one_request) ... ok
+test_keys_spaced_over_the_settle_get_one_request_each (tests.test_human_keys.OneSaveInFlightTests.test_keys_spaced_over_the_settle_get_one_request_each) ... ok
+test_requests_between_keys_wait_for_the_one_in_flight (tests.test_human_keys.OneSaveInFlightTests.test_requests_between_keys_wait_for_the_one_in_flight) ... ok
+test_the_resume_request_waits_for_the_request_in_flight (tests.test_human_keys.OneSaveInFlightTests.test_the_resume_request_waits_for_the_request_in_flight) ... FAIL
+test_a_marker_naming_the_merge_lists_the_earlier_groups (tests.test_human_keys.MergedMapTests.test_a_marker_naming_the_merge_lists_the_earlier_groups) ... ok
+test_a_marker_smaller_than_the_bursts_excuses_nothing (tests.test_human_keys.MergedMapTests.test_a_marker_smaller_than_the_bursts_excuses_nothing) ... ok
+test_without_a_marker_two_bursts_in_a_gap_stay_unmapped (tests.test_human_keys.MergedMapTests.test_without_a_marker_two_bursts_in_a_gap_stay_unmapped) ... ok
+FAIL: test_the_resume_request_waits_for_the_request_in_flight (tests.test_human_keys.OneSaveInFlightTests.test_the_resume_request_waits_for_the_request_in_flight)
+Ran 10 tests in 32.163s
+FAILED (failures=1)
+    AssertionError: 0.0 not greater than or equal to 3.0 : [(0.0, 'resume')]

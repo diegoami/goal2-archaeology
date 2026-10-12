@@ -1565,8 +1565,11 @@ class OneSaveInFlightTests(unittest.TestCase):
         presses = [1.0 + 0.527 * k for k in range(4)]
         bursts = self._loop_with_keys(presses)
         self.assertEqual(len(bursts), 4, bursts)
-        for (at, _), pressed in zip(bursts, presses):
+        for (at, _), pressed, following in zip(bursts, presses, presses[1:] + [float("inf")]):
             self.assertAlmostEqual(at, pressed + rec.EVENT_SETTLE_S, delta=0.03)
+            # the T34 edge at the settle of T44 (0.25 s): the whole request window (send ~0.03 s
+            # + CAPTURE_MARGIN_S) closes before the next key, so each key keeps its own window
+            self.assertLess(at + 0.03 + rec.CAPTURE_MARGIN_S, following)
 
 
 class MergedMapTests(unittest.TestCase):
