@@ -16,6 +16,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 M = "runtime/model/ageing.py"
+R = "runtime/model/recreate.py"
 K = "experiments/E014-q013-ageing/check_ageing.py"
 
 MUTATIONS = [
@@ -96,10 +97,12 @@ MUTATIONS = [
     (M, "player 0 ages", "    if player == 0:\n        return {SCORER_COUNT: 0}", "    if player == -1:\n        return {SCORER_COUNT: 0}"),
     (M, "seed consumed (a variance term)", "return {AGE: aged[AGE], ABILITY: aged[ABILITY]", "return {AGE: aged[AGE], ABILITY: (aged[ABILITY] + (seed % 2)) & 0xFF"),
     # re-create 7E80
-    (M, "re-create gk inverted", "    gk = 1 if old[CLUB_POSITION] == 0 else 0\n", "    gk = 0 if old[CLUB_POSITION] == 0 else 1\n"),
-    (M, "re-create performance bytes swapped", "PERFORMANCE: 0xFF, PERFORMANCE + 1: 0x7F", "PERFORMANCE: 0x7F, PERFORMANCE + 1: 0xFF"),
-    (M, "re-create keeps country dropped", "exact = {COUNTRY: old[COUNTRY], ", "exact = {"),
-    (M, "re-create keeps +7 dropped", "CLUB_POSITION: old[CLUB_POSITION],\n", "\n"),
+    # recreate_constraints lives in recreate.py since T30 (fix #102); the contract function above
+    # it repeats some lines, so each old text spans into recreate_constraints' own next line.
+    (R, "re-create gk inverted", "    gk = 1 if old[A.CLUB_POSITION] == 0 else 0\n    exact = {A.COUNTRY: old[A.COUNTRY], A.CLUB_POSITION: old[A.CLUB_POSITION],\n             A.CAPS: 0", "    gk = 0 if old[A.CLUB_POSITION] == 0 else 1\n    exact = {A.COUNTRY: old[A.COUNTRY], A.CLUB_POSITION: old[A.CLUB_POSITION],\n             A.CAPS: 0"),
+    (R, "re-create performance bytes swapped", "A.PERFORMANCE: 0xFF, A.PERFORMANCE + 1: 0x7F", "A.PERFORMANCE: 0x7F, A.PERFORMANCE + 1: 0xFF"),
+    (R, "re-create keeps country dropped", "exact = {A.COUNTRY: old[A.COUNTRY], A.CLUB_POSITION: old[A.CLUB_POSITION],\n             A.CAPS: 0", "exact = {A.CLUB_POSITION: old[A.CLUB_POSITION],\n             A.CAPS: 0"),
+    (R, "re-create keeps +7 dropped", "A.CLUB_POSITION: old[A.CLUB_POSITION],\n             A.CAPS: 0", "\n             A.CAPS: 0"),
     # derived skills 3A06
     (M, "skills (ability + 1) -> ability", "(t * ((ability + 1) & 0xFFFF))", "(t * (ability & 0xFFFF))"),
     # the checker (R1-R4)
@@ -139,7 +142,7 @@ def run_tests():
 
 
 def main():
-    originals = {f: (ROOT / f).read_text() for f in (M, K)}
+    originals = {f: (ROOT / f).read_text() for f in (M, R, K)}
     digests = {f: hashlib.sha256(t.encode()).hexdigest() for f, t in originals.items()}
 
     def restore(*_):
