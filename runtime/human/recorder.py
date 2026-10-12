@@ -1901,8 +1901,33 @@ def play(video=False, quit_after=None, res=None, load=None, fresh=False, scale=D
         if os.environ.get("GOAL2_RECORDER_TEST_EARLY_SAVE") == "1":
             # test only (tests.test_human_keys, the early-save regression): one save of the live
             # emulator before the Watcher exists — the window Sol's round-3 R1 used
-            send_save_event(wid, env)
-            time.sleep(0.5)
+            # Wait for the write itself, not a fixed time: a loaded machine reads keys late and a
+            # fixed 0.5 s left no write at all, so the guard had nothing to refuse (#141).
+            # [designed] 3 attempts, each given 10 s: a late emulator (the test freezes it 6 s)
+            # still writes inside one attempt; a re-send covers a key dropped before the
+            # emulator was ready; after 30 s with no write the hook fails loudly, never exits 0.
+            for _attempt in range(3):
+                send_save_event(wid, env)
+                give_up = time.monotonic() + 10.0
+                settled_at, last_events = None, 0
+                while time.monotonic() < give_up:
+                    busy, events = watch.activity()
+                    if events != last_events or busy or events == 0:
+                        last_events, settled_at = events, None
+                    elif settled_at is None:
+                        settled_at = time.monotonic()
+                    # [designed] 0.5 s with no new event and no open write: the settle the old
+                    # fixed sleep gave, now counted from the last event of the save; one save
+                    # is ~54 events (ONE_SAVE_MAX_EVENTS) written in a few ms, but the writer can
+                    # pause between them, so the first quiet instant is not the end
+                    if settled_at is not None and time.monotonic() - settled_at >= 0.5:
+                        break
+                    time.sleep(0.05)
+                else:
+                    continue
+                break
+            else:
+                raise RuntimeError("early save never written")
         watcher = Watcher(session, session / "state.sav", wid, dbx, env, log=log,
                           xrun=lambda argv: send_save_event(wid, env), watch=watch,
                           paused=lambda: window_paused(wid, env),

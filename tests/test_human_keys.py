@@ -1207,6 +1207,37 @@ class GuardTests(unittest.TestCase):
                 shutil.rmtree(session, ignore_errors=True)
 
 
+def slow_start_dosbox(tmp, delay_s):
+    """An environment whose emulator is frozen for `delay_s` seconds right after its window
+    appears (issue #141): a wrapper for the real dosbox-x that answers `-version` at once, so the
+    version check passes, then execs the real emulator (same pid, so the recorder's window bind
+    holds) with a background helper that SIGSTOPs that pid when its window exists and SIGCONTs it
+    `delay_s` later. That is how a loaded CI runner looks to the recorder (the window is up but
+    keys are not read yet), made deterministic. Selected through $DOSBOX_X, which
+    driver.dosbox_x() reads; no production code changes."""
+    sys.path.insert(0, str(ROOT / "runtime" / "driver"))
+    import driver
+    real = driver.dosbox_x()
+    wrapper = Path(tmp) / "dosbox-x-slow"
+    wrapper.write_text("#!/bin/sh\n"
+                       f'case "$1" in -version) exec "{real}" "$@";; esac\n'
+                       "pid=$$\n"
+                       "(\n"
+                       "  n=0\n"
+                       '  while [ $n -lt 300 ]; do\n'
+                       '    for w in $(xdotool search --class dosbox 2>/dev/null); do\n'
+                       '      if [ "$(xdotool getwindowpid $w 2>/dev/null)" = "$pid" ]; then\n'
+                       '        kill -STOP $pid; sleep %s; kill -CONT $pid; exit 0\n'
+                       "      fi\n"
+                       "    done\n"
+                       "    n=$((n+1)); sleep 0.02\n"
+                       "  done\n"
+                       ") >/dev/null 2>&1 &\n"
+                       f'exec "{real}" "$@"\n' % delay_s)
+    wrapper.chmod(0o755)
+    return dict(os.environ, DOSBOX_X=str(wrapper))
+
+
 class EarlySaveTests(unittest.TestCase):
     """Sol's round-3 R1 on PR 112: a save the running emulator writes before the Watcher exists
     must be counted, so the acceptance guard sees it as a save before the first request (owned by
@@ -1218,14 +1249,21 @@ class EarlySaveTests(unittest.TestCase):
     def test_a_save_before_the_watcher_is_refused(self):
         before = set(rec.SESSIONS.glob("*")) if rec.SESSIONS.is_dir() else set()
         try:
-            r = subprocess.run([sys.executable,
-                                str(ROOT / "experiments/E015-human-playthrough/scripted_keys.py"),
-                                "--sleep", "2", "--keys", "a;b;c", "--seed", "34"],
-                               env=dict(os.environ, GOAL2_RECORDER_TEST_EARLY_SAVE="1"),
-                               capture_output=True, text=True, timeout=240)
+            with tempfile.TemporaryDirectory() as tmp:
+                # [designed] 6 s: longer than the hook's first wait, so a hook that does not wait
+                # for the write fails every time; a loaded runner is slow by seconds, not minutes
+                env = dict(slow_start_dosbox(tmp, 6), GOAL2_RECORDER_TEST_EARLY_SAVE="1")
+                r = subprocess.run([sys.executable,
+                                    str(ROOT / "experiments/E015-human-playthrough/scripted_keys.py"),
+                                    "--sleep", "2", "--keys", "a;b;c", "--seed", "34"],
+                                   env=env, capture_output=True, text=True, timeout=240)
             out = r.stdout + r.stderr
             self.assertEqual(r.returncode, 1, out[-4000:])
             self.assertIn("a save before the first request is owned by no request line", out)
+            fresh = (set(rec.SESSIONS.glob("*")) if rec.SESSIONS.is_dir() else set()) - before
+            self.assertEqual(len(fresh), 1, fresh)
+            meta = json.loads((next(iter(fresh)) / "meta.json").read_text())
+            self.assertGreaterEqual(meta["write_events_total"], 1, meta)
         finally:
             fresh = (set(rec.SESSIONS.glob("*")) if rec.SESSIONS.is_dir() else set()) - before
             for session in fresh:
