@@ -9,8 +9,8 @@ The process is `docs/process.md`; read it before running a task. Tasks are `docs
 indexed in `docs/tasks/README.md`.
 
 ## Rules
-1. The main session plans, runs `/run-task`, triages and talks to the user. It implements itself
-   or through an agent it spawns, and OpenCode reviews, asking the user before each ("Choosing
+1. The main session plans, runs `/run-task`, triages and talks to the user. A subagent it spawns
+   implements (or it does itself), and OpenCode reviews, asking the user before each ("Choosing
    models" below); repeated decisions
    go to Jev after a trial, and images and audio to OpenRouter or ElevenLabs models, whose ids come
    from live lists, never memory (`/delegate`).
@@ -95,8 +95,8 @@ indexed in `docs/tasks/README.md`.
 These rules replace every other model-choice rule in this project: the morning of 2026-10-11's
 "the user decides, with /recommend's suggestion" (L104), issue #113's "follow quota-tracker's
 /recommend and nothing else", and the global `~/.claude/CLAUDE.md` rule that quota-tracker
-decides. What worked: the main session implements, or an agent it spawns does, and a separate
-OpenCode process of another family reviews. The roster is the owner's and changes often: the
+decides. What worked: a subagent spawned inside Claude Code implements (or the main session does, when
+it cannot spawn one), and a separate OpenCode process of another family reviews. The roster is the owner's and changes often: the
 defaults and the blocked list live in `harness.json` and change through `/switch-model`, never by
 a rule that names a model. No quota, tier or difficulty table picks a model.
 
@@ -106,20 +106,27 @@ a rule that names a model. No quota, tier or difficulty table picks a model.
    rules never name the orchestrator's model. The harness reads the orchestrator's **family** from
    that environment (`lib/common.mjs` `sessionFamily`: Claude when the base URL is unset or
    Anthropic's, GLM for Z.AI; `HARNESS_SESSION_FAMILY` overrides, and an unknown endpoint refuses
-   to review until it is set), because every agent the session spawns runs through the same
-   endpoint and is of the same family. Pass `ANTHROPIC_BASE_URL` and `HARNESS_SESSION_FAMILY` to
+   to review until it is set), because every subagent the session spawns, whatever its model,
+   runs through the same endpoint and is of that provider's family. Pass `ANTHROPIC_BASE_URL` and `HARNESS_SESSION_FAMILY` to
    a review's systemd unit (rule 9).
-1. **Before each implementation, ask the user ONE question** with the question tool: does the
-   main session implement it, in its own git worktree (never the main checkout), or does the
-   `implementer` agent (`.claude/agents/implementer.md`, worktree isolation) on a Claude Code
-   alias (`sonnet`, `opus`, `haiku`, `fable`)? Propose `harness.json`'s `implementer.default`
-   first. Under Claude, Opus orchestrates and a spawned Sonnet implements; under Z.AI the same
-   aliases give GLM-5.3 and GLM-5.3 Flash. OpenCode never implements: `implement.mjs` was removed,
-   because its runs died on rejected paths, resets and early ends and did not follow the brief
-   (L104). Whoever implements keeps `RUN-NOTES.md` in its worktree (`docs/running-notes.md`: the
-   plan, a progress line per commit, an END block before stopping), pushes after every commit,
-   and opens the PR. When an agent ends, the main session reads its final report before acting
-   and posts its notes on the issue.
+1. **Before each implementation, ask the user ONE question** with the question tool: which
+   **subagent** implements, or does the main session implement directly? The implementer is
+   normally a subagent spawned inside Claude Code with the Agent tool
+   (`subagent_type: "implementer"`, `.claude/agents/implementer.md`, worktree isolation) on a
+   model of its own, not the orchestrator's: Opus orchestrates and spawns Sonnet. The model is a
+   Claude Code alias (`sonnet`, `opus`, `haiku`, `fable`) or any model id the session's provider
+   serves; under another Anthropic-compatible provider (Z.AI's GLM, MiniMax) the same alias
+   resolves to whatever that provider maps it to (GLM-5.3 Flash for `sonnet` on Z.AI), or the id
+   names its model outright. When the provider cannot spawn a subagent (one model only, or the
+   Agent tool's model is not honoured), the main session implements directly, in its own git
+   worktree (never the main checkout). Propose `harness.json`'s `implementer.default` first.
+   Whatever the model, a subagent runs through the session's endpoint, so its family for the
+   reviewer rule is the session's (rule 0). OpenCode never implements: `implement.mjs` was
+   removed, because its runs died on rejected paths, resets and early ends and did not follow the
+   brief (L104). Whoever implements keeps `RUN-NOTES.md` in its worktree (`docs/running-notes.md`:
+   the plan, a progress line per commit, an END block before stopping), pushes after every
+   commit, and opens the PR. When a subagent ends, the main session reads its final report before
+   acting and posts its notes on the issue.
 2. **Before each review, ask the user ONE question:** which OpenCode model reviews? Propose
    `harness.json`'s `reviewer.default` first (GPT-5.6 Luna today; `sol-6.1`, GPT-6.1 Sol at
    `low`, for hard research, rule 21), and list the registered models that are neither of the

@@ -1,6 +1,6 @@
 ---
 name: run-task
-description: Run tasks or fixes end to end. The main session (or an agent it spawns) implements and one OpenCode model of another family reviews, each after one question to the user; the main session watches, merges and reports. Main session only.
+description: Run tasks or fixes end to end. A subagent spawned on a model of its own (or the main session directly) implements and one OpenCode model of another family reviews, each after one question to the user; the main session watches, merges and reports. Main session only.
 ---
 
 # /run-task [T<nn> | #<issue> ...]
@@ -11,8 +11,9 @@ For `#<issue>` of a bug labelled `fix`, the bug body replaces the task file, the
 `fix/<issue>-<slug>`, and there is one review round.
 
 Two questions per task, and no other choice of model (CLAUDE.md "Choosing models", the owner, 2026-10-12):
-before the implementation, whether the main session implements or the `implementer` agent does,
-and on which Claude Code alias; before each review, which OpenCode model reviews. Each question
+before the implementation, which subagent implements (the `implementer` agent on a model of its
+own: an alias or a model id the session's provider serves) or whether the main session does it
+directly; before each review, which OpenCode model reviews. Each question
 proposes `harness.json`'s default first; the roster changes through `/switch-model`, never here.
 No quota is checked. The implementer's family is the session's, read from the Anthropic
 environment (`switch-model.mjs --show` prints it); the reviewer is never of that family.
@@ -30,24 +31,27 @@ environment (`switch-model.mjs --show` prints it); the reviewer is never of that
    implementing itself reads the same block as its contract.
 
 2. **Implement.** First ask the user ONE question with the question tool (CLAUDE.md "Choosing models"
-   rule 1): the main session, or the `implementer` agent, and on which alias (`sonnet`, `opus`,
-   `haiku`, `fable`)? Put `harness.json`'s `implementer.default` first. Record the answer on the
+   rule 1): which subagent implements (the `implementer` agent on `sonnet`, `opus`, `haiku`, `fable`
+   or a model id the session's provider serves), or does the main session implement directly (only
+   where the provider cannot spawn one)? Put `harness.json`'s `implementer.default` first. Record the answer on the
    issue. Label `status:in-progress`. Then:
-   - **The main session**, in its own `git worktree` on the task's branch (never the main
-     checkout): keep `RUN-NOTES.md` there (`docs/running-notes.md`), push after every commit and
-     at least every 20 minutes, open the PR as a draft after the first push and `gh pr ready` it
-     before the review. This is the default for research (static first, CLAUDE.md rule 22: it can
-     run Ghidra and the pinned tools, L57) and for any task the session can do in one sitting.
-   - **The `implementer` Claude agent**: `Agent(subagent_type: "implementer", isolation: "worktree")`
-     with the brief, on the alias the user chose (`model: sonnet`, say). Under Z.AI the same
-     alias is a GLM model.
-     Its agent file carries §4's block and the run mechanics; its hook refuses `git stash`,
-     `git worktree`, a force-push and `gh pr merge`. Watch it by its transcript file's size and
-     its worktree (CLAUDE.md rules 9-11); tell the user in plain language what it is doing. Read
-     its final report in full before acting (rule 12), and post its `RUN-NOTES.md` on the issue.
-     A report that stops on a Done-when it cannot meet gets an answer (amend the task on `main`,
-     decide, or escalate), never a blind retry; an agent our limits interrupted is resumed with a
-     short "continue where you stopped" brief (rule 13).
+   - **The `implementer` subagent**: `Agent(subagent_type: "implementer", model: <the answer>,
+     isolation: "worktree")` with the brief, on a model of its own, not the orchestrator's
+     (`sonnet` under Opus; under Z.AI the same alias is GLM-5.3 Flash; a model id names the
+     provider's model outright). Its agent file carries §4's block and the run mechanics; its
+     hook refuses `git stash`, `git worktree`, a force-push and `gh pr merge`. Watch it by its
+     transcript file's size and its worktree (CLAUDE.md rules 9-11); tell the user in plain
+     language what it is doing. Read its final report in full before acting (rule 12), and post
+     its `RUN-NOTES.md` on the issue. A report that stops on a Done-when it cannot meet gets an
+     answer (amend the task on `main`, decide, or escalate), never a blind retry; a subagent our
+     limits interrupted is resumed with a short "continue where you stopped" brief (rule 13).
+     Ghidra and the pinned tools under `~/tools` are reachable from a subagent (L57); an OpenCode
+     reviewer cannot reach them.
+   - **The main session, directly**, only where the provider cannot spawn a subagent (one model,
+     or the Agent tool's model not honoured) or the user says so: in its own `git worktree` on
+     the task's branch (never the main checkout), keeping `RUN-NOTES.md` there
+     (`docs/running-notes.md`), pushing after every commit and at least every 20 minutes, opening
+     the PR as a draft after the first push and `gh pr ready` before the review.
 
 3. **Review.** First ask the user ONE question (CLAUDE.md "Choosing models" rule 2): which
    OpenCode model reviews? Put `harness.json`'s `reviewer.default` first (`sol-6.1` for hard

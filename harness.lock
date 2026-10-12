@@ -30,9 +30,9 @@ chains and jev decisions otherwise as the template's, including the template's n
 adapt docs/environment.md  (Ghidra 12.1.4 and the JDK in ~/tools (T18, T20); the Alibaba Token Plan and
 MiniMax section with the registration table, pricing and the owner's placements (2026-10-06))
 adapt docs/tasks/README.md  (this repository's task index)
-6d5759b57dc5b7432a3d04b5c87d185f9fdfad75e67e5c2c824103931d050980  .claude/agents/implementer.md
+af52af6d14ca0c065ef31cf4d25c58edcb43b4ad7a037da9fb74f4cd9af65dec  .claude/agents/implementer.md
 adapt .claude/agents/reviewer.md  (rule 9a: undo a mutation by rewriting the saved file, 2026-10-11)
-eaba20171e6fe2698839506d75f1539202303fe27b74ebedae0aec7828e20147  .claude/hooks/session-start.sh
+aaf3030742161fde6b652d1100fe9cdc93a612bd2d6b0d80c83b3ef333c20536  .claude/hooks/session-start.sh
 9d2227215dcf47b9dc7c41d5c9b7f8c5b79dd962c3fb8c3f8f625032fa5eefae  .claude/settings.json
 adapt .claude/skills/delegate/SKILL.md  (the user chooses models, /recommend a suggestion only (the owner, 2026-10-11); earlier: /recommend, not /best (f91210b, 2026-10-08))
 218462f453d5432db791c7697d7d34970491af106f8e1d1b95b0e0ef6f86747a  .claude/skills/jev/SKILL.md
@@ -44,7 +44,7 @@ adapt .opencode/agents/reviewer.md  (rule 9a: undo a mutation by rewriting the s
 c6ffaa08eb490d11e8f208b7f8ec7a1e291d55c3cee01e58aa84466fe1983f89  docs/jev/blocks-release.md
 46c4f6e3ca23871e59c25366e8acf9818e43113546f0cd107571ae110f6c10cb  docs/jev/breaks-play.md
 325385ce86485b764e18a17dbee408d014b968f78a2e727c5116a8f9becf3511  docs/review-brief.md
-8064f73d99acdc5434a71b857083fe35f437fe5be2226232a84bbee72b3fc853  docs/tasks/TEMPLATE.md
+4f1b39c9bc3a6131866898c068aa06f46ae39a096de178fcc65ac3aedf1dd78d  docs/tasks/TEMPLATE.md
 518ad06ab39fdd22407b864ba878acf404ffe9dac5a8e9b19b4d44b574fe6342  tools/harness/guard.mjs
 adapt tools/harness/implement.mjs  (the user chooses models, the owner 2026-10-11)
 adapt tools/harness/peek.sh  (new: an OpenCode run's latest steps, from isle-wars-archaeology d1e0082, 2026-10-11)
@@ -59,8 +59,8 @@ a6bf727222667a4c1744a8d01206e3fd36208203d80df117ff1216e08339ecf7  tools/harness/
 adapt tools/harness/lib/opencode.mjs  (the user chooses models, the owner 2026-10-11)
 5005d641b97629f37b2e0e4874ca0e46358d101828169bd7b7d74eff3ee10e4c  tools/harness/lib/post.mjs
 66379ce8b5620f13ac48634a9f54e1eabfd6f451c06161219f6883b541bd3452  tools/harness/lib/review-selftest.mjs
-4e11178306f1c39ed66131b37fea1580f7af32d67dc7fbe628342649a6289246  tools/harness/lib/switch.mjs
+718290e2c3645ebcd4944420cc877d665378ec56c4a0a24acd6bdee814c6776b  tools/harness/lib/switch.mjs
 bf717caa54364e8e56a50bab0f07d0212b8300992bc0ad3629cf097ef58e4845  tools/harness/models.mjs
 4406fa454bd0d403e85230c2d3f08e3bfddd0c53f44731b23dbdf5c50bc9a92f  tools/harness/post-review.mjs
 adapt tools/harness/review.mjs  (the user chooses models, the owner 2026-10-11)
-31ae98683613e5fc87f69e598a9ca3a90c4a2372dfd809f8007b7053e0628035  tools/harness/switch-model.mjs
+ba43f7573f27e280e103e04dabf774388adf317f28662e0ce867151a19f3adda  tools/harness/switch-model.mjs

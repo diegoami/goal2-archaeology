@@ -2,7 +2,7 @@
 
 - **Kind**: feature | correction (of T<nn>, bug #<n>) | slice | infrastructure
 - **Issue**: #<n> · **Branch**: `task/T<nn>-<slug>` · **Merge after**: T<nn>, …
-- **Implementer**: the main session, or the `implementer` Claude agent (CLAUDE.md "Choosing models"); say which, and why, only when it matters (Ghidra and the pinned tools need the main session, L57).
+- **Implementer**: the `implementer` subagent on the model chosen at the question, or the main session directly (CLAUDE.md "Choosing models"); say which, and why, only when it matters (Ghidra and the pinned tools need the main session, L57).
 - **Reviewer**: `reviewer.default` (`luna`, GPT-5.6 Luna), or a `harness.json` key with the reason: `sol-6.1` for hard research (rule 21); never the implementer's family.
 - **Evidence**: the reports, fixtures or investigations this task rests on, with links.
 - **Owns**: directories or files, e.g. `src/Calendar/**`, `tests/Calendar/**`. A task that measures
