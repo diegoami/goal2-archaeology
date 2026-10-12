@@ -137,9 +137,9 @@ def skill_value(plus4, plus5, plus7, element, class_table, profile_table):
     return (row * (plus4 + 1)) // SKILL_DIVISOR                          # 3A2C inc; 3A6C mul; 3A71 div 32
 
 
-def contest_value(plus4, plus5, plus7, plus_c, plus_e, element, class_table, profile_table,
+def contest_trace(plus4, plus5, plus7, plus_c, plus_e, element, class_table, profile_table,
                   pitch_13=0, pitch_11=0, event_code=0, flag_80fc=0, pitch_6=0):
-    """`0791:278A(pitch_record, element)`: the value a match contest draws against
+    """`0791:278A(pitch_record, element)` as (value, dx): the value a match contest draws against
     (`rand(contest)` at the call sites, or `/32 + 1` inside `0791:287C`).
 
     plus_c is the player's form byte +0xC (SIGNED: 27AB's `jge` is signed; 27B9 sign-extends);
@@ -159,6 +159,7 @@ def contest_value(plus4, plus5, plus7, plus_c, plus_e, element, class_table, pro
     # 2805-281E: the product-and-divide is UNSIGNED (`mul` at 2814, `xor dx, dx` at 2817 discards
     # the high word, `div cx` at 281C divides the low word) — see _contest_product.
     value = _contest_product(base, skill)
+    dx = ((base * skill) & 0xFFFF) % CONTEST_DIVISOR                    # 281C `div cx` leaves DX = the remainder
     # The keeper extra: 2826 `cmp byte ptr [di + 0x769], 0 / jne 2843` — the FIRST gate is
     # byte-membership (the data image's DS:0x769 has nonzero bytes for elements 2, 4, 12 — see
     # KEEPER_EXTRA_TABLE), and a nonzero value jumps to the extra-term branch without testing
@@ -168,8 +169,14 @@ def contest_value(plus4, plus5, plus7, plus_c, plus_e, element, class_table, pro
     elif element == KEEPING_ELEMENT and event_code in KEEPER_EVENTS:  # 282D-2837 (element 1, set test)
         value += pitch_11
     if pitch_6 < OUTFIELD_SLOT and flag_80fc:
+        dx = value % MANAGER_SHARE                                      # 2868 `div cx` (cx = 0x10) leaves DX
         value += value // MANAGER_SHARE                                 # 284F-286A
-    return value
+    return value, dx
+
+
+def contest_value(*args, **kwargs):
+    """`0791:278A`'s value (AX at its `retf 6`); `contest_trace` has the arguments and also DX."""
+    return contest_trace(*args, **kwargs)[0]
 
 
 def duel_contests(challenger_record, holder_record, class_table, profile_table, ground=True):
