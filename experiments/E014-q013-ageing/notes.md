@@ -178,9 +178,11 @@ year end's caps word). The **re-create** in the same 7FDF call is not: `7E80` ca
 `214B:06B1` twice for the age (`7EC7`, `7ED1`), `make_player` (`7EC0`, which draws +5, the
 age, +2 through roll_peak_age, morale, the fitness/energy draws) and `1771:0000` for the
 initial (`7F1F`) — section 4. The year-to-year variance between continuing players is the
-creation draw (+2, +3), not a yearly draw. `1771:6730` (stage_qualifying) re-seeds `DS:7B62`
-from the DOS time on entry to stages 2/5 (annotation, F004) — AFTER the ageing of that
-transition (8208 calls 80DA, and play_round calls 76B1 only afterwards,
+creation draw (+2, +3), not a yearly draw. `1771:6730` (stage_qualifying) seeds `DS:7B62`
+from the DOS time (via `23E4:11D7`) only when the year word `+0x38` is 0 (`675B`,
+seg_1771_09.asm:1111, then the call at `67A3`, :1138; otherwise it calls `1771:63A4`, `6762`,
+:1113): once per new game, not on every stage 2/5 entry (T30: E016 notes, F017). That seeding
+comes AFTER the ageing of that transition (8208 calls 80DA, and play_round calls 76B1 only afterwards,
 seg_000E_09.asm:492-500).
 
 ## 4. The retirement test `1771:7F40` and the re-create `1771:7E80` (context; Q014's territory)
