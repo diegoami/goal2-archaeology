@@ -297,7 +297,7 @@ class CleanEndTests(unittest.TestCase):
         """play() with every process faked: the sitting's Watcher.run is `run`."""
         session = Path(folder) / "s"
 
-        def new_session(load=None, fresh=False):
+        def new_session(load=None, fresh=False, scale=1):
             session.mkdir()
             meta = {"ended": None, "stop_reason": None, "load": {"fresh": True, "file": None}}
             (session / "meta.json").write_text(json.dumps(meta))
