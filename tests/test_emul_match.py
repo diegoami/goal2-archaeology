@@ -473,7 +473,9 @@ class StrengthReaderTests(unittest.TestCase):
         # DS:0E60[14 * DS:0E7C[w % 3] + (+7)]: w = 4 -> E7C[1] = 1 -> row 1, +7 = 2 -> byte 16 (3088; DS:0E7C = 0E60 + 28 starts the index table, so rows are 0 and 1);
         # position 3, foot != 0, not two-footed -> wrong (3139 set, 31AE-31C0). Every other byte is 0.
         rec = record(p6=3, p7=2)
-        self.assertEqual(self.call(w=4, rec=rec, foot={16: 1}, footix=(0, 1, 0))[:2], (37, 1))
+        got = self.call(w=4, rec=rec, foot={16: 1}, footix=(0, 1, 0))
+        self.assertEqual((got[:2], got[2]["wrong foot"]), ((37, 1), 1))
+        self.assertEqual(self.call(w=4, rec=rec)[2]["wrong foot"], 0)
         # the neighbouring bytes and rows do not count
         for other in (15, 17, 14, 2, 18, 27):
             self.assertEqual(self.call(w=4, rec=rec, foot={other: 1}, footix=(0, 1, 0))[0], 75, other)
