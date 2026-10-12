@@ -67,15 +67,16 @@ BRANCHES = {
         ("37AB", "82FE magnitude 1: cleared"), ("37B2", "82FE re-rolled"), ("37C2", "common tail"),
     ],
     "384C (pass to a slot: 287C at 39FC)": [
-        ("39EF", "2DCA false: 287C(pitch, 10) is called"), ("3A00", "287C non-zero"), ("3A0F", "|bp-2| > 8: 82FC := 0"),
-        ("3A16", "|bp-2| <= 8: 82FE adjusted"), ("3A2F", "tail"),
+        ("39EF", "2DCA false: 287C(pitch, 10) is called"), ("3A00", "287C non-zero"), ("3A0F", "|signed BYTE [bp-2]| > 8 (3A00-3A0D: mov al / cwde / abs / cmp ax, 8, signed word compare of the sign-extended byte; the high byte of the word is not read): 82FC := 0"),
+        ("3A16", "|signed BYTE [bp-2]| <= 8: 82FE adjusted"), ("3A2F", "tail"),
     ],
     "3C3F (shot/header: 287C at 3C89)": [
-        ("3C47", "entry"), ("3C63", "8324 == 0 path"), ("3C8D", "287C returned 0: 06D0(4)"), ("3C9A", "06D0 false: 29B3"),
-        ("3CA1", "80FB := 0"), ("3CA5", "80FB := 1"),
+        ("3C47", "entry"), ("3C63", "the comparison before the DS:8324 branch (3C63 cmp [8324], 0; jne 3CA1): reached at entry for event != 2 and after the event-2 jump"), ("3C8D", "287C returned 0: 06D0(4)"), ("3C9A", "06D0 false: 29B3"),
+        ("3CA1", "80FB := 0 (also reached from 3C68 when DS:8324 != 0)"),
+        ("3CCB", "after 34C1 and template: DS:8326 test"), ("3CD2", "DS:8326 == 0 (3CCB-3CD0): statistics increment at DS:7B81 + 10 * 2974(pitch)"), ("3CE7", "after the increment gate"), ("3CA5", "80FB := 1"),
     ],
     "539F (the tackle's aftermath: 287C at 5401)": [
-        ("53E3", "8303 == 0: coin"), ("53EC", "coin 0: 287C(holder, 3)"), ("5405", "win path (869F, template 0x0E)"),
+        ("53E3", "8303 == 0: coin"), ("53EC", "coin 0: 287C(CHALLENGER pitch record through the enclosing frame chain 53F0-53FE, 3)"), ("5405", "win path (869F, template 0x0E)"),
         ("541E", "lose path: 8303 test"), ("5451", "5E41 and templates 0x0E, 0x21"),
     ],
     "5565 (challenge: 287C at 560F)": [
@@ -93,8 +94,8 @@ BRANCHES = {
         ("54C4", "multiplier index 0 (8303 == 0 and 2C54 true)"), ("54C8", "multiplier index 1"), ("5500", "challenger roll > holder roll: 539F, result 1"),
         ("550A", "tail (result 0 when 5500 was not taken)"),
     ],
-    "3B15 (long ball: 3B35)": [("3B4A", "after max(0x1E, rand(skill/4))")],
-    "3EF8 (cross/long kick: 3F4B)": [("3F5E", "after max(floor, rand(skill/divisor))"), ("3F8E", "after 34C1")],
+    "3B15 (long ball: 3B35)": [("3B4A", "after max(0x1E, rand(skill/4))"), ("3B82", "830C != 0 after 34C1: index 0, template DS:078A[0] (5)"), ("3B86", "830C == 0 after 34C1: index 1, template DS:078A[1] (4)")],
+    "3EF8 (cross/long kick: 3F4B)": [("3F5E", "after max(floor, rand(skill/divisor))"), ("3F8E", "after 34C1"), ("3F99", "b != 0: template 0x17"), ("3FA1", "b == 0: template 0x18")],
     "5B36 (keeper: 5D69; the duel 5BC4-5C1E)": [
         ("5B4A", "8325 == 0 and 8324 == 0: return"), ("5B4D", "past the first gate"), ("5B5A", "2B51 true: bail 5E25"),
         ("5B5D", "past 2B51"), ("5B6C", "8302 != 0: the flight block 5C88"), ("5B6F", "8302 == 0: the duel (5BC4-5C1E)"),
