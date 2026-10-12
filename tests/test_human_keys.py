@@ -242,12 +242,14 @@ class KeyTests(unittest.TestCase):
             for a in arrivals:
                 self.assertFalse(t <= a <= t + rec.CAPTURE_MARGIN_S, (t, a))
 
-    def test_human_paced_keys_produce_one_burst_snapshot_each(self):
+    def test_human_paced_keys_account_for_every_group_in_a_request_or_a_merge(self):
         # R2 end-to-end at the requested 0.5-1.5 s human pace: 10 single-key groups 0.51 s apart
-        # (above the 0.5 s quiet) must produce 10 burst snapshots, not the 4 the overwriting
-        # Burst.last produced. Each tick (save + capture) advances the clock 0.75 s, longer than
-        # the 0.51 s gap, so keys keep arriving while a burst snapshot is being captured — the
-        # exact condition that merged groups before.
+        # (above the 0.5 s quiet). Each tick (save + capture) advances the clock 0.75 s, longer
+        # than the 0.51 s gap, so keys keep arriving while a burst snapshot is being captured.
+        # R2's overwriting Burst.last produced 4 requests and LOST groups. Since T44 (issue #128)
+        # the groups that settle during a save are answered by the next ONE request: fewer than
+        # 10 requests, but their merge markers add up to all 10 groups (the last of each merge
+        # claimed, the earlier ones recorded as not captured), none lost.
         now = [0.0]
         watcher = rec.Watcher.__new__(rec.Watcher)
         watcher.clock = lambda: now[0]
@@ -258,8 +260,12 @@ class KeyTests(unittest.TestCase):
         watcher.log = lambda msg: None
         ticks = []
 
+        merges = []
+
         def tick(**kw):
             ticks.append((now[0], kw.get("origin", "watcher")))
+            if kw.get("merge"):
+                merges.append(kw["merge"])
             now[0] += 0.75      # the save + staging capture latency
         watcher.tick = tick
         keys = Mock()
@@ -277,7 +283,11 @@ class KeyTests(unittest.TestCase):
         keys.drain = drain
         watcher.run(quit_after=30, keys=keys)
         bursts = [t for t in ticks if t[1] == "burst"]
-        self.assertEqual(len(bursts), 10, bursts)
+        self.assertEqual(len(bursts), len(merges))
+        self.assertEqual(sum(m["size"] for m in merges), 10, merges)   # no group lost
+        self.assertLess(len(bursts), 10)                    # and the saves did merge some
+        self.assertTrue(all(m["claimed"] == m["size"] == len(m["group_last_s"])
+                            for m in merges), merges)
 
     def test_private_display_logs_game_keys_not_outer_app_keys(self):
         outer, env = xvfb(710, 730, "800x600x24")
@@ -562,7 +572,7 @@ class BurstPipelineTests(unittest.TestCase):
     staging captures off the loop's critical path (a ~0.8 s capture used to delay the next
     request until after the next key had arrived, leaving key pairs between two windows)."""
 
-    def test_ten_keys_at_051_s_gaps_are_all_mapped(self):
+    def test_ten_keys_at_051_s_gaps_are_all_accounted_for(self):
         from tests import test_human_record as fixture
         import keymap
         with tempfile.TemporaryDirectory() as folder:
@@ -627,19 +637,29 @@ class BurstPipelineTests(unittest.TestCase):
             index = [json.loads(line) for line in (session / "index.jsonl").read_text().splitlines()]
             requests = [json.loads(line) for line in
                         (session / "requests.jsonl").read_text().splitlines()]
-            self.assertEqual(len(entries), 11)
-            self.assertEqual([e["origin"] for e in index],
-                             ["watcher"] + ["burst"] * 10)
-            self.assertEqual([r["seq"] is not None for r in requests], [True] * 11)
+            # T44 (issue #128): each save (0.6 s) is longer than the 0.527 s key spacing, so one
+            # request is in flight at a time and the groups that settle during it are answered
+            # by the next one request. The pre-T44 form of this test asserted all 10 presses
+            # mapped; that held only while requests overlapped (and were superseded on a real
+            # emulator). A request now goes out when the previous one ends, at whatever moment
+            # that is, and a key arriving inside its window stays ambiguous (keymap.py's rule),
+            # so what is asserted is the accounting: no group lost, every press either mapped,
+            # listed under a merge (not captured / claimed) or counted unmapped
+            bursts = [r for r in requests if r["origin"] == "burst"]
+            self.assertEqual(len(entries), 1 + len(bursts))
+            self.assertEqual([e["origin"] for e in index], ["watcher"] + ["burst"] * len(bursts))
+            self.assertEqual([r["seq"] is not None for r in requests], [True] * len(requests))
+            self.assertEqual(sum(r["merge"]["size"] for r in bursts), 10)   # no group lost
             states = [{"entry": e, "screen_text": f"SCREEN-{e['seq']}", "error": None}
                       for e in index]
             events = sorted(FakeKeys().events, key=lambda e: e["monotonic_s"])
-            result = keymap.build_map(states, events, w.t0,
-                                      quiet=rec.BURST_QUIET_S, margin=rec.CAPTURE_MARGIN_S)
-            # not "11/11 burst snapshots" but 10/10 mapped presses: the reproduction's record
-            # had 10 snapshots and still 6 unmapped presses
-            self.assertEqual((result["summary"], result["unmapped_keys"]),
-                             ("screens: 11, transitions: 10, keys: 10", 0))
+            result = keymap.build_map(states, events, w.t0, quiet=rec.BURST_QUIET_S,
+                                      margin=rec.CAPTURE_MARGIN_S, requests=requests)
+            accounted = (sum(r["count"] * len(r["keys"]) for r in result["transitions"])
+                         + sum(len(g["keys"]) for g in result["not_captured"])
+                         + sum(len(g["keys"]) for g in result["merged_claimed"])
+                         + result["unmapped_keys"])
+            self.assertEqual(accounted, 10, result)
 
     def test_a_pipeline_timeout_marks_the_request_skipped(self):
         # Sol r2 R1c: a capture that times out is logged as a request that staged nothing —
@@ -703,6 +723,10 @@ class DeferredCaptureTests(unittest.TestCase):
 
         w = rec.Watcher(session, live, "77", fixture.FakeDbx(), {"DISPLAY": ":0"},
                         xrun=xrun, alive=lambda: True, log=lambda m: None)
+        # T44 (issue #128): the loop's one-in-flight gate keeps requests from piling up, which is
+        # what made these captures supersede each other. Here the gate is OFF: the defence in
+        # depth (the ownership guards of T35) must still catch a pile-up if one ever got through
+        w.request_in_flight = lambda: False
         if delay_first_job:
             # the r3 reproduction: the recorder child's _stage_job sleeps 2 s before its
             # first burst capture; while it waits, later requests rewrite the live savestate
@@ -1307,3 +1331,276 @@ class ReproductionWrapperTests(unittest.TestCase):
         out = r.stdout + r.stderr
         self.assertEqual(r.returncode, 1, out[-4000:])
         self.assertIn("a save no request line owns", out)
+
+
+class OneSaveInFlightTests(unittest.TestCase):
+    """T44 (issue #128): the owner's first sitting on the new machine sent 537 save requests and 313
+    were superseded: the median gap between requests (0.15 s) was shorter than one DOSBox-X save
+    (about 0.8 s), so later saves overwrote earlier ones. The watcher keeps one save request in
+    flight (`_submitted == _finished` read before every send); the key groups that settle while
+    it is written wait, and ONE request answers them all (option A: its snapshot is the screen
+    after the last group, the earlier groups' screens are not captured)."""
+
+    def _sitting(self, save_s, arrivals, quit_after):
+        from tests import test_human_record as fixture
+        session = Path(tempfile.mkdtemp())
+        self.addCleanup(shutil.rmtree, session, ignore_errors=True)
+        (session / "snapshots").mkdir()
+        live = session / "state.sav"
+        live.write_bytes(fixture.tiny_zip(b"vga-0"))
+        writes = queue.Queue()
+
+        def serve_writes():
+            # [designed] a serialized stand-in for DOSBox-X's savestate writer: each request is
+            # answered `save_s` later with one fresh atomic write (a new inode)
+            while True:
+                item = writes.get()
+                if item is None:
+                    return
+                time.sleep(save_s)
+                tmp = live.with_name(live.name + ".tmp")
+                tmp.write_bytes(fixture.tiny_zip(f"vga-{item}".encode()))
+                tmp.replace(live)
+
+        threading.Thread(target=serve_writes, daemon=True).start()
+        counter, in_flight = [0], []
+
+        def xrun(argv):
+            # a request is being SENT: the previous ones' jobs must all have finished
+            in_flight.append(w._submitted - w._finished)
+            time.sleep(0.03)
+            counter[0] += 1
+            writes.put(counter[0])
+
+        w = rec.Watcher(session, live, "77", fixture.FakeDbx(), {"DISPLAY": ":0"},
+                        xrun=xrun, alive=lambda: True, log=lambda m: None)
+
+        class FakeKeys:
+            error = None
+            proc = types.SimpleNamespace(poll=lambda: None)
+
+            def __init__(self):
+                self.events = []
+                for k, t in enumerate(arrivals):
+                    self.events.append({"monotonic_s": w.t0 + t, "event": "press",
+                                        "keysym": f"k{k}"})
+                    self.events.append({"monotonic_s": w.t0 + t + 0.012, "event": "release",
+                                        "keysym": f"k{k}"})
+                self.i = 0
+
+            def drain(self):
+                now = time.monotonic()
+                out = []
+                while self.i < len(self.events) and self.events[self.i]["monotonic_s"] <= now:
+                    out.append(self.events[self.i])
+                    self.i += 1
+                return out
+
+        keys = FakeKeys()
+        w.run(quit_after=quit_after, keys=keys)
+        writes.put(None)
+        index = [json.loads(line) for line in (session / "index.jsonl").read_text().splitlines()]
+        requests = [json.loads(line) for line in
+                    (session / "requests.jsonl").read_text().splitlines()]
+        return w, keys.events, index, requests, in_flight
+
+    def _scroll(self, gap_s):
+        import scripted_keys
+        arrivals = [0.3 + gap_s * k for k in range(int(6 / gap_s))]     # keys for 6 s
+        w, events, index, requests, in_flight = self._sitting(0.8, arrivals, quit_after=9)
+        self.assertGreaterEqual(len(in_flight), 2, in_flight)
+        self.assertEqual(max(in_flight), 0, f"requests sent with others in flight: {in_flight}")
+        self.assertEqual([r for r in requests if r.get("superseded")], [])
+        self.assertEqual([r["seq"] is None for r in requests], [False] * len(requests))
+        bursts = [e for e in index if e["origin"] == "burst"]
+        groups = scripted_keys.group_presses(events, rec.BURST_QUIET_S)
+        ok, why = scripted_keys.check_bursts(groups, bursts, w.t0, requests=requests)
+        self.assertTrue(ok, why)
+        ok, why = scripted_keys.check_request_windows(groups, bursts, w.t0, rec.CAPTURE_MARGIN_S,
+                                                      requests=requests)
+        self.assertTrue(ok, why)
+        merged = sum(r["merge"]["size"] - 1 for r in requests if r.get("merge"))
+        print(f"\nT44 scroll, keys every {gap_s} s: {len(requests)} requests, {len(bursts)} burst "
+              f"snapshots for {len(groups)} key group(s), merged (not captured) groups: {merged}")
+        return requests
+
+    def test_a_scroll_faster_than_the_save_keeps_one_request_in_flight(self):
+        # DW1: keys every 0.15 s for 6 s against a save of 0.8 s. The stream never settles
+        # (EVENT_SETTLE_S), so the scroll is one episode and one request follows it
+        self._scroll(0.15)
+
+    def test_requests_between_keys_wait_for_the_one_in_flight(self):
+        # keys every 0.4 s (each settles, so each wants a request) against a save of 0.8 s:
+        # without the gate a request goes out every 0.4 s and they overwrite one another
+        requests = self._scroll(0.4)
+        self.assertGreater(len([r for r in requests if r["origin"] == "burst"]), 3)
+
+    def test_groups_that_settle_in_flight_wait_and_go_out_in_one_request(self):
+        import keymap
+        import scripted_keys
+        # a 2 s save (the opening request ends at ~2.05 s); keys 0.7 s apart: k0 starts a
+        # request, k1..k3 settle as groups of their own (gaps over the 0.5 s quiet) while it is
+        # written
+        arrivals = [2.3, 3.0, 3.7, 4.3, 8.0]
+        w, events, index, requests, in_flight = self._sitting(2.0, arrivals, quit_after=14)
+        self.assertEqual(max(in_flight), 0, in_flight)
+        self.assertEqual([r for r in requests if r.get("superseded")], [])
+        bursts = [r for r in requests if r["origin"] == "burst"]
+        self.assertEqual([r["merge"]["size"] for r in bursts], [1, 3, 1], bursts)
+        merged = bursts[1]["merge"]
+        # the marker names the merge: size 3, the last group claimed, the groups' last keys
+        self.assertEqual(merged["claimed"], 3)
+        self.assertEqual(len(merged["group_last_s"]), 3)
+        self.assertAlmostEqual(merged["group_last_s"][-1], 4.312, delta=0.05)
+        groups = scripted_keys.group_presses(events, rec.BURST_QUIET_S)
+        self.assertEqual(len(groups), 5)
+        bursts_idx = [e for e in index if e["origin"] == "burst"]
+        ok, why = scripted_keys.check_bursts(groups, bursts_idx, w.t0, requests=requests)
+        self.assertTrue(ok, why)
+        self.assertIn("2 not captured by merging", why)
+        ok, why = scripted_keys.check_request_windows(groups, bursts_idx, w.t0,
+                                                      rec.CAPTURE_MARGIN_S, requests=requests)
+        self.assertTrue(ok, why)
+        # option A in the map: the earlier two groups are listed as not captured with their
+        # keys, the third is claimed (screen after only), nothing is unmapped
+        states = [{"entry": e, "screen_text": f"SCREEN-{e['seq']}", "error": None} for e in index]
+        result = keymap.build_map(states, events, w.t0, requests=requests)
+        self.assertEqual(result["not_captured"], [{"keys": ["k1"]}, {"keys": ["k2"]}])
+        self.assertEqual([g["keys"] for g in result["merged_claimed"]], [["k3"]])
+        self.assertEqual(result["unmapped_keys"], 0)
+        self.assertEqual([r["keys"] for r in result["transitions"]], [["k0"], ["k4"]])
+        ok, why = scripted_keys.check_mapped(result)
+        self.assertTrue(ok, why)
+
+    def test_a_cadence_tick_due_in_flight_is_sent_after_it_once(self):
+        # the first request is in flight from 0 s to 45 s, over two cadence periods (CADENCE_S
+        # ticks at 20 s and 40 s fall inside it): neither is dropped (a tick goes out the moment
+        # the request finishes, at 45 s) and they are not doubled (one tick for both, the next
+        # at the grid's 60 s)
+        now = [0.0]
+        flight_ends = [0.0]
+        watcher = rec.Watcher.__new__(rec.Watcher)
+        watcher.clock = lambda: now[0]
+        watcher.sleep = lambda secs: now.__setitem__(0, now[0] + secs)
+        watcher.t0 = 0.0
+        watcher.dbx = Mock()
+        watcher.dbx.poll.return_value = None
+        watcher.log = lambda msg: None
+        watcher.request_in_flight = lambda: now[0] < flight_ends[0]
+        ticks = []
+
+        def tick(**kw):
+            ticks.append(round(now[0], 2))
+            flight_ends[0] = now[0] + (45.0 if len(ticks) == 1 else 0.5)
+        watcher.tick = tick
+        keys = Mock()
+        keys.error = None
+        keys.proc.poll.return_value = None
+        keys.drain = lambda: []
+        watcher.run(quit_after=70, keys=keys)
+        self.assertEqual(ticks[0], 0.0)
+        self.assertAlmostEqual(ticks[1], 45.0, delta=0.05)
+        self.assertAlmostEqual(ticks[2], 60.0, delta=0.05)
+        self.assertEqual(len(ticks), 3, ticks)
+
+    def test_the_resume_request_waits_for_the_request_in_flight(self):
+        now = [0.0]
+        watcher = rec.Watcher.__new__(rec.Watcher)
+        watcher.clock = lambda: now[0]
+        watcher.sleep = lambda secs: now.__setitem__(0, now[0] + secs)
+        watcher.t0 = 0.0
+        watcher.dbx = Mock()
+        watcher.dbx.poll.return_value = None
+        watcher.log = lambda msg: None
+        watcher.resume_due = True
+        watcher.request_in_flight = lambda: now[0] < 3.0
+        ticks = []
+        watcher.tick = lambda **kw: ticks.append((round(now[0], 2), kw.get("origin", "watcher")))
+        keys = Mock()
+        keys.error = None
+        keys.proc.poll.return_value = None
+        keys.drain = lambda: []
+        watcher.run(quit_after=5, keys=keys)
+        self.assertEqual(ticks[0][1], "resume", ticks)
+        self.assertGreaterEqual(ticks[0][0], 3.0, ticks)
+
+    def _loop_with_keys(self, presses):
+        now = [0.0]
+        watcher = rec.Watcher.__new__(rec.Watcher)
+        watcher.clock = lambda: now[0]
+        watcher.sleep = lambda secs: now.__setitem__(0, now[0] + secs)
+        watcher.t0 = 0.0
+        watcher.dbx = Mock()
+        watcher.dbx.poll.return_value = None
+        watcher.log = lambda msg: None
+        ticks = []
+        watcher.tick = lambda **kw: ticks.append((round(now[0], 2), kw.get("origin", "watcher")))
+        keys = Mock()
+        keys.error = None
+        keys.proc.poll.return_value = None
+        sent = [0]
+
+        def drain():
+            out = []
+            while sent[0] < len(presses) and presses[sent[0]] <= now[0]:
+                out.append({"monotonic_s": presses[sent[0]], "event": "press", "keysym": "Down"})
+                sent[0] += 1
+            return out
+        keys.drain = drain
+        watcher.run(quit_after=8, keys=keys)
+        return [t for t in ticks if t[1] == "burst"]
+
+    def test_a_fast_run_of_keys_gets_its_one_request_after_the_run(self):
+        # 30 presses 0.1 s apart (1.0 s .. 3.9 s): each less than EVENT_SETTLE_S after the
+        # previous, so no request is tried between them (it could not fit: a request window
+        # is ~0.075 s and the next key is 0.1 s away); the run's one request follows its last
+        # key by EVENT_SETTLE_S
+        presses = [1.0 + 0.1 * k for k in range(30)]
+        bursts = self._loop_with_keys(presses)
+        self.assertEqual(len(bursts), 1, bursts)
+        self.assertAlmostEqual(bursts[0][0], presses[-1] + rec.EVENT_SETTLE_S, delta=0.03)
+
+    def test_keys_spaced_over_the_settle_get_one_request_each(self):
+        # 0.527 s apart (the T34 reproduction): each key's request at the settle, one each
+        presses = [1.0 + 0.527 * k for k in range(4)]
+        bursts = self._loop_with_keys(presses)
+        self.assertEqual(len(bursts), 4, bursts)
+        for (at, _), pressed, following in zip(bursts, presses, presses[1:] + [float("inf")]):
+            self.assertAlmostEqual(at, pressed + rec.EVENT_SETTLE_S, delta=0.03)
+            # the T34 edge at the settle of T44 (0.25 s): the whole request window (send ~0.03 s
+            # + CAPTURE_MARGIN_S) closes before the next key, so each key keeps its own window
+            self.assertLess(at + 0.03 + rec.CAPTURE_MARGIN_S, following)
+
+
+class MergedMapTests(unittest.TestCase):
+    """T44: a gap with several bursts is a merge only when the closing request's marker says so."""
+
+    def _states(self):
+        return [{"entry": {"seq": i, "request_s": r, "sent_s": r + 0.03, "elapsed_s": r + 1.0},
+                 "screen_text": f"S{i}", "error": None} for i, r in ((1, 0.0), (2, 10.0))]
+
+    def _events(self):
+        return [{"monotonic_s": t, "event": "press", "keysym": k}
+                for t, k in ((2.0, "a"), (3.0, "b"), (4.0, "c"))]
+
+    def test_without_a_marker_two_bursts_in_a_gap_stay_unmapped(self):
+        import keymap
+        r = keymap.build_map(self._states(), self._events(), 0.0, quiet=0.5, margin=0.05)
+        self.assertEqual((r["unmapped_keys"], r["not_captured"]), (3, []))
+
+    def test_a_marker_smaller_than_the_bursts_excuses_nothing(self):
+        import keymap
+        lines = [{"request_s": 10.0, "seq": 2, "merge": {"size": 2, "claimed": 2}}]
+        r = keymap.build_map(self._states(), self._events(), 0.0, quiet=0.5, margin=0.05,
+                             requests=lines)
+        self.assertEqual((r["unmapped_keys"], r["not_captured"]), (3, []))
+
+    def test_a_marker_naming_the_merge_lists_the_earlier_groups(self):
+        import keymap
+        lines = [{"request_s": 10.0, "seq": 2, "merge": {"size": 3, "claimed": 3}}]
+        r = keymap.build_map(self._states(), self._events(), 0.0, quiet=0.5, margin=0.05,
+                             requests=lines)
+        self.assertEqual(r["unmapped_keys"], 0)
+        self.assertEqual(r["not_captured"], [{"keys": ["a"]}, {"keys": ["b"]}])
+        self.assertEqual([g["keys"] for g in r["merged_claimed"]], [["c"]])
+        self.assertIn("not captured groups: 2", r["summary"])

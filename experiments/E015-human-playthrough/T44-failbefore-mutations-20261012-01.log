@@ -1,0 +1,63 @@
+=== origin/main recorder.py: exit 1
+test_a_cadence_tick_due_in_flight_is_sent_after_it_once (tests.test_human_keys.OneSaveInFlightTests.test_a_cadence_tick_due_in_flight_is_sent_after_it_once) ... FAIL
+test_a_scroll_faster_than_the_save_keeps_one_request_in_flight (tests.test_human_keys.OneSaveInFlightTests.test_a_scroll_faster_than_the_save_keeps_one_request_in_flight) ... FAIL
+test_groups_that_settle_in_flight_wait_and_go_out_in_one_request (tests.test_human_keys.OneSaveInFlightTests.test_groups_that_settle_in_flight_wait_and_go_out_in_one_request) ... Exception in thread Thread-1 (serve_writes):
+test_a_marker_naming_the_merge_lists_the_earlier_groups (tests.test_human_keys.MergedMapTests.test_a_marker_naming_the_merge_lists_the_earlier_groups) ... ok
+test_a_marker_smaller_than_the_bursts_excuses_nothing (tests.test_human_keys.MergedMapTests.test_a_marker_smaller_than_the_bursts_excuses_nothing) ... ok
+test_without_a_marker_two_bursts_in_a_gap_stay_unmapped (tests.test_human_keys.MergedMapTests.test_without_a_marker_two_bursts_in_a_gap_stay_unmapped) ... ok
+FAIL: test_a_cadence_tick_due_in_flight_is_sent_after_it_once (tests.test_human_keys.OneSaveInFlightTests.test_a_cadence_tick_due_in_flight_is_sent_after_it_once)
+FAIL: test_a_scroll_faster_than_the_save_keeps_one_request_in_flight (tests.test_human_keys.OneSaveInFlightTests.test_a_scroll_faster_than_the_save_keeps_one_request_in_flight)
+FAIL: test_groups_that_settle_in_flight_wait_and_go_out_in_one_request (tests.test_human_keys.OneSaveInFlightTests.test_groups_that_settle_in_flight_wait_and_go_out_in_one_request)
+Ran 6 tests in 43.149s
+FAILED (failures=3)
+    FileNotFoundError: [Errno 2] No such file or directory: '/tmp/tmph6hbr_8x/state.sav.tmp'
+    AssertionError: 20.0 != 45.0 within 0.05 delta (25.0 difference)
+    AssertionError: 33 != 0 : requests sent with others in flight: [0, 1, 2, 3, 4, 5, 5, 6, 7, 8, 9, 9, 10, 11, 12, 13, 13, 14, 15, 16, 17, 17, 18, 19, 20, 21, 21, 22, 23, 24, 25, 26, 27, 27, 28, 29, 30, 31, 31, 32, 33]
+    AssertionError: 3 != 0 : [0, 0, 1, 2, 3, 2]
+=== M1 in-flight gate removed: exit 1
+test_a_cadence_tick_due_in_flight_is_sent_after_it_once (tests.test_human_keys.OneSaveInFlightTests.test_a_cadence_tick_due_in_flight_is_sent_after_it_once) ... FAIL
+test_a_scroll_faster_than_the_save_keeps_one_request_in_flight (tests.test_human_keys.OneSaveInFlightTests.test_a_scroll_faster_than_the_save_keeps_one_request_in_flight) ... FAIL
+test_groups_that_settle_in_flight_wait_and_go_out_in_one_request (tests.test_human_keys.OneSaveInFlightTests.test_groups_that_settle_in_flight_wait_and_go_out_in_one_request) ... Exception in thread Thread-1 (serve_writes):
+test_a_marker_naming_the_merge_lists_the_earlier_groups (tests.test_human_keys.MergedMapTests.test_a_marker_naming_the_merge_lists_the_earlier_groups) ... ok
+test_a_marker_smaller_than_the_bursts_excuses_nothing (tests.test_human_keys.MergedMapTests.test_a_marker_smaller_than_the_bursts_excuses_nothing) ... ok
+test_without_a_marker_two_bursts_in_a_gap_stay_unmapped (tests.test_human_keys.MergedMapTests.test_without_a_marker_two_bursts_in_a_gap_stay_unmapped) ... ok
+FAIL: test_a_cadence_tick_due_in_flight_is_sent_after_it_once (tests.test_human_keys.OneSaveInFlightTests.test_a_cadence_tick_due_in_flight_is_sent_after_it_once)
+FAIL: test_a_scroll_faster_than_the_save_keeps_one_request_in_flight (tests.test_human_keys.OneSaveInFlightTests.test_a_scroll_faster_than_the_save_keeps_one_request_in_flight)
+FAIL: test_groups_that_settle_in_flight_wait_and_go_out_in_one_request (tests.test_human_keys.OneSaveInFlightTests.test_groups_that_settle_in_flight_wait_and_go_out_in_one_request)
+Ran 6 tests in 43.177s
+FAILED (failures=3)
+    FileNotFoundError: [Errno 2] No such file or directory: '/tmp/tmppvqqdipt/state.sav.tmp'
+    AssertionError: 20.0 != 45.0 within 0.05 delta (25.0 difference)
+    AssertionError: 33 != 0 : requests sent with others in flight: [0, 1, 2, 3, 4, 5, 5, 6, 7, 8, 9, 9, 10, 11, 12, 13, 13, 14, 15, 16, 17, 17, 18, 19, 20, 21, 21, 22, 23, 24, 25, 26, 27, 27, 28, 29, 30, 31, 31, 32, 33]
+    AssertionError: 3 != 0 : [0, 0, 1, 2, 3, 2]
+=== M2 merge removed (only the oldest group per request): exit 1
+test_a_cadence_tick_due_in_flight_is_sent_after_it_once (tests.test_human_keys.OneSaveInFlightTests.test_a_cadence_tick_due_in_flight_is_sent_after_it_once) ... ok
+test_a_scroll_faster_than_the_save_keeps_one_request_in_flight (tests.test_human_keys.OneSaveInFlightTests.test_a_scroll_faster_than_the_save_keeps_one_request_in_flight) ... ok
+test_groups_that_settle_in_flight_wait_and_go_out_in_one_request (tests.test_human_keys.OneSaveInFlightTests.test_groups_that_settle_in_flight_wait_and_go_out_in_one_request) ... FAIL
+test_a_marker_naming_the_merge_lists_the_earlier_groups (tests.test_human_keys.MergedMapTests.test_a_marker_naming_the_merge_lists_the_earlier_groups) ... ok
+test_a_marker_smaller_than_the_bursts_excuses_nothing (tests.test_human_keys.MergedMapTests.test_a_marker_smaller_than_the_bursts_excuses_nothing) ... ok
+test_without_a_marker_two_bursts_in_a_gap_stay_unmapped (tests.test_human_keys.MergedMapTests.test_without_a_marker_two_bursts_in_a_gap_stay_unmapped) ... ok
+FAIL: test_groups_that_settle_in_flight_wait_and_go_out_in_one_request (tests.test_human_keys.OneSaveInFlightTests.test_groups_that_settle_in_flight_wait_and_go_out_in_one_request)
+Ran 6 tests in 23.148s
+FAILED (failures=1)
+    AssertionError: Lists differ: [1, 1, 1, 1, 1] != [1, 3, 1]
+=== M3 cadence catch-up is a single step: exit 1
+test_a_cadence_tick_due_in_flight_is_sent_after_it_once (tests.test_human_keys.OneSaveInFlightTests.test_a_cadence_tick_due_in_flight_is_sent_after_it_once) ... FAIL
+test_a_scroll_faster_than_the_save_keeps_one_request_in_flight (tests.test_human_keys.OneSaveInFlightTests.test_a_scroll_faster_than_the_save_keeps_one_request_in_flight) ... ok
+test_groups_that_settle_in_flight_wait_and_go_out_in_one_request (tests.test_human_keys.OneSaveInFlightTests.test_groups_that_settle_in_flight_wait_and_go_out_in_one_request) ... ok
+test_a_marker_naming_the_merge_lists_the_earlier_groups (tests.test_human_keys.MergedMapTests.test_a_marker_naming_the_merge_lists_the_earlier_groups) ... ok
+test_a_marker_smaller_than_the_bursts_excuses_nothing (tests.test_human_keys.MergedMapTests.test_a_marker_smaller_than_the_bursts_excuses_nothing) ... ok
+test_without_a_marker_two_bursts_in_a_gap_stay_unmapped (tests.test_human_keys.MergedMapTests.test_without_a_marker_two_bursts_in_a_gap_stay_unmapped) ... ok
+FAIL: test_a_cadence_tick_due_in_flight_is_sent_after_it_once (tests.test_human_keys.OneSaveInFlightTests.test_a_cadence_tick_due_in_flight_is_sent_after_it_once)
+Ran 6 tests in 23.152s
+FAILED (failures=1)
+    AssertionError: 45.52 != 60.0 within 0.05 delta (14.479999999999997 difference)
+=== M4 gate also open for the resume request only (gate skipped when send_resume): exit 0
+test_a_cadence_tick_due_in_flight_is_sent_after_it_once (tests.test_human_keys.OneSaveInFlightTests.test_a_cadence_tick_due_in_flight_is_sent_after_it_once) ... ok
+test_a_scroll_faster_than_the_save_keeps_one_request_in_flight (tests.test_human_keys.OneSaveInFlightTests.test_a_scroll_faster_than_the_save_keeps_one_request_in_flight) ... ok
+test_groups_that_settle_in_flight_wait_and_go_out_in_one_request (tests.test_human_keys.OneSaveInFlightTests.test_groups_that_settle_in_flight_wait_and_go_out_in_one_request) ... ok
+test_a_marker_naming_the_merge_lists_the_earlier_groups (tests.test_human_keys.MergedMapTests.test_a_marker_naming_the_merge_lists_the_earlier_groups) ... ok
+test_a_marker_smaller_than_the_bursts_excuses_nothing (tests.test_human_keys.MergedMapTests.test_a_marker_smaller_than_the_bursts_excuses_nothing) ... ok
+test_without_a_marker_two_bursts_in_a_gap_stay_unmapped (tests.test_human_keys.MergedMapTests.test_without_a_marker_two_bursts_in_a_gap_stay_unmapped) ... ok
+Ran 6 tests in 23.136s
+OK

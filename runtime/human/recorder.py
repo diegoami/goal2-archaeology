@@ -140,13 +140,22 @@ BURST_QUIET_S = 0.5
 # it needs spacing >= quiet + window width (~0.58 s at width = send ~26 ms + margin 50 ms)
 # — so it either swallows the next key or, sent later, leaves the pair unseparated; either
 # way the pair is unmapped. Sent instead EVENT_SETTLE_S after the newest event, the window
-# opens after that key's release and still ~0.39 s before the next key. 0.05 s is ~4x the
-# measured release lag; the honest cost is a dead zone — an event arriving inside the open
-# window ([settle, settle + width] after the last event) makes its gap ambiguous, the
-# ambiguity keymap.py already documents. Searched: T34-probe-20261009-05.log (send ~26 ms,
-# logger delivery max 5.7 ms) and the session's press/release intervals. Recorder policy,
-# not game timing.
-EVENT_SETTLE_S = 0.05
+# opens after that key's release and still ~0.2 s before the next key. The honest cost is a
+# dead zone — an event arriving inside the open window ([settle, settle + width] after the
+# last event) makes its gap ambiguous, the ambiguity keymap.py already documents.
+# T34 chose 0.05 s (~4x the measured release lag). T44 (issue #128) raises it to 0.25 s: a
+# scroll with Up/Down tapped or held has keys 0.03-0.15 s apart, and a request opened 0.05 s
+# after one key met the next key inside its ~0.075 s window — measured on the scripted scroll
+# (T44-scripted-scroll-20261012-01.log: 40 Down keys 0.08-0.15 s apart, one save ~0.28 s): 33
+# of 40 presses unmapped. No request can be placed between keys that are closer than its own
+# window, so none is tried until the stream has been still for 0.25 s, above the 0.15 s widest
+# key spacing of that run; a whole scroll is then one episode with one request after it. 0.25 s
+# still opens the window (to ~0.33 s) well before the 0.527 s reproduction's next key, and below
+# the 0.5 s grouping quiet. Searched: T34-probe-20261009-05.log (send ~26 ms, logger delivery
+# max 5.7 ms), the session's press/release intervals and the scroll log above; no measured owner
+# key spacing for a held scroll exists (the sitting 20261011-161003 was not kept). Recorder
+# policy, not game timing.
+EVENT_SETTLE_S = 0.25
 # [designed] The write-event bound of ONE save request. Measured on this host
 # (evidence/E015/T34-probe-closes-20261009-01.log, three real saves): a single
 # DOSBox-X save produces 53-54 write events on state.sav (27 CLOSE_WRITE plus as
@@ -252,8 +261,11 @@ class Burst:
     and `consume()` drops it after its snapshot is taken.
 
     The groups are a queue, not one `last` (R2): keys that arrive while a burst snapshot is being
-    captured are appended as their own groups, never merged into the one just snapshotted, so N
-    groups produce N burst snapshots, one per loop pass. Each group keeps `first` (the pre-send
+    captured are appended as their own groups, never merged into the one just snapshotted. T44
+    (issue #128): at most one save request is in flight, so the groups that settle while one is
+    being written wait, and ONE request is then sent for all of them (`take_all`): its snapshot is
+    claimed as the screen after the LAST group's last key, and the screens after the earlier groups
+    are not captured (the owner's option A, 2026-10-12). Each group keeps `first` (the pre-send
     start of the burst), `last` (the key that schedules its snapshot) and, once its save request
     has been sent, `request_time`/`sent` — the pre-send clock and the send's end, the window the
     map reads (T34 Sol-r2 R1a), recorded on the group at the moment of the send, never at
@@ -276,6 +288,27 @@ class Burst:
     def consume(self):
         if self.groups:
             self.groups.pop(0)
+
+    def take_all(self):
+        """Every pending group, removed: the groups one request is sent for (T44). The last is the
+        claimed one; each carries the shared request time once the send is made (`mark_sent`)."""
+        taken, self.groups = self.groups, []
+        return taken
+
+    @staticmethod
+    def merge_marker(taken, t0):
+        """The merge marker written on the request's line: `size` groups, the last claimed,
+        `group_last_s` each group's last key event (seconds since t0), in order. A lone group is
+        size 1."""
+        return {"size": len(taken), "claimed": len(taken),
+                "group_last_s": [round(g["last"] - t0, 3) for g in taken]}
+
+    @staticmethod
+    def mark_sent(taken, request_time, sent):
+        """The shared window on every merged group, with its size and 1-based position."""
+        for position, group in enumerate(taken, 1):
+            group["request_time"], group["sent"] = request_time, sent
+            group["merge"] = {"size": len(taken), "position": position}
 
 
 class KeyParser:
@@ -715,6 +748,11 @@ class Watcher:
     and validation is rejected, and the captured bytes differ from the pre-send snapshot of
     the live file (evidence of a fresh write, not the previous tick's savestate re-indexed)."""
 
+    # The pipeline's request counters (T44): the loop sends nothing while `_submitted !=
+    # _finished`. Class defaults, so a Watcher made without __init__ has no request in flight.
+    _submitted = 0
+    _finished = 0
+
     # The pause (T39b). Class defaults, so a Watcher made without __init__ (the loop tests) is a
     # sitting that never pauses.
     pause_probe = None        # () -> True while DOSBox-X is paused (window_paused), else no pause
@@ -777,6 +815,7 @@ class Watcher:
         self._fast_consumed = None
         self._submitted = 0
         self._finished = 0
+        self._merge_of = {}   # request clock -> the merge marker of its burst groups (T44)
         self._request_seq = 0            # pipeline requests, for the per-request savestate path
         self.pause_probe = paused
         self.resume_key = resume_key
@@ -1103,7 +1142,7 @@ class Watcher:
         self.log(f"staged {entry['file']} ({len(data)} bytes, sha256 {entry['sha256'][:16]}...)")
         return entry
 
-    def tick(self, video=None, origin="watcher", submit=None):
+    def tick(self, video=None, origin="watcher", submit=None, merge=None):
         """One snapshot: send the host key to the game window, then stage when stable. The pre-send
         signature (metadata only) is taken before the key is sent so `capture` can require a
         fresh write (R6). If `video` is not None, its `poll_growth()` is called between key and stage (R16).
@@ -1118,6 +1157,8 @@ class Watcher:
         _, pre_events = self._write_state()   # the write-event count before this request
         epoch = self.pause_epoch              # the pauses seen before this request (T39b)
         request = self.clock()
+        if merge is not None:
+            self._merge_of[request] = merge   # note_request writes it on this request's line
         self.xrun(key_cmd(self.wid))
         self.last_sent = self.clock()
         self.last_request = request
@@ -1178,6 +1219,9 @@ class Watcher:
                 "sent_s": round(sent - self.t0, 3), "origin": origin, "seq": seq}
         if superseded:
             line["superseded"] = True
+        merge = self._merge_of.pop(request, None)
+        if merge is not None:
+            line["merge"] = merge
         if pre_events is not None:
             line["pre_events"] = pre_events
         if accept_events is not None:
@@ -1340,6 +1384,13 @@ class Watcher:
             self.log("F12+P while paused: the recorder presses Pause to resume")
             self.resume_key()
 
+    def request_in_flight(self):
+        """Whether a save request's capture is still running: submitted to the pipeline and not
+        yet finished (T44). The pipeline counts `_finished` when a job ends, however it ends —
+        staged, superseded, timed out or the emulator gone — so this is the one place "finished"
+        is read, and the only gate between the loop and a send."""
+        return self._submitted != self._finished
+
     # -- the loop -----------------------------------------------------------------------
     def run(self, quit_after=None, stop=lambda: False, video=None, keys=None):
         """Tick at t0 + n*CADENCE_S (the first tick immediately: the session's opening state is
@@ -1446,6 +1497,15 @@ class Watcher:
                 if now < next_tick and not send_burst and not send_resume:
                     self.sleep(min(next_tick - now, 0.01 if keys else 0.5))
                     continue
+                if keys and self.request_in_flight():
+                    # T44 (issue #128): at most one save request in flight. `_finished` is
+                    # counted by the pipeline when the request's job ends — staged, superseded
+                    # or timed out (SAVE_TIMEOUT_S) — so the wait is bounded. Whatever is due
+                    # (a settled key group, the resume's request, a cadence tick) waits here,
+                    # unconsumed, and goes out after it: keys that settle meanwhile join the
+                    # groups of the one request sent next; a tick is sent late, once.
+                    self.sleep(0.01)
+                    continue
                 if self.host_held(now):
                     # rework round 2: the owner holds F12 for a chord; a request between the
                     # owner's F12 and P broke the pause of T39b-scripted-pause-20261012-01.log
@@ -1457,8 +1517,8 @@ class Watcher:
                     # settle is seen here, not after a request DOSBox-X would drop
                     next_pause_poll = self.clock() + PAUSE_POLL_S
                     continue
-                if now >= next_tick:
-                    n += 1
+                while self.t0 + n * CADENCE_S <= now:
+                    n += 1               # one request answers every tick due (T44: none doubled)
                 if send_resume:
                     try:
                         e = self.tick(video=video, origin="resume",
@@ -1477,10 +1537,13 @@ class Watcher:
                     if e:
                         entries.append(e)
                 elif send_burst:
-                    head = burst.groups[0]
+                    # every group pending is answered by this one request (T44); the last is
+                    # the claimed one, the earlier ones' screens are not captured
+                    taken = burst.take_all()
                     try:
                         e = self.tick(video=video, origin="burst",
-                                      submit=submit if keys else None)
+                                      submit=submit if keys else None,
+                                      merge=Burst.merge_marker(taken, self.t0))
                     except StopIteration as e:
                         self.log(str(e))
                         break
@@ -1491,10 +1554,12 @@ class Watcher:
                     # Burst.request_time (R1a): the pre-send clock of this group's save request,
                     # recorded at the send, never at staging
                     if self.last_request is not None:
-                        head["request_time"], head["sent"] = self.last_request, self.last_sent
+                        Burst.mark_sent(taken, self.last_request, self.last_sent)
+                        head = taken[-1]
                         self.log(f"burst group (last key +{head['last'] - self.t0:.3f}s) "
-                                 f"requested at +{head['request_time'] - self.t0:.3f}s")
-                    burst.consume()
+                                 f"requested at +{head['request_time'] - self.t0:.3f}s"
+                                 + (f", merged {len(taken)} groups: the screens after the first "
+                                    f"{len(taken) - 1} are not captured" if len(taken) > 1 else ""))
                     if e:
                         entries.append(e)
                 else:

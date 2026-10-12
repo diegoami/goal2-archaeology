@@ -44,7 +44,58 @@ def group_presses(events, quiet):
     return groups
 
 
-def check_bursts(groups, bursts, t0):
+def merge_intervals(groups, requests, t0):
+    """T44 (issue #128): with at most one save in flight, a burst request answers every key group
+    settled since the previous one (requests.jsonl `merge`: `size` groups, the last claimed;
+    `group_last_s` each group's last key). Returns [(claimed_last, size, presses)] per burst
+    request line that staged, in order: `claimed_last` the monotonic time of the claimed group's
+    last key, `presses` the press times in (the previous claimed_last, this one]. A press after
+    the last claim has no interval: check_bursts fails it."""
+    lines = [r for r in requests if r.get("origin") == "burst" and r.get("seq") is not None]
+    presses = sorted(t for g in groups for t in g)
+    out, lo = [], float("-inf")
+    for r in sorted(lines, key=lambda r: r["request_s"]):
+        merge = r.get("merge") or {"size": 1, "group_last_s": [r["request_s"]]}
+        claimed = t0 + merge["group_last_s"][-1]
+        out.append((claimed, merge["size"],
+                    [t for t in presses if lo < t <= claimed + 1e-3]))
+        lo = claimed + 1e-3
+    return out
+
+
+def check_bursts(groups, bursts, t0, requests=None):
+    """With `requests` (the sitting's request lines): the merged form (T44). Every press lies
+    within the claimed group of some burst request or an earlier group of its merge; each merge's
+    `size` is at least the number of key groups its presses form (the recorder counts all of its
+    groups, never fewer), so no group is lost; every burst snapshot was staged after its claimed
+    group's last key. The earlier groups of a merge are the "not captured" ones; their number is
+    in the message. Without `requests` the old rule: one snapshot per group."""
+    if requests is not None:
+        spans = merge_intervals(groups, requests, t0)
+        by_request = {round(b["request_s"], 3): b for b in bursts}
+        covered = sum(len(p) for _, _, p in spans)
+        total = sum(len(g) for g in groups)
+        if covered != total:
+            return False, (f"{total - covered} press(es) after the last burst request's claimed "
+                           "group: no snapshot follows them")
+        not_captured = 0
+        for claimed, size, presses in spans:
+            if size < len(group_presses([{"event": "press", "monotonic_s": t} for t in presses],
+                                        recorder.BURST_QUIET_S)):
+                return False, (f"a merge of {size} group(s) holds more key groups than it "
+                               "declares: a group is missing from its marker")
+            not_captured += size - 1
+        for r in requests:
+            b = by_request.get(round(r["request_s"], 3)) if r.get("origin") == "burst" else None
+            merge = r.get("merge")
+            if b is not None and merge and b["elapsed_s"] + t0 < t0 + merge["group_last_s"][-1]:
+                return False, "a burst snapshot staged before its claimed group's last key"
+        if len(spans) != len(bursts):
+            return False, (f"{len(bursts)} burst snapshots for {len(spans)} burst request "
+                           "line(s) that staged")
+        return True, (f"{len(bursts)} burst snapshots for {len(groups)} key group(s) pressed "
+                      f"({sum(s for _, s, _ in spans)} recorder groups, {not_captured} not "
+                      f"captured by merging)")
     """The acceptance guard, count half (R3): each key group has its own burst snapshot, staged
     after the group's last key. Distinct, not just any later snapshot — the old `any(...)` let
     one final snapshot satisfy every group, so a recorder that merged groups (4 snapshots for
@@ -59,12 +110,27 @@ def check_bursts(groups, bursts, t0):
     return True, f"{len(bursts)} burst snapshots for {len(groups)} key group(s)"
 
 
-def check_request_windows(groups, bursts, t0, margin):
+def check_request_windows(groups, bursts, t0, margin, requests=None):
     """The acceptance guard, timing half (Sol r2 R2a): each key group's save request must open
     inside its own bracket — at or after the group's last key, and before the next group's keys
     are all in. The blocking scheduler sent the ten-key reproduction's requests at 8.5 s, after
     the last key at 5.6 s: equal counts staged after each group still certified that, and the
     late windows could not recover the screen boundaries between groups. Returns (ok, message)."""
+    if requests is not None:
+        # T44: the claimed group's bracket: at or after its last key, and not after the NEXT
+        # request's claimed group had ended; requests interleave with the keys
+        claims = [(t0 + r["request_s"], t0 + (r.get("merge") or {"group_last_s": [r["request_s"]]})
+                   ["group_last_s"][-1])
+                  for r in sorted(requests, key=lambda r: r["request_s"])
+                  if r.get("origin") == "burst" and r.get("seq") is not None]
+        for i, (request, claimed) in enumerate(claims):
+            if request < claimed:
+                return False, (f"burst request {i} opened at {request - t0:.3f}s, before its "
+                               "claimed group's last key")
+            if i + 1 < len(claims) and request > claims[i + 1][1] + margin:
+                return False, (f"burst request {i} opened at {request - t0:.3f}s, after the "
+                               f"next request's claimed group had ended")
+        return True, f"{len(claims)} request windows interleaved with their claimed groups"
     if len(bursts) != len(groups):
         return False, f"{len(bursts)} burst snapshots for {len(groups)} key group(s)"
     by_request = sorted(bursts, key=lambda b: b["request_s"])
@@ -343,10 +409,10 @@ def main():
         if not ok:
             print(f"acceptance guard FAILED: {why}", file=sys.stderr)
             return 1
-        ok, why = check_bursts(groups, bursts, t0)
+        ok, why = check_bursts(groups, bursts, t0, requests=request_lines)
         assert ok, why
         # Sol r2 R2a: request-window timing per group (not clustered after every group) ...
-        ok, why = check_request_windows(groups, bursts, t0, margin)
+        ok, why = check_request_windows(groups, bursts, t0, margin, requests=request_lines)
         if not ok:
             print(f"acceptance guard FAILED: {why}", file=sys.stderr)
             return 1

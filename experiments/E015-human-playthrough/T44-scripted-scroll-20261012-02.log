@@ -1,0 +1,46 @@
+[16:51:21] session /home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a9529573493004bd6/scratch/human/sessions/20261012-185121
+[16:51:21] saved game: none (no .GL in the previous sessions)
+[16:51:21] dosbox-x started (pid 840884)
+[16:51:21] game window 6291461 (pid 840884)
+[16:51:21] pause: F12+P; resume: F12+P again (the recorder presses Pause) or the Pause key
+[16:51:21] F12+S sent to window 6291461
+[16:51:21] live savestate changed or incomplete during capture: retrying
+[16:51:21] staged snapshots/snap-0001-20261012T165121Z.sav (211262 bytes, sha256 5f8cb406ad589a8f...)
+XGetInputFocus returned the focused window of 1. This is likely a bug in the X server.
+XGetInputFocus returned the focused window of 1. This is likely a bug in the X server.
+[16:51:27] F12+S sent to window 6291461
+[16:51:27] burst group (last key +5.258s) requested at +5.520s
+[16:51:27] live savestate changed or incomplete during capture: retrying
+[16:51:27] staged snapshots/snap-0002-20261012T165127Z.sav (180501 bytes, sha256 c016b1b9ba1f800f...)
+[16:51:41] F12+S sent to window 6291461
+[16:51:41] live savestate changed or incomplete during capture: retrying
+[16:51:41] staged snapshots/snap-0003-20261012T165141Z.sav (182251 bytes, sha256 3dd77964eee1b4d8...)
+[16:52:01] F12+S sent to window 6291461
+[16:52:01] live savestate changed or incomplete during capture: retrying
+[16:52:01] staged snapshots/snap-0004-20261012T165201Z.sav (182620 bytes, sha256 db2b7f60c5ff6628...)
+[16:52:21] F12+S sent to window 6291461
+[16:52:21] live savestate changed or incomplete during capture: retrying
+[16:52:21] staged snapshots/snap-0005-20261012T165221Z.sav (182197 bytes, sha256 db70c89e501d8f31...)
+[16:52:41] F12+S sent to window 6291461
+[16:52:41] live savestate changed or incomplete during capture: retrying
+[16:52:41] staged snapshots/snap-0006-20261012T165241Z.sav (181085 bytes, sha256 adbcd77a932a9144...)
+[16:52:53] quit-after 92.0s reached
+[16:52:54] shutdown snapshot already indexed (adbcd77a932a9144...): skipping
+[16:52:54] done: 6 snapshots, stop quit-after
+map coverage OK: screens: 2, transitions: 1, keys: 40; every press mapped
+privacy OK: Down/Down/Down/Down/Down/Down/Down/Down/Down/Down/Down/Down/Down/Down/Down/Down/Down/Down/Down/Down/Down/Down/Down/Down/Down/Down/Down/Down/Down/Down/Down/Down/Down/Down/Down/Down/Down/Down/Down/Down game keys only; outer-app x/y/z excluded (xev log holds them; outer raw reader saw 2 RawKeyPress); burst snapshots: 1 for 1 key group(s)
+gaps (s): [0.146, 0.097, 0.116, 0.089, 0.082, 0.091, 0.125, 0.098, 0.127, 0.13, 0.119, 0.085, 0.088, 0.1, 0.106, 0.144, 0.13, 0.111, 0.092, 0.108, 0.144, 0.139, 0.103, 0.102, 0.104, 0.127, 0.139, 0.094, 0.12, 0.08, 0.119, 0.085, 0.12, 0.099, 0.133, 0.106, 0.132, 0.12, 0.104]
+session: scratch/human/sessions/20261012-185121
+screens: 2, transitions: 1, keys: 40
+# Observed screen/key map
+
+screens: 2, transitions: 1, keys: 40
+
+Ordered bursts are associations between snapshots, not proof of individual-key causality.
+
+| Before (text digest) | Keys pressed | After (text digest) | Count |
+| --- | --- | --- | --- |
+| Z:\>c: (cde75e1d95f4) | Down Down Down Down Down Down Down Down Down Down Down Down Down Down Down Down Down Down Down Down Down Down Down Down Down Down Down Down Down Down Down Down Down Down Down Down Down Down Down Down | (c) NE'93│ │                                                    │     (c) (09d3e9010708) | 1 |
+
+Unmapped presses: 0
+

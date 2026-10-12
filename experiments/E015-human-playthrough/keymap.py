@@ -19,6 +19,14 @@ The rules (T34 review R1, R2; each pinned by tests/test_human_keys.py):
   are absent, unparsed, or a request that staged nothing (requests.jsonl, a skipped snapshot).
 - A mapped burst is (screen of the snapshot before, its presses in order, screen of the snapshot
   after). Releases are part of the timeline, not of the keys listed.
+- T44 (issue #128, the owner's option A): at most one save request is in flight, so the key
+  groups that settle while one is written are answered by ONE request (requests.jsonl `merge`:
+  `size` groups, the last claimed). Its snapshot is the screen after the LAST of those groups; the
+  screens after the earlier groups were never captured. A gap holding as many bursts as the
+  closing request's merge `size` is not a lost bracket but a merge: the earlier bursts are listed
+  under `not_captured` with their keys, the last under `merged_claimed` (its screen after is the
+  snapshot, its screen before was not captured, so no transition is claimed), and none of them
+  counts as unmapped. A gap with two bursts and no such merge stays unmapped.
 - A span DOSBox-X was paused (pauses.jsonl, T39b) is no time to the quiet rule: the gap between
   two keys counts only the seconds the emulator ran.
 """
@@ -84,7 +92,11 @@ def build_map(states, events, t0, quiet=None, margin=None, requests=(), pauses=(
     events = [e for e in events if not e.get("by")]
     margin = recorder.CAPTURE_MARGIN_S if margin is None else margin
     screens = {}
-    samples = []                       # (lo, hi, digest or None)
+    samples = []                       # (lo, hi, digest or None, merge size of the request)
+    merge_size = {}                    # request_s -> groups its request answered (T44)
+    for req in requests:
+        if (req.get("merge") or {}).get("size", 1) > 1:
+            merge_size[req.get("request_s")] = req["merge"]["size"]
     for state in states:
         entry = state.get("entry", {})
         lo, hi = window(entry, t0, margin)
@@ -93,12 +105,12 @@ def build_map(states, events, t0, quiet=None, margin=None, requests=(), pauses=(
             text = state["screen_text"]
             digest = hashlib.sha256(text.encode("utf-8")).hexdigest()
             screens[digest] = headline(text)
-        samples.append((lo, hi, digest))
+        samples.append((lo, hi, digest, merge_size.get(entry.get("request_s"), 1)))
     for req in requests:
         if req.get("seq") is None:     # a request that staged nothing: a screen not seen
-            samples.append(window(req, t0, margin) + (None,))
+            samples.append(window(req, t0, margin) + (None, 1))
     samples.sort(key=lambda s: s[0])
-    starts = [lo for lo, _, _ in samples]
+    starts = [s[0] for s in samples]
 
     gaps = {}                          # gap index -> ordered events in it
     ambiguous = set()
@@ -106,10 +118,11 @@ def build_map(states, events, t0, quiet=None, margin=None, requests=(), pauses=(
         t = event["monotonic_s"]
         gap = sum(1 for lo in starts if lo < t)
         gaps.setdefault(gap, []).append(event)
-        if any(lo <= t <= hi for lo, hi, _ in samples):
+        if any(lo <= t <= hi for lo, hi, _, _ in samples):
             ambiguous.add(gap)
     transitions = {}
     total, unmapped = 0, 0
+    not_captured, merged_claimed = [], []
     for gap, gap_events in sorted(gaps.items()):
         # the quiet rule runs on emulated time: each key's clock less the paused seconds before it
         gap_events = [dict(e, monotonic_s=e["monotonic_s"] - paused_before(e["monotonic_s"], pauses))
@@ -127,6 +140,13 @@ def build_map(states, events, t0, quiet=None, margin=None, requests=(), pauses=(
         total += n
         before = samples[gap - 1][2] if gap > 0 else None
         after = samples[gap][2] if gap < len(samples) else None
+        merged = samples[gap][3] if gap < len(samples) else 1
+        if (len(pressed) > 1 and len(pressed) <= merged and gap not in ambiguous
+                and before is not None and after is not None):
+            not_captured.extend({"keys": list(p)} for p in pressed[:-1])
+            merged_claimed.append({"keys": list(pressed[-1]), "after": after,
+                                   "after_headline": screens[after]})
+            continue
         if len(pressed) > 1 or gap in ambiguous or before is None or after is None:
             unmapped += n
             continue
@@ -135,8 +155,12 @@ def build_map(states, events, t0, quiet=None, margin=None, requests=(), pauses=(
     rows = [{"screen": before, "headline": screens[before], "keys": list(keys),
              "after": after, "after_headline": screens[after], "count": count}
             for (before, keys, after), count in transitions.items()]
-    return {"summary": f"screens: {len(screens)}, transitions: {len(rows)}, keys: {total}",
+    summary = f"screens: {len(screens)}, transitions: {len(rows)}, keys: {total}"
+    if not_captured:
+        summary += f", not captured groups: {len(not_captured)}"
+    return {"summary": summary,
             "screens": screens, "transitions": rows, "unmapped_keys": unmapped,
+            "not_captured": not_captured, "merged_claimed": merged_claimed,
             "burst_quiet_s": quiet, "capture_margin_s": margin,
             "method": "snapshots in save-request order cut the key log into gaps; a gap's one burst "
                       "maps from the snapshot before to the snapshot after; a key inside a "
@@ -199,6 +223,11 @@ def table(result):
     for r in result["transitions"]:
         clean = lambda text: text.replace("|", "\\|").replace("\n", " ")
         lines.append(f"| {clean(r['headline'])} ({r['screen'][:12]}) | {clean(' '.join(r['keys']))} | {clean(r['after_headline'])} ({r['after'][:12]}) | {r['count']} |")
+    if result.get("not_captured"):
+        lines.extend(["", "Merged requests (T44): the screens after these groups were not captured:", ""])
+        lines.extend(f"- not captured: {' '.join(g['keys'])}" for g in result["not_captured"])
+        lines.extend(f"- claimed (screen after only): {' '.join(g['keys'])} -> "
+                     f"{g['after_headline']} ({g['after'][:12]})" for g in result["merged_claimed"])
     lines.extend(["", f"Unmapped presses: {result['unmapped_keys']}", ""])
     return "\n".join(lines)
 
