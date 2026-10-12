@@ -96,7 +96,7 @@ if ! "$GHIDRA_HOME/support/analyzeHeadless" "$work/project" goal \
 fi
 # GoalDecompile.java retries (with a fresh decompiler) only after "process died" and only before the
 # last attempt (ATTEMPTS = 3); any other failed attempt ends that function's tries (fix #57).
-grep 'GOALRETRY' "$work/ghidra.log" | sed -E 's/ \(GhidraScript\).*//; /GOALRETRY .* attempt [12]: .*process died/ s/.*> GOALRETRY /decompile.sh: decompiler failed, retrying with a fresh one: /; t; s/.*> GOALRETRY /decompile.sh: decompiler failed, not retrying: /' >&2 || true
+grep 'GOALRETRY' "$work/ghidra.log" | sed -E -e 's/ \(GhidraScript\).*//' -e 't clear' -e ':clear' -e '/GOALRETRY .* attempt [12]: .*process died/ s/.*> GOALRETRY /decompile.sh: decompiler failed, retrying with a fresh one: /' -e 't' -e 's/.*> GOALRETRY /decompile.sh: decompiler failed, not retrying: /' >&2 || true
 grep -E 'GOALSETUP|GOALANNOTATE|GOALDECOMPILE' "$work/ghidra.log" | sed 's/.*> //; s/ (GhidraScript).*//' > "$work/summary.txt"
 
 writer=decompiled.py
