@@ -45,8 +45,8 @@
   non-zero byte for the element fires the extra, adding pitch +0x11, WITHOUT testing
   element 1 or event-code membership; the data image has DS:0x769[2] = 1, DS:0x769[4] = 1,
   DS:0x769[12] = 1, so elements 2, 4 and 12 carry the extra unconditionally. Only when
-  the table byte is zero does the 282D-284C fallback apply (element 1 and event code 0x18
-  in CS:276A) — and an `80FC` share for outfield slots (284F-286A). Its callers and their
+  the table byte is zero does the 282D-284C fallback apply (element 1 and event codes 3 and 4
+  (the set CS:276A = {3, 4})) — and an `80FC` share for outfield slots (284F-286A). Its callers and their
   elements are tabulated in `experiments/E013-q012-keeping/notes.md` §2. High confidence. (static:static/goal-exe/code/seg_0791_04.asm:848)
 - **Keeping is read in the watched engine's save duel, of ANY challenger — the keeper's edge is
   the class column, not a gate** (both). The "saved by X" line (template 29) is written by
@@ -128,7 +128,7 @@
 - One outfield player, one match: "no comparison flipped" is this instance, not a law — the
   drawn operands do change, so another edit (or a marginal duel) can flip one.
 - The energy/confidence path (Q015-Q017) and the foul path's keeper role are out of scope.
-- What pitch +0x11 (the event-0x18 keeping extra) holds, and what writes it, was not traced.
+- What pitch +0x11 (the keeping extra of events 3 and 4) holds, and what writes it, was not traced.
 
 ## Where the evidence is
 

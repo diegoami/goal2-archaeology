@@ -46,7 +46,11 @@ PENALTY_ELEMENT = 0xC         # 27C5: cmp word ptr [bp + 0xa], 0xC — element 1
 PENALTY_BONUS = 0x20          # 27CB-27CF: add word ptr [bp - 4], 0x20 — the base bonus of a penalty contest
 CONTEST_DIVISOR = 0x100       # 2819-281C: div cx with cx = 0x100 — base * skill / 256
 CONTEST_QUARTER = 4           # 280A-280D: div cx with cx = 4 — plus skill / 4
-KEEPING_EVENT = 0x18          # 2837: the set CS:276A = {0x18} (seg_0791_04.asm:843) — the goal-mouth event
+# 2837-283C: DS:8327 is tested for MEMBERSHIP in the 32-byte Pascal set at CS:276A (seg_0791_04.asm:843-844),
+# whose bytes are `18 00 ... 00`; 23E4:08DF tests element n as bit n mod 8 of byte n div 8, so byte 0x18
+# (bits 3 and 4) makes the members 3 and 4 -- the byte 0x18 is NOT a member. E020's event-gate-001.log /
+# event-gate-002.log (original code, DS:8327 = 0..0x20) add pitch+0x11 for 3 and 4 only.
+KEEPER_EVENTS = frozenset({3, 4})
 KEEPING_ELEMENT = 1           # 282D: cmp word ptr [bp + 0xa], 1 — element 1 (one of the gate's two tests)
 # The 2826 gate's table column is DS:0x769 + element (NOT the class table at DS:6D25). The data
 # image's row at 0x760 (static/goal-exe/data/ds_2581_01.hex) gives the bytes for elements 1..12
@@ -161,7 +165,7 @@ def contest_value(plus4, plus5, plus7, plus_c, plus_e, element, class_table, pro
     # element 1 or event_code.
     if KEEPER_EXTRA_TABLE[element - 1] != 0:                            # 2826 (table-controlled gate)
         value += pitch_11                                               # 2843-284C
-    elif element == KEEPING_ELEMENT and event_code == KEEPING_EVENT:    # 282D-2837 (element 1, set test)
+    elif element == KEEPING_ELEMENT and event_code in KEEPER_EVENTS:  # 282D-2837 (element 1, set test)
         value += pitch_11
     if pitch_6 < OUTFIELD_SLOT and flag_80fc:
         value += value // MANAGER_SHARE                                 # 284F-286A

@@ -102,29 +102,53 @@ class TestContest(unittest.TestCase):
         self.assertEqual(halved, (35 * skill) // 256 + skill // 4)
         self.assertNotEqual(halved, plain)
 
+    def test_gate_agrees_with_the_original_event_gate_logs(self):
+        # E020's recorded runs of the original 0791:278A for DS:8327 = 0..0x20 (both logs): the
+        # extra pitch+0x11 = 5 is added exactly where keeping.py's gate fires for element 1.
+        import re
+        from pathlib import Path
+        root = Path(__file__).resolve().parent.parent / "experiments" / "E020-q018-condition-performance"
+        base = CV(plus4=180, plus5=1, plus7=0, plus_c=30, plus_e=4, element=1)
+        for name in ("event-gate-001.log", "event-gate-002.log"):
+            rows = re.findall(r"^0x([0-9a-f]{2}) -> .*?(EXTRA ADDED|no extra)$",
+                              (root / name).read_text(), re.M)
+            self.assertEqual([int(e, 16) for e, _ in rows], list(range(0x21)), name)
+            for ev, verdict in rows:
+                ev = int(ev, 16)
+                got = CV(plus4=180, plus5=1, plus7=0, plus_c=30, plus_e=4, element=1,
+                         pitch_11=5, event_code=ev) - base
+                self.assertEqual(got == 5, verdict == "EXTRA ADDED", f"{name} event {ev:#x}")
+
     def test_keeper_extra_gate(self):
         # 2826-284C: the FIRST gate is the table at DS:0x769 (2826 `cmp / jne 2843`); any nonzero
         # byte for the element fires the extra, regardless of element 1 or event membership. The
         # data image (KEEPER_EXTRA_TABLE) has element 2 nonzero, so element 2 carries the extra
-        # even under event 0x17; element 1 only carries it when event 0x18 is in CS:276A; element 3
-        # (zero in the table) carries it neither under event 0x18 nor 0x17. Mutating
+        # even under event 0x17; element 1 only carries it when the event is a member of CS:276A ({3, 4}); element 3
+        # (zero in the table) carries it neither under a member event nor 0x17. Mutating
         # KEEPER_EXTRA_TABLE to zeros fails these; so does mutating KEEPING_ELEMENT to 2.
         base_e1 = CV(plus4=180, plus5=1, plus7=0, plus_c=30, plus_e=4, element=1)
         base_e2 = CV(plus4=180, plus5=1, plus7=0, plus_c=30, plus_e=4, element=2)
         base_e3 = CV(plus4=180, plus5=1, plus7=0, plus_c=30, plus_e=4, element=3)
         self.assertEqual(CV(plus4=180, plus5=1, plus7=0, plus_c=30, plus_e=4, element=1,
-                            pitch_11=7, event_code=K.KEEPING_EVENT), base_e1 + 7)
+                            pitch_11=7, event_code=3), base_e1 + 7)
         self.assertEqual(CV(plus4=180, plus5=1, plus7=0, plus_c=30, plus_e=4, element=1,
                             pitch_11=7, event_code=0x17), base_e1)
+        # The set's members are 3 and 4 (byte 0x18 = bits 3, 4), never the byte 0x18 itself.
+        for ev, fires in ((3, True), (4, True), (0x18, False), (2, False), (5, False),
+                          (0x17, False), (0, False), (None, False)):
+            self.assertEqual(CV(plus4=180, plus5=1, plus7=0, plus_c=30, plus_e=4, element=1,
+                                pitch_11=0x11, event_code=ev),
+                             base_e1 + (0x11 if fires else 0), msg=f"event {ev}")
+        self.assertEqual(K.KEEPER_EVENTS, {3, 4})
         # R1 fix: element 2 IS "extra" — the data image has 0x769[2] = 1, and 2826's
         # `cmp byte ptr [di + 0x769], 0 / jne 2843` fires regardless of element or event.
         self.assertEqual(CV(plus4=180, plus5=1, plus7=0, plus_c=30, plus_e=4, element=2,
                             pitch_11=7, event_code=0x17), base_e2 + 7)
         self.assertEqual(CV(plus4=180, plus5=1, plus7=0, plus_c=30, plus_e=4, element=2,
-                            pitch_11=7, event_code=K.KEEPING_EVENT), base_e2 + 7)
+                            pitch_11=7, event_code=3), base_e2 + 7)
         # Element 3 has 0x769[3] = 0 in the data image, so neither branch fires.
         self.assertEqual(CV(plus4=180, plus5=1, plus7=0, plus_c=30, plus_e=4, element=3,
-                            pitch_11=7, event_code=K.KEEPING_EVENT), base_e3)
+                            pitch_11=7, event_code=3), base_e3)
         self.assertEqual(CV(plus4=180, plus5=1, plus7=0, plus_c=30, plus_e=4, element=3,
                             pitch_11=7, event_code=0x17), base_e3)
 
@@ -417,11 +441,11 @@ class TestPredictions(unittest.TestCase):
         # Holder (air): a different outfield winger (+4=150, +5=3, +7=10, form=10, energy=10)
         rec_holder_air[4] = 150; rec_holder_air[5] = 3; rec_holder_air[7] = 10
         rec_holder_air[0xC] = 10; rec_holder_air[0xE] = 10
-        # Expected challenger: element 1 (keeping), with the keeper-extra term at event 0x18
+        # Expected challenger: element 1 (keeping), with the keeper-extra term at event 3 (a member of CS:276A)
         expected_ch = K.contest_value(plus4=240, plus5=1, plus7=0, plus_c=28, plus_e=30,
                                      element=K.DUEL_KEEPER_ELEMENT,
                                      class_table=CLASS_TABLE, profile_table=PROFILE_TABLE,
-                                     event_code=K.KEEPING_EVENT)
+                                     event_code=3)
         # Expected holder (ground): element 10 (dribbling), record rec_holder_ground
         expected_hh_ground = K.contest_value(plus4=180, plus5=5, plus7=12, plus_c=20, plus_e=20,
                                              element=K.DUEL_HOLDER_ELEMENTS[0],
