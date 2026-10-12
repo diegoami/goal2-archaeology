@@ -1,6 +1,6 @@
 ---
 name: reviewer
-description: Read-only reviewer of one pull request, for /run-task when the task's Reviewer is claude or OpenCode's review exited 3. It checks the PR out in its own worktree, re-runs every Done-when line, and returns its review as its final message; tools/harness/post-review.mjs posts it. Never the implementer's model family.
+description: Read-only Claude reviewer of one pull request, only when the user asks for one (the implementer is Claude by default, so this is the same family; OpenCode's review.mjs is the normal reviewer). It checks the PR out in its own worktree, re-runs every Done-when line, and returns its review as its final message; tools/harness/post-review.mjs posts it.
 tools: Read, Grep, Glob, Bash
 model: opus
 hooks:

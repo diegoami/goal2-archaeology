@@ -1,48 +1,5 @@
-// The decisions shared by implement.mjs and review.mjs, kept free of git and gh so they can be
-// tested directly.
-
-import { failureClass } from './opencode.mjs';
-import { familyOfName } from './named.mjs';
-
-/**
- * Tries each model once. The next model runs only after an infrastructure failure, and only when
- * the failed attempt left nothing behind (leftWork() is false). Two consecutive failures with the
- * same cause stop the chain: then OpenCode itself is the problem, not the model.
- *
- * attempt(name) resolves { ok: true, value } or { ok: false, reason, detail }.
- * Resolves { ok: true, name, value, failures }, or { ok: false, failures, sameCause, leftWork }.
- */
-export async function runChain({ chain, attempt, leftWork = async () => false, reset = async () => {}, log = () => {} }) {
-  const failures = [];
-  for (const name of chain) {
-    log(`attempt: ${name}`);
-    const r = await attempt(name);
-    if (r.ok) return { ok: true, name, value: r.value, failures };
-    log(`${name} failed: ${r.reason}`);
-    failures.push({ name, reason: r.reason, detail: r.detail });
-    // A run to be resumed in its own session keeps its worktree as it stopped: no reset, no next
-    // model (the owner's rules 7 and 13, 2026-10-11).
-    if (r.stop) return { ok: false, failures, sameCause: null, leftWork: false, stopped: true, sessionId: r.sessionId ?? null };
-    if (await leftWork()) return { ok: false, failures, sameCause: null, leftWork: true };
-    await reset();
-    const n = failures.length;
-    if (n >= 2 && failureClass(failures[n - 1].reason) === failureClass(failures[n - 2].reason)) {
-      return { ok: false, failures, sameCause: failureClass(r.reason), leftWork: false };
-    }
-  }
-  return { ok: false, failures, sameCause: null, leftWork: false };
-}
-
-/**
- * The reviewer is never the implementer's model family. `implementedBy` holds model names from
- * harness.json, or bare family names such as "claude". Returns the chain without those families.
- */
-export function excludeImplementers(chain, models, implementedBy) {
-  // A key of harness.json, a model id the user named, or a bare family (lib/named.mjs).
-  const familyOf = (name) => familyOfName(name, models);
-  const banned = new Set(implementedBy.map(familyOf));
-  return chain.filter((name) => !banned.has(familyOf(name)));
-}
+// Reading a review out of a model's output, for review.mjs and post-review.mjs: kept free of git
+// and gh so it can be tested directly (lib/review-selftest.mjs).
 
 export const VERDICTS = ['approve after named fixes', 'approve', 'rework', 'user decision'];
 const esc = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');

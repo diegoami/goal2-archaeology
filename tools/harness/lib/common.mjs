@@ -1,7 +1,6 @@
-// git, gh, the config and argument parsing, for implement.mjs and review.mjs.
+// git, gh, the config and argument parsing, for review.mjs, post-review.mjs and switch-model.mjs.
 
 import { spawnSync } from 'node:child_process';
-import { readQuota, quotaBlock } from './quota.mjs';
 import fs from 'node:fs';
 import path from 'node:path';
 import { openCodeHome, listedModels, loginHint, openCodeVersion, versionProblem } from './opencode.mjs';
@@ -45,9 +44,10 @@ export function loadConfig(top) {
   return JSON.parse(fs.readFileSync(file, 'utf8'));
 }
 
-// A model on watch (L35) says what to look for each time it runs: its `watch` text, else nothing.
+// A model's note in harness.json (what to look for, its login, its effort), printed when it runs.
 export function watchLine(name, model) {
-  return model.watch ? `watch: ${name} (${model.id}) is on watch: ${model.watch}` : null;
+  const note = model.note ?? model.watch;
+  return note ? `note: ${name} (${model.id}): ${note}` : null;
 }
 
 // --name value, --flag, and repeatable --env KEY=VALUE / --copy path.
@@ -95,9 +95,10 @@ export function ensureAgent({ top, commonDir, worktree, agent }) {
 }
 
 // Before anything is billed: the scripts' own data directory, the OpenCode version (any major but
-// the supported one is refused, #26), and which models of the chain OpenCode lists there. A model it does not list (an unknown id, or a provider not logged in in
-// that directory) is dropped, with the command that fixes it. So is a model whose provider's quota is
-// exhausted, when quota-tracker answers (lib/quota.mjs, L50). Returns { env, usable, problems }.
+// the supported one is refused, #26), and which models of `chain` OpenCode lists there. A model it
+// does not list (an unknown id, or a provider not logged in in that directory) is dropped, with the
+// command that fixes it. Quota is not checked (the owner, 2026-10-11: the model named runs).
+// Returns { env, usable, problems }.
 export async function prepareOpenCode({ opencode, chain, models, env, cwd, log }) {
   const oc = openCodeHome(env, { log });
   const version = await openCodeVersion(opencode, { env: oc.env, cwd });
@@ -106,18 +107,33 @@ export async function prepareOpenCode({ opencode, chain, models, env, cwd, log }
   if (bad) return { env: oc.env, usable: [], problems: [bad], version };
   const { listed, errors } = await listedModels(opencode, chain.map((m) => models[m].id.split('/')[0]), { env: oc.env, cwd });
   const problems = [];
-  const quota = await readQuota(env);
-  log(quota.off ? `quota: not checked: ${quota.off} (L50)` : `quota: checked (${[...quota.providers.values()].map((p) => `${p.provider} ${p.status}`).join(', ')})`);
   const usable = chain.filter((m) => {
-    if (!listed.has(models[m].id)) {
-      problems.push(`${m}: ${loginHint(models[m].id, listed, oc.dataHome, errors)}`);
-      return false;
-    }
-    const block = quota.off ? null : quotaBlock(models[m].id, quota);
-    if (block) problems.push(`${m}: skipped, out of quota: ${block} (quota-tracker, L50)`);
-    return !block;
+    if (listed.has(models[m].id)) return true;
+    problems.push(`${m}: ${loginHint(models[m].id, listed, oc.dataHome, errors)}`);
+    return false;
   });
   return { env: oc.env, usable, problems, version };
+}
+
+// The family of the main session, and so of every Claude Code agent it spawns (an agent runs through
+// the same endpoint). The session is set only by the Anthropic environment variables: with
+// ANTHROPIC_BASE_URL unset or at anthropic.com it is Claude; when Claude's tokens are out the owner
+// points it at another provider that speaks the same API: Z.AI's GLM, MiniMax, or Moonshot's Kimi
+// (the owner, 2026-10-12), and the family rule must then keep that family out of the reviewer's
+// seat. The names match the families the reviewer models get (glm, minimax, kimi). HARNESS_SESSION_FAMILY
+// overrides the guess; an endpoint this list does not know returns null, and the caller refuses
+// to review until it is set. Only the URL's host is read, on domain boundaries: a path, a query or
+// a host that merely contains a name (api.anthropic.com.proxy.example) is unknown (Sol's R4 on PR 149).
+// The owner's endpoints: https://api.z.ai/api/anthropic, https://api.minimax.io/anthropic.
+const ENDPOINT_FAMILIES = [[['anthropic.com'], 'claude'], [['z.ai', 'bigmodel.cn'], 'glm'],
+  [['minimax.io', 'minimaxi.com'], 'minimax'], [['moonshot.ai', 'moonshot.cn', 'kimi.com'], 'kimi'],
+  [['deepseek.com'], 'deepseek'], [['aliyuncs.com'], 'qwen'], [['xiaomimimo.com'], 'mimo']];
+export function sessionFamily(env = process.env) {
+  if (env.HARNESS_SESSION_FAMILY) return env.HARNESS_SESSION_FAMILY.trim().toLowerCase();
+  if (!env.ANTHROPIC_BASE_URL) return 'claude';
+  let host;
+  try { host = new URL(env.ANTHROPIC_BASE_URL).hostname.toLowerCase(); } catch { return null; }
+  return ENDPOINT_FAMILIES.find(([ds]) => ds.some((d) => host === d || host.endsWith(`.${d}`)))?.[1] ?? null;
 }
 
 export const ocArgs = (worktree, agent, model) =>

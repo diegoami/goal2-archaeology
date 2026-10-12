@@ -20,18 +20,17 @@ Tag capability jumps, not phases. Release notes come from GitHub when the tag is
 | Role | Who | Does |
 | --- | --- | --- |
 | Main session | Claude, the session the user talks to | Plans, writes task files, runs `/run-task`, triages, merges, reports |
-| Implementer | The user's choice (CLAUDE.md "Choosing models" rule 1): the main session in its own worktree, a Claude agent, or OpenCode via `tools/harness/implement.mjs --model <name>`. *Superseded: the GLM-5.3 Flash → DeepSeek V4.1 Flash → Sonnet chain (L42) and L46's heavier-model rule.* | One task, one branch, one PR, in its own worktree |
-| Reviewer | The external model the user names (rule 2), via `tools/harness/review.mjs --reviewer <name>`; never the implementer's family (L27). Exit 3: ask the user for another; exit 4: the main session reads the flagged review and decides (L28). *Superseded: the quota-checked Sol / Luna / Opus order (L50, L51, L101).* | Re-runs the Done-when, audits scope and evidence, posts one PR comment, applies the label |
+| Implementer | The **`implementer` subagent** spawned inside Claude Code (worktree isolation) on a model of its own, not the orchestrator's (Opus spawns Sonnet; under Z.AI `sonnet` is GLM-5.3 Flash), or **the main session** directly, in its own worktree, where the provider cannot spawn one; asked before each implementation (CLAUDE.md "Choosing models" rule 1). *Superseded: OpenCode via `implement.mjs` (removed), the GLM/DeepSeek/Sonnet chain (L42), L46's heavier-model rule, the user asked before each run.* | One task, one branch, one PR, in its own worktree |
+| Reviewer | **One OpenCode run** via `tools/harness/review.mjs`, on the model the user names at the question before the review, `harness.json`'s `reviewer.default` (GPT-5.6 Luna) proposed first (`sol-6.1` for hard research, rule 21); never the session's family (L27), never a blocked model. Exit 3: read the final message, fix the cause, run again; exit 4: the main session reads the flagged review and decides (L28). *Superseded: the quota-checked Sol / Luna / Opus order (L50, L51, L101), the Claude fallback, the user asked at every review.* | Re-runs the Done-when, audits scope and evidence, posts one PR comment, applies the label |
 | Decider | Jev via `tools/harness/jev.mjs` (the `/jev` skill) | Repeated yes/no decisions over many items, at the confident ends only (§12) |
 | Generator | Models on OpenRouter (images, other families) and ElevenLabs (speech, sound, music) | Assets, each committed with a sidecar naming provider, model, prompt, date and cost |
 
-The user names who implements and who reviews, on which model (CLAUDE.md "Choosing models"
-rules 1-2); model ids come from `models.mjs` or `opencode models`, never memory (L25). Quota-tracker's
-`/recommend` is shown with each question as a suggestion only; a model whose provider is exhausted
-or does not answer goes back to the user, who names another (rule 7). *Superseded: "skip an
-exhausted one for the next with quota, saying so" (L50).*
-The main session runs `implement.mjs` itself: a wrapper agent would spend tokens watching it.
-It watches each background job as CLAUDE.md rules 8-13 say, never with `pgrep -f` (L48).
+Before each implementation and each review the main session asks the user one question, with
+`harness.json`'s default proposed first (CLAUDE.md "Choosing models"); no quota, tier or chain picks a model, and the
+roster changes through `/switch-model`. The implementer's family is the session's, read from the
+Anthropic environment variables (`lib/common.mjs` `sessionFamily`; the orchestrator is Claude, or GLM
+through Z.AI, MiniMax or Kimi when Claude's tokens are out), and the reviewer is never of it. Model ids come
+from `harness.json`, `models.mjs` or `opencode models`, never memory (L25).
 
 ## 2. Task files
 
@@ -72,42 +71,41 @@ Rework sends the full review back to the same branch, at most two rounds (one fo
 escalates. The implementer script resumes a pushed branch; it never starts over. Before a merge the
 main session re-runs the check the approval rests on most; a different result is rework. (L46)
 
-What the implementer script guarantees, and why:
+What the review script guarantees, and why:
 - OpenCode starts with stdin closed; without it a run hangs before it starts. (L10)
-- No session in 180 s, no progress in 900 s, or no exit in 3 h kills the run's process tree. (L10)
-- The agent is checked on OpenCode's session record (L11); a rejected tool call fails the run. (L26)
-- The brief passes by file: the runner writes it to `.harness-brief-<title>.md` at the run
+- No session in 180 s, no progress in 600 s, or no exit in 1 h kills the run's process tree (L10);
+  `--idle-timeout-sec` and `--total-timeout-sec` lengthen them for one run.
+- The agent is checked on OpenCode's session record (L11); a rejected tool call fails the run (L26),
+  and the fix is a wider grant in the agent file, not a re-brief (CLAUDE.md "Choosing models" rule 4).
+- The brief passes by file: the runner writes it to `.harness-brief-<title>.md` at the review
   worktree's root and the command line carries only a pointer, so a long brief cannot exceed the
   command-line limit; the file is never committed, and on failure it is kept with the logs. (L60)
-- Each light OpenCode model runs at effort high; a heavy one (Sol, GLM-5.3, DeepSeek V4 Pro) at
-  effort low, medium only when justified, never high, except where the provider offers nothing
-  lower (DeepSeek V4 Pro: high is its lowest). All run in the scripts' own data directory (L27, L29). The model is the user's,
-  passed as `--model` (a harness.json key or `provider/model[@variant]`); the chain (L12) runs only
-  without it, which the main session no longer does.
-- Exit 0: a PR is open. 1: the main session reads the log (a stop and report, or an early end).
-  2: a refused model (DeepSeek, an unknown name). 3: OpenCode unavailable, its model not listed, or
-  not logged in; the user names another (rule 7).
-- A run our own idle or total limit killed is resumed, not restarted: `--session <ses_...>` with the
-  same `--model` and a longer `--total-timeout-sec`, in the kept worktree (rule 13).
+- The model runs at the effort its `harness.json` entry names (a heavy model at low, a light one
+  at high), in the scripts' own data directory (L27, L29). One model, one run; no chain. The model
+  is `reviewer.default`, or `--reviewer` (a harness.json key or `provider/model[@variant]`).
+- Exit 0: posted and labelled. 2: a refused model (DeepSeek, an unknown name). 3: no review, nothing
+  posted: read the final message (rule 12), fix the cause, run again. 4: posted under a note, no
+  label: the main session reads it and decides.
 
 How the main session launches and watches a run (L103):
 - Detached from its own session, so a restart of Claude Code does not kill the run, in the form of
   CLAUDE.md's monitoring rule 9: `systemd-run --user --unit=goal2-<task> --collect -E PATH="$PATH"
-  -E MINIMAX_API_KEY -p WorkingDirectory=<repo> -p StandardInput=null -p StandardOutput=file:<log>
-  -p StandardError=file:<log> <implement.mjs or review.mjs command>`. A unit gets only the
+  -E MINIMAX_API_KEY -E ANTHROPIC_BASE_URL -E HARNESS_SESSION_FAMILY -p WorkingDirectory=<repo> -p StandardInput=null -p StandardOutput=file:<log>
+  -p StandardError=file:<log> <review.mjs command>`. A unit gets only the
   environment it is given, so each key a run needs is passed with `-E`; never a `bash -c` or
   `bash -lc` script (the safety check flags it).
-- The watch follows the unit (`systemctl --user is-active goal2-<task>`), and when a run's worktree holds
-  uncommitted work more than 20 minutes newer than its last commit, it archives it outside the worktree,
-  read-only (it never touches the run's index).
+- The watch follows the unit (`systemctl --user is-active goal2-<task>`). A Claude implementer
+  agent is watched by its transcript file's size and its worktree; when its worktree holds
+  uncommitted work more than 20 minutes newer than its last commit, the main session archives it
+  outside the worktree, read-only (it never touches the run's index).
 - An implementer's PR may be a draft; the main session runs `gh pr ready <pr>` before the review.
 
 ## 4. The implementer brief
 
-The brief is the task file pasted in full, then this block, then on a rework round the review's URL. The
-OpenCode agent file repeats the run mechanics; this block is the contract. A brief never asks an OpenCode
-implementer for anything outside its worktree: a line that needs it (a TMPDIR outside every checkout, the
-user's install, `.git/info`) is one the main session runs itself (L57).
+The brief is the task file pasted in full, then this block, then on a rework round the review's URL.
+The `implementer` agent file repeats the run mechanics; this block is the contract, for the main
+session implementing directly as much as for the subagent. Ghidra and the pinned tools under `~/tools`
+are the main session's to run where an agent cannot reach them (L57, §13).
 
 ```text
 You implement <T<nn>>. The task file above is the contract.
@@ -128,9 +126,9 @@ You implement <T<nn>>. The task file above is the contract.
 - Commit and push after each step, at least every 20 minutes and before any command that runs longer
   than 5 minutes; after your first push, open the PR as a draft (`gh pr create --draft`). A crash then
   loses one step, and the branch shows where you are. (L103)
-- A command that can run past 10 minutes never pipes through `tail`/`head`: the run is killed at
-  900 s of session silence (L10), before any bash timeout. Run it detached (`nohup … > log 2>&1 &`
-  or `setsid`), verify it survived the tool call with `ps`, then poll the log in short calls.
+- A command that can run past 10 minutes never pipes through `tail`/`head`: an agent's tool call
+  has a timeout of its own (L10). Run it detached (`nohup … > log 2>&1 &` or `setsid`), verify it
+  survived the tool call with `ps`, then poll the log in short calls.
 - PR body: Closes #<issue>; Scope (files and why); a fenced block with each Done-when command and
   the tail of its output; Docs changed.
 ```
@@ -258,6 +256,6 @@ raw baseline; where the two views disagree, the listing decides.
 Each research task adds or corrects the rows for what it establishes, with its finding as basis,
 runs `python3 tools/static/check_annotations.py`, and regenerates `named/` in its PR with the command
 in `static/goal-exe/named/README.md`. Only rows change by hand; `named/` never does.
-OpenCode runs cannot run Ghidra (it lives under `~/tools`, outside their worktree): an OpenCode
-brief says "do NOT run Ghidra; the main session regenerates named/ after you push (L57)", and
-its review brief says the same for the reviewer. Claude agents and the main session can run it.
+An OpenCode reviewer cannot run Ghidra (it lives under `~/tools`, outside its worktree): the review
+brief says "do NOT run Ghidra", and the main session regenerates `named/` where a check needs it
+(L57). Claude agents and the main session can run it.

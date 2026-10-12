@@ -33,9 +33,9 @@ Then run `npm test` in the harness repository. The tests against the real OpenCo
 
 ## OpenCode Go
 
-**Superseded (the owner, 2026-10-11):** which model implements or reviews is the user's choice, asked one question at a time (CLAUDE.md "Choosing models: the user decides"); this section's seats, chains and placements no longer pick a model. Kept for the logins and probes.
+**History (the owner, 2026-10-11):** this section's seats, chains and placements no longer pick a model: the main session or a Claude agent implements, and `harness.json`'s `reviewer.default` reviews unless the user names another (CLAUDE.md "Choosing models"). Kept for the logins and probes.
 
-The second implementer, DeepSeek V4.1 Flash, is OpenCode Go's (`opencode-go/…`), a subscription. They are not OpenCode Zen's pay-per-token `opencode/…` models. Go comes from a console
+The MiMo v2.6 reviewers are OpenCode Go's (`opencode-go/…`), a subscription. They are not OpenCode Zen's pay-per-token `opencode/…` models. Go comes from a console
 (organisation) login, not from a key; `opencode auth login` and `OPENCODE_API_KEY` reach only Zen
 (IC2 #551):
 1. `opencode console login`, then approve the URL and code it prints in the browser;
@@ -49,7 +49,7 @@ directory, another machine, WSL beside Windows, or a new cloud session each need
 
 ## OpenAI, for the reviewer
 
-**Superseded (the owner, 2026-10-11):** which model implements or reviews is the user's choice, asked one question at a time (CLAUDE.md "Choosing models: the user decides"); this section's seats, chains and placements no longer pick a model. Kept for the logins and probes.
+**History (the owner, 2026-10-11):** this section's seats, chains and placements no longer pick a model: the main session or a Claude agent implements, and `harness.json`'s `reviewer.default` reviews unless the user names another (CLAUDE.md "Choosing models"). Kept for the logins and probes.
 
 The reviewer is GPT-5.6 Luna on the direct OpenAI route (`openai/gpt-5.6-luna`, L51), never a Luna
 on Go (`opencode-go/…`): a third-party proxy behind Go's returned `Bad Request` in long agent loops
@@ -59,9 +59,9 @@ OpenAI (a ChatGPT login or an API key), and check with `opencode models openai`.
 missing or older. If OpenAI later asks for a new login, log in again in your usual OpenCode; the
 next run copies it.
 
-## Z.AI, for the implementer and the GLM models
+## Z.AI, for the GLM reviewers
 
-**Superseded (the owner, 2026-10-11):** which model implements or reviews is the user's choice, asked one question at a time (CLAUDE.md "Choosing models: the user decides"); this section's seats, chains and placements no longer pick a model. Kept for the logins and probes.
+**History (the owner, 2026-10-11):** this section's seats, chains and placements no longer pick a model: the main session or a Claude agent implements, and `harness.json`'s `reviewer.default` reviews unless the user names another (CLAUDE.md "Choosing models"). Kept for the logins and probes.
 
 GLM-5.3 Flash, the default implementer (L42), and GLM-5.3, the first hard reviewer (L41), run on
 Z.AI's coding plan (`zai-coding-plan/…`); both stay on watch (L35). Log in once with `opencode auth login` and choose Z.AI Coding Plan (an API
@@ -71,7 +71,7 @@ the plan.
 
 ## Alibaba Token Plan and MiniMax, on watch
 
-**Superseded (the owner, 2026-10-11):** which model implements or reviews is the user's choice, asked one question at a time (CLAUDE.md "Choosing models: the user decides"); this section's seats, chains and placements no longer pick a model. Kept for the logins and probes.
+**History (the owner, 2026-10-11):** this section's seats, chains and placements no longer pick a model: the main session or a Claude agent implements, and `harness.json`'s `reviewer.default` reviews unless the user names another (CLAUDE.md "Choosing models"). Kept for the logins and probes.
 
 Alibaba is used only when the user asks (CLAUDE.md "Choosing models" rule 4). On an Alibaba quota or
 rate error, stop using it until the next day, tell the owner, and do not retry: its monthly pool is
@@ -99,8 +99,7 @@ Alibaba is one monthly pool for all its models (`curl -s localhost:8765/quota/al
 `glm-5.3` none — prefer long alibaba runs while it is true). DeepSeek is blacklisted on any
 route as of 2026-10-09. MiniMax has 5-hour and weekly windows
 (`curl -s localhost:8765/quota/minimax`). Alibaba's Kimi and MiniMax models are Team-edition only
-and fail; not registered. This repo's pinned `lib/quota.mjs` predates alibaba/minimax window
-knowledge — see `harness.lock`'s bump note.
+and fail; not registered.
 
 Placements (the owner, 2026-10-09): the implementer chain runs `zai-glm-5.3-flash`, `mimo-flash`,
 `mm-m2.7`, `ali-qwen-flash` (then Claude sonnet); the hard reviewer chain runs `zai-glm-5.3`,
@@ -112,12 +111,12 @@ exhausted. From 8 Oct 2026 `ali-glm` is the default GLM seat (zai's 3x weekday p
 
 ## Quota: quota-tracker
 
-**Superseded in part (the owner, 2026-10-11):** quota-tracker's `/recommend` is shown to the user as a suggestion only, with each question of CLAUDE.md "Choosing models"; it never decides, and neither do `harness.json`'s chains, the scripts' quota skip, nor the chooser below.
+**The harness no longer reads it** (the owner, 2026-10-11, CLAUDE.md "Choosing models"): `review.mjs` runs the model named whatever the quota, `lib/quota.mjs` and `choose.mjs` were removed, and no model question shows `/recommend`. The service stays useful to the user, and to the main session when a provider answers with a usage-limit error: then read `/quota/<provider>` and say when it is usable again.
 
 Where the machine runs quota-tracker, a local service, it reports how much subscription quota is
 left on each provider: `claude` (the main session and Claude agents), `openai` (Sol and Luna, via
 OpenCode), `zai` (GLM-5.3 and GLM-5.3 Flash), `opencode_go` (MiMo v2.6) and `openrouter` (prepaid
-credit). Check it before choosing, recommending or delegating to a model (L50). It is read-only, on
+credit). It is read-only, on
 localhost, with no auth; results are cached 60 s, and `?refresh` bypasses the cache:
 - `curl -s localhost:8765/quota`, or `/quota/<provider>` for one;
 - `curl -s 'localhost:8765/recommend?tier=heavy'` (or `tier=light`): which model to use.
@@ -163,13 +162,8 @@ If `curl -sf localhost:8765/health` fails where the service is installed:
 4. To run it without the service: `cd ~/projects/models_quota_tracker && uv run quota-tracker serve`
    in the background (it stops when the session ends).
 
-`implement.mjs` and `review.mjs` ask the service themselves before their chain runs
-(`lib/quota.mjs`, L52): every model is judged on its provider's main quota; on an exhausted
-provider, only what `when_exhausted.usable_models` names still runs (today `gpt-5.6-luna` on
-OpenAI, per the harness's L65 row). A provider in `error` or
-`not_configured` skips nothing. Each skip is logged with its reason, and with none left the script
-exits 3. `HARNESS_QUOTA_URL` names another
-address. Where the service does not answer, they skip nothing and log `quota: not checked`.
+`review.mjs` does not ask the service (above). *Superseded: the quota check before a chain ran
+(L52), and `HARNESS_QUOTA_URL`.*
 
 Never read or edit `~/.config/quota-tracker/config.toml`: it holds account tokens. A provider in
 `error` over an expired cookie or token goes to the user, since renewing it needs their browser or
@@ -215,15 +209,16 @@ stray `Xvfb :99` belongs to neither project), and stop only processes you starte
 
 ## OpenCode's agent permissions
 
-`.opencode/agents/{implementer,reviewer}.md` allow `/tmp` and `/tmp/*` (PR 119, the owner,
-2026-10-11: a model's scratch file in `/tmp` was refused and the run ended with nothing posted).
+`.opencode/agents/reviewer.md`, the one OpenCode agent since 2026-10-11 (the implementer agent went
+with `implement.mjs`), allows `/tmp` and `/tmp/*` (PR 119, the owner, 2026-10-11: a model's scratch
+file in `/tmp` was refused and the run ended with nothing posted) and the DOSBox-X bundle (#117).
 The grant was lost twice, once by a harness bump; `tests/test_agent_permissions.py` now fails CI
-without it, and `harness.lock` lists both files as adapted: carry it over on every bump. A
-worktree made before a merge has the branch's copy of these files.
+without it, and `harness.lock` lists the file as adapted: carry it over on every bump. A run that
+dies on another rejected path is fixed by widening the grant here, never by re-briefing.
 
 ## The scripts' own data directory
 
-`implement.mjs` and `review.mjs` run OpenCode with a data directory of their own, so OpenCode's
+`review.mjs` and `switch-model.mjs` run OpenCode with a data directory of their own, so OpenCode's
 desktop app (2.x) can never migrate their database to a schema the 1.x CLI cannot read (IC2 #540,
 "no such column: project_id"). It is `~/.local/share/harness-opencode`, with `data/`, `cache/` and
 `state/` set as `XDG_DATA_HOME`, `XDG_CACHE_HOME` and `XDG_STATE_HOME` for OpenCode's processes only.
@@ -262,13 +257,15 @@ Never paste a key into a chat, and never commit one.
 | `OPENROUTER_API_KEY` | Jev, through OpenRouter (`jev.mjs`); also OpenCode's `openrouter/*` models, if `harness.json` names any | `jev.mjs` exits 3; the main session decides every item itself |
 | `ELEVENLABS_API_KEY` | ElevenLabs: speech, voices, sound effects, music (`/delegate`, `models.mjs elevenlabs`) | no generated audio; the main session says so |
 | `GH_TOKEN` | `gh`, inside the tools and inside OpenCode's runs: finding the PR, `gh pr create`, posting a review, labels | the scripts cannot find or post to PRs |
+| `ANTHROPIC_BASE_URL` (with `ANTHROPIC_AUTH_TOKEN`, `ANTHROPIC_MODEL`) | the orchestrator itself: unset or Anthropic's for Claude; Z.AI's for GLM, MiniMax's, or Moonshot's for Kimi when Claude's tokens are out. `review.mjs` and `switch-model.mjs` read the session's family from it (CLAUDE.md "Choosing models" rule 0); pass it to a review's unit with `-E` | the session is Claude |
+| `HARNESS_SESSION_FAMILY` | overrides that family when the endpoint is one the harness does not know | an unknown endpoint refuses to review until it is set |
 
 For `GH_TOKEN`, use a fine-grained token limited to the project's repository, with read and write on
 Contents, Pull requests and Issues.
 
 OpenCode reads both `OPENCODE_API_KEY` and `OPENROUTER_API_KEY` from the environment (checked with
 `opencode auth list` on 1.18.33), so those need no `opencode auth login`. Go is the exception: without
-its console login, `implement.mjs` and `review.mjs` fail over and exit 3, and Claude agents take the work.
+its console login, `review.mjs` exits 3: log in and run again.
 
 ## Network
 
@@ -278,7 +275,7 @@ A cloud environment's network policy must allow:
 | --- | --- |
 | `opencode.ai` | OpenCode's own providers (Zen, Go) |
 | `openrouter.ai` | Jev, OpenRouter models, image generation |
-| `api.z.ai` | the implementer, GLM-5.3 Flash, and the hard reviewer, GLM-5.3 |
+| `api.z.ai` | the GLM reviewers, GLM-5.3 and GLM-5.3 Flash |
 | `api.elevenlabs.io` | ElevenLabs |
 | `registry.npmjs.org` | installing OpenCode |
 | `api.github.com`, `github.com` | `gh` and git |
@@ -306,11 +303,10 @@ Node 20 or later.
 ## First session: check it works
 
 1. The hook's report shows every key `set`, and no setup notes.
-2. The hook's report says OpenCode Go is logged in for the scripts' data directory (above), and
-   `opencode models opencode-go` there lists the ids in `harness.json`. If an id differs, edit
-   `harness.json`.
+2. The hook's report says OpenAI is logged in (the default reviewer), and `opencode models openai`
+   lists `harness.json`'s `luna` id. If an id differs, edit `harness.json`.
 3. Jev: put two lines such as `{"id": 1, "state": {"title": "Game crashes on load"}}` in
    `items.jsonl`, then run `node tools/harness/jev.mjs ask --decision breaks-play --in items.jsonl`.
    It should print `asked 2 of 2`.
-4. OpenCode: run `/run-task` on a small `fix`, and watch the first run: the tail of its log and the
-   `implemented by:` line.
+4. OpenCode: run `/run-task` on a small `fix`, and watch the first review: the tail of its log and
+   the posted review.

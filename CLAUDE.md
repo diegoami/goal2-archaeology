@@ -9,8 +9,9 @@ The process is `docs/process.md`; read it before running a task. Tasks are `docs
 indexed in `docs/tasks/README.md`.
 
 ## Rules
-1. The main session plans, runs `/run-task`, triages and talks to the user. Who implements and
-   who reviews, on which model, is the user's choice ("Choosing models" below); repeated decisions
+1. The main session plans, runs `/run-task`, triages and talks to the user. A subagent it spawns
+   implements (or it does itself), and OpenCode reviews, asking the user before each ("Choosing
+   models" below); repeated decisions
    go to Jev after a trial, and images and audio to OpenRouter or ElevenLabs models, whose ids come
    from live lists, never memory (`/delegate`).
 2. Nobody works in the main checkout: the main session, when it implements, works in its own git
@@ -33,12 +34,12 @@ indexed in `docs/tasks/README.md`.
    with the reason in the commit message.
 6. The reviewer is never the implementer's model family. It re-runs every Done-when line itself.
 7. Merge only with an approving review and green CI. Two rework rounds, then escalate. (L38's
-   ladder is superseded: each round's implementer is the user's choice.) With both, merge at once
+   ladder is superseded: the same implementer fixes the class of the findings, not each instance.) With both, merge at once
    without asking (the owner, 2026-10-04): research PRs `--merge` (rule 20), the rest `--squash`.
    The main session may grant a third, narrow round itself when the remaining findings are small
    and change no result (the owner, 2026-10-05). When it escalates over small exact corrections,
    it offers "small fix + delta review": it applies the corrections in the task's worktree and
-   the reviewer the user picks checks only `git diff <old>..<new>`.
+   the reviewer checks only `git diff <old>..<new>`.
 8. Relay review findings in full. Read a run's final message before you retry or re-route it (L55).
 9. A test proves behaviour only if it fails without that behaviour; re-take a claim that nothing failed.
 9a. Undo a mutation or scratch edit by writing back the file's saved contents (read it first, restore
@@ -78,9 +79,9 @@ indexed in `docs/tasks/README.md`.
     measured output (run records, probe logs, timings) lives under a tracked path the task owns, is
     committed and pushed after each batch of runs and at least every 30 minutes, and is never deleted
     or overwritten (game-archaeologist L207).
-21. **Difficulty** (U13): game rules, formulas or constants from evidence are hard work; say so in the
-    question of "Choosing models" rule 1. Routing by difficulty (game-archaeologist's
-    `docs/models.md`) is superseded by the user's choice. Rule 11 has no effect: this repository
+21. **Difficulty** (U13): game rules, formulas or constants from evidence are hard work; a hard
+    task's file names `sol-6.1` as its reviewer ("Choosing models" rule 2). Routing the implementer
+    by difficulty (game-archaeologist's `docs/models.md`) is superseded: Claude implements. Rule 11 has no effect: this repository
     builds no playable game.
 22. **Static first** (game-archaeologist U32, the owner, 2026-10-05). A research question is answered
     by reading the decompiled and disassembled `GOAL.EXE` first (the named view
@@ -90,35 +91,69 @@ indexed in `docs/tasks/README.md`.
     missing tool is never the reason: install it, or stop and report. A review treats runs made
     because a tool was missing as a contract defect (gate G0a): rework.
 
-## Choosing models: the user decides (the owner, 2026-10-11)
-These rules replace every other model-choice rule in this project, including issue #113's
-"follow quota-tracker's /recommend and nothing else" and, here, the global `~/.claude/CLAUDE.md`
-rule that quota-tracker decides. Tables, tiers, chains, substitute orders and exclusion lists in
-the docs and `harness.json` that pick a model are superseded by them.
+## Choosing models: who implements, who reviews (the owner, 2026-10-11 and 2026-10-12)
+These rules replace every other model-choice rule in this project: the morning of 2026-10-11's
+"the user decides, with /recommend's suggestion" (L104), issue #113's "follow quota-tracker's
+/recommend and nothing else", and the global `~/.claude/CLAUDE.md` rule that quota-tracker
+decides. What worked: a subagent spawned inside Claude Code implements (or the main session does, when
+it cannot spawn one), and a separate OpenCode process of another family reviews. The roster is the owner's and changes often: the
+defaults and the blocked list live in `harness.json` and change through `/switch-model`, never by
+a rule that names a model. No quota, tier or difficulty table picks a model.
 
-1. Before implementing anything (a task, a fix, a plan change), ask the user ONE question with the
-   question tool: does the main session implement it, or a subagent, and on which model?
-   - The main session: it implements itself, in its own git worktree (never the main checkout).
-   - A subagent: the Agent tool with the model the user names (any model this session's backend
-     offers), or an external run (e.g. OpenCode, `implement.mjs --model <name>`) with that model.
-   Whoever implements works in its own worktree, keeps a short running-notes file there
-   (`RUN-NOTES.md`, `docs/running-notes.md`: the plan, a progress line per commit, an END block
-   before stopping), pushes after every commit, and opens the PR. When a subagent ends, the main
-   session reads its final report before acting and posts its notes on the issue.
-2. At every review (first review, re-review, re-check of named fixes), ask the user ONE question:
-   which external model reviews? Run that review alone (one at a time, `review.mjs --reviewer
-   <name>`), and relay its findings to the user in full. A PR gets one review unless the user asks
-   for more.
-3. With each question, show quota-tracker's recommendation as a SUGGESTION ONLY:
-   `curl -s "http://localhost:8765/recommend?tier=heavy"` for heavy work, `tier=light` for small
-   work; its `pick`/`pair` with rank, outlook and reliability. If it doesn't answer, ask without
-   the suggestion.
-4. The only fixed rules: the reviewer is never of the implementer's model family; DeepSeek is
-   never used (the scripts refuse it); Alibaba only when the user asks.
-5. Record each choice (who, which model, the suggestion's reasons) on the issue or PR.
+0. **The orchestrator is set by the Anthropic environment variables alone** (`ANTHROPIC_BASE_URL`,
+   `ANTHROPIC_AUTH_TOKEN`, `ANTHROPIC_MODEL`): Claude by default; when Claude's tokens are out, GLM-5.3
+   through Z.AI's Anthropic-compatible endpoint, or MiniMax, or Moonshot's Kimi, which then work
+   like Claude. These
+   rules never name the orchestrator's model. The harness reads the orchestrator's **family** from
+   that environment (`lib/common.mjs` `sessionFamily`: Claude when the base URL is unset or
+   Anthropic's, GLM for Z.AI, MiniMax, Kimi for Moonshot; `HARNESS_SESSION_FAMILY` overrides, and an unknown endpoint refuses
+   to review until it is set), because every subagent the session spawns, whatever its model,
+   runs through the same endpoint and is of that provider's family. Pass `ANTHROPIC_BASE_URL` and `HARNESS_SESSION_FAMILY` to
+   a review's systemd unit (rule 9).
+1. **Before each implementation, ask the user ONE question** with the question tool: which
+   **subagent** implements, or does the main session implement directly? The implementer is
+   normally a subagent spawned inside Claude Code with the Agent tool
+   (`subagent_type: "implementer"`, `.claude/agents/implementer.md`, worktree isolation) on a
+   model of its own, not the orchestrator's: Opus orchestrates and spawns Sonnet. The model is a
+   Claude Code alias (`sonnet`, `opus`, `haiku`, `fable`) or any model id the session's provider
+   serves; under another Anthropic-compatible provider (Z.AI's GLM, MiniMax, Kimi) the same alias
+   resolves to whatever that provider maps it to (GLM-5.3 Flash for `sonnet` on Z.AI), or the id
+   names its model outright. When the provider cannot spawn a subagent (one model only, or the
+   Agent tool's model is not honoured), the main session implements directly, in its own git
+   worktree (never the main checkout). Propose `harness.json`'s `implementer.default` first.
+   Whatever the model, a subagent runs through the session's endpoint, so its family for the
+   reviewer rule is the session's (rule 0). OpenCode never implements: `implement.mjs` was
+   removed, because its runs died on rejected paths, resets and early ends and did not follow the
+   brief (L104). Whoever implements keeps `RUN-NOTES.md` in its worktree (`docs/running-notes.md`:
+   the plan, a progress line per commit, an END block before stopping), pushes after every
+   commit, and opens the PR. When a subagent ends, the main session reads its final report before
+   acting and posts its notes on the issue.
+2. **Before each review, ask the user ONE question:** which OpenCode model reviews? Propose
+   `harness.json`'s `reviewer.default` first (GPT-5.6 Luna today; `sol-6.1`, GPT-6.1 Sol at
+   `low`, for hard research, rule 21), and list the registered models that are neither of the
+   session's family nor blocked. Then `tools/harness/review.mjs --pr <n> --brief <file> --issue
+   <n> --apply-label [--reviewer <name>]`, one review per PR unless the user asks for more; its
+   findings are relayed in full (rule 8). OpenCode's models do not always follow the brief: the
+   script posts what came back, flags what it cannot read (exit 4), and the main session reads a
+   flagged review and decides rather than paying for another. Record the answers to both
+   questions on the issue or PR.
+3. **The fixed rules:** the reviewer is never of the session's family (`review.mjs` refuses it
+   from the environment; a `/code-review` or the `reviewer` agent, which are that family, run
+   only when the user asks); a model on `harness.json`'s `blocked` list never runs (DeepSeek
+   today; `/switch-model --block` and `--unblock` change it); Alibaba only when the user asks.
+4. **Permissions, not briefs:** an agent gets the permissions its work needs, in its agent file
+   (`.opencode/agents/reviewer.md`: all of `/tmp` and the DOSBox-X bundle; `.claude/agents/*.md`:
+   the guard hook refuses only a force-push, `git stash`, `git worktree`, a merge and, for the
+   reviewer, every write). A run that dies on a rejected path is fixed by widening the grant,
+   never by re-briefing.
+5. A failed run is diagnosed and fixed, not silently re-routed: another model only when the
+   provider does not answer, and the user names it. The PR records who implemented and which
+   model reviewed.
 6. These rules work whatever model the orchestrator itself runs on; they never name it.
-7. A failed run is diagnosed and fixed, not silently re-routed: another model only when the
-   provider does not answer, and the user names it.
+7. **Still in force:** the effort rule (a heavy model, Opus, GPT-6.1 Sol, GLM-5.3, MiMo v2.6 Pro
+   or MiniMax-M3, at `medium` at most and `low` when medium is not needed; a light model at
+   `high`); every model id comes from a live list (`opencode models <provider>`), never memory;
+   the main session runs Ghidra and the lines an OpenCode reviewer cannot reach (L57).
 
 ### Monitoring OpenCode sessions (and any other background agent)
 8. Start every OpenCode run in the background, with stdin from a file (never an inherited pipe:
@@ -128,7 +163,7 @@ the docs and `harness.json` that pick a model are superseded by them.
    (`kill -0 <pid>`), never with `pgrep -f`, which matches the watching shell's own command line
    and never sees the job end (L48; isle-wars lost 1.5 h to it, 2026-10-11). A unit gets only the
    environment it is given: `systemd-run --user --unit=goal2-<name> --collect -E PATH="$PATH"
-   -E MINIMAX_API_KEY -p WorkingDirectory=<dir> -p StandardInput=null -p StandardOutput=file:<log>
+   -E MINIMAX_API_KEY -E ANTHROPIC_BASE_URL -E HARNESS_SESSION_FAMILY -p WorkingDirectory=<dir> -p StandardInput=null -p StandardOutput=file:<log>
    -p StandardError=file:<log> <command>` (without the key a MiniMax run stops with "minimax lists
    no models", 2026-10-11; never a `bash -c` script). It covers:
    - the session started (`opencode session list` in the run's directory, or the run's
@@ -146,11 +181,12 @@ the docs and `harness.json` that pick a model are superseded by them.
     `tools/harness/peek.sh ses_… [-n 20]` (or the run log's path), and repeat the id in every update
     (the owner, 2026-10-11, after isle-wars-archaeology d1e0082).
 11. On a "possibly stuck" flag: check the process is alive, read its newest session messages
-    (`opencode export <ses_...>`, or `/run-task` step 2's session reader); a long build or test step
+    (`opencode export <ses_...>`, or `/run-task` step 3's session reader); a long build or test step
     is not stuck. A dead or 20-minute-silent run is stuck: stop it, but only if it is ours (the
     machine is shared).
-12. When a run ends, read its final message before doing anything else. A run that stopped and
-    reported a blocker gets an answer (fix the brief or the setup), not a retry on another model.
-13. A run interrupted by our own limits (an idle or total timeout) is resumed in its own session
-    and worktree (`implement.mjs --session <ses_...> --model <same> --total-timeout-sec <longer>`,
-    with a short "continue where you stopped" brief), not restarted from scratch.
+12. When a run ends, read its final message before doing anything else. A review that stopped on
+    a rejected path or an unreadable output gets its cause fixed (a wider grant, a brief line), not
+    a retry on another model.
+13. A review our own idle or total limit killed is run again with a longer limit
+    (`review.mjs --total-timeout-sec <longer>`); a Claude agent our limits interrupted is resumed
+    with a short "continue where you stopped" brief, never restarted from scratch.
