@@ -11,7 +11,7 @@
 
 ## Answer
 
-- **+0x2D is a Pascal set of eight team tactics, element k at bit k − 1** (static). The set helpers are `214B:0C57` (test), `0C79` (include) and `0CA1` (exclude), each on bit `k − 1` (`static:static/goal-exe/decompiled/seg_214B_01.c:913` – `static:static/goal-exe/decompiled/seg_214B_01.c:934`). The tactics screen prints all eight elements in the order `DS:6BC0` = 5, 6, 7, 1, 2, 3, 4, 8, each as the word `DS:6AA0 + 32 k + 16 · bit` (`seg_1771_01.c:1112`–`1119`, data `ds_2581_03.hex` row 6BC0). F008's tactics panel prints elements 1..4 and 8 the same way. About 95% for the bits and words; the screen labels of elements 5..7 are not read here.
+- **+0x2D is a Pascal set of eight team tactics, element k at bit k − 1** (static). The set helpers are `214B:0C57` (test), `0C79` (include) and `0CA1` (exclude), each on bit `k − 1` (`static:static/goal-exe/decompiled/seg_214B_01.c:914` – `static:static/goal-exe/decompiled/seg_214B_01.c:934`). The tactics screen prints all eight elements in the order `DS:6BC0` = 5, 6, 7, 1, 2, 3, 4, 8, each as the word `DS:6AA0 + 32 k + 16 · bit` (`seg_1771_01.c:1112`–`1119`, data `ds_2581_03.hex` row 6BC0). F008's tactics panel prints elements 1..4 and 8 the same way. About 95% for the bits and words; the screen labels of elements 5..7 are not read here.
 
 | Element (bit, mask) | Clear | Set | Readers in a match (below) |
 | --- | --- | --- | --- |
