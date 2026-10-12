@@ -1,0 +1,26 @@
+== mutate_pause
+killed: extract: --declare dropped (experiments/E015-human-playthrough/extract.py) -> FAILED (failures=1)
+killed: extract: the recorder's presses counted as the owner's (experiments/E015-human-playthrough/extract.py) -> FAILED (failures=2)
+restored sources: OK
+survivors: ['rework2 DW3: requests while the owner holds F12', 'rework2 DW3: a held F12 holds requests without a bound']
+== full suite
+Ran 836 tests in 193.848s
+
+FAILED (failures=1, skipped=2)
+== links
+links and JSON ok (1230 files)
+== rehearsal 1
+snapshots: [(1, 'watcher', 0.012), (2, 'burst', 8.418), (3, 'resume', 16.446), (4, 'burst', 19.319), (5, 'resume', 24.707), (6, 'burst', 27.532)]
+presses: ['a', 'Alt_L', 'F12', 'p', 'x', 'Alt_L', 'F12', 'p', 'b', 'Alt_L', 'F12', 'p', 'Alt_L', 'F12', 'p', 'c']
+presses the recorder injected (by: recorder): ['Pause', 'Pause']
+modifiers xdotool added: ['Alt_L', 'Alt_L', 'Alt_L', 'Alt_L']
+rehearsal OK: 2 pauses, 6 snapshots, 16 presses, 2 notes
+session: scratch/human/sessions/20261012-075046
+== rehearsal 2
+snapshots: [(1, 'watcher', 0.011), (2, 'burst', 8.415), (3, 'resume', 16.393), (4, 'burst', 19.261), (5, 'resume', 24.658), (6, 'burst', 27.465)]
+presses: ['a', 'Alt_L', 'F12', 'p', 'x', 'Alt_L', 'F12', 'p', 'b', 'Alt_L', 'F12', 'p', 'Alt_L', 'F12', 'p', 'c']
+presses the recorder injected (by: recorder): ['Pause', 'Pause']
+modifiers xdotool added: ['Alt_L', 'Alt_L', 'Alt_L', 'Alt_L']
+rehearsal OK: 2 pauses, 6 snapshots, 16 presses, 2 notes
+session: scratch/human/sessions/20261012-075119
+== done

@@ -157,6 +157,18 @@ class PauseCaptureTests(unittest.TestCase):
                 w.capture(rec.file_signature(live), epoch=0)
             self.assertEqual(sends, [])
 
+    def test_no_request_is_sent_again_while_the_owner_holds_f12(self):
+        # Sol's escalation R2 on PR 144: a pending capture's resend waits for the owner's F12
+        with tempfile.TemporaryDirectory() as folder, mock.patch.object(rec, "HOST_HOLD_MAX_S", 8.0):
+            w, live, sends = self.watcher(folder)
+            w.note_host_keys([{"keysym": rec.HOST_KEYSYM, "event": "press", "monotonic_s": w.clock()}])
+            sent_at = []
+            w.xrun = lambda argv: sent_at.append(w.clock())
+            with self.assertRaises(TimeoutError):
+                w.capture(rec.file_signature(live), epoch=0)
+            self.assertTrue(sent_at, "no resend after the hold's bound")
+            self.assertGreaterEqual(min(sent_at), 8.0, sent_at)
+
     def test_control_an_unpaused_request_is_sent_again(self):
         with tempfile.TemporaryDirectory() as folder:
             w, live, sends = self.watcher(folder)

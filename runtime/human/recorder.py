@@ -221,6 +221,12 @@ AUTOREPEAT_SERVER_MS = 2
 # autorepeat probe), so 3 s without one means its release was missed, and requests resume.
 # Recorder policy.
 HOST_HOLD_MAX_S = 3.0
+# [designed] How long after an F12 release the hold lasts while the release's autorepeat press may
+# still be on its way (Sol's escalation R1 on PR 144): a held key's pair is a release and a press 0-1
+# server ms apart, but the logger can deliver them apart (a pair read 30 ms apart, the held-P test;
+# Sol's fixture 100 ms). 0.25 s covers both; a real release only delays the next request by it.
+# Recorder policy.
+HOST_RELEASE_GRACE_S = 0.25
 
 
 def mapper_text(default=None):
@@ -722,6 +728,10 @@ class Watcher:
     _events_at_pause = None   # {pause epoch: the write-event count when that pause was seen}
     resume_key = None         # () -> presses Pause for the owner (inject_pause_key), or none
     _f12_down = False
+    _host_down = False        # the owner's F12 as the save gate sees it (host_held)
+    _host_seen = float("-inf")       # when the last F12 event was read
+    _host_released = float("-inf")   # when the last F12 release was read
+    _host_hold_logged = False
     _p_down = False           # P held: a press before its release is its autorepeat (R4)
     _p_released = None        # the X server time of P's last release
     _chords = 0               # fresh F12+P presses since the last resume (the first pauses)
@@ -773,6 +783,27 @@ class Watcher:
         self.pauses_path = self.session / "pauses.jsonl"
 
     # -- staging (the staging gate) -----------------------------------------------------
+    def note_host_keys(self, events):
+        """The owner's F12 for the save gate (host_held), from the key log's events."""
+        for e in events:
+            if e.get("keysym") == HOST_KEYSYM:
+                self._host_down = e.get("event") == "press"
+                self._host_seen = e["monotonic_s"]
+                if not self._host_down:
+                    self._host_released = e["monotonic_s"]
+
+    def host_held(self, now):
+        """No F12+S may go out now (rework round 2, and Sol's escalation R1-R2 on PR 144): the
+        save request is F12+S with its own F12 release, and sent between the owner's F12 and P it
+        made DOSBox-X take the P as a game key (T39b-scripted-pause-20261012-01.log: no pause).
+        Held while F12 is down, and for HOST_RELEASE_GRACE_S after a release, which may be half of
+        an autorepeat pair whose press is read later; never longer than HOST_HOLD_MAX_S after the
+        last F12 event (a missed release must not stop the snapshots). Every send asks it: the
+        loop's requests and capture's resends."""
+        if now - self._host_seen >= HOST_HOLD_MAX_S:
+            return False
+        return self._host_down or now - self._host_released < HOST_RELEASE_GRACE_S
+
     def capture(self, pre_sig, live_emulator=True, pre_events=None, fast=False, sent_box=None,
                 req_path=None, epoch=None):
         """The staging gate, the one path that reads the live savestate (round 2: R1, R2, R4,
@@ -999,7 +1030,13 @@ class Watcher:
                 if not self._hold_logged:
                     self.log("F12+S not sent again: a pause began after this request")
                     self._hold_logged = True
+            elif live_emulator and self.clock() - sent > RESEND_AFTER_S and self.host_held(self.clock()):
+                # Sol's escalation R2 on PR 144: a resend is a request like any other
+                if not self._host_hold_logged:
+                    self.log("F12+S not sent again yet: the owner holds F12")
+                    self._host_hold_logged = True
             elif live_emulator and self.clock() - sent > RESEND_AFTER_S:
+                self._host_hold_logged = False
                 self.log(f"F12+S sent again: no complete savestate after {RESEND_AFTER_S}s")
                 self.xrun(key_cmd(self.wid))
                 sent = self.last_sent = self.clock()
@@ -1351,7 +1388,6 @@ class Watcher:
         worker = threading.Thread(target=pipeline, daemon=True, name="capture-pipeline")
         worker.start()
         next_pause_poll = float("-inf")
-        host_down, host_seen = False, float("-inf")   # the owner's F12, from the key log
         try:
             while True:
                 drained = keys.drain() if keys else []
@@ -1361,10 +1397,7 @@ class Watcher:
                     burst.add(event)
                 if drained:
                     last_event = drained[-1]["monotonic_s"]
-                for event in drained:
-                    if event.get("keysym") == HOST_KEYSYM:
-                        host_down = event.get("event") == "press"
-                        host_seen = event["monotonic_s"]
+                self.note_host_keys(drained)
                 if keys and (keys.error or keys.proc.poll() is not None):
                     # T39b Scope 7: closing the window ends Xephyr, and the logger on its display
                     # ends first; the sitting is over (play() names it), never a crash that
@@ -1413,12 +1446,10 @@ class Watcher:
                 if now < next_tick and not send_burst and not send_resume:
                     self.sleep(min(next_tick - now, 0.01 if keys else 0.5))
                     continue
-                if host_down and now - host_seen < HOST_HOLD_MAX_S:
-                    # rework round 2: the owner holds F12 for a chord. The save request is
-                    # F12+S sent to the window, its F12 release included, and sent between the
-                    # owner's F12 and P it made DOSBox-X take the P as a game key: the pause of
-                    # T39b-scripted-pause-20261012-01.log never happened (request at +11.264 s
-                    # between F12 at +11.206 s and P at +11.343 s). No request while F12 is held.
+                if self.host_held(now):
+                    # rework round 2: the owner holds F12 for a chord; a request between the
+                    # owner's F12 and P broke the pause of T39b-scripted-pause-20261012-01.log
+                    # (request at +11.264 s between F12 at +11.206 s and P at +11.343 s)
                     self.sleep(0.01 if keys else 0.5)
                     continue
                 if self.pause_probe is not None and self.poll_pause():
