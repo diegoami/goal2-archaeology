@@ -46,14 +46,29 @@ END = CODE * 16 + 14
 SP0 = 0xFF00
 
 
-def machine(ss=0x0800):
+# BODY with a frame: every kind of stack write the proof must take as the routine's own
+FRAMED = bytes([0x55,                    # 0: push bp
+                0x89, 0xE5,              # 1: mov bp, sp
+                0x83, 0xEC, 0x02,        # 3: sub sp, 2
+                0x89, 0x46, 0xFE,        # 6: mov [bp-2], ax   (a local, at SP)
+                0x9C, 0x9D,              # 9: pushf; popf
+                0xE8, 0x0A, 0x00,        # 11: call near 24
+                0xFF, 0x06, 0x00, 0x01,  # 14: inc word ptr [0x0100]
+                0x89, 0xEC,              # 18: mov sp, bp
+                0x5D,                    # 20: pop bp
+                0xCA, 0x02, 0x00,        # 21: retf 2
+                0xC3])                   # 24: ret
+FRAMED_RETF = 21
+
+
+def machine(ss=0x0800, sp=SP0, body=BODY, retf=4):
     mem = bytearray(0x30000)
     mem[CODE * 16:CODE * 16 + len(PROGRAM)] = PROGRAM
-    mem[ROUTINE * 16:ROUTINE * 16 + len(BODY)] = BODY
-    g = Guest(memory=mem, regs={"CS": CODE, "EIP": 0, "SS": ss, "ESP": SP0, "DS": 0, "ES": 0})
+    mem[ROUTINE * 16:ROUTINE * 16 + len(body)] = body
+    g = Guest(memory=mem, regs={"CS": CODE, "EIP": 0, "SS": ss, "ESP": sp, "DS": 0, "ES": 0})
     retf_runs = []
     g.mu.hook_add(UC_HOOK_CODE, lambda uc, a, s, d: retf_runs.append(a),
-                  begin=ROUTINE * 16 + 4, end=ROUTINE * 16 + 4)
+                  begin=ROUTINE * 16 + retf, end=ROUTINE * 16 + retf)
     return g, retf_runs
 
 
@@ -192,6 +207,57 @@ class SyntheticHookTests(unittest.TestCase):
         g.emulate(END, 5)
         self.assertEqual(g.proved_calls, {"2000:0000": 3})
         self.assertEqual(g.word_at(0x100), 3)
+
+    def test_an_output_aliased_just_below_the_entry_sp_is_compared(self):
+        # Sol's R1 on PR 136's delta: SS = DS = 0 and SP 0x0110, so the output DS:0100 lies 10
+        # bytes below the routine's entry SP (0x010A); the routine pushes nothing, so its frame is
+        # empty and a model adding 2 is stopped
+        from watched_match import ProofError
+        g, _ = machine(ss=0, sp=0x0110)
+        g.hook("2000:0000", lambda guest: guest.put(0x100, (guest.word_at(0x100) + 2).to_bytes(2, "little")),
+               ret=(True, 2), prove=True, ret_at=[4])
+        with self.assertRaises(ProofError) as cm:
+            g.emulate(END, 5)
+        self.assertEqual(str(cm.exception), "call #1 of 2000:0000: written byte #0 differs: the original wrote"
+                         " 0x01 at linear 0x00100, the model wrote 0x02 at linear 0x00100")
+
+    def test_a_correct_model_passes_with_the_output_just_below_the_entry_sp(self):
+        g, _ = machine(ss=0, sp=0x0110)
+        g.hook("2000:0000", lambda guest: guest.put(0x100, (guest.word_at(0x100) + 1).to_bytes(2, "little")),
+               ret=(True, 2), prove=True, ret_at=[4])
+        g.emulate(END, 5)
+        self.assertEqual(g.proved_calls, {"2000:0000": 3})
+        self.assertEqual(g.word_at(0x100), 3)
+
+    def test_the_originals_pushes_local_and_nested_call_are_its_frame(self):
+        # push bp, a local written at SP, pushf and a near call: none of them is the model's to
+        # write; the output below them (SS = DS = 0) is still compared
+        for sp, outcome in ((0x0130, "ok"), (0x0130, "+2")):
+            g, retf_runs = machine(ss=0, sp=sp, body=FRAMED, retf=FRAMED_RETF)
+            step = 1 if outcome == "ok" else 2
+            g.hook("2000:0000", lambda guest, k=step: guest.put(0x100, (guest.word_at(0x100) + k).to_bytes(2, "little")),
+                   ret=(True, 2), prove=True, ret_at=[FRAMED_RETF])
+            if outcome == "ok":
+                g.emulate(END, 5)
+                self.assertEqual(g.proved_calls, {"2000:0000": 3})
+                self.assertEqual(len(retf_runs), 3)              # the original ran each time
+                self.assertEqual(g.word_at(0x100), 3)
+            else:
+                from watched_match import ProofError
+                with self.assertRaisesRegex(ProofError, "written byte #0 differs: the original wrote 0x01 at linear 0x00100"):
+                    g.emulate(END, 5)
+
+
+class PushOpcodeTests(unittest.TestCase):
+    def test_the_instructions_that_write_below_sp(self):
+        from watched_match import pushes
+        for code in ("06", "0E", "16", "1E", "50", "55", "57", "60", "6834 12", "6A01", "9A00000020",
+                     "9C", "C8040000", "CC", "CD21", "CE", "E80000", "0FA0", "0FA8",
+                     "FF16 0001", "FF1E 0001", "FF36 0001", "2EFF36 0001", "36 55"):
+            self.assertTrue(pushes(bytes.fromhex(code.replace(" ", "")) + bytes(6)), code)
+        for code in ("58", "5D", "9D", "07", "1F", "8946FE", "FF060001", "FF0E0001", "FF260001",
+                     "FF2E0001", "8F060001", "0FA1", "AB", "C7060001 3412", "2E8946FE"):
+            self.assertFalse(pushes(bytes.fromhex(code.replace(" ", "")) + bytes(6)), code)
 
 
 class ListingReturnTests(unittest.TestCase):

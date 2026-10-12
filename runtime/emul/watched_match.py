@@ -129,10 +129,26 @@ REGS_RETURNED = ("AX", "DX", "SP", "BP", "SS", "DS", "CS", "IP")
 # Not compared, but a difference at the return is a WARNING, counted per register
 # (`scratch_differences`; the first one per register is printed to stderr): the owner, 2026-10-11.
 REGS_SCRATCH = ("BX", "CX", "SI", "DI", "ES", "FLAGS")
-# How far below the entry SP the original's own stack writes count as its frame: the routine's
-# pushes and locals (F004's reach 10 bytes, seg_214B_01.asm `214B:0688`); a write lower than this
-# is compared like any other. A [designed] bound, not from a finding.
-FRAME_WINDOW = 0x200
+# The instructions that write to the stack below SP (push, call, pushf, pusha, enter, int): during
+# such a write Unicorn's SP is still the value before it (probed 2026-10-12), so the slot written is
+# where the stack reaches, not SP. Opcodes after any prefix; FF only with /2, /3 (call) or /6 (push).
+PUSH_OPCODES = {0x06, 0x0E, 0x16, 0x1E, *range(0x50, 0x58), 0x60, 0x68, 0x6A, 0x9A, 0x9C,
+                0xC8, 0xCC, 0xCD, 0xCE, 0xE8}
+PUSH_0F = {0xA0, 0xA8}                     # push fs, push gs
+PREFIXES = {0x26, 0x2E, 0x36, 0x3E, 0x64, 0x65, 0x66, 0x67, 0xF0, 0xF2, 0xF3}
+
+
+def pushes(code):
+    """Does the instruction whose bytes start `code` write below SP (a push or a call)?"""
+    i = 0
+    while i < len(code) - 1 and code[i] in PREFIXES:
+        i += 1
+    op = code[i]
+    if op == 0x0F:
+        return code[i + 1] in PUSH_0F
+    if op == 0xFF:
+        return (code[i + 1] >> 3) & 7 in (2, 3, 6)
+    return op in PUSH_OPCODES
 REGS_ALL = ("EAX", "EBX", "ECX", "EDX", "ESI", "EDI", "EBP", "ESP", "EFLAGS",
             "CS", "DS", "ES", "SS", "FS", "GS", "EIP")
 
@@ -310,9 +326,9 @@ class Guest:
         state is taken, memory and registers are put back, `fn` runs on the same state with its
         writes recorded the same way, and the two must be identical: the registers of
         REGS_RETURNED after the return, and the written bytes and their order, outside the
-        routine's own dead frame: from the lowest stack byte the original wrote within
-        FRAME_WINDOW below its entry SP (its pushes and locals) up to the caller's SP after the
-        return (the return address and the arguments popped). The first difference
+        routine's own dead frame: from the lowest the original's stack reached while it wrote
+        (the SP at each of its writes, or the slot a push or call wrote) up to the caller's SP
+        after the return (the return address and the arguments popped). The first difference
         raises ProofError naming the call number, the address and the byte (or the register).
         The match continues from the model's state; `proved_calls[address]` counts clean calls.
         A difference in BX, CX, SI, DI, ES or the flags at the return is not an error but a WARNING,
@@ -339,6 +355,12 @@ class Guest:
             old = bytes(uc.mem_read(address, size))
             new = (value & ((1 << (8 * size)) - 1)).to_bytes(size, "little")
             state["writes"].append((address, old, new))
+            if uc.reg_read(X.UC_X86_REG_SS) == state["ss"]:     # how far the stack reached
+                sp = state["ss"] * 16 + uc.reg_read(X.UC_X86_REG_SP)
+                ip = uc.reg_read(X.UC_X86_REG_CS) * 16 + uc.reg_read(X.UC_X86_REG_IP)
+                if pushes(bytes(uc.mem_read(ip, 6))) and sp - 16 <= address < sp:
+                    sp = address
+                state["low"] = min(state["low"], sp)
 
         def at_entry(uc, addr, size, data):
             if state["phase"] == "original":
@@ -351,6 +373,7 @@ class Guest:
                     return
                 state.update(phase="original", writes=[], regs={r: self.reg(r) for r in REGS_ALL},
                              ss=self.reg("ss"), sp=self.reg("sp"))
+                state["low"] = state["ss"] * 16 + state["sp"]
                 self.suppress_guest_watch = True
             except Exception as e:        # stop the emulation and re-raise after it
                 stop(uc, e)
@@ -362,14 +385,11 @@ class Guest:
                 state["phase"] = None
                 self.suppress_guest_watch = False
                 self.return_from(far, pop)
-                # the routine's own dead frame (Sol's R2 on PR 136's round 2): from the lowest stack
-                # byte the ORIGINAL wrote within FRAME_WINDOW below its entry SP (its pushes and
-                # locals) up to the caller's SP after the return (the return address and the
-                # arguments popped); every other byte is compared, an aliased output included
-                base = state["ss"] * 16 + state["sp"]
-                below = [a + i for a, o, n in state["writes"] for i in range(len(n))
-                         if base - FRAME_WINDOW <= a + i < base]
-                frame = (min(below, default=base), state["ss"] * 16 + self.reg("sp"))
+                # the routine's own dead frame (Sol's R2 on PR 136's round 2 and R1 of the delta):
+                # from the lowest the ORIGINAL's stack reached while it wrote (record_original) up to
+                # the caller's SP after the return (the return address and the arguments popped);
+                # every other byte is compared, an output aliased just below the entry SP included
+                frame = (state["low"], state["ss"] * 16 + self.reg("sp"))
                 original_regs = {r: self.reg(r) for r in REGS_RETURNED + REGS_SCRATCH}
                 original = [(a + i, n[i]) for a, o, n in state["writes"] for i in range(len(n))]
                 for a, o, n in reversed(state["writes"]):     # undo the original
