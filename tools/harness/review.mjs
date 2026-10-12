@@ -10,9 +10,10 @@
 // resume). --reviewer is a harness.json key or any OpenCode id provider/model[@variant]
 // (lib/named.mjs); without it, harness.json's reviewer.default runs. The reviewer is never the
 // implementer's model family: --exclude names the implementer (a harness.json key, an id or a
-// family), else a model:<name> label on the PR or --issue, else Claude, since the main session or
-// a Claude agent implements by default. Runs use the scripts' own OpenCode data directory.
-// DeepSeek is refused on every route; Alibaba runs only when named.
+// family), else a model:<name> label on the PR or --issue, else the session's own family (the main
+// session or an agent it spawned implements by default; lib/common.mjs sessionFamily reads it from
+// ANTHROPIC_BASE_URL, or HARNESS_SESSION_FAMILY). Runs use the scripts' own OpenCode data
+// directory. harness.json's blocked list is refused (switch-model.mjs --block/--unblock).
 //
 // The brief's first line is the review header the model prints, e.g. "T07 review (Luna)". The
 // model never writes to GitHub (the agent file denies it); this script is the only writer.
@@ -49,7 +50,7 @@ import { readReview, doneWhenCount, briefTargets } from './lib/chain.mjs';
 import { planPost, publish } from './lib/post.mjs';
 import { selfTest, SAMPLES } from './lib/review-selftest.mjs';
 import {
-  sh, requireTools, repoPaths, loadConfig, parseArgs, envWith, ocArgs, prepareOpenCode, watchLine,
+  sh, requireTools, repoPaths, loadConfig, parseArgs, envWith, ocArgs, prepareOpenCode, watchLine, sessionFamily,
 } from './lib/common.mjs';
 
 const say = (s) => console.log(s);
@@ -85,22 +86,24 @@ const config = loadConfig(top0);
 const { top, workRoot } = repoPaths(config);
 const rev = config.reviewer;
 
-// The implementer's family never reviews: --exclude, else the model: labels, else Claude.
+// The implementer's family never reviews: --exclude, else the model: labels, else the session's family.
 const labelsOf = (kind, n) => sh('gh', [kind, 'view', String(n), '--json', 'labels', '--jq', '.labels[].name'], { cwd: top, allowFail: true }).split('\n');
 const named = a.exclude ? a.exclude.split(',').map((s) => s.trim()).filter(Boolean)
   : [...labelsOf('pr', a.pr), ...(a.issue ? labelsOf('issue', a.issue) : [])]
     .filter((l) => l.startsWith('model:')).map((l) => l.slice(6));
-const implementedBy = named.length ? named : ['claude'];
+const own = sessionFamily();
+if (!named.length && !own) die(2, `The session's family cannot be told from ANTHROPIC_BASE_URL=${process.env.ANTHROPIC_BASE_URL}: set HARNESS_SESSION_FAMILY, or pass --exclude <family>.`);
+const implementedBy = named.length ? named : [own];
 // The reviewer: the one named, else harness.json's reviewer.default; a harness.json key, or any
 // OpenCode id the user names, provider/model[@variant] (lib/named.mjs).
 const reviewer = a.reviewer ?? rev.default;
 if (!reviewer) die(2, 'No reviewer: pass --reviewer, or set reviewer.default in harness.json.');
 let model;
-try { model = namedModel(reviewer, config.models); } catch (e) { die(2, e.message); }
+try { model = namedModel(reviewer, config.models, config.blocked ?? []); } catch (e) { die(2, e.message); }
 if (!model) die(2, `Unknown reviewer ${reviewer}: give a harness.json key or an OpenCode id, provider/model[@variant].`);
 config.models[reviewer] = model;
 const families = [...new Set(implementedBy.map((n) => familyOfName(n, config.models)))];
-say(`implemented by: ${implementedBy.join(', ')}${named.length ? '' : ' (the default)'}`);
+say(`implemented by: ${implementedBy.join(', ')}${named.length ? '' : ' (the session\'s family, from the Anthropic environment)'}`);
 if (families.includes(familyOfName(reviewer, config.models))) die(1, `Refused: ${reviewer} is the implementer's model family (${families.join(', ')}). Nothing posted.`);
 const fallback = 'Nothing posted. Read the run\'s final message (CLAUDE.md, "Choosing models" rule 12) and fix the cause; another reviewer is the user\'s call.';
 // OpenCode is looked for only now, so that its absence is reported with the same fallback (Sol's R1 on PR 41).

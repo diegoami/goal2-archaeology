@@ -1,6 +1,6 @@
 ---
 name: run-task
-description: Run tasks or fixes end to end. The main session (or a Claude agent it spawns) implements, one OpenCode model of another family reviews, the main session watches, merges and reports. Main session only.
+description: Run tasks or fixes end to end. The main session (or an agent it spawns) implements and one OpenCode model of another family reviews, each after one question to the user; the main session watches, merges and reports. Main session only.
 ---
 
 # /run-task [T<nn> | #<issue> ...]
@@ -10,9 +10,12 @@ Read `docs/process.md` §3–§6 first. Given ids, run them in order; given none
 For `#<issue>` of a bug labelled `fix`, the bug body replaces the task file, the branch is
 `fix/<issue>-<slug>`, and there is one review round.
 
-Nothing is asked before a run (CLAUDE.md "Choosing models", the owner, 2026-10-11): the main
-session implements, `harness.json`'s default reviewer reviews, and the user overrides either when
-they want to. Ask only for design decisions and escalations.
+Two questions per task, and no other choice of model (CLAUDE.md "Choosing models", the owner, 2026-10-12):
+before the implementation, whether the main session implements or the `implementer` agent does,
+and on which Claude Code alias; before each review, which OpenCode model reviews. Each question
+proposes `harness.json`'s default first; the roster changes through `/switch-model`, never here.
+No quota is checked. The implementer's family is the session's, read from the Anthropic
+environment (`switch-model.mjs --show` prints it); the reviewer is never of that family.
 
 0. **Check.** The issue is `status:ready` and every Merge-after task is merged. Run
    `gh issue list --label triage:needed --state open`; triage anything that names this task first.
@@ -26,14 +29,18 @@ they want to. Ask only for design decisions and escalations.
    rework) the review comment's URL. Never a pointer to the task file. The main session
    implementing itself reads the same block as its contract.
 
-2. **Implement.** Label `status:in-progress`. Either:
+2. **Implement.** First ask the user ONE question with the question tool (CLAUDE.md "Choosing models"
+   rule 1): the main session, or the `implementer` agent, and on which alias (`sonnet`, `opus`,
+   `haiku`, `fable`)? Put `harness.json`'s `implementer.default` first. Record the answer on the
+   issue. Label `status:in-progress`. Then:
    - **The main session**, in its own `git worktree` on the task's branch (never the main
      checkout): keep `RUN-NOTES.md` there (`docs/running-notes.md`), push after every commit and
      at least every 20 minutes, open the PR as a draft after the first push and `gh pr ready` it
      before the review. This is the default for research (static first, CLAUDE.md rule 22: it can
      run Ghidra and the pinned tools, L57) and for any task the session can do in one sitting.
    - **The `implementer` Claude agent**: `Agent(subagent_type: "implementer", isolation: "worktree")`
-     with the brief, on the session's model (or another Claude model when the user names one).
+     with the brief, on the alias the user chose (`model: sonnet`, say). Under Z.AI the same
+     alias is a GLM model.
      Its agent file carries §4's block and the run mechanics; its hook refuses `git stash`,
      `git worktree`, a force-push and `gh pr merge`. Watch it by its transcript file's size and
      its worktree (CLAUDE.md rules 9-11); tell the user in plain language what it is doing. Read
@@ -42,18 +49,21 @@ they want to. Ask only for design decisions and escalations.
      decide, or escalate), never a blind retry; an agent our limits interrupted is resumed with a
      short "continue where you stopped" brief (rule 13).
 
-3. **Review.** Label `status:in-review`. Name the PR's head in the brief only after the push has
-   landed (`git rev-parse <branch>`); a brief naming another commit exits 2 before anything runs
-   (L33). Then, as a systemd unit (CLAUDE.md rule 9: `systemd-run --user --unit=goal2-<task>
-   --collect -E PATH="$PATH" -E MINIMAX_API_KEY -p WorkingDirectory=<repo> -p StandardInput=null
-   -p StandardOutput=file:<log> -p StandardError=file:<log> node tools/harness/review.mjs --pr <pr>
-   --brief <file> --issue <n> --apply-label`), watched (rules 9-11).
-   `reviewer.default` (GPT-5.6 Luna) reviews; add `--reviewer sol-6.1` for hard research (rule 21),
-   or `--reviewer <name>` when the user names one (a harness.json key or `provider/model[@variant]`;
-   never a Claude model: the implementer is Claude). One review per PR unless the user asks for
-   more. Relay its findings in full (rule 8).
+3. **Review.** First ask the user ONE question (CLAUDE.md "Choosing models" rule 2): which
+   OpenCode model reviews? Put `harness.json`'s `reviewer.default` first (`sol-6.1` for hard
+   research, rule 21), then the registered models that are neither of the session's family nor
+   blocked (`switch-model.mjs --show`). Record the answer on the PR. Label `status:in-review`.
+   Name the PR's head in the brief only after the push has landed (`git rev-parse <branch>`); a
+   brief naming another commit exits 2 before anything runs (L33). Then, as a systemd unit
+   (CLAUDE.md rule 9: `systemd-run --user --unit=goal2-<task> --collect -E PATH="$PATH"
+   -E MINIMAX_API_KEY -E ANTHROPIC_BASE_URL -E HARNESS_SESSION_FAMILY -p WorkingDirectory=<repo>
+   -p StandardInput=null -p StandardOutput=file:<log> -p StandardError=file:<log>
+   node tools/harness/review.mjs --pr <pr> --brief <file> --issue <n> --apply-label
+   [--reviewer <the answer>]`), watched (rules 9-11). The script reads the session's family from
+   `ANTHROPIC_BASE_URL`, so the unit must carry it.
+   One review per PR unless the user asks for more. Relay its findings in full (rule 8).
    - Exit 0: posted and labelled.
-   - Exit 2: a refused model (DeepSeek, an unknown name): tell the user.
+   - Exit 2: a refused model (blocked in `harness.json`, or an unknown name): tell the user.
    - Exit 3: no review came back (OpenCode, the login, the model, a rejected path, or a review
      the script could not find). Nothing was posted. Read the run's final message first (rule 12,
      the snippet below), fix the cause (a wider grant in `.opencode/agents/reviewer.md`, a login,

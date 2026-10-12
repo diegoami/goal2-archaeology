@@ -10,7 +10,8 @@ indexed in `docs/tasks/README.md`.
 
 ## Rules
 1. The main session plans, runs `/run-task`, triages and talks to the user. It implements itself
-   or through a Claude agent, and OpenCode reviews ("Choosing models" below); repeated decisions
+   or through an agent it spawns, and OpenCode reviews, asking the user before each ("Choosing
+   models" below); repeated decisions
    go to Jev after a trial, and images and audio to OpenRouter or ElevenLabs models, whose ids come
    from live lists, never memory (`/delegate`).
 2. Nobody works in the main checkout: the main session, when it implements, works in its own git
@@ -90,42 +91,56 @@ indexed in `docs/tasks/README.md`.
     missing tool is never the reason: install it, or stop and report. A review treats runs made
     because a tool was missing as a contract defect (gate G0a): rework.
 
-## Choosing models: who implements, who reviews (the owner, 2026-10-11)
-These rules replace every other model-choice rule in this project: the same day's "the user
-decides, asked one question at a time" (kept as history in `docs/lessons.md` L104), issue #113's
-"follow quota-tracker's /recommend and nothing else", and the global `~/.claude/CLAUDE.md` rule
-that quota-tracker decides. What worked: the main session implements, or a Claude agent it spawns
-does, and a separate OpenCode process of another family reviews. Nobody is asked which model to use
-before a step and no quota is checked: the defaults run, and the user overrides them when they
-want to.
+## Choosing models: who implements, who reviews (the owner, 2026-10-11 and 2026-10-12)
+These rules replace every other model-choice rule in this project: the morning of 2026-10-11's
+"the user decides, with /recommend's suggestion" (L104), issue #113's "follow quota-tracker's
+/recommend and nothing else", and the global `~/.claude/CLAUDE.md` rule that quota-tracker
+decides. What worked: the main session implements, or an agent it spawns does, and a separate
+OpenCode process of another family reviews. The roster is the owner's and changes often: the
+defaults and the blocked list live in `harness.json` and change through `/switch-model`, never by
+a rule that names a model. No quota, tier or difficulty table picks a model.
 
-1. **Implementer: the main session, or a Claude agent of its own family.** The main session
-   implements in its own git worktree (never the main checkout), or spawns the `implementer` agent
-   (`.claude/agents/implementer.md`, worktree isolation) on its own model, or on another Claude
-   model when the user names one. OpenCode never implements: `implement.mjs` was removed, because
-   its runs died on rejected paths, resets and early ends and did not follow the brief (L104).
-   Whoever implements keeps `RUN-NOTES.md` in its worktree (`docs/running-notes.md`: the plan, a
-   progress line per commit, an END block before stopping), pushes after every commit, and opens
-   the PR. When an agent ends, the main session reads its final report before acting and posts
-   its notes on the issue.
-2. **Reviewer: one OpenCode run of another family.** `tools/harness/review.mjs --pr <n> --brief
-   <file> --issue <n> --apply-label` runs `harness.json`'s `reviewer.default` (GPT-5.6 Luna);
-   `--reviewer <name>` runs another when the user asks or the task file names one (hard research,
-   rule 21: `sol-6.1`, GPT-6.1 Sol at `low`). One review per PR unless the user asks for more;
-   its findings are relayed in full (rule 8). OpenCode's models do not always follow the brief:
-   the script posts what came back, flags what it cannot read (exit 4), and the main session reads
-   a flagged review and decides rather than paying for another.
-3. **The fixed rules:** the reviewer is never of the implementer's model family (`review.mjs`
-   refuses it; with Claude implementing, no Claude model reviews, so `/code-review` and the
-   `reviewer` agent run only when the user asks); DeepSeek is never used (the scripts refuse it);
-   Alibaba only when the user asks.
+0. **The orchestrator is set by the Anthropic environment variables alone** (`ANTHROPIC_BASE_URL`,
+   `ANTHROPIC_AUTH_TOKEN`, `ANTHROPIC_MODEL`): Claude by default, and GLM-5.3 through Z.AI's
+   Anthropic-compatible endpoint when Claude's tokens are out, which then works like Claude. These
+   rules never name the orchestrator's model. The harness reads the orchestrator's **family** from
+   that environment (`lib/common.mjs` `sessionFamily`: Claude when the base URL is unset or
+   Anthropic's, GLM for Z.AI; `HARNESS_SESSION_FAMILY` overrides, and an unknown endpoint refuses
+   to review until it is set), because every agent the session spawns runs through the same
+   endpoint and is of the same family. Pass `ANTHROPIC_BASE_URL` and `HARNESS_SESSION_FAMILY` to
+   a review's systemd unit (rule 9).
+1. **Before each implementation, ask the user ONE question** with the question tool: does the
+   main session implement it, in its own git worktree (never the main checkout), or does the
+   `implementer` agent (`.claude/agents/implementer.md`, worktree isolation) on a Claude Code
+   alias (`sonnet`, `opus`, `haiku`, `fable`)? Propose `harness.json`'s `implementer.default`
+   first. Under Claude, Opus orchestrates and a spawned Sonnet implements; under Z.AI the same
+   aliases give GLM-5.3 and GLM-5.3 Flash. OpenCode never implements: `implement.mjs` was removed,
+   because its runs died on rejected paths, resets and early ends and did not follow the brief
+   (L104). Whoever implements keeps `RUN-NOTES.md` in its worktree (`docs/running-notes.md`: the
+   plan, a progress line per commit, an END block before stopping), pushes after every commit,
+   and opens the PR. When an agent ends, the main session reads its final report before acting
+   and posts its notes on the issue.
+2. **Before each review, ask the user ONE question:** which OpenCode model reviews? Propose
+   `harness.json`'s `reviewer.default` first (GPT-5.6 Luna today; `sol-6.1`, GPT-6.1 Sol at
+   `low`, for hard research, rule 21), and list the registered models that are neither of the
+   session's family nor blocked. Then `tools/harness/review.mjs --pr <n> --brief <file> --issue
+   <n> --apply-label [--reviewer <name>]`, one review per PR unless the user asks for more; its
+   findings are relayed in full (rule 8). OpenCode's models do not always follow the brief: the
+   script posts what came back, flags what it cannot read (exit 4), and the main session reads a
+   flagged review and decides rather than paying for another. Record the answers to both
+   questions on the issue or PR.
+3. **The fixed rules:** the reviewer is never of the session's family (`review.mjs` refuses it
+   from the environment; a `/code-review` or the `reviewer` agent, which are that family, run
+   only when the user asks); a model on `harness.json`'s `blocked` list never runs (DeepSeek
+   today; `/switch-model --block` and `--unblock` change it); Alibaba only when the user asks.
 4. **Permissions, not briefs:** an agent gets the permissions its work needs, in its agent file
    (`.opencode/agents/reviewer.md`: all of `/tmp` and the DOSBox-X bundle; `.claude/agents/*.md`:
    the guard hook refuses only a force-push, `git stash`, `git worktree`, a merge and, for the
    reviewer, every write). A run that dies on a rejected path is fixed by widening the grant,
    never by re-briefing.
 5. A failed run is diagnosed and fixed, not silently re-routed: another model only when the
-   provider does not answer, and the user names it. The PR records which model reviewed.
+   provider does not answer, and the user names it. The PR records who implemented and which
+   model reviewed.
 6. These rules work whatever model the orchestrator itself runs on; they never name it.
 7. **Still in force:** the effort rule (a heavy model, Opus, GPT-6.1 Sol, GLM-5.3, MiMo v2.6 Pro
    or MiniMax-M3, at `medium` at most and `low` when medium is not needed; a light model at
@@ -140,7 +155,7 @@ want to.
    (`kill -0 <pid>`), never with `pgrep -f`, which matches the watching shell's own command line
    and never sees the job end (L48; isle-wars lost 1.5 h to it, 2026-10-11). A unit gets only the
    environment it is given: `systemd-run --user --unit=goal2-<name> --collect -E PATH="$PATH"
-   -E MINIMAX_API_KEY -p WorkingDirectory=<dir> -p StandardInput=null -p StandardOutput=file:<log>
+   -E MINIMAX_API_KEY -E ANTHROPIC_BASE_URL -E HARNESS_SESSION_FAMILY -p WorkingDirectory=<dir> -p StandardInput=null -p StandardOutput=file:<log>
    -p StandardError=file:<log> <command>` (without the key a MiniMax run stops with "minimax lists
    no models", 2026-10-11; never a `bash -c` script). It covers:
    - the session started (`opencode session list` in the run's directory, or the run's

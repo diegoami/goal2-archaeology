@@ -1,7 +1,7 @@
 // A model named for a review (CLAUDE.md "Choosing models", the owner, 2026-10-11).
 // harness.json's keys stay as short names; any other name of the form `provider/model`, with an
 // optional `@variant`, is taken as the OpenCode model id the user chose. Its family, for the
-// reviewer-family rule, is read from the model's own name. DeepSeek is refused on every route
+// reviewer-family rule, is read from the model's own name. harness.json's blocked list is refused
 // (rule 4); Alibaba runs only when named, which this is.
 
 const FAMILIES = [
@@ -28,15 +28,17 @@ export function familyOfId(id) {
   return FAMILIES.find(([re]) => re.test(base))?.[1] ?? (base.match(/^[a-z]+/)?.[0] || base);
 }
 
-// harness.json's entry for `name`, else the model `name` spells, else null. Throws on DeepSeek.
-export function namedModel(name, models) {
+// harness.json's entry for `name`, else the model `name` spells, else null. Throws on a model in
+// `blocked` (harness.json's list: a family name or a piece of an id, case-insensitive).
+export function namedModel(name, models, blocked = []) {
   const known = models[name];
   const m = known ? null : /^([\w.-]+\/[^@\s]+)(?:@([\w.-]+))?$/.exec(name);
   if (!known && !m) return null;
   const id = known ? known.id : m[1];
-  if (/deepseek/i.test(id)) throw new Error(`${name}: DeepSeek is never used, on any route (CLAUDE.md, choosing models, rule 4).`);
-  if (known) return known;
-  return { id, family: familyOfId(id), ...(m[2] ? { variant: m[2] } : {}) };
+  const entry = known ?? { id, family: familyOfId(id), ...(m[2] ? { variant: m[2] } : {}) };
+  const hit = blocked.map(String).find((b) => entry.family === b.toLowerCase() || id.toLowerCase().includes(b.toLowerCase()));
+  if (hit) throw new Error(`${name}: blocked in harness.json ("${hit}"; switch-model.mjs --unblock ${hit} lifts it).`);
+  return entry;
 }
 
 // The family of a name as review.mjs meets it (a harness.json key, a model id, or a bare family
@@ -65,8 +67,12 @@ export function selfTest() {
     namedModel('acme/widget-1', models).family === namedModel('openrouter/acme/widget-1', models).family);
   ok('a bare unknown word is not a model', namedModel('sonnet-ish', models) === null);
   let threw = false;
-  try { namedModel('opencode-go/deepseek-v4-pro', models); } catch { threw = true; }
-  ok('DeepSeek is refused', threw);
+  try { namedModel('opencode-go/deepseek-v4-pro', models, ['deepseek']); } catch { threw = true; }
+  ok('a blocked family is refused', threw);
+  ok('an unblocked model passes', namedModel('opencode-go/deepseek-v4-pro', models).family === 'deepseek');
+  let threwId = false;
+  try { namedModel('luna', models, ['gpt-5.6']); } catch { threwId = true; }
+  ok('a blocked id fragment is refused', threwId);
   ok('label with an id maps to its family', familyOfName('openai/gpt-6.1-sol@low', models) === 'openai');
   ok('label with a key maps to its family', familyOfName('luna', models) === 'openai');
   ok('a bare family stays itself', familyOfName('minimax', models) === 'minimax');
