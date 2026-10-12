@@ -639,8 +639,12 @@ class BurstPipelineTests(unittest.TestCase):
                         (session / "requests.jsonl").read_text().splitlines()]
             # T44 (issue #128): each save (0.6 s) is longer than the 0.527 s key spacing, so one
             # request is in flight at a time and the groups that settle during it are answered
-            # by the next one request. The record accounts for every press: mapped, or listed
-            # under a merge (not captured / claimed), never unmapped
+            # by the next one request. The pre-T44 form of this test asserted all 10 presses
+            # mapped; that held only while requests overlapped (and were superseded on a real
+            # emulator). A request now goes out when the previous one ends, at whatever moment
+            # that is, and a key arriving inside its window stays ambiguous (keymap.py's rule),
+            # so what is asserted is the accounting: no group lost, every press either mapped,
+            # listed under a merge (not captured / claimed) or counted unmapped
             bursts = [r for r in requests if r["origin"] == "burst"]
             self.assertEqual(len(entries), 1 + len(bursts))
             self.assertEqual([e["origin"] for e in index], ["watcher"] + ["burst"] * len(bursts))
@@ -651,11 +655,11 @@ class BurstPipelineTests(unittest.TestCase):
             events = sorted(FakeKeys().events, key=lambda e: e["monotonic_s"])
             result = keymap.build_map(states, events, w.t0, quiet=rec.BURST_QUIET_S,
                                       margin=rec.CAPTURE_MARGIN_S, requests=requests)
-            self.assertEqual(result["unmapped_keys"], 0)
             accounted = (sum(r["count"] * len(r["keys"]) for r in result["transitions"])
                          + sum(len(g["keys"]) for g in result["not_captured"])
-                         + sum(len(g["keys"]) for g in result["merged_claimed"]))
-            self.assertEqual(accounted, 10)
+                         + sum(len(g["keys"]) for g in result["merged_claimed"])
+                         + result["unmapped_keys"])
+            self.assertEqual(accounted, 10, result)
 
     def test_a_pipeline_timeout_marks_the_request_skipped(self):
         # Sol r2 R1c: a capture that times out is logged as a request that staged nothing —
@@ -1400,11 +1404,11 @@ class OneSaveInFlightTests(unittest.TestCase):
                     (session / "requests.jsonl").read_text().splitlines()]
         return w, keys.events, index, requests, in_flight
 
-    def test_a_scroll_faster_than_the_save_keeps_one_request_in_flight(self):
+    def _scroll(self, gap_s):
         import scripted_keys
-        arrivals = [0.3 + 0.15 * k for k in range(40)]          # keys every 0.15 s for 6 s
+        arrivals = [0.3 + gap_s * k for k in range(int(6 / gap_s))]     # keys for 6 s
         w, events, index, requests, in_flight = self._sitting(0.8, arrivals, quit_after=9)
-        self.assertGreater(len(in_flight), 3, in_flight)
+        self.assertGreaterEqual(len(in_flight), 2, in_flight)
         self.assertEqual(max(in_flight), 0, f"requests sent with others in flight: {in_flight}")
         self.assertEqual([r for r in requests if r.get("superseded")], [])
         self.assertEqual([r["seq"] is None for r in requests], [False] * len(requests))
@@ -1416,8 +1420,20 @@ class OneSaveInFlightTests(unittest.TestCase):
                                                       requests=requests)
         self.assertTrue(ok, why)
         merged = sum(r["merge"]["size"] - 1 for r in requests if r.get("merge"))
-        print(f"\nT44 scroll: {len(requests)} requests, {len(bursts)} burst snapshots for "
-              f"{len(groups)} key group(s), merged (not captured) groups: {merged}")
+        print(f"\nT44 scroll, keys every {gap_s} s: {len(requests)} requests, {len(bursts)} burst "
+              f"snapshots for {len(groups)} key group(s), merged (not captured) groups: {merged}")
+        return requests
+
+    def test_a_scroll_faster_than_the_save_keeps_one_request_in_flight(self):
+        # DW1: keys every 0.15 s for 6 s against a save of 0.8 s. The stream never settles
+        # (EVENT_SETTLE_S), so the scroll is one episode and one request follows it
+        self._scroll(0.15)
+
+    def test_requests_between_keys_wait_for_the_one_in_flight(self):
+        # keys every 0.4 s (each settles, so each wants a request) against a save of 0.8 s:
+        # without the gate a request goes out every 0.4 s and they overwrite one another
+        requests = self._scroll(0.4)
+        self.assertGreater(len([r for r in requests if r["origin"] == "burst"]), 3)
 
     def test_groups_that_settle_in_flight_wait_and_go_out_in_one_request(self):
         import keymap
@@ -1507,6 +1523,50 @@ class OneSaveInFlightTests(unittest.TestCase):
         watcher.run(quit_after=5, keys=keys)
         self.assertEqual(ticks[0][1], "resume", ticks)
         self.assertGreaterEqual(ticks[0][0], 3.0, ticks)
+
+    def _loop_with_keys(self, presses):
+        now = [0.0]
+        watcher = rec.Watcher.__new__(rec.Watcher)
+        watcher.clock = lambda: now[0]
+        watcher.sleep = lambda secs: now.__setitem__(0, now[0] + secs)
+        watcher.t0 = 0.0
+        watcher.dbx = Mock()
+        watcher.dbx.poll.return_value = None
+        watcher.log = lambda msg: None
+        ticks = []
+        watcher.tick = lambda **kw: ticks.append((round(now[0], 2), kw.get("origin", "watcher")))
+        keys = Mock()
+        keys.error = None
+        keys.proc.poll.return_value = None
+        sent = [0]
+
+        def drain():
+            out = []
+            while sent[0] < len(presses) and presses[sent[0]] <= now[0]:
+                out.append({"monotonic_s": presses[sent[0]], "event": "press", "keysym": "Down"})
+                sent[0] += 1
+            return out
+        keys.drain = drain
+        watcher.run(quit_after=8, keys=keys)
+        return [t for t in ticks if t[1] == "burst"]
+
+    def test_a_fast_run_of_keys_gets_its_one_request_after_the_run(self):
+        # 30 presses 0.1 s apart (1.0 s .. 3.9 s): each less than EVENT_SETTLE_S after the
+        # previous, so no request is tried between them (it could not fit: a request window
+        # is ~0.075 s and the next key is 0.1 s away); the run's one request follows its last
+        # key by EVENT_SETTLE_S
+        presses = [1.0 + 0.1 * k for k in range(30)]
+        bursts = self._loop_with_keys(presses)
+        self.assertEqual(len(bursts), 1, bursts)
+        self.assertAlmostEqual(bursts[0][0], presses[-1] + rec.EVENT_SETTLE_S, delta=0.03)
+
+    def test_keys_spaced_over_the_settle_get_one_request_each(self):
+        # 0.527 s apart (the T34 reproduction): each key's request at the settle, one each
+        presses = [1.0 + 0.527 * k for k in range(4)]
+        bursts = self._loop_with_keys(presses)
+        self.assertEqual(len(bursts), 4, bursts)
+        for (at, _), pressed in zip(bursts, presses):
+            self.assertAlmostEqual(at, pressed + rec.EVENT_SETTLE_S, delta=0.03)
 
 
 class MergedMapTests(unittest.TestCase):

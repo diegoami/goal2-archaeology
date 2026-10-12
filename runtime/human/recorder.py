@@ -140,13 +140,22 @@ BURST_QUIET_S = 0.5
 # it needs spacing >= quiet + window width (~0.58 s at width = send ~26 ms + margin 50 ms)
 # — so it either swallows the next key or, sent later, leaves the pair unseparated; either
 # way the pair is unmapped. Sent instead EVENT_SETTLE_S after the newest event, the window
-# opens after that key's release and still ~0.39 s before the next key. 0.05 s is ~4x the
-# measured release lag; the honest cost is a dead zone — an event arriving inside the open
-# window ([settle, settle + width] after the last event) makes its gap ambiguous, the
-# ambiguity keymap.py already documents. Searched: T34-probe-20261009-05.log (send ~26 ms,
-# logger delivery max 5.7 ms) and the session's press/release intervals. Recorder policy,
-# not game timing.
-EVENT_SETTLE_S = 0.05
+# opens after that key's release and still ~0.2 s before the next key. The honest cost is a
+# dead zone — an event arriving inside the open window ([settle, settle + width] after the
+# last event) makes its gap ambiguous, the ambiguity keymap.py already documents.
+# T34 chose 0.05 s (~4x the measured release lag). T44 (issue #128) raises it to 0.25 s: a
+# scroll with Up/Down tapped or held has keys 0.03-0.15 s apart, and a request opened 0.05 s
+# after one key met the next key inside its ~0.075 s window — measured on the scripted scroll
+# (T44-scripted-scroll-20261012-01.log: 40 Down keys 0.08-0.15 s apart, one save ~0.28 s): 33
+# of 40 presses unmapped. No request can be placed between keys that are closer than its own
+# window, so none is tried until the stream has been still for 0.25 s, above the 0.15 s widest
+# key spacing of that run; a whole scroll is then one episode with one request after it. 0.25 s
+# still opens the window (to ~0.33 s) well before the 0.527 s reproduction's next key, and below
+# the 0.5 s grouping quiet. Searched: T34-probe-20261009-05.log (send ~26 ms, logger delivery
+# max 5.7 ms), the session's press/release intervals and the scroll log above; no measured owner
+# key spacing for a held scroll exists (the sitting 20261011-161003 was not kept). Recorder
+# policy, not game timing.
+EVENT_SETTLE_S = 0.25
 # [designed] The write-event bound of ONE save request. Measured on this host
 # (evidence/E015/T34-probe-closes-20261009-01.log, three real saves): a single
 # DOSBox-X save produces 53-54 write events on state.sav (27 CLOSE_WRITE plus as
