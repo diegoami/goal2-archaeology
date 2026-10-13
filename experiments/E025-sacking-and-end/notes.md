@@ -32,3 +32,11 @@ diff /tmp/searches.log experiments/E025-sacking-and-end/searches.log   # no outp
 ## Strings used
 
 `CS:2E94..3118` headlines (pascal strings in `seg_000E_04.asm:66-118`): `THINGS LOOK GRIM` `3086`, `YOUR JOB IS` `3097`, `ON THE LINE!` `30A3`, `IS SACKED!!!!` `30B0`, `UNLUCKY TO LOSE` `30BE`. `strings.tsv:1076-1089` the `DS:591E` template (" GOAL ", " NE'93 ", "  Tough luck.  ", "You have ", "been ", " SACKED ", "for ", " incompetence "); `strings.tsv:746-754` the `DS:19D6` template (the shareware notice).
+
+## Round 2 (review R1-R5)
+
+- `searches2.py` / `searches2.log` (new; `searches.log` is kept unchanged) list every instruction with displacement 0x38, 0x3A or 0x3C (any base register) and every `add reg, 0x3X`. Classification of the `es:[di + 0x3c]` hits on `[A923]`: set-membership tests (`seg_000E_09.asm:500` 70B9, `seg_1771_08.asm:744` 59D8, `seg_1771_12.asm:24` 80DA, `:156` 8208, `:694` 876A, `seg_1771_13.asm:762` 93B6, `:991` 95F4); dispatch `seg_1771_11.asm:11` (76B1); class selectors (`seg_1771_08.asm:1017`, `seg_1771_09.asm:634`, `seg_1771_12.asm:140,166,176,188,704,727,787`, `seg_1771_13.asm:118,611,963,968`); stage pushed as fixture kind `seg_1771_09.asm:1506` (6B23); kind compare `seg_1771_12.asm:286`; writers: `seg_1771_14.asm:429` (new game) and `seg_1771_12.asm:145` (`add di, 0x3c` for `214B:1D6F`). The `mov dx, 0x38` / `mov ax, 0x3X` hits are multiplications by the group-row size 0x38 and other constants, not field accesses.
+- Year word `+0x38`: compares with 0 or 2 only; reads for display and `(word+1)*[+0x26]` (`seg_0791_04.asm:728`); one increment (`seg_1771_12.asm:34`), one init (`seg_1771_14.asm:407`). Displayed year `+0x3A`: store `:397`, parity round `:399-403`, modulo-four start decision `:409-414`, display reads.
+- Worked B71C examples (R1) follow `seg_0791_18.asm:1030-1102` by hand: q = idiv32(opp - own); non-draw winner adds the margin, loser subtracts; doubled when (winner == side) equals (side == 0 or kind in DS:0F3E).
+- `[A923]+m+1` is the manager's group number: `seg_000E_08.asm:79-84` (0 -> `5E6C`), `:109` (`mov dx, 0x38`, the group-table row size).
+- `5E6C` draws one random number: `seg_000E_07.asm:1010-1012` (`214B:06B1(3)`).
