@@ -17,6 +17,8 @@ this skill is how it changes. Three things can change:
   user names another at the question before a review; never the session's family;
 - **the blocked list** (`blocked`): families (`deepseek`) or id fragments that never run anywhere.
 
+**The dispatch settings** (CLAUDE.md rule 2a) change the same way: `node tools/harness/switch-model.mjs --ask on|off` sets `dispatch.ask` (off: the main session proposes the defaults and says the pair in one line instead of asking), and `--review-kind fix|research --model NAME` sets `dispatch.reviewerByKind[kind]`. NAME is a registered `harness.json` name (see `--show`), not blocked and not the session's family, the checks `--role reviewer` makes; it sends no OpenCode probe unless `--probe` is given. `--dry-run` writes nothing, a missing `dispatch` block is created, and `--show` prints the `dispatch:` line. Exit 1 refuses an unknown model or kind, a blocked model, the session's family, and an `--ask` other than on or off.
+
 The orchestrator itself is never switched here: it is set by the Anthropic environment variables
 alone ("Choosing models" rule 0), and `--show` prints the family the harness reads from them.
 

@@ -6,6 +6,8 @@
 //   node tools/harness/switch-model.mjs --role implementer --model sonnet|opus|haiku|fable|<model id>|session [--dry-run]
 //   node tools/harness/switch-model.mjs --role reviewer --model PROVIDER/ID
 //     [--variant high] [--name NAME] [--family FAMILY] [--probe] [--dry-run] [--force]
+//   node tools/harness/switch-model.mjs --ask on|off [--dry-run]
+//   node tools/harness/switch-model.mjs --review-kind fix|research --model NAME [--probe] [--dry-run]
 //   node tools/harness/switch-model.mjs --block FAMILY-OR-ID-FRAGMENT | --unblock ... [--dry-run]
 //
 // The implementer is the `implementer` subagent spawned inside Claude Code on a Claude Code alias
@@ -25,6 +27,10 @@
 // --block adds a family ("deepseek") or an id fragment to harness.json's blocked list, which
 // review.mjs and this script refuse; --unblock removes it. --dry-run prints and writes nothing.
 //
+// --ask on|off sets dispatch.ask and --review-kind KIND --model NAME sets dispatch.reviewerByKind[KIND]
+// (rule 2a); NAME is a registered harness.json name and gets the reviewer checks (not blocked, not the
+// session's family), with the OpenCode probe only under --probe. --show prints the dispatch line.
+//
 // Exit 0: switched (or shown, or a dry run). Exit 1: refused. Exit 2: usage. Exit 3: OpenCode, the
 // login or the probe failed; nothing written.
 
@@ -32,7 +38,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { randomBytes } from 'node:crypto';
 import { runOpenCodeWatched, resolveOpenCode, OpenCodeInfraError, modelVariants } from './lib/opencode.mjs';
-import { planSwitch, planBlock, showRoles, defaultVariant } from './lib/switch.mjs';
+import { planSwitch, planBlock, planDispatch, showRoles, defaultVariant } from './lib/switch.mjs';
 import { sh, repoPaths, loadConfig, parseArgs, prepareOpenCode, sessionFamily } from './lib/common.mjs';
 
 const say = (s) => console.log(s);
@@ -51,6 +57,32 @@ const write = (next, before, after) => {
   fs.writeFileSync(file, `${JSON.stringify(next, null, 2)}\n`);
   say(`written: ${path.relative(process.cwd(), file) || file}. Commit it on main with the reason for the change (L25).`);
 };
+// One small billed call at the entry's variant, in a throwaway repository; a failure exits 3.
+async function probe(name, entry, opencode, env) {
+  const { workRoot } = repoPaths(config);
+  const dir = path.join(workRoot, `probe-${randomBytes(4).toString('hex')}`);
+  fs.mkdirSync(dir, { recursive: true });
+  sh('git', ['init', '-q', dir]);
+  let failure = null;
+  try {
+    const args = ['run', '--dir', dir, '--model', entry.id, ...(entry.variant ? ['--variant', entry.variant] : [])];
+    const run = await runOpenCodeWatched({
+      args, prompt: 'Reply with the single word PONG and nothing else.', workDir: dir, title: `probe-${name}`,
+      startupTimeoutMs: 120_000, idleTimeoutMs: 120_000, totalTimeoutMs: 300_000, pollMs: 2_000,
+      opencode, env, log: () => {},
+    });
+    if (run.exitCode !== 0 || !/PONG/i.test(run.stdout)) {
+      failure = `probe failed (exit ${run.exitCode}): ${run.output.split(/\r?\n/).slice(-5).join(' | ')}`;
+    } else say(`probe: ${entry.id} answered PONG in ${run.seconds} s`);
+  } catch (e) {
+    if (!(e instanceof OpenCodeInfraError)) throw e;
+    failure = `probe failed: ${e.reason}`;
+  } finally {
+    fs.rmSync(dir, { recursive: true, force: true });       // before any exit: process.exit skips finally
+  }
+  if (failure) die(3, `${failure}. Nothing written.`);
+}
+
 if (a.block || a.unblock) {
   if (a.model || a.role) die(2, '--block/--unblock go alone.');
   let plan;
@@ -58,7 +90,27 @@ if (a.block || a.unblock) {
   write(plan.config, plan.before, plan.after);
   process.exit(0);
 }
-if (!a.role || !a.model) die(2, 'Usage: switch-model.mjs --role implementer|reviewer --model ... [--probe] [--dry-run], --block X, --unblock X, or --show');
+if (a.ask !== undefined || a['review-kind'] !== undefined) {
+  if (a.role) die(2, '--ask and --review-kind go without --role.');
+  if (a['review-kind'] !== undefined && !a.model) die(2, '--review-kind needs --model NAME.');
+  if (a['review-kind'] === undefined && (a.model || a.probe)) die(2, '--model and --probe go with --review-kind.');
+  let plan;
+  try { plan = planDispatch(config, { ask: a.ask, reviewKind: a['review-kind'], model: a.model, sessionFamily: own }); } catch (e) { die(/^Refused/.test(e.message) ? 1 : 2, e.message); }
+  if (a.probe) {
+    let opencode;
+    try { opencode = resolveOpenCode(); } catch (e) {
+      if (e instanceof OpenCodeInfraError) die(3, `OpenCode unavailable: ${e.message} Nothing written.`);
+      throw e;
+    }
+    const models = { [plan.name]: plan.entry };
+    const pre = await prepareOpenCode({ opencode, chain: [plan.name], models, env: process.env, cwd: top, log: say });
+    if (!pre.usable.length) die(3, `${pre.problems.join('; ')}. Nothing written.`);
+    await probe(plan.name, plan.entry, opencode, pre.env);
+  }
+  write(plan.config, plan.before, plan.after);
+  process.exit(0);
+}
+if (!a.role || !a.model) die(2, 'Usage: switch-model.mjs --role implementer|reviewer --model ... [--probe] [--dry-run], --block X, --unblock X, --ask on|off, --review-kind fix|research --model NAME, or --show');
 if (a.role === 'implementer') {
   let plan;
   try { plan = planSwitch(config, { role: 'implementer', id: a.model, sessionFamily: own }); } catch (e) { die(/^Refused/.test(e.message) ? 1 : 2, e.message); }
@@ -94,29 +146,6 @@ if (!a.variant) {
   }
 }
 
-if (a.probe) {
-  const { workRoot } = repoPaths(config);
-  const dir = path.join(workRoot, `probe-${randomBytes(4).toString('hex')}`);
-  fs.mkdirSync(dir, { recursive: true });
-  sh('git', ['init', '-q', dir]);
-  let failure = null;
-  try {
-    const args = ['run', '--dir', dir, '--model', plan.entry.id, ...(plan.entry.variant ? ['--variant', plan.entry.variant] : [])];
-    const run = await runOpenCodeWatched({
-      args, prompt: 'Reply with the single word PONG and nothing else.', workDir: dir, title: `probe-${plan.name}`,
-      startupTimeoutMs: 120_000, idleTimeoutMs: 120_000, totalTimeoutMs: 300_000, pollMs: 2_000,
-      opencode, env: pre.env, log: () => {},
-    });
-    if (run.exitCode !== 0 || !/PONG/i.test(run.stdout)) {
-      failure = `probe failed (exit ${run.exitCode}): ${run.output.split(/\r?\n/).slice(-5).join(' | ')}`;
-    } else say(`probe: ${plan.entry.id} answered PONG in ${run.seconds} s`);
-  } catch (e) {
-    if (!(e instanceof OpenCodeInfraError)) throw e;
-    failure = `probe failed: ${e.reason}`;
-  } finally {
-    fs.rmSync(dir, { recursive: true, force: true });       // before any exit: process.exit skips finally
-  }
-  if (failure) die(3, `${failure}. Nothing written.`);
-}
+if (a.probe) await probe(plan.name, plan.entry, opencode, pre.env);
 
 write(plan.config, plan.before, plan.after);
