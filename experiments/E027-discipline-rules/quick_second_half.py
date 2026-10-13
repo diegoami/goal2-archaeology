@@ -16,7 +16,12 @@ for a non-friendly fixture, NOT a recorded non-friendly state):
   - DS:9A3D := 1                  (what A4A1 writes at A554 for a fixture byte +2 != 1)
   - DS:9B3A[0], DS:9B3A[1] := 2   (what A4A1 writes at A605 from DS:066C, the value DS:066B/066C index by DS:9A3D)
   - DS:7B62 := seed               (the main seed word; the savestate's own value is replaced to get N different halves)
-Nothing else is written. Hooks are code hooks that read. Per seed it prints the entries of D5C1, 7A43, 7EEF, 798D, 7B77,
+The inherited resume set-up (emu_full_loop.py, E010) also writes, as WORDS through wr(): DS:830B (the kick-off slot; a word, so it
+also clears DS:830C), DS:832A := 0x50, DS:9B55 := 1 (a word: it also clears DS:9B56), DS:0C20 := 0, DS:7C37 := 0, DS:8302 := 0
+(each a word, so each also clears the next byte), and the stack frame word at SS:SP+4 := 0 and BP; the original stores are bytes
+in several of these places. Two kinds of hook exist: observation hooks (the counters at D5C1, 7A43, 7EEF, 798D, 7B77, 7D56, 8062,
+C88D, C5DC) only read registers and memory; emulation infrastructure hooks change registers: 214B:0723 (the key check) returns
+'no key', the 000E wait family (05F6, 0572, 04F5, 045D) is skipped by returning, and interrupts are swallowed. Per seed it prints the entries of D5C1, 7A43, 7EEF, 798D, 7B77,
 7D56, 8062, C88D and C5DC, DS:7B7E+side*10+k at the end, DS:9B3A and DS:8321. A summary follows.
 The half-time savestate belongs to a friendly: the first half (not run) had none of these events (F005), so DS:7B84..87
 and DS:8321 start at 0; this is stated, not assumed away.
@@ -31,6 +36,8 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 HERE = Path(__file__).resolve().parent
+sys.path.insert(0, str(HERE))
+from logs import open_new, stamped  # noqa: E402
 sys.path.insert(0, str(ROOT / "runtime" / "driver"))
 import savestate  # noqa: E402
 from unicorn import Uc, UC_ARCH_X86, UC_MODE_16, UC_HOOK_INTR, UC_HOOK_CODE  # noqa: E402
@@ -148,14 +155,14 @@ def main():
         raise SystemExit(f"{SAV}: sha256 {digest} is not E010-r0010's half-time savestate")
     stamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
     (HERE / "out").mkdir(exist_ok=True)
-    log = HERE / "out" / f"quick-second-half-{stamp}.log"
+    log, logf = open_new(stamped(HERE / "out", "quick-second-half"))   # exclusive creation: launches never mix
     lines = []
 
     def say(s):
         print(s, flush=True)
         lines.append(s)
-        with open(log, "a") as f:     # appended per line: a killed run leaves its seeds
-            f.write(s + "\n")
+        logf.write(s + "\n")      # per line, flushed: a killed run leaves its seeds
+        logf.flush()
 
     rt = len(sys.argv) > 3 and sys.argv[3] == "random-table"
     say(f"E027 quick second half, nonfriendly gate open by declared inputs (9A3D:=1, 9B3A:=2,2, 7B62:=seed"

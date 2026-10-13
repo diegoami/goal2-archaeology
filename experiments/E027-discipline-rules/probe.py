@@ -25,6 +25,8 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
+sys.path.insert(0, str(HERE))
+from logs import open_new, stamped  # noqa: E402
 ROOT = HERE.parents[1]
 sys.path.insert(0, str(ROOT / "experiments/E021-m0-whole-match"))
 from check import asset  # noqa: E402
@@ -68,14 +70,14 @@ def main():
         seeds = list(range(int(sys.argv[3]), int(sys.argv[3]) + int(sys.argv[2])))
     stamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
     OUT.mkdir(exist_ok=True)
-    log = OUT / (f"probe-seeds-{stamp}.log" if seeds else f"probe-{stamp}.log")
+    log, logf = open_new(stamped(OUT, "probe-seeds" if seeds else "probe"))   # exclusive creation: launches never mix
     lines = []
 
     def say(s=""):
         print(s, flush=True)
         lines.append(s)
-        with open(log, "a") as f:     # appended per line: a killed run leaves what it printed
-            f.write(s + "\n")
+        logf.write(s + "\n")      # per line, flushed: a killed run leaves what it printed
+        logf.flush()
 
     say("E027 probe: " + stamp)
     for a in ENTRIES:

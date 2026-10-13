@@ -42,3 +42,35 @@ The listing gave every rule. Runs were needed only to count (asks of `8062`, the
 ## 5 A surprise
 
 F005's rates imply about 6 fouls a match at the table's frequencies; 17 seeded replays of E011's start state give 3.06 (se 0.30), with 0.65 bookings and 0.29 injuries. Unreconciled; F027 says so.
+
+## 6 Rework round 1: every universal of F027, the state it depends on, and the check (added after PR #201's first review)
+
+Method: for each statement that says only, every, never, does not depend, or gives a formula, the table lists the inputs and the
+other writers or callers of the byte it names (all instruction forms searched in `static/goal-exe/code/`: `call 0x..`, `call far`,
+`mov/inc/dec/add byte|word ptr [..]` with the address and its `-0x64c6`-style negative-offset form, and the action-replay
+save/restore paths), and the run on the original bytes (`edge_calls.py`, `out/edge-calls-20261013T160002Z-515885.log`; the earlier
+`edge-calls-20261013T155920Z-507384.log` is the 400-seed first version, kept) or the qualification now written in F027.
+
+| Statement | Depends on | Other writers / callers searched | Check |
+| --- | --- | --- | --- |
+| 798D, 7B77, 7D56 are called only from 7EEF; 7EEF only from 8206 and D5C1 | direct calls only | `call 0x7eef/798d/7b77/7d56/7a43/7b24` and `call far 0791:..` over every segment: only those sites; indirect calls not searched (said so) | qualified ("direct") |
+| Injury state only from 7D56 | energy byte `+0xE` | `3558` stores fitness into energy before the lower clamp (`3635`, `3646`); also called from `BB7B`, `BB2F`, creation | run: managed draw 0 or below leaves energy 0, 6 of 4000 seeds (seed 567 among them), 0 of 4000 for a computer player; statement narrowed to "in-match injury events"; backlog Q033 narrowed |
+| Cap of 3 (7A43) | managed flag `+0x2E`, counters `DS:7B86/7B87`, available squad players | counters: `7B24` inc, `7D56` inc, zero at `A4EF`, replay copies `1772`/`0EA7` | run: 100 of 100 combinations equal the rule (counters up to 255, 8 to 20 available, both flags) |
+| Ban machine B27F | the byte `+0x10` | writers of `+0x10`: listed in F027 section 7 | run: 64 of 64 combinations of elements 3-8 equal the machine; 3 and 7 pass through |
+| A ban is served by the next fixture of any kind | the router's kind-0 branch, `BB09-BB0E` | `B7FA` callers `000E:69E1`, `000E:6FF8`; `BB2F` calls `BA4E`, not `B7FA` | qualified: kind 0 serves no ban; kind 0 skips the pool's `B27F` |
+| Added time = min(5, events), second half only | no event once DS:831B has reached 0; extra time not read | writers of `DS:8321`: `798D`, `7B77`, `7D56` (inc), `970C` (dec), `A626` (zero); `DS:8319`: `9998`, `9B20`, `A02F` | observed 60 stand-in halves and 17 watched matches (none with an event in added time); formula qualified; the reviewer's counterexample (sixth event during added time) accepted, not re-run |
+| Budget 5 or 2 | `DS:9A3D` from the fixture byte +2 | `DS:9B3A` writers: `A605`, `C7DC` (dec), `0F0B` (replay word store); `DS:9A3D` writers: `A554`, `0EDF` (replay) | qualified "at match set-up"; the 20 + 40 stand-in halves: final budget in 0..2 and budget spent == C5DC entries (new analysis logs) |
+| 8062 is one rule for both engines; asked at dead balls in watched | callers | `call 0x8062` at `61F4`, `6E20`, `6E7D`, `6EDE`, `6F10`, `6F46`, `984F`, `DAE2` | read; E011 26 asks, 17 seeds 31.6 |
+| Injured managed outfield player stays on the pitch (wrong) | `7D56` | `7DAA` calls `7881` unconditionally; `7881` writes `DS:0640` at `796C` | corrected to "walked off, keeps squad slot, no prompt" (read; the reviewer executed `7881`) |
+| 3558 ends the injury at the first fixture | managed draw, `DS:0E82` = 16, 13, 32, 25 | see row 2 | corrected |
+| Route function 5A8F | kind, continents | `5A38` also called from `DB1D`, `DBC0` (not read) | run: 199 kinds in `DS:0F3E` when continents equal; kind 1 true for the first country only when continents differ |
+| Injured player recovers with chance 1/3 per fixture on 3651 | energy 0 | `3651` called from `B923`, `B9D2`, `BAC3` | run: 200 of 600 seeds |
+| Foul gate depends on hardness and tactic 4 only; foul rate does not depend on the table | `D5C1` order of tests; later availability and confidence | `278A` reads | corrected: inputs listed from the listing; the table independence limited to the observed ratios |
+| Fouls per match | start state, table | `261A` has 9 other callers (watched) | measured, one start state, 17 seeds; unreconciled with F005 |
+| Bans/bookings persist across the year change | writers of `+0x10` | listed in F027 section 7 | read; new-game and load paths not looked at (said so) |
+| A booking writes no confidence | writers of `+0xC` | `7CC5` callers `6443`, `65FE`, `7B77`, `7D56`; `B364` callers; the `+0xC` stores of `474D`, `4B64`, `69BD`, `B3B7`, `CB7D`, `1B2E`, `96D3` were not read one by one here: F020's inventory is relied on for them (a gap) | read |
+
+Collision handling (rule 20): all E027 scripts now create their logs through `logs.py` (exclusive creation, `-<pid>` in the name, a
+numeric suffix on a collision); `test_exclusive_logs.py` shows a second creation with the same name is renamed, never truncated or
+appended to (`out/tests-exclusive-logs.log`). Logs written before this change used second-resolution names and append mode; none
+collided (the listing of `out/` shows distinct names).

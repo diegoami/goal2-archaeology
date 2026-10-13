@@ -44,7 +44,7 @@ void roll_quick_goals(int param_1)
 
 
 // ---- 0791:B27F  post_fixture_status_update  (f_0791_B27F; Ghidra 2000:B27F, __stdcall16near; found by routines.tsv)
-// the ban machine, run by B7FA on every nonzero squad word of both teams after every fixture (and by BA4E on the manager's pool), on +0x10 (Pascal element k = bit k-1, 214B:0C79 / 0CA1 / 0C57): clear element 8 (suspended); if element 6 (sent off) was set, set element 8; clear element 6; if element 5 (booked in this match) was set: if element 4 (a carried booking) was clear set it, else set element 8 and clear element 4; clear element 5. A sending off is a 1-fixture ban, the second carried booking a 1-fixture ban, one booking carries until a second  [established; F027]
+// the ban machine, run by B7FA on every nonzero squad word of both teams after a fixture played through B7FA (000E:69E1, 000E:6FF8; a fixture byte +2 of 0 goes to BB2F, which does not call B7FA), and by BA4E on the manager's pool unless the fixture byte +2 is 0 (BB09-BB0E), on +0x10 (Pascal element k = bit k-1, 214B:0C79 / 0CA1 / 0C57): clear element 8 (suspended); if element 6 (sent off) was set, set element 8; clear element 6; if element 5 (booked in this match) was set: if element 4 (a carried booking) was clear set it, else set element 8 and clear element 4; clear element 5. A sending off is a 1-fixture ban, the second carried booking a 1-fixture ban, one booking carries until a second  [established; F027]
 
 void post_fixture_status_update(int param_1)
 

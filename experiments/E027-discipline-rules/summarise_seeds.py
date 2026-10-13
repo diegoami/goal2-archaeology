@@ -15,6 +15,8 @@ from pathlib import Path
 from statistics import mean, stdev
 
 HERE = Path(__file__).resolve().parent
+sys.path.insert(0, str(HERE))
+from logs import open_new, stamped  # noqa: E402
 seeds = []
 for path in sys.argv[1:]:
     cur = None
@@ -66,5 +68,7 @@ ht = [(s["seed"], w[1], w[3]) for s in done for w in s.get("whistles", []) if w[
 say(f"half-time whistles (seed, DS:831F, DS:8321): {ht}")
 side_max = max(max(s["stats"][i][8] + s["stats"][i][9] for i in (0, 1)) for s in done)
 say(f"largest (sendings off + injuries) of one side in a match: {side_max}")
-stamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
-(HERE / "out" / f"seeds-summary-{stamp}.log").write_text("\n".join(out) + "\n")
+path, f = open_new(stamped(HERE / "out", "seeds-summary"))
+with f:
+    f.write("\n".join(out) + "\n")
+print("log:", path)

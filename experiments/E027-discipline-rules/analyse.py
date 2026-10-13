@@ -20,6 +20,8 @@ from pathlib import Path
 from statistics import mean, stdev
 
 HERE = Path(__file__).resolve().parent
+sys.path.insert(0, str(HERE))
+from logs import open_new, stamped  # noqa: E402
 
 
 def parse(path):
@@ -85,16 +87,24 @@ def main():
             bad.append((r["seed"], r["831F"], ev))
     say(f"added time: DS:831F at the end equals 91 + min(5, events) in {n - len(bad)} of {n} halves; others (seed, 831F, events): {bad}")
     say("events histogram -> 831F: " + str(sorted({(sum(r[s][k] for s in ('s0', 's1') for k in (7, 8, 9)), r['831F']) for r in rows})))
-    # substitutions
+    # substitutions: budget 2 per side; the final byte must lie in 0..2 (an unsigned underflow shows as 255, 254, ...) and the
+    # budget spent by both sides must equal the completed substitutions (C5DC entries) of that half
     subs = {}
+    bad_range, bad_sum = [], []
     for r in rows:
-        key = (2 - r["9B3A"][0], 2 - r["9B3A"][1])
-        subs[key] = subs.get(key, 0) + 1
-    say(f"substitutions made (side 0, side 1) -> halves: {dict(sorted(subs.items()))}; C88D with the budget 2 never exceeds it: "
-        f"{all(min(r['9B3A']) >= 0 for r in rows)}")
-    stamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
-    (HERE / "out" / f"analysis-{stamp}.log").write_text("\n".join(out) + "\n")
-    print("log:", HERE / "out" / f"analysis-{stamp}.log")
+        if not all(0 <= b <= 2 for b in r["9B3A"]):
+            bad_range.append((r["seed"], r["9B3A"]))
+            continue
+        spent = (2 - r["9B3A"][0], 2 - r["9B3A"][1])
+        subs[spent] = subs.get(spent, 0) + 1
+        if sum(spent) != c(r, "C5DC"):
+            bad_sum.append((r["seed"], spent, c(r, "C5DC")))
+    say(f"substitutions (side 0, side 1) -> halves: {dict(sorted(subs.items()))}; final DS:9B3A outside 0..2 in: {bad_range}; "
+        f"halves where the budget spent differs from the C5DC entries: {bad_sum}")
+    path, f = open_new(stamped(HERE / "out", "analysis"))
+    with f:
+        f.write("\n".join(out) + "\n")
+    print("log:", path)
 
 
 if __name__ == "__main__":
