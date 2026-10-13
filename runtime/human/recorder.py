@@ -1726,13 +1726,69 @@ class Video:
 SCALES = (1, 2, 3)
 DEFAULT_SCALE = 2
 GAME_WINDOW = (720, 400)       # the game's text-mode window at 1x (the issue's measurement)
+# #174: the scaled game window must fit the outer display WSLg draws the nested window on, or part
+# stays out of view and maximizing cannot help (Xephyr's screen is fixed). Xwayland reports the
+# Windows desktop's *logical* size (physical / display scale) — a 5120x1440 desktop at 200% appears
+# as 2560x720 — so the fit test is in logical pixels and needs no separate scale-factor query. The
+# title bar WSLg adds is outside the X screen; [designed] 40 logical px is the Windows caption plus
+# slack. It only moves the threshold by tens of pixels while consecutive scales differ by 400 px.
+WINDOW_CHROME = 40
+
+
+def _nested_size(scale):
+    w, h = GAME_WINDOW
+    return max(1280, w * scale), max(800, h * scale)
 
 
 def nested_res(scale):
-    """The nested display's size for a scale: 1280x800 at 1x, as before #148; else the scaled
-    game window (1440x800 at 2x)."""
-    w, h = GAME_WINDOW
-    return f"{max(1280, w * scale)}x{max(800, h * scale)}"
+    """The nested display's natural size for a scale: 1280x800 at 1x, as before #148; else the
+    scaled game window (1440x800 at 2x). `plan_window` clamps it to the outer display."""
+    return "{}x{}".format(*_nested_size(scale))
+
+
+def outer_display_size(env):
+    """The outer display's pixel size (W, H), or None when it cannot be read. Under WSLg Xwayland
+    reports the Windows desktop's logical size (physical / display scale), which is the area a
+    nested window must fit (#174). Never raises: a display that does not answer leaves the caller
+    with the requested scale."""
+    try:
+        p = xdotool(["getdisplaygeometry"], env=env)
+    except (OSError, subprocess.TimeoutExpired):
+        return None
+    parts = p.stdout.split() if p.returncode == 0 else []
+    if len(parts) != 2:
+        return None
+    try:
+        return int(parts[0]), int(parts[1])
+    except ValueError:
+        return None
+
+
+def fit_scale(width, height, requested=DEFAULT_SCALE, scales=SCALES, chrome=WINDOW_CHROME):
+    """The largest scale not above `requested` whose scaled game window fits the display (its
+    height less `chrome` for the window's title bar), or the smallest scale when none does (best
+    effort). #174: at 2x the game window is 1440x800, taller than the owner's 2560x720 WSLg
+    display, so the request is capped to 1x."""
+    fit = [s for s in scales
+           if s <= requested and GAME_WINDOW[0] * s <= width
+           and GAME_WINDOW[1] * s <= height - chrome]
+    return max(fit) if fit else min(scales)
+
+
+def plan_window(scale, res=None, outer=None):
+    """(effective scale, nested resolution) for a launch. Without a readable outer display the
+    request stands (the scale and its natural nested size, as before #174). With one, the scale is
+    capped to the largest that fits (`fit_scale`) and the nested screen is clamped to the display,
+    never below the scaled game window. An explicit `--res` is honoured as given, only the scale is
+    capped."""
+    if outer is None:
+        return scale, (res or nested_res(scale))
+    eff = fit_scale(outer[0], outer[1], scale)
+    if res:
+        return eff, res
+    w, h = _nested_size(eff)
+    gw, gh = GAME_WINDOW[0] * eff, GAME_WINDOW[1] * eff
+    return eff, f"{max(gw, min(w, outer[0]))}x{max(gh, min(h, outer[1] - WINDOW_CHROME))}"
 
 
 def conf_for(session, scale=1):
@@ -1903,8 +1959,13 @@ def play(video=False, quit_after=None, res=None, load=None, fresh=False, scale=D
     except RuntimeError as e:
         print(f"play: refused: {e}", file=sys.stderr)
         return 2
-    res = res or nested_res(scale)
+    requested_scale, requested_res = scale, res
+    outer_env = dict(os.environ)
+    outer = outer_display_size(outer_env)
+    scale, res = plan_window(requested_scale, requested_res, outer)
     session, meta = new_session(load=load, fresh=fresh, scale=scale)
+    meta.update({"requested_scale": requested_scale,
+                 "outer_resolution": None if outer is None else f"{outer[0]}x{outer[1]}"})
     logf = open(session / "session.log", "a", encoding="utf-8")
 
     def log(msg):
@@ -1917,11 +1978,13 @@ def play(video=False, quit_after=None, res=None, load=None, fresh=False, scale=D
             pass                 # a gone terminal never stops the sitting; session.log has it
 
     log(f"session {session}")
+    if scale != requested_scale:
+        log(f"scale {requested_scale} does not fit the {outer[0]}x{outer[1]} display: "
+            f"using {scale} (nested {res})")
     ld = meta["load"]
     log("saved game: " + (f"{ld['file']} ({ld['bytes']} bytes, sha256 {ld['sha256'][:16]}..., "
                           f"{ld['chosen']}): load it in the game" if ld.get("file") else
                           "none (" + ("--fresh" if ld.get("fresh") else ld.get("why", "")) + ")"))
-    outer_env = dict(os.environ)
     title = f"goal2-recorder-{session.name}-{os.urandom(8).hex()}"
     xephyr, env, xephyr_wid = start_nested(outer_env, res, logf, title=title)
     meta.update({"outer_display": outer_env["DISPLAY"], "display": env["DISPLAY"],
@@ -2162,7 +2225,8 @@ def main(argv=None):
     pl = sub.add_parser("play", help="record one sitting")
     pl.add_argument("--video", action="store_true", help="also record the game window (mkv)")
     pl.add_argument("--scale", type=int, default=DEFAULT_SCALE, choices=SCALES,
-                    help=f"the game window's scale (default {DEFAULT_SCALE}; 1 for scripted sittings)")
+                    help=f"the game window's scale (default {DEFAULT_SCALE}, capped to the largest "
+                         f"that fits the display; 1 for scripted sittings)")
     pl.add_argument("--res", default=None, help="nested window size WIDTHxHEIGHT (default: fits the scale)")
     pl.add_argument("--quit-after", type=float, default=None, metavar="SECS",
                     help="stop the sitting after SECS seconds (scripted sittings)")

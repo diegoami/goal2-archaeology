@@ -2,6 +2,7 @@
 nested display; 2 by default for the owner's sittings, 1 for scripted sittings. Emulation and
 savestates do not change: the scale is in the config (config_sha256) and in meta.json."""
 import importlib.util
+import subprocess
 import tempfile
 import unittest
 from pathlib import Path
@@ -50,6 +51,54 @@ class ScaleTests(unittest.TestCase):
             self.assertEqual(play.call_args.kwargs["scale"], 1)
         with self.assertRaises(SystemExit):
             rec.main(["play", "--scale", "4"])
+
+
+class FitTests(unittest.TestCase):
+    """#174: the outer display caps the scale and the nested screen, so a scale taller than the
+    display is not used. WSLg's Xwayland reports the Windows desktop's logical size (physical /
+    display scale): a 5120x1440 desktop at 200% appears as 2560x720, and 2x's 1440x800 game window
+    cannot fit it."""
+
+    def test_the_owners_display_caps_scale_2_and_3_to_1(self):
+        self.assertEqual(rec.fit_scale(2560, 720, 2), 1)
+        self.assertEqual(rec.fit_scale(2560, 720, 3), 1)
+
+    def test_a_scale_that_fits_is_kept(self):
+        self.assertEqual(rec.fit_scale(5120, 1440, 2), 2)
+        self.assertEqual(rec.fit_scale(5120, 1440, 3), 3)
+        self.assertEqual(rec.fit_scale(1280, 800, 2), 1)   # 1440 wide does not fit 1280
+        self.assertEqual(rec.fit_scale(2560, 840, 2), 2)   # 800 game + 40 chrome fits
+
+    def test_a_scale_never_grows_past_the_request(self):
+        self.assertEqual(rec.fit_scale(5120, 1440, 1), 1)
+
+    def test_plan_window_shrinks_scale_and_nested_screen_to_the_display(self):
+        self.assertEqual(rec.plan_window(1, None, (2560, 720)), (1, "1280x680"))
+        self.assertEqual(rec.plan_window(2, None, (2560, 720)), (1, "1280x680"))
+        self.assertEqual(rec.plan_window(3, None, (2560, 720)), (1, "1280x680"))
+        self.assertEqual(rec.plan_window(2, None, (5120, 1440)), (2, "1440x800"))
+        self.assertEqual(rec.plan_window(3, None, (5120, 1440)), (3, "2160x1200"))
+
+    def test_plan_window_without_a_display_keeps_the_old_behaviour(self):
+        self.assertEqual(rec.plan_window(2, None, None), (2, "1440x800"))
+        self.assertEqual(rec.plan_window(3, None, None), (3, "2160x1200"))
+
+    def test_plan_window_honours_an_explicit_res_but_caps_the_scale(self):
+        self.assertEqual(rec.plan_window(2, "900x700", (2560, 720)), (1, "900x700"))
+        self.assertEqual(rec.plan_window(2, "900x700", (5120, 1440)), (2, "900x700"))
+
+    def test_outer_display_size_reads_xdotool(self):
+        ok = subprocess.CompletedProcess([], 0, "2560 720\n", "")
+        with mock.patch.object(rec, "xdotool", return_value=ok):
+            self.assertEqual(rec.outer_display_size({"DISPLAY": ":0"}), (2560, 720))
+
+    def test_outer_display_size_is_none_when_unreadable(self):
+        bad = subprocess.CompletedProcess([], 1, "", "Can't open display")
+        with mock.patch.object(rec, "xdotool", return_value=bad):
+            self.assertIsNone(rec.outer_display_size({"DISPLAY": ":0"}))
+        with mock.patch.object(rec, "xdotool",
+                               side_effect=subprocess.TimeoutExpired("xdotool", 10)):
+            self.assertIsNone(rec.outer_display_size({"DISPLAY": ":0"}))
 
 
 if __name__ == "__main__":
