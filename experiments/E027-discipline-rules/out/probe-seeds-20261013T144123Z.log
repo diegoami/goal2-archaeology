@@ -1,0 +1,155 @@
+E027 probe: 20261013T144123Z
+  hook 0791:7A43  seg_0791_13.asm:192: 7A43  55              push bp
+  hook 0791:7EEF  seg_0791_13.asm:739: 7EEF  55              push bp
+  hook 0791:798D  seg_0791_13.asm:115: 798D  55              push bp
+  hook 0791:7B77  seg_0791_13.asm:330: 7B77  55              push bp
+  hook 0791:7D56  seg_0791_13.asm:552: 7D56  55              push bp
+  hook 0791:8206  seg_0791_13.asm:1082: 8206  55              push bp
+  hook 0791:8062  seg_0791_13.asm:907: 8062  55              push bp
+  hook 0791:C88D  seg_0791_20.asm:663: C88D  55              push bp
+  hook 0791:C5DC  seg_0791_20.asm:387: C5DC  55              push bp
+  hook 0791:D5C1  seg_0791_21.asm:623: D5C1  55              push bp
+  hook 0791:5B36  seg_0791_10.asm:173: 5B36  55              push bp
+  hook 0791:5513  seg_0791_09.asm:592: 5513  55              push bp
+  hook 0791:5474  seg_0791_09.asm:517: 5474  55              push bp
+  hook 0791:539F  seg_0791_09.asm:419: 539F  55              push bp
+  hook 0791:7B24  seg_0791_13.asm:294: 7B24  55              push bp
+  hook 0791:261A  seg_0791_04.asm:697: 261A  55              push bp
+  hook 0791:2648  seg_0791_04.asm:718: 2648  55              push bp
+  hook 0791:4DA9  seg_0791_08.asm:880: 4DA9  55              push bp
+  hook 0791:4DDF  seg_0791_08.asm:904: 4DDF  A0 0B 83        mov al, byte ptr [0x830b]
+  hook 0791:4E16  seg_0791_08.asm:925: 4E16  B0 00           mov al, 0
+  hook 0791:4E1A  seg_0791_08.asm:928: 4E1A  B0 01           mov al, 1
+  hook 0791:824A  seg_0791_13.asm:1109: 824A  E9 98 00        jmp 0x82e5
+  hook 0791:824D  seg_0791_13.asm:1111: 824D  B0 37           mov al, 0x37
+  hook 0791:82DD  seg_0791_13.asm:1171: 82DD  E8 EF EB        call 0x6ecf
+  hook 0791:82E2  seg_0791_13.asm:1174: 82E2  E8 D1 EC        call 0x6fb6
+  hook 0791:81B1  seg_0791_13.asm:1041: 81B1  8A 46 FF        mov al, byte ptr [bp - 1]
+  hook 0791:61EC  seg_0791_10.asm:985: 61EC  55              push bp
+  hook 0791:6E11  seg_0791_12.asm:101: 6E11  55              push bp
+  hook 0791:6E6E  seg_0791_12.asm:152: 6E6E  55              push bp
+  hook 0791:6ECF  seg_0791_12.asm:205: 6ECF  55              push bp
+  hook 0791:6F01  seg_0791_12.asm:231: 6F01  55              push bp
+  hook 0791:6F3E  seg_0791_12.asm:263: 6F3E  55              push bp
+  hook 0791:983F  seg_0791_16.asm:145: 983F  55              push bp
+  hook 0791:97A3  seg_0791_16.asm:71: 97A3  B0 40           mov al, 0x40
+  hook 0791:979B  seg_0791_16.asm:66: 979B  B0 3F           mov al, 0x3f
+
+=== E011-r0001 seed 2001 (watchstart savestate sha256 d68e48c734a742a63e707a8c451b9011ef03b452ebd91f239d86f875464e07a9)
+start: DS:9A3D=0 DS:9A3E=0 DS:9B3A=5,5 DS:8437=19 DS:8321=0 DS:7B84..87[side0]=[0, 0, 0, 0]
+run: ticks 4334, score [2, 1], 831F 91
+  0791:7A43 entered 0
+  0791:7EEF entered 2
+      from 0791:8298: 2
+  0791:798D entered 0
+  0791:7B77 entered 0
+  0791:7D56 entered 0
+  0791:8206 entered 2
+      from 0791:5550: 2
+  0791:8062 entered 37
+      from 0791:61F7: 4
+      from 0791:6E23: 23
+      from 0791:6E80: 1
+      from 0791:6F13: 1
+      from 0791:6F49: 6
+      from 0791:9852: 2
+  0791:C88D entered 4
+      from 0791:81DE: 4
+  0791:C5DC entered 4
+  0791:D5C1 entered 0
+  0791:5B36 entered 11
+      from 0791:5649: 2
+      from 0791:61C6: 9
+  0791:5513 entered 21
+  0791:5474 entered 123
+  0791:539F entered 105
+  0791:7B24 entered 0
+  0791:261A entered 2050
+  0791:2648 entered 0
+  0791:4DA9 entered 22
+  0791:4DDF entered 7
+  0791:4E16 entered 17
+  0791:4E1A entered 5
+  0791:824A entered 0
+  0791:824D entered 2
+  0791:82DD entered 0
+  0791:82E2 entered 2
+  0791:81B1 entered 4
+  0791:61EC entered 4
+  0791:6E11 entered 23
+  0791:6E6E entered 1
+  0791:6ECF entered 0
+  0791:6F01 entered 1
+  0791:6F3E entered 6
+  0791:983F entered 2
+  0791:97A3 entered 1
+  0791:979B entered 1
+draw table DS:8337+1..255 (255 bytes): value histogram {0: 12, 1: 13, 2: 17, 3: 24, 4: 13, 5: 15, 6: 12, 7: 21, 8: 21, 9: 13, 10: 14, 11: 16, 12: 13, 13: 15, 14: 22, 15: 14}
+  draw1 < 4: 66/255 = 0.2588; draw2 == 1: 13/255 = 0.0510
+7EEF entries (draw1, draw2): [(4, 2), (10, 6)]
+7A43 entries (side, DS:7B86, DS:7B87): []
+whistles (which, DS:831F, DS:831B, DS:8321): [('half time', 46, 45, 0), ('full time', 91, 0, 0)]
+C88D entries (flag, side, slot, budget before): [(0, 1, 10, 5), (0, 1, 7, 4), (0, 1, 9, 3), (0, 1, 8, 2)]
+end: DS:9B3A=5,1 DS:8321=0
+  stats side 0 (DS:7B7E+0+k, k=0..9): [1, 0, 0, 5, 2, 0, 2, 0, 0, 0]
+  stats side 1 (DS:7B7E+10+k, k=0..9): [0, 6, 0, 2, 1, 1, 0, 0, 0, 0]
+
+=== E011-r0001 seed 2002 (watchstart savestate sha256 d68e48c734a742a63e707a8c451b9011ef03b452ebd91f239d86f875464e07a9)
+start: DS:9A3D=0 DS:9A3E=0 DS:9B3A=5,5 DS:8437=19 DS:8321=0 DS:7B84..87[side0]=[0, 0, 0, 0]
+run: ticks 4314, score [1, 0], 831F 92
+  0791:7A43 entered 0
+  0791:7EEF entered 4
+      from 0791:8298: 4
+  0791:798D entered 1
+  0791:7B77 entered 0
+  0791:7D56 entered 0
+  0791:8206 entered 4
+      from 0791:5550: 4
+  0791:8062 entered 36
+      from 0791:61F7: 2
+      from 0791:6E23: 20
+      from 0791:6F13: 2
+      from 0791:6F49: 10
+      from 0791:9852: 2
+  0791:C88D entered 5
+      from 0791:81DE: 5
+  0791:C5DC entered 4
+  0791:D5C1 entered 0
+  0791:5B36 entered 8
+      from 0791:61C6: 8
+  0791:5513 entered 34
+  0791:5474 entered 134
+  0791:539F entered 102
+  0791:7B24 entered 0
+  0791:261A entered 2200
+  0791:2648 entered 0
+  0791:4DA9 entered 34
+  0791:4DDF entered 11
+  0791:4E16 entered 28
+  0791:4E1A entered 6
+  0791:824A entered 0
+  0791:824D entered 4
+  0791:82DD entered 0
+  0791:82E2 entered 4
+  0791:81B1 entered 5
+  0791:61EC entered 2
+  0791:6E11 entered 20
+  0791:6E6E entered 0
+  0791:6ECF entered 0
+  0791:6F01 entered 2
+  0791:6F3E entered 10
+  0791:983F entered 2
+  0791:97A3 entered 1
+  0791:979B entered 1
+draw table DS:8337+1..255 (255 bytes): value histogram {0: 12, 1: 13, 2: 17, 3: 24, 4: 13, 5: 15, 6: 12, 7: 21, 8: 21, 9: 13, 10: 14, 11: 16, 12: 13, 13: 15, 14: 22, 15: 14}
+  draw1 < 4: 66/255 = 0.2588; draw2 == 1: 13/255 = 0.0510
+7EEF entries (draw1, draw2): [(6, 13), (6, 7), (2, 7), (6, 7)]
+7A43 entries (side, DS:7B86, DS:7B87): []
+whistles (which, DS:831F, DS:831B, DS:8321): [('half time', 46, 45, 0), ('full time', 92, 0, 0)]
+C88D entries (flag, side, slot, budget before): [(0, 1, 10, 5), (0, 1, 9, 4), (0, 1, 6, 3), (0, 1, 8, 2), (0, 1, 11, 1)]
+end: DS:9B3A=5,1 DS:8321=0
+  stats side 0 (DS:7B7E+0+k, k=0..9): [0, 3, 0, 3, 2, 2, 4, 1, 0, 0]
+  stats side 1 (DS:7B7E+10+k, k=0..9): [0, 7, 0, 2, 1, 1, 0, 0, 0, 0]
+
+=== E011-r0001 seed 2003 (watchstart savestate sha256 d68e48c734a742a63e707a8c451b9011ef03b452ebd91f239d86f875464e07a9)
+start: DS:9A3D=0 DS:9A3E=0 DS:9B3A=5,5 DS:8437=19 DS:8321=0 DS:7B84..87[side0]=[0, 0, 0, 0]

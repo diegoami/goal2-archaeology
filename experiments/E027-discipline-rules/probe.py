@@ -39,7 +39,9 @@ ENTRIES = ["7A43", "7EEF", "798D", "7B77", "7D56", "8206", "8062", "C88D", "C5DC
            # the foul funnel: 4DA9 (would this player foul), its two exits, 8206's early exit and its two endings
            "4DA9", "4DDF", "4E16", "4E1A", "824A", "824D", "82DD", "82E2",
            # 8062's substitution test passed (81B1), and the dead-ball routines that call 8062
-           "81B1", "61EC", "6E11", "6E6E", "6ECF", "6F01", "6F3E", "983F"]
+           "81B1", "61EC", "6E11", "6E6E", "6ECF", "6F01", "6F3E", "983F",
+           # the clock's whistles: 97A3 half time (2B0F(0x40)), 979B full time (2B0F(0x3F)); DS:831F, DS:8321 are read there
+           "97A3", "979B"]
 CALLERS_OF = {"8062", "7EEF", "8206", "C88D", "5B36"}
 
 TABLE = 0x8337     # DS:8337 + index (1..255), 261A: mov al, [di - 0x7cc9]
@@ -96,6 +98,7 @@ def main():
         a43 = []          # (side, 7B86, 7B87) per 7A43 entry
         c88 = []          # (flag, side, slot, budget_before)
         first_table = {}
+        whistles = []     # (which, DS:831F, DS:831B, DS:8321) at the half-time and full-time whistles
 
         def tbl():
             return m.mem(m.DS * 16 + TABLE, 256)
@@ -116,6 +119,8 @@ def main():
                     i = m.rd(INDEX)
                     j = 1 if i == 0xFF else i + 1
                     seven.append((t[i], t[j]))
+                if a in ("97A3", "979B"):
+                    whistles.append(("half time" if a == "97A3" else "full time", m.rd(0x831F), m.rd(0x831B), m.rd(0x8321)))
                 if a == "7A43":
                     side = stack(2) & 0xFF
                     a43.append((side, m.rd(0x7B86 + side * 10, 1), m.rd(0x7B87 + side * 10, 1)))
@@ -143,6 +148,7 @@ def main():
         say(f"  draw1 < 4: {d1}/255 = {d1/255:.4f}; draw2 == 1: {d2}/255 = {d2/255:.4f}")
         say(f"7EEF entries (draw1, draw2): {seven}")
         say(f"7A43 entries (side, DS:7B86, DS:7B87): {a43}")
+        say(f"whistles (which, DS:831F, DS:831B, DS:8321): {whistles}")
         say(f"C88D entries (flag, side, slot, budget before): {c88}")
         say(f"end: DS:9B3A={m.rd(0x9B3A, 1)},{m.rd(0x9B3B, 1)} DS:8321={m.rd(0x8321)}")
         for side in (0, 1):

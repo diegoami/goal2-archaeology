@@ -1,7 +1,12 @@
 #!/usr/bin/env python3
 """The quick engine's second half with the non-friendly gate open: counts of D5C1 and what it reaches (T53, Scope 2).
 
-    python3 experiments/E027-discipline-rules/quick_second_half.py [N] [first_seed]
+    python3 experiments/E027-discipline-rules/quick_second_half.py [N] [first_seed] [random-table]
+
+With `random-table` one more declared input is written: DS:8337+1..255 (the foul draw table 2648 fills at set-up) :=
+Python's random 0..15 (seeded by seed*7919+13), because the savestate's table is one fixed table that every seed reads in
+the same order (seeds 1..20 of the first logs: 7EEF's draws repeat from seed to seed, so their card and injury counts are
+not independent samples of the table; the 20 halves there still check the clock, the cap and the budget).
 
 D5C1 is entered 0 times in every recorded state (E011 is watched; the E010 quick records are friendlies, where
 DS:9A3D = 0 closes the gate at DAC8-DAD0). No recorded state is a non-friendly quick result. This script runs the
@@ -18,6 +23,7 @@ and DS:8321 start at 0; this is stated, not assumed away.
 The log is written to a new file out/quick-second-half-<UTC>.log (never overwritten).
 """
 import hashlib
+import random
 import sys
 from collections import Counter
 from datetime import datetime, timezone
@@ -34,7 +40,7 @@ SAV = ROOT / ".cache/dl/3c7983fa4869d327-E010-r0010-halftime.sav"
 HOOKS = ["D5C1", "7A43", "7EEF", "798D", "7B77", "7D56", "8062", "C88D", "C5DC"]
 
 
-def one(raw, seed, kind_nonfriendly=True):
+def one(raw, seed, kind_nonfriendly=True, random_table=False):
     st = savestate.Savestate(raw)
     load = st.program().ds_base // 16 - 0x2581
     CODE, DS = load + 0x791, load + 0x2581
@@ -115,12 +121,20 @@ def one(raw, seed, kind_nonfriendly=True):
         wr(0x9B3A, 2, 1)
         wr(0x9B3B, 2, 1)
     wr(0x7B62, seed)
+    table_sha = None
+    if random_table:
+        # DS:8337 + 1..255 := Python's random 0..15 (2648 draws rand(16) - 1 at each match set-up; the savestate's table
+        # is one fixed table, read in the same order by every seed, so the seeds would not be independent samples of it)
+        rng = random.Random(seed * 7919 + 13)
+        body = bytes(rng.randrange(16) for _ in range(255))
+        mu.mem_write(DS * 16 + 0x8337 + 1, body)
+        table_sha = hashlib.sha256(body).hexdigest()[:16]
     sp = 0x6FF4
     mu.mem_write(0x70000 + sp + 4, (0).to_bytes(2, "little"))
     mu.reg_write(UC_X86_REG_BP, sp)
     mu.emu_start(CODE * 16 + 0x97D3, CODE * 16 + 0x983C, timeout=600 * 1000000)
     stats = [list(mu.mem_read(DS * 16 + 0x7B7E + s * 10, 10)) for s in (0, 1)]
-    return {"seed": seed, "start": start, "counts": dict(counts), "a43": a43, "stats": stats,
+    return {"seed": seed, "start": start, "table": table_sha, "counts": dict(counts), "a43": a43, "stats": stats,
             "9B3A": (rd(0x9B3A, 1), rd(0x9B3B, 1)), "8321": rd(0x8321), "831F": rd(0x831F), "831B": rd(0x831B),
             "score": (rd(0x9B3C, 1), rd(0x9B3D, 1)), "strays": strays}
 
@@ -143,12 +157,14 @@ def main():
         with open(log, "a") as f:     # appended per line: a killed run leaves its seeds
             f.write(s + "\n")
 
-    say(f"E027 quick second half, nonfriendly gate open by declared inputs (9A3D:=1, 9B3A:=2,2, 7B62:=seed); "
-        f"savestate sha256 {digest}; seeds {first}..{first + n - 1}")
+    rt = len(sys.argv) > 3 and sys.argv[3] == "random-table"
+    say(f"E027 quick second half, nonfriendly gate open by declared inputs (9A3D:=1, 9B3A:=2,2, 7B62:=seed"
+        + (", DS:8337+1..255 := Python random 0..15 seeded by seed*7919+13" if rt else "")
+        + f"); savestate sha256 {digest}; seeds {first}..{first + n - 1}")
     tot = Counter()
     for seed in range(first, first + n):
-        r = one(raw, seed)
-        say(f"seed {seed}: start {r['start']} counts {r['counts']} stats(side0) {r['stats'][0]} stats(side1) "
+        r = one(raw, seed, random_table=rt)
+        say(f"seed {seed}: table {r['table']} start {r['start']} counts {r['counts']} stats(side0) {r['stats'][0]} stats(side1) "
             f"{r['stats'][1]} 9B3A {r['9B3A']} 8321 {r['8321']} 831F {r['831F']} score {r['score']} "
             f"strays {r['strays']} 7A43 {r['a43']}")
         for k, v in r["counts"].items():
