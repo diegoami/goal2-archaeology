@@ -597,7 +597,7 @@ void f_000E_0B4D(int param_1,undefined4 param_2)
 
 
 // ---- 000E:0B77  manager_sack_score  (f_000E_0B77; Ghidra 1000:0B77, __stdcall16near; found by routines.tsv)
-// the sack score of a managed country for the fixture of 000E:4E0E's caller frame: returns 0 when the year word [A923]+0x38 is below 2, the fixture kind (+2) is 1, the stage byte is in the set {3,4,7,8} (1771:59D8) and [A923]+m+1 is non-zero, or the country's +0xBE is non-zero; else the signed byte [A91F]+3*(+0x2E)+2, the confidence sum fed by 0791:B6CC; called by 000E:319B  [established; F025; read code/seg_000E_02.asm]
+// the sack score of a managed country for the fixture of 000E:4E0E's caller frame: returns 0 when the year word [A923]+0x38 is below 2, the fixture kind (+2) is 1, the stage byte is in the set {3,4,7,8} (1771:59D8) and [A923]+m+1 (the manager's group number in the stage; 60CB reads 0 as did not qualify) is non-zero, or the country's +0xBE is non-zero; else the signed byte [A91F]+3*(+0x2E)+2, the confidence sum fed by 0791:B6CC; called by 000E:319B  [established; F025; read code/seg_000E_02.asm]
 
 int manager_sack_score(int param_1)
 

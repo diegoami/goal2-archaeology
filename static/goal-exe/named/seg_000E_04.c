@@ -1012,7 +1012,7 @@ bool f_000E_5DAF(int param_1)
 
 
 // ---- 000E:5E6C  news_failed_to_qualify  (f_000E_5E6C; Ghidra 1000:5E6C, __stdcall16near; found by routines.tsv)
-// display only: the headline FAIL TO QUALIFY FOR <competition> with a random one of BOO HISS / SACK / GET RID OF and the manager's name; changes no state; called by 000E:60CB when [A923]+m+1 is 0  [likely; F025; read code/seg_000E_07.asm]
+// news item only: the headline FAIL TO QUALIFY FOR (competition) with a random one of BOO HISS / SACK / GET RID OF and the manager's name; does not sack or release the manager (no call of unmanage_country, no store into 000E:4E0E's frame) but draws one random number (214B:06B1(3)); called by 000E:60CB when [A923]+m+1 (the group number) is 0  [likely; F025; read code/seg_000E_07.asm]
 
 void news_failed_to_qualify(int param_1)
 

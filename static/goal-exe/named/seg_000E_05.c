@@ -2,7 +2,7 @@
 // Headings give listing addresses (SEGMENT:OFFSET, as in ../code/). DS:XXXX is the data segment 2581. A segment number written in the code (a far pointer's segment, a far call's) is Ghidra's: listing=Ghidra 0000=0000, 000E=1000, 0791=2000, 16D6=3000, 1771=4000, 2138=5000, 2139=6000, 214B=7000, 235C=8000, 2382=9000, 23E4=A000, 2581=B000.
 
 // ---- 000E:60CB  announce_stage_to_manager  (f_000E_60CB; Ghidra 1000:60CB, __stdcall16far; found by routines.tsv)
-// the per-manager stage announcement (hosts, groups, qualifies for the finals, or 5E6C when [A923]+m+1 is 0); sets [A923]+1 to the manager number; called from the main program for each manager and from 000E:70B9 for managers whose +0x47 flag is clear  [likely; F025; read decompiled/seg_000E_05.c]
+// the per-manager stage announcement (hosts, groups, qualifies for the finals, or 5E6C when [A923]+m+1, the manager's group number in the stage, is 0); sets [A923]+1 to the manager number; called from the main program for each manager and from 000E:70B9 for managers whose +0x47 flag is clear  [likely; F025; read decompiled/seg_000E_05.c]
 
 void __stdcall16far announce_stage_to_manager(int param_1)
 
