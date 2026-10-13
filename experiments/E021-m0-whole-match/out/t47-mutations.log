@@ -1,0 +1,54 @@
+KILLED   06B1 n+1 in the draw
+KILLED   06D0 n+1 in the draw
+KILLED   06B1 n not masked to 16 bits
+KILLED   06D0 n not masked to 16 bits
+KILLED   06D0 compare to 2
+KILLED   06D0 result inverted
+KILLED   06D0 AH dropped
+KILLED   06D0 AL = whole draw
+KILLED   06D0 AX high byte = draw low byte
+KILLED   06D0 seed not stepped
+KILLED   06D0 DX = 0
+KILLED   06D0 DX = draw + 1
+KILLED   06B1 seed not stepped
+KILLED   06B1 DX = 0
+KILLED   06B1 AX low byte only
+KILLED   06B1 AX = draw + 1
+KILLED   06B1 draw field reported as n
+KILLED   adapter: n from arg(1)
+KILLED   adapter: seed read from DS:7B62
+KILLED   adapter: seed write dropped (both)
+KILLED   adapter: 06D0 writes the UNCHANGED seed (review R1)
+KILLED   adapter: 06B1 writes the UNCHANGED seed
+KILLED   adapter: seed written big-endian
+KILLED   adapter: seed written one word further
+KILLED   adapter: seed written twice
+KILLED   adapter: DX = 0
+KILLED   adapter: DX = AL only
+KILLED   adapter: AX masked to a byte
+KILLED   adapter: AX not set
+KILLED   adapter: wrong model for 06D0 (06B1's)
+KILLED   adapter: wrong model for 06B1 (06D0's)
+KILLED   falsifier n+1 not applied
+KILLED   falsifier n+1 adds 2
+KILLED   falsifier value+1 not applied
+KILLED   falsifier value+1 adds 2
+KILLED   falsifier inverted not applied
+KILLED   falsifier inverted flips AH too
+KILLED   falsifier seed-write keeps the write
+KILLED   tally: n+1 changes -> always False (review R2)
+KILLED   tally: n+1 changes -> always True
+KILLED   tally: n+1 compares the seed
+KILLED   tally: n+1 uses the falsified run
+KILLED   tally: calls not counted
+KILLED   tally: calls counted twice
+KILLED   tally: value+1 not counted
+KILLED   tally: draw is 1 -> draw is 2
+KILLED   tally: draw is 1 -> always
+KILLED   tally: draw is 1 from the falsified run
+KILLED   tally: inverted not counted
+KILLED   tally: seed-write condition ==
+KILLED   tally: seed-write not counted
+KILLED   tally: 06B1 keys counted for 06D0
+EQUIVALENT tally: seed-write condition -> always True - honest.seed != seed holds for every word: 0688's step w * 0x7ABD + 0x1B0F has no fixed point (w * 0x7ABC = -0x1B0F mod 65536 has no solution: 0x7ABC is even, 0x1B0F odd)
+52 mutations, 0 not killed

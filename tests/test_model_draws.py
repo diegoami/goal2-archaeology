@@ -63,5 +63,23 @@ class Wrapper06D0Tests(unittest.TestCase):
         self.assertEqual({D.draw_06d0(s, 1).ax for s in range(0, 65536, 13)}, {1})
 
 
+class ExactTableTests(unittest.TestCase):
+    """Full results for fixed inputs, each wrapper separately (kills any single field of Wrapper(draw, seed, ax, dx)
+    changed: the draw, the stepped seed returned unchanged or stepped twice, AX low or high byte, AL, DX)."""
+    # (seed, n): (draw, new seed)
+    STEPS = {(0x1234, 4): (2, 21363), (1, 2048): (1199, 38348), (0, 4): (1, 6927), (1, 3): (2, 38348),
+             (0, 3): (1, 6927), (0xFFFF, 1): (1, 41042), (0x1234, 0x10004): (2, 21363)}
+
+    def test_06b1_full_tuples(self):
+        for (seed, n), (draw, new) in self.STEPS.items():
+            with self.subTest(seed=seed, n=n):
+                self.assertEqual(tuple(D.draw_06b1(seed, n)), (draw, new, draw, draw))
+
+    def test_06d0_full_tuples(self):
+        for (seed, n), (draw, new) in self.STEPS.items():
+            with self.subTest(seed=seed, n=n):
+                self.assertEqual(tuple(D.draw_06d0(seed, n)), (draw, new, (draw & 0xFF00) | (draw == 1), draw))
+
+
 if __name__ == "__main__":
     unittest.main()
