@@ -1729,9 +1729,16 @@ GAME_WINDOW = (720, 400)       # the game's text-mode window at 1x (the issue's 
 # #174: the scaled game window must fit the outer display WSLg draws the nested window on, or part
 # stays out of view and maximizing cannot help (Xephyr's screen is fixed). Xwayland reports the
 # Windows desktop's *logical* size (physical / display scale) — a 5120x1440 desktop at 200% appears
-# as 2560x720 — so the fit test is in logical pixels and needs no separate scale-factor query. The
-# title bar WSLg adds is outside the X screen; [designed] 40 logical px is the Windows caption plus
-# slack. It only moves the threshold by tens of pixels while consecutive scales differ by 400 px.
+# as 2560x720 — so the fit test is in logical pixels and needs no separate scale-factor query.
+#
+# The fit reserves a margin for the outer window's title bar: WSLg draws it outside the X screen, so
+# a nested screen as tall as the display leaves the bottom of the game under the caption. [designed,
+# guessed] 40 logical px bounds Windows' default caption metric (SM_CYCAPTION is ~23 px at the
+# system DPI) plus the sized frame (~8 px). Searched for a measured value instead: no Xephyr window
+# geometry was recorded (session meta holds only the nested `resolution`; `window_geometry` reads the
+# game window inside the nested screen), and weston sets no `_NET_WORKAREA` on the root window to
+# read, so the value stays a guess. It only moves the threshold by tens of px while consecutive
+# scales' game windows differ by 400 px.
 WINDOW_CHROME = 40
 
 
@@ -1766,24 +1773,28 @@ def outer_display_size(env):
 
 def fit_scale(width, height, requested=DEFAULT_SCALE, scales=SCALES, chrome=WINDOW_CHROME):
     """The largest scale not above `requested` whose scaled game window fits the display (its
-    height less `chrome` for the window's title bar), or the smallest scale when none does (best
-    effort). #174: at 2x the game window is 1440x800, taller than the owner's 2560x720 WSLg
-    display, so the request is capped to 1x."""
+    height less `chrome` for the window's title bar), or None when even the smallest does not fit:
+    the game window is a fixed size, so a smaller display cannot show it whole and the caller
+    refuses rather than open a window the display cuts. #174: at 2x the game window is 1440x800,
+    taller than the owner's 2560x720 WSLg display, so the request is capped to 1x."""
     fit = [s for s in scales
            if s <= requested and GAME_WINDOW[0] * s <= width
            and GAME_WINDOW[1] * s <= height - chrome]
-    return max(fit) if fit else min(scales)
+    return max(fit) if fit else None
 
 
 def plan_window(scale, res=None, outer=None):
-    """(effective scale, nested resolution) for a launch. Without a readable outer display the
-    request stands (the scale and its natural nested size, as before #174). With one, the scale is
-    capped to the largest that fits (`fit_scale`) and the nested screen is clamped to the display,
+    """(effective scale, nested resolution) for a launch, or (None, None) when the display cannot
+    hold even the smallest scale's game window (the caller refuses). Without a readable outer display
+    the request stands (the scale and its natural nested size, as before #174). With one, the scale
+    is capped to the largest that fits (`fit_scale`) and the nested screen is clamped to the display,
     never below the scaled game window. An explicit `--res` is honoured as given, only the scale is
     capped."""
     if outer is None:
         return scale, (res or nested_res(scale))
     eff = fit_scale(outer[0], outer[1], scale)
+    if eff is None:
+        return None, None
     if res:
         return eff, res
     w, h = _nested_size(eff)
@@ -1963,6 +1974,10 @@ def play(video=False, quit_after=None, res=None, load=None, fresh=False, scale=D
     outer_env = dict(os.environ)
     outer = outer_display_size(outer_env)
     scale, res = plan_window(requested_scale, requested_res, outer)
+    if scale is None:
+        print(f"play: the {outer[0]}x{outer[1]} display cannot show the "
+              f"{GAME_WINDOW[0]}x{GAME_WINDOW[1]} game window", file=sys.stderr)
+        return 3
     session, meta = new_session(load=load, fresh=fresh, scale=scale)
     meta.update({"requested_scale": requested_scale,
                  "outer_resolution": None if outer is None else f"{outer[0]}x{outer[1]}"})

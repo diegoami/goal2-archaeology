@@ -72,6 +72,13 @@ class FitTests(unittest.TestCase):
     def test_a_scale_never_grows_past_the_request(self):
         self.assertEqual(rec.fit_scale(5120, 1440, 1), 1)
 
+    def test_no_scale_fits_a_display_smaller_than_the_game_window(self):
+        # R1 (#204): the smallest game window (720x400) does not fit 640x320, so no scale fits and
+        # the caller must refuse rather than return a nested screen bigger than the display.
+        self.assertIsNone(rec.fit_scale(640, 320, 2))
+        self.assertEqual(rec.plan_window(2, None, (640, 320)), (None, None))
+        self.assertEqual(rec.plan_window(1, None, (640, 320)), (None, None))
+
     def test_plan_window_shrinks_scale_and_nested_screen_to_the_display(self):
         self.assertEqual(rec.plan_window(1, None, (2560, 720)), (1, "1280x680"))
         self.assertEqual(rec.plan_window(2, None, (2560, 720)), (1, "1280x680"))
