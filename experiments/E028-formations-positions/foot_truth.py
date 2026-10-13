@@ -101,4 +101,5 @@ def main():
             o.write("\t".join(map(str, r)) + "\n")
     print("cases", len(rows), "mismatches original vs rule", mism, "->", path)
 
-main()
+if __name__ == "__main__":
+    main()
