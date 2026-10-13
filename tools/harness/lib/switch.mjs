@@ -9,6 +9,8 @@
 // - reviewer.default: a harness.json key, the OpenCode model that reviews unless the user names
 //   another; never the session's family.
 // - blocked: families or id fragments that never run (--block / --unblock).
+// - dispatch: `ask` (--ask on|off) and `reviewerByKind` (--review-kind fix|research --model NAME),
+//   CLAUDE.md "Choosing models" rule 2a; the reviewer named must pass the checks reviewer.default does.
 
 import { canonicalFamily, familiesOfModel, familyOfId, knownFamilyOfId, blockedHit } from './named.mjs';
 
@@ -87,14 +89,58 @@ export function planSwitch(config, { role = 'reviewer', id, variant, name, famil
   const entry = { id, ...(variant !== undefined && variant !== null ? { variant } : {}), family: family ?? existing?.family ?? familyOf(id), ...(existing?.note ? { note: existing.note } : {}) };
   const blocked = blockedBy(config, entry);
   if (blocked) throw new Error(`Refused: ${blocked}.`);
-  const own = String(sessionFamily ?? '').toLowerCase();
-  const same = [...familiesOfModel(entry), known].filter(Boolean).some((f) => canonicalFamily(f) === canonicalFamily(own));
-  if (same) throw new Error(`Refused: ${id} is of the session's family (${own}), which implements; the reviewer is never the implementer's family. Set HARNESS_SESSION_FAMILY if the session runs elsewhere.`);
+  const sameFamily = ofSessionFamily(entry, known, sessionFamily);
+  if (sameFamily) throw new Error(sameFamily);
   const next = structuredClone(config);
   next.models = { ...next.models, [n]: entry };
   next.reviewer = { ...next.reviewer, default: n };
   return { config: next, name: n, entry, before: describeReviewer(config), after: describeReviewer(next) };
 }
+
+// The refusal when `entry` is of the session's family (the reviewer is never the implementer's), else null.
+function ofSessionFamily(entry, known, sessionFamily) {
+  const own = String(sessionFamily ?? '').toLowerCase();
+  const same = [...familiesOfModel(entry), known].filter(Boolean).some((f) => canonicalFamily(f) === canonicalFamily(own));
+  return same ? `Refused: ${entry.id} is of the session's family (${own}), which implements; the reviewer is never the implementer's family. Set HARNESS_SESSION_FAMILY if the session runs elsewhere.` : null;
+}
+
+export const REVIEW_KINDS = ['fix', 'research'];
+
+/**
+ * The new harness.json for the dispatch settings (rule 2a): `ask` ('on' | 'off') and/or
+ * `reviewKind` + `model`, a registered model name that becomes dispatch.reviewerByKind[kind]. The
+ * model gets the checks reviewer.default gets, without the OpenCode probe: registered, not
+ * blocked, not the session's family. A missing dispatch block is created. Throws "Refused: ..."
+ * (exit 1) or a usage error.
+ */
+export function planDispatch(config, { ask, reviewKind, model, sessionFamily }) {
+  if (ask === undefined && reviewKind === undefined) throw new Error('planDispatch needs ask or reviewKind.');
+  if (ask !== undefined && !['on', 'off'].includes(ask)) throw new Error(`Refused: --ask is on or off; got ${ask}.`);
+  const next = structuredClone(config);
+  const dispatch = { ...(next.dispatch ?? {}) };
+  if (ask !== undefined) dispatch.ask = ask === 'on';
+  let name;
+  if (reviewKind !== undefined) {
+    if (!REVIEW_KINDS.includes(reviewKind)) throw new Error(`Refused: --review-kind is ${REVIEW_KINDS.join(' or ')}; got ${reviewKind}.`);
+    name = model;
+    const entry = Object.hasOwn(config.models ?? {}, name) ? config.models[name] : null;
+    if (!entry) throw new Error(`Refused: ${name} is not a registered model (registered: ${Object.keys(config.models ?? {}).join(', ')}).`);
+    const blocked = blockedBy(config, entry);
+    if (blocked) throw new Error(`Refused: ${blocked}.`);
+    if (!sessionFamily) throw new Error("Refused: the session's family cannot be told; set HARNESS_SESSION_FAMILY, so the reviewer can be kept out of it.");
+    const same = ofSessionFamily(entry, knownFamilyOf(entry.id), sessionFamily);
+    if (same) throw new Error(same);
+    dispatch.reviewerByKind = { ...(dispatch.reviewerByKind ?? {}), [reviewKind]: name };
+  }
+  next.dispatch = dispatch;
+  return { config: next, name, entry: name ? config.models[name] : undefined, before: describeDispatch(config), after: describeDispatch(next) };
+}
+
+export const describeDispatch = (c) => {
+  const d = c.dispatch;
+  const kinds = Object.entries(d?.reviewerByKind ?? {}).map(([k, m]) => `${k}=${m}`).join(', ') || 'none';
+  return `dispatch: ask ${d?.ask === false ? 'off' : 'on'}${d && 'ask' in d ? '' : ' (default, not set)'}; reviewer by kind: ${kinds}`;
+};
 
 // The implementer's default: the implementer subagent on a Claude Code alias or a model id the
 // session's provider serves, or `session` (the main session implements directly). A model id is
@@ -166,7 +212,7 @@ export function showRoles(config, { sessionFamily = null } = {}) {
   const others = Object.entries(config.models ?? {}).filter(([m]) => m !== d).map(([m, x]) => `${m} = ${x.id}`);
   return [
     `session: family ${sessionFamily ?? 'unknown (set HARNESS_SESSION_FAMILY)'}, from the Anthropic environment`,
-    describeImplementer(config), describeReviewer(config),
+    describeImplementer(config), describeReviewer(config), describeDispatch(config),
     `blocked: ${(config.blocked ?? []).join(', ') || 'nothing'}`,
     ...(others.length ? [`also registered, for --reviewer: ${others.join(', ')}`] : []),
   ].join('\n');
