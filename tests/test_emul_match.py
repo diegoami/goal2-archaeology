@@ -854,10 +854,10 @@ class LongReaderTests(unittest.TestCase):
         """Kills: any counter's condition or increment. Eight calls: a wins 4 ((5,3) (0x20000,0x10005) (-1,-2) (0,-1)),
         b wins 2, ties 2; the high words differ in 3; min changes the result in the 6 non-ties; tie-a in none."""
         cases = [(5, 3), (3, 5), (7, 7), (0x20000, 0x10005), (0x10005, 0x20000), (0xFFFFFFFF, 0xFFFFFFFE),
-                 (0x12345678, 0x12345678), (0, 0xFFFFFFFF)]
-        want = {"calls": 8, "high words differ (jg or jl taken)": 3, "a wins": 4, "b wins": 2, "ties (a == b)": 2,
-                "min changes the result": 6, "tie-a changes the result": 0}
-        for kw in ({}, {"falsifier": "min"}, {"falsifier": "tie-a"}):
+                 (0x12345678, 0x12345678), (0, 0xFFFFFFFF), (0x18000, 0x17FFF)]
+        want = {"calls": 9, "high words differ (jg or jl taken)": 3, "a wins": 5, "b wins": 2, "ties (a == b)": 2, "lowword-signed changes the result": 1,
+                "min changes the result": 7, "tie-a changes the result": 0}
+        for kw in ({}, {"falsifier": "min"}, {"falsifier": "tie-a"}, {"falsifier": "lowword-signed"}):
             tally = {}
             for a, b in cases:
                 self.max_call(a, b, tally=tally, **kw)
@@ -872,6 +872,13 @@ class LongReaderTests(unittest.TestCase):
         self.assertEqual((g.regs["ax"], g.regs["dx"], g.regs["es"]), (5, 1, 2))     # min of the values; ES stays the honest winner's high word
         g = self.max_call(7, 7, falsifier="min")
         self.assertEqual((g.regs["ax"], g.regs["dx"]), (7, 0))
+        # lowword-signed (jle for jbe): equal high words, low 0x8000 vs 0x7FFF: unsigned a wins, signed b wins
+        g = self.max_call(0x18000, 0x17FFF, falsifier="lowword-signed")
+        self.assertEqual((g.regs["ax"], g.regs["dx"]), (0x7FFF, 1))
+        g = self.max_call(0x17FFF, 0x18000, falsifier="lowword-signed")
+        self.assertEqual((g.regs["ax"], g.regs["dx"]), (0x7FFF, 1))
+        for a, b in ((5, 3), (3, 5), (7, 7), (0x20000, 0x10005), (0xFFFFFFFF, 0xFFFFFFFE)):   # same side of 0x8000 or other high words: honest
+            self.assertEqual(self.max_call(a, b, falsifier="lowword-signed").regs, self.max_call(a, b).regs)
         for a, b in ((5, 3), (3, 5), (7, 7), (0x10005, 0x20000)):                  # tie-a: equal results everywhere
             honest = self.max_call(a, b)
             self.assertEqual(self.max_call(a, b, falsifier="tie-a").regs, honest.regs)
@@ -992,7 +999,7 @@ class LongProofTests(unittest.TestCase):
     def test_each_stopping_falsifier_is_stopped_naming_the_helper_and_the_call(self):
         from watched_match import ProofError
         for run, falsifier, call in ((self.run_max, "min", 1), (self.run_mul, "product+1", 1),
-                                     (self.run_mul, "no-cross-term", 2)):   # case 1 (3*5) has no cross term: stops at call 2
+                                     (self.run_mul, "no-cross-term", 2), (self.run_max, "lowword-signed", 10)):   # case 1 (3*5) has no cross term: stops at call 2
             with self.subTest(falsifier=falsifier), self.assertRaises(ProofError) as cm:
                 run(falsifier)
             self.assertIn(f"call #{call} of ", str(cm.exception))

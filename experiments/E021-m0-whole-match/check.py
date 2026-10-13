@@ -371,6 +371,8 @@ def max_variant(honest, a, b, variant=None):
         return b if (honest.ax, honest.dx) == a else a
     if variant == "tie-a" and a == b:
         return a
+    if variant == "lowword-signed" and a[1] == b[1]:      # 0D6B `jbe` -> `jle`: equal high words, low words compared signed
+        return a if longs.s16(a[0]) > longs.s16(b[0]) else b
     return honest.ax, honest.dx
 
 
@@ -395,6 +397,7 @@ def long_max_reader(tally=None, falsifier=None):
             bump("ties (a == b)", a == b)
             bump("min changes the result", max_variant(honest, a, b, "min") != (honest.ax, honest.dx))
             bump("tie-a changes the result", max_variant(honest, a, b, "tie-a") != (honest.ax, honest.dx))
+            bump("lowword-signed changes the result", max_variant(honest, a, b, "lowword-signed") != (honest.ax, honest.dx))
         g.set_reg("ax", ax)
         g.set_reg("dx", dx)
         g.set_reg("es", honest.dx)
@@ -462,6 +465,7 @@ M2C = {"m2-draws": (None, None), "m2-draws+06b1-n+1": (DRAW_06B1, "n+1"),
 
 # M2d: M2c's six and the long helpers 214B:0D56 and 23E4:0279
 M2D = {"m2-longs": (None, None), "m2-longs+0d56-min": (LONG_MAX, "min"), "m2-longs+0d56-tie-a": (LONG_MAX, "tie-a"),
+       "m2-longs+0d56-lowword-signed": (LONG_MAX, "lowword-signed"),
        "m2-longs+0279-product+1": (LONG_MUL, "product+1"), "m2-longs+0279-no-cross-term": (LONG_MUL, "no-cross-term"),
        "m2-longs+0279-scratch": (LONG_MUL, "scratch")}
 M2_ALL = dict(M2C, **M2D)                      # the hooks that substitute M2c's six routines
