@@ -137,6 +137,13 @@ a rule that names a model. No quota, tier or difficulty table picks a model.
    script posts what came back, flags what it cannot read (exit 4), and the main session reads a
    flagged review and decides rather than paying for another. Record the answers to both
    questions on the issue or PR.
+2a. **Asking is a setting** (the owner, 2026-10-13: the answers were the same every time). `harness.json`'s
+   `dispatch.ask` is `true` (rules 1 and 2 as written: one question each) or `false`: the main session then
+   proposes `implementer.default` and the reviewer for the work's kind (`dispatch.reviewerByKind`: `fix` for a
+   fix or docs, `research` for a task whose Done-when is evidence from the game), says the pair in one line,
+   records it on the issue and PR, and proceeds. It asks anyway when it wants another model, when the default
+   is blocked or cannot run, or when the user has said to ask. The setting changes through
+   `switch-model.mjs --ask on|off` and `--review-kind KIND --model NAME`, never by editing a rule.
 3. **The fixed rules:** the reviewer is never of the session's family (`review.mjs` refuses it
    from the environment; a `/code-review` or the `reviewer` agent, which are that family, run
    only when the user asks); a model on `harness.json`'s `blocked` list never runs (DeepSeek

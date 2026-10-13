@@ -37,7 +37,7 @@ environment (`switch-model.mjs --show` prints it); the reviewer is never of that
    `harness.json`'s `blocked` list never implements, whoever names it: check the answer against
    `switch-model.mjs --show`'s blocked line (an alias that resolves to a blocked model included) and,
    if it is blocked, say so and ask again. Record the answer on the
-   issue. Label `status:in-progress`. Then:
+   issue (with `dispatch.ask: false` do not ask: rule 2a, say the pair in one line). Label `status:in-progress`. Then:
    - **The `implementer` subagent**: `Agent(subagent_type: "implementer", model: <the answer>,
      isolation: "worktree")` with the brief, on a model of its own, not the orchestrator's
      (`sonnet` under Opus; under Z.AI the same alias is GLM-5.3 Flash; a model id names the
@@ -59,7 +59,8 @@ environment (`switch-model.mjs --show` prints it); the reviewer is never of that
 3. **Review.** First ask the user ONE question (CLAUDE.md "Choosing models" rule 2): which
    OpenCode model reviews? Put `harness.json`'s `reviewer.default` first (`sol-6.1` for hard
    research, rule 21), then the registered models that are neither of the session's family nor
-   blocked (`switch-model.mjs --show`). Record the answer on the PR. Label `status:in-review`.
+   blocked (`switch-model.mjs --show`). Record the answer on the PR (with `dispatch.ask: false`, propose `dispatch.reviewerByKind` for the
+   work's kind and do not ask: rule 2a). Label `status:in-review`.
    Name the PR's head in the brief only after the push has landed (`git rev-parse <branch>`); a
    brief naming another commit exits 2 before anything runs (L33). Then, as a systemd unit
    (CLAUDE.md "Choosing models" rule 9: `systemd-run --user --unit=goal2-<task> --collect -E PATH="$PATH"

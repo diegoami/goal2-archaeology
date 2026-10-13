@@ -36,7 +36,7 @@ another way, or tell the user what is missing (`docs/environment.md`).
    implementation, ask the user ONE question: which subagent implements (the `implementer` agent
    on `sonnet`, `opus`, `haiku`, `fable` or a model id the session's provider serves), or the main
    session directly where the provider cannot spawn one; before each review, ONE question: which
-   OpenCode model. Propose `harness.json`'s defaults first. The roster and the blocked list change
+   OpenCode model. Propose `harness.json`'s defaults first. (With `dispatch.ask: false` the questions are not asked: CLAUDE.md rule 2a.) The roster and the blocked list change
    through `/switch-model`, never by a rule or a quota. Fixed: the reviewer is never the session's
    family (read from the Anthropic environment); a blocked model never runs; Alibaba only when the
    user asks. Record the answers on the issue or PR. A failed run is diagnosed and fixed; another
