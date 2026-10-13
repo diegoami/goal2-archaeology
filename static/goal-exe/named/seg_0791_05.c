@@ -22,9 +22,9 @@ void write_save_line(int param_1)
     ball_record.timer = 0;
   }
   f_0791_5A33(param_1,CONCAT11(uVar2,0x1d));
-  cVar1 = f_0791_2EB8((int)*(undefined4 *)(param_1 + 6),
-                      (int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10),
-                      *(undefined2 *)*(undefined4 *)(param_1 + 6));
+  cVar1 = in_own_goal_strip((int)*(undefined4 *)(param_1 + 6),
+                            (int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10),
+                            *(undefined2 *)*(undefined4 *)(param_1 + 6));
   if (cVar1 == '\0') {
     f_0791_3FAD((int)*(undefined4 *)(param_1 + 6),(int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10)
                 ,9);
@@ -96,7 +96,7 @@ void __stdcall16far duel_line(undefined2 *param_1)
                            *(undefined1 *)((DS:8327 == '\x04') + 0x800));
       local_8 = local_8 / 2;
     }
-    cVar2 = f_0791_2EB8(puVar7,uVar8,*param_1);
+    cVar2 = in_own_goal_strip(puVar7,uVar8,*param_1);
     if (cVar2 == '\0') {
       f_0791_3FAD(puVar7,uVar8,9);
       return;
@@ -141,7 +141,7 @@ void __stdcall16far duel_line(undefined2 *param_1)
     write_save_line(&stack0xfffe);
     return;
   }
-  cVar2 = f_0791_2EB8(puVar7,uVar8,*param_1);
+  cVar2 = in_own_goal_strip(puVar7,uVar8,*param_1);
   if (cVar2 == '\0') {
     local_9 = '\v';
   }
@@ -161,7 +161,7 @@ LAB_0791_5BE8:
       iVar3 = u214b_random_1_to_n((uint)(local_9 != '\v') + iVar3);
       if (iVar4 < iVar3) goto LAB_0791_5C3E;
     }
-    cVar2 = f_0791_4DA9(puVar7,uVar8);
+    cVar2 = challenger_would_foul(puVar7,uVar8);
     if (cVar2 == '\0') {
       if (DS:8303 == '\0') {
         f_0791_2AA3(0xc);
@@ -174,7 +174,7 @@ LAB_0791_5BE8:
         write_save_line(&stack0xfffe);
       }
       else {
-        watched_substitution_sequence(*(undefined1 *)(puVar7 + 3));
+        watched_foul_sequence(*(undefined1 *)(puVar7 + 3));
       }
     }
   }
@@ -357,8 +357,9 @@ void react_off_ball(int param_1)
             (cVar1 = skill_draw_passes((int)*(undefined4 *)(param_1 + 6),
                                        (int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10),4),
             cVar1 != '\0')) {
-      cVar1 = f_0791_2EB8((int)*(undefined4 *)(param_1 + 6),
-                          (int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10),ball_record._0_2_);
+      cVar1 = in_own_goal_strip((int)*(undefined4 *)(param_1 + 6),
+                                (int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10),ball_record._0_2_
+                               );
       if (cVar1 == '\0') {
         cVar1 = f_0791_2EF0((int)*(undefined4 *)(param_1 + 6),
                             (int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10),ball_record._0_2_);
@@ -725,7 +726,7 @@ void f_0791_6755(void)
     else {
       uVar3 = (uint)bVar5 << 8;
     }
-    f_0791_6F01(uVar3 & 0xff00,uVar3);
+    dead_ball_goal_kick_or_free_kick(uVar3 & 0xff00,uVar3);
   }
   else {
     f_0791_82EB();
@@ -855,7 +856,7 @@ void __cdecl16near f_0791_698E(void)
     penalty_contest();
     return;
   }
-  f_0791_6E6E();
+  dead_ball_corner();
   return;
 }
 
@@ -1086,15 +1087,15 @@ void f_0791_6DEA(undefined1 param_1,char param_2)
   f_0791_2AA3(param_1);
   iVar2 = (int)param_2;
   cVar1 = ball_holder_is_side0();
-  ((undefined1 *)&DS:7B7E)[cVar1 * 10 + iVar2] =
-       ((undefined1 *)&DS:7B7E)[cVar1 * 10 + iVar2] + '\x01';
+  ((char *)match_stats)[cVar1 * 10 + iVar2] = ((char *)match_stats)[cVar1 * 10 + iVar2] + '\x01';
   return;
 }
 
 
-// ---- 0791:6E11  f_0791_6E11  (f_0791_6E11; Ghidra 2000:6E11, __cdecl16near; found by routines.tsv)
+// ---- 0791:6E11  dead_ball_throw_in  (f_0791_6E11; Ghidra 2000:6E11, __cdecl16near; found by routines.tsv)
+// a throw-in stoppage: unless DS:8326, DS:830E := 0, 0791:8062 (the substitution check), commentary 2AA3(0x2B) '*** THROW IN ***'; E011 enters it 13 times  [likely; F027]
 
-void __cdecl16near f_0791_6E11(void)
+void __cdecl16near dead_ball_throw_in(void)
 
 {
   char cVar1;
@@ -1113,9 +1114,10 @@ void __cdecl16near f_0791_6E11(void)
 }
 
 
-// ---- 0791:6E6E  f_0791_6E6E  (f_0791_6E6E; Ghidra 2000:6E6E, __cdecl16near; found by routines.tsv)
+// ---- 0791:6E6E  dead_ball_corner  (f_0791_6E6E; Ghidra 2000:6E6E, __cdecl16near; found by routines.tsv)
+// a corner stoppage: unless DS:8326, DS:830E := 0, 0791:8062, commentary 0x2D '*** CORNER ***'; E011 enters it once  [likely; F027]
 
-void __cdecl16near f_0791_6E6E(void)
+void __cdecl16near dead_ball_corner(void)
 
 {
   char cVar1;
@@ -1135,9 +1137,10 @@ void __cdecl16near f_0791_6E6E(void)
 }
 
 
-// ---- 0791:6ECF  f_0791_6ECF  (f_0791_6ECF; Ghidra 2000:6ECF, __cdecl16near; found by routines.tsv)
+// ---- 0791:6ECF  dead_ball_penalty  (f_0791_6ECF; Ghidra 2000:6ECF, __cdecl16near; found by routines.tsv)
+// a penalty stoppage: DS:830E := 0, 0441(2), 0791:8062, commentary 0x39 '*** PENALTY ***', DS:8324 := 1; called from 8206 when the foul is in the box; E011 enters it 0 times  [likely; F027]
 
-void __cdecl16near f_0791_6ECF(void)
+void __cdecl16near dead_ball_penalty(void)
 
 {
   undefined2 uVar1;
@@ -1154,9 +1157,10 @@ void __cdecl16near f_0791_6ECF(void)
 }
 
 
-// ---- 0791:6F01  f_0791_6F01  (f_0791_6F01; Ghidra 2000:6F01, __stdcall16near; found by routines.tsv)
+// ---- 0791:6F01  dead_ball_goal_kick_or_free_kick  (f_0791_6F01; Ghidra 2000:6F01, __stdcall16near; found by routines.tsv)
+// unless DS:8326, DS:830E := 0, 0791:8062, then commentary 0x3A '*** FREE KICK ***' when its argument [bp+4] is nonzero, else 0x38 '*** GOAL KICK ***'; E011 enters it twice  [likely; F027]
 
-void f_0791_6F01(char param_1,undefined1 param_2)
+void dead_ball_goal_kick_or_free_kick(char param_1,undefined1 param_2)
 
 {
   undefined1 extraout_AH;
@@ -1225,45 +1229,7 @@ void __cdecl16near f_0791_6FB6(void)
   }
   else {
     uVar2 = ball_holder_is_side0();
-    f_0791_6F01(1,uVar2);
-  }
-  return;
-}
-
-
-// ---- 0791:6FEE  f_0791_6FEE  (f_0791_6FEE; Ghidra 2000:6FEE, __stdcall16near; found by routines.tsv)
-
-void f_0791_6FEE(int param_1)
-
-{
-  char *pcVar1;
-  char cVar2;
-  undefined1 extraout_AH;
-  undefined2 unaff_SS;
-  
-  cVar2 = f_0791_2CC5((int)*(undefined4 *)(param_1 + 6),
-                      (int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10));
-  if (cVar2 != '\0') {
-    if (DS:8323 == '\0') {
-      if (*(char *)((int)*(undefined4 *)(param_1 + 6) + 0x10) == '\0') {
-        DS:8302 = 0;
-        f_0791_2AA3(0x2a);
-        DS:8323 = '\x01';
-        f_0791_26C2();
-      }
-      else {
-        pcVar1 = (char *)((int)*(undefined4 *)(param_1 + 6) + 0x10);
-        *pcVar1 = *pcVar1 + -1;
-      }
-    }
-    else {
-      cVar2 = pitch_slot_side((int)*(undefined4 *)(param_1 + 6),
-                              (int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10));
-      f_0791_3B9E((int)*(undefined4 *)(param_1 + 6),
-                  (int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10),
-                  ((undefined1 *)&DS:8311)[cVar2]);
-      f_0791_2929(CONCAT11(extraout_AH,5));
-    }
+    dead_ball_goal_kick_or_free_kick(1,uVar2);
   }
   return;
 }

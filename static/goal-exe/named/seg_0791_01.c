@@ -110,7 +110,7 @@ void __stdcall16far draw_match_summary(char param_1)
         uVar1 = CONCAT11((char)local_5 >> 7,*(undefined1 *)((char)local_5 + 0x674));
         puVar5 = local_106;
         uVar4 = unaff_SS;
-        u214b_number_to_string(((undefined1 *)&DS:7B7E)[local_6 * 10 + (int)(char)local_5],0);
+        u214b_number_to_string(((char *)match_stats)[local_6 * 10 + (int)(char)local_5],0);
         u214b_write_string_at_set_attr
                   ((undefined4 *)&DS:A96E,0xb000,
                    CONCAT11(local_6 >> 7,*(undefined1 *)(local_6 + 0x672)),local_5 + 9,puVar5,uVar4,
@@ -752,13 +752,14 @@ void __cdecl16near action_replay(void)
       if (local_3 == '\x01') break;
       local_3 = local_3 + '\x01';
     }
-    sys_move_025D(0x14,(undefined1 *)&DS:7B7E,0xb000,0x7b6a,0xb000);
+    sys_move_025D(0x14,(char *)match_stats,0xb000,0x7b6a,0xb000);
     sys_move_025D(0x42,0x7bd4,0xb000,0x7b92,0xb000);
     sys_move_025D(8,(int)DS:7C2A,(int)((ulong)DS:7C2A >> 0x10),0x7c2e,0xb000);
-    DS:9A3D = DS:9A3C;
+    fixture_not_friendly = DS:9A3C;
     sys_move_025D(0x50,0x9a40,0xb000,0x9a90,0xb000);
     sys_move_025D(0x28,(char *)match_form + 1,0xb000,0x9ae0,0xb000);
-    DS:9B3A = DS:9B38;
+    substitutions_left[0] = DS:9B38[0];
+    substitutions_left[1] = DS:9B38[1];
     DS:9B3C = DS:9B3E;
     DS:9B41 = DS:9B42;
     *rng_word_ptr = DS:9974;
@@ -1032,15 +1033,16 @@ void __cdecl16near f_0791_15B9(void)
     if (local_3 == '\x01') break;
     local_3 = local_3 + '\x01';
   }
-  sys_move_025D(0x14,0x7b6a,0xb000,(undefined1 *)&DS:7B7E,0xb000);
+  sys_move_025D(0x14,0x7b6a,0xb000,(char *)match_stats,0xb000);
   sys_move_025D(0x42,0x7b92,0xb000,0x7bd4,0xb000);
   sys_move_025D(8,0x7c2e,0xb000,(int)DS:7C2A,(int)((ulong)DS:7C2A >> 0x10));
-  DS:9A3C = DS:9A3D;
+  DS:9A3C = fixture_not_friendly;
   sys_move_025D(0x50,0x9a90,0xb000,0x9a40,0xb000);
   sys_move_025D(0x28,0x9ae0,0xb000,(char *)match_form + 1,0xb000);
   DS:9B32 = (undefined2)((ulong)DS:9B34 >> 0x10);
   DS:9B30 = (undefined2)DS:9B34;
-  DS:9B38 = DS:9B3A;
+  DS:9B38[0] = substitutions_left[0];
+  DS:9B38[1] = substitutions_left[1];
   DS:9B3E = DS:9B3C;
   DS:9B42 = DS:9B41;
   DS:9974 = *rng_word_ptr;

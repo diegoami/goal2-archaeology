@@ -69,7 +69,7 @@ void f_000E_11D9(int param_1)
       uVar3 = fixture_absolute_margin
                         ((int)*(undefined4 *)(param_1 + 4),
                          (int)((ulong)*(undefined4 *)(param_1 + 4) >> 0x10));
-      if ((uVar3 < 3) && (*(char *)(*(char *)(param_1 + -1) * 10 + 0x7b86) != '\0')) {
+      if ((uVar3 < 3) && (((char *)match_stats + 8)[*(char *)(param_1 + -1) * 10] != '\0')) {
         f_000E_0C3A(&stack0xfffe);
       }
       else {
@@ -462,7 +462,7 @@ void f_000E_11D9(int param_1)
         uVar3 = fixture_absolute_margin
                           ((int)*(undefined4 *)(param_1 + 4),
                            (int)((ulong)*(undefined4 *)(param_1 + 4) >> 0x10));
-        if ((uVar3 < 3) && (*(char *)(*(char *)(param_1 + -1) * 10 + 0x7b86) != '\0')) {
+        if ((uVar3 < 3) && (((char *)match_stats + 8)[*(char *)(param_1 + -1) * 10] != '\0')) {
           f_000E_0C3A(&stack0xfffe);
         }
         else {
@@ -683,14 +683,13 @@ undefined2 f_000E_1F4D(int param_1)
   uint uVar1;
   undefined2 unaff_SS;
   
-  uVar1 = (uint)(byte)((undefined1 *)&DS:7B7E)[*(char *)(param_1 + -1) * 10] +
-          (uint)(byte)((undefined1 *)&DS:7B82)[*(char *)(param_1 + -1) * 10] +
-          (uint)(byte)((undefined1 *)&DS:7B83)[(*(char *)(param_1 + -1) == '\0') * 10];
+  uVar1 = (uint)(byte)((char *)match_stats)[*(char *)(param_1 + -1) * 10] +
+          (uint)(byte)((char *)match_stats + 4)[*(char *)(param_1 + -1) * 10] +
+          (uint)(byte)((char *)match_stats + 5)[(*(char *)(param_1 + -1) == '\0') * 10];
   return CONCAT11((char)(uVar1 >> 8),
-                  (uint)(byte)((undefined1 *)&DS:7B7E)[(*(char *)(param_1 + -1) == '\0') * 10]
-                  + (uint)(byte)((undefined1 *)&DS:7B82)
-                                [(*(char *)(param_1 + -1) == '\0') * 10] +
-                  (uint)(byte)((undefined1 *)&DS:7B83)[*(char *)(param_1 + -1) * 10] < uVar1);
+                  (uint)(byte)((char *)match_stats)[(*(char *)(param_1 + -1) == '\0') * 10] +
+                  (uint)(byte)((char *)match_stats + 4)[(*(char *)(param_1 + -1) == '\0') * 10] +
+                  (uint)(byte)((char *)match_stats + 5)[*(char *)(param_1 + -1) * 10] < uVar1);
 }
 
 

@@ -338,7 +338,7 @@ void __stdcall16far launch_ball(undefined4 param_1,uint param_2,undefined2 param
       cVar1 = f_0791_045D(*(undefined1 *)(iVar6 + 6));
       bVar8 = cVar1 == '\0';
       if (!bVar8) {
-        cVar1 = f_0791_2EB8(iVar6,uVar7,ball_record._0_2_);
+        cVar1 = in_own_goal_strip(iVar6,uVar7,ball_record._0_2_);
         bVar8 = cVar1 == '\0';
         if (!bVar8) {
           param_2 = 8;
@@ -442,7 +442,7 @@ void __stdcall16far move_ball_to_slot(undefined4 param_1,uint param_2)
   if (DS:830E == '\0') {
     local_4._0_1_ = ((pitch *)pitch_records + param_2)->x;
     local_4._1_1_ = ((pitch *)pitch_records + param_2)->y;
-    cVar2 = f_0791_2EB8((pitch *)pitch_records + param_2,0xb000,local_4);
+    cVar2 = in_own_goal_strip((pitch *)pitch_records + param_2,0xb000,local_4);
     if (cVar2 == '\0') {
       uVar8 = (undefined2)((ulong)param_1 >> 0x10);
       iVar7 = (int)param_1;
@@ -653,8 +653,7 @@ void f_0791_3C20(char param_1)
 
 {
   if (DS:8326 == '\0') {
-    ((undefined1 *)&DS:7B82)[param_1 * 10] =
-         ((undefined1 *)&DS:7B82)[param_1 * 10] + '\x01';
+    ((char *)match_stats + 4)[param_1 * 10] = ((char *)match_stats + 4)[param_1 * 10] + '\x01';
   }
   return;
 }
@@ -666,41 +665,39 @@ void f_0791_3C20(char param_1)
 void __stdcall16far shot_or_header(undefined4 param_1,int param_2,undefined1 param_3)
 
 {
-  char *pcVar1;
+  char cVar1;
   char cVar2;
-  char cVar3;
-  undefined2 uVar4;
+  undefined2 uVar3;
   undefined1 extraout_AH;
+  undefined2 uVar4;
   undefined2 uVar5;
-  undefined2 uVar6;
   
   DS:830C = 0;
   if (param_2 != 2) {
+    cVar1 = u214b_random_coin_flip();
     cVar2 = u214b_random_coin_flip();
-    cVar3 = u214b_random_coin_flip();
-    ball_record.x = ball_record.x + (cVar3 - cVar2);
+    ball_record.x = ball_record.x + (cVar2 - cVar1);
   }
-  uVar5 = (undefined2)param_1;
-  uVar6 = (undefined2)((ulong)param_1 >> 0x10);
+  uVar4 = (undefined2)param_1;
+  uVar5 = (undefined2)((ulong)param_1 >> 0x10);
   if ((DS:8324 == '\0') &&
-     (((cVar2 = skill_draw_passes(uVar5,uVar6,*(undefined1 *)((param_2 == 2) + 0x78e)),
-       cVar2 != '\0' || (cVar2 = u214b_random_is_one(4), cVar2 != '\0')) ||
-      (cVar2 = f_0791_29B3(), cVar2 != '\0')))) {
+     (((cVar1 = skill_draw_passes(uVar4,uVar5,*(undefined1 *)((param_2 == 2) + 0x78e)),
+       cVar1 != '\0' || (cVar1 = u214b_random_is_one(4), cVar1 != '\0')) ||
+      (cVar1 = f_0791_29B3(), cVar1 != '\0')))) {
     pitch_records[0]._19_1_ = 1;
   }
   else {
     pitch_records[0]._19_1_ = 0;
   }
-  uVar4 = f_0791_2C86(uVar5,uVar6,DS:0646);
-  launch_ball(uVar5,uVar6,param_2,uVar4);
+  uVar3 = f_0791_2C86(uVar4,uVar5,DS:0646);
+  launch_ball(uVar4,uVar5,param_2,uVar3);
   f_0791_2AA3(CONCAT11(extraout_AH,param_3));
   if (DS:8326 == '\0') {
-    cVar2 = pitch_slot_side(uVar5,uVar6);
-    pcVar1 = (char *)(cVar2 * 10 + 0x7b81);
-    *pcVar1 = *pcVar1 + '\x01';
+    cVar1 = pitch_slot_side(uVar4,uVar5);
+    ((char *)match_stats + 3)[cVar1 * 10] = ((char *)match_stats + 3)[cVar1 * 10] + '\x01';
   }
-  if (((param_2 == 2) || ((cVar2 = u214b_random_coin_flip(), cVar2 != '\0' && (param_2 == 4)))) ||
-     (cVar2 = u214b_random_is_one(3), cVar2 != '\0')) {
+  if (((param_2 == 2) || ((cVar1 = u214b_random_coin_flip(), cVar1 != '\0' && (param_2 == 4)))) ||
+     (cVar1 = u214b_random_is_one(3), cVar1 != '\0')) {
     DS:8303 = 1;
   }
   else {
@@ -980,7 +977,7 @@ bool __cdecl16near f_0791_4151(void)
   local_7 = (pitch *)CONCAT22(0xb000,ppVar3);
   uVar1._0_1_ = local_7->x;
   uVar1._1_1_ = local_7->y;
-  cVar2 = f_0791_2EB8(ppVar3,0xb000,uVar1);
+  cVar2 = in_own_goal_strip(ppVar3,0xb000,uVar1);
   if (cVar2 != '\0') {
     f_0791_3FAD(ppVar3,0xb000,9);
   }

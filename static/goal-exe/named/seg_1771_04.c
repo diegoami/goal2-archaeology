@@ -246,7 +246,7 @@ void __stdcall16far draw_squad_screen(int param_1,int param_2)
     u214b_unpack_screen_to_buffer((undefined4 *)&DS:A96E,0xb000,0x47cc,0xb000);
     uVar2 = CONCAT11(extraout_AH,0xf);
     puVar3 = local_108;
-    u214b_number_to_string(((undefined1 *)&DS:9B3A)[param_2 == DS:9B36],0);
+    u214b_number_to_string(((char *)substitutions_left)[param_2 == DS:9B36],0);
     u214b_write_string_at_fwd_set_attr
               ((undefined4 *)&DS:A96E,0xb000,CONCAT11(extraout_AH_00,0x3c),
                CONCAT11(extraout_AH_00,5),puVar3,unaff_SS,uVar2);
@@ -734,9 +734,10 @@ bool __stdcall16far fixture_kind_in_result_set(undefined4 param_1)
 }
 
 
-// ---- 1771:5A38  f_1771_5A38  (f_1771_5A38; Ghidra 4000:5A38, __stdcall16far; found by routines.tsv)
+// ---- 1771:5A38  friendly_continents_differ  (f_1771_5A38; Ghidra 4000:5A38, __stdcall16far; found by routines.tsv)
+// (country word, fixture record) true when the fixture's byte +2 is 1 and the countries' +0x2C (continent) of the word and of the fixture's second country (+6) differ; for the word of the fixture's second country it compares that country with itself, so it is false there  [likely; F027]
 
-uint __stdcall16far f_1771_5A38(undefined4 param_1,int param_2)
+uint __stdcall16far friendly_continents_differ(undefined4 param_1,int param_2)
 
 {
   byte bVar1;
@@ -761,16 +762,17 @@ uint __stdcall16far f_1771_5A38(undefined4 param_1,int param_2)
 }
 
 
-// ---- 1771:5A8F  f_1771_5A8F  (f_1771_5A8F; Ghidra 4000:5A8F, __stdcall16far; found by routines.tsv)
+// ---- 1771:5A8F  recovery_route_gradual  (f_1771_5A8F; Ghidra 4000:5A8F, __stdcall16far; found by routines.tsv)
+// (country word, fixture record) = 1771:5A38 or 1771:5A03 (kind in the DS:0F3E set); B7FA picks 3651 (gradual recovery, an injured player returns with chance 1/3 per fixture) when true and 3558 (energy := fitness at once) when false  [likely; F027; F019]
 
-undefined1 __stdcall16far f_1771_5A8F(undefined4 param_1,undefined2 param_2)
+undefined1 __stdcall16far recovery_route_gradual(undefined4 param_1,undefined2 param_2)
 
 {
   char cVar1;
   undefined2 uVar2;
   
   uVar2 = (undefined2)((ulong)param_1 >> 0x10);
-  cVar1 = f_1771_5A38((int)param_1,uVar2,param_2);
+  cVar1 = friendly_continents_differ((int)param_1,uVar2,param_2);
   if ((cVar1 == '\0') && (cVar1 = fixture_kind_in_result_set((int)param_1,uVar2), cVar1 == '\0')) {
     return 0;
   }
@@ -1122,79 +1124,6 @@ void continent_placement_bonuses(undefined2 param_1)
     add_placement_bonus(param_1,0,4,200,uVar1);
     if (local_4 == 4) break;
     local_4 = local_4 + 1;
-  }
-  return;
-}
-
-
-// ---- 1771:61F8  add_group_points  (f_1771_61F8; Ghidra 4000:61F8, __stdcall16near; found by routines.tsv)
-// adds (5 - k) x the points byte +7 of every group entry of the tables at [A933] (k = 1..4) to that country's +0x2F; a second loop does the same for the rounds DS:1102 names  [established; F017; read code/seg_1771_09.asm]
-
-void add_group_points(void)
-
-{
-  word *pwVar1;
-  byte bVar2;
-  int iVar3;
-  int iVar4;
-  int iVar5;
-  undefined2 uVar6;
-  undefined2 uVar7;
-  undefined4 local_14;
-  undefined4 local_10;
-  int local_8;
-  uint local_6;
-  int local_4;
-  
-  uVar6 = (undefined2)((ulong)DS:A923 >> 0x10);
-  iVar3 = (int)DS:A923;
-  local_4 = 1;
-  while( true ) {
-    local_6 = 1;
-    while( true ) {
-      local_8 = 1;
-      while( true ) {
-        uVar7 = (undefined2)((ulong)DS:A933 >> 0x10);
-        iVar4 = (int)DS:A933 + (*(char *)(iVar3 + 0x40) == '\0') * 0xe00 + local_4 * 0x1c0 +
-                local_6 * 0x38 + local_8 * 8;
-        local_10 = (int *)CONCAT22(uVar7,(int *)(iVar4 + -0x200));
-        pwVar1 = &((country *)countries)[*local_10].points;
-        *pwVar1 = *pwVar1 + (uint)*(byte *)(iVar4 + -0x1f9) * (5 - local_4);
-        if (local_8 == 4) break;
-        local_8 = local_8 + 1;
-      }
-      if (local_6 == 8) break;
-      local_6 = local_6 + 1;
-    }
-    if (local_4 == 4) break;
-    local_4 = local_4 + 1;
-  }
-  iVar4 = (uint)*(byte *)(iVar3 + 0x40) * 3;
-  if (iVar4 != -1) {
-    local_4 = 1;
-    while( true ) {
-      bVar2 = ((undefined1 *)&DS:1102)[*(char *)(iVar3 + 0x3c) == '\x02'];
-      if (bVar2 != 0) {
-        local_6 = 1;
-        while( true ) {
-          local_8 = 1;
-          while( true ) {
-            uVar7 = (undefined2)((ulong)DS:A933 >> 0x10);
-            iVar5 = (int)DS:A933 + (*(char *)(iVar3 + 0x40) == '\0') * 0xe00 + local_4 * 0x1c0
-                    + local_6 * 0x38 + local_8 * 8;
-            local_14 = (int *)CONCAT22(uVar7,(int *)(iVar5 + 0x500));
-            pwVar1 = &((country *)countries)[*local_14].points;
-            *pwVar1 = *pwVar1 + (uint)*(byte *)(iVar5 + 0x507) * (5 - local_4);
-            if (local_8 == 4) break;
-            local_8 = local_8 + 1;
-          }
-          if (local_6 == bVar2) break;
-          local_6 = local_6 + 1;
-        }
-      }
-      if (local_4 == iVar4 + 1) break;
-      local_4 = local_4 + 1;
-    }
   }
   return;
 }
