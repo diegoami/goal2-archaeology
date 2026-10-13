@@ -1,0 +1,112 @@
+test_address_not_in_routines (test_annotations.CheckerTests.test_address_not_in_routines) ... ok
+test_basis_finding_without_file (test_annotations.CheckerTests.test_basis_finding_without_file) ... ok
+test_basis_not_a_finding_or_read (test_annotations.CheckerTests.test_basis_not_a_finding_or_read) ... ok
+test_basis_read_without_file (test_annotations.CheckerTests.test_basis_read_without_file) ... ok
+test_committed_annotations_pass (test_annotations.CheckerTests.test_committed_annotations_pass) ... ok
+test_confidence_outside_the_set (test_annotations.CheckerTests.test_confidence_outside_the_set) ... ok
+test_coverage_printed_per_segment (test_annotations.CheckerTests.test_coverage_printed_per_segment) ... ok
+test_duplicate_field_name (test_annotations.CheckerTests.test_duplicate_field_name) ... ok
+test_duplicate_global_address (test_annotations.CheckerTests.test_duplicate_global_address) ... ok
+test_duplicate_name (test_annotations.CheckerTests.test_duplicate_name) ... ok
+test_duplicate_routine_address (test_annotations.CheckerTests.test_duplicate_routine_address) ... ok
+test_empty_array (test_annotations.CheckerTests.test_empty_array) ... ok
+test_established_needs_a_finding (test_annotations.CheckerTests.test_established_needs_a_finding) ... ok
+test_field_of_unknown_record (test_annotations.CheckerTests.test_field_of_unknown_record) ... ok
+test_field_offset_not_hex (test_annotations.CheckerTests.test_field_offset_not_hex) ... ok
+test_field_past_record_end (test_annotations.CheckerTests.test_field_past_record_end) ... ok
+test_fields_overlap (test_annotations.CheckerTests.test_fields_overlap) ... ok
+test_generated_name_refused (test_annotations.CheckerTests.test_generated_name_refused) ... ok
+test_global_address_format (test_annotations.CheckerTests.test_global_address_format) ... ok
+test_global_and_routine_share_a_name (test_annotations.CheckerTests.test_global_and_routine_share_a_name) ... ok
+test_global_outside_data_segment (test_annotations.CheckerTests.test_global_outside_data_segment) ... ok
+test_invalid_identifier (test_annotations.CheckerTests.test_invalid_identifier) ... ok
+test_keyword_refused (test_annotations.CheckerTests.test_keyword_refused) ... ok
+test_missing_basis (test_annotations.CheckerTests.test_missing_basis) ... ok
+test_missing_file (test_annotations.CheckerTests.test_missing_file) ... ok
+test_record_defined_twice (test_annotations.CheckerTests.test_record_defined_twice) ... ok
+test_record_size_not_hex (test_annotations.CheckerTests.test_record_size_not_hex) ... ok
+test_run_time_library_routine_without_row (test_annotations.CheckerTests.test_run_time_library_routine_without_row) ... ok
+test_unknown_type (test_annotations.CheckerTests.test_unknown_type) ... ok
+test_wrong_header (test_annotations.CheckerTests.test_wrong_header) ... ok
+test_f018_fitness_energy_and_activity_settled (test_annotations.CommittedTests.test_f018_fitness_energy_and_activity_settled) ... ok
+test_f018_routines_are_finding_backed (test_annotations.CommittedTests.test_f018_routines_are_finding_backed) ... ok
+test_finding_cited_routines_named (test_annotations.CommittedTests.test_finding_cited_routines_named) ... ok
+test_finding_fields_named (test_annotations.CommittedTests.test_finding_fields_named) ... ok
+test_run_time_library_fully_labelled (test_annotations.CommittedTests.test_run_time_library_fully_labelled) ... ok
+test_f013_routines_named (test_annotations.F013Tests.test_f013_routines_named) ... ok
+test_pre_half_sequence_waits_and_resumes (test_annotations.F013Tests.test_pre_half_sequence_waits_and_resumes) ... ok
+test_run_one_half_runs_the_loop (test_annotations.F013Tests.test_run_one_half_runs_the_loop) ... ok
+test_the_raw_view_fails_the_same_checks (test_annotations.F013Tests.test_the_raw_view_fails_the_same_checks) ... ok
+test_tick_loop_calls_the_watched_callees_by_name (test_annotations.F013Tests.test_tick_loop_calls_the_watched_callees_by_name) ... ok
+test_f021_routines_and_fields (test_annotations.F021Tests.test_f021_routines_and_fields) ... ok
+test_country_rating_reads_fields_by_name (test_annotations.NamedViewTests.test_country_rating_reads_fields_by_name) ... ok
+test_pool_view_reads_pool_globals_by_name (test_annotations.NamedViewTests.test_pool_view_reads_pool_globals_by_name) ... ok
+test_render_names_headings_and_calls (test_annotations.NamedViewTests.test_render_names_headings_and_calls) ... ok
+test_set_player_tactics_reads_own_set_by_name (test_annotations.NamedViewTests.test_set_player_tactics_reads_own_set_by_name) ... ok
+test_set_team_tactics_stores_field_by_name (test_annotations.NamedViewTests.test_set_team_tactics_stores_field_by_name) ... ok
+test_the_raw_view_fails_the_same_checks (test_annotations.NamedViewTests.test_the_raw_view_fails_the_same_checks) ... ok
+test_each_heading_is_at_its_indexed_line (test_decompile.CommittedOutputTests.test_each_heading_is_at_its_indexed_line) ... ok
+test_files_stay_under_the_size_limit (test_decompile.CommittedOutputTests.test_files_stay_under_the_size_limit) ... ok
+test_flag_counter_sees_a_flag_read_only_after_a_call (test_decompile.CommittedOutputTests.test_flag_counter_sees_a_flag_read_only_after_a_call) ... ok
+test_flag_results_across_calls_are_counted_as_f009_says (test_decompile.CommittedOutputTests.test_flag_results_across_calls_are_counted_as_f009_says) ... ok
+test_index_covers_every_routine (test_decompile.CommittedOutputTests.test_index_covers_every_routine) ... ok
+test_ds_operands_land_in_the_data_segment (test_decompile.GhidraMappingTests.test_ds_operands_land_in_the_data_segment) ... ok
+test_far_calls_follow_the_remapped_relocations (test_decompile.GhidraMappingTests.test_far_calls_follow_the_remapped_relocations) ... ok
+test_known_routines_sit_at_their_listing_addresses (test_decompile.GhidraMappingTests.test_known_routines_sit_at_their_listing_addresses) ... ok
+test_near_call_with_a_wrapping_displacement_reaches_its_routine (test_decompile.GhidraMappingTests.test_near_call_with_a_wrapping_displacement_reaches_its_routine) ... ok
+test_near_calls_across_a_linear_64k_line_reach_their_routines (test_decompile.GhidraMappingTests.test_near_calls_across_a_linear_64k_line_reach_their_routines) ... ok
+test_relocated_segment_words_hold_the_mapped_segment (test_decompile.GhidraMappingTests.test_relocated_segment_words_hold_the_mapped_segment) ... ok
+test_a_segment_splits_into_parts_under_the_size_limit (test_decompile.RenderTests.test_a_segment_splits_into_parts_under_the_size_limit) ... ok
+test_files_index_and_failures (test_decompile.RenderTests.test_files_index_and_failures) ... ok
+test_any_other_unsuccessful_result_is_written_as_a_failure_at_once (test_decompile.RetryConditionTests.test_any_other_unsuccessful_result_is_written_as_a_failure_at_once) ... ok
+test_retry_happens_only_when_the_error_message_says_the_process_died (test_decompile.RetryConditionTests.test_retry_happens_only_when_the_error_message_says_the_process_died) ... ok
+test_code_labels_get_listing_numbering (test_decompile.RewriteTests.test_code_labels_get_listing_numbering) ... ok
+test_data_segment_names_become_ds_offsets (test_decompile.RewriteTests.test_data_segment_names_become_ds_offsets) ... ok
+test_linear_addresses_get_listing_numbering (test_decompile.RewriteTests.test_linear_addresses_get_listing_numbering) ... ok
+test_memory_outside_the_program_is_physical (test_decompile.RewriteTests.test_memory_outside_the_program_is_physical) ... ok
+test_other_text_is_left_alone (test_decompile.RewriteTests.test_other_text_is_left_alone) ... ok
+test_message_only_where_a_retry_happens (test_decompile_retry_message.RetryMessage.test_message_only_where_a_retry_happens) ... ok
+test_block_sizes_cover_the_file (test_goaldat.GoalDatTests.test_block_sizes_cover_the_file) ... ok
+test_each_claim_fails_when_its_property_is_broken (test_goaldat.GoalDatTests.test_each_claim_fails_when_its_property_is_broken) ... ok
+test_squad_run_split_is_reported_not_required (test_goaldat.GoalDatTests.test_squad_run_split_is_reported_not_required) ... ok
+test_synthetic_file_passes_every_structural_claim (test_goaldat.GoalDatTests.test_synthetic_file_passes_every_structural_claim) ... ok
+test_relocated_words_are_named_in_the_listing (test_listing.ListingTests.test_relocated_words_are_named_in_the_listing) ... ok
+test_rendering_marks_data_and_routines (test_listing.ListingTests.test_rendering_marks_data_and_routines) ... ok
+test_segments_entry_and_far_target (test_listing.ListingTests.test_segments_entry_and_far_target) ... ok
+test_without_the_relocation_table_the_far_call_is_not_followed (test_listing.ListingTests.test_without_the_relocation_table_the_far_call_is_not_followed) ... ok
+test_beside_it_strings_are_next_to_the_routine (test_map.MapTests.test_beside_it_strings_are_next_to_the_routine)
+'beside it' rows: the quoted strings are in the code segment just before the routine ... ok
+test_every_quoted_string_is_in_the_listing (test_map.MapTests.test_every_quoted_string_is_in_the_listing) ... ok
+test_every_routine_cited_exists (test_map.MapTests.test_every_routine_cited_exists)
+Any SSSS:OOOO in backticks is a routine start, or the address of a listed string. ... ok
+test_every_row_is_marked (test_map.MapTests.test_every_row_is_marked) ... ok
+test_first_cell_data_addresses_are_listed_strings (test_map.MapTests.test_first_cell_data_addresses_are_listed_strings) ... ok
+test_loader_sizes_add_up_to_the_file (test_map.MapTests.test_loader_sizes_add_up_to_the_file) ... ok
+test_there_are_rows (test_map.MapTests.test_there_are_rows) ... ok
+test_unit_table_matches_routines_tsv (test_map.MapTests.test_unit_table_matches_routines_tsv) ... ok
+test_ds_0f3e_is_3_4_7_8_to_203 (test_result_set.ResultSet.test_ds_0f3e_is_3_4_7_8_to_203) ... /home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a21ba53625fc7e6eb/tools/static/check_result_set.py:14: ResourceWarning: unclosed file <_io.TextIOWrapper name='/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a21ba53625fc7e6eb/static/goal-exe/data/ds_2581_01.hex' mode='r' encoding='UTF-8'>
+  for line in open(path):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+ok
+test_rule_is_bit_n_not_n_minus_1 (test_result_set.ResultSet.test_rule_is_bit_n_not_n_minus_1) ... ok
+test_known_hashes (test_unlzexe.ReleasedFileTests.test_known_hashes) ... ok
+test_a_test_that_ignores_the_relocation_table_fails (test_unlzexe.UnlzexeTests.test_a_test_that_ignores_the_relocation_table_fails)
+If the unpacker dropped the table, check_relocations (used above) must fail. ... ok
+test_command_line (test_unlzexe.UnlzexeTests.test_command_line) ... ok
+test_deterministic (test_unlzexe.UnlzexeTests.test_deterministic) ... ok
+test_entry_point_and_stack_come_from_the_stub (test_unlzexe.UnlzexeTests.test_entry_point_and_stack_come_from_the_stub) ... ok
+test_minalloc_is_packed_minalloc_less_growth (test_unlzexe.UnlzexeTests.test_minalloc_is_packed_minalloc_less_growth) ... ok
+test_rejects_a_truncated_stream (test_unlzexe.UnlzexeTests.test_rejects_a_truncated_stream) ... ok
+test_rejects_other_files (test_unlzexe.UnlzexeTests.test_rejects_other_files) ... ok
+test_relocated_words_follow_the_load_segment (test_unlzexe.UnlzexeTests.test_relocated_words_follow_the_load_segment)
+What a loader does with the table: add the load segment to each target word. ... ok
+test_relocation_table_is_decoded_exactly (test_unlzexe.UnlzexeTests.test_relocation_table_is_decoded_exactly) ... ok
+test_round_trip (test_unlzexe.UnlzexeTests.test_round_trip) ... ok
+test_segment_change_marker_is_a_noop (test_unlzexe.UnlzexeTests.test_segment_change_marker_is_a_noop) ... ok
+test_the_fixture_uses_every_token_form (test_unlzexe.UnlzexeTests.test_the_fixture_uses_every_token_form)
+Otherwise a decoder that mishandles a form would still pass the round trip. ... ok
+
+----------------------------------------------------------------------
+Ran 99 tests in 39.183s
+
+OK

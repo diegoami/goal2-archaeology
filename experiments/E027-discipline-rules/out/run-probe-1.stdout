@@ -1,0 +1,98 @@
+E027 probe: 20261013T142940Z
+  hook 0791:7A43  seg_0791_13.asm:192: 7A43  55              push bp
+  hook 0791:7EEF  seg_0791_13.asm:739: 7EEF  55              push bp
+  hook 0791:798D  seg_0791_13.asm:115: 798D  55              push bp
+  hook 0791:7B77  seg_0791_13.asm:330: 7B77  55              push bp
+  hook 0791:7D56  seg_0791_13.asm:552: 7D56  55              push bp
+  hook 0791:8206  seg_0791_13.asm:1082: 8206  55              push bp
+  hook 0791:8062  seg_0791_13.asm:907: 8062  55              push bp
+  hook 0791:C88D  seg_0791_20.asm:663: C88D  55              push bp
+  hook 0791:C5DC  seg_0791_20.asm:387: C5DC  55              push bp
+  hook 0791:D5C1  seg_0791_21.asm:623: D5C1  55              push bp
+  hook 0791:5B36  seg_0791_10.asm:173: 5B36  55              push bp
+  hook 0791:5513  seg_0791_09.asm:592: 5513  55              push bp
+  hook 0791:5474  seg_0791_09.asm:517: 5474  55              push bp
+  hook 0791:539F  seg_0791_09.asm:419: 539F  55              push bp
+  hook 0791:7B24  seg_0791_13.asm:294: 7B24  55              push bp
+  hook 0791:261A  seg_0791_04.asm:697: 261A  55              push bp
+  hook 0791:2648  seg_0791_04.asm:718: 2648  55              push bp
+
+=== E011-r0001 (watchstart savestate sha256 d68e48c734a742a63e707a8c451b9011ef03b452ebd91f239d86f875464e07a9)
+start: DS:9A3D=0 DS:9A3E=0 DS:9B3A=5,5 DS:8437=19 DS:8321=0 DS:7B84..87[side0]=[0, 0, 0, 0]
+run: ticks 4149, score [1, 1], 831F 91
+  0791:7A43 entered 0
+  0791:7EEF entered 3
+      from 0791:8298: 3
+  0791:798D entered 0
+  0791:7B77 entered 0
+  0791:7D56 entered 0
+  0791:8206 entered 3
+      from 0791:5550: 3
+  0791:8062 entered 26
+      from 0791:61F7: 2
+      from 0791:6E23: 13
+      from 0791:6E80: 1
+      from 0791:6F13: 2
+      from 0791:6F49: 6
+      from 0791:9852: 2
+  0791:C88D entered 2
+      from 0791:81DE: 2
+  0791:C5DC entered 2
+  0791:D5C1 entered 0
+  0791:5B36 entered 14
+      from 0791:61C6: 14
+  0791:5513 entered 29
+  0791:5474 entered 120
+  0791:539F entered 92
+  0791:7B24 entered 0
+  0791:261A entered 2412
+  0791:2648 entered 0
+draw table DS:8337+1..255 (255 bytes): value histogram {0: 12, 1: 13, 2: 17, 3: 24, 4: 13, 5: 15, 6: 12, 7: 21, 8: 21, 9: 13, 10: 14, 11: 16, 12: 13, 13: 15, 14: 22, 15: 14}
+  draw1 < 4: 66/255 = 0.2588; draw2 == 1: 13/255 = 0.0510
+7EEF entries (draw1, draw2): [(4, 0), (13, 12), (12, 11)]
+7A43 entries (side, DS:7B86, DS:7B87): []
+C88D entries (flag, side, slot, budget before): [(0, 1, 10, 5), (0, 1, 8, 4)]
+end: DS:9B3A=5,3 DS:8321=0
+  stats side 0 (DS:7B7E+0+k, k=0..9): [0, 2, 0, 5, 5, 1, 2, 0, 0, 0]
+  stats side 1 (DS:7B7E+10+k, k=0..9): [1, 4, 0, 2, 1, 4, 1, 0, 0, 0]
+
+=== E011-r0002 (watchstart savestate sha256 9d475dcbec7822232aa7877c46e09ab9447520fc3e01fbc351d50ecb3155e100)
+start: DS:9A3D=0 DS:9A3E=0 DS:9B3A=5,5 DS:8437=19 DS:8321=0 DS:7B84..87[side0]=[0, 0, 0, 0]
+run: ticks 4149, score [1, 1], 831F 91
+  0791:7A43 entered 0
+  0791:7EEF entered 3
+      from 0791:8298: 3
+  0791:798D entered 0
+  0791:7B77 entered 0
+  0791:7D56 entered 0
+  0791:8206 entered 3
+      from 0791:5550: 3
+  0791:8062 entered 26
+      from 0791:61F7: 2
+      from 0791:6E23: 13
+      from 0791:6E80: 1
+      from 0791:6F13: 2
+      from 0791:6F49: 6
+      from 0791:9852: 2
+  0791:C88D entered 2
+      from 0791:81DE: 2
+  0791:C5DC entered 2
+  0791:D5C1 entered 0
+  0791:5B36 entered 14
+      from 0791:61C6: 14
+  0791:5513 entered 29
+  0791:5474 entered 120
+  0791:539F entered 92
+  0791:7B24 entered 0
+  0791:261A entered 2412
+  0791:2648 entered 0
+draw table DS:8337+1..255 (255 bytes): value histogram {0: 12, 1: 13, 2: 17, 3: 24, 4: 13, 5: 15, 6: 12, 7: 21, 8: 21, 9: 13, 10: 14, 11: 16, 12: 13, 13: 15, 14: 22, 15: 14}
+  draw1 < 4: 66/255 = 0.2588; draw2 == 1: 13/255 = 0.0510
+7EEF entries (draw1, draw2): [(4, 0), (13, 12), (12, 11)]
+7A43 entries (side, DS:7B86, DS:7B87): []
+C88D entries (flag, side, slot, budget before): [(0, 1, 10, 5), (0, 1, 8, 4)]
+end: DS:9B3A=5,3 DS:8321=0
+  stats side 0 (DS:7B7E+0+k, k=0..9): [0, 2, 0, 5, 5, 1, 2, 0, 0, 0]
+  stats side 1 (DS:7B7E+10+k, k=0..9): [1, 4, 0, 2, 1, 4, 1, 0, 0, 0]
+
+log: /home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a21ba53625fc7e6eb/experiments/E027-discipline-rules/out/probe-20261013T142940Z.log

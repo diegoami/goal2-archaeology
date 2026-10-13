@@ -1,0 +1,20 @@
+analysis of 40 second halves from ['experiments/E027-discipline-rules/out/quick-second-half-20261013T144248Z.log']
+  D5C1: total 1862, mean per half 46.550 (sd 1.501, se 0.237)
+  7EEF: total 133, mean per half 3.325 (sd 1.289, se 0.204)
+  798D: total 32, mean per half 0.800 (sd 0.758, se 0.120)
+  7B77: total 6, mean per half 0.150 (sd 0.483, se 0.076)
+  7D56: total 10, mean per half 0.250 (sd 0.439, se 0.069)
+  7A43: total 16, mean per half 0.400 (sd 0.632, se 0.100)
+  C88D: total 122, mean per half 3.050 (sd 0.389, se 0.061)
+  C5DC: total 80, mean per half 2.000 (sd 0.000, se 0.000)
+  8062: total 1862, mean per half 46.550 (sd 1.501, se 0.237)
+  bookings (both sides): total 32, mean per half 0.800 (sd 0.758, se 0.120); histogram [16, 16, 8]
+  sendings off (both sides): total 6, mean per half 0.150 (sd 0.483, se 0.076); histogram [36, 2, 2]
+  injuries (both sides): total 10, mean per half 0.250 (sd 0.439, se 0.069); histogram [30, 10]
+  7EEF entries per D5C1 entry: 133/1862 = 0.0714
+  per 7EEF entry: bookings 32/133 = 0.2406, sendings off 6/133 = 0.0451, injuries 10/133 = 0.0752
+cap: the largest (sendings off + injuries) of one side in one half is 2; halves above 3: []
+  7A43 asked 16 times; sendings off + injuries that happened: 16; refused: 0
+added time: DS:831F at the end equals 91 + min(5, events) in 40 of 40 halves; others (seed, 831F, events): []
+events histogram -> 831F: [(0, 91), (1, 92), (2, 93), (3, 94), (4, 95)]
+substitutions made (side 0, side 1) -> halves: {(0, 2): 40}; C88D with the budget 2 never exceeds it: True

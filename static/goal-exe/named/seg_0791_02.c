@@ -73,7 +73,7 @@ undefined1 write_commentary_line(undefined1 param_1,int param_2,int param_3,char
   local_3 = 0;
   if ((pitch_records[0]._6_2_ == 0) ||
      (cVar4 = commentary_record_is_new(&stack0xfffe), cVar4 != '\0')) {
-    piVar1 = (int *)((int)&pitch_records[0].field_0xa + param_4 * 2);
+    piVar1 = (int *)((int)&pitch_records[0].post + 1 + param_4 * 2);
     *piVar1 = *piVar1 + 1;
     u214b_wrap_add_in_range(1,200,1,0x80ee,0xb000);
     iVar3 = pitch_records[0]._6_2_ * 6;
@@ -422,9 +422,11 @@ void __cdecl16near resort_pitch_and_bench(void)
   set_marking_words();
   f_0791_0691();
   assign_marking_slots();
-  f_0791_419C();
-  pitch_records[1]._11_2_ = 0;
-  pitch_records[0xc]._11_2_ = 0;
+  assign_start_posts();
+  pitch_records[1].x_offset = 0;
+  pitch_records[1].depth_offset = 0;
+  pitch_records[0xc].x_offset = 0;
+  pitch_records[0xc].depth_offset = 0;
   return;
 }
 
@@ -432,19 +434,19 @@ void __cdecl16near resort_pitch_and_bench(void)
 // ---- 0791:261A  draw_table_byte  (f_0791_261A; Ghidra 2000:261A, __cdecl16near; found by routines.tsv)
 // returns the next byte from the 255-element draw table at DS:0x8337 and advances the index DS:8437 (wrapping from 0xff to 1). The table is initialised by 0791:2648 with random(0x10)-1 (values 0..15). It is NOT a tick counter (R5); it is a pre-shuffled draw. Called twice by 0791:7EEF foul_dispatch and many times in the in-match engine (seg_0791_03 and seg_0791_04) for player movement, marking, tackle resolution and similar decisions gated by the same table  [established; F020; read code/seg_0791_04.asm]
 
-undefined1 __cdecl16near draw_table_byte(void)
+byte __cdecl16near draw_table_byte(void)
 
 {
-  int iVar1;
+  byte *pbVar1;
   
-  iVar1 = DS:8437 + 1;
-  if (DS:8437 == 0xff) {
-    DS:8437 = 1;
+  pbVar1 = (byte *)foul_draw_table + foul_draw_index;
+  if (foul_draw_index == 0xff) {
+    foul_draw_index = 1;
   }
   else {
-    DS:8437 = DS:8437 + 1;
+    foul_draw_index = foul_draw_index + 1;
   }
-  return *(undefined1 *)((int)(undefined2 *)&DS:8336 + iVar1);
+  return *pbVar1;
 }
 
 
@@ -462,11 +464,11 @@ void __cdecl16near f_0791_2648(void)
   local_4 = 1;
   while( true ) {
     cVar1 = u214b_random_1_to_n(0x10);
-    *(char *)((int)(undefined2 *)&DS:8336 + local_4 + 1) = cVar1 + -1;
+    ((byte *)foul_draw_table)[local_4] = cVar1 - 1;
     if (local_4 == 0xff) break;
     local_4 = local_4 + 1;
   }
-  DS:8437 = DS:9B36;
+  foul_draw_index = DS:9B36;
   return;
 }
 
@@ -682,7 +684,7 @@ undefined2 __cdecl16near f_0791_29B3(void)
   if (iVar3 < 0) {
     iVar3 = -iVar3;
   }
-  pitch_records[0]._19_1_ = iVar2 <= iVar3;
+  pitch_records[0].out_of_place = iVar2 <= iVar3;
   return CONCAT11((char)((uint)iVar3 >> 8),iVar2 <= iVar3);
 }
 
@@ -724,7 +726,7 @@ undefined1 __cdecl16near f_0791_2A6D(void)
     uVar1 = 0;
   }
   else {
-    uVar1 = f_0791_2BB1((pitch *)pitch_records + DS:830C,0xb000);
+    uVar1 = slot_in_side((pitch *)pitch_records + DS:830C,0xb000);
   }
   return uVar1;
 }
@@ -740,7 +742,7 @@ void f_0791_2AA3(undefined1 param_1)
   undefined2 uVar3;
   
   uVar1 = ball_holder_is_side0();
-  uVar2 = f_0791_2BB1((pitch *)pitch_records + DS:830B,0xb000);
+  uVar2 = slot_in_side((pitch *)pitch_records + DS:830B,0xb000);
   uVar2 = uVar2 & 0xff;
   uVar3 = f_0791_2A6D(uVar2,uVar1);
   emit_commentary(param_1,uVar3,uVar2,uVar1);
@@ -759,7 +761,7 @@ void f_0791_2AD4(undefined1 param_1)
   
   uVar2 = (uint)(DS:830C < 0xc);
   uVar3 = f_0791_2A6D(uVar2);
-  uVar1 = f_0791_2BB1((pitch *)pitch_records + DS:830B,0xb000);
+  uVar1 = slot_in_side((pitch *)pitch_records + DS:830B,0xb000);
   emit_commentary(param_1,uVar1,uVar3,uVar2);
   return;
 }
@@ -786,7 +788,7 @@ void __stdcall16far f_0791_2B28(undefined4 param_1,undefined1 param_2)
   
   uVar3 = (undefined2)((ulong)param_1 >> 0x10);
   uVar2 = pitch_slot_side((int)param_1,uVar3);
-  uVar1 = f_0791_2BB1((int)param_1,uVar3);
+  uVar1 = slot_in_side((int)param_1,uVar3);
   emit_commentary(param_2,0,uVar1,uVar2);
   return;
 }
@@ -821,9 +823,10 @@ undefined2 __stdcall16far energy_gate_chance(undefined4 param_1)
 }
 
 
-// ---- 0791:2BB1  f_0791_2BB1  (f_0791_2BB1; Ghidra 2000:2BB1, __stdcall16far; found by routines.tsv)
+// ---- 0791:2BB1  slot_in_side  (f_0791_2BB1; Ghidra 2000:2BB1, __stdcall16far; found by routines.tsv)
+// returns the record's slot number within its side: +6 - 0xB for slots above 11, else +6; 2 is the second player of the ascending order (the sweeper when the side has one)  [likely; F028; read code/seg_0791_05.asm]
 
-undefined2 __stdcall16far f_0791_2BB1(undefined4 param_1)
+undefined2 __stdcall16far slot_in_side(undefined4 param_1)
 
 {
   undefined2 in_AX;
@@ -901,9 +904,10 @@ undefined4 __stdcall16far f_0791_2C54(undefined4 param_1)
 }
 
 
-// ---- 0791:2C86  f_0791_2C86  (f_0791_2C86; Ghidra 2000:2C86, __stdcall16far; found by routines.tsv)
+// ---- 0791:2C86  mirror_to_team_frame  (f_0791_2C86; Ghidra 2000:2C86, __stdcall16far; found by routines.tsv)
+// (pitch, word): multiplies both bytes of the word (x low, y high) by 2BE5's direction; the destinations and the posts are stored in the team's own frame and mirrored by it  [likely; F028; read code/seg_0791_05.asm]
 
-undefined4 __stdcall16far f_0791_2C86(undefined4 param_1,undefined2 param_2)
+undefined4 __stdcall16far mirror_to_team_frame(undefined4 param_1,undefined2 param_2)
 
 {
   char cVar1;
@@ -939,9 +943,10 @@ undefined2 __stdcall16far player_at_ball(int *param_1)
 }
 
 
-// ---- 0791:2D10  f_0791_2D10  (f_0791_2D10; Ghidra 2000:2D10, __stdcall16far; found by routines.tsv)
+// ---- 0791:2D10  ball_ahead_of_by  (f_0791_2D10; Ghidra 2000:2D10, __stdcall16far; found by routines.tsv)
+// (pitch, n): 1 when the ball's y times the side's direction exceeds the record's y times the direction plus n, i.e. the ball is more than n cells ahead of him in his team's frame  [likely; F028; read code/seg_0791_05.asm]
 
-undefined2 __stdcall16far f_0791_2D10(undefined4 param_1,uint param_2)
+undefined2 __stdcall16far ball_ahead_of_by(undefined4 param_1,uint param_2)
 
 {
   char cVar1;
@@ -971,9 +976,10 @@ undefined2 __stdcall16far f_0791_2D10(undefined4 param_1,uint param_2)
 }
 
 
-// ---- 0791:2D6D  f_0791_2D6D  (f_0791_2D6D; Ghidra 2000:2D6D, __stdcall16far; found by routines.tsv)
+// ---- 0791:2D6D  ahead_of_ball_by  (f_0791_2D6D; Ghidra 2000:2D6D, __stdcall16far; found by routines.tsv)
+// (pitch, n): 1 when the record's y times the direction exceeds the ball's y times the direction plus n, i.e. he is more than n cells ahead of the ball  [likely; F028; read code/seg_0791_05.asm]
 
-undefined2 __stdcall16far f_0791_2D6D(undefined4 param_1,uint param_2)
+undefined2 __stdcall16far ahead_of_ball_by(undefined4 param_1,uint param_2)
 
 {
   char cVar1;
@@ -1107,9 +1113,10 @@ uint f_0791_2E82(undefined2 param_1)
 }
 
 
-// ---- 0791:2EB8  f_0791_2EB8  (f_0791_2EB8; Ghidra 2000:2EB8, __stdcall16far; found by routines.tsv)
+// ---- 0791:2EB8  in_own_goal_strip  (f_0791_2EB8; Ghidra 2000:2EB8, __stdcall16far; found by routines.tsv)
+// (position word, pitch record): true when the word's high byte times 2BE5(record) (the team's attack direction) is negative (the own half), 2E82 holds (high byte at least 25 in magnitude, low byte at most 5 in magnitude); read as 'inside the penalty strip at the record's own end'; 8206 asks it of the fouler's position (no foul when also a coin) and of the ball (penalty or free kick)  [likely; F027]
 
-undefined2 __stdcall16far f_0791_2EB8(undefined4 param_1,undefined2 param_2)
+undefined2 __stdcall16far in_own_goal_strip(undefined4 param_1,undefined2 param_2)
 
 {
   char cVar1;

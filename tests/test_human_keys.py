@@ -386,7 +386,14 @@ class VideoTests(unittest.TestCase):
             meta = json.loads((session / "meta.json").read_text())
             self.assertGreater(len(set(sizes)), 1, sizes)
             self.assertEqual(sizes, sorted(sizes))
-            self.assertGreater(meta["video"]["bytes"], max(sizes))
+            # The sizes are polled once a second until the sitting exits, so the last sample may
+            # already be the finished file (#177: 47150 == 47150 under load): the final size is
+            # never SMALLER than any sample (>=); growth during the sitting is shown by the
+            # samples alone (len(set(sizes)) > 1 above); and meta's bytes is the file's final size.
+            final = (session / "video.mkv").stat().st_size
+            self.assertGreaterEqual(meta["video"]["bytes"], max(sizes))
+            self.assertEqual(meta["video"]["bytes"], final)
+            self.assertGreater(final, 0)
             self.assertEqual(meta["video"]["geometry"][2:], [640, 400])
             self.assertEqual(meta["video"]["ended"], "SIGTERM")
             self.assertEqual((meta["burst_quiet_s"], meta["capture_margin_s"]),
