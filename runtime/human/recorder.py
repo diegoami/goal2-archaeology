@@ -1806,10 +1806,20 @@ def conf_for(session, scale=1):
     """The session's dosbox.conf text: the G1 driver's own config family (windowed surface output,
     savefile, captures, mapper in the session folder, C: from the session's game copy, D: for the
     clock read-back), via driver.Driver.conf_text — nothing is launched. A scale above 1 adds a
-    `[render]` section before `[autoexec]` (the autoexec section runs to the file's end)."""
+    `[render]` section before `[autoexec]` (the autoexec section runs to the file's end).
+
+    The `[sdl]` section always gets an explicit `windowresolution = <scaled game window>`, so
+    DOSBox-X's window cannot open at a default size bigger than the nested Xephyr screen.
+    `output = surface` matches the window to the surface in 2024.03.01 (#117, the pinned binary),
+    but is not guaranteed across versions or future defaults; pinning the resolution makes the
+    invariant hold regardless. The cap on the Xephyr screen (`plan_window`, #174) keeps the
+    scaled game window inside the outer display; this line keeps DOSBox-X's window exactly that
+    size, never larger."""
     if scale not in SCALES:
         raise ValueError(f"scale {scale}: one of {SCALES}")
     conf = driver.Driver(workdir=session, game_dir=Path(session) / "game").conf_text()
+    gw, gh = GAME_WINDOW[0] * scale, GAME_WINDOW[1] * scale
+    conf = conf.replace("[sdl]\n", f"[sdl]\nwindowresolution={gw}x{gh}\n", 1)
     if scale == 1:
         return conf
     return conf.replace("[autoexec]\n", f"[render]\nscaler=normal{scale}x forced\n[autoexec]\n", 1)

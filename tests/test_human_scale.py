@@ -19,11 +19,23 @@ class ScaleTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as d:
             return rec.conf_for(Path(d), scale)
 
-    def test_1x_is_the_driver_config_unchanged(self):
+    def test_1x_is_the_driver_config_plus_windowresolution(self):
+        # the recorder always sets windowresolution to the scaled game window so DOSBox-X's
+        # window cannot open at a default size bigger than the nested Xephyr screen (#174);
+        # scale 1 adds the resolution line to the [sdl] section but no [render] section
         with tempfile.TemporaryDirectory() as d:
             base = rec.driver.Driver(workdir=Path(d), game_dir=Path(d) / "game").conf_text()
-            self.assertEqual(rec.conf_for(Path(d), 1), base)
-        self.assertNotIn("[render]", self.conf(1))
+            conf = rec.conf_for(Path(d), 1)
+        self.assertNotEqual(conf, base)                  # windowresolution was added
+        self.assertIn("[sdl]\nwindowresolution=720x400\n", conf)
+        self.assertNotIn("[render]", conf)
+
+    def test_windowresolution_matches_the_scaled_game_window(self):
+        # DOSBox-X's window must be exactly the scaled game window for every supported scale:
+        # 720x400 at 1x, 1440x800 at 2x (the issue's case), 2160x1200 at 3x
+        self.assertIn("[sdl]\nwindowresolution=720x400\n", self.conf(1))
+        self.assertIn("[sdl]\nwindowresolution=1440x800\n", self.conf(2))
+        self.assertIn("[sdl]\nwindowresolution=2160x1200\n", self.conf(3))
 
     def test_2x_adds_the_scaler_before_autoexec(self):
         conf = self.conf(2)
