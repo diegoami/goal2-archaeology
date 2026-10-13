@@ -29,3 +29,20 @@ the routine reads written by the harness; no hook, no substitution.
   separated from 3 by any eleven: no post has |x| in 1..4 (the falsifier "threshold-3" differs on 0 of 328).
 - The branch for |x| > 4 (two adjacent players of code 3, 4, 7, 8, 10 or 11) is reached by no block-10 eleven; it is
   exercised only by the synthetic elevens (2308 of 3056 reach it).
+
+## Outputs and their SHA-256 (originals; none overwritten)
+
+| file | SHA-256 |
+| --- | --- |
+| `out/foot-truth-20261013T142802Z.tsv` | `4af9b20db56b3c6bcb126600e7e1804a18d1e89dd67b557d4935b84f1c0210b7` |
+| `out/formations-20261013T142949Z.tsv` | `44a4466cfc48aa0fcf63b5ddaceab2ed6138e360131988d8b99e851d11a156eb` |
+| `out/posts-synthetic-20261013T143525Z.log` | `666be552acac9d6eaf12f37e469609be404e1cb686601b0cc194dfa6867688a7` |
+| `out/posts-falsifier-20261013.log` | `fcd130dc292d4de4fb4a499aed128bf896b111d05c74ea82b9404ddb90397dde` |
+| `out/tables-20261013T143429Z.txt` | `f4915d1b8217d15d8f7e5962e79789d28ee11b71bd4bcf5f0a3accc75149970e` |
+| `out/readers-named.tsv` | `c88e3f88883a8294c02b0689dbbd9f7b35d7b56592d9a489236df092384662d9` |
+| `out/readers-asm.tsv` | `e7caaa64dc41dfebcd2d7cc25f57012f54ac926ac6f705d00733cee85a6397e9` |
+
+`readers-named.tsv` was taken against the named view as it stood at commit 434bc08, before this task regenerated
+`static/goal-exe/named/`: its file and line columns refer to that version, and a few routine names in it
+(`replace_first_back_four`) have since been renamed. `readers-asm.tsv` refers to the listing, which did not change.
+`readers.py` writes fixed file names, so re-running it would overwrite these two files: give it another OUTDIR.
