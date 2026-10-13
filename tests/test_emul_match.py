@@ -681,5 +681,58 @@ class GateReaderTests(unittest.TestCase):
         self.assertNotEqual(base.regs["dx"], plus.regs["dx"])
 
 
+class WrapperReaderTests(unittest.TestCase):
+    """T47: check.wrapper_reader (214B:06B1 and 214B:06D0) on literal guest memory (GateGuest: the far pointer at
+    DS:A978 leads to the seed; n is arg(0), [bp + 6]). AX, DX and the seed write are what the proof compares."""
+
+    def call(self, which, n=4, seed=0x1234, tally=None, **kw):
+        import check
+        g = GateGuest(seed)
+        g.args = (n,)
+        check.wrapper_reader(which, tally, **kw)(g)
+        return g
+
+    def test_06b1_registers_and_the_seed_write(self):
+        g = self.call(1)
+        self.assertEqual(g.regs, {"ax": 2, "dx": 2})
+        self.assertEqual(g.writes, [(GateGuest.SEED_SEG * 16 + GateGuest.SEED_OFF, (21363).to_bytes(2, "little"))])
+        self.assertEqual(g.rd(0x7B62), 0xBEEF)               # the decoy main seed is untouched
+
+    def test_06d0_registers_and_the_seed_write(self):
+        g = self.call(0)
+        self.assertEqual(g.regs, {"ax": 0, "dx": 2})        # draw 2: AL = 0
+        self.assertEqual(len(g.writes), 1)
+        self.assertEqual(self.call(0, seed=0).regs, {"ax": 1, "dx": 1})
+
+    def test_n_is_the_first_argument(self):
+        self.assertEqual(self.call(1, n=2048, seed=1).regs, {"ax": 1199, "dx": 1199})
+        self.assertEqual(self.call(0, n=2048, seed=1).regs, {"ax": 0x0400, "dx": 1199})
+
+    def test_the_seed_is_read_through_the_far_pointer(self):
+        self.assertEqual(self.call(1, seed=0).regs["dx"], 1)
+
+    def test_the_tally_counts_the_falsifiers_reach(self):
+        t = {}
+        self.call(1, tally=t)
+        self.assertEqual((t["calls"], t["value+1 changes AX"], t["seed-write changes the seed"]), (1, 1, 1))
+        self.assertIn("n+1 changes the draw", t)
+        t = {}
+        self.call(0, tally=t)
+        self.call(0, seed=0, tally=t)
+        self.assertEqual((t["calls"], t["draw is 1"], t["inverted changes AL"]), (2, 1, 2))
+
+    def test_the_falsifiers_change_the_result(self):
+        self.assertEqual(self.call(1, falsifier="value+1").regs["ax"], 3)
+        self.assertEqual(self.call(0, falsifier="inverted").regs["ax"], 1)
+        self.assertEqual(self.call(0, seed=0, falsifier="inverted").regs["ax"], 0)
+        self.assertEqual(self.call(0, falsifier="seed-write").writes, [])
+        # n + 1: the same seed, n = 3 draws in 1..4 with the falsifier
+        diff = [s for s in range(0, 65536, 5) if self.call(1, n=3, seed=s).regs["dx"]
+                != self.call(1, n=3, seed=s, falsifier="n+1").regs["dx"]]
+        self.assertTrue(diff)
+        self.assertEqual({self.call(1, n=3, seed=s, falsifier="n+1").regs["dx"] for s in range(0, 65536, 5)},
+                         {1, 2, 3, 4})
+
+
 if __name__ == "__main__":
     unittest.main()
