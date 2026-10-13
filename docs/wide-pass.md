@@ -42,3 +42,10 @@ columns, so the table is also the parameter table the goal project reads:
 
 Promotion stays the main session's alone (CLAUDE.md rule 20, protocol §4): drafts made by other
 agents are read by the main session before they go into `spec/`.
+
+## Status rules used at the first promotion (2026-10-13)
+
+- A reviewed, merged finding supports its claim by one method: `supported`.
+- `corroborated` only when the row cites two different findings and its Basis has both a behavioural tag (`observed`, `intervened`, `quantified`) and a static one (`static`, `parsed`). Emulation of the original code counted as static-adjacent. Rows drafted `corroborated` that failed this rule were demoted and say so in Uncertainty.
+- A row with two statuses in the draft takes the weaker; the draft text is kept in Uncertainty.
+- Rows that the drafting agents read out of the listing themselves, without a finding, are `hypothesis` until a finding reviews them.
