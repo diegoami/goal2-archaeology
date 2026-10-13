@@ -163,7 +163,7 @@ test('DW2: a second full SHA is refused, by make-brief and by review.mjs', () =>
   const out = path.join(tmp, 'sha.md');
   const m = make(['--task', path.join(tmp, 'T99.md'), '--protects', 'x', '--caveat', `the head was at ${OTHER} before`], out);
   assert.equal(m.status, 2);
-  assert.match(m.stderr, /second full SHA|another full commit SHA/);
+  assert.match(m.stderr, /another full commit SHA/);
   assert.equal(fs.existsSync(out), false);
   // the same brief written by hand, naming the other commit as the one to review, is what review.mjs refuses
   const text = fs.readFileSync(path.join(tmp, 'ok.md'), 'utf8').replace('Caveat:', `Caveat: review the work at ${OTHER}.`);
@@ -173,4 +173,58 @@ test('DW2: a second full SHA is refused, by make-brief and by review.mjs', () =>
   const r = dry(file);
   assert.equal(r.status, 2);
   assert.match(r.stderr, /names a+ as the commit to review/);
+});
+
+// One test per guard of checkBrief, each on input only that guard rejects (its message is unique to it), so
+// that deleting one guard fails its test. briefTargets (review.mjs's reader) sees only "at|HEAD is|HEAD: <sha>"
+// before the task title, so the guard for any other full SHA is reached with an unqualified one.
+const base = () => fs.readFileSync(path.join(tmp, 'ok.md'), 'utf8');
+const headPart = (t) => t.split(/^# T99/m)[0];
+const check = (t) => checkBrief(t, head, headPart(t));
+
+test('guard: the header repeated below line 1 is refused', () => {
+  const t = base().replace('This is review round 2.', 'T99 review (luna)');
+  assert.throws(() => check(t), /header appears again below line 1/);
+});
+
+test('guard: a brief that does not name the head as the commit to review is refused', () => {
+  const t = base().replaceAll(head, 'abcdef0123');
+  assert.throws(() => check(t), /does not name the PR's head/);
+});
+
+test('guard: another full SHA named as the commit to review is refused', () => {
+  const t = base().replace('Caveat:', `Caveat: review the work at ${OTHER}.`);
+  assert.throws(() => check(t), /another full commit SHA/);
+});
+
+test('guard: an unqualified second full SHA in the head part is refused (briefTargets does not see it)', () => {
+  const t = base().replace('Caveat:', `Caveat: the earlier head ${OTHER} was fine.`);
+  assert.deepEqual([...new Set(headPart(t).match(/\b[0-9a-f]{40}\b/g))].sort(), [OTHER, head].sort());
+  assert.throws(() => check(t), /second full SHA/);
+  const out = path.join(tmp, 'sha2.md');
+  const m = make(['--task', path.join(tmp, 'T99.md'), '--protects', 'x', '--caveat', `the earlier head ${OTHER} was fine`], out);
+  assert.equal(m.status, 2);
+  assert.match(m.stderr, /second full SHA/);
+  assert.equal(fs.existsSync(out), false);
+  // a short head is fine
+  assert.equal(make(['--task', path.join(tmp, 'T99.md'), '--protects', 'x', '--caveat', `the earlier head ${OTHER.slice(0, 10)}`], out).status, 0);
+});
+
+test('guard: the command line is checked (nothing written)', () => {
+  const out = path.join(tmp, 'args.md');
+  const T = path.join(tmp, 'T99.md');
+  const refuse = (argv, re, o = {}) => {
+    const r = spawnSync(process.execPath, [MAKE, ...argv], { cwd: repo, env: { ...env, ...o }, encoding: 'utf8' });
+    assert.equal(r.status, 2, argv.join(' '));
+    assert.match(r.stderr, re);
+    assert.equal(fs.existsSync(out), false);
+  };
+  const std = ['--pr', '1', '--issue', '5', '--reviewer', 'luna', '--protects', 'x', '--out', out, '--task', T];
+  refuse(['--pr', '1', '--issue', '5', '--protects', 'x', '--out', out], /--reviewer is required/);
+  refuse(['--pr', 'x', '--issue', '5', '--reviewer', 'luna', '--protects', 'x', '--out', out], /--pr takes a number/);
+  refuse([...std, '--round', '0'], /--round takes a positive number/);
+  refuse([...std.slice(0, -1), path.join(tmp, 'notatask.md')], /--task takes docs\/tasks\/T<nn>\.md/);
+  fs.writeFileSync(path.join(tmp, 'T98.md'), 'no title line here\n');
+  refuse([...std.slice(0, -1), path.join(tmp, 'T98.md')], /has no "# T<nn>" title line/);
+  refuse(std, /head SHA could not be read/, { FAKE_HEAD: 'not-a-sha' });
 });
