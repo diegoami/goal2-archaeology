@@ -26,3 +26,7 @@ Append-only. Addresses are `segment:offset`; listings are `static/goal-exe/code/
 - A silent fixture's goals in the game against the model's 1.1 per match (needs a round of computer fixtures in a savestate).
 - Which screens show a computer manager's name (callers of `000E:0ACB` in `000E:11D9`, `26F2`, `319B`, `3CC8`, `4A87`).
 - `C0DF`, `C01A`, `BF6B` branch counts (no recorded state reaches them: a match with a 2+ goal difference after a goal).
+
+## 4. The named view regeneration moved lines
+
+Regenerating `static/goal-exe/named/` (9 new rows) moved routines between the parts of segment 0791 (08 -> 09, 09 -> 10, 10 -> 11) and by one line inside `seg_1771_03.c`. `remap_named_citations.py` maps every `named/seg_SSSS_NN.c:LINE` citation from the view at origin/main to the new one (difflib on the concatenated parts of the segment). Applied to `findings/F019` and `F020` (their citations failed `check_citations.py`: 1110 and 1118 outside `seg_0791_08.c`, now 1053 lines; and nine more cited lines now pointed at other code). NOT applied, because they are not this task's files: `spec/competitions.md` lines 33 and 36 (`seg_0791_10.c:419` -> `512`), `spec/friendlies.md` 25 and 27 (`seg_0791_09.c:189` -> `286`, `seg_0791_10.c:717` -> `810`), `spec/discipline.md` 41 and 53 (`seg_0791_08.c:1092` -> `seg_0791_09.c:46`, `seg_0791_10.c:978` -> `seg_0791_11.c:4`) and the research notes of E014, E018, E019 (immutable). The main session can run the script with `--apply` on them.
