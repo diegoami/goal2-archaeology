@@ -160,6 +160,8 @@ named fixes | rework | user decision); per Done-when line `DW<k>: ran <command> 
 last. Never post it: the script posts it and applies the label.
 ```
 
+Write the brief with `tools/harness/make-brief.mjs` (usage in its header), never by hand: it fills this block and `docs/review-brief.md` and refuses a brief `review.mjs` would refuse.
+
 Research briefs here also add, under "Blocking means": G0a (U32, CLAUDE.md rule 22) — runs made
 because a static tool was missing, or a finding resting on runs whose Method does not say what
 static analysis was tried, is a contract defect: rework.
