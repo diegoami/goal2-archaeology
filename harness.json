@@ -1,5 +1,5 @@
 {
-  "rules": "The roster is the owner's to change (CLAUDE.md \"Choosing models\", the owner, 2026-10-11), through switch-model.mjs and the /switch-model skill: implementer.default is a Claude Code alias or a model id the session's provider serves, on which the implementer subagent is spawned inside Claude Code (Opus spawns Sonnet; under Z.AI `sonnet` is GLM-5.3 Flash), or `session`: the main session implements directly where the provider cannot spawn one; either runs through the session's Anthropic environment, so its family is the session's (ANTHROPIC_BASE_URL, or HARNESS_SESSION_FAMILY). reviewer.default is the OpenCode model that reviews unless the user names another (review.mjs --reviewer). The main session asks the user before each implementation and each review, proposing these defaults. blocked lists families or id fragments that never run. Never the session's family as reviewer; no chains, no chooser, no quota check. dispatch.ask false: the main session proposes these defaults and the reviewer for the work's kind (dispatch.reviewerByKind) without asking (CLAUDE.md rule 2a).",
+  "rules": "The roster is the owner's to change (CLAUDE.md \"Choosing models\", the owner, 2026-10-11), through switch-model.mjs and the /switch-model skill: implementer.default is a Claude Code alias or a model id the session's provider serves, on which the implementer subagent is spawned inside Claude Code, or `session`: the main session implements directly where the provider cannot spawn one; either runs through the session's Anthropic environment (ANTHROPIC_BASE_URL, or HARNESS_SESSION_FAMILY). reviewer.default is the OpenCode model that reviews unless the user names another (review.mjs --reviewer). The main session may ask the user before each implementation and each review, proposing these defaults. blocked lists families or id fragments the owner has blocked; by default it is empty and every registered model is usable. No chain, no chooser, no quota check, no family rule, no effort ceiling. dispatch.ask false: the main session proposes these defaults and the reviewer for the work's kind (dispatch.reviewerByKind) without asking (CLAUDE.md rule 2a).",
   "worktreeRoot": "../{repo}-work",
   "dispatch": {
     "ask": false,
@@ -27,9 +27,7 @@
     "idleTimeoutSec": 600,
     "totalTimeoutSec": 3600
   },
-  "blocked": [
-    "deepseek"
-  ],
+  "blocked": [],
   "models": {
     "mimo-flash": {
       "id": "opencode-go/mimo-v2.6-flash",
@@ -87,25 +85,25 @@
       "id": "alibaba-token-plan/glm-5.3",
       "family": "glm",
       "variant": "low",
-      "note": "GLM-5.3 on the Alibaba Token Plan at low: the same model as glm on another route. Alibaba only when the user asks; key: the env var ALIBABA_TOKEN_PLAN_API_KEY, never opencode auth login it."
+      "note": "GLM-5.3 on the Alibaba Token Plan at low: the same model as glm on another route. Key: the env var ALIBABA_TOKEN_PLAN_API_KEY; do not log in via `opencode auth login` for this provider — the key alone is enough."
     },
     "ali-qwen-max": {
       "id": "alibaba-token-plan/qwen3.8-max",
       "family": "qwen",
       "variant": "low",
-      "note": "Qwen 3.8 Max on the Alibaba Token Plan at low; heavy; a family nothing else here shares. Alibaba only when the user asks; key as ali-glm."
+      "note": "Qwen 3.8 Max on the Alibaba Token Plan at low; heavy; a family nothing else here shares. Key as ali-glm."
     },
     "ali-qwen-flash": {
       "id": "alibaba-token-plan/qwen3.8-flash",
       "family": "qwen",
       "variant": "medium",
-      "note": "Qwen 3.8 Flash on the Alibaba Token Plan at medium (no plain high); light. Alibaba only when the user asks; key as ali-glm."
+      "note": "Qwen 3.8 Flash on the Alibaba Token Plan at medium (no plain high); light. Key as ali-glm."
     },
     "mm-m3": {
       "id": "minimax/MiniMax-M3",
       "family": "minimax",
       "variant": "thinking",
-      "note": "MiniMax-M3, variant thinking (it offers only none and thinking), heavy; a family of its own. Key: the env var MINIMAX_API_KEY (pass it to the unit with -E); never opencode auth login it."
+      "note": "MiniMax-M3, variant thinking (it offers only none and thinking), heavy; a family of its own. Key: the env var MINIMAX_API_KEY (pass it to the unit with -E); do not log in via `opencode auth login` for this provider — the key alone is enough."
     },
     "mm-m2.7": {
       "id": "minimax/MiniMax-M2.7",

@@ -1,6 +1,6 @@
 ---
 name: delegate
-description: Choose who does a piece of work, and on which model. A subagent spawned inside Claude Code on a model of its own implements (or the main session directly); OpenCode reviews code; Jev takes repeated decisions; models on OpenRouter make images and give other model families; ElevenLabs makes speech, sound effects and music. Use before doing work yourself that a cheaper or better-suited model could do, whenever a task needs an image, a sound or a voice, and whenever you are about to name a model id.
+description: Choose who does a piece of work, and on which model. Any model the session's provider serves — Claude, GLM, MiniMax, Kimi on the orchestrator side; OpenAI / Z.AI / OpenCode Go / Alibaba / OpenRouter on the OpenCode side — can implement, review, or do both. Jev takes repeated decisions. Models on OpenRouter make images and give other model families. ElevenLabs makes speech, sound effects and music. Use before doing work yourself that a cheaper or better-suited model could do, whenever a task needs an image, a sound or a voice, and whenever you are about to name a model id.
 ---
 
 # /delegate: who does the work, and on which model
@@ -12,8 +12,8 @@ yourself, check whether a delegate below does it better or cheaper.
 
 | Work | Delegate | How | Key |
 | --- | --- | --- | --- |
-| Code: implement a task or a fix | The `implementer` subagent spawned inside Claude Code on a model of its own (Opus spawns Sonnet), or the main session directly where the provider cannot spawn one; asked before each (CLAUDE.md "Choosing models" rule 1); never OpenCode | `/run-task` → yourself, or `Agent(subagent_type: "implementer", model: <alias>, isolation: "worktree")` | the session's Anthropic environment |
-| Review a PR | One OpenCode run on the model the user names at the question, `harness.json`'s `reviewer.default` proposed first; never the session's family, never a blocked model | `/run-task` → `tools/harness/review.mjs [--reviewer <name>]` | OpenAI's login (`opencode auth login`) for Luna and Sol; Z.AI's for GLM; OpenCode Go's (`opencode console login`) for MiMo |
+| Code: implement a task or a fix | The `implementer` subagent spawned inside Claude Code on a model of its own, or the main session directly where the provider cannot spawn one; asked before each (CLAUDE.md "Choosing models" rule 1) | `/run-task` → yourself, or `Agent(subagent_type: "implementer", model: <alias or id>, isolation: "worktree")` | the session's Anthropic environment |
+| Review a PR | One OpenCode run on the model the user names at the question, `harness.json`'s `reviewer.default` proposed first; the only constraint is `blocked` | `/run-task` → `tools/harness/review.mjs [--reviewer <name>]` | OpenAI's login (`opencode auth login`) for Luna and Sol; Z.AI's for GLM; OpenCode Go's (`opencode console login`) for MiMo; Alibaba's `ALIBABA_TOKEN_PLAN_API_KEY` env var for the Alibaba Token Plan |
 | Repeated decisions with known answers (triage, routing, gating, labelling) | Jev | `/jev` → `tools/harness/jev.mjs` | `OPENROUTER_API_KEY` |
 | Images: sprites, icons, maps, mockups, illustrations | An image model on OpenRouter | pick one with `models.mjs openrouter --output image` | `OPENROUTER_API_KEY` |
 | A second opinion from another model family, or reading audio or images | A model on OpenRouter | `models.mjs openrouter --input image` (or `audio`) | `OPENROUTER_API_KEY` |
@@ -28,7 +28,7 @@ another way, or tell the user what is missing (`docs/environment.md`).
 1. **Never from memory.** Model ids and prices change faster than any document. List them live:
    - `node tools/harness/models.mjs openrouter --output image`;
    - `node tools/harness/models.mjs elevenlabs`;
-   - `opencode models openai` (and `zai-coding-plan`, `opencode-go`, `minimax`) for reviewers.
+   - `opencode models openai` (and `zai-coding-plan`, `opencode-go`, `minimax`, `alibaba-token-plan`, `openrouter`) for reviewers and implementers.
 
    Do the same when you are unsure a model still exists. (L25)
    To change the default reviewer, use `/switch-model`.
@@ -37,12 +37,14 @@ another way, or tell the user what is missing (`docs/environment.md`).
    on `sonnet`, `opus`, `haiku`, `fable` or a model id the session's provider serves), or the main
    session directly where the provider cannot spawn one; before each review, ONE question: which
    OpenCode model. Propose `harness.json`'s defaults first. (With `dispatch.ask: false` the questions are not asked: CLAUDE.md rule 2a.) The roster and the blocked list change
-   through `/switch-model`, never by a rule or a quota. Fixed: the reviewer is never the session's
-   family (read from the Anthropic environment); a blocked model never runs; Alibaba only when the
-   user asks. Record the answers on the issue or PR. A failed run is diagnosed and fixed; another
-   model only when its provider does not answer, and the user names it.
+   through `/switch-model`, never by a rule or a quota. There are no fixed model rules: any
+   model — Claude, GLM, MiniMax, Kimi, DeepSeek, OpenAI, Alibaba, OpenRouter — can implement or
+   review; the only constraint is what's in `harness.json`'s `blocked` array (default empty).
+   Record the answers on the issue or PR. A failed run is diagnosed and fixed; another model
+   only when its provider does not answer, and the user names it.
    *Superseded and kept as history:* quota-tracker's `/recommend` as a suggestion; checking the
-   quota and taking the next model of a chain (L50, L52); `choose.mjs`; OpenCode implementing.
+   quota and taking the next model of a chain (L50, L52); `choose.mjs`; family rules that
+   excluded the session's model or any named provider.
 3. **Choose on the evidence you have.** In order of preference:
    - this project's own measurements (review rounds and tokens per task, from the merge comments);
    - a small trial;

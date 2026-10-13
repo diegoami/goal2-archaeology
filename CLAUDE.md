@@ -113,21 +113,19 @@ a rule that names a model. No quota, tier or difficulty table picks a model.
 1. **Before each implementation, ask the user ONE question** with the question tool: which
    **subagent** implements, or does the main session implement directly? The implementer is
    normally a subagent spawned inside Claude Code with the Agent tool
-   (`subagent_type: "implementer"`, `.claude/agents/implementer.md`, worktree isolation) on a
-   model of its own, not the orchestrator's: Opus orchestrates and spawns Sonnet. The model is a
-   Claude Code alias (`sonnet`, `opus`, `haiku`, `fable`) or any model id the session's provider
-   serves; under another Anthropic-compatible provider (Z.AI's GLM, MiniMax, Kimi) the same alias
-   resolves to whatever that provider maps it to (GLM-5.3 Flash for `sonnet` on Z.AI), or the id
-   names its model outright. When the provider cannot spawn a subagent (one model only, or the
-   Agent tool's model is not honoured), the main session implements directly, in its own git
-   worktree (never the main checkout). Propose `harness.json`'s `implementer.default` first.
-   Whatever the model, a subagent runs through the session's endpoint, so its family for the
-   reviewer rule is the session's (rule 0). OpenCode never implements: `implement.mjs` was
-   removed, because its runs died on rejected paths, resets and early ends and did not follow the
-   brief (L104). Whoever implements keeps `RUN-NOTES.md` in its worktree (`docs/running-notes.md`:
-   the plan, a progress line per commit, an END block before stopping), pushes after every
-   commit, and opens the PR. When a subagent ends, the main session reads its final report before
-   acting and posts its notes on the issue.
+   (`subagent_type: "implementer"`, `.claude/agents/implementer.md`, worktree isolation). Any
+   model the session's provider serves is allowed; no model is excluded by family, name, route,
+   or quota tier in this rule. The model is a Claude Code alias (`sonnet`, `opus`, `haiku`,
+   `fable`) or any model id the session's provider serves; under another Anthropic-compatible
+   provider (Z.AI's GLM, MiniMax, Kimi) the same alias resolves to whatever that provider maps it
+   to (GLM-5.3 Flash for `sonnet` on Z.AI), or the id names its model outright. When the
+   provider cannot spawn a subagent (one model only, or the Agent tool's model is not honoured),
+   the main session implements directly, in its own git worktree (never the main checkout).
+   Propose `harness.json`'s `implementer.default` first, but any model may run. Whoever implements
+   keeps `RUN-NOTES.md` in its worktree (`docs/running-notes.md`: the plan, a progress line per
+   commit, an END block before stopping), pushes after every commit, and opens the PR. When a
+   subagent ends, the main session reads its final report before acting and posts its notes on
+   the issue.
 2. **Before each review, ask the user ONE question:** which OpenCode model reviews? Propose
    `harness.json`'s `reviewer.default` first (GPT-5.6 Luna today; `sol-6.1`, GPT-6.1 Sol at
    `low`, for hard research, rule 21), and list the registered models that are neither of the
@@ -144,10 +142,11 @@ a rule that names a model. No quota, tier or difficulty table picks a model.
    records it on the issue and PR, and proceeds. It asks anyway when it wants another model, when the default
    is blocked or cannot run, or when the user has said to ask. The setting changes through
    `switch-model.mjs --ask on|off` and `--review-kind KIND --model NAME`, never by editing a rule.
-3. **The fixed rules:** the reviewer is never of the session's family (`review.mjs` refuses it
-   from the environment; a `/code-review` or the `reviewer` agent, which are that family, run
-   only when the user asks); a model on `harness.json`'s `blocked` list never runs (DeepSeek
-   today; `/switch-model --block` and `--unblock` change it); Alibaba only when the user asks.
+3. **There are no fixed model rules.** Any model — of the session's family or another — can
+   implement or review. The `harness.json` `blocked` list is empty by default and a model is
+   blocked only when the owner names it; without an explicit block, every registered model is
+   usable. Quota is a runtime concern, not a rule; the main session asks quota-tracker (or its
+   `/recommend`) when a route is exhausted.
 4. **Permissions, not briefs:** an agent gets the permissions its work needs, in its agent file
    (`.opencode/agents/reviewer.md`: all of `/tmp` and the DOSBox-X bundle; `.claude/agents/*.md`:
    the guard hook refuses only a force-push, `git stash`, `git worktree`, a merge and, for the
@@ -157,10 +156,9 @@ a rule that names a model. No quota, tier or difficulty table picks a model.
    provider does not answer, and the user names it. The PR records who implemented and which
    model reviewed.
 6. These rules work whatever model the orchestrator itself runs on; they never name it.
-7. **Still in force:** the effort rule (a heavy model, Opus, GPT-6.1 Sol, GLM-5.3, MiMo v2.6 Pro
-   or MiniMax-M3, at `medium` at most and `low` when medium is not needed; a light model at
-   `high`); every model id comes from a live list (`opencode models <provider>`), never memory;
-   the main session runs Ghidra and the lines an OpenCode reviewer cannot reach (L57).
+7. **Still in force:** every model id comes from a live list (`opencode models <provider>`),
+   never memory; the main session runs Ghidra and the lines an OpenCode reviewer cannot reach
+   (L57); effort is the user's call (no rule-bound ceiling or floor).
 
 ### Monitoring OpenCode sessions (and any other background agent)
 8. Start every OpenCode run in the background, with stdin from a file (never an inherited pipe:
