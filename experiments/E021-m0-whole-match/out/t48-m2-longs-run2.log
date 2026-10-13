@@ -26,3 +26,41 @@ WARNING: call #1 of 1771:377E: uncompared register CX at the return: the origina
 WARNING: call #1 of 1771:377E: uncompared register DI at the return: the original 0x1D1D, the model 0x0E3D (counted, not an error; further ones counted only)
 WARNING: call #1 of 1771:377E: uncompared register ES at the return: the original 0x4E5B, the model 0x4857 (counted, not an error; further ones counted only)
 WARNING: call #1 of 1771:377E: uncompared register FLAGS at the return: the original 0x7246, the model 0x7202 (counted, not an error; further ones counted only)
+  E011-r0001: 1771:377E calls 88, proved 88; branches {'calls': 88, 'available': 88, 'unavailable': 0, 'form<0x20': 84, 'form>=0x20': 4, 'form==0x20': 2, 'clamped': 0, 'wrong foot': 0}
+  E011-r0001: calls per routine {'214B:0688': 74686, '0791:278A': 37096, '1771:377E': 88, '0791:287C': 545, '214B:06B1': 73533, '214B:06D0': 37025, '214B:0D56': 8544, '23E4:0279': 26726}, proved {'214B:0688': 74686, '0791:278A': 37096, '1771:377E': 88, '0791:287C': 545, '214B:06B1': 73533, '214B:06D0': 37025, '214B:0D56': 8544, '23E4:0279': 26726}; 0791:287C results {'calls': 545, 'non-zero': 296, 'zero': 249}
+  E011-r0001: 0791:278A calls 37096, proved 37096
+  E011-r0001: long-helper tallies {'214B:0D56': {'calls': 8544, 'high words differ (jg or jl taken)': 0, 'a wins': 1883, 'b wins': 6590, 'ties (a == b)': 71, 'min changes the result': 8473, 'tie-a changes the result': 0}, '23E4:0279': {'calls': 26726, 'DX operand (a high word) non-zero': 475, 'BX operand (b high word) non-zero': 0, 'mul bx term (AX * BX low word) non-zero = no-cross-term changes DX': 0, 'mul cx term (DX * CX low word) non-zero': 475, 'carry out of AX * CX non-zero': 431, 'product+1 changes the result': 26726, 'SI differs at entry = the scratch falsifier shows': 7660}}
+  E011-r0001: scratch_differences (proved calls where an uncompared register differed, per routine): {'214B:0688': {'BX': 74686, 'CX': 0, 'SI': 74686, 'DI': 74686, 'ES': 0, 'FLAGS': 56783}, '0791:278A': {'BX': 37083, 'CX': 37096, 'SI': 0, 'DI': 0, 'ES': 314, 'FLAGS': 36233}, '1771:377E': {'BX': 64, 'CX': 88, 'SI': 0, 'DI': 88, 'ES': 88, 'FLAGS': 88}, '0791:287C': {'BX': 545, 'CX': 545, 'SI': 545, 'DI': 545, 'ES': 0, 'FLAGS': 237}, '214B:06B1': {'BX': 73533, 'CX': 0, 'SI': 73533, 'DI': 73533, 'ES': 34618, 'FLAGS': 67692}, '214B:06D0': {'BX': 37025, 'CX': 0, 'SI': 37025, 'DI': 37025, 'ES': 36751, 'FLAGS': 34917}, '214B:0D56': {'BX': 0, 'CX': 0, 'SI': 0, 'DI': 0, 'ES': 0, 'FLAGS': 0}, '23E4:0279': {'BX': 0, 'CX': 0, 'SI': 0, 'DI': 0, 'ES': 0, 'FLAGS': 0}}
+  E011-r0001: entries of 0D56/0279 inside the originals of the other routines (not hooked, counted by a code hook minus the hooked calls): {'214B:0D56': 0, '23E4:0279': 0}; reach (unhooked, t48-reach-0d56-0279.log) {'214B:0D56': 8544, '23E4:0279': 26726}; M2c counts (t47-m2-draws-run2.log) {'214B:0688': 74686, '0791:278A': 37096, '1771:377E': 88, '0791:287C': 545, '214B:06B1': 73533, '214B:06D0': 37025}
+  E011-r0001: expected counts = M2c's six unchanged, 0D56/0279 = reach - nested: {'214B:0688': 74686, '0791:278A': 37096, '1771:377E': 88, '0791:287C': 545, '214B:06B1': 73533, '214B:06D0': 37025, '214B:0D56': 8544, '23E4:0279': 26726}; got {'214B:0688': 74686, '0791:278A': 37096, '1771:377E': 88, '0791:287C': 545, '214B:06B1': 73533, '214B:06D0': 37025, '214B:0D56': 8544, '23E4:0279': 26726}
+E011-r0001: start E011-r0001-watchstart.sav (captain screen, seed 0x9115); emulated 4149 clock ticks, 182188 seed writes, 4787.5 s; full time: minute 91 sub-tick 36, seed 0xb621, score [1, 1] (record [1, 1], seed 0xb621); 000E strays: none; hook m2-longs: {'214B:0688': 74686, '0791:278A': 37096, '1771:377E': 88, '0791:287C': 545, '214B:06B1': 73533, '214B:06D0': 37025, '214B:0D56': 8544, '23E4:0279': 26726}
+  E011-r0001: reads 49/49
+  outputs: experiments/E021-m0-whole-match/out/20261013T154616943636Z-m2-longs-E011-r0001.json
+WARNING: call #1 of 0791:278A: uncompared register BX at the return: the original 0x001E, the model 0x016A (counted, not an error; further ones counted only)
+WARNING: call #1 of 0791:278A: uncompared register CX at the return: the original 0x0010, the model 0x0004 (counted, not an error; further ones counted only)
+WARNING: call #1 of 0791:278A: uncompared register ES at the return: the original 0x2DA4, the model 0x4E5B (counted, not an error; further ones counted only)
+WARNING: call #1 of 0791:278A: uncompared register FLAGS at the return: the original 0x7202, the model 0x7296 (counted, not an error; further ones counted only)
+WARNING: call #1 of 214B:0688: uncompared register BX at the return: the original 0x7ABD, the model 0x0000 (counted, not an error; further ones counted only)
+WARNING: call #1 of 214B:0688: uncompared register SI at the return: the original 0x7B64, the model 0x6130 (counted, not an error; further ones counted only)
+WARNING: call #1 of 214B:0688: uncompared register DI at the return: the original 0x7B64, the model 0x7B62 (counted, not an error; further ones counted only)
+WARNING: call #1 of 214B:0688: uncompared register FLAGS at the return: the original 0x7202, the model 0x7206 (counted, not an error; further ones counted only)
+WARNING: call #1 of 214B:06B1: uncompared register BX at the return: the original 0x7ABD, the model 0x0000 (counted, not an error; further ones counted only)
+WARNING: call #1 of 214B:06B1: uncompared register SI at the return: the original 0x7B64, the model 0x6130 (counted, not an error; further ones counted only)
+WARNING: call #1 of 214B:06B1: uncompared register DI at the return: the original 0x7B64, the model 0x825E (counted, not an error; further ones counted only)
+WARNING: call #1 of 214B:06B1: uncompared register FLAGS at the return: the original 0x7207, the model 0x7246 (counted, not an error; further ones counted only)
+WARNING: call #1 of 0791:287C: uncompared register BX at the return: the original 0x7ABD, the model 0x0000 (counted, not an error; further ones counted only)
+WARNING: call #1 of 0791:287C: uncompared register CX at the return: the original 0x0020, the model 0x0006 (counted, not an error; further ones counted only)
+WARNING: call #1 of 0791:287C: uncompared register SI at the return: the original 0x7B64, the model 0x0002 (counted, not an error; further ones counted only)
+WARNING: call #1 of 0791:287C: uncompared register DI at the return: the original 0x7B64, the model 0x82B6 (counted, not an error; further ones counted only)
+WARNING: call #1 of 214B:06D0: uncompared register BX at the return: the original 0x7ABD, the model 0x0000 (counted, not an error; further ones counted only)
+WARNING: call #1 of 214B:06D0: uncompared register SI at the return: the original 0x7B64, the model 0x000A (counted, not an error; further ones counted only)
+WARNING: call #1 of 214B:06D0: uncompared register DI at the return: the original 0x7B64, the model 0x09F9 (counted, not an error; further ones counted only)
+WARNING: call #1 of 214B:06D0: uncompared register ES at the return: the original 0x2DA4, the model 0x4E5B (counted, not an error; further ones counted only)
+WARNING: call #1 of 214B:06D0: uncompared register FLAGS at the return: the original 0x7246, the model 0x7202 (counted, not an error; further ones counted only)
+WARNING: call #79 of 214B:06B1: uncompared register ES at the return: the original 0x2DA4, the model 0x4E5B (counted, not an error; further ones counted only)
+WARNING: call #3 of 0791:287C: uncompared register FLAGS at the return: the original 0x7202, the model 0x7246 (counted, not an error; further ones counted only)
+WARNING: call #1 of 1771:377E: uncompared register BX at the return: the original 0x0000, the model 0x0001 (counted, not an error; further ones counted only)
+WARNING: call #1 of 1771:377E: uncompared register CX at the return: the original 0x0000, the model 0x0002 (counted, not an error; further ones counted only)
+WARNING: call #1 of 1771:377E: uncompared register DI at the return: the original 0x1D1D, the model 0x0E3D (counted, not an error; further ones counted only)
+WARNING: call #1 of 1771:377E: uncompared register ES at the return: the original 0x4E5B, the model 0x4857 (counted, not an error; further ones counted only)
+WARNING: call #1 of 1771:377E: uncompared register FLAGS at the return: the original 0x7246, the model 0x7202 (counted, not an error; further ones counted only)

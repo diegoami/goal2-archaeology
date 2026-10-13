@@ -76,8 +76,9 @@ from quick_engine import idiv, s16, s8  # noqa: E402
 
 OUT = Path(__file__).resolve().parent / "out"
 # Wall-clock limit of one emulated match. M2c's six proofs took 1310-1480 s per record; the eight of M2d (T48) did not
-# finish in the former 1800 s (3601 of 4149 ticks, four runs, out/t48-m2-longs*.log: void by timeout), so 5400 s.
-RUN_TIMEOUT_S = 5400
+# finish in the former 1800 s (3601 of 4149 ticks, four runs, out/t48-m2-longs*.log: void by timeout); on a machine
+# shared with other jobs (load average 20) a record took 4130-4790 s: 14400 s. A timeout is a void run, never a pass.
+RUN_TIMEOUT_S = 14400
 DL = ROOT / ".cache/dl"
 LCG_STEP = "214B:0688"
 MULT, INC = 0x7ABD, 0x1B0F          # F004 (seg_214B_01.asm:881, :883)
