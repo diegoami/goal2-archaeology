@@ -11,7 +11,7 @@
 
 ## Answer
 
-Conventions: positions are `x` (column) and `y` (row), signed bytes; `y` is in the team's own frame, negative toward its own goal (`2C86` multiplies a destination by `2BE5`'s direction, so the other team and the second half mirror it); position code `p` is the player's +6 (played) unless said +7 (club). `DS:XXXX` offsets are read from `static/goal-exe/data/ds_2581_01.hex` (image offset `0x25810` + the DS offset) and decoded in `experiments/E028-formations-positions/out/tables-20261013T143429Z.txt`.
+- Conventions: positions are `x` (column) and `y` (row), signed bytes; `y` is in the team's own frame, negative toward its own goal (`2C86` multiplies a destination by `2BE5`'s direction, so the other team and the second half mirror it); position code `p` is the player's +6 (played) unless said +7 (club). `DS:XXXX` offsets are read from `static/goal-exe/data/ds_2581_01.hex` (image offset `0x25810` + the DS offset) and decoded in `experiments/E028-formations-positions/out/tables-20261013T143429Z.txt`. static:static/goal-exe/data/ds_2581_01.hex:67 static:experiments/E028-formations-positions/out/tables-20261013T143429Z.txt:1
 
 ### 1. Formations: there is no table, no name and no id (read)
 
@@ -27,81 +27,81 @@ Conventions: positions are `x` (column) and `y` (row), signed bytes; `y` is in t
 
 - Each pitch record has a **post** (the home place) in its word `+9` (x) and `+0xA` (y). `0791:419C` sets it for the eleven records of each side to the word `DS:079E[2 * (+6 of the record's player)]`, then separates adjacent equal posts (below). It runs at the end of `0791:230C` (after `1771:3EF8` and `0791:20E3`), which the match set-up (`0791:A60F`), the substitution and removal paths (`C503`, `C7A7`), the computer's forward conversion (`C0D6`) and three more callers (`A60F`'s siblings `DF30`, `EDAB`, `F08F`, not identified here) call; so the posts always follow the current +6 and the current ascending order of the eleven. **exact**: the original `419C` run in Unicorn on each of the 52 formations and on 3056 synthetic elevens equals the rule (`posts.py`: 52 of 52; `posts_synthetic.py`: 3056 of 3056; the port made wrong on purpose differs on 231 to 287 of 328 elevens, `posts_falsifier.py`). static:static/goal-exe/code/seg_0791_07.asm:565 static:static/goal-exe/code/seg_0791_07.asm:621 static:static/goal-exe/code/seg_0791_07.asm:623 static:static/goal-exe/code/seg_0791_04.asm:683 static:static/goal-exe/code/seg_0791_04.asm:686 static:static/goal-exe/code/seg_0791_17.asm:403 static:experiments/E028-formations-positions/out/posts-synthetic-20261013T143525Z.log:2 static:experiments/E028-formations-positions/out/posts-falsifier-20261013.log:1
 
-| code | position | post x | post y | DS:07BE depth | DS:0812 kick-off depth | y at kick-off |
-| --- | --- | --- | --- | --- | --- | --- |
-| 0 | goalkeeper | 0 | -37 | 0 | 0 | -37 |
-| 1 | sweeper | 0 | -36 | 5 | 5 | -31 |
-| 2 | centre back | 0 | -35 | 7 | 7 | -28 |
-| 3 | left back | -6 | -33 | 5 | 10 | -23 |
-| 4 | right back | 6 | -33 | 5 | 10 | -23 |
-| 5 | defensive midfield | 0 | -31 | 14 | 14 | -17 |
-| 6 | central midfield | 0 | -28 | 16 | 16 | -12 |
-| 7 | left midfield | -5 | -27 | 15 | 15 | -12 |
-| 8 | right midfield | 5 | -27 | 15 | 15 | -12 |
-| 9 | forward midfield | 0 | -24 | 17 | 17 | -7 |
-| 10 | left winger | -7 | -22 | 18 | 18 | -4 |
-| 11 | right winger | 7 | -22 | 18 | 18 | -4 |
-| 12 | centre forward | 0 | -21 | 19 | 19 | -2 |
-| 13 | striker | 0 | -18 | 14 | 14 | -4 |
+| code | position | post x | post y | DS:07BE depth | DS:0812 kick-off depth | y at kick-off | evidence |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| 0 | goalkeeper | 0 | -37 | 0 | 0 | -37 | static:static/goal-exe/data/ds_2581_01.hex:67 static:static/goal-exe/data/ds_2581_01.hex:68 static:static/goal-exe/data/ds_2581_01.hex:69 static:static/goal-exe/data/ds_2581_01.hex:71 |
+| 1 | sweeper | 0 | -36 | 5 | 5 | -31 | static:static/goal-exe/data/ds_2581_01.hex:67 static:static/goal-exe/data/ds_2581_01.hex:68 static:static/goal-exe/data/ds_2581_01.hex:69 static:static/goal-exe/data/ds_2581_01.hex:71 |
+| 2 | centre back | 0 | -35 | 7 | 7 | -28 | static:static/goal-exe/data/ds_2581_01.hex:67 static:static/goal-exe/data/ds_2581_01.hex:68 static:static/goal-exe/data/ds_2581_01.hex:69 static:static/goal-exe/data/ds_2581_01.hex:71 |
+| 3 | left back | -6 | -33 | 5 | 10 | -23 | static:static/goal-exe/data/ds_2581_01.hex:67 static:static/goal-exe/data/ds_2581_01.hex:68 static:static/goal-exe/data/ds_2581_01.hex:69 static:static/goal-exe/data/ds_2581_01.hex:71 |
+| 4 | right back | 6 | -33 | 5 | 10 | -23 | static:static/goal-exe/data/ds_2581_01.hex:67 static:static/goal-exe/data/ds_2581_01.hex:68 static:static/goal-exe/data/ds_2581_01.hex:69 static:static/goal-exe/data/ds_2581_01.hex:71 |
+| 5 | defensive midfield | 0 | -31 | 14 | 14 | -17 | static:static/goal-exe/data/ds_2581_01.hex:67 static:static/goal-exe/data/ds_2581_01.hex:68 static:static/goal-exe/data/ds_2581_01.hex:69 static:static/goal-exe/data/ds_2581_01.hex:71 |
+| 6 | central midfield | 0 | -28 | 16 | 16 | -12 | static:static/goal-exe/data/ds_2581_01.hex:67 static:static/goal-exe/data/ds_2581_01.hex:68 static:static/goal-exe/data/ds_2581_01.hex:69 static:static/goal-exe/data/ds_2581_01.hex:71 |
+| 7 | left midfield | -5 | -27 | 15 | 15 | -12 | static:static/goal-exe/data/ds_2581_01.hex:67 static:static/goal-exe/data/ds_2581_01.hex:68 static:static/goal-exe/data/ds_2581_01.hex:69 static:static/goal-exe/data/ds_2581_01.hex:71 |
+| 8 | right midfield | 5 | -27 | 15 | 15 | -12 | static:static/goal-exe/data/ds_2581_01.hex:67 static:static/goal-exe/data/ds_2581_01.hex:68 static:static/goal-exe/data/ds_2581_01.hex:69 static:static/goal-exe/data/ds_2581_01.hex:71 |
+| 9 | forward midfield | 0 | -24 | 17 | 17 | -7 | static:static/goal-exe/data/ds_2581_01.hex:67 static:static/goal-exe/data/ds_2581_01.hex:68 static:static/goal-exe/data/ds_2581_01.hex:69 static:static/goal-exe/data/ds_2581_01.hex:71 |
+| 10 | left winger | -7 | -22 | 18 | 18 | -4 | static:static/goal-exe/data/ds_2581_01.hex:67 static:static/goal-exe/data/ds_2581_01.hex:68 static:static/goal-exe/data/ds_2581_01.hex:69 static:static/goal-exe/data/ds_2581_01.hex:71 |
+| 11 | right winger | 7 | -22 | 18 | 18 | -4 | static:static/goal-exe/data/ds_2581_01.hex:67 static:static/goal-exe/data/ds_2581_01.hex:68 static:static/goal-exe/data/ds_2581_01.hex:69 static:static/goal-exe/data/ds_2581_01.hex:71 |
+| 12 | centre forward | 0 | -21 | 19 | 19 | -2 | static:static/goal-exe/data/ds_2581_01.hex:67 static:static/goal-exe/data/ds_2581_01.hex:68 static:static/goal-exe/data/ds_2581_01.hex:69 static:static/goal-exe/data/ds_2581_01.hex:71 |
+| 13 | striker | 0 | -18 | 14 | 14 | -4 | static:static/goal-exe/data/ds_2581_01.hex:67 static:static/goal-exe/data/ds_2581_01.hex:68 static:static/goal-exe/data/ds_2581_01.hex:69 static:static/goal-exe/data/ds_2581_01.hex:71 |
 
 - Table sources: posts `DS:079E`..`DS:07B9` (14 words), `DS:07BE` (14 bytes, read by `4438` at `446C`), `DS:0812` (14 bytes, read by `69BD` at `69E8`); the last column is post y plus the kick-off depth, the destination of `69BD` before the mirror (section 4). **read** for the last column; **exact** for the first two (emulated). static:static/goal-exe/data/ds_2581_01.hex:67 static:static/goal-exe/data/ds_2581_01.hex:68 static:static/goal-exe/data/ds_2581_01.hex:69 static:static/goal-exe/data/ds_2581_01.hex:71 static:static/goal-exe/code/seg_0791_07.asm:873 static:static/goal-exe/code/seg_0791_11.asm:792
 - **Separation of equal posts** (`419C`, 4241-42A8): when the previous record of the same side has exactly the same post word as the fresh one, then if `|x| <= 4` the current record's x becomes `x + 3` and the previous record's `x - 3`; if `|x| > 4` the current x moves 3 toward the middle and the previous record's y falls 3 (toward its own goal). Only the previous record is compared and it has already been changed: three centre backs stand at x = -3, +3, 0 (slots in order), four at -3, +3, -3, +3. The step reaches only codes 2, 5, 6, 12 and 13 in block 10 (countries with two centre backs: 93, with three: 1; two defensive midfields: 2; two central midfields: 10; two centre forwards: 14; two strikers: 52, three strikers: 2); the `|x| > 4` branch (codes 3, 4, 7, 8, 10, 11 twice running) is reached by no country's eleven and was exercised only by the synthetic elevens. The threshold itself cannot be told from 3: no post has `|x|` of 1 to 4 (falsifier "threshold-3": 0 of 328). **exact** on the tested inputs. static:static/goal-exe/code/seg_0791_07.asm:636 static:static/goal-exe/code/seg_0791_07.asm:647 static:static/goal-exe/code/seg_0791_07.asm:664 static:static/goal-exe/code/seg_0791_07.asm:669 static:static/goal-exe/code/seg_0791_07.asm:673 static:static/goal-exe/code/seg_0791_07.asm:678
 - **The 52 formations and their start posts** (slots 1..11 in ascending order of code, the order `230C` leaves them; country numbers per formation are in `formations-20261013T142949Z.tsv`; the posts are `419C`'s own output, the original run in Unicorn). **exact** static:experiments/E028-formations-positions/out/formations-20261013T142949Z.tsv:3
 
-| id | label | countries | codes (slots 1..11) | start posts (x,y) of slots 1..11, the team's own frame |
-| --- | --- | --- | --- | --- |
-| 1 | 5-2-3 | 8 | 0 1 2 2 3 4 6 9 12 13 13 | (0,-37) (0,-36) (-3,-35) (3,-35) (-6,-33) (6,-33) (0,-28) (0,-24) (0,-21) (-3,-18) (3,-18) |
-| 2 | 4-4-2 | 8 | 0 1 2 3 4 6 9 10 11 12 13 | (0,-37) (0,-36) (0,-35) (-6,-33) (6,-33) (0,-28) (0,-24) (-7,-22) (7,-22) (0,-21) (0,-18) |
-| 3 | 5-4-1 | 7 | 0 1 2 2 3 4 5 7 8 9 13 | (0,-37) (0,-36) (-3,-35) (3,-35) (-6,-33) (6,-33) (0,-31) (-5,-27) (5,-27) (0,-24) (0,-18) |
-| 4 | 5-3-2 | 6 | 0 1 2 2 3 4 5 7 8 13 13 | (0,-37) (0,-36) (-3,-35) (3,-35) (-6,-33) (6,-33) (0,-31) (-5,-27) (5,-27) (-3,-18) (3,-18) |
-| 5 | 5-2-3 | 5 | 0 1 2 2 3 4 7 8 12 13 13 | (0,-37) (0,-36) (-3,-35) (3,-35) (-6,-33) (6,-33) (-5,-27) (5,-27) (0,-21) (-3,-18) (3,-18) |
-| 6 | 3-4-3 | 5 | 0 1 2 2 6 8 9 10 12 12 13 | (0,-37) (0,-36) (-3,-35) (3,-35) (0,-28) (5,-27) (0,-24) (-7,-22) (-3,-21) (3,-21) (0,-18) |
-| 7 | 4-5-1 | 5 | 0 1 2 3 4 5 6 9 10 11 12 | (0,-37) (0,-36) (0,-35) (-6,-33) (6,-33) (0,-31) (0,-28) (0,-24) (-7,-22) (7,-22) (0,-21) |
-| 8 | 5-4-1 | 4 | 0 1 2 2 3 4 5 6 6 9 13 | (0,-37) (0,-36) (-3,-35) (3,-35) (-6,-33) (6,-33) (0,-31) (-3,-28) (3,-28) (0,-24) (0,-18) |
-| 9 | 4-4-2 | 4 | 0 1 2 3 4 5 7 8 9 13 13 | (0,-37) (0,-36) (0,-35) (-6,-33) (6,-33) (0,-31) (-5,-27) (5,-27) (0,-24) (-3,-18) (3,-18) |
-| 10 | 4-3-3 | 4 | 0 2 2 3 4 5 8 9 12 13 13 | (0,-37) (-3,-35) (3,-35) (-6,-33) (6,-33) (0,-31) (5,-27) (0,-24) (0,-21) (-3,-18) (3,-18) |
-| 11 | 4-3-3 | 4 | 0 2 2 3 4 7 8 9 12 13 13 | (0,-37) (-3,-35) (3,-35) (-6,-33) (6,-33) (-5,-27) (5,-27) (0,-24) (0,-21) (-3,-18) (3,-18) |
-| 12 | 5-4-1 | 3 | 0 1 2 2 3 4 6 9 10 11 12 | (0,-37) (0,-36) (-3,-35) (3,-35) (-6,-33) (6,-33) (0,-28) (0,-24) (-7,-22) (7,-22) (0,-21) |
-| 13 | 3-5-2 | 3 | 0 1 2 2 5 6 7 8 9 13 13 | (0,-37) (0,-36) (-3,-35) (3,-35) (0,-31) (0,-28) (-5,-27) (5,-27) (0,-24) (-3,-18) (3,-18) |
-| 14 | 3-4-3 | 3 | 0 1 2 2 5 6 7 8 12 13 13 | (0,-37) (0,-36) (-3,-35) (3,-35) (0,-31) (0,-28) (-5,-27) (5,-27) (0,-21) (-3,-18) (3,-18) |
-| 15 | 3-4-3 | 3 | 0 1 2 2 5 6 10 11 12 12 13 | (0,-37) (0,-36) (-3,-35) (3,-35) (0,-31) (0,-28) (-7,-22) (7,-22) (-3,-21) (3,-21) (0,-18) |
-| 16 | 3-4-3 | 3 | 0 1 2 2 6 7 8 9 12 13 13 | (0,-37) (0,-36) (-3,-35) (3,-35) (0,-28) (-5,-27) (5,-27) (0,-24) (0,-21) (-3,-18) (3,-18) |
-| 17 | 4-3-3 | 3 | 0 1 2 3 4 6 10 11 12 12 13 | (0,-37) (0,-36) (0,-35) (-6,-33) (6,-33) (0,-28) (-7,-22) (7,-22) (-3,-21) (3,-21) (0,-18) |
-| 18 | 4-4-2 | 3 | 0 2 2 3 4 5 6 10 11 12 13 | (0,-37) (-3,-35) (3,-35) (-6,-33) (6,-33) (0,-31) (0,-28) (-7,-22) (7,-22) (0,-21) (0,-18) |
-| 19 | 4-4-2 | 3 | 0 2 2 3 4 5 7 8 9 13 13 | (0,-37) (-3,-35) (3,-35) (-6,-33) (6,-33) (0,-31) (-5,-27) (5,-27) (0,-24) (-3,-18) (3,-18) |
-| 20 | 4-5-1 | 3 | 0 2 2 3 4 5 7 8 10 11 12 | (0,-37) (-3,-35) (3,-35) (-6,-33) (6,-33) (0,-31) (-5,-27) (5,-27) (-7,-22) (7,-22) (0,-21) |
-| 21 | 5-2-3 | 2 | 0 1 2 2 3 4 5 6 12 12 13 | (0,-37) (0,-36) (-3,-35) (3,-35) (-6,-33) (6,-33) (0,-31) (0,-28) (-3,-21) (3,-21) (0,-18) |
-| 22 | 5-4-1 | 2 | 0 1 2 2 3 4 5 7 9 11 12 | (0,-37) (0,-36) (-3,-35) (3,-35) (-6,-33) (6,-33) (0,-31) (-5,-27) (0,-24) (7,-22) (0,-21) |
-| 23 | 5-3-2 | 2 | 0 1 2 2 3 4 6 7 8 12 13 | (0,-37) (0,-36) (-3,-35) (3,-35) (-6,-33) (6,-33) (0,-28) (-5,-27) (5,-27) (0,-21) (0,-18) |
-| 24 | 5-3-2 | 2 | 0 1 2 2 3 4 7 9 11 12 13 | (0,-37) (0,-36) (-3,-35) (3,-35) (-6,-33) (6,-33) (-5,-27) (0,-24) (7,-22) (0,-21) (0,-18) |
-| 25 | 3-5-2 | 2 | 0 1 2 2 6 6 9 10 11 12 13 | (0,-37) (0,-36) (-3,-35) (3,-35) (-3,-28) (3,-28) (0,-24) (-7,-22) (7,-22) (0,-21) (0,-18) |
-| 26 | 4-4-2 | 2 | 0 1 2 3 4 5 6 7 8 13 13 | (0,-37) (0,-36) (0,-35) (-6,-33) (6,-33) (0,-31) (0,-28) (-5,-27) (5,-27) (-3,-18) (3,-18) |
-| 27 | 4-3-3 | 2 | 0 1 2 3 4 5 7 8 13 13 13 | (0,-37) (0,-36) (0,-35) (-6,-33) (6,-33) (0,-31) (-5,-27) (5,-27) (-3,-18) (3,-18) (0,-18) |
-| 28 | 4-4-2 | 2 | 0 1 2 3 4 6 7 9 11 12 13 | (0,-37) (0,-36) (0,-35) (-6,-33) (6,-33) (0,-28) (-5,-27) (0,-24) (7,-22) (0,-21) (0,-18) |
-| 29 | 4-4-2 | 2 | 0 2 2 3 4 5 6 7 8 12 13 | (0,-37) (-3,-35) (3,-35) (-6,-33) (6,-33) (0,-31) (0,-28) (-5,-27) (5,-27) (0,-21) (0,-18) |
-| 30 | 5-3-2 | 1 | 0 1 2 2 3 4 5 5 11 12 13 | (0,-37) (0,-36) (-3,-35) (3,-35) (-6,-33) (6,-33) (-3,-31) (3,-31) (7,-22) (0,-21) (0,-18) |
-| 31 | 5-4-1 | 1 | 0 1 2 2 3 4 5 6 9 11 12 | (0,-37) (0,-36) (-3,-35) (3,-35) (-6,-33) (6,-33) (0,-31) (0,-28) (0,-24) (7,-22) (0,-21) |
-| 32 | 5-2-3 | 1 | 0 1 2 2 3 4 5 6 12 13 13 | (0,-37) (0,-36) (-3,-35) (3,-35) (-6,-33) (6,-33) (0,-31) (0,-28) (0,-21) (-3,-18) (3,-18) |
-| 33 | 5-3-2 | 1 | 0 1 2 2 3 4 5 7 11 12 13 | (0,-37) (0,-36) (-3,-35) (3,-35) (-6,-33) (6,-33) (0,-31) (-5,-27) (7,-22) (0,-21) (0,-18) |
-| 34 | 5-4-1 | 1 | 0 1 2 2 3 4 6 7 8 9 13 | (0,-37) (0,-36) (-3,-35) (3,-35) (-6,-33) (6,-33) (0,-28) (-5,-27) (5,-27) (0,-24) (0,-18) |
-| 35 | 3-5-2 | 1 | 0 1 2 2 5 6 7 8 9 12 13 | (0,-37) (0,-36) (-3,-35) (3,-35) (0,-31) (0,-28) (-5,-27) (5,-27) (0,-24) (0,-21) (0,-18) |
-| 36 | 3-5-2 | 1 | 0 1 2 2 5 6 7 9 11 12 13 | (0,-37) (0,-36) (-3,-35) (3,-35) (0,-31) (0,-28) (-5,-27) (0,-24) (7,-22) (0,-21) (0,-18) |
-| 37 | 3-5-2 | 1 | 0 1 2 2 5 6 7 9 11 13 13 | (0,-37) (0,-36) (-3,-35) (3,-35) (0,-31) (0,-28) (-5,-27) (0,-24) (7,-22) (-3,-18) (3,-18) |
-| 38 | 3-6-1 | 1 | 0 1 2 2 5 7 8 9 10 11 13 | (0,-37) (0,-36) (-3,-35) (3,-35) (0,-31) (-5,-27) (5,-27) (0,-24) (-7,-22) (7,-22) (0,-18) |
-| 39 | 3-4-3 | 1 | 0 1 2 2 5 7 8 11 12 13 13 | (0,-37) (0,-36) (-3,-35) (3,-35) (0,-31) (-5,-27) (5,-27) (7,-22) (0,-21) (-3,-18) (3,-18) |
-| 40 | 3-5-2 | 1 | 0 1 2 2 6 6 7 8 9 12 13 | (0,-37) (0,-36) (-3,-35) (3,-35) (-3,-28) (3,-28) (-5,-27) (5,-27) (0,-24) (0,-21) (0,-18) |
-| 41 | 4-4-2 | 1 | 0 1 2 3 4 5 5 6 9 13 13 | (0,-37) (0,-36) (0,-35) (-6,-33) (6,-33) (-3,-31) (3,-31) (0,-28) (0,-24) (-3,-18) (3,-18) |
-| 42 | 4-5-1 | 1 | 0 1 2 3 4 5 6 6 9 11 13 | (0,-37) (0,-36) (0,-35) (-6,-33) (6,-33) (0,-31) (-3,-28) (3,-28) (0,-24) (7,-22) (0,-18) |
-| 43 | 4-3-3 | 1 | 0 1 2 3 4 5 6 9 12 13 13 | (0,-37) (0,-36) (0,-35) (-6,-33) (6,-33) (0,-31) (0,-28) (0,-24) (0,-21) (-3,-18) (3,-18) |
-| 44 | 4-4-2 | 1 | 0 1 2 3 4 5 6 10 11 12 13 | (0,-37) (0,-36) (0,-35) (-6,-33) (6,-33) (0,-31) (0,-28) (-7,-22) (7,-22) (0,-21) (0,-18) |
-| 45 | 4-4-2 | 1 | 0 1 2 3 4 5 7 9 11 13 13 | (0,-37) (0,-36) (0,-35) (-6,-33) (6,-33) (0,-31) (-5,-27) (0,-24) (7,-22) (-3,-18) (3,-18) |
-| 46 | 4-5-1 | 1 | 0 1 2 3 4 6 6 8 9 10 13 | (0,-37) (0,-36) (0,-35) (-6,-33) (6,-33) (-3,-28) (3,-28) (5,-27) (0,-24) (-7,-22) (0,-18) |
-| 47 | 4-4-2 | 1 | 0 1 2 3 4 6 6 10 11 12 13 | (0,-37) (0,-36) (0,-35) (-6,-33) (6,-33) (-3,-28) (3,-28) (-7,-22) (7,-22) (0,-21) (0,-18) |
-| 48 | 4-5-1 | 1 | 0 1 2 3 4 6 7 8 10 11 12 | (0,-37) (0,-36) (0,-35) (-6,-33) (6,-33) (0,-28) (-5,-27) (5,-27) (-7,-22) (7,-22) (0,-21) |
-| 49 | 5-3-2 | 1 | 0 2 2 2 3 4 5 6 9 12 13 | (0,-37) (-3,-35) (3,-35) (0,-35) (-6,-33) (6,-33) (0,-31) (0,-28) (0,-24) (0,-21) (0,-18) |
-| 50 | 4-5-1 | 1 | 0 2 2 3 4 5 6 7 8 9 13 | (0,-37) (-3,-35) (3,-35) (-6,-33) (6,-33) (0,-31) (0,-28) (-5,-27) (5,-27) (0,-24) (0,-18) |
-| 51 | 4-4-2 | 1 | 0 2 2 3 4 5 6 7 8 13 13 | (0,-37) (-3,-35) (3,-35) (-6,-33) (6,-33) (0,-31) (0,-28) (-5,-27) (5,-27) (-3,-18) (3,-18) |
-| 52 | 4-3-3 | 1 | 0 2 2 3 4 5 6 10 12 12 13 | (0,-37) (-3,-35) (3,-35) (-6,-33) (6,-33) (0,-31) (0,-28) (-7,-22) (-3,-21) (3,-21) (0,-18) |
+| id | label | countries | codes (slots 1..11) | start posts (x,y) of slots 1..11, the team's own frame | evidence |
+| --- | --- | --- | --- | --- | --- |
+| 1 | 5-2-3 | 8 | 0 1 2 2 3 4 6 9 12 13 13 | (0,-37) (0,-36) (-3,-35) (3,-35) (-6,-33) (6,-33) (0,-28) (0,-24) (0,-21) (-3,-18) (3,-18) | static:experiments/E028-formations-positions/out/formations-20261013T142949Z.tsv:3 |
+| 2 | 4-4-2 | 8 | 0 1 2 3 4 6 9 10 11 12 13 | (0,-37) (0,-36) (0,-35) (-6,-33) (6,-33) (0,-28) (0,-24) (-7,-22) (7,-22) (0,-21) (0,-18) | static:experiments/E028-formations-positions/out/formations-20261013T142949Z.tsv:4 |
+| 3 | 5-4-1 | 7 | 0 1 2 2 3 4 5 7 8 9 13 | (0,-37) (0,-36) (-3,-35) (3,-35) (-6,-33) (6,-33) (0,-31) (-5,-27) (5,-27) (0,-24) (0,-18) | static:experiments/E028-formations-positions/out/formations-20261013T142949Z.tsv:5 |
+| 4 | 5-3-2 | 6 | 0 1 2 2 3 4 5 7 8 13 13 | (0,-37) (0,-36) (-3,-35) (3,-35) (-6,-33) (6,-33) (0,-31) (-5,-27) (5,-27) (-3,-18) (3,-18) | static:experiments/E028-formations-positions/out/formations-20261013T142949Z.tsv:6 |
+| 5 | 5-2-3 | 5 | 0 1 2 2 3 4 7 8 12 13 13 | (0,-37) (0,-36) (-3,-35) (3,-35) (-6,-33) (6,-33) (-5,-27) (5,-27) (0,-21) (-3,-18) (3,-18) | static:experiments/E028-formations-positions/out/formations-20261013T142949Z.tsv:7 |
+| 6 | 3-4-3 | 5 | 0 1 2 2 6 8 9 10 12 12 13 | (0,-37) (0,-36) (-3,-35) (3,-35) (0,-28) (5,-27) (0,-24) (-7,-22) (-3,-21) (3,-21) (0,-18) | static:experiments/E028-formations-positions/out/formations-20261013T142949Z.tsv:8 |
+| 7 | 4-5-1 | 5 | 0 1 2 3 4 5 6 9 10 11 12 | (0,-37) (0,-36) (0,-35) (-6,-33) (6,-33) (0,-31) (0,-28) (0,-24) (-7,-22) (7,-22) (0,-21) | static:experiments/E028-formations-positions/out/formations-20261013T142949Z.tsv:9 |
+| 8 | 5-4-1 | 4 | 0 1 2 2 3 4 5 6 6 9 13 | (0,-37) (0,-36) (-3,-35) (3,-35) (-6,-33) (6,-33) (0,-31) (-3,-28) (3,-28) (0,-24) (0,-18) | static:experiments/E028-formations-positions/out/formations-20261013T142949Z.tsv:10 |
+| 9 | 4-4-2 | 4 | 0 1 2 3 4 5 7 8 9 13 13 | (0,-37) (0,-36) (0,-35) (-6,-33) (6,-33) (0,-31) (-5,-27) (5,-27) (0,-24) (-3,-18) (3,-18) | static:experiments/E028-formations-positions/out/formations-20261013T142949Z.tsv:11 |
+| 10 | 4-3-3 | 4 | 0 2 2 3 4 5 8 9 12 13 13 | (0,-37) (-3,-35) (3,-35) (-6,-33) (6,-33) (0,-31) (5,-27) (0,-24) (0,-21) (-3,-18) (3,-18) | static:experiments/E028-formations-positions/out/formations-20261013T142949Z.tsv:12 |
+| 11 | 4-3-3 | 4 | 0 2 2 3 4 7 8 9 12 13 13 | (0,-37) (-3,-35) (3,-35) (-6,-33) (6,-33) (-5,-27) (5,-27) (0,-24) (0,-21) (-3,-18) (3,-18) | static:experiments/E028-formations-positions/out/formations-20261013T142949Z.tsv:13 |
+| 12 | 5-4-1 | 3 | 0 1 2 2 3 4 6 9 10 11 12 | (0,-37) (0,-36) (-3,-35) (3,-35) (-6,-33) (6,-33) (0,-28) (0,-24) (-7,-22) (7,-22) (0,-21) | static:experiments/E028-formations-positions/out/formations-20261013T142949Z.tsv:14 |
+| 13 | 3-5-2 | 3 | 0 1 2 2 5 6 7 8 9 13 13 | (0,-37) (0,-36) (-3,-35) (3,-35) (0,-31) (0,-28) (-5,-27) (5,-27) (0,-24) (-3,-18) (3,-18) | static:experiments/E028-formations-positions/out/formations-20261013T142949Z.tsv:15 |
+| 14 | 3-4-3 | 3 | 0 1 2 2 5 6 7 8 12 13 13 | (0,-37) (0,-36) (-3,-35) (3,-35) (0,-31) (0,-28) (-5,-27) (5,-27) (0,-21) (-3,-18) (3,-18) | static:experiments/E028-formations-positions/out/formations-20261013T142949Z.tsv:16 |
+| 15 | 3-4-3 | 3 | 0 1 2 2 5 6 10 11 12 12 13 | (0,-37) (0,-36) (-3,-35) (3,-35) (0,-31) (0,-28) (-7,-22) (7,-22) (-3,-21) (3,-21) (0,-18) | static:experiments/E028-formations-positions/out/formations-20261013T142949Z.tsv:17 |
+| 16 | 3-4-3 | 3 | 0 1 2 2 6 7 8 9 12 13 13 | (0,-37) (0,-36) (-3,-35) (3,-35) (0,-28) (-5,-27) (5,-27) (0,-24) (0,-21) (-3,-18) (3,-18) | static:experiments/E028-formations-positions/out/formations-20261013T142949Z.tsv:18 |
+| 17 | 4-3-3 | 3 | 0 1 2 3 4 6 10 11 12 12 13 | (0,-37) (0,-36) (0,-35) (-6,-33) (6,-33) (0,-28) (-7,-22) (7,-22) (-3,-21) (3,-21) (0,-18) | static:experiments/E028-formations-positions/out/formations-20261013T142949Z.tsv:19 |
+| 18 | 4-4-2 | 3 | 0 2 2 3 4 5 6 10 11 12 13 | (0,-37) (-3,-35) (3,-35) (-6,-33) (6,-33) (0,-31) (0,-28) (-7,-22) (7,-22) (0,-21) (0,-18) | static:experiments/E028-formations-positions/out/formations-20261013T142949Z.tsv:20 |
+| 19 | 4-4-2 | 3 | 0 2 2 3 4 5 7 8 9 13 13 | (0,-37) (-3,-35) (3,-35) (-6,-33) (6,-33) (0,-31) (-5,-27) (5,-27) (0,-24) (-3,-18) (3,-18) | static:experiments/E028-formations-positions/out/formations-20261013T142949Z.tsv:21 |
+| 20 | 4-5-1 | 3 | 0 2 2 3 4 5 7 8 10 11 12 | (0,-37) (-3,-35) (3,-35) (-6,-33) (6,-33) (0,-31) (-5,-27) (5,-27) (-7,-22) (7,-22) (0,-21) | static:experiments/E028-formations-positions/out/formations-20261013T142949Z.tsv:22 |
+| 21 | 5-2-3 | 2 | 0 1 2 2 3 4 5 6 12 12 13 | (0,-37) (0,-36) (-3,-35) (3,-35) (-6,-33) (6,-33) (0,-31) (0,-28) (-3,-21) (3,-21) (0,-18) | static:experiments/E028-formations-positions/out/formations-20261013T142949Z.tsv:23 |
+| 22 | 5-4-1 | 2 | 0 1 2 2 3 4 5 7 9 11 12 | (0,-37) (0,-36) (-3,-35) (3,-35) (-6,-33) (6,-33) (0,-31) (-5,-27) (0,-24) (7,-22) (0,-21) | static:experiments/E028-formations-positions/out/formations-20261013T142949Z.tsv:24 |
+| 23 | 5-3-2 | 2 | 0 1 2 2 3 4 6 7 8 12 13 | (0,-37) (0,-36) (-3,-35) (3,-35) (-6,-33) (6,-33) (0,-28) (-5,-27) (5,-27) (0,-21) (0,-18) | static:experiments/E028-formations-positions/out/formations-20261013T142949Z.tsv:25 |
+| 24 | 5-3-2 | 2 | 0 1 2 2 3 4 7 9 11 12 13 | (0,-37) (0,-36) (-3,-35) (3,-35) (-6,-33) (6,-33) (-5,-27) (0,-24) (7,-22) (0,-21) (0,-18) | static:experiments/E028-formations-positions/out/formations-20261013T142949Z.tsv:26 |
+| 25 | 3-5-2 | 2 | 0 1 2 2 6 6 9 10 11 12 13 | (0,-37) (0,-36) (-3,-35) (3,-35) (-3,-28) (3,-28) (0,-24) (-7,-22) (7,-22) (0,-21) (0,-18) | static:experiments/E028-formations-positions/out/formations-20261013T142949Z.tsv:27 |
+| 26 | 4-4-2 | 2 | 0 1 2 3 4 5 6 7 8 13 13 | (0,-37) (0,-36) (0,-35) (-6,-33) (6,-33) (0,-31) (0,-28) (-5,-27) (5,-27) (-3,-18) (3,-18) | static:experiments/E028-formations-positions/out/formations-20261013T142949Z.tsv:28 |
+| 27 | 4-3-3 | 2 | 0 1 2 3 4 5 7 8 13 13 13 | (0,-37) (0,-36) (0,-35) (-6,-33) (6,-33) (0,-31) (-5,-27) (5,-27) (-3,-18) (3,-18) (0,-18) | static:experiments/E028-formations-positions/out/formations-20261013T142949Z.tsv:29 |
+| 28 | 4-4-2 | 2 | 0 1 2 3 4 6 7 9 11 12 13 | (0,-37) (0,-36) (0,-35) (-6,-33) (6,-33) (0,-28) (-5,-27) (0,-24) (7,-22) (0,-21) (0,-18) | static:experiments/E028-formations-positions/out/formations-20261013T142949Z.tsv:30 |
+| 29 | 4-4-2 | 2 | 0 2 2 3 4 5 6 7 8 12 13 | (0,-37) (-3,-35) (3,-35) (-6,-33) (6,-33) (0,-31) (0,-28) (-5,-27) (5,-27) (0,-21) (0,-18) | static:experiments/E028-formations-positions/out/formations-20261013T142949Z.tsv:31 |
+| 30 | 5-3-2 | 1 | 0 1 2 2 3 4 5 5 11 12 13 | (0,-37) (0,-36) (-3,-35) (3,-35) (-6,-33) (6,-33) (-3,-31) (3,-31) (7,-22) (0,-21) (0,-18) | static:experiments/E028-formations-positions/out/formations-20261013T142949Z.tsv:32 |
+| 31 | 5-4-1 | 1 | 0 1 2 2 3 4 5 6 9 11 12 | (0,-37) (0,-36) (-3,-35) (3,-35) (-6,-33) (6,-33) (0,-31) (0,-28) (0,-24) (7,-22) (0,-21) | static:experiments/E028-formations-positions/out/formations-20261013T142949Z.tsv:33 |
+| 32 | 5-2-3 | 1 | 0 1 2 2 3 4 5 6 12 13 13 | (0,-37) (0,-36) (-3,-35) (3,-35) (-6,-33) (6,-33) (0,-31) (0,-28) (0,-21) (-3,-18) (3,-18) | static:experiments/E028-formations-positions/out/formations-20261013T142949Z.tsv:34 |
+| 33 | 5-3-2 | 1 | 0 1 2 2 3 4 5 7 11 12 13 | (0,-37) (0,-36) (-3,-35) (3,-35) (-6,-33) (6,-33) (0,-31) (-5,-27) (7,-22) (0,-21) (0,-18) | static:experiments/E028-formations-positions/out/formations-20261013T142949Z.tsv:35 |
+| 34 | 5-4-1 | 1 | 0 1 2 2 3 4 6 7 8 9 13 | (0,-37) (0,-36) (-3,-35) (3,-35) (-6,-33) (6,-33) (0,-28) (-5,-27) (5,-27) (0,-24) (0,-18) | static:experiments/E028-formations-positions/out/formations-20261013T142949Z.tsv:36 |
+| 35 | 3-5-2 | 1 | 0 1 2 2 5 6 7 8 9 12 13 | (0,-37) (0,-36) (-3,-35) (3,-35) (0,-31) (0,-28) (-5,-27) (5,-27) (0,-24) (0,-21) (0,-18) | static:experiments/E028-formations-positions/out/formations-20261013T142949Z.tsv:37 |
+| 36 | 3-5-2 | 1 | 0 1 2 2 5 6 7 9 11 12 13 | (0,-37) (0,-36) (-3,-35) (3,-35) (0,-31) (0,-28) (-5,-27) (0,-24) (7,-22) (0,-21) (0,-18) | static:experiments/E028-formations-positions/out/formations-20261013T142949Z.tsv:38 |
+| 37 | 3-5-2 | 1 | 0 1 2 2 5 6 7 9 11 13 13 | (0,-37) (0,-36) (-3,-35) (3,-35) (0,-31) (0,-28) (-5,-27) (0,-24) (7,-22) (-3,-18) (3,-18) | static:experiments/E028-formations-positions/out/formations-20261013T142949Z.tsv:39 |
+| 38 | 3-6-1 | 1 | 0 1 2 2 5 7 8 9 10 11 13 | (0,-37) (0,-36) (-3,-35) (3,-35) (0,-31) (-5,-27) (5,-27) (0,-24) (-7,-22) (7,-22) (0,-18) | static:experiments/E028-formations-positions/out/formations-20261013T142949Z.tsv:40 |
+| 39 | 3-4-3 | 1 | 0 1 2 2 5 7 8 11 12 13 13 | (0,-37) (0,-36) (-3,-35) (3,-35) (0,-31) (-5,-27) (5,-27) (7,-22) (0,-21) (-3,-18) (3,-18) | static:experiments/E028-formations-positions/out/formations-20261013T142949Z.tsv:41 |
+| 40 | 3-5-2 | 1 | 0 1 2 2 6 6 7 8 9 12 13 | (0,-37) (0,-36) (-3,-35) (3,-35) (-3,-28) (3,-28) (-5,-27) (5,-27) (0,-24) (0,-21) (0,-18) | static:experiments/E028-formations-positions/out/formations-20261013T142949Z.tsv:42 |
+| 41 | 4-4-2 | 1 | 0 1 2 3 4 5 5 6 9 13 13 | (0,-37) (0,-36) (0,-35) (-6,-33) (6,-33) (-3,-31) (3,-31) (0,-28) (0,-24) (-3,-18) (3,-18) | static:experiments/E028-formations-positions/out/formations-20261013T142949Z.tsv:43 |
+| 42 | 4-5-1 | 1 | 0 1 2 3 4 5 6 6 9 11 13 | (0,-37) (0,-36) (0,-35) (-6,-33) (6,-33) (0,-31) (-3,-28) (3,-28) (0,-24) (7,-22) (0,-18) | static:experiments/E028-formations-positions/out/formations-20261013T142949Z.tsv:44 |
+| 43 | 4-3-3 | 1 | 0 1 2 3 4 5 6 9 12 13 13 | (0,-37) (0,-36) (0,-35) (-6,-33) (6,-33) (0,-31) (0,-28) (0,-24) (0,-21) (-3,-18) (3,-18) | static:experiments/E028-formations-positions/out/formations-20261013T142949Z.tsv:45 |
+| 44 | 4-4-2 | 1 | 0 1 2 3 4 5 6 10 11 12 13 | (0,-37) (0,-36) (0,-35) (-6,-33) (6,-33) (0,-31) (0,-28) (-7,-22) (7,-22) (0,-21) (0,-18) | static:experiments/E028-formations-positions/out/formations-20261013T142949Z.tsv:46 |
+| 45 | 4-4-2 | 1 | 0 1 2 3 4 5 7 9 11 13 13 | (0,-37) (0,-36) (0,-35) (-6,-33) (6,-33) (0,-31) (-5,-27) (0,-24) (7,-22) (-3,-18) (3,-18) | static:experiments/E028-formations-positions/out/formations-20261013T142949Z.tsv:47 |
+| 46 | 4-5-1 | 1 | 0 1 2 3 4 6 6 8 9 10 13 | (0,-37) (0,-36) (0,-35) (-6,-33) (6,-33) (-3,-28) (3,-28) (5,-27) (0,-24) (-7,-22) (0,-18) | static:experiments/E028-formations-positions/out/formations-20261013T142949Z.tsv:48 |
+| 47 | 4-4-2 | 1 | 0 1 2 3 4 6 6 10 11 12 13 | (0,-37) (0,-36) (0,-35) (-6,-33) (6,-33) (-3,-28) (3,-28) (-7,-22) (7,-22) (0,-21) (0,-18) | static:experiments/E028-formations-positions/out/formations-20261013T142949Z.tsv:49 |
+| 48 | 4-5-1 | 1 | 0 1 2 3 4 6 7 8 10 11 12 | (0,-37) (0,-36) (0,-35) (-6,-33) (6,-33) (0,-28) (-5,-27) (5,-27) (-7,-22) (7,-22) (0,-21) | static:experiments/E028-formations-positions/out/formations-20261013T142949Z.tsv:50 |
+| 49 | 5-3-2 | 1 | 0 2 2 2 3 4 5 6 9 12 13 | (0,-37) (-3,-35) (3,-35) (0,-35) (-6,-33) (6,-33) (0,-31) (0,-28) (0,-24) (0,-21) (0,-18) | static:experiments/E028-formations-positions/out/formations-20261013T142949Z.tsv:51 |
+| 50 | 4-5-1 | 1 | 0 2 2 3 4 5 6 7 8 9 13 | (0,-37) (-3,-35) (3,-35) (-6,-33) (6,-33) (0,-31) (0,-28) (-5,-27) (5,-27) (0,-24) (0,-18) | static:experiments/E028-formations-positions/out/formations-20261013T142949Z.tsv:52 |
+| 51 | 4-4-2 | 1 | 0 2 2 3 4 5 6 7 8 13 13 | (0,-37) (-3,-35) (3,-35) (-6,-33) (6,-33) (0,-31) (0,-28) (-5,-27) (5,-27) (-3,-18) (3,-18) | static:experiments/E028-formations-positions/out/formations-20261013T142949Z.tsv:53 |
+| 52 | 4-3-3 | 1 | 0 2 2 3 4 5 6 10 12 12 13 | (0,-37) (-3,-35) (3,-35) (-6,-33) (6,-33) (0,-31) (0,-28) (-7,-22) (-3,-21) (3,-21) (0,-18) | static:experiments/E028-formations-positions/out/formations-20261013T142949Z.tsv:54 |
 
 ### 4. From post to destination, and where a match starts (read)
 
@@ -110,20 +110,20 @@ Conventions: positions are `x` (column) and `y` (row), signed bytes; `y` is in t
 - **Kick-off arrangement (state 1).** In a watched half `983F` first sets the state byte `+0x12` of all 22 records to 1 (`2929(1)`); the tick's dispatcher `8AE9` calls `69BD` for state 1. `69BD` sets the destination to the post, adds the kick-off depth `DS:0812[+6]` to its y (the last column of the table above), mirrors it, then: the record that is the ball holder gets `DS:0820` = (0, -1) (the centre spot), and the last (eleventh) slot of the holder's side gets `DS:0822` = (-2, -1); when a record reaches its destination (`2CC5`) and `DS:8326` is 0 the holder goes to state 2 and the rest to state 0. The kick-off holder is the tenth slot of the kicking side (`9A32`). So at the whistle all outfield players stand in their own half (y from -37 for the keeper to -2 before the mirror) and two of the kicking side stand at the centre. **read** (the states 2 and 0 handlers were not read). static:static/goal-exe/code/seg_0791_16.asm:154 static:static/goal-exe/code/seg_0791_16.asm:156 static:static/goal-exe/code/seg_0791_14.asm:931 static:static/goal-exe/code/seg_0791_11.asm:780 static:static/goal-exe/code/seg_0791_11.asm:792 static:static/goal-exe/code/seg_0791_11.asm:798 static:static/goal-exe/code/seg_0791_11.asm:820
 - **Open play (state 5, `57AC`).** For a player that is not busy with an energy, foul or duel branch, `57AC` either sends him to the ball (`dest := ball`) or calls `4A28`, which, for a side without the ball, calls `4354`: **destination = post + (x offset, depth offset), mirrored** (`+7 := +9 + +0xB`, `+8 := +0xA + +0xC`, then `2C86`); a side with the ball refreshes it through `4354` on an energy gate (and for the sweeper on the ball test of section 5). The x offset `+0xB` is `rand(5) - 3` (-2..+2), `0` for the goalkeeper and `rand(15) - 8` (-7..+7) for the striker (code 13; `rand(5) - 3` in state 9); when the depth offset `+0xC` is below 2 the x offset also loses half of the post's x. After the destination, `474D` moves the depth offset `+0xC` by one step per update: up (`4532`, while `+0xC` is below the attacking limit `DS:07DB[e7 * 4 + g]`) or down (`4649`, while `+0xC` is above the defending limit `DS:07CB[e5 * 8 + e6 * 4 + g]`), e5, e6, e7 being the effective tactic elements 5, 6, 7 and `g` the **group code** of `42CB`. `4B64` writes the offset straight from the same tables (clamped into `[0, min(2 * |ball y|, 42)]` when defending) in the states that call it (the keeper holding the ball with `DS:8302` = 0, and the handlers `7069`, `715A`, `7287` and `7621`, states 7, 9, 8 and 11). **read**; `42CB` gives `g` = 4 for the goalkeeper, else `DS:07BA[2 * (code > 4) + flag]` = [3, 2, 2, 1] with `flag` = 1 for codes 12 and 13 and, for codes below 12, when the effective element 1 (push forward) is set and the player's side has the ball. static:static/goal-exe/code/seg_0791_07.asm:753 static:static/goal-exe/code/seg_0791_07.asm:764 static:static/goal-exe/code/seg_0791_08.asm:734 static:static/goal-exe/code/seg_0791_08.asm:795 static:static/goal-exe/code/seg_0791_08.asm:818 static:static/goal-exe/code/seg_0791_08.asm:131 static:static/goal-exe/named/seg_0791_04.c:942 static:static/goal-exe/code/seg_0791_12.asm:475 static:static/goal-exe/code/seg_0791_12.asm:542 static:static/goal-exe/code/seg_0791_12.asm:712 static:static/goal-exe/code/seg_0791_12.asm:1313 static:static/goal-exe/data/ds_2581_01.hex:69 static:static/goal-exe/data/ds_2581_01.hex:70
 
-| tactic elements | g = 1 | g = 2 | g = 3 | g = 4 |
-| --- | --- | --- | --- | --- |
-| defending, `DS:07CB`, e5 = 0, e6 = 0 | 0 | 0 | 0 | 0 |
-| defending, e5 = 0, e6 = 1 | 15 | 10 | 2 | 0 |
-| defending, e5 = 1, e6 = 0 | 10 | 5 | 0 | 0 |
-| defending, e5 = 1, e6 = 1 | 45 | 25 | 5 | 0 |
-| attacking, `DS:07DB`, e7 = 0 | 60 | 45 | 25 | 0 |
-| attacking, e7 = 1 | 60 | 50 | 35 | 0 |
+| tactic elements | g = 1 | g = 2 | g = 3 | g = 4 | evidence |
+| --- | --- | --- | --- | --- | --- |
+| defending, `DS:07CB`, e5 = 0, e6 = 0 | 0 | 0 | 0 | 0 | static:static/goal-exe/data/ds_2581_01.hex:69 static:static/goal-exe/data/ds_2581_01.hex:70 |
+| defending, e5 = 0, e6 = 1 | 15 | 10 | 2 | 0 | static:static/goal-exe/data/ds_2581_01.hex:69 static:static/goal-exe/data/ds_2581_01.hex:70 |
+| defending, e5 = 1, e6 = 0 | 10 | 5 | 0 | 0 | static:static/goal-exe/data/ds_2581_01.hex:69 static:static/goal-exe/data/ds_2581_01.hex:70 |
+| defending, e5 = 1, e6 = 1 | 45 | 25 | 5 | 0 | static:static/goal-exe/data/ds_2581_01.hex:69 static:static/goal-exe/data/ds_2581_01.hex:70 |
+| attacking, `DS:07DB`, e7 = 0 | 60 | 45 | 25 | 0 | static:static/goal-exe/data/ds_2581_01.hex:69 static:static/goal-exe/data/ds_2581_01.hex:70 |
+| attacking, e7 = 1 | 60 | 50 | 35 | 0 | static:static/goal-exe/data/ds_2581_01.hex:69 static:static/goal-exe/data/ds_2581_01.hex:70 |
 
 - Reading of the table: with all three effective elements clear the defending team stands on its posts (offset 0); `g` 1 is the attackers and the pushed-up midfielders, `g` 2 the defenders pushed up and the midfielders, `g` 3 the defenders held back (a sweeper without element 1, backs, centre backs), `g` 4 the keeper. The offset is a limit, not a jump: each update raises it by 1 (`4532`, attacking) or lowers it by 1 (`4649`, defending) while the limit and the ball test allow, so a formation's depth changes over many ticks. **read**; the element meanings are F008's and F010's (5: half pitch / full pitch; 6: sag back / stand ground; 7: play safe / offside trap). static:static/goal-exe/code/seg_0791_08.asm:47 static:static/goal-exe/code/seg_0791_07.asm:1005 static:static/goal-exe/code/seg_0791_08.asm:149 static:static/goal-exe/code/seg_0791_08.asm:160
 
 ### 5. The sweeper (read)
 
-- **Where he stands**: code 1, post (0, -36), one row in front of the keeper and behind the centre backs (-35); he is the second slot of the ascending order whenever the eleven has one. **exact** for the post. 105 of the 128 countries field exactly one (a code 1 appears at most once in any block-10 eleven); 23 have none (formations 10, 11, 18, 19, 20, 29, 49, 50, 51 and 52 of the table: 4-3-3, 4-4-2, 4-5-1 and one 5-3-2), where slot 2 is the lowest outfield code, a centre back. **exact** (parsed).
+- **Where he stands**: code 1, post (0, -36), one row in front of the keeper and behind the centre backs (-35); he is the second slot of the ascending order whenever the eleven has one. **exact** for the post. 105 of the 128 countries field exactly one (a code 1 appears at most once in any block-10 eleven); 23 have none (formations 10, 11, 18, 19, 20, 29, 49, 50, 51 and 52 of the table: 4-3-3, 4-4-2, 4-5-1 and one 5-3-2), where slot 2 is the lowest outfield code, a centre back. **exact** (parsed). static:experiments/E028-formations-positions/out/formations-20261013T142949Z.tsv:3 static:static/goal-exe/data/ds_2581_01.hex:67
 - **No dedicated drift rule.** The help's "the sweeper drifts forward" (A07) has no sweeper-only routine. What moves him forward is the group `g` shared with the backs and centre backs: `g` = 3 (depth limit 25, 35 with the offside trap) unless the effective element 1 is set and his team has the ball, then `g` = 2 (45, 50). The attacking step (`474D`, `4532`) is taken by a defender (code at most 4) only while the ball is ahead of him (`2D10(pitch, 0)`: the ball's y in the team's frame is greater than his); otherwise he drops back as when defending. **read**. static:static/goal-exe/code/seg_0791_08.asm:149 static:static/goal-exe/code/seg_0791_08.asm:160 static:static/goal-exe/code/seg_0791_05.asm:425
 - **Sweeper-only tests** (the listing tests the code 1, and separately the slot number 2 through `2BB1`, the slot's number within its side; with the ascending order slot 2 is the sweeper when there is one, else the lowest outfield code): (a) when defending, `4649`'s case `g = 3` always answers yes for the sweeper, so he drops back one step per update whatever the ball does (others only when the ball is not more than 10 ahead of them, or they are slot 2); (b) when attacking, `4A28` refreshes his destination whenever the ball is not more than 10 ahead of him (`2D10(pitch, 10)` false), others by the energy gate; (c) `57AC`'s test for taking the post/marking destination instead of running to the ball has a term `DS:830C != 0 and 2BB1 != 2 and code != 1` (`DS:830C` is a slot byte the listing sets with the ball in play; its meaning is not established here) that a sweeper, or the player in slot 2, can never satisfy; (d) `474D` sets the x offset of slot 2 to minus his post's x when defending, pulling him to x = 0; (e) `1771:3EF8` leaves the sweeper out of the man-to-man candidates (his entry is set to 0) and zeroes slot 2's marking word when slot 2 is a sweeper; the keeper is outside its loop (slots 2..11). **read**. static:static/goal-exe/code/seg_0791_08.asm:117 static:static/goal-exe/code/seg_0791_08.asm:149 static:static/goal-exe/named/seg_0791_04.c:221 static:static/goal-exe/named/seg_0791_04.c:952 static:static/goal-exe/named/seg_1771_03.c:714 static:static/goal-exe/named/seg_1771_03.c:724
 
@@ -146,25 +146,25 @@ Conventions: positions are `x` (column) and `y` (row), signed bytes; `y` is in t
 
 ### 9. What reads the 14 codes in a match (read)
 
-`readers-named.tsv` and `readers-asm.tsv` list the routines that read +6 or +7 (syntactic sites, 160 and 70). Grouped by what they feed; the column says which byte:
+- `readers-named.tsv` and `readers-asm.tsv` list the routines that read +6 or +7 (syntactic sites, 160 and 70). Grouped by what they feed; the column says which byte: static:experiments/E028-formations-positions/out/readers-named.tsv:1
 
-| consumer | byte | feeds |
-| --- | --- | --- |
-| `1771:0BC4` | +6 via `DS:0D4E` | quick engine's four line sums (F012) |
-| `1771:0E6C` | +6 via `DS:0D5C` | the formation label |
-| `1771:3431` (and `33CD`) | +6 | player tactic bits, codes {0,1,3,4} and 2 (F010) |
-| `1771:3A06`, `2FAD`, `3088`, `3947` | +7 | skills, height, foot, skill bars |
-| `1771:3179` | +6 and +7 | the flag, section 7 |
-| `1771:52CC`, `517A`, `5532`, `53E8`, `0791:230C` | +6 | squad and pool order |
-| `0791:419C` | +6 | post (`DS:079E`) |
-| `0791:42CB`, `4354`, `4438`, `4649`, `474D`, `4A28`, `4B64`, `4E28`, `57AC`, `69BD` | +6 | group `g`, destination, depth offset, pass choice (`4E28` chooses between `3323` and `384C` move_ball_to_slot by code: backs 3, 4 and midfielders 7, 8 take `384C` when the effective element 1 is set, the midfielders with a one-in-three exception; wingers 10, 11 always; forwards 12, 13 unless a draw of one in `DS:07E4[code = 12]` = 3 for the centre forward, 4 for the striker), kick-off place |
-| `0791:2F28`, `3D38`, `384C`, `74C2`, `86D0` | +6 | a shooting-range test (`2F28`: in the attacking half, `|y| >= code + 12` and `|x| <= DS:0776[|y| > 28]` = 2 or 4), set-piece and keeper details (`74C2` sets a taker's code to 1 for the length of one range test) |
-| `1771:3EF8`, `3E2F` | +6 | man-to-man pairs |
-| `0791:5049`, `7B77`, `7D56`, `0106` | +6 | keeper tests in the energy branch, the send-off and the injury, the summary's name colours (purpose read from the site only) |
-| `0791:AAE8`, `A9B8`, `AC67`, `AD8F`, `AFA3`, `C7EB`, `C88D`, `C48D` (-> `C24D`, `C2A8`, `C406`, `BEC7`), `C50C` | +6 and +7 | substitutions and the removal of a player (the pickers; `C7EB` +7) |
-| `0791:BC5D`, `BEC7`, `C01A`, `DC7E`, `EA09` | +6 | reset, computer re-placement, assistant's recommendation, first-team check |
+| consumer | byte | feeds | evidence |
+| --- | --- | --- | --- |
+| `1771:0BC4` | +6 via `DS:0D4E` | quick engine's four line sums (F012) | static:experiments/E028-formations-positions/out/readers-named.tsv:1 |
+| `1771:0E6C` | +6 via `DS:0D5C` | the formation label | static:experiments/E028-formations-positions/out/readers-named.tsv:1 |
+| `1771:3431` (and `33CD`) | +6 | player tactic bits, codes {0,1,3,4} and 2 (F010) | static:experiments/E028-formations-positions/out/readers-named.tsv:1 |
+| `1771:3A06`, `2FAD`, `3088`, `3947` | +7 | skills, height, foot, skill bars | static:experiments/E028-formations-positions/out/readers-named.tsv:1 |
+| `1771:3179` | +6 and +7 | the flag, section 7 | static:experiments/E028-formations-positions/out/readers-named.tsv:1 |
+| `1771:52CC`, `517A`, `5532`, `53E8`, `0791:230C` | +6 | squad and pool order | static:experiments/E028-formations-positions/out/readers-named.tsv:1 |
+| `0791:419C` | +6 | post (`DS:079E`) | static:experiments/E028-formations-positions/out/readers-named.tsv:1 |
+| `0791:42CB`, `4354`, `4438`, `4649`, `474D`, `4A28`, `4B64`, `4E28`, `57AC`, `69BD` | +6 | group `g`, destination, depth offset, pass choice (`4E28` chooses between `3323` and `384C` move_ball_to_slot by code: backs 3, 4 and midfielders 7, 8 take `384C` when the effective element 1 is set, the midfielders with a one-in-three exception; wingers 10, 11 always; forwards 12, 13 unless a draw of one in `DS:07E4[code = 12]` = 3 for the centre forward, 4 for the striker), kick-off place | static:experiments/E028-formations-positions/out/readers-named.tsv:1 |
+| `0791:2F28`, `3D38`, `384C`, `74C2`, `86D0` | +6 | a shooting-range test (`2F28`: in the attacking half, `|y| >= code + 12` and `|x| <= DS:0776[|y| > 28]` = 2 or 4), set-piece and keeper details (`74C2` sets a taker's code to 1 for the length of one range test) | static:experiments/E028-formations-positions/out/readers-named.tsv:1 |
+| `1771:3EF8`, `3E2F` | +6 | man-to-man pairs | static:experiments/E028-formations-positions/out/readers-named.tsv:1 |
+| `0791:5049`, `7B77`, `7D56`, `0106` | +6 | keeper tests in the energy branch, the send-off and the injury, the summary's name colours (purpose read from the site only) | static:experiments/E028-formations-positions/out/readers-named.tsv:1 |
+| `0791:AAE8`, `A9B8`, `AC67`, `AD8F`, `AFA3`, `C7EB`, `C88D`, `C48D` (-> `C24D`, `C2A8`, `C406`, `BEC7`), `C50C` | +6 and +7 | substitutions and the removal of a player (the pickers; `C7EB` +7) | static:experiments/E028-formations-positions/out/readers-named.tsv:1 |
+| `0791:BC5D`, `BEC7`, `C01A`, `DC7E`, `EA09` | +6 | reset, computer re-placement, assistant's recommendation, first-team check | static:experiments/E028-formations-positions/out/readers-named.tsv:1 |
 
-**read** for the sites; the "feeds" column is the site's purpose where sections 1 to 8 read the routine, and a guess from the neighbouring code otherwise. static:experiments/E028-formations-positions/out/readers-named.tsv:1 static:experiments/E028-formations-positions/out/readers-asm.tsv:1
+- **read** for the sites; the "feeds" column is the site's purpose where sections 1 to 8 read the routine, and a guess from the neighbouring code otherwise. static:experiments/E028-formations-positions/out/readers-asm.tsv:1 static:experiments/E028-formations-positions/out/readers-named.tsv:1 static:experiments/E028-formations-positions/out/readers-asm.tsv:1
 
 ## Method
 
