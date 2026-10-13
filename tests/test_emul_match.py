@@ -891,14 +891,15 @@ class LongReaderTests(unittest.TestCase):
                                           "flags": self.NON_ARITH | fl})
 
     def test_mul_tally_counts_exactly(self):
-        """Kills: any counter's condition or increment. Six calls (3,0,0,5) (2,3,5,7) (0xFFFF,0,0,2) (0,0,0xFFFF,0xFFFF)
-        (2,0,1,0) (0,1,0,1): DX non-zero 2, BX non-zero 3, the mul-bx term non-zero 2, the mul-cx term non-zero 2, a
-        carry out of AX*CX 1, product+1 6, SI differs at entry 6 (the guest's SI is 0x3333, no AX)."""
-        cases = [(3, 0, 0, 5), (2, 3, 5, 7), (0xFFFF, 0, 0, 2), (0, 0, 0xFFFF, 0xFFFF), (2, 0, 1, 0), (0, 1, 0, 1)]
-        want = {"calls": 6, "DX operand (a high word) non-zero": 2, "BX operand (b high word) non-zero": 3,
-                "mul bx term (AX * BX low word) non-zero = no-cross-term changes DX": 2,
+        """Kills: any counter's condition or increment. Seven calls (3,0,0,5) (2,3,5,7) (0xFFFF,0,0,2) (0,0,0xFFFF,0xFFFF)
+        (2,0,1,0) (0,1,0,1) (4,0,3,0): DX non-zero 2, BX non-zero 4, the mul-bx term non-zero 3 (calls 2, 5, 7), the
+        mul-cx term non-zero 2 (calls 2, 6: the counts differ, so the two terms cannot be exchanged), a carry out of
+        AX*CX 1, product+1 7, SI differs at entry 7 (the guest's SI is 0x3333, no AX)."""
+        cases = [(3, 0, 0, 5), (2, 3, 5, 7), (0xFFFF, 0, 0, 2), (0, 0, 0xFFFF, 0xFFFF), (2, 0, 1, 0), (0, 1, 0, 1), (4, 0, 3, 0)]
+        want = {"calls": 7, "DX operand (a high word) non-zero": 2, "BX operand (b high word) non-zero": 4,
+                "mul bx term (AX * BX low word) non-zero = no-cross-term changes DX": 3,
                 "mul cx term (DX * CX low word) non-zero": 2, "carry out of AX * CX non-zero": 1,
-                "product+1 changes the result": 6, "SI differs at entry = the scratch falsifier shows": 6}
+                "product+1 changes the result": 7, "SI differs at entry = the scratch falsifier shows": 7}
         for kw in ({}, {"falsifier": "product+1"}, {"falsifier": "no-cross-term"}, {"falsifier": "scratch"}):
             tally = {}
             for regs in cases:
@@ -919,6 +920,8 @@ class LongReaderTests(unittest.TestCase):
         self.assertEqual((g.regs["ax"], g.regs["dx"]), (0, 1))
         g = self.mul_call(2, 3, 5, 7, falsifier="no-cross-term")                     # DX = 0x1F - 0xA = 0x15 (the DX*CX term only)
         self.assertEqual((g.regs["ax"], g.regs["dx"], g.regs["bx"], g.regs["cx"]), (0xE, 0x15, 0xA, 0x15))
+        g = self.mul_call(0xFFFF, 0, 2, 0xFFFF, falsifier="no-cross-term")          # DX = 0xFFFC - 0xFFFE wraps to 0xFFFE (16 bits)
+        self.assertEqual((g.regs["ax"], g.regs["dx"]), (1, 0xFFFE))
         g = self.mul_call(2, 3, 5, 7, falsifier="scratch")
         self.assertEqual((g.regs["si"], g.regs["di"], g.regs["ax"], g.regs["dx"]), (0x3333, 3, 0xE, 0x1F))   # SI left as it was
 

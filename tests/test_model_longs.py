@@ -30,6 +30,7 @@ class FlagTests(unittest.TestCase):
         self.assertEqual(L.sub16_flags(0x8000, 0x7FFF), OF | AF)        # 0x0001: signed overflow, borrow out of bit 3
         self.assertEqual(L.sub16_flags(0x7FFF, 0x8000), OF | CF | SF | PF)   # 0xFFFF: no borrow out of bit 3 (F - 0), 8 bits -> PF
         self.assertEqual(L.sub16_flags(0xFFFF, 0xFFFE), 0)
+        self.assertEqual(L.sub16_flags(8, 1), 0)                        # 7: bit 3 of x ^ y ^ r is set but AF is bit 4's: clear
 
     def test_add_flags(self):
         self.assertEqual(L.add16_flags(0xFFFF, 1), CF | AF | ZF | PF)    # 0: carry, carry out of bit 3, zero, even
@@ -37,6 +38,7 @@ class FlagTests(unittest.TestCase):
         self.assertEqual(L.add16_flags(1, 2), PF)                        # 3: two bits -> even
         self.assertEqual(L.add16_flags(1, 1), 0)                         # 2: one bit -> odd
         self.assertEqual(L.add16_flags(0x8000, 0x8000), CF | OF | ZF | PF)
+        self.assertEqual(L.add16_flags(4, 4), 0)                         # 8: bit 3 of x ^ y ^ r is set but AF is bit 4's: clear
 
 
 class Max0D56Tests(unittest.TestCase):
@@ -109,6 +111,7 @@ class Mul0279Tests(unittest.TestCase):
         ((1, 0, 0xFFFF, 0), (0, 0xFFFF, 0xFFFF, 0, 1, 0, 0x84)),             # 1 * (0xFFFF << 16)
         ((0x100, 0x100, 0x100, 0x100), (0, 1, 0, 0, 0x100, 0x100, 0)),       # both low terms vanish; high-word carry of AX * CX
         ((0xFFFF, 0xFFFF, 0, 1), (0xFFFF, 0xFFFF, 0, 0xFFFF, 0xFFFF, 0xFFFF, 0x84)),   # -1 * 1
+        ((0xFFFF, 0, 2, 0xFFFF), (0x1, 0xFFFC, 0xFFFE, 0, 0xFFFF, 0, 0x84)),   # 028F `add dx, bx` carries out (0xFFFE + 0xFFFE): the carry is lost, CF of 0291 is clear
     ]
 
     def test_exact_tuples(self):
