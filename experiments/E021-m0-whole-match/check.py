@@ -42,7 +42,9 @@ to a new file under experiments/E021-m0-whole-match/out/ (never overwritten)."""
 import argparse
 import hashlib
 import json
+import os
 import re
+import shutil
 import subprocess
 import sys
 import time
@@ -377,14 +379,42 @@ def m2b_counts(rid):
     raise SystemExit(f"no M2b counts for {rid}")
 
 
+def common_dl():
+    """The main checkout's .cache/dl (the git common dir's parent), or None when git cannot say."""
+    r = subprocess.run(["git", "-C", str(ROOT), "rev-parse", "--path-format=absolute", "--git-common-dir"],
+                       capture_output=True, text=True)
+    if r.returncode != 0 or not r.stdout.strip():
+        return None
+    return Path(r.stdout.strip()).parent / ".cache/dl"
+
+
 def asset(entry, release="E011"):
-    """A record output's bytes, by its sha256 (downloaded from the release when not cached)."""
+    """A record output's bytes, by its sha256: from this worktree's cache, else the main checkout's (copied in),
+    else downloaded from the release. A file enters the cache only whole: it is written under a per-process temp
+    directory and renamed into place (os.replace, atomic), so two first runs cannot half-read each other."""
     name = f"{entry['sha256'][:16]}-{entry['name']}"
     path = DL / name
     if not path.is_file():
         DL.mkdir(parents=True, exist_ok=True)
-        subprocess.run(["gh", "release", "download", release, "--repo", "diegoami/goal2-archaeology",
-                        "--pattern", name, "--dir", str(DL)], check=True)
+        tmp = DL / f".{name}.{os.getpid()}.part"
+        shutil.rmtree(tmp, ignore_errors=True)
+        tmp.mkdir()
+        try:
+            common = common_dl()
+            if common is not None and (common / name).is_file() and common.resolve() != DL.resolve():
+                shutil.copyfile(common / name, tmp / name)
+            else:
+                cmd = ["gh", "release", "download", release, "--repo", "diegoami/goal2-archaeology",
+                       "--pattern", name, "--dir", str(DL)]
+                try:
+                    subprocess.run(cmd[:-1] + [str(tmp)], check=True)
+                    if not (tmp / name).is_file():
+                        raise OSError("gh wrote no such file")
+                except (subprocess.CalledProcessError, OSError) as e:
+                    raise SystemExit(f"cannot download {name} ({e}); run: {' '.join(cmd)}")
+            os.replace(tmp / name, path)
+        finally:
+            shutil.rmtree(tmp, ignore_errors=True)
     data = path.read_bytes()
     if driver.sha256(data) != entry["sha256"]:
         raise SystemExit(f"{path}: sha256 does not match the record's {entry['sha256']}")
@@ -462,6 +492,8 @@ def main(argv=None):
     ap.add_argument("--hook", choices=sorted(HOOKS) + sorted(M1) + sorted(M1B) + sorted(M2) + sorted(M2C), default="none")
     a = ap.parse_args(argv)
     records = sorted(Path(a.runs).glob("E011-r*.json"))
+    for p in records:       # every asset first: a failed download stops here, before any measured output
+        asset(next(o for o in json.loads(p.read_text())["outputs"] if o["name"].endswith("-watchstart.sav")))
     n = ok = 0
     failed = []
     hooked = proved = reader_hooked = reader_proved = 0
