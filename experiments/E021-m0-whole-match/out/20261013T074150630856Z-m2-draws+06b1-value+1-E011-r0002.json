@@ -1,0 +1,62 @@
+{
+ "final": {
+  "831F": 0,
+  "831D": 0,
+  "8325": 0,
+  "831B": 91,
+  "7B62": 62758,
+  "score": [
+   0,
+   0
+  ],
+  "ticks": 0,
+  "draws": 7
+ },
+ "key_log": [
+  [
+   "captain screen (the starting burst's Enter)",
+   13,
+   0,
+   0,
+   37141
+  ]
+ ],
+ "strays": [],
+ "hook_counts": {
+  "214B:0688": 11,
+  "0791:278A": 74,
+  "1771:377E": 0,
+  "0791:287C": 0,
+  "214B:06B1": 1,
+  "214B:06D0": 0
+ },
+ "inputs": [
+  {
+   "what": "delay byte [DS:A923]+0x3F",
+   "linear": 382645,
+   "old": "01",
+   "new": "00"
+  }
+ ],
+ "run_id": "E011-r0002",
+ "hook": "m2-draws+06b1-value+1",
+ "start_state": {
+  "name": "E011-r0002-watchstart.sav",
+  "sha256": "9d475dcbec7822232aa7877c46e09ab9447520fc3e01fbc351d50ecb3155e100"
+ },
+ "reads_matched": 0,
+ "reads": 49,
+ "checks": {
+  "full-time score equals the record's": false,
+  "the 000E skip log is empty": true,
+  "keys: the three declared screens, Enter each": false,
+  "stopped at the full-time board's key wait": false,
+  "seed at the board equals the record's full-time read": false,
+  "board screen sha256 equals the record's full-time screen": false,
+  "every seed write equals the unhooked original's (hooked runs)": false
+ },
+ "error": "ProofError: call #1 of 214B:06B1: register AX at the return: the original 0x0005, the model 0x0006",
+ "seconds": 0.7,
+ "draws_count": 7,
+ "draws_sha256": "5928454252ff651693644a7ef254ad232871959719f4db63d902ddd45fb7de51"
+}

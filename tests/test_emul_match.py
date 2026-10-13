@@ -681,5 +681,117 @@ class GateReaderTests(unittest.TestCase):
         self.assertNotEqual(base.regs["dx"], plus.regs["dx"])
 
 
+class WrapperReaderTests(unittest.TestCase):
+    """T47: check.wrapper_reader (214B:06B1 and 214B:06D0) on literal guest memory (GateGuest: the far pointer at
+    DS:A978 leads to the seed; n is arg(0), [bp + 6]). AX, DX and the seed write (address AND bytes) are what the
+    proof compares; every assertion is an exact value, per wrapper (06B1 = which 1, 06D0 = which 0). The mutation
+    each test must kill is named in its docstring (tests/mutations_t47.py runs them in memory)."""
+    SEED_LIN = GateGuest.SEED_SEG * 16 + GateGuest.SEED_OFF
+    # name: (seed, n, draw, new seed) -- the draw of 1..n and the stepped word (recreate.draw)
+    CASES = {"A": (0x1234, 4, 2, 21363), "B": (1, 2048, 1199, 38348), "C": (0, 4, 1, 6927),
+             "D": (1, 3, 2, 38348), "E": (0, 3, 1, 6927), "F": (15, 3, 1, 19490)}
+
+    def call(self, which, n=4, seed=0x1234, tally=None, **kw):
+        import check
+        g = GateGuest(seed)
+        g.args = (n,)
+        check.wrapper_reader(which, tally, **kw)(g)
+        return g
+
+    @staticmethod
+    def regs(which, draw):
+        """06B1: AX = DX = draw (06C4-06C7). 06D0: AL = 1 when the draw is 1 else 0 (06E3-06EC), AH the draw's
+        high byte, DX the draw."""
+        return {"ax": draw if which else (draw & 0xFF00) | (draw == 1), "dx": draw}
+
+    def test_every_register_and_the_seed_write_of_each_wrapper(self):
+        """Kills, per wrapper: AX = low byte only, AX = 0, AX + 1, DX = 0, DX = draw + 1, AH dropped (06D0),
+        AL = the draw (06D0), AL inverted, the seed write dropped, written to another address, written
+        unchanged (the input seed) or with the wrong stepped value, the seed written big-endian."""
+        for which in (1, 0):
+            for name, (seed, n, draw, new) in self.CASES.items():
+                g = self.call(which, n=n, seed=seed)
+                with self.subTest(which=which, case=name):
+                    self.assertEqual(g.regs, self.regs(which, draw))
+                    self.assertEqual(g.writes, [(self.SEED_LIN, new.to_bytes(2, "little"))])
+                    self.assertEqual(g.rd(0x7B62), 0xBEEF)       # the decoy main seed is untouched
+
+    def test_06d0_al_and_ah_cases(self):
+        """Kills: AL = draw & 0xFF (B: draw 1199 -> AL would be 0xAF), AH from the wrong byte, AL true on the
+        wrong draw (A: draw 2 -> 0; C: draw 1 -> 1)."""
+        self.assertEqual(self.call(0, n=2048, seed=1).regs, {"ax": 0x0400, "dx": 1199})
+        self.assertEqual(self.call(0).regs, {"ax": 0, "dx": 2})
+        self.assertEqual(self.call(0, seed=0).regs, {"ax": 1, "dx": 1})
+
+    def test_n_is_the_first_argument_and_16_bit_free_of_other_args(self):
+        """Kills: n read from arg(1) or arg(2) (GateGuest gives (n, 0x...)), n ignored."""
+        for which in (1, 0):
+            g = GateGuest(1)
+            g.args = (2048, 3, 5)
+            import check
+            check.wrapper_reader(which)(g)
+            self.assertEqual(g.regs, self.regs(which, 1199))
+
+    def test_the_seed_is_read_through_the_far_pointer(self):
+        """Kills: the seed read from DS:7B62 (the decoy 0xBEEF), the pointer's segment or offset swapped."""
+        for which in (1, 0):
+            self.assertEqual(self.call(which, seed=0).regs, self.regs(which, 1))
+            self.assertEqual(self.call(which, seed=0).writes, [(self.SEED_LIN, (6927).to_bytes(2, "little"))])
+
+    def test_the_tally_counts_exactly(self):
+        """Kills: any counter's condition or increment. Six calls A-F per wrapper: 'n+1 changes the draw' is
+        True for D and F (2; A, B, C, E keep their draw); 'draw is 1' for C, E and F (3; A and D draw 2, so
+        'draw == 2' gives 2); F also separates the honest draw from the n+1 falsifier's (1 -> 2); 'value+1' and
+        'inverted' count every call (6); 'seed-write changes the seed' counts every call (6: 0688's step never maps a word to itself, the multiplier 0x7ABD
+        - 1 being even and the increment odd). Under a falsifier the tally still counts the honest run."""
+        for kw in ({}, {"falsifier": "n+1"}, {"falsifier": "value+1"}, {"falsifier": "seed-write"}):
+            t06b1, t06d0 = {}, {}
+            for name, (seed, n, _, _) in self.CASES.items():
+                self.call(1, n=n, seed=seed, tally=t06b1, **kw)
+                self.call(0, n=n, seed=seed, tally=t06d0, **kw)
+            with self.subTest(**kw):
+                self.assertEqual(t06b1, {"calls": 6, "n+1 changes the draw": 2, "value+1 changes AX": 6,
+                                         "seed-write changes the seed": 6})
+                self.assertEqual(t06d0, {"calls": 6, "draw is 1": 3, "inverted changes AL": 6,
+                                         "seed-write changes the seed": 6})
+        t = {}
+        self.call(1, tally=t, falsifier="inverted")
+        self.assertEqual(t["calls"], 1)
+
+    def test_falsifier_n_plus_1(self):
+        """Kills: the falsifier not adding 1 to n, adding it on the wrong wrapper's draw (06B1 case D: n = 3
+        draws 3 instead of 2, the stepped seed is the honest one), the seed write or DX disturbed."""
+        g = self.call(1, n=3, seed=1, falsifier="n+1")
+        self.assertEqual(g.regs, {"ax": 3, "dx": 3})
+        self.assertEqual(g.writes, [(self.SEED_LIN, (38348).to_bytes(2, "little"))])
+        g = self.call(1, n=3, seed=0, falsifier="n+1")           # case E: n + 1 does not change the draw
+        self.assertEqual(g.regs, {"ax": 1, "dx": 1})
+        self.assertEqual({self.call(1, n=3, seed=s, falsifier="n+1").regs["dx"] for s in range(0, 65536, 5)},
+                         {1, 2, 3, 4})
+
+    def test_falsifier_value_plus_1(self):
+        """Kills: AX not + 1, DX also + 1, the seed write dropped or changed."""
+        g = self.call(1, falsifier="value+1")
+        self.assertEqual(g.regs, {"ax": 3, "dx": 2})
+        self.assertEqual(g.writes, [(self.SEED_LIN, (21363).to_bytes(2, "little"))])
+        self.assertEqual(self.call(1, n=2048, seed=1, falsifier="value+1").regs, {"ax": 1200, "dx": 1199})
+
+    def test_falsifier_inverted(self):
+        """Kills: AL not flipped, AH or DX disturbed, the seed write dropped or changed."""
+        g = self.call(0, falsifier="inverted")
+        self.assertEqual(g.regs, {"ax": 1, "dx": 2})
+        self.assertEqual(g.writes, [(self.SEED_LIN, (21363).to_bytes(2, "little"))])
+        self.assertEqual(self.call(0, seed=0, falsifier="inverted").regs, {"ax": 0, "dx": 1})
+        self.assertEqual(self.call(0, n=2048, seed=1, falsifier="inverted").regs, {"ax": 0x0401, "dx": 1199})
+
+    def test_falsifier_seed_write(self):
+        """Kills: the seed write kept, or the registers changed when it is dropped."""
+        for which in (1, 0):
+            g = self.call(which, falsifier="seed-write")
+            self.assertEqual(g.writes, [])
+            self.assertEqual(g.regs, self.regs(which, 2))
+            self.assertEqual(g.word_at(self.SEED_LIN), 0x1234)   # the word stays the input seed
+
+
 if __name__ == "__main__":
     unittest.main()

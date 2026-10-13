@@ -1,0 +1,16 @@
+/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a4361a5e84a62d29a/.cache/dl/d68e48c734a742a6-E011-r0001-watchstart.sav already exists (use `--clobber` to overwrite file or `--skip-existing` to skip file)
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a4361a5e84a62d29a/experiments/E021-m0-whole-match/check.py", line 589, in <module>
+    sys.exit(main())
+             ~~~~^^
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a4361a5e84a62d29a/experiments/E021-m0-whole-match/check.py", line 475, in main
+    data = asset(entry)
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a4361a5e84a62d29a/experiments/E021-m0-whole-match/check.py", line 386, in asset
+    subprocess.run(["gh", "release", "download", release, "--repo", "diegoami/goal2-archaeology",
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                    "--pattern", name, "--dir", str(DL)], check=True)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/subprocess.py", line 578, in run
+    raise CalledProcessError(retcode, process.args,
+                             output=stdout, stderr=stderr)
+subprocess.CalledProcessError: Command '['gh', 'release', 'download', 'E011', '--repo', 'diegoami/goal2-archaeology', '--pattern', 'd68e48c734a742a6-E011-r0001-watchstart.sav', '--dir', '/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a4361a5e84a62d29a/.cache/dl']' returned non-zero exit status 1.

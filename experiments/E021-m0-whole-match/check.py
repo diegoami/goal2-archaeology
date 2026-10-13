@@ -31,11 +31,18 @@ proved at every call. While 287C's original runs in its proof, the hooks of the 
 fire: the original's inner calls are the original's own code (watched_match.original_running), so those routines'
 counts here are M1's minus what 287C's calls make (545 each of 278A and 0688 per record); they are printed per record.
 `m2-287c+inverted` flips 287C's AL, `m2-287c+n+1` adds 32 to the value it divides (n + 1): the falsifiers.
+--hook m2-draws (T47, M2c) adds the draw wrappers 214B:06B1 and 214B:06D0 (runtime/model/draws.py) to M2b's four, six
+routines each proved at every call. While a proof's original runs, the hooks of the routines it calls do not fire, so
+the wrappers' counts are the reach log's (out/t47-reach-helpers.log, unhooked) minus the wrapper entries made inside the
+originals of 278A, 377E and 287C (every entry counted by a code hook in the run, minus the hooked ones: 287C's 06D0 call, 545), and
+0688's are M2b's minus one per wrapper call; the adjustment is computed and printed per record. Falsifiers:
+`m2-draws+06b1-n+1` (draws in 1..n+1), `+06b1-value+1`, `+06d0-inverted`, `+06d0-seed-write` (the seed write dropped).
 Each emulated run's outputs (without the draw list, whose count and sha256 they carry) are written
 to a new file under experiments/E021-m0-whole-match/out/ (never overwritten)."""
 import argparse
 import hashlib
 import json
+import re
 import subprocess
 import sys
 import time
@@ -47,8 +54,10 @@ sys.path.insert(0, str(ROOT / "runtime" / "driver"))
 sys.path.insert(0, str(ROOT / "runtime" / "emul"))
 import driver  # noqa: E402
 from watched_match import WatchedMatch  # noqa: E402
+from unicorn import UC_HOOK_CODE  # noqa: E402
 sys.path.insert(0, str(ROOT / "runtime" / "model"))
 import contests  # noqa: E402
+import draws  # noqa: E402
 import keeping  # noqa: E402
 from condition import _Record  # noqa: E402  (a QuickMatch over literal records and the foot tables)
 from quick_engine import idiv, s16, s8  # noqa: E402
@@ -290,6 +299,47 @@ def gate_reader(tally=None, invert=False, value_plus=0):
     return fn
 
 
+DRAW_06B1, DRAW_06D0 = "214B:06B1", "214B:06D0"
+
+
+def wrapper_reader(which, tally=None, falsifier=None):
+    """214B:06B1 (`which` = 1) or 214B:06D0 (0) as a hook fn (M2c): draws.draw_06b1 / draw_06d0, far-called with
+    `retf 2` (06CD, 06F7): n = [bp + 6] = arg(0) (06BD, 06DC). Reads the far pointer DS:A978 (offset at A978, segment
+    at A97A: 06B7, 06D6) and the seed word it points to (0688's `lodsw`, 0694). Writes the new seed word as 0688's
+    `stosw` does (069F). Results: AX and DX (draws.py). `tally` counts the calls and, per falsifier, the calls it
+    would change (computed from the model's own run); `falsifier` selects one (06B1: n+1, value+1; 06D0: inverted,
+    seed-write)."""
+    model = draws.draw_06b1 if which else draws.draw_06d0
+
+    def fn(g):
+        n = g.arg(0)
+        seed_lin = g.far(0xA978)
+        seed = g.word_at(seed_lin)
+        honest = model(seed, n)
+        r = model(seed, n + 1) if falsifier == "n+1" else honest
+        if tally is not None:
+            def bump(key, cond=True):
+                tally[key] = tally.get(key, 0) + bool(cond)
+            bump("calls")
+            if which:
+                bump("n+1 changes the draw", model(seed, n + 1).draw != honest.draw)
+                bump("value+1 changes AX")
+            else:
+                bump("draw is 1", honest.draw == 1)
+                bump("inverted changes AL")
+            bump("seed-write changes the seed", honest.seed != seed)
+        if falsifier != "seed-write":
+            g.put(seed_lin, r.seed.to_bytes(2, "little"))
+        ax = r.ax
+        if falsifier == "value+1":
+            ax = (ax + 1) & 0xFFFF
+        elif falsifier == "inverted":
+            ax ^= 1
+        g.set_reg("ax", ax)
+        g.set_reg("dx", r.dx)
+    return fn
+
+
 HOOKS = {"none": None, "f004": f004_step(), "f004+hidden-write": hidden_write(f004_step()),
          "f004+raw-write": raw_write(f004_step()), "f004+831D-write": clock_write(f004_step()),
          "f004+inc+1-off-seed": off_seed_increment(f004_step(), f004_step(inc=INC + 1)),
@@ -304,6 +354,27 @@ M1B = {"m1-377e": {}, "m1-377e+result+1": {"result_plus": 1},
        "m1-377e+form-0x21": {"record_class": ThresholdMutant}}
 # M2b: 214B:0688, 0791:278A, 1771:377E and 0791:287C together
 M2 = {"m2-287c": {}, "m2-287c+inverted": {"invert": True}, "m2-287c+n+1": {"value_plus": 32}}
+
+# M2c: M2b's four and the draw wrappers 214B:06B1 and 214B:06D0
+M2C = {"m2-draws": (None, None), "m2-draws+06b1-n+1": (DRAW_06B1, "n+1"),
+       "m2-draws+06b1-value+1": (DRAW_06B1, "value+1"), "m2-draws+06d0-inverted": (DRAW_06D0, "inverted"),
+       "m2-draws+06d0-seed-write": (DRAW_06D0, "seed-write")}
+
+
+def reach_counts(rid):
+    """The unhooked entry counts of the wrappers in record `rid` (out/t47-reach-helpers.log, T47 Evidence)."""
+    text = (OUT / "t47-reach-helpers.log").read_text()
+    block = text.split("E011-r")[1:]
+    block = next(b for b in block if b.startswith(rid[-4:]))
+    return {a: int(re.search(rf"{a} entered (\d+)", block).group(1)) for a in (DRAW_06B1, DRAW_06D0)}
+
+
+def m2b_counts(rid):
+    """M2b's hooked call counts per routine for record `rid` (out/t46-m2-287c.log)."""
+    for line in (OUT / "t46-m2-287c.log").read_text().splitlines():
+        if line.startswith(f"  {rid}: calls per routine"):
+            return eval(line.split("calls per routine ")[1].split(", proved")[0])
+    raise SystemExit(f"no M2b counts for {rid}")
 
 
 def asset(entry, release="E011"):
@@ -352,13 +423,25 @@ def emulate(data, hook_name, inputs=()):
     m = WatchedMatch(data)
     m.tally377e = dict.fromkeys(EXPECTED_377E, 0)
     m.tally287c = {}
-    if hook_name in M1 or hook_name in M1B or hook_name in M2:     # M0's substitution, 278A's (and 377E's), each proved at every call
+    m.tally_draws = {}
+    m.entries = {}      # every entry of a wrapper, hooked or inside a proof's original
+    if hook_name in M1 or hook_name in M1B or hook_name in M2 or hook_name in M2C:     # M0's substitution, 278A's (and 377E's), each proved at every call
         m.hook(LCG_STEP, HOOKS["f004"], prove=True)
         m.hook(SKILL_READER, skill_reader(**M1.get(hook_name, {})), prove=True)
-        if hook_name in M1B or hook_name in M2:
+        if hook_name in M1B or hook_name in M2 or hook_name in M2C:
             m.hook(STRENGTH_READER, strength_reader(m.tally377e, **M1B.get(hook_name, {})), prove=True)
         if hook_name in M2:
             m.hook(CONTEST_GATE, gate_reader(m.tally287c, **M2[hook_name]), prove=True)
+        if hook_name in M2C:
+            m.hook(CONTEST_GATE, gate_reader(m.tally287c), prove=True)
+            fal = M2C[hook_name]
+            for addr, which in ((DRAW_06B1, 1), (DRAW_06D0, 0)):
+                m.tally_draws[addr] = {}
+                m.hook(addr, wrapper_reader(which, m.tally_draws[addr], fal[1] if fal[0] == addr else None), prove=True)
+            for addr in (DRAW_06B1, DRAW_06D0):    # wrapper entries made inside an original that runs in a proof
+                m.entries[addr] = 0
+                m.mu.hook_add(UC_HOOK_CODE, lambda uc, a, sz, d, addr=addr: m.entries.__setitem__(addr, m.entries[addr] + 1),
+                              begin=m.lin(addr), end=m.lin(addr))
     elif HOOKS[hook_name] is not None:
         m.hook(LCG_STEP, HOOKS[hook_name], prove=True)
     for fn in inputs:
@@ -376,7 +459,7 @@ def emulate(data, hook_name, inputs=()):
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("--runs", default=str(ROOT / "runs/E011"))
-    ap.add_argument("--hook", choices=sorted(HOOKS) + sorted(M1) + sorted(M1B) + sorted(M2), default="none")
+    ap.add_argument("--hook", choices=sorted(HOOKS) + sorted(M1) + sorted(M1B) + sorted(M2) + sorted(M2C), default="none")
     a = ap.parse_args(argv)
     records = sorted(Path(a.runs).glob("E011-r*.json"))
     n = ok = 0
@@ -405,16 +488,16 @@ def main(argv=None):
         per_record = m.hook_counts.get(SKILL_READER, 0)
         reader_hooked += per_record
         reader_proved += m.proved_calls.get(SKILL_READER, 0)
-        if a.hook in M1B or a.hook in M2:
+        if a.hook in M1B or a.hook in M2 or a.hook in M2C:
             per377 = m.hook_counts.get(STRENGTH_READER, 0)
             strength_hooked += per377
             strength_proved += m.proved_calls.get(STRENGTH_READER, 0)
             print(f"  {rid}: {STRENGTH_READER} calls {per377}, proved {m.proved_calls.get(STRENGTH_READER, 0)};"
                   f" branches {m.tally377e}")
-        if a.hook in M2:
+        if a.hook in M2 or a.hook in M2C:
             print(f"  {rid}: calls per routine {m.hook_counts}, proved {m.proved_calls};"
                   f" {CONTEST_GATE} results {m.tally287c}")
-        if a.hook in M1 or a.hook in M1B or a.hook in M2:
+        if a.hook in M1 or a.hook in M1B or a.hook in M2 or a.hook in M2C:
             print(f"  {rid}: {SKILL_READER} calls {per_record}, proved {m.proved_calls.get(SKILL_READER, 0)}")
         for r, c in m.scratch_differences.get(LCG_STEP, {}).items():
             scratch[r] = scratch.get(r, 0) + c
@@ -438,6 +521,20 @@ def main(argv=None):
             checks["287C's calls and results equal the Evidence's (545: 296 non-zero / 249 zero)"] = (
                 m.tally287c == EXPECTED_287C and m.hook_counts.get(CONTEST_GATE) == 545
                 and m.proved_calls.get(CONTEST_GATE) == 545)
+        if a.hook in M2C and not error:
+            reach, base = reach_counts(rid), m2b_counts(rid)
+            nested = {a: m.entries[a] - m.hook_counts[a] for a in (DRAW_06B1, DRAW_06D0)}   # entries no hook took
+            wrappers = m.hook_counts[DRAW_06B1] + m.hook_counts[DRAW_06D0]
+            expected = {DRAW_06B1: reach[DRAW_06B1] - nested[DRAW_06B1], DRAW_06D0: reach[DRAW_06D0] - nested[DRAW_06D0],
+                        LCG_STEP: base[LCG_STEP] - wrappers, SKILL_READER: base[SKILL_READER],
+                        STRENGTH_READER: base[STRENGTH_READER], CONTEST_GATE: base[CONTEST_GATE]}
+            print(f"  {rid}: wrapper entries inside the originals of 278A/377E/287C (not hooked, computed):"
+                  f" {nested}; reach (unhooked) {reach}; M2b counts {base}")
+            print(f"  {rid}: expected counts = reach - nested for the wrappers, M2b - wrapper calls for 0688:"
+                  f" {expected}; got {m.hook_counts}")
+            print(f"  {rid}: wrapper tallies {m.tally_draws}")
+            checks["the six counts equal the adjusted reach / M2b counts, all proved"] = (
+                m.hook_counts == expected and m.proved_calls == m.hook_counts)
         if a.hook == "m1-377e":
             checks["377E's calls and branch tally equal the measured original's (T43 Evidence)"] = (
                 m.tally377e == EXPECTED_377E and m.hook_counts.get(STRENGTH_READER) == 88)
@@ -468,13 +565,13 @@ def main(argv=None):
     if a.hook != "none":
         print(f"hooked calls of {LCG_STEP}: {hooked}; proved side by side with no difference: {proved};"
               f" differences: {len(differences)}" + (f" (first: {differences[0]})" if differences else ""))
-        if a.hook in M2:
+        if a.hook in M2 or a.hook in M2C:
             print(f"hooked calls of {CONTEST_GATE}: {contest_hooked}; proved side by side with no difference:"
                   f" {contest_proved}")
-        if a.hook in M1 or a.hook in M1B or a.hook in M2:
+        if a.hook in M1 or a.hook in M1B or a.hook in M2 or a.hook in M2C:
             print(f"hooked calls of {SKILL_READER}: {reader_hooked}; proved side by side with no difference:"
                   f" {reader_proved}")
-        if a.hook in M1B or a.hook in M2:
+        if a.hook in M1B or a.hook in M2 or a.hook in M2C:
             print(f"hooked calls of {STRENGTH_READER}: {strength_hooked}; proved side by side with no difference:"
                   f" {strength_proved}")
         print("uncompared-register differences (warnings, proved calls): "
