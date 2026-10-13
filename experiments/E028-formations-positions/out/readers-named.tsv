@@ -1,0 +1,161 @@
+routine	name	field	file	line	text
+000E:01FA	unmanage_country	club_position	seg_000E_01.c	105	((player *)players)[wVar1].position = ((player *)players)[wVar1].club_position,
+000E:2071	f_000E_2071	position	seg_000E_02.c	739	if (((ppStack_13->position == DS:0022) &&
+000E:2071	f_000E_2071	club_position	seg_000E_02.c	757	if ((local_15->club_position == DS:0022) &&
+000E:50D4	f_000E_50D4	position	seg_000E_04.c	505	f_000E_070B((char *)s___goalkeeper_b000_69b5 + 1 + (uint)local_6->position * 0x13,0xb000,2);
+000E:54F0	create_managed_replacement	club_position	seg_000E_04.c	669	make_player(1,ppVar7[param_2].club_position,*(undefined2 *)(param_1 + 4),
+000E:54F0	create_managed_replacement	club_position	seg_000E_04.c	673	ppVar7[iVar1].age = (*(char *)((ppVar7[iVar1].club_position == 0) + 0x78) + cVar4) - cVar3;
+000E:54F0	create_managed_replacement	club_position	seg_000E_04.c	686	if ((uint)ppVar8[wVar2].age < *(byte *)((ppVar8[wVar2].club_position == 0) + 0x76) + 4) {
+000E:54F0	create_managed_replacement	club_position	seg_000E_04.c	697	*(byte *)((ppVar8[((word *)pool_indices)[local_6]].club_position == 0) + 0x76) + 4) {
+000E:54F0	create_managed_replacement	club_position	seg_000E_04.c	706	ppVar7[iVar1].age = *(char *)((ppVar7[iVar1].club_position == 0) + 0x76) + cVar3;
+0791:0106	draw_match_summary	position	seg_0791_01.c	94	uVar1 = player_name_colour(((player *)players)[man_of_the_match].position,man_of_the_match);
+0791:05C6	f_0791_05C6	position	seg_0791_01.c	327	position + 0x69a8);
+0791:230C	resort_pitch_and_bench	position	seg_0791_02.c	345	*(byte *)((int)&uStack_16 + local_5 + 1) = ppVar9[wVar2].position;
+0791:230C	resort_pitch_and_bench	position	seg_0791_02.c	408	if (((player *)players)[pcVar8[iVar1].squad[local_5 - 1]].position <
+0791:230C	resort_pitch_and_bench	position	seg_0791_02.c	409	((player *)players)[pcVar8[iVar1].squad[local_7 + -1]].position) {
+0791:2F28	f_0791_2F28	position	seg_0791_02.c	1164	if ((int)(((player *)players)[*(int *)(pcVar3 + 0xd)].position + 0xc) <= (int)uVar1) {
+0791:384C	move_ball_to_slot	position	seg_0791_03.c	464	)].position);
+0791:3D38	f_0791_3D38	position	seg_0791_03.c	746	CONCAT11((char)((uint)(iVar1 * 0x14) >> 8),((player *)players)[iVar1].position));
+0791:419C	f_0791_419C	position	seg_0791_03.c	1015	position * 2 + 0x79e);
+0791:42CB	f_0791_42CB	position	seg_0791_03.c	1071	if ((&ppVar6->position)[iVar3] == 0) {
+0791:42CB	f_0791_42CB	position	seg_0791_03.c	1075	if (((&ppVar6->position)[iVar3] < 0xc) &&
+0791:42CB	f_0791_42CB	position	seg_0791_03.c	1084	local_4 = (uint)*(byte *)((4 < (&ppVar6->position)[iVar3]) * 2 + iVar4 + 0x7ba);
+0791:4354	f_0791_4354	position	seg_0791_03.c	1103	bVar1 = ((player *)players)[*(int *)(iVar4 + 0xd)].position;
+0791:4438	f_0791_4438	position	seg_0791_03.c	1152	*(char *)(((player *)players)[*(int *)(iVar4 + 0xd)].position + 0x7be),
+0791:4649	f_0791_4649	position	seg_0791_04.c	43	) || (((player *)players)[*(int *)((int)*(undefined4 *)(param_1 + 6) + 0xd)].position == 1
+0791:474D	f_0791_474D	position	seg_0791_04.c	78	if (((player *)players)[*(int *)(iVar2 + 0xd)].position < 5) {
+0791:4A28	update_marking_destination	position	seg_0791_04.c	221	((ppVar5[iVar1].position == 1 && (cVar2 = f_0791_2D10(iVar4,uVar6,10), cVar2 == '\0')))) {
+0791:4B64	f_0791_4B64	position	seg_0791_04.c	263	((player *)players)[*(int *)(iVar7 + 0xd)].position));
+0791:4E28	f_0791_4E28	position	seg_0791_04.c	417	bVar1 = ppVar6[iVar2].position;
+0791:4E28	f_0791_4E28	position	seg_0791_04.c	452	cVar3 = u214b_random_is_one(*(undefined1 *)((ppVar6[iVar2].position == 0xc) + 0x7e4));
+0791:5049	energy_chance_branch	position	seg_0791_04.c	539	[*(int *)((int)*(undefined4 *)(param_1 + 6) + 0xd)].position
+0791:5049	energy_chance_branch	position	seg_0791_04.c	552	[*(int *)((int)*(undefined4 *)(param_1 + 6) + 0xd)].position
+0791:57AC	f_0791_57AC	position	seg_0791_04.c	952	(((player *)players)[*(int *)(iVar2 + 0xd)].position != 1)))) ||
+0791:69BD	f_0791_69BD	position	seg_0791_05.c	877	*(undefined1 *)(((player *)players)[*(int *)(iVar3 + 0xd)].position + 0x812);
+0791:74C2	f_0791_74C2	position	seg_0791_06.c	334	bVar2 = ((player *)players)[*(int *)((int)*(undefined4 *)(param_1 + 6) + 0xd)].position;
+0791:74C2	f_0791_74C2	position	seg_0791_06.c	335	((player *)players)[*(int *)((int)*(undefined4 *)(param_1 + 6) + 0xd)].position = 1;
+0791:74C2	f_0791_74C2	position	seg_0791_06.c	341	((player *)players)[*(int *)((int)*(undefined4 *)(param_1 + 6) + 0xd)].position = bVar2;
+0791:74C2	f_0791_74C2	position	seg_0791_06.c	348	((player *)players)[iVar4].position = bVar2;
+0791:7B77	send_off	position	seg_0791_06.c	702	else if (ppVar6[iVar2].position == 0) {
+0791:7D56	injure	position	seg_0791_06.c	792	else if ((ppVar7[iVar2].position == 0) ||
+0791:86D0	f_0791_86D0	position	seg_0791_07.c	126	((player *)players)[*(int *)((int)uVar1 + 0xd)].position != 0)) {
+0791:A9B8	pick_best_bench_keeper	club_position	seg_0791_08.c	724	[((country *)_local_12)->squad[local_8 - 1]].club_position +
+0791:AAE8	pick_bench_by_formation	position	seg_0791_08.c	770	local_8 = (byte *)CONCAT22(0xb000,(byte *)((uint)ppVar2->position * 8 + 0x99a));
+0791:AAE8	pick_bench_by_formation	position	seg_0791_08.c	773	sys_char_to_str_075A(ppVar2->position);
+0791:AC67	f_0791_AC67	club_position	seg_0791_08.c	841	if (*(char *)(ppVar7[wVar2].club_position + 0x99a2) != '\0') {
+0791:AC67	f_0791_AC67	club_position	seg_0791_08.c	843	[*(byte *)(ppVar7[wVar2].club_position + 0x99a2) - 1]);
+0791:AC67	f_0791_AC67	club_position	seg_0791_08.c	849	*(undefined1 *)(ppVar7[wVar2].club_position + 0x99a2) = (undefined1)param_2;
+0791:AD8F	f_0791_AD8F	club_position	seg_0791_08.c	881	(((player *)players)[pcVar3[iVar1].squad[*(int *)(param_1 + -2) + -1]].club_position + 0x99a2) =
+0791:AD8F	f_0791_AD8F	position	seg_0791_08.c	891	ppVar4->position));
+0791:AD8F	f_0791_AD8F	position	seg_0791_08.c	896	sys_set_bit_mask_08DF(0xad2f,0xa000,CONCAT11(uVar2,ppVar4->position));
+0791:AD8F	f_0791_AD8F	club_position	seg_0791_08.c	903	((player *)players)[pcVar3[iVar1].squad[param_2 + -1]].club_position));
+0791:AD8F	f_0791_AD8F	position	seg_0791_08.c	907	sys_set_bit_mask_08DF(0xad4f,0xa000,CONCAT11(uVar2,ppVar4->position));
+0791:AD8F	f_0791_AD8F	club_position	seg_0791_08.c	914	((player *)players)[pcVar3[iVar1].squad[param_2 + -1]].club_position));
+0791:AD8F	f_0791_AD8F	position	seg_0791_08.c	918	sys_set_bit_mask_08DF(0xad6f,0xa000,CONCAT11(uVar2,ppVar4->position));
+0791:AD8F	f_0791_AD8F	club_position	seg_0791_08.c	924	((player *)players)[pcVar3[iVar1].squad[param_2 + -1]].club_position));
+0791:AD8F	f_0791_AD8F	position	seg_0791_08.c	927	((player *)players)[pcVar3[iVar1].squad[param_2 + -1]].position = ppVar4->position;
+0791:AD8F	f_0791_AD8F	club_position	seg_0791_08.c	934	((player *)players)[pcVar3[iVar1].squad[param_2 + -1]].club_position));
+0791:AD8F	f_0791_AD8F	position	seg_0791_08.c	939	((player *)players)[pcVar3[iVar1].squad[param_2 + -1]].position =
+0791:AD8F	f_0791_AD8F	club_position	seg_0791_08.c	940	((player *)players)[pcVar3[iVar1].squad[param_2 + -1]].club_position;
+0791:AD8F	f_0791_AD8F	club_position	seg_0791_08.c	942	ppVar4->position = ppVar4->club_position;
+0791:AFA3	f_0791_AFA3	club_position	seg_0791_08.c	975	((local_4 == 1 && (((player *)players)[wVar1].club_position != 0)))) {
+0791:AFA3	f_0791_AFA3	position	seg_0791_08.c	978	(0x14,((player *)players)[wVar1].position,*(undefined2 *)(param_1 + 6));
+0791:AFA3	f_0791_AFA3	club_position	seg_0791_08.c	995	if ((ppVar7[wVar1].club_position == ppVar7[wVar1].position) ||
+0791:AFA3	f_0791_AFA3	club_position	seg_0791_08.c	996	(ppVar7[pcVar6->squad[*(int *)(param_1 + -2) + -1]].club_position !=
+0791:AFA3	f_0791_AFA3	position	seg_0791_08.c	997	ppVar7[wVar1].position)) goto LAB_0791_B08B;
+0791:B7FA	update_fixture_player_state	position	seg_0791_09.c	272	((player *)players)[pcVar9[iVar1].squad[local_4 - 1]].position =
+0791:B7FA	update_fixture_player_state	club_position	seg_0791_09.c	273	((player *)players)[pcVar9[iVar1].squad[local_4 - 1]].club_position;
+0791:BC5D	reset_team_tactics	position	seg_0791_09.c	423	((player *)players)[pcVar2[param_1].squad[local_4 + -1]].position =
+0791:BEC7	replace_first_back_four	position	seg_0791_09.c	528	CONCAT11((char)((uint)(iVar1 * 0x14) >> 8),((player *)players)[iVar1].position));
+0791:BEC7	replace_first_back_four	position	seg_0791_09.c	534	((player *)players)[*(int *)(iVar4 + local_4 * 2 + -2)].position =
+0791:C01A	computer_include_tactics	position	seg_0791_09.c	612	((player *)players)[pcVar2->squad[8]].position));
+0791:C24D	f_0791_C24D	position	seg_0791_09.c	721	((player *)players)[*(int *)((int)*(undefined4 *)(param_1 + 6) + local_4 * 2 + -2)].position =
+0791:C2A8	f_0791_C2A8	position	seg_0791_09.c	750	position] =
+0791:C2A8	f_0791_C2A8	position	seg_0791_09.c	752	[*(int *)((int)*(undefined4 *)(param_1 + 6) + local_4 * 2 + -2)].position] + 1;
+0791:C2A8	f_0791_C2A8	position	seg_0791_09.c	772	position != local_6 ||
+0791:C2A8	f_0791_C2A8	position	seg_0791_09.c	781	((player *)players)[*(int *)((int)*(undefined4 *)(param_1 + 6) + local_4 * 2 + -2)].position =
+0791:C406	f_0791_C406	position	seg_0791_09.c	808	CONCAT11((char)((uint)(iVar1 * 0x14) >> 8),((player *)players)[iVar1].position));
+0791:C406	f_0791_C406	position	seg_0791_09.c	810	((player *)players)[*(int *)((int)*(undefined4 *)(param_1 + 6) + local_4 * 2 + -2)].position
+0791:C48D	remove_from_pitch	position	seg_0791_09.c	832	position;
+0791:C48D	remove_from_pitch	position	seg_0791_09.c	839	position);
+0791:C50C	f_0791_C50C	position	seg_0791_09.c	863	uVar2 = player_name_colour(((player *)players)[param_2].position,param_2);
+0791:C50C	f_0791_C50C	position	seg_0791_09.c	868	uVar2 = player_name_colour(((player *)players)[param_1].position,param_1);
+0791:C7EB	map_bench_roles	club_position	seg_0791_09.c	978	club_position + 0x99a2) = (undefined1)local_4;
+0791:C88D	substitute_player	position	seg_0791_09.c	1019	position == 0)) {
+0791:C88D	substitute_player	position	seg_0791_09.c	1023	position,((undefined2 *)&DS:9B34)[param_2]);
+0791:C88D	substitute_player	position	seg_0791_09.c	1031	((player *)players)[pcVar2[iVar1].squad[local_4 + -1]].position =
+0791:C88D	substitute_player	position	seg_0791_09.c	1033	position;
+0791:DC7E	assistant_recommend_squad	position	seg_0791_10.c	839	if (((player *)players)[pcVar7[uVar3].squad[local_6 + -1]].position ==
+0791:DC7E	assistant_recommend_squad	position	seg_0791_10.c	840	((player *)players)[((word *)pool_indices)[local_4]].position) {
+0791:EA09	first_team_valid	position	seg_0791_11.c	311	local_12[((player *)players)[((country *)_local_1d)->squad[local_14 + -1]].position] =
+0791:EA09	first_team_valid	position	seg_0791_11.c	312	local_12[((player *)players)[((country *)_local_1d)->squad[local_14 + -1]].position
+1771:0BC4	compute_team_line_strengths	position	seg_1771_01.c	624	bVar10 = ppVar5->position == 0;
+1771:0BC4	compute_team_line_strengths	position	seg_1771_01.c	656	if (*(byte *)(ppVar5->position + 0xd4e) < 4) {
+1771:0BC4	compute_team_line_strengths	position	seg_1771_01.c	657	((undefined2 *)&DS:9B45)[(int)param_2 + (uint)*(byte *)(ppVar5->position + 0xd4e) * 2]
+1771:0BC4	compute_team_line_strengths	position	seg_1771_01.c	659	[(int)param_2 + (uint)*(byte *)(ppVar5->position + 0xd4e) * 2] + local_8;
+1771:0BC4	compute_team_line_strengths	position	seg_1771_01.c	662	((undefined2 *)&DS:9B45)[(int)param_2 + (*(byte *)(ppVar5->position + 0xd4e) - 3) * 2]
+1771:0BC4	compute_team_line_strengths	position	seg_1771_01.c	664	[(int)param_2 + (*(byte *)(ppVar5->position + 0xd4e) - 3) * 2] + local_8 / 2;
+1771:0BC4	compute_team_line_strengths	position	seg_1771_01.c	665	((undefined2 *)&DS:9B45)[(int)param_2 + (*(byte *)(ppVar5->position + 0xd4e) - 2) * 2]
+1771:0BC4	compute_team_line_strengths	position	seg_1771_01.c	667	[(int)param_2 + (*(byte *)(ppVar5->position + 0xd4e) - 2) * 2] + local_8 / 2;
+1771:0E6C	f_1771_0E6C	position	seg_1771_01.c	743	(uint)*(byte *)(((player *)players)[local_c->squad[local_8 + -1]].position +
+1771:1289	f_1771_1289	position	seg_1771_01.c	971	if (*(byte *)(ppVar4[wVar1].position + 0xd7c) < 4) {
+1771:1289	f_1771_1289	position	seg_1771_01.c	972	((undefined2 *)&DS:9B47)[(uint)*(byte *)(ppVar4[wVar1].position + 0xd7c) * 2] =
+1771:1289	f_1771_1289	position	seg_1771_01.c	973	((undefined2 *)&DS:9B47)[(uint)*(byte *)(ppVar4[wVar1].position + 0xd7c) * 2] +
+1771:1289	f_1771_1289	position	seg_1771_01.c	978	((undefined2 *)&DS:9B47)[(*(byte *)(ppVar4[wVar1].position + 0xd7c) - 3) * 2] =
+1771:1289	f_1771_1289	position	seg_1771_01.c	979	((undefined2 *)&DS:9B47)[(*(byte *)(ppVar4[wVar1].position + 0xd7c) - 3) * 2] +
+1771:1289	f_1771_1289	position	seg_1771_01.c	981	((undefined2 *)&DS:9B47)[(*(byte *)(ppVar4[wVar1].position + 0xd7c) - 2) * 2] =
+1771:1289	f_1771_1289	position	seg_1771_01.c	982	((undefined2 *)&DS:9B47)[(*(byte *)(ppVar4[wVar1].position + 0xd7c) - 2) * 2] +
+1771:2EE5	draw_player_name	position	seg_1771_02.c	985	uVar1 = player_name_colour(((player *)players)[param_3].position,param_3);
+1771:2F37	draw_squad_row	position	seg_1771_02.c	1013	uVar1 = (uint)*(byte *)(local_6->position + 0x699a);
+1771:2F37	draw_squad_row	position	seg_1771_02.c	1015	sys_char_to_str_075A(*(undefined1 *)(local_6->position + 0x69a8));
+1771:2FAD	player_height	club_position	seg_1771_02.c	1030	return (uint)*(byte *)(((player *)players)[param_1].club_position + 0xe46) +
+1771:3088	foot_index	club_position	seg_1771_02.c	1076	((int)lVar1 + (uint)((player *)players)[param_1].club_position + 0xe60));
+1771:3179	f_1771_3179	position	seg_1771_03.c	51	sys_set_bit_mask_08DF(0x3159,uVar6,CONCAT11(uVar3,ppVar4[param_1].position));
+1771:3179	f_1771_3179	club_position	seg_1771_03.c	55	if (((ppVar4[param_1].position != 0) || (ppVar4[param_1].club_position == 0)) &&
+1771:3179	f_1771_3179	club_position	seg_1771_03.c	56	((ppVar4[param_1].club_position != 0 || (ppVar4[param_1].position == 0)))) {
+1771:3179	f_1771_3179	position	seg_1771_03.c	63	sys_set_bit_mask_08DF(0x3139,0x4000,CONCAT11(extraout_AH,ppVar4[param_1].position));
+1771:3291	roll_peak_age	club_position	seg_1771_03.c	112	(*(char *)((ppVar3[param_1].club_position == 0) + 0xe80) + cVar2) - cVar1;
+1771:3431	set_player_tactics	position	seg_1771_03.c	184	sys_set_bit_mask_08DF(0x3411,0x4000,ppVar2[param_1].position);
+1771:3431	set_player_tactics	position	seg_1771_03.c	186	if (ppVar2[param_1].position == 2) {
+1771:3827	performance_text	position	seg_1771_03.c	414	DS:AAB2 = player_name_colour(ppVar4->position,param_3);
+1771:3947	draw_skill_bars	club_position	seg_1771_03.c	446	(uint)ppVar2[param_3].club_position * 0xc +
+1771:3A06	derived_skill	club_position	seg_1771_03.c	471	(uint)ppVar1[param_2].club_position * 0xc + param_1
+1771:3B3F	draw_mark_row	position	seg_1771_03.c	535	if (1 < ppVar2->position) {
+1771:3BD3	draw_tactics_panel	position	seg_1771_03.c	575	if (((player *)players)[param_1].position == 0) {
+1771:3BD3	draw_tactics_panel	position	seg_1771_03.c	622	iVar1 = (uint)((player *)players)[local_a].position * 0x13;
+1771:3BD3	draw_tactics_panel	position	seg_1771_03.c	634	if (((player *)local_10f)->position == 0) {
+1771:3EF8	set_marking_words	position	seg_1771_03.c	714	if (((player *)players)[pcVar5[iVar1].squad[1]].position == 1) {
+1771:3EF8	set_marking_words	position	seg_1771_03.c	724	if (((ppVar6[wVar2].position == 1) ||
+1771:3EF8	set_marking_words	position	seg_1771_03.c	730	abStack_13[local_4] = ppVar6[wVar2].position;
+1771:3EF8	set_marking_words	position	seg_1771_03.c	741	abStack_1e[local_4] = ppVar6[wVar2].position;
+1771:42BC	draw_player_screen	position	seg_1771_03.c	872	iVar3 = (uint)((player *)local_a)->position * 0x13;
+1771:42BC	draw_player_screen	club_position	seg_1771_03.c	877	iVar3 = (uint)((player *)local_a)->club_position * 0x13;
+1771:4952	f_1771_4952	club_position	seg_1771_03.c	1083	ppVar2[param_1].position = ppVar2[param_1].club_position;
+1771:4952	f_1771_4952	position	seg_1771_03.c	1086	f_1771_4925(&ppVar2[param_1].position,uVar3);
+1771:49B8	f_1771_49B8	position	seg_1771_04.c	27	if (ppVar6->position < 2) {
+1771:4B61	edit_own_tactics	position	seg_1771_04.c	95	if ((((DS:0C1E == '\0') || (((player *)players)[param_2].position < 2)) ||
+1771:4FAA	f_1771_4FAA	club_position	seg_1771_04.c	288	local_11[((player *)players)[local_18->squad[local_13 + -1]].club_position] =
+1771:4FAA	f_1771_4FAA	club_position	seg_1771_04.c	289	local_11[((player *)players)[local_18->squad[local_13 + -1]].club_position] + 1;
+1771:517A	quicksort_words	position	seg_1771_04.c	388	bVar1 = ((player *)players)[pcVar4[iVar2].squad[(param_3 + param_2) / 2 - 1]].position;
+1771:517A	quicksort_words	position	seg_1771_04.c	392	if (bVar1 <= ((player *)players)[pcVar4[iVar2].squad[local_4 - 1]].position) break;
+1771:517A	quicksort_words	position	seg_1771_04.c	395	while (bVar1 < ((player *)players)[pcVar4[iVar2].squad[local_6 - 1]].position) {
+1771:52CC	sort_squad_by_position	position	seg_1771_04.c	451	*(byte *)((int)&local_18 + local_18 + 1) = ppVar8[wVar1].position;
+1771:52CC	sort_squad_by_position	position	seg_1771_04.c	454	ppVar8[wVar1].position = 0xe;
+1771:52CC	sort_squad_by_position	position	seg_1771_04.c	463	((player *)players)[pcVar7[param_1].squad[local_18 - 1]].position =
+1771:53E8	pool_quicksort	position	seg_1771_04.c	492	bVar1 = ((player *)players)[((word *)pool_indices)[(param_3 + param_2) / 2]].position;
+1771:53E8	pool_quicksort	position	seg_1771_04.c	498	if (bVar1 <= ((player *)players)[pwVar3[local_4]].position) break;
+1771:53E8	pool_quicksort	position	seg_1771_04.c	501	while (bVar1 < ((player *)players)[pwVar3[local_6]].position) {
+1771:5532	sort_pool_by_position	position	seg_1771_04.c	543	*(byte *)((int)&local_54 + local_54 + 1) = ((player *)players)[wVar2].position;
+1771:5532	sort_pool_by_position	position	seg_1771_04.c	545	((player *)players)[wVar2].position = 0xe;
+1771:5532	sort_pool_by_position	position	seg_1771_04.c	553	((player *)players)[((word *)pool_indices)[local_54 + wVar1 + -1]].position =
+1771:7E80	recreate_retired_player	position	seg_1771_05.c	1075	bVar1 = ppVar5->position;
+1771:7E80	recreate_retired_player	club_position	seg_1771_05.c	1076	make_player(1,ppVar5->club_position,local_8->country,param_1);
+1771:7E80	recreate_retired_player	club_position	seg_1771_05.c	1079	ppVar5->age = (((char *)recreate_age_base)[ppVar5->club_position == 0] + cVar3) - cVar2;
+1771:7E80	recreate_retired_player	position	seg_1771_05.c	1086	ppVar5->position = bVar1;
+1771:7F40	retirement_test	club_position	seg_1771_05.c	1107	if ((((byte)((char *)retire_age_limit)[(&ppVar4->club_position)[iVar2] == 0] <
+1771:96D3	make_player	club_position	seg_1771_06.c	984	ppVar4->club_position = param_2;
+1771:96D3	make_player	club_position	seg_1771_06.c	985	ppVar4->position = ppVar4->club_position;
+1771:96D3	make_player	club_position	seg_1771_06.c	990	ppVar4->age = (((char *)new_player_age_base)[ppVar4->club_position == 0] - cVar3) + cVar2;
+1771:98C4	make_managed_pool	club_position	seg_1771_06.c	1092	((player *)players)[pcVar6[bVar1].squad[local_6 + -1]].club_position);
+1771:98C4	make_managed_pool	club_position	seg_1771_06.c	1097	ppVar7[wVar2].age = ((char *)pool_age_base)[ppVar7[wVar2].club_position == 0] + cVar4;
+1771:98C4	make_managed_pool	club_position	seg_1771_06.c	1104	((player *)players)[pcVar6[bVar1].squad[local_6 + -1]].club_position),

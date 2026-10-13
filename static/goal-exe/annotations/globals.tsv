@@ -27,6 +27,18 @@ DS:0E80	peak_age_base	char[2]	1771:3291's peak base by (+7 == 0): 27, 30 (+2 = t
 DS:0E82	fitness_redraw_base	byte[2]	3558's base B selected by unsigned age>peak_age+4; managed and unmanaged draws around B	established	F007; F017; F018
 DS:9B56	country_order_ptr	byte far*	far pointer to the country order 1771:5EE1 sorts and 1771:63A4 ranks by: DS:9BFD (world, 128) or DS:9C7E (four continents of 32)	established	F017
 DS:0E84	fitness_recovery_cap	byte[2]	3651 upper fitness cap selected by unsigned age>peak_age+3; lower clamp to 1 bypasses this table	established	F018
+DS:079E	start_posts	word[14]	the start post (x, y; signed bytes) per position code, in the team's own frame; read by 0791:419C	established	F028
+DS:07BA	group_code_table	byte[4]	the group code g by [2 * (+6 > 4) + flag] = 3, 2, 2, 1 (0791:42CB)	likely	F028
+DS:07BE	home_depth_by_position	byte[14]	a depth offset per position code, read by 0791:4438 (added to the post's y)	likely	F028
+DS:0812	kickoff_depth_by_position	byte[14]	the kick-off depth per position code: 0791:69BD adds it to the post's y	likely	F028
+DS:07CB	defend_depth_table	byte[16]	the defending depth limit DS:07CB[e5 * 8 + e6 * 4 + g] (g 1..4)	likely	F028
+DS:07DB	attack_depth_table	byte[8]	the attacking depth limit DS:07DB[e7 * 4 + g] (g 1..4)	likely	F028
+DS:0D5C	label_class_by_position	byte[14]	the class per position code for the formation label: 0 keeper, 1 codes 1..4, 2 codes 5..11, 3 codes 12 and 13 (1771:0E6C)	established	F028
+DS:0D4E	line_by_position	byte[14]	the quick engine's line per position code: 0 keeper, 1 defence, 2 midfield, 3 attack, 4 half defence half midfield, 5 half midfield half attack (1771:0BC4)	established	F012; F028
+DS:0E46	base_height	byte[14]	a player's base height in inches per club position; 1771:2FAD adds DS:0E54[number mod 12]	established	F008; F028
+DS:0E60	foot_rows	byte[28]	foot index (0 left, 1 right) per club position, two rows of 14; 1771:3088 selects the row by DS:0E7C[number mod 3]	established	F008; F028
+DS:0EE6	mark_pair_table	byte[70]	the 14 position glyphs (G S C b B D 80 m M F w W 9B $), then four rows of 14 bytes (priority 1..4) read by 1771:3E2F: indexed by the opposing position, the value is the position code of the own player that marks him	likely	F028
+DS:099A	bench_roles	byte[112]	per outgoing position code a row of 8 bytes: the count and the club positions accepted as substitute (0791:AAE8)	established	F012; F028
 DS:A92B	fixtures	byte far*	far pointer to the fixture list: 8-byte records, number n at +8n-8; 1..2400 fixtures, 2401..2408 play-off aggregates, 0xFF sentinel at 2409 (0x4B48 bytes allocated)	established	F023
 DS:A92F	country_fixture_lists	word far*	far pointer to the per-country lists of 36 fixture numbers (0x48 bytes each, 0x2448 allocated), newest last	established	F023
 DS:A933	group_tables	byte far*	far pointer to the group tables (0x1C00 bytes): slot at +class*0xE00 + table*0x700 + continent*0x1C0 + group*0x38 + slot*8 - 0x200; slot = country word, W, D, L, GF, GA, points	established	F023
