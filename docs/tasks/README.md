@@ -56,3 +56,9 @@ exists.
 | T46 | M2b: the contest gate 0791:287C substituted in whole watched matches | #172 | T45 |
 | T47 | M2c: the draw wrappers 214B:06B1 and 214B:06D0 substituted in whole watched matches | #178 | T46 |
 | T48 | M2d: the long helpers 214B:0D56 and 23E4:0279 substituted in whole watched matches | #188 | T47 |
+| T49 | Pass one: the competition calendar: the stage builders, the group table, seeding and hosts | #191 | — |
+| T50 | Pass one: how a computer team picks its eleven, formation and tactics; computer-vs-computer results | #192 | — |
+| T51 | Pass one: when the manager is sacked, the shareware limit, and whether play ever ends | #193 | — |
+| T52 | Pass one: what each team tactic changes in a watched match | #194 | — |
+| T53 | Pass one: bookings, sendings off, injuries, bans, substitutions: the drafters' readings reviewed as one finding | #195 | — |
+| T54 | Pass one: formations and start positions, the 14 position codes, and the foot test | #196 | — |
