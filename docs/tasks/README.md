@@ -54,3 +54,4 @@ exists.
 | T44 | the recorder keeps one save in flight and merges the key groups that settle while it writes | #128 | — |
 | T45 | M2a: the contests a watched match reaches, read from the listing (Q010) | #170 | T43 |
 | T46 | M2b: the contest gate 0791:287C substituted in whole watched matches | #172 | T45 |
+| T47 | M2c: the draw wrappers 214B:06B1 and 214B:06D0 substituted in whole watched matches | #178 | T46 |
