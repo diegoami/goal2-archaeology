@@ -1783,19 +1783,43 @@ def fit_scale(width, height, requested=DEFAULT_SCALE, scales=SCALES, chrome=WIND
     return max(fit) if fit else None
 
 
+def _parse_res(res):
+    """`WxH` -> (W, H); raises ValueError on a bad string."""
+    w, h = res.split("x")
+    return int(w), int(h)
+
+
 def plan_window(scale, res=None, outer=None):
-    """(effective scale, nested resolution) for a launch, or (None, None) when the display cannot
-    hold even the smallest scale's game window (the caller refuses). Without a readable outer display
-    the request stands (the scale and its natural nested size, as before #174). With one, the scale
-    is capped to the largest that fits (`fit_scale`) and the nested screen is clamped to the display,
-    never below the scaled game window. An explicit `--res` is honoured as given, only the scale is
-    capped."""
+    """(effective scale, nested resolution) for a launch, or (None, None) when neither the display
+    nor an explicit `--res` can show the scaled game window (the caller refuses). Without a readable
+    outer display the request stands (the scale and its natural nested size, as before #174) unless
+    an explicit `--res` is too small for it; with one, the scale is capped to the largest that fits
+    (`fit_scale`) and the nested screen is clamped to the display, never below the scaled game
+    window. An explicit `--res` is honoured as given only when it can hold the scaled game; smaller
+    is refused, because DOSBox-X's `windowresolution` (#174 round 3) is the scaled game window and
+    would overflow the Xephyr screen otherwise."""
     if outer is None:
-        return scale, (res or nested_res(scale))
+        if res:
+            try:
+                rw, rh = _parse_res(res)
+            except ValueError:
+                return scale, res                # a bad --res string is the caller's problem
+            gw, gh = GAME_WINDOW[0] * scale, GAME_WINDOW[1] * scale
+            if rw < gw or rh < gh:
+                return None, None
+            return scale, res
+        return scale, nested_res(scale)
     eff = fit_scale(outer[0], outer[1], scale)
     if eff is None:
         return None, None
     if res:
+        try:
+            rw, rh = _parse_res(res)
+        except ValueError:
+            return eff, res                      # a bad --res string is the caller's problem
+        gw, gh = GAME_WINDOW[0] * eff, GAME_WINDOW[1] * eff
+        if rw < gw or rh < gh:
+            return None, None
         return eff, res
     w, h = _nested_size(eff)
     gw, gh = GAME_WINDOW[0] * eff, GAME_WINDOW[1] * eff
@@ -1985,8 +2009,13 @@ def play(video=False, quit_after=None, res=None, load=None, fresh=False, scale=D
     outer = outer_display_size(outer_env)
     scale, res = plan_window(requested_scale, requested_res, outer)
     if scale is None:
-        print(f"play: the {outer[0]}x{outer[1]} display cannot show the "
-              f"{GAME_WINDOW[0]}x{GAME_WINDOW[1]} game window", file=sys.stderr)
+        gw, gh = GAME_WINDOW[0] * requested_scale, GAME_WINDOW[1] * requested_scale
+        if outer is not None:
+            print(f"play: the {outer[0]}x{outer[1]} display cannot show the "
+                  f"{gw}x{gh} game window at scale {requested_scale}", file=sys.stderr)
+        else:
+            print(f"play: the requested --res {requested_res} cannot show the "
+                  f"{gw}x{gh} game window at scale {requested_scale}", file=sys.stderr)
         return 3
     session, meta = new_session(load=load, fresh=fresh, scale=scale)
     meta.update({"requested_scale": requested_scale,

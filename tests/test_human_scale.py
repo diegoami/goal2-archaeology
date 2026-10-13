@@ -103,8 +103,18 @@ class FitTests(unittest.TestCase):
         self.assertEqual(rec.plan_window(3, None, None), (3, "2160x1200"))
 
     def test_plan_window_honours_an_explicit_res_but_caps_the_scale(self):
-        self.assertEqual(rec.plan_window(2, "900x700", (2560, 720)), (1, "900x700"))
-        self.assertEqual(rec.plan_window(2, "900x700", (5120, 1440)), (2, "900x700"))
+        # --res is honored as given when it can hold the capped scale's scaled game window
+        self.assertEqual(rec.plan_window(2, "900x700", (2560, 720)), (1, "900x700"))   # capped to 1, 900x700 >= 720x400
+        self.assertEqual(rec.plan_window(2, "1500x900", (5120, 1440)), (2, "1500x900")) # kept at 2, 1500x900 >= 1440x800
+
+    def test_plan_window_refuses_an_explicit_res_smaller_than_the_scaled_game(self):
+        # R1 (round 3, #204): --res smaller than the scaled game window let DOSBox-X (the
+        # windowresolution #174 round 3 set to the scaled game) overflow the Xephyr screen.
+        # Refuse the launch rather than open a window that exceeds the nested display.
+        self.assertEqual(rec.plan_window(1, "640x320", None), (None, None))               # no outer, --res too small
+        self.assertEqual(rec.plan_window(1, "640x320", (2560, 720)), (None, None))       # outer fits scale 1, but --res does not
+        self.assertEqual(rec.plan_window(2, "900x700", (5120, 1440)), (None, None))      # outer fits scale 2, but --res does not
+        self.assertEqual(rec.plan_window(2, "640x320", (5120, 1440)), (None, None))      # both --res and 1440x800 don't fit
 
     def test_outer_display_size_reads_xdotool(self):
         ok = subprocess.CompletedProcess([], 0, "2560 720\n", "")
