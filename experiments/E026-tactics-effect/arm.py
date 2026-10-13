@@ -16,6 +16,7 @@ import argparse
 import json
 import random
 import sys
+import time
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -77,8 +78,10 @@ def main(argv=None):
     entry = next(o for o in record["outputs"] if o["name"].endswith("-watchstart.sav"))
     data = asset(entry)
     for i in range(a.first, a.first + a.count):
+        c0 = time.process_time()
         rec = one(data, a.arm, SEEDS[i])
         rec["i"] = i
+        rec["cpu_seconds"] = round(time.process_time() - c0, 1)    # added after the first 5 matches (probe, base, e5)
         with log.open("a") as f:
             f.write(json.dumps(rec) + "\n")
         print(f"{a.arm} i={i} seed={SEEDS[i]:#06x} score={rec.get('score')} {rec['seconds']}s err={rec['error']}", flush=True)
