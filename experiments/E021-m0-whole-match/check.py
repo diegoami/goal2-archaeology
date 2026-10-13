@@ -34,7 +34,7 @@ counts here are M1's minus what 287C's calls make (545 each of 278A and 0688 per
 --hook m2-draws (T47, M2c) adds the draw wrappers 214B:06B1 and 214B:06D0 (runtime/model/draws.py) to M2b's four, six
 routines each proved at every call. While a proof's original runs, the hooks of the routines it calls do not fire, so
 the wrappers' counts are the reach log's (out/t47-reach-helpers.log, unhooked) minus the wrapper entries made inside the
-originals of 278A, 377E and 287C (counted in the run by a code hook while original_running: 287C's 06D0 call, 545), and
+originals of 278A, 377E and 287C (every entry counted by a code hook in the run, minus the hooked ones: 287C's 06D0 call, 545), and
 0688's are M2b's minus one per wrapper call; the adjustment is computed and printed per record. Falsifiers:
 `m2-draws+06b1-n+1` (draws in 1..n+1), `+06b1-value+1`, `+06d0-inverted`, `+06d0-seed-write` (the seed write dropped).
 Each emulated run's outputs (without the draw list, whose count and sha256 they carry) are written
@@ -424,7 +424,7 @@ def emulate(data, hook_name, inputs=()):
     m.tally377e = dict.fromkeys(EXPECTED_377E, 0)
     m.tally287c = {}
     m.tally_draws = {}
-    m.nested_entries = {}
+    m.entries = {}      # every entry of a wrapper, hooked or inside a proof's original
     if hook_name in M1 or hook_name in M1B or hook_name in M2 or hook_name in M2C:     # M0's substitution, 278A's (and 377E's), each proved at every call
         m.hook(LCG_STEP, HOOKS["f004"], prove=True)
         m.hook(SKILL_READER, skill_reader(**M1.get(hook_name, {})), prove=True)
@@ -439,9 +439,9 @@ def emulate(data, hook_name, inputs=()):
                 m.tally_draws[addr] = {}
                 m.hook(addr, wrapper_reader(which, m.tally_draws[addr], fal[1] if fal[0] == addr else None), prove=True)
             for addr in (DRAW_06B1, DRAW_06D0):    # wrapper entries made inside an original that runs in a proof
-                m.nested_entries[addr] = 0
-                m.mu.hook_add(UC_HOOK_CODE, lambda uc, a, sz, d, addr=addr: m.nested_entries.__setitem__(
-                    addr, m.nested_entries[addr] + bool(m.original_running)), begin=m.lin(addr), end=m.lin(addr))
+                m.entries[addr] = 0
+                m.mu.hook_add(UC_HOOK_CODE, lambda uc, a, sz, d, addr=addr: m.entries.__setitem__(addr, m.entries[addr] + 1),
+                              begin=m.lin(addr), end=m.lin(addr))
     elif HOOKS[hook_name] is not None:
         m.hook(LCG_STEP, HOOKS[hook_name], prove=True)
     for fn in inputs:
@@ -523,7 +523,7 @@ def main(argv=None):
                 and m.proved_calls.get(CONTEST_GATE) == 545)
         if a.hook in M2C and not error:
             reach, base = reach_counts(rid), m2b_counts(rid)
-            nested = m.nested_entries
+            nested = {a: m.entries[a] - m.hook_counts[a] for a in (DRAW_06B1, DRAW_06D0)}   # entries no hook took
             wrappers = m.hook_counts[DRAW_06B1] + m.hook_counts[DRAW_06D0]
             expected = {DRAW_06B1: reach[DRAW_06B1] - nested[DRAW_06B1], DRAW_06D0: reach[DRAW_06D0] - nested[DRAW_06D0],
                         LCG_STEP: base[LCG_STEP] - wrappers, SKILL_READER: base[SKILL_READER],
