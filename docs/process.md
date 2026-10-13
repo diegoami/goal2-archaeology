@@ -119,6 +119,9 @@ You implement <T<nn>>. The task file above is the contract.
 - If you measure: every output a finding or the PR may cite goes under a tracked path the task owns,
   pushed per batch and every 30 min, never deleted or overwritten; originals out, hashes recorded. (L40)
 - A comment that asserts behaviour at an edge comes with the test that visits that edge.
+- A Done-when that names a real mechanism (a window, a chord, a device) is met by that mechanism, never by a stand-in
+  for it; with only a stand-in, report the line as unverified and stop. (L106)
+- Report the suites' results from the final commit; after a later code change, re-run them, or say the results are stale. (L106)
 - [research] Static first (U32, CLAUDE.md rule 22): read the decompiled and disassembled code first,
   the named view `static/goal-exe/named/` before the raw `decompiled/` and `code/`; add or correct the
   annotation rows for what the task establishes and regenerate `named/` in the PR (§13);
