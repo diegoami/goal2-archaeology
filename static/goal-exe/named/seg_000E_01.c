@@ -8,10 +8,11 @@ void __cdecl16near f_000E_0000(void)
 {
   int iVar1;
   char cVar2;
-  uint uVar3;
-  int iVar4;
-  undefined2 uVar5;
+  int iVar3;
+  uint uVar4;
+  byte *pbVar5;
   undefined2 uVar6;
+  undefined2 uVar7;
   undefined2 unaff_SS;
   undefined4 local_12;
   int local_a;
@@ -19,40 +20,42 @@ void __cdecl16near f_000E_0000(void)
   uint local_6;
   int local_4;
   
-  uVar5 = (undefined2)((ulong)DS:A923 >> 0x10);
+  uVar6 = (undefined2)((ulong)DS:A923 >> 0x10);
   iVar1 = (int)DS:A923;
   local_a = 1;
   local_8 = *(uint *)(iVar1 + 0x26);
   do {
     if (((*(char *)(iVar1 + 0x40) != '\0') && (*(int *)(iVar1 + 0x38) == 0)) &&
-       (local_8 < DS:6938)) {
+       (local_8 < class_first_fixture[1])) {
       local_a = 1;
-      local_8 = DS:6938;
+      local_8 = class_first_fixture[1];
     }
     local_4 = 8;
     u214b_unpack_screen_to_buffer((undefined4 *)&DS:A96E,0xb000,0x20ac,0xb000);
     u214b_unpack_screen_to_buffer((undefined4 *)&DS:A96E,0xb000,0x26f2,0xb000);
     u214b_unpack_screen_to_buffer((undefined4 *)&DS:A96E,0xb000,0x1af6,0xb000);
-    uVar6 = (undefined2)((ulong)DS:A92B >> 0x10);
-    iVar4 = (int)DS:A92B + (local_8 + local_a + -1) * 8;
-    local_12 = (byte *)CONCAT22(uVar6,(char *)(iVar4 + -8));
-    cVar2 = is_managed(*(undefined2 *)(iVar4 + -2));
-    if ((cVar2 == '\0') && (cVar2 = is_managed(*(undefined2 *)(iVar4 + -4)), cVar2 == '\0')) {
-      if (*local_12 == -2) {
+    iVar3 = local_8 + local_a + -1;
+    uVar7 = (undefined2)((ulong)fixtures >> 0x10);
+    pbVar5 = (byte *)fixtures;
+    local_12 = (byte *)CONCAT22(uVar7,pbVar5 + iVar3 * 8 + -8);
+    cVar2 = is_managed(*(undefined2 *)(pbVar5 + iVar3 * 8 + -2));
+    if ((cVar2 == '\0') &&
+       (cVar2 = is_managed(*(undefined2 *)(pbVar5 + iVar3 * 8 + -4)), cVar2 == '\0')) {
+      if (*local_12 == 0xfe) {
         u214b_unpack_screen_to_buffer((undefined4 *)&DS:A96E,0xb000,0x207e,0xb000);
       }
-      else if (*local_12 == -1) {
+      else if (*local_12 == 0xff) {
         u214b_unpack_screen_to_buffer((undefined4 *)&DS:A96E,0xb000,0x2050,0xb000);
       }
     }
-    uVar3 = u214b_min_longint(local_8 + 0xf,0,*(int *)(iVar1 + 0x28) + -1,0);
-    if (local_8 <= uVar3) {
+    uVar4 = u214b_min_longint(local_8 + 0xf,0,*(int *)(iVar1 + 0x28) + -1,0);
+    if (local_8 <= uVar4) {
       local_6 = local_8;
       while( true ) {
-        f_1771_7812(0x21,local_4,(int)DS:A92B + local_6 * 8 + -8,
-                    (int)((ulong)DS:A92B >> 0x10));
+        f_1771_7812(0x21,local_4,(byte *)fixtures + local_6 * 8 + -8,(int)((ulong)fixtures >> 0x10))
+        ;
         local_4 = local_4 + 1;
-        if (local_6 == uVar3) break;
+        if (local_6 == uVar4) break;
         local_6 = local_6 + 1;
       }
     }
@@ -61,12 +64,13 @@ void __cdecl16near f_000E_0000(void)
                   (int)((ulong)DS:A96E >> 0x10));
     u214b_read_key();
     u214b_list_scroll_by_key(*(int *)(iVar1 + 0x28) + -1,0x10,&local_8,unaff_SS,&local_a,unaff_SS);
-    uVar6 = (undefined2)((ulong)DS:A92B >> 0x10);
-    iVar4 = (int)DS:A92B + (local_8 + local_a + -1) * 8;
-    local_12 = (byte *)CONCAT22(uVar6,(byte *)(iVar4 + -8));
+    iVar3 = local_8 + local_a + -1;
+    uVar7 = (undefined2)((ulong)fixtures >> 0x10);
+    pbVar5 = (byte *)fixtures;
+    local_12 = (byte *)CONCAT22(uVar7,pbVar5 + iVar3 * 8 + -8);
     if (((DS:A976 == '\r') && (0xfd < *local_12)) &&
-       ((cVar2 = is_managed(*(undefined2 *)(iVar4 + -2)), cVar2 == '\0' &&
-        (cVar2 = is_managed(*(undefined2 *)(iVar4 + -4)), cVar2 == '\0')))) {
+       ((cVar2 = is_managed(*(undefined2 *)(pbVar5 + iVar3 * 8 + -2)), cVar2 == '\0' &&
+        (cVar2 = is_managed(*(undefined2 *)(pbVar5 + iVar3 * 8 + -4)), cVar2 == '\0')))) {
       if (*local_12 == 0xfe) {
         *local_12 = 0xff;
       }
@@ -114,18 +118,18 @@ void unmanage_country(int param_1)
   }
   ((country *)countries)[*local_e].manager = *local_e;
   local_4 = 0x15;
-  while (*(int *)((int)DS:A92F + (uint)*local_e * 0x48 + local_4 * 2 + -2) == 0) {
+  while (((word *)country_fixture_lists)[(uint)*local_e * 0x24 + (local_4 - 1)] == 0) {
     local_4 = local_4 + 1;
   }
   if (local_4 < 0x25) {
     local_6 = local_4;
     while( true ) {
-      local_12 = (char *)CONCAT22((int)((ulong)DS:A92B >> 0x10),
-                                  (char *)((int)DS:A92B +
-                                           *(int *)((int)DS:A92F + (uint)*local_e * 0x48 +
-                                                    local_6 * 2 + -2) * 8 + -8));
-      if (*local_12 == -2) {
-        *local_12 = -1;
+      local_12 = (byte *)CONCAT22((int)((ulong)fixtures >> 0x10),
+                                  (byte *)fixtures +
+                                  ((word *)country_fixture_lists)
+                                  [(uint)*local_e * 0x24 + (local_6 - 1)] * 8 + -8);
+      if (*local_12 == 0xfe) {
+        *local_12 = 0xff;
       }
       if (local_6 == 0x24) break;
       local_6 = local_6 + 1;
@@ -612,7 +616,7 @@ int f_000E_0B77(int param_1)
   pcVar3 = (country *)countries;
   if ((((1 < *(uint *)((int)DS:A923 + 0x38)) &&
        (*(char *)((int)*(undefined4 *)(param_1 + 4) + 2) != '\x01')) &&
-      ((cVar2 = f_1771_59D8(), cVar2 == '\0' ||
+      ((cVar2 = stage_uses_finals_table(), cVar2 == '\0' ||
        (*(char *)((int)DS:A923 + (uint)pcVar3[iVar1].manager + -0x7f) == '\0')))) &&
      (pcVar3[iVar1].field_0xbe == '\0')) {
     return (int)(char)((byte *)manager_countries)[(uint)pcVar3[iVar1].manager * 3 + 2];

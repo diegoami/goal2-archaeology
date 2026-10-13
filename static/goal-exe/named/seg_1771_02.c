@@ -65,7 +65,7 @@ void draw_team_panel(int param_1)
              CONCAT11(extraout_AH_03,0xd),puVar4,uVar5);
   puVar4 = local_108;
   uVar5 = unaff_SS;
-  f_1771_0E6C(param_1);
+  formation_label(param_1);
   u214b_write_string_at_attr_var
             ((undefined4 *)&DS:A96E,0xb000,CONCAT11(extraout_AH_04,0x21),
              CONCAT11(extraout_AH_04,0xc),puVar4,uVar5);

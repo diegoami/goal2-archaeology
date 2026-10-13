@@ -1,0 +1,92 @@
+# decoded from static/goal-exe/data/ds_2581_01.hex (DS offsets); position code p = 0..13
+
+## DS:079E  start post (x, y) per position, 14 words (x low byte, y high byte, signed); read by 0791:419C at 4218-421A
+ 0 goalkeeper           (  0,  -37)   bytes 00 DB
+ 1 sweeper              (  0,  -36)   bytes 00 DC
+ 2 centre back          (  0,  -35)   bytes 00 DD
+ 3 left back            ( -6,  -33)   bytes FA DF
+ 4 right back           (  6,  -33)   bytes 06 DF
+ 5 defensive midfield   (  0,  -31)   bytes 00 E1
+ 6 central midfield     (  0,  -28)   bytes 00 E4
+ 7 left midfield        ( -5,  -27)   bytes FB E5
+ 8 right midfield       (  5,  -27)   bytes 05 E5
+ 9 forward midfield     (  0,  -24)   bytes 00 E8
+10 left winger          ( -7,  -22)   bytes F9 EA
+11 right winger         (  7,  -22)   bytes 07 EA
+12 centre forward       (  0,  -21)   bytes 00 EB
+13 striker              (  0,  -18)   bytes 00 EE
+
+## DS:07BA  group code table g = DS:07BA[2*(pos>4) + flag] (0791:42CB); flag=1 when pos>=12, or pos<12 with tactic element 1 set and the slot on the ball's side; pos 0 -> 4
+[3, 2, 2, 1]
+
+## DS:07BE  home-depth offset per position, read by 0791:4438 (added to the post's y unless state 9)
+[0, 5, 7, 5, 5, 14, 16, 15, 15, 17, 18, 18, 19, 14]
+
+## DS:0812  kick-off depth per position, read by 0791:69BD (state 1): destination y = post y + this
+[0, 5, 7, 10, 10, 14, 16, 15, 15, 17, 18, 18, 19, 14]
+
+## DS:07CB  defending depth offset DS:07CB[e5*8 + e6*4 + g], g = 1..4 (0791:4B64 4CF8, 4649); e5, e6 = effective tactic elements 5, 6 (0/1)
+e5=0 e6=0  g=1..4: [0, 0, 0, 0]
+e5=0 e6=1  g=1..4: [15, 10, 2, 0]
+e5=1 e6=0  g=1..4: [10, 5, 0, 0]
+e5=1 e6=1  g=1..4: [45, 25, 5, 0]
+
+## DS:07DB  attacking depth offset DS:07DB[e7*4 + g], e7 = effective tactic element 7 (0791:4B64 4C85, 4532)
+e7=0  g=1..4: [60, 45, 25, 0]
+e7=1  g=1..4: [60, 50, 35, 0]
+
+## DS:0820, DS:0822  kick-off words (x, y): the holder (DS:830B) and the last slot of the side (69BD)
+DS:0820 (0, -1) DS:0822 (-2, -1)
+
+## DS:0D4E  line routing of the quick engine (F012) [0, 1, 1, 4, 4, 2, 2, 2, 2, 5, 5, 5, 3, 3]
+## DS:0D5C  formation-label class (1771:0E6C): 0 keeper (not shown), 1 defence, 2 midfield, 3 attack [0, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 3, 3]
+
+## DS:0E46 base height (inches) by club position; DS:0E54 jitter by player number mod 12 (1771:2FAD)
+[71, 68, 71, 67, 67, 67, 68, 67, 67, 67, 65, 65, 71, 67]
+[2, 0, 4, 1, 5, 3, 2, 1, 3, 2, 1, 2]
+## DS:0A28  position a computer team converts a forward-mid/winger to (0791:BEC7): [short, tall >= 72 in] [13, 12]
+
+## DS:0E7C  foot-row selector by player number mod 3; DS:0E60 foot index (0 left, 1 right; words at DS:0F2C + 6 * index) per row of 14 club positions
+[0, 1, 0]
+row 0: [1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1]
+row 1: [0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0]
+
+## DS:0EF4..  who marks whom in man-to-man (1771:3E2F with 3EF8): row r (1..4), index = the OPPOSING position, value = the position code of my player taken to mark him
+priority 1: [13, 9, 12, 11, 10, 6, 5, 4, 3, 2, 4, 3, 2, 2]
+priority 2: [13, 13, 13, 8, 7, 9, 6, 8, 7, 5, 2, 2, 3, 4]
+priority 3: [13, 12, 9, 13, 13, 7, 8, 11, 10, 4, 5, 5, 4, 3]
+priority 4: [13, 11, 10, 9, 9, 8, 7, 5, 5, 3, 8, 7, 5, 5]
+
+## DS:099A  bench roles per outgoing position, 8 bytes a row: [count, club positions accepted...] (0791:AAE8)
+ 0 goalkeeper           count 1 roles [0]
+ 1 sweeper              count 2 roles [5, 1]
+ 2 centre back          count 1 roles [2]
+ 3 left back            count 3 roles [1, 4, 3]
+ 4 right back           count 3 roles [1, 3, 4]
+ 5 defensive midfield   count 7 roles [1, 3, 4, 7, 8, 6, 5]
+ 6 central midfield     count 4 roles [7, 8, 5, 6]
+ 7 left midfield        count 7 roles [1, 3, 5, 6, 10, 8, 7]
+ 8 right midfield       count 7 roles [1, 4, 5, 6, 11, 7, 8]
+ 9 forward midfield     count 4 roles [13, 10, 11, 9]
+10 left winger          count 6 roles [3, 9, 13, 7, 11, 10]
+11 right winger         count 6 roles [4, 9, 13, 8, 10, 11]
+12 centre forward       count 2 roles [13, 12]
+13 striker              count 5 roles [12, 10, 11, 9, 13]
+
+## DS:08D5  keeper fallback score table DS:08D5[14*pos + role] (0791:A9B8)
+ 0 [14, 11, 13, 12, 12, 9, 8, 7, 6, 5, 4, 4, 3, 2]
+ 1 [2, 14, 13, 11, 11, 12, 10, 9, 9, 6, 5, 4, 3, 3]
+ 2 [2, 13, 14, 11, 11, 12, 10, 9, 9, 6, 5, 4, 3, 3]
+ 3 [2, 13, 12, 14, 14, 11, 10, 9, 4, 6, 8, 3, 3, 3]
+ 4 [2, 13, 12, 14, 14, 11, 10, 4, 9, 6, 3, 8, 3, 3]
+ 5 [2, 9, 8, 10, 10, 14, 13, 12, 12, 7, 4, 4, 3, 3]
+ 6 [2, 9, 8, 10, 10, 13, 14, 12, 12, 7, 4, 4, 3, 3]
+ 7 [2, 9, 10, 11, 6, 12, 13, 14, 14, 8, 13, 2, 4, 3]
+ 8 [2, 9, 10, 6, 11, 12, 13, 14, 14, 8, 2, 13, 4, 3]
+ 9 [2, 7, 3, 4, 4, 8, 9, 10, 10, 14, 13, 13, 12, 11]
+10 [2, 7, 3, 10, 3, 4, 5, 13, 3, 12, 14, 14, 3, 13]
+11 [2, 8, 3, 3, 10, 5, 6, 3, 13, 12, 14, 14, 4, 13]
+12 [2, 8, 11, 6, 6, 3, 4, 5, 5, 13, 3, 3, 14, 13]
+13 [2, 4, 3, 5, 5, 6, 7, 8, 8, 13, 12, 12, 13, 14]
+
+## CS:3139 left-flank set, CS:3159 right-flank set (1771:3179) -- from the code segment, see foot_truth.py output; CS:BEA7 {9,10,11}, CS:BFFA {12,13}, CS:3411 {0,1,3,4}

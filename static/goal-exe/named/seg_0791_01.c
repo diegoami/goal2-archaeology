@@ -923,7 +923,8 @@ void __cdecl16far f_0791_112C(void)
       DS:7C2A = 0xb0007c2e;
       action_replay();
       sys_set_bit_mask_08DF
-                (0x693a,0xb000,CONCAT11(extraout_AH,*(undefined1 *)((int)DS:7C2A + 2)));
+                ((byte *)decider_kinds,0xb000,
+                 CONCAT11(extraout_AH,*(undefined1 *)((int)DS:7C2A + 2)));
       DS:7C36 = !(bool)uVar9;
       DS:7C39 = 0;
       f_0791_1073();
