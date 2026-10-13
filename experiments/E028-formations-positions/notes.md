@@ -39,6 +39,7 @@ the routine reads written by the harness; no hook, no substitution.
 | `out/posts-synthetic-20261013T143525Z.log` | `666be552acac9d6eaf12f37e469609be404e1cb686601b0cc194dfa6867688a7` |
 | `out/posts-falsifier-20261013.log` | `fcd130dc292d4de4fb4a499aed128bf896b111d05c74ea82b9404ddb90397dde` |
 | `out/tables-20261013T143429Z.txt` | `f4915d1b8217d15d8f7e5962e79789d28ee11b71bd4bcf5f0a3accc75149970e` |
+| `out/contest-counter-20261013T152823Z.log` (`contest_counter.py`: 278A with and without the flag and the keeping extra; 2FAD heights by club code; review round 1) | `e6b4ae33a52133052aa2fb9c88655cb62e95195f34284821b00f1352ab4edcc8` |
 | `out/readers-named.tsv` | `c88e3f88883a8294c02b0689dbbd9f7b35d7b56592d9a489236df092384662d9` |
 | `out/readers-asm.tsv` | `e7caaa64dc41dfebcd2d7cc25f57012f54ac926ac6f705d00733cee85a6397e9` |
 
