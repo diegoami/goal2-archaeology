@@ -116,7 +116,7 @@ char __stdcall16far f_0791_3111(char *param_1)
       if (((((byte)pcVar7[6] != local_6) &&
            (cVar3 = player_unavailable_on_pitch((pitch *)pitch_records + local_6,0xb000),
            cVar3 == '\0')) &&
-          (cVar3 = f_0791_2D10((pitch *)pitch_records + local_6,0xb000,10), cVar3 == '\0')) &&
+          (cVar3 = ball_ahead_of_by((pitch *)pitch_records + local_6,0xb000,10), cVar3 == '\0')) &&
          (*(char *)((int)&pitch_records[0].state + local_6 * 0x16) != '\r')) {
         iVar4 = (int)(char)((pitch *)pitch_records + local_6)->x - (int)*param_1;
         if (iVar4 < 0) {
@@ -686,12 +686,12 @@ void __stdcall16far shot_or_header(undefined4 param_1,int param_2,undefined1 par
      (((cVar2 = skill_draw_passes(uVar5,uVar6,*(undefined1 *)((param_2 == 2) + 0x78e)),
        cVar2 != '\0' || (cVar2 = u214b_random_is_one(4), cVar2 != '\0')) ||
       (cVar2 = f_0791_29B3(), cVar2 != '\0')))) {
-    pitch_records[0]._19_1_ = 1;
+    pitch_records[0].out_of_place = 1;
   }
   else {
-    pitch_records[0]._19_1_ = 0;
+    pitch_records[0].out_of_place = 0;
   }
-  uVar4 = f_0791_2C86(uVar5,uVar6,DS:0646);
+  uVar4 = mirror_to_team_frame(uVar5,uVar6,DS:0646);
   launch_ball(uVar5,uVar6,param_2,uVar4);
   f_0791_2AA3(CONCAT11(extraout_AH,param_3));
   if (DS:8326 == '\0') {
@@ -988,9 +988,10 @@ bool __cdecl16near f_0791_4151(void)
 }
 
 
-// ---- 0791:419C  f_0791_419C  (f_0791_419C; Ghidra 2000:419C, __cdecl16near; found by routines.tsv)
+// ---- 0791:419C  assign_start_posts  (f_0791_419C; Ghidra 2000:419C, __cdecl16near; found by routines.tsv)
+// for the 11 records of each side (DS:0668[t] + 1..+11) sets the post word pitch +9 := DS:079E[2 * player +6] (x low byte, y high byte, own frame), then separates adjacent equal posts: when the previous record's post equals the fresh one, |x| <= 4: current x += 3 and previous x -= 3; else the current x moves 3 toward the middle and the previous y falls 3; runs at the end of 0791:230C; the original run in Unicorn equals this rule on 52 block-10 formations and 3056 synthetic elevens (F028)  [established; F028]
 
-void __cdecl16near f_0791_419C(void)
+void __cdecl16near assign_start_posts(void)
 
 {
   char *pcVar1;
@@ -1009,28 +1010,28 @@ void __cdecl16near f_0791_419C(void)
     if (local_5 <= uVar3) {
       while( true ) {
         iVar2 = local_5 * 0x16;
-        *(undefined2 *)((int)&pitch_records[0].field_0x9 + iVar2) =
+        *(undefined2 *)((int)&pitch_records[0].post + iVar2) =
              *(undefined2 *)
               ((uint)((player *)players)[*(int *)((int)&pitch_records[0].player_index + iVar2)].
                      position * 2 + 0x79e);
         if ((*(byte *)(local_3 + 0x668) + 1 < local_5) &&
-           (*(int *)((int)&pitch_records[0].field_0x9 + local_7 * 0x16) ==
-            *(int *)((int)&pitch_records[0].field_0x9 + iVar2))) {
-          iVar4 = (int)*(char *)((int)&pitch_records[0].field_0x9 + iVar2);
+           (*(int *)((int)&pitch_records[0].post + local_7 * 0x16) ==
+            *(int *)((int)&pitch_records[0].post + iVar2))) {
+          iVar4 = (int)*(char *)((int)&pitch_records[0].post + iVar2);
           if (iVar4 < 0) {
             iVar4 = -iVar4;
           }
           if (iVar4 < 5) {
-            pcVar1 = (char *)((int)&pitch_records[0].field_0x9 + iVar2);
+            pcVar1 = (char *)((int)&pitch_records[0].post + iVar2);
             *pcVar1 = *pcVar1 + '\x03';
-            pcVar1 = (char *)((int)&pitch_records[0].field_0x9 + local_7 * 0x16);
+            pcVar1 = (char *)((int)&pitch_records[0].post + local_7 * 0x16);
             *pcVar1 = *pcVar1 + -3;
           }
           else {
-            pcVar1 = (char *)((int)&pitch_records[0].field_0x9 + iVar2);
+            pcVar1 = (char *)((int)&pitch_records[0].post + iVar2);
             *pcVar1 = *pcVar1 + ((char *)form_delta)
-                                ['\0' < *(char *)((int)&pitch_records[0].field_0x9 + iVar2)] * -3;
-            pcVar1 = (char *)((int)&pitch_records[0].field_0xa + local_7 * 0x16);
+                                ['\0' < *(char *)((int)&pitch_records[0].post + iVar2)] * -3;
+            pcVar1 = (char *)((int)&pitch_records[0].post + 1 + local_7 * 0x16);
             *pcVar1 = *pcVar1 + -3;
           }
         }
@@ -1046,9 +1047,10 @@ void __cdecl16near f_0791_419C(void)
 }
 
 
-// ---- 0791:42CB  f_0791_42CB  (f_0791_42CB; Ghidra 2000:42CB, __stdcall16far; found by routines.tsv)
+// ---- 0791:42CB  position_group  (f_0791_42CB; Ghidra 2000:42CB, __stdcall16far; found by routines.tsv)
+// the group code g of a pitch record: 4 for a goalkeeper, else DS:07BA[2 * (+6 > 4) + flag] = [3, 2, 2, 1] with flag = 1 for +6 >= 12, or for +6 < 12 when the effective tactic element 1 is set and the record is on the ball's side (2B51); indexes the depth tables DS:07CB and DS:07DB  [likely; F028; read code/seg_0791_07.asm]
 
-undefined4 __stdcall16far f_0791_42CB(undefined4 param_1)
+undefined4 __stdcall16far position_group(undefined4 param_1)
 
 {
   long lVar1;
@@ -1087,9 +1089,10 @@ undefined4 __stdcall16far f_0791_42CB(undefined4 param_1)
 }
 
 
-// ---- 0791:4354  f_0791_4354  (f_0791_4354; Ghidra 2000:4354, __stdcall16far; found by routines.tsv)
+// ---- 0791:4354  set_destination_from_post  (f_0791_4354; Ghidra 2000:4354, __stdcall16far; found by routines.tsv)
+// pitch +0xB := rand(5) - 3 (0 for a goalkeeper; rand(15) - 8 for code 13 unless state 9), minus +9 div 2 when +0xC < 2; destination x +7 := post x +9 + +0xB, y +8 := post y +0xA + depth +0xC; then mirrored through 2C86; called by 4A28, the state handlers and others  [likely; F028; read code/seg_0791_07.asm]
 
-void __stdcall16far f_0791_4354(undefined4 param_1)
+void __stdcall16far set_destination_from_post(undefined4 param_1)
 
 {
   byte bVar1;
@@ -1123,7 +1126,7 @@ void __stdcall16far f_0791_4354(undefined4 param_1)
   }
   *(char *)(iVar4 + 8) = *(char *)(iVar4 + 10) + *(char *)(iVar4 + 0xc);
   *(char *)(iVar4 + 7) = *(char *)(iVar4 + 9) + *(char *)(iVar4 + 0xb);
-  uVar3 = f_0791_2C86(iVar4,uVar5,*(undefined2 *)(iVar4 + 7));
+  uVar3 = mirror_to_team_frame(iVar4,uVar5,*(undefined2 *)(iVar4 + 7));
   *(undefined2 *)(iVar4 + 7) = uVar3;
   return;
 }
@@ -1200,71 +1203,4 @@ uint __stdcall16far f_0791_44C1(char *param_1,undefined2 param_2)
     }
   }
   return in_AX & 0xff00;
-}
-
-
-// ---- 0791:4532  f_0791_4532  (f_0791_4532; Ghidra 2000:4532, __stdcall16near; found by routines.tsv)
-
-undefined1 f_0791_4532(int param_1)
-
-{
-  char cVar1;
-  int iVar2;
-  undefined2 unaff_SS;
-  undefined1 local_3;
-  
-  local_3 = 0;
-  iVar2 = f_0791_42CB((int)*(undefined4 *)(param_1 + 6),
-                      (int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10));
-  cVar1 = player_effective_tactic
-                    ((int)*(undefined4 *)(param_1 + 6),
-                     (int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10),7);
-  if ((int)*(char *)((int)*(undefined4 *)(param_1 + 6) + 0xc) <
-      (int)(uint)*(byte *)(cVar1 * 4 + iVar2 + 0x7db)) {
-    iVar2 = f_0791_42CB((int)*(undefined4 *)(param_1 + 6),
-                        (int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10));
-    if (iVar2 == 1) {
-      cVar1 = f_0791_2D10((int)*(undefined4 *)(param_1 + 6),
-                          (int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10),0);
-      if (((cVar1 == '\0') &&
-          (cVar1 = player_effective_tactic
-                             ((int)*(undefined4 *)(param_1 + 6),
-                              (int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10),1), cVar1 == '\0'))
-         && (cVar1 = u214b_random_coin_flip(), cVar1 == '\0')) {
-        local_3 = 0;
-      }
-      else {
-        local_3 = 1;
-      }
-    }
-    else if (iVar2 == 2) {
-      cVar1 = f_0791_2D10((int)*(undefined4 *)(param_1 + 6),
-                          (int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10),0);
-      if ((cVar1 == '\0') &&
-         (cVar1 = player_effective_tactic
-                            ((int)*(undefined4 *)(param_1 + 6),
-                             (int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10),1), cVar1 == '\0'))
-      {
-        local_3 = 0;
-      }
-      else {
-        local_3 = 1;
-      }
-    }
-    else if (iVar2 == 3) {
-      cVar1 = f_0791_2D10((int)*(undefined4 *)(param_1 + 6),
-                          (int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10),0x1e);
-      if ((cVar1 == '\0') &&
-         (cVar1 = player_effective_tactic
-                            ((int)*(undefined4 *)(param_1 + 6),
-                             (int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10),7), cVar1 == '\0'))
-      {
-        local_3 = 0;
-      }
-      else {
-        local_3 = 1;
-      }
-    }
-  }
-  return local_3;
 }
