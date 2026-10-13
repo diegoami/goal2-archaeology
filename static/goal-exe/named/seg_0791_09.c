@@ -92,7 +92,7 @@ undefined2 f_0791_B15F(undefined4 param_1)
   bool bVar2;
   
   bVar2 = &stack0x0000 == (undefined1 *)0x8;
-  sys_set_bit_mask_08DF(0x693a,0xb000,*(undefined1 *)((int)param_1 + 2));
+  sys_set_bit_mask_08DF((byte *)decider_kinds,0xb000,*(undefined1 *)((int)param_1 + 2));
   if ((bVar2) || ((char)DS:9B3C != DS:9B3C._1_1_)) {
     uVar1 = 0;
   }

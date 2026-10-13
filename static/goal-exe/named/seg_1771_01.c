@@ -159,10 +159,11 @@ undefined1 save_or_load_game(char param_1)
   f_1771_0232(&stack0xfffe,0x10e,(int)DS:A923,(int)((ulong)DS:A923 >> 0x10));
   f_1771_0232(&stack0xfffe,0x3c2,(word *)pool_indices,(int)((ulong)pool_indices >> 0x10));
   f_1771_0232(&stack0xfffe,0x195,(byte *)manager_countries,(int)((ulong)manager_countries >> 0x10));
-  f_1771_0232(&stack0xfffe,0x4b48,(int)DS:A92B,(int)((ulong)DS:A92B >> 0x10));
-  f_1771_0232(&stack0xfffe,0x2448,(int)DS:A92F,(int)((ulong)DS:A92F >> 0x10));
+  f_1771_0232(&stack0xfffe,0x4b48,(byte *)fixtures,(int)((ulong)fixtures >> 0x10));
+  f_1771_0232(&stack0xfffe,0x2448,(word *)country_fixture_lists,
+              (int)((ulong)country_fixture_lists >> 0x10));
   f_1771_0232(&stack0xfffe,0x81,0x9cff,0xb000);
-  f_1771_0232(&stack0xfffe,0x1c00,(int)DS:A933,(int)((ulong)DS:A933 >> 0x10));
+  f_1771_0232(&stack0xfffe,0x1c00,(byte *)group_tables,(int)((ulong)group_tables >> 0x10));
   f_1771_0232(&stack0xfffe,0x348,(int)DS:A937,(int)((ulong)DS:A937 >> 0x10));
   f_1771_0232(&stack0xfffe,0x348,(int)DS:A93B,(int)((ulong)DS:A93B >> 0x10));
   f_1771_0232(&stack0xfffe,0x1e0,(int)DS:A93F,(int)((ulong)DS:A93F >> 0x10));

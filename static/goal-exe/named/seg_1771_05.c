@@ -28,12 +28,12 @@ void add_group_points(void)
     while( true ) {
       local_8 = 1;
       while( true ) {
-        uVar7 = (undefined2)((ulong)DS:A933 >> 0x10);
-        iVar4 = (int)DS:A933 + (*(char *)(iVar3 + 0x40) == '\0') * 0xe00 + local_4 * 0x1c0 +
-                local_6 * 0x38 + local_8 * 8;
-        local_10 = (int *)CONCAT22(uVar7,(int *)(iVar4 + -0x200));
-        pwVar1 = &((country *)countries)[*local_10].points;
-        *pwVar1 = *pwVar1 + (uint)*(byte *)(iVar4 + -0x1f9) * (5 - local_4);
+        uVar7 = (undefined2)((ulong)group_tables >> 0x10);
+        iVar5 = local_8 * 8 +
+                local_6 * 0x38 + local_4 * 0x1c0 + (*(char *)(iVar3 + 0x40) == '\0') * 0xe00;
+        local_10 = (byte *)CONCAT22(uVar7,(byte *)group_tables + iVar5 + -0x200);
+        pwVar1 = &((country *)countries)[*(int *)local_10].points;
+        *pwVar1 = *pwVar1 + (uint)((byte *)group_tables)[iVar5 + -0x1f9] * (5 - local_4);
         if (local_8 == 4) break;
         local_8 = local_8 + 1;
       }
@@ -43,8 +43,8 @@ void add_group_points(void)
     if (local_4 == 4) break;
     local_4 = local_4 + 1;
   }
-  iVar4 = (uint)*(byte *)(iVar3 + 0x40) * 3;
-  if (iVar4 != -1) {
+  iVar5 = (uint)*(byte *)(iVar3 + 0x40) * 3;
+  if (iVar5 != -1) {
     local_4 = 1;
     while( true ) {
       bVar2 = ((undefined1 *)&DS:1102)[*(char *)(iVar3 + 0x3c) == '\x02'];
@@ -53,12 +53,12 @@ void add_group_points(void)
         while( true ) {
           local_8 = 1;
           while( true ) {
-            uVar7 = (undefined2)((ulong)DS:A933 >> 0x10);
-            iVar5 = (int)DS:A933 + (*(char *)(iVar3 + 0x40) == '\0') * 0xe00 + local_4 * 0x1c0
-                    + local_6 * 0x38 + local_8 * 8;
-            local_14 = (int *)CONCAT22(uVar7,(int *)(iVar5 + 0x500));
-            pwVar1 = &((country *)countries)[*local_14].points;
-            *pwVar1 = *pwVar1 + (uint)*(byte *)(iVar5 + 0x507) * (5 - local_4);
+            uVar7 = (undefined2)((ulong)group_tables >> 0x10);
+            iVar4 = local_8 * 8 +
+                    local_6 * 0x38 + local_4 * 0x1c0 + (*(char *)(iVar3 + 0x40) == '\0') * 0xe00;
+            local_14 = (byte *)CONCAT22(uVar7,(byte *)group_tables + iVar4 + 0x500);
+            pwVar1 = &((country *)countries)[*(int *)local_14].points;
+            *pwVar1 = *pwVar1 + (uint)((byte *)group_tables)[iVar4 + 0x507] * (5 - local_4);
             if (local_8 == 4) break;
             local_8 = local_8 + 1;
           }
@@ -66,7 +66,7 @@ void add_group_points(void)
           local_6 = local_6 + 1;
         }
       }
-      if (local_4 == iVar4 + 1) break;
+      if (local_4 == iVar5 + 1) break;
       local_4 = local_4 + 1;
     }
   }
@@ -166,9 +166,10 @@ void __cdecl16near recompute_country_ranks(void)
 }
 
 
-// ---- 1771:6617  f_1771_6617  (f_1771_6617; Ghidra 4000:6617, __stdcall16near; found by routines.tsv)
+// ---- 1771:6617  mark_group_fixtures_managed  (f_1771_6617; Ghidra 4000:6617, __stdcall16near; found by routines.tsv)
+// for each manager with a group in [A923]+1+m: sets byte 0 = 0xFE on every fixture of the group's round list (12 rounds for param 0 = stages 2/5, 6 for param 1 = stages 3/7), continent of the managed country, or continent 1 for the World Cup  [likely; F023; read code/seg_1771_09.asm]
 
-void f_1771_6617(char param_1)
+void mark_group_fixtures_managed(char param_1)
 
 {
   byte bVar1;
@@ -196,11 +197,12 @@ void f_1771_6617(char param_1)
         bVar2 = *(byte *)(param_1 + 0x1104);
         if (bVar2 != 0) {
           for (local_4 = 1;
-              *(undefined1 *)
-               ((int)DS:A92B +
-                *(int *)((int)DS:A933 + (char)pbVar3[0x40] * 0xe00 + param_1 * 0x700 +
-                         local_8 * 0x1c0 + (uint)pbVar3[local_6 + 1] * 0x38 + local_4 * 2 + -0x1da)
-                * 8 + -8) = 0xfe, local_4 != bVar2; local_4 = local_4 + 1) {
+              ((byte *)fixtures)
+              [*(int *)((byte *)group_tables +
+                       local_4 * 2 +
+                       (uint)pbVar3[local_6 + 1] * 0x38 +
+                       local_8 * 0x1c0 + param_1 * 0x700 + (char)pbVar3[0x40] * 0xe00 + -0x1da) * 8
+               + -8] = 0xfe, local_4 != bVar2; local_4 = local_4 + 1) {
           }
         }
       }
@@ -222,8 +224,9 @@ void __cdecl16near stage_qualifying(void)
   int iVar2;
   byte extraout_AH;
   int iVar3;
-  undefined2 uVar4;
+  byte *pbVar4;
   undefined2 uVar5;
+  undefined2 uVar6;
   undefined4 local_16;
   int local_e;
   int local_a;
@@ -231,12 +234,12 @@ void __cdecl16near stage_qualifying(void)
   int local_6;
   int local_4;
   
-  uVar4 = (undefined2)((ulong)DS:A923 >> 0x10);
+  uVar5 = (undefined2)((ulong)DS:A923 >> 0x10);
   iVar1 = (int)DS:A923;
-  u214b_fill_bytes(0,6,iVar1 + 0x14,uVar4);
-  f_1771_56FF();
+  u214b_fill_bytes(0,6,iVar1 + 0x14,uVar5);
+  build_draw_order();
   if (*(int *)(iVar1 + 0x38) == 0) {
-    for (local_8 = 1; uVar5 = (undefined2)((ulong)countries >> 0x10),
+    for (local_8 = 1; uVar6 = (undefined2)((ulong)countries >> 0x10),
         ((country *)countries)[local_8].points = 5 - ((country *)countries)[local_8].continent,
         local_8 != 0x80; local_8 = local_8 + 1) {
     }
@@ -245,20 +248,20 @@ void __cdecl16near stage_qualifying(void)
   else {
     recompute_country_ranks();
   }
-  *(undefined2 *)(iVar1 + 0x28) = *(undefined2 *)(*(char *)(iVar1 + 0x40) * 2 + 0x6936);
+  *(word *)(iVar1 + 0x28) = ((word *)class_first_fixture)[*(char *)(iVar1 + 0x40)];
   *(undefined2 *)(iVar1 + 0x26) = *(undefined2 *)(iVar1 + 0x28);
-  u214b_fill_bytes(0,0xe00,(int)DS:A933 + *(char *)(iVar1 + 0x40) * 0xe00,
-                   (int)((ulong)DS:A933 >> 0x10));
-  f_1771_5E99(1);
+  u214b_fill_bytes(0,0xe00,(byte *)group_tables + *(char *)(iVar1 + 0x40) * 0xe00,
+                   (int)((ulong)group_tables >> 0x10));
+  set_manager_groups(1);
   local_e = 0;
   do {
     local_4 = 1;
     while( true ) {
       iVar2 = u214b_random_1_to_n(8);
       iVar3 = local_e + iVar2 + -0x6301;
-      uVar5 = 0xb000;
+      uVar6 = 0xb000;
       iVar2 = u214b_random_1_to_n(8);
-      u214b_swap_bytes(1,local_e + iVar2 + -0x6301,0xb000,iVar3,uVar5);
+      u214b_swap_bytes(1,local_e + iVar2 + -0x6301,0xb000,iVar3,uVar6);
       if (local_4 == 4) break;
       local_4 = local_4 + 1;
     }
@@ -272,12 +275,12 @@ void __cdecl16near stage_qualifying(void)
   else {
     *(undefined2 *)(iVar1 + 0x36) = 0;
   }
-  uVar5 = (undefined2)((ulong)DS:A93F >> 0x10);
+  uVar6 = (undefined2)((ulong)DS:A93F >> 0x10);
   if (*(char *)(iVar1 + 0x40) == '\0') {
-    u214b_fill_bytes(0,0x180,(int)DS:A93F,uVar5);
+    u214b_fill_bytes(0,0x180,(int)DS:A93F,uVar6);
   }
   else {
-    u214b_fill_bytes(0,0x60,(int)DS:A93F + 0x180,uVar5);
+    u214b_fill_bytes(0,0x60,(int)DS:A93F + 0x180,uVar6);
   }
   local_4 = 1;
   while( true ) {
@@ -286,14 +289,14 @@ void __cdecl16near stage_qualifying(void)
       iVar2 = u214b_random_1_to_n(4);
       local_a = 1;
       while( true ) {
-        local_16 = (uint *)CONCAT22((int)((ulong)DS:A933 >> 0x10),
-                                    (uint *)((int)DS:A933 + *(char *)(iVar1 + 0x40) * 0xe00 +
-                                             local_4 * 0x1c0 + local_8 * 0x38 +
-                                             (uint)*(byte *)(iVar2 * 4 + local_a + 0xf71) * 8 +
-                                            -0x200));
-        iVar3 = f_1771_56E4(local_4);
+        local_16 = (uint *)CONCAT22((int)((ulong)group_tables >> 0x10),
+                                    (byte *)group_tables +
+                                    (uint)*(byte *)(iVar2 * 4 + local_a + 0xf71) * 8 +
+                                    local_8 * 0x38 +
+                                    local_4 * 0x1c0 + *(char *)(iVar1 + 0x40) * 0xe00 + -0x200);
+        iVar3 = continent_order_offset(local_4);
         *local_16 = (uint)*(byte *)((local_a + -1) * 8 + iVar3 + local_8 + -0x6301);
-        uVar5 = (undefined2)((ulong)countries >> 0x10);
+        uVar6 = (undefined2)((ulong)countries >> 0x10);
         if (0x80 < ((country *)countries)[*local_16].manager) {
           *(undefined1 *)(iVar1 + (uint)((country *)countries)[*local_16].manager + -0x7f) =
                (undefined1)local_8;
@@ -313,27 +316,29 @@ void __cdecl16near stage_qualifying(void)
     while( true ) {
       local_6 = 1;
       while( true ) {
-        uVar5 = (undefined2)((ulong)DS:A933 >> 0x10);
-        iVar2 = (int)DS:A933 + *(char *)(iVar1 + 0x40) * 0xe00 + local_4 * 0x1c0 +
-                local_6 * 0x38 + -0x1f8;
+        uVar6 = (undefined2)((ulong)group_tables >> 0x10);
+        pbVar4 = (byte *)group_tables;
+        iVar2 = local_6 * 0x38 + local_4 * 0x1c0 + *(char *)(iVar1 + 0x40) * 0xe00 + -0x1f8;
         if ((local_8 < (byte)((undefined1 *)&DS:1106)[*(char *)(iVar1 + 0x40) == '\0']) &&
-           (*(char *)(local_6 * 6 + local_8 + 0x1087) != '\0')) {
+           (((byte *)round_pair_table + 0x101)[local_6 * 6 + local_8] != 0)) {
           for (local_a = 1;
-              f_1771_5D94(0,1,*(undefined2 *)
-                               ((int)DS:A933 + *(char *)(iVar1 + 0x40) * 0xe00 +
-                                local_4 * 0x1c0 +
-                                (uint)*(byte *)(local_6 * 6 + local_8 + 0x1087) * 0x38 + local_a * 8
-                               + -0x200),*(undefined2 *)(iVar2 + local_a * 8 + -8)), local_a != 4;
+              add_fixture(0,1,*(undefined2 *)
+                               ((byte *)group_tables +
+                               local_a * 8 +
+                               (uint)((byte *)round_pair_table + 0x101)[local_6 * 6 + local_8] *
+                               0x38 + local_4 * 0x1c0 + *(char *)(iVar1 + 0x40) * 0xe00 + -0x200),
+                          *(undefined2 *)(pbVar4 + local_a * 8 + iVar2 + -8)), local_a != 4;
               local_a = local_a + 1) {
           }
         }
-        *(undefined2 *)(iVar2 + local_8 * 2 + 0x1e) = *(undefined2 *)(iVar1 + 0x28);
-        f_1771_5D94(local_6,*(undefined1 *)(iVar1 + 0x3c),
+        *(undefined2 *)(pbVar4 + local_8 * 2 + iVar2 + 0x1e) = *(undefined2 *)(iVar1 + 0x28);
+        add_fixture(local_6,*(undefined1 *)(iVar1 + 0x3c),
                     *(undefined2 *)
-                     (iVar2 + (uint)*(byte *)((local_6 + local_4) * 0x18 + local_8 * 2 + 0xf54) * 8
-                     + -8),*(undefined2 *)
-                            (iVar2 + (uint)*(byte *)((local_6 + local_4) * 0x18 + local_8 * 2 +
-                                                    0xf55) * 8 + -8));
+                     (pbVar4 + (uint)*(byte *)((local_6 + local_4) * 0x18 + local_8 * 2 + 0xf54) * 8
+                               + iVar2 + -8),
+                    *(undefined2 *)
+                     (pbVar4 + (uint)*(byte *)((local_6 + local_4) * 0x18 + local_8 * 2 + 0xf55) * 8
+                               + iVar2 + -8));
         if (local_6 == 8) break;
         local_6 = local_6 + 1;
       }
@@ -343,14 +348,15 @@ void __cdecl16near stage_qualifying(void)
     if (local_8 == 0xc) break;
     local_8 = local_8 + 1;
   }
-  f_1771_6617((uint)extraout_AH << 8);
+  mark_group_fixtures_managed((uint)extraout_AH << 8);
   return;
 }
 
 
-// ---- 1771:6B55  f_1771_6B55  (f_1771_6B55; Ghidra 4000:6B55, __cdecl16near; found by routines.tsv)
+// ---- 1771:6B55  stage_continental_finals  (f_1771_6B55; Ghidra 4000:6B55, __cdecl16near; found by routines.tsv)
+// stage 3 builder (class 0): host of each continent = winner of a random qualifying group (+0x2C+2c); B groups from the A table (B[g][a] = A[2a - (g odd)][(g+1)/2] in a random slot permutation) so B1 = winners of groups 1,3,5,7 and B2 = of 2,4,6,8; per round 1..12 friendlies among B groups (rounds < 7, DS:1087) and, from round 7, kind 3 single round robin for B1/B2 (48 fixtures), friendlies for B3..B8  [established; F023; read code/seg_1771_10.asm]
 
-void __cdecl16near f_1771_6B55(void)
+void __cdecl16near stage_continental_finals(void)
 
 {
   int iVar1;
@@ -359,8 +365,9 @@ void __cdecl16near f_1771_6B55(void)
   undefined1 uVar4;
   undefined1 extraout_AH;
   undefined1 extraout_AH_00;
-  undefined2 uVar5;
+  byte *pbVar5;
   undefined2 uVar6;
+  undefined2 uVar7;
   undefined4 local_18;
   uint local_e;
   int local_a;
@@ -368,31 +375,32 @@ void __cdecl16near f_1771_6B55(void)
   uint local_6;
   int local_4;
   
-  uVar5 = (undefined2)((ulong)DS:A923 >> 0x10);
+  uVar6 = (undefined2)((ulong)DS:A923 >> 0x10);
   iVar1 = (int)DS:A923;
-  f_1771_5E99(0);
+  set_manager_groups(0);
   local_4 = 1;
   while( true ) {
     iVar2 = u214b_random_1_to_n(8);
     *(undefined2 *)(iVar1 + local_4 * 2 + 0x2c) =
-         *(undefined2 *)((int)DS:A933 + local_4 * 0x1c0 + iVar2 * 0x38 + -0x1f8);
+         *(undefined2 *)((byte *)group_tables + iVar2 * 0x38 + local_4 * 0x1c0 + -0x1f8);
     local_8 = 1;
     while( true ) {
       iVar2 = u214b_random_1_to_n(4);
       local_a = 1;
       while( true ) {
-        uVar6 = (undefined2)((ulong)DS:A933 >> 0x10);
-        local_18 = (int *)CONCAT22(uVar6,(int *)((int)DS:A933 + local_4 * 0x1c0 +
-                                                 local_8 * 0x38 +
-                                                 (uint)*(byte *)(iVar2 * 4 + local_a + 0xf71) * 8 +
-                                                0x500));
-        *local_18 = *(int *)((int)DS:A933 + local_4 * 0x1c0 +
-                             (local_a * 2 - (int)(char)((byte)local_8 & 1)) * 0x38 +
-                             ((local_8 + 1) / 2) * 8 + -0x200);
-        uVar6 = (undefined2)((ulong)countries >> 0x10);
-        if ((0x80 < ((country *)countries)[*local_18].manager) && (local_8 < 3)) {
-          *(byte *)(iVar1 + (uint)((country *)countries)[*local_18].manager + -0x7f) = (byte)local_8
-          ;
+        uVar7 = (undefined2)((ulong)group_tables >> 0x10);
+        local_18 = (byte *)CONCAT22(uVar7,(byte *)group_tables +
+                                          (uint)*(byte *)(iVar2 * 4 + local_a + 0xf71) * 8 +
+                                          local_8 * 0x38 + local_4 * 0x1c0 + 0x500);
+        *(int *)local_18 =
+             *(int *)((byte *)group_tables +
+                     ((local_8 + 1) / 2) * 8 +
+                     (local_a * 2 - (int)(char)((byte)local_8 & 1)) * 0x38 + local_4 * 0x1c0 +
+                     -0x200);
+        uVar7 = (undefined2)((ulong)countries >> 0x10);
+        if ((0x80 < ((country *)countries)[*(int *)local_18].manager) && (local_8 < 3)) {
+          *(byte *)(iVar1 + (uint)((country *)countries)[*(int *)local_18].manager + -0x7f) =
+               (byte)local_8;
         }
         if (local_a == 4) break;
         local_a = local_a + 1;
@@ -410,34 +418,43 @@ void __cdecl16near f_1771_6B55(void)
       local_6 = 1;
       while( true ) {
         uVar3 = local_4 * 0x1c0;
-        uVar6 = (undefined2)((ulong)DS:A933 >> 0x10);
-        iVar2 = (int)DS:A933 + uVar3 + local_6 * 0x38 + 0x508;
-        if ((local_e < 7) && (uVar3 = local_e, *(char *)(local_6 * 6 + local_e + 0x1087) != '\0')) {
+        uVar7 = (undefined2)((ulong)group_tables >> 0x10);
+        pbVar5 = (byte *)group_tables;
+        iVar2 = local_6 * 0x38 + uVar3 + 0x508;
+        if ((local_e < 7) &&
+           (uVar3 = local_e, ((byte *)round_pair_table + 0x101)[local_6 * 6 + local_e] != 0)) {
           for (local_a = 1;
-              uVar3 = f_1771_5D94(0,1,*(undefined2 *)
-                                       ((int)DS:A933 + local_4 * 0x1c0 +
-                                        (uint)*(byte *)(local_6 * 6 + local_e + 0x1087) * 0x38 +
-                                        local_a * 8 + 0x500),
-                                  *(undefined2 *)(iVar2 + local_a * 8 + -8)), local_a != 4;
-              local_a = local_a + 1) {
+              uVar3 = add_fixture(0,1,*(undefined2 *)
+                                       ((byte *)group_tables +
+                                       local_a * 8 +
+                                       (uint)((byte *)round_pair_table + 0x101)
+                                             [local_6 * 6 + local_e] * 0x38 + local_4 * 0x1c0 +
+                                       0x500),*(undefined2 *)(pbVar5 + local_a * 8 + iVar2 + -8)),
+              local_a != 4; local_a = local_a + 1) {
           }
         }
         uVar4 = (undefined1)(uVar3 >> 8);
         if (6 < local_e) {
           if (local_6 < 3) {
-            *(undefined2 *)(iVar2 + (local_e - 6) * 2 + 0x1e) = *(undefined2 *)(iVar1 + 0x28);
+            *(undefined2 *)(pbVar5 + (local_e - 6) * 2 + iVar2 + 0x1e) =
+                 *(undefined2 *)(iVar1 + 0x28);
             add_fixture_with_bonus
                       (*(undefined2 *)(iVar1 + local_4 * 2 + 0x2c),local_6,3,
-                       *(undefined2 *)(iVar2 + (uint)*(byte *)((local_e - 6) * 2 + 0x10bc) * 8 + -8)
-                       ,*(undefined2 *)
-                         (iVar2 + (uint)*(byte *)((local_e - 6) * 2 + 0x10bd) * 8 + -8));
+                       *(undefined2 *)
+                        (pbVar5 + (uint)((byte *)friendly_partner_group + 0x2e)[(local_e - 6) * 2] *
+                                  8 + iVar2 + -8),
+                       *(undefined2 *)
+                        (pbVar5 + (uint)((byte *)friendly_partner_group + 0x2f)[(local_e - 6) * 2] *
+                                  8 + iVar2 + -8));
             uVar4 = extraout_AH;
           }
           else {
-            f_1771_5D94(0,1,*(undefined2 *)
-                             (iVar2 + (uint)*(byte *)((local_e - 6) * 2 + 0x10bc) * 8 + -8),
+            add_fixture(0,1,*(undefined2 *)
+                             (pbVar5 + (uint)((byte *)friendly_partner_group + 0x2e)
+                                             [(local_e - 6) * 2] * 8 + iVar2 + -8),
                         *(undefined2 *)
-                         (iVar2 + (uint)*(byte *)((local_e - 6) * 2 + 0x10bd) * 8 + -8));
+                         (pbVar5 + (uint)((byte *)friendly_partner_group + 0x2f)[(local_e - 6) * 2]
+                                   * 8 + iVar2 + -8));
             uVar4 = extraout_AH_00;
           }
         }
@@ -450,54 +467,57 @@ void __cdecl16near f_1771_6B55(void)
     if (local_e == 0xc) break;
     local_e = local_e + 1;
   }
-  f_1771_6617(CONCAT11(uVar4,1));
+  mark_group_fixtures_managed(CONCAT11(uVar4,1));
   return;
 }
 
 
-// ---- 1771:6E59  f_1771_6E59  (f_1771_6E59; Ghidra 4000:6E59, __cdecl16near; found by routines.tsv)
+// ---- 1771:6E59  stage_continental_knockout  (f_1771_6E59; Ghidra 4000:6E59, __cdecl16near; found by routines.tsv)
+// stage 4 builder: rounds byte +0x3D = 2: per continent two semi-finals (kind 0x65: winner of B1 v runner-up of B2, winner of B2 v runner-up of B1) through add_fixture_with_bonus (host as side B when it plays); +0x3D = 1: third place (0x66, the losers) and final (0x67, the winners)  [established; F023; read code/seg_1771_10.asm]
 
-void __cdecl16near f_1771_6E59(void)
+void __cdecl16near stage_continental_knockout(void)
 
 {
   int iVar1;
   undefined2 uVar2;
   undefined2 uVar3;
-  int iVar4;
+  byte *pbVar4;
   undefined2 uVar5;
   undefined2 uVar6;
   undefined4 local_c;
-  undefined2 local_4;
+  int local_4;
   
   uVar5 = (undefined2)((ulong)DS:A923 >> 0x10);
   iVar1 = (int)DS:A923;
   local_4 = 1;
   while( true ) {
-    uVar6 = (undefined2)((ulong)DS:A933 >> 0x10);
-    iVar4 = (int)DS:A933 + local_4 * 0x1c0;
-    local_c = (undefined2 *)CONCAT22(uVar6,(undefined2 *)(iVar4 + 0x540));
+    uVar6 = (undefined2)((ulong)group_tables >> 0x10);
+    pbVar4 = (byte *)group_tables;
+    local_c = (byte *)CONCAT22(uVar6,pbVar4 + local_4 * 0x1c0 + 0x540);
     if (*(char *)(iVar1 + 0x3d) == '\x02') {
-      *(undefined2 *)(iVar4 + 0x56c) = *(undefined2 *)(iVar1 + 0x28);
+      *(undefined2 *)(pbVar4 + local_4 * 0x1c0 + 0x56c) = *(undefined2 *)(iVar1 + 0x28);
       add_fixture_with_bonus
                 (*(undefined2 *)(iVar1 + local_4 * 2 + 0x2c),0,0x65,
-                 *(undefined2 *)((int)DS:A933 + local_4 * 0x1c0 + 0x580),*local_c);
-      *(undefined2 *)(iVar4 + 0x56e) = *(undefined2 *)(iVar1 + 0x28);
+                 *(undefined2 *)((byte *)group_tables + local_4 * 0x1c0 + 0x580),
+                 *(undefined2 *)local_c);
+      *(undefined2 *)(pbVar4 + local_4 * 0x1c0 + 0x56e) = *(undefined2 *)(iVar1 + 0x28);
       add_fixture_with_bonus
-                (*(undefined2 *)(iVar1 + local_4 * 2 + 0x2c),0,0x65,*(undefined2 *)(iVar4 + 0x548),
-                 *(undefined2 *)((int)DS:A933 + local_4 * 0x1c0 + 0x578));
+                (*(undefined2 *)(iVar1 + local_4 * 2 + 0x2c),0,0x65,
+                 *(undefined2 *)(pbVar4 + local_4 * 0x1c0 + 0x548),
+                 *(undefined2 *)((byte *)group_tables + local_4 * 0x1c0 + 0x578));
     }
     else if (*(char *)(iVar1 + 0x3d) == '\x01') {
-      *(undefined2 *)(iVar4 + 0x570) = *(undefined2 *)(iVar1 + 0x28);
-      uVar2 = fixture_loser((int)DS:A92B + *(int *)(iVar4 + 0x56c) * 8 + -8,
-                            (int)((ulong)DS:A92B >> 0x10));
-      uVar3 = fixture_loser((int)DS:A92B + *(int *)(iVar4 + 0x56e) * 8 + -8,
-                            (int)((ulong)DS:A92B >> 0x10));
+      *(undefined2 *)(pbVar4 + local_4 * 0x1c0 + 0x570) = *(undefined2 *)(iVar1 + 0x28);
+      uVar2 = fixture_loser((byte *)fixtures + *(int *)(pbVar4 + local_4 * 0x1c0 + 0x56c) * 8 + -8,
+                            (int)((ulong)fixtures >> 0x10));
+      uVar3 = fixture_loser((byte *)fixtures + *(int *)(pbVar4 + local_4 * 0x1c0 + 0x56e) * 8 + -8,
+                            (int)((ulong)fixtures >> 0x10));
       add_fixture_with_bonus(*(undefined2 *)(iVar1 + local_4 * 2 + 0x2c),0,0x66,uVar3,uVar2);
-      *(undefined2 *)(iVar4 + 0x572) = *(undefined2 *)(iVar1 + 0x28);
-      uVar2 = fixture_winner((int)DS:A92B + *(int *)(iVar4 + 0x56c) * 8 + -8,
-                             (int)((ulong)DS:A92B >> 0x10));
-      uVar6 = fixture_winner((int)DS:A92B + *(int *)(iVar4 + 0x56e) * 8 + -8,
-                             (int)((ulong)DS:A92B >> 0x10));
+      *(undefined2 *)(pbVar4 + local_4 * 0x1c0 + 0x572) = *(undefined2 *)(iVar1 + 0x28);
+      uVar2 = fixture_winner((byte *)fixtures + *(int *)(pbVar4 + local_4 * 0x1c0 + 0x56c) * 8 + -8,
+                             (int)((ulong)fixtures >> 0x10));
+      uVar6 = fixture_winner((byte *)fixtures + *(int *)(pbVar4 + local_4 * 0x1c0 + 0x56e) * 8 + -8,
+                             (int)((ulong)fixtures >> 0x10));
       add_fixture_with_bonus(*(undefined2 *)(iVar1 + local_4 * 2 + 0x2c),0,0x67,uVar6,uVar2);
     }
     if (local_4 == 4) break;
@@ -507,9 +527,10 @@ void __cdecl16near f_1771_6E59(void)
 }
 
 
-// ---- 1771:6FEB  f_1771_6FEB  (f_1771_6FEB; Ghidra 4000:6FEB, __stdcall16near; found by routines.tsv)
+// ---- 1771:6FEB  mark_playoff_fixture_managed  (f_1771_6FEB; Ghidra 4000:6FEB, __stdcall16near; found by routines.tsv)
+// sets byte 0 = 0xFE on the fixture just written (7090) when it is in a managed country's continent  [likely; F023; read code/seg_1771_10.asm]
 
-void f_1771_6FEB(void)
+void mark_playoff_fixture_managed(void)
 
 {
   byte bVar1;
@@ -526,11 +547,11 @@ void f_1771_6FEB(void)
     local_4 = 1;
     while( true ) {
       uVar4 = (undefined2)((ulong)countries >> 0x10);
-      uVar5 = (undefined2)((ulong)DS:A92B >> 0x10);
+      uVar5 = (undefined2)((ulong)fixtures >> 0x10);
       if (((country *)countries)
-          [*(int *)((int)DS:A92B + (*(int *)(pbVar2 + 0x28) + -1) * 8 + -2)].continent ==
+          [*(int *)((byte *)fixtures + (*(int *)(pbVar2 + 0x28) + -1) * 8 + -2)].continent ==
           ((country *)countries)[((byte *)manager_countries)[(local_4 + 0x80) * 3]].continent) {
-        *(undefined1 *)((int)DS:A92B + (*(int *)(pbVar2 + 0x28) + -1) * 8 + -8) = 0xfe;
+        ((byte *)fixtures)[(*(int *)(pbVar2 + 0x28) + -1) * 8 + -8] = 0xfe;
       }
       if (local_4 == bVar1) break;
       local_4 = local_4 + 1;
@@ -540,9 +561,10 @@ void f_1771_6FEB(void)
 }
 
 
-// ---- 1771:7090  f_1771_7090  (f_1771_7090; Ghidra 4000:7090, __cdecl16near; found by routines.tsv)
+// ---- 1771:7090  stage_playoffs  (f_1771_7090; Ghidra 4000:7090, __cdecl16near; found by routines.tsv)
+// stage 6 builder: for continents 3 (Africa) and 4 (Asia) and g = 1..4 two legs of winner(group 9-g) v winner(group g), kind 6; leg 1 is copied to the aggregate record 0x961 + pair (read by 85F7 and 71B2)  [established; F023; read code/seg_1771_10.asm]
 
-void __cdecl16near f_1771_7090(void)
+void __cdecl16near stage_playoffs(void)
 
 {
   int iVar1;
@@ -559,22 +581,21 @@ void __cdecl16near f_1771_7090(void)
   while( true ) {
     local_6 = 1;
     while( true ) {
-      uVar3 = (undefined2)((ulong)DS:A933 >> 0x10);
-      local_e = (undefined2 *)
-                CONCAT22(uVar3,(undefined2 *)
-                               ((int)DS:A933 + local_4 * 0x1c0 + local_6 * 0x38 + 0xc08));
-      f_1771_5D94(0,6,*(undefined2 *)
-                       ((int)DS:A933 + local_4 * 0x1c0 + (9 - local_6) * 0x38 + 0xc08),
-                  *local_e);
-      f_1771_6FEB(&stack0xfffe);
-      uVar3 = (undefined2)((ulong)DS:A92B >> 0x10);
-      sys_move_025D(8,(int)DS:A92B +
+      uVar3 = (undefined2)((ulong)group_tables >> 0x10);
+      local_e = (byte *)CONCAT22(uVar3,(byte *)group_tables +
+                                       local_6 * 0x38 + local_4 * 0x1c0 + 0xc08);
+      add_fixture(0,6,*(undefined2 *)
+                       ((byte *)group_tables + (9 - local_6) * 0x38 + local_4 * 0x1c0 + 0xc08),
+                  *(undefined2 *)local_e);
+      mark_playoff_fixture_managed(&stack0xfffe);
+      uVar3 = (undefined2)((ulong)fixtures >> 0x10);
+      sys_move_025D(8,(byte *)fixtures +
                       (((*(int *)(iVar1 + 0x28) - *(int *)(iVar1 + 0x2c)) - 1U) / 2 + 0x961) * 8 +
-                      -8,uVar3,(int)DS:A92B + (*(int *)(iVar1 + 0x28) + -1) * 8 + -8,uVar3);
-      f_1771_5D94(0,6,*local_e,
+                      -8,uVar3,(byte *)fixtures + (*(int *)(iVar1 + 0x28) + -1) * 8 + -8,uVar3);
+      add_fixture(0,6,*(undefined2 *)local_e,
                   *(undefined2 *)
-                   ((int)DS:A933 + local_4 * 0x1c0 + (9 - local_6) * 0x38 + 0xc08));
-      f_1771_6FEB(&stack0xfffe);
+                   ((byte *)group_tables + (9 - local_6) * 0x38 + local_4 * 0x1c0 + 0xc08));
+      mark_playoff_fixture_managed(&stack0xfffe);
       if (local_6 == 4) break;
       local_6 = local_6 + 1;
     }
@@ -585,9 +606,10 @@ void __cdecl16near f_1771_7090(void)
 }
 
 
-// ---- 1771:71B2  f_1771_71B2  (f_1771_71B2; Ghidra 4000:71B2, __cdecl16near; found by routines.tsv)
+// ---- 1771:71B2  stage_world_cup_groups  (f_1771_71B2; Ghidra 4000:71B2, __cdecl16near; found by routines.tsv)
+// stage 7 builder (class 1): host [A923]+0x36 = winner of a random group of continent 1 or 2; 8 finals groups of 4 = Europe winner g, Europe runner-up of group 9-g, America winner g, play-off winner g (slot permutation random); kind 7 single round robin (48 fixtures); 320 friendlies for all 128 countries (order table pairs)  [established; F023; read code/seg_1771_10.asm]
 
-void __cdecl16near f_1771_71B2(void)
+void __cdecl16near stage_world_cup_groups(void)
 
 {
   int iVar1;
@@ -595,43 +617,45 @@ void __cdecl16near f_1771_71B2(void)
   int iVar3;
   undefined2 uVar4;
   undefined1 extraout_AH;
-  undefined2 uVar5;
+  byte *pbVar5;
   undefined2 uVar6;
+  undefined2 uVar7;
   int local_e;
   uint local_c;
   int local_a;
   int local_8;
   int local_4;
   
-  uVar5 = (undefined2)((ulong)DS:A923 >> 0x10);
+  uVar6 = (undefined2)((ulong)DS:A923 >> 0x10);
   iVar1 = (int)DS:A923;
-  f_1771_5E99(0);
+  set_manager_groups(0);
   iVar2 = u214b_random_1_to_n(8);
   iVar2 = iVar2 * 0x38;
   iVar3 = u214b_random_1_to_n(2);
   *(undefined2 *)(iVar1 + 0x36) =
-       *(undefined2 *)((int)DS:A933 + iVar3 * 0x1c0 + iVar2 + 0xc08);
+       *(undefined2 *)((byte *)group_tables + iVar2 + iVar3 * 0x1c0 + 0xc08);
   local_c = 1;
   while( true ) {
-    iVar2 = u214b_random_1_to_n(4);
-    uVar6 = (undefined2)((ulong)DS:A933 >> 0x10);
-    iVar3 = (int)DS:A933 + local_c * 0x38 + 0x14c8;
-    *(undefined2 *)(iVar3 + (uint)*(byte *)(iVar2 * 4 + 0xf72) * 8 + -8) =
-         *(undefined2 *)((int)DS:A933 + local_c * 0x38 + 0xdc8);
-    *(undefined2 *)(iVar3 + (uint)*(byte *)(iVar2 * 4 + 0xf73) * 8 + -8) =
-         *(undefined2 *)((int)DS:A933 + (9 - local_c) * 0x38 + 0xdd0);
-    *(undefined2 *)(iVar3 + (uint)*(byte *)(iVar2 * 4 + 0xf74) * 8 + -8) =
-         *(undefined2 *)((int)DS:A933 + local_c * 0x38 + 0xf88);
-    uVar4 = fixture_winner((int)DS:A92B + (local_c + 0x960) * 8 + -8,
-                           (int)((ulong)DS:A92B >> 0x10));
-    *(undefined2 *)(iVar3 + (uint)*(byte *)(iVar2 * 4 + 0xf75) * 8 + -8) = uVar4;
+    iVar3 = u214b_random_1_to_n(4);
+    uVar7 = (undefined2)((ulong)group_tables >> 0x10);
+    pbVar5 = (byte *)group_tables;
+    iVar2 = local_c * 0x38 + 0x14c8;
+    *(undefined2 *)(pbVar5 + (uint)*(byte *)(iVar3 * 4 + 0xf72) * 8 + iVar2 + -8) =
+         *(undefined2 *)(pbVar5 + local_c * 0x38 + 0xdc8);
+    *(undefined2 *)(pbVar5 + (uint)*(byte *)(iVar3 * 4 + 0xf73) * 8 + iVar2 + -8) =
+         *(undefined2 *)((byte *)group_tables + (9 - local_c) * 0x38 + 0xdd0);
+    *(undefined2 *)(pbVar5 + (uint)*(byte *)(iVar3 * 4 + 0xf74) * 8 + iVar2 + -8) =
+         *(undefined2 *)((byte *)group_tables + local_c * 0x38 + 0xf88);
+    uVar4 = fixture_winner((byte *)fixtures + (local_c + 0x960) * 8 + -8,
+                           (int)((ulong)fixtures >> 0x10));
+    *(undefined2 *)(pbVar5 + (uint)*(byte *)(iVar3 * 4 + 0xf75) * 8 + iVar2 + -8) = uVar4;
     local_e = 1;
     while( true ) {
-      iVar2 = *(int *)(iVar3 + local_e * 8 + -8);
       uVar4 = (undefined2)((ulong)countries >> 0x10);
-      if (0x80 < ((country *)countries)[iVar2].manager) {
-        *(undefined1 *)(iVar1 + (uint)((country *)countries)[iVar2].manager + -0x7f) =
-             (undefined1)local_c;
+      if (0x80 < ((country *)countries)[*(int *)(pbVar5 + local_e * 8 + iVar2 + -8)].manager) {
+        *(undefined1 *)
+         (iVar1 + (uint)((country *)countries)[*(int *)(pbVar5 + local_e * 8 + iVar2 + -8)].manager
+         + -0x7f) = (undefined1)local_c;
       }
       if (local_e == 4) break;
       local_e = local_e + 1;
@@ -645,9 +669,9 @@ void __cdecl16near f_1771_71B2(void)
     while( true ) {
       local_c = 1;
       while( true ) {
-        f_1771_5D94(0,1,*(undefined1 *)((local_8 + -1) * 0x20 + local_c * 2 + -0x6302),
+        add_fixture(0,1,*(undefined1 *)((local_8 + -1) * 0x20 + local_c * 2 + -0x6302),
                     *(undefined1 *)
-                     ((*(byte *)(local_8 * 4 + local_c % 4 + 0x10c6) - 1) * 0x20 +
+                     ((((byte *)round_robin_pairs + 8)[local_8 * 4 + local_c % 4] - 1) * 0x20 +
                       (uint)*(byte *)(((local_c + 1) / 2) * 4 + local_4 + 0x10d5) + -0x6301));
         if (local_c == 0x10) break;
         local_c = local_c + 1;
@@ -660,7 +684,7 @@ void __cdecl16near f_1771_71B2(void)
   }
   local_c = 1;
   while( true ) {
-    f_1771_5D94(0,1,*(undefined1 *)(local_c * 2 + -0x6301),*(undefined1 *)(local_c * 2 + -0x6302));
+    add_fixture(0,1,*(undefined1 *)(local_c * 2 + -0x6301),*(undefined1 *)(local_c * 2 + -0x6302));
     if (local_c == 0x40) break;
     local_c = local_c + 1;
   }
@@ -668,27 +692,33 @@ void __cdecl16near f_1771_71B2(void)
   while( true ) {
     local_a = 1;
     while( true ) {
-      uVar4 = (undefined2)((ulong)DS:A933 >> 0x10);
-      iVar2 = (int)DS:A933 + local_a * 0x38 + 0x14c8;
-      *(undefined2 *)(iVar2 + local_4 * 2 + 0x1e) = *(undefined2 *)(iVar1 + 0x28);
+      uVar4 = (undefined2)((ulong)group_tables >> 0x10);
+      pbVar5 = (byte *)group_tables;
+      iVar2 = local_a * 0x38 + 0x14c8;
+      *(undefined2 *)(pbVar5 + local_4 * 2 + iVar2 + 0x1e) = *(undefined2 *)(iVar1 + 0x28);
       add_fixture_with_bonus
                 (*(undefined2 *)(iVar1 + 0x36),local_a,7,
-                 *(undefined2 *)(iVar2 + (uint)*(byte *)(local_4 * 2 + 0x10bc) * 8 + -8),
-                 *(undefined2 *)(iVar2 + (uint)*(byte *)(local_4 * 2 + 0x10bd) * 8 + -8));
+                 *(undefined2 *)
+                  (pbVar5 + (uint)((byte *)friendly_partner_group + 0x2e)[local_4 * 2] * 8 + iVar2 +
+                            -8),
+                 *(undefined2 *)
+                  (pbVar5 + (uint)((byte *)friendly_partner_group + 0x2f)[local_4 * 2] * 8 + iVar2 +
+                            -8));
       if (local_a == 8) break;
       local_a = local_a + 1;
     }
     if (local_4 == 6) break;
     local_4 = local_4 + 1;
   }
-  f_1771_6617(CONCAT11(extraout_AH,1));
+  mark_group_fixtures_managed(CONCAT11(extraout_AH,1));
   return;
 }
 
 
-// ---- 1771:74BE  f_1771_74BE  (f_1771_74BE; Ghidra 4000:74BE, __cdecl16near; found by routines.tsv)
+// ---- 1771:74BE  stage_world_cup_knockout  (f_1771_74BE; Ghidra 4000:74BE, __cdecl16near; found by routines.tsv)
+// stage 8 builder, by +0x3D = 4/3/2/1: last 16 (kind 8: winner of group i v runner-up of group 9-i), quarter-finals (200), semi-finals (0xC9), third place (0xCA) and final (0xCB), each from the previous round's winners/losers; host as side B when it plays  [established; F023; read code/seg_1771_10.asm]
 
-void __cdecl16near f_1771_74BE(void)
+void __cdecl16near stage_world_cup_knockout(void)
 
 {
   char cVar1;
@@ -705,20 +735,20 @@ void __cdecl16near f_1771_74BE(void)
   cVar1 = *(char *)(iVar3 + 0x3d);
   if (cVar1 == '\x04') {
     *(undefined2 *)(iVar3 + 0x2a) = *(undefined2 *)(iVar3 + 0x28);
-    for (local_4 = 1; uVar6 = (undefined2)((ulong)DS:A933 >> 0x10),
+    for (local_4 = 1; uVar6 = (undefined2)((ulong)group_tables >> 0x10),
         add_fixture_with_bonus
-                  (uVar2,0,8,*(undefined2 *)((int)DS:A933 + (9 - local_4) * 0x38 + 0x14d0),
-                   *(undefined2 *)((int)DS:A933 + local_4 * 0x38 + 0x14c8)), local_4 != 8;
+                  (uVar2,0,8,*(undefined2 *)((byte *)group_tables + (9 - local_4) * 0x38 + 0x14d0),
+                   *(undefined2 *)((byte *)group_tables + local_4 * 0x38 + 0x14c8)), local_4 != 8;
         local_4 = local_4 + 1) {
     }
   }
   else if (cVar1 == '\x03') {
     local_4 = 1;
     while( true ) {
-      uVar4 = fixture_winner((int)DS:A92B + (local_4 * 2 + *(int *)(iVar3 + 0x2a) + -2) * 8 +
-                             -8,(int)((ulong)DS:A92B >> 0x10));
-      uVar5 = fixture_winner((int)DS:A92B + (local_4 * 2 + *(int *)(iVar3 + 0x2a) + -1) * 8 +
-                             -8,(int)((ulong)DS:A92B >> 0x10));
+      uVar4 = fixture_winner((byte *)fixtures + (local_4 * 2 + *(int *)(iVar3 + 0x2a) + -2) * 8 + -8
+                             ,(int)((ulong)fixtures >> 0x10));
+      uVar5 = fixture_winner((byte *)fixtures + (local_4 * 2 + *(int *)(iVar3 + 0x2a) + -1) * 8 + -8
+                             ,(int)((ulong)fixtures >> 0x10));
       add_fixture_with_bonus(uVar2,0,200,uVar5,uVar4);
       if (local_4 == 4) break;
       local_4 = local_4 + 1;
@@ -727,25 +757,25 @@ void __cdecl16near f_1771_74BE(void)
   else if (cVar1 == '\x02') {
     local_4 = 1;
     while( true ) {
-      uVar4 = fixture_winner((int)DS:A92B + (local_4 * 2 + *(int *)(iVar3 + 0x2a) + 6) * 8 +
-                             -8,(int)((ulong)DS:A92B >> 0x10));
-      uVar5 = fixture_winner((int)DS:A92B + (local_4 * 2 + *(int *)(iVar3 + 0x2a) + 7) * 8 +
-                             -8,(int)((ulong)DS:A92B >> 0x10));
+      uVar4 = fixture_winner((byte *)fixtures + (local_4 * 2 + *(int *)(iVar3 + 0x2a) + 6) * 8 + -8,
+                             (int)((ulong)fixtures >> 0x10));
+      uVar5 = fixture_winner((byte *)fixtures + (local_4 * 2 + *(int *)(iVar3 + 0x2a) + 7) * 8 + -8,
+                             (int)((ulong)fixtures >> 0x10));
       add_fixture_with_bonus(uVar2,0,0xc9,uVar5,uVar4);
       if (local_4 == 2) break;
       local_4 = local_4 + 1;
     }
   }
   else if (cVar1 == '\x01') {
-    uVar4 = fixture_loser((int)DS:A92B + (*(int *)(iVar3 + 0x2a) + 0xc) * 8 + -8,
-                          (int)((ulong)DS:A92B >> 0x10));
-    uVar5 = fixture_loser((int)DS:A92B + (*(int *)(iVar3 + 0x2a) + 0xd) * 8 + -8,
-                          (int)((ulong)DS:A92B >> 0x10));
+    uVar4 = fixture_loser((byte *)fixtures + (*(int *)(iVar3 + 0x2a) + 0xc) * 8 + -8,
+                          (int)((ulong)fixtures >> 0x10));
+    uVar5 = fixture_loser((byte *)fixtures + (*(int *)(iVar3 + 0x2a) + 0xd) * 8 + -8,
+                          (int)((ulong)fixtures >> 0x10));
     add_fixture_with_bonus(uVar2,0,0xca,uVar5,uVar4);
-    uVar4 = fixture_winner((int)DS:A92B + (*(int *)(iVar3 + 0x2a) + 0xc) * 8 + -8,
-                           (int)((ulong)DS:A92B >> 0x10));
-    uVar6 = fixture_winner((int)DS:A92B + (*(int *)(iVar3 + 0x2a) + 0xd) * 8 + -8,
-                           (int)((ulong)DS:A92B >> 0x10));
+    uVar4 = fixture_winner((byte *)fixtures + (*(int *)(iVar3 + 0x2a) + 0xc) * 8 + -8,
+                           (int)((ulong)fixtures >> 0x10));
+    uVar6 = fixture_winner((byte *)fixtures + (*(int *)(iVar3 + 0x2a) + 0xd) * 8 + -8,
+                           (int)((ulong)fixtures >> 0x10));
     add_fixture_with_bonus(uVar2,0,0xcb,uVar6,uVar4);
   }
   return;
@@ -765,19 +795,19 @@ void __cdecl16far run_stage(void)
     stage_qualifying();
   }
   else if (cVar1 == '\x03') {
-    f_1771_6B55();
+    stage_continental_finals();
   }
   else if (cVar1 == '\x04') {
-    f_1771_6E59();
+    stage_continental_knockout();
   }
   else if (cVar1 == '\x06') {
-    f_1771_7090();
+    stage_playoffs();
   }
   else if (cVar1 == '\a') {
-    f_1771_71B2();
+    stage_world_cup_groups();
   }
   else if (cVar1 == '\b') {
-    f_1771_74BE();
+    stage_world_cup_knockout();
   }
   return;
 }
@@ -888,19 +918,19 @@ void __stdcall16far f_1771_7812(int param_1,undefined2 param_2,char *param_3)
 void f_1771_78BA(int param_1,int param_2)
 
 {
-  int iVar1;
+  word *pwVar1;
   undefined2 uVar2;
   undefined2 unaff_SS;
   int local_4;
   
   local_4 = 1;
   while( true ) {
-    uVar2 = (undefined2)((ulong)DS:A92F >> 0x10);
-    iVar1 = (int)DS:A92F;
-    if (*(int *)(iVar1 + param_2 * 0x48 + local_4 * 2 + -2) == *(int *)(param_1 + -10)) {
-      u214b_move_bytes((local_4 + -1) * 2,iVar1 + param_2 * 0x48 + 2,uVar2,iVar1 + param_2 * 0x48,
+    uVar2 = (undefined2)((ulong)country_fixture_lists >> 0x10);
+    pwVar1 = (word *)country_fixture_lists;
+    if (pwVar1[param_2 * 0x24 + local_4 + -1] == *(word *)(param_1 + -10)) {
+      u214b_move_bytes((local_4 + -1) * 2,pwVar1 + param_2 * 0x24 + 1,uVar2,pwVar1 + param_2 * 0x24,
                        uVar2);
-      *(undefined2 *)((int)DS:A92F + param_2 * 0x48) = 0;
+      ((word *)country_fixture_lists)[param_2 * 0x24] = 0;
       return;
     }
     if (local_4 == 0x24) break;
@@ -915,31 +945,30 @@ void f_1771_78BA(int param_1,int param_2)
 void f_1771_793F(int param_1)
 
 {
-  int iVar1;
+  word *pwVar1;
   undefined2 uVar2;
   undefined2 unaff_SS;
   uint local_4;
   
-  uVar2 = (undefined2)((ulong)DS:A92F >> 0x10);
-  u214b_move_bytes(0x47,(int)DS:A92F + DS:9B66 * 0x48,uVar2,
-                   (int)DS:A92F + DS:9B66 * 0x48 + 2,uVar2);
-  *(undefined2 *)((int)DS:A92F + DS:9B66 * 0x48 + 0x46) = *(undefined2 *)(param_1 + -10)
-  ;
+  uVar2 = (undefined2)((ulong)country_fixture_lists >> 0x10);
+  u214b_move_bytes(0x47,(word *)country_fixture_lists + DS:9B66 * 0x24,uVar2,
+                   (word *)country_fixture_lists + DS:9B66 * 0x24 + 1,uVar2);
+  ((word *)country_fixture_lists)[DS:9B66 * 0x24 + 0x23] = *(word *)(param_1 + -10);
   local_4 = 0x24;
   while( true ) {
     if (local_4 < 2) {
       return;
     }
-    uVar2 = (undefined2)((ulong)DS:A92F >> 0x10);
-    iVar1 = (int)DS:A92F;
-    if (*(uint *)(iVar1 + DS:9B66 * 0x48 + (local_4 - 1) * 2 + -2) <=
-        *(uint *)(iVar1 + DS:9B66 * 0x48 + local_4 * 2 + -2)) break;
-    if (DS:6938 <= *(uint *)(iVar1 + DS:9B66 * 0x48 + local_4 * 2 + -2) !=
-        DS:6938 <= *(uint *)(iVar1 + DS:9B66 * 0x48 + (local_4 - 1) * 2 + -2)) {
+    uVar2 = (undefined2)((ulong)country_fixture_lists >> 0x10);
+    pwVar1 = (word *)country_fixture_lists;
+    if (pwVar1[DS:9B66 * 0x24 + (local_4 - 2)] <= pwVar1[DS:9B66 * 0x24 + (local_4 - 1)]
+       ) break;
+    if (class_first_fixture[1] <= pwVar1[DS:9B66 * 0x24 + (local_4 - 1)] !=
+        class_first_fixture[1] <= pwVar1[DS:9B66 * 0x24 + (local_4 - 2)]) {
       return;
     }
-    u214b_swap_bytes(2,iVar1 + DS:9B66 * 0x48 + (local_4 - 1) * 2 + -2,uVar2,
-                     iVar1 + DS:9B66 * 0x48 + local_4 * 2 + -2,uVar2);
+    u214b_swap_bytes(2,pwVar1 + DS:9B66 * 0x24 + (local_4 - 2),uVar2,
+                     pwVar1 + DS:9B66 * 0x24 + (local_4 - 1),uVar2);
     local_4 = local_4 - 1;
   }
   return;
@@ -954,208 +983,53 @@ void f_1771_7A9A(int param_1)
   char cVar1;
   int iVar2;
   byte bVar3;
-  undefined1 *puVar4;
+  byte *pbVar4;
   undefined2 uVar5;
   undefined2 unaff_SS;
+  undefined1 *puVar6;
   undefined1 local_102 [252];
   undefined4 local_6;
   
   DS:9B66 = 0;
   country_list_screen(4);
   if ((DS:9B66 != 0) && (DS:9B66 != *(int *)(param_1 + 6))) {
-    iVar2 = *(int *)((int)DS:A92F + DS:9B66 * 0x48) * 8;
+    iVar2 = ((word *)country_fixture_lists)[DS:9B66 * 0x24] * 8;
     bVar3 = (byte)((uint)iVar2 >> 8);
-    if (*(byte *)((int)DS:A92B + iVar2 + -8) < 0xfe) {
+    if (((byte *)fixtures)[iVar2 + -8] < 0xfe) {
       iVar2 = (uint)bVar3 << 8;
     }
     else {
       iVar2 = CONCAT11(bVar3,1);
     }
-    puVar4 = local_102;
+    puVar6 = local_102;
     uVar5 = unaff_SS;
     sys_str_store_062A((int)DS:9B68 + DS:9B66 * 0x10,(int)((ulong)DS:9B68 >> 0x10)
                       );
     sys_str_concat_06B7(0x7a7c,0xa000);
-    cVar1 = u214b_message_if_flag(puVar4,uVar5,iVar2);
+    cVar1 = u214b_message_if_flag(puVar6,uVar5,iVar2);
     if (cVar1 == '\0') {
-      uVar5 = (undefined2)((ulong)DS:A92B >> 0x10);
-      iVar2 = (int)DS:A92B + *(int *)(param_1 + -10) * 8;
-      local_6 = (undefined1 *)CONCAT22(uVar5,(undefined1 *)(iVar2 + -8));
-      *(undefined1 *)(iVar2 + -6) = 1;
-      if (*(int *)(iVar2 + -2) == *(int *)(param_1 + 6)) {
-        f_1771_78BA(param_1,*(undefined2 *)(iVar2 + -4));
+      iVar2 = *(int *)(param_1 + -10);
+      uVar5 = (undefined2)((ulong)fixtures >> 0x10);
+      pbVar4 = (byte *)fixtures;
+      local_6 = (byte *)CONCAT22(uVar5,pbVar4 + iVar2 * 8 + -8);
+      pbVar4[iVar2 * 8 + -6] = 1;
+      if (*(int *)(pbVar4 + iVar2 * 8 + -2) == *(int *)(param_1 + 6)) {
+        f_1771_78BA(param_1,*(undefined2 *)(pbVar4 + iVar2 * 8 + -4));
       }
       else {
-        f_1771_78BA(param_1,*(undefined2 *)(iVar2 + -2));
+        f_1771_78BA(param_1,*(undefined2 *)(pbVar4 + iVar2 * 8 + -2));
       }
       f_1771_793F(param_1);
       uVar5 = (undefined2)((ulong)local_6 >> 0x10);
-      puVar4 = (undefined1 *)local_6;
-      if (*(int *)(puVar4 + 6) == *(int *)(param_1 + 6)) {
-        *(int *)(puVar4 + 4) = DS:9B66;
+      pbVar4 = (byte *)local_6;
+      if (*(int *)(pbVar4 + 6) == *(int *)(param_1 + 6)) {
+        *(int *)(pbVar4 + 4) = DS:9B66;
       }
       else {
-        *(int *)(puVar4 + 6) = DS:9B66;
+        *(int *)(pbVar4 + 6) = DS:9B66;
       }
       *local_6 = 0xfe;
     }
   }
-  return;
-}
-
-
-// ---- 1771:7BA2  f_1771_7BA2  (f_1771_7BA2; Ghidra 4000:7BA2, __stdcall16far; found by routines.tsv)
-
-void __stdcall16far f_1771_7BA2(int param_1)
-
-{
-  char cVar1;
-  bool bVar2;
-  uint uVar3;
-  int iVar4;
-  int iVar5;
-  undefined2 uVar6;
-  undefined2 unaff_SS;
-  bool bVar7;
-  undefined4 local_1a;
-  int local_a;
-  uint local_8;
-  uint local_6;
-  int local_4;
-  
-  local_a = 1;
-  local_8 = 0x15;
-  do {
-    while( true ) {
-      uVar6 = (undefined2)((ulong)DS:A92F >> 0x10);
-      if (*(int *)((int)DS:A92F + param_1 * 0x48 + local_8 * 2 + -2) != 0) break;
-      local_8 = local_8 + 1;
-    }
-    iVar5 = *(int *)((int)DS:A92F + param_1 * 0x48 + (local_8 + local_a + -1) * 2 + -2);
-    local_4 = 8;
-    u214b_unpack_screen_to_buffer((undefined4 *)&DS:A96E,0xb000,0x20ac,0xb000);
-    u214b_unpack_screen_to_buffer((undefined4 *)&DS:A96E,0xb000,0x5796,0xb000);
-    u214b_unpack_screen_to_buffer((undefined4 *)&DS:A96E,0xb000,0x1af6,0xb000);
-    uVar6 = (undefined2)((ulong)DS:A92B >> 0x10);
-    iVar4 = (int)DS:A92B + iVar5 * 8;
-    local_1a = (byte *)CONCAT22(uVar6,(byte *)(iVar4 + -8));
-    cVar1 = is_managed(*(undefined2 *)(iVar4 + -2));
-    if ((cVar1 == '\0') && (cVar1 = is_managed(*(undefined2 *)(iVar4 + -4)), cVar1 == '\0')) {
-      bVar2 = false;
-    }
-    else {
-      bVar2 = true;
-    }
-    cVar1 = is_managed(param_1);
-    if (cVar1 == '\0') {
-      if (!bVar2) {
-        if (*local_1a == 0xfe) {
-          u214b_unpack_screen_to_buffer((undefined4 *)&DS:A96E,0xb000,0x207e,0xb000);
-        }
-        else if (*local_1a == 0xff) {
-          u214b_unpack_screen_to_buffer((undefined4 *)&DS:A96E,0xb000,0x2050,0xb000);
-        }
-      }
-    }
-    else if (0xfd < *local_1a) {
-      if (*(char *)(iVar4 + -6) == '\x01') {
-        u214b_unpack_screen_to_buffer((undefined4 *)&DS:A96E,0xb000,0x1ff2,0xb000);
-      }
-      else if (*(char *)(iVar4 + -6) == '\0') {
-        u214b_unpack_screen_to_buffer((undefined4 *)&DS:A96E,0xb000,0x2020,0xb000);
-      }
-    }
-    uVar3 = u214b_min_longint(local_8 + 0xf,0,0x24,0);
-    if (local_8 <= uVar3) {
-      local_6 = local_8;
-      while( true ) {
-        f_1771_7812(0x21,local_4,
-                    (int)DS:A92B +
-                    *(int *)((int)DS:A92F + param_1 * 0x48 + local_6 * 2 + -2) * 8 + -8,
-                    (int)((ulong)DS:A92B >> 0x10));
-        local_4 = local_4 + 1;
-        if (local_6 == uVar3) break;
-        local_6 = local_6 + 1;
-      }
-    }
-    u214b_fill_back_attr_70(0x35,0xe,local_a + 7);
-    sys_move_025D(4000,(int)DS:A96A,(int)((ulong)DS:A96A >> 0x10),(int)DS:A96E,
-                  (int)((ulong)DS:A96E >> 0x10));
-    u214b_read_key();
-    bVar7 = DS:A976 != '\x1b';
-    u214b_list_scroll_by_key(0x24,0x10,&local_8,unaff_SS,&local_a,unaff_SS);
-    uVar6 = (undefined2)((ulong)DS:A92B >> 0x10);
-    iVar5 = (int)DS:A92B + iVar5 * 8;
-    local_1a = (byte *)CONCAT22(uVar6,(byte *)(iVar5 + -8));
-    if ((DS:A976 == '\r') && (0xfd < *local_1a)) {
-      if (bVar2) {
-        cVar1 = is_managed(param_1);
-        if (cVar1 != '\0') {
-          if (*(char *)(iVar5 + -6) == '\x01') {
-            *(undefined1 *)(iVar5 + -6) = 0;
-          }
-          else if (*(char *)(iVar5 + -6) == '\0') {
-            f_1771_7A9A(&stack0xfffe);
-          }
-        }
-      }
-      else if (*local_1a == 0xfe) {
-        *local_1a = 0xff;
-      }
-      else {
-        *local_1a = 0xfe;
-      }
-    }
-  } while (bVar7);
-  return;
-}
-
-
-// ---- 1771:7E4A  advance_player_age  (f_1771_7E4A; Ghidra 4000:7E4A, __stdcall16near; found by routines.tsv)
-// skips player 0 (7E64), else increments the age byte +1 (7E6F, wraps at 255) and calls 1771:32EB to recompute +4  [established; F016; read code/seg_1771_11.asm]
-
-void advance_player_age(int param_1)
-
-{
-  byte *pbVar1;
-  
-  if (param_1 != 0) {
-    pbVar1 = &((player *)players)[param_1].age;
-    *pbVar1 = *pbVar1 + 1;
-    compute_ability(param_1);
-  }
-  return;
-}
-
-
-// ---- 1771:7E80  recreate_retired_player  (f_1771_7E80; Ghidra 4000:7E80, __stdcall16near; found by routines.tsv)
-// re-creates a computer country's retiree in place (from 1771:7FDF at the ageing gate): saves +6 (7E9D), make_player(1, old +7, old +0, player) (7EA6-7EC0), +1 = DS:110C[gk] + b - a with a, b = rand(6) (7EC3-7EF9; DS:110C = 19 1C), 1771:32EB (7F01), +8..+0xB and +0x10 zeroed (7F09-7F19), a new initial from 1771:0000 at [DS:9B70]+player (7F1F-7F2D), +6 restored (7F36); keeps the surname, +0x11 and +0xF's other bits; ten draws  [established; F016; F017; read code/seg_1771_11.asm]
-
-void recreate_retired_player(int param_1)
-
-{
-  byte bVar1;
-  char cVar2;
-  char cVar3;
-  undefined1 uVar4;
-  player *ppVar5;
-  undefined2 uVar6;
-  undefined4 local_8;
-  
-  uVar6 = (undefined2)((ulong)players >> 0x10);
-  ppVar5 = (player *)players + param_1;
-  local_8 = (player *)CONCAT22(uVar6,ppVar5);
-  bVar1 = ppVar5->position;
-  make_player(1,ppVar5->club_position,local_8->country,param_1);
-  cVar2 = u214b_random_1_to_n(6);
-  cVar3 = u214b_random_1_to_n(6);
-  ppVar5->age = (((char *)recreate_age_base)[ppVar5->club_position == 0] + cVar3) - cVar2;
-  compute_ability(param_1);
-  ppVar5->caps = 0;
-  ppVar5->goals = 0;
-  ppVar5->status = 0;
-  uVar4 = draw_initial();
-  *(undefined1 *)((int)DS:9B70 + param_1) = uVar4;
-  ppVar5->position = bVar1;
   return;
 }

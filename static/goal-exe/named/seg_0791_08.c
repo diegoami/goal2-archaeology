@@ -591,7 +591,8 @@ void prepare_computer_sides(undefined4 param_1)
   DS:9B36 = (undefined2)((ulong)uVar1 >> 0x10);
   DS:9B34 = (undefined2)uVar1;
   sys_set_bit_mask_08DF
-            (0x693a,0xb000,CONCAT11((char)((ulong)uVar1 >> 8),*(undefined1 *)(iVar2 + 2)));
+            ((byte *)decider_kinds,0xb000,
+             CONCAT11((char)((ulong)uVar1 >> 8),*(undefined1 *)(iVar2 + 2)));
   DS:7C36 = !bVar5;
   pitch_records[0].activity._0_1_ = f_0791_D44C(iVar2,uVar4);
   DS:9976 = *(undefined1 *)(iVar2 + 1);

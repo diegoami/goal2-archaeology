@@ -596,7 +596,7 @@ undefined2 __cdecl16far f_1771_55FC(void)
 {
   uint uVar1;
   int iVar2;
-  int iVar3;
+  word *pwVar3;
   undefined2 uVar4;
   undefined2 uVar5;
   int local_5;
@@ -608,24 +608,23 @@ undefined2 __cdecl16far f_1771_55FC(void)
   if (*(char *)(iVar2 + uVar1 + 0x47) == '\0') {
     uVar1 = (uint)((byte *)manager_countries)[(*(byte *)(iVar2 + 1) + 0x80) * 3];
     local_5 = 0x24;
-    while (((iVar3 = (int)DS:A92F, uVar5 = (undefined2)((ulong)DS:A92F >> 0x10),
-            local_5 != 0 &&
-            (0xfd < *(byte *)((int)DS:A92B +
-                              *(int *)(iVar3 + uVar1 * 0x48 + local_5 * 2 + -2) * 8 + -8))) &&
-           (*(uint *)(iVar2 + 0x26) <= *(uint *)(iVar3 + uVar1 * 0x48 + local_5 * 2 + -2)))) {
+    while (((pwVar3 = (word *)country_fixture_lists,
+            uVar5 = (undefined2)((ulong)country_fixture_lists >> 0x10), local_5 != 0 &&
+            (0xfd < ((byte *)fixtures)[pwVar3[uVar1 * 0x24 + local_5 + -1] * 8 + -8])) &&
+           (*(uint *)(iVar2 + 0x26) <= pwVar3[uVar1 * 0x24 + local_5 + -1]))) {
       local_5 = local_5 + -1;
     }
     if (local_5 == 0x24) {
       DS:9B43 = 0;
     }
     else {
-      DS:9B43 = *(int *)(iVar3 + uVar1 * 0x48 + (local_5 + 1) * 2 + -2);
+      DS:9B43 = pwVar3[uVar1 * 0x24 + local_5];
     }
     if (DS:9B43 == 0) {
       uVar1 = 0;
     }
     else {
-      uVar1 = CONCAT11((char)((uint)DS:9B43 >> 8),1);
+      uVar1 = CONCAT11((char)(DS:9B43 >> 8),1);
     }
     local_3 = (undefined1)uVar1;
   }
@@ -636,18 +635,20 @@ undefined2 __cdecl16far f_1771_55FC(void)
 }
 
 
-// ---- 1771:56E4  f_1771_56E4  (f_1771_56E4; Ghidra 4000:56E4, __stdcall16near; found by routines.tsv)
+// ---- 1771:56E4  continent_order_offset  (f_1771_56E4; Ghidra 4000:56E4, __stdcall16near; found by routines.tsv)
+// returns (continent - 1) * 0x20, the start of a continent's block in the 128-byte order table DS:9CFF + i  [likely; F023; read code/seg_1771_08.asm]
 
-int f_1771_56E4(int param_1)
+int continent_order_offset(int param_1)
 
 {
   return (param_1 + -1) * 0x20;
 }
 
 
-// ---- 1771:56FF  f_1771_56FF  (f_1771_56FF; Ghidra 4000:56FF, __cdecl16near; found by routines.tsv)
+// ---- 1771:56FF  build_draw_order  (f_1771_56FF; Ghidra 4000:56FF, __cdecl16near; found by routines.tsv)
+// fills the order table DS:9D00..9D7F before a stage 2 or 5 draw: class 0 copies the continental order DS:9C7E; class 1 takes the world order DS:9BFD and keeps for c = 1..4 the countries of continent c in that order (four blocks of 32 = four pots of 8 each)  [established; F023; read code/seg_1771_08.asm]
 
-void __cdecl16near f_1771_56FF(void)
+void __cdecl16near build_draw_order(void)
 
 {
   uint local_8;
@@ -737,9 +738,10 @@ void __stdcall16far f_1771_580B(int param_1,undefined4 param_2)
 }
 
 
-// ---- 1771:59D8  f_1771_59D8  (f_1771_59D8; Ghidra 4000:59D8, __cdecl16far; found by routines.tsv)
+// ---- 1771:59D8  stage_uses_finals_table  (f_1771_59D8; Ghidra 4000:59D8, __cdecl16far; found by routines.tsv)
+// true when the stage byte is in the set CS:59B8 = {3, 4, 7, 8} (bytes 98 01): the group tables of those stages live in table 1 (+0x700), the B table of finals groups  [likely; F023; read code/seg_1771_08.asm]
 
-bool __cdecl16far f_1771_59D8(void)
+bool __cdecl16far stage_uses_finals_table(void)
 
 {
   bool bVar1;
@@ -878,7 +880,7 @@ void __cdecl16far f_1771_5BF6(void)
   uVar3 = (undefined2)((ulong)DS:A923 >> 0x10);
   iVar1 = (int)DS:A923;
   u214b_unpack_screen_to_buffer((undefined4 *)&DS:A96E,0xb000,0x26f2,0xb000);
-  uVar2 = f_1771_59D8();
+  uVar2 = stage_uses_finals_table();
   f_1771_5AC4(((country *)countries)[((byte *)manager_countries)[(*(byte *)(iVar1 + 1) + 0x80) * 3]]
               .continent,4 < *(byte *)(iVar1 + 0x3c),uVar2);
   return;
@@ -927,9 +929,10 @@ undefined2 __stdcall16far fixture_loser(undefined4 param_1)
 }
 
 
-// ---- 1771:5D02  f_1771_5D02  (f_1771_5D02; Ghidra 4000:5D02, __stdcall16near; found by routines.tsv)
+// ---- 1771:5D02  append_country_fixture  (f_1771_5D02; Ghidra 4000:5D02, __stdcall16near; found by routines.tsv)
+// appends fixture number [A923]+0x28 to the country's list of 36 words at DS:A92F + 0x48*country (the list shifts down one word, the newest is last) and raises the country byte +0x3B to the fixture kind; called twice by 5D94  [established; F023; read code/seg_1771_09.asm]
 
-void f_1771_5D02(int param_1,int param_2)
+void append_country_fixture(int param_1,int param_2)
 
 {
   ulong uVar1;
@@ -940,11 +943,10 @@ void f_1771_5D02(int param_1,int param_2)
   
   uVar1 = (ulong)countries >> 0x10;
   pcVar2 = (country *)countries;
-  uVar3 = (undefined2)((ulong)DS:A92F >> 0x10);
-  u214b_move_bytes(0x46,(int)DS:A92F + param_2 * 0x48,uVar3,
-                   (int)DS:A92F + param_2 * 0x48 + 2,uVar3);
-  *(undefined2 *)((int)DS:A92F + param_2 * 0x48 + 0x46) =
-       *(undefined2 *)((int)DS:A923 + 0x28);
+  uVar3 = (undefined2)((ulong)country_fixture_lists >> 0x10);
+  u214b_move_bytes(0x46,(word *)country_fixture_lists + param_2 * 0x24,uVar3,
+                   (word *)country_fixture_lists + param_2 * 0x24 + 1,uVar3);
+  ((word *)country_fixture_lists)[param_2 * 0x24 + 0x23] = *(word *)((int)DS:A923 + 0x28);
   local_a = (byte *)CONCAT22((int)uVar1,&pcVar2[param_2].field_0x3b);
   if ((uint)*local_a < *(uint *)(param_1 + 6)) {
     *local_a = *(byte *)(param_1 + 6);
@@ -953,32 +955,35 @@ void f_1771_5D02(int param_1,int param_2)
 }
 
 
-// ---- 1771:5D94  f_1771_5D94  (f_1771_5D94; Ghidra 4000:5D94, __stdcall16near; found by routines.tsv)
+// ---- 1771:5D94  add_fixture  (f_1771_5D94; Ghidra 4000:5D94, __stdcall16near; found by routines.tsv)
+// writes fixture record [A923]+0x28 (DS:A92B + 8n - 8): +0 = 0xFF or 0xFE when either country is managed, +1 group, +2 kind, +4/+6 the two countries (the pushes are B then A, kind, group), then append_country_fixture for both and [A923]+0x28 += 1; +3 is left for the result  [established; F023; read code/seg_1771_09.asm]
 
-void f_1771_5D94(undefined1 param_1,undefined1 param_2,undefined2 param_3,undefined2 param_4)
+void add_fixture(byte param_1,byte param_2,undefined2 param_3,undefined2 param_4)
 
 {
   int *piVar1;
   int iVar2;
-  undefined2 uVar3;
+  byte *pbVar3;
   undefined2 uVar4;
+  undefined2 uVar5;
   undefined4 local_8;
   
-  uVar3 = (undefined2)((ulong)DS:A92B >> 0x10);
-  iVar2 = (int)DS:A92B + *(int *)((int)DS:A923 + 0x28) * 8;
-  local_8 = (undefined1 *)CONCAT22(uVar3,(undefined1 *)(iVar2 + -8));
-  *(undefined2 *)(iVar2 + -2) = param_4;
-  f_1771_5D02(&stack0xfffe,param_4);
-  *(undefined2 *)(iVar2 + -4) = param_3;
-  f_1771_5D02(&stack0xfffe,param_3);
+  iVar2 = *(int *)((int)DS:A923 + 0x28);
+  uVar4 = (undefined2)((ulong)fixtures >> 0x10);
+  pbVar3 = (byte *)fixtures;
+  local_8 = (byte *)CONCAT22(uVar4,pbVar3 + iVar2 * 8 + -8);
+  *(undefined2 *)(pbVar3 + iVar2 * 8 + -2) = param_4;
+  append_country_fixture(&stack0xfffe,param_4);
+  *(undefined2 *)(pbVar3 + iVar2 * 8 + -4) = param_3;
+  append_country_fixture(&stack0xfffe,param_3);
   *local_8 = 0xff;
-  *(undefined1 *)(iVar2 + -7) = param_1;
-  uVar4 = (undefined2)((ulong)countries >> 0x10);
-  if ((0x80 < ((country *)countries)[*(int *)(iVar2 + -4)].manager) ||
-     (0x80 < ((country *)countries)[*(int *)(iVar2 + -2)].manager)) {
+  pbVar3[iVar2 * 8 + -7] = param_1;
+  uVar5 = (undefined2)((ulong)countries >> 0x10);
+  if ((0x80 < ((country *)countries)[*(int *)(pbVar3 + iVar2 * 8 + -4)].manager) ||
+     (0x80 < ((country *)countries)[*(int *)(pbVar3 + iVar2 * 8 + -2)].manager)) {
     *local_8 = 0xfe;
   }
-  *(undefined1 *)(iVar2 + -6) = param_2;
+  pbVar3[iVar2 * 8 + -6] = param_2;
   piVar1 = (int *)((int)DS:A923 + 0x28);
   *piVar1 = *piVar1 + 1;
   return;
@@ -994,10 +999,10 @@ void add_fixture_with_bonus(int param_1,undefined2 param_2,int param_3,int param
   word *pwVar1;
   
   if (param_4 == param_1) {
-    f_1771_5D94(param_2,param_3,param_5,param_4);
+    add_fixture(param_2,param_3,param_5,param_4);
   }
   else {
-    f_1771_5D94(param_2,param_3,param_4,param_5);
+    add_fixture(param_2,param_3,param_4,param_5);
   }
   if (param_3 != 1) {
     pwVar1 = &((country *)countries)[param_4].points;
@@ -1009,9 +1014,10 @@ void add_fixture_with_bonus(int param_1,undefined2 param_2,int param_3,int param
 }
 
 
-// ---- 1771:5E99  f_1771_5E99  (f_1771_5E99; Ghidra 4000:5E99, __stdcall16near; found by routines.tsv)
+// ---- 1771:5E99  set_manager_groups  (f_1771_5E99; Ghidra 4000:5E99, __stdcall16near; found by routines.tsv)
+// sets the byte [A923]+1+m to the argument for every manager m = 1..[A923]+0 (the manager's group in the stage; 0 = none)  [likely; F023; read code/seg_1771_09.asm]
 
-void f_1771_5E99(byte param_1)
+void set_manager_groups(byte param_1)
 
 {
   byte bVar1;
@@ -1107,17 +1113,17 @@ void world_placement_bonuses(undefined2 param_1)
   
   uVar3 = (undefined2)((ulong)DS:A923 >> 0x10);
   iVar1 = (int)DS:A923;
-  uVar2 = fixture_winner((int)DS:A92B + (*(int *)(iVar1 + 0x2a) + 0xf) * 8 + -8,
-                         (int)((ulong)DS:A92B >> 0x10));
+  uVar2 = fixture_winner((byte *)fixtures + (*(int *)(iVar1 + 0x2a) + 0xf) * 8 + -8,
+                         (int)((ulong)fixtures >> 0x10));
   add_placement_bonus(param_1,1,1,800,uVar2);
-  uVar2 = fixture_loser((int)DS:A92B + (*(int *)(iVar1 + 0x2a) + 0xf) * 8 + -8,
-                        (int)((ulong)DS:A92B >> 0x10));
+  uVar2 = fixture_loser((byte *)fixtures + (*(int *)(iVar1 + 0x2a) + 0xf) * 8 + -8,
+                        (int)((ulong)fixtures >> 0x10));
   add_placement_bonus(param_1,1,2,600,uVar2);
-  uVar2 = fixture_winner((int)DS:A92B + (*(int *)(iVar1 + 0x2a) + 0xe) * 8 + -8,
-                         (int)((ulong)DS:A92B >> 0x10));
+  uVar2 = fixture_winner((byte *)fixtures + (*(int *)(iVar1 + 0x2a) + 0xe) * 8 + -8,
+                         (int)((ulong)fixtures >> 0x10));
   add_placement_bonus(param_1,1,3,400,uVar2);
-  uVar2 = fixture_loser((int)DS:A92B + (*(int *)(iVar1 + 0x2a) + 0xe) * 8 + -8,
-                        (int)((ulong)DS:A92B >> 0x10));
+  uVar2 = fixture_loser((byte *)fixtures + (*(int *)(iVar1 + 0x2a) + 0xe) * 8 + -8,
+                        (int)((ulong)fixtures >> 0x10));
   add_placement_bonus(param_1,1,4,200,uVar2);
   return;
 }
@@ -1130,25 +1136,25 @@ void continent_placement_bonuses(undefined2 param_1)
 
 {
   undefined2 uVar1;
-  int iVar2;
+  byte *pbVar2;
   undefined2 uVar3;
-  undefined2 local_4;
+  int local_4;
   
   local_4 = 1;
   while( true ) {
-    uVar3 = (undefined2)((ulong)DS:A933 >> 0x10);
-    iVar2 = (int)DS:A933 + local_4 * 0x1c0;
-    uVar1 = fixture_winner((int)DS:A92B + *(int *)(iVar2 + 0x572) * 8 + -8,
-                           (int)((ulong)DS:A92B >> 0x10));
+    uVar3 = (undefined2)((ulong)group_tables >> 0x10);
+    pbVar2 = (byte *)group_tables;
+    uVar1 = fixture_winner((byte *)fixtures + *(int *)(pbVar2 + local_4 * 0x1c0 + 0x572) * 8 + -8,
+                           (int)((ulong)fixtures >> 0x10));
     add_placement_bonus(param_1,0,1,800,uVar1);
-    uVar1 = fixture_loser((int)DS:A92B + *(int *)(iVar2 + 0x572) * 8 + -8,
-                          (int)((ulong)DS:A92B >> 0x10));
+    uVar1 = fixture_loser((byte *)fixtures + *(int *)(pbVar2 + local_4 * 0x1c0 + 0x572) * 8 + -8,
+                          (int)((ulong)fixtures >> 0x10));
     add_placement_bonus(param_1,0,2,600,uVar1);
-    uVar1 = fixture_winner((int)DS:A92B + *(int *)(iVar2 + 0x570) * 8 + -8,
-                           (int)((ulong)DS:A92B >> 0x10));
+    uVar1 = fixture_winner((byte *)fixtures + *(int *)(pbVar2 + local_4 * 0x1c0 + 0x570) * 8 + -8,
+                           (int)((ulong)fixtures >> 0x10));
     add_placement_bonus(param_1,0,3,400,uVar1);
-    uVar1 = fixture_loser((int)DS:A92B + *(int *)(iVar2 + 0x570) * 8 + -8,
-                          (int)((ulong)DS:A92B >> 0x10));
+    uVar1 = fixture_loser((byte *)fixtures + *(int *)(pbVar2 + local_4 * 0x1c0 + 0x570) * 8 + -8,
+                          (int)((ulong)fixtures >> 0x10));
     add_placement_bonus(param_1,0,4,200,uVar1);
     if (local_4 == 4) break;
     local_4 = local_4 + 1;

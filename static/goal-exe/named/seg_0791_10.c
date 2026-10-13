@@ -865,8 +865,7 @@ undefined2 __stdcall16far f_0791_DAF8(undefined2 param_1)
   f_1771_55FC();
   uVar2 = extraout_AH;
   if (extraout_AL != '\0') {
-    f_1771_5A38((int)DS:A92B + DS:9B43 * 8 + -8,(int)((ulong)DS:A92B >> 0x10),
-                param_1);
+    f_1771_5A38((byte *)fixtures + DS:9B43 * 8 + -8,(int)((ulong)fixtures >> 0x10),param_1);
     uVar2 = extraout_AH_00;
     if (extraout_AL_00 != '\0') {
       uVar1 = 1;
@@ -895,18 +894,17 @@ undefined1 __stdcall16far f_0791_DB38(int param_1)
   if (cVar1 != '\0') {
     local_5 = 0x24;
     while( true ) {
-      uVar2 = (undefined2)((ulong)DS:A92F >> 0x10);
-      uVar3 = (undefined2)((ulong)DS:A92B >> 0x10);
+      uVar2 = (undefined2)((ulong)country_fixture_lists >> 0x10);
+      uVar3 = (undefined2)((ulong)fixtures >> 0x10);
       if ((local_5 == 0) ||
-         (*(byte *)((int)DS:A92B +
-                    *(int *)((int)DS:A92F + param_1 * 0x48 + local_5 * 2 + -2) * 8 + -8) <
-          0xfe)) break;
+         (((byte *)fixtures)
+          [((word *)country_fixture_lists)[param_1 * 0x24 + local_5 + -1] * 8 + -8] < 0xfe)) break;
       local_5 = local_5 + -1;
     }
     if ((local_5 == 0) ||
-       (cVar1 = f_1771_5A38((int)DS:A92B +
-                            *(int *)((int)DS:A92F + param_1 * 0x48 + local_5 * 2 + -2) * 8 +
-                            -8,uVar3,param_1), cVar1 == '\0')) {
+       (cVar1 = f_1771_5A38((byte *)fixtures +
+                            ((word *)country_fixture_lists)[param_1 * 0x24 + local_5 + -1] * 8 + -8,
+                            uVar3,param_1), cVar1 == '\0')) {
       local_3 = 0;
     }
     else {
