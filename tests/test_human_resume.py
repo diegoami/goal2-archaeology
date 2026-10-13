@@ -332,6 +332,7 @@ class CleanEndTests(unittest.TestCase):
         dbx.pid, dbx.returncode = 4242, 0
         with mock.patch.dict(os.environ, {"DISPLAY": ":0"}), \
                 mock.patch.object(rec.driver, "require_dosbox", return_value="dosbox-x"), \
+                mock.patch.object(rec, "outer_display_size", return_value=None), \
                 mock.patch.object(rec, "new_session", new_session), \
                 mock.patch.object(rec, "start_nested", return_value=(
                     types.SimpleNamespace(pid=4343), {"DISPLAY": ":601"}, "9")), \
