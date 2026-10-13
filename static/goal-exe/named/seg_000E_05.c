@@ -681,7 +681,7 @@ LAB_000E_6DAE:
 
 
 // ---- 000E:7072  shareware_limit_reached  (f_000E_7072; Ghidra 1000:7072, __cdecl16near; found by routines.tsv)
-// returns (build constant mov al,0 at 7078) and (year word [A923]+0x38 >= 2): always 0 in this registered build; when set, 70B9 skips the stage dispatch after 1771:8208, the manager screen draws the shareware template DS:19D6 and main-menu item 6 plays nothing  [established; F025; read code/seg_000E_09.asm]
+// returns (build constant mov al,0 at 7078) and (year word [A923]+0x38 >= 2, unsigned): always 0 in this registered build; when set, 70B9 skips the stage dispatch after 1771:8208, the manager screen draws the shareware template DS:19D6 and main-menu item 6 plays nothing  [established; F025; read code/seg_000E_09.asm]
 
 /* WARNING: Removing unreachable block (000E:707E) */
 /* WARNING: Removing unreachable block (000E:708D) */

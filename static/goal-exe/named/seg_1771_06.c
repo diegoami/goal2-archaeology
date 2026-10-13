@@ -92,7 +92,7 @@ void __cdecl16near yearly_ageing(void)
 
 
 // ---- 1771:8208  stage_end  (f_1771_8208; Ghidra 4000:8208, __cdecl16far; found by routines.tsv)
-// decrements the state's rounds byte +0x3D; at 0 advances the stage byte +0x3C by 1 wrapped into [2,8] (214B:1D6F), tests the new stage against the set CS:81E8 = {2,3,5,7} (the ageing gate) and calls 1771:80DA for members, sets +0x40 = (stage > 4) and +0x3D = 1 + (stage == 4) + 3*(stage == 8); before advancing, a build constant (mov al, 0 at 822C) is tested: if it were set and the stage is 8, it returns without advancing, so a shareware build stops at stage 8 (F025)  [established; F016; F025; read code/seg_1771_12.asm]
+// decrements the state's rounds byte +0x3D; at 0 advances the stage byte +0x3C by 1 wrapped into [2,8] (214B:1D6F), tests the new stage against the set CS:81E8 = {2,3,5,7} (the ageing gate) and calls 1771:80DA for members, sets +0x40 = (stage > 4) and +0x3D = 1 + (stage == 4) + 3*(stage == 8); before advancing, a build constant (mov al, 0 at 822C) is tested: if it were set and the stage is 8, it returns without advancing the stage; the rounds byte +0x3D has already been decremented and keeps counting down modulo 256 on later calls, so the stage builder 1771:74BE still acts at rounds 4..1 and play is not stopped by this guard alone (F025, Unicorn P2)  [established; F016; F025; read code/seg_1771_12.asm]
 
 /* WARNING: Removing unreachable block (1771:8232) */
 /* WARNING: Removing unreachable block (1771:823C) */
@@ -1105,59 +1105,5 @@ void __cdecl16far make_managed_pool(void)
       local_6 != 9; local_6 = local_6 + 1) {
   }
   sort_pool_by_position();
-  return;
-}
-
-
-// ---- 1771:9A40  load_countries  (f_1771_9A40; Ghidra 4000:9A40, __cdecl16near; found by routines.tsv)
-// copies GOAL.DAT blocks into the country records (block 7, R008, to +0x2D: the default team tactic set; the ranks as F007 found), then makes the squads through 1771:97CC  [established; F007; F010]
-
-void __cdecl16near load_countries(void)
-
-{
-  byte bVar1;
-  country *pcVar2;
-  undefined2 uVar3;
-  int local_8;
-  int local_6;
-  int local_4;
-  
-  local_8 = 0;
-  local_6 = 1;
-  while( true ) {
-    ((country *)countries)[*(byte *)(local_6 + -0x6403)].world_rank = (byte)local_6;
-    if (local_6 == 0x80) break;
-    local_6 = local_6 + 1;
-  }
-  local_6 = 1;
-  while( true ) {
-    bVar1 = *(byte *)(local_6 + -0x6382);
-    uVar3 = (undefined2)((ulong)countries >> 0x10);
-    pcVar2 = (country *)countries;
-    pcVar2[bVar1].continent_rank = (char)((ulong)(local_6 - 1) % 0x20) + 1;
-    pcVar2[bVar1].continent = (char)((local_6 - 1U) / 0x20) + 1;
-    if (local_6 == 0x80) break;
-    local_6 = local_6 + 1;
-  }
-  local_6 = 1;
-  while( true ) {
-    ((country *)countries)[local_6].manager = (byte)local_6;
-    ((byte *)manager_countries)[local_6 * 3] = (byte)local_6;
-    if (local_6 == 0x80) break;
-    local_6 = local_6 + 1;
-  }
-  local_6 = 1;
-  while( true ) {
-    uVar3 = (undefined2)((ulong)countries >> 0x10);
-    pcVar2 = (country *)countries;
-    pcVar2[local_6].default_team_tactic_set = *(byte *)(local_6 + -0x6484);
-    for (local_4 = 1; pcVar2[local_6].squad[local_4 + -1] = local_8 + local_4, local_4 != 0x14;
-        local_4 = local_4 + 1) {
-    }
-    make_squad(local_6);
-    local_8 = local_8 + 0x14;
-    if (local_6 == 0x80) break;
-    local_6 = local_6 + 1;
-  }
   return;
 }
