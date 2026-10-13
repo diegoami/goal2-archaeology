@@ -1,0 +1,1387 @@
+.........................................play: refused: dosbox-x 2024.03.01 is required, found 2026.01.02 (/tmp/tmpwzpuyapn/dosbox-x); run: bash setup/dosbox-x-2024.03.01.sh
+................./home/diego/projects/goal2-archaeology/.claude/worktrees/agent-ad646f98deb54a897/runtime/driver/driver.py:321: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmpwu_sgsrr/work/dosbox.out' mode='w' encoding='UTF-8'>
+  self.dbx = subprocess.Popen(args, env=self.env, stdout=open(self.workdir / "dosbox.out", "w"),
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-ad646f98deb54a897/runtime/driver/driver.py:321: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmp1cidwzi0/work/dosbox.out' mode='w' encoding='UTF-8'>
+  self.dbx = subprocess.Popen(args, env=self.env, stdout=open(self.workdir / "dosbox.out", "w"),
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-ad646f98deb54a897/runtime/driver/driver.py:321: ResourceWarning: unclosed file <_io.TextIOWrapper name='/tmp/tmprv3iuqa3/work/dosbox.out' mode='w' encoding='UTF-8'>
+  self.dbx = subprocess.Popen(args, env=self.env, stdout=open(self.workdir / "dosbox.out", "w"),
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+.............................................................................................................................................................................................................../home/diego/projects/goal2-archaeology/.claude/worktrees/agent-ad646f98deb54a897/runtime/driver/driver.py:321: ResourceWarning: unclosed file <_io.TextIOWrapper name='/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-ad646f98deb54a897/scratch/driver/make-title/dosbox.out' mode='w' encoding='UTF-8'>
+  self.dbx = subprocess.Popen(args, env=self.env, stdout=open(self.workdir / "dosbox.out", "w"),
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-ad646f98deb54a897/runtime/driver/driver.py:321: ResourceWarning: unclosed file <_io.TextIOWrapper name='/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-ad646f98deb54a897/scratch/driver/test-dosprompt/dosbox.out' mode='w' encoding='UTF-8'>
+  self.dbx = subprocess.Popen(args, env=self.env, stdout=open(self.workdir / "dosbox.out", "w"),
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+...................WARNING: call #1 of 2000:0279: uncompared register SI at the return: the original 0x0003, the model 0x3333 (counted, not an error; further ones counted only)
+..............WARNING: call #1 of 214B:0688: uncompared register BX at the return: the original 0x7ABD, the model 0x0000 (counted, not an error; further ones counted only)
+WARNING: call #1 of 214B:0688: uncompared register SI at the return: the original 0x7B64, the model 0x6130 (counted, not an error; further ones counted only)
+WARNING: call #1 of 214B:0688: uncompared register DI at the return: the original 0x7B64, the model 0x7B62 (counted, not an error; further ones counted only)
+WARNING: call #1 of 214B:0688: uncompared register FLAGS at the return: the original 0x7202, the model 0x7206 (counted, not an error; further ones counted only)
+..WARNING: call #1 of 214B:0688: uncompared register BX at the return: the original 0x7ABD, the model 0x0000 (counted, not an error; further ones counted only)
+WARNING: call #1 of 214B:0688: uncompared register SI at the return: the original 0x7B64, the model 0x6130 (counted, not an error; further ones counted only)
+WARNING: call #1 of 214B:0688: uncompared register DI at the return: the original 0x7B64, the model 0x7B62 (counted, not an error; further ones counted only)
+WARNING: call #1 of 214B:0688: uncompared register FLAGS at the return: the original 0x7202, the model 0x7206 (counted, not an error; further ones counted only)
+..WARNING: call #1 of 0791:278A: uncompared register BX at the return: the original 0x001E, the model 0x016A (counted, not an error; further ones counted only)
+WARNING: call #1 of 0791:278A: uncompared register CX at the return: the original 0x0010, the model 0x0004 (counted, not an error; further ones counted only)
+WARNING: call #1 of 0791:278A: uncompared register ES at the return: the original 0x2DA4, the model 0x4E5B (counted, not an error; further ones counted only)
+WARNING: call #1 of 0791:278A: uncompared register FLAGS at the return: the original 0x7202, the model 0x7296 (counted, not an error; further ones counted only)
+.WARNING: call #1 of 0791:278A: uncompared register BX at the return: the original 0x001E, the model 0x016A (counted, not an error; further ones counted only)
+WARNING: call #1 of 0791:278A: uncompared register CX at the return: the original 0x0010, the model 0x0004 (counted, not an error; further ones counted only)
+WARNING: call #1 of 0791:278A: uncompared register ES at the return: the original 0x2DA4, the model 0x4E5B (counted, not an error; further ones counted only)
+WARNING: call #1 of 0791:278A: uncompared register FLAGS at the return: the original 0x7202, the model 0x7296 (counted, not an error; further ones counted only)
+..............WARNING: call #3 of 2000:0000: uncompared register FLAGS at the return: the original 0x0006, the model 0x0002 (counted, not an error; further ones counted only)
+.WARNING: call #3 of 2000:0000: uncompared register FLAGS at the return: the original 0x0006, the model 0x0002 (counted, not an error; further ones counted only)
+.WARNING: call #3 of 2000:0000: uncompared register FLAGS at the return: the original 0x0006, the model 0x0002 (counted, not an error; further ones counted only)
+.........WARNING: call #3 of 2000:0000: uncompared register FLAGS at the return: the original 0x0006, the model 0x0002 (counted, not an error; further ones counted only)
+...........................................................................................XGetInputFocus returned the focused window of 1. This is likely a bug in the X server.
+XGetInputFocus returned the focused window of 1. This is likely a bug in the X server.
+..................missing: Xephyr; xinput
+..........................................................................................................................usage: python3 -m unittest play [-h] [--video] [--scale {1,2,3}] [--res RES]
+                                [--quit-after SECS] [--load FILE.GL] [--fresh]
+python3 -m unittest play: error: argument --scale: invalid choice: '4' (choose from 1, 2, 3)
+..ss..................................................................................................................................................................................................................................................................................................................................................................match: 22/22
+MISS case injury_high_morale: predicted does not match expected
+match: 21/22
+MISS case all_zero: predicted does not match expected
+match: 21/22
+MISS case injury_high_morale: predicted does not match expected
+match: 21/22
+MISS case all_zero: predicted does not match expected
+match: 21/22
+MISS case injury_high_morale: predicted does not match expected
+MISS case injury_low_morale: predicted does not match expected
+MISS case injury_floor_morale: predicted does not match expected
+MISS case scorer_plus_one: predicted does not match expected
+MISS case scorer_minus_one: predicted does not match expected
+MISS case team_reaction_no_persist_pos: predicted does not match expected
+MISS case team_reaction_no_persist_neg: predicted does not match expected
+MISS case send_off_tail_other_team: predicted does not match expected
+MISS case clamp_below_one: predicted does not match expected
+MISS case clamp_above_255: predicted does not match expected
+MISS case clamp_signed_overflow: predicted does not match expected
+MISS case signed_wrap_floor: predicted does not match expected
+MISS case signed_wrap_high_persist: predicted does not match expected
+match: 9/22
+wrote 22 cases to /home/diego/projects/goal2-archaeology/.claude/worktrees/agent-ad646f98deb54a897/experiments/E019-q017-events-morale/probe-literal-001.json
+MISS case injury_high_morale: predicted does not match expected
+MISS case injury_low_morale: predicted does not match expected
+MISS case injury_floor_morale: predicted does not match expected
+MISS case scorer_plus_one: predicted does not match expected
+MISS case scorer_minus_one: predicted does not match expected
+MISS case team_reaction_no_persist_pos: predicted does not match expected
+MISS case team_reaction_no_persist_neg: predicted does not match expected
+MISS case send_off_tail_other_team: predicted does not match expected
+MISS case clamp_below_one: predicted does not match expected
+MISS case clamp_above_255: predicted does not match expected
+MISS case clamp_signed_overflow: predicted does not match expected
+MISS case signed_wrap_floor: predicted does not match expected
+MISS case signed_wrap_high_persist: predicted does not match expected
+match: 9/22
+wrote 22 cases to /home/diego/projects/goal2-archaeology/.claude/worktrees/agent-ad646f98deb54a897/experiments/E019-q017-events-morale/probe-literal-001.json
+MISS case all_zero: predicted does not match expected
+MISS case all_32: predicted does not match expected
+MISS case all_16: predicted does not match expected
+MISS case mixed_low_high: predicted does not match expected
+MISS case one_signed_negative_r1: predicted does not match expected
+MISS case one_just_above_32: predicted does not match expected
+MISS case all_signed_negative: predicted does not match expected
+MISS case exactly_below_one: predicted does not match expected
+MISS case one_signed_neg_one: predicted does not match expected
+match: 13/22
+MISS case all_zero: predicted does not match expected
+MISS case all_32: predicted does not match expected
+MISS case all_16: predicted does not match expected
+MISS case mixed_low_high: predicted does not match expected
+MISS case one_signed_negative_r1: predicted does not match expected
+MISS case one_just_above_32: predicted does not match expected
+MISS case all_signed_negative: predicted does not match expected
+MISS case exactly_below_one: predicted does not match expected
+MISS case one_signed_neg_one: predicted does not match expected
+match: 13/22
+MISS case injury_high_morale: predicted does not match expected
+match: 21/22
+MISS case all_zero: predicted does not match expected
+match: 21/22
+E003-r9999 d0-time-100000-date-10041993: aborted: RuntimeError: stop after launch (test)
+E003-r9999 d0-time-100000-date-10041993: aborted: ClockNotApplied: DOS date set to 10/04/1993, DOS reports 10/04/2026
+E003-r8888 d0-time-free: completed
+2 of 2 runs completed
+E005-r9999 quick-restore-e004-1001-cycles-5000: completed
+E006-r0007 10:00:00: completed
+release    /home/diego/projects/goal2-archaeology/.claude/worktrees/agent-ad646f98deb54a897/.cache/goal2 matches artifacts/known.json set fixture
+dosbox-x   2024.03.01
+xdotool    present
+mapper     F12+P pauses (sha256 7cd1a64181f3ce05...)
+stdbuf     present
+
+T44 scroll, keys every 0.15 s: 2 requests, 1 burst snapshots for 1 key group(s), merged (not captured) groups: 0
+
+T44 scroll, keys every 0.4 s: 7 requests, 6 burst snapshots for 1 key group(s), merged (not captured) groups: 0
+defective fixture-probe-old.json -> fixture-probe-new.json: case 1: declared slot disagrees with injected squad; case 2: declared slot disagrees with injected squad; case 3: declared slot disagrees with injected squad; case 4: declared slot disagrees with injected squad; case 5: declared slot disagrees with injected squad; case 6: declared slot disagrees with injected squad; defective
+match: 240/240 (240 incl. run observations)
+defective fixture-probe-old.json -> fixture-probe-new.json: case 1: declared slot disagrees with injected squad; declared status disagrees with injected +0x10; case 2: declared slot disagrees with injected squad; declared status disagrees with injected +0x10; case 3: declared slot disagrees with injected squad; declared status disagrees with injected +0x10; case 4: declared slot disagrees with injected squad; declared status disagrees with injected +0x10; case 5: declared slot disagrees with injected squad; declared status disagrees with injected +0x10; case 6: declared slot disagrees with injected squad; declared status disagrees with injected +0x10; defective
+match: 240/240 (240 incl. run observations)
+MISS case 1 player-word 1: expected (20,), observed 0
+match: 239/240 (240 incl. run observations)
+defective fixture-probe-002.json -> fixture-probe-003.json: case 1: declared slot disagrees with injected squad; declared status disagrees with injected +0x10; case 2: declared slot disagrees with injected squad; declared status disagrees with injected +0x10; case 3: declared slot disagrees with injected squad; declared status disagrees with injected +0x10; case 4: declared slot disagrees with injected squad; declared status disagrees with injected +0x10; case 5: declared slot disagrees with injected squad; declared status disagrees with injected +0x10; case 6: declared slot disagrees with injected squad; declared status disagrees with injected +0x10; Wrong squad and status injection offsets; all six declared cases require replacement.
+match: 240/240 (240 incl. run observations)
+MISS player word 361: 101010 != 100f0f
+not in captures: +0x03: +3 = country_rating + 0x7F reads the country record (+0x2A/+0x2B/+0x2C), which the E014 captures do not hold; checked as one byte per country per 7FDF call and in the domain 0x80..0xFF
+not in captures: +0x06: +6 = the retiree's +6 at the instant (7E9D/7F36); +6 is moved per match (0791:AD8F, 1771:4952, 000E:0290, 0791:BC5D; E014 notes section 6), so a capture a year earlier does not give it
+not in captures: +0x0F: +0xF keeps the retiree's +0xF bits that 1771:3431 neither sets nor clears; 0791:BC5D, 0791:C5DC and 1771:34E7 clear and re-derive +0xF between captures; the bits 3431 sets or clears are checked
+note: tests/no-such-directory: no record
+MISMATCH: no record found in any of the runs directories
+MISMATCH: no comparison was made: nothing corroborated
+comparisons: 0 squad words across 0 consecutive pair(s) of 0 record(s); 2 mismatch(es)
+re-creates: 0, of which 0 reproduced exactly from a recovered RNG word
+match: 0/0
+not in captures: +0x03: +3 = country_rating + 0x7F reads the country record (+0x2A/+0x2B/+0x2C), which the E014 captures do not hold; checked as one byte per country per 7FDF call and in the domain 0x80..0xFF
+not in captures: +0x06: +6 = the retiree's +6 at the instant (7E9D/7F36); +6 is moved per match (0791:AD8F, 1771:4952, 000E:0290, 0791:BC5D; E014 notes section 6), so a capture a year earlier does not give it
+not in captures: +0x0F: +0xF keeps the retiree's +0xF bits that 1771:3431 neither sets nor clears; 0791:BC5D, 0791:C5DC and 1771:34E7 clear and re-derive +0xF between captures; the bits 3431 sets or clears are checked
+note: E014-r0003 captures 0-1: start -> year end: 7 re-creates reproduced exactly from the RNG word 0xa5b0 at 80DA's entry (1 of 65536 words do)
+MISMATCH: country 1 player 2 (E014-r0003 captures 0-1: start -> year end): retirement fires, but not a re-create: +0x0C = 255 outside the re-create's 1..32 (rec 011e19a18c0f01010c000000011e1e110000ff7f -> 01191ca1960e010100000000ff1b1b110000ff7f)
+comparisons: 60 squad words across 1 consecutive pair(s) of 1 record(s); 1 mismatch(es)
+re-creates: 7, of which 7 reproduced exactly from a recovered RNG word
+match: 6/7
+not in captures: +0x03: +3 = country_rating + 0x7F reads the country record (+0x2A/+0x2B/+0x2C), which the E014 captures do not hold; checked as one byte per country per 7FDF call and in the domain 0x80..0xFF
+not in captures: +0x06: +6 = the retiree's +6 at the instant (7E9D/7F36); +6 is moved per match (0791:AD8F, 1771:4952, 000E:0290, 0791:BC5D; E014 notes section 6), so a capture a year earlier does not give it
+not in captures: +0x0F: +0xF keeps the retiree's +0xF bits that 1771:3431 neither sets nor clears; 0791:BC5D, 0791:C5DC and 1771:34E7 clear and re-derive +0xF between captures; the bits 3431 sets or clears are checked
+note: E014-r0003 captures 0-1: start -> year end: 8 re-creates reproduced exactly from the RNG word 0xfdf6 at 80DA's entry (1 of 65536 words do)
+comparisons: 60 squad words across 1 consecutive pair(s) of 1 record(s); 0 mismatch(es)
+re-creates: 8, of which 8 reproduced exactly from a recovered RNG word
+match: 8/8
+read 1: t=0.0 831F=1 seed=0001 score=[0, 0] ft=False key=team screen
+read 2: t=0.0 831F=1 seed=0001 score=[0, 0] ft=False key=team screen
+  Enter (team screen) at t=0.0
+read 3: t=0.0 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 4: t=0.0 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 5: t=0.0 831F=1 seed=0001 score=[0, 0] ft=False key=team screen
+read 6: t=0.0 831F=1 seed=0001 score=[0, 0] ft=False key=team screen
+  Enter (team screen) at t=0.0
+read 7: t=0.0 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 8: t=0.0 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 9: t=0.0 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 10: t=0.0 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 11: t=0.0 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 12: t=0.0 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 13: t=0.0 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 14: t=0.0 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 15: t=0.0 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 16: t=0.0 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 17: t=0.001 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 18: t=0.001 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 19: t=0.001 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 20: t=0.001 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 21: t=0.001 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 22: t=0.001 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 23: t=0.001 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 24: t=0.001 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 25: t=0.001 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 26: t=0.001 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 27: t=0.001 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 28: t=0.001 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 29: t=0.001 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 30: t=0.001 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 31: t=0.001 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 32: t=0.001 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 33: t=0.001 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 34: t=0.001 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 35: t=0.001 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 36: t=0.001 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 37: t=0.001 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 38: t=0.001 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 39: t=0.001 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 40: t=0.001 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 41: t=0.001 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 42: t=0.002 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 43: t=0.002 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 44: t=0.002 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 45: t=0.002 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 46: t=0.002 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 47: t=0.002 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 48: t=0.002 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 49: t=0.002 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 50: t=0.002 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 51: t=0.002 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 52: t=0.002 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 53: t=0.002 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 54: t=0.002 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 55: t=0.002 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 56: t=0.002 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 57: t=0.002 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 58: t=0.002 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 59: t=0.003 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 60: t=0.003 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 61: t=0.003 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 62: t=0.003 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 63: t=0.003 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 64: t=0.003 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 65: t=0.003 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 66: t=0.003 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 67: t=0.003 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 68: t=0.003 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 69: t=0.003 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 70: t=0.003 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 71: t=0.003 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 72: t=0.003 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 73: t=0.004 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 74: t=0.004 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 75: t=0.004 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 76: t=0.004 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 77: t=0.004 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 78: t=0.004 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 79: t=0.004 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 80: t=0.004 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 81: t=0.004 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 82: t=0.004 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 83: t=0.004 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 84: t=0.004 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 85: t=0.005 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 86: t=0.005 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 87: t=0.005 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 88: t=0.005 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 89: t=0.005 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 90: t=0.005 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 91: t=0.005 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 92: t=0.005 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 93: t=0.005 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 94: t=0.005 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 95: t=0.006 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 96: t=0.006 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 97: t=0.006 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 98: t=0.006 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 99: t=0.006 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 100: t=0.006 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 101: t=0.006 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 102: t=0.006 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 103: t=0.006 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 104: t=0.007 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 105: t=0.007 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 106: t=0.007 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 107: t=0.007 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 108: t=0.007 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 109: t=0.007 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 110: t=0.007 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 111: t=0.007 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 112: t=0.007 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 113: t=0.008 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 114: t=0.008 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 115: t=0.008 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 116: t=0.008 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 117: t=0.008 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 118: t=0.008 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 119: t=0.008 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 120: t=0.008 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 121: t=0.009 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 122: t=0.009 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 123: t=0.009 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 124: t=0.009 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 125: t=0.009 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 126: t=0.009 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 127: t=0.009 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 128: t=0.009 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 129: t=0.01 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 130: t=0.01 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 131: t=0.01 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 132: t=0.01 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 133: t=0.01 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 134: t=0.01 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 135: t=0.01 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 136: t=0.011 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 137: t=0.011 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 138: t=0.011 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 139: t=0.011 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 140: t=0.011 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 141: t=0.011 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 142: t=0.012 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 143: t=0.012 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 144: t=0.012 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 145: t=0.012 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 146: t=0.012 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 147: t=0.012 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 148: t=0.012 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 149: t=0.013 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 150: t=0.013 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 151: t=0.013 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 152: t=0.013 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 153: t=0.013 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 154: t=0.013 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 155: t=0.014 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 156: t=0.014 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 157: t=0.014 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 158: t=0.014 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 159: t=0.014 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 160: t=0.014 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 161: t=0.015 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 162: t=0.015 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 163: t=0.015 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 164: t=0.015 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 165: t=0.015 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 166: t=0.016 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 167: t=0.016 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 168: t=0.016 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 169: t=0.016 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 170: t=0.016 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 171: t=0.016 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 172: t=0.016 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 173: t=0.017 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 174: t=0.017 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 175: t=0.017 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 176: t=0.017 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 177: t=0.017 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 178: t=0.018 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 179: t=0.018 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 180: t=0.018 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 181: t=0.018 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 182: t=0.018 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 183: t=0.018 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 184: t=0.019 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 185: t=0.019 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 186: t=0.019 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 187: t=0.019 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 188: t=0.019 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 189: t=0.02 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 190: t=0.02 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 191: t=0.02 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 192: t=0.02 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 193: t=0.02 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 194: t=0.021 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 195: t=0.021 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 196: t=0.021 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 197: t=0.021 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 198: t=0.021 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 199: t=0.022 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 200: t=0.022 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 201: t=0.022 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 202: t=0.022 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 203: t=0.023 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 204: t=0.023 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 205: t=0.023 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 206: t=0.023 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 207: t=0.024 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 208: t=0.024 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 209: t=0.024 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 210: t=0.024 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 211: t=0.024 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 212: t=0.025 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 213: t=0.025 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 214: t=0.025 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 215: t=0.025 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 216: t=0.025 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 217: t=0.026 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 218: t=0.026 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 219: t=0.026 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 220: t=0.027 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 221: t=0.027 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 222: t=0.027 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 223: t=0.027 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 224: t=0.028 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 225: t=0.028 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 226: t=0.028 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 227: t=0.028 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 228: t=0.029 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 229: t=0.029 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 230: t=0.029 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 231: t=0.029 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 232: t=0.029 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 233: t=0.03 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 234: t=0.03 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 235: t=0.03 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 236: t=0.031 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 237: t=0.031 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 238: t=0.031 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 239: t=0.031 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 240: t=0.031 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 241: t=0.032 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 242: t=0.032 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 243: t=0.032 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 244: t=0.032 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 245: t=0.033 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 246: t=0.033 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 247: t=0.033 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 248: t=0.033 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 249: t=0.034 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 250: t=0.034 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 251: t=0.034 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 252: t=0.034 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 253: t=0.035 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 254: t=0.035 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 255: t=0.035 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 256: t=0.035 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 257: t=0.036 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 258: t=0.036 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 259: t=0.036 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 260: t=0.037 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 261: t=0.037 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 262: t=0.037 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 263: t=0.037 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 264: t=0.038 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 265: t=0.038 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 266: t=0.038 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 267: t=0.038 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 268: t=0.039 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 269: t=0.039 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 270: t=0.039 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 271: t=0.04 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 272: t=0.04 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 273: t=0.04 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 274: t=0.04 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 275: t=0.041 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 276: t=0.041 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 277: t=0.041 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 278: t=0.042 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 279: t=0.042 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 280: t=0.042 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 281: t=0.042 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 282: t=0.043 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 283: t=0.043 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 284: t=0.043 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 285: t=0.043 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 286: t=0.044 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 287: t=0.044 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 288: t=0.044 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 289: t=0.045 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 290: t=0.045 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 291: t=0.045 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 292: t=0.046 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 293: t=0.046 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 294: t=0.046 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 295: t=0.047 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 296: t=0.047 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 297: t=0.047 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 298: t=0.048 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 299: t=0.048 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 300: t=0.048 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 301: t=0.048 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 302: t=0.049 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 303: t=0.049 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 304: t=0.049 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 305: t=0.05 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 306: t=0.05 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 307: t=0.05 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 308: t=0.051 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 309: t=0.051 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 310: t=0.052 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 311: t=0.052 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 312: t=0.052 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 313: t=0.053 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 314: t=0.053 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 315: t=0.053 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 316: t=0.054 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 317: t=0.054 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 318: t=0.054 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 319: t=0.055 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 320: t=0.055 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 321: t=0.055 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 322: t=0.056 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 323: t=0.056 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 324: t=0.057 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 325: t=0.057 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 326: t=0.057 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 327: t=0.057 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 328: t=0.058 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 329: t=0.058 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 330: t=0.058 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 331: t=0.059 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 332: t=0.059 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 333: t=0.06 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 334: t=0.06 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 335: t=0.06 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 336: t=0.061 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 337: t=0.061 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 338: t=0.061 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 339: t=0.062 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 340: t=0.062 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 341: t=0.062 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 342: t=0.063 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 343: t=0.063 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 344: t=0.064 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 345: t=0.064 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 346: t=0.064 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 347: t=0.065 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 348: t=0.065 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 349: t=0.066 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 350: t=0.066 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 351: t=0.067 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 352: t=0.067 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 353: t=0.068 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 354: t=0.068 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 355: t=0.068 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 356: t=0.069 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 357: t=0.069 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 358: t=0.069 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 359: t=0.07 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 360: t=0.07 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 361: t=0.07 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 362: t=0.071 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 363: t=0.071 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 364: t=0.072 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 365: t=0.072 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 366: t=0.073 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 367: t=0.073 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 368: t=0.073 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 369: t=0.074 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 370: t=0.074 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 371: t=0.074 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 372: t=0.075 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 373: t=0.075 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 374: t=0.076 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 375: t=0.076 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 376: t=0.076 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 377: t=0.077 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 378: t=0.077 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 379: t=0.078 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 380: t=0.078 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 381: t=0.079 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 382: t=0.079 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 383: t=0.079 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 384: t=0.08 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 385: t=0.08 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 386: t=0.081 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 387: t=0.081 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 388: t=0.081 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 389: t=0.082 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 390: t=0.082 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 391: t=0.083 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 392: t=0.083 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 393: t=0.084 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 394: t=0.084 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 395: t=0.084 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 396: t=0.085 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 397: t=0.085 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 398: t=0.085 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 399: t=0.086 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 400: t=0.086 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 401: t=0.087 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 402: t=0.087 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 403: t=0.087 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 404: t=0.088 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 405: t=0.088 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 406: t=0.089 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 407: t=0.089 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 408: t=0.089 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 409: t=0.09 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 410: t=0.09 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 411: t=0.091 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 412: t=0.091 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 413: t=0.091 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 414: t=0.092 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 415: t=0.092 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 416: t=0.093 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 417: t=0.093 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 418: t=0.094 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 419: t=0.094 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 420: t=0.095 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 421: t=0.095 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 422: t=0.096 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 423: t=0.096 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 424: t=0.097 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 425: t=0.097 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 426: t=0.098 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 427: t=0.098 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 428: t=0.098 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 429: t=0.099 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 430: t=0.099 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 431: t=0.1 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 432: t=0.1 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 433: t=0.101 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 434: t=0.101 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 435: t=0.102 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 436: t=0.102 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 437: t=0.103 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 438: t=0.103 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 439: t=0.104 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 440: t=0.104 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 441: t=0.105 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 442: t=0.105 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 443: t=0.106 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 444: t=0.106 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 445: t=0.107 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 446: t=0.108 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 447: t=0.109 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 448: t=0.11 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 449: t=0.11 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 450: t=0.111 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 451: t=0.112 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 452: t=0.113 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 453: t=0.113 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 454: t=0.114 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 455: t=0.114 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 456: t=0.115 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 457: t=0.115 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 458: t=0.116 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 459: t=0.116 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 460: t=0.117 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 461: t=0.117 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 462: t=0.118 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 463: t=0.118 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 464: t=0.119 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 465: t=0.119 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 466: t=0.12 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 467: t=0.12 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 468: t=0.121 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 469: t=0.121 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 470: t=0.121 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 471: t=0.122 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 472: t=0.123 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 473: t=0.123 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 474: t=0.124 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 475: t=0.125 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 476: t=0.125 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 477: t=0.126 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 478: t=0.126 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 479: t=0.127 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 480: t=0.127 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 481: t=0.128 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 482: t=0.129 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 483: t=0.129 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 484: t=0.13 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 485: t=0.13 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 486: t=0.131 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 487: t=0.131 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 488: t=0.132 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 489: t=0.132 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 490: t=0.133 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 491: t=0.133 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 492: t=0.134 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 493: t=0.134 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 494: t=0.135 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 495: t=0.136 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 496: t=0.136 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 497: t=0.137 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 498: t=0.137 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 499: t=0.138 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 500: t=0.138 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 501: t=0.139 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 502: t=0.14 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 503: t=0.14 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 504: t=0.141 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 505: t=0.141 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 506: t=0.142 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 507: t=0.142 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 508: t=0.143 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 509: t=0.144 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 510: t=0.144 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 511: t=0.145 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 512: t=0.145 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 513: t=0.146 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 514: t=0.147 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 515: t=0.147 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 516: t=0.148 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 517: t=0.148 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 518: t=0.149 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 519: t=0.149 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 520: t=0.15 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 521: t=0.151 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 522: t=0.151 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 523: t=0.152 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 524: t=0.152 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 525: t=0.153 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 526: t=0.153 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 527: t=0.154 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 528: t=0.154 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 529: t=0.155 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 530: t=0.156 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 531: t=0.156 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 532: t=0.157 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 533: t=0.158 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 534: t=0.158 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 535: t=0.159 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 536: t=0.159 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 537: t=0.16 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 538: t=0.16 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 539: t=0.161 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 540: t=0.162 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 541: t=0.162 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 542: t=0.163 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 543: t=0.163 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 544: t=0.164 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 545: t=0.165 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 546: t=0.165 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 547: t=0.166 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 548: t=0.166 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 549: t=0.167 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 550: t=0.168 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 551: t=0.168 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 552: t=0.169 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 553: t=0.17 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 554: t=0.17 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 555: t=0.171 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 556: t=0.172 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 557: t=0.172 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 558: t=0.173 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 559: t=0.174 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 560: t=0.174 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 561: t=0.175 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 562: t=0.175 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 563: t=0.176 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 564: t=0.177 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 565: t=0.177 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 566: t=0.178 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 567: t=0.179 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 568: t=0.179 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 569: t=0.18 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 570: t=0.181 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 571: t=0.182 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 572: t=0.182 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 573: t=0.183 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 574: t=0.184 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 575: t=0.185 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 576: t=0.185 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 577: t=0.186 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 578: t=0.187 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 579: t=0.188 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 580: t=0.188 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 581: t=0.189 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 582: t=0.19 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 583: t=0.191 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 584: t=0.192 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 585: t=0.192 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 586: t=0.193 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 587: t=0.194 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 588: t=0.194 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 589: t=0.195 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 590: t=0.196 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 591: t=0.196 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 592: t=0.197 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 593: t=0.197 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 594: t=0.198 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 595: t=0.199 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 596: t=0.199 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 597: t=0.2 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 598: t=0.201 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 599: t=0.201 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 600: t=0.202 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 601: t=0.203 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 602: t=0.203 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 603: t=0.204 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 604: t=0.205 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 605: t=0.206 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 606: t=0.206 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 607: t=0.207 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 608: t=0.208 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 609: t=0.209 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 610: t=0.21 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 611: t=0.21 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 612: t=0.211 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 613: t=0.212 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 614: t=0.213 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 615: t=0.214 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 616: t=0.215 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 617: t=0.215 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 618: t=0.216 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 619: t=0.217 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 620: t=0.218 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 621: t=0.218 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 622: t=0.219 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 623: t=0.22 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 624: t=0.221 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 625: t=0.221 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 626: t=0.222 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 627: t=0.223 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 628: t=0.224 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 629: t=0.225 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 630: t=0.225 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 631: t=0.226 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 632: t=0.227 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 633: t=0.227 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 634: t=0.228 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 635: t=0.229 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 636: t=0.229 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 637: t=0.23 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 638: t=0.231 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 639: t=0.232 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 640: t=0.232 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 641: t=0.233 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 642: t=0.234 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 643: t=0.234 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 644: t=0.235 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 645: t=0.236 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 646: t=0.237 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 647: t=0.237 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 648: t=0.238 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 649: t=0.239 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 650: t=0.24 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 651: t=0.241 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 652: t=0.242 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 653: t=0.243 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 654: t=0.245 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 655: t=0.246 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 656: t=0.247 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 657: t=0.248 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 658: t=0.249 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 659: t=0.25 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 660: t=0.251 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 661: t=0.252 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 662: t=0.252 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 663: t=0.253 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 664: t=0.254 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 665: t=0.255 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 666: t=0.256 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 667: t=0.256 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 668: t=0.257 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 669: t=0.258 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 670: t=0.259 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 671: t=0.259 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 672: t=0.26 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 673: t=0.261 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 674: t=0.262 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 675: t=0.263 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 676: t=0.263 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 677: t=0.264 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 678: t=0.265 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 679: t=0.266 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 680: t=0.267 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 681: t=0.268 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 682: t=0.268 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 683: t=0.269 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 684: t=0.27 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 685: t=0.271 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 686: t=0.272 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 687: t=0.273 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 688: t=0.274 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 689: t=0.275 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 690: t=0.276 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 691: t=0.277 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 692: t=0.277 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 693: t=0.278 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 694: t=0.279 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 695: t=0.28 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 696: t=0.281 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 697: t=0.282 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 698: t=0.282 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 699: t=0.283 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 700: t=0.284 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 701: t=0.285 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 702: t=0.286 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 703: t=0.287 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 704: t=0.288 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 705: t=0.289 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 706: t=0.289 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 707: t=0.29 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 708: t=0.291 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 709: t=0.292 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 710: t=0.293 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 711: t=0.294 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 712: t=0.295 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 713: t=0.296 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 714: t=0.297 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 715: t=0.297 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 716: t=0.298 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 717: t=0.299 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 718: t=0.3 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 719: t=0.301 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 720: t=0.302 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 721: t=0.303 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 722: t=0.304 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 723: t=0.305 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 724: t=0.306 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 725: t=0.307 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 726: t=0.308 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 727: t=0.308 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 728: t=0.309 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 729: t=0.31 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 730: t=0.311 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 731: t=0.312 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 732: t=0.313 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 733: t=0.314 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 734: t=0.315 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 735: t=0.316 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 736: t=0.316 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 737: t=0.317 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 738: t=0.318 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 739: t=0.319 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 740: t=0.32 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 741: t=0.321 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 742: t=0.322 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 743: t=0.323 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 744: t=0.323 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 745: t=0.324 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 746: t=0.325 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 747: t=0.326 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 748: t=0.327 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 749: t=0.328 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 750: t=0.329 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 751: t=0.33 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 752: t=0.331 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 753: t=0.332 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 754: t=0.333 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 755: t=0.334 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 756: t=0.335 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 757: t=0.336 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 758: t=0.337 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 759: t=0.338 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 760: t=0.339 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 761: t=0.34 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 762: t=0.34 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 763: t=0.341 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 764: t=0.342 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 765: t=0.343 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 766: t=0.344 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 767: t=0.345 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 768: t=0.346 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 769: t=0.347 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 770: t=0.348 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 771: t=0.349 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 772: t=0.35 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 773: t=0.351 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 774: t=0.352 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 775: t=0.353 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 776: t=0.354 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 777: t=0.355 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 778: t=0.356 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 779: t=0.357 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 780: t=0.358 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 781: t=0.36 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 782: t=0.361 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 783: t=0.362 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 784: t=0.362 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 785: t=0.363 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 786: t=0.364 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 787: t=0.365 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 788: t=0.366 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 789: t=0.367 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 790: t=0.368 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 791: t=0.369 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 792: t=0.37 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 793: t=0.371 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 794: t=0.372 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 795: t=0.373 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 796: t=0.373 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 797: t=0.374 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 798: t=0.375 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 799: t=0.376 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 800: t=0.377 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 801: t=0.378 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 802: t=0.379 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 803: t=0.38 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 804: t=0.381 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 805: t=0.382 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 806: t=0.383 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 807: t=0.384 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 808: t=0.385 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 809: t=0.387 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 810: t=0.388 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 811: t=0.389 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 812: t=0.39 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 813: t=0.391 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 814: t=0.393 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 815: t=0.394 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 816: t=0.395 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 817: t=0.397 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 818: t=0.398 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 819: t=0.4 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 820: t=0.402 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 821: t=0.403 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 822: t=0.404 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 823: t=0.405 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 824: t=0.406 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 825: t=0.407 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 826: t=0.409 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 827: t=0.41 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 828: t=0.411 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 829: t=0.412 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 830: t=0.413 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 831: t=0.414 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 832: t=0.415 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 833: t=0.416 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 834: t=0.417 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 835: t=0.418 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 836: t=0.419 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 837: t=0.42 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 838: t=0.421 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 839: t=0.422 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 840: t=0.424 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 841: t=0.425 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 842: t=0.426 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 843: t=0.427 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 844: t=0.428 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 845: t=0.429 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 846: t=0.43 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 847: t=0.431 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 848: t=0.432 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 849: t=0.433 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 850: t=0.434 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 851: t=0.435 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 852: t=0.436 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 853: t=0.437 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 854: t=0.438 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 855: t=0.439 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 856: t=0.44 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 857: t=0.441 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 858: t=0.442 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 859: t=0.443 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 860: t=0.444 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 861: t=0.445 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 862: t=0.446 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 863: t=0.447 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 864: t=0.448 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 865: t=0.449 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 866: t=0.45 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 867: t=0.451 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 868: t=0.452 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 869: t=0.453 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 870: t=0.454 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 871: t=0.456 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 872: t=0.457 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 873: t=0.458 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 874: t=0.459 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 875: t=0.461 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 876: t=0.462 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 877: t=0.463 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 878: t=0.465 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 879: t=0.466 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 880: t=0.467 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 881: t=0.468 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 882: t=0.469 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 883: t=0.47 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 884: t=0.471 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 885: t=0.472 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 886: t=0.473 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 887: t=0.474 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 888: t=0.475 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 889: t=0.477 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 890: t=0.478 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 891: t=0.479 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 892: t=0.48 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 893: t=0.481 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 894: t=0.482 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 895: t=0.483 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 896: t=0.484 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 897: t=0.485 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 898: t=0.486 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 899: t=0.487 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 900: t=0.488 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 901: t=0.489 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 902: t=0.49 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 903: t=0.491 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 904: t=0.492 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 905: t=0.493 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 906: t=0.494 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 907: t=0.495 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 908: t=0.496 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 909: t=0.497 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 910: t=0.498 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 911: t=0.499 831F=1 seed=0001 score=[0, 0] ft=False key=-
+timeout without full time; failing
+.read 1: t=0.0 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 2: t=0.0 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 3: t=0.0 831F=1 seed=0001 score=[0, 0] ft=True key=-
+read 4: t=0.0 831F=1 seed=0001 score=[0, 0] ft=True key=-
+.4 reads
+read 1: t=0.0 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 2: t=0.0 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 3: t=0.0 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 4: t=0.0 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 5: t=0.0 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 6: t=0.0 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 7: t=0.0 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 8: t=0.0 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 9: t=0.0 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 10: t=0.0 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 11: t=0.0 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 12: t=0.0 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 13: t=0.0 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 14: t=0.0 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 15: t=0.0 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 16: t=0.0 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 17: t=0.0 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 18: t=0.0 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 19: t=0.0 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 20: t=0.0 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 21: t=0.001 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 22: t=0.001 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 23: t=0.001 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 24: t=0.001 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 25: t=0.001 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 26: t=0.001 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 27: t=0.001 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 28: t=0.001 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 29: t=0.001 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 30: t=0.001 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 31: t=0.001 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 32: t=0.001 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 33: t=0.001 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 34: t=0.001 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 35: t=0.001 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 36: t=0.001 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 37: t=0.001 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 38: t=0.001 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 39: t=0.001 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 40: t=0.001 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 41: t=0.001 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 42: t=0.001 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 43: t=0.001 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 44: t=0.002 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 45: t=0.002 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 46: t=0.002 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 47: t=0.002 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 48: t=0.002 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 49: t=0.002 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 50: t=0.002 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 51: t=0.002 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 52: t=0.002 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 53: t=0.002 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 54: t=0.002 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 55: t=0.002 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 56: t=0.002 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 57: t=0.002 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 58: t=0.002 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 59: t=0.002 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 60: t=0.002 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 61: t=0.003 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 62: t=0.003 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 63: t=0.003 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 64: t=0.003 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 65: t=0.003 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 66: t=0.003 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 67: t=0.003 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 68: t=0.003 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 69: t=0.003 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 70: t=0.003 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 71: t=0.003 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 72: t=0.003 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 73: t=0.003 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 74: t=0.004 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 75: t=0.004 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 76: t=0.004 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 77: t=0.004 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 78: t=0.004 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 79: t=0.004 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 80: t=0.004 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 81: t=0.004 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 82: t=0.004 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 83: t=0.004 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 84: t=0.005 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 85: t=0.005 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 86: t=0.005 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 87: t=0.005 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 88: t=0.005 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 89: t=0.005 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 90: t=0.005 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 91: t=0.005 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 92: t=0.005 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 93: t=0.005 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 94: t=0.006 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 95: t=0.006 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 96: t=0.006 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 97: t=0.006 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 98: t=0.006 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 99: t=0.006 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 100: t=0.006 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 101: t=0.006 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 102: t=0.006 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 103: t=0.006 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 104: t=0.007 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 105: t=0.007 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 106: t=0.007 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 107: t=0.007 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 108: t=0.007 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 109: t=0.007 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 110: t=0.007 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 111: t=0.007 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 112: t=0.008 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 113: t=0.008 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 114: t=0.008 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 115: t=0.008 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 116: t=0.008 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 117: t=0.008 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 118: t=0.008 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 119: t=0.008 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 120: t=0.009 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 121: t=0.009 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 122: t=0.009 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 123: t=0.009 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 124: t=0.009 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 125: t=0.009 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 126: t=0.009 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 127: t=0.01 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 128: t=0.01 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 129: t=0.01 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 130: t=0.01 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 131: t=0.01 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 132: t=0.01 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 133: t=0.01 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 134: t=0.011 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 135: t=0.011 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 136: t=0.011 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 137: t=0.011 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 138: t=0.011 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 139: t=0.012 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 140: t=0.012 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 141: t=0.012 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 142: t=0.012 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 143: t=0.012 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 144: t=0.012 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 145: t=0.013 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 146: t=0.013 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 147: t=0.013 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 148: t=0.013 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 149: t=0.014 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 150: t=0.014 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 151: t=0.014 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 152: t=0.014 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 153: t=0.014 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 154: t=0.015 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 155: t=0.015 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 156: t=0.015 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 157: t=0.015 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 158: t=0.015 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 159: t=0.015 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 160: t=0.016 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 161: t=0.016 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 162: t=0.016 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 163: t=0.016 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 164: t=0.016 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 165: t=0.017 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 166: t=0.017 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 167: t=0.017 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 168: t=0.017 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 169: t=0.017 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 170: t=0.018 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 171: t=0.018 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 172: t=0.018 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 173: t=0.018 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 174: t=0.018 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 175: t=0.019 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 176: t=0.019 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 177: t=0.019 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 178: t=0.019 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 179: t=0.019 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 180: t=0.019 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 181: t=0.02 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 182: t=0.02 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 183: t=0.02 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 184: t=0.02 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 185: t=0.02 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 186: t=0.021 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 187: t=0.021 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 188: t=0.021 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 189: t=0.021 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 190: t=0.022 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 191: t=0.022 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 192: t=0.022 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 193: t=0.022 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 194: t=0.022 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 195: t=0.023 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 196: t=0.023 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 197: t=0.023 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 198: t=0.023 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 199: t=0.024 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 200: t=0.024 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 201: t=0.024 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 202: t=0.024 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 203: t=0.024 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 204: t=0.025 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 205: t=0.025 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 206: t=0.025 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 207: t=0.025 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 208: t=0.026 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 209: t=0.026 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 210: t=0.026 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 211: t=0.027 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 212: t=0.027 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 213: t=0.027 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 214: t=0.027 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 215: t=0.028 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 216: t=0.028 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 217: t=0.028 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 218: t=0.028 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 219: t=0.028 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 220: t=0.029 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 221: t=0.029 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 222: t=0.029 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 223: t=0.03 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 224: t=0.03 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 225: t=0.03 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 226: t=0.03 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 227: t=0.03 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 228: t=0.031 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 229: t=0.031 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 230: t=0.031 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 231: t=0.032 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 232: t=0.032 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 233: t=0.032 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 234: t=0.032 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 235: t=0.033 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 236: t=0.033 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 237: t=0.033 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 238: t=0.034 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 239: t=0.034 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 240: t=0.034 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 241: t=0.034 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 242: t=0.035 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 243: t=0.035 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 244: t=0.035 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 245: t=0.035 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 246: t=0.036 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 247: t=0.036 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 248: t=0.036 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 249: t=0.036 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 250: t=0.037 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 251: t=0.037 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 252: t=0.037 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 253: t=0.038 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 254: t=0.038 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 255: t=0.038 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 256: t=0.038 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 257: t=0.039 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 258: t=0.039 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 259: t=0.039 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 260: t=0.04 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 261: t=0.04 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 262: t=0.04 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 263: t=0.04 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 264: t=0.041 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 265: t=0.041 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 266: t=0.041 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 267: t=0.041 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 268: t=0.042 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 269: t=0.042 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 270: t=0.042 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 271: t=0.043 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 272: t=0.043 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 273: t=0.043 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 274: t=0.043 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 275: t=0.044 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 276: t=0.044 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 277: t=0.044 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 278: t=0.044 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 279: t=0.045 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 280: t=0.045 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 281: t=0.045 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 282: t=0.046 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 283: t=0.046 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 284: t=0.046 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 285: t=0.047 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 286: t=0.047 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 287: t=0.048 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 288: t=0.048 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 289: t=0.048 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 290: t=0.049 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 291: t=0.049 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 292: t=0.049 831F=1 seed=0001 score=[0, 0] ft=False key=-
+read 293: t=0.05 831F=1 seed=0001 score=[0, 0] ft=False key=-
+timeout without full time; failing
+.read 1: t=0.0 831F=1 seed=0001 score=[0, 0] ft=False key=team screen
+read 2: t=0.0 831F=1 seed=0001 score=[0, 0] ft=False key=team screen
+  Enter (team screen) at t=0.0
+read 3: t=0.0 831F=1 seed=0001 score=[0, 0] ft=False key=team screen
+read 4: t=0.0 831F=1 seed=0001 score=[0, 0] ft=False key=team screen
+read 5: t=0.0 831F=1 seed=0001 score=[0, 0] ft=False key=team screen
+read 6: t=0.0 831F=1 seed=0001 score=[0, 0] ft=False key=team screen
+read 7: t=0.0 831F=1 seed=0001 score=[0, 0] ft=False key=team screen
+read 8: t=0.0 831F=1 seed=0001 score=[0, 0] ft=False key=team screen
+read 9: t=0.0 831F=1 seed=0001 score=[0, 0] ft=False key=team screen
+read 10: t=0.0 831F=1 seed=0001 score=[0, 0] ft=False key=team screen
+read 11: t=0.0 831F=1 seed=0001 score=[0, 0] ft=False key=team screen
+read 12: t=0.0 831F=1 seed=0001 score=[0, 0] ft=False key=team screen
+read 13: t=0.0 831F=1 seed=0001 score=[0, 0] ft=False key=team screen
+key not acted on within 10 reads; aborting
+.....................................................................
+----------------------------------------------------------------------
+Ran 989 tests in 488.989s
+
+OK (skipped=2)
