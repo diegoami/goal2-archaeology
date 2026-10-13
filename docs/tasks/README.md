@@ -55,3 +55,4 @@ exists.
 | T45 | M2a: the contests a watched match reaches, read from the listing (Q010) | #170 | T43 |
 | T46 | M2b: the contest gate 0791:287C substituted in whole watched matches | #172 | T45 |
 | T47 | M2c: the draw wrappers 214B:06B1 and 214B:06D0 substituted in whole watched matches | #178 | T46 |
+| T48 | M2d: the long helpers 214B:0D56 and 23E4:0279 substituted in whole watched matches | #188 | T47 |
