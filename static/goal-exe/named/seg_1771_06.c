@@ -92,7 +92,7 @@ void __cdecl16near yearly_ageing(void)
 
 
 // ---- 1771:8208  stage_end  (f_1771_8208; Ghidra 4000:8208, __cdecl16far; found by routines.tsv)
-// decrements the state's rounds byte +0x3D; at 0 advances the stage byte +0x3C by 1 wrapped into [2,8] (214B:1D6F), tests the new stage against the set CS:81E8 = {2,3,5,7} (the ageing gate) and calls 1771:80DA for members, sets +0x40 = (stage > 4) and +0x3D = 1 + (stage == 4) + 3*(stage == 8)  [established; F016; read code/seg_1771_12.asm]
+// decrements the state's rounds byte +0x3D; at 0 advances the stage byte +0x3C by 1 wrapped into [2,8] (214B:1D6F), tests the new stage against the set CS:81E8 = {2,3,5,7} (the ageing gate) and calls 1771:80DA for members, sets +0x40 = (stage > 4) and +0x3D = 1 + (stage == 4) + 3*(stage == 8); before advancing, a build constant (mov al, 0 at 822C) is tested: if it were set and the stage is 8, it returns without advancing, so a shareware build stops at stage 8 (F025)  [established; F016; F025; read code/seg_1771_12.asm]
 
 /* WARNING: Removing unreachable block (1771:8232) */
 /* WARNING: Removing unreachable block (1771:823C) */

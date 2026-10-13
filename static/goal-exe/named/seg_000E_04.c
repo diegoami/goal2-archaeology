@@ -234,7 +234,7 @@ undefined1 f_000E_4A87(int param_1)
   uStack_9 = (undefined2)((ulong)countries >> 0x10);
   local_b = (country *)countries + *(int *)(*(int *)(param_1 + 4) + 8);
   local_3 = 0;
-  iVar4 = f_000E_0B77(*(undefined2 *)(param_1 + 4));
+  iVar4 = manager_sack_score(*(undefined2 *)(param_1 + 4));
   if (iVar4 == -6) {
     puVar9 = local_20b;
     uVar6 = unaff_SS;
@@ -369,7 +369,7 @@ void f_000E_4DB7(void)
 {
   char cVar1;
   
-  f_000E_319B(&stack0xfffe);
+  result_headline_and_sack(&stack0xfffe);
   cVar1 = f_000E_3CC8(&stack0xfffe);
   if (cVar1 == '\0') {
     f_000E_4440(&stack0xfffe,6);
@@ -385,9 +385,10 @@ void f_000E_4DB7(void)
 }
 
 
-// ---- 000E:4E0E  f_000E_4E0E  (f_000E_4E0E; Ghidra 1000:4E0E, __stdcall16near; found by routines.tsv)
+// ---- 000E:4E0E  post_match_news_and_sack  (f_000E_4E0E; Ghidra 1000:4E0E, __stdcall16near; found by routines.tsv)
+// after a played fixture of a human side: builds the result news pages (11D9, 4DB7 via 319B, 26F2) and waits for a key (05F6); if 319B set the local flag (the sack branch) calls unmanage_country for that manager; called by route_fixture (000E:6CA7) once per human side  [established; F025; read code/seg_000E_06.asm]
 
-void f_000E_4E0E(undefined4 param_1,int param_2)
+void post_match_news_and_sack(undefined4 param_1,int param_2)
 
 {
   int iVar1;
@@ -1010,9 +1011,10 @@ bool f_000E_5DAF(int param_1)
 }
 
 
-// ---- 000E:5E6C  f_000E_5E6C  (f_000E_5E6C; Ghidra 1000:5E6C, __stdcall16near; found by routines.tsv)
+// ---- 000E:5E6C  news_failed_to_qualify  (f_000E_5E6C; Ghidra 1000:5E6C, __stdcall16near; found by routines.tsv)
+// display only: the headline FAIL TO QUALIFY FOR <competition> with a random one of BOO HISS / SACK / GET RID OF and the manager's name; changes no state; called by 000E:60CB when [A923]+m+1 is 0  [likely; F025; read code/seg_000E_07.asm]
 
-void f_000E_5E6C(int param_1)
+void news_failed_to_qualify(int param_1)
 
 {
   uint uVar1;

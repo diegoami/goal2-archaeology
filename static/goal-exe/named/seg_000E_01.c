@@ -80,7 +80,7 @@ void __cdecl16near f_000E_0000(void)
 
 
 // ---- 000E:01FA  unmanage_country  (f_000E_01FA; Ghidra 1000:01FA, __stdcall16near; found by routines.tsv)
-// the reset when a manager's country is released (a manager's leaving, inferred): before any test it writes 1 to two bytes of manager m's records, then calls reset_team_tactics (0791:BC5D) for m's country while it is still managed (so 52CC sorts with the managed rule); then it copies +7 to +6 for slots 12..20, clears byte 0 of the manager's 80 extra players, writes the country's own number to +0x2E, after which 0B77 no longer reports it managed, and turns the country's fixtures with first byte 0xFE into 0xFF  [established; F010]
+// the reset when a manager's country is released (a manager's sacking: its only caller is the sack branch of 000E:4E0E): before any test it writes 1 to two bytes of manager m's records, then calls reset_team_tactics (0791:BC5D) for m's country while it is still managed (so 52CC sorts with the managed rule); then it copies +7 to +6 for slots 12..20, clears byte 0 of the manager's 80 extra players, writes the country's own number to +0x2E, after which 0B77 no longer reports it managed, and turns the country's fixtures with first byte 0xFE into 0xFF  [established; F010; F025; read code/seg_000E_06.asm]
 
 void unmanage_country(int param_1)
 
@@ -596,9 +596,10 @@ void f_000E_0B4D(int param_1,undefined4 param_2)
 }
 
 
-// ---- 000E:0B77  f_000E_0B77  (f_000E_0B77; Ghidra 1000:0B77, __stdcall16near; found by routines.tsv)
+// ---- 000E:0B77  manager_sack_score  (f_000E_0B77; Ghidra 1000:0B77, __stdcall16near; found by routines.tsv)
+// the sack score of a managed country for the fixture of 000E:4E0E's caller frame: returns 0 when the year word [A923]+0x38 is below 2, the fixture kind (+2) is 1, the stage byte is in the set {3,4,7,8} (1771:59D8) and [A923]+m+1 is non-zero, or the country's +0xBE is non-zero; else the signed byte [A91F]+3*(+0x2E)+2, the confidence sum fed by 0791:B6CC; called by 000E:319B  [established; F025; read code/seg_000E_02.asm]
 
-int f_000E_0B77(int param_1)
+int manager_sack_score(int param_1)
 
 {
   int iVar1;
