@@ -299,7 +299,7 @@ void __stdcall16far bind_pitch_player(undefined4 param_1,undefined1 param_2)
         ((int)((country *)countries)[((undefined2 *)&DS:9B34)[cVar1]].squad + iVar4 + -2);
   cVar1 = manager_bonus(((player *)players + *(int *)(iVar5 + 0xd))->country);
   *(char *)(iVar5 + 0x11) = cVar1 + ' ';
-  uVar2 = f_1771_3179(*(undefined2 *)(iVar5 + 0xd));
+  uVar2 = wrong_side_or_keeper_mismatch(*(undefined2 *)(iVar5 + 0xd));
   *(undefined1 *)(iVar5 + 0x13) = uVar2;
   return;
 }
@@ -395,7 +395,7 @@ void prepare_computer_sides(undefined4 param_1)
   sys_set_bit_mask_08DF
             (0x693a,0xb000,CONCAT11((char)((ulong)uVar1 >> 8),*(undefined1 *)(iVar2 + 2)));
   DS:7C36 = !bVar5;
-  pitch_records[0].activity._0_1_ = f_0791_D44C(iVar2,uVar4);
+  pitch_records[0].activity._0_1_ = second_team_is_host(iVar2,uVar4);
   DS:9976 = *(undefined1 *)(iVar2 + 1);
   DS:7C2A._0_2_ = iVar2;
   DS:7C2A._2_2_ = uVar4;
@@ -405,7 +405,7 @@ void prepare_computer_sides(undefined4 param_1)
   while( true ) {
     cVar3 = is_managed(*(undefined2 *)(iVar2 + local_3 * 2 + 4));
     if (cVar3 == '\0') {
-      f_0791_B11F(*(undefined2 *)(iVar2 + local_3 * 2 + 4));
+      choose_computer_lineup(*(undefined2 *)(iVar2 + local_3 * 2 + 4));
       reset_own_tactics(*(undefined2 *)(iVar2 + local_3 * 2 + 4));
       computer_tactic_change(CONCAT11(extraout_AH,local_3));
     }
@@ -518,9 +518,10 @@ void f_0791_A699(undefined4 param_1)
 }
 
 
-// ---- 0791:A6E4  f_0791_A6E4  (f_0791_A6E4; Ghidra 2000:A6E4, __stdcall16near; found by routines.tsv)
+// ---- 0791:A6E4  host_country  (f_0791_A6E4; Ghidra 2000:A6E4, __stdcall16near; found by routines.tsv)
+// the venue's host country for a fixture: the fixture's second team (+6) unless 1771:5A03 (fixture_kind_in_result_set) holds for the fixture, then the country stored at [A923] + 0x2C + 2 * continent (the managed continent's slot, 5 when [A923]+0x40 is set)  [likely; F024; read named/seg_0791_08.c]
 
-undefined2 f_0791_A6E4(undefined4 param_1)
+undefined2 host_country(undefined4 param_1)
 
 {
   int iVar1;
@@ -594,7 +595,7 @@ void __cdecl16near f_0791_A75D(void)
     if (local_3 == '\x01') break;
     local_3 = local_3 + '\x01';
   }
-  uVar2 = f_0791_A6E4((int)DS:7C2A,(int)((ulong)DS:7C2A >> 0x10));
+  uVar2 = host_country((int)DS:7C2A,(int)((ulong)DS:7C2A >> 0x10));
   draw_country_name(0x26,7,uVar2);
   return;
 }
@@ -814,9 +815,10 @@ uint pick_bench_by_formation(undefined4 param_1,int param_2)
 }
 
 
-// ---- 0791:AC67  f_0791_AC67  (f_0791_AC67; Ghidra 2000:AC67, __stdcall16near; found by routines.tsv)
+// ---- 0791:AC67  bench_best_for_position  (f_0791_AC67; Ghidra 2000:AC67, __stdcall16near; found by routines.tsv)
+// (B11F's nested helper; frame = B11F's, [bp+6] = squad slot k of the bench 12..20): when the player of slot k is available (1771:3216 = 0), stores k in the byte table DS:99A2[player +7] if that entry is empty or 1771:377E of the new player is strictly greater than that of the player already stored (the earlier slot keeps a tie); the same table 0791:C7EB fills for a substitution (there the last slot wins)  [likely; F024; read code/seg_0791_17.asm:1091-1139]
 
-void f_0791_AC67(int param_1,int param_2)
+void bench_best_for_position(int param_1,int param_2)
 
 {
   int iVar1;
@@ -852,9 +854,10 @@ void f_0791_AC67(int param_1,int param_2)
 }
 
 
-// ---- 0791:AD8F  f_0791_AD8F  (f_0791_AD8F; Ghidra 2000:AD8F, __stdcall16near; found by routines.tsv)
+// ---- 0791:AD8F  swap_bench_into_slot  (f_0791_AD8F; Ghidra 2000:AD8F, __stdcall16near; found by routines.tsv)
+// (B11F's nested helper; ([bp-2] of the parent frame) = bench slot b, [bp+6] = starter slot s): clears DS:99A2[bench player's +7], swaps the squad words s and b (214B:007B), then gives the incoming player +6 := his own +7 when the outgoing player's old role and his +7 are both in one of the pairs {5,6}, {7,10}, {8,11}, {12,13} (sets CS:AD0F, AD2F, AD4F, AD6F) and otherwise the outgoing player's old role, sets the outgoing player's +6 := his own +7, and refreshes slot b's entry of DS:99A2 through 0791:AC67  [likely; F024; read code/seg_0791_18.asm:6-210]
 
-void f_0791_AD8F(int param_1,int param_2)
+void swap_bench_into_slot(int param_1,int param_2)
 
 {
   int iVar1;
@@ -940,14 +943,15 @@ LAB_0791_AF22:
          ((player *)players)[pcVar3[iVar1].squad[param_2 + -1]].club_position;
   }
   ppVar4->position = ppVar4->club_position;
-  f_0791_AC67(param_1,*(undefined2 *)(param_1 + -2));
+  bench_best_for_position(param_1,*(undefined2 *)(param_1 + -2));
   return;
 }
 
 
-// ---- 0791:AFA3  f_0791_AFA3  (f_0791_AFA3; Ghidra 2000:AFA3, __stdcall16near; found by routines.tsv)
+// ---- 0791:AFA3  fill_starters_from_bench  (f_0791_AFA3; Ghidra 2000:AFA3, __stdcall16near; found by routines.tsv)
+// (B11F's nested helper): for squad slot s = 1..11: b = 0791:AAE8 for the starter; swaps in bench slot b (AD8F) when 1771:377E of the bench player is strictly greater, or when the starter plays away from his +7 and the bench player's +7 is that role; else, when the starter is unavailable (3216), is 1771:3179-penalised, or is a non-goalkeeper (+7 non-zero) in slot 1, swaps in b, or in the absence of b the 0791:A9B8 choice for his role  [likely; F024; read code/seg_0791_18.asm:211-354]
 
-void f_0791_AFA3(int param_1)
+void fill_starters_from_bench(int param_1)
 
 {
   word wVar1;
@@ -971,18 +975,18 @@ void f_0791_AFA3(int param_1)
     if (*(int *)(param_1 + -2) == 0) {
 LAB_0791_B08B:
       cVar2 = player_unavailable(wVar1);
-      if (((cVar2 != '\0') || (cVar2 = f_1771_3179(wVar1), cVar2 != '\0')) ||
+      if (((cVar2 != '\0') || (cVar2 = wrong_side_or_keeper_mismatch(wVar1), cVar2 != '\0')) ||
          ((local_4 == 1 && (((player *)players)[wVar1].club_position != 0)))) {
         if (*(int *)(param_1 + -2) == 0) {
           uVar3 = pick_best_bench_keeper
                             (0x14,((player *)players)[wVar1].position,*(undefined2 *)(param_1 + 6));
           *(undefined2 *)(param_1 + -2) = uVar3;
           if (*(int *)(param_1 + -2) != 0) {
-            f_0791_AD8F(param_1,local_4);
+            swap_bench_into_slot(param_1,local_4);
           }
         }
         else {
-          f_0791_AD8F(param_1,local_4);
+          swap_bench_into_slot(param_1,local_4);
         }
       }
     }
@@ -996,7 +1000,7 @@ LAB_0791_B08B:
            (ppVar7[pcVar6->squad[*(int *)(param_1 + -2) + -1]].club_position !=
             ppVar7[wVar1].position)) goto LAB_0791_B08B;
       }
-      f_0791_AD8F(param_1,local_4);
+      swap_bench_into_slot(param_1,local_4);
     }
     if (local_4 == 0xb) {
       return;
@@ -1006,9 +1010,10 @@ LAB_0791_B08B:
 }
 
 
-// ---- 0791:B11F  f_0791_B11F  (f_0791_B11F; Ghidra 2000:B11F, __stdcall16far; found by routines.tsv)
+// ---- 0791:B11F  choose_computer_lineup  (f_0791_B11F; Ghidra 2000:B11F, __stdcall16far; found by routines.tsv)
+// (country c) the computer side's eleven at match set-up: clears the 14-byte table DS:99A2, runs 0791:AC67 for the bench slots 12..20 (best available bench player per +7 position by 1771:377E), then 0791:AFA3 for the starters 1..11, then sorts the squad by position with 1771:52CC; called only by 0791:A3DE for a team with 1771:0B77 = 0  [likely; F024; read code/seg_0791_18.asm:355-385]
 
-void __stdcall16far f_0791_B11F(undefined2 param_1)
+void __stdcall16far choose_computer_lineup(undefined2 param_1)
 
 {
   int local_6;
@@ -1016,19 +1021,20 @@ void __stdcall16far f_0791_B11F(undefined2 param_1)
   u214b_fill_bytes(0,0xe,0x99a2,0xb000);
   local_6 = 0xc;
   while( true ) {
-    f_0791_AC67(&stack0xfffe,local_6);
+    bench_best_for_position(&stack0xfffe,local_6);
     if (local_6 == 0x14) break;
     local_6 = local_6 + 1;
   }
-  f_0791_AFA3(&stack0xfffe);
+  fill_starters_from_bench(&stack0xfffe);
   sort_squad_by_position(param_1);
   return;
 }
 
 
-// ---- 0791:B15F  f_0791_B15F  (f_0791_B15F; Ghidra 2000:B15F, __stdcall16near; found by routines.tsv)
+// ---- 0791:B15F  result_needs_winner  (f_0791_B15F; Ghidra 2000:B15F, __stdcall16near; found by routines.tsv)
+// (fixture) 1 when the fixture's competition code (+2) is in the set at DS:693A (4 and 8..203) and the two score bytes DS:9B3C and DS:9B3D are equal: 0791:D47E then adds a 4-attempt 0791:B19D round and, if still level, a coin (214B:06FA)  [likely; F024; read code/seg_0791_18.asm:386-416]
 
-undefined2 f_0791_B15F(undefined4 param_1)
+undefined2 result_needs_winner(undefined4 param_1)
 
 {
   undefined1 uVar1;
@@ -1044,101 +1050,4 @@ undefined2 f_0791_B15F(undefined4 param_1)
     uVar1 = 1;
   }
   return CONCAT11(extraout_AH,uVar1);
-}
-
-
-// ---- 0791:B19D  roll_quick_goals  (f_0791_B19D; Ghidra 2000:B19D, __stdcall16near; found by routines.tsv)
-// for each side t, makes the given number of attempts and adds each goal to DS:9B3C[t]; each attempt has up to three contests of two draws each, the OPPONENT's draw first (side 1-t at B1C5-B1D4, then side t at B1E0-B1E8): rand(mid[1-t]) vs rand(mid[t]) (B1DF/B1F1), rand(2*def[1-t]) (B207) vs rand(atk[t]) (B220), rand(gk[1-t]) (B23B) vs rand(atk[t]) (B24D); each comparison signed jle stops the attempt at 2/4/6 draws; winning all three is a goal - so a team scores against the other side's keeper and defence (the sums at DS:9B45 + 2*side + 4*k, k = 0 keeper, 1 defence, 2 midfield, 3 attack)  [established; F010; F012; read decompiled/seg_0791_07.c; read decompiled/seg_0791_08.c]
-
-void roll_quick_goals(int param_1)
-
-{
-  char *pcVar1;
-  int iVar2;
-  int iVar3;
-  int local_5;
-  char local_3;
-  
-  local_3 = '\0';
-  while( true ) {
-    if (param_1 != 0) {
-      local_5 = 1;
-      while( true ) {
-        iVar2 = u214b_random_1_to_n(((undefined2 *)&DS:9B4D)[local_3 == '\0']);
-        iVar3 = u214b_random_1_to_n(((undefined2 *)&DS:9B4D)[local_3]);
-        if (iVar2 < iVar3) {
-          iVar2 = u214b_random_1_to_n(((undefined2 *)&DS:9B49)[local_3 == '\0'] << 1);
-          iVar3 = u214b_random_1_to_n(*(undefined2 *)(local_3 * 2 + -0x64af));
-          if (iVar2 < iVar3) {
-            iVar2 = u214b_random_1_to_n(((undefined2 *)&DS:9B45)[local_3 == '\0']);
-            iVar3 = u214b_random_1_to_n(*(undefined2 *)(local_3 * 2 + -0x64af));
-            if (iVar2 < iVar3) {
-              pcVar1 = (char *)((int)(undefined2 *)&DS:9B3C + (int)local_3);
-              *pcVar1 = *pcVar1 + '\x01';
-            }
-          }
-        }
-        if (local_5 == param_1) break;
-        local_5 = local_5 + 1;
-      }
-    }
-    if (local_3 == '\x01') break;
-    local_3 = local_3 + '\x01';
-  }
-  return;
-}
-
-
-// ---- 0791:B27F  f_0791_B27F  (f_0791_B27F; Ghidra 2000:B27F, __stdcall16near; found by routines.tsv)
-
-void f_0791_B27F(int param_1)
-
-{
-  char cVar1;
-  player *ppVar2;
-  undefined2 uVar3;
-  
-  uVar3 = (undefined2)((ulong)players >> 0x10);
-  ppVar2 = (player *)players;
-  u214b_set_exclude_bit(&ppVar2[param_1].status,uVar3,8);
-  cVar1 = u214b_set_test_bit(ppVar2[param_1].status,6);
-  if (cVar1 != '\0') {
-    u214b_set_include_bit(&ppVar2[param_1].status,uVar3,8);
-  }
-  u214b_set_exclude_bit(&ppVar2[param_1].status,uVar3,6);
-  cVar1 = u214b_set_test_bit(ppVar2[param_1].status,5);
-  if (cVar1 != '\0') {
-    cVar1 = u214b_set_test_bit(ppVar2[param_1].status,4);
-    if (cVar1 == '\0') {
-      u214b_set_include_bit(&ppVar2[param_1].status,uVar3,4);
-    }
-    else {
-      u214b_set_include_bit(&ppVar2[param_1].status,uVar3,8);
-      u214b_set_exclude_bit(&ppVar2[param_1].status,uVar3,4);
-    }
-  }
-  u214b_set_exclude_bit(&ppVar2[param_1].status,uVar3,5);
-  return;
-}
-
-
-// ---- 0791:B364  adjust_player_confidence  (f_0791_B364; Ghidra 2000:B364, __stdcall16near; found by routines.tsv)
-// adds signed delta word to signed player +0xC with word wrapping; clips to 1..32 on each call; result, bench, pool and scorer callers  [established; F019]
-
-void adjust_player_confidence(int param_1,int param_2)
-
-{
-  undefined2 uVar1;
-  int local_4;
-  
-  uVar1 = (undefined2)((ulong)players >> 0x10);
-  local_4 = (char)((player *)players)[param_2].morale + param_1;
-  if (local_4 < 1) {
-    local_4 = 1;
-  }
-  else if (0x20 < local_4) {
-    local_4 = 0x20;
-  }
-  ((player *)players)[param_2].morale = (byte)local_4;
-  return;
 }

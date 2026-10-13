@@ -1,0 +1,5 @@
+000E:56F3 seg_000E_07.asm:343 load, store at :346  579C  26 89 5D FE     mov word ptr es:[di - 2], bx
+0791:6443 seg_0791_11.asm:247 load, store at :252  656D  26 89 05        mov word ptr es:[di], ax
+0791:A260 seg_0791_17.asm:32 load, store at :38  A2A2  26 89 45 0D     mov word ptr es:[di + 0xd], ax
+1771:6730 seg_1771_09.asm:1124 load, store at :1135  6798  26 89 45 2F     mov word ptr es:[di + 0x2f], ax
+1771:97CC seg_1771_14.asm:14 load, store at :20  97ED  26 89 05        mov word ptr es:[di], ax

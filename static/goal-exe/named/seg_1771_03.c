@@ -21,9 +21,10 @@ uint __stdcall16far player_leadership(int param_1)
 }
 
 
-// ---- 1771:3179  f_1771_3179  (f_1771_3179; Ghidra 4000:3179, __stdcall16far; found by routines.tsv)
+// ---- 1771:3179  wrong_side_or_keeper_mismatch  (f_1771_3179; Ghidra 4000:3179, __stdcall16far; found by routines.tsv)
+// returns 1 (1771:377E then halves the strength) when: the foot index (3088) is 0 and +6 is in the set {4,8,11} (CS:3159), or the player is not two-footed (3041), the foot index is non-zero and +6 is in {3,7,10} (CS:3139), or exactly one of +6 and +7 is 0 (a goalkeeper outfield, or an outfielder in goal); else 0  [likely; F024; read code/seg_1771_05.asm:120-213]
 
-undefined2 __stdcall16far f_1771_3179(int param_1)
+undefined2 __stdcall16far wrong_side_or_keeper_mismatch(int param_1)
 
 {
   char cVar1;
@@ -343,7 +344,7 @@ int __stdcall16far player_strength(int param_1)
     else if (0x100 < local_6) {
       local_6 = 0x100;
     }
-    cVar1 = f_1771_3179(param_1);
+    cVar1 = wrong_side_or_keeper_mismatch(param_1);
     if (cVar1 != '\0') {
       local_6 = local_6 / 2;
     }
