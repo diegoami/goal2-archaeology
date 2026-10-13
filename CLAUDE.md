@@ -156,6 +156,17 @@ a rule that names a model. No quota, tier or difficulty table picks a model.
 5. A failed run is diagnosed and fixed, not silently re-routed: another model only when the
    provider does not answer, and the user names it. The PR records who implemented and which
    model reviewed.
+5a. **OpenCode 2.x is permitted when it works** (the owner, 2026-10-13, T174 round 3). The
+   harness's `runOpenCodeWatched` refuses any non-1.x CLI with `OpenCode gave no version ...
+   desktop app's 2.x CLI differs (#26)`; that is a harness-compatibility check, not a
+   correctness one. When the wrapper refuses 2.x but `opencode run` itself runs the brief
+   end-to-end and produces a readable review (the way Malpaco did for T10: `opencode run
+   --model provider/model#variant --title ... --auto -f <brief>` invoked directly, bypassing
+   `runOpenCodeWatched`), trust the run, not the version check. Two ways in: call the wrapper
+   with `HARNESS_OPENCODE_EXE=<a 1.18.x binary, e.g. /home/diego/.opencode/bin/opencode.1.18.32.bak>`,
+   or call `opencode run` directly and replicate what `review.mjs` does (detached worktree at
+   the PR head, reviewer agent, post the result, apply the label). Do not silently re-route to
+   a different model because of the version check.
 6. These rules work whatever model the orchestrator itself runs on; they never name it.
 7. **Still in force:** the effort rule (a heavy model, Opus, GPT-6.1 Sol, GLM-5.3, MiMo v2.6 Pro
    or MiniMax-M3, at `medium` at most and `low` when medium is not needed; a light model at
