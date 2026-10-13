@@ -41,3 +41,8 @@ sprite	0x04	glyph	word	the glyph word drawn into the screen buffer at row*0xA0 +
 sprite	0x06	target_row	byte	the row the sprite moves toward	likely	F013
 sprite	0x07	target_column	byte	the column the sprite moves toward (rand(2)-based, the per-tick draw)	likely	F013
 pitch	0x11	keeping_extra	byte	added by 278A to the element-1 (keeping) contest value under ball-event code 0x18 (the set CS:276A); what writes it was not traced	likely	F015
+pitch	0x07	destination	word	the destination (x at +7, y at +8): 2CC5 compares the record's position word with it; 4354, 4B64, 69BD and the handlers write it, mirrored by 2C86	likely	F028
+pitch	0x09	post	word	the post (x at +9, y at +0xA), the home place: 419C sets it from DS:079E[2 * +6], 69BD and 4354 read it	established	F028
+pitch	0x0B	x_offset	byte	the lateral offset added to the post's x by 4354 (rand(5) - 3; the striker rand(15) - 8; the keeper 0)	likely	F028
+pitch	0x0C	depth_offset	byte	the depth offset added to the post's y by 4354: moved one step per update by 474D within the limits DS:07CB and DS:07DB, set outright by 4B64 and 69BD	likely	F028
+pitch	0x13	out_of_place	byte	1771:3179(player), stored by A260 at binding: 278A halves the derived skill when it is not 0 (F015, F028)	established	F028
