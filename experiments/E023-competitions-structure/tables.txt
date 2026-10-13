@@ -1,8 +1,7 @@
 == DS:0F3E decider shape; DS:693A decider set (Pascal set of 32 bytes: element e = bit e%8 of byte e//8)
 DS:0F3E 98 FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF 0F 00 00 00 00 00 00 -> 3..4, 7..203
 DS:693A 10 FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF 0F 00 00 00 00 00 00 -> 4, 8..203
-code-set byte AC -> stages [2, 3, 5, 7]
-code-set byte 98 -> stages [3, 4, 7]
+code-segment sets (CS:81E8, 8737, 59B8, 7099): see sets.py, out/sets.txt (all 32 bytes decoded)
 
 == DS:118E start stage by flag [2, 5]
 == DS:6936 first fixture number per class (word) [1, 1361]

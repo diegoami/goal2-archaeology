@@ -31,8 +31,7 @@ for name, base in (('DS:0F3E', 0x0F3E), ('DS:693A', 0x693A)):
     print(name, ' '.join('%02X' % x for x in raw), '->', ', '.join('%d' % lo if lo == hi else '%d..%d' % (lo, hi) for lo, hi in rng))
 for name, base in (('CS:81E8 / 8737 (stage gate)', None),):
     pass
-for s in (0xAC, 0x98):
-    print('code-set byte %02X -> stages' % s, [e for e in range(8) if s >> e & 1])
+print('code-segment sets (CS:81E8, 8737, 59B8, 7099): see sets.py, out/sets.txt (all 32 bytes decoded)')
 
 print('\n== DS:118E start stage by flag', b(0x118E, 2))
 print('== DS:6936 first fixture number per class (word)', [b(0x6936 + 2 * k) + 256 * b(0x6937 + 2 * k) for k in range(2)])

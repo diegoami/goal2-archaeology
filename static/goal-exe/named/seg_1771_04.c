@@ -709,7 +709,7 @@ void __stdcall16far f_1771_580B(int param_1,undefined4 param_2)
 
 
 // ---- 1771:59D8  stage_uses_finals_table  (f_1771_59D8; Ghidra 4000:59D8, __cdecl16far; found by routines.tsv)
-// true when the stage byte is in the set CS:59B8 = {3, 4, 7}: the group tables of those stages live in table 1 (+0x700), the B table of finals groups  [likely; F023; read code/seg_1771_08.asm]
+// true when the stage byte is in the set CS:59B8 = {3, 4, 7, 8} (bytes 98 01): the group tables of those stages live in table 1 (+0x700), the B table of finals groups  [likely; F023; read code/seg_1771_08.asm]
 
 bool __cdecl16far stage_uses_finals_table(void)
 

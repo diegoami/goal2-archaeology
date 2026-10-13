@@ -473,7 +473,7 @@ void __cdecl16near stage_continental_finals(void)
 
 
 // ---- 1771:6E59  stage_continental_knockout  (f_1771_6E59; Ghidra 4000:6E59, __cdecl16near; found by routines.tsv)
-// stage 4 builder: rounds byte +0x3D = 2: per continent two semi-finals (kind 0x65: winner of B1 v runner-up of B2, winner of B2 v runner-up of B1) through add_fixture_with_bonus (host second); +0x3D = 1: third place (0x66, the losers) and final (0x67, the winners)  [established; F023; read code/seg_1771_10.asm]
+// stage 4 builder: rounds byte +0x3D = 2: per continent two semi-finals (kind 0x65: winner of B1 v runner-up of B2, winner of B2 v runner-up of B1) through add_fixture_with_bonus (host as side B when it plays); +0x3D = 1: third place (0x66, the losers) and final (0x67, the winners)  [established; F023; read code/seg_1771_10.asm]
 
 void __cdecl16near stage_continental_knockout(void)
 
@@ -716,7 +716,7 @@ void __cdecl16near stage_world_cup_groups(void)
 
 
 // ---- 1771:74BE  stage_world_cup_knockout  (f_1771_74BE; Ghidra 4000:74BE, __cdecl16near; found by routines.tsv)
-// stage 8 builder, by +0x3D = 4/3/2/1: last 16 (kind 8: winner of group i v runner-up of group 9-i), quarter-finals (200), semi-finals (0xC9), third place (0xCA) and final (0xCB), each from the previous round's winners/losers; host second  [established; F023; read code/seg_1771_10.asm]
+// stage 8 builder, by +0x3D = 4/3/2/1: last 16 (kind 8: winner of group i v runner-up of group 9-i), quarter-finals (200), semi-finals (0xC9), third place (0xCA) and final (0xCB), each from the previous round's winners/losers; host as side B when it plays  [established; F023; read code/seg_1771_10.asm]
 
 void __cdecl16near stage_world_cup_knockout(void)
 
