@@ -947,7 +947,7 @@ void remove_from_pitch(int param_1,undefined4 param_2)
 
 
 // ---- 0791:C50C  show_computer_substitution_notice  (f_0791_C50C; Ghidra 2000:C50C, __stdcall16near; found by routines.tsv)
-// the screen shown when a computer team substitutes against a managed team in a watched match: unpacks a template, writes the outgoing and incoming player names (DS:9B6C + 11 * player index) at columns 0x19 and 0x26 in their position colours, waits 300 ticks or a key; called only by 0791:C5DC (not a lineup routine)  [likely; F024; read named/seg_0791_09.c:831-857]
+// the screen shown when a computer team substitutes against a managed team in a watched match: unpacks a template, writes the outgoing and incoming player names (DS:9B6C + 11 * player index) at columns 0x19 and 0x26 in their position colours, waits 300 ticks or a key; called only by 0791:C5DC (not a lineup routine)  [likely; F024; read code/seg_0791_20.asm:297-384]
 
 void show_computer_substitution_notice(int param_1,int param_2)
 

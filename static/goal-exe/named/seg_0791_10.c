@@ -496,7 +496,7 @@ void __stdcall16far f_0791_D050(undefined4 param_1)
 
 
 // ---- 0791:D44C  second_team_is_host  (f_0791_D44C; Ghidra 2000:D44C, __stdcall16far; found by routines.tsv)
-// (fixture) 1 when 0791:A6E4 returns the fixture's second team (+6): the value 0791:A3DE stores in DS:80FC, the flag that adds one eighth to side 1's four line sums in 1771:0BC4 and that BD83's step (a) tests  [likely; F024; read named/seg_0791_10.c:402-415]
+// (fixture) 1 when 0791:A6E4 returns the fixture's second team (+6): the value 0791:A3DE stores in DS:80FC, the flag that adds one eighth to side 1's four line sums in 1771:0BC4 and that BD83's step (a) tests  [likely; F024; read code/seg_0791_21.asm:463-488]
 
 bool __stdcall16far second_team_is_host(undefined4 param_1)
 

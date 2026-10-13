@@ -519,7 +519,7 @@ void f_0791_A699(undefined4 param_1)
 
 
 // ---- 0791:A6E4  host_country  (f_0791_A6E4; Ghidra 2000:A6E4, __stdcall16near; found by routines.tsv)
-// the venue's host country for a fixture: the fixture's second team (+6) unless 1771:5A03 (fixture_kind_in_result_set) holds for the fixture, then the country stored at [A923] + 0x2C + 2 * continent (the managed continent's slot, 5 when [A923]+0x40 is set)  [likely; F024; read named/seg_0791_08.c]
+// the venue's host country for a fixture: the fixture's second team (+6) unless 1771:5A03 (fixture_kind_in_result_set) holds for the fixture, then the country stored at [A923] + 0x2C + 2 * continent (the managed continent's slot, 5 when [A923]+0x40 is set)  [likely; F024; read code/seg_0791_17.asm:487-536]
 
 undefined2 host_country(undefined4 param_1)
 
