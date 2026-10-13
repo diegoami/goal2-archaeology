@@ -40,3 +40,24 @@ diff /tmp/searches.log experiments/E025-sacking-and-end/searches.log   # no outp
 - Worked B71C examples (R1) follow `seg_0791_18.asm:1030-1102` by hand: q = idiv32(opp - own); non-draw winner adds the margin, loser subtracts; doubled when (winner == side) equals (side == 0 or kind in DS:0F3E).
 - `[A923]+m+1` is the manager's group number: `seg_000E_08.asm:79-84` (0 -> `5E6C`), `:109` (`mov dx, 0x38`, the group-table row size).
 - `5E6C` draws one random number: `seg_000E_07.asm:1010-1012` (`214B:06B1(3)`).
+
+## Round 3: every derived claim and universal, its inputs, and how it was checked
+
+`edge_probes.py` (log `out/edge-001.log`, never overwritten; run with the unpacked image from `tools/static/unlzexe.py`) executes the original bytes in Unicorn (image at segment 0x1000 with its relocations, original initialised data). Stubs and hypotheses, per probe: P2 returns at once from the near call of `1771:80DA` and writes the constant byte at `1771:822D` (hypothesis "shareware"); P3 writes the constant at `000E:7079`. Nothing in the file is changed.
+
+| Claim in F025 | Inputs / state it depends on | Check |
+| --- | --- | --- |
+| One match's term sign and size | fixture kind (in DS:0F3E or not: 3, 4, 7, 8+ are in), side, both country ratings, score, winner byte | P1: kinds 2 and 3, sides 0 and 1, ratings (1,128), (128,1), (49,49), six results: all rows in the log; the examples in F025 are lines 18-19, 31, 36-37, 54-55, 67, 72-73 |
+| Warnings at -7..-6 and -10..-8, sack at <= -11 | the AX score, signed 16-bit | P6: every s from -300 to 300 through the original compare chain from `3712`; the flag store at `37AC` |
+| Gates of `000E:0B77` | year word (unsigned), fixture kind, stage, group byte, +0xBE, score | P5: 6048 combinations equal the predicate (word 0, 1, 2, 0xFFFF; kind 1-3; stage 2-8; group 0, 1, 7; +0xBE 0, 1; 12 scores) |
+| Sum zeroed at stage-2/5 gates with a non-zero word | year word, 16-bit wrap | P4: `inc` then `675B`: word 0..0xFFFE keeps the fold, 0xFFFF wraps to 0 and skips it; the fold's own loop (all 128 countries, `+0x2E` index) is read, not run |
+| Grace period of two rises, displayed year | word, +0x3A, 16-bit | P7 (display value modulo 65536); `0B77` and `7072` use unsigned compares (P3, P5) |
+| Stage wrap 8 -> 2 and the rounds byte | stage, rounds byte, build constant at `822D` | P2: registered (0): wraps from every start; hypothesised (1): the stage stays 8 and the rounds byte counts 0, 255, ... (reaches 4 again after 252 more calls) |
+| `7072` fires at word >= 2 | build constant at `7079`, word | P3: constant 0 never; constant 1 exactly for word >= 2 unsigned |
+| Starting stage 2 or 5 | base year +0x3A (even), DS:118E | P8: 1990/1994/1998/2002 -> stage 5, 1992/1996/2000 -> stage 2 |
+| Sack effect, the SACKED screen, no new country, the shareware template use | menu state, flags `[A923]+0x47+m`, callers | read only (listing and searches); not emulated. Qualification: direct calls only |
+| `5E6C` draws one random number | none | read only (`seg_000E_07.asm:1010-1012`) |
+| `[A923]+m+1` is the group number | stage builders | read only (`60CB` use); writers not located |
+| `+0xBE` always 0 | saved games, computed-pointer stores | read only; `likely` |
+| "No terminal condition" | the three fields' direct references, Halt callers, constants 0 | `searches2.log`, `searches.log`; not covered: indirect arithmetic into the block, the 14 other constant tests |
+| Stage-8 continuation under a frozen stage | `74BE` acts on rounds 4..1 | read (`named/seg_1771_05.c:633-660`) plus P2's rounds trace; whether the added fixtures are played was not run |
