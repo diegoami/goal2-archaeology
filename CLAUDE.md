@@ -122,9 +122,7 @@ a rule that names a model. No quota, tier or difficulty table picks a model.
    Agent tool's model is not honoured), the main session implements directly, in its own git
    worktree (never the main checkout). Propose `harness.json`'s `implementer.default` first.
    Whatever the model, a subagent runs through the session's endpoint, so its family for the
-   reviewer rule is the session's (rule 0). OpenCode never implements: `implement.mjs` was
-   removed, because its runs died on rejected paths, resets and early ends and did not follow the
-   brief (L104). Whoever implements keeps `RUN-NOTES.md` in its worktree (`docs/running-notes.md`:
+   reviewer rule is the session's (rule 0). Whoever implements keeps `RUN-NOTES.md` in its worktree (`docs/running-notes.md`:
    the plan, a progress line per commit, an END block before stopping), pushes after every
    commit, and opens the PR. When a subagent ends, the main session reads its final report before
    acting and posts its notes on the issue.
