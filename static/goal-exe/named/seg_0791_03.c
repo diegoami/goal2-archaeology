@@ -79,9 +79,10 @@ int __stdcall16far f_0791_30EA(undefined4 param_1,int param_2)
 }
 
 
-// ---- 0791:3111  f_0791_3111  (f_0791_3111; Ghidra 2000:3111, __stdcall16far; found by routines.tsv)
+// ---- 0791:3111  pick_pass_target  (f_0791_3111; Ghidra 2000:3111, __stdcall16far; found by routines.tsv)
+// chooses the receiver of a pass for the holder pitch record: b = (player_effective_tactic k 3, long passes) is set, or (2C54 and not a keeper slot); threshold = DS:0778[b] (2 or 0x18) + draw_table_byte(); over the side's slots from 30EA(.,2) to 30EA(.,0xb) that are available, not the holder and not in state 13 it keeps the candidate whose Manhattan distance to the holder is below the threshold when b = 0 and above it when b = 1 (a coin breaks ties after the first); so element 3 set looks for a team-mate at least 24 + draw away, clear for one within 2 + draw; the draw table's values are 0..15  [likely; F026; read named/seg_0791_03.c]
 
-char __stdcall16far f_0791_3111(char *param_1)
+char __stdcall16far pick_pass_target(char *param_1)
 
 {
   char cVar1;
@@ -100,7 +101,7 @@ char __stdcall16far f_0791_3111(char *param_1)
   cVar1 = player_effective_tactic(pcVar7,uVar8,3);
   if ((cVar1 == '\0') &&
      ((cVar1 = f_0791_2C54(pcVar7,uVar8), cVar1 == '\0' ||
-      (cVar1 = f_0791_045D(pcVar7[6]), cVar1 != '\0')))) {
+      (cVar1 = is_keeper_slot(pcVar7[6]), cVar1 != '\0')))) {
     bVar2 = false;
   }
   else {
@@ -116,8 +117,8 @@ char __stdcall16far f_0791_3111(char *param_1)
       if (((((byte)pcVar7[6] != local_6) &&
            (cVar3 = player_unavailable_on_pitch((pitch *)pitch_records + local_6,0xb000),
            cVar3 == '\0')) &&
-          (cVar3 = f_0791_2D10((pitch *)pitch_records + local_6,0xb000,10), cVar3 == '\0')) &&
-         (*(char *)((int)&pitch_records[0].state + local_6 * 0x16) != '\r')) {
+          (cVar3 = ball_ahead_of_player_by((pitch *)pitch_records + local_6,0xb000,10),
+          cVar3 == '\0')) && (*(char *)((int)&pitch_records[0].state + local_6 * 0x16) != '\r')) {
         iVar4 = (int)(char)((pitch *)pitch_records + local_6)->x - (int)*param_1;
         if (iVar4 < 0) {
           iVar4 = -iVar4;
@@ -164,7 +165,7 @@ void __stdcall16far f_0791_3323(undefined4 param_1)
   undefined2 uVar2;
   
   uVar2 = (undefined2)((ulong)param_1 >> 0x10);
-  uVar1 = f_0791_3111((int)param_1,uVar2);
+  uVar1 = pick_pass_target((int)param_1,uVar2);
   move_ball_to_slot((int)param_1,uVar2,uVar1);
   return;
 }
@@ -335,7 +336,7 @@ void __stdcall16far launch_ball(undefined4 param_1,uint param_2,undefined2 param
   if (param_2 == 6) {
     bVar8 = ball_record.timer == 0x14;
     if (ball_record.timer < 0x15) {
-      cVar1 = f_0791_045D(*(undefined1 *)(iVar6 + 6));
+      cVar1 = is_keeper_slot(*(undefined1 *)(iVar6 + 6));
       bVar8 = cVar1 == '\0';
       if (!bVar8) {
         cVar1 = f_0791_2EB8(iVar6,uVar7,ball_record._0_2_);
@@ -357,7 +358,7 @@ void __stdcall16far launch_ball(undefined4 param_1,uint param_2,undefined2 param
       if ((((param_2 != 8) && (1 < ball_record.timer)) && (DS:830B != DS:830C)) &&
          (cVar1 = skill_draw_passes(iVar6,uVar7,*(undefined1 *)(param_2 + 0x779)), cVar1 == '\0')) {
         DS:830C = '\0';
-        cVar1 = f_0791_045D(*(undefined1 *)(iVar6 + 6));
+        cVar1 = is_keeper_slot(*(undefined1 *)(iVar6 + 6));
         if (cVar1 == '\0') {
           cVar1 = u214b_random_coin_flip();
           if ((cVar1 == '\0') && (DS:8323 == '\0')) {
@@ -880,7 +881,7 @@ void __stdcall16far f_0791_3FAD(char *param_1,int param_2)
   cVar1 = u214b_random_coin_flip();
   pcVar3 = (char *)param_1;
   uVar4 = (undefined2)((ulong)param_1 >> 0x10);
-  if ((cVar1 == '\0') && (cVar1 = f_0791_045D(pcVar3[6]), cVar1 == '\0')) {
+  if ((cVar1 == '\0') && (cVar1 = is_keeper_slot(pcVar3[6]), cVar1 == '\0')) {
     cVar1 = u214b_random_1_to_n(8);
     local_4 = CONCAT11(((char *)form_delta)['\0' < pcVar3[1]] * '2',
                        ((char *)form_delta)['\0' < *param_1] * (cVar1 + '\x02'));
@@ -1009,28 +1010,28 @@ void __cdecl16near f_0791_419C(void)
     if (local_5 <= uVar3) {
       while( true ) {
         iVar2 = local_5 * 0x16;
-        *(undefined2 *)((int)&pitch_records[0].field_0x9 + iVar2) =
+        *(undefined2 *)((int)&pitch_records[0].home_x + iVar2) =
              *(undefined2 *)
               ((uint)((player *)players)[*(int *)((int)&pitch_records[0].player_index + iVar2)].
                      position * 2 + 0x79e);
         if ((*(byte *)(local_3 + 0x668) + 1 < local_5) &&
-           (*(int *)((int)&pitch_records[0].field_0x9 + local_7 * 0x16) ==
-            *(int *)((int)&pitch_records[0].field_0x9 + iVar2))) {
-          iVar4 = (int)*(char *)((int)&pitch_records[0].field_0x9 + iVar2);
+           (*(int *)((int)&pitch_records[0].home_x + local_7 * 0x16) ==
+            *(int *)((int)&pitch_records[0].home_x + iVar2))) {
+          iVar4 = (int)*(char *)((int)&pitch_records[0].home_x + iVar2);
           if (iVar4 < 0) {
             iVar4 = -iVar4;
           }
           if (iVar4 < 5) {
-            pcVar1 = (char *)((int)&pitch_records[0].field_0x9 + iVar2);
+            pcVar1 = (char *)((int)&pitch_records[0].home_x + iVar2);
             *pcVar1 = *pcVar1 + '\x03';
-            pcVar1 = (char *)((int)&pitch_records[0].field_0x9 + local_7 * 0x16);
+            pcVar1 = (char *)((int)&pitch_records[0].home_x + local_7 * 0x16);
             *pcVar1 = *pcVar1 + -3;
           }
           else {
-            pcVar1 = (char *)((int)&pitch_records[0].field_0x9 + iVar2);
+            pcVar1 = (char *)((int)&pitch_records[0].home_x + iVar2);
             *pcVar1 = *pcVar1 + ((char *)form_delta)
-                                ['\0' < *(char *)((int)&pitch_records[0].field_0x9 + iVar2)] * -3;
-            pcVar1 = (char *)((int)&pitch_records[0].field_0xa + local_7 * 0x16);
+                                ['\0' < *(char *)((int)&pitch_records[0].home_x + iVar2)] * -3;
+            pcVar1 = (char *)((int)&pitch_records[0].home_y + local_7 * 0x16);
             *pcVar1 = *pcVar1 + -3;
           }
         }
@@ -1046,9 +1047,10 @@ void __cdecl16near f_0791_419C(void)
 }
 
 
-// ---- 0791:42CB  f_0791_42CB  (f_0791_42CB; Ghidra 2000:42CB, __stdcall16far; found by routines.tsv)
+// ---- 0791:42CB  tactic_depth_class  (f_0791_42CB; Ghidra 2000:42CB, __stdcall16far; found by routines.tsv)
+// the player's line class 1..4 used to index the depth tables DS:07CB and DS:07DB: 4 for a goalkeeper (position 0), else DS:07BA[2 * (position > 4) + f] (03 02 02 01) with f = 1 unless (position < 12 and (effective element 1 clear or the slot is not on the ball's side)); so push forward (element 1) with the slot's side holding the ball lowers the class by one (more advanced); position 0 means the keeper, 1-4 defenders, 5 and up the others  [likely; F026; read named/seg_0791_03.c]
 
-undefined4 __stdcall16far f_0791_42CB(undefined4 param_1)
+undefined4 __stdcall16far tactic_depth_class(undefined4 param_1)
 
 {
   long lVar1;
@@ -1087,9 +1089,10 @@ undefined4 __stdcall16far f_0791_42CB(undefined4 param_1)
 }
 
 
-// ---- 0791:4354  f_0791_4354  (f_0791_4354; Ghidra 2000:4354, __stdcall16far; found by routines.tsv)
+// ---- 0791:4354  set_destination_from_home  (f_0791_4354; Ghidra 2000:4354, __stdcall16far; found by routines.tsv)
+// pitch +8 = home row +0xA + row offset +0xC and +7 = home column +9 + column offset +0xB, the column offset a draw (1..5) - 3, (1..15) - 8 for position 13 outside state 9, 0 for the keeper, minus half the home column while +0xC < 2; then 2C86 clamps the destination word (+7)  [likely; F026; read named/seg_0791_03.c]
 
-void __stdcall16far f_0791_4354(undefined4 param_1)
+void __stdcall16far set_destination_from_home(undefined4 param_1)
 
 {
   byte bVar1;
@@ -1200,71 +1203,4 @@ uint __stdcall16far f_0791_44C1(char *param_1,undefined2 param_2)
     }
   }
   return in_AX & 0xff00;
-}
-
-
-// ---- 0791:4532  f_0791_4532  (f_0791_4532; Ghidra 2000:4532, __stdcall16near; found by routines.tsv)
-
-undefined1 f_0791_4532(int param_1)
-
-{
-  char cVar1;
-  int iVar2;
-  undefined2 unaff_SS;
-  undefined1 local_3;
-  
-  local_3 = 0;
-  iVar2 = f_0791_42CB((int)*(undefined4 *)(param_1 + 6),
-                      (int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10));
-  cVar1 = player_effective_tactic
-                    ((int)*(undefined4 *)(param_1 + 6),
-                     (int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10),7);
-  if ((int)*(char *)((int)*(undefined4 *)(param_1 + 6) + 0xc) <
-      (int)(uint)*(byte *)(cVar1 * 4 + iVar2 + 0x7db)) {
-    iVar2 = f_0791_42CB((int)*(undefined4 *)(param_1 + 6),
-                        (int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10));
-    if (iVar2 == 1) {
-      cVar1 = f_0791_2D10((int)*(undefined4 *)(param_1 + 6),
-                          (int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10),0);
-      if (((cVar1 == '\0') &&
-          (cVar1 = player_effective_tactic
-                             ((int)*(undefined4 *)(param_1 + 6),
-                              (int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10),1), cVar1 == '\0'))
-         && (cVar1 = u214b_random_coin_flip(), cVar1 == '\0')) {
-        local_3 = 0;
-      }
-      else {
-        local_3 = 1;
-      }
-    }
-    else if (iVar2 == 2) {
-      cVar1 = f_0791_2D10((int)*(undefined4 *)(param_1 + 6),
-                          (int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10),0);
-      if ((cVar1 == '\0') &&
-         (cVar1 = player_effective_tactic
-                            ((int)*(undefined4 *)(param_1 + 6),
-                             (int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10),1), cVar1 == '\0'))
-      {
-        local_3 = 0;
-      }
-      else {
-        local_3 = 1;
-      }
-    }
-    else if (iVar2 == 3) {
-      cVar1 = f_0791_2D10((int)*(undefined4 *)(param_1 + 6),
-                          (int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10),0x1e);
-      if ((cVar1 == '\0') &&
-         (cVar1 = player_effective_tactic
-                            ((int)*(undefined4 *)(param_1 + 6),
-                             (int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10),7), cVar1 == '\0'))
-      {
-        local_3 = 0;
-      }
-      else {
-        local_3 = 1;
-      }
-    }
-  }
-  return local_3;
 }

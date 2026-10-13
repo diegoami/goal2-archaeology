@@ -73,7 +73,7 @@ undefined1 write_commentary_line(undefined1 param_1,int param_2,int param_3,char
   local_3 = 0;
   if ((pitch_records[0]._6_2_ == 0) ||
      (cVar4 = commentary_record_is_new(&stack0xfffe), cVar4 != '\0')) {
-    piVar1 = (int *)((int)&pitch_records[0].field_0xa + param_4 * 2);
+    piVar1 = (int *)((int)&pitch_records[0].home_y + param_4 * 2);
     *piVar1 = *piVar1 + 1;
     u214b_wrap_add_in_range(1,200,1,0x80ee,0xb000);
     iVar3 = pitch_records[0]._6_2_ * 6;
@@ -95,7 +95,8 @@ undefined1 write_commentary_line(undefined1 param_1,int param_2,int param_3,char
       *(word *)((int)(word *)&man_of_the_match + iVar3 + 1) = pcVar5[iVar2].squad[param_2 + -1];
     }
     *(char *)(iVar3 + 0x7c3d) = param_4;
-    local_5 = pitch_records[0]._6_2_;
+    local_5._0_1_ = pitch_records[0].side;
+    local_5._1_1_ = pitch_records[0].dest_x;
     u214b_wrap_add_in_range(1,200,1,&local_5,unaff_SS);
     ((undefined1 *)&DS:7C38)[local_5 * 6] = 0xff;
     local_3 = 1;
@@ -139,7 +140,8 @@ void emit_commentary(undefined1 param_1,undefined2 param_2,undefined2 param_3,un
   if (cVar1 != '\0') {
     iVar2 = pitch_records[0]._6_2_ + -2;
     if (iVar2 <= (int)pitch_records[0]._6_2_) {
-      local_4 = pitch_records[0]._6_2_;
+      local_4._0_1_ = pitch_records[0].side;
+      local_4._1_1_ = pitch_records[0].dest_x;
       while( true ) {
         if (0 < local_4) {
           f_0791_1829(0x21,4 - (pitch_records[0]._6_2_ - local_4),local_4);
@@ -423,8 +425,10 @@ void __cdecl16near resort_pitch_and_bench(void)
   f_0791_0691();
   assign_marking_slots();
   f_0791_419C();
-  pitch_records[1]._11_2_ = 0;
-  pitch_records[0xc]._11_2_ = 0;
+  pitch_records[1].offset_x = 0;
+  pitch_records[1].offset_y = 0;
+  pitch_records[0xc].offset_x = 0;
+  pitch_records[0xc].offset_y = 0;
   return;
 }
 
@@ -939,9 +943,10 @@ undefined2 __stdcall16far player_at_ball(int *param_1)
 }
 
 
-// ---- 0791:2D10  f_0791_2D10  (f_0791_2D10; Ghidra 2000:2D10, __stdcall16far; found by routines.tsv)
+// ---- 0791:2D10  ball_ahead_of_player_by  (f_0791_2D10; Ghidra 2000:2D10, __stdcall16far; found by routines.tsv)
+// (pitch, n): 1 when ball y * attack_direction exceeds the player's y * attack_direction by more than n (the ball is more than n rows nearer the player's attacking end)  [likely; F026; read named/seg_0791_02.c]
 
-undefined2 __stdcall16far f_0791_2D10(undefined4 param_1,uint param_2)
+undefined2 __stdcall16far ball_ahead_of_player_by(undefined4 param_1,uint param_2)
 
 {
   char cVar1;
@@ -971,9 +976,10 @@ undefined2 __stdcall16far f_0791_2D10(undefined4 param_1,uint param_2)
 }
 
 
-// ---- 0791:2D6D  f_0791_2D6D  (f_0791_2D6D; Ghidra 2000:2D6D, __stdcall16far; found by routines.tsv)
+// ---- 0791:2D6D  player_ahead_of_ball_by  (f_0791_2D6D; Ghidra 2000:2D6D, __stdcall16far; found by routines.tsv)
+// (pitch, n): 1 when the player's y * attack_direction exceeds the ball's y * attack_direction by more than n  [likely; F026; read named/seg_0791_02.c]
 
-undefined2 __stdcall16far f_0791_2D6D(undefined4 param_1,uint param_2)
+undefined2 __stdcall16far player_ahead_of_ball_by(undefined4 param_1,uint param_2)
 
 {
   char cVar1;
