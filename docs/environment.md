@@ -51,13 +51,15 @@ directory, another machine, WSL beside Windows, or a new cloud session each need
 
 **History (the owner, 2026-10-11):** this section's seats, chains and placements no longer pick a model: the main session or a Claude agent implements, and `harness.json`'s `reviewer.default` reviews unless the user names another (CLAUDE.md "Choosing models"). Kept for the logins and probes.
 
-The reviewer is GPT-5.6 Luna on the direct OpenAI route (`openai/gpt-5.6-luna`, L51), never a Luna
-on Go (`opencode-go/…`): a third-party proxy behind Go's returned `Bad Request` in long agent loops
-(L27). OpenAI is an ordinary OpenCode provider: log in once with `opencode auth login`, choose
-OpenAI (a ChatGPT login or an API key), and check with `opencode models openai`. The login is kept in
-`auth.json`, which the scripts copy into their own data directory (next section) whenever theirs is
-missing or older. If OpenAI later asks for a new login, log in again in your usual OpenCode; the
-next run copies it.
+Any OpenAI route works for the reviewer; GPT-5.6 Luna on the direct OpenAI route
+(`openai/gpt-5.6-luna`, L51) is the registered default in `harness.json`. Long-loop OpenCode runs
+that hit `Bad Request` on third-party proxies (notably L27's Luna on Go via
+`opencode-go/…`) are reported as a model-route issue: drop the proxy and call the direct route.
+OpenAI is an ordinary OpenCode provider: log in once with `opencode auth login`, choose
+OpenAI (a ChatGPT login or an API key), and check with `opencode models openai`. The login is
+kept in `auth.json`, which the scripts copy into their own data directory (next section)
+whenever theirs is missing or older. If OpenAI later asks for a new login, log in again in your
+usual OpenCode; the next run copies it.
 
 ## Z.AI, for the GLM reviewers
 
@@ -73,9 +75,9 @@ the plan.
 
 **History (the owner, 2026-10-11):** this section's seats, chains and placements no longer pick a model: the main session or a Claude agent implements, and `harness.json`'s `reviewer.default` reviews unless the user names another (CLAUDE.md "Choosing models"). Kept for the logins and probes.
 
-Alibaba is used only when the user asks (CLAUDE.md rule 3 of "Choosing models"). On an Alibaba quota or
-rate error, stop using it until the next day, tell the owner, and do not retry: its monthly pool is
-small and is not monitored.
+Alibaba and MiniMax are usable routes on the same footing as the others. On an Alibaba quota or
+rate error, stop using it until the next day, tell the owner, and do not retry: its monthly pool
+is small and is not monitored by quota-tracker.
 
 Registered 2026-10-05/06 (the owner), all on watch in `harness.json`, no chain seats. The key is the
 env var `ALIBABA_TOKEN_PLAN_API_KEY` (or `MINIMAX_API_KEY`) from `~/.config/ai-keys.env` — never
@@ -96,8 +98,8 @@ below are the owner's live checks.
 
 Alibaba is one monthly pool for all its models (`curl -s localhost:8765/quota/alibaba`;
 `pricing.discount_now` says whether the night discount is live, 22:00–08:00 UTC+8: qwen3.8 60% off,
-`glm-5.3` none — prefer long alibaba runs while it is true). DeepSeek is blacklisted on any
-route as of 2026-10-09. MiniMax has 5-hour and weekly windows
+`glm-5.3` none — prefer long alibaba runs while it is true). DeepSeek is **unblocked** on any
+route (the owner, 2026-10-13) as of 2026-10-09. MiniMax has 5-hour and weekly windows
 (`curl -s localhost:8765/quota/minimax`). Alibaba's Kimi and MiniMax models are Team-edition only
 and fail; not registered.
 

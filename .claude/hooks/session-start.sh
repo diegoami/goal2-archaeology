@@ -34,9 +34,12 @@ on_off() { if [ -n "${!1:-}" ]; then echo "set"; else echo "MISSING"; fi; }
 echo "Harness environment:"
 echo "- node $(node --version 2>/dev/null || echo none), opencode $(opencode --version 2>/dev/null || echo none), gh $(gh --version 2>/dev/null | head -1 | awk '{print $3}' || echo none)"
 oc_data="${HARNESS_OPENCODE_HOME:-$HOME/.local/share/harness-opencode}/data"
-echo "- OpenAI (the default reviewer, openai/gpt-5.6-luna; Sol for hard research): $(opencode models openai 2>/dev/null | grep -q . && echo "logged in" || echo "NOT logged in: opencode auth login, then choose OpenAI")"
-echo "- Z.AI (reviewers zai-coding-plan/glm-5.3 and glm-5.3-flash): $(opencode models zai-coding-plan 2>/dev/null | grep -q . && echo "logged in" || echo "NOT logged in: opencode auth login, then choose Z.AI Coding Plan")"
-echo "- OpenCode Go (reviewers opencode-go/mimo-*): $(XDG_DATA_HOME="$oc_data" opencode models opencode-go 2>/dev/null | grep -q . && echo "logged in" || echo "NOT logged in for the scripts' data directory: XDG_DATA_HOME=$oc_data opencode console login")"
+echo "- OpenAI (openai/*, harness.json's registered reviewer default): $(opencode models openai 2>/dev/null | grep -q . && echo "logged in" || echo "NOT logged in: opencode auth login, then choose OpenAI")"
+echo "- Z.AI (zai-coding-plan/glm-5.3 and glm-5.3-flash): $(opencode models zai-coding-plan 2>/dev/null | grep -q . && echo "logged in" || echo "NOT logged in: opencode auth login, then choose Z.AI Coding Plan")"
+echo "- OpenCode Go (opencode-go/mimo-*): $(XDG_DATA_HOME="$oc_data" opencode models opencode-go 2>/dev/null | grep -q . && echo "logged in" || echo "NOT logged in for the scripts' data directory: XDG_DATA_HOME=$oc_data opencode console login")"
+echo "- Alibaba Token Plan (alibaba-token-plan/*, unblocked since 2026-10-13): ALIBABA_TOKEN_PLAN_API_KEY $(on_off ALIBABA_TOKEN_PLAN_API_KEY)"
+echo "- MiniMax (minimax/*, the orchestrator's family on MiniMax; same key as the orchestrator): MINIMAX_API_KEY $(on_off MINIMAX_API_KEY)"
+echo "- DeepSeek (deepseek-v4-pro / deepseek-v4.1-flash, unblocked since 2026-10-13; route via OpenRouter or direct): $(opencode models openrouter 2>/dev/null | grep -qi 'deepseek' && echo "reachable through openrouter/*" || echo "OPENROUTER_API_KEY: $(on_off OPENROUTER_API_KEY)")"
 echo "- OPENCODE_API_KEY: $(on_off OPENCODE_API_KEY) (OpenCode Zen's opencode/* models, only if harness.json names any)"
 echo "- OPENROUTER_API_KEY: $(on_off OPENROUTER_API_KEY) (Jev decisions, image models, and OpenCode's openrouter/* models)"
 echo "- ELEVENLABS_API_KEY: $(on_off ELEVENLABS_API_KEY) (speech, sound effects, music; /delegate)"
@@ -47,8 +50,8 @@ fi
 for n in "${notes[@]}"; do echo "  Setup: $n"; done
 # the harness's own resolver (lib/common.mjs sessionFamily), so the hook and review.mjs agree (Sol's R4 on PR 149)
 fam=$(node --input-type=module -e "import('./tools/harness/lib/common.mjs').then((m) => console.log(m.sessionFamily() ?? 'unknown (set HARNESS_SESSION_FAMILY)'))" 2>/dev/null || echo "unknown (node failed)")
-echo "- This session's family: $fam (from the Anthropic environment; the implementer's family, never the reviewer's)"
+echo "- This session's family: $fam (from the Anthropic environment)"
 echo "- Defaults (harness.json, switched with /switch-model): implementer $(node -p "require('./harness.json').implementer.default" 2>/dev/null || echo ?), reviewer $(node -p "require('./harness.json').reviewer.default" 2>/dev/null || echo ?), blocked $(node -p "require('./harness.json').blocked.join(', ')" 2>/dev/null || echo ?)"
-echo "Who does what (CLAUDE.md, Choosing models): the main session asks before each implementation (which subagent, or itself directly) and each review (an OpenCode model), proposing these defaults."
+echo "Who does what (CLAUDE.md, Choosing models): the main session asks before each implementation (which subagent, or itself directly) and each review (an OpenCode model), proposing these defaults. There are no fixed model rules — any model can implement or review unless it is in `harness.json`'s `blocked` array."
 echo "See docs/environment.md for what each key needs and which hosts the network policy must allow."
 exit 0

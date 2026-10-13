@@ -85,25 +85,25 @@
       "id": "alibaba-token-plan/glm-5.3",
       "family": "glm",
       "variant": "low",
-      "note": "GLM-5.3 on the Alibaba Token Plan at low: the same model as glm on another route. Alibaba only when the user asks; key: the env var ALIBABA_TOKEN_PLAN_API_KEY, never opencode auth login it."
+      "note": "GLM-5.3 on the Alibaba Token Plan at low: the same model as glm on another route. Key: the env var ALIBABA_TOKEN_PLAN_API_KEY; do not log in via `opencode auth login` for this provider — the key alone is enough."
     },
     "ali-qwen-max": {
       "id": "alibaba-token-plan/qwen3.8-max",
       "family": "qwen",
       "variant": "low",
-      "note": "Qwen 3.8 Max on the Alibaba Token Plan at low; heavy; a family nothing else here shares. Alibaba only when the user asks; key as ali-glm."
+      "note": "Qwen 3.8 Max on the Alibaba Token Plan at low; heavy; a family nothing else here shares. Key as ali-glm."
     },
     "ali-qwen-flash": {
       "id": "alibaba-token-plan/qwen3.8-flash",
       "family": "qwen",
       "variant": "medium",
-      "note": "Qwen 3.8 Flash on the Alibaba Token Plan at medium (no plain high); light. Alibaba only when the user asks; key as ali-glm."
+      "note": "Qwen 3.8 Flash on the Alibaba Token Plan at medium (no plain high); light. Key as ali-glm."
     },
     "mm-m3": {
       "id": "minimax/MiniMax-M3",
       "family": "minimax",
       "variant": "thinking",
-      "note": "MiniMax-M3, variant thinking (it offers only none and thinking), heavy; a family of its own. Key: the env var MINIMAX_API_KEY (pass it to the unit with -E); never opencode auth login it."
+      "note": "MiniMax-M3, variant thinking (it offers only none and thinking), heavy; a family of its own. Key: the env var MINIMAX_API_KEY (pass it to the unit with -E); do not log in via `opencode auth login` for this provider — the key alone is enough."
     },
     "mm-m2.7": {
       "id": "minimax/MiniMax-M2.7",
