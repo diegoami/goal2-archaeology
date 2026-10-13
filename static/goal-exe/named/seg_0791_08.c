@@ -777,7 +777,7 @@ void prepare_computer_sides(undefined4 param_1)
             ((byte *)decider_kinds,0xb000,
              CONCAT11((char)((ulong)uVar1 >> 8),*(undefined1 *)(iVar2 + 2)));
   DS:7C36 = !bVar5;
-  pitch_records[0].activity._0_1_ = f_0791_D44C(iVar2,uVar4);
+  pitch_records[0].activity._0_1_ = second_team_is_host(iVar2,uVar4);
   DS:9976 = *(undefined1 *)(iVar2 + 1);
   DS:7C2A._0_2_ = iVar2;
   DS:7C2A._2_2_ = uVar4;
@@ -787,7 +787,7 @@ void prepare_computer_sides(undefined4 param_1)
   while( true ) {
     cVar3 = is_managed(*(undefined2 *)(iVar2 + local_3 * 2 + 4));
     if (cVar3 == '\0') {
-      f_0791_B11F(*(undefined2 *)(iVar2 + local_3 * 2 + 4));
+      choose_computer_lineup(*(undefined2 *)(iVar2 + local_3 * 2 + 4));
       reset_own_tactics(*(undefined2 *)(iVar2 + local_3 * 2 + 4));
       computer_tactic_change(CONCAT11(extraout_AH,local_3));
     }
@@ -899,9 +899,10 @@ void f_0791_A699(undefined4 param_1)
 }
 
 
-// ---- 0791:A6E4  f_0791_A6E4  (f_0791_A6E4; Ghidra 2000:A6E4, __stdcall16near; found by routines.tsv)
+// ---- 0791:A6E4  host_country  (f_0791_A6E4; Ghidra 2000:A6E4, __stdcall16near; found by routines.tsv)
+// the venue's host country for a fixture: the fixture's second team (+6) unless 1771:5A03 (fixture_kind_in_result_set) holds for the fixture, then the country stored at [A923] + 0x2C + 2 * continent, where continent is the fixture's second country's continent (country +0x2C, read at A72E), or slot 5 when [A923]+0x40 is set  [likely; F024; read code/seg_0791_17.asm:487-536]
 
-undefined2 f_0791_A6E4(undefined4 param_1)
+undefined2 host_country(undefined4 param_1)
 
 {
   int iVar1;
@@ -975,7 +976,7 @@ void __cdecl16near f_0791_A75D(void)
     if (local_3 == '\x01') break;
     local_3 = local_3 + '\x01';
   }
-  uVar2 = f_0791_A6E4((int)DS:7C2A,(int)((ulong)DS:7C2A >> 0x10));
+  uVar2 = host_country((int)DS:7C2A,(int)((ulong)DS:7C2A >> 0x10));
   draw_country_name(0x26,7,uVar2);
   return;
 }

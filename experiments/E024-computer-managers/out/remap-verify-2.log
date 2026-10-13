@@ -1,0 +1,63 @@
+experiments/E014-q013-ageing/notes.md:107  named/seg_0791_09.c:28 -> named/seg_0791_09.c:123  (exact; same code text: yes) | LAB_0791_B08B:
+experiments/E014-q013-ageing/notes.md:107  named/seg_0791_09.c:67 -> named/seg_0791_09.c:163  (approx; same code text: NO) | void __stdcall16far f_0791_B11F(undefined2 param_1)
+experiments/E014-q013-ageing/notes.md:263  named/seg_0791_09.c:393 -> named/seg_0791_09.c:490  (exact; same code text: yes) | {
+experiments/E014-q013-ageing/notes.md:263  named/seg_0791_09.c:417 -> named/seg_0791_09.c:514  (exact; same code text: yes) | else {
+experiments/E017-q015-energy/notes.md:245  named/seg_0791_10.c:969 -> named/seg_0791_11.c:55  (exact; same code text: yes) | {
+experiments/E017-q015-energy/notes.md:245  named/seg_0791_10.c:980 -> named/seg_0791_11.c:66  (exact; same code text: yes) | undefined2 uVar11;
+experiments/E017-q015-energy/notes.md:261  named/seg_0791_09.c:320 -> named/seg_0791_09.c:417  (exact; same code text: yes) | 
+experiments/E017-q015-energy/notes.md:261  named/seg_0791_09.c:358 -> named/seg_0791_09.c:455  (exact; same code text: yes) | uVar7 = (undefined2)((ulong)param_2 >> 0x10);
+experiments/E018-q016-confidence/notes.md:35  named/seg_0791_09.c:219 -> named/seg_0791_09.c:316  (exact; same code text: yes) | uVar4 = (undefined2)((ulong)players >> 0x10);
+experiments/E018-q016-confidence/notes.md:35  named/seg_0791_09.c:279 -> named/seg_0791_09.c:376  (exact; same code text: yes) | // selects silent-result scorers, updates scorer tables and 
+experiments/E018-q016-confidence/notes.md:40  named/seg_0791_11.c:674 -> named/seg_0791_11.c:837  (exact; same code text: yes) | }
+experiments/E018-q016-confidence/notes.md:40  named/seg_0791_11.c:700 -> named/seg_0791_11.c:863  (exact; same code text: yes) | uVar4 = (undefined2)((ulong)DS:A923 >> 0x10);
+experiments/E018-q016-confidence/notes.md:48  named/seg_0791_11.c:632 -> named/seg_0791_11.c:795  (exact; same code text: yes) | resort_pitch_and_bench();
+experiments/E018-q016-confidence/notes.md:48  named/seg_0791_11.c:649 -> named/seg_0791_11.c:812  (exact; same code text: yes) | bVar6 = true;
+experiments/E018-q016-confidence/notes.md:48  named/seg_0791_11.c:674 -> named/seg_0791_11.c:837  (exact; same code text: yes) | }
+experiments/E018-q016-confidence/notes.md:56  named/seg_0791_09.c:96 -> named/seg_0791_09.c:193  (exact; same code text: yes) | if ((bVar2) || ((char)DS:9B3C != DS:9B3C._1_1_)) {
+experiments/E018-q016-confidence/notes.md:56  named/seg_0791_09.c:116 -> named/seg_0791_09.c:213  (exact; same code text: yes) | char local_3;
+experiments/E018-q016-confidence/notes.md:58  named/seg_0791_09.c:324 -> named/seg_0791_09.c:421  (exact; same code text: yes) | void __stdcall16far add_manager_delta(int param_1,int param_
+experiments/E018-q016-confidence/notes.md:103  named/seg_0791_08.c:1118 -> named/seg_0791_09.c:70  (exact; same code text: yes) | bVar8 = (player *)players + pcVar3[iVar1].squad[param_2 + -1
+experiments/E018-q016-confidence/notes.md:103  named/seg_0791_08.c:1126 -> named/seg_0791_09.c:78  (exact; same code text: yes) | }
+experiments/E018-q016-confidence/notes.md:104  named/seg_0791_10.c:62 -> named/seg_0791_10.c:217  (exact; same code text: yes) | resort_pitch_and_bench();
+experiments/E018-q016-confidence/notes.md:104  named/seg_0791_10.c:83 -> named/seg_0791_10.c:238  (exact; same code text: yes) | char cVar1;
+experiments/E018-q016-confidence/notes.md:105  named/seg_0791_11.c:632 -> named/seg_0791_11.c:795  (exact; same code text: yes) | resort_pitch_and_bench();
+experiments/E018-q016-confidence/notes.md:105  named/seg_0791_11.c:649 -> named/seg_0791_11.c:812  (exact; same code text: yes) | bVar6 = true;
+experiments/E018-q016-confidence/notes.md:113  named/seg_0791_09.c:104 -> named/seg_0791_09.c:201  (exact; same code text: yes) | 
+experiments/E018-q016-confidence/notes.md:113  named/seg_0791_09.c:112 -> named/seg_0791_09.c:209  (exact; same code text: yes) | char *pcVar1;
+experiments/E018-q016-confidence/notes.md:115  named/seg_0791_09.c:297 -> named/seg_0791_09.c:394  (exact; same code text: yes) | iVar4 = (int)param_1;
+experiments/E018-q016-confidence/notes.md:115  named/seg_0791_09.c:312 -> named/seg_0791_09.c:409  (exact; same code text: yes) | adjust_player_confidence(1,wVar3);
+experiments/E018-q016-confidence/notes.md:116  named/seg_0791_09.c:340 -> named/seg_0791_09.c:437  (exact; same code text: yes) | }
+experiments/E018-q016-confidence/notes.md:123  named/seg_0791_11.c:674 -> named/seg_0791_11.c:837  (exact; same code text: yes) | }
+experiments/E018-q016-confidence/notes.md:132  named/seg_0791_09.c:214 -> named/seg_0791_09.c:311  (exact; same code text: yes) | undefined4 local_10;
+experiments/E018-q016-confidence/notes.md:132  named/seg_0791_09.c:230 -> named/seg_0791_09.c:327  (exact; same code text: yes) | while( true ) {
+experiments/E019-q017-events-morale/notes.md:299  named/seg_0791_08.c:1118 -> named/seg_0791_09.c:70  (exact; same code text: yes) | bVar8 = (player *)players + pcVar3[iVar1].squad[param_2 + -1
+experiments/E019-q017-events-morale/notes.md:309  named/seg_0791_10.c:62 -> named/seg_0791_10.c:217  (exact; same code text: yes) | resort_pitch_and_bench();
+experiments/E019-q017-events-morale/notes.md:310  named/seg_0791_11.c:632 -> named/seg_0791_11.c:795  (exact; same code text: yes) | resort_pitch_and_bench();
+experiments/E019-q017-events-morale/notes.md:317  named/seg_0791_09.c:104 -> named/seg_0791_09.c:201  (exact; same code text: yes) | 
+experiments/E019-q017-events-morale/notes.md:319  named/seg_0791_09.c:297 -> named/seg_0791_09.c:394  (exact; same code text: yes) | iVar4 = (int)param_1;
+experiments/E019-q017-events-morale/notes.md:320  named/seg_0791_09.c:340 -> named/seg_0791_09.c:437  (exact; same code text: yes) | }
+experiments/E019-q017-events-morale/notes.md:326  named/seg_0791_11.c:674 -> named/seg_0791_11.c:837  (exact; same code text: yes) | }
+findings/F018-energy-is-expended-in-matches-and-restored-from-fitness.md:164  named/seg_0791_10.c:969 -> named/seg_0791_11.c:55  (exact; same code text: yes) | {
+findings/F019-confidence-follows-result-relative-to-country-ranks.md:45  named/seg_0791_09.c:224 -> named/seg_0791_09.c:321  (exact; same code text: yes) | else {
+findings/F019-confidence-follows-result-relative-to-country-ranks.md:46  named/seg_0791_08.c:1110 -> named/seg_0791_09.c:62  (exact; same code text: yes) | (0xad4f,0xa000,
+findings/F019-confidence-follows-result-relative-to-country-ranks.md:92  named/seg_0791_09.c:219 -> named/seg_0791_09.c:316  (exact; same code text: yes) | uVar4 = (undefined2)((ulong)players >> 0x10);
+findings/F019-confidence-follows-result-relative-to-country-ranks.md:102  named/seg_0791_09.c:96 -> named/seg_0791_09.c:193  (exact; same code text: yes) | if ((bVar2) || ((char)DS:9B3C != DS:9B3C._1_1_)) {
+findings/F019-confidence-follows-result-relative-to-country-ranks.md:104  named/seg_0791_11.c:632 -> named/seg_0791_11.c:795  (exact; same code text: yes) | resort_pitch_and_bench();
+findings/F019-confidence-follows-result-relative-to-country-ranks.md:104  named/seg_0791_11.c:674 -> named/seg_0791_11.c:837  (exact; same code text: yes) | }
+findings/F019-confidence-follows-result-relative-to-country-ranks.md:106  named/seg_0791_09.c:297 -> named/seg_0791_09.c:394  (exact; same code text: yes) | iVar4 = (int)param_1;
+findings/F019-confidence-follows-result-relative-to-country-ranks.md:118  named/seg_0791_09.c:340 -> named/seg_0791_09.c:437  (exact; same code text: yes) | }
+findings/F020-events-change-confidence-and-team-morale-aggregates-it.md:216  named/seg_0791_08.c:1118 -> named/seg_0791_09.c:70  (exact; same code text: yes) | bVar8 = (player *)players + pcVar3[iVar1].squad[param_2 + -1
+findings/F028-formations-are-posts-by-position-code-and-out-of-position-costs-one-halving-flag.md:19  named/seg_0791_09.c:599 -> named/seg_0791_09.c:696  (exact; same code text: yes) | // ---- 0791:BC5D  reset_team_tactics  (f_0791_BC5D; Ghidra 
+findings/F028-formations-are-posts-by-position-code-and-out-of-position-costs-one-halving-flag.md:19  named/seg_0791_09.c:621 -> named/seg_0791_09.c:718  (exact; same code text: yes) | for (local_4 = 1;
+findings/F028-formations-are-posts-by-position-code-and-out-of-position-costs-one-halving-flag.md:19  named/seg_0791_09.c:623 -> named/seg_0791_09.c:720  (exact; same code text: yes) | *(byte *)(param_1 * 0x14 + local_4 + -0x60fe), local_4 != 0x
+findings/F028-formations-are-posts-by-position-code-and-out-of-position-costs-one-halving-flag.md:205  named/seg_0791_09.c:623 -> named/seg_0791_09.c:720  (exact; same code text: yes) | *(byte *)(param_1 * 0x14 + local_4 + -0x60fe), local_4 != 0x
+spec/competitions.md:33  named/seg_0791_10.c:419 -> named/seg_0791_10.c:574  (exact; same code text: yes) | *pcVar1 = *pcVar1 + '\x01';
+spec/competitions.md:33  named/seg_0791_10.c:470 -> named/seg_0791_10.c:625  (exact; same code text: yes) | }
+spec/competitions.md:36  named/seg_0791_10.c:419 -> named/seg_0791_10.c:574  (exact; same code text: yes) | *pcVar1 = *pcVar1 + '\x01';
+spec/discipline.md:41  named/seg_0791_08.c:1092 -> named/seg_0791_09.c:44  (exact; same code text: yes) | LAB_0791_AE68:
+spec/discipline.md:41  named/seg_0791_08.c:1123 -> named/seg_0791_09.c:75  (exact; same code text: yes) | if (!bVar8) goto LAB_0791_AF22;
+spec/discipline.md:53  named/seg_0791_10.c:978 -> named/seg_0791_11.c:64  (exact; same code text: yes) | undefined2 uVar9;
+spec/friendlies.md:25  named/seg_0791_09.c:189 -> named/seg_0791_09.c:286  (exact; same code text: yes) | 
+spec/friendlies.md:25  named/seg_0791_09.c:230 -> named/seg_0791_09.c:327  (exact; same code text: yes) | while( true ) {
+spec/friendlies.md:27  named/seg_0791_10.c:717 -> named/seg_0791_10.c:873  (exact; same code text: yes) | undefined2 unaff_SS;
+spec/friendlies.md:27  named/seg_0791_10.c:790 -> named/seg_0791_10.c:946  (exact; same code text: yes) | cVar4 = player_unavailable(((country *)countries)

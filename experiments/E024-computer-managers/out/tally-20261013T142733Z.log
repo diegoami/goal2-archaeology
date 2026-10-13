@@ -1,0 +1,18 @@
+E010-r0001: model = original (score (1, 0)); half-time score from the state not stated; branches this record: {"bd83 (b) own eleven stronger: rand(6) twice": 1, "bd83 calls": 1, "c173 calls": 1, "c173 team skipped (managed)": 1, "c173 |d|<2 -> BD83": 1}
+E010-r0002: model = original (score (0, 1)); half-time score from the state not stated; branches this record: {}
+E010-r0003: model = original (score (0, 0)); half-time score from the state not stated; branches this record: {}
+E010-r0004: model = original (score (0, 1)); half-time score from the state not stated; branches this record: {"bd83 (b) own eleven stronger: rand(6) twice": 1, "bd83 calls": 1, "c173 calls": 1, "c173 team skipped (managed)": 1, "c173 |d|<2 -> BD83": 1}
+E010-r0005: model = original (score (1, 2)); half-time score from the state not stated; branches this record: {}
+E010-r0006: model = original (score (1, 2)); half-time score from the state not stated; branches this record: {}
+E010-r0007: model = original (score (0, 1)); half-time score from the state not stated; branches this record: {}
+E010-r0008: model = original (score (0, 1)); half-time score from the state not stated; branches this record: {}
+E010-r0009: model = original (score (0, 0)); half-time score from the state not stated; branches this record: {}
+E010-r0010: model = original (score (0, 1)); half-time score from the state not stated; branches this record: {"bd83 calls": 1, "bd83 own eleven not stronger: default only": 1, "c173 calls": 1, "c173 team skipped (managed)": 1, "c173 |d|<2 -> BD83": 1}
+records exact: 10/10
+TOTAL over all records:
+     2  bd83 (b) own eleven stronger: rand(6) twice
+     3  bd83 calls
+     1  bd83 own eleven not stronger: default only
+     3  c173 calls
+     3  c173 team skipped (managed)
+     3  c173 |d|<2 -> BD83

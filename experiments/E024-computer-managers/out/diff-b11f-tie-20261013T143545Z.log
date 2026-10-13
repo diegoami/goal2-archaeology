@@ -1,0 +1,19 @@
+E010-r0009 team 0 country 7 scenario 1: DIFFERENCE halves differ: original [121, 122, 133, 123, 125, 126, 136, 129, 139, 137, 131, 130, 132, 124, 127, 128, 138, 140, 134, 135] reference [121, 122, 123, 138, 125, 126, 136, 137, 129, 139, 131, 132, 133, 134, 135, 127, 128, 124, 130, 140] | a +6 byte differs: {133: (2, 1), 138: (12, 2)} | DS:99A2 differs: original [19, 12, 13, 0, 0, 16, 0, 17, 0, 0, 0, 0, 0, 0] reference [19, 12, 18, 0, 0, 16, 0, 17, 0, 0, 0, 0, 0, 0]
+cases compared: 220, differing: 1
+branches of the reference over all cases:
+     130  AC67 not stronger than the stored: kept (tie keeps the earlier slot)
+    2150  AC67 position entry empty: stored
+     657  AC67 slot unavailable: skipped
+     166  AC67 strictly stronger than the stored: replaced
+     349  AD8F incoming takes his own +7 (same pair as the slot's role)
+     774  AD8F incoming takes the slot's role
+    1797  AFA3 AAE8 found a bench slot
+     623  AFA3 AAE8 found none
+     931  AFA3 bench strictly stronger: swap
+     132  AFA3 no AAE8 candidate: A9B8 found one
+       1  AFA3 slot 1 holds a non-goalkeeper
+      49  AFA3 starter 3179-penalised
+      59  AFA3 starter away from +7 and bench +7 = his role: swap although weaker
+    1297  AFA3 starter kept
+      83  AFA3 starter unavailable
+     220  scenarios in which the original changed the eleven
