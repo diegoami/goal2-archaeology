@@ -1,6 +1,9 @@
 """E024: the goal distribution of a silent computer-v-computer result (0791:D47E) on real line sums.
 
-    python3 -B experiments/E024-computer-managers/sample_silent.py [N]
+    python3 -B experiments/E024-computer-managers/sample_silent.py [N [fresh]]
+
+`fresh` first sets energy := fitness (+0xE := +0xD) for every non-injured player of the two squads, a proxy for
+the start of a fixture (0791:CB7D, F018) instead of the half-time energies the savestates hold.
 
 D47E (seg_0791_21.asm:489-560) computes 0BC4 for both sides, then calls B19D(12) ONCE and takes its
 two counts as the score (a tie in a competition code of the set at DS:693A adds B19D(4) and a coin,
@@ -28,10 +31,12 @@ sys.path.insert(0, str(ROOT / "runtime/driver"))
 sys.path.insert(0, str(ROOT / "runtime/model"))
 sys.path.insert(0, str(ROOT / "experiments/E010-q010-quick-engine"))
 import check_model  # noqa: E402
+import players  # noqa: E402
 import quick_engine  # noqa: E402
 import savestate  # noqa: E402
 
 N = int(sys.argv[1]) if len(sys.argv) > 1 else 5000
+FRESH = len(sys.argv) > 2 and sys.argv[2] == "fresh"      # energy := fitness for non-injured players (see below)
 lines = []
 
 
@@ -47,6 +52,21 @@ for p in sorted((ROOT / "runs/E010").glob("E010-r*.json")):
     record = json.loads(p.read_text())
     entry = next(o for o in record["outputs"] if o["name"].endswith("-halftime.sav"))
     state = savestate.Savestate(check_model.halftime_sav(entry))
+    if FRESH:
+        # a proxy for the start of a fixture: every non-injured player of the two squads gets energy := fitness
+        # (+0xE := +0xD; 0791:CB7D does this before a played match, F018); injured (+0xE <= 0) stay as they are
+        pa = players.far_pointer(state, players.PLAYERS_PTR)[2]
+        ca = players.far_pointer(state, players.COUNTRIES_PTR)[2]
+        mem = bytearray(state.mem)
+        for team in (0, 1):
+            cc = state.ds_word(0x9B34 + 2 * team)
+            sqb = mem[savestate.MEM_BASE + ca + 0xBF * cc:savestate.MEM_BASE + ca + 0xBF * cc + 40]
+            for i in range(20):
+                w = int.from_bytes(sqb[2 * i:2 * i + 2], "little")
+                b = savestate.MEM_BASE + pa + 20 * w
+                if mem[b + 0xE] != 0 and mem[b + 0xE] < 128:
+                    mem[b + 0xE] = mem[b + 0xD]
+        state.mem = mem
     m = quick_engine.QuickMatch(state)
     dist = Counter()
     team = [0, 0]
@@ -70,6 +90,6 @@ out(f"ALL {n_all} samples: mean goals per match {(sum_team[0] + sum_team[1]) / n
 out("reference: quick engine 1.32 (C-MATCH-27: 20/39/30/11/0 per 100), watched 1.98 (14/27/20/30/9)")
 d = HERE / "out"
 d.mkdir(exist_ok=True)
-fn = d / f"silent-{datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%SZ')}.log"
+fn = d / f"silent-{'fresh' if FRESH else 'asis'}-{datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%SZ')}.log"
 fn.write_text("\n".join(lines) + "\n")
 print("log:", fn)

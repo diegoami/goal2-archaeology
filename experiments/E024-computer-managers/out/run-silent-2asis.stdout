@@ -1,0 +1,13 @@
+E010-r0001: teams [27, 7] flag80fc 1 sums[gk,def,mid,att] [[262, 754, 1339, 437], [229, 1059, 1054, 400]] mean goals side0 0.548 side1 0.407 total 0.956 dist 0/1/2/3/4+ [1851, 1921, 907, 251, 70]
+E010-r0002: teams [27, 7] flag80fc 1 sums[gk,def,mid,att] [[261, 758, 1335, 430], [230, 1030, 1058, 436]] mean goals side0 0.548 side1 0.467 total 1.015 dist 0/1/2/3/4+ [1739, 1910, 981, 290, 80]
+E010-r0003: teams [9, 7] flag80fc 1 sums[gk,def,mid,att] [[254, 1003, 844, 639], [229, 1059, 1054, 400]] mean goals side0 0.586 side1 0.480 total 1.066 dist 0/1/2/3/4+ [1639, 1920, 1038, 301, 102]
+E010-r0004: teams [9, 7] flag80fc 1 sums[gk,def,mid,att] [[254, 1003, 844, 639], [229, 1026, 1054, 434]] mean goals side0 0.605 side1 0.540 total 1.145 dist 0/1/2/3/4+ [1515, 1901, 1095, 362, 127]
+E010-r0005: teams [31, 7] flag80fc 1 sums[gk,def,mid,att] [[207, 658, 1003, 418], [230, 1064, 1059, 402]] mean goals side0 0.393 side1 0.712 total 1.106 dist 0/1/2/3/4+ [1598, 1868, 1090, 319, 125]
+E010-r0006: teams [31, 7] flag80fc 1 sums[gk,def,mid,att] [[207, 658, 1003, 418], [230, 1030, 1059, 436]] mean goals side0 0.407 side1 0.792 total 1.199 dist 0/1/2/3/4+ [1427, 1882, 1150, 388, 153]
+E010-r0007: teams [7, 27] flag80fc 1 sums[gk,def,mid,att] [[203, 938, 932, 354], [295, 825, 1465, 520]] mean goals side0 0.233 side1 0.903 total 1.136 dist 0/1/2/3/4+ [1560, 1837, 1117, 361, 125]
+E010-r0008: teams [7, 27] flag80fc 1 sums[gk,def,mid,att] [[203, 908, 932, 384], [295, 825, 1465, 520]] mean goals side0 0.267 side1 0.933 total 1.200 dist 0/1/2/3/4+ [1464, 1819, 1157, 408, 152]
+E010-r0009: teams [7, 19] flag80fc 1 sums[gk,def,mid,att] [[204, 942, 937, 356], [225, 874, 644, 660]] mean goals side0 0.538 side1 0.595 total 1.134 dist 0/1/2/3/4+ [1563, 1828, 1111, 390, 108]
+E010-r0010: teams [7, 19] flag80fc 1 sums[gk,def,mid,att] [[204, 912, 937, 386], [225, 874, 644, 660]] mean goals side0 0.601 side1 0.617 total 1.218 dist 0/1/2/3/4+ [1410, 1833, 1177, 443, 137]
+ALL 50000 samples: mean goals per match 1.117 (side0 0.473, side1 0.645); dist 0/1/2/3/4+ per cent [31.5, 37.4, 21.6, 7.0, 2.4]
+reference: quick engine 1.32 (C-MATCH-27: 20/39/30/11/0 per 100), watched 1.98 (14/27/20/30/9)
+log: /home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a6b53978492b5a88e/experiments/E024-computer-managers/out/silent-asis-20261013T143628Z.log
