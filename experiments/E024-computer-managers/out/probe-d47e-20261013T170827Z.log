@@ -1,0 +1,14 @@
+   debug code 0 seed 1: record [0, 0, 0, 2, 27, 0, 7, 0] DS:9B3C [0, 0, 6, 1, 229, 0, 24, 3, 35, 4, 62, 5, 30, 4, 151, 1, 144, 1, 27, 0, 7, 0, 253, 252] calls [12]
+   debug code 0 seed 2: record [0, 0, 0, 2, 27, 0, 7, 0] DS:9B3C [0, 0, 6, 1, 229, 0, 24, 3, 35, 4, 62, 5, 30, 4, 151, 1, 144, 1, 27, 0, 7, 0, 253, 252] calls [12]
+   debug code 0 seed 3: record [0, 0, 0, 2, 27, 0, 7, 0] DS:9B3C [0, 0, 6, 1, 229, 0, 24, 3, 35, 4, 62, 5, 30, 4, 151, 1, 144, 1, 27, 0, 7, 0, 253, 252] calls [12]
+competition code 0, seeds 1..100: B19D call argument lists {'[12]': 100}
+   debug code 4 seed 1: record [0, 0, 4, 0, 27, 0, 7, 0] DS:9B3C [0, 0, 6, 1, 204, 0, 24, 3, 174, 3, 62, 5, 169, 3, 151, 1, 100, 1, 27, 0, 7, 0, 228, 223] calls [12, 4]
+   debug code 4 seed 2: record [0, 0, 4, 0, 27, 0, 7, 0] DS:9B3C [0, 0, 6, 1, 204, 0, 24, 3, 174, 3, 62, 5, 169, 3, 151, 1, 100, 1, 27, 0, 7, 0, 228, 223] calls [12, 4]
+   debug code 4 seed 3: record [0, 0, 4, 0, 27, 0, 7, 0] DS:9B3C [0, 0, 6, 1, 204, 0, 24, 3, 174, 3, 62, 5, 169, 3, 151, 1, 100, 1, 27, 0, 7, 0, 228, 223] calls [12, 4]
+competition code 4, seeds 1..100: B19D call argument lists {'[12, 4]': 100}
+   cases with the second round: final (score0, score1, +3 result code) -> count {'(0, 0, 0)': 100}
+   debug code 10 seed 1: record [0, 0, 10, 0, 27, 0, 7, 0] DS:9B3C [0, 0, 6, 1, 204, 0, 24, 3, 174, 3, 62, 5, 169, 3, 151, 1, 100, 1, 27, 0, 7, 0, 228, 223] calls [12, 4]
+   debug code 10 seed 2: record [0, 0, 10, 0, 27, 0, 7, 0] DS:9B3C [0, 0, 6, 1, 204, 0, 24, 3, 174, 3, 62, 5, 169, 3, 151, 1, 100, 1, 27, 0, 7, 0, 228, 223] calls [12, 4]
+   debug code 10 seed 3: record [0, 0, 10, 0, 27, 0, 7, 0] DS:9B3C [0, 0, 6, 1, 204, 0, 24, 3, 174, 3, 62, 5, 169, 3, 151, 1, 100, 1, 27, 0, 7, 0, 228, 223] calls [12, 4]
+competition code 10, seeds 1..100: B19D call argument lists {'[12, 4]': 100}
+   cases with the second round: final (score0, score1, +3 result code) -> count {'(0, 0, 0)': 100}
