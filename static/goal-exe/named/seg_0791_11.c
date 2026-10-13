@@ -228,7 +228,7 @@ void __stdcall16far f_0791_E929(undefined1 param_1,undefined2 param_2)
 {
   undefined1 extraout_AH;
   
-  f_1771_8757();
+  update_group_tables();
   f_1771_958D(param_2,DS:9976,CONCAT11(extraout_AH,param_1));
   return;
 }
@@ -658,7 +658,7 @@ void __stdcall16far run_match(undefined4 param_1)
     uVar3 = extraout_AH_01;
   }
   draw_match_summary(CONCAT11(uVar3,1));
-  f_1771_8757();
+  update_group_tables();
   DS:066D = 1;
   DS:0C20 = 1;
   sys_set_bit_mask_08DF(0xf1b4,0x4000,CONCAT11(extraout_AH_02,DS:A977));
