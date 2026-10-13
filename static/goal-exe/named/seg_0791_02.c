@@ -434,19 +434,19 @@ void __cdecl16near resort_pitch_and_bench(void)
 // ---- 0791:261A  draw_table_byte  (f_0791_261A; Ghidra 2000:261A, __cdecl16near; found by routines.tsv)
 // returns the next byte from the 255-element draw table at DS:0x8337 and advances the index DS:8437 (wrapping from 0xff to 1). The table is initialised by 0791:2648 with random(0x10)-1 (values 0..15). It is NOT a tick counter (R5); it is a pre-shuffled draw. Called twice by 0791:7EEF foul_dispatch and many times in the in-match engine (seg_0791_03 and seg_0791_04) for player movement, marking, tackle resolution and similar decisions gated by the same table  [established; F020; read code/seg_0791_04.asm]
 
-undefined1 __cdecl16near draw_table_byte(void)
+byte __cdecl16near draw_table_byte(void)
 
 {
-  int iVar1;
+  byte *pbVar1;
   
-  iVar1 = DS:8437 + 1;
-  if (DS:8437 == 0xff) {
-    DS:8437 = 1;
+  pbVar1 = (byte *)foul_draw_table + foul_draw_index;
+  if (foul_draw_index == 0xff) {
+    foul_draw_index = 1;
   }
   else {
-    DS:8437 = DS:8437 + 1;
+    foul_draw_index = foul_draw_index + 1;
   }
-  return *(undefined1 *)((int)(undefined2 *)&DS:8336 + iVar1);
+  return *pbVar1;
 }
 
 
@@ -464,11 +464,11 @@ void __cdecl16near f_0791_2648(void)
   local_4 = 1;
   while( true ) {
     cVar1 = u214b_random_1_to_n(0x10);
-    *(char *)((int)(undefined2 *)&DS:8336 + local_4 + 1) = cVar1 + -1;
+    ((byte *)foul_draw_table)[local_4] = cVar1 - 1;
     if (local_4 == 0xff) break;
     local_4 = local_4 + 1;
   }
-  DS:8437 = DS:9B36;
+  foul_draw_index = DS:9B36;
   return;
 }
 
@@ -1113,9 +1113,10 @@ uint f_0791_2E82(undefined2 param_1)
 }
 
 
-// ---- 0791:2EB8  f_0791_2EB8  (f_0791_2EB8; Ghidra 2000:2EB8, __stdcall16far; found by routines.tsv)
+// ---- 0791:2EB8  in_own_goal_strip  (f_0791_2EB8; Ghidra 2000:2EB8, __stdcall16far; found by routines.tsv)
+// (position word, pitch record): true when the word's high byte times 2BE5(record) (the team's attack direction) is negative (the own half), 2E82 holds (high byte at least 25 in magnitude, low byte at most 5 in magnitude); read as 'inside the penalty strip at the record's own end'; 8206 asks it of the fouler's position (no foul when also a coin) and of the ball (penalty or free kick)  [likely; F027]
 
-undefined2 __stdcall16far f_0791_2EB8(undefined4 param_1,undefined2 param_2)
+undefined2 __stdcall16far in_own_goal_strip(undefined4 param_1,undefined2 param_2)
 
 {
   char cVar1;

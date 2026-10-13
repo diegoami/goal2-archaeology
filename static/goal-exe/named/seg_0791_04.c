@@ -401,7 +401,7 @@ void __stdcall16far f_0791_4D3F(undefined2 *param_1)
   uVar3 = (undefined2)((ulong)param_1 >> 0x10);
   puVar2 = (undefined2 *)param_1;
   cVar1 = f_0791_045D(*(undefined1 *)(puVar2 + 3));
-  if ((cVar1 == '\0') || (cVar1 = f_0791_2EB8(puVar2,uVar3,*param_1), cVar1 != '\0')) {
+  if ((cVar1 == '\0') || (cVar1 = in_own_goal_strip(puVar2,uVar3,*param_1), cVar1 != '\0')) {
     *(undefined1 *)(puVar2 + 9) = 0xd;
     *(undefined2 *)((int)puVar2 + 7) = *param_1;
     cVar1 = draw_table_byte();
@@ -415,9 +415,10 @@ void __stdcall16far f_0791_4D3F(undefined2 *param_1)
 }
 
 
-// ---- 0791:4DA9  f_0791_4DA9  (f_0791_4DA9; Ghidra 2000:4DA9, __stdcall16far; found by routines.tsv)
+// ---- 0791:4DA9  challenger_would_foul  (f_0791_4DA9; Ghidra 2000:4DA9, __stdcall16far; found by routines.tsv)
+// (pitch record of a challenger or keeper): true when (a chance 1 in 18 - 1771:2FFB(player), 06D0, or the player's effective tactic element 4, 26D7) and rand(hardness of DS:830B's player) < rand(hardness of the record's player); the foul gate of 5513 and of 5B36's duel branch, the watched twin of D5C1's hardness rolls  [likely; F027; F010]
 
-undefined2 __stdcall16far f_0791_4DA9(undefined4 param_1)
+undefined2 __stdcall16far challenger_would_foul(undefined4 param_1)
 
 {
   char cVar1;
@@ -765,7 +766,7 @@ void foul_outcome_line(int param_1)
     }
     else if ((DS:8303 == '\0') ||
             (uVar1 = *(undefined4 *)(*(int *)(param_1 + 4) + 6),
-            cVar2 = f_0791_2EB8((int)uVar1,(int)((ulong)uVar1 >> 0x10),ball_record._0_2_),
+            cVar2 = in_own_goal_strip((int)uVar1,(int)((ulong)uVar1 >> 0x10),ball_record._0_2_),
             cVar2 == '\0')) {
       uVar1 = *(undefined4 *)(*(int *)(param_1 + 4) + 6);
       f_0791_5E41((int)uVar1,(int)((ulong)uVar1 >> 0x10));
@@ -833,7 +834,7 @@ undefined1 f_0791_5513(int param_1)
   
   local_3 = 0;
   uVar1 = *(undefined4 *)(*(int *)(param_1 + 4) + 6);
-  cVar2 = f_0791_4DA9((int)uVar1,(int)((ulong)uVar1 >> 0x10));
+  cVar2 = challenger_would_foul((int)uVar1,(int)((ulong)uVar1 >> 0x10));
   if (cVar2 != '\0') {
     cVar2 = u214b_random_coin_flip();
     if (cVar2 == '\0') {
@@ -841,7 +842,7 @@ undefined1 f_0791_5513(int param_1)
     }
     else {
       uVar1 = *(undefined4 *)(*(int *)(param_1 + 4) + 6);
-      watched_substitution_sequence(*(undefined1 *)((int)uVar1 + 6));
+      watched_foul_sequence(*(undefined1 *)((int)uVar1 + 6));
     }
     local_3 = 1;
   }
@@ -975,8 +976,8 @@ undefined2 f_0791_5729(int param_1)
     ;
     uVar2 = extraout_AH_00;
     if (extraout_AL_00 == '\0') {
-      f_0791_2EB8((int)*(undefined4 *)(param_1 + 6),
-                  (int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10),ball_record._0_2_);
+      in_own_goal_strip((int)*(undefined4 *)(param_1 + 6),
+                        (int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10),ball_record._0_2_);
       uVar2 = extraout_AH_01;
       if (extraout_AL_01 != '\0') {
         f_0791_2EF0((int)*(undefined4 *)(param_1 + 6),
