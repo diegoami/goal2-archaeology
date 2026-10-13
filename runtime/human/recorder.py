@@ -82,6 +82,7 @@ import sys
 import time
 import threading
 import queue
+import re
 import zipfile
 from datetime import datetime, timezone
 from pathlib import Path
@@ -200,6 +201,12 @@ MAPPER_DEFAULT = Path(__file__).resolve().parent / "dosbox-x-2024.03.01-default.
 MAPPER_DEFAULT_SHA256 = "1849ec80ad0b32949869ed8b2d38e7b2e1e89f5959965328b5f8c561196b589a"
 PAUSE_BINDS = {'hand_pause "key 72 host" ': 'hand_pause "key 72 host" "key 19 host" ',
                'hand_scrshot "key 19 host" ': 'hand_scrshot '}
+# F12 held makes any key an F12+key host chord: the save is sent as F12+S (send_save_event), and the
+# owner's R inside its window was F12+R, `hand_reset`, which reset the emulated machine twice
+# (issue 175; likewise F12+L loads a savestate, F12+B reboots, ...). The session file keeps these
+# two host binds only; every other event's host bind is removed and its line stays (the file must
+# be complete).
+HOST_BINDS_KEPT = ("hand_savestate", "hand_pause")
 PAUSED_TITLE = " PAUSED"
 # [designed] How often the loop reads the game window's title for the pause (one xdotool call,
 # ~5 ms). A key event always triggers a read at once (a pause chord is keys), so this period only
@@ -251,6 +258,9 @@ def mapper_text(default=None):
         if lines.count(old) != 1:
             raise RuntimeError(f"default mapper: the line {old!r} is not there exactly once")
         lines[lines.index(old)] = new
+    for i, line in enumerate(lines):
+        if line.startswith("hand_") and line.split(" ", 1)[0] not in HOST_BINDS_KEPT:
+            lines[i] = re.sub(r'"[^"]*\bhost\b[^"]*" ', "", line)
     return "\n".join(lines)
 
 
@@ -533,6 +543,15 @@ def send_save_event(wid, env):
                 if not lib.XSendEvent(display, int(wid), 0, mask, c.byref(event)):
                     raise RuntimeError("save event send failed")
                 lib.XFlush(display)
+                if kind == 2 and code == codes[0] and os.environ.get("GOAL2_RECORDER_TEST_SEND_HOLD_S"):
+                    # test only (experiments/E015.../scripted_host_chords.py, issue 175): F12 is
+                    # down and S not yet sent; hold there and stamp the edges into a file, so a
+                    # script can type inside the real send window deterministically
+                    with open(os.environ["GOAL2_RECORDER_TEST_SEND_MARK"], "a") as mark:
+                        mark.write(f"down {time.time():.3f}\n")
+                    time.sleep(float(os.environ["GOAL2_RECORDER_TEST_SEND_HOLD_S"]))
+                    with open(os.environ["GOAL2_RECORDER_TEST_SEND_MARK"], "a") as mark:
+                        mark.write(f"up {time.time():.3f}\n")
                 # [designed] Match xdotool's roughly 6 ms inter-event spacing,
                 # observed in T34-scripted-20261009-01.log's host-save events.
                 time.sleep(0.006)

@@ -136,7 +136,9 @@ The owner coaches the main session while playing; three pieces serve that, all g
   names) is DOSBox-X 2024.03.01's complete default bind set, saved by its own mapper editor
   (`runtime/human/dosbox-x-2024.03.01-default.map`, checked by sha256), with `hand_pause` also on
   F12+P (taken from the screenshot event). The file must be complete: a mapper file DOSBox-X finds
-  replaces its default binds. DOSBox-X's pause ends on the Pause key only (an XTEST Pause with the
+  replaces its default binds. Every event keeps its line, but only `hand_savestate` (the recorder's
+  own F12+S) and `hand_pause` keep a `host` (F12) bind: while the save is being sent F12 is down, and
+  the owner's key inside that window was F12+key (R was `hand_reset`; issue 175). DOSBox-X's pause ends on the Pause key only (an XTEST Pause with the
   window focused or an XSendEvent Pause; `T39b-probe-resume-20261011-01.log`), so F12+P typed
   while paused makes the recorder press Pause itself (XTEST, the window focused), marked `by:
   recorder` in `keys.jsonl` (however late the logger delivers it: an injection never expires) and
