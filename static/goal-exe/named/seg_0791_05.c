@@ -158,8 +158,7 @@ void f_0791_5A33(int param_1,undefined1 param_2)
   if (DS:8326 == '\0') {
     cVar1 = pitch_slot_side((int)*(undefined4 *)(param_1 + 6),
                             (int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10));
-    ((undefined1 *)&DS:7B83)[cVar1 * 10] = ((undefined1 *)&DS:7B83)[cVar1 * 10] + '\x01'
-    ;
+    ((char *)match_stats + 5)[cVar1 * 10] = ((char *)match_stats + 5)[cVar1 * 10] + '\x01';
   }
   else {
     DS:830B = *(undefined1 *)(param_1 + -2);
@@ -193,9 +192,9 @@ void write_save_line(int param_1)
     ball_record.timer = 0;
   }
   f_0791_5A33(param_1,CONCAT11(uVar2,0x1d));
-  cVar1 = f_0791_2EB8((int)*(undefined4 *)(param_1 + 6),
-                      (int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10),
-                      *(undefined2 *)*(undefined4 *)(param_1 + 6));
+  cVar1 = in_own_goal_strip((int)*(undefined4 *)(param_1 + 6),
+                            (int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10),
+                            *(undefined2 *)*(undefined4 *)(param_1 + 6));
   if (cVar1 == '\0') {
     f_0791_3FAD((int)*(undefined4 *)(param_1 + 6),(int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10)
                 ,9);
@@ -267,7 +266,7 @@ void __stdcall16far duel_line(undefined2 *param_1)
                            *(undefined1 *)((DS:8327 == '\x04') + 0x800));
       local_8 = local_8 / 2;
     }
-    cVar2 = f_0791_2EB8(puVar7,uVar8,*param_1);
+    cVar2 = in_own_goal_strip(puVar7,uVar8,*param_1);
     if (cVar2 == '\0') {
       f_0791_3FAD(puVar7,uVar8,9);
       return;
@@ -312,7 +311,7 @@ void __stdcall16far duel_line(undefined2 *param_1)
     write_save_line(&stack0xfffe);
     return;
   }
-  cVar2 = f_0791_2EB8(puVar7,uVar8,*param_1);
+  cVar2 = in_own_goal_strip(puVar7,uVar8,*param_1);
   if (cVar2 == '\0') {
     local_9 = '\v';
   }
@@ -332,7 +331,7 @@ LAB_0791_5BE8:
       iVar3 = u214b_random_1_to_n((uint)(local_9 != '\v') + iVar3);
       if (iVar4 < iVar3) goto LAB_0791_5C3E;
     }
-    cVar2 = f_0791_4DA9(puVar7,uVar8);
+    cVar2 = challenger_would_foul(puVar7,uVar8);
     if (cVar2 == '\0') {
       if (DS:8303 == '\0') {
         f_0791_2AA3(0xc);
@@ -345,7 +344,7 @@ LAB_0791_5BE8:
         write_save_line(&stack0xfffe);
       }
       else {
-        watched_substitution_sequence(*(undefined1 *)(puVar7 + 3));
+        watched_foul_sequence(*(undefined1 *)(puVar7 + 3));
       }
     }
   }
@@ -528,8 +527,9 @@ void react_off_ball(int param_1)
             (cVar1 = skill_draw_passes((int)*(undefined4 *)(param_1 + 6),
                                        (int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10),4),
             cVar1 != '\0')) {
-      cVar1 = f_0791_2EB8((int)*(undefined4 *)(param_1 + 6),
-                          (int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10),ball_record._0_2_);
+      cVar1 = in_own_goal_strip((int)*(undefined4 *)(param_1 + 6),
+                                (int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10),ball_record._0_2_
+                               );
       if (cVar1 == '\0') {
         cVar1 = f_0791_2EF0((int)*(undefined4 *)(param_1 + 6),
                             (int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10),ball_record._0_2_);
@@ -898,7 +898,7 @@ void f_0791_6755(void)
     else {
       uVar3 = (uint)bVar5 << 8;
     }
-    f_0791_6F01(uVar3 & 0xff00,uVar3);
+    dead_ball_goal_kick_or_free_kick(uVar3 & 0xff00,uVar3);
   }
   else {
     f_0791_82EB();
@@ -1028,7 +1028,7 @@ void __cdecl16near f_0791_698E(void)
     penalty_contest();
     return;
   }
-  f_0791_6E6E();
+  dead_ball_corner();
   return;
 }
 
@@ -1150,71 +1150,4 @@ undefined4 f_0791_6B65(int param_1,char param_2)
     local_6 = local_6 + 1;
   }
   return CONCAT22(iVar2,local_6);
-}
-
-
-// ---- 0791:6BF1  f_0791_6BF1  (f_0791_6BF1; Ghidra 2000:6BF1, __stdcall16near; found by routines.tsv)
-
-/* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
-
-void f_0791_6BF1(char param_1,byte param_2)
-
-{
-  int iVar1;
-  char cVar2;
-  char cVar3;
-  undefined1 extraout_AH;
-  pitch *ppVar4;
-  undefined1 uVar5;
-  undefined4 local_6;
-  
-  DS:830B = param_2;
-  f_0791_2A15();
-  DS:830C = 0;
-  DS:830D = 0;
-  DS:8302 = 1;
-  uVar5 = 1;
-  ball_record.timer = 0;
-  f_0791_2929(param_1);
-  sys_set_bit_mask_08DF(0x6bd1,0x2000,CONCAT11(extraout_AH,param_1));
-  if (!(bool)uVar5) {
-    DS:9B55 = 1;
-  }
-  iVar1 = (uint)DS:830B * 0x16;
-  ppVar4 = (pitch *)pitch_records + DS:830B;
-  local_6 = (pitch *)CONCAT22(0xb000,ppVar4);
-  if (param_1 == '\n') {
-    DS:8315 = (uint)DS:8316 << 8;
-    cVar2 = attack_direction(ppVar4,0xb000);
-    DS:8316 = cVar2 * '\x1c';
-  }
-  else if (param_1 == '\t') {
-    DS:8316 = ((char *)form_delta)['\0' < (char)ball_record.y] * '$';
-    DS:8315 = ((char *)form_delta)['\0' < (char)ball_record.x] << 3;
-  }
-  else if (param_1 == '\v') {
-    DS:8315 = ball_record.x;
-    DS:8316 = ball_record.y;
-  }
-  else if (param_1 == '\b') {
-    DS:8315 = CONCAT11(DS:8316,((char *)form_delta)['\0' < (char)ball_record.x] << 1);
-    cVar2 = attack_direction(ppVar4,0xb000);
-    DS:8316 = cVar2 * -0x21;
-  }
-  else if (param_1 == '\a') {
-    DS:8316 = ball_record.y;
-    DS:8315 = ((char *)form_delta)['\0' < (char)ball_record.x] << 3;
-  }
-  else {
-    DS:8315 = local_6->x;
-    DS:8316 = local_6->y;
-  }
-  *(undefined2 *)((int)&pitch_records[0].destination + iVar1) = DS:8315;
-  ball_record.x = DS:8315;
-  ball_record.y = DS:8316;
-  cVar2 = f_0791_2F28(ppVar4,0xb000);
-  cVar2 = cVar2 * '\n';
-  cVar3 = draw_table_byte();
-  *(char *)((int)&pitch_records[0].field_0x10 + iVar1) = cVar3 + '\n' + cVar2;
-  return;
 }

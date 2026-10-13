@@ -276,7 +276,7 @@ void __stdcall16far draw_squad_screen(int param_1,int param_2)
     u214b_unpack_screen_to_buffer((undefined4 *)&DS:A96E,0xb000,0x47cc,0xb000);
     uVar2 = CONCAT11(extraout_AH,0xf);
     puVar3 = local_108;
-    u214b_number_to_string(((undefined1 *)&DS:9B3A)[param_2 == DS:9B36],0);
+    u214b_number_to_string(((char *)substitutions_left)[param_2 == DS:9B36],0);
     u214b_write_string_at_fwd_set_attr
               ((undefined4 *)&DS:A96E,0xb000,CONCAT11(extraout_AH_00,0x3c),
                CONCAT11(extraout_AH_00,5),puVar3,unaff_SS,uVar2);
@@ -766,9 +766,10 @@ bool __stdcall16far fixture_kind_in_result_set(undefined4 param_1)
 }
 
 
-// ---- 1771:5A38  f_1771_5A38  (f_1771_5A38; Ghidra 4000:5A38, __stdcall16far; found by routines.tsv)
+// ---- 1771:5A38  friendly_continents_differ  (f_1771_5A38; Ghidra 4000:5A38, __stdcall16far; found by routines.tsv)
+// (country word, fixture record) true when the fixture's byte +2 is 1 and the countries' +0x2C (continent) of the word and of the fixture's second country (+6) differ; for the word of the fixture's second country it compares that country with itself, so it is false there  [likely; F027]
 
-uint __stdcall16far f_1771_5A38(undefined4 param_1,int param_2)
+uint __stdcall16far friendly_continents_differ(undefined4 param_1,int param_2)
 
 {
   byte bVar1;
@@ -793,16 +794,17 @@ uint __stdcall16far f_1771_5A38(undefined4 param_1,int param_2)
 }
 
 
-// ---- 1771:5A8F  f_1771_5A8F  (f_1771_5A8F; Ghidra 4000:5A8F, __stdcall16far; found by routines.tsv)
+// ---- 1771:5A8F  recovery_route_gradual  (f_1771_5A8F; Ghidra 4000:5A8F, __stdcall16far; found by routines.tsv)
+// (country word, fixture record) = 1771:5A38 or 1771:5A03 (kind in the DS:0F3E set); B7FA picks 3651 (gradual recovery, an injured player returns with chance 1/3 per fixture) when true and 3558 (energy := fitness at once) when false  [likely; F027; F019]
 
-undefined1 __stdcall16far f_1771_5A8F(undefined4 param_1,undefined2 param_2)
+undefined1 __stdcall16far recovery_route_gradual(undefined4 param_1,undefined2 param_2)
 
 {
   char cVar1;
   undefined2 uVar2;
   
   uVar2 = (undefined2)((ulong)param_1 >> 0x10);
-  cVar1 = f_1771_5A38((int)param_1,uVar2,param_2);
+  cVar1 = friendly_continents_differ((int)param_1,uVar2,param_2);
   if ((cVar1 == '\0') && (cVar1 = fixture_kind_in_result_set((int)param_1,uVar2), cVar1 == '\0')) {
     return 0;
   }
@@ -1125,39 +1127,5 @@ void world_placement_bonuses(undefined2 param_1)
   uVar2 = fixture_loser((byte *)fixtures + (*(int *)(iVar1 + 0x2a) + 0xe) * 8 + -8,
                         (int)((ulong)fixtures >> 0x10));
   add_placement_bonus(param_1,1,4,200,uVar2);
-  return;
-}
-
-
-// ---- 1771:6103  continent_placement_bonuses  (f_1771_6103; Ghidra 4000:6103, __stdcall16near; found by routines.tsv)
-// for each continent 1..4, 1771:5FD1 for the winner and loser of two fixtures named in [A933] + 0x1C0 k + 0x540 (+0x32, +0x30): 800 and 600, then 400 and 200, flag 0  [established; F017; read code/seg_1771_09.asm]
-
-void continent_placement_bonuses(undefined2 param_1)
-
-{
-  undefined2 uVar1;
-  byte *pbVar2;
-  undefined2 uVar3;
-  int local_4;
-  
-  local_4 = 1;
-  while( true ) {
-    uVar3 = (undefined2)((ulong)group_tables >> 0x10);
-    pbVar2 = (byte *)group_tables;
-    uVar1 = fixture_winner((byte *)fixtures + *(int *)(pbVar2 + local_4 * 0x1c0 + 0x572) * 8 + -8,
-                           (int)((ulong)fixtures >> 0x10));
-    add_placement_bonus(param_1,0,1,800,uVar1);
-    uVar1 = fixture_loser((byte *)fixtures + *(int *)(pbVar2 + local_4 * 0x1c0 + 0x572) * 8 + -8,
-                          (int)((ulong)fixtures >> 0x10));
-    add_placement_bonus(param_1,0,2,600,uVar1);
-    uVar1 = fixture_winner((byte *)fixtures + *(int *)(pbVar2 + local_4 * 0x1c0 + 0x570) * 8 + -8,
-                           (int)((ulong)fixtures >> 0x10));
-    add_placement_bonus(param_1,0,3,400,uVar1);
-    uVar1 = fixture_loser((byte *)fixtures + *(int *)(pbVar2 + local_4 * 0x1c0 + 0x570) * 8 + -8,
-                          (int)((ulong)fixtures >> 0x10));
-    add_placement_bonus(param_1,0,4,200,uVar1);
-    if (local_4 == 4) break;
-    local_4 = local_4 + 1;
-  }
   return;
 }

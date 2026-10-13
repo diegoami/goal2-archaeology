@@ -184,12 +184,12 @@ undefined4 f_000E_4865(int param_1)
   undefined2 unaff_SS;
   
   lVar1 = (ulong)(uint)(int)*(char *)(*(int *)(*(int *)(param_1 + 4) + 4) + -1) * 10;
-  if (((byte)((undefined1 *)&DS:7B84)[(int)lVar1] < 0xb) &&
+  if (((byte)((char *)match_stats + 6)[(int)lVar1] < 0xb) &&
      (lVar1 = (ulong)(uint)(int)*(char *)(*(int *)(*(int *)(param_1 + 4) + 4) + -1) * 10,
-     *(byte *)((int)lVar1 + 0x7b86) < 2)) {
+     (byte)((char *)match_stats + 8)[(int)lVar1] < 2)) {
     lVar1 = (ulong)(uint)(int)*(char *)(*(int *)(*(int *)(param_1 + 4) + 4) + -1) * 10;
     uVar4 = (undefined2)((ulong)lVar1 >> 0x10);
-    if (*(byte *)((int)lVar1 + 0x7b85) < 3) {
+    if ((byte)((char *)match_stats + 7)[(int)lVar1] < 3) {
       uVar3 = (undefined1)((ulong)lVar1 >> 8);
       uVar2 = 0;
       goto LAB_000E_48CB;
