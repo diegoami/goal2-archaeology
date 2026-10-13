@@ -1,0 +1,71 @@
+routine	name	field	file	line	text
+000E:54F0	create_managed_replacement	+7	seg_000E_07.asm	105	552A  26 8A 45 07     mov al, byte ptr es:[di + 7]
+0791:0106	draw_match_summary	+6	seg_0791_01.asm	184	0181  26 8A 45 06     mov al, byte ptr es:[di + 6]
+0791:05C6		+6	seg_0791_01.asm	697	05FB  26 8A 45 06     mov al, byte ptr es:[di + 6]
+0791:230C	resort_pitch_and_bench	+6	seg_0791_04.asm	658	25C0  26 8A 4D 06     mov cl, byte ptr es:[di + 6]
+0791:230C	resort_pitch_and_bench	+6	seg_0791_04.asm	668	25DD  26 8A 45 06     mov al, byte ptr es:[di + 6]
+0791:2F28		+6	seg_0791_05.asm	762	2F4D  26 8A 45 06     mov al, byte ptr es:[di + 6]
+0791:384C	move_ball_to_slot	+6	seg_0791_06.asm	672	38E6  26 8A 45 06     mov al, byte ptr es:[di + 6]
+0791:3D38		+6	seg_0791_07.asm	51	3DA3  26 8A 45 06     mov al, byte ptr es:[di + 6]
+0791:419C		+6	seg_0791_07.asm	617	4210  26 8A 45 06     mov al, byte ptr es:[di + 6]
+0791:4354		+6	seg_0791_07.asm	772	4369  26 8A 45 06     mov al, byte ptr es:[di + 6]
+0791:4438		+6	seg_0791_07.asm	870	4464  26 8A 45 06     mov al, byte ptr es:[di + 6]
+0791:4649		+6	seg_0791_08.asm	117	4734  26 80 7D 06 01  cmp byte ptr es:[di + 6], 1
+0791:474D		+6	seg_0791_08.asm	149	4772  26 80 7D 06 04  cmp byte ptr es:[di + 6], 4
+0791:4B64		+6	seg_0791_08.asm	655	4BE2  26 8A 45 06     mov al, byte ptr es:[di + 6]
+0791:5049	energy_chance_branch	+6	seg_0791_09.asm	223	51E7  26 8A 45 06     mov al, byte ptr es:[di + 6]
+0791:5049	energy_chance_branch	+6	seg_0791_09.asm	262	5249  26 8A 45 06     mov al, byte ptr es:[di + 6]
+0791:57AC		+6	seg_0791_09.asm	965	5840  26 80 7D 06 01  cmp byte ptr es:[di + 6], 1
+0791:69BD		+6	seg_0791_11.asm	789	69E0  26 8A 45 06     mov al, byte ptr es:[di + 6]
+0791:74C2		+6	seg_0791_12.asm	982	752D  26 8A 45 06     mov al, byte ptr es:[di + 6]
+0791:74C2		+6	seg_0791_12.asm	992	754C  26 C6 45 06 01  mov byte ptr es:[di + 6], 1
+0791:74C2		+6	seg_0791_12.asm	1012	7584  26 88 4D 06     mov byte ptr es:[di + 6], cl
+0791:74C2		+6	seg_0791_12.asm	1033	75B7  26 88 4D 06     mov byte ptr es:[di + 6], cl
+0791:86D0		+6	seg_0791_14.asm	548	87D3  26 80 7D 06 00  cmp byte ptr es:[di + 6], 0
+0791:AD8F		+7	seg_0791_18.asm	29	ADCA  26 8A 45 07     mov al, byte ptr es:[di + 7]
+0791:AD8F		+7	seg_0791_18.asm	80	AE54  26 8A 45 07     mov al, byte ptr es:[di + 7]
+0791:AD8F		+7	seg_0791_18.asm	106	AE95  26 8A 45 07     mov al, byte ptr es:[di + 7]
+0791:AD8F		+7	seg_0791_18.asm	131	AED3  26 8A 45 07     mov al, byte ptr es:[di + 7]
+0791:AD8F		+7	seg_0791_18.asm	156	AF11  26 8A 45 07     mov al, byte ptr es:[di + 7]
+0791:AD8F		+7	seg_0791_18.asm	173	AF3B  26 8A 4D 07     mov cl, byte ptr es:[di + 7]
+0791:AD8F		+6	seg_0791_18.asm	183	AF58  26 88 4D 06     mov byte ptr es:[di + 6], cl
+0791:AD8F		+6	seg_0791_18.asm	197	AF7E  26 88 4D 06     mov byte ptr es:[di + 6], cl
+0791:AFA3		+6	seg_0791_18.asm	265	B02E  26 8A 4D 06     mov cl, byte ptr es:[di + 6]
+0791:AFA3		+7	seg_0791_18.asm	271	B040  26 8A 45 07     mov al, byte ptr es:[di + 7]
+0791:AFA3		+6	seg_0791_18.asm	279	B056  26 8A 4D 06     mov cl, byte ptr es:[di + 6]
+0791:AFA3		+7	seg_0791_18.asm	290	B077  26 8A 45 07     mov al, byte ptr es:[di + 7]
+0791:AFA3		+7	seg_0791_18.asm	314	B0B7  26 80 7D 07 00  cmp byte ptr es:[di + 7], 0
+0791:AFA3		+6	seg_0791_18.asm	332	B0E8  26 8A 45 06     mov al, byte ptr es:[di + 6]
+0791:BC5D	reset_team_tactics	+6	seg_0791_19.asm	523	BCF3  26 88 4D 06     mov byte ptr es:[di + 6], cl
+0791:BEC7	replace_first_back_four	+6	seg_0791_19.asm	732	BEF0  26 8A 45 06     mov al, byte ptr es:[di + 6]
+0791:BEC7	replace_first_back_four	+6	seg_0791_19.asm	772	BF56  26 88 4D 06     mov byte ptr es:[di + 6], cl
+0791:C01A	computer_include_tactics	+6	seg_0791_19.asm	913	C0BB  26 8A 45 06     mov al, byte ptr es:[di + 6]
+0791:C24D		+6	seg_0791_20.asm	35	C295  26 C6 45 06 00  mov byte ptr es:[di + 6], 0
+0791:C2A8		+6	seg_0791_20.asm	82	C301  26 8A 45 06     mov al, byte ptr es:[di + 6]
+0791:C2A8		+6	seg_0791_20.asm	141	C38E  26 8A 45 06     mov al, byte ptr es:[di + 6]
+0791:C2A8		+6	seg_0791_20.asm	165	C3D4  26 88 4D 06     mov byte ptr es:[di + 6], cl
+0791:C406		+6	seg_0791_20.asm	207	C44E  26 8A 45 06     mov al, byte ptr es:[di + 6]
+0791:C406		+6	seg_0791_20.asm	224	C47C  26 C6 45 06 02  mov byte ptr es:[di + 6], 2
+0791:C48D	remove_from_pitch	+6	seg_0791_20.asm	245	C4A9  26 8A 45 06     mov al, byte ptr es:[di + 6]
+0791:C48D	remove_from_pitch	+6	seg_0791_20.asm	266	C4D8  26 8A 45 06     mov al, byte ptr es:[di + 6]
+0791:C50C		+6	seg_0791_20.asm	315	C534  26 8A 45 06     mov al, byte ptr es:[di + 6]
+0791:C50C		+6	seg_0791_20.asm	341	C572  26 8A 45 06     mov al, byte ptr es:[di + 6]
+0791:C7EB	map_bench_roles	+7	seg_0791_20.asm	648	C872  26 8A 45 07     mov al, byte ptr es:[di + 7]
+0791:C88D	substitute_player	+6	seg_0791_20.asm	729	C931  26 80 7D 06 00  cmp byte ptr es:[di + 6], 0
+0791:C88D	substitute_player	+6	seg_0791_20.asm	746	C95D  26 8A 45 06     mov al, byte ptr es:[di + 6]
+0791:C88D	substitute_player	+6	seg_0791_20.asm	778	C9AD  26 8A 4D 06     mov cl, byte ptr es:[di + 6]
+0791:C88D	substitute_player	+6	seg_0791_20.asm	788	C9CA  26 88 4D 06     mov byte ptr es:[di + 6], cl
+0791:DC7E	assistant_recommend_squad	+6	seg_0791_22.asm	246	DD33  26 8A 4D 06     mov cl, byte ptr es:[di + 6]
+0791:DC7E	assistant_recommend_squad	+6	seg_0791_22.asm	256	DD50  26 8A 45 06     mov al, byte ptr es:[di + 6]
+0791:EA09	first_team_valid	+6	seg_0791_23.asm	305	EB06  26 8A 45 06     mov al, byte ptr es:[di + 6]
+1771:3BD3	draw_tactics_panel	+6	seg_1771_06.asm	319	3DB6  26 8A 45 06     mov al, byte ptr es:[di + 6]
+1771:3EF8	set_marking_words	+6	seg_1771_06.asm	492	3F47  26 80 7D 06 01  cmp byte ptr es:[di + 6], 1
+1771:4B61	edit_own_tactics	+6	seg_1771_07.asm	377	4BA8  26 80 7D 06 01  cmp byte ptr es:[di + 6], 1
+1771:517A	quicksort_words	+6	seg_1771_07.asm	1044	51C7  26 8A 45 06     mov al, byte ptr es:[di + 6]
+1771:517A	quicksort_words	+6	seg_1771_07.asm	1057	51E9  26 8A 45 06     mov al, byte ptr es:[di + 6]
+1771:517A	quicksort_words	+6	seg_1771_07.asm	1073	5212  26 8A 45 06     mov al, byte ptr es:[di + 6]
+1771:53E8	pool_quicksort	+6	seg_1771_08.asm	145	541D  26 8A 45 06     mov al, byte ptr es:[di + 6]
+1771:53E8	pool_quicksort	+6	seg_1771_08.asm	158	543F  26 8A 45 06     mov al, byte ptr es:[di + 6]
+1771:53E8	pool_quicksort	+6	seg_1771_08.asm	174	5468  26 8A 45 06     mov al, byte ptr es:[di + 6]
+1771:98C4	make_managed_pool	+7	seg_1771_14.asm	185	9992  26 8A 45 07     mov al, byte ptr es:[di + 7]
+1771:98C4	make_managed_pool	+7	seg_1771_14.asm	245	9A27  26 8A 45 07     mov al, byte ptr es:[di + 7]
