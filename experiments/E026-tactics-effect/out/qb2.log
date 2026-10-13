@@ -32,3 +32,24 @@ e7 i=0 seed=0x29d7 score=[2, 1] 63.1s err=None
 e7 i=1 seed=0x0ca3 score=[1, 2] 87.1s err=None
 e7 i=2 seed=0x465c score=[3, 1] 77.2s err=None
 e7 i=3 seed=0x6370 score=[1, 0] 68.1s err=None
+e7 i=4 seed=0x588a score=[0, 1] 30.4s err=None
+e7 i=5 seed=0xfded score=[1, 1] 79.0s err=None
+e7 i=6 seed=0xcf2d score=[1, 1] 55.7s err=None
+e7 i=7 seed=0x60be score=[0, 1] 64.2s err=None
+e7 i=8 seed=0xd398 score=None 81.7s err=KeyWaitError: undeclared key wait: 214B:08DD called from 214B:098A at clock (86, 15)
+e7 i=9 seed=0x89ac score=[0, 2] 48.8s err=None
+base i=10 seed=0x3f11 score=[0, 0] 51.3s err=None
+base i=11 seed=0xcbf1 score=[1, 2] 54.3s err=None
+base i=12 seed=0x6fa9 score=[2, 0] 66.0s err=None
+base i=13 seed=0x6574 score=[1, 0] 97.4s err=None
+base i=14 seed=0xc0ac score=[1, 2] 78.9s err=None
+base i=15 seed=0x328f score=[2, 0] 125.7s err=None
+base i=16 seed=0x2178 score=[2, 1] 112.3s err=None
+base i=17 seed=0x9d26 score=[1, 5] 124.9s err=None
+base i=18 seed=0xb382 score=[1, 0] 129.5s err=None
+base i=19 seed=0x44d2 score=[0, 2] 84.2s err=None
+e2 i=10 seed=0x3f11 score=[1, 1] 86.1s err=None
+e2 i=11 seed=0xcbf1 score=[0, 0] 66.4s err=None
+e2 i=12 seed=0x6fa9 score=[2, 1] 80.3s err=None
+e2 i=13 seed=0x6574 score=[0, 0] 45.9s err=None
+e2 i=14 seed=0xc0ac score=[1, 1] 94.4s err=None
