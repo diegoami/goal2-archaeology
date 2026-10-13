@@ -543,6 +543,15 @@ def send_save_event(wid, env):
                 if not lib.XSendEvent(display, int(wid), 0, mask, c.byref(event)):
                     raise RuntimeError("save event send failed")
                 lib.XFlush(display)
+                if kind == 2 and code == codes[0] and os.environ.get("GOAL2_RECORDER_TEST_SEND_HOLD_S"):
+                    # test only (experiments/E015.../scripted_host_chords.py, issue 175): F12 is
+                    # down and S not yet sent; hold there and stamp the edges into a file, so a
+                    # script can type inside the real send window deterministically
+                    with open(os.environ["GOAL2_RECORDER_TEST_SEND_MARK"], "a") as mark:
+                        mark.write(f"down {time.time():.3f}\n")
+                    time.sleep(float(os.environ["GOAL2_RECORDER_TEST_SEND_HOLD_S"]))
+                    with open(os.environ["GOAL2_RECORDER_TEST_SEND_MARK"], "a") as mark:
+                        mark.write(f"up {time.time():.3f}\n")
                 # [designed] Match xdotool's roughly 6 ms inter-event spacing,
                 # observed in T34-scripted-20261009-01.log's host-save events.
                 time.sleep(0.006)

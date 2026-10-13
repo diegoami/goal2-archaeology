@@ -1,21 +1,24 @@
 #!/usr/bin/env python3
 """Fix #175 rehearsal, on private displays (never the owner's): the recorder (play.sh) under a private
-Xvfb; GOAL is advanced past its start screen, then F12 is held (as the recorder's F12+S save send
-holds it) and R and L are typed inside that hold, the reproduction of issue 175 (R inside the
-send window was F12+R, hand_reset). The game screen (live.py's newest snapshot) before and after
-must be equal and GOAL still running. Run against the fixed mapper the screens are equal; against
-the default one (mapper.map from the unmodified default binds, `--mapper default`, which swaps
-runtime/human/recorder.py's HOST_BINDS_KEPT for a pass-through in a scratch copy of the recorder)
-the machine resets.
+Xvfb. GOAL is advanced to PLAYER 1 SELECT YOUR COUNTRY and a stable frame is waited for (two
+identical consecutive frames). A key then triggers the recorder's real save request; its
+send_save_event, under the test hook GOAL2_RECORDER_TEST_SEND_HOLD_S, pauses 0.3 s after F12's real
+press and stamps the edges into a file. The script polls that file and, within about a millisecond of
+F12-down, taps R and L (XTEST), so R and L fall inside the real F12+S send window (the log prints
+the window, the R and L stamps, and inside_window). The frame before and after must be equal and
+GOAL running. The fixed mapper leaves the game where it was; the default one (--mapper default:
+a scratch copy of the recorder with the host-bind strip disabled) resets the machine.
 
-    python3 experiments/E015-human-playthrough/scripted_host_chords.py [--mapper fixed|default]
+    python3 experiments/E015-human-playthrough/scripted_host_chords.py [--mapper fixed|default] --steps n,1
 """
 import argparse
 import json
 import os
+import re
 import shutil
 import subprocess
 import sys
+import tempfile
 import time
 from pathlib import Path
 
@@ -42,7 +45,9 @@ def main():
             time.sleep(2)
             if outer.poll() is None:
                 break
-        env = dict(os.environ, DISPLAY=f":{number}")
+        mark = Path(tempfile.mkdtemp()) / "send-mark.txt"
+        env = dict(os.environ, DISPLAY=f":{number}", GOAL2_RECORDER_TEST_SEND_HOLD_S="0.3",
+                   GOAL2_RECORDER_TEST_SEND_MARK=str(mark))
         entry = ["bash", "runtime/human/play.sh"]
         if a.mapper == "default":
             # the recorder as it was before the fix: the host binds of every event stay
@@ -75,30 +80,49 @@ def main():
         def key(name):
             x("keydown", name); time.sleep(HOLD); x("keyup", name)
 
-        def screen():
-            time.sleep(2.5)   # a snapshot after the last key (burst quiet + save)
-            out = subprocess.run([sys.executable, "runtime/human/live.py", str(session)], cwd=ROOT,
-                                 check=True, capture_output=True, text=True).stdout
-            return out.split("keys since", 1)[0] if "keys since" in out else out
-
         x("windowfocus", meta["window_id"])
-        time.sleep(10)
+        time.sleep(8)
         for k in filter(None, a.steps.split(",")):
             key(k); time.sleep(1.5)
-        time.sleep(3)
-        first = screen()
-        print("--- screen before ---\n" + first, flush=True)
-        # the hold: F12 down (the save send's F12), R and L typed inside it, F12 up
-        x("keydown", "F12"); time.sleep(HOLD)
-        key("r"); time.sleep(HOLD); key("l"); time.sleep(HOLD)
-        x("keyup", "F12")
-        time.sleep(12)    # long enough for a reset to reach GOAL's start screen again
-        second = screen()
-        print("--- screen after ---\n" + second, flush=True)
+        seq0, first = stable(session, "SELECT YOUR COUNTRY", 0)
+        print("--- screen before (stable: two identical frames, seq %d) ---\n" % seq0 + first, flush=True)
+        # trigger a real save request: a key, then the recorder's burst quiet -> send_save_event
+        # (F12+S via XSendEvent), held open by the test hook; R and L are typed once its F12-down
+        # is stamped, so they land inside the real send window.
+        quiet_since, seen = time.monotonic(), mark.read_text()
+        while time.monotonic() - quiet_since < 5 or seen.count("down") != seen.count("up"):
+            time.sleep(0.2)          # no send in flight, none new for 5 s
+            now = mark.read_text()
+            if now != seen:
+                seen, quiet_since = now, time.monotonic()
+        before_lines = len(seen.splitlines())
+        t_end = time.monotonic() + 30
+        fake = FakeKeys(meta["display"])    # one open connection: a press lands within ~1 ms
+        key("Shift_L")
+        t_end = time.monotonic() + 30
+        while len(mark.read_text().splitlines()) <= before_lines and time.monotonic() < t_end:
+            time.sleep(0.0005)
+        t_r0 = time.time(); fake.tap("r"); t_r1 = time.time()
+        t_l0 = time.time(); fake.tap("l"); t_l1 = time.time()
+        while len(mark.read_text().splitlines()) <= before_lines + 1 and time.monotonic() < t_end:
+            time.sleep(0.01)
+        lines = [line.split() for line in mark.read_text().splitlines()[before_lines:]]
+        down = float(lines[0][1])       # the first send's window: R and L were typed right after it
+        assert lines[0][0] == "down" and lines[1][0] == "up", lines
+        up = float(lines[1][1])
+        eps = 0.001   # the stamps are rounded to 1 ms
+        inside = down - eps <= t_r0 and t_r1 < up and down - eps <= t_l0 and t_l1 < up
+        print(f"send window {down:.3f}..{up:.3f}; R {t_r0:.3f}..{t_r1:.3f}; L {t_l0:.3f}..{t_l1:.3f}; "
+              f"inside_window={inside}", flush=True)
+        seq1, second = stable(session, None, seq0 + 1)
+        print("--- screen after (stable, seq %d) ---\n" % seq1 + second, flush=True)
         body = lambda s: s.split("\n")[2:]
         same = body(first) == body(second)
-        print(f"mapper={a.mapper} screens_equal={same} dosbox_alive={recorder_alive(sitting)}", flush=True)
+        print(f"mapper={a.mapper} inside_window={inside} screens_equal={same} "
+              f"dosbox_alive={recorder_alive(sitting)}", flush=True)
         print(f"session: {session.relative_to(ROOT)}", flush=True)
+        if not inside:
+            return 2
         return 0 if same else 1
     finally:
         recorder.terminate(sitting)
@@ -106,6 +130,51 @@ def main():
         p = ROOT / "runtime/human/_recorder_default_mapper.py"
         if p.exists():
             p.unlink()
+
+
+class FakeKeys:
+    """XTEST key taps on one open connection (libXtst through ctypes)."""
+    def __init__(self, display):
+        import ctypes as c
+        self.x11, self.tst = c.CDLL("libX11.so.6"), c.CDLL("libXtst.so.6")
+        self.x11.XOpenDisplay.restype = c.c_void_p
+        self.x11.XOpenDisplay.argtypes = [c.c_char_p]
+        self.x11.XKeysymToKeycode.argtypes = [c.c_void_p, c.c_ulong]
+        self.x11.XFlush.argtypes = [c.c_void_p]
+        self.tst.XTestFakeKeyEvent.argtypes = [c.c_void_p, c.c_uint, c.c_int, c.c_ulong]
+        self.d = self.x11.XOpenDisplay(display.encode())
+        assert self.d, "cannot open " + display
+
+    def tap(self, name):
+        code = self.x11.XKeysymToKeycode(self.d, ord(name))
+        self.tst.XTestFakeKeyEvent(self.d, code, 1, 0)
+        self.x11.XFlush(self.d)
+        time.sleep(0.05)
+        self.tst.XTestFakeKeyEvent(self.d, code, 0, 0)
+        self.x11.XFlush(self.d)
+
+
+def frame(session):
+    out = subprocess.run([sys.executable, "runtime/human/live.py", str(session)], cwd=ROOT,
+                         check=True, capture_output=True, text=True).stdout
+    out = out.split("keys since", 1)[0] if "keys since" in out else out
+    m = re.search(r"seq (\d+)", out)
+    return (int(m.group(1)) if m else 0), out
+
+
+def stable(session, expect, min_seq, timeout=60):
+    """Poll until two consecutive frames are identical (bodies), at least min_seq, and contain
+    `expect` when given; returns (seq, frame). Never a fixed sleep."""
+    deadline = time.monotonic() + timeout
+    prev = None
+    while time.monotonic() < deadline:
+        seq, out = frame(session)
+        body = out.split("\n")[2:]
+        if seq >= min_seq and (expect is None or expect in out) and body == prev:
+            return seq, out
+        prev = body if seq >= min_seq else None
+        time.sleep(2)
+    raise RuntimeError("no stable frame" + (f" containing {expect!r}" if expect else ""))
 
 
 def recorder_alive(p):
