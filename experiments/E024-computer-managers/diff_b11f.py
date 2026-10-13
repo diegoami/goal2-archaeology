@@ -22,6 +22,10 @@ half is not compared; it is checked to be non-decreasing in +6), every squad pla
 14 bytes DS:99A2. Any difference stops being silent: it is printed and the script exits non-zero.
 Branch counters (in the reference, and equal to the original wherever the comparison holds) say which
 branches of B11F the scenarios reach. A new log out/diff-b11f-<UTC time>.log (never overwritten).
+
+A second argument names a falsifier, a deliberately wrong reference that the comparison must catch: `tie` (AC67
+replaces on equal strength), `first` (AAE8 keeps the first passing candidate, not the last), `noweaker` (no swap of
+an out-of-position starter for a weaker bench player of his role), `nofoot` (3179 never penalises).
 """
 import random
 import sys
@@ -45,6 +49,7 @@ from unicorn.x86_const import (UC_X86_REG_SS, UC_X86_REG_SP, UC_X86_REG_DS, UC_X
                                UC_X86_REG_CS, UC_X86_REG_BP)
 
 S = int(sys.argv[1]) if len(sys.argv) > 1 else 60
+FALS = sys.argv[2] if len(sys.argv) > 2 else ""      # a falsifier: a deliberately wrong reference (see the docstring)
 MEM = savestate.MEM_BASE
 T_ADDR = 0x99A2
 PAIRS = ({5, 6}, {7, 10}, {8, 11}, {12, 13})       # CS:AD0F, AD2F, AD4F, AD6F (bytes in the listing)
@@ -69,7 +74,7 @@ def reference(m, c):
         if T[pos] == 0:
             T[pos] = k
             cnt["AC67 position entry empty: stored"] += 1
-        elif strength(w) > strength(sq[T[pos] - 1]):
+        elif (strength(w) >= strength(sq[T[pos] - 1])) if FALS == "tie" else (strength(w) > strength(sq[T[pos] - 1])):
             T[pos] = k
             cnt["AC67 strictly stronger than the stored: replaced"] += 1
         else:
@@ -87,6 +92,8 @@ def reference(m, c):
                 continue
             cw = sq[k - 1]
             if count > 0 and not m.two_footed(cw) and m.foot_index(cw) != expect:
+                continue
+            if FALS == "first" and best:
                 continue
             best = k                                                # the LAST passing entry
         return best
@@ -133,14 +140,14 @@ def reference(m, c):
                 cnt["AFA3 bench strictly stronger: swap"] += 1
                 swap(s, b)
                 continue
-            if P(w)[7] != P(w)[6] and P(wb)[7] == P(w)[6]:
+            if FALS != "noweaker" and P(w)[7] != P(w)[6] and P(wb)[7] == P(w)[6]:
                 cnt["AFA3 starter away from +7 and bench +7 = his role: swap although weaker"] += 1
                 swap(s, b)
                 continue
         if m.unavailable(w):
             cnt["AFA3 starter unavailable"] += 1
             replace = True
-        elif m.wrong_foot(w):
+        elif FALS != "nofoot" and m.wrong_foot(w):
             cnt["AFA3 starter 3179-penalised"] += 1
             replace = True
         elif s == 1 and P(w)[7] != 0:
@@ -257,8 +264,9 @@ for p in records:
                 problems.append("a +6 byte differs: " + str({w: (o_pos[w], ref_pos.get(w)) for w in o_pos if o_pos[w] != ref_pos.get(w)}))
             if o_T != ref_T:
                 problems.append(f"DS:99A2 differs: original {o_T} reference {ref_T}")
-            for half in (o_sq[:11], o_sq[11:]):
-                keys = [o_pos[w] for w in half]
+            managed = m._country(c)["managed"] > 0x80               # 1771:0B77; 52CC marks the unavailable
+            for half in (o_sq[:11], o_sq[11:]):                    # of a managed country 0xE (sorts last)
+                keys = [0xE if managed and m.unavailable(w) else o_pos[w] for w in half]
                 if keys != sorted(keys):
                     problems.append(f"original half not sorted by +6: {keys}")
             n += 1
@@ -273,7 +281,7 @@ for k in sorted(cnt):
     out(f"  {cnt[k]:6d}  {k}")
 d = HERE / "out"
 d.mkdir(exist_ok=True)
-fn = d / f"diff-b11f-{datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%SZ')}.log"
+fn = d / f"diff-b11f-{FALS or 'main'}-{datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%SZ')}.log"
 fn.write_text("\n".join(lines) + "\n")
 print("log:", fn)
 sys.exit(1 if bad else 0)

@@ -1,0 +1,21 @@
+cases compared: 3020, differing: 0
+branches of the reference over all cases:
+    1633  AC67 not stronger than the stored: kept (tie keeps the earlier slot)
+   29065  AC67 position entry empty: stored
+   10214  AC67 slot unavailable: skipped
+    2274  AC67 strictly stronger than the stored: replaced
+    4773  AD8F incoming takes his own +7 (same pair as the slot's role)
+   11233  AD8F incoming takes the slot's role
+   24427  AFA3 AAE8 found a bench slot
+    8793  AFA3 AAE8 found none
+   12927  AFA3 bench strictly stronger: swap
+       4  AFA3 no AAE8 candidate: A9B8 found none
+    2097  AFA3 no AAE8 candidate: A9B8 found one
+       7  AFA3 slot 1 holds a non-goalkeeper
+     614  AFA3 starter 3179-penalised
+     973  AFA3 starter away from +7 and bench +7 = his role: swap although weaker
+   17210  AFA3 starter kept
+    1489  AFA3 starter unavailable
+       1  scenarios in which the eleven was unchanged
+    3019  scenarios in which the original changed the eleven
+log: /home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a6b53978492b5a88e/experiments/E024-computer-managers/out/diff-b11f-20261013T143448Z.log
