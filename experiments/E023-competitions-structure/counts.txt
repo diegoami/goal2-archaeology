@@ -1,0 +1,29 @@
+== fixtures written per stage and kind (one build of each stage; the sum per class is checked against DS:6936)
+stage 2 kind   1 :  384
+stage 2 kind   2 :  384
+stage 3 kind   1 :  528
+stage 3 kind   3 :   48
+stage 4 kind 101 :    8
+stage 4 kind 102 :    4
+stage 4 kind 103 :    4
+stage 5 kind   1 :  256
+stage 5 kind   5 :  384
+stage 6 kind   6 :   16
+stage 7 kind   1 :  320
+stage 7 kind   7 :   48
+stage 8 kind   8 :    8
+stage 8 kind 200 :    4
+stage 8 kind 201 :    2
+stage 8 kind 202 :    1
+stage 8 kind 203 :    1
+class 0 (stages 2,3,4): 1360 fixtures; numbering 1..1360 (DS:6936 class 1 starts at 1361)
+class 1 (stages 5..8) : 1040 fixtures; numbers 1361..2400; aggregate records follow at 0x961..0x968 (=2401..2408)
+class 0 fills its block exactly: True ; class 1 ends at 2400: True
+
+== fixtures per team per stage (slots), and the 12-entry window of 1771:82BD (list entries 25..36)
+stage 2: teams counted 128, fixtures per team min 12 max 12
+stage 3: teams counted 128, fixtures per team min 9 max 9
+stage 5: teams counted 128, fixtures per team min 10 max 10
+stage 7 O: 128 teams, fixtures per team min 5 max 5
+stage 7 F7: 32 teams, fixtures per team min 3 max 3
+stage 7: a finalist plays its 3 group matches plus the friendlies of its order position (max total 8)
