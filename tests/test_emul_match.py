@@ -793,5 +793,219 @@ class WrapperReaderTests(unittest.TestCase):
             self.assertEqual(g.word_at(self.SEED_LIN), 0x1234)   # the word stays the input seed
 
 
+class LongGuest:
+    """The Guest methods check.long_max_reader / long_mul_reader use, over literal registers and stack words:
+    arg(i) is the i-th stack word past the far return address, reg/set_reg the register file (FLAGS merged)."""
+    def __init__(self, args=(), flags=0x0ED7, **regs):
+        self.args = args
+        self.regs = {"flags": flags, "si": 0x3333, "di": 0x4444, "es": 0x5555, "bx": 0, "cx": 0, "ax": 0, "dx": 0}
+        self.regs.update(regs)
+        self.writes = []
+
+    def arg(self, i):
+        return self.args[i]
+
+    def reg(self, name):
+        return self.regs[name]
+
+    def set_reg(self, name, value):
+        self.regs[name] = value
+
+    def put(self, linear, raw):
+        self.writes.append((linear, bytes(raw)))
+
+
+class LongReaderTests(unittest.TestCase):
+    """T48: check.long_max_reader (214B:0D56) and check.long_mul_reader (23E4:0279) on literal registers. Every
+    assertion is an exact full register file (including the scratch registers and FLAGS, merged into a guest FLAGS
+    of 0x0ED7: all six arithmetic flags, IF and DF set, so a flag the model should clear shows), and the tallies
+    are exact dicts. The mutation each test must kill is in tests/mutations_t48.py."""
+    FLAGS_IN = 0x0ED7
+    NON_ARITH = 0x0602                    # what the routines leave of FLAGS_IN: bit 1, IF, DF
+
+    def max_call(self, a, b, **kw):
+        import check
+        g = LongGuest(args=(b & 0xFFFF, b >> 16, a & 0xFFFF, a >> 16))
+        tally = kw.pop("tally", None)
+        check.long_max_reader(tally, **kw)(g)
+        return g
+
+    def mul_call(self, ax, dx, bx, cx, tally=None, **kw):
+        import check
+        g = LongGuest(ax=ax, dx=dx, bx=bx, cx=cx)
+        check.long_mul_reader(tally, **kw)(g)
+        return g
+
+    def test_max_registers_are_exact(self):
+        """Kills: the arguments taken in another order (a/b swapped, lo/hi swapped), AX/DX/ES from the wrong word, ES
+        left alone, FLAGS not merged or merged over the non-arithmetic bits, any branch of the model."""
+        want = {  # (a, b): (ax, dx, es, arithmetic flags)
+            (5, 3): (5, 0, 0, 0), (3, 5): (5, 0, 0, 0x91), (7, 7): (7, 0, 0, 0x44),
+            (0x20000, 0x10005): (0, 2, 2, 0), (0x10005, 0x20000): (0, 2, 2, 0x95),
+            (0xFFFFFFFF, 0xFFFFFFFE): (0xFFFF, 0xFFFF, 0xFFFF, 0), (0, 0xFFFFFFFF): (0, 0, 0, 0x11)}
+        for (a, b), (ax, dx, es, fl) in want.items():
+            g = self.max_call(a, b)
+            with self.subTest(a=hex(a), b=hex(b)):
+                self.assertEqual(g.regs, {"ax": ax, "dx": dx, "es": es, "flags": self.NON_ARITH | fl, "si": 0x3333,
+                                          "di": 0x4444, "bx": 0, "cx": 0})
+                self.assertEqual(g.writes, [])
+
+    def test_max_tally_counts_exactly(self):
+        """Kills: any counter's condition or increment. Eight calls: a wins 4 ((5,3) (0x20000,0x10005) (-1,-2) (0,-1)),
+        b wins 2, ties 2; the high words differ in 3; min changes the result in the 6 non-ties; tie-a in none."""
+        cases = [(5, 3), (3, 5), (7, 7), (0x20000, 0x10005), (0x10005, 0x20000), (0xFFFFFFFF, 0xFFFFFFFE),
+                 (0x12345678, 0x12345678), (0, 0xFFFFFFFF)]
+        want = {"calls": 8, "high words differ (jg or jl taken)": 3, "a wins": 4, "b wins": 2, "ties (a == b)": 2,
+                "min changes the result": 6, "tie-a changes the result": 0}
+        for kw in ({}, {"falsifier": "min"}, {"falsifier": "tie-a"}):
+            tally = {}
+            for a, b in cases:
+                self.max_call(a, b, tally=tally, **kw)
+            with self.subTest(**kw):
+                self.assertEqual({k: v for k, v in tally.items() if v or k in want}, want)
+
+    def test_max_falsifiers(self):
+        """Kills: min not applied (returns the max), min applied on a tie, tie-a changing a non-tie, tie-a
+        swapping the registers."""
+        self.assertEqual((self.max_call(5, 3, falsifier="min").regs["ax"], self.max_call(5, 3, falsifier="min").regs["dx"]), (3, 0))
+        g = self.max_call(0x10005, 0x20000, falsifier="min")
+        self.assertEqual((g.regs["ax"], g.regs["dx"], g.regs["es"]), (5, 1, 2))     # min of the values; ES stays the honest winner's high word
+        g = self.max_call(7, 7, falsifier="min")
+        self.assertEqual((g.regs["ax"], g.regs["dx"]), (7, 0))
+        for a, b in ((5, 3), (3, 5), (7, 7), (0x10005, 0x20000)):                  # tie-a: equal results everywhere
+            honest = self.max_call(a, b)
+            self.assertEqual(self.max_call(a, b, falsifier="tie-a").regs, honest.regs)
+
+    def test_mul_registers_are_exact(self):
+        """Kills: the operands taken from other registers (CX is the LOW word of the second operand), a term
+        dropped (AX*CX, AX*BX, DX*CX), the carry out of AX*CX dropped, SI/DI/BX/CX not left as the listing leaves
+        them, FLAGS not those of the last add."""
+        want = {  # (ax, dx, bx, cx): (ax, dx, bx, cx, si, di, arithmetic flags)
+            (3, 0, 0, 5): (0xF, 0, 0, 0, 3, 0, 0x44), (2, 3, 5, 7): (0xE, 0x1F, 0xA, 0x15, 2, 3, 0),
+            (0xFFFF, 0, 0, 2): (0xFFFE, 1, 0, 0, 0xFFFF, 0, 0), (2, 0, 1, 0): (0, 2, 2, 0, 2, 0, 0),
+            (0, 1, 0, 1): (0, 1, 0, 1, 0, 1, 0), (0xFFFF, 0xFFFF, 0, 1): (0xFFFF, 0xFFFF, 0, 0xFFFF, 0xFFFF, 0xFFFF, 0x84)}
+        for regs, (ax, dx, bx, cx, si, di, fl) in want.items():
+            g = self.mul_call(*regs)
+            with self.subTest(regs=regs):
+                self.assertEqual(g.regs, {"ax": ax, "dx": dx, "bx": bx, "cx": cx, "si": si, "di": di, "es": 0x5555,
+                                          "flags": self.NON_ARITH | fl})
+
+    def test_mul_tally_counts_exactly(self):
+        """Kills: any counter's condition or increment. Six calls (3,0,0,5) (2,3,5,7) (0xFFFF,0,0,2) (0,0,0xFFFF,0xFFFF)
+        (2,0,1,0) (0,1,0,1): DX non-zero 2, BX non-zero 3, the mul-bx term non-zero 2, the mul-cx term non-zero 2, a
+        carry out of AX*CX 1, product+1 6, SI differs at entry 6 (the guest's SI is 0x3333, no AX)."""
+        cases = [(3, 0, 0, 5), (2, 3, 5, 7), (0xFFFF, 0, 0, 2), (0, 0, 0xFFFF, 0xFFFF), (2, 0, 1, 0), (0, 1, 0, 1)]
+        want = {"calls": 6, "DX operand (a high word) non-zero": 2, "BX operand (b high word) non-zero": 3,
+                "mul bx term (AX * BX low word) non-zero = no-cross-term changes DX": 2,
+                "mul cx term (DX * CX low word) non-zero": 2, "carry out of AX * CX non-zero": 1,
+                "product+1 changes the result": 6, "SI differs at entry = the scratch falsifier shows": 6}
+        for kw in ({}, {"falsifier": "product+1"}, {"falsifier": "no-cross-term"}, {"falsifier": "scratch"}):
+            tally = {}
+            for regs in cases:
+                self.mul_call(*regs, tally=tally, **kw)
+            with self.subTest(**kw):
+                self.assertEqual(tally, want)
+        tally = {}
+        import check
+        check.long_mul_reader(tally)(LongGuest(ax=3, dx=0, bx=0, cx=5, si=3))
+        self.assertEqual(tally["SI differs at entry = the scratch falsifier shows"], 0)
+
+    def test_mul_falsifiers(self):
+        """Kills: product+1 adding to AX only (no carry into DX), adding 2, or changing the scratch registers; the
+        no-cross-term falsifier dropping the wrong term (the DX*CX one), or changing AX; scratch writing SI."""
+        g = self.mul_call(3, 0, 0, 5, falsifier="product+1")
+        self.assertEqual((g.regs["ax"], g.regs["dx"], g.regs["bx"], g.regs["cx"]), (0x10, 0, 0, 0))
+        g = self.mul_call(0xFFFF, 0, 0, 1, falsifier="product+1")                    # 0xFFFF + 1 carries into DX
+        self.assertEqual((g.regs["ax"], g.regs["dx"]), (0, 1))
+        g = self.mul_call(2, 3, 5, 7, falsifier="no-cross-term")                     # DX = 0x1F - 0xA = 0x15 (the DX*CX term only)
+        self.assertEqual((g.regs["ax"], g.regs["dx"], g.regs["bx"], g.regs["cx"]), (0xE, 0x15, 0xA, 0x15))
+        g = self.mul_call(2, 3, 5, 7, falsifier="scratch")
+        self.assertEqual((g.regs["si"], g.regs["di"], g.regs["ax"], g.regs["dx"]), (0x3333, 3, 0xE, 0x1F))   # SI left as it was
+
+
+class LongProofTests(unittest.TestCase):
+    """T48: the long readers PROVED against the original machine code on a bare machine (tests/longs_original.py
+    places the listing's bytes at 2000:offset and calls them): the real Guest.hook(prove=True) runs the original,
+    then the model, and compares AX/DX/SP/BP/SS/DS/CS/IP and every written byte outside the dead frame; the scratch
+    registers and FLAGS are counted in scratch_differences. Fast (no savestate)."""
+    MAX_AT, MUL_AT = "2000:0D56", "2000:0279"
+    MAX_CASES = [(5, 3), (3, 5), (7, 7), (0x20000, 0x10005), (0x10005, 0x20000), (0xFFFF0000, 1), (1, 0xFFFF0000),
+                 (0xFFFFFFFF, 0xFFFFFFFE), (0xFFFFFFFE, 0xFFFFFFFF), (0x18000, 0x17FFF), (0x17FFF, 0x18000),
+                 (0x80000000, 0x7FFFFFFF), (0x7FFFFFFF, 0x80000000), (0x12345678, 0x12345678)]
+    MUL_CASES = [(3, 0, 0, 5), (2, 3, 5, 7), (0xFFFF, 0, 0, 2), (0, 0, 0xFFFF, 0xFFFF), (2, 0, 1, 0), (0, 1, 0, 1),
+                 (0xFFFF, 0xFFFF, 0xFFFF, 0xFFFF), (0x1234, 0x5678, 0x9ABC, 0xDEF0)]
+
+    @classmethod
+    def setUpClass(cls):
+        sys.path.insert(0, str(ROOT / "tests"))
+        import longs_original
+        cls.O = longs_original
+
+    def guest(self, caller):
+        O = self.O
+        mem = bytearray(0x40000)
+        for off in (0x0D56, 0x0279):
+            for o, b in O.routine_bytes(0x214B if off == 0x0D56 else 0x23E4, off).items():
+                mem[O.ROUTINE_SEG * 16 + o] = b
+        code = caller + bytes([0xF4])
+        mem[O.CODE_SEG * 16:O.CODE_SEG * 16 + len(code)] = code
+        regs = {"CS": O.CODE_SEG, "EIP": 0, "SS": O.SS, "ESP": O.SP0, "DS": 0, "EFLAGS": 0x0202, **O.SENTINEL}
+        return Guest(memory=mem, regs=regs), O.CODE_SEG * 16 + len(code) - 1
+
+    def max_program(self):
+        push = lambda w: bytes([0xB8, w & 0xFF, (w >> 8) & 0xFF, 0x50])
+        call = bytes([0x9A, 0x56, 0x0D, 0x00, 0x20])
+        return b"".join(push(a >> 16) + push(a & 0xFFFF) + push(b >> 16) + push(b & 0xFFFF) + call for a, b in self.MAX_CASES)
+
+    def mul_program(self):
+        call = bytes([0x9A, 0x79, 0x02, 0x00, 0x20])
+        return b"".join(bytes([0xB8, ax & 0xFF, ax >> 8, 0xBA, dx & 0xFF, dx >> 8, 0xBB, bx & 0xFF, bx >> 8,
+                               0xB9, cx & 0xFF, cx >> 8]) + call for ax, dx, bx, cx in self.MUL_CASES)
+
+    def run_max(self, falsifier=None):
+        import check
+        g, end = self.guest(self.max_program())
+        tally = {}
+        g.hook(self.MAX_AT, check.long_max_reader(tally, falsifier), ret=(True, 8), prove=True, ret_at=[0x0D8D])
+        g.emulate(end, 20)
+        return g, tally
+
+    def run_mul(self, falsifier=None):
+        import check
+        g, end = self.guest(self.mul_program())
+        tally = {}
+        g.hook(self.MUL_AT, check.long_mul_reader(tally, falsifier), ret=(True, 0), prove=True, ret_at=[0x0293])
+        g.emulate(end, 20)
+        return g, tally
+
+    def test_the_models_are_proved_with_no_scratch_difference(self):
+        g, _ = self.run_max()
+        self.assertEqual((g.hook_counts, g.proved_calls), ({self.MAX_AT: 14}, {self.MAX_AT: 14}))
+        self.assertEqual(g.scratch_differences[self.MAX_AT], dict.fromkeys(("BX", "CX", "SI", "DI", "ES", "FLAGS"), 0))
+        g, _ = self.run_mul()
+        self.assertEqual((g.hook_counts, g.proved_calls), ({self.MUL_AT: 8}, {self.MUL_AT: 8}))
+        self.assertEqual(g.scratch_differences[self.MUL_AT], dict.fromkeys(("BX", "CX", "SI", "DI", "ES", "FLAGS"), 0))
+
+    def test_each_stopping_falsifier_is_stopped_naming_the_helper_and_the_call(self):
+        from watched_match import ProofError
+        for run, falsifier, call in ((self.run_max, "min", 1), (self.run_mul, "product+1", 1),
+                                     (self.run_mul, "no-cross-term", 2)):   # case 1 (3*5) has no cross term: stops at call 2
+            with self.subTest(falsifier=falsifier), self.assertRaises(ProofError) as cm:
+                run(falsifier)
+            self.assertIn(f"call #{call} of ", str(cm.exception))
+            self.assertIn("register", str(cm.exception))
+
+    def test_tie_a_is_not_stopped_it_changes_no_register(self):
+        g, tally = self.run_max("tie-a")
+        self.assertEqual(g.proved_calls, {self.MAX_AT: 14})
+        self.assertEqual(tally["ties (a == b)"], 2)
+        self.assertEqual(tally["tie-a changes the result"], 0)
+
+    def test_the_scratch_falsifier_is_counted_not_stopped(self):
+        g, _ = self.run_mul("scratch")
+        self.assertEqual(g.proved_calls, {self.MUL_AT: 8})
+        self.assertEqual(g.scratch_differences[self.MUL_AT], {"BX": 0, "CX": 0, "SI": 8, "DI": 0, "ES": 0, "FLAGS": 0})
+
+
 if __name__ == "__main__":
     unittest.main()
