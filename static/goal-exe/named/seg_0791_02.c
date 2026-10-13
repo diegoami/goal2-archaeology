@@ -73,7 +73,7 @@ undefined1 write_commentary_line(undefined1 param_1,int param_2,int param_3,char
   local_3 = 0;
   if ((pitch_records[0]._6_2_ == 0) ||
      (cVar4 = commentary_record_is_new(&stack0xfffe), cVar4 != '\0')) {
-    piVar1 = (int *)((int)&pitch_records[0].field_0xa + param_4 * 2);
+    piVar1 = (int *)((int)&pitch_records[0].post + 1 + param_4 * 2);
     *piVar1 = *piVar1 + 1;
     u214b_wrap_add_in_range(1,200,1,0x80ee,0xb000);
     iVar3 = pitch_records[0]._6_2_ * 6;
@@ -422,9 +422,11 @@ void __cdecl16near resort_pitch_and_bench(void)
   set_marking_words();
   f_0791_0691();
   assign_marking_slots();
-  f_0791_419C();
-  pitch_records[1]._11_2_ = 0;
-  pitch_records[0xc]._11_2_ = 0;
+  assign_start_posts();
+  pitch_records[1].x_offset = 0;
+  pitch_records[1].depth_offset = 0;
+  pitch_records[0xc].x_offset = 0;
+  pitch_records[0xc].depth_offset = 0;
   return;
 }
 
@@ -682,7 +684,7 @@ undefined2 __cdecl16near f_0791_29B3(void)
   if (iVar3 < 0) {
     iVar3 = -iVar3;
   }
-  pitch_records[0]._19_1_ = iVar2 <= iVar3;
+  pitch_records[0].out_of_place = iVar2 <= iVar3;
   return CONCAT11((char)((uint)iVar3 >> 8),iVar2 <= iVar3);
 }
 
@@ -724,7 +726,7 @@ undefined1 __cdecl16near f_0791_2A6D(void)
     uVar1 = 0;
   }
   else {
-    uVar1 = f_0791_2BB1((pitch *)pitch_records + DS:830C,0xb000);
+    uVar1 = slot_in_side((pitch *)pitch_records + DS:830C,0xb000);
   }
   return uVar1;
 }
@@ -740,7 +742,7 @@ void f_0791_2AA3(undefined1 param_1)
   undefined2 uVar3;
   
   uVar1 = ball_holder_is_side0();
-  uVar2 = f_0791_2BB1((pitch *)pitch_records + DS:830B,0xb000);
+  uVar2 = slot_in_side((pitch *)pitch_records + DS:830B,0xb000);
   uVar2 = uVar2 & 0xff;
   uVar3 = f_0791_2A6D(uVar2,uVar1);
   emit_commentary(param_1,uVar3,uVar2,uVar1);
@@ -759,7 +761,7 @@ void f_0791_2AD4(undefined1 param_1)
   
   uVar2 = (uint)(DS:830C < 0xc);
   uVar3 = f_0791_2A6D(uVar2);
-  uVar1 = f_0791_2BB1((pitch *)pitch_records + DS:830B,0xb000);
+  uVar1 = slot_in_side((pitch *)pitch_records + DS:830B,0xb000);
   emit_commentary(param_1,uVar1,uVar3,uVar2);
   return;
 }
@@ -786,7 +788,7 @@ void __stdcall16far f_0791_2B28(undefined4 param_1,undefined1 param_2)
   
   uVar3 = (undefined2)((ulong)param_1 >> 0x10);
   uVar2 = pitch_slot_side((int)param_1,uVar3);
-  uVar1 = f_0791_2BB1((int)param_1,uVar3);
+  uVar1 = slot_in_side((int)param_1,uVar3);
   emit_commentary(param_2,0,uVar1,uVar2);
   return;
 }
@@ -821,9 +823,10 @@ undefined2 __stdcall16far energy_gate_chance(undefined4 param_1)
 }
 
 
-// ---- 0791:2BB1  f_0791_2BB1  (f_0791_2BB1; Ghidra 2000:2BB1, __stdcall16far; found by routines.tsv)
+// ---- 0791:2BB1  slot_in_side  (f_0791_2BB1; Ghidra 2000:2BB1, __stdcall16far; found by routines.tsv)
+// returns the record's slot number within its side: +6 - 0xB for slots above 11, else +6; 2 is the second player of the ascending order (the sweeper when the side has one)  [likely; F028; read code/seg_0791_05.asm]
 
-undefined2 __stdcall16far f_0791_2BB1(undefined4 param_1)
+undefined2 __stdcall16far slot_in_side(undefined4 param_1)
 
 {
   undefined2 in_AX;
@@ -901,9 +904,10 @@ undefined4 __stdcall16far f_0791_2C54(undefined4 param_1)
 }
 
 
-// ---- 0791:2C86  f_0791_2C86  (f_0791_2C86; Ghidra 2000:2C86, __stdcall16far; found by routines.tsv)
+// ---- 0791:2C86  mirror_to_team_frame  (f_0791_2C86; Ghidra 2000:2C86, __stdcall16far; found by routines.tsv)
+// (pitch, word): multiplies both bytes of the word (x low, y high) by 2BE5's direction; the destinations and the posts are stored in the team's own frame and mirrored by it  [likely; F028; read code/seg_0791_05.asm]
 
-undefined4 __stdcall16far f_0791_2C86(undefined4 param_1,undefined2 param_2)
+undefined4 __stdcall16far mirror_to_team_frame(undefined4 param_1,undefined2 param_2)
 
 {
   char cVar1;
@@ -939,9 +943,10 @@ undefined2 __stdcall16far player_at_ball(int *param_1)
 }
 
 
-// ---- 0791:2D10  f_0791_2D10  (f_0791_2D10; Ghidra 2000:2D10, __stdcall16far; found by routines.tsv)
+// ---- 0791:2D10  ball_ahead_of_by  (f_0791_2D10; Ghidra 2000:2D10, __stdcall16far; found by routines.tsv)
+// (pitch, n): 1 when the ball's y times the side's direction exceeds the record's y times the direction plus n, i.e. the ball is more than n cells ahead of him in his team's frame  [likely; F028; read code/seg_0791_05.asm]
 
-undefined2 __stdcall16far f_0791_2D10(undefined4 param_1,uint param_2)
+undefined2 __stdcall16far ball_ahead_of_by(undefined4 param_1,uint param_2)
 
 {
   char cVar1;
@@ -971,9 +976,10 @@ undefined2 __stdcall16far f_0791_2D10(undefined4 param_1,uint param_2)
 }
 
 
-// ---- 0791:2D6D  f_0791_2D6D  (f_0791_2D6D; Ghidra 2000:2D6D, __stdcall16far; found by routines.tsv)
+// ---- 0791:2D6D  ahead_of_ball_by  (f_0791_2D6D; Ghidra 2000:2D6D, __stdcall16far; found by routines.tsv)
+// (pitch, n): 1 when the record's y times the direction exceeds the ball's y times the direction plus n, i.e. he is more than n cells ahead of the ball  [likely; F028; read code/seg_0791_05.asm]
 
-undefined2 __stdcall16far f_0791_2D6D(undefined4 param_1,uint param_2)
+undefined2 __stdcall16far ahead_of_ball_by(undefined4 param_1,uint param_2)
 
 {
   char cVar1;
