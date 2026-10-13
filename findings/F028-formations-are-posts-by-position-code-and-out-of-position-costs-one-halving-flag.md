@@ -188,7 +188,7 @@
 
 ## What this does not establish
 
-- Movement (`8889`, the state handlers of `8AE9` except `57AC`, `69BD`, `58E1` partly), the set-piece placements `6AAD`-`7621`, the effect of the states 2 and 0 after the kick-off, how long players take to reach their posts, and the real pitch dimensions beyond `|y| < 0x26`, `|x| < 9`.
+- Movement (`8889`, the state handlers of `8AE9` except `57AC`, `69BD`, `58E1` partly), the set-piece placements `6AAD`-`7621`, the effect of the states 2 and 0 after the kick-off, how long players take to reach their posts, and the real pitch dimensions beyond the in-play test `|x| <= 8`, `|y| <= 37`.
 - Whether the label of section 2 is what the screen shows (no screen was read); whether a manager's change of position during a match goes through `A260` (the position-change path is unread).
 - The size of the flag's effect on results (a halving of the skill, not measured in matches); how often a game reaches it (only the 2 two-footed players of 80 and the moved players do).
 - The 52 formations are those of the new game's GOAL.DAT; countries' squads change over the years (retirement recreates by club position, F017), and the label shows what is available.
@@ -201,12 +201,12 @@
 
 | row | verdict | the deciding lines and the change |
 | --- | --- | --- |
-| C-POS-01 | confirmed | the glyph table `DS:69A8` is copied at `DS:0EE6` (`47 53 43 62 42 44 80 6D 4D 46 77 57 9B 24`), which `3E2F` indexes as row 0 of its pairing table; 14 codes (0..13) are all the tables above carry. static:static/goal-exe/data/ds_2581_01.hex:126 |
+| C-POS-01 | confirmed | every table above has 14 entries (codes 0..13); a second glyph set, `G S C b B D 80 m M F w W 9B $` (lower case for the left-side codes 3, 7, 10), sits at `DS:0EE6` just before the pairing rows; its reader was not looked for. static:static/goal-exe/data/ds_2581_01.hex:126 |
 | C-POS-02 | narrowed | bytes 0..10 are the first eleven (BC5D's loop `slot = 1..0xB` copies `DS:9F02 + 20 c + slot`); the formations derived from them: 52 multisets, 9 labels (section 1). static:static/goal-exe/named/seg_0791_09.c:623 |
 | C-POS-03 | confirmed for the tail | `230C` ends with `3EF8`, `20E3`, `419C` (`25FE`-`2609`), so the posts follow every re-sort; the sort and the pool were not re-read. static:static/goal-exe/code/seg_0791_04.asm:683 |
 | C-POS-04 | confirmed | `3A06` reads +7 (`club_position` in the named view), `278A` reads the skill through it; and the flag `+0x13` halves it (new: section 8). static:static/goal-exe/code/seg_0791_04.asm:888 |
 | C-POS-05 | narrowed | the 14 bases and 12 jitters are as the row says (`DS:0E46`, `DS:0E54`, `2FAD` at 2FD4/2FE7); the row's "no known effect in the engines" is wrong: `BEC7` reads the height (72 inches or more) when a computer team more than two goals behind converts a forward-midfield or winger player (section 8). static:static/goal-exe/code/seg_0791_19.asm:762 |
-| C-POS-06 | narrowed | `3179` is read and emulated (section 7): flank sets {3,7,10} and {4,8,11} against `foot_index`, goalkeeper mismatch both ways, a two-footed quirk; the watched engine's effect is the halving of the derived skill through pitch `+0x13` (section 8). The status stays the main session's. |
+| C-POS-06 | narrowed | `3179` is read and emulated (section 7): flank sets {3,7,10} and {4,8,11} against `foot_index`, goalkeeper mismatch both ways, a two-footed quirk; the watched engine's effect is the halving of the derived skill through pitch `+0x13` (section 8). The status stays the main session's. static:static/goal-exe/code/seg_1771_05.asm:120 |
 | C-POS-07 | confirmed | `DS:0D4E` = [0,1,1,4,4,2,2,2,2,5,5,5,3,3] read again from the image, +6 used; the new second table `DS:0D5C` of the label is a different grouping. static:static/goal-exe/data/ds_2581_01.hex:113 |
 | C-POS-08 | confirmed | `3431` reads the set `CS:3411` (`1B`: codes 0, 1, 3, 4) and sets elements 5 and 1, then for code 2 elements 5 (when +5 < 14), 6 and 2; the hardness gate calls `33CD`. static:static/goal-exe/code/seg_1771_05.asm:402 |
 | C-POS-09 | narrowed | the engine side is read for man-to-man: `3EF8` excludes the sweeper from the candidates and zeroes slot 2's word when it is the sweeper; the keeper is outside slots 2..11; the zone-marking selector `47C5` with a zero word is not read for the sweeper. static:static/goal-exe/named/seg_1771_03.c:715 |
