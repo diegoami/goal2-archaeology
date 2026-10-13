@@ -149,8 +149,10 @@
 
 - **Inputs**: `+0x3D` (2 or 1), the sorted B1 and B2 of each continent (slots 1 and 2), the continent's host.
   (static:static/goal-exe/code/seg_1771_10.asm:324)
-- `+0x3D == 2` (asm 6E8E-6F18): **semi-finals** `SF1 = winner of B1 v runner-up of B2`, `SF2 = winner of B2 v runner-up of B1`, kind **0x65 (101)**, both through `5E3A` (default operands as written, host as side B if it plays; +200 points); the two fixture numbers are stored at `DS:A933 + 0x1C0*c + 0x56C` and `+0x56E` (asm 6E99-6EE2; these fall in the B1 group's round-list words 7 and 8, `+0x20 + 2(round-1)` from slot 1 at `A933 + 0x1C0*c + 0x540`, which stage 3 leaves unused as it writes only rounds 1..6).
+- `+0x3D == 2` (asm 6E8E-6F18): **semi-finals** `SF1 = winner of B1 v runner-up of B2`, `SF2 = winner of B2 v runner-up of B1`, kind **0x65 (101)**, both through `5E3A`; the pairing names above do not give the side order. Pre-swap arguments of `5D94` (A, B): **SF1 = (runner-up of B2, winner of B1)** and **SF2 = (runner-up of B1, winner of B2)**, because the builder pushes the winner first and `5E3A`'s non-swap path forwards the second push as A; `5E3A` swaps A and B when its default A operand is the host (+200 points); the two fixture numbers are stored at `DS:A933 + 0x1C0*c + 0x56C` and `+0x56E` (asm 6E99-6EE2; these fall in the B1 group's round-list words 7 and 8, `+0x20 + 2(round-1)` from slot 1 at `A933 + 0x1C0*c + 0x540`, which stage 3 leaves unused as it writes only rounds 1..6).
   (static:static/goal-exe/code/seg_1771_10.asm:345)
+  (static:static/goal-exe/code/seg_1771_10.asm:356)
+  (static:static/goal-exe/code/seg_1771_09.asm:137)
 - `+0x3D == 1` (asm 6F1B-6FDB): **third place** kind **0x66 (102)** = the losers of the two semi-finals (`5CCB`), **final** kind **0x67 (103)** = the winners (`5C94`); numbers stored at `+0x570`, `+0x572`.
   (static:static/goal-exe/code/seg_1771_10.asm:405)
 - 4 continents x (2 + 2) = 16 fixtures. There is **no tie-break in the builder**: the semi-final and final winners come from the played match's byte +3, decided by extra time and the shoot-out (kinds 101..103 are in the decider set, 9).
