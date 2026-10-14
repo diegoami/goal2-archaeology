@@ -128,7 +128,7 @@ What the numbers say, and no more:
 ## Inferences
 
 - One team pair, one kick-off side, one direction per element, 29-30 matches per arm: a rebuild should use the sizes of the large effects (fouls, free kicks, the bar) and treat the rest as `unknown` within the intervals above. static:experiments/E026-tactics-effect/out/analysis-20261013-final.md static:static/goal-exe/code/seg_0791_07.asm:759
-- The managed team's tactics are the arm; the opponent is the computer's, whose tactics react to goals (`C173`, F010) and whose own bytes are not part of the arm. Matches that stop at an undeclared key wait are excluded (1 of 271). static:experiments/E026-tactics-effect/out/analysis-20261013-final.md static:static/goal-exe/code/seg_0791_07.asm:759
+- The managed team's tactics are the arm; the opponent is the computer's, whose tactics react to goals (`C173`, F010) and whose own bytes are not part of the arm. Matches that stop at an undeclared key wait are excluded (1 of 270 primary attempts). static:experiments/E026-tactics-effect/out/analysis-20261013-final.md static:static/goal-exe/code/seg_0791_07.asm:759
 - Depth-table semantics (sign, units) and the counters' meaning are inferred; no per-tick position trace was taken, which would settle both and is the next step (an extra code hook in the harness, about a day). static:experiments/E026-tactics-effect/out/analysis-20261013-final.md static:static/goal-exe/code/seg_0791_07.asm:759
 
 
