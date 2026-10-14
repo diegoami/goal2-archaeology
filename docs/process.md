@@ -162,13 +162,14 @@ last. Never post it: the script posts it and applies the label.
 
 Write the brief with `tools/harness/make-brief.mjs` (usage in its header), never by hand: it fills this block and `docs/review-brief.md` and refuses a brief `review.mjs` would refuse.
 
-When a brief asks for a timestamp or timezone, state the convention and include the owner's
-supplied timezone; use UTC ISO 8601 for evidence logs unless the task needs local time. A harmless
-metadata read the owner has authorized does not need another permission question. Grant only the
-read the tool can enforce, test sibling reads and writes as denied, and describe the boundary
-accurately. On OpenCode 1.18.32, `external_directory` checks the parent `/*` for a file read, while
-`grep` and `glob` permission requests omit the target path; where path-specific rules are needed,
-deny those tools and use a path-bearing tool. These are tool-layer controls, not OS isolation.
+Every review brief states the timezone and timestamp convention (L108): include the owner's
+supplied timezone and use UTC ISO 8601 for evidence logs unless the task needs local time. A
+harmless metadata read the owner has authorized does not need another permission question. Grant
+only the read the tool can enforce, test sibling reads and writes as denied, and describe the
+boundary accurately. On OpenCode 1.18.32, `external_directory` checks the parent `/*` for a file
+read, while `grep` and `glob` permission requests omit the target path; where path-specific rules
+are needed, deny those tools and use a path-bearing tool. These are tool-layer controls, not OS
+isolation.
 
 Research briefs here also add, under "Blocking means": G0a (U32, CLAUDE.md rule 22) — runs made
 because a static tool was missing, or a finding resting on runs whose Method does not say what
