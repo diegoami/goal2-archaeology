@@ -106,7 +106,7 @@ They shape the static routes of Q001–Q004 and are to be confirmed by those que
 One line each; they become questions when G-M6 or a design question needs them.
 
 - **Friendlies and tours**: how friendlies are arranged and cancelled (Q12.1–Q12.4); `1771:7BA2`, `1771:7A9A`.
-- **Sacking and the end of the game**: when the manager is sacked, and whether this release stops after one cycle (Q14.1, Q14.2); `000E:5E6C`, `DS:19E8`.
+- **Sacking and the end of the game**: when the manager is sacked, and whether this release stops after one cycle (Q14.1, Q14.2); read in F025 (T51); open: the writer of `[A923]+m+1` (the manager's group number in the stage, `likely`), a measured run of the sack chain.
 - **Several human players**: turn order with up to 6 players (Q15.1); `DS:1B1C`, `1771:09A0`.
 - **Data files and saves**: the layout of `.GL` (the 22 blocks of `1771:027B`), `.SUM` (`0791:F1F6`) and `.HIL` (`0791:0C65`) (Q16.1–Q16.5).
 - **Customisation (`ALTER.EXE`)**: what the editor writes to `GOAL.DAT` (Q17.1–Q17.5), for G-M6's writer.

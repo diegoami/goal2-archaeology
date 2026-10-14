@@ -355,7 +355,7 @@ void __cdecl16near yearly_ageing(void)
 
 
 // ---- 1771:8208  stage_end  (f_1771_8208; Ghidra 4000:8208, __cdecl16far; found by routines.tsv)
-// decrements the state's rounds byte +0x3D; at 0 advances the stage byte +0x3C by 1 wrapped into [2,8] (214B:1D6F), tests the new stage against the set CS:81E8 = {2,3,5,7} (the ageing gate) and calls 1771:80DA for members, sets +0x40 = (stage > 4) and +0x3D = 1 + (stage == 4) + 3*(stage == 8)  [established; F016; read code/seg_1771_12.asm]
+// decrements the state's rounds byte +0x3D; at 0 advances the stage byte +0x3C by 1 wrapped into [2,8] (214B:1D6F), tests the new stage against the set CS:81E8 = {2,3,5,7} (the ageing gate) and calls 1771:80DA for members, sets +0x40 = (stage > 4) and +0x3D = 1 + (stage == 4) + 3*(stage == 8); before advancing, a build constant (mov al, 0 at 822C) is tested: if it were set and the stage is 8, it returns without advancing the stage; the rounds byte +0x3D has already been decremented and keeps counting down modulo 256 on later calls, so the stage builder 1771:74BE still acts at rounds 4..1 and play is not stopped by this guard alone (F025, Unicorn P2)  [established; F016; F025; read code/seg_1771_12.asm]
 
 /* WARNING: Removing unreachable block (1771:8232) */
 /* WARNING: Removing unreachable block (1771:823C) */
@@ -1084,62 +1084,6 @@ void f_1771_91CE(int param_1)
                                (int)((ulong)fixtures >> 0x10));
         draw_country_name(0x3c,0xe,uVar3);
       }
-    }
-  }
-  return;
-}
-
-
-// ---- 1771:937C  f_1771_937C  (f_1771_937C; Ghidra 4000:937C, __stdcall16near; found by routines.tsv)
-
-void f_1771_937C(int param_1)
-
-{
-  int iVar1;
-  undefined1 extraout_AH;
-  undefined1 extraout_AH_00;
-  undefined1 uVar3;
-  undefined2 uVar2;
-  undefined2 uVar4;
-  undefined2 unaff_SS;
-  undefined1 uVar5;
-  int local_4;
-  
-  uVar4 = (undefined2)((ulong)DS:A923 >> 0x10);
-  iVar1 = (int)DS:A923;
-  u214b_unpack_screen_to_buffer((undefined4 *)&DS:A96E,0xb000,0x2ef4,0xb000);
-  uVar5 = *(char *)(*(int *)(param_1 + 4) + 10) == '\0';
-  uVar3 = extraout_AH;
-  if (!(bool)uVar5) {
-    f_1771_89C1(*(undefined2 *)(param_1 + 4));
-    uVar3 = extraout_AH_00;
-  }
-  sys_set_bit_mask_08DF(0x935c,0x7000,CONCAT11(uVar3,*(undefined1 *)(iVar1 + 0x3c)));
-  if ((bool)uVar5) {
-    local_4 = 1;
-    while( true ) {
-      if ((*(char *)(iVar1 + 0x40) == '\0') ||
-         ((uint)(*(int *)(iVar1 + 0x2a) + local_4) <= *(uint *)(iVar1 + 0x28))) {
-        f_1771_8CCF(*(undefined2 *)(param_1 + 4),*(undefined1 *)(local_4 + 0x1179),
-                    *(undefined1 *)(local_4 + 0x1169),*(undefined1 *)(local_4 + 0x1159),
-                    ((undefined1 *)&DS:1149)[local_4],*(int *)(iVar1 + 0x2a) + local_4 + -1);
-      }
-      if (local_4 == 0x10) break;
-      local_4 = local_4 + 1;
-    }
-    if (((*(char *)(iVar1 + 0x40) == '\0') ||
-        (*(int *)(iVar1 + 0x28) - *(int *)(iVar1 + 0x2a) == 0x10)) &&
-       (((byte *)fixtures)[(*(int *)(iVar1 + 0x2a) + 0xf) * 8 + -8] < 0xfe)) {
-      u214b_unpack_screen_to_buffer((undefined4 *)&DS:A96E,0xb000,0x2c02,0xb000);
-      uVar2 = fixture_winner((byte *)fixtures + (*(int *)(iVar1 + 0x2a) + 0xf) * 8 + -8,
-                             (int)((ulong)fixtures >> 0x10));
-      draw_country_name(0x41,2,uVar2);
-      uVar2 = fixture_loser((byte *)fixtures + (*(int *)(iVar1 + 0x2a) + 0xf) * 8 + -8,
-                            (int)((ulong)fixtures >> 0x10));
-      draw_country_name(0x41,4,uVar2);
-      uVar4 = fixture_winner((byte *)fixtures + (*(int *)(iVar1 + 0x2a) + 0xe) * 8 + -8,
-                             (int)((ulong)fixtures >> 0x10));
-      draw_country_name(0x41,6,uVar4);
     }
   }
   return;

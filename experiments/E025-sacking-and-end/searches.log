@@ -1,0 +1,125 @@
+## accesses of a parent frame's [bp-2] (ss:[di-2])  /ss:\[di - 2\]/
+seg_000E_04.asm:825: 37AC  36 C6 45 FE 01  mov byte ptr ss:[di - 2], 1
+seg_000E_08.asm:1049: 6AA2  36 C6 45 FE 00  mov byte ptr ss:[di - 2], 0
+seg_000E_08.asm:1200: 6C0F  36 C6 45 FE 01  mov byte ptr ss:[di - 2], 1
+seg_000E_09.asm:15: 6C34  36 80 7D FE 00  cmp byte ptr ss:[di - 2], 0
+seg_0791_01.asm:688: 05E1  36 8B 45 FE     mov ax, word ptr ss:[di - 2]
+seg_0791_01.asm:726: 0633  36 83 7D FE 0C  cmp word ptr ss:[di - 2], 0xc
+seg_0791_01.asm:743: 0655  36 83 7D FE 0C  cmp word ptr ss:[di - 2], 0xc
+seg_0791_01.asm:759: 0675  36 8B 45 FE     mov ax, word ptr ss:[di - 2]
+seg_0791_01.asm:901: 0795  36 80 7D FE 00  cmp byte ptr ss:[di - 2], 0
+seg_0791_01.asm:909: 07AC  36 88 45 FE     mov byte ptr ss:[di - 2], al
+seg_0791_08.asm:327: 4914  36 89 45 FE     mov word ptr ss:[di - 2], ax
+seg_0791_10.asm:101: 5A70  36 8A 45 FE     mov al, byte ptr ss:[di - 2]
+seg_0791_18.asm:20: ADB0  36 8B 45 FE     mov ax, word ptr ss:[di - 2]
+seg_0791_18.asm:34: ADDA  36 8B 45 FE     mov ax, word ptr ss:[di - 2]
+seg_0791_18.asm:52: AE07  36 8B 45 FE     mov ax, word ptr ss:[di - 2]
+seg_0791_18.asm:204: AF93  36 FF 75 FE     push word ptr ss:[di - 2]
+seg_0791_18.asm:241: AFEA  36 89 45 FE     mov word ptr ss:[di - 2], ax
+seg_0791_18.asm:243: AFF1  36 83 7D FE 00  cmp word ptr ss:[di - 2], 0
+seg_0791_18.asm:251: B007  36 8B 45 FE     mov ax, word ptr ss:[di - 2]
+seg_0791_18.asm:281: B05D  36 8B 45 FE     mov ax, word ptr ss:[di - 2]
+seg_0791_18.asm:318: B0C1  36 83 7D FE 00  cmp word ptr ss:[di - 2], 0
+seg_0791_18.asm:339: B0F9  36 89 45 FE     mov word ptr ss:[di - 2], ax
+seg_0791_18.asm:341: B100  36 83 7D FE 00  cmp word ptr ss:[di - 2], 0
+seg_16D6_01.asm:830: 06A0  36 83 7D FE 00  cmp word ptr ss:[di - 2], 0
+seg_16D6_01.asm:839: 06B3  36 8B 45 FE     mov ax, word ptr ss:[di - 2]
+seg_16D6_01.asm:843: 06C1  36 83 7D FE 00  cmp word ptr ss:[di - 2], 0
+seg_1771_01.asm:256: 0251  36 80 7D FE 00  cmp byte ptr ss:[di - 2], 0
+seg_1771_01.asm:264: 0268  36 88 45 FE     mov byte ptr ss:[di - 2], al
+seg_1771_12.asm:977: 89DA  36 8B 7D FE     mov di, word ptr ss:[di - 2]
+seg_1771_12.asm:982: 89E8  36 8B 7D FE     mov di, word ptr ss:[di - 2]
+seg_1771_14.asm:77: 9879  36 FF 45 FE     inc word ptr ss:[di - 2]
+seg_1771_14.asm:79: 9880  36 8B 45 FE     mov ax, word ptr ss:[di - 2]
+seg_1771_14.asm:83: 988C  36 8B 45 FE     mov ax, word ptr ss:[di - 2]
+seg_1771_14.asm:89: 989E  36 8B 45 FE     mov ax, word ptr ss:[di - 2]
+seg_214B_02.asm:698: 0E8F  36 88 45 FE     mov byte ptr ss:[di - 2], al
+seg_214B_02.asm:711: 0EB2  36 8A 45 FE     mov al, byte ptr ss:[di - 2]
+-- 36 hits
+
+## near calls of 000E:01FA  /call 0x1fa\b/
+seg_000E_06.asm:719: 4F90  E8 67 B2        call 0x1fa
+-- 1 hits
+
+## far calls of 000E:01FA  /call far 000e:01fa/
+-- 0 hits
+
+## accesses of [A923]+0x38 / +0x3A  /es:\[di \+ 0x3[8a]\]/
+seg_000E_01.asm:24: 002C  26 83 7D 38 00  cmp word ptr es:[di + 0x38], 0
+seg_000E_02.asm:160: 0B99  26 83 7D 38 02  cmp word ptr es:[di + 0x38], 2
+seg_000E_07.asm:397: 580C  26 83 7D 38 00  cmp word ptr es:[di + 0x38], 0
+seg_000E_07.asm:563: 59BC  26 8B 45 38     mov ax, word ptr es:[di + 0x38]
+seg_000E_07.asm:566: 59C5  26 03 45 3A     add ax, word ptr es:[di + 0x3a]
+seg_000E_09.asm:457: 7082  26 83 7D 38 02  cmp word ptr es:[di + 0x38], 2
+seg_0791_04.asm:728: 2665  26 8B 45 38     mov ax, word ptr es:[di + 0x38]
+seg_1771_03.asm:852: 1C9E  26 8B 45 38     mov ax, word ptr es:[di + 0x38]
+seg_1771_03.asm:873: 1CD6  26 8B 45 3A     mov ax, word ptr es:[di + 0x3a]
+seg_1771_08.asm:942: 5B74  26 8B 45 38     mov ax, word ptr es:[di + 0x38]
+seg_1771_08.asm:945: 5B7D  26 03 45 3A     add ax, word ptr es:[di + 0x3a]
+seg_1771_09.asm:1111: 675B  26 83 7D 38 00  cmp word ptr es:[di + 0x38], 0
+seg_1771_12.asm:34: 811B  26 FF 45 38     inc word ptr es:[di + 0x38]
+seg_1771_12.asm:937: 898A  26 83 7D 38 00  cmp word ptr es:[di + 0x38], 0
+seg_1771_13.asm:1084: 96A7  26 83 7D 38 00  cmp word ptr es:[di + 0x38], 0
+seg_1771_14.asm:397: 9B9F  26 89 45 3A     mov word ptr es:[di + 0x3a], ax
+seg_1771_14.asm:399: 9BA6  26 8A 45 3A     mov al, byte ptr es:[di + 0x3a]
+seg_1771_14.asm:403: 9BB1  26 FF 45 3A     inc word ptr es:[di + 0x3a]
+seg_1771_14.asm:407: 9BBA  26 89 45 38     mov word ptr es:[di + 0x38], ax
+seg_1771_14.asm:409: 9BC1  26 8B 45 3A     mov ax, word ptr es:[di + 0x3a]
+-- 20 hits
+
+## compares of [A923]+0x3C  /cmp .*es:\[di \+ 0x3c\]/
+seg_1771_08.asm:1017: 5C1D  26 80 7D 3C 05  cmp byte ptr es:[di + 0x3c], 5
+seg_1771_09.asm:634: 62D9  26 80 7D 3C 02  cmp byte ptr es:[di + 0x3c], 2
+seg_1771_12.asm:140: 8235  26 80 7D 3C 08  cmp byte ptr es:[di + 0x3c], 8
+seg_1771_12.asm:166: 8270  26 80 7D 3C 05  cmp byte ptr es:[di + 0x3c], 5
+seg_1771_12.asm:176: 8287  26 80 7D 3C 08  cmp byte ptr es:[di + 0x3c], 8
+seg_1771_12.asm:188: 82A0  26 80 7D 3C 04  cmp byte ptr es:[di + 0x3c], 4
+seg_1771_12.asm:286: 838C  26 3A 45 3C     cmp al, byte ptr es:[di + 0x3c]
+seg_1771_12.asm:704: 8781  26 80 7D 3C 07  cmp byte ptr es:[di + 0x3c], 7
+seg_1771_12.asm:727: 87B0  26 80 7D 3C 03  cmp byte ptr es:[di + 0x3c], 3
+seg_1771_12.asm:787: 8831  26 80 7D 3C 06  cmp byte ptr es:[di + 0x3c], 6
+seg_1771_13.asm:118: 8D97  26 80 7D 3C 05  cmp byte ptr es:[di + 0x3c], 5
+seg_1771_13.asm:611: 9248  26 80 7D 3C 04  cmp byte ptr es:[di + 0x3c], 4
+seg_1771_13.asm:963: 95A6  26 80 7D 3C 07  cmp byte ptr es:[di + 0x3c], 7
+seg_1771_13.asm:968: 95B5  26 80 7D 3C 06  cmp byte ptr es:[di + 0x3c], 6
+-- 14 hits
+
+## constant-folded boolean tests ('mov al, 0|1' followed by 'or al, al')
+seg_000E_09.asm:453: 7078  B0 00           mov al, 0 / 707A  08 C0           or al, al
+seg_1771_01.asm:1015: 0922  B0 01           mov al, 1 / 0924  08 C0           or al, al
+seg_1771_03.asm:525: 199B  B0 00           mov al, 0 / 199D  08 C0           or al, al
+seg_1771_03.asm:606: 1A4C  B0 01           mov al, 1 / 1A4E  08 C0           or al, al
+seg_1771_04.asm:89: 26CF  B0 01           mov al, 1 / 26D1  08 C0           or al, al
+seg_1771_04.asm:166: 2782  B0 01           mov al, 1 / 2784  08 C0           or al, al
+seg_1771_04.asm:340: 2908  B0 01           mov al, 1 / 290A  08 C0           or al, al
+seg_1771_04.asm:346: 2915  B0 00           mov al, 0 / 2917  08 C0           or al, al
+seg_1771_04.asm:455: 2A11  B0 00           mov al, 0 / 2A13  08 C0           or al, al
+seg_1771_04.asm:746: 2CC5  B0 01           mov al, 1 / 2CC7  08 C0           or al, al
+seg_1771_07.asm:664: 4E53  B0 00           mov al, 0 / 4E55  08 C0           or al, al
+seg_1771_07.asm:1002: 5166  B0 01           mov al, 1 / 5168  08 C0           or al, al
+seg_1771_12.asm:136: 822C  B0 00           mov al, 0 / 822E  08 C0           or al, al
+seg_214B_02.asm:57: 0951  B0 00           mov al, 0 / 0953  08 C0           or al, al
+seg_214B_04.asm:376: 2071  B0 00           mov al, 0 / 2073  08 C0           or al, al
+-- 15 hits
+
+## callers of 23E4:00D8 (Halt) in calls.tsv
+0000:0000	23E4:00D8	1
+1771:0021	23E4:00D8	1
+1771:090F	23E4:00D8	1
+1771:2D15	23E4:00D8	1
+214B:08DD	23E4:00D8	1
+214B:0A10	23E4:00D8	1
+214B:1869	23E4:00D8	1
+214B:206A	23E4:00D8	1
+-- 8 hits
+
+## references of an 0xBE displacement  /\+ 0xbe\]/
+seg_000E_02.asm:179: 0BD3  26 80 BD BE 00 00 cmp byte ptr es:[di + 0xbe], 0
+-- 1 hits
+
+## calls of 1771:26B9 with the 4 instructions before
+seg_000E_09.asm:1106: cmp ax, 1 | jne 0x7685 | mov ax, 1 | push ax | call far 1771:26B9
+seg_000E_09.asm:1144: cmp ax, 4 | jne 0x76e3 | mov ax, 3 | push ax | call far 1771:26B9
+seg_1771_04.asm:811: mov byte ptr es:[di + 1], al | mov ax, 2 | push ax | push cs | call 0x26b9
+seg_1771_11.asm:461: mov word ptr [0x9b66], ax | mov ax, 4 | push ax | push cs | call 0x26b9
+
