@@ -425,6 +425,7 @@ class SavedGameTests(unittest.TestCase):
             base, new = self.sessions(folder)
             with mock.patch.object(rec, "SESSIONS", base), \
                     mock.patch.object(rec, "verify_release_or_die"), \
+                    mock.patch.object(rec, "fetch_saves_or_warn", return_value={"fetched": True}), \
                     mock.patch.object(rec.shutil, "copytree", lambda src, dst: Path(dst).mkdir()), \
                     mock.patch.object(rec, "dosbox_version", return_value="2024.03.01"):
                 session, meta = rec.new_session()
