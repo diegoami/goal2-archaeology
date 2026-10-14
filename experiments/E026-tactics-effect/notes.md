@@ -48,3 +48,10 @@ addresses and messages match the prior main view (0000:0000, 0791:1A04, 214B:05F
 `out/evidence-sha256-20261014.tsv` records the hashes of the completed scripts and
 experiment outputs at that checkpoint. Later evidence is added in new files or appended
 match rows; existing rows and committed evidence are preserved.
+
+After the reviewed T51 merge, the final union was regenerated again with real Ghidra:
+`out/ghidra-final-union2-full-20261014.log` and `out/ghidra-final-union2-20261014.err`.
+It has 476 annotated routines, 729 functions, 726 decompiled and the same three failures.
+The earlier union startup refused a duplicate renamed routine before Ghidra ran; its
+`out/ghidra-final-union-20261014.err` remains. The unique row retains the reviewed
+T51 name and its F025/F023 basis. No measured match row was altered.

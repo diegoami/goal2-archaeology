@@ -116,7 +116,7 @@ int __stdcall16far f_0791_30EA(undefined4 param_1,int param_2)
 
 
 // ---- 0791:3111  pick_pass_target  (f_0791_3111; Ghidra 2000:3111, __stdcall16far; found by routines.tsv)
-// chooses the receiver of a pass for the holder pitch record: b = (player_effective_tactic k 3, long passes) is set, or (2C54 and not a keeper slot); threshold = DS:0778[b] (2 or 0x18) + draw_table_byte(); over the side's slots from 30EA(.,2) to 30EA(.,0xb) that are available, not the holder and not in state 13 it keeps the candidate whose Manhattan distance to the holder is below the threshold when b = 0 and above it when b = 1 (a coin breaks ties after the first); so element 3 set looks for a team-mate at least 24 + draw away, clear for one within 2 + draw; the draw table's values are 0..15  [likely; F026; read named/seg_0791_03.c]
+// chooses a pass receiver: mode b is element 3 set, or (2C54 and not keeper); initial cutoff DS:0778[b] + draw_table_byte() is 2 + draw for short or 24 + draw for long. The descending first pass accepts an eligible teammate at Manhattan distance <= the current cutoff for short, > it for long; the first accepted player needs no coin, later replacements need a coin, and acceptance sets the cutoff to that player's distance. If no candidate was accepted, an ascending fallback returns the last available non-holder without a distance test. Thus element 3 changes a receiver preference, not an absolute distance guarantee  [likely; F026; read code/seg_0791_05.asm:990-1214]
 
 char __stdcall16far pick_pass_target(char *param_1)
 
