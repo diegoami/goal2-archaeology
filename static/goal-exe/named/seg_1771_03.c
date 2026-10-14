@@ -21,9 +21,10 @@ uint __stdcall16far player_leadership(int param_1)
 }
 
 
-// ---- 1771:3179  f_1771_3179  (f_1771_3179; Ghidra 4000:3179, __stdcall16far; found by routines.tsv)
+// ---- 1771:3179  out_of_place_flag  (f_1771_3179; Ghidra 4000:3179, __stdcall16far; found by routines.tsv)
+// 1 (halves the derived skill) when: not two-footed (3041), foot_index (3088) is right and +6 is in {3, 7, 10} (CS:3139); or foot_index is left and +6 is in {4, 8, 11} (CS:3159), two-footed or not; or exactly one of +6 and +7 is 0; else 0; 377E halves the strength when it is 1, A260 stores it in pitch +0x13; the original run in Unicorn gives the rule on 2352 inputs (F028)  [established; F028]
 
-undefined2 __stdcall16far f_1771_3179(int param_1)
+undefined2 __stdcall16far out_of_place_flag(int param_1)
 
 {
   char cVar1;
@@ -343,7 +344,7 @@ int __stdcall16far player_strength(int param_1)
     else if (0x100 < local_6) {
       local_6 = 0x100;
     }
-    cVar1 = f_1771_3179(param_1);
+    cVar1 = out_of_place_flag(param_1);
     if (cVar1 != '\0') {
       local_6 = local_6 / 2;
     }
@@ -639,7 +640,7 @@ void draw_tactics_panel(int param_1)
 
 
 // ---- 1771:3E2F  pick_mark_target  (f_1771_3E2F; Ghidra 4000:3E2F, __stdcall16near; found by routines.tsv)
-// picks, per defending slot, the opponent's squad word that 1771:3EF8 stores as the marking word when the team's +0x2D element 8 (man to man) is set, or leaves 0 when it picks none; how it chooses was not traced (that the word names the player to mark is inferred from the player screen's mark row, F008)  [likely; F010]
+// (frame of 3EF8; hi, lo): for the opposing slots 11 down to 2 whose position byte is in [lo, hi], for the rows r = 1..4 of the table at DS:0EE6 + 14 r (indexed by the OPPOSING position; the value is the position code of the own player that marks him), finds the value in the own positions string (own slots 2..11, entries zeroed when taken); on a hit zeroes both entries and records opposing slot -> own slot; 3EF8 calls it for [12,13], [9,11], [5,8], [1,1], [2,4] in that order  [likely; F028; F010]
 
 void pick_mark_target(int param_1,uint param_2,uint param_3)
 
@@ -684,7 +685,7 @@ void pick_mark_target(int param_1,uint param_2,uint param_3)
 
 
 // ---- 1771:3EF8  set_marking_words  (f_1771_3EF8; Ghidra 4000:3EF8, __cdecl16far; found by routines.tsv)
-// the marking words (squad words DS:9A3E + 0x28 t + 2 slot): its traced last loop goes over slots 2..11 of each team; a player with +0x10 bit 7 (Protect zone, F008) keeps his word, else the word is cleared and, when the team's +0x2D element 8 is set, set to the opponent picked by 1771:3E2F (0 if none); the earlier part, which builds 3E2F's choices, was not traced; called by 0791:230C, which both engines reach  [likely; F010]
+// the marking words (squad words DS:9A3E + 0x28 t + 2 slot): per team it builds the own positions string (slots 2..11; 0 for a sweeper, a player with +0x10 bit 7 (Protect zone, F008) or an unavailable one) and the opponent's, takes out the opposing men already marked by a protect-zone player, runs 1771:3E2F in the order above, then in the last loop (slots 2..11) a player with bit 7 keeps his word, else the word is cleared and, when the team's +0x2D element 8 is set, set to the opponent picked (0 if none); a sweeper in slot 2 gets 0; the keeper (slot 1) is outside the loops; called by 0791:230C, which both engines reach  [likely; F010; F028]
 
 void __cdecl16far set_marking_words(void)
 
@@ -1062,35 +1063,5 @@ void f_1771_4925(char *param_1)
   u214b_menu_move_byte_wrap(0xe,(char *)param_1,(int)((ulong)param_1 >> 0x10));
   *param_1 = *param_1 + -1;
   DS:A976 = 0;
-  return;
-}
-
-
-// ---- 1771:4952  f_1771_4952  (f_1771_4952; Ghidra 4000:4952, __stdcall16far; found by routines.tsv)
-
-void __stdcall16far f_1771_4952(int param_1)
-
-{
-  char cVar1;
-  player *ppVar2;
-  undefined2 uVar3;
-  
-  uVar3 = (undefined2)((ulong)players >> 0x10);
-  ppVar2 = (player *)players;
-  if (param_1 != 0) {
-    cVar1 = sys_upcase_19B2(CONCAT11((char)((uint)(param_1 * 0x14) >> 8),DS:A976));
-    if (cVar1 == 'C') {
-      ppVar2[param_1].position = ppVar2[param_1].club_position;
-    }
-    else {
-      f_1771_4925(&ppVar2[param_1].position,uVar3);
-    }
-    if (DS:0C1F != '\0') {
-      DS:9B55 = 1;
-    }
-    if (DS:0C1E != '\0') {
-      set_marking_words();
-    }
-  }
   return;
 }

@@ -79,10 +79,9 @@ int __stdcall16far f_0791_30EA(undefined4 param_1,int param_2)
 }
 
 
-// ---- 0791:3111  pick_pass_target  (f_0791_3111; Ghidra 2000:3111, __stdcall16far; found by routines.tsv)
-// chooses the receiver of a pass for the holder pitch record: b = (player_effective_tactic k 3, long passes) is set, or (2C54 and not a keeper slot); threshold = DS:0778[b] (2 or 0x18) + draw_table_byte(); over the side's slots from 30EA(.,2) to 30EA(.,0xb) that are available, not the holder and not in state 13 it keeps the candidate whose Manhattan distance to the holder is below the threshold when b = 0 and above it when b = 1 (a coin breaks ties after the first); so element 3 set looks for a team-mate at least 24 + draw away, clear for one within 2 + draw; the draw table's values are 0..15  [likely; F026; read named/seg_0791_03.c]
+// ---- 0791:3111  f_0791_3111  (f_0791_3111; Ghidra 2000:3111, __stdcall16far; found by routines.tsv)
 
-char __stdcall16far pick_pass_target(char *param_1)
+char __stdcall16far f_0791_3111(char *param_1)
 
 {
   char cVar1;
@@ -101,7 +100,7 @@ char __stdcall16far pick_pass_target(char *param_1)
   cVar1 = player_effective_tactic(pcVar7,uVar8,3);
   if ((cVar1 == '\0') &&
      ((cVar1 = f_0791_2C54(pcVar7,uVar8), cVar1 == '\0' ||
-      (cVar1 = is_keeper_slot(pcVar7[6]), cVar1 != '\0')))) {
+      (cVar1 = f_0791_045D(pcVar7[6]), cVar1 != '\0')))) {
     bVar2 = false;
   }
   else {
@@ -117,8 +116,8 @@ char __stdcall16far pick_pass_target(char *param_1)
       if (((((byte)pcVar7[6] != local_6) &&
            (cVar3 = player_unavailable_on_pitch((pitch *)pitch_records + local_6,0xb000),
            cVar3 == '\0')) &&
-          (cVar3 = ball_ahead_of_player_by((pitch *)pitch_records + local_6,0xb000,10),
-          cVar3 == '\0')) && (*(char *)((int)&pitch_records[0].state + local_6 * 0x16) != '\r')) {
+          (cVar3 = ball_ahead_of_by((pitch *)pitch_records + local_6,0xb000,10), cVar3 == '\0')) &&
+         (*(char *)((int)&pitch_records[0].state + local_6 * 0x16) != '\r')) {
         iVar4 = (int)(char)((pitch *)pitch_records + local_6)->x - (int)*param_1;
         if (iVar4 < 0) {
           iVar4 = -iVar4;
@@ -165,7 +164,7 @@ void __stdcall16far f_0791_3323(undefined4 param_1)
   undefined2 uVar2;
   
   uVar2 = (undefined2)((ulong)param_1 >> 0x10);
-  uVar1 = pick_pass_target((int)param_1,uVar2);
+  uVar1 = f_0791_3111((int)param_1,uVar2);
   move_ball_to_slot((int)param_1,uVar2,uVar1);
   return;
 }
@@ -336,10 +335,10 @@ void __stdcall16far launch_ball(undefined4 param_1,uint param_2,undefined2 param
   if (param_2 == 6) {
     bVar8 = ball_record.timer == 0x14;
     if (ball_record.timer < 0x15) {
-      cVar1 = is_keeper_slot(*(undefined1 *)(iVar6 + 6));
+      cVar1 = f_0791_045D(*(undefined1 *)(iVar6 + 6));
       bVar8 = cVar1 == '\0';
       if (!bVar8) {
-        cVar1 = f_0791_2EB8(iVar6,uVar7,ball_record._0_2_);
+        cVar1 = in_own_goal_strip(iVar6,uVar7,ball_record._0_2_);
         bVar8 = cVar1 == '\0';
         if (!bVar8) {
           param_2 = 8;
@@ -358,7 +357,7 @@ void __stdcall16far launch_ball(undefined4 param_1,uint param_2,undefined2 param
       if ((((param_2 != 8) && (1 < ball_record.timer)) && (DS:830B != DS:830C)) &&
          (cVar1 = skill_draw_passes(iVar6,uVar7,*(undefined1 *)(param_2 + 0x779)), cVar1 == '\0')) {
         DS:830C = '\0';
-        cVar1 = is_keeper_slot(*(undefined1 *)(iVar6 + 6));
+        cVar1 = f_0791_045D(*(undefined1 *)(iVar6 + 6));
         if (cVar1 == '\0') {
           cVar1 = u214b_random_coin_flip();
           if ((cVar1 == '\0') && (DS:8323 == '\0')) {
@@ -443,7 +442,7 @@ void __stdcall16far move_ball_to_slot(undefined4 param_1,uint param_2)
   if (DS:830E == '\0') {
     local_4._0_1_ = ((pitch *)pitch_records + param_2)->x;
     local_4._1_1_ = ((pitch *)pitch_records + param_2)->y;
-    cVar2 = f_0791_2EB8((pitch *)pitch_records + param_2,0xb000,local_4);
+    cVar2 = in_own_goal_strip((pitch *)pitch_records + param_2,0xb000,local_4);
     if (cVar2 == '\0') {
       uVar8 = (undefined2)((ulong)param_1 >> 0x10);
       iVar7 = (int)param_1;
@@ -654,8 +653,7 @@ void f_0791_3C20(char param_1)
 
 {
   if (DS:8326 == '\0') {
-    ((undefined1 *)&DS:7B82)[param_1 * 10] =
-         ((undefined1 *)&DS:7B82)[param_1 * 10] + '\x01';
+    ((char *)match_stats + 4)[param_1 * 10] = ((char *)match_stats + 4)[param_1 * 10] + '\x01';
   }
   return;
 }
@@ -667,41 +665,39 @@ void f_0791_3C20(char param_1)
 void __stdcall16far shot_or_header(undefined4 param_1,int param_2,undefined1 param_3)
 
 {
-  char *pcVar1;
+  char cVar1;
   char cVar2;
-  char cVar3;
-  undefined2 uVar4;
+  undefined2 uVar3;
   undefined1 extraout_AH;
+  undefined2 uVar4;
   undefined2 uVar5;
-  undefined2 uVar6;
   
   DS:830C = 0;
   if (param_2 != 2) {
+    cVar1 = u214b_random_coin_flip();
     cVar2 = u214b_random_coin_flip();
-    cVar3 = u214b_random_coin_flip();
-    ball_record.x = ball_record.x + (cVar3 - cVar2);
+    ball_record.x = ball_record.x + (cVar2 - cVar1);
   }
-  uVar5 = (undefined2)param_1;
-  uVar6 = (undefined2)((ulong)param_1 >> 0x10);
+  uVar4 = (undefined2)param_1;
+  uVar5 = (undefined2)((ulong)param_1 >> 0x10);
   if ((DS:8324 == '\0') &&
-     (((cVar2 = skill_draw_passes(uVar5,uVar6,*(undefined1 *)((param_2 == 2) + 0x78e)),
-       cVar2 != '\0' || (cVar2 = u214b_random_is_one(4), cVar2 != '\0')) ||
-      (cVar2 = f_0791_29B3(), cVar2 != '\0')))) {
-    pitch_records[0]._19_1_ = 1;
+     (((cVar1 = skill_draw_passes(uVar4,uVar5,*(undefined1 *)((param_2 == 2) + 0x78e)),
+       cVar1 != '\0' || (cVar1 = u214b_random_is_one(4), cVar1 != '\0')) ||
+      (cVar1 = f_0791_29B3(), cVar1 != '\0')))) {
+    pitch_records[0].out_of_place = 1;
   }
   else {
-    pitch_records[0]._19_1_ = 0;
+    pitch_records[0].out_of_place = 0;
   }
-  uVar4 = f_0791_2C86(uVar5,uVar6,DS:0646);
-  launch_ball(uVar5,uVar6,param_2,uVar4);
+  uVar3 = mirror_to_team_frame(uVar4,uVar5,DS:0646);
+  launch_ball(uVar4,uVar5,param_2,uVar3);
   f_0791_2AA3(CONCAT11(extraout_AH,param_3));
   if (DS:8326 == '\0') {
-    cVar2 = pitch_slot_side(uVar5,uVar6);
-    pcVar1 = (char *)(cVar2 * 10 + 0x7b81);
-    *pcVar1 = *pcVar1 + '\x01';
+    cVar1 = pitch_slot_side(uVar4,uVar5);
+    ((char *)match_stats + 3)[cVar1 * 10] = ((char *)match_stats + 3)[cVar1 * 10] + '\x01';
   }
-  if (((param_2 == 2) || ((cVar2 = u214b_random_coin_flip(), cVar2 != '\0' && (param_2 == 4)))) ||
-     (cVar2 = u214b_random_is_one(3), cVar2 != '\0')) {
+  if (((param_2 == 2) || ((cVar1 = u214b_random_coin_flip(), cVar1 != '\0' && (param_2 == 4)))) ||
+     (cVar1 = u214b_random_is_one(3), cVar1 != '\0')) {
     DS:8303 = 1;
   }
   else {
@@ -881,7 +877,7 @@ void __stdcall16far f_0791_3FAD(char *param_1,int param_2)
   cVar1 = u214b_random_coin_flip();
   pcVar3 = (char *)param_1;
   uVar4 = (undefined2)((ulong)param_1 >> 0x10);
-  if ((cVar1 == '\0') && (cVar1 = is_keeper_slot(pcVar3[6]), cVar1 == '\0')) {
+  if ((cVar1 == '\0') && (cVar1 = f_0791_045D(pcVar3[6]), cVar1 == '\0')) {
     cVar1 = u214b_random_1_to_n(8);
     local_4 = CONCAT11(((char *)form_delta)['\0' < pcVar3[1]] * '2',
                        ((char *)form_delta)['\0' < *param_1] * (cVar1 + '\x02'));
@@ -981,7 +977,7 @@ bool __cdecl16near f_0791_4151(void)
   local_7 = (pitch *)CONCAT22(0xb000,ppVar3);
   uVar1._0_1_ = local_7->x;
   uVar1._1_1_ = local_7->y;
-  cVar2 = f_0791_2EB8(ppVar3,0xb000,uVar1);
+  cVar2 = in_own_goal_strip(ppVar3,0xb000,uVar1);
   if (cVar2 != '\0') {
     f_0791_3FAD(ppVar3,0xb000,9);
   }
@@ -989,9 +985,10 @@ bool __cdecl16near f_0791_4151(void)
 }
 
 
-// ---- 0791:419C  f_0791_419C  (f_0791_419C; Ghidra 2000:419C, __cdecl16near; found by routines.tsv)
+// ---- 0791:419C  assign_start_posts  (f_0791_419C; Ghidra 2000:419C, __cdecl16near; found by routines.tsv)
+// for the 11 records of each side (DS:0668[t] + 1..+11) sets the post word pitch +9 := DS:079E[2 * player +6] (x low byte, y high byte, own frame), then separates adjacent equal posts: when the previous record's post equals the fresh one, |x| <= 4: current x += 3 and previous x -= 3; else the current x moves 3 toward the middle and the previous y falls 3; runs at the end of 0791:230C; the original run in Unicorn equals this rule on 52 block-10 formations and 3056 synthetic elevens (F028)  [established; F028]
 
-void __cdecl16near f_0791_419C(void)
+void __cdecl16near assign_start_posts(void)
 
 {
   char *pcVar1;
@@ -1010,28 +1007,28 @@ void __cdecl16near f_0791_419C(void)
     if (local_5 <= uVar3) {
       while( true ) {
         iVar2 = local_5 * 0x16;
-        *(undefined2 *)((int)&pitch_records[0].home_x + iVar2) =
+        *(undefined2 *)((int)&pitch_records[0].post + iVar2) =
              *(undefined2 *)
               ((uint)((player *)players)[*(int *)((int)&pitch_records[0].player_index + iVar2)].
                      position * 2 + 0x79e);
         if ((*(byte *)(local_3 + 0x668) + 1 < local_5) &&
-           (*(int *)((int)&pitch_records[0].home_x + local_7 * 0x16) ==
-            *(int *)((int)&pitch_records[0].home_x + iVar2))) {
-          iVar4 = (int)*(char *)((int)&pitch_records[0].home_x + iVar2);
+           (*(int *)((int)&pitch_records[0].post + local_7 * 0x16) ==
+            *(int *)((int)&pitch_records[0].post + iVar2))) {
+          iVar4 = (int)*(char *)((int)&pitch_records[0].post + iVar2);
           if (iVar4 < 0) {
             iVar4 = -iVar4;
           }
           if (iVar4 < 5) {
-            pcVar1 = (char *)((int)&pitch_records[0].home_x + iVar2);
+            pcVar1 = (char *)((int)&pitch_records[0].post + iVar2);
             *pcVar1 = *pcVar1 + '\x03';
-            pcVar1 = (char *)((int)&pitch_records[0].home_x + local_7 * 0x16);
+            pcVar1 = (char *)((int)&pitch_records[0].post + local_7 * 0x16);
             *pcVar1 = *pcVar1 + -3;
           }
           else {
-            pcVar1 = (char *)((int)&pitch_records[0].home_x + iVar2);
+            pcVar1 = (char *)((int)&pitch_records[0].post + iVar2);
             *pcVar1 = *pcVar1 + ((char *)form_delta)
-                                ['\0' < *(char *)((int)&pitch_records[0].home_x + iVar2)] * -3;
-            pcVar1 = (char *)((int)&pitch_records[0].home_y + local_7 * 0x16);
+                                ['\0' < *(char *)((int)&pitch_records[0].post + iVar2)] * -3;
+            pcVar1 = (char *)((int)&pitch_records[0].post + 1 + local_7 * 0x16);
             *pcVar1 = *pcVar1 + -3;
           }
         }
@@ -1047,10 +1044,10 @@ void __cdecl16near f_0791_419C(void)
 }
 
 
-// ---- 0791:42CB  tactic_depth_class  (f_0791_42CB; Ghidra 2000:42CB, __stdcall16far; found by routines.tsv)
-// the player's line class 1..4 used to index the depth tables DS:07CB and DS:07DB: 4 for a goalkeeper (position 0), else DS:07BA[2 * (position > 4) + f] (03 02 02 01) with f = 1 unless (position < 12 and (effective element 1 clear or the slot is not on the ball's side)); so push forward (element 1) with the slot's side holding the ball lowers the class by one (more advanced); position 0 means the keeper, 1-4 defenders, 5 and up the others  [likely; F026; read named/seg_0791_03.c]
+// ---- 0791:42CB  position_group  (f_0791_42CB; Ghidra 2000:42CB, __stdcall16far; found by routines.tsv)
+// the group code g of a pitch record: 4 for a goalkeeper, else DS:07BA[2 * (+6 > 4) + flag] = [3, 2, 2, 1] with flag = 1 for +6 >= 12, or for +6 < 12 when the effective tactic element 1 is set and the record is on the ball's side (2B51); indexes the depth tables DS:07CB and DS:07DB  [likely; F028; read code/seg_0791_07.asm]
 
-undefined4 __stdcall16far tactic_depth_class(undefined4 param_1)
+undefined4 __stdcall16far position_group(undefined4 param_1)
 
 {
   long lVar1;
@@ -1089,10 +1086,10 @@ undefined4 __stdcall16far tactic_depth_class(undefined4 param_1)
 }
 
 
-// ---- 0791:4354  set_destination_from_home  (f_0791_4354; Ghidra 2000:4354, __stdcall16far; found by routines.tsv)
-// pitch +8 = home row +0xA + row offset +0xC and +7 = home column +9 + column offset +0xB, the column offset a draw (1..5) - 3, (1..15) - 8 for position 13 outside state 9, 0 for the keeper, minus half the home column while +0xC < 2; then 2C86 clamps the destination word (+7)  [likely; F026; read named/seg_0791_03.c]
+// ---- 0791:4354  set_destination_from_post  (f_0791_4354; Ghidra 2000:4354, __stdcall16far; found by routines.tsv)
+// pitch +0xB := rand(5) - 3 (0 for a goalkeeper; rand(15) - 8 for code 13 unless state 9), minus +9 div 2 when +0xC < 2; destination x +7 := post x +9 + +0xB, y +8 := post y +0xA + depth +0xC; then mirrored through 2C86; called by 4A28, the state handlers and others  [likely; F028; read code/seg_0791_07.asm]
 
-void __stdcall16far set_destination_from_home(undefined4 param_1)
+void __stdcall16far set_destination_from_post(undefined4 param_1)
 
 {
   byte bVar1;
@@ -1126,7 +1123,7 @@ void __stdcall16far set_destination_from_home(undefined4 param_1)
   }
   *(char *)(iVar4 + 8) = *(char *)(iVar4 + 10) + *(char *)(iVar4 + 0xc);
   *(char *)(iVar4 + 7) = *(char *)(iVar4 + 9) + *(char *)(iVar4 + 0xb);
-  uVar3 = f_0791_2C86(iVar4,uVar5,*(undefined2 *)(iVar4 + 7));
+  uVar3 = mirror_to_team_frame(iVar4,uVar5,*(undefined2 *)(iVar4 + 7));
   *(undefined2 *)(iVar4 + 7) = uVar3;
   return;
 }

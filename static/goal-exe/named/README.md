@@ -18,10 +18,10 @@ rewrites every file here byte for byte (the same Ghidra run as `../decompiled/`,
 | segment | named | routines |
 | --- | --- | --- |
 | 0000 | 1 | 1 |
-| 000E | 10 | 58 |
-| 0791 | 136 | 283 |
+| 000E | 11 | 58 |
+| 0791 | 152 | 283 |
 | 16D6 | 0 | 26 |
-| 1771 | 77 | 154 |
+| 1771 | 97 | 154 |
 | 2138 (run-time library) | 1 | 1 |
 | 2139 (run-time library) | 1 | 1 |
 | 214B (run-time library) | 85 | 85 |
@@ -29,7 +29,7 @@ rewrites every file here byte for byte (the same Ghidra run as `../decompiled/`,
 | 2382 (run-time library) | 17 | 17 |
 | 23E4 (run-time library) | 88 | 88 |
 
-- The scripts' own report: GOALSETUP moved 7 bytes back to segment 2138; GOALSETUP segments 12 relocations 1916; GOALSETUP routines 726 functions 726; GOALANNOTATE records 5 fields 48 globals 32 routines 428; GOALDECOMPILE functions 729 renamed 3 ok 726 failed 3.
+- The scripts' own report: GOALSETUP moved 7 bytes back to segment 2138; GOALSETUP segments 12 relocations 1916; GOALSETUP routines 726 functions 726; GOALANNOTATE records 5 fields 47 globals 57 routines 465; GOALDECOMPILE functions 729 renamed 3 ok 726 failed 3.
 
 | File | What |
 | --- | --- |
@@ -50,6 +50,7 @@ rewrites every file here byte for byte (the same Ghidra run as `../decompiled/`,
 | `seg_0791_09.c` | code segment 0791, part 9 |
 | `seg_0791_10.c` | code segment 0791, part 10 |
 | `seg_0791_11.c` | code segment 0791, part 11 |
+| `seg_0791_12.c` | code segment 0791, part 12 |
 | `seg_16D6_01.c` | code segment 16D6, part 1 |
 | `seg_1771_01.c` | code segment 1771, part 1 |
 | `seg_1771_02.c` | code segment 1771, part 2 |

@@ -19,3 +19,7 @@ owner's decisions are U14–U20 there.
   `spec/`, `artifacts/`, `static/` (derived extracts).
 
 Private: GOAL2 is treated as abandonware (U17), and nothing of it goes to a public repository.
+
+Codex starts from [AGENTS.md](AGENTS.md); Claude starts from [CLAUDE.md](CLAUDE.md).
+The harness falls back from OpenCode 2.x to a verified 1.x `opencode.bak` or
+`opencode.1.*.bak`. `HARNESS_OPENCODE_EXE` pins a specific executable.

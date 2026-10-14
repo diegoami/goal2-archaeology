@@ -23,7 +23,12 @@ H=${HARNESS_OPENCODE_HOME:-$HOME/.local/share/harness-opencode}
 # The harness's own binary (review.mjs logs it), never whichever `opencode` comes
 # first on PATH: in a WSL shell that can be the Windows install (/mnt/c/…/npm/opencode), which
 # cannot read this database and answers "Session not found".
-oc=${OPENCODE_BIN:-$HOME/.opencode/bin/opencode}
+if [ -n "${OPENCODE_BIN:-}" ]; then
+  oc=$OPENCODE_BIN
+else
+  script_dir=$(cd -- "$(dirname -- "$0")" && pwd)
+  oc=$(node --input-type=module -e 'import { pathToFileURL } from "node:url"; const { resolveOpenCode } = await import(pathToFileURL(process.argv[1])); console.log(resolveOpenCode().exe);' "$script_dir/lib/opencode.mjs")
+fi
 [ -x "$oc" ] || { echo "peek.sh: no OpenCode binary at $oc (set OPENCODE_BIN)" >&2; exit 1; }
 out=$(mktemp) err=$(mktemp)
 trap 'rm -f -- "$out" "$err"' EXIT
