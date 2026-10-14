@@ -7,7 +7,9 @@ savestates, an index of them, and (optionally) a screen video of the game window
     python3 runtime/human/recorder.py [play] [--video] [--quit-after SECS] [--load FILE.GL | --fresh]
 
 With no subcommand it plays. The newest saved game (.GL) of the previous sessions is copied into
-the new session's game copy unless --load names one or --fresh asks for none (T39b).
+the new session's game copy unless --load names one or --fresh asks for none (T39b). Before every
+sitting the owner's saved games are fetched from release `goal2-saves` into .cache/saves/ and
+verified by hash (tools/fetch_saves.py); with no earlier session, the newest of them is the default.
 
 Xephyr is shown on $DISPLAY; the game and raw key logger use only its nested display.
 The emulator, config family and session layout follow the G1 driver (runtime/driver/driver.py):
@@ -90,6 +92,8 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "runtime" / "driver"))
 import driver  # noqa: E402  (verify_release, host_times, SET_ID, CACHE; config family via Driver)
+sys.path.insert(0, str(ROOT))
+from tools import fetch_saves  # noqa: E402  (the owner's saved games, release goal2-saves)
 
 # ---- constants ----------------------------------------------------------------------------------
 # Each one is a rule of the recorder; tests/test_human_record.py fails when any is mutated.
@@ -1754,7 +1758,28 @@ def newest_saved_game(sessions=None, exclude=None):
     found = [p for p in Path(sessions or SESSIONS).glob("*/game/*")
              if p.is_file() and p.suffix.upper() == ".GL"
              and (exclude is None or Path(exclude) not in p.parents)]
-    return max(found, key=lambda p: p.stat().st_mtime_ns) if found else None
+    return max(found, key=lambda p: (p.stat().st_mtime_ns, str(p))) if found else None
+
+
+def fetch_saves_or_warn():
+    """The owner's saved games fetched and verified (tools/fetch_saves.py) before a sitting; returns
+    meta's `saves` entry. A hash mismatch stops everything, whether the download produced it
+    (fetch_saves raises SystemExit) or a cached file already had it and the download could not run;
+    a download that cannot run (no gh, offline) with every cached save intact or merely missing is a
+    warning and a recorded problem, not a stop: the sitting uses the verified saves, or none."""
+    try:
+        fetch_saves.fetch(cache=Path(fetch_saves.CACHE))
+    except (subprocess.CalledProcessError, OSError) as e:
+        detail = (getattr(e, "stderr", None) or str(e)).strip()
+        problems = fetch_saves.verify(Path(fetch_saves.CACHE))
+        wrong = [p for p in problems if "missing from" not in p]
+        if wrong:
+            raise SystemExit("a cached saved game is not as released:\n" + "\n".join(wrong))
+        print(f"warning: the saved games could not be fetched ({detail}); "
+              f"run: python3 tools/fetch_saves.py", file=sys.stderr)
+        return {"fetched": False, "problem": detail, "problems": problems}
+    return {"fetched": True, "dir": str(fetch_saves.CACHE),
+            "files": [e["path"] for e in fetch_saves.manifest()["saves"]]}
 
 
 def place_saved_game(session, load=None, fresh=False):
@@ -1765,6 +1790,11 @@ def place_saved_game(session, load=None, fresh=False):
     if fresh:
         return {"fresh": True, "file": None}
     src = Path(load) if load else newest_saved_game(Path(session).parent, exclude=session)
+    chosen = "--load" if load else "newest .GL of the previous sessions"
+    if src is None:
+        cached = fetch_saves.verified(Path(fetch_saves.CACHE))  # listed and as released, never a stray file
+        src = max(cached, key=lambda q: (q.stat().st_mtime_ns, q.name)) if cached else None
+        chosen = "newest .GL of the fetched saves (release goal2-saves)"
     if src is None:
         return {"fresh": False, "file": None, "why": "no .GL in the previous sessions"}
     if not src.is_file() or src.suffix.upper() != ".GL":
@@ -1773,7 +1803,7 @@ def place_saved_game(session, load=None, fresh=False):
     dest = Path(session) / "game" / src.name.upper()
     dest.write_bytes(data)
     return {"fresh": False, "file": f"game/{dest.name}", "source": str(src.resolve()),
-            "chosen": "--load" if load else "newest .GL of the previous sessions",
+            "chosen": chosen,
             "bytes": len(data), "sha256": sha256(data), "copied": host_times(),
             "intervention": "I3: the owner's saved game placed in the guest's drive C: before "
                             "launch; the owner loads it in the game"}
@@ -1787,6 +1817,7 @@ def new_session(when=None, load=None, fresh=False, scale=1):
     if load and fresh:
         raise SystemExit("--load and --fresh exclude each other")
     verify_release_or_die()
+    saves = fetch_saves_or_warn()
     ts = (when or datetime.now()).strftime("%Y%m%d-%H%M%S")
     session = SESSIONS / ts
     session.mkdir(parents=True)
@@ -1804,7 +1835,7 @@ def new_session(when=None, load=None, fresh=False, scale=1):
             "artifact_set": driver.SET_ID, "config": conf, "config_sha256": sha256(conf.encode()),
             "mapper_sha256": sha256(mapper.encode()),
             "dosbox_x_version": dosbox_version(), "display": os.environ.get("DISPLAY"),
-            "video": None, "problems": [], "load": loaded, "scale": scale}
+            "video": None, "problems": [], "load": loaded, "saves": saves, "scale": scale}
     (session / "meta.json").write_text(json.dumps(meta, indent=1))
     return session, meta
 

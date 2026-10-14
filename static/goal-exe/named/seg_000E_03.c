@@ -228,8 +228,8 @@ void f_000E_26F2(int param_1)
                           ((int)*(undefined4 *)(param_1 + 4),
                            (int)((ulong)*(undefined4 *)(param_1 + 4) >> 0x10));
         if (uVar3 < 2) {
-          if ((uint)*(byte *)(*(char *)(param_1 + -1) * 10 + 0x7b81) +
-              (uint)(byte)((undefined1 *)&DS:7B7E)[*(char *)(param_1 + -1) * 10] < 8) {
+          if ((uint)(byte)((char *)match_stats + 3)[*(char *)(param_1 + -1) * 10] +
+              (uint)(byte)((char *)match_stats)[*(char *)(param_1 + -1) * 10] < 8) {
             iVar2 = u214b_random_1_to_n(3);
             if (iVar2 == 1) {
               puVar6 = local_10a;
@@ -247,7 +247,7 @@ void f_000E_26F2(int param_1)
               f_000E_075F(0x2639,0x7000,0x262b,0x7000,puVar6,unaff_SS);
             }
           }
-          else if ((byte)((undefined1 *)&DS:7B83)[*(char *)(param_1 + -1) * 10] <
+          else if ((byte)((char *)match_stats + 5)[*(char *)(param_1 + -1) * 10] <
                    *(byte *)(local_6 + (*(char *)(param_1 + -1) == '\0'))) {
             iVar2 = u214b_random_1_to_n(3);
             if (iVar2 == 1) {

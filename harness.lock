@@ -50,7 +50,7 @@ adapt tools/harness/peek.sh  (new: an OpenCode run's latest steps, from isle-war
 adapt tools/harness/lib/named.mjs  (new: a model the user names and its family; DeepSeek refused (2026-10-11))
 9befbffd7ca14116d581da6fefefbe5d43514f8c3d4a7419467f4a7810e8f96b  tools/harness/jev.mjs
 adapt tools/harness/lib/chain.mjs  (the user chooses models, the owner 2026-10-11)
-7dd90f6b7c5ee095a021cad8bcb2b7300b0a497e94effa409d6898fab3bc824f  tools/harness/lib/common.mjs
+adapt tools/harness/lib/common.mjs  (native Codex session-family detection)
 411151214b90b3847a643139417aad0b4863971c6d6ab4c271f249aa09e9ebc1  tools/harness/lib/guard.mjs
 2020f3a9dc6295089dde3481f2c08bce6d924fa031dffee1e68b6e0ce884e34a  tools/harness/lib/jail.mjs
 b65cc055307ca29a94c1f882262395737af1ae776b3561bd32d187740622b9af  tools/harness/lib/jev.mjs

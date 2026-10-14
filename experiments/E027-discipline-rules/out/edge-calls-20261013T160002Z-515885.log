@@ -1,0 +1,28 @@
+E027 edge calls; savestate E011-r0001 watchstart sha256 d68e48c734a742a63e707a8c451b9011ef03b452ebd91f239d86f875464e07a9
+T1 B27F over the 2^6 combinations of elements 3,4,5,6,7,8 of +0x10 (player 5; declared input: that byte)
+  64 combinations, 0 mismatches against the F027 machine; elements 3 and 7 pass through untouched in all of them
+T2 7A43 (declared inputs: country +0x2E of the side's country, the counters DS:7B86/7B87 of that side, the +0xE of squad players)
+  100 calls; result == (b86 + b87 < 3 and (managed or more than 11 available)) in all: True
+T3 5A8F (declared inputs: a fixture record at the scratch address: kind (+2), country A (+4), country B (+6); continents +0x2C of both)
+  same continent: kinds with 5A8F true for country A (= membership of DS:0F3E): 199 kinds; F027/F019 set {3,4,7,8..203}: True
+  kind 1, different continents: country A -> 1, country B -> 0 (F027: 1 and 0)
+  kinds where the continents change the answer for A: [1]; for B: []
+T4 3558 and T5 3651 (declared inputs: player 7's +0 country, +1 age, +2 peak, +0xD fitness, +0xE energy; country +0x2E; the seed DS:7B62)
+  DS:0E82..0E85 in this state: [16, 13, 32, 25]
+  3558 managed=True age=20 peak=27 energy before 0: energy left 0 in 6 of 4000 seeds (first: seed, fitness [(567, 1), (882, 1), (1881, 1), (2390, 1), (3389, 1)]); (fitness, energy) most common [((32, 32), 2001), ((21, 21), 89), ((30, 30), 87)]
+  3558 managed=True age=20 peak=27 energy before 20: energy left 0 in 6 of 4000 seeds (first: seed, fitness [(567, 1), (882, 1), (1881, 1), (2390, 1), (3389, 1)]); (fitness, energy) most common [((32, 32), 2001), ((21, 21), 89), ((30, 30), 87)]
+  3558 managed=True age=31 peak=27 energy before 0: energy left 0 in 6 of 4000 seeds (first: seed, fitness [(567, 1), (882, 1), (1881, 1), (2390, 1), (3389, 1)]); (fitness, energy) most common [((32, 32), 2001), ((21, 21), 89), ((30, 30), 87)]
+  3558 managed=True age=31 peak=27 energy before 20: energy left 0 in 6 of 4000 seeds (first: seed, fitness [(567, 1), (882, 1), (1881, 1), (2390, 1), (3389, 1)]); (fitness, energy) most common [((32, 32), 2001), ((21, 21), 89), ((30, 30), 87)]
+  3558 managed=True age=32 peak=27 energy before 0: energy left 0 in 6 of 4000 seeds (first: seed, fitness [(567, 1), (882, 1), (1881, 1), (2390, 1), (3389, 1)]); (fitness, energy) most common [((32, 32), 1382), ((27, 27), 122), ((30, 30), 121)]
+  3558 managed=True age=32 peak=27 energy before 20: energy left 0 in 6 of 4000 seeds (first: seed, fitness [(567, 1), (882, 1), (1881, 1), (2390, 1), (3389, 1)]); (fitness, energy) most common [((32, 32), 1382), ((27, 27), 122), ((30, 30), 121)]
+  3558 managed=True age=33 peak=27 energy before 0: energy left 0 in 6 of 4000 seeds (first: seed, fitness [(567, 1), (882, 1), (1881, 1), (2390, 1), (3389, 1)]); (fitness, energy) most common [((32, 32), 1382), ((27, 27), 122), ((30, 30), 121)]
+  3558 managed=True age=33 peak=27 energy before 20: energy left 0 in 6 of 4000 seeds (first: seed, fitness [(567, 1), (882, 1), (1881, 1), (2390, 1), (3389, 1)]); (fitness, energy) most common [((32, 32), 1382), ((27, 27), 122), ((30, 30), 121)]
+  3558 managed=False age=20 peak=27 energy before 0: energy left 0 in 0 of 4000 seeds (first: seed, fitness []); (fitness, energy) most common [((32, 32), 2125), ((29, 29), 128), ((25, 25), 128)]
+  3558 managed=False age=20 peak=27 energy before 20: energy left 0 in 0 of 4000 seeds (first: seed, fitness []); (fitness, energy) most common [((32, 32), 2125), ((29, 29), 128), ((25, 25), 128)]
+  3558 managed=False age=31 peak=27 energy before 0: energy left 0 in 0 of 4000 seeds (first: seed, fitness []); (fitness, energy) most common [((32, 32), 2125), ((29, 29), 128), ((25, 25), 128)]
+  3558 managed=False age=31 peak=27 energy before 20: energy left 0 in 0 of 4000 seeds (first: seed, fitness []); (fitness, energy) most common [((32, 32), 2125), ((29, 29), 128), ((25, 25), 128)]
+  3558 managed=False age=32 peak=27 energy before 0: energy left 0 in 0 of 4000 seeds (first: seed, fitness []); (fitness, energy) most common [((32, 32), 1227), ((14, 14), 159), ((24, 24), 159)]
+  3558 managed=False age=32 peak=27 energy before 20: energy left 0 in 0 of 4000 seeds (first: seed, fitness []); (fitness, energy) most common [((32, 32), 1227), ((14, 14), 159), ((24, 24), 159)]
+  3558 managed=False age=33 peak=27 energy before 0: energy left 0 in 0 of 4000 seeds (first: seed, fitness []); (fitness, energy) most common [((32, 32), 1227), ((14, 14), 159), ((24, 24), 159)]
+  3558 managed=False age=33 peak=27 energy before 20: energy left 0 in 0 of 4000 seeds (first: seed, fitness []); (fitness, energy) most common [((32, 32), 1227), ((14, 14), 159), ((24, 24), 159)]
+  3651 on an injured player (energy 0, flag 0): energy restored in 200 of 600 seeds (1/3 = 200)

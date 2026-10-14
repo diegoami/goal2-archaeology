@@ -1,0 +1,39 @@
+OK       0791:A6E4 host_country col5: code/seg_0791_17.asm:487-536 lies in ['0791:A6E4']
+OK       0791:AC67 bench_best_for_position col5: code/seg_0791_17.asm:1091-1139 lies in ['0791:AC67']
+OK       0791:AD8F swap_bench_into_slot col5: code/seg_0791_18.asm:6-210 lies in ['0791:AD8F']
+OK       0791:AFA3 fill_starters_from_bench col5: code/seg_0791_18.asm:211-354 lies in ['0791:AFA3']
+OK       0791:B11F choose_computer_lineup col5: code/seg_0791_18.asm:355-385 lies in ['0791:B11F']
+OK       0791:B15F result_needs_winner col5: code/seg_0791_18.asm:386-416 lies in ['0791:B15F']
+OK       0791:C50C show_computer_substitution_notice col5: code/seg_0791_20.asm:297-384 lies in ['0791:C50C']
+OK       0791:D44C second_team_is_host col5: code/seg_0791_21.asm:463-488 lies in ['0791:D44C']
+OK       0791:42CB position_group col5: code/seg_0791_07.asm (no lines) contains the routine
+OK       0791:4354 set_destination_from_post col5: code/seg_0791_07.asm (no lines) contains the routine
+OK       0791:4B64 update_player_destination col5: code/seg_0791_08.asm (no lines) contains the routine
+OK       0791:4532 depth_step_attack col5: decompiled/seg_0791_03.c (no lines) contains the routine
+OK       0791:4649 depth_step_defend col5: code/seg_0791_08.asm (no lines) contains the routine
+OK       0791:474D adjust_depth_offset col5: code/seg_0791_08.asm (no lines) contains the routine
+OK       0791:69BD kickoff_placement col5: decompiled/seg_0791_05.c (no lines) contains the routine
+OK       0791:2BB1 slot_in_side col5: code/seg_0791_05.asm (no lines) contains the routine
+OK       0791:2D10 ball_ahead_of_by col5: code/seg_0791_05.asm (no lines) contains the routine
+OK       0791:2D6D ahead_of_ball_by col5: code/seg_0791_05.asm (no lines) contains the routine
+OK       0791:2C86 mirror_to_team_frame col5: code/seg_0791_05.asm (no lines) contains the routine
+OK       0791:57AC play_state_update col5: decompiled/seg_0791_04.c (no lines) contains the routine
+OK       1771:0E6C formation_label col5: decompiled/seg_1771_01.c (no lines) contains the routine
+OK       1771:5D02 append_country_fixture col5: code/seg_1771_09.asm (no lines) contains the routine
+OK       1771:5D94 add_fixture col5: code/seg_1771_09.asm (no lines) contains the routine
+OK       1771:5E99 set_manager_groups col5: code/seg_1771_09.asm (no lines) contains the routine
+OK       1771:56E4 continent_order_offset col5: code/seg_1771_08.asm (no lines) contains the routine
+OK       1771:56FF build_draw_order col5: code/seg_1771_08.asm (no lines) contains the routine
+OK       1771:59D8 stage_uses_finals_table col5: code/seg_1771_08.asm (no lines) contains the routine
+OK       1771:6617 mark_group_fixtures_managed col5: code/seg_1771_09.asm (no lines) contains the routine
+OK       1771:6B55 stage_continental_finals col5: code/seg_1771_10.asm (no lines) contains the routine
+OK       1771:6E59 stage_continental_knockout col5: code/seg_1771_10.asm (no lines) contains the routine
+OK       1771:6FEB mark_playoff_fixture_managed col5: code/seg_1771_10.asm (no lines) contains the routine
+OK       1771:7090 stage_playoffs col5: code/seg_1771_10.asm (no lines) contains the routine
+OK       1771:71B2 stage_world_cup_groups col5: code/seg_1771_10.asm (no lines) contains the routine
+OK       1771:74BE stage_world_cup_knockout col5: code/seg_1771_10.asm (no lines) contains the routine
+OK       1771:82BD sort_group_table col5: code/seg_1771_12.asm (no lines) contains the routine
+OK       1771:85F7 decide_playoff_aggregates col5: code/seg_1771_12.asm (no lines) contains the routine
+OK       1771:8757 update_group_tables col5: code/seg_1771_12.asm (no lines) contains the routine
+OK       000E:60CB announce_stage_draw col5: code/seg_000E_08.asm (no lines) contains the routine
+citations checked: 38, mismatches: 0 (rows new or changed against 434bc08)

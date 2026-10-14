@@ -184,12 +184,12 @@ undefined4 f_000E_4865(int param_1)
   undefined2 unaff_SS;
   
   lVar1 = (ulong)(uint)(int)*(char *)(*(int *)(*(int *)(param_1 + 4) + 4) + -1) * 10;
-  if (((byte)((undefined1 *)&DS:7B84)[(int)lVar1] < 0xb) &&
+  if (((byte)((char *)match_stats + 6)[(int)lVar1] < 0xb) &&
      (lVar1 = (ulong)(uint)(int)*(char *)(*(int *)(*(int *)(param_1 + 4) + 4) + -1) * 10,
-     *(byte *)((int)lVar1 + 0x7b86) < 2)) {
+     (byte)((char *)match_stats + 8)[(int)lVar1] < 2)) {
     lVar1 = (ulong)(uint)(int)*(char *)(*(int *)(*(int *)(param_1 + 4) + 4) + -1) * 10;
     uVar4 = (undefined2)((ulong)lVar1 >> 0x10);
-    if (*(byte *)((int)lVar1 + 0x7b85) < 3) {
+    if ((byte)((char *)match_stats + 7)[(int)lVar1] < 3) {
       uVar3 = (undefined1)((ulong)lVar1 >> 8);
       uVar2 = 0;
       goto LAB_000E_48CB;
@@ -962,12 +962,11 @@ undefined1 f_000E_5CF4(int param_1)
   undefined1 uVar1;
   int iVar2;
   char cVar3;
-  int iVar4;
-  undefined2 uVar5;
-  bool bVar6;
+  undefined2 uVar4;
+  bool bVar5;
   undefined1 local_3;
   
-  uVar5 = (undefined2)((ulong)DS:A923 >> 0x10);
+  uVar4 = (undefined2)((ulong)DS:A923 >> 0x10);
   iVar2 = (int)DS:A923;
   uVar1 = *(undefined1 *)(iVar2 + 1);
   *(char *)(iVar2 + 1) = ((country *)countries)[param_1].manager + 0x80;
@@ -976,12 +975,12 @@ undefined1 f_000E_5CF4(int param_1)
      (*(char *)(iVar2 + (uint)*(byte *)(iVar2 + 1) + 0x41) == '\0')) {
     cVar3 = f_1771_55FC();
     if (cVar3 != '\0') {
-      iVar4 = (int)DS:A92B + DS:9B43 * 8;
-      bVar6 = iVar4 == 0;
+      bVar5 = (byte *)fixtures + DS:9B43 * 8 == (byte *)0x0;
       sys_set_bit_mask_08DF
                 (0x5cd4,0x4000,
-                 CONCAT11((char)((uint)(DS:9B43 * 8) >> 8),*(undefined1 *)(iVar4 + -6)));
-      if (!bVar6) {
+                 CONCAT11((char)((uint)(DS:9B43 * 8) >> 8),
+                          ((byte *)fixtures + DS:9B43 * 8)[-6]));
+      if (!bVar5) {
         f_000E_5AC5(&stack0xfffe);
         local_3 = 1;
       }
@@ -1002,7 +1001,7 @@ bool f_000E_5DAF(int param_1)
   
   cVar1 = f_0791_DAF8(*(undefined2 *)(param_1 + 6));
   if (cVar1 != '\0') {
-    f_000E_075F((uint)((country *)countries)[*(int *)((int)DS:A92B + DS:9B43 * 8 + -2)].
+    f_000E_075F((uint)((country *)countries)[*(int *)((byte *)fixtures + DS:9B43 * 8 + -2)].
                       continent * 8 + 0x6e92,0xb000,0x5da7,0x2000,
                 (int)DS:9B68 + *(int *)(param_1 + 6) * 0x10,
                 (int)((ulong)DS:9B68 >> 0x10));

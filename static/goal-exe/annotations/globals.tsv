@@ -5,7 +5,7 @@ DS:A91F	manager_countries	byte far*	far pointer to the manager array (0x195 byte
 DS:A927	pool_indices	word far*	far pointer to the pool index array (0x3C2 bytes = word[481] allocated): A927[base..base+79] holds the 80 pool player numbers of the current manager, base = DS:6D18 + 2*manager	established	F011; F007
 DS:6D18	pool_base_table	word[7]	the per-manager pool base: word[m] (m = 1..6) = 80*(m-1)+1, manager m's first pool index; word[0] is not read	established	F011
 DS:0668	side_base	char[2]	two adjacent bytes, the pitch-slot base per engine team (every listing read is a byte: `mov al, byte ptr [di + 0x668]` at D5EF and DA01, seg_0791_21.asm, and likewise 1E63, 2029, 21CE...; never a word): 0668[t] + 1 .. +11 are team t's slots (team 0 owns 12..22, team 1 owns 1..11); D733's goal phase, D5C1, 8062 and 6337 all add it	established	F012
-DS:066B	sub_budgets	char[2]	the substitution budget per team at a match start: DS:066B[9A3D] (5 per team in a friendly)	established	F012
+DS:066B	sub_budgets	char[2]	the substitution budget by DS:9A3D (not per team): DS:066B = 5 for a fixture of kind 1 (a friendly), DS:066C = 2 for every other kind; A4A1 copies the chosen byte into both sides' DS:9B3A (A605)	established	F012; F027
 DS:0720	perf_delta	char[67]	the performance delta per commentary template id, added by 0791:1E53 to the line's named player (38 goal +40, 39 own goal -50, 50 booked -20, 51 sent off -100, 65 challenge -10); nothing writes it at runtime	established	F012; F014
 DS:7C3A	man_of_the_match	word	the man of the match's squad word, CAB0's winner (cleared per match by A4A1); drawn on the summary only when DS:9A3F is clear	established	F014
 DS:9B07	match_form	char[41]	morale snapshot per side and squad slot: dummy offset 0 then offsets 1..40 (20*side+slot); F1F6 saves and CB7D restores nonzero words; 7CC5 with nonzero flag writes min(32,s8(new live form)); substitutions swap matching bytes	established	F014; F018; F019
@@ -27,3 +27,32 @@ DS:0E80	peak_age_base	char[2]	1771:3291's peak base by (+7 == 0): 27, 30 (+2 = t
 DS:0E82	fitness_redraw_base	byte[2]	3558's base B selected by unsigned age>peak_age+4; managed and unmanaged draws around B	established	F007; F017; F018
 DS:9B56	country_order_ptr	byte far*	far pointer to the country order 1771:5EE1 sorts and 1771:63A4 ranks by: DS:9BFD (world, 128) or DS:9C7E (four continents of 32)	established	F017
 DS:0E84	fitness_recovery_cap	byte[2]	3651 upper fitness cap selected by unsigned age>peak_age+3; lower clamp to 1 bypasses this table	established	F018
+DS:9A3D	fixture_not_friendly	byte	A4A1 sets it to 0 when the fixture's byte +2 is 1 (a friendly) and to 1 otherwise (A547-A554); it indexes DS:066B and, nonzero, lets the quick engine's D733 call D5C1 (the only quick foul path)	established	F012; F027
+DS:9B3A	substitutions_left	char[2]	per side (0 or 1, as DS:9B34) the substitutions left in this match: A4A1 sets both from DS:066B[DS:9A3D] (A605); 0791:C5DC decrements the side's byte (C7DC, no test of zero); the action replay's restore 0F0B writes the word DS:9B38 into DS:9B3A; 8062, C88D, 7D56 and the bench screen (E544, E688, E6A2) test it	established	F012; F027
+DS:7B7E	match_stats	char[20]	the match statistics, byte side*10 + k for k = 0..9, cleared by A4A1 (A4EF); k = 6 the fouls (8206), 7 the bookings (798D), 8 the sendings off (7B24), 9 the injuries (7D56); 7A43 reads k = 8 and 9; k = 0..5 are shown on the statistics screen and not read for this row	likely	F027
+DS:8321	added_time	word	the added minutes still to play: A4A1 zeroes it (A626); 798D, 7B77 and 7D56 add 1 each while it is below 5; 970C counts it down only after DS:831B reached 0, so the remaining added time is at most 5 at any moment and, when no event falls after the added minutes begin, the match runs min(5, events) minutes past 90; the first half does not consult it	established	F027
+DS:8337	foul_draw_table	byte[256]	bytes 1..255 are rand(16) - 1 (0..15), filled by 0791:2648 at the match set-up; 261A returns the byte at DS:8437 and advances it; 7EEF reads two per foul (draw1 < 4, draw2 == 1); byte 0 is unused	established	F020; F027
+DS:8437	foul_draw_index	word	the index into DS:foul_draw_table 261A reads and advances (255 wraps to 1); 2648 sets it to DS:9B36 (the second side's country number)	established	F020; F027
+DS:079E	start_posts	word[14]	the start post (x, y; signed bytes) per position code, in the team's own frame; read by 0791:419C	established	F028
+DS:07BA	group_code_table	byte[4]	the group code g by [2 * (+6 > 4) + flag] = 3, 2, 2, 1 (0791:42CB)	likely	F028
+DS:07BE	home_depth_by_position	byte[14]	a depth offset per position code, read by 0791:4438 (added to the post's y)	likely	F028
+DS:0812	kickoff_depth_by_position	byte[14]	the kick-off depth per position code: 0791:69BD adds it to the post's y	likely	F028
+DS:07CB	defend_depth_table	byte[16]	the defending depth limit DS:07CB[e5 * 8 + e6 * 4 + g] (g 1..4)	likely	F028
+DS:07DB	attack_depth_table	byte[8]	the attacking depth limit DS:07DB[e7 * 4 + g] (g 1..4)	likely	F028
+DS:0D5C	label_class_by_position	byte[14]	the class per position code for the formation label: 0 keeper, 1 codes 1..4, 2 codes 5..11, 3 codes 12 and 13 (1771:0E6C)	established	F028
+DS:0D4E	line_by_position	byte[14]	the quick engine's line per position code: 0 keeper, 1 defence, 2 midfield, 3 attack, 4 half defence half midfield, 5 half midfield half attack (1771:0BC4)	established	F012; F028
+DS:0E46	base_height	byte[14]	a player's base height in inches per club position; 1771:2FAD adds DS:0E54[number mod 12]	established	F008; F028
+DS:0E60	foot_rows	byte[28]	foot index (0 left, 1 right) per club position, two rows of 14; 1771:3088 selects the row by DS:0E7C[number mod 3]	established	F008; F028
+DS:0EE6	mark_pair_table	byte[70]	the 14 position glyphs (G S C b B D 80 m M F w W 9B $), then four rows of 14 bytes (priority 1..4) read by 1771:3E2F: indexed by the opposing position, the value is the position code of the own player that marks him	likely	F028
+DS:099A	bench_roles	byte[112]	per outgoing position code a row of 8 bytes: the count and the club positions accepted as substitute (0791:AAE8)	established	F012; F028
+DS:A92B	fixtures	byte far*	far pointer to the fixture list: 8-byte records, number n at +8n-8; 1..2400 fixtures, 2401..2408 play-off aggregates, 0xFF sentinel at 2409 (0x4B48 bytes allocated)	established	F023
+DS:A92F	country_fixture_lists	word far*	far pointer to the per-country lists of 36 fixture numbers (0x48 bytes each, 0x2448 allocated), newest last	established	F023
+DS:A933	group_tables	byte far*	far pointer to the group tables (0x1C00 bytes): slot at +class*0xE00 + table*0x700 + continent*0x1C0 + group*0x38 + slot*8 - 0x200; slot = country word, W, D, L, GF, GA, points	established	F023
+DS:0F3E	result_kinds	byte[32]	the set of fixture kinds {3, 4, 7, 8..203} (F019); 1771:5A03 tests it	established	F019; F023
+DS:693A	decider_kinds	byte[32]	the set of fixture kinds {4, 8..203} for which a drawn match goes on (extra time in a silent result, the shoot-out gate DS:7C36); bytes 10 FF x24 0F 00 x6	established	F023
+DS:118E	start_stage	byte[2]	the stage a new game starts in by class (start year mod 4 == 2): 2, 5	established	F023
+DS:6936	class_first_fixture	word[2]	first fixture number of class 0 (stages 2-4) and class 1 (stages 5-8): 1, 1361	established	F023
+DS:0F76	draw_slot_permutations	byte[16]	four rows of the slot permutation a draw picks at random: (1 2 3 4) (2 3 4 1) (3 4 2 1) (4 1 2 3)	established	F023
+DS:0F86	round_pair_table	byte[264]	eleven rows (g + continent = 2..12) of 12 ordered pairs of slots, the double round robin of a group of 4 by round	established	F023
+DS:108E	friendly_partner_group	byte[48]	8 groups x 6 rounds: the group whose slot-a teams the group plays friendlies against (0 = none)	established	F023
+DS:10BE	round_robin_pairs	byte[12]	the six pairs (1,2) (3,4) (1,3) (2,4) (1,4) (2,3) of a single round robin of a group of 4	established	F023
