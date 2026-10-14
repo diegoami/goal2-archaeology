@@ -345,6 +345,8 @@ class PauseKeyTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as folder:
             with mock.patch.object(rec, "SESSIONS", Path(folder)), \
                     mock.patch.object(rec, "verify_release_or_die"), \
+                    mock.patch.object(rec, "fetch_saves_or_warn", return_value={"fetched": True}), \
+                    mock.patch.object(rec.fetch_saves, "CACHE", Path(folder) / "no-saves"), \
                     mock.patch.object(rec.shutil, "copytree"), \
                     mock.patch.object(rec, "dosbox_version", return_value="2024.03.01"):
                 session, meta = rec.new_session()
