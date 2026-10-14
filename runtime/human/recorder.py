@@ -1758,21 +1758,26 @@ def newest_saved_game(sessions=None, exclude=None):
     found = [p for p in Path(sessions or SESSIONS).glob("*/game/*")
              if p.is_file() and p.suffix.upper() == ".GL"
              and (exclude is None or Path(exclude) not in p.parents)]
-    return max(found, key=lambda p: p.stat().st_mtime_ns) if found else None
+    return max(found, key=lambda p: (p.stat().st_mtime_ns, str(p))) if found else None
 
 
 def fetch_saves_or_warn():
     """The owner's saved games fetched and verified (tools/fetch_saves.py) before a sitting; returns
-    meta's `saves` entry. A hash mismatch stops everything (fetch_saves raises SystemExit); a
-    download that cannot run (no gh, offline) is a warning and a recorded problem, not a stop: the
-    sitting may use the saves already cached, or none."""
+    meta's `saves` entry. A hash mismatch stops everything, whether the download produced it
+    (fetch_saves raises SystemExit) or a cached file already had it and the download could not run;
+    a download that cannot run (no gh, offline) with every cached save intact or merely missing is a
+    warning and a recorded problem, not a stop: the sitting uses the verified saves, or none."""
     try:
         fetch_saves.fetch()
     except (subprocess.CalledProcessError, OSError) as e:
         detail = (getattr(e, "stderr", None) or str(e)).strip()
+        problems = fetch_saves.verify()
+        wrong = [p for p in problems if "missing from" not in p]
+        if wrong:
+            raise SystemExit("a cached saved game is not as released:\n" + "\n".join(wrong))
         print(f"warning: the saved games could not be fetched ({detail}); "
               f"run: python3 tools/fetch_saves.py", file=sys.stderr)
-        return {"fetched": False, "problem": detail, "problems": fetch_saves.verify()}
+        return {"fetched": False, "problem": detail, "problems": problems}
     return {"fetched": True, "dir": str(fetch_saves.CACHE),
             "files": [e["path"] for e in fetch_saves.manifest()["saves"]]}
 
@@ -1787,8 +1792,8 @@ def place_saved_game(session, load=None, fresh=False):
     src = Path(load) if load else newest_saved_game(Path(session).parent, exclude=session)
     chosen = "--load" if load else "newest .GL of the previous sessions"
     if src is None:
-        cached = [q for q in Path(fetch_saves.CACHE).glob("*") if q.is_file() and q.suffix.upper() == ".GL"]
-        src = max(cached, key=lambda q: q.stat().st_mtime_ns) if cached else None
+        cached = fetch_saves.verified(Path(fetch_saves.CACHE))  # listed and as released, never a stray file
+        src = max(cached, key=lambda q: (q.stat().st_mtime_ns, q.name)) if cached else None
         chosen = "newest .GL of the fetched saves (release goal2-saves)"
     if src is None:
         return {"fresh": False, "file": None, "why": "no .GL in the previous sessions"}

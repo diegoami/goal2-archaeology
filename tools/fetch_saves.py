@@ -54,6 +54,13 @@ def verify(cache: Path = CACHE) -> list[str]:
     return problems
 
 
+def verified(cache: Path = CACHE) -> list[Path]:
+    """The cached saves that are listed in saves.json and exactly as released, in name order."""
+    bad = {p.split(":", 1)[0] for p in verify(cache)}
+    return [cache / e["path"] for e in sorted(manifest()["saves"], key=lambda e: e["path"])
+            if e["path"] not in bad]
+
+
 def download(names=None, repo: str = DEFAULT_REPO, cache: Path = CACHE) -> None:
     cache.mkdir(parents=True, exist_ok=True)
     data = manifest()
@@ -93,11 +100,11 @@ def add(src: Path, name: str | None, repo: str = DEFAULT_REPO) -> None:
     staged = CACHE / name
     if src.resolve() != staged.resolve():
         shutil.copyfile(src, staged)
-    if known is None:
-        data["saves"].append(entry)
-        MANIFEST.write_text(json.dumps(data, indent=1) + "\n", encoding="utf-8")
     subprocess.run(["gh", "release", "upload", data["release"], str(staged), "--repo", repo],
                    check=True)
+    if known is None:  # recorded only once the release holds it
+        data["saves"].append(entry)
+        MANIFEST.write_text(json.dumps(data, indent=1) + "\n", encoding="utf-8")
     print(f"{name}: uploaded to {data['release']}; commit artifacts/saves.json")
 
 
