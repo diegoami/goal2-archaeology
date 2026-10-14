@@ -164,7 +164,11 @@ The owner coaches the main session while playing; three pieces serve that, all g
   DOSBox-X has exited, `key-logger-stopped` when not. Any error still writes `ended` and
   `stop_reason` to `meta.json` and its traceback to `session.log`.
 - **Saved games.** `play.sh` copies the newest `.GL` of the previous sessions (or `--load FILE.GL`;
-  `--fresh` none) into the session's game copy before launch and records it in `meta.json`.
+  `--fresh` none) into the session's game copy before launch and records it in `meta.json`. Before every launch the recorder also fetches
+  the owner's saves from release `goal2-saves` into `.cache/saves/`, verified against
+  `artifacts/saves.json` (`tools/fetch_saves.py`; recorded in `meta.json` as `saves`); when no
+  earlier session has a `.GL`, the newest fetched save is the default. A download that cannot run
+  warns and goes on; a hash mismatch stops.
 - **Notes.** `runtime/human/note.py <session> "text"` appends UTC, the monotonic clock and the
   text to `notes.jsonl`; `extract.py` places each note, and each pause and resume, between the
   two states whose screens (their request windows) it falls between.
