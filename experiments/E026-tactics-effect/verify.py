@@ -31,6 +31,19 @@ def main():
         expected = 29 if arm == 'e7' else 30
         if len(runs[arm]) != expected:
             raise ValueError(f'{arm}: expected {expected} distinct successful seeds, found {len(runs[arm])}')
+    seen = {}
+    checked = 0
+    for path in sorted(HERE.glob('out/*-s*.jsonl')):
+        for line in path.read_text().splitlines():
+            record = json.loads(line)
+            if record.get('error') or not record.get('stopped_at_board') or record.get('strays'):
+                continue
+            key = (record['arm'], record['seed'])
+            if key in seen:
+                compare(seen[key], record)
+                checked += 1
+            else:
+                seen[key] = record
     reference = {}
     for path in sorted(HERE.glob('out/e3-s*.jsonl')):
         for line in path.read_text().splitlines():
@@ -53,6 +66,7 @@ def main():
         raise ValueError('counter mutation was not detected')
     print('N per arm: ' + ', '.join(f'{arm} {len(runs[arm])}' for arm in ARMS))
     print(f'void records retained/excluded: {len(bad)}')
+    print(f'all repeated (arm, seed) results identical in every deterministic field: {checked}')
     print('full e3 arm reproduced: 30/30 scores, raw statistics, board, draw digest and declared inputs identical')
     print('counter mutation rejected: stats differs')
 
