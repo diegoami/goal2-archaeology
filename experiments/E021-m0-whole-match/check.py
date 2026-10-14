@@ -366,7 +366,8 @@ def merge_flags(g, arith):
 
 def max_variant(honest, a, b, variant=None):
     """(AX, DX) of 214B:0D56 under a falsifier. `a` and `b` are (low, high) words; `honest` is longs.max_0d56's result.
-    min: the loser instead of the winner; tie-a: `a` when the two longs are equal (the listing's `jbe` makes it b)."""
+    min: the loser instead of the winner; lowword-signed: signed low-word comparison when the high words are equal.
+    tie-a is retained as a documented equivalent: `a` when the two longs are equal (the listing's `jbe` makes it b)."""
     if variant == "min":
         return b if (honest.ax, honest.dx) == a else a
     if variant == "tie-a" and a == b:
@@ -381,7 +382,7 @@ def long_max_reader(tally=None, falsifier=None):
     [bp + 8] (high, arg(1)), a = [bp + 0xA] (low, arg(2)) and [bp + 0xC] (high, arg(3)) (0D5C, 0D61, 0D68, 0D7A: the
     frame is push bp, so bp + 6 is the first word past the far return address). Reads only the stack arguments and writes
     only its dead frame. Results: AX, DX, ES (the winner's high word) and the six arithmetic flags of the last `cmp`.
-    `tally` counts the calls and the branches of the model's own run; `falsifier` selects one (min, tie-a), whose reach
+    `tally` counts the calls and the branches of the model's own run; `falsifier` selects one (min, lowword-signed), whose reach
     (the calls it would change, computed against the honest result) is tallied as well."""
     def fn(g):
         b, a = (g.arg(0), g.arg(1)), (g.arg(2), g.arg(3))
