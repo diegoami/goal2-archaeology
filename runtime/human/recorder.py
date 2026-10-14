@@ -1768,10 +1768,10 @@ def fetch_saves_or_warn():
     a download that cannot run (no gh, offline) with every cached save intact or merely missing is a
     warning and a recorded problem, not a stop: the sitting uses the verified saves, or none."""
     try:
-        fetch_saves.fetch()
+        fetch_saves.fetch(cache=Path(fetch_saves.CACHE))
     except (subprocess.CalledProcessError, OSError) as e:
         detail = (getattr(e, "stderr", None) or str(e)).strip()
-        problems = fetch_saves.verify()
+        problems = fetch_saves.verify(Path(fetch_saves.CACHE))
         wrong = [p for p in problems if "missing from" not in p]
         if wrong:
             raise SystemExit("a cached saved game is not as released:\n" + "\n".join(wrong))
