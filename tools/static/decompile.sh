@@ -31,6 +31,13 @@ fi
 exe=$1
 out=$2
 root=$(cd "$(dirname "$0")/../.." && pwd)
+crash_reports=$(find "$root" -type f -name 'hs_err_pid*.log' -print)
+if [ -n "$crash_reports" ]; then
+  echo "decompile.sh: refusing to run while JVM crash reports remain in the worktree:" >&2
+  printf '%s\n' "$crash_reports" >&2
+  echo "Review the reports before retrying; report JVM crashes to Adoptium: https://github.com/adoptium/adoptium-support/issues" >&2
+  exit 1
+fi
 if [ -n "$annotations" ]; then
   python3 "$root/tools/static/check_annotations.py" --annotations "$annotations" > /dev/null
 fi
