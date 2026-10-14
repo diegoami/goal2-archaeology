@@ -39,8 +39,8 @@ The original 275 CPU-timed attempts sum to 24,175.1 seconds; the resumed 30-matc
 adds 1,237.8, for 25,412.9 recorded seconds (7.059 hours). Seven early attempts and the
 separate final-tactics match have no CPU timer. Estimating those eight at the original
 87.9-second recorded mean puts the whole experiment near 7.3 hours, within the task's
-approximate 8-hour budget. Nine primary arms cover one direction of each team-byte flip;
-reverse directions, combinations, other pairs and mid-match changes are unmeasured.
+approximate 8-hour budget. Nine primary arms measure both bit values for each contrast against a common background;
+alternative background settings, combinations, other pairs and mid-match changes are unmeasured.
 
 The real Ghidra union regeneration is retained in `out/ghidra-full-20261014.log` and
 `out/ghidra-resume-20261014.err`: 729 functions, 726 decompiled, three failures whose
