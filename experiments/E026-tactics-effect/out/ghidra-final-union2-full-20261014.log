@@ -1,0 +1,161 @@
+openjdk version "21.0.12.1" 2026-08-18 LTS
+OpenJDK Runtime Environment Temurin-21.0.12.1+1 (build 21.0.12.1+1-LTS)
+OpenJDK 64-Bit Server VM Temurin-21.0.12.1+1 (build 21.0.12.1+1-LTS, mixed mode)
+INFO  Using log config file: jar:file:/home/diego/tools/ghidra_12.1.4_PUBLIC/Ghidra/Framework/Generic/lib/Generic.jar!/generic.log4j.xml (LoggingInitialization)  
+INFO  Using log file: /home/diego/.config/ghidra/ghidra_12.1.4_PUBLIC/application.log (LoggingInitialization)  
+INFO  Loading user preferences: /home/diego/.config/ghidra/ghidra_12.1.4_PUBLIC/preferences (Preferences)  
+INFO  Searching for classes... (ClassSearcher)  
+INFO  Class search complete (620 ms) (ClassSearcher)  
+INFO  Initializing SSL Context (DefaultSSLContextInitializer)  
+INFO  Initializing Random Number Generator... (SecureRandomFactory)  
+INFO  Random Number Generator initialization complete: NativePRNGNonBlocking (SecureRandomFactory)  
+INFO  Trust manager disabled, cacerts have not been set (DefaultTrustManagerFactory)  
+INFO  Headless startup complete (3902 ms) (AnalyzeHeadless)  
+INFO  Class searcher loaded 93 extension points (46 false positives) (ClassSearcher)  
+INFO  HEADLESS Script Paths:
+    /home/diego/tools/ghidra_12.1.4_PUBLIC/Ghidra/Features/FunctionID/ghidra_scripts
+    /home/diego/tools/ghidra_12.1.4_PUBLIC/Ghidra/Features/Decompiler/ghidra_scripts
+    /home/diego/tools/ghidra_12.1.4_PUBLIC/Ghidra/Features/WildcardAssembler/ghidra_scripts
+    /home/diego/tools/ghidra_12.1.4_PUBLIC/Ghidra/Features/Base/ghidra_scripts
+    /home/diego/tools/ghidra_12.1.4_PUBLIC/Ghidra/Features/SystemEmulation/ghidra_scripts
+    /home/diego/tools/ghidra_12.1.4_PUBLIC/Ghidra/Features/DecompilerDependent/ghidra_scripts
+    /home/diego/tools/ghidra_12.1.4_PUBLIC/Ghidra/Features/GnuDemangler/ghidra_scripts
+    /home/diego/projects/goal2-archaeology/.cache/T52-sol-medium/tools/static/ghidra
+    /home/diego/tools/ghidra_12.1.4_PUBLIC/Ghidra/Debug/Debugger-rmi-trace/ghidra_scripts
+    /home/diego/tools/ghidra_12.1.4_PUBLIC/Ghidra/Processors/DATA/ghidra_scripts
+    /home/diego/tools/ghidra_12.1.4_PUBLIC/Ghidra/Features/VersionTracking/ghidra_scripts
+    /home/diego/tools/ghidra_12.1.4_PUBLIC/Ghidra/Processors/8051/ghidra_scripts
+    /home/diego/tools/ghidra_12.1.4_PUBLIC/Ghidra/Processors/PIC/ghidra_scripts
+    /home/diego/tools/ghidra_12.1.4_PUBLIC/Ghidra/Features/SwiftDemangler/ghidra_scripts
+    /home/diego/tools/ghidra_12.1.4_PUBLIC/Ghidra/Processors/JVM/ghidra_scripts
+    /home/diego/tools/ghidra_12.1.4_PUBLIC/Ghidra/Features/BSim/ghidra_scripts
+    /home/diego/tools/ghidra_12.1.4_PUBLIC/Ghidra/Features/FileFormats/ghidra_scripts
+    /home/diego/tools/ghidra_12.1.4_PUBLIC/Ghidra/Features/PDB/ghidra_scripts
+    /home/diego/tools/ghidra_12.1.4_PUBLIC/Ghidra/Debug/Debugger/ghidra_scripts
+    /home/diego/tools/ghidra_12.1.4_PUBLIC/Ghidra/Features/MicrosoftCodeAnalyzer/ghidra_scripts
+    /home/diego/tools/ghidra_12.1.4_PUBLIC/Ghidra/Processors/Atmel/ghidra_scripts
+    /home/diego/tools/ghidra_12.1.4_PUBLIC/Ghidra/Features/BytePatterns/ghidra_scripts
+    /home/diego/tools/ghidra_12.1.4_PUBLIC/Ghidra/Features/PyGhidra/ghidra_scripts (HeadlessAnalyzer)  
+INFO  HEADLESS: execution starts (HeadlessAnalyzer)  
+INFO  Creating temporary project: /tmp/tmp.HlxafuWGW7/project/goal (HeadlessAnalyzer)  
+INFO  Creating project: /tmp/tmp.HlxafuWGW7/project/goal (DefaultProject)  
+INFO  REPORT: Processing input files:  (HeadlessAnalyzer)  
+INFO       project: /tmp/tmp.HlxafuWGW7/project/goal (HeadlessAnalyzer)  
+INFO  IMPORTING: file:///tmp/tmp.HlxafuWGW7/goal.exe (HeadlessAnalyzer)  
+INFO  Using Loader: Old-style DOS Executable (MZ) (ProgramLoader)  
+INFO  Using Language/Compiler: x86:LE:16:Real Mode:default (ProgramLoader)  
+INFO  Using Library Search Path: [., /bin, /lib, /lib64, /lib/x86_64-linux-gnu, /lib/aarch64-linux-gnu, /usr/bin, /usr/lib, /usr/X11R6/bin, /usr/X11R6/lib, /usr/java/packages/lib, /usr/lib64] (ProgramLoader)  
+INFO  Additional info:
+Loading file:///tmp/tmp.HlxafuWGW7/goal.exe?MD5=bc361daa2ed69ddd12c057b3a31325eb...
+------------------------------------------------
+
+ (ProgramLoader)  
+INFO  IMPORTING: Loaded 0 additional files (HeadlessAnalyzer)  
+INFO  REPORT: Execute script: GoalSetup.java '/home/diego/projects/goal2-archaeology/.cache/T52-sol-medium/static/goal-exe/routines.tsv' '/tmp/tmp.HlxafuWGW7/segmap.tsv'  (HeadlessAnalyzer)  
+INFO  SCRIPT: /home/diego/projects/goal2-archaeology/.cache/T52-sol-medium/tools/static/ghidra/GoalSetup.java (HeadlessAnalyzer)  
+INFO  GoalSetup.java> GOALSETUP moved 7 bytes back to segment 2138 (GhidraScript)  
+INFO  GoalSetup.java> GOALSETUP segments 12 relocations 1916 (GhidraScript)  
+INFO  GoalSetup.java> GOALSETUP routines 726 functions 726 (GhidraScript)  
+INFO  ANALYZING all memory and code: file:///tmp/tmp.HlxafuWGW7/goal.exe (HeadlessAnalyzer)  
+INFO  Packed database cache: /var/tmp/diego-ghidra/packed-db-cache (PackedDatabaseCache)  
+INFO  Applied data type archive: generic_clib (ApplyDataArchiveAnalyzer)  
+INFO  -----------------------------------------------------
+    ASCII Strings                              0.290 secs
+    Apply Data Archives                        0.744 secs
+    Call Convention ID                         0.009 secs
+    Call-Fixup Installer                       0.008 secs
+    Create Function                            0.001 secs
+    Data Reference                             0.022 secs
+    Decompiler Switch Analysis                 0.082 secs
+    Demangler GNU                              0.414 secs
+    Disassemble Entry Points                   0.013 secs
+    Embedded Media                             0.025 secs
+    External Entry References                  0.001 secs
+    Function ID                                0.038 secs
+    Function Start Search                      0.011 secs
+    Non-Returning Functions - Discovered       0.191 secs
+    Reference                                  0.037 secs
+    Segmented X86 Calling Conventions          0.119 secs
+    Shared Return Calls                        0.062 secs
+    Stack                                      5.052 secs
+    Subroutine References                      0.076 secs
+    X86 Function Callee Purge                  0.046 secs
+    x86 Constant Reference Analyzer            4.873 secs
+-----------------------------------------------------
+     Total Time   12 secs
+-----------------------------------------------------
+ (AutoAnalysisManager)  
+INFO  REPORT: Analysis succeeded for file: file:///tmp/tmp.HlxafuWGW7/goal.exe (HeadlessAnalyzer)  
+INFO  REPORT: Execute script: GoalAnnotate.java '/tmp/tmp.HlxafuWGW7/segmap.tsv' '/home/diego/projects/goal2-archaeology/.cache/T52-sol-medium/static/goal-exe/annotations'  (HeadlessAnalyzer)  
+INFO  SCRIPT: /home/diego/projects/goal2-archaeology/.cache/T52-sol-medium/tools/static/ghidra/GoalAnnotate.java (HeadlessAnalyzer)  
+INFO  GoalAnnotate.java> GOALANNOTATE records 5 fields 47 globals 58 routines 476 (GhidraScript)  
+INFO  REPORT: Execute script: GoalDecompile.java '/tmp/tmp.HlxafuWGW7/segmap.tsv' '/tmp/tmp.HlxafuWGW7/raw.txt' '600'  (HeadlessAnalyzer)  
+INFO  SCRIPT: /home/diego/projects/goal2-archaeology/.cache/T52-sol-medium/tools/static/ghidra/GoalDecompile.java (HeadlessAnalyzer)  
+WARN  Decompiling 0000:0000, pcode error at 0000:00e1: Could not follow disassembly flow into non-existing memory at 0000:00e1 (DecompileCallback)  
+INFO  GoalDecompile.java> GOALRETRY main_program attempt 1: Offset must be between 0x0 and 0x10ffef, got 0xffffffff instead! (GhidraScript)  
+ERROR Unexpected Exception: Offset must be between 0x0 and 0x10ffef, got 0xb0002e8e instead! (DecompileProcess) ghidra.program.model.address.AddressOutOfBoundsException: Offset must be between 0x0 and 0x10ffef, got 0xb0002e8e instead!
+	at ghidra.program.model.address.AbstractAddressSpace.makeValidOffset(AbstractAddressSpace.java:610)
+	at ghidra.program.model.address.GenericAddressSpace.makeValidOffset(GenericAddressSpace.java:21)
+	at ghidra.program.model.address.GenericAddress.<init>(GenericAddress.java:58)
+	at ghidra.program.model.address.SegmentedAddress.<init>(SegmentedAddress.java:62)
+	at ghidra.program.model.address.SegmentedAddressSpace.getAddress(SegmentedAddressSpace.java:275)
+	at ghidra.program.model.address.SegmentedAddressSpace.getAddress(SegmentedAddressSpace.java:35)
+	at ghidra.program.model.pcode.AddressXML.decode(AddressXML.java:483)
+	at ghidra.app.decompiler.DecompileProcess.getMappedSymbols(DecompileProcess.java:789)
+	at ghidra.app.decompiler.DecompileProcess.readResponse(DecompileProcess.java:349)
+	at ghidra.app.decompiler.DecompileProcess.sendCommandTimeout(DecompileProcess.java:582)
+	at ghidra.app.decompiler.DecompInterface.decompileFunction(DecompInterface.java:803)
+	at GoalDecompile.run(GoalDecompile.java:80)
+	at ghidra.app.script.GhidraScript.executeNormal(GhidraScript.java:460)
+	at ghidra.app.script.GhidraScript.doExecute(GhidraScript.java:314)
+	at ghidra.app.script.GhidraScript.execute(GhidraScript.java:290)
+	at ghidra.app.util.headless.HeadlessAnalyzer.runScript(HeadlessAnalyzer.java:585)
+	at ghidra.app.util.headless.HeadlessAnalyzer.runScriptsList(HeadlessAnalyzer.java:937)
+	at ghidra.app.util.headless.HeadlessAnalyzer.analyzeProgram(HeadlessAnalyzer.java:1093)
+	at ghidra.app.util.headless.HeadlessAnalyzer.processFileWithImport(HeadlessAnalyzer.java:1591)
+	at ghidra.app.util.headless.HeadlessAnalyzer.processWithLoader(HeadlessAnalyzer.java:1751)
+	at ghidra.app.util.headless.HeadlessAnalyzer.processWithImport(HeadlessAnalyzer.java:1692)
+	at ghidra.app.util.headless.HeadlessAnalyzer.processWithImport(HeadlessAnalyzer.java:1776)
+	at ghidra.app.util.headless.HeadlessAnalyzer.processLocal(HeadlessAnalyzer.java:452)
+	at ghidra.app.util.headless.AnalyzeHeadless.launch(AnalyzeHeadless.java:199)
+	at ghidra.GhidraLauncher.launch(GhidraLauncher.java:81)
+	at ghidra.Ghidra.main(Ghidra.java:54)
+ 
+INFO  GoalDecompile.java> GOALRETRY f_0791_1A04 attempt 1: Exception while decompiling 2000:1a04: ghidra.program.model.address.AddressOutOfBoundsException: Offset must be between 0x0 and 0x10ffef, got 0xb0002e8e instead!
+ (GhidraScript)  
+ERROR Unexpected Exception: Offset must be between 0x0 and 0x10ffef, got 0xb00079a4 instead! (DecompileProcess) ghidra.program.model.address.AddressOutOfBoundsException: Offset must be between 0x0 and 0x10ffef, got 0xb00079a4 instead!
+	at ghidra.program.model.address.AbstractAddressSpace.makeValidOffset(AbstractAddressSpace.java:610)
+	at ghidra.program.model.address.GenericAddressSpace.makeValidOffset(GenericAddressSpace.java:21)
+	at ghidra.program.model.address.GenericAddress.<init>(GenericAddress.java:58)
+	at ghidra.program.model.address.SegmentedAddress.<init>(SegmentedAddress.java:62)
+	at ghidra.program.model.address.SegmentedAddressSpace.getAddress(SegmentedAddressSpace.java:275)
+	at ghidra.program.model.address.SegmentedAddressSpace.getAddress(SegmentedAddressSpace.java:35)
+	at ghidra.program.model.pcode.AddressXML.decode(AddressXML.java:483)
+	at ghidra.app.decompiler.DecompileProcess.getMappedSymbols(DecompileProcess.java:789)
+	at ghidra.app.decompiler.DecompileProcess.readResponse(DecompileProcess.java:349)
+	at ghidra.app.decompiler.DecompileProcess.sendCommandTimeout(DecompileProcess.java:582)
+	at ghidra.app.decompiler.DecompInterface.decompileFunction(DecompInterface.java:803)
+	at GoalDecompile.run(GoalDecompile.java:80)
+	at ghidra.app.script.GhidraScript.executeNormal(GhidraScript.java:460)
+	at ghidra.app.script.GhidraScript.doExecute(GhidraScript.java:314)
+	at ghidra.app.script.GhidraScript.execute(GhidraScript.java:290)
+	at ghidra.app.util.headless.HeadlessAnalyzer.runScript(HeadlessAnalyzer.java:585)
+	at ghidra.app.util.headless.HeadlessAnalyzer.runScriptsList(HeadlessAnalyzer.java:937)
+	at ghidra.app.util.headless.HeadlessAnalyzer.analyzeProgram(HeadlessAnalyzer.java:1093)
+	at ghidra.app.util.headless.HeadlessAnalyzer.processFileWithImport(HeadlessAnalyzer.java:1591)
+	at ghidra.app.util.headless.HeadlessAnalyzer.processWithLoader(HeadlessAnalyzer.java:1751)
+	at ghidra.app.util.headless.HeadlessAnalyzer.processWithImport(HeadlessAnalyzer.java:1692)
+	at ghidra.app.util.headless.HeadlessAnalyzer.processWithImport(HeadlessAnalyzer.java:1776)
+	at ghidra.app.util.headless.HeadlessAnalyzer.processLocal(HeadlessAnalyzer.java:452)
+	at ghidra.app.util.headless.AnalyzeHeadless.launch(AnalyzeHeadless.java:199)
+	at ghidra.GhidraLauncher.launch(GhidraLauncher.java:81)
+	at ghidra.Ghidra.main(Ghidra.java:54)
+ 
+INFO  GoalDecompile.java> GOALRETRY u214b_unpack_screen_row_record attempt 1: Exception while decompiling 7000:05f0: ghidra.program.model.address.AddressOutOfBoundsException: Offset must be between 0x0 and 0x10ffef, got 0xb00079a4 instead!
+ (GhidraScript)  
+INFO  GoalDecompile.java> GOALDECOMPILE functions 729 renamed 3 ok 726 failed 3 (GhidraScript)  
+INFO  ANALYZING changes made by post scripts: file:///tmp/tmp.HlxafuWGW7/goal.exe (HeadlessAnalyzer)  
+INFO  REPORT: Post-analysis succeeded for file: file:///tmp/tmp.HlxafuWGW7/goal.exe (HeadlessAnalyzer)  
+INFO  /goal.exe: file created (diego) (LocalFileSystem)  
+INFO  REPORT: Save succeeded for: /goal.exe (goal:/goal.exe) (HeadlessAnalyzer)  
+INFO  REPORT: Import succeeded (HeadlessAnalyzer)  
