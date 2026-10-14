@@ -466,7 +466,7 @@ void f_000E_11D9(int param_1)
           f_000E_0C3A(&stack0xfffe);
         }
         else {
-          iVar2 = f_000E_0B77(param_1);
+          iVar2 = manager_sack_score(param_1);
           if (iVar2 == -6) {
             if ((byte)local_a->field_0xb8 < 4) {
               puVar5 = local_10a;

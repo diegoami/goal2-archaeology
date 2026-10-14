@@ -212,7 +212,7 @@ void f_000E_26F2(int param_1)
     }
   }
   else {
-    iVar2 = f_000E_0B77(param_1);
+    iVar2 = manager_sack_score(param_1);
     if (iVar2 < -10) {
       uVar11 = 0x1000;
       uVar8 = 0x2552;
@@ -398,9 +398,10 @@ void f_000E_2E1F(undefined2 param_1,undefined4 param_2,undefined4 param_3,undefi
 }
 
 
-// ---- 000E:319B  f_000E_319B  (f_000E_319B; Ghidra 1000:319B, __stdcall16near; found by routines.tsv)
+// ---- 000E:319B  result_headline_and_sack  (f_000E_319B; Ghidra 1000:319B, __stdcall16near; found by routines.tsv)
+// the headline for a managed side's result chosen by the fixture winner byte +3 against the side; on a defeat that is not a shoot-out it reads manager_sack_score: -7/-6 THINGS LOOK GRIM, -10..-8 YOUR JOB IS ON THE LINE, <= -11 IS SACKED!!!! and sets 000E:4E0E's sack flag (store at 37AC)  [established; F025; read code/seg_000E_04.asm]
 
-void f_000E_319B(int param_1)
+void result_headline_and_sack(int param_1)
 
 {
   undefined4 uVar1;
@@ -637,7 +638,7 @@ void f_000E_319B(int param_1)
     f_000E_2E1F(&stack0xfffe,0x2ea6,0x1000,0x3080,0x1000,0x306e,0x1000);
   }
   else {
-    iVar4 = f_000E_0B77(*(undefined2 *)(param_1 + 4));
+    iVar4 = manager_sack_score(*(undefined2 *)(param_1 + 4));
     if ((iVar4 == -6) || (iVar4 == -7)) {
       uVar10 = 0x1000;
       uVar9 = 0x3086;
@@ -923,7 +924,7 @@ undefined1 f_000E_3CC8(int param_1)
     }
   }
   else {
-    iVar4 = f_000E_0B77(*(undefined2 *)(param_1 + 4));
+    iVar4 = manager_sack_score(*(undefined2 *)(param_1 + 4));
     if (iVar4 == -6) {
       puVar7 = local_20b;
       uVar8 = unaff_SS;
