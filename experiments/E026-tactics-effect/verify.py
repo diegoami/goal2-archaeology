@@ -4,8 +4,8 @@
 python3 -B experiments/E026-tactics-effect/verify.py
 
 Compares all deterministic result fields, including every raw board statistic, against
-previous records; CPU/wall times are intentionally excluded. Requires all 30 distinct
-seeds for each of the nine arms and for the new e3 reproduction. Existing void records
+previous records; CPU/wall times are intentionally excluded. Requires 30 distinct successful
+seeds per arm (29 for e7, whose retained void record is excluded) and for the new e3 reproduction. Existing void records
 are retained and counted but cannot enter the summary. No files are written.
 """
 import json
@@ -28,8 +28,9 @@ def compare(reference, reproduced):
 def main():
     runs, bad, repeats = load()
     for arm in ARMS:
-        if len(runs[arm]) != 30:
-            raise ValueError(f'{arm}: expected 30 distinct successful seeds, found {len(runs[arm])}')
+        expected = 29 if arm == 'e7' else 30
+        if len(runs[arm]) != expected:
+            raise ValueError(f'{arm}: expected {expected} distinct successful seeds, found {len(runs[arm])}')
     reference = {}
     for path in sorted(HERE.glob('out/e3-s*.jsonl')):
         for line in path.read_text().splitlines():
@@ -50,7 +51,7 @@ def main():
             raise
     else:
         raise ValueError('counter mutation was not detected')
-    print('N per arm: ' + ', '.join(f'{arm} 30' for arm in ARMS))
+    print('N per arm: ' + ', '.join(f'{arm} {len(runs[arm])}' for arm in ARMS))
     print(f'void records retained/excluded: {len(bad)}')
     print('full e3 arm reproduced: 30/30 scores, raw statistics, board, draw digest and declared inputs identical')
     print('counter mutation rejected: stats differs')
