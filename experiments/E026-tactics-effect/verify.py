@@ -8,6 +8,7 @@ previous records; CPU/wall times are intentionally excluded. Requires 30 distinc
 seeds per arm (29 for e7, whose retained void record is excluded) and for the new e3 reproduction. Existing void records
 are retained and counted but cannot enter the summary. No files are written.
 """
+import argparse
 import json
 from pathlib import Path
 from analyze import ARMS, load
@@ -26,6 +27,9 @@ def compare(reference, reproduced):
 
 
 def main():
+    parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
+    parser.add_argument('--repro', type=Path, default=REPRO, help='full e3 re-run JSONL to compare')
+    args = parser.parse_args()
     runs, bad, repeats = load()
     for arm in ARMS:
         expected = 29 if arm == 'e7' else 30
@@ -49,7 +53,7 @@ def main():
         for line in path.read_text().splitlines():
             record = json.loads(line)
             reference[record['seed']] = record
-    reproduced = [json.loads(line) for line in REPRO.read_text().splitlines()]
+    reproduced = [json.loads(line) for line in args.repro.read_text().splitlines()]
     if len(reproduced) != 30 or {r['seed'] for r in reproduced} != set(reference):
         raise ValueError('reproduction must cover exactly the same 30 distinct e3 seeds')
     for record in reproduced:
