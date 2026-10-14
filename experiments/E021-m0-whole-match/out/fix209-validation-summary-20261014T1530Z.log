@@ -1,0 +1,8 @@
+Issue #209 validation summary
+python3 tools/static/check_annotations.py: passed
+python3.12 -B -m unittest tests.test_model_longs -q: passed, 14 tests
+python3.12 -B -m unittest discover -s tests/static -q: passed, 101 tests (includes real Ghidra mapping)
+python3 -B tools/check_citations.py findings/F022-contest-sites-287c-5474-5d69-and-the-branches-e011-takes.md: passed; see fix209-citations-retry-20261014T1524Z.log
+python3 tools/check_links.py: passed, 1857 files; see fix209-links-20261014T1522Z.log
+git diff --check: passed before commit
+The first sandboxed static-suite attempt failed because the Ghidra launcher could not write ~/.config/ghidra/java_home.save; the escalated retry passed. The first sandboxed citation attempt could not reach api.github.com; the escalated retry passed after the pinned checker dependency became available.

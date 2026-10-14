@@ -1,0 +1,29 @@
+/home/diego/projects/goal2-archaeology/.cache/fix209-luna/tools/static/check_result_set.py:14: ResourceWarning: unclosed file <_io.TextIOWrapper name='/home/diego/projects/goal2-archaeology/.cache/fix209-luna/static/goal-exe/data/ds_2581_01.hex' mode='r' encoding='UTF-8'>
+  for line in open(path):
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+======================================================================
+ERROR: setUpClass (test_decompile.GhidraMappingTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/.cache/fix209-luna/tests/static/test_decompile.py", line 85, in setUpClass
+    raise RuntimeError("Ghidra probe failed:\n" + run.stdout[-3000:] + run.stderr[-3000:])
+RuntimeError: Ghidra probe failed:
+
+ERROR: Unable to prompt user for JDK path, no TTY detected.
+Please refer to the Getting Started document's Troubleshooting section.
+java.io.FileNotFoundException: /home/diego/.config/ghidra/ghidra_12.1.4_PUBLIC/java_home.save (Read-only file system)
+	at java.base/java.io.FileOutputStream.open0(Native Method)
+	at java.base/java.io.FileOutputStream.open(FileOutputStream.java:289)
+	at java.base/java.io.FileOutputStream.<init>(FileOutputStream.java:230)
+	at java.base/java.io.FileOutputStream.<init>(FileOutputStream.java:179)
+	at java.base/java.io.FileWriter.<init>(FileWriter.java:98)
+	at ghidra.launch.AppConfig.saveJavaHome(AppConfig.java:148)
+	at LaunchSupport.findJavaHome(LaunchSupport.java:210)
+	at LaunchSupport.handleJavaHome(LaunchSupport.java:153)
+	at LaunchSupport.main(LaunchSupport.java:113)
+
+
+----------------------------------------------------------------------
+Ran 95 tests in 2.254s
+
+FAILED (errors=1)

@@ -206,7 +206,7 @@ address	name	purpose	confidence	basis
 214B:0CCB	u214b_set_assign_bit	Sets or clears bit k-1 depending on a boolean argument (calls 0C79 or 0CA1); includes or excludes by value, as 1771:4B61's third state uses it (F010)	likely	F010; read decompiled/seg_214B_01.c
 214B:0CF4	u214b_set_toggle_bit	Toggles bit k-1 of a byte (xor), set element toggle; the team-tactics screen 1771:1981 toggles an element of +0x2D with it (F010)	likely	F010; read decompiled/seg_214B_01.c
 214B:0D1C	u214b_min_longint	Returns the smaller of two 32-bit signed integers	likely	read decompiled/seg_214B_01.c
-214B:0D56	u214b_max_longint	Returns the larger of two 32-bit signed integers	likely	read decompiled/seg_214B_01.c
+214B:0D56	u214b_max_longint	Signed 32-bit maximum of two stack-passed longs: compares signed high words, then unsigned low words; returns the selected long in DX:AX (retf 8)	likely	read decompiled/seg_214B_01.c; read code/seg_214B_02.asm:560
 214B:0D90	u214b_blink_cursor_wait_key	Near, nested: loops until a key is pressed (0723); meanwhile toggles one screen cell's colours on BIOS tick count 0040:006C divided by 3 parity (blinking cell); restores the cell	likely	F004; read decompiled/seg_214B_01.c
 214B:0E41	u214b_edit_line_redraw	Nested helper of the line editor 1086: redraws the input field (text, padding, scroll via uppercase conversion 19B2) at the field's position	likely	read decompiled/seg_214B_01.c
 214B:0FB5	u214b_edit_line_store_char	Nested helper of 1086: stores a character into the edit string at the cursor (insert shifts the rest, else overwrite), updates length byte	likely	read decompiled/seg_214B_01.c
@@ -287,7 +287,7 @@ address	name	purpose	confidence	basis
 23E4:01D6	sys_put_char_dos_01D6	INT 21h AH=06h: direct console output of the char in AL (DL)	likely	read code/seg_23E4_01.asm
 23E4:0207	sys_ioresult_0207	Returns DS:7B60 and zeroes it (xchg with 0): IOResult	likely	read decompiled/seg_23E4_01.c; read code/seg_23E4_01.asm
 23E4:025D	sys_move_025D	Forward byte copy of count bytes from source to dest pointers: Move	likely	read decompiled/seg_23E4_01.c
-23E4:0279	sys_long_mul_0279	32-bit integer multiply (DX:AX by BX:CX, partial 16-bit mul products added): LongInt multiplication	likely	read decompiled/seg_23E4_01.c; read code/seg_23E4_01.asm
+23E4:0279	sys_long_mul_0279	Low 32 bits of DX:AX times BX:CX (CX low, BX high), formed from partial 16-bit products; leaves SI and DI as copies of AX and DX and BX and CX as cross terms	likely	read decompiled/seg_23E4_01.c; read code/seg_23E4_01.asm:273
 23E4:0294	sys_long_div_0294	Signed 32-bit shift-subtract division (33 iterations); divisor 0 jumps to runtime error 00D1; quotient in DX:AX, remainder left in registers	likely	read decompiled/seg_23E4_01.c
 23E4:0329	sys_getmem_0329	Calls heap allocate 041D; on carry runtime error AX=00CBh (203 heap overflow); returns pointer in DX:AX/BX:CX: GetMem	likely	read decompiled/seg_23E4_01.c; read code/seg_23E4_01.asm
 23E4:0341	sys_freemem_0341	Calls heap release 04D8 with size and pointer; on carry runtime error 00CCh (204 invalid pointer): FreeMem	likely	read decompiled/seg_23E4_01.c; read code/seg_23E4_01.asm

@@ -314,7 +314,7 @@ void __stdcall16far sys_move_025D(int param_1,undefined1 *param_2,undefined1 *pa
 
 
 // ---- 23E4:0279  sys_long_mul_0279  (f_23E4_0279; Ghidra A000:0279, __cdecl16far; found by routines.tsv)
-// 32-bit integer multiply (DX:AX by BX:CX, partial 16-bit mul products added): LongInt multiplication  [likely; read decompiled/seg_23E4_01.c; read code/seg_23E4_01.asm]
+// Low 32 bits of DX:AX times BX:CX (CX low, BX high), formed from partial 16-bit products; leaves SI and DI as copies of AX and DX and BX and CX as cross terms  [likely; read decompiled/seg_23E4_01.c; read code/seg_23E4_01.asm:273]
 
 int __cdecl16far sys_long_mul_0279(void)
 
