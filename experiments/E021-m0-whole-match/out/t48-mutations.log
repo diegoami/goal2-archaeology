@@ -1,0 +1,117 @@
+KILLED   flags: CF term dropped
+KILLED   flags: PF inverted
+KILLED   flags: PF of the whole word
+KILLED   flags: AF term dropped
+KILLED   flags: ZF term dropped
+KILLED   flags: SF term dropped
+KILLED   flags: SF tests bit 14
+KILLED   flags: OF term dropped
+KILLED   sub flags: borrow x <= y
+KILLED   sub flags: borrow x > y
+KILLED   sub flags: OF uses (x ^ y) only
+KILLED   sub flags: AF mask 0x08
+KILLED   add flags: carry x + y >= 0xFFFF
+KILLED   add flags: carry dropped
+KILLED   add flags: OF as for a subtraction
+KILLED   add flags: AF mask 0x08
+KILLED   0D56: high words compared unsigned (jg/jl)
+KILLED   0D56: high words compared as less-than
+KILLED   0D56: low words compared SIGNED (jbe -> jle)
+KILLED   0D56: low words compared as less-than
+KILLED   0D56: equal high words go to the high compare
+KILLED   0D56: low compare also when the high words differ
+KILLED   0D56: flags of the high compare always
+KILLED   0D56: flags of the low compare always
+KILLED   0D56: high compare flags with swapped operands
+KILLED   0D56: low compare flags with swapped operands
+KILLED   0D56: winner swapped
+KILLED   0D56: ES = the low word
+KILLED   0D56: DX = the low word
+KILLED   0D56: AX = the high word
+KILLED   0D56: flags dropped
+KILLED   0279: SI = DX
+KILLED   0279: the low product uses BX
+KILLED   0279: the low product uses DX
+KILLED   0279: the carry (high word of the low product) dropped
+KILLED   0279: the carry taken from bit 15
+KILLED   0279: the mul bx term uses CX
+KILLED   0279: the mul bx term uses DI
+KILLED   0279: the mul bx term not masked
+KILLED   0279: the mul bx term dropped from DX
+KILLED   0279: the mul cx term uses BX
+KILLED   0279: the mul cx term uses SI
+KILLED   0279: the mul cx term not masked
+KILLED   0279: the mul cx term dropped from DX
+KILLED   0279: DX not masked after the last add
+KILLED   0279: partial not masked (first add's carry kept)
+KILLED   0279: AX not masked
+KILLED   0279: flags of the first add
+KILLED   0279: flags of the result
+KILLED   0279: BX and CX swapped in the result
+KILLED   0279: SI and DI swapped in the result
+KILLED   max adapter: b taken from arg(1), arg(0) (low/high swapped)
+KILLED   max adapter: a low/high swapped
+KILLED   max adapter: a and b swapped
+KILLED   max adapter: model called with b, a
+KILLED   max adapter: ES = AX
+KILLED   max adapter: ES not set
+KILLED   max adapter: flags not merged
+KILLED   max adapter: AX and DX swapped
+KILLED   merge_flags: other bits cleared
+KILLED   merge_flags: arithmetic bits not cleared
+KILLED   merge_flags: whole word replaced by the guest's
+KILLED   min: returns the winner
+KILLED   min: returns b always
+KILLED   min: not applied
+KILLED   tie-a: applied to every call
+KILLED   tie-a: applied to a's high word equal
+KILLED   falsifier min not passed to the registers
+KILLED   max tally: calls not counted
+KILLED   max tally: high words differ -> a > b
+KILLED   max tally: high words differ -> low words
+KILLED   max tally: a wins counts ties
+KILLED   max tally: b wins counts ties
+KILLED   max tally: b wins compares to a
+KILLED   max tally: ties compare the high words
+KILLED   max tally: min changes -> equal
+KILLED   max tally: min changes -> always
+KILLED   max tally: tie-a changes -> uses min
+KILLED   max tally: tie-a changes -> always
+KILLED   mul adapter: BX and CX operands swapped
+KILLED   mul adapter: AX and DX operands swapped
+KILLED   mul adapter: AX not set
+KILLED   mul adapter: DX not set
+KILLED   mul adapter: BX not set
+KILLED   mul adapter: CX not set
+KILLED   mul adapter: DI not set
+KILLED   mul adapter: SI = DI
+KILLED   mul adapter: scratch falsifier always
+KILLED   mul adapter: scratch falsifier never
+KILLED   mul adapter: flags not merged
+KILLED   product+1: no carry into DX
+KILLED   product+1: carry always
+KILLED   product+1: adds 2
+KILLED   product+1: not applied
+KILLED   no-cross-term: drops the other term
+KILLED   no-cross-term: not applied
+KILLED   no-cross-term: DX unmasked
+KILLED   mul tally: calls not counted
+KILLED   mul tally: DX operand condition dropped
+KILLED   mul tally: DX operand -> AX
+KILLED   mul tally: BX operand -> CX
+KILLED   mul tally: mul bx term -> mul cx term
+KILLED   mul tally: mul bx term -> operand BX
+KILLED   mul tally: mul cx term -> mul bx term
+KILLED   mul tally: carry -> AX * BX
+KILLED   mul tally: carry -> low word
+KILLED   mul tally: product+1 not counted
+KILLED   mul tally: SI differs -> equal
+KILLED   mul tally: SI differs -> always
+KILLED   mul tally: SI compared with DX
+EQUIVALENT 0D56: the high compare `>` -> `>=` - a_wins = s16(a_hi) > s16(b_hi) is only evaluated when a_hi != b_hi, so >= and > agree
+EQUIVALENT 0D56: the low compare `>` -> `>=` (jbe -> jb) - evaluated with equal high words; equal low words then mean a == b as longs, and returning a or b gives the same AX, DX, ES, and the flags come from the same compare: the only call it changes is a tie, which has one result
+EQUIVALENT sub flags: the result not masked to 16 bits (`r = x - y`) - Python integers are two's complement of unbounded width: `result & 0xFF`, `result & 0x8000`, `result == 0` and the xor terms give the same bits for a negative r as for r & 0xFFFF
+EQUIVALENT 0279: add16_flags(cx_out, partial) (operands swapped) - an addition is commutative: carry, overflow, auxiliary carry, sign, zero and parity of x + y are the same for y + x
+EQUIVALENT tie-a: `return a` -> `return b` - the branch runs only when a == b
+EQUIVALENT 0D56: tie-a (the task's falsifier m2-longs+0d56-tie-a) - a tie is a == b: a and b are the same long, so the falsifier changes no register; check.py's tally 'tie-a changes the result' counts 0 (the m2-longs run prints it) and test_tie_a_is_not_stopped_it_changes_no_register pins it
+110 mutations, 0 not killed

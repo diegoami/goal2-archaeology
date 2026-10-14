@@ -37,6 +37,15 @@ the wrappers' counts are the reach log's (out/t47-reach-helpers.log, unhooked) m
 originals of 278A, 377E and 287C (every entry counted by a code hook in the run, minus the hooked ones: 287C's 06D0 call, 545), and
 0688's are M2b's minus one per wrapper call; the adjustment is computed and printed per record. Falsifiers:
 `m2-draws+06b1-n+1` (draws in 1..n+1), `+06b1-value+1`, `+06d0-inverted`, `+06d0-seed-write` (the seed write dropped).
+--hook m2-longs (T48, M2d) adds the long helpers 214B:0D56 (signed 32-bit max, runtime/model/longs.py) and 23E4:0279 (32-bit
+multiply, register convention) to M2c's six: eight routines, each proved at every call. M2c's six keep M2c's counts
+(out/t47-m2-draws-run2.log: 0D56 and 0279 call none of them); 0D56 and 0279 are the reach log's counts
+(out/t48-reach-0d56-0279.log, unhooked) minus the entries made inside the originals of the other routines (counted by a
+code hook, minus the hooked calls). Their scratch registers (BX, CX, SI, DI, ES) and arithmetic flags are reproduced, so
+`scratch_differences` is printed per routine and is 0 for them. Falsifiers: `m2-longs+0d56-min` (min instead of max),
+`+0d56-tie-a` (a on a tie: the two longs are equal, so no register changes: a tally shows the calls it would change),
+`+0279-product+1`, `+0279-no-cross-term` (the `mul bx` term left out of DX), `+0279-scratch` (SI not reproduced: counted
+in `scratch_differences`, not an error).
 Each emulated run's outputs (without the draw list, whose count and sha256 they carry) are written
 to a new file under experiments/E021-m0-whole-match/out/ (never overwritten)."""
 import argparse
@@ -61,10 +70,15 @@ sys.path.insert(0, str(ROOT / "runtime" / "model"))
 import contests  # noqa: E402
 import draws  # noqa: E402
 import keeping  # noqa: E402
+import longs  # noqa: E402
 from condition import _Record  # noqa: E402  (a QuickMatch over literal records and the foot tables)
 from quick_engine import idiv, s16, s8  # noqa: E402
 
 OUT = Path(__file__).resolve().parent / "out"
+# Wall-clock limit of one emulated match. M2c's six proofs took 1310-1480 s per record; the eight of M2d (T48) did not
+# finish in the former 1800 s (3601 of 4149 ticks, four runs, out/t48-m2-longs*.log: void by timeout); on a machine
+# shared with other jobs (load average 20) a record took 4130-4790 s: 14400 s. A timeout is a void run, never a pass.
+RUN_TIMEOUT_S = 14400
 DL = ROOT / ".cache/dl"
 LCG_STEP = "214B:0688"
 MULT, INC = 0x7ABD, 0x1B0F          # F004 (seg_214B_01.asm:881, :883)
@@ -342,6 +356,93 @@ def wrapper_reader(which, tally=None, falsifier=None):
     return fn
 
 
+LONG_MAX, LONG_MUL = "214B:0D56", "23E4:0279"
+
+
+def merge_flags(g, arith):
+    """The routine's last flag-setting instruction decides the six arithmetic flags; the other bits stay the guest's."""
+    g.set_reg("flags", (g.reg("flags") & ~longs.ARITH) | arith)
+
+
+def max_variant(honest, a, b, variant=None):
+    """(AX, DX) of 214B:0D56 under a falsifier. `a` and `b` are (low, high) words; `honest` is longs.max_0d56's result.
+    min: the loser instead of the winner; lowword-signed: signed low-word comparison when the high words are equal.
+    tie-a is retained as a documented equivalent: `a` when the two longs are equal (the listing's `jbe` makes it b)."""
+    if variant == "min":
+        return b if (honest.ax, honest.dx) == a else a
+    if variant == "tie-a" and a == b:
+        return a
+    if variant == "lowword-signed" and a[1] == b[1]:      # 0D6B `jbe` -> `jle`: equal high words, low words compared signed
+        return a if longs.s16(a[0]) > longs.s16(b[0]) else b
+    return honest.ax, honest.dx
+
+
+def long_max_reader(tally=None, falsifier=None):
+    """214B:0D56 as a hook fn (M2d): longs.max_0d56. Far-called with `retf 8` (0D8D): b = [bp + 6] (low, arg(0)) and
+    [bp + 8] (high, arg(1)), a = [bp + 0xA] (low, arg(2)) and [bp + 0xC] (high, arg(3)) (0D5C, 0D61, 0D68, 0D7A: the
+    frame is push bp, so bp + 6 is the first word past the far return address). Reads only the stack arguments and writes
+    only its dead frame. Results: AX, DX, ES (the winner's high word) and the six arithmetic flags of the last `cmp`.
+    `tally` counts the calls and the branches of the model's own run; `falsifier` selects one (min, lowword-signed), whose reach
+    (the calls it would change, computed against the honest result) is tallied as well."""
+    def fn(g):
+        b, a = (g.arg(0), g.arg(1)), (g.arg(2), g.arg(3))
+        honest = longs.max_0d56(*a, *b)
+        ax, dx = max_variant(honest, a, b, falsifier)
+        if tally is not None:
+            def bump(key, cond=True):
+                tally[key] = tally.get(key, 0) + bool(cond)
+            bump("calls")
+            bump("high words differ (jg or jl taken)", a[1] != b[1])
+            bump("a wins", (honest.ax, honest.dx) == a and a != b)
+            bump("b wins", (honest.ax, honest.dx) == b and a != b)
+            bump("ties (a == b)", a == b)
+            bump("min changes the result", max_variant(honest, a, b, "min") != (honest.ax, honest.dx))
+            bump("tie-a changes the result", max_variant(honest, a, b, "tie-a") != (honest.ax, honest.dx))
+            bump("lowword-signed changes the result", max_variant(honest, a, b, "lowword-signed") != (honest.ax, honest.dx))
+        g.set_reg("ax", ax)
+        g.set_reg("dx", dx)
+        g.set_reg("es", honest.dx)
+        merge_flags(g, honest.flags)
+    return fn
+
+
+def long_mul_reader(tally=None, falsifier=None):
+    """23E4:0279 as a hook fn (M2d): longs.mul_0279. Register convention, `retf` (0293): DX:AX times BX:CX (CX the low
+    word of the second operand; 027D, 0283, 0289). Reads AX, DX, BX, CX at the entry; writes AX, DX and the scratch
+    BX, CX, SI, DI the listing leaves (0285, 028B, 0279, 027B) and the arithmetic flags of the last `add` (0291); no memory
+    write (its pushes are its dead frame). `tally` counts the calls and, per falsifier, the calls it would change
+    (computed from the model's own run); `falsifier` selects one: product+1 (the 32-bit product plus one), no-cross-term
+    (the `mul bx` term, 0283-0285, left out of DX), scratch (SI not set)."""
+    def fn(g):
+        ax, dx, bx, cx = g.reg("ax"), g.reg("dx"), g.reg("bx"), g.reg("cx")
+        r = longs.mul_0279(ax, dx, bx, cx)
+        out_ax, out_dx = r.ax, r.dx
+        if falsifier == "product+1":
+            out_ax, out_dx = (r.ax + 1) & 0xFFFF, (r.dx + (r.ax == 0xFFFF)) & 0xFFFF
+        elif falsifier == "no-cross-term":
+            out_dx = (r.dx - r.bx) & 0xFFFF
+        if tally is not None:
+            def bump(key, cond=True):
+                tally[key] = tally.get(key, 0) + bool(cond)
+            bump("calls")
+            bump("DX operand (a high word) non-zero", dx)
+            bump("BX operand (b high word) non-zero", bx)
+            bump("mul bx term (AX * BX low word) non-zero = no-cross-term changes DX", r.bx)
+            bump("mul cx term (DX * CX low word) non-zero", r.cx)
+            bump("carry out of AX * CX non-zero", (ax * cx) >> 16)
+            bump("product+1 changes the result")
+            bump("SI differs at entry = the scratch falsifier shows", g.reg("si") != ax)
+        g.set_reg("ax", out_ax)
+        g.set_reg("dx", out_dx)
+        g.set_reg("bx", r.bx)
+        g.set_reg("cx", r.cx)
+        if falsifier != "scratch":
+            g.set_reg("si", r.si)
+        g.set_reg("di", r.di)
+        merge_flags(g, r.flags)
+    return fn
+
+
 HOOKS = {"none": None, "f004": f004_step(), "f004+hidden-write": hidden_write(f004_step()),
          "f004+raw-write": raw_write(f004_step()), "f004+831D-write": clock_write(f004_step()),
          "f004+inc+1-off-seed": off_seed_increment(f004_step(), f004_step(inc=INC + 1)),
@@ -363,20 +464,36 @@ M2C = {"m2-draws": (None, None), "m2-draws+06b1-n+1": (DRAW_06B1, "n+1"),
        "m2-draws+06d0-seed-write": (DRAW_06D0, "seed-write")}
 
 
-def reach_counts(rid):
-    """The unhooked entry counts of the wrappers in record `rid` (out/t47-reach-helpers.log, T47 Evidence)."""
-    text = (OUT / "t47-reach-helpers.log").read_text()
+# M2d: M2c's six and the long helpers 214B:0D56 and 23E4:0279
+M2D = {"m2-longs": (None, None), "m2-longs+0d56-min": (LONG_MAX, "min"), "m2-longs+0d56-tie-a": (LONG_MAX, "tie-a"),
+       "m2-longs+0d56-lowword-signed": (LONG_MAX, "lowword-signed"),
+       "m2-longs+0279-product+1": (LONG_MUL, "product+1"), "m2-longs+0279-no-cross-term": (LONG_MUL, "no-cross-term"),
+       "m2-longs+0279-scratch": (LONG_MUL, "scratch")}
+M2_ALL = dict(M2C, **M2D)                      # the hooks that substitute M2c's six routines
+LONG_REACH_LOG ="t48-reach-0d56-0279.log"
+M2C_COUNTS_LOG = "t47-m2-draws-run2.log"       # the six routines' counts of the M2c run (T47)
+
+
+def reach_counts(rid, log="t47-reach-helpers.log", addrs=(DRAW_06B1, DRAW_06D0)):
+    """The unhooked entry counts of `addrs` in record `rid` (a reach log under out/: T47's for the wrappers, T48's
+    t48-reach-0d56-0279.log for the long helpers)."""
+    text = (OUT / log).read_text()
     block = text.split("E011-r")[1:]
     block = next(b for b in block if b.startswith(rid[-4:]))
-    return {a: int(re.search(rf"{a} entered (\d+)", block).group(1)) for a in (DRAW_06B1, DRAW_06D0)}
+    return {a: int(re.search(rf"{a} entered (\d+)", block).group(1)) for a in addrs}
+
+
+def logged_counts(log, rid):
+    """The 'calls per routine' dict a check log under out/ printed for record `rid`."""
+    for line in (OUT / log).read_text().splitlines():
+        if line.startswith(f"  {rid}: calls per routine"):
+            return eval(line.split("calls per routine ")[1].split(", proved")[0])
+    raise SystemExit(f"no counts for {rid} in {log}")
 
 
 def m2b_counts(rid):
     """M2b's hooked call counts per routine for record `rid` (out/t46-m2-287c.log)."""
-    for line in (OUT / "t46-m2-287c.log").read_text().splitlines():
-        if line.startswith(f"  {rid}: calls per routine"):
-            return eval(line.split("calls per routine ")[1].split(", proved")[0])
-    raise SystemExit(f"no M2b counts for {rid}")
+    return logged_counts("t46-m2-287c.log", rid)
 
 
 def common_dl():
@@ -454,21 +571,29 @@ def emulate(data, hook_name, inputs=()):
     m.tally377e = dict.fromkeys(EXPECTED_377E, 0)
     m.tally287c = {}
     m.tally_draws = {}
-    m.entries = {}      # every entry of a wrapper, hooked or inside a proof's original
-    if hook_name in M1 or hook_name in M1B or hook_name in M2 or hook_name in M2C:     # M0's substitution, 278A's (and 377E's), each proved at every call
+    m.entries = {}      # every entry of a wrapper (or long helper), hooked or inside a proof's original
+    m.tally_longs = {}
+    if hook_name in M1 or hook_name in M1B or hook_name in M2 or hook_name in M2C or hook_name in M2D:     # M0's substitution, 278A's (and 377E's), each proved at every call
         m.hook(LCG_STEP, HOOKS["f004"], prove=True)
         m.hook(SKILL_READER, skill_reader(**M1.get(hook_name, {})), prove=True)
-        if hook_name in M1B or hook_name in M2 or hook_name in M2C:
+        if hook_name in M1B or hook_name in M2 or hook_name in M2C or hook_name in M2D:
             m.hook(STRENGTH_READER, strength_reader(m.tally377e, **M1B.get(hook_name, {})), prove=True)
         if hook_name in M2:
             m.hook(CONTEST_GATE, gate_reader(m.tally287c, **M2[hook_name]), prove=True)
-        if hook_name in M2C:
+        if hook_name in M2C or hook_name in M2D:
             m.hook(CONTEST_GATE, gate_reader(m.tally287c), prove=True)
-            fal = M2C[hook_name]
+            fal = M2C.get(hook_name, (None, None))
             for addr, which in ((DRAW_06B1, 1), (DRAW_06D0, 0)):
                 m.tally_draws[addr] = {}
                 m.hook(addr, wrapper_reader(which, m.tally_draws[addr], fal[1] if fal[0] == addr else None), prove=True)
-            for addr in (DRAW_06B1, DRAW_06D0):    # wrapper entries made inside an original that runs in a proof
+            entry_counted = [DRAW_06B1, DRAW_06D0]
+            if hook_name in M2D:
+                lf = M2D[hook_name]
+                for addr, reader in ((LONG_MAX, long_max_reader), (LONG_MUL, long_mul_reader)):
+                    m.tally_longs[addr] = {}
+                    m.hook(addr, reader(m.tally_longs[addr], lf[1] if lf[0] == addr else None), prove=True)
+                entry_counted += [LONG_MAX, LONG_MUL]
+            for addr in entry_counted:    # entries made inside an original that runs in a proof
                 m.entries[addr] = 0
                 m.mu.hook_add(UC_HOOK_CODE, lambda uc, a, sz, d, addr=addr: m.entries.__setitem__(addr, m.entries[addr] + 1),
                               begin=m.lin(addr), end=m.lin(addr))
@@ -479,7 +604,7 @@ def emulate(data, hook_name, inputs=()):
     error = None
     t = time.time()
     try:
-        m.run(timeout_s=1800)
+        m.run(timeout_s=RUN_TIMEOUT_S)
     except Exception as e:  # a void run: everything after it counts as missed
         error = f"{type(e).__name__}: {e}"
         m.final = m.state()
@@ -489,7 +614,7 @@ def emulate(data, hook_name, inputs=()):
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("--runs", default=str(ROOT / "runs/E011"))
-    ap.add_argument("--hook", choices=sorted(HOOKS) + sorted(M1) + sorted(M1B) + sorted(M2) + sorted(M2C), default="none")
+    ap.add_argument("--hook", choices=sorted(HOOKS) + sorted(M1) + sorted(M1B) + sorted(M2) + sorted(M2C) + sorted(M2D), default="none")
     a = ap.parse_args(argv)
     records = sorted(Path(a.runs).glob("E011-r*.json"))
     for p in records:       # every asset first: a failed download stops here, before any measured output
@@ -499,6 +624,8 @@ def main(argv=None):
     hooked = proved = reader_hooked = reader_proved = 0
     strength_hooked = strength_proved = contest_hooked = contest_proved = 0
     scratch = {}
+    long_calls = {}         # M2d: address -> [hooked, proved], summed over the records
+    long_scratch = {}       # M2d: address -> {register: proved calls where it differed}, summed over the records
     differences = []
     for p in records:
         record = json.loads(p.read_text())
@@ -520,16 +647,16 @@ def main(argv=None):
         per_record = m.hook_counts.get(SKILL_READER, 0)
         reader_hooked += per_record
         reader_proved += m.proved_calls.get(SKILL_READER, 0)
-        if a.hook in M1B or a.hook in M2 or a.hook in M2C:
+        if a.hook in M1B or a.hook in M2 or a.hook in M2_ALL:
             per377 = m.hook_counts.get(STRENGTH_READER, 0)
             strength_hooked += per377
             strength_proved += m.proved_calls.get(STRENGTH_READER, 0)
             print(f"  {rid}: {STRENGTH_READER} calls {per377}, proved {m.proved_calls.get(STRENGTH_READER, 0)};"
                   f" branches {m.tally377e}")
-        if a.hook in M2 or a.hook in M2C:
+        if a.hook in M2 or a.hook in M2_ALL:
             print(f"  {rid}: calls per routine {m.hook_counts}, proved {m.proved_calls};"
                   f" {CONTEST_GATE} results {m.tally287c}")
-        if a.hook in M1 or a.hook in M1B or a.hook in M2 or a.hook in M2C:
+        if a.hook in M1 or a.hook in M1B or a.hook in M2 or a.hook in M2_ALL:
             print(f"  {rid}: {SKILL_READER} calls {per_record}, proved {m.proved_calls.get(SKILL_READER, 0)}")
         for r, c in m.scratch_differences.get(LCG_STEP, {}).items():
             scratch[r] = scratch.get(r, 0) + c
@@ -553,6 +680,24 @@ def main(argv=None):
             checks["287C's calls and results equal the Evidence's (545: 296 non-zero / 249 zero)"] = (
                 m.tally287c == EXPECTED_287C and m.hook_counts.get(CONTEST_GATE) == 545
                 and m.proved_calls.get(CONTEST_GATE) == 545)
+        if a.hook in M2D:
+            reach = reach_counts(rid, LONG_REACH_LOG, (LONG_MAX, LONG_MUL))
+            base = logged_counts(M2C_COUNTS_LOG, rid)
+            nested = {x: m.entries[x] - m.hook_counts[x] for x in (LONG_MAX, LONG_MUL)}   # entries no hook took
+            print(f"  {rid}: long-helper tallies {m.tally_longs}")
+            print(f"  {rid}: scratch_differences (proved calls where an uncompared register differed, per routine):"
+                  f" {m.scratch_differences}")
+            for x in (LONG_MAX, LONG_MUL):
+                long_calls[x] = [long_calls.get(x, [0, 0])[0] + m.hook_counts[x], long_calls.get(x, [0, 0])[1] + m.proved_calls[x]]
+                long_scratch[x] ={r: long_scratch.get(x, {}).get(r, 0) + c for r, c in m.scratch_differences[x].items()}
+            if not error:
+                expected = {**base, LONG_MAX: reach[LONG_MAX] - nested[LONG_MAX], LONG_MUL: reach[LONG_MUL] - nested[LONG_MUL]}
+                print(f"  {rid}: entries of 0D56/0279 inside the originals of the other routines (not hooked, counted by a"
+                      f" code hook minus the hooked calls): {nested}; reach (unhooked, {LONG_REACH_LOG}) {reach};"
+                      f" M2c counts ({M2C_COUNTS_LOG}) {base}")
+                print(f"  {rid}: expected counts = M2c's six unchanged, 0D56/0279 = reach - nested: {expected}; got {m.hook_counts}")
+                checks["the eight counts equal M2c's six and the adjusted reach for 0D56/0279, all proved"] = (
+                    m.hook_counts == expected and m.proved_calls == m.hook_counts)
         if a.hook in M2C and not error:
             reach, base = reach_counts(rid), m2b_counts(rid)
             nested = {a: m.entries[a] - m.hook_counts[a] for a in (DRAW_06B1, DRAW_06D0)}   # entries no hook took
@@ -597,17 +742,21 @@ def main(argv=None):
     if a.hook != "none":
         print(f"hooked calls of {LCG_STEP}: {hooked}; proved side by side with no difference: {proved};"
               f" differences: {len(differences)}" + (f" (first: {differences[0]})" if differences else ""))
-        if a.hook in M2 or a.hook in M2C:
+        if a.hook in M2 or a.hook in M2_ALL:
             print(f"hooked calls of {CONTEST_GATE}: {contest_hooked}; proved side by side with no difference:"
                   f" {contest_proved}")
-        if a.hook in M1 or a.hook in M1B or a.hook in M2 or a.hook in M2C:
+        if a.hook in M1 or a.hook in M1B or a.hook in M2 or a.hook in M2_ALL:
             print(f"hooked calls of {SKILL_READER}: {reader_hooked}; proved side by side with no difference:"
                   f" {reader_proved}")
-        if a.hook in M1B or a.hook in M2 or a.hook in M2C:
+        if a.hook in M1B or a.hook in M2 or a.hook in M2_ALL:
             print(f"hooked calls of {STRENGTH_READER}: {strength_hooked}; proved side by side with no difference:"
                   f" {strength_proved}")
         print("uncompared-register differences (warnings, proved calls): "
               + ", ".join(f"{r} {c}" for r, c in scratch.items()))
+        if a.hook in M2D:
+            for x in (LONG_MAX, LONG_MUL):
+                print(f"hooked calls of {x}: {long_calls[x][0]}; proved side by side with no difference: {long_calls[x][1]};"
+                      f" scratch_differences (BX, CX, SI, DI, ES, FLAGS; summed over the records): {long_scratch.get(x)}")
     else:
         print("hooked calls: none (no hook)")
     print(f"match: {ok}/{n}")
