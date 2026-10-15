@@ -155,3 +155,18 @@ Testimony (`owner`), read against the records; nothing here makes a rule `corrob
 - **E1.** No older saved games, summaries or highlights; the owner can produce them on request.
 - **E2.** Yes: `1.GL` may be published. A published manifest is never rewritten, so it needs its own
   record: a follow-up.
+
+## Decisions of 2026-10-15 (the owner, in the session after the Italy v Portugal sitting)
+
+Asked with the findings in front of them (F023, F027); recorded here before goal2's register
+changes (docs/process.md section 14).
+
+- **BM-7, substitutions: unlimited in a friendly, 5 in every other match.** The original's code gives
+  5 per side in a friendly and 2 per side otherwise (F027 section 4, `A4A1`; the help file says the
+  same). This is a deliberate rebuild rule, not the original's behaviour: "That was a limitation I did
+  not like about the game" (the owner). Supersedes C2's "five in every match" for competition.
+- **A-COMP-3 and A-COMP-4, ties: follow the code, no coin.** A play-off aggregate is decided by the
+  totals, then the leg-2 v leg-1 first-side scores; a group table sorts on points, goal difference,
+  goals scored and stops (F023 sections 6 and 8). The help file's "finally a coin" loses to the code.
+- **Evidence store (#224): one zip per run**, one hash, named by the manifest; a change to
+  `tools/publish_evidence.py` and `tools/verify_evidence.py`.
