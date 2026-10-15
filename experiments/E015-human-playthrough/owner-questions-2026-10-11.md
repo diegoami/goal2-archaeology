@@ -170,3 +170,10 @@ changes (docs/process.md section 14).
   goals scored and stops (F023 sections 6 and 8). The help file's "finally a coin" loses to the code.
 - **Evidence store (#224): one zip per run**, one hash, named by the manifest; a change to
   `tools/publish_evidence.py` and `tools/verify_evidence.py`.
+- **Live checks on the owner's real display are allowed** ("you can probe :0 whenever you want until you
+  solve the issue", 2026-10-15; extended the same day: if the private-display rule creates much effort,
+  relax it). Basis: #220, where every video was black on WSLg and the private-display tests could not
+  see it. Live checks are for changes that touch the display, a window, focus or video; CI stays on
+  private displays (GitHub's runners have no desktop). A live check opens a short window on the owner's
+  screen, uses its own nested display number, stops every process it started, and its numbers go to a
+  tracked log (L40).
