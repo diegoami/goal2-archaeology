@@ -436,9 +436,10 @@ word * f_0791_DE51(int param_1,int param_2,int param_3)
 }
 
 
-// ---- 0791:DEA6  f_0791_DEA6  (f_0791_DEA6; Ghidra 2000:DEA6, __stdcall16near; found by routines.tsv)
+// ---- 0791:DEA6  swap_select_screen_players  (f_0791_DEA6; Ghidra 2000:DEA6, __stdcall16near; found by routines.tsv)
+// Enter in the SELECT TEAM screen with DS:0C1F clear (outside a match): marks the first player, on the second Enter swaps the two word-list entries (the squad or pool lists) with 214B:007B, then sorts the squad: sort_squad_by_position when DS:0C1E is clear, resort_pitch_and_bench otherwise  [likely; F029; read code/seg_0791_22.asm:407-500]
 
-void f_0791_DEA6(int param_1)
+void swap_select_screen_players(int param_1)
 
 {
   int iVar1;
@@ -496,9 +497,10 @@ void f_0791_DEA6(int param_1)
 }
 
 
-// ---- 0791:E022  f_0791_E022  (f_0791_E022; Ghidra 2000:E022, __stdcall16near; found by routines.tsv)
+// ---- 0791:E022  swap_in_match_squad_players  (f_0791_E022; Ghidra 2000:E022, __stdcall16near; found by routines.tsv)
+// the managed side's substitution in the in-match SELECT TEAM screen (Enter on a pitch player, then Enter on a bench player): refuses (a message) when both marked slots are in the same block (both pitch or both bench), when the bench player (the higher slot) is unavailable, or when the pitch player (the lower slot) is sent off (status element 6); otherwise swaps the two squad words in the live country record (214B:007B), the two match_form bytes and the two DS:9A3E marking words, calls refresh_pitch_slot (which counts the substitution down and sets DS:9B55); it does not copy the outgoing player's position byte (the computer's substitution C88D does)  [established; F029; read code/seg_0791_22.asm:531-800]
 
-void f_0791_E022(int param_1)
+void swap_in_match_squad_players(int param_1)
 
 {
   char cVar1;
@@ -730,7 +732,7 @@ void __stdcall16far select_team_screen(int param_1)
     cVar3 = sys_upcase_19B2(CONCAT11(extraout_AH,DS:A976));
     if (cVar3 == '\r') {
       if (DS:0C1F == '\0') {
-        f_0791_DEA6(&stack0xfffe);
+        swap_select_screen_players(&stack0xfffe);
       }
       else if (DS:0C20 == '\0') {
         if ((DS:9B41 == '\0') || (((char *)substitutions_left)[local_5] == '\0')) {
@@ -742,7 +744,7 @@ void __stdcall16far select_team_screen(int param_1)
           }
         }
         else {
-          f_0791_E022(&stack0xfffe);
+          swap_in_match_squad_players(&stack0xfffe);
         }
       }
     }

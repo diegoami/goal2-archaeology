@@ -1,0 +1,11 @@
+3	20261012T225549Z	fix=19	stage=0x02	FIRST
+4	20261012T225556Z	fix=19	stage=0x02	ORDER slots [3, 4, 5, 6, 19, 20]
+19	20261012T225644Z	fix=19	stage=0x02	MEMBERSHIP out=[308] in=[2593] bench_out=[] bench_in=[]
+31	20261012T225702Z	fix=19	stage=0x02	MEMBERSHIP out=[] in=[] bench_out=[313] bench_in=[2581]
+39	20261012T225712Z	fix=19	stage=0x02	MEMBERSHIP out=[2593] in=[316] bench_out=[316] bench_in=[2593]
+98	20261012T225814Z	fix=19	stage=0x02	MEMBERSHIP out=[] in=[] bench_out=[310] bench_in=[2565]
+106	20261012T225905Z	fix=19	stage=0x02	ORDER slots [3, 4, 5, 6, 17, 18]
+136	20261012T225941Z	fix=19	stage=0x02	ORDER slots [3, 4, 5, 6, 13, 14, 17, 18]
+158	20261012T230043Z	fix=19	stage=0x02	ORDER slots [3, 4, 5, 6, 13, 14, 17, 18]
+168	20261012T230204Z	fix=22	stage=0x02	FIXTURE 19->22
+225	20261012T230644Z	fix=22	stage=0x02	MEMBERSHIP out=[304] in=[2565] bench_out=[2565] bench_in=[304]

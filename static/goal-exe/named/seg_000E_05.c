@@ -960,7 +960,7 @@ void main_menu_loop(void)
         f_1771_09A0(4,8,pbVar3[1] + 0x80);
       }
       else if ((DS:A976 == -0x5f) || (DS:A976 == -0x5e)) {
-        f_0791_112C();
+        view_saved_goal();
       }
       else if (DS:A976 == -0x5b) {
         f_1771_08B5();

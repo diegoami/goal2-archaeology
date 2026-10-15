@@ -252,7 +252,7 @@ void __stdcall16far run_match(undefined4 param_1)
   uVar8 = DS:9A3E == '\0';
   uVar3 = extraout_AH_00;
   if ((bool)uVar8) {
-    f_0791_15B9();
+    snapshot_match_state();
     uVar3 = extraout_AH_01;
   }
   draw_match_summary(CONCAT11(uVar3,1));

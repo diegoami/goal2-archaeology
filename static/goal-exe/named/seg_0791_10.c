@@ -665,9 +665,10 @@ void wait_or_key(int param_1)
 }
 
 
-// ---- 0791:CC7B  f_0791_CC7B  (f_0791_CC7B; Ghidra 2000:CC7B, __stdcall16near; found by routines.tsv)
+// ---- 0791:CC7B  choose_captain_or_taker  (f_0791_CC7B; Ghidra 2000:CC7B, __stdcall16near; found by routines.tsv)
+// the captain / set-piece taker prompt before the kick-off (param 1 = the captain, 2.. = the taker): shows the eleven, Enter picks the highlighted available player, C picks by 0791:1F3C (captain) or 0791:1FDD (taker); it writes only the table word DS:9978 + 10 side (captain) or DS:9976 + 10 side + 2 role, never the squad words  [likely; F029; read code/seg_0791_20.asm:1085-1450]
 
-word f_0791_CC7B(byte param_1,char param_2)
+word choose_captain_or_taker(byte param_1,char param_2)
 
 {
   int iVar1;
@@ -694,7 +695,7 @@ word f_0791_CC7B(byte param_1,char param_2)
   if ((param_1 == 1) &&
      ((cVar2 = player_unavailable(*(undefined2 *)(param_2 * 10 + -0x6688)), cVar2 != '\0' ||
       (uVar3 = f_0791_6B65(1,param_2), 0xb < uVar3)))) {
-    uVar4 = f_0791_1F3C(param_2);
+    uVar4 = best_leader_available(param_2);
     *(undefined2 *)(param_2 * 10 + -0x6688) = uVar4;
   }
   cVar2 = player_unavailable(*(undefined2 *)
@@ -768,7 +769,7 @@ word f_0791_CC7B(byte param_1,char param_2)
       cVar2 = sys_upcase_19B2(DS:A976);
       if (cVar2 == 'C') {
         if (param_1 == 1) {
-          uVar4 = f_0791_1F3C(param_2);
+          uVar4 = best_leader_available(param_2);
           *(undefined2 *)(param_2 * 10 + -0x6688) = uVar4;
         }
         else {
