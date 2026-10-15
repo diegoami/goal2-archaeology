@@ -1,0 +1,9 @@
+#220: the recorder's video was black on WSLg. Probes and the live check of the fix, 2026-10-15, display :0 (WSLg, WAYLAND_DISPLAY=wayland-0), the owner's permission to probe :0 until solved.
+
+1. All videos on this machine (middle frame, ffmpeg signalstats): luma YAVG 16 (black) in 9 of 9 decodable files; one more (20261011-160938, 581 bytes) not decodable. Today's sitting 20261015-070348: 3164.9 s, 1,614,354 bytes, frame at 900 s YAVG=16 YMAX=16.
+2. Probe: Xephyr :720 shown on :0, xev inside it, ffmpeg x11grab of 640x400:
+   a) outer :0 at the window position (1133,347): YAVG=16.043 YMAX=180 (black plus cursor)
+   b) nested :720 at 0,0:                          YAVG=199.943 YMAX=235 (the xev window)
+3. A private Xvfb outer (display :710) with the old code: the video shows the game (YAVG 20.4, YMAX 236): the old grab only works where the outer root is drawn.
+4. The fix (recorder.py: grab env["DISPLAY"], the nested display, at the game window's geometry on it). Live sitting on :0 with --video --scale 1 --quit-after 20 --fresh, session 20261015-150139 (not committed): "video started: ffmpeg ... -video_size 720x400 -i :600+320,200 ...", video.mkv 51,276 bytes, frame at 12 s: YAVG=20.74 YMAX=235, the title screen readable (viewed as PNG).
+5. Test: tests.test_human_keys.VideoTests.test_the_video_films_the_nested_display_not_what_covers_the_window_outside covers the Xephyr window on a private Xvfb outer with an opaque white xev window; old code: fails (the frame is the white cover), fix: passes.

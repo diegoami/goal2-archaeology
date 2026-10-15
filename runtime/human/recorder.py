@@ -2048,13 +2048,17 @@ def play(video=False, quit_after=None, res=None, load=None, fresh=False, scale=D
         (session / "meta.json").write_text(json.dumps(meta, indent=1))
         if video:
             # the video is a convenience channel: no failure here ends the sitting (T34 R4)
-            geom0 = window_geometry(xephyr_wid, outer_env)
+            # The game window on the NESTED display, filmed from the nested display itself: it is its
+            # own X server, so its root holds the game wherever the outer desktop is. Grabbing the
+            # OUTER display at the Xephyr window's position filmed black on WSLg and would on Wayland
+            # (#220: outer grab luma 16 = black, nested grab luma 200, probe 2026-10-15 on :0).
+            geom0 = window_geometry(wid, env)
             if shutil.which("ffmpeg") is None:
                 log("--video requested but ffmpeg is not installed: continuing without video")
             elif geom0 is None:
                 log("--video requested but the window geometry is unknown: continuing without video")
             else:
-                v = video_cmd(geom0, outer_env["DISPLAY"], session / "video.mkv")
+                v = video_cmd(geom0, env["DISPLAY"], session / "video.mkv")
                 vid = Video(v, session / "video.mkv")
                 vid.start()
                 log(f"video started: {' '.join(v)}")

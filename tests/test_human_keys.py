@@ -369,7 +369,7 @@ class VideoTests(unittest.TestCase):
         sitting, session = None, None
         try:
             sitting = subprocess.Popen(["bash", str(ROOT / "runtime/human/play.sh"), "--video",
-                                        "--scale", "1", "--quit-after", "8", "--res", "640x400"], env=env,
+                                        "--scale", "1", "--quit-after", "8"], env=env,
                                        stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
                                        start_new_session=True)
             sizes, end = [], time.monotonic() + 30
@@ -394,11 +394,63 @@ class VideoTests(unittest.TestCase):
             self.assertGreaterEqual(meta["video"]["bytes"], max(sizes))
             self.assertEqual(meta["video"]["bytes"], final)
             self.assertGreater(final, 0)
-            self.assertEqual(meta["video"]["geometry"][2:], [640, 400])
+            self.assertEqual(meta["video"]["geometry"][2:], [720, 400])
             self.assertEqual(meta["video"]["ended"], "SIGTERM")
             self.assertEqual((meta["burst_quiet_s"], meta["capture_margin_s"]),
                              (rec.BURST_QUIET_S, rec.CAPTURE_MARGIN_S))   # R7: the map reads these
         finally:
+            rec.terminate(sitting)
+            rec.terminate(outer)
+            if session is not None:
+                shutil.rmtree(session, ignore_errors=True)
+
+    def test_the_video_films_the_nested_display_not_what_covers_the_window_outside(self):
+        # #220: the recorder filmed the OUTER display at the game window's position, which is
+        # black on WSLg (probe 2026-10-15: outer grab luma 16, nested grab luma 200). A private Xvfb
+        # outer shows the Xephyr window, so the old grab only differed once something sat on top of
+        # it: an opaque white xev window over the whole outer display. The video must still show
+        # the game (dark title screen with bright text: mean luma well under the white's 235, but
+        # a brightest pixel well over black's 16), not the cover and not black.
+        outer, env = xvfb(800, 820)
+        before = set(rec.SESSIONS.glob("*")) if rec.SESSIONS.is_dir() else set()
+        sitting, session, cover = None, None, None
+        try:
+            sitting = subprocess.Popen(["bash", str(ROOT / "runtime/human/play.sh"), "--video",
+                                        "--scale", "1", "--quit-after", "16"], env=env,
+                                       stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
+                                       start_new_session=True)
+            end = time.monotonic() + 40
+            while time.monotonic() < end and sitting.poll() is None:
+                fresh = (set(rec.SESSIONS.glob("*")) if rec.SESSIONS.is_dir() else set()) - before
+                if fresh:
+                    session = fresh.pop()
+                    if (session / "video.mkv").is_file() and (session / "meta.json").is_file() and \
+                            json.loads((session / "meta.json").read_text()).get("window_id"):
+                        break
+                time.sleep(0.5)
+            self.assertIsNotNone(session)
+            time.sleep(3)
+            cover = subprocess.Popen(["xev", "-name", "cover220", "-geometry", "1280x800+0+0"], env=env,
+                                     stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
+                                     start_new_session=True)
+            time.sleep(2)
+            self.assertEqual(sitting.wait(timeout=60), 0)
+            video = session / "video.mkv"
+            probe = subprocess.run(["ffprobe", "-v", "error", "-show_entries", "format=duration",
+                                    "-of", "csv=p=0", str(video)], capture_output=True, text=True)
+            seconds = float(probe.stdout.strip())
+            self.assertGreater(seconds, 8, probe.stdout)
+            # a frame late in the sitting, when the cover has been over the window for a while
+            r = subprocess.run(["ffmpeg", "-v", "error", "-ss", str(seconds - 3), "-i", str(video),
+                                "-frames:v", "1", "-vf", "signalstats,metadata=print:file=-",
+                                "-f", "null", "-"], capture_output=True, text=True)
+            stats = dict(line.split("=", 1) for line in r.stdout.splitlines() if "signalstats" in line)
+            yavg = float(stats["lavfi.signalstats.YAVG"])
+            ymax = float(stats["lavfi.signalstats.YMAX"])
+            self.assertLess(yavg, 120, f"the video shows the cover over the window: {stats}")
+            self.assertGreater(ymax, 100, f"the video is black: {stats}")
+        finally:
+            rec.terminate(cover)
             rec.terminate(sitting)
             rec.terminate(outer)
             if session is not None:
