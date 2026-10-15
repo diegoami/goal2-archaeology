@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """E032 (the match-engine plan): what a whole watched match of the original executes, by routine.
 
-    python3 -B experiments/E032-match-engine-inventory/coverage.py --seed 0xC0DE --out experiments/E032-match-engine-inventory/out/<new file>.json [--fast-delay]
+    python3 -B experiments/E032-match-engine-inventory/coverage.py --seed 0xC0DE --out experiments/E032-match-engine-inventory/out/<new file>.json [--delay-count N]
 
 Runs one whole watched match of the ORIGINAL code in the E021 harness (runtime/emul/watched_match.py,
 no substitution hook) from E011-r0001's watchstart savestate (sha256 verified by check.asset), with
@@ -18,7 +18,8 @@ executions, executed instructions (block executions x instructions per block, co
 guest bytes), distinct code bytes reached against the routine's size, the phase split, video writes, the
 annotation's name, and the run's score, ticks, draws and wall seconds.
 
---fast-delay additionally writes the delay calibration dword DS:A9FF/AA01 := 1 (a declared input). F006
+--delay-count N additionally writes the delay calibration dword DS:A9FF/AA01 := N (a declared input; N = 1
+hangs, because the whistle 214B:1F87 divides by N div 10 = 0). F006
 (C-MATCH-02) says delays only count passes against it, so a match must not change: compare the score and
 the draws digest with a run without it."""
 import argparse
@@ -60,11 +61,32 @@ def routines():
     return starts, info, names
 
 
+def set_delay_at_kickoff(m, n):
+    """Write the delay calibration dword DS:A9FF/AA01 := n at the first clock tick (0791:970C entry), a
+    declared input recorded in m.inputs. Not at the start: the watchstart state resumes INSIDE a delay
+    (214B:1E09) whose pass counter is already above a small n, so a write there never lets it end."""
+    from unicorn import UC_HOOK_CODE
+    done = []
+
+    def at_tick(uc, address, size, data):
+        if done:
+            return
+        lin = m.DS * 16 + 0xA9FF
+        old = m.mem(lin, 4)
+        uc.mem_write(lin, n.to_bytes(4, "little"))
+        m.inputs.append({"what": "delay calibration dword DS:A9FF/AA01, at the first 0791:970C entry",
+                         "linear": lin, "old": old.hex(), "new": n.to_bytes(4, "little").hex()})
+        done.append(1)
+
+    m.mu.hook_add(UC_HOOK_CODE, at_tick, begin=m.lin("0791:970C"), end=m.lin("0791:970C"))
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--seed", type=lambda s: int(s, 0), required=True)
     ap.add_argument("--out", required=True)
-    ap.add_argument("--fast-delay", action="store_true")
+    ap.add_argument("--delay-count", type=lambda v: int(v, 0), default=None,
+                    help="write the delay calibration dword DS:A9FF/AA01 := N (declared); 1 hangs: the whistle 214B:1F87 divides by N div 10")
     a = ap.parse_args()
     out = Path(a.out)
     if out.exists():
@@ -74,8 +96,8 @@ def main():
     data = asset(entry)          # bytes, sha256-verified against the record
     m = WatchedMatch(data)
     m.set_seed(a.seed)
-    if a.fast_delay:
-        m.write_input("delay calibration dword DS:A9FF/AA01", m.DS * 16 + 0xA9FF, (1).to_bytes(4, "little"))
+    if a.delay_count is not None:
+        set_delay_at_kickoff(m, a.delay_count)
     base = m.load * 16
     code_end = (m.load + DS_PARAGRAPH) * 16
     blocks = {}      # linear -> [size, n_match, n_outside]
@@ -142,7 +164,7 @@ def main():
         nm = names.get(i["address"], ("", ""))
         rows.append({"address": i["address"], "name": nm[0], "confidence": nm[1], "size": i["size"],
                      "instructions_static": i["instructions"], **p})
-    outs = {"final": m.state(), "error": error, "seconds": secs, "seed": a.seed, "fast_delay": a.fast_delay,
+    outs = {"final": m.state(), "error": error, "seconds": secs, "seed": a.seed, "delay_count": a.delay_count,
             "score": m.state()["score"], "ticks": len(m.tick_marks), "draws": len(m.draws),
             "draws_digest": draws_digest(m.draws), "strays": list(m.strays), "inputs": m.inputs,
             "stopped_at_board": m.stopped_at_board, "video_pages": [[hex(lo), hex(hi)] for lo, hi in pages],
@@ -151,7 +173,7 @@ def main():
     out.parent.mkdir(parents=True, exist_ok=True)
     with open(out, "x") as f:
         json.dump(outs, f, indent=1)
-    print(json.dumps({k: outs[k] for k in ("seed", "fast_delay", "score", "ticks", "draws", "draws_digest",
+    print(json.dumps({k: outs[k] for k in ("seed", "delay_count", "score", "ticks", "draws", "draws_digest",
                                            "seconds", "error", "strays", "stopped_at_board")}))
 
 
