@@ -169,7 +169,9 @@ def main():
             "draws_digest": draws_digest(m.draws), "strays": list(m.strays), "inputs": m.inputs,
             "stopped_at_board": m.stopped_at_board, "video_pages": [[hex(lo), hex(hi)] for lo, hi in pages],
             "statistics_raw": m.statistics() if not error else None,
-            "start_record": "E011-r0001", "watchstart_sha256": entry["sha256"], "routines": rows}
+            "start_record": "E011-r0001", "watchstart_sha256": entry["sha256"], "routines": rows,
+            # every block reached in the match phase, as [image offset, size], for unions across seeds
+            "match_blocks": sorted([lin - base, size] for lin, (size, nm, no) in blocks.items() if nm)}
     out.parent.mkdir(parents=True, exist_ok=True)
     with open(out, "x") as f:
         json.dump(outs, f, indent=1)
