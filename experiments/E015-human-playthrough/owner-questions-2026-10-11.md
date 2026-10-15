@@ -182,5 +182,8 @@ changes (docs/process.md section 14).
   prompts, time-outs and display modes matter for AUTOMATING THE ORIGINAL (the driver and any bot that
   plays it: which key answers, what a prompt defaults to when it times out, how long it waits), and must
   be clear for that. They are not rules of the rebuild: goal2's register carries game rules only, and
-  goal2 does not map the original's keys. This overrides the plan's P6 wording "in the original's layout
-  and keys" (goal2 `docs/plan.md`); the goal2 session reconciles it.
+  goal2 does not map the original's keys. (Correction, same day: goal2's `docs/plan.md` at a2ac625 already
+  says P6 uses the screen catalogue "to identify information/actions rather than requiring the original
+  layout/keys", with a browser UI; an earlier note here quoted an older wording. The owner then said P6
+  "must go, it is unpractical" on that older wording: whether the remaining catalogue use in P6 should go
+  too is asked of the owner.)
