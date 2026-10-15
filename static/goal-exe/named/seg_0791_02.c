@@ -944,7 +944,7 @@ undefined2 __stdcall16far player_at_ball(int *param_1)
 
 
 // ---- 0791:2D10  ball_ahead_of_by  (f_0791_2D10; Ghidra 2000:2D10, __stdcall16far; found by routines.tsv)
-// (pitch, n): 1 when the ball's y times the side's direction exceeds the record's y times the direction plus n, i.e. the ball is more than n cells ahead of him in his team's frame  [likely; F028; read code/seg_0791_05.asm]
+// (pitch, n): 1 when the ball's y times the side's direction exceeds the record's y times the direction plus n, i.e. the ball is more than n cells ahead of him in his team's frame; T52: (pitch, n): 1 when ball y * attack_direction exceeds the player's y * attack_direction by more than n (the ball is more than n rows nearer the player's attacking end)  [likely; F028; read code/seg_0791_05.asm; F026; read named/seg_0791_02.c]
 
 undefined2 __stdcall16far ball_ahead_of_by(undefined4 param_1,uint param_2)
 
@@ -977,7 +977,7 @@ undefined2 __stdcall16far ball_ahead_of_by(undefined4 param_1,uint param_2)
 
 
 // ---- 0791:2D6D  ahead_of_ball_by  (f_0791_2D6D; Ghidra 2000:2D6D, __stdcall16far; found by routines.tsv)
-// (pitch, n): 1 when the record's y times the direction exceeds the ball's y times the direction plus n, i.e. he is more than n cells ahead of the ball  [likely; F028; read code/seg_0791_05.asm]
+// (pitch, n): 1 when the record's y times the direction exceeds the ball's y times the direction plus n, i.e. he is more than n cells ahead of the ball; T52: (pitch, n): 1 when the player's y * attack_direction exceeds the ball's y * attack_direction by more than n  [likely; F028; read code/seg_0791_05.asm; F026; read named/seg_0791_02.c]
 
 undefined2 __stdcall16far ahead_of_ball_by(undefined4 param_1,uint param_2)
 
@@ -1147,40 +1147,4 @@ undefined2 __stdcall16far f_0791_2EF0(undefined4 param_1,undefined2 param_2)
     }
   }
   return 0;
-}
-
-
-// ---- 0791:2F28  f_0791_2F28  (f_0791_2F28; Ghidra 2000:2F28, __stdcall16far; found by routines.tsv)
-
-uint __stdcall16far f_0791_2F28(char *param_1)
-
-{
-  uint uVar1;
-  int iVar2;
-  char *pcVar3;
-  undefined2 uVar4;
-  
-  uVar4 = (undefined2)((ulong)param_1 >> 0x10);
-  pcVar3 = (char *)param_1;
-  uVar1 = f_0791_2C54(pcVar3,uVar4);
-  if ((char)uVar1 == '\0') {
-    uVar1 = (uint)pcVar3[1];
-    if ((int)uVar1 < 0) {
-      uVar1 = -uVar1;
-    }
-    if ((int)(((player *)players)[*(int *)(pcVar3 + 0xd)].position + 0xc) <= (int)uVar1) {
-      iVar2 = (int)pcVar3[1];
-      if (iVar2 < 0) {
-        iVar2 = -iVar2;
-      }
-      uVar1 = (uint)*param_1;
-      if ((int)uVar1 < 0) {
-        uVar1 = -uVar1;
-      }
-      if ((int)uVar1 <= (int)(uint)*(byte *)((0x1c < iVar2) + 0x776)) {
-        return CONCAT11((char)(uVar1 >> 8),1);
-      }
-    }
-  }
-  return uVar1 & 0xff00;
 }

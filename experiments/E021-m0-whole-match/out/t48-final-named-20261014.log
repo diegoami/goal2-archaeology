@@ -1,0 +1,30 @@
+code head: 4c485c905177afd9c8b5b3b0aa8558a59fa732f3
+command: ['/home/diego/.local/bin/python3.12', '-B', '-m', 'unittest', 'tests.test_emul_match', 'tests.test_model_longs', 'tests.test_model_draws', 'tests.test_model_contests']
+...........WARNING: call #1 of 2000:0279: uncompared register SI at the return: the original 0x0003, the model 0x3333 (counted, not an error; further ones counted only)
+..............WARNING: call #1 of 214B:0688: uncompared register BX at the return: the original 0x7ABD, the model 0x0000 (counted, not an error; further ones counted only)
+WARNING: call #1 of 214B:0688: uncompared register SI at the return: the original 0x7B64, the model 0x6130 (counted, not an error; further ones counted only)
+WARNING: call #1 of 214B:0688: uncompared register DI at the return: the original 0x7B64, the model 0x7B62 (counted, not an error; further ones counted only)
+WARNING: call #1 of 214B:0688: uncompared register FLAGS at the return: the original 0x7202, the model 0x7206 (counted, not an error; further ones counted only)
+..WARNING: call #1 of 214B:0688: uncompared register BX at the return: the original 0x7ABD, the model 0x0000 (counted, not an error; further ones counted only)
+WARNING: call #1 of 214B:0688: uncompared register SI at the return: the original 0x7B64, the model 0x6130 (counted, not an error; further ones counted only)
+WARNING: call #1 of 214B:0688: uncompared register DI at the return: the original 0x7B64, the model 0x7B62 (counted, not an error; further ones counted only)
+WARNING: call #1 of 214B:0688: uncompared register FLAGS at the return: the original 0x7202, the model 0x7206 (counted, not an error; further ones counted only)
+..WARNING: call #1 of 0791:278A: uncompared register BX at the return: the original 0x001E, the model 0x016A (counted, not an error; further ones counted only)
+WARNING: call #1 of 0791:278A: uncompared register CX at the return: the original 0x0010, the model 0x0004 (counted, not an error; further ones counted only)
+WARNING: call #1 of 0791:278A: uncompared register ES at the return: the original 0x2DA4, the model 0x4E5B (counted, not an error; further ones counted only)
+WARNING: call #1 of 0791:278A: uncompared register FLAGS at the return: the original 0x7202, the model 0x7296 (counted, not an error; further ones counted only)
+.WARNING: call #1 of 0791:278A: uncompared register BX at the return: the original 0x001E, the model 0x016A (counted, not an error; further ones counted only)
+WARNING: call #1 of 0791:278A: uncompared register CX at the return: the original 0x0010, the model 0x0004 (counted, not an error; further ones counted only)
+WARNING: call #1 of 0791:278A: uncompared register ES at the return: the original 0x2DA4, the model 0x4E5B (counted, not an error; further ones counted only)
+WARNING: call #1 of 0791:278A: uncompared register FLAGS at the return: the original 0x7202, the model 0x7296 (counted, not an error; further ones counted only)
+..............WARNING: call #3 of 2000:0000: uncompared register FLAGS at the return: the original 0x0006, the model 0x0002 (counted, not an error; further ones counted only)
+.WARNING: call #3 of 2000:0000: uncompared register FLAGS at the return: the original 0x0006, the model 0x0002 (counted, not an error; further ones counted only)
+.WARNING: call #3 of 2000:0000: uncompared register FLAGS at the return: the original 0x0006, the model 0x0002 (counted, not an error; further ones counted only)
+.........WARNING: call #3 of 2000:0000: uncompared register FLAGS at the return: the original 0x0006, the model 0x0002 (counted, not an error; further ones counted only)
+...........................................
+----------------------------------------------------------------------
+Ran 98 tests in 158.254s
+
+OK
+
+exit: 0

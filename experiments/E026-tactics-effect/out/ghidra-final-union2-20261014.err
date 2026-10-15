@@ -1,0 +1,4 @@
+decompile.sh: work directory /tmp/tmp.HlxafuWGW7
+decompile.sh: decompiler failed, not retrying: main_program attempt 1: Offset must be between 0x0 and 0x10ffef, got 0xffffffff instead!
+decompile.sh: decompiler failed, not retrying: f_0791_1A04 attempt 1: Exception while decompiling 2000:1a04: ghidra.program.model.address.AddressOutOfBoundsException: Offset must be between 0x0 and 0x10ffef, got 0xb0002e8e instead!
+decompile.sh: decompiler failed, not retrying: u214b_unpack_screen_row_record attempt 1: Exception while decompiling 7000:05f0: ghidra.program.model.address.AddressOutOfBoundsException: Offset must be between 0x0 and 0x10ffef, got 0xb00079a4 instead!

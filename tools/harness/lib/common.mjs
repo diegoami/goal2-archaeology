@@ -130,6 +130,7 @@ const ENDPOINT_FAMILIES = [[['anthropic.com'], 'claude'], [['z.ai', 'bigmodel.cn
   [['deepseek.com'], 'deepseek'], [['aliyuncs.com'], 'qwen'], [['xiaomimimo.com'], 'mimo']];
 export function sessionFamily(env = process.env) {
   if (env.HARNESS_SESSION_FAMILY) return env.HARNESS_SESSION_FAMILY.trim().toLowerCase();
+  if (env.CODEX_THREAD_ID || env.CODEX_CI === '1') return 'openai';
   if (!env.ANTHROPIC_BASE_URL) return 'claude';
   let host;
   try { host = new URL(env.ANTHROPIC_BASE_URL).hostname.toLowerCase(); } catch { return null; }

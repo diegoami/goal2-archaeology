@@ -7,8 +7,17 @@ permission:
     "/tmp/opencode/*": allow
     "/tmp": allow
     "/tmp/*": allow
+    "/etc/*": allow
     "~/tools/dosbox-x-2024.03.01": allow
     "~/tools/dosbox-x-2024.03.01/*": allow
+  read:
+    "/etc": deny
+    "/etc/*": deny
+    "/etc/timezone": allow
+  grep:
+    "*": deny
+  glob:
+    "*": deny
   task:
     "*": deny
   bash:
@@ -23,6 +32,12 @@ permission:
     "gh pr edit *": deny
     "gh issue edit *": deny
     "gh issue comment *": deny
+    "* /etc": deny
+    "* /etc/*": deny
+    "* > /etc": deny
+    "* > /etc/*": deny
+    "* >> /etc/*": deny
+    "cat /etc/timezone": allow
 ---
 
 You review one pull request. You did not write it. The brief says what to check; this file says
@@ -64,6 +79,14 @@ how the run works.
   exactly as the grant writes it; never `cd` into or toward that folder and never `cat` a file in
   it — `cd` and `cat` paths are permission-checked as raw command text, and a quoted path fails
   the match, ending the run (L59). Use `sed -n '1,120p' <file>` instead of `cat`.
+  Exception: the owner-authorized `/etc/timezone` file may be read with the Read tool, or with
+  exactly `cat /etc/timezone`; never read another `/etc` path or write there. OpenCode requires
+  the broader `/etc/*` external-directory gate for this file, so the direct Read permission
+  denies `/etc/*` and then allows only `/etc/timezone`. The `grep` and `glob` tools are disabled:
+  their permission requests omit the target path, so they cannot safely distinguish this file
+  from its siblings. Use Bash `rg` or `rg --files` for worktree searches. These are OpenCode
+  tool-layer rules, not OS filesystem isolation; opaque shell or interpreter code may hide paths
+  from command matching.
   Scratch output goes to a file in the worktree root (`2>review-err.txt`), deleted afterwards,
   or anywhere under `/tmp` (open to the reviewer since 2026-10-11). Run git commands one at a time, never in parallel, and never touch `.git`: a
   leftover `index.lock` means wait and retry, not delete.

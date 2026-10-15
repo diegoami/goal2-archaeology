@@ -1,0 +1,13 @@
+Issue #209 named-view regeneration summary
+Invocation:
+  bash tools/static/decompile.sh --annotations static/goal-exe/annotations .cache/fix209-GOAL.EXE static/goal-exe/named
+Unit: goal2-fix209-ghidra-20261014.service
+Unit result: success; ExecMainCode=0; ExecMainStatus=0
+Raw run log: experiments/E021-m0-whole-match/out/fix209-ghidra-20261014T1505Z.log
+Ghidra: 12.1.4, revision 8b6bbb857accdfa20dc5b2f5dea471178c2e9fbc
+JDK: 21.0.12.1
+Packed GOAL.EXE SHA-256: a6928b0bb7cda0303ac8daf8690efc56ef1792dddaccb5c6f3d85af1f68d3664
+Named index accounting: 729 routines total, 726 decompiled or annotated, 3 failed.
+The three failures are the pre-existing baseline entries 0000:0000, 0791:1A04, and 214B:05F0; their reasons are recorded in static/goal-exe/named/index.tsv.
+Generated tracked changes: only static/goal-exe/named/seg_214B_01.c and static/goal-exe/named/seg_23E4_01.c, one annotation line each.
+No function-match measurement was run.

@@ -1,0 +1,85 @@
+seg_000E_01.asm:24: 002C  26 83 7D 38 00  cmp word ptr es:[di + 0x38], 0
+seg_000E_02.asm:160: 0B99  26 83 7D 38 02  cmp word ptr es:[di + 0x38], 2
+seg_000E_07.asm:397: 580C  26 83 7D 38 00  cmp word ptr es:[di + 0x38], 0
+seg_000E_07.asm:563: 59BC  26 8B 45 38     mov ax, word ptr es:[di + 0x38]
+seg_000E_07.asm:566: 59C5  26 03 45 3A     add ax, word ptr es:[di + 0x3a]
+seg_000E_08.asm:109: 61DB  BA 38 00        mov dx, 0x38
+seg_000E_09.asm:457: 7082  26 83 7D 38 02  cmp word ptr es:[di + 0x38], 2
+seg_000E_09.asm:500: 70FC  26 8A 45 3C     mov al, byte ptr es:[di + 0x3c]
+seg_0791_04.asm:728: 2665  26 8B 45 38     mov ax, word ptr es:[di + 0x38]
+seg_0791_12.asm:248: 6F2A  B0 3A           mov al, 0x3a
+seg_0791_12.asm:253: 6F32  B0 38           mov al, 0x38
+seg_0791_12.asm:317: 6FAA  B0 3A           mov al, 0x3a
+seg_0791_12.asm:773: 736B  B0 3C           mov al, 0x3c
+seg_1771_03.asm:852: 1C9E  26 8B 45 38     mov ax, word ptr es:[di + 0x38]
+seg_1771_03.asm:873: 1CD6  26 8B 45 3A     mov ax, word ptr es:[di + 0x3a]
+seg_1771_06.asm:1505: 484C  B8 3C 00        mov ax, 0x3c
+seg_1771_07.asm:768: 4F26  B0 3C           mov al, 0x3c
+seg_1771_08.asm:744: 59E2  26 8A 45 3C     mov al, byte ptr es:[di + 0x3c]
+seg_1771_08.asm:942: 5B74  26 8B 45 38     mov ax, word ptr es:[di + 0x38]
+seg_1771_08.asm:945: 5B7D  26 03 45 3A     add ax, word ptr es:[di + 0x3a]
+seg_1771_08.asm:1017: 5C1D  26 80 7D 3C 05  cmp byte ptr es:[di + 0x3c], 5
+seg_1771_09.asm:564: 6231  BA 38 00        mov dx, 0x38
+seg_1771_09.asm:634: 62D9  26 80 7D 3C 02  cmp byte ptr es:[di + 0x3c], 2
+seg_1771_09.asm:666: 631A  BA 38 00        mov dx, 0x38
+seg_1771_09.asm:1048: 66CB  BA 38 00        mov dx, 0x38
+seg_1771_09.asm:1111: 675B  26 83 7D 38 00  cmp word ptr es:[di + 0x38], 0
+seg_1771_09.asm:1288: 6909  BA 38 00        mov dx, 0x38
+seg_1771_09.asm:1371: 69D7  BA 38 00        mov dx, 0x38
+seg_1771_09.asm:1439: 6A79  BA 38 00        mov dx, 0x38
+seg_1771_09.asm:1506: 6B23  26 8A 45 3C     mov al, byte ptr es:[di + 0x3c]
+seg_1771_10.asm:25: 6B7E  BA 38 00        mov dx, 0x38
+seg_1771_10.asm:65: 6BE3  BA 38 00        mov dx, 0x38
+seg_1771_10.asm:99: 6C2E  BA 38 00        mov dx, 0x38
+seg_1771_10.asm:162: 6CCD  BA 38 00        mov dx, 0x38
+seg_1771_10.asm:211: 6D47  BA 38 00        mov dx, 0x38
+seg_1771_10.asm:576: 70C5  BA 38 00        mov dx, 0x38
+seg_1771_10.asm:592: 70F2  BA 38 00        mov dx, 0x38
+seg_1771_10.asm:640: 716C  BA 38 00        mov dx, 0x38
+seg_1771_10.asm:685: 71D1  BA 38 00        mov dx, 0x38
+seg_1771_10.asm:710: 7213  BA 38 00        mov dx, 0x38
+seg_1771_10.asm:718: 722B  BA 38 00        mov dx, 0x38
+seg_1771_10.asm:735: 725B  BA 38 00        mov dx, 0x38
+seg_1771_10.asm:751: 7288  BA 38 00        mov dx, 0x38
+seg_1771_10.asm:936: 743A  BA 38 00        mov dx, 0x38
+seg_1771_10.asm:1012: 74FE  BA 38 00        mov dx, 0x38
+seg_1771_10.asm:1019: 7514  BA 38 00        mov dx, 0x38
+seg_1771_11.asm:11: 76B8  26 8A 45 3C     mov al, byte ptr es:[di + 0x3c]
+seg_1771_12.asm:24: 8104  26 8A 45 3C     mov al, byte ptr es:[di + 0x3c]
+seg_1771_12.asm:34: 811B  26 FF 45 38     inc word ptr es:[di + 0x38]
+seg_1771_12.asm:140: 8235  26 80 7D 3C 08  cmp byte ptr es:[di + 0x3c], 8
+seg_1771_12.asm:145: 8241  81 C7 3C 00     add di, 0x3c
+seg_1771_12.asm:156: 8259  26 8A 45 3C     mov al, byte ptr es:[di + 0x3c]
+seg_1771_12.asm:166: 8270  26 80 7D 3C 05  cmp byte ptr es:[di + 0x3c], 5
+seg_1771_12.asm:176: 8287  26 80 7D 3C 08  cmp byte ptr es:[di + 0x3c], 8
+seg_1771_12.asm:188: 82A0  26 80 7D 3C 04  cmp byte ptr es:[di + 0x3c], 4
+seg_1771_12.asm:286: 838C  26 3A 45 3C     cmp al, byte ptr es:[di + 0x3c]
+seg_1771_12.asm:694: 876A  26 8A 45 3C     mov al, byte ptr es:[di + 0x3c]
+seg_1771_12.asm:704: 8781  26 80 7D 3C 07  cmp byte ptr es:[di + 0x3c], 7
+seg_1771_12.asm:727: 87B0  26 80 7D 3C 03  cmp byte ptr es:[di + 0x3c], 3
+seg_1771_12.asm:748: 87DC  BA 38 00        mov dx, 0x38
+seg_1771_12.asm:787: 8831  26 80 7D 3C 06  cmp byte ptr es:[di + 0x3c], 6
+seg_1771_12.asm:937: 898A  26 83 7D 38 00  cmp word ptr es:[di + 0x38], 0
+seg_1771_12.asm:1094: 8AE8  BA 38 00        mov dx, 0x38
+seg_1771_13.asm:118: 8D97  26 80 7D 3C 05  cmp byte ptr es:[di + 0x3c], 5
+seg_1771_13.asm:339: 8FA7  BA 38 00        mov dx, 0x38
+seg_1771_13.asm:363: 8FE4  B8 3A 00        mov ax, 0x3a
+seg_1771_13.asm:514: 914E  BA 38 00        mov dx, 0x38
+seg_1771_13.asm:544: 919D  B8 3A 00        mov ax, 0x3a
+seg_1771_13.asm:611: 9248  26 80 7D 3C 04  cmp byte ptr es:[di + 0x3c], 4
+seg_1771_13.asm:690: 92FE  B8 3C 00        mov ax, 0x3c
+seg_1771_13.asm:708: 9326  B8 3C 00        mov ax, 0x3c
+seg_1771_13.asm:726: 934E  B8 3C 00        mov ax, 0x3c
+seg_1771_13.asm:762: 93B6  26 8A 45 3C     mov al, byte ptr es:[di + 0x3c]
+seg_1771_13.asm:963: 95A6  26 80 7D 3C 07  cmp byte ptr es:[di + 0x3c], 7
+seg_1771_13.asm:968: 95B5  26 80 7D 3C 06  cmp byte ptr es:[di + 0x3c], 6
+seg_1771_13.asm:991: 95F4  26 8A 45 3C     mov al, byte ptr es:[di + 0x3c]
+seg_1771_13.asm:1084: 96A7  26 83 7D 38 00  cmp word ptr es:[di + 0x38], 0
+seg_1771_14.asm:397: 9B9F  26 89 45 3A     mov word ptr es:[di + 0x3a], ax
+seg_1771_14.asm:399: 9BA6  26 8A 45 3A     mov al, byte ptr es:[di + 0x3a]
+seg_1771_14.asm:403: 9BB1  26 FF 45 3A     inc word ptr es:[di + 0x3a]
+seg_1771_14.asm:407: 9BBA  26 89 45 38     mov word ptr es:[di + 0x38], ax
+seg_1771_14.asm:409: 9BC1  26 8B 45 3A     mov ax, word ptr es:[di + 0x3a]
+seg_1771_14.asm:429: 9BF0  26 88 45 3C     mov byte ptr es:[di + 0x3c], al
+seg_23E4_01.asm:171: 017C  B0 3A           mov al, 0x3a
+-- listed above: every instruction with displacement 0x38/0x3a/0x3c or an add of those immediates

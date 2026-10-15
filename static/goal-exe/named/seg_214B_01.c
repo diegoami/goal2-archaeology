@@ -1041,7 +1041,7 @@ undefined4 __stdcall16far u214b_min_longint(undefined4 param_1,undefined4 param_
 
 
 // ---- 214B:0D56  u214b_max_longint  (f_214B_0D56; Ghidra 7000:0D56, __stdcall16far; found by routines.tsv)
-// Returns the larger of two 32-bit signed integers  [likely; read decompiled/seg_214B_01.c]
+// Signed 32-bit maximum of two stack-passed longs: compares signed high words, then unsigned low words; returns the selected long in DX:AX (retf 8)  [likely; read decompiled/seg_214B_01.c; read code/seg_214B_02.asm:560]
 
 undefined4 __stdcall16far u214b_max_longint(undefined4 param_1,undefined4 param_2)
 

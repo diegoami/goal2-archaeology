@@ -214,9 +214,10 @@ void match_whistle(undefined2 param_1)
 }
 
 
-// ---- 0791:045D  f_0791_045D  (f_0791_045D; Ghidra 2000:045D, __stdcall16near; found by routines.tsv)
+// ---- 0791:045D  is_keeper_slot  (f_0791_045D; Ghidra 2000:045D, __stdcall16near; found by routines.tsv)
+// 1 when the pitch slot is 1 or 12 (the two goalkeepers' slots), else 0  [established; F014; F026; read named/seg_0791_01.c]
 
-undefined1 f_0791_045D(int param_1)
+undefined1 is_keeper_slot(int param_1)
 
 {
   undefined1 uVar1;
@@ -362,7 +363,7 @@ void __cdecl16near f_0791_0691(void)
   
   local_4 = 1;
   while( true ) {
-    cVar1 = f_0791_045D(local_4);
+    cVar1 = is_keeper_slot(local_4);
     if (cVar1 == '\0') {
       uVar2 = f_0791_05C6(&stack0xfffe);
       uVar2 = uVar2 & 0xff;
