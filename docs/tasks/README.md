@@ -62,3 +62,4 @@ exists.
 | T52 | Pass one: what each team tactic changes in a watched match | #194 | — |
 | T53 | Pass one: bookings, sendings off, injuries, bans, substitutions: the drafters' readings reviewed as one finding | #195 | — |
 | T54 | Pass one: formations and start positions, the 14 position codes, and the foot test | #196 | — |
+| T55 | Does a watched match keep a copy of the lineup and restore it? (Q037) | #146 | — |
