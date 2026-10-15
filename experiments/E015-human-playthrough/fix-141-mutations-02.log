@@ -1,0 +1,32 @@
+# fix #141 mutations, 2026-10-15T18:28:35+0200, HEAD f2bb1290575d011b2072344159ddb9630021c962
+## unmutated: exit 0
+----------------------------------------------------------------------
+Ran 2 tests in 0.045s
+
+OK
+## m1: the Watcher builds its own write watch (the watch started before the launch is not handed over): exit 1 (killed)
+test_a_save_before_the_watcher_is_counted_and_refused (tests.test_human_keys.EarlySaveRuleTests.test_a_save_before_the_watcher_is_counted_and_refused) ... FAIL
+test_a_sitting_without_an_early_save_passes_the_same_guard (tests.test_human_keys.EarlySaveRuleTests.test_a_sitting_without_an_early_save_passes_the_same_guard) ... ok
+FAIL: test_a_save_before_the_watcher_is_counted_and_refused (tests.test_human_keys.EarlySaveRuleTests.test_a_save_before_the_watcher_is_counted_and_refused)
+AssertionError: 0 != 54 : {'request_s': 1.0, 'sent_s': 1.03, 'origin': 'burst', 'seq': 1, 'pre_events': 0, 'accept_events': 54, 'pre_sig': [1, 2, 3, 4], 'accept_sig': [1, 2, 3, 5]}
+Ran 2 tests in 0.046s
+FAILED (failures=1)
+## m2: the write watch starts after the emulator is launched (the pre-PR-112 order): exit 1 (killed)
+test_a_save_before_the_watcher_is_counted_and_refused (tests.test_human_keys.EarlySaveRuleTests.test_a_save_before_the_watcher_is_counted_and_refused) ... FAIL
+test_a_sitting_without_an_early_save_passes_the_same_guard (tests.test_human_keys.EarlySaveRuleTests.test_a_sitting_without_an_early_save_passes_the_same_guard) ... ok
+FAIL: test_a_save_before_the_watcher_is_counted_and_refused (tests.test_human_keys.EarlySaveRuleTests.test_a_save_before_the_watcher_is_counted_and_refused)
+AssertionError: 0 != 54 : {'request_s': 1.0, 'sent_s': 1.03, 'origin': 'burst', 'seq': 1, 'pre_events': 0, 'accept_events': 54, 'pre_sig': [1, 2, 3, 4], 'accept_sig': [1, 2, 3, 5]}
+Ran 2 tests in 0.043s
+FAILED (failures=1)
+## m3: the guard's save-before-the-first-request check is removed: exit 1 (killed)
+test_a_save_before_the_watcher_is_counted_and_refused (tests.test_human_keys.EarlySaveRuleTests.test_a_save_before_the_watcher_is_counted_and_refused) ... FAIL
+test_a_sitting_without_an_early_save_passes_the_same_guard (tests.test_human_keys.EarlySaveRuleTests.test_a_sitting_without_an_early_save_passes_the_same_guard) ... ok
+FAIL: test_a_save_before_the_watcher_is_counted_and_refused (tests.test_human_keys.EarlySaveRuleTests.test_a_save_before_the_watcher_is_counted_and_refused)
+AssertionError: True is not false
+Ran 2 tests in 0.039s
+FAILED (failures=1)
+## unmutated again: exit 0
+----------------------------------------------------------------------
+Ran 2 tests in 0.048s
+
+OK

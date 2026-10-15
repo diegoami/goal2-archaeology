@@ -1321,6 +1321,114 @@ def slow_start_dosbox(tmp, delay_s):
     return dict(os.environ, DOSBOX_X=str(wrapper))
 
 
+def fake_save(path, events=54):
+    """One emulator save as the sitting's WriteWatch counts it: `events` inotify write events on
+    `path` (54, one DOSBox-X 2024.03.01 save, recorder.ONE_SAVE_MIN_EVENTS's comment). Each
+    append-open, write, close gives exactly two events, IN_MODIFY then IN_CLOSE_WRITE; the
+    kernel merges only an event identical to the last unread one, so alternating kinds are never
+    merged and the count does not depend on when the watch drains them."""
+    for _ in range(events // 2):
+        with open(path, "ab") as f:
+            f.write(b"s")
+
+
+class EarlySaveRuleTests(unittest.TestCase):
+    """Issue #141: the early-save rule without a display, an emulator or a clock. play() runs with
+    every process faked and the real WriteWatch (inotify on the session folder): the fake emulator
+    writes one save the moment it is launched, before the Watcher exists (the window Sol's
+    round-3 R1 on PR 112 used), and the Watcher's first request then makes one save of its own.
+    The first request's pre-send count must hold the early save, the sitting's write total both,
+    and the acceptance guard must refuse the sitting with the early save owned by no request
+    line. Before PR 112's fix the write watch started with the Watcher: the early save was
+    uncounted, the line looked like the sitting's first save, and the guard passed it."""
+
+    def sitting(self, folder, early=True):
+        session = Path(folder) / "s"
+        seen = {}
+
+        def new_session(load=None, fresh=False, scale=1):
+            session.mkdir()
+            meta = {"ended": None, "stop_reason": None, "load": {"fresh": True, "file": None}}
+            (session / "meta.json").write_text(json.dumps(meta))
+            return session, meta
+
+        class FakeKeys:
+            def __init__(self, env, outer, path):
+                Path(path).write_text("")
+
+            def start(self):
+                pass
+
+            def stop(self):
+                pass
+
+        dbx = Mock()
+        dbx.poll.return_value = 0
+        dbx.pid, dbx.returncode = 4242, 0
+
+        real_popen = subprocess.Popen
+
+        def launch(argv, **kw):
+            if argv[0] != "dosbox-x":
+                return real_popen(argv, **kw)   # ctypes.util.find_library's own helpers
+            # the emulator saves before the recorder binds its window or builds its Watcher
+            if early:
+                fake_save(session / "state.sav")
+            return dbx
+
+        def run(self, **kw):
+            # the first save request: the pre-send count, the request's own save, its accept count
+            self.stop_cause = None
+            pre = self.activity()[1]
+            fake_save(self.live)
+            seen["line"] = {"request_s": 1.0, "sent_s": 1.03, "origin": "burst", "seq": 1,
+                            "pre_events": pre, "accept_events": self.activity()[1],
+                            "pre_sig": [1, 2, 3, 4], "accept_sig": [1, 2, 3, 5]}
+            return []
+
+        env = {k: v for k, v in os.environ.items() if k != "GOAL2_RECORDER_TEST_EARLY_SAVE"}
+        with patch.dict(os.environ, dict(env, DISPLAY=":0"), clear=True), \
+                patch.object(rec.driver, "require_dosbox", return_value="dosbox-x"), \
+                patch.object(rec, "new_session", new_session), \
+                patch.object(rec, "start_nested", return_value=(
+                    types.SimpleNamespace(pid=4343), {"DISPLAY": ":601"}, "9")), \
+                patch.object(rec, "KeyLogger", FakeKeys), \
+                patch.object(rec.subprocess, "Popen", launch), \
+                patch.object(rec, "find_window", return_value="1"), \
+                patch.object(rec.Watcher, "run", run), \
+                patch.object(rec.Watcher, "shutdown_stage", lambda self, sha: None), \
+                patch.object(rec, "terminate"), \
+                patch.object(rec.signal, "signal"), \
+                patch("builtins.print"):
+            self.assertEqual(rec.play(), 0)
+        return seen["line"], json.loads((session / "meta.json").read_text())
+
+    def test_a_save_before_the_watcher_is_counted_and_refused(self):
+        import scripted_keys
+        with tempfile.TemporaryDirectory() as folder:
+            line, meta = self.sitting(folder)
+        # the early save is in the first request's pre-send count and in the sitting's total
+        self.assertEqual(line["pre_events"], 54, line)
+        self.assertEqual(line["accept_events"], 108, line)
+        self.assertEqual(meta["write_events_total"], 108, meta)
+        ok, why = scripted_keys.check_attribution(
+            [line], write_events_total=meta["write_events_total"])
+        self.assertFalse(ok)
+        self.assertIn("a save before the first request is owned by no request line", why)
+
+    def test_a_sitting_without_an_early_save_passes_the_same_guard(self):
+        # the control: the same faked sitting with no save at launch is accepted, so the refusal
+        # above is the early save's and not the fakes'
+        import scripted_keys
+        with tempfile.TemporaryDirectory() as folder:
+            line, meta = self.sitting(folder, early=False)
+        self.assertEqual((line["pre_events"], line["accept_events"]), (0, 54), line)
+        self.assertEqual(meta["write_events_total"], 54, meta)
+        ok, why = scripted_keys.check_attribution(
+            [line], write_events_total=meta["write_events_total"])
+        self.assertTrue(ok, why)
+
+
 class EarlySaveTests(unittest.TestCase):
     """Sol's round-3 R1 on PR 112: a save the running emulator writes before the Watcher exists
     must be counted, so the acceptance guard sees it as a save before the first request (owned by
