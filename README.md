@@ -15,6 +15,8 @@ owner's decisions are U14–U20 there.
 - **What is known**: [knowledge-map.md](knowledge-map.md). **What is established**: [spec/](spec/README.md).
 - **The plan**: [docs/plan.md](docs/plan.md). **The process**: [docs/process.md](docs/process.md); tasks
   are in [docs/tasks/](docs/tasks/README.md).
+- **Playing the original** (every screen, key and setting, and driving it from a script):
+  [docs/play-guide.md](docs/play-guide.md).
 - **Layout**: `runtime/` (the DOSBox-X driver), `experiments/`, `runs/`, `evidence/`, `findings/`,
   `spec/`, `artifacts/`, `static/` (derived extracts).
 
