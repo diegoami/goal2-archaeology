@@ -3,6 +3,7 @@ at 33 MHz, the owner 2026-10-15); N, max and auto are accepted; the value is in 
 import importlib.util
 import tempfile
 import unittest
+from unittest import mock
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -47,6 +48,31 @@ class CyclesTests(unittest.TestCase):
         self.assertIn("\ncycles=max\n", self.conf(None))
 
 
+class CliTests(unittest.TestCase):
+    def refused(self, *argv):
+        import contextlib, io, sys
+        err = io.StringIO()
+        # play is replaced, so a value that wrongly gets through fails here and launches nothing
+        with contextlib.redirect_stderr(err), mock_argv(argv), \
+                mock.patch.object(rec, "play", side_effect=AssertionError("play was reached")):
+            with self.assertRaises(SystemExit) as c:
+                rec.main()
+        return c.exception.code, err.getvalue()
+
+    def test_empty_cycles_and_nan_cadence_are_refused_before_anything_starts(self):
+        code, err = self.refused("play", "--cycles", "")
+        self.assertEqual(code, 2)
+        self.assertIn("cycles", err)
+        code, err = self.refused("play", "--cadence", "nan")
+        self.assertEqual(code, 2)
+        self.assertIn("cadence", err)
+
+
+def mock_argv(argv):
+    import sys
+    return mock.patch.object(sys, "argv", ["recorder.py", *argv])
+
+
 class CadenceTests(unittest.TestCase):
     def test_owner_sittings_tick_every_5_s_scripted_keep_20(self):
         self.assertEqual(rec.default_cadence(None, None), 5.0)
@@ -55,8 +81,8 @@ class CadenceTests(unittest.TestCase):
         self.assertEqual(rec.default_cadence(2.5, None), 2.5)
 
     def test_cadence_must_be_positive(self):
-        for bad in (0, -1):
-            with self.assertRaises(ValueError):
+        for bad in (0, -1, float("nan"), float("inf")):
+            with self.assertRaises(ValueError, msg=str(bad)):
                 rec.default_cadence(bad, None)
 
     def test_watcher_takes_the_cadence(self):

@@ -1729,10 +1729,10 @@ class Video:
 # 2026-10-12). `forced` is needed: without it DOSBox-X leaves the 720x400 text window at 1x
 # (experiments/E015-human-playthrough/probe-scale-unforced-20261012.log); with it the window is
 # 720x400, 1440x800, 2160x1200 at 1x, 2x, 3x (probe-scale-20261012.log, probe_scale.py).
-# [designed] 1..3, what a 1440-line desktop shows whole. 2 for the owner's sittings, 1 for
-# scripted sittings and tests (their outer displays are 1280x800).
+# [designed] 1..3, what a 1440-line desktop shows whole. 1 by default (the owner, 2026-10-15: the
+# other scales do not work); 2 and 3 stay available through --scale.
 SCALES = (1, 2, 3)
-DEFAULT_SCALE = 2
+DEFAULT_SCALE = 1
 # The emulated CPU speed of a sitting (the owner, 2026-10-15: `cycles=max` ran a match far faster than
 # the game felt on a 1990s PC). 8000 fixed cycles is about a 386 at 33 MHz. A match's result does not
 # depend on cycles (C-MATCH-02); only its pace and how many snapshots fall in a match minute do.
@@ -1761,8 +1761,8 @@ def default_cadence(cadence, quit_after):
     """Seconds between snapshot ticks: the one asked for; else DEFAULT_CADENCE_S for the owner's
     sittings and CADENCE_S for a scripted sitting (--quit-after), whose tests expect it."""
     if cadence is not None:
-        if cadence <= 0:
-            raise ValueError(f"cadence {cadence}: above 0 seconds")
+        if not (0 < cadence < float("inf")):   # also refuses nan
+            raise ValueError(f"cadence {cadence}: a finite number of seconds above 0")
         return cadence
     return DEFAULT_CADENCE_S if quit_after is None else CADENCE_S
 
@@ -2230,7 +2230,8 @@ def main(argv=None):
     if a.res is not None and not __import__("re").fullmatch(r"[1-9][0-9]*x[1-9][0-9]*", a.res):
         ap.error("--res must be WIDTHxHEIGHT")
     try:
-        parse_cycles(a.cycles or "max")
+        if a.cycles is not None:
+            parse_cycles(a.cycles)
     except ValueError as e:
         ap.error(str(e))
     cycles = default_cycles(a.cycles, a.quit_after)

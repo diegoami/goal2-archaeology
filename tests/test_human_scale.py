@@ -41,13 +41,14 @@ class ScaleTests(unittest.TestCase):
         self.assertEqual(rec.nested_res(2), "1440x800")       # the issue's 2x
         self.assertEqual(rec.nested_res(3), "2160x1200")
 
-    def test_play_defaults_to_2x_and_takes_1x(self):
+    def test_play_defaults_to_1x_and_takes_2x(self):
+        # the owner, 2026-10-15: 1x by default, the other scales do not work for the owner
         with mock.patch.object(rec, "play", return_value=0) as play:
             rec.main(["play"])
-            self.assertEqual(play.call_args.kwargs["scale"], 2)
-            self.assertIsNone(play.call_args.kwargs["res"])
-            rec.main(["play", "--scale", "1"])
             self.assertEqual(play.call_args.kwargs["scale"], 1)
+            self.assertIsNone(play.call_args.kwargs["res"])
+            rec.main(["play", "--scale", "2"])
+            self.assertEqual(play.call_args.kwargs["scale"], 2)
         with self.assertRaises(SystemExit):
             rec.main(["play", "--scale", "4"])
 
