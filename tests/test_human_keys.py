@@ -1321,6 +1321,278 @@ def slow_start_dosbox(tmp, delay_s):
     return dict(os.environ, DOSBOX_X=str(wrapper))
 
 
+def fake_save(path, events=54):
+    """One emulator save as the sitting's WriteWatch counts it: `events` inotify write events on
+    `path` (54, one DOSBox-X 2024.03.01 save, recorder.ONE_SAVE_MIN_EVENTS's comment). Each
+    append-open, write, close gives exactly two events, IN_MODIFY then IN_CLOSE_WRITE; the
+    kernel merges only an event identical to the last unread one, so alternating kinds are never
+    merged and the count does not depend on when the watch drains them."""
+    for _ in range(events // 2):
+        with open(path, "ab") as f:
+            f.write(b"s")
+
+
+class EarlySaveRuleTests(unittest.TestCase):
+    """Issue #141: the early-save rule without a display, an emulator or a clock. play() runs with
+    every process faked and the real WriteWatch (inotify on the session folder): the fake emulator
+    writes one save the moment it is launched, before the Watcher exists (the window Sol's
+    round-3 R1 on PR 112 used), and the Watcher's first request then makes one save of its own.
+    The first request's pre-send count must hold the early save, the sitting's write total both,
+    and the acceptance guard must refuse the sitting with the early save owned by no request
+    line. Before PR 112's fix the write watch started with the Watcher: the early save was
+    uncounted, the line looked like the sitting's first save, and the guard passed it."""
+
+    def sitting(self, folder, early=True, hook=None, seen=None):
+        """play() faked; `early`: the emulator saves at its launch. `hook`: run the test-only
+        early-save hook (GOAL2_RECORDER_TEST_EARLY_SAVE=1) on a fake clock, where hook(k) gives
+        the writes the k-th save key produces as (seconds after the key, events) pairs. Returns
+        the first request's line and the final meta; seen["sends"] holds the hook's key times."""
+        session = Path(folder) / "s"
+        seen = {} if seen is None else seen
+        seen["sends"] = []
+
+        class FakeTime:
+            """The hook's clock: sleep advances it and lands the fake emulator's due writes."""
+            def __init__(self):
+                self.t, self.due = 1000.0, []
+
+            def monotonic(self):
+                return self.t
+
+            def sleep(self, dt):
+                self.t += dt
+                for item in sorted(self.due):
+                    if item[0] <= self.t:
+                        self.due.remove(item)
+                        fake_save(session / "state.sav", item[1])
+
+            def __getattr__(self, name):
+                return getattr(time, name)
+        clock = FakeTime()
+
+        def send_key(wid, env):
+            seen["sends"].append(clock.t)
+            for offset, events in hook(len(seen["sends"])):
+                clock.due.append((clock.t + offset, events))
+
+        def new_session(load=None, fresh=False, scale=1):
+            session.mkdir()
+            meta = {"ended": None, "stop_reason": None, "load": {"fresh": True, "file": None}}
+            (session / "meta.json").write_text(json.dumps(meta))
+            return session, meta
+
+        class FakeKeys:
+            def __init__(self, env, outer, path):
+                Path(path).write_text("")
+
+            def start(self):
+                pass
+
+            def stop(self):
+                pass
+
+        dbx = Mock()
+        dbx.poll.return_value = 0
+        dbx.pid, dbx.returncode = 4242, 0
+
+        real_popen = subprocess.Popen
+
+        def launch(argv, **kw):
+            if argv[0] != "dosbox-x":
+                return real_popen(argv, **kw)   # ctypes.util.find_library's own helpers
+            # the emulator saves before the recorder binds its window or builds its Watcher
+            if early:
+                fake_save(session / "state.sav")
+            return dbx
+
+        def run(self, **kw):
+            # the first save request: the pre-send count, the request's own save, its accept count
+            self.stop_cause = None
+            pre = self.activity()[1]
+            fake_save(self.live)
+            seen["line"] = {"request_s": 1.0, "sent_s": 1.03, "origin": "burst", "seq": 1,
+                            "pre_events": pre, "accept_events": self.activity()[1],
+                            "pre_sig": [1, 2, 3, 4], "accept_sig": [1, 2, 3, 5]}
+            return []
+
+        env = {k: v for k, v in os.environ.items() if k != "GOAL2_RECORDER_TEST_EARLY_SAVE"}
+        if hook is not None:
+            env["GOAL2_RECORDER_TEST_EARLY_SAVE"] = "1"
+        with patch.dict(os.environ, dict(env, DISPLAY=":0"), clear=True), \
+                patch.object(rec, "time", clock), \
+                patch.object(rec, "send_save_event", send_key), \
+                patch.object(rec.driver, "require_dosbox", return_value="dosbox-x"), \
+                patch.object(rec, "new_session", new_session), \
+                patch.object(rec, "start_nested", return_value=(
+                    types.SimpleNamespace(pid=4343), {"DISPLAY": ":601"}, "9")), \
+                patch.object(rec, "KeyLogger", FakeKeys), \
+                patch.object(rec.subprocess, "Popen", launch), \
+                patch.object(rec, "find_window", return_value="1"), \
+                patch.object(rec.Watcher, "run", run), \
+                patch.object(rec.Watcher, "shutdown_stage", lambda self, sha: None), \
+                patch.object(rec, "terminate"), \
+                patch.object(rec.signal, "signal"), \
+                patch("builtins.print"):
+            self.assertEqual(rec.play(), 0)
+        return seen["line"], json.loads((session / "meta.json").read_text())
+
+    def test_a_save_before_the_watcher_is_counted_and_refused(self):
+        import scripted_keys
+        with tempfile.TemporaryDirectory() as folder:
+            line, meta = self.sitting(folder)
+        # the early save is in the first request's pre-send count and in the sitting's total
+        self.assertEqual(line["pre_events"], 54, line)
+        self.assertEqual(line["accept_events"], 108, line)
+        self.assertEqual(meta["write_events_total"], 108, meta)
+        ok, why = scripted_keys.check_attribution(
+            [line], write_events_total=meta["write_events_total"])
+        self.assertFalse(ok)
+        self.assertIn("a save before the first request is owned by no request line", why)
+
+    def test_a_sitting_without_an_early_save_passes_the_same_guard(self):
+        # the control: the same faked sitting with no save at launch is accepted, so the refusal
+        # above is the early save's and not the fakes'
+        import scripted_keys
+        with tempfile.TemporaryDirectory() as folder:
+            line, meta = self.sitting(folder, early=False)
+        self.assertEqual((line["pre_events"], line["accept_events"]), (0, 54), line)
+        self.assertEqual(meta["write_events_total"], 54, meta)
+        ok, why = scripted_keys.check_attribution(
+            [line], write_events_total=meta["write_events_total"])
+        self.assertTrue(ok, why)
+
+    # The test-only hook (tests.test_human_keys.EarlySaveTests' end-to-end sitting makes its early
+    # save with it). Issue #141 on one CPU with 4 busy loops: DOSBox-X wrote 1 event of the save,
+    # paused over 0.5 s, and the hook took that quiet for the end; the save's other events then
+    # landed inside the Watcher's opening request, which was superseded
+    # (fix-141-repro-local-07.log: "settled at 1 write events", "request superseded: 105").
+
+    def hook_sitting(self, hook):
+        import scripted_keys
+        seen = {}
+        with tempfile.TemporaryDirectory() as folder:
+            line, meta = self.sitting(folder, early=False, hook=hook, seen=seen)
+        ok, why = scripted_keys.check_attribution(
+            [line], write_events_total=meta["write_events_total"])
+        return line, meta, seen["sends"], ok, why
+
+    def test_the_hook_waits_for_the_whole_save_through_a_writer_pause(self):
+        # 2 events, then 1.8 s of quiet, then the save's other 52
+        line, meta, sends, ok, why = self.hook_sitting(lambda k: [(0.2, 2), (2.0, 52)])
+        self.assertEqual(len(sends), 1, sends)
+        self.assertEqual(line["pre_events"], 54, line)
+        self.assertEqual(meta["write_events_total"], 108, meta)
+        self.assertFalse(ok)
+        self.assertIn("a save before the first request is owned by no request line", why)
+
+    def test_a_save_still_being_written_after_10_s_gets_no_second_key(self):
+        # the write began (2 events at 1 s) and ends at 12 s: a second key would add a second save
+        line, meta, sends, ok, why = self.hook_sitting(lambda k: [(1.0, 2), (12.0, 52)])
+        self.assertEqual(len(sends), 1, sends)
+        self.assertEqual(line["pre_events"], 54, line)
+        self.assertIn("a save before the first request is owned by no request line", why)
+
+    def test_a_write_that_begins_in_the_last_sleep_before_10_s_gets_no_second_key(self):
+        # Sol's R1 on PR 240: the first key's save begins at the 10 s boundary (inside the last
+        # 0.05 s sleep before it) and ends at 12 s; a second key would be a second save landing
+        # after the hook handed over. The re-send must read this pass's activity, not the last
+        for begin in (9.97, 10.0):
+            with self.subTest(begin=begin):
+                line, meta, sends, ok, why = self.hook_sitting(
+                    lambda k, b=begin: [(b, 2), (12.0, 52)] if k == 1 else [(3.0, 54)])
+                self.assertEqual(len(sends), 1, sends)
+                self.assertEqual(line["pre_events"], 54, line)
+                self.assertEqual(meta["write_events_total"], 108, meta)
+
+    def test_a_key_with_no_write_in_10_s_is_sent_again(self):
+        # the first key was dropped (no write at all); the second one saves
+        line, meta, sends, ok, why = self.hook_sitting(
+            lambda k: [] if k == 1 else [(0.5, 54)])
+        self.assertEqual(len(sends), 2, sends)
+        self.assertAlmostEqual(sends[1] - sends[0], 10.0, delta=0.06)
+        self.assertEqual(line["pre_events"], 54, line)
+        self.assertIn("a save before the first request is owned by no request line", why)
+
+    def test_no_whole_save_in_30_s_fails_the_sitting(self):
+        # no write at all: three keys 10 s apart; a write that began and never ended: one key.
+        # Either way the hook raises at 30 s and the sitting never exits 0
+        for writes, keys in ((lambda k: [], 3), (lambda k: [(0.5, 2)], 1)):
+            seen = {}
+            with tempfile.TemporaryDirectory() as folder:
+                with self.assertRaisesRegex(RuntimeError, "early save never written"):
+                    self.sitting(folder, early=False, hook=writes, seen=seen)
+            self.assertEqual(len(seen["sends"]), keys, seen)
+
+
+class WaitOpeningTests(unittest.TestCase):
+    """Issue #141: scripted_keys waited a fixed 15 s from the launch for the opening snapshot and
+    killed sittings that were still on time (fix-141-repro-local-02.log). wait_opening follows
+    the sitting instead: the snapshot, or the sitting's own exit, or OPENING_BOUND_S from the
+    session folder for a sitting that hangs. On a fake clock, with a fake sitting."""
+
+    def wait(self, steps, exit_at=None, bound=None):
+        """steps: (fake second, what the sitting writes) with what in session, meta, index."""
+        import scripted_keys
+        root = Path(tempfile.mkdtemp())
+        self.addCleanup(shutil.rmtree, root, ignore_errors=True)
+        clock = {"t": 0.0}
+        todo = sorted(steps)
+
+        def sleep(dt):
+            clock["t"] += dt
+            while todo and todo[0][0] <= clock["t"]:
+                _, what = todo.pop(0)
+                s = root / "20261015-120000"
+                if what == "session":
+                    s.mkdir()
+                    (s / "session.log").write_text("[12:00:00] session\n[12:00:15] window bind "
+                                                   "failed: no dosbox window within 15.0s\n")
+                elif what == "meta":
+                    (s / "meta.json").write_text(json.dumps({"window_id": "7", "display": ":600"}))
+                elif what == "index":
+                    (s / "index.jsonl").write_text("{}\n")
+        sitting = Mock()
+        sitting.poll.side_effect = lambda: (2 if exit_at is not None and clock["t"] >= exit_at
+                                            else None)
+        kw = {} if bound is None else {"bound": bound}
+        out = scripted_keys.wait_opening(sitting, set(), sessions=root, clock=lambda: clock["t"],
+                                         sleep=sleep, **kw)
+        return out, clock["t"]
+
+    def test_a_sitting_on_time_past_15_s_is_waited_for(self):
+        # the CI failure's shape (run 38710872252): the window at +6 s, the early save and the
+        # opening snapshot after it; the snapshot at 40 s while the sitting runs is found
+        (session, meta), t = self.wait([(2.0, "session"), (8.0, "meta"), (40.0, "index")])
+        self.assertEqual(meta["window_id"], "7")
+        self.assertGreaterEqual(t, 40.0)
+
+    def test_a_sitting_that_exits_first_is_reported_with_its_own_reason(self):
+        with self.assertRaisesRegex(RuntimeError, "exited 2 before its opening snapshot.*window "
+                                                  "bind failed"):
+            self.wait([(2.0, "session")], exit_at=17.0)
+
+    def test_a_sitting_that_exits_as_its_snapshot_lands_is_reported_not_returned(self):
+        # the snapshot and the exit land in the same sleep: the pass reads the exit first, then
+        # the folder, and fails on both (Sol's R1 on PR 240, the stale-state class); looking at
+        # the folder before reading the exit returned a session no key could reach
+        with self.assertRaisesRegex(RuntimeError, "exited 2 after its opening snapshot"):
+            self.wait([(2.0, "session"), (8.0, "meta"), (20.0, "index")], exit_at=20.0)
+
+    def test_a_sitting_that_hangs_ends_the_wait_at_the_bound_from_its_session_folder(self):
+        import scripted_keys
+        bound = scripted_keys.OPENING_BOUND_S
+        self.assertEqual(bound, 85.0)   # 10 + 15 + 30 + 2 x 15: the recorder's bounds summed
+        with self.assertRaisesRegex(RuntimeError, "no opening snapshot"):
+            self.wait([(5.0, "session"), (8.0, "meta")])
+        # counted from the session folder, not the launch: a snapshot at 5 + bound - 1 is found
+        (_, _), t = self.wait([(5.0, "session"), (8.0, "meta"), (5.0 + bound - 1, "index")])
+        self.assertLess(t, 5.0 + bound)
+
+    def test_no_session_folder_ends_the_wait_at_the_bound(self):
+        with self.assertRaisesRegex(RuntimeError, "no session folder"):
+            self.wait([], bound=30.0)
+
+
 class EarlySaveTests(unittest.TestCase):
     """Sol's round-3 R1 on PR 112: a save the running emulator writes before the Watcher exists
     must be counted, so the acceptance guard sees it as a save before the first request (owned by
