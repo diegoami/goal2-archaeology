@@ -310,3 +310,29 @@ Node 20 or later.
    It should print `asked 2 of 2`.
 4. OpenCode: run `/run-task` on a small `fix`, and watch the first review: the tail of its log and
    the posted review.
+
+## Raw sittings and other git-ignored data (what is not in the repository, and where it lives)
+
+The owner's recorder sittings (`scratch/human/sessions/<date-time>/`: savestates, `keys.jsonl`, `notes.jsonl`,
+`meta.json`, the game copy with its saves, the video) are git-ignored by design (CLAUDE.md rule 18: a savestate is
+the game's memory; the key log is the owner's typing; a sitting is about 100-400 MB). What the repository holds
+instead: the run records `runs/E015/E015-r0007..r0017` (screens, game state, diffs, the owner's notes), and for
+r0001-r0012 the savestates on release `E015` (manifests under `evidence/E015/`).
+
+- **Nothing in the tests, the tools or CI needs a sitting.** A new computer needs a clone and
+  `bash setup/goal2-runtime.sh` (it fetches the original game and the saved games from the private releases by hash).
+- **Two jobs do need a raw sitting:** T39c's check (`python3 experiments/E022-video-screens/check.py <session folder>`,
+  the sitting `20261011-161003`) and re-extracting a run record with `experiments/E015-human-playthrough/extract.py
+  <session folder>` (other countries, a fixed extractor).
+- **Where the raw sittings are (2026-10-16): an interim backup, one zip per sitting** in
+  `~/projects/goal2-archaeology-keep/sessions/` (with `SHA256SUMS` and a README that maps each sitting to its
+  record), outside the repository, on the owner's main computer. To use one on another computer, copy the folder
+  (or one zip), check it with `sha256sum -c SHA256SUMS`, and `unzip` it into `scratch/human/sessions/`
+  (each zip holds the session folder at its top level). **A session that needs a raw sitting and cannot find it
+  in `scratch/human/sessions/` says so to the owner and asks for that backup folder; it does not guess.**
+- The proper home is a release, one zip per run (issue 224, not done): then a clone and `gh` access are enough.
+- Also git-ignored and not backed up: the black videos of old sittings (nothing to decode), small test sessions
+  made by agents, `.cache/` (re-created by `setup/goal2-runtime.sh`).
+- Released and verified: the owner's saved games (`goal2-saves`, `artifacts/saves.json`), the play-the-game
+  milestone saves (`play-the-game-saves`) and its kept savestate (`play-the-game-states`,
+  `experiments/E031-play-the-game/out/states.tsv`).
