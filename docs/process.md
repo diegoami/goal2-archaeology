@@ -296,11 +296,13 @@ a correction or a wish.
 - *wish or design*: not a rule. It goes in the handover only (research never decides design, L16).
 
 **2. A branch in goal2**, made in a worktree of goal2, never in its main checkout, named
-`docs/register-<topic>-<date>`. It changes `docs/assumptions.md` only: new rows, or a changed row
+`docs/register-<topic>-<date>`. It changes `docs/assumptions.md` and adds the handover file of step 3, and nothing else: new rows, or a changed row
 when a finding replaces an `assumed` one (its Source becomes `finding F<nn>`, its Replaced-by is
 emptied). Each row is a rule plus its Source, Live and Replaced-by cells in goal2's own columns.
 A statement that contradicts an existing row is marked on that row; its rule changes only when
 the owner says so, with the date, and only after a grep shows which goal2 code cites the row.
+The owner's decision is first written in this repository, in a commit that changes `CLAUDE.md` or
+`docs/` (rule 13a: never only in a chat, a memory or goal2's branch), and the row cites it.
 
 **3. The handover**: `docs/handover-<date>-<topic>.md` in the same branch, saying what the
 branch holds, the evidence (run record ids, finding numbers, PRs of this repository), what the
