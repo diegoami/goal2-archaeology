@@ -177,3 +177,10 @@ changes (docs/process.md section 14).
   private displays (GitHub's runners have no desktop). A live check opens a short window on the owner's
   screen, uses its own nested display number, stops every process it started, and its numbers go to a
   tracked log (L40).
+- **The original's UI is not the rebuild's UI** ("the UI of the target game will have nothing to do with the
+  current UI ... we do not want to map that in the new game at all", 2026-10-15). The original's keys,
+  prompts, time-outs and display modes matter for AUTOMATING THE ORIGINAL (the driver and any bot that
+  plays it: which key answers, what a prompt defaults to when it times out, how long it waits), and must
+  be clear for that. They are not rules of the rebuild: goal2's register carries game rules only, and
+  goal2 does not map the original's keys. This overrides the plan's P6 wording "in the original's layout
+  and keys" (goal2 `docs/plan.md`); the goal2 session reconciles it.
