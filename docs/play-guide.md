@@ -13,7 +13,10 @@ not, and how to drive the game from a script.
 <step>` prints the screen). *F030* = read from the listing in finding F030 (the prompts' waits,
 defaults and keys): the sessions answered every prompt with a key, so no default was seen.
 *listing* = read from `static/goal-exe/`. *manual* = `GOAL.HLP`. *not seen* = not observed in these
-sessions. The owner's answers on PR 242 are marked *owner*.
+sessions. *owner* = the owner's answers on PR 242. *tool* = a statement about E031's own scripts,
+not the game. *assumed* = our explanation, not traced. *F025*, *F030* = those findings. In sections
+2 to 9 every sentence and table row carries a tag or a label, and every row of `claims.tsv` is cited:
+`claims.py` checks both.
 
 ## 1. Quick start for a later session
 
@@ -54,237 +57,206 @@ downloads and checks them); loading one shows the game's own **history** [C52c].
 
 ## 2. Driving the original: what breaks, and what works
 
-- **Function keys need raw key events.** Sent the driver's way (xdotool), a function key reaches the
-  game with Left Alt: F10 arrived as Alt+F10 (0x71 in the BIOS buffer, `DS:A976` = 0xD5) and the
-  game ignored it [C01]; and with the F12+S host chord the guest's Left Alt is held from the title
-  screen on (`0040:0017` bit 3, `0040:0018` bit 1) [C02]. That xdotool adds the modifier because the
-  keysym sits on a level that needs one is our reading of its behaviour, not traced. `play.py` sends
-  F-keys as raw XTEST keycodes (`xtest.py`) and uses `mapper-nohost.map` (the savestate on Scroll
-  Lock, the screenshot on Pause, the load on Print Screen; no F12 chord): F10 then asks to quit [C03].
-  `runtime/driver/driver.py` has the fault: issue 244 (*owner*). Reproduce it with
-  `start.sh S --mapper "" --fkeys xdotool` and `play.py keystate S`.
-- **Never press F1 under a savestate driver.** After F1 every savestate killed DOSBox-X ("*** buffer
-  overflow detected ***", exit code -6), also after Esc [C04]. The help viewer itself was seen on a
-  screenshot [C04c] (its legend: arrows move, F finds a word, P prints, Esc leaves). If F1 was pressed:
-  stop the session and reload the last `.GL`.
-- **F5 (print screen)**: the game went on [C05]; no printout appeared (*not seen*: nothing was
-  written to the session folder).
-- **The squad and pool lists do not wrap**: Up at the top of the pool changed nothing [C06]. `find`
-  turns round at an end.
-- **Keys are read one at a time; a screen just opened can drop a key.** The menu key reader reads on
-  while another key is waiting and keeps the last (*listing*: `214B:08DD`,
-  `static/goal-exe/named/seg_214B_01.c:729`), and a Down sent right after Enter opened team tactics
-  was lost: the next Enter toggled the defence row instead [C07]. Send a key, wait for the screen to
-  change, then the next (`play.py send` does). In a match Enter on the captain then R at once gives
-  the quick result [C08] (F004).
-- **A saved game replays identically**: loading `G1B.GL` and taking the same decisions gave the same
-  results, e.g. Malta 1-0 Holland both times [C09]. That the random state is in the save is the
-  explanation we assume, not traced.
-- **Pace**: `cycles=fixed 8000` (the owner's 33 MHz 386), set at launch and never changed, so the
-  prompts that time out keep their length in emulated time (*F030*). A screen read (a savestate)
-  costs about 0.2 s of host time [C10]; a key and its settled screen about 0.5 s. Rounds played as
-  quick results came 28 to 55 s apart (year 2's nine friendlies: steps 2007 to 2309 of
-  `out/g1/progress.md`, 5 minutes). One half watched while the screen was read without pause took
-  235 s [C10b]; the first watched match, kick-off to full time with a half-time substitution, took
-  7.6 minutes (steps 251 to 372); the last-16 match, read every 2 s, 3.8 minutes to the 90-minute
-  board (steps 3702 to 3827).
-- **The server survives a lost client** since a killed `find` crashed it (the fix catches the broken
-  pipe; not exercised since). A crash of DOSBox-X ends the session: start again from the last kept
-  `.GL`.
+- **Function keys need raw key events.** Sent the driver's way (xdotool, the F12+S host chord), F10
+  reached the game as Alt+F10: code 0xD5 in `DS:A976` and 0x71 in the BIOS buffer [C01, C01b]. The
+  guest's Left Alt was held from the title screen on (`0040:0017` bit 3, `0040:0018` bit 1), and still
+  after F10 [C02, C02b]. Why xdotool adds the modifier (the keysym on a level that needs one) is our
+  reading, not traced (*assumed*). With raw XTEST keycodes (`xtest.py`) and the mapper
+  `mapper-nohost.map` (savestate on Scroll Lock, screenshot on Pause, load on Print Screen, no F12
+  chord), F10 asks to quit [C03]. The driver's fault is issue 244 (*owner*). `start.sh S --mapper ""
+  --fkeys xdotool` and `play.py keystate S` reproduce it (*tool*).
+- **Never press F1 under a savestate driver.** After F1, and an Esc sent blind [C04b], the next
+  savestate killed DOSBox-X with exit code -6 [C04]. The help viewer was seen on a screenshot only
+  [C04c]. If F1 was pressed, the session is lost: stop it and reload the last `.GL` [C04].
+- **F5 (print screen)** was pressed on the menu [C05], and a Down after it still moved the menu
+  [C05b]. A printout was *not seen*.
+- **The pool list does not wrap**: Up at its top changed nothing [C06]. `find` turns round at an end
+  (*tool*).
+- **A key can be lost.** The menu key reader reads on while another key waits and keeps the last
+  (*listing*: `214B:08DD`, `static/goal-exe/named/seg_214B_01.c:729`). A Down sent right after Enter
+  opened team tactics was lost, and the next Enter toggled the defence row instead [C07]. So send one
+  key, wait for the screen to change, then the next; `play.py send` does (*tool*). In a match, Enter
+  on the captain then R at once gives the quick result [C08].
+- **A saved game replays identically**: loaded twice from `G1B.GL`, with the same decisions, it gave
+  Malta 1-0 Holland both times [C09, C09b]. That the random state is in the save is the explanation
+  we assume (*assumed*).
+- **Pace.** `play.py` launches with `cycles=fixed 8000` (*tool*), the owner's setting (*owner*);
+  the prompts that time out count in emulated time (*F030*). A screen read costs about 0.2 s of
+  host time [C10]. Year 2's nine friendlies, as quick results, went from the first full-time board
+  at 20:33:27 to the ninth at 20:38:13 [C62, C62b]. One half watched while the screen was read without
+  pause took 235 s [C10b]. The first watched match went from kick-off at 19:49:32 to full time at
+  19:57:10 [C63, C63b, C63c]. The last-16 match, read every 2 s, went from 21:02:03 to its
+  90-minute board at 21:05:51 [C64, C64b].
+- **A crash of DOSBox-X ends the session** [C04]: start again from the last kept `.GL` [C65]. The
+  server survives a killed client since it crashed on one (*tool*).
 
 ## 3. A new game
 
 | screen | what it shows | keys |
 | --- | --- | --- |
-| title | "Do you want to load a saved game? (Y/N)" | `Y`: with one `.GL` in the folder the name line comes with its name filled in [C11]; with several, a list ("hit ◄┘ to select saved game, hit Esc to type in a name") [C11b]. `N` new game |
-| players | "How many players 1 2 3 4 5 6 ?" [C12] | ←→, Enter |
-| country selection | a card (status, manager, rankings now/top, formation, the team's default tactics, the skills of the eleven, average caps, age, hardness, fitness, energy, morale), 16 countries, "level of difficulty": Germany TOO EASY, Italy EASY TASK, Costa Rica QUITE EASY, Holland and Denmark SIMPLE [C13] | ↑↓ in the list, ←→ the next/previous 16, `Ins` world ranking instead of continental [C14], `Space` the highlighted country's players [C14b] (Esc back), Enter choose |
-| manager name | "Type in characters (maximum 14). ◄┘-accept Esc-abort" [C15] | the first key replaces "Player"; Enter. Type "A Name": the papers split the name into an initial and a surname ("C LAUDE" for "Claude") [C15b] |
-| bulletins | THE SOCCER BULLETIN (welcome; the qualifying groups) | any key |
+| title | "Do you want to load a saved game? (Y/N)" | `Y` with one `.GL`: the name line with its name filled in [C11]; with several: a list, Esc to type a name [C11b]; `N` a new game [C12] |
+| players | "How many players 1 2 3 4 5 6 ?" [C12] | ←→, Enter [C12] |
+| country selection | a team card and 16 countries; "level of difficulty" TOO EASY for Germany [C13], EASY TASK for Italy [C13b], QUITE EASY for Costa Rica [C13c], SIMPLE for Holland and Denmark [C13d] | ↑↓, ←→ the next 16, `Ins` world ranking [C14], `Space` the country's players [C14b], Enter choose [C15] |
+| manager name | "Type in characters (maximum 14). ◄┘-accept Esc-abort" [C15] | the first key replaces "Player"; Enter; the papers split "Claude" into "C LAUDE" [C15b] |
+| bulletins | THE SOCCER BULLETIN [C66], the qualifying groups [C66b] | any key [C66] |
 
-With 2 players each picks a country and a name in turn; the first manager's sixth menu option reads
-**next player** [C16], which hands the menu to the second [C16b], whose sixth option is **play next
-game** (tried with Denmark and Scotland for one round; only Scotland had a match in it).
+With 2 players each picks a country and a name in turn, and the first manager's sixth menu option
+reads **next player** [C16]. It hands the menu to the second manager [C16b]. Only Scotland had a
+match in the one two-player round played (*tool*: `out/mp`).
 
 ## 4. The manager menu
 
 | option | what it does |
 | --- | --- |
-| team info | every country's card: ↑↓ ←→ browse, `Ins` ranking, `Space` its players [C17c], Enter its fixture list. In your own fixture list Enter on a friendly **cancels** it [C17], Enter on the cancelled one **arranges** another: choose the opponent in the country list [C17b]. The legend offers `T` tactics [C17d] (not pressed there) |
-| fixture list | every fixture of the stage. Enter on another country's match marks it √ to watch; the hint then reads "auto result" for the way back [C18]; a marked match asks "Do you want to watch this match ?" when it comes up [C35] |
-| tournament | groups and results; the legend says `Space` continent, ←→ Qualifying / Finals / Championship [C19] (those keys were not pressed) |
-| history | your statistics, results by season, top scorers and caps, records [C20]; Down brought the country browser [C20b] (another country's history was not opened) |
-| select squad | section 5 (`Space` on the menu opens it too [C21]) |
-| play next game | plays on to your next match (section 6); **next player** with several managers |
+| team info | every country's card; `Space` its players [C17c]; the legend offers `T` tactics [C17d] (not pressed: *not seen*); in your own fixture list Enter on a friendly cancels it [C17] and Enter on the cancelled one arranges another [C17b] |
+| fixture list | Enter on another country's match marks it to watch; the hint then reads "auto result" [C18]; a marked match asks "Do you want to watch this match ?" [C35] |
+| tournament | groups and results; the legend's arrows and `Space` [C19] were not pressed (*not seen*) |
+| history | statistics, results by season, top scorers and caps [C20]; Down brought the country browser [C20b] |
+| select squad | section 5; `Space` on the menu opens it too [C21] |
+| play next game | plays on to your next match [C35]; **next player** with several managers [C16] |
 
-Keys: `T` team tactics, `Space` select squad, `F2` your own name [C22], `F3` replay a saved goal
-(asks a `.HIL` name; the shipped `Y.HIL` is Neth. Antilles 2 v U.S.A 0 [C23]: its match menu,
-**play** shows the goal under REPLAY [C23b], "hit any key" back), `F4` load a match summary (asks a
-`.SUM` name; that match's menu [C24], **match stats** its board, **exit** back), `F5` print (above),
-`F7` save ("Please enter name of saved game": SAVED the first time [C25], then the last name used
-[C25b]; Enter writes `NAME.GL`, 169,553 bytes [C25c]; Esc cancels, *F030*), `F10` quit ("Are you sure
-you want to quit? (Y/N)", then "Do you want to save this game? (Y/N)" [C26]; after the answer GOAL
-exits and DOSBox-X closes [C26b]), `F1` help (never: section 2).
+`F2` changes your own name [C22, C22b]. `F3` replays a saved goal: the shipped `Y.HIL` is from the
+Netherlands Antilles' 2-0 against the U.S.A [C23], and **play** shows it under REPLAY [C23b]. `F4` loads a match summary as
+that match's menu [C24], whose **match stats** show its board [C24b]. `F7` saves: the name line
+offers SAVED the first time [C25] and the last name used later [C25b]; a `.GL` is 169,553 bytes
+[C25c]; Esc cancels (*F030*). `F10` asks "Are you sure you want to quit? (Y/N)" and then whether to
+save [C26]; after the answer GOAL exits and DOSBox-X closes [C26b]. `F1` opens the help: never under
+the driver [C04].
 
 ## 5. The squad screen
 
-The player card on the left; on the right the squad, the eleven above the line and the nine others
-below (the list re-sorts by position when you come back).
-
-- `←→` toggles between your **squad** and the **pool** [C27] (80 more players of your country).
-  `↑↓` move; the card follows.
-- **Enter** = "move player": the bottom line says "◄┘-put here" [C28]; Enter on another squad player
-  swaps the two (into or out of the eleven). **Pool picks**: Enter on a pool player, `←`, Enter on
-  the squad player he replaces [C28b]; the squad stays at 20. `pick.sh` does it.
-- **Ins**: the assistant's recommended 20, applied at once with no question [C29]; it changed ten of
-  the twenty, dropping Bergkamp, Gullit and Rijkaard; two picks put the best back.
-- **F2**: rename the player on the card ("maximum 12" [C30]; the first key replaces the name; Enter
-  [C30b]). For this game only; `ALTER.EXE` changes `GOAL.DAT` for good (*manual*).
-- **R**: reposition: the position steps through all 14 in the order goalkeeper, sweeper, centre back,
-  left back, right back, defensive midfield, central midfield, left midfield, right midfield, forward
-  midfield, left winger, right winger, centre forward, striker [C31, C31c, C31d]. **C**: back to his
+- `←→` toggles between your squad and the pool [C27]. Enter on a player shows "◄┘-put here" [C28].
+  **Pool picks**: Enter on a pool player, `←`, Enter on the squad player he replaces: Ford took
+  Wouters' place [C28b]. `pick.sh` does it (*tool*).
+- **Ins** applies the assistant's 20 at once, with no question: pool players came in [C29], and
+  Bergkamp [C29b, C29c], Gullit [C29d, C29e] and Rijkaard [C29f, C29g] went out. Two picks brought
+  Bergkamp [C29h] and Rijkaard [C29i] back.
+- **F2** renames the player on the card, "maximum 12" [C30], the first key replacing the name
+  [C30b]. `ALTER.EXE` makes names permanent (*manual*).
+- **R** steps the position through the 14: right winger, centre forward, striker [C31], then
+  goalkeeper [C31c], and on to defensive midfield after right back [C31d]. **C** puts him back in his
   club position [C31b].
-- **The formation** on the team card follows the eleven's positions: 4-4-2 after two fullbacks came
-  in and the sweeper went to defensive midfield [C32], 3-5-2 with a sweeper in and the left back at
-  left midfield [C32b], 4-3-3 with a third striker [C32c].
-- **T**: the player's own tactics (position, possession, passing, tackling, mark). ↑↓←→ choose a row;
-  Enter cycles the team default → one option with "P" [C33] → the other with "P" [C33b] → the
-  default. The **mark** row cycles the team's marking → "Protect zone P" [C33c] → "mark─<name> P"
-  through the opponents [C33d]. Marks are cleared after each match (*manual*; not checked).
-- The card: age, caps, goals, height, foot, performance stars; position and club position; cards;
-  status such as ready to play, selected, on the bench, injured [C34b], suspended [C34]; 12 skill
-  bars; tactics; hardness, fitness, energy, morale and leadership words. `scan 20` prints the squad.
+- **The formation** on the team card follows the eleven's positions: 4-4-2 [C32], 3-5-2 [C32b] and
+  4-3-3 [C32c] came from picks, swaps and `R`.
+- **T** opens the player's own tactics: Enter on a row goes to one option with "P" [C33] and then to
+  the other [C33b]. The mark row offers "Protect zone P" [C33c] and then the opponents by name
+  [C33d]. Marks are cleared after each match (*manual*).
+- The card shows the status: suspended [C34], injured [C34b]. `scan 20` prints the squad (*tool*).
 
 ## 6. A round
 
-**play next game** first plays the round's other matches (`Space` pause, ←→ speed: the legend),
-shows result pages and group tables ("hit any key"), and asks "Do you want to watch this match ?"
-for a match you marked [C35], a match of your own qualifying group [C35b] and the World Cup knockout
-matches [C35c]. The question never times out (*F030*). A watched match of others has no captain
-screen; `R` gives its result.
+**play next game** asks "Do you want to watch this match ?" for a match you marked [C35], a match of
+your own group [C35b] and the World Cup's knockout matches [C35c]. That question never times out
+(*F030*). A watched match of others goes straight to the pitch [C68], with no captain screen
+[C68b], and `R` gives its result [C68c].
 
-Then your **match menu**: the two teams (home on the left), and for each side **team tactics** and
-**players**, then **tournament**, **match stats**, **play** (**exit** after full time). ↑↓←→, Enter.
-The other side's tactics can be looked at ("hit any key" back) [C36]. `Ins` turns the automatic
-action replay off or on; the bottom line names the next press [C37].
+Your **match menu** shows the two teams and, for each, **team tactics** and **players**, then
+**tournament**, **match stats** and **play** [C37]. The other side's tactics can be read, "hit any
+key" back [C36]. `Ins` turns the action replay off or on, and the bottom line names the next press
+[C37].
 
-- **play** → the **captain** screen ("◄┘-select CAPTAIN  C-computer select") [C38]: Enter accepts
-  the highlighted player (the computer's pick: *F030*), ↑↓ then Enter picks another [C38b]; with no
-  key the pick stands after 10 s (*F030*).
-- In the match: `↑↓` the player marks (arrows mode seen [C39b]; faces, numbers, H/A, position letters:
-  *manual* and E015-r0013), `←→` speed (`Left` took one » away [C39]), `R` the quick result ("HANG ON"
-  in the legend [C08]), `Space` the commentary view [C39c] (Esc back), `F9` music (not tried), `Esc` or
-  Enter the bench (the match menu mid-match).
-- **Half time / full time**: the statistics board, "hit any key  Esc,◄┘-bench" [C40]. At half time
-  both Enter [C40b] and `Space` [C40c] led to the match menu: **play** for the second half.
-- **The bench** (**players** on your side): "make substitutions now", "substitutions left": 5 in a
-  friendly [C41]; one left after one change in a qualifier [C41b] and in the World Cup [C41c] (2 per
-  competition match: *manual*). The bottom line follows the cursor: "◄┘-take off this player" on one
-  of the eleven [C41d], "◄┘-put on this player" on a substitute [C41e]. Enter on the man to take off
-  (the screen does not change), then Enter on the substitute (the counter drops). Enter on a
-  substitute alone did nothing [C41f]. R, C, T, F2 as on the squad screen. Esc back; an Esc sent right
-  after a substitution was lost once [C41g]: send it again. The substitute stays in the eleven for the
-  next match [C41h] (F029).
-- **Prompts**: "Do you want an action replay? (Y/N)" after a goal [C42], "Do you want to save this
-  goal? (Y/N)" after a Yes [C42b]; both wait 6 s and then mean No, and only `Y` is Yes (*F030*); with
-  the replay off neither comes (*F030*). Yes to the second asks a file name, whose default is the last
-  `.HIL` name used: after `F3` on `Y.HIL` the line showed a one-letter name [C42c] and the goal was
-  written over `Y.HIL` without a question [C42d] (in the session's copy). The taker prompts
-  "◄┘-select CORNER / GOAL KICK taker  C-computer select" [C43] wait 10 s and keep the current pick
-  (*F030*); `C` takes the computer's. The other side's substitutions show "SUBSTITUTION ... press any
-  key" [C44]. Your player's injury shows "<name> INJURED", then "SUBSTITUTION OPPORTUNITY press any
-  key" [C45]; a key opens the match menu: **players**, take the injured man off. What happens with no
-  substitution left: *not seen*.
-- **An injury in a quick result**: the notice comes in the quick result too. If you choose **play**
-  without taking the injured man off, the result runs on a little and the notice comes back, again
-  and again [C46] (a script that just answered it looped about 90 times in the 2030 third-place
-  match). This is the original's behaviour (*owner*). Take him off (**players**), then **play**.
-- **Extra time** (a knockout match level after 90 minutes): the board and the match menu show "----
-  EXTRA TIME ----" and the option is **play** again, not **exit** [C47]; extra time has a half time
-  that ends at the match menu [C47b]. Its length was not measured (*not seen*).
-- **The penalty shoot-out**: "penalty shoot out  PRESS ANY KEY" [C48], then your order: "use ↑↓ then
-  ◄┘ to select the order  Hit Esc to undo" [C48b]: choose the takers one by one; each pick leaves the
-  list and is numbered on the right [C48c] (`order.sh`; `scan 11` reads each man's penalties bar).
-  The kicks then play out in the commentary: "<name> to shoot" [C48d], goals, saves [C48e], the post
-  [C48f]. After five each level it went on kick for kick (sudden death): Gregory's fifth saved, 5-5 on
-  the board [C49], a sixth for England [C49b] and for Holland [C49c], and Holland's sixth in [C49d].
-  The shoot-out came in a quick result too [C50]. The other side's order: no screen for it was seen.
-- After full time of a watched match: **exit** → "Do you want to save the match summary to disk?
-  (Y/N)" (6 s, then No: *F030*; asked only after a watched match: *F030*); Yes asks a name, default
-  `S-1` [C51], then `S-2` [C51b]; Enter writes it → the result pages and the bulletin → the menu.
+- **play** leads to the captain screen [C38]: Enter accepts the highlighted player [C38], and ↑↓
+  then Enter picks another [C38b]. The highlighted one is the computer's pick, and with no key it stands after
+  10 s (*F030*).
+- In the match: `↑↓` changes the player marks, here to arrows [C39b]; `Left` slows the match by one »
+  [C39]; `R` gives the quick result [C08]; `Space` opens the commentary view [C39c]. `F9` was not
+  tried (*not seen*).
+- **Half time**: the board says "hit any key  Esc,◄┘-bench" [C40]. Enter [C40b] and `Space` [C40c]
+  both led to the match menu, where **play** starts the second half [C40b].
+- **The bench** (**players**): a friendly allows 5 substitutions [C41]; after one change in a
+  qualifier [C41b] and in the World Cup [C41c] one was left (2 per competition match: *manual*). The
+  bottom line says "◄┘-take off this player" on one of the eleven [C41d] and "◄┘-put on this player"
+  on a substitute [C41e]. A substitution takes two Enters, one on each man, in either order: Enter on
+  one of the eleven first changed nothing visible [C41k] and Enter on the substitute then made the
+  change [C41c]; Enter on the substitute first changed nothing visible [C41f] and Enter on one of the
+  eleven then made it [C41i]. After that, one Esc left the screen unchanged [C41g] and a second Esc
+  went to the match menu [C41j]. The substitute was still in the eleven at the next menu [C41h].
+- **Prompts**: "Do you want an action replay? (Y/N)" came after a goal [C42], and after a Yes "Do you
+  want to save this goal? (Y/N)" [C42b]. Both wait 6 s and then mean No, only `Y` is Yes, and with the
+  replay off neither comes (*F030*). After `F3` on `Y.HIL` the file-name line showed a one-letter
+  name [C42c], and the saved goal replaced `Y.HIL` in the session's copy [C42d].
+- **Taker prompts**: "◄┘-select CORNER taker" [C43] and "GOAL KICK taker" [C43b] wait 10 s and keep
+  the current pick; `C` takes the computer's (*F030*).
+- **Substitution notices**: the other side's "SUBSTITUTION ... press any key" [C44]; your player's
+  injury "<name> INJURED" [C45], then "SUBSTITUTION OPPORTUNITY press any key" [C45b]. With no
+  substitution left the case was *not seen*.
+- **An injury in a quick result**: if **play** is chosen with the injured man still on, the notice
+  comes back again and again [C46, C46b], which is the original's behaviour (*owner*). Taking him off
+  [C71] let the match go on [C71b].
+- **Extra time**: level after 90 minutes in a knockout match, the match menu shows "---- EXTRA TIME
+  ----" and offers **play** [C47]. Extra time has its own half time [C47b], and its length was *not
+  seen*.
+- **The penalty shoot-out**: "penalty shoot out  PRESS ANY KEY" [C48], then your order ("use ↑↓
+  then ◄┘ to select the order  Hit Esc to undo") [C48b]. Each pick is numbered on the right [C48c].
+  The kicks play out in the commentary: "<name> to shoot" [C48d], a save [C48e], the post [C48f].
+  Level after five each, it went on kick for kick: Gregory's fifth saved at 5-5 [C49], a sixth for
+  England [C49b] and for Holland [C49c], and Holland's sixth in [C49d]. The shoot-out came in a quick
+  result too [C50]. The other side's order was *not seen*.
+- **After a watched match**: the match-summary question offers `S-1` [C51], then `S-2` [C51b]. It
+  waits 6 s and comes only after a watched match (*F030*).
 
-`round` plays all of this as a quick result: Enter on **play**, Enter on the captain and `R` at once,
-`Space` on the boards, **play** at half time and in extra time, `N` to every question, Return on
-every page; it stops (printing the screen) at an injury's substitution opportunity, at a shoot-out,
-and at any screen it does not know, for you to decide.
+`round` plays a round as a quick result and stops at an injury notice, a shoot-out or any unknown
+screen (*tool*).
 
 ## 7. The years
 
-A "year" here is a year of the manual's four-year cycle (*owner*: this reading is right); GOAL counts
-stages. This game, started in DOS year 2026, still showed 2028 after its first year [C52, C52b] and
-its history calls the first two years season 2027/28 and the next two 2029/30 [C52c]:
+A "year" is a year of the manual's four-year cycle (*owner*). The title still said 2028 after the
+first year [C52], when the stage byte moved to 3 [C52b], and the history names the seasons 2027/28
+and 2029/30 [C52c].
 
-| year | stages (`[A923]+0x3C`) | what came for Holland |
+| year | stages | what came for Holland |
 | --- | --- | --- |
-| 1 | 2 | European Championship qualifying: 6 qualifiers and 6 friendlies [C53] |
-| 2 | 3, 4 | the finals (group, then knockout); not qualified: 9 friendlies [C53b] |
-| 3 | 5, 6 (season word 1, title 2030 [C52d]) | World Cup qualifying: 6 qualifiers and 4 friendlies [C53c]; stage 6 brought no Holland match (other continents' play-offs: *manual*) |
-| 4 | 7, 8 | friendlies, the World Cup group of four, then last 16, quarter-final, semi-final, third place (`out/g1/progress.md`) |
-| 5 | 2 again (season word 2, title 2032 [C52e]) | the next cycle |
+| 1 | 2 [C75] | qualifiers and friendlies [C53] |
+| 2 | 3 [C52b], 4 [C75b] | friendlies only after not qualifying [C53b] |
+| 3 | 5 [C75c], 6 [C75d]; title 2030 [C52d] | World Cup qualifiers and friendlies [C53c] |
+| 4 | 7 [C74], 8 [C75e] | five friendlies [C72c], the World Cup group [C72], then last 16 to third place [C72b] |
+| 5 | 2 again; title 2032 [C52e] | the next cycle [C65b] |
 
-When your team has no fixture left the menu's "next opponents" box is empty [C54]: keep pressing
-**play next game**; the remaining results, the final tables, the winners page [C55] and the new
-bulletins come, and the stage byte moves on. At the year's change the players grow a year older
-(Bergkamp 23 [C61], then 24 [C61b]; F016 for all of them). Players retire ("<name> RETIRES FROM THE INTERNATIONAL SCENE")
-[C56] and a young player takes the place, in the eleven if the retired man was there [C56b]. During a
-stage a squad player can quit ("QUITS INTERNATIONAL FOOTBALL") [C57] or give up and retire [C57b]:
-**play next game** then shows that bulletin and returns to the menu without playing; check the
-squad, then play next game again. It came again and again in year 4. The squad screen and the pool
-stayed open during the World Cup finals [C58]; a pick there was not tried (the manual says none is
-allowed). The papers' advice ("BOLTON DESERVES A CAP") names a pool player [C59]. A "SACK <name>"
-headline [C60] is only a headline; the sacking rule is F025's.
-
-Session g1 took 94 minutes of host time for the whole cycle (19:44 to 21:18 UTC in
-`out/g1/progress.md`), with the exploration, the watched matches and one crash replayed.
+With no fixture left the "next opponents" box is empty [C54], and **play next game** brings the
+remaining results, the winners page [C55] and the next stage [C52b]. A player was a year older after
+the change: Bergkamp 23 [C61], then 24 [C61b]. A retiring player's bulletin [C56] goes with a young
+player taking his place in the eleven [C56b]. A squad player can quit during a stage [C57], and in
+year 4 players retired between matches [C73, C57b]. The squad screen and the pool were open during
+the World Cup finals [C58]; a pick there was *not seen*. The papers' advice names pool players
+[C59]. A "SACK" headline [C60] is only a headline; sacking is F025's rule (*F025*). Session g1 took
+the whole cycle from 19:44:37 [C65] to 21:17:58 [C65b].
 
 ## 8. Everything you can change
 
-| what | where | how |
-| --- | --- | --- |
-| country, manager name, number of players | new game | section 3 |
-| own name later | manager menu | `F2` [C22] |
-| team tactics: defence system (half/full pitch), protection (sag back to box / stand ground), offside (play safe / offside trap); player defaults: positioning, possession, passing, tackling, marking (man to man / zonal) | `T` on the menu, or **team tactics** on the match menu, also mid-match | ↑↓ row, Enter toggles [C07] |
-| formation | the eleven's positions | squad screen: who is in the eleven, `R`/`C` [C32] |
-| squad: pool picks and drops | squad screen | section 5; `Ins` for the assistant's 20 [C29] |
-| names of players | a player card in the squad or bench screens | `F2` [C30] |
-| positions | squad screen, bench | `R` (cycle of 14), `C` (club position) [C31] |
-| player tactics, marking | squad screen, bench | `T` [C33] |
-| captain | each match | the captain screen [C38b] |
-| set-piece takers | in the match | the taker prompt [C43]; the shoot-out order [C48b] |
-| substitutions | bench | section 6 [C41] |
-| friendlies: cancel, arrange | team info → own fixtures | Enter [C17] |
-| which other matches to watch | fixture list | Enter marks √ [C18] |
-| match speed, display | in the match | ←→, ↑↓ [C39] |
-| action replay | match menu | `Ins` [C37] |
-| save, load, quit | menu, title | `F7`, `Y`, `F10` [C25, C11, C26] |
-| saved goals and summaries | match prompts; menu | save: Y to the prompts; view: `F3` [C23], `F4` [C24] |
+| what | where and how |
+| --- | --- |
+| country, manager name, number of players | the new game [C12, C13, C15] |
+| own name | `F2` on the menu [C22] |
+| team tactics | `T` on the menu, or **team tactics** on the match menu, Enter toggles a row [C07] |
+| formation | the eleven's positions [C32] |
+| squad | pool picks [C28b], the assistant's 20 [C29] |
+| player names | `F2` on a card [C30] |
+| positions | `R` and `C` [C31] |
+| player tactics, marking | `T` [C33, C33d] |
+| captain | the captain screen [C38b] |
+| set-piece takers | the taker prompts [C43]; the shoot-out order [C48b] |
+| substitutions | the bench [C41] |
+| friendlies | cancel and arrange [C17, C17b] |
+| other matches to watch | the fixture list [C18] |
+| match speed and display | ←→ [C39], ↑↓ [C39b] |
+| action replay | `Ins` on the match menu [C37] |
+| save, load, quit | `F7` [C25], `Y` at the title [C11], `F10` [C26] |
+| saved goals and summaries | `F3` [C23], `F4` [C24] |
 
 ## 9. What looks stuck, and what to do
 
 | looks stuck | what it is | do |
 | --- | --- | --- |
-| a function key does nothing | Alt held in the guest [C01, C02] | `play.py` (raw keys, no host chord); check with `keystate` |
-| every read fails, code -6 | F1 was pressed [C04] | stop; reload the last `.GL` |
+| a function key does nothing | Alt held in the guest [C01, C02] | raw keys [C03]; `keystate` (*tool*) |
+| reads fail with exit code -6 | F1 was pressed [C04] | stop; reload the last `.GL` [C65] |
 | "Do you want to watch this match ?" for ever | it never times out (*F030*) | `N` or `Y` |
 | a file-name line for ever | it never times out (*F030*) | Enter writes, Esc cancels |
-| "hit any key" at half or full time | the board [C40] | `Space` goes on; Enter/Esc the match menu |
-| play next game comes back to the menu at once | a player quit or retired [C57] | check the squad, play next game again |
-| "SUBSTITUTION OPPORTUNITY" again and again in a quick result | your injured player is still on [C46] | take him off on the bench, then **play** |
-| "penalty shoot out PRESS ANY KEY", then a list | the shoot-out order [C48b] | pick the takers (`order.sh`) |
-| the full-time match menu offers **play**, not **exit** | extra time [C47] | **play** |
-| Enter on the bench changes nothing | the cursor is on a substitute [C41f] | Enter on one of the eleven, then on the substitute |
-| "next opponents" empty | no fixture left this stage [C54] | play next game until the stage changes |
+| "hit any key" at half time | the board [C40] | `Space` or Enter: the match menu [C40b, C40c] |
+| play next game comes back at once | a quit or retirement bulletin [C57, C73] | check the squad, play next game again |
+| "SUBSTITUTION OPPORTUNITY" again and again | the injured player is still on [C46] | take him off, then **play** [C71, C71b] |
+| "penalty shoot out PRESS ANY KEY" | the shoot-out [C48] | pick the order [C48b] |
+| the full-time menu offers **play** | extra time [C47] | **play** |
+| one Enter on the bench changes nothing | half of a substitution [C41f, C41k] | Enter on the other man [C41i] |
+| "next opponents" empty | no fixture left [C54] | play next game until the stage moves [C52b] |
 | ↑ does nothing | the top of the list [C06] | ↓ |
-| the screen changes every second | a match or the round's results playing | wait (`watch`, `advance`) |
-| DOSBox-X gone after F10 | GOAL quit and DOSBox-X closed [C26b] | start again, `Y`, load |
-| `send` returns `changed=False` after 8 s | the key changed nothing visible (a no-op, a dropped key [C41g], or a choice the screen does not redraw) | read the bottom line; `keystate` |
+| DOSBox-X gone after F10 | GOAL quit [C26b] | start again, `Y`, load [C11] |

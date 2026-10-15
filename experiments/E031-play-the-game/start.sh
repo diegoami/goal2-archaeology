@@ -4,7 +4,7 @@
 # The unit is goal2-play-SESSION; its output goes to scratch/play-SESSION.log. Stop it with
 # `play.py stop SESSION` (the server terminates its DOSBox-X and Xvfb), or
 # `systemctl --user stop goal2-play-SESSION` (SIGTERM: the same clean-up).
-set -eu
+set -euo pipefail
 cd "$(dirname "${BASH_SOURCE[0]}")/../.."
 s=$1; shift
 mkdir -p scratch

@@ -32,9 +32,16 @@ research experiment with hypotheses: its outputs are the guide, the session logs
   `play-the-game-saves`; `verify_saves.py` downloads them and checks them against `saves.tsv`.
 - `out/g1/game-folder.tsv`: what g1's game folder held at the end (`folder.py g1`): the files GOAL
   wrote, with sha256, and `Y.HIL` changed from the release copy.
-- `claims.tsv` and `out/claims.md`: every observed claim of the guide with the logged step that shows
-  it; `claims.py` re-checks them all and that every `[Cnn]` tag of the guide names a row.
-- `checks.sh` re-runs the checks the PR quotes and writes their output to `out/checks.txt`.
+- `claims.tsv` and `out/claims.md`: every observed claim of the guide with the logged step (or the
+  tracked file's matching lines) that shows it. `claims.py` re-checks every row, and that every
+  sentence and table row of the guide's sections 2 to 9 carries a tag or a label, every tag names a
+  row and every row is cited; it fails on an empty table or log.
+- `checks.sh` (through `checks.py`) re-runs the checks the PR quotes, each judged by its own exit
+  status, and writes their output to `out/checks.txt`, ending in ALL PASSED or FAILED.
+  `tests/test_e031_checks.py` shows each check failing on a failing producer, an emptied saves table,
+  log or evidence file, an empty claims table, an unbacked guide sentence or an uncited row;
+  `probes_r2.py` ran the review's probes against the checks of 2ad69bf and now
+  (`out/review2-probes.txt`).
 - Savestates of `checkpoint` and screenshots of `snap` are in `.cache/kept/E031/<S>/`, named by step;
   their sha256 is in `steps.jsonl`.
 

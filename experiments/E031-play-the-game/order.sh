@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # The penalty shoot-out order screen ("use ↑↓ then ◄┘ to select the order  Hit Esc to undo"): pick the
 # players in the order given (find, Enter each). Usage: bash experiments/E031-play-the-game/order.sh S "A" "B" ...
-set -eu
+set -euo pipefail
 cd "$(dirname "${BASH_SOURCE[0]}")/../.."
 s=$1; shift
 for name in "$@"; do

@@ -2,7 +2,7 @@
 # Pick a pool player into the squad in place of a squad player, on the squad screen (select squad):
 # Right (the pool), find IN, Enter, Left (the squad), find OUT, Enter. Prints the squad after.
 # Usage: bash experiments/E031-play-the-game/pick.sh SESSION "IN NAME" "OUT NAME"
-set -eu
+set -euo pipefail
 cd "$(dirname "${BASH_SOURCE[0]}")/../.."
 p=experiments/E031-play-the-game/play.py
 python3 $p send "$1" Right -q

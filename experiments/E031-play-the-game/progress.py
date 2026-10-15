@@ -11,6 +11,7 @@ and teams). Each line names the step whose screen holds it, so `screen.py S STEP
 import argparse
 import json
 import re
+import sys
 from pathlib import Path
 
 OUT = Path(__file__).resolve().parent / "out"
@@ -34,8 +35,9 @@ def main():
     ap.add_argument("session")
     ap.add_argument("--team", default="Holland")
     ap.add_argument("--md")
+    ap.add_argument("--out-dir", default=str(OUT), help="the folder that holds <session>/ (default out/)")
     a = ap.parse_args()
-    d = OUT / a.session
+    d = Path(a.out_dir) / a.session
     screens = {}
     for line in (d / "screens.jsonl").read_text().splitlines():
         s = json.loads(line)
@@ -68,7 +70,11 @@ def main():
     if a.md:
         Path(a.md).write_text(text)
     print(text)
+    if not seen or not any("| stage " in l for l in lines):
+        print(f"FAILED: the log of {a.session} holds no full-time board of {a.team} or no stage change")
+        return 1
+    return 0
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())
