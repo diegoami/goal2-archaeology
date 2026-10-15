@@ -31,7 +31,7 @@ def main():
     if len(set(seeds)) != len(seeds):
         sys.exit("refused: a seed appears twice")
     for p, r in zip(sys.argv[2:], runs):
-        why = incomplete(r)
+        why = incomplete(r) or (None if "match_blocks" in r else "no match_blocks (a coverage run before they were kept)")
         if why:
             sys.exit(f"refused: {p} is not a completed match ({why})")
     starts, info, names = routines()

@@ -40,7 +40,21 @@ MODELLED = {"0791:278A", "1771:377E", "0791:287C", "214B:0688", "214B:06B1", "21
 
 def incomplete(run):
     """None when a coverage run is a completed match (no error, stopped at the full-time board, no strays),
-    else why not: a coverage table is refused from an incomplete run (PR 243's review, R1/R2's class)."""
+    else why not: a coverage table is refused from an incomplete run (PR 243's review, R1/R2's class). A run
+    that lacks one of the three keys, or whose `routines` (and, when given, `match_blocks`) is not a non-empty
+    list of well-formed rows, is incomplete too: missing evidence is never read as a clean run (round 2, R3's
+    class)."""
+    missing = [k for k in ("error", "stopped_at_board", "strays", "routines") if k not in run]
+    if missing:
+        return "missing " + ", ".join(missing)
+    rows = run["routines"]
+    need = ("address", "name", "video_bytes", "exec_match", "instr_match", "instructions_static",
+            "bytes_reached", "size")
+    if not isinstance(rows, list) or not rows or not all(isinstance(r, dict) and all(k in r for k in need)
+                                                         for r in rows):
+        return "routines missing, empty or without " + ", ".join(need)
+    if "match_blocks" in run and not (isinstance(run["match_blocks"], list) and run["match_blocks"]):
+        return "match_blocks empty"
     why = [w for w, bad in (("error %r" % run.get("error"), run.get("error") is not None),
                             ("did not stop at the full-time board", run.get("stopped_at_board") is not True),
                             ("strays %r" % run.get("strays"), run.get("strays") != [])) if bad]

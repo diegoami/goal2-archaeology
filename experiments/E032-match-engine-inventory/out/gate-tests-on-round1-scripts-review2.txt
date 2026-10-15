@@ -1,0 +1,151 @@
+test_completed_run_is_tabulated (tests.test_e032_compare.AnalyzeRefusesIncompleteRuns.test_completed_run_is_tabulated) ... ok
+test_errored_run_is_refused (tests.test_e032_compare.AnalyzeRefusesIncompleteRuns.test_errored_run_is_refused) ... ok
+test_run_missing_completion_keys_is_refused (tests.test_e032_compare.AnalyzeRefusesIncompleteRuns.test_run_missing_completion_keys_is_refused) ... ok
+test_run_with_strays_is_refused (tests.test_e032_compare.AnalyzeRefusesIncompleteRuns.test_run_with_strays_is_refused) ... ok
+test_pilot_batch_with_a_used_stamp_fails (tests.test_e032_compare.BatchesNeverCompareStaleOutput.test_pilot_batch_with_a_used_stamp_fails) ... FAIL
+test_skip_batch_with_a_used_stamp_fails (tests.test_e032_compare.BatchesNeverCompareStaleOutput.test_skip_batch_with_a_used_stamp_fails) ... FAIL
+test_completion_keys_missing_fail (tests.test_e032_compare.CompareFailsClosed.test_completion_keys_missing_fail) ... FAIL
+test_differing_field_fails (tests.test_e032_compare.CompareFailsClosed.test_differing_field_fails) ... ok
+test_duplicate_seed_fails (tests.test_e032_compare.CompareFailsClosed.test_duplicate_seed_fails) ... ok
+test_empty_candidate_fails (tests.test_e032_compare.CompareFailsClosed.test_empty_candidate_fails) ... ok
+test_errored_record_with_equal_fields_fails (tests.test_e032_compare.CompareFailsClosed.test_errored_record_with_equal_fields_fails) ... ok
+test_errored_reference_fails (tests.test_e032_compare.CompareFailsClosed.test_errored_reference_fails) ... ok
+test_evidence_missing_in_both_is_not_a_caught_falsifier (tests.test_e032_compare.CompareFailsClosed.test_evidence_missing_in_both_is_not_a_caught_falsifier) ... ok
+test_evidence_missing_in_both_is_not_identical (tests.test_e032_compare.CompareFailsClosed.test_evidence_missing_in_both_is_not_identical) ... FAIL
+test_evidence_missing_in_candidate_is_not_a_caught_falsifier (tests.test_e032_compare.CompareFailsClosed.test_evidence_missing_in_candidate_is_not_a_caught_falsifier) ... FAIL
+test_evidence_missing_in_candidate_is_not_identical (tests.test_e032_compare.CompareFailsClosed.test_evidence_missing_in_candidate_is_not_identical) ... ok
+test_falsifier_caught_by_difference_or_failure (tests.test_e032_compare.CompareFailsClosed.test_falsifier_caught_by_difference_or_failure) ... ok
+test_falsifier_not_caught_fails (tests.test_e032_compare.CompareFailsClosed.test_falsifier_not_caught_fails) ... ok
+test_identical_family_passes (tests.test_e032_compare.CompareFailsClosed.test_identical_family_passes) ... ok
+test_not_stopped_at_board_fails (tests.test_e032_compare.CompareFailsClosed.test_not_stopped_at_board_fails) ... ok
+test_strays_fail (tests.test_e032_compare.CompareFailsClosed.test_strays_fail) ... ok
+test_truncated_candidate_fails (tests.test_e032_compare.CompareFailsClosed.test_truncated_candidate_fails) ... ok
+test_unexpected_seed_fails (tests.test_e032_compare.CompareFailsClosed.test_unexpected_seed_fails) ... ok
+test_a_changed_figure_fails (tests.test_e032_compare.PlanFiguresEqualTheReport.test_a_changed_figure_fails) ... ok
+test_an_untied_cost_figure_fails (tests.test_e032_compare.PlanFiguresEqualTheReport.test_an_untied_cost_figure_fails) ... ok
+test_the_plan_matches_the_report (tests.test_e032_compare.PlanFiguresEqualTheReport.test_the_plan_matches_the_report) ... ok
+
+======================================================================
+FAIL: test_pilot_batch_with_a_used_stamp_fails (tests.test_e032_compare.BatchesNeverCompareStaleOutput.test_pilot_batch_with_a_used_stamp_fails)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a49f66db95d9da981/tests/test_e032_compare.py", line 198, in test_pilot_batch_with_a_used_stamp_fails
+    self.assertNotEqual(r.returncode, 0, r.stdout)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 0 == 0 : == falsifier coin-swapped
+seed 0x1234: score [1, 1] ticks 4146 draws 184109 cpu 8.3 s -> 18.2 s; caught: differ in score, ticks, draws, draws_digest, statistics_raw, templates
+1 seeds expected differ, 1 pass, 0 fail
+== falsifier bound-36
+seed 0x1234: score [1, 1] ticks 4146 draws 184109 cpu 8.3 s -> 315.4 s; caught: not completed (error 'no full-time board within 300 s'; did not stop at the full-time board)
+1 seeds expected differ, 1 pass, 0 fail
+== falsifier no-picture
+seed 0x1234: score [1, 1] ticks 4146 draws 184109 cpu 8.3 s -> 17.0 s; caught: differ in score, ticks, draws, draws_digest, statistics_raw, templates
+1 seeds expected differ, 1 pass, 0 fail
+== exact port, eight seeds
+seed 0x0101: score [1, 0] ticks 4279 draws 192967 cpu 10.7 s -> 17.6 s; identical
+seed 0x2b7e: score [0, 2] ticks 4029 draws 175773 cpu 9.3 s -> 17.6 s; identical
+seed 0x4c1d: score [1, 0] ticks 4659 draws 210776 cpu 10.5 s -> 19.8 s; identical
+seed 0x6a33: score [0, 2] ticks 4159 draws 184733 cpu 9.9 s -> 17.7 s; identical
+seed 0x8e05: score [1, 0] ticks 4157 draws 186815 cpu 12.1 s -> 18.9 s; identical
+seed 0xa1f0: score [1, 0] ticks 4281 draws 191805 cpu 13.1 s -> 19.6 s; identical
+seed 0xc3c3: score [2, 1] ticks 4262 draws 184677 cpu 16.8 s -> 17.8 s; identical
+seed 0xe719: score [1, 0] ticks 4240 draws 191629 cpu 11.9 s -> 18.3 s; identical
+8 seeds expected identical, 8 pass, 0 fail
+batch exit 0
+
+
+======================================================================
+FAIL: test_skip_batch_with_a_used_stamp_fails (tests.test_e032_compare.BatchesNeverCompareStaleOutput.test_skip_batch_with_a_used_stamp_fails)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a49f66db95d9da981/tests/test_e032_compare.py", line 206, in test_skip_batch_with_a_used_stamp_fails
+    self.assertNotEqual(r.returncode, 0, r.stdout)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 0 == 0 : == skip 0791:8537
+seed 0x1234: score [1, 1] ticks 4146 draws 184109 cpu 8.3 s -> 158.6 s; NOT COMPLETED (error 'no full-time board within 150 s (a loop waits for what the skipped routine does)'; did not stop at the full-time board): FAIL
+seed 0x2345: score [0, 1] ticks 4138 draws 187079 cpu 8.5 s -> 158.0 s; NOT COMPLETED (error 'no full-time board within 150 s (a loop waits for what the skipped routine does)'; did not stop at the full-time board): FAIL
+2 seeds expected identical, 0 pass, 2 fail
+exit 1 (skip 0791:8537)
+== skip 0791:8E24
+seed 0x1234: score [1, 1] ticks 4146 draws 184109 cpu 8.3 s -> 9.9 s; DIFFER: score, ticks, draws, draws_digest, statistics_raw, templates: FAIL
+seed 0x2345: score [0, 1] ticks 4138 draws 187079 cpu 8.5 s -> 10.7 s; DIFFER: score, ticks, draws, draws_digest, statistics_raw, templates: FAIL
+2 seeds expected identical, 0 pass, 2 fail
+exit 1 (skip 0791:8E24)
+== skip 0791:8F10
+seed 0x1234: score [1, 1] ticks 4146 draws 184109 cpu 8.3 s -> 12.3 s; identical
+seed 0x2345: score [0, 1] ticks 4138 draws 187079 cpu 8.5 s -> 11.2 s; identical
+2 seeds expected identical, 2 pass, 0 fail
+exit 0 (skip 0791:8F10)
+== skip 0791:9079
+seed 0x1234: score [1, 1] ticks 4146 draws 184109 cpu 8.3 s -> 9.7 s; identical
+seed 0x2345: score [0, 1] ticks 4138 draws 187079 cpu 8.5 s -> 13.7 s; identical
+2 seeds expected identical, 2 pass, 0 fail
+exit 0 (skip 0791:9079)
+== skip 0791:0481
+seed 0x1234: score [1, 1] ticks 4146 draws 184109 cpu 8.3 s -> 8.8 s; identical
+seed 0x2345: score [0, 1] ticks 4138 draws 187079 cpu 8.5 s -> 10.5 s; identical
+2 seeds expected identical, 2 pass, 0 fail
+exit 0 (skip 0791:0481)
+== skip 0791:1829
+seed 0x1234: score [1, 1] ticks 4146 draws 184109 cpu 8.3 s -> 9.2 s; identical
+seed 0x2345: score [0, 1] ticks 4138 draws 187079 cpu 8.5 s -> 9.2 s; identical
+2 seeds expected identical, 2 pass, 0 fail
+exit 0 (skip 0791:1829)
+== skip 0791:0425
+seed 0x1234: score [1, 1] ticks 4146 draws 184109 cpu 8.3 s -> 11.5 s; identical
+seed 0x2345: score [0, 1] ticks 4138 draws 187079 cpu 8.5 s -> 34.4 s; identical
+2 seeds expected identical, 2 pass, 0 fail
+exit 0 (skip 0791:0425)
+== skip 0791:0441
+seed 0x1234: score [1, 1] ticks 4146 draws 184109 cpu 8.3 s -> 12.2 s; identical
+seed 0x2345: score [0, 1] ticks 4138 draws 187079 cpu 8.5 s -> 11.3 s; identical
+2 seeds expected identical, 2 pass, 0 fail
+exit 0 (skip 0791:0441)
+== skip 0791:94E8
+seed 0x1234: score [1, 1] ticks 4146 draws 184109 cpu 8.3 s -> 12.2 s; identical
+seed 0x2345: score [0, 1] ticks 4138 draws 187079 cpu 8.5 s -> 17.1 s; identical
+2 seeds expected identical, 2 pass, 0 fail
+exit 0 (skip 0791:94E8)
+== skip 0791:9372
+seed 0x1234: score [1, 1] ticks 4146 draws 184109 cpu 8.3 s -> 9.6 s; identical
+seed 0x2345: score [0, 1] ticks 4138 draws 187079 cpu 8.5 s -> 11.6 s; identical
+2 seeds expected identical, 2 pass, 0 fail
+exit 0 (skip 0791:9372)
+== skip the joint set 0791:8F10,0791:9079,0791:0481,0791:1829,0791:0425,0791:0441,0791:94E8,0791:9372
+seed 0x1234: score [1, 1] ticks 4146 draws 184109 cpu 8.3 s -> 27.1 s; identical
+seed 0x2345: score [0, 1] ticks 4138 draws 187079 cpu 8.5 s -> 20.3 s; identical
+2 seeds expected identical, 2 pass, 0 fail
+batch exit 0
+
+
+======================================================================
+FAIL: test_completion_keys_missing_fail (tests.test_e032_compare.CompareFailsClosed.test_completion_keys_missing_fail)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a49f66db95d9da981/tests/test_e032_compare.py", line 147, in test_completion_keys_missing_fail
+    self.assertNotEqual(self.run_compare(cand, expect="differ").returncode, 0)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 0 == 0
+
+======================================================================
+FAIL: test_evidence_missing_in_both_is_not_identical (tests.test_e032_compare.CompareFailsClosed.test_evidence_missing_in_both_is_not_identical)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a49f66db95d9da981/tests/test_e032_compare.py", line 129, in test_evidence_missing_in_both_is_not_identical
+    self.assertNotEqual(self.run_compare(cand, ref=ref).returncode, 0)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 0 == 0
+
+======================================================================
+FAIL: test_evidence_missing_in_candidate_is_not_a_caught_falsifier (tests.test_e032_compare.CompareFailsClosed.test_evidence_missing_in_candidate_is_not_a_caught_falsifier)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a49f66db95d9da981/tests/test_e032_compare.py", line 142, in test_evidence_missing_in_candidate_is_not_a_caught_falsifier
+    self.assertNotEqual(self.run_compare(cand, expect="differ").returncode, 0)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 0 == 0
+
+----------------------------------------------------------------------
+Ran 26 tests in 2.529s
+
+FAILED (failures=5)

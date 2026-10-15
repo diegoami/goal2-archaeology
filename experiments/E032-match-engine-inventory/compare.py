@@ -6,56 +6,101 @@
 
 --seeds is the seed family the candidate must hold: exactly these seeds, each once. The reference must
 hold each of them (it may hold more: a family can be a subset of a bigger reference log), each once.
-Every reference record must be a completed match: no error, stopped at the full-time board, no undeclared
-key-wait strays (the 000E wait family's log is empty).
 
---expect identical (the default, a port or a skip accepted): every candidate record must be a completed
-match too, and equal to its reference in score, ticks, main-seed draws, the draws digest, the board's raw
-statistics and the commentary's template counts.
+Every record is validated before anything is compared (PR 243 review rounds 1 and 2): it must carry `seed`,
+`error`, `stopped_at_board` and `strays` with their types; a COMPLETED record (no error, stopped at the
+full-time board, no stray key wait) must also carry every piece of evidence the comparison uses, well formed:
+`score` (two numbers), `ticks` and `draws` (positive), `draws_digest` (64 hex digits), `statistics_raw` (a
+non-empty list) and `templates` (a non-empty mapping). A record that fails validation makes the log
+MALFORMED: it never counts as equal, nor as a difference. Every reference record of the family must be
+completed.
+
+--expect identical (the default, a port or a skip accepted): every candidate record must be completed too,
+and equal to its reference in score, ticks, draws, the draws digest, the board's raw statistics and the
+commentary's template counts.
 
 --expect differ (a falsifier caught): every candidate record must differ from its reference in one of those
 fields, or be a match that did not complete (a falsifier that hangs or errors is caught as well).
 
-Prints one line per seed and a summary; exits 0 only when every expected seed passes, 1 otherwise, and 2 on
-a malformed log or family (a duplicate seed, a missing or unexpected seed)."""
+Prints one line per seed and a summary; exits 0 only when every expected seed passes, 1 when a seed fails
+its expectation, and 2 on a malformed log or family (an unreadable line, a record that fails validation, a
+duplicate seed, a missing or unexpected seed, an empty family)."""
 import argparse
 import json
+import re
 import sys
 
 FIELDS = ("score", "ticks", "draws", "draws_digest", "statistics_raw", "templates")
+DIGEST = re.compile(r"^[0-9a-f]{64}$")
 
 
 class Malformed(Exception):
     pass
 
 
+def completed(r):
+    """None when the (validated) record is a completed match, else why not."""
+    why = []
+    if r["error"] is not None:
+        why.append(f"error {r['error']!r}")
+    if r["stopped_at_board"] is not True:
+        why.append("did not stop at the full-time board")
+    if r["strays"]:
+        why.append(f"strays {r['strays']!r}")
+    return "; ".join(why) or None
+
+
+def validate(r, where):
+    """Raise Malformed unless the record carries what the comparison needs (see the module's text)."""
+    if not isinstance(r, dict):
+        raise Malformed(f"{where}: not a JSON object")
+    for key, types in (("seed", int), ("error", (str, type(None))), ("stopped_at_board", bool), ("strays", list)):
+        if key not in r or not isinstance(r[key], types) or (key == "seed" and isinstance(r[key], bool)):
+            raise Malformed(f"{where}: {key!r} missing or of the wrong type")
+    if completed(r):
+        return
+    bad = []
+    s = r.get("score")
+    if not (isinstance(s, list) and len(s) == 2 and all(isinstance(v, int) and not isinstance(v, bool) for v in s)):
+        bad.append("score")
+    for key in ("ticks", "draws"):
+        v = r.get(key)
+        if not (isinstance(v, int) and not isinstance(v, bool) and v > 0):
+            bad.append(key)
+    if not (isinstance(r.get("draws_digest"), str) and DIGEST.match(r["draws_digest"])):
+        bad.append("draws_digest")
+    if not (isinstance(r.get("statistics_raw"), list) and r["statistics_raw"]):
+        bad.append("statistics_raw")
+    if not (isinstance(r.get("templates"), dict) and r["templates"]):
+        bad.append("templates")
+    if bad:
+        raise Malformed(f"{where}: a completed match without valid {', '.join(bad)}")
+
+
 def load(path):
     out = {}
-    with open(path) as f:
+    try:
+        f = open(path)
+    except OSError as e:
+        raise Malformed(f"{path}: {e}")
+    with f:
         for n, line in enumerate(f, 1):
             if not line.strip():
                 continue
-            r = json.loads(line)
+            try:
+                r = json.loads(line)
+            except ValueError as e:
+                raise Malformed(f"{path}:{n}: not JSON ({e})")
+            validate(r, f"{path}:{n}")
             if r["seed"] in out:
                 raise Malformed(f"{path}:{n}: seed 0x{r['seed']:04x} appears twice")
             out[r["seed"]] = r
     return out
 
 
-def completed(r):
-    """None when the record is a completed match, else why not."""
-    why = []
-    if r.get("error") is not None:
-        why.append(f"error {r['error']!r}")
-    if r.get("stopped_at_board") is not True:
-        why.append("did not stop at the full-time board")
-    if r.get("strays") != []:
-        why.append(f"strays {r.get('strays')!r}")
-    return "; ".join(why) or None
-
-
 def check(ref, cand, seeds, expect):
-    """(lines, passed) for the family; raises Malformed on a missing or unexpected seed."""
+    """(lines, passed) for the family; raises Malformed on a missing or unexpected seed or an incomplete
+    reference."""
     missing_ref = [s for s in seeds if s not in ref]
     missing = [s for s in seeds if s not in cand]
     unexpected = sorted(set(cand) - set(seeds))
@@ -64,15 +109,15 @@ def check(ref, cand, seeds, expect):
             f"{what}: {', '.join(f'0x{s:04x}' for s in lst)}" for what, lst in (
                 ("missing from the reference", missing_ref), ("missing from the candidate", missing),
                 ("unexpected in the candidate", unexpected)) if lst))
+    for seed in seeds:
+        why = completed(ref[seed])
+        if why:
+            raise Malformed(f"reference seed 0x{seed:04x} is not a completed match ({why})")
     lines, passed = [], 0
     for seed in seeds:
         a, b = ref[seed], cand[seed]
-        bad_ref = completed(a)
-        if bad_ref:
-            lines.append(f"seed 0x{seed:04x}: REFERENCE NOT A COMPLETED MATCH ({bad_ref}): FAIL")
-            continue
         bad = completed(b)
-        diff = [f for f in FIELDS if a.get(f) != b.get(f)]
+        diff = [f for f in FIELDS if a[f] != b[f]] if not bad else []
         head = (f"seed 0x{seed:04x}: score {a['score']} ticks {a['ticks']} draws {a['draws']} "
                 f"cpu {a.get('cpu_s')} s -> {b.get('cpu_s')} s; ")
         if expect == "identical":
@@ -97,7 +142,10 @@ def main(argv=None):
     ap.add_argument("--expect", choices=("identical", "differ"), default="identical")
     a = ap.parse_args(argv)
     try:
-        seeds = [int(s, 0) for s in a.seeds.split(",") if s.strip()]
+        try:
+            seeds = [int(s, 0) for s in a.seeds.split(",") if s.strip()]
+        except ValueError as e:
+            raise Malformed(f"--seeds: {e}")
         if not seeds:
             raise Malformed("an empty seed family")
         if len(set(seeds)) != len(seeds):

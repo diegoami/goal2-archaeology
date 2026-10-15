@@ -1,17 +1,26 @@
 #!/usr/bin/env python3
 """E032: every cost the match-engine plan states, recounted from the measured logs and the static tables
-(PR 243's review, R3: a cost stated without recounting the runs it prescribes).
+(PR 243 review round 1, R3; round 2, R4: no assumption where a committed log measures the figure).
 
     python3 -B experiments/E032-match-engine-inventory/costs.py <out.md>
 
-Inputs, all committed: the timing logs (oracle seconds per match, plain and with the delay count), the
-pilot logs (seconds per match with a ported routine hooked), the coverage runs (seconds per covered match),
-cov-s1234-20261015.json (instructions by part, analyze.part), static/goal-exe/routines.tsv and calls.tsv
-(the routines no friendly reaches). Only completed matches are counted (analyze.incomplete). Every
-ASSUMPTION is a named constant below and is printed with the result. CPU time is one core's; elapsed time is
-CPU time divided by the number of workers (WORKERS = 2, the brief's limit). Refused if <out.md> exists."""
+Writes <out.md> and, beside it, <out>.json with every figure the plan quotes (plancheck.py checks the plan
+against it). Both refused if they exist.
+
+Every input is MEASURED from a committed log, or an ASSUMPTION named below and printed as one:
+- seconds per oracle match: the completed matches of the delay-count timing logs;
+- seconds per hooked match (the stand-in for a port's match): the completed matches of every exact-pilot log;
+- falsifier CPU: EVERY falsifier record of the pilot logs, completed or not, at the CPU it consumed (a
+  falsifier that hangs runs to pilot_movement.py's 300 s timeout and counts as such);
+- seconds per coverage run: the completed coverage runs;
+- seconds per proved whole match (route A): T48's logs in experiments/E021-m0-whole-match/out/, the runs that
+  reached minute 91 (runs stopped by the 1800 s limit are counted apart);
+- instructions: cov-s1234-20261015.json (analyze.part), routines.tsv and calls.tsv, union-5seeds-20261015.md.
+Records are validated by compare.py (a malformed log stops the recount). CPU time is one core's; elapsed time
+is CPU time divided by WORKERS (2, the brief's limit)."""
 import json
 import math
+import re
 import statistics
 import sys
 from pathlib import Path
@@ -19,39 +28,46 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "experiments" / "E032-match-engine-inventory"))
 from analyze import incomplete, part  # noqa: E402
+import compare  # noqa: E402
 
 OUT = ROOT / "experiments/E032-match-engine-inventory/out"
+E021 = ROOT / "experiments/E021-m0-whole-match/out"
 WORKERS = 2
-# ---- assumptions (each printed) ----
-PILOT_MINUTES = 40          # my time for the pilot: reading, writing and the first run (notes.md)
-RATE_FACTORS = {"optimistic (the pilot's rate)": 1.0, "central (half the pilot's rate)": 0.5,
-                "pessimistic (a quarter of it)": 0.25}
-FIXED_HOURS = {"P0 tooling": 3, "P6 adapter and the port on its own": 4, "P7 start states (preparing them)": 1,
-               "the distribution sheet (work, not CPU)": 2}
-FAMILY = 40                 # matches per step check: 20 seeds plain + the same 20 with declared edits
-CHECKS_PER_STEP = 6         # full family checks a step runs while it ports and debugs
-FALSIFIERS = 3              # one match each
-COVERAGE_RUNS = 5           # one coverage union per step
-REVIEW_CHECKS = 1           # the reviewer re-runs one family check and the falsifiers
-SD_GOALS = 1.37             # C-MATCH-27, watched goals per match
+# ---- assumptions: none of these is measured by a committed log ----
+ASSUMED = {
+    "PILOT_MINUTES": (40, "my own time for the pilot (reading, writing, first run), self-reported in notes.md, not logged"),
+    "RATE_FACTORS": ({"optimistic (the pilot's rate)": 1.0, "central (half the pilot's rate)": 0.5,
+                      "pessimistic (a quarter of it)": 0.25}, "the share of the pilot's rate the rest of the engine allows"),
+    "FIXED_HOURS": ({"P0 tooling": 3, "P6 adapter and the port on its own": 4, "P7 start states (preparing them)": 1,
+                     "the distribution sheet (work, not CPU)": 2}, "estimates of work that is not porting"),
+    "FAMILY": (40, "matches per step check: 20 seeds plain + the same 20 with declared edits (a plan choice)"),
+    "CHECKS_PER_STEP": (6, "family checks a step runs while it ports and debugs"),
+    "COVERAGE_RUNS": (5, "coverage runs per step (as E032's union)"),
+    "STEPS_WITH_CHECKS": (8, "P0-P7 each run family checks"),
+    "PORT_SPEED": ("the hooked pilot's mean", "a port's match on its own is unmeasured until P6; the hooked "
+                   "pilot's speed stands in"),
+    "FALSIFIER_SET": ("the mean measured set", "a step's three falsifiers cost what the pilot's three cost, "
+                      "the hung one included"),
+    "SHEET_A": ((500, 2, 100), "oracle matches on E011-r0001's state; new start states at P7; matches on each"),
+    "SD_GOALS": (1.37, "C-MATCH-27's watched goals sd (measured there, F005), taken as given"),
+}
 Z_ALPHA, Z_BETA = 1.959964, 0.841621   # two-sided 0.05, power 0.8
 EFFECTS = ["skill +4", "energy", "form"] + [f"tactic element {k}" for k in range(1, 9)]   # E026 e1..e8
-SHEET_A_ORACLE = 500        # the fidelity sheet's oracle matches on E011-r0001's state
-SHEET_A_NEW_STATES, SHEET_A_PER_NEW_STATE = 2, 100      # P7's other start states
 STEPS = ["P1", "P2", "P3", "P4", "P5", "P7"]
+FALSIFIERS = ("coin-swapped", "bound-36", "no-picture")
 
 
-def logs(name):
-    return [json.loads(line) for line in (OUT / name).read_text().splitlines() if line.strip()]
+def A(name):
+    return ASSUMED[name][0]
 
 
-def ok(records):
-    return [r for r in records if not incomplete(r)]
-
-
-def secs(records, key="cpu_s"):
-    v = [r[key] for r in ok(records)]
-    return statistics.mean(v), min(v), max(v), len(v)
+def completed_records(*names):
+    recs = []
+    for n in names:
+        for r in compare.load(OUT / n).values():
+            if not compare.completed(r):
+                recs.append(r)
+    return recs
 
 
 def static_rows():
@@ -79,8 +95,7 @@ def step_of(row):
     if a.startswith(("214B:", "23E4:")) and row["name"].startswith(("u214b_random", "u214b_lcg", "u214b_set",
                                                                    "sys_set", "u214b_long", "sys_long")):
         return "P1"
-    if p in ("ball and player motion, offside line", "positioning and marking movement", "marking and leaders",
-             "referee"):
+    if p in ("ball and player motion, offside line", "positioning and marking movement", "marking and leaders"):
         return "P2"
     if p in ("ball, passing, shooting", "decisions and contests"):
         return "P3"
@@ -94,33 +109,62 @@ def step_of(row):
 
 def main():
     dest = Path(sys.argv[1])
-    if dest.exists():
-        sys.exit(f"refused: {dest} exists")
+    jdest = dest.with_suffix(".json")
+    if dest.exists() or jdest.exists():
+        sys.exit(f"refused: {dest} or {jdest} exists")
+    J = {}
     L = []
     say = L.append
-    say("# E032 cost recount (PR 243 review, R3)\n")
-    say("Assumptions: " + "; ".join([
-        f"pilot time {PILOT_MINUTES} min", f"workers {WORKERS}", f"family {FAMILY} matches per check",
-        f"{CHECKS_PER_STEP} checks per step", f"{FALSIFIERS} falsifier matches per step",
-        f"{COVERAGE_RUNS} coverage runs per step", f"sd of goals {SD_GOALS}", f"{len(EFFECTS)} effects: " +
-        ", ".join(EFFECTS)]) + ".\n")
+    say("# E032 cost recount (PR 243 review rounds 1 and 2)\n")
+    say("## Assumptions (not measured by any committed log)\n")
+    for k, (v, why) in ASSUMED.items():
+        say(f"- {k} = {v}: {why}")
+    say("")
 
-    # -- seconds per match, measured --
-    plain = logs("timing-plain-20261015.jsonl") + logs("timing-plain-8seeds-20261015.jsonl")
-    d20 = logs("timing-delay20-kickoff-20261015.jsonl") + logs("timing-delay20-8seeds-20261015.jsonl")
-    hooked = logs("pilot-exact-try1-20261015.jsonl") + logs("pilot-exact-8seeds-20261015.jsonl")
-    cov = [json.loads((OUT / f"cov-d20-{s}-20261015.json").read_text())
-           for s in ("0x1234", "0x2345", "0x4c1d", "0xc3c3", "0xe719")]
-    cov_s = [c["seconds"] for c in cov if not incomplete(c)]
-    pm, pmin, pmax, pn = secs(plain)
-    om, omin, omax, on = secs(d20)
-    hm, hmin, hmax, hn = secs(hooked)
-    say("## Seconds per whole match (CPU, measured)\n")
+    # -- seconds, measured --
+    plain = completed_records("timing-plain-20261015.jsonl", "timing-plain-8seeds-20261015.jsonl")
+    d20 = completed_records("timing-delay20-kickoff-20261015.jsonl", "timing-delay20-8seeds-20261015.jsonl")
+    hooked = completed_records("pilot-exact-try1-20261015.jsonl", "pilot-exact-8seeds-20261015.jsonl",
+                               "pilot-exact-8seeds-review1.jsonl")
+    sets = {}
+    for stamp in ("20261015", "review1"):
+        rows = []
+        for v in FALSIFIERS:
+            for r in compare.load(OUT / f"pilot-{v}-{stamp}.jsonl").values():
+                rows.append((v, r["cpu_s"], "completed" if not compare.completed(r) else "did not complete"))
+        sets[stamp] = rows
+    covs = [json.loads((OUT / f"cov-d20-{s}-20261015.json").read_text())
+            for s in ("0x1234", "0x2345", "0x4c1d", "0xc3c3", "0xe719")]
+    cov_s = [c["seconds"] for c in covs if not incomplete(c)]
+    proved, stopped = [], []
+    pat = re.compile(r"emulated (\d+) clock ticks, \d+ seed writes, ([\d.]+) s; full time: minute (\d+)")
+    for log in sorted(E021.glob("t48-m2-longs*.log")) + sorted(E021.glob("t48-regression-*.log")):
+        for m in pat.finditer(log.read_text()):
+            (proved if int(m.group(3)) == 91 else stopped).append(float(m.group(2)))
+
+    def stat(v):
+        return statistics.mean(v), min(v), max(v), len(v)
+    pm, pmin, pmax, pn = stat([r["cpu_s"] for r in plain])
+    om, omin, omax, on = stat([r["cpu_s"] for r in d20])
+    hm, hmin, hmax, hn = stat([r["cpu_s"] for r in hooked])
+    set_totals = {k: sum(c for _, c, _ in v) for k, v in sets.items()}
+    FSET = statistics.mean(set_totals.values())
+    COV = statistics.mean(cov_s)
+    say("## Seconds, measured (CPU)\n")
     say(f"- oracle, plain: mean {pm:.1f} s, range {pmin}-{pmax} s, n = {pn}")
     say(f"- oracle, delay count at kick-off: mean {om:.1f} s, range {omin}-{omax} s, n = {on}")
-    say(f"- oracle with the pilot's port hooked: mean {hm:.1f} s, range {hmin}-{hmax} s, n = {hn}")
-    say(f"- coverage run (block hook): mean {statistics.mean(cov_s):.1f} s, n = {len(cov_s)}\n")
-    ORACLE, HOOKED, COV = om, hm, statistics.mean(cov_s)
+    say(f"- hooked pilot port (exact): mean {hm:.1f} s, range {hmin}-{hmax} s, n = {hn}")
+    for k, v in sets.items():
+        say(f"- falsifier set {k}: " + ", ".join(f"{n} {c} s ({st})" for n, c, st in v) + f"; total {set_totals[k]:.1f} s")
+    say(f"- falsifier set, mean of the {len(sets)} sets: {FSET:.1f} s (budgeting them at the hooked mean would give "
+        f"{3 * hm:.1f} s)")
+    say(f"- coverage run: mean {COV:.1f} s, n = {len(cov_s)}")
+    say(f"- T48 proved whole matches (route A): {len(proved)} reached minute 91 in {min(proved) / 60:.0f}-"
+        f"{max(proved) / 60:.0f} min (median {statistics.median(proved) / 60:.0f}); {len(stopped)} more stopped at a "
+        f"time limit\n")
+    J.update(oracle_mean=round(om, 1), oracle_min=omin, oracle_max=omax, plain_min=pmin, plain_max=pmax,
+             hooked_mean=round(hm, 1), falsifier_set=round(FSET, 1), proved_min_minutes=round(min(proved) / 60),
+             proved_max_minutes=round(max(proved) / 60), proved_n=len(proved), proved_stopped=len(stopped))
 
     # -- instructions by step --
     run = json.loads((OUT / "cov-s1234-20261015.json").read_text())
@@ -137,10 +181,10 @@ def main():
     setup = ["0791:A4A1"] + [c for c in sorted(calls["0791:A4A1"]) if c.startswith("0791") and c not in reached]
     by_step["P5"] += sum(info[c] for c in setup)
     frontier = [line.split(" | ")[0].strip("| ") for line in (OUT / "union-5seeds-20261015.md").read_text().splitlines()
-                if line.startswith("| 0791:") or line.startswith("| 1771:")]
+                if line.startswith(("| 0791:", "| 1771:"))]
     frontier = [c for c in frontier if c != "0791:D733"]          # the quick engine is modelled (F012)
     shootout = ["0791:A10A"] + [c for c in sorted(calls["0791:A10A"])
-                                if c.startswith("0791") and c not in reached and c not in setup]   # A841: in P5
+                                if c.startswith("0791") and c not in reached and c not in setup]
     by_step["P7"] = sum(info[c] for c in frontier + shootout)
     total_instr = sum(by_step.values())
     say("## Instructions by step (static, counted)\n")
@@ -149,78 +193,88 @@ def main():
     say(f"- P5 includes the set-up {', '.join(setup)}; P7 is the frontier {', '.join(frontier)} and the shoot-out "
         f"{', '.join(shootout)}")
     say(f"- total: {total_instr:,}\n")
+    J.update({f"instr_{s}": by_step[s] for s in STEPS}, instr_total=total_instr)
 
     pilot = ["0791:8889", "0791:86D0", "0791:2BE5", "0791:2974", "0791:045D", "0791:2CC5", "0791:2DCA",
              "23E4:08DF", "214B:0688", "214B:06B1", "214B:06FA"]
     pilot_instr = sum(info[c] for c in pilot)
-    rate = pilot_instr / (PILOT_MINUTES / 60)
+    rate = pilot_instr / (A("PILOT_MINUTES") / 60)
+    fixed = sum(A("FIXED_HOURS").values())
     say(f"## Implementer hours\n\nThe pilot: {pilot_instr} static instructions ({', '.join(pilot)}) in "
-        f"{PILOT_MINUTES} min = {rate:.0f} an hour.\n")
-    fixed = sum(FIXED_HOURS.values())
-    say("Fixed hours: " + ", ".join(f"{k} {v} h" for k, v in FIXED_HOURS.items()) + f" = {fixed} h.\n")
+        f"{A('PILOT_MINUTES')} min (ASSUMED) = {rate:.0f} an hour.\n")
+    say("Fixed hours (ASSUMED): " + ", ".join(f"{k} {v} h" for k, v in A("FIXED_HOURS").items()) + f" = {fixed} h.\n")
     say("| rate | " + " | ".join(STEPS) + " | porting | with fixed hours |")
     say("| --- | " + " | ".join("---" for _ in STEPS) + " | --- | --- |")
-    totals = {}
-    for label, f in RATE_FACTORS.items():
+    for label, f in A("RATE_FACTORS").items():
         hrs = {s: by_step[s] / (f * rate) for s in STEPS}
         port = sum(hrs.values())
-        totals[label] = port + fixed
         say(f"| {label} | " + " | ".join(f"{hrs[s]:.1f}" for s in STEPS) + f" | {port:.1f} | {port + fixed:.1f} |")
+        key = label.split()[0]
+        J[f"hours_{key}"] = round(port + fixed, 1)
+        J[f"porting_{key}"] = round(port, 1)
+        if key == "central":
+            # P7 adds its hour of preparing start states (FIXED_HOURS); one decimal, as the table
+            J.update({f"hours_central_{s}": round(hrs[s] + (1 if s == "P7" else 0), 1) for s in STEPS})
+    J.update(pilot_instr=pilot_instr, pilot_rate=round(rate), fixed_hours=fixed, pilot_minutes=A("PILOT_MINUTES"),
+             hours_P0=A("FIXED_HOURS")["P0 tooling"], hours_P6=A("FIXED_HOURS")["P6 adapter and the port on its own"],
+             family=A("FAMILY"), sheet_a_base=A("SHEET_A")[0], falsifier_at_hooked=round(3 * hm, 1), oracle_n=on)
     say("")
 
     # -- CPU per step and per review --
-    check_cpu = FAMILY * HOOKED
-    step_cpu = CHECKS_PER_STEP * check_cpu + FALSIFIERS * HOOKED + COVERAGE_RUNS * COV
-    review_cpu = REVIEW_CHECKS * check_cpu + FALSIFIERS * HOOKED
-    say("## CPU per step\n")
-    say(f"- one family check: {FAMILY} x {HOOKED:.1f} s = {check_cpu / 60:.1f} CPU min, "
+    check_cpu = A("FAMILY") * hm
+    step_cpu = A("CHECKS_PER_STEP") * check_cpu + FSET + A("COVERAGE_RUNS") * COV
+    review_cpu = check_cpu + FSET
+    say("## CPU per step and per review\n")
+    say(f"- one family check: {A('FAMILY')} x {hm:.1f} s = {check_cpu / 60:.1f} CPU min, "
         f"{check_cpu / 60 / WORKERS:.1f} min elapsed on {WORKERS} workers")
-    say(f"- one step: {CHECKS_PER_STEP} checks + {FALSIFIERS} falsifiers + {COVERAGE_RUNS} coverage runs = "
-        f"{step_cpu / 3600:.2f} CPU h, {step_cpu / 3600 / WORKERS:.2f} h elapsed")
-    say(f"- one review: {REVIEW_CHECKS} check + {FALSIFIERS} falsifiers = {review_cpu / 60:.1f} CPU min, "
+    say(f"- one step: {A('CHECKS_PER_STEP')} checks + one falsifier set ({FSET:.1f} s, measured) + "
+        f"{A('COVERAGE_RUNS')} coverage runs = {step_cpu / 3600:.2f} CPU h, {step_cpu / 3600 / WORKERS:.2f} h elapsed")
+    say(f"- one review: one check + one falsifier set = {review_cpu / 60:.1f} CPU min, "
         f"{review_cpu / 60 / WORKERS:.1f} min elapsed")
-    say(f"- seven steps with checks (P0-P5, P7; P6's check is the same family): {7 * step_cpu / 3600:.1f} CPU h\n")
+    say(f"- all {A('STEPS_WITH_CHECKS')} steps: {A('STEPS_WITH_CHECKS') * step_cpu / 3600:.1f} CPU h, "
+        f"{A('STEPS_WITH_CHECKS') * step_cpu / 3600 / WORKERS:.1f} h elapsed\n")
+    J.update(check_cpu_min=round(check_cpu / 60, 1), check_elapsed_min=round(check_cpu / 60 / WORKERS, 1),
+             step_cpu_h=round(step_cpu / 3600, 2), step_elapsed_h=round(step_cpu / 3600 / WORKERS, 2),
+             review_cpu_min=round(review_cpu / 60, 1), review_elapsed_min=round(review_cpu / 60 / WORKERS, 1),
+             steps_cpu_h=round(A("STEPS_WITH_CHECKS") * step_cpu / 3600, 1))
 
     # -- sample sizes --
     def n_per_arm(d):
-        return math.ceil(2 * (Z_ALPHA + Z_BETA) ** 2 * SD_GOALS ** 2 / d ** 2)
+        return math.ceil(2 * (Z_ALPHA + Z_BETA) ** 2 * A("SD_GOALS") ** 2 / d ** 2)
     n25, n50 = n_per_arm(0.25), n_per_arm(0.5)
+    one_effect = 2 * n25 * om
     say("## Matches per arm (goals, two arms, alpha 0.05, power 0.8)\n")
     say(f"- 0.25 goals: {n25}; 0.5 goals: {n50}")
-    one_effect_oracle = 2 * n25 * ORACLE
     say(f"- route B, one effect at 0.25 goals, the oracle's two arms: {2 * n25} matches = "
-        f"{one_effect_oracle / 3600:.2f} CPU h ({one_effect_oracle / 3600 / WORKERS:.2f} h elapsed); the model's "
-        f"two arms come on top, at the model's speed\n")
+        f"{one_effect / 3600:.1f} CPU h ({one_effect / 3600 / WORKERS:.1f} h elapsed)\n")
+    J.update(n25=n25, n50=n50, effect_matches=2 * n25, effect_cpu_h=round(one_effect / 3600, 1),
+             effect_elapsed_h=round(one_effect / 3600 / WORKERS, 1))
 
     # -- the distribution sheets --
+    base, nstates, per = A("SHEET_A")
+    a_oracle = base + nstates * per
+    a_port = base + (base + nstates * per)
+    a_cpu = a_oracle * om + a_port * hm
     say("## The distribution sheets\n")
-    a_oracle = SHEET_A_ORACLE + SHEET_A_NEW_STATES * SHEET_A_PER_NEW_STATE
-    a_port_p6, a_port_p7 = SHEET_A_ORACLE, SHEET_A_ORACLE + SHEET_A_NEW_STATES * SHEET_A_PER_NEW_STATE
-    a_cpu = a_oracle * ORACLE + (a_port_p6 + a_port_p7) * HOOKED
-    say(f"- Sheet A (fidelity; required): the oracle's {SHEET_A_ORACLE} matches on E011-r0001's state are run "
-        f"once, at P6, and reused at P7, which adds {SHEET_A_NEW_STATES} x {SHEET_A_PER_NEW_STATE} on its new "
-        f"start states: {a_oracle} oracle matches; the port runs {a_port_p6} at P6 and {a_port_p7} at P7 "
-        f"(the port changes between them). At {ORACLE:.1f} s an oracle match and {HOOKED:.1f} s a port match "
-        f"(ASSUMED: the port's speed on its own is unmeasured until P6; the hooked pilot's speed stands in): "
-        f"{a_cpu / 3600:.1f} CPU h, {a_cpu / 3600 / WORKERS:.1f} h elapsed")
+    say(f"- Sheet A: {a_oracle} oracle matches ({base} at P6, reused at P7, plus {nstates} x {per}); {a_port} port "
+        f"matches ({base} at P6, {base + nstates * per} at P7); {a_cpu / 3600:.1f} CPU h, "
+        f"{a_cpu / 3600 / WORKERS:.1f} h elapsed (the port at the hooked speed, ASSUMED)")
+    J.update(sheet_a_oracle=a_oracle, sheet_a_port=a_port, sheet_a_cpu_h=round(a_cpu / 3600, 1),
+             sheet_a_elapsed_h=round(a_cpu / 3600 / WORKERS, 1))
     arms = len(EFFECTS) + 1
-    for d, n in ((0.25, n25), (0.5, n50)):
+    for d, n, key in ((0.25, n25, "b25"), (0.5, n50, "b50")):
         m = arms * n
-        say(f"- Sheet B (effects for the bot; optional, goal2's call) at {d} goals: {len(EFFECTS)} effect arms and "
-            f"ONE baseline arm shared by all effects = {arms} arms x {n} = {m:,} matches; at the oracle's "
-            f"{ORACLE:.1f} s: {m * ORACLE / 3600:.1f} CPU h, {m * ORACLE / 3600 / WORKERS:.1f} h elapsed. Run once, "
-            f"after P7, on whichever engine is faster (an exact port gives the oracle's results)")
+        say(f"- Sheet B at {d} goals: {len(EFFECTS)} effect arms + one shared baseline = {arms} arms x {n} = "
+            f"{m:,} matches at the oracle's {om:.1f} s: {m * om / 3600:.1f} CPU h, {m * om / 3600 / WORKERS:.1f} h elapsed")
+        J.update({f"sheet_{key}_matches": m, f"sheet_{key}_cpu_h": round(m * om / 3600, 1),
+                  f"sheet_{key}_elapsed_h": round(m * om / 3600 / WORKERS, 1)})
     say("")
-    say("## Option D's first stage\n")
-    say(f"- P0 tooling + the image adapter: {FIXED_HOURS['P0 tooling'] + FIXED_HOURS['P6 adapter and the port on its own']} h of "
-        f"implementer time, then {ORACLE:.1f} s a match (range {omin}-{omax} s)")
-    say("")
-    say("## Totals\n")
-    for label, t in totals.items():
-        say(f"- implementer hours, {label}: {t:.1f}")
-    out = "\n".join(L) + "\n"
-    dest.write_text(out)
-    print(out)
+    d_hours = A("FIXED_HOURS")["P0 tooling"] + A("FIXED_HOURS")["P6 adapter and the port on its own"]
+    say(f"## Option D's first stage\n\n- P0 tooling + the image adapter: {d_hours} h, then {omin}-{omax} CPU s a match\n")
+    J.update(option_d_hours=d_hours)
+    dest.write_text("\n".join(L) + "\n")
+    jdest.write_text(json.dumps(J, indent=1, sort_keys=True) + "\n")
+    print("\n".join(L))
 
 
 if __name__ == "__main__":
