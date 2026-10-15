@@ -1,0 +1,93 @@
+# fix 141: the checks job of the last 40 CI runs (2026-10-15), per attempt: seconds between the previous test line and the result line of each scripted-sitting test (hist.txt; the two newest runs are this branch with the TEMPORARY step), then the sitting output of the 5 failed EarlySaveTests (fails.txt)
+## hist.txt
+38776112306 1 success {'EarlySaveTests': (27.2, 'ok'), 'GuardTests': (25.1, 'ok'), 'VideoTests': (11.0, 'ok')}
+38769381289 1 success {'EarlySaveTests': (27.0, 'ok'), 'GuardTests': (24.9, 'ok'), 'VideoTests': (11.0, 'ok')}
+38762944849 1 success {'EarlySaveTests': (32.6, 'ok'), 'GuardTests': (25.4, 'ok'), 'VideoTests': (11.0, 'ok')}
+38758254000 1 success {'EarlySaveTests': (31.9, 'ok'), 'GuardTests': (25.3, 'ok'), 'VideoTests': (11.0, 'ok')}
+38757453881 1 success {'EarlySaveTests': (33.1, 'ok'), 'GuardTests': (25.3, 'ok'), 'VideoTests': (11.0, 'ok')}
+38756648871 1 failure {'EarlySaveTests': (16.7, 'FAIL'), 'GuardTests': (28.3, 'ok'), 'VideoTests': (11.0, 'ok')}
+38756648871 2 success {'EarlySaveTests': (32.2, 'ok'), 'GuardTests': (24.9, 'ok'), 'VideoTests': (11.0, 'ok')}
+38754791368 1 failure {'EarlySaveTests': (16.7, 'FAIL'), 'GuardTests': (26.3, 'ok'), 'VideoTests': (11.0, 'ok')}
+38751521675 1 success {'EarlySaveTests': (32.7, 'ok'), 'GuardTests': (25.3, 'ok'), 'VideoTests': (11.0, 'ok')}
+38743816020 1 success {'EarlySaveTests': (28.8, 'ok'), 'GuardTests': (25.3, 'ok'), 'VideoTests': (11.0, 'ok')}
+38740877045 1 success {'EarlySaveTests': (31.2, 'ok'), 'GuardTests': (25.3, 'ok'), 'VideoTests': (11.0, 'ok')}
+38740086824 1 success {'EarlySaveTests': (32.0, 'ok'), 'GuardTests': (25.3, 'ok'), 'VideoTests': (11.0, 'ok')}
+38739835598 1 success {'EarlySaveTests': (31.8, 'ok'), 'GuardTests': (25.3, 'ok'), 'VideoTests': (11.0, 'ok')}
+38735634359 1 success {'EarlySaveTests': (30.5, 'ok'), 'GuardTests': (25.1, 'ok'), 'VideoTests': (11.0, 'ok')}
+38733581100 1 failure {'EarlySaveTests': (46.2, 'FAIL'), 'GuardTests': (27.6, 'ok'), 'VideoTests': (11.0, 'ok')}
+38733581100 2 success {'EarlySaveTests': (32.9, 'ok'), 'GuardTests': (25.3, 'ok'), 'VideoTests': (11.0, 'ok')}
+38710872252 1 failure {'EarlySaveTests': (16.6, 'FAIL'), 'GuardTests': (25.1, 'ok'), 'VideoTests': (11.0, 'ok')}
+38710872252 2 failure {'EarlySaveTests': (16.7, 'FAIL'), 'GuardTests': (25.2, 'ok'), 'VideoTests': (11.0, 'ok')}
+38710872252 3 success {'EarlySaveTests': (33.5, 'ok'), 'GuardTests': (25.3, 'ok'), 'VideoTests': (11.0, 'ok')}
+38709507753 1 success {'EarlySaveTests': (34.0, 'ok'), 'GuardTests': (25.3, 'ok'), 'VideoTests': (11.0, 'ok')}
+38701905492 1 success {'EarlySaveTests': (31.7, 'ok'), 'GuardTests': (25.3, 'ok'), 'VideoTests': (11.0, 'ok')}
+## fails.txt
+===== /tmp/claude-1000/-home-diego-projects-goal2-archaeology/b6ba5850-596d-43a6-9940-b1cb62838110/scratchpad/hist/116341782273.log
+[09:12:13] session /home/runner/work/goal2-archaeology/goal2-archaeology/scratch/human/sessions/20261015-091213
+[09:12:13] saved game: game/2B.GL (169553 bytes, sha256 e35ec7edc8f7bdc8..., newest .GL of the fetched saves (release goal2-saves)): load it in the game
+[09:12:16] dosbox-x started (pid 4561)
+[09:12:21] game window 4194315 (pid 4561)
+[09:12:26] signal 15: stopping after the current step
+Traceback (most recent call last):
+  File "/home/runner/work/goal2-archaeology/goal2-archaeology/experiments/E015-human-playthrough/scripted_keys.py", line 441, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/home/runner/work/goal2-archaeology/goal2-archaeology/experiments/E015-human-playthrough/scripted_keys.py", line 360, in main
+    raise RuntimeError("opening snapshot never appeared")
+RuntimeError: opening snapshot never appeared
+
+===== /tmp/claude-1000/-home-diego-projects-goal2-archaeology/b6ba5850-596d-43a6-9940-b1cb62838110/scratchpad/hist/116344005497.log
+[09:17:35] session /home/runner/work/goal2-archaeology/goal2-archaeology/scratch/human/sessions/20261015-091735
+[09:17:35] saved game: game/2B.GL (169553 bytes, sha256 e35ec7edc8f7bdc8..., newest .GL of the fetched saves (release goal2-saves)): load it in the game
+[09:17:35] dosbox-x started (pid 4569)
+[09:17:41] game window 4194315 (pid 4569)
+[09:17:48] signal 15: stopping after the current step
+[09:17:48] pause: F12+P; resume: F12+P again (the recorder presses Pause) or the Pause key
+[09:17:48] stop requested
+Traceback (most recent call last):
+  File "/home/runner/work/goal2-archaeology/goal2-archaeology/experiments/E015-human-playthrough/scripted_keys.py", line 441, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/home/runner/work/goal2-archaeology/goal2-archaeology/experiments/E015-human-playthrough/scripted_keys.py", line 360, in main
+    raise RuntimeError("opening snapshot never appeared")
+RuntimeError: opening snapshot never appeared
+
+===== /tmp/claude-1000/-home-diego-projects-goal2-archaeology/b6ba5850-596d-43a6-9940-b1cb62838110/scratchpad/hist/116417190676.log
+[12:20:18] session /home/runner/work/goal2-archaeology/goal2-archaeology/scratch/human/sessions/20261015-122018
+[12:20:18] saved game: game/2B.GL (169553 bytes, sha256 e35ec7edc8f7bdc8..., newest .GL of the fetched saves (release goal2-saves)): load it in the game
+[12:20:19] dosbox-x started (pid 4508)
+[12:20:34] window bind failed: no dosbox window with pid 4508 within 15.0s on DISPLAY=':600'
+Traceback (most recent call last):
+  File "/home/runner/work/goal2-archaeology/goal2-archaeology/experiments/E015-human-playthrough/scripted_keys.py", line 446, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/home/runner/work/goal2-archaeology/goal2-archaeology/experiments/E015-human-playthrough/scripted_keys.py", line 365, in main
+    raise RuntimeError("opening snapshot never appeared")
+RuntimeError: opening snapshot never appeared
+
+===== /tmp/claude-1000/-home-diego-projects-goal2-archaeology/b6ba5850-596d-43a6-9940-b1cb62838110/scratchpad/hist/116490334028.log
+[14:51:34] session /home/runner/work/goal2-archaeology/goal2-archaeology/scratch/human/sessions/20261015-145134
+[14:51:34] saved game: game/2B.GL (169553 bytes, sha256 e35ec7edc8f7bdc8..., newest .GL of the fetched saves (release goal2-saves)): load it in the game
+[14:51:34] dosbox-x started (pid 4596)
+[14:51:47] signal 15: stopping after the current step
+Traceback (most recent call last):
+  File "/home/runner/work/goal2-archaeology/goal2-archaeology/experiments/E015-human-playthrough/scripted_keys.py", line 441, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/home/runner/work/goal2-archaeology/goal2-archaeology/experiments/E015-human-playthrough/scripted_keys.py", line 360, in main
+    raise RuntimeError("opening snapshot never appeared")
+RuntimeError: opening snapshot never appeared
+
+===== /tmp/claude-1000/-home-diego-projects-goal2-archaeology/b6ba5850-596d-43a6-9940-b1cb62838110/scratchpad/hist/116496798791.log
+[15:03:46] session /home/runner/work/goal2-archaeology/goal2-archaeology/scratch/human/sessions/20261015-150346
+[15:03:46] saved game: game/2B.GL (169553 bytes, sha256 e35ec7edc8f7bdc8..., newest .GL of the fetched saves (release goal2-saves)): load it in the game
+[15:03:46] dosbox-x started (pid 4581)
+[15:03:59] signal 15: stopping after the current step
+Traceback (most recent call last):
+  File "/home/runner/work/goal2-archaeology/goal2-archaeology/experiments/E015-human-playthrough/scripted_keys.py", line 441, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/home/runner/work/goal2-archaeology/goal2-archaeology/experiments/E015-human-playthrough/scripted_keys.py", line 360, in main
+    raise RuntimeError("opening snapshot never appeared")
+RuntimeError: opening snapshot never appeared
+
