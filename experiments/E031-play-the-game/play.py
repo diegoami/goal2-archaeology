@@ -40,6 +40,7 @@ ROOT = HERE.parents[1]
 sys.path.insert(0, str(ROOT / "runtime" / "driver"))
 import driver  # noqa: E402
 import players  # noqa: E402
+import playerscreen  # noqa: E402
 sys.path.insert(0, str(HERE))
 import xtest  # noqa: E402
 
@@ -215,6 +216,24 @@ class Server:
             name = f"{self.n + 1:05d}-{req['label']}.sav"
             (self.kept / name).write_bytes(blob)
             return self.reply({**req, "file": name, "sha256": driver.sha256(blob)}, sc, dg, info, None, 1, t0)
+        if cmd == "scan":  # a player screen list: read the card, Down, n times (playerscreen.parse)
+            cards = []
+            prev = self.cur
+            for i in range(req["n"]):
+                sc, dg, info, _ = self.observe()
+                try:
+                    p = playerscreen.parse(sc)
+                    cards.append({"name": p["name"], "age": p["age"], "caps": p["caps"], "pos": p["position"],
+                                  "status": p["status"], "skills": p["skills"],
+                                  "panel": {k: v["word"] for k, v in p["panel"].items()},
+                                  "perf": p["performance"], "bias": p["bias"]})
+                except ValueError as e:
+                    cards.append({"error": str(e)})
+                if i < req["n"] - 1:
+                    self.d.keys("Down")
+            sc, dg, info, _ = self.observe()
+            entry = self.reply({"cmd": "scan", "n": req["n"]}, sc, dg, info, dg != prev, req["n"], t0)
+            return {**entry, "cards": cards}
         if cmd == "snap":  # a DOSBox-X screenshot (Pause, mapper-nohost.map): no savestate is taken
             cap = self.d.workdir / "cap"
             before = set(cap.glob("*.png"))
@@ -310,6 +329,56 @@ def show(resp, quiet=False, marked=False):
     return 0
 
 
+def watch(a):
+    """Read the screen every `--every` seconds and answer the match prompts (F030's keys): the replay
+    question `y` for the first `--replays` goals then `n`; "save this goal" `n`; a set-piece taker or
+    captain prompt `c` (the computer's pick); the summary save `n`. Stops and prints the screen at the
+    first screen that is not the live match or one of those prompts (half time, full time, an injury
+    stop, the bench), or after `--timeout` seconds."""
+    replays = a.replays
+    end = time.monotonic() + a.timeout
+    last_comment = None
+    while time.monotonic() < end:
+        resp = call(a.session, {"cmd": "show"})
+        if "error" in resp:
+            return show(resp)
+        text = resp["screen"]
+        rows = text.split("\n")
+        comment = " / ".join(r[32:66].strip() for r in rows[1:4]) if len(rows) > 4 else ""
+        if comment != last_comment and "spacebar-commentary" in text:
+            score = [re.search(r"│\s*(\d+)│", rows[i]) for i in (1, 3)] if len(rows) > 3 else [None, None]
+            score = [m.group(1) if m else "?" for m in score]
+            if a.verbose or any(w in comment for w in ("GOAL", "INJUR", "BOOK", "SENT", "PENALTY", "TIME")):
+                print(f"  [{score[0]}-{score[1]}] {comment}")
+            last_comment = comment
+        key = None
+        if "Do you want an action replay" in text:
+            key = "y" if replays > 0 else "n"
+            replays -= key == "y"
+        elif "Do you want to save this goal" in text:
+            key = "n"
+        elif "C-computer select" in text:
+            key = "c"
+        elif "Do you want to save the match summary" in text:
+            key = "n"
+        elif "SUBSTITUTION" in rows[-1] and "press any key" in rows[-1]:
+            key = "Return"  # the other side's substitution notice (it also leaves by itself)
+        if key:
+            if key == "Return":
+                print(f"  notice: {rows[-1].strip()!r} -> Return")
+                call(a.session, {"cmd": "send", "keys": [key], "timeout": 3})
+                continue
+            prompt = next((r.strip("■ ") for r in rows if "Do you want" in r or "C-computer" in r), "")
+            print(f"  prompt: {prompt!r} -> {key}")
+            call(a.session, {"cmd": "send", "keys": [key], "timeout": 3})
+            continue
+        if "spacebar-commentary" not in text and "REPLAY" not in text:
+            return show(resp, marked=a.m)
+        time.sleep(a.every)  # the read interval (each read is a savestate, which pauses the emulator)
+    print("watch: timeout")
+    return show(call(a.session, {"cmd": "show"}))
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("-m", action="store_true", help="mark the highlighted cells under each row")
@@ -353,12 +422,40 @@ def main(argv=None):
     p = sub.add_parser("note")
     p.add_argument("session")
     p.add_argument("text")
+    p = sub.add_parser("watch", help="follow a watched match, answering its prompts")
+    p.add_argument("session")
+    p.add_argument("--replays", type=int, default=0, help="answer Y to this many replay questions")
+    p.add_argument("--every", type=float, default=1.0)
+    p.add_argument("--timeout", type=float, default=560)
+    p.add_argument("-v", dest="verbose", action="store_true", help="print every commentary change")
+    p = sub.add_parser("find", help="press a key (Down) until the player card shows NAME")
+    p.add_argument("session")
+    p.add_argument("name")
+    p.add_argument("--key", default="Down")
+    p.add_argument("--max", type=int, default=100)
+    p.add_argument("-q", action="store_true")
+    p = sub.add_parser("scan", help="read n player cards of a list, pressing Down between them")
+    p.add_argument("session")
+    p.add_argument("n", type=int)
     p = sub.add_parser("snap", help="a DOSBox-X screenshot, no savestate (needs mapper-nohost.map)")
     p.add_argument("session")
     p.add_argument("label", nargs="?", default="snap")
     a = ap.parse_args(argv)
     if a.cmd == "serve":
         return serve(a)
+    if a.cmd == "watch":  # follow a watched match, answering its prompts, until it needs a decision
+        return watch(a)
+    if a.cmd == "find":  # press a key until the player card (row 7) names the player
+        for i in range(a.max + 1):
+            resp = call(a.session, {"cmd": "show"} if i == 0 else {"cmd": "send", "keys": [a.key], "timeout": 4})
+            if "error" in resp:
+                return show(resp)
+            rows = resp["screen"].split("\n")
+            if len(rows) > 7 and rows[7][1:15].strip() == a.name:
+                print(f"found {a.name} after {i} x {a.key}")
+                return show(resp, quiet=a.q, marked=a.m)
+        print(f"{a.name} not found in {a.max} x {a.key}")
+        return 1
     if a.cmd == "steps":
         for i, step in enumerate(a.steps):
             resp = call(a.session, {"cmd": "send", "keys": step.split(), "timeout": a.timeout})
@@ -383,7 +480,18 @@ def main(argv=None):
         req.update(text=a.text)
     elif a.cmd == "snap":
         req.update(label=a.label)
+    elif a.cmd == "scan":
+        req.update(n=a.n)
     resp = call(a.session, req)
+    if a.cmd == "scan":
+        for i, c in enumerate(resp.get("cards", [])):
+            if "error" in c:
+                print(i, c["error"])
+                continue
+            sk = " ".join(f"{k[:3]}{v:2d}" for k, v in c["skills"].items())
+            pn = " ".join(f"{k[:3]}:{v}" for k, v in c["panel"].items())
+            print(f"{i:2d} {c['name']:14s} {c['age']:2d} {c['pos'][:18]:18s} {sk} | {pn} | {c['status']} {c['perf']}")
+        return show(resp, quiet=True)
     if a.cmd == "stop":
         print(resp)
         return 0
