@@ -27,6 +27,7 @@ import argparse
 import hashlib
 import json
 import os
+import re
 import shutil
 import signal
 import socket
@@ -39,6 +40,8 @@ ROOT = HERE.parents[1]
 sys.path.insert(0, str(ROOT / "runtime" / "driver"))
 import driver  # noqa: E402
 import players  # noqa: E402
+sys.path.insert(0, str(HERE))
+import xtest  # noqa: E402
 
 OUT = HERE / "out"
 KEPT = ROOT / ".cache" / "kept" / "E031"
@@ -83,11 +86,40 @@ def marks(sc):
 class PlayDriver(driver.Driver):
     """The driver, with saved games copied into the game folder before DOSBox-X starts."""
 
-    def __init__(self, *a, gl=(), **k):
+    def __init__(self, *a, gl=(), mapper=None, **k):
         super().__init__(*a, **k)
         self.gl = [Path(p) for p in gl]
+        self.mapper = Path(mapper) if mapper else None
+
+    # With mapper-nohost.map the savestate is Scroll Lock alone and the load Print Screen alone, so the
+    # host key F12 is never pressed (make_mapper.py says why).
+    SINGLE_KEYS = {"s": "Scroll_Lock", "l": "Print"}
+
+    def keys(self, *names, hold=driver.KEY_HOLD):
+        """Function keys go as raw XTEST keycodes (xtest.py: xdotool adds Left Alt to them); the rest
+        through the driver (xdotool)."""
+        for name in names:
+            if re.fullmatch(r"F\d{1,2}", name):
+                code = xtest.key_event(self.display, name, True)
+                time.sleep(hold)  # key hold; logged below
+                xtest.key_event(self.display, name, False)
+                self.log(f"key {name} (raw keycode {code}) held {hold}s")
+            else:
+                super().keys(name, hold=hold)
+
+    def _hostkey(self, name, hold=driver.HOSTKEY_HOLD):
+        if not (self.mapper and self.mapper.name == "mapper-nohost.map"):
+            return super()._hostkey(name, hold)
+        k = self.SINGLE_KEYS[name]
+        self._x("keydown", k)
+        time.sleep(hold)  # key hold; logged below
+        self._x("keyup", k)
+        self.log(f"emulator key {k} (for host+{name}) held {hold}s")
 
     def _start_xvfb(self):
+        if self.mapper:  # the config names <work>/mapper.map; DOSBox-X reads it at start
+            shutil.copy(self.mapper, self.workdir / "mapper.map")
+            self.log(f"mapper file {self.mapper.name} copied in, sha256 {driver.sha256(self.mapper.read_bytes())}")
         for p in self.gl:  # launch() has just recreated the game folder from the release copy
             shutil.copy(p, self.game_dir / p.name)
             self.log(f"saved game {p.name} copied in, sha256 {driver.sha256(p.read_bytes())}")
@@ -95,7 +127,7 @@ class PlayDriver(driver.Driver):
 
 
 class Server:
-    def __init__(self, session, cycles, gl):
+    def __init__(self, session, cycles, gl, mapper=None):
         self.session = session
         self.out = OUT / session
         self.out.mkdir(parents=True, exist_ok=True)
@@ -108,7 +140,7 @@ class Server:
         steps = self.out / "steps.jsonl"
         self.n = sum(1 for _ in steps.open()) if steps.exists() else 0
         work = driver.SCRATCH / "play" / session  # its own game folder: two sessions never share one
-        self.d = PlayDriver({"cycles": cycles}, workdir=work, game_dir=work / "game", gl=gl)
+        self.d = PlayDriver({"cycles": cycles}, workdir=work, game_dir=work / "game", gl=gl, mapper=mapper)
         self.cur = None
 
     def log(self, entry):
@@ -158,6 +190,9 @@ class Server:
                 self.d.keys(k, hold=req.get("hold", driver.KEY_HOLD))
                 if req.get("gap") and i < len(keys) - 1:
                     time.sleep(req["gap"])  # a pause between keys the client asked for; logged in the request
+            if req.get("blind"):  # no savestate: the help viewer (F1) crashes DOSBox-X's savestate
+                time.sleep(req.get("after", 0.5))  # the client's pause after the keys; logged in the request
+                return {**self.log({"req": req, "blind": True}), "screen": "(not read: blind send)"}
             if req.get("timeout", 8) <= 0:
                 sc, dg, info, _ = self.observe()
                 return self.reply(req, sc, dg, info, dg != prev, 1, t0)
@@ -180,6 +215,25 @@ class Server:
             name = f"{self.n + 1:05d}-{req['label']}.sav"
             (self.kept / name).write_bytes(blob)
             return self.reply({**req, "file": name, "sha256": driver.sha256(blob)}, sc, dg, info, None, 1, t0)
+        if cmd == "snap":  # a DOSBox-X screenshot (Pause, mapper-nohost.map): no savestate is taken
+            cap = self.d.workdir / "cap"
+            before = set(cap.glob("*.png"))
+            self.d._x("keydown", "Pause")
+            time.sleep(driver.KEY_HOLD)  # key hold
+            self.d._x("keyup", "Pause")
+            end = time.monotonic() + 10
+            new = []
+            while time.monotonic() < end and not new:
+                time.sleep(0.2)  # poll for the PNG, bounded by 10 s
+                new = sorted(set(cap.glob("*.png")) - before)
+            if not new:
+                raise RuntimeError("no screenshot within 10 s")
+            name = f"{self.n + 1:05d}-{req.get('label', 'snap')}.png"
+            time.sleep(0.3)  # let DOSBox-X finish writing it
+            shutil.copy(new[-1], self.kept / name)
+            path = self.kept / name
+            return {**self.log({"req": req, "png": name, "sha256": driver.sha256(path.read_bytes())}),
+                    "screen": f"(screenshot {path})"}
         if cmd == "note":
             return {**self.log({"req": req}), "screen": ""}
         raise ValueError(f"unknown command {cmd}")
@@ -216,7 +270,7 @@ class Server:
 
 
 def serve(a):
-    s = Server(a.session, a.cycles, a.gl)
+    s = Server(a.session, a.cycles, a.gl, a.mapper)
     signal.signal(signal.SIGTERM, lambda *_: sys.exit(0))
     try:
         s.run()
@@ -264,16 +318,26 @@ def main(argv=None):
     p.add_argument("session")
     p.add_argument("--cycles", default="fixed 8000")
     p.add_argument("--gl", nargs="*", default=[])
+    p.add_argument("--mapper", default=str(HERE / "mapper-nohost.map"),
+                   help="the DOSBox-X mapper file (default mapper-nohost.map: savestate on Scroll Lock, "
+                        "screenshot on Pause, no host key; '' for DOSBox-X's built-in binds and the F12 chords)")
     p = sub.add_parser("send")
     p.add_argument("session")
     p.add_argument("keys", nargs="+")
     p.add_argument("--timeout", type=float, default=8)
     p.add_argument("--gap", type=float, default=0)
+    p.add_argument("--hold", type=float, default=0.08)
+    p.add_argument("--blind", type=float, default=None, help="send without any savestate, then wait this many seconds")
     p.add_argument("-q", action="store_true")
     p = sub.add_parser("type")
     p.add_argument("session")
     p.add_argument("text")
     p.add_argument("--timeout", type=float, default=4)
+    p.add_argument("-q", action="store_true")
+    p = sub.add_parser("steps", help="several sends, each settled; prints the last screen")
+    p.add_argument("session")
+    p.add_argument("steps", nargs="+", help="each step: keys separated by spaces, e.g. 'Down Down' 'Return'")
+    p.add_argument("--timeout", type=float, default=8)
     p.add_argument("-q", action="store_true")
     for name in ("show", "stop"):
         sub.add_parser(name).add_argument("session")
@@ -289,12 +353,26 @@ def main(argv=None):
     p = sub.add_parser("note")
     p.add_argument("session")
     p.add_argument("text")
+    p = sub.add_parser("snap", help="a DOSBox-X screenshot, no savestate (needs mapper-nohost.map)")
+    p.add_argument("session")
+    p.add_argument("label", nargs="?", default="snap")
     a = ap.parse_args(argv)
     if a.cmd == "serve":
         return serve(a)
+    if a.cmd == "steps":
+        for i, step in enumerate(a.steps):
+            resp = call(a.session, {"cmd": "send", "keys": step.split(), "timeout": a.timeout})
+            last = i == len(a.steps) - 1
+            if "error" in resp or not last:
+                show(resp, quiet=True)
+            if "error" in resp:
+                return 1
+        return show(resp, quiet=a.q, marked=a.m)
     req = {"cmd": a.cmd}
     if a.cmd == "send":
-        req.update(keys=a.keys, timeout=a.timeout, gap=a.gap)
+        req.update(keys=a.keys, timeout=a.timeout, gap=a.gap, hold=a.hold)
+        if a.blind is not None:
+            req.update(blind=True, after=a.blind)
     elif a.cmd == "type":
         req.update(text=a.text, timeout=a.timeout)
     elif a.cmd == "wait":
@@ -303,6 +381,8 @@ def main(argv=None):
         req.update(label=a.label)
     elif a.cmd == "note":
         req.update(text=a.text)
+    elif a.cmd == "snap":
+        req.update(label=a.label)
     resp = call(a.session, req)
     if a.cmd == "stop":
         print(resp)
