@@ -513,7 +513,7 @@ undefined2 maybe_ask_watch_match(int param_1,char param_2)
 
 
 // ---- 000E:6CA7  route_fixture  (f_000E_6CA7; Ghidra 1000:6CA7, __cdecl16near; found by routines.tsv)
-// routes one fixture by its first byte: 0xFE goes to the gate 000E:6C21 with flag 1 only when both teams are unmanaged (1771:0B77), and on a returned 1 to 000E:6E15, where fixture byte +2 = 0 calls 0791:BB2F and otherwise 0791:F1F6; any other first byte, or a 0 from the gate, goes to 000E:6DAE, where membership in the set at 0x695A, or in the set at 0x697A with a nonzero continent flag, can call the gate with flag 1 (and 6E15 on a 1), and otherwise the fixture goes to 000E:6970; so a fixture with a managed team and first byte 0xFE never reaches E80D or 6970  [established; F010]
+// routes one fixture by its first byte: 0xFE goes to the gate 000E:6C21 with flag 1 only when both teams are unmanaged (1771:0B77), and on a returned 1 to 000E:6E15, where fixture byte +2 = 0 calls 0791:BB2F and otherwise 0791:F1F6; any other first byte, or a 0 from the gate, goes to 000E:6DAE, where membership in the set at 0x695A, or in the set at 0x697A with a nonzero continent flag, can call the gate with flag 1 (and 6E15 on a 1), and otherwise the fixture goes to 000E:6970; so a fixture with a managed team and first byte 0xFE never reaches E80D or 6970; the managed-team test is only on the 0xFE path (seg_000E_09.asm:140-153), the kind-set paths call the gate with flag 1 and test no team (seg_000E_09.asm:163-171, 191-201) (F030)  [established; F010; F030]
 
 void __cdecl16near route_fixture(void)
 

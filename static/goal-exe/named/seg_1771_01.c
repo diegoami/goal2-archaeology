@@ -172,9 +172,10 @@ undefined1 save_or_load_game(char param_1)
 }
 
 
-// ---- 1771:03FF  f_1771_03FF  (f_1771_03FF; Ghidra 4000:03FF, __cdecl16near; found by routines.tsv)
+// ---- 1771:03FF  prompt_saved_game_name  (f_1771_03FF; Ghidra 4000:03FF, __cdecl16near; found by routines.tsv)
+// draws the template DS:0CC4 ("Please enter name of saved game :") and runs the line editor on the string at DS:0C72 (80 characters at most; the first key typed replaces the text); no timer  [likely; F030; read code/seg_1771_01.asm:464]
 
-void __cdecl16near f_1771_03FF(void)
+void __cdecl16near prompt_saved_game_name(void)
 
 {
   undefined1 extraout_AH;
@@ -193,9 +194,10 @@ void __cdecl16near f_1771_03FF(void)
 }
 
 
-// ---- 1771:0480  f_1771_0480  (f_1771_0480; Ghidra 4000:0480, __cdecl16near; found by routines.tsv)
+// ---- 1771:0480  choose_saved_game_name  (f_1771_0480; Ghidra 4000:0480, __cdecl16near; found by routines.tsv)
+// lists *.GL (up to 20): one file's stem becomes the default of the typed prompt 1771:03FF, several give a list (Enter picks, Esc falls to the typed prompt)  [likely; F030; read code/seg_1771_01.asm:519]
 
-void __cdecl16near f_1771_0480(void)
+void __cdecl16near choose_saved_game_name(void)
 
 {
   int iVar1;
@@ -271,14 +273,15 @@ void __cdecl16near f_1771_0480(void)
     sys_move_025D(4000,(int)DS:A96A,(int)((ulong)DS:A96A >> 0x10),(int)DS:A96E,
                   (int)((ulong)DS:A96E >> 0x10));
   }
-  f_1771_03FF();
+  prompt_saved_game_name();
   return;
 }
 
 
-// ---- 1771:0657  f_1771_0657  (f_1771_0657; Ghidra 4000:0657, __stdcall16far; found by routines.tsv)
+// ---- 1771:0657  open_saved_game_file  (f_1771_0657; Ghidra 4000:0657, __stdcall16far; found by routines.tsv)
+// the save (param 0) or load: a load first goes through 1771:0480 when the drive test 214B:dos_drive_not_cd is zero, otherwise 1771:03FF; Esc cancels (DS:A965 = 0xFF); the file is DS:0C72 + ".GL" (CS:0653), created or opened, then 1771:027B  [likely; F030; read code/seg_1771_01.asm:733]
 
-char __stdcall16far f_1771_0657(char param_1)
+char __stdcall16far open_saved_game_file(char param_1)
 
 {
   char cVar1;
@@ -290,11 +293,11 @@ char __stdcall16far f_1771_0657(char param_1)
   if (param_1 != '\0') {
     cVar1 = u214b_dos_drive_not_cd();
     if (cVar1 == '\0') {
-      f_1771_0480();
+      choose_saved_game_name();
       goto LAB_1771_0675;
     }
   }
-  f_1771_03FF();
+  prompt_saved_game_name();
 LAB_1771_0675:
   local_4 = '\0';
   if (DS:A977 == '\x1b') {
@@ -398,7 +401,7 @@ undefined2 __cdecl16far f_1771_080C(void)
   uVar3 = extraout_AH_01;
   if (bVar1) {
     do {
-      uVar2 = f_1771_0657(CONCAT11(uVar3,1));
+      uVar2 = open_saved_game_file(CONCAT11(uVar3,1));
       uVar3 = (undefined1)((uint)uVar2 >> 8);
       if ((char)uVar2 != '\0') break;
       uVar2 = u214b_report_dos_file_error(CONCAT11(uVar3,1));
@@ -423,7 +426,7 @@ void __cdecl16far f_1771_08B5(void)
   uint uVar1;
   
   do {
-    uVar1 = f_1771_0657(in_AX & 0xff00);
+    uVar1 = open_saved_game_file(in_AX & 0xff00);
     if ((char)uVar1 != '\0') {
       return;
     }

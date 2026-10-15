@@ -1,0 +1,27 @@
+ok r0013 states 339..339 REPLAY_ASK, span 0 s, next 340 OTHER +20 s
+ok r0013 states 736..736 REPLAY_ASK, span 0 s, next 737 SAVEGOAL_ASK +1 s
+ok r0013 states 742..742 REPLAY_ASK, span 0 s, next 743 OTHER +1 s
+ok r0013 states 87..87 SAVEGOAL_ASK, span 0 s, next 88 REPLAY_RUNNING +3 s
+ok r0013 states 332..332 SAVEGOAL_ASK, span 0 s, next 333 HIL_NAME +1 s
+ok r0013 states 737..737 SAVEGOAL_ASK, span 0 s, next 738 REPLAY_RUNNING +5 s
+ok r0013 states 99..99 SUMMARY_ASK, span 0 s, next 100 OTHER +15 s
+ok r0013 states 799..800 SUMMARY_ASK, span 5 s, next 801 OTHER +7 s
+ok r0013 states 28..28 WATCH_ASK, span 0 s, next 29 OTHER +4 s
+ok r0013 states 101..106 WATCH_ASK, span 56 s, next 107 OTHER +2 s
+ok r0013 states 111..111 WATCH_ASK, span 0 s, next 112 OTHER +5 s
+ok r0013 states 280..280 CAPTAIN, span 0 s, next 281 OTHER +5 s
+ok r0013 states 333..333 HIL_NAME, span 0 s, next 334 REPLAY_RUNNING +2 s
+ok r0013 states 2..2 GL_NAME, span 0 s, next 3 OTHER +2 s
+ok r0013 states 802..806 GL_NAME, span 29 s, next 807 OTHER +20 s
+ok r0013 states 865..865 GL_NAME, span 0 s, no snapshot follows
+ok r0017 states 202..202 CAPTAIN, span 0 s, next 203 OTHER +4 s
+ok r0017 states 286..286 SUMMARY_ASK, span 0 s, next 287 OTHER +2 s
+ok r0017 states 3..3 GL_NAME, span 0 s, next 4 OTHER +2 s
+ok r0017 states 290..295 GL_NAME, span 17 s, next 296 QUIT_ASK +4 s
+ok r0013 state 99: previous snapshot 98 OTHER 5 s earlier
+ok r0013 state 799: previous snapshot 798 OTHER 15 s earlier
+ok r0013 state 339: previous snapshot 338 OTHER 20 s earlier
+ok r0013 state 2: [A923]+0x41 = 0
+ok r0017 state 2: [A923]+0x41 = 0
+ok r0017 state 3: [A923]+0x41 = 0
+26 of 26 claims match

@@ -841,7 +841,7 @@ void __stdcall16far country_list_screen(uint param_1)
               local_4 = '\x01';
             }
             else if (param_1 == 1) {
-              f_1771_7BA2(pbVar5[DS:0DB6 + DS:0DB4 + -1]);
+              country_fixture_list(pbVar5[DS:0DB6 + DS:0DB4 + -1]);
             }
             else if (param_1 == 3) {
               f_1771_1D5C(pbVar5[DS:0DB6 + DS:0DB4 + -1]);
