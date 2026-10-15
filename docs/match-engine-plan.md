@@ -20,13 +20,13 @@ for this plan on the original's own code in the Unicorn harness. This page holds
   of 10 whole matches (about 93,000 calls each) and each of three deliberate errors changed the match. A
   match of the original now costs 8-17 s instead of 20-51 s (the delay count written at kick-off, 10 of 10
   matches unchanged). Showing that a re-invented engine is "close enough" takes hundreds of oracle matches
-  per effect and never ends in a yes; an exact port is checked in minutes.
+  per effect, and every gap found means changing the model and measuring again; an exact port is checked
+  in minutes.
 - **Cost: about 40 hours of implementer time (range 30-60) in eight tasks of 3-6 hours, plus one review
   each; about one hour of CPU per task; at most one short DOSBox-X session (P7) and no session of the
-  owner.** The result is an
-  exact engine for the friendly from E011's start state and the seed families tried, an
-  assumption-labelled engine for the paths no start state reached, and a distribution sheet that says how
-  close those are.
+  owner.** The result is an engine exact on every path the seed families and start states reach, the
+  remaining paths ported as read and labelled so, and a distribution sheet that says how close the whole
+  is.
 - **The remaster can have the real engine before the port is finished** (option D below): the harness that
   runs the original's code is an engine already, at 8-17 s a match; ported parts replace it piece by piece.
   Whether goal2 takes that is goal2's decision (L112).
@@ -72,7 +72,7 @@ not move them the way the original does.
 | --- | --- | --- | --- | --- |
 | A. routine proofs (M3-M6 as in `docs/plan.md`) | substitute one routine at a time, each proved side by side at every call, with mutation harnesses | T42, T43 and T45-T48 took six tasks for about ten small routines; a proved run took 70-80 minutes per record on the loaded machine (T48). At that rate 190 routines are hundreds of hours | exact, routine by routine | too expensive: the proof per call is what costs, and the match check is as strong |
 | B. a new engine, calibrated | write a pitch simulation from the findings' rules, tune free parameters to the original's distributions | 10-15 h to write; calibration is open-ended. Each effect needs hundreds of matches per arm (below); E026 could not see any tactic's effect on goals at 30 matches per arm | "close enough" at best, never shown to be; the bot learns the model's quirks, which do not transfer to the original (`docs/plan.md`: a strategy that wins in it must win in the original) | rejected as the main route; kept as the fallback for paths that are not ported |
-| C. port and check whole matches (recommended) | translate the listing part by part, memory-faithful; substitute without proof; accept on identical whole matches over a seed family; prove only to locate an error | about 35 h in eight tasks, 1 h of CPU each (below) | exact where the seed families reach; a measured distance where they do not | **recommended** |
+| C. port and check whole matches (recommended) | translate the listing part by part, memory-faithful; substitute without proof; accept on identical whole matches over a seed family; prove only to locate an error | about 40 h (30-60) in eight tasks, 1 h of CPU each (below) | exact where the seed families reach; a measured distance where they do not | **recommended** |
 | D. run the original's code as the engine | goal2 drives the Unicorn harness with its own state written into the guest memory | one adapter task (the image adapter of step P6, done first); 8-17 s a match | exact by construction, now; needs the original's `GOAL.EXE` bytes at run time (a private release asset, U17) and is slow for the bot | a stopgap for goal2 to choose; C replaces it piece by piece through the same hooks |
 
 Why C over B, in numbers: watched goals have a standard deviation of 1.37 per match and bookings 1.44
@@ -101,7 +101,7 @@ bytes F013 calls timing artefacts, so its watchstart adds little once the seed i
 | P2 | **Movement**: motion and the offside line (`8537`, `8E24`, `8AE9`, `8CF5`, `90C5`, the referee `9119`, the ball's travel `835F`, `83A2`), positioning and marking (`419C`-`4D3F`, `1F3C`-`20E3`, `1771:3E2F`, `3EF8`) | ~2,900 | the same, with P1's ports in | 5 h |
 | P3 | **The ball and the holder's choices**: passing, shooting, launches, the decisions and contests (`2FB1`-`4151`, `4DA9`-`5A8E`) | ~3,300 | the same | 6 h |
 | P4 | **Duels, goals and restarts**: `5B36`-`6240`, `6337`-`7621` (kick-offs, throw-ins, corners, goal kicks, free kicks, the goal and after-goal swing) | ~2,900 | the same; plus the frontier routines reached by an edited state where one is cheap (S) | 6 h |
-| P5 | **The rest of the match**: fouls, cards, injuries, the cap and bans (`7CC5`-`82EB`, `798D`, `7B77`, `7D56`, `7A43`), substitutions and the computer manager (`8062`, `A260`-`CC2D`), commentary and ratings (`1D4A`-`1EB5`), the frame (`9564`, `970C`, `97D0`, `983F`, `9A32`), the per-match set-up `A4A1` | ~3,500 | the whole tick loop is the port: no guest instruction runs from kick-off to the full-time board except the skipped display; 40 of 40 identical | 6 h |
+| P5 | **The rest of the match**: fouls, cards, injuries, the cap and bans (`7CC5`-`82EB`, `798D`, `7B77`, `7D56`, `7A43`), substitutions and the computer manager (`8062`, `A260`-`CC2D`), commentary and ratings (`1D4A`-`1EB5`), the frame (`9564`, `970C`, `97D0`, `983F`, `9A32`), the per-match set-up `A4A1` | ~3,500 | from kick-off to full time every engine routine is a port (only the boards, the menus and the removed display code are still guest code); 40 of 40 identical | 6 h |
 | P6 | **The engine on its own**: the port runs a match from a match image (the bytes of DS, the pitch records, the picture, the player and country records) without Unicorn; an adapter writes the image from a squad, a formation and tactics, and reads back the result (score, scorers, minutes, ratings, energy, form, cards, injuries, the commentary's events). This is option D's adapter too | — | the port alone, from the images the harness dumps at kick-off, equals the harness on 40 of 40 matches; its speed per match is stated | 4 h |
 | P7 | **Rare paths and competitive matches**: penalties (`6ECF`, `690C`), sendings off, extra time, the shoot-out `A10A`, the two-substitution budget, the frontier of E032's `union-5seeds` table; start states from competitive fixtures (from the play-the-game run's savestates, or one DOSBox-X session to the first cup match), and edited states | ~800 | identical on each start state that reaches the path; what no state reaches is listed with its assumption | 4 h |
 | — | **The distribution sheet**, run once at P6 and once at P7: 500 oracle matches and 500 port matches over the start states, the nine board statistics and the possession bar, the means and their intervals; then the effect table for the bot: skill +4, energy, form, each tactic element, one flipped at a time, 470 matches per arm on the port (fast) with 100 per arm on the oracle as the check | — | port and oracle within their intervals everywhere; any gap names a path that is not exact | 2 h of work, about 3 h of CPU |
@@ -110,8 +110,9 @@ Total: about 40 hours of implementer time, for about 15,900 instructions. The pi
 instructions in 40 minutes, exact at the first run, about 900 an hour) is the optimistic end: it ran on
 clean, well-annotated code. The step estimates assume about 40% of that rate on average (about 370 an hour),
 for nested procedures, Pascal sets, the long arithmetic, state machines and debugging; at half the pilot's
-rate the whole is about 30 hours, at a quarter of it about 60. Reviews: one per step, re-running the step's check (5-10 minutes of CPU) and its
-falsifiers; no mutation harnesses (T47, T48) unless a reviewer asks for one.
+rate the whole is about 30 hours, at a quarter of it about 60. Reviews: one per step, re-running the
+step's check (5-10 minutes of CPU) and its falsifiers; no mutation harnesses (T47, T48) unless a reviewer
+asks for one.
 
 What would change the estimate: a part whose port stays non-exact after one hour of locating is accepted
 non-exact, with its divergence recorded (the tick, the routine, the field), and moved to the distribution
