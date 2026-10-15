@@ -1,0 +1,173 @@
+id	claim	kind	session	step	needle
+C01	Under the driver's key path a function key reaches the game with Alt: F10 read as Alt+F10 (0x71 in the BIOS buffer, DS:A976 = 0xD5)	log	alt		"DS:A976": "d5"
+C01b	the F10 Alt code is in the BIOS buffer	log	alt		00 71
+C02	With the F12 host chord, the guest's Left Alt is held from the title screen on (0040:0017 bit 3, 0040:0018 bit 1; Alt+F12 = 0x8C in the buffer)	log	alt		"0040:0017": "00001000"
+C02b	the same at the menu, after F10	log	alt	10	"0040:0018": "00000010"
+C03	With raw XTEST keys and no host chord, F10 on the menu asks to quit	screen	t5		Are you sure you want to quit? (Y/N)
+C04	After F1 every savestate kills DOSBox-X (exit -6), even after Esc	log	t8		exited with code -6
+C04b	F1 then Esc were sent blind before that read	log	t8		"keys": ["Escape"]
+C04c	the help viewer was seen on a screenshot (PNG kept in .cache/kept/E031/t8, sha256 in the log)	log	t8		00009-help1.png
+C05	F5 on the menu: the game goes on (the next key changes the screen)	log	mp		"keys": ["F5"]
+C05b	after F5 a Down still moves the menu	log	mp	80	"changed": true
+C06	Up at the top of the pool list changes nothing (lists do not wrap)	log	g1	720	"changed": false
+C07	A Down sent after Enter opened team tactics was lost: the next Enter toggled the defence row	screen	g1	1283	defence─system──full pitch
+C08	Enter on the captain then R at once gives the quick result (HANG ON in the legend)	screen	g1		   HANG ON    spacebar-commentary
+C09	First run from G1B.GL: Malta 1-0 Holland	screen	g1	520	MALTA----------│ 1
+C09b	Second run from G1B.GL (after the crash and reload): the same Malta 1-0 Holland	screen	g1	759	MALTA----------│ 1
+C10	A screen read costs about 0.2 s (a show)	log	g1		"secs": 0.2}
+C10b	One watched half, read without pause: 235 s	log	g1	252	"secs": 235.04
+C11	Title, one .GL: the name line comes with that name filled in	screen	g1	48	Please enter name of saved game :  ☻1A
+C11b	Title, several .GL: a list, Esc to type a name	screen	chk		type in a name
+C12	Players screen	screen	g1		How many players  1 2 3 4 5 6  ?
+C13	Difficulty TOO EASY (Germany)	screen	run1		level of difficulty : TOO EASY
+C13b	Difficulty EASY TASK (Italy)	screen	run1		level of difficulty : EASY TASK
+C13c	Difficulty QUITE EASY (Costa Rica)	screen	run1		level of difficulty : QUITE EASY
+C13d	Difficulty SIMPLE (Holland, Denmark)	screen	run1		level of difficulty : SIMPLE
+C14	Ins swaps to the world ranking list (Germany, Argentina, Italy at the top)	screen	run1	8	│Argentina------│
+C14b	Space shows the highlighted country's players	screen	run1	6	use ↓↑ to find
+C15	Manager name line	screen	g1		Type in characters (maximum 14). ◄┘-accept Esc-abort
+C15b	The papers split the name into initial and surname (C LAUDE)	screen	run1		C LAUDE
+C16	Two players: the first manager's sixth option is next player	screen	mp		next player
+C16b	then the second manager's menu	screen	mp		│B Two         │unknown
+C17	Own fixtures: Enter on a friendly cancels it	screen	g1	13	CANCELLED
+C17b	Enter on the cancelled one arranges another (choose the opponent)	screen	g1	14	PLEASE SELECT YOUR OPPONENTS
+C17c	Team info Space: that country's players	screen	g1	18	P Bonner
+C17d	Team info legend offers T-tactics (not pressed there)	screen	g1	11	spacebar-players T-tactics
+C18	Fixture list: Enter marks a match to watch (the hint turns to auto result)	screen	g1	23	auto result
+C19	Tournament legend: spacebar continent, arrows display (the keys were not pressed)	screen	g1		Use ←→ to select display
+C20	History: results by season, top scorers, caps	screen	g1		┌RESULTS┬
+C20b	Down on history: the country browser (another country's history was not opened)	screen	g1	30	spacebar-players
+C21	Space on the menu opens select squad	screen	g1	50	SELECT YOUR TEAM
+C22	F2 on the menu: your own name	screen	g1	1783	Type in characters (maximum 14)
+C22b	the new name	screen	g1	1784	C Claude
+C23	F3: the shipped Y.HIL is Neth. Antilles 2 v U.S.A 0	screen	g1	1777	NETH. ANTILLES-│ 2
+C23b	its play shows the goal (REPLAY)	screen	g1		REPLAY     spacebar-commentary
+C24	F4: the summary S-2 opens as that match's menu	screen	g1	2815	ICELAND--------│ 2
+C24b	its match stats: the board	screen	g1		MAN OF THE MATCH W Kieft
+C25	F7, first save: default SAVED	screen	g1	38	SAVED▒▒▒▒.GL
+C25b	F7, later saves: default the last name	screen	g1	490	G1A▒▒▒▒▒▒.GL
+C25c	A .GL is 169,553 bytes: all 17 kept saves	file			out/saves.tsv :: \s169553\s[0-9a-f]{64}\s :: =17
+C26	F10: quit question, then save question	screen	g1		Do you want to save this game? (Y/N)
+C26b	after the answer GOAL exits and DOSBox-X closes (exit 0)	log	g1		exited with code 0
+C27	Squad screen: the pool	screen	g1	52	pool of players
+C28	Enter on a pool player: put here	screen	g1	110	◄┘-put here
+C28b	Pool pick done: Ford in the squad where Wouters was	screen	g1	128	│J Ford      │B│
+C29	Ins: the squad list right after Ins holds pool players (Flannery)	screen	g1	1787	│W Flannery  │F│
+C30	F2 on a player: maximum 12	screen	g1	168	Type in characters (maximum 12)
+C30b	the new name	screen	g1	170	J Fordham
+C31	R steps the position: right winger, centre forward, striker	screen	g1	178	│striker           │right winger
+C31b	C: back to the club position	screen	g1	179	│right winger      │right winger
+C31c	the cycle passes goalkeeper after striker	screen	g1	182	│goalkeeper        │right winger
+C31d	and defensive midfield after right back	screen	g1	187	│defensive midfield│right winger
+C32	Formation 4-4-2 after the picks and moves	screen	g1	227	formation  4-4-2
+C32b	3-5-2	screen	g1	1975	formation  3-5-2
+C32c	4-3-3	screen	g1	2890	formation  4-3-3
+C33	T on Van Basten: Enter cycles the position tactic to one option with P	screen	g1	222	position─────stay back P
+C33b	the next Enter: the other option with P	screen	g1	223	position──push forward P
+C33c	mark: Protect zone P	screen	g1		mark──────Protect zone P
+C33d	mark: a named opponent	screen	g1		mark─L Jeitz───────────P
+C34	Card status words: selected, on the bench, injured, suspended	screen	g1		suspended│
+C34b	injured	screen	g1		         injured│
+C35	A marked fixture asks to watch	screen	g1	241	Do you want to watch this match ?
+C35b	a fixture of our own qualifying group asks too (Luxembourg v Eire)	screen	g1	1219	Do you want to watch this match ?
+C35c	a World Cup knockout fixture asks (Germany v Portugal, last 16)	screen	g1	3655	Do you want to watch this match ?
+C36	The opponent's team tactics: view only, hit any key	screen	g1	1253	Luxembourg----- status poor
+C37	Ins on the match menu: the label names the next press	screen	g1	2715	turn automatic action replay ON
+C38	Captain screen	screen	g1		◄┘-select  CAPTAIN
+C38b	Another captain chosen (Koeman)	screen	g1		Koeman wins the toss
+C39	Speed: Left slows (one » less)	screen	g1		←→-speed»»»»    R-result
+C39b	Display: arrows mode	screen	g1	1271	►           ◄
+C39c	Space: the commentary view	screen	g1	4658	view commentary
+C40	Half-time board	screen	g1	253	hit any key                      Esc,◄┘-bench
+C40b	Enter on the watched match's half-time board: the match menu	screen	g1	254	Hit INS to turn automatic action replay
+C40c	Space on the quick result's half-time board (step 394): the match menu	screen	g1	395	Hit INS to turn automatic action replay
+C41	Bench: 5 substitutions in a friendly	screen	g1	257	substitutions left │ 5
+C41b	Bench: 1 left after one in a qualifier (2 in all)	screen	g1	1487	substitutions left │ 1
+C41c	Bench: 1 left after one in the World Cup last 16	screen	g1	3756	substitutions left │ 1
+C41d	Legend: take off this player	screen	g1		◄┘-take off this player
+C41e	Legend: put on this player	screen	g1		◄┘-put on this player
+C41f	Enter on a substitute first: no visible change, still 2 left	screen	g1	4464	substitutions left │ 2
+C41g	an Esc sent after the substitution left the screen unchanged	log	g1	4496	"changed": false
+C41h	The substitute stays in the eleven for the next match (Kieft at the menu)	screen	g1	382	│W Kieft     │$│
+C42	Replay question after a goal	screen	g1		Do you want an action replay? (Y/N)
+C42b	Save-this-goal question	screen	g1		Do you want to save this goal? (Y/N)
+C42c	The goal file name after F3 on Y.HIL: Y (cursor over it)	screen	g1		Please enter name of file       :  ☻▒▒▒▒▒▒▒▒.HIL
+C42d	Y.HIL in g1's game folder is the saved goal, not the shipped file	file			out/g1/game-folder.tsv :: ^Y\.HIL\s3989\se723ac0dab90501dbcbbf10b940cd86bb7d3900524a09f982173de9ff2e28885\s.*CHANGED :: =1
+C43	Taker prompt: corner	screen	g1		CORNER   taker
+C43b	Taker prompt: goal kick	screen	g1		GOAL KICK taker
+C44	The other side's substitution notice	screen	g1		Claeson on for Degryse
+C45	Your player injured, then substitution opportunity	screen	g1		Van Vossen INJURED
+C45b	the notice	screen	g1		SUBSTITUTION OPPORTUNITY
+C46	Quick result, injured player left on: the notice again and again	screen	g1	4395	SUBSTITUTION OPPORTUNITY
+C46b	still at the end of the loop	screen	g1	4435	SUBSTITUTION OPPORTUNITY
+C47	Extra time: the menu after 90 minutes level	screen	g1	3830	---- EXTRA TIME ----
+C47b	extra time has a half time	screen	g1	3851	---- HALF TIME ----
+C48	Shoot-out: press any key	screen	g1	3873	penalty shoot out  PRESS ANY KEY
+C48b	the order screen	screen	g1	3876	to select the order      Hit Esc to undo
+C48c	the first pick numbered	screen	g1	3884	E Hedges    :$ 1
+C48d	shoot-out commentary: to shoot	screen	g1	3933	Hedges to shoot
+C48e	a save in the shoot-out	screen	g1		blocked by Scholefiel
+C48f	hits the post	screen	g1		De Mol hits the post
+C49	Sudden death: after five each level (Gregory's kick saved, 5-5 on the board)	screen	g1	4611	saved by Woods
+C49b	a sixth kick for England	screen	g1	4613	Keown to shoot
+C49c	and a sixth for Holland	screen	g1	4615	Rijkaard to shoot
+C49d	Holland's sixth goes in	screen	g1	4617	**** GOAL **** by Rijkaard
+C50	The shoot-out came in a quick result (the 3rd place match started with Enter, R)	log	g1	4073	"keys": ["Return", "r"]
+C51	Summary question after a watched match; default S-1	screen	g1	380	S-1▒▒▒▒▒▒.SUM
+C51b	S-2 the next time	screen	g1		S-2▒▒▒▒▒▒.SUM
+C52	2028 still shown after the first year end	screen	g1	1756	FAIL TO QUALIFY FOR
+C52b	stage 3 begins at that step	log	g1	1756	"stage": 3
+C52c	The game's history calls the seasons 2027/28 and 2029/30	screen	chk	11	│2027/28│EC│ 9│ 7│ 5│
+C52d	Year 3 title 2030	screen	g1	2394	2030
+C52e	Year 5 title 2032	screen	g1	4644	2032
+C53	Year 1: 6 qualifiers and 6 friendlies	screen	g1	12	Holland   v   Luxembourg-----   qualifying
+C53b	Year 2: 9 friendlies	screen	g1	1772	Holland   v   Germany--------   friendly
+C53c	Year 3: the qualifiers and friendlies listed	screen	g1	2599	Holland   v   Iceland--------   qualifying
+C54	Next opponents empty when no fixture is left	screen	g1	1730	─│               │────└─┴
+C55	Winners page	screen	g1	2379	│winner│Scotland
+C56	A retirement at the year end	screen	g1		RETIRES FROM THE
+C56b	the young replacement in the eleven (Bolton)	screen	g1	2394	│K Bolton    │¢│
+C57	A squad player quits during a stage (Kelso)	screen	g1	2560	QUITS INTERNATIONAL
+C57b	another gives up during year 4 (the bulletin before a match)	screen	g1	3421	GIVES UP !
+C58	The squad screen and the pool open during the World Cup finals	screen	g1	3975	pool of players
+C59	Papers' advice names a pool player	screen	g1		DESERVES A CAP
+C60	SACK headline	screen	g1		SACK
+C61	Bergkamp's card in year 1: age 23	anyscreen	g1		│D Bergkamp    │ 23│
+C61b	Bergkamp's card after the first year end: age 24	anyscreen	g1		│D Bergkamp    │ 24│
+C29b	before Ins: Bergkamp in the squad	screen	g1	1786	│D Bergkamp  │F│
+C29c	after Ins: Bergkamp gone	notscreen	g1	1787	│D Bergkamp  │F│
+C29d	before Ins: Gullit in the squad	screen	g1	1786	│R Gullit    │
+C29e	after Ins: Gullit gone	notscreen	g1	1787	│R Gullit    │
+C29f	before Ins: Rijkaard in the squad	screen	g1	1786	│F Rijkaard  │M│
+C29g	after Ins: Rijkaard gone	notscreen	g1	1787	│F Rijkaard  │M│
+C29h	pick from the pool: Bergkamp back in the squad	screen	g1	1836	│D Bergkamp  │F│
+C29i	pick from the pool: Rijkaard back in the squad	screen	g1	1926	│F Rijkaard  │M│
+C41i	then Enter on one of the eleven makes the change: 1 left	screen	g1	4474	substitutions left │ 1
+C41j	a second Esc left the bench for the match menu	screen	g1	4511	Hit INS to turn automatic action replay
+C41k	take-off first: Enter on one of the eleven, no visible change, still 2 left	screen	g1	3750	substitutions left │ 2
+C62	year 2: the first friendly's full-time board at 20:33:27	file			out/g1/progress.md :: ^\| 2007 \| 2026-10-15T20:33:27 \| friendly :: =1
+C62b	year 2: the ninth at 20:38:13	file			out/g1/progress.md :: ^\| 2309 \| 2026-10-15T20:38:13 \| friendly :: =1
+C63	first watched match: kick-off at 19:49:32	log	g1	251	2026-10-15T19:49:32
+C63b	full time at that step	screen	g1	372	---- FULL TIME ----
+C63c	the time of that board	log	g1	372	2026-10-15T19:57:10
+C64	last-16 match: kick-off at 21:02:03	log	g1	3702	2026-10-15T21:02:03
+C64b	its 90-minute board at 21:05:51	log	g1	3827	2026-10-15T21:05:51
+C65	g1 loaded G1A.GL at 19:44:37	file			out/g1/progress.md :: ^\| 47 \| 2026-10-15T19:44:37 \| launch \(saved games copied in: G1A.GL\) :: =1
+C65b	g1 entered year 5 (stage 2, season word 2) at 21:17:58	file			out/g1/progress.md :: ^\| 4634 \| 2026-10-15T21:17:58 \| stage 2, season word 2 :: =1
+C66	bulletin: THE SOCCER BULLETIN, hit any key	screen	g1	8	THE SOCCER BULLETIN
+C66b	bulletin: the qualifying groups	screen	g1	9	GROUPS ARE ANNOUNCED
+C68	a watched match of others: play goes to the pitch	screen	g1	1222	spacebar-commentary
+C68b	with no captain screen	notscreen	g1	1222	select  CAPTAIN
+C68c	R then gives its result (half time already after 7 s)	screen	g1	1225	---- HALF TIME ----
+C71	quick-result injury: taking the injured man off (1 substitution left)	screen	g1	4474	substitutions left │ 1
+C71b	then play went on into extra time's half time	screen	g1	4521	---- HALF TIME ----
+C72	year 4: three World Cup group matches	file			out/g1/progress.md :: \| group stage \| :: =3
+C72b	year 4: last 16, quarter-final, semi-final, third place	file			out/g1/progress.md :: \| (last 16|qtr-final|semi-final|3rd place) \| :: =4
+C72c	year 4: five friendlies before the group (Puerto Rico to Romania)	file			out/g1/progress.md :: ^\| (3325|3365|3409|3450|3489) \|.*friendly :: =5
+C73	a retirement during year 4 (Holloway)	screen	g1	3335	RETIRES FROM THE
+C74	rounds report the stage byte 7 at that step	log	g1	3335	"stage": 7
+C75	year 1 is stage 2 (season word 0) from the new game's first fixture	file			out/g1/progress.md :: \| stage 2, season word 0, fixture 1/769 \| :: >=1
+C75b	year 2 has a stage 4	file			out/g1/progress.md :: \| stage 4, season word 0, fixture 1345/1353 \| :: =1
+C75c	year 3 starts stage 5 with season word 1	file			out/g1/progress.md :: \| stage 5, season word 1, fixture 1361/2001 \| :: =1
+C75d	then stage 6	file			out/g1/progress.md :: \| stage 6, season word 1, fixture 2001/2017 \| :: =1
+C75e	year 4 has stage 8 (the knockouts)	file			out/g1/progress.md :: \| stage 8, season word 1, fixture 2385/2393 \| :: =1

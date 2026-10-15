@@ -1,0 +1,30 @@
+commit dfe8044 (worktree clean apart from this file: yes), 2026-10-15T22:33:01Z
+
+$ python3 experiments/E031-play-the-game/verify_saves.py   (last 1 lines)
+17 of 17 saves verified, 0 problems
+exit 0
+
+$ python3 experiments/E031-play-the-game/progress.py g1 --md experiments/E031-play-the-game/out/g1/progress.md   (last 6 lines)
+| 4021 | 2026-10-15T21:10:30 | qtr-final | ROMANIA 0-1 HOLLAND |
+| 4057 | 2026-10-15T21:10:59 | semi-final | ARGENTINA 2-0 HOLLAND |
+| 4438 | 2026-10-15T21:13:42 | 3rd place | ENGLAND 1-1 HOLLAND |
+| 4634 | 2026-10-15T21:17:58 | stage 2, season word 2, fixture 1/769 | |
+| 4671 | 2026-10-15T21:19:01 | friendly | HOLLAND 2-0 BULGARIA |
+| 4682 | 2026-10-15T21:22:03 | server stopped, emulator terminated | |
+exit 0
+
+$ python3 experiments/E031-play-the-game/claims.py
+172 of 172 claims found where claims.tsv says; the guide cites 172 of them; 0 problems
+exit 0
+
+$ python3 tools/check_links.py   (last 1 lines)
+links and JSON ok (2009 files)
+exit 0
+
+$ python3 -m unittest tests.test_agent_permissions tests.test_screens tests.test_e031_checks   (last 3 lines)
+Ran 37 tests in 4.176s
+
+OK
+exit 0
+
+ALL PASSED

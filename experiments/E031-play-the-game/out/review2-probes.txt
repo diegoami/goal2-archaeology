@@ -1,0 +1,8 @@
+Review round 2 probes: the checks at 2ad69bf (old) and now (new), in throw-away copies.
+
+1 old: checks with a failing verify_saves -> exit 0; last line: Stopping at filesystem boundary (GIT_DISCOVERY_ACROSS_FILESYSTEM not set).
+1 new: checks with a failing verify_saves -> exit 1; last line: FAILED: verify_saves, check_links, unit tests
+2 old: claims with out/saves.tsv emptied -> exit 0; last line: 135 of 135 claims found where claims.tsv says
+2 new: claims with out/saves.tsv emptied -> exit 1; last line: 171 of 172 claims found where claims.tsv says; the guide cites 172 of them; 1 problems
+3 old: claims with out/g1/game-folder.tsv emptied -> exit 0; last line: 135 of 135 claims found where claims.tsv says
+3 new: claims with out/g1/game-folder.tsv emptied -> exit 1; last line: 171 of 172 claims found where claims.tsv says; the guide cites 172 of them; 1 problems
