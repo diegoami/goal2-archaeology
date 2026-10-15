@@ -1,0 +1,46 @@
+== r0013: 865 snapshots; [A923]+0x41 over the snapshots: 0: 1, 1: 863, None: 1
+  CAPTAIN: 1 of 865 snapshots hold it, in 1 run(s) of consecutive snapshots
+    states 280..280 (1 snapshots, 0 s from first to last, 20261015T052158Z..20261015T052158Z); next snapshot 281 is OTHER, 5 s after the last; the one before is 279 (OTHER), 8 s earlier
+  GL_NAME: 7 of 865 snapshots hold it, in 3 run(s) of consecutive snapshots
+    states 2..2 (1 snapshots, 0 s from first to last, 20261015T050403Z..20261015T050403Z); next snapshot 3 is OTHER, 2 s after the last; the one before is 1 (OTHER), 14 s earlier
+    states 802..806 (5 snapshots, 29 s from first to last, 20261015T055400Z..20261015T055429Z); next snapshot 807 is OTHER, 20 s after the last; the one before is 801 (OTHER), 4 s earlier
+    states 865..865 (1 snapshots, 0 s from first to last, 20261015T055632Z..20261015T055632Z); no snapshot follows; the one before is 864 (SAVEGAME_ASK), 3 s earlier
+  HIL_NAME: 1 of 865 snapshots hold it, in 1 run(s) of consecutive snapshots
+    states 333..333 (1 snapshots, 0 s from first to last, 20261015T052818Z..20261015T052818Z); next snapshot 334 is REPLAY_RUNNING, 2 s after the last; the one before is 332 (SAVEGOAL_ASK), 1 s earlier
+  QUIT_ASK: 1 of 865 snapshots hold it, in 1 run(s) of consecutive snapshots
+    states 862..862 (1 snapshots, 0 s from first to last, 20261015T055626Z..20261015T055626Z); next snapshot 863 is SAVEGAME_ASK, 2 s after the last; the one before is 861 (OTHER), 4 s earlier
+  REPLAY_ASK: 3 of 865 snapshots hold it, in 3 run(s) of consecutive snapshots
+    states 339..339 (1 snapshots, 0 s from first to last, 20261015T052929Z..20261015T052929Z); next snapshot 340 is OTHER, 20 s after the last; the one before is 338 (OTHER), 20 s earlier
+    states 736..736 (1 snapshots, 0 s from first to last, 20261015T054809Z..20261015T054809Z); next snapshot 737 is SAVEGOAL_ASK, 1 s after the last; the one before is 735 (OTHER), 20 s earlier
+    states 742..742 (1 snapshots, 0 s from first to last, 20261015T054909Z..20261015T054909Z); next snapshot 743 is OTHER, 1 s after the last; the one before is 741 (OTHER), 4 s earlier
+  REPLAY_RUNNING: 6 of 865 snapshots hold it, in 3 run(s) of consecutive snapshots
+    states 88..89 (2 snapshots, 2 s from first to last, 20261015T051347Z..20261015T051349Z); next snapshot 90 is OTHER, 20 s after the last; the one before is 87 (SAVEGOAL_ASK), 3 s earlier
+    states 334..335 (2 snapshots, 9 s from first to last, 20261015T052820Z..20261015T052829Z); next snapshot 336 is OTHER, 20 s after the last; the one before is 333 (HIL_NAME), 2 s earlier
+    states 738..739 (2 snapshots, 14 s from first to last, 20261015T054815Z..20261015T054829Z); next snapshot 740 is OTHER, 20 s after the last; the one before is 737 (SAVEGOAL_ASK), 5 s earlier
+  SAVEGAME_ASK: 2 of 865 snapshots hold it, in 1 run(s) of consecutive snapshots
+    states 863..864 (2 snapshots, 1 s from first to last, 20261015T055628Z..20261015T055629Z); next snapshot 865 is GL_NAME, 3 s after the last; the one before is 862 (QUIT_ASK), 2 s earlier
+  SAVEGOAL_ASK: 3 of 865 snapshots hold it, in 3 run(s) of consecutive snapshots
+    states 87..87 (1 snapshots, 0 s from first to last, 20261015T051344Z..20261015T051344Z); next snapshot 88 is REPLAY_RUNNING, 3 s after the last; the one before is 86 (OTHER), 15 s earlier
+    states 332..332 (1 snapshots, 0 s from first to last, 20261015T052817Z..20261015T052817Z); next snapshot 333 is HIL_NAME, 1 s after the last; the one before is 331 (OTHER), 8 s earlier
+    states 737..737 (1 snapshots, 0 s from first to last, 20261015T054810Z..20261015T054810Z); next snapshot 738 is REPLAY_RUNNING, 5 s after the last; the one before is 736 (REPLAY_ASK), 1 s earlier
+  SUMMARY_ASK: 3 of 865 snapshots hold it, in 2 run(s) of consecutive snapshots
+    states 99..99 (1 snapshots, 0 s from first to last, 20261015T051634Z..20261015T051634Z); next snapshot 100 is OTHER, 15 s after the last; the one before is 98 (OTHER), 5 s earlier
+    states 799..800 (2 snapshots, 5 s from first to last, 20261015T055344Z..20261015T055349Z); next snapshot 801 is OTHER, 7 s after the last; the one before is 798 (OTHER), 15 s earlier
+  WATCH_ASK: 8 of 865 snapshots hold it, in 3 run(s) of consecutive snapshots
+    states 28..28 (1 snapshots, 0 s from first to last, 20261015T050457Z..20261015T050457Z); next snapshot 29 is OTHER, 4 s after the last; the one before is 27 (OTHER), 2 s earlier
+    states 101..106 (6 snapshots, 56 s from first to last, 20261015T051704Z..20261015T051800Z); next snapshot 107 is OTHER, 2 s after the last; the one before is 100 (OTHER), 15 s earlier
+    states 111..111 (1 snapshots, 0 s from first to last, 20261015T051819Z..20261015T051819Z); next snapshot 112 is OTHER, 5 s after the last; the one before is 110 (OTHER), 10 s earlier
+== r0017: 297 snapshots; [A923]+0x41 over the snapshots: 0: 2, 1: 294, None: 1
+  CAPTAIN: 1 of 297 snapshots hold it, in 1 run(s) of consecutive snapshots
+    states 202..202 (1 snapshots, 0 s from first to last, 20261015T045359Z..20261015T045359Z); next snapshot 203 is OTHER, 4 s after the last; the one before is 201 (OTHER), 5 s earlier
+  GL_NAME: 7 of 297 snapshots hold it, in 2 run(s) of consecutive snapshots
+    states 3..3 (1 snapshots, 0 s from first to last, 20261015T044229Z..20261015T044229Z); next snapshot 4 is OTHER, 2 s after the last; the one before is 2 (LOAD_ASK), 5 s earlier
+    states 290..295 (6 snapshots, 17 s from first to last, 20261015T050147Z..20261015T050204Z); next snapshot 296 is QUIT_ASK, 4 s after the last; the one before is 289 (OTHER), 3 s earlier
+  LOAD_ASK: 1 of 297 snapshots hold it, in 1 run(s) of consecutive snapshots
+    states 2..2 (1 snapshots, 0 s from first to last, 20261015T044224Z..20261015T044224Z); next snapshot 3 is GL_NAME, 5 s after the last; the one before is 1 (OTHER), 20 s earlier
+  QUIT_ASK: 1 of 297 snapshots hold it, in 1 run(s) of consecutive snapshots
+    states 296..296 (1 snapshots, 0 s from first to last, 20261015T050208Z..20261015T050208Z); next snapshot 297 is SAVEGAME_ASK, 1 s after the last; the one before is 295 (GL_NAME), 4 s earlier
+  SAVEGAME_ASK: 1 of 297 snapshots hold it, in 1 run(s) of consecutive snapshots
+    states 297..297 (1 snapshots, 0 s from first to last, 20261015T050209Z..20261015T050209Z); no snapshot follows; the one before is 296 (QUIT_ASK), 1 s earlier
+  SUMMARY_ASK: 1 of 297 snapshots hold it, in 1 run(s) of consecutive snapshots
+    states 286..286 (1 snapshots, 0 s from first to last, 20261015T050136Z..20261015T050136Z); next snapshot 287 is OTHER, 2 s after the last; the one before is 285 (OTHER), 12 s earlier
