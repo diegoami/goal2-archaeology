@@ -11,7 +11,7 @@
 
 ## Answer
 
-**One line: it persists.** Nothing in the match set-up, the match or the post-match code copies the squad words and writes them back; a substitution of the managed side is two squad words swapped in the live country record, and the swapped eleven is the eleven of the next match (measured, 3 substitutions in 2 reloads of one saved game, section 2). The owner's memory (A3) is not supported by the listing or by the records (E015-r0007, E015-r0009, E015-r0010, E015-r0013). static:static/goal-exe/code/seg_0791_22.asm:708 static:static/goal-exe/code/seg_0791_23.asm:1146 static:experiments/E029-lineup-persistence/out/substitutions.txt:32
+- **One line: it persists.** Nothing in the match set-up, the match or the post-match code copies the squad words and writes them back; a substitution of the managed side is two squad words swapped in the live country record, and the swapped eleven is the eleven of the next match (measured, 3 substitutions in 2 reloads of one saved game, section 2). The owner's memory (A3) is not supported by the listing or by the records (E015-r0007, E015-r0009, E015-r0010, E015-r0013). static:static/goal-exe/code/seg_0791_22.asm:708 static:static/goal-exe/code/seg_0791_23.asm:1146 static:experiments/E029-lineup-persistence/out/substitutions.txt:32
 
 ### 1. The listing: no copy of the squad words is restored (read)
 
@@ -24,7 +24,7 @@
 
 ### 2. The records: the swapped eleven is the next match's eleven (measured)
 
-Method: for the managed country (Italy, country 16) the 20 squad words of every recorded state (`timeline.py`), the fixture index word `[A923]+0x26`, the screen class of the recorded text page (`screens.py`: the match board "versus", the bench screen "substitutions left", the pre-match select screen), and the owner's notes for the order. A **substitution** is a change of the eleven's membership between two states inside a match window (kick-off board to FULL TIME); a change before kick-off is a pre-match edit. The windows and every substitution are listed in `out/substitutions.txt`. Static analysis came first (section 1); the runs corroborate it (E015-r0007, E015-r0009, E015-r0010, E015-r0013, E015-r0017). static:experiments/E029-lineup-persistence/out/substitutions.txt:1 static:experiments/E029-lineup-persistence/out/r0013-timeline.tsv:1
+- Method: for the managed country (Italy, country 16) the 20 squad words of every recorded state (`timeline.py`), the fixture index word `[A923]+0x26`, the screen class of the recorded text page (`screens.py`: the match board "versus", the bench screen "substitutions left", the pre-match select screen), and the owner's notes for the order. A **substitution** is a change of the eleven's membership between two states inside a match window (kick-off board to FULL TIME); a change before kick-off is a pre-match edit. The windows and every substitution are listed in `out/substitutions.txt`. Static analysis came first (section 1); the runs corroborate it (E015-r0007, E015-r0009, E015-r0010, E015-r0013, E015-r0017). static:experiments/E029-lineup-persistence/out/substitutions.txt:1 static:experiments/E029-lineup-persistence/out/r0013-timeline.tsv:1
 
 | record | match | substitutions (out -> in) | still in the eleven at full time | at the last state of the record | next match in the record |
 | --- | --- | --- | --- | --- | --- |

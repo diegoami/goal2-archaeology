@@ -290,7 +290,7 @@ undefined2 __cdecl16far sys_ioresult_0207(void)
 
 
 // ---- 23E4:025D  sys_move_025D  (f_23E4_025D; Ghidra A000:025D, __stdcall16far; found by routines.tsv)
-// Forward byte copy of count bytes from source to dest pointers: Move  [likely; read decompiled/seg_23E4_01.c]
+// Forward byte copy of count bytes from source to dest pointers: Move (Pascal Move(Source, Dest, Count): the first pushed pointer is the source, ss:[bx+0xA] to DS:SI, the second the destination, ss:[bx+6] to ES:DI; the decompiled call lists (count, destination, source))  [established; F029; read code/seg_23E4_01.asm:261-269]
 
 void __stdcall16far sys_move_025D(int param_1,undefined1 *param_2,undefined1 *param_3)
 

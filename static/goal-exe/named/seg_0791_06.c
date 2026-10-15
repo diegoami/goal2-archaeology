@@ -260,7 +260,7 @@ void f_0791_6D4E(undefined1 param_1,uint param_2,char param_3)
     pick_marker_by_skill(param_2,*(undefined1 *)(param_2 + 0x764),param_3);
   }
   else {
-    uVar2 = f_0791_CC7B(param_2 & 0xff,param_3);
+    uVar2 = choose_captain_or_taker(param_2 & 0xff,param_3);
     *(undefined2 *)((undefined1 *)&DS:9976 + param_3 * 10 + param_2 * 2) = uVar2;
   }
   uVar3 = f_0791_6B65(param_2,param_3);

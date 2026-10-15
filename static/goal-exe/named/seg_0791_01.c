@@ -690,7 +690,7 @@ void __cdecl16near f_0791_0C0B(void)
 
 
 // ---- 0791:0C65  action_replay  (f_0791_0C65; Ghidra 2000:0C65, __cdecl16near; found by routines.tsv)
-// the action replay after a goal (tick loop, when DS:7C37 is set): when [DS:A923]+0x41 and DS:0C1E are set, asks "Do you want an action replay?" (0791:0B7C) and skips on no, then asks "to save this goal" and on yes calls 0791:0A6B; the rest (from 0CB2, not read for this row) is what F005 calls the replay code  [likely; F005; read code/seg_0791_02.asm]
+// the action replay after a goal (tick loop, when DS:7C37 is set): when [DS:A923]+0x41 and DS:0C1E are set, asks "Do you want an action replay?" (0791:0B7C) and skips on no, then asks "to save this goal" and on yes calls 0791:0A6B; then from 0CB2 it RESTORES the snapshot taken by 0791:15B9 into the live state (0x7FB bytes DS:8439 to DS:7C3E, both countries' 0xBF-byte records from DS:8C34 + 0xBF t, each squad player's 0x14-byte record, the manager words, tables, the substitution counters, the score and the RNG word) and redraws the pitch, so a goal's replay re-simulates from the last snapshot; the snapshot is refreshed after every substitution, tactic change and half start (9B55), so a substitution made before the goal is in it  [likely; F005; F029; read code/seg_0791_02.asm:340-460 (Pascal Move: the first pushed pointer is the source)]
 
 /* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
 
@@ -843,11 +843,12 @@ void __cdecl16near f_0791_1073(void)
 }
 
 
-// ---- 0791:112C  f_0791_112C  (f_0791_112C; Ghidra 2000:112C, __cdecl16far; found by routines.tsv)
+// ---- 0791:112C  view_saved_goal  (f_0791_112C; Ghidra 2000:112C, __cdecl16far; found by routines.tsv)
+// plays a saved goal from a .GL file (reached from the main menu, 000E:7800): copies both countries' 0xBF-byte records, the 20 players' records and names of each side from the live state to a backup (DS:8DB2 + 0xBF t, from 0911), loads the file, calls action_replay and the in-match menu, then copies the backup over the live state again, so viewing a saved goal leaves the career state as it was  [likely; F029; read code/seg_0791_02.asm:841-1000; read code/seg_000E_09.asm:1265]
 
 /* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
 
-void __cdecl16far f_0791_112C(void)
+void __cdecl16far view_saved_goal(void)
 
 {
   undefined1 uVar1;
@@ -988,11 +989,12 @@ void __cdecl16far f_0791_112C(void)
 }
 
 
-// ---- 0791:15B9  f_0791_15B9  (f_0791_15B9; Ghidra 2000:15B9, __cdecl16near; found by routines.tsv)
+// ---- 0791:15B9  snapshot_match_state  (f_0791_15B9; Ghidra 2000:15B9, __cdecl16near; found by routines.tsv)
+// copies the live match state into the replay snapshot buffers (the reverse of the restore in 0791:0C65): 0x7FB bytes DS:7C3E to DS:8439, then for t = 0, 1 the country record 0xBF bytes to DS:8C34 + 0xBF t, the manager's 3-byte and 13-byte entries and flag, each of the 20 squad players' 0x14-byte records with their name and flag, the statistics DS:7B6A, DS:7B92, the fixture words, DS:9A40 (0x50) and the match_form words (0x28), the substitution counters DS:9B38, the score DS:9B3E, DS:9B42 and the RNG word DS:9974; it never writes the live squad words; called by the tick loop 97D0 when DS:9B55 is set and no goal is pending (DS:7C37 clear), and once by run_match after the match when it was watched  [established; F029; read code/seg_0791_03.asm:8-120; read code/seg_0791_16.asm:105-113; read code/seg_0791_23.asm:1146]
 
 /* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
 
-void __cdecl16near f_0791_15B9(void)
+void __cdecl16near snapshot_match_state(void)
 
 {
   int iVar1;
@@ -1050,73 +1052,5 @@ void __cdecl16near f_0791_15B9(void)
   DS:9974 = *rng_word_ptr;
   sys_move_025D(0x14,0x998c,0xb000,0x9978,0xb000);
   u214b_unpack_screen_to_buffer((undefined4 *)&DS:A96A,0xb000,0x6120,0xb000);
-  return;
-}
-
-
-// ---- 0791:1829  f_0791_1829  (f_0791_1829; Ghidra 2000:1829, __stdcall16near; found by routines.tsv)
-
-void f_0791_1829(undefined1 param_1,uint param_2,int param_3)
-
-{
-  char cVar1;
-  undefined2 unaff_SS;
-  undefined1 *puVar2;
-  undefined2 uVar3;
-  undefined1 local_12a [256];
-  undefined4 local_2a;
-  byte local_26 [36];
-  
-  local_2a = (char *)CONCAT22(0xb000,(undefined1 *)&DS:7C38 + param_3 * 6);
-  if (*local_2a != -1) {
-    sys_str_store_max_0644(0x23,local_26,unaff_SS,*local_2a * 0x15 + 0xbe,0xb000);
-    if (local_26[0] != 0) {
-      if (local_26[1] == '\x01') {
-        local_26[1] = ' ';
-        puVar2 = local_12a;
-        uVar3 = unaff_SS;
-        sys_str_store_062A((int)DS:9B6C + *(int *)((char *)local_2a + 1) * 0xb,
-                           (int)((ulong)DS:9B6C >> 0x10));
-        sys_str_concat_06B7(local_26,unaff_SS);
-        sys_str_store_max_0644(0x23,local_26,unaff_SS,puVar2,uVar3);
-      }
-      if (local_26[local_26[0]] == 1) {
-        local_26[0] = local_26[0] - 1;
-        puVar2 = local_12a;
-        uVar3 = unaff_SS;
-        sys_str_store_062A(local_26,unaff_SS);
-        sys_str_concat_06B7(0x1827,0xa000);
-        sys_str_concat_06B7((int)DS:9B6C + *(int *)((char *)local_2a + 1) * 0xb,
-                            (int)((ulong)DS:9B6C >> 0x10));
-        sys_str_store_max_0644(0x23,local_26,unaff_SS,puVar2,uVar3);
-      }
-      if (local_26[local_26[0]] == 2) {
-        local_26[0] = local_26[0] - 1;
-        puVar2 = local_12a;
-        uVar3 = unaff_SS;
-        sys_str_store_062A(local_26,unaff_SS);
-        sys_str_concat_06B7(0x1827,0xa000);
-        sys_str_concat_06B7((int)DS:9B6C + *(int *)((char *)local_2a + 3) * 0xb,
-                            (int)((ulong)DS:9B6C >> 0x10));
-        sys_str_store_max_0644(0x23,local_26,unaff_SS,puVar2,uVar3);
-      }
-    }
-    if (local_26[0] < 0x1e) {
-      u214b_fill_bytes(0x20,0x1e - (uint)local_26[0],local_26 + local_26[0] + 1,unaff_SS);
-    }
-    local_26[0] = 0x1e;
-    cVar1 = ((char *)local_2a)[5] >> 7;
-    u214b_write_string_at_fwd_set_attr
-              ((undefined4 *)&DS:A96A,0xb000,CONCAT11(cVar1,param_1),
-               CONCAT11(cVar1,(undefined1)param_2),local_26,unaff_SS,
-               CONCAT11(cVar1,((undefined1 *)&DS:832E)[((char *)local_2a)[5]]));
-    if (param_2 < 5) {
-      cVar1 = ((char *)local_2a)[5] >> 7;
-      u214b_write_string_at_fwd_set_attr
-                ((undefined4 *)&DS:A972,0xb000,CONCAT11(cVar1,param_1),
-                 CONCAT11(cVar1,(undefined1)param_2),local_26,unaff_SS,
-                 CONCAT11(cVar1,((undefined1 *)&DS:832E)[((char *)local_2a)[5]]));
-    }
-  }
   return;
 }

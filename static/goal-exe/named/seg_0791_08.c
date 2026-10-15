@@ -281,7 +281,7 @@ void match_tick_loop(char param_1)
     if (DS:9A3E == '\0') {
       if (DS:7C37 == '\0') {
         if (DS:9B55 != '\0') {
-          f_0791_15B9();
+          snapshot_match_state();
         }
       }
       else {
