@@ -41,6 +41,7 @@ sys.path.insert(0, str(ROOT / "runtime" / "driver"))
 import driver  # noqa: E402
 import players  # noqa: E402
 import playerscreen  # noqa: E402
+import savestate  # noqa: E402
 sys.path.insert(0, str(HERE))
 import xtest  # noqa: E402
 
@@ -87,8 +88,9 @@ def marks(sc):
 class PlayDriver(driver.Driver):
     """The driver, with saved games copied into the game folder before DOSBox-X starts."""
 
-    def __init__(self, *a, gl=(), mapper=None, **k):
+    def __init__(self, *a, gl=(), mapper=None, fkeys="raw", **k):
         super().__init__(*a, **k)
+        self.fkeys = fkeys
         self.gl = [Path(p) for p in gl]
         self.mapper = Path(mapper) if mapper else None
 
@@ -100,7 +102,7 @@ class PlayDriver(driver.Driver):
         """Function keys go as raw XTEST keycodes (xtest.py: xdotool adds Left Alt to them); the rest
         through the driver (xdotool)."""
         for name in names:
-            if re.fullmatch(r"F\d{1,2}", name):
+            if self.fkeys == "raw" and re.fullmatch(r"F\d{1,2}", name):
                 code = xtest.key_event(self.display, name, True)
                 time.sleep(hold)  # key hold; logged below
                 xtest.key_event(self.display, name, False)
@@ -128,7 +130,7 @@ class PlayDriver(driver.Driver):
 
 
 class Server:
-    def __init__(self, session, cycles, gl, mapper=None):
+    def __init__(self, session, cycles, gl, mapper=None, fkeys="raw"):
         self.session = session
         self.out = OUT / session
         self.out.mkdir(parents=True, exist_ok=True)
@@ -141,7 +143,7 @@ class Server:
         steps = self.out / "steps.jsonl"
         self.n = sum(1 for _ in steps.open()) if steps.exists() else 0
         work = driver.SCRATCH / "play" / session  # its own game folder: two sessions never share one
-        self.d = PlayDriver({"cycles": cycles}, workdir=work, game_dir=work / "game", gl=gl, mapper=mapper)
+        self.d = PlayDriver({"cycles": cycles}, workdir=work, game_dir=work / "game", gl=gl, mapper=mapper, fkeys=fkeys)
         self.cur = None
 
     def log(self, entry):
@@ -216,6 +218,16 @@ class Server:
             name = f"{self.n + 1:05d}-{req['label']}.sav"
             (self.kept / name).write_bytes(blob)
             return self.reply({**req, "file": name, "sha256": driver.sha256(blob)}, sc, dg, info, None, 1, t0)
+        if cmd == "keystate":  # what reached the game (lastkey.py's reads), logged in steps.jsonl
+            sc, dg, info, blob = self.observe()
+            st = savestate.Savestate(blob)
+            a976, _ = st.ds_bytes(0xA976, 2)
+            bda = st.memory(0x41A, 0x24)
+            f1, f2 = st.memory(0x417, 2)
+            ks = {"DS:A976": f"{a976:02x}", "head": f"{int.from_bytes(bda[0:2], 'little'):04x}",
+                  "tail": f"{int.from_bytes(bda[2:4], 'little'):04x}", "buffer": bda[4:].hex(" "),
+                  "0040:0017": f"{f1:08b}", "0040:0018": f"{f2:08b}"}
+            return {**self.reply({"cmd": "keystate", "keystate": ks}, sc, dg, info, None, 1, t0), "keystate": ks}
         if cmd == "scan":  # a player screen list: read the card, Down, n times (playerscreen.parse)
             cards = []
             prev = self.cur
@@ -292,7 +304,7 @@ class Server:
 
 
 def serve(a):
-    s = Server(a.session, a.cycles, a.gl, a.mapper)
+    s = Server(a.session, a.cycles, a.gl, a.mapper or None, a.fkeys)
     signal.signal(signal.SIGTERM, lambda *_: sys.exit(0))
     try:
         s.run()
@@ -524,6 +536,8 @@ def main(argv=None):
     p.add_argument("session")
     p.add_argument("--cycles", default="fixed 8000")
     p.add_argument("--gl", nargs="*", default=[])
+    p.add_argument("--fkeys", choices=("raw", "xdotool"), default="raw",
+                   help="xdotool: send function keys as the driver does (reproduces the Alt fault)")
     p.add_argument("--mapper", default=str(HERE / "mapper-nohost.map"),
                    help="the DOSBox-X mapper file (default mapper-nohost.map: savestate on Scroll Lock, "
                         "screenshot on Pause, no host key; '' for DOSBox-X's built-in binds and the F12 chords)")
@@ -545,7 +559,7 @@ def main(argv=None):
     p.add_argument("steps", nargs="+", help="each step: keys separated by spaces, e.g. 'Down Down' 'Return'")
     p.add_argument("--timeout", type=float, default=8)
     p.add_argument("-q", action="store_true")
-    for name in ("show", "stop"):
+    for name in ("show", "stop", "keystate"):
         sub.add_parser(name).add_argument("session")
     p = sub.add_parser("wait")
     p.add_argument("session")
@@ -694,6 +708,9 @@ def main(argv=None):
             pn = " ".join(f"{k[:3]}:{v}" for k, v in c["panel"].items())
             print(f"{i:2d} {c['name']:14s} {c['age']:2d} {c['pos'][:18]:18s} {sk} | {pn} | {c['status']} {c['perf']}")
         return show(resp, quiet=True)
+    if a.cmd == "keystate":
+        print(resp.get("keystate") or resp.get("error"))
+        return 0
     if a.cmd == "stop":
         print(resp)
         return 0

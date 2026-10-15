@@ -28,8 +28,13 @@ research experiment with hypotheses: its outputs are the guide, the session logs
 - `out/<S>/progress.md`: `progress.py S --md out/S/progress.md`: the launches, every stage and season
   change and every full-time board of the managed team, each with the step that shows it.
 - `out/saves.tsv`: every saved game kept (`keepsave.py`): name, size, sha256, what it is. The files
-  are in `.cache/kept/E031/saves/` (git-ignored: a `.GL` holds the game's data) and go to the
-  release `goal2-saves` with `tools/fetch_saves.py --add`.
+  are in `.cache/kept/E031/saves/` (git-ignored: a `.GL` holds the game's data) and on the release
+  `play-the-game-saves`; `verify_saves.py` downloads them and checks them against `saves.tsv`.
+- `out/g1/game-folder.tsv`: what g1's game folder held at the end (`folder.py g1`): the files GOAL
+  wrote, with sha256, and `Y.HIL` changed from the release copy.
+- `claims.tsv` and `out/claims.md`: every observed claim of the guide with the logged step that shows
+  it; `claims.py` re-checks them all and that every `[Cnn]` tag of the guide names a row.
+- `checks.sh` re-runs the checks the PR quotes and writes their output to `out/checks.txt`.
 - Savestates of `checkpoint` and screenshots of `snap` are in `.cache/kept/E031/<S>/`, named by step;
   their sha256 is in `steps.jsonl`.
 
@@ -37,7 +42,8 @@ Sessions: `t1`..`t8` are the trials that found the key and help-viewer faults (s
 guide); `run1` is the first Holland game, abandoned when the function keys turned out dead; `g1` is
 the game the guide is written from; `mp` a two-player trial (Denmark and Scotland: "next player",
 one round, F5); `chk` a fresh launch that loads `G5A.GL` from a list of two saves and shows its
-history.
+history; `alt` (after review) reproduces the driver's key fault with `--mapper "" --fkeys xdotool`
+and logs the key state at the title and after F10.
 
 ## The plan, as carried out
 
