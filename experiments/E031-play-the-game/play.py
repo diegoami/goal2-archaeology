@@ -285,7 +285,10 @@ class Server:
                 except Exception as e:  # noqa: BLE001 - reported to the client, the session goes on
                     resp = self.log({"req": req, "error": f"{type(e).__name__}: {e}"})
                     resp["screen"] = ""
-                conn.sendall(json.dumps(resp, ensure_ascii=False).encode() + b"\n")
+                try:
+                    conn.sendall(json.dumps(resp, ensure_ascii=False).encode() + b"\n")
+                except OSError as e:  # the client went away (killed): the session goes on
+                    self.log({"req": {"cmd": "client-gone"}, "error": f"{type(e).__name__}: {e}"})
 
 
 def serve(a):
@@ -379,6 +382,127 @@ def watch(a):
     return show(call(a.session, {"cmd": "show"}))
 
 
+MENU = "play next game"
+
+
+def kind(text):
+    """A coarse name for the screen, from its fixed text (static/screens/kinds.tsv's phrases)."""
+    last = text.rstrip("\n").split("\n")[-1]
+    if "F10quit" in text and "find option" in text:
+        return "manager-menu"
+    if "Do you want to watch this match" in text:
+        return "watch-prompt"
+    if "C-computer select" in text:
+        return "captain"
+    if "Do you want to save the match summary" in text:
+        return "summary-prompt"
+    if "Do you want an action replay" in text or "Do you want to save this goal" in text:
+        return "replay-prompt"
+    if "Hit INS to turn automatic action replay" in text:
+        if "FULL TIME" in text:
+            return "match-menu-fulltime"
+        return "match-menu"
+    if "make substitutions now" in text or "substitution requested" in text or "request substitution" in text:
+        return "bench"
+    if "spacebar-commentary" in text:
+        return "match-live"
+    if "spacebar-pause" in text:
+        return "round-playing"
+    if "hit any key" in last or "press any key" in last.lower():
+        if "MAN OF THE MATCH" in text or "half time" in text or "Scorers" in text:
+            return "match-board"
+        return "any-key"
+    return "other"
+
+
+def play_round(a):
+    """One round from the manager menu to the manager menu: play next game, Return through the
+    results, answer "watch this match" N for other fixtures, play our match as a quick result (Enter on
+    play, Enter on the captain then R at once), space through the boards, exit, N to the summary,
+    Return through the bulletins. Stops, printing the screen, at anything else (an injury, the bench,
+    a screen it does not know) or at the end of the year's season pages it has not seen."""
+    end = time.monotonic() + a.timeout
+    started = False
+    seen = []
+    while time.monotonic() < end:
+        resp = call(a.session, {"cmd": "show"})
+        if "error" in resp:
+            return show(resp)
+        text = resp["screen"]
+        k = kind(text)
+        if not seen and k != "manager-menu":
+            started = True  # called mid-round: finish this round only
+        if not seen or seen[-1] != k:
+            seen.append(k)
+        if k == "manager-menu":
+            if started:
+                print(f"round done: {' > '.join(seen)}; info={resp['info']}")
+                return show(resp, quiet=a.q)
+            started = True
+            r = call(a.session, {"cmd": "show"})
+            # move to "play next game" and Enter
+            for _ in range(8):
+                rows = r["screen"].split("\n")
+                hl = "".join("".join(ch for ch, mk in zip(rows[int(i)].ljust(80), m.ljust(80)) if mk == "^")
+                             for i, m in (r.get("marks") or {}).items())
+                if "play next" in hl:
+                    break
+                r = call(a.session, {"cmd": "send", "keys": ["Down"], "timeout": 3})
+            call(a.session, {"cmd": "send", "keys": ["Return"], "timeout": 4})
+            continue
+        if k == "watch-prompt":
+            ours = a.team.upper() in text.split("\n")[1].upper() or a.team.upper() in text.split("\n")[3].upper()
+            print(f"  watch prompt (ours={ours}) -> n")
+            call(a.session, {"cmd": "send", "keys": ["n"], "timeout": 4})
+            continue
+        if k == "match-menu":
+            rows = text.split("\n")
+            print(f"  match: {rows[1][12:28].strip('- ')} v {rows[3][12:28].strip('- ')} {rows[0][30:45].strip('─ ')}")
+            r = resp
+            for _ in range(8):
+                hl = "".join("".join(ch for ch, mk in zip(r["screen"].split("\n")[int(i)].ljust(80), m.ljust(80)) if mk == "^")
+                             for i, m in (r.get("marks") or {}).items())
+                if "play" in hl:
+                    break
+                r = call(a.session, {"cmd": "send", "keys": ["Down"], "timeout": 3})
+            call(a.session, {"cmd": "send", "keys": ["Return"], "timeout": 3})
+            continue
+        if k == "captain":
+            call(a.session, {"cmd": "send", "keys": ["Return", "r"], "timeout": 3})
+            continue
+        if k == "match-board":
+            rows = text.split("\n")
+            print(f"  board: {rows[1][12:31].strip('- │')} {rows[3][12:31].strip('- │')} | {rows[3][32:66].strip()}")
+            call(a.session, {"cmd": "send", "keys": ["space"], "timeout": 4})
+            continue
+        if k == "match-menu-fulltime":
+            r = resp
+            for _ in range(8):
+                hl = "".join("".join(ch for ch, mk in zip(r["screen"].split("\n")[int(i)].ljust(80), m.ljust(80)) if mk == "^")
+                             for i, m in (r.get("marks") or {}).items())
+                if "exit" in hl:
+                    break
+                r = call(a.session, {"cmd": "send", "keys": ["Down"], "timeout": 3})
+            call(a.session, {"cmd": "send", "keys": ["Return"], "timeout": 4})
+            continue
+        if k in ("summary-prompt", "replay-prompt"):
+            call(a.session, {"cmd": "send", "keys": ["n"], "timeout": 4})
+            continue
+        if k == "any-key":
+            rows = text.split("\n")
+            head = " ".join(r.strip("─ │═║╔╗╚╝") for r in rows[8:12])[:90]
+            print(f"  page: {head!r}")
+            call(a.session, {"cmd": "send", "keys": ["Return"], "timeout": 4})
+            continue
+        if k in ("round-playing", "match-live"):
+            time.sleep(1)  # results being played, or the quick result's HANG ON
+            continue
+        print(f"stopped at {k}: {' > '.join(seen)}")
+        return show(resp, marked=a.m)
+    print("round: timeout")
+    return 1
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("-m", action="store_true", help="mark the highlighted cells under each row")
@@ -428,6 +552,23 @@ def main(argv=None):
     p.add_argument("--every", type=float, default=1.0)
     p.add_argument("--timeout", type=float, default=560)
     p.add_argument("-v", dest="verbose", action="store_true", help="print every commentary change")
+    p = sub.add_parser("round", help="one round as a quick result, from the manager menu back to it")
+    p.add_argument("session")
+    p.add_argument("--team", default="Holland")
+    p.add_argument("--timeout", type=float, default=500)
+    p.add_argument("-q", action="store_true")
+    p = sub.add_parser("advance", help="Return through 'hit any key' pages until a screen wants a choice")
+    p.add_argument("session")
+    p.add_argument("--timeout", type=float, default=300)
+    p.add_argument("-q", action="store_true")
+    p = sub.add_parser("select", help="press a key (Down) until WORD is highlighted, then Enter")
+    p.add_argument("session")
+    p.add_argument("word")
+    p.add_argument("--key", default="Down")
+    p.add_argument("--max", type=int, default=12)
+    p.add_argument("--timeout", type=float, default=8)
+    p.add_argument("--no-enter", action="store_true")
+    p.add_argument("-q", action="store_true")
     p = sub.add_parser("find", help="press a key (Down) until the player card shows NAME")
     p.add_argument("session")
     p.add_argument("name")
@@ -445,15 +586,60 @@ def main(argv=None):
         return serve(a)
     if a.cmd == "watch":  # follow a watched match, answering its prompts, until it needs a decision
         return watch(a)
-    if a.cmd == "find":  # press a key until the player card (row 7) names the player
+    if a.cmd == "round":
+        return play_round(a)
+    if a.cmd == "advance":  # Return on every "hit any key" page, wait through the round being played
+        end = time.monotonic() + a.timeout
+        while time.monotonic() < end:
+            resp = call(a.session, {"cmd": "show"})
+            if "error" in resp:
+                return show(resp)
+            rows = resp["screen"].split("\n")
+            last = rows[-1] if rows else ""
+            if "hit any key" in last or "press any key" in last.lower():
+                head = next((r.strip("─ │") for r in rows[6:12] if "BULLETIN" in r or "Group" in r), "")
+                print(f"  #{resp['n']} hit any key {head[:40]!r} info={resp['info']}")
+                call(a.session, {"cmd": "send", "keys": ["Return"], "timeout": 4})
+                continue
+            if "spacebar-pause" in resp["screen"]:
+                time.sleep(1)  # the round's other matches are being played
+                continue
+            return show(resp, quiet=a.q, marked=a.m)
+        print("advance: timeout")
+        return 1
+    if a.cmd == "select":  # move a menu's highlight onto a word, then (unless --no-enter) Enter
         for i in range(a.max + 1):
             resp = call(a.session, {"cmd": "show"} if i == 0 else {"cmd": "send", "keys": [a.key], "timeout": 4})
             if "error" in resp:
                 return show(resp)
             rows = resp["screen"].split("\n")
+            hit = False
+            for r, m in (resp.get("marks") or {}).items():
+                r = int(r)
+                cells = "".join(ch for ch, mk in zip(rows[r].ljust(80), m.ljust(80)) if mk == "^")
+                if a.word in cells:
+                    hit = True
+            if hit:
+                print(f"{a.word!r} highlighted after {i} x {a.key}")
+                if a.no_enter:
+                    return show(resp, quiet=a.q)
+                return show(call(a.session, {"cmd": "send", "keys": ["Return"], "timeout": a.timeout}), quiet=a.q)
+        print(f"{a.word!r} not highlighted after {a.max} x {a.key}")
+        return 1
+    if a.cmd == "find":  # press a key until the player card (row 7) names the player
+        key, turned = a.key, False
+        for i in range(a.max + 1):
+            resp = call(a.session, {"cmd": "show"} if i == 0 else {"cmd": "send", "keys": [key], "timeout": 2})
+            if "error" in resp:
+                return show(resp)
+            rows = resp["screen"].split("\n")
             if len(rows) > 7 and rows[7][1:15].strip() == a.name:
-                print(f"found {a.name} after {i} x {a.key}")
+                print(f"found {a.name} after {i} x {key}")
                 return show(resp, quiet=a.q, marked=a.m)
+            if i and resp.get("changed") is False:  # the list's end: lists do not wrap
+                if turned:
+                    break
+                key, turned = {"Up": "Down", "Down": "Up"}[key], True
         print(f"{a.name} not found in {a.max} x {a.key}")
         return 1
     if a.cmd == "steps":
