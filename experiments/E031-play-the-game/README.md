@@ -35,7 +35,34 @@ research experiment with hypotheses: its outputs are the guide, the session logs
 
 Sessions: `t1`..`t8` are the trials that found the key and help-viewer faults (section 2 of the
 guide); `run1` is the first Holland game, abandoned when the function keys turned out dead; `g1` is
-the game the guide is written from.
+the game the guide is written from; `mp` a two-player trial (Denmark and Scotland: "next player",
+one round, F5); `chk` a fresh launch that loads `G5A.GL` from a list of two saves and shows its
+history.
+
+## The plan, as carried out
+
+1. A tool to play by hand from the shell (one emulator per session, keys in, screen and progress
+   bytes out, every step logged), then fix whatever stops a human's keys from working under it.
+2. A new game (Holland, one player), every menu option and F-key, a save, a quit and a load.
+3. The first match watched, with squad work before it (pool picks, a rename, repositioning, player
+   and team tactics) and a substitution; the rest of year 1 as quick results with the squad checked
+   between rounds; the last match watched with in-match changes.
+4. Years 2 and 3 with a different formation each (3-5-2, 4-3-3, back to 4-4-2), the assistant's 20,
+   a saved goal and a saved summary loaded back, the replay toggle, injuries; a save at every
+   milestone, kept and hashed.
+5. Then on through year 4 (the World Cup) into year 5, because the brief's "years" turned out to be
+   the stages of a four-year cycle and the knockout stage held the screens no other year has (extra
+   time, the shoot-out order).
+
+## What g1 did (2026-10-15, 19:42 to 21:20 UTC)
+
+`out/g1/progress.md` has every match and stage change with its step. In short: year 1 (2028 Euro
+qualifying, stage 2) 12 matches, second in group F behind Eire, out; year 2 (stages 3-4) nine
+friendlies; year 3 (2030 World Cup qualifying, stages 5-6) second in group H, qualified; year 4
+(stages 7-8) five friendlies, the World Cup group (2nd), last 16 won on penalties after 2-2 (watched),
+quarter-final won, semi-final lost, third place won on penalties after extra time; year 5 (2032,
+stage 2) begun. The game's own history in `G5A.GL`: 2027/28 EC 9 won 7 drawn 5 lost, 2029/30 WC 12
+won 4 drawn 6 lost, third. Saves: `out/saves.tsv` (17 files, release `play-the-game-saves`).
 
 ## Checking a claim
 

@@ -39,7 +39,9 @@ in, squad player out), `swap.sh S "A" "B"` (two squad players). The bash guard r
 apostrophe inside quotes ("J Van't Ship"): spell commands out, and find such a player by a neighbour.
 
 Proof of a run: `progress.py S --md out/S/progress.md` lists every launch, every change of the stage
-and season bytes and every full-time board of your team, each with the step that shows it.
+and season bytes and every full-time board of your team, each with the step that shows it; the
+saved games are on release `play-the-game-saves` (`verify_saves.py` downloads and checks them), and
+loading one shows the game's own **history** (results by season).
 
 ## 2. Driving the original: what breaks, and what works
 
@@ -82,7 +84,7 @@ and season bytes and every full-time board of your team, each with the step that
 
 | screen | what it shows | keys |
 | --- | --- | --- |
-| title | "Do you want to load a saved game? (Y/N)" | `Y` (then "Please enter name of saved game", default the only `.GL`'s name; with several a list), `N` new game |
+| title | "Do you want to load a saved game? (Y/N)" | `Y`: with one `.GL` in the folder, "Please enter name of saved game" with its name filled in (Enter); with several, a list ("use ↓↑ to move, hit ◄┘ to select saved game, hit Esc to type in a name"). `N` new game |
 | players | "How many players 1 2 3 4 5 6 ?" | ←→, Enter |
 | country selection | a card (status, manager, rankings now/top, formation, the team's default tactics, the skills of the eleven, average caps, age, hardness, fitness, energy, morale), 16 countries, "level of difficulty" (Germany TOO EASY, Italy EASY TASK, Holland and Denmark SIMPLE, Costa Rica QUITE EASY) | ↑↓ in the list, ←→ the next/previous 16, `Ins` world ranking instead of continental, `Space` the highlighted country's players (Esc back), Enter choose |
 | manager name | "Type in characters (maximum 14). ◄┘-accept Esc-abort" | the first key replaces "Player"; Enter. Type "A Name": the papers split it into an initial and a surname |
@@ -162,9 +164,12 @@ replay off or on (the bottom line names the next press).
 - **Half time / full time**: the statistics board, "hit any key  Esc,◄┘-bench". Any key but Enter/Esc
   goes on (to the match menu at half time: **play** for the second half); Enter or Esc opens it too.
 - **The bench** (**players** on your side): "make substitutions now", "substitutions left" (5 in
-  friendlies, 2 in competition matches). Enter on one of the eleven ("take off this player"), Enter on
-  a substitute ("put on this player"). R, C, T, F2 as on the squad screen. Esc back. The substitute
-  stays in the eleven for the next match.
+  friendlies, 2 in competition matches, the World Cup included). The bottom line follows the cursor:
+  "◄┘-take off this player" on one of the eleven, "◄┘-put on this player" on a substitute. Enter on
+  the man to take off (the screen does not change), then Enter on the substitute (the counter drops).
+  Enter on a substitute alone does nothing. R, C, T, F2 as on the squad screen. Esc back (an Esc sent
+  right after the substitution was lost once: send it again). The substitute stays in the eleven for
+  the next match.
 - **Prompts** (F030): "Do you want an action replay? (Y/N)" after a goal (6 s, default No; none with
   the replay off), "Do you want to save this goal? (Y/N)" after a Yes (default No; Yes asks a file
   name, default **the last `.HIL` name used**: after F3 on `Y.HIL` the new goal silently overwrote
@@ -172,27 +177,50 @@ replay off or on (the bottom line names the next press).
   the pick; `C` the computer's), the other side's "SUBSTITUTION ... press any key", and for your
   side's injury "<name> INJURED" then "SUBSTITUTION OPPORTUNITY press any key" (a key opens the match
   menu: **players**, take the injured man off; with no substitution left he stays).
+- **An injury in a quick result**: the quick result stops at "<name> INJURED ... SUBSTITUTION
+  OPPORTUNITY press any key"; a key opens the match menu. If you choose **play** without taking the
+  injured man off, the result runs a few more minutes and stops again, over and over (a script that
+  just answers loops: 90 times in the 2030 third-place match). Take him off (**players**), then **play**.
+- **Extra time** (knockout matches, level after 90 minutes): the board and the match menu show
+  "---- FULL TIME ---- / ---- EXTRA TIME ----" and the option is **play** again (not **exit**); two
+  halves of 15 minutes, each ending at the match menu.
+- **The penalty shoot-out**: "penalty shoot out  PRESS ANY KEY", then your order: "use ↑↓ then ◄┘ to
+  select the order  Hit Esc to undo": choose eleven takers one by one (each pick leaves the list and
+  is numbered on the right; `order.sh` does it; the card shows each man's penalties bar, `scan 11`
+  reads them), then the shoot-out plays out in the commentary ("<name> to shoot", "GOAL", "saved",
+  "hits the post"), best of five then sudden death. It comes in a quick result too. The other side
+  picks its own order.
 - After full time: **exit** → "Do you want to save the match summary to disk? (Y/N)" (watched matches
   only; Yes asks a name, default `S-<n>`, Enter writes `S-<n>.SUM`) → the result pages and the
   bulletin → the menu.
 
 `round` plays all of this as a quick result: Enter on **play**, Enter on the captain and `R` at once,
-`Space` on the boards, **play** at half time, `N` to every question, Return on every page.
+`Space` on the boards, **play** at half time and in extra time, `N` to every question, Return on
+every page; it stops (printing the screen) at an injury's substitution opportunity, at a shoot-out,
+and at any screen it does not know, for you to decide.
 
 ## 7. The year and its end
 
 GOAL counts stages, not calendar years (the manual's four-year cycle). This game, started in DOS year
-2026, showed 2028 for its first two years: **year 1** = stage 2 (European Championship qualifying:
-6 qualifiers and 6 friendlies), **year 2** = stages 3 and 4 (the finals, group then knockout: only
-friendlies if you did not qualify), **year 3** = stage 5 and the season word 1, title 2030 (World Cup
-qualifying, 6 qualifiers and friendlies). When your team has no fixture left, the menu's "next
+2026, showed 2028 for its first two years and its history calls them season 2027/28:
+**year 1** = stage 2 (European Championship qualifying: 6 qualifiers and 6 friendlies), **year 2** =
+stages 3 and 4 (the finals, group then knockout: only friendlies, 9, if you did not qualify),
+**year 3** = stage 5, the season word 1, the title 2030 (World Cup qualifying: 6 qualifiers and 4
+friendlies), then stage 6 (the play-offs of other continents), **year 4** = stage 7 (friendlies,
+then the World Cup group of four) and stage 8 (last 16, quarter-final, semi-final, third place,
+final), **year 5** = stage 2 again with the season word 2 and the title 2032. Session g1 took 94
+minutes of host time for the whole cycle (19:44 to 21:18 UTC), with the exploration, six matches
+watched and one crash replayed; a year of quick results alone takes 6 to 10 minutes. When your team has no fixture left, the menu's "next
 opponents" box is empty: keep pressing **play next game**; the remaining results, the final table,
 the winners page ("winner / second / third", top scorers) and the new bulletins come, and the stage
 byte moves on. At the change every player is a year older; players retire ("<name> RETIRES FROM THE
 INTERNATIONAL SCENE") and a young player takes his place in the squad, in the eleven if he was there.
-During a stage a squad player who is not capped can quit ("<name> QUITS INTERNATIONAL FOOTBALL"):
-**play next game** then shows that bulletin and returns to the menu without playing; check the squad,
-then play next game again. The papers' advice ("BOLTON DESERVES A CAP") names pool players. A
+During a stage a squad player can quit or retire ("<name> QUITS INTERNATIONAL FOOTBALL" for one never
+capped; "<name> GIVES UP ... RETIRES FROM THE INTERNATIONAL SCENE"): **play next game** then shows
+that bulletin and returns to the menu without playing, with a new young player in his place; check
+the squad, then play next game again. In year 4 this happened before almost every match. The squad
+screen and the pool stayed open during the World Cup finals (picks there were not tried; the manual
+says they are not allowed). The papers' advice ("BOLTON DESERVES A CAP") names pool players. A
 "SACK <name>" headline is only a headline; the sacking itself is F025's rule.
 
 ## 8. Everything you can change
@@ -226,7 +254,11 @@ then play next game again. The papers' advice ("BOLTON DESERVES A CAP") names po
 | "Do you want to watch this match ?" for ever | it never times out | `N` or `Y` |
 | a file-name line for ever | never times out | Enter writes, Esc cancels |
 | "hit any key" at half or full time | the board | `Space` goes on; Enter/Esc the match menu |
-| play next game comes back to the menu at once | a player quit (bulletin) | check the squad, play next game again |
+| play next game comes back to the menu at once | a player quit or retired (bulletin) | check the squad, play next game again |
+| "SUBSTITUTION OPPORTUNITY" again and again in a quick result | your injured player is still on | take him off on the bench, then **play** |
+| "penalty shoot out PRESS ANY KEY", then a list | the shoot-out order | pick eleven takers (`order.sh`) |
+| the full-time match menu offers **play**, not **exit** | extra time | **play** |
+| Enter on the bench changes nothing | the cursor is on a substitute: take one of the eleven off first | Enter on the eleven, then on the substitute |
 | "next opponents" empty | no fixture left this stage | play next game until the stage changes |
 | ↑ does nothing | the top of the list | ↓ |
 | the screen changes every second | a match or the round's results playing | wait (`watch`, `advance`) |
