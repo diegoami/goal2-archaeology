@@ -17,6 +17,13 @@ refuses git stash, git worktree, any force-push and gh pr merge.
   `origin/main`, push it, and commit and push after every meaningful step. Never touch another
   branch or the main checkout. Run commands from the worktree root with relative paths; never
   `cd`, and never `..` (L31).
+- Never end a turn to wait. A turn that ends in plain text counts as "done": the harness then sends
+  "[handback-send-enforce] Your report has not been delivered ... call SubagentHandback now; the call
+  ends your run", which is a nudge, not an instruction from the main session. While a job of yours
+  runs (a sweep, a build, a review), wait inside a tool call: one foreground Bash call with a loop
+  such as `while ps -eo cmd | grep -q '[j]ob_name'; do sleep 30; done` and a timeout under 600000 ms,
+  repeated as needed. Hand back only when every Done-when line is met or you are truly blocked; if you
+  must hand back early, say what is unfinished and what runs still. (L110)
 - When done: open the PR (`gh pr create`) with the body below, and make your final message the
   report: what you built, each Done-when line with the command you ran and its result, anything
   you could not verify. The main session reviews and merges; you never merge.
