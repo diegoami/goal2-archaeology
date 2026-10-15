@@ -6,7 +6,7 @@ set -u
 cd "$(dirname "${BASH_SOURCE[0]}")/../.."
 e=experiments/E031-play-the-game
 {
-  echo "commit $(git rev-parse --short HEAD) (worktree clean: $(test -z "$(git status --porcelain -- "$e" docs)" && echo yes || echo no)), $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+  echo "commit $(git rev-parse --short HEAD) (worktree clean apart from this file: $(test -z "$(git status --porcelain -- "$e" docs ":!$e/out/checks.txt")" && echo yes || echo no)), $(date -u +%Y-%m-%dT%H:%M:%SZ)"
   echo
   echo '$ python3 experiments/E031-play-the-game/verify_saves.py | tail -1'
   python3 $e/verify_saves.py 2>&1 | tail -1
