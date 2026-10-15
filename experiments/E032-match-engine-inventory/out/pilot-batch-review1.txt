@@ -1,0 +1,20 @@
+== falsifier coin-swapped
+seed 0x1234: score [1, 1] ticks 4146 draws 184109 cpu 8.3 s -> 18.2 s; caught: differ in score, ticks, draws, draws_digest, statistics_raw, templates
+1 seeds expected differ, 1 pass, 0 fail
+== falsifier bound-36
+seed 0x1234: score [1, 1] ticks 4146 draws 184109 cpu 8.3 s -> 315.4 s; caught: not completed (error 'no full-time board within 300 s'; did not stop at the full-time board)
+1 seeds expected differ, 1 pass, 0 fail
+== falsifier no-picture
+seed 0x1234: score [1, 1] ticks 4146 draws 184109 cpu 8.3 s -> 17.0 s; caught: differ in score, ticks, draws, draws_digest, statistics_raw, templates
+1 seeds expected differ, 1 pass, 0 fail
+== exact port, eight seeds
+seed 0x0101: score [1, 0] ticks 4279 draws 192967 cpu 10.7 s -> 17.6 s; identical
+seed 0x2b7e: score [0, 2] ticks 4029 draws 175773 cpu 9.3 s -> 17.6 s; identical
+seed 0x4c1d: score [1, 0] ticks 4659 draws 210776 cpu 10.5 s -> 19.8 s; identical
+seed 0x6a33: score [0, 2] ticks 4159 draws 184733 cpu 9.9 s -> 17.7 s; identical
+seed 0x8e05: score [1, 0] ticks 4157 draws 186815 cpu 12.1 s -> 18.9 s; identical
+seed 0xa1f0: score [1, 0] ticks 4281 draws 191805 cpu 13.1 s -> 19.6 s; identical
+seed 0xc3c3: score [2, 1] ticks 4262 draws 184677 cpu 16.8 s -> 17.8 s; identical
+seed 0xe719: score [1, 0] ticks 4240 draws 191629 cpu 11.9 s -> 18.3 s; identical
+8 seeds expected identical, 8 pass, 0 fail
+batch exit 0
