@@ -35,7 +35,7 @@ UI_PREFIXES = ("draw_", "show_", "ask_", "wait_")   # a prefix: draw_table_byte 
 UI_WORDS = ("menu", "performance_text", "snapshot", "replay")
 # substituted exactly in whole matches (spec/match-engine.md routine table; T42-T48)
 MODELLED = {"0791:278A", "1771:377E", "0791:287C", "214B:0688", "214B:06B1", "214B:06D0", "214B:06FA",
-            "214B:0D1C", "214B:0D56", "1771:3A06"}
+            "214B:0D56", "23E4:0279"}   # T48's long helpers (check.py LONG_MAX, LONG_MUL); v2 listed 0D1C and 3A06 wrongly
 
 
 def part(r):
