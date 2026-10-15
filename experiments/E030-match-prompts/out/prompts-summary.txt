@@ -1,4 +1,12 @@
 == r0013: 865 snapshots; [A923]+0x41 over the snapshots: 0: 1, 1: 863, None: 1
+  in-match menu label "Hit INS to turn automatic action replay <X>" (listed screens only) by [A923]+0x41: OFF with byte 1: 43
+  goals seen as a rise of the board score between snapshots: 17; replay or save-the-goal prompts on a board that rose: 6 snapshots
+  SAVEGOAL_ASK state 87: board [('POLAND', 2), ('ROMANIA', 0)], last different board [('POLAND', 1), ('ROMANIA', 0)], scoring side: POLAND
+  SAVEGOAL_ASK state 332: board [('PORTUGAL', 0), ('ITALY', 1)], last different board [('PORTUGAL', 0), ('ITALY', 0)], scoring side: ITALY
+  REPLAY_ASK state 339: board [('PORTUGAL', 2), ('ITALY', 1)], last different board [('PORTUGAL', 1), ('ITALY', 1)], scoring side: PORTUGAL
+  REPLAY_ASK state 736: board [('PORTUGAL', 3), ('ITALY', 1)], last different board [('PORTUGAL', 2), ('ITALY', 1)], scoring side: PORTUGAL
+  SAVEGOAL_ASK state 737: board [('PORTUGAL', 3), ('ITALY', 1)], last different board [('PORTUGAL', 2), ('ITALY', 1)], scoring side: PORTUGAL
+  REPLAY_ASK state 742: board [('PORTUGAL', 3), ('ITALY', 2)], last different board [('PORTUGAL', 3), ('ITALY', 1)], scoring side: ITALY
   CAPTAIN: 1 of 865 snapshots hold it, in 1 run(s) of consecutive snapshots
     states 280..280 (1 snapshots, 0 s from first to last, 20261015T052158Z..20261015T052158Z); next snapshot 281 is OTHER, 5 s after the last; the one before is 279 (OTHER), 8 s earlier
   GL_NAME: 7 of 865 snapshots hold it, in 3 run(s) of consecutive snapshots
@@ -31,6 +39,8 @@
     states 101..106 (6 snapshots, 56 s from first to last, 20261015T051704Z..20261015T051800Z); next snapshot 107 is OTHER, 2 s after the last; the one before is 100 (OTHER), 15 s earlier
     states 111..111 (1 snapshots, 0 s from first to last, 20261015T051819Z..20261015T051819Z); next snapshot 112 is OTHER, 5 s after the last; the one before is 110 (OTHER), 10 s earlier
 == r0017: 297 snapshots; [A923]+0x41 over the snapshots: 0: 2, 1: 294, None: 1
+  in-match menu label "Hit INS to turn automatic action replay <X>" (listed screens only) by [A923]+0x41: OFF with byte 1: 14
+  goals seen as a rise of the board score between snapshots: 0; replay or save-the-goal prompts on a board that rose: 0 snapshots
   CAPTAIN: 1 of 297 snapshots hold it, in 1 run(s) of consecutive snapshots
     states 202..202 (1 snapshots, 0 s from first to last, 20261015T045359Z..20261015T045359Z); next snapshot 203 is OTHER, 4 s after the last; the one before is 201 (OTHER), 5 s earlier
   GL_NAME: 7 of 297 snapshots hold it, in 2 run(s) of consecutive snapshots

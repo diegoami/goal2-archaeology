@@ -62,6 +62,12 @@ def tag(screen):
     return 'OTHER'
 
 
+def score(screen):
+    """The two (team, goals) pairs of the match board's header, or None when the screen has no board."""
+    pairs = re.findall(r'│([A-Z]+)-*│ *(\d+)│', screen)
+    return [(n, int(g)) for n, g in pairs[:2]] if len(pairs) >= 2 else None
+
+
 def ins_byte(hexstr):
     h = ''.join(c for c in hexstr if c in '0123456789abcdefABCDEF')
     return int(h[0x41 * 2:0x41 * 2 + 2], 16) if len(h) >= 0x42 * 2 else None
@@ -77,10 +83,29 @@ def main():
         text, when, block = load(run)
         rows = []
         last = ''
+        boards = {}
         for s in sorted(when):
             if s in text:
                 last = text[s]
             rows.append((s, when[s], tag(last), ins_byte(block[s]) if s in block else None))
+            boards[s] = score(last)
+        # which side scored before each replay or save-the-goal prompt: the team whose goals rose against the
+        # nearest earlier snapshot with a different score on the board
+        goals = []
+        order = [r[0] for r in rows]
+        for r in rows:
+            if r[2] not in ('REPLAY_ASK', 'SAVEGOAL_ASK') or not boards[r[0]]:
+                continue
+            now = boards[r[0]]
+            prev = None
+            for q in reversed(order[:order.index(r[0])]):
+                if boards[q] and boards[q] != now and [n for n, _ in boards[q]] == [n for n, _ in now]:
+                    prev = boards[q]
+                    break
+            side = ''
+            if prev:
+                side = ','.join(n for (n, g), (_, h) in zip(now, prev) if g > h) or 'none'
+            goals.append(f'  {r[2]} state {r[0]}: board {now}, last different board {prev}, scoring side: {side or "unknown"}')
         with open(os.path.join(OUT, f'{run}-prompts.tsv'), 'w') as o:
             o.write('state\tutc\tclass\tins_byte_0x41\tseconds_to_next\tnext_class\n')
             for i, (s, w, c, b) in enumerate(rows):
@@ -92,8 +117,31 @@ def main():
         ins = {}
         for r in rows:
             ins[r[3]] = ins.get(r[3], 0) + 1
+        # the in-match menu's label "Hit INS to turn automatic action replay OFF|ON" against the byte
+        label = {}
+        shown = ''
+        for s in sorted(when):
+            if s in text:
+                shown = text[s]
+            m = re.search(r'Hit INS to turn automatic action replay (OFF|ON)', shown) if s in text else None
+            if m:
+                key = (m.group(1), ins_byte(block[s]) if s in block else None)
+                label[key] = label.get(key, 0) + 1
         summary.append(f'== {run}: {len(rows)} snapshots; [A923]+0x41 over the snapshots: ' +
                        ', '.join(f'{k}: {v}' for k, v in sorted(ins.items(), key=lambda kv: str(kv[0]))))
+        summary.append('  in-match menu label "Hit INS to turn automatic action replay <X>" (listed screens only) by [A923]+0x41: ' +
+                       (', '.join(f'{k[0]} with byte {k[1]}: {v}' for k, v in sorted(label.items(), key=str)) or 'none'))
+        # goals seen on the board: a rise of one team's goals between two snapshots with the same two teams
+        seen = 0
+        lastb = None
+        for q in order:
+            b = boards[q]
+            if b and lastb and [n for n, _ in b] == [n for n, _ in lastb]:
+                seen += sum(max(0, g - h) for (_, g), (_, h) in zip(b, lastb))
+            if b:
+                lastb = b
+        summary.append(f'  goals seen as a rise of the board score between snapshots: {seen}; replay or save-the-goal prompts on a board that rose: {len(goals)} snapshots')
+        summary.extend(goals)
         for c in sorted({r[2] for r in rows} - {'OTHER'}):
             held = [i for i, r in enumerate(rows) if r[2] == c]
             groups, cur = [], []
