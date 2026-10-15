@@ -1,0 +1,50 @@
+{"seed": 4660, "skipped": ["0791:8537"], "score": [0, 0], "ticks": 88360, "draws": 4464599, "cpu_s": 157.4, "error": "no full-time board within 150 s (a loop waits for what the skipped routine does)"}
+{"seed": 9029, "skipped": ["0791:8537"], "score": [0, 0], "ticks": 86024, "draws": 4346838, "cpu_s": 157.2, "error": "no full-time board within 150 s (a loop waits for what the skipped routine does)"}
+0791:8537: seed 0x1234: score [1, 1] ticks 4146 draws 184109 cpu 8.3 s -> 157.4 s; DIFFER: score, ticks, draws, draws_digest, statistics_raw, templates
+0791:8537: seed 0x2345: score [0, 1] ticks 4138 draws 187079 cpu 8.5 s -> 157.2 s; DIFFER: score, ticks, draws, draws_digest, statistics_raw, templates
+0791:8537: 2 seeds compared, 2 differ
+{"seed": 4660, "skipped": ["0791:8E24"], "score": [0, 2], "ticks": 4299, "draws": 185544, "cpu_s": 8.8, "error": null}
+{"seed": 9029, "skipped": ["0791:8E24"], "score": [1, 0], "ticks": 4409, "draws": 197344, "cpu_s": 11.1, "error": null}
+0791:8E24: seed 0x1234: score [1, 1] ticks 4146 draws 184109 cpu 8.3 s -> 8.8 s; DIFFER: score, ticks, draws, draws_digest, statistics_raw, templates
+0791:8E24: seed 0x2345: score [0, 1] ticks 4138 draws 187079 cpu 8.5 s -> 11.1 s; DIFFER: score, ticks, draws, draws_digest, statistics_raw, templates
+0791:8E24: 2 seeds compared, 2 differ
+{"seed": 4660, "skipped": ["0791:8F10"], "score": [1, 1], "ticks": 4146, "draws": 184109, "cpu_s": 10.8, "error": null}
+{"seed": 9029, "skipped": ["0791:8F10"], "score": [0, 1], "ticks": 4138, "draws": 187079, "cpu_s": 11.1, "error": null}
+0791:8F10: seed 0x1234: score [1, 1] ticks 4146 draws 184109 cpu 8.3 s -> 10.8 s; identical
+0791:8F10: seed 0x2345: score [0, 1] ticks 4138 draws 187079 cpu 8.5 s -> 11.1 s; identical
+0791:8F10: 2 seeds compared, 0 differ
+{"seed": 4660, "skipped": ["0791:9079"], "score": [1, 1], "ticks": 4146, "draws": 184109, "cpu_s": 8.8, "error": null}
+{"seed": 9029, "skipped": ["0791:9079"], "score": [0, 1], "ticks": 4138, "draws": 187079, "cpu_s": 9.2, "error": null}
+0791:9079: seed 0x1234: score [1, 1] ticks 4146 draws 184109 cpu 8.3 s -> 8.8 s; identical
+0791:9079: seed 0x2345: score [0, 1] ticks 4138 draws 187079 cpu 8.5 s -> 9.2 s; identical
+0791:9079: 2 seeds compared, 0 differ
+{"seed": 4660, "skipped": ["0791:0481"], "score": [1, 1], "ticks": 4146, "draws": 184109, "cpu_s": 9.0, "error": null}
+{"seed": 9029, "skipped": ["0791:0481"], "score": [0, 1], "ticks": 4138, "draws": 187079, "cpu_s": 9.4, "error": null}
+0791:0481: seed 0x1234: score [1, 1] ticks 4146 draws 184109 cpu 8.3 s -> 9.0 s; identical
+0791:0481: seed 0x2345: score [0, 1] ticks 4138 draws 187079 cpu 8.5 s -> 9.4 s; identical
+0791:0481: 2 seeds compared, 0 differ
+{"seed": 4660, "skipped": ["0791:1829"], "score": [1, 1], "ticks": 4146, "draws": 184109, "cpu_s": 8.7, "error": null}
+{"seed": 9029, "skipped": ["0791:1829"], "score": [0, 1], "ticks": 4138, "draws": 187079, "cpu_s": 9.2, "error": null}
+0791:1829: seed 0x1234: score [1, 1] ticks 4146 draws 184109 cpu 8.3 s -> 8.7 s; identical
+0791:1829: seed 0x2345: score [0, 1] ticks 4138 draws 187079 cpu 8.5 s -> 9.2 s; identical
+0791:1829: 2 seeds compared, 0 differ
+{"seed": 4660, "skipped": ["0791:0425"], "score": [1, 1], "ticks": 4146, "draws": 184109, "cpu_s": 10.3, "error": null}
+{"seed": 9029, "skipped": ["0791:0425"], "score": [0, 1], "ticks": 4138, "draws": 187079, "cpu_s": 12.6, "error": null}
+0791:0425: seed 0x1234: score [1, 1] ticks 4146 draws 184109 cpu 8.3 s -> 10.3 s; identical
+0791:0425: seed 0x2345: score [0, 1] ticks 4138 draws 187079 cpu 8.5 s -> 12.6 s; identical
+0791:0425: 2 seeds compared, 0 differ
+{"seed": 4660, "skipped": ["0791:0441"], "score": [1, 1], "ticks": 4146, "draws": 184109, "cpu_s": 8.9, "error": null}
+{"seed": 9029, "skipped": ["0791:0441"], "score": [0, 1], "ticks": 4138, "draws": 187079, "cpu_s": 8.8, "error": null}
+0791:0441: seed 0x1234: score [1, 1] ticks 4146 draws 184109 cpu 8.3 s -> 8.9 s; identical
+0791:0441: seed 0x2345: score [0, 1] ticks 4138 draws 187079 cpu 8.5 s -> 8.8 s; identical
+0791:0441: 2 seeds compared, 0 differ
+{"seed": 4660, "skipped": ["0791:94E8"], "score": [1, 1], "ticks": 4146, "draws": 184109, "cpu_s": 9.5, "error": null}
+{"seed": 9029, "skipped": ["0791:94E8"], "score": [0, 1], "ticks": 4138, "draws": 187079, "cpu_s": 10.2, "error": null}
+0791:94E8: seed 0x1234: score [1, 1] ticks 4146 draws 184109 cpu 8.3 s -> 9.5 s; identical
+0791:94E8: seed 0x2345: score [0, 1] ticks 4138 draws 187079 cpu 8.5 s -> 10.2 s; identical
+0791:94E8: 2 seeds compared, 0 differ
+{"seed": 4660, "skipped": ["0791:8E24", "0791:9079", "0791:0481", "0791:1829", "0791:0425", "0791:0441", "0791:94E8"], "score": [0, 2], "ticks": 4299, "draws": 185544, "cpu_s": 10.4, "error": null}
+{"seed": 9029, "skipped": ["0791:8E24", "0791:9079", "0791:0481", "0791:1829", "0791:0425", "0791:0441", "0791:94E8"], "score": [1, 0], "ticks": 4409, "draws": 197344, "cpu_s": 11.1, "error": null}
+0791:8E24,0791:9079,0791:0481,0791:1829,0791:0425,0791:0441,0791:94E8: seed 0x1234: score [1, 1] ticks 4146 draws 184109 cpu 8.3 s -> 10.4 s; DIFFER: score, ticks, draws, draws_digest, statistics_raw, templates
+0791:8E24,0791:9079,0791:0481,0791:1829,0791:0425,0791:0441,0791:94E8: seed 0x2345: score [0, 1] ticks 4138 draws 187079 cpu 8.5 s -> 11.1 s; DIFFER: score, ticks, draws, draws_digest, statistics_raw, templates
+0791:8E24,0791:9079,0791:0481,0791:1829,0791:0425,0791:0441,0791:94E8: 2 seeds compared, 2 differ

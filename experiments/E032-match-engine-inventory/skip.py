@@ -51,7 +51,9 @@ def main():
         t, c = time.time(), time.process_time()
         error = None
         try:
-            m.run(timeout_s=1200)
+            m.run(timeout_s=150)        # a normal match takes 10-17 s here
+            if not m.stopped_at_board:
+                error = "no full-time board within 150 s (a loop waits for what the skipped routine does)"
         except Exception as e:
             error = f"{type(e).__name__}: {e}"
         wall, cpu = round(time.time() - t, 1), round(time.process_time() - c, 1)
