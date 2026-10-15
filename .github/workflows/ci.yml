@@ -36,7 +36,7 @@ jobs:
   # code would still run: this gate compares the push itself (before..after) and skips the checks
   # when it touches only measured outputs. A first push, a reopen or ready_for_review always runs.
   gate:
-    if: github.event_name == 'pull_request' && !github.event.pull_request.draft
+    if: github.event_name == 'pull_request'   # TEMPORARY (fix #141 reproduction on the draft PR)
     runs-on: ubuntu-latest
     outputs:
       run: ${{ steps.diff.outputs.run }}
