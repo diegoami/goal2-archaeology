@@ -79,3 +79,31 @@ calls).
   now includes `9372`).
 - `costs.py` recounts every cost the plan states from these logs and the static tables
   (`out/costs-review1.md`), with its assumptions named; the plan's numbers are taken from it.
+
+## Review round 2 (PR 243, Sol): no acceptance without its evidence; costs from the logs
+
+- R1, R2: `pilot_batch.sh` and `skip_batch.sh` compared the outputs of generators that had refused (the
+  stamp was used before), so stale logs passed. Every generator's exit status is now checked and a failed
+  generator's output is never compared (batch exit 2); `skip_batch.sh` keeps a measured "not removable"
+  (compare exit 1) apart from an infrastructure failure or malformed evidence (exit 2). `coverage_batch.sh`
+  fails on a failed generator too. `recheck.sh` generates nothing; it fails on any compare exit 2.
+- R3: `compare.py` compared fields with `.get`, so records missing their evidence were "identical" (missing
+  in both) or a "caught falsifier" (missing in the candidate). Every record is now validated first; a
+  completed match without valid score, ticks, draws, digest, statistics and templates makes the log
+  MALFORMED (exit 2) under either expectation. `analyze.incomplete` requires the completion keys and
+  well-formed routine rows; `union.py` requires `match_blocks`.
+- Tests (`tests/test_e032_compare.py`, 26): on the round-1 scripts of 0ce1342, 5 fail
+  (`out/gate-tests-on-round1-scripts-review2.txt`): the two bypasses the review showed (evidence missing in
+  both under identical; missing in the candidate under differ), missing completion keys, and the two
+  batches run with a used stamp. The other two missing-evidence cases already failed closed in round 1.
+- R4: `costs.py` budgeted the falsifiers at the successful hooked mean (54.1 s a set) while the logs hold
+  347.4 s and 350.6 s (the `bound-36` falsifier runs to `pilot_movement.py`'s 300 s limit). Every figure that
+  a committed log measures is now taken from it: the falsifier sets (incomplete runs at the CPU they
+  consumed), the hooked mean (all 18 exact pilot matches, 18.0 s), the oracle (10 delay-count matches),
+  coverage runs, and route A's proved whole matches (T48's logs: 14 reached minute 91 in 32-80 minutes, 8
+  stopped at a limit; the plan had said 70-80). The rest are named assumptions in the report. Outputs:
+  `costs-review2.md/.json` (step hours rounded to whole hours in the JSON: superseded, kept),
+  `costs-review2-v2.md/.json` (no keys for the fixed hours: superseded, kept), `costs-review2-v3.md/.json`
+  (current). `plancheck.py` ties the plan's 65 cost phrases to the report and finds no cost figure outside
+  them (`out/plancheck-review2.txt`); on the round-1 plan it finds 34 untied figures
+  (`out/plancheck-on-round1-plan-review2.txt`).

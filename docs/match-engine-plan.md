@@ -97,8 +97,10 @@ watched matches of the original with the step's routines replaced by their ports
 unhooked matches of the same seeds, field by field (score, ticks, every main-seed draw by its digest, the
 full-time board's raw statistics, the commentary's template counts), plus two or three falsifiers that
 must each change a match or stop it completing. The comparison fails closed (`compare.py`, after PR 243's
-review): the candidate must hold exactly the expected seeds, each once, and every match must have reached
-the full-time board with no error and no stray key wait. The family is 40 matches: 20 seeds from E011-r0001's
+review): the candidate must hold exactly the expected seeds, each once, every match must have reached
+the full-time board with no error and no stray key wait, and every record must carry all the evidence the
+comparison uses (missing evidence is neither a match nor a caught falsifier); a run whose generator failed
+is never compared. The family is 40 matches: 20 seeds from E011-r0001's
 watchstart state as they are, and the same 20 with declared edits that widen the paths (one side's tactic
 byte, skills, energy and form, as E026 edited them); start states with other countries come with P7. (E011-r0002's records differ from r0001's only in
 bytes F013 calls timing artefacts, so its watchstart adds little once the seed is written.)
