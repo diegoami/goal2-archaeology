@@ -6,7 +6,7 @@
 SYNTHETIC STAND-INS, not video frames: the sitting's video holds no game pixels (notes.md), so each crop
 is a 25x3-cell piece of a snapshot's text screen (T39a's renderer, the savestate's own font and attributes)
 drawn at 2x like the window the recorder films, then every channel of every pixel moved by a fixed
-pseudo-random amount of at most +-12 (a stand-in for h264 noise; the decoder maps to the nearest VGA colour).
+pseudo-random amount of at most +-12 (a stand-in for h264 noise, amplitude designed, no source; the decoder maps to the nearest VGA colour).
 GOAL2 material: private repository only (rule 18).
 """
 import json
@@ -21,6 +21,7 @@ import render  # noqa: E402
 import savestate  # noqa: E402
 
 CROPS = [("crop-a.png", 101, 0, 0), ("crop-b.png", 101, 6, 0), ("crop-c.png", 150, 7, 0)]
+# NOISE = 12 is a guess (designed, no source): it was not fitted to real h264 output of the game.
 COLS, ROWS, SCALE, NOISE = 25, 3, 2, 12
 
 

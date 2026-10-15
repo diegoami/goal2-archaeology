@@ -162,7 +162,7 @@ def decode_frame(rgb, width, glyphs, cols=80, rows=25, scale=1, x0=0, y0=0):
 def find_grid(rgb, width, height, glyphs, scale, rows_sample=3, cols_sample=None):
     """(x0, y0, score) of the offset of the text grid at `scale`, or None when the frame holds no ink.
     The score is the number of cells, over`rows_sample` evenly spaced text rows and the first `cols_sample` columns, that match a glyph exactly. Offsets searched: 0..8*scale-1 by 0..16*scale-1."""
-    if not any(rgb[i] > 64 for i in range(0, len(rgb), 3 * 7)):
+    if max(rgb, default=0) <= 64:       # ink in any channel (a blue-only screen has none in red)
         return None
     first = glyph_bitmaps(glyphs)
     cols, rows = width // (CELL_W * scale) - 1, height // (CELL_H * scale) - 1

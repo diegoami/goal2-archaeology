@@ -77,6 +77,14 @@ class DecodeCropTests(unittest.TestCase):
             # a glyph and its inverse with swapped colours (0x07 and 0x08) look the same: appearance decides
             self.assertEqual((video.cell_appearance(ch, at, glyphs), dist), (pix, 0), code)
 
+    def test_find_grid_sees_ink_in_the_blue_channel_alone(self):
+        w, h, rgb = video.read_png((CROPS / "crop-b.png").read_bytes())
+        blue = bytearray(rgb)
+        blue[0::3] = bytes(len(blue[0::3]))       # drop red and green: every colour is now blue-only
+        blue[1::3] = bytes(len(blue[1::3]))
+        found = video.find_grid(bytes(blue), w, h, render.fallback_font(), 2, rows_sample=1, cols_sample=3)
+        self.assertIsNotNone(found)
+
     def test_a_black_frame_has_no_grid_and_decodes_to_blank(self):
         rgb = bytes(3 * 400 * 96)
         self.assertIsNone(video.find_grid(rgb, 400, 96, render.fallback_font(), 2))

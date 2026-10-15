@@ -49,6 +49,25 @@ def frame_count(path):
     return int(last.split("frame=")[1].split()[0])
 
 
+def video_start_bound(session, index):
+    """(lo, hi) seconds: the video's start minus the origin of the snapshots' `elapsed_s` clock, or None.
+    The video start is the session.log line `[HH:MM:SS] video started` (whole seconds, so 1 s wide); the origin
+    is the first snapshot's `utc` minus its `elapsed_s`. meta.json holds no video start time. Positive
+    means the video starts later than the clock: a frame time n/fps then lies that much after elapsed_s."""
+    import re
+    from datetime import datetime
+    first = index[0]
+    origin = datetime.fromisoformat(first["utc"].replace("Z", "+00:00")).timestamp() - first["elapsed_s"]
+    for line in (session / "session.log").read_text(errors="replace").splitlines():
+        m = re.match(r"\[(\d\d):(\d\d):(\d\d)\] video started", line)
+        if m:
+            h, mi, sec = map(int, m.groups())
+            day = datetime.fromtimestamp(origin, tz=__import__("datetime").timezone.utc)
+            whole = day.replace(hour=h, minute=mi, second=sec, microsecond=0).timestamp()
+            return round(whole - origin, 3), round(whole - origin + 1, 3)
+    return None
+
+
 def appearance_rows(chars, attrs, glyphs):
     return [video.cell_appearance(c, a, glyphs) for c, a in zip(chars, attrs)]
 
@@ -120,6 +139,10 @@ def main(argv=None):
     inked = sum(1 for b in bright.values() if b)
     print(f"frames {nframes}; distinct frames used {len(want)}; frames with any bright pixel {inked}; "
           f"most bright pixels in one frame {max(bright.values())}")
+    bound = video_start_bound(a.session, index)
+    print("ASSUMPTION (unproven): video time = the snapshots' elapsed_s clock; the recorder records no video start "
+          "time, so a real recording may be decoded from a frame offset in time.")
+    print(f"video start minus the elapsed_s clock's origin, from session.log: {bound} s (whole-second log line)")
     print(f"screens exact: {screens_exact}/{len(index)}")
     print(f"cells exact: {cells_exact}/{len(index) * 2000}")
     print(f"cells with ink in the snapshot, exact: {ink_exact}/{ink_total}")

@@ -24,7 +24,7 @@ presses 397: gaps under 0.1 s 87, under 0.2 s 199, no frame between a press and 
   three other videos in the owner's `sessions/` folder (20261011-211051, 20261011-211125: mean luma at most 16.0132;
   20261011-160938 is 581 bytes and was not decoded).
 - Grid: nothing to find. The window's 1280x800 is exactly the 640x400 screen at 2x, and `video.find_grid`
-  returns `None` for a frame without ink (pinned by a test). On the synthetic crops the grid is found within
+  returns `None` for a frame without ink in any channel (pinned by a test). On the synthetic crops the grid is found within
   one pixel and decodes exactly.
 - Worst cases (all 224 are equally absent; the three with the fewest cells exact, by snapshot): seq 12, 14,
   15 in `out/worst-seq*-frame*.png` (the frame: black with the cursor) beside `out/worst-seq*-snapshot.png`
@@ -50,16 +50,23 @@ fast scrolling; this is separate from the black frames.
 
 ## Method and limits
 
-- Frame choice: the frame on screen at the snapshot's `request_s` (frame n covers n/10..(n+1)/10 s),
-  taking the video's clock as the session's `elapsed_s` (not measured: every frame is black, so no frame
-  choice could change a result). No frame was searched for by its match.
+- Frame choice: the frame on screen at the snapshot's `request_s` (frame n covers n/10..(n+1)/10 s). **UNPROVEN
+  ASSUMPTION: the video's clock is the snapshots' `elapsed_s` clock.** The recorder starts ffmpeg before the
+  watcher clock (`monotonic_start_s`) exists and records no video start time in `meta.json`, so a real
+  recording can be decoded from the wrong frame and falsely pass or fail. Bound for this sitting, from the
+  `[14:10:03] video started` line of `session.log` (whole seconds) against the first snapshot's
+  `utc` minus `elapsed_s`: the video started between -0.907 s and +0.093 s of that clock (`check.py` prints
+  it, and the assumption, on every run). That is up to 9 frames of uncertainty. The black video's verdict does not depend
+  on it; a future non-black one does. Follow-up (a separate recorder change, not made here): write the
+  video's start time (the monotonic clock `monotonic_start_s` uses, taken when ffmpeg is spawned) into
+  `meta.json`; until then an exact-screens claim must also show the offset by a screen change at a known key.
 - Decoder (`tools/screens/video.py`): samples the centre of each font pixel, maps it to the nearest of the 16 VGA
   colours, finds the glyph with an exact bitmap or the nearest by differing pixels (`dist`), compares cells
   by *appearance* (blank chars 0x00, 0x20, 0xFF are one appearance; a blank cell's foreground is invisible).
 - `tests/test_screens_video.py` pins the decoder on three committed crops, `crops/crop-{a,b,c}.png`
   (25x3 cells at 2x). **They are synthetic stand-ins, not video frames**: no frame holds text. Each is a
   piece of a snapshot's screen (snapshots 101 and 150) rendered by T39a's renderer with the savestate's font and
-  up to +-12 noise per channel (`make_crops.py`). They prove the decoder reads text, box drawing and foreground
+  up to +-12 noise per channel (`make_crops.py`; the 12 is a guess, designed, no source: it was not fitted to real h264 output). They prove the decoder reads text, box drawing and foreground
   colour back through pixel noise (exact, dist 0), not that h264 frames decode: that line of the Done-when
   (crops of video frames) is unmet.
 - Outputs are under `out/` (`env.txt` has the ffmpeg version and the video's hash). The video is not
