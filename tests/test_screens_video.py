@@ -66,6 +66,17 @@ class DecodeCropTests(unittest.TestCase):
         chars, attrs, dists = video.decode_frame(bytes(shifted), w + pad, render.fallback_font(), 25, 3, 2, x0, y0)
         self.assertEqual(lines(chars, 25), EXPECT["crop-b.png"][0])
 
+    def test_a_cell_whose_ink_is_the_majority_colour_keeps_fg_and_bg(self):
+        glyphs = render.fallback_font()
+        first = video.glyph_bitmaps(glyphs)
+        dense = [c for c in range(256) if sum(bin(b).count("1") for b in glyphs[c]) > 64 and glyphs[c] != b"\xff" * 16]
+        self.assertTrue(dense)
+        for code in dense:
+            pix = video.cell_appearance(code, 0x1E, glyphs)        # yellow on blue
+            ch, at, dist = video.decode_cell(pix, glyphs, first)
+            # a glyph and its inverse with swapped colours (0x07 and 0x08) look the same: appearance decides
+            self.assertEqual((video.cell_appearance(ch, at, glyphs), dist), (pix, 0), code)
+
     def test_a_black_frame_has_no_grid_and_decodes_to_blank(self):
         rgb = bytes(3 * 400 * 96)
         self.assertIsNone(video.find_grid(rgb, 400, 96, render.fallback_font(), 2))
