@@ -288,7 +288,7 @@ every sitting of the owner is extracted (section 11). Also when the owner states
 a correction or a wish.
 
 **1. Sort every item** into exactly one kind, and keep the kinds apart:
-- *finding*: backed by a method, reviewed, with its F-number and status. Source tag `finding`.
+- *finding*: backed by a method, reviewed, with its F-number and its evidence level (proposed, supported or corroborated; not a work status, rule 3). Source tag `finding`.
 - *owner statement*: what the owner said or did in a sitting, the notes of the run record
   (`runtime/human/note.py`). Source tag `owner`, citing the sitting and the run record. It is
   never written as a finding; it names what would check it.
