@@ -405,8 +405,12 @@ def kind(text):
         return "summary-prompt"
     if "Do you want an action replay" in text or "Do you want to save this goal" in text:
         return "replay-prompt"
+    if "SUBSTITUTION OPPORTUNITY" in last:
+        return "sub-opportunity"  # your player is injured: substitute him, or it comes back (section 6)
+    if "penalty shoot out" in last or "to select the order" in last:
+        return "shoot-out"
     if "Hit INS to turn automatic action replay" in text:
-        if "FULL TIME" in text:
+        if "FULL TIME" in text and "EXTRA TIME" not in text:
             return "match-menu-fulltime"
         return "match-menu"
     if "make substitutions now" in text or "substitution requested" in text or "request substitution" in text:

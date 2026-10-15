@@ -24,7 +24,7 @@ def board(text, team):
     m3 = re.search(r"│([A-Z][A-Z .']+?)-*│\s*(\d+)│", rows[3])
     if not (m1 and m3) or team.upper() not in (m1.group(1).strip(), m3.group(1).strip()):
         return None
-    kind = re.search(r"┬([A-Z]+)─", rows[0])
+    kind = re.search(r"┬([A-Z0-9][A-Z0-9 .-]*?)─", rows[0])
     return (m1.group(1).strip(), int(m1.group(2)), m3.group(1).strip(), int(m3.group(2)),
             kind.group(1) if kind else "")
 
