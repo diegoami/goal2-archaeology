@@ -96,7 +96,11 @@ import driver  # noqa: E402  (verify_release, host_times, SET_ID, CACHE; config 
 # Each one is a rule of the recorder; tests/test_human_record.py fails when any is mutated.
 # Cadence. 20 s is what the brief asks for (one savestate per ~20 s); the design choice below
 # STABLE_POLLS grounds how the live file is read; the cadence itself is in the task.
-CADENCE_S = 20.0      # seconds between snapshot ticks (the brief: every ~20 s) [brief]
+CADENCE_S = 20.0      # seconds between snapshot ticks (the brief: every ~20 s) [brief]; the Watcher's
+                      # own default, which scripted sittings and the tests keep
+# The owner's sittings tick faster (the owner, 2026-10-15: 20 s is too long in a match; a key burst
+# already snapshots 0.05 s after it settles, so the tick only matters while no key is pressed).
+DEFAULT_CADENCE_S = 5.0
 # Stability. STABLE_POLLS = 3 means three consecutive equal-size polls before bytes are captured
 # (R3). DOSBox-X 2024.03.01 writes the savestate in one shot to `state.sav` — measured on this
 # host, the file goes from 0 to its final size in under one poll (POLL_S = 0.25 s). Three polls =
@@ -797,9 +801,12 @@ class Watcher:
     _inject_time = None       # when the recorder last pressed Pause
     stop_cause = None         # why the loop ended, when no stop condition of its own did
 
+    cadence_s = CADENCE_S   # seconds between ticks; an instance may override it
+
     def __init__(self, session, live, wid, dbx, env, t0=None, index="index.jsonl",
                  clock=time.monotonic, sleep=time.sleep, xrun=None, alive=None, log=None,
-                 writing=None, watch=None, paused=None, resume_key=None):
+                 writing=None, watch=None, paused=None, resume_key=None, cadence_s=CADENCE_S):
+        self.cadence_s = cadence_s
         self.session = Path(session)
         self.live = Path(live)
         self.wid = wid
@@ -1501,11 +1508,11 @@ class Watcher:
                     # no save request while paused, or while the pause cannot be read (DOSBox-X would drop it: probe_pause log):
                     # the cadence ticks that fall in the pause are skipped, and the key groups
                     # typed before and during it wait for the resume's request (no key lost)
-                    while self.t0 + n * CADENCE_S <= now:
+                    while self.t0 + n * self.cadence_s <= now:
                         n += 1
                     self.sleep(0.01 if keys else PAUSE_POLL_S)
                     continue
-                next_tick = self.t0 + n * CADENCE_S
+                next_tick = self.t0 + n * self.cadence_s
                 # the settled episode's request goes out EVENT_SETTLE_S after the newest key
                 # event: after that key's release, and — for keys spaced just over the
                 # grouping quiet (the 0.527 s reproduction) — still between it and the next
@@ -1537,7 +1544,7 @@ class Watcher:
                     # settle is seen here, not after a request DOSBox-X would drop
                     next_pause_poll = self.clock() + PAUSE_POLL_S
                     continue
-                while self.t0 + n * CADENCE_S <= now:
+                while self.t0 + n * self.cadence_s <= now:
                     n += 1               # one request answers every tick due (T44: none doubled)
                 if send_resume:
                     try:
@@ -1750,6 +1757,25 @@ def parse_cycles(text):
     raise ValueError(f"cycles {text!r}: a number (fixed cycles), max or auto")
 
 
+def default_cadence(cadence, quit_after):
+    """Seconds between snapshot ticks: the one asked for; else DEFAULT_CADENCE_S for the owner's
+    sittings and CADENCE_S for a scripted sitting (--quit-after), whose tests expect it."""
+    if cadence is not None:
+        if cadence <= 0:
+            raise ValueError(f"cadence {cadence}: above 0 seconds")
+        return cadence
+    return DEFAULT_CADENCE_S if quit_after is None else CADENCE_S
+
+
+def default_cycles(cycles, quit_after):
+    """The cycles a sitting runs at: the one asked for; else, for the owner's sittings, DEFAULT_CYCLES;
+    for a scripted sitting (--quit-after) None, the driver's own config, which its timings were
+    measured at."""
+    if cycles is not None:
+        return cycles
+    return DEFAULT_CYCLES if quit_after is None else None
+
+
 def conf_for(session, scale=1, cycles=None):
     """The session's dosbox.conf text: the G1 driver's own config family (windowed surface output,
     savefile, captures, mapper in the session folder, C: from the session's game copy, D: for the
@@ -1910,7 +1936,7 @@ def start_nested(outer_env, res, logf, title=None, find=find_xephyr_window,
 
 
 def play(video=False, quit_after=None, res=None, load=None, fresh=False, scale=DEFAULT_SCALE,
-         cycles=DEFAULT_CYCLES):
+         cycles=None, cadence=None):
     """One sitting: launch windowed dosbox-x, watch it, stop cleanly, write meta. Returns 0."""
     if not os.environ.get("DISPLAY"):
         print("play: DISPLAY is not set; run from a graphical session", file=sys.stderr)
@@ -1922,7 +1948,8 @@ def play(video=False, quit_after=None, res=None, load=None, fresh=False, scale=D
         print(f"play: refused: {e}", file=sys.stderr)
         return 2
     res = res or nested_res(scale)
-    session, meta = new_session(load=load, fresh=fresh, scale=scale, cycles=cycles)
+    session, meta = (new_session(load=load, fresh=fresh, scale=scale) if cycles is None
+                     else new_session(load=load, fresh=fresh, scale=scale, cycles=cycles))
     logf = open(session / "session.log", "a", encoding="utf-8")
 
     def log(msg):
@@ -2033,7 +2060,9 @@ def play(video=False, quit_after=None, res=None, load=None, fresh=False, scale=D
         watcher = Watcher(session, session / "state.sav", wid, dbx, env, log=log,
                           xrun=lambda argv: send_save_event(wid, env), watch=watch,
                           paused=lambda: window_paused(wid, env),
-                          resume_key=lambda: inject_pause_key(wid, env, keys))
+                          resume_key=lambda: inject_pause_key(wid, env, keys),
+                          **({} if cadence is None else {"cadence_s": cadence}))
+        meta["cadence_s"] = getattr(watcher, "cadence_s", CADENCE_S)
         meta["pause"] = {"pause_key": "F12+P",
                          "resume_key": "F12+P (the recorder presses Pause) or Pause",
                          "file": "pauses.jsonl", "snapshot": "after-resume"}
@@ -2171,7 +2200,7 @@ def main(argv=None):
         # no subcommand, or flags only, means play
         argv.insert(0, "play")
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0],
-                                 usage="play.sh [play] [--scale N] [--cycles N] [--video] [--quit-after SECS] "
+                                 usage="play.sh [play] [--scale N] [--cycles N] [--cadence SECS] [--video] [--quit-after SECS] "
                                        "[--load FILE.GL | --fresh] | play.sh self-test [--video]"
                                        "  (no subcommand: play)")
     sub = ap.add_subparsers(dest="cmd", required=True)
@@ -2181,9 +2210,13 @@ def main(argv=None):
     pl.add_argument("--video", action="store_true", help="also record the game window (mkv)")
     pl.add_argument("--scale", type=int, default=DEFAULT_SCALE, choices=SCALES,
                     help=f"the game window's scale (default {DEFAULT_SCALE}; 1 for scripted sittings)")
-    pl.add_argument("--cycles", default=DEFAULT_CYCLES, metavar="N|max|auto",
+    pl.add_argument("--cycles", default=None, metavar="N|max|auto",
                     help=f"emulated CPU speed: N fixed cycles, max or auto (default {DEFAULT_CYCLES!r}, "
-                         "about a 386 at 33 MHz; 25000 is about a 486 at 66 MHz)")
+                         "about a 386 at 33 MHz; 25000 is about a 486 at 66 MHz; scripted sittings, "
+                         "which pass --quit-after, keep the driver's max unless this is given)")
+    pl.add_argument("--cadence", type=float, default=None, metavar="SECS",
+                    help=f"seconds between snapshot ticks (default {DEFAULT_CADENCE_S:g}; scripted "
+                         f"sittings, which pass --quit-after, keep {CADENCE_S:g})")
     pl.add_argument("--res", default=None, help="nested window size WIDTHxHEIGHT (default: fits the scale)")
     pl.add_argument("--quit-after", type=float, default=None, metavar="SECS",
                     help="stop the sitting after SECS seconds (scripted sittings)")
@@ -2197,11 +2230,16 @@ def main(argv=None):
     if a.res is not None and not __import__("re").fullmatch(r"[1-9][0-9]*x[1-9][0-9]*", a.res):
         ap.error("--res must be WIDTHxHEIGHT")
     try:
-        parse_cycles(a.cycles)
+        parse_cycles(a.cycles or "max")
+    except ValueError as e:
+        ap.error(str(e))
+    cycles = default_cycles(a.cycles, a.quit_after)
+    try:
+        cadence = default_cadence(a.cadence, a.quit_after)
     except ValueError as e:
         ap.error(str(e))
     return play(video=a.video, quit_after=a.quit_after, res=a.res, load=a.load, fresh=a.fresh,
-                scale=a.scale, cycles=a.cycles)
+                scale=a.scale, cycles=cycles, cadence=cadence)
 
 
 if __name__ == "__main__":

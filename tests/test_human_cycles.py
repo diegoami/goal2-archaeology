@@ -32,8 +32,37 @@ class CyclesTests(unittest.TestCase):
             with self.assertRaises(ValueError, msg=bad):
                 rec.parse_cycles(bad)
 
+    def test_scripted_sittings_keep_the_driver_config(self):
+        self.assertEqual(rec.default_cycles(None, None), "fixed 8000")
+        self.assertIsNone(rec.default_cycles(None, 30.0))
+        self.assertEqual(rec.default_cycles("max", None), "max")
+        self.assertEqual(rec.default_cycles("5000", 30.0), "5000")
+
+    def test_play_without_cycles_calls_new_session_as_before(self):
+        # the old signature: test doubles and callers that pass no cycles
+        import inspect
+        self.assertIsNone(inspect.signature(rec.play).parameters["cycles"].default)
+
     def test_no_cycles_keeps_the_driver_config(self):
         self.assertIn("\ncycles=max\n", self.conf(None))
+
+
+class CadenceTests(unittest.TestCase):
+    def test_owner_sittings_tick_every_5_s_scripted_keep_20(self):
+        self.assertEqual(rec.default_cadence(None, None), 5.0)
+        self.assertEqual(rec.default_cadence(None, 30.0), rec.CADENCE_S)
+        self.assertEqual(rec.CADENCE_S, 20.0)
+        self.assertEqual(rec.default_cadence(2.5, None), 2.5)
+
+    def test_cadence_must_be_positive(self):
+        for bad in (0, -1):
+            with self.assertRaises(ValueError):
+                rec.default_cadence(bad, None)
+
+    def test_watcher_takes_the_cadence(self):
+        import inspect
+        p = inspect.signature(rec.Watcher).parameters["cadence_s"]
+        self.assertEqual(p.default, rec.CADENCE_S)
 
 
 if __name__ == "__main__":
