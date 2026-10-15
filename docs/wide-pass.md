@@ -84,7 +84,7 @@ Applied 2026-10-15 to what is open (the remaster's register rows and our issues)
 | Does a sweeper in a centre-back slot cost the halving (#231) | M | S (F028 data) | **Assume from F028**, one paragraph |
 | Duplicate names across countries (#232) | L-M (the owner's wish) | S (a script) | **Do it**, minutes |
 | Shoot-out arm `A10A` (cups) | M | M (set up a drawn cup match) | **Assume** F015's taker ranking and F023's kinds; run only if cheap |
-| Watched-match engine exactness (the M-chain, T47 onward) | M | L (each routine 25-45 min of proof) | **Stop**: the stand-in quick engine stays (goal2 A-WATCH-1); resume only if the owner asks for exact watched matches |
+| Watched-match engine (the real one, M3-M6 of docs/plan.md) | H (the owner asked, 2026-10-15, for a plan to recreate the real engine, not the quick result) | M-L per routine at tick-exact proof (25-45 min each); lower at distribution level | **Keep, regraded**: the plan stays (M0-M2 done); for M3-M6 prefer distribution-level fidelity (G-M4: goals, shots, possession, bookings agree within stated tolerances) over tick-exact proof where the proof is expensive; the owner chooses |
 | `.HIL` file layout (#229), the commentary scroll size (#230), the keeper gate (#164), exact commentary identity (#40) | L | S-M | **Drop** (post-playable) |
 | Prompt waits and keys for automating the original (#226) | M | S | **Done** (F030) |
 | Recorder, video, flaky tests, the evidence store | support | M | **Frozen** unless one blocks a run the project needs |
