@@ -1,0 +1,13 @@
+== r0007: +6 (position byte) of the incoming / outgoing player at the state before the substitution, at it, at full time (207), at the last state (224)
+   state 91: incoming 314: [2, 2, 2, 2]; outgoing 303: [2, 2, 2, 2]
+   state 99: incoming 315: [4, 4, 4, 4]; outgoing 305: [3, 3, 3, 3]
+   state 113: incoming 318: [9, 9, 9, 9]; outgoing 310: [13, 13, 13, 13]
+== r0013: +6 (position byte) of the incoming / outgoing player at the state before the substitution, at it, at full time (798), at the last state (865)
+   state 321: incoming 320: [13, 13, 13, 13]; outgoing 311: [13, 13, 13, 13]
+   state 434: incoming 319: [10, 10, 10, 10]; outgoing 302: [1, 1, 1, 1]
+   state 640: incoming 2593: [8, 8, 8, 8]; outgoing 316: [6, 6, 6, 6]
+   state 709: incoming 305: [3, 3, 3, 3]; outgoing 306: [4, 4, 4, 4]
+   state 790: incoming 303: [2, 2, 2, 2]; outgoing 314: [2, 2, 2, 2]
+
+incoming player whose +6 never changed from before the substitution to the last readable state: 8 of 8
+of those, substitutions whose incoming and outgoing +6 differed (where a copy would show): 5; incoming +6 unchanged in 5 of 5
