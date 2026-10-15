@@ -114,7 +114,7 @@ menus where Up/Down is held. So:
   cannot be captured — a structural guarantee, not a filter.
 - The 20-second snapshot cadence is a TODO for replays; can move to a config flag.
 - Single writer; inotify write-session gate; live savestate never staged while a write is open.
-- Optional `--video` records the Xephyr window, not the owner's desktop.
+- Optional `--video` films the game window on the nested display (its own X server, so it works wherever the owner's desktop is, WSLg included; the outer display filmed black, #220), not the owner's desktop.
 
 ## What's a recorder self-invariant (the guard layer)
 
