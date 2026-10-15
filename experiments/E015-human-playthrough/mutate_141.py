@@ -57,13 +57,32 @@ MUTATIONS += [
     ("m5: scripted_keys waits a fixed 15 s from the launch (origin/main)", SK,
      "                 bound=OPENING_BOUND_S):\n", "                 bound=15.0):\n"),
     ("m5 (second half: no restart of the bound at the session folder)", SK,
-     "                deadline = clock() + bound   # the bounded steps start with the session folder\n",
+     "                deadline = now + bound   # the bounded steps start with the session folder\n",
      ""),
     ("m6: the wait does not watch the sitting's exit", SK,
-     "        rc = sitting.poll()\n", "        rc = None\n"),
+     "        now, rc = clock(), sitting.poll()\n", "        now, rc = clock(), None\n"),
+]
+
+
+def wait_block(text):
+    """scripted_keys.wait_opening's whole definition in a scripted_keys.py text."""
+    a = text.index("def wait_opening(")
+    return text[a:text.index("\ndef main():", a)]
+
+
+# m7/m8 (Sol's R1 on PR 240, decisions from stale state): the hook and the wait as commit 3071524
+# had them, the re-send deciding on the previous pass's write count, the wait looking at the
+# folder before reading the sitting's exit
+_r1 = {p: subprocess.run(["git", "-C", str(ROOT), "show", f"3071524:{p.relative_to(ROOT)}"],
+                         capture_output=True, text=True, check=True).stdout for p in (REC, SK)}
+MUTATIONS += [
+    ("m7: the hook of 3071524 (re-send decided on the previous pass's write count)", REC,
+     hook_block(REC.read_text()), hook_block(_r1[REC])),
+    ("m8: wait_opening of 3071524 (the folder looked at before the exit is read)", SK,
+     wait_block(SK.read_text()), wait_block(_r1[SK])),
 ]
 # m2 and m5 are two replacements applied together
-GROUPS = [[0], [1, 2], [3], [4], [5, 6], [7]]
+GROUPS = [[0], [1, 2], [3], [4], [5, 6], [7], [8], [9]]
 
 
 def run_tests():

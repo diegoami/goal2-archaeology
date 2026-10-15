@@ -1492,6 +1492,18 @@ class EarlySaveRuleTests(unittest.TestCase):
         self.assertEqual(line["pre_events"], 54, line)
         self.assertIn("a save before the first request is owned by no request line", why)
 
+    def test_a_write_that_begins_in_the_last_sleep_before_10_s_gets_no_second_key(self):
+        # Sol's R1 on PR 240: the first key's save begins at the 10 s boundary (inside the last
+        # 0.05 s sleep before it) and ends at 12 s; a second key would be a second save landing
+        # after the hook handed over. The re-send must read this pass's activity, not the last
+        for begin in (9.97, 10.0):
+            with self.subTest(begin=begin):
+                line, meta, sends, ok, why = self.hook_sitting(
+                    lambda k, b=begin: [(b, 2), (12.0, 52)] if k == 1 else [(3.0, 54)])
+                self.assertEqual(len(sends), 1, sends)
+                self.assertEqual(line["pre_events"], 54, line)
+                self.assertEqual(meta["write_events_total"], 108, meta)
+
     def test_a_key_with_no_write_in_10_s_is_sent_again(self):
         # the first key was dropped (no write at all); the second one saves
         line, meta, sends, ok, why = self.hook_sitting(
@@ -1558,6 +1570,13 @@ class WaitOpeningTests(unittest.TestCase):
         with self.assertRaisesRegex(RuntimeError, "exited 2 before its opening snapshot.*window "
                                                   "bind failed"):
             self.wait([(2.0, "session")], exit_at=17.0)
+
+    def test_a_sitting_that_exits_as_its_snapshot_lands_is_reported_not_returned(self):
+        # the snapshot and the exit land in the same sleep: the pass reads the exit first, then
+        # the folder, and fails on both (Sol's R1 on PR 240, the stale-state class); looking at
+        # the folder before reading the exit returned a session no key could reach
+        with self.assertRaisesRegex(RuntimeError, "exited 2 after its opening snapshot"):
+            self.wait([(2.0, "session"), (8.0, "meta"), (20.0, "index")], exit_at=20.0)
 
     def test_a_sitting_that_hangs_ends_the_wait_at_the_bound_from_its_session_folder(self):
         import scripted_keys

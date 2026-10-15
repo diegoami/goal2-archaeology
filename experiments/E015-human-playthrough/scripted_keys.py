@@ -331,26 +331,35 @@ def wait_opening(sitting, before, sessions=None, clock=time.monotonic, sleep=tim
     deadline = clock() + bound
     session = None
     while True:
+        # the clock and the sitting's exit are read FIRST, then the folder: every decision of
+        # this pass is taken on what the folder holds after them, never on an earlier look
+        # (Sol's R1 on PR 240, the class "a decision from stale state")
+        now, rc = clock(), sitting.poll()
         if session is None:
             fresh = sorted(set(sessions.glob("*")) - before)
             if fresh:
                 session = fresh[0]
-                deadline = clock() + bound   # the bounded steps start with the session folder
+                deadline = now + bound   # the bounded steps start with the session folder
+        found = None
         if session is not None:
             try:
                 meta = json.loads((session / "meta.json").read_text())
                 if meta.get("window_id") and (session / "index.jsonl").exists():
-                    return session, meta
+                    found = session, meta
             except (OSError, json.JSONDecodeError):
                 pass
-        rc = sitting.poll()
         if rc is not None:
+            # an exited sitting fails whether or not its snapshot is there: no key can reach it
             tail = ""
             if session is not None and (session / "session.log").is_file():
                 tail = "; session.log ends: " + " | ".join(
                     (session / "session.log").read_text().splitlines()[-3:])
-            raise RuntimeError(f"the sitting exited {rc} before its opening snapshot{tail}")
-        if clock() >= deadline:
+            when = ("after its opening snapshot, before any key" if found else
+                    "before its opening snapshot")
+            raise RuntimeError(f"the sitting exited {rc} {when}{tail}")
+        if found:
+            return found
+        if now >= deadline:
             where = "no session folder" if session is None else f"no opening snapshot in {session}"
             raise RuntimeError(f"opening snapshot never appeared: {where} after {bound:.0f} s "
                                "while the sitting still ran")

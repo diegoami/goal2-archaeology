@@ -2076,14 +2076,17 @@ def play(video=False, quit_after=None, res=None, load=None, fresh=False, scale=D
             end = time.monotonic() + 3 * 10.0
             settled_at, last_events = None, 0
             while True:
+                # every decision below reads the write activity of THIS pass, never the last
+                # pass's (Sol's R1 on PR 240: a write that began during the last sleep before
+                # the 10 s boundary still drew a second key when the re-send read the old count)
                 now = time.monotonic()
+                busy, events = watch.activity()
                 if now >= end:
-                    raise RuntimeError(f"early save never written ({last_events} write events "
+                    raise RuntimeError(f"early save never written ({events} write events "
                                        f"after {sends} save keys)")
-                if last_events == 0 and now >= give_up and sends < 3:
+                if events == 0 and not busy and now >= give_up and sends < 3:
                     send_save_event(wid, env)
                     sends, give_up = sends + 1, now + 10.0
-                busy, events = watch.activity()
                 if events != last_events or busy or events < ONE_SAVE_MIN_EVENTS:
                     last_events, settled_at = events, None
                 elif settled_at is None:
