@@ -168,7 +168,7 @@ MUTATIONS = [
      "src = Path(load) if load else newest_saved_game(Path(session).parent, exclude=session)",
      "src = Path(load) if load else None"),
     ("load: the oldest, not the newest", REC,
-     "max(found, key=lambda p: p.stat().st_mtime_ns)", "min(found, key=lambda p: p.stat().st_mtime_ns)"),
+     "max(found, key=lambda p: (p.stat().st_mtime_ns, str(p)))", "min(found, key=lambda p: (p.stat().st_mtime_ns, str(p)))"),
     ("load: --fresh ignored", REC,
      '    if fresh:\n        return {"fresh": True, "file": None}',
      '    if False:\n        return {"fresh": True, "file": None}'),

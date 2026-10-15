@@ -1,0 +1,10 @@
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a991c3a9318ff0374/experiments/E015-human-playthrough/mutate_keys.py", line 615, in <module>
+    sys.exit(main())
+             ~~~~^^
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a991c3a9318ff0374/experiments/E015-human-playthrough/mutate_keys.py", line 611, in main
+    return run_sweep(list(sys.argv[1:] if argv is None else argv))
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a991c3a9318ff0374/experiments/E015-human-playthrough/mutate_keys.py", line 546, in run_sweep
+    assert count == 1, (name, count, "source not pristine?")
+           ^^^^^^^^^^
+AssertionError: ('request time taken after the send', 0, 'source not pristine?')
