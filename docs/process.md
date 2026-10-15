@@ -280,7 +280,7 @@ brief says "do NOT run Ghidra", and the main session regenerates `named/` where 
 
 ## 14. Sending findings to goal2
 
-The purpose of this repository is to feed `goal2`, the rebuild. What we learn reaches it by one
+The purpose of this repository is to explore the game and find out how it works, and to deliver findings to `goal2`, which decides and builds the remaster. What we learn reaches it by one
 route, so nothing stays in a chat or a run record that goal2 needs. (L109, the owner, 2026-10-15)
 
 **When.** After a research PR merges that adds or changes a finding or a run record, and after
@@ -301,8 +301,11 @@ when a finding replaces an `assumed` one (its Source becomes `finding F<nn>`, it
 emptied). Each row is a rule plus its Source, Live and Replaced-by cells in goal2's own columns.
 A statement that contradicts an existing row is marked on that row; its rule changes only when
 the owner says so, with the date, and only after a grep shows which goal2 code cites the row.
-The owner's decision is first written in this repository, in a commit that changes `CLAUDE.md` or
-`docs/` (rule 13a: never only in a chat, a memory or goal2's branch), and the row cites it.
+A decision about the remaster (a rule the rebuild plays by, its UI, its plan, a deliberate difference from the
+original) is the owner's and lives in goal2: it is recorded there (goal2's `CLAUDE.md` or `docs/`, its own
+rule 13a, through the handover and the issue of steps 3 and 4), and the row cites it. This repository records
+only what concerns exploring the original: what the original does, and its keys and prompts for automating
+it. (L112)
 
 **3. The handover**: `docs/handover-<date>-<topic>.md` in the same branch, saying what the
 branch holds, the evidence (run record ids, finding numbers, PRs of this repository), what the

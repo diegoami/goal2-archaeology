@@ -158,6 +158,11 @@ Testimony (`owner`), read against the records; nothing here makes a rule `corrob
 
 ## Decisions of 2026-10-15 (the owner, in the session after the Italy v Portugal sitting)
 
+Note (same day, the owner): decisions about the remaster belong to goal2 and are authoritative there (goal2
+issue #73 and `docs/handover-2026-10-15-register.md` on branch `docs/register-sitting-20261015`); they are
+kept below only as the basis of the register rows. This repository records what concerns exploring the
+original (L112).
+
 Asked with the findings in front of them (F023, F027); recorded here before goal2's register
 changes (docs/process.md section 14).
 
