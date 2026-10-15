@@ -1,0 +1,15 @@
+coin-swapped: seed 0x1234: score [1, 1] ticks 4146 draws 184109 cpu 8.3 s -> 16.3 s; DIFFER: score, ticks, draws, draws_digest, statistics_raw, templates
+coin-swapped: 1 seeds compared, 1 differ
+bound-36: seed 0x1234: score [1, 1] ticks 4146 draws 184109 cpu 8.3 s -> 314.2 s; DIFFER: score, ticks, draws, draws_digest, statistics_raw, templates
+bound-36: 1 seeds compared, 1 differ
+no-picture: seed 0x1234: score [1, 1] ticks 4146 draws 184109 cpu 8.3 s -> 16.9 s; DIFFER: score, ticks, draws, draws_digest, statistics_raw, templates
+no-picture: 1 seeds compared, 1 differ
+exact: seed 0x0101: score [1, 0] ticks 4279 draws 192967 cpu 10.7 s -> 17.1 s; identical
+exact: seed 0x2b7e: score [0, 2] ticks 4029 draws 175773 cpu 9.3 s -> 16.4 s; identical
+exact: seed 0x4c1d: score [1, 0] ticks 4659 draws 210776 cpu 10.5 s -> 20.1 s; identical
+exact: seed 0x6a33: score [0, 2] ticks 4159 draws 184733 cpu 9.9 s -> 18.4 s; identical
+exact: seed 0x8e05: score [1, 0] ticks 4157 draws 186815 cpu 12.1 s -> 17.7 s; identical
+exact: seed 0xa1f0: score [1, 0] ticks 4281 draws 191805 cpu 13.1 s -> 18.2 s; identical
+exact: seed 0xc3c3: score [2, 1] ticks 4262 draws 184677 cpu 16.8 s -> 18.0 s; identical
+exact: seed 0xe719: score [1, 0] ticks 4240 draws 191629 cpu 11.9 s -> 18.6 s; identical
+exact: 8 seeds compared, 0 differ
