@@ -343,7 +343,12 @@ def main():
                                      start_new_session=True)
         quit_after = 12 + 2 * len(keys)
         sitting = subprocess.Popen(["bash", "runtime/human/play.sh", "--scale", "1", "--quit-after", str(quit_after)], env=env, start_new_session=True)
-        deadline = time.monotonic() + 15
+        # [designed] 45 s, was 15 s. The sitting fetches and verifies the saved games (a `gh release
+        # download`, network time) before it creates the session, and the early-save test starts
+        # DOSBox-X 6 s late; on the CI runner the opening snapshot missed 15 s twice in a row on a
+        # docs-only PR (run 38710872252: "opening snapshot never appeared"). A slow start is
+        # not what this wait measures.
+        deadline = time.monotonic() + 45
         session = None
         while time.monotonic() < deadline:
             fresh = set(recorder.SESSIONS.glob("*")) - before
