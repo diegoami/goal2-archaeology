@@ -325,10 +325,14 @@ def show(resp, quiet=False, marked=False):
           + (f" met={resp['req'].get('met')}" if resp.get("req", {}).get("cmd") == "wait" else ""))
     if not quiet:
         mk = {int(k): v for k, v in (resp.get("marks") or {}).items()} if marked else {}
+        r0, r1 = (int(x) for x in os.environ.get("G2P_ROWS", "0:25").split(":"))
+        c0, c1 = (int(x) for x in os.environ.get("G2P_COLS", "0:80").split(":"))
         for r, line in enumerate(resp.get("screen", "").split("\n")):
-            print(line)
+            if not r0 <= r < r1:
+                continue
+            print(line[c0:c1])
             if r in mk:
-                print(mk[r] + "   <highlight>")
+                print(mk[r][c0:c1] + "   <highlight>")
     return 0
 
 
