@@ -363,11 +363,14 @@ def watch(a):
             key = "y" if replays > 0 else "n"
             replays -= key == "y"
         elif "Do you want to save this goal" in text:
-            key = "n"
+            key = "y" if a.save_goals > 0 else "n"
+            a.save_goals -= key == "y"
+        elif "Please enter name of file" in text:
+            key = "Return"  # the default name (G-<n>.HIL)
         elif "C-computer select" in text:
             key = "c"
         elif "Do you want to save the match summary" in text:
-            key = "n"
+            key = "y" if a.save_summary else "n"
         elif "SUBSTITUTION" in rows[-1] and "press any key" in rows[-1]:
             key = "Return"  # the other side's substitution notice (it also leaves by itself)
         if key:
@@ -553,6 +556,8 @@ def main(argv=None):
     p = sub.add_parser("watch", help="follow a watched match, answering its prompts")
     p.add_argument("session")
     p.add_argument("--replays", type=int, default=0, help="answer Y to this many replay questions")
+    p.add_argument("--save-goals", type=int, default=0, help="answer Y to this many save-this-goal questions")
+    p.add_argument("--save-summary", action="store_true", help="answer Y to the match summary question")
     p.add_argument("--every", type=float, default=1.0)
     p.add_argument("--timeout", type=float, default=560)
     p.add_argument("-v", dest="verbose", action="store_true", help="print every commentary change")
