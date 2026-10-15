@@ -126,6 +126,20 @@ class ResumeChordTests(unittest.TestCase):
             times = [t for t, o in sends if o == "burst"]
             self.assertTrue(times and all(t >= 2.0 for t in times), sends)
 
+    def test_a_cadence_tick_due_inside_a_split_f12_pair_waits_for_the_hold(self):
+        # fix #169: since T44 a key group settles EVENT_SETTLE_S (0.25 s) after its last event, so a
+        # pair read 0.1 s apart is covered by the settle and the burst test above no longer needs
+        # the release grace; a cadence tick has no settle. Its tick is due at 1.65, between the
+        # pair's release (1.6) and press (1.7): only the grace after a release holds it
+        with tempfile.TemporaryDirectory() as folder:
+            arrivals = [(1.0, "press", "F12", 1000), (1.6, "release", "F12", 1600),
+                        (1.7, "press", "F12", 1600), (2.0, "release", "F12", 2000)]
+            w, sends, keys, _ = loop_watcher(folder, [], arrivals)
+            w.cadence_s = 1.65
+            w.run(quit_after=4, keys=keys)
+            times = [t for t, o in sends if t > 0.5]
+            self.assertTrue(times and all(t >= 2.0 for t in times), sends)
+
     def test_a_held_f12_with_no_events_holds_requests_only_for_a_bound(self):
         # a missed F12 release must not stop the snapshots: requests resume HOST_HOLD_MAX_S after
         # the last F12 event

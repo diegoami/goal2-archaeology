@@ -110,6 +110,20 @@ class PauseLoopTests(unittest.TestCase):
                 self.assertFalse(1.032 <= t < 9.0, (t, origin))
             self.assertEqual([o for _, o in sends], ["watcher", "resume"], sends)
 
+    def test_a_cadence_tick_due_soon_after_a_pause_begins_reads_the_pause_first(self):
+        # fix #169: since T44 a key group settles 0.25 s (EVENT_SETTLE_S), as long as PAUSE_POLL_S,
+        # so the periodic read always precedes a burst's send and the test above no longer needs
+        # the read before the send. A cadence tick has no settle: PAUSED appears at 1.03 with no
+        # key event, the periodic reads fall at ~1.0 and ~1.25, the tick is due at 1.1; only the
+        # read before the send can see the pause
+        with tempfile.TemporaryDirectory() as folder:
+            w, sends, keys, _ = loop_watcher(folder, [(1.03, 9.0)], [])
+            w.cadence_s = 1.1
+            w.run(quit_after=12, keys=keys)
+            for t, origin in sends:
+                self.assertFalse(1.03 <= t < 9.0, (t, origin))
+            self.assertIn("resume", [o for _, o in sends], sends)
+
     def test_a_pause_skips_its_cadence_ticks_and_the_loop_sleeps_while_paused(self):
         # a pause across the 20 s tick and no keys: no request until the pause ends, then the
         # pause's one snapshot, and the next cadence tick at 40 s, not a stale one at once

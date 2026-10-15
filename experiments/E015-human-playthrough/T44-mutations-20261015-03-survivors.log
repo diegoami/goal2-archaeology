@@ -1,0 +1,53 @@
+== survivor 1: the pause is not read again before a send
+-- on the mutant: exit 1 (must be 1)
+test_a_cadence_tick_due_soon_after_a_pause_begins_reads_the_pause_first (tests.test_human_pause.PauseLoopTests.test_a_cadence_tick_due_soon_after_a_pause_begins_reads_the_pause_first) ... FAIL
+
+======================================================================
+FAIL: test_a_cadence_tick_due_soon_after_a_pause_begins_reads_the_pause_first (tests.test_human_pause.PauseLoopTests.test_a_cadence_tick_due_soon_after_a_pause_begins_reads_the_pause_first)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a991c3a9318ff0374/tests/test_human_pause.py", line 124, in test_a_cadence_tick_due_soon_after_a_pause_begins_reads_the_pause_first
+    self.assertFalse(1.03 <= t < 9.0, (t, origin))
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: True is not false : (1.1, 'watcher')
+
+----------------------------------------------------------------------
+Ran 1 test in 0.019s
+
+FAILED (failures=1)
+-- on the source: exit 0 (must be 0)
+test_a_cadence_tick_due_soon_after_a_pause_begins_reads_the_pause_first (tests.test_human_pause.PauseLoopTests.test_a_cadence_tick_due_soon_after_a_pause_begins_reads_the_pause_first) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.018s
+
+OK
+
+== survivor 3: a split F12 autorepeat pair ends the hold
+-- on the mutant: exit 1 (must be 1)
+test_a_cadence_tick_due_inside_a_split_f12_pair_waits_for_the_hold (tests.test_human_resume.ResumeChordTests.test_a_cadence_tick_due_inside_a_split_f12_pair_waits_for_the_hold) ... FAIL
+
+======================================================================
+FAIL: test_a_cadence_tick_due_inside_a_split_f12_pair_waits_for_the_hold (tests.test_human_resume.ResumeChordTests.test_a_cadence_tick_due_inside_a_split_f12_pair_waits_for_the_hold)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a991c3a9318ff0374/tests/test_human_resume.py", line 141, in test_a_cadence_tick_due_inside_a_split_f12_pair_waits_for_the_hold
+    self.assertTrue(times and all(t >= 2.0 for t in times), sends)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : [(0.0, 'watcher'), (1.65, 'watcher'), (2.2599999999999945, 'burst'), (3.3, 'watcher')]
+
+----------------------------------------------------------------------
+Ran 1 test in 0.006s
+
+FAILED (failures=1)
+-- on the source: exit 0 (must be 0)
+test_a_cadence_tick_due_inside_a_split_f12_pair_waits_for_the_hold (tests.test_human_resume.ResumeChordTests.test_a_cadence_tick_due_inside_a_split_f12_pair_waits_for_the_hold) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.006s
+
+OK
+
+== survivor 2: F12+P left on the screenshot
+mapper_text identical with and without the mutation: True
+['hand_scrshot ']
