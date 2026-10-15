@@ -61,9 +61,10 @@ void f_1771_7A9A(int param_1)
 }
 
 
-// ---- 1771:7BA2  f_1771_7BA2  (f_1771_7BA2; Ghidra 4000:7BA2, __stdcall16far; found by routines.tsv)
+// ---- 1771:7BA2  country_fixture_list  (f_1771_7BA2; Ghidra 4000:7BA2, __stdcall16far; found by routines.tsv)
+// the country's fixture list screen: for a fixture with no managed team Enter flips its first byte between 0xFF (legend "to watch match", template DS:2050) and 0xFE ("for auto result", DS:207E); for a managed fixture it flips the kind byte +2 between 1 and 0 (1771:7A9A when 0); the mark 0xFE is what makes 000E:6CA7 ask "watch this match" (F030)  [likely; F030; read code/seg_1771_11.asm:797]
 
-void __stdcall16far f_1771_7BA2(int param_1)
+void __stdcall16far country_fixture_list(int param_1)
 
 {
   word wVar1;

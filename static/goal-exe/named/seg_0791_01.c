@@ -503,9 +503,10 @@ undefined2 f_0791_07BA(char param_1)
 }
 
 
-// ---- 0791:0955  f_0791_0955  (f_0791_0955; Ghidra 2000:0955, __stdcall16near; found by routines.tsv)
+// ---- 0791:0955  prompt_goal_file_name  (f_0791_0955; Ghidra 2000:0955, __stdcall16near; found by routines.tsv)
+// draws the template DS:06E0 ("Please enter name of file") with the extension DS:06D6 + 5 * DS:066D (.HIL or .SUM) and runs the line editor 214B:1086 on the name string; no timer  [likely; F030; read code/seg_0791_02.asm:6]
 
-void f_0791_0955(undefined4 param_1)
+void prompt_goal_file_name(undefined4 param_1)
 
 {
   undefined1 extraout_AH;
@@ -527,9 +528,10 @@ void f_0791_0955(undefined4 param_1)
 }
 
 
-// ---- 0791:09C4  f_0791_09C4  (f_0791_09C4; Ghidra 2000:09C4, __stdcall16near; found by routines.tsv)
+// ---- 0791:09C4  create_or_open_goal_file  (f_0791_09C4; Ghidra 2000:09C4, __stdcall16near; found by routines.tsv)
+// calls 0791:0955, then on Esc (DS:A977 = 0x1B) sets the cancel word DS:A965 = 0xFF and writes nothing, else concatenates the extension and creates (mode 0) or opens the file  [likely; F030; read code/seg_0791_02.asm:62]
 
-char f_0791_09C4(undefined4 param_1,char param_2)
+char create_or_open_goal_file(undefined4 param_1,char param_2)
 
 {
   undefined2 uVar1;
@@ -541,7 +543,7 @@ char f_0791_09C4(undefined4 param_1,char param_2)
   
   uVar2 = (undefined2)((ulong)param_1 >> 0x10);
   uVar1 = (undefined2)param_1;
-  f_0791_0955(uVar1,uVar2);
+  prompt_goal_file_name(uVar1,uVar2);
   local_4 = '\0';
   if (DS:A977 == '\x1b') {
     DS:A965 = 0xff;
@@ -566,7 +568,7 @@ char f_0791_09C4(undefined4 param_1,char param_2)
 
 
 // ---- 0791:0A6B  save_goal_file  (f_0791_0A6B; Ghidra 2000:0A6B, __cdecl16near; found by routines.tsv)
-// saves the goal to a file: builds a file name (214B:09DA number to string, concatenation), calls 0791:09C4 with mode 0 (create, through 214B:1BB7), retries on a DOS file error (214B:1869), closes the handle (214B:1A36)  [likely; read code/seg_0791_02.asm]
+// saves the goal to a file: builds a file name (214B:09DA number to string, concatenation), calls 0791:09C4 with mode 0 (create, through 214B:1BB7), retries on a DOS file error (214B:1869), closes the handle (214B:1A36); the name is the string at [DS:A923]+0x6C (G-n, extension .HIL) or, when DS:8326 is set after the match, +0xBD (S-n, .SUM), with the number after the - raised by one at each save, edited in place by the prompt 0791:0955 (F030)  [likely; read code/seg_0791_02.asm; F030]
 
 void __cdecl16near save_goal_file(void)
 
@@ -621,7 +623,7 @@ void __cdecl16near save_goal_file(void)
     }
   }
   do {
-    uVar2 = f_0791_09C4((byte *)local_c,(int)((ulong)local_c >> 0x10),uVar2 & 0xff00);
+    uVar2 = create_or_open_goal_file((byte *)local_c,(int)((ulong)local_c >> 0x10),uVar2 & 0xff00);
     if ((char)uVar2 != '\0') break;
     uVar2 = u214b_report_dos_file_error(uVar2 & 0xff00);
   } while ((char)uVar2 != '\0');
@@ -631,7 +633,7 @@ void __cdecl16near save_goal_file(void)
 
 
 // ---- 0791:0B7C  ask_do_you_want  (f_0791_0B7C; Ghidra 2000:0B7C, __stdcall16near; found by routines.tsv)
-// a timed Y/N prompt: shows "Do you want " + its string argument + "? (Y/N)" on the bottom line, waits 0791:CC2E(600), returns 1 only when a key is waiting and it is Y, 0 with no key; the action-replay and save-goal questions both use it  [established; F005; F006; read code/seg_0791_02.asm]
+// a timed Y/N prompt: shows "Do you want " + its string argument + "? (Y/N)" on the bottom line, waits 0791:CC2E(600), returns 1 only when a key is waiting and it is Y, 0 with no key; the action-replay and save-goal questions both use it; the wait is 600 polls of a key test and 214B:1E09(10), 6.0 s in the start-up calibration's time (pace-dependent, F030); the answer is Yes only for a waiting Y, No for any other key or none; asked by 0C65 (replay, save goal) and run_match (summary, when DS:9A3E is clear)  [established; F005; F006; read code/seg_0791_02.asm; F030]
 
 undefined1 ask_do_you_want(undefined4 param_1)
 
@@ -876,7 +878,7 @@ void __cdecl16far view_saved_goal(void)
     local_c = (int)DS:A923 + 0x6c;
   }
   do {
-    uVar5 = f_0791_09C4(local_c,(int)uVar3,1);
+    uVar5 = create_or_open_goal_file(local_c,(int)uVar3,1);
     if ((char)uVar5 != '\0') {
       u214b_dos_close_handle();
       DS:0C21 = 1;
