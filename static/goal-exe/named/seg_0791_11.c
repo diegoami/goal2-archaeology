@@ -862,7 +862,7 @@ void __stdcall16far select_team_screen(int param_1)
 
 
 // ---- 0791:E80D  ask_watch_match  (f_0791_E80D; Ghidra 2000:E80D, __stdcall16far; found by routines.tsv)
-// the watch-this-match prompt for a fixture without a managed team: match set-up 0791:A4A1, shows the template DS:3A36 (its text is 'Do you want to watch this match ?') and loops until Y, N or Esc; then, for both teams with no test of 0B77, reset_team_tactics (0791:BC5D); on N or Esc it writes 0xFE to the fixture's first byte and returns 0, on Y it returns 1; reached through 000E:6C21; no timer: it blocks on a key until Y, N or Esc (F030)  [established; F010; F030]
+// the watch-this-match prompt for a fixture without a managed team: match set-up 0791:A4A1, shows the template DS:3A36 (its text is 'Do you want to watch this match ?') and loops until Y, N or Esc; then, for both teams with no test of 0B77, reset_team_tactics (0791:BC5D); on N or Esc it writes 0xFE to the fixture's first byte and returns 0, on Y it returns 1; reached through 000E:6C21; no timer: it blocks on a key until Y, N, Esc or Enter (Enter keeps the previous answer held in DS:0ABE) (F030)  [established; F010; F030]
 
 undefined1 __stdcall16far ask_watch_match(undefined1 *param_1)
 
