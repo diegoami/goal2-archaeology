@@ -465,6 +465,8 @@ def play_round(a):
         if k == "match-menu":
             rows = text.split("\n")
             print(f"  match: {rows[1][12:28].strip('- ')} v {rows[3][12:28].strip('- ')} {rows[0][30:45].strip('─ ')}")
+            if a.stop_at_match:
+                return show(resp, quiet=a.q)
             r = resp
             for _ in range(8):
                 hl = "".join("".join(ch for ch, mk in zip(r["screen"].split("\n")[int(i)].ljust(80), m.ljust(80)) if mk == "^")
@@ -564,6 +566,7 @@ def main(argv=None):
     p = sub.add_parser("round", help="one round as a quick result, from the manager menu back to it")
     p.add_argument("session")
     p.add_argument("--team", default="Holland")
+    p.add_argument("--stop-at-match", action="store_true", help="stop at your match menu (to watch it)")
     p.add_argument("--timeout", type=float, default=500)
     p.add_argument("-q", action="store_true")
     p = sub.add_parser("advance", help="Return through 'hit any key' pages until a screen wants a choice")
