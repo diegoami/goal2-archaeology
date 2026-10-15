@@ -49,3 +49,45 @@ agents are read by the main session before they go into `spec/`.
 - `corroborated` only when the row cites two different findings and its Basis has both a behavioural tag (`observed`, `intervened`, `quantified`) and a static one (`static`, `parsed`). Emulation of the original code counted as static-adjacent. Rows drafted `corroborated` that failed this rule were demoted and say so in Uncertainty.
 - A row with two statuses in the draft takes the weaker; the draft text is kept in Uncertainty.
 - Rows that the drafting agents read out of the listing themselves, without a finding, are `hypothesis` until a finding reviews them.
+
+## Grading the unknowns: importance AND cost, and assume when it is cheaper (the owner, 2026-10-15)
+
+Findings must be practical. An unknown is not investigated because it exists: it is graded, and the
+grade decides. "If a finding requires you to play 2 years of game, that is unpractical and it is better
+to assume" (the owner).
+
+- **Importance to the remaster and the bot**: **H** a wrong assumption changes the playable loop or the
+  results the player sees (a rule of the match, the competition path, the squad); **M** it shapes play but
+  not the loop (a tactic's size, a discipline detail); **L** a detail, a rarely reached branch, a screen or
+  file nobody builds (highlights, the commentary scroll).
+- **Cost to evaluate**: **S** a few hours of static reading, or one driver run of minutes; **M** about a day,
+  or a driver campaign of hours; **L** game time of years, many repeated matches for a statistic, new
+  tooling, or a session of the owner.
+- **Decision**: investigate when importance is H and cost is S or M, or importance is M and cost is S;
+  **assume** (state the assumption and its risk in the register row, mark it `assumed`) when cost is L and
+  importance is not H, or when importance is M and cost is M; drop when importance is L and cost is not S.
+  An H with cost L is raised to the owner with a proposed assumption.
+- **A question never waits for a long session.** A finding whose only evidence would be a long run is
+  replaced by an assumption now, and the run is made only if the assumption proves wrong where it matters.
+- **Static first stays** (rule 22); a corroborating run is made when it is cheap (S), not as a rule.
+
+Applied 2026-10-15 to what is open (the remaster's register rows and our issues):
+
+| Unknown | Importance | Cost | Decision |
+| --- | --- | --- | --- |
+| Ageing dynamics over years (Q013, A-COMP-8) | M | L (years of game time) | **Assume F016's reading**; no run |
+| Competition calendar corroboration (Q030, F023) | H | L (two years of game per check) | **Assume the read (F023)**; corroborate only the first stage if a run is cheap |
+| Computer lineup and tactics (Q035, F024) | M | L | **Assume F024** |
+| Home advantage (Q028, A-MATCH-5) | M | M (a statistic over many matches) | Static read of `0BC4` with the host flag only (S); else **assume none** |
+| Offside: which side, and a team-mate's offside cancelling a goal (#227) | M | S-M (static) | **Investigate, static only**, one task |
+| Man-marking target byte and the sending-off flag values (#228) | M / L | M | **Assume**: default marking; flags from F027 |
+| Does a sweeper in a centre-back slot cost the halving (#231) | M | S (F028 data) | **Assume from F028**, one paragraph |
+| Duplicate names across countries (#232) | L-M (the owner's wish) | S (a script) | **Do it**, minutes |
+| Shoot-out arm `A10A` (cups) | M | M (set up a drawn cup match) | **Assume** F015's taker ranking and F023's kinds; run only if cheap |
+| Watched-match engine exactness (the M-chain, T47 onward) | M | L (each routine 25-45 min of proof) | **Stop**: the stand-in quick engine stays (goal2 A-WATCH-1); resume only if the owner asks for exact watched matches |
+| `.HIL` file layout (#229), the commentary scroll size (#230), the keeper gate (#164), exact commentary identity (#40) | L | S-M | **Drop** (post-playable) |
+| Prompt waits and keys for automating the original (#226) | M | S | **Done** (F030) |
+| Recorder, video, flaky tests, the evidence store | support | M | **Frozen** unless one blocks a run the project needs |
+
+A new question gets its row here when it is filed, with the grade and the decision; the register row it
+feeds says `assumed` and what the assumption is.
