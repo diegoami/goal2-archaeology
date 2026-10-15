@@ -1,0 +1,14 @@
+# fix 141 rework: CI on head 5744c82, run 38790086460: attempt 1 (the push), attempt 2 cancelled by the log-only push's run, attempts 3-5 the three reruns; sitting test durations, then each attempt's unittest summary (checks jobs 116612150326, 116618140566, 116621108459, 116624275623)
+## reruns2.txt
+38790086460 1 success {'EarlySaveTests': (31.2, 'ok'), 'GuardTests': (25.1, 'ok'), 'VideoTests': (11.0, 'ok')}
+38790086460 3 success {'EarlySaveTests': (33.2, 'ok'), 'GuardTests': (25.2, 'ok'), 'VideoTests': (11.0, 'ok')}
+38790086460 4 success {'EarlySaveTests': (34.6, 'ok'), 'GuardTests': (25.3, 'ok'), 'VideoTests': (11.0, 'ok')}
+38790086460 5 success {'EarlySaveTests': (32.5, 'ok'), 'GuardTests': (25.3, 'ok'), 'VideoTests': (11.0, 'ok')}
+2026-10-15T19:16:58.8962038Z Ran 963 tests in 265.742s
+2026-10-15T19:16:58.8962676Z OK (skipped=18)
+2026-10-15T19:04:22.3658501Z Ran 963 tests in 260.375s
+2026-10-15T19:04:22.3659091Z OK (skipped=18)
+2026-10-15T19:29:57.6769496Z Ran 963 tests in 270.713s
+2026-10-15T19:29:57.6770222Z OK (skipped=18)
+2026-10-15T19:23:26.5582344Z Ran 963 tests in 276.181s
+2026-10-15T19:23:26.5582961Z OK (skipped=18)
