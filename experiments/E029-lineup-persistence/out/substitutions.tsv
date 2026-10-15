@@ -1,0 +1,11 @@
+run	state	utc	phase	out	in	in_xi_at_fulltime	in_xi_at_record_end	next_match_first_state
+r0007	91	20261011T141606Z	in-match	303	314	yes	yes	r0009:10:yes r0010:12:yes
+r0007	99	20261011T141613Z	in-match	305	315	yes	yes	r0009:10:yes r0010:12:yes
+r0007	113	20261011T141624Z	in-match	310	318	yes	yes	r0009:10:yes r0010:12:yes
+r0013	246	20261015T052106Z	pre-match	305	315			
+r0013	321	20261015T052611Z	in-match	311	320	yes	yes	not placeable: no later match in the record
+r0013	434	20261015T053223Z	in-match	302	319	yes	yes	not placeable: no later match in the record
+r0013	640	20261015T054423Z	in-match	316	2593	yes	yes	not placeable: no later match in the record
+r0013	709	20261015T054546Z	in-match	306	305	yes	yes	not placeable: no later match in the record
+r0013	790	20261015T055204Z	in-match	314	303	yes	yes	not placeable: no later match in the record
+r0017	41	20261015T044351Z	pre-match	315	305			

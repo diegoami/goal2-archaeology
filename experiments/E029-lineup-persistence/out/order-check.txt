@@ -1,0 +1,14 @@
+== r0007
+== r0009
+== r0010
+== r0013
+   state 5 20261015T050413Z order-only change, slots [3, 4, 13, 14, 17, 18]; screen SELECT; +6 non-decreasing after: XI True bench True
+   state 807 20261015T055449Z order-only change, slots [4, 5, 10, 11, 14, 15]; screen SELECT; +6 non-decreasing after: XI True bench True
+== r0017
+   state 5 20261015T044244Z order-only change, slots [2, 3, 5, 6, 13, 14, 17, 18]; screen SELECT; +6 non-decreasing after: XI True bench True
+   state 53 20261015T044411Z order-only change, slots [3, 4, 13, 14, 17, 18]; screen SELECT; +6 non-decreasing after: XI True bench True
+
+states with the managed squad and all +6 readable: 1455
+  slots 1..11 non-decreasing in +6: 1332 of 1455
+  slots 12..20 non-decreasing in +6: 1455 of 1455
+order-only changes: 4; both blocks sorted after the change: 4 of 4

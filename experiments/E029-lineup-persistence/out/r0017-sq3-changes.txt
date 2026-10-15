@@ -1,0 +1,5 @@
+4	20261015T044231Z	fix=19	stage=0x02	FIRST
+80	20261015T044747Z	fix=22	stage=0x02	FIXTURE 19->22 ; MEMBERSHIP out=[43, 48] in=[54, 57] bench_out=[54, 57] bench_in=[43, 48]
+81	20261015T044749Z	fix=22	stage=0x02	MEMBERSHIP out=[41, 54] in=[43, 52] bench_out=[43, 52] bench_in=[41, 54]
+287	20261015T050138Z	fix=22	stage=0x02	ORDER slots [3, 4, 8, 9]
+288	20261015T050142Z	fix=23	stage=0x02	FIXTURE 22->23
