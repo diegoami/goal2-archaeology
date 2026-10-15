@@ -147,6 +147,20 @@ def one(cpus, delay, trace=False):
             pr.start()
         else:
             env = dict(t.slow_start_dosbox(tmp, delay), GOAL2_RECORDER_TEST_EARLY_SAVE="1")
+        xlog = Path(tmp) / "xinput.txt"
+        if trace:
+            # every xinput (the key logger's reader, scripted_keys' outer control reader) through
+            # a wrapper that keeps its stderr and its exit, stamped
+            real_xinput = shutil.which("xinput")
+            wrap = Path(tmp) / "bin"
+            wrap.mkdir()
+            (wrap / "xinput").write_text(
+                "#!/bin/sh\n"
+                f'echo "$(date +%s.%N) start DISPLAY=$DISPLAY $*" >> "{xlog}"\n'
+                f'"{real_xinput}" "$@" 2>> "{xlog}"\n'
+                f'echo "$(date +%s.%N) exit $? DISPLAY=$DISPLAY" >> "{xlog}"\n')
+            (wrap / "xinput").chmod(0o755)
+            env["PATH"] = f"{wrap}:{env['PATH']}"
         argv = [sys.executable, str(ROOT / "experiments/E015-human-playthrough/scripted_keys.py"),
                 "--sleep", "2", "--keys", "a;b;c", "--seed", "34"]
         if cpus:
@@ -160,16 +174,21 @@ def one(cpus, delay, trace=False):
         done.set()
         w.join()
         traced = []
-        if trace and tracef.exists():
-            for line in tracef.read_text().splitlines():
-                stamp, rest = line.split(" ", 1)
-                traced.append((round(float(stamp) - wall0, 2), rest))
+        for f in (tracef, xlog):
+            if trace and f.exists():
+                for line in f.read_text().splitlines():
+                    stamp, _, rest = line.partition(" ")
+                    try:
+                        traced.append((round(float(stamp) - wall0, 2), rest))
+                    except ValueError:
+                        traced.append((None, line))   # xinput's own stderr line
     fresh = (set(sessions.glob("*")) if sessions.is_dir() else set()) - before
     for s in fresh:
         shutil.rmtree(s, ignore_errors=True)
-    log = [ln for ln in out.splitlines() if ln.startswith("[")][:12]
+    log = [ln for ln in out.splitlines() if ln.startswith("[")][:24]
+    other = [ln for ln in out.splitlines() if not ln.startswith(("[", "  ", "Traceback"))]
     row = {"rc": rc, "result": classify(rc, out), "marks_s": marks, "log": log,
-           "tail": out.splitlines()[-1:] if out else []}
+           "tail": out.splitlines()[-1:] if out else [], "other_lines": other[-6:]}
     if trace:
         # the helper's seen lines can be hundreds: keep the first, the STOP/CONT/giveup ones
         seen = [x for x in traced if x[1].startswith("seen")]

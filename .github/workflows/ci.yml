@@ -92,7 +92,7 @@ jobs:
       # the assertions still run wherever the stack is present.
       - run: sudo apt-get update && sudo apt-get install -y xvfb xserver-xephyr xinput xdotool x11-utils ffmpeg dosbox-x
       # TEMPORARY (fix #141 reproduction; removed before the PR is ready)
-      - run: python3 experiments/E015-human-playthrough/repro_141.py --runs 6 --trace --label ci-trace --out /tmp/r141.log; python3 experiments/E015-human-playthrough/repro_141.py --runs 6 --label ci-plain --out /tmp/r141.log; cat /tmp/r141.log
+      - run: python3 experiments/E015-human-playthrough/repro_141.py --runs 6 --label ci-after-plain --out /tmp/r141.log; python3 experiments/E015-human-playthrough/repro_141.py --runs 6 --cpus 0 --load 4 --label ci-after-1cpu-4loops --out /tmp/r141.log; python3 experiments/E015-human-playthrough/repro_141.py --runs 6 --cpus 0 --load 4 --trace --label ci-after-1cpu-4loops-trace --out /tmp/r141.log; cat /tmp/r141.log
       # The record tools, their tests and fixtures (the fetched checker and artifact stay in .cache/).
       - run: python3 -m unittest discover -s tests -v
       # T37: every finding's citations resolve under the pinned checker (U25-U27).

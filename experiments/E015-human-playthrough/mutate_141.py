@@ -1,9 +1,11 @@
 #!/usr/bin/env python3
-"""Issue #141: the deterministic early-save tests (tests.test_human_keys.EarlySaveRuleTests)
-against three mutations that remove the early-save rule, one at a time. Each mutation is a text
-replacement that must match exactly once; the file's saved contents are written back in a
-`finally` (rule 9a). Only EarlySaveRuleTests runs, whose play() has every launch faked: no
-mutated recorder ever starts a display or an emulator. The unmutated tree runs first and last.
+"""Issue #141: the deterministic tests (tests.test_human_keys.EarlySaveRuleTests and
+WaitOpeningTests) against mutations, one at a time: m1-m3 remove the early-save rule (the write
+watch started before the launch and handed to the Watcher; the guard's check), m4 puts back
+origin/main's test-only hook, m5 origin/main's fixed 15 s wait, m6 drops the wait's exit check.
+Each mutation is a text replacement that must match exactly once; the file's saved contents are
+written back in a `finally` (rule 9a). Only those two classes run, with every launch faked (no
+mutated recorder ever starts a display or an emulator). The unmutated tree runs first and last.
 
   python3 experiments/E015-human-playthrough/mutate_141.py \
       --out experiments/E015-human-playthrough/fix-141-mutations-01.log
@@ -36,8 +38,32 @@ MUTATIONS = [
      "        if seen is None and pre >= recorder.ONE_SAVE_MIN_EVENTS:\n",
      "        if False:\n"),
 ]
-# m2 is two replacements applied together
-GROUPS = [[0], [1, 2], [3]]
+
+
+def hook_block(text):
+    """The test-only early-save hook's body in a recorder.py text: from its [designed] comment to
+    the Watcher's construction."""
+    a = text.index("            # [designed] 3 attempts, each given 10 s")
+    b = text.index("        watcher = Watcher(session,")
+    return text[a:b]
+
+
+# m4: the hook as origin/main has it (settles on 0.5 s of quiet at any count, re-sends after 10 s)
+_main = subprocess.run(["git", "-C", str(ROOT), "show", "origin/main:runtime/human/recorder.py"],
+                       capture_output=True, text=True, check=True).stdout
+MUTATIONS += [
+    ("m4: the early-save hook of origin/main (quiet 0.5 s at any write count)", REC,
+     hook_block(REC.read_text()), hook_block(_main)),
+    ("m5: scripted_keys waits a fixed 15 s from the launch (origin/main)", SK,
+     "                 bound=OPENING_BOUND_S):\n", "                 bound=15.0):\n"),
+    ("m5 (second half: no restart of the bound at the session folder)", SK,
+     "                deadline = clock() + bound   # the bounded steps start with the session folder\n",
+     ""),
+    ("m6: the wait does not watch the sitting's exit", SK,
+     "        rc = sitting.poll()\n", "        rc = None\n"),
+]
+# m2 and m5 are two replacements applied together
+GROUPS = [[0], [1, 2], [3], [4], [5, 6], [7]]
 
 
 def run_tests():
@@ -46,7 +72,8 @@ def run_tests():
     # (seen in this script's first run, 2026-10-15)
     with tempfile.TemporaryDirectory() as cache:
         p = subprocess.run([sys.executable, "-m", "unittest", "-v",
-                            "tests.test_human_keys.EarlySaveRuleTests"],
+                            "tests.test_human_keys.EarlySaveRuleTests",
+                            "tests.test_human_keys.WaitOpeningTests"],
                            cwd=ROOT, capture_output=True, text=True, timeout=120,
                            env=dict(os.environ, PYTHONPYCACHEPREFIX=cache))
     return p.returncode, p.stderr.strip().splitlines()

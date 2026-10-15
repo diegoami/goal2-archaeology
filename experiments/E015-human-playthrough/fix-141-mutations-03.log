@@ -1,0 +1,119 @@
+# fix #141 mutations, 2026-10-15T19:06:47+0200, HEAD c662d3ebcf37dfe7cc2f4d895f9118f234ca6006
+## unmutated: exit 0
+----------------------------------------------------------------------
+Ran 10 tests in 0.087s
+
+OK
+## m1: the Watcher builds its own write watch (the watch started before the launch is not handed over): exit 1 (killed)
+test_a_key_with_no_write_in_10_s_is_sent_again (tests.test_human_keys.EarlySaveRuleTests.test_a_key_with_no_write_in_10_s_is_sent_again) ... FAIL
+test_a_save_before_the_watcher_is_counted_and_refused (tests.test_human_keys.EarlySaveRuleTests.test_a_save_before_the_watcher_is_counted_and_refused) ... FAIL
+test_a_save_still_being_written_after_10_s_gets_no_second_key (tests.test_human_keys.EarlySaveRuleTests.test_a_save_still_being_written_after_10_s_gets_no_second_key) ... FAIL
+test_a_sitting_without_an_early_save_passes_the_same_guard (tests.test_human_keys.EarlySaveRuleTests.test_a_sitting_without_an_early_save_passes_the_same_guard) ... ok
+test_no_whole_save_in_30_s_fails_the_sitting (tests.test_human_keys.EarlySaveRuleTests.test_no_whole_save_in_30_s_fails_the_sitting) ... ok
+test_the_hook_waits_for_the_whole_save_through_a_writer_pause (tests.test_human_keys.EarlySaveRuleTests.test_the_hook_waits_for_the_whole_save_through_a_writer_pause) ... FAIL
+test_a_sitting_on_time_past_15_s_is_waited_for (tests.test_human_keys.WaitOpeningTests.test_a_sitting_on_time_past_15_s_is_waited_for) ... ok
+test_a_sitting_that_exits_first_is_reported_with_its_own_reason (tests.test_human_keys.WaitOpeningTests.test_a_sitting_that_exits_first_is_reported_with_its_own_reason) ... ok
+test_a_sitting_that_hangs_ends_the_wait_at_the_bound_from_its_session_folder (tests.test_human_keys.WaitOpeningTests.test_a_sitting_that_hangs_ends_the_wait_at_the_bound_from_its_session_folder) ... ok
+test_no_session_folder_ends_the_wait_at_the_bound (tests.test_human_keys.WaitOpeningTests.test_no_session_folder_ends_the_wait_at_the_bound) ... ok
+FAIL: test_a_key_with_no_write_in_10_s_is_sent_again (tests.test_human_keys.EarlySaveRuleTests.test_a_key_with_no_write_in_10_s_is_sent_again)
+AssertionError: 0 != 54 : {'request_s': 1.0, 'sent_s': 1.03, 'origin': 'burst', 'seq': 1, 'pre_events': 0, 'accept_events': 54, 'pre_sig': [1, 2, 3, 4], 'accept_sig': [1, 2, 3, 5]}
+FAIL: test_a_save_before_the_watcher_is_counted_and_refused (tests.test_human_keys.EarlySaveRuleTests.test_a_save_before_the_watcher_is_counted_and_refused)
+AssertionError: 0 != 54 : {'request_s': 1.0, 'sent_s': 1.03, 'origin': 'burst', 'seq': 1, 'pre_events': 0, 'accept_events': 54, 'pre_sig': [1, 2, 3, 4], 'accept_sig': [1, 2, 3, 5]}
+FAIL: test_a_save_still_being_written_after_10_s_gets_no_second_key (tests.test_human_keys.EarlySaveRuleTests.test_a_save_still_being_written_after_10_s_gets_no_second_key)
+AssertionError: 0 != 54 : {'request_s': 1.0, 'sent_s': 1.03, 'origin': 'burst', 'seq': 1, 'pre_events': 0, 'accept_events': 54, 'pre_sig': [1, 2, 3, 4], 'accept_sig': [1, 2, 3, 5]}
+FAIL: test_the_hook_waits_for_the_whole_save_through_a_writer_pause (tests.test_human_keys.EarlySaveRuleTests.test_the_hook_waits_for_the_whole_save_through_a_writer_pause)
+AssertionError: 0 != 54 : {'request_s': 1.0, 'sent_s': 1.03, 'origin': 'burst', 'seq': 1, 'pre_events': 0, 'accept_events': 54, 'pre_sig': [1, 2, 3, 4], 'accept_sig': [1, 2, 3, 5]}
+Ran 10 tests in 0.093s
+FAILED (failures=4)
+## m2: the write watch starts after the emulator is launched (the pre-PR-112 order): exit 1 (killed)
+test_a_key_with_no_write_in_10_s_is_sent_again (tests.test_human_keys.EarlySaveRuleTests.test_a_key_with_no_write_in_10_s_is_sent_again) ... ok
+test_a_save_before_the_watcher_is_counted_and_refused (tests.test_human_keys.EarlySaveRuleTests.test_a_save_before_the_watcher_is_counted_and_refused) ... FAIL
+test_a_save_still_being_written_after_10_s_gets_no_second_key (tests.test_human_keys.EarlySaveRuleTests.test_a_save_still_being_written_after_10_s_gets_no_second_key) ... ok
+test_a_sitting_without_an_early_save_passes_the_same_guard (tests.test_human_keys.EarlySaveRuleTests.test_a_sitting_without_an_early_save_passes_the_same_guard) ... ok
+test_no_whole_save_in_30_s_fails_the_sitting (tests.test_human_keys.EarlySaveRuleTests.test_no_whole_save_in_30_s_fails_the_sitting) ... ok
+test_the_hook_waits_for_the_whole_save_through_a_writer_pause (tests.test_human_keys.EarlySaveRuleTests.test_the_hook_waits_for_the_whole_save_through_a_writer_pause) ... ok
+test_a_sitting_on_time_past_15_s_is_waited_for (tests.test_human_keys.WaitOpeningTests.test_a_sitting_on_time_past_15_s_is_waited_for) ... ok
+test_a_sitting_that_exits_first_is_reported_with_its_own_reason (tests.test_human_keys.WaitOpeningTests.test_a_sitting_that_exits_first_is_reported_with_its_own_reason) ... ok
+test_a_sitting_that_hangs_ends_the_wait_at_the_bound_from_its_session_folder (tests.test_human_keys.WaitOpeningTests.test_a_sitting_that_hangs_ends_the_wait_at_the_bound_from_its_session_folder) ... ok
+test_no_session_folder_ends_the_wait_at_the_bound (tests.test_human_keys.WaitOpeningTests.test_no_session_folder_ends_the_wait_at_the_bound) ... ok
+FAIL: test_a_save_before_the_watcher_is_counted_and_refused (tests.test_human_keys.EarlySaveRuleTests.test_a_save_before_the_watcher_is_counted_and_refused)
+AssertionError: 0 != 54 : {'request_s': 1.0, 'sent_s': 1.03, 'origin': 'burst', 'seq': 1, 'pre_events': 0, 'accept_events': 54, 'pre_sig': [1, 2, 3, 4], 'accept_sig': [1, 2, 3, 5]}
+Ran 10 tests in 0.089s
+FAILED (failures=1)
+## m3: the guard's save-before-the-first-request check is removed: exit 1 (killed)
+test_a_key_with_no_write_in_10_s_is_sent_again (tests.test_human_keys.EarlySaveRuleTests.test_a_key_with_no_write_in_10_s_is_sent_again) ... FAIL
+test_a_save_before_the_watcher_is_counted_and_refused (tests.test_human_keys.EarlySaveRuleTests.test_a_save_before_the_watcher_is_counted_and_refused) ... FAIL
+test_a_save_still_being_written_after_10_s_gets_no_second_key (tests.test_human_keys.EarlySaveRuleTests.test_a_save_still_being_written_after_10_s_gets_no_second_key) ... FAIL
+test_a_sitting_without_an_early_save_passes_the_same_guard (tests.test_human_keys.EarlySaveRuleTests.test_a_sitting_without_an_early_save_passes_the_same_guard) ... ok
+test_no_whole_save_in_30_s_fails_the_sitting (tests.test_human_keys.EarlySaveRuleTests.test_no_whole_save_in_30_s_fails_the_sitting) ... ok
+test_the_hook_waits_for_the_whole_save_through_a_writer_pause (tests.test_human_keys.EarlySaveRuleTests.test_the_hook_waits_for_the_whole_save_through_a_writer_pause) ... FAIL
+test_a_sitting_on_time_past_15_s_is_waited_for (tests.test_human_keys.WaitOpeningTests.test_a_sitting_on_time_past_15_s_is_waited_for) ... ok
+test_a_sitting_that_exits_first_is_reported_with_its_own_reason (tests.test_human_keys.WaitOpeningTests.test_a_sitting_that_exits_first_is_reported_with_its_own_reason) ... ok
+test_a_sitting_that_hangs_ends_the_wait_at_the_bound_from_its_session_folder (tests.test_human_keys.WaitOpeningTests.test_a_sitting_that_hangs_ends_the_wait_at_the_bound_from_its_session_folder) ... ok
+test_no_session_folder_ends_the_wait_at_the_bound (tests.test_human_keys.WaitOpeningTests.test_no_session_folder_ends_the_wait_at_the_bound) ... ok
+FAIL: test_a_key_with_no_write_in_10_s_is_sent_again (tests.test_human_keys.EarlySaveRuleTests.test_a_key_with_no_write_in_10_s_is_sent_again)
+AssertionError: 'a save before the first request is owned by no request line' not found in '1 save requests, every staged request owns its savestate bytes'
+FAIL: test_a_save_before_the_watcher_is_counted_and_refused (tests.test_human_keys.EarlySaveRuleTests.test_a_save_before_the_watcher_is_counted_and_refused)
+AssertionError: True is not false
+FAIL: test_a_save_still_being_written_after_10_s_gets_no_second_key (tests.test_human_keys.EarlySaveRuleTests.test_a_save_still_being_written_after_10_s_gets_no_second_key)
+AssertionError: 'a save before the first request is owned by no request line' not found in '1 save requests, every staged request owns its savestate bytes'
+FAIL: test_the_hook_waits_for_the_whole_save_through_a_writer_pause (tests.test_human_keys.EarlySaveRuleTests.test_the_hook_waits_for_the_whole_save_through_a_writer_pause)
+AssertionError: True is not false
+Ran 10 tests in 0.090s
+FAILED (failures=4)
+## m4: the early-save hook of origin/main (quiet 0.5 s at any write count): exit 1 (killed)
+test_a_key_with_no_write_in_10_s_is_sent_again (tests.test_human_keys.EarlySaveRuleTests.test_a_key_with_no_write_in_10_s_is_sent_again) ... ok
+test_a_save_before_the_watcher_is_counted_and_refused (tests.test_human_keys.EarlySaveRuleTests.test_a_save_before_the_watcher_is_counted_and_refused) ... ok
+test_a_save_still_being_written_after_10_s_gets_no_second_key (tests.test_human_keys.EarlySaveRuleTests.test_a_save_still_being_written_after_10_s_gets_no_second_key) ... FAIL
+test_a_sitting_without_an_early_save_passes_the_same_guard (tests.test_human_keys.EarlySaveRuleTests.test_a_sitting_without_an_early_save_passes_the_same_guard) ... ok
+test_no_whole_save_in_30_s_fails_the_sitting (tests.test_human_keys.EarlySaveRuleTests.test_no_whole_save_in_30_s_fails_the_sitting) ... FAIL
+test_the_hook_waits_for_the_whole_save_through_a_writer_pause (tests.test_human_keys.EarlySaveRuleTests.test_the_hook_waits_for_the_whole_save_through_a_writer_pause) ... FAIL
+test_a_sitting_on_time_past_15_s_is_waited_for (tests.test_human_keys.WaitOpeningTests.test_a_sitting_on_time_past_15_s_is_waited_for) ... ok
+test_a_sitting_that_exits_first_is_reported_with_its_own_reason (tests.test_human_keys.WaitOpeningTests.test_a_sitting_that_exits_first_is_reported_with_its_own_reason) ... ok
+test_a_sitting_that_hangs_ends_the_wait_at_the_bound_from_its_session_folder (tests.test_human_keys.WaitOpeningTests.test_a_sitting_that_hangs_ends_the_wait_at_the_bound_from_its_session_folder) ... ok
+test_no_session_folder_ends_the_wait_at_the_bound (tests.test_human_keys.WaitOpeningTests.test_no_session_folder_ends_the_wait_at_the_bound) ... ok
+FAIL: test_a_save_still_being_written_after_10_s_gets_no_second_key (tests.test_human_keys.EarlySaveRuleTests.test_a_save_still_being_written_after_10_s_gets_no_second_key)
+AssertionError: 2 != 54 : {'request_s': 1.0, 'sent_s': 1.03, 'origin': 'burst', 'seq': 1, 'pre_events': 2, 'accept_events': 56, 'pre_sig': [1, 2, 3, 4], 'accept_sig': [1, 2, 3, 5]}
+FAIL: test_no_whole_save_in_30_s_fails_the_sitting (tests.test_human_keys.EarlySaveRuleTests.test_no_whole_save_in_30_s_fails_the_sitting)
+AssertionError: RuntimeError not raised
+FAIL: test_the_hook_waits_for_the_whole_save_through_a_writer_pause (tests.test_human_keys.EarlySaveRuleTests.test_the_hook_waits_for_the_whole_save_through_a_writer_pause)
+AssertionError: 2 != 54 : {'request_s': 1.0, 'sent_s': 1.03, 'origin': 'burst', 'seq': 1, 'pre_events': 2, 'accept_events': 56, 'pre_sig': [1, 2, 3, 4], 'accept_sig': [1, 2, 3, 5]}
+Ran 10 tests in 0.089s
+FAILED (failures=3)
+## m5: scripted_keys waits a fixed 15 s from the launch (origin/main): exit 1 (killed)
+test_a_key_with_no_write_in_10_s_is_sent_again (tests.test_human_keys.EarlySaveRuleTests.test_a_key_with_no_write_in_10_s_is_sent_again) ... ok
+test_a_save_before_the_watcher_is_counted_and_refused (tests.test_human_keys.EarlySaveRuleTests.test_a_save_before_the_watcher_is_counted_and_refused) ... ok
+test_a_save_still_being_written_after_10_s_gets_no_second_key (tests.test_human_keys.EarlySaveRuleTests.test_a_save_still_being_written_after_10_s_gets_no_second_key) ... ok
+test_a_sitting_without_an_early_save_passes_the_same_guard (tests.test_human_keys.EarlySaveRuleTests.test_a_sitting_without_an_early_save_passes_the_same_guard) ... ok
+test_no_whole_save_in_30_s_fails_the_sitting (tests.test_human_keys.EarlySaveRuleTests.test_no_whole_save_in_30_s_fails_the_sitting) ... ok
+test_the_hook_waits_for_the_whole_save_through_a_writer_pause (tests.test_human_keys.EarlySaveRuleTests.test_the_hook_waits_for_the_whole_save_through_a_writer_pause) ... ok
+test_a_sitting_on_time_past_15_s_is_waited_for (tests.test_human_keys.WaitOpeningTests.test_a_sitting_on_time_past_15_s_is_waited_for) ... ERROR
+test_a_sitting_that_exits_first_is_reported_with_its_own_reason (tests.test_human_keys.WaitOpeningTests.test_a_sitting_that_exits_first_is_reported_with_its_own_reason) ... FAIL
+test_a_sitting_that_hangs_ends_the_wait_at_the_bound_from_its_session_folder (tests.test_human_keys.WaitOpeningTests.test_a_sitting_that_hangs_ends_the_wait_at_the_bound_from_its_session_folder) ... ERROR
+test_no_session_folder_ends_the_wait_at_the_bound (tests.test_human_keys.WaitOpeningTests.test_no_session_folder_ends_the_wait_at_the_bound) ... ok
+ERROR: test_a_sitting_on_time_past_15_s_is_waited_for (tests.test_human_keys.WaitOpeningTests.test_a_sitting_on_time_past_15_s_is_waited_for)
+ERROR: test_a_sitting_that_hangs_ends_the_wait_at_the_bound_from_its_session_folder (tests.test_human_keys.WaitOpeningTests.test_a_sitting_that_hangs_ends_the_wait_at_the_bound_from_its_session_folder)
+FAIL: test_a_sitting_that_exits_first_is_reported_with_its_own_reason (tests.test_human_keys.WaitOpeningTests.test_a_sitting_that_exits_first_is_reported_with_its_own_reason)
+AssertionError: "exited 2 before its opening snapshot.*window bind failed" does not match "opening snapshot never appeared: no opening snapshot in /tmp/tmphei3z__b/20261015-120000 after 15 s while the sitting still ran"
+Ran 10 tests in 0.058s
+FAILED (failures=1, errors=2)
+## m6: the wait does not watch the sitting's exit: exit 1 (killed)
+test_a_key_with_no_write_in_10_s_is_sent_again (tests.test_human_keys.EarlySaveRuleTests.test_a_key_with_no_write_in_10_s_is_sent_again) ... ok
+test_a_save_before_the_watcher_is_counted_and_refused (tests.test_human_keys.EarlySaveRuleTests.test_a_save_before_the_watcher_is_counted_and_refused) ... ok
+test_a_save_still_being_written_after_10_s_gets_no_second_key (tests.test_human_keys.EarlySaveRuleTests.test_a_save_still_being_written_after_10_s_gets_no_second_key) ... ok
+test_a_sitting_without_an_early_save_passes_the_same_guard (tests.test_human_keys.EarlySaveRuleTests.test_a_sitting_without_an_early_save_passes_the_same_guard) ... ok
+test_no_whole_save_in_30_s_fails_the_sitting (tests.test_human_keys.EarlySaveRuleTests.test_no_whole_save_in_30_s_fails_the_sitting) ... ok
+test_the_hook_waits_for_the_whole_save_through_a_writer_pause (tests.test_human_keys.EarlySaveRuleTests.test_the_hook_waits_for_the_whole_save_through_a_writer_pause) ... ok
+test_a_sitting_on_time_past_15_s_is_waited_for (tests.test_human_keys.WaitOpeningTests.test_a_sitting_on_time_past_15_s_is_waited_for) ... ok
+test_a_sitting_that_exits_first_is_reported_with_its_own_reason (tests.test_human_keys.WaitOpeningTests.test_a_sitting_that_exits_first_is_reported_with_its_own_reason) ... FAIL
+test_a_sitting_that_hangs_ends_the_wait_at_the_bound_from_its_session_folder (tests.test_human_keys.WaitOpeningTests.test_a_sitting_that_hangs_ends_the_wait_at_the_bound_from_its_session_folder) ... ok
+test_no_session_folder_ends_the_wait_at_the_bound (tests.test_human_keys.WaitOpeningTests.test_no_session_folder_ends_the_wait_at_the_bound) ... ok
+FAIL: test_a_sitting_that_exits_first_is_reported_with_its_own_reason (tests.test_human_keys.WaitOpeningTests.test_a_sitting_that_exits_first_is_reported_with_its_own_reason)
+AssertionError: "exited 2 before its opening snapshot.*window bind failed" does not match "opening snapshot never appeared: no opening snapshot in /tmp/tmpw3uxqls3/20261015-120000 after 85 s while the sitting still ran"
+Ran 10 tests in 0.074s
+FAILED (failures=1)
+## unmutated again: exit 0
+----------------------------------------------------------------------
+Ran 10 tests in 0.087s
+
+OK

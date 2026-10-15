@@ -1,0 +1,10 @@
+# fix #141 leftovers 2026-10-15T18:46:41+0200: 422 tests before EarlySaveTests (filter ''), 321 s, exit 0
+OK
+## processes started during the prefix and alive right after it
+ 257921    1105  0.0     321 Ss   /bin/bash -c source /home/diego/.claude/shell-snapshots/snapshot-bash-1792039313073-io4iqk.sh 2>/dev/null || true && export PATH="/home/diego/.nvm/versions/node/v24.2
+ 257923  257921  0.0     321 S    tail -30
+ 258314     361  0.0     154 S    /init /mnt/c/Windows/System32/WindowsPowerShell/v1.0/powershell.exe /mnt/c/Windows/System32/WindowsPowerShell/v1.0/powershell.exe -NoProfile -ExecutionPolicy Bypass -
+## the same, 10 s later
+ 257921    1105  0.0     331 Ss   /bin/bash -c source /home/diego/.claude/shell-snapshots/snapshot-bash-1792039313073-io4iqk.sh 2>/dev/null || true && export PATH="/home/diego/.nvm/versions/node/v24.2
+ 257923  257921  0.0     331 S    tail -30
+ 258314     361  0.0     164 S    /init /mnt/c/Windows/System32/WindowsPowerShell/v1.0/powershell.exe /mnt/c/Windows/System32/WindowsPowerShell/v1.0/powershell.exe -NoProfile -ExecutionPolicy Bypass -

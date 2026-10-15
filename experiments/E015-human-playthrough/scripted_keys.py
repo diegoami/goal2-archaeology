@@ -15,6 +15,7 @@ burst/request-window behaviour the map rules handle); `--sleep N` replaces the d
 N-second gap, the r3-era 2 s pacing (T35 Done-when 4).
 """
 import argparse
+import inspect
 import json
 import os
 import random
@@ -301,6 +302,61 @@ def check_mapped(result):
     return True, f"{result['summary']}; every press mapped"
 
 
+# Issue #141: the opening snapshot comes after every step the recorder takes before its first tick,
+# and each of those steps has its own bound, past which the sitting fails closed and exits: the
+# nested display (NESTED_START_S), the window bind (find_window's timeout), the test-only early
+# save (GOAL2_RECORDER_TEST_EARLY_SAVE: 3 attempts of 10 s) and the opening capture
+# (SAVE_TIMEOUT_S). The wait follows the sitting instead of guessing: it ends when the snapshot is
+# there or when the sitting has exited, with the sitting's own reason. The old fixed 15 s from
+# the launch was shorter than those steps on a loaded machine and killed sittings that were still
+# on time (fix-141-repro-local-02.log: 10 of 10 on one CPU with 8 busy loops, the early save
+# written at 9.2-9.4 s, the opening snapshot not yet at 15 s). OPENING_BOUND_S only catches a
+# sitting that hangs without exiting: the recorder's bounds summed, counted from the session
+# folder (the release check and the saves download before it have no bound of their own, so
+# their wait is OPENING_BOUND_S too), with a margin of one more save.
+EARLY_SAVE_HOOK_S = 3 * 10.0   # recorder.play's test-only hook: 3 attempts, each given 10 s
+OPENING_BOUND_S = (recorder.NESTED_START_S
+                   + inspect.signature(recorder.find_window).parameters["timeout"].default
+                   + EARLY_SAVE_HOOK_S + 2 * recorder.SAVE_TIMEOUT_S)
+
+
+def wait_opening(sitting, before, sessions=None, clock=time.monotonic, sleep=time.sleep,
+                 bound=OPENING_BOUND_S):
+    """The sitting's session folder and meta once its game window is bound and its opening
+    snapshot is indexed. Raises RuntimeError, naming the cause, when the sitting exits first
+    (its exit code and the end of its session.log: a window bind that failed, an early save that
+    never came) or when no session folder appears, or no snapshot in it, within `bound` seconds
+    while the sitting still runs."""
+    sessions = Path(sessions or recorder.SESSIONS)
+    deadline = clock() + bound
+    session = None
+    while True:
+        if session is None:
+            fresh = sorted(set(sessions.glob("*")) - before)
+            if fresh:
+                session = fresh[0]
+                deadline = clock() + bound   # the bounded steps start with the session folder
+        if session is not None:
+            try:
+                meta = json.loads((session / "meta.json").read_text())
+                if meta.get("window_id") and (session / "index.jsonl").exists():
+                    return session, meta
+            except (OSError, json.JSONDecodeError):
+                pass
+        rc = sitting.poll()
+        if rc is not None:
+            tail = ""
+            if session is not None and (session / "session.log").is_file():
+                tail = "; session.log ends: " + " | ".join(
+                    (session / "session.log").read_text().splitlines()[-3:])
+            raise RuntimeError(f"the sitting exited {rc} before its opening snapshot{tail}")
+        if clock() >= deadline:
+            where = "no session folder" if session is None else f"no opening snapshot in {session}"
+            raise RuntimeError(f"opening snapshot never appeared: {where} after {bound:.0f} s "
+                               "while the sitting still ran")
+        sleep(0.1)
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("--keys", default="a;b;c", help="game keys as a ';'-separated list")
@@ -343,21 +399,7 @@ def main():
                                      start_new_session=True)
         quit_after = 12 + 2 * len(keys)
         sitting = subprocess.Popen(["bash", "runtime/human/play.sh", "--scale", "1", "--quit-after", str(quit_after)], env=env, start_new_session=True)
-        deadline = time.monotonic() + 15
-        session = None
-        while time.monotonic() < deadline:
-            fresh = set(recorder.SESSIONS.glob("*")) - before
-            if fresh:
-                session = fresh.pop()
-                try:
-                    meta = json.loads((session / "meta.json").read_text())
-                    if meta.get("window_id") and (session / "index.jsonl").exists():
-                        break
-                except (OSError, json.JSONDecodeError):
-                    pass
-            time.sleep(0.1)
-        else:
-            raise RuntimeError("opening snapshot never appeared")
+        session, meta = wait_opening(sitting, before)
         child = dict(env, DISPLAY=meta["display"])
         subprocess.run(["xdotool", "windowfocus", meta["window_id"]], env=child, check=True)
         gaps = []
