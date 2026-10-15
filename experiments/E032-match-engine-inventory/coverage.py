@@ -18,8 +18,8 @@ executions, executed instructions (block executions x instructions per block, co
 guest bytes), distinct code bytes reached against the routine's size, the phase split, video writes, the
 annotation's name, and the run's score, ticks, draws and wall seconds.
 
---delay-count N additionally writes the delay calibration dword DS:A9FF/AA01 := N (a declared input; N = 1
-hangs, because the whistle 214B:1F87 divides by N div 10 = 0). F006
+--delay-count N additionally writes the delay calibration dword DS:A9FF/AA01 := N at the first clock tick (a
+declared input; use N >= 10: the whistle 214B:1F87 divides by N div 10, read from the listing). F006
 (C-MATCH-02) says delays only count passes against it, so a match must not change: compare the score and
 the draws digest with a run without it."""
 import argparse
@@ -86,7 +86,7 @@ def main():
     ap.add_argument("--seed", type=lambda s: int(s, 0), required=True)
     ap.add_argument("--out", required=True)
     ap.add_argument("--delay-count", type=lambda v: int(v, 0), default=None,
-                    help="write the delay calibration dword DS:A9FF/AA01 := N (declared); 1 hangs: the whistle 214B:1F87 divides by N div 10")
+                    help="write the delay calibration dword DS:A9FF/AA01 := N at the first clock tick (declared); use N >= 10: the whistle 214B:1F87 divides by N div 10 (listing)")
     a = ap.parse_args()
     out = Path(a.out)
     if out.exists():

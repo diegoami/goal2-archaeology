@@ -6,7 +6,9 @@ calibration changes it.
 
 Per seed: E011-r0001's watchstart state (sha256 verified), the main seed DS:7B62 written (declared), and
 with --delay-count N the delay calibration dword DS:A9FF/AA01 := N (declared; F006: delays only count passes
-against it; N = 1 hangs, because the whistle 214B:1F87 divides by N div 10 = 0). No hook and no observer beyond the harness's own. One JSON line per match, appended to a log
+against it), written at the first clock tick (set_delay_at_kickoff); use N >= 10: the whistle 214B:1F87
+divides by N div 10 (read from the listing). No hook and no observer beyond the harness's own. One JSON line
+per match, appended to a log
 that must not exist: score, ticks, draws, the draws digest, the full-time board's raw statistics, the
 commentary's template counts, wall and CPU seconds."""
 import argparse
@@ -49,7 +51,7 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--seeds", required=True)
     ap.add_argument("--delay-count", type=lambda v: int(v, 0), default=None,
-                    help="write the delay calibration dword DS:A9FF/AA01 := N (declared); 1 hangs: the whistle 214B:1F87 divides by N div 10")
+                    help="write the delay calibration dword DS:A9FF/AA01 := N at the first clock tick (declared); use N >= 10: the whistle 214B:1F87 divides by N div 10 (listing)")
     ap.add_argument("--log", required=True)
     a = ap.parse_args()
     log = Path(a.log)
