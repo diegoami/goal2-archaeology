@@ -277,3 +277,44 @@ in `static/goal-exe/named/README.md`. Only rows change by hand; `named/` never d
 An OpenCode reviewer cannot run Ghidra (it lives under `~/tools`, outside its worktree): the review
 brief says "do NOT run Ghidra", and the main session regenerates `named/` where a check needs it
 (L57). Claude agents and the main session can run it.
+
+## 14. Sending findings to goal2
+
+The purpose of this repository is to feed `goal2`, the rebuild. What we learn reaches it by one
+route, so nothing stays in a chat or a run record that goal2 needs. (L109, the owner, 2026-10-15)
+
+**When.** After a research PR merges that adds or changes a finding or a run record, and after
+every sitting of the owner is extracted (section 11). Also when the owner states a rule in play,
+a correction or a wish.
+
+**1. Sort every item** into exactly one kind, and keep the kinds apart:
+- *finding*: backed by a method, reviewed, with its F-number and status. Source tag `finding`.
+- *owner statement*: what the owner said or did in a sitting, the notes of the run record
+  (`runtime/human/note.py`). Source tag `owner`, citing the sitting and the run record. It is
+  never written as a finding; it names what would check it.
+- *question*: open; the register row's last column names it (Q-number or issue).
+- *wish or design*: not a rule. It goes in the handover only (research never decides design, L16).
+
+**2. A branch in goal2**, made in a worktree of goal2, never in its main checkout, named
+`docs/register-<topic>-<date>`. It changes `docs/assumptions.md` only: new rows, or a changed row
+when a finding replaces an `assumed` one (its Source becomes `finding F<nn>`, its Replaced-by is
+emptied). Each row is a rule plus its Source, Live and Replaced-by cells in goal2's own columns.
+A statement that contradicts an existing row is marked on that row; its rule changes only when
+the owner says so, with the date, and only after a grep shows which goal2 code cites the row.
+
+**3. The handover**: `docs/handover-<date>-<topic>.md` in the same branch, saying what the
+branch holds, the evidence (run record ids, finding numbers, PRs of this repository), what the
+goal2 session does (check the rows against its code and tasks, open a docs-only PR, ask the
+owner for the reviewer), the owner's wishes, and what this repository does next.
+
+**4. An issue on goal2** with the prompt for the goal2 session pasted in full, label
+`triage:needed` (remote sessions have no clipboard, and the goal2 session's start-of-session
+check finds it). The issue number goes on the finding or the research PR here.
+
+**5. goal2 merges it, this repository does not.** The goal2 session opens the PR and gets the
+review; this repository never pushes to goal2's `main`.
+
+**What never goes across**: the original files, savestates, and bytes of the original beyond the
+identifiers a row needs (CLAUDE.md rule 18). Both repositories are private; the rule still holds.
+
+**Check**: a register row that cites a run record or finding must cite one that is merged here.
