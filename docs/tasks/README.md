@@ -63,3 +63,4 @@ exists.
 | T53 | Pass one: bookings, sendings off, injuries, bans, substitutions: the drafters' readings reviewed as one finding | #195 | — |
 | T54 | Pass one: formations and start positions, the 14 position codes, and the foot test | #196 | — |
 | T55 | Does a watched match keep a copy of the lineup and restore it? (Q037) | #146 | — |
+| T56 | Prompts around a match: how long each waits, the goal-kick taker prompt, the watch-again re-ask, which goals get a replay | #226 | — |
