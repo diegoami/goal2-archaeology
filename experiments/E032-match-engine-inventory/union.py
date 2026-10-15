@@ -16,7 +16,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "experiments" / "E032-match-engine-inventory"))
-from analyze import part  # noqa: E402
+from analyze import incomplete, part  # noqa: E402
 from coverage import routines  # noqa: E402
 
 
@@ -25,6 +25,15 @@ def main():
     if out.exists():
         sys.exit(f"refused: {out} exists")
     runs = [json.loads(Path(p).read_text()) for p in sys.argv[2:]]
+    if not runs:
+        sys.exit("refused: no coverage runs given")
+    seeds = [r["seed"] for r in runs]
+    if len(set(seeds)) != len(seeds):
+        sys.exit("refused: a seed appears twice")
+    for p, r in zip(sys.argv[2:], runs):
+        why = incomplete(r)
+        if why:
+            sys.exit(f"refused: {p} is not a completed match ({why})")
     starts, info, names = routines()
 
     def owner(img):

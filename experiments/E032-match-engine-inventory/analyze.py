@@ -38,6 +38,15 @@ MODELLED = {"0791:278A", "1771:377E", "0791:287C", "214B:0688", "214B:06B1", "21
             "214B:0D56", "23E4:0279"}   # T48's long helpers (check.py LONG_MAX, LONG_MUL); v2 listed 0D1C and 3A06 wrongly
 
 
+def incomplete(run):
+    """None when a coverage run is a completed match (no error, stopped at the full-time board, no strays),
+    else why not: a coverage table is refused from an incomplete run (PR 243's review, R1/R2's class)."""
+    why = [w for w, bad in (("error %r" % run.get("error"), run.get("error") is not None),
+                            ("did not stop at the full-time board", run.get("stopped_at_board") is not True),
+                            ("strays %r" % run.get("strays"), run.get("strays") != [])) if bad]
+    return "; ".join(why) or None
+
+
 def part(r):
     seg, off = r["address"].split(":")
     off = int(off, 16)
@@ -59,6 +68,9 @@ def main():
     out = Path(sys.argv[2])
     if out.exists():
         sys.exit(f"refused: {out} exists")
+    why = incomplete(d)
+    if why:
+        sys.exit(f"refused: {sys.argv[1]} is not a completed match ({why})")
     rows = [r for r in d["routines"] if r["exec_match"] > 0]
     total = sum(r["instr_match"] for r in rows)
     agg = {}
