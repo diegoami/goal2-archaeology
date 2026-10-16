@@ -1,0 +1,12 @@
+--- GOAL 23E4:118F..1195 (2 instr)
+   118F bound di, dword ptr [bp + di - N]
+   1192 xor ax, N
+--- GOAL 23E4:11DE..11E4 (3 instr)
+   11DE jnp N
+   11E0 push ss
+   11E1 jnp N
+--- GOAL 23E4:12FC..1302 (2 instr)
+   12FC mov ax, word ptr [bp + N]
+   12FF mov dx, word ptr [bp + N]
+--- GOAL 23E4:19CF..19D0 (1 instr)
+   19CF db

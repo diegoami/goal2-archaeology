@@ -1,0 +1,10 @@
+matched instructions: 2829 identical bytes, 132 differing
+differing instructions where a byte other than the trailing 16-bit operand differs: 10
+   ('mov', 'operand-only') 72
+   ('call', 'operand-only') 13
+   ('sub', 'operand-only') 10
+   ('cmp', 'operand-only') 10
+   ('mov', 'opcode-differs') 6
+   ('les', 'operand-only') 5
+   ('cmp', 'opcode-differs') 4
+   ('add', 'operand-only') 3
