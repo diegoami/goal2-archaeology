@@ -45,7 +45,7 @@ class MenuPlan:
         if subs:
             self.steps.append("subs")
         self.steps.append("play")
-        self.tactics = dict(tactics or {})
+        self.tactics = {int(e): bool(v) for e, v in (tactics or {}).items()}   # keys may be JSON strings
         self.subs = list(subs or [])
         self.sub_index = 0
         self.sub_marked = False

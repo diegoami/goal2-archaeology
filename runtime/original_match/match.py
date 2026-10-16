@@ -40,6 +40,8 @@ SITE_SELECT = "0791:E61F"      # 0791:E44F SELECT TEAM (E61A)
 SITE_MENU = "214B:157C"        # 214B:1560's read; its caller says which menu:
 MENU_TEAM, MENU_TACTICS = "0791:EE9F", "1771:1A24"     # ED8A (EE9A), 1771:1981 (1A1F)
 SITE_MESSAGE = "214B:098A"     # 214B:0983, the message routines' read (04F8, 1765)
+MESSAGE_IF = "214B:1765"       # message_if_flag(text far pointer at [SP+4], flag at [SP+8]): shows text when flag
+PLAYER_POSITION, PLAYER_ENERGY = 0x06, 0x0E   # player record: position code (0 the keeper), energy (0 injured; F018)
 KP_POLL, KP_WAIT, KP_PROMPT, KP_NOTICE = "0791:93C2", "0791:CC54", "0791:CEDE", "0791:8047"
 WAIT_FROM = {0xCED9: "prompt", 0x8042: "notice"}   # 0791:CC2E's callers: CC7B (CED6), 7FCF (803F)
 TEAM_MENU = "0791:ED8A"
@@ -63,7 +65,9 @@ SCORERS, SCORERS_SIDE = 0x7BD1, 0x21          # 0106: 0x7BD1 + 0x21*team + 3*k (
 MOTM = 0x7C3A                  # F014
 RING, RING_REC, RING_SIZE, RING_NEWEST = 0x7C38, 6, 200, 0x80EE   # commentary.py; 1D4A
 SCREEN_PTR = 0xA96A            # the text page's far pointer (214B:0755)
-TEAM_KEYS = ("first", "second")
+PITCH, PITCH_SIZE = 0x80E8, 0x16   # pitch record of slot s (1..22) at DS:80E8 + 0x16 s: +0 x, +1 y, +0xD the
+BALL = 0x82F6                      # player word, +0x12 the state; the ball at DS:82F6: +0 x, +1 y (F013;
+TEAM_KEYS = ("first", "second")    # static/goal-exe/annotations/fields.tsv, `likely`)
 
 
 class MatchError(RuntimeError):
@@ -135,7 +139,7 @@ class Match:
         self.st = {"phase": "run_match", "fresh": True, "over": False, "full_time": False, "minute": 0,
                    "score": [0, 0], "stats": [0] * 20, "squads": None, "ring": 0, "scorers": [[], []],
                    "candidates": {}, "menu_context": None, "notice": None, "answer": None, "waiting": None,
-                   "poll_keys": [], "prompt": None, "pending_subs": [], "recording": False, "events": [],
+                   "poll_keys": [], "prompt": None, "pending_subs": [], "recording": False,
                    "decisions": [], "draws": [], "commentary": [], "half_time_score": None, "board": None,
                    "ticks": 0, "kickoff_seed": None,
                    "log": {"goals": [], "bookings": [], "sendings_off": [], "injuries": [], "substitutions": []}}
@@ -181,8 +185,6 @@ class Match:
         """Make `managed` manager 1's country as the original's records hold one (+0x2E = 0x81, and the manager
         array's byte at +3*0x81), releasing manager 1's former country as 000E:01FA does (+0x2E := its number)."""
         other = fixture.second if managed == fixture.first else fixture.first
-        if self._manager_byte(other) > 0x80:
-            raise ValueError(f"country {other} is managed by a human in the image: two managed sides are not supported")
         mgr = self.m.far(MANAGERS_PTR) + 3 * 0x81
         old = self.m.read(mgr, 1)[0]
         if old != managed:
@@ -191,6 +193,8 @@ class Match:
                               self._country(old) + MANAGER, [old])
             self._declare(f"manager 1's country := {managed}", mgr, [managed])
         self._declare(f"country {managed} managed by manager 1 (+0x2E := 0x81)", self._country(managed) + MANAGER, [0x81])
+        if self._manager_byte(other) > 0x80:
+            raise ValueError(f"country {other} is another human manager's: two managed sides are not supported")
 
     def _write_fixture(self, index, fixture):
         count = self.m.rd_far(GAME_PTR, 0x28)
@@ -265,7 +269,8 @@ class Match:
                 raise ValueError(f"substitution ({off}, {on}): the first must be in the eleven, the second on the bench")
         self.st["answer"] = {"substitutions": subs, "tactics": tactics, "quick": bool(quick), "speed": speed}
         self.st["decisions"].append({"context": self.st["waiting"]["context"], "minute": self.st["minute"],
-                                     "answer": self.st["answer"]})
+                                     "answer": {"substitutions": subs, "tactics": sorted(tactics.items()),
+                                                "quick": bool(quick), "speed": speed}})
         self.st["waiting"] = None
 
     def pause(self):
@@ -281,6 +286,21 @@ class Match:
         if not self.st["over"]:
             raise MatchError("the match is not over")
         return self._result
+
+    def pitch(self):
+        """Where everyone is now, as the original keeps it: the 22 pitch records (slot, team, player word, x, y,
+        state) and the ball (x, y). Coordinates are the original's own; their meaning on the pitch is `likely`
+        (F013). Read between events, for an animation; reading never changes the match."""
+        m = self.m
+        first = set(self._squad(self.opts["first"]))
+        players = []
+        for s in range(1, 23):
+            r = m.read(m.DS * 16 + PITCH + PITCH_SIZE * s, PITCH_SIZE)
+            w = int.from_bytes(r[0xD:0xF], "little")
+            players.append({"slot": s, "team": 0 if w in first else 1, "player": w,
+                            "x": r[0], "y": r[1] - 256 if r[1] > 127 else r[1], "state": r[0x12]})
+        b = m.read(m.DS * 16 + BALL, 2)
+        return {"ball": [b[0], b[1] - 256 if b[1] > 127 else b[1]], "players": players}
 
     def memory_component(self):
         """The guest memory now, as a DOSBox-X Memory component (goal2's GameState.mem form)."""
@@ -313,6 +333,7 @@ class Match:
         m.at(WAIT, self._on_wait)
         m.at(TICK, self._on_tick)
         m.at(MATCH_PLAYED, self._on_played)
+        m.at(MESSAGE_IF, self._on_message)
         for name in WAIT_FAMILY:
             m.at(name, lambda replay, name=name: self._fail(f"the 000E wait {name} was reached: it is menu code"))
         for name, kind in ((BOOKING, "booking"), (SEND_OFF, "sending_off"), (INJURE, "injury")):
@@ -334,6 +355,19 @@ class Match:
 
     def _fail(self, message):
         raise GuestError(message + "\n" + self.screen_text())
+
+    def _on_message(self, replay):
+        """214B:1765: the original shows a message (a refusal: 'X has too many goalkeepers', a substitution it
+        will not make); its text is kept for the refusal the kit reports."""
+        m = self.m
+        if replay or not m.stack_word(8) & 0xFF:
+            return
+        a = m.stack_word(6) * 16 + m.stack_word(4)
+        n = m.read(a, 1)[0]
+        text = " ".join(m.read(a + 1, n).decode("cp437", errors="replace").split())
+        self.st["message"] = text
+        if self._menu is not None:
+            self._menu.last_message = text
 
     def _on_keypressed(self, replay):
         m = self.m
@@ -387,9 +421,6 @@ class Match:
             st["prompt"] = None
             return S.ENTER
         if site == SITE_MESSAGE:
-            if self._menu is not None:
-                lines = [ln.strip() for ln in self.screen_text().splitlines() if ln.strip()]
-                self._menu.last_message = lines[-1] if lines else "a message"
             return S.ENTER
         if site == SITE_SELECT and self._menu is not None:
             return self._menu.select_key(m.rd(S.SELECT_CURSOR), self._squad(self.opts["managed"]),
@@ -416,13 +447,22 @@ class Match:
 
     def _team_menu_key(self, item):
         st = self.st
-        if self._menu is None:
+        plan = self._menu
+        if plan is not None and plan.steps == ["play"] and plan.in_screen is None and plan.menu_reads_after_play:
+            # "play" was pressed and the menu is read again: 0791:EA09 refused the eleven (its message is kept)
+            refusal = st.get("message") or "the original refused the managed eleven"
+            if st["menu_context"] not in DECIDED_AT_MENU + ("substitution",):
+                raise MatchError(f"the original refuses goal2's eleven: {refusal}")
+            st["refused"], st["message"], self._menu = refusal, None, None
+            plan = None
+        if plan is None:
             context = st["menu_context"]
-            if context in DECIDED_AT_MENU:
+            if context in DECIDED_AT_MENU or (context == "substitution" and st.get("refused")):
                 if st["answer"] is None:
-                    self._decide(context, substitutions_now=bool(self.m.rd(S.SUBS_ALLOWED, 1)))
+                    self._decide(context, substitutions_now=bool(self.m.rd(S.SUBS_ALLOWED, 1)),
+                                 refused=st.get("refused"))
                     return None
-                answer, st["answer"] = st["answer"], None
+                answer, st["answer"], st["refused"] = st["answer"], None, None
                 self._extras(answer)
                 if not self.m.rd(S.SUBS_ALLOWED, 1) and answer["substitutions"]:
                     st["pending_subs"] = answer["substitutions"]    # the original makes them at the next stoppage
@@ -432,9 +472,7 @@ class Match:
                 self._menu = S.MenuPlan(self.side, tactics=answer.get("tactics"), subs=answer.get("substitutions"))
             else:                                            # before and after the match: play
                 self._menu = S.MenuPlan(self.side)
-        plan = self._menu
-        if plan.steps[0] == "play" and plan.in_screen is None and plan.menu_reads_after_play > 2:
-            raise MatchError("the original does not accept the managed eleven (0791:EA09 keeps the menu open)")
+            plan = self._menu
         key = plan.menu_key(item)
         if plan.steps[0] == "play" and key == S.ENTER and not getattr(plan, "closed", False):
             plan.closed = True
@@ -457,7 +495,9 @@ class Match:
         for off, on, why in plan.refused:
             self._emit("refused", substitution=[off, on], reason=why)
         if plan.tactics:
-            self._emit("tactics", byte=self._tactics())
+            byte = self._tactics()
+            missed = [e for e, v in plan.tactics.items() if bool(byte >> (e - 1) & 1) != v]
+            self._emit("tactics", byte=byte, **({"not_set": missed} if missed else {}))
         if plan.requested:
             self._emit("substitution_requested", pending=[list(s) for s in self.st["pending_subs"]])
 
@@ -481,7 +521,10 @@ class Match:
     def _decide(self, context, **data):
         self._flush()
         squad = self._squad(self.opts["managed"])
-        data.update(context=context, eleven=squad[:11], bench=squad[11:],
+        injured = [i["player"] for i in self.st["log"]["injuries"] if i["team"] == self.side and i["player"] in squad[:11]]
+        base = self.m.far(PLAYERS_PTR)
+        positions = [[w, self.m.read(base + PLAYER_SIZE * w + PLAYER_POSITION, 1)[0]] for w in squad if w]
+        data.update(context=context, eleven=squad[:11], bench=squad[11:], injured=injured, positions=positions,
                     substitutions_left=self.m.rd(S.SUBS_LEFT + self.side, 1), tactics=self._tactics())
         self._emit("decision", **data)
         self.m.stop("decision")
@@ -527,9 +570,7 @@ class Match:
 
     # -- events --------------------------------------------------------------------------------------------
     def _emit(self, kind, **data):
-        ev = Event(kind, self.st["minute"], tuple(self.st["score"]), data)
-        self._queue.append(ev)
-        self.st["events"].append({"kind": kind, "minute": ev.minute, "score": list(ev.score), "data": data})
+        self._queue.append(Event(kind, self.st["minute"], tuple(self.st["score"]), data))
 
     def _candidate(self, kind):
         pitch = self.m.stack_word(6) * 16 + self.m.stack_word(4)      # the pitch record (far pointer argument)
@@ -559,9 +600,9 @@ class Match:
     def _flush(self):
         """Turn what changed in the guest since the last flush into events."""
         m, st = self.m, self.st
-        if st["squads"] is None:
+        if st["squads"] is None:      # the first flush comes after the set-up 0791:A4A1, which cleared the ring
             st["squads"] = [self._squad(st_c) for st_c in (self.opts["first"], self.opts["second"])]
-            st["ring"] = m.rd(RING_NEWEST)
+            st["ring"] = 0            # (DS:80EE := 0, the records := 0xFF) and the scorers and statistics
         name, templates = self._text()
         newest = m.rd(RING_NEWEST)
         while st["ring"] != newest and 1 <= newest <= RING_SIZE:
