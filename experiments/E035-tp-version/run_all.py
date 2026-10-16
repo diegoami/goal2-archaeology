@@ -69,7 +69,9 @@ for v, (d, imgs, zips) in sets.items():
         say('  ', v, f, os.path.getsize(wd + '/' + f), sha(wd + '/' + f))
     shutil.copy(HERE + '/probes/t4_40.pas' if v == '40' else HERE + '/probes/t4.pas', wd + '/T4.PAS')  # 4.0's Dos has no GetEnv, EnvStr or SwapVectors, so the probe for 4.0 leaves it out
     shutil.copy(HERE + '/probes/t1.pas', wd + '/T1.PAS')
-    bat += 'cd \\%s\r\ntpc t1.pas\r\ntpc t4.pas > t4.log\r\ncd \\\r\n' % v
+    shutil.copy(HERE + '/probes/t5.pas', wd + '/T5.PAS')
+    shutil.copy(HERE + '/probes/t6.pas', wd + '/T6.PAS')
+    bat += 'cd \\%s\r\ntpc t1.pas\r\ntpc t4.pas > t4.log\r\ntpc t5.pas\r\ntpc t6.pas\r\ncd \\\r\n' % v
 bat += 'echo ok > DONE.TXT\r\n'
 open(runs + '/c.bat', 'w', newline='').write(bat)
 
@@ -94,5 +96,7 @@ for tool in ('cover.py', 'bytecmp.py', 'gaps.py'):
         out = run(['python3', '-I', HERE + '/' + tool, goal, c])
         open(OUT + '/%s.%s.txt' % (tool[:-3], c.rsplit('/', 2)[1]), 'w').write(out)
 say(run(['python3', '-I', HERE + '/cover.py', goal] + cands).strip())
+for v in ('55', '50'):
+    say('movecheck', v, run(['python3', '-I', HERE + '/movecheck.py', goal, runs + '/%s/T5.EXE' % v, runs + '/%s/T6.EXE' % v]).strip())
 say(run(['python3', '-I', HERE + '/units.py', goal] + cands).strip())
 say(run(['python3', '-I', HERE + '/routines.py', goal, REPO] + [c for c in cands if '/701/' not in c]).strip())
