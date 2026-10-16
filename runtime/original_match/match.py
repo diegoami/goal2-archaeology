@@ -1,0 +1,695 @@
+"""The original's watched match, played interactively on goal2's own state (issue 250).
+
+    m = Match(image, Fixture(first=7, second=19), managed=7)
+    for ev in m.events():                       # the original runs; events come as they happen
+        show(ev)
+        if ev.kind == "decision":               # the original stops and asks the manager
+            m.answer(substitutions=[(off, on)], tactics={4: True})
+    result = m.result()
+
+The match is the original's code (0791:F1F6 run_match, then route_fixture's 0791:B7FA update_fixture_player_state)
+under Unicorn; the kit only answers the original's key reads, at the original's own decision points, with the
+keys a manager would press (screens.py). Every constant cites the listing or a finding."""
+import hashlib
+import json
+import zlib
+from dataclasses import dataclass, field, asdict
+
+from .image import (Image, COUNTRIES_PTR, COUNTRY_SIZE, PLAYERS_PTR, PLAYER_SIZE, N_PLAYERS, N_COUNTRIES,
+                    MANAGERS_PTR, FIXTURES_PTR, FIXTURE_SIZE, GAME_PTR, TACTICS, MANAGER, names_and_templates)
+from .machine import Machine, GuestError, MEM_SIZE
+from . import screens as S
+
+VERSION = "1"
+
+# -- the calls (route_fixture's own, static/goal-exe/code/seg_000E_09.asm:308 and :396) -------------------------
+RUN_MATCH, RUN_MATCH_RETURN = "0791:F1F6", "000E:6F1D"
+PLAYER_UPDATE, PLAYER_UPDATE_RETURN = "0791:B7FA", "000E:6FFD"
+SS_PARAGRAPH = 0x3052          # SS = load + 0x3052 (E011-r0001 and E006: SS 0x3875 at load 0x823, CPU component)
+ENTRY_SP = 0x3EC0              # SP at F1F6's entry in E011-r0001 (its BP chain; E033 notes section 1)
+ENTRY_BP = 0x3EDE              # route_fixture's BP then
+DELAY_COUNT, DELAY_COUNT_VALUE = 0xA9FF, 20   # the delay calibration dword (F006; E032: passes only, >= 10)
+# -- the keyboard (214B) and the read sites (the return address of each call of 214B:08DD) ------------------------
+KEYPRESSED, READKEY = "214B:0723", "214B:08DD"
+PUSHED_BACK, KEY = 0x79AE, 0xA976            # 08DD: 08E3 tests the pushed-back flag; 0947/097C store the key
+SITE_BOARD = "0791:041A"       # 0791:0106 the match board (0415)
+SITE_POLL = "0791:93D3"        # 0791:9372 the in-play key poll (93CE)
+SITE_NOTICE = "0791:8050"      # 0791:7FCF the substitution notice (804B)
+SITE_PROMPT = "0791:CEED"      # 0791:CC7B the captain and taker prompt (CEE8)
+SITE_SELECT = "0791:E61F"      # 0791:E44F SELECT TEAM (E61A)
+SITE_MENU = "214B:157C"        # 214B:1560's read; its caller says which menu:
+MENU_TEAM, MENU_TACTICS = "0791:EE9F", "1771:1A24"     # ED8A (EE9A), 1771:1981 (1A1F)
+SITE_MESSAGE = "214B:098A"     # 214B:0983, the message routines' read (04F8, 1765)
+KP_POLL, KP_WAIT, KP_PROMPT, KP_NOTICE = "0791:93C2", "0791:CC54", "0791:CEDE", "0791:8047"
+WAIT_FROM = {0xCED9: "prompt", 0x8042: "notice"}   # 0791:CC2E's callers: CC7B (CED6), 7FCF (803F)
+TEAM_MENU = "0791:ED8A"
+MENU_CONTEXT = {"0791:F20A": "pre_match", "0791:F331": "post_match", "0791:9AE3": "half_time",
+                "0791:8103": "substitution", "0791:945B": "pause", "0791:9B42": "extra_time",
+                "0791:9B70": "extra_time"}     # ED8A's callers: F207, F32E, 9A32 (9AE0), 8062 (8100), 9372, 9B0C, 9B5B
+DECIDED_AT_MENU = ("half_time", "pause", "extra_time")
+NOTICE, PROMPT, WAIT = "0791:7FCF", "0791:CC7B", "0791:CC2E"
+TICK, MATCH_PLAYED = "0791:970C", "0791:F2E3"       # the clock (E011 notes 4); F1F6 after play_match
+WAIT_FAMILY = ("000E:05F6", "000E:0572", "000E:04F5", "000E:045D")   # menu code only (E010; watched.py)
+BOOKING, SEND_OFF, INJURE = "0791:798D", "0791:7B77", "0791:7D56"   # F027, F020
+# -- match state (DS offsets) ------------------------------------------------------------------------------------
+SEED = 0x7B62                  # the main RNG word (F004)
+MINUTE, SUBTICK = 0x831F, 0x831D
+SCORE = 0x9B3C                 # the two score bytes (team 0, team 1)
+STATS = 0x7B7E                 # bytes + 10*team, in this order (0791:0106 rows; 7D56 adds injuries at + 9)
+STAT_NAMES = ("corners", "free_kicks", "penalties", "shots", "on_target", "saves", "fouls", "bookings",
+              "red_cards", "injuries")
+BARS = (0x80F2, 0x80F6)        # the board's two bar rows (0106: f_0791_006C rows 0x13, 0x14)
+SCORERS, SCORERS_SIDE = 0x7BD1, 0x21          # 0106: 0x7BD1 + 0x21*team + 3*k (word player, byte minute)
+MOTM = 0x7C3A                  # F014
+RING, RING_REC, RING_SIZE, RING_NEWEST = 0x7C38, 6, 200, 0x80EE   # commentary.py; 1D4A
+SCREEN_PTR = 0xA96A            # the text page's far pointer (214B:0755)
+TEAM_KEYS = ("first", "second")
+
+
+class MatchError(RuntimeError):
+    """The original refused a decision or a state goal2 asked for (the message says which)."""
+
+
+@dataclass(frozen=True)
+class Fixture:
+    first: int                 # team 0: fixture +4 (DS:9B34)
+    second: int                # team 1: fixture +6 (DS:9B36), the host of a friendly (0791:A6E4)
+    index: int = None          # the calendar number the set-up seeds from (0791:2648); None: [A923]+0x26
+    kind: int = 1              # 1, a friendly: the only kind the kit has been checked on
+
+
+@dataclass
+class Event:
+    kind: str
+    minute: int
+    score: tuple
+    data: dict = field(default_factory=dict)
+
+    def __str__(self):
+        extra = " ".join(f"{k}={v}" for k, v in self.data.items() if k not in ("players", "eleven", "bench"))
+        return f"[{self.minute:3d}' {self.score[0]}-{self.score[1]}] {self.kind} {extra}"
+
+
+class Match:
+    def __init__(self, image, fixture, *, managed=None, captain=None, seed=None, players=None, countries=None,
+                 ticks=False, record_draws=False, delay_byte=None, timeout_s=600):
+        """image: an Image of the original outside a match (goal2's GameState.mem through
+        Image.from_memory_component). players, countries: goal2's records to write first (lists of 3061 byte
+        strings of 0x14 and 129 of 0xBF), else the image's are used. managed: the country goal2 manages (default:
+        the image's human country); the other must be the computer's. captain: a player word of the managed
+        eleven (default: the original's pick, its best leader). seed: written to the main RNG word at the captain
+        prompt, after the set-up's own reseed (default: none, the original's). ticks: also yield one `tick` event
+        per tick. record_draws: keep every main-RNG write from the captain prompt to the full-time board (the
+        engine check). delay_byte: the speed byte [A923]+0x3F at the captain prompt (the engine check)."""
+        if fixture.kind != 1:
+            raise ValueError("only friendlies (kind 1) are supported")
+        if fixture.first == fixture.second:
+            raise ValueError("the fixture needs two distinct countries")
+        for c in (fixture.first, fixture.second):
+            if not 1 <= c <= 128:
+                raise ValueError(f"country {c} is not 1..128")
+        self.timeout_s = timeout_s
+        self.m = Machine(image.memory, image.load)
+        self.image_header = image.header
+        self.image_sha256 = image.sha256()
+        self.inputs = []
+        self._write_state(players, countries)
+        if managed is None:
+            human = [c for c in (fixture.first, fixture.second) if self._manager_byte(c) > 0x80]
+            if len(human) != 1:
+                raise ValueError("name the managed country: the image's human country is not in this fixture")
+            managed = human[0]
+        if managed not in (fixture.first, fixture.second):
+            raise ValueError("the managed country must be one of the fixture's two countries")
+        self._make_managed(managed, fixture)
+        index = fixture.index if fixture.index is not None else self.m.rd_far(GAME_PTR, 0x26)
+        self.opts = {"first": fixture.first, "second": fixture.second, "index": index, "managed": managed,
+                     "captain": captain, "seed": seed, "ticks": ticks, "record_draws": record_draws,
+                     "delay_byte": delay_byte}
+        self.side = 0 if managed == fixture.first else 1
+        if captain is not None and captain not in self._squad(managed)[:11]:
+            raise ValueError(f"captain {captain} is not in the managed eleven")
+        self._write_fixture(index, fixture)
+        self._declare("delay calibration dword DS:A9FF", self.m.DS * 16 + DELAY_COUNT,
+                      DELAY_COUNT_VALUE.to_bytes(4, "little"))
+        self.st = {"phase": "run_match", "fresh": True, "over": False, "full_time": False, "minute": 0,
+                   "score": [0, 0], "stats": [0] * 20, "squads": None, "ring": 0, "scorers": [[], []],
+                   "candidates": {}, "menu_context": None, "notice": None, "answer": None, "waiting": None,
+                   "poll_keys": [], "prompt": None, "pending_subs": [], "recording": False, "events": [],
+                   "decisions": [], "draws": [], "commentary": [], "half_time_score": None, "board": None,
+                   "ticks": 0, "kickoff_seed": None,
+                   "log": {"goals": [], "bookings": [], "sendings_off": [], "injuries": [], "substitutions": []}}
+        self._queue = []
+        self._menu = None
+        self._result = None
+        self._names = None
+        self._hooks()
+        self._call(RUN_MATCH, RUN_MATCH_RETURN)
+
+    # -- inputs ------------------------------------------------------------------------------------------
+    def _declare(self, what, linear, raw):
+        raw = bytes(raw)
+        old = self.m.read(linear, len(raw))
+        if old != raw:
+            self.m.write(linear, raw)
+            self.inputs.append({"what": what, "linear": linear, "old": old.hex(), "new": raw.hex()})
+
+    def _write_state(self, players, countries):
+        if players is not None:
+            if len(players) != N_PLAYERS or any(len(p) != PLAYER_SIZE for p in players):
+                raise ValueError(f"players: {N_PLAYERS} records of {PLAYER_SIZE} bytes")
+            self._declare("goal2's player records [DS:A91B]", self.m.far(PLAYERS_PTR), b"".join(players))
+        if countries is not None:
+            if len(countries) != N_COUNTRIES or any(len(c) != COUNTRY_SIZE for c in countries):
+                raise ValueError(f"countries: {N_COUNTRIES} records of {COUNTRY_SIZE} bytes")
+            self._declare("goal2's country records [DS:A917]", self.m.far(COUNTRIES_PTR), b"".join(countries))
+
+    def _country(self, c):
+        return self.m.far(COUNTRIES_PTR) + COUNTRY_SIZE * c
+
+    def _manager_byte(self, c):
+        return self.m.read(self._country(c) + MANAGER, 1)[0]
+
+    def _squad(self, c):
+        raw = self.m.read(self._country(c), 40)
+        return [int.from_bytes(raw[2 * i:2 * i + 2], "little") for i in range(20)]
+
+    def _tactics(self):
+        return self.m.read(self._country(self.opts["managed"]) + TACTICS, 1)[0]
+
+    def _make_managed(self, managed, fixture):
+        """Make `managed` manager 1's country as the original's records hold one (+0x2E = 0x81, and the manager
+        array's byte at +3*0x81), releasing manager 1's former country as 000E:01FA does (+0x2E := its number)."""
+        other = fixture.second if managed == fixture.first else fixture.first
+        if self._manager_byte(other) > 0x80:
+            raise ValueError(f"country {other} is managed by a human in the image: two managed sides are not supported")
+        mgr = self.m.far(MANAGERS_PTR) + 3 * 0x81
+        old = self.m.read(mgr, 1)[0]
+        if old != managed:
+            if 1 <= old <= 128 and self._manager_byte(old) == 0x81:
+                self._declare(f"release country {old} from manager 1 (+0x2E := {old}, as 000E:01FA)",
+                              self._country(old) + MANAGER, [old])
+            self._declare(f"manager 1's country := {managed}", mgr, [managed])
+        self._declare(f"country {managed} managed by manager 1 (+0x2E := 0x81)", self._country(managed) + MANAGER, [0x81])
+
+    def _write_fixture(self, index, fixture):
+        count = self.m.rd_far(GAME_PTR, 0x28)
+        if not 1 <= index <= count:
+            raise ValueError(f"fixture index {index} outside the calendar 1..{count}")
+        rec = bytes([0xFE, 0, fixture.kind, 0]) + fixture.first.to_bytes(2, "little") + fixture.second.to_bytes(2, "little")
+        base = self.m.far(FIXTURES_PTR) + FIXTURE_SIZE * (index - 1)
+        self._declare(f"fixture {index} := {fixture.first} v {fixture.second}, kind {fixture.kind}", base, rec)
+        self._declare("fixture index [A923]+0x26 (route_fixture's; the set-up seeds from it, 0791:2648)",
+                      self.m.far(GAME_PTR) + 0x26, index.to_bytes(2, "little"))
+        self.fixture_ptr = (self.m.rd(FIXTURES_PTR + 2), self.m.rd(FIXTURES_PTR) + FIXTURE_SIZE * (index - 1))
+
+    def _call(self, target, return_to):
+        seg, off = self.fixture_ptr
+        self.m.set_reg("bp", ENTRY_BP)
+        self.end_lin = self.m.far_call(target, [seg, off], return_to, self.m.seg(SS_PARAGRAPH), ENTRY_SP)
+        self.st["fresh"] = True
+
+    # -- the public interface ------------------------------------------------------------------------------
+    @property
+    def over(self):
+        return self.st["over"]
+
+    @property
+    def score(self):
+        return tuple(self.st["score"])
+
+    @property
+    def minute(self):
+        return self.st["minute"]
+
+    @property
+    def waiting(self):
+        """The decision the original waits on (its event data), or None."""
+        return self.st["waiting"]
+
+    def events(self):
+        """The match's events as they happen. A `decision` event means the original stopped and asks the
+        manager: call answer() before taking the next event (taking it without an answer plays on)."""
+        while True:
+            if self._queue:
+                ev = self._queue.pop(0)
+                if ev.kind == "decision":
+                    self.st["waiting"] = dict(ev.data)
+                yield ev
+                continue
+            if self.st["over"]:
+                return
+            if self.st["waiting"] is not None:
+                self.answer()
+            self._advance()
+
+    def answer(self, substitutions=(), tactics=None, quick=False, speed=None):
+        """goal2's answer to the waiting decision. substitutions: (off, on) player words of the managed squad,
+        made now at half time and at a substitution notice; at a pause the original only takes the request and
+        offers it at the next stoppage (a `substitution` decision). tactics: {element 1..8: bool} or the whole
+        byte (bit e-1 = element e; F026). quick: the rest as a quick result (the original's R key). speed: the
+        original's speed byte 0..5 (presentation only)."""
+        if self.st["waiting"] is None:
+            raise MatchError("no decision is waiting")
+        if isinstance(tactics, int):
+            tactics = {e: bool(tactics >> (e - 1) & 1) for e in range(1, 9)}
+        tactics = {int(e): bool(v) for e, v in (tactics or {}).items()}
+        if any(not 1 <= e <= 8 for e in tactics):
+            raise ValueError("tactic elements are 1..8")
+        if speed is not None and not 0 <= speed <= 5:
+            raise ValueError("speed is 0..5")
+        subs = [[int(a), int(b)] for a, b in substitutions]
+        squad = self._squad(self.opts["managed"])
+        for off, on in subs:
+            if off not in squad[:11] or on not in squad[11:]:
+                raise ValueError(f"substitution ({off}, {on}): the first must be in the eleven, the second on the bench")
+        self.st["answer"] = {"substitutions": subs, "tactics": tactics, "quick": bool(quick), "speed": speed}
+        self.st["decisions"].append({"context": self.st["waiting"]["context"], "minute": self.st["minute"],
+                                     "answer": self.st["answer"]})
+        self.st["waiting"] = None
+
+    def pause(self):
+        """Ask the original for the team menu at its next key poll (as a manager pressing Enter in play): a
+        `decision` event with context `pause` follows."""
+        if self.st["waiting"] is not None:
+            raise MatchError("a decision is waiting: answer it")
+        if self.st["over"] or self.st["full_time"]:
+            raise MatchError("the match is over")
+        self.st["poll_keys"].append(S.ENTER)
+
+    def result(self):
+        if not self.st["over"]:
+            raise MatchError("the match is not over")
+        return self._result
+
+    def memory_component(self):
+        """The guest memory now, as a DOSBox-X Memory component (goal2's GameState.mem form)."""
+        return self.image_header + self.m.read(0, MEM_SIZE)
+
+    def image(self):
+        return Image(self.memory_component())
+
+    # -- running -----------------------------------------------------------------------------------------
+    def _advance(self):
+        fresh, self.st["fresh"] = self.st["fresh"], False
+        if self.m.run(self.end_lin, self.timeout_s, fresh=fresh) is not None:
+            return
+        self._flush()
+        if self.st["phase"] == "run_match":
+            self.st["phase"] = "player_update"
+            self._call(PLAYER_UPDATE, PLAYER_UPDATE_RETURN)
+        else:
+            self.st["phase"] = "done"
+            self._finish()
+
+    # -- the hooks -----------------------------------------------------------------------------------------
+    def _hooks(self):
+        m = self.m
+        m.at(KEYPRESSED, self._on_keypressed)
+        m.at(READKEY, self._on_readkey)
+        m.at(TEAM_MENU, self._on_team_menu)
+        m.at(NOTICE, self._on_notice)
+        m.at(PROMPT, self._on_prompt)
+        m.at(WAIT, self._on_wait)
+        m.at(TICK, self._on_tick)
+        m.at(MATCH_PLAYED, self._on_played)
+        for name in WAIT_FAMILY:
+            m.at(name, lambda replay, name=name: self._fail(f"the 000E wait {name} was reached: it is menu code"))
+        for name, kind in ((BOOKING, "booking"), (SEND_OFF, "sending_off"), (INJURE, "injury")):
+            m.at(name, lambda replay, kind=kind: replay or self._candidate(kind))
+        if self.opts["record_draws"]:
+            from unicorn import UC_HOOK_MEM_WRITE
+            lin = m.DS * 16 + SEED
+
+            def seed_write(uc, access, address, size, value, data):
+                if not self.st["recording"]:
+                    return
+                old = m.word_at(lin)
+                raw = bytearray(old.to_bytes(2, "little"))
+                for i in range(size):
+                    if 0 <= address + i - lin < 2:
+                        raw[address + i - lin] = (value >> (8 * i)) & 0xFF
+                self.st["draws"].append([m.rd(MINUTE), m.rd(SUBTICK), old, int.from_bytes(raw, "little")])
+            m.uc.hook_add(UC_HOOK_MEM_WRITE, seed_write, begin=lin, end=lin + 1)
+
+    def _fail(self, message):
+        raise GuestError(message + "\n" + self.screen_text())
+
+    def _on_keypressed(self, replay):
+        m = self.m
+        site = m.where(m.stack_word(2), m.stack_word(0))
+        if site == KP_POLL:
+            has = bool(self.st["poll_keys"])
+        elif site == KP_WAIT:          # inside 0791:CC2E (near-called within 0791): its caller says whose wait
+            has = self._prompt_key(WAIT_FROM.get(m.frame_word(m.reg("bp"), 2))) is not None
+        elif site == KP_PROMPT:
+            has = self._prompt_key("prompt") is not None
+        elif site == KP_NOTICE:
+            has = self._prompt_key("notice") is not None
+        else:
+            has = False                # replays, save-goal and summary questions, walk-offs: no key (No)
+        m.set_reg("ax", (m.reg("ax") & 0xFF00) | (1 if has else 0))
+        m.return_from(True, 0)
+
+    def _prompt_key(self, kind):
+        p = self.st["prompt"]
+        return p["key"] if p is not None and kind is not None and p["kind"] == kind else None
+
+    def _on_readkey(self, replay):
+        m = self.m
+        if m.rd(PUSHED_BACK, 1):
+            return                     # a pushed-back key: the guest reads it without waiting
+        key = self._key_for(m.where(m.stack_word(2), m.stack_word(0)))
+        if key is None:
+            return                     # stopped for a decision
+        m.wr(KEY, key | (key << 8))    # DS:A976 the key, DS:A977 the last key
+        m.return_from(True, 0)
+
+    def _key_for(self, site):
+        m, st = self.m, self.st
+        if site == SITE_BOARD:
+            self._flush()
+            if st["full_time"] and st["board"] is None:
+                st["board"] = self._board()
+                st["recording"] = False
+                self._emit("full_time", **st["board"])
+            elif not st["full_time"] and st["half_time_score"] is None:
+                st["half_time_score"] = list(st["score"])
+                self._emit("half_time")
+            return S.ENTER
+        if site == SITE_POLL:
+            if not st["poll_keys"]:
+                self._fail("a key read at the poll with no key queued")
+            return st["poll_keys"].pop(0)
+        if site == SITE_PROMPT:
+            return self._captain_key()
+        if site == SITE_NOTICE:
+            st["prompt"] = None
+            return S.ENTER
+        if site == SITE_MESSAGE:
+            if self._menu is not None:
+                lines = [ln.strip() for ln in self.screen_text().splitlines() if ln.strip()]
+                self._menu.last_message = lines[-1] if lines else "a message"
+            return S.ENTER
+        if site == SITE_SELECT and self._menu is not None:
+            return self._menu.select_key(m.rd(S.SELECT_CURSOR), self._squad(self.opts["managed"]),
+                                         m.rd(S.SUBS_ALLOWED, 1), m.rd(S.SUBS_REQUEST, 1),
+                                         m.rd(S.SUBS_LEFT + self.side, 1))
+        if site == SITE_MENU:
+            bp = m.reg("bp")                                  # 214B:1560's frame (its far return above it)
+            caller = m.where(m.frame_word(bp, 4), m.frame_word(bp, 2))
+            if caller == MENU_TEAM:
+                return self._team_menu_key(m.frame_word(m.frame_word(bp, 0), S.MENU_ITEM_BP))
+            if caller == MENU_TACTICS and self._menu is not None:
+                table = list(m.read(m.DS * 16 + S.TACTICS_ELEMENT_OF_ROW, 9))
+                return self._menu.tactics_key(m.rd(S.TACTICS_ROW), table, self._tactics())
+            self._fail(f"an undeclared menu read (214B:1560 called from {caller})")
+        self._fail(f"an undeclared key read at {site}")
+
+    # -- the team menu and the decisions ------------------------------------------------------------------
+    def _on_team_menu(self, replay):
+        if replay:
+            return
+        ret = self.m.where(self.m.reg("cs"), self.m.stack_word(0))
+        self.st["menu_context"] = MENU_CONTEXT.get(ret, "other:" + ret)
+        self._menu = None
+
+    def _team_menu_key(self, item):
+        st = self.st
+        if self._menu is None:
+            context = st["menu_context"]
+            if context in DECIDED_AT_MENU:
+                if st["answer"] is None:
+                    self._decide(context, substitutions_now=bool(self.m.rd(S.SUBS_ALLOWED, 1)))
+                    return None
+                answer, st["answer"] = st["answer"], None
+                self._extras(answer)
+                if not self.m.rd(S.SUBS_ALLOWED, 1) and answer["substitutions"]:
+                    st["pending_subs"] = answer["substitutions"]    # the original makes them at the next stoppage
+                self._menu = S.MenuPlan(self.side, tactics=answer["tactics"], subs=answer["substitutions"])
+            elif context == "substitution":
+                answer, st["notice"] = st["notice"] or {}, None
+                self._menu = S.MenuPlan(self.side, tactics=answer.get("tactics"), subs=answer.get("substitutions"))
+            else:                                            # before and after the match: play
+                self._menu = S.MenuPlan(self.side)
+        plan = self._menu
+        if plan.steps[0] == "play" and plan.in_screen is None and plan.menu_reads_after_play > 2:
+            raise MatchError("the original does not accept the managed eleven (0791:EA09 keeps the menu open)")
+        key = plan.menu_key(item)
+        if plan.steps[0] == "play" and key == S.ENTER and not getattr(plan, "closed", False):
+            plan.closed = True
+            self._close_plan(plan)
+        return key
+
+    def _extras(self, answer):
+        """The answer's in-play keys, pressed at the next polls: the speed (9372: Right lowers the delay byte,
+        Left raises it, one step a key) and R (the quick result, 0791:92FC)."""
+        if answer.get("speed") is not None:
+            now = self.m.rd_far(GAME_PTR, 0x3F, 1)
+            key = S.RIGHT if answer["speed"] < now else S.LEFT
+            self.st["poll_keys"].extend([key] * abs(now - answer["speed"]))
+        if answer.get("quick"):
+            self.st["poll_keys"].append(S.KEY_R)
+
+    def _close_plan(self, plan):
+        made = {tuple(s) for s in plan.done_subs}
+        self.st["pending_subs"] = [s for s in self.st["pending_subs"] if tuple(s) not in made]
+        for off, on, why in plan.refused:
+            self._emit("refused", substitution=[off, on], reason=why)
+        if plan.tactics:
+            self._emit("tactics", byte=self._tactics())
+        if plan.requested:
+            self._emit("substitution_requested", pending=[list(s) for s in self.st["pending_subs"]])
+
+    def _on_notice(self, replay):
+        """0791:7FCF timed_notice(side, keeper unavailable): the original offers the managed side a substitution
+        at a stoppage (0791:8062: after an injury, or a substitution asked for at a pause)."""
+        st = self.st
+        if st["answer"] is None and st["notice"] is None:
+            self._decide("substitution", keeper_unavailable=bool(self.m.stack_word(2) & 0xFF),
+                         requested=[list(s) for s in st["pending_subs"]], substitutions_now=True)
+            return
+        if st["answer"] is not None:
+            answer, st["answer"] = st["answer"], None
+            if not answer["substitutions"] and not answer["tactics"] and st["pending_subs"]:
+                answer["substitutions"] = [list(s) for s in st["pending_subs"]]   # default: what was asked for
+            self._extras(answer)
+            st["notice"] = answer
+            if answer["substitutions"] or answer["tactics"]:
+                st["prompt"] = {"kind": "notice", "key": S.ENTER}
+
+    def _decide(self, context, **data):
+        self._flush()
+        squad = self._squad(self.opts["managed"])
+        data.update(context=context, eleven=squad[:11], bench=squad[11:],
+                    substitutions_left=self.m.rd(S.SUBS_LEFT + self.side, 1), tactics=self._tactics())
+        self._emit("decision", **data)
+        self.m.stop("decision")
+
+    # -- the captain prompt -------------------------------------------------------------------------------
+    def _on_prompt(self, replay):
+        """0791:CC7B(role, side), role the last pushed: 1 the captain, 2-5 the set-piece takers (F030); the
+        takers' prompts get no key and keep their pick after 1000 polls, as with a manager who does nothing."""
+        if replay:
+            return
+        role, side = self.m.stack_word(2) & 0xFF, self.m.stack_word(4) & 0xFF
+        if role == 1 and side == self.side:
+            self.st["prompt"] = {"kind": "prompt", "key": S.ENTER, "role": 1, "waited": False}
+
+    def _on_wait(self, replay):
+        """0791:CC2E, the prompts' wait: at the captain prompt's (where E011's watchstart was taken) the optional
+        seed and speed byte are written and the draw record starts."""
+        p = self.st["prompt"]
+        if replay or p is None or p.get("role") != 1 or p["waited"] or self.m.stack_word(0) != 0xCED9:
+            return
+        p["waited"] = True
+        if self.opts["seed"] is not None:
+            self._declare("main seed DS:7B62 at the captain prompt", self.m.DS * 16 + SEED,
+                          int(self.opts["seed"]).to_bytes(2, "little"))
+        if self.opts["delay_byte"] is not None:
+            self._declare("delay byte [A923]+0x3F at the captain prompt", self.m.far(GAME_PTR) + 0x3F,
+                          [self.opts["delay_byte"]])
+        self.st["kickoff_seed"] = self.m.rd(SEED)
+        self.st["recording"] = True
+
+    def _captain_key(self):
+        p = self.st["prompt"]
+        if p is None or p.get("role") != 1:
+            self._fail("a key read at the captain prompt the kit did not ask for")
+        want = self.opts["captain"]
+        if want is not None:
+            slot = self._squad(self.opts["managed"]).index(want) + 1
+            here = self.m.frame_word(self.m.reg("bp"), S.PROMPT_SLOT_BP)
+            if here != slot:
+                return S.step_toward(here, slot)
+        self.st["prompt"] = None
+        return S.ENTER
+
+    # -- events --------------------------------------------------------------------------------------------
+    def _emit(self, kind, **data):
+        ev = Event(kind, self.st["minute"], tuple(self.st["score"]), data)
+        self._queue.append(ev)
+        self.st["events"].append({"kind": kind, "minute": ev.minute, "score": list(ev.score), "data": data})
+
+    def _candidate(self, kind):
+        pitch = self.m.stack_word(6) * 16 + self.m.stack_word(4)      # the pitch record (far pointer argument)
+        self.st["candidates"].setdefault(kind, []).append(self.m.word_at(pitch + 0xD))
+
+    def _on_tick(self, replay):
+        if replay:
+            return
+        self.st["ticks"] += 1
+        self.st["notice"] = None       # a notice's menu comes in the same stoppage (0791:8062), never a tick later
+        self._menu = None
+        self._flush()
+        if self.opts["ticks"]:
+            self._emit("tick", subtick=self.m.rd(SUBTICK))
+        if self._queue:
+            self.m.stop("events")
+
+    def _on_played(self, replay):
+        if not replay:
+            self.st["full_time"] = True
+
+    def _text(self):
+        if self._names is None:
+            self._names = names_and_templates(self.m.read, self.m.DS, self.m.far)
+        return self._names
+
+    def _flush(self):
+        """Turn what changed in the guest since the last flush into events."""
+        m, st = self.m, self.st
+        if st["squads"] is None:
+            st["squads"] = [self._squad(st_c) for st_c in (self.opts["first"], self.opts["second"])]
+            st["ring"] = m.rd(RING_NEWEST)
+        name, templates = self._text()
+        newest = m.rd(RING_NEWEST)
+        while st["ring"] != newest and 1 <= newest <= RING_SIZE:
+            st["ring"] = st["ring"] % RING_SIZE + 1
+            r = m.read(m.DS * 16 + RING + RING_REC * st["ring"], RING_REC)
+            p1, p2 = int.from_bytes(r[1:3], "little"), int.from_bytes(r[3:5], "little")
+            t = templates[r[0]] if r[0] < len(templates) else f"<template {r[0]}>"
+            text = " ".join(t.replace("\x01", f" {name(p1)} ").replace("\x02", f" {name(p2)} ").split())
+            st["commentary"].append({"minute": m.rd(MINUTE), "template": r[0], "players": [p1, p2], "team": r[5],
+                                     "text": text})
+            self._emit("commentary", text=text, template=r[0], team=r[5], players=[p1, p2])
+        minute = m.rd(MINUTE)
+        if minute != st["minute"]:
+            st["minute"] = minute
+            self._emit("minute")
+        for team in (0, 1):
+            rows = []
+            for k in range(1, 12):
+                a = m.DS * 16 + SCORERS + SCORERS_SIDE * team + 3 * k
+                w = m.word_at(a)
+                if w:
+                    rows.append([w, m.read(a + 2, 1)[0]])
+            for w, mb in rows[len(st["scorers"][team]):]:
+                st["score"][team] += 1
+                goal = {"team": team, "country": self.opts[TEAM_KEYS[team]], "player": w, "name": name(w)}
+                st["log"]["goals"].append(dict(goal, minute=minute, minute_byte=mb))
+                self._emit("goal", **goal)
+            st["scorers"][team] = rows
+        st["score"] = [m.rd(SCORE, 1), m.rd(SCORE + 1, 1)]
+        stats = list(m.read(m.DS * 16 + STATS, 20))
+        for team in (0, 1):
+            for k, kind, logname in ((7, "booking", "bookings"), (8, "sending_off", "sendings_off"),
+                                     (9, "injury", "injuries")):
+                cands = st["candidates"].get(kind, [])
+                for _ in range(max(0, stats[10 * team + k] - st["stats"][10 * team + k])):
+                    w = cands.pop(0) if cands else 0
+                    item = {"team": team, "player": w, "name": name(w)}
+                    st["log"][logname].append(dict(item, minute=minute))
+                    self._emit(kind, **item)
+        st["candidates"] = {}
+        st["stats"] = stats
+        for team in (0, 1):
+            now = self._squad(self.opts[TEAM_KEYS[team]])
+            before = st["squads"][team]
+            offs = [w for w in before[:11] if w not in now[:11]]
+            ons = [w for w in now[:11] if w not in before[:11]]
+            for off, on in zip(offs, ons):
+                item = {"team": team, "off": off, "on": on, "off_name": name(off), "on_name": name(on)}
+                st["log"]["substitutions"].append(dict(item, minute=minute))
+                self._emit("substitution", **item)
+            st["squads"][team] = now
+
+    def _board(self):
+        m = self.m
+        stats = list(m.read(m.DS * 16 + STATS, 20))
+        return {"statistics": {n: [stats[k], stats[10 + k]] for k, n in enumerate(STAT_NAMES)},
+                "bars": [[m.rd(b), m.rd(b + 2)] for b in BARS], "man_of_the_match": m.rd(MOTM),
+                "final_score": [m.rd(SCORE, 1), m.rd(SCORE + 1, 1)],
+                "screen_sha256": hashlib.sha256(self._screen_raw()).hexdigest(), "ticks": self.st["ticks"],
+                "seed": m.rd(SEED)}
+
+    def _finish(self):
+        st, m = self.st, self.m
+        name, _ = self._text()
+        board = st["board"] or self._board()
+        draws = st["draws"]
+        self._menu = None
+        self._result = {
+            "first": self.opts["first"], "second": self.opts["second"], "managed": self.opts["managed"],
+            "index": self.opts["index"], "score": board["final_score"], "half_time_score": st["half_time_score"],
+            "goals": st["log"]["goals"], "bookings": st["log"]["bookings"], "sendings_off": st["log"]["sendings_off"],
+            "injuries": st["log"]["injuries"], "substitutions": st["log"]["substitutions"],
+            "man_of_the_match": board["man_of_the_match"], "man_of_the_match_name": name(board["man_of_the_match"]),
+            "board": board, "commentary": st["commentary"], "decisions": st["decisions"], "inputs": self.inputs,
+            "ticks": st["ticks"], "kickoff_seed": st["kickoff_seed"], "seed_after": m.rd(SEED),
+            "image_sha256": self.image_sha256, "kit": VERSION, "draws": len(draws),
+            "draws_digest": hashlib.sha256("\n".join("%d %d %04x %04x" % tuple(d) for d in draws).encode()).hexdigest()
+            if self.opts["record_draws"] else None,
+            "squads_after": {str(self.opts["first"]): self._squad(self.opts["first"]),
+                             str(self.opts["second"]): self._squad(self.opts["second"])},
+        }
+        st["over"] = True
+        self._emit("end", score=self._result["score"])
+
+    # -- the screen, for messages and diagnostics ---------------------------------------------------------
+    def _screen_raw(self):
+        return self.m.read(self.m.far(SCREEN_PTR), 4000)
+
+    def screen_text(self):
+        raw = self._screen_raw()
+        return "\n".join(bytes(raw[r * 160:(r + 1) * 160:2]).decode("cp437", errors="replace").rstrip()
+                         for r in range(25))
+
+    # -- stop and resume ---------------------------------------------------------------------------------
+    def save(self):
+        """The whole match now (guest memory, registers, the kit's state) as bytes; Match.load() resumes it.
+        Call it between events."""
+        if self._menu is not None and not self.st["over"]:
+            raise MatchError("save between events, not while the kit drives a screen")
+        snap = self.m.snapshot()
+        state = {"st": self.st, "opts": self.opts, "inputs": self.inputs, "side": self.side,
+                 "image_sha256": self.image_sha256, "end_lin": self.end_lin, "fixture_ptr": list(self.fixture_ptr),
+                 "timeout_s": self.timeout_s, "regs": snap["regs"], "load": snap["load"],
+                 "queue": [asdict(e) for e in self._queue], "result": self._result, "version": VERSION,
+                 "header": self.image_header.hex()}
+        blob = json.dumps(state).encode()
+        return b"OMK1" + len(blob).to_bytes(4, "little") + blob + zlib.compress(snap["memory"], 6)
+
+    @classmethod
+    def load(cls, data):
+        if bytes(data[:4]) != b"OMK1":
+            raise ValueError("not a saved match of this kit")
+        n = int.from_bytes(data[4:8], "little")
+        state = json.loads(data[8:8 + n])
+        if state["version"] != VERSION:
+            raise ValueError(f"saved by kit version {state['version']}, this is {VERSION}")
+        memory = zlib.decompress(data[8 + n:])
+        self = cls.__new__(cls)
+        self.m = Machine(memory, state["load"])
+        self.m.restore({"memory": memory, "regs": state["regs"]})
+        self.image_header = bytes.fromhex(state["header"])
+        self.image_sha256, self.opts, self.inputs = state["image_sha256"], state["opts"], state["inputs"]
+        self.side, self.end_lin, self.timeout_s = state["side"], state["end_lin"], state["timeout_s"]
+        self.fixture_ptr = tuple(state["fixture_ptr"])
+        self.st = state["st"]
+        self._queue = [Event(e["kind"], e["minute"], tuple(e["score"]), e["data"]) for e in state["queue"]]
+        self._menu = None
+        self._result = state["result"]
+        self._names = None
+        self._hooks()
+        return self
