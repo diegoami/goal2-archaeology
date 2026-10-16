@@ -25,6 +25,16 @@ def sysseg(path):
     return img, seg * 16, d
 
 
+def system_code(path):
+    """The System segment's bytes (from its start to the data segment, whose paragraph the
+    segment's first instruction `mov dx, imm` names) and the whole file."""
+    img, seg, off, d = load(path)
+    base = seg * 16
+    code = img[base:base + 0x2400]
+    dsg = struct.unpack_from('<H', code, 1)[0]
+    return img[base:dsg * 16], d
+
+
 def skel(code, base):
     from capstone import Cs, CS_ARCH_X86, CS_MODE_16
     md = Cs(CS_ARCH_X86, CS_MODE_16)

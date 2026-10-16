@@ -8,14 +8,7 @@ sys.path.insert(0, __file__.rsplit('/', 1)[0])
 import sysseg
 
 
-def system_code(path):
-    img, seg, off, d = sysseg.load(path)
-    base = seg * 16
-    code = img[base:base + 0x2400]
-    dsg = struct.unpack_from('<H', code, 1)[0]
-    return img[base:dsg * 16], d
-
-
+system_code = sysseg.system_code
 gcode, gd = system_code(sys.argv[1])
 gs = sysseg.skel(gcode, 0)
 print('GOAL system segment: %d bytes, %d decoded items, sha256 %s' % (len(gcode), len(gs), hashlib.sha256(gcode).hexdigest()[:16]))
