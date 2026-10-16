@@ -1,0 +1,167 @@
+EEFFFFFEFE
+======================================================================
+ERROR: test_a_custom_mapper_decides_the_keys_pressed (__main__.KeyCalls.test_a_custom_mapper_decides_the_keys_pressed)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/claude-1000/p88/tests/test_driver_keys.py", line 277, in test_a_custom_mapper_decides_the_keys_pressed
+    d = self.drv(mapper=str(self.mapper_file('"key 22"', '"key 15 host"')))  # s alone, F12 + l
+  File "/tmp/claude-1000/p88/tests/test_driver_keys.py", line 240, in drv
+    d = driver.Driver({}, workdir=self.tmp / "work", game_dir=self.tmp / "game", **kw)
+TypeError: Driver.__init__() got an unexpected keyword argument 'mapper'
+
+======================================================================
+ERROR: test_a_mapper_whose_savestate_or_load_bind_cannot_be_read_is_refused_at_once (__main__.KeyCalls.test_a_mapper_whose_savestate_or_load_bind_cannot_be_read_is_refused_at_once)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/claude-1000/p88/tests/test_driver_keys.py", line 285, in test_a_mapper_whose_savestate_or_load_bind_cannot_be_read_is_refused_at_once
+    self.drv(mapper=str(self.mapper_file(*bad)))
+    ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/claude-1000/p88/tests/test_driver_keys.py", line 240, in drv
+    d = driver.Driver({}, workdir=self.tmp / "work", game_dir=self.tmp / "game", **kw)
+TypeError: Driver.__init__() got an unexpected keyword argument 'mapper'
+
+======================================================================
+ERROR: test_raw_with_the_dosbox_mapper_presses_the_f12_chord_raw_without_alt (__main__.KeyCalls.test_raw_with_the_dosbox_mapper_presses_the_f12_chord_raw_without_alt)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/claude-1000/p88/tests/test_driver_keys.py", line 265, in test_raw_with_the_dosbox_mapper_presses_the_f12_chord_raw_without_alt
+    got = self.save(self.drv(mapper="dosbox"))
+                    ~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/tmp/claude-1000/p88/tests/test_driver_keys.py", line 240, in drv
+    d = driver.Driver({}, workdir=self.tmp / "work", game_dir=self.tmp / "game", **kw)
+TypeError: Driver.__init__() got an unexpected keyword argument 'mapper'
+
+======================================================================
+ERROR: test_xdotool_with_the_dosbox_mapper_is_the_old_driver (__main__.KeyCalls.test_xdotool_with_the_dosbox_mapper_is_the_old_driver)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/claude-1000/p88/tests/test_driver_keys.py", line 271, in test_xdotool_with_the_dosbox_mapper_is_the_old_driver
+    got = self.save(self.drv(legacy_keys=True, mapper="dosbox"))
+                    ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/claude-1000/p88/tests/test_driver_keys.py", line 240, in drv
+    d = driver.Driver({}, workdir=self.tmp / "work", game_dir=self.tmp / "game", **kw)
+TypeError: Driver.__init__() got an unexpected keyword argument 'mapper'
+
+======================================================================
+FAIL: test_play_refuses_a_mapper_it_cannot_read_the_savestate_keys_from (__main__.KeyCalls.test_play_refuses_a_mapper_it_cannot_read_the_savestate_keys_from)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/claude-1000/p88/tests/test_driver_keys.py", line 345, in test_play_refuses_a_mapper_it_cannot_read_the_savestate_keys_from
+    with self.assertRaises(ValueError):
+         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_play_the_four_combinations (__main__.KeyCalls.test_play_the_four_combinations)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/claude-1000/p88/tests/test_driver_keys.py", line 341, in test_play_the_four_combinations
+    self.assertEqual(keys, self.calls, kw)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: [('raw', 'press', 'F10'), ('raw', 'press', 'n')] != [('raw', 'press', 'n')]
+
+First differing element 0:
+('raw', 'press', 'F10')
+('raw', 'press', 'n')
+
+First list contains 1 additional elements.
+First extra element 1:
+('raw', 'press', 'n')
+
+- [('raw', 'press', 'F10'), ('raw', 'press', 'n')]
++ [('raw', 'press', 'n')] : {'mapper': '/tmp/claude-1000/p88/experiments/E031-play-the-game/mapper-nohost.map'}
+
+======================================================================
+FAIL: test_play_with_a_custom_f12_mapper_presses_what_that_mapper_binds (__main__.KeyCalls.test_play_with_a_custom_f12_mapper_presses_what_that_mapper_binds)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/claude-1000/p88/tests/test_driver_keys.py", line 309, in test_play_with_a_custom_f12_mapper_presses_what_that_mapper_binds
+    self.assertEqual([("raw", "down", "F12"), ("raw", "down", "s"), ("raw", "up", "s"), ("raw", "up", "F12")], got)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: [('raw', 'down', 'F12'), ('raw', 'down', 's'), ('ra[32 chars]12')] != [('raw', 'press', 'Scroll_Lock')]
+
+First differing element 0:
+('raw', 'down', 'F12')
+('raw', 'press', 'Scroll_Lock')
+
+First list contains 3 additional elements.
+First extra element 1:
+('raw', 'down', 's')
+
++ [('raw', 'press', 'Scroll_Lock')]
+- [('raw', 'down', 'F12'),
+-  ('raw', 'down', 's'),
+-  ('raw', 'up', 's'),
+-  ('raw', 'up', 'F12')]
+
+======================================================================
+FAIL: test_play_with_fkeys_xdotool_sends_function_keys_by_xdotool_under_the_normal_mapper (__main__.KeyCalls.test_play_with_fkeys_xdotool_sends_function_keys_by_xdotool_under_the_normal_mapper)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/claude-1000/p88/tests/test_driver_keys.py", line 317, in test_play_with_fkeys_xdotool_sends_function_keys_by_xdotool_under_the_normal_mapper
+    self.assertEqual([("xdotool", "keydown", "F10"), ("xdotool", "keyup", "F10"), ("raw", "press", "n")], self.calls)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: [('xdotool', 'keydown', 'F10'), ('xdotool', [34 chars]'n')] != [('raw', 'press', 'F10'), ('raw', 'press', 'n')]
+
+First differing element 0:
+('xdotool', 'keydown', 'F10')
+('raw', 'press', 'F10')
+
+First list contains 1 additional elements.
+First extra element 2:
+('raw', 'press', 'n')
+
++ [('raw', 'press', 'F10'), ('raw', 'press', 'n')]
+- [('xdotool', 'keydown', 'F10'),
+-  ('xdotool', 'keyup', 'F10'),
+-  ('raw', 'press', 'n')]
+
+======================================================================
+FAIL: test_raw_with_the_default_mapper_presses_scroll_lock_raw (__main__.KeyCalls.test_raw_with_the_default_mapper_presses_scroll_lock_raw)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/claude-1000/p88/tests/test_driver_keys.py", line 256, in test_raw_with_the_default_mapper_presses_scroll_lock_raw
+    self.assertEqual([("raw", "down", "Scroll_Lock"), ("raw", "up", "Scroll_Lock")], self.save(self.drv()))
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: [('raw', 'down', 'Scroll_Lock'), ('raw', 'up', 'Scroll_Lock')] != [('raw', 'press', 'Scroll_Lock')]
+
+First differing element 0:
+('raw', 'down', 'Scroll_Lock')
+('raw', 'press', 'Scroll_Lock')
+
+First list contains 1 additional elements.
+First extra element 1:
+('raw', 'up', 'Scroll_Lock')
+
+- [('raw', 'down', 'Scroll_Lock'), ('raw', 'up', 'Scroll_Lock')]
++ [('raw', 'press', 'Scroll_Lock')]
+
+======================================================================
+FAIL: test_xdotool_with_the_default_mapper_presses_scroll_lock_by_xdotool (__main__.KeyCalls.test_xdotool_with_the_default_mapper_presses_scroll_lock_by_xdotool)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/claude-1000/p88/tests/test_driver_keys.py", line 261, in test_xdotool_with_the_default_mapper_presses_scroll_lock_by_xdotool
+    self.assertEqual([("xdotool", "keydown", "Scroll_Lock"), ("xdotool", "keyup", "Scroll_Lock")],
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                     self.save(self.drv(legacy_keys=True)))
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: [('xd[15 chars]n', 'Scroll_Lock'), ('xdotool', 'keyup', 'Scroll_Lock')] != [('xd[15 chars]n', 'F12'), ('xdotool', 'keydown', 's'), ('xdo[45 chars]12')]
+
+First differing element 0:
+('xdotool', 'keydown', 'Scroll_Lock')
+('xdotool', 'keydown', 'F12')
+
+Second list contains 2 additional elements.
+First extra element 2:
+('xdotool', 'keyup', 's')
+
+- [('xdotool', 'keydown', 'Scroll_Lock'), ('xdotool', 'keyup', 'Scroll_Lock')]
++ [('xdotool', 'keydown', 'F12'),
++  ('xdotool', 'keydown', 's'),
++  ('xdotool', 'keyup', 's'),
++  ('xdotool', 'keyup', 'F12')]
+
+----------------------------------------------------------------------
+Ran 10 tests in 0.023s
+
+FAILED (failures=6, errors=4)

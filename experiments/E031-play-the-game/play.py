@@ -42,8 +42,6 @@ import driver  # noqa: E402
 import players  # noqa: E402
 import playerscreen  # noqa: E402
 import savestate  # noqa: E402
-sys.path.insert(0, str(HERE))
-import xtest  # noqa: E402
 
 OUT = HERE / "out"
 KEPT = ROOT / ".cache" / "kept" / "E031"
@@ -86,45 +84,30 @@ def marks(sc):
 
 
 class PlayDriver(driver.Driver):
-    """The driver, with saved games copied into the game folder before DOSBox-X starts."""
+    """The driver, with saved games copied into the game folder before DOSBox-X starts, and the key
+    settings of this tool (issue 244), all separate:
+      mapper  which keys the savestate and load are: a file, or "" for DOSBox-X's own binds (the F12 chord);
+              the driver presses what that mapper binds (driver.Driver), so they cannot disagree;
+      keys    the transport of the game keys and the savestate keys: "raw" XTEST keycodes or "xdotool";
+      fkeys   the transport of the function keys alone (default: as keys), F12 of a chord included.
+    keys raw + fkeys raw + the default mapper is the working setup; keys xdotool + mapper "" is the driver
+    as it was before the fix (Left Alt held in the guest, F10 read as Alt+F10)."""
 
-    def __init__(self, *a, gl=(), mapper=None, fkeys="raw", **k):
-        # issue 244: the driver now sends raw keys and writes the no-host mapper itself; `--mapper ""`
-        # (the `alt` session) asks for the driver's old keys and F12 chord, which reproduce the fault.
-        super().__init__(*a, legacy_keys=not mapper, **k)
-        self.fkeys = fkeys
+    def __init__(self, *a, gl=(), mapper=None, keys="raw", fkeys=None, **k):
+        super().__init__(*a, legacy_keys=(keys == "xdotool"), mapper=str(mapper) if mapper else "dosbox", **k)
+        self.fkeys = fkeys or keys
         self.gl = [Path(p) for p in gl]
-        self.mapper = Path(mapper) if mapper else None
+        # This tool's own pace (its guide quotes about 0.2 s per read): a step of HOSTKEY_HOLD, as before.
+        self.save_hold = driver.HOSTKEY_HOLD * (2 * len(self.hostkeys["s"]) - 1)
+        self._save_hold_given = True
 
-    # With mapper-nohost.map the savestate is Scroll Lock alone and the load Print Screen alone, so the
-    # host key F12 is never pressed (make_mapper.py says why).
-    SINGLE_KEYS = {"s": "Scroll_Lock", "l": "Print"}
-
-    def keys(self, *names, hold=driver.KEY_HOLD):
-        """Function keys go as raw XTEST keycodes (xtest.py: xdotool adds Left Alt to them); the rest
-        through the driver (xdotool)."""
-        for name in names:
-            if self.fkeys == "raw" and re.fullmatch(r"F\d{1,2}", name):
-                code = xtest.key_event(self.display, name, True)
-                time.sleep(hold)  # key hold; logged below
-                xtest.key_event(self.display, name, False)
-                self.log(f"key {name} (raw keycode {code}) held {hold}s")
-            else:
-                super().keys(name, hold=hold)
-
-    def _hostkey(self, name, hold=driver.HOSTKEY_HOLD):
-        if not (self.mapper and self.mapper.name == "mapper-nohost.map"):
-            return super()._hostkey(name, hold)
-        k = self.SINGLE_KEYS[name]
-        self._x("keydown", k)
-        time.sleep(hold)  # key hold; logged below
-        self._x("keyup", k)
-        self.log(f"emulator key {k} (for host+{name}) held {hold}s")
+    def _legacy_for(self, name):
+        """Function keys (and so the chord's F12) follow --fkeys, every other key --keys."""
+        if re.fullmatch(r"F\d{1,2}", name):
+            return self.fkeys == "xdotool"
+        return self.legacy_keys
 
     def _start_xvfb(self):
-        if self.mapper:  # the config names <work>/mapper.map; DOSBox-X reads it at start
-            shutil.copy(self.mapper, self.workdir / "mapper.map")
-            self.log(f"mapper file {self.mapper.name} copied in, sha256 {driver.sha256(self.mapper.read_bytes())}")
         for p in self.gl:  # launch() has just recreated the game folder from the release copy
             shutil.copy(p, self.game_dir / p.name)
             self.log(f"saved game {p.name} copied in, sha256 {driver.sha256(p.read_bytes())}")
@@ -132,7 +115,7 @@ class PlayDriver(driver.Driver):
 
 
 class Server:
-    def __init__(self, session, cycles, gl, mapper=None, fkeys="raw"):
+    def __init__(self, session, cycles, gl, mapper=None, keys="raw", fkeys=None):
         self.session = session
         self.out = OUT / session
         self.out.mkdir(parents=True, exist_ok=True)
@@ -145,7 +128,7 @@ class Server:
         steps = self.out / "steps.jsonl"
         self.n = sum(1 for _ in steps.open()) if steps.exists() else 0
         work = driver.SCRATCH / "play" / session  # its own game folder: two sessions never share one
-        self.d = PlayDriver({"cycles": cycles}, workdir=work, game_dir=work / "game", gl=gl, mapper=mapper, fkeys=fkeys)
+        self.d = PlayDriver({"cycles": cycles}, workdir=work, game_dir=work / "game", gl=gl, mapper=mapper, keys=keys, fkeys=fkeys)
         self.cur = None
 
     def log(self, entry):
@@ -248,12 +231,12 @@ class Server:
             sc, dg, info, _ = self.observe()
             entry = self.reply({"cmd": "scan", "n": req["n"]}, sc, dg, info, dg != prev, req["n"], t0)
             return {**entry, "cards": cards}
-        if cmd == "snap":  # a DOSBox-X screenshot (Pause, mapper-nohost.map): no savestate is taken
+        if cmd == "snap":  # a DOSBox-X screenshot (the mapper's screenshot key, Pause in mapper-nohost.map): no savestate is taken
             cap = self.d.workdir / "cap"
             before = set(cap.glob("*.png"))
-            self.d._x("keydown", "Pause")
-            time.sleep(driver.KEY_HOLD)  # key hold
-            self.d._x("keyup", "Pause")
+            if "p" not in self.d.hostkeys:
+                raise ValueError("snap: the mapper in effect binds no screenshot key")
+            self.d._hostkey("p", hold=driver.KEY_HOLD)  # the mapper's screenshot key (Pause in mapper-nohost.map)
             end = time.monotonic() + 10
             new = []
             while time.monotonic() < end and not new:
@@ -306,7 +289,10 @@ class Server:
 
 
 def serve(a):
-    s = Server(a.session, a.cycles, a.gl, a.mapper or None, a.fkeys)
+    try:
+        s = Server(a.session, a.cycles, a.gl, a.mapper or None, a.keys, a.fkeys)
+    except (ValueError, OSError) as e:  # a mapper the driver cannot read the savestate keys from, or no such file
+        raise SystemExit(f"play.py serve: {e}") from None
     signal.signal(signal.SIGTERM, lambda *_: sys.exit(0))
     try:
         s.run()
@@ -538,11 +524,15 @@ def main(argv=None):
     p.add_argument("session")
     p.add_argument("--cycles", default="fixed 8000")
     p.add_argument("--gl", nargs="*", default=[])
-    p.add_argument("--fkeys", choices=("raw", "xdotool"), default="raw",
-                   help="xdotool: send function keys as the driver does (reproduces the Alt fault)")
+    p.add_argument("--keys", choices=("raw", "xdotool"), default="raw",
+                   help="how game keys and the savestate keys are sent: raw XTEST keycodes, or xdotool "
+                        "(Left Alt held in the guest on Ubuntu 26.04: the driver's old fault)")
+    p.add_argument("--fkeys", choices=("raw", "xdotool"), default=None,
+                   help="how function keys (and the F12 of a host chord) are sent; default: as --keys")
     p.add_argument("--mapper", default=str(HERE / "mapper-nohost.map"),
                    help="the DOSBox-X mapper file (default mapper-nohost.map: savestate on Scroll Lock, "
-                        "screenshot on Pause, no host key; '' for DOSBox-X's built-in binds and the F12 chords)")
+                        "screenshot on Pause, no host key; '' for DOSBox-X's built-in binds and the F12 chords). The "
+                        "driver presses the savestate and load keys that this mapper binds.")
     p = sub.add_parser("send")
     p.add_argument("session")
     p.add_argument("keys", nargs="+")

@@ -11,6 +11,7 @@ that is not on the first or second level of its keycode (a shifted character is 
 around it) is refused, never sent with a modifier nobody asked for."""
 import ctypes
 import ctypes.util
+import re
 import time
 from pathlib import Path
 
@@ -21,9 +22,42 @@ DEFAULT_MAP = HERE.parents[1] / "runtime" / "human" / "dosbox-x-2024.03.01-defau
 KEYMAP = {"Enter": "Return", "Esc": "Escape", "Space": "space", "Up": "Up", "Down": "Down",
           "Left": "Left", "Right": "Right", "Backspace": "BackSpace", "Tab": "Tab"}
 
-# With the mapper below, the emulator's savestate is Scroll Lock alone and its load Print Screen alone,
-# and the host key F12 is never pressed. The driver's names are the letters of Host+S and Host+L.
-SINGLE_KEYS = {"s": "Scroll_Lock", "l": "Print"}
+# What a mapper file binds the emulator's savestate (`s`), load (`l`) and screenshot (`p`) events to decides
+# which keys the driver presses for them (hostkeys): a bind "key N" is the one key N, a bind "key N host" is
+# the host key F12 held with key N. N is an SDL scancode. The keys follow the mapper in effect, never a
+# separate setting, so a mapper and the keys pressed cannot disagree.
+HOST_KEY = "F12"
+BIND_EVENTS = {"s": "hand_savestate", "l": "hand_loadstate", "p": "hand_scrshot"}
+SCANCODE_KEYS = {**{4 + i: chr(ord("a") + i) for i in range(26)}, 69: "F12", 70: "Print", 71: "Scroll_Lock", 72: "Pause"}
+
+
+def bind_keys(text, event):
+    """The X keysym names to press for a mapper bind of `event` (hand_savestate ...): [name] for "key N",
+    [HOST_KEY, name] for "key N host". ValueError when the file has no such bind, or only binds this
+    function does not understand (another modifier, a scancode it has no name for): never a guess."""
+    m = re.search(rf"^{event} (.*)$", text, re.M)
+    if not m:
+        raise ValueError(f"the mapper has no {event} bind")
+    binds = re.findall(r'"([^"]*)"', m[1])
+    for b in binds:
+        parts = b.split()
+        if len(parts) >= 2 and parts[0] == "key" and parts[1].isdigit() and set(parts[2:]) <= {"host"}:
+            name = SCANCODE_KEYS.get(int(parts[1]))
+            if name is None:
+                raise ValueError(f"the mapper's {event} bind {b!r}: no key name for scancode {parts[1]}")
+            return [HOST_KEY, name] if "host" in parts[2:] else [name]
+    raise ValueError(f"the mapper's {event} bind(s) {binds} are not understood: only 'key N' and 'key N host'")
+
+
+def hostkeys(text):
+    """{"s": keys, "l": keys} for the mapper text's savestate and load binds: the keys the driver presses
+    (ValueError when either cannot be read), and "p" for the screenshot bind when it can be read."""
+    keys = {"s": bind_keys(text, BIND_EVENTS["s"]), "l": bind_keys(text, BIND_EVENTS["l"])}
+    try:
+        keys["p"] = bind_keys(text, BIND_EVENTS["p"])
+    except ValueError:
+        pass
+    return keys
 
 # DOSBox-X 2024.03.01's default binds (SDL scancodes), with the savestate on Scroll Lock (71) and the
 # load on Print Screen (70), both taken from the guest, and a screenshot on Pause (72), the one way to
@@ -98,3 +132,33 @@ def press_release(display, keysym_name, hold, sleep=time.sleep):
     finally:
         _x11.XCloseDisplay(dpy)
 
+
+
+def key_down(display, keysym_name):
+    """Press `keysym_name` (and the Left Shift it needs, if any) and leave it down; returns the keycodes."""
+    dpy = _x11.XOpenDisplay(display.encode())
+    if not dpy:
+        raise RuntimeError(f"cannot open display {display}")
+    try:
+        codes = plan(dpy, keysym_name)
+        for c in codes:
+            _xtst.XTestFakeKeyEvent(dpy, c, 1, 0)
+        _x11.XFlush(dpy)
+        return codes
+    finally:
+        _x11.XCloseDisplay(dpy)
+
+
+def key_up(display, keysym_name):
+    """Release what key_down pressed for `keysym_name`; returns the keycodes."""
+    dpy = _x11.XOpenDisplay(display.encode())
+    if not dpy:
+        raise RuntimeError(f"cannot open display {display}")
+    try:
+        codes = plan(dpy, keysym_name)
+        for c in reversed(codes):
+            _xtst.XTestFakeKeyEvent(dpy, c, 0, 0)
+        _x11.XFlush(dpy)
+        return codes
+    finally:
+        _x11.XCloseDisplay(dpy)

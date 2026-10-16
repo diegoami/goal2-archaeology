@@ -21,7 +21,7 @@ ROOT = HERE.parents[1]
 ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
 ap.add_argument("--driver-dir", default=str(ROOT / "runtime" / "driver"))
 ap.add_argument("--out", required=True)
-ap.add_argument("--legacy", action="store_true", help="Driver(legacy_keys=True): the old keys on the fixed driver")
+ap.add_argument("--legacy", action="store_true", help="Driver(legacy_keys=True, mapper=\"dosbox\"): the old keys and F12 chord on the fixed driver")
 ap.add_argument("--workdir", default=None)
 a = ap.parse_args()
 sys.path.insert(0, a.driver_dir)
@@ -46,7 +46,7 @@ def flags(state):
 
 def main():
     work = Path(a.workdir) if a.workdir else driver.SCRATCH / "probe-244"
-    kw = {"legacy_keys": True} if a.legacy else {}
+    kw = {"legacy_keys": True, "mapper": "dosbox"} if a.legacy else {}  # the old driver: xdotool and the F12 chord
     d = driver.Driver({"cycles": "fixed 8000"}, workdir=work, **kw)
     out = open(a.out, "w")
     rows = []

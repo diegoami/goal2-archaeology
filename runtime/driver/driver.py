@@ -18,8 +18,11 @@ driver writes, so the host key F12 is never pressed. On Ubuntu 26.04 (xdotool 3.
 installed 2026-10-10) xdotool, asked for F10, sent Left Alt with it (the guest read Alt+F10), and its
 F12+S chord left Left Alt held in the guest from the launch on. The 458 driver records made on Ubuntu 24.04
 show no Alt held (34 published savestates checked: experiments/fix-244-driver-keys/out/published-states.tsv),
-but their chord put a plain F12 (BIOS word 0x8600) into the guest at every read. `Driver(legacy_keys=True)`
-is the old keys and chord, kept to reproduce the fault.
+but their chord put a plain F12 (BIOS word 0x8600) into the guest at every read. Two independent settings
+(see Driver.__init__): `legacy_keys` is the transport (raw XTEST or xdotool) and `mapper` is what the
+savestate and load keys are ("nohost": Scroll Lock / Print Screen, "dosbox": the F12 chord, or a file); the
+driver presses what the mapper in effect binds. `Driver(legacy_keys=True, mapper="dosbox")` is the old
+driver, kept to reproduce the fault.
 Read pace: the savestate key is held `save_hold` seconds (default SAVE_HOLD = 0.52), so a savestate read
 takes about 0.53 s as it did with the F12 chord; scripts whose `settle` waits for two equal reads reproduce
 their records only at that pace (SAVE_HOLD says how it was measured).
@@ -215,9 +218,21 @@ def host_times():
 
 
 class Driver:
-    def __init__(self, config=None, workdir=None, game_dir=GAME_DIR, legacy_keys=False, save_hold=SAVE_HOLD):
-        self.save_hold = save_hold  # seconds the savestate and load key is held: the read pace (SAVE_HOLD), read at each call
-        self.legacy_keys = legacy_keys  # True: xdotool keys and the F12 host chord, the fault of issue 244
+    def __init__(self, config=None, workdir=None, game_dir=GAME_DIR, legacy_keys=False, mapper="nohost", save_hold=None):
+        """Two independent settings. `legacy_keys`: the key TRANSPORT, raw XTEST keycodes (False) or xdotool
+        (True: Alt around function keys on Ubuntu 26.04, issue 244). `mapper`: which keys the emulator's
+        savestate and load ARE: "nohost" (the default; the driver writes the mapper that binds them to
+        Scroll Lock and Print Screen), "dosbox" (no mapper file: DOSBox-X's own binds, the F12 host chord),
+        or the path of a mapper file. The driver presses what the mapper in effect binds (xkeys.hostkeys),
+        with the transport chosen, so the two cannot disagree; a mapper whose savestate or load bind it
+        cannot read is refused here (ValueError). The old driver is legacy_keys=True with mapper="dosbox".
+        `save_hold`: seconds the savestate (or load) key takes in all, split equally among the steps of a
+        chord (default SAVE_HOLD; for the old combination, 3 * HOSTKEY_HOLD), read at each call."""
+        self.save_hold = SAVE_HOLD if save_hold is None else save_hold
+        self._save_hold_given = save_hold is not None
+        self.legacy_keys = legacy_keys
+        self.mapper = mapper
+        self.hostkeys = xkeys.hostkeys(self._mapper_source())  # refuses a mapper it cannot read, before any launch
         self.config = dict(DEFAULT_CONFIG, **(config or {}))
         self.workdir = Path(workdir or SCRATCH / "session").resolve()
         self.game_dir = Path(game_dir).resolve()
@@ -362,18 +377,29 @@ exit
         self.pre_restore = self.last
         return self.restore(start_state)
 
+    def _mapper_source(self):
+        """The text of the mapper in effect: "nohost" is xkeys.mapper_text(), "dosbox" the text of DOSBox-X's
+        own default binds (the file it uses when it finds none), anything else a file."""
+        if self.mapper == "nohost":
+            return xkeys.mapper_text()
+        if self.mapper == "dosbox":
+            return xkeys.DEFAULT_MAP.read_text()
+        return Path(self.mapper).read_text()
+
     def _write_mapper(self):
-        """<work>/mapper.map, which the config names and DOSBox-X reads at start: the default binds with
-        the savestate on Scroll Lock and the load on Print Screen (xkeys.mapper_text). With legacy_keys
-        no file is written and a stale one is removed, so DOSBox-X's own default binds (Host+S, Host+L
-        on F12) apply as they did before issue 244."""
+        """<work>/mapper.map, which the config names and DOSBox-X reads at start: "nohost" writes the default
+        binds with the savestate on Scroll Lock and the load on Print Screen (xkeys.mapper_text); "dosbox"
+        writes none and removes a stale one, so DOSBox-X's own binds (Host+S, Host+L on F12) apply; a path is
+        copied in. The savestate and load keys the driver presses are read from this same text (hostkeys)."""
         path = self.workdir / "mapper.map"
-        if self.legacy_keys:
+        if self.mapper == "dosbox":
             path.unlink(missing_ok=True)
+            self.log("no mapper file: DOSBox-X's own binds, savestate and load on the host key F12 + S / L")
             return
-        text = xkeys.mapper_text()
+        text = self._mapper_source()
         path.write_text(text)
-        self.log(f"mapper file written, sha256 {sha256(text.encode())}: savestate on Scroll Lock, load on Print Screen")
+        self.log(f"mapper file ({'written' if self.mapper == 'nohost' else Path(self.mapper).name + ' copied in'}), "
+                 f"sha256 {sha256(text.encode())}: savestate on {'+'.join(self.hostkeys['s'])}, load on {'+'.join(self.hostkeys['l'])}")
 
     def _start_xvfb(self):
         # Xvfb's -displayfd cannot choose here (WSLg owns X0): pick 200..899, never :99, and poll until it answers.
@@ -424,37 +450,60 @@ exit
         (logged), release, with no modifier added. Function keys arrive as the function key (F10 as
         0x4400 in the BIOS buffer). With legacy_keys: xdotool, as before issue 244 (it added Left Alt)."""
         for name in names:
-            k = KEYMAP.get(name, name)
-            if self.legacy_keys:
-                self._x("keydown", k)
-                time.sleep(hold)  # key hold; its duration is logged just below
-                self._x("keyup", k)
-                self.log(f"key {name} held {hold}s")
-            else:
-                codes = xkeys.press_release(self.display, k, hold)  # the hold is inside the call
-                self.log(f"key {name} held {hold}s (raw keycode {'+'.join(map(str, codes))})")
+            self._press(name, hold, self._legacy_for(name))
+
+    def _legacy_for(self, name):
+        """True when key `name` is sent by xdotool: the driver's transport setting (a subclass may choose per key)."""
+        return self.legacy_keys
+
+    def _press(self, name, hold, legacy):
+        k = KEYMAP.get(name, name)
+        if legacy:
+            self._x("keydown", k)
+            time.sleep(hold)  # key hold; its duration is logged just below
+            self._x("keyup", k)
+            self.log(f"key {name} held {hold}s")
+        else:
+            codes = xkeys.press_release(self.display, k, hold)  # the hold is inside the call
+            self.log(f"key {name} held {hold}s (raw keycode {'+'.join(map(str, codes))})")
 
     def _hostkey(self, name, hold=None):
-        """An emulator hotkey, not game input: `s` saves a state, `l` loads one. One key (xkeys.SINGLE_KEYS)
-        through the mapper _write_mapper wrote, held `hold` s, by default `self.save_hold` (SAVE_HOLD, the
-        pace of a read before issue 244; logged). With legacy_keys: DOSBox-X's host key F12 + the letter
-        through xdotool (each of 3 steps held `hold`, default HOSTKEY_HOLD), which leaves Left Alt held in
-        the guest (issue 244)."""
-        if not self.legacy_keys:
-            hold = self.save_hold if hold is None else hold
-            k = xkeys.SINGLE_KEYS[name]
-            codes = xkeys.press_release(self.display, k, hold)  # the hold is inside the call
-            self.log(f"emulator key {k} (for host+{name}) held {hold}s (raw keycode {'+'.join(map(str, codes))})")
-            return
-        hold = HOSTKEY_HOLD if hold is None else hold
-        self._x("keydown", "F12")
-        time.sleep(hold)  # key hold (host key); logged below
-        self._x("keydown", name)
-        time.sleep(hold)  # key hold (host key); logged below
-        self._x("keyup", name)
-        time.sleep(hold)  # key hold (host key); logged below
-        self._x("keyup", "F12")
-        self.log(f"host key F12+{name}, each step held {hold}s")
+        """An emulator hotkey, not game input: `s` saves a state, `l` loads one. The keys are what the mapper
+        in effect binds (self.hostkeys: Scroll Lock / Print Screen for "nohost", F12 + s / l for "dosbox"),
+        each sent by the transport setting (_legacy_for): pressed in order, held one step after each press and
+        between the releases, so a chord of two keys has 3 steps (the old chord's F12, S, S, F12). A step is
+        `hold` s when given, else the key's total (self.save_hold, SAVE_HOLD; 3 * HOSTKEY_HOLD for the old
+        combination, xdotool with a chord) split among the steps."""
+        names = self.hostkeys[name]
+        steps = 2 * len(names) - 1
+        if hold is not None:
+            step = hold
+        else:
+            total = self.save_hold
+            if not self._save_hold_given and self.legacy_keys and len(names) > 1:
+                total = 3 * HOSTKEY_HOLD  # the old driver's chord, kept as it was
+            step = total / steps
+        step = round(step, 6)
+        how = []
+        for nm in names:
+            legacy = self._legacy_for(nm)
+            if legacy:
+                self._x("keydown", KEYMAP.get(nm, nm))
+                how.append(f"{nm} xdotool")
+            else:
+                how.append(f"{nm} raw keycode {'+'.join(map(str, xkeys.key_down(self.display, KEYMAP.get(nm, nm))))}")
+            time.sleep(step)  # key hold (emulator key); logged below
+        for i, nm in enumerate(reversed(names)):
+            if self._legacy_for(nm):
+                self._x("keyup", KEYMAP.get(nm, nm))
+            else:
+                xkeys.key_up(self.display, KEYMAP.get(nm, nm))
+            if i < len(names) - 1:
+                time.sleep(step)  # key hold between the releases; logged below
+        if len(names) == 1:
+            self.log(f"emulator key {names[0]} (for host+{name}) held {step}s ({how[0].split(' ', 1)[1]})")
+        else:
+            self.log(f"host key {'+'.join(names)}, each step held {step}s ({', '.join(how)})")
 
     # ---- observe --------------------------------------------------------------------------
     def save_state(self, timeout=15, resend_after=3.0):

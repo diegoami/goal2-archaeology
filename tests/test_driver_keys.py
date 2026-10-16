@@ -26,6 +26,7 @@ import tempfile
 import time
 import unittest
 from pathlib import Path
+from unittest import mock
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "runtime" / "driver"))
@@ -194,16 +195,155 @@ class Mapper(unittest.TestCase):
             with self.assertRaisesRegex(RuntimeError, "exactly once"):
                 xkeys.mapper_text(src)
 
-    def test_launch_writes_the_mapper_and_legacy_keys_removes_a_stale_one(self):
+    def test_launch_writes_the_mapper_and_the_dosbox_mapper_removes_a_stale_one(self):
         with tempfile.TemporaryDirectory() as tmp:
             d = driver.Driver({}, workdir=Path(tmp) / "work", game_dir=Path(tmp) / "game")
             d.workdir.mkdir()
             d._write_mapper()
             self.assertEqual(xkeys.mapper_text(), (d.workdir / "mapper.map").read_text())
-            self.assertIn("mapper file written", " ".join(w for _, w in d.events))
-            old = driver.Driver({}, workdir=d.workdir, game_dir=Path(tmp) / "game", legacy_keys=True)
+            self.assertIn("mapper file (written)", " ".join(w for _, w in d.events))
+            old = driver.Driver({}, workdir=d.workdir, game_dir=Path(tmp) / "game", mapper="dosbox")
             old._write_mapper()
             self.assertFalse((d.workdir / "mapper.map").exists())
+
+
+class KeyCalls(unittest.TestCase):
+    """No emulator and no X: the key calls a driver makes for each combination of the two independent
+    settings, the key transport (raw XTEST or xdotool) and the mapper (what the savestate and load keys are).
+    A recording stands in for xkeys and xdotool; time.sleep records the holds.
+
+    The table (key = the driver's, E031's play.py `--keys/--fkeys/--mapper`; savestate `s`):
+      transport  mapper             keys pressed for the savestate
+      raw        nohost (default)   Scroll_Lock, raw
+      xdotool    nohost             Scroll_Lock, xdotool
+      raw        dosbox / ""        F12 + s, raw (no Alt)
+      xdotool    dosbox / ""        F12 + s, xdotool (the old driver: Alt held in the guest on Ubuntu 26.04)
+      any        a file             what the file binds; a file it cannot read is refused (ValueError)
+    and for play.py, F-keys (and a chord's F12) follow `fkeys`, every other key `keys`."""
+
+    def setUp(self):
+        self.calls, self.sleeps = [], []
+        patches = [
+            mock.patch.object(xkeys, "key_down", lambda d, n: self.calls.append(("raw", "down", n)) or [1], create=True),
+            mock.patch.object(xkeys, "key_up", lambda d, n: self.calls.append(("raw", "up", n)) or [1], create=True),
+            mock.patch.object(xkeys, "press_release", lambda d, n, h: self.calls.append(("raw", "press", n)) or [1]),
+            mock.patch.object(driver.Driver, "_x", lambda self_, *a: self.calls.append(("xdotool",) + a)),
+            mock.patch.object(driver.time, "sleep", lambda t: self.sleeps.append(t)),
+        ]
+        for p in patches:
+            p.start()
+            self.addCleanup(p.stop)
+        self.tmp = Path(tempfile.mkdtemp(prefix="calls244-"))
+        self.addCleanup(shutil.rmtree, self.tmp, True)
+
+    def drv(self, **kw):
+        d = driver.Driver({}, workdir=self.tmp / "work", game_dir=self.tmp / "game", **kw)
+        d.display = ":0"
+        return d
+
+    def mapper_file(self, save, load, name="m.map"):
+        f = self.tmp / name
+        f.write_text(f'hand_savestate {save}\nhand_loadstate {load}\n')
+        return f
+
+    def save(self, d, name="s"):
+        self.calls.clear()
+        self.sleeps.clear()
+        d._hostkey(name)
+        return list(self.calls)
+
+    def test_raw_with_the_default_mapper_presses_scroll_lock_raw(self):
+        self.assertEqual([("raw", "down", "Scroll_Lock"), ("raw", "up", "Scroll_Lock")], self.save(self.drv()))
+        self.assertEqual([0.52], self.sleeps)
+        self.assertEqual([("raw", "down", "Print"), ("raw", "up", "Print")], self.save(self.drv(), "l"))
+
+    def test_xdotool_with_the_default_mapper_presses_scroll_lock_by_xdotool(self):
+        self.assertEqual([("xdotool", "keydown", "Scroll_Lock"), ("xdotool", "keyup", "Scroll_Lock")],
+                         self.save(self.drv(legacy_keys=True)))
+
+    def test_raw_with_the_dosbox_mapper_presses_the_f12_chord_raw_without_alt(self):
+        got = self.save(self.drv(mapper="dosbox"))
+        self.assertEqual([("raw", "down", "F12"), ("raw", "down", "s"), ("raw", "up", "s"), ("raw", "up", "F12")], got)
+        self.assertAlmostEqual(0.52, sum(self.sleeps), places=4)  # the same total as one key: the read pace is the total
+        self.assertEqual(3, len(self.sleeps))
+
+    def test_xdotool_with_the_dosbox_mapper_is_the_old_driver(self):
+        got = self.save(self.drv(legacy_keys=True, mapper="dosbox"))
+        self.assertEqual([("xdotool", "keydown", "F12"), ("xdotool", "keydown", "s"), ("xdotool", "keyup", "s"),
+                          ("xdotool", "keyup", "F12")], got)
+        self.assertEqual([driver.HOSTKEY_HOLD] * 3, self.sleeps)  # the old steps of 0.15 s
+
+    def test_a_custom_mapper_decides_the_keys_pressed(self):
+        d = self.drv(mapper=str(self.mapper_file('"key 22"', '"key 15 host"')))  # s alone, F12 + l
+        self.assertEqual([("raw", "down", "s"), ("raw", "up", "s")], self.save(d))
+        self.assertEqual([("raw", "down", "F12"), ("raw", "down", "l"), ("raw", "up", "l"), ("raw", "up", "F12")],
+                         self.save(d, "l"))
+
+    def test_a_mapper_whose_savestate_or_load_bind_cannot_be_read_is_refused_at_once(self):
+        for bad in (('"key 22 ctrl"', '"key 15"'), ('"key 999"', '"key 15"'), ('"key 22"', '')):
+            with self.assertRaises(ValueError, msg=bad):
+                self.drv(mapper=str(self.mapper_file(*bad)))
+        nothing = self.tmp / "none.map"
+        nothing.write_text("key_f12 \"key 69\" \n")
+        with self.assertRaisesRegex(ValueError, "no hand_savestate bind"):
+            self.drv(mapper=str(nothing))
+        self.assertEqual([], self.calls)  # nothing was sent
+
+    def play(self, **kw):
+        sys.path.insert(0, str(ROOT / "experiments" / "E031-play-the-game"))
+        try:
+            import play
+        finally:
+            sys.path.pop(0)
+        d = play.PlayDriver({}, workdir=self.tmp / "work", game_dir=self.tmp / "game", **kw)
+        d.display = ":0"
+        return d
+
+    NOHOST = ROOT / "experiments" / "E031-play-the-game" / "mapper-nohost.map"
+
+    def test_play_with_a_custom_f12_mapper_presses_what_that_mapper_binds(self):
+        # 88edbd2 pressed Scroll Lock raw whatever mapper file was given, so a mapper with the F12 chords
+        # (here the DOSBox-X defaults, as a file) never saw its savestate key and every read timed out
+        d = self.play(mapper=str(xkeys.DEFAULT_MAP))
+        got = self.save(d)
+        self.assertEqual([("raw", "down", "F12"), ("raw", "down", "s"), ("raw", "up", "s"), ("raw", "up", "F12")], got)
+        self.assertEqual([driver.HOSTKEY_HOLD] * 3, self.sleeps)  # this tool's own pace, a step of 0.15 s
+
+    def test_play_with_fkeys_xdotool_sends_function_keys_by_xdotool_under_the_normal_mapper(self):
+        # 88edbd2 sent F10 raw whatever --fkeys said whenever a mapper was given (the normal case)
+        d = self.play(mapper=str(self.NOHOST), fkeys="xdotool")
+        self.calls.clear()
+        d.keys("F10", "n")
+        self.assertEqual([("xdotool", "keydown", "F10"), ("xdotool", "keyup", "F10"), ("raw", "press", "n")], self.calls)
+        self.assertEqual([("raw", "down", "Scroll_Lock"), ("raw", "up", "Scroll_Lock")], self.save(d))
+        self.assertEqual([0.15], self.sleeps)
+
+    def test_play_the_four_combinations(self):
+        nohost, none = str(self.NOHOST), ""
+        cases = [  # (keys, fkeys, mapper) -> (F10, n, savestate calls)
+            (dict(mapper=nohost), [("raw", "press", "F10"), ("raw", "press", "n")],
+             [("raw", "down", "Scroll_Lock"), ("raw", "up", "Scroll_Lock")]),
+            (dict(mapper=nohost, keys="xdotool"), [("xdotool", "keydown", "F10"), ("xdotool", "keyup", "F10"),
+                                                   ("xdotool", "keydown", "n"), ("xdotool", "keyup", "n")],
+             [("xdotool", "keydown", "Scroll_Lock"), ("xdotool", "keyup", "Scroll_Lock")]),
+            (dict(mapper=none, fkeys="xdotool"), [("xdotool", "keydown", "F10"), ("xdotool", "keyup", "F10"),
+                                                  ("raw", "press", "n")],  # the guide's `--mapper "" --fkeys xdotool`
+             [("xdotool", "keydown", "F12"), ("raw", "down", "s"), ("raw", "up", "s"), ("xdotool", "keyup", "F12")]),
+            (dict(mapper=none, keys="xdotool"), [("xdotool", "keydown", "F10"), ("xdotool", "keyup", "F10"),
+                                                 ("xdotool", "keydown", "n"), ("xdotool", "keyup", "n")],
+             [("xdotool", "keydown", "F12"), ("xdotool", "keydown", "s"), ("xdotool", "keyup", "s"),
+              ("xdotool", "keyup", "F12")]),  # the old driver, Alt held
+        ]
+        for kw, keys, saves in cases:
+            d = self.play(**kw)
+            self.calls.clear()
+            d.keys("F10", "n")
+            self.assertEqual(keys, self.calls, kw)
+            self.assertEqual(saves, self.save(d), kw)
+
+    def test_play_refuses_a_mapper_it_cannot_read_the_savestate_keys_from(self):
+        with self.assertRaises(ValueError):
+            self.play(mapper=str(self.mapper_file('"key 22 ctrl"', '"key 15"')))
 
 
 @unittest.skipUnless(EMULATOR, "needs DOSBox-X 2024.03.01, Xvfb and xdotool")

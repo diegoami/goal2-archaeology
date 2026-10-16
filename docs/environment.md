@@ -193,7 +193,12 @@ projects.
   (xdotool 3.20160805.1 with Xvfb 21.1.22) xdotool sent Left Alt with every function key (F10 reached the
   game as Alt+F10) and left Left Alt held in the guest from the launch on; the 458 records made on
   Ubuntu 24.04 show none of that (34 published savestates checked), only a plain F12 pressed into the
-  guest at each read. `Driver(legacy_keys=True)` is the old keys and chord.
+  guest at each read. Two independent settings: `legacy_keys` is the transport (raw XTEST or xdotool),
+  `mapper` is what the savestate and load keys are (`"nohost"` Scroll Lock / Print Screen, `"dosbox"` the F12
+  chord, or a mapper file); the driver presses what the mapper in effect binds and refuses a mapper it cannot
+  read (`ValueError`). The old driver is `Driver(legacy_keys=True, mapper="dosbox")`. E031's `play.py` takes
+  them as `--keys`, `--fkeys` (function keys and a chord's F12; default as `--keys`) and `--mapper`
+  (`experiments/fix-244-driver-keys/README.md` has the table).
 - **Read pace**: the savestate key is held `save_hold` seconds, default `SAVE_HOLD` = 0.52 s, so a read takes
   about 0.53 s as it did with the F12 chord (the chord held 3 steps of 0.15 s and made four xdotool calls;
   measured 0.512-0.764 s between chords in E003-r0047/r0049). Scripts whose `settle` waits for two equal

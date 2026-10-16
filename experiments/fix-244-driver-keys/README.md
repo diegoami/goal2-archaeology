@@ -15,7 +15,7 @@ driver takes anyway.
 | log | driver | 0040:0017 | 0040:0018 | Alt held | DS:A976 after F10 |
 | --- | --- | --- | --- | --- | --- |
 | `out/old-driver.jsonl` | the old one (a copy of origin/main) | `00001000` at all 4 reads | `00000010` | yes, at all 4 reads | `d5` (0x71 + 0x64: Alt+F10) |
-| `out/legacy-keys-on-fixed-driver.jsonl` | the fixed driver, `legacy_keys=True` | `00001000` | `00000010` | yes | `d5` |
+| `out/legacy-keys-on-fixed-driver.jsonl` | the fixed driver, `legacy_keys=True, mapper="dosbox"` | `00001000` | `00000010` | yes | `d5` |
 | `out/new-driver.jsonl` (hold 0.15 s) and `out/new-driver-default-pace.jsonl` (default 0.52 s) | the fixed driver | `00000000` at all 4 reads | `00000000` | no | `a8` (0x44 + 0x64: F10), `4400` in the BIOS buffer |
 
 The four reads: the savestate that showed the title (the launch), after `n Enter x5`, after F10, and after F10
@@ -39,7 +39,34 @@ plain F12 key per read; the fixed driver puts no key into the guest at a read.
 no modifier (E031's `xtest.py` approach; an upper-case letter is sent with Left Shift around it, a keysym that
 would need another modifier is refused). The savestate and load keys are Scroll Lock and Print Screen, alone,
 through a mapper file the driver writes (`xkeys.mapper_text`, byte-identical to E031's `mapper-nohost.map`).
-`Driver(legacy_keys=True)` keeps the old keys and chord so the fault can be reproduced.
+Two independent settings (review R1 of the PR: the first version tied them together):
+
+- `legacy_keys`: the **transport**, raw XTEST keycodes (default) or xdotool.
+- `mapper`: what the savestate and load keys **are**: `"nohost"` (default; the driver writes the mapper that binds
+  them to Scroll Lock and Print Screen), `"dosbox"` (no mapper file: DOSBox-X's own binds, the F12 chord), or a
+  mapper file. The driver reads the savestate, load and screenshot binds of the mapper in effect
+  (`xkeys.hostkeys`) and presses those keys, so the mapper and the keys cannot disagree. A bind it cannot read
+  (another modifier, no such bind, a scancode with no name) is a `ValueError` when the driver is made, and
+  `play.py serve` exits with `play.py serve: <reason>` before launching anything.
+
+`Driver(legacy_keys=True, mapper="dosbox")` is the old driver, kept to reproduce the fault. In E031's `play.py` the
+settings are `--keys {raw,xdotool}`, `--fkeys {raw,xdotool}` (function keys and the F12 of a chord; default as
+`--keys`) and `--mapper FILE|''`. The savestate `s` of each combination (`tests/test_driver_keys.py` `KeyCalls`
+asserts the calls; `out/combos.jsonl` ran each once in the emulator):
+
+| transport | mapper | keys pressed for the savestate | in the emulator (`out/combos.jsonl`) |
+| --- | --- | --- | --- |
+| raw (default) | `nohost` / `mapper-nohost.map` (default) | Scroll Lock, raw | no Alt, F10 = `a8` |
+| raw, `--fkeys xdotool` | `mapper-nohost.map` | Scroll Lock, raw; F-keys by xdotool | no Alt held, F10 = `d5` (Alt+F10) |
+| xdotool (`--keys xdotool`) | `mapper-nohost.map` | Scroll Lock, xdotool | no Alt held, F10 = `d5` |
+| raw | `dosbox` / `--mapper ''` / a file with the F12 chords | F12 + s, raw (no Alt) | no Alt, F10 = `a8` |
+| raw, `--fkeys xdotool` | `--mapper ''` (the guide's reproduction) | F12 by xdotool, s raw | Alt held, F10 = `d5` |
+| xdotool (`--keys xdotool`) | `--mapper ''` | F12 + s, xdotool (the old driver) | Alt held, F10 = `d5` |
+| any | a file the driver cannot read | refused (`ValueError`) | not launched |
+
+In the review's two failing cases: with a mapper other than `mapper-nohost.map` the first version pressed Scroll Lock
+raw whatever the file bound, and with `--fkeys xdotool` under the normal mapper it sent F10 raw. Both fail on
+88edbd2 (`out/test-keycalls-on-88edbd2.txt`: the two `play_` tests that named them, and the other combination tests).
 
 **Read pace** (`Driver(save_hold=...)`, default `SAVE_HOLD` = 0.52 s). The old chord held 3 steps of
 `HOSTKEY_HOLD` = 0.15 s (0.45 s) and made 4 xdotool calls: the gap between consecutive chords logged in
@@ -51,7 +78,8 @@ measured pace.
 
 ## Tests
 
-`tests/test_driver_keys.py` (14 tests): key sending on a bare Xvfb recorded by `xinput test-xi2` (no emulator),
+`tests/test_driver_keys.py` (24 tests): key sending on a bare Xvfb recorded by `xinput test-xi2` (no emulator),
+the key calls of each combination of transport and mapper (`KeyCalls`, no X at all),
 the mapper, the default hold and a custom `save_hold`, and one end to end run with the emulator (`probe.py`).
 - `out/test-on-old-driver.txt`: against origin/main's `driver.py` (plus `xkeys.py`, which that tree lacks): the
   Alt tests fail, 6 failures and 2 errors (12 tests then).

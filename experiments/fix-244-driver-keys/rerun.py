@@ -55,8 +55,11 @@ def main():
                 finally:
                     self.legacy_keys = was
             setattr(driver.Driver, name, wrapped)
-        for name in {"keys": ("keys",), "save": ("_hostkey", "_write_mapper")}[mix]:
+        for name in {"keys": ("keys",), "save": ("_hostkey",)}[mix]:
             old_way(name)
+        if mix == "save":  # the old savestate key is the F12 chord, which is DOSBox-X's own binds (issue 244 review R1)
+            init0 = driver.Driver.__init__
+            driver.Driver.__init__ = lambda self, *a, **k: init0(self, *a, **{**k, "mapper": "dosbox"})
     hold_alt = "--hold-alt" in argv  # a control: the fixed driver, plus Left Alt pressed after the launch and never released
     argv = [a for a in argv if a != "--hold-alt"]
     if hold_alt:
@@ -100,7 +103,7 @@ def main():
         sys.path.insert(0, str(ROOT / "runtime" / "driver"))
         import driver
         init = driver.Driver.__init__
-        driver.Driver.__init__ = lambda self, *a, **k: init(self, *a, **{**k, "legacy_keys": True})
+        driver.Driver.__init__ = lambda self, *a, **k: init(self, *a, **{**k, "legacy_keys": True, "mapper": "dosbox"})
     mod = load(exp)
     out = HERE / "out" / ("rerun-legacy-keys" if legacy else f"rerun-save-key-hold-{slow}" if slow else f"rerun-legacy-only-{mix}" if mix else "rerun-alt-held" if hold_alt else "rerun-f12-per-read" if f12 else "rerun-default") / exp
     mod.OUT = out
