@@ -149,3 +149,27 @@ are the files stamped `20261016e`: tests (15 OK; without unicorn 15 run, 7 skipp
 import: `no-unicorn-20261016e.txt`), check (engine, interactive, family: PASS), paths (12 of 12), example, goal2
 trial and the check from goal2's tree (PASS), mutations. Stamp `d` is the same set from 5ba5f3c; the earlier stamps
 are the runs this notes file cites above, kept.
+
+## 7. PR 251 review round 2: goals in a quick result, the take-back's place
+
+- R1: 8664eed made a `goal` of every rise of DS:9B3C and a take-back of every fall. The quick engine 0791:D733
+  (named/seg_0791_11.c; code/seg_0791_21.asm) saves the score word, clears it (D77B), rolls trial counts into it
+  (roll_quick_goals B19D, `inc` at B261; `sub` at D8A5) and writes the committed word back at DA58, with at most one
+  goal per call (record_goal 6443). A probe of the writers (the instruction of every score write) on the review's
+  case (reference fixture, quick from a pause at minute 30, speed 3): 685C x2, B261 x69, D77B x62, D8A5 x12,
+  DA58 x62, A443 x1 (the set-up); 8664eed made 162 goals and 173 take-backs of it, the fix 3 goals = [1, 2]. The
+  original's own count DS:80F0 (record_goal) is [1, 2] there, [1, 2] in seed 70's run with a take-back and [2, 1]
+  for seed 0xC3C3: the result's goals per team now equal it and the board.
+- R2: seed 70 with the pauses at 20 and 60 (stamps.py `decisions`): writers 685C x4, 68B3 x1. The take-back at 68B3
+  is now queued at its own write (after the lines 2AA3 writes between 685C and 68B3); the goal it takes back stays
+  in its place, takes no scorer row and leaves the result's goals for `goals_disallowed`.
+- The other events' writers in play, over five runs (watched, an injury, sendings off, answers, quick from minutes 30
+  and 1): the ring counter only from 214B:1CBC and 1CF8 (wrap_add for 1D4A), cards from 7A01 / 7B6D / 7DD9, the
+  minute from 9762, substitutions left from C7DC. The kit now stops (GuestError) on a write that would make an event
+  from any other instruction, and on a scorer row or an eleven change without its counter's write (8664eed made a
+  goal or substitution of them at the flush, out of order). The action replay's restore (0F11: score, substitutions
+  left) was reached by none of the runs.
+- Outputs stamped `20261016h`, from 04ab4c0: tests 24 OK; check engine, interactive, goals, family PASS; paths 12 of
+  12; stamps 17 of 17 (the cross-kind `order` included); save boundaries 7 of 7; example; the two new tests fail on
+  8664eed and stamps.py `--quick` fails there on 4 of 9 scenarios (the take-back and the three quick results); mutations 20 of
+  20; links; hashes in `out/sha256-20261016h.tsv`.
