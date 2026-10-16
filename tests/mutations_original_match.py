@@ -20,6 +20,8 @@ ENGINE = T + "OriginalTests.test_engine_is_e011_r0001"
 LINES = T + "OriginalTests.test_every_commentary_line_is_an_event"
 SUB = T + "OriginalTests.test_half_time_substitution"
 REFUSED = T + "OriginalTests.test_refused_eleven_comes_back"
+GOALS = T + "OriginalTests.test_goal_records_agree_with_the_board_in_every_path"
+ORDER = T + "OriginalTests.test_event_stream_is_in_the_originals_write_order"
 
 # (name, file, [(old, new)], tests that must fail)
 MUTATIONS = [
@@ -66,6 +68,14 @@ MUTATIONS = [
     ("the memory component cut to 1 MiB + HMA", "match.py",
      [("return self.image_header + self.m.read(0, MEM_SIZE) + self.image_tail",
        "return self.image_header + self.m.read(0, MEM_SIZE)")], [SUB]),
+    # PR 251 review round 2: R1 (quick-engine trial counts are not goals) and R2 (a take-back at its own write)
+    ("the quick engine's commit counted against its trial count, not the score it saved", "match.py",
+     [("for _ in range(new[t] - saved[t]):", "for _ in range(max(0, new[t] - old[t])):")], [GOALS]),
+    ("stamps inside the quick engine read its trial counts", "match.py",
+     [("        if quick is not None:\n            return [m.rd(MINUTE)] + list(quick)\n", "")], [GOALS]),
+    ("a take-back rewrites the goal it cancels in place (not queued at its own write)", "match.py",
+     [('taken[-1][5] = True\n                st["pending"].append(["goal_disallowed", minute, new[0], new[1], t])',
+       'taken[-1][0] = "goal_disallowed"\n                taken[-1][2:4] = [new[0], new[1]]')], [ORDER]),
 ]
 
 CHILD = """
