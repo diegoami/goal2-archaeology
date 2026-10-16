@@ -1,0 +1,20 @@
+test_load_segment_from_mcb (tests.test_original_match.ImageTests.test_load_segment_from_mcb) ... ok
+test_short_image_refused (tests.test_original_match.ImageTests.test_short_image_refused) ... ok
+test_far_call_returns_with_its_argument_popped (tests.test_original_match.MachineTests.test_far_call_returns_with_its_argument_popped) ... ok
+test_stop_and_replay (tests.test_original_match.MachineTests.test_stop_and_replay) ... ok
+test_another_build_is_refused (tests.test_original_match.OriginalTests.test_another_build_is_refused) ... ok
+test_engine_is_e011_r0001 (tests.test_original_match.OriginalTests.test_engine_is_e011_r0001) ... ok
+test_every_commentary_line_is_an_event (tests.test_original_match.OriginalTests.test_every_commentary_line_is_an_event) ... ok
+test_half_time_substitution (tests.test_original_match.OriginalTests.test_half_time_substitution) ... ok
+test_refused_eleven_comes_back (tests.test_original_match.OriginalTests.test_refused_eleven_comes_back) ... ok
+test_menu_items_per_side (tests.test_original_match.ScreenDriverTests.test_menu_items_per_side) ... ok
+test_own_tactics_and_marking (tests.test_original_match.ScreenDriverTests.test_own_tactics_and_marking) ... ok
+test_position_job (tests.test_original_match.ScreenDriverTests.test_position_job) ... ok
+test_request_when_not_allowed_now (tests.test_original_match.ScreenDriverTests.test_request_when_not_allowed_now) ... ok
+test_substitution_mark_swap_and_check (tests.test_original_match.ScreenDriverTests.test_substitution_mark_swap_and_check) ... ok
+test_tactics_rows (tests.test_original_match.ScreenDriverTests.test_tactics_rows) ... ok
+
+----------------------------------------------------------------------
+Ran 15 tests in 33.334s
+
+OK

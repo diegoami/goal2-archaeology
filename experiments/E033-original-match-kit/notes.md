@@ -139,5 +139,6 @@ identical to the straight run; goal2 managing country 19 (Denmark released) is o
 ## 6. Outputs
 
 Every file in `out/` is listed with its SHA-256 in `out/sha256-20261016.tsv` (`hashes.py`). The final runs, from
-the PR's last code commit, are the files stamped `20261016c` (check, paths, example, tests, mutations, goal2 trial
-and its check); the earlier stamps are the runs this notes file cites above, kept.
+the PR's last code commit (5ba5f3c), are the files stamped `20261016d`: tests (15 OK), check (engine, interactive,
+family: PASS), paths (12 of 12), example, goal2 trial and the check from goal2's tree (PASS), mutations (12 of 12
+killed). The earlier stamps are the runs this notes file cites above, kept.
