@@ -124,7 +124,7 @@ class Fixture:
     first: int                 # team 0: fixture +4 (DS:9B34)
     second: int                # team 1: fixture +6 (DS:9B36), the host of a friendly (0791:A6E4)
     index: int = None          # the calendar number the set-up seeds from (0791:2648); None: [A923]+0x26
-    kind: int = 1              # 1, a friendly: the only kind the kit has been checked on
+    kind: int = 1              # fixture +2 (F023 section 9): 1 a friendly; KINDS the ones the builders write
 
 
 @dataclass
