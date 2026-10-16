@@ -39,6 +39,8 @@ SITE_PROMPT = "0791:CEED"      # 0791:CC7B the captain and taker prompt (CEE8)
 SITE_SELECT = "0791:E61F"      # 0791:E44F SELECT TEAM (E61A)
 SITE_MENU = "214B:157C"        # 214B:1560's read; its caller says which menu:
 MENU_TEAM, MENU_TACTICS = "0791:EE9F", "1771:1A24"     # ED8A (EE9A), 1771:1981 (1A1F)
+MENU_OWN = "1771:4C0A"         # 1771:4B61 a player's own tactics (4C05); 1560's [bp+6] is its row count, 5 with
+OWN_TACTICS, PLAYER_STATUS = 0x0F, 0x10   # the man-marking row; player +0xF own tactic set, +0x10 status (F010)
 SITE_MESSAGE = "214B:098A"     # 214B:0983, the message routines' read (04F8, 1765)
 MESSAGE_IF = "214B:1765"       # message_if_flag(text far pointer at [SP+4], flag at [SP+8]): shows text when flag
 PLAYER_POSITION, PLAYER_ENERGY = 0x06, 0x0E   # player record: position code (0 the keeper), energy (0 injured; F018)
@@ -181,6 +183,9 @@ class Match:
     def _tactics(self):
         return self.m.read(self._country(self.opts["managed"]) + TACTICS, 1)[0]
 
+    def _player(self, player, field):
+        return self.m.read(self.m.far(PLAYERS_PTR) + PLAYER_SIZE * player + field, 1)[0]
+
     def _make_managed(self, managed, fixture):
         """Make `managed` manager 1's country as the original's records hold one (+0x2E = 0x81, and the manager
         array's byte at +3*0x81), releasing manager 1's former country as 000E:01FA does (+0x2E := its number)."""
@@ -247,12 +252,19 @@ class Match:
                 self.answer()
             self._advance()
 
-    def answer(self, substitutions=(), tactics=None, quick=False, speed=None):
-        """goal2's answer to the waiting decision. substitutions: (off, on) player words of the managed squad,
-        made now at half time and at a substitution notice; at a pause the original only takes the request and
-        offers it at the next stoppage (a `substitution` decision). tactics: {element 1..8: bool} or the whole
-        byte (bit e-1 = element e; F026). quick: the rest as a quick result (the original's R key). speed: the
-        original's speed byte 0..5 (presentation only)."""
+    def answer(self, substitutions=(), tactics=None, positions=None, marking=None, own_tactics=None, quick=False,
+               speed=None):
+        """goal2's answer to the waiting decision; nothing given plays on.
+        substitutions: (off, on) player words of the managed squad, made now at half time and at a substitution
+          notice; at a pause the original only takes the request and offers it at the next stoppage (a
+          `substitution` decision whose default answer is what was asked for).
+        tactics: {element 1..8: bool} or the whole byte (bit e-1 = element e; F026; element 8 is man-to-man
+          marking for the team).
+        positions: {player: position code 0..13} (the formation: F028), made on SELECT TEAM by the original's R key.
+        marking: {player: opponent player word, or 0 for none} (his man-marking, 1771:49B8).
+        own_tactics: {player: {element 1..4: True, False or None for the team's}} (his own setting, 1771:4B61).
+        quick: the rest as a quick result (the original's R key in play). speed: the original's speed byte 0..5
+          (presentation only: it never changes the match, E033 notes)."""
         if self.st["waiting"] is None:
             raise MatchError("no decision is waiting")
         if isinstance(tactics, int):
@@ -262,16 +274,33 @@ class Match:
             raise ValueError("tactic elements are 1..8")
         if speed is not None and not 0 <= speed <= 5:
             raise ValueError("speed is 0..5")
-        subs = [[int(a), int(b)] for a, b in substitutions]
         squad = self._squad(self.opts["managed"])
+        subs = [[int(a), int(b)] for a, b in substitutions]
         for off, on in subs:
             if off not in squad[:11] or on not in squad[11:]:
                 raise ValueError(f"substitution ({off}, {on}): the first must be in the eleven, the second on the bench")
-        self.st["answer"] = {"substitutions": subs, "tactics": tactics, "quick": bool(quick), "speed": speed}
+        positions = {int(p): int(c) for p, c in (positions or {}).items()}
+        if any(p not in squad or not 0 <= c <= 13 for p, c in positions.items()):
+            raise ValueError("positions: {player of the managed squad: position code 0..13}")
+        other = self._squad(self.opts[TEAM_KEYS[1 - self.side]])
+        marking = {int(p): int(o) for p, o in (marking or {}).items()}
+        if any(p not in squad[:11] or (o and o not in other[:11]) for p, o in marking.items()):
+            raise ValueError("marking: {player of the managed eleven: an opponent of their eleven, or 0}")
+        own = {int(p): {int(e): (None if v is None else bool(v)) for e, v in d.items()} for p, d in (own_tactics or {}).items()}
+        if any(p not in squad or any(not 1 <= e <= 4 for e in d) for p, d in own.items()):
+            raise ValueError("own_tactics: {player of the managed squad: {element 1..4: True, False or None}}")
+        self.st["answer"] = {"substitutions": subs, "tactics": tactics, "positions": positions, "marking": marking,
+                             "own": own, "quick": bool(quick), "speed": speed}
         self.st["decisions"].append({"context": self.st["waiting"]["context"], "minute": self.st["minute"],
                                      "answer": {"substitutions": subs, "tactics": sorted(tactics.items()),
+                                                "positions": sorted(positions.items()), "marking": sorted(marking.items()),
+                                                "own_tactics": sorted((p, sorted(d.items())) for p, d in own.items()),
                                                 "quick": bool(quick), "speed": speed}})
         self.st["waiting"] = None
+
+    def _new_plan(self, answer):
+        return S.MenuPlan(self.side, tactics=answer.get("tactics"), subs=answer.get("substitutions"),
+                          positions=answer.get("positions"), marking=answer.get("marking"), own=answer.get("own"))
 
     def pause(self):
         """Ask the original for the team menu at its next key poll (as a manager pressing Enter in play): a
@@ -423,9 +452,10 @@ class Match:
         if site == SITE_MESSAGE:
             return S.ENTER
         if site == SITE_SELECT and self._menu is not None:
-            return self._menu.select_key(m.rd(S.SELECT_CURSOR), self._squad(self.opts["managed"]),
-                                         m.rd(S.SUBS_ALLOWED, 1), m.rd(S.SUBS_REQUEST, 1),
-                                         m.rd(S.SUBS_LEFT + self.side, 1))
+            return self._menu.select_key({
+                "cursor": m.rd(S.SELECT_CURSOR), "squad": self._squad(self.opts["managed"]),
+                "allowed": m.rd(S.SUBS_ALLOWED, 1), "request": m.rd(S.SUBS_REQUEST, 1),
+                "subs_left": m.rd(S.SUBS_LEFT + self.side, 1), "position": lambda p: self._player(p, PLAYER_POSITION)})
         if site == SITE_MENU:
             bp = m.reg("bp")                                  # 214B:1560's frame (its far return above it)
             caller = m.where(m.frame_word(bp, 4), m.frame_word(bp, 2))
@@ -434,6 +464,12 @@ class Match:
             if caller == MENU_TACTICS and self._menu is not None:
                 table = list(m.read(m.DS * 16 + S.TACTICS_ELEMENT_OF_ROW, 9))
                 return self._menu.tactics_key(m.rd(S.TACTICS_ROW), table, self._tactics())
+            if caller == MENU_OWN and self._menu is not None:
+                player = self._menu.jobs[self._menu.job][1]
+                slot = self._squad(self.opts["managed"]).index(player) + 1
+                marking = m.rd(S.MARKING - 2 + 0x28 * self.side + 2 * slot)
+                return self._menu.own_key(m.rd(S.OWN_ROW), self._player(player, OWN_TACTICS), marking,
+                                          self._tactics(), m.frame_word(bp, 6) & 0xFF == 5)
             self._fail(f"an undeclared menu read (214B:1560 called from {caller})")
         self._fail(f"an undeclared key read at {site}")
 
@@ -466,10 +502,10 @@ class Match:
                 self._extras(answer)
                 if not self.m.rd(S.SUBS_ALLOWED, 1) and answer["substitutions"]:
                     st["pending_subs"] = answer["substitutions"]    # the original makes them at the next stoppage
-                self._menu = S.MenuPlan(self.side, tactics=answer["tactics"], subs=answer["substitutions"])
+                self._menu = self._new_plan(answer)
             elif context == "substitution":
                 answer, st["notice"] = st["notice"] or {}, None
-                self._menu = S.MenuPlan(self.side, tactics=answer.get("tactics"), subs=answer.get("substitutions"))
+                self._menu = self._new_plan(answer)
             else:                                            # before and after the match: play
                 self._menu = S.MenuPlan(self.side)
             plan = self._menu
@@ -490,14 +526,23 @@ class Match:
             self.st["poll_keys"].append(S.KEY_R)
 
     def _close_plan(self, plan):
-        made = {tuple(s) for s in plan.done_subs}
+        made = {(job[1], job[2]) for job in plan.done if job[0] == "sub"}
         self.st["pending_subs"] = [s for s in self.st["pending_subs"] if tuple(s) not in made]
-        for off, on, why in plan.refused:
-            self._emit("refused", substitution=[off, on], reason=why)
+        for job, why in plan.refused:
+            self._emit("refused", job=job[0], player=job[1], target=job[2] if job[0] != "own" else job[3], reason=why)
         if plan.tactics:
             byte = self._tactics()
             missed = [e for e, v in plan.tactics.items() if bool(byte >> (e - 1) & 1) != v]
             self._emit("tactics", byte=byte, **({"not_set": missed} if missed else {}))
+        name, _ = self._text()
+        for job in plan.done:
+            if job[0] == "position":
+                self._emit("position", player=job[1], name=name(job[1]), position=job[2])
+            elif job[0] == "own":
+                slot = self._squad(self.opts["managed"]).index(job[1]) + 1
+                mark = self.m.rd(S.MARKING - 2 + 0x28 * self.side + 2 * slot)
+                self._emit("player_tactics", player=job[1], name=name(job[1]), own_set=self._player(job[1], OWN_TACTICS),
+                           marking=mark, marking_name=name(mark))
         if plan.requested:
             self._emit("substitution_requested", pending=[list(s) for s in self.st["pending_subs"]])
 
@@ -511,11 +556,12 @@ class Match:
             return
         if st["answer"] is not None:
             answer, st["answer"] = st["answer"], None
-            if not answer["substitutions"] and not answer["tactics"] and st["pending_subs"]:
+            changes = [answer.get(k) for k in ("substitutions", "tactics", "positions", "marking", "own")]
+            if not any(changes) and st["pending_subs"]:
                 answer["substitutions"] = [list(s) for s in st["pending_subs"]]   # default: what was asked for
             self._extras(answer)
             st["notice"] = answer
-            if answer["substitutions"] or answer["tactics"]:
+            if answer["substitutions"] or any(changes):
                 st["prompt"] = {"kind": "notice", "key": S.ENTER}
 
     def _decide(self, context, **data):
