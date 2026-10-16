@@ -24,8 +24,10 @@ REFUSED = T + "OriginalTests.test_refused_eleven_comes_back"
 # (name, file, [(old, new)], tests that must fail)
 MUTATIONS = [
     ("the team menu's item read from another frame word", "screens.py", [("MENU_ITEM_BP = -7", "MENU_ITEM_BP = -9")], [SUB]),
-    ("the commentary cursor starts at the counter, not 0", "match.py",
-     [('st["ring"] = 0            # (DS:80EE', 'st["ring"] = m.rd(RING_NEWEST)  # (DS:80EE')], [ENGINE, LINES]),
+    ("a commentary line stamped with the previous event's minute, not the guest clock at the ring write", "match.py",
+     [('self.st["pending"].append(["line"] + self._stamp() + [n])',
+       'self.st["pending"].append(["line", self.st["minute"]] + self._stamp()[1:] + [n])')],
+     [T + "OriginalTests.test_events_are_stamped_at_the_originals_writes"]),
     ("no replay flag on resume", "machine.py", [("replay = lin == self._resume_lin", "replay = False")],
      [T + "MachineTests.test_stop_and_replay", ENGINE]),
     ("the original's message not kept", "match.py", [("if replay or not m.stack_word(8) & 0xFF:", "if True:")], [REFUSED]),

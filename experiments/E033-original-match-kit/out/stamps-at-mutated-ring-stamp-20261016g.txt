@@ -1,0 +1,12 @@
+reference            FAIL   8.5 s  writes {'commentary': 1025, 'booking': 0, 'sending_off': 0, 'injury': 0, 'substitution': 2, 'minute': 91, 'goal': 2, 'goal_disallowed': 0, 'half_time': 1, 'full_time': 1}
+    {"commentary": {"writes": 1025, "events": 1025, "first_difference": 61, "write": [6, 0, 0], "event": [5, 0, 0], "differing": 273}}
+seed 0x0101          FAIL   9.1 s  writes {'commentary': 975, 'booking': 2, 'sending_off': 0, 'injury': 0, 'substitution': 4, 'minute': 93, 'goal': 1, 'goal_disallowed': 0, 'half_time': 1, 'full_time': 1}
+    {"commentary": {"writes": 975, "events": 975, "first_difference": 25, "write": [3, 0, 0], "event": [2, 0, 0], "differing": 214}}
+seed 0x1234          FAIL   9.0 s  writes {'commentary': 1078, 'booking': 0, 'sending_off': 0, 'injury': 0, 'substitution': 3, 'minute': 91, 'goal': 2, 'goal_disallowed': 0, 'half_time': 1, 'full_time': 1}
+    {"commentary": {"writes": 1078, "events": 1078, "first_difference": 21, "write": [2, 0, 0], "event": [1, 0, 0], "differing": 369}}
+decisions, seed 70   FAIL   9.6 s  writes {'commentary': 1028, 'booking': 0, 'sending_off': 0, 'injury': 0, 'substitution': 3, 'minute': 91, 'goal': 3, 'goal_disallowed': 1, 'half_time': 1, 'full_time': 1}
+    {"commentary": {"writes": 1028, "events": 1028, "first_difference": 106, "write": [11, 0, 1], "event": [10, 0, 1], "differing": 221}}
+seed 70 (an injury)  FAIL   9.7 s  writes {'commentary': 1134, 'booking': 2, 'sending_off': 0, 'injury': 1, 'substitution': 3, 'minute': 94, 'goal': 3, 'goal_disallowed': 0, 'half_time': 1, 'full_time': 1}
+    {"commentary": {"writes": 1134, "events": 1134, "first_difference": 106, "write": [11, 0, 1], "event": [10, 0, 1], "differing": 275}}
+go in hard, seed 4 (sendings off) FAIL  11.0 s  writes {'commentary': 1132, 'booking': 2, 'sending_off': 2, 'injury': 0, 'substitution': 5, 'minute': 95, 'goal': 3, 'goal_disallowed': 0, 'half_time': 1, 'full_time': 1}
+    {"commentary": {"writes": 1132, "events": 1132, "first_difference": 41, "write": [3, 0, 0], "event": [2, 0, 0], "differing": 287}}

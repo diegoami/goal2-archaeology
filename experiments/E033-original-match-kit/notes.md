@@ -105,7 +105,9 @@ identical to the straight run; goal2 managing country 19 (Denmark released) is o
   (it skipped the lines before the first tick); superseded, kept.
 - `tests/test_original_match.py`: 15 tests at the first review, 22 after PR 251's review round (screen drivers, image, machine, and five on the image). Before this PR
   the package did not exist (every test errors on import). `tests/mutations_original_match.py`: every mutation
-  killed (`out/mutations-20261016b.txt` 10 of 10, `-c` 11 of 11, the final run 12 of 12); its first run
+  killed (`out/mutations-20261016b.txt` 10 of 10, `-c` 11 of 11, `-e` 12 of 12; after PR 251's review round 17 of 17,
+  `out/mutations-20261016g.txt`, the commentary-cursor entry replaced by one on the write-time stamp: a line stamped with
+  the previous event's minute, which `stamps.py` also detects, `out/stamps-at-mutated-ring-stamp-20261016g.txt`); its first run
   (`out/mutations-20261016.txt`, stopped by my time limit) showed the commentary-cursor mutation surviving the
   engine check, which compares only the last 199 lines: the test that every line the original writes is one event
   was added for it.
