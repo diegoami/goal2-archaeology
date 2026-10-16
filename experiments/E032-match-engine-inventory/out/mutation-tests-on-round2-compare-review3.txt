@@ -1,0 +1,1168 @@
+test_every_mutation_is_malformed (tests.test_e032_record_mutations.EveryMutationIsMalformed.test_every_mutation_is_malformed) ... FAIL
+test_the_real_record_is_accepted (tests.test_e032_record_mutations.EveryMutationIsMalformed.test_the_real_record_is_accepted) ... ok
+
+======================================================================
+FAIL: test_every_mutation_is_malformed (tests.test_e032_record_mutations.EveryMutationIsMalformed.test_every_mutation_is_malformed)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a49f66db95d9da981/tests/test_e032_record_mutations.py", line 144, in test_every_mutation_is_malformed
+    self.assertEqual(failures, [], f"{len(failures)} of {4 * len(cases)} cases not MALFORMED:\n" +
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                     "\n".join(failures))
+                     ^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: ['cpu_s removed, both logs, --expect ident[73681 chars]t 0'] != []
+
+First list contains 1144 additional elements.
+First extra element 0:
+'cpu_s removed, both logs, --expect identical: exit 0'
+
+Diff is 77165 characters long. Set self.maxDiff to None to see it. : 1144 of 1332 cases not MALFORMED:
+cpu_s removed, both logs, --expect identical: exit 0
+cpu_s removed, both logs, --expect differ: exit 1
+cpu_s removed, candidate only, --expect identical: exit 0
+cpu_s removed, candidate only, --expect differ: exit 1
+cpu_s null, both logs, --expect identical: exit 0
+cpu_s null, both logs, --expect differ: exit 1
+cpu_s null, candidate only, --expect identical: exit 0
+cpu_s null, candidate only, --expect differ: exit 1
+cpu_s wrong type, both logs, --expect identical: exit 0
+cpu_s wrong type, both logs, --expect differ: exit 1
+cpu_s wrong type, candidate only, --expect identical: exit 0
+cpu_s wrong type, candidate only, --expect differ: exit 1
+cpu_s a boolean, both logs, --expect identical: exit 0
+cpu_s a boolean, both logs, --expect differ: exit 1
+cpu_s a boolean, candidate only, --expect identical: exit 0
+cpu_s a boolean, candidate only, --expect differ: exit 1
+error empty, candidate only, --expect identical: exit 1
+error empty, candidate only, --expect differ: exit 0
+strays not strings, candidate only, --expect identical: exit 1
+strays not strings, candidate only, --expect differ: exit 0
+cpu_s negative, both logs, --expect identical: exit 0
+cpu_s negative, both logs, --expect differ: exit 1
+cpu_s negative, candidate only, --expect identical: exit 0
+cpu_s negative, candidate only, --expect differ: exit 1
+score negative, both logs, --expect identical: exit 0
+score negative, both logs, --expect differ: exit 1
+score negative, candidate only, --expect identical: exit 1
+score negative, candidate only, --expect differ: exit 0
+score over a byte, both logs, --expect identical: exit 0
+score over a byte, both logs, --expect differ: exit 1
+score over a byte, candidate only, --expect identical: exit 1
+score over a byte, candidate only, --expect differ: exit 0
+statistics ten rows, both logs, --expect identical: exit 0
+statistics ten rows, both logs, --expect differ: exit 1
+statistics ten rows, candidate only, --expect identical: exit 1
+statistics ten rows, candidate only, --expect differ: exit 0
+statistics twelve rows, both logs, --expect identical: exit 0
+statistics twelve rows, both logs, --expect differ: exit 1
+statistics twelve rows, candidate only, --expect identical: exit 1
+statistics twelve rows, candidate only, --expect differ: exit 0
+statistics rows swapped, both logs, --expect identical: exit 0
+statistics rows swapped, both logs, --expect differ: exit 1
+statistics rows swapped, candidate only, --expect identical: exit 1
+statistics rows swapped, candidate only, --expect differ: exit 0
+row 0 null, both logs, --expect identical: exit 0
+row 0 null, both logs, --expect differ: exit 1
+row 0 null, candidate only, --expect identical: exit 1
+row 0 null, candidate only, --expect differ: exit 0
+row 0 a list, both logs, --expect identical: exit 0
+row 0 a list, both logs, --expect differ: exit 1
+row 0 a list, candidate only, --expect identical: exit 1
+row 0 a list, candidate only, --expect differ: exit 0
+row 0 empty, both logs, --expect identical: exit 0
+row 0 empty, both logs, --expect differ: exit 1
+row 0 empty, candidate only, --expect identical: exit 1
+row 0 empty, candidate only, --expect differ: exit 0
+row 0 row_label removed, both logs, --expect identical: exit 0
+row 0 row_label removed, both logs, --expect differ: exit 1
+row 0 row_label removed, candidate only, --expect identical: exit 1
+row 0 row_label removed, candidate only, --expect differ: exit 0
+row 0 row_label null, both logs, --expect identical: exit 0
+row 0 row_label null, both logs, --expect differ: exit 1
+row 0 row_label null, candidate only, --expect identical: exit 1
+row 0 row_label null, candidate only, --expect differ: exit 0
+row 0 row_label wrong type, both logs, --expect identical: exit 0
+row 0 row_label wrong type, both logs, --expect differ: exit 1
+row 0 row_label wrong type, candidate only, --expect identical: exit 1
+row 0 row_label wrong type, candidate only, --expect differ: exit 0
+row 0 address removed, both logs, --expect identical: exit 0
+row 0 address removed, both logs, --expect differ: exit 1
+row 0 address removed, candidate only, --expect identical: exit 1
+row 0 address removed, candidate only, --expect differ: exit 0
+row 0 address null, both logs, --expect identical: exit 0
+row 0 address null, both logs, --expect differ: exit 1
+row 0 address null, candidate only, --expect identical: exit 1
+row 0 address null, candidate only, --expect differ: exit 0
+row 0 address wrong type, both logs, --expect identical: exit 0
+row 0 address wrong type, both logs, --expect differ: exit 1
+row 0 address wrong type, candidate only, --expect identical: exit 1
+row 0 address wrong type, candidate only, --expect differ: exit 0
+row 0 raw_bytes removed, both logs, --expect identical: exit 0
+row 0 raw_bytes removed, both logs, --expect differ: exit 1
+row 0 raw_bytes removed, candidate only, --expect identical: exit 1
+row 0 raw_bytes removed, candidate only, --expect differ: exit 0
+row 0 raw_bytes null, both logs, --expect identical: exit 0
+row 0 raw_bytes null, both logs, --expect differ: exit 1
+row 0 raw_bytes null, candidate only, --expect identical: exit 1
+row 0 raw_bytes null, candidate only, --expect differ: exit 0
+row 0 raw_bytes wrong type, both logs, --expect identical: exit 0
+row 0 raw_bytes wrong type, both logs, --expect differ: exit 1
+row 0 raw_bytes wrong type, candidate only, --expect identical: exit 1
+row 0 raw_bytes wrong type, candidate only, --expect differ: exit 0
+row 0 label changed, both logs, --expect identical: exit 0
+row 0 label changed, both logs, --expect differ: exit 1
+row 0 label changed, candidate only, --expect identical: exit 1
+row 0 label changed, candidate only, --expect differ: exit 0
+row 0 address changed, both logs, --expect identical: exit 0
+row 0 address changed, both logs, --expect differ: exit 1
+row 0 address changed, candidate only, --expect identical: exit 1
+row 0 address changed, candidate only, --expect differ: exit 0
+row 0 extra key, both logs, --expect identical: exit 0
+row 0 extra key, both logs, --expect differ: exit 1
+row 0 extra key, candidate only, --expect identical: exit 1
+row 0 extra key, candidate only, --expect differ: exit 0
+row 0 other value key, both logs, --expect identical: exit 0
+row 0 other value key, both logs, --expect differ: exit 1
+row 0 other value key, candidate only, --expect identical: exit 1
+row 0 other value key, candidate only, --expect differ: exit 0
+row 0 raw_bytes one, both logs, --expect identical: exit 0
+row 0 raw_bytes one, both logs, --expect differ: exit 1
+row 0 raw_bytes one, candidate only, --expect identical: exit 1
+row 0 raw_bytes one, candidate only, --expect differ: exit 0
+row 0 raw_bytes three, both logs, --expect identical: exit 0
+row 0 raw_bytes three, both logs, --expect differ: exit 1
+row 0 raw_bytes three, candidate only, --expect identical: exit 1
+row 0 raw_bytes three, candidate only, --expect differ: exit 0
+row 0 raw_bytes a null, both logs, --expect identical: exit 0
+row 0 raw_bytes a null, both logs, --expect differ: exit 1
+row 0 raw_bytes a null, candidate only, --expect identical: exit 1
+row 0 raw_bytes a null, candidate only, --expect differ: exit 0
+row 0 raw_bytes a string, both logs, --expect identical: exit 0
+row 0 raw_bytes a string, both logs, --expect differ: exit 1
+row 0 raw_bytes a string, candidate only, --expect identical: exit 1
+row 0 raw_bytes a string, candidate only, --expect differ: exit 0
+row 0 raw_bytes negative, both logs, --expect identical: exit 0
+row 0 raw_bytes negative, both logs, --expect differ: exit 1
+row 0 raw_bytes negative, candidate only, --expect identical: exit 1
+row 0 raw_bytes negative, candidate only, --expect differ: exit 0
+row 0 raw_bytes too big, both logs, --expect identical: exit 0
+row 0 raw_bytes too big, both logs, --expect differ: exit 1
+row 0 raw_bytes too big, candidate only, --expect identical: exit 1
+row 0 raw_bytes too big, candidate only, --expect differ: exit 0
+row 0 raw_bytes a boolean, both logs, --expect identical: exit 0
+row 0 raw_bytes a boolean, both logs, --expect differ: exit 1
+row 0 raw_bytes a boolean, candidate only, --expect identical: exit 0
+row 0 raw_bytes a boolean, candidate only, --expect differ: exit 1
+row 0 raw_bytes a float, both logs, --expect identical: exit 0
+row 0 raw_bytes a float, both logs, --expect differ: exit 1
+row 0 raw_bytes a float, candidate only, --expect identical: exit 1
+row 0 raw_bytes a float, candidate only, --expect differ: exit 0
+row 1 null, both logs, --expect identical: exit 0
+row 1 null, both logs, --expect differ: exit 1
+row 1 null, candidate only, --expect identical: exit 1
+row 1 null, candidate only, --expect differ: exit 0
+row 1 a list, both logs, --expect identical: exit 0
+row 1 a list, both logs, --expect differ: exit 1
+row 1 a list, candidate only, --expect identical: exit 1
+row 1 a list, candidate only, --expect differ: exit 0
+row 1 empty, both logs, --expect identical: exit 0
+row 1 empty, both logs, --expect differ: exit 1
+row 1 empty, candidate only, --expect identical: exit 1
+row 1 empty, candidate only, --expect differ: exit 0
+row 1 row_label removed, both logs, --expect identical: exit 0
+row 1 row_label removed, both logs, --expect differ: exit 1
+row 1 row_label removed, candidate only, --expect identical: exit 1
+row 1 row_label removed, candidate only, --expect differ: exit 0
+row 1 row_label null, both logs, --expect identical: exit 0
+row 1 row_label null, both logs, --expect differ: exit 1
+row 1 row_label null, candidate only, --expect identical: exit 1
+row 1 row_label null, candidate only, --expect differ: exit 0
+row 1 row_label wrong type, both logs, --expect identical: exit 0
+row 1 row_label wrong type, both logs, --expect differ: exit 1
+row 1 row_label wrong type, candidate only, --expect identical: exit 1
+row 1 row_label wrong type, candidate only, --expect differ: exit 0
+row 1 address removed, both logs, --expect identical: exit 0
+row 1 address removed, both logs, --expect differ: exit 1
+row 1 address removed, candidate only, --expect identical: exit 1
+row 1 address removed, candidate only, --expect differ: exit 0
+row 1 address null, both logs, --expect identical: exit 0
+row 1 address null, both logs, --expect differ: exit 1
+row 1 address null, candidate only, --expect identical: exit 1
+row 1 address null, candidate only, --expect differ: exit 0
+row 1 address wrong type, both logs, --expect identical: exit 0
+row 1 address wrong type, both logs, --expect differ: exit 1
+row 1 address wrong type, candidate only, --expect identical: exit 1
+row 1 address wrong type, candidate only, --expect differ: exit 0
+row 1 raw_bytes removed, both logs, --expect identical: exit 0
+row 1 raw_bytes removed, both logs, --expect differ: exit 1
+row 1 raw_bytes removed, candidate only, --expect identical: exit 1
+row 1 raw_bytes removed, candidate only, --expect differ: exit 0
+row 1 raw_bytes null, both logs, --expect identical: exit 0
+row 1 raw_bytes null, both logs, --expect differ: exit 1
+row 1 raw_bytes null, candidate only, --expect identical: exit 1
+row 1 raw_bytes null, candidate only, --expect differ: exit 0
+row 1 raw_bytes wrong type, both logs, --expect identical: exit 0
+row 1 raw_bytes wrong type, both logs, --expect differ: exit 1
+row 1 raw_bytes wrong type, candidate only, --expect identical: exit 1
+row 1 raw_bytes wrong type, candidate only, --expect differ: exit 0
+row 1 label changed, both logs, --expect identical: exit 0
+row 1 label changed, both logs, --expect differ: exit 1
+row 1 label changed, candidate only, --expect identical: exit 1
+row 1 label changed, candidate only, --expect differ: exit 0
+row 1 address changed, both logs, --expect identical: exit 0
+row 1 address changed, both logs, --expect differ: exit 1
+row 1 address changed, candidate only, --expect identical: exit 1
+row 1 address changed, candidate only, --expect differ: exit 0
+row 1 extra key, both logs, --expect identical: exit 0
+row 1 extra key, both logs, --expect differ: exit 1
+row 1 extra key, candidate only, --expect identical: exit 1
+row 1 extra key, candidate only, --expect differ: exit 0
+row 1 other value key, both logs, --expect identical: exit 0
+row 1 other value key, both logs, --expect differ: exit 1
+row 1 other value key, candidate only, --expect identical: exit 1
+row 1 other value key, candidate only, --expect differ: exit 0
+row 1 raw_bytes one, both logs, --expect identical: exit 0
+row 1 raw_bytes one, both logs, --expect differ: exit 1
+row 1 raw_bytes one, candidate only, --expect identical: exit 1
+row 1 raw_bytes one, candidate only, --expect differ: exit 0
+row 1 raw_bytes three, both logs, --expect identical: exit 0
+row 1 raw_bytes three, both logs, --expect differ: exit 1
+row 1 raw_bytes three, candidate only, --expect identical: exit 1
+row 1 raw_bytes three, candidate only, --expect differ: exit 0
+row 1 raw_bytes a null, both logs, --expect identical: exit 0
+row 1 raw_bytes a null, both logs, --expect differ: exit 1
+row 1 raw_bytes a null, candidate only, --expect identical: exit 1
+row 1 raw_bytes a null, candidate only, --expect differ: exit 0
+row 1 raw_bytes a string, both logs, --expect identical: exit 0
+row 1 raw_bytes a string, both logs, --expect differ: exit 1
+row 1 raw_bytes a string, candidate only, --expect identical: exit 1
+row 1 raw_bytes a string, candidate only, --expect differ: exit 0
+row 1 raw_bytes negative, both logs, --expect identical: exit 0
+row 1 raw_bytes negative, both logs, --expect differ: exit 1
+row 1 raw_bytes negative, candidate only, --expect identical: exit 1
+row 1 raw_bytes negative, candidate only, --expect differ: exit 0
+row 1 raw_bytes too big, both logs, --expect identical: exit 0
+row 1 raw_bytes too big, both logs, --expect differ: exit 1
+row 1 raw_bytes too big, candidate only, --expect identical: exit 1
+row 1 raw_bytes too big, candidate only, --expect differ: exit 0
+row 1 raw_bytes a boolean, both logs, --expect identical: exit 0
+row 1 raw_bytes a boolean, both logs, --expect differ: exit 1
+row 1 raw_bytes a boolean, candidate only, --expect identical: exit 1
+row 1 raw_bytes a boolean, candidate only, --expect differ: exit 0
+row 1 raw_bytes a float, both logs, --expect identical: exit 0
+row 1 raw_bytes a float, both logs, --expect differ: exit 1
+row 1 raw_bytes a float, candidate only, --expect identical: exit 1
+row 1 raw_bytes a float, candidate only, --expect differ: exit 0
+row 2 null, both logs, --expect identical: exit 0
+row 2 null, both logs, --expect differ: exit 1
+row 2 null, candidate only, --expect identical: exit 1
+row 2 null, candidate only, --expect differ: exit 0
+row 2 a list, both logs, --expect identical: exit 0
+row 2 a list, both logs, --expect differ: exit 1
+row 2 a list, candidate only, --expect identical: exit 1
+row 2 a list, candidate only, --expect differ: exit 0
+row 2 empty, both logs, --expect identical: exit 0
+row 2 empty, both logs, --expect differ: exit 1
+row 2 empty, candidate only, --expect identical: exit 1
+row 2 empty, candidate only, --expect differ: exit 0
+row 2 row_label removed, both logs, --expect identical: exit 0
+row 2 row_label removed, both logs, --expect differ: exit 1
+row 2 row_label removed, candidate only, --expect identical: exit 1
+row 2 row_label removed, candidate only, --expect differ: exit 0
+row 2 row_label null, both logs, --expect identical: exit 0
+row 2 row_label null, both logs, --expect differ: exit 1
+row 2 row_label null, candidate only, --expect identical: exit 1
+row 2 row_label null, candidate only, --expect differ: exit 0
+row 2 row_label wrong type, both logs, --expect identical: exit 0
+row 2 row_label wrong type, both logs, --expect differ: exit 1
+row 2 row_label wrong type, candidate only, --expect identical: exit 1
+row 2 row_label wrong type, candidate only, --expect differ: exit 0
+row 2 address removed, both logs, --expect identical: exit 0
+row 2 address removed, both logs, --expect differ: exit 1
+row 2 address removed, candidate only, --expect identical: exit 1
+row 2 address removed, candidate only, --expect differ: exit 0
+row 2 address null, both logs, --expect identical: exit 0
+row 2 address null, both logs, --expect differ: exit 1
+row 2 address null, candidate only, --expect identical: exit 1
+row 2 address null, candidate only, --expect differ: exit 0
+row 2 address wrong type, both logs, --expect identical: exit 0
+row 2 address wrong type, both logs, --expect differ: exit 1
+row 2 address wrong type, candidate only, --expect identical: exit 1
+row 2 address wrong type, candidate only, --expect differ: exit 0
+row 2 raw_bytes removed, both logs, --expect identical: exit 0
+row 2 raw_bytes removed, both logs, --expect differ: exit 1
+row 2 raw_bytes removed, candidate only, --expect identical: exit 1
+row 2 raw_bytes removed, candidate only, --expect differ: exit 0
+row 2 raw_bytes null, both logs, --expect identical: exit 0
+row 2 raw_bytes null, both logs, --expect differ: exit 1
+row 2 raw_bytes null, candidate only, --expect identical: exit 1
+row 2 raw_bytes null, candidate only, --expect differ: exit 0
+row 2 raw_bytes wrong type, both logs, --expect identical: exit 0
+row 2 raw_bytes wrong type, both logs, --expect differ: exit 1
+row 2 raw_bytes wrong type, candidate only, --expect identical: exit 1
+row 2 raw_bytes wrong type, candidate only, --expect differ: exit 0
+row 2 label changed, both logs, --expect identical: exit 0
+row 2 label changed, both logs, --expect differ: exit 1
+row 2 label changed, candidate only, --expect identical: exit 1
+row 2 label changed, candidate only, --expect differ: exit 0
+row 2 address changed, both logs, --expect identical: exit 0
+row 2 address changed, both logs, --expect differ: exit 1
+row 2 address changed, candidate only, --expect identical: exit 1
+row 2 address changed, candidate only, --expect differ: exit 0
+row 2 extra key, both logs, --expect identical: exit 0
+row 2 extra key, both logs, --expect differ: exit 1
+row 2 extra key, candidate only, --expect identical: exit 1
+row 2 extra key, candidate only, --expect differ: exit 0
+row 2 other value key, both logs, --expect identical: exit 0
+row 2 other value key, both logs, --expect differ: exit 1
+row 2 other value key, candidate only, --expect identical: exit 1
+row 2 other value key, candidate only, --expect differ: exit 0
+row 2 raw_bytes one, both logs, --expect identical: exit 0
+row 2 raw_bytes one, both logs, --expect differ: exit 1
+row 2 raw_bytes one, candidate only, --expect identical: exit 1
+row 2 raw_bytes one, candidate only, --expect differ: exit 0
+row 2 raw_bytes three, both logs, --expect identical: exit 0
+row 2 raw_bytes three, both logs, --expect differ: exit 1
+row 2 raw_bytes three, candidate only, --expect identical: exit 1
+row 2 raw_bytes three, candidate only, --expect differ: exit 0
+row 2 raw_bytes a null, both logs, --expect identical: exit 0
+row 2 raw_bytes a null, both logs, --expect differ: exit 1
+row 2 raw_bytes a null, candidate only, --expect identical: exit 1
+row 2 raw_bytes a null, candidate only, --expect differ: exit 0
+row 2 raw_bytes a string, both logs, --expect identical: exit 0
+row 2 raw_bytes a string, both logs, --expect differ: exit 1
+row 2 raw_bytes a string, candidate only, --expect identical: exit 1
+row 2 raw_bytes a string, candidate only, --expect differ: exit 0
+row 2 raw_bytes negative, both logs, --expect identical: exit 0
+row 2 raw_bytes negative, both logs, --expect differ: exit 1
+row 2 raw_bytes negative, candidate only, --expect identical: exit 1
+row 2 raw_bytes negative, candidate only, --expect differ: exit 0
+row 2 raw_bytes too big, both logs, --expect identical: exit 0
+row 2 raw_bytes too big, both logs, --expect differ: exit 1
+row 2 raw_bytes too big, candidate only, --expect identical: exit 1
+row 2 raw_bytes too big, candidate only, --expect differ: exit 0
+row 2 raw_bytes a boolean, both logs, --expect identical: exit 0
+row 2 raw_bytes a boolean, both logs, --expect differ: exit 1
+row 2 raw_bytes a boolean, candidate only, --expect identical: exit 1
+row 2 raw_bytes a boolean, candidate only, --expect differ: exit 0
+row 2 raw_bytes a float, both logs, --expect identical: exit 0
+row 2 raw_bytes a float, both logs, --expect differ: exit 1
+row 2 raw_bytes a float, candidate only, --expect identical: exit 1
+row 2 raw_bytes a float, candidate only, --expect differ: exit 0
+row 3 null, both logs, --expect identical: exit 0
+row 3 null, both logs, --expect differ: exit 1
+row 3 null, candidate only, --expect identical: exit 1
+row 3 null, candidate only, --expect differ: exit 0
+row 3 a list, both logs, --expect identical: exit 0
+row 3 a list, both logs, --expect differ: exit 1
+row 3 a list, candidate only, --expect identical: exit 1
+row 3 a list, candidate only, --expect differ: exit 0
+row 3 empty, both logs, --expect identical: exit 0
+row 3 empty, both logs, --expect differ: exit 1
+row 3 empty, candidate only, --expect identical: exit 1
+row 3 empty, candidate only, --expect differ: exit 0
+row 3 row_label removed, both logs, --expect identical: exit 0
+row 3 row_label removed, both logs, --expect differ: exit 1
+row 3 row_label removed, candidate only, --expect identical: exit 1
+row 3 row_label removed, candidate only, --expect differ: exit 0
+row 3 row_label null, both logs, --expect identical: exit 0
+row 3 row_label null, both logs, --expect differ: exit 1
+row 3 row_label null, candidate only, --expect identical: exit 1
+row 3 row_label null, candidate only, --expect differ: exit 0
+row 3 row_label wrong type, both logs, --expect identical: exit 0
+row 3 row_label wrong type, both logs, --expect differ: exit 1
+row 3 row_label wrong type, candidate only, --expect identical: exit 1
+row 3 row_label wrong type, candidate only, --expect differ: exit 0
+row 3 address removed, both logs, --expect identical: exit 0
+row 3 address removed, both logs, --expect differ: exit 1
+row 3 address removed, candidate only, --expect identical: exit 1
+row 3 address removed, candidate only, --expect differ: exit 0
+row 3 address null, both logs, --expect identical: exit 0
+row 3 address null, both logs, --expect differ: exit 1
+row 3 address null, candidate only, --expect identical: exit 1
+row 3 address null, candidate only, --expect differ: exit 0
+row 3 address wrong type, both logs, --expect identical: exit 0
+row 3 address wrong type, both logs, --expect differ: exit 1
+row 3 address wrong type, candidate only, --expect identical: exit 1
+row 3 address wrong type, candidate only, --expect differ: exit 0
+row 3 raw_bytes removed, both logs, --expect identical: exit 0
+row 3 raw_bytes removed, both logs, --expect differ: exit 1
+row 3 raw_bytes removed, candidate only, --expect identical: exit 1
+row 3 raw_bytes removed, candidate only, --expect differ: exit 0
+row 3 raw_bytes null, both logs, --expect identical: exit 0
+row 3 raw_bytes null, both logs, --expect differ: exit 1
+row 3 raw_bytes null, candidate only, --expect identical: exit 1
+row 3 raw_bytes null, candidate only, --expect differ: exit 0
+row 3 raw_bytes wrong type, both logs, --expect identical: exit 0
+row 3 raw_bytes wrong type, both logs, --expect differ: exit 1
+row 3 raw_bytes wrong type, candidate only, --expect identical: exit 1
+row 3 raw_bytes wrong type, candidate only, --expect differ: exit 0
+row 3 label changed, both logs, --expect identical: exit 0
+row 3 label changed, both logs, --expect differ: exit 1
+row 3 label changed, candidate only, --expect identical: exit 1
+row 3 label changed, candidate only, --expect differ: exit 0
+row 3 address changed, both logs, --expect identical: exit 0
+row 3 address changed, both logs, --expect differ: exit 1
+row 3 address changed, candidate only, --expect identical: exit 1
+row 3 address changed, candidate only, --expect differ: exit 0
+row 3 extra key, both logs, --expect identical: exit 0
+row 3 extra key, both logs, --expect differ: exit 1
+row 3 extra key, candidate only, --expect identical: exit 1
+row 3 extra key, candidate only, --expect differ: exit 0
+row 3 other value key, both logs, --expect identical: exit 0
+row 3 other value key, both logs, --expect differ: exit 1
+row 3 other value key, candidate only, --expect identical: exit 1
+row 3 other value key, candidate only, --expect differ: exit 0
+row 3 raw_bytes one, both logs, --expect identical: exit 0
+row 3 raw_bytes one, both logs, --expect differ: exit 1
+row 3 raw_bytes one, candidate only, --expect identical: exit 1
+row 3 raw_bytes one, candidate only, --expect differ: exit 0
+row 3 raw_bytes three, both logs, --expect identical: exit 0
+row 3 raw_bytes three, both logs, --expect differ: exit 1
+row 3 raw_bytes three, candidate only, --expect identical: exit 1
+row 3 raw_bytes three, candidate only, --expect differ: exit 0
+row 3 raw_bytes a null, both logs, --expect identical: exit 0
+row 3 raw_bytes a null, both logs, --expect differ: exit 1
+row 3 raw_bytes a null, candidate only, --expect identical: exit 1
+row 3 raw_bytes a null, candidate only, --expect differ: exit 0
+row 3 raw_bytes a string, both logs, --expect identical: exit 0
+row 3 raw_bytes a string, both logs, --expect differ: exit 1
+row 3 raw_bytes a string, candidate only, --expect identical: exit 1
+row 3 raw_bytes a string, candidate only, --expect differ: exit 0
+row 3 raw_bytes negative, both logs, --expect identical: exit 0
+row 3 raw_bytes negative, both logs, --expect differ: exit 1
+row 3 raw_bytes negative, candidate only, --expect identical: exit 1
+row 3 raw_bytes negative, candidate only, --expect differ: exit 0
+row 3 raw_bytes too big, both logs, --expect identical: exit 0
+row 3 raw_bytes too big, both logs, --expect differ: exit 1
+row 3 raw_bytes too big, candidate only, --expect identical: exit 1
+row 3 raw_bytes too big, candidate only, --expect differ: exit 0
+row 3 raw_bytes a boolean, both logs, --expect identical: exit 0
+row 3 raw_bytes a boolean, both logs, --expect differ: exit 1
+row 3 raw_bytes a boolean, candidate only, --expect identical: exit 1
+row 3 raw_bytes a boolean, candidate only, --expect differ: exit 0
+row 3 raw_bytes a float, both logs, --expect identical: exit 0
+row 3 raw_bytes a float, both logs, --expect differ: exit 1
+row 3 raw_bytes a float, candidate only, --expect identical: exit 1
+row 3 raw_bytes a float, candidate only, --expect differ: exit 0
+row 4 null, both logs, --expect identical: exit 0
+row 4 null, both logs, --expect differ: exit 1
+row 4 null, candidate only, --expect identical: exit 1
+row 4 null, candidate only, --expect differ: exit 0
+row 4 a list, both logs, --expect identical: exit 0
+row 4 a list, both logs, --expect differ: exit 1
+row 4 a list, candidate only, --expect identical: exit 1
+row 4 a list, candidate only, --expect differ: exit 0
+row 4 empty, both logs, --expect identical: exit 0
+row 4 empty, both logs, --expect differ: exit 1
+row 4 empty, candidate only, --expect identical: exit 1
+row 4 empty, candidate only, --expect differ: exit 0
+row 4 row_label removed, both logs, --expect identical: exit 0
+row 4 row_label removed, both logs, --expect differ: exit 1
+row 4 row_label removed, candidate only, --expect identical: exit 1
+row 4 row_label removed, candidate only, --expect differ: exit 0
+row 4 row_label null, both logs, --expect identical: exit 0
+row 4 row_label null, both logs, --expect differ: exit 1
+row 4 row_label null, candidate only, --expect identical: exit 1
+row 4 row_label null, candidate only, --expect differ: exit 0
+row 4 row_label wrong type, both logs, --expect identical: exit 0
+row 4 row_label wrong type, both logs, --expect differ: exit 1
+row 4 row_label wrong type, candidate only, --expect identical: exit 1
+row 4 row_label wrong type, candidate only, --expect differ: exit 0
+row 4 address removed, both logs, --expect identical: exit 0
+row 4 address removed, both logs, --expect differ: exit 1
+row 4 address removed, candidate only, --expect identical: exit 1
+row 4 address removed, candidate only, --expect differ: exit 0
+row 4 address null, both logs, --expect identical: exit 0
+row 4 address null, both logs, --expect differ: exit 1
+row 4 address null, candidate only, --expect identical: exit 1
+row 4 address null, candidate only, --expect differ: exit 0
+row 4 address wrong type, both logs, --expect identical: exit 0
+row 4 address wrong type, both logs, --expect differ: exit 1
+row 4 address wrong type, candidate only, --expect identical: exit 1
+row 4 address wrong type, candidate only, --expect differ: exit 0
+row 4 raw_bytes removed, both logs, --expect identical: exit 0
+row 4 raw_bytes removed, both logs, --expect differ: exit 1
+row 4 raw_bytes removed, candidate only, --expect identical: exit 1
+row 4 raw_bytes removed, candidate only, --expect differ: exit 0
+row 4 raw_bytes null, both logs, --expect identical: exit 0
+row 4 raw_bytes null, both logs, --expect differ: exit 1
+row 4 raw_bytes null, candidate only, --expect identical: exit 1
+row 4 raw_bytes null, candidate only, --expect differ: exit 0
+row 4 raw_bytes wrong type, both logs, --expect identical: exit 0
+row 4 raw_bytes wrong type, both logs, --expect differ: exit 1
+row 4 raw_bytes wrong type, candidate only, --expect identical: exit 1
+row 4 raw_bytes wrong type, candidate only, --expect differ: exit 0
+row 4 label changed, both logs, --expect identical: exit 0
+row 4 label changed, both logs, --expect differ: exit 1
+row 4 label changed, candidate only, --expect identical: exit 1
+row 4 label changed, candidate only, --expect differ: exit 0
+row 4 address changed, both logs, --expect identical: exit 0
+row 4 address changed, both logs, --expect differ: exit 1
+row 4 address changed, candidate only, --expect identical: exit 1
+row 4 address changed, candidate only, --expect differ: exit 0
+row 4 extra key, both logs, --expect identical: exit 0
+row 4 extra key, both logs, --expect differ: exit 1
+row 4 extra key, candidate only, --expect identical: exit 1
+row 4 extra key, candidate only, --expect differ: exit 0
+row 4 other value key, both logs, --expect identical: exit 0
+row 4 other value key, both logs, --expect differ: exit 1
+row 4 other value key, candidate only, --expect identical: exit 1
+row 4 other value key, candidate only, --expect differ: exit 0
+row 4 raw_bytes one, both logs, --expect identical: exit 0
+row 4 raw_bytes one, both logs, --expect differ: exit 1
+row 4 raw_bytes one, candidate only, --expect identical: exit 1
+row 4 raw_bytes one, candidate only, --expect differ: exit 0
+row 4 raw_bytes three, both logs, --expect identical: exit 0
+row 4 raw_bytes three, both logs, --expect differ: exit 1
+row 4 raw_bytes three, candidate only, --expect identical: exit 1
+row 4 raw_bytes three, candidate only, --expect differ: exit 0
+row 4 raw_bytes a null, both logs, --expect identical: exit 0
+row 4 raw_bytes a null, both logs, --expect differ: exit 1
+row 4 raw_bytes a null, candidate only, --expect identical: exit 1
+row 4 raw_bytes a null, candidate only, --expect differ: exit 0
+row 4 raw_bytes a string, both logs, --expect identical: exit 0
+row 4 raw_bytes a string, both logs, --expect differ: exit 1
+row 4 raw_bytes a string, candidate only, --expect identical: exit 1
+row 4 raw_bytes a string, candidate only, --expect differ: exit 0
+row 4 raw_bytes negative, both logs, --expect identical: exit 0
+row 4 raw_bytes negative, both logs, --expect differ: exit 1
+row 4 raw_bytes negative, candidate only, --expect identical: exit 1
+row 4 raw_bytes negative, candidate only, --expect differ: exit 0
+row 4 raw_bytes too big, both logs, --expect identical: exit 0
+row 4 raw_bytes too big, both logs, --expect differ: exit 1
+row 4 raw_bytes too big, candidate only, --expect identical: exit 1
+row 4 raw_bytes too big, candidate only, --expect differ: exit 0
+row 4 raw_bytes a boolean, both logs, --expect identical: exit 0
+row 4 raw_bytes a boolean, both logs, --expect differ: exit 1
+row 4 raw_bytes a boolean, candidate only, --expect identical: exit 1
+row 4 raw_bytes a boolean, candidate only, --expect differ: exit 0
+row 4 raw_bytes a float, both logs, --expect identical: exit 0
+row 4 raw_bytes a float, both logs, --expect differ: exit 1
+row 4 raw_bytes a float, candidate only, --expect identical: exit 1
+row 4 raw_bytes a float, candidate only, --expect differ: exit 0
+row 5 null, both logs, --expect identical: exit 0
+row 5 null, both logs, --expect differ: exit 1
+row 5 null, candidate only, --expect identical: exit 1
+row 5 null, candidate only, --expect differ: exit 0
+row 5 a list, both logs, --expect identical: exit 0
+row 5 a list, both logs, --expect differ: exit 1
+row 5 a list, candidate only, --expect identical: exit 1
+row 5 a list, candidate only, --expect differ: exit 0
+row 5 empty, both logs, --expect identical: exit 0
+row 5 empty, both logs, --expect differ: exit 1
+row 5 empty, candidate only, --expect identical: exit 1
+row 5 empty, candidate only, --expect differ: exit 0
+row 5 row_label removed, both logs, --expect identical: exit 0
+row 5 row_label removed, both logs, --expect differ: exit 1
+row 5 row_label removed, candidate only, --expect identical: exit 1
+row 5 row_label removed, candidate only, --expect differ: exit 0
+row 5 row_label null, both logs, --expect identical: exit 0
+row 5 row_label null, both logs, --expect differ: exit 1
+row 5 row_label null, candidate only, --expect identical: exit 1
+row 5 row_label null, candidate only, --expect differ: exit 0
+row 5 row_label wrong type, both logs, --expect identical: exit 0
+row 5 row_label wrong type, both logs, --expect differ: exit 1
+row 5 row_label wrong type, candidate only, --expect identical: exit 1
+row 5 row_label wrong type, candidate only, --expect differ: exit 0
+row 5 address removed, both logs, --expect identical: exit 0
+row 5 address removed, both logs, --expect differ: exit 1
+row 5 address removed, candidate only, --expect identical: exit 1
+row 5 address removed, candidate only, --expect differ: exit 0
+row 5 address null, both logs, --expect identical: exit 0
+row 5 address null, both logs, --expect differ: exit 1
+row 5 address null, candidate only, --expect identical: exit 1
+row 5 address null, candidate only, --expect differ: exit 0
+row 5 address wrong type, both logs, --expect identical: exit 0
+row 5 address wrong type, both logs, --expect differ: exit 1
+row 5 address wrong type, candidate only, --expect identical: exit 1
+row 5 address wrong type, candidate only, --expect differ: exit 0
+row 5 raw_bytes removed, both logs, --expect identical: exit 0
+row 5 raw_bytes removed, both logs, --expect differ: exit 1
+row 5 raw_bytes removed, candidate only, --expect identical: exit 1
+row 5 raw_bytes removed, candidate only, --expect differ: exit 0
+row 5 raw_bytes null, both logs, --expect identical: exit 0
+row 5 raw_bytes null, both logs, --expect differ: exit 1
+row 5 raw_bytes null, candidate only, --expect identical: exit 1
+row 5 raw_bytes null, candidate only, --expect differ: exit 0
+row 5 raw_bytes wrong type, both logs, --expect identical: exit 0
+row 5 raw_bytes wrong type, both logs, --expect differ: exit 1
+row 5 raw_bytes wrong type, candidate only, --expect identical: exit 1
+row 5 raw_bytes wrong type, candidate only, --expect differ: exit 0
+row 5 label changed, both logs, --expect identical: exit 0
+row 5 label changed, both logs, --expect differ: exit 1
+row 5 label changed, candidate only, --expect identical: exit 1
+row 5 label changed, candidate only, --expect differ: exit 0
+row 5 address changed, both logs, --expect identical: exit 0
+row 5 address changed, both logs, --expect differ: exit 1
+row 5 address changed, candidate only, --expect identical: exit 1
+row 5 address changed, candidate only, --expect differ: exit 0
+row 5 extra key, both logs, --expect identical: exit 0
+row 5 extra key, both logs, --expect differ: exit 1
+row 5 extra key, candidate only, --expect identical: exit 1
+row 5 extra key, candidate only, --expect differ: exit 0
+row 5 other value key, both logs, --expect identical: exit 0
+row 5 other value key, both logs, --expect differ: exit 1
+row 5 other value key, candidate only, --expect identical: exit 1
+row 5 other value key, candidate only, --expect differ: exit 0
+row 5 raw_bytes one, both logs, --expect identical: exit 0
+row 5 raw_bytes one, both logs, --expect differ: exit 1
+row 5 raw_bytes one, candidate only, --expect identical: exit 1
+row 5 raw_bytes one, candidate only, --expect differ: exit 0
+row 5 raw_bytes three, both logs, --expect identical: exit 0
+row 5 raw_bytes three, both logs, --expect differ: exit 1
+row 5 raw_bytes three, candidate only, --expect identical: exit 1
+row 5 raw_bytes three, candidate only, --expect differ: exit 0
+row 5 raw_bytes a null, both logs, --expect identical: exit 0
+row 5 raw_bytes a null, both logs, --expect differ: exit 1
+row 5 raw_bytes a null, candidate only, --expect identical: exit 1
+row 5 raw_bytes a null, candidate only, --expect differ: exit 0
+row 5 raw_bytes a string, both logs, --expect identical: exit 0
+row 5 raw_bytes a string, both logs, --expect differ: exit 1
+row 5 raw_bytes a string, candidate only, --expect identical: exit 1
+row 5 raw_bytes a string, candidate only, --expect differ: exit 0
+row 5 raw_bytes negative, both logs, --expect identical: exit 0
+row 5 raw_bytes negative, both logs, --expect differ: exit 1
+row 5 raw_bytes negative, candidate only, --expect identical: exit 1
+row 5 raw_bytes negative, candidate only, --expect differ: exit 0
+row 5 raw_bytes too big, both logs, --expect identical: exit 0
+row 5 raw_bytes too big, both logs, --expect differ: exit 1
+row 5 raw_bytes too big, candidate only, --expect identical: exit 1
+row 5 raw_bytes too big, candidate only, --expect differ: exit 0
+row 5 raw_bytes a boolean, both logs, --expect identical: exit 0
+row 5 raw_bytes a boolean, both logs, --expect differ: exit 1
+row 5 raw_bytes a boolean, candidate only, --expect identical: exit 1
+row 5 raw_bytes a boolean, candidate only, --expect differ: exit 0
+row 5 raw_bytes a float, both logs, --expect identical: exit 0
+row 5 raw_bytes a float, both logs, --expect differ: exit 1
+row 5 raw_bytes a float, candidate only, --expect identical: exit 1
+row 5 raw_bytes a float, candidate only, --expect differ: exit 0
+row 6 null, both logs, --expect identical: exit 0
+row 6 null, both logs, --expect differ: exit 1
+row 6 null, candidate only, --expect identical: exit 1
+row 6 null, candidate only, --expect differ: exit 0
+row 6 a list, both logs, --expect identical: exit 0
+row 6 a list, both logs, --expect differ: exit 1
+row 6 a list, candidate only, --expect identical: exit 1
+row 6 a list, candidate only, --expect differ: exit 0
+row 6 empty, both logs, --expect identical: exit 0
+row 6 empty, both logs, --expect differ: exit 1
+row 6 empty, candidate only, --expect identical: exit 1
+row 6 empty, candidate only, --expect differ: exit 0
+row 6 row_label removed, both logs, --expect identical: exit 0
+row 6 row_label removed, both logs, --expect differ: exit 1
+row 6 row_label removed, candidate only, --expect identical: exit 1
+row 6 row_label removed, candidate only, --expect differ: exit 0
+row 6 row_label null, both logs, --expect identical: exit 0
+row 6 row_label null, both logs, --expect differ: exit 1
+row 6 row_label null, candidate only, --expect identical: exit 1
+row 6 row_label null, candidate only, --expect differ: exit 0
+row 6 row_label wrong type, both logs, --expect identical: exit 0
+row 6 row_label wrong type, both logs, --expect differ: exit 1
+row 6 row_label wrong type, candidate only, --expect identical: exit 1
+row 6 row_label wrong type, candidate only, --expect differ: exit 0
+row 6 address removed, both logs, --expect identical: exit 0
+row 6 address removed, both logs, --expect differ: exit 1
+row 6 address removed, candidate only, --expect identical: exit 1
+row 6 address removed, candidate only, --expect differ: exit 0
+row 6 address null, both logs, --expect identical: exit 0
+row 6 address null, both logs, --expect differ: exit 1
+row 6 address null, candidate only, --expect identical: exit 1
+row 6 address null, candidate only, --expect differ: exit 0
+row 6 address wrong type, both logs, --expect identical: exit 0
+row 6 address wrong type, both logs, --expect differ: exit 1
+row 6 address wrong type, candidate only, --expect identical: exit 1
+row 6 address wrong type, candidate only, --expect differ: exit 0
+row 6 raw_bytes removed, both logs, --expect identical: exit 0
+row 6 raw_bytes removed, both logs, --expect differ: exit 1
+row 6 raw_bytes removed, candidate only, --expect identical: exit 1
+row 6 raw_bytes removed, candidate only, --expect differ: exit 0
+row 6 raw_bytes null, both logs, --expect identical: exit 0
+row 6 raw_bytes null, both logs, --expect differ: exit 1
+row 6 raw_bytes null, candidate only, --expect identical: exit 1
+row 6 raw_bytes null, candidate only, --expect differ: exit 0
+row 6 raw_bytes wrong type, both logs, --expect identical: exit 0
+row 6 raw_bytes wrong type, both logs, --expect differ: exit 1
+row 6 raw_bytes wrong type, candidate only, --expect identical: exit 1
+row 6 raw_bytes wrong type, candidate only, --expect differ: exit 0
+row 6 label changed, both logs, --expect identical: exit 0
+row 6 label changed, both logs, --expect differ: exit 1
+row 6 label changed, candidate only, --expect identical: exit 1
+row 6 label changed, candidate only, --expect differ: exit 0
+row 6 address changed, both logs, --expect identical: exit 0
+row 6 address changed, both logs, --expect differ: exit 1
+row 6 address changed, candidate only, --expect identical: exit 1
+row 6 address changed, candidate only, --expect differ: exit 0
+row 6 extra key, both logs, --expect identical: exit 0
+row 6 extra key, both logs, --expect differ: exit 1
+row 6 extra key, candidate only, --expect identical: exit 1
+row 6 extra key, candidate only, --expect differ: exit 0
+row 6 other value key, both logs, --expect identical: exit 0
+row 6 other value key, both logs, --expect differ: exit 1
+row 6 other value key, candidate only, --expect identical: exit 1
+row 6 other value key, candidate only, --expect differ: exit 0
+row 6 raw_bytes one, both logs, --expect identical: exit 0
+row 6 raw_bytes one, both logs, --expect differ: exit 1
+row 6 raw_bytes one, candidate only, --expect identical: exit 1
+row 6 raw_bytes one, candidate only, --expect differ: exit 0
+row 6 raw_bytes three, both logs, --expect identical: exit 0
+row 6 raw_bytes three, both logs, --expect differ: exit 1
+row 6 raw_bytes three, candidate only, --expect identical: exit 1
+row 6 raw_bytes three, candidate only, --expect differ: exit 0
+row 6 raw_bytes a null, both logs, --expect identical: exit 0
+row 6 raw_bytes a null, both logs, --expect differ: exit 1
+row 6 raw_bytes a null, candidate only, --expect identical: exit 1
+row 6 raw_bytes a null, candidate only, --expect differ: exit 0
+row 6 raw_bytes a string, both logs, --expect identical: exit 0
+row 6 raw_bytes a string, both logs, --expect differ: exit 1
+row 6 raw_bytes a string, candidate only, --expect identical: exit 1
+row 6 raw_bytes a string, candidate only, --expect differ: exit 0
+row 6 raw_bytes negative, both logs, --expect identical: exit 0
+row 6 raw_bytes negative, both logs, --expect differ: exit 1
+row 6 raw_bytes negative, candidate only, --expect identical: exit 1
+row 6 raw_bytes negative, candidate only, --expect differ: exit 0
+row 6 raw_bytes too big, both logs, --expect identical: exit 0
+row 6 raw_bytes too big, both logs, --expect differ: exit 1
+row 6 raw_bytes too big, candidate only, --expect identical: exit 1
+row 6 raw_bytes too big, candidate only, --expect differ: exit 0
+row 6 raw_bytes a boolean, both logs, --expect identical: exit 0
+row 6 raw_bytes a boolean, both logs, --expect differ: exit 1
+row 6 raw_bytes a boolean, candidate only, --expect identical: exit 1
+row 6 raw_bytes a boolean, candidate only, --expect differ: exit 0
+row 6 raw_bytes a float, both logs, --expect identical: exit 0
+row 6 raw_bytes a float, both logs, --expect differ: exit 1
+row 6 raw_bytes a float, candidate only, --expect identical: exit 1
+row 6 raw_bytes a float, candidate only, --expect differ: exit 0
+row 7 null, both logs, --expect identical: exit 0
+row 7 null, both logs, --expect differ: exit 1
+row 7 null, candidate only, --expect identical: exit 1
+row 7 null, candidate only, --expect differ: exit 0
+row 7 a list, both logs, --expect identical: exit 0
+row 7 a list, both logs, --expect differ: exit 1
+row 7 a list, candidate only, --expect identical: exit 1
+row 7 a list, candidate only, --expect differ: exit 0
+row 7 empty, both logs, --expect identical: exit 0
+row 7 empty, both logs, --expect differ: exit 1
+row 7 empty, candidate only, --expect identical: exit 1
+row 7 empty, candidate only, --expect differ: exit 0
+row 7 row_label removed, both logs, --expect identical: exit 0
+row 7 row_label removed, both logs, --expect differ: exit 1
+row 7 row_label removed, candidate only, --expect identical: exit 1
+row 7 row_label removed, candidate only, --expect differ: exit 0
+row 7 row_label null, both logs, --expect identical: exit 0
+row 7 row_label null, both logs, --expect differ: exit 1
+row 7 row_label null, candidate only, --expect identical: exit 1
+row 7 row_label null, candidate only, --expect differ: exit 0
+row 7 row_label wrong type, both logs, --expect identical: exit 0
+row 7 row_label wrong type, both logs, --expect differ: exit 1
+row 7 row_label wrong type, candidate only, --expect identical: exit 1
+row 7 row_label wrong type, candidate only, --expect differ: exit 0
+row 7 address removed, both logs, --expect identical: exit 0
+row 7 address removed, both logs, --expect differ: exit 1
+row 7 address removed, candidate only, --expect identical: exit 1
+row 7 address removed, candidate only, --expect differ: exit 0
+row 7 address null, both logs, --expect identical: exit 0
+row 7 address null, both logs, --expect differ: exit 1
+row 7 address null, candidate only, --expect identical: exit 1
+row 7 address null, candidate only, --expect differ: exit 0
+row 7 address wrong type, both logs, --expect identical: exit 0
+row 7 address wrong type, both logs, --expect differ: exit 1
+row 7 address wrong type, candidate only, --expect identical: exit 1
+row 7 address wrong type, candidate only, --expect differ: exit 0
+row 7 raw_bytes removed, both logs, --expect identical: exit 0
+row 7 raw_bytes removed, both logs, --expect differ: exit 1
+row 7 raw_bytes removed, candidate only, --expect identical: exit 1
+row 7 raw_bytes removed, candidate only, --expect differ: exit 0
+row 7 raw_bytes null, both logs, --expect identical: exit 0
+row 7 raw_bytes null, both logs, --expect differ: exit 1
+row 7 raw_bytes null, candidate only, --expect identical: exit 1
+row 7 raw_bytes null, candidate only, --expect differ: exit 0
+row 7 raw_bytes wrong type, both logs, --expect identical: exit 0
+row 7 raw_bytes wrong type, both logs, --expect differ: exit 1
+row 7 raw_bytes wrong type, candidate only, --expect identical: exit 1
+row 7 raw_bytes wrong type, candidate only, --expect differ: exit 0
+row 7 label changed, both logs, --expect identical: exit 0
+row 7 label changed, both logs, --expect differ: exit 1
+row 7 label changed, candidate only, --expect identical: exit 1
+row 7 label changed, candidate only, --expect differ: exit 0
+row 7 address changed, both logs, --expect identical: exit 0
+row 7 address changed, both logs, --expect differ: exit 1
+row 7 address changed, candidate only, --expect identical: exit 1
+row 7 address changed, candidate only, --expect differ: exit 0
+row 7 extra key, both logs, --expect identical: exit 0
+row 7 extra key, both logs, --expect differ: exit 1
+row 7 extra key, candidate only, --expect identical: exit 1
+row 7 extra key, candidate only, --expect differ: exit 0
+row 7 other value key, both logs, --expect identical: exit 0
+row 7 other value key, both logs, --expect differ: exit 1
+row 7 other value key, candidate only, --expect identical: exit 1
+row 7 other value key, candidate only, --expect differ: exit 0
+row 7 raw_bytes one, both logs, --expect identical: exit 0
+row 7 raw_bytes one, both logs, --expect differ: exit 1
+row 7 raw_bytes one, candidate only, --expect identical: exit 1
+row 7 raw_bytes one, candidate only, --expect differ: exit 0
+row 7 raw_bytes three, both logs, --expect identical: exit 0
+row 7 raw_bytes three, both logs, --expect differ: exit 1
+row 7 raw_bytes three, candidate only, --expect identical: exit 1
+row 7 raw_bytes three, candidate only, --expect differ: exit 0
+row 7 raw_bytes a null, both logs, --expect identical: exit 0
+row 7 raw_bytes a null, both logs, --expect differ: exit 1
+row 7 raw_bytes a null, candidate only, --expect identical: exit 1
+row 7 raw_bytes a null, candidate only, --expect differ: exit 0
+row 7 raw_bytes a string, both logs, --expect identical: exit 0
+row 7 raw_bytes a string, both logs, --expect differ: exit 1
+row 7 raw_bytes a string, candidate only, --expect identical: exit 1
+row 7 raw_bytes a string, candidate only, --expect differ: exit 0
+row 7 raw_bytes negative, both logs, --expect identical: exit 0
+row 7 raw_bytes negative, both logs, --expect differ: exit 1
+row 7 raw_bytes negative, candidate only, --expect identical: exit 1
+row 7 raw_bytes negative, candidate only, --expect differ: exit 0
+row 7 raw_bytes too big, both logs, --expect identical: exit 0
+row 7 raw_bytes too big, both logs, --expect differ: exit 1
+row 7 raw_bytes too big, candidate only, --expect identical: exit 1
+row 7 raw_bytes too big, candidate only, --expect differ: exit 0
+row 7 raw_bytes a boolean, both logs, --expect identical: exit 0
+row 7 raw_bytes a boolean, both logs, --expect differ: exit 1
+row 7 raw_bytes a boolean, candidate only, --expect identical: exit 1
+row 7 raw_bytes a boolean, candidate only, --expect differ: exit 0
+row 7 raw_bytes a float, both logs, --expect identical: exit 0
+row 7 raw_bytes a float, both logs, --expect differ: exit 1
+row 7 raw_bytes a float, candidate only, --expect identical: exit 1
+row 7 raw_bytes a float, candidate only, --expect differ: exit 0
+row 8 null, both logs, --expect identical: exit 0
+row 8 null, both logs, --expect differ: exit 1
+row 8 null, candidate only, --expect identical: exit 1
+row 8 null, candidate only, --expect differ: exit 0
+row 8 a list, both logs, --expect identical: exit 0
+row 8 a list, both logs, --expect differ: exit 1
+row 8 a list, candidate only, --expect identical: exit 1
+row 8 a list, candidate only, --expect differ: exit 0
+row 8 empty, both logs, --expect identical: exit 0
+row 8 empty, both logs, --expect differ: exit 1
+row 8 empty, candidate only, --expect identical: exit 1
+row 8 empty, candidate only, --expect differ: exit 0
+row 8 row_label removed, both logs, --expect identical: exit 0
+row 8 row_label removed, both logs, --expect differ: exit 1
+row 8 row_label removed, candidate only, --expect identical: exit 1
+row 8 row_label removed, candidate only, --expect differ: exit 0
+row 8 row_label null, both logs, --expect identical: exit 0
+row 8 row_label null, both logs, --expect differ: exit 1
+row 8 row_label null, candidate only, --expect identical: exit 1
+row 8 row_label null, candidate only, --expect differ: exit 0
+row 8 row_label wrong type, both logs, --expect identical: exit 0
+row 8 row_label wrong type, both logs, --expect differ: exit 1
+row 8 row_label wrong type, candidate only, --expect identical: exit 1
+row 8 row_label wrong type, candidate only, --expect differ: exit 0
+row 8 address removed, both logs, --expect identical: exit 0
+row 8 address removed, both logs, --expect differ: exit 1
+row 8 address removed, candidate only, --expect identical: exit 1
+row 8 address removed, candidate only, --expect differ: exit 0
+row 8 address null, both logs, --expect identical: exit 0
+row 8 address null, both logs, --expect differ: exit 1
+row 8 address null, candidate only, --expect identical: exit 1
+row 8 address null, candidate only, --expect differ: exit 0
+row 8 address wrong type, both logs, --expect identical: exit 0
+row 8 address wrong type, both logs, --expect differ: exit 1
+row 8 address wrong type, candidate only, --expect identical: exit 1
+row 8 address wrong type, candidate only, --expect differ: exit 0
+row 8 raw_bytes removed, both logs, --expect identical: exit 0
+row 8 raw_bytes removed, both logs, --expect differ: exit 1
+row 8 raw_bytes removed, candidate only, --expect identical: exit 1
+row 8 raw_bytes removed, candidate only, --expect differ: exit 0
+row 8 raw_bytes null, both logs, --expect identical: exit 0
+row 8 raw_bytes null, both logs, --expect differ: exit 1
+row 8 raw_bytes null, candidate only, --expect identical: exit 1
+row 8 raw_bytes null, candidate only, --expect differ: exit 0
+row 8 raw_bytes wrong type, both logs, --expect identical: exit 0
+row 8 raw_bytes wrong type, both logs, --expect differ: exit 1
+row 8 raw_bytes wrong type, candidate only, --expect identical: exit 1
+row 8 raw_bytes wrong type, candidate only, --expect differ: exit 0
+row 8 label changed, both logs, --expect identical: exit 0
+row 8 label changed, both logs, --expect differ: exit 1
+row 8 label changed, candidate only, --expect identical: exit 1
+row 8 label changed, candidate only, --expect differ: exit 0
+row 8 address changed, both logs, --expect identical: exit 0
+row 8 address changed, both logs, --expect differ: exit 1
+row 8 address changed, candidate only, --expect identical: exit 1
+row 8 address changed, candidate only, --expect differ: exit 0
+row 8 extra key, both logs, --expect identical: exit 0
+row 8 extra key, both logs, --expect differ: exit 1
+row 8 extra key, candidate only, --expect identical: exit 1
+row 8 extra key, candidate only, --expect differ: exit 0
+row 8 other value key, both logs, --expect identical: exit 0
+row 8 other value key, both logs, --expect differ: exit 1
+row 8 other value key, candidate only, --expect identical: exit 1
+row 8 other value key, candidate only, --expect differ: exit 0
+row 8 raw_bytes one, both logs, --expect identical: exit 0
+row 8 raw_bytes one, both logs, --expect differ: exit 1
+row 8 raw_bytes one, candidate only, --expect identical: exit 1
+row 8 raw_bytes one, candidate only, --expect differ: exit 0
+row 8 raw_bytes three, both logs, --expect identical: exit 0
+row 8 raw_bytes three, both logs, --expect differ: exit 1
+row 8 raw_bytes three, candidate only, --expect identical: exit 1
+row 8 raw_bytes three, candidate only, --expect differ: exit 0
+row 8 raw_bytes a null, both logs, --expect identical: exit 0
+row 8 raw_bytes a null, both logs, --expect differ: exit 1
+row 8 raw_bytes a null, candidate only, --expect identical: exit 1
+row 8 raw_bytes a null, candidate only, --expect differ: exit 0
+row 8 raw_bytes a string, both logs, --expect identical: exit 0
+row 8 raw_bytes a string, both logs, --expect differ: exit 1
+row 8 raw_bytes a string, candidate only, --expect identical: exit 1
+row 8 raw_bytes a string, candidate only, --expect differ: exit 0
+row 8 raw_bytes negative, both logs, --expect identical: exit 0
+row 8 raw_bytes negative, both logs, --expect differ: exit 1
+row 8 raw_bytes negative, candidate only, --expect identical: exit 1
+row 8 raw_bytes negative, candidate only, --expect differ: exit 0
+row 8 raw_bytes too big, both logs, --expect identical: exit 0
+row 8 raw_bytes too big, both logs, --expect differ: exit 1
+row 8 raw_bytes too big, candidate only, --expect identical: exit 1
+row 8 raw_bytes too big, candidate only, --expect differ: exit 0
+row 8 raw_bytes a boolean, both logs, --expect identical: exit 0
+row 8 raw_bytes a boolean, both logs, --expect differ: exit 1
+row 8 raw_bytes a boolean, candidate only, --expect identical: exit 1
+row 8 raw_bytes a boolean, candidate only, --expect differ: exit 0
+row 8 raw_bytes a float, both logs, --expect identical: exit 0
+row 8 raw_bytes a float, both logs, --expect differ: exit 1
+row 8 raw_bytes a float, candidate only, --expect identical: exit 1
+row 8 raw_bytes a float, candidate only, --expect differ: exit 0
+row 9 null, both logs, --expect identical: exit 0
+row 9 null, both logs, --expect differ: exit 1
+row 9 null, candidate only, --expect identical: exit 1
+row 9 null, candidate only, --expect differ: exit 0
+row 9 a list, both logs, --expect identical: exit 0
+row 9 a list, both logs, --expect differ: exit 1
+row 9 a list, candidate only, --expect identical: exit 1
+row 9 a list, candidate only, --expect differ: exit 0
+row 9 empty, both logs, --expect identical: exit 0
+row 9 empty, both logs, --expect differ: exit 1
+row 9 empty, candidate only, --expect identical: exit 1
+row 9 empty, candidate only, --expect differ: exit 0
+row 9 row_label removed, both logs, --expect identical: exit 0
+row 9 row_label removed, both logs, --expect differ: exit 1
+row 9 row_label removed, candidate only, --expect identical: exit 1
+row 9 row_label removed, candidate only, --expect differ: exit 0
+row 9 row_label null, both logs, --expect identical: exit 0
+row 9 row_label null, both logs, --expect differ: exit 1
+row 9 row_label null, candidate only, --expect identical: exit 1
+row 9 row_label null, candidate only, --expect differ: exit 0
+row 9 row_label wrong type, both logs, --expect identical: exit 0
+row 9 row_label wrong type, both logs, --expect differ: exit 1
+row 9 row_label wrong type, candidate only, --expect identical: exit 1
+row 9 row_label wrong type, candidate only, --expect differ: exit 0
+row 9 address removed, both logs, --expect identical: exit 0
+row 9 address removed, both logs, --expect differ: exit 1
+row 9 address removed, candidate only, --expect identical: exit 1
+row 9 address removed, candidate only, --expect differ: exit 0
+row 9 address null, both logs, --expect identical: exit 0
+row 9 address null, both logs, --expect differ: exit 1
+row 9 address null, candidate only, --expect identical: exit 1
+row 9 address null, candidate only, --expect differ: exit 0
+row 9 address wrong type, both logs, --expect identical: exit 0
+row 9 address wrong type, both logs, --expect differ: exit 1
+row 9 address wrong type, candidate only, --expect identical: exit 1
+row 9 address wrong type, candidate only, --expect differ: exit 0
+row 9 raw_words removed, both logs, --expect identical: exit 0
+row 9 raw_words removed, both logs, --expect differ: exit 1
+row 9 raw_words removed, candidate only, --expect identical: exit 1
+row 9 raw_words removed, candidate only, --expect differ: exit 0
+row 9 raw_words null, both logs, --expect identical: exit 0
+row 9 raw_words null, both logs, --expect differ: exit 1
+row 9 raw_words null, candidate only, --expect identical: exit 1
+row 9 raw_words null, candidate only, --expect differ: exit 0
+row 9 raw_words wrong type, both logs, --expect identical: exit 0
+row 9 raw_words wrong type, both logs, --expect differ: exit 1
+row 9 raw_words wrong type, candidate only, --expect identical: exit 1
+row 9 raw_words wrong type, candidate only, --expect differ: exit 0
+row 9 label changed, both logs, --expect identical: exit 0
+row 9 label changed, both logs, --expect differ: exit 1
+row 9 label changed, candidate only, --expect identical: exit 1
+row 9 label changed, candidate only, --expect differ: exit 0
+row 9 address changed, both logs, --expect identical: exit 0
+row 9 address changed, both logs, --expect differ: exit 1
+row 9 address changed, candidate only, --expect identical: exit 1
+row 9 address changed, candidate only, --expect differ: exit 0
+row 9 extra key, both logs, --expect identical: exit 0
+row 9 extra key, both logs, --expect differ: exit 1
+row 9 extra key, candidate only, --expect identical: exit 1
+row 9 extra key, candidate only, --expect differ: exit 0
+row 9 other value key, both logs, --expect identical: exit 0
+row 9 other value key, both logs, --expect differ: exit 1
+row 9 other value key, candidate only, --expect identical: exit 1
+row 9 other value key, candidate only, --expect differ: exit 0
+row 9 raw_words one, both logs, --expect identical: exit 0
+row 9 raw_words one, both logs, --expect differ: exit 1
+row 9 raw_words one, candidate only, --expect identical: exit 1
+row 9 raw_words one, candidate only, --expect differ: exit 0
+row 9 raw_words three, both logs, --expect identical: exit 0
+row 9 raw_words three, both logs, --expect differ: exit 1
+row 9 raw_words three, candidate only, --expect identical: exit 1
+row 9 raw_words three, candidate only, --expect differ: exit 0
+row 9 raw_words a null, both logs, --expect identical: exit 0
+row 9 raw_words a null, both logs, --expect differ: exit 1
+row 9 raw_words a null, candidate only, --expect identical: exit 1
+row 9 raw_words a null, candidate only, --expect differ: exit 0
+row 9 raw_words a string, both logs, --expect identical: exit 0
+row 9 raw_words a string, both logs, --expect differ: exit 1
+row 9 raw_words a string, candidate only, --expect identical: exit 1
+row 9 raw_words a string, candidate only, --expect differ: exit 0
+row 9 raw_words negative, both logs, --expect identical: exit 0
+row 9 raw_words negative, both logs, --expect differ: exit 1
+row 9 raw_words negative, candidate only, --expect identical: exit 1
+row 9 raw_words negative, candidate only, --expect differ: exit 0
+row 9 raw_words too big, both logs, --expect identical: exit 0
+row 9 raw_words too big, both logs, --expect differ: exit 1
+row 9 raw_words too big, candidate only, --expect identical: exit 1
+row 9 raw_words too big, candidate only, --expect differ: exit 0
+row 9 raw_words a boolean, both logs, --expect identical: exit 0
+row 9 raw_words a boolean, both logs, --expect differ: exit 1
+row 9 raw_words a boolean, candidate only, --expect identical: exit 1
+row 9 raw_words a boolean, candidate only, --expect differ: exit 0
+row 9 raw_words a float, both logs, --expect identical: exit 0
+row 9 raw_words a float, both logs, --expect differ: exit 1
+row 9 raw_words a float, candidate only, --expect identical: exit 1
+row 9 raw_words a float, candidate only, --expect differ: exit 0
+row 10 null, both logs, --expect identical: exit 0
+row 10 null, both logs, --expect differ: exit 1
+row 10 null, candidate only, --expect identical: exit 1
+row 10 null, candidate only, --expect differ: exit 0
+row 10 a list, both logs, --expect identical: exit 0
+row 10 a list, both logs, --expect differ: exit 1
+row 10 a list, candidate only, --expect identical: exit 1
+row 10 a list, candidate only, --expect differ: exit 0
+row 10 empty, both logs, --expect identical: exit 0
+row 10 empty, both logs, --expect differ: exit 1
+row 10 empty, candidate only, --expect identical: exit 1
+row 10 empty, candidate only, --expect differ: exit 0
+row 10 row_label removed, both logs, --expect identical: exit 0
+row 10 row_label removed, both logs, --expect differ: exit 1
+row 10 row_label removed, candidate only, --expect identical: exit 1
+row 10 row_label removed, candidate only, --expect differ: exit 0
+row 10 row_label null, both logs, --expect identical: exit 0
+row 10 row_label null, both logs, --expect differ: exit 1
+row 10 row_label null, candidate only, --expect identical: exit 1
+row 10 row_label null, candidate only, --expect differ: exit 0
+row 10 row_label wrong type, both logs, --expect identical: exit 0
+row 10 row_label wrong type, both logs, --expect differ: exit 1
+row 10 row_label wrong type, candidate only, --expect identical: exit 1
+row 10 row_label wrong type, candidate only, --expect differ: exit 0
+row 10 address removed, both logs, --expect identical: exit 0
+row 10 address removed, both logs, --expect differ: exit 1
+row 10 address removed, candidate only, --expect identical: exit 1
+row 10 address removed, candidate only, --expect differ: exit 0
+row 10 address null, both logs, --expect identical: exit 0
+row 10 address null, both logs, --expect differ: exit 1
+row 10 address null, candidate only, --expect identical: exit 1
+row 10 address null, candidate only, --expect differ: exit 0
+row 10 address wrong type, both logs, --expect identical: exit 0
+row 10 address wrong type, both logs, --expect differ: exit 1
+row 10 address wrong type, candidate only, --expect identical: exit 1
+row 10 address wrong type, candidate only, --expect differ: exit 0
+row 10 raw_words removed, both logs, --expect identical: exit 0
+row 10 raw_words removed, both logs, --expect differ: exit 1
+row 10 raw_words removed, candidate only, --expect identical: exit 1
+row 10 raw_words removed, candidate only, --expect differ: exit 0
+row 10 raw_words null, both logs, --expect identical: exit 0
+row 10 raw_words null, both logs, --expect differ: exit 1
+row 10 raw_words null, candidate only, --expect identical: exit 1
+row 10 raw_words null, candidate only, --expect differ: exit 0
+row 10 raw_words wrong type, both logs, --expect identical: exit 0
+row 10 raw_words wrong type, both logs, --expect differ: exit 1
+row 10 raw_words wrong type, candidate only, --expect identical: exit 1
+row 10 raw_words wrong type, candidate only, --expect differ: exit 0
+row 10 label changed, both logs, --expect identical: exit 0
+row 10 label changed, both logs, --expect differ: exit 1
+row 10 label changed, candidate only, --expect identical: exit 1
+row 10 label changed, candidate only, --expect differ: exit 0
+row 10 address changed, both logs, --expect identical: exit 0
+row 10 address changed, both logs, --expect differ: exit 1
+row 10 address changed, candidate only, --expect identical: exit 1
+row 10 address changed, candidate only, --expect differ: exit 0
+row 10 extra key, both logs, --expect identical: exit 0
+row 10 extra key, both logs, --expect differ: exit 1
+row 10 extra key, candidate only, --expect identical: exit 1
+row 10 extra key, candidate only, --expect differ: exit 0
+row 10 other value key, both logs, --expect identical: exit 0
+row 10 other value key, both logs, --expect differ: exit 1
+row 10 other value key, candidate only, --expect identical: exit 1
+row 10 other value key, candidate only, --expect differ: exit 0
+row 10 raw_words one, both logs, --expect identical: exit 0
+row 10 raw_words one, both logs, --expect differ: exit 1
+row 10 raw_words one, candidate only, --expect identical: exit 1
+row 10 raw_words one, candidate only, --expect differ: exit 0
+row 10 raw_words three, both logs, --expect identical: exit 0
+row 10 raw_words three, both logs, --expect differ: exit 1
+row 10 raw_words three, candidate only, --expect identical: exit 1
+row 10 raw_words three, candidate only, --expect differ: exit 0
+row 10 raw_words a null, both logs, --expect identical: exit 0
+row 10 raw_words a null, both logs, --expect differ: exit 1
+row 10 raw_words a null, candidate only, --expect identical: exit 1
+row 10 raw_words a null, candidate only, --expect differ: exit 0
+row 10 raw_words a string, both logs, --expect identical: exit 0
+row 10 raw_words a string, both logs, --expect differ: exit 1
+row 10 raw_words a string, candidate only, --expect identical: exit 1
+row 10 raw_words a string, candidate only, --expect differ: exit 0
+row 10 raw_words negative, both logs, --expect identical: exit 0
+row 10 raw_words negative, both logs, --expect differ: exit 1
+row 10 raw_words negative, candidate only, --expect identical: exit 1
+row 10 raw_words negative, candidate only, --expect differ: exit 0
+row 10 raw_words too big, both logs, --expect identical: exit 0
+row 10 raw_words too big, both logs, --expect differ: exit 1
+row 10 raw_words too big, candidate only, --expect identical: exit 1
+row 10 raw_words too big, candidate only, --expect differ: exit 0
+row 10 raw_words a boolean, both logs, --expect identical: exit 0
+row 10 raw_words a boolean, both logs, --expect differ: exit 1
+row 10 raw_words a boolean, candidate only, --expect identical: exit 1
+row 10 raw_words a boolean, candidate only, --expect differ: exit 0
+row 10 raw_words a float, both logs, --expect identical: exit 0
+row 10 raw_words a float, both logs, --expect differ: exit 1
+row 10 raw_words a float, candidate only, --expect identical: exit 1
+row 10 raw_words a float, candidate only, --expect differ: exit 0
+template id not a number, both logs, --expect identical: exit 0
+template id not a number, both logs, --expect differ: exit 1
+template id not a number, candidate only, --expect identical: exit 1
+template id not a number, candidate only, --expect differ: exit 0
+template id out of range, both logs, --expect identical: exit 0
+template id out of range, both logs, --expect differ: exit 1
+template id out of range, candidate only, --expect identical: exit 1
+template id out of range, candidate only, --expect differ: exit 0
+template id negative, both logs, --expect identical: exit 0
+template id negative, both logs, --expect differ: exit 1
+template id negative, candidate only, --expect identical: exit 1
+template id negative, candidate only, --expect differ: exit 0
+template id leading zero, both logs, --expect identical: exit 0
+template id leading zero, both logs, --expect differ: exit 1
+template id leading zero, candidate only, --expect identical: exit 1
+template id leading zero, candidate only, --expect differ: exit 0
+template count null, both logs, --expect identical: exit 0
+template count null, both logs, --expect differ: exit 1
+template count null, candidate only, --expect identical: exit 1
+template count null, candidate only, --expect differ: exit 0
+template count a string, both logs, --expect identical: exit 0
+template count a string, both logs, --expect differ: exit 1
+template count a string, candidate only, --expect identical: exit 1
+template count a string, candidate only, --expect differ: exit 0
+template count zero, both logs, --expect identical: exit 0
+template count zero, both logs, --expect differ: exit 1
+template count zero, candidate only, --expect identical: exit 1
+template count zero, candidate only, --expect differ: exit 0
+template count negative, both logs, --expect identical: exit 0
+template count negative, both logs, --expect differ: exit 1
+template count negative, candidate only, --expect identical: exit 1
+template count negative, candidate only, --expect differ: exit 0
+template count a boolean, both logs, --expect identical: exit 0
+template count a boolean, both logs, --expect differ: exit 1
+template count a boolean, candidate only, --expect identical: exit 1
+template count a boolean, candidate only, --expect differ: exit 0
+template count a float, both logs, --expect identical: exit 0
+template count a float, both logs, --expect differ: exit 1
+template count a float, candidate only, --expect identical: exit 1
+template count a float, candidate only, --expect differ: exit 0
+template count a list, both logs, --expect identical: exit 0
+template count a list, both logs, --expect differ: exit 1
+template count a list, candidate only, --expect identical: exit 1
+template count a list, candidate only, --expect differ: exit 0
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.756s
+
+FAILED (failures=1)

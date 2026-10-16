@@ -37,10 +37,14 @@ def digest(seed, salt=""):
     return hashlib.sha256(f"{seed}{salt}".encode()).hexdigest()
 
 
+REAL = json.loads((E032 / "out/timing-delay20-kickoff-20261015.jsonl").read_text().splitlines()[0])
+
+
 def match(seed, **over):
+    """A synthetic completed record with a real record's statistics rows and templates (record_schema.py)."""
     r = {"seed": seed, "error": None, "stopped_at_board": True, "strays": [], "cpu_s": 9.0,
          "score": [1, seed % 3], "ticks": 4000 + seed % 97, "draws": 180000 + seed, "draws_digest": digest(seed),
-         "statistics_raw": [{"row_label": "Shots", "raw_bytes": [3, 4]}], "templates": {"38": 2}}
+         "statistics_raw": REAL["statistics_raw"], "templates": REAL["templates"]}
     r.update(over)
     return r
 
@@ -174,6 +178,19 @@ class AnalyzeRefusesIncompleteRuns(unittest.TestCase):
 
     def test_run_missing_completion_keys_is_refused(self):
         self.assertNotEqual(self.run_analyze(drop=("error", "stopped_at_board", "strays")).returncode, 0)
+
+    def test_malformed_row_contents_are_refused(self):
+        """Round 3 (issue 246's class): the rows' values, not only their keys."""
+        good = {"address": "0791:2BE5", "name": "attack_direction", "video_bytes": 0, "exec_match": 10,
+                "instr_match": 340, "instructions_static": 34, "bytes_reached": 66, "size": 66}
+        for key, bad in (("instructions_static", None), ("instructions_static", "34"), ("exec_match", -1),
+                         ("instr_match", True), ("size", 0), ("address", "2BE5"), ("name", None)):
+            row = dict(good, **{key: bad})
+            with self.subTest(key=key, value=bad):
+                self.assertNotEqual(self.run_analyze(routines=[row]).returncode, 0)
+        for blocks in ([], [[1]], [[1, 0]], [["1", 2]], None):
+            with self.subTest(match_blocks=blocks):
+                self.assertNotEqual(self.run_analyze(match_blocks=blocks).returncode, 0)
 
 
 class BatchesNeverCompareStaleOutput(unittest.TestCase):

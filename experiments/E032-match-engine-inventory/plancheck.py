@@ -141,6 +141,9 @@ def main():
                 if k not in J:
                     print(f"MISSING KEY {k}")
                     return 2
+                if not isinstance(J[k], (int, float)) or isinstance(J[k], bool):
+                    print(f"NOT A NUMBER {k}: {J[k]!r}")
+                    return 2
                 fm = fmt or DEFAULT_FMT.get(k, str)
                 vals.append(fm(J[k]))
             text = phrase.format(*vals)

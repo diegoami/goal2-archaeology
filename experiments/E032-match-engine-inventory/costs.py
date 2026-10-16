@@ -136,6 +136,9 @@ def main():
     covs = [json.loads((OUT / f"cov-d20-{s}-20261015.json").read_text())
             for s in ("0x1234", "0x2345", "0x4c1d", "0xc3c3", "0xe719")]
     cov_s = [c["seconds"] for c in covs if not incomplete(c)]
+    if len(cov_s) != len(covs) or not all(isinstance(s, (int, float)) and not isinstance(s, bool) and s > 0
+                                          for s in cov_s):
+        sys.exit("refused: a coverage run is incomplete or its seconds are not a positive number")
     proved, stopped = [], []
     pat = re.compile(r"emulated (\d+) clock ticks, \d+ seed writes, ([\d.]+) s; full time: minute (\d+)")
     for log in sorted(E021.glob("t48-m2-longs*.log")) + sorted(E021.glob("t48-regression-*.log")):

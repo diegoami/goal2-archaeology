@@ -7,13 +7,13 @@
 --seeds is the seed family the candidate must hold: exactly these seeds, each once. The reference must
 hold each of them (it may hold more: a family can be a subset of a bigger reference log), each once.
 
-Every record is validated before anything is compared (PR 243 review rounds 1 and 2): it must carry `seed`,
-`error`, `stopped_at_board` and `strays` with their types; a COMPLETED record (no error, stopped at the
-full-time board, no stray key wait) must also carry every piece of evidence the comparison uses, well formed:
-`score` (two numbers), `ticks` and `draws` (positive), `draws_digest` (64 hex digits), `statistics_raw` (a
-non-empty list) and `templates` (a non-empty mapping). A record that fails validation makes the log
-MALFORMED: it never counts as equal, nor as a difference. Every reference record of the family must be
-completed.
+Every record is validated before anything is compared, recursively, against the one schema in
+record_schema.py (PR 243 review rounds 1-3, issue 246): the fields every record carries (seed, error,
+stopped_at_board, strays, cpu_s) and, for a COMPLETED record (no error, stopped at the full-time board, no
+stray key wait), every piece of evidence the comparison uses down to its values: the score bytes, ticks,
+draws, the digest, the 11 statistics rows with their labels, value pairs and addresses, and the templates'
+ids and counts. A record that fails validation makes the log MALFORMED: it never counts as equal, nor as a
+difference. Every reference record of the family must be completed.
 
 --expect identical (the default, a port or a skip accepted): every candidate record must be completed too,
 and equal to its reference in score, ticks, draws, the draws digest, the board's raw statistics and the
@@ -27,11 +27,13 @@ its expectation, and 2 on a malformed log or family (an unreadable line, a recor
 duplicate seed, a missing or unexpected seed, an empty family)."""
 import argparse
 import json
-import re
 import sys
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import record_schema  # noqa: E402
 
 FIELDS = ("score", "ticks", "draws", "draws_digest", "statistics_raw", "templates")
-DIGEST = re.compile(r"^[0-9a-f]{64}$")
 
 
 class Malformed(Exception):
@@ -51,30 +53,11 @@ def completed(r):
 
 
 def validate(r, where):
-    """Raise Malformed unless the record carries what the comparison needs (see the module's text)."""
-    if not isinstance(r, dict):
-        raise Malformed(f"{where}: not a JSON object")
-    for key, types in (("seed", int), ("error", (str, type(None))), ("stopped_at_board", bool), ("strays", list)):
-        if key not in r or not isinstance(r[key], types) or (key == "seed" and isinstance(r[key], bool)):
-            raise Malformed(f"{where}: {key!r} missing or of the wrong type")
-    if completed(r):
-        return
-    bad = []
-    s = r.get("score")
-    if not (isinstance(s, list) and len(s) == 2 and all(isinstance(v, int) and not isinstance(v, bool) for v in s)):
-        bad.append("score")
-    for key in ("ticks", "draws"):
-        v = r.get(key)
-        if not (isinstance(v, int) and not isinstance(v, bool) and v > 0):
-            bad.append(key)
-    if not (isinstance(r.get("draws_digest"), str) and DIGEST.match(r["draws_digest"])):
-        bad.append("draws_digest")
-    if not (isinstance(r.get("statistics_raw"), list) and r["statistics_raw"]):
-        bad.append("statistics_raw")
-    if not (isinstance(r.get("templates"), dict) and r["templates"]):
-        bad.append("templates")
-    if bad:
-        raise Malformed(f"{where}: a completed match without valid {', '.join(bad)}")
+    """Raise Malformed unless the record conforms to record_schema (see the module's text)."""
+    try:
+        record_schema.validate(r)
+    except record_schema.SchemaError as e:
+        raise Malformed(f"{where}: {e}")
 
 
 def load(path):

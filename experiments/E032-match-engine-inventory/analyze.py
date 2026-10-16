@@ -15,6 +15,7 @@ Writes a markdown table (refused if it exists): per part, routines, static instr
 executed instructions, code bytes reached, how many routines carry a name, and how many are already
 substituted exactly (MODELLED, from spec/match-engine.md's routine table and T42-T48)."""
 import json
+import re
 import sys
 from pathlib import Path
 
@@ -53,8 +54,32 @@ def incomplete(run):
     if not isinstance(rows, list) or not rows or not all(isinstance(r, dict) and all(k in r for k in need)
                                                          for r in rows):
         return "routines missing, empty or without " + ", ".join(need)
-    if "match_blocks" in run and not (isinstance(run["match_blocks"], list) and run["match_blocks"]):
-        return "match_blocks empty"
+
+    def count(v):
+        return isinstance(v, int) and not isinstance(v, bool) and v >= 0
+    # the CONTENTS of every row, not only its keys (round 3, issue 246's class)
+    for i, r in enumerate(rows):
+        if not (isinstance(r["address"], str) and re.fullmatch(r"[0-9A-F]{4}:[0-9A-F]{4}", r["address"])):
+            return f"routines[{i}].address {r['address']!r} is not SSSS:OOOO"
+        if not isinstance(r["name"], str):
+            return f"routines[{i}].name {r['name']!r} is not a string"
+        for k in need[2:]:
+            if not count(r[k]):
+                return f"routines[{i}].{k} {r[k]!r} is not a count >= 0"
+        if r["size"] < 1:
+            return f"routines[{i}].size is 0"
+    if not (isinstance(run.get("seed"), int) and not isinstance(run.get("seed"), bool)):
+        return "seed is not an integer"
+    s = run.get("score")
+    if not (isinstance(s, list) and len(s) == 2 and all(count(v) for v in s)):
+        return f"score {s!r} is not two counts"
+    if not (count(run.get("ticks")) and count(run.get("draws"))):
+        return "ticks or draws is not a count"
+    if "match_blocks" in run:
+        b = run["match_blocks"]
+        if not (isinstance(b, list) and b and all(isinstance(x, list) and len(x) == 2 and count(x[0]) and count(x[1])
+                                                  and x[1] > 0 for x in b)):
+            return "match_blocks is not a non-empty list of [offset, size > 0]"
     why = [w for w, bad in (("error %r" % run.get("error"), run.get("error") is not None),
                             ("did not stop at the full-time board", run.get("stopped_at_board") is not True),
                             ("strays %r" % run.get("strays"), run.get("strays") != [])) if bad]
