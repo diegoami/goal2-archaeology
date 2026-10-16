@@ -26,6 +26,11 @@ OWN_ROW = 0x0F38        # 1771:4B61's row (1..4 the player's override of element
 MARKING = 0x9A40        # the marking word of side t's squad slot s at DS:9A3E + 0x28 t + 2 s (1771:49B8)
 PROMPT_SLOT_BP = -5     # CC7B's local_7 (the highlighted slot) at [bp - 5]
 N_POSITIONS = 14        # position codes 0..13 (1771:4925 wraps with 214B:1452(0xE))
+MAX_MOVES = 40          # cursor moves allowed for one target: every list here has at most 20 entries
+
+
+class ScreenError(RuntimeError):
+    """A screen did not move as its driver expects (the kit stops rather than press keys forever)."""
 
 
 def step_toward(current, target):
@@ -60,6 +65,17 @@ class MenuPlan:
         self.menu_reads_after_play = 0
         self.pending_check = None
         self.last_message = None
+        self.moves = 0                    # cursor moves since the last key that was not a move
+
+    def move(self, current, target):
+        self.moves += 1
+        if self.moves > MAX_MOVES:
+            raise ScreenError(f"the cursor does not reach {target} (it reads {current})")
+        return step_toward(current, target)
+
+    def act(self, key):
+        self.moves = 0
+        return key
 
     def item(self, step):
         base = 6 if self.side == 0 else 1
@@ -73,12 +89,12 @@ class MenuPlan:
         step = self.steps[0]
         target = self.item(step)
         if item != target:
-            return step_toward(item, target)
+            return self.move(item, target)
         if step == "play":
             self.menu_reads_after_play += 1
         else:
             self.in_screen = step
-        return ENTER
+        return self.act(ENTER)
 
     # -- the tactics screen ----------------------------------------------------------------------------
     def tactics_key(self, row, element_of_row, tactics_byte):
@@ -88,9 +104,12 @@ class MenuPlan:
                 if not rows:
                     raise ValueError(f"tactic element {element} has no row on the tactics screen")
                 if row != rows[0]:
-                    return step_toward(row, rows[0])
-                return ENTER
-        return ESC
+                    return self.move(row, rows[0])
+                self.presses += 1
+                if self.presses > 2 * len(self.tactics) + 2:      # the screen does not toggle (view only)
+                    break
+                return self.act(ENTER)
+        return self.act(ESC)
 
     # -- SELECT TEAM -----------------------------------------------------------------------------------
     def _next_job(self, why=None):
@@ -115,7 +134,7 @@ class MenuPlan:
             if kind == "sub" and (not s["allowed"] or s["subs_left"] == 0):
                 if s["request"] == 0 and s["subs_left"] and not self.requested:
                     self.requested = True
-                    return ENTER                  # toggles DS:9B40 on: the original offers it at the next stoppage
+                    return self.act(ENTER)        # toggles DS:9B40 on: the original offers it at the next stoppage
                 self.job += 1                     # requested (or nothing left): the swap waits for the notice
                 continue
             want = job[2] if (kind == "sub" and self.sub_marked) else player
@@ -124,13 +143,13 @@ class MenuPlan:
                 continue
             slot = s["squad"].index(want) + 1
             if s["cursor"] != slot:
-                return step_toward(s["cursor"], slot)
+                return self.move(s["cursor"], slot)
             if kind == "sub":
                 self.sub_marked = not self.sub_marked
                 if not self.sub_marked:           # the second Enter: the swap (or the original's refusal)
                     self.pending_check = job
                     self.job += 1
-                return ENTER
+                return self.act(ENTER)
             if kind == "position":
                 if s["position"](player) == job[2]:
                     self.done.append(job)
@@ -140,7 +159,7 @@ class MenuPlan:
                 if self.presses > N_POSITIONS + 1:
                     self._next_job(f"position {job[2]} not reached")
                     continue
-                return KEY_R
+                return self.act(KEY_R)
             if kind == "own":
                 if self.in_own:                   # back from his own tactics
                     self.in_own = False
@@ -149,8 +168,8 @@ class MenuPlan:
                     self._next_job()
                     continue
                 self.in_own, self.own_failed, self.presses = True, False, 0
-                return KEY_T
-        return ESC
+                return self.act(KEY_T)
+        return self.act(ESC)
 
     # -- a player's own tactics (1771:4B61) ---------------------------------------------------------------
     def own_key(self, row, own_set, marking_word, team_set, can_mark):
@@ -162,23 +181,23 @@ class MenuPlan:
             val = bool(own_set >> (e - 1) & 1)
             if (v is None and has) or (v is not None and (not has or val != v)):
                 if row != e:
-                    return step_toward(row, e)
+                    return self.move(row, e)
                 self.presses += 1
                 if self.presses > 3 * len(wanted) + 3:
                     return self._own_refused(job, f"own tactic {e} not reached")
-                return ENTER
+                return self.act(ENTER)
         if mark is not None and marking_word != mark:
             if not can_mark:
                 return self._own_refused(job, "the original offers no man-marking for this player")
             if row != 5:
-                return step_toward(row, 5)
+                return self.move(row, 5)
             self.presses += 1
             if self.presses > 3 * len(wanted) + 14:
                 return self._own_refused(job, f"cannot mark player {mark}")
-            return ENTER
-        return ESC
+            return self.act(ENTER)
+        return self.act(ESC)
 
     def _own_refused(self, job, why):
         self.refused.append((job, why))
         self.own_failed = True
-        return ESC
+        return self.act(ESC)

@@ -1,0 +1,7 @@
+unmutated: all pass
+killed               screens.py  the team menu's item read from another frame word
+survived             match.py    the commentary cursor starts at the counter, not 0
+killed               machine.py  no replay flag on resume
+killed               match.py    the original's message not kept
+killed               screens.py  a swap counted as made without looking
+killed               screens.py  the request pressed again (Enter cancels it)

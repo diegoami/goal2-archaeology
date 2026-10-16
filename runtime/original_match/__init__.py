@@ -13,5 +13,6 @@ the original's code and data come from an image goal2 already holds or fetches b
 from .image import Image
 from .machine import GuestError
 from .match import Match, Fixture, Event, MatchError, VERSION
+from .screens import ScreenError
 
-__all__ = ["Image", "Match", "Fixture", "Event", "MatchError", "GuestError", "VERSION"]
+__all__ = ["Image", "Match", "Fixture", "Event", "MatchError", "GuestError", "ScreenError", "VERSION"]

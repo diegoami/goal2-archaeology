@@ -98,7 +98,7 @@ class Event:
 
 class Match:
     def __init__(self, image, fixture, *, managed=None, captain=None, seed=None, players=None, countries=None,
-                 ticks=False, record_draws=False, delay_byte=None, timeout_s=600):
+                 ticks=False, record_draws=False, delay_byte=None, timeout_s=60):
         """image: an Image of the original outside a match (goal2's GameState.mem through
         Image.from_memory_component). players, countries: goal2's records to write first (lists of 3061 byte
         strings of 0x14 and 129 of 0xBF), else the image's are used. managed: the country goal2 manages (default:
@@ -106,7 +106,8 @@ class Match:
         eleven (default: the original's pick, its best leader). seed: written to the main RNG word at the captain
         prompt, after the set-up's own reseed (default: none, the original's). ticks: also yield one `tick` event
         per tick. record_draws: keep every main-RNG write from the captain prompt to the full-time board (the
-        engine check). delay_byte: the speed byte [A923]+0x3F at the captain prompt (the engine check)."""
+        engine check). delay_byte: the speed byte [A923]+0x3F at the captain prompt (the engine check).
+        timeout_s: the most one stretch between two events may take (normally well under a second)."""
         if fixture.kind != 1:
             raise ValueError("only friendlies (kind 1) are supported")
         if fixture.first == fixture.second:
@@ -610,6 +611,9 @@ class Match:
             slot = self._squad(self.opts["managed"]).index(want) + 1
             here = self.m.frame_word(self.m.reg("bp"), S.PROMPT_SLOT_BP)
             if here != slot:
+                p["moves"] = p.get("moves", 0) + 1
+                if p["moves"] > S.MAX_MOVES:
+                    raise S.ScreenError(f"the captain prompt's highlight does not reach slot {slot} (it reads {here})")
                 return S.step_toward(here, slot)
         self.st["prompt"] = None
         return S.ENTER
