@@ -317,7 +317,8 @@ class Match:
             raise MatchError("a decision is waiting: answer it")
         if self.st["over"] or self.st["full_time"]:
             raise MatchError("the match is over")
-        self.st["poll_keys"].append(S.ENTER)
+        if S.ENTER not in self.st["poll_keys"]:        # asked already: one menu
+            self.st["poll_keys"].append(S.ENTER)
 
     def result(self):
         if not self.st["over"]:
