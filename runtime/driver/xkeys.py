@@ -1,0 +1,215 @@
+"""Raw XTEST key events for the driver (issue 244), through ctypes (libX11, libXtst), and the mapper
+that moves DOSBox-X's savestate and load keys off the host key F12. Standard library only.
+
+Why: `xdotool keydown F10` presses Left Alt (X keycode 64) around F10, because Xvfb's keymap holds
+F10 on a level xdotool reaches with a modifier (an xinput capture on a bare Xvfb: Alt_L press, F10
+press, Alt_L release, F10 release). The guest then read Alt+F10 (BIOS word 0x7100) instead of F10
+(0x4400), and the driver's F12+S chord, sent as `keydown` and `keyup` in separate calls, left the
+guest's Left Alt held from the launch on (0040:0017 bit 3, 0040:0018 bit 1). Here a key is the one X
+keycode of its keysym (XKeysymToKeycode, as E031's xtest.py), pressed and released as itself; a keysym
+that is not on the first or second level of its keycode (a shifted character is sent with Left Shift
+around it) is refused, never sent with a modifier nobody asked for."""
+import ctypes
+import ctypes.util
+import re
+import time
+from pathlib import Path
+
+HERE = Path(__file__).resolve().parent
+DEFAULT_MAP = HERE.parents[1] / "runtime" / "human" / "dosbox-x-2024.03.01-default.map"
+
+# The driver's names for keys, as X keysym names.
+KEYMAP = {"Enter": "Return", "Esc": "Escape", "Space": "space", "Up": "Up", "Down": "Down",
+          "Left": "Left", "Right": "Right", "Backspace": "BackSpace", "Tab": "Tab"}
+
+# What a mapper file binds the emulator's savestate (`s`), load (`l`) and screenshot (`p`) events to decides
+# which keys the driver presses for them (hostkeys): a bind "key N" is the one key N, a bind "key N host" is
+# the host key F12 held with key N. N is an SDL scancode. The keys follow the mapper in effect, never a
+# separate setting, so a mapper and the keys pressed cannot disagree.
+HOST_KEY = "F12"
+BIND_EVENTS = {"s": "hand_savestate", "l": "hand_loadstate", "p": "hand_scrshot"}
+SCANCODE_KEYS = {**{4 + i: chr(ord("a") + i) for i in range(26)}, 69: "F12", 70: "Print", 71: "Scroll_Lock", 72: "Pause"}
+
+
+def _parse_bind(event, b):
+    """One bind string ("key 22", "key 22 host") as the key names to press, in order. ValueError for anything else."""
+    parts = b.split()
+    if len(parts) < 2 or parts[0] != "key" or not parts[1].isdigit():
+        raise ValueError(f"the mapper's {event} bind {b!r} is not understood: only 'key N' and 'key N host'")
+    if not set(parts[2:]) <= {"host"}:
+        raise ValueError(f"the mapper's {event} bind {b!r} has a modifier other than host")
+    name = SCANCODE_KEYS.get(int(parts[1]))
+    if name is None:
+        raise ValueError(f"the mapper's {event} bind {b!r}: no key name for scancode {parts[1]}")
+    keys = [HOST_KEY, name] if "host" in parts[2:] else [name]
+    if keys[-1] == HOST_KEY:
+        raise ValueError(f"the mapper's {event} bind {b!r} is the host key {HOST_KEY} itself")
+    return keys
+
+
+def parse_binds(text, event):
+    """Every bind of `event` (hand_savestate ...) in the mapper text, each as the key names to press: a list
+    of lists, the first to be pressed. ValueError, naming the event, when: there is no such line; a line has no
+    bind; any bind on it is unreadable, has a modifier other than host, or is the host key itself; or two lines
+    of the event differ (which one wins is ambiguous). Nothing is guessed."""
+    lines = re.findall(rf"^{event}\b(.*)$", text, re.M)
+    if not lines:
+        raise ValueError(f"the mapper has no {event} bind")
+    parsed = []
+    for line in lines:
+        binds = re.findall(r'"([^"]*)"', line)
+        if not binds:
+            raise ValueError(f"the mapper's {event} line has no bind (it is empty)")
+        parsed.append([_parse_bind(event, b) for b in binds])
+    if any(p != parsed[0] for p in parsed[1:]):
+        raise ValueError(f"the mapper has {len(lines)} {event} lines with different binds: which one applies is ambiguous")
+    return parsed[0]
+
+
+def bind_keys(text, event):
+    """The key names to press for `event`: the first of its binds (parse_binds checks all of them)."""
+    return parse_binds(text, event)[0]
+
+
+def hostkeys(text):
+    """{"s": keys, "l": keys, "p": keys} for the mapper text's savestate, load and screenshot binds: the keys the
+    driver presses ("p" only when the file has a screenshot line). The whole set is validated, ValueError
+    otherwise: each bind as parse_binds says, and no key or chord bound to two of the three actions (both
+    would emit the same key and could not be told apart)."""
+    binds = {k: parse_binds(text, BIND_EVENTS[k]) for k in ("s", "l")}
+    if re.search(rf"^{BIND_EVENTS['p']}\b", text, re.M):
+        binds["p"] = parse_binds(text, BIND_EVENTS["p"])
+    owner = {}
+    for k, bl in binds.items():
+        for keys in bl:
+            other = owner.setdefault(tuple(keys), k)
+            if other != k:
+                raise ValueError(f"the mapper binds {'+'.join(keys)} to both {BIND_EVENTS[other]} and {BIND_EVENTS[k]}: "
+                                 "the two cannot be told apart")
+    check_keysyms([n for bl in binds.values() for keys in bl for n in keys])
+    return {k: bl[0] for k, bl in binds.items()}
+
+
+def check_keysyms(names):
+    """ValueError for a key name that is no X keysym (the transports could not send it, whatever the keymap)."""
+    bad = sorted({n for n in names if not _x11.XStringToKeysym(KEYMAP.get(n, n).encode())})
+    if bad:
+        raise ValueError(f"no X keysym for {bad}: the key cannot be sent")
+
+
+def check_sendable(display, names):
+    """ValueError, naming the key, for a key name the raw transport cannot send on `display`: no keycode in its
+    keymap, or one on a level that would need a modifier (plan)."""
+    dpy = _x11.XOpenDisplay(display.encode())
+    if not dpy:
+        raise RuntimeError(f"cannot open display {display}")
+    try:
+        for n in names:
+            plan(dpy, KEYMAP.get(n, n))
+    finally:
+        _x11.XCloseDisplay(dpy)
+
+
+# DOSBox-X 2024.03.01's default binds (SDL scancodes), with the savestate on Scroll Lock (71) and the
+# load on Print Screen (70), both taken from the guest, and a screenshot on Pause (72), the one way to
+# see a screen a savestate cannot be taken on (the help viewer, F1). Same edits as E031's make_mapper.py.
+MAPPER_CHANGES = {'hand_savestate "key 22 host" \n': 'hand_savestate "key 71" \n',
+                  'hand_loadstate "key 15 host" \n': 'hand_loadstate "key 70" \n',
+                  'key_printscreen "key 70" \n': 'key_printscreen \n',
+                  'key_scrolllock "key 71" \n': 'key_scrolllock \n',
+                  'hand_scrshot "key 19 host" \n': 'hand_scrshot "key 72" \n',
+                  'key_pause "key 72" \n': 'key_pause \n'}
+
+
+def mapper_text(src=DEFAULT_MAP):
+    """The mapper file text: the default binds with MAPPER_CHANGES, each applied to exactly one line."""
+    text = Path(src).read_text()
+    for old, new in MAPPER_CHANGES.items():
+        if text.count(old) != 1:
+            raise RuntimeError(f"{old!r} is not in {src} exactly once")
+        text = text.replace(old, new)
+    return text
+
+
+_x11 = ctypes.cdll.LoadLibrary(ctypes.util.find_library("X11") or "libX11.so.6")
+_xtst = ctypes.cdll.LoadLibrary(ctypes.util.find_library("Xtst") or "libXtst.so.6")
+_x11.XOpenDisplay.restype = ctypes.c_void_p
+_x11.XOpenDisplay.argtypes = [ctypes.c_char_p]
+_x11.XStringToKeysym.restype = ctypes.c_ulong
+_x11.XStringToKeysym.argtypes = [ctypes.c_char_p]
+_x11.XKeysymToKeycode.restype = ctypes.c_ubyte
+_x11.XKeysymToKeycode.argtypes = [ctypes.c_void_p, ctypes.c_ulong]
+_x11.XKeycodeToKeysym.restype = ctypes.c_ulong
+_x11.XKeycodeToKeysym.argtypes = [ctypes.c_void_p, ctypes.c_ubyte, ctypes.c_int]
+_x11.XFlush.argtypes = [ctypes.c_void_p]
+_x11.XCloseDisplay.argtypes = [ctypes.c_void_p]
+_xtst.XTestFakeKeyEvent.argtypes = [ctypes.c_void_p, ctypes.c_uint, ctypes.c_int, ctypes.c_ulong]
+
+
+def plan(dpy, keysym_name):
+    """The keycodes to press for `keysym_name`, outermost first: [code], or [Left Shift, code] when the
+    keysym is the second level of its keycode (an upper-case letter). Raises ValueError for an unknown
+    keysym, one without a keycode, or one on a level that would need another modifier."""
+    sym = _x11.XStringToKeysym(keysym_name.encode())
+    if not sym:
+        raise ValueError(f"no X keysym named {keysym_name!r}")
+    code = _x11.XKeysymToKeycode(dpy, sym)
+    if not code:
+        raise ValueError(f"no keycode for {keysym_name!r}")
+    if _x11.XKeycodeToKeysym(dpy, code, 0) == sym:
+        return [code]
+    if _x11.XKeycodeToKeysym(dpy, code, 1) == sym:
+        shift = _x11.XKeysymToKeycode(dpy, _x11.XStringToKeysym(b"Shift_L"))
+        return [shift, code]
+    raise ValueError(f"{keysym_name!r} is on keycode {code} above the first two levels: it would need a modifier")
+
+
+def press_release(display, keysym_name, hold, sleep=time.sleep):
+    """Press `keysym_name` on X display `display` (":411"), wait `hold` seconds, release it (and any
+    Left Shift it needed), all as XTEST events on one connection. Returns the keycodes pressed."""
+    dpy = _x11.XOpenDisplay(display.encode())
+    if not dpy:
+        raise RuntimeError(f"cannot open display {display}")
+    try:
+        codes = plan(dpy, keysym_name)
+        for c in codes:
+            _xtst.XTestFakeKeyEvent(dpy, c, 1, 0)
+        _x11.XFlush(dpy)
+        sleep(hold)  # key hold; the caller logs it
+        for c in reversed(codes):
+            _xtst.XTestFakeKeyEvent(dpy, c, 0, 0)
+        _x11.XFlush(dpy)
+        return codes
+    finally:
+        _x11.XCloseDisplay(dpy)
+
+
+
+def key_down(display, keysym_name):
+    """Press `keysym_name` (and the Left Shift it needs, if any) and leave it down; returns the keycodes."""
+    dpy = _x11.XOpenDisplay(display.encode())
+    if not dpy:
+        raise RuntimeError(f"cannot open display {display}")
+    try:
+        codes = plan(dpy, keysym_name)
+        for c in codes:
+            _xtst.XTestFakeKeyEvent(dpy, c, 1, 0)
+        _x11.XFlush(dpy)
+        return codes
+    finally:
+        _x11.XCloseDisplay(dpy)
+
+
+def key_up(display, keysym_name):
+    """Release what key_down pressed for `keysym_name`; returns the keycodes."""
+    dpy = _x11.XOpenDisplay(display.encode())
+    if not dpy:
+        raise RuntimeError(f"cannot open display {display}")
+    try:
+        codes = plan(dpy, keysym_name)
+        for c in reversed(codes):
+            _xtst.XTestFakeKeyEvent(dpy, c, 0, 0)
+        _x11.XFlush(dpy)
+        return codes
+    finally:
+        _x11.XCloseDisplay(dpy)

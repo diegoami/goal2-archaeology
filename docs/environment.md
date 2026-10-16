@@ -187,6 +187,35 @@ projects.
   `~/tools/dosbox-x-2024.03.01/bin` first on PATH for it.
 - An OpenCode run of the original needs the same: pass `--env "PATH=$HOME/tools/dosbox-x-2024.03.01/bin:$PATH"`
   only for `runtime/spike/`; the driver and the recorder find the bundle themselves.
+- The driver's keys (issue 244): `runtime/driver/xkeys.py` sends every key as a raw XTEST keycode
+  with no modifier, and the driver's savestate and load are Scroll Lock and Print Screen through a
+  mapper file it writes into the session folder, so the host key F12 is never pressed. On Ubuntu 26.04
+  (xdotool 3.20160805.1 with Xvfb 21.1.22) xdotool sent Left Alt with every function key (F10 reached the
+  game as Alt+F10) and left Left Alt held in the guest from the launch on; the 458 records made on
+  Ubuntu 24.04 show none of that (34 published savestates checked), only a plain F12 pressed into the
+  guest at each read. Two independent settings: `legacy_keys` is the transport (raw XTEST or xdotool),
+  `mapper` is what the savestate and load keys are (`"nohost"` Scroll Lock / Print Screen, `"dosbox"` the F12
+  chord, or a mapper file); the driver presses what the mapper in effect binds and refuses, when it is made, a
+  mapper whose savestate, load and screenshot binds are not usable as a set (one key for two actions, an empty or
+  unreadable bind, a modifier other than host, the host key F12 itself, differing duplicate lines, a key that
+  is no X keysym: `ValueError`), and, before DOSBox-X starts, a key the raw transport cannot send. The old driver is `Driver(legacy_keys=True, mapper="dosbox")`. E031's `play.py` takes
+  them as `--keys`, `--fkeys` (function keys and a chord's F12; default as `--keys`) and `--mapper`
+  (`experiments/fix-244-driver-keys/README.md` has the table).
+- **Read pace**: the savestate key is held `save_hold` seconds, default `SAVE_HOLD` = 0.52 s, so a read takes
+  about 0.53 s as it did with the F12 chord (the chord held 3 steps of 0.15 s and made four xdotool calls;
+  measured 0.512-0.764 s between chords in E003-r0047/r0049). Scripts whose `settle` waits for two equal
+  reads stop earlier on a transient screen at 0.15 s and then do not reproduce their records (E003 d3b);
+  at the default they do (`experiments/fix-244-driver-keys/README.md`). Pass `save_hold=` to change it.
+- **Start states** (`.cache/states/driver/*.sav`, `main`, `title`, `e004-*`, `e006-*`) made with the old driver
+  on a machine where xdotool adds Alt (Ubuntu 26.04) carry Left Alt held in their saved BIOS data
+  (`0040:0017` bit 3 set; `python3 experiments/E031-play-the-game/lastkey.py <file.sav>` prints it), and a
+  restore from one starts the guest with Alt held. Remake those: `python3 runtime/driver/driver.py make-state title`,
+  `python3 experiments/E003-q001-inputs/run.py make-main --dos-time 10:00:00 --dos-date 10/04/2026`, and the
+  experiment's own `make-state`. The published driver savestates (release assets named in `evidence/E005`,
+  `E006`, `E010`, `E011`, `E013`, `E014`, `E018`) were made on Ubuntu 24.04 and show no Alt held
+  (`experiments/fix-244-driver-keys/out/published-states.tsv`).
+- **Do not press F1 in a driver run**: the help viewer makes every later savestate crash DOSBox-X
+  2024.03.01 (buffer overflow detected, exit -6), even after Esc (E031, `docs/play-guide.md` section 2).
 
 ## Ghidra, for the decompiled and named views
 

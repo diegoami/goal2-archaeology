@@ -1,0 +1,74 @@
+== DISPLAY unset, commit 3861173
+----------------------------------------------------------------------
+Ran 1094 tests in 472.665s
+
+OK (skipped=2)
+
+== DISPLAY=:59999 (no such display), commit 3861173
+----------------------------------------------------------------------
+Ran 1094 tests in 482.103s
+
+FAILED (failures=1, skipped=2)
+FAIL: test_no_subcommand_is_a_usage_error (test_register_artifact.RegisterArtifactTest.test_no_subcommand_is_a_usage_error)
+
+== sandbox with no X server reachable and no network (systemd PrivateTmp+PrivateNetwork), DISPLAY unset, tree of 3861173
+----------------------------------------------------------------------
+Ran 1094 tests in 507.297s
+
+FAILED (failures=11, errors=11, skipped=2)
+ERROR: test_r1_monkey_patch_listing_event_clamp_fails_checker (test_check_morale.CheckerTests.test_r1_monkey_patch_listing_event_clamp_fails_checker)
+ERROR: test_a_broken_snapshot_is_skipped_and_the_chain_still_yields_a_record (test_human_record.Extraction.test_a_broken_snapshot_is_skipped_and_the_c
+ERROR: test_a_single_state_session_has_no_diffs (test_human_record.Extraction.test_a_single_state_session_has_no_diffs)
+ERROR: test_the_record_is_a_valid_run_1_document (test_human_record.Extraction.test_the_record_is_a_valid_run_1_document)
+ERROR: test_publish_creates_the_release_uploads_and_writes_the_manifest_last (test_publish_evidence.PublishEvidenceTest.test_publish_creates_the_relea
+ERROR: test_canonical_set_hash_is_exposed (test_validate_runs.ValidateRunsTest.test_canonical_set_hash_is_exposed)
+ERROR: test_duplicate_json_key_is_invalid (test_validate_runs.ValidateRunsTest.test_duplicate_json_key_is_invalid)
+ERROR: test_invalid_example_exits_1 (test_validate_runs.ValidateRunsTest.test_invalid_example_exits_1)
+ERROR: test_semantic_rule_is_applied (test_validate_runs.ValidateRunsTest.test_semantic_rule_is_applied)
+ERROR: test_valid_evidence_manifest_exits_0 (test_validate_runs.ValidateRunsTest.test_valid_evidence_manifest_exits_0)
+ERROR: test_valid_example_exits_0 (test_validate_runs.ValidateRunsTest.test_valid_example_exits_0)
+FAIL: test_no_alt_is_held_and_f10_arrives_as_f10 (test_driver_keys.EndToEnd.test_no_alt_is_held_and_f10_arrives_as_f10)
+FAIL: test_a_save_before_the_watcher_is_refused (test_human_keys.EarlySaveTests.test_a_save_before_the_watcher_is_refused)
+FAIL: test_the_pinned_tool_validates_both_sets (test_known_sets.KnownSetsTest.test_the_pinned_tool_validates_both_sets)
+FAIL: test_check_rehashes_a_copy_against_a_known_json_entry (test_register_artifact.RegisterArtifactTest.test_check_rehashes_a_copy_against_a_known_js
+FAIL: test_manifest_registers_a_directory_and_runtime_writes_leave_files (test_register_artifact.RegisterArtifactTest.test_manifest_registers_a_direct
+FAIL: test_manifest_the_schema_rejects_exits_1 (test_register_artifact.RegisterArtifactTest.test_manifest_the_schema_rejects_exits_1)
+FAIL: test_no_subcommand_is_a_usage_error (test_register_artifact.RegisterArtifactTest.test_no_subcommand_is_a_usage_error)
+FAIL: test_special_file_in_the_directory_fails_manifest (test_register_artifact.RegisterArtifactTest.test_special_file_in_the_directory_fails_manifest
+FAIL: test_symbolic_link_out_of_the_directory_fails_manifest (test_register_artifact.RegisterArtifactTest.test_symbolic_link_out_of_the_directory_fail
+FAIL: test_directory_validates_each_json_document (test_validate_runs.ValidateRunsTest.test_directory_validates_each_json_document)
+FAIL: test_missing_path_invalid_json_and_unknown_schema_exit_1 (test_validate_runs.ValidateRunsTest.test_missing_path_invalid_json_and_unknown_schema_
+
+== same sandbox, DISPLAY=:59999
+----------------------------------------------------------------------
+Ran 1094 tests in 529.287s
+
+FAILED (failures=10, errors=11, skipped=2)
+ERROR: test_r1_monkey_patch_listing_event_clamp_fails_checker (test_check_morale.CheckerTests.test_r1_monkey_patch_listing_event_clamp_fails_checker)
+ERROR: test_a_broken_snapshot_is_skipped_and_the_chain_still_yields_a_record (test_human_record.Extraction.test_a_broken_snapshot_is_skipped_and_the_c
+ERROR: test_a_single_state_session_has_no_diffs (test_human_record.Extraction.test_a_single_state_session_has_no_diffs)
+ERROR: test_the_record_is_a_valid_run_1_document (test_human_record.Extraction.test_the_record_is_a_valid_run_1_document)
+ERROR: test_publish_creates_the_release_uploads_and_writes_the_manifest_last (test_publish_evidence.PublishEvidenceTest.test_publish_creates_the_relea
+ERROR: test_canonical_set_hash_is_exposed (test_validate_runs.ValidateRunsTest.test_canonical_set_hash_is_exposed)
+ERROR: test_duplicate_json_key_is_invalid (test_validate_runs.ValidateRunsTest.test_duplicate_json_key_is_invalid)
+ERROR: test_invalid_example_exits_1 (test_validate_runs.ValidateRunsTest.test_invalid_example_exits_1)
+ERROR: test_semantic_rule_is_applied (test_validate_runs.ValidateRunsTest.test_semantic_rule_is_applied)
+ERROR: test_valid_evidence_manifest_exits_0 (test_validate_runs.ValidateRunsTest.test_valid_evidence_manifest_exits_0)
+ERROR: test_valid_example_exits_0 (test_validate_runs.ValidateRunsTest.test_valid_example_exits_0)
+FAIL: test_a_save_before_the_watcher_is_refused (test_human_keys.EarlySaveTests.test_a_save_before_the_watcher_is_refused)
+FAIL: test_the_pinned_tool_validates_both_sets (test_known_sets.KnownSetsTest.test_the_pinned_tool_validates_both_sets)
+FAIL: test_check_rehashes_a_copy_against_a_known_json_entry (test_register_artifact.RegisterArtifactTest.test_check_rehashes_a_copy_against_a_known_js
+FAIL: test_manifest_registers_a_directory_and_runtime_writes_leave_files (test_register_artifact.RegisterArtifactTest.test_manifest_registers_a_direct
+FAIL: test_manifest_the_schema_rejects_exits_1 (test_register_artifact.RegisterArtifactTest.test_manifest_the_schema_rejects_exits_1)
+FAIL: test_no_subcommand_is_a_usage_error (test_register_artifact.RegisterArtifactTest.test_no_subcommand_is_a_usage_error)
+FAIL: test_special_file_in_the_directory_fails_manifest (test_register_artifact.RegisterArtifactTest.test_special_file_in_the_directory_fails_manifest
+FAIL: test_symbolic_link_out_of_the_directory_fails_manifest (test_register_artifact.RegisterArtifactTest.test_symbolic_link_out_of_the_directory_fail
+FAIL: test_directory_validates_each_json_document (test_validate_runs.ValidateRunsTest.test_directory_validates_each_json_document)
+FAIL: test_missing_path_invalid_json_and_unknown_schema_exit_1 (test_validate_runs.ValidateRunsTest.test_missing_path_invalid_json_and_unknown_schema_
+
+Notes: the first two are the real runs (network on). The one failure of the second, test_register_artifact
+test_no_subcommand_is_a_usage_error, is a GitHub timeout (issue 236); rerun alone with DISPLAY=:59999: 6 tests OK.
+The sandbox runs have no network, so every test that calls `gh` fails there (validate_runs, register_artifact,
+known_sets, publish_evidence, check_morale, human_record) and EarlySaveTests is the known flake; none involves the
+driver or a display. In the first sandbox run EndToEnd also failed once: DOSBox-X exited during a savestate (the
+rare crash seen before, two emulator suites ran at once); EndToEnd then passed 3 of 3 alone with DISPLAY unset.

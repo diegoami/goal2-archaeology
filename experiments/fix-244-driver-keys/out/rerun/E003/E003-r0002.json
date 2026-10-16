@@ -1,0 +1,411 @@
+{
+  "schema": "run/1",
+  "run_id": "E003-r0002",
+  "experiment": "E003",
+  "arm": "d0-time-100000-date-10041993",
+  "rep": 2,
+  "code_commit": "cf31103",
+  "machine": "ubuntu-26-04-wsl2",
+  "artifact": {
+    "set": "goal2-67cf27d6",
+    "variant": null
+  },
+  "runtime": {
+    "driver": "runtime/driver/driver.py@cf31103",
+    "platform": "python-3.14.4/ubuntu-26-04-wsl2",
+    "fingerprint": {
+      "dosbox-x": "2024.03.01 SDL2",
+      "xvfb": "2:21.1.22-1ubuntu1.2",
+      "xdotool": "xdotool version 3.20160805.1",
+      "python": "3.14.4",
+      "kernel": "6.18.54.1-microsoft-standard-WSL2",
+      "config_sha256": "a4063814aeec4ee5384ca91a01bd0e1e5a1215cc01365939f764ed35bc8e2a3c",
+      "machine": "svga_s3",
+      "memsize": "16",
+      "cycles": "auto",
+      "core": "auto",
+      "cputype": "auto",
+      "dos_time": "10:00:00",
+      "dos_date": "10-04-1993"
+    }
+  },
+  "interventions": [
+    {
+      "level": "I1",
+      "what": "text screen, BIOS data area (0040:0049, 0040:006C) and GOAL.EXE data-segment words (DS:7B62, DS:7B64, DS:8336, and two known strings) read from DOSBox-X savestates (Host+S; components Vga and Memory)"
+    },
+    {
+      "level": "I2",
+      "what": "a savestate is written at each read (vocabulary/interventions.md lists save and load of state as I2; neutrality not tested)"
+    },
+    {
+      "level": "I3",
+      "what": "DOS date 10/04/1993 and DOS time 10:00:00 requested with the DOSBox-X commands `date 10/04/1993` and `time 10:00:00` in the autoexec, before GOAL runs; applied: DOS reported date 10/04/1993 and time 9:59:59 right after (`date /t`, `time /t`)"
+    }
+  ],
+  "start_state": {
+    "id": "fresh-launch",
+    "sha256": "a4063814aeec4ee5384ca91a01bd0e1e5a1215cc01365939f764ed35bc8e2a3c",
+    "restore": "fresh DOSBox-X process (config sha256 a4063814aeec4ee5384ca91a01bd0e1e5a1215cc01365939f764ed35bc8e2a3c, the hash of the config text with host paths replaced), game folder recreated from the verified release copy, nothing restored; DOS time set to 10:00:00 on 10/04/1993 before GOAL ran"
+  },
+  "seed": null,
+  "actions": {
+    "script": "experiments/E003-q001-inputs/run.py",
+    "sha256": "539ab6166a60a60ebf114e5426676b55d542a67065780e887d9949f1749b593d",
+    "args": [
+      "d0",
+      "--dos-time",
+      "10:00:00",
+      "--dos-date",
+      "10/04/1993",
+      "--batch",
+      "fix244",
+      "keys: n Enter Enter b o b Enter Enter Enter Enter Esc"
+    ]
+  },
+  "observations": [
+    {
+      "step": 0,
+      "source": "log",
+      "field": "host UTC time at launch",
+      "value": "2026-10-16T06:46:57.543Z"
+    },
+    {
+      "step": 0,
+      "source": "log",
+      "field": "host local time at launch, with UTC offset, and zone name",
+      "value": "2026-10-16T08:46:57.543+02:00 CEST"
+    },
+    {
+      "step": 0,
+      "source": "file",
+      "field": "DOS clock read back: CLOCK.TXT as DOS wrote it (`date /t`, then `time /t`) before GOAL, right after setting the date and time when they were set",
+      "value": "10/04/1993\n9:59:59\n"
+    },
+    {
+      "step": 0,
+      "source": "log",
+      "field": "title (fresh launch): host UTC time just before the savestate was requested",
+      "value": "2026-10-16T06:47:01.720Z"
+    },
+    {
+      "step": 0,
+      "source": "log",
+      "field": "title (fresh launch): host local time with UTC offset, and zone name, at the same instant",
+      "value": "2026-10-16T08:47:01.720+02:00 CEST"
+    },
+    {
+      "step": 0,
+      "source": "screen",
+      "field": "title (fresh launch): text screen 80x25, chars+attributes (4000 bytes), sha256",
+      "value": "cd7f15fbf853b40471d05bad51cb6e6c14cbc8a7307893dba8f5f36c2315c612"
+    },
+    {
+      "step": 0,
+      "source": "ui-text",
+      "field": "title (fresh launch): text screen rows 0-24, CP437 decoded, trailing blanks trimmed",
+      "value": " (c) NE'93│ │                                                    │     (c)\n ┌─┐┌─┐┌─┐│ │                                                    │     new\n │ ││ ││ ││ │                                                    │     era\n └─┤└─┘└─┤│ │                                                    │   software\n───┘ v.2    │                                                    │     1993\n────────────┘                                                    └──────────────\n\n\n\n\n\n\n────────────────────────────────────────────────────────────────────────────────\n                   THE international soccer management game\n────────────────────────────────────────────────────────────────────────────────\n\n────────────────────────────────────────────────────────────────────────────────\n                    design and coding : Mantra and L.B.\n────────────────────────────────────────────────────────────────────────────────\n     testing and feedback : Celtic Ray, Mr Scott, Big Mac and Carl Wilky\n────────────────────────────────────────────────────────────────────────────────\n               distribution : Silverwitch and Tom de Notre Dame\n────────────────────────────────────────────────────────────────────────────────\n\n■■■■■■■■■■■■■■■■■■■ Do you want to load a saved game? (Y/N) ■■■■■■■■■■■■■■■■■■■■"
+    },
+    {
+      "step": 0,
+      "source": "memory",
+      "addr": "0x449",
+      "field": "title (fresh launch): 1 byte at 0040:0049 (BIOS video mode), guest memory from the savestate, hex",
+      "value": "03"
+    },
+    {
+      "step": 0,
+      "source": "memory",
+      "addr": "0x46c",
+      "field": "title (fresh launch): 4 bytes at 0040:006C (BIOS timer tick count), guest memory from the savestate, as a little-endian dword (bytes in memory order)",
+      "value": "0x000a0058 (58 00 0a 00)"
+    },
+    {
+      "step": 0,
+      "source": "memory",
+      "addr": "0x8120",
+      "field": "GOAL.EXE located: its MCB (owner = the next segment, name GOAL), PSP, load segment and data segment",
+      "value": "MCB at segment 0812 (owner 0813, name GOAL), PSP 0813, load segment 0823 = PSP + 10h, DS 2DA4 = load + 2581h, linear base 0x2DA40"
+    },
+    {
+      "step": 0,
+      "source": "memory",
+      "addr": "0x2da64",
+      "field": "8 bytes at DS:0024, hex (static/goal-exe/data/ds_2581_01.hex has 07 54 52 59 20 4f 55 54)",
+      "value": "07 54 52 59 20 4f 55 54"
+    },
+    {
+      "step": 0,
+      "source": "memory",
+      "addr": "0x2db00",
+      "field": "6 bytes at DS:00C0, hex (static/goal-exe/data/ds_2581_01.hex has 6f 6e 20 66 6f 72)",
+      "value": "6f 6e 20 66 6f 72"
+    },
+    {
+      "step": 0,
+      "source": "memory",
+      "addr": "0x355a2",
+      "field": "title (fresh launch): word at DS:7B62 of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+      "value": "0x0000 (00 00)"
+    },
+    {
+      "step": 0,
+      "source": "memory",
+      "addr": "0x355a4",
+      "field": "title (fresh launch): word at DS:7B64 of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+      "value": "0x0000 (00 00)"
+    },
+    {
+      "step": 0,
+      "source": "memory",
+      "addr": "0x35d76",
+      "field": "title (fresh launch): word at DS:8336 of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+      "value": "0x0057 (57 00)"
+    },
+    {
+      "step": 0,
+      "source": "memory",
+      "addr": "0x3843d",
+      "field": "title (fresh launch): word at DS:A9FD of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+      "value": "0x07c9 (c9 07)"
+    },
+    {
+      "step": 0,
+      "source": "file",
+      "field": "DOSBox-X config of the session, host paths replaced by <work> and <game>",
+      "value": "[sdl]\nfullscreen=false\noutput=surface\nmapperfile=<work>/mapper.map\n[mixer]\nnosound=true\n[midi]\nmididevice=none\n[dosbox]\nmachine=svga_s3\nmemsize=16\nsaveremark=false\ncaptures=<work>/cap\n[cpu]\ncore=auto\ncputype=auto\ncycles=auto\n[autoexec]\nmount c <game>\nc:\ndate 10/04/1993\ntime 10:00:00\nmount d <work>/dosclock\ndate /t > d:\\clock.txt\ntime /t >> d:\\clock.txt\nc:\ngoal\nexit\n"
+    },
+    {
+      "step": 0,
+      "source": "file",
+      "field": "sha256 of that config text (UTF-8)",
+      "value": "a4063814aeec4ee5384ca91a01bd0e1e5a1215cc01365939f764ed35bc8e2a3c"
+    },
+    {
+      "step": 0,
+      "source": "log",
+      "field": "batch label given on the command line",
+      "value": "fix244"
+    },
+    {
+      "step": 4,
+      "source": "log",
+      "field": "after key 4 (b): host UTC time just before the savestate was requested",
+      "value": "2026-10-16T06:47:04.843Z"
+    },
+    {
+      "step": 4,
+      "source": "log",
+      "field": "after key 4 (b): host local time with UTC offset, and zone name, at the same instant",
+      "value": "2026-10-16T08:47:04.843+02:00 CEST"
+    },
+    {
+      "step": 4,
+      "source": "screen",
+      "field": "after key 4 (b): text screen 80x25, chars+attributes (4000 bytes), sha256",
+      "value": "9830ea89af67ec6a5422835e29b1613598a490984c8439c598c56f74d1aff187"
+    },
+    {
+      "step": 4,
+      "source": "ui-text",
+      "field": "after key 4 (b): text screen rows 0-24, CP437 decoded, trailing blanks trimmed",
+      "value": " (c) NE'93│ │     Player 1 : PLEASE SELECT YOUR COUNTRY           use INS to\n ┌─┐┌─┐┌─┐│ │──────────────────────────────────────────────────  swap between\n │ ││ ││ ││ │ Use ←→↑↓ keys to browse, then hit ◄┘ to select       world and\n └─┤└─┘└─┤│ │──────────────────────────────────────────────────   continental\n───┘ v.2    │       level of difficulty : TOO EASY                 rankings\n────────────┘──────────────────────────────────────────────────\n┌team─────────────────────────────┬───────────────────tactics┐ ┌───────────────┐\n│Germany-------- status giant     ├──────────────team─tactics┤ │Germany--------│\n├manager──────────────────────────┤defence─system──full pitch┤ │Argentina------│\n│B☻▒▒▒▒▒▒▒▒▒▒▒▒  skill eclectic   ├protection────stand ground┤ │Italy----------│\n├ranking─now─top┬─────────────────┼offside───────offside trap┤ │England--------│\n│World     1   1│formation  5-3-2 ├───────────player─defaults┤ │Cameroon-------│\n│Europe    2   2│strips     ☻ ☻ ☻ │positioning──────stay back┤ │R.C.S----------│\n├skills──────┬──┴─┬────┬────┬────┬┼possession──────quick pass┤ │Eire-----------│\n├keeper──■■■■■■■■■■■■■■■■■■■■■■■■■┼passing────────long passes┤ │Yugoslavia-----│\n├defence─■■■■■■■■■■■■■■■■■■■■■■■■■┼tackling────────go in hard┤ │Brazil---------│\n├midfield■■■■■■■■■■■■■■■■■■■■■■■■■┼marking─────────man to man┤ │Spain----------│\n├attack──■■■■■■■■■■■■■■■■■■■■■■■■■┼───────────characteristics┤ │Belgium--------│\n├performance─┼────┼────┼────┼────┼┤average─caps─0─────age─29─┤ │Romania--------│\n├keeper──■■■■■■■■■■■■■■■■■■■■■■■■■┼hardness──average■■■■■■■■■┤ │Costa Rica-----│\n├defence─■■■■■■■■■■■■■■■■■■■■■■■■■┼fitness───superb■■■■■■■■■■┤ │Holland--------│\n├midfield■■■■■■■■■■■■■■■■■■■■■■■■■┼energy────full of zip■■■■■┤ │Colombia-------│\n├attack──■■■■■■■■■■■■■■■■■■■■■■■■■┼morale────could be worse■■┤ │Uruguay--------│\n└────────────┴────┴────┴────┴────┴┴──────────────┴────┴────┴─┘ └───────────────┘\n************* Type in characters (maximum 14). ◄┘-accept Esc-abort *************"
+    },
+    {
+      "step": 4,
+      "source": "memory",
+      "addr": "0x449",
+      "field": "after key 4 (b): 1 byte at 0040:0049 (BIOS video mode), guest memory from the savestate, hex",
+      "value": "03"
+    },
+    {
+      "step": 4,
+      "source": "memory",
+      "addr": "0x46c",
+      "field": "after key 4 (b): 4 bytes at 0040:006C (BIOS timer tick count), guest memory from the savestate, as a little-endian dword (bytes in memory order)",
+      "value": "0x000a0073 (73 00 0a 00)"
+    },
+    {
+      "step": 4,
+      "source": "memory",
+      "addr": "0x355a2",
+      "field": "after key 4 (b): word at DS:7B62 of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+      "value": "0xf5db (db f5)"
+    },
+    {
+      "step": 4,
+      "source": "memory",
+      "addr": "0x355a4",
+      "field": "after key 4 (b): word at DS:7B64 of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+      "value": "0x0000 (00 00)"
+    },
+    {
+      "step": 4,
+      "source": "memory",
+      "addr": "0x35d76",
+      "field": "after key 4 (b): word at DS:8336 of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+      "value": "0x0057 (57 00)"
+    },
+    {
+      "step": 4,
+      "source": "memory",
+      "addr": "0x3843d",
+      "field": "after key 4 (b): word at DS:A9FD of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+      "value": "0x07c9 (c9 07)"
+    },
+    {
+      "step": 6,
+      "source": "log",
+      "field": "after key 6 (b): host UTC time just before the savestate was requested",
+      "value": "2026-10-16T06:47:05.838Z"
+    },
+    {
+      "step": 6,
+      "source": "log",
+      "field": "after key 6 (b): host local time with UTC offset, and zone name, at the same instant",
+      "value": "2026-10-16T08:47:05.838+02:00 CEST"
+    },
+    {
+      "step": 6,
+      "source": "screen",
+      "field": "after key 6 (b): text screen 80x25, chars+attributes (4000 bytes), sha256",
+      "value": "e04109d044ed710ef5c47cbb586aadb9612ba98453d8195d8365b8bd07cde1a4"
+    },
+    {
+      "step": 6,
+      "source": "ui-text",
+      "field": "after key 6 (b): text screen rows 0-24, CP437 decoded, trailing blanks trimmed",
+      "value": " (c) NE'93│ │     Player 1 : PLEASE SELECT YOUR COUNTRY           use INS to\n ┌─┐┌─┐┌─┐│ │──────────────────────────────────────────────────  swap between\n │ ││ ││ ││ │ Use ←→↑↓ keys to browse, then hit ◄┘ to select       world and\n └─┤└─┘└─┤│ │──────────────────────────────────────────────────   continental\n───┘ v.2    │       level of difficulty : TOO EASY                 rankings\n────────────┘──────────────────────────────────────────────────\n┌team─────────────────────────────┬───────────────────tactics┐ ┌───────────────┐\n│Germany-------- status giant     ├──────────────team─tactics┤ │Germany--------│\n├manager──────────────────────────┤defence─system──full pitch┤ │Argentina------│\n│Bob ▒▒▒▒▒▒▒▒▒▒  skill eclectic   ├protection────stand ground┤ │Italy----------│\n├ranking─now─top┬─────────────────┼offside───────offside trap┤ │England--------│\n│World     1   1│formation  5-3-2 ├───────────player─defaults┤ │Cameroon-------│\n│Europe    2   2│strips     ☻ ☻ ☻ │positioning──────stay back┤ │R.C.S----------│\n├skills──────┬──┴─┬────┬────┬────┬┼possession──────quick pass┤ │Eire-----------│\n├keeper──■■■■■■■■■■■■■■■■■■■■■■■■■┼passing────────long passes┤ │Yugoslavia-----│\n├defence─■■■■■■■■■■■■■■■■■■■■■■■■■┼tackling────────go in hard┤ │Brazil---------│\n├midfield■■■■■■■■■■■■■■■■■■■■■■■■■┼marking─────────man to man┤ │Spain----------│\n├attack──■■■■■■■■■■■■■■■■■■■■■■■■■┼───────────characteristics┤ │Belgium--------│\n├performance─┼────┼────┼────┼────┼┤average─caps─0─────age─29─┤ │Romania--------│\n├keeper──■■■■■■■■■■■■■■■■■■■■■■■■■┼hardness──average■■■■■■■■■┤ │Costa Rica-----│\n├defence─■■■■■■■■■■■■■■■■■■■■■■■■■┼fitness───superb■■■■■■■■■■┤ │Holland--------│\n├midfield■■■■■■■■■■■■■■■■■■■■■■■■■┼energy────full of zip■■■■■┤ │Colombia-------│\n├attack──■■■■■■■■■■■■■■■■■■■■■■■■■┼morale────could be worse■■┤ │Uruguay--------│\n└────────────┴────┴────┴────┴────┴┴──────────────┴────┴────┴─┘ └───────────────┘\n************* Type in characters (maximum 14). ◄┘-accept Esc-abort *************"
+    },
+    {
+      "step": 6,
+      "source": "memory",
+      "addr": "0x449",
+      "field": "after key 6 (b): 1 byte at 0040:0049 (BIOS video mode), guest memory from the savestate, hex",
+      "value": "03"
+    },
+    {
+      "step": 6,
+      "source": "memory",
+      "addr": "0x46c",
+      "field": "after key 6 (b): 4 bytes at 0040:006C (BIOS timer tick count), guest memory from the savestate, as a little-endian dword (bytes in memory order)",
+      "value": "0x000a007d (7d 00 0a 00)"
+    },
+    {
+      "step": 6,
+      "source": "memory",
+      "addr": "0x355a2",
+      "field": "after key 6 (b): word at DS:7B62 of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+      "value": "0xf5db (db f5)"
+    },
+    {
+      "step": 6,
+      "source": "memory",
+      "addr": "0x355a4",
+      "field": "after key 6 (b): word at DS:7B64 of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+      "value": "0x0000 (00 00)"
+    },
+    {
+      "step": 6,
+      "source": "memory",
+      "addr": "0x35d76",
+      "field": "after key 6 (b): word at DS:8336 of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+      "value": "0x0057 (57 00)"
+    },
+    {
+      "step": 6,
+      "source": "memory",
+      "addr": "0x3843d",
+      "field": "after key 6 (b): word at DS:A9FD of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+      "value": "0x07c9 (c9 07)"
+    },
+    {
+      "step": 8,
+      "source": "log",
+      "field": "after key 8 (Enter): host UTC time just before the savestate was requested",
+      "value": "2026-10-16T06:47:06.833Z"
+    },
+    {
+      "step": 8,
+      "source": "log",
+      "field": "after key 8 (Enter): host local time with UTC offset, and zone name, at the same instant",
+      "value": "2026-10-16T08:47:06.833+02:00 CEST"
+    },
+    {
+      "step": 8,
+      "source": "screen",
+      "field": "after key 8 (Enter): text screen 80x25, chars+attributes (4000 bytes), sha256",
+      "value": "b83c122edb7b28306bedc2ddae97ee2a62f0a59b37890159f288f00ca2c23faf"
+    },
+    {
+      "step": 8,
+      "source": "ui-text",
+      "field": "after key 8 (Enter): text screen rows 0-24, CP437 decoded, trailing blanks trimmed",
+      "value": " (c) NE'93│ │ ──────────────────────────────────────────────────────────────────\n ┌─┐┌─┐┌─┐│ │ ──────────────────────────────────────────────────────────────────\n │ ││ ││ ││ │ ──────────────────────────────────────────────────────────────────\n └─┤└─┘└─┤│ │ ──────────────────────────────────────────────────────────────────\n───┘ v.2    │ ──────────────────────────────────────────────────────────────────\n────────────┘ ──────────────┌──────────────────────┐────────────────────────────\n────────────────────────────│ THE SOCCER BULLETIN  │────────────────────────────\n──┌────────────────────┐────├──────────────────────┤────┌────────────────────┐──\n──│  D A I L Y  R A G  │────│ GROUPS ARE ANNOUNCED │────│ ☼ Sporting Times ☼ │──\n──├────────────────────┤────│  FOR QUALIFYING FOR  │────├────────────────────┤──\n──│       GERMANY      │────│     THE WORLD CUP    │────│     GERMANY IS     │──\n──│  HAS AN EASY RIDE  │────│ ≡≡≡≡ ≡≡≡≡ ≡≡≡≡≡ ≡≡≡≡ │────│  THE BEST TEAM IN  │──\n──│ ≡≡≡≡ ≡≡≡ ░░░░░ ≡≡≡ │────│ ≡≡≡≡ ≡≡≡≡ ≡≡≡≡≡ ≡≡≡≡ │────│       GROUP A      │──\n──│ ≡≡≡≡ ≡≡≡ ≡≡≡≡≡ ≡≡≡ │────│ ≡≡≡≡ ≡≡≡≡ ≡≡≡≡≡ ≡≡≡≡ │────│ ≡≡≡≡≡ ≡≡≡ ░░░░░ ≡≡ │──\n──│ ≡≡≡≡ ≡≡≡ ░░░░░ ≡≡≡ │────│ ≡≡≡≡ ≡≡≡≡ ≡≡≡≡≡ ≡≡≡≡ │────│ ≡≡≡≡≡ ≡≡≡ ░░░░░ ≡≡ │──\n──│ ≡≡≡≡ ≡≡≡ ░░░░░ ≡≡≡ │────│ ≡≡≡≡ ≡≡≡≡ ≡≡≡≡≡ ≡≡≡≡ │────│ ░░░░░ ≡≡≡ ░░░░░ ≡≡ │──\n──│ ≡≡≡≡ ≡≡≡ ░░░░░ ≡≡≡ │────│     GERMANY PLAY     │────│ ░░░░░ ≡≡≡ ≡≡≡≡≡ ≡≡ │──\n──│ ≡≡≡≡ ≡≡≡ ≡≡≡≡≡ ≡≡≡ │────│       ROMANIA,       │────│ ≡≡≡≡≡ ≡≡≡ ░░ ≡≡ ≡≡ │──\n──│ ≡≡≡≡ ≡≡≡ ≡≡≡≡≡ ≡≡≡ │────│      N.IRELAND,      │────│ ≡≡≡≡≡ ≡≡≡ ≡≡≡≡≡ ≡≡ │──\n──└────────────────────┘────│      AND ALBANIA     │────└────────────────────┘──\n────────────────────────────│ ≡≡≡≡ ≡≡≡≡ ≡≡≡≡≡ ≡≡≡≡ │────────────────────────────\n────────────────────────────└──────────────────────┘────────────────────────────\n────────────────────────────────────────────────────────────────────────────────\n────────────────────────────────────────────────────────────────────────────────\n                                  hit any key"
+    },
+    {
+      "step": 8,
+      "source": "memory",
+      "addr": "0x449",
+      "field": "after key 8 (Enter): 1 byte at 0040:0049 (BIOS video mode), guest memory from the savestate, hex",
+      "value": "03"
+    },
+    {
+      "step": 8,
+      "source": "memory",
+      "addr": "0x46c",
+      "field": "after key 8 (Enter): 4 bytes at 0040:006C (BIOS timer tick count), guest memory from the savestate, as a little-endian dword (bytes in memory order)",
+      "value": "0x000a0086 (86 00 0a 00)"
+    },
+    {
+      "step": 8,
+      "source": "memory",
+      "addr": "0x355a2",
+      "field": "after key 8 (Enter): word at DS:7B62 of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+      "value": "0xee42 (42 ee)"
+    },
+    {
+      "step": 8,
+      "source": "memory",
+      "addr": "0x355a4",
+      "field": "after key 8 (Enter): word at DS:7B64 of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+      "value": "0x0305 (05 03)"
+    },
+    {
+      "step": 8,
+      "source": "memory",
+      "addr": "0x35d76",
+      "field": "after key 8 (Enter): word at DS:8336 of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+      "value": "0x0057 (57 00)"
+    },
+    {
+      "step": 8,
+      "source": "memory",
+      "addr": "0x3843d",
+      "field": "after key 8 (Enter): word at DS:A9FD of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+      "value": "0x07c9 (c9 07)"
+    },
+    {
+      "step": 11,
+      "source": "log",
+      "field": "lines of DOSBox-X's own output (dosbox.out) that mention save, load, corrupt, date or time (Save_Remark and Time_Stamp lines left out), in order",
+      "value": "LOG: Active save slot: 1 [Empty]\nLOG: File : <work>/IntTimer10 is 140 bytes\nLOG: [08:46:57]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 141 bytes\nLOG: [08:46:58]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 142 bytes\nLOG: [08:46:58]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 142 bytes\nLOG: [08:46:58]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 142 bytes\nLOG: [08:46:58]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 141 bytes\nLOG: [08:46:58]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 141 bytes\nLOG: [08:46:58]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 141 bytes\nLOG: [08:46:59]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 141 bytes\nLOG: [08:46:59]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 141 bytes\nLOG: [08:46:59]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 141 bytes\nLOG: [08:46:59]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 141 bytes\nLOG: [08:46:59]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 142 bytes\nLOG: [08:46:59]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 141 bytes\nLOG: [08:47:00]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 141 bytes\nLOG: [08:47:00]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 141 bytes\nLOG: [08:47:00]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 141 bytes\nLOG: [08:47:00]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 140 bytes\nLOG: [08:47:00]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 138 bytes\nLOG: [08:47:00]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 141 bytes\nLOG: [08:47:01]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 141 bytes\nLOG: [08:47:01]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 140 bytes\nLOG: [08:47:01]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 141 bytes\nLOG: [08:47:01]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 141 bytes\nLOG: [08:47:01]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 164 bytes\nLOG: [08:47:01]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 164 bytes\nLOG: [08:47:02]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 158 bytes\nLOG: [08:47:02]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 163 bytes\nLOG: [08:47:02]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 163 bytes\nLOG: [08:47:02]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 163 bytes\nLOG: [08:47:02]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 164 bytes\nLOG: [08:47:02]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 163 bytes\nLOG: [08:47:03]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 163 bytes\nLOG: [08:47:03]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 163 bytes\nLOG: [08:47:03]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 161 bytes\nLOG: [08:47:03]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 163 bytes\nLOG: [08:47:03]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 163 bytes\nLOG: [08:47:04]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 164 bytes\nLOG: [08:47:04]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 163 bytes\nLOG: [08:47:04]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 164 bytes\nLOG: [08:47:04]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 164 bytes\nLOG: [08:47:04]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 161 bytes\nLOG: [08:47:04]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 163 bytes\nLOG: [08:47:05]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 163 bytes\nLOG: [08:47:05]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 163 bytes\nLOG: [08:47:05]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 163 bytes\nLOG: [08:47:05]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 164 bytes\nLOG: [08:47:05]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 163 bytes\nLOG: [08:47:06]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 163 bytes\nLOG: [08:47:06]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 163 bytes\nLOG: [08:47:06]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 162 bytes\nLOG: [08:47:06]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 162 bytes\nLOG: [08:47:06]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 164 bytes\nLOG: [08:47:07]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 158 bytes\nLOG: [08:47:07]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 163 bytes\nLOG: [08:47:07]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 162 bytes\nLOG: [08:47:07]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 164 bytes\nLOG: [08:47:08]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 163 bytes\nLOG: [08:47:08]: Saved. (Slot 1)"
+    },
+    {
+      "step": 11,
+      "source": "process",
+      "field": "dosbox-x and Xvfb after SIGTERM to their process groups (SIGKILL after 10 s, see log)",
+      "value": "both exited"
+    },
+    {
+      "step": 11,
+      "source": "log",
+      "field": "waits, polls and key holds, seconds since launch",
+      "value": "[[0.015,\"mapper file written, sha256 7b2f6f958fdb0a0b6a68e12611c3e3ab8554f0872c048ab8a8a05da2fff73a23: savestate on Scroll Lock, load on Print Screen\"],[0.119,\"Xvfb poll: answered after 2 polls of 0.1s\"],[0.119,\"Xvfb :516 answering\"],[0.12,\"dosbox-x started\"],[0.245,\"window found after 2 polls of 0.1s\"],[0.247,\"window focused\"],[0.398,\"emulator key Scroll_Lock (for host+s) held 0.15s (raw keycode 78)\"],[0.398,\"savestate complete after 1 polls of 0.05s\"],[0.565,\"emulator key Scroll_Lock (for host+s) held 0.15s (raw keycode 78)\"],[0.566,\"savestate complete after 1 polls of 0.05s\"],[0.732,\"emulator key Scroll_Lock (for host+s) held 0.15s (raw keycode 78)\"],[0.733,\"savestate complete after 1 polls of 0.05s\"],[0.9,\"emulator key Scroll_Lock (for host+s) held 0.15s (raw keycode 78)\"],[0.901,\"savestate complete after 1 polls of 0.05s\"],[1.062,\"emulator key Scroll_Lock (for host+s) held 0.15s (raw keycode 78)\"],[1.063,\"savestate complete after 1 polls of 0.05s\"],[1.223,\"emulator key Scroll_Lock (for host+s) held 0.15s (raw keycode 78)\"],[1.224,\"savestate complete after 1 polls of 0.05s\"],[1.385,\"emulator key Scroll_Lock (for host+s) held 0.15s (raw keycode 78)\"],[1.385,\"savestate complete after 1 polls of 0.05s\"],[1.546,\"emulator key Scroll_Lock (for host+s) held 0.15s (raw keycode 78)\"],[1.547,\"savestate complete after 1 polls of 0.05s\"],[1.707,\"emulator key Scroll_Lock (for host+s) held 0.15s (raw keycode 78)\"],[1.708,\"savestate complete after 1 polls of 0.05s\"],[1.87,\"emulator key Scroll_Lock (for host+s) held 0.15s (raw keycode 78)\"],[1.87,\"savestate complete after 1 polls of 0.05s\"],[2.035,\"emulator key Scroll_Lock (for host+s) held 0.15s (raw keycode 78)\"],[2.036,\"savestate complete after 1 polls of 0.05s\"],[2.201,\"emulator key Scroll_Lock (for host+s) held 0.15s (raw keycode 78)\"],[2.202,\"savestate complete after 1 polls of 0.05s\"],[2.363,\"emulator key Scroll_Lock (for host+s) held 0.15s (raw keycode 78)\"],[2.364,\"savestate complete after 1 polls of 0.05s\"],[2.525,\"emulator key Scroll_Lock (for host+s) held 0.15s (raw keycode 78)\"],[2.525,\"savestate complete after 1 polls of 0.05s\"],[2.687,\"emulator key Scroll_Lock (for host+s) held 0.15s (raw keycode 78)\"],[2.688,\"savestate complete after 1 polls of 0.05s\"],[2.851,\"emulator key Scroll_Lock (for host+s) held 0.15s (raw keycode 78)\"],[2.852,\"savestate complete after 1 polls of 0.05s\"],[3.015,\"emulator key Scroll_Lock (for host+s) held 0.15s (raw keycode 78)\"],[3.016,\"savestate complete after 1 polls of 0.05s\"],[3.184,\"emulator key Scroll_Lock (for host+s) held 0.15s (raw keycode 78)\"],[3.184,\"savestate complete after 1 polls of 0.05s\"],[3.351,\"emulator key Scroll_Lock (for host+s) held 0.15s (raw keycode 78)\"],[3.352,\"savestate complete after 1 polls of 0.05s\"],[3.514,\"emulator key Scroll_Lock (for host+s) held 0.15s (raw keycode 78)\"],[3.515,\"savestate complete after 1 polls of 0.05s\"],[3.676,\"emulator key Scroll_Lock (for host+s) held 0.15s (raw keycode 78)\"],[3.677,\"savestate complete after 1 polls of 0.05s\"],[3.839,\"emulator key Scroll_Lock (for host+s) held 0.15s (raw keycode 78)\"],[3.84,\"savestate complete after 1 polls of 0.05s\"],[4.002,\"emulator key Scroll_Lock (for host+s) held 0.15s (raw keycode 78)\"],[4.003,\"savestate complete after 1 polls of 0.05s\"],[4.165,\"emulator key Scroll_Lock (for host+s) held 0.15s (raw keycode 78)\"],[4.166,\"savestate complete after 1 polls of 0.05s\"],[4.328,\"emulator key Scroll_Lock (for host+s) held 0.15s (raw keycode 78)\"],[4.329,\"savestate complete after 1 polls of 0.05s\"],[4.339,\"title screen: matched after 25 savestate polls\"],[4.339,\"DOS clock read back: '10/04/1993\\\\n9:59:59'\"],[4.427,\"key n held 0.08s (raw keycode 57)\"],[4.578,\"emulator key Scroll_Lock (for host+s) held 0.15s (raw keycode 78)\"],[4.579,\"savestate complete after 1 polls of 0.05s\"],[4.74,\"emulator key Scroll_Lock (for host+s) held 0.15s (raw keycode 78)\"],[4.741,\"savestate complete after 1 polls of 0.05s\"],[4.903,\"emulator key Scroll_Lock (for host+s) held 0.15s (raw keycode 78)\"],[4.904,\"savestate complete after 1 polls of 0.05s\"],[5.065,\"emulator key Scroll_Lock (for host+s) held 0.15s (raw keycode 78)\"],[5.066,\"savestate complete after 1 polls of 0.05s\"],[5.076,\"after key n: changed and stable after 4 savestate polls\"],[5.157,\"key Enter held 0.08s (raw keycode 36)\"],[5.308,\"emulator key Scroll_Lock (for host+s) held 0.15s (raw keycode 78)\"],[5.309,\"savestate complete after 1 polls of 0.05s\"],[5.47,\"emulator key Scroll_Lock (for host+s) held 0.15s (raw keycode 78)\"],[5.471,\"savestate complete after 1 polls of 0.05s\"],[5.482,\"after key Enter: changed and stable after 2 savestate polls\"],[5.563,\"key Enter held 0.08s (raw keycode 36)\"],[5.715,\"emulator key Scroll_Lock (for host+s) held 0.15s (raw keycode 78)\"],[5.716,\"savestate complete after 1 polls of 0.05s\"],[5.882,\"emulator key Scroll_Lock (for host+s) held 0.15s (raw keycode 78)\"],[5.883,\"savestate complete after 1 polls of 0.05s\"],[6.049,\"emulator key Scroll_Lock (for host+s) held 0.15s (raw keycode 78)\"],[6.05,\"savestate complete after 1 polls of 0.05s\"],[6.212,\"emulator key Scroll_Lock (for host+s) held 0.15s (raw keycode 78)\"],[6.213,\"savestate complete after 1 polls of 0.05s\"],[6.378,\"emulator key Scroll_Lock (for host+s) held 0.15s (raw keycode 78)\"],[6.379,\"savestate complete after 1 polls of 0.05s\"],[6.547,\"emulator key Scroll_Lock (for host+s) held 0.15s (raw keycode 78)\"],[6.548,\"savestate complete after 1 polls of 0.05s\"],[6.71,\"emulator key Scroll_Lock (for host+s) held 0.15s (raw keycode 78)\"],[6.711,\"savestate complete after 1 polls of 0.05s\"],[6.877,\"emulator key Scroll_Lock (for host+s) held 0.15s (raw keycode 78)\"],[6.878,\"savestate complete after 1 polls of 0.05s\"],[6.893,\"after key Enter: changed and stable after 8 savestate polls\"],[6.974,\"key b held 0.08s (raw keycode 56)\"],[7.125,\"emulator key Scroll_Lock (for host+s) held 0.15s (raw keycode 78)\"],[7.126,\"savestate complete after 1 polls of 0.05s\"],[7.288,\"emulator key Scroll_Lock (for host+s) held 0.15s (raw keycode 78)\"],[7.289,\"savestate complete after 1 polls of 0.05s\"],[7.451,\"emulator key Scroll_Lock (for host+s) held 0.15s (raw keycode 78)\"],[7.452,\"savestate complete after 1 polls of 0.05s\"],[7.463,\"after key b: changed and stable after 3 savestate polls\"],[7.552,\"key o held 0.08s (raw keycode 32)\"],[7.704,\"emulator key Scroll_Lock (for host+s) held 0.15s (raw keycode 78)\"],[7.706,\"savestate complete after 1 polls of 0.05s\"],[7.872,\"emulator key Scroll_Lock (for host+s) held 0.15s (raw keycode 78)\"],[7.873,\"savestate complete after 1 polls of 0.05s\"],[7.887,\"after key o: changed and stable after 2 savestate polls\"],[7.968,\"key b held 0.08s (raw keycode 56)\"],[8.119,\"emulator key Scroll_Lock (for host+s) held 0.15s (raw keycode 78)\"],[8.121,\"savestate complete after 1 polls of 0.05s\"],[8.283,\"emulator key Scroll_Lock (for host+s) held 0.15s (raw keycode 78)\"],[8.284,\"savestate complete after 1 polls of 0.05s\"],[8.446,\"emulator key Scroll_Lock (for host+s) held 0.15s (raw keycode 78)\"],[8.447,\"savestate complete after 1 polls of 0.05s\"],[8.459,\"after key b: changed and stable after 3 savestate polls\"],[8.548,\"key Enter held 0.08s (raw keycode 36)\"],[8.699,\"emulator key Scroll_Lock (for host+s) held 0.15s (raw keycode 78)\"],[8.701,\"savestate complete after 1 polls of 0.05s\"],[8.867,\"emulator key Scroll_Lock (for host+s) held 0.15s (raw keycode 78)\"],[8.868,\"savestate complete after 1 polls of 0.05s\"],[8.883,\"after key Enter: changed and stable after 2 savestate polls\"],[8.964,\"key Enter held 0.08s (raw keycode 36)\"],[9.115,\"emulator key Scroll_Lock (for host+s) held 0.15s (raw keycode 78)\"],[9.116,\"savestate complete after 1 polls of 0.05s\"],[9.277,\"emulator key Scroll_Lock (for host+s) held 0.15s (raw keycode 78)\"],[9.279,\"savestate complete after 1 polls of 0.05s\"],[9.441,\"emulator key Scroll_Lock (for host+s) held 0.15s (raw keycode 78)\"],[9.442,\"savestate complete after 1 polls of 0.05s\"],[9.453,\"after key Enter: changed and stable after 3 savestate polls\"],[9.541,\"key Enter held 0.08s (raw keycode 36)\"],[9.692,\"emulator key Scroll_Lock (for host+s) held 0.15s (raw keycode 78)\"],[9.693,\"savestate complete after 1 polls of 0.05s\"],[9.856,\"emulator key Scroll_Lock (for host+s) held 0.15s (raw keycode 78)\"],[9.857,\"savestate complete after 1 polls of 0.05s\"],[9.872,\"after key Enter: changed and stable after 2 savestate polls\"],[9.953,\"key Enter held 0.08s (raw keycode 36)\"],[10.104,\"emulator key Scroll_Lock (for host+s) held 0.15s (raw keycode 78)\"],[10.106,\"savestate complete after 1 polls of 0.05s\"],[10.272,\"emulator key Scroll_Lock (for host+s) held 0.15s (raw keycode 78)\"],[10.273,\"savestate complete after 1 polls of 0.05s\"],[10.285,\"after key Enter: changed and stable after 2 savestate polls\"],[10.366,\"key Esc held 0.08s (raw keycode 9)\"],[10.517,\"emulator key Scroll_Lock (for host+s) held 0.15s (raw keycode 78)\"],[10.518,\"savestate complete after 1 polls of 0.05s\"],[10.679,\"emulator key Scroll_Lock (for host+s) held 0.15s (raw keycode 78)\"],[10.681,\"savestate complete after 1 polls of 0.05s\"],[10.691,\"after key Esc: changed and stable after 2 savestate polls\"],[11.191,\"dosbox-x pid 20683 alive 0.5s after SIGTERM (grace 0.5s): SIGKILL to its group\"],[11.198,\"dosbox-x pid 20683 ended by SIGKILL 0.507s after the first signal\"],[11.201,\"Xvfb pid 20678 ended by SIGTERM 0.003s after the first signal\"],[11.201,\"terminated\"]]"
+    }
+  ],
+  "outputs": [],
+  "started": "2026-10-16T06:46:57.543Z",
+  "ended": "2026-10-16T06:47:08.771Z",
+  "status": "completed"
+}

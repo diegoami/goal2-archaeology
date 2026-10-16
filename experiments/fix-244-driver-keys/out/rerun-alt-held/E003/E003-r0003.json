@@ -1,0 +1,345 @@
+{
+  "schema": "run/1",
+  "run_id": "E003-r0003",
+  "experiment": "E003",
+  "arm": "d0-time-100000-date-10041993",
+  "rep": 3,
+  "code_commit": "208d363",
+  "machine": "ubuntu-26-04-wsl2",
+  "artifact": {
+    "set": "goal2-67cf27d6",
+    "variant": null
+  },
+  "runtime": {
+    "driver": "runtime/driver/driver.py@208d363",
+    "platform": "python-3.14.4/ubuntu-26-04-wsl2",
+    "fingerprint": {
+      "dosbox-x": "2024.03.01 SDL2",
+      "xvfb": "2:21.1.22-1ubuntu1.2",
+      "xdotool": "xdotool version 3.20160805.1",
+      "python": "3.14.4",
+      "kernel": "6.18.54.1-microsoft-standard-WSL2",
+      "config_sha256": "a4063814aeec4ee5384ca91a01bd0e1e5a1215cc01365939f764ed35bc8e2a3c",
+      "machine": "svga_s3",
+      "memsize": "16",
+      "cycles": "auto",
+      "core": "auto",
+      "cputype": "auto",
+      "dos_time": "10:00:00",
+      "dos_date": "10-04-1993"
+    }
+  },
+  "interventions": [
+    {
+      "level": "I1",
+      "what": "text screen, BIOS data area (0040:0049, 0040:006C) and GOAL.EXE data-segment words (DS:7B62, DS:7B64, DS:8336, and two known strings) read from DOSBox-X savestates (Host+S; components Vga and Memory)"
+    },
+    {
+      "level": "I2",
+      "what": "a savestate is written at each read (vocabulary/interventions.md lists save and load of state as I2; neutrality not tested)"
+    },
+    {
+      "level": "I3",
+      "what": "DOS date 10/04/1993 and DOS time 10:00:00 requested with the DOSBox-X commands `date 10/04/1993` and `time 10:00:00` in the autoexec, before GOAL runs; applied: DOS reported date 10/04/1993 and time 9:59:59 right after (`date /t`, `time /t`)"
+    }
+  ],
+  "start_state": {
+    "id": "fresh-launch",
+    "sha256": "a4063814aeec4ee5384ca91a01bd0e1e5a1215cc01365939f764ed35bc8e2a3c",
+    "restore": "fresh DOSBox-X process (config sha256 a4063814aeec4ee5384ca91a01bd0e1e5a1215cc01365939f764ed35bc8e2a3c, the hash of the config text with host paths replaced), game folder recreated from the verified release copy, nothing restored; DOS time set to 10:00:00 on 10/04/1993 before GOAL ran"
+  },
+  "seed": null,
+  "actions": {
+    "script": "experiments/E003-q001-inputs/run.py",
+    "sha256": "539ab6166a60a60ebf114e5426676b55d542a67065780e887d9949f1749b593d",
+    "args": [
+      "d0",
+      "--dos-time",
+      "10:00:00",
+      "--dos-date",
+      "10/04/1993",
+      "--batch",
+      "fix244-alt",
+      "keys: n Enter Enter b o b Enter Enter Enter Enter Esc"
+    ]
+  },
+  "observations": [
+    {
+      "step": 0,
+      "source": "log",
+      "field": "host UTC time at launch",
+      "value": "2026-10-16T07:13:46.356Z"
+    },
+    {
+      "step": 0,
+      "source": "log",
+      "field": "host local time at launch, with UTC offset, and zone name",
+      "value": "2026-10-16T09:13:46.356+02:00 CEST"
+    },
+    {
+      "step": 0,
+      "source": "file",
+      "field": "DOS clock read back: CLOCK.TXT as DOS wrote it (`date /t`, then `time /t`) before GOAL, right after setting the date and time when they were set",
+      "value": "10/04/1993\n9:59:59\n"
+    },
+    {
+      "step": 0,
+      "source": "log",
+      "field": "title (fresh launch): host UTC time just before the savestate was requested",
+      "value": "2026-10-16T07:13:48.734Z"
+    },
+    {
+      "step": 0,
+      "source": "log",
+      "field": "title (fresh launch): host local time with UTC offset, and zone name, at the same instant",
+      "value": "2026-10-16T09:13:48.734+02:00 CEST"
+    },
+    {
+      "step": 0,
+      "source": "screen",
+      "field": "title (fresh launch): text screen 80x25, chars+attributes (4000 bytes), sha256",
+      "value": "cd7f15fbf853b40471d05bad51cb6e6c14cbc8a7307893dba8f5f36c2315c612"
+    },
+    {
+      "step": 0,
+      "source": "ui-text",
+      "field": "title (fresh launch): text screen rows 0-24, CP437 decoded, trailing blanks trimmed",
+      "value": " (c) NE'93│ │                                                    │     (c)\n ┌─┐┌─┐┌─┐│ │                                                    │     new\n │ ││ ││ ││ │                                                    │     era\n └─┤└─┘└─┤│ │                                                    │   software\n───┘ v.2    │                                                    │     1993\n────────────┘                                                    └──────────────\n\n\n\n\n\n\n────────────────────────────────────────────────────────────────────────────────\n                   THE international soccer management game\n────────────────────────────────────────────────────────────────────────────────\n\n────────────────────────────────────────────────────────────────────────────────\n                    design and coding : Mantra and L.B.\n────────────────────────────────────────────────────────────────────────────────\n     testing and feedback : Celtic Ray, Mr Scott, Big Mac and Carl Wilky\n────────────────────────────────────────────────────────────────────────────────\n               distribution : Silverwitch and Tom de Notre Dame\n────────────────────────────────────────────────────────────────────────────────\n\n■■■■■■■■■■■■■■■■■■■ Do you want to load a saved game? (Y/N) ■■■■■■■■■■■■■■■■■■■■"
+    },
+    {
+      "step": 0,
+      "source": "memory",
+      "addr": "0x449",
+      "field": "title (fresh launch): 1 byte at 0040:0049 (BIOS video mode), guest memory from the savestate, hex",
+      "value": "03"
+    },
+    {
+      "step": 0,
+      "source": "memory",
+      "addr": "0x46c",
+      "field": "title (fresh launch): 4 bytes at 0040:006C (BIOS timer tick count), guest memory from the savestate, as a little-endian dword (bytes in memory order)",
+      "value": "0x000a005a (5a 00 0a 00)"
+    },
+    {
+      "step": 0,
+      "source": "memory",
+      "addr": "0x8120",
+      "field": "GOAL.EXE located: its MCB (owner = the next segment, name GOAL), PSP, load segment and data segment",
+      "value": "MCB at segment 0812 (owner 0813, name GOAL), PSP 0813, load segment 0823 = PSP + 10h, DS 2DA4 = load + 2581h, linear base 0x2DA40"
+    },
+    {
+      "step": 0,
+      "source": "memory",
+      "addr": "0x2da64",
+      "field": "8 bytes at DS:0024, hex (static/goal-exe/data/ds_2581_01.hex has 07 54 52 59 20 4f 55 54)",
+      "value": "07 54 52 59 20 4f 55 54"
+    },
+    {
+      "step": 0,
+      "source": "memory",
+      "addr": "0x2db00",
+      "field": "6 bytes at DS:00C0, hex (static/goal-exe/data/ds_2581_01.hex has 6f 6e 20 66 6f 72)",
+      "value": "6f 6e 20 66 6f 72"
+    },
+    {
+      "step": 0,
+      "source": "memory",
+      "addr": "0x355a2",
+      "field": "title (fresh launch): word at DS:7B62 of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+      "value": "0x0000 (00 00)"
+    },
+    {
+      "step": 0,
+      "source": "memory",
+      "addr": "0x355a4",
+      "field": "title (fresh launch): word at DS:7B64 of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+      "value": "0x0000 (00 00)"
+    },
+    {
+      "step": 0,
+      "source": "memory",
+      "addr": "0x35d76",
+      "field": "title (fresh launch): word at DS:8336 of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+      "value": "0x0057 (57 00)"
+    },
+    {
+      "step": 0,
+      "source": "memory",
+      "addr": "0x3843d",
+      "field": "title (fresh launch): word at DS:A9FD of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+      "value": "0x07c9 (c9 07)"
+    },
+    {
+      "step": 0,
+      "source": "file",
+      "field": "DOSBox-X config of the session, host paths replaced by <work> and <game>",
+      "value": "[sdl]\nfullscreen=false\noutput=surface\nmapperfile=<work>/mapper.map\n[mixer]\nnosound=true\n[midi]\nmididevice=none\n[dosbox]\nmachine=svga_s3\nmemsize=16\nsaveremark=false\ncaptures=<work>/cap\n[cpu]\ncore=auto\ncputype=auto\ncycles=auto\n[autoexec]\nmount c <game>\nc:\ndate 10/04/1993\ntime 10:00:00\nmount d <work>/dosclock\ndate /t > d:\\clock.txt\ntime /t >> d:\\clock.txt\nc:\ngoal\nexit\n"
+    },
+    {
+      "step": 0,
+      "source": "file",
+      "field": "sha256 of that config text (UTF-8)",
+      "value": "a4063814aeec4ee5384ca91a01bd0e1e5a1215cc01365939f764ed35bc8e2a3c"
+    },
+    {
+      "step": 0,
+      "source": "log",
+      "field": "batch label given on the command line",
+      "value": "fix244-alt"
+    },
+    {
+      "step": 1,
+      "source": "log",
+      "field": "after key 1 (n): host UTC time just before the savestate was requested",
+      "value": "2026-10-16T07:13:50.424Z"
+    },
+    {
+      "step": 1,
+      "source": "log",
+      "field": "after key 1 (n): host local time with UTC offset, and zone name, at the same instant",
+      "value": "2026-10-16T09:13:50.424+02:00 CEST"
+    },
+    {
+      "step": 1,
+      "source": "screen",
+      "field": "after key 1 (n): text screen 80x25, chars+attributes (4000 bytes), sha256",
+      "value": "487df15f2d57c3acb753f9b43d2bf81001147cfdd18b8b88e5b427f9403b39e2"
+    },
+    {
+      "step": 1,
+      "source": "ui-text",
+      "field": "after key 1 (n): text screen rows 0-24, CP437 decoded, trailing blanks trimmed",
+      "value": " (c) NE'93│ │                                                    │     (c)\n ┌─┐┌─┐┌─┐│ │                                                    │     new\n │ ││ ││ ││ │                                                    │     era\n └─┤└─┘└─┤│ │                                                    │   software\n───┘ v.2    │                                                    │     1993\n────────────┘                                                    └──────────────\n\n\n\n\n\n\n────────────────────────────────────────────────────────────────────────────────\n                        How many players  1 2 3 4 5 6  ?\n────────────────────────────────────────────────────────────────────────────────\n\n────────────────────────────────────────────────────────────────────────────────\n                    design and coding : Mantra and L.B.\n────────────────────────────────────────────────────────────────────────────────\n     testing and feedback : Celtic Ray, Mr Scott, Big Mac and Carl Wilky\n────────────────────────────────────────────────────────────────────────────────\n               distribution : Silverwitch and Tom de Notre Dame\n────────────────────────────────────────────────────────────────────────────────\n\n                     Use ←→ to choose number, ◄┘ to select"
+    },
+    {
+      "step": 1,
+      "source": "memory",
+      "addr": "0x449",
+      "field": "after key 1 (n): 1 byte at 0040:0049 (BIOS video mode), guest memory from the savestate, hex",
+      "value": "03"
+    },
+    {
+      "step": 1,
+      "source": "memory",
+      "addr": "0x46c",
+      "field": "after key 1 (n): 4 bytes at 0040:006C (BIOS timer tick count), guest memory from the savestate, as a little-endian dword (bytes in memory order)",
+      "value": "0x000a0074 (74 00 0a 00)"
+    },
+    {
+      "step": 1,
+      "source": "memory",
+      "addr": "0x355a2",
+      "field": "after key 1 (n): word at DS:7B62 of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+      "value": "0x0000 (00 00)"
+    },
+    {
+      "step": 1,
+      "source": "memory",
+      "addr": "0x355a4",
+      "field": "after key 1 (n): word at DS:7B64 of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+      "value": "0x0000 (00 00)"
+    },
+    {
+      "step": 1,
+      "source": "memory",
+      "addr": "0x35d76",
+      "field": "after key 1 (n): word at DS:8336 of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+      "value": "0x0057 (57 00)"
+    },
+    {
+      "step": 1,
+      "source": "memory",
+      "addr": "0x3843d",
+      "field": "after key 1 (n): word at DS:A9FD of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+      "value": "0x07c9 (c9 07)"
+    },
+    {
+      "step": 3,
+      "source": "log",
+      "field": "last complete read before the abort: host UTC time just before the savestate was requested",
+      "value": "2026-10-16T07:14:06.005Z"
+    },
+    {
+      "step": 3,
+      "source": "log",
+      "field": "last complete read before the abort: host local time with UTC offset, and zone name, at the same instant",
+      "value": "2026-10-16T09:14:06.005+02:00 CEST"
+    },
+    {
+      "step": 3,
+      "source": "screen",
+      "field": "last complete read before the abort: text screen 80x25, chars+attributes (4000 bytes), sha256",
+      "value": "487df15f2d57c3acb753f9b43d2bf81001147cfdd18b8b88e5b427f9403b39e2"
+    },
+    {
+      "step": 3,
+      "source": "ui-text",
+      "field": "last complete read before the abort: text screen rows 0-24, CP437 decoded, trailing blanks trimmed",
+      "value": " (c) NE'93│ │                                                    │     (c)\n ┌─┐┌─┐┌─┐│ │                                                    │     new\n │ ││ ││ ││ │                                                    │     era\n └─┤└─┘└─┤│ │                                                    │   software\n───┘ v.2    │                                                    │     1993\n────────────┘                                                    └──────────────\n\n\n\n\n\n\n────────────────────────────────────────────────────────────────────────────────\n                        How many players  1 2 3 4 5 6  ?\n────────────────────────────────────────────────────────────────────────────────\n\n────────────────────────────────────────────────────────────────────────────────\n                    design and coding : Mantra and L.B.\n────────────────────────────────────────────────────────────────────────────────\n     testing and feedback : Celtic Ray, Mr Scott, Big Mac and Carl Wilky\n────────────────────────────────────────────────────────────────────────────────\n               distribution : Silverwitch and Tom de Notre Dame\n────────────────────────────────────────────────────────────────────────────────\n\n                     Use ←→ to choose number, ◄┘ to select"
+    },
+    {
+      "step": 3,
+      "source": "memory",
+      "addr": "0x449",
+      "field": "last complete read before the abort: 1 byte at 0040:0049 (BIOS video mode), guest memory from the savestate, hex",
+      "value": "03"
+    },
+    {
+      "step": 3,
+      "source": "memory",
+      "addr": "0x46c",
+      "field": "last complete read before the abort: 4 bytes at 0040:006C (BIOS timer tick count), guest memory from the savestate, as a little-endian dword (bytes in memory order)",
+      "value": "0x000a0166 (66 01 0a 00)"
+    },
+    {
+      "step": 3,
+      "source": "memory",
+      "addr": "0x355a2",
+      "field": "last complete read before the abort: word at DS:7B62 of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+      "value": "0x0000 (00 00)"
+    },
+    {
+      "step": 3,
+      "source": "memory",
+      "addr": "0x355a4",
+      "field": "last complete read before the abort: word at DS:7B64 of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+      "value": "0x0000 (00 00)"
+    },
+    {
+      "step": 3,
+      "source": "memory",
+      "addr": "0x35d76",
+      "field": "last complete read before the abort: word at DS:8336 of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+      "value": "0x0057 (57 00)"
+    },
+    {
+      "step": 3,
+      "source": "memory",
+      "addr": "0x3843d",
+      "field": "last complete read before the abort: word at DS:A9FD of GOAL.EXE, guest memory from the savestate, little-endian (bytes in memory order)",
+      "value": "0x07c9 (c9 07)"
+    },
+    {
+      "step": 3,
+      "source": "log",
+      "field": "lines of DOSBox-X's own output (dosbox.out) that mention save, load, corrupt, date or time (Save_Remark and Time_Stamp lines left out), in order",
+      "value": "LOG: Active save slot: 1 [Empty]\nLOG: File : <work>/IntTimer10 is 140 bytes\nLOG: [09:13:46]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 141 bytes\nLOG: [09:13:47]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 139 bytes\nLOG: [09:13:47]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 141 bytes\nLOG: [09:13:48]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 162 bytes\nLOG: [09:13:48]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 163 bytes\nLOG: [09:13:49]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 162 bytes\nLOG: [09:13:49]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 163 bytes\nLOG: [09:13:50]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 162 bytes\nLOG: [09:13:51]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 161 bytes\nLOG: [09:13:51]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 161 bytes\nLOG: [09:13:52]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 158 bytes\nLOG: [09:13:52]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 162 bytes\nLOG: [09:13:53]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 162 bytes\nLOG: [09:13:53]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 163 bytes\nLOG: [09:13:54]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 163 bytes\nLOG: [09:13:54]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 162 bytes\nLOG: [09:13:55]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 163 bytes\nLOG: [09:13:55]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 161 bytes\nLOG: [09:13:56]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 162 bytes\nLOG: [09:13:57]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 161 bytes\nLOG: [09:13:57]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 163 bytes\nLOG: [09:13:58]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 162 bytes\nLOG: [09:13:58]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 161 bytes\nLOG: [09:13:59]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 161 bytes\nLOG: [09:13:59]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 162 bytes\nLOG: [09:14:00]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 162 bytes\nLOG: [09:14:00]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 162 bytes\nLOG: [09:14:01]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 162 bytes\nLOG: [09:14:01]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 161 bytes\nLOG: [09:14:02]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 163 bytes\nLOG: [09:14:02]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 162 bytes\nLOG: [09:14:03]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 162 bytes\nLOG: [09:14:03]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 162 bytes\nLOG: [09:14:04]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 162 bytes\nLOG: [09:14:05]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 162 bytes\nLOG: [09:14:05]: Saved. (Slot 1)\nLOG: File : <work>/IntTimer10 is 162 bytes\nLOG: [09:14:06]: Saved. (Slot 1)"
+    },
+    {
+      "step": 3,
+      "source": "process",
+      "field": "dosbox-x and Xvfb after SIGTERM to their process groups (SIGKILL after 10 s, see log)",
+      "value": "both exited"
+    },
+    {
+      "step": 3,
+      "source": "log",
+      "field": "waits, polls and key holds, seconds since launch",
+      "value": "[[0.014,\"mapper file written, sha256 7b2f6f958fdb0a0b6a68e12611c3e3ab8554f0872c048ab8a8a05da2fff73a23: savestate on Scroll Lock, load on Print Screen\"],[0.118,\"Xvfb poll: answered after 2 polls of 0.1s\"],[0.118,\"Xvfb :699 answering\"],[0.119,\"dosbox-x started\"],[0.242,\"window found after 2 polls of 0.1s\"],[0.244,\"window focused\"],[0.765,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[0.767,\"savestate complete after 1 polls of 0.05s\"],[1.299,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[1.3,\"savestate complete after 1 polls of 0.05s\"],[1.834,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[1.835,\"savestate complete after 1 polls of 0.05s\"],[2.365,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[2.367,\"savestate complete after 1 polls of 0.05s\"],[2.899,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[2.9,\"savestate complete after 1 polls of 0.05s\"],[2.912,\"title screen: matched after 5 savestate polls\"],[2.912,\"DOS clock read back: '10/04/1993\\\\n9:59:59'\"],[2.913,\"control: Alt_L pressed and left down\"],[3.0,\"key n held 0.08s (raw keycode 57)\"],[3.523,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[3.523,\"savestate complete after 1 polls of 0.05s\"],[4.054,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[4.057,\"savestate complete after 1 polls of 0.05s\"],[4.589,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[4.592,\"savestate complete after 1 polls of 0.05s\"],[4.606,\"after key n: changed and stable after 3 savestate polls\"],[4.694,\"key Enter held 0.08s (raw keycode 36)\"],[5.216,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[5.218,\"savestate complete after 1 polls of 0.05s\"],[5.75,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[5.752,\"savestate complete after 1 polls of 0.05s\"],[6.282,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[6.285,\"savestate complete after 1 polls of 0.05s\"],[6.816,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[6.818,\"savestate complete after 1 polls of 0.05s\"],[7.351,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[7.354,\"savestate complete after 1 polls of 0.05s\"],[7.885,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[7.888,\"savestate complete after 1 polls of 0.05s\"],[8.419,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[8.42,\"savestate complete after 1 polls of 0.05s\"],[8.951,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[8.953,\"savestate complete after 1 polls of 0.05s\"],[9.489,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[9.492,\"savestate complete after 1 polls of 0.05s\"],[10.025,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[10.027,\"savestate complete after 1 polls of 0.05s\"],[10.559,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[10.562,\"savestate complete after 1 polls of 0.05s\"],[11.094,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[11.096,\"savestate complete after 1 polls of 0.05s\"],[11.629,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[11.631,\"savestate complete after 1 polls of 0.05s\"],[12.162,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[12.164,\"savestate complete after 1 polls of 0.05s\"],[12.697,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[12.7,\"savestate complete after 1 polls of 0.05s\"],[13.232,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[13.235,\"savestate complete after 1 polls of 0.05s\"],[13.767,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[13.769,\"savestate complete after 1 polls of 0.05s\"],[14.3,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[14.302,\"savestate complete after 1 polls of 0.05s\"],[14.833,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[14.835,\"savestate complete after 1 polls of 0.05s\"],[15.367,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[15.369,\"savestate complete after 1 polls of 0.05s\"],[15.901,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[15.903,\"savestate complete after 1 polls of 0.05s\"],[16.434,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[16.436,\"savestate complete after 1 polls of 0.05s\"],[16.968,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[16.971,\"savestate complete after 1 polls of 0.05s\"],[17.502,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[17.504,\"savestate complete after 1 polls of 0.05s\"],[18.035,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[18.038,\"savestate complete after 1 polls of 0.05s\"],[18.569,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[18.571,\"savestate complete after 1 polls of 0.05s\"],[19.102,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[19.104,\"savestate complete after 1 polls of 0.05s\"],[19.636,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[19.639,\"savestate complete after 1 polls of 0.05s\"],[20.17,\"emulator key Scroll_Lock (for host+s) held 0.52s (raw keycode 78)\"],[20.172,\"savestate complete after 1 polls of 0.05s\"],[20.689,\"dosbox-x pid 33551 alive 0.5s after SIGTERM (grace 0.5s): SIGKILL to its group\"],[20.695,\"dosbox-x pid 33551 ended by SIGKILL 0.506s after the first signal\"],[20.698,\"Xvfb pid 33546 ended by SIGTERM 0.003s after the first signal\"],[20.698,\"terminated\"]]"
+    }
+  ],
+  "outputs": [],
+  "started": "2026-10-16T07:13:46.356Z",
+  "ended": "2026-10-16T07:14:07.076Z",
+  "status": "aborted: RuntimeError: after key Enter: no settled change within 15s"
+}

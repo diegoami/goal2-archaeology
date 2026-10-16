@@ -1,0 +1,149 @@
+FFFFFE.F.E..
+======================================================================
+ERROR: test_legacy_keys_is_the_old_fault_kept_to_reproduce_it (__main__.KeySending.test_legacy_keys_is_the_old_fault_kept_to_reproduce_it)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/claude-1000/old244/tests/test_driver_keys.py", line 142, in test_legacy_keys_is_the_old_fault_kept_to_reproduce_it
+    d = self.driver(legacy_keys=True)
+  File "/tmp/claude-1000/old244/tests/test_driver_keys.py", line 98, in driver
+    d = driver.Driver({}, workdir=self.tmp / "work", game_dir=self.tmp / "game", **kw)
+TypeError: Driver.__init__() got an unexpected keyword argument 'legacy_keys'
+
+======================================================================
+ERROR: test_launch_writes_the_mapper_and_legacy_keys_removes_a_stale_one (__main__.Mapper.test_launch_writes_the_mapper_and_legacy_keys_removes_a_stale_one)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/claude-1000/old244/tests/test_driver_keys.py", line 171, in test_launch_writes_the_mapper_and_legacy_keys_removes_a_stale_one
+    d._write_mapper()
+    ^^^^^^^^^^^^^^^
+AttributeError: 'Driver' object has no attribute '_write_mapper'
+
+======================================================================
+FAIL: test_no_alt_is_held_and_f10_arrives_as_f10 (__main__.EndToEnd.test_no_alt_is_held_and_f10_arrives_as_f10)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/claude-1000/old244/tests/test_driver_keys.py", line 203, in test_no_alt_is_held_and_f10_arrives_as_f10
+    self.assertFalse(r["alt_held"], f"Alt held at {r['read']}: {r['0040:0017']} {r['0040:0018']} {r['0040:0096']}")
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: True is not false : Alt held at launch: the savestate that showed the title: 00001000 00000010 00010000
+
+======================================================================
+FAIL: test_a_function_key_is_sent_as_itself_without_alt (__main__.KeySending.test_a_function_key_is_sent_as_itself_without_alt)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/claude-1000/old244/tests/test_driver_keys.py", line 105, in test_a_function_key_is_sent_as_itself_without_alt
+    self.assertEqual([("press", "F10"), ("release", "F10")], self.x.events())
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: [('press', 'F10'), ('release', 'F10')] != [('press', 'Alt_L'), ('press', 'F10'), ('release', 'Alt_L'), ('release', 'F10')]
+
+First differing element 0:
+('press', 'F10')
+('press', 'Alt_L')
+
+Second list contains 2 additional elements.
+First extra element 2:
+('release', 'Alt_L')
+
+- [('press', 'F10'), ('release', 'F10')]
++ [('press', 'Alt_L'), ('press', 'F10'), ('release', 'Alt_L'), ('release', 'F10')]
+
+======================================================================
+FAIL: test_a_key_that_would_need_a_modifier_or_does_not_exist_is_refused (__main__.KeySending.test_a_key_that_would_need_a_modifier_or_does_not_exist_is_refused)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/claude-1000/old244/tests/test_driver_keys.py", line 137, in test_a_key_that_would_need_a_modifier_or_does_not_exist_is_refused
+    with self.assertRaises(ValueError, msg=bad):
+         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised : XF86Switch_VT_10
+
+======================================================================
+FAIL: test_an_upper_case_letter_is_sent_with_shift_around_it_and_nothing_else (__main__.KeySending.test_an_upper_case_letter_is_sent_with_shift_around_it_and_nothing_else)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/claude-1000/old244/tests/test_driver_keys.py", line 132, in test_an_upper_case_letter_is_sent_with_shift_around_it_and_nothing_else
+    self.assertEqual([("press", "Shift_L"), ("press", "n"), ("release", "n"), ("release", "Shift_L")], self.x.events())
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: [('press', 'Shift_L'), ('press', 'n'), ('release', 'n'), ('release', 'Shift_L')] != [('press', 'Shift_L'), ('press', 'n'), ('release', 'Shift_L'), ('release', 'n')]
+
+First differing element 2:
+('release', 'n')
+('release', 'Shift_L')
+
+- [('press', 'Shift_L'), ('press', 'n'), ('release', 'n'), ('release', 'Shift_L')]
+?                                                     ^                 ^^^^^^^
+
++ [('press', 'Shift_L'), ('press', 'n'), ('release', 'Shift_L'), ('release', 'n')]
+?                                                     ^^^^^^^                 ^
+
+
+======================================================================
+FAIL: test_every_function_key_arrives_alone (__main__.KeySending.test_every_function_key_arrives_alone)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/claude-1000/old244/tests/test_driver_keys.py", line 111, in test_every_function_key_arrives_alone
+    self.assertEqual(want, self.x.events())
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: [('press', 'F1'), ('release', 'F1'), ('press', 'F2'),[380 chars]12')] != [('press', 'Alt_L'), ('press', 'F1'), ('release', 'Al[884 chars]12')]
+
+First differing element 0:
+('press', 'F1')
+('press', 'Alt_L')
+
+Second list contains 24 additional elements.
+First extra element 24:
+('press', 'Alt_L')
+
+Diff is 1145 characters long. Set self.maxDiff to None to see it.
+
+======================================================================
+FAIL: test_the_savestate_key_is_one_key_and_never_f12_or_alt (__main__.KeySending.test_the_savestate_key_is_one_key_and_never_f12_or_alt)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/claude-1000/old244/tests/test_driver_keys.py", line 118, in test_the_savestate_key_is_one_key_and_never_f12_or_alt
+    self.assertEqual([("press", "Scroll_Lock"), ("release", "Scroll_Lock"),
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                      ("press", "Print"), ("release", "Print")], self.x.events())
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: [('press', 'Scroll_Lock'), ('release', 'Scroll_Lock')[38 chars]nt')] != [('press', 'Alt_L'), ('press', 'F12'), ('press', 's')[170 chars]12')]
+
+First differing element 0:
+('press', 'Scroll_Lock')
+('press', 'Alt_L')
+
+Second list contains 8 additional elements.
+First extra element 4:
+('release', 'Alt_L')
+
+- [('press', 'Scroll_Lock'),
+?             ^^^^ ^  ---
+
++ [('press', 'Alt_L'),
+?             ^ ^
+
+-  ('release', 'Scroll_Lock'),
+-  ('press', 'Print'),
+?             ^^^^^
+
++  ('press', 'F12'),
+?             ^^^
+
++  ('press', 's'),
+-  ('release', 'Print')]
+?               ^^^^^  ^
+
++  ('release', 's'),
+?               ^  ^
+
++  ('release', 'Alt_L'),
++  ('release', 'F12'),
++  ('press', 'Alt_L'),
++  ('press', 'F12'),
++  ('press', 'l'),
++  ('release', 'l'),
++  ('release', 'Alt_L'),
++  ('release', 'F12')]
+
+----------------------------------------------------------------------
+Ran 12 tests in 23.033s
+
+FAILED (failures=6, errors=2)

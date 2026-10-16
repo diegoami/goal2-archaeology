@@ -1,0 +1,6 @@
+{"combo": "default: --keys raw, mapper-nohost.map", "hostkeys": ["Scroll_Lock"], "0040:0017": "00000000", "0040:0018": "00000000", "alt_held": false, "DS:A976": "a8", "reads_worked": true}
+{"combo": "--fkeys xdotool, mapper-nohost.map", "hostkeys": ["Scroll_Lock"], "0040:0017": "00000000", "0040:0018": "00000000", "alt_held": false, "DS:A976": "d5", "reads_worked": true}
+{"combo": "--mapper '' --fkeys xdotool (the guide's reproduction)", "hostkeys": ["F12", "s"], "0040:0017": "00001000", "0040:0018": "00000010", "alt_held": true, "DS:A976": "d5", "reads_worked": true}
+{"combo": "--keys xdotool --mapper '' (the old driver)", "hostkeys": ["F12", "s"], "0040:0017": "00001000", "0040:0018": "00000010", "alt_held": true, "DS:A976": "d5", "reads_worked": true}
+{"combo": "--keys raw, a mapper file with the F12 chords", "hostkeys": ["F12", "s"], "0040:0017": "00000000", "0040:0018": "00000000", "alt_held": false, "DS:A976": "a8", "reads_worked": true}
+{"combo": "--keys xdotool, mapper-nohost.map", "hostkeys": ["Scroll_Lock"], "0040:0017": "00000000", "0040:0018": "00000000", "alt_held": false, "DS:A976": "d5", "reads_worked": true}
