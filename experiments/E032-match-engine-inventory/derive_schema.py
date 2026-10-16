@@ -27,12 +27,16 @@ def main():
     if dest.exists():
         sys.exit(f"refused: {dest} exists")
     files = sorted(p for p in (HERE / "out").glob("*.jsonl"))
+    # round 5: a glob that matches less than the manifest must fail, not pass on what it found
+    import recheck
+    names = {p.name for p in files}
+    bad = [f"missing log {n} (recheck.LOGS)" for n in recheck.LOGS if n not in names]
+    bad += [f"unexpected log {n} (not in recheck.LOGS)" for n in sorted(names - set(recheck.LOGS))]
     seen = collections.defaultdict(set)
     rng = {}
     rows = collections.defaultdict(lambda: {"labels": set(), "keys": set(), "address": set(), "lo": None, "hi": None})
     tid, tcount = [], []
     n = collections.Counter()
-    bad = []
 
     def span(key, v):
         lo, hi = rng.get(key, (v, v))

@@ -1,0 +1,95 @@
+test_a_transcript_without_a_clean_end_fails (tests.test_e032_recheck.RecheckFailsClosed.test_a_transcript_without_a_clean_end_fails) ... FAIL
+test_an_unexpected_log_fails (tests.test_e032_recheck.RecheckFailsClosed.test_an_unexpected_log_fails) ... FAIL
+test_each_log_replaced_by_an_empty_object_fails (tests.test_e032_recheck.RecheckFailsClosed.test_each_log_replaced_by_an_empty_object_fails) ... FAIL
+test_each_missing_log_fails (tests.test_e032_recheck.RecheckFailsClosed.test_each_missing_log_fails) ... FAIL
+test_each_missing_transcript_fails (tests.test_e032_recheck.RecheckFailsClosed.test_each_missing_transcript_fails) ... FAIL
+test_only_the_seven_logs_after_the_old_loop_fails (tests.test_e032_recheck.RecheckFailsClosed.test_only_the_seven_logs_after_the_old_loop_fails) ... FAIL
+test_the_full_state_passes (tests.test_e032_recheck.RecheckFailsClosed.test_the_full_state_passes) ... ok
+
+======================================================================
+FAIL: test_a_transcript_without_a_clean_end_fails (tests.test_e032_recheck.RecheckFailsClosed.test_a_transcript_without_a_clean_end_fails)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a49f66db95d9da981/tests/test_e032_recheck.py", line 106, in test_a_transcript_without_a_clean_end_fails
+    self.assertEqual(self.run_recheck(root).returncode, 2)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 0 != 2
+
+======================================================================
+FAIL: test_an_unexpected_log_fails (tests.test_e032_recheck.RecheckFailsClosed.test_an_unexpected_log_fails)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a49f66db95d9da981/tests/test_e032_recheck.py", line 100, in test_an_unexpected_log_fails
+    self.assertEqual(self.run_recheck(root).returncode, 2)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 0 != 2
+
+======================================================================
+FAIL: test_each_log_replaced_by_an_empty_object_fails (tests.test_e032_recheck.RecheckFailsClosed.test_each_log_replaced_by_an_empty_object_fails)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a49f66db95d9da981/tests/test_e032_recheck.py", line 91, in test_each_log_replaced_by_an_empty_object_fails
+    self.assertEqual(bad, [])
+    ~~~~~~~~~~~~~~~~^^^^^^^^^
+AssertionError: Lists differ: ['pilot-bound-36-20261015.jsonl as {}: exi[3887 chars]t 1'] != []
+
+First list contains 82 additional elements.
+First extra element 0:
+'pilot-bound-36-20261015.jsonl as {}: exit 1'
+
+Diff is 4191 characters long. Set self.maxDiff to None to see it.
+
+======================================================================
+FAIL: test_each_missing_log_fails (tests.test_e032_recheck.RecheckFailsClosed.test_each_missing_log_fails)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a49f66db95d9da981/tests/test_e032_recheck.py", line 81, in test_each_missing_log_fails
+    self.assertEqual(bad, [])
+    ~~~~~~~~~~~~~~~~^^^^^^^^^
+AssertionError: Lists differ: ['without pilot-bound-36-20261015.jsonl: e[4051 chars]t 1'] != []
+
+First list contains 82 additional elements.
+First extra element 0:
+'without pilot-bound-36-20261015.jsonl: exit 1'
+
+Diff is 4361 characters long. Set self.maxDiff to None to see it.
+
+======================================================================
+FAIL: test_each_missing_transcript_fails (tests.test_e032_recheck.RecheckFailsClosed.test_each_missing_transcript_fails)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a49f66db95d9da981/tests/test_e032_recheck.py", line 72, in test_each_missing_transcript_fails
+    self.assertEqual(bad, [])
+    ~~~~~~~~~~~~~~~~^^^^^^^^^
+AssertionError: Lists differ: ['without pilot-batch-20261015.txt: exit 0[427 chars]t 0'] != []
+
+First list contains 11 additional elements.
+First extra element 0:
+'without pilot-batch-20261015.txt: exit 0'
+
++ []
+- ['without pilot-batch-20261015.txt: exit 0',
+-  'without skip-batch-20261015.txt: exit 0',
+-  'without pilot-batch-review1.txt: exit 0',
+-  'without skip-batch-review1.txt: exit 0',
+-  'without pilot-batch-review2.txt: exit 0',
+-  'without skip-batch-review2.txt: exit 0',
+-  'without pilot-batch-review3.txt: exit 0',
+-  'without skip-batch-review3.txt: exit 0',
+-  'without pilot-batch-review4.txt: exit 0',
+-  'without skip-batch-review4.txt: exit 0',
+-  'without coverage-batch-20261015.txt: exit 0']
+
+======================================================================
+FAIL: test_only_the_seven_logs_after_the_old_loop_fails (tests.test_e032_recheck.RecheckFailsClosed.test_only_the_seven_logs_after_the_old_loop_fails)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a49f66db95d9da981/tests/test_e032_recheck.py", line 95, in test_only_the_seven_logs_after_the_old_loop_fails
+    self.assertEqual(self.run_recheck(root).returncode, 2)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 0 != 2
+
+----------------------------------------------------------------------
+Ran 7 tests in 574.426s
+
+FAILED (failures=6)

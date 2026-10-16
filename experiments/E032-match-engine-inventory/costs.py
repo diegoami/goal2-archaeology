@@ -142,7 +142,16 @@ def main():
     # ASCII digits only ([0-9]: \d would match other scripts' digits); seconds a plain decimal (round 4)
     pat = re.compile(r"emulated ([0-9]+) clock ticks, [0-9]+ seed writes, ([0-9]+(?:\.[0-9]+)?) s; "
                      r"full time: minute ([0-9]+)")
-    for log in sorted(E021.glob("t48-m2-longs*.log")) + sorted(E021.glob("t48-regression-*.log")):
+    # an explicit list (round 5): a glob that matched fewer logs would shrink the measurement silently
+    t48 = ["t48-m2-longs" + s + ".log" for s in (
+        "+0279-no-cross-term-run2", "+0279-no-cross-term-run3", "+0279-no-cross-term", "+0279-product+1",
+        "+0279-scratch-run2", "+0279-scratch-run3", "+0279-scratch", "+0d56-lowword-signed", "+0d56-min",
+        "+0d56-tie-a-run2", "+0d56-tie-a-run3", "+0d56-tie-a", "-run2", "")] + [
+        f"t48-regression-{s}.log" for s in ("m1-377e", "m2-287c", "m2-draws")]
+    missing = [n for n in t48 if not (E021 / n).is_file()]
+    if missing:
+        sys.exit(f"refused: T48 logs missing: {missing}")
+    for log in (E021 / n for n in t48):
         for m in pat.finditer(log.read_text()):
             (proved if int(m.group(3)) == 91 else stopped).append(float(m.group(2)))
 
