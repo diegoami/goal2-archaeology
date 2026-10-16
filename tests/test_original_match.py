@@ -343,6 +343,91 @@ class OriginalTests(unittest.TestCase):
         for kind in got:
             self.assertEqual(got[kind], seen[kind], kind)
 
+    def play(self, seed=None, pauses=(), answer=None, save_after=None):
+        """The reference fixture; pauses at the given minutes; answer(m, data) answers decisions (play on by
+        default); save_after(m, event) True: save there and go on from Match.load. Returns the events, the result
+        and the original's own goal counts DS:80F0 (record_goal 6443) read from the guest after the match."""
+        from original_match import Match, Fixture
+        m = Match(self.image, Fixture(7, 19, index=21), managed=7, seed=seed)
+        events, paused, saved = [], set(), False
+        while True:
+            for ev in m.events():
+                events.append(ev)
+                if ev.kind == "minute" and ev.minute in pauses and ev.minute not in paused:
+                    paused.add(ev.minute)
+                    m.pause()
+                if ev.kind == "decision":
+                    (answer or (lambda m, d: m.answer()))(m, ev.data)
+                if save_after and not saved and save_after(m, ev):
+                    saved = True
+                    m = Match.load(m.save())
+                    break
+            else:
+                break
+        return events, m.result(), [m.m.rd(0x80F0, 1), m.m.rd(0x80F1, 1)]
+
+    def goal_problems(self, events, result, counts):
+        # the event stream's scores follow its goal events (a goal +1, a take-back -1 after a goal of that team,
+        # nothing else moves the score), end at the board's score, and per team the result's goals are the board's
+        # score and the original's own count (record_goal credits an own goal to the side whose byte rises)
+        problems, score, open_goals = [], [0, 0], [0, 0]
+        for i, ev in enumerate(events):
+            if ev.kind in ("goal", "goal_disallowed"):
+                t, step = ev.data["team"], 1 if ev.kind == "goal" else -1
+                if step < 0 and not open_goals[t]:
+                    problems.append((i, "goal_disallowed without a goal before it"))
+                open_goals[t] += step
+                score[t] += step
+            if list(ev.score) != score:
+                problems.append((i, ev.kind, ev.minute, list(ev.score), list(score)))
+                score = list(ev.score)
+        if score != list(result["score"]):
+            problems.append(("end", score, result["score"]))
+        for t in (0, 1):
+            n = sum(1 for g in result["goals"] if g["team"] == t)
+            if not n == result["score"][t] == counts[t]:
+                problems.append(("team", t, n, result["score"][t], counts[t]))
+        return problems
+
+    def test_goal_records_agree_with_the_board_in_every_path(self):
+        # PR 251 review round 2, R1: the quick engine (0791:D733) clears DS:9B3C and rolls trial counts into it
+        # every minute; only its commit at DA58 adds goals. Watched, quick from minute 1 to 75 at each speed 0..5,
+        # quick after a tactic and a substitution, a save inside a quick result, a watched goal taken back.
+        def quick(speed, at=0, then=None):
+            def answer(m, d):
+                if d["context"] == "pause" and m.minute >= at:
+                    m.answer(quick=True, speed=speed)
+                else:
+                    (then or (lambda m, d: m.answer()))(m, d)
+            return answer
+        sys.path.insert(0, str(ROOT / "experiments" / "E033-original-match-kit"))
+        import stamps
+        paths = {f"quick from minute {mn}, speed {sp}": dict(pauses=(mn,), answer=quick(sp))
+                 for mn, sp in ((1, 0), (15, 1), (30, 2), (45, 3), (60, 4), (75, 5))}
+        paths["quick at 60 after a tactic and a substitution at 20, seed 70"] = dict(
+            seed=70, pauses=(20, 60), answer=quick(3, at=60, then=stamps.decisions))
+        paths["saved inside a quick result from minute 30"] = dict(
+            pauses=(30,), answer=quick(3), save_after=lambda m, ev: ev.kind == "minute" and ev.minute == 70)
+        paths["watched, a goal taken back, seed 70"] = dict(seed=70, pauses=(20, 60), answer=stamps.decisions)
+        taken_back = 0
+        for name, kw in paths.items():
+            events, result, counts = self.play(**kw)
+            taken_back += sum(ev.kind == "goal_disallowed" for ev in events)
+            self.assertTrue(sum(result["score"]) > 0, name)
+            self.assertEqual(self.goal_problems(events, result, counts)[:5], [], name)
+        self.assertGreater(taken_back, 0)
+
+    def test_event_stream_is_in_the_originals_write_order(self):
+        # PR 251 review round 2, R2: across kinds, the events come in the order of the original's writes (E033
+        # stamps.py's own hooks): seed 70's take-back at minute 29 comes after the lines written before it
+        sys.path.insert(0, str(ROOT / "experiments" / "E033-original-match-kit"))
+        import stamps
+        import original_match
+        want, got = stamps.run(original_match, self.image, seed=70, policy=stamps.decisions, pause_at=(20, 60))
+        self.assertIn("goal_disallowed", [o[0] for o in want["order"]])
+        self.assertGreater(len(want["order"]), 1000)
+        self.assertEqual(got["order"], want["order"])
+
     def test_refused_eleven_comes_back(self):
         from original_match import Match, Fixture
         m = Match(self.image, Fixture(7, 19, index=21), managed=7)

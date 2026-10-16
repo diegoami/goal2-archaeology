@@ -80,6 +80,7 @@ CARD_EVENTS = (("booking", "bookings"), ("sending_off", "sendings_off"), ("injur
 BARS = (0x80F2, 0x80F6)        # the board's two bar rows (0106: f_0791_006C rows 0x13, 0x14)
 SCORERS, SCORERS_SIDE = 0x7BD1, 0x21          # 0106: 0x7BD1 + 0x21*team + 3*k (word player, byte minute)
 MOTM = 0x7C3A                  # F014
+GOAL_COUNTS = 0x80F0           # record_goal 6443 adds 1 to DS:80F0 + side (up to 11): the original's own goal count
 RING, RING_REC, RING_SIZE, RING_NEWEST = 0x7C38, 6, 200, 0x80EE   # commentary.py; 1D4A
 SCREEN_PTR = 0xA96A            # the text page's far pointer (214B:0755)
 PITCH, PITCH_SIZE = 0x80E8, 0x16   # pitch record of slot s (1..22) at DS:80E8 + 0x16 s: +0 x, +1 y, +0xD the
@@ -863,7 +864,9 @@ class Match:
         self._result = {
             "first": self.opts["first"], "second": self.opts["second"], "managed": self.opts["managed"],
             "index": self.opts["index"], "score": board["final_score"], "half_time_score": st["half_time_score"],
-            "goals": st["log"]["goals"], "bookings": st["log"]["bookings"], "sendings_off": st["log"]["sendings_off"],
+            "goals": st["log"]["goals"], "goals_disallowed": st["log"]["goals_disallowed"],
+            "goal_counts": [m.rd(GOAL_COUNTS, 1), m.rd(GOAL_COUNTS + 1, 1)],
+            "bookings": st["log"]["bookings"], "sendings_off": st["log"]["sendings_off"],
             "injuries": st["log"]["injuries"], "substitutions": st["log"]["substitutions"],
             "man_of_the_match": board["man_of_the_match"], "man_of_the_match_name": name(board["man_of_the_match"]),
             "board": board, "commentary": st["commentary"], "decisions": st["decisions"], "inputs": self.inputs,

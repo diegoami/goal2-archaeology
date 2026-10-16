@@ -12,6 +12,9 @@
 3. interactive: example.py's match (goal2's own lineup and tactics, a tactic change at a pause, a substitution
    at half time) run straight and saved and resumed at minute 60 must be identical to each other and to the
    digest this kit recorded (EXPECTED_INTERACTIVE): the same inputs and answers give the same match.
+4. goals: in a quick result from a pause at minute 30 and in seed 70's match with a goal the original takes back,
+   the goal events, every event's score, the result's goals, the board and the original's own goal count agree
+   (goal_problems).
 The expected values are digests and counts, no original bytes. Exit 0 when every check passes."""
 import argparse
 import hashlib
@@ -88,6 +91,76 @@ def interactive(image):
     return ok, {"straight": straight, "resumed": resumed, "expected": EXPECTED_INTERACTIVE}
 
 
+def goal_problems(events, result):
+    """What is wrong with a match's goals (an empty list: nothing). Every event's score is the score of the goals
+    before it: a `goal` raises its team's by one, a `goal_disallowed` lowers it by one and needs a goal of that team
+    not yet taken back, no other event changes it; the last score is the board's; per team, the result's goals
+    are the board's score and the original's own count DS:80F0 (record_goal 6443, which counts an own goal for the
+    side the score byte credits, up to 11)."""
+    problems, score, open_goals = [], [0, 0], [0, 0]
+    for i, ev in enumerate(events):
+        s = list(ev.score)
+        if ev.kind in ("goal", "goal_disallowed"):
+            t, step = ev.data["team"], 1 if ev.kind == "goal" else -1
+            if step < 0 and not open_goals[t]:
+                problems.append(f"event {i}: goal_disallowed of team {t} without a goal before it")
+            open_goals[t] += step
+            score[t] += step
+        if s != score:
+            problems.append(f"event {i} ({ev.kind}, minute {ev.minute}): score {s}, the goals before it make {score}")
+            score = s
+    if score != list(result["score"]):
+        problems.append(f"the events end at {score}, the board says {result['score']}")
+    for t in (0, 1):
+        n = sum(1 for g in result["goals"] if g["team"] == t)
+        if n != result["score"][t] or result["goal_counts"][t] != min(result["score"][t], 11):
+            problems.append(f"team {t}: {n} goals in the result, board {result['score'][t]}, the original's count "
+                            f"{result['goal_counts'][t]}")
+    return problems
+
+
+def play_events(image, seed=None, pauses=(), answer=None):
+    """The reference fixture with pauses at the given minutes; answer(m, decision data) answers each decision (play
+    on by default). Returns the events and the result."""
+    m = Match(image, REFERENCE_FIXTURE, managed=7, seed=seed)
+    events, paused = [], set()
+    for ev in m.events():
+        events.append(ev)
+        if ev.kind == "minute" and ev.minute in pauses and ev.minute not in paused:
+            paused.add(ev.minute)
+            m.pause()
+        if ev.kind == "decision":
+            (answer or (lambda m, d: m.answer()))(m, ev.data)
+    return events, m.result()
+
+
+def take_back_answers(m, d):
+    """The answers under which seed 70's watched match has the original take a goal back at minute 29 (E033
+    stamps.py `decisions`): a tactic and a substitution at a pause, a second keeper at half time."""
+    if d["context"] == "pause" and d["eleven"]:
+        m.answer(tactics={4: not bool(d["tactics"] >> 3 & 1)}, substitutions=[(d["eleven"][10], d["bench"][7])])
+    elif d["context"] == "half_time" and not d.get("refused"):
+        m.answer(substitutions=[(d["eleven"][9], d["bench"][1])])
+    elif d["context"] == "substitution" and d["injured"]:
+        m.answer(substitutions=[(d["injured"][0], d["bench"][2])])
+    else:
+        m.answer()
+
+
+def goals(image):
+    """goal_problems on a quick result from a pause at minute 30 (PR 251 review round 2, R1) and on seed 70's
+    watched match with a goal taken back (R2)."""
+    def quick(m, d):
+        m.answer(quick=True, speed=3) if d["context"] == "pause" else m.answer()
+    runs = {"quick from minute 30": play_events(image, pauses=(30,), answer=quick),
+            "seed 70, a goal taken back": play_events(image, seed=70, pauses=(20, 60), answer=take_back_answers)}
+    detail = {name: {"score": r["score"], "goals": len(r["goals"]),
+                     "goal_events": sum(e.kind == "goal" for e in ev),
+                     "taken_back": sum(e.kind == "goal_disallowed" for e in ev), "problems": goal_problems(ev, r)}
+              for name, (ev, r) in runs.items()}
+    return not any(d["problems"] for d in detail.values()), detail
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__.split("\n\n")[0])
     ap.add_argument("--image", help="a savestate or Memory component (default: the reference, fetched by hash)")
@@ -98,7 +171,8 @@ def main(argv=None):
     data = open(a.image, "rb").read() if a.image else reference_image(a.cache)
     image = Image.from_bytes(data)
     report = {"kit": VERSION, "image_sha256": hashlib.sha256(data).hexdigest(), "reference": REFERENCE, "checks": {}}
-    steps = [("engine", engine), ("interactive", interactive)] + ([("family", family)] if a.family else [])
+    steps = [("engine", engine), ("interactive", interactive), ("goals", goals)] + (
+        [("family", family)] if a.family else [])
     for name, fn in steps:
         t0, c0 = time.time(), time.process_time()
         ok, detail = fn(image)
