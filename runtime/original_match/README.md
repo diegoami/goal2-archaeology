@@ -14,6 +14,8 @@ keys a manager would press. Nothing of the original is in this folder: its code 
    kit imports it, so goal2's quick path keeps working without it.
 3. **The image** is goal2's own E006-r0001 (release E006, SHA-256 `e0afff67…657d`, the file
    `tools/measure_p1.py` fetches): `assets.reference_image(".cache")` fetches it with `gh` and checks its hash.
+   Any savestate goal2 makes from it works too; an image of another GOAL.EXE (the shareware one, a repack) is
+   refused when the match is created (`Image.build()` against the registered version's digest).
 
 ## Know it works
 

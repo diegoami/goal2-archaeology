@@ -43,6 +43,8 @@ MUTATIONS = [
      [('DECIDED_AT_MENU = ("half_time", "pause", "extra_time")', 'DECIDED_AT_MENU = ("pause", "extra_time")')], [SUB]),
     ("a refused eleven not handed back", "match.py",
      [("st[\"refused\"], st[\"message\"], self._menu = refusal, None, None", "raise MatchError(refusal)")], [REFUSED]),
+    ("an image of another build accepted", "match.py",
+     [("if image.build() != REGISTERED_BUILD:", "if False:")], [T + "OriginalTests.test_another_build_is_refused"]),
     ("the memory component cut to 1 MiB + HMA", "match.py",
      [("return self.image_header + self.m.read(0, MEM_SIZE) + self.image_tail",
        "return self.image_header + self.m.read(0, MEM_SIZE)")], [SUB]),

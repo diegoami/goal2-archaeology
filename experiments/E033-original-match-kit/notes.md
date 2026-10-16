@@ -103,11 +103,16 @@ identical to the straight run; goal2 managing country 19 (Denmark released) is o
   interactive PASS (example.py straight = saved and resumed at minute 60 = the recorded digest), family PASS (10 of
   10). `out/check-20261016.json` and `out/example-20261016.txt` were made before the commentary cursor was fixed
   (it skipped the lines before the first tick); superseded, kept.
-- `tests/test_original_match.py`: 14 tests (screen drivers, image, machine, and four on the image). Before this PR
-  the package did not exist (every test errors on import). `tests/mutations_original_match.py`: 10 of 10 mutations
-  killed (`out/mutations-20261016b.txt`); its first run (`out/mutations-20261016.txt`, stopped by my time limit)
-  showed the commentary-cursor mutation surviving the engine check, which compares only the last 199 lines: the test
-  that every line the original writes is one event was added for it.
+- `tests/test_original_match.py`: 15 tests (screen drivers, image, machine, and five on the image). Before this PR
+  the package did not exist (every test errors on import). `tests/mutations_original_match.py`: every mutation
+  killed (`out/mutations-20261016b.txt` 10 of 10, `-c` 11 of 11, the final run 12 of 12); its first run
+  (`out/mutations-20261016.txt`, stopped by my time limit) showed the commentary-cursor mutation surviving the
+  engine check, which compares only the last 199 lines: the test that every line the original writes is one event
+  was added for it.
+- The build: the kit hooks fixed addresses of the registered GOAL.EXE, so a match refuses an image whose routines
+  differ there (`Image.build()`: the SHA-256 of the first instructions of the 20 routines it calls or hooks and of
+  the seed formula, stopping before any far call so no relocated byte is included). `build_digest.py` computes it
+  from the listing (`f6750a77...`); all five images at hand give the same.
 - goal2 (`goal2_trial.py`, run in a throwaway clone of goal2 at `6f9da19` with this folder vendored as
   `goal2/engine/original_match`, never pushed; `out/goal2-trial-20261016.txt`): goal2's GameState (Denmark, its
   14th player starting, tactics 0xAB) through goal2's `to_savestate`, a pause and a half-time substitution, the

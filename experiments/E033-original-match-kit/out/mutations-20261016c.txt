@@ -1,0 +1,13 @@
+unmutated: all pass
+killed               screens.py  the team menu's item read from another frame word
+killed               match.py    the commentary cursor starts at the counter, not 0
+killed               machine.py  no replay flag on resume
+killed               match.py    the original's message not kept
+killed               screens.py  a swap counted as made without looking
+killed               screens.py  the request pressed again (Enter cancels it)
+killed               machine.py  far-call arguments in push order
+killed               match.py    the fixture index (the set-up's seed source) not written
+killed               match.py    the half-time menu decided as play
+killed               match.py    a refused eleven not handed back
+killed               match.py    the memory component cut to 1 MiB + HMA
+11 of 11 killed

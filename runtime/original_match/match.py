@@ -16,7 +16,8 @@ import zlib
 from dataclasses import dataclass, field, asdict
 
 from .image import (Image, COUNTRIES_PTR, COUNTRY_SIZE, PLAYERS_PTR, PLAYER_SIZE, N_PLAYERS, N_COUNTRIES,
-                    MANAGERS_PTR, FIXTURES_PTR, FIXTURE_SIZE, GAME_PTR, TACTICS, MANAGER, names_and_templates)
+                    MANAGERS_PTR, FIXTURES_PTR, FIXTURE_SIZE, GAME_PTR, TACTICS, MANAGER, REGISTERED_BUILD,
+                    names_and_templates)
 from .machine import Machine, GuestError, MEM_SIZE
 from . import screens as S
 
@@ -117,6 +118,9 @@ class Match:
         for c in (fixture.first, fixture.second):
             if not 1 <= c <= 128:
                 raise ValueError(f"country {c} is not 1..128")
+        if image.build() != REGISTERED_BUILD:
+            raise ValueError("the image does not hold the GOAL.EXE this kit was made on (the registered version, set "
+                             "goal2-a949da2f): its routines differ at the addresses the kit uses")
         self.timeout_s = timeout_s
         self.m = Machine(image.memory, image.load)
         self.image_header = image.header

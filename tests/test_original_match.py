@@ -7,8 +7,9 @@
 - MachineTests (unicorn): a far call set up by Machine.far_call returns to its return address with its argument
   popped; a hook that stops is called again with replay=True when the run resumes at its address.
 - OriginalTests (skipped without E006-r0001 in .cache/dl): the engine check (E011-r0001's match as E021 recorded
-  it), a half-time substitution made through the original's screens, and an eleven the original refuses handed
-  back as a decision with the original's message.
+  it), every line the original writes is one commentary event, a half-time substitution made through the
+  original's screens (and the memory given back at the image's own size), an image of another build refused, and
+  an eleven the original refuses handed back as a decision with the original's message.
 """
 import hashlib
 import sys
@@ -203,6 +204,16 @@ class OriginalTests(unittest.TestCase):
         self.assertEqual(len(after), len(before))                             # the first 1 MiB + HMA can change
         self.assertEqual(after[0x78 + 0x110000:], before[0x78 + 0x110000:])
         self.assertNotEqual(after[:0x78 + 0x110000], before[:0x78 + 0x110000])
+
+    def test_another_build_is_refused(self):
+        from original_match import Match, Fixture
+        from original_match.image import REGISTERED_BUILD
+        self.assertEqual(self.image.build(), REGISTERED_BUILD)
+        other = Image(self.image.memory_component())
+        a = (other.load + 0x791) * 16 + 0xF1F9          # run_match's `sub sp, 0xa` frame size
+        other.memory[a + 2] ^= 0x02
+        with self.assertRaises(ValueError):
+            Match(other, Fixture(7, 19, index=21), managed=7)
 
     def test_refused_eleven_comes_back(self):
         from original_match import Match, Fixture

@@ -29,6 +29,25 @@ GAME_PTR = 0xA923
 TACTICS, MANAGER = 0x2D, 0x2E
 NAMES_PTR, NAME_LEN = 0x9B6C, 11            # surnames, Pascal strings of up to 10 (commentary.py, 1771:2E93)
 TEMPLATES, TEMPLATE_STRIDE, N_TEMPLATES = 0x00BE, 0x15, 67   # commentary templates (commentary.py)
+# The build the kit was made on: the first instructions of every routine it calls or hooks (and the set-up's seed
+# formula), ending before any far call so no relocated segment is included (static/goal-exe/code listings).
+BUILD_SITES = (("0791:F1F6", 9), ("0791:B7FA", 9), ("214B:08DD", 11), ("214B:0723", 10), ("0791:ED8A", 10),
+               ("0791:E44F", 10), ("1771:1981", 9), ("1771:4B61", 9), ("0791:CC7B", 9), ("0791:CC2E", 6),
+               ("0791:7FCF", 3), ("0791:9372", 11), ("0791:970C", 10), ("0791:2648", 10), ("0791:2665", 15),
+               ("0791:0106", 11), ("214B:1560", 7), ("214B:1765", 9), ("0791:798D", 9), ("0791:7B77", 9),
+               ("0791:7D56", 9))
+# Their SHA-256 in the listing of the registered GOAL.EXE (set goal2-a949da2f / goal2-67cf27d6, packed a6928b0b...;
+# experiments/E033-original-match-kit/build_digest.py), and in every image at hand (E033 notes, section 4).
+REGISTERED_BUILD = "f6750a77f8c000a7f1015b7b92f89650866815e5c576a08a744b28b4fb21a4ce"
+
+
+def build_digest(memory, load):
+    h = hashlib.sha256()
+    for address, n in BUILD_SITES:
+        seg, off = address.split(":")
+        a = (load + int(seg, 16)) * 16 + int(off, 16)
+        h.update(bytes(memory[a:a + n]))
+    return h.hexdigest()
 
 
 def sha256(data):
@@ -128,6 +147,10 @@ class Image:
 
     def sha256(self):
         return sha256(self.memory_component())
+
+    def build(self):
+        """The digest of the code the kit relies on; REGISTERED_BUILD for the GOAL.EXE it was made on."""
+        return build_digest(self.memory, self.load)
 
 
 def names_and_templates(read, ds, far):
