@@ -8,8 +8,14 @@ speaker and keyboard, and the keyboard is answered by the kit's own hooks (match
 Stopping: a hook calls `stop(reason)`; Unicorn then leaves the instruction at the hooked address unexecuted, and
 every hook at that address fires again when the run resumes there (probed: E033 notes, section 3). Handlers are
 told so (`replay=True` on that first call after a resume) and those that count things skip it."""
-from unicorn import Uc, UcError, UC_ARCH_X86, UC_MODE_16, UC_HOOK_CODE, UC_HOOK_INTR
-from unicorn import x86_const as X
+try:                     # the kit imports without unicorn (goal2's quick path, CI); a match needs it
+    from unicorn import Uc, UcError, UC_ARCH_X86, UC_MODE_16, UC_HOOK_CODE, UC_HOOK_INTR
+    from unicorn import x86_const as X
+except ImportError:
+    Uc = None
+
+    class UcError(Exception):
+        pass
 
 MEM_SIZE = 0x110000          # 1 MiB and the high memory area
 DS_PARAGRAPH = 0x2581        # GOAL.EXE's data segment, a paragraph of the load module (static/goal-exe/README.md)
@@ -22,6 +28,8 @@ class GuestError(RuntimeError):
 
 class Machine:
     def __init__(self, memory, load):
+        if Uc is None:
+            raise ModuleNotFoundError("original_match needs the unicorn package to run a match: pip install unicorn")
         if len(memory) < MEM_SIZE:
             raise ValueError(f"the image holds {len(memory)} bytes of guest memory, {MEM_SIZE} are needed")
         self.uc = Uc(UC_ARCH_X86, UC_MODE_16)

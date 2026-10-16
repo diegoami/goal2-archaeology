@@ -124,9 +124,10 @@ class ImageTests(unittest.TestCase):
             Image(bytes(MEM_BASE + 100))
 
 
+from original_match.machine import Machine  # noqa: E402  (imports without unicorn; a Machine needs it)
 try:
-    from original_match.machine import Machine
-except ModuleNotFoundError:            # CI does not install python3-unicorn
+    import unicorn  # noqa: F401
+except ImportError:                    # CI does not install python3-unicorn
     Machine = None
 
 

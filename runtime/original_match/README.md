@@ -10,8 +10,9 @@ keys a manager would press. Nothing of the original is in this folder: its code 
 1. **Vendor** this folder byte for byte into `goal2/engine/original_match/` and add a PROVENANCE row per file
    (source `diegoami/goal2-archaeology`, the commit you copied, findings F004 F010 F013 F014 F018 F026 F027 F028
    F029 F030, issue 250). Never edit it there; changes come upstream.
-2. **unicorn** (approved, goal2 #97): `pip install unicorn` (2.1.x; Debian/Ubuntu: `python3-unicorn`). Only this
-   kit imports it, so goal2's quick path keeps working without it.
+2. **unicorn** (approved, goal2 #97): `pip install unicorn` (2.1.x; Debian/Ubuntu: `python3-unicorn`). The package
+   imports without it; only creating a `Match` needs it (a clear error otherwise), so goal2's quick path keeps
+   working without it.
 3. **The image** is goal2's own E006-r0001 (release E006, SHA-256 `e0afff67…657d`, the file
    `tools/measure_p1.py` fetches): `assets.reference_image(".cache")` fetches it with `gh` and checks its hash.
    Any savestate goal2 makes from it works too; an image of another GOAL.EXE (the shareware one, a repack) is
