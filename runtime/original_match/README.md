@@ -43,8 +43,8 @@ does not run the guard again: a saved match carries its own memory.
 
 ## Know it works
 
-    python3 -m goal2.engine.original_match.check --cache .cache            # about 25 s
-    python3 -m goal2.engine.original_match.check --cache .cache --family   # + about 100 s
+    python3 -m goal2.engine.original_match.check --cache .cache            # about 30 s
+    python3 -m goal2.engine.original_match.check --cache .cache --family   # + about 110 s
 
 `engine PASS`: E011-r0001's friendly replayed from the image is the match E021 recorded from the original's own
 DOSBox-X run (score, 4,149 ticks, all 182,188 RNG draws by digest, the board, the last 199 commentary lines).
@@ -95,7 +95,7 @@ and `.countries` as they are, without the squad order and tactics `to_savestate`
 `goal2_trial.py` is this flow on goal2's own code (5.9 s, the result read back by `from_savestate`).
 
 `python3 -m goal2.engine.original_match.example --cache .cache` runs the same kind of match from the reference
-image (a pause, a half-time substitution, a save and resume at minute 60; about 6 s).
+image (a pause, a half-time substitution, a save and resume at minute 60; about 9 s).
 
 **Events**: `minute`, `commentary` (the original's line, with its template and players), `goal`,
 `goal_disallowed` (a goal the original takes back in the same action), `booking`, `sending_off`, `injury`,
@@ -167,5 +167,5 @@ back with `refused` set; answer again. A declined injury notice comes back at ev
 
 Friendlies only (kind 1): `Match` refuses any other `Fixture.kind` with a `ValueError`, so the `extra_time` decision
 and the shoot-out cannot be reached (checking them: about 2 h with E031's shoot-out state). The set-piece taker prompts keep the original's pick (exposing them: about 1 h). One
-human side. A match costs 8-12 CPU s (a quick result after `R`, about 3 s; the write stamps add 1-3 s); stepping by
-minute or tick adds nothing measurable. `save()` is about 0.36 MB.
+human side. A match costs 9-13 s (a quick result after `R`, about 4 s; the write hooks behind the stamps are included); stepping by
+minute or tick adds nothing measurable. `save()` is about 0.36 MB at minute 60 (much more with `record_draws`, which keeps every RNG write).
