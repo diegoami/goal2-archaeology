@@ -138,6 +138,36 @@ class KeySending(unittest.TestCase):
                 d.keys(bad, hold=0.01)
         self.assertEqual([], self.x.events())  # refused before any event was sent
 
+    def test_the_default_hold_of_the_savestate_key_is_the_old_read_pace(self):
+        # Earlier experiments' settle (two equal reads) reproduces its records only at the pace of the old F12
+        # chord: 3 steps of HOSTKEY_HOLD = 0.45 s and four xdotool calls, 0.512 ... 0.764 s between chords
+        # in E003-r0047 and r0049 (median 0.535 s). At 0.15 s E003 d3b stopped on a transient screen.
+        self.assertAlmostEqual(0.52, driver.SAVE_HOLD)
+        self.assertGreaterEqual(driver.SAVE_HOLD, 3 * driver.HOSTKEY_HOLD)
+        d = self.driver()
+        self.assertEqual(driver.SAVE_HOLD, d.save_hold)
+        t0 = time.monotonic()
+        d._hostkey("s")
+        took = time.monotonic() - t0
+        self.assertTrue(0.50 <= took <= 0.62, f"a savestate key took {took:.3f}s")
+        self.assertIn("held 0.52s", " ".join(w for _, w in d.events))
+        self.x.events()
+
+    def test_a_custom_save_hold_is_honoured_at_call_time(self):
+        d = self.driver(save_hold=0.2)
+        t0 = time.monotonic()
+        d._hostkey("s")
+        self.assertTrue(0.2 <= time.monotonic() - t0 < 0.45)
+        d.save_hold = 0.05  # changed after the driver was made: read at the call, not bound earlier
+        t0 = time.monotonic()
+        d._hostkey("l")
+        self.assertLess(time.monotonic() - t0, 0.2)
+        d._hostkey("s", hold=0.3)  # an explicit hold wins
+        events = " ".join(w for _, w in d.events)
+        for held in ("held 0.2s", "held 0.05s", "held 0.3s"):
+            self.assertIn(held, events)
+        self.x.events()
+
     def test_legacy_keys_is_the_old_fault_kept_to_reproduce_it(self):
         d = self.driver(legacy_keys=True)
         d.keys("F10", hold=0.02)

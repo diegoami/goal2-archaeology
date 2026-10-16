@@ -1,0 +1,14 @@
+.......F......
+======================================================================
+FAIL: test_the_default_hold_of_the_savestate_key_is_the_old_read_pace (__main__.KeySending.test_the_default_hold_of_the_savestate_key_is_the_old_read_pace)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/claude-1000/prev244/tests/test_driver_keys.py", line 145, in test_the_default_hold_of_the_savestate_key_is_the_old_read_pace
+    self.assertAlmostEqual(0.52, driver.SAVE_HOLD)
+    ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 0.52 != 0.15 within 7 places (0.37 difference)
+
+----------------------------------------------------------------------
+Ran 14 tests in 17.429s
+
+FAILED (failures=1)

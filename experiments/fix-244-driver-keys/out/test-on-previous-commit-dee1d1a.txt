@@ -1,0 +1,24 @@
+.E.....E......
+======================================================================
+ERROR: test_a_custom_save_hold_is_honoured_at_call_time (__main__.KeySending.test_a_custom_save_hold_is_honoured_at_call_time)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/claude-1000/prev244/tests/test_driver_keys.py", line 157, in test_a_custom_save_hold_is_honoured_at_call_time
+    d = self.driver(save_hold=0.2)
+  File "/tmp/claude-1000/prev244/tests/test_driver_keys.py", line 98, in driver
+    d = driver.Driver({}, workdir=self.tmp / "work", game_dir=self.tmp / "game", **kw)
+TypeError: Driver.__init__() got an unexpected keyword argument 'save_hold'
+
+======================================================================
+ERROR: test_the_default_hold_of_the_savestate_key_is_the_old_read_pace (__main__.KeySending.test_the_default_hold_of_the_savestate_key_is_the_old_read_pace)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/claude-1000/prev244/tests/test_driver_keys.py", line 145, in test_the_default_hold_of_the_savestate_key_is_the_old_read_pace
+    self.assertAlmostEqual(0.52, driver.SAVE_HOLD)
+                                 ^^^^^^^^^^^^^^^^
+AttributeError: module 'driver' has no attribute 'SAVE_HOLD'
+
+----------------------------------------------------------------------
+Ran 14 tests in 16.444s
+
+FAILED (errors=2)
