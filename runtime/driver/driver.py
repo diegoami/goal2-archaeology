@@ -225,7 +225,8 @@ class Driver:
         Scroll Lock and Print Screen), "dosbox" (no mapper file: DOSBox-X's own binds, the F12 host chord),
         or the path of a mapper file. The driver presses what the mapper in effect binds (xkeys.hostkeys),
         with the transport chosen, so the two cannot disagree; a mapper whose savestate or load bind it
-        cannot read is refused here (ValueError). The old driver is legacy_keys=True with mapper="dosbox".
+        cannot read, or whose binds are not usable as a set (two actions on one key, an empty or unreadable bind, a
+        modifier other than host, the host key itself, duplicate lines that differ), is refused here (ValueError). The old driver is legacy_keys=True with mapper="dosbox".
         `save_hold`: seconds the savestate (or load) key takes in all, split equally among the steps of a
         chord (default SAVE_HOLD; for the old combination, 3 * HOSTKEY_HOLD), read at each call."""
         self.save_hold = SAVE_HOLD if save_hold is None else save_hold
@@ -354,6 +355,7 @@ exit
         conf.write_text(self.conf)
         self._write_mapper()
         self._start_xvfb()
+        self._check_keys_sendable()  # before DOSBox-X starts
         self.env = dict(os.environ, DISPLAY=self.display, SDL_AUDIODRIVER="dummy")
         args = [dbx_exe, "-conf", str(conf), "-fastlaunch", "-nogui", "-nomenu",
                 "-savedir", str(self.workdir), "-set", f"dosbox savefile={self.savefile}"]
@@ -376,6 +378,15 @@ exit
             sc = self.settle(sc.digest(), what=f"displaced by {displace_key}")
         self.pre_restore = self.last
         return self.restore(start_state)
+
+    def _check_keys_sendable(self):
+        """ValueError, before the emulator starts, when a savestate, load or screenshot key that the raw transport
+        sends has no keycode on this display, or one that would need a modifier (xkeys.check_sendable). Keys sent
+        by xdotool are checked as X keysym names when the driver is made (xkeys.hostkeys). With no display
+        (a test that replaces _start_xvfb) there is nothing to check."""
+        if not self.display:
+            return
+        xkeys.check_sendable(self.display, [n for keys in self.hostkeys.values() for n in keys if not self._legacy_for(n)])
 
     def _mapper_source(self):
         """The text of the mapper in effect: "nohost" is xkeys.mapper_text(), "dosbox" the text of DOSBox-X's

@@ -62,7 +62,18 @@ asserts the calls; `out/combos.jsonl` ran each once in the emulator):
 | raw | `dosbox` / `--mapper ''` / a file with the F12 chords | F12 + s, raw (no Alt) | no Alt, F10 = `a8` |
 | raw, `--fkeys xdotool` | `--mapper ''` (the guide's reproduction) | F12 by xdotool, s raw | Alt held, F10 = `d5` |
 | xdotool (`--keys xdotool`) | `--mapper ''` | F12 + s, xdotool (the old driver) | Alt held, F10 = `d5` |
-| any | a file the driver cannot read | refused (`ValueError`) | not launched |
+| any | a file whose binds are not usable as a set (below) | refused (`ValueError`) | not launched |
+
+The whole bind set is validated when the driver is made (`xkeys.hostkeys`; review round 2), and `ValueError` names the
+reason for: the same key or chord bound to two of savestate, load and screenshot (they could not be told apart);
+a savestate or load line that is missing, has no bind, or has an unreadable bind (`joy 1`, `key abc`, a scancode
+with no name) on any of its binds; a modifier other than `host`; the host key F12 itself bound to an action
+(`key 69`, `key 69 host`); two lines of one action with different binds (which applies is ambiguous; identical
+repeats are accepted); a key name that is no X keysym. Before DOSBox-X starts, `launch` checks that each key the raw
+transport sends has a keycode on the display and needs no modifier (`xkeys.check_sendable`). `play.py serve` exits
+non-zero with `play.py serve: <reason>` in both cases. `tests/test_driver_keys.py` `MapperSets` (no emulator, no X)
+has a test for each refusal and for the valid sets; on c9ce10f 9 of its tests fail and the keycode check errors
+(`out/test-mapper-sets-on-c9ce10f.txt`), the ambiguous savestate/load mapper among them.
 
 In the review's two failing cases: with a mapper other than `mapper-nohost.map` the first version pressed Scroll Lock
 raw whatever the file bound, and with `--fkeys xdotool` under the normal mapper it sent F10 raw. Both fail on
@@ -78,7 +89,7 @@ measured pace.
 
 ## Tests
 
-`tests/test_driver_keys.py` (24 tests): key sending on a bare Xvfb recorded by `xinput test-xi2` (no emulator),
+`tests/test_driver_keys.py` (38 tests): key sending on a bare Xvfb recorded by `xinput test-xi2` (no emulator),
 the key calls of each combination of transport and mapper (`KeyCalls`, no X at all),
 the mapper, the default hold and a custom `save_hold`, and one end to end run with the emulator (`probe.py`).
 - `out/test-on-old-driver.txt`: against origin/main's `driver.py` (plus `xkeys.py`, which that tree lacks): the

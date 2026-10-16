@@ -31,33 +31,84 @@ BIND_EVENTS = {"s": "hand_savestate", "l": "hand_loadstate", "p": "hand_scrshot"
 SCANCODE_KEYS = {**{4 + i: chr(ord("a") + i) for i in range(26)}, 69: "F12", 70: "Print", 71: "Scroll_Lock", 72: "Pause"}
 
 
-def bind_keys(text, event):
-    """The X keysym names to press for a mapper bind of `event` (hand_savestate ...): [name] for "key N",
-    [HOST_KEY, name] for "key N host". ValueError when the file has no such bind, or only binds this
-    function does not understand (another modifier, a scancode it has no name for): never a guess."""
-    m = re.search(rf"^{event} (.*)$", text, re.M)
-    if not m:
+def _parse_bind(event, b):
+    """One bind string ("key 22", "key 22 host") as the key names to press, in order. ValueError for anything else."""
+    parts = b.split()
+    if len(parts) < 2 or parts[0] != "key" or not parts[1].isdigit():
+        raise ValueError(f"the mapper's {event} bind {b!r} is not understood: only 'key N' and 'key N host'")
+    if not set(parts[2:]) <= {"host"}:
+        raise ValueError(f"the mapper's {event} bind {b!r} has a modifier other than host")
+    name = SCANCODE_KEYS.get(int(parts[1]))
+    if name is None:
+        raise ValueError(f"the mapper's {event} bind {b!r}: no key name for scancode {parts[1]}")
+    keys = [HOST_KEY, name] if "host" in parts[2:] else [name]
+    if keys[-1] == HOST_KEY:
+        raise ValueError(f"the mapper's {event} bind {b!r} is the host key {HOST_KEY} itself")
+    return keys
+
+
+def parse_binds(text, event):
+    """Every bind of `event` (hand_savestate ...) in the mapper text, each as the key names to press: a list
+    of lists, the first to be pressed. ValueError, naming the event, when: there is no such line; a line has no
+    bind; any bind on it is unreadable, has a modifier other than host, or is the host key itself; or two lines
+    of the event differ (which one wins is ambiguous). Nothing is guessed."""
+    lines = re.findall(rf"^{event}\b(.*)$", text, re.M)
+    if not lines:
         raise ValueError(f"the mapper has no {event} bind")
-    binds = re.findall(r'"([^"]*)"', m[1])
-    for b in binds:
-        parts = b.split()
-        if len(parts) >= 2 and parts[0] == "key" and parts[1].isdigit() and set(parts[2:]) <= {"host"}:
-            name = SCANCODE_KEYS.get(int(parts[1]))
-            if name is None:
-                raise ValueError(f"the mapper's {event} bind {b!r}: no key name for scancode {parts[1]}")
-            return [HOST_KEY, name] if "host" in parts[2:] else [name]
-    raise ValueError(f"the mapper's {event} bind(s) {binds} are not understood: only 'key N' and 'key N host'")
+    parsed = []
+    for line in lines:
+        binds = re.findall(r'"([^"]*)"', line)
+        if not binds:
+            raise ValueError(f"the mapper's {event} line has no bind (it is empty)")
+        parsed.append([_parse_bind(event, b) for b in binds])
+    if any(p != parsed[0] for p in parsed[1:]):
+        raise ValueError(f"the mapper has {len(lines)} {event} lines with different binds: which one applies is ambiguous")
+    return parsed[0]
+
+
+def bind_keys(text, event):
+    """The key names to press for `event`: the first of its binds (parse_binds checks all of them)."""
+    return parse_binds(text, event)[0]
 
 
 def hostkeys(text):
-    """{"s": keys, "l": keys} for the mapper text's savestate and load binds: the keys the driver presses
-    (ValueError when either cannot be read), and "p" for the screenshot bind when it can be read."""
-    keys = {"s": bind_keys(text, BIND_EVENTS["s"]), "l": bind_keys(text, BIND_EVENTS["l"])}
+    """{"s": keys, "l": keys, "p": keys} for the mapper text's savestate, load and screenshot binds: the keys the
+    driver presses ("p" only when the file has a screenshot line). The whole set is validated, ValueError
+    otherwise: each bind as parse_binds says, and no key or chord bound to two of the three actions (both
+    would emit the same key and could not be told apart)."""
+    binds = {k: parse_binds(text, BIND_EVENTS[k]) for k in ("s", "l")}
+    if re.search(rf"^{BIND_EVENTS['p']}\b", text, re.M):
+        binds["p"] = parse_binds(text, BIND_EVENTS["p"])
+    owner = {}
+    for k, bl in binds.items():
+        for keys in bl:
+            other = owner.setdefault(tuple(keys), k)
+            if other != k:
+                raise ValueError(f"the mapper binds {'+'.join(keys)} to both {BIND_EVENTS[other]} and {BIND_EVENTS[k]}: "
+                                 "the two cannot be told apart")
+    check_keysyms([n for bl in binds.values() for keys in bl for n in keys])
+    return {k: bl[0] for k, bl in binds.items()}
+
+
+def check_keysyms(names):
+    """ValueError for a key name that is no X keysym (the transports could not send it, whatever the keymap)."""
+    bad = sorted({n for n in names if not _x11.XStringToKeysym(KEYMAP.get(n, n).encode())})
+    if bad:
+        raise ValueError(f"no X keysym for {bad}: the key cannot be sent")
+
+
+def check_sendable(display, names):
+    """ValueError, naming the key, for a key name the raw transport cannot send on `display`: no keycode in its
+    keymap, or one on a level that would need a modifier (plan)."""
+    dpy = _x11.XOpenDisplay(display.encode())
+    if not dpy:
+        raise RuntimeError(f"cannot open display {display}")
     try:
-        keys["p"] = bind_keys(text, BIND_EVENTS["p"])
-    except ValueError:
-        pass
-    return keys
+        for n in names:
+            plan(dpy, KEYMAP.get(n, n))
+    finally:
+        _x11.XCloseDisplay(dpy)
+
 
 # DOSBox-X 2024.03.01's default binds (SDL scancodes), with the savestate on Scroll Lock (71) and the
 # load on Print Screen (70), both taken from the guest, and a screenshot on Pause (72), the one way to

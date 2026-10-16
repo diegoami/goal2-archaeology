@@ -175,6 +175,19 @@ class KeySending(unittest.TestCase):
         got = self.x.events()
         self.assertIn(ALT_L, [n for _, n in got])
 
+    def test_a_raw_key_the_display_cannot_send_is_refused_before_the_emulator_starts(self):
+        # a mapper bound to a keysym that exists but sits above the first two levels of its keycode (here F10's
+        # XF86Switch_VT_10): the raw transport could only send it with a modifier, so it is refused, by name
+        with mock.patch.dict(xkeys.SCANCODE_KEYS, {200: "XF86Switch_VT_10"}):
+            f = self.tmp / "m.map"
+            f.write_text('hand_savestate "key 200"\nhand_loadstate "key 70"\n')
+            d = self.driver(mapper=str(f))  # accepted when made: the name is an X keysym
+            with self.assertRaisesRegex(ValueError, "XF86Switch_VT_10"):
+                d._check_keys_sendable()
+            ok = self.driver(mapper=str(f), legacy_keys=True)  # by xdotool the keymap is xdotool's business
+            ok._check_keys_sendable()
+        self.driver()._check_keys_sendable()  # the default keys exist on this display
+
 
 class Mapper(unittest.TestCase):
     def test_the_mapper_is_the_one_e031_wrote(self):
@@ -205,6 +218,96 @@ class Mapper(unittest.TestCase):
             old = driver.Driver({}, workdir=d.workdir, game_dir=Path(tmp) / "game", mapper="dosbox")
             old._write_mapper()
             self.assertFalse((d.workdir / "mapper.map").exists())
+
+
+class MapperSets(unittest.TestCase):
+    """No emulator, no X: a mapper's savestate, load and screenshot binds are validated as a set when the driver
+    is made (xkeys.hostkeys), and a set that cannot be told apart or sent is refused with a ValueError that says why
+    (the review of the PR, round 2: a mapper binding one key to both savestate and load was accepted, and then the
+    driver pressed the same key for both)."""
+
+    def mapper(self, **lines):
+        """A mapper text from `event="bind text"` lines, e.g. savestate='"key 22"'; a value that is a list is
+        several lines."""
+        out = []
+        for event, v in lines.items():
+            for text in (v if isinstance(v, list) else [v]):
+                out.append(f"hand_{event} {text}")
+        return "\n".join(out) + "\n"
+
+    def refused(self, why, **lines):
+        with self.assertRaisesRegex(ValueError, why):
+            xkeys.hostkeys(self.mapper(**lines))
+        f = Path(tempfile.mkdtemp(prefix="set244-"))
+        self.addCleanup(shutil.rmtree, f, True)
+        (f / "m.map").write_text(self.mapper(**lines))
+        with self.assertRaisesRegex(ValueError, why):  # and the driver refuses it when it is made, before any launch
+            driver.Driver({}, workdir=f / "w", game_dir=f / "g", mapper=str(f / "m.map"))
+
+    def test_the_same_key_for_savestate_and_load_is_refused(self):
+        self.refused("both hand_savestate and hand_loadstate", savestate='"key 22"', loadstate='"key 22"')
+        self.refused("both hand_savestate and hand_loadstate", savestate='"key 22 host"', loadstate='"key 22 host"')
+
+    def test_the_same_key_for_the_screenshot_and_savestate_or_load_is_refused(self):
+        self.refused("both hand_savestate and hand_scrshot", savestate='"key 71"', loadstate='"key 70"', scrshot='"key 71"')
+        self.refused("both hand_loadstate and hand_scrshot", savestate='"key 71"', loadstate='"key 70"', scrshot='"key 70"')
+
+    def test_a_key_shared_by_two_binds_of_different_lines_is_refused_even_when_not_first(self):
+        self.refused("both", savestate='"key 22" "key 23"', loadstate='"key 24" "key 23"')
+
+    def test_the_same_scancode_with_and_without_host_are_different_keys(self):
+        self.assertEqual({"s": ["s"], "l": ["F12", "s"]}, xkeys.hostkeys(self.mapper(savestate='"key 22"', loadstate='"key 22 host"')))
+
+    def test_an_empty_bind_is_refused(self):
+        self.refused("line has no bind", savestate="", loadstate='"key 70"')
+        self.refused("line has no bind", savestate='"key 71"', loadstate="  ")
+
+    def test_a_missing_savestate_or_load_line_is_refused(self):
+        with self.assertRaisesRegex(ValueError, "no hand_savestate bind"):
+            xkeys.hostkeys('hand_loadstate "key 70"\n')
+        with self.assertRaisesRegex(ValueError, "no hand_loadstate bind"):
+            xkeys.hostkeys('hand_savestate "key 71"\n')
+
+    def test_an_unreadable_bind_is_refused_even_after_a_readable_one(self):
+        for bad in ('"joy 1"', '"key abc"', '"key"', '"mouse 1"', '"key 999"'):
+            self.refused("bind", savestate=bad, loadstate='"key 70"')
+        self.refused("not understood", savestate='"key 71" "joy 1"', loadstate='"key 70"')
+        self.refused("bind", savestate='"key 71"', loadstate='"key 70"', scrshot='"key 999"')
+
+    def test_a_modifier_other_than_host_is_refused(self):
+        for mod in ("ctrl", "alt", "shift", "host ctrl"):
+            self.refused("modifier other than host", savestate=f'"key 22 {mod}"', loadstate='"key 70"')
+
+    def test_the_host_key_itself_is_refused(self):
+        self.refused("host key F12 itself", savestate='"key 69"', loadstate='"key 70"')
+        self.refused("host key F12 itself", savestate='"key 71"', loadstate='"key 69 host"')
+
+    def test_two_lines_for_one_action_with_different_binds_are_refused(self):
+        self.refused("ambiguous", savestate=['"key 71"', '"key 72"'], loadstate='"key 70"')
+        self.refused("ambiguous", savestate='"key 71"', loadstate=['"key 70"', '"key 70 host"'])
+
+    def test_a_key_that_is_no_x_keysym_is_refused_when_the_driver_is_made(self):
+        with mock.patch.dict(xkeys.SCANCODE_KEYS, {200: "NoSuchKeysym"}):
+            self.refused("no X keysym", savestate='"key 200"', loadstate='"key 70"')
+
+    def test_valid_sets_are_accepted(self):
+        self.assertEqual({"s": ["Scroll_Lock"], "l": ["Print"], "p": ["Pause"]}, xkeys.hostkeys(xkeys.mapper_text()))
+        self.assertEqual({"s": ["F12", "s"], "l": ["F12", "l"], "p": ["F12", "p"]}, xkeys.hostkeys(xkeys.DEFAULT_MAP.read_text()))
+        # no screenshot line; several binds on a line (the first is pressed); the same line twice, equal
+        self.assertEqual({"s": ["s"], "l": ["F12", "l"]},
+                         xkeys.hostkeys(self.mapper(savestate=['"key 22" "key 23"', '"key 22" "key 23"'], loadstate='"key 15 host"')))
+        self.assertEqual({"s": ["F12", "s"], "l": ["F12", "l"], "p": ["Pause"]},
+                         xkeys.hostkeys(self.mapper(savestate='"key 22 host"', loadstate='"key 15 host"', scrshot='"key 72"')))
+        # the other events of a real mapper file are not looked at
+        text = xkeys.mapper_text() + 'hand_savestatex "key 71"\nkey_f12 "key 69"\n'
+        self.assertEqual(["Scroll_Lock"], xkeys.hostkeys(text)["s"])
+
+    def test_the_driver_accepts_a_valid_custom_file(self):
+        f = Path(tempfile.mkdtemp(prefix="set244-"))
+        self.addCleanup(shutil.rmtree, f, True)
+        (f / "m.map").write_text(self.mapper(savestate='"key 22"', loadstate='"key 15 host"'))
+        d = driver.Driver({}, workdir=f / "w", game_dir=f / "g", mapper=str(f / "m.map"))
+        self.assertEqual({"s": ["s"], "l": ["F12", "l"]}, d.hostkeys)
 
 
 class KeyCalls(unittest.TestCase):

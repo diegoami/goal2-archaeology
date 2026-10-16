@@ -1,0 +1,130 @@
+FF.FFF.FFF.F.E
+======================================================================
+ERROR: test_a_raw_key_the_display_cannot_send_is_refused_before_the_emulator_starts (__main__.KeySending.test_a_raw_key_the_display_cannot_send_is_refused_before_the_emulator_starts)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/claude-1000/pc9/tests/test_driver_keys.py", line 186, in test_a_raw_key_the_display_cannot_send_is_refused_before_the_emulator_starts
+    d._check_keys_sendable()
+    ^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'Driver' object has no attribute '_check_keys_sendable'
+
+======================================================================
+FAIL: test_a_key_shared_by_two_binds_of_different_lines_is_refused_even_when_not_first (__main__.MapperSets.test_a_key_shared_by_two_binds_of_different_lines_is_refused_even_when_not_first)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/claude-1000/pc9/tests/test_driver_keys.py", line 256, in test_a_key_shared_by_two_binds_of_different_lines_is_refused_even_when_not_first
+    self.refused("both", savestate='"key 22" "key 23"', loadstate='"key 24" "key 23"')
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/claude-1000/pc9/tests/test_driver_keys.py", line 239, in refused
+    with self.assertRaisesRegex(ValueError, why):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_a_key_that_is_no_x_keysym_is_refused_when_the_driver_is_made (__main__.MapperSets.test_a_key_that_is_no_x_keysym_is_refused_when_the_driver_is_made)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/claude-1000/pc9/tests/test_driver_keys.py", line 291, in test_a_key_that_is_no_x_keysym_is_refused_when_the_driver_is_made
+    self.refused("no X keysym", savestate='"key 200"', loadstate='"key 70"')
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/claude-1000/pc9/tests/test_driver_keys.py", line 239, in refused
+    with self.assertRaisesRegex(ValueError, why):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_a_modifier_other_than_host_is_refused (__main__.MapperSets.test_a_modifier_other_than_host_is_refused)
+----------------------------------------------------------------------
+ValueError: the mapper's hand_savestate bind(s) ['key 22 ctrl'] are not understood: only 'key N' and 'key N host'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/tmp/claude-1000/pc9/tests/test_driver_keys.py", line 279, in test_a_modifier_other_than_host_is_refused
+    self.refused("modifier other than host", savestate=f'"key 22 {mod}"', loadstate='"key 70"')
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/claude-1000/pc9/tests/test_driver_keys.py", line 239, in refused
+    with self.assertRaisesRegex(ValueError, why):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+AssertionError: "modifier other than host" does not match "the mapper's hand_savestate bind(s) ['key 22 ctrl'] are not understood: only 'key N' and 'key N host'"
+
+======================================================================
+FAIL: test_an_empty_bind_is_refused (__main__.MapperSets.test_an_empty_bind_is_refused)
+----------------------------------------------------------------------
+ValueError: the mapper's hand_savestate bind(s) [] are not understood: only 'key N' and 'key N host'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/tmp/claude-1000/pc9/tests/test_driver_keys.py", line 262, in test_an_empty_bind_is_refused
+    self.refused("line has no bind", savestate="", loadstate='"key 70"')
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/claude-1000/pc9/tests/test_driver_keys.py", line 239, in refused
+    with self.assertRaisesRegex(ValueError, why):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+AssertionError: "line has no bind" does not match "the mapper's hand_savestate bind(s) [] are not understood: only 'key N' and 'key N host'"
+
+======================================================================
+FAIL: test_an_unreadable_bind_is_refused_even_after_a_readable_one (__main__.MapperSets.test_an_unreadable_bind_is_refused_even_after_a_readable_one)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/claude-1000/pc9/tests/test_driver_keys.py", line 274, in test_an_unreadable_bind_is_refused_even_after_a_readable_one
+    self.refused("not understood", savestate='"key 71" "joy 1"', loadstate='"key 70"')
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/claude-1000/pc9/tests/test_driver_keys.py", line 239, in refused
+    with self.assertRaisesRegex(ValueError, why):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_the_host_key_itself_is_refused (__main__.MapperSets.test_the_host_key_itself_is_refused)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/claude-1000/pc9/tests/test_driver_keys.py", line 282, in test_the_host_key_itself_is_refused
+    self.refused("host key F12 itself", savestate='"key 69"', loadstate='"key 70"')
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/claude-1000/pc9/tests/test_driver_keys.py", line 239, in refused
+    with self.assertRaisesRegex(ValueError, why):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_the_same_key_for_savestate_and_load_is_refused (__main__.MapperSets.test_the_same_key_for_savestate_and_load_is_refused)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/claude-1000/pc9/tests/test_driver_keys.py", line 248, in test_the_same_key_for_savestate_and_load_is_refused
+    self.refused("both hand_savestate and hand_loadstate", savestate='"key 22"', loadstate='"key 22"')
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/claude-1000/pc9/tests/test_driver_keys.py", line 239, in refused
+    with self.assertRaisesRegex(ValueError, why):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_the_same_key_for_the_screenshot_and_savestate_or_load_is_refused (__main__.MapperSets.test_the_same_key_for_the_screenshot_and_savestate_or_load_is_refused)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/claude-1000/pc9/tests/test_driver_keys.py", line 252, in test_the_same_key_for_the_screenshot_and_savestate_or_load_is_refused
+    self.refused("both hand_savestate and hand_scrshot", savestate='"key 71"', loadstate='"key 70"', scrshot='"key 71"')
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/claude-1000/pc9/tests/test_driver_keys.py", line 239, in refused
+    with self.assertRaisesRegex(ValueError, why):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_two_lines_for_one_action_with_different_binds_are_refused (__main__.MapperSets.test_two_lines_for_one_action_with_different_binds_are_refused)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/claude-1000/pc9/tests/test_driver_keys.py", line 286, in test_two_lines_for_one_action_with_different_binds_are_refused
+    self.refused("ambiguous", savestate=['"key 71"', '"key 72"'], loadstate='"key 70"')
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/claude-1000/pc9/tests/test_driver_keys.py", line 239, in refused
+    with self.assertRaisesRegex(ValueError, why):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+----------------------------------------------------------------------
+Ran 14 tests in 0.837s
+
+FAILED (failures=9, errors=1)

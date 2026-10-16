@@ -296,6 +296,8 @@ def serve(a):
     signal.signal(signal.SIGTERM, lambda *_: sys.exit(0))
     try:
         s.run()
+    except ValueError as e:  # a key of the mapper this display cannot send (checked before DOSBox-X starts)
+        raise SystemExit(f"play.py serve: {e}") from None
     finally:
         gone = s.d.terminate()
         s.log({"req": {"cmd": "terminated"}, "processes_gone": gone,

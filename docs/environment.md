@@ -195,8 +195,10 @@ projects.
   Ubuntu 24.04 show none of that (34 published savestates checked), only a plain F12 pressed into the
   guest at each read. Two independent settings: `legacy_keys` is the transport (raw XTEST or xdotool),
   `mapper` is what the savestate and load keys are (`"nohost"` Scroll Lock / Print Screen, `"dosbox"` the F12
-  chord, or a mapper file); the driver presses what the mapper in effect binds and refuses a mapper it cannot
-  read (`ValueError`). The old driver is `Driver(legacy_keys=True, mapper="dosbox")`. E031's `play.py` takes
+  chord, or a mapper file); the driver presses what the mapper in effect binds and refuses, when it is made, a
+  mapper whose savestate, load and screenshot binds are not usable as a set (one key for two actions, an empty or
+  unreadable bind, a modifier other than host, the host key F12 itself, differing duplicate lines, a key that
+  is no X keysym: `ValueError`), and, before DOSBox-X starts, a key the raw transport cannot send. The old driver is `Driver(legacy_keys=True, mapper="dosbox")`. E031's `play.py` takes
   them as `--keys`, `--fkeys` (function keys and a chord's F12; default as `--keys`) and `--mapper`
   (`experiments/fix-244-driver-keys/README.md` has the table).
 - **Read pace**: the savestate key is held `save_hold` seconds, default `SAVE_HOLD` = 0.52 s, so a read takes
