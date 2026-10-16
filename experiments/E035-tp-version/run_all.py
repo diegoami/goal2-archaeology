@@ -7,9 +7,11 @@ usage: run_all.py SCRATCH_DIR OUT_DIR
   2. compile probes/t4.pas with each (DOSBox-X, dbx.py), recording every input's and output's sha256
   3. compare each candidate's System-unit segment with GOAL's 23E4 segment (cover.py, bytecmp.py, gaps.py)
 Everything third-party stays in SCRATCH_DIR; OUT_DIR gets only our text outputs (hashes, tables)."""
-import glob, hashlib, os, shutil, subprocess, sys
+import hashlib, os, shutil, subprocess, sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, HERE)
+import pick
 REPO = os.path.dirname(os.path.dirname(HERE))
 KEEP = '/home/diego/projects/goal2-archaeology-keep'
 TP = KEEP + '/tools/turbo-pascal/extracted/'
@@ -52,7 +54,7 @@ runs = SCR + '/run'
 os.makedirs(runs, exist_ok=True)
 bat = ''
 for v, (d, imgs, zips) in sets.items():
-    img = glob.glob(TP + d + '/*/' + imgs[0])[0]
+    img = pick.one(TP + d + '/*/' + imgs[0])  # exactly one match, or an error
     say('image', v, os.path.basename(img), sha(img))
     raw = SCR + '/raw' + v
     os.makedirs(raw, exist_ok=True)
@@ -70,8 +72,9 @@ for v, (d, imgs, zips) in sets.items():
     shutil.copy(HERE + '/probes/t4_40.pas' if v == '40' else HERE + '/probes/t4.pas', wd + '/T4.PAS')  # 4.0's Dos has no GetEnv, EnvStr or SwapVectors, so the probe for 4.0 leaves it out
     shutil.copy(HERE + '/probes/t1.pas', wd + '/T1.PAS')
     shutil.copy(HERE + '/probes/t5.pas', wd + '/T5.PAS')
+    shutil.copy(HERE + '/probes/t4.pas', wd + '/T7.PAS')  # the full probe, with GetEnv/SwapVectors; 4.0 cannot compile it
     shutil.copy(HERE + '/probes/t6.pas', wd + '/T6.PAS')
-    bat += 'cd \\%s\r\ntpc t1.pas\r\ntpc t4.pas > t4.log\r\ntpc t5.pas\r\ntpc t6.pas\r\ncd \\\r\n' % v
+    bat += 'cd \\%s\r\ntpc t1.pas\r\ntpc t4.pas > t4.log\r\ntpc t5.pas\r\ntpc t6.pas\r\ntpc t7.pas > t7.log\r\ncd \\\r\n' % v
 bat += 'echo ok > DONE.TXT\r\n'
 open(runs + '/c.bat', 'w', newline='').write(bat)
 
@@ -86,6 +89,8 @@ for v in sets:
         say('built', v, t, os.path.getsize(p), sha(p))
 
 # 3. compare
+for v in ('40', '55'):  # compile log of the full probe: 4.0 stops at an unknown identifier, 5.5 builds it
+    shutil.copy(runs + '/' + v + '/T7.LOG', OUT + '/t7.%s.log' % v)
 cands = [runs + '/%s/T4.EXE' % v for v in sets if os.path.exists(runs + '/%s/T4.EXE' % v)]
 for tool in ('cover.py', 'bytecmp.py', 'gaps.py'):
     for c in cands:
@@ -96,6 +101,7 @@ for tool in ('cover.py', 'bytecmp.py', 'gaps.py'):
         out = run(['python3', '-I', HERE + '/' + tool, goal, c])
         open(OUT + '/%s.%s.txt' % (tool[:-3], c.rsplit('/', 2)[1]), 'w').write(out)
 say(run(['python3', '-I', HERE + '/cover.py', goal] + cands).strip())
+say(run(['python3', '-I', HERE + '/startup.py', goal] + cands).strip())
 for v in ('55', '50'):
     say('movecheck', v, run(['python3', '-I', HERE + '/movecheck.py', goal, runs + '/%s/T5.EXE' % v, runs + '/%s/T6.EXE' % v]).strip())
 say(run(['python3', '-I', HERE + '/units.py', goal] + cands).strip())

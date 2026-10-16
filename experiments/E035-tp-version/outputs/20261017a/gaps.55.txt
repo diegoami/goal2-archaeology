@@ -1,0 +1,12 @@
+--- GOAL 23E4:118F..1195 (2 instr, 6 bytes, sha256 3ec605e920fad0275f9923a7ac67740ba1a306ec9146950b705a562bda7e1a79)
+   118F bound di, dword ptr [bp + di - N]
+   1192 xor ax, N
+--- GOAL 23E4:11DE..11E4 (3 instr, 6 bytes, sha256 4d2c87518d74b7169d49a048b937b03995aaced36022e9857189c98e65ca694f)
+   11DE jnp N
+   11E0 push ss
+   11E1 jnp N
+--- GOAL 23E4:12FC..1302 (2 instr, 6 bytes, sha256 b1886c1c386e17fa14466bc3d9ce2651709bd34ca7c7970d7ac54a54c3c2adf6)
+   12FC mov ax, word ptr [bp + N]
+   12FF mov dx, word ptr [bp + N]
+--- GOAL 23E4:19CF..19D0 (1 instr, 1 bytes, sha256 6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d)
+   19CF db

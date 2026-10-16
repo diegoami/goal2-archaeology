@@ -1,0 +1,180 @@
+--- GOAL 23E4:0329..0355 (16 instr, 44 bytes, sha256 250608d1a3c5446803de74c493b37123e47b44cbbd7e7015603fcdeaea4257fc)
+   0329 mov bx, sp
+   032B mov ax, word ptr ss:[bx + N]
+   032F call N
+   0332 jb N
+   0334 mov ax, cx
+   0336 mov dx, bx
+   0338 retf N
+   033B mov ax, N
+   033E jmp N
+   0341 mov bx, sp
+   0343 mov ax, word ptr ss:[bx + N]
+   0347 les cx, ptr ss:[bx + N]
+   034B mov bx, es
+   034D call N
+   0350 jb N
+   0352 retf N
+--- GOAL 23E4:041D..041E (1 instr, 1 bytes, sha256 5c62e091b8c0565f1bafad0dad5934276143ae2ccef7a5381e8ada5b1a8d26d2)
+   041D push ax
+--- GOAL 23E4:0475..0491 (14 instr, 28 bytes, sha256 87dd16dfb457af840f7884b42dfb6526506bde6306bda917a40abda6c7bbb449)
+   0475 jmp N
+   0477 pop ax
+   0478 mov cx, word ptr [N]
+   047C or cx, word ptr [N]
+   0480 je N
+   0482 push ax
+   0483 push ax
+   0484 lcall [N]
+   0488 xchg cx, ax
+   0489 pop ax
+   048A jcxz N
+   048C dec cx
+   048D jne N
+   048F mov bx, cx
+--- GOAL 23E4:04D3..04D7 (4 instr, 4 bytes, sha256 40a175f3f4c7af360359591f10456cfe4e06705fc67360f6067de538a138e953)
+   04D3 pop ax
+   04D4 clc 
+   04D5 ret 
+   04D6 stc 
+--- GOAL 23E4:06EF..072B (32 instr, 60 bytes, sha256 2b8e733ba8388c30ca50327776d0a6420e947b7542fb42098fc3c75d702be7b9)
+   06EF mov cl, byte ptr es:[di]
+   06F2 xor ch, ch
+   06F4 jcxz N
+   06F6 inc di
+   06F7 lodsb al, byte ptr [si]
+   06F8 cmp al, N
+   06FA jb N
+   06FC ja N
+   06FE lodsb al, byte ptr [si]
+   06FF repne scasb al, byte ptr es:[di]
+   0701 jne N
+   0703 dec di
+   0704 jmp N
+   0706 xor ah, ah
+   0708 mov dx, cx
+   070A sub dx, ax
+   070C jb N
+   070E inc dx
+   070F mov cx, ax
+   0711 repe cmpsb byte ptr [si], byte ptr es:[di]
+   0713 je N
+   0715 sub cx, ax
+   0717 add si, cx
+   0719 add di, cx
+   071B inc di
+   071C dec dx
+   071D jne N
+   071F xor ax, ax
+   0721 jmp N
+   0723 sub di, ax
+   0725 mov ax, di
+   0727 sub ax, word ptr ss:[bx + N]
+--- GOAL 23E4:0995..0997 (1 instr, 2 bytes, sha256 1b5b9ccb3e8d006a5230de9bda23ff91edc794d4f56410560830b418528e446c)
+   0995 je N
+--- GOAL 23E4:09AB..09B9 (8 instr, 14 bytes, sha256 425a43fe92d60aece9caf6cd712a3da766ea789bedbac74496670a8e0cf6653a)
+   09AB push ax
+   09AC mov ah, dh
+   09AE and ah, N
+   09B1 mov bp, ax
+   09B3 xor ax, di
+   09B5 pop ax
+   09B6 pushf 
+   09B7 mov al, N
+--- GOAL 23E4:09C5..09C7 (1 instr, 2 bytes, sha256 355163fdb18696eeb33033189627f931583d2f3ac2bb6e17ddac146b63111911)
+   09C5 mov al, ah
+--- GOAL 23E4:09D4..09D6 (1 instr, 2 bytes, sha256 402d45b922fafa9feb2dcc96351b8442b84c1a9623713d448ff8d9322a1ecd1b)
+   09D4 jmp N
+--- GOAL 23E4:09DE..09E0 (1 instr, 2 bytes, sha256 ed24693b17b2afa308d356ec8cbfbf2b07a4963fc3a0038bc867d0194ed1c498)
+   09DE rcr ax, N
+--- GOAL 23E4:09E7..0B7A (191 instr, 403 bytes, sha256 5c2c529ca8fd073e97f39f0a62c9f6404bd4e48e59360752640a2ba44842ceb1)
+   09E7 add ax, cx
+   09E9 adc bx, si
+   09EB adc dx, di
+   09ED mov cx, bp
+   09EF pop bp
+   09F0 jae N
+   09F2 rcr dx, N
+   09F4 rcr bx, N
+   09F6 rcr ax, N
+   09F8 inc cl
+   09FA je N
+   09FC add ax, N
+   09FF adc bx, N
+   0A02 adc dx, N
+   0A05 jb N
+   0A07 mov al, cl
+   0A09 and dh, N
+   0A0C or dh, ch
+   0A0E ret 
+   0A0F mov ax, cx
+   0A11 mov bx, si
+   0A13 mov dx, di
+   0A15 ret 
+   0A16 rcr dx, N
+   0A18 inc cl
+   0A1A jne N
+   0A1C stc 
+   0A1D ret 
+   0A1E sub ax, cx
+   0A20 sbb bx, si
+   0A22 sbb dx, di
+   0A24 mov cx, bp
+   0A26 pop bp
+   0A27 jae N
+   0A29 not dx
+   0A2B not bx
+   0A2D neg ax
+   0A2F cmc 
+   0A30 adc bx, N
+   0A33 adc dx, N
+   ... 151 more instructions
+--- GOAL 23E4:0B88..0BB3 (22 instr, 43 bytes, sha256 e4c27753cdde9d60341560b0ff006869a2ad45674ab97f28a19a87b05d65596c)
+   0B88 sbb bp, di
+   0B8A rcl dx, N
+   0B8C jb N
+   0B8E shl ah, N
+   0B90 rcl bx, N
+   0B92 rcl bp, N
+   0B94 jae N
+   0B96 sub ah, ch
+   0B98 sbb bx, si
+   0B9A sbb bp, di
+   0B9C clc 
+   0B9D jmp N
+   0B9F dec al
+   0BA1 js N
+   0BA3 push dx
+   0BA4 mov dx, N
+   0BA7 jne N
+   0BA9 mov dl, N
+   0BAB jmp N
+   0BAD mov ax, dx
+   0BAF mov cl, N
+   0BB1 shl ax, cl
+--- GOAL 23E4:0BB7..0BCE (10 instr, 23 bytes, sha256 8fb62b8fab53f7556bc9fafe13246cad4c2167c42c7e4bfb90a4aefa2a733ab5)
+   0BB7 not ax
+   0BB9 not bx
+   0BBB xor dx, N
+   0BBE js N
+   0BC0 rcl ax, N
+   0BC2 rcl bx, N
+   0BC4 rcl dx, N
+   0BC6 dec cx
+   0BC7 add cx, N
+   0BCB jmp N
+--- GOAL 23E4:118A..1192 (5 instr, 8 bytes, sha256 1cb43290ae4ac5b957e0291b04dd9fbdca10a9b9138e4f600d46456f05453300)
+   118A popf 
+   118B adc bp, cx
+   118D aaa 
+   118E push es
+   118F bound di, dword ptr [bp + di - N]
+--- GOAL 23E4:11DE..11E4 (3 instr, 6 bytes, sha256 4d2c87518d74b7169d49a048b937b03995aaced36022e9857189c98e65ca694f)
+   11DE jnp N
+   11E0 push ss
+   11E1 jnp N
+--- GOAL 23E4:12FC..1302 (2 instr, 6 bytes, sha256 b1886c1c386e17fa14466bc3d9ce2651709bd34ca7c7970d7ac54a54c3c2adf6)
+   12FC mov ax, word ptr [bp + N]
+   12FF mov dx, word ptr [bp + N]
+--- GOAL 23E4:19CF..19D0 (1 instr, 1 bytes, sha256 6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d)
+   19CF db

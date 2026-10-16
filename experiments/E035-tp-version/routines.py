@@ -39,3 +39,7 @@ for off, size in rt:
         continue
     row = [('%.0f' % (100.0 * sum(cov[c][i] for i in idx) / len(idx))) for c in cands]
     print('23E4:%04X\t%s\t%d\t%d\t%s' % (off, names.get('23E4:%04X' % off, ''), size, len(idx), '\t'.join(row)))
+# routines of the small units: how many have no name in the annotations
+for seg in ('23E4', '2382', '235C'):
+    allr = [l.split('\t')[0] for l in open(repo + '/static/goal-exe/routines.tsv') if l.startswith(seg + ':')]
+    print('# %s: %d routines, %d without a name in annotations/routines.tsv' % (seg, len(allr), sum(a not in names for a in allr)))

@@ -23,32 +23,38 @@ masked, because the System variables sit at other data-segment offsets in GOAL).
 | 7.0 | 57.8 % | 41 | 58 % | 92 % |
 | 7.01 | 57.8 % | not tabulated (as 7.0) | 58 % | 92 % |
 
-(`outputs/20261016c/`: `run.log` with sha256 of every image, compiler file and built exe and the per-routine table; `cover.*.txt`,
-`gaps.*.txt`, `bytecmp.55.txt`).)
+(`outputs/20261017a/`: `run.log` with sha256 of every image, compiler file and built exe and the per-routine table; `cover.*.txt`,
+`gaps.*.txt`, `bytecmp.55.txt`, `startup`/`movecheck` lines in `run.log`, `t7.*.log`). The older `20261016*` folders are the same runs
+before the generator stopped printing bytes; see `outputs/NOTE.md`.)
 
 Structural clues, each checked against the candidates' own output:
 
-- Start-up: `mov dx,DS; mov ds,dx; mov [PrefixSeg],es; xor bp,bp; mov ax,sp; add ax,13h; ...` is byte-identical in shape to 5.0
-  and 5.5; 6.0 adds three more stores of start-up values after `add ax,[0004]`, 7.0 adds two calls before `mov ax,sp`.
-- It saves **18** interrupt vectors (00 02 1B 23 24 34..3F 75), the 5.0/5.5 list; 6.0 and 7.x save 19 (they add 21).
+- Start-up (`startup.py`, in `run.log`): the first 0xA0 bytes of the System segment have skeleton similarity 1.000 with 5.0
+  and 5.5, 0.903 with 6.0, 0.851 with 7.0 and 7.01, 0.331 with 4.0. 6.0 stores `es:[2]`, a constant and CS in extra
+  stores and lacks GOAL's `mov ax,es:[2]; sub ax,N`; 7.x adds two calls and a `mov es,[N]`; 4.0 has no vector-save loop.
+- The table of saved interrupt vectors has **18** entries, identical to the table 5.0 and 5.5 compile; 6.0 and 7.x
+  tables have 19, the extra entry being INT 21h (`startup.py`).
 - The block-copy helper at `23E4:025D` (named `sys_move_025D` in the project; callers pass 4000 for a screen) is a plain
-  `cld; rep movsb`. Probes show it is what the compiler calls for an array assignment `a := b` (`probes/t5.pas`); the public
-  `Move` is another, overlap-safe routine (`std` for overlapping copies; `probes/t6.pas`) that GOAL does not contain. So the
-  original source wrote `screen := backup`-style assignments, not `Move`. The helper sits at the same offset `025D` in
-  5.0 and 5.5, elsewhere in 6.0 and 7.x. (`movecheck.py`, in `run.log`.)
-- 5.0 vs 5.5 (the two close ones): GetMem/FreeMem/heap allocation (`0329`, `0341`, `041D`), `Pos` (`06E3`) and the six-byte
-  Real add/sub/mul/div (`098F`..`0B57`) differ in 5.0 (`gaps.50.txt`: 17 stretches, one of 191 instructions) and are
-  identical in 5.5. The 5.5 gaps (`gaps.55.txt`) are five stretches of 1 to 3 instructions: three are 6-byte
-  relocation/table words inside data, one is a padding byte, one is the two-instruction start of `Str(longint)`
-  (`23E4:12FC`) that my probe laid out differently. `bytecmp.55.txt`: of the matched instructions, 2,829 have
-  identical bytes; the others differ in a data-segment offset or a call displacement (an instruction whose offset
-  sits inside it is counted by `opcode-differs` there, not a real opcode change).
-- No overlay manager or FBOV marker in GOAL (the game does not use overlays). Not a clue to the version: the
-  `TURBO.TPL` of 5.5 lists `Ovr*` variables in its System interface whether or not a program overlays units.
+  `cld; rep movsb`. Probes show it is what the compiler calls for an array assignment `a := b` (`probes/t5.pas`: helper
+  present, public Move absent); the public `Move` is another, overlap-safe routine (it uses `std`; `probes/t6.pas`: Move
+  present, helper absent) that GOAL does not contain. So the original source wrote `screen := backup`-style
+  assignments, not `Move` (`movecheck.py`, in `run.log`; the helper's offset differs per program because System is
+  smart-linked, so no offset is claimed).
+- 5.0 vs 5.5 (the two close ones): GetMem, FreeMem and heap allocation (`0329`, `0341`, `041D`), `Pos` (`06E3`) and the six-byte
+  Real add, multiply and divide (`098F`, `0A52`, `0B57`) are not reproduced by 5.0 (0 to 76 % of each routine; the
+  routine table in `run.log`) and fully by 5.5; `gaps.50.txt` has 17 stretches, the largest 191 instructions (403 bytes,
+  inside the Real arithmetic). The 5.5 gaps (`gaps.55.txt`) are four stretches of 2, 3, 2 and 1 instructions (6, 6, 6 and 1
+  bytes, 19 bytes in all): two (`118F`, `11DE`) are data containing data-segment offset words that decode as
+  instructions, one is the two-instruction start of `Str(longint)` (`12FC`) that my probe laid out differently, one is a
+  padding byte (`19CF`). `bytecmp.55.txt`: of the 2,961 matched instructions, 2,829 have identical bytes; the 132 others
+  differ in a data-segment offset or a call displacement, in ten of them with the changed field inside the instruction
+  (not at its end).
+- No overlay manager or FBOV marker in GOAL (the game does not use overlays). That fits any version from 5.0 and says
+  nothing about which.
 - GOAL's Dos unit (235C) has `FindFirst`/`FindNext`, `Exec` and a `GetEnv`-like routine (the project's names). 4.0's Dos
-  has no `GetEnv`, `EnvStr` or `SwapVectors` (the first probe tries failed on exactly those identifiers; `probes/t4_40.pas`
-  leaves them out). Another
-  point against 4.0, weaker than the System comparison.
+  has no `GetEnv`: compiling the full probe with 4.0 stops at it with "Unknown identifier" (`t7.40.log`; 5.5 builds it,
+  `t7.55.log`; `probes/t4_40.pas` leaves it and other calls out so that 4.0 can be compared at all). A point against 4.0,
+  weaker than the System comparison.
 
 What could not be settled, and why:
 
@@ -75,7 +81,7 @@ What the answer already buys (at the cost of this experiment; no run of the orig
   where a decompilation is in doubt (the 16-bit overflow and `Real` rounding cases), not as a general step.
 
 Recommendation: stop here for naming. Do not build FLIRT or Function ID signatures: the only code they could name is
-the runtime, which is named, and a signature database from five compiler variants would be a build step with no reader.
+the runtime, which is named, and a signature database from six compiler variants would be a build step with no reader.
 
 ## Reko (0.12.5, tried)
 
@@ -98,19 +104,21 @@ Real multiply `23E4:0A52`):
 ## Assumptions
 
 - The skeleton comparison is a fair stand-in for a byte comparison: the masked fields are exactly those that move with
-  the data layout (checked by `bytecmp.py`: of 2,961 matched instructions, the 132 that differ in bytes differ in an
-  address operand only).
+  the data layout (checked by `bytecmp.py`: of 2,961 matched instructions, the 132 that differ in bytes differ only in
+  the fields the skeleton masks: a data offset, an immediate or a call displacement).
 - The System unit in a compiled EXE is the smart-linked subset the program uses, so a candidate can only be compared on
   the routines my probe links (`probes/t4.pas` was written to link most of System; 86 of 88 routines are reproduced by
   5.5; routines the probe did not link would show as a gap for every candidate alike, and the 5.0-versus-5.5 gaps
   are in routines the probe does link).
-- The floppy images are what they claim to be (WinWorldPC); their hashes are in `outputs/20261016c/run.log`.
+- The floppy images are what they claim to be (WinWorldPC); their hashes are in `outputs/20261017a/run.log`.
 
 ## Files
 
-- `fat12.py`, `dbx.py`, `sysseg.py`, `cover.py`, `gaps.py`, `bytecmp.py`, `routines.py`, `units.py`, `movecheck.py`, `run_all.py`: tools
+- `fat12.py`, `dbx.py`, `sysseg.py`, `cover.py`, `gaps.py`, `bytecmp.py`, `routines.py`, `units.py`, `startup.py`, `movecheck.py`, `pick.py` (one match from a glob, or an error), `selfcheck.py`
+  (proves that rule fires on two matches), `hexscan.py` (counts hex runs of more than 8 bytes in the tracked files), `run_all.py`: tools
   (`run_all.py SCRATCH OUT` redoes everything; it reads the keep directory's images and the released `GOAL.EXE`).
 - `probes/`: our Pascal test programs.
-- `outputs/20261016a/` (first run), `20261016b/` (with the Dos/Crt probes) and `20261016c/` (with the Move probes; the run
-  the table cites; the three agree on the System numbers): never overwritten.
-- `reko/excerpts.md`: Reko excerpts. No Borland file and no GOAL file is committed.
+- `outputs/20261016a/` (first run), `20261016b/` (with the Dos/Crt probes), `20261016c/` (with the Move probes) and
+  `20261017a/` (the run the table cites; the generator no longer prints bytes). The four agree on the System numbers.
+  Older folders: byte columns removed, see `outputs/NOTE.md`.
+- `reko/excerpts.md`: Reko excerpts. No Borland file and no GOAL file is committed, and no output carries bytes of GOAL (offset, length and sha256 instead).

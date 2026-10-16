@@ -61,4 +61,5 @@ if __name__ == '__main__':
     else:
         img, base, d = sysseg(sys.argv[1])
         print(sys.argv[1], 'size', len(d), 'system segment image offset 0x%X' % base)
-        print(img[base:base + 48].hex())
+        import hashlib
+        print('sha256 of the first 48 bytes:', hashlib.sha256(img[base:base + 48]).hexdigest())
