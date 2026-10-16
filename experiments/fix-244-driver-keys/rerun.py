@@ -33,6 +33,16 @@ def main():
     mod.OUT = out
     if hasattr(mod, "e003"):  # E006 loads E003's script for its keys and helpers
         mod.e003.OUT = out
+    if exp == "E003":
+        # E003's Run.add skips a read whose id() it has seen, and the reads are freed after their step: under
+        # Python 3.14 a new read gets a freed one's id and is skipped, so E003-r0001 and r0002 of this folder
+        # (made without this) lack steps 2-4, 7 and 9-11. Keeping every read alive makes ids unique.
+        add = mod.Run.add
+
+        def add_keeping_reads(self, label, read=None):
+            self.__dict__.setdefault("_kept", []).append(read or self.d.last)
+            return add(self, label, read)
+        mod.Run.add = add_keeping_reads
     return mod.main(argv)
 
 
