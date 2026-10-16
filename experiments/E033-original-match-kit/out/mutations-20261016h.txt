@@ -1,0 +1,22 @@
+unmutated: all pass
+killed               screens.py  the team menu's item read from another frame word
+killed               match.py    a commentary line stamped with the previous event's minute, not the guest clock at the ring write
+killed               machine.py  no replay flag on resume
+killed               match.py    the original's message not kept
+killed               screens.py  a swap counted as made without looking
+killed               screens.py  the request pressed again (Enter cancels it)
+killed               machine.py  far-call arguments in push order
+killed               match.py    the fixture index (the set-up's seed source) not written
+killed               match.py    the half-time menu decided as play
+killed               match.py    a refused eleven not handed back
+killed               match.py    an image of another build accepted
+killed               image.py    the code guard: its first block only (a prefix guard)
+killed               image.py    the data guard left out
+killed               match.py    a screen plan kept after a stop (save refused at full time)
+killed               match.py    commentary stamped at the flush, not at its write
+killed               screens.py  the substitutions-left counter read at the action replay's copy
+killed               match.py    the memory component cut to 1 MiB + HMA
+killed               match.py    the quick engine's commit counted against its trial count, not the score it saved
+killed               match.py    stamps inside the quick engine read its trial counts
+killed               match.py    a take-back rewrites the goal it cancels in place (not queued at its own write)
+20 of 20 killed
