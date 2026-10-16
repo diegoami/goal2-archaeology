@@ -93,6 +93,14 @@ def main():
     mod.OUT = out
     if hasattr(mod, "e003"):  # E006 loads E003's script for its keys and helpers
         mod.e003.OUT = out
+    if exp == "E006":
+        # E006 names the kept savestate by run id in .cache/states/driver/ and never replaces one: number past those
+        next_id = mod.next_id
+
+        def next_id_past_kept_states():
+            kept = [int(p.stem.rsplit("-r", 1)[1]) for p in mod.driver.STATES.glob("e006-*-r*.sav")]
+            return max(next_id(), 1 + max(kept, default=0))
+        mod.next_id = next_id_past_kept_states
     if exp == "E003":
         # E003's Run.add skips a read whose id() it has seen, and the reads are freed after their step: under
         # Python 3.14 a new read gets a freed one's id and is skipped, so E003-r0001 and r0002 of this folder
