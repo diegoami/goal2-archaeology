@@ -1,0 +1,59 @@
+        Laudrup collects
+        tackle by Clarke
+        Clarke wins the ball
+        Clarke makes a run
+        pass by Clarke
+        Black collects
+        Black makes a run
+        good ball for Clarke
+        Clarke on the ball
+        Clarke makes a run
+        tackle by Christofte
+        Christofte wins the ball
+        Christofte makes a pass
+        Black intercepts
+        good ball for Clarke
+  [ 20' 0-0] decision substitutions_now=False refused=None context=pause injured=[] substitutions_left=5 tactics=139
+  -> answer: tactics, stand ground (element 6)
+  [ 20' 0-0] tactics byte=171
+  [ 21' 1-0] goal team=0 country=7 player=130 name=Laudrup
+        **** GOAL **** by Laudrup
+        ---- HALF TIME ----
+  [ 46' 1-0] half_time 
+  [ 46' 1-0] decision substitutions_now=True refused=None context=half_time injured=[] substitutions_left=5 tactics=171
+  -> answer: substitute 129 (position 8) by 133 (position 1)
+  [ 46' 1-0] substitution team=0 off=129 on=133 off_name=Jensen on_name=Nielsen
+        Clarke to take kick off
+        Black collects
+        Black makes a run
+        pass by Black
+        Clarke collects
+        tackle by Laudrup
+        Laudrup wins the ball
+        knocked on by Laudrup
+        Black intercepts
+        pass by Black
+        Laudrup intercepts
+        tackle by Clarke
+        dodged by Laudrup
+        good ball for Larsen
+        Larsen on the ball
+        Larsen makes a run
+  -- saved at minute 60: 356643 bytes; resuming from them
+  [ 60' 1-0] substitution team=1 off=379 on=368 off_name=Morrow on_name=Durnin
+  [ 60' 1-0] substitution team=1 off=370 on=371 off_name=Clarke on_name=Dowie
+  [ 73' 1-0] substitution team=1 off=378 on=369 off_name=Black on_name=Hughes
+  [ 75' 1-1] goal team=1 country=19 player=369 name=Hughes
+        **** GOAL **** by Hughes
+  [ 83' 1-1] booking team=0 player=124 name=Christofte
+  [ 83' 1-1] substitution team=1 off=365 on=375 off_name=McDonald on_name=Hill
+  [ 92' 1-1] full_time statistics={'corners': [1, 1], 'free_kicks': [0, 5], 'penalties': [0, 0], 'shots': [5, 2], 'on_target': [2, 2], 'saves': [2, 2], 'fouls': [3, 0], 'bookings': [1, 0], 'red_cards': [0, 0], 'injuries': [0, 0]} bars=[[627, 469], [1221, 1646]] man_of_the_match=130 final_score=[1, 1] screen_sha256=5597988f436766aea6c87ceb0f7250c8ccb5e3dbb3ec86e4e365f7af2c346a87 ticks=4173 seed=32691
+  [ 92' 1-1] end 
+
+full time 7 1-1 19 (half time [1, 0])
+goals: [('Laudrup', 21), ('Hughes', 75)]
+substitutions: [('Jensen', 'Nielsen', 46), ('Morrow', 'Durnin', 60), ('Clarke', 'Dowie', 60), ('Black', 'Hughes', 73), ('McDonald', 'Hill', 83)]
+bookings: [('Christofte', 83)] injuries: []
+man of the match: Laudrup | statistics: {'corners': [1, 1], 'free_kicks': [0, 5], 'penalties': [0, 0], 'shots': [5, 2], 'on_target': [2, 2], 'saves': [2, 2], 'fouls': [3, 0], 'bookings': [1, 0], 'red_cards': [0, 0], 'injuries': [0, 0]}
+decisions: [('pause', 20, {'tactics': [[6, True]]}), ('half_time', 46, {'substitutions': [[129, 133]]})]
+9.3 s wall
