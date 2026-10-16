@@ -323,3 +323,19 @@ review; this repository never pushes to goal2's `main`.
 identifiers a row needs (CLAUDE.md rule 18). Both repositories are private; the rule still holds.
 
 **Check**: a register row that cites a run record or finding must cite one that is merged here.
+
+## 15. Requests from goal2
+
+goal2 asks for decompilation or exploration by an issue in this repository (goal2's `docs/process.md` section 11),
+labelled `triage:needed` and `from-goal2`; rule 14 lists it at the start of every session. (L114, the owner,
+2026-10-16)
+
+- **Grade it** by importance and cost (`docs/wide-pass.md`, "Grading the unknowns"), and answer **on the issue in the
+  same session**: *investigate* (it becomes a task `T<nn>`, labelled `task`, with the issue linked), *assume* (state
+  the assumption that stands and its risk, and close the issue as assumed; goal2's own assumption is a valid answer,
+  so goal2 never waits), or *return it* (it is a remaster design decision: goal2's to make, L112).
+- Ask the requester on the issue when the question is unclear; do not guess what blocks them.
+- A request needing a long run or an expensive proof is answered *assume* unless goal2 shows it is of high importance
+  (then it comes to the owner with the proposed assumption).
+- The answer travels by section 14: a finding, a register branch and handover, and an issue in goal2. Static first
+  (rule 22); nothing of the original goes across beyond the identifiers a row needs (rule 18).
