@@ -1,0 +1,8 @@
+knockout example (39, budget 5)          PASS  13.2 s  {'score': [0, 0], 'score_90': [0, 0], 'shootout': [3, 1], 'kicks': 8, 'winner': 0, 'budget': [5, 5]}
+kind 200, 42: penalties, sudden death    PASS  13.2 s  {'score': [0, 0], 'score_90': [0, 0], 'shootout': [3, 2], 'kicks': 12, 'winner': 0, 'budget': [2, 2]}
+kind 200, 30: decided in extra time      PASS  14.3 s  {'score': [3, 2], 'score_90': [2, 2], 'shootout': None, 'kicks': None, 'winner': 0, 'budget': [2, 2]}
+kind 200, 9, quick: 24 kicks             PASS   7.5 s  {'score': [1, 1], 'score_90': [1, 1], 'shootout': [8, 9], 'kicks': 24, 'winner': 1, 'budget': [2, 2]}
+kind 200, 53, quick: penalties           PASS   6.8 s  {'score': [2, 2], 'score_90': [2, 2], 'shootout': [5, 6], 'kicks': 16, 'winner': 1, 'budget': [2, 2]}
+kind 200, 42, quick, goal2 manages 19    PASS   6.0 s  {'score': [0, 0], 'score_90': [0, 0], 'shootout': [4, 2], 'kicks': 8, 'winner': 0, 'budget': [2, 2]}
+kind 2, 21: a qualifier                  PASS  10.8 s  {'score': [1, 1], 'score_90': None, 'shootout': None, 'kicks': None, 'winner': 2, 'budget': [2, 2]}
+friendly, 21 (the reference)             PASS  10.8 s  {'score': [1, 1], 'score_90': None, 'shootout': None, 'kicks': None, 'winner': 2, 'budget': [5, 5]}
