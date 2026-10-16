@@ -109,13 +109,15 @@ back with `refused` set; answer again. A declined injury notice comes back at ev
 
 - **The seed is the fixture's**: the set-up reseeds the RNG with `index * (year + 1)` (0791:2648), so a fixture
   number plays one match for given teams and answers. `seed=` overrides it at kick-off (a deviation, declared).
-- **The match depends on the two teams' records, nothing else in the image** (E033: the stack, the screens zeroed,
-  an image taken inside a match with the teams' records restored: the same match). The set-up writes into the
-  computer side's records (it sorts its squad and sets its eleven's positions, 0791:BC5D), so **carry the records
-  forward**: the next match starts from `memory_component()` of this one, as the original's next fixture does.
+- **The match depended on the two teams' records and nothing else in the image** on the fixture tried (E033: the
+  stack and the screens zeroed, an image taken inside a match with the teams' records restored: the same match).
+  The set-up writes into the computer side's records (it sorts its squad and sets its eleven's positions,
+  0791:BC5D), so **carry the records forward**: the next match starts from `memory_component()` of this one, as
+  the original's next fixture does.
 - The computer's side is the original's: its lineup, tactics and substitutions. Your country is made the human's
   (`managed=`); the image's former human country is released as the original releases a sacked manager's.
-- `speed` changes no match (checked); it is the original's display speed, for goal2 to pace its own display.
+- `speed` changed no match where checked (E011-r0001's fixture, the speed byte 0 and 1; the original reads it
+  only for its delays and the speaker); it is the original's display speed, for goal2 to pace its own display.
 - The post-match update runs (energy recovery, form and confidence from the result: F018, F019); the original's
   news pages after a fixture do not. Read the new player bytes from `memory_component()`.
 

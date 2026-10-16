@@ -107,6 +107,7 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--log", required=True)
     ap.add_argument("--kit", default=str(ROOT / "runtime"))
+    ap.add_argument("--scenarios", type=int, default=len(SCENARIOS), help="run the first N scenarios only")
     a = ap.parse_args()
     log = Path(a.log)
     if log.exists():
@@ -120,7 +121,7 @@ def main():
     img = kit.Image.from_savestate(data)
     failures = 0
     with open(log, "x") as out:
-        for name, kw, pause_at, policy in SCENARIOS:
+        for name, kw, pause_at, policy in SCENARIOS[:a.scenarios]:
             t = time.time()
             m = make(kit, img, kw)
             saves, first_kind = [], set()
