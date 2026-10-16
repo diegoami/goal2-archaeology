@@ -110,6 +110,7 @@ ORDER_HIGHLIGHT_BP, ORDER_NEEDED_BP = -6, -4   # local_8 the highlighted squad s
 SO_SIDE, SO_INDEX, SO_TAKERS = -0x1F, -0x1E, -0x1A
 TABLE_READS = ("1771:9022", "1771:91BE")   # after a non-friendly, run_match's E929 calls 1771:958D(.., 0): one pass of
 #                                            the competition's table screen, 8E9A (read at 901D) or 9028 (91B9)
+TABLE_KEY = "1771:9567"         # ... or the finals' table 9509, 'hit any key' (its 214B:08DD at 9562)
 CONFIDENCE, STATUS = 0x0C, 0x10  # player +0xC confidence (F020), +0x10 status: element k is bit k-1 (F027 section 2)
 SUSPENDED, SENT_OFF, CARRIED_BOOKING, SUBSTITUTED_OFF = 0x80, 0x20, 0x08, 0x04
 
@@ -136,6 +137,21 @@ class Event:
     def __str__(self):
         extra = " ".join(f"{k}={v}" for k, v in self.data.items() if k not in ("players", "eleven", "bench", "positions"))
         return f"[{self.minute:3d}' {self.score[0]}-{self.score[1]}] {self.kind} {extra}"
+
+
+def fresh_state(players_before):
+    """The kit's state of a match before run_match starts (Match.__init__; E034 builds one at a shoot-out's
+    start from a recorded state the same way)."""
+    return {"phase": "run_match", "fresh": True, "over": False, "full_time": False, "minute": 0,
+            "score": [0, 0], "squads": None, "scorers": [[], []],
+            "candidates": {}, "menu_context": None, "notice": None, "answer": None, "waiting": None,
+            "poll_keys": [], "prompt": None, "pending_subs": [], "recording": False,
+            "decisions": [], "draws": [], "commentary": [], "half_time_score": None, "board": None,
+            "ticks": 0, "kickoff_seed": None, "live": False, "pending": [],
+            "log": {"goals": [], "goals_disallowed": [], "bookings": [], "sendings_off": [], "injuries": [],
+                    "substitutions": []},
+            "stage": "match", "score_90": None, "score_120": None, "kick": None, "kicks": [], "order": None,
+            "players_before": players_before}
 
 
 class Match:
@@ -198,16 +214,7 @@ class Match:
         self._write_fixture(index, fixture)
         self._declare("delay calibration dword DS:A9FF", self.m.DS * 16 + DELAY_COUNT,
                       DELAY_COUNT_VALUE.to_bytes(4, "little"))
-        self.st = {"phase": "run_match", "fresh": True, "over": False, "full_time": False, "minute": 0,
-                   "score": [0, 0], "squads": None, "scorers": [[], []],
-                   "candidates": {}, "menu_context": None, "notice": None, "answer": None, "waiting": None,
-                   "poll_keys": [], "prompt": None, "pending_subs": [], "recording": False,
-                   "decisions": [], "draws": [], "commentary": [], "half_time_score": None, "board": None,
-                   "ticks": 0, "kickoff_seed": None, "live": False, "pending": [],
-                   "log": {"goals": [], "goals_disallowed": [], "bookings": [], "sendings_off": [], "injuries": [],
-                           "substitutions": []},
-                   "stage": "match", "score_90": None, "score_120": None, "kick": None, "kicks": [], "order": None,
-                   "players_before": self._players_now([fixture.first, fixture.second])}
+        self.st = fresh_state(self._players_now([fixture.first, fixture.second]))
         self._queue = []
         self._menu = None
         self._result = None
@@ -568,6 +575,8 @@ class Match:
             st["prompt"] = None
             return S.ENTER
         if site == SITE_MESSAGE:
+            return S.ENTER
+        if site == TABLE_KEY and st["full_time"]:
             return S.ENTER
         if site == SITE_SELECT and self._menu is not None:
             return self._menu.select_key({
