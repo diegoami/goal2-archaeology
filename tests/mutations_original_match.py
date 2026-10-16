@@ -111,6 +111,21 @@ MUTATIONS = [
      [C + "test_extra_time_goal_marked"]),
     ("the competition table's read after a qualifier undeclared", "match.py",
      [('if caller in TABLE_READS and st["full_time"]:', "if False:")], [C + "test_qualifier"]),
+    ("a missed kick emitted before the lines its kick wrote", "match.py",
+     [("""        self._flush()                  # a goal's kick is emitted here, at its write's place in the order
+        if not kick["scored"]:
+            minute, s0, s1 = self._stamp()
+            self._emit_kick(minute, [s0, s1])""",
+       """        if not kick["scored"]:
+            minute, s0, s1 = self._stamp()
+            self._emit_kick(minute, [s0, s1])
+        self._flush()""")], [C + "test_competitive_stream_is_in_the_originals_write_order"]),
+    ("a ban read at the wrong status bit", "match.py",
+     [("SUSPENDED, SENT_OFF, CARRIED_BOOKING, SUBSTITUTED_OFF = 0x80,", "SUSPENDED, SENT_OFF, CARRIED_BOOKING, SUBSTITUTED_OFF = 0x20,")],
+     [C + "test_consequences_of_a_sending_off"]),
+    ("the players' bytes 'before' read after the match", "match.py",
+     [('before = st.get("players_before") or {}', 'before = self._players_now([self.opts["first"], self.opts["second"]])')],
+     [C + "test_consequences_of_a_sending_off"]),
     ("kind 4 accepted (a decider no builder writes)", "match.py",
      [("KINDS = (1, 2, 3, 5, 6, 7, 8,", "KINDS = (1, 2, 3, 4, 5, 6, 7, 8,")], [C + "test_kinds_and_budget_arguments"]),
 ]

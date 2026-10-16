@@ -27,7 +27,8 @@ IMAGE = ROOT / ".cache" / "dl" / "e0afff6751747233-e006-1000-r0001.sav"
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--log", required=True)
-    ap.add_argument("--kind", type=int, default=200)
+    ap.add_argument("--kind", default="200", help="a kind, or several separated by commas")
+    ap.add_argument("--managed", type=int, default=None, help="the country goal2 manages (default: first)")
     ap.add_argument("--seeds", default="1-10")
     ap.add_argument("--index", type=int, default=40)
     ap.add_argument("--first", type=int, default=7)
@@ -41,14 +42,15 @@ def main():
     lo, hi = (int(x) for x in (a.indexes or a.seeds).split("-"))
     image = Image.from_savestate(IMAGE.read_bytes())
     with log.open("x") as f:
-        for n in range(lo, hi + 1):
+        for kind, n in [(int(k), n) for k in a.kind.split(",") for n in range(lo, hi + 1)]:
             seed, index = (None, n) if a.indexes else (n, a.index)
             t0 = time.time()
-            rec = {"kind": a.kind, "seed": seed, "index": index, "first": a.first, "second": a.second,
+            rec = {"kind": kind, "managed": a.managed or a.first, "seed": seed, "index": index, "first": a.first, "second": a.second,
                    "quick": a.quick}
             kinds, contexts, last = {}, [], None
             try:
-                m = Match(image, Fixture(a.first, a.second, index=index, kind=a.kind), managed=a.first, seed=seed)
+                m = Match(image, Fixture(a.first, a.second, index=index, kind=kind), managed=a.managed or a.first,
+                          seed=seed)
                 for ev in m.events():
                     kinds[ev.kind] = kinds.get(ev.kind, 0) + 1
                     last = str(ev)
@@ -68,7 +70,7 @@ def main():
             rec.update(events=kinds, decisions=contexts, seconds=round(time.time() - t0, 1))
             f.write(json.dumps(rec) + "\n")
             f.flush()
-            print(json.dumps({k: rec.get(k) for k in ("seed", "index", "ok", "score_90", "score", "winner", "error")}))
+            print(json.dumps({k: rec.get(k) for k in ("kind", "seed", "index", "ok", "score_90", "score", "winner", "error")}))
 
 
 if __name__ == "__main__":

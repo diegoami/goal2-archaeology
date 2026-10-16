@@ -14,8 +14,8 @@
   level after 90 and 120 minutes: extra time's event and its two decisions, the shoot-out, its kicks, its score and
   the winner, the full-time board after it, no pause in it; goal2's shoot-out order taken, kick by kick and past the
   eleventh kick of a side (the takers' rotation); the substitution budget set per side (5 made where the original
-  allows 2, none for a side given 0); an extra-time goal marked as such; a qualifier (kind 2) with its competition
-  table.
+  allows 2, none for a side given 0); an extra-time goal marked as such; a ban after a sending off in the result's
+  players; a qualifier (kind 2) with its competition table.
 """
 import hashlib
 import sys
@@ -602,6 +602,37 @@ class CompetitiveTests(unittest.TestCase):
         self.assertEqual(len(late), 1)
         self.assertEqual([bool(g.get("extra_time")) for g in r["goals"]], [False] * 4 + [True])
         self.assertEqual(r["winner"], 0)
+
+    def test_competitive_stream_is_in_the_originals_write_order(self):
+        # E034 stamps_competitive.py's own hooks (E033's, plus extra time at 9B15, the shoot-out at A10A, a kick's
+        # end at A1EF with its side from DS:8319): index 9 as a quick result from half time, 24 kicks
+        sys.path.insert(0, str(ROOT / "experiments" / "E034-kit-competitive"))
+        import stamps_competitive as E034
+        import original_match
+        want, got, r = E034.run(original_match, self.image, index=9, kind=200, policy=E034.quick_at_half_time)
+        kinds = [o[0] for o in want["order"]]
+        self.assertEqual((kinds.count("extra_time"), kinds.count("shootout"), kinds.count("shootout_kick")), (1, 1, 24))
+        self.assertEqual(len(r["shootout"]["kicks"]), 24)
+        self.assertEqual(got, want)
+
+    def test_consequences_of_a_sending_off(self):
+        # seed 1 at calendar number 40, kind 200: Povlsen (131) is sent off at 15' (E034 probe-kinds-20261016b); the
+        # post-match update B7FA turns the red card into a ban for the next fixture (B27F: element 6 -> element 8,
+        # status 0x80, F027 section 2), which result()["players"] reports with the before and after bytes
+        from original_match import Match, Fixture
+        m = Match(self.image, Fixture(7, 19, index=40, kind=200), managed=7, seed=1)
+        for ev in m.events():
+            if ev.kind == "decision":
+                m.answer()
+        r = m.result()
+        self.assertEqual([(s["team"], s["player"], s["minute"]) for s in r["sendings_off"]], [(0, 131, 15)])
+        p = {q["player"]: q for q in r["players"]}
+        self.assertEqual((p[131]["status"], p[131]["suspended"]), ([0, 0x80], True))
+        self.assertEqual([w for w, q in p.items() if q["suspended"]], [131])
+        self.assertEqual(len(p), 40)
+        for q in p.values():
+            self.assertEqual(len(q["confidence"]) + len(q["energy"]), 4)
+            self.assertEqual(q["injured"], q["energy"][1] == 0)
 
     def test_qualifier(self):
         # kind 2 (a group match): not a decider, so no extra time even when level; the budget is 2; after it

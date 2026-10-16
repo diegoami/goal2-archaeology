@@ -18,7 +18,8 @@ so the kit's `extra_time`, `shootout` and `shootout_kick` events are compared to
 in the whole stream (`order`). Scenarios: the knockout worked example (example.play_knockout's answers, budget
 5), kind 200 fixtures from the reference image that go to extra time and penalties watched (index 42: sudden death)
 and as quick results (index 9: 24 kicks, the takers' rotation past 11 and sudden death; 53), one decided in extra
-time (30), a qualifier (kind 2, index 21: no extra time, the competition table after it) and the friendly reference.
+time (30), goal2 managing the second side (19, index 42 quick: penalties), a qualifier (kind 2, index 21: no extra
+time, the competition table after it) and the friendly reference.
 --kit DIR imports original_match from DIR (default runtime/)."""
 import argparse
 import hashlib
@@ -128,8 +129,8 @@ def quick_at_half_time(m, d):
     m.answer(quick=True) if d["context"] == "half_time" else m.answer()
 
 
-def run(kit, img, index, kind, policy, budget=None):
-    m = kit.Match(img, kit.Fixture(7, 19, index=index, kind=kind), managed=7, substitutions=budget)
+def run(kit, img, index, kind, policy, budget=None, managed=7):
+    m = kit.Match(img, kit.Fixture(7, 19, index=index, kind=kind), managed=managed, substitutions=budget)
     ind = Competitive(m.m)
     events = []
     for ev in m.events():
@@ -159,6 +160,8 @@ def main():
                  ("kind 200, 30: decided in extra time", dict(index=30, kind=200, policy=play_on)),
                  ("kind 200, 9, quick: 24 kicks", dict(index=9, kind=200, policy=quick_at_half_time)),
                  ("kind 200, 53, quick: penalties", dict(index=53, kind=200, policy=quick_at_half_time)),
+                 ("kind 200, 42, quick, goal2 manages 19", dict(index=42, kind=200, policy=quick_at_half_time,
+                                                                managed=19)),
                  ("kind 2, 21: a qualifier", dict(index=21, kind=2, policy=play_on)),
                  ("friendly, 21 (the reference)", dict(index=21, kind=1, policy=play_on))]
     bad = 0
