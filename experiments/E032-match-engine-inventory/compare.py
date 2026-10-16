@@ -15,6 +15,12 @@ draws, the digest, the 11 statistics rows with their labels, value pairs and add
 ids and counts. A record that fails validation makes the log MALFORMED: it never counts as equal, nor as a
 difference. Every reference record of the family must be completed.
 
+Logs are read strictly (record_schema.loads: UTF-8, no NaN/Infinity, no overflowing number, no duplicate key).
+The reference must be unhooked matches of the original (no skipped/ported/variant/hook_counts/port_calls),
+reference and candidate must name the same start state (start_record, watchstart_sha256), and each
+`--field KEY=JSON` (repeatable) names the run the candidate must be (e.g. variant="bound-36" or
+skipped=["0791:8F10"]), so a log of another run cannot stand in (round 4).
+
 --expect identical (the default, a port or a skip accepted): every candidate record must be completed too,
 and equal to its reference in score, ticks, draws, the draws digest, the board's raw statistics and the
 commentary's template counts.
@@ -26,7 +32,7 @@ Prints one line per seed and a summary; exits 0 only when every expected seed pa
 its expectation, and 2 on a malformed log or family (an unreadable line, a record that fails validation, a
 duplicate seed, a missing or unexpected seed, an empty family)."""
 import argparse
-import json
+import re
 import sys
 from pathlib import Path
 
@@ -61,29 +67,43 @@ def validate(r, where):
 
 
 def load(path):
+    """Seed -> record. Strict: UTF-8, one JSON object per line (record_schema.loads: no NaN/Infinity, no
+    overflowing number, no duplicate key), every record valid, every seed once. Blank lines are skipped."""
     out = {}
     try:
-        f = open(path)
-    except OSError as e:
+        text = Path(path).read_bytes().decode("utf-8")
+    except (OSError, UnicodeDecodeError) as e:
         raise Malformed(f"{path}: {e}")
-    with f:
-        for n, line in enumerate(f, 1):
-            if not line.strip():
-                continue
-            try:
-                r = json.loads(line)
-            except ValueError as e:
-                raise Malformed(f"{path}:{n}: not JSON ({e})")
-            validate(r, f"{path}:{n}")
-            if r["seed"] in out:
-                raise Malformed(f"{path}:{n}: seed 0x{r['seed']:04x} appears twice")
-            out[r["seed"]] = r
+    for n, line in enumerate(text.split("\n"), 1):
+        if not line.strip():
+            continue
+        try:
+            r = record_schema.loads(line)
+        except (ValueError, RecursionError) as e:
+            raise Malformed(f"{path}:{n}: not strict JSON ({e})")
+        validate(r, f"{path}:{n}")
+        if r["seed"] in out:
+            raise Malformed(f"{path}:{n}: seed 0x{r['seed']:04x} appears twice")
+        out[r["seed"]] = r
     return out
 
 
-def check(ref, cand, seeds, expect):
-    """(lines, passed) for the family; raises Malformed on a missing or unexpected seed or an incomplete
-    reference."""
+HOOK_KEYS = ("skipped", "ported", "variant", "hook_counts", "port_calls")
+SEED_ARG = re.compile(r"0x[0-9a-fA-F]{1,4}|[0-9]{1,5}")
+
+
+def check(ref, cand, seeds, expect, fields=()):
+    """(lines, passed) for the family; raises Malformed on a missing or unexpected seed, an incomplete or
+    hooked reference, two start states, or a candidate record whose declared run (`fields`: key, value
+    pairs such as variant or skipped) is not the one the caller names (round 4)."""
+    for seed, r in ref.items():
+        hooked = [k for k in HOOK_KEYS if k in r]
+        if hooked:
+            raise Malformed(f"reference seed 0x{seed:04x} is not an unhooked match of the original ({hooked})")
+    for seed, r in cand.items():
+        for key, value in fields:
+            if key not in r or r[key] != value or type(r[key]) is not type(value):
+                raise Malformed(f"candidate seed 0x{seed:04x}: {key} is {r.get(key)!r}, not {value!r}")
     missing_ref = [s for s in seeds if s not in ref]
     missing = [s for s in seeds if s not in cand]
     unexpected = sorted(set(cand) - set(seeds))
@@ -96,6 +116,9 @@ def check(ref, cand, seeds, expect):
         why = completed(ref[seed])
         if why:
             raise Malformed(f"reference seed 0x{seed:04x} is not a completed match ({why})")
+        for key in ("start_record", "watchstart_sha256"):      # the same start state, or no comparison
+            if ref[seed][key] != cand[seed][key]:
+                raise Malformed(f"seed 0x{seed:04x}: {key} differs ({ref[seed][key]!r} / {cand[seed][key]!r})")
     lines, passed = [], 0
     for seed in seeds:
         a, b = ref[seed], cand[seed]
@@ -123,17 +146,28 @@ def main(argv=None):
     ap.add_argument("candidate")
     ap.add_argument("--seeds", required=True, help="the expected seed family, comma-separated (0x.. or decimal)")
     ap.add_argument("--expect", choices=("identical", "differ"), default="identical")
+    ap.add_argument("--field", action="append", default=[], metavar="KEY=JSON",
+                    help="every candidate record must hold KEY with exactly this JSON value (e.g. variant=\"bound-36\", "
+                         "skipped=[\"0791:8F10\"]): the run the caller means, not another one")
     a = ap.parse_args(argv)
     try:
-        try:
-            seeds = [int(s, 0) for s in a.seeds.split(",") if s.strip()]
-        except ValueError as e:
-            raise Malformed(f"--seeds: {e}")
-        if not seeds:
-            raise Malformed("an empty seed family")
+        seeds = []
+        for s in a.seeds.split(","):
+            if not SEED_ARG.fullmatch(s):
+                raise Malformed(f"--seeds: {s!r} is not 0x + 1-4 hex digits or 1-5 decimal digits")
+            seeds.append(int(s, 0))
         if len(set(seeds)) != len(seeds):
             raise Malformed("a seed repeated in --seeds")
-        lines, ok = check(load(a.reference), load(a.candidate), seeds, a.expect)
+        fields = []
+        for f in a.field:
+            key, sep, value = f.partition("=")
+            if not sep or key not in record_schema.REQUIRED + record_schema.OPTIONAL:
+                raise Malformed(f"--field {f!r}: not KEY=JSON with a record key")
+            try:
+                fields.append((key, record_schema.loads(value)))
+            except ValueError as e:
+                raise Malformed(f"--field {f!r}: {e}")
+        lines, ok = check(load(a.reference), load(a.candidate), seeds, a.expect, fields)
     except Malformed as e:
         print(f"MALFORMED: {e}")
         return 2

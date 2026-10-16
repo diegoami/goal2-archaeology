@@ -1,0 +1,46 @@
+test_completed_run_is_tabulated (tests.test_e032_compare.AnalyzeRefusesIncompleteRuns.test_completed_run_is_tabulated) ... ok
+test_errored_run_is_refused (tests.test_e032_compare.AnalyzeRefusesIncompleteRuns.test_errored_run_is_refused) ... ok
+test_malformed_row_contents_are_refused (tests.test_e032_compare.AnalyzeRefusesIncompleteRuns.test_malformed_row_contents_are_refused)
+Round 3 (issue 246's class): the rows' values, not only their keys. ... ok
+test_run_missing_completion_keys_is_refused (tests.test_e032_compare.AnalyzeRefusesIncompleteRuns.test_run_missing_completion_keys_is_refused) ... ok
+test_run_with_strays_is_refused (tests.test_e032_compare.AnalyzeRefusesIncompleteRuns.test_run_with_strays_is_refused) ... ok
+test_pilot_batch_with_a_used_stamp_fails (tests.test_e032_compare.BatchesNeverCompareStaleOutput.test_pilot_batch_with_a_used_stamp_fails) ... ok
+test_skip_batch_with_a_used_stamp_fails (tests.test_e032_compare.BatchesNeverCompareStaleOutput.test_skip_batch_with_a_used_stamp_fails) ... ok
+test_another_start_state_is_refused (tests.test_e032_compare.CompareFailsClosed.test_another_start_state_is_refused) ... ok
+test_completion_keys_missing_fail (tests.test_e032_compare.CompareFailsClosed.test_completion_keys_missing_fail) ... ok
+test_differing_field_fails (tests.test_e032_compare.CompareFailsClosed.test_differing_field_fails) ... ok
+test_duplicate_seed_fails (tests.test_e032_compare.CompareFailsClosed.test_duplicate_seed_fails) ... ok
+test_empty_candidate_fails (tests.test_e032_compare.CompareFailsClosed.test_empty_candidate_fails) ... ok
+test_errored_record_with_equal_fields_fails (tests.test_e032_compare.CompareFailsClosed.test_errored_record_with_equal_fields_fails) ... ok
+test_errored_reference_fails (tests.test_e032_compare.CompareFailsClosed.test_errored_reference_fails) ... ok
+test_evidence_missing_in_both_is_not_a_caught_falsifier (tests.test_e032_compare.CompareFailsClosed.test_evidence_missing_in_both_is_not_a_caught_falsifier) ... ok
+test_evidence_missing_in_both_is_not_identical (tests.test_e032_compare.CompareFailsClosed.test_evidence_missing_in_both_is_not_identical) ... ok
+test_evidence_missing_in_candidate_is_not_a_caught_falsifier (tests.test_e032_compare.CompareFailsClosed.test_evidence_missing_in_candidate_is_not_a_caught_falsifier) ... ok
+test_evidence_missing_in_candidate_is_not_identical (tests.test_e032_compare.CompareFailsClosed.test_evidence_missing_in_candidate_is_not_identical) ... ok
+test_falsifier_caught_by_difference_or_failure (tests.test_e032_compare.CompareFailsClosed.test_falsifier_caught_by_difference_or_failure) ... ok
+test_falsifier_not_caught_fails (tests.test_e032_compare.CompareFailsClosed.test_falsifier_not_caught_fails) ... ok
+test_field_names_the_run (tests.test_e032_compare.CompareFailsClosed.test_field_names_the_run) ... ok
+test_hooked_reference_is_refused (tests.test_e032_compare.CompareFailsClosed.test_hooked_reference_is_refused) ... ok
+test_identical_family_passes (tests.test_e032_compare.CompareFailsClosed.test_identical_family_passes) ... ok
+test_loose_seed_arguments_are_refused (tests.test_e032_compare.CompareFailsClosed.test_loose_seed_arguments_are_refused) ... ok
+test_not_stopped_at_board_fails (tests.test_e032_compare.CompareFailsClosed.test_not_stopped_at_board_fails) ... ok
+test_strays_fail (tests.test_e032_compare.CompareFailsClosed.test_strays_fail) ... ok
+test_truncated_candidate_fails (tests.test_e032_compare.CompareFailsClosed.test_truncated_candidate_fails) ... ok
+test_undecodable_or_bom_logs_are_refused (tests.test_e032_compare.CompareFailsClosed.test_undecodable_or_bom_logs_are_refused) ... ok
+test_unexpected_seed_fails (tests.test_e032_compare.CompareFailsClosed.test_unexpected_seed_fails) ... ok
+test_a_changed_figure_fails (tests.test_e032_compare.PlanFiguresEqualTheReport.test_a_changed_figure_fails) ... ok
+test_an_untied_cost_figure_fails (tests.test_e032_compare.PlanFiguresEqualTheReport.test_an_untied_cost_figure_fails) ... ok
+test_the_plan_matches_the_report (tests.test_e032_compare.PlanFiguresEqualTheReport.test_the_plan_matches_the_report) ... ok
+test_analyze_refuses_loose_json (tests.test_e032_compare.ReadersParseStrictly.test_analyze_refuses_loose_json) ... ok
+test_plancheck_refuses_loose_json (tests.test_e032_compare.ReadersParseStrictly.test_plancheck_refuses_loose_json) ... ok
+test_every_mutation_is_malformed (tests.test_e032_record_mutations.EveryMutationIsMalformed.test_every_mutation_is_malformed) ... ok
+test_the_real_record_is_accepted (tests.test_e032_record_mutations.EveryMutationIsMalformed.test_the_real_record_is_accepted) ... ok
+test_round4_review_cases (tests.test_e032_record_mutations.EveryPathologicalValueIsMalformed.test_round4_review_cases) ... ok
+test_the_fuzz_is_malformed (tests.test_e032_record_mutations.EveryPathologicalValueIsMalformed.test_the_fuzz_is_malformed) ... ok
+test_no_match_search_or_dollar_anchor (tests.test_e032_record_mutations.NoLooseValidationPatterns.test_no_match_search_or_dollar_anchor) ... ok
+test_the_schema_uses_ascii_digit_classes (tests.test_e032_record_mutations.NoLooseValidationPatterns.test_the_schema_uses_ascii_digit_classes) ... ok
+
+----------------------------------------------------------------------
+Ran 40 tests in 5.533s
+
+OK

@@ -17,7 +17,8 @@ infra=0
 probe() {   # probe <label> <routines> <log>
   echo "== skip $1"
   if python3 -B $D/skip.py --skip "$2" --seeds 0x1234,0x2345 --log "$3" > /dev/null; then
-    python3 -B $D/compare.py "$REF" "$3" --seeds 0x1234,0x2345
+    skipped=$(echo "$2" | sed 's/[^,]*/"&"/g; s/^/[/; s/$/]/')     # the routines skipped, as a JSON list
+    python3 -B $D/compare.py "$REF" "$3" --seeds 0x1234,0x2345 --field "skipped=$skipped" --field "delay_count=20"
     rc=$?
     case $rc in
       0) echo "result: removable ($1)";;

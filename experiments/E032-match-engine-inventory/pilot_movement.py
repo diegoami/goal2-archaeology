@@ -36,6 +36,7 @@ sys.path.insert(0, str(ROOT / "runtime" / "emul"))
 from check import asset, draws_digest  # noqa: E402
 from timing import set_delay_at_kickoff, RECORD  # noqa: E402
 from watched_match import WatchedMatch  # noqa: E402
+import record_schema  # noqa: E402
 
 VARIANTS = ("exact", "coin-swapped", "bound-36", "no-picture")
 
@@ -205,7 +206,7 @@ def main():
     if log.exists():
         sys.exit(f"refused: {log} exists")
     log.parent.mkdir(parents=True, exist_ok=True)
-    record = json.loads(RECORD.read_text())
+    record = record_schema.loads(RECORD.read_text())
     entry = next(o for o in record["outputs"] if o["name"].endswith("-watchstart.sav"))
     data = asset(entry)
     for s in a.seeds.split(","):

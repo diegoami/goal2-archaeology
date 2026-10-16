@@ -10,7 +10,6 @@ by index (labels, value keys, addresses, value ranges) and the templates (ids, c
 record with record_schema.validate. Exits 1 when a committed record does not conform (the schema would be
 too strict, or the record malformed), 0 otherwise. Refused if <out.txt> exists."""
 import collections
-import json
 import sys
 from pathlib import Path
 
@@ -43,7 +42,7 @@ def main():
         for i, line in enumerate(p.read_text().splitlines(), 1):
             if not line.strip():
                 continue
-            r = json.loads(line)
+            r = record_schema.loads(line)
             try:
                 record_schema.validate(r)
             except record_schema.SchemaError as e:

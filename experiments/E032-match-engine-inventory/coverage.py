@@ -37,6 +37,8 @@ from watched_match import WatchedMatch, SCREEN_PTR  # noqa: E402
 from unicorn import UC_HOOK_BLOCK, UC_HOOK_MEM_WRITE  # noqa: E402
 from unicorn import x86_const as X  # noqa: E402
 import capstone  # noqa: E402
+sys.path.insert(0, str(ROOT / "experiments" / "E032-match-engine-inventory"))
+import record_schema  # noqa: E402
 
 RECORD = ROOT / "runs/E011/E011-r0001.json"
 DS_PARAGRAPH = 0x2581
@@ -91,7 +93,7 @@ def main():
     out = Path(a.out)
     if out.exists():
         sys.exit(f"refused: {out} exists")
-    record = json.loads(RECORD.read_text())
+    record = record_schema.loads(RECORD.read_text())
     entry = next(o for o in record["outputs"] if o["name"].endswith("-watchstart.sav"))
     data = asset(entry)          # bytes, sha256-verified against the record
     m = WatchedMatch(data)

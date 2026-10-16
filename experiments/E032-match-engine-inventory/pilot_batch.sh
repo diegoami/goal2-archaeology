@@ -22,7 +22,8 @@ compare() {
 for v in coin-swapped bound-36 no-picture; do
   echo "== falsifier $v"
   if python3 -B $D/pilot_movement.py --seeds 0x1234 --variant "$v" --log "$O/pilot-$v-$1.jsonl" > /dev/null; then
-    compare $D/out/timing-delay20-kickoff-20261015.jsonl "$O/pilot-$v-$1.jsonl" --seeds 0x1234 --expect differ
+    compare $D/out/timing-delay20-kickoff-20261015.jsonl "$O/pilot-$v-$1.jsonl" --seeds 0x1234 --expect differ \
+      --field "variant=\"$v\"" --field 'ported=["0791:8889", "0791:86D0"]'
   else
     echo "GENERATOR FAILED (falsifier $v): its output is not compared"
     infra=1
@@ -30,7 +31,8 @@ for v in coin-swapped bound-36 no-picture; do
 done
 echo "== exact port, eight seeds"
 if python3 -B $D/pilot_movement.py --seeds $EIGHT --log "$O/pilot-exact-8seeds-$1.jsonl" > /dev/null; then
-  compare $D/out/timing-delay20-8seeds-20261015.jsonl "$O/pilot-exact-8seeds-$1.jsonl" --seeds $EIGHT
+  compare $D/out/timing-delay20-8seeds-20261015.jsonl "$O/pilot-exact-8seeds-$1.jsonl" --seeds $EIGHT \
+    --field 'variant="exact"' --field 'ported=["0791:8889", "0791:86D0"]'
 else
   echo "GENERATOR FAILED (exact port): its output is not compared"
   infra=1

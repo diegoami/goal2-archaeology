@@ -1,21 +1,31 @@
-"""E032's comparator rejects a record whose evidence is missing or mangled at ANY level (PR 243 review round
-3, issue 246).
+"""E032's comparator rejects a record whose evidence is missing, mangled or pathological at ANY level (PR 243
+review rounds 3 and 4, issue 246).
 
-Takes a real committed record (the first line of out/timing-delay20-kickoff-20261015.jsonl), mutates one
-comparator-relevant field at a time (remove it, null it, give it the wrong type, put it out of range), at every
-level: the record's fields, each of the 11 statistics rows and each of their fields and values, the
-templates' ids and counts. Each mutation is applied to BOTH logs and to the CANDIDATE only, and compared under
-both --expect identical and --expect differ; every one of these must be MALFORMED (exit 2): missing or mangled
-evidence is never equality nor a caught falsifier.
+Takes a real committed record (the first line of out/timing-delay20-kickoff-20261015.jsonl) and changes one
+thing at a time:
+- round 3: each comparator-relevant field and each nested value removed, nulled, of the wrong type, out of
+  range (`mutations`);
+- round 4, a fuzz over EVERY leaf of the record (`fuzz`): strings with a trailing or leading newline, space,
+  tab or NUL, an Arabic-Indic digit in place of an ASCII one, upper or lower case where the other is meant,
+  one character shorter or longer; numbers as NaN, Infinity, -Infinity, 1e999 (JSON tokens written raw),
+  -0.0, a float where an int is meant, a boolean, a numeric string, an int beyond 64 bits, negative; booleans
+  and nulls as other types; every object with a duplicated key (written raw: json.loads would keep the last)
+  and with an unknown key; every list one element longer; template ids and address keys with the same string
+  faults.
+Each change is written to BOTH logs and to the CANDIDATE only, and compared under --expect identical and
+--expect differ: every case must be MALFORMED (exit 2). A test also checks that no E032 script validates with
+re.match/re.search or a `$` anchor.
 
-The comparator under test is loaded from E032_COMPARE (a path) when set, which is how these tests were shown to
-fail on the comparator of round 2 (a537d31)."""
+The comparator under test is loaded from E032_COMPARE (a path) when set (its record_schema.py is the one
+beside it), which is how these tests were shown to fail on the round-2 comparator and on round 3's schema."""
 import contextlib
 import copy
 import importlib.util
 import io
 import json
 import os
+import re
+import sys
 import tempfile
 import unittest
 from pathlib import Path
@@ -27,7 +37,29 @@ SOURCE = E032 / "out/timing-delay20-kickoff-20261015.jsonl"
 DROP = object()          # a sentinel: remove the field
 
 
+class Raw:
+    """A JSON token written as is (NaN, Infinity, 1e999)."""
+
+    def __init__(self, text):
+        self.text = text
+
+
+def emit(obj, dup=None, path=()):
+    """JSON text for obj; Raw values verbatim; the object at path `dup` gets its first key twice."""
+    if isinstance(obj, Raw):
+        return obj.text
+    if isinstance(obj, dict):
+        items = list(obj.items())
+        if dup == path and items:
+            items = [items[0]] + items
+        return "{" + ", ".join(f"{json.dumps(k)}: {emit(v, dup, path + (k,))}" for k, v in items) + "}"
+    if isinstance(obj, list):
+        return "[" + ", ".join(emit(v, dup, path + (i,)) for i, v in enumerate(obj)) + "]"
+    return json.dumps(obj)
+
+
 def load_compare():
+    sys.modules.pop("record_schema", None)        # the schema beside the comparator under test
     spec = importlib.util.spec_from_file_location("e032_compare_under_test", COMPARE)
     mod = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(mod)
@@ -38,15 +70,41 @@ def real_record():
     return json.loads(SOURCE.read_text().splitlines()[0])
 
 
+def apply(rec, path, value):
+    r = copy.deepcopy(rec)
+    d = r
+    for k in path[:-1]:
+        d = d[k]
+    if value is DROP:
+        if isinstance(d, dict):
+            d.pop(path[-1], None)
+        else:
+            del d[path[-1]]
+    else:
+        d[path[-1]] = value
+    return r
+
+
+def rename_key(rec, path, old, new):
+    r = copy.deepcopy(rec)
+    d = r
+    for k in path:
+        d = d[k]
+    items = [(new if k == old else k, v) for k, v in d.items()]
+    d.clear()
+    d.update(items)
+    return r
+
+
 def mutations(rec):
-    """(name, path, value): set rec[path] to value (DROP removes it)."""
+    """Round 3: (name, path, value)."""
     out = []
     wrong_type = {"seed": "4660", "error": 5, "stopped_at_board": "true", "strays": "none", "cpu_s": "8.3",
                   "score": "1-1", "ticks": "4146", "draws": 1.5, "draws_digest": 5, "statistics_raw": {},
                   "templates": []}
     for k in wrong_type:
         out.append((f"{k} removed", (k,), DROP))
-        if k != "error":                       # null is error's valid value
+        if k != "error":
             out.append((f"{k} null", (k,), None))
         out.append((f"{k} wrong type", (k,), wrong_type[k]))
     for k in ("seed", "ticks", "draws", "cpu_s"):
@@ -91,22 +149,73 @@ def mutations(rec):
     return out
 
 
-def apply(rec, path, value):
-    r = copy.deepcopy(rec)
-    d = r
-    for k in path[:-1]:
-        d = d[k]
-    if value is DROP:
-        if isinstance(d, dict):
-            d.pop(path[-1], None)
-        else:
-            del d[path[-1]]
-    else:
-        d[path[-1]] = value
-    return r
+ARABIC = {str(d): chr(0x660 + d) for d in range(10)}
 
 
-class EveryMutationIsMalformed(unittest.TestCase):
+def string_faults(v):
+    out = [v + "\n", "\n" + v, v + " ", " " + v, v + "\t", v + "\x00", v[:-1] if v else "x", v + (v[-1:] or "x")]
+    if v.upper() != v:
+        out.append(v.upper())
+    if v.lower() != v:
+        out.append(v.lower())
+    digit = next((c for c in v if c in ARABIC), None)
+    if digit:
+        out.append(v.replace(digit, ARABIC[digit], 1))
+    return [x for x in out if x != v]
+
+
+def key_faults(k, path):
+    out = string_faults(k)
+    if path == ("templates",):
+        # one digit more or less is another real template id (valid evidence of another match), not a fault
+        out = [x for x in out if x not in (k[:-1], k + k[-1:])]
+    return [x for x in out + ["0" + k, "+" + k, k + ".0", "-" + k] if x != k]
+
+
+def fuzz(rec):
+    """Round 4: (name, text of the mutated record). Every leaf, key and container of the record."""
+    out = []
+    float_fields = {("cpu_s",), ("wall_s",)}
+
+    def walk(obj, path):
+        if isinstance(obj, dict):
+            out.append((f"{path} duplicated key", emit(rec, dup=path)))
+            out.append((f"{path} unknown key", emit(apply(rec, path + ("zz_unknown",), 1))))
+            if path in (("templates",), ("hook_counts",)):
+                for k in list(obj):
+                    for bad in key_faults(k, path):
+                        out.append((f"{path} key {k!r} -> {bad!r}", emit(rename_key(rec, path, k, bad))))
+            for k, v in obj.items():
+                walk(v, path + (k,))
+            return
+        if isinstance(obj, list):
+            if obj:
+                out.append((f"{path} one element longer", emit(apply(rec, path, obj + [obj[-1]]))))
+            for i, v in enumerate(obj):
+                walk(v, path + (i,))
+            return
+        if isinstance(obj, bool):
+            values = [1, 0, "true", None, Raw("NaN")]
+        elif obj is None:
+            values = ["", " ", "\n", 0, False, [], Raw("NaN")]
+        elif isinstance(obj, str):
+            values = string_faults(obj)
+        elif isinstance(obj, int):
+            values = [Raw("NaN"), Raw("Infinity"), Raw("-Infinity"), Raw("1e999"), -0.0, float(obj), True,
+                      str(obj), 2 ** 70, -1] + ([-obj] if obj > 0 else [])
+        else:   # float
+            values = [Raw("NaN"), Raw("Infinity"), Raw("-Infinity"), Raw("1e999"), -0.0, True, str(obj), 2 ** 70,
+                      -1.0] + ([-obj] if obj > 0 else [])
+        if isinstance(obj, int) and not isinstance(obj, bool) and path in float_fields:
+            values = [v for v in values if not isinstance(v, float) or v != float(obj)]
+        for v in values:
+            out.append((f"{path} = {v.text if isinstance(v, Raw) else repr(v)}", emit(apply(rec, path, v))))
+
+    walk(rec, ())
+    return out
+
+
+class Compare:
     @classmethod
     def setUpClass(cls):
         cls.compare = load_compare()
@@ -117,32 +226,79 @@ class EveryMutationIsMalformed(unittest.TestCase):
     def tearDownClass(cls):
         cls.tmp.cleanup()
 
-    def run_compare(self, ref, cand, expect):
+    def run_text(self, ref_text, cand_text, expect):
         d = Path(self.tmp.name)
-        (d / "ref.jsonl").write_text(json.dumps(ref) + "\n")
-        (d / "cand.jsonl").write_text(json.dumps(cand) + "\n")
+        (d / "ref.jsonl").write_text(ref_text + "\n")
+        (d / "cand.jsonl").write_text(cand_text + "\n")
         buf = io.StringIO()
         with contextlib.redirect_stdout(buf):
-            rc = self.compare.main([str(d / "ref.jsonl"), str(d / "cand.jsonl"), "--seeds",
-                                    f"0x{self.rec['seed']:04x}", "--expect", expect])
+            try:
+                rc = self.compare.main([str(d / "ref.jsonl"), str(d / "cand.jsonl"), "--seeds",
+                                        f"0x{self.rec['seed']:04x}", "--expect", expect])
+            except Exception as e:          # an uncaught exception is not a clean MALFORMED
+                return f"raised {type(e).__name__}", buf.getvalue()
         return rc, buf.getvalue()
 
-    def test_the_real_record_is_accepted(self):
-        self.assertEqual(self.run_compare(self.rec, self.rec, "identical")[0], 0)
-
-    def test_every_mutation_is_malformed(self):
+    def all_malformed(self, cases):
+        real = json.dumps(self.rec)
         failures = []
-        cases = mutations(self.rec)
-        self.assertGreater(len(cases), 150)
-        for name, path, value in cases:
-            bad = apply(self.rec, path, value)
-            for where, ref, cand in (("both logs", bad, bad), ("candidate only", self.rec, bad)):
+        for name, text in cases:
+            for where, ref, cand in (("both logs", text, text), ("candidate only", real, text)):
                 for expect in ("identical", "differ"):
-                    rc, text = self.run_compare(ref, cand, expect)
+                    rc, _ = self.run_text(ref, cand, expect)
                     if rc != 2:
                         failures.append(f"{name}, {where}, --expect {expect}: exit {rc}")
+        return failures
+
+
+class EveryMutationIsMalformed(Compare, unittest.TestCase):
+    def test_the_real_record_is_accepted(self):
+        real = json.dumps(self.rec)
+        self.assertEqual(self.run_text(real, real, "identical")[0], 0)
+        self.assertEqual(self.run_text(real, real, "differ")[0], 1)     # an unchanged copy is not caught
+
+    def test_every_mutation_is_malformed(self):
+        cases = [(name, json.dumps(apply(self.rec, path, value))) for name, path, value in mutations(self.rec)]
+        self.assertGreater(len(cases), 150)
+        failures = self.all_malformed(cases)
         self.assertEqual(failures, [], f"{len(failures)} of {4 * len(cases)} cases not MALFORMED:\n" +
                          "\n".join(failures))
+
+
+class EveryPathologicalValueIsMalformed(Compare, unittest.TestCase):
+    def test_round4_review_cases(self):
+        r = self.rec
+        tid = "38" if "38" in r["templates"] else next(iter(r["templates"]))
+        cases = [("digest + newline", emit(apply(r, ("draws_digest",), r["draws_digest"] + "\n"))),
+                 ("template id + newline", emit(rename_key(r, ("templates",), tid, tid + "\n"))),
+                 ("cpu_s NaN", emit(apply(r, ("cpu_s",), Raw("NaN")))),
+                 ("cpu_s 1e999", emit(apply(r, ("cpu_s",), Raw("1e999"))))]
+        failures = self.all_malformed(cases)
+        self.assertEqual(failures, [], "\n".join(failures))
+
+    def test_the_fuzz_is_malformed(self):
+        cases = fuzz(self.rec)
+        self.assertGreater(len(cases), 1000)
+        failures = self.all_malformed(cases)
+        self.assertEqual(failures, [], f"{len(failures)} of {4 * len(cases)} cases not MALFORMED:\n" +
+                         "\n".join(failures))
+
+
+class NoLooseValidationPatterns(unittest.TestCase):
+    """Round 4: every pattern in the E032 scripts validates the whole string (re.fullmatch), never a prefix
+    (re.match), a substring (re.search) or up to a final newline (`$`)."""
+
+    def test_no_match_search_or_dollar_anchor(self):
+        bad = []
+        for p in sorted(E032.glob("*.py")):
+            for n, line in enumerate(p.read_text().splitlines(), 1):
+                code = line.split("#", 1)[0]
+                if re.search(r"\.(match|search)\(", code) or re.search(r"\$[\"']", code):
+                    bad.append(f"{p.name}:{n}: {line.strip()}")
+        self.assertEqual(bad, [], "\n".join(bad))
+
+    def test_the_schema_uses_ascii_digit_classes(self):
+        self.assertNotIn(r"\d", (E032 / "record_schema.py").read_text())
 
 
 if __name__ == "__main__":

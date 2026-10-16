@@ -41,10 +41,14 @@ REAL = json.loads((E032 / "out/timing-delay20-kickoff-20261015.jsonl").read_text
 
 
 def match(seed, **over):
-    """A synthetic completed record with a real record's statistics rows and templates (record_schema.py)."""
-    r = {"seed": seed, "error": None, "stopped_at_board": True, "strays": [], "cpu_s": 9.0,
-         "score": [1, seed % 3], "ticks": 4000 + seed % 97, "draws": 180000 + seed, "draws_digest": digest(seed),
-         "statistics_raw": REAL["statistics_raw"], "templates": REAL["templates"]}
+    """A synthetic completed record: a real record (record_schema.py's full grammar) with its seed, the
+    declared seed write, the score, the counts and the digest changed."""
+    r = json.loads(json.dumps(REAL))
+    r.update(seed=seed, cpu_s=9.0, score=[1, seed % 3], ticks=4000 + seed % 97, draws=180000 + seed,
+             draws_digest=digest(seed))
+    for i in r["inputs"]:
+        if i["what"] == "main seed word DS:7B62":
+            i["new"] = seed.to_bytes(2, "little").hex()
     r.update(over)
     return r
 
@@ -145,6 +149,47 @@ class CompareFailsClosed(unittest.TestCase):
         cand = self.log("c.jsonl", [without(match(s), EVIDENCE) for s in SEEDS])
         self.assertNotEqual(self.run_compare(cand, expect="differ").returncode, 0)
 
+    # round 4: the run the caller means, the same start state, an unhooked reference, strict input
+    def run_args(self, cand, *extra, ref=None):
+        args = [sys.executable, "-B", str(COMPARE), str(ref or self.ref), str(cand),
+                "--seeds", ",".join(f"0x{s:04x}" for s in SEEDS), *extra]
+        return subprocess.run(args, capture_output=True, text=True)
+
+    def test_field_names_the_run(self):
+        cand = self.log("c.jsonl", [match(s, variant="exact", port_calls=5) for s in SEEDS])
+        self.assertEqual(self.run_args(cand, "--field", 'variant="exact"').returncode, 0)
+        self.assertEqual(self.run_args(cand, "--field", 'variant="bound-36"').returncode, 2)
+        self.assertEqual(self.run_args(cand, "--field", 'skipped=["0791:8F10"]').returncode, 2)
+        self.assertEqual(self.run_args(cand, "--field", "nonsense=1").returncode, 2)
+
+    def test_hooked_reference_is_refused(self):
+        ref = self.log("rh.jsonl", [match(s, skipped=["0791:8F10"]) for s in SEEDS])
+        self.assertEqual(self.run_args(self.log("c.jsonl", [match(s) for s in SEEDS]), ref=ref).returncode, 2)
+
+    def test_another_start_state_is_refused(self):
+        cand = self.log("c.jsonl", [match(s, start_record="E011-r0002") for s in SEEDS])
+        self.assertEqual(self.run_args(cand).returncode, 2)
+        cand = self.log("c2.jsonl", [match(s, watchstart_sha256="0" * 64) for s in SEEDS])
+        self.assertEqual(self.run_args(cand).returncode, 2)
+
+    def test_loose_seed_arguments_are_refused(self):
+        cand = self.log("c.jsonl", [match(0x1234)])         # one seed: a loose parse of 0x1234 would pass
+        ok = subprocess.run([sys.executable, "-B", str(COMPARE), str(self.ref), str(cand), "--seeds", "0x1234"],
+                            capture_output=True, text=True)
+        self.assertEqual(ok.returncode, 0, ok.stdout)
+        for seeds in (" 0x1234", "0x1234 ", "0x1_234", "٤٦٦٠", "", "0x01234", "4_660"):
+            with self.subTest(seeds=seeds):
+                r = subprocess.run([sys.executable, "-B", str(COMPARE), str(self.ref), str(cand), "--seeds", seeds],
+                                   capture_output=True, text=True)
+                self.assertEqual(r.returncode, 2, r.stdout)
+
+    def test_undecodable_or_bom_logs_are_refused(self):
+        p = Path(self.tmp.name) / "bad.jsonl"
+        p.write_bytes(b"\xff\xfe" + json.dumps(match(SEEDS[0])).encode())
+        self.assertEqual(self.run_args(p).returncode, 2)
+        p.write_bytes("﻿".encode() + "".join(json.dumps(match(s)) + "\n" for s in SEEDS).encode())
+        self.assertEqual(self.run_args(p).returncode, 2)
+
     def test_completion_keys_missing_fail(self):
         cand = self.log("c.jsonl", [without(match(s), ("error", "stopped_at_board", "strays")) for s in SEEDS])
         self.assertNotEqual(self.run_compare(cand).returncode, 0)
@@ -191,6 +236,39 @@ class AnalyzeRefusesIncompleteRuns(unittest.TestCase):
         for blocks in ([], [[1]], [[1, 0]], [["1", 2]], None):
             with self.subTest(match_blocks=blocks):
                 self.assertNotEqual(self.run_analyze(match_blocks=blocks).returncode, 0)
+
+
+class ReadersParseStrictly(unittest.TestCase):
+    """Round 4: every E032 reader of JSON refuses NaN/Infinity tokens, overflowing numbers and duplicate keys."""
+
+    def run_on(self, script, text, extra=()):
+        with tempfile.TemporaryDirectory() as d:
+            src = Path(d) / "in.json"
+            src.write_text(text)
+            return subprocess.run([sys.executable, "-B", str(script), str(src), *[str(Path(d) / e) for e in extra]],
+                                  capture_output=True, text=True)
+
+    def test_analyze_refuses_loose_json(self):
+        good = json.dumps({"seed": 1, "score": [0, 0], "ticks": 1, "draws": 1, "error": None, "stopped_at_board": True,
+                           "strays": [], "routines": [{"address": "0791:2BE5", "name": "a", "video_bytes": 0,
+                                                        "exec_match": 1, "instr_match": 1, "instructions_static": 1,
+                                                        "bytes_reached": 1, "size": 1}]})
+        self.assertEqual(self.run_on(ANALYZE, good, ["o.md"]).returncode, 0)
+        for bad in (good.replace('"ticks": 1', '"ticks": 1, "ticks": 1'), good.replace('"ticks": 1', '"ticks": NaN'),
+                    good.replace('"ticks": 1', '"ticks": 1e999')):
+            self.assertNotEqual(self.run_on(ANALYZE, bad, ["o.md"]).returncode, 0)
+
+    def test_plancheck_refuses_loose_json(self):
+        good = COSTS_JSON.read_text()
+        for bad in (good.replace('"hooked_mean": 18.0', '"hooked_mean": NaN'),
+                    good.replace('"hooked_mean": 18.0', '"hooked_mean": 1e999'),
+                    good.replace('"hooked_mean": 18.0', '"hooked_mean": 18.0, "hooked_mean": 18.0')):
+            self.assertNotEqual(bad, good)
+            with tempfile.TemporaryDirectory() as d:
+                p = Path(d) / "c.json"
+                p.write_text(bad)
+                r = subprocess.run([sys.executable, "-B", str(PLANCHECK), str(p)], capture_output=True, text=True)
+                self.assertNotEqual(r.returncode, 0)
 
 
 class BatchesNeverCompareStaleOutput(unittest.TestCase):

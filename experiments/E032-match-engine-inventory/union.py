@@ -10,13 +10,13 @@ reached, with their size and annotation name. The frontier is what a seed family
 not exercise (the rare paths a port needs other start states, or edited ones, to check). Refused if <out.md>
 exists."""
 import bisect
-import json
 import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "experiments" / "E032-match-engine-inventory"))
 from analyze import incomplete, part  # noqa: E402
+import record_schema  # noqa: E402
 from coverage import routines  # noqa: E402
 
 
@@ -24,7 +24,7 @@ def main():
     out = Path(sys.argv[1])
     if out.exists():
         sys.exit(f"refused: {out} exists")
-    runs = [json.loads(Path(p).read_text()) for p in sys.argv[2:]]
+    runs = [record_schema.loads(Path(p).read_text()) for p in sys.argv[2:]]   # strict JSON (round 4)
     if not runs:
         sys.exit("refused: no coverage runs given")
     seeds = [r["seed"] for r in runs]

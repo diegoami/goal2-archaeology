@@ -133,14 +133,15 @@ def main():
             for r in compare.load(OUT / f"pilot-{v}-{stamp}.jsonl").values():
                 rows.append((v, r["cpu_s"], "completed" if not compare.completed(r) else "did not complete"))
         sets[stamp] = rows
-    covs = [json.loads((OUT / f"cov-d20-{s}-20261015.json").read_text())
+    covs = [compare.record_schema.loads((OUT / f"cov-d20-{s}-20261015.json").read_text())
             for s in ("0x1234", "0x2345", "0x4c1d", "0xc3c3", "0xe719")]
     cov_s = [c["seconds"] for c in covs if not incomplete(c)]
-    if len(cov_s) != len(covs) or not all(isinstance(s, (int, float)) and not isinstance(s, bool) and s > 0
-                                          for s in cov_s):
+    if len(cov_s) != len(covs) or not all(compare.record_schema.finite_number(s, 1e-9, 1e6) for s in cov_s):
         sys.exit("refused: a coverage run is incomplete or its seconds are not a positive number")
     proved, stopped = [], []
-    pat = re.compile(r"emulated (\d+) clock ticks, \d+ seed writes, ([\d.]+) s; full time: minute (\d+)")
+    # ASCII digits only ([0-9]: \d would match other scripts' digits); seconds a plain decimal (round 4)
+    pat = re.compile(r"emulated ([0-9]+) clock ticks, [0-9]+ seed writes, ([0-9]+(?:\.[0-9]+)?) s; "
+                     r"full time: minute ([0-9]+)")
     for log in sorted(E021.glob("t48-m2-longs*.log")) + sorted(E021.glob("t48-regression-*.log")):
         for m in pat.finditer(log.read_text()):
             (proved if int(m.group(3)) == 91 else stopped).append(float(m.group(2)))
@@ -170,7 +171,7 @@ def main():
              proved_max_minutes=round(max(proved) / 60), proved_n=len(proved), proved_stopped=len(stopped))
 
     # -- instructions by step --
-    run = json.loads((OUT / "cov-s1234-20261015.json").read_text())
+    run = compare.record_schema.loads((OUT / "cov-s1234-20261015.json").read_text())
     if incomplete(run):
         sys.exit("refused: the coverage run is incomplete")
     by_step = {s: 0 for s in STEPS}

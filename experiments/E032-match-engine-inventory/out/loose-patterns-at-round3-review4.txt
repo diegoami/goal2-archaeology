@@ -1,0 +1,2 @@
+5db9d15:experiments/E032-match-engine-inventory/record_schema.py:97:    if not (isinstance(r["draws_digest"], str) and DIGEST.match(r["draws_digest"])):
+5db9d15:experiments/E032-match-engine-inventory/record_schema.py:120:        if not TEMPLATE_ID.match(k) or int(k) > 254:

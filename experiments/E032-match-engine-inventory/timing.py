@@ -23,6 +23,8 @@ sys.path.insert(0, str(ROOT / "experiments" / "E021-m0-whole-match"))
 sys.path.insert(0, str(ROOT / "runtime" / "emul"))
 from check import asset, draws_digest  # noqa: E402
 from watched_match import WatchedMatch  # noqa: E402
+sys.path.insert(0, str(ROOT / "experiments" / "E032-match-engine-inventory"))
+import record_schema  # noqa: E402
 
 RECORD = ROOT / "runs/E011/E011-r0001.json"
 
@@ -58,7 +60,7 @@ def main():
     if log.exists():
         sys.exit(f"refused: {log} exists")
     log.parent.mkdir(parents=True, exist_ok=True)
-    record = json.loads(RECORD.read_text())
+    record = record_schema.loads(RECORD.read_text())
     entry = next(o for o in record["outputs"] if o["name"].endswith("-watchstart.sav"))
     data = asset(entry)
     for s in a.seeds.split(","):

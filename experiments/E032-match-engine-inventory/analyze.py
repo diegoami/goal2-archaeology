@@ -14,10 +14,12 @@ routines.tsv, and an unnamed routine takes its neighbours' part), with these ove
 Writes a markdown table (refused if it exists): per part, routines, static instructions, the share of
 executed instructions, code bytes reached, how many routines carry a name, and how many are already
 substituted exactly (MODELLED, from spec/match-engine.md's routine table and T42-T48)."""
-import json
 import re
 import sys
 from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import record_schema  # noqa: E402
 
 PARTS = [  # (first, last, part) in segment 0791, inclusive offsets
     (0x0000, 0x0424, "UI: boards, scores"), (0x0425, 0x0444, "UI: delay, whistle"),
@@ -103,7 +105,7 @@ def part(r):
 
 
 def main():
-    d = json.loads(Path(sys.argv[1]).read_text())
+    d = record_schema.loads(Path(sys.argv[1]).read_text())    # strict JSON (round 4)
     out = Path(sys.argv[2])
     if out.exists():
         sys.exit(f"refused: {out} exists")

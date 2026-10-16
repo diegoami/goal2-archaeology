@@ -8,10 +8,12 @@ Each check is a phrase of the plan with the report's value put in; the plan must
 folded, so a line break inside a phrase does not matter). Then the reverse check: every number followed by a
 cost unit (h, hours, CPU h, CPU minutes, s, CPU seconds, minutes, matches) in the plan must be one of the
 values the checks cover, or listed in NOT_COSTS with why. Exits 1 on any miss, 2 on a missing key."""
-import json
 import re
 import sys
 from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import record_schema  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[2]
 
@@ -112,7 +114,7 @@ NOT_COSTS = [
 
 
 def fold(s):
-    return re.sub(r"\s+", " ", s)
+    return re.sub(r"\s+", " ", s)      # folding white space, not a validation
 
 
 def main():
@@ -124,7 +126,7 @@ def main():
         del args[i:i + 2]
         if out.exists():
             sys.exit(f"refused: {out} exists")
-    J = json.loads(Path(args[0]).read_text())
+    J = record_schema.loads(Path(args[0]).read_text())      # strict JSON (round 4)
     plan_path = Path(args[1]) if len(args) > 1 else ROOT / "docs/match-engine-plan.md"
     plan = fold(plan_path.read_text())
     J["plain_range"] = None
@@ -141,7 +143,7 @@ def main():
                 if k not in J:
                     print(f"MISSING KEY {k}")
                     return 2
-                if not isinstance(J[k], (int, float)) or isinstance(J[k], bool):
+                if not record_schema.finite_number(J[k], -1e12, 1e12):
                     print(f"NOT A NUMBER {k}: {J[k]!r}")
                     return 2
                 fm = fmt or DEFAULT_FMT.get(k, str)
@@ -157,7 +159,7 @@ def main():
     # the reverse check: every number with a cost unit on the page is inside a checked phrase or listed
     checked = [fold(l[5:]) for l in lines if l.startswith(("ok   ", "MISS "))]
     unit = re.compile(r"(?<![\w.:`-])(\d[\d,]*(?:\.\d+)?(?:-\d[\d,]*(?:\.\d+)?)?) ?(CPU hours|CPU h|CPU minutes|CPU "
-                      r"seconds|CPU s|hours|minutes|matches|h|s)\b")
+                      r"seconds|CPU s|hours|minutes|matches|h|s)\b", re.ASCII)   # a scan, not a validation
     uncovered = 0
     for m in unit.finditer(plan):
         tok = m.group(0)
