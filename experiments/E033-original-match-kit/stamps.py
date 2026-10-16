@@ -7,8 +7,11 @@ script installs on the kit's machine, independent of the kit's event path.
 --kit DIR imports original_match from DIR (default runtime/): a copy of an earlier commit's package shows the check
 failing there. The script's own hooks, on the guest memory (Unicorn write hooks, called before each write lands):
 - the commentary ring counter DS:80EE: each nonzero new value is one line (1D4A): (minute DS:831F, score);
-- the score bytes DS:9B3C/9B3D: each +1 is a goal (or a goal the original then takes back: a -1 in the same
-  action); stamped (minute, the score after the write);
+- the score bytes DS:9B3C/9B3D: each +1 is a goal and each -1 a goal taken back (68B3), each at its own write,
+  stamped (minute, the score after the write); except inside the quick engine: from its entry (code hook 0791:D733)
+  to just after its commit (0791:DA5B) the bytes hold trial counts (static/goal-exe/named/seg_0791_11.c), so their
+  writes are not goals, every stamp there carries the score saved at the entry, and the goals are the commit's
+  bytes above that score, recorded at DA5B;
 - the statistics STATS + 10t + 7, 8, 9 (bookings, red cards, injuries): each +1, (minute, score);
 - substitutions left DS:9B3A + t (C5DC decrements it at C7DC; DS:9B38 is the action replay's copy): each -1 is a
   substitution, (minute, score);
@@ -16,7 +19,10 @@ failing there. The script's own hooks, on the guest memory (Unicorn write hooks,
 - the board's key read (0791:0106 `call far 214B:08DD` at 0415): the half-time and full-time boards, (minute, score);
 score, statistics, minute and substitution writes count from play_match's entry (0791:F098) to its return (F2E3),
 as the set-up before it resets them. The kit's events of the same kinds must carry the same (minute, score), in the
-same order, per kind and team: the check compares stamps, not counts."""
+same order, per kind and team: the check compares stamps, not counts. `order` (PR 251 review round 2, R2) compares
+the whole stream across kinds: the kit's events of these kinds, in the order it yields them, must be the writes in
+the order the original made them (kind, team, minute, score), the first board as half_time and the last as
+full_time."""
 import argparse
 import hashlib
 import json
@@ -36,8 +42,10 @@ class Independent:
         from unicorn import UC_HOOK_MEM_WRITE, UC_HOOK_CODE
         self.m = m
         self.live = False
+        self.quick = None               # the committed score while quick_match_engine runs (its entry to DA5B)
         self.log = {k: [] for k in ("commentary", "score", "booking", "sending_off", "injury", "substitution",
                                     "minute", "board")}
+        self.order = []                 # every write above, of every kind, in the order the original made them
         ds = m.DS * 16
         uc = m.uc
 
@@ -61,37 +69,54 @@ class Independent:
             uc.hook_add(UC_HOOK_MEM_WRITE, hook, begin=ds + off - 3, end=ds + off + size - 1)
 
         def score():
-            return [byte(0x9B3C), byte(0x9B3D)]
+            return list(self.quick) if self.quick is not None else [byte(0x9B3C), byte(0x9B3D)]
+
+        def add(kind, rec):
+            self.log[kind].append(rec)
+            self.order.append([kind] + rec)
 
         def line(old, new):
             if new != old and int.from_bytes(new, "little"):
-                self.log["commentary"].append([word(0x831F)] + score())
+                add("commentary", [word(0x831F)] + score())
 
         def score_write(old, new):
-            if not self.live:
+            if not self.live or self.quick is not None:     # the quick engine's trial counts: see quick_end
                 return
             for t in (0, 1):
                 d = (new[t] - old[t]) & 0xFF
                 if d:
-                    self.log["score"].append([t, word(0x831F), new[0], new[1], 1 if d < 0x80 else -1])
+                    add("score", [t, word(0x831F), new[0], new[1], 1 if d < 0x80 else -1])
+
+        def quick_start():              # quick_match_engine's entry: the score word it saves in [bp-2] (D75C)
+            if self.live:
+                self.quick = [byte(0x9B3C), byte(0x9B3D)]
+
+        def quick_end():                # after its commit `mov [9B3C], ax` at DA58: the goals it committed
+            if self.quick is None:
+                return
+            saved, self.quick = self.quick, None
+            new = [byte(0x9B3C), byte(0x9B3D)]
+            for t in (0, 1):
+                for _ in range(new[t] - saved[t]):
+                    add("score", [t, word(0x831F), new[0], new[1], 1])
 
         def cards(team):
             def f(old, new):
                 if self.live:
                     for k, kind in enumerate(("booking", "sending_off", "injury")):
                         for _ in range(max(0, new[k] - old[k])):
-                            self.log[kind].append([team, word(0x831F)] + score())
+                            add(kind, [team, word(0x831F)] + score())
             return f
 
         def subs(old, new):
             if self.live:
                 for t in (0, 1):
                     if new[t] < old[t]:
-                        self.log["substitution"].append([t, word(0x831F)] + score())
+                        add("substitution", [t, word(0x831F)] + score())
 
         def minute(old, new):
             if self.live and new != old:
-                self.log["minute"].append([int.from_bytes(new, "little")] + score())
+                add("minute", [int.from_bytes(new, "little")] + score())
 
         watch(0x80EE, 2, line)
         watch(0x9B3C, 2, score_write)
@@ -106,32 +131,45 @@ class Independent:
             uc.hook_add(UC_HOOK_CODE, lambda *a: fn(), begin=lin, end=lin)
         code("0791:F098", lambda: setattr(self, "live", True))
         code("0791:F2E3", lambda: setattr(self, "live", False))
-        code("0791:0415", lambda: self.log["board"].append([word(0x831F)] + score()))
+        code("0791:0415", lambda: add("board", [word(0x831F)] + score()))
+        code("0791:D733", quick_start)
+        code("0791:DA5B", quick_end)
 
     def expected(self):
-        """Per kind the stamps the kit's events must carry, from the raw writes."""
+        """Per kind the stamps the kit's events must carry, from the raw writes, and `order`: the writes of every
+        kind in the original's order, as the kit's event stream must have them (a +1 of a score byte is a goal, a -1
+        a goal taken back, each at its own write; the first board is half_time, the last full_time)."""
         out = {k: v for k, v in self.log.items() if k not in ("score", "board")}
-        goals = []
-        for t, minute, s0, s1, sign in self.log["score"]:
-            if sign > 0:
-                goals.append({"kind": "goal", "team": t, "stamp": [minute, s0, s1]})
-            else:                       # the original took back its latest goal of that team
-                taken = [g for g in goals if g["team"] == t and g["kind"] == "goal"][-1]
-                taken["kind"], taken["stamp"] = "goal_disallowed", [taken["stamp"][0], s0, s1]
-        out["goal"] = [[g["team"]] + g["stamp"] for g in goals if g["kind"] == "goal"]
-        out["goal_disallowed"] = [[g["team"]] + g["stamp"] for g in goals if g["kind"] == "goal_disallowed"]
+        out["goal"] = [rec[:4] for rec in self.log["score"] if rec[4] > 0]
+        out["goal_disallowed"] = [rec[:4] for rec in self.log["score"] if rec[4] < 0]
         out["half_time"], out["full_time"] = self.log["board"][:1], self.log["board"][-1:]
+        boards = [i for i, rec in enumerate(self.order) if rec[0] == "board"]
+        order = []
+        for i, rec in enumerate(self.order):
+            if rec[0] == "score":
+                order.append(["goal" if rec[5] > 0 else "goal_disallowed"] + rec[1:5])
+            elif rec[0] == "board":
+                if i in (boards[0], boards[-1]):
+                    order.append(["half_time" if i == boards[0] else "full_time"] + rec[1:])
+            else:
+                order.append(rec)
+        out["order"] = order
         return out
 
 
+ORDERED = ("commentary", "goal", "goal_disallowed", "booking", "sending_off", "injury", "substitution", "minute",
+           "half_time", "full_time")
+
+
 def kit_stamps(events):
-    out = {k: [] for k in ("commentary", "goal", "goal_disallowed", "booking", "sending_off", "injury", "substitution",
-                           "minute", "half_time", "full_time")}
+    out = {k: [] for k in ORDERED}
+    out["order"] = []
     for kind, minute, score, data in events:
-        if kind in out:
+        if kind in ORDERED:
             team = [data["team"]] if kind in ("goal", "goal_disallowed", "booking", "sending_off", "injury",
                                               "substitution") else []
             out[kind].append(team + [minute] + list(score))
+            out["order"].append([kind] + team + [minute] + list(score))
     return out
 
 
@@ -166,6 +204,17 @@ def decisions(m, d):
         m.answer()
 
 
+def quick(speed, then=None, at=0):
+    """Answer a pause from minute `at` on with the quick result (R) at `speed`; other decisions with `then` (or
+    play on)."""
+    def policy(m, d):
+        if d["context"] == "pause" and m.minute >= at:
+            m.answer(quick=True, speed=speed)
+        else:
+            (then or (lambda m, d: m.answer()))(m, d)
+    return policy
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--log", required=True)
@@ -183,7 +232,11 @@ def main():
     scenarios = [("reference", {})] + [(f"seed 0x{s:04X}", {"seed": s}) for s in (FAMILY[:2] if a.quick else FAMILY)]
     scenarios += [("decisions, seed 70", {"seed": 70, "policy": decisions, "pause_at": (20, 60)}),
                   ("seed 70 (an injury)", {"seed": 70}),
-                  ("go in hard, seed 4 (sendings off)", {"seed": 4, "go_in_hard": True})]
+                  ("go in hard, seed 4 (sendings off)", {"seed": 4, "go_in_hard": True}),
+                  ("quick from minute 30 (R1)", {"policy": quick(3), "pause_at": (30,)}),
+                  ("quick from minute 1, speed 0", {"policy": quick(0), "pause_at": (1,)}),
+                  ("decisions then quick at 60, seed 70", {"seed": 70, "policy": quick(5, then=decisions, at=60),
+                                                           "pause_at": (20, 60)})]
     bad = 0
     with open(log, "x") as out:
         for name, kw in scenarios:
