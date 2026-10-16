@@ -17,6 +17,8 @@ PAIRS = [
      [f"out/rerun-default/E003/E003-r000{n}.json" for n in (4, 5, 6, 7)]),
     ("E003 d0: control, game keys new, savestate key the old way, 4 more runs", "runs/E003/E003-r0047.json",
      [f"out/rerun-legacy-only-save/E003/E003-r000{n}.json" for n in (3, 4, 5)]),
+    ("E003 d0: control, default pace + a plain F12 pressed into the guest before each read", "runs/E003/E003-r0047.json",
+     [f"out/rerun-f12-per-read/E003/E003-r000{n}.json" for n in (1, 2, 3)]),
     ("E006 games 10:00 on 10/04/2026: default pace", "runs/E006/E006-r0001.json", ["out/rerun-default/E006/E006-r0002.json"]),
     ("E003 d3b (a remade main.sav): default pace", "runs/E003/E003-r0049.json",
      [f"out/rerun-default/E003/E003-r000{n}.json" for n in (1, 2)]),

@@ -38,6 +38,20 @@ step  6 screen digest          DIFFERENT e04109d044ed710ef5c4 | 55abe3f3da7abf6d
 VERDICT DIFFERENT: 44 of 48 compared values equal
 --- out/rerun-legacy-only-save/E003/E003-r0005.json
 VERDICT same: 48 of 48 compared values equal
+##### E003 d0: control, default pace + a plain F12 pressed into the guest before each read; original runs/E003/E003-r0047.json
+--- out/rerun-f12-per-read/E003/E003-r0001.json
+step  3 screen digest          DIFFERENT 67735c05a17f846e3cc2 | a8c29236f3c0460c6cc5
+step  5 screen digest          DIFFERENT 9574659327a631d70863 | c13962bf606cc3eb9f18
+VERDICT DIFFERENT: 46 of 48 compared values equal
+--- out/rerun-f12-per-read/E003/E003-r0002.json
+step  4 screen digest          DIFFERENT f23cd4037d2a8cdc30e5 | 9830ea89af67ec6a5422
+step  5 screen digest          DIFFERENT 9574659327a631d70863 | c13962bf606cc3eb9f18
+VERDICT DIFFERENT: 46 of 48 compared values equal
+--- out/rerun-f12-per-read/E003/E003-r0003.json
+step  3 screen digest          DIFFERENT 67735c05a17f846e3cc2 | a8c29236f3c0460c6cc5
+step  4 screen digest          DIFFERENT f23cd4037d2a8cdc30e5 | 9830ea89af67ec6a5422
+step  5 screen digest          DIFFERENT 9574659327a631d70863 | c13962bf606cc3eb9f18
+VERDICT DIFFERENT: 45 of 48 compared values equal
 ##### E006 games 10:00 on 10/04/2026: default pace; original runs/E006/E006-r0001.json
 --- out/rerun-default/E006/E006-r0002.json
 VERDICT same: 10 of 10 compared values equal
