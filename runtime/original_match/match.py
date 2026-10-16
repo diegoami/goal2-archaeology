@@ -610,6 +610,7 @@ class Match:
             return
         ret = self.m.where(self.m.reg("cs"), self.m.stack_word(0))
         self.st["menu_context"] = MENU_CONTEXT.get(ret, "other:" + ret)
+        self.st["menu_half"] = 2 if ret == "0791:9B70" else 1      # extra time's second half: 9B5B's menu
         self._menu = None
 
     def _team_menu_key(self, item):
@@ -704,6 +705,8 @@ class Match:
         positions = [[w, self.m.read(base + PLAYER_SIZE * w + PLAYER_POSITION, 1)[0]] for w in squad if w]
         data.update(context=context, eleven=squad[:11], bench=squad[11:], injured=injured, positions=positions,
                     substitutions_left=self.m.rd(S.SUBS_LEFT + self.side, 1), tactics=self._tactics())
+        if context == "extra_time":
+            data["half"] = self.st.get("menu_half", 1)    # before extra time's first half (1) or its second (2)
         self._emit("decision", **data)
         self.m.stop("decision")
 
