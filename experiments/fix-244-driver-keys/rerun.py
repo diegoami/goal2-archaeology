@@ -10,6 +10,7 @@ the driver's default hold is now SAVE_HOLD, and the re-runs with it are in out/r
     python3 experiments/fix-244-driver-keys/rerun.py E003 d0 ... --legacy-keys   # control: old keys, into out/rerun-legacy-keys/
     python3 experiments/fix-244-driver-keys/rerun.py E003 d0 ... --legacy-only keys|save   # control: one part the old way
     python3 experiments/fix-244-driver-keys/rerun.py E003 d0 ... --hold-alt   # control: Left Alt held after the launch, into out/rerun-alt-held/
+    python3 experiments/fix-244-driver-keys/rerun.py E003 d0 ... --f12-per-read   # control: a plain F12 into the guest before each read, into out/rerun-f12-per-read/
     python3 experiments/fix-244-driver-keys/rerun.py E003 d0 ... --save-key-hold 0.6   # control: slow reads, into out/rerun-save-key-hold-0.6/
 
 The experiment script is loaded unchanged and only its output folder (OUT, and E006's copy of E003's)
@@ -74,6 +75,18 @@ def main():
             self.log("control: Alt_L pressed and left down")
             return sc
         driver.Driver.launch = launch_then_alt
+    f12 = "--f12-per-read" in argv  # a control: a plain F12 pressed into the guest before each savestate key, as the old chord did on Ubuntu 24.04
+    argv = [a for a in argv if a != "--f12-per-read"]
+    if f12:
+        sys.path.insert(0, str(ROOT / "runtime" / "driver"))
+        import driver
+        import xkeys
+        hostkey = driver.Driver._hostkey
+
+        def f12_then_hostkey(self, name, hold=None):
+            xkeys.press_release(self.display, "F12", 0.05)
+            return hostkey(self, name, hold)
+        driver.Driver._hostkey = f12_then_hostkey
     slow = None  # a control: the fixed driver with a longer hold of the savestate key (reads as slow as the F12 chord's)
     if "--save-key-hold" in argv:
         i = argv.index("--save-key-hold")
@@ -89,7 +102,7 @@ def main():
         init = driver.Driver.__init__
         driver.Driver.__init__ = lambda self, *a, **k: init(self, *a, **{**k, "legacy_keys": True})
     mod = load(exp)
-    out = HERE / "out" / ("rerun-legacy-keys" if legacy else f"rerun-save-key-hold-{slow}" if slow else f"rerun-legacy-only-{mix}" if mix else "rerun-alt-held" if hold_alt else "rerun-default") / exp
+    out = HERE / "out" / ("rerun-legacy-keys" if legacy else f"rerun-save-key-hold-{slow}" if slow else f"rerun-legacy-only-{mix}" if mix else "rerun-alt-held" if hold_alt else "rerun-f12-per-read" if f12 else "rerun-default") / exp
     mod.OUT = out
     if hasattr(mod, "e003"):  # E006 loads E003's script for its keys and helpers
         mod.e003.OUT = out

@@ -14,9 +14,12 @@ CLI:
     python3 runtime/driver/driver.py read <file.sav>      # print the screen, mode and ticks of a savestate
 Keys (issue 244): every key is the one X keycode of its keysym, pressed and released with no modifier
 added, and the savestate and load are single keys (Scroll Lock, Print Screen) through a mapper file the
-driver writes, so the host key F12 is never pressed. xdotool, asked for F10, sent Left Alt with it (the
-guest read Alt+F10), and its F12+S chord left Left Alt held in the guest from the launch on, in every
-run recorded before the fix. `Driver(legacy_keys=True)` is that old behaviour, kept to reproduce the fault.
+driver writes, so the host key F12 is never pressed. On Ubuntu 26.04 (xdotool 3.20160805.1, Xvfb 21.1.22,
+installed 2026-10-10) xdotool, asked for F10, sent Left Alt with it (the guest read Alt+F10), and its
+F12+S chord left Left Alt held in the guest from the launch on. The 458 driver records made on Ubuntu 24.04
+show no Alt held (34 published savestates checked: experiments/fix-244-driver-keys/out/published-states.tsv),
+but their chord put a plain F12 (BIOS word 0x8600) into the guest at every read. `Driver(legacy_keys=True)`
+is the old keys and chord, kept to reproduce the fault.
 Read pace: the savestate key is held `save_hold` seconds (default SAVE_HOLD = 0.52), so a savestate read
 takes about 0.53 s as it did with the F12 chord; scripts whose `settle` waits for two equal reads reproduce
 their records only at that pace (SAVE_HOLD says how it was measured).
