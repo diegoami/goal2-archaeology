@@ -1,0 +1,7 @@
+Denmark v 19 at 21                         PASS   56.9 s  9 boundaries over 8 kinds ['commentary', 'decision', 'end', 'full_time', 'goal', 'half_time', 'minute', 'substitution']
+Denmark v 19 at 40, seed 0xE719            PASS   62.3 s  9 boundaries over 8 kinds ['commentary', 'decision', 'end', 'full_time', 'goal', 'half_time', 'minute', 'substitution']
+goal2 manages 19, at 21                    PASS   84.0 s  11 boundaries over 10 kinds ['booking', 'commentary', 'decision', 'end', 'full_time', 'goal', 'half_time', 'injury', 'minute', 'substitution']
+seed 70: an injury, its notice answered    PASS   76.6 s  13 boundaries over 10 kinds ['booking', 'commentary', 'decision', 'end', 'full_time', 'goal', 'half_time', 'injury', 'minute', 'substitution']
+go in hard, seed 4: sendings off           PASS   89.7 s  11 boundaries over 10 kinds ['booking', 'commentary', 'decision', 'end', 'full_time', 'goal', 'half_time', 'minute', 'sending_off', 'substitution']
+every answer at a pause, a refused eleven  PASS  187.8 s  22 boundaries over 13 kinds ['commentary', 'decision', 'end', 'full_time', 'goal', 'half_time', 'minute', 'player_tactics', 'position', 'refused', 'substitution', 'substitution_requested', 'tactics']
+a quick result, tick events                PASS   17.6 s  12 boundaries over 9 kinds ['commentary', 'decision', 'end', 'full_time', 'goal', 'half_time', 'minute', 'substitution', 'tick']

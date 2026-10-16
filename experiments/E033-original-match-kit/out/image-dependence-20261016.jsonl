@@ -1,0 +1,13 @@
+{"run": "baseline E006-r0005", "score": [1, 1], "ticks": 4149, "equal": true, "s": 8.7}
+{"run": "baseline watchstart", "score": [1, 0], "ticks": 4307, "equal": false, "s": 18.6}
+{"run": "watchstart with E006-r0005's stack below the entry frame", "bytes_differing": 915, "score": [1, 0], "ticks": 4307, "equal": false, "s": 30.6}
+{"run": "watchstart with E006-r0005's text page B800", "bytes_differing": 0, "score": [1, 0], "ticks": 4307, "equal": false, "s": 42.4}
+{"run": "watchstart with E006-r0005's screen buffer [DS:7C1A]", "bytes_differing": 2494, "score": [1, 0], "ticks": 4307, "equal": false, "s": 52.1}
+{"run": "watchstart with E006-r0005's screen buffer [DS:7C1E]", "bytes_differing": 4000, "score": [1, 0], "ticks": 4307, "equal": false, "s": 63.3}
+{"run": "watchstart with E006-r0005's screen buffer [DS:7C22]", "bytes_differing": 4000, "score": [1, 0], "ticks": 4307, "equal": false, "s": 74.9}
+{"run": "watchstart with all of them", "score": [1, 0], "ticks": 4307, "equal": false, "s": 84.6}
+{"run": "E006-r0005 with stack below the entry frame zeroed", "score": [1, 1], "ticks": 4149, "equal": true, "s": 95.5}
+{"run": "E006-r0005 with text page B800 zeroed", "score": [1, 1], "ticks": 4149, "equal": true, "s": 106.5}
+{"run": "E006-r0005 with screen buffer [DS:7C1A] zeroed", "score": [1, 1], "ticks": 4149, "equal": true, "s": 116.3}
+{"run": "E006-r0005 with screen buffer [DS:7C1E] zeroed", "score": [1, 1], "ticks": 4149, "equal": true, "s": 127.2}
+{"run": "E006-r0005 with screen buffer [DS:7C22] zeroed", "score": [1, 1], "ticks": 4149, "equal": true, "s": 138.0}

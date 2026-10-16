@@ -1,0 +1,27 @@
+{
+ "exe_packed_sha256": "a6928b0bb7cda0303ac8daf8690efc56ef1792dddaccb5c6f3d85af1f68d3664",
+ "exe_unpacked_sha256": "6fd8c5ef995358ff8e5e47d60de61dccd7bdf8e73f2f584018fcfe4c8c713188",
+ "relocations": 1916,
+ "code_bytes": 153616,
+ "code_blocks": 38,
+ "listing_bytes_compared": 146077,
+ "listing_differences": 0,
+ "extract_bytes_compared": 31600,
+ "extract_differences": 0,
+ "data_bytes": 10169,
+ "data_ranges": 299,
+ "data_blocks": 24,
+ "data_left_out_as_changed_in_an_image": [
+  "DS:7968"
+ ],
+ "reads_record": "experiments/E033-original-match-kit/out/ds-reads-20261016f2.json",
+ "images": {
+  "092f5f74bc5dc0c0-E011-r0001-halftime.sav": [],
+  "3789d8490d2b42d8-e006-2100-r0005.sav": [],
+  "d68e48c734a742a6-E011-r0001-watchstart.sav": [],
+  "e0afff6751747233-e006-1000-r0001.sav": [],
+  "e1dee7e2f5ad443e-E010-r0001-halftime.sav": []
+ },
+ "generated": "runtime/original_match/build.py",
+ "generated_sha256": "3368801a8ef847cbb1b37f625bcb716fcd6b2aa1e08d94d9db8d3107f746e9e4"
+}

@@ -1,0 +1,14 @@
+reference            PASS   9.3 s  writes {'commentary': 1025, 'booking': 0, 'sending_off': 0, 'injury': 0, 'substitution': 2, 'minute': 91, 'goal': 2, 'goal_disallowed': 0, 'half_time': 1, 'full_time': 1}
+seed 0x0101          PASS  10.5 s  writes {'commentary': 975, 'booking': 2, 'sending_off': 0, 'injury': 0, 'substitution': 4, 'minute': 93, 'goal': 1, 'goal_disallowed': 0, 'half_time': 1, 'full_time': 1}
+seed 0x1234          PASS  10.4 s  writes {'commentary': 1078, 'booking': 0, 'sending_off': 0, 'injury': 0, 'substitution': 3, 'minute': 91, 'goal': 2, 'goal_disallowed': 0, 'half_time': 1, 'full_time': 1}
+seed 0x2345          PASS  12.1 s  writes {'commentary': 993, 'booking': 1, 'sending_off': 0, 'injury': 0, 'substitution': 4, 'minute': 92, 'goal': 1, 'goal_disallowed': 0, 'half_time': 1, 'full_time': 1}
+seed 0x2B7E          PASS  11.5 s  writes {'commentary': 1075, 'booking': 1, 'sending_off': 0, 'injury': 0, 'substitution': 5, 'minute': 92, 'goal': 2, 'goal_disallowed': 0, 'half_time': 1, 'full_time': 1}
+seed 0x4C1D          PASS  12.9 s  writes {'commentary': 1095, 'booking': 0, 'sending_off': 0, 'injury': 2, 'substitution': 5, 'minute': 93, 'goal': 1, 'goal_disallowed': 0, 'half_time': 1, 'full_time': 1}
+seed 0x6A33          PASS  13.1 s  writes {'commentary': 1049, 'booking': 0, 'sending_off': 0, 'injury': 0, 'substitution': 1, 'minute': 91, 'goal': 2, 'goal_disallowed': 0, 'half_time': 1, 'full_time': 1}
+seed 0x8E05          PASS  12.5 s  writes {'commentary': 1045, 'booking': 0, 'sending_off': 0, 'injury': 0, 'substitution': 5, 'minute': 91, 'goal': 1, 'goal_disallowed': 0, 'half_time': 1, 'full_time': 1}
+seed 0xA1F0          PASS  12.1 s  writes {'commentary': 1047, 'booking': 1, 'sending_off': 0, 'injury': 0, 'substitution': 2, 'minute': 92, 'goal': 1, 'goal_disallowed': 0, 'half_time': 1, 'full_time': 1}
+seed 0xC3C3          PASS  12.3 s  writes {'commentary': 1058, 'booking': 2, 'sending_off': 0, 'injury': 0, 'substitution': 2, 'minute': 93, 'goal': 3, 'goal_disallowed': 0, 'half_time': 1, 'full_time': 1}
+seed 0xE719          PASS  12.3 s  writes {'commentary': 1030, 'booking': 0, 'sending_off': 0, 'injury': 0, 'substitution': 2, 'minute': 91, 'goal': 1, 'goal_disallowed': 0, 'half_time': 1, 'full_time': 1}
+decisions, seed 70   PASS  13.4 s  writes {'commentary': 1028, 'booking': 0, 'sending_off': 0, 'injury': 0, 'substitution': 3, 'minute': 91, 'goal': 3, 'goal_disallowed': 1, 'half_time': 1, 'full_time': 1}
+seed 70 (an injury)  PASS  12.1 s  writes {'commentary': 1134, 'booking': 2, 'sending_off': 0, 'injury': 1, 'substitution': 3, 'minute': 94, 'goal': 3, 'goal_disallowed': 0, 'half_time': 1, 'full_time': 1}
+go in hard, seed 4 (sendings off) PASS  11.5 s  writes {'commentary': 1132, 'booking': 2, 'sending_off': 2, 'injury': 0, 'substitution': 5, 'minute': 95, 'goal': 3, 'goal_disallowed': 0, 'half_time': 1, 'full_time': 1}

@@ -1,0 +1,33 @@
+{
+ "kit": "1",
+ "image_sha256": "e0afff6751747233f6ab8b9ba73dab0790b7509f15257ed7ae24f528b935657d",
+ "reference": {
+  "release": "E006",
+  "asset": "e0afff6751747233-e006-1000-r0001.sav",
+  "sha256": "e0afff6751747233f6ab8b9ba73dab0790b7509f15257ed7ae24f528b935657d"
+ },
+ "checks": {
+  "engine": {
+   "pass": true,
+   "detail": {},
+   "wall_s": 8.7,
+   "cpu_s": 9.0
+  },
+  "interactive": {
+   "pass": true,
+   "detail": {
+    "straight": "9b5b85629293d734b5a7b395662584839728935d64f811582d0a7375e132c87b",
+    "resumed": "9b5b85629293d734b5a7b395662584839728935d64f811582d0a7375e132c87b",
+    "expected": "9b5b85629293d734b5a7b395662584839728935d64f811582d0a7375e132c87b"
+   },
+   "wall_s": 13.0,
+   "cpu_s": 13.4
+  },
+  "family": {
+   "pass": true,
+   "detail": {},
+   "wall_s": 105.1,
+   "cpu_s": 109.4
+  }
+ }
+}

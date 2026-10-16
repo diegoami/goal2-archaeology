@@ -1,0 +1,12 @@
+tests                                        exit 0   156.0 s  -> out/tests-20261016h.txt
+check --family                               exit 0   154.5 s  -> out/check-20261016h.txt
+paths                                        exit 0   126.2 s  -> out/paths-20261016h.txt
+stamps (17 matches)                          exit 0   171.4 s  -> out/stamps-20261016h.txt
+save boundaries (7 scenarios)                exit 0   575.0 s  -> out/save-boundaries-20261016h.txt
+example                                      exit 0     9.4 s  -> out/example-20261016h.txt
+new tests on 8664eed                         exit 0    10.6 s  -> out/old-kit-tests-20261016h.txt
+stamps on 8664eed (quick)                    exit 1    74.0 s  -> out/stamps-at-8664eed-20261016h.txt
+save boundaries on 8664eed (1 scenario)      exit 0    66.4 s  -> out/save-boundaries-at-8664eed-20261016h.txt
+mutations                                    exit 0   341.5 s  -> out/mutations-20261016h.txt
+links                                        exit 0     0.9 s  -> out/links-20261016h.txt
+hashes                                       exit 0     0.0 s  -> out/hashes-20261016h.txt
