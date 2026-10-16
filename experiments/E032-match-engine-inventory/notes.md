@@ -107,3 +107,31 @@ calls).
   (current). `plancheck.py` ties the plan's 65 cost phrases to the report and finds no cost figure outside
   them (`out/plancheck-review2.txt`); on the round-1 plan it finds 34 untied figures
   (`out/plancheck-on-round1-plan-review2.txt`).
+
+## Review round 3 (PR 243, Sol; issue 246): the record schema, validated to the leaves
+
+- The round-2 validator checked that `statistics_raw` and `templates` were non-empty containers, not what they
+  held: rows without their values, or `{"38": null}`, passed as identical (in both logs) or as a caught
+  falsifier (in the candidate only). The class: a validator that checks the presence of a container, not of
+  its contents.
+- `record_schema.py` is now the one schema of a match record: the fields every record carries (seed, error,
+  stopped_at_board, strays, cpu_s), and for a completed match every compared field to its leaves: two score
+  bytes, ticks, draws, the 64-hex digest, exactly 11 statistics rows in order (label, a pair of bytes or
+  words, address), template ids 0..254 with counts >= 1. `compare.py` validates every record against it.
+  `derive_schema.py` reads all 124 committed records (52 logs: 115 completed, 9 incomplete), reports what
+  they hold, and finds every one conforms (`out/schema-observed-review3.txt`).
+- `tests/test_e032_record_mutations.py` mutates a real record (the first of
+  `timing-delay20-kickoff-20261015.jsonl`) 333 ways (each field and each nested value removed, nulled, of the
+  wrong type, out of range), in both logs and in the candidate only, under both expectations: 1332 cases, all
+  exit 2. On the round-2 comparator 1144 of them are not (`out/mutation-tests-on-round2-compare-review3.txt`).
+- The same class elsewhere: `analyze.py` checked its rows' keys, not their values; it now validates every
+  row's address, name and counts, the header's seed, score, ticks and draws, and `match_blocks`' pairs (6 new
+  subtests fail on the round-2 `analyze.py`, `out/analyze-tests-on-round2-analyze-review3.txt`). `costs.py`
+  now validates the coverage runs' seconds and `plancheck.py` that the report's values are numbers.
+- Re-made through the fixed scripts: `recheck-review3.txt` (35 comparisons: the 30 quoted as passing exit 0,
+  the 5 non-removable results exit 1, none exit 2); `parts-s1234-review3.md`, `union-5seeds-review3.md` and
+  `costs-review3.md/.json` are byte-identical to the round-2 outputs; `plancheck-review3.txt` 65 of 65, no
+  untied figure; the pilot and skip batches under stamp review3 (`pilot-batch-review3.txt`: 3 falsifiers
+  caught, 8 of 8 identical; `skip-batch-review3.txt`: 8537 and 8E24 not removable, the eight display routines
+  and their joint set removable; both batch exit 0). After the batches, `derive_schema.py` finds all 157
+  records of 67 logs conform (`schema-observed-review3-after-batches.txt`). Hashes: `sha256-review3.tsv`.
