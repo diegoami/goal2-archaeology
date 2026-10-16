@@ -382,9 +382,10 @@ exit
     def _check_keys_sendable(self):
         """ValueError, before the emulator starts, when a savestate, load or screenshot key that the raw transport
         sends has no keycode on this display, or one that would need a modifier (xkeys.check_sendable). Keys sent
-        by xdotool are checked as X keysym names when the driver is made (xkeys.hostkeys). With no display
-        (a test that replaces _start_xvfb) there is nothing to check."""
-        if not self.display:
+        by xdotool are checked as X keysym names when the driver is made (xkeys.hostkeys). Only a display this
+        driver started itself (self.xvfb, a real Xvfb of _start_xvfb) is checked, never whatever display happens
+        to be set or named: a test that replaces _start_xvfb has none, and CI has no X server at all."""
+        if not self.display or self.xvfb is None:
             return
         xkeys.check_sendable(self.display, [n for keys in self.hostkeys.values() for n in keys if not self._legacy_for(n)])
 

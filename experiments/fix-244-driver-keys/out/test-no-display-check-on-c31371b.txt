@@ -1,0 +1,50 @@
+FF.
+======================================================================
+FAIL: test_launch_with_a_fake_display_does_not_open_one (__main__.LaunchWithFakes.test_launch_with_a_fake_display_does_not_open_one)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/claude-1000/pc3/tests/test_driver_keys.py", line 218, in test_launch_with_a_fake_display_does_not_open_one
+    d = ClockApplied("test_launch_checks_the_read_back")._launch("10/04/1993\r\n 9:59:59\r\n")
+  File "/tmp/claude-1000/pc3/tests/test_driver_dataseg.py", line 203, in _launch
+    d.launch(None)
+    ~~~~~~~~^^^^^^
+  File "/tmp/claude-1000/pc3/runtime/driver/driver.py", line 358, in launch
+    self._check_keys_sendable()  # before DOSBox-X starts
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/tmp/claude-1000/pc3/runtime/driver/driver.py", line 389, in _check_keys_sendable
+    xkeys.check_sendable(self.display, [n for keys in self.hostkeys.values() for n in keys if not self._legacy_for(n)])
+    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/unittest/mock.py", line 1176, in __call__
+    return self._mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/unittest/mock.py", line 1180, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/unittest/mock.py", line 1241, in _execute_mock_call
+    raise effect
+AssertionError: opened a display
+
+======================================================================
+FAIL: test_the_sendable_check_never_opens_a_display_the_driver_did_not_start (__main__.KeySending.test_the_sendable_check_never_opens_a_display_the_driver_did_not_start)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/claude-1000/pc3/tests/test_driver_keys.py", line 192, in test_the_sendable_check_never_opens_a_display_the_driver_did_not_start
+    d._check_keys_sendable()
+    ~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/tmp/claude-1000/pc3/runtime/driver/driver.py", line 389, in _check_keys_sendable
+    xkeys.check_sendable(self.display, [n for keys in self.hostkeys.values() for n in keys if not self._legacy_for(n)])
+    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/unittest/mock.py", line 1176, in __call__
+    return self._mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/unittest/mock.py", line 1180, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/unittest/mock.py", line 1241, in _execute_mock_call
+    raise effect
+AssertionError: opened a display
+
+----------------------------------------------------------------------
+Ran 3 tests in 2.078s
+
+FAILED (failures=2)

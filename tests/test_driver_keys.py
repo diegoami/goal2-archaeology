@@ -175,18 +175,49 @@ class KeySending(unittest.TestCase):
         got = self.x.events()
         self.assertIn(ALT_L, [n for _, n in got])
 
+    def owned(self, **kw):
+        """A driver with an Xvfb of its own, started by its own _start_xvfb (so self.xvfb is set), as launch() has it."""
+        d = driver.Driver({}, workdir=self.tmp / "work", game_dir=self.tmp / "game", **kw)
+        d._start_xvfb()
+        self.addCleanup(d._kill, d.xvfb)
+        return d
+
+    def test_the_sendable_check_never_opens_a_display_the_driver_did_not_start(self):
+        # CI has no X server: a launch with fakes (a display named by the test, _start_xvfb replaced) must not
+        # try to open it. The check is called with the display of the test's own Xvfb, which is not the driver's.
+        d = self.driver()
+        self.assertIsNotNone(d.display)
+        self.assertIsNone(d.xvfb)
+        with mock.patch.object(xkeys, "check_sendable", side_effect=AssertionError("opened a display")):
+            d._check_keys_sendable()
+            d.display = ":59999"  # a display that does not exist
+            d._check_keys_sendable()
+
     def test_a_raw_key_the_display_cannot_send_is_refused_before_the_emulator_starts(self):
         # a mapper bound to a keysym that exists but sits above the first two levels of its keycode (here F10's
         # XF86Switch_VT_10): the raw transport could only send it with a modifier, so it is refused, by name
         with mock.patch.dict(xkeys.SCANCODE_KEYS, {200: "XF86Switch_VT_10"}):
             f = self.tmp / "m.map"
             f.write_text('hand_savestate "key 200"\nhand_loadstate "key 70"\n')
-            d = self.driver(mapper=str(f))  # accepted when made: the name is an X keysym
+            d = self.owned(mapper=str(f))  # accepted when made: the name is an X keysym
             with self.assertRaisesRegex(ValueError, "XF86Switch_VT_10"):
                 d._check_keys_sendable()
-            ok = self.driver(mapper=str(f), legacy_keys=True)  # by xdotool the keymap is xdotool's business
+            ok = self.owned(mapper=str(f), legacy_keys=True)  # by xdotool the keymap is xdotool's business
             ok._check_keys_sendable()
-        self.driver()._check_keys_sendable()  # the default keys exist on this display
+        self.owned()._check_keys_sendable()  # the default keys exist on a display the driver started
+
+
+class LaunchWithFakes(unittest.TestCase):
+    """launch() with DOSBox-X, Xvfb and xdotool replaced (test_driver_dataseg's fakes, display ":0" named by the
+    test) must not open that display, whether or not an X server is there."""
+
+    def test_launch_with_a_fake_display_does_not_open_one(self):
+        from test_driver_dataseg import ClockApplied
+        with mock.patch.object(xkeys, "check_sendable", side_effect=AssertionError("opened a display")) as chk, \
+                mock.patch.object(xkeys._x11, "XOpenDisplay", side_effect=AssertionError("opened a display")):
+            d = ClockApplied("test_launch_checks_the_read_back")._launch("10/04/1993\r\n 9:59:59\r\n")
+        chk.assert_not_called()
+        self.assertTrue(d.clock_applied)  # the launch ran to its end
 
 
 class Mapper(unittest.TestCase):
