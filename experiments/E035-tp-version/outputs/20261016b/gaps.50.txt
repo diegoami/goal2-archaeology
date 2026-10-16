@@ -1,0 +1,179 @@
+--- GOAL 23E4:0329..0355 (16 instr)
+   0329 8bdc                     mov bx, sp
+   032B 368b4704                 mov ax, word ptr ss:[bx + N]
+   032F e8eb00                   call N
+   0332 7207                     jb N
+   0334 8bc1                     mov ax, cx
+   0336 8bd3                     mov dx, bx
+   0338 ca0200                   retf N
+   033B b8cb00                   mov ax, N
+   033E e990fd                   jmp N
+   0341 8bdc                     mov bx, sp
+   0343 368b4704                 mov ax, word ptr ss:[bx + N]
+   0347 36c44f06                 les cx, ptr ss:[bx + N]
+   034B 8cc3                     mov bx, es
+   034D e88801                   call N
+   0350 7203                     jb N
+   0352 ca0600                   retf N
+--- GOAL 23E4:041D..041E (1 instr)
+   041D 50                       push ax
+--- GOAL 23E4:0475..0491 (14 instr)
+   0475 eb5c                     jmp N
+   0477 58                       pop ax
+   0478 8b0e4e7b                 mov cx, word ptr [N]
+   047C 0b0e507b                 or cx, word ptr [N]
+   0480 7454                     je N
+   0482 50                       push ax
+   0483 50                       push ax
+   0484 ff1e4e7b                 lcall [N]
+   0488 91                       xchg cx, ax
+   0489 58                       pop ax
+   048A e34a                     jcxz N
+   048C 49                       dec cx
+   048D 758e                     jne N
+   048F 8bd9                     mov bx, cx
+--- GOAL 23E4:04D3..04D7 (4 instr)
+   04D3 58                       pop ax
+   04D4 f8                       clc 
+   04D5 c3                       ret 
+   04D6 f9                       stc 
+--- GOAL 23E4:06EF..072B (32 instr)
+   06EF 268a0d                   mov cl, byte ptr es:[di]
+   06F2 32ed                     xor ch, ch
+   06F4 e329                     jcxz N
+   06F6 47                       inc di
+   06F7 ac                       lodsb al, byte ptr [si]
+   06F8 3c01                     cmp al, N
+   06FA 7229                     jb N
+   06FC 7708                     ja N
+   06FE ac                       lodsb al, byte ptr [si]
+   06FF f2ae                     repne scasb al, byte ptr es:[di]
+   0701 751c                     jne N
+   0703 4f                       dec di
+   0704 eb1f                     jmp N
+   0706 32e4                     xor ah, ah
+   0708 8bd1                     mov dx, cx
+   070A 2bd0                     sub dx, ax
+   070C 7211                     jb N
+   070E 42                       inc dx
+   070F 8bc8                     mov cx, ax
+   0711 f3a6                     repe cmpsb byte ptr [si], byte ptr es:[di]
+   0713 740e                     je N
+   0715 2bc8                     sub cx, ax
+   0717 03f1                     add si, cx
+   0719 03f9                     add di, cx
+   071B 47                       inc di
+   071C 4a                       dec dx
+   071D 75f0                     jne N
+   071F 33c0                     xor ax, ax
+   0721 eb08                     jmp N
+   0723 2bf8                     sub di, ax
+   0725 8bc7                     mov ax, di
+   0727 362b4704                 sub ax, word ptr ss:[bx + N]
+--- GOAL 23E4:0995..0997 (1 instr)
+   0995 7478                     je N
+--- GOAL 23E4:09AB..09B9 (8 instr)
+   09AB 50                       push ax
+   09AC 8ae6                     mov ah, dh
+   09AE 80e480                   and ah, N
+   09B1 8be8                     mov bp, ax
+   09B3 33c7                     xor ax, di
+   09B5 58                       pop ax
+   09B6 9c                       pushf 
+   09B7 b000                     mov al, N
+--- GOAL 23E4:09C5..09C7 (1 instr)
+   09C5 8ac4                     mov al, ah
+--- GOAL 23E4:09D4..09D6 (1 instr)
+   09D4 ebea                     jmp N
+--- GOAL 23E4:09DE..09E0 (1 instr)
+   09DE d1d8                     rcr ax, N
+--- GOAL 23E4:09E7..0B7A (191 instr)
+   09E7 03c1                     add ax, cx
+   09E9 13de                     adc bx, si
+   09EB 13d7                     adc dx, di
+   09ED 8bcd                     mov cx, bp
+   09EF 5d                       pop bp
+   09F0 730a                     jae N
+   09F2 d1da                     rcr dx, N
+   09F4 d1db                     rcr bx, N
+   09F6 d1d8                     rcr ax, N
+   09F8 fec1                     inc cl
+   09FA 7420                     je N
+   09FC 058000                   add ax, N
+   09FF 83d300                   adc bx, N
+   0A02 83d200                   adc dx, N
+   0A05 720f                     jb N
+   0A07 8ac1                     mov al, cl
+   0A09 80e67f                   and dh, N
+   0A0C 0af5                     or dh, ch
+   0A0E c3                       ret 
+   0A0F 8bc1                     mov ax, cx
+   0A11 8bde                     mov bx, si
+   0A13 8bd7                     mov dx, di
+   0A15 c3                       ret 
+   0A16 d1da                     rcr dx, N
+   0A18 fec1                     inc cl
+   0A1A 75eb                     jne N
+   0A1C f9                       stc 
+   0A1D c3                       ret 
+   0A1E 2bc1                     sub ax, cx
+   0A20 1bde                     sbb bx, si
+   0A22 1bd7                     sbb dx, di
+   0A24 8bcd                     mov cx, bp
+   0A26 5d                       pop bp
+   0A27 7310                     jae N
+   0A29 f7d2                     not dx
+   0A2B f7d3                     not bx
+   0A2D f7d8                     neg ax
+   0A2F f5                       cmc 
+   0A30 83d300                   adc bx, N
+   0A33 83d200                   adc dx, N
+--- GOAL 23E4:0B88..0BB3 (22 instr)
+   0B88 1bef                     sbb bp, di
+   0B8A d1d2                     rcl dx, N
+   0B8C 7211                     jb N
+   0B8E d0e4                     shl ah, N
+   0B90 d1d3                     rcl bx, N
+   0B92 d1d5                     rcl bp, N
+   0B94 73e2                     jae N
+   0B96 2ae5                     sub ah, ch
+   0B98 1bde                     sbb bx, si
+   0B9A 1bef                     sbb bp, di
+   0B9C f8                       clc 
+   0B9D ebeb                     jmp N
+   0B9F fec8                     dec al
+   0BA1 780a                     js N
+   0BA3 52                       push dx
+   0BA4 ba0100                   mov dx, N
+   0BA7 75e5                     jne N
+   0BA9 b240                     mov dl, N
+   0BAB ebe1                     jmp N
+   0BAD 8bc2                     mov ax, dx
+   0BAF b106                     mov cl, N
+   0BB1 d3e0                     shl ax, cl
+--- GOAL 23E4:0BB7..0BCE (10 instr)
+   0BB7 f7d0                     not ax
+   0BB9 f7d3                     not bx
+   0BBB 83f2ff                   xor dx, N
+   0BBE 7807                     js N
+   0BC0 d1d0                     rcl ax, N
+   0BC2 d1d3                     rcl bx, N
+   0BC4 d1d2                     rcl dx, N
+   0BC6 49                       dec cx
+   0BC7 81c18080                 add cx, N
+   0BCB e967ff                   jmp N
+--- GOAL 23E4:118A..1192 (5 instr)
+   118A 9d                       popf 
+   118B 11cd                     adc bp, cx
+   118D 37                       aaa 
+   118E 06                       push es
+   118F 627bcd                   bound di, dword ptr [bp + di - N]
+--- GOAL 23E4:11DE..11E4 (3 instr)
+   11DE 7b89                     jnp N
+   11E0 16                       push ss
+   11E1 647bcb                   jnp N
+--- GOAL 23E4:12FC..1302 (2 instr)
+   12FC 8b460e                   mov ax, word ptr [bp + N]
+   12FF 8b5610                   mov dx, word ptr [bp + N]
+--- GOAL 23E4:19CF..19D0 (1 instr)
+   19CF 00                       db

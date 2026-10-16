@@ -67,7 +67,7 @@ for v, (d, imgs, zips) in sets.items():
     for f in ('TPC.EXE', 'TURBO.TPL'):
         shutil.copy(src + '/' + f, wd + '/' + f)
         say('  ', v, f, os.path.getsize(wd + '/' + f), sha(wd + '/' + f))
-    shutil.copy(HERE + '/probes/t4.pas', wd + '/T4.PAS')
+    shutil.copy(HERE + '/probes/t4_40.pas' if v == '40' else HERE + '/probes/t4.pas', wd + '/T4.PAS')  # 4.0's Dos has no GetEnv, EnvStr or SwapVectors, so the probe for 4.0 leaves it out
     shutil.copy(HERE + '/probes/t1.pas', wd + '/T1.PAS')
     bat += 'cd \\%s\r\ntpc t1.pas\r\ntpc t4.pas > t4.log\r\ncd \\\r\n' % v
 bat += 'echo ok > DONE.TXT\r\n'
@@ -78,10 +78,13 @@ say(run(['python3', '-I', HERE + '/dbx.py', runs, 'c.bat', '90']).strip())
 for v in sets:
     for t in ('T1.EXE', 'T4.EXE'):
         p = runs + '/' + v + '/' + t
+        if not os.path.exists(p):
+            say('NOT BUILT', v, t, open(runs + '/' + v + '/T4.LOG', errors='replace').read()[-300:])
+            continue
         say('built', v, t, os.path.getsize(p), sha(p))
 
 # 3. compare
-cands = [runs + '/%s/T4.EXE' % v for v in sets]
+cands = [runs + '/%s/T4.EXE' % v for v in sets if os.path.exists(runs + '/%s/T4.EXE' % v)]
 for tool in ('cover.py', 'bytecmp.py', 'gaps.py'):
     for c in cands:
         if tool == 'bytecmp.py' and not c.endswith('/55/T4.EXE'):
@@ -91,3 +94,5 @@ for tool in ('cover.py', 'bytecmp.py', 'gaps.py'):
         out = run(['python3', '-I', HERE + '/' + tool, goal, c])
         open(OUT + '/%s.%s.txt' % (tool[:-3], c.rsplit('/', 2)[1]), 'w').write(out)
 say(run(['python3', '-I', HERE + '/cover.py', goal] + cands).strip())
+say(run(['python3', '-I', HERE + '/units.py', goal] + cands).strip())
+say(run(['python3', '-I', HERE + '/routines.py', goal, REPO] + [c for c in cands if '/701/' not in c]).strip())

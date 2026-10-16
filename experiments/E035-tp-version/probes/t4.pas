@@ -9,7 +9,7 @@ var
   f: file; t: text; fr: file of TRec; r: TRec; p: PRec;
   s, s2: string; i, j: integer; l: longint; x, y: real; w: word; b: byte;
   sa, sb: TScr; st: TSet; buf: array[0..1023] of byte; c: char;
-  h, m, sec, hund: word; reg: registers;
+  h, m, sec, hund: word; reg: registers; sr: SearchRec; ev: string; yy, mo, dd, dw: word;
 begin
   sa := sb; Move(sa, sb, 4000); if s < s2 then i := 1; l := MemL[$B800:0];
   Randomize; i := Random(100); x := Random;
@@ -29,5 +29,8 @@ begin
   GetTime(h, m, sec, hund); reg.ax := 0; Intr($10, reg);
   Write(l, ' ', x, ' ', i:3, ' ', c); WriteLn(MemAvail, MaxAvail, ParamCount, ParamStr(1));
   case i of 1: i := 2; 3: i := 4; end;
+  FindFirst('*.*', AnyFile, sr); while DosError = 0 do FindNext(sr);
+  ev := GetEnv('PATH'); GetDate(yy, mo, dd, dw); SetTime(h, m, sec, hund);
+  SwapVectors; Exec('COMMAND.COM', ''); SwapVectors; WriteLn(DosExitCode, ev);
   Halt(l);
 end.

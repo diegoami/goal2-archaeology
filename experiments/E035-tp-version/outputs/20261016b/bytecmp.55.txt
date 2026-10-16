@@ -1,0 +1,10 @@
+matched instructions: 2829 identical bytes, 132 differing
+differing instructions where a byte other than the trailing 16-bit operand differs: 10
+   ('mov', 'operand-only') 72 e.g. GOAL ba8125 vs cand ba0d03
+   ('call', 'operand-only') 13 e.g. GOAL e8ee12 vs cand e84f16
+   ('sub', 'operand-only') 10 e.g. GOAL 2b1e5c7b vs cand 2b1e3200
+   ('cmp', 'operand-only') 10 e.g. GOAL 3b365e7b vs cand 3b363400
+   ('mov', 'opcode-differs') 6 e.g. GOAL c706607b6600 vs cand c70636006600
+   ('les', 'operand-only') 5 e.g. GOAL c41e527b vs cand c41e2800
+   ('cmp', 'opcode-differs') 4 e.g. GOAL 833e607b00 vs cand 833e360000
+   ('add', 'operand-only') 3 e.g. GOAL 03062e7b vs cand 03060400
