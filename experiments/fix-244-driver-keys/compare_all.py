@@ -22,6 +22,8 @@ PAIRS = [
     ("E006 games 10:00 on 10/04/2026: default pace", "runs/E006/E006-r0001.json", ["out/rerun-default/E006/E006-r0002.json"]),
     ("E003 d3b (a remade main.sav): default pace", "runs/E003/E003-r0049.json",
      [f"out/rerun-default/E003/E003-r000{n}.json" for n in (1, 2)]),
+    ("E003 d3b (a remade main.sav): default pace, after the review's change of the key code (R1)", "runs/E003/E003-r0049.json",
+     [f"out/rerun-default/E003/E003-r000{n}.json" for n in (8, 9)]),
     ("E003 d0 10:00:00 on 10/04/1993: save key held 0.15 s", "runs/E003/E003-r0047.json",
      [f"out/rerun/E003/E003-r000{n}.json" for n in (3, 4, 5, 6, 7)]),
     ("E003 d0: control, legacy keys on the fixed driver", "runs/E003/E003-r0047.json",
