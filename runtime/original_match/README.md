@@ -15,8 +15,18 @@ keys a manager would press. Nothing of the original is in this folder: its code 
    working without it.
 3. **The image** is goal2's own E006-r0001 (release E006, SHA-256 `e0afff67…657d`, the file
    `tools/measure_p1.py` fetches): `assets.reference_image(".cache")` fetches it with `gh` and checks its hash.
-   Any savestate goal2 makes from it works too; an image of another GOAL.EXE (the shareware one, a repack) is
-   refused when the match is created (`Image.build()` against the registered version's digest).
+   Any savestate goal2 makes from it works too.
+
+**The build guard.** A match refuses an image whose engine is not the registered GOAL.EXE's (`ValueError` naming
+where it differs; `Image.build_problems()`). Covered, from the registered executable itself (`build.py`, generated
+by E033's `build_guard.py` and checked against the listing): **all of its code**, image 00000..2580F (153,616 bytes,
+every routine, the RNG's constants included), its 1,916 relocated words compared with the load segment taken off;
+and **the initialised data a match reads and never writes**: 10,169 bytes of DS:0000..7B6F (the depth, line,
+position, occupancy and threshold tables, the templates, the tactics rows...), measured over nine matches with every
+kind of answer (E033 `ds_reads.py`). Not covered: initialised data none of those matches read; the variables (any
+byte a match or the game's start-up writes); everything above DS:7B6F (the players, countries, fixtures, managers,
+seeds: goal2's state). goal2's `to_savestate` writes its "clock word" at DS:0E6C, which is a byte of the original's
+foot table (DS:0E60..0E7B, read by 1771:3088; F008, F028): it must stay as the template has it, or the guard refuses.
 
 ## Know it works
 
@@ -51,7 +61,7 @@ for ev in m.events():                                     # events as they happe
         else:
             m.answer()                                    # play on
     if want_to_stop:
-        blob = m.save(); break                            # bytes; Match.load(blob) continues it exactly
+        blob = m.save(); break                            # at any event; Match.load(blob) continues it exactly
 result = m.result()          # score, goals, bookings, injuries, substitutions, board, commentary, decisions
 after = m.memory_component() # the memory after the match and its post-match update: goal2's next state
 next_state = from_savestate(_rewrite_zip(template_bytes, {"Memory": zlib.compress(after)}))
@@ -64,10 +74,22 @@ and `.countries` as they are, without the squad order and tactics `to_savestate`
 `python3 -m goal2.engine.original_match.example --cache .cache` runs the same kind of match from the reference
 image (a pause, a half-time substitution, a save and resume at minute 60; about 6 s).
 
-**Events**: `minute`, `commentary` (the original's line, with its template and players), `goal`, `booking`,
-`sending_off`, `injury`, `substitution` (both teams), `half_time`, `full_time` (the board's statistics),
-`decision`, `tactics`, `position`, `player_tactics`, `substitution_requested`, `refused`, `end`; `tick` too with
-`Match(..., ticks=True)`. `m.pitch()` gives the 22 players' and the ball's positions at any moment (for drawing).
+**Events**: `minute`, `commentary` (the original's line, with its template and players), `goal`,
+`goal_disallowed` (a goal the original takes back in the same action), `booking`, `sending_off`, `injury`,
+`substitution` (both teams), `half_time`, `full_time` (the board's statistics), `decision`, `tactics`, `position`,
+`player_tactics`, `substitution_requested`, `refused`, `end`; `tick` too with `Match(..., ticks=True)`.
+`m.pitch()` gives the 22 players' and the ball's positions at any moment (for drawing).
+
+**Stamps**: an event's `minute` and `score` are the guest's at the original's own write it reports (the commentary
+ring's counter, the score byte, the booking, red-card and injury counts, the minute word, the substitutions-left
+counter), and events come in the order the original made those writes. Decisions, the boards and what a screen
+did carry the guest's minute and score when they happen. Checked against independent write hooks over 14 matches
+(E033 `stamps.py`): every kind, stamp by stamp.
+
+**Saving**: `save()` works at every event, a decision before or after `answer()` included, and `Match.load()`
+continues exactly as the match would have (checked at the first event of every kind and at every decision, over
+seven scenarios: E033 `save_boundaries.py`). It refuses only while the kit is inside one of the original's screens,
+which never happens between two events.
 
 **Decisions** (where the original itself stops for the manager) and what an answer does there:
 
@@ -101,5 +123,5 @@ back with `refused` set; answer again. A declined injury notice comes back at ev
 
 Friendlies only (kind 1); competitive fixtures, extra time and the shoot-out are wired but unchecked (about 2 h with
 E031's shoot-out state). The set-piece taker prompts keep the original's pick (exposing them: about 1 h). One
-human side. A match costs 6-10 CPU s (a quick result after `R`, about 2 s); stepping by minute or tick adds nothing
-measurable. `save()` is about 0.36 MB.
+human side. A match costs 8-12 CPU s (a quick result after `R`, about 3 s; the write stamps add 1-3 s); stepping by
+minute or tick adds nothing measurable. `save()` is about 0.36 MB.

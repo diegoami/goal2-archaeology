@@ -21,7 +21,9 @@ TACTICS_ROW, TACTICS_ELEMENT_OF_ROW = 0x0D8E, 0x6BBF   # 1771:1981: row DS:0D8E 
 # SELECT TEAM E44F: the squad cursor DS:0C1B (1..20); in a match Enter marks then swaps (E022) when DS:9B41 is set
 # and a substitution is left, else toggles the request DS:9B40; R steps the player's position (1771:4952 ->
 # 4925: +1, wrapping 0..13), T opens his own tactics (1771:4B61).
-SELECT_CURSOR, SUBS_REQUEST, SUBS_ALLOWED, SUBS_LEFT = 0x0C1B, 0x9B40, 0x9B41, 0x9B38
+SELECT_CURSOR, SUBS_REQUEST, SUBS_ALLOWED = 0x0C1B, 0x9B40, 0x9B41
+SUBS_LEFT = 0x9B3A      # substitutions left of side t at DS:9B3A + t: A4A1 sets them (A605), C5DC counts down
+                        # (C7DC); DS:9B38 is only the action replay's copy (17E5 saves it, 0F08 restores it)
 OWN_ROW = 0x0F38        # 1771:4B61's row (1..4 the player's override of elements 1..4, 5 his man-marking)
 MARKING = 0x9A40        # the marking word of side t's squad slot s at DS:9A3E + 0x28 t + 2 s (1771:49B8)
 PROMPT_SLOT_BP = -5     # CC7B's local_7 (the highlighted slot) at [bp - 5]

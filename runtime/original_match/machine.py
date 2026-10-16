@@ -9,7 +9,7 @@ Stopping: a hook calls `stop(reason)`; Unicorn then leaves the instruction at th
 every hook at that address fires again when the run resumes there (probed: E033 notes, section 3). Handlers are
 told so (`replay=True` on that first call after a resume) and those that count things skip it."""
 try:                     # the kit imports without unicorn (goal2's quick path, CI); a match needs it
-    from unicorn import Uc, UcError, UC_ARCH_X86, UC_MODE_16, UC_HOOK_CODE, UC_HOOK_INTR
+    from unicorn import Uc, UcError, UC_ARCH_X86, UC_MODE_16, UC_HOOK_CODE, UC_HOOK_INTR, UC_HOOK_MEM_WRITE
     from unicorn import x86_const as X
 except ImportError:
     Uc = None
@@ -139,6 +139,26 @@ class Machine:
                     uc.emu_stop()
             self.uc.hook_add(UC_HOOK_CODE, dispatch, begin=lin, end=lin)
         self._handlers[lin].append(handler)
+
+    def watch(self, linear, size, handler):
+        """Call handler(old, new), the watched `size` bytes at `linear` before and after, at every guest write that
+        touches them, before the write lands (Unicorn calls write hooks first: the old bytes are still in memory).
+        A write that starts up to 3 bytes below the range is caught too."""
+        def hook(uc, access, address, wsize, value, data):
+            if address + wsize <= linear or address >= linear + size:
+                return
+            old = bytes(uc.mem_read(linear, size))
+            new = bytearray(old)
+            for i in range(wsize):
+                j = address + i - linear
+                if 0 <= j < size:
+                    new[j] = (value >> (8 * i)) & 0xFF
+            try:
+                handler(old, bytes(new))
+            except Exception as e:
+                self.error = e
+                uc.emu_stop()
+        self.uc.hook_add(UC_HOOK_MEM_WRITE, hook, begin=max(0, linear - 3), end=linear + size - 1)
 
     def stop(self, reason):
         self.stop_reason = reason

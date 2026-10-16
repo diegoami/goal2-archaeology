@@ -16,8 +16,7 @@ import zlib
 from dataclasses import dataclass, field, asdict
 
 from .image import (Image, COUNTRIES_PTR, COUNTRY_SIZE, PLAYERS_PTR, PLAYER_SIZE, N_PLAYERS, N_COUNTRIES,
-                    MANAGERS_PTR, FIXTURES_PTR, FIXTURE_SIZE, GAME_PTR, TACTICS, MANAGER, REGISTERED_BUILD,
-                    names_and_templates)
+                    MANAGERS_PTR, FIXTURES_PTR, FIXTURE_SIZE, GAME_PTR, TACTICS, MANAGER, names_and_templates)
 from .machine import Machine, GuestError, MEM_SIZE
 from . import screens as S
 
@@ -54,6 +53,7 @@ MENU_CONTEXT = {"0791:F20A": "pre_match", "0791:F331": "post_match", "0791:9AE3"
 DECIDED_AT_MENU = ("half_time", "pause", "extra_time")
 NOTICE, PROMPT, WAIT = "0791:7FCF", "0791:CC7B", "0791:CC2E"
 TICK, MATCH_PLAYED = "0791:970C", "0791:F2E3"       # the clock (E011 notes 4); F1F6 after play_match
+PLAY_MATCH = "0791:F098"       # play_match, called by F1F6 at F2E0 after the set-up and the team screen
 WAIT_FAMILY = ("000E:05F6", "000E:0572", "000E:04F5", "000E:045D")   # menu code only (E010; watched.py)
 BOOKING, SEND_OFF, INJURE = "0791:798D", "0791:7B77", "0791:7D56"   # F027, F020
 # -- match state (DS offsets) ------------------------------------------------------------------------------------
@@ -63,6 +63,11 @@ SCORE = 0x9B3C                 # the two score bytes (team 0, team 1)
 STATS = 0x7B7E                 # bytes + 10*team, in this order (0791:0106 rows; 7D56 adds injuries at + 9)
 STAT_NAMES = ("corners", "free_kicks", "penalties", "shots", "on_target", "saves", "fouls", "bookings",
               "red_cards", "injuries")
+# The event stamps: each of these is recorded at the original's own write of the byte (Machine.watch), in write
+# order: bookings +7, red cards +8, injuries +9 of STATS + 10t (798D at 7A01, 7B77 at 7B6D, 7D56 at 7DD9); the
+# score bytes (a watched goal 685C, its cancellation 68B3, the quick engine B261/D77B); the commentary ring's
+# counter DS:80EE (1D4A); the minute DS:831F (the clock 970C at 9762); substitutions left DS:9B38 + t (C5DC).
+CARD_EVENTS = (("booking", "bookings"), ("sending_off", "sendings_off"), ("injury", "injuries"))
 BARS = (0x80F2, 0x80F6)        # the board's two bar rows (0106: f_0791_006C rows 0x13, 0x14)
 SCORERS, SCORERS_SIDE = 0x7BD1, 0x21          # 0106: 0x7BD1 + 0x21*team + 3*k (word player, byte minute)
 MOTM = 0x7C3A                  # F014
@@ -118,9 +123,10 @@ class Match:
         for c in (fixture.first, fixture.second):
             if not 1 <= c <= 128:
                 raise ValueError(f"country {c} is not 1..128")
-        if image.build() != REGISTERED_BUILD:
+        problems = image.build_problems()
+        if problems:
             raise ValueError("the image does not hold the GOAL.EXE this kit was made on (the registered version, set "
-                             "goal2-a949da2f): its routines differ at the addresses the kit uses")
+                             "goal2-a949da2f); it differs in: " + "; ".join(problems))
         self.timeout_s = timeout_s
         self.m = Machine(image.memory, image.load)
         self.image_header = image.header
@@ -147,12 +153,13 @@ class Match:
         self._declare("delay calibration dword DS:A9FF", self.m.DS * 16 + DELAY_COUNT,
                       DELAY_COUNT_VALUE.to_bytes(4, "little"))
         self.st = {"phase": "run_match", "fresh": True, "over": False, "full_time": False, "minute": 0,
-                   "score": [0, 0], "stats": [0] * 20, "squads": None, "ring": 0, "scorers": [[], []],
+                   "score": [0, 0], "squads": None, "scorers": [[], []],
                    "candidates": {}, "menu_context": None, "notice": None, "answer": None, "waiting": None,
                    "poll_keys": [], "prompt": None, "pending_subs": [], "recording": False,
                    "decisions": [], "draws": [], "commentary": [], "half_time_score": None, "board": None,
-                   "ticks": 0, "kickoff_seed": None,
-                   "log": {"goals": [], "bookings": [], "sendings_off": [], "injuries": [], "substitutions": []}}
+                   "ticks": 0, "kickoff_seed": None, "live": False, "pending": [],
+                   "log": {"goals": [], "goals_disallowed": [], "bookings": [], "sendings_off": [], "injuries": [],
+                           "substitutions": []}}
         self._queue = []
         self._menu = None
         self._result = None
@@ -351,7 +358,12 @@ class Match:
     # -- running -----------------------------------------------------------------------------------------
     def _advance(self):
         fresh, self.st["fresh"] = self.st["fresh"], False
-        if self.m.run(self.end_lin, self.timeout_s, fresh=fresh) is not None:
+        stopped = self.m.run(self.end_lin, self.timeout_s, fresh=fresh)
+        # Every stop is outside the original's screens: a decision stops at a menu's first read or at the notice,
+        # before any plan; a tick and the end of a call come after the menus closed. A plan left here is done, so
+        # nothing of a screen survives into the state between events (save() relies on it).
+        self._menu = None
+        if stopped is not None:
             return
         self._flush()
         if self.st["phase"] == "run_match":
@@ -371,12 +383,20 @@ class Match:
         m.at(PROMPT, self._on_prompt)
         m.at(WAIT, self._on_wait)
         m.at(TICK, self._on_tick)
+        m.at(PLAY_MATCH, self._on_play)
         m.at(MATCH_PLAYED, self._on_played)
         m.at(MESSAGE_IF, self._on_message)
         for name in WAIT_FAMILY:
             m.at(name, lambda replay, name=name: self._fail(f"the 000E wait {name} was reached: it is menu code"))
         for name, kind in ((BOOKING, "booking"), (SEND_OFF, "sending_off"), (INJURE, "injury")):
             m.at(name, lambda replay, kind=kind: replay or self._candidate(kind))
+        ds = m.DS * 16
+        m.watch(ds + RING_NEWEST, 2, self._on_line)
+        m.watch(ds + SCORE, 2, self._on_score)
+        m.watch(ds + STATS + 7, 3, lambda old, new: self._on_cards(0, old, new))
+        m.watch(ds + STATS + 17, 3, lambda old, new: self._on_cards(1, old, new))
+        m.watch(ds + MINUTE, 2, self._on_minute)
+        m.watch(ds + S.SUBS_LEFT, 2, self._on_subs_left)
         if self.opts["record_draws"]:
             from unicorn import UC_HOOK_MEM_WRITE
             lin = m.DS * 16 + SEED
@@ -536,6 +556,7 @@ class Match:
             self.st["poll_keys"].append(S.KEY_R)
 
     def _close_plan(self, plan):
+        self._flush()                  # the substitutions this visit made come first, in the order they were made
         made = {(job[1], job[2]) for job in plan.done if job[0] == "sub"}
         self.st["pending_subs"] = [s for s in self.st["pending_subs"] if tuple(s) not in made]
         for job, why in plan.refused:
@@ -628,8 +649,14 @@ class Match:
         return S.ENTER
 
     # -- events --------------------------------------------------------------------------------------------
-    def _emit(self, kind, **data):
-        self._queue.append(Event(kind, self.st["minute"], tuple(self.st["score"]), data))
+    def _emit(self, kind, minute=None, score=None, **data):
+        """Queue an event stamped with the minute and score of the original's write it reports (the flush passes
+        them), or with the guest's minute and score now (a decision, a board, a screen's outcome)."""
+        if minute is None:
+            minute, s0, s1 = self._stamp()
+            score = [s0, s1]
+        self.st["minute"], self.st["score"] = minute, list(score)
+        self._queue.append(Event(kind, minute, tuple(score), data))
 
     def _candidate(self, kind):
         pitch = self.m.stack_word(6) * 16 + self.m.stack_word(4)      # the pitch record (far pointer argument)
@@ -647,72 +674,142 @@ class Match:
         if self._queue:
             self.m.stop("events")
 
+    def _on_play(self, replay):
+        """0791:F098 play_match: the set-up (A4A1) has reset the score, the statistics, the clock and the
+        substitutions left; from here their writes are the match's events."""
+        if not replay:
+            self.st["live"] = True
+
     def _on_played(self, replay):
         if not replay:
             self.st["full_time"] = True
+            self.st["live"] = False
 
     def _text(self):
         if self._names is None:
             self._names = names_and_templates(self.m.read, self.m.DS, self.m.far)
         return self._names
 
+    # -- the original's writes, each recorded when it happens (the event's stamp) ------------------------------
+    def _stamp(self):
+        """The guest's minute and score now: [minute, score team 0, score team 1]."""
+        m = self.m
+        return [m.rd(MINUTE), m.rd(SCORE, 1), m.rd(SCORE + 1, 1)]
+
+    def _on_line(self, old, new):
+        """1D4A increments the ring counter DS:80EE (1..200) for each line it writes (A4A1 writes 0)."""
+        n = int.from_bytes(new, "little")
+        if n and n != int.from_bytes(old, "little"):
+            self.st["pending"].append(["line"] + self._stamp() + [n])
+
+    def _on_score(self, old, new):
+        """A score byte goes up for a goal (685C watched, B261/D77B quick) and down when the original takes it
+        back in the same action (68B3: DS:830E set, no record_goal): a goal, or a goal disallowed."""
+        if not self.st["live"]:
+            return
+        minute = self.m.rd(MINUTE)
+        for t in (0, 1):
+            d = (new[t] - old[t]) & 0xFF
+            if 0 < d < 0x80:
+                for i in range(d):
+                    self.st["pending"].append(["goal", minute, new[0], new[1], t])
+            elif d:
+                for _ in range(0x100 - d):
+                    taken = [p for p in self.st["pending"] if p[0] == "goal" and p[4] == t]
+                    if taken:
+                        taken[-1][0] = "goal_disallowed"
+                        taken[-1][2:4] = [new[0], new[1]]
+                    else:
+                        self.st["pending"].append(["goal_disallowed", minute, new[0], new[1], t])
+
+    def _on_cards(self, team, old, new):
+        """Bookings, red cards and injuries of `team`: STATS + 10 team + 7, 8, 9 (798D 7A01, 7B77 7B6D, 7D56 7DD9);
+        the player is the one the routine was called for (its entry, the latest call)."""
+        if not self.st["live"]:
+            return
+        for k, (kind, _) in enumerate(CARD_EVENTS):
+            for _ in range(max(0, new[k] - old[k])):
+                cands = self.st["candidates"].get(kind) or [0]
+                self.st["pending"].append([kind] + self._stamp() + [team, cands[-1]])
+
+    def _on_minute(self, old, new):
+        """The clock 970C writes the minute DS:831F (9762 `inc`); A4A1 resets it before play_match."""
+        if self.st["live"] and new != old:
+            self.st["pending"].append(["minute", int.from_bytes(new, "little"), self.m.rd(SCORE, 1),
+                                       self.m.rd(SCORE + 1, 1)])
+
+    def _on_subs_left(self, old, new):
+        """C5DC counts a substitution down (DS:9B38 + t), for both teams' substitutions."""
+        if not self.st["live"]:
+            return
+        for t in (0, 1):
+            if new[t] < old[t]:
+                self.st["pending"].append(["substitution"] + self._stamp() + [t])
+
     def _flush(self):
-        """Turn what changed in the guest since the last flush into events."""
+        """Turn the original's writes recorded since the last flush into events, in the order it made them, each
+        stamped with the minute and score of its write; the details come from the records the writes completed
+        (the commentary line, the scorer row, the squad words)."""
         m, st = self.m, self.st
-        if st["squads"] is None:      # the first flush comes after the set-up 0791:A4A1, which cleared the ring
-            st["squads"] = [self._squad(st_c) for st_c in (self.opts["first"], self.opts["second"])]
-            st["ring"] = 0            # (DS:80EE := 0, the records := 0xFF) and the scorers and statistics
+        if st["squads"] is None:      # the first flush comes after the set-up 0791:A4A1 (ring, scorers cleared)
+            st["squads"] = [self._squad(c) for c in (self.opts["first"], self.opts["second"])]
         name, templates = self._text()
-        newest = m.rd(RING_NEWEST)
-        while st["ring"] != newest and 1 <= newest <= RING_SIZE:
-            st["ring"] = st["ring"] % RING_SIZE + 1
-            r = m.read(m.DS * 16 + RING + RING_REC * st["ring"], RING_REC)
-            p1, p2 = int.from_bytes(r[1:3], "little"), int.from_bytes(r[3:5], "little")
-            t = templates[r[0]] if r[0] < len(templates) else f"<template {r[0]}>"
-            text = " ".join(t.replace("\x01", f" {name(p1)} ").replace("\x02", f" {name(p2)} ").split())
-            st["commentary"].append({"minute": m.rd(MINUTE), "template": r[0], "players": [p1, p2], "team": r[5],
-                                     "text": text})
-            self._emit("commentary", text=text, template=r[0], team=r[5], players=[p1, p2])
-        minute = m.rd(MINUTE)
-        if minute != st["minute"]:
-            st["minute"] = minute
-            self._emit("minute")
+        rows, swaps = [], []
         for team in (0, 1):
-            rows = []
+            seen = []
             for k in range(1, 12):
                 a = m.DS * 16 + SCORERS + SCORERS_SIDE * team + 3 * k
                 w = m.word_at(a)
                 if w:
-                    rows.append([w, m.read(a + 2, 1)[0]])
-            for w, mb in rows[len(st["scorers"][team]):]:
-                st["score"][team] += 1
-                goal = {"team": team, "country": self.opts[TEAM_KEYS[team]], "player": w, "name": name(w)}
-                st["log"]["goals"].append(dict(goal, minute=minute, minute_byte=mb))
-                self._emit("goal", **goal)
-            st["scorers"][team] = rows
-        st["score"] = [m.rd(SCORE, 1), m.rd(SCORE + 1, 1)]
-        stats = list(m.read(m.DS * 16 + STATS, 20))
-        for team in (0, 1):
-            for k, kind, logname in ((7, "booking", "bookings"), (8, "sending_off", "sendings_off"),
-                                     (9, "injury", "injuries")):
-                cands = st["candidates"].get(kind, [])
-                for _ in range(max(0, stats[10 * team + k] - st["stats"][10 * team + k])):
-                    w = cands.pop(0) if cands else 0
-                    item = {"team": team, "player": w, "name": name(w)}
-                    st["log"][logname].append(dict(item, minute=minute))
-                    self._emit(kind, **item)
-        st["candidates"] = {}
-        st["stats"] = stats
-        for team in (0, 1):
+                    seen.append([w, m.read(a + 2, 1)[0]])
+            rows.append(seen[len(st["scorers"][team]):])
+            st["scorers"][team] = seen
             now = self._squad(self.opts[TEAM_KEYS[team]])
             before = st["squads"][team]
-            offs = [w for w in before[:11] if w not in now[:11]]
-            ons = [w for w in now[:11] if w not in before[:11]]
-            for off, on in zip(offs, ons):
-                item = {"team": team, "off": off, "on": on, "off_name": name(off), "on_name": name(on)}
-                st["log"]["substitutions"].append(dict(item, minute=minute))
-                self._emit("substitution", **item)
+            swaps.append(list(zip([w for w in before[:11] if w not in now[:11]],
+                                  [w for w in now[:11] if w not in before[:11]])))
             st["squads"][team] = now
+        pending, st["pending"] = st["pending"], []
+        for item in pending:
+            kind, minute, score = item[0], item[1], [item[2], item[3]]
+            if kind == "line":
+                r = m.read(m.DS * 16 + RING + RING_REC * item[4], RING_REC)
+                p1, p2 = int.from_bytes(r[1:3], "little"), int.from_bytes(r[3:5], "little")
+                t = templates[r[0]] if r[0] < len(templates) else f"<template {r[0]}>"
+                text = " ".join(t.replace("\x01", f" {name(p1)} ").replace("\x02", f" {name(p2)} ").split())
+                st["commentary"].append({"minute": minute, "template": r[0], "players": [p1, p2], "team": r[5],
+                                         "text": text})
+                self._emit("commentary", minute, score, text=text, template=r[0], team=r[5], players=[p1, p2])
+            elif kind == "minute":
+                self._emit("minute", minute, score)
+            elif kind in ("goal", "goal_disallowed"):
+                team = item[4]
+                w, mb = rows[team].pop(0) if kind == "goal" and rows[team] else (0, None)
+                goal = {"team": team, "country": self.opts[TEAM_KEYS[team]], "player": w, "name": name(w)}
+                st["log"]["goals" if kind == "goal" else "goals_disallowed"].append(dict(goal, minute=minute,
+                                                                                     minute_byte=mb))
+                self._emit(kind, minute, score, **goal)
+            elif kind == "substitution":
+                team = item[4]
+                off, on = swaps[team].pop(0) if swaps[team] else (0, 0)
+                sub = {"team": team, "off": off, "on": on, "off_name": name(off), "on_name": name(on)}
+                st["log"]["substitutions"].append(dict(sub, minute=minute))
+                self._emit("substitution", minute, score, **sub)
+            else:                                             # booking, sending_off, injury
+                team, w = item[4], item[5]
+                card = {"team": team, "player": w, "name": name(w)}
+                st["log"][dict(CARD_EVENTS)[kind]].append(dict(card, minute=minute))
+                self._emit(kind, minute, score, **card)
+        for team in (0, 1):            # never seen: a scorer row or a squad change without its counter's write
+            for w, mb in rows[team]:
+                goal = {"team": team, "country": self.opts[TEAM_KEYS[team]], "player": w, "name": name(w)}
+                st["log"]["goals"].append(dict(goal, minute=m.rd(MINUTE), minute_byte=mb))
+                self._emit("goal", **goal)
+            for off, on in swaps[team]:
+                sub = {"team": team, "off": off, "on": on, "off_name": name(off), "on_name": name(on)}
+                st["log"]["substitutions"].append(dict(sub, minute=m.rd(MINUTE)))
+                self._emit("substitution", **sub)
+        st["candidates"] = {}
 
     def _board(self):
         m = self.m

@@ -29,25 +29,51 @@ GAME_PTR = 0xA923
 TACTICS, MANAGER = 0x2D, 0x2E
 NAMES_PTR, NAME_LEN = 0x9B6C, 11            # surnames, Pascal strings of up to 10 (commentary.py, 1771:2E93)
 TEMPLATES, TEMPLATE_STRIDE, N_TEMPLATES = 0x00BE, 0x15, 67   # commentary templates (commentary.py)
-# The build the kit was made on: the first instructions of every routine it calls or hooks (and the set-up's seed
-# formula), ending before any far call so no relocated segment is included (static/goal-exe/code listings).
-BUILD_SITES = (("0791:F1F6", 9), ("0791:B7FA", 9), ("214B:08DD", 11), ("214B:0723", 10), ("0791:ED8A", 10),
-               ("0791:E44F", 10), ("1771:1981", 9), ("1771:4B61", 9), ("0791:CC7B", 9), ("0791:CC2E", 6),
-               ("0791:7FCF", 3), ("0791:9372", 11), ("0791:970C", 10), ("0791:2648", 10), ("0791:2665", 15),
-               ("0791:0106", 11), ("214B:1560", 7), ("214B:1765", 9), ("0791:798D", 9), ("0791:7B77", 9),
-               ("0791:7D56", 9))
-# Their SHA-256 in the listing of the registered GOAL.EXE (set goal2-a949da2f / goal2-67cf27d6, packed a6928b0b...;
-# experiments/E033-original-match-kit/build_digest.py), and in every image at hand (E033 notes, section 4).
-REGISTERED_BUILD = "f6750a77f8c000a7f1015b7b92f89650866815e5c576a08a744b28b4fb21a4ce"
 
 
-def build_digest(memory, load):
-    h = hashlib.sha256()
-    for address, n in BUILD_SITES:
-        seg, off = address.split(":")
-        a = (load + int(seg, 16)) * 16 + int(off, 16)
-        h.update(bytes(memory[a:a + n]))
-    return h.hexdigest()
+def _relocations():
+    from . import build
+    out, a = [], 0
+    for d in build.RELOCATION_DELTAS.split(","):
+        a += int(d, 16)
+        out.append(a)
+    return out
+
+
+def _where(offset):
+    """An image offset of the code as the listing writes it: SSSS:OOOO."""
+    from . import build
+    seg = max(s for s in build.SEGMENTS if s * 16 <= offset)
+    return f"{seg:04X}:{offset - seg * 16:04X}"
+
+
+def build_problems(memory, load):
+    """Where the image's code or the data the match reads differ from the registered GOAL.EXE (build.py, generated
+    from it): [] when nothing does. Code: all of it (image 00000..2580F), relocated words with the load segment taken
+    off. Data: the initialised data the measured matches read and never wrote (variables and goal2's state are
+    not in it: the players, countries, seeds, clock and fixtures are elsewhere or written)."""
+    from . import build
+    base = load * 16
+    code = bytearray(memory[base:base + build.CODE_SIZE])
+    if len(code) < build.CODE_SIZE:
+        return ["the image holds less memory than the program"]
+    for r in _relocations():
+        v = (code[r] | code[r + 1] << 8) - load & 0xFFFF
+        code[r], code[r + 1] = v & 0xFF, v >> 8
+    problems = []
+    for i, want in enumerate(build.CODE_SHA256):
+        a = i * build.CODE_BLOCK
+        b = min(a + build.CODE_BLOCK, build.CODE_SIZE)
+        if hashlib.sha256(code[a:b]).hexdigest() != want:
+            problems.append(f"code {_where(a)}..{_where(b - 1)}")
+    ds = (load + GOAL_DS_PARAGRAPH) * 16
+    blocks = {}
+    for start, n in build.DATA_RANGES:
+        blocks.setdefault(start // build.DATA_BLOCK, bytearray()).extend(memory[ds + start:ds + start + n])
+    for blk, want in build.DATA_SHA256.items():
+        if hashlib.sha256(bytes(blocks.get(blk, b""))).hexdigest() != want:
+            problems.append(f"data DS:{blk * build.DATA_BLOCK:04X}..{(blk + 1) * build.DATA_BLOCK - 1:04X}")
+    return problems
 
 
 def sha256(data):
@@ -148,9 +174,9 @@ class Image:
     def sha256(self):
         return sha256(self.memory_component())
 
-    def build(self):
-        """The digest of the code the kit relies on; REGISTERED_BUILD for the GOAL.EXE it was made on."""
-        return build_digest(self.memory, self.load)
+    def build_problems(self):
+        """Where this image differs from the GOAL.EXE the kit was made on ([] when it does not)."""
+        return build_problems(self.memory, self.load)
 
 
 def names_and_templates(read, ds, far):

@@ -123,6 +123,24 @@ class ImageTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             Image(bytes(MEM_BASE + 100))
 
+    def test_build_guard_data(self):
+        from original_match import build
+        from original_match.image import _relocations
+        r = _relocations()
+        self.assertEqual(len(r), 1916)                                    # the MZ header's relocations
+        self.assertEqual(r, sorted(set(r)))
+        self.assertLessEqual(max(r) + 2, build.CODE_SIZE)                 # all in the code
+        self.assertEqual(len(build.CODE_SHA256), -(-build.CODE_SIZE // build.CODE_BLOCK))
+        end = -1
+        for s, n in build.DATA_RANGES:
+            self.assertGreater(s, end)
+            self.assertEqual(s // build.DATA_BLOCK, (s + n - 1) // build.DATA_BLOCK)
+            self.assertLessEqual(s + n, 0x7B70)                           # the initialised data only
+            end = s + n - 1
+        covered = {o for s, n in build.DATA_RANGES for o in range(s, s + n)}
+        self.assertTrue({0x07CB, 0x07DB, 0x0648, 0x6BC0} <= covered)      # depth tables, occupancy set, tactics rows
+        self.assertFalse({0x7968, 0x7B62} & covered)                       # a start-up variable, the seed
+
 
 from original_match.machine import Machine  # noqa: E402  (imports without unicorn; a Machine needs it)
 try:
@@ -206,15 +224,124 @@ class OriginalTests(unittest.TestCase):
         self.assertEqual(after[0x78 + 0x110000:], before[0x78 + 0x110000:])
         self.assertNotEqual(after[:0x78 + 0x110000], before[:0x78 + 0x110000])
 
-    def test_another_build_is_refused(self):
+    def refused(self, *edits):
+        """The image with `edits` ((linear address, new bytes)) must be refused when a match is made of it."""
         from original_match import Match, Fixture
-        from original_match.image import REGISTERED_BUILD
-        self.assertEqual(self.image.build(), REGISTERED_BUILD)
         other = Image(self.image.memory_component())
-        a = (other.load + 0x791) * 16 + 0xF1F9          # run_match's `sub sp, 0xa` frame size
-        other.memory[a + 2] ^= 0x02
+        for a, raw in edits:
+            other.memory[a:a + len(raw)] = bytes(raw)
         with self.assertRaises(ValueError):
             Match(other, Fixture(7, 19, index=21), managed=7)
+
+    def code(self, address):
+        seg, off = address.split(":")
+        return (self.image.load + int(seg, 16)) * 16 + int(off, 16)
+
+    def test_another_build_is_refused(self):
+        a = self.code("0791:F1F9")                       # run_match's `sub sp, 0xa` frame size: a prefix byte
+        self.refused((a + 2, [self.image.memory[a + 2] ^ 0x02]))
+
+    def test_guard_covers_code_beyond_prefixes(self):
+        a = self.code("214B:0696")                       # the LCG multiplier (`mov bx, 0x7abd`, F004)
+        self.assertEqual(self.image.memory[a:a + 2], bytes([0xBD, 0x7A]))
+        self.refused((a, [0xBF, 0x7A]))
+        b = self.code("0791:95F3")                       # inside the watched engine 9564: `mov di, 0x82f6`
+        self.refused((b, [self.image.memory[b] ^ 0x0E]))
+
+    def test_guard_covers_data_tables(self):
+        ds = self.image.DS * 16                          # the defending depth table DS:07CB (F026)
+        self.refused((ds + 0x07CB, [self.image.memory[ds + 0x07CB] ^ 0x01]))
+
+    def test_guard_covers_relocated_words(self):
+        a = self.code("000E:6F1B")                       # `6F18 call far 0791:F1F6`: its segment word, relocated
+        w = int.from_bytes(self.image.memory[a:a + 2], "little")
+        self.refused((a, ((w + 1) & 0xFFFF).to_bytes(2, "little")))
+
+    def test_guard_leaves_goal2_state_alone(self):
+        from original_match import Match, Fixture
+        other = Image(self.image.memory_component())
+        ds = other.DS * 16
+        players, countries, game = other.far(0xA91B), other.far(0xA917), other.far(0xA923)
+        for a, raw in ((players + 20 * 121 + 0x0C, [3]), (countries + 0xBF * 7 + 0x2D, [0xFF]),
+                       (ds + 0x7B62, [1, 2]), (ds + 0x8336, [3, 4]), (game + 0x26, [40, 0])):
+            other.memory[a:a + len(raw)] = bytes(raw)
+        self.assertEqual(other.build_problems(), [])
+        Match(other, Fixture(7, 19, index=40), managed=7)
+
+    def test_save_at_full_time_and_at_a_decision(self):
+        # PR 251 review R2: every event is a boundary save() accepts; resumed = straight
+        from original_match import Match, Fixture
+
+        def play(save_at=None):
+            m = Match(self.image, Fixture(7, 19, index=21), managed=7)
+            events, i = [], 0
+            while True:
+                for ev in m.events():
+                    events.append((ev.kind, ev.minute, ev.score))
+                    if ev.kind == "decision":
+                        m.answer()
+                    if save_at and ev.kind == save_at and not getattr(m, "_reloaded", False):
+                        m = Match.load(m.save())
+                        m._reloaded = True
+                        break
+                else:
+                    return events, m.result()
+        straight, r = play()
+        for kind in ("full_time", "decision", "commentary"):
+            events, r2 = play(kind)
+            self.assertEqual(events, straight, kind)
+            self.assertEqual((r2["score"], r2["board"], r2["squads_after"]), (r["score"], r["board"], r["squads_after"]))
+
+    def test_events_are_stamped_at_the_originals_writes(self):
+        # PR 251 review R3: each line's minute and score as the guest had them when 1D4A wrote the line (the ring
+        # counter's write), each goal's at the score byte's, each minute's at the clock's: compared stamp by stamp
+        from unicorn import UC_HOOK_MEM_WRITE
+        from original_match import Match, Fixture
+        m = Match(self.image, Fixture(7, 19, index=21), managed=7, seed=0x0101)
+        ds, uc = m.m.DS * 16, m.m.uc
+        seen = {"commentary": [], "goal": [], "minute": [], "substitution": []}
+
+        def now():
+            mem = uc.mem_read(ds + 0x831F, 2)
+            score = uc.mem_read(ds + 0x9B3C, 2)
+            return [int.from_bytes(mem, "little"), score[0], score[1]]
+
+        def ring(uc_, access, address, size, value, data):
+            if address == ds + 0x80EE and value & 0xFFFF:
+                seen["commentary"].append(now())
+
+        def score(uc_, access, address, size, value, data):
+            old = uc_.mem_read(ds + 0x9B3C, 2)
+            new = bytearray(old)
+            for i in range(size):
+                if 0 <= address + i - ds - 0x9B3C < 2:
+                    new[address + i - ds - 0x9B3C] = (value >> 8 * i) & 0xFF
+            for t in (0, 1):
+                if new[t] == old[t] + 1 and len(seen["minute"]):
+                    seen["goal"].append([now()[0], new[0], new[1]])
+
+        def minute(uc_, access, address, size, value, data):
+            if address == ds + 0x831F and seen["commentary"] and (value & 0xFFFF) != now()[0]:
+                seen["minute"].append([value & 0xFFFF] + now()[1:])
+
+        def subs(uc_, access, address, size, value, data):      # substitutions left, DS:9B3A + t (C5DC at C7DC)
+            t = address - ds - 0x9B3A
+            if size == 1 and t in (0, 1) and seen["minute"] and (value & 0xFF) < uc_.mem_read(address, 1)[0]:
+                seen["substitution"].append([t] + now())
+        uc.hook_add(UC_HOOK_MEM_WRITE, ring, begin=ds + 0x80EE, end=ds + 0x80EF)
+        uc.hook_add(UC_HOOK_MEM_WRITE, score, begin=ds + 0x9B3C, end=ds + 0x9B3D)
+        uc.hook_add(UC_HOOK_MEM_WRITE, minute, begin=ds + 0x831F, end=ds + 0x8320)
+        uc.hook_add(UC_HOOK_MEM_WRITE, subs, begin=ds + 0x9B3A, end=ds + 0x9B3B)
+        got = {"commentary": [], "goal": [], "minute": [], "substitution": []}
+        for ev in m.events():
+            if ev.kind in got:
+                got[ev.kind].append(([ev.data["team"]] if ev.kind == "substitution" else []) + [ev.minute] + list(ev.score))
+            if ev.kind == "decision":
+                m.answer()
+        self.assertGreater(len(seen["commentary"]), 900)
+        self.assertGreater(len(seen["substitution"]), 2)
+        for kind in got:
+            self.assertEqual(got[kind], seen[kind], kind)
 
     def test_refused_eleven_comes_back(self):
         from original_match import Match, Fixture
