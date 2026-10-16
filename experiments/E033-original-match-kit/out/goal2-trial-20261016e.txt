@@ -1,0 +1,19 @@
+goal2 state: managed 7 eleven [121, 122, 123, 124, 125, 126, 127, 128, 129, 130, 134] tactics 0xab
+  [ 12' 1-0] goal team=0 country=7 player=128 name=Larsen
+  decision pause at 25 subs left 5
+  [ 25' 1-0] tactics byte=163
+  [ 46' 1-0] half_time 
+  decision half_time at 46 subs left 5
+  [ 46' 1-0] substitution team=0 off=128 on=133 off_name=Larsen on_name=Nielsen
+  [ 57' 1-0] substitution team=1 off=363 on=374 off_name=Taggart on_name=Morrow
+  [ 57' 1-0] substitution team=1 off=380 on=369 off_name=O'Neill on_name=Hughes
+  [ 57' 1-0] substitution team=1 off=370 on=371 off_name=Clarke on_name=Dowie
+  [ 61' 1-0] substitution team=1 off=376 on=366 off_name=Rogan on_name=Donaghy
+  [ 72' 1-1] goal team=1 country=19 player=371 name=Dowie
+  [ 73' 1-1] substitution team=1 off=365 on=375 off_name=McDonald on_name=Hill
+  [ 91' 1-1] full_time statistics={'corners': [1, 0], 'free_kicks': [0, 2], 'penalties': [0, 0], 'shots': [5, 2], 'on_target': [2, 1], 'saves': [1, 1], 'fouls': [0, 0], 'bookings': [0, 0], 'red_cards': [0, 0], 'injuries': [0, 0]} bars=[[584, 478], [1465, 1376]] man_of_the_match=130 final_score=[1, 1] screen_sha256=af6bf66da58cf4273d14f0333062229abe32535492008727e4080705dc69e8dc ticks=3960 seed=43301
+result 7 1-1 19 in 6.7 s; MOTM Laudrup
+players of the managed squad whose record changed: 18 of 20
+  e.g. player 121 energy +0xE 21 -> 32 form +0xC 11 -> 10
+squad after (the original's order): [121, 122, 133, 124, 134, 123, 125, 126, 127, 129, 130, 132, 135, 136, 128, 137, 138, 131, 139, 140]
+seeds after: 0xc4c5 0x925

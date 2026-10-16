@@ -138,7 +138,9 @@ identical to the straight run; goal2 managing country 19 (Denmark released) is o
 
 ## 6. Outputs
 
-Every file in `out/` is listed with its SHA-256 in `out/sha256-20261016.tsv` (`hashes.py`). The final runs, from
-the PR's last code commit (5ba5f3c), are the files stamped `20261016d`: tests (15 OK), check (engine, interactive,
-family: PASS), paths (12 of 12), example, goal2 trial and the check from goal2's tree (PASS), mutations (12 of 12
-killed). The earlier stamps are the runs this notes file cites above, kept.
+Every file in `out/` is listed with its SHA-256 in `out/sha256-20261016.tsv` and `out/sha256-20261016e.tsv`
+(`hashes.py`). The final runs, from the PR's last code commit (f73a916, the package importing without unicorn),
+are the files stamped `20261016e`: tests (15 OK; without unicorn 15 run, 7 skipped, where fe89a64 errored on
+import: `no-unicorn-20261016e.txt`), check (engine, interactive, family: PASS), paths (12 of 12), example, goal2
+trial and the check from goal2's tree (PASS), mutations. Stamp `d` is the same set from 5ba5f3c; the earlier stamps
+are the runs this notes file cites above, kept.
