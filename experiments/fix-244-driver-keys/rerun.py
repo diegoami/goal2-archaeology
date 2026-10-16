@@ -6,6 +6,7 @@ and the numbering restarts: these are r0001... of this folder).
     python3 experiments/fix-244-driver-keys/rerun.py E003 d0 --runs 1 --dos-time 10:00:00 --dos-date 10/04/1993 --batch fix244
     python3 experiments/fix-244-driver-keys/rerun.py E006 games --times 10:00 --batch fix244
     python3 experiments/fix-244-driver-keys/rerun.py E003 d0 ... --legacy-keys   # control: old keys, into out/rerun-legacy-keys/
+    python3 experiments/fix-244-driver-keys/rerun.py E003 d0 ... --legacy-only keys|save   # control: one part the old way
     python3 experiments/fix-244-driver-keys/rerun.py E003 d0 ... --save-key-hold 0.6   # control: slow reads, into out/rerun-save-key-hold-0.6/
 
 The experiment script is loaded unchanged and only its output folder (OUT, and E006's copy of E003's)
@@ -32,6 +33,26 @@ def main():
     exp, argv = sys.argv[1], sys.argv[2:]
     legacy = "--legacy-keys" in argv  # a control: the same script on the fixed driver with its old xdotool keys
     argv = [a for a in argv if a != "--legacy-keys"]
+    mix = None  # a control: only the game keys, or only the savestate key, the old way (the other part fixed)
+    if "--legacy-only" in argv:
+        i = argv.index("--legacy-only")
+        mix = argv[i + 1]
+        argv = argv[:i] + argv[i + 2:]
+        sys.path.insert(0, str(ROOT / "runtime" / "driver"))
+        import driver
+
+        def old_way(name):
+            orig = getattr(driver.Driver, name)
+
+            def wrapped(self, *a, **k):
+                was, self.legacy_keys = self.legacy_keys, True
+                try:
+                    return orig(self, *a, **k)
+                finally:
+                    self.legacy_keys = was
+            setattr(driver.Driver, name, wrapped)
+        for name in {"keys": ("keys",), "save": ("_hostkey", "_write_mapper")}[mix]:
+            old_way(name)
     slow = None  # a control: the fixed driver with a longer hold of the savestate key (reads as slow as the F12 chord's)
     if "--save-key-hold" in argv:
         i = argv.index("--save-key-hold")
@@ -47,7 +68,7 @@ def main():
         init = driver.Driver.__init__
         driver.Driver.__init__ = lambda self, *a, **k: init(self, *a, **{**k, "legacy_keys": True})
     mod = load(exp)
-    out = HERE / "out" / ("rerun-legacy-keys" if legacy else f"rerun-save-key-hold-{slow}" if slow else "rerun") / exp
+    out = HERE / "out" / ("rerun-legacy-keys" if legacy else f"rerun-save-key-hold-{slow}" if slow else f"rerun-legacy-only-{mix}" if mix else "rerun") / exp
     mod.OUT = out
     if hasattr(mod, "e003"):  # E006 loads E003's script for its keys and helpers
         mod.e003.OUT = out
