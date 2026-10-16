@@ -76,6 +76,11 @@ QUICK_CLEAR, QUICK_COMMIT = "0791:D77B", "0791:DA58"  # quick_match_engine D733 
 # and writes [bp-2] back at DA58: the committed goals are DA58's word minus the word D77B cleared.
 QUICK_SCRATCH = ("0791:B261", "0791:D8A5")
 REPLAY_RESTORE = "0791:0F11"   # action_replay 0C65 restores a snapshot's score (not reached by the kit's runs)
+# The only instructions whose writes make the other events, in play (E033 writer probe, PR 251 round 2: 5 matches,
+# watched, quick, cards, injury, substitutions): u214b_wrap_add_in_range 214B:1C86 (add at 1CBC, wrap at 1CF8)
+# called by write_commentary_line 0791:1D4A; 798D, 7B77, 7D56 (above); the clock 9762; C5DC at C7DC.
+WRITERS = {"line": ("214B:1CBC", "214B:1CF8"), "booking": ("0791:7A01",), "sending_off": ("0791:7B6D",),
+           "injury": ("0791:7DD9",), "minute": ("0791:9762",), "substitution": ("0791:C7DC",)}
 CARD_EVENTS = (("booking", "bookings"), ("sending_off", "sendings_off"), ("injury", "injuries"))
 BARS = (0x80F2, 0x80F6)        # the board's two bar rows (0106: f_0791_006C rows 0x13, 0x14)
 SCORERS, SCORERS_SIDE = 0x7BD1, 0x21          # 0106: 0x7BD1 + 0x21*team + 3*k (word player, byte minute)
@@ -714,7 +719,14 @@ class Match:
         """1D4A increments the ring counter DS:80EE (1..200) for each line it writes (A4A1 writes 0)."""
         n = int.from_bytes(new, "little")
         if n and n != int.from_bytes(old, "little"):
+            self._declared("the commentary ring counter DS:80EE", WRITERS["line"])
             self.st["pending"].append(["line"] + self._stamp() + [n])
+
+    def _declared(self, what, writers):
+        """A write that makes an event must come from the instruction the kit read it from (WRITERS)."""
+        pc = self.m.pc()
+        if pc not in [self.m.lin(a) for a in writers]:
+            self._fail(f"a write of {what} at {pc:05X}, not from {', '.join(writers)}: the kit does not declare it")
 
     def _on_score(self, old, new):
         """A write of the score bytes, read by the instruction that makes it (QUICK_CLEAR above): the watched goal
@@ -767,6 +779,8 @@ class Match:
         if not self.st["live"]:
             return
         for k, (kind, _) in enumerate(CARD_EVENTS):
+            if new[k] != old[k]:
+                self._declared(f"team {team}'s {kind} count", WRITERS[kind])
             for _ in range(max(0, new[k] - old[k])):
                 cands = self.st["candidates"].get(kind) or [0]
                 self.st["pending"].append([kind] + self._stamp() + [team, cands[-1]])
@@ -774,13 +788,16 @@ class Match:
     def _on_minute(self, old, new):
         """The clock 970C writes the minute DS:831F (9762 `inc`); A4A1 resets it before play_match."""
         if self.st["live"] and new != old:
+            self._declared("the minute DS:831F", WRITERS["minute"])
             self.st["pending"].append(["minute", int.from_bytes(new, "little")] + self._stamp()[1:])
 
     def _on_subs_left(self, old, new):
-        """C5DC counts a substitution down (DS:9B38 + t), for both teams' substitutions."""
+        """C5DC counts a substitution down (DS:9B3A + t, at C7DC), for both teams' substitutions."""
         if not self.st["live"]:
             return
         for t in (0, 1):
+            if new[t] != old[t]:
+                self._declared(f"team {t}'s substitutions left", WRITERS["substitution"])
             if new[t] < old[t]:
                 self.st["pending"].append(["substitution"] + self._stamp() + [t])
 

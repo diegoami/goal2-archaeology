@@ -103,7 +103,7 @@ def run(pairs, file, tests):
             (dst / file).write_text(src)
         code = CHILD.format(tmp=tmp, root=str(ROOT), tests=tests)
         try:
-            p = subprocess.run([sys.executable, "-B", "-c", code], cwd=ROOT, timeout=150, capture_output=True, text=True)
+            p = subprocess.run([sys.executable, "-B", "-c", code], cwd=ROOT, timeout=600, capture_output=True, text=True)
         except subprocess.TimeoutExpired:
             return "killed (time limit)"
         return "survived" if p.returncode == 0 else "killed"
