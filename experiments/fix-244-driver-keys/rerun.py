@@ -5,6 +5,7 @@ and the numbering restarts: these are r0001... of this folder).
 
     python3 experiments/fix-244-driver-keys/rerun.py E003 d0 --runs 1 --dos-time 10:00:00 --dos-date 10/04/1993 --batch fix244
     python3 experiments/fix-244-driver-keys/rerun.py E006 games --times 10:00 --batch fix244
+    python3 experiments/fix-244-driver-keys/rerun.py E003 d0 ... --legacy-keys   # control: old keys, into out/rerun-legacy-keys/
 
 The experiment script is loaded unchanged and only its output folder (OUT, and E006's copy of E003's)
 is replaced; its own clean-tree rule applies (commit before running)."""
@@ -28,8 +29,15 @@ def load(exp):
 
 def main():
     exp, argv = sys.argv[1], sys.argv[2:]
+    legacy = "--legacy-keys" in argv  # a control: the same script on the fixed driver with its old xdotool keys
+    argv = [a for a in argv if a != "--legacy-keys"]
+    if legacy:
+        sys.path.insert(0, str(ROOT / "runtime" / "driver"))
+        import driver
+        init = driver.Driver.__init__
+        driver.Driver.__init__ = lambda self, *a, **k: init(self, *a, **{**k, "legacy_keys": True})
     mod = load(exp)
-    out = HERE / "out" / "rerun" / exp
+    out = HERE / "out" / ("rerun-legacy-keys" if legacy else "rerun") / exp
     mod.OUT = out
     if hasattr(mod, "e003"):  # E006 loads E003's script for its keys and helpers
         mod.e003.OUT = out
