@@ -407,7 +407,7 @@ class Match:
         if self.st["over"] or self.st["full_time"]:
             raise MatchError("the match is over")
         if self.st.get("stage") == "shootout":
-            raise MatchError("the shoot-out takes no pause (its kicks poll no menu)")
+            raise MatchError("the kit takes no pause in the shoot-out (what the original's team menu does mid-kick is not checked)")
         if S.ENTER not in self.st["poll_keys"]:        # asked already: one menu
             self.st["poll_keys"].append(S.ENTER)
 

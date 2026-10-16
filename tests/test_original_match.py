@@ -508,18 +508,21 @@ class CompetitiveTests(unittest.TestCase):
         self.assertEqual(goal_problems(events, r), [])
         self.assertEqual((r["kind"], r["extra_time"], r["substitution_budget"]), (200, True, [2, 2]))
         self.assertEqual(r["board"]["final_score"], [r["score"][t] + so["score"][t] for t in (0, 1)])
-        # no pause in the shoot-out: its kicks poll no menu
+        # the kit takes no pause in the shoot-out: the `shootout` event is the one moment a client could ask (the
+        # order decision then waits, and after its answer the kicks run to the board in one stretch, as no tick
+        # comes between them)
         from original_match import Match, Fixture
         m2 = Match(self.image, Fixture(7, 19, index=42, kind=200), managed=7)
         for ev in m2.events():
             if ev.kind == "decision":
                 m2.answer()
-            if ev.kind == "shootout_kick":
-                with self.assertRaises(MatchError):
+            if ev.kind == "shootout":
+                with self.assertRaises(MatchError) as caught:
                     m2.pause()
-                refused.append(ev.minute)
+                refused.append(str(caught.exception))
                 break
         self.assertEqual(len(refused), 1)
+        self.assertIn("shoot-out", refused[0])
 
     def test_goal2s_shootout_order(self):
         # index 9, kind 200, a quick result from half time: Povlsen (131) sent off, level, and with the original's
