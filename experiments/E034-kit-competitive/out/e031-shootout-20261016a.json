@@ -1,0 +1,311 @@
+{
+ "state": "3ea57029282b849f-g1-03874-shootout-start.sav",
+ "state_sha256": "3ea57029282b849fd3114a995178f35e48c420c768f0702b9d3b7d48600dc1fc",
+ "where": {
+  "a10a_bp": 16038,
+  "run_match_bp": 16062,
+  "fixture": [
+   23988,
+   19134
+  ],
+  "kind": 8,
+  "first": 20,
+  "second": 3,
+  "managed": 20,
+  "a10a_returns_to": "0791:F17C"
+ },
+ "e031_order_screen": [
+  [
+   1,
+   "E Hedges"
+  ],
+  [
+   2,
+   "A V Tiggelen"
+  ],
+  [
+   3,
+   "B Van Aerle"
+  ],
+  [
+   4,
+   "D Bergkamp"
+  ],
+  [
+   5,
+   "W Jonk"
+  ],
+  [
+   6,
+   "W Gregory"
+  ],
+  [
+   7,
+   "F Rijkaard"
+  ],
+  [
+   8,
+   "D Nicholls"
+  ],
+  [
+   9,
+   "N Edwards"
+  ],
+  [
+   10,
+   "D Browne"
+  ]
+ ],
+ "order_answered": [
+  2614,
+  384,
+  383,
+  388,
+  395,
+  2728,
+  387,
+  2612,
+  2819,
+  2580
+ ],
+ "order_names": [
+  "Hedges",
+  "V Tiggelen",
+  "Van Aerle",
+  "Bergkamp",
+  "Jonk",
+  "Gregory",
+  "Rijkaard",
+  "Nicholls",
+  "Edwards",
+  "Browne"
+ ],
+ "e031_lines": [
+  "---- PENALTIES ----",
+  "Hedges to shoot",
+  "shot from Hedges",
+  "Preud'homm has no chance",
+  "**** GOAL **** by Hedges",
+  "Cz'atynski to shoot",
+  "shot from Cz'atynski",
+  "Scholefiel has no chance",
+  "**** GOAL **** by Cz'atynski",
+  "V Tiggelen to shoot",
+  "shot from V Tiggelen",
+  "Preud'homm has no chance",
+  "**** GOAL **** by V Tiggelen",
+  "Vandenberg to shoot",
+  "shot from Vandenberg",
+  "blocked by Scholefiel",
+  "Van Aerle to shoot",
+  "shot from Van Aerle",
+  "Preud'homm beaten",
+  "**** GOAL **** by Van Aerle",
+  "De Mol to shoot",
+  "shot from De Mol",
+  "De Mol hits the post",
+  "blocked by Scholefiel",
+  "Bergkamp to shoot",
+  "shot from Bergkamp",
+  "deflected by Preud'homm",
+  "shot from Scifo",
+  "Scifo hits the post",
+  "blocked by Scholefiel"
+ ],
+ "kit_shootout_lines": [
+  "---- PENALTIES ----",
+  "Hedges to shoot",
+  "shot from Hedges",
+  "Preud'homm has no chance",
+  "**** GOAL **** by Hedges",
+  "Cz'atynski to shoot",
+  "shot from Cz'atynski",
+  "Scholefiel has no chance",
+  "**** GOAL **** by Cz'atynski",
+  "V Tiggelen to shoot",
+  "shot from V Tiggelen",
+  "Preud'homm has no chance",
+  "**** GOAL **** by V Tiggelen",
+  "Vandenberg to shoot",
+  "shot from Vandenberg",
+  "blocked by Scholefiel",
+  "Van Aerle to shoot",
+  "shot from Van Aerle",
+  "Preud'homm beaten",
+  "**** GOAL **** by Van Aerle",
+  "De Mol to shoot",
+  "shot from De Mol",
+  "De Mol hits the post",
+  "blocked by Scholefiel",
+  "Bergkamp to shoot",
+  "shot from Bergkamp",
+  "deflected by Preud'homm",
+  "Scifo to shoot",
+  "shot from Scifo",
+  "Scifo hits the post",
+  "blocked by Scholefiel"
+ ],
+ "e031_lines_not_in_kit_order": [],
+ "takers": {
+  "e031": [
+   "Hedges",
+   "Cz'atynski",
+   "V Tiggelen",
+   "Vandenberg",
+   "Van Aerle",
+   "De Mol",
+   "Bergkamp",
+   "Scifo"
+  ],
+  "kit": [
+   "Hedges",
+   "Cz'atynski",
+   "V Tiggelen",
+   "Vandenberg",
+   "Van Aerle",
+   "De Mol",
+   "Bergkamp",
+   "Scifo"
+  ],
+  "equal": true
+ },
+ "goals": {
+  "e031": [
+   "Hedges",
+   "Cz'atynski",
+   "V Tiggelen",
+   "Van Aerle"
+  ],
+  "kit": [
+   "Hedges",
+   "Cz'atynski",
+   "V Tiggelen",
+   "Van Aerle"
+  ],
+  "equal": true
+ },
+ "kit_kicks": [
+  [
+   0,
+   "Hedges",
+   true
+  ],
+  [
+   1,
+   "Cz'atynski",
+   true
+  ],
+  [
+   0,
+   "V Tiggelen",
+   true
+  ],
+  [
+   1,
+   "Vandenberg",
+   false
+  ],
+  [
+   0,
+   "Van Aerle",
+   true
+  ],
+  [
+   1,
+   "De Mol",
+   false
+  ],
+  [
+   0,
+   "Bergkamp",
+   false
+  ],
+  [
+   1,
+   "Scifo",
+   false
+  ]
+ ],
+ "kit_result": {
+  "score": [
+   2,
+   2
+  ],
+  "winner": 0,
+  "kind": 8,
+  "extra_time": false,
+  "shootout": {
+   "score": [
+    3,
+    1
+   ],
+   "kicks": [
+    {
+     "team": 0,
+     "player": 2614,
+     "name": "Hedges",
+     "scored": true,
+     "round": 1
+    },
+    {
+     "team": 1,
+     "player": 51,
+     "name": "Cz'atynski",
+     "scored": true,
+     "round": 1
+    },
+    {
+     "team": 0,
+     "player": 384,
+     "name": "V Tiggelen",
+     "scored": true,
+     "round": 2
+    },
+    {
+     "team": 1,
+     "player": 56,
+     "name": "Vandenberg",
+     "scored": false,
+     "round": 2
+    },
+    {
+     "team": 0,
+     "player": 383,
+     "name": "Van Aerle",
+     "scored": true,
+     "round": 3
+    },
+    {
+     "team": 1,
+     "player": 54,
+     "name": "De Mol",
+     "scored": false,
+     "round": 3
+    },
+    {
+     "team": 0,
+     "player": 388,
+     "name": "Bergkamp",
+     "scored": false,
+     "round": 4
+    },
+    {
+     "team": 1,
+     "player": 49,
+     "name": "Scifo",
+     "scored": false,
+     "round": 4
+    }
+   ]
+  }
+ },
+ "events": {
+  "commentary": 31,
+  "decision": 1,
+  "end": 1,
+  "full_time": 1,
+  "shootout": 1,
+  "shootout_kick": 8
+ },
+ "pass": true
+}

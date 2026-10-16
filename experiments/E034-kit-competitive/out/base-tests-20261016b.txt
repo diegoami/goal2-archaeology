@@ -1,0 +1,108 @@
+test_competitive_stream_is_in_the_originals_write_order (tests.test_original_match.CompetitiveTests.test_competitive_stream_is_in_the_originals_write_order) ... ERROR
+test_consequences_of_a_sending_off (tests.test_original_match.CompetitiveTests.test_consequences_of_a_sending_off) ... ERROR
+test_extra_time_goal_marked (tests.test_original_match.CompetitiveTests.test_extra_time_goal_marked) ... ERROR
+test_goal2s_shootout_order (tests.test_original_match.CompetitiveTests.test_goal2s_shootout_order) ... ERROR
+test_kinds_and_budget_arguments (tests.test_original_match.CompetitiveTests.test_kinds_and_budget_arguments) ... ERROR
+test_penalties_after_extra_time (tests.test_original_match.CompetitiveTests.test_penalties_after_extra_time) ... ERROR
+test_qualifier (tests.test_original_match.CompetitiveTests.test_qualifier) ... ERROR
+test_substitution_budget_is_settable_per_side (tests.test_original_match.CompetitiveTests.test_substitution_budget_is_settable_per_side) ... ERROR
+
+======================================================================
+ERROR: test_competitive_stream_is_in_the_originals_write_order (tests.test_original_match.CompetitiveTests.test_competitive_stream_is_in_the_originals_write_order)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a201dbae2d1b2d34a/tests/test_original_match.py", line 612, in test_competitive_stream_is_in_the_originals_write_order
+    want, got, r = E034.run(original_match, self.image, index=9, kind=200, policy=E034.quick_at_half_time)
+                   ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a201dbae2d1b2d34a/experiments/E034-kit-competitive/stamps_competitive.py", line 133, in run
+    m = kit.Match(img, kit.Fixture(7, 19, index=index, kind=kind), managed=managed, substitutions=budget)
+TypeError: Match.__init__() got an unexpected keyword argument 'substitutions'
+
+======================================================================
+ERROR: test_consequences_of_a_sending_off (tests.test_original_match.CompetitiveTests.test_consequences_of_a_sending_off)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a201dbae2d1b2d34a/tests/test_original_match.py", line 623, in test_consequences_of_a_sending_off
+    m = Match(self.image, Fixture(7, 19, index=40, kind=200), managed=7, seed=1)
+  File "/tmp/tmpnch5f2lu/runtime/original_match/match.py", line 135, in __init__
+    raise ValueError("only friendlies (kind 1) are supported")
+ValueError: only friendlies (kind 1) are supported
+
+======================================================================
+ERROR: test_extra_time_goal_marked (tests.test_original_match.CompetitiveTests.test_extra_time_goal_marked)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a201dbae2d1b2d34a/tests/test_original_match.py", line 597, in test_extra_time_goal_marked
+    m, events = knockout_events(self.image, 30, lambda m, ev: m.answer())
+                ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a201dbae2d1b2d34a/tests/test_original_match.py", line 454, in knockout_events
+    m = Match(image, Fixture(7, 19, index=index, kind=200), managed=7, **kw)
+  File "/tmp/tmpnch5f2lu/runtime/original_match/match.py", line 135, in __init__
+    raise ValueError("only friendlies (kind 1) are supported")
+ValueError: only friendlies (kind 1) are supported
+
+======================================================================
+ERROR: test_goal2s_shootout_order (tests.test_original_match.CompetitiveTests.test_goal2s_shootout_order)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a201dbae2d1b2d34a/tests/test_original_match.py", line 562, in test_goal2s_shootout_order
+    order, ours = run(lambda avail: list(reversed(avail)))
+                  ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a201dbae2d1b2d34a/tests/test_original_match.py", line 552, in run
+    m, events = knockout_events(self.image, 9, policy)
+                ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a201dbae2d1b2d34a/tests/test_original_match.py", line 454, in knockout_events
+    m = Match(image, Fixture(7, 19, index=index, kind=200), managed=7, **kw)
+  File "/tmp/tmpnch5f2lu/runtime/original_match/match.py", line 135, in __init__
+    raise ValueError("only friendlies (kind 1) are supported")
+ValueError: only friendlies (kind 1) are supported
+
+======================================================================
+ERROR: test_kinds_and_budget_arguments (tests.test_original_match.CompetitiveTests.test_kinds_and_budget_arguments)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a201dbae2d1b2d34a/tests/test_original_match.py", line 478, in test_kinds_and_budget_arguments
+    Match(self.image, Fixture(7, 19, index=21, kind=200), managed=7, substitutions=budget)
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: Match.__init__() got an unexpected keyword argument 'substitutions'
+
+======================================================================
+ERROR: test_penalties_after_extra_time (tests.test_original_match.CompetitiveTests.test_penalties_after_extra_time)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a201dbae2d1b2d34a/tests/test_original_match.py", line 490, in test_penalties_after_extra_time
+    m, events = knockout_events(self.image, 42, policy)
+                ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a201dbae2d1b2d34a/tests/test_original_match.py", line 454, in knockout_events
+    m = Match(image, Fixture(7, 19, index=index, kind=200), managed=7, **kw)
+  File "/tmp/tmpnch5f2lu/runtime/original_match/match.py", line 135, in __init__
+    raise ValueError("only friendlies (kind 1) are supported")
+ValueError: only friendlies (kind 1) are supported
+
+======================================================================
+ERROR: test_qualifier (tests.test_original_match.CompetitiveTests.test_qualifier)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a201dbae2d1b2d34a/tests/test_original_match.py", line 641, in test_qualifier
+    m = Match(self.image, Fixture(7, 19, index=21, kind=2), managed=7)
+  File "/tmp/tmpnch5f2lu/runtime/original_match/match.py", line 135, in __init__
+    raise ValueError("only friendlies (kind 1) are supported")
+ValueError: only friendlies (kind 1) are supported
+
+======================================================================
+ERROR: test_substitution_budget_is_settable_per_side (tests.test_original_match.CompetitiveTests.test_substitution_budget_is_settable_per_side)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a201dbae2d1b2d34a/tests/test_original_match.py", line 585, in test_substitution_budget_is_settable_per_side
+    m, events = knockout_events(self.image, 30, policy, substitutions=(5, 0))
+                ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a201dbae2d1b2d34a/tests/test_original_match.py", line 454, in knockout_events
+    m = Match(image, Fixture(7, 19, index=index, kind=200), managed=7, **kw)
+TypeError: Match.__init__() got an unexpected keyword argument 'substitutions'
+
+----------------------------------------------------------------------
+Ran 8 tests in 0.046s
+
+FAILED (errors=8)
+kit from /tmp/tmpnch5f2lu/runtime/original_match/__init__.py
+failures 0 errors 8 run 8

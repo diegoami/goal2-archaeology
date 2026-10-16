@@ -22,6 +22,9 @@ SUB = T + "OriginalTests.test_half_time_substitution"
 REFUSED = T + "OriginalTests.test_refused_eleven_comes_back"
 GOALS = T + "OriginalTests.test_goal_records_agree_with_the_board_in_every_path"
 ORDER = T + "OriginalTests.test_event_stream_is_in_the_originals_write_order"
+C = T + "CompetitiveTests."
+PENALTIES, ORDER_SO, BUDGET = (C + "test_penalties_after_extra_time", C + "test_goal2s_shootout_order",
+                               C + "test_substitution_budget_is_settable_per_side")
 
 # (name, file, [(old, new)], tests that must fail)
 MUTATIONS = [
@@ -76,6 +79,55 @@ MUTATIONS = [
     ("a take-back rewrites the goal it cancels in place (not queued at its own write)", "match.py",
      [('taken[-1][5] = True\n                st["pending"].append(["goal_disallowed", minute, new[0], new[1], t])',
        'taken[-1][0] = "goal_disallowed"\n                taken[-1][2:4] = [new[0], new[1]]')], [ORDER]),
+    # issue 252: competitive fixtures (extra time, the shoot-out, the budget)
+    ("extra time's clock write (9B15) not declared", "match.py",
+     [("if self.m.pc() == self.m.lin(EXTRA_TIME_CLOCK):", "if False:")], [PENALTIES]),
+    ("a shoot-out goal taken as a match goal", "match.py",
+     [('if st.get("stage") == "shootout":\n                kick = st["kick"]',
+       'if False:\n                kick = st["kick"]')], [PENALTIES]),
+    ("a kick that went in not marked (emitted again at its return)", "match.py",
+     [('                kick["scored"] = True\n', "")], [PENALTIES]),
+    ("the kicking side taken as team 0", "match.py",
+     [("side = self._so_byte(bp, SO_SIDE)", "side = 0")], [PENALTIES]),
+    ("the shoot-out's score counts the 120 minutes' goals too", "match.py",
+     [('out["shootout"] = {"score": [final[t] - st["score_120"][t] for t in (0, 1)]',
+       'out["shootout"] = {"score": list(final)')], [ORDER_SO]),
+    ("goal2's order: the highlight aimed one slot too high", "match.py",
+     [('target = self._squad(self.opts["managed"]).index(want[0]) + 1',
+       'target = self._squad(self.opts["managed"]).index(want[0]) + 2')], [ORDER_SO]),
+    ("goal2's order never asked (the original's Enter for every pick)", "match.py",
+     [('            if st["answer"] is None:\n                squad = self._squad(self.opts["managed"])',
+       '            if False:\n                squad = self._squad(self.opts["managed"])')], [ORDER_SO]),
+    ("the full-time board's event only at a key read (lost under 9B93's pushed-back key)", "match.py",
+     [("        if site == SITE_BOARD:\n            self._on_board()",
+       "        if site == SITE_BOARD and not m.rd(PUSHED_BACK, 1):\n            self._on_board()")], [PENALTIES]),
+    ("a pause taken in the shoot-out", "match.py",
+     [('if self.st.get("stage") == "shootout":\n            raise MatchError', 'if False:\n            raise MatchError')],
+     [PENALTIES]),
+    ("goal2's budget not written", "match.py",
+     [('self._declare("substitution budget DS:9B3A', 'None and self._declare("substitution budget DS:9B3A')], [BUDGET]),
+    ("an extra-time goal not marked", "match.py",
+     [('return {"extra_time": True} if self.st.get("stage") == "extra_time" else {}', "return {}")],
+     [C + "test_extra_time_goal_marked"]),
+    ("the competition table's read after a qualifier undeclared", "match.py",
+     [('if caller in TABLE_READS and st["full_time"]:', "if False:")], [C + "test_qualifier"]),
+    ("a missed kick emitted before the lines its kick wrote", "match.py",
+     [("""        self._flush()                  # a goal's kick is emitted here, at its write's place in the order
+        if not kick["scored"]:
+            minute, s0, s1 = self._stamp()
+            self._emit_kick(minute, [s0, s1])""",
+       """        if not kick["scored"]:
+            minute, s0, s1 = self._stamp()
+            self._emit_kick(minute, [s0, s1])
+        self._flush()""")], [C + "test_competitive_stream_is_in_the_originals_write_order"]),
+    ("a ban read at the wrong status bit", "match.py",
+     [("SUSPENDED, SENT_OFF, CARRIED_BOOKING, SUBSTITUTED_OFF = 0x80,", "SUSPENDED, SENT_OFF, CARRIED_BOOKING, SUBSTITUTED_OFF = 0x20,")],
+     [C + "test_consequences_of_a_sending_off"]),
+    ("the players' bytes 'before' read after the match", "match.py",
+     [('before = st.get("players_before") or {}', 'before = self._players_now([self.opts["first"], self.opts["second"]])')],
+     [C + "test_consequences_of_a_sending_off"]),
+    ("kind 4 accepted (a decider no builder writes)", "match.py",
+     [("KINDS = (1, 2, 3, 5, 6, 7, 8,", "KINDS = (1, 2, 3, 4, 5, 6, 7, 8,")], [C + "test_kinds_and_budget_arguments"]),
 ]
 
 CHILD = """

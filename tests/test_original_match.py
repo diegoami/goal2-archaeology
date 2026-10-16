@@ -10,6 +10,12 @@
   it), every line the original writes is one commentary event, a half-time substitution made through the
   original's screens (and the memory given back at the image's own size), an image of another build refused, and
   an eleven the original refuses handed back as a decision with the original's message.
+- CompetitiveTests (issue 252; same skip): the kinds accepted and refused; a World Cup knockout match (kind 200)
+  level after 90 and 120 minutes: extra time's event and its two decisions, the shoot-out, its kicks, its score and
+  the winner, the full-time board after it, no pause in it; goal2's shoot-out order taken, kick by kick and past the
+  eleventh kick of a side (the takers' rotation); the substitution budget set per side (5 made where the original
+  allows 2, none for a side given 0); an extra-time goal marked as such; a ban after a sending off in the result's
+  players; a qualifier (kind 2) with its competition table.
 """
 import hashlib
 import sys
@@ -441,6 +447,211 @@ class OriginalTests(unittest.TestCase):
                     m.answer(substitutions=[(130, 132)])     # the reserve keeper: two keepers
         self.assertEqual(refusals, ["Denmark has too many goalkeepers"])
         self.assertTrue(m.over)
+
+
+def knockout_events(image, index, policy, **kw):
+    from original_match import Match, Fixture
+    m = Match(image, Fixture(7, 19, index=index, kind=200), managed=7, **kw)
+    events = []
+    for ev in m.events():
+        events.append(ev)
+        if ev.kind == "decision":
+            policy(m, ev)
+    return m, events
+
+
+@unittest.skipIf(Machine is None or not IMAGE.is_file(), "unicorn or the E006-r0001 image (.cache/dl) missing")
+class CompetitiveTests(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        data = IMAGE.read_bytes()
+        assert hashlib.sha256(data).hexdigest() == IMAGE_SHA
+        cls.image = Image.from_savestate(data)
+
+    def test_kinds_and_budget_arguments(self):
+        from original_match import Match, Fixture
+        for kind in (0, 4, 9, 204):          # 4 is a decider no builder writes (F023 section 9); 9, 204: none
+            with self.assertRaises(ValueError):
+                Match(self.image, Fixture(7, 19, index=21, kind=kind), managed=7)
+        for budget in (256, -1, (5,), (1, 2, 3), "5"):
+            with self.assertRaises(ValueError):
+                Match(self.image, Fixture(7, 19, index=21, kind=200), managed=7, substitutions=budget)
+
+    def test_penalties_after_extra_time(self):
+        # index 42, kind 200, every decision played on: 0-0 after 90 and 120 minutes, 3-2 on penalties in sudden
+        # death (12 kicks; E034 probe-kinds-20261016d, stamps-competitive-20261016a)
+        from original_match import MatchError
+        from original_match.check import goal_problems
+        refused = []
+
+        def policy(m, ev):
+            m.answer()
+
+        m, events = knockout_events(self.image, 42, policy)
+        r = m.result()
+        kinds = [e.kind for e in events]
+        self.assertEqual(kinds.count("extra_time"), 1)
+        et = events[kinds.index("extra_time")]
+        self.assertEqual((et.minute, list(et.score)), (89, r["score_90"]))
+        self.assertEqual(r["score_90"][0], r["score_90"][1])
+        halves = [e.data["half"] for e in events if e.kind == "decision" and e.data["context"] == "extra_time"]
+        self.assertEqual(halves, [1, 2])
+        self.assertEqual(kinds.count("shootout"), 1)
+        self.assertLess(kinds.index("shootout"), kinds.index("full_time"))      # the board after the shoot-out
+        so = r["shootout"]
+        kicks = [e.data for e in events if e.kind == "shootout_kick"]
+        self.assertEqual(len(kicks), len(so["kicks"]))
+        self.assertGreater(len(kicks), 10)                                        # sudden death
+        self.assertEqual(so["score"], [sum(k["scored"] for k in kicks if k["team"] == t) for t in (0, 1)])
+        self.assertEqual(r["winner"], 0 if so["score"][0] > so["score"][1] else 1)
+        self.assertEqual([k["team"] for k in kicks[:2]], [1 - kicks[1]["team"], kicks[1]["team"]])   # alternate
+        self.assertEqual(goal_problems(events, r), [])
+        self.assertEqual((r["kind"], r["extra_time"], r["substitution_budget"]), (200, True, [2, 2]))
+        self.assertEqual(r["board"]["final_score"], [r["score"][t] + so["score"][t] for t in (0, 1)])
+        # the kit takes no pause in the shoot-out: the `shootout` event is the one moment a client could ask (the
+        # order decision then waits, and after its answer the kicks run to the board in one stretch, as no tick
+        # comes between them)
+        from original_match import Match, Fixture
+        m2 = Match(self.image, Fixture(7, 19, index=42, kind=200), managed=7)
+        for ev in m2.events():
+            if ev.kind == "decision":
+                m2.answer()
+            if ev.kind == "shootout":
+                with self.assertRaises(MatchError) as caught:
+                    m2.pause()
+                refused.append(str(caught.exception))
+                break
+        self.assertEqual(len(refused), 1)
+        self.assertIn("shoot-out", refused[0])
+
+    def test_goal2s_shootout_order(self):
+        # index 9, kind 200, a quick result from half time: Povlsen (131) sent off, level, and with the original's
+        # order (Enter: the eleven from the top) 24 kicks (E034 probe-kinds-20261016e). goal2's order, the available
+        # reversed, is refused when invalid and then taken kick by kick; with the default order the takers come
+        # round again after the tenth (the eleventh entry is empty after the sending off: A006 skips it).
+        def run(order_of):
+            orders = []
+
+            def policy(m, ev):
+                d = ev.data
+                if d["context"] == "half_time":
+                    m.answer(quick=True)
+                elif d["context"] == "shootout_order":
+                    self.assertEqual((d["takers"], len(d["available"])), (10, 10))
+                    self.assertNotIn(131, d["available"])
+                    with self.assertRaises(ValueError):
+                        m.answer(shootout_order=[d["bench"][0]])                 # not one of the eleven
+                    with self.assertRaises(ValueError):
+                        m.answer(shootout_order=[131])                           # sent off
+                    with self.assertRaises(ValueError):
+                        m.answer(shootout_order=[d["available"][0]] * 2)         # twice
+                    with self.assertRaises(ValueError):
+                        m.answer(shootout_order=d["available"][:1], tactics={4: True})
+                    orders.append(order_of(d["available"]))
+                    m.answer(shootout_order=orders[0])
+                else:
+                    m.answer()
+
+            m, events = knockout_events(self.image, 9, policy)
+            ours = [e.data for e in events if e.kind == "shootout_kick" and e.data["team"] == 0]
+            self.assertEqual([k["round"] for k in ours], list(range(1, len(ours) + 1)))
+            r = m.result()                      # 1-1 after 120 minutes: the board's bytes hold both
+            kicks = [sum(e.data["scored"] for e in events if e.kind == "shootout_kick" and e.data["team"] == t)
+                     for t in (0, 1)]
+            self.assertEqual((r["score"], r["shootout"]["score"]), ([1, 1], kicks))
+            self.assertEqual(r["board"]["final_score"], [1 + kicks[0], 1 + kicks[1]])
+            return orders[0], [k["player"] for k in ours]
+
+        order, ours = run(lambda avail: list(reversed(avail)))
+        self.assertGreaterEqual(len(ours), 5)
+        self.assertEqual(ours, order[:len(ours)])
+        order, ours = run(lambda avail: [])                             # the original's: Enter from the top
+        self.assertGreater(len(ours), 10)
+        self.assertEqual(ours, [121, 122, 123, 124, 125, 126, 127, 128, 129, 130, 121, 122][:len(ours)])
+
+    def test_substitution_budget_is_settable_per_side(self):
+        # goal2's own rule is its choice (the owner, 2026-10-15): here 5 for goal2's side, where the original allows 2
+        # in a competitive fixture, and 0 for the computer's, whose rule (8062) then makes none
+        made = []
+
+        def policy(m, ev):
+            d = ev.data
+            if d["context"] == "half_time" and not made:
+                self.assertEqual(d["substitutions_left"], 5)
+                pos = dict(d["positions"])
+                subs = [(off, on) for off, on in zip(d["eleven"][8:11], [w for w in d["bench"] if w and pos[w] != 0])]
+                made.extend(subs)
+                m.answer(substitutions=subs, quick=True)
+            else:
+                m.answer()
+
+        m, events = knockout_events(self.image, 30, policy, substitutions=(5, 0))
+        r = m.result()
+        self.assertEqual(r["substitution_budget"], [5, 0])
+        self.assertEqual(len(made), 3)
+        self.assertEqual([(s["off"], s["on"]) for s in r["substitutions"] if s["team"] == 0][:3], made)
+        self.assertEqual([s for s in r["substitutions"] if s["team"] == 1], [])
+        defaults = knockout_events(self.image, 30, lambda m, ev: m.answer(quick=True) if ev.data["context"] == "half_time"
+                                   else m.answer())[0].result()
+        self.assertEqual(defaults["substitution_budget"], [2, 2])
+
+    def test_extra_time_goal_marked(self):
+        # index 30, kind 200, played on: 2-2 after 90 minutes, 3-2 after extra time (probe-kinds-20261016d)
+        m, events = knockout_events(self.image, 30, lambda m, ev: m.answer())
+        r = m.result()
+        self.assertEqual((r["score_90"], r["score"], r["shootout"]), ([2, 2], [3, 2], None))
+        start = [e.kind for e in events].index("extra_time")
+        late = [e for e in events[start:] if e.kind == "goal"]
+        self.assertEqual(len(late), 1)
+        self.assertEqual([bool(g.get("extra_time")) for g in r["goals"]], [False] * 4 + [True])
+        self.assertEqual(r["winner"], 0)
+
+    def test_competitive_stream_is_in_the_originals_write_order(self):
+        # E034 stamps_competitive.py's own hooks (E033's, plus extra time at 9B15, the shoot-out at A10A, a kick's
+        # end at A1EF with its side from DS:8319): index 9 as a quick result from half time, 24 kicks
+        sys.path.insert(0, str(ROOT / "experiments" / "E034-kit-competitive"))
+        import stamps_competitive as E034
+        import original_match
+        want, got, r = E034.run(original_match, self.image, index=9, kind=200, policy=E034.quick_at_half_time)
+        kinds = [o[0] for o in want["order"]]
+        self.assertEqual((kinds.count("extra_time"), kinds.count("shootout"), kinds.count("shootout_kick")), (1, 1, 24))
+        self.assertEqual(len(r["shootout"]["kicks"]), 24)
+        self.assertEqual(got, want)
+
+    def test_consequences_of_a_sending_off(self):
+        # seed 1 at calendar number 40, kind 200: Povlsen (131) is sent off at 15' (E034 probe-kinds-20261016b); the
+        # post-match update B7FA turns the red card into a ban for the next fixture (B27F: element 6 -> element 8,
+        # status 0x80, F027 section 2), which result()["players"] reports with the before and after bytes
+        from original_match import Match, Fixture
+        m = Match(self.image, Fixture(7, 19, index=40, kind=200), managed=7, seed=1)
+        for ev in m.events():
+            if ev.kind == "decision":
+                m.answer()
+        r = m.result()
+        self.assertEqual([(s["team"], s["player"], s["minute"]) for s in r["sendings_off"]], [(0, 131, 15)])
+        p = {q["player"]: q for q in r["players"]}
+        self.assertEqual((p[131]["status"], p[131]["suspended"]), ([0, 0x80], True))
+        self.assertEqual([w for w, q in p.items() if q["suspended"]], [131])
+        self.assertEqual(len(p), 40)
+        for q in p.values():
+            self.assertEqual(len(q["confidence"]) + len(q["energy"]), 4)
+            self.assertEqual(q["injured"], q["energy"][1] == 0)
+
+    def test_qualifier(self):
+        # kind 2 (a group match): not a decider, so no extra time even when level; the budget is 2; after it
+        # run_match shows the competition's table (E929 -> 1771:958D), answered with one key
+        from original_match import Match, Fixture
+        m = Match(self.image, Fixture(7, 19, index=21, kind=2), managed=7)
+        events = []
+        for ev in m.events():
+            events.append(ev)
+            if ev.kind == "decision":
+                m.answer()
+        r = m.result()
+        self.assertEqual((r["kind"], r["substitution_budget"], r["extra_time"], r["shootout"]), (2, [2, 2], False, None))
+        self.assertFalse(any(e.kind in ("extra_time", "shootout", "shootout_kick") for e in events))
+        self.assertEqual(r["winner"], 2 if r["score"][0] == r["score"][1] else int(r["score"][0] < r["score"][1]))
+        self.assertEqual({p["team"] for p in r["players"]}, {0, 1})
 
 
 if __name__ == "__main__":

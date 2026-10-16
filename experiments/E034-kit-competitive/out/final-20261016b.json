@@ -1,0 +1,56 @@
+{
+ "commit": "d25060c9711e3bc192f9da6b0aed6af94bbc822e",
+ "dirty": "?? experiments/E034-kit-competitive/out/final-runs-20261016b.log",
+ "stamp": "20261016b",
+ "runs": [
+  {
+   "name": "tests",
+   "output": "tests-20261016b.txt",
+   "command": "/usr/bin/python3 -B -m unittest tests.test_original_match",
+   "exit": 0,
+   "wall_s": 240.2
+  },
+  {
+   "name": "base-tests",
+   "output": "base-tests-20261016b.txt",
+   "command": "/usr/bin/python3 -B -c \nimport sys, unittest\nsys.path.insert(0, '/tmp/tmpnch5f2lu/runtime')\nimport original_match\nassert original_match.__file__.startswith('/tmp/tmpnch5f2lu/runtime'), original_match.__file__\nprint(\"kit from\", original_match.__file__)\nsys.path.insert(1, '/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a201dbae2d1b2d34a')\nsuite = unittest.defaultTestLoader.loadTestsFromNames([\"tests.test_original_match.CompetitiveTests\"])\nr = unittest.TextTestRunner(verbosity=2).run(suite)\nprint(\"failures\", len(r.failures), \"errors\", len(r.errors), \"run\", r.testsRun)\nsys.exit(0 if not r.wasSuccessful() and len(r.failures) + len(r.errors) == r.testsRun else 1)\n",
+   "exit": 0,
+   "wall_s": 0.1
+  },
+  {
+   "name": "check",
+   "output": "check-20261016b.txt",
+   "command": "/usr/bin/python3 -B -m original_match.check --cache .cache --json /home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a201dbae2d1b2d34a/experiments/E034-kit-competitive/out/check-20261016b.json",
+   "exit": 0,
+   "wall_s": 81.9
+  },
+  {
+   "name": "e031-shootout",
+   "output": "e031-shootout-20261016b.txt",
+   "command": "/usr/bin/python3 -B experiments/E034-kit-competitive/e031_shootout.py --out /home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a201dbae2d1b2d34a/experiments/E034-kit-competitive/out/e031-shootout-20261016b.json",
+   "exit": 0,
+   "wall_s": 7.7
+  },
+  {
+   "name": "stamps",
+   "output": "stamps-competitive-20261016b.txt",
+   "command": "/usr/bin/python3 -B experiments/E034-kit-competitive/stamps_competitive.py --log /home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a201dbae2d1b2d34a/experiments/E034-kit-competitive/out/stamps-competitive-20261016b.jsonl",
+   "exit": 0,
+   "wall_s": 82.8
+  },
+  {
+   "name": "save-boundaries",
+   "output": "save-boundaries-competitive-20261016b.txt",
+   "command": "/usr/bin/python3 -B experiments/E034-kit-competitive/save_boundaries_competitive.py --log /home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a201dbae2d1b2d34a/experiments/E034-kit-competitive/out/save-boundaries-competitive-20261016b.jsonl",
+   "exit": 0,
+   "wall_s": 297.4
+  },
+  {
+   "name": "mutations",
+   "output": "mutations-20261016b.txt",
+   "command": "/usr/bin/python3 -B tests/mutations_original_match.py",
+   "exit": 1,
+   "wall_s": 538.3
+  }
+ ]
+}
