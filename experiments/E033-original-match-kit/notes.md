@@ -173,3 +173,8 @@ are the runs this notes file cites above, kept.
   12; stamps 17 of 17 (the cross-kind `order` included); save boundaries 7 of 7; example; the two new tests fail on
   8664eed and stamps.py `--quick` fails there on 4 of 9 scenarios (the take-back and the three quick results); mutations 20 of
   20; links; hashes in `out/sha256-20261016h.tsv`.
+- The probes above, rerun from 4d60a5a into tracked files: `score_writers.py` (`out/score-writers-20261016h.txt`, and
+  on 8664eed `out/score-writers-at-8664eed-20261016h.txt`: 162 goals, 173 take-backs), `writers.py`
+  (`out/writers-20261016h.txt`; the ring writers print as linear 2B39C and 2B3D8, 214B:1CBC and 1CF8 at the load
+  segment 0x823; no team-1 card was written in those five runs: the same three routines write both teams' rows) and
+  `goal_counts.py` (`out/goal-counts-20261016h.txt`); hashes in `out/sha256-20261016h-probes.tsv`.
