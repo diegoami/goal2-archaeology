@@ -43,13 +43,14 @@ does not run the guard again: a saved match carries its own memory.
 
 ## Know it works
 
-    python3 -m goal2.engine.original_match.check --cache .cache            # about 30 s
+    python3 -m goal2.engine.original_match.check --cache .cache            # about 45 s
     python3 -m goal2.engine.original_match.check --cache .cache --family   # + about 110 s
 
 `engine PASS`: E011-r0001's friendly replayed from the image is the match E021 recorded from the original's own
 DOSBox-X run (score, 4,149 ticks, all 182,188 RNG draws by digest, the board, the last 199 commentary lines).
 `interactive PASS`: the worked example below, played straight and saved/resumed at minute 60, is the same match
-and the one this kit recorded. `family PASS`: E032's ten seeds are E032's records.
+and the one this kit recorded. `goals PASS`: a quick result from minute 30 and seed 70's match with a goal taken
+back have consistent goals (see Goals below). `family PASS`: E032's ten seeds are E032's records.
 
 ## Play a match
 
@@ -75,7 +76,7 @@ for ev in m.events():                                     # events as they happe
             m.answer()                                    # play on
     if want_to_stop:
         blob = m.save(); break                            # at any event; Match.load(blob) continues it exactly
-result = m.result()          # score, goals, bookings, injuries, substitutions, board, commentary, decisions
+result = m.result()          # score, goals (goals_disallowed, goal_counts), bookings, injuries, substitutions, board, ...
 after = m.memory_component() # the memory after the match and its post-match update: goal2's next state
 next_state = from_savestate(_rewrite_zip(template_bytes, {"Memory": zlib.compress(after)}))
 ```
@@ -98,27 +99,46 @@ and `.countries` as they are, without the squad order and tactics `to_savestate`
 image (a pause, a half-time substitution, a save and resume at minute 60; about 9 s).
 
 **Events**: `minute`, `commentary` (the original's line, with its template and players), `goal`,
-`goal_disallowed` (a goal the original takes back in the same action), `booking`, `sending_off`, `injury`,
-`substitution` (both teams), `half_time`, `full_time` (the board's statistics), `decision`, `tactics`, `position`,
-`player_tactics`, `substitution_requested`, `refused`, `end`; `tick` too with `Match(..., ticks=True)`.
+`goal_disallowed` (the original takes back a goal it just wrote, in the same action), `booking`, `sending_off`,
+`injury`, `substitution` (both teams), `half_time`, `full_time` (the board's statistics), `decision`, `tactics`,
+`position`, `player_tactics`, `substitution_requested`, `refused`, `end`; `tick` too with `Match(..., ticks=True)`.
 `m.pitch()` gives the 22 players' and the ball's positions at any moment (for drawing).
+
+**Goals**: a `goal` is a goal the original commits. Watched, that is the score byte's `inc` at 0791:685C; a
+`goal_disallowed` is its `dec` at 68B3 (DS:830E set: no scorer row), which comes after the `goal` and after whatever
+the original wrote in between (its commentary), never in the goal's place. In a quick result (`answer(quick=True)`,
+any `speed`) the quick engine 0791:D733 runs once a minute: it saves the score, clears DS:9B3C and rolls trial counts
+into it (B19D, D8A5), then writes the committed score back at DA58 with at most one new goal (record_goal 6443).
+Only that commit makes `goal` events; the trial counts make none, and every event inside the engine carries the
+committed score. So in every path (watched, quick from any minute, after any answer, across `save()`/`load()`):
+each event's score is the score of the goal events before it, a `goal_disallowed` follows a goal of its team, and
+`result()["goals"]` holds, per team, the board's score and the original's own count (`result()["goal_counts"]`,
+DS:80F0, record_goal's; it credits an own goal to the side whose score rises); the goals taken back are in
+`result()["goals_disallowed"]`. `check.py`'s `goals` step tests this (`goal_problems`). A score write from any
+other instruction in play (the action replay's restore 0F11 included, which no run of the kit reached) stops the
+kit with `GuestError`, as does a write of any other event's counter from an instruction the kit did not read
+(`WRITERS` in match.py).
 
 **Stamps**: an event's `minute` and `score` are the guest's minute word (DS:831F) and score bytes (DS:9B3C, 9B3D)
 at the moment of the original's own write that the event reports, and events come in the order of those writes
 (not in the order the kit looks at them). The writes, from `play_match`'s start (the set-up before it resets them):
-the commentary ring counter DS:80EE (a `commentary` line; 1D4A), a score byte going up (a `goal`, stamped with the
-score after the write) or down in the same action (`goal_disallowed`, the take-back), a team's bookings, red-card or
+the commentary ring counter DS:80EE (a `commentary` line; 1D4A), a committed score byte going up (a `goal`, stamped
+with the score after the write) or down in the same action (`goal_disallowed`, the take-back; see Goals), a team's bookings, red-card or
 injury count (statistics row +7, +8, +9), the substitutions-left counter DS:9B3A + team (a `substitution`;
 DS:9B38 is the action replay's copy, not it) and the minute word itself (`minute`, the new minute). What an event
 carries besides the stamp (the line's text, the scorer, the players swapped) is read from the records those writes
 completed. `decision`, `half_time`, `full_time`, `end` and what a screen did (`tactics`, `position`,
 `player_tactics`, `substitution_requested`, `refused`) are stamped with the guest's minute and score when they happen.
-The check (E033 `stamps.py`, 14 matches: the reference fixture, E032's ten seeds, a run with pauses and
-substitutions, an injury run, a run with sendings off) hooks the same guest writes independently of the kit's event
-path and compares, per kind (and team where the kind has one), the number of events and each one's minute and score,
-in order, for `commentary`, `goal`, `goal_disallowed`, `booking`, `sending_off`, `injury`, `substitution`, `minute`,
-`half_time` and `full_time`. It does not compare the order of events of different kinds with each other (that is the
-order of the one write queue), the stamps of the other kinds, or the details inside an event.
+**Order**: events come in the order of the original's writes across kinds, not only within a kind: no event is
+moved or rewritten after it is queued, and a screen's or a decision's event comes after every write made before it.
+The check (E033 `stamps.py`, 17 matches: the reference fixture, E032's ten seeds, a run with pauses and
+substitutions and a goal taken back, an injury run, a run with sendings off, quick results from minutes 30 and 1 and
+one after answers at minute 60) hooks the same guest writes independently of the kit's event path (the quick engine
+by code hooks at its entry D733 and after its commit DA5B) and compares, per kind (and team where the kind has one),
+the number of events and each one's minute and score, in order, for `commentary`, `goal`, `goal_disallowed`,
+`booking`, `sending_off`, `injury`, `substitution`, `minute`, `half_time` and `full_time`, and then the whole stream
+of those kinds against the writes in the original's order (`order`). It does not compare the stamps of the other
+kinds or the details inside an event.
 
 **Saving**: every public event is a save boundary: `minute`, `commentary`, `goal`, `goal_disallowed`, `booking`,
 `sending_off`, `injury`, `substitution`, `half_time`, `full_time`, `decision`, `tactics`, `position`,
