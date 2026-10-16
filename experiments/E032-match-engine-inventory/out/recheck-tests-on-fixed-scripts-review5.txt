@@ -1,0 +1,12 @@
+test_a_transcript_without_a_clean_end_fails (tests.test_e032_recheck.RecheckFailsClosed.test_a_transcript_without_a_clean_end_fails) ... ok
+test_an_unexpected_log_fails (tests.test_e032_recheck.RecheckFailsClosed.test_an_unexpected_log_fails) ... ok
+test_each_log_replaced_by_an_empty_object_fails (tests.test_e032_recheck.RecheckFailsClosed.test_each_log_replaced_by_an_empty_object_fails) ... ok
+test_each_missing_log_fails (tests.test_e032_recheck.RecheckFailsClosed.test_each_missing_log_fails) ... ok
+test_each_missing_transcript_fails (tests.test_e032_recheck.RecheckFailsClosed.test_each_missing_transcript_fails) ... ok
+test_only_the_seven_logs_after_the_old_loop_fails (tests.test_e032_recheck.RecheckFailsClosed.test_only_the_seven_logs_after_the_old_loop_fails) ... ok
+test_the_full_state_passes (tests.test_e032_recheck.RecheckFailsClosed.test_the_full_state_passes) ... ok
+
+----------------------------------------------------------------------
+Ran 7 tests in 14.244s
+
+OK

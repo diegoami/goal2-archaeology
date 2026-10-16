@@ -1,0 +1,74 @@
+# E032 committed match records: 82 logs, 175 completed and 15 incomplete records conform to record_schema.py; 0 do not
+
+## Fields and the JSON types seen
+- completed cpu_s: float
+- completed delay_count: NoneType, int
+- completed draws: int
+- completed draws_digest: str
+- completed error: NoneType
+- completed fast_delay: bool
+- completed hook_counts: dict
+- completed inputs: list
+- completed port_calls: int
+- completed ported: list
+- completed score: list
+- completed seed: int
+- completed skipped: list
+- completed start_record: str
+- completed statistics_raw: list
+- completed stopped_at_board: bool
+- completed strays: list
+- completed templates: dict
+- completed ticks: int
+- completed variant: str
+- completed wall_s: float
+- completed watchstart_sha256: str
+- incomplete cpu_s: float
+- incomplete delay_count: int
+- incomplete draws: int
+- incomplete draws_digest: str
+- incomplete error: str
+- incomplete hook_counts: dict
+- incomplete inputs: list
+- incomplete port_calls: int
+- incomplete ported: list
+- incomplete score: list
+- incomplete seed: int
+- incomplete skipped: list
+- incomplete start_record: str
+- incomplete statistics_raw: NoneType
+- incomplete stopped_at_board: bool
+- incomplete strays: list
+- incomplete templates: NoneType
+- incomplete ticks: int
+- incomplete variant: str
+- incomplete wall_s: float
+- incomplete watchstart_sha256: str
+- incomplete why: error
+
+## Ranges seen
+- cpu_s (completed): 7.1..607.3
+- cpu_s (incomplete): 157.0..319.9
+- draws: 175773..210776
+- score[0]: 0..2
+- score[1]: 0..2
+- seed: 257..59161
+- ticks: 4029..4659
+
+## statistics_raw by row
+- row 0: labels ['Corners']; keys [('address', 'raw_bytes', 'row_label')]; addresses ['DS:7B7E+10*t']; values 0..2
+- row 1: labels ['Free kicks']; keys [('address', 'raw_bytes', 'row_label')]; addresses ['DS:7B7F+10*t']; values 1..10
+- row 2: labels ['Penalties']; keys [('address', 'raw_bytes', 'row_label')]; addresses ['DS:7B80+10*t']; values 0..1
+- row 3: labels ['Shots']; keys [('address', 'raw_bytes', 'row_label')]; addresses ['DS:7B81+10*t']; values 1..7
+- row 4: labels ['On target']; keys [('address', 'raw_bytes', 'row_label')]; addresses ['DS:7B82+10*t']; values 0..4
+- row 5: labels ['Saves']; keys [('address', 'raw_bytes', 'row_label')]; addresses ['DS:7B83+10*t']; values 0..4
+- row 6: labels ['Fouls']; keys [('address', 'raw_bytes', 'row_label')]; addresses ['DS:7B84+10*t']; values 0..5
+- row 7: labels ['Bookings']; keys [('address', 'raw_bytes', 'row_label')]; addresses ['DS:7B85+10*t']; values 0..1
+- row 8: labels ['Red cards']; keys [('address', 'raw_bytes', 'row_label')]; addresses ['DS:7B86+10*t']; values 0..1
+- row 9: labels ['Possession']; keys [('address', 'raw_words', 'row_label')]; addresses ['DS:80F2/80F4']; values 426..661
+- row 10: labels ['Territory']; keys [('address', 'raw_words', 'row_label')]; addresses ['DS:80F6/80F8']; values 930..2071
+
+## templates: ids 0..66 (55 distinct); counts 1..31
+
+## Records that do not conform
+- none

@@ -1,0 +1,20 @@
+test_completed_run_is_tabulated (tests.test_e032_compare.AnalyzeRefusesIncompleteRuns.test_completed_run_is_tabulated) ... ok
+test_errored_run_is_refused (tests.test_e032_compare.AnalyzeRefusesIncompleteRuns.test_errored_run_is_refused) ... ok
+test_run_with_strays_is_refused (tests.test_e032_compare.AnalyzeRefusesIncompleteRuns.test_run_with_strays_is_refused) ... ok
+test_differing_field_fails (tests.test_e032_compare.CompareFailsClosed.test_differing_field_fails) ... ok
+test_duplicate_seed_fails (tests.test_e032_compare.CompareFailsClosed.test_duplicate_seed_fails) ... ok
+test_empty_candidate_fails (tests.test_e032_compare.CompareFailsClosed.test_empty_candidate_fails) ... ok
+test_errored_record_with_equal_fields_fails (tests.test_e032_compare.CompareFailsClosed.test_errored_record_with_equal_fields_fails) ... ok
+test_errored_reference_fails (tests.test_e032_compare.CompareFailsClosed.test_errored_reference_fails) ... ok
+test_falsifier_caught_by_difference_or_failure (tests.test_e032_compare.CompareFailsClosed.test_falsifier_caught_by_difference_or_failure) ... ok
+test_falsifier_not_caught_fails (tests.test_e032_compare.CompareFailsClosed.test_falsifier_not_caught_fails) ... ok
+test_identical_family_passes (tests.test_e032_compare.CompareFailsClosed.test_identical_family_passes) ... ok
+test_not_stopped_at_board_fails (tests.test_e032_compare.CompareFailsClosed.test_not_stopped_at_board_fails) ... ok
+test_strays_fail (tests.test_e032_compare.CompareFailsClosed.test_strays_fail) ... ok
+test_truncated_candidate_fails (tests.test_e032_compare.CompareFailsClosed.test_truncated_candidate_fails) ... ok
+test_unexpected_seed_fails (tests.test_e032_compare.CompareFailsClosed.test_unexpected_seed_fails) ... ok
+
+----------------------------------------------------------------------
+Ran 15 tests in 0.446s
+
+OK

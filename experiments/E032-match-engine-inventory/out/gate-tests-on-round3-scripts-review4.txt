@@ -1,0 +1,1006 @@
+test_completed_run_is_tabulated (tests.test_e032_compare.AnalyzeRefusesIncompleteRuns.test_completed_run_is_tabulated) ... ok
+test_errored_run_is_refused (tests.test_e032_compare.AnalyzeRefusesIncompleteRuns.test_errored_run_is_refused) ... ok
+test_malformed_row_contents_are_refused (tests.test_e032_compare.AnalyzeRefusesIncompleteRuns.test_malformed_row_contents_are_refused)
+Round 3 (issue 246's class): the rows' values, not only their keys. ... ok
+test_run_missing_completion_keys_is_refused (tests.test_e032_compare.AnalyzeRefusesIncompleteRuns.test_run_missing_completion_keys_is_refused) ... ok
+test_run_with_strays_is_refused (tests.test_e032_compare.AnalyzeRefusesIncompleteRuns.test_run_with_strays_is_refused) ... ok
+test_pilot_batch_with_a_used_stamp_fails (tests.test_e032_compare.BatchesNeverCompareStaleOutput.test_pilot_batch_with_a_used_stamp_fails) ... ok
+test_skip_batch_with_a_used_stamp_fails (tests.test_e032_compare.BatchesNeverCompareStaleOutput.test_skip_batch_with_a_used_stamp_fails) ... ok
+test_another_start_state_is_refused (tests.test_e032_compare.CompareFailsClosed.test_another_start_state_is_refused) ... FAIL
+test_completion_keys_missing_fail (tests.test_e032_compare.CompareFailsClosed.test_completion_keys_missing_fail) ... ok
+test_differing_field_fails (tests.test_e032_compare.CompareFailsClosed.test_differing_field_fails) ... ok
+test_duplicate_seed_fails (tests.test_e032_compare.CompareFailsClosed.test_duplicate_seed_fails) ... ok
+test_empty_candidate_fails (tests.test_e032_compare.CompareFailsClosed.test_empty_candidate_fails) ... ok
+test_errored_record_with_equal_fields_fails (tests.test_e032_compare.CompareFailsClosed.test_errored_record_with_equal_fields_fails) ... ok
+test_errored_reference_fails (tests.test_e032_compare.CompareFailsClosed.test_errored_reference_fails) ... ok
+test_evidence_missing_in_both_is_not_a_caught_falsifier (tests.test_e032_compare.CompareFailsClosed.test_evidence_missing_in_both_is_not_a_caught_falsifier) ... ok
+test_evidence_missing_in_both_is_not_identical (tests.test_e032_compare.CompareFailsClosed.test_evidence_missing_in_both_is_not_identical) ... ok
+test_evidence_missing_in_candidate_is_not_a_caught_falsifier (tests.test_e032_compare.CompareFailsClosed.test_evidence_missing_in_candidate_is_not_a_caught_falsifier) ... ok
+test_evidence_missing_in_candidate_is_not_identical (tests.test_e032_compare.CompareFailsClosed.test_evidence_missing_in_candidate_is_not_identical) ... ok
+test_falsifier_caught_by_difference_or_failure (tests.test_e032_compare.CompareFailsClosed.test_falsifier_caught_by_difference_or_failure) ... ok
+test_falsifier_not_caught_fails (tests.test_e032_compare.CompareFailsClosed.test_falsifier_not_caught_fails) ... ok
+test_field_names_the_run (tests.test_e032_compare.CompareFailsClosed.test_field_names_the_run) ... FAIL
+test_hooked_reference_is_refused (tests.test_e032_compare.CompareFailsClosed.test_hooked_reference_is_refused) ... FAIL
+test_identical_family_passes (tests.test_e032_compare.CompareFailsClosed.test_identical_family_passes) ... ok
+test_loose_seed_arguments_are_refused (tests.test_e032_compare.CompareFailsClosed.test_loose_seed_arguments_are_refused) ... ok
+test_not_stopped_at_board_fails (tests.test_e032_compare.CompareFailsClosed.test_not_stopped_at_board_fails) ... ok
+test_strays_fail (tests.test_e032_compare.CompareFailsClosed.test_strays_fail) ... ok
+test_truncated_candidate_fails (tests.test_e032_compare.CompareFailsClosed.test_truncated_candidate_fails) ... ok
+test_undecodable_or_bom_logs_are_refused (tests.test_e032_compare.CompareFailsClosed.test_undecodable_or_bom_logs_are_refused) ... FAIL
+test_unexpected_seed_fails (tests.test_e032_compare.CompareFailsClosed.test_unexpected_seed_fails) ... ok
+test_a_changed_figure_fails (tests.test_e032_compare.PlanFiguresEqualTheReport.test_a_changed_figure_fails) ... ok
+test_an_untied_cost_figure_fails (tests.test_e032_compare.PlanFiguresEqualTheReport.test_an_untied_cost_figure_fails) ... ok
+test_the_plan_matches_the_report (tests.test_e032_compare.PlanFiguresEqualTheReport.test_the_plan_matches_the_report) ... ok
+test_analyze_refuses_loose_json (tests.test_e032_compare.ReadersParseStrictly.test_analyze_refuses_loose_json) ... FAIL
+test_plancheck_refuses_loose_json (tests.test_e032_compare.ReadersParseStrictly.test_plancheck_refuses_loose_json) ... ok
+test_every_mutation_is_malformed (tests.test_e032_record_mutations.EveryMutationIsMalformed.test_every_mutation_is_malformed) ... ok
+test_the_real_record_is_accepted (tests.test_e032_record_mutations.EveryMutationIsMalformed.test_the_real_record_is_accepted) ... ok
+test_round4_review_cases (tests.test_e032_record_mutations.EveryPathologicalValueIsMalformed.test_round4_review_cases) ... FAIL
+test_the_fuzz_is_malformed (tests.test_e032_record_mutations.EveryPathologicalValueIsMalformed.test_the_fuzz_is_malformed) ... FAIL
+test_no_match_search_or_dollar_anchor (tests.test_e032_record_mutations.NoLooseValidationPatterns.test_no_match_search_or_dollar_anchor) ... ok
+test_the_schema_uses_ascii_digit_classes (tests.test_e032_record_mutations.NoLooseValidationPatterns.test_the_schema_uses_ascii_digit_classes) ... ok
+
+======================================================================
+FAIL: test_another_start_state_is_refused (tests.test_e032_compare.CompareFailsClosed.test_another_start_state_is_refused)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a49f66db95d9da981/tests/test_e032_compare.py", line 171, in test_another_start_state_is_refused
+    self.assertEqual(self.run_args(cand).returncode, 2)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 0 != 2
+
+======================================================================
+FAIL: test_field_names_the_run (tests.test_e032_compare.CompareFailsClosed.test_field_names_the_run)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a49f66db95d9da981/tests/test_e032_compare.py", line 160, in test_field_names_the_run
+    self.assertEqual(self.run_args(cand, "--field", 'variant="exact"').returncode, 0)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 2 != 0
+
+======================================================================
+FAIL: test_hooked_reference_is_refused (tests.test_e032_compare.CompareFailsClosed.test_hooked_reference_is_refused)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a49f66db95d9da981/tests/test_e032_compare.py", line 167, in test_hooked_reference_is_refused
+    self.assertEqual(self.run_args(self.log("c.jsonl", [match(s) for s in SEEDS]), ref=ref).returncode, 2)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 0 != 2
+
+======================================================================
+FAIL: test_undecodable_or_bom_logs_are_refused (tests.test_e032_compare.CompareFailsClosed.test_undecodable_or_bom_logs_are_refused)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a49f66db95d9da981/tests/test_e032_compare.py", line 186, in test_undecodable_or_bom_logs_are_refused
+    self.assertEqual(self.run_args(p).returncode, 2)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 1 != 2
+
+======================================================================
+FAIL: test_analyze_refuses_loose_json (tests.test_e032_compare.ReadersParseStrictly.test_analyze_refuses_loose_json)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a49f66db95d9da981/tests/test_e032_compare.py", line 256, in test_analyze_refuses_loose_json
+    self.assertNotEqual(self.run_on(ANALYZE, bad, ["o.md"]).returncode, 0)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 0 == 0
+
+======================================================================
+FAIL: test_round4_review_cases (tests.test_e032_record_mutations.EveryPathologicalValueIsMalformed.test_round4_review_cases)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a49f66db95d9da981/tests/test_e032_record_mutations.py", line 277, in test_round4_review_cases
+    self.assertEqual(failures, [], "\n".join(failures))
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: ['digest + newline, both logs, --expect id[885 chars]t 1'] != []
+
+First list contains 16 additional elements.
+First extra element 0:
+'digest + newline, both logs, --expect identical: exit 0'
+
+Diff is 985 characters long. Set self.maxDiff to None to see it. : digest + newline, both logs, --expect identical: exit 0
+digest + newline, both logs, --expect differ: exit 1
+digest + newline, candidate only, --expect identical: exit 1
+digest + newline, candidate only, --expect differ: exit 0
+template id + newline, both logs, --expect identical: exit 0
+template id + newline, both logs, --expect differ: exit 1
+template id + newline, candidate only, --expect identical: exit 1
+template id + newline, candidate only, --expect differ: exit 0
+cpu_s NaN, both logs, --expect identical: exit 0
+cpu_s NaN, both logs, --expect differ: exit 1
+cpu_s NaN, candidate only, --expect identical: exit 0
+cpu_s NaN, candidate only, --expect differ: exit 1
+cpu_s 1e999, both logs, --expect identical: exit 0
+cpu_s 1e999, both logs, --expect differ: exit 1
+cpu_s 1e999, candidate only, --expect identical: exit 0
+cpu_s 1e999, candidate only, --expect differ: exit 1
+
+======================================================================
+FAIL: test_the_fuzz_is_malformed (tests.test_e032_record_mutations.EveryPathologicalValueIsMalformed.test_the_fuzz_is_malformed)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a49f66db95d9da981/tests/test_e032_record_mutations.py", line 283, in test_the_fuzz_is_malformed
+    self.assertEqual(failures, [], f"{len(failures)} of {4 * len(cases)} cases not MALFORMED:\n" +
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                     "\n".join(failures))
+                     ^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: ['() duplicated key, both logs, --expect i[72115 chars]t 1"] != []
+
+First list contains 868 additional elements.
+First extra element 0:
+'() duplicated key, both logs, --expect identical: exit 0'
+
+Diff is 76775 characters long. Set self.maxDiff to None to see it. : 868 of 5324 cases not MALFORMED:
+() duplicated key, both logs, --expect identical: exit 0
+() duplicated key, both logs, --expect differ: exit 1
+() duplicated key, candidate only, --expect identical: exit 0
+() duplicated key, candidate only, --expect differ: exit 1
+() unknown key, both logs, --expect identical: exit 0
+() unknown key, both logs, --expect differ: exit 1
+() unknown key, candidate only, --expect identical: exit 0
+() unknown key, candidate only, --expect differ: exit 1
+('delay_count',) = NaN, both logs, --expect identical: exit 0
+('delay_count',) = NaN, both logs, --expect differ: exit 1
+('delay_count',) = NaN, candidate only, --expect identical: exit 0
+('delay_count',) = NaN, candidate only, --expect differ: exit 1
+('delay_count',) = Infinity, both logs, --expect identical: exit 0
+('delay_count',) = Infinity, both logs, --expect differ: exit 1
+('delay_count',) = Infinity, candidate only, --expect identical: exit 0
+('delay_count',) = Infinity, candidate only, --expect differ: exit 1
+('delay_count',) = -Infinity, both logs, --expect identical: exit 0
+('delay_count',) = -Infinity, both logs, --expect differ: exit 1
+('delay_count',) = -Infinity, candidate only, --expect identical: exit 0
+('delay_count',) = -Infinity, candidate only, --expect differ: exit 1
+('delay_count',) = 1e999, both logs, --expect identical: exit 0
+('delay_count',) = 1e999, both logs, --expect differ: exit 1
+('delay_count',) = 1e999, candidate only, --expect identical: exit 0
+('delay_count',) = 1e999, candidate only, --expect differ: exit 1
+('delay_count',) = -0.0, both logs, --expect identical: exit 0
+('delay_count',) = -0.0, both logs, --expect differ: exit 1
+('delay_count',) = -0.0, candidate only, --expect identical: exit 0
+('delay_count',) = -0.0, candidate only, --expect differ: exit 1
+('delay_count',) = 20.0, both logs, --expect identical: exit 0
+('delay_count',) = 20.0, both logs, --expect differ: exit 1
+('delay_count',) = 20.0, candidate only, --expect identical: exit 0
+('delay_count',) = 20.0, candidate only, --expect differ: exit 1
+('delay_count',) = True, both logs, --expect identical: exit 0
+('delay_count',) = True, both logs, --expect differ: exit 1
+('delay_count',) = True, candidate only, --expect identical: exit 0
+('delay_count',) = True, candidate only, --expect differ: exit 1
+('delay_count',) = '20', both logs, --expect identical: exit 0
+('delay_count',) = '20', both logs, --expect differ: exit 1
+('delay_count',) = '20', candidate only, --expect identical: exit 0
+('delay_count',) = '20', candidate only, --expect differ: exit 1
+('delay_count',) = 1180591620717411303424, both logs, --expect identical: exit 0
+('delay_count',) = 1180591620717411303424, both logs, --expect differ: exit 1
+('delay_count',) = 1180591620717411303424, candidate only, --expect identical: exit 0
+('delay_count',) = 1180591620717411303424, candidate only, --expect differ: exit 1
+('delay_count',) = -1, both logs, --expect identical: exit 0
+('delay_count',) = -1, both logs, --expect differ: exit 1
+('delay_count',) = -1, candidate only, --expect identical: exit 0
+('delay_count',) = -1, candidate only, --expect differ: exit 1
+('delay_count',) = -20, both logs, --expect identical: exit 0
+('delay_count',) = -20, both logs, --expect differ: exit 1
+('delay_count',) = -20, candidate only, --expect identical: exit 0
+('delay_count',) = -20, candidate only, --expect differ: exit 1
+('error',) = ' ', candidate only, --expect identical: exit 1
+('error',) = ' ', candidate only, --expect differ: exit 0
+('error',) = '\n', candidate only, --expect identical: exit 1
+('error',) = '\n', candidate only, --expect differ: exit 0
+('wall_s',) = NaN, both logs, --expect identical: exit 0
+('wall_s',) = NaN, both logs, --expect differ: exit 1
+('wall_s',) = NaN, candidate only, --expect identical: exit 0
+('wall_s',) = NaN, candidate only, --expect differ: exit 1
+('wall_s',) = Infinity, both logs, --expect identical: exit 0
+('wall_s',) = Infinity, both logs, --expect differ: exit 1
+('wall_s',) = Infinity, candidate only, --expect identical: exit 0
+('wall_s',) = Infinity, candidate only, --expect differ: exit 1
+('wall_s',) = -Infinity, both logs, --expect identical: exit 0
+('wall_s',) = -Infinity, both logs, --expect differ: exit 1
+('wall_s',) = -Infinity, candidate only, --expect identical: exit 0
+('wall_s',) = -Infinity, candidate only, --expect differ: exit 1
+('wall_s',) = 1e999, both logs, --expect identical: exit 0
+('wall_s',) = 1e999, both logs, --expect differ: exit 1
+('wall_s',) = 1e999, candidate only, --expect identical: exit 0
+('wall_s',) = 1e999, candidate only, --expect differ: exit 1
+('wall_s',) = -0.0, both logs, --expect identical: exit 0
+('wall_s',) = -0.0, both logs, --expect differ: exit 1
+('wall_s',) = -0.0, candidate only, --expect identical: exit 0
+('wall_s',) = -0.0, candidate only, --expect differ: exit 1
+('wall_s',) = True, both logs, --expect identical: exit 0
+('wall_s',) = True, both logs, --expect differ: exit 1
+('wall_s',) = True, candidate only, --expect identical: exit 0
+('wall_s',) = True, candidate only, --expect differ: exit 1
+('wall_s',) = '7.9', both logs, --expect identical: exit 0
+('wall_s',) = '7.9', both logs, --expect differ: exit 1
+('wall_s',) = '7.9', candidate only, --expect identical: exit 0
+('wall_s',) = '7.9', candidate only, --expect differ: exit 1
+('wall_s',) = 1180591620717411303424, both logs, --expect identical: exit 0
+('wall_s',) = 1180591620717411303424, both logs, --expect differ: exit 1
+('wall_s',) = 1180591620717411303424, candidate only, --expect identical: exit 0
+('wall_s',) = 1180591620717411303424, candidate only, --expect differ: exit 1
+('wall_s',) = -1.0, both logs, --expect identical: exit 0
+('wall_s',) = -1.0, both logs, --expect differ: exit 1
+('wall_s',) = -1.0, candidate only, --expect identical: exit 0
+('wall_s',) = -1.0, candidate only, --expect differ: exit 1
+('wall_s',) = -7.9, both logs, --expect identical: exit 0
+('wall_s',) = -7.9, both logs, --expect differ: exit 1
+('wall_s',) = -7.9, candidate only, --expect identical: exit 0
+('wall_s',) = -7.9, candidate only, --expect differ: exit 1
+('cpu_s',) = NaN, both logs, --expect identical: exit 0
+('cpu_s',) = NaN, both logs, --expect differ: exit 1
+('cpu_s',) = NaN, candidate only, --expect identical: exit 0
+('cpu_s',) = NaN, candidate only, --expect differ: exit 1
+('cpu_s',) = Infinity, both logs, --expect identical: exit 0
+('cpu_s',) = Infinity, both logs, --expect differ: exit 1
+('cpu_s',) = Infinity, candidate only, --expect identical: exit 0
+('cpu_s',) = Infinity, candidate only, --expect differ: exit 1
+('cpu_s',) = 1e999, both logs, --expect identical: exit 0
+('cpu_s',) = 1e999, both logs, --expect differ: exit 1
+('cpu_s',) = 1e999, candidate only, --expect identical: exit 0
+('cpu_s',) = 1e999, candidate only, --expect differ: exit 1
+('cpu_s',) = -0.0, both logs, --expect identical: exit 0
+('cpu_s',) = -0.0, both logs, --expect differ: exit 1
+('cpu_s',) = -0.0, candidate only, --expect identical: exit 0
+('cpu_s',) = -0.0, candidate only, --expect differ: exit 1
+('cpu_s',) = 1180591620717411303424, both logs, --expect identical: exit 0
+('cpu_s',) = 1180591620717411303424, both logs, --expect differ: exit 1
+('cpu_s',) = 1180591620717411303424, candidate only, --expect identical: exit 0
+('cpu_s',) = 1180591620717411303424, candidate only, --expect differ: exit 1
+('draws_digest',) = '74b8eb805a4e391f2a0e4e213830b5c734d1b5086c75c682c5978b6403f9563e\n', both logs, --expect identical: exit 0
+('draws_digest',) = '74b8eb805a4e391f2a0e4e213830b5c734d1b5086c75c682c5978b6403f9563e\n', both logs, --expect differ: exit 1
+('draws_digest',) = '74b8eb805a4e391f2a0e4e213830b5c734d1b5086c75c682c5978b6403f9563e\n', candidate only, --expect identical: exit 1
+('draws_digest',) = '74b8eb805a4e391f2a0e4e213830b5c734d1b5086c75c682c5978b6403f9563e\n', candidate only, --expect differ: exit 0
+('inputs',) one element longer, both logs, --expect identical: exit 0
+('inputs',) one element longer, both logs, --expect differ: exit 1
+('inputs',) one element longer, candidate only, --expect identical: exit 0
+('inputs',) one element longer, candidate only, --expect differ: exit 1
+('inputs', 0) duplicated key, both logs, --expect identical: exit 0
+('inputs', 0) duplicated key, both logs, --expect differ: exit 1
+('inputs', 0) duplicated key, candidate only, --expect identical: exit 0
+('inputs', 0) duplicated key, candidate only, --expect differ: exit 1
+('inputs', 0) unknown key, both logs, --expect identical: exit 0
+('inputs', 0) unknown key, both logs, --expect differ: exit 1
+('inputs', 0) unknown key, candidate only, --expect identical: exit 0
+('inputs', 0) unknown key, candidate only, --expect differ: exit 1
+('inputs', 0, 'what') = 'main seed word DS:7B62\n', both logs, --expect identical: exit 0
+('inputs', 0, 'what') = 'main seed word DS:7B62\n', both logs, --expect differ: exit 1
+('inputs', 0, 'what') = 'main seed word DS:7B62\n', candidate only, --expect identical: exit 0
+('inputs', 0, 'what') = 'main seed word DS:7B62\n', candidate only, --expect differ: exit 1
+('inputs', 0, 'what') = '\nmain seed word DS:7B62', both logs, --expect identical: exit 0
+('inputs', 0, 'what') = '\nmain seed word DS:7B62', both logs, --expect differ: exit 1
+('inputs', 0, 'what') = '\nmain seed word DS:7B62', candidate only, --expect identical: exit 0
+('inputs', 0, 'what') = '\nmain seed word DS:7B62', candidate only, --expect differ: exit 1
+('inputs', 0, 'what') = 'main seed word DS:7B62 ', both logs, --expect identical: exit 0
+('inputs', 0, 'what') = 'main seed word DS:7B62 ', both logs, --expect differ: exit 1
+('inputs', 0, 'what') = 'main seed word DS:7B62 ', candidate only, --expect identical: exit 0
+('inputs', 0, 'what') = 'main seed word DS:7B62 ', candidate only, --expect differ: exit 1
+('inputs', 0, 'what') = ' main seed word DS:7B62', both logs, --expect identical: exit 0
+('inputs', 0, 'what') = ' main seed word DS:7B62', both logs, --expect differ: exit 1
+('inputs', 0, 'what') = ' main seed word DS:7B62', candidate only, --expect identical: exit 0
+('inputs', 0, 'what') = ' main seed word DS:7B62', candidate only, --expect differ: exit 1
+('inputs', 0, 'what') = 'main seed word DS:7B62\t', both logs, --expect identical: exit 0
+('inputs', 0, 'what') = 'main seed word DS:7B62\t', both logs, --expect differ: exit 1
+('inputs', 0, 'what') = 'main seed word DS:7B62\t', candidate only, --expect identical: exit 0
+('inputs', 0, 'what') = 'main seed word DS:7B62\t', candidate only, --expect differ: exit 1
+('inputs', 0, 'what') = 'main seed word DS:7B62\x00', both logs, --expect identical: exit 0
+('inputs', 0, 'what') = 'main seed word DS:7B62\x00', both logs, --expect differ: exit 1
+('inputs', 0, 'what') = 'main seed word DS:7B62\x00', candidate only, --expect identical: exit 0
+('inputs', 0, 'what') = 'main seed word DS:7B62\x00', candidate only, --expect differ: exit 1
+('inputs', 0, 'what') = 'main seed word DS:7B6', both logs, --expect identical: exit 0
+('inputs', 0, 'what') = 'main seed word DS:7B6', both logs, --expect differ: exit 1
+('inputs', 0, 'what') = 'main seed word DS:7B6', candidate only, --expect identical: exit 0
+('inputs', 0, 'what') = 'main seed word DS:7B6', candidate only, --expect differ: exit 1
+('inputs', 0, 'what') = 'main seed word DS:7B622', both logs, --expect identical: exit 0
+('inputs', 0, 'what') = 'main seed word DS:7B622', both logs, --expect differ: exit 1
+('inputs', 0, 'what') = 'main seed word DS:7B622', candidate only, --expect identical: exit 0
+('inputs', 0, 'what') = 'main seed word DS:7B622', candidate only, --expect differ: exit 1
+('inputs', 0, 'what') = 'MAIN SEED WORD DS:7B62', both logs, --expect identical: exit 0
+('inputs', 0, 'what') = 'MAIN SEED WORD DS:7B62', both logs, --expect differ: exit 1
+('inputs', 0, 'what') = 'MAIN SEED WORD DS:7B62', candidate only, --expect identical: exit 0
+('inputs', 0, 'what') = 'MAIN SEED WORD DS:7B62', candidate only, --expect differ: exit 1
+('inputs', 0, 'what') = 'main seed word ds:7b62', both logs, --expect identical: exit 0
+('inputs', 0, 'what') = 'main seed word ds:7b62', both logs, --expect differ: exit 1
+('inputs', 0, 'what') = 'main seed word ds:7b62', candidate only, --expect identical: exit 0
+('inputs', 0, 'what') = 'main seed word ds:7b62', candidate only, --expect differ: exit 1
+('inputs', 0, 'what') = 'main seed word DS:٧B62', both logs, --expect identical: exit 0
+('inputs', 0, 'what') = 'main seed word DS:٧B62', both logs, --expect differ: exit 1
+('inputs', 0, 'what') = 'main seed word DS:٧B62', candidate only, --expect identical: exit 0
+('inputs', 0, 'what') = 'main seed word DS:٧B62', candidate only, --expect differ: exit 1
+('inputs', 0, 'linear') = NaN, both logs, --expect identical: exit 0
+('inputs', 0, 'linear') = NaN, both logs, --expect differ: exit 1
+('inputs', 0, 'linear') = NaN, candidate only, --expect identical: exit 0
+('inputs', 0, 'linear') = NaN, candidate only, --expect differ: exit 1
+('inputs', 0, 'linear') = Infinity, both logs, --expect identical: exit 0
+('inputs', 0, 'linear') = Infinity, both logs, --expect differ: exit 1
+('inputs', 0, 'linear') = Infinity, candidate only, --expect identical: exit 0
+('inputs', 0, 'linear') = Infinity, candidate only, --expect differ: exit 1
+('inputs', 0, 'linear') = -Infinity, both logs, --expect identical: exit 0
+('inputs', 0, 'linear') = -Infinity, both logs, --expect differ: exit 1
+('inputs', 0, 'linear') = -Infinity, candidate only, --expect identical: exit 0
+('inputs', 0, 'linear') = -Infinity, candidate only, --expect differ: exit 1
+('inputs', 0, 'linear') = 1e999, both logs, --expect identical: exit 0
+('inputs', 0, 'linear') = 1e999, both logs, --expect differ: exit 1
+('inputs', 0, 'linear') = 1e999, candidate only, --expect identical: exit 0
+('inputs', 0, 'linear') = 1e999, candidate only, --expect differ: exit 1
+('inputs', 0, 'linear') = -0.0, both logs, --expect identical: exit 0
+('inputs', 0, 'linear') = -0.0, both logs, --expect differ: exit 1
+('inputs', 0, 'linear') = -0.0, candidate only, --expect identical: exit 0
+('inputs', 0, 'linear') = -0.0, candidate only, --expect differ: exit 1
+('inputs', 0, 'linear') = 218530.0, both logs, --expect identical: exit 0
+('inputs', 0, 'linear') = 218530.0, both logs, --expect differ: exit 1
+('inputs', 0, 'linear') = 218530.0, candidate only, --expect identical: exit 0
+('inputs', 0, 'linear') = 218530.0, candidate only, --expect differ: exit 1
+('inputs', 0, 'linear') = True, both logs, --expect identical: exit 0
+('inputs', 0, 'linear') = True, both logs, --expect differ: exit 1
+('inputs', 0, 'linear') = True, candidate only, --expect identical: exit 0
+('inputs', 0, 'linear') = True, candidate only, --expect differ: exit 1
+('inputs', 0, 'linear') = '218530', both logs, --expect identical: exit 0
+('inputs', 0, 'linear') = '218530', both logs, --expect differ: exit 1
+('inputs', 0, 'linear') = '218530', candidate only, --expect identical: exit 0
+('inputs', 0, 'linear') = '218530', candidate only, --expect differ: exit 1
+('inputs', 0, 'linear') = 1180591620717411303424, both logs, --expect identical: exit 0
+('inputs', 0, 'linear') = 1180591620717411303424, both logs, --expect differ: exit 1
+('inputs', 0, 'linear') = 1180591620717411303424, candidate only, --expect identical: exit 0
+('inputs', 0, 'linear') = 1180591620717411303424, candidate only, --expect differ: exit 1
+('inputs', 0, 'linear') = -1, both logs, --expect identical: exit 0
+('inputs', 0, 'linear') = -1, both logs, --expect differ: exit 1
+('inputs', 0, 'linear') = -1, candidate only, --expect identical: exit 0
+('inputs', 0, 'linear') = -1, candidate only, --expect differ: exit 1
+('inputs', 0, 'linear') = -218530, both logs, --expect identical: exit 0
+('inputs', 0, 'linear') = -218530, both logs, --expect differ: exit 1
+('inputs', 0, 'linear') = -218530, candidate only, --expect identical: exit 0
+('inputs', 0, 'linear') = -218530, candidate only, --expect differ: exit 1
+('inputs', 0, 'old') = '1591\n', both logs, --expect identical: exit 0
+('inputs', 0, 'old') = '1591\n', both logs, --expect differ: exit 1
+('inputs', 0, 'old') = '1591\n', candidate only, --expect identical: exit 0
+('inputs', 0, 'old') = '1591\n', candidate only, --expect differ: exit 1
+('inputs', 0, 'old') = '\n1591', both logs, --expect identical: exit 0
+('inputs', 0, 'old') = '\n1591', both logs, --expect differ: exit 1
+('inputs', 0, 'old') = '\n1591', candidate only, --expect identical: exit 0
+('inputs', 0, 'old') = '\n1591', candidate only, --expect differ: exit 1
+('inputs', 0, 'old') = '1591 ', both logs, --expect identical: exit 0
+('inputs', 0, 'old') = '1591 ', both logs, --expect differ: exit 1
+('inputs', 0, 'old') = '1591 ', candidate only, --expect identical: exit 0
+('inputs', 0, 'old') = '1591 ', candidate only, --expect differ: exit 1
+('inputs', 0, 'old') = ' 1591', both logs, --expect identical: exit 0
+('inputs', 0, 'old') = ' 1591', both logs, --expect differ: exit 1
+('inputs', 0, 'old') = ' 1591', candidate only, --expect identical: exit 0
+('inputs', 0, 'old') = ' 1591', candidate only, --expect differ: exit 1
+('inputs', 0, 'old') = '1591\t', both logs, --expect identical: exit 0
+('inputs', 0, 'old') = '1591\t', both logs, --expect differ: exit 1
+('inputs', 0, 'old') = '1591\t', candidate only, --expect identical: exit 0
+('inputs', 0, 'old') = '1591\t', candidate only, --expect differ: exit 1
+('inputs', 0, 'old') = '1591\x00', both logs, --expect identical: exit 0
+('inputs', 0, 'old') = '1591\x00', both logs, --expect differ: exit 1
+('inputs', 0, 'old') = '1591\x00', candidate only, --expect identical: exit 0
+('inputs', 0, 'old') = '1591\x00', candidate only, --expect differ: exit 1
+('inputs', 0, 'old') = '159', both logs, --expect identical: exit 0
+('inputs', 0, 'old') = '159', both logs, --expect differ: exit 1
+('inputs', 0, 'old') = '159', candidate only, --expect identical: exit 0
+('inputs', 0, 'old') = '159', candidate only, --expect differ: exit 1
+('inputs', 0, 'old') = '15911', both logs, --expect identical: exit 0
+('inputs', 0, 'old') = '15911', both logs, --expect differ: exit 1
+('inputs', 0, 'old') = '15911', candidate only, --expect identical: exit 0
+('inputs', 0, 'old') = '15911', candidate only, --expect differ: exit 1
+('inputs', 0, 'old') = '١591', both logs, --expect identical: exit 0
+('inputs', 0, 'old') = '١591', both logs, --expect differ: exit 1
+('inputs', 0, 'old') = '١591', candidate only, --expect identical: exit 0
+('inputs', 0, 'old') = '١591', candidate only, --expect differ: exit 1
+('inputs', 0, 'new') = '3412\n', both logs, --expect identical: exit 0
+('inputs', 0, 'new') = '3412\n', both logs, --expect differ: exit 1
+('inputs', 0, 'new') = '3412\n', candidate only, --expect identical: exit 0
+('inputs', 0, 'new') = '3412\n', candidate only, --expect differ: exit 1
+('inputs', 0, 'new') = '\n3412', both logs, --expect identical: exit 0
+('inputs', 0, 'new') = '\n3412', both logs, --expect differ: exit 1
+('inputs', 0, 'new') = '\n3412', candidate only, --expect identical: exit 0
+('inputs', 0, 'new') = '\n3412', candidate only, --expect differ: exit 1
+('inputs', 0, 'new') = '3412 ', both logs, --expect identical: exit 0
+('inputs', 0, 'new') = '3412 ', both logs, --expect differ: exit 1
+('inputs', 0, 'new') = '3412 ', candidate only, --expect identical: exit 0
+('inputs', 0, 'new') = '3412 ', candidate only, --expect differ: exit 1
+('inputs', 0, 'new') = ' 3412', both logs, --expect identical: exit 0
+('inputs', 0, 'new') = ' 3412', both logs, --expect differ: exit 1
+('inputs', 0, 'new') = ' 3412', candidate only, --expect identical: exit 0
+('inputs', 0, 'new') = ' 3412', candidate only, --expect differ: exit 1
+('inputs', 0, 'new') = '3412\t', both logs, --expect identical: exit 0
+('inputs', 0, 'new') = '3412\t', both logs, --expect differ: exit 1
+('inputs', 0, 'new') = '3412\t', candidate only, --expect identical: exit 0
+('inputs', 0, 'new') = '3412\t', candidate only, --expect differ: exit 1
+('inputs', 0, 'new') = '3412\x00', both logs, --expect identical: exit 0
+('inputs', 0, 'new') = '3412\x00', both logs, --expect differ: exit 1
+('inputs', 0, 'new') = '3412\x00', candidate only, --expect identical: exit 0
+('inputs', 0, 'new') = '3412\x00', candidate only, --expect differ: exit 1
+('inputs', 0, 'new') = '341', both logs, --expect identical: exit 0
+('inputs', 0, 'new') = '341', both logs, --expect differ: exit 1
+('inputs', 0, 'new') = '341', candidate only, --expect identical: exit 0
+('inputs', 0, 'new') = '341', candidate only, --expect differ: exit 1
+('inputs', 0, 'new') = '34122', both logs, --expect identical: exit 0
+('inputs', 0, 'new') = '34122', both logs, --expect differ: exit 1
+('inputs', 0, 'new') = '34122', candidate only, --expect identical: exit 0
+('inputs', 0, 'new') = '34122', candidate only, --expect differ: exit 1
+('inputs', 0, 'new') = '٣412', both logs, --expect identical: exit 0
+('inputs', 0, 'new') = '٣412', both logs, --expect differ: exit 1
+('inputs', 0, 'new') = '٣412', candidate only, --expect identical: exit 0
+('inputs', 0, 'new') = '٣412', candidate only, --expect differ: exit 1
+('inputs', 1) duplicated key, both logs, --expect identical: exit 0
+('inputs', 1) duplicated key, both logs, --expect differ: exit 1
+('inputs', 1) duplicated key, candidate only, --expect identical: exit 0
+('inputs', 1) duplicated key, candidate only, --expect differ: exit 1
+('inputs', 1) unknown key, both logs, --expect identical: exit 0
+('inputs', 1) unknown key, both logs, --expect differ: exit 1
+('inputs', 1) unknown key, candidate only, --expect identical: exit 0
+('inputs', 1) unknown key, candidate only, --expect differ: exit 1
+('inputs', 1, 'what') = 'delay byte [DS:A923]+0x3F\n', both logs, --expect identical: exit 0
+('inputs', 1, 'what') = 'delay byte [DS:A923]+0x3F\n', both logs, --expect differ: exit 1
+('inputs', 1, 'what') = 'delay byte [DS:A923]+0x3F\n', candidate only, --expect identical: exit 0
+('inputs', 1, 'what') = 'delay byte [DS:A923]+0x3F\n', candidate only, --expect differ: exit 1
+('inputs', 1, 'what') = '\ndelay byte [DS:A923]+0x3F', both logs, --expect identical: exit 0
+('inputs', 1, 'what') = '\ndelay byte [DS:A923]+0x3F', both logs, --expect differ: exit 1
+('inputs', 1, 'what') = '\ndelay byte [DS:A923]+0x3F', candidate only, --expect identical: exit 0
+('inputs', 1, 'what') = '\ndelay byte [DS:A923]+0x3F', candidate only, --expect differ: exit 1
+('inputs', 1, 'what') = 'delay byte [DS:A923]+0x3F ', both logs, --expect identical: exit 0
+('inputs', 1, 'what') = 'delay byte [DS:A923]+0x3F ', both logs, --expect differ: exit 1
+('inputs', 1, 'what') = 'delay byte [DS:A923]+0x3F ', candidate only, --expect identical: exit 0
+('inputs', 1, 'what') = 'delay byte [DS:A923]+0x3F ', candidate only, --expect differ: exit 1
+('inputs', 1, 'what') = ' delay byte [DS:A923]+0x3F', both logs, --expect identical: exit 0
+('inputs', 1, 'what') = ' delay byte [DS:A923]+0x3F', both logs, --expect differ: exit 1
+('inputs', 1, 'what') = ' delay byte [DS:A923]+0x3F', candidate only, --expect identical: exit 0
+('inputs', 1, 'what') = ' delay byte [DS:A923]+0x3F', candidate only, --expect differ: exit 1
+('inputs', 1, 'what') = 'delay byte [DS:A923]+0x3F\t', both logs, --expect identical: exit 0
+('inputs', 1, 'what') = 'delay byte [DS:A923]+0x3F\t', both logs, --expect differ: exit 1
+('inputs', 1, 'what') = 'delay byte [DS:A923]+0x3F\t', candidate only, --expect identical: exit 0
+('inputs', 1, 'what') = 'delay byte [DS:A923]+0x3F\t', candidate only, --expect differ: exit 1
+('inputs', 1, 'what') = 'delay byte [DS:A923]+0x3F\x00', both logs, --expect identical: exit 0
+('inputs', 1, 'what') = 'delay byte [DS:A923]+0x3F\x00', both logs, --expect differ: exit 1
+('inputs', 1, 'what') = 'delay byte [DS:A923]+0x3F\x00', candidate only, --expect identical: exit 0
+('inputs', 1, 'what') = 'delay byte [DS:A923]+0x3F\x00', candidate only, --expect differ: exit 1
+('inputs', 1, 'what') = 'delay byte [DS:A923]+0x3', both logs, --expect identical: exit 0
+('inputs', 1, 'what') = 'delay byte [DS:A923]+0x3', both logs, --expect differ: exit 1
+('inputs', 1, 'what') = 'delay byte [DS:A923]+0x3', candidate only, --expect identical: exit 0
+('inputs', 1, 'what') = 'delay byte [DS:A923]+0x3', candidate only, --expect differ: exit 1
+('inputs', 1, 'what') = 'delay byte [DS:A923]+0x3FF', both logs, --expect identical: exit 0
+('inputs', 1, 'what') = 'delay byte [DS:A923]+0x3FF', both logs, --expect differ: exit 1
+('inputs', 1, 'what') = 'delay byte [DS:A923]+0x3FF', candidate only, --expect identical: exit 0
+('inputs', 1, 'what') = 'delay byte [DS:A923]+0x3FF', candidate only, --expect differ: exit 1
+('inputs', 1, 'what') = 'DELAY BYTE [DS:A923]+0X3F', both logs, --expect identical: exit 0
+('inputs', 1, 'what') = 'DELAY BYTE [DS:A923]+0X3F', both logs, --expect differ: exit 1
+('inputs', 1, 'what') = 'DELAY BYTE [DS:A923]+0X3F', candidate only, --expect identical: exit 0
+('inputs', 1, 'what') = 'DELAY BYTE [DS:A923]+0X3F', candidate only, --expect differ: exit 1
+('inputs', 1, 'what') = 'delay byte [ds:a923]+0x3f', both logs, --expect identical: exit 0
+('inputs', 1, 'what') = 'delay byte [ds:a923]+0x3f', both logs, --expect differ: exit 1
+('inputs', 1, 'what') = 'delay byte [ds:a923]+0x3f', candidate only, --expect identical: exit 0
+('inputs', 1, 'what') = 'delay byte [ds:a923]+0x3f', candidate only, --expect differ: exit 1
+('inputs', 1, 'what') = 'delay byte [DS:A٩23]+0x3F', both logs, --expect identical: exit 0
+('inputs', 1, 'what') = 'delay byte [DS:A٩23]+0x3F', both logs, --expect differ: exit 1
+('inputs', 1, 'what') = 'delay byte [DS:A٩23]+0x3F', candidate only, --expect identical: exit 0
+('inputs', 1, 'what') = 'delay byte [DS:A٩23]+0x3F', candidate only, --expect differ: exit 1
+('inputs', 1, 'linear') = NaN, both logs, --expect identical: exit 0
+('inputs', 1, 'linear') = NaN, both logs, --expect differ: exit 1
+('inputs', 1, 'linear') = NaN, candidate only, --expect identical: exit 0
+('inputs', 1, 'linear') = NaN, candidate only, --expect differ: exit 1
+('inputs', 1, 'linear') = Infinity, both logs, --expect identical: exit 0
+('inputs', 1, 'linear') = Infinity, both logs, --expect differ: exit 1
+('inputs', 1, 'linear') = Infinity, candidate only, --expect identical: exit 0
+('inputs', 1, 'linear') = Infinity, candidate only, --expect differ: exit 1
+('inputs', 1, 'linear') = -Infinity, both logs, --expect identical: exit 0
+('inputs', 1, 'linear') = -Infinity, both logs, --expect differ: exit 1
+('inputs', 1, 'linear') = -Infinity, candidate only, --expect identical: exit 0
+('inputs', 1, 'linear') = -Infinity, candidate only, --expect differ: exit 1
+('inputs', 1, 'linear') = 1e999, both logs, --expect identical: exit 0
+('inputs', 1, 'linear') = 1e999, both logs, --expect differ: exit 1
+('inputs', 1, 'linear') = 1e999, candidate only, --expect identical: exit 0
+('inputs', 1, 'linear') = 1e999, candidate only, --expect differ: exit 1
+('inputs', 1, 'linear') = -0.0, both logs, --expect identical: exit 0
+('inputs', 1, 'linear') = -0.0, both logs, --expect differ: exit 1
+('inputs', 1, 'linear') = -0.0, candidate only, --expect identical: exit 0
+('inputs', 1, 'linear') = -0.0, candidate only, --expect differ: exit 1
+('inputs', 1, 'linear') = 382645.0, both logs, --expect identical: exit 0
+('inputs', 1, 'linear') = 382645.0, both logs, --expect differ: exit 1
+('inputs', 1, 'linear') = 382645.0, candidate only, --expect identical: exit 0
+('inputs', 1, 'linear') = 382645.0, candidate only, --expect differ: exit 1
+('inputs', 1, 'linear') = True, both logs, --expect identical: exit 0
+('inputs', 1, 'linear') = True, both logs, --expect differ: exit 1
+('inputs', 1, 'linear') = True, candidate only, --expect identical: exit 0
+('inputs', 1, 'linear') = True, candidate only, --expect differ: exit 1
+('inputs', 1, 'linear') = '382645', both logs, --expect identical: exit 0
+('inputs', 1, 'linear') = '382645', both logs, --expect differ: exit 1
+('inputs', 1, 'linear') = '382645', candidate only, --expect identical: exit 0
+('inputs', 1, 'linear') = '382645', candidate only, --expect differ: exit 1
+('inputs', 1, 'linear') = 1180591620717411303424, both logs, --expect identical: exit 0
+('inputs', 1, 'linear') = 1180591620717411303424, both logs, --expect differ: exit 1
+('inputs', 1, 'linear') = 1180591620717411303424, candidate only, --expect identical: exit 0
+('inputs', 1, 'linear') = 1180591620717411303424, candidate only, --expect differ: exit 1
+('inputs', 1, 'linear') = -1, both logs, --expect identical: exit 0
+('inputs', 1, 'linear') = -1, both logs, --expect differ: exit 1
+('inputs', 1, 'linear') = -1, candidate only, --expect identical: exit 0
+('inputs', 1, 'linear') = -1, candidate only, --expect differ: exit 1
+('inputs', 1, 'linear') = -382645, both logs, --expect identical: exit 0
+('inputs', 1, 'linear') = -382645, both logs, --expect differ: exit 1
+('inputs', 1, 'linear') = -382645, candidate only, --expect identical: exit 0
+('inputs', 1, 'linear') = -382645, candidate only, --expect differ: exit 1
+('inputs', 1, 'old') = '01\n', both logs, --expect identical: exit 0
+('inputs', 1, 'old') = '01\n', both logs, --expect differ: exit 1
+('inputs', 1, 'old') = '01\n', candidate only, --expect identical: exit 0
+('inputs', 1, 'old') = '01\n', candidate only, --expect differ: exit 1
+('inputs', 1, 'old') = '\n01', both logs, --expect identical: exit 0
+('inputs', 1, 'old') = '\n01', both logs, --expect differ: exit 1
+('inputs', 1, 'old') = '\n01', candidate only, --expect identical: exit 0
+('inputs', 1, 'old') = '\n01', candidate only, --expect differ: exit 1
+('inputs', 1, 'old') = '01 ', both logs, --expect identical: exit 0
+('inputs', 1, 'old') = '01 ', both logs, --expect differ: exit 1
+('inputs', 1, 'old') = '01 ', candidate only, --expect identical: exit 0
+('inputs', 1, 'old') = '01 ', candidate only, --expect differ: exit 1
+('inputs', 1, 'old') = ' 01', both logs, --expect identical: exit 0
+('inputs', 1, 'old') = ' 01', both logs, --expect differ: exit 1
+('inputs', 1, 'old') = ' 01', candidate only, --expect identical: exit 0
+('inputs', 1, 'old') = ' 01', candidate only, --expect differ: exit 1
+('inputs', 1, 'old') = '01\t', both logs, --expect identical: exit 0
+('inputs', 1, 'old') = '01\t', both logs, --expect differ: exit 1
+('inputs', 1, 'old') = '01\t', candidate only, --expect identical: exit 0
+('inputs', 1, 'old') = '01\t', candidate only, --expect differ: exit 1
+('inputs', 1, 'old') = '01\x00', both logs, --expect identical: exit 0
+('inputs', 1, 'old') = '01\x00', both logs, --expect differ: exit 1
+('inputs', 1, 'old') = '01\x00', candidate only, --expect identical: exit 0
+('inputs', 1, 'old') = '01\x00', candidate only, --expect differ: exit 1
+('inputs', 1, 'old') = '0', both logs, --expect identical: exit 0
+('inputs', 1, 'old') = '0', both logs, --expect differ: exit 1
+('inputs', 1, 'old') = '0', candidate only, --expect identical: exit 0
+('inputs', 1, 'old') = '0', candidate only, --expect differ: exit 1
+('inputs', 1, 'old') = '011', both logs, --expect identical: exit 0
+('inputs', 1, 'old') = '011', both logs, --expect differ: exit 1
+('inputs', 1, 'old') = '011', candidate only, --expect identical: exit 0
+('inputs', 1, 'old') = '011', candidate only, --expect differ: exit 1
+('inputs', 1, 'old') = '٠1', both logs, --expect identical: exit 0
+('inputs', 1, 'old') = '٠1', both logs, --expect differ: exit 1
+('inputs', 1, 'old') = '٠1', candidate only, --expect identical: exit 0
+('inputs', 1, 'old') = '٠1', candidate only, --expect differ: exit 1
+('inputs', 1, 'new') = '00\n', both logs, --expect identical: exit 0
+('inputs', 1, 'new') = '00\n', both logs, --expect differ: exit 1
+('inputs', 1, 'new') = '00\n', candidate only, --expect identical: exit 0
+('inputs', 1, 'new') = '00\n', candidate only, --expect differ: exit 1
+('inputs', 1, 'new') = '\n00', both logs, --expect identical: exit 0
+('inputs', 1, 'new') = '\n00', both logs, --expect differ: exit 1
+('inputs', 1, 'new') = '\n00', candidate only, --expect identical: exit 0
+('inputs', 1, 'new') = '\n00', candidate only, --expect differ: exit 1
+('inputs', 1, 'new') = '00 ', both logs, --expect identical: exit 0
+('inputs', 1, 'new') = '00 ', both logs, --expect differ: exit 1
+('inputs', 1, 'new') = '00 ', candidate only, --expect identical: exit 0
+('inputs', 1, 'new') = '00 ', candidate only, --expect differ: exit 1
+('inputs', 1, 'new') = ' 00', both logs, --expect identical: exit 0
+('inputs', 1, 'new') = ' 00', both logs, --expect differ: exit 1
+('inputs', 1, 'new') = ' 00', candidate only, --expect identical: exit 0
+('inputs', 1, 'new') = ' 00', candidate only, --expect differ: exit 1
+('inputs', 1, 'new') = '00\t', both logs, --expect identical: exit 0
+('inputs', 1, 'new') = '00\t', both logs, --expect differ: exit 1
+('inputs', 1, 'new') = '00\t', candidate only, --expect identical: exit 0
+('inputs', 1, 'new') = '00\t', candidate only, --expect differ: exit 1
+('inputs', 1, 'new') = '00\x00', both logs, --expect identical: exit 0
+('inputs', 1, 'new') = '00\x00', both logs, --expect differ: exit 1
+('inputs', 1, 'new') = '00\x00', candidate only, --expect identical: exit 0
+('inputs', 1, 'new') = '00\x00', candidate only, --expect differ: exit 1
+('inputs', 1, 'new') = '0', both logs, --expect identical: exit 0
+('inputs', 1, 'new') = '0', both logs, --expect differ: exit 1
+('inputs', 1, 'new') = '0', candidate only, --expect identical: exit 0
+('inputs', 1, 'new') = '0', candidate only, --expect differ: exit 1
+('inputs', 1, 'new') = '000', both logs, --expect identical: exit 0
+('inputs', 1, 'new') = '000', both logs, --expect differ: exit 1
+('inputs', 1, 'new') = '000', candidate only, --expect identical: exit 0
+('inputs', 1, 'new') = '000', candidate only, --expect differ: exit 1
+('inputs', 1, 'new') = '٠0', both logs, --expect identical: exit 0
+('inputs', 1, 'new') = '٠0', both logs, --expect differ: exit 1
+('inputs', 1, 'new') = '٠0', candidate only, --expect identical: exit 0
+('inputs', 1, 'new') = '٠0', candidate only, --expect differ: exit 1
+('inputs', 2) duplicated key, both logs, --expect identical: exit 0
+('inputs', 2) duplicated key, both logs, --expect differ: exit 1
+('inputs', 2) duplicated key, candidate only, --expect identical: exit 0
+('inputs', 2) duplicated key, candidate only, --expect differ: exit 1
+('inputs', 2) unknown key, both logs, --expect identical: exit 0
+('inputs', 2) unknown key, both logs, --expect differ: exit 1
+('inputs', 2) unknown key, candidate only, --expect identical: exit 0
+('inputs', 2) unknown key, candidate only, --expect differ: exit 1
+('inputs', 2, 'what') = 'delay calibration dword DS:A9FF/AA01, at the first 0791:970C entry\n', both logs, --expect identical: exit 0
+('inputs', 2, 'what') = 'delay calibration dword DS:A9FF/AA01, at the first 0791:970C entry\n', both logs, --expect differ: exit 1
+('inputs', 2, 'what') = 'delay calibration dword DS:A9FF/AA01, at the first 0791:970C entry\n', candidate only, --expect identical: exit 0
+('inputs', 2, 'what') = 'delay calibration dword DS:A9FF/AA01, at the first 0791:970C entry\n', candidate only, --expect differ: exit 1
+('inputs', 2, 'what') = '\ndelay calibration dword DS:A9FF/AA01, at the first 0791:970C entry', both logs, --expect identical: exit 0
+('inputs', 2, 'what') = '\ndelay calibration dword DS:A9FF/AA01, at the first 0791:970C entry', both logs, --expect differ: exit 1
+('inputs', 2, 'what') = '\ndelay calibration dword DS:A9FF/AA01, at the first 0791:970C entry', candidate only, --expect identical: exit 0
+('inputs', 2, 'what') = '\ndelay calibration dword DS:A9FF/AA01, at the first 0791:970C entry', candidate only, --expect differ: exit 1
+('inputs', 2, 'what') = 'delay calibration dword DS:A9FF/AA01, at the first 0791:970C entry ', both logs, --expect identical: exit 0
+('inputs', 2, 'what') = 'delay calibration dword DS:A9FF/AA01, at the first 0791:970C entry ', both logs, --expect differ: exit 1
+('inputs', 2, 'what') = 'delay calibration dword DS:A9FF/AA01, at the first 0791:970C entry ', candidate only, --expect identical: exit 0
+('inputs', 2, 'what') = 'delay calibration dword DS:A9FF/AA01, at the first 0791:970C entry ', candidate only, --expect differ: exit 1
+('inputs', 2, 'what') = ' delay calibration dword DS:A9FF/AA01, at the first 0791:970C entry', both logs, --expect identical: exit 0
+('inputs', 2, 'what') = ' delay calibration dword DS:A9FF/AA01, at the first 0791:970C entry', both logs, --expect differ: exit 1
+('inputs', 2, 'what') = ' delay calibration dword DS:A9FF/AA01, at the first 0791:970C entry', candidate only, --expect identical: exit 0
+('inputs', 2, 'what') = ' delay calibration dword DS:A9FF/AA01, at the first 0791:970C entry', candidate only, --expect differ: exit 1
+('inputs', 2, 'what') = 'delay calibration dword DS:A9FF/AA01, at the first 0791:970C entry\t', both logs, --expect identical: exit 0
+('inputs', 2, 'what') = 'delay calibration dword DS:A9FF/AA01, at the first 0791:970C entry\t', both logs, --expect differ: exit 1
+('inputs', 2, 'what') = 'delay calibration dword DS:A9FF/AA01, at the first 0791:970C entry\t', candidate only, --expect identical: exit 0
+('inputs', 2, 'what') = 'delay calibration dword DS:A9FF/AA01, at the first 0791:970C entry\t', candidate only, --expect differ: exit 1
+('inputs', 2, 'what') = 'delay calibration dword DS:A9FF/AA01, at the first 0791:970C entry\x00', both logs, --expect identical: exit 0
+('inputs', 2, 'what') = 'delay calibration dword DS:A9FF/AA01, at the first 0791:970C entry\x00', both logs, --expect differ: exit 1
+('inputs', 2, 'what') = 'delay calibration dword DS:A9FF/AA01, at the first 0791:970C entry\x00', candidate only, --expect identical: exit 0
+('inputs', 2, 'what') = 'delay calibration dword DS:A9FF/AA01, at the first 0791:970C entry\x00', candidate only, --expect differ: exit 1
+('inputs', 2, 'what') = 'delay calibration dword DS:A9FF/AA01, at the first 0791:970C entr', both logs, --expect identical: exit 0
+('inputs', 2, 'what') = 'delay calibration dword DS:A9FF/AA01, at the first 0791:970C entr', both logs, --expect differ: exit 1
+('inputs', 2, 'what') = 'delay calibration dword DS:A9FF/AA01, at the first 0791:970C entr', candidate only, --expect identical: exit 0
+('inputs', 2, 'what') = 'delay calibration dword DS:A9FF/AA01, at the first 0791:970C entr', candidate only, --expect differ: exit 1
+('inputs', 2, 'what') = 'delay calibration dword DS:A9FF/AA01, at the first 0791:970C entryy', both logs, --expect identical: exit 0
+('inputs', 2, 'what') = 'delay calibration dword DS:A9FF/AA01, at the first 0791:970C entryy', both logs, --expect differ: exit 1
+('inputs', 2, 'what') = 'delay calibration dword DS:A9FF/AA01, at the first 0791:970C entryy', candidate only, --expect identical: exit 0
+('inputs', 2, 'what') = 'delay calibration dword DS:A9FF/AA01, at the first 0791:970C entryy', candidate only, --expect differ: exit 1
+('inputs', 2, 'what') = 'DELAY CALIBRATION DWORD DS:A9FF/AA01, AT THE FIRST 0791:970C ENTRY', both logs, --expect identical: exit 0
+('inputs', 2, 'what') = 'DELAY CALIBRATION DWORD DS:A9FF/AA01, AT THE FIRST 0791:970C ENTRY', both logs, --expect differ: exit 1
+('inputs', 2, 'what') = 'DELAY CALIBRATION DWORD DS:A9FF/AA01, AT THE FIRST 0791:970C ENTRY', candidate only, --expect identical: exit 0
+('inputs', 2, 'what') = 'DELAY CALIBRATION DWORD DS:A9FF/AA01, AT THE FIRST 0791:970C ENTRY', candidate only, --expect differ: exit 1
+('inputs', 2, 'what') = 'delay calibration dword ds:a9ff/aa01, at the first 0791:970c entry', both logs, --expect identical: exit 0
+('inputs', 2, 'what') = 'delay calibration dword ds:a9ff/aa01, at the first 0791:970c entry', both logs, --expect differ: exit 1
+('inputs', 2, 'what') = 'delay calibration dword ds:a9ff/aa01, at the first 0791:970c entry', candidate only, --expect identical: exit 0
+('inputs', 2, 'what') = 'delay calibration dword ds:a9ff/aa01, at the first 0791:970c entry', candidate only, --expect differ: exit 1
+('inputs', 2, 'what') = 'delay calibration dword DS:A٩FF/AA01, at the first 0791:970C entry', both logs, --expect identical: exit 0
+('inputs', 2, 'what') = 'delay calibration dword DS:A٩FF/AA01, at the first 0791:970C entry', both logs, --expect differ: exit 1
+('inputs', 2, 'what') = 'delay calibration dword DS:A٩FF/AA01, at the first 0791:970C entry', candidate only, --expect identical: exit 0
+('inputs', 2, 'what') = 'delay calibration dword DS:A٩FF/AA01, at the first 0791:970C entry', candidate only, --expect differ: exit 1
+('inputs', 2, 'linear') = NaN, both logs, --expect identical: exit 0
+('inputs', 2, 'linear') = NaN, both logs, --expect differ: exit 1
+('inputs', 2, 'linear') = NaN, candidate only, --expect identical: exit 0
+('inputs', 2, 'linear') = NaN, candidate only, --expect differ: exit 1
+('inputs', 2, 'linear') = Infinity, both logs, --expect identical: exit 0
+('inputs', 2, 'linear') = Infinity, both logs, --expect differ: exit 1
+('inputs', 2, 'linear') = Infinity, candidate only, --expect identical: exit 0
+('inputs', 2, 'linear') = Infinity, candidate only, --expect differ: exit 1
+('inputs', 2, 'linear') = -Infinity, both logs, --expect identical: exit 0
+('inputs', 2, 'linear') = -Infinity, both logs, --expect differ: exit 1
+('inputs', 2, 'linear') = -Infinity, candidate only, --expect identical: exit 0
+('inputs', 2, 'linear') = -Infinity, candidate only, --expect differ: exit 1
+('inputs', 2, 'linear') = 1e999, both logs, --expect identical: exit 0
+('inputs', 2, 'linear') = 1e999, both logs, --expect differ: exit 1
+('inputs', 2, 'linear') = 1e999, candidate only, --expect identical: exit 0
+('inputs', 2, 'linear') = 1e999, candidate only, --expect differ: exit 1
+('inputs', 2, 'linear') = -0.0, both logs, --expect identical: exit 0
+('inputs', 2, 'linear') = -0.0, both logs, --expect differ: exit 1
+('inputs', 2, 'linear') = -0.0, candidate only, --expect identical: exit 0
+('inputs', 2, 'linear') = -0.0, candidate only, --expect differ: exit 1
+('inputs', 2, 'linear') = 230463.0, both logs, --expect identical: exit 0
+('inputs', 2, 'linear') = 230463.0, both logs, --expect differ: exit 1
+('inputs', 2, 'linear') = 230463.0, candidate only, --expect identical: exit 0
+('inputs', 2, 'linear') = 230463.0, candidate only, --expect differ: exit 1
+('inputs', 2, 'linear') = True, both logs, --expect identical: exit 0
+('inputs', 2, 'linear') = True, both logs, --expect differ: exit 1
+('inputs', 2, 'linear') = True, candidate only, --expect identical: exit 0
+('inputs', 2, 'linear') = True, candidate only, --expect differ: exit 1
+('inputs', 2, 'linear') = '230463', both logs, --expect identical: exit 0
+('inputs', 2, 'linear') = '230463', both logs, --expect differ: exit 1
+('inputs', 2, 'linear') = '230463', candidate only, --expect identical: exit 0
+('inputs', 2, 'linear') = '230463', candidate only, --expect differ: exit 1
+('inputs', 2, 'linear') = 1180591620717411303424, both logs, --expect identical: exit 0
+('inputs', 2, 'linear') = 1180591620717411303424, both logs, --expect differ: exit 1
+('inputs', 2, 'linear') = 1180591620717411303424, candidate only, --expect identical: exit 0
+('inputs', 2, 'linear') = 1180591620717411303424, candidate only, --expect differ: exit 1
+('inputs', 2, 'linear') = -1, both logs, --expect identical: exit 0
+('inputs', 2, 'linear') = -1, both logs, --expect differ: exit 1
+('inputs', 2, 'linear') = -1, candidate only, --expect identical: exit 0
+('inputs', 2, 'linear') = -1, candidate only, --expect differ: exit 1
+('inputs', 2, 'linear') = -230463, both logs, --expect identical: exit 0
+('inputs', 2, 'linear') = -230463, both logs, --expect differ: exit 1
+('inputs', 2, 'linear') = -230463, candidate only, --expect identical: exit 0
+('inputs', 2, 'linear') = -230463, candidate only, --expect differ: exit 1
+('inputs', 2, 'old') = 'b3100000\n', both logs, --expect identical: exit 0
+('inputs', 2, 'old') = 'b3100000\n', both logs, --expect differ: exit 1
+('inputs', 2, 'old') = 'b3100000\n', candidate only, --expect identical: exit 0
+('inputs', 2, 'old') = 'b3100000\n', candidate only, --expect differ: exit 1
+('inputs', 2, 'old') = '\nb3100000', both logs, --expect identical: exit 0
+('inputs', 2, 'old') = '\nb3100000', both logs, --expect differ: exit 1
+('inputs', 2, 'old') = '\nb3100000', candidate only, --expect identical: exit 0
+('inputs', 2, 'old') = '\nb3100000', candidate only, --expect differ: exit 1
+('inputs', 2, 'old') = 'b3100000 ', both logs, --expect identical: exit 0
+('inputs', 2, 'old') = 'b3100000 ', both logs, --expect differ: exit 1
+('inputs', 2, 'old') = 'b3100000 ', candidate only, --expect identical: exit 0
+('inputs', 2, 'old') = 'b3100000 ', candidate only, --expect differ: exit 1
+('inputs', 2, 'old') = ' b3100000', both logs, --expect identical: exit 0
+('inputs', 2, 'old') = ' b3100000', both logs, --expect differ: exit 1
+('inputs', 2, 'old') = ' b3100000', candidate only, --expect identical: exit 0
+('inputs', 2, 'old') = ' b3100000', candidate only, --expect differ: exit 1
+('inputs', 2, 'old') = 'b3100000\t', both logs, --expect identical: exit 0
+('inputs', 2, 'old') = 'b3100000\t', both logs, --expect differ: exit 1
+('inputs', 2, 'old') = 'b3100000\t', candidate only, --expect identical: exit 0
+('inputs', 2, 'old') = 'b3100000\t', candidate only, --expect differ: exit 1
+('inputs', 2, 'old') = 'b3100000\x00', both logs, --expect identical: exit 0
+('inputs', 2, 'old') = 'b3100000\x00', both logs, --expect differ: exit 1
+('inputs', 2, 'old') = 'b3100000\x00', candidate only, --expect identical: exit 0
+('inputs', 2, 'old') = 'b3100000\x00', candidate only, --expect differ: exit 1
+('inputs', 2, 'old') = 'b310000', both logs, --expect identical: exit 0
+('inputs', 2, 'old') = 'b310000', both logs, --expect differ: exit 1
+('inputs', 2, 'old') = 'b310000', candidate only, --expect identical: exit 0
+('inputs', 2, 'old') = 'b310000', candidate only, --expect differ: exit 1
+('inputs', 2, 'old') = 'b31000000', both logs, --expect identical: exit 0
+('inputs', 2, 'old') = 'b31000000', both logs, --expect differ: exit 1
+('inputs', 2, 'old') = 'b31000000', candidate only, --expect identical: exit 0
+('inputs', 2, 'old') = 'b31000000', candidate only, --expect differ: exit 1
+('inputs', 2, 'old') = 'B3100000', both logs, --expect identical: exit 0
+('inputs', 2, 'old') = 'B3100000', both logs, --expect differ: exit 1
+('inputs', 2, 'old') = 'B3100000', candidate only, --expect identical: exit 0
+('inputs', 2, 'old') = 'B3100000', candidate only, --expect differ: exit 1
+('inputs', 2, 'old') = 'b٣100000', both logs, --expect identical: exit 0
+('inputs', 2, 'old') = 'b٣100000', both logs, --expect differ: exit 1
+('inputs', 2, 'old') = 'b٣100000', candidate only, --expect identical: exit 0
+('inputs', 2, 'old') = 'b٣100000', candidate only, --expect differ: exit 1
+('inputs', 2, 'new') = '14000000\n', both logs, --expect identical: exit 0
+('inputs', 2, 'new') = '14000000\n', both logs, --expect differ: exit 1
+('inputs', 2, 'new') = '14000000\n', candidate only, --expect identical: exit 0
+('inputs', 2, 'new') = '14000000\n', candidate only, --expect differ: exit 1
+('inputs', 2, 'new') = '\n14000000', both logs, --expect identical: exit 0
+('inputs', 2, 'new') = '\n14000000', both logs, --expect differ: exit 1
+('inputs', 2, 'new') = '\n14000000', candidate only, --expect identical: exit 0
+('inputs', 2, 'new') = '\n14000000', candidate only, --expect differ: exit 1
+('inputs', 2, 'new') = '14000000 ', both logs, --expect identical: exit 0
+('inputs', 2, 'new') = '14000000 ', both logs, --expect differ: exit 1
+('inputs', 2, 'new') = '14000000 ', candidate only, --expect identical: exit 0
+('inputs', 2, 'new') = '14000000 ', candidate only, --expect differ: exit 1
+('inputs', 2, 'new') = ' 14000000', both logs, --expect identical: exit 0
+('inputs', 2, 'new') = ' 14000000', both logs, --expect differ: exit 1
+('inputs', 2, 'new') = ' 14000000', candidate only, --expect identical: exit 0
+('inputs', 2, 'new') = ' 14000000', candidate only, --expect differ: exit 1
+('inputs', 2, 'new') = '14000000\t', both logs, --expect identical: exit 0
+('inputs', 2, 'new') = '14000000\t', both logs, --expect differ: exit 1
+('inputs', 2, 'new') = '14000000\t', candidate only, --expect identical: exit 0
+('inputs', 2, 'new') = '14000000\t', candidate only, --expect differ: exit 1
+('inputs', 2, 'new') = '14000000\x00', both logs, --expect identical: exit 0
+('inputs', 2, 'new') = '14000000\x00', both logs, --expect differ: exit 1
+('inputs', 2, 'new') = '14000000\x00', candidate only, --expect identical: exit 0
+('inputs', 2, 'new') = '14000000\x00', candidate only, --expect differ: exit 1
+('inputs', 2, 'new') = '1400000', both logs, --expect identical: exit 0
+('inputs', 2, 'new') = '1400000', both logs, --expect differ: exit 1
+('inputs', 2, 'new') = '1400000', candidate only, --expect identical: exit 0
+('inputs', 2, 'new') = '1400000', candidate only, --expect differ: exit 1
+('inputs', 2, 'new') = '140000000', both logs, --expect identical: exit 0
+('inputs', 2, 'new') = '140000000', both logs, --expect differ: exit 1
+('inputs', 2, 'new') = '140000000', candidate only, --expect identical: exit 0
+('inputs', 2, 'new') = '140000000', candidate only, --expect differ: exit 1
+('inputs', 2, 'new') = '١4000000', both logs, --expect identical: exit 0
+('inputs', 2, 'new') = '١4000000', both logs, --expect differ: exit 1
+('inputs', 2, 'new') = '١4000000', candidate only, --expect identical: exit 0
+('inputs', 2, 'new') = '١4000000', candidate only, --expect differ: exit 1
+('statistics_raw', 0) duplicated key, both logs, --expect identical: exit 0
+('statistics_raw', 0) duplicated key, both logs, --expect differ: exit 1
+('statistics_raw', 0) duplicated key, candidate only, --expect identical: exit 0
+('statistics_raw', 0) duplicated key, candidate only, --expect differ: exit 1
+('statistics_raw', 1) duplicated key, both logs, --expect identical: exit 0
+('statistics_raw', 1) duplicated key, both logs, --expect differ: exit 1
+('statistics_raw', 1) duplicated key, candidate only, --expect identical: exit 0
+('statistics_raw', 1) duplicated key, candidate only, --expect differ: exit 1
+('statistics_raw', 2) duplicated key, both logs, --expect identical: exit 0
+('statistics_raw', 2) duplicated key, both logs, --expect differ: exit 1
+('statistics_raw', 2) duplicated key, candidate only, --expect identical: exit 0
+('statistics_raw', 2) duplicated key, candidate only, --expect differ: exit 1
+('statistics_raw', 3) duplicated key, both logs, --expect identical: exit 0
+('statistics_raw', 3) duplicated key, both logs, --expect differ: exit 1
+('statistics_raw', 3) duplicated key, candidate only, --expect identical: exit 0
+('statistics_raw', 3) duplicated key, candidate only, --expect differ: exit 1
+('statistics_raw', 4) duplicated key, both logs, --expect identical: exit 0
+('statistics_raw', 4) duplicated key, both logs, --expect differ: exit 1
+('statistics_raw', 4) duplicated key, candidate only, --expect identical: exit 0
+('statistics_raw', 4) duplicated key, candidate only, --expect differ: exit 1
+('statistics_raw', 5) duplicated key, both logs, --expect identical: exit 0
+('statistics_raw', 5) duplicated key, both logs, --expect differ: exit 1
+('statistics_raw', 5) duplicated key, candidate only, --expect identical: exit 0
+('statistics_raw', 5) duplicated key, candidate only, --expect differ: exit 1
+('statistics_raw', 6) duplicated key, both logs, --expect identical: exit 0
+('statistics_raw', 6) duplicated key, both logs, --expect differ: exit 1
+('statistics_raw', 6) duplicated key, candidate only, --expect identical: exit 0
+('statistics_raw', 6) duplicated key, candidate only, --expect differ: exit 1
+('statistics_raw', 7) duplicated key, both logs, --expect identical: exit 0
+('statistics_raw', 7) duplicated key, both logs, --expect differ: exit 1
+('statistics_raw', 7) duplicated key, candidate only, --expect identical: exit 0
+('statistics_raw', 7) duplicated key, candidate only, --expect differ: exit 1
+('statistics_raw', 8) duplicated key, both logs, --expect identical: exit 0
+('statistics_raw', 8) duplicated key, both logs, --expect differ: exit 1
+('statistics_raw', 8) duplicated key, candidate only, --expect identical: exit 0
+('statistics_raw', 8) duplicated key, candidate only, --expect differ: exit 1
+('statistics_raw', 9) duplicated key, both logs, --expect identical: exit 0
+('statistics_raw', 9) duplicated key, both logs, --expect differ: exit 1
+('statistics_raw', 9) duplicated key, candidate only, --expect identical: exit 0
+('statistics_raw', 9) duplicated key, candidate only, --expect differ: exit 1
+('statistics_raw', 10) duplicated key, both logs, --expect identical: exit 0
+('statistics_raw', 10) duplicated key, both logs, --expect differ: exit 1
+('statistics_raw', 10) duplicated key, candidate only, --expect identical: exit 0
+('statistics_raw', 10) duplicated key, candidate only, --expect differ: exit 1
+('templates',) duplicated key, both logs, --expect identical: exit 0
+('templates',) duplicated key, both logs, --expect differ: exit 1
+('templates',) duplicated key, candidate only, --expect identical: exit 0
+('templates',) duplicated key, candidate only, --expect differ: exit 1
+('templates',) key '12' -> '12\n', both logs, --expect identical: exit 0
+('templates',) key '12' -> '12\n', both logs, --expect differ: exit 1
+('templates',) key '12' -> '12\n', candidate only, --expect identical: exit 1
+('templates',) key '12' -> '12\n', candidate only, --expect differ: exit 0
+('templates',) key '8' -> '8\n', both logs, --expect identical: exit 0
+('templates',) key '8' -> '8\n', both logs, --expect differ: exit 1
+('templates',) key '8' -> '8\n', candidate only, --expect identical: exit 1
+('templates',) key '8' -> '8\n', candidate only, --expect differ: exit 0
+('templates',) key '25' -> '25\n', both logs, --expect identical: exit 0
+('templates',) key '25' -> '25\n', both logs, --expect differ: exit 1
+('templates',) key '25' -> '25\n', candidate only, --expect identical: exit 1
+('templates',) key '25' -> '25\n', candidate only, --expect differ: exit 0
+('templates',) key '6' -> '6\n', both logs, --expect identical: exit 0
+('templates',) key '6' -> '6\n', both logs, --expect differ: exit 1
+('templates',) key '6' -> '6\n', candidate only, --expect identical: exit 1
+('templates',) key '6' -> '6\n', candidate only, --expect differ: exit 0
+('templates',) key '1' -> '1\n', both logs, --expect identical: exit 0
+('templates',) key '1' -> '1\n', both logs, --expect differ: exit 1
+('templates',) key '1' -> '1\n', candidate only, --expect identical: exit 1
+('templates',) key '1' -> '1\n', candidate only, --expect differ: exit 0
+('templates',) key '35' -> '35\n', both logs, --expect identical: exit 0
+('templates',) key '35' -> '35\n', both logs, --expect differ: exit 1
+('templates',) key '35' -> '35\n', candidate only, --expect identical: exit 1
+('templates',) key '35' -> '35\n', candidate only, --expect differ: exit 0
+('templates',) key '2' -> '2\n', both logs, --expect identical: exit 0
+('templates',) key '2' -> '2\n', both logs, --expect differ: exit 1
+('templates',) key '2' -> '2\n', candidate only, --expect identical: exit 1
+('templates',) key '2' -> '2\n', candidate only, --expect differ: exit 0
+('templates',) key '34' -> '34\n', both logs, --expect identical: exit 0
+('templates',) key '34' -> '34\n', both logs, --expect differ: exit 1
+('templates',) key '34' -> '34\n', candidate only, --expect identical: exit 1
+('templates',) key '34' -> '34\n', candidate only, --expect differ: exit 0
+('templates',) key '11' -> '11\n', both logs, --expect identical: exit 0
+('templates',) key '11' -> '11\n', both logs, --expect differ: exit 1
+('templates',) key '11' -> '11\n', candidate only, --expect identical: exit 1
+('templates',) key '11' -> '11\n', candidate only, --expect differ: exit 0
+('templates',) key '14' -> '14\n', both logs, --expect identical: exit 0
+('templates',) key '14' -> '14\n', both logs, --expect differ: exit 1
+('templates',) key '14' -> '14\n', candidate only, --expect identical: exit 1
+('templates',) key '14' -> '14\n', candidate only, --expect differ: exit 0
+('templates',) key '15' -> '15\n', both logs, --expect identical: exit 0
+('templates',) key '15' -> '15\n', both logs, --expect differ: exit 1
+('templates',) key '15' -> '15\n', candidate only, --expect identical: exit 1
+('templates',) key '15' -> '15\n', candidate only, --expect differ: exit 0
+('templates',) key '21' -> '21\n', both logs, --expect identical: exit 0
+('templates',) key '21' -> '21\n', both logs, --expect differ: exit 1
+('templates',) key '21' -> '21\n', candidate only, --expect identical: exit 1
+('templates',) key '21' -> '21\n', candidate only, --expect differ: exit 0
+('templates',) key '43' -> '43\n', both logs, --expect identical: exit 0
+('templates',) key '43' -> '43\n', both logs, --expect differ: exit 1
+('templates',) key '43' -> '43\n', candidate only, --expect identical: exit 1
+('templates',) key '43' -> '43\n', candidate only, --expect differ: exit 0
+('templates',) key '42' -> '42\n', both logs, --expect identical: exit 0
+('templates',) key '42' -> '42\n', both logs, --expect differ: exit 1
+('templates',) key '42' -> '42\n', candidate only, --expect identical: exit 1
+('templates',) key '42' -> '42\n', candidate only, --expect differ: exit 0
+('templates',) key '3' -> '3\n', both logs, --expect identical: exit 0
+('templates',) key '3' -> '3\n', both logs, --expect differ: exit 1
+('templates',) key '3' -> '3\n', candidate only, --expect identical: exit 1
+('templates',) key '3' -> '3\n', candidate only, --expect differ: exit 0
+('templates',) key '23' -> '23\n', both logs, --expect identical: exit 0
+('templates',) key '23' -> '23\n', both logs, --expect differ: exit 1
+('templates',) key '23' -> '23\n', candidate only, --expect identical: exit 1
+('templates',) key '23' -> '23\n', candidate only, --expect differ: exit 0
+('templates',) key '33' -> '33\n', both logs, --expect identical: exit 0
+('templates',) key '33' -> '33\n', both logs, --expect differ: exit 1
+('templates',) key '33' -> '33\n', candidate only, --expect identical: exit 1
+('templates',) key '33' -> '33\n', candidate only, --expect differ: exit 0
+('templates',) key '10' -> '10\n', both logs, --expect identical: exit 0
+('templates',) key '10' -> '10\n', both logs, --expect differ: exit 1
+('templates',) key '10' -> '10\n', candidate only, --expect identical: exit 1
+('templates',) key '10' -> '10\n', candidate only, --expect differ: exit 0
+('templates',) key '32' -> '32\n', both logs, --expect identical: exit 0
+('templates',) key '32' -> '32\n', both logs, --expect differ: exit 1
+('templates',) key '32' -> '32\n', candidate only, --expect identical: exit 1
+('templates',) key '32' -> '32\n', candidate only, --expect differ: exit 0
+('templates',) key '55' -> '55\n', both logs, --expect identical: exit 0
+('templates',) key '55' -> '55\n', both logs, --expect differ: exit 1
+('templates',) key '55' -> '55\n', candidate only, --expect identical: exit 1
+('templates',) key '55' -> '55\n', candidate only, --expect differ: exit 0
+('templates',) key '53' -> '53\n', both logs, --expect identical: exit 0
+('templates',) key '53' -> '53\n', both logs, --expect differ: exit 1
+('templates',) key '53' -> '53\n', candidate only, --expect identical: exit 1
+('templates',) key '53' -> '53\n', candidate only, --expect differ: exit 0
+('templates',) key '58' -> '58\n', both logs, --expect identical: exit 0
+('templates',) key '58' -> '58\n', both logs, --expect differ: exit 1
+('templates',) key '58' -> '58\n', candidate only, --expect identical: exit 1
+('templates',) key '58' -> '58\n', candidate only, --expect differ: exit 0
+('templates',) key '48' -> '48\n', both logs, --expect identical: exit 0
+('templates',) key '48' -> '48\n', both logs, --expect differ: exit 1
+('templates',) key '48' -> '48\n', candidate only, --expect identical: exit 1
+('templates',) key '48' -> '48\n', candidate only, --expect differ: exit 0
+('templates',) key '66' -> '66\n', both logs, --expect identical: exit 0
+('templates',) key '66' -> '66\n', both logs, --expect differ: exit 1
+('templates',) key '66' -> '66\n', candidate only, --expect identical: exit 1
+('templates',) key '66' -> '66\n', candidate only, --expect differ: exit 0
+('templates',) key '54' -> '54\n', both logs, --expect identical: exit 0
+('templates',) key '54' -> '54\n', both logs, --expect differ: exit 1
+('templates',) key '54' -> '54\n', candidate only, --expect identical: exit 1
+('templates',) key '54' -> '54\n', candidate only, --expect differ: exit 0
+('templates',) key '63' -> '63\n', both logs, --expect identical: exit 0
+('templates',) key '63' -> '63\n', both logs, --expect differ: exit 1
+('templates',) key '63' -> '63\n', candidate only, --expect identical: exit 1
+('templates',) key '63' -> '63\n', candidate only, --expect differ: exit 0
+('start_record',) = 'E011-r0001\n', both logs, --expect identical: exit 0
+('start_record',) = 'E011-r0001\n', both logs, --expect differ: exit 1
+('start_record',) = 'E011-r0001\n', candidate only, --expect identical: exit 0
+('start_record',) = 'E011-r0001\n', candidate only, --expect differ: exit 1
+('start_record',) = '\nE011-r0001', both logs, --expect identical: exit 0
+('start_record',) = '\nE011-r0001', both logs, --expect differ: exit 1
+('start_record',) = '\nE011-r0001', candidate only, --expect identical: exit 0
+('start_record',) = '\nE011-r0001', candidate only, --expect differ: exit 1
+('start_record',) = 'E011-r0001 ', both logs, --expect identical: exit 0
+('start_record',) = 'E011-r0001 ', both logs, --expect differ: exit 1
+('start_record',) = 'E011-r0001 ', candidate only, --expect identical: exit 0
+('start_record',) = 'E011-r0001 ', candidate only, --expect differ: exit 1
+('start_record',) = ' E011-r0001', both logs, --expect identical: exit 0
+('start_record',) = ' E011-r0001', both logs, --expect differ: exit 1
+('start_record',) = ' E011-r0001', candidate only, --expect identical: exit 0
+('start_record',) = ' E011-r0001', candidate only, --expect differ: exit 1
+('start_record',) = 'E011-r0001\t', both logs, --expect identical: exit 0
+('start_record',) = 'E011-r0001\t', both logs, --expect differ: exit 1
+('start_record',) = 'E011-r0001\t', candidate only, --expect identical: exit 0
+('start_record',) = 'E011-r0001\t', candidate only, --expect differ: exit 1
+('start_record',) = 'E011-r0001\x00', both logs, --expect identical: exit 0
+('start_record',) = 'E011-r0001\x00', both logs, --expect differ: exit 1
+('start_record',) = 'E011-r0001\x00', candidate only, --expect identical: exit 0
+('start_record',) = 'E011-r0001\x00', candidate only, --expect differ: exit 1
+('start_record',) = 'E011-r000', both logs, --expect identical: exit 0
+('start_record',) = 'E011-r000', both logs, --expect differ: exit 1
+('start_record',) = 'E011-r000', candidate only, --expect identical: exit 0
+('start_record',) = 'E011-r000', candidate only, --expect differ: exit 1
+('start_record',) = 'E011-r00011', both logs, --expect identical: exit 0
+('start_record',) = 'E011-r00011', both logs, --expect differ: exit 1
+('start_record',) = 'E011-r00011', candidate only, --expect identical: exit 0
+('start_record',) = 'E011-r00011', candidate only, --expect differ: exit 1
+('start_record',) = 'E011-R0001', both logs, --expect identical: exit 0
+('start_record',) = 'E011-R0001', both logs, --expect differ: exit 1
+('start_record',) = 'E011-R0001', candidate only, --expect identical: exit 0
+('start_record',) = 'E011-R0001', candidate only, --expect differ: exit 1
+('start_record',) = 'e011-r0001', both logs, --expect identical: exit 0
+('start_record',) = 'e011-r0001', both logs, --expect differ: exit 1
+('start_record',) = 'e011-r0001', candidate only, --expect identical: exit 0
+('start_record',) = 'e011-r0001', candidate only, --expect differ: exit 1
+('start_record',) = 'E٠11-r0001', both logs, --expect identical: exit 0
+('start_record',) = 'E٠11-r0001', both logs, --expect differ: exit 1
+('start_record',) = 'E٠11-r0001', candidate only, --expect identical: exit 0
+('start_record',) = 'E٠11-r0001', candidate only, --expect differ: exit 1
+('watchstart_sha256',) = 'd68e48c734a742a63e707a8c451b9011ef03b452ebd91f239d86f875464e07a9\n', both logs, --expect identical: exit 0
+('watchstart_sha256',) = 'd68e48c734a742a63e707a8c451b9011ef03b452ebd91f239d86f875464e07a9\n', both logs, --expect differ: exit 1
+('watchstart_sha256',) = 'd68e48c734a742a63e707a8c451b9011ef03b452ebd91f239d86f875464e07a9\n', candidate only, --expect identical: exit 0
+('watchstart_sha256',) = 'd68e48c734a742a63e707a8c451b9011ef03b452ebd91f239d86f875464e07a9\n', candidate only, --expect differ: exit 1
+('watchstart_sha256',) = '\nd68e48c734a742a63e707a8c451b9011ef03b452ebd91f239d86f875464e07a9', both logs, --expect identical: exit 0
+('watchstart_sha256',) = '\nd68e48c734a742a63e707a8c451b9011ef03b452ebd91f239d86f875464e07a9', both logs, --expect differ: exit 1
+('watchstart_sha256',) = '\nd68e48c734a742a63e707a8c451b9011ef03b452ebd91f239d86f875464e07a9', candidate only, --expect identical: exit 0
+('watchstart_sha256',) = '\nd68e48c734a742a63e707a8c451b9011ef03b452ebd91f239d86f875464e07a9', candidate only, --expect differ: exit 1
+('watchstart_sha256',) = 'd68e48c734a742a63e707a8c451b9011ef03b452ebd91f239d86f875464e07a9 ', both logs, --expect identical: exit 0
+('watchstart_sha256',) = 'd68e48c734a742a63e707a8c451b9011ef03b452ebd91f239d86f875464e07a9 ', both logs, --expect differ: exit 1
+('watchstart_sha256',) = 'd68e48c734a742a63e707a8c451b9011ef03b452ebd91f239d86f875464e07a9 ', candidate only, --expect identical: exit 0
+('watchstart_sha256',) = 'd68e48c734a742a63e707a8c451b9011ef03b452ebd91f239d86f875464e07a9 ', candidate only, --expect differ: exit 1
+('watchstart_sha256',) = ' d68e48c734a742a63e707a8c451b9011ef03b452ebd91f239d86f875464e07a9', both logs, --expect identical: exit 0
+('watchstart_sha256',) = ' d68e48c734a742a63e707a8c451b9011ef03b452ebd91f239d86f875464e07a9', both logs, --expect differ: exit 1
+('watchstart_sha256',) = ' d68e48c734a742a63e707a8c451b9011ef03b452ebd91f239d86f875464e07a9', candidate only, --expect identical: exit 0
+('watchstart_sha256',) = ' d68e48c734a742a63e707a8c451b9011ef03b452ebd91f239d86f875464e07a9', candidate only, --expect differ: exit 1
+('watchstart_sha256',) = 'd68e48c734a742a63e707a8c451b9011ef03b452ebd91f239d86f875464e07a9\t', both logs, --expect identical: exit 0
+('watchstart_sha256',) = 'd68e48c734a742a63e707a8c451b9011ef03b452ebd91f239d86f875464e07a9\t', both logs, --expect differ: exit 1
+('watchstart_sha256',) = 'd68e48c734a742a63e707a8c451b9011ef03b452ebd91f239d86f875464e07a9\t', candidate only, --expect identical: exit 0
+('watchstart_sha256',) = 'd68e48c734a742a63e707a8c451b9011ef03b452ebd91f239d86f875464e07a9\t', candidate only, --expect differ: exit 1
+('watchstart_sha256',) = 'd68e48c734a742a63e707a8c451b9011ef03b452ebd91f239d86f875464e07a9\x00', both logs, --expect identical: exit 0
+('watchstart_sha256',) = 'd68e48c734a742a63e707a8c451b9011ef03b452ebd91f239d86f875464e07a9\x00', both logs, --expect differ: exit 1
+('watchstart_sha256',) = 'd68e48c734a742a63e707a8c451b9011ef03b452ebd91f239d86f875464e07a9\x00', candidate only, --expect identical: exit 0
+('watchstart_sha256',) = 'd68e48c734a742a63e707a8c451b9011ef03b452ebd91f239d86f875464e07a9\x00', candidate only, --expect differ: exit 1
+('watchstart_sha256',) = 'd68e48c734a742a63e707a8c451b9011ef03b452ebd91f239d86f875464e07a', both logs, --expect identical: exit 0
+('watchstart_sha256',) = 'd68e48c734a742a63e707a8c451b9011ef03b452ebd91f239d86f875464e07a', both logs, --expect differ: exit 1
+('watchstart_sha256',) = 'd68e48c734a742a63e707a8c451b9011ef03b452ebd91f239d86f875464e07a', candidate only, --expect identical: exit 0
+('watchstart_sha256',) = 'd68e48c734a742a63e707a8c451b9011ef03b452ebd91f239d86f875464e07a', candidate only, --expect differ: exit 1
+('watchstart_sha256',) = 'd68e48c734a742a63e707a8c451b9011ef03b452ebd91f239d86f875464e07a99', both logs, --expect identical: exit 0
+('watchstart_sha256',) = 'd68e48c734a742a63e707a8c451b9011ef03b452ebd91f239d86f875464e07a99', both logs, --expect differ: exit 1
+('watchstart_sha256',) = 'd68e48c734a742a63e707a8c451b9011ef03b452ebd91f239d86f875464e07a99', candidate only, --expect identical: exit 0
+('watchstart_sha256',) = 'd68e48c734a742a63e707a8c451b9011ef03b452ebd91f239d86f875464e07a99', candidate only, --expect differ: exit 1
+('watchstart_sha256',) = 'D68E48C734A742A63E707A8C451B9011EF03B452EBD91F239D86F875464E07A9', both logs, --expect identical: exit 0
+('watchstart_sha256',) = 'D68E48C734A742A63E707A8C451B9011EF03B452EBD91F239D86F875464E07A9', both logs, --expect differ: exit 1
+('watchstart_sha256',) = 'D68E48C734A742A63E707A8C451B9011EF03B452EBD91F239D86F875464E07A9', candidate only, --expect identical: exit 0
+('watchstart_sha256',) = 'D68E48C734A742A63E707A8C451B9011EF03B452EBD91F239D86F875464E07A9', candidate only, --expect differ: exit 1
+('watchstart_sha256',) = 'd٦8e48c734a742a63e707a8c451b9011ef03b452ebd91f239d86f875464e07a9', both logs, --expect identical: exit 0
+('watchstart_sha256',) = 'd٦8e48c734a742a63e707a8c451b9011ef03b452ebd91f239d86f875464e07a9', both logs, --expect differ: exit 1
+('watchstart_sha256',) = 'd٦8e48c734a742a63e707a8c451b9011ef03b452ebd91f239d86f875464e07a9', candidate only, --expect identical: exit 0
+('watchstart_sha256',) = 'd٦8e48c734a742a63e707a8c451b9011ef03b452ebd91f239d86f875464e07a9', candidate only, --expect differ: exit 1
+
+----------------------------------------------------------------------
+Ran 40 tests in 4.911s
+
+FAILED (failures=7)
