@@ -67,6 +67,15 @@ STAT_NAMES = ("corners", "free_kicks", "penalties", "shots", "on_target", "saves
 # order: bookings +7, red cards +8, injuries +9 of STATS + 10t (798D at 7A01, 7B77 at 7B6D, 7D56 at 7DD9); the
 # score bytes (a watched goal 685C, its cancellation 68B3, the quick engine B261/D77B); the commentary ring's
 # counter DS:80EE (1D4A); the minute DS:831F (the clock 970C at 9762); substitutions left DS:9B38 + t (C5DC).
+# What a write of the score bytes means, by the instruction that makes it (static/goal-exe/code/seg_0791_11.asm,
+# _18.asm, _21.asm, _02.asm; named/seg_0791_11.c quick_match_engine):
+GOAL_WRITE, CANCEL_WRITE = "0791:685C", "0791:68B3"   # the watched goal (inc) and its take-back (dec, DS:830E set)
+QUICK_CLEAR, QUICK_COMMIT = "0791:D77B", "0791:DA58"  # quick_match_engine D733 saves the committed score word in
+# [bp-2] (D75C) and clears DS:9B3C (D77B); roll_quick_goals (B19D, inc at B261) rolls trial counts into it and D8A5
+# subtracts the saved ones: scratch, no goal; it commits at most one goal per call (record_goal 6443, [bp-2] + 1)
+# and writes [bp-2] back at DA58: the committed goals are DA58's word minus the word D77B cleared.
+QUICK_SCRATCH = ("0791:B261", "0791:D8A5")
+REPLAY_RESTORE = "0791:0F11"   # action_replay 0C65 restores a snapshot's score (not reached by the kit's runs)
 CARD_EVENTS = (("booking", "bookings"), ("sending_off", "sendings_off"), ("injury", "injuries"))
 BARS = (0x80F2, 0x80F6)        # the board's two bar rows (0106: f_0791_006C rows 0x13, 0x14)
 SCORERS, SCORERS_SIDE = 0x7BD1, 0x21          # 0106: 0x7BD1 + 0x21*team + 3*k (word player, byte minute)
@@ -692,8 +701,12 @@ class Match:
 
     # -- the original's writes, each recorded when it happens (the event's stamp) ------------------------------
     def _stamp(self):
-        """The guest's minute and score now: [minute, score team 0, score team 1]."""
+        """The guest's minute and score now: [minute, score team 0, score team 1]. Inside the quick engine (from its
+        clear at D77B to its commit at DA58) DS:9B3C holds trial counts: the score is the committed one it saved."""
         m = self.m
+        quick = self.st.get("quick")
+        if quick is not None:
+            return [m.rd(MINUTE)] + list(quick)
         return [m.rd(MINUTE), m.rd(SCORE, 1), m.rd(SCORE + 1, 1)]
 
     def _on_line(self, old, new):
@@ -703,24 +716,49 @@ class Match:
             self.st["pending"].append(["line"] + self._stamp() + [n])
 
     def _on_score(self, old, new):
-        """A score byte goes up for a goal (685C watched, B261/D77B quick) and down when the original takes it
-        back in the same action (68B3: DS:830E set, no record_goal): a goal, or a goal disallowed."""
-        if not self.st["live"]:
+        """A write of the score bytes, read by the instruction that makes it (QUICK_CLEAR above): the watched goal
+        685C (+1: a goal) and its take-back 68B3 (-1 in the same action, DS:830E set, no record_goal: a goal
+        disallowed, queued here at its own write, after what the original wrote in between; the goal it takes back
+        stays where it was written, marked so it takes no scorer row and leaves the result's goals); the quick
+        engine's clear D77B (the committed score saved), its trial counts B261/D8A5 (nothing) and its commit DA58
+        (each byte above the saved one: a goal). Any other write in play stops the kit (GuestError): it does not
+        guess what a write it has not read means."""
+        st, m = self.st, self.m
+        if not st["live"]:
             return
-        minute = self.m.rd(MINUTE)
+        pc, minute = m.pc(), m.rd(MINUTE)
+        if pc == m.lin(QUICK_CLEAR):
+            if st.get("quick") is not None:
+                self._fail("the quick engine cleared the score twice without its commit (0791:D77B, DA58)")
+            st["quick"] = [old[0], old[1]]
+            return
+        if st.get("quick") is not None:
+            if pc in [m.lin(a) for a in QUICK_SCRATCH]:
+                return
+            if pc != m.lin(QUICK_COMMIT):
+                self._fail(f"a score write at {pc:05X} inside the quick engine, not one of its own")
+            saved, st["quick"] = st["quick"], None
+            for t in (0, 1):
+                if new[t] < saved[t]:
+                    self._fail(f"the quick engine's commit lowered team {t}'s score ({saved} to {list(new)})")
+                for _ in range(new[t] - saved[t]):
+                    st["pending"].append(["goal", minute, new[0], new[1], t, False])
+            return
         for t in (0, 1):
             d = (new[t] - old[t]) & 0xFF
-            if 0 < d < 0x80:
-                for i in range(d):
-                    self.st["pending"].append(["goal", minute, new[0], new[1], t])
-            elif d:
-                for _ in range(0x100 - d):
-                    taken = [p for p in self.st["pending"] if p[0] == "goal" and p[4] == t]
-                    if taken:
-                        taken[-1][0] = "goal_disallowed"
-                        taken[-1][2:4] = [new[0], new[1]]
-                    else:
-                        self.st["pending"].append(["goal_disallowed", minute, new[0], new[1], t])
+            if not d:
+                continue
+            if d == 1 and pc == m.lin(GOAL_WRITE):
+                st["pending"].append(["goal", minute, new[0], new[1], t, False])
+            elif d == 0xFF and pc == m.lin(CANCEL_WRITE):
+                taken = [p for p in st["pending"] if p[0] == "goal" and p[4] == t and not p[5]]
+                if not taken:
+                    self._fail(f"the original took back a goal of team {t} the kit did not see written (0791:68B3)")
+                taken[-1][5] = True
+                st["pending"].append(["goal_disallowed", minute, new[0], new[1], t])
+            else:
+                self._fail(f"a score write at {pc:05X} in play ({list(old)} to {list(new)}) the kit does not declare"
+                           + (" (the action replay's restore, 0791:0F11)" if pc == m.lin(REPLAY_RESTORE) else ""))
 
     def _on_cards(self, team, old, new):
         """Bookings, red cards and injuries of `team`: STATS + 10 team + 7, 8, 9 (798D 7A01, 7B77 7B6D, 7D56 7DD9);
@@ -735,8 +773,7 @@ class Match:
     def _on_minute(self, old, new):
         """The clock 970C writes the minute DS:831F (9762 `inc`); A4A1 resets it before play_match."""
         if self.st["live"] and new != old:
-            self.st["pending"].append(["minute", int.from_bytes(new, "little"), self.m.rd(SCORE, 1),
-                                       self.m.rd(SCORE + 1, 1)])
+            self.st["pending"].append(["minute", int.from_bytes(new, "little")] + self._stamp()[1:])
 
     def _on_subs_left(self, old, new):
         """C5DC counts a substitution down (DS:9B38 + t), for both teams' substitutions."""
@@ -784,10 +821,12 @@ class Match:
                 self._emit("minute", minute, score)
             elif kind in ("goal", "goal_disallowed"):
                 team = item[4]
-                w, mb = rows[team].pop(0) if kind == "goal" and rows[team] else (0, None)
+                scored = kind == "goal" and not item[5]      # a goal taken back has no record_goal row
+                w, mb = rows[team].pop(0) if scored and rows[team] else (0, None)
                 goal = {"team": team, "country": self.opts[TEAM_KEYS[team]], "player": w, "name": name(w)}
-                st["log"]["goals" if kind == "goal" else "goals_disallowed"].append(dict(goal, minute=minute,
-                                                                                     minute_byte=mb))
+                if kind == "goal_disallowed" or scored:
+                    st["log"]["goals" if scored else "goals_disallowed"].append(dict(goal, minute=minute,
+                                                                                    minute_byte=mb))
                 self._emit(kind, minute, score, **goal)
             elif kind == "substitution":
                 team = item[4]
@@ -800,15 +839,10 @@ class Match:
                 card = {"team": team, "player": w, "name": name(w)}
                 st["log"][dict(CARD_EVENTS)[kind]].append(dict(card, minute=minute))
                 self._emit(kind, minute, score, **card)
-        for team in (0, 1):            # never seen: a scorer row or a squad change without its counter's write
-            for w, mb in rows[team]:
-                goal = {"team": team, "country": self.opts[TEAM_KEYS[team]], "player": w, "name": name(w)}
-                st["log"]["goals"].append(dict(goal, minute=m.rd(MINUTE), minute_byte=mb))
-                self._emit("goal", **goal)
-            for off, on in swaps[team]:
-                sub = {"team": team, "off": off, "on": on, "off_name": name(off), "on_name": name(on)}
-                st["log"]["substitutions"].append(dict(sub, minute=m.rd(MINUTE)))
-                self._emit("substitution", **sub)
+        for team in (0, 1):            # a scorer row or an eleven change without its counter's write: not guessed
+            if rows[team] or swaps[team]:
+                self._fail(f"team {team}: scorer rows {rows[team]} or eleven changes {swaps[team]} without the "
+                           "score or substitutions-left write that makes them events")
         st["candidates"] = {}
 
     def _board(self):
