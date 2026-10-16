@@ -171,3 +171,28 @@ calls).
   routines and their joint set removable; both batch exit 0); `recheck-review4.txt` over five stamps: 80
   comparisons, the 69 quoted as passing exit 0, the 11 non-removable results exit 1, none exit 2; all 190
   records of 82 logs conform (`schema-observed-review4-after-batches.txt`). Hashes: `sha256-review4.tsv`.
+
+## Review round 5 (PR 243, Sol): an acceptance script that skipped work when an input was missing
+
+- `recheck.sh` of round 4 ran a stamp's 15 comparisons only when that stamp's pilot transcript existed
+  (`[ -f ... ] || continue`), so a missing transcript hid a malformed log. The recheck is now `recheck.py`
+  (`recheck.sh` only calls it), with ONE explicit manifest: the stamps, the 13 transcripts, the 97 logs and
+  95 comparisons, each with the exit code compare.py must give (0 quoted as passing, 1 quoted as not
+  removable). A missing or extra log or transcript, a transcript from review1 on that does not end with
+  `batch exit 0`, any other exit code, or another number of comparisons is exit 2. Nothing is optional.
+- The sweep for the same class: `derive_schema.py`'s glob is now checked against the manifest (a missing or
+  extra log is a failure, not fewer records); `costs.py` reads an explicit list of the 17 T48 logs instead of
+  two globs (a missing one stops it). The batch scripts check every generator's status already (round 2);
+  `hashes.py` records whatever is in `out/` and gates nothing.
+- `tests/test_e032_recheck.py` builds fixture repositories in a temp dir (no emulator) and runs
+  `recheck.sh` there: the full state passes; each transcript removed, each log removed, each log replaced by
+  `{}`, only the seven logs the round-4 script read after its loop, an extra log, an unclean transcript: all
+  exit 2. On 23fc03a's scripts 6 of its 7 tests fail (`recheck-tests-on-round4-scripts-review5.txt`; e.g.
+  every missing transcript gave exit 0); on the fixed ones all pass (`recheck-tests-on-fixed-scripts-review5.txt`).
+- The batches re-run under stamp review5 (3 falsifiers caught, 8 of 8 identical; 8537 and 8E24 not removable,
+  the eight display routines and their joint set removable; both batch exit 0). The recheck then refused the
+  new logs until the manifest listed the stamp (`recheck-review5-before-manifest-update.txt`, 17 problems,
+  exit 2); `recheck-review5.txt` is a run that stopped on the manifest's own count assertion while I updated
+  it; `recheck-review5-final.txt`: 95 of 95 comparisons, 82 exit 0 and 13 exit 1 as expected, 0 problems.
+  `costs-review5.*` byte-identical to round 4; `plancheck-review5.txt` 65 of 65, no untied figure;
+  `schema-observed-review5.txt`: all 223 records of 97 logs conform. Hashes: `sha256-review5.tsv`.

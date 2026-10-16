@@ -1,0 +1,56 @@
+== skip 0791:8537
+seed 0x1234: score [1, 1] ticks 4146 draws 184109 cpu 8.3 s -> 157.2 s; NOT COMPLETED (error 'no full-time board within 150 s (a loop waits for what the skipped routine does)'; did not stop at the full-time board): FAIL
+seed 0x2345: score [0, 1] ticks 4138 draws 187079 cpu 8.5 s -> 157.1 s; NOT COMPLETED (error 'no full-time board within 150 s (a loop waits for what the skipped routine does)'; did not stop at the full-time board): FAIL
+2 seeds expected identical, 0 pass, 2 fail
+result: NOT removable (0791:8537)
+== skip 0791:8E24
+seed 0x1234: score [1, 1] ticks 4146 draws 184109 cpu 8.3 s -> 8.6 s; DIFFER: score, ticks, draws, draws_digest, statistics_raw, templates: FAIL
+seed 0x2345: score [0, 1] ticks 4138 draws 187079 cpu 8.5 s -> 9.5 s; DIFFER: score, ticks, draws, draws_digest, statistics_raw, templates: FAIL
+2 seeds expected identical, 0 pass, 2 fail
+result: NOT removable (0791:8E24)
+== skip 0791:8F10
+seed 0x1234: score [1, 1] ticks 4146 draws 184109 cpu 8.3 s -> 10.4 s; identical
+seed 0x2345: score [0, 1] ticks 4138 draws 187079 cpu 8.5 s -> 10.5 s; identical
+2 seeds expected identical, 2 pass, 0 fail
+result: removable (0791:8F10)
+== skip 0791:9079
+seed 0x1234: score [1, 1] ticks 4146 draws 184109 cpu 8.3 s -> 7.9 s; identical
+seed 0x2345: score [0, 1] ticks 4138 draws 187079 cpu 8.5 s -> 8.2 s; identical
+2 seeds expected identical, 2 pass, 0 fail
+result: removable (0791:9079)
+== skip 0791:0481
+seed 0x1234: score [1, 1] ticks 4146 draws 184109 cpu 8.3 s -> 8.0 s; identical
+seed 0x2345: score [0, 1] ticks 4138 draws 187079 cpu 8.5 s -> 8.6 s; identical
+2 seeds expected identical, 2 pass, 0 fail
+result: removable (0791:0481)
+== skip 0791:1829
+seed 0x1234: score [1, 1] ticks 4146 draws 184109 cpu 8.3 s -> 8.9 s; identical
+seed 0x2345: score [0, 1] ticks 4138 draws 187079 cpu 8.5 s -> 8.8 s; identical
+2 seeds expected identical, 2 pass, 0 fail
+result: removable (0791:1829)
+== skip 0791:0425
+seed 0x1234: score [1, 1] ticks 4146 draws 184109 cpu 8.3 s -> 9.4 s; identical
+seed 0x2345: score [0, 1] ticks 4138 draws 187079 cpu 8.5 s -> 10.3 s; identical
+2 seeds expected identical, 2 pass, 0 fail
+result: removable (0791:0425)
+== skip 0791:0441
+seed 0x1234: score [1, 1] ticks 4146 draws 184109 cpu 8.3 s -> 8.0 s; identical
+seed 0x2345: score [0, 1] ticks 4138 draws 187079 cpu 8.5 s -> 8.6 s; identical
+2 seeds expected identical, 2 pass, 0 fail
+result: removable (0791:0441)
+== skip 0791:94E8
+seed 0x1234: score [1, 1] ticks 4146 draws 184109 cpu 8.3 s -> 9.4 s; identical
+seed 0x2345: score [0, 1] ticks 4138 draws 187079 cpu 8.5 s -> 10.3 s; identical
+2 seeds expected identical, 2 pass, 0 fail
+result: removable (0791:94E8)
+== skip 0791:9372
+seed 0x1234: score [1, 1] ticks 4146 draws 184109 cpu 8.3 s -> 7.3 s; identical
+seed 0x2345: score [0, 1] ticks 4138 draws 187079 cpu 8.5 s -> 8.5 s; identical
+2 seeds expected identical, 2 pass, 0 fail
+result: removable (0791:9372)
+== skip the joint set 0791:8F10,0791:9079,0791:0481,0791:1829,0791:0425,0791:0441,0791:94E8,0791:9372
+seed 0x1234: score [1, 1] ticks 4146 draws 184109 cpu 8.3 s -> 11.7 s; identical
+seed 0x2345: score [0, 1] ticks 4138 draws 187079 cpu 8.5 s -> 10.9 s; identical
+2 seeds expected identical, 2 pass, 0 fail
+result: removable (the joint set 0791:8F10,0791:9079,0791:0481,0791:1829,0791:0425,0791:0441,0791:94E8,0791:9372)
+batch exit 0

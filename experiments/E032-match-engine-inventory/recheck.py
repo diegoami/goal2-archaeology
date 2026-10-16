@@ -13,7 +13,8 @@ plan quotes as NOT removable (a measured difference). Nothing is skipped and not
   DIR must hold no other match log (*.jsonl) nor batch transcript (*batch-*.txt) than the manifest's;
 - every transcript of a stamp from review1 on must end with `batch exit 0`;
 - every comparison runs (compare.py's main, in-process) and must give exactly its expected exit code;
-- the number of comparisons run must equal the manifest's (EXPECTED_COMPARISONS = 80).
+- the number of comparisons run must equal the manifest's (EXPECTED_COMPARISONS: 80 for the five stamps at
+  23fc03a, 95 once review5's batches were added).
 Exit 0 when all of that holds, 2 otherwise; one line per comparison, then the counts. It generates nothing."""
 import argparse
 import contextlib
@@ -25,7 +26,7 @@ HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
 import compare  # noqa: E402
 
-STAMPS = ("20261015", "review1", "review2", "review3", "review4")
+STAMPS = ("20261015", "review1", "review2", "review3", "review4", "review5")   # a new batch stamp is added here
 TRANSCRIPTS = [f"{kind}-batch-{s}.txt" for s in STAMPS for kind in ("pilot", "skip")] + ["coverage-batch-20261015.txt"]
 TWO = "0x1234,0x2345"
 EIGHT = "0x0101,0x2b7e,0x4c1d,0x6a33,0x8e05,0xa1f0,0xc3c3,0xe719"
@@ -75,7 +76,7 @@ def manifest():
 
 
 COMPARISONS = manifest()
-EXPECTED_COMPARISONS = 80
+EXPECTED_COMPARISONS = 95          # 15 per stamp x 6 stamps + 5 single comparisons
 LOGS = sorted({c[1] for c in COMPARISONS} | {c[2] for c in COMPARISONS})
 assert len(COMPARISONS) == EXPECTED_COMPARISONS, len(COMPARISONS)
 
