@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 """Re-run one earlier experiment's own script once on the fixed driver, writing its run records under
-experiments/fix-244-driver-keys/out/rerun/<E>/ instead of runs/<E>/ (the originals are never touched,
-and the numbering restarts: these are r0001... of this folder).
+experiments/fix-244-driver-keys/out/rerun-default/<E>/ instead of runs/<E>/ (the originals are never touched,
+and the numbering restarts: these are r0001... of this folder). out/rerun/ holds the first re-runs,
+made when the savestate key was held 0.15 s (the read pace was 4 times faster than the original's);
+the driver's default hold is now SAVE_HOLD, and the re-runs with it are in out/rerun-default/.
 
     python3 experiments/fix-244-driver-keys/rerun.py E003 d0 --runs 1 --dos-time 10:00:00 --dos-date 10/04/1993 --batch fix244
     python3 experiments/fix-244-driver-keys/rerun.py E006 games --times 10:00 --batch fix244
@@ -68,7 +70,7 @@ def main():
         init = driver.Driver.__init__
         driver.Driver.__init__ = lambda self, *a, **k: init(self, *a, **{**k, "legacy_keys": True})
     mod = load(exp)
-    out = HERE / "out" / ("rerun-legacy-keys" if legacy else f"rerun-save-key-hold-{slow}" if slow else f"rerun-legacy-only-{mix}" if mix else "rerun") / exp
+    out = HERE / "out" / ("rerun-legacy-keys" if legacy else f"rerun-save-key-hold-{slow}" if slow else f"rerun-legacy-only-{mix}" if mix else "rerun-default") / exp
     mod.OUT = out
     if hasattr(mod, "e003"):  # E006 loads E003's script for its keys and helpers
         mod.e003.OUT = out

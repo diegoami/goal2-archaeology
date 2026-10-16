@@ -17,6 +17,9 @@ added, and the savestate and load are single keys (Scroll Lock, Print Screen) th
 driver writes, so the host key F12 is never pressed. xdotool, asked for F10, sent Left Alt with it (the
 guest read Alt+F10), and its F12+S chord left Left Alt held in the guest from the launch on, in every
 run recorded before the fix. `Driver(legacy_keys=True)` is that old behaviour, kept to reproduce the fault.
+Read pace: the savestate key is held `save_hold` seconds (default SAVE_HOLD = 0.52), so a savestate read
+takes about 0.53 s as it did with the F12 chord; scripts whose `settle` waits for two equal reads reproduce
+their records only at that pace (SAVE_HOLD says how it was measured).
 Do not press F1 in a driver run: the help viewer makes every later savestate crash DOSBox-X 2024.03.01
 (buffer overflow detected, exit -6), even after Esc (E031).
 Copied in part from runtime/spike/dbx.py (T02); the spike stays unchanged."""
@@ -98,6 +101,14 @@ TITLE_TEXT = "Do you want to load a saved game"
 # Delays (seconds) taken from runtime/spike/dbx.py, where F001 measured with them; each use is logged.
 KEY_HOLD = 0.08       # a game key: press, hold, release
 HOSTKEY_HOLD = 0.15   # each step of a DOSBox-X host-key (F12) combination
+# How long the savestate (and load) key is held, so that a read takes the time it took before issue 244.
+# The old chord _hostkey held 3 steps of HOSTKEY_HOLD (F12 down, S down, S up) = 0.45 s and made 4 xdotool
+# calls; the gap between consecutive chords logged in E003-r0047 and r0049 ("host key F12+s") has median
+# 0.536 s and 0.534 s (min 0.512, 29 and 30 gaps), and the single key with a hold h takes h + 0.013 s
+# (median 0.163 s at h = 0.15, E003 re-run r0008), so h = 0.52 s gives the old 0.53 s per read.
+# Earlier experiments' `settle` (two equal reads) depends on that pace: at 0.15 s E003 d3b stopped on a
+# transient screen and its record did not reproduce (experiments/fix-244-driver-keys/README.md).
+SAVE_HOLD = 0.52
 POLL = 0.05           # savestate file poll interval
 X_POLL = 0.1          # Xvfb and window poll interval
 # Seconds to wait for exit after SIGTERM before SIGKILL to the group (issue #19): F001 M:terminate
@@ -201,7 +212,8 @@ def host_times():
 
 
 class Driver:
-    def __init__(self, config=None, workdir=None, game_dir=GAME_DIR, legacy_keys=False):
+    def __init__(self, config=None, workdir=None, game_dir=GAME_DIR, legacy_keys=False, save_hold=SAVE_HOLD):
+        self.save_hold = save_hold  # seconds the savestate and load key is held: the read pace (SAVE_HOLD), read at each call
         self.legacy_keys = legacy_keys  # True: xdotool keys and the F12 host chord, the fault of issue 244
         self.config = dict(DEFAULT_CONFIG, **(config or {}))
         self.workdir = Path(workdir or SCRATCH / "session").resolve()
@@ -419,15 +431,19 @@ exit
                 codes = xkeys.press_release(self.display, k, hold)  # the hold is inside the call
                 self.log(f"key {name} held {hold}s (raw keycode {'+'.join(map(str, codes))})")
 
-    def _hostkey(self, name, hold=HOSTKEY_HOLD):
+    def _hostkey(self, name, hold=None):
         """An emulator hotkey, not game input: `s` saves a state, `l` loads one. One key (xkeys.SINGLE_KEYS)
-        through the mapper _write_mapper wrote, held `hold` s (logged). With legacy_keys: DOSBox-X's host
-        key F12 + the letter through xdotool, which leaves Left Alt held in the guest (issue 244)."""
+        through the mapper _write_mapper wrote, held `hold` s, by default `self.save_hold` (SAVE_HOLD, the
+        pace of a read before issue 244; logged). With legacy_keys: DOSBox-X's host key F12 + the letter
+        through xdotool (each of 3 steps held `hold`, default HOSTKEY_HOLD), which leaves Left Alt held in
+        the guest (issue 244)."""
         if not self.legacy_keys:
+            hold = self.save_hold if hold is None else hold
             k = xkeys.SINGLE_KEYS[name]
             codes = xkeys.press_release(self.display, k, hold)  # the hold is inside the call
             self.log(f"emulator key {k} (for host+{name}) held {hold}s (raw keycode {'+'.join(map(str, codes))})")
             return
+        hold = HOSTKEY_HOLD if hold is None else hold
         self._x("keydown", "F12")
         time.sleep(hold)  # key hold (host key); logged below
         self._x("keydown", name)
