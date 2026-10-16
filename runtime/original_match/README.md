@@ -99,4 +99,4 @@ back with `refused` set; answer again. A declined injury notice comes back at ev
 Friendlies only (kind 1); competitive fixtures, extra time and the shoot-out are wired but unchecked (about 2 h with
 E031's shoot-out state). The set-piece taker prompts keep the original's pick (exposing them: about 1 h). One
 human side. A match costs 6-10 CPU s (a quick result after `R`, about 2 s); stepping by minute or tick adds nothing
-measurable. `save()` is about 0.3 MB.
+measurable. `save()` is about 0.36 MB.

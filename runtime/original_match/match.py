@@ -92,7 +92,7 @@ class Event:
     data: dict = field(default_factory=dict)
 
     def __str__(self):
-        extra = " ".join(f"{k}={v}" for k, v in self.data.items() if k not in ("players", "eleven", "bench"))
+        extra = " ".join(f"{k}={v}" for k, v in self.data.items() if k not in ("players", "eleven", "bench", "positions"))
         return f"[{self.minute:3d}' {self.score[0]}-{self.score[1]}] {self.kind} {extra}"
 
 

@@ -128,4 +128,11 @@ identical to the straight run; goal2 managing country 19 (Denmark released) is o
 - Two human sides: not supported (one manager's decisions).
 - Speed: a whole match 6-10 CPU s here, 2-3 s with R; stopping at every event or tick costs nothing measurable
   (`out/templates-20261016.jsonl`: 6.6-10.3 CPU s with or without `tick` events, on a shared machine). A person-speed
-  display is goal2's pacing between events. A saved match is about 0.3 MB (1.5-2.3 MB with `record_draws`).
+  display is goal2's pacing between events. A saved match is about 0.36 MB (the image's memory above 1 MiB is kept
+  in it, so `memory_component()` after a resume is the image's full size); 1.5-2.3 MB with `record_draws`.
+
+## 6. Outputs
+
+Every file in `out/` is listed with its SHA-256 in `out/sha256-20261016.tsv` (`hashes.py`). The final runs, from
+the PR's last code commit, are the files stamped `20261016c` (check, paths, example, tests, mutations, goal2 trial
+and its check); the earlier stamps are the runs this notes file cites above, kept.
