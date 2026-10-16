@@ -199,6 +199,10 @@ class OriginalTests(unittest.TestCase):
                 m.answer(substitutions=[(130, 134)] if ev.data["context"] == "half_time" else ())
         subs = [(s["off"], s["on"], s["minute"]) for s in m.result()["substitutions"] if s["team"] == 0]
         self.assertEqual(subs[0], (130, 134, 46))
+        before, after = self.image.memory_component(), m.memory_component()   # the image's own size, and only
+        self.assertEqual(len(after), len(before))                             # the first 1 MiB + HMA can change
+        self.assertEqual(after[0x78 + 0x110000:], before[0x78 + 0x110000:])
+        self.assertNotEqual(after[:0x78 + 0x110000], before[:0x78 + 0x110000])
 
     def test_refused_eleven_comes_back(self):
         from original_match import Match, Fixture

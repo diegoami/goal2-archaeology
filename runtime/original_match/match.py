@@ -99,8 +99,10 @@ class Event:
 class Match:
     def __init__(self, image, fixture, *, managed=None, captain=None, seed=None, players=None, countries=None,
                  ticks=False, record_draws=False, delay_byte=None, timeout_s=60):
-        """image: an Image of the original outside a match (goal2's GameState.mem through
-        Image.from_memory_component). players, countries: goal2's records to write first (lists of 3061 byte
+        """image: an Image of the original (goal2's savestate bytes through Image.from_savestate, e.g. of
+        to_savestate(state, template); or GameState.mem through Image.from_memory_component). On the fixture
+        tried, the match depended on the image only through its two teams' records (E033 notes, section 2).
+        players, countries: goal2's records to write first (lists of 3061 byte
         strings of 0x14 and 129 of 0xBF), else the image's are used. managed: the country goal2 manages (default:
         the image's human country); the other must be the computer's. captain: a player word of the managed
         eleven (default: the original's pick, its best leader). seed: written to the main RNG word at the captain
@@ -118,7 +120,8 @@ class Match:
         self.timeout_s = timeout_s
         self.m = Machine(image.memory, image.load)
         self.image_header = image.header
-        self.image_sha256 = image.sha256()
+        self.image_tail = bytes(image.memory[MEM_SIZE:])    # guest memory above 1 MiB + HMA: the match never
+        self.image_sha256 = image.sha256()                  # touches it; kept for memory_component()
         self.inputs = []
         self._write_state(players, countries)
         if managed is None:
@@ -333,8 +336,9 @@ class Match:
         return {"ball": [b[0], b[1] - 256 if b[1] > 127 else b[1]], "players": players}
 
     def memory_component(self):
-        """The guest memory now, as a DOSBox-X Memory component (goal2's GameState.mem form)."""
-        return self.image_header + self.m.read(0, MEM_SIZE)
+        """The guest memory now, as a DOSBox-X Memory component of the image's own size (goal2's GameState.mem
+        form): the image's component with its first 1 MiB + HMA replaced by the machine's."""
+        return self.image_header + self.m.read(0, MEM_SIZE) + self.image_tail
 
     def image(self):
         return Image(self.memory_component())
@@ -759,7 +763,8 @@ class Match:
                  "queue": [asdict(e) for e in self._queue], "result": self._result, "version": VERSION,
                  "header": self.image_header.hex()}
         blob = json.dumps(state).encode()
-        return b"OMK1" + len(blob).to_bytes(4, "little") + blob + zlib.compress(snap["memory"], 6)
+        memory = zlib.compress(snap["memory"] + self.image_tail, 6)
+        return b"OMK1" + len(blob).to_bytes(4, "little") + blob + memory
 
     @classmethod
     def load(cls, data):
@@ -772,8 +777,9 @@ class Match:
         memory = zlib.decompress(data[8 + n:])
         self = cls.__new__(cls)
         self.m = Machine(memory, state["load"])
-        self.m.restore({"memory": memory, "regs": state["regs"]})
+        self.m.restore({"memory": memory[:MEM_SIZE], "regs": state["regs"]})
         self.image_header = bytes.fromhex(state["header"])
+        self.image_tail = memory[MEM_SIZE:]
         self.image_sha256, self.opts, self.inputs = state["image_sha256"], state["opts"], state["inputs"]
         self.side, self.end_lin, self.timeout_s = state["side"], state["end_lin"], state["timeout_s"]
         self.fixture_ptr = tuple(state["fixture_ptr"])

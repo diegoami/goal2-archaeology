@@ -28,11 +28,13 @@ and the one this kit recorded. `family PASS`: E032's ten seeds are E032's record
 ## Play a match
 
 ```python
+import zlib
 from goal2.engine.original_match import Image, Match, Fixture
+from goal2.game.state import to_savestate, from_savestate, _rewrite_zip
 
-m = Match(Image.from_memory_component(state.mem),        # or Image.from_savestate(template_bytes)
-          Fixture(first=7, second=19, index=40),          # Denmark v country 19, calendar number 40
-          managed=7, players=state.players, countries=state.countries)   # goal2's own records
+image = Image.from_savestate(to_savestate(state, original=template_bytes))   # goal2's state, as it saves it
+m = Match(image, Fixture(first=7, second=19, index=40),   # Denmark v country 19, calendar number 40
+          managed=state.managed_country)
 for ev in m.events():                                     # events as they happen
     show(ev)                                              # ev.kind, ev.minute, ev.score, ev.data
     if ev.kind == "minute" and ev.minute == 20:
@@ -48,10 +50,16 @@ for ev in m.events():                                     # events as they happe
     if want_to_stop:
         blob = m.save(); break                            # bytes; Match.load(blob) continues it exactly
 result = m.result()          # score, goals, bookings, injuries, substitutions, board, commentary, decisions
-after = m.memory_component() # the image after the match and the post-match update: re-read players/countries
+after = m.memory_component() # the memory after the match and its post-match update: goal2's next state
+next_state = from_savestate(_rewrite_zip(template_bytes, {"Memory": zlib.compress(after)}))
 ```
 
-`python3 -m goal2.engine.original_match.example --cache .cache` runs exactly this (about 6 s).
+`Match(..., players=..., countries=...)` writes record lists over the image's instead (goal2's `GameState.players`
+and `.countries` as they are, without the squad order and tactics `to_savestate` applies). E033's
+`goal2_trial.py` is this flow on goal2's own code (5.9 s, the result read back by `from_savestate`).
+
+`python3 -m goal2.engine.original_match.example --cache .cache` runs the same kind of match from the reference
+image (a pause, a half-time substitution, a save and resume at minute 60; about 6 s).
 
 **Events**: `minute`, `commentary` (the original's line, with its template and players), `goal`, `booking`,
 `sending_off`, `injury`, `substitution` (both teams), `half_time`, `full_time` (the board's statistics),
@@ -65,7 +73,7 @@ after = m.memory_component() # the image after the match and the post-match upda
 | `half_time` | after the half-time board | made now | tactics, positions, marking, own tactics, quick, speed |
 | `substitution` | at a stoppage after an injury to your player, or after you asked for one | made now; the default is what you asked for | as above |
 | `pause` | when you call `m.pause()` | asked for: the original offers them at its next stoppage | made now |
-| `extra_time` | before each extra-time half (competitive fixtures only) | made now | as above |
+| `extra_time` | before each extra-time half (competitive fixtures, which the kit refuses until checked) | made now | as above |
 
 `answer(substitutions=[(off, on)], tactics={element: bool}, positions={player: code}, marking={player: opponent
 or 0}, own_tactics={player: {element 1..4: True/False/None}}, quick=True, speed=0..5)`; no argument plays on.
@@ -76,6 +84,10 @@ back with `refused` set; answer again. A declined injury notice comes back at ev
 
 - **The seed is the fixture's**: the set-up reseeds the RNG with `index * (year + 1)` (0791:2648), so a fixture
   number plays one match for given teams and answers. `seed=` overrides it at kick-off (a deviation, declared).
+- **The match depends on the two teams' records, nothing else in the image** (E033: the stack, the screens zeroed,
+  an image taken inside a match with the teams' records restored: the same match). The set-up writes into the
+  computer side's records (it sorts its squad and sets its eleven's positions, 0791:BC5D), so **carry the records
+  forward**: the next match starts from `memory_component()` of this one, as the original's next fixture does.
 - The computer's side is the original's: its lineup, tactics and substitutions. Your country is made the human's
   (`managed=`); the image's former human country is released as the original releases a sacked manager's.
 - `speed` changes no match (checked); it is the original's display speed, for goal2 to pace its own display.
