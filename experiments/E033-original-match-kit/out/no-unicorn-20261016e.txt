@@ -1,0 +1,27 @@
+======================================================================
+ERROR: test_original_match (unittest.loader._FailedTest.test_original_match)
+----------------------------------------------------------------------
+ImportError: Failed to import test module: test_original_match
+Traceback (most recent call last):
+  File "/usr/lib/python3.14/unittest/loader.py", line 137, in loadTestsFromName
+    module = __import__(module_name)
+  File "/tmp/tmp8mauhqw0/tests/test_original_match.py", line 21, in <module>
+    from original_match import screens as S  # noqa: E402
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/tmp8mauhqw0/runtime/original_match/__init__.py", line 14, in <module>
+    from .machine import GuestError
+  File "/tmp/tmp8mauhqw0/runtime/original_match/machine.py", line 11, in <module>
+    from unicorn import Uc, UcError, UC_ARCH_X86, UC_MODE_16, UC_HOOK_CODE, UC_HOOK_INTR
+ModuleNotFoundError: import of unicorn halted; None in sys.modules
+
+
+----------------------------------------------------------------------
+Ran 1 test in 0.000s
+
+FAILED (errors=1)
+fe89a64 without unicorn: tests run 1, errors 1, failures 0, skipped 0
+----------------------------------------------------------------------
+Ran 15 tests in 0.005s
+
+OK (skipped=7)
+f73a916 without unicorn: tests run 15, errors 0, failures 0, skipped 7
