@@ -149,7 +149,7 @@ def one_cycle(n, st, key, out_dir, commit, dry):
             "id": st.name, "sha256": st.sha256,
             "restore": (f"fresh DOSBox-X process (config sha256 {conf_sha}) with C: mounted from the folder the savestate was made with, "
                         f"recreated from the verified release copy; GOAL run to its title screen; key {key} to change the screen; "
-                        f"then Host+L (host key F12+L) loads the savestate whose sha256 is given; polled until the screen digest equals the one stored "
+                        f"then Host+L (the emulator's load key: F12+L before issue 244, Print Screen alone since; see driver.py) loads the savestate whose sha256 is given; polled until the screen digest equals the one stored "
                         f"with it ({st.screen_digest}); host clock and seed not controlled"),
         },
         "seed": None,
