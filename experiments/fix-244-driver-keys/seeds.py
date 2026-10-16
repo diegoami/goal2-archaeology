@@ -22,7 +22,8 @@ def row(p):
 
 print("DS:7B62 at steps", STEPS)
 for label, pat in (("original (old driver)", "runs/E003/E003-r00[34]*.json"),
-                   ("fixed driver", "experiments/fix-244-driver-keys/out/rerun/E003/*.json"),
+                   ("fixed driver, save key held 0.15 s", "experiments/fix-244-driver-keys/out/rerun/E003/*.json"),
+                   ("fixed driver, default hold 0.52 s", "experiments/fix-244-driver-keys/out/rerun-default/E003/*.json"),
                    ("fixed driver, legacy keys (control)", "experiments/fix-244-driver-keys/out/rerun-legacy-keys/E003/*.json"),
                    ("fixed driver, save key held 0.6 s", "experiments/fix-244-driver-keys/out/rerun-save-key-hold-0.6/E003/*.json"),
                    ("game keys old way, savestate key new", "experiments/fix-244-driver-keys/out/rerun-legacy-only-keys/E003/*.json"),

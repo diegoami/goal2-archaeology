@@ -9,6 +9,7 @@ the driver's default hold is now SAVE_HOLD, and the re-runs with it are in out/r
     python3 experiments/fix-244-driver-keys/rerun.py E006 games --times 10:00 --batch fix244
     python3 experiments/fix-244-driver-keys/rerun.py E003 d0 ... --legacy-keys   # control: old keys, into out/rerun-legacy-keys/
     python3 experiments/fix-244-driver-keys/rerun.py E003 d0 ... --legacy-only keys|save   # control: one part the old way
+    python3 experiments/fix-244-driver-keys/rerun.py E003 d0 ... --hold-alt   # control: Left Alt held after the launch, into out/rerun-alt-held/
     python3 experiments/fix-244-driver-keys/rerun.py E003 d0 ... --save-key-hold 0.6   # control: slow reads, into out/rerun-save-key-hold-0.6/
 
 The experiment script is loaded unchanged and only its output folder (OUT, and E006's copy of E003's)
@@ -55,6 +56,24 @@ def main():
             setattr(driver.Driver, name, wrapped)
         for name in {"keys": ("keys",), "save": ("_hostkey", "_write_mapper")}[mix]:
             old_way(name)
+    hold_alt = "--hold-alt" in argv  # a control: the fixed driver, plus Left Alt pressed after the launch and never released
+    argv = [a for a in argv if a != "--hold-alt"]
+    if hold_alt:
+        sys.path.insert(0, str(ROOT / "runtime" / "driver"))
+        import driver
+        import xkeys
+        launch = driver.Driver.launch
+
+        def launch_then_alt(self, *a, **k):
+            sc = launch(self, *a, **k)
+            dpy = xkeys._x11.XOpenDisplay(self.display.encode())
+            code = xkeys._x11.XKeysymToKeycode(dpy, xkeys._x11.XStringToKeysym(b"Alt_L"))
+            xkeys._xtst.XTestFakeKeyEvent(dpy, code, 1, 0)
+            xkeys._x11.XFlush(dpy)
+            xkeys._x11.XCloseDisplay(dpy)
+            self.log("control: Alt_L pressed and left down")
+            return sc
+        driver.Driver.launch = launch_then_alt
     slow = None  # a control: the fixed driver with a longer hold of the savestate key (reads as slow as the F12 chord's)
     if "--save-key-hold" in argv:
         i = argv.index("--save-key-hold")
@@ -70,7 +89,7 @@ def main():
         init = driver.Driver.__init__
         driver.Driver.__init__ = lambda self, *a, **k: init(self, *a, **{**k, "legacy_keys": True})
     mod = load(exp)
-    out = HERE / "out" / ("rerun-legacy-keys" if legacy else f"rerun-save-key-hold-{slow}" if slow else f"rerun-legacy-only-{mix}" if mix else "rerun-default") / exp
+    out = HERE / "out" / ("rerun-legacy-keys" if legacy else f"rerun-save-key-hold-{slow}" if slow else f"rerun-legacy-only-{mix}" if mix else "rerun-alt-held" if hold_alt else "rerun-default") / exp
     mod.OUT = out
     if hasattr(mod, "e003"):  # E006 loads E003's script for its keys and helpers
         mod.e003.OUT = out
