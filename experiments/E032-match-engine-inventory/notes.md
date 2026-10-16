@@ -135,3 +135,39 @@ calls).
   caught, 8 of 8 identical; `skip-batch-review3.txt`: 8537 and 8E24 not removable, the eight display routines
   and their joint set removable; both batch exit 0). After the batches, `derive_schema.py` finds all 157
   records of 67 logs conform (`schema-observed-review3-after-batches.txt`). Hashes: `sha256-review3.tsv`.
+
+## Review round 4 (PR 243, Sol): a grammar as tight as the intent
+
+- The class: a validator whose grammar was looser than its intent. `DIGEST.match` and `TEMPLATE_ID.match`
+  with `$` accepted a trailing newline; `json.loads` accepted NaN, and 1e999 became infinity, so `cpu_s`
+  passed as `nan s`/`inf s`.
+- `record_schema.py`: `loads` refuses NaN/Infinity tokens, numbers that overflow and duplicate keys; every
+  pattern is `re.fullmatch` with ASCII classes; floats must be finite and not -0.0; ints are never booleans
+  nor floats; the record's key set is closed and EVERY key has a grammar (inputs: declared descriptions, whole
+  hex bytes, no input twice, exactly one seed write equal to the seed; strays from the 000E wait family;
+  start_record, watchstart_sha256, wall_s, delay_count, skipped, ported, hook_counts, variant, port_calls;
+  template ids 0..66, the game's 67 templates). All 157 committed records conform
+  (`schema-observed-review4.txt`).
+- `compare.py`: reads UTF-8 strictly; refuses a hooked reference, two start states, loose `--seeds`
+  (`0x` + 1-4 hex digits or 1-5 decimal digits, ASCII); `--field KEY=JSON` names the run the candidate must
+  be, and `recheck.sh` and both batches pass it (skipped routines, variant and ported routines, delay count).
+  `analyze.py`, `union.py`, `costs.py`, `plancheck.py` and the generators read JSON with `loads`.
+- Tests: `tests/test_e032_record_mutations.py` adds a fuzz over every leaf, key and container of a real record
+  (1331 pathological values: newline, space, tab, NUL, an Arabic-Indic digit, case, length +-1; NaN,
+  +-Infinity, 1e999, -0.0, float for int, booleans, numeric strings, 2**70, negatives; duplicated and unknown
+  keys; one element more), each in both logs and the candidate only under both expectations: 5324 cases, all
+  exit 2, 868 of them not on round 3's schema; the review's four cases; and a check that no E032 script
+  validates with `.match(`, `.search(` or a `$` anchor (`loose-patterns-at-round3-review4.txt` lists the two
+  round 3 had). `tests/test_e032_compare.py` adds strict readers, `--field`, the start state, the unhooked
+  reference and strict `--seeds`. On the round-3 scripts 13 tests and subtests fail
+  (`gate-tests-on-round3-scripts-review4b.txt`); on the fixed ones all 40 pass
+  (`gate-tests-on-fixed-scripts-review4b.txt`). (The `review4` versions of those two files predate the
+  strengthened `--seeds` test; kept.)
+- One fuzz rule needed care: a template id one digit shorter or longer ("55" -> "5") is another real
+  template, valid evidence of a different match, not a fault; the fuzz leaves those out.
+- Re-made through the fixed scripts: `costs-review4.*`, `parts-s1234-review4.md`, `union-5seeds-review4.md`
+  byte-identical to before; `plancheck-review4.txt` and `-final` 65 of 65, no untied figure; the batches
+  under stamp review4 (3 falsifiers caught, 8 of 8 identical; 8537 and 8E24 not removable, the eight display
+  routines and their joint set removable; both batch exit 0); `recheck-review4.txt` over five stamps: 80
+  comparisons, the 69 quoted as passing exit 0, the 11 non-removable results exit 1, none exit 2; all 190
+  records of 82 logs conform (`schema-observed-review4-after-batches.txt`). Hashes: `sha256-review4.tsv`.

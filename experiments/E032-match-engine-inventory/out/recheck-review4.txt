@@ -1,0 +1,421 @@
+== skip 0791:8F10 (20261015) (quoted as passing)
+seed 0x1234: score [1, 1] ticks 4146 draws 184109 cpu 8.3 s -> 10.8 s; identical
+seed 0x2345: score [0, 1] ticks 4138 draws 187079 cpu 8.5 s -> 11.1 s; identical
+2 seeds expected identical, 2 pass, 0 fail
+exit 0
+== skip 0791:9079 (20261015) (quoted as passing)
+seed 0x1234: score [1, 1] ticks 4146 draws 184109 cpu 8.3 s -> 8.8 s; identical
+seed 0x2345: score [0, 1] ticks 4138 draws 187079 cpu 8.5 s -> 9.2 s; identical
+2 seeds expected identical, 2 pass, 0 fail
+exit 0
+== skip 0791:0481 (20261015) (quoted as passing)
+seed 0x1234: score [1, 1] ticks 4146 draws 184109 cpu 8.3 s -> 9.0 s; identical
+seed 0x2345: score [0, 1] ticks 4138 draws 187079 cpu 8.5 s -> 9.4 s; identical
+2 seeds expected identical, 2 pass, 0 fail
+exit 0
+== skip 0791:1829 (20261015) (quoted as passing)
+seed 0x1234: score [1, 1] ticks 4146 draws 184109 cpu 8.3 s -> 8.7 s; identical
+seed 0x2345: score [0, 1] ticks 4138 draws 187079 cpu 8.5 s -> 9.2 s; identical
+2 seeds expected identical, 2 pass, 0 fail
+exit 0
+== skip 0791:0425 (20261015) (quoted as passing)
+seed 0x1234: score [1, 1] ticks 4146 draws 184109 cpu 8.3 s -> 10.3 s; identical
+seed 0x2345: score [0, 1] ticks 4138 draws 187079 cpu 8.5 s -> 12.6 s; identical
+2 seeds expected identical, 2 pass, 0 fail
+exit 0
+== skip 0791:0441 (20261015) (quoted as passing)
+seed 0x1234: score [1, 1] ticks 4146 draws 184109 cpu 8.3 s -> 8.9 s; identical
+seed 0x2345: score [0, 1] ticks 4138 draws 187079 cpu 8.5 s -> 8.8 s; identical
+2 seeds expected identical, 2 pass, 0 fail
+exit 0
+== skip 0791:94E8 (20261015) (quoted as passing)
+seed 0x1234: score [1, 1] ticks 4146 draws 184109 cpu 8.3 s -> 9.5 s; identical
+seed 0x2345: score [0, 1] ticks 4138 draws 187079 cpu 8.5 s -> 10.2 s; identical
+2 seeds expected identical, 2 pass, 0 fail
+exit 0
+== skip 0791:9372 (20261015) (quoted as passing)
+seed 0x1234: score [1, 1] ticks 4146 draws 184109 cpu 8.3 s -> 7.4 s; identical
+seed 0x2345: score [0, 1] ticks 4138 draws 187079 cpu 8.5 s -> 8.1 s; identical
+2 seeds expected identical, 2 pass, 0 fail
+exit 0
+== skip the display set (20261015) (quoted as passing)
+seed 0x1234: score [1, 1] ticks 4146 draws 184109 cpu 8.3 s -> 12.0 s; identical
+seed 0x2345: score [0, 1] ticks 4138 draws 187079 cpu 8.5 s -> 12.8 s; identical
+2 seeds expected identical, 2 pass, 0 fail
+exit 0
+== skip 0791:8537 (20261015) (a result either way)
+seed 0x1234: score [1, 1] ticks 4146 draws 184109 cpu 8.3 s -> 157.4 s; NOT COMPLETED (error 'no full-time board within 150 s (a loop waits for what the skipped routine does)'; did not stop at the full-time board): FAIL
+seed 0x2345: score [0, 1] ticks 4138 draws 187079 cpu 8.5 s -> 157.2 s; NOT COMPLETED (error 'no full-time board within 150 s (a loop waits for what the skipped routine does)'; did not stop at the full-time board): FAIL
+2 seeds expected identical, 0 pass, 2 fail
+exit 1
+== skip 0791:8E24 (20261015) (a result either way)
+seed 0x1234: score [1, 1] ticks 4146 draws 184109 cpu 8.3 s -> 8.8 s; DIFFER: score, ticks, draws, draws_digest, statistics_raw, templates: FAIL
+seed 0x2345: score [0, 1] ticks 4138 draws 187079 cpu 8.5 s -> 11.1 s; DIFFER: score, ticks, draws, draws_digest, statistics_raw, templates: FAIL
+2 seeds expected identical, 0 pass, 2 fail
+exit 1
+== pilot exact, 8 seeds (20261015) (quoted as passing)
+seed 0x0101: score [1, 0] ticks 4279 draws 192967 cpu 10.7 s -> 17.1 s; identical
+seed 0x2b7e: score [0, 2] ticks 4029 draws 175773 cpu 9.3 s -> 16.4 s; identical
+seed 0x4c1d: score [1, 0] ticks 4659 draws 210776 cpu 10.5 s -> 20.1 s; identical
+seed 0x6a33: score [0, 2] ticks 4159 draws 184733 cpu 9.9 s -> 18.4 s; identical
+seed 0x8e05: score [1, 0] ticks 4157 draws 186815 cpu 12.1 s -> 17.7 s; identical
+seed 0xa1f0: score [1, 0] ticks 4281 draws 191805 cpu 13.1 s -> 18.2 s; identical
+seed 0xc3c3: score [2, 1] ticks 4262 draws 184677 cpu 16.8 s -> 18.0 s; identical
+seed 0xe719: score [1, 0] ticks 4240 draws 191629 cpu 11.9 s -> 18.6 s; identical
+8 seeds expected identical, 8 pass, 0 fail
+exit 0
+== falsifier coin-swapped caught (20261015) (quoted as passing)
+seed 0x1234: score [1, 1] ticks 4146 draws 184109 cpu 8.3 s -> 16.3 s; caught: differ in score, ticks, draws, draws_digest, statistics_raw, templates
+1 seeds expected differ, 1 pass, 0 fail
+exit 0
+== falsifier bound-36 caught (20261015) (quoted as passing)
+seed 0x1234: score [1, 1] ticks 4146 draws 184109 cpu 8.3 s -> 314.2 s; caught: not completed (error 'no full-time board within 300 s'; did not stop at the full-time board)
+1 seeds expected differ, 1 pass, 0 fail
+exit 0
+== falsifier no-picture caught (20261015) (quoted as passing)
+seed 0x1234: score [1, 1] ticks 4146 draws 184109 cpu 8.3 s -> 16.9 s; caught: differ in score, ticks, draws, draws_digest, statistics_raw, templates
+1 seeds expected differ, 1 pass, 0 fail
+exit 0
+== skip 0791:8F10 (review1) (quoted as passing)
+seed 0x1234: score [1, 1] ticks 4146 draws 184109 cpu 8.3 s -> 12.3 s; identical
+seed 0x2345: score [0, 1] ticks 4138 draws 187079 cpu 8.5 s -> 11.2 s; identical
+2 seeds expected identical, 2 pass, 0 fail
+exit 0
+== skip 0791:9079 (review1) (quoted as passing)
+seed 0x1234: score [1, 1] ticks 4146 draws 184109 cpu 8.3 s -> 9.7 s; identical
+seed 0x2345: score [0, 1] ticks 4138 draws 187079 cpu 8.5 s -> 13.7 s; identical
+2 seeds expected identical, 2 pass, 0 fail
+exit 0
+== skip 0791:0481 (review1) (quoted as passing)
+seed 0x1234: score [1, 1] ticks 4146 draws 184109 cpu 8.3 s -> 8.8 s; identical
+seed 0x2345: score [0, 1] ticks 4138 draws 187079 cpu 8.5 s -> 10.5 s; identical
+2 seeds expected identical, 2 pass, 0 fail
+exit 0
+== skip 0791:1829 (review1) (quoted as passing)
+seed 0x1234: score [1, 1] ticks 4146 draws 184109 cpu 8.3 s -> 9.2 s; identical
+seed 0x2345: score [0, 1] ticks 4138 draws 187079 cpu 8.5 s -> 9.2 s; identical
+2 seeds expected identical, 2 pass, 0 fail
+exit 0
+== skip 0791:0425 (review1) (quoted as passing)
+seed 0x1234: score [1, 1] ticks 4146 draws 184109 cpu 8.3 s -> 11.5 s; identical
+seed 0x2345: score [0, 1] ticks 4138 draws 187079 cpu 8.5 s -> 34.4 s; identical
+2 seeds expected identical, 2 pass, 0 fail
+exit 0
+== skip 0791:0441 (review1) (quoted as passing)
+seed 0x1234: score [1, 1] ticks 4146 draws 184109 cpu 8.3 s -> 12.2 s; identical
+seed 0x2345: score [0, 1] ticks 4138 draws 187079 cpu 8.5 s -> 11.3 s; identical
+2 seeds expected identical, 2 pass, 0 fail
+exit 0
+== skip 0791:94E8 (review1) (quoted as passing)
+seed 0x1234: score [1, 1] ticks 4146 draws 184109 cpu 8.3 s -> 12.2 s; identical
+seed 0x2345: score [0, 1] ticks 4138 draws 187079 cpu 8.5 s -> 17.1 s; identical
+2 seeds expected identical, 2 pass, 0 fail
+exit 0
+== skip 0791:9372 (review1) (quoted as passing)
+seed 0x1234: score [1, 1] ticks 4146 draws 184109 cpu 8.3 s -> 9.6 s; identical
+seed 0x2345: score [0, 1] ticks 4138 draws 187079 cpu 8.5 s -> 11.6 s; identical
+2 seeds expected identical, 2 pass, 0 fail
+exit 0
+== skip the display set (review1) (quoted as passing)
+seed 0x1234: score [1, 1] ticks 4146 draws 184109 cpu 8.3 s -> 27.1 s; identical
+seed 0x2345: score [0, 1] ticks 4138 draws 187079 cpu 8.5 s -> 20.3 s; identical
+2 seeds expected identical, 2 pass, 0 fail
+exit 0
+== skip 0791:8537 (review1) (a result either way)
+seed 0x1234: score [1, 1] ticks 4146 draws 184109 cpu 8.3 s -> 158.6 s; NOT COMPLETED (error 'no full-time board within 150 s (a loop waits for what the skipped routine does)'; did not stop at the full-time board): FAIL
+seed 0x2345: score [0, 1] ticks 4138 draws 187079 cpu 8.5 s -> 158.0 s; NOT COMPLETED (error 'no full-time board within 150 s (a loop waits for what the skipped routine does)'; did not stop at the full-time board): FAIL
+2 seeds expected identical, 0 pass, 2 fail
+exit 1
+== skip 0791:8E24 (review1) (a result either way)
+seed 0x1234: score [1, 1] ticks 4146 draws 184109 cpu 8.3 s -> 9.9 s; DIFFER: score, ticks, draws, draws_digest, statistics_raw, templates: FAIL
+seed 0x2345: score [0, 1] ticks 4138 draws 187079 cpu 8.5 s -> 10.7 s; DIFFER: score, ticks, draws, draws_digest, statistics_raw, templates: FAIL
+2 seeds expected identical, 0 pass, 2 fail
+exit 1
+== pilot exact, 8 seeds (review1) (quoted as passing)
+seed 0x0101: score [1, 0] ticks 4279 draws 192967 cpu 10.7 s -> 17.6 s; identical
+seed 0x2b7e: score [0, 2] ticks 4029 draws 175773 cpu 9.3 s -> 17.6 s; identical
+seed 0x4c1d: score [1, 0] ticks 4659 draws 210776 cpu 10.5 s -> 19.8 s; identical
+seed 0x6a33: score [0, 2] ticks 4159 draws 184733 cpu 9.9 s -> 17.7 s; identical
+seed 0x8e05: score [1, 0] ticks 4157 draws 186815 cpu 12.1 s -> 18.9 s; identical
+seed 0xa1f0: score [1, 0] ticks 4281 draws 191805 cpu 13.1 s -> 19.6 s; identical
+seed 0xc3c3: score [2, 1] ticks 4262 draws 184677 cpu 16.8 s -> 17.8 s; identical
+seed 0xe719: score [1, 0] ticks 4240 draws 191629 cpu 11.9 s -> 18.3 s; identical
+8 seeds expected identical, 8 pass, 0 fail
+exit 0
+== falsifier coin-swapped caught (review1) (quoted as passing)
+seed 0x1234: score [1, 1] ticks 4146 draws 184109 cpu 8.3 s -> 18.2 s; caught: differ in score, ticks, draws, draws_digest, statistics_raw, templates
+1 seeds expected differ, 1 pass, 0 fail
+exit 0
+== falsifier bound-36 caught (review1) (quoted as passing)
+seed 0x1234: score [1, 1] ticks 4146 draws 184109 cpu 8.3 s -> 315.4 s; caught: not completed (error 'no full-time board within 300 s'; did not stop at the full-time board)
+1 seeds expected differ, 1 pass, 0 fail
+exit 0
+== falsifier no-picture caught (review1) (quoted as passing)
+seed 0x1234: score [1, 1] ticks 4146 draws 184109 cpu 8.3 s -> 17.0 s; caught: differ in score, ticks, draws, draws_digest, statistics_raw, templates
+1 seeds expected differ, 1 pass, 0 fail
+exit 0
+== skip 0791:8F10 (review2) (quoted as passing)
+seed 0x1234: score [1, 1] ticks 4146 draws 184109 cpu 8.3 s -> 10.2 s; identical
+seed 0x2345: score [0, 1] ticks 4138 draws 187079 cpu 8.5 s -> 10.8 s; identical
+2 seeds expected identical, 2 pass, 0 fail
+exit 0
+== skip 0791:9079 (review2) (quoted as passing)
+seed 0x1234: score [1, 1] ticks 4146 draws 184109 cpu 8.3 s -> 8.2 s; identical
+seed 0x2345: score [0, 1] ticks 4138 draws 187079 cpu 8.5 s -> 8.4 s; identical
+2 seeds expected identical, 2 pass, 0 fail
+exit 0
+== skip 0791:0481 (review2) (quoted as passing)
+seed 0x1234: score [1, 1] ticks 4146 draws 184109 cpu 8.3 s -> 8.3 s; identical
+seed 0x2345: score [0, 1] ticks 4138 draws 187079 cpu 8.5 s -> 8.5 s; identical
+2 seeds expected identical, 2 pass, 0 fail
+exit 0
+== skip 0791:1829 (review2) (quoted as passing)
+seed 0x1234: score [1, 1] ticks 4146 draws 184109 cpu 8.3 s -> 8.1 s; identical
+seed 0x2345: score [0, 1] ticks 4138 draws 187079 cpu 8.5 s -> 8.4 s; identical
+2 seeds expected identical, 2 pass, 0 fail
+exit 0
+== skip 0791:0425 (review2) (quoted as passing)
+seed 0x1234: score [1, 1] ticks 4146 draws 184109 cpu 8.3 s -> 9.6 s; identical
+seed 0x2345: score [0, 1] ticks 4138 draws 187079 cpu 8.5 s -> 10.0 s; identical
+2 seeds expected identical, 2 pass, 0 fail
+exit 0
+== skip 0791:0441 (review2) (quoted as passing)
+seed 0x1234: score [1, 1] ticks 4146 draws 184109 cpu 8.3 s -> 7.9 s; identical
+seed 0x2345: score [0, 1] ticks 4138 draws 187079 cpu 8.5 s -> 8.5 s; identical
+2 seeds expected identical, 2 pass, 0 fail
+exit 0
+== skip 0791:94E8 (review2) (quoted as passing)
+seed 0x1234: score [1, 1] ticks 4146 draws 184109 cpu 8.3 s -> 9.8 s; identical
+seed 0x2345: score [0, 1] ticks 4138 draws 187079 cpu 8.5 s -> 9.9 s; identical
+2 seeds expected identical, 2 pass, 0 fail
+exit 0
+== skip 0791:9372 (review2) (quoted as passing)
+seed 0x1234: score [1, 1] ticks 4146 draws 184109 cpu 8.3 s -> 7.5 s; identical
+seed 0x2345: score [0, 1] ticks 4138 draws 187079 cpu 8.5 s -> 7.9 s; identical
+2 seeds expected identical, 2 pass, 0 fail
+exit 0
+== skip the display set (review2) (quoted as passing)
+seed 0x1234: score [1, 1] ticks 4146 draws 184109 cpu 8.3 s -> 11.5 s; identical
+seed 0x2345: score [0, 1] ticks 4138 draws 187079 cpu 8.5 s -> 15.8 s; identical
+2 seeds expected identical, 2 pass, 0 fail
+exit 0
+== skip 0791:8537 (review2) (a result either way)
+seed 0x1234: score [1, 1] ticks 4146 draws 184109 cpu 8.3 s -> 160.5 s; NOT COMPLETED (error 'no full-time board within 150 s (a loop waits for what the skipped routine does)'; did not stop at the full-time board): FAIL
+seed 0x2345: score [0, 1] ticks 4138 draws 187079 cpu 8.5 s -> 158.3 s; NOT COMPLETED (error 'no full-time board within 150 s (a loop waits for what the skipped routine does)'; did not stop at the full-time board): FAIL
+2 seeds expected identical, 0 pass, 2 fail
+exit 1
+== skip 0791:8E24 (review2) (a result either way)
+seed 0x1234: score [1, 1] ticks 4146 draws 184109 cpu 8.3 s -> 10.1 s; DIFFER: score, ticks, draws, draws_digest, statistics_raw, templates: FAIL
+seed 0x2345: score [0, 1] ticks 4138 draws 187079 cpu 8.5 s -> 9.6 s; DIFFER: score, ticks, draws, draws_digest, statistics_raw, templates: FAIL
+2 seeds expected identical, 0 pass, 2 fail
+exit 1
+== pilot exact, 8 seeds (review2) (quoted as passing)
+seed 0x0101: score [1, 0] ticks 4279 draws 192967 cpu 10.7 s -> 17.4 s; identical
+seed 0x2b7e: score [0, 2] ticks 4029 draws 175773 cpu 9.3 s -> 17.9 s; identical
+seed 0x4c1d: score [1, 0] ticks 4659 draws 210776 cpu 10.5 s -> 21.4 s; identical
+seed 0x6a33: score [0, 2] ticks 4159 draws 184733 cpu 9.9 s -> 18.8 s; identical
+seed 0x8e05: score [1, 0] ticks 4157 draws 186815 cpu 12.1 s -> 18.2 s; identical
+seed 0xa1f0: score [1, 0] ticks 4281 draws 191805 cpu 13.1 s -> 20.2 s; identical
+seed 0xc3c3: score [2, 1] ticks 4262 draws 184677 cpu 16.8 s -> 20.2 s; identical
+seed 0xe719: score [1, 0] ticks 4240 draws 191629 cpu 11.9 s -> 21.6 s; identical
+8 seeds expected identical, 8 pass, 0 fail
+exit 0
+== falsifier coin-swapped caught (review2) (quoted as passing)
+seed 0x1234: score [1, 1] ticks 4146 draws 184109 cpu 8.3 s -> 17.6 s; caught: differ in score, ticks, draws, draws_digest, statistics_raw, templates
+1 seeds expected differ, 1 pass, 0 fail
+exit 0
+== falsifier bound-36 caught (review2) (quoted as passing)
+seed 0x1234: score [1, 1] ticks 4146 draws 184109 cpu 8.3 s -> 317.7 s; caught: not completed (error 'no full-time board within 300 s'; did not stop at the full-time board)
+1 seeds expected differ, 1 pass, 0 fail
+exit 0
+== falsifier no-picture caught (review2) (quoted as passing)
+seed 0x1234: score [1, 1] ticks 4146 draws 184109 cpu 8.3 s -> 17.4 s; caught: differ in score, ticks, draws, draws_digest, statistics_raw, templates
+1 seeds expected differ, 1 pass, 0 fail
+exit 0
+== skip 0791:8F10 (review3) (quoted as passing)
+seed 0x1234: score [1, 1] ticks 4146 draws 184109 cpu 8.3 s -> 9.6 s; identical
+seed 0x2345: score [0, 1] ticks 4138 draws 187079 cpu 8.5 s -> 10.5 s; identical
+2 seeds expected identical, 2 pass, 0 fail
+exit 0
+== skip 0791:9079 (review3) (quoted as passing)
+seed 0x1234: score [1, 1] ticks 4146 draws 184109 cpu 8.3 s -> 7.8 s; identical
+seed 0x2345: score [0, 1] ticks 4138 draws 187079 cpu 8.5 s -> 8.3 s; identical
+2 seeds expected identical, 2 pass, 0 fail
+exit 0
+== skip 0791:0481 (review3) (quoted as passing)
+seed 0x1234: score [1, 1] ticks 4146 draws 184109 cpu 8.3 s -> 7.7 s; identical
+seed 0x2345: score [0, 1] ticks 4138 draws 187079 cpu 8.5 s -> 8.9 s; identical
+2 seeds expected identical, 2 pass, 0 fail
+exit 0
+== skip 0791:1829 (review3) (quoted as passing)
+seed 0x1234: score [1, 1] ticks 4146 draws 184109 cpu 8.3 s -> 8.0 s; identical
+seed 0x2345: score [0, 1] ticks 4138 draws 187079 cpu 8.5 s -> 8.2 s; identical
+2 seeds expected identical, 2 pass, 0 fail
+exit 0
+== skip 0791:0425 (review3) (quoted as passing)
+seed 0x1234: score [1, 1] ticks 4146 draws 184109 cpu 8.3 s -> 9.5 s; identical
+seed 0x2345: score [0, 1] ticks 4138 draws 187079 cpu 8.5 s -> 9.7 s; identical
+2 seeds expected identical, 2 pass, 0 fail
+exit 0
+== skip 0791:0441 (review3) (quoted as passing)
+seed 0x1234: score [1, 1] ticks 4146 draws 184109 cpu 8.3 s -> 7.8 s; identical
+seed 0x2345: score [0, 1] ticks 4138 draws 187079 cpu 8.5 s -> 8.1 s; identical
+2 seeds expected identical, 2 pass, 0 fail
+exit 0
+== skip 0791:94E8 (review3) (quoted as passing)
+seed 0x1234: score [1, 1] ticks 4146 draws 184109 cpu 8.3 s -> 9.5 s; identical
+seed 0x2345: score [0, 1] ticks 4138 draws 187079 cpu 8.5 s -> 9.6 s; identical
+2 seeds expected identical, 2 pass, 0 fail
+exit 0
+== skip 0791:9372 (review3) (quoted as passing)
+seed 0x1234: score [1, 1] ticks 4146 draws 184109 cpu 8.3 s -> 7.1 s; identical
+seed 0x2345: score [0, 1] ticks 4138 draws 187079 cpu 8.5 s -> 7.7 s; identical
+2 seeds expected identical, 2 pass, 0 fail
+exit 0
+== skip the display set (review3) (quoted as passing)
+seed 0x1234: score [1, 1] ticks 4146 draws 184109 cpu 8.3 s -> 10.5 s; identical
+seed 0x2345: score [0, 1] ticks 4138 draws 187079 cpu 8.5 s -> 10.9 s; identical
+2 seeds expected identical, 2 pass, 0 fail
+exit 0
+== skip 0791:8537 (review3) (a result either way)
+seed 0x1234: score [1, 1] ticks 4146 draws 184109 cpu 8.3 s -> 157.4 s; NOT COMPLETED (error 'no full-time board within 150 s (a loop waits for what the skipped routine does)'; did not stop at the full-time board): FAIL
+seed 0x2345: score [0, 1] ticks 4138 draws 187079 cpu 8.5 s -> 157.0 s; NOT COMPLETED (error 'no full-time board within 150 s (a loop waits for what the skipped routine does)'; did not stop at the full-time board): FAIL
+2 seeds expected identical, 0 pass, 2 fail
+exit 1
+== skip 0791:8E24 (review3) (a result either way)
+seed 0x1234: score [1, 1] ticks 4146 draws 184109 cpu 8.3 s -> 8.9 s; DIFFER: score, ticks, draws, draws_digest, statistics_raw, templates: FAIL
+seed 0x2345: score [0, 1] ticks 4138 draws 187079 cpu 8.5 s -> 9.0 s; DIFFER: score, ticks, draws, draws_digest, statistics_raw, templates: FAIL
+2 seeds expected identical, 0 pass, 2 fail
+exit 1
+== pilot exact, 8 seeds (review3) (quoted as passing)
+seed 0x0101: score [1, 0] ticks 4279 draws 192967 cpu 10.7 s -> 16.5 s; identical
+seed 0x2b7e: score [0, 2] ticks 4029 draws 175773 cpu 9.3 s -> 16.9 s; identical
+seed 0x4c1d: score [1, 0] ticks 4659 draws 210776 cpu 10.5 s -> 20.1 s; identical
+seed 0x6a33: score [0, 2] ticks 4159 draws 184733 cpu 9.9 s -> 16.9 s; identical
+seed 0x8e05: score [1, 0] ticks 4157 draws 186815 cpu 12.1 s -> 16.3 s; identical
+seed 0xa1f0: score [1, 0] ticks 4281 draws 191805 cpu 13.1 s -> 18.9 s; identical
+seed 0xc3c3: score [2, 1] ticks 4262 draws 184677 cpu 16.8 s -> 18.0 s; identical
+seed 0xe719: score [1, 0] ticks 4240 draws 191629 cpu 11.9 s -> 18.5 s; identical
+8 seeds expected identical, 8 pass, 0 fail
+exit 0
+== falsifier coin-swapped caught (review3) (quoted as passing)
+seed 0x1234: score [1, 1] ticks 4146 draws 184109 cpu 8.3 s -> 18.0 s; caught: differ in score, ticks, draws, draws_digest, statistics_raw, templates
+1 seeds expected differ, 1 pass, 0 fail
+exit 0
+== falsifier bound-36 caught (review3) (quoted as passing)
+seed 0x1234: score [1, 1] ticks 4146 draws 184109 cpu 8.3 s -> 319.9 s; caught: not completed (error 'no full-time board within 300 s'; did not stop at the full-time board)
+1 seeds expected differ, 1 pass, 0 fail
+exit 0
+== falsifier no-picture caught (review3) (quoted as passing)
+seed 0x1234: score [1, 1] ticks 4146 draws 184109 cpu 8.3 s -> 19.0 s; caught: differ in score, ticks, draws, draws_digest, statistics_raw, templates
+1 seeds expected differ, 1 pass, 0 fail
+exit 0
+== skip 0791:8F10 (review4) (quoted as passing)
+seed 0x1234: score [1, 1] ticks 4146 draws 184109 cpu 8.3 s -> 10.3 s; identical
+seed 0x2345: score [0, 1] ticks 4138 draws 187079 cpu 8.5 s -> 10.7 s; identical
+2 seeds expected identical, 2 pass, 0 fail
+exit 0
+== skip 0791:9079 (review4) (quoted as passing)
+seed 0x1234: score [1, 1] ticks 4146 draws 184109 cpu 8.3 s -> 8.4 s; identical
+seed 0x2345: score [0, 1] ticks 4138 draws 187079 cpu 8.5 s -> 9.9 s; identical
+2 seeds expected identical, 2 pass, 0 fail
+exit 0
+== skip 0791:0481 (review4) (quoted as passing)
+seed 0x1234: score [1, 1] ticks 4146 draws 184109 cpu 8.3 s -> 9.0 s; identical
+seed 0x2345: score [0, 1] ticks 4138 draws 187079 cpu 8.5 s -> 9.5 s; identical
+2 seeds expected identical, 2 pass, 0 fail
+exit 0
+== skip 0791:1829 (review4) (quoted as passing)
+seed 0x1234: score [1, 1] ticks 4146 draws 184109 cpu 8.3 s -> 8.1 s; identical
+seed 0x2345: score [0, 1] ticks 4138 draws 187079 cpu 8.5 s -> 8.3 s; identical
+2 seeds expected identical, 2 pass, 0 fail
+exit 0
+== skip 0791:0425 (review4) (quoted as passing)
+seed 0x1234: score [1, 1] ticks 4146 draws 184109 cpu 8.3 s -> 9.2 s; identical
+seed 0x2345: score [0, 1] ticks 4138 draws 187079 cpu 8.5 s -> 12.0 s; identical
+2 seeds expected identical, 2 pass, 0 fail
+exit 0
+== skip 0791:0441 (review4) (quoted as passing)
+seed 0x1234: score [1, 1] ticks 4146 draws 184109 cpu 8.3 s -> 9.5 s; identical
+seed 0x2345: score [0, 1] ticks 4138 draws 187079 cpu 8.5 s -> 9.4 s; identical
+2 seeds expected identical, 2 pass, 0 fail
+exit 0
+== skip 0791:94E8 (review4) (quoted as passing)
+seed 0x1234: score [1, 1] ticks 4146 draws 184109 cpu 8.3 s -> 10.0 s; identical
+seed 0x2345: score [0, 1] ticks 4138 draws 187079 cpu 8.5 s -> 10.5 s; identical
+2 seeds expected identical, 2 pass, 0 fail
+exit 0
+== skip 0791:9372 (review4) (quoted as passing)
+seed 0x1234: score [1, 1] ticks 4146 draws 184109 cpu 8.3 s -> 7.2 s; identical
+seed 0x2345: score [0, 1] ticks 4138 draws 187079 cpu 8.5 s -> 7.7 s; identical
+2 seeds expected identical, 2 pass, 0 fail
+exit 0
+== skip the display set (review4) (quoted as passing)
+seed 0x1234: score [1, 1] ticks 4146 draws 184109 cpu 8.3 s -> 10.9 s; identical
+seed 0x2345: score [0, 1] ticks 4138 draws 187079 cpu 8.5 s -> 11.4 s; identical
+2 seeds expected identical, 2 pass, 0 fail
+exit 0
+== skip 0791:8537 (review4) (a result either way)
+seed 0x1234: score [1, 1] ticks 4146 draws 184109 cpu 8.3 s -> 157.2 s; NOT COMPLETED (error 'no full-time board within 150 s (a loop waits for what the skipped routine does)'; did not stop at the full-time board): FAIL
+seed 0x2345: score [0, 1] ticks 4138 draws 187079 cpu 8.5 s -> 157.3 s; NOT COMPLETED (error 'no full-time board within 150 s (a loop waits for what the skipped routine does)'; did not stop at the full-time board): FAIL
+2 seeds expected identical, 0 pass, 2 fail
+exit 1
+== skip 0791:8E24 (review4) (a result either way)
+seed 0x1234: score [1, 1] ticks 4146 draws 184109 cpu 8.3 s -> 8.3 s; DIFFER: score, ticks, draws, draws_digest, statistics_raw, templates: FAIL
+seed 0x2345: score [0, 1] ticks 4138 draws 187079 cpu 8.5 s -> 9.4 s; DIFFER: score, ticks, draws, draws_digest, statistics_raw, templates: FAIL
+2 seeds expected identical, 0 pass, 2 fail
+exit 1
+== pilot exact, 8 seeds (review4) (quoted as passing)
+seed 0x0101: score [1, 0] ticks 4279 draws 192967 cpu 10.7 s -> 16.2 s; identical
+seed 0x2b7e: score [0, 2] ticks 4029 draws 175773 cpu 9.3 s -> 16.9 s; identical
+seed 0x4c1d: score [1, 0] ticks 4659 draws 210776 cpu 10.5 s -> 18.5 s; identical
+seed 0x6a33: score [0, 2] ticks 4159 draws 184733 cpu 9.9 s -> 16.0 s; identical
+seed 0x8e05: score [1, 0] ticks 4157 draws 186815 cpu 12.1 s -> 17.1 s; identical
+seed 0xa1f0: score [1, 0] ticks 4281 draws 191805 cpu 13.1 s -> 17.9 s; identical
+seed 0xc3c3: score [2, 1] ticks 4262 draws 184677 cpu 16.8 s -> 18.7 s; identical
+seed 0xe719: score [1, 0] ticks 4240 draws 191629 cpu 11.9 s -> 17.6 s; identical
+8 seeds expected identical, 8 pass, 0 fail
+exit 0
+== falsifier coin-swapped caught (review4) (quoted as passing)
+seed 0x1234: score [1, 1] ticks 4146 draws 184109 cpu 8.3 s -> 17.9 s; caught: differ in score, ticks, draws, draws_digest, statistics_raw, templates
+1 seeds expected differ, 1 pass, 0 fail
+exit 0
+== falsifier bound-36 caught (review4) (quoted as passing)
+seed 0x1234: score [1, 1] ticks 4146 draws 184109 cpu 8.3 s -> 316.2 s; caught: not completed (error 'no full-time board within 300 s'; did not stop at the full-time board)
+1 seeds expected differ, 1 pass, 0 fail
+exit 0
+== falsifier no-picture caught (review4) (quoted as passing)
+seed 0x1234: score [1, 1] ticks 4146 draws 184109 cpu 8.3 s -> 16.2 s; caught: differ in score, ticks, draws, draws_digest, statistics_raw, templates
+1 seeds expected differ, 1 pass, 0 fail
+exit 0
+== delay count at kick-off, 2 seeds (quoted as passing)
+seed 0x1234: score [1, 1] ticks 4146 draws 184109 cpu 42.3 s -> 8.3 s; identical
+seed 0x2345: score [0, 1] ticks 4138 draws 187079 cpu 38.6 s -> 8.5 s; identical
+2 seeds expected identical, 2 pass, 0 fail
+exit 0
+== delay count at kick-off, 8 seeds (quoted as passing)
+seed 0x0101: score [1, 0] ticks 4279 draws 192967 cpu 19.5 s -> 10.7 s; identical
+seed 0x2b7e: score [0, 2] ticks 4029 draws 175773 cpu 25.4 s -> 9.3 s; identical
+seed 0x4c1d: score [1, 0] ticks 4659 draws 210776 cpu 50.8 s -> 10.5 s; identical
+seed 0x6a33: score [0, 2] ticks 4159 draws 184733 cpu 20.5 s -> 9.9 s; identical
+seed 0x8e05: score [1, 0] ticks 4157 draws 186815 cpu 29.0 s -> 12.1 s; identical
+seed 0xa1f0: score [1, 0] ticks 4281 draws 191805 cpu 29.7 s -> 13.1 s; identical
+seed 0xc3c3: score [2, 1] ticks 4262 draws 184677 cpu 31.0 s -> 16.8 s; identical
+seed 0xe719: score [1, 0] ticks 4240 draws 191629 cpu 40.7 s -> 11.9 s; identical
+8 seeds expected identical, 8 pass, 0 fail
+exit 0
+== delay count written at the start, 1 seed (quoted as passing)
+seed 0x1234: score [1, 1] ticks 4146 draws 184109 cpu 42.3 s -> 607.3 s; identical
+1 seeds expected identical, 1 pass, 0 fail
+exit 0
+== skip 8E24 with the display set (20261015) (a result either way)
+seed 0x1234: score [1, 1] ticks 4146 draws 184109 cpu 8.3 s -> 10.4 s; DIFFER: score, ticks, draws, draws_digest, statistics_raw, templates: FAIL
+seed 0x2345: score [0, 1] ticks 4138 draws 187079 cpu 8.5 s -> 11.1 s; DIFFER: score, ticks, draws, draws_digest, statistics_raw, templates: FAIL
+2 seeds expected identical, 0 pass, 2 fail
+exit 1
+== pilot exact, first try (quoted as passing)
+seed 0x1234: score [1, 1] ticks 4146 draws 184109 cpu 8.3 s -> 16.3 s; identical
+seed 0x2345: score [0, 1] ticks 4138 draws 187079 cpu 8.5 s -> 16.7 s; identical
+2 seeds expected identical, 2 pass, 0 fail
+exit 0
+recheck exit 0

@@ -100,7 +100,9 @@ must each change a match or stop it completing. The comparison fails closed (`co
 review): the candidate must hold exactly the expected seeds, each once, every match must have reached
 the full-time board with no error and no stray key wait, and every record must carry all the evidence the
 comparison uses (missing evidence is neither a match nor a caught falsifier); a run whose generator failed
-is never compared. The family is 40 matches: 20 seeds from E011-r0001's
+is never compared. Every record is validated against one schema (`record_schema.py`, strict JSON, every
+field to its leaves); the reference must be the unhooked original from the same start state, and the
+candidate must be the run the step names (its ported or skipped routines, its variant). The family is 40 matches: 20 seeds from E011-r0001's
 watchstart state as they are, and the same 20 with declared edits that widen the paths (one side's tactic
 byte, skills, energy and form, as E026 edited them); start states with other countries come with P7. (E011-r0002's records differ from r0001's only in
 bytes F013 calls timing artefacts, so its watchstart adds little once the seed is written.)
