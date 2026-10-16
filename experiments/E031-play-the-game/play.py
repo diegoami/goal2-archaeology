@@ -89,7 +89,9 @@ class PlayDriver(driver.Driver):
     """The driver, with saved games copied into the game folder before DOSBox-X starts."""
 
     def __init__(self, *a, gl=(), mapper=None, fkeys="raw", **k):
-        super().__init__(*a, **k)
+        # issue 244: the driver now sends raw keys and writes the no-host mapper itself; `--mapper ""`
+        # (the `alt` session) asks for the driver's old keys and F12 chord, which reproduce the fault.
+        super().__init__(*a, legacy_keys=not mapper, **k)
         self.fkeys = fkeys
         self.gl = [Path(p) for p in gl]
         self.mapper = Path(mapper) if mapper else None

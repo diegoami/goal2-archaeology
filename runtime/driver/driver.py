@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
-"""The G1 driver: GOAL2 under DOSBox-X 2024.03.01 in Xvfb, keys through xdotool (XTEST), the screen
-and guest memory read from savestates (F001, route A). Standard library only.
+"""The G1 driver: GOAL2 under DOSBox-X 2024.03.01 in Xvfb, keys as raw XTEST events (xkeys.py), the
+screen and guest memory read from savestates (F001, route A). Standard library only.
 
     d = Driver(config); d.launch(start_state); d.keys("n"); sc = d.screen(); d.memory(0x449, 1)
     d.save_state(); d.restore(state); d.terminate()
@@ -12,6 +12,13 @@ those are killed (by PID). Display `:99` is never used (another project runs the
 CLI:
     python3 runtime/driver/driver.py make-state title     # store the title-screen start state
     python3 runtime/driver/driver.py read <file.sav>      # print the screen, mode and ticks of a savestate
+Keys (issue 244): every key is the one X keycode of its keysym, pressed and released with no modifier
+added, and the savestate and load are single keys (Scroll Lock, Print Screen) through a mapper file the
+driver writes, so the host key F12 is never pressed. xdotool, asked for F10, sent Left Alt with it (the
+guest read Alt+F10), and its F12+S chord left Left Alt held in the guest from the launch on, in every
+run recorded before the fix. `Driver(legacy_keys=True)` is that old behaviour, kept to reproduce the fault.
+Do not press F1 in a driver run: the help viewer makes every later savestate crash DOSBox-X 2024.03.01
+(buffer overflow detected, exit -6), even after Esc (E031).
 Copied in part from runtime/spike/dbx.py (T02); the spike stays unchanged."""
 import argparse
 import hashlib
@@ -29,6 +36,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import savestate  # noqa: E402
+import xkeys  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[2]
 CACHE = ROOT / ".cache" / "goal2"            # the verified release copy (setup/goal2-runtime.sh)
@@ -175,8 +183,7 @@ def check_clock(dos_date, dos_time, readback):
     return m_d[0], m_t[0]
 
 
-KEYMAP = {"Enter": "Return", "Esc": "Escape", "Space": "space", "Up": "Up", "Down": "Down",
-          "Left": "Left", "Right": "Right", "Backspace": "BackSpace", "Tab": "Tab"}
+KEYMAP = xkeys.KEYMAP
 
 DEFAULT_CONFIG = {"machine": "svga_s3", "memsize": 16, "cycles": "max", "core": "auto", "cputype": "auto"}
 
@@ -194,7 +201,8 @@ def host_times():
 
 
 class Driver:
-    def __init__(self, config=None, workdir=None, game_dir=GAME_DIR):
+    def __init__(self, config=None, workdir=None, game_dir=GAME_DIR, legacy_keys=False):
+        self.legacy_keys = legacy_keys  # True: xdotool keys and the F12 host chord, the fault of issue 244
         self.config = dict(DEFAULT_CONFIG, **(config or {}))
         self.workdir = Path(workdir or SCRATCH / "session").resolve()
         self.game_dir = Path(game_dir).resolve()
@@ -314,6 +322,7 @@ exit
         self.conf = self.conf_text()
         conf = self.workdir / "dosbox.conf"
         conf.write_text(self.conf)
+        self._write_mapper()
         self._start_xvfb()
         self.env = dict(os.environ, DISPLAY=self.display, SDL_AUDIODRIVER="dummy")
         args = [dbx_exe, "-conf", str(conf), "-fastlaunch", "-nogui", "-nomenu",
@@ -337,6 +346,19 @@ exit
             sc = self.settle(sc.digest(), what=f"displaced by {displace_key}")
         self.pre_restore = self.last
         return self.restore(start_state)
+
+    def _write_mapper(self):
+        """<work>/mapper.map, which the config names and DOSBox-X reads at start: the default binds with
+        the savestate on Scroll Lock and the load on Print Screen (xkeys.mapper_text). With legacy_keys
+        no file is written and a stale one is removed, so DOSBox-X's own default binds (Host+S, Host+L
+        on F12) apply as they did before issue 244."""
+        path = self.workdir / "mapper.map"
+        if self.legacy_keys:
+            path.unlink(missing_ok=True)
+            return
+        text = xkeys.mapper_text()
+        path.write_text(text)
+        self.log(f"mapper file written, sha256 {sha256(text.encode())}: savestate on Scroll Lock, load on Print Screen")
 
     def _start_xvfb(self):
         # Xvfb's -displayfd cannot choose here (WSLg owns X0): pick 200..899, never :99, and poll until it answers.
@@ -383,16 +405,29 @@ exit
 
     # ---- act ------------------------------------------------------------------------------
     def keys(self, *names, hold=KEY_HOLD):
-        """One keystroke per name through XTEST: press, hold `hold` seconds (logged), release."""
+        """One keystroke per name as raw XTEST events (xkeys.press_release): press, hold `hold` seconds
+        (logged), release, with no modifier added. Function keys arrive as the function key (F10 as
+        0x4400 in the BIOS buffer). With legacy_keys: xdotool, as before issue 244 (it added Left Alt)."""
         for name in names:
             k = KEYMAP.get(name, name)
-            self._x("keydown", k)
-            time.sleep(hold)  # key hold; its duration is logged just below
-            self._x("keyup", k)
-            self.log(f"key {name} held {hold}s")
+            if self.legacy_keys:
+                self._x("keydown", k)
+                time.sleep(hold)  # key hold; its duration is logged just below
+                self._x("keyup", k)
+                self.log(f"key {name} held {hold}s")
+            else:
+                codes = xkeys.press_release(self.display, k, hold)  # the hold is inside the call
+                self.log(f"key {name} held {hold}s (raw keycode {'+'.join(map(str, codes))})")
 
     def _hostkey(self, name, hold=HOSTKEY_HOLD):
-        """DOSBox-X host key (F12) + a key: an emulator hotkey, not game input. Holds are logged."""
+        """An emulator hotkey, not game input: `s` saves a state, `l` loads one. One key (xkeys.SINGLE_KEYS)
+        through the mapper _write_mapper wrote, held `hold` s (logged). With legacy_keys: DOSBox-X's host
+        key F12 + the letter through xdotool, which leaves Left Alt held in the guest (issue 244)."""
+        if not self.legacy_keys:
+            k = xkeys.SINGLE_KEYS[name]
+            codes = xkeys.press_release(self.display, k, hold)  # the hold is inside the call
+            self.log(f"emulator key {k} (for host+{name}) held {hold}s (raw keycode {'+'.join(map(str, codes))})")
+            return
         self._x("keydown", "F12")
         time.sleep(hold)  # key hold (host key); logged below
         self._x("keydown", name)
