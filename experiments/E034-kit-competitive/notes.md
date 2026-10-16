@@ -70,7 +70,7 @@ the tree. Every writer refuses an existing output; nothing in `out/` is deleted 
   commentary panel over steps 3933 to the next fixture: 30 lines; all are, in order, in the kit's 31; the takers
   (8, from "X to shoot" and "shot from X") and the goals (4) are the kit's; the kit has Holland through 3-1 (E031's
   README: "last 16 won on penalties after 2-2").
-  `out/e031-shootout-20261016a.json` (PASS); the final run `-20261016b`.
+  `out/e031-shootout-20261016a.json` (PASS); the final runs `-20261016b` and `-20261016c`.
 - **The engine on competitive fixtures, by the kit's own check** (`check.py` `knockout`): the knockout example
   straight, resumed at extra time's first decision and resumed at the order: one digest, recorded as
   `EXPECTED_KNOCKOUT`; `goal_problems` (now counting kicks in the score bytes and checking the shoot-out's score
@@ -78,17 +78,22 @@ the tree. Every writer refuses an existing output; nothing in `out/` is deleted 
 - **Stamps by independent hooks** (`stamps_competitive.py`, on E033's `Independent`): 8 scenarios (the knockout
   example; kind 200 at 42 watched, sudden death; at 30, decided in extra time; at 9 and 53 as quick results; at 42
   quick with goal2 managing 19; a qualifier; the friendly), every kind's stamps and the whole stream equal
-  (`stamps-competitive-20261016a.jsonl`: the first 7, PASS; the final run `-20261016b`: 8).
+  (`stamps-competitive-20261016a.jsonl`: the first 7, PASS; the final runs `-20261016b` and `c`: 8).
 - **Save boundaries** (`save_boundaries_competitive.py`): three scenarios, every first event of each kind
   (`extra_time`, `shootout`, `shootout_kick` included), every decision before and after its answer:
-  resumed = straight (`save-boundaries-competitive-20261016a.jsonl`, PASS; final `-20261016b`).
+  resumed = straight (`save-boundaries-competitive-20261016a.jsonl`, PASS; final `-20261016b` and `c`).
 - **Tests**: `CompetitiveTests`, 8 tests (kinds and budget arguments; penalties after extra time; goal2's order and
   the takers' rotation past a side's tenth taker after a sending off; the budget per side, 5 made and none for a
   side given 0; an extra-time goal marked; the stream against E034's hooks; a ban after a sending off; a
-  qualifier). Against origin/main's kit every one errors (`base-tests-20261016b.txt`: "only friendlies" or no
-  `substitutions` argument). 16 new mutation entries (`tests/mutations_original_match.py`), each killed by the test
-  named with it (`mutations-20261016b.txt`). `out/tests-20261016a.txt` (30 OK) is from f116f62's parent's tests;
-  `mutations-20261016a.txt` is empty: I stopped that run before its first line to add two tests.
+  qualifier). Against origin/main's kit every one errors (`base-tests-20261016b.txt`, `c`: "only friendlies" or
+  no `substitutions` argument). 16 new mutation entries (`tests/mutations_original_match.py`). In the run from
+  d25060c (`mutations-20261016b.txt`) one survived: "a pause taken in the shoot-out". Its test asked at the first
+  kick, and by then the match was over: after the order's answer the kicks run to the board in one stretch (no tick
+  between them stops the machine), so `pause()` refused for "the match is over", not for the shoot-out. The test now
+  asks at the `shootout` event, the one moment a client can, and the guard's message no longer claims that the kicks
+  poll no menu (they do: 9564 calls the poll 9372; what the original's team menu would do mid-kick is not checked,
+  so the kit refuses it). The final run is `-20261016c` (from 69ea89d). `out/tests-20261016a.txt` (30 OK) is from
+  f116f62's parent; `mutations-20261016a.txt` is empty: I stopped that run before its first line to add two tests.
 - **Probes** (`probe_kinds.py`): a (kind 200, 6 seeds: the first two undeclared things, the competition table read
   1771:9022 and the extra-time minute write 9B15), b and c (after the first changes; c found the missing full-time
   board), d (31 indexes, every decision played on: all complete; 10 to extra time, 3 to penalties), e (80 indexes,

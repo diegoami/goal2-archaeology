@@ -218,7 +218,11 @@ What the kind changes, all the original's own code (E034 notes):
   for the next fixture), `carried_booking` (element 4) and `injured` read from the latter. The full records are in
   `memory_component()`.
 - **The full-time board after a shoot-out** passes without a key: the order screen (9B93) pushes a Down key back after
-  each pick and the board reads the last one. The `full_time` event comes at the board all the same.
+  each pick and the board reads the last one (the in-play poll's 214B:0723 asks the BIOS only, so no kick takes
+  it). The `full_time` event comes at the board all the same.
+- **No pause in the shoot-out**: `pause()` at the `shootout` event raises `MatchError` (a kit rule: the kicks poll
+  keys, 9372 from 9564, but what the original's team menu does mid-kick is not checked). After the order's answer
+  the kicks run to the board in one stretch, so their events come together.
 
 ## What the original decides for you (rules to know)
 
