@@ -1,0 +1,111 @@
+##### E003 d0 10:00:00 on 10/04/1993: fixed driver; original runs/E003/E003-r0047.json
+--- out/rerun/E003/E003-r0003.json
+step  2 DS:7B62                DIFFERENT 0x18bc | 0x365e
+step  2 screen digest          DIFFERENT fed56e4032e0aee03f51 | def302f09e3b838ba9d5
+step  3 screen digest          DIFFERENT 67735c05a17f846e3cc2 | a8c29236f3c0460c6cc5
+VERDICT DIFFERENT: 45 of 48 compared values equal
+--- out/rerun/E003/E003-r0004.json
+step  2 DS:7B62                DIFFERENT 0x18bc | 0xdffa
+step  2 screen digest          DIFFERENT fed56e4032e0aee03f51 | def302f09e3b838ba9d5
+step  3 screen digest          DIFFERENT 67735c05a17f846e3cc2 | a8c29236f3c0460c6cc5
+step  4 screen digest          DIFFERENT f23cd4037d2a8cdc30e5 | 9830ea89af67ec6a5422
+VERDICT DIFFERENT: 44 of 48 compared values equal
+--- out/rerun/E003/E003-r0005.json
+step  2 DS:7B62                DIFFERENT 0x18bc | 0xf439
+step  2 screen digest          DIFFERENT fed56e4032e0aee03f51 | def302f09e3b838ba9d5
+step  3 screen digest          DIFFERENT 67735c05a17f846e3cc2 | a8c29236f3c0460c6cc5
+step  4 screen digest          DIFFERENT f23cd4037d2a8cdc30e5 | 9830ea89af67ec6a5422
+VERDICT DIFFERENT: 44 of 48 compared values equal
+--- out/rerun/E003/E003-r0006.json
+step  2 DS:7B62                DIFFERENT 0x18bc | 0xed0c
+step  2 screen digest          DIFFERENT fed56e4032e0aee03f51 | def302f09e3b838ba9d5
+step  3 screen digest          DIFFERENT 67735c05a17f846e3cc2 | a8c29236f3c0460c6cc5
+step  4 screen digest          DIFFERENT f23cd4037d2a8cdc30e5 | 9830ea89af67ec6a5422
+VERDICT DIFFERENT: 44 of 48 compared values equal
+--- out/rerun/E003/E003-r0007.json
+step  2 DS:7B62                DIFFERENT 0x18bc | 0x3055
+step  2 screen digest          DIFFERENT fed56e4032e0aee03f51 | def302f09e3b838ba9d5
+step  3 screen digest          DIFFERENT 67735c05a17f846e3cc2 | a8c29236f3c0460c6cc5
+step  4 screen digest          DIFFERENT f23cd4037d2a8cdc30e5 | 9830ea89af67ec6a5422
+VERDICT DIFFERENT: 44 of 48 compared values equal
+##### E003 d0: control, legacy keys on the fixed driver; original runs/E003/E003-r0047.json
+--- out/rerun-legacy-keys/E003/E003-r0001.json
+step  4 screen digest          DIFFERENT f23cd4037d2a8cdc30e5 | 9830ea89af67ec6a5422
+VERDICT DIFFERENT: 47 of 48 compared values equal
+--- out/rerun-legacy-keys/E003/E003-r0002.json
+step  3 screen digest          DIFFERENT 67735c05a17f846e3cc2 | a8c29236f3c0460c6cc5
+step  4 screen digest          DIFFERENT f23cd4037d2a8cdc30e5 | 9830ea89af67ec6a5422
+step  5 screen digest          DIFFERENT 9574659327a631d70863 | c13962bf606cc3eb9f18
+step  6 screen digest          DIFFERENT e04109d044ed710ef5c4 | 55abe3f3da7abf6d040e
+VERDICT DIFFERENT: 44 of 48 compared values equal
+--- out/rerun-legacy-keys/E003/E003-r0003.json
+step  4 screen digest          DIFFERENT f23cd4037d2a8cdc30e5 | 9830ea89af67ec6a5422
+step  6 screen digest          DIFFERENT e04109d044ed710ef5c4 | 55abe3f3da7abf6d040e
+VERDICT DIFFERENT: 46 of 48 compared values equal
+--- out/rerun-legacy-keys/E003/E003-r0004.json
+step  3 screen digest          DIFFERENT 67735c05a17f846e3cc2 | a8c29236f3c0460c6cc5
+step  4 screen digest          DIFFERENT f23cd4037d2a8cdc30e5 | 9830ea89af67ec6a5422
+step  5 screen digest          DIFFERENT 9574659327a631d70863 | c13962bf606cc3eb9f18
+step  6 screen digest          DIFFERENT e04109d044ed710ef5c4 | 55abe3f3da7abf6d040e
+VERDICT DIFFERENT: 44 of 48 compared values equal
+##### E003 d0: control, game keys the old way, savestate key new; original runs/E003/E003-r0047.json
+--- out/rerun-legacy-only-keys/E003/E003-r0001.json
+step  2 DS:7B62                DIFFERENT 0x18bc | 0xc411
+step  2 screen digest          DIFFERENT fed56e4032e0aee03f51 | def302f09e3b838ba9d5
+step  6 screen digest          DIFFERENT e04109d044ed710ef5c4 | 55abe3f3da7abf6d040e
+VERDICT DIFFERENT: 45 of 48 compared values equal
+--- out/rerun-legacy-only-keys/E003/E003-r0002.json
+step  2 DS:7B62                DIFFERENT 0x18bc | 0x7c38
+step  2 screen digest          DIFFERENT fed56e4032e0aee03f51 | def302f09e3b838ba9d5
+step  3 screen digest          DIFFERENT 67735c05a17f846e3cc2 | a8c29236f3c0460c6cc5
+step  4 screen digest          DIFFERENT f23cd4037d2a8cdc30e5 | 9830ea89af67ec6a5422
+step  5 screen digest          DIFFERENT 9574659327a631d70863 | c13962bf606cc3eb9f18
+VERDICT DIFFERENT: 43 of 48 compared values equal
+##### E003 d0: control, game keys new, savestate key the old way; original runs/E003/E003-r0047.json
+--- out/rerun-legacy-only-save/E003/E003-r0001.json
+VERDICT same: 48 of 48 compared values equal
+##### E003 d0: control, save key held 0.6 s; original runs/E003/E003-r0047.json
+--- out/rerun-save-key-hold-0.6/E003/E003-r0001.json
+step  2 DS:7B62                DIFFERENT 0x18bc | 0x9b8b
+step  2 screen digest          DIFFERENT fed56e4032e0aee03f51 | def302f09e3b838ba9d5
+step  4 screen digest          DIFFERENT f23cd4037d2a8cdc30e5 | 9830ea89af67ec6a5422
+step  5 screen digest          DIFFERENT 9574659327a631d70863 | c13962bf606cc3eb9f18
+step  6 screen digest          DIFFERENT e04109d044ed710ef5c4 | 55abe3f3da7abf6d040e
+VERDICT DIFFERENT: 43 of 48 compared values equal
+--- out/rerun-save-key-hold-0.6/E003/E003-r0002.json
+step  2 DS:7B62                DIFFERENT 0x18bc | 0x6275
+step  2 screen digest          DIFFERENT fed56e4032e0aee03f51 | def302f09e3b838ba9d5
+VERDICT DIFFERENT: 46 of 48 compared values equal
+##### E006 games 10:00 on 10/04/2026: fixed driver; original runs/E006/E006-r0001.json
+--- out/rerun/E006/E006-r0001.json
+VERDICT same: 10 of 10 compared values equal
+##### E003 d3b (a remade main.sav): fixed driver; original runs/E003/E003-r0049.json
+--- out/rerun/E003/E003-r0008.json
+step  5 DS:7B62                DIFFERENT 0xa797 | 0x10c4
+step  5 DS:8336                DIFFERENT 0x3dcc | 0x5bfc
+step  5 screen digest          DIFFERENT 2e282d3e90252ea9c274 | c90c3516256b3622c2d3
+step  6 DS:7B62                DIFFERENT 0xa797 | 0x10c4
+step  6 DS:8336                DIFFERENT 0x3dcc | 0x1c1b
+step  6 screen digest          DIFFERENT a814ba65982164c6651d | 5c98e9a1abf81e9a6a7b
+step  7 DS:7B62                DIFFERENT 0xc6ba | 0xa797
+step  7 screen digest          DIFFERENT c3e00f36ad6e134afbec | 2e282d3e90252ea9c274
+step  8 DS:7B62                DIFFERENT 0x63d7 | 0xa797
+step  8 screen digest          DIFFERENT 641ecfc672255d31b234 | a814ba65982164c6651d
+VERDICT DIFFERENT: 26 of 36 compared values equal
+--- out/rerun/E003/E003-r0009.json
+step  5 DS:7B62                DIFFERENT 0xa797 | 0x10c4
+step  5 DS:8336                DIFFERENT 0x3dcc | 0x5bfc
+step  5 screen digest          DIFFERENT 2e282d3e90252ea9c274 | c90c3516256b3622c2d3
+step  6 DS:7B62                DIFFERENT 0xa797 | 0x10c4
+step  6 DS:8336                DIFFERENT 0x3dcc | 0x1c1b
+step  6 screen digest          DIFFERENT a814ba65982164c6651d | 5c98e9a1abf81e9a6a7b
+step  7 DS:7B62                DIFFERENT 0xc6ba | 0xa797
+step  7 screen digest          DIFFERENT c3e00f36ad6e134afbec | 2e282d3e90252ea9c274
+step  8 DS:7B62                DIFFERENT 0x63d7 | 0xa797
+step  8 screen digest          DIFFERENT 641ecfc672255d31b234 | a814ba65982164c6651d
+VERDICT DIFFERENT: 26 of 36 compared values equal
+##### E003 d3b: control, save key held 0.6 s; original runs/E003/E003-r0049.json
+--- out/rerun-save-key-hold-0.6/E003/E003-r0003.json
+VERDICT same: 36 of 36 compared values equal
+--- out/rerun-save-key-hold-0.6/E003/E003-r0004.json
+VERDICT same: 36 of 36 compared values equal

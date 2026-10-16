@@ -187,6 +187,16 @@ projects.
   `~/tools/dosbox-x-2024.03.01/bin` first on PATH for it.
 - An OpenCode run of the original needs the same: pass `--env "PATH=$HOME/tools/dosbox-x-2024.03.01/bin:$PATH"`
   only for `runtime/spike/`; the driver and the recorder find the bundle themselves.
+- The driver's keys (issue 244): `runtime/driver/xkeys.py` sends every key as a raw XTEST keycode
+  with no modifier, and the driver's savestate and load are Scroll Lock and Print Screen through a
+  mapper file it writes into the session folder, so the host key F12 is never pressed. Before the
+  fix, xdotool sent Left Alt with every function key (F10 reached the game as Alt+F10) and left
+  Left Alt held in the guest from the launch on, in every run; `Driver(legacy_keys=True)` is that
+  old behaviour. A savestate read is about 0.15 s now, was about 0.6 s with the F12 chord, so a
+  script whose `settle` waits for two equal reads can stop earlier on a transient screen
+  (`experiments/fix-244-driver-keys/README.md`).
+- **Do not press F1 in a driver run**: the help viewer makes every later savestate crash DOSBox-X
+  2024.03.01 (buffer overflow detected, exit -6), even after Esc (E031, `docs/play-guide.md` section 2).
 
 ## Ghidra, for the decompiled and named views
 
