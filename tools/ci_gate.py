@@ -7,7 +7,9 @@
 A change is classified by the files it touches into what it obliges CI to run:
 
   nothing  only measured outputs (`*.log`, `experiments/**/out/**`).
-  quick    prose no test reads (docs): links, citations and the no-original-file check.
+  quick    prose no test reads (docs): links, citations, the named-view citation check
+           (tools/static/named_citations.py: a spec-only PR can break a cited line) and the
+           no-original-file check.
   code     anything else: also the harness tests, tests/static and every unit test except SLOW.
   modules  a file one of the SLOW test modules reads obliges that module (SLOW_DEPS); the CI
            definition, a manual run and a nightly run on main oblige all of them.

@@ -81,6 +81,21 @@ class Classify(unittest.TestCase):
             with self.subTest(path=path):
                 self.assertEqual(G.classify(path), want)
 
+    def test_every_document_with_a_named_view_citation_obliges_the_quick_tier(self):
+        """Issue #307/#310: the named-citation check runs in the quick tier, so a PR that touches only a spec,
+        docs or notes file (or a finding or an experiment's notes) that cites a line of the named view runs it,
+        and so does one that regenerates the view."""
+        sys.path.insert(0, str(ROOT / "tools" / "static"))
+        import named_citations as nc
+        cited = {c.doc for c in nc.all_cites()}
+        self.assertTrue({"spec/friendlies.md", "docs/play-guide.md"} <= cited)
+        self.assertTrue(any(d.startswith("findings/") for d in cited))
+        self.assertTrue(any(d.startswith("experiments/") for d in cited))
+        for path in sorted(cited) + ["static/goal-exe/named/seg_0791_01.c", "static/goal-exe/named-citations.tsv",
+                                     "tools/static/named_citations.py"]:
+            with self.subTest(path=path):
+                self.assertIn(Q, G.classify(path))
+
     def test_a_change_obliges_the_union_of_its_files(self):
         self.assertEqual(G.obligations(["CLAUDE.md", "tools/harness/review.mjs"]), FAST)
         self.assertEqual(G.obligations(["CLAUDE.md", "tools/screens/x.py", "a.log"]), fast_plus(VID))
@@ -261,6 +276,19 @@ class Workflow(unittest.TestCase):
             line = [l for l in self.TEXT.splitlines() if needle in l and "run:" in l]
             self.assertTrue(line, needle)
         self.assertIn("steps.gate.outputs.quick == 'true'", self.TEXT)
+
+    def test_the_named_citation_check_runs_in_the_quick_tier_of_both_jobs(self):
+        """Issue #307/#310: `named_citations.py check` is a step of the push-to-main `quick` job and, in the
+        `checks` job, of the quick tier (not the code tier: a spec-only PR is quick only)."""
+        step = "python3 tools/static/named_citations.py check"
+        quick_job = self.TEXT.split("  quick:\n", 1)[1].split("  checks:\n", 1)[0]
+        self.assertIn(step, quick_job)
+        checks_job = self.TEXT.split("  checks:\n", 1)[1]
+        i = checks_job.index(step)
+        self.assertEqual(checks_job.count(step), 1)
+        gate = checks_job[checks_job.rindex("- if:", 0, i):i]
+        self.assertIn("steps.gate.outputs.quick == 'true'", gate)
+        self.assertNotIn("code", gate)
 
     def test_the_unit_suite_gets_the_modules_the_gate_chose(self):
         self.assertIn("run-tests --modules=\"${{ steps.gate.outputs.modules }}\"", self.TEXT)

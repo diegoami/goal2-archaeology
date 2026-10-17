@@ -39,6 +39,7 @@ jobs:
         with:
           python-version: '3.12'
       - run: python3 tools/check_links.py
+      - run: python3 tools/static/named_citations.py check
       - run: for f in findings/F*.md; do python3 tools/check_citations.py "$f"; done
       - run: "! git ls-files | grep -iE '\\.(exe|dat|hlp|hil|pif|bat)$'"
 
@@ -109,6 +110,11 @@ jobs:
       # The six slow modules (tools/ci_gate.py SLOW) run only when the gate names them.
       - if: steps.gate.outputs.code == 'true'
         run: python3 tools/ci_gate.py run-tests --modules="${{ steps.gate.outputs.modules }}"
+      # Issue #307/#310: every line of the named view cited in a finding, spec row or note still holds
+      # the text it cited (static/goal-exe/named-citations.tsv); in the quick tier because a spec-only
+      # or notes-only PR can add or break such a citation.
+      - if: steps.gate.outputs.quick == 'true'
+        run: python3 tools/static/named_citations.py check
       # T37: every finding's citations resolve under the pinned checker (U25-U27).
       - if: steps.gate.outputs.quick == 'true'
         run: for f in findings/F*.md; do python3 tools/check_citations.py "$f"; done

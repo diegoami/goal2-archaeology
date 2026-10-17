@@ -115,7 +115,7 @@ unchanged, not a second confidence rule.
   pool (`named/seg_0791_09.c:847–862`), BB2F unplayed fixture
   (`named/seg_0791_09.c:890` onward).
 * 7CC5: 6443 scorer with flag one (`named/seg_0791_05.c:906–908`);
-  65FE team-wide goal reaction with flag zero (`:628–643`);
+  65FE team-wide goal reaction with flag zero (`:992–1007`);
   card/removal paths 7A9D and 7D56 (`named/seg_0791_06.c:1221–1228`, `seg_0791_07.c:66`).
   Cards/injuries are not inferred here, but their field writer is named.
 * 96D3 is reached by creation and retirement/replacement (F007/F016);
