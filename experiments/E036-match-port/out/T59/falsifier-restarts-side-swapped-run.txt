@@ -1,0 +1,6 @@
+ports: pilot, restarts.side-swapped
+3 matches selected, 0 already in experiments/E036-match-port/out/T59/falsifier-restarts-side-swapped.jsonl, 3 to run
+F40/e032-0101: completed; score [0, 1] ticks 4119 cpu 17.796 s; port 0791:6E11 called 14; port 0791:8889 called 93587
+F40/e032-1234: completed; score [5, 0] ticks 4276 cpu 18.725 s; port 0791:6E11 called 13; port 0791:8889 called 96560
+F40/more-0042: completed; score [1, 2] ticks 4372 cpu 19.929 s; port 0791:6E11 called 13; port 0791:8889 called 98440
+3 of 3 matches in experiments/E036-match-port/out/T59/falsifier-restarts-side-swapped.jsonl, 0 not completed

@@ -1206,8 +1206,8 @@ class Match:
         if self._menu is not None and not self.st["over"]:
             raise MatchError("save between events, not while the kit drives a screen")
         if self.m.frames:              # a port waits on a call of the original's (port/guest.py): its Python frame
-            raise MatchError("a port's frame is live (" + "; ".join(self.port_frames()) + "): save when the match "
-                             "has moved past it (after the next event)")      # is not in the guest's memory
+            raise MatchError("a port's frame is live (" + "; ".join(self.port_frames()) + "): save at a later event, "
+                             "once the call has returned")      # is not in the guest's memory
         if getattr(self, "prover", None) is not None:
             raise MatchError("a proved match (prove=) is not saved: its proof state is not in the guest's memory")
         snap = self.m.snapshot()
