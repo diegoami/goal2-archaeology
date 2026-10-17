@@ -16,8 +16,10 @@ A port module registers its own ports (no shared table, so tasks running at the 
 
 A port runs from its routine's entry, after every hook the kit has there (Machine.port), reads and writes only through
 `mem` (port/mem.py), fires the kit's sites inside the routine with mem.site(), answers its key reads with
-mem.read_key() and mem.keypressed(), and returns as the listing's `ret n` / `retf n`. The module holds no byte of the
-original: only addresses, offsets and constants, each citing its listing line."""
+mem.read_key() and mem.keypressed(), and returns as the listing's `ret n` / `retf n`. A port that calls a routine
+still the original's is a generator yielding guest.call(...) (port/guest.py, T59); prove.py runs a port side by side
+with the original (T59). The module holds no byte of the original: only addresses, offsets and constants, each citing
+its listing line."""
 import importlib
 import pkgutil
 import re

@@ -3,13 +3,18 @@
 
     python3 -B experiments/E036-match-port/family.py --family ALL --out experiments/E036-match-port/out/T<nn>/<name>.jsonl
         [--max N] [--workers 1|2] [--time-limit S] [--count SSSS:OOOO,...] [--mask FILE] [--only ID,...] [--cache DIR]
+        [--ports M,...|all] [--variant M.NAME]
     python3 -B experiments/E036-match-port/family.py --family ALL --find-ranges experiments/E036-match-port/out/T57/ranges-<stamp>.json [--only ID,...]
 
 --family is ALL (the union of the families under families/) or comma-separated family names. The matches are the
 declared ones (families.py); the image is E006-r0001, fetched by hash into --cache (default .cache/dl).
 
-The unhooked kit is the reference: no port is installed (`--ports`, `--variant` come with T59, `--engine` with T78,
-and the record grammar, records.py, grows with them). One record per match (records.py): completion, score, ticks,
+The unhooked kit is the reference: no port is installed. `--ports M,...|all` (T59) runs the kit's port mode
+(runtime/original_match/port/, as check.py takes it): those modules' Python routines in place of the original's;
+`--variant M.NAME` one of a module's variants (a falsifier), its module added if not named. The record then carries
+`ports`, `variant` and `port_calls` (records.py), a resumed --out must hold the same, and each match's line says the
+ported routines' calls; a decision answered while a port's frame waits on a call of the original's code is printed
+with the frames (port/guest.py). `--engine` comes with T78. One record per match (records.py): completion, score, ticks,
 the draws (count, digest, one digest per minute), the board's raw statistics and bars, the commentary's template
 counts, the result's digest without the screen and the board screen's digest apart, the events' digest, and, after
 the post-match update, the seed word and one digest per 1 KiB of DS and of each range a match writes outside the
