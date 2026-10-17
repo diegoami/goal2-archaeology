@@ -1524,4 +1524,49 @@ read 11: t=0.0 831F=1 seed=0001 score=[0, 0] ft=False key=team screen
 read 12: t=0.0 831F=1 seed=0001 score=[0, 0] ft=False key=team screen
 read 13: t=0.0 831F=1 seed=0001 score=[0, 0] ft=False key=team screen
 key not acted on within 10 reads; aborting
-..............................................
+................................................................................................................................................................sssssssssssssssss.........
+======================================================================
+FAIL: test_no_alt_is_held_and_f10_arrives_as_f10 (test_driver_keys.EndToEnd.test_no_alt_is_held_and_f10_arrives_as_f10)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2df64d441ee220fe/tests/test_driver_keys.py", line 505, in test_no_alt_is_held_and_f10_arrives_as_f10
+    self.assertEqual(4, len(rows), p.stdout + p.stderr)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 4 != 0 : Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2df64d441ee220fe/experiments/fix-244-driver-keys/probe.py", line 87, in <module>
+    sys.exit(main())
+             ~~~~^^
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2df64d441ee220fe/experiments/fix-244-driver-keys/probe.py", line 62, in main
+    d.launch(None)
+    ~~~~~~~~^^^^^^
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2df64d441ee220fe/runtime/driver/driver.py", line 368, in launch
+    sc = self.wait_screen(lambda sc: TITLE_TEXT in sc.text(), timeout, "title screen")
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2df64d441ee220fe/runtime/driver/driver.py", line 573, in wait_screen
+    sc = self.screen()
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2df64d441ee220fe/runtime/driver/driver.py", line 561, in screen
+    return self.read()[1].screen()
+           ~~~~~~~~~^^
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2df64d441ee220fe/runtime/driver/driver.py", line 554, in read
+    data = self.save_state()
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2df64d441ee220fe/runtime/driver/driver.py", line 533, in save_state
+    raise RuntimeError(f"dosbox-x exited with code {self.dbx.returncode} during a savestate")
+RuntimeError: dosbox-x exited with code -11 during a savestate
+
+
+======================================================================
+FAIL: test_two_workers_play_two_matches_the_same_as_the_reference (test_e036_family.OneRealMatch.test_two_workers_play_two_matches_the_same_as_the_reference)
+--workers 2 (run as the script, since a worker process imports it by name): two processes, one match at a
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2df64d441ee220fe/tests/test_e036_family.py", line 800, in test_two_workers_play_two_matches_the_same_as_the_reference
+    self.assertEqual({k: v for k, v in x.items() if k not in ("cpu_s", "wall_s")},
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                     {k: v for k, v in want[x["id"]].items() if k not in ("cpu_s", "wall_s")})
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: {'id'[201 chars]t': '3', 'mask': [], 'error': None, 'stopped_a[19602 chars]: {}} != {'id'[201 chars]t': '2', 'mask': [], 'error': None, 'stopped_a[19602 chars]: {}}
+Diff is 33616 characters long. Set self.maxDiff to None to see it.
+
+----------------------------------------------------------------------
+Ran 1377 tests in 794.711s
+
+FAILED (failures=2, skipped=30)
