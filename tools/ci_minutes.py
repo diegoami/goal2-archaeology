@@ -60,6 +60,61 @@ def jobs_of(repo, run_id):
     return jobs
 
 
+# Seconds of the `checks` job on this repository's runner (2026-10-17): the docs tier 30 s (run
+# 39033251461), the fast tier 171 s (39033020879); each slow module adds what it took in run
+# 39031916644 (notes/T297/ci-module-times-20261017.txt).  The full suite measured 433 s (39032496227).
+DOCS_SECS, FAST_SECS = 30, 171
+MODULE_SECS = {"test_human_keys": 173, "test_e032_recheck": 34, "test_screens_video": 31, "test_e036_compare": 30,
+               "test_human_record": 14}
+
+
+def replay(repo, rows, since):
+    """What the PR runs since `since` would have billed under tools/ci_gate.py's obligations.
+
+    Each PR's obligations are those of its final file list (the whole PR), applied to every one of
+    its completed runs: an upper bound, since a rework push that touches less costs less.  A
+    cancelled run is charged in proportion to the cost of its old run.  The gate job no longer
+    exists.  PRs outside the latest 100 are left out of both sides."""
+    import importlib.util
+    from pathlib import Path
+    spec = importlib.util.spec_from_file_location("ci_gate", Path(__file__).resolve().parent / "ci_gate.py")
+    g = importlib.util.module_from_spec(spec)
+    sys.modules["ci_gate"] = g
+    spec.loader.exec_module(g)
+    prs = {}
+    for pr in gh_json(f"repos/{repo}/pulls?state=all&per_page=100&sort=created&direction=desc")[0]:
+        files = []
+        for page in gh_json(f"repos/{repo}/pulls/{pr['number']}/files?per_page=100"):
+            files += [x["filename"] for x in page]
+        ob = g.obligations(files)
+        secs_ = 0 if not ob else DOCS_SECS if g.CODE not in ob else FAST_SECS + sum(MODULE_SECS[m] for m in ob & set(MODULE_SECS))
+        prs[pr["head"]["ref"]] = (g.name_of(ob), secs_)
+    tot = defaultdict(lambda: [0, 0])  # tier -> [actual, projected]
+    seen = defaultdict(set)
+    for x in rows:
+        if x["event"] != "pull_request" or x["created"] < since or x["branch"] not in prs or x["conclusion"] == "skipped":
+            continue
+        tier, proj_secs = prs[x["branch"]]
+        billed = -(-int(x["secs"]) // 60)
+        if x["job"] == "gate":
+            proj = 0
+        elif x["conclusion"] == "cancelled":
+            proj = -(-int(x["secs"] * proj_secs / 433) // 60)
+        else:
+            proj = -(-max(proj_secs, 1) // 60)
+        tot[tier][0] += billed
+        tot[tier][1] += proj
+        seen[tier].add(x["branch"])
+    print(f"\nreplay of the PR runs since {since} under the obligations (PRs listed: {len(prs)}):")
+    print("  tier    branches  billed-actual  billed-projected")
+    a = p = 0
+    for tier in sorted(tot):
+        print(f"  {tier:7s} {len(seen[tier]):6d} {tot[tier][0]:14d} {tot[tier][1]:17d}")
+        a += tot[tier][0]
+        p += tot[tier][1]
+    print(f"  total   {sum(len(v) for v in seen.values()):6d} {a:14d} {p:17d}")
+
+
 def steps_report(repo, run_id):
     for j in jobs_of(repo, run_id):
         print(f"{j['name']}: {j['conclusion']} {secs(j['started_at'], j['completed_at']):.0f}s")
@@ -73,6 +128,7 @@ def main():
     ap.add_argument("--repo", default="diegoami/goal2-archaeology")
     ap.add_argument("--steps", type=int, metavar="RUN_ID")
     ap.add_argument("--json", metavar="FILE", help="also write the raw per-job rows here")
+    ap.add_argument("--replay-since", metavar="DATE", help="also project the PR runs since DATE under the tiers")
     a = ap.parse_args()
     if a.steps:
         steps_report(a.repo, a.steps)
@@ -122,6 +178,8 @@ def main():
     print("\nbilled minutes by day (jobs, minutes):")
     for day, (n, m) in sorted(wk.items()):
         print(f"  {day} {n:4d} {m:5d}")
+    if a.replay_since:
+        replay(a.repo, rows, a.replay_since)
     if a.json:
         with open(a.json, "w") as f:
             json.dump(rows, f, indent=1)

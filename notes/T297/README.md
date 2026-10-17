@@ -8,4 +8,8 @@ All measured on 2026-10-17; none is edited after it is committed.
 - `ci-module-times-20261017.txt`: seconds per unit-test module on GitHub's runner, from the per-test timestamps
   of run 39031916644 (the full suite on this PR's first working push).
 - `trace_deps.py`, `slow-module-deps-20261017.json`: the repository paths each slow module opened or executed,
-  recorded with an audit hook; `tests/test_ci_gate.py` requires every one of them to classify as `full`.
+  recorded with an audit hook (`PYTHONPYCACHEPREFIX=<empty dir> python3 notes/T297/trace_deps.py <root>
+  tests/<module>.py <out.json>`: an empty cache prefix makes Python open the sources, not stale .pyc files);
+  `tests/test_ci_gate.py` requires every one of them to oblige that module.
+- `replay-20261017.txt`: `python3 tools/ci_minutes.py --days 30 --replay-since 2026-10-12`, the "before" table
+  again plus what the 66 PRs of the last six days would have billed under the obligations.
