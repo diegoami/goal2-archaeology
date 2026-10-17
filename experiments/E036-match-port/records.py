@@ -69,6 +69,7 @@ RANGES = {}
 # The 1 KiB blocks of DS that only the screen's text buffers carry (DS:A96E points at 3C75:0000, 8000 bytes of two
 # pages from DS:ED10; block 59 is the first that holds any of it): compare.py --no-screen leaves them out.
 SCREEN_DS_BLOCKS = ()
+SCREEN_RANGES = ()      # names of RANGES that only hold a screen's text (compare.py --no-screen leaves them out)
 MASK_SPACES = ("DS", "P")
 P_SIZE = 0x110000                      # the guest memory the kit maps (machine.py MEM_SIZE)
 
@@ -112,8 +113,8 @@ def read_log(path):
     """The lines of a log as records, in file order. UTF-8 without a byte-order mark; blank lines are skipped; each
     line strict JSON and a valid record. Raises SchemaError (the file's name and line in the message)."""
     try:
-        data = open(path, "rb").read()
-        text = data.decode("utf-8")
+        with open(path, "rb") as f:
+            text = f.read().decode("utf-8")
     except (OSError, UnicodeDecodeError) as e:
         raise SchemaError(f"{path}: {e}")
     if text.startswith("﻿"):

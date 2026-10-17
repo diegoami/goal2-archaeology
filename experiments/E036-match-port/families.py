@@ -254,8 +254,10 @@ def load_policies(directory):
     """POLICIES of every .py file in the directory, merged over the built-in ones; a name twice is an error."""
     policies = dict(POLICIES)
     for path in sorted(Path(directory).glob("*.py")):
-        spec = importlib.util.spec_from_file_location(f"e036_families_{path.stem}", path)
+        name = f"e036_families_{path.stem}"
+        spec = importlib.util.spec_from_file_location(name, path)
         mod = importlib.util.module_from_spec(spec)
+        sys.modules[name] = mod               # inspect.getsource (the policy's code digest) finds a class by its module
         spec.loader.exec_module(mod)
         for name, cls in getattr(mod, "POLICIES", {}).items():
             if name in policies:

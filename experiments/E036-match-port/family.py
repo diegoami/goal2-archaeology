@@ -227,8 +227,9 @@ def append(out, record):
 
 
 def run_family(selected, out, workers=1, max_new=None, cache=DEFAULT_CACHE, mask=(), counts=(),
-               time_limit=DEFAULT_TIME_LIMIT, say=print):
-    """Run the selected matches not yet in `out`; returns the records of every selected match now in `out`."""
+               time_limit=DEFAULT_TIME_LIMIT, say=print, run_one=None):
+    """Run the selected matches not yet in `out`; returns the records of every selected match now in `out`.
+    run_one(spec) -> record replaces the kit for a test (one process only)."""
     done = existing_records(out, selected, mask)
     todo = [s for s in selected if s.id not in done]
     if max_new is not None:
@@ -242,7 +243,10 @@ def run_family(selected, out, workers=1, max_new=None, cache=DEFAULT_CACHE, mask
         state = "completed" if records.is_completed(rec) else f"NOT COMPLETED ({rec['error'] or rec['strays'] or 'no board'})"
         say(f"{rec['id']}: {state}; score {rec['score']} ticks {rec['ticks']} cpu {rec['cpu_s']} s")
 
-    if workers == 1:
+    if run_one is not None:
+        for spec in todo:
+            took(run_one(spec))
+    elif workers == 1:
         from original_match import Image
         from original_match.assets import reference_image
         image = Image.from_bytes(reference_image(cache))
