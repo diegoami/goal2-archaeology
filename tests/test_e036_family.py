@@ -734,6 +734,23 @@ class OneRealMatch(unittest.TestCase):
         self.assertTrue(records.is_completed(r))
         self.assertEqual(sum(row[1] for row in r["draws"]["per_minute"]), want_draws)
 
+    def test_two_workers_play_two_matches_the_same_as_the_reference(self):
+        """--workers 2: two processes, one match at a time each, the records the reference holds (its cpu and wall
+        times apart): the same match in another process is the same match."""
+        committed = ROOT / FAMILIES["F40"].reference
+        if not committed.is_file():
+            self.skipTest("the reference is not committed in this tree")
+        want = {r["id"]: r for r in records.read_log(committed)}
+        selected = [m for m in FAMILIES["S"].matches if m.id in ("S/quick-1", "S/quick-30")]
+        with tempfile.TemporaryDirectory() as tmp:
+            out = Path(tmp) / "two.jsonl"
+            got = family.run_family(selected, str(out), workers=2, cache=str(IMAGE_FILE.parent), say=lambda *a: None)
+            self.assertEqual(sorted(r["id"] for r in records.read_log(out)), ["S/quick-1", "S/quick-30"])
+        for r in got:
+            self.assertTrue(records.is_completed(r))
+            self.assertEqual({k: v for k, v in r.items() if k not in ("cpu_s", "wall_s")},
+                             {k: v for k, v in want[r["id"]].items() if k not in ("cpu_s", "wall_s")})
+
 
 if __name__ == "__main__":
     unittest.main()

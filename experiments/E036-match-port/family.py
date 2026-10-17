@@ -216,11 +216,12 @@ def run_match(image, spec, mask=(), counts=(), time_limit=DEFAULT_TIME_LIMIT, wa
 _worker = {}
 
 
-def _init_worker(cache, mask, counts, time_limit, specs):
+def _init_worker(cache, mask, counts, time_limit):
+    """A worker finds the declared matches itself (families.discover), so no policy object crosses a process."""
     from original_match import Image
     from original_match.assets import reference_image
     _worker.update(image=Image.from_bytes(reference_image(cache)), mask=mask, counts=counts, time_limit=time_limit,
-                   specs={s.id: s for s in specs})
+                   specs={m.id: m for fam in families.discover().values() for m in fam.matches})
 
 
 def _run_in_worker(match_id):
@@ -291,7 +292,7 @@ def run_family(selected, out, workers=1, max_new=None, cache=DEFAULT_CACHE, mask
     else:
         from concurrent.futures import ProcessPoolExecutor
         with ProcessPoolExecutor(max_workers=workers, initializer=_init_worker,
-                                 initargs=(cache, mask, counts, time_limit, todo)) as pool:
+                                 initargs=(cache, mask, counts, time_limit)) as pool:
             for rec in pool.map(_run_in_worker, [s.id for s in todo]):
                 took(rec)
     return [done[s.id] for s in selected if s.id in done]
