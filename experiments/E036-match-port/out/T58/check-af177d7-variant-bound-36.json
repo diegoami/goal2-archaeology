@@ -1,0 +1,113 @@
+{
+ "kit": "3",
+ "image_sha256": "e0afff6751747233f6ab8b9ba73dab0790b7509f15257ed7ae24f528b935657d",
+ "reference": {
+  "release": "E006",
+  "asset": "e0afff6751747233-e006-1000-r0001.sav",
+  "sha256": "e0afff6751747233f6ab8b9ba73dab0790b7509f15257ed7ae24f528b935657d"
+ },
+ "checks": {
+  "engine": {
+   "pass": false,
+   "detail": {
+    "stopped": "GuestError: the run ended at 0791:93C2 without reaching its end (time limit 60 s)"
+   },
+   "wall_s": 60.1,
+   "cpu_s": 63.5
+  },
+  "interactive": {
+   "pass": false,
+   "detail": {
+    "stopped": "GuestError: the run ended at 0791:8BB7 without reaching its end (time limit 60 s)"
+   },
+   "wall_s": 60.1,
+   "cpu_s": 63.5
+  },
+  "goals": {
+   "pass": false,
+   "detail": {
+    "stopped": "GuestError: the run ended at 0791:309D without reaching its end (time limit 60 s)"
+   },
+   "wall_s": 60.1,
+   "cpu_s": 63.9
+  },
+  "knockout": {
+   "pass": false,
+   "detail": {
+    "stopped": "GuestError: the run ended at 0791:8BB7 without reaching its end (time limit 60 s)"
+   },
+   "wall_s": 60.1,
+   "cpu_s": 63.8
+  },
+  "family": {
+   "pass": false,
+   "detail": {
+    "0x0101": {
+     "stopped": "GuestError: the run ended at 0791:8BB7 without reaching its end (time limit 60 s)",
+     "port_calls": {
+      "0791:8889": 572803
+     }
+    },
+    "0x1234": {
+     "stopped": "GuestError: the run ended at 0791:93C2 without reaching its end (time limit 60 s)",
+     "port_calls": {
+      "0791:8889": 607644
+     }
+    },
+    "0x2345": {
+     "stopped": "GuestError: the run ended at 0791:8BB7 without reaching its end (time limit 60 s)",
+     "port_calls": {
+      "0791:8889": 559205
+     }
+    },
+    "0x2B7E": {
+     "stopped": "GuestError: the run ended at 0791:8BB7 without reaching its end (time limit 60 s)",
+     "port_calls": {
+      "0791:8889": 506187
+     }
+    },
+    "0x4C1D": {
+     "stopped": "GuestError: the run ended at 0791:93C2 without reaching its end (time limit 60 s)",
+     "port_calls": {
+      "0791:8889": 499425
+     }
+    },
+    "0x6A33": {
+     "stopped": "GuestError: the run ended at 0791:8BB7 without reaching its end (time limit 60 s)",
+     "port_calls": {
+      "0791:8889": 480946
+     }
+    },
+    "0x8E05": {
+     "stopped": "GuestError: the run ended at 0791:8BB7 without reaching its end (time limit 60 s)",
+     "port_calls": {
+      "0791:8889": 458667
+     }
+    },
+    "0xA1F0": {
+     "stopped": "GuestError: the run ended at 0791:8BB7 without reaching its end (time limit 60 s)",
+     "port_calls": {
+      "0791:8889": 452557
+     }
+    },
+    "0xC3C3": {
+     "stopped": "GuestError: the run ended at 0791:8BB7 without reaching its end (time limit 60 s)",
+     "port_calls": {
+      "0791:8889": 502125
+     }
+    },
+    "0xE719": {
+     "stopped": "GuestError: the run ended at 0791:93C2 without reaching its end (time limit 60 s)",
+     "port_calls": {
+      "0791:8889": 456424
+     }
+    }
+   },
+   "wall_s": 600.9,
+   "cpu_s": 649.8
+  }
+ },
+ "ports": [
+  "pilot.bound-36"
+ ]
+}

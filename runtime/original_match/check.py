@@ -22,7 +22,11 @@
    competitive_digest: the result with its stages, shoot-out, winner and players' consequences); goal_problems
    holds over its events (the shoot-out's kicks count in the score bytes the board shows, not in the result's
    score), its shoot-out's score is its scored kicks, and the winner is the side ahead on penalties.
-The expected values are digests and counts, no original bytes. Exit 0 when every check passes."""
+The expected values are digests and counts, no original bytes. Exit 0 when every check passes.
+
+The port mode (T58; README "Ports"): `--ports M,...|all` runs every step with those port modules in place of the
+original's routines, `--variant M.NAME` with one of a module's variants (a falsifier: it must make a step FAIL); the
+family step then prints each seed (the same, changed, or stopped) and the ports' calls."""
 import argparse
 import hashlib
 import json
@@ -55,6 +59,20 @@ EXPECTED_FAMILY = {   # seed: [score, ticks, draws, draws digest] (E032)
 EXPECTED_INTERACTIVE = "0078fad9859d4b4083a88707785e2cf0a49e1b6cddfa48bfec5aa765590e592f"
 EXPECTED_KNOCKOUT = "7de611c6dec2508bf8504a83a2c680fd253c1ff798ad2c9e1e6db79592034049"
 REFERENCE_FIXTURE = Fixture(first=7, second=19, index=21)
+MATCH = Match                  # the port mode: a Match with the ports given (ported()), here and in example.py
+
+
+def _first_line(e):
+    return f"{type(e).__name__}: {(str(e).splitlines() or [''])[0][:200]}"
+
+
+def ported(specs):
+    """Match with `specs` as its ports by default (Match.load keeps a saved match's own)."""
+    class Ported(Match):
+        def __init__(self, *args, **kw):
+            kw.setdefault("ports", specs)
+            super().__init__(*args, **kw)
+    return Ported
 
 
 def result_digest(r):
@@ -74,7 +92,7 @@ def competitive_digest(r):
 
 
 def engine(image):
-    m = Match(image, REFERENCE_FIXTURE, managed=7, record_draws=True, delay_byte=0)
+    m = MATCH(image, REFERENCE_FIXTURE, managed=7, record_draws=True, delay_byte=0)
     for _ in m.events():
         pass
     r = m.result()
@@ -89,13 +107,28 @@ def engine(image):
 def family(image):
     bad = {}
     for seed, want in EXPECTED_FAMILY.items():
-        m = Match(image, REFERENCE_FIXTURE, managed=7, record_draws=True, delay_byte=0, seed=seed)
-        for _ in m.events():
-            pass
+        m = MATCH(image, REFERENCE_FIXTURE, managed=7, record_draws=True, delay_byte=0, seed=seed)
+        if MATCH is not Match:         # the port mode: a port may stop a match; say so per seed, then go on
+            try:
+                for _ in m.events():
+                    pass
+            except Exception as e:
+                bad[f"0x{seed:04X}"] = {"stopped": _first_line(e),
+                                        "port_calls": dict(m.ports.calls) if m.ports else None}
+                print(f"  seed 0x{seed:04X} stopped   {bad[f'0x{seed:04X}']}", flush=True)
+                continue
+        else:
+            for _ in m.events():
+                pass
         r = m.result()
         got = [r["score"], r["ticks"], r["draws"], r["draws_digest"]]
         if got != want:
             bad[f"0x{seed:04X}"] = {"got": got[:3], "want": want[:3], "digest_equal": got[3] == want[3]}
+        if MATCH is not Match:
+            calls = r.get("ports", {}).get("calls")
+            print(f"  seed 0x{seed:04X} {'same   ' if got == want else 'changed'}   score {got[0]} ticks {got[1]} "
+                  f"draws {got[2]}{'' if got == want else f' (want {want[:3]}, digest equal {got[3] == want[3]})'}  "
+                  f"port calls {calls}", flush=True)
     return not bad, bad
 
 
@@ -145,7 +178,7 @@ def goal_problems(events, result):
 def play_events(image, seed=None, pauses=(), answer=None):
     """The reference fixture with pauses at the given minutes; answer(m, decision data) answers each decision (play
     on by default). Returns the events and the result."""
-    m = Match(image, REFERENCE_FIXTURE, managed=7, seed=seed)
+    m = MATCH(image, REFERENCE_FIXTURE, managed=7, seed=seed)
     events, paused = [], set()
     for ev in m.events():
         events.append(ev)
@@ -210,15 +243,37 @@ def main(argv=None):
     ap.add_argument("--cache", default=".cache")
     ap.add_argument("--family", action="store_true")
     ap.add_argument("--json")
+    ap.add_argument("--ports", help="the port mode: port modules (port/) to run in place of the original's routines, "
+                                    "comma-separated, or all")
+    ap.add_argument("--variant", help="the port mode: MODULE.NAME, one of a port module's variants (a falsifier)")
     a = ap.parse_args(argv)
+    global MATCH
+    specs = [s for s in (a.ports or "").split(",") if s]
+    if a.variant:
+        if "." not in a.variant:
+            ap.error("--variant is MODULE.NAME")
+        specs = [s for s in specs if s != a.variant.split(".")[0]] + [a.variant]
+    if specs:
+        from . import port
+        specs = port.spec_names(port.load(specs))         # refuses an unknown module or variant before any run
+        MATCH = example.Match = ported(specs)
+        print(f"ports: {', '.join(specs)}", flush=True)
     data = open(a.image, "rb").read() if a.image else reference_image(a.cache)
     image = Image.from_bytes(data)
     report = {"kit": VERSION, "image_sha256": hashlib.sha256(data).hexdigest(), "reference": REFERENCE, "checks": {}}
+    if specs:
+        report["ports"] = specs
     steps = [("engine", engine), ("interactive", interactive), ("goals", goals), ("knockout", knockout)] + (
         [("family", family)] if a.family else [])
     for name, fn in steps:
         t0, c0 = time.time(), time.process_time()
-        ok, detail = fn(image)
+        if specs:                      # the port mode: a step a port stops FAILs, and the next steps still run
+            try:
+                ok, detail = fn(image)
+            except Exception as e:
+                ok, detail = False, {"stopped": _first_line(e)}
+        else:
+            ok, detail = fn(image)
         report["checks"][name] = {"pass": ok, "detail": detail, "wall_s": round(time.time() - t0, 1),
                                   "cpu_s": round(time.process_time() - c0, 1)}
         print(f"{name:12s} {'PASS' if ok else 'FAIL'}  {report['checks'][name]['wall_s']} s  {detail if not ok or name in ('interactive', 'knockout') else ''}")

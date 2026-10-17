@@ -158,7 +158,8 @@ knockout example, penalties watched and as quick results, one decided in extra t
 `sending_off`, `injury`, `substitution`, `half_time`, `full_time`, `decision`, `tactics`, `position`,
 `player_tactics`, `substitution_requested`, `refused`, `end`, `tick`, `extra_time`, `shootout` and `shootout_kick`
 (E034 `save_boundaries_competitive.py`: three competitive scenarios, every boundary, the extra-time decisions and the
-shoot-out order before and after their answers). A saved match of kit version 1 is refused by version 2. `save()` accepts all of them, a `decision`
+shoot-out order before and after their answers). A saved match of kit version 1 is refused by versions 2 and 3;
+version 3 (the port mode: a save names its ports) loads a version 2 save as a match without ports. `save()` accepts all of them, a `decision`
 before `answer()` included (the loaded match has `m.waiting` set: answer it, as the original is still asking; taking
 the next event unanswered plays on) and after it, and events queued but not yet taken are saved with it. Straight and
 resumed are the same match: the remaining events (kind, minute, score, data) and the result are equal. No boundary is
@@ -239,6 +240,42 @@ What the kind changes, all the original's own code (E034 notes):
   only for its delays and the speaker); it is the original's display speed, for goal2 to pace its own display.
 - The post-match update runs (energy recovery, form and confidence from the result: F018, F019); the original's
   news pages after a fixture do not. Read the new player bytes from `memory_component()`.
+
+## Ports (the port mode; goal2-archaeology's route C, T58)
+
+**For goal2: nothing changes until it passes `ports`.** Without `ports` the kit runs only the original's code, as
+before; the folder `port/` comes along when you vendor the kit and does nothing unless named. What the port mode
+changed that goal2 sees anyway: `VERSION` is 3 (a save names its ports; a version 2 save still loads), and
+Machine's write hooks go through `Machine.on_write`.
+
+`Match(..., ports=["pilot"])` runs Python translations of the original's routines (goal2-archaeology's E036, route
+C of its match-engine plan) in place of the original's routines, from each routine's entry, returning as the
+listing's `ret n` / `retf n`; everything else stays the original's code. `"pilot.coin-swapped"` names one of a
+module's variants (falsifiers, each a one-line change that must change a match), `"all"` every module.
+`result()["ports"]` gives the names and each ported routine's calls; a saved match keeps its ports and
+`Match.load` puts them back. `python3 -m ...original_match.check --family --ports pilot` runs every step with the
+ports (each must PASS); with `--variant pilot.coin-swapped` the family step must FAIL (it prints each seed: the same,
+changed or stopped; a step a port stops FAILs and the next steps still run).
+
+- **One module per task**, `port/<name>.py`, standard library only, holding no byte of the original (addresses,
+  offsets and constants, each citing its listing line). It registers its own ports: `PORTS = Registry("<name>")`,
+  `@PORTS.port("0791:8889", ret="ret 2")`, `PORTS.variant(...)`, `PORTS.stub(address, ret, value, why)` (a
+  routine replaced by a declared return value). A port is `fn(mem, variant)`; an int it returns is AX (DX:AX with
+  `long=True`).
+- **The memory view** (`port/mem.py`): a port reads and writes only through `mem`. Each write names the original's
+  instruction (`mem.w8(linear, value, at="0791:8711")`) and reaches the kit's watches and the draw record as that
+  instruction's write would (Unicorn fires no write hook for a host write, so `Machine.write_as` calls them); a
+  write past the view would lose an event or a draw without an error. `mem.arg(i)`, `mem.frame(bp)` (a nested
+  procedure's parent frame is `mem.frame(mem.arg(0))`), `mem.enter(n, at)` (the listing's prologue, for site logic
+  that reads the routine's frame). `MachineMem` is the kit's machine, `PlainMem` plain memory (tests; later the
+  engine without Unicorn).
+- **The kit's sites inside a ported routine** fire at the listing's point: `mem.site("0791:F2E3")` runs the kit's
+  hooks there; `mem.read_key(site)` and `mem.keypressed(site)` answer as the kit's 214B:08DD and 0723 hooks do
+  from that return address. A stop such a hook makes for queued events takes effect at the port's return (the run
+  resumes there as a fresh start, not a replay); a decision there is refused (`PortError`: a port cannot be
+  suspended).
+- **The replay rule**: a port runs after every kit hook at its entry and only when none of them stopped, so a hook
+  replayed on resume (`replay=True`) never runs a port twice.
 
 ## Limits and costs
 
