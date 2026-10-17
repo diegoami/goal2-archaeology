@@ -365,3 +365,22 @@ r0001-r0012 the savestates on release `E015` (manifests under `evidence/E015/`).
 - Released and verified: the owner's saved games (`goal2-saves`, `artifacts/saves.json`), the play-the-game
   milestone saves (`play-the-game-saves`) and its kept savestate (`play-the-game-states`,
   `experiments/E031-play-the-game/out/states.tsv`).
+
+## Third-party tools kept outside the repository (Turbo Pascal compilers, 7-Zip)
+
+Needed only to redo E035 (`experiments/E035-tp-version/`, which compilers built `GOAL.EXE`: Turbo Pascal 5.5) or to
+check a decompiled routine by compiling a Pascal transcription of it with the same compiler. Nothing else needs them.
+
+- **The compilers** are the owner's downloads from WinWorldPC (old DOS floppy images; the owner treats them as
+  abandonware, as the game, rule 18). They are third-party software: **never committed, run only inside DOSBox-X**.
+  They live in `~/projects/goal2-archaeology-keep/tools/turbo-pascal/` on the owner's main computer: `archives/`
+  (the 7z files, including the 5.0 manuals), `extracted/` (the floppy images of Turbo Pascal 4.0, 5.0, 5.5, 6.0, 7.0
+  and 7.01), a README, and `SHA256SUMS` (hashes the archives only). Copy the folder to another computer and check it
+  with `cd tools/turbo-pascal && sha256sum -c SHA256SUMS` (7 lines, all OK); if the
+  folder is missing, a session says so to the owner and asks for it; it does not download them itself (the
+  WinWorldPC pages need a browser).
+- **7-Zip:** the Python reader `py7zr` cannot read Turbo Pascal 7.0's archive (BCJ2 filter). The official 7-Zip
+  Linux binary does: `7zz` 23.01 from `https://www.7-zip.org/a/7z2301-linux-x64.tar.xz` (sha256
+  `23babcab045b78016e443f862363e4ab63c77d75bc715c0b3463f6134cbcf318`), unpacked to `~/.local/bin/7zz`, no sudo.
+- **Reko** (0.12.5, a decompiler tried on a few routines and not adopted, `experiments/E035-tp-version/README.md`)
+  is not a requirement; the excerpts it produced are committed.
