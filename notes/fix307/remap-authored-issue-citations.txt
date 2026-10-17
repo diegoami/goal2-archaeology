@@ -1,0 +1,28 @@
+experiments/E014-q013-ageing/notes.md:208  seg_1771_06.c:953 -> seg_1771_07.c:175  (equal; same text: yes) | ppVar4->rating = (cVar3 + 'u') - cVar2;
+experiments/E014-q013-ageing/notes.md:208  seg_1771_06.c:957 -> seg_1771_07.c:179  (equal; same text: yes) | ppVar4->rating = cVar2 + 0x7f;
+experiments/E017-q015-energy/notes.md:196  seg_1771_06.c:297 -> seg_1771_06.c:606  (equal; same text: yes) | uVar2 = (undefined2)((ulong)DS:A93F >> 0x10);
+experiments/E017-q015-energy/notes.md:196  seg_1771_06.c:315 -> seg_1771_06.c:624  (equal; same text: yes) | ,local_4 + 2,puVar3,uVar2);
+experiments/E018-q016-confidence/notes.md:40  seg_0791_11.c:674 -> seg_0791_12.c:420  (equal; same text: yes) | restore_match_player_state();
+experiments/E018-q016-confidence/notes.md:40  seg_0791_11.c:700 -> seg_0791_12.c:446  (equal; same text: yes) | }
+experiments/E018-q016-confidence/notes.md:48  seg_0791_11.c:632 -> seg_0791_12.c:378  (equal; same text: yes) | local_3 = '\0';
+experiments/E018-q016-confidence/notes.md:48  seg_0791_11.c:649 -> seg_0791_12.c:395  (equal; same text: yes) | }
+experiments/E018-q016-confidence/notes.md:48  seg_0791_11.c:674 -> seg_0791_12.c:420  (equal; same text: yes) | restore_match_player_state();
+experiments/E018-q016-confidence/notes.md:105  seg_0791_11.c:632 -> seg_0791_12.c:378  (equal; same text: yes) | local_3 = '\0';
+experiments/E018-q016-confidence/notes.md:105  seg_0791_11.c:649 -> seg_0791_12.c:395  (equal; same text: yes) | }
+experiments/E018-q016-confidence/notes.md:109  seg_1771_06.c:1001 -> seg_1771_07.c:181  (equal; same text: yes) | compute_ability(param_4);
+experiments/E018-q016-confidence/notes.md:109  seg_1771_06.c:1006 -> seg_1771_07.c:186  (equal; same text: yes) | ppVar4->performance = 0x7fff;
+experiments/E018-q016-confidence/notes.md:123  seg_0791_11.c:674 -> seg_0791_12.c:420  (equal; same text: yes) | restore_match_player_state();
+experiments/E019-q017-events-morale/notes.md:310  seg_0791_11.c:632 -> seg_0791_12.c:378  (equal; same text: yes) | local_3 = '\0';
+experiments/E019-q017-events-morale/notes.md:313  seg_1771_06.c:1001 -> seg_1771_07.c:181  (equal; same text: yes) | compute_ability(param_4);
+experiments/E019-q017-events-morale/notes.md:326  seg_0791_11.c:674 -> seg_0791_12.c:420  (equal; same text: yes) | restore_match_player_state();
+experiments/E024-computer-managers/notes.md:44  seg_0791_11.c:506 -> seg_0791_11.c:626  (equal; same text: yes) | refresh_pitch_slot(local_4,(uint)*(byte *)(*(char *)(param_1 + -3) + 0
+findings/F018-energy-is-expended-in-matches-and-restored-from-fitness.md:164  seg_0791_11.c:506 -> seg_0791_11.c:626  (equal; same text: yes) | refresh_pitch_slot(local_4,(uint)*(byte *)(*(char *)(param_1 + -3) + 0
+findings/F019-confidence-follows-result-relative-to-country-ranks.md:104  seg_0791_11.c:632 -> seg_0791_12.c:378  (equal; same text: yes) | local_3 = '\0';
+findings/F019-confidence-follows-result-relative-to-country-ranks.md:104  seg_0791_11.c:674 -> seg_0791_12.c:420  (equal; same text: yes) | restore_match_player_state();
+findings/F029-a-substitution-persists-the-squad-list-is-the-only-copy-and-nothing-restores-it-at-full-time-or-at-the-next-set-up.md:23  seg_0791_11.c:549 -> seg_0791_11.c:616  (equal; same text: yes) | u214b_swap_bytes(2,local_a->squad + local_6 + -1,uStack_8,local_a->squ
+findings/F029-a-substitution-persists-the-squad-list-is-the-only-copy-and-nothing-restores-it-at-full-time-or-at-the-next-set-up.md:23  seg_0791_11.c:486 -> seg_0791_11.c:552  (equal; same text: NO) | u214b_swap_bytes(2,uVar7,uVar6);
+findings/F029-a-substitution-persists-the-squad-list-is-the-only-copy-and-nothing-restores-it-at-full-time-or-at-the-next-set-up.md:23  seg_0791_11.c:365 -> seg_0791_11.c:430  (equal; same text: yes) | u214b_swap_bytes(2,(word *)pool_indices + local_4,(int)((ulong)pool_in
+spec/competitions.md:28  seg_1771_04.c:651 -> seg_1771_04.c:683  (equal; same text: yes) | // ---- 1771:580B  f_1771_580B  (f_1771_580B; Ghidra 4000:580B, __stdc
+spec/discipline.md:42  seg_1771_04.c:764 -> seg_1771_04.c:798  (approx; same text: NO) | // ---- 1771:5A8F  f_1771_5A8F  (f_1771_5A8F; Ghidra 4000:5A8F, __stdc
+spec/friendlies.md:19  seg_1771_04.c:651 -> seg_1771_04.c:683  (equal; same text: yes) | // ---- 1771:580B  f_1771_580B  (f_1771_580B; Ghidra 4000:580B, __stdc
+20 citations moved, 0 cited lines not in their old view, 0 to edit by hand

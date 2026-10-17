@@ -193,7 +193,7 @@ offset. The base is the pitch far argument unless explicitly shown otherwise.
 | 1771:1D5C | seg_1771_03.asm:1606,1637,1774,1805 | historical goals/caps table pointers A93B/A937; +C word R, not morale |
 | 1771:2D15 | seg_1771_04.asm:859 | manager record at A923+manager; +D byte W (rating), construction 854–858 |
 | 1771:63A4 | seg_1771_09.asm:851,870 | manager record at saved A923 plus manager-128, 845–850 / 864–869; +D byte R/W |
-| 1771:883F | seg_1771_12.asm:843,878 | A93F scorer-table entry; +E,+C word R (named/seg_1771_06.c:298-316) |
+| 1771:883F | seg_1771_12.asm:843,878 | A93F scorer-table entry; +E,+C word R (named/seg_1771_06.c:606–624) |
 | 2382:0391 | seg_2382_01.asm:291 | runtime object far pointer at +C (LES), not byte arithmetic |
 | 23E4:15F1 | seg_23E4_03.asm:79 | runtime object far pointer at +C (LES) |
 | 23E4:1631 | seg_23E4_03.asm:113 | runtime object far pointer at +C (LES) |

@@ -307,10 +307,10 @@ delta. No other direct writer exists in the named view.
 | `1771:157D` `draw_team_panel` | reads `DS:9B5A..9B64`; the only consumer of `DS:9B5A` in the listing | `named/seg_1771_02.c:7..110` |
 | `0791:278A` (F015) | reads signed `+0xC` for the skill blend | `named/seg_0791_02.c:614..549`; `code/seg_0791_04.asm, 27A2..27BC` |
 | `0791:CB7D` (F018 restore) | writes `+0xC` from saved `DS:9B07` | `code/seg_0791_20.asm:973..`; `named/seg_0791_10.c:658..83` |
-| `0791:F1F6` (run_match) | reads `+0xC` into saved `DS:9B07` | `code/seg_0791_23.asm:1035..`; `named/seg_0791_11.c:636..649` |
+| `0791:F1F6` (run_match) | reads `+0xC` into saved `DS:9B07` | `code/seg_0791_23.asm:1035..`; `named/seg_0791_12.c:378..649` |
 | `1771:377E` (strength) | reads signed `+0xC` for player strength (special branch >=32) | `named/seg_1771_03.c:309..325` |
 | `1771:42BC` (description) | reads `+0xC` for description string and bar | `code/seg_1771_06.asm:1114..1142`; `named/seg_1771_03.c:882..892` |
-| `1771:96D3` (creation) | writes `draw(32)` at player creation | `named/seg_1771_06.c:1002..1006` |
+| `1771:96D3` (creation) | writes `draw(32)` at player creation | `named/seg_1771_07.c:181..1006` |
 
 Callers of the direct writers (event-result rule chain):
 
@@ -323,7 +323,7 @@ Callers of the direct writers (event-result rule chain):
   `7B77` head (flag 1) and tail (flag 0) for sending-off;
   `7D56` for injury (flag 1).
 * `CB7D` is called by `F1F6` after the summary
-  (`named/seg_0791_11.c:678`).
+  (`named/seg_0791_12.c:420`).
 * `96D3` is reached by creation and retirement/replacement (F007/F016);
   it is not a post-match result-relative update.
 
