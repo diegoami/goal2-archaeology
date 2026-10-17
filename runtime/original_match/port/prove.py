@@ -8,18 +8,25 @@ Once the proof is armed (Match(prove=...)), at a ported routine's entry:
    guest code it calls runs, port/guest.py). Every byte written meanwhile is recorded in order with the byte it
    replaced: the guest's (Unicorn's write hook), the port's (write_as) and the kit's own (Machine.write, e.g. the key
    a key read answers). So is every visit of a kit site (an address where the kit has a handler, or a site a port
-   fires): its address, the guest's CS:IP and SS:SP there, the registers the kit's handlers changed and the bytes they
-   wrote (a site that stopped the match, for a decision or for events, and was replayed on resume is one visit).
+   fires): its address, the guest's CS:IP and SS:SP there, and, in the order the kit's handlers made them, what they
+   read (memory bytes, registers with the flags and segments, stack words: Machine.io_tap), the registers they set and
+   the bytes they wrote; the kit's reads made between two runs while the match stands stopped at the site (a
+   decision's answer) belong to it (a site that stopped the match, for a decision or for events, and was replayed on
+   resume is one visit). The prover's own reads and register changes bypass the taps.
 2. At the port's return, its writes are undone and the CPU is put back to the entry; the ORIGINAL routine then runs
    as plain guest code, muted (machine.py: no handler, port or write listener of the kit runs in it; another ported
    routine it calls runs as the original's), its writes recorded the same way. At each kit site it reaches, the
    port's run's visit there is replayed instead of the kit: the same address in the same order, reached with the same
-   CS:IP and SS:SP (a site a port fired from Python: the address only), and the handlers' register changes and
-   writes applied (the writes counted as the original's). The kit therefore answers the original exactly as it
-   answered the port, and is never asked twice: one decision, one event stream.
+   CS:IP and SS:SP (a site a port fired from Python: the address only). The visit's events are taken in order: each
+   read is compared with the original's byte or register BEFORE anything of the answer is applied (a difference
+   raises ProofError naming the site, the byte or register, the port's run's value and the original's), each register
+   set and write applied (the writes counted as the original's), so a read after a write of theirs sees it as it did.
+   The kit therefore answers the original exactly as it answered the port, only where the original gave it the same
+   inputs, and is never asked twice: one decision, one event stream.
 3. At the original's return the two must be identical: the registers of REGS_RETURNED, the kit sites (the same
    visits, none left over), and the written bytes and their order outside the routine's own dead frame (from the
-   lowest the original's stack reached while it wrote up to the caller's SP after the return). The first difference
+   lowest the original's stack reached while it wrote up to the caller's SP after the return), and each site's place
+   among those bytes (the same number of them written before it in both runs). The first difference
    raises ProofError naming the routine, the call, where the match is and the site, byte or register. Otherwise the
    original's writes are undone, the port's put back with its registers, and the match goes on from the port's state.
 
