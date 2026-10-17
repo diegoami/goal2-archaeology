@@ -710,9 +710,9 @@ void __cdecl16near action_replay(void)
   
   DS:9B55 = 0;
   if ((*(char *)((int)DS:A923 + 0x41) != '\0') &&
-     ((DS:0C1E == '\0' || (cVar2 = ask_do_you_want(0xc42,0x2000), cVar2 != '\0')))) {
+     ((match_set_up == 0 || (cVar2 = ask_do_you_want(0xc42,0x2000), cVar2 != '\0')))) {
     if ((*(char *)((int)DS:A923 + 0x41) != '\0') &&
-       ((DS:0C1E != '\0' && (cVar2 = ask_do_you_want(0xc53,0x2000), cVar2 != '\0')))) {
+       ((match_set_up != 0 && (cVar2 = ask_do_you_want(0xc53,0x2000), cVar2 != '\0')))) {
       save_goal_file();
     }
     DS:0C20 = 1;
@@ -923,7 +923,7 @@ void __cdecl16far view_saved_goal(void)
         if ((bool)uVar9) break;
         local_3 = local_3 + '\x01';
       }
-      DS:0C1E = 0;
+      match_set_up = 0;
       DS:7C2A = 0xb0007c2e;
       action_replay();
       sys_set_bit_mask_08DF
@@ -933,8 +933,8 @@ void __cdecl16far view_saved_goal(void)
       DS:7C39 = 0;
       f_0791_1073();
       DS:9B40 = 0;
-      DS:0C1E = 1;
-      DS:0C1F = 1;
+      match_set_up = 1;
+      in_match_menu_used = 1;
       DS:7C37 = 0;
       DS:9A3E = 0;
       DS:7C38 = 0;
@@ -976,8 +976,8 @@ void __cdecl16far view_saved_goal(void)
         if (local_3 == '\x01') break;
         local_3 = local_3 + '\x01';
       }
-      DS:0C1F = 0;
-      DS:0C1E = 0;
+      in_match_menu_used = 0;
+      match_set_up = 0;
       DS:0C20 = 0;
       *(undefined1 *)((int)DS:A923 + 1) = uVar1;
       *(undefined1 *)((int)DS:A923 + 0x41) = uVar2;

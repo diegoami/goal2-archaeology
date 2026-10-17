@@ -267,9 +267,10 @@ void __cdecl16near quick_match_engine(void)
 }
 
 
-// ---- 0791:DAF8  f_0791_DAF8  (f_0791_DAF8; Ghidra 2000:DAF8, __stdcall16far; found by routines.tsv)
+// ---- 0791:DAF8  next_fixture_is_tour  (f_0791_DAF8; Ghidra 2000:DAF8, __stdcall16far; found by routines.tsv)
+// (country) 1771:55FC finds the current manager's next pending fixture (DS:9B43) and 1771:5A38 holds for it: the next fixture is a friendly the country plays as side A against a country of another continent  [established; F031]
 
-undefined2 __stdcall16far f_0791_DAF8(undefined2 param_1)
+undefined2 __stdcall16far next_fixture_is_tour(undefined2 param_1)
 
 {
   char extraout_AL;
@@ -279,11 +280,12 @@ undefined2 __stdcall16far f_0791_DAF8(undefined2 param_1)
   undefined1 extraout_AH_00;
   undefined1 uVar2;
   
-  f_1771_55FC();
+  find_next_managed_fixture();
   uVar2 = extraout_AH;
   if (extraout_AL != '\0') {
     friendly_continents_differ
-              ((byte *)fixtures + DS:9B43 * 8 + -8,(int)((ulong)fixtures >> 0x10),param_1);
+              ((byte *)fixtures + next_fixture_number * 8 + -8,(int)((ulong)fixtures >> 0x10),
+               param_1);
     uVar2 = extraout_AH_00;
     if (extraout_AL_00 != '\0') {
       uVar1 = 1;
@@ -296,9 +298,10 @@ LAB_0791_DB2C:
 }
 
 
-// ---- 0791:DB38  f_0791_DB38  (f_0791_DB38; Ghidra 2000:DB38, __stdcall16far; found by routines.tsv)
+// ---- 0791:DB38  on_tour  (f_0791_DB38; Ghidra 2000:DB38, __stdcall16far; found by routines.tsv)
+// (country) when 0791:DAF8 holds, walks the country's 36-word fixture list from the newest entry past every unplayed record (+0 >= 0xFE) to the newest played one and returns 1771:5A38 of it: the last played and the next fixture are both away cross-continent friendlies  [established; F031]
 
-undefined1 __stdcall16far f_0791_DB38(int param_1)
+undefined1 __stdcall16far on_tour(int param_1)
 
 {
   char cVar1;
@@ -308,7 +311,7 @@ undefined1 __stdcall16far f_0791_DB38(int param_1)
   undefined2 uVar3;
   
   local_3 = 0;
-  cVar1 = f_0791_DAF8(param_1);
+  cVar1 = next_fixture_is_tour(param_1);
   if (cVar1 != '\0') {
     local_5 = 0x24;
     while( true ) {
@@ -334,9 +337,10 @@ undefined1 __stdcall16far f_0791_DB38(int param_1)
 }
 
 
-// ---- 0791:DBFA  f_0791_DBFA  (f_0791_DBFA; Ghidra 2000:DBFA, __stdcall16near; found by routines.tsv)
+// ---- 0791:DBFA  squad_change_allowed  (f_0791_DBFA; Ghidra 2000:DBFA, __stdcall16near; found by routines.tsv)
+// (country) the gate of a squad/pool exchange: refuses with "cannot alter squad during finals" when [A923]+0x13+m (the finals flag) is set, else with "cannot alter squad whilst on tour" when 0791:DB38 holds; returns 1 only when neither  [established; F031]
 
-undefined2 f_0791_DBFA(undefined2 param_1)
+undefined2 squad_change_allowed(undefined2 param_1)
 
 {
   char extraout_AL;
@@ -363,7 +367,7 @@ undefined2 f_0791_DBFA(undefined2 param_1)
   u214b_message_if_flag(puVar5,uVar4,uVar2);
   uVar3 = extraout_AH;
   if (extraout_AL == '\0') {
-    uVar4 = f_0791_DB38(param_1);
+    uVar4 = on_tour(param_1);
     puVar5 = local_207;
     sys_str_store_062A(0xa9c,0xb000);
     sys_str_concat_06B7(0xdbea,0xa000);
@@ -381,7 +385,7 @@ LAB_0791_DC72:
 
 
 // ---- 0791:DC7E  assistant_recommend_squad  (f_0791_DC7E; Ghidra 2000:DC7E, __cdecl16near; found by routines.tsv)
-// the assistant's recommended squad of 20 (GOAL.HLP P58, the Ins key of the SELECT TEAM screen): for the manager's country, two passes over the 20 squad slots, and for each slot the whole pool is scanned for a same-position player whose player_strength exceeds the incumbent's, swapped in by u214b_swap_bytes  [likely; read named/seg_0791_10.c]
+// the assistant's recommended squad of 20 (GOAL.HLP P58, the Ins key of the SELECT TEAM screen): for the manager's country, two passes over the 20 squad slots, and for each slot the whole pool is scanned for a same-position player whose player_strength exceeds the incumbent's, swapped in by u214b_swap_bytes; runs only when 0791:DBFA allows (DCB0)  [likely; read named/seg_0791_10.c; F031]
 
 void __cdecl16near assistant_recommend_squad(void)
 
@@ -404,7 +408,7 @@ void __cdecl16near assistant_recommend_squad(void)
   uVar8 = (undefined2)((ulong)DS:A923 >> 0x10);
   iVar1 = (int)DS:A923;
   uVar3 = (uint)((byte *)manager_countries)[(*(byte *)(iVar1 + 1) + 0x80) * 3];
-  cVar2 = f_0791_DBFA(uVar3);
+  cVar2 = squad_change_allowed(uVar3);
   if (cVar2 != '\0') {
     local_8 = 1;
     while( true ) {
@@ -498,7 +502,7 @@ word * f_0791_DE51(int param_1,int param_2,int param_3)
 
 
 // ---- 0791:DEA6  swap_select_screen_players  (f_0791_DEA6; Ghidra 2000:DEA6, __stdcall16near; found by routines.tsv)
-// Enter in the SELECT TEAM screen with DS:0C1F clear (outside a match): marks the first player, on the second Enter swaps the two word-list entries (the squad or pool lists) with 214B:007B, then sorts the squad: sort_squad_by_position when DS:0C1E is clear, resort_pitch_and_bench otherwise  [likely; F029; read code/seg_0791_22.asm:407-500]
+// Enter in the SELECT TEAM screen with DS:0C1F clear (outside a match): marks the first player, on the second Enter swaps the two word-list entries (the squad or pool lists) with 214B:007B, then sorts the squad: sort_squad_by_position when DS:0C1E is clear, resort_pitch_and_bench otherwise; with the pool list up (side 2) each Enter first asks 0791:DBFA and does nothing when it refuses (DEB9-DECE); with the squad list up it asks nothing  [established; F029; F031]
 
 void swap_select_screen_players(int param_1)
 
@@ -516,7 +520,7 @@ void swap_select_screen_players(int param_1)
   uVar5 = (undefined2)((ulong)DS:A923 >> 0x10);
   iVar1 = (int)DS:A923;
   if ((*(int *)(param_1 + -5) != 2) ||
-     (cVar2 = f_0791_DBFA(*(undefined2 *)(param_1 + 6)), cVar2 != '\0')) {
+     (cVar2 = squad_change_allowed(*(undefined2 *)(param_1 + 6)), cVar2 != '\0')) {
     if (*(char *)(param_1 + -1) == '\0') {
       if (*(char *)(param_1 + -1) == '\0') {
         uVar3 = *(undefined2 *)(param_1 + -5);
@@ -546,7 +550,7 @@ void swap_select_screen_players(int param_1)
       uVar6 = f_0791_DE51(param_1,uVar3,uVar5);
       uVar7 = f_0791_DE51(param_1,*(undefined2 *)(param_1 + -9),*(undefined2 *)(param_1 + -7));
       u214b_swap_bytes(2,uVar7,uVar6);
-      if (DS:0C1E == '\0') {
+      if (match_set_up == 0) {
         sort_squad_by_position(*(undefined2 *)(param_1 + 6));
       }
       else {
@@ -732,12 +736,12 @@ void __stdcall16far select_team_screen(int param_1)
   uVar5 = (undefined2)((ulong)DS:A923 >> 0x10);
   iVar1 = (int)DS:A923;
   *(char *)(iVar1 + 1) = ((country *)countries)[param_1].manager + 0x80;
-  if (DS:0C1E == '\0') {
+  if (match_set_up == 0) {
     DS:0C20 = '\0';
     sort_squad_by_position(param_1);
   }
   local_7 = 1;
-  if (DS:0C1E != '\0') {
+  if (match_set_up != 0) {
     local_5 = DS:9B36 == param_1;
   }
   do {
@@ -752,7 +756,7 @@ void __stdcall16far select_team_screen(int param_1)
     }
     if (DS:066D == '\0') {
       if (DS:0C20 == '\0') {
-        if (DS:0C1F == '\0') {
+        if (in_match_menu_used == 0) {
           u214b_unpack_screen_to_buffer((undefined4 *)&DS:A96E,0xb000,0x1b42,0xb000);
           if (local_7 == 1) {
             u214b_unpack_screen_to_buffer((undefined4 *)&DS:A96E,0xb000,0x58e6,0xb000);
@@ -792,7 +796,7 @@ void __stdcall16far select_team_screen(int param_1)
     }
     cVar3 = sys_upcase_19B2(CONCAT11(extraout_AH,DS:A976));
     if (cVar3 == '\r') {
-      if (DS:0C1F == '\0') {
+      if (in_match_menu_used == 0) {
         swap_select_screen_players(&stack0xfffe);
       }
       else if (DS:0C20 == '\0') {
@@ -810,7 +814,7 @@ void __stdcall16far select_team_screen(int param_1)
       }
     }
     else if ((cVar3 == -0x52) || (cVar3 == -0x51)) {
-      if (DS:0C1F == '\0') {
+      if (in_match_menu_used == 0) {
         if (local_7 == 1) {
           local_7 = 2;
         }
@@ -843,7 +847,7 @@ void __stdcall16far select_team_screen(int param_1)
     }
     else if (cVar3 == -0x4a) {
       if (((local_7 == 1) && (*(char *)(iVar1 + (uint)*(byte *)(iVar1 + 1) + 0x47) == '\0')) &&
-         (DS:0C1F == '\0')) {
+         (in_match_menu_used == 0)) {
         assistant_recommend_squad();
       }
     }
@@ -914,7 +918,7 @@ undefined1 __stdcall16far ask_watch_match(undefined1 *param_1)
   }
   if (DS:0ABE != 1) {
     *param_1 = 0xfe;
-    DS:0C1E = 0;
+    match_set_up = 0;
   }
   return local_3;
 }

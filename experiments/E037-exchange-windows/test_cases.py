@@ -16,7 +16,7 @@ import predicate  # noqa: E402
 import tours  # noqa: E402
 
 CASES = os.path.join(HERE, 'cases.tsv')
-CASES_SHA256 = 'PIN'
+CASES_SHA256 = '2fbcf1cba2b2c2920b4a4b12cb8f0c03b6a92fc4ca217de2d17a5832d3221a5b'
 CODES = {
     'allowed': predicate.ALLOWED,
     'finals': predicate.REFUSED_FINALS,
