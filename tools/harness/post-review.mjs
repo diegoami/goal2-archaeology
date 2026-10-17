@@ -39,7 +39,7 @@ if (!Number.isInteger(doneWhen) || doneWhen < 0) die(2, `--done-when takes a cou
 requireTools('git', 'gh');
 const top = sh('git', ['rev-parse', '--show-toplevel']);
 
-const read = readReview(fs.readFileSync(a.review, 'utf8'), header);
+const read = readReview(fs.readFileSync(a.review, 'utf8'), header, { doneWhen });
 if (read.kind === 'none') die(1, `No review in ${a.review} (no "${header}" line). Nothing posted: re-run the reviewer, or escalate.`);
 const plan = planPost({
   read, header, doneWhen, source: 'tools/harness/post-review.mjs',
