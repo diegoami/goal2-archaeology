@@ -87,4 +87,4 @@ exists.
 | T77 | The paths a plain match does not reach (the quick result from a pause, penalties, sendings off, the frontier), ported (P7b) | #288 | T59 |
 | T78 | The engine on its own: run_match and the post-match update in Python, no Unicorn (P6) | #289 | T60-T77 |
 | T79 | The fidelity sheet: the original's distributions, and the port's against them (sheet A) | #290 | T78 |
-| T80 | The end state sealed: the engine in pure Python with no GOAL.EXE bytes at run time | #291 | T78, T79 |
+| T80 | The end state sealed: the engine in pure Python with no GOAL.EXE bytes at run time (end) | #291 | T78, T79 |
