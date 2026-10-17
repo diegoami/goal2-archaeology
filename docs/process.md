@@ -81,7 +81,7 @@ docs a test reads) gets links, citations and the no-original-file check only. An
 harness tests, `tests/static` and every unit test except six slow modules (five took about 280 of the 360 seconds
 of the unit suite; the sixth, `test_emul_match`, about 380 once unicorn was installed). The code tier installs
 unicorn 2.1.4 (`runtime/emul/requirements.txt`, pip cache), so the emulator tests run there instead of skipping
-(#304). A slow module runs only when the PR touches a file it reads (`SLOW_DEPS`, traced with
+(#304; it adds about 35 s to a code PR's run, `notes/T304/`). A slow module runs only when the PR touches a file it reads (`SLOW_DEPS`, traced with
 an audit hook, `notes/T297/`); a change to the CI files, a manual run and a nightly run on `main` (when
 code landed that day) run all of them, and the nightly run is the net for a path the list misses. A push
 to a PR obliges only what the push changes when the previous head's `checks` passed, else what the whole
