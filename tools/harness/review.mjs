@@ -32,7 +32,7 @@
 // The reviewer's scratch files go to ~/goal2-review-tmp/<run> on the real disk, not /tmp (a shared
 // RAM-backed tmpfs that filled up, #311): TMPDIR, TMP and TEMP point at the run's folder, which is
 // removed when the run comes back and kept when it fails (the message names it). OpenCode's logs and the
-// finished review go to ~/goal2-review-tmp/harness-logs too: the review is written there first, posted
+// finished review go to ~/goal2-review-tmp-harness too (outside the reviewer's grant; files created exclusively): the review is written there first, posted
 // from that file, then the file and the run's folder go; a failed post keeps the file and names it. Each
 // folder is checked by its resolved path, never a tmpfs. lib/scratch.mjs.
 //

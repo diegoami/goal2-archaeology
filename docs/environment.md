@@ -253,7 +253,9 @@ temp paths with one), removes it when the run comes back and keeps it, naming it
 fails. It refuses to start when `/tmp` has under 500 MB free and the scratch disk under 2 GB. Every
 folder the harness writes in during and after a review is on that disk and is checked by its resolved
 path and filesystem (a root that is a symlink into tmpfs, e.g. `/dev/shm`, is refused, exit 2): the
-run's folder, OpenCode's output logs in `~/goal2-review-tmp/harness-logs`, and the finished review,
+run's folder, OpenCode's output logs in `~/goal2-review-tmp-harness` (a sibling of the scratch root, outside the
+reviewer's grant; every file there is created exclusively, with O_EXCL and O_NOFOLLOW, so a name the
+model planted, a symlink included, is replaced as a name and never written through), and the finished review,
 which `review.mjs` writes there first (`review-<run>.md`), posts from that file, and only then removes
 and cleans the run's folder. A post that fails keeps the file and names it. A kept failed-run folder is
 removed by hand once its cause is read. `tests/test_agent_permissions.py`

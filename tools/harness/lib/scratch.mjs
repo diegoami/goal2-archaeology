@@ -2,7 +2,7 @@
 // this machine is an 11 GB RAM-backed tmpfs shared with other projects; it hit 100% on 2026-10-17 and
 // killed a review of PR 300 after an hour. A review's copies of main, family-run outputs and suite logs go
 // to ~/goal2-review-tmp/<run>; the harness's own files (OpenCode's output logs, the finished review kept
-// until it is posted) go to ~/goal2-review-tmp/harness-logs. .opencode/agents/reviewer.md grants the
+// until it is posted) go to ~/goal2-review-tmp-harness (a sibling, outside the grant). .opencode/agents/reviewer.md grants the
 // scratch path (and still /tmp); review.mjs points TMPDIR at the run's folder and removes it when the run
 // ends well, keeps it when the run fails.
 //
@@ -105,7 +105,7 @@ export function thresholds(env = process.env) {
 export const tmpEnv = (dir) => ({ TMPDIR: dir, TMP: dir, TEMP: dir });
 
 // Creates `dir` (and parents) and throws unless it really is on disk. Used for every folder the harness
-// writes in: the root, the harness-logs folder, a run's scratch folder. Returns `dir` as given.
+// writes in: the root, the harness folder, a run's scratch folder. Returns `dir` as given.
 export function diskDir(dir, opts) {
   fs.mkdirSync(dir, { recursive: true });
   const bad = diskProblem(dir, opts);
