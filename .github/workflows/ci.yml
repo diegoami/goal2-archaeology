@@ -6,7 +6,7 @@ name: CI
 # CI minutes (the owner, 2026-10-17, issue #297): the `checks` job runs the tier of what the change
 # touches (tools/ci_gate.py: none, docs, fast, full), and a merge commit made by `gh pr merge --merge`
 # does not run `quick` on main again.  The full suite still runs on every PR that touches what its
-# six slow modules read, and every night on main when code landed that day.  docs/process.md "The loop".
+# five slow modules read, and every night on main when code landed that day.  docs/process.md "The loop".
 on:
   push:
     branches: [main]
@@ -98,7 +98,7 @@ jobs:
       - if: steps.gate.outputs.code == 'true'
         run: sudo apt-get update && sudo apt-get install -y xvfb xserver-xephyr xinput xdotool x11-utils ffmpeg dosbox-x
       # The record tools, their tests and fixtures (the fetched checker and artifact stay in .cache/).
-      # The fast tier leaves out the six slow modules (tools/ci_gate.py SLOW); the full tier runs all.
+      # The fast tier leaves out the five slow modules (tools/ci_gate.py SLOW); the full tier runs all.
       - if: steps.gate.outputs.code == 'true'
         run: python3 tools/ci_gate.py run-tests --tier ${{ steps.gate.outputs.tier }}
       # T37: every finding's citations resolve under the pinned checker (U25-U27).

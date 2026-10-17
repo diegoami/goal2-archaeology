@@ -1,35 +1,4 @@
 {
- "tests/test_emul_match.py": {
-  "passed": true,
-  "repo_paths_opened_or_executed": [
-   "experiments/E021-m0-whole-match",
-   "runs/E011/E011-r0001.json",
-   "runtime/driver",
-   "runtime/emul",
-   "runtime/model",
-   "static/goal-exe/code",
-   "static/goal-exe/code/seg_000E_01.asm",
-   "static/goal-exe/code/seg_0791_01.asm",
-   "static/goal-exe/code/seg_0791_02.asm",
-   "static/goal-exe/code/seg_0791_03.asm",
-   "static/goal-exe/code/seg_0791_04.asm",
-   "static/goal-exe/code/seg_214B_01.asm",
-   "static/goal-exe/code/seg_214B_02.asm",
-   "static/goal-exe/code/seg_23E4_01.asm",
-   "tests"
-  ]
- },
- "tests/test_emul_watched.py": {
-  "passed": true,
-  "repo_paths_opened_or_executed": [
-   "experiments/E011-q010-watched-engine",
-   "runs/E011/E011-r0001.json",
-   "runtime/driver",
-   "runtime/emul",
-   "runtime/model",
-   "tests"
-  ]
- },
  "tests/test_human_keys.py": {
   "passed": true,
   "repo_paths_opened_or_executed": [
@@ -61,18 +30,6 @@
    "runtime/human/dosbox-x-2024.03.01-default.map",
    "tests",
    "tools"
-  ]
- },
- "tests/test_screens_video.py": {
-  "passed": true,
-  "repo_paths_opened_or_executed": [
-   "experiments/E022-video-screens/crops/crop-a.png",
-   "experiments/E022-video-screens/crops/crop-b.png",
-   "experiments/E022-video-screens/crops/crop-c.png",
-   "runtime/driver",
-   "static/screens/font-goal-8x16.bin",
-   "tests",
-   "tools/screens"
   ]
  },
  "tests/test_e032_recheck.py": {
@@ -195,6 +152,40 @@
    "experiments/E032-match-engine-inventory/recheck.sh",
    "experiments/E032-match-engine-inventory/record_schema.py",
    "tests"
+  ]
+ },
+ "tests/test_screens_video.py": {
+  "passed": true,
+  "repo_paths_opened_or_executed": [
+   "experiments/E022-video-screens/crops/crop-a.png",
+   "experiments/E022-video-screens/crops/crop-b.png",
+   "experiments/E022-video-screens/crops/crop-c.png",
+   "runtime/driver",
+   "static/screens/font-goal-8x16.bin",
+   "tests",
+   "tools/screens"
+  ]
+ },
+ "tests/test_e036_compare.py": {
+  "passed": true,
+  "repo_paths_opened_or_executed": [
+   "experiments/E036-match-port",
+   "experiments/E036-match-port/compare.py",
+   "experiments/E036-match-port/families",
+   "experiments/E036-match-port/families.py",
+   "experiments/E036-match-port/families/F40.json",
+   "experiments/E036-match-port/families/O8.json",
+   "experiments/E036-match-port/families/S.json",
+   "experiments/E036-match-port/family.py",
+   "experiments/E036-match-port/out/T57/reference.jsonl",
+   "experiments/E036-match-port/records.py",
+   "runtime",
+   "runtime/original_match",
+   "runtime/original_match/assets.py",
+   "runtime/original_match/check.py",
+   "runtime/original_match/example.py",
+   "tests",
+   "tests/test_e036_compare.py"
   ]
  }
 }

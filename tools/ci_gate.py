@@ -36,32 +36,30 @@ NAMES = {NONE: "none", DOCS: "docs", FAST: "fast", FULL: "full"}
 # Measured outputs (the rule of 2026-10-12): a push of these alone runs nothing.
 OUTPUT_RE = re.compile(r"(\.log$|^experiments/.*/out/)")
 
-# The unit-test modules that take about 5 of the 6.5 minutes of a run (tests/ module times, T297).
-# They run only in the full tier.  Each reads the paths of FULL_PATHS below.
+# The unit-test modules that take 282 of the 360 seconds of a CI run's unit suite (per-test timestamps of
+# run 39031916644, notes/T297/ci-module-times-20261017.txt).  They run only in the full tier.
+# test_emul_match, test_emul_watched and test_emul_skip_ret cost nothing in CI (they skip: "unicorn
+# not installed"), so they are not listed; if CI ever installs unicorn they take about 200 s and join.
 SLOW = (
-    "test_emul_match",
-    "test_emul_watched",
     "test_human_keys",
     "test_human_record",
-    "test_screens_video",
     "test_e032_recheck",
+    "test_screens_video",
+    "test_e036_compare",
 )
 
 # What SLOW (and the harness running them) read or execute, from an audit-hook trace of each
 # module (notes/T297/slow-module-deps-20261017.json, tracer notes/T297/trace_deps.py), widened
 # to the whole directory where a module's traced files sit.  A path missing here lets a PR
 # skip a slow module it could break: the nightly full run on main (workflow `schedule`) is the
-# net for that, and tests/test_ci_gate.py checks each prefix names something that exists.
+# net for that, and tests/test_ci_gate.py checks each traced path is covered and each prefix exists.
 FULL_PATHS = (
     "runtime/",
-    "experiments/E011-q010-watched-engine/",
     "experiments/E015-human-playthrough/",
-    "experiments/E021-m0-whole-match/",
     "experiments/E022-video-screens/",
     "experiments/E032-match-engine-inventory/",
-    "runs/E011/",
+    "experiments/E036-match-port/",
     "runs/E015/",
-    "static/goal-exe/code/",
     "static/screens/",
     "tools/screens/",
     "artifacts/known.json",

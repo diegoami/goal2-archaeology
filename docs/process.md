@@ -78,8 +78,8 @@ merge commit of a research PR (`Merge pull request #`), whose tree the PR's CI j
 CI tiers (the owner, 2026-10-17, #297): the PR's one job, `checks`, runs the tier of what the PR changes
 (`tools/ci_gate.py`). `docs`: prose no test reads (`*.md` at the root, `docs/`, `notes/`, `spec/`, except
 the four docs a test reads) gets links, citations and the no-original-file check only. `fast`: anything
-else also gets the harness tests, `tests/static` and every unit test except six slow modules. `full`: a PR
-that touches what those six read (`runtime/`, their experiments and runs, `tools/*.py`, `tests/netskip.py`,
+else also gets the harness tests, `tests/static` and every unit test except five slow modules. `full`: a PR
+that touches what those five read (`runtime/`, their experiments and runs, `tools/*.py`, `tests/netskip.py`,
 the CI files) runs everything, and so does a manual run and a nightly run on `main` (when code landed that
 day), which is the net for a path the list misses. A push to a PR runs only the tier of the push when the
 previous head's `checks` passed, else the tier of the whole PR; so a green `checks` on a head always means

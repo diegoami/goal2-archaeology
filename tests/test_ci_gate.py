@@ -1,7 +1,7 @@
 """T297 (issue #297): tools/ci_gate.py decides which checks a CI run needs.
 
 Each assertion fails if the behaviour it names is removed: the classification is checked against
-the paths a trace of the six slow test modules recorded (notes/T297/slow-module-deps-20261017.json),
+the paths a trace of the five slow test modules recorded (notes/T297/slow-module-deps-20261017.json),
 and the decision against fake diffs and fake check-run answers, never against the network."""
 import importlib.util
 import json
@@ -45,8 +45,11 @@ class Classify(unittest.TestCase):
             "tests/netskip.py": G.FULL,
             "tools/net.py": G.FULL,
             "tools/screens/video.py": G.FULL,
-            "static/goal-exe/code/seg_214B_01.asm": G.FULL,
-            "runs/E011/E011-r0001.json": G.FULL,
+            "experiments/E036-match-port/compare.py": G.FULL,
+            "runs/E015/E015-r0001.json": G.FULL,
+            # not read by any module that runs in CI (the emul modules skip: no unicorn)
+            "static/goal-exe/code/seg_214B_01.asm": G.FAST,
+            "runs/E011/E011-r0001.json": G.FAST,
             ".github/workflows/ci.yml": G.FULL,
             "tools/ci_gate.py": G.FULL,
         }
@@ -61,7 +64,7 @@ class Classify(unittest.TestCase):
         self.assertEqual(G.tier_of([]), G.NONE)
 
     def test_every_path_the_slow_modules_read_is_full(self):
-        """The trace of the six slow modules: no repo file they open or execute may fall below FULL."""
+        """The trace of the five slow modules: no repo file they open or execute may fall below FULL."""
         trace = json.loads((ROOT / "notes/T297/slow-module-deps-20261017.json").read_text())
         self.assertEqual(sorted(trace), sorted(f"tests/{m}.py" for m in G.SLOW))
         for module, rec in trace.items():
