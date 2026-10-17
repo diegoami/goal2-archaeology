@@ -1,0 +1,34 @@
+The 20 citations the issue lists (PR 302 moved them), by two readings.
+issue's reading: the line at 809aa37 (before PR 302) and the line holding the same text now.
+authored reading: the view the citation was written against (the named view at the commit that introduced its text into the document) and the line holding that text now.
+Where the two differ, the citation was already stale at 809aa37: the line it named held something else. The authored reading is the one applied.
+
+doc:line | cited | at 809aa37 | issue's new line | authored new line | text at the authored new line
+------------------------------------------------------------------------------------------------------------------------
+experiments/E014-q013-ageing/notes.md:208 | seg_1771_06.c:953 | '}' | seg_1771_06.c:954 | seg_1771_07.c:175 | "ppVar4->rating = (cVar3 + 'u') - cVar2;"
+experiments/E014-q013-ageing/notes.md:208 | seg_1771_06.c:957 | 'else {' | seg_1771_06.c:958 | seg_1771_07.c:179 | 'ppVar4->rating = cVar2 + 0x7f;'
+experiments/E017-q015-energy/notes.md:196 | seg_1771_06.c:297 | 'else {' | seg_1771_06.c:298 | seg_1771_06.c:606 | 'uVar2 = (undefined2)((ulong)DS:A93F >> 0x10);'
+experiments/E017-q015-energy/notes.md:196 | seg_1771_06.c:315 | '{' | seg_1771_06.c:316 | seg_1771_06.c:624 | ',local_4 + 2,puVar3,uVar2);'
+experiments/E018-q016-confidence/notes.md:105 | seg_0791_11.c:632 | '' | seg_0791_11.c:636 | seg_0791_12.c:378 | "local_3 = '\\0';"
+experiments/E018-q016-confidence/notes.md:105 | seg_0791_11.c:649 | '' | seg_0791_11.c:653 | seg_0791_12.c:395 | '}'
+experiments/E018-q016-confidence/notes.md:109 | seg_1771_06.c:1001 | 'uVar3 = extraout_AH;' | seg_1771_06.c:1002 | seg_1771_07.c:181 | 'compute_ability(param_4);'
+experiments/E018-q016-confidence/notes.md:109 | seg_1771_06.c:1006 | '}' | seg_1771_06.c:1007 | seg_1771_07.c:186 | 'ppVar4->performance = 0x7fff;'
+experiments/E018-q016-confidence/notes.md:123 | seg_0791_11.c:674 | 'local_4 = *(uint *)(iVar1 + (uint)*(byte *)(iVar' | seg_0791_11.c:678 | seg_0791_12.c:420 | 'restore_match_player_state();'
+experiments/E018-q016-confidence/notes.md:40 | seg_0791_11.c:674 | 'local_4 = *(uint *)(iVar1 + (uint)*(byte *)(iVar' | seg_0791_11.c:678 | seg_0791_12.c:420 | 'restore_match_player_state();'
+experiments/E018-q016-confidence/notes.md:40 | seg_0791_11.c:700 | '}' | seg_0791_11.c:704 | seg_0791_12.c:446 | '}'
+experiments/E018-q016-confidence/notes.md:48 | seg_0791_11.c:632 | '' | seg_0791_11.c:636 | seg_0791_12.c:378 | "local_3 = '\\0';"
+experiments/E018-q016-confidence/notes.md:48 | seg_0791_11.c:649 | '' | seg_0791_11.c:653 | seg_0791_12.c:395 | '}'
+experiments/E018-q016-confidence/notes.md:48 | seg_0791_11.c:674 | 'local_4 = *(uint *)(iVar1 + (uint)*(byte *)(iVar' | seg_0791_11.c:678 | seg_0791_12.c:420 | 'restore_match_player_state();'
+experiments/E019-q017-events-morale/notes.md:310 | seg_0791_11.c:632 | '' | seg_0791_11.c:636 | seg_0791_12.c:378 | "local_3 = '\\0';"
+experiments/E019-q017-events-morale/notes.md:313 | seg_1771_06.c:1001 | 'uVar3 = extraout_AH;' | seg_1771_06.c:1002 | seg_1771_07.c:181 | 'compute_ability(param_4);'
+experiments/E019-q017-events-morale/notes.md:326 | seg_0791_11.c:674 | 'local_4 = *(uint *)(iVar1 + (uint)*(byte *)(iVar' | seg_0791_11.c:678 | seg_0791_12.c:420 | 'restore_match_player_state();'
+experiments/E024-computer-managers/notes.md:44 | seg_0791_11.c:506 | 'int iVar1;' | seg_0791_11.c:510 | seg_0791_11.c:626 | 'refresh_pitch_slot(local_4,(uint)*(byte *)(*(char *)(param_1'
+findings/F018-energy-is-expended-in-matches-and-restored-from-fitness.md:164 | seg_0791_11.c:506 | 'int iVar1;' | seg_0791_11.c:510 | seg_0791_11.c:626 | 'refresh_pitch_slot(local_4,(uint)*(byte *)(*(char *)(param_1'
+findings/F019-confidence-follows-result-relative-to-country-ranks.md:104 | seg_0791_11.c:632 | '' | seg_0791_11.c:636 | seg_0791_12.c:378 | "local_3 = '\\0';"
+findings/F019-confidence-follows-result-relative-to-country-ranks.md:104 | seg_0791_11.c:674 | 'local_4 = *(uint *)(iVar1 + (uint)*(byte *)(iVar' | seg_0791_11.c:678 | seg_0791_12.c:420 | 'restore_match_player_state();'
+findings/F029-a-substitution-persists-the-squad-list-is-the-only-copy-and-nothing-restores-it-at-full-time-or-at-the-next-set-up.md:23 | seg_0791_11.c:365 | "if (extraout_AL == '\\0') {" | seg_0791_11.c:369 | seg_0791_11.c:430 | 'u214b_swap_bytes(2,(word *)pool_indices + local_4,(int)((ulo'
+findings/F029-a-substitution-persists-the-squad-list-is-the-only-copy-and-nothing-restores-it-at-full-time-or-at-the-next-set-up.md:23 | seg_0791_11.c:486 | 'word *local_6;' | seg_0791_11.c:490 | seg_0791_11.c:552 | 'u214b_swap_bytes(2,uVar7,uVar6);'
+findings/F029-a-substitution-persists-the-squad-list-is-the-only-copy-and-nothing-restores-it-at-full-time-or-at-the-next-set-up.md:23 | seg_0791_11.c:549 | "if (DS:0C1E == '\\0') {" | seg_0791_11.c:553 | seg_0791_11.c:616 | 'u214b_swap_bytes(2,local_a->squad + local_6 + -1,uStack_8,lo'
+spec/competitions.md:28 | seg_1771_04.c:651 | 'void __cdecl16near build_draw_order(void)' | seg_1771_04.c:652 | seg_1771_04.c:683 | '// ---- 1771:580B  f_1771_580B  (f_1771_580B; Ghidra 4000:58'
+spec/discipline.md:42 | seg_1771_04.c:764 | 'sys_set_bit_mask_08DF(0xf3e,0xb000,*(undefined1 ' | seg_1771_04.c:765 | seg_1771_04.c:798 | '// ---- 1771:5A8F  recovery_route_gradual  (f_1771_5A8F; Ghi'
+spec/friendlies.md:19 | seg_1771_04.c:651 | 'void __cdecl16near build_draw_order(void)' | seg_1771_04.c:652 | seg_1771_04.c:683 | '// ---- 1771:580B  f_1771_580B  (f_1771_580B; Ghidra 4000:58'

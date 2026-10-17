@@ -187,13 +187,13 @@ offset. The base is the pitch far argument unless explicitly shown otherwise.
 | 000E:6685 | seg_000E_08.asm:651,654,691 | A93F scorer record, built at 642–649; +E player word and +C goal-count word R |
 | 0791:83A2 | seg_0791_14.asm:117,133 | passed ball record; +D control byte R/W, not fitness (movement timer is +A, lines 111–114) |
 | 0791:8F10 | seg_0791_15.asm:317 | passed ball record +D R |
-| 0791:A375 | seg_0791_17.asm:132,134 | C,D byte W on passed ball object (match setup caller named/seg_0791_08.c:436); not player fitness |
+| 0791:A375 | seg_0791_17.asm:132,134 | C,D byte W on passed ball object (match setup caller named/seg_0791_08.c:985); not player fitness |
 | 0791:B3B7 | seg_0791_18.asm:699,817,859,884 | saved scorer pointer A93F+96*category+16*entry-112 (692–697); +E word R/W, +C word R/W; player pointer saved separately at 665–666 |
-| 1771:1B2E | seg_1771_03.asm:829 | caps/goals historical table A937/A93B, 14-byte entry; +C word W (named/seg_1771_02.c:232–256) |
+| 1771:1B2E | seg_1771_03.asm:829 | caps/goals historical table A937/A93B, 14-byte entry; +C word W (named/seg_1771_02.c:231–255) |
 | 1771:1D5C | seg_1771_03.asm:1606,1637,1774,1805 | historical goals/caps table pointers A93B/A937; +C word R, not morale |
 | 1771:2D15 | seg_1771_04.asm:859 | manager record at A923+manager; +D byte W (rating), construction 854–858 |
 | 1771:63A4 | seg_1771_09.asm:851,870 | manager record at saved A923 plus manager-128, 845–850 / 864–869; +D byte R/W |
-| 1771:883F | seg_1771_12.asm:843,878 | A93F scorer-table entry; +E,+C word R (named/seg_1771_06.c:297–315) |
+| 1771:883F | seg_1771_12.asm:843,878 | A93F scorer-table entry; +E,+C word R (named/seg_1771_06.c:606–624) |
 | 2382:0391 | seg_2382_01.asm:291 | runtime object far pointer at +C (LES), not byte arithmetic |
 | 23E4:15F1 | seg_23E4_03.asm:79 | runtime object far pointer at +C (LES) |
 | 23E4:1631 | seg_23E4_03.asm:113 | runtime object far pointer at +C (LES) |
@@ -229,9 +229,9 @@ words, with player +10 element 7 (Protect zone) exempt
 (seg_1771_06.asm:715–802); +F overrides only tactic
 elements 1..4, never marking (26D7, seg_0791_04.asm:787–835). 47C5 reads the
 assigned opponent word at 4832 and, when zero, selects an eligible target by
-the zone tests (seg_0791_08.asm:190–254 and named/seg_0791_04.c:23–79).
+the zone tests (seg_0791_08.asm:190–254 and named/seg_0791_04.c:296–352).
 4A28 may copy that target's coordinates to pitch +7 after its energy draw and
-half-pitch guard (seg_0791_08.asm:553–581; named/seg_0791_04.c:105–122).
+half-pitch guard (seg_0791_08.asm:553–581; named/seg_0791_04.c:379–396).
 8889 moves toward those coordinates, and 8AE9 counts active updates. This
 supports an indirect activity explanation, **not** a proof that every marked
 player loses strictly more than every zonal counterpart. The quick write is
@@ -242,7 +242,7 @@ squad words, marking words and saved morale; C5DC calls A2E6 to bind the new
 squad word to the pitch slot and resets pitch +14 to zero and +F to 5
 (seg_0791_20.asm:490–518; seg_0791_17.asm:6–120). Neither routine writes player
 D/E. The manual menu E022 also swaps squad/shadow words and calls C5DC
-(named/seg_0791_10.c:969–980). The substitute therefore brings his **own current
+(named/seg_0791_11.c:616–627). The substitute therefore brings his **own current
 energy**, commonly unchanged from pre-match fitness while on the bench, not a
 literal 32 or newly copied D. Injury checks, removal and subsequent reordering
 can alter the slot assignment, not refill the player's byte.
@@ -258,7 +258,7 @@ B7FA selects 3651 when 5A8F returns nonzero, otherwise 3558. It passes flag 1
 for starting XI or status bit 3 (participated), flag 0 for unused bench players
 (seg_0791_19.asm:103–135,171–205); BA4E passes flag 0 for the manager's 80
 pool words, with the same selector (245–301). BB2F's unplayed-match path always
-calls 3558 for its squad words (named/seg_0791_09.c:320–358). The flag is an
+calls 3558 for its squad words (named/seg_0791_09.c:877–915). The flag is an
 actual caller input, not inferred by the recovery model from the final energy.
 
 3558 redraws from B=DS:0E82[age>peak_age+4] (357B,
@@ -271,6 +271,6 @@ These routines read no marking, position +6 or elapsed-match minutes.
 
 The year-end age pass 7FDF/7FB1/7E4A does not directly change C/D/E; computer
 retirees are recreated by 7E80 -> 96D3 -> 3558, redrawing all three bytes, not
-applying an annual energy-rest increment (named/seg_1771_05.c:1035–1170;
+applying an annual energy-rest increment (named/seg_1771_06.c:173–308;
 seg_1771_11.asm:870–938,1000–1120). No direct C/D/E writer is hidden in that
 age pass; the above direct-field scan includes the recreation's stores.

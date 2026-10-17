@@ -293,6 +293,20 @@ raw baseline; where the two views disagree, the listing decides.
 Each research task adds or corrects the rows for what it establishes, with its finding as basis,
 runs `python3 tools/static/check_annotations.py`, and regenerates `named/` in its PR with the command
 in `static/goal-exe/named/README.md`. Only rows change by hand; `named/` never does.
+Regenerating moves lines, and findings, spec rows and experiment notes cite them (`named/seg_SSSS_NN.c:LINES`,
+a line, a range `N-M`, `N–M`, `N..M`, a list, or an abbreviated `` `:N–M` `` after one):
+`static/goal-exe/named-citations.tsv` records a hash of the text each cited line or range held (the lines of a range
+and the one before and after it) and a preview, and `python3 tools/static/named_citations.py check` fails when any of
+that text changed, when a citation has no row, and when text that looks like such a citation cannot be parsed. It runs
+in the quick tier of CI (so a spec-only PR is checked) and in `tests/test_named_citations.py`. The PR that
+regenerates `named/` runs
+`python3 tools/static/named_citations.py remap --base <the commit before the regeneration> --apply` (it moves each
+citation to the lines holding the same text and prints old and new), reads the ranges it reports as `approx` or
+whose text changed, then `python3 tools/static/named_citations.py update --accept`. A new citation of a
+named line is recorded with `update`. A PR that was open when a regenerated `named/` reached main must, after merging
+main, run `remap --base <the main commit before the regeneration>` on its own citations and then read what `check`
+still reports before `update --accept`; it does not re-record the manifest from the new view as a new baseline, which
+would bless citations that now point at other code. Only prose and notes are rewritten, never `runs/` or an `out/` folder.
 An OpenCode reviewer cannot run Ghidra (it lives under `~/tools`, outside its worktree): the review
 brief says "do NOT run Ghidra", and the main session regenerates `named/` where a check needs it
 (L57). Claude agents and the main session can run it.

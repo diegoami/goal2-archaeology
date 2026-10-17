@@ -148,7 +148,7 @@ line numbers, not decompiler line numbers. Each paragraph states its own limit.
   (3EF8, `static:static/goal-exe/code/seg_1771_06.asm:715`, F010); player +F overrides only elements 1..4, not marking
   (`static:static/goal-exe/code/seg_0791_04.asm:787`). 47C5 uses the assigned opponent word or selects
   a zone-tested target when the word is zero (`static:static/goal-exe/code/seg_0791_08.asm:190`;
-  `static:static/goal-exe/named/seg_0791_04.c:23`). 4A28 can copy that target's
+  `static:static/goal-exe/named/seg_0791_04.c:296`). 4A28 can copy that target's
   coordinates to pitch +7 after energy/tactic gates
   (`static:static/goal-exe/code/seg_0791_08.asm:553`). Movement toward that target can change the active
   updates counted by 8AE9, but the listing does **not** prove every man-marker
@@ -161,7 +161,7 @@ line numbers, not decompiler line numbers. Each paragraph states its own limit.
   and reset the pitch activity/direction, not player fitness or energy
   (`static:static/goal-exe/code/seg_0791_20.asm:661, static:static/goal-exe/code/seg_0791_20.asm:490`;
   `static:static/goal-exe/code/seg_0791_17.asm:6`; F012's C88D trace). The manual E022 swap also calls
-  C5DC (`static:static/goal-exe/named/seg_0791_11.c:506`). He brings his own E,
+  C5DC (`static:static/goal-exe/named/seg_0791_11.c:626`). He brings his own E,
   normally unspent while on the bench, rather than receiving 32 or a D-to-E
   copy at the substitution. "Full" may describe that ordinary bench state;
   it is not an unconditional instruction-path refill.

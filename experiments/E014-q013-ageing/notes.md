@@ -104,7 +104,7 @@ re-create 7E80 redraws +2/+3/+5 and restores +6, section 4).
 goals +0xA, and from `0791:6443`; calls.tsv) and keeps three 16-byte entries per competition at
 `[DS:A93F] + 0x60·c + 0x10·rank − 0x70` (c = its first argument, or 5 when `[A923]+0x40` is set,
 `B3D5-B3E6`): initial, name, the count word +0xC, the player index +0xE — the top-scorers table,
-sorted by count (named/seg_0791_09.c:28-67, `update_top_scorers` in the annotations). So the
+sorted by count (named/seg_0791_09.c:578-617, `update_top_scorers` in the annotations). So the
 yearly loop's `7FD4` resets each player's count at every ageing stage — the count is per
 displayed year. F008's "+0x11 is not read by the screen's routines" stands for the player
 screen; the program reads it in B3B7.
@@ -116,7 +116,7 @@ record), with the raw listing for +0x11 above; an access through an untyped poin
 show here, so for +0x11 the listing table is the inventory:
 
 - **+2 (peak)**: `compute_ability` 1771:32EB (`330F`, `3318`, `3350`, `336B`, `339B`;
-  named/seg_1771_03.c:110-116), `retirement_test` 1771:7F40 (`7F87`; seg_1771_05.c:1104),
+  named/seg_1771_03.c:131-137), `retirement_test` 1771:7F40 (`7F87`; seg_1771_06.c:242),
   `is_two_footed` 1771:3041 (+5 + +2 = 30; seg_1771_02.c:1062), `roll_fitness_energy`
   1771:3558 (T = DS:0E82[a > p + 4]; seg_1771_03.c:223) and the fitness update 1771:3651 (cap
   DS:0E84[a > p + 3]; seg_1771_03.c:282-284). Written only by `roll_peak_age` 1771:3291 (`32E1`,
@@ -199,13 +199,13 @@ an outfield player with no caps retires from aged 31 (30 < 31), a goalkeeper fro
 managed country the same test drives the menu's offer path `000E:57E5` → `000E:56F3` (the
 retirement news `000E:50D4`, the promise line `000E:544D`, the new player `000E:54F0`), which
 is RNG-selected (`57E5` draws `u214b_random_1_to_n(0x50)` over the pool; `54F0` draws rand(6)
-twice for the age and rand(3) for the young-squad check — named/seg_000E_04.c:646-710) and is
+twice for the age and rand(3) for the young-squad check — named/seg_000E_04.c:647-712) and is
 Q014's subject, not modelled here.
 
 `1771:7E80(player)` (seg_1771_11.asm:871-948, `7E80`-`7F3D`) replaces a retired
 computer-country player: `make_player(1, old +7, old +0, player)` (`7EA6-7EC0`) re-draws +5, +2
 (roll_peak_age), +3 = country rating + 0x7F (make_player's param_1 ≠ 0 branch,
-named/seg_1771_06.c:953-957), morale, tactics, fitness/energy, performance = 0x7FFF; then age
+named/seg_1771_07.c:175-179), morale, tactics, fitness/energy, performance = 0x7FFF; then age
 `+1 = DS:110C[gk] + rand(6) − rand(6)` (`DS:110C = 19 1C` = base 25/28; `7EC3-7EF9`),
 compute_ability (`7F01`), caps +8 = 0 (`7F09`), goals +0xA = 0 (`7F12`), status +0x10 = 0
 (`7F19`), a new name-initial byte at `[DS:9B70] + player` from `1771:0000` (`7F1E-7F2D`), and
@@ -260,7 +260,7 @@ matched** — 262 continuing players, 38 re-created.
   the player screen (1771:4952, seg_1771_03.c:1062), unmanage_country's bench copy
   (000E:0290, squad slots 12..20), and reset_team_tactics (0791:BC5D, F010), which sets +6 of
   squad slots 1..11 from R011 (DS:9F02 + 20 country + slot) before a match, for both teams from
-  000E:01FA, 000E:6970 and 0791:E80D (named/seg_0791_09.c:393-417) — none is in the yearly
+  000E:01FA, 000E:6970 and 0791:E80D (named/seg_0791_09.c:950-974) — none is in the yearly
   loop's callee set (section 2's
   calls.tsv claim stands: the LOOP writes only +1/+4/+0x11);
 - the tables `DS:6D25`/`DS:6DCD` are not mutated by the yearly path (F008's hazard): the

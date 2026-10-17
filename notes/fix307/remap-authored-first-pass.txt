@@ -1,0 +1,183 @@
+experiments/E014-q013-ageing/notes.md:107  seg_0791_09.c:28 -> seg_0791_09.c:578  (equal; same text: yes) | ppVar1[param_2].scorer_count = ppVar1[param_2].scorer_count + 1;
+experiments/E014-q013-ageing/notes.md:107  seg_0791_09.c:67 -> seg_0791_09.c:617  (equal; same text: yes) | if (*(uint *)(iVar2 + local_4 * 0x60 + local_6 * 0x10 + -100) <=
+experiments/E014-q013-ageing/notes.md:119  seg_1771_03.c:110 -> seg_1771_03.c:131  (equal; same text: yes) | if ((ppVar2[param_1].age < ppVar2[param_1].peak_age) ||
+experiments/E014-q013-ageing/notes.md:119  seg_1771_03.c:116 -> seg_1771_03.c:137  (equal; same text: yes) | iVar1 = (int)((uint)ppVar2[param_1].peak_age - (uint)ppVar2[param_1].a
+experiments/E014-q013-ageing/notes.md:119  seg_1771_05.c:1104 -> seg_1771_06.c:242  (equal; same text: yes) | (uVar3 = (&ppVar4->peak_age)[iVar2] + 5, uVar3 < (&ppVar4->age)[iVar2]
+experiments/E014-q013-ageing/notes.md:202  seg_000E_04.c:646 -> seg_000E_04.c:647  (approx; same text: NO) | // ---- 000E:54F0  f_000E_54F0  (f_000E_54F0; Ghidra 1000:54F0, __stdc
+experiments/E014-q013-ageing/notes.md:202  seg_000E_04.c:710 -> seg_000E_04.c:712  (equal; same text: yes) | 
+experiments/E014-q013-ageing/notes.md:263  seg_0791_09.c:393 -> seg_0791_09.c:950  (equal; same text: yes) | // ---- 0791:BC5D  reset_team_tactics  (f_0791_BC5D; Ghidra 2000:BC5D,
+experiments/E014-q013-ageing/notes.md:263  seg_0791_09.c:417 -> seg_0791_09.c:974  (equal; same text: yes) | *(byte *)(param_1 * 0x14 + local_4 + -0x60fe), local_4 != 0xb; local_4
+experiments/E017-q015-energy/notes.md:190  seg_0791_08.c:436 -> seg_0791_08.c:985  (equal; same text: yes) | f_0791_A375((ball *)&ball_record,0xb000);
+experiments/E017-q015-energy/notes.md:192  seg_1771_02.c:232 -> seg_1771_02.c:231  (equal; same text: yes) | uVar4 = (undefined2)((ulong)players >> 0x10);
+experiments/E017-q015-energy/notes.md:192  seg_1771_02.c:256 -> seg_1771_02.c:255  (equal; same text: yes) | *(uint *)(iVar3 + -0x8e) = uVar1;
+experiments/E017-q015-energy/notes.md:232  seg_0791_04.c:23 -> seg_0791_04.c:296  (equal; same text: yes) | cVar2 = ball_holder_is_side0();
+experiments/E017-q015-energy/notes.md:232  seg_0791_04.c:79 -> seg_0791_04.c:352  (equal; same text: yes) | (uint)*(byte *)((cVar2 == '\0') + 0x668)) * 2) = 0;
+experiments/E017-q015-energy/notes.md:234  seg_0791_04.c:105 -> seg_0791_04.c:379  (equal; same text: yes) | cVar2 = slot_is_on_ball_side(iVar4,uVar6);
+experiments/E017-q015-energy/notes.md:234  seg_0791_04.c:122 -> seg_0791_04.c:396  (equal; same text: yes) | }
+experiments/E017-q015-energy/notes.md:245  seg_0791_10.c:969 -> seg_0791_11.c:616  (equal; same text: yes) | u214b_swap_bytes(2,local_a->squad + local_6 + -1,uStack_8,local_a->squ
+experiments/E017-q015-energy/notes.md:245  seg_0791_10.c:980 -> seg_0791_11.c:627  (equal; same text: yes) | CONCAT11(extraout_AH,*(undefined1 *)(param_1 + -3)));
+experiments/E017-q015-energy/notes.md:261  seg_0791_09.c:320 -> seg_0791_09.c:877  (equal; same text: yes) | // ---- 0791:BB2F  prepare_unplayed_match  (f_0791_BB2F; Ghidra 2000:B
+experiments/E017-q015-energy/notes.md:261  seg_0791_09.c:358 -> seg_0791_09.c:915  (equal; same text: NO) | }
+experiments/E017-q015-energy/notes.md:274  seg_1771_05.c:1035 -> seg_1771_06.c:173  (equal; same text: yes) | 
+experiments/E017-q015-energy/notes.md:274  seg_1771_05.c:1170 -> seg_1771_06.c:308  (equal; same text: yes) | }
+experiments/E018-q016-confidence/notes.md:35  seg_0791_09.c:219 -> seg_0791_09.c:769  (equal; same text: yes) | bVar3 = true;
+experiments/E018-q016-confidence/notes.md:35  seg_0791_09.c:279 -> seg_0791_09.c:829  (equal; same text: yes) | if (local_9 == '\x01') break;
+experiments/E018-q016-confidence/notes.md:40  seg_000E_05.c:605 -> seg_000E_05.c:611  (approx; same text: NO) | uVar8 = (undefined2)((ulong)local_12 >> 0x10);
+experiments/E018-q016-confidence/notes.md:40  seg_000E_05.c:640 -> seg_000E_05.c:646  (approx; same text: NO) | (int)((ulong)DS:A92B >> 0x10));
+experiments/E018-q016-confidence/notes.md:56  seg_000E_05.c:392 -> seg_000E_05.c:397  (approx; same text: NO) | uVar7 = (undefined2)((ulong)DS:A923 >> 0x10);
+experiments/E018-q016-confidence/notes.md:56  seg_000E_05.c:406 -> seg_000E_05.c:411  (approx; same text: NO) | (int)((ulong)DS:A92B >> 0x10));
+experiments/E018-q016-confidence/notes.md:56  seg_0791_09.c:96 -> seg_0791_09.c:647  (equal; same text: yes) | uVar8 = (undefined2)((ulong)param_1 >> 0x10);
+experiments/E018-q016-confidence/notes.md:56  seg_0791_09.c:116 -> seg_0791_09.c:667  (equal; same text: yes) | }
+experiments/E018-q016-confidence/notes.md:58  seg_0791_09.c:324 -> seg_0791_09.c:874  (equal; same text: yes) | }
+experiments/E018-q016-confidence/notes.md:60  seg_000E_05.c:605 -> seg_000E_05.c:611  (approx; same text: NO) | uVar8 = (undefined2)((ulong)local_12 >> 0x10);
+experiments/E018-q016-confidence/notes.md:60  seg_000E_05.c:612 -> seg_000E_05.c:618  (approx; same text: NO) | run_match((int)DS:A92B + *(int *)((byte *)local_12 + 0x26) * 8 + -8,uV
+experiments/E018-q016-confidence/notes.md:66  seg_1771_03.c:881 -> seg_1771_03.c:902  (equal; same text: yes) | iVar3 = (int)(char)((player *)local_a)->morale;
+experiments/E018-q016-confidence/notes.md:66  seg_1771_03.c:892 -> seg_1771_03.c:913  (equal; same text: yes) | u214b_fill_back_attr_70(((char)((player *)local_a)->morale * 0xe) / 0x
+experiments/E018-q016-confidence/notes.md:78  seg_1771_01.c:549 -> seg_1771_01.c:553  (equal; same text: yes) | iVar1 = param_3 * 3;
+experiments/E018-q016-confidence/notes.md:78  seg_1771_01.c:562 -> seg_1771_01.c:566  (equal; same text: yes) | 0x10 + 0x6eb4,0xb000);
+experiments/E018-q016-confidence/notes.md:82  seg_1771_01.c:1049 -> seg_1771_01.c:1055  (equal; same text: yes) | 
+experiments/E018-q016-confidence/notes.md:82  seg_1771_01.c:1061 -> seg_1771_01.c:1067  (equal; same text: yes) | (uint)*(byte *)((iVar1 + -1) / 8 + 0x7884) * 0x10 + 0x6eb4,0xb000);
+experiments/E018-q016-confidence/notes.md:85  seg_1771_03.c:862 -> seg_1771_03.c:883  (equal; same text: yes) | uVar2 = player_hardness(param_1);
+experiments/E018-q016-confidence/notes.md:85  seg_1771_03.c:889 -> seg_1771_03.c:910  (equal; same text: yes) | (uint)*(byte *)(iVar3 + 30999) * 0x10 + 0x6eb4,0xb000);
+experiments/E018-q016-confidence/notes.md:101  seg_0791_02.c:539 -> seg_0791_02.c:614  (equal; same text: yes) | uVar4 = (undefined2)((ulong)param_1 >> 0x10);
+experiments/E018-q016-confidence/notes.md:101  seg_0791_02.c:549 -> seg_0791_02.c:624  (equal; same text: yes) | }
+experiments/E018-q016-confidence/notes.md:102  seg_0791_06.c:610 -> seg_0791_07.c:20  (equal; same text: yes) | uVar7 = (undefined2)((ulong)param_1 >> 0x10);
+experiments/E018-q016-confidence/notes.md:102  seg_0791_06.c:625 -> seg_0791_07.c:35  (equal; same text: yes) | }
+experiments/E018-q016-confidence/notes.md:103  seg_0791_08.c:1118 -> seg_0791_09.c:541  (equal; same text: yes) | uVar1 = (undefined2)((ulong)players >> 0x10);
+experiments/E018-q016-confidence/notes.md:103  seg_0791_08.c:1126 -> seg_0791_09.c:549  (equal; same text: yes) | ((player *)players)[param_2].morale = (byte)local_4;
+experiments/E018-q016-confidence/notes.md:104  seg_0791_10.c:62 -> seg_0791_10.c:658  (approx; same text: NO) | // both match squads slots 1..20, nonzero player words: restore morale
+experiments/E018-q016-confidence/notes.md:104  seg_0791_10.c:83 -> seg_0791_10.c:679  (equal; same text: yes) | ppVar2[wVar1].morale = ((char *)match_form)[local_3 * 0x14 + local_5];
+experiments/E018-q016-confidence/notes.md:106  seg_1771_01.c:1016 -> seg_1771_01.c:1022  (equal; same text: yes) | local_4 = 1;
+experiments/E018-q016-confidence/notes.md:106  seg_1771_01.c:1038 -> seg_1771_01.c:1044  (equal; same text: yes) | DS:9B5A = DS:9B5A / 0xb;
+experiments/E018-q016-confidence/notes.md:107  seg_1771_03.c:308 -> seg_1771_03.c:329  (equal; same text: yes) | uVar4 = (undefined2)((ulong)players >> 0x10);
+experiments/E018-q016-confidence/notes.md:107  seg_1771_03.c:325 -> seg_1771_03.c:346  (equal; same text: NO) | }
+experiments/E018-q016-confidence/notes.md:108  seg_1771_03.c:881 -> seg_1771_03.c:902  (equal; same text: yes) | iVar3 = (int)(char)((player *)local_a)->morale;
+experiments/E018-q016-confidence/notes.md:108  seg_1771_03.c:892 -> seg_1771_03.c:913  (equal; same text: yes) | u214b_fill_back_attr_70(((char)((player *)local_a)->morale * 0xe) / 0x
+experiments/E018-q016-confidence/notes.md:113  seg_0791_09.c:104 -> seg_0791_09.c:655  (equal; same text: yes) | for (local_8 = (uint)*(byte *)(iVar4 + local_3); local_8 != 0; local_8
+experiments/E018-q016-confidence/notes.md:113  seg_0791_09.c:112 -> seg_0791_09.c:663  (approx; same text: NO) | f_0791_B364(1,wVar3);
+experiments/E018-q016-confidence/notes.md:115  seg_0791_09.c:297 -> seg_0791_09.c:847  (equal; same text: yes) | word wVar6;
+experiments/E018-q016-confidence/notes.md:115  seg_0791_09.c:312 -> seg_0791_09.c:862  (equal; same text: yes) | wVar6 = ((word *)pool_indices)[local_4];
+experiments/E018-q016-confidence/notes.md:116  seg_0791_09.c:340 -> seg_0791_09.c:890  (equal; same text: yes) | int local_5;
+experiments/E018-q016-confidence/notes.md:117  seg_0791_05.c:543 -> seg_0791_05.c:906  (equal; same text: yes) | adjust_player_form((pitch *)pitch_records + param_2,0xb000,
+experiments/E018-q016-confidence/notes.md:117  seg_0791_05.c:545 -> seg_0791_05.c:908  (equal; same text: yes) | (int)((char *)form_delta)[DS:7C39 == '\0']);
+experiments/E018-q016-confidence/notes.md:119  seg_0791_06.c:565 -> seg_0791_06.c:1221  (equal; same text: yes) | adjust_player_form(iVar5,uVar7,0xff01,0xfffe);
+experiments/E018-q016-confidence/notes.md:119  seg_0791_06.c:572 -> seg_0791_06.c:1228  (equal; same text: yes) | adjust_player_form((pitch *)pitch_records + (uint)bVar1 + local_4,0xb0
+experiments/E018-q016-confidence/notes.md:119  seg_0791_06.c:656 -> seg_0791_07.c:66  (approx; same text: NO) | adjust_player_form(iVar6,uVar8,0xff01,0xfffe);
+experiments/E018-q016-confidence/notes.md:119  the citation would span ['seg_0791_06.c', 'seg_0791_07.c']: edit by hand
+experiments/E018-q016-confidence/notes.md:132  seg_0791_09.c:214 -> seg_0791_09.c:764  (equal; same text: yes) | cVar4 = is_managed(*(undefined2 *)(iVar2 + 4));
+experiments/E018-q016-confidence/notes.md:132  seg_0791_09.c:230 -> seg_0791_09.c:780  (equal; same text: NO) | }
+experiments/E018-q016-confidence/notes.md:134  seg_000E_05.c:614 -> seg_000E_05.c:619  (equal; same text: NO) | if ((local_6 != '\0') &&
+experiments/E018-q016-confidence/notes.md:134  seg_000E_05.c:624 -> seg_000E_05.c:629  (equal; same text: NO) | if (local_5 == '\x01') break;
+experiments/E019-q017-events-morale/notes.md:299  seg_0791_08.c:1118 -> seg_0791_09.c:540  (equal; same text: yes) | 
+experiments/E019-q017-events-morale/notes.md:300  seg_0791_06.c:431 -> seg_0791_06.c:1087  (approx; same text: NO) | // ---- 0791:798D  f_0791_798D  (f_0791_798D; Ghidra 2000:798D, __stdc
+experiments/E019-q017-events-morale/notes.md:303  seg_0791_06.c:712 -> seg_0791_07.c:120  (approx; same text: NO) | // ---- 0791:7EEF  f_0791_7EEF  (f_0791_7EEF; Ghidra 2000:7EEF, __cdec
+experiments/E019-q017-events-morale/notes.md:308  seg_0791_02.c:539 -> seg_0791_02.c:614  (equal; same text: yes) | uVar4 = (undefined2)((ulong)param_1 >> 0x10);
+experiments/E019-q017-events-morale/notes.md:309  seg_0791_10.c:62 -> seg_0791_10.c:658  (approx; same text: NO) | // both match squads slots 1..20, nonzero player words: restore morale
+experiments/E019-q017-events-morale/notes.md:311  seg_1771_03.c:308 -> seg_1771_03.c:309  (equal; same text: yes) | if (('\0' < (char)ppVar5[param_2].energy) || (cVar1 = u214b_random_is_
+experiments/E019-q017-events-morale/notes.md:312  seg_1771_03.c:881 -> seg_1771_03.c:882  (equal; same text: yes) | (char *)s___goalkeeper_b000_69b5 + 1 + iVar3,0xb000);
+experiments/E019-q017-events-morale/notes.md:317  seg_0791_09.c:104 -> seg_0791_09.c:654  (equal; same text: yes) | pcVar7 = (country *)countries;
+experiments/E019-q017-events-morale/notes.md:319  seg_0791_09.c:297 -> seg_0791_09.c:847  (equal; same text: yes) | word wVar6;
+experiments/E019-q017-events-morale/notes.md:320  seg_0791_09.c:340 -> seg_0791_09.c:890  (equal; same text: yes) | int local_5;
+experiments/E019-q017-events-morale/notes.md:321  seg_0791_05.c:543 -> seg_0791_05.c:906  (equal; same text: yes) | adjust_player_form((pitch *)pitch_records + param_2,0xb000,
+findings/F018-energy-is-expended-in-matches-and-restored-from-fitness.md:151  seg_0791_04.c:23 -> seg_0791_04.c:296  (equal; same text: yes) | cVar2 = ball_holder_is_side0();
+findings/F019-confidence-follows-result-relative-to-country-ranks.md:45  seg_0791_09.c:227 -> seg_0791_09.c:369  (equal; same text: yes) | pcVar6 = (country *)countries + *(int *)(param_1 + 6);
+findings/F019-confidence-follows-result-relative-to-country-ranks.md:46  seg_0791_08.c:1111 -> seg_0791_09.c:130  (equal; same text: yes) | 3 < local_e != (bool)cVar1)) {
+findings/F019-confidence-follows-result-relative-to-country-ranks.md:53  seg_1771_03.c:881 -> seg_1771_03.c:902  (equal; same text: yes) | iVar3 = (int)(char)((player *)local_a)->morale;
+findings/F019-confidence-follows-result-relative-to-country-ranks.md:92  seg_0791_09.c:222 -> seg_0791_09.c:364  (equal; same text: yes) | undefined2 uVar8;
+findings/F019-confidence-follows-result-relative-to-country-ranks.md:101  seg_000E_05.c:392 -> seg_000E_05.c:397  (approx; same text: NO) | uVar7 = (undefined2)((ulong)DS:A923 >> 0x10);
+findings/F019-confidence-follows-result-relative-to-country-ranks.md:102  seg_0791_09.c:97 -> seg_0791_09.c:239  (equal; same text: yes) | uVar9 = (undefined2)((ulong)players >> 0x10);
+findings/F019-confidence-follows-result-relative-to-country-ranks.md:106  seg_0791_09.c:302 -> seg_0791_09.c:444  (equal; same text: yes) | bVar2 = &stack0x0000 == (undefined1 *)0x8;
+findings/F019-confidence-follows-result-relative-to-country-ranks.md:107  seg_000E_05.c:605 -> seg_000E_05.c:611  (approx; same text: NO) | uVar8 = (undefined2)((ulong)local_12 >> 0x10);
+findings/F019-confidence-follows-result-relative-to-country-ranks.md:111  seg_0791_06.c:610 -> seg_0791_07.c:20  (equal; same text: yes) | uVar7 = (undefined2)((ulong)param_1 >> 0x10);
+findings/F019-confidence-follows-result-relative-to-country-ranks.md:113  seg_0791_05.c:543 -> seg_0791_05.c:906  (equal; same text: yes) | adjust_player_form((pitch *)pitch_records + param_2,0xb000,
+findings/F019-confidence-follows-result-relative-to-country-ranks.md:113  seg_0791_05.c:628 -> seg_0791_05.c:992  (equal; same text: yes) | local_4 = 1;
+findings/F019-confidence-follows-result-relative-to-country-ranks.md:118  seg_0791_09.c:345 -> seg_0791_09.c:487  (equal; same text: yes) | if (local_5 == param_1) break;
+findings/F019-confidence-follows-result-relative-to-country-ranks.md:118  seg_000E_05.c:605 -> seg_000E_05.c:611  (approx; same text: NO) | uVar8 = (undefined2)((ulong)local_12 >> 0x10);
+findings/F020-events-change-confidence-and-team-morale-aggregates-it.md:216  seg_0791_08.c:1119 -> seg_0791_09.c:138  (equal; same text: yes) | if (local_8 == local_14) break;
+findings/F023-the-stage-builders-write-the-competition-calendar-from-ranked-pots-and-a-points-sort-with-no-coin.md:127  seg_000E_05.c:512 -> seg_000E_05.c:515  (equal; same text: NO) | // ---- 000E:6CA7  route_fixture  (f_000E_6CA7; Ghidra 1000:6CA7, __cd
+findings/F026-what-each-team-tactic-changes-in-a-watched-match.md:58  seg_0791_07.c:663 -> seg_0791_07.c:699  (equal; same text: yes) | // ---- 0791:8AE9  update_player  (f_0791_8AE9; Ghidra 2000:8AE9, __st
+findings/F026-what-each-team-tactic-changes-in-a-watched-match.md:58  seg_0791_03.c:1126 -> seg_0791_04.c:4  (equal; same text: yes) | // ---- 0791:4354  set_destination_from_post  (f_0791_4354; Ghidra 200
+findings/F026-what-each-team-tactic-changes-in-a-watched-match.md:58  seg_0791_03.c:1126 -> seg_0791_04.c:4  (equal; same text: yes) | // ---- 0791:4354  set_destination_from_post  (f_0791_4354; Ghidra 200
+findings/F026-what-each-team-tactic-changes-in-a-watched-match.md:60  seg_0791_03.c:1084 -> seg_0791_03.c:1178  (equal; same text: yes) | // ---- 0791:42CB  position_group  (f_0791_42CB; Ghidra 2000:42CB, __s
+findings/F026-what-each-team-tactic-changes-in-a-watched-match.md:61  seg_0791_04.c:333 -> seg_0791_04.c:417  (equal; same text: yes) | // ---- 0791:4B64  update_player_destination  (f_0791_4B64; Ghidra 200
+findings/F026-what-each-team-tactic-changes-in-a-watched-match.md:64  seg_0791_04.c:37 -> seg_0791_04.c:121  (equal; same text: yes) | // ---- 0791:4532  depth_step_attack  (f_0791_4532; Ghidra 2000:4532, 
+findings/F026-what-each-team-tactic-changes-in-a-watched-match.md:65  seg_0791_04.c:274 -> seg_0791_04.c:358  (equal; same text: yes) | // ---- 0791:4A28  update_marking_destination  (f_0791_4A28; Ghidra 20
+findings/F026-what-each-team-tactic-changes-in-a-watched-match.md:66  seg_0791_04.c:274 -> seg_0791_04.c:358  (equal; same text: yes) | // ---- 0791:4A28  update_marking_destination  (f_0791_4A28; Ghidra 20
+findings/F026-what-each-team-tactic-changes-in-a-watched-match.md:66  seg_0791_04.c:274 -> seg_0791_04.c:358  (equal; same text: yes) | // ---- 0791:4A28  update_marking_destination  (f_0791_4A28; Ghidra 20
+findings/F026-what-each-team-tactic-changes-in-a-watched-match.md:71  seg_0791_04.c:594 -> seg_0791_04.c:678  (equal; same text: yes) | // ---- 0791:5049  energy_chance_branch  (f_0791_5049; Ghidra 2000:504
+findings/F026-what-each-team-tactic-changes-in-a-watched-match.md:71  seg_0791_04.c:594 -> seg_0791_04.c:678  (equal; same text: yes) | // ---- 0791:5049  energy_chance_branch  (f_0791_5049; Ghidra 2000:504
+findings/F026-what-each-team-tactic-changes-in-a-watched-match.md:74  seg_0791_04.c:859 -> seg_0791_04.c:943  (equal; same text: yes) | // ---- 0791:5513  f_0791_5513  (f_0791_5513; Ghidra 2000:5513, __stdc
+findings/F026-what-each-team-tactic-changes-in-a-watched-match.md:74  seg_0791_04.c:451 -> seg_0791_04.c:535  (equal; same text: yes) | // ---- 0791:4DA9  challenger_would_foul  (f_0791_4DA9; Ghidra 2000:4D
+findings/F026-what-each-team-tactic-changes-in-a-watched-match.md:75  seg_0791_04.c:482 -> seg_0791_04.c:566  (equal; same text: yes) | // ---- 0791:4E28  holder_action_choice  (f_0791_4E28; Ghidra 2000:4E2
+findings/F026-what-each-team-tactic-changes-in-a-watched-match.md:81  seg_0791_04.c:192 -> seg_0791_04.c:276  (equal; same text: yes) | // ---- 0791:47C5  choose_marking_target  (f_0791_47C5; Ghidra 2000:47
+findings/F026-what-each-team-tactic-changes-in-a-watched-match.md:81  seg_0791_04.c:192 -> seg_0791_04.c:276  (equal; same text: yes) | // ---- 0791:47C5  choose_marking_target  (f_0791_47C5; Ghidra 2000:47
+findings/F028-formations-are-posts-by-position-code-and-out-of-position-costs-one-halving-flag.md:19  seg_0791_09.c:604 -> seg_0791_09.c:746  (equal; same text: yes) | int iVar2;
+findings/F028-formations-are-posts-by-position-code-and-out-of-position-costs-one-halving-flag.md:19  seg_0791_09.c:626 -> seg_0791_09.c:768  (equal; same text: yes) | else {
+findings/F028-formations-are-posts-by-position-code-and-out-of-position-costs-one-halving-flag.md:19  seg_0791_09.c:628 -> seg_0791_09.c:770  (equal; same text: yes) | }
+findings/F028-formations-are-posts-by-position-code-and-out-of-position-costs-one-halving-flag.md:111  seg_0791_05.c:4 -> seg_0791_05.c:158  (equal; same text: NO) | // ---- 0791:57AC  play_state_update  (f_0791_57AC; Ghidra 2000:57AC, 
+findings/F028-formations-are-posts-by-position-code-and-out-of-position-costs-one-halving-flag.md:128  seg_0791_04.c:291 -> seg_0791_04.c:408  (equal; same text: yes) | ((ppVar5[iVar1].position == 1 && (cVar2 = ball_ahead_of_by(iVar4,uVar6
+findings/F028-formations-are-posts-by-position-code-and-out-of-position-costs-one-halving-flag.md:128  seg_0791_05.c:27 -> seg_0791_05.c:181  (equal; same text: yes) | (((player *)players)[*(int *)(iVar2 + 0xd)].position != 1)))) ||
+findings/F028-formations-are-posts-by-position-code-and-out-of-position-costs-one-halving-flag.md:205  seg_0791_09.c:628 -> seg_0791_09.c:770  (equal; same text: yes) | }
+findings/F029-a-substitution-persists-the-squad-list-is-the-only-copy-and-nothing-restores-it-at-full-time-or-at-the-next-set-up.md:23  seg_0791_09.c:237 -> seg_0791_09.c:286  (equal; same text: yes) | u214b_swap_bytes(2,pcVar3[iVar1].squad + param_2 + -1,uVar5,
+findings/F029-a-substitution-persists-the-squad-list-is-the-only-copy-and-nothing-restores-it-at-full-time-or-at-the-next-set-up.md:23  seg_0791_10.c:538 -> seg_0791_10.c:584  (equal; same text: yes) | u214b_swap_bytes(2,(int)pcVar2 +
+findings/F029-a-substitution-persists-the-squad-list-is-the-only-copy-and-nothing-restores-it-at-full-time-or-at-the-next-set-up.md:23  seg_0791_02.c:296 -> seg_0791_02.c:366  (equal; same text: yes) | u214b_swap_bytes(2,((country *)countries)[((undefined2 *)&DS:9B34)[*(c
+findings/F029-a-substitution-persists-the-squad-list-is-the-only-copy-and-nothing-restores-it-at-full-time-or-at-the-next-set-up.md:23  seg_0791_01.c:724 -> seg_0791_01.c:726  (equal; same text: yes) | sys_move_025D(0xbf,(country *)countries + ((undefined2 *)&DS:9B34)[loc
+findings/F029-a-substitution-persists-the-squad-list-is-the-only-copy-and-nothing-restores-it-at-full-time-or-at-the-next-set-up.md:23  seg_0791_01.c:948 -> seg_0791_01.c:951  (equal; same text: yes) | sys_move_025D(0xbf,(country *)countries + ((undefined2 *)&DS:9B34)[loc
+findings/F029-a-substitution-persists-the-squad-list-is-the-only-copy-and-nothing-restores-it-at-full-time-or-at-the-next-set-up.md:23  seg_0791_01.c:1010 -> seg_0791_01.c:1014  (equal; same text: yes) | sys_move_025D(0xbf,local_3 * 0xbf + -0x73cc,0xb000,
+findings/F030-replay-save-goal-and-summary-prompts-wait-6-s-nominal-and-default-to-no-the-taker-prompt-10-s-and-keeps-its-pick-watch-this-match-never-times-out.md:60  seg_0791_01.c:887 -> seg_0791_01.c:889  (equal; same text: yes) | *(undefined1 *)(iVar6 + 0x41) = 1;
+spec/competitions.md:29  seg_1771_05.c:682 -> seg_1771_05.c:819  (equal; same text: yes) | // ---- 1771:76B1  run_stage  (f_1771_76B1; Ghidra 4000:76B1, __cdecl1
+spec/competitions.md:33  seg_0791_10.c:419 -> seg_0791_11.c:3  (equal; same text: NO) | 
+spec/competitions.md:33  seg_0791_10.c:470 -> seg_0791_11.c:54  (equal; same text: yes) | pcVar6 = (country *)countries;
+spec/competitions.md:33  seg_0791_08.c:1029 -> seg_0791_09.c:434  (approx; same text: NO) | // ---- 0791:B15F  f_0791_B15F  (f_0791_B15F; Ghidra 2000:B15F, __stdc
+spec/competitions.md:36  seg_0791_10.c:419 -> seg_0791_11.c:3  (equal; same text: NO) | 
+spec/competitions.md:38  seg_1771_05.c:142 -> seg_1771_05.c:251  (equal; same text: yes) | // ---- 1771:6730  stage_qualifying  (f_1771_6730; Ghidra 4000:6730, _
+spec/competitions.md:38  seg_1771_05.c:330 -> seg_1771_05.c:445  (equal; same text: yes) | if (local_4 == 4) break;
+spec/competitions.md:45  seg_000E_05.c:693 -> seg_000E_05.c:699  (equal; same text: yes) | // item 6's action when the last manager continues: sets [DS:A923]+1 =
+spec/competitions.md:48  seg_1771_05.c:934 -> seg_1771_06.c:65  (approx; same text: NO) | // ---- 1771:7BA2  f_1771_7BA2  (f_1771_7BA2; Ghidra 4000:7BA2, __stdc
+spec/competitions.md:48  seg_1771_05.c:1040 -> seg_1771_06.c:173  (equal; same text: yes) | 
+spec/competitions.md:49  seg_0791_10.c:419 -> seg_0791_11.c:3  (equal; same text: NO) | 
+spec/competitions.md:49  seg_1771_05.c:934 -> seg_1771_06.c:65  (approx; same text: NO) | // ---- 1771:7BA2  f_1771_7BA2  (f_1771_7BA2; Ghidra 4000:7BA2, __stdc
+spec/competitions.md:50  seg_1771_05.c:240 -> seg_1771_05.c:350  (equal; same text: yes) | while( true ) {
+spec/competitions.md:50  seg_1771_05.c:300 -> seg_1771_05.c:414  (approx; same text: NO) | f_1771_5E99(0);
+spec/countries.md:27  seg_0791_01.c:814 -> seg_0791_01.c:818  (equal; same text: yes) | // ---- 0791:1073  f_0791_1073  (f_0791_1073; Ghidra 2000:1073, __cdec
+spec/countries.md:27  seg_0791_01.c:835 -> seg_0791_01.c:839  (equal; same text: yes) | DS:832F = '\x01';
+spec/discipline.md:30  seg_0791_08.c:446 -> seg_0791_08.c:978  (approx; same text: NO) | DS:9A3D = *(char *)((int)param_1 + 2) != '\x01';
+spec/discipline.md:30  seg_0791_10.c:535 -> seg_0791_11.c:119  (equal; same text: yes) | // the quick-result engine, one call per tick while DS:9A3E is set, in
+spec/discipline.md:34  seg_0791_06.c:829 -> seg_0791_07.c:120  (equal; same text: NO) | // ---- 0791:7EEF  foul_dispatch  (f_0791_7EEF; Ghidra 2000:7EEF, __cd
+spec/discipline.md:34  seg_0791_06.c:880 -> seg_0791_07.c:171  (equal; same text: yes) | // saves the bottom line, shows screen DS:5B30 or (p2 set: keeper unav
+spec/discipline.md:36  seg_0791_06.c:546 -> seg_0791_06.c:1087  (equal; same text: yes) | // ---- 0791:798D  booking  (f_0791_798D; Ghidra 2000:798D, __stdcall1
+spec/discipline.md:37  seg_0791_06.c:651 -> seg_0791_06.c:1191  (equal; same text: yes) | // ---- 0791:7B77  send_off  (f_0791_7B77; Ghidra 2000:7B77, __stdcall
+spec/discipline.md:38  seg_0791_06.c:746 -> seg_0791_07.c:40  (equal; same text: NO) | // ---- 0791:7D56  injure  (f_0791_7D56; Ghidra 2000:7D56, __stdcall16
+spec/discipline.md:39  seg_0791_06.c:582 -> seg_0791_06.c:1121  (approx; same text: NO) | // ---- 0791:7A43  f_0791_7A43  (f_0791_7A43; Ghidra 2000:7A43, __stdc
+spec/discipline.md:39  seg_0791_06.c:630 -> seg_0791_06.c:1171  (equal; same text: yes) | 
+spec/discipline.md:41  seg_0791_08.c:1092 -> seg_0791_09.c:498  (approx; same text: NO) | // ---- 0791:B27F  f_0791_B27F  (f_0791_B27F; Ghidra 2000:B27F, __stdc
+spec/discipline.md:41  seg_0791_08.c:1123 -> seg_0791_09.c:530  (equal; same text: yes) | 
+spec/discipline.md:41  seg_0791_09.c:189 -> seg_0791_09.c:739  (equal; same text: yes) | // ---- 0791:B7FA  update_fixture_player_state  (f_0791_B7FA; Ghidra 2
+spec/discipline.md:41  seg_0791_09.c:330 -> seg_0791_09.c:880  (equal; same text: yes) | void __stdcall16far prepare_unplayed_match(undefined1 *param_1)
+spec/discipline.md:49  seg_0791_08.c:466 -> seg_0791_08.c:998  (approx; same text: NO) | ((undefined1 *)&DS:9B3A)[local_5] = *(undefined1 *)(DS:9A3D + 0x66b);
+spec/discipline.md:51  seg_0791_06.c:910 -> seg_0791_07.c:201  (equal; same text: NO) | // ---- 0791:8062  check_substitutions  (f_0791_8062; Ghidra 2000:8062
+spec/discipline.md:53  seg_0791_10.c:978 -> seg_0791_11.c:565  (approx; same text: NO) | // ---- 0791:E022  f_0791_E022  (f_0791_E022; Ghidra 2000:E022, __stdc
+spec/discipline.md:53  seg_0791_11.c:55 -> seg_0791_11.c:758  (equal; same text: NO) | if (DS:0C20 == '\0') {
+spec/discipline.md:53  seg_0791_11.c:120 -> seg_0791_11.c:823  (equal; same text: yes) | }
+spec/discipline.md:54  seg_0791_07.c:839 -> seg_0791_08.c:252  (equal; same text: yes) | // ---- 0791:970C  match_clock  (f_0791_970C; Ghidra 2000:970C, __stdc
+spec/discipline.md:54  seg_0791_07.c:875 -> seg_0791_08.c:288  (equal; same text: yes) | match_whistle(6);
+spec/discipline.md:54  seg_0791_06.c:571 -> seg_0791_06.c:1111  (approx; same text: NO) | if (DS:8321 < 5) {
+spec/discipline.md:54  seg_0791_06.c:677 -> seg_0791_06.c:1217  (approx; same text: NO) | if (DS:8321 < 5) {
+spec/discipline.md:54  seg_0791_06.c:774 -> seg_0791_07.c:67  (approx; same text: NO) | if (DS:8321 < 5) {
+spec/discipline.md:54  the citation would span ['seg_0791_06.c', 'seg_0791_07.c']: edit by hand
+spec/friendlies.md:19  seg_1771_05.c:934 -> seg_1771_06.c:65  (approx; same text: NO) | // ---- 1771:7BA2  f_1771_7BA2  (f_1771_7BA2; Ghidra 4000:7BA2, __stdc
+spec/friendlies.md:19  seg_1771_05.c:1040 -> seg_1771_06.c:173  (equal; same text: yes) | 
+spec/friendlies.md:19  seg_1771_05.c:1021 -> seg_1771_06.c:154  (approx; same text: NO) | if (*(char *)(iVar5 + -6) == '\x01') {
+spec/friendlies.md:19  seg_1771_05.c:1033 -> seg_1771_06.c:166  (equal; same text: yes) | *local_1a = 0xfe;
+spec/friendlies.md:20  seg_0791_08.c:446 -> seg_0791_08.c:978  (approx; same text: NO) | DS:9A3D = *(char *)((int)param_1 + 2) != '\x01';
+spec/friendlies.md:20  seg_0791_08.c:466 -> seg_0791_08.c:998  (approx; same text: NO) | ((undefined1 *)&DS:9B3A)[local_5] = *(undefined1 *)(DS:9A3D + 0x66b);
+spec/friendlies.md:21  seg_1771_05.c:240 -> seg_1771_05.c:350  (equal; same text: yes) | while( true ) {
+spec/friendlies.md:21  seg_1771_05.c:290 -> seg_1771_05.c:403  (equal; same text: NO) | undefined2 uVar6;
+spec/friendlies.md:22  seg_1771_05.c:874 -> seg_1771_05.c:1012  (equal; same text: yes) | 
+spec/friendlies.md:22  seg_1771_05.c:932 -> seg_1771_06.c:63  (equal; same text: yes) | 
+spec/friendlies.md:22  the citation would span ['seg_1771_05.c', 'seg_1771_06.c']: edit by hand
+spec/friendlies.md:25  seg_0791_09.c:189 -> seg_0791_09.c:739  (equal; same text: yes) | // ---- 0791:B7FA  update_fixture_player_state  (f_0791_B7FA; Ghidra 2
+spec/friendlies.md:25  seg_0791_09.c:230 -> seg_0791_09.c:780  (equal; same text: NO) | }
+spec/friendlies.md:27  seg_0791_10.c:717 -> seg_0791_11.c:301  (approx; same text: NO) | // ---- 0791:DB38  f_0791_DB38  (f_0791_DB38; Ghidra 2000:DB38, __stdc
+spec/friendlies.md:27  seg_0791_10.c:790 -> seg_0791_11.c:376  (equal; same text: yes) | if (extraout_AL_00 == '\0') {
+126 citations moved, 0 cited lines not in their old view, 3 to edit by hand

@@ -71,7 +71,7 @@ Gaps, cheapest first:
 | 1 | `EA09`/`3216` eligibility predicate as a rule | POOL-08 | 1 h read | Q008 |
 | 2 | Why `26B9` calls `97CC`; effect on "identical games" | POOL-12 | 1 h read | Q007 |
 | 3 | Substitution rule (`E022`, `C88D`) and its limits | POOL-15 | 1 h read | Q008/Q034 |
-| 4 | When a squad change is refused (`DBFA`, finals/tours) | POOL-13 | 1-2 h read + 1 h run | Q008 |
+| 4 | A run corroborating when a squad change is refused (`DBFA`, finals/tours; read in F031) | POOL-13 | 1 h run | Q008 |
 | 5 | Assistant selection rule | POOL-14 | 3-4 h read (hard) | Q008 |
 | 6 | 2..6 managers: second block, base table, pools | POOL-04/05 | 2 h run | Q007 |
 | 7 | Pool improvement over cycles | POOL-17 | 3 h run | Q014 |
@@ -406,13 +406,14 @@ manager-rating update). A competent bot needs: how to cancel a friendly, whether
 versus confidence), and the squad-lock rules on tours and in finals.
 
 Established: kind 1 for friendlies, the budget of 5, the absence of foul events in the quick result of a
-friendly (C-DISC-01), friendlies outside `DS:0F3E` (C-COMP-05, C-FRI-07).
+friendly (C-DISC-01), friendlies outside `DS:0F3E` (C-COMP-05, C-FRI-07), tours and the squad lock (C-FRI-01,
+C-FRI-10, C-FRI-11, F031; read, not run).
 
 Gaps, cheapest to fill first:
 1. Confirm the friendly counts per country at a new game (C-FRI-04, C-FRI-12): a savestate read, 2 h. Placeholder Q12.1-Q12.4 (no Qxxx yet).
 2. Cancel and rearrange in a run, with the refusal rule (C-FRI-02, C-FRI-05, C-FRI-06): run, 2-3 h. Q12.2 (no Qxxx).
 3. Grep checks for friendly exclusions (C-FRI-08, C-FRI-09): read, 1 h. Q014, Q017.
-4. Tours (C-FRI-10, C-FRI-11): read `DAF8`, `5A38`, stage 7/8: read, 4 h, Q008, Q12.3.
+4. A run corroborating the tours F031 read from the listing (C-FRI-10, C-FRI-11): the squad screen and an odd-position country's fixture list at stage 7: run, 2 h, Q008.
 5. A comparison of confidence and morale after a friendly vs a qualifier (C-FRI-07): run, 3 h. Q016, Q017.
 
 Conflicts between findings (not resolved): none specific to A12. F019 and F020 (friendly not established) against

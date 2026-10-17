@@ -1,0 +1,173 @@
+doc	cited lines	hash of the text with a neighbour each side	first and last line
+docs/play-guide.md	seg_214B_01.c:729	8707d5fb57a0d65e	void __cdecl16far u214b_read_key(void)
+experiments/E014-q013-ageing/notes.md	seg_000E_04.c:647-712	e9dbbf971f6c3e41	// ---- 000E:54F0  create_managed_replacement  (f_000E_54F0; ¦ 
+experiments/E014-q013-ageing/notes.md	seg_0791_09.c:578-617	2f0b77c135e6e6fd	ppVar1[param_2].scorer_count = ppVar1[param_2].scorer_count  ¦ if (*(uint *)(iVar2 + local_4 * 0x60 + local_6 * 0x10 + -100
+experiments/E014-q013-ageing/notes.md	seg_0791_09.c:950-974	fd00a7a908118bfd	// ---- 0791:BC5D  reset_team_tactics  (f_0791_BC5D; Ghidra  ¦ *(byte *)(param_1 * 0x14 + local_4 + -0x60fe), local_4 != 0x
+experiments/E014-q013-ageing/notes.md	seg_1771_03.c:131-137	66259406cb572b20	if ((ppVar2[param_1].age < ppVar2[param_1].peak_age) || ¦ iVar1 = (int)((uint)ppVar2[param_1].peak_age - (uint)ppVar2[
+experiments/E014-q013-ageing/notes.md	seg_1771_06.c:242	5cf5f75ec9336be7	(uVar3 = (&ppVar4->peak_age)[iVar2] + 5, uVar3 < (&ppVar4->a
+experiments/E014-q013-ageing/notes.md	seg_1771_07.c:175-179	9b17ef3528bacacf	ppVar4->rating = (cVar3 + 'u') - cVar2; ¦ ppVar4->rating = cVar2 + 0x7f;
+experiments/E017-q015-energy/notes.md	seg_0791_04.c:296-352	76b9701b1e04429a	cVar2 = ball_holder_is_side0(); ¦ (uint)*(byte *)((cVar2 == '\0') + 0x668)) * 2) = 0;
+experiments/E017-q015-energy/notes.md	seg_0791_04.c:379-396	8d118c57f507cc90	cVar2 = slot_is_on_ball_side(iVar4,uVar6); ¦ }
+experiments/E017-q015-energy/notes.md	seg_0791_08.c:985	89fefb54cfe8cff2	f_0791_A375((ball *)&ball_record,0xb000);
+experiments/E017-q015-energy/notes.md	seg_0791_09.c:877-915	d415f70f828397da	// ---- 0791:BB2F  prepare_unplayed_match  (f_0791_BB2F; Ghi ¦ }
+experiments/E017-q015-energy/notes.md	seg_0791_11.c:616-627	5630b726f8ef6e11	u214b_swap_bytes(2,local_a->squad + local_6 + -1,uStack_8,lo ¦ CONCAT11(extraout_AH,*(undefined1 *)(param_1 + -3)));
+experiments/E017-q015-energy/notes.md	seg_1771_02.c:231-255	3012e5ce8b73c7b7	uVar4 = (undefined2)((ulong)players >> 0x10); ¦ *(uint *)(iVar3 + -0x8e) = uVar1;
+experiments/E017-q015-energy/notes.md	seg_1771_06.c:173-308	d9042e0cd91171c6	 ¦ }
+experiments/E017-q015-energy/notes.md	seg_1771_06.c:606-624	13a853c0391eee7a	uVar2 = (undefined2)((ulong)DS:A93F >> 0x10); ¦ ,local_4 + 2,puVar3,uVar2);
+experiments/E018-q016-confidence/notes.md	seg_000E_05.c:397-409	62615821a924402d	uVar8 = (undefined2)((ulong)DS:A923 >> 0x10); ¦ f_0791_D050((byte *)fixtures + *(int *)(iVar6 + 0x26) * 8 + 
+experiments/E018-q016-confidence/notes.md	seg_000E_05.c:611-618	7570426c06d50e1f	uVar6 = (undefined2)((ulong)local_12 >> 0x10); ¦ run_match((byte *)fixtures + *(int *)((byte *)local_12 + 0x2
+experiments/E018-q016-confidence/notes.md	seg_000E_05.c:611-646	43bed677aee2d075	uVar6 = (undefined2)((ulong)local_12 >> 0x10); ¦ (int)((ulong)fixtures >> 0x10));
+experiments/E018-q016-confidence/notes.md	seg_000E_05.c:619-629	a1999ea19e91604d	if ((local_6 != '\0') && ¦ if (local_5 == '\x01') break;
+experiments/E018-q016-confidence/notes.md	seg_0791_02.c:614-624	88829a7d7381f847	uVar4 = (undefined2)((ulong)param_1 >> 0x10); ¦ }
+experiments/E018-q016-confidence/notes.md	seg_0791_05.c:906-908	555b30109517cfc9	adjust_player_form((pitch *)pitch_records + param_2,0xb000, ¦ (int)((char *)form_delta)[DS:7C39 == '\0']);
+experiments/E018-q016-confidence/notes.md	seg_0791_05.c:992-1007	0ad2b0aa8ed4fa6f	local_4 = 1; ¦ }
+experiments/E018-q016-confidence/notes.md	seg_0791_06.c:1221-1228	a47f8a6a2239d382	adjust_player_form(iVar5,uVar7,0xff01,0xfffe); ¦ adjust_player_form((pitch *)pitch_records + (uint)bVar1 + lo
+experiments/E018-q016-confidence/notes.md	seg_0791_07.c:20-35	d2b5600f7ac3ac14	uVar7 = (undefined2)((ulong)param_1 >> 0x10); ¦ }
+experiments/E018-q016-confidence/notes.md	seg_0791_07.c:66	2c20745ced31f835	adjust_player_form(iVar5,uVar7,0xff01,0xfffe);
+experiments/E018-q016-confidence/notes.md	seg_0791_09.c:541-549	fba0e8c41cb98a90	uVar1 = (undefined2)((ulong)players >> 0x10); ¦ ((player *)players)[param_2].morale = (byte)local_4;
+experiments/E018-q016-confidence/notes.md	seg_0791_09.c:647-667	79d2ec1d970c4739	uVar8 = (undefined2)((ulong)param_1 >> 0x10); ¦ }
+experiments/E018-q016-confidence/notes.md	seg_0791_09.c:655-663	ca9db532f3eacf94	for (local_8 = (uint)*(byte *)(iVar4 + local_3); local_8 !=  ¦ adjust_player_confidence(1,wVar3);
+experiments/E018-q016-confidence/notes.md	seg_0791_09.c:764-780	fb98d3b4a3a0553d	cVar4 = is_managed(*(undefined2 *)(iVar2 + 4)); ¦ }
+experiments/E018-q016-confidence/notes.md	seg_0791_09.c:769-829	65b88d1fadf5b540	bVar3 = true; ¦ if (local_9 == '\x01') break;
+experiments/E018-q016-confidence/notes.md	seg_0791_09.c:847-862	abdb0a26bc759b2e	word wVar6; ¦ wVar6 = ((word *)pool_indices)[local_4];
+experiments/E018-q016-confidence/notes.md	seg_0791_09.c:874	66f260463c8ebb24	}
+experiments/E018-q016-confidence/notes.md	seg_0791_09.c:890	7b4100f0b9eec640	int local_5;
+experiments/E018-q016-confidence/notes.md	seg_0791_10.c:658-679	85e0f01d4dcdefd6	// both match squads slots 1..20, nonzero player words: rest ¦ ppVar2[wVar1].morale = ((char *)match_form)[local_3 * 0x14 +
+experiments/E018-q016-confidence/notes.md	seg_0791_12.c:378-395	c7748b446f3517d8	local_3 = '\0'; ¦ }
+experiments/E018-q016-confidence/notes.md	seg_0791_12.c:420	a98449cca9360ad4	restore_match_player_state();
+experiments/E018-q016-confidence/notes.md	seg_0791_12.c:420-446	221b4f8c21619239	restore_match_player_state(); ¦ }
+experiments/E018-q016-confidence/notes.md	seg_1771_01.c:553-566	9d8d8778e2104bdc	iVar1 = param_3 * 3; ¦ 0x10 + 0x6eb4,0xb000);
+experiments/E018-q016-confidence/notes.md	seg_1771_01.c:1022-1044	230708b81ce1f7de	local_4 = 1; ¦ DS:9B5A = DS:9B5A / 0xb;
+experiments/E018-q016-confidence/notes.md	seg_1771_01.c:1055-1067	244db39dc9e57fa1	 ¦ (uint)*(byte *)((iVar1 + -1) / 8 + 0x7884) * 0x10 + 0x6eb4,0
+experiments/E018-q016-confidence/notes.md	seg_1771_02.c:73-84	1d45d7b3917f5371	u214b_write_string_at_fwd ¦ (uint)*(byte *)(DS:9B5A + 0x78a3) * 0x10 + 0x6eb4,0xb000);
+experiments/E018-q016-confidence/notes.md	seg_1771_02.c:73-88	bd6217984971878b	u214b_write_string_at_fwd ¦ u214b_fill_back_attr_70((uint)(DS:9B5A << 4) / 0x20,0x2e,0x1
+experiments/E018-q016-confidence/notes.md	seg_1771_03.c:329-346	30af61d5caeb9d43	uVar4 = (undefined2)((ulong)players >> 0x10); ¦ }
+experiments/E018-q016-confidence/notes.md	seg_1771_03.c:883-910	e8233561e723a9cd	uVar2 = player_hardness(param_1); ¦ (uint)*(byte *)(iVar3 + 30999) * 0x10 + 0x6eb4,0xb000);
+experiments/E018-q016-confidence/notes.md	seg_1771_03.c:902-913	8f877f4662c3f5cb	iVar3 = (int)(char)((player *)local_a)->morale; ¦ u214b_fill_back_attr_70(((char)((player *)local_a)->morale *
+experiments/E018-q016-confidence/notes.md	seg_1771_07.c:181-186	94f8c8c767eadee5	compute_ability(param_4); ¦ ppVar4->performance = 0x7fff;
+experiments/E019-q017-events-morale/notes.md	seg_0791_02.c:614-624	88829a7d7381f847	uVar4 = (undefined2)((ulong)param_1 >> 0x10); ¦ }
+experiments/E019-q017-events-morale/notes.md	seg_0791_05.c:906-908	555b30109517cfc9	adjust_player_form((pitch *)pitch_records + param_2,0xb000, ¦ (int)((char *)form_delta)[DS:7C39 == '\0']);
+experiments/E019-q017-events-morale/notes.md	seg_0791_05.c:992-1007	0ad2b0aa8ed4fa6f	local_4 = 1; ¦ }
+experiments/E019-q017-events-morale/notes.md	seg_0791_06.c:1087-1118	22b968dbad92cb3f	// ---- 0791:798D  booking  (f_0791_798D; Ghidra 2000:798D,  ¦ }
+experiments/E019-q017-events-morale/notes.md	seg_0791_07.c:120-167	cea806cc380c0cc9	// ---- 0791:7EEF  foul_dispatch  (f_0791_7EEF; Ghidra 2000: ¦ }
+experiments/E019-q017-events-morale/notes.md	seg_0791_09.c:540-548	a7fad9285662bc80	 ¦ }
+experiments/E019-q017-events-morale/notes.md	seg_0791_09.c:654-662	3ffc2633d79b1e18	pcVar7 = (country *)countries; ¦ }
+experiments/E019-q017-events-morale/notes.md	seg_0791_09.c:847-862	abdb0a26bc759b2e	word wVar6; ¦ wVar6 = ((word *)pool_indices)[local_4];
+experiments/E019-q017-events-morale/notes.md	seg_0791_09.c:890-922	32b8d5526f6e8074	int local_5; ¦ }
+experiments/E019-q017-events-morale/notes.md	seg_0791_10.c:658-679	85e0f01d4dcdefd6	// both match squads slots 1..20, nonzero player words: rest ¦ ppVar2[wVar1].morale = ((char *)match_form)[local_3 * 0x14 +
+experiments/E019-q017-events-morale/notes.md	seg_0791_12.c:378-395	c7748b446f3517d8	local_3 = '\0'; ¦ }
+experiments/E019-q017-events-morale/notes.md	seg_0791_12.c:420	a98449cca9360ad4	restore_match_player_state();
+experiments/E019-q017-events-morale/notes.md	seg_1771_02.c:7-110	af82374f7aba6e73	void draw_team_panel(int param_1) ¦ }
+experiments/E019-q017-events-morale/notes.md	seg_1771_02.c:72-88	35f0484dd3deb96f	team_panel_aggregate(param_1); ¦ u214b_fill_back_attr_70((uint)(DS:9B5A << 4) / 0x20,0x2e,0x1
+experiments/E019-q017-events-morale/notes.md	seg_1771_03.c:309-326	6eb02a98bd8e4b74	if (('\0' < (char)ppVar5[param_2].energy) || (cVar1 = u214b_ ¦ int local_6;
+experiments/E019-q017-events-morale/notes.md	seg_1771_03.c:882-893	2167e037641dd98e	(char *)s___goalkeeper_b000_69b5 + 1 + iVar3,0xb000); ¦ }
+experiments/E019-q017-events-morale/notes.md	seg_1771_07.c:181-186	94f8c8c767eadee5	compute_ability(param_4); ¦ ppVar4->performance = 0x7fff;
+experiments/E024-computer-managers/notes.md	seg_0791_11.c:626	5314186a3451a60c	refresh_pitch_slot(local_4,(uint)*(byte *)(*(char *)(param_1
+experiments/E025-sacking-and-end/notes.md	seg_000E_04.c:388	9b791ea8ee57763b	// ---- 000E:4E0E  post_match_news_and_sack  (f_000E_4E0E; G
+experiments/E025-sacking-and-end/notes.md	seg_1771_05.c:770-799	28386ba138730aed	if (cVar1 == '\x04') { ¦ if (local_4 == 2) break;
+findings/F018-energy-is-expended-in-matches-and-restored-from-fitness.md	seg_0791_04.c:296	7f9fc3b7caed44be	cVar2 = ball_holder_is_side0();
+findings/F018-energy-is-expended-in-matches-and-restored-from-fitness.md	seg_0791_11.c:626	5314186a3451a60c	refresh_pitch_slot(local_4,(uint)*(byte *)(*(char *)(param_1
+findings/F019-confidence-follows-result-relative-to-country-ranks.md	seg_000E_05.c:397	68ac64ce3fe1be6f	uVar8 = (undefined2)((ulong)DS:A923 >> 0x10);
+findings/F019-confidence-follows-result-relative-to-country-ranks.md	seg_000E_05.c:611	0198af1b8dad276a	uVar6 = (undefined2)((ulong)local_12 >> 0x10);
+findings/F019-confidence-follows-result-relative-to-country-ranks.md	seg_0791_05.c:906	50c64aac356ef108	adjust_player_form((pitch *)pitch_records + param_2,0xb000,
+findings/F019-confidence-follows-result-relative-to-country-ranks.md	seg_0791_05.c:992	cc49b5af54346275	local_4 = 1;
+findings/F019-confidence-follows-result-relative-to-country-ranks.md	seg_0791_07.c:20	57bccb0c42808bbc	uVar7 = (undefined2)((ulong)param_1 >> 0x10);
+findings/F019-confidence-follows-result-relative-to-country-ranks.md	seg_0791_09.c:130	30b64c2339c62faf	3 < local_e != (bool)cVar1)) {
+findings/F019-confidence-follows-result-relative-to-country-ranks.md	seg_0791_09.c:239	278895796bad9d7e	uVar9 = (undefined2)((ulong)players >> 0x10);
+findings/F019-confidence-follows-result-relative-to-country-ranks.md	seg_0791_09.c:364	1f6f0a0f5af58e35	undefined2 uVar8;
+findings/F019-confidence-follows-result-relative-to-country-ranks.md	seg_0791_09.c:369	f5aad9d73f03ad5e	pcVar6 = (country *)countries + *(int *)(param_1 + 6);
+findings/F019-confidence-follows-result-relative-to-country-ranks.md	seg_0791_09.c:444	cee227ff5db3e4c1	bVar2 = &stack0x0000 == (undefined1 *)0x8;
+findings/F019-confidence-follows-result-relative-to-country-ranks.md	seg_0791_09.c:487	b5744018a15ec7e0	if (local_5 == param_1) break;
+findings/F019-confidence-follows-result-relative-to-country-ranks.md	seg_0791_12.c:378	b03bacf895d0856c	local_3 = '\0';
+findings/F019-confidence-follows-result-relative-to-country-ranks.md	seg_0791_12.c:420	a98449cca9360ad4	restore_match_player_state();
+findings/F019-confidence-follows-result-relative-to-country-ranks.md	seg_1771_03.c:902	117793080b18b73f	iVar3 = (int)(char)((player *)local_a)->morale;
+findings/F020-events-change-confidence-and-team-morale-aggregates-it.md	seg_0791_09.c:138	dc7895d348b5f706	if (local_8 == local_14) break;
+findings/F023-the-stage-builders-write-the-competition-calendar-from-ranked-pots-and-a-points-sort-with-no-coin.md	seg_000E_05.c:4	5fbf0e576f5c6fe8	// ---- 000E:60CB  announce_stage_to_manager  (f_000E_60CB; 
+findings/F023-the-stage-builders-write-the-competition-calendar-from-ranked-pots-and-a-points-sort-with-no-coin.md	seg_000E_05.c:515	b0cefd93bc68da62	// ---- 000E:6CA7  route_fixture  (f_000E_6CA7; Ghidra 1000:
+findings/F025-sacking-and-end-of-the-game.md	seg_000E_01.c:104	eae3486e98989015	*(undefined1 *)((int)DS:A923 + param_1 + 0x47) = 1;
+findings/F025-sacking-and-end-of-the-game.md	seg_000E_01.c:147	933d37da74162ccb	u214b_unpack_screen_to_buffer((undefined4 *)&DS:A96E,0xb000,
+findings/F025-sacking-and-end-of-the-game.md	seg_000E_04.c:388	9b791ea8ee57763b	// ---- 000E:4E0E  post_match_news_and_sack  (f_000E_4E0E; G
+findings/F025-sacking-and-end-of-the-game.md	seg_000E_05.c:725	fc95d1692abe7717	((char *)s_phenomenal_b000_7094 + 5,0x4000,CONCAT11(extraout
+findings/F025-sacking-and-end-of-the-game.md	seg_000E_05.c:725-989	c263a281704a0842	((char *)s_phenomenal_b000_7094 + 5,0x4000,CONCAT11(extraout ¦ else if (DS:00B0 == 6) {
+findings/F025-sacking-and-end-of-the-game.md	seg_000E_05.c:941	00f00f8393fa47a0	uVar6 = (undefined2)((ulong)local_8 >> 0x10);
+findings/F025-sacking-and-end-of-the-game.md	seg_000E_05.c:989	9bc6100e9b0c2ad8	else if (DS:00B0 == 6) {
+findings/F025-sacking-and-end-of-the-game.md	seg_1771_05.c:770	b4c8a75016493a62	if (cVar1 == '\x04') {
+findings/F026-what-each-team-tactic-changes-in-a-watched-match.md	seg_0791_03.c:1178	d6dc28404370a71d	// ---- 0791:42CB  position_group  (f_0791_42CB; Ghidra 2000
+findings/F026-what-each-team-tactic-changes-in-a-watched-match.md	seg_0791_04.c:4	6fbb772ed311b688	// ---- 0791:4354  set_destination_from_post  (f_0791_4354; 
+findings/F026-what-each-team-tactic-changes-in-a-watched-match.md	seg_0791_04.c:121	863f33161fa1857d	// ---- 0791:4532  depth_step_attack  (f_0791_4532; Ghidra 2
+findings/F026-what-each-team-tactic-changes-in-a-watched-match.md	seg_0791_04.c:276	3e42646dad81eed7	// ---- 0791:47C5  choose_marking_target  (f_0791_47C5; Ghid
+findings/F026-what-each-team-tactic-changes-in-a-watched-match.md	seg_0791_04.c:358	da839dc20c6769a6	// ---- 0791:4A28  update_marking_destination  (f_0791_4A28;
+findings/F026-what-each-team-tactic-changes-in-a-watched-match.md	seg_0791_04.c:417	179f9430a1df4ae1	// ---- 0791:4B64  update_player_destination  (f_0791_4B64; 
+findings/F026-what-each-team-tactic-changes-in-a-watched-match.md	seg_0791_04.c:535	806ead146d22060a	// ---- 0791:4DA9  challenger_would_foul  (f_0791_4DA9; Ghid
+findings/F026-what-each-team-tactic-changes-in-a-watched-match.md	seg_0791_04.c:566	4b307b08d79de85f	// ---- 0791:4E28  holder_action_choice  (f_0791_4E28; Ghidr
+findings/F026-what-each-team-tactic-changes-in-a-watched-match.md	seg_0791_04.c:678	06b942de47600fa0	// ---- 0791:5049  energy_chance_branch  (f_0791_5049; Ghidr
+findings/F026-what-each-team-tactic-changes-in-a-watched-match.md	seg_0791_04.c:943	e2c6f34fdc1e7f92	// ---- 0791:5513  f_0791_5513  (f_0791_5513; Ghidra 2000:55
+findings/F026-what-each-team-tactic-changes-in-a-watched-match.md	seg_0791_05.c:103	8ebb19b78981d723	// ---- 0791:5729  chase_ball_gate  (f_0791_5729; Ghidra 200
+findings/F026-what-each-team-tactic-changes-in-a-watched-match.md	seg_0791_05.c:158	29a65789c75ccf39	// ---- 0791:57AC  play_state_update  (f_0791_57AC; Ghidra 2
+findings/F026-what-each-team-tactic-changes-in-a-watched-match.md	seg_0791_07.c:699	5523db070b57d399	// ---- 0791:8AE9  update_player  (f_0791_8AE9; Ghidra 2000:
+findings/F026-what-each-team-tactic-changes-in-a-watched-match.md	seg_1771_03.c:642	838c351073b0d52c	// ---- 1771:3E2F  pick_mark_target  (f_1771_3E2F; Ghidra 40
+findings/F026-what-each-team-tactic-changes-in-a-watched-match.md	seg_1771_03.c:687	ae6120a1bb37d7a1	// ---- 1771:3EF8  set_marking_words  (f_1771_3EF8; Ghidra 4
+findings/F028-formations-are-posts-by-position-code-and-out-of-position-costs-one-halving-flag.md	seg_0791_04.c:408	e3ba954a8be4c474	((ppVar5[iVar1].position == 1 && (cVar2 = ball_ahead_of_by(i
+findings/F028-formations-are-posts-by-position-code-and-out-of-position-costs-one-halving-flag.md	seg_0791_05.c:158	29a65789c75ccf39	// ---- 0791:57AC  play_state_update  (f_0791_57AC; Ghidra 2
+findings/F028-formations-are-posts-by-position-code-and-out-of-position-costs-one-halving-flag.md	seg_0791_05.c:181	49e91abaf8347131	(((player *)players)[*(int *)(iVar2 + 0xd)].position != 1)))
+findings/F028-formations-are-posts-by-position-code-and-out-of-position-costs-one-halving-flag.md	seg_0791_09.c:746	ed546e924f4585a0	int iVar2;
+findings/F028-formations-are-posts-by-position-code-and-out-of-position-costs-one-halving-flag.md	seg_0791_09.c:768	ef114d36022f94bb	else {
+findings/F028-formations-are-posts-by-position-code-and-out-of-position-costs-one-halving-flag.md	seg_0791_09.c:770	d58da010633d5547	}
+findings/F028-formations-are-posts-by-position-code-and-out-of-position-costs-one-halving-flag.md	seg_1771_02.c:68	e025683f696d41dd	formation_label(param_1);
+findings/F028-formations-are-posts-by-position-code-and-out-of-position-costs-one-halving-flag.md	seg_1771_03.c:642	838c351073b0d52c	// ---- 1771:3E2F  pick_mark_target  (f_1771_3E2F; Ghidra 40
+findings/F028-formations-are-posts-by-position-code-and-out-of-position-costs-one-halving-flag.md	seg_1771_03.c:715	feeeccbe7af55813	if (((player *)players)[pcVar5[iVar1].squad[1]].position == 
+findings/F028-formations-are-posts-by-position-code-and-out-of-position-costs-one-halving-flag.md	seg_1771_03.c:725	5f9f373171181efe	if (((ppVar6[wVar2].position == 1) ||
+findings/F029-a-substitution-persists-the-squad-list-is-the-only-copy-and-nothing-restores-it-at-full-time-or-at-the-next-set-up.md	seg_0791_01.c:726	63263c368e2a8eff	sys_move_025D(0xbf,(country *)countries + ((undefined2 *)&DS
+findings/F029-a-substitution-persists-the-squad-list-is-the-only-copy-and-nothing-restores-it-at-full-time-or-at-the-next-set-up.md	seg_0791_01.c:951	bf2785f913b37fd4	sys_move_025D(0xbf,(country *)countries + ((undefined2 *)&DS
+findings/F029-a-substitution-persists-the-squad-list-is-the-only-copy-and-nothing-restores-it-at-full-time-or-at-the-next-set-up.md	seg_0791_01.c:1014	b1448ee5e479fd30	sys_move_025D(0xbf,local_3 * 0xbf + -0x73cc,0xb000,
+findings/F029-a-substitution-persists-the-squad-list-is-the-only-copy-and-nothing-restores-it-at-full-time-or-at-the-next-set-up.md	seg_0791_02.c:366	d630a2043b518f10	u214b_swap_bytes(2,((country *)countries)[((undefined2 *)&DS
+findings/F029-a-substitution-persists-the-squad-list-is-the-only-copy-and-nothing-restores-it-at-full-time-or-at-the-next-set-up.md	seg_0791_09.c:286	ac04169877e9c9c7	u214b_swap_bytes(2,pcVar3[iVar1].squad + param_2 + -1,uVar5,
+findings/F029-a-substitution-persists-the-squad-list-is-the-only-copy-and-nothing-restores-it-at-full-time-or-at-the-next-set-up.md	seg_0791_10.c:584	5283f62ae87d5480	u214b_swap_bytes(2,(int)pcVar2 +
+findings/F029-a-substitution-persists-the-squad-list-is-the-only-copy-and-nothing-restores-it-at-full-time-or-at-the-next-set-up.md	seg_0791_11.c:430	ccc638ba28d41774	u214b_swap_bytes(2,(word *)pool_indices + local_4,(int)((ulo
+findings/F029-a-substitution-persists-the-squad-list-is-the-only-copy-and-nothing-restores-it-at-full-time-or-at-the-next-set-up.md	seg_0791_11.c:552	13084daa63bac2aa	u214b_swap_bytes(2,uVar7,uVar6);
+findings/F029-a-substitution-persists-the-squad-list-is-the-only-copy-and-nothing-restores-it-at-full-time-or-at-the-next-set-up.md	seg_0791_11.c:616	47c1062134c25c97	u214b_swap_bytes(2,local_a->squad + local_6 + -1,uStack_8,lo
+findings/F029-a-substitution-persists-the-squad-list-is-the-only-copy-and-nothing-restores-it-at-full-time-or-at-the-next-set-up.md	seg_1771_04.c:430	49d6b1b78da36e06	pcVar4[iVar2].squad[local_4 - 1] = pcVar4[iVar2].squad[local
+findings/F029-a-substitution-persists-the-squad-list-is-the-only-copy-and-nothing-restores-it-at-full-time-or-at-the-next-set-up.md	seg_1771_07.c:334	7ab916cfceaaac27	for (local_4 = 1; pcVar2[local_6].squad[local_4 + -1] = loca
+findings/F030-replay-save-goal-and-summary-prompts-wait-6-s-nominal-and-default-to-no-the-taker-prompt-10-s-and-keeps-its-pick-watch-this-match-never-times-out.md	seg_0791_01.c:889	9550a20eaed01c2b	*(undefined1 *)(iVar6 + 0x41) = 1;
+findings/F030-replay-save-goal-and-summary-prompts-wait-6-s-nominal-and-default-to-no-the-taker-prompt-10-s-and-keeps-its-pick-watch-this-match-never-times-out.md	seg_0791_08.c:32	f7a7ecaacd700dbc	// ---- 0791:9372  match_key_poll  (f_0791_9372; Ghidra 2000
+findings/F030-replay-save-goal-and-summary-prompts-wait-6-s-nominal-and-default-to-no-the-taker-prompt-10-s-and-keeps-its-pick-watch-this-match-never-times-out.md	seg_1771_01.c:159	a8a2b08e516ab931	f_1771_0232(&stack0xfffe,0x10e,(int)DS:A923,(int)((ulong)DS:
+findings/F030-replay-save-goal-and-summary-prompts-wait-6-s-nominal-and-default-to-no-the-taker-prompt-10-s-and-keeps-its-pick-watch-this-match-never-times-out.md	seg_1771_07.c:370	c57431f51f6a6613	*(undefined1 *)(iVar1 + 0x41) = 1;
+spec/competitions.md	seg_000E_05.c:699	cc512e49e4f3f2c6	// item 6's action when the last manager continues: sets [DS
+spec/competitions.md	seg_0791_09.c:434	2077767a84524f9f	// ---- 0791:B15F  result_needs_winner  (f_0791_B15F; Ghidra
+spec/competitions.md	seg_0791_11.c:3	856326ecce7f0eff	
+spec/competitions.md	seg_0791_11.c:3-54	ef0c9cdb0e05ee5b	 ¦ pcVar6 = (country *)countries;
+spec/competitions.md	seg_1771_04.c:683	2a08211f0c3a690d	// ---- 1771:580B  f_1771_580B  (f_1771_580B; Ghidra 4000:58
+spec/competitions.md	seg_1771_05.c:251-445	fecf9d2d6b89f924	// ---- 1771:6730  stage_qualifying  (f_1771_6730; Ghidra 40 ¦ if (local_4 == 4) break;
+spec/competitions.md	seg_1771_05.c:350-414	1d48b679047bbde1	while( true ) { ¦ set_manager_groups(0);
+spec/competitions.md	seg_1771_05.c:819	13d21439a4c2e9b7	// ---- 1771:76B1  run_stage  (f_1771_76B1; Ghidra 4000:76B1
+spec/competitions.md	seg_1771_06.c:65	ef7d536303f40209	// ---- 1771:7BA2  country_fixture_list  (f_1771_7BA2; Ghidr
+spec/competitions.md	seg_1771_06.c:65-173	e639c543e47d5108	// ---- 1771:7BA2  country_fixture_list  (f_1771_7BA2; Ghidr ¦ 
+spec/countries.md	seg_0791_01.c:818-839	02762f1f9b0789e5	// ---- 0791:1073  f_0791_1073  (f_0791_1073; Ghidra 2000:10 ¦ DS:832F = '\x01';
+spec/discipline.md	seg_0791_06.c:1087	2849cd09419ba355	// ---- 0791:798D  booking  (f_0791_798D; Ghidra 2000:798D, 
+spec/discipline.md	seg_0791_06.c:1110	4ac99ced4c2c714c	if (added_time < 5) {
+spec/discipline.md	seg_0791_06.c:1121-1171	1bcf8a363562a986	// ---- 0791:7A43  side_may_lose_a_player  (f_0791_7A43; Ghi ¦ 
+spec/discipline.md	seg_0791_06.c:1191	0377c20f398b2fe0	// ---- 0791:7B77  send_off  (f_0791_7B77; Ghidra 2000:7B77,
+spec/discipline.md	seg_0791_06.c:1217	a7ffbbb5a2cd00ac	if (added_time < 5) {
+spec/discipline.md	seg_0791_07.c:40	a3039878c7bc0f88	// ---- 0791:7D56  injure  (f_0791_7D56; Ghidra 2000:7D56, _
+spec/discipline.md	seg_0791_07.c:67	b460c85503dd6bd1	if (added_time < 5) {
+spec/discipline.md	seg_0791_07.c:120-171	df8928e5f699265b	// ---- 0791:7EEF  foul_dispatch  (f_0791_7EEF; Ghidra 2000: ¦ // saves the bottom line, shows screen DS:5B30 or (p2 set: k
+spec/discipline.md	seg_0791_07.c:201	a4306b7588afc277	// ---- 0791:8062  check_substitutions  (f_0791_8062; Ghidra
+spec/discipline.md	seg_0791_08.c:252-288	a34e57c9d1f42194	// ---- 0791:970C  match_clock  (f_0791_970C; Ghidra 2000:97 ¦ match_whistle(6);
+spec/discipline.md	seg_0791_08.c:978	3052779630225d71	fixture_not_friendly = *(char *)((int)param_1 + 2) != '\x01'
+spec/discipline.md	seg_0791_08.c:998	d7ccbf384124652d	((char *)substitutions_left)[local_5] = *(char *)((char)fixt
+spec/discipline.md	seg_0791_09.c:498-530	e4c3e9ed1074957b	// ---- 0791:B27F  post_fixture_status_update  (f_0791_B27F; ¦ 
+spec/discipline.md	seg_0791_09.c:739-880	54ac27ef714dc669	// ---- 0791:B7FA  update_fixture_player_state  (f_0791_B7FA ¦ void __stdcall16far prepare_unplayed_match(undefined1 *param
+spec/discipline.md	seg_0791_11.c:119	d761842046994d71	// the quick-result engine, one call per tick while DS:9A3E 
+spec/discipline.md	seg_0791_11.c:565	5804ddca639739d7	// ---- 0791:E022  swap_in_match_squad_players  (f_0791_E022
+spec/discipline.md	seg_0791_11.c:758-823	4f8b31131c0e97af	if (DS:0C20 == '\0') { ¦ }
+spec/discipline.md	seg_1771_04.c:798	8d2cb9e3bdc23fa4	// ---- 1771:5A8F  recovery_route_gradual  (f_1771_5A8F; Ghi
+spec/friendlies.md	seg_000E_04.c:994	dbc5df078783e26c	// ---- 000E:5DAF  news_tour_line  (f_000E_5DAF; Ghidra 1000
+spec/friendlies.md	seg_0791_08.c:978	3052779630225d71	fixture_not_friendly = *(char *)((int)param_1 + 2) != '\x01'
+spec/friendlies.md	seg_0791_08.c:998	d7ccbf384124652d	((char *)substitutions_left)[local_5] = *(char *)((char)fixt
+spec/friendlies.md	seg_0791_09.c:739-780	9001bb5e04c77c7c	// ---- 0791:B7FA  update_fixture_player_state  (f_0791_B7FA ¦ }
+spec/friendlies.md	seg_0791_11.c:301-376	b460887696095bf4	// ---- 0791:DB38  on_tour  (f_0791_DB38; Ghidra 2000:DB38,  ¦ if (extraout_AL_00 == '\0') {
+spec/friendlies.md	seg_1771_04.c:683	2a08211f0c3a690d	// ---- 1771:580B  f_1771_580B  (f_1771_580B; Ghidra 4000:58
+spec/friendlies.md	seg_1771_05.c:350-403	30a95ca85be9fd3e	while( true ) { ¦ undefined2 uVar6;
+spec/friendlies.md	seg_1771_06.c:3-63	32706614e7b64c7f	 ¦ 
+spec/friendlies.md	seg_1771_06.c:65-173	e639c543e47d5108	// ---- 1771:7BA2  country_fixture_list  (f_1771_7BA2; Ghidr ¦ 
+spec/friendlies.md	seg_1771_06.c:154-166	357261268e94d17f	if (pbVar5[wVar1 * 8 + -6] == 1) { ¦ *local_1a = 0xfe;

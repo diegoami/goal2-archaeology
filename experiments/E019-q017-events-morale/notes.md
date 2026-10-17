@@ -296,34 +296,34 @@ delta. No other direct writer exists in the named view.
 | Routine | Reads / writes | Listing lines |
 | --- | --- | --- |
 | `0791:7CC5` `adjust_player_form` | reads `player +0xC`; writes `clamp(s8(+0xC)+delta_high,1,255)`; flag non-zero also writes `min(32, s8(new)) & 0xFF` to `DS:9B07[side*20+slot]` | `code/seg_0791_13.asm:484..548` |
-| `0791:B364` `B364` (F019 result rule) | reads/writes signed `+0xC`, clamp [1, 32] | `code/seg_0791_18.asm:621..653`; `named/seg_0791_08.c:1118..1126` |
-| `0791:798D` `booking` | sets `player +0x10` bit 5, increments side booking count, calls `1771:33CD force_tactic4_off` on unmanaged teams. **Does NOT write `+0xC`.** | `code/seg_0791_13.asm:115..188`; `named/seg_0791_06.c:431..463` |
+| `0791:B364` `B364` (F019 result rule) | reads/writes signed `+0xC`, clamp [1, 32] | `code/seg_0791_18.asm:621..653`; `named/seg_0791_09.c:540..548` |
+| `0791:798D` `booking` | sets `player +0x10` bit 5, increments side booking count, calls `1771:33CD force_tactic4_off` on unmanaged teams. **Does NOT write `+0xC`.** | `code/seg_0791_13.asm:115..188`; `named/seg_0791_06.c:1087..1118` |
 | `0791:7B77` `send_off` | sets `+0x10` bit 6 and clears bit 5, walks the player off; calls `7CC5(pitch, 0xfffe, flag=1)` for the sent-off player (so `+0xC += -2`, clamp [1, 255], DS:9B07 written), then loops `7CC5(pitch, 2, flag=0)` over the OTHER side's available pitch slots | `code/seg_0791_13.asm:330..480` |
 | `0791:7D56` `injure` | sets `+0xE = 0`, walks the player off, calls `7CC5(pitch, 0xfffe, flag=1)` (so `+0xC += -2`, clamp [1, 255], DS:9B07 written), and on unmanaged sides calls `C88D substitute_player` to bring a bench player on. | `code/seg_0791_13.asm:551..672` |
-| `0791:7EEF` `foul_dispatch` | dispatches to `798D` (yellow card), `7B77` (sending-off) or `7D56` (injury). Does not write `+0xC` directly. Gated by a pre-shuffled 255-element draw table at `DS:0x8337` via `0791:261A` (R5). | `named/seg_0791_06.c:712..758`; `code/seg_0791_04.asm:696..714` |
+| `0791:7EEF` `foul_dispatch` | dispatches to `798D` (yellow card), `7B77` (sending-off) or `7D56` (injury). Does not write `+0xC` directly. Gated by a pre-shuffled 255-element draw table at `DS:0x8337` via `0791:261A` (R5). | `named/seg_0791_07.c:120..167`; `code/seg_0791_04.asm:696..714` |
 | `0791:6443` `record_goal` (scorer) | calls `7CC5(pitch, s8(DS:0x7920[side_of_credit]), flag=1)`: `+0xC += ±1`, clamp [1, 255], DS:9B07 written | `code/seg_0791_11.asm:177..191` |
 | `0791:65FE` `after_goal` (team reaction) | per available pitch slot calls `7CC5(pitch, s8(DS:0x7920[side_of_ball]), flag=0)`: `+0xC += ±1`, clamp [1, 255], DS:9B07 NOT written | `code/seg_0791_11.asm:380..429` |
 | `1771:13D0` `team_panel_aggregate` | reads `+0xC` of each available starter; sums `min(32, s8(+0xC))` (no lower clamp) into `DS:9B5A`; also writes `DS:9B5C..9B64` | `code/seg_1771_02.asm:1001..1126` |
 | `1771:157D` `draw_team_panel` | reads `DS:9B5A..9B64`; the only consumer of `DS:9B5A` in the listing | `named/seg_1771_02.c:7..110` |
-| `0791:278A` (F015) | reads signed `+0xC` for the skill blend | `named/seg_0791_02.c:539..549`; `code/seg_0791_04.asm, 27A2..27BC` |
-| `0791:CB7D` (F018 restore) | writes `+0xC` from saved `DS:9B07` | `code/seg_0791_20.asm:973..`; `named/seg_0791_10.c:62..83` |
-| `0791:F1F6` (run_match) | reads `+0xC` into saved `DS:9B07` | `code/seg_0791_23.asm:1035..`; `named/seg_0791_11.c:632..649` |
-| `1771:377E` (strength) | reads signed `+0xC` for player strength (special branch >=32) | `named/seg_1771_03.c:308..325` |
-| `1771:42BC` (description) | reads `+0xC` for description string and bar | `code/seg_1771_06.asm:1114..1142`; `named/seg_1771_03.c:881..892` |
-| `1771:96D3` (creation) | writes `draw(32)` at player creation | `named/seg_1771_06.c:1001..1006` |
+| `0791:278A` (F015) | reads signed `+0xC` for the skill blend | `named/seg_0791_02.c:614..624`; `code/seg_0791_04.asm, 27A2..27BC` |
+| `0791:CB7D` (F018 restore) | writes `+0xC` from saved `DS:9B07` | `code/seg_0791_20.asm:973..`; `named/seg_0791_10.c:658..679` |
+| `0791:F1F6` (run_match) | reads `+0xC` into saved `DS:9B07` | `code/seg_0791_23.asm:1035..`; `named/seg_0791_12.c:378..395` |
+| `1771:377E` (strength) | reads signed `+0xC` for player strength (special branch >=32) | `named/seg_1771_03.c:309..326` |
+| `1771:42BC` (description) | reads `+0xC` for description string and bar | `code/seg_1771_06.asm:1114..1142`; `named/seg_1771_03.c:882..893` |
+| `1771:96D3` (creation) | writes `draw(32)` at player creation | `named/seg_1771_07.c:181..186` |
 
 Callers of the direct writers (event-result rule chain):
 
-* `B364` callers: `B602` goal scorer (+1; `named/seg_0791_09.c:104..112`),
+* `B364` callers: `B602` goal scorer (+1; `named/seg_0791_09.c:654..662`),
   `B7FA` result/bench (`code/seg_0791_19.asm:137..187`), `BA4E`
-  managed pool (`named/seg_0791_09.c:297..312`), `BB2F` unplayed
-  fixture (`named/seg_0791_09.c:340..`).
-* `7CC5` callers: `6443` scorer with flag one (`named/seg_0791_05.c:543..545`);
-  `65FE` team-wide goal reaction with flag zero (`:628..643`);
+  managed pool (`named/seg_0791_09.c:847..862`), `BB2F` unplayed
+  fixture (`named/seg_0791_09.c:890..922`).
+* `7CC5` callers: `6443` scorer with flag one (`named/seg_0791_05.c:906..908`);
+  `65FE` team-wide goal reaction with flag zero (`:992..1007`);
   `7B77` head (flag 1) and tail (flag 0) for sending-off;
   `7D56` for injury (flag 1).
 * `CB7D` is called by `F1F6` after the summary
-  (`named/seg_0791_11.c:674`).
+  (`named/seg_0791_12.c:420`).
 * `96D3` is reached by creation and retirement/replacement (F007/F016);
   it is not a post-match result-relative update.
 

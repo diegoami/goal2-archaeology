@@ -42,15 +42,15 @@ unless its original-routine check is explicitly stated.
 
 - The help's result-relative player confidence is **player +0xC**, the byte
   already called morale/form. B7FA passes its result term to B364, whose
-  player store is +0xC (`static:static/goal-exe/named/seg_0791_09.c:227`;
-  `static:static/goal-exe/named/seg_0791_08.c:1111`). B364 adds a signed word to the signed
+  player store is +0xC (`static:static/goal-exe/named/seg_0791_09.c:369`;
+  `static:static/goal-exe/named/seg_0791_09.c:130`). B364 adds a signed word to the signed
   byte, with signed-word wrapping and a separate clamp to 1..32 on every
   call (`static:static/goal-exe/code/seg_0791_18.asm:621` onward). It is not team morale (Q017).
 
 - The suspected DS:6ED4..6FF4 words are descriptions in the Pascal string
   table rooted at 6EB4, with 16-byte strides, not expected-margin values
   (`static:static/goal-exe/strings.tsv:1195`). The player panel selects the morale string
-  using DS:78A3[min(+0xC,32)] (`static:static/goal-exe/named/seg_1771_03.c:881`). The notebook
+  using DS:78A3[min(+0xC,32)] (`static:static/goal-exe/named/seg_1771_03.c:902`). The notebook
   enumerates every reference to the table root and finds no writer in those
   routines; this is a listing sweep, not a guarantee against arbitrary memory
   corruption. No numerical expected-margin array is established there.
@@ -89,7 +89,7 @@ unless its original-routine check is explicitly stated.
   participants receive the result term. Participating bench then receives
   `draw(2) - draw(2)`; the first draw is subtracted. Unused bench receives
   `draw(2) - draw(4)` instead of the result term
-  (`static:static/goal-exe/named/seg_0791_09.c:222`; `static:static/goal-exe/code/seg_0791_19.asm:137`).
+  (`static:static/goal-exe/named/seg_0791_09.c:364`; `static:static/goal-exe/code/seg_0791_19.asm:137`).
   Each B364 call clips independently, so a substitute on 32 with positive
   result and a later -1 ends on 31, not 32. Literal boundary tests visit this
   edge. `participant_values` returns exact possible bytes or a singleton
@@ -98,24 +98,24 @@ unless its original-routine check is explicitly stated.
 ### Routes and other ordered writes
 
 - On the silent-result route, 000E:6970 calls D47E, B7FA, B602 and D050
-  in that order (`static:static/goal-exe/named/seg_000E_05.c:392`). B602 adds +1 per selected
-  scorer after result clipping (`static:static/goal-exe/named/seg_0791_09.c:97`).
+  in that order (`static:static/goal-exe/named/seg_000E_05.c:397`). B602 adds +1 per selected
+  scorer after result clipping (`static:static/goal-exe/named/seg_0791_09.c:239`).
   On the watched/managed route, F1F6 saves +0xC, plays, and restores through
-  CB7D before pool updates (`static:static/goal-exe/named/seg_0791_11.c:632, static:static/goal-exe/named/seg_0791_11.c:674`). BA4E
+  CB7D before pool updates (`static:static/goal-exe/named/seg_0791_12.c:378, static:static/goal-exe/named/seg_0791_12.c:420`). BA4E
   gives each managed-pool word independent `draw(4)-draw(4)`
-  (`static:static/goal-exe/named/seg_0791_09.c:302`), before the caller's B7FA result update
-  (`static:static/goal-exe/named/seg_000E_05.c:605`). Overlapping pool/squad words receive both.
+  (`static:static/goal-exe/named/seg_0791_09.c:444`), before the caller's B7FA result update
+  (`static:static/goal-exe/named/seg_000E_05.c:611`). Overlapping pool/squad words receive both.
 
 - Restoration does **not** imply every in-match change disappears. 7CC5
   clamps live signed +0xC plus delta to 1..255, and its nonzero flag writes
-  min(32,signed new live) to DS:9B07 (`static:static/goal-exe/named/seg_0791_06.c:610`).
+  min(32,signed new live) to DS:9B07 (`static:static/goal-exe/named/seg_0791_07.c:20`).
   The scorer call uses flag one; ordinary team-wide goal reactions use zero
-  (`static:static/goal-exe/named/seg_0791_05.c:543, static:static/goal-exe/named/seg_0791_05.c:628`). Therefore score and kickoff
+  (`static:static/goal-exe/named/seg_0791_05.c:906, static:static/goal-exe/named/seg_0791_05.c:992`). Therefore score and kickoff
   confidence alone do not determine a watched player's saved confidence:
   event order matters. `match_form` models the write given that order.
 
 - BB2F's unplayed branch applies `draw(2)-draw(4)`, never B71C
-  (`static:static/goal-exe/named/seg_0791_09.c:345`; router `static:static/goal-exe/named/seg_000E_05.c:605`).
+  (`static:static/goal-exe/named/seg_0791_09.c:487`; router `static:static/goal-exe/named/seg_000E_05.c:611`).
   This is the listing's unplayed route; a distinct abandoned-match confidence
   rule is **not established** by these lines. The result updater is shared
   by routed fixtures, with the explicit kind predicate above; arranging a
