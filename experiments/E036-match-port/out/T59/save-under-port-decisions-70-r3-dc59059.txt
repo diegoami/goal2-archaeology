@@ -1,2 +1,18 @@
 S/decisions-70 straight (ports pilot, restarts): score [1, 2] ticks 4204 draws fb4a3950b415...
 minute 20 pause: saved with no frame live; resumed: score [1, 2] ticks 4204 equal to the straight match
+minute 23 substitution: saved with no frame live; resumed: score [1, 2] ticks 4204 equal to the straight match
+minute 46 half_time: saved with no frame live; resumed: score [1, 2] ticks 4204 equal to the straight match
+minute 60 pause: saved with no frame live; resumed: score [1, 2] ticks 4204 equal to the straight match
+minute 62 substitution: save refused with MatchError (a port's frame is live (0791:6E11 waiting on its call of 0791:8062 (returning to 0791:6E23)): save at a later event, once the call has returned); frames live: ['0791:6E11 waiting on its call of 0791:8062 (returning to 0791:6E23)'] as expected
+minute 65 substitution: save refused with MatchError (a port's frame is live (0791:6E11 waiting on its call of 0791:8062 (returning to 0791:6E23)): save at a later event, once the call has returned); frames live: ['0791:6E11 waiting on its call of 0791:8062 (returning to 0791:6E23)'] as expected
+minute 65 substitution: save refused with MatchError (a port's frame is live (0791:6E11 waiting on its call of 0791:8062 (returning to 0791:6E23)): save at a later event, once the call has returned); frames live: ['0791:6E11 waiting on its call of 0791:8062 (returning to 0791:6E23)'] as expected
+minute 65 substitution: saved with no frame live; resumed: score [1, 2] ticks 4204 equal to the straight match
+minute 68 substitution: save refused with MatchError (a port's frame is live (0791:6E11 waiting on its call of 0791:8062 (returning to 0791:6E23)): save at a later event, once the call has returned); frames live: ['0791:6E11 waiting on its call of 0791:8062 (returning to 0791:6E23)'] as expected
+minute 74 substitution: saved with no frame live; resumed: score [1, 2] ticks 4204 equal to the straight match
+minute 74 substitution: saved with no frame live; resumed: score [1, 2] ticks 4204 equal to the straight match
+minute 76 substitution: save refused with MatchError (a port's frame is live (0791:6E11 waiting on its call of 0791:8062 (returning to 0791:6E23)): save at a later event, once the call has returned); frames live: ['0791:6E11 waiting on its call of 0791:8062 (returning to 0791:6E23)'] as expected
+minute 77 substitution: save refused with MatchError (a port's frame is live (0791:6E11 waiting on its call of 0791:8062 (returning to 0791:6E23)): save at a later event, once the call has returned); frames live: ['0791:6E11 waiting on its call of 0791:8062 (returning to 0791:6E23)'] as expected
+minute 77 substitution: save refused with MatchError (a port's frame is live (0791:6E11 waiting on its call of 0791:8062 (returning to 0791:6E23)): save at a later event, once the call has returned); frames live: ['0791:6E11 waiting on its call of 0791:8062 (returning to 0791:6E23)'] as expected
+minute 80 substitution: save refused with MatchError (a port's frame is live (0791:6E11 waiting on its call of 0791:8062 (returning to 0791:6E23)): save at a later event, once the call has returned); frames live: ['0791:6E11 waiting on its call of 0791:8062 (returning to 0791:6E23)'] as expected
+minute 81 substitution: save refused with MatchError (a port's frame is live (0791:6E11 waiting on its call of 0791:8062 (returning to 0791:6E23)): save at a later event, once the call has returned); frames live: ['0791:6E11 waiting on its call of 0791:8062 (returning to 0791:6E23)'] as expected
+all as expected
