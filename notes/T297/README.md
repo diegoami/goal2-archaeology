@@ -13,3 +13,8 @@ All measured on 2026-10-17; none is edited after it is committed.
   `tests/test_ci_gate.py` requires every one of them to oblige that module.
 - `replay-20261017.txt`: `python3 tools/ci_minutes.py --days 30 --replay-since 2026-10-12`, the "before" table
   again plus what the 66 PRs of the last six days would have billed under the obligations.
+- `after-20261017.txt`: the same command once the change is on this PR. The 30-day API totals cannot move
+  until the change is merged and new runs accumulate, so the comparison is `replay-20261017.txt` and the
+  measured runs.
+- `runs-20261017.md`: the real runs on PR 298 (and a throwaway PR 299) with the tier each chose, wall time
+  and billed minutes.
