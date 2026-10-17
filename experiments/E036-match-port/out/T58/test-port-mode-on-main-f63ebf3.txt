@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "/tmp/claude-1000/-home-diego-projects-goal2-archaeology/ac733e43-94e5-4285-9047-a49721066df1/scratchpad/main-f63ebf3/tests/test_port_mode.py", line 18, in <module>
+    from original_match import port  # noqa: E402
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ImportError: cannot import name 'port' from 'original_match' (/tmp/claude-1000/-home-diego-projects-goal2-archaeology/ac733e43-94e5-4285-9047-a49721066df1/scratchpad/main-f63ebf3/runtime/original_match/__init__.py)
