@@ -3,23 +3,33 @@ name: CI
 # CI minutes (the owner, 2026-10-12): no run on draft PRs; a new push cancels the run of the commit it
 # supersedes; a push that changes only measured outputs runs nothing; a push to main (the PR already
 # passed on its tree, or a task file, a lesson, a log committed there) runs only the quick checks.
+# CI minutes (the owner, 2026-10-17, issue #297): the `checks` job runs what the change obliges
+# (tools/ci_gate.py: nothing, docs, the fast tests, and each of five slow test modules only when
+# the PR touches what it reads), and a merge commit made by `gh pr merge --merge` does not run
+# `quick` on main again.  The whole suite still runs every night on main when code landed that day
+# and on a manual run.  docs/process.md "The loop".
 on:
   push:
     branches: [main]
     paths-ignore: ['**/*.log', 'experiments/**/out/**']
   pull_request:
     types: [opened, synchronize, reopened, ready_for_review]
+  schedule:
+    - cron: '23 2 * * *'
+  workflow_dispatch:
 
 concurrency:
-  group: ci-${{ github.event.pull_request.number || github.ref }}
+  group: ci-${{ github.event.pull_request.number || github.ref }}-${{ github.event_name }}
   cancel-in-progress: true
 
 permissions:
   contents: read
+  checks: read
 
 jobs:
+  # A research PR merged with a merge commit (CLAUDE.md rule 20) lands the tree its CI just checked.
   quick:
-    if: github.event_name == 'push'
+    if: "github.event_name == 'push' && !startsWith(github.event.head_commit.message, 'Merge pull request #')"
     runs-on: ubuntu-latest
     env:
       GH_TOKEN: ${{ github.token }}
@@ -32,68 +42,69 @@ jobs:
       - run: for f in findings/F*.md; do python3 tools/check_citations.py "$f"; done
       - run: "! git ls-files | grep -iE '\\.(exe|dat|hlp|hil|pif|bat)$'"
 
-  # On a PR, paths-ignore reads the whole PR's diff, so a push of logs alone to a PR that changes
-  # code would still run: this gate compares the push itself (before..after) and skips the checks
-  # when it touches only measured outputs. A first push, a reopen or ready_for_review always runs.
-  gate:
-    if: github.event_name == 'pull_request' && !github.event.pull_request.draft
+  # One job that reports a status for every PR that is not a draft (a skipped job must not block a
+  # merge), and for the nightly and manual runs.  The first step chooses the tier; the others run
+  # when the tier asks for them.  A green `checks` on a PR head means every obligation of the
+  # whole PR's diff has been met (tools/ci_gate.py explains why a docs-only push to a code PR may
+  # run less).
+  checks:
+    if: github.event_name != 'push' && (github.event_name != 'pull_request' || !github.event.pull_request.draft)
     runs-on: ubuntu-latest
-    outputs:
-      run: ${{ steps.diff.outputs.run }}
+    env:
+      GH_TOKEN: ${{ github.token }}
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - id: diff
-        env:
-          BEFORE: ${{ github.event.before }}
-          AFTER: ${{ github.event.pull_request.head.sha }}
-          ACTION: ${{ github.event.action }}
-        run: |
-          if [ "$ACTION" != synchronize ] || ! git cat-file -e "$BEFORE^{commit}" 2>/dev/null; then
-            echo run=true >> "$GITHUB_OUTPUT"; exit 0
-          fi
-          if git diff --name-only "$BEFORE" "$AFTER" | grep -vqE '(\.log$|^experiments/.*/out/)'; then
-            echo run=true >> "$GITHUB_OUTPUT"
-          else
-            echo "only measured outputs changed: no checks"; echo run=false >> "$GITHUB_OUTPUT"
-          fi
-
-  checks:
-    needs: gate
-    if: needs.gate.outputs.run == 'true'
-    runs-on: ubuntu-latest
-    env:
-      GH_TOKEN: ${{ github.token }}
-    steps:
-      - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - uses: actions/setup-node@v4
+      - id: gate
+        env:
+          EVENT: ${{ github.event_name }}
+          ACTION: ${{ github.event.action }}
+          BASE: ${{ github.event.pull_request.base.sha }}
+          HEAD: ${{ github.event.pull_request.head.sha }}
+          BEFORE: ${{ github.event.before }}
+          REPO: ${{ github.repository }}
+        run: python3 tools/ci_gate.py decide >> "$GITHUB_OUTPUT"
+      - if: steps.gate.outputs.code == 'true'
+        uses: actions/setup-node@v4
         with:
           node-version: 22
       # Relative Markdown links resolve and JSON files parse.
-      - run: python3 tools/check_links.py
+      - if: steps.gate.outputs.quick == 'true'
+        run: python3 tools/check_links.py
       # The copied harness tools run here (harness.lock pins them).
-      - run: node tools/harness/review.mjs --self-test
-      - run: node --test tools/harness/make-brief.test.mjs tools/harness/chain.test.mjs tests/harness_compat.test.mjs
+      - if: steps.gate.outputs.code == 'true'
+        run: node tools/harness/review.mjs --self-test
+      - if: steps.gate.outputs.code == 'true'
+        run: node --test tools/harness/make-brief.test.mjs tools/harness/chain.test.mjs tests/harness_compat.test.mjs
       # G2: the artifact is a release asset; the workflow's token fetches it (never committed).
       # goal2-67cf27d6 is the set the driver and new runs name (it declares the runtime writes,
       # F001); goal2-a949da2f stays fetched for tests/static, whose released-file tests read its
       # cache path. The files are identical (T11).
-      - run: python3 tools/fetch_artifact.py goal2-67cf27d6
-      - run: python3 tools/fetch_artifact.py goal2-a949da2f
+      - if: steps.gate.outputs.code == 'true'
+        run: python3 tools/fetch_artifact.py goal2-67cf27d6
+      - if: steps.gate.outputs.code == 'true'
+        run: python3 tools/fetch_artifact.py goal2-a949da2f
       # The static tools need capstone, and the released-file tests the artifact fetched above.
-      - run: pip install -r tools/static/requirements.txt
-      - run: python3 -m unittest discover -s tests/static -v
+      - if: steps.gate.outputs.code == 'true'
+        run: pip install -r tools/static/requirements.txt
+      - if: steps.gate.outputs.code == 'true'
+        run: python3 -m unittest discover -s tests/static -v
       # T34: the human-recorder tests need a nested X display stack (Xephyr inside Xvfb) and the
       # emulator; tests that require it skip themselves (skipUnless) when a tool is missing, so
       # the assertions still run wherever the stack is present.
-      - run: sudo apt-get update && sudo apt-get install -y xvfb xserver-xephyr xinput xdotool x11-utils ffmpeg dosbox-x
+      - if: steps.gate.outputs.code == 'true'
+        run: sudo apt-get update && sudo apt-get install -y xvfb xserver-xephyr xinput xdotool x11-utils ffmpeg dosbox-x
       # The record tools, their tests and fixtures (the fetched checker and artifact stay in .cache/).
-      - run: python3 -m unittest discover -s tests -v
+      # The five slow modules (tools/ci_gate.py SLOW) run only when the gate names them.
+      - if: steps.gate.outputs.code == 'true'
+        run: python3 tools/ci_gate.py run-tests --modules="${{ steps.gate.outputs.modules }}"
       # T37: every finding's citations resolve under the pinned checker (U25-U27).
-      - run: for f in findings/F*.md; do python3 tools/check_citations.py "$f"; done
+      - if: steps.gate.outputs.quick == 'true'
+        run: for f in findings/F*.md; do python3 tools/check_citations.py "$f"; done
       # No original file is ever in the tree (U17: they are release assets only).
-      - run: "! git ls-files | grep -iE '\\.(exe|dat|hlp|hil|pif|bat)$'"
+      - if: steps.gate.outputs.quick == 'true'
+        run: "! git ls-files | grep -iE '\\.(exe|dat|hlp|hil|pif|bat)$'"

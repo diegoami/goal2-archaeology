@@ -1,0 +1,40 @@
+runs created in the last 30 days: 1056
+  pull_request: 776  cancelled=27, failure=67, skipped=158, success=524
+  push: 280  cancelled=6, failure=4, success=270
+
+jobs that ran (skipped excluded): event / job: count, billed minutes, wall minutes, mean seconds
+  pull_request  checks   n=597 billed=2062 min wall=1743.3 min mean=  175s
+  pull_request  gate     n=153 billed= 153 min wall=  18.4 min mean=    7s
+  push          checks   n=201 billed= 551 min wall= 437.0 min mean=  130s
+  push          quick    n= 77 billed=  77 min wall=  46.6 min mean=   36s
+  TOTAL billed minutes: 2843
+
+PR branches with a run that did work: 128; such runs per branch (mean 4.8, max 40)
+
+billed minutes by day (jobs, minutes):
+  2026-10-03   19    19
+  2026-10-04   91    91
+  2026-10-05  100   169
+  2026-10-06   65   123
+  2026-10-07   43    78
+  2026-10-08   98   192
+  2026-10-09   33   117
+  2026-10-10    4    16
+  2026-10-11  139   692
+  2026-10-12   74   374
+  2026-10-13  104   272
+  2026-10-14   39    89
+  2026-10-15  107   280
+  2026-10-16   77   210
+  2026-10-17   35   121
+
+replay of the PR runs since 2026-10-12 under the obligations (PRs listed: 128):
+  tier    branches  billed-actual  billed-projected
+  docs         1             16                 2
+  fast        34            483               242
+  fast+1       8            208               103
+  fast+2      17            255               222
+  fast+3       2             70                58
+  full         4             87               112
+  none         1              6                 1
+  total       67           1125               740

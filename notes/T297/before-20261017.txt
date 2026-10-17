@@ -1,0 +1,29 @@
+runs created in the last 30 days: 1048
+  pull_request: 770  cancelled=27, failure=66, skipped=158, success=519
+  push: 278  cancelled=6, failure=3, success=269
+
+jobs that ran (skipped excluded): event / job: count, billed minutes, wall minutes, mean seconds
+  pull_request  checks   n=591 billed=2032 min wall=1716.1 min mean=  174s
+  pull_request  gate     n=153 billed= 153 min wall=  18.4 min mean=    7s
+  push          checks   n=201 billed= 551 min wall= 437.0 min mean=  130s
+  push          quick    n= 76 billed=  76 min wall=  46.0 min mean=   36s
+  TOTAL billed minutes: 2812
+
+PR branches with a run that did work: 126; such runs per branch (mean 4.8, max 40)
+
+billed minutes by day (jobs, minutes):
+  2026-10-03   19    19
+  2026-10-04   91    91
+  2026-10-05  100   169
+  2026-10-06   65   123
+  2026-10-07   43    78
+  2026-10-08   98   192
+  2026-10-09   33   117
+  2026-10-10    4    16
+  2026-10-11  139   692
+  2026-10-12   74   374
+  2026-10-13  104   272
+  2026-10-14   39    89
+  2026-10-15  107   280
+  2026-10-16   77   210
+  2026-10-17   28    90
