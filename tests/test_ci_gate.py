@@ -109,8 +109,23 @@ class Decide(unittest.TestCase):
         t, _ = G.decide({**ENV, **env}, fake_diff(whole, push), succeeded)
         return t, calls
 
-    def test_nightly_and_manual_runs_are_full(self):
+    def test_manual_runs_are_full(self):
         self.assertEqual(G.decide({"EVENT": "workflow_dispatch"})[0], G.FULL)
+
+    def test_the_nightly_run_is_full_only_when_code_landed_in_the_day(self):
+        class Out:
+            def __init__(self, text):
+                self.stdout = text
+        real = G.git
+        try:
+            G.git = lambda *a: Out("CLAUDE.md\ndocs/tasks/T9.md\n\nnotes/x.md\n")
+            self.assertEqual(G.decide({"EVENT": "schedule"})[0], G.NONE)
+            G.git = lambda *a: Out("CLAUDE.md\n\ntools/harness/review.mjs\n")
+            self.assertEqual(G.decide({"EVENT": "schedule"})[0], G.FULL)
+            G.git = lambda *a: Out("")
+            self.assertEqual(G.decide({"EVENT": "schedule"})[0], G.NONE)
+        finally:
+            G.git = real
 
     def test_a_new_pr_takes_the_tier_of_its_whole_diff(self):
         for action in ("opened", "reopened", "ready_for_review"):
