@@ -22,7 +22,8 @@
 // and acted on. One that may be cut off, has no readable verdict, opens and closes with different
 // verdicts, or has a finding after its closing verdict is posted whole, exactly as it arrived, under
 // a note, with no label: OpenCode's models do not always follow the brief, and the main session
-// reads such a review instead of paying for another. Closing keywords lose their '#'.
+// reads such a review instead of paying for another. So is one whose header differs from the
+// brief's only in punctuation, spacing or case (#258). Closing keywords lose their '#'.
 //
 // The review accounts for each Done-when line of the task file pasted in the brief (or --done-when
 // K): one "DW<k>:" line each, after the verdict (L32). An approve with a line missing, or one not
@@ -255,7 +256,7 @@ OUTPUT RULES (from tools/harness/review.mjs; they override anything above that c
       if (run.permissionRejected) {
         return { ok: false, reason: `permission rejected: ${run.permissionRejected}${run.permissionHint ? `; ${run.permissionHint}` : ''}`, detail: run.output };
       }
-      const read = readReview(run.stdout, header);
+      const read = readReview(run.stdout, header, { doneWhen });
       if (read.kind === 'none') return { ok: false, reason: read.reason, detail: run.output };
       return { ok: true, value: { ...read, header, model } };
 };

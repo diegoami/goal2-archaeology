@@ -59,11 +59,18 @@ const isFinding = (line) => {
  * - Otherwise the review is flagged, and posted whole, exactly as it arrived: no closing verdict
  *   ("may be cut off", IC2 #370), no readable verdict, opening and closing verdicts that differ, or
  *   a finding-like line after the closing verdict. The caller applies no label.
+ * - A header-like line (looseHeaderRe: the same letters and digits in order, other punctuation)
+ *   after the header makes the review ambiguous: flagged.
+ * - With no header line, a header that differs only in punctuation, spacing or case (#258) is
+ *   recovered: the review is read as above, and always flagged, its note naming the header found,
+ *   whatever the reader found (a second header-like line, a verdict problem, a cut-off, a finding
+ *   after the verdict) and, for an approve with opts.doneWhen, the Done-when accounting. A wrong
+ *   task, PR or commit is no header at all: kind 'none'.
  * Closing keywords lose their '#' in every case.
- * Returns { kind: 'ok', review, verdict, rewrites } | { kind: 'flagged', review, note, rewrites }
- *   | { kind: 'none', reason }.
+ * Returns { kind: 'ok', review, verdict, rewrites } | { kind: 'flagged', review, note, rewrites,
+ *   recovered? } | { kind: 'none', reason }.
  */
-export function readReview(stdout, header) {
+export function readReview(stdout, header, opts = {}) {
   const whole = String(stdout).trim();
   const lines = String(stdout).split(/\r?\n/);
   const headerRe = new RegExp(esc(header.trim()).replace(/\s+/g, '\\s+'), 'i');
@@ -110,19 +117,56 @@ export function readReview(stdout, header) {
     for (let j = close - 1; j > v && (!rest[j].trim() || verdictOf(rest[j]) === verdict); j--) if (rest[j].trim()) end = j;
     return normal(verdict, [...rest.slice(0, v), '', ...rest.slice(v + 1, end), ...after]);
   };
-  const readAt = (i) => {
+  const readAt = (i, re) => {
     const plain = undecorate(lines[i]);
-    const m = plain.match(headerRe);
+    const m = plain.match(re);
     const onLine = plain.slice(m.index + m[0].length).replace(/^[\s:.)\-–—]+/, '').trim();
     const following = lines.slice(i + 1);
     if (onLine && !following.some((l) => l.trim())) return readFlat(onLine);
     return readLines(onLine ? [onLine, ...following] : following);
   };
 
+  const looseRe = looseHeaderRe(header);
+  const loose = lines.map((l, i) => i).filter((i) => looseRe.test(undecorate(lines[i])));
   const last = lines.findLastIndex((l) => headerRe.test(undecorate(l)));
-  if (last < 0) return { kind: 'none', reason: 'no review in its output' };
-  const r = readAt(last);
-  return done(r.kind === 'ok' ? r : { ...r, review: whole });
+  if (last >= 0) {
+    // A header-like line after the header: two reviews, and which one counts is not ours to pick.
+    const later = loose.filter((i) => i > last);
+    if (later.length) return done({ kind: 'flagged', review: whole, note: `ambiguous: ${later.length} more header-like line(s) after the header` });
+    const r = readAt(last, headerRe);
+    return done(r.kind === 'ok' ? r : { ...r, review: whole });
+  }
+  if (!loose.length) return { kind: 'none', reason: 'no review in its output' };
+  // The header differs only in punctuation, spacing or case (#258: a brief's header ended in '.',
+  // the model's did not). The review is read as usual, but never acted on: it is posted whole,
+  // flagged, with what the reader found, for the main session to assess. Every protection of the
+  // strict path still speaks through the note.
+  const found = undecorate(lines[loose.at(-1)]);
+  const r = readAt(loose.at(-1), looseRe);
+  const notes = [`header differs from the brief's ("${header.trim()}"; found "${found}")`];
+  if (loose.length > 1) notes.push(`ambiguous: ${loose.length} header-like lines`);
+  if (r.kind !== 'ok') notes.push(r.note);
+  else {
+    notes.push(`otherwise readable: verdict ${r.verdict}`);
+    if (r.verdict === 'approve' && opts.doneWhen) {
+      const dw = accountDoneWhen(r.review, opts.doneWhen);
+      const bad = [dw.missing.length && `no DW line for ${dw.missing.join(', ')}`,
+        dw.repeated.length && `repeated DW line for ${dw.repeated.join(', ')}`,
+        dw.malformed.length && `malformed DW line for ${dw.malformed.join(', ')}`,
+        dw.notRun.length && `Done-when ${dw.notRun.join(', ')} not run`].filter(Boolean);
+      notes.push(bad.length ? bad.join('; ') : `all ${opts.doneWhen} Done-when lines accounted for`);
+    }
+  }
+  return done({ kind: 'flagged', review: whole, note: notes.join('; '), recovered: r.kind === 'ok' ? r.verdict : null });
+}
+
+// The header's identity, punctuation free: its letters-and-digits runs in order, case-insensitive,
+// each separated by at least one other character and bounded at both ends, so "PR #135" matches
+// "PR 135" but not "PR #1350", and a SHA matches only whole (#258).
+export function looseHeaderRe(header) {
+  const tokens = header.match(/[A-Za-z0-9]+/g) ?? [];
+  if (!tokens.length) return /$^/;
+  return new RegExp(`(?<![A-Za-z0-9])${tokens.map(esc).join('[^A-Za-z0-9]+')}(?![A-Za-z0-9])`, 'i');
 }
 
 // How many Done-when lines the task file in a brief has: the numbered lines under its
