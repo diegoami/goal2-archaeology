@@ -25,10 +25,38 @@ three falsifiers (a one-line mutation of a ported routine on a branch the famili
 changes or stops a match. A routine that stays non-exact after an hour of locating is accepted non-exact with its
 divergence recorded (the plan's one-hour rule); two such in one task go to the main session.
 
-The families (T57; T77 adds R): F40 (the reference fixture, Denmark v country 19 at calendar number 21 from E006-r0001: 20
-seeds as they are and the same 20 with declared edits), O8 (other country pairs), S (the kit's scenarios from E033 and E034:
-decisions at pauses and half time, an injury, sendings off, quick results, extra time, shoot-outs with sudden death, a
-qualifier), R (states that reach the frontier). ALL is their union.
+The families (T57; T76 adds a set-piece scenario to S, T77 adds R): F40 (the reference fixture, Denmark v country 19 at
+calendar number 21 from E006-r0001: 20 seeds as they are and the same 20 with declared edits), O8 (other country pairs),
+S (the kit's scenarios from E033 and E034: decisions at pauses and half time, an injury, sendings off, quick results,
+extra time, shoot-outs with sudden death, a qualifier), R (states that reach the frontier). ALL is their union; each
+family names its own reference (the unhooked kit), so a family added later brings its reference with it.
+
+## The commands (T57, T58 and T59 build them; the porting tasks use them as written here)
+
+- `python3 -B experiments/E036-match-port/family.py --family ALL [--ports M,...|all] [--variant M.NAME]
+  [--count SSSS:OOOO,...] [--engine kit|port] [--max N] [--workers 1|2] --out experiments/E036-match-port/out/T<nn>/<name>.jsonl`:
+  one record per match; resumable (a rerun with the same `--out` adds only the matches not yet in it, never rewrites one).
+- `python3 -B experiments/E036-match-port/compare.py --family ALL --candidate <file> [--expect differ] [--no-screen]`:
+  against each family's reference; exit 0 as expected, 1 not, 2 malformed or missing evidence (never a pass).
+- `python3 -B experiments/E036-match-port/locate.py --family ALL --candidate <file> --match <id>`: the first differing
+  minute, then the first differing call of a ported routine, proved side by side.
+
+## The rules every porting task follows
+
+1. Static first (rule 22): the named view `static/goal-exe/named/`, then `code/`; each constant cites its listing line
+   (rule 17).
+2. A port reads and writes only through the port's memory view (T58): a write that bypasses it loses an event or a draw
+   without an error. A ported routine that holds one of the kit's sites (`match.py`: key-read return addresses, the polls,
+   `F2E3`, `9B15`, `9D67`, `A1EF`, the table reads) fires it at the listing's point.
+3. Accepted when ALL is identical with the task's ports and again with every port on `main` (after rebasing), and three
+   falsifiers are caught, each on a branch the families reach (counted with `--count` first, L105); a branch no family
+   reaches gets a unit test on a synthetic memory view with the listing's values.
+4. The one-hour rule above; two non-exact routines in one task go to the main session.
+5. Annotation rows for each routine read (purpose; `established` when exact on ALL, else `likely`), `check_annotations.py`,
+   and `named/` regenerated last, after rebasing (two tasks at once touch the same rows file).
+6. Family runs are detached (their own systemd unit, L103), one process while another task runs, two in all; outputs go
+   under `out/T<nn>/`, never overwritten, pushed after each batch and every 30 minutes.
+7. The PR states the milestone number: the routines of the task's row ported and exact, and each one's calls per match.
 
 ## The sizes of the backlog (static, no run)
 
