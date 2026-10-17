@@ -1,0 +1,18 @@
+E
+======================================================================
+ERROR: test_port_guest (unittest.loader._FailedTest.test_port_guest)
+----------------------------------------------------------------------
+ImportError: Failed to import test module: test_port_guest
+Traceback (most recent call last):
+  File "/usr/lib/python3.14/unittest/loader.py", line 137, in loadTestsFromName
+    module = __import__(module_name)
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2df64d441ee220fe/.cache/tmp/main-tree/tests/test_port_guest.py", line 33, in <module>
+    from original_match.port.guest import call, PortFrame  # noqa: E402
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ModuleNotFoundError: No module named 'original_match.port.guest'
+
+
+----------------------------------------------------------------------
+Ran 1 test in 0.000s
+
+FAILED (errors=1)
