@@ -291,6 +291,9 @@ def load_family(path, policies=POLICIES):
         raise FamilyError(f"{path.name}: base holds {sorted(base) if isinstance(base, dict) else base!r}, not fields of {MATCH_FIELDS}")
     if not isinstance(sets, dict) or not all(isinstance(v, list) for v in sets.values()):
         raise FamilyError(f"{path.name}: edit_sets is not an object of lists")
+    for set_name, edits in sets.items():            # every edit of every set, used or not
+        for i, e in enumerate(edits):
+            check_edit(e, f"{path.name} edit_sets[{set_name!r}][{i}]")
     if not isinstance(doc["matches"], list) or not doc["matches"]:
         raise FamilyError(f"{path.name}: matches is not a non-empty list")
     matches, seen = [], set()

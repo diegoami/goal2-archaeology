@@ -192,6 +192,8 @@ class TheDirectory(unittest.TestCase):
             "an edit of country 0": with_base(edits=[{"target": "country", "country": 0, "offset": 1, "op": "set", "value": 1}]),
             "an edit value 256": with_base(edits=[{"target": "country", "country": 7, "offset": 1, "op": "set", "value": 256}]),
             "an edit with a spare key": with_base(edits=[{"target": "country", "country": 7, "offset": 1, "op": "set", "value": 1, "x": 1}]),
+            "a bad edit in an edit set no match uses": variant(edit_sets={"unused": [
+                {"target": "squad", "country": 19, "offset": 99, "op": "set", "value": 1}]}),
             "an unknown policy": with_base(policy={"name": "Nope", "contexts": ["half_time"]}),
             "a policy with an unknown parameter": with_base(policy={"name": "PlayOn", "contexts": ["half_time"], "speed": 1}),
             "a policy without contexts": with_base(policy={"name": "PlayOn"}),

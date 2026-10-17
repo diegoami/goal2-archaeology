@@ -64,6 +64,7 @@ MUTATIONS = [
     ("families.py", 'and 1 <= fixture[2] <= 0xFFFF and fixture[3] in KINDS):', 'and 1 <= fixture[2] <= 0xFFFF):', "a fixture kind the builders do not write"),
     ("families.py", 'if m.id in seen:', 'if False:', "an id twice in a family"),
     ("families.py", 'if clash:', 'if False:', "an id in two families"),
+    ("families.py", '            check_edit(e, f"{path.name} edit_sets[{set_name!r}][{i}]")', '            pass', "an edit in an unused edit set is checked"),
     # family.py
     ("family.py", 'strays.append(context)', 'pass', "a stray decision"),
     ("family.py", 'seen[address] += 1', 'seen[address] += 2', "each execution of a --count address is counted once"),
