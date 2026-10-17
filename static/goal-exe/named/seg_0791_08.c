@@ -988,7 +988,7 @@ void match_setup(undefined4 param_1)
   for (local_4 = 1; initialize_pitch_player((pitch *)pitch_records + local_4,0xb000,local_4),
       local_4 != 0x16; local_4 = local_4 + 1) {
   }
-  DS:0C1F = 0;
+  in_match_menu_used = 0;
   DS:8326 = 0;
   DS:9B41 = 1;
   local_5 = '\0';
@@ -1017,7 +1017,7 @@ void match_setup(undefined4 param_1)
   else {
     pitch_records[0].activity._1_1_ = 1;
   }
-  DS:0C1E = 1;
+  match_set_up = 1;
   u214b_fill_bytes(0,0x14,0x9978,0xb000);
   DS:9A3E = 0;
   DS:9A3F = 0;
@@ -1036,7 +1036,7 @@ void f_0791_A699(undefined4 param_1)
   undefined2 uVar1;
   
   uVar1 = (undefined2)((ulong)DS:7C1A >> 0x10);
-  if (DS:0C1F == '\0') {
+  if (in_match_menu_used == 0) {
     sys_move_025D(4000,(int)DS:7C1A,uVar1,(int)DS:7C1E,
                   (int)((ulong)DS:7C1E >> 0x10));
   }

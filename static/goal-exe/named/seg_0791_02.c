@@ -321,7 +321,7 @@ void __cdecl16near assign_marking_slots(void)
   local_3 = '\0';
   while( true ) {
     cVar3 = is_managed(((undefined2 *)&DS:9B34)[local_3]);
-    if ((cVar3 == '\0') || (DS:0C1F == '\0')) {
+    if ((cVar3 == '\0') || (in_match_menu_used == 0)) {
       if (cVar3 == '\0') {
         uVar4 = best_leader_available(local_3);
         *(undefined2 *)(local_3 * 10 + -0x6688) = uVar4;
@@ -330,7 +330,7 @@ void __cdecl16near assign_marking_slots(void)
           local_6 != 5; local_6 = local_6 + 1) {
       }
     }
-    else if (DS:0C1F != '\0') {
+    else if (in_match_menu_used != 0) {
       cVar3 = player_unavailable(*(undefined2 *)(local_3 * 10 + -0x6688));
       if ((cVar3 != '\0') || (uVar5 = f_0791_6B65(1,local_3), 0xb < uVar5)) {
         uVar4 = choose_captain_or_taker(1,local_3);

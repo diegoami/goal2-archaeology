@@ -110,7 +110,7 @@ void draw_team_panel(int param_1)
   }
   compute_team_line_strengths((uint)extraout_AH_07 << 8,CONCAT11(extraout_AH_07,1),param_1);
   f_1771_11E1(0xf);
-  if ((DS:0C1E != '\0') && (DS:0C1F != '\0')) {
+  if ((match_set_up != 0) && (in_match_menu_used != 0)) {
     f_1771_1289(DS:9B36 == param_1);
   }
   u214b_write_string_at_fwd_set_attr
@@ -190,7 +190,7 @@ void __stdcall16far edit_team_tactics(int param_1)
                 (&pcVar4[param_1].default_team_tactic_set,(int)uVar2,
                  *(undefined1 *)(DS:0D8E + 0x6bbf));
     }
-    if ((DS:0C1E != '\0') && (*(char *)(DS:0D8E + 0x6bbf) == '\b')) {
+    if ((match_set_up != 0) && (*(char *)(DS:0D8E + 0x6bbf) == '\b')) {
       set_marking_words();
     }
   } while (DS:A976 != '\x1b');

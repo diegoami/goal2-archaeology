@@ -59,7 +59,7 @@ undefined1 first_team_valid(int param_1)
                          ] + 1;
           }
         }
-        if ((DS:0C1F == '\0') &&
+        if ((in_match_menu_used == 0) &&
            (cVar1 = player_unavailable(((country *)_local_1d)->squad[local_14 + -1]), cVar1 != '\0')
            ) {
           local_19[local_15] = '\0';
@@ -214,7 +214,7 @@ void in_match_menu(char param_1)
                cVar2 * 4 + 0xac6,0xb000,CONCAT11(extraout_AH_00,7));
     uVar5 = 0x7000;
     u214b_menu_read_key_and_move(10,&local_9,unaff_SS);
-    if ((DS:A976 == '\x1b') && (DS:0C1F != '\0')) {
+    if ((DS:A976 == '\x1b') && (in_match_menu_used != 0)) {
       local_3 = '\x01';
     }
     else {
@@ -281,11 +281,11 @@ void in_match_menu(char param_1)
       }
     }
   } while ((local_3 == '\0') || (cVar2 = first_team_valid(&stack0xfffe), cVar2 == '\0'));
-  if (DS:0C1F != '\0') {
+  if (in_match_menu_used != 0) {
     sys_move_025D(4000,(int)DS:A96A,(int)((ulong)DS:A96A >> 0x10),(int)DS:A972,
                   (int)((ulong)DS:A972 >> 0x10));
   }
-  DS:0C1F = 1;
+  in_match_menu_used = 1;
   resort_pitch_and_bench();
   return;
 }
@@ -431,8 +431,8 @@ void __stdcall16far run_match(undefined4 param_1)
     if (local_3 == '\x01') break;
     local_3 = local_3 + '\x01';
   }
-  DS:0C1F = 0;
-  DS:0C1E = 0;
+  in_match_menu_used = 0;
+  match_set_up = 0;
   DS:0C20 = 0;
   f_0791_D050(iVar4,uVar6);
   local_3 = '\0';
