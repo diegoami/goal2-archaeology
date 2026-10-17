@@ -205,7 +205,7 @@ Q014's subject, not modelled here.
 `1771:7E80(player)` (seg_1771_11.asm:871-948, `7E80`-`7F3D`) replaces a retired
 computer-country player: `make_player(1, old +7, old +0, player)` (`7EA6-7EC0`) re-draws +5, +2
 (roll_peak_age), +3 = country rating + 0x7F (make_player's param_1 ≠ 0 branch,
-named/seg_1771_06.c:953-957), morale, tactics, fitness/energy, performance = 0x7FFF; then age
+named/seg_1771_06.c:954-958), morale, tactics, fitness/energy, performance = 0x7FFF; then age
 `+1 = DS:110C[gk] + rand(6) − rand(6)` (`DS:110C = 19 1C` = base 25/28; `7EC3-7EF9`),
 compute_ability (`7F01`), caps +8 = 0 (`7F09`), goals +0xA = 0 (`7F12`), status +0x10 = 0
 (`7F19`), a new name-initial byte at `[DS:9B70] + player` from `1771:0000` (`7F1E-7F2D`), and
