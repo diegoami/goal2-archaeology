@@ -14,6 +14,9 @@ sys.path.insert(0, str(ROOT / "runtime" / "driver"))
 
 import driver  # noqa: E402
 
+sys.path.insert(0, str(ROOT))
+from tests import netskip  # noqa: E402
+
 PREDECESSOR = "goal2-a949da2f"
 SUCCESSOR = "goal2-67cf27d6"
 SETS = {entry["manifest"]["id"]: entry
@@ -22,6 +25,7 @@ RELEASED = ROOT / ".cache" / "artifacts" / SUCCESSOR
 
 
 class KnownSetsTest(unittest.TestCase):
+    @netskip.needs_pinned_tools
     def test_the_pinned_tool_validates_both_sets(self):
         result = subprocess.run([sys.executable, "tools/register_artifact.py", "validate"],
                                 cwd=ROOT, capture_output=True, text=True)

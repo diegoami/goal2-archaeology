@@ -18,6 +18,7 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO_ROOT))
 
 from tools import ga  # noqa: E402
+from tests import netskip  # noqa: E402
 
 
 def run_register(*argv) -> subprocess.CompletedProcess:
@@ -32,6 +33,7 @@ def seed(directory: Path) -> None:
     (directory / "sub" / "two.bin").write_bytes(b"\x00\x01\x02")
 
 
+@netskip.needs_pinned_tools
 class RegisterArtifactTest(unittest.TestCase):
     def test_manifest_registers_a_directory_and_runtime_writes_leave_files(self):
         with tempfile.TemporaryDirectory() as tmp:
