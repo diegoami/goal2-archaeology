@@ -486,32 +486,32 @@ address	name	confidence	status	file	line	ghidra_address	found_in	note
 1771:76FA			decompiled	seg_1771_05.c	850	4000:76FA	routines.tsv	
 1771:77C3			decompiled	seg_1771_05.c	894	4000:77C3	routines.tsv	
 1771:7812			decompiled	seg_1771_05.c	911	4000:7812	routines.tsv	
-1771:78BA			decompiled	seg_1771_05.c	950	4000:78BA	routines.tsv	
-1771:793F			decompiled	seg_1771_05.c	977	4000:793F	routines.tsv	
-1771:7A9A			decompiled	seg_1771_06.c	4	4000:7A9A	routines.tsv	
-1771:7BA2	country_fixture_list	likely	decompiled	seg_1771_06.c	64	4000:7BA2	routines.tsv	
-1771:7E4A	advance_player_age	established	decompiled	seg_1771_06.c	173	4000:7E4A	routines.tsv	
-1771:7E80	recreate_retired_player	established	decompiled	seg_1771_06.c	190	4000:7E80	routines.tsv	
-1771:7F40	retirement_test	established	decompiled	seg_1771_06.c	223	4000:7F40	routines.tsv	
-1771:7FB1	age_one_player	established	decompiled	seg_1771_06.c	251	4000:7FB1	routines.tsv	
-1771:7FDF	age_country_squad	established	decompiled	seg_1771_06.c	268	4000:7FDF	routines.tsv	
-1771:80DA	yearly_ageing	established	decompiled	seg_1771_06.c	310	4000:80DA	routines.tsv	
-1771:8208	stage_end	established	decompiled	seg_1771_06.c	358	4000:8208	routines.tsv	
-1771:82BD	sort_group_table	established	decompiled	seg_1771_06.c	390	4000:82BD	routines.tsv	
-1771:85F7	decide_playoff_aggregates	established	decompiled	seg_1771_06.c	482	4000:85F7	routines.tsv	
-1771:8757	update_group_tables	established	decompiled	seg_1771_06.c	531	4000:8757	routines.tsv	
-1771:883F			decompiled	seg_1771_06.c	581	4000:883F	routines.tsv	
-1771:8939			decompiled	seg_1771_06.c	632	4000:8939	routines.tsv	
-1771:89C1			decompiled	seg_1771_06.c	663	4000:89C1	routines.tsv	
-1771:89FE			decompiled	seg_1771_06.c	678	4000:89FE	routines.tsv	
-1771:8A5D			decompiled	seg_1771_06.c	699	4000:8A5D	routines.tsv	
-1771:8A87			decompiled	seg_1771_06.c	713	4000:8A87	routines.tsv	
-1771:8CA2			decompiled	seg_1771_06.c	801	4000:8CA2	routines.tsv	
-1771:8CCF			decompiled	seg_1771_06.c	813	4000:8CCF	routines.tsv	
-1771:8D84			decompiled	seg_1771_06.c	848	4000:8D84	routines.tsv	
-1771:8E9A			decompiled	seg_1771_06.c	891	4000:8E9A	routines.tsv	
-1771:9028			decompiled	seg_1771_06.c	965	4000:9028	routines.tsv	
-1771:91CE			decompiled	seg_1771_06.c	1047	4000:91CE	routines.tsv	
+1771:78BA	remove_from_fixture_list	likely	decompiled	seg_1771_05.c	950	4000:78BA	routines.tsv	
+1771:793F	append_to_fixture_list	likely	decompiled	seg_1771_05.c	978	4000:793F	routines.tsv	
+1771:7A9A	rearrange_friendly	established	decompiled	seg_1771_06.c	4	4000:7A9A	routines.tsv	
+1771:7BA2	country_fixture_list	likely	decompiled	seg_1771_06.c	65	4000:7BA2	routines.tsv	
+1771:7E4A	advance_player_age	established	decompiled	seg_1771_06.c	174	4000:7E4A	routines.tsv	
+1771:7E80	recreate_retired_player	established	decompiled	seg_1771_06.c	191	4000:7E80	routines.tsv	
+1771:7F40	retirement_test	established	decompiled	seg_1771_06.c	224	4000:7F40	routines.tsv	
+1771:7FB1	age_one_player	established	decompiled	seg_1771_06.c	252	4000:7FB1	routines.tsv	
+1771:7FDF	age_country_squad	established	decompiled	seg_1771_06.c	269	4000:7FDF	routines.tsv	
+1771:80DA	yearly_ageing	established	decompiled	seg_1771_06.c	311	4000:80DA	routines.tsv	
+1771:8208	stage_end	established	decompiled	seg_1771_06.c	359	4000:8208	routines.tsv	
+1771:82BD	sort_group_table	established	decompiled	seg_1771_06.c	391	4000:82BD	routines.tsv	
+1771:85F7	decide_playoff_aggregates	established	decompiled	seg_1771_06.c	483	4000:85F7	routines.tsv	
+1771:8757	update_group_tables	established	decompiled	seg_1771_06.c	532	4000:8757	routines.tsv	
+1771:883F			decompiled	seg_1771_06.c	582	4000:883F	routines.tsv	
+1771:8939			decompiled	seg_1771_06.c	633	4000:8939	routines.tsv	
+1771:89C1			decompiled	seg_1771_06.c	664	4000:89C1	routines.tsv	
+1771:89FE			decompiled	seg_1771_06.c	679	4000:89FE	routines.tsv	
+1771:8A5D			decompiled	seg_1771_06.c	700	4000:8A5D	routines.tsv	
+1771:8A87			decompiled	seg_1771_06.c	714	4000:8A87	routines.tsv	
+1771:8CA2			decompiled	seg_1771_06.c	802	4000:8CA2	routines.tsv	
+1771:8CCF			decompiled	seg_1771_06.c	814	4000:8CCF	routines.tsv	
+1771:8D84			decompiled	seg_1771_06.c	849	4000:8D84	routines.tsv	
+1771:8E9A			decompiled	seg_1771_06.c	892	4000:8E9A	routines.tsv	
+1771:9028			decompiled	seg_1771_06.c	966	4000:9028	routines.tsv	
+1771:91CE			decompiled	seg_1771_06.c	1048	4000:91CE	routines.tsv	
 1771:937C			decompiled	seg_1771_07.c	4	4000:937C	routines.tsv	
 1771:9509			decompiled	seg_1771_07.c	60	4000:9509	routines.tsv	
 1771:958D			decompiled	seg_1771_07.c	83	4000:958D	routines.tsv	
