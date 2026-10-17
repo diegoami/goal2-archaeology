@@ -85,7 +85,9 @@ def prove(image, spec, ports, from_draw, time_limit, say):
         say(f"the proved re-run stopped without a proof's difference: {family.clean_error(e)}")   # call differed
         found = None
     say(f"proved re-run from draw {from_draw}: {time.time() - t0:.0f} s; calls: " + "; ".join(
-        f"{a} proved {s['proved']}" + (f", not proved {s['unproved']}" if s["unproved"] else "")
+        f"{a} proved {s['proved']}" + (f", inside another proved call {s['nested']}" if s["nested"] else "")
+        + (f", before the proof {s['before']}" if s["before"] else "")
+        + (f", declared dead registers differing {s['dead']}" if s["dead"] else "")
         + (f", scratch registers differing {s['scratch']}" if s["scratch"] else "")
         for a, s in m.prover.summary().items()))
     return found

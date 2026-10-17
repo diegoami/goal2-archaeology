@@ -88,11 +88,26 @@ PROGRAM = {0x0000: bytes([0xE8, 0x0D, 0x00, 0x90, 0x90]),
            0x0030: bytes([0x55, 0x89, 0xE5, 0xC6, 0x06, 0x00, 0x50, 0x07, 0x8A, 0x46, 0x04, 0xA2, 0x01, 0x50,
                           0xB8, 0x34, 0x12, 0xBA, 0x78, 0x56, 0x5D, 0xC2, 0x02, 0x00]),
            0x0050: bytes([0x55, 0x89, 0xE5, 0x8A, 0x46, 0x06, 0xA2, 0x03, 0x50, 0xB8, 0x21, 0x43, 0x5D, 0xCA, 0x02, 0x00]),
-           0x0070: bytes([0x55, 0x89, 0xE5, 0x8A, 0x46, 0x04, 0xA2, 0x03, 0x50, 0x5D, 0xC3])}
+           0x0070: bytes([0x55, 0x89, 0xE5, 0x8A, 0x46, 0x04, 0xA2, 0x03, 0x50, 0x5D, 0xC3]),
+           # 0100:0090  B0 11 C3        K: mov al, 0x11; ret          (a key read: the kit answers it in its place)
+           0x0090: bytes([0xB0, 0x11, 0xC3]),
+           # 0100:00A0  G2(arg): push bp; mov bp, sp; call K; mov [5001], al; mov ax, 0x1234; pop bp; ret 2
+           0x00A0: bytes([0x55, 0x89, 0xE5, 0xE8, 0xEA, 0xFF, 0xA2, 0x01, 0x50, 0xB8, 0x34, 0x12, 0x5D, 0xC2, 0x02, 0x00]),
+           # 0100:00C0  Q: P with G2 for G (push bp; mov bp, sp; mov ax, 5; push ax; call G2; mov [5002], al; ...)
+           0x00C0: bytes([0x55, 0x89, 0xE5, 0xB8, 0x05, 0x00, 0x50, 0xE8, 0xD6, 0xFF, 0xA2, 0x02, 0x50, 0x5D, 0xC3]),
+           # 0100:00E0  call Q; nop; nop                              (the second start)
+           0x00E0: bytes([0xE8, 0xDD, 0xFF, 0x90, 0x90]),
+           # 0100:0100  R: inc byte ptr [0x5000]; ret                 (its result depends on the memory it starts on)
+           0x0100: bytes([0xFE, 0x06, 0x00, 0x50, 0xC3]),
+           # 0100:0110  call R; nop; nop                              (the third start)
+           0x0110: bytes([0xE8, 0xED, 0xFF, 0x90, 0x90])}
 CODE = 0x0100
 END = CODE * 16 + 4
 P, G, G_RETURN, INSIDE_G = "0100:0010", "0100:0030", "0100:001A", "0100:0038"
-TARGET = 0x5000                        # DS:5000..5002
+Q, G2, G2_RETURN, K = "0100:00C0", "0100:00A0", "0100:00CA", "0100:0090"
+START_Q, END_Q = 0x00E0, CODE * 16 + 0xE4
+R, START_R, END_R = "0100:0100", 0x0110, CODE * 16 + 0x114
+TARGET = 0x5000                        # DS:5000..5004
 
 
 def faithful(mem, variant):
@@ -121,8 +136,10 @@ class Synthetic:
         self.target = m.DS * 16 + TARGET
         return m
 
+    entry_ip = 0
+
     def start(self, m):
-        for reg, v in (("cs", CODE), ("eip", 0), ("ss", 0x0800), ("sp", 0x0400), ("bp", 0x0123), ("ds", m.DS),
+        for reg, v in (("cs", CODE), ("eip", self.entry_ip), ("ss", 0x0800), ("sp", 0x0400), ("bp", 0x0123), ("ds", m.DS),
                        ("es", m.DS), ("ax", 0), ("dx", 0)):
             m.set_reg(reg, v)
 
@@ -130,14 +147,16 @@ class Synthetic:
         return (m.read(self.target, 3), {r: m.reg(r) for r in ("ax", "dx", "sp", "bp", "ip", "cs")},
                 m.read(0x8000 + 0x400 - 8, 8))                       # the stack below the start, written by P and G
 
-    def prove(self, fn=faithful, armed=lambda: True, address=P, ret="ret", kit_site=False):
+    def prove(self, fn=faithful, armed=lambda: True, address=P, ret="ret", kit_site=False, extra=()):
+        """A machine with P's port (or another's: address, ret) proved; kit_site: an observing kit hook inside G (its
+        calls in `hits`); extra: more (Registry) port modules, installed with it."""
         m = self.machine()
         writes = []
         m.watch(self.target, 3, lambda old, new: writes.append((old, new)))
         hits = []
         if kit_site:
             m.at(INSIDE_G, lambda replay: hits.append(replay))
-        inst = port.install(m, [(registry(fn, address, ret), None)])
+        inst = port.install(m, [(registry(fn, address, ret), None)] + [(r, None) for r in extra])
         prover = Prover(m, inst, armed=armed, where=lambda: "minute 7")
         return m, prover, writes, hits
 
@@ -286,7 +305,7 @@ class ProofTests(Synthetic, unittest.TestCase):
     def test_a_faithful_port_is_proved(self):
         m, prover, writes, _ = self.prove()
         self.assertIsNone(m.run(END, 5, fresh=True))
-        self.assertEqual(prover.summary(), {P: {"proved": 1, "unproved": {}, "scratch": {}}})
+        self.assertEqual(prover.summary(), {P: {"proved": 1, "nested": 0, "before": 0, "dead": {}, "scratch": {}}})
         self.assertEqual(m.read(self.target, 3), b"\x07\x05\x34")
         # the port's run only, on memory the original's run left as it was: the muted original reached no listener
         self.assertEqual(writes, [(b"\x00\x00\x00", b"\x07\x00\x00"), (b"\x07\x00\x00", b"\x07\x05\x00"),
@@ -315,26 +334,236 @@ class ProofTests(Synthetic, unittest.TestCase):
                                                 "the return: the original 0x1234, the port 0x1235$"):
             m.run(END, 5, fresh=True)
 
-    def test_a_procedures_ax_is_scratch(self):
-        def no_result(mem, variant):                # P's port that leaves AX as G left it, then clears it: a procedure
-            yield from faithful(mem, variant)
-            mem.set_reg("ax", 0)
-        m, prover, _, _ = self.prove(no_result)
-        self.assertIsNone(m.run(END, 5, fresh=True))
-        self.assertEqual(prover.summary()[P], {"proved": 1, "unproved": {}, "scratch": {"AX": 1}})
+    @staticmethod
+    def wrong_ax(mem, variant):
+        """G's port with G's writes, AX 0x1235 instead of 0x1234, and no value returned (review round 1, R1)."""
+        mem.wds8(TARGET, 7, "0100:0033")
+        mem.wds8(TARGET + 1, mem.arg(0), "0100:003B")
+        mem.set_reg("ax", 0x1235)
+        mem.set_reg("dx", 0x5678)
 
-    def test_a_call_whose_original_reaches_a_kit_site_gives_way(self):
+    def test_a_returned_register_is_compared_whatever_the_port_returns(self):
+        m, prover, _, _ = self.prove(self.wrong_ax, address=G, ret="ret 2")
+        with self.assertRaisesRegex(ProofError, f"^{G} \\(test\\), call #1 from {G_RETURN}, minute 7: register AX at "
+                                                "the return: the original 0x1234, the port 0x1235$"):
+            m.run(END, 5, fresh=True)
+
+    def test_a_dead_result_is_exempted_only_where_declared(self):
+        from original_match.port import prove
+        saved = dict(prove.RESULT_DEAD)
+        try:
+            prove.RESULT_DEAD[(G, "0100:00CA")] = (("AX",), "another return address: not this call's")
+            m, prover, _, _ = self.prove(self.wrong_ax, address=G, ret="ret 2")
+            with self.assertRaisesRegex(ProofError, "register AX at the return"):
+                m.run(END, 5, fresh=True)
+            prove.RESULT_DEAD[(G, G_RETURN)] = (("AX",), "a synthetic declaration for the test")
+            m, prover, _, _ = self.prove(self.wrong_ax, address=G, ret="ret 2")
+            self.assertIsNone(m.run(END, 5, fresh=True))
+            self.assertEqual(prover.summary()[G], {"proved": 1, "nested": 0, "before": 0, "dead": {"AX": 1},
+                                                   "scratch": {}})
+            # the match went on from the port's state (its AX), so P stored 0x35: the declaration was wrong here,
+            # which is why one needs the listing's evidence
+            self.assertEqual(m.read(self.target + 2, 1), b"\x35")
+        finally:
+            prove.RESULT_DEAD.clear()
+            prove.RESULT_DEAD.update(saved)
+
+    def test_the_pilots_exemption_is_declared_for_its_one_return_address(self):
+        from original_match.port import prove
+        self.assertEqual(sorted(prove.RESULT_DEAD), [("0791:8889", "0791:8BB7")])
+        registers, why = prove.RESULT_DEAD[("0791:8889", "0791:8BB7")]
+        self.assertEqual(registers, ("AX", "DX"))
+        self.assertIn("8BC1", why)
+        self.assertIn("liveness", why)
+
+    def test_a_call_crossing_a_kit_site_is_proved(self):
         m, prover, writes, hits = self.prove(kit_site=True)
         self.assertIsNone(m.run(END, 5, fresh=True))
-        self.assertEqual(prover.summary()[P], {"proved": 0, "unproved": {INSIDE_G: 1}, "scratch": {}})
-        self.assertEqual(hits, [False])             # once: the port's run, not the muted original's
+        self.assertEqual(prover.summary()[P]["proved"], 1)
+        self.assertEqual(hits, [False])             # once: the port's run; the original had it replayed
         self.assertEqual((m.read(self.target, 3), len(writes)), (b"\x07\x05\x34", 3))
+
+    def test_a_divergence_crossing_a_kit_site_is_named(self):
+        m, prover, _, hits = self.prove(off_by_one, kit_site=True)
+        with self.assertRaisesRegex(ProofError, "call #1 from 0100:0003, minute 7: written byte #2 differs: the "
+                                                "original wrote 0x34 .*, the port wrote 0x35"):
+            m.run(END, 5, fresh=True)
+
+    def decision_machine(self, fn):
+        m, prover, writes, _ = self.prove(fn)
+        visits = []
+
+        def decide(replay):            # the kit's notice: a decision the first time, answered on the replay
+            visits.append(replay)
+            if len(visits) == 1:
+                m.stop("decision")
+        m.at(INSIDE_G, decide)
+        return m, prover, visits
+
+    def test_a_call_crossing_a_decision_is_proved(self):
+        m, prover, visits = self.decision_machine(faithful)
+        self.assertEqual(m.run(END, 5, fresh=True), "decision")
+        self.assertIsNone(m.run(END, 5))
+        self.assertEqual((visits, prover.summary()[P]["proved"]), ([False, True], 1))
+        self.assertEqual(m.read(self.target, 3), b"\x07\x05\x34")
+
+    def test_a_divergence_crossing_a_decision_is_named(self):
+        m, prover, visits = self.decision_machine(off_by_one)
+        self.assertEqual(m.run(END, 5, fresh=True), "decision")
+        with self.assertRaisesRegex(ProofError, "call #1 from 0100:0003, minute 7: written byte #2 differs"):
+            m.run(END, 5)
+        self.assertEqual(visits, [False, True])     # the decision was asked once
+
+    def answering_machine(self, fn):
+        """Q (calling G2, which calls K) with Q's port proved, and the kit answering K as it answers a key read: its
+        own write (DS:5004) and its return with AL, in K's place."""
+        self.entry_ip = START_Q
+        m, prover, _, _ = self.prove(fn, address=Q)
+        answers = []
+
+        def answer(replay):
+            answers.append(replay)
+            m.wr(TARGET + 4, 0x99, 1)
+            m.set_reg("ax", 0x0077)
+            m.return_from(False, 0)
+        m.at(K, answer)
+        return m, prover, answers
+
+    @staticmethod
+    def q_port(flip=0):
+        def fn(mem, variant):
+            mem.enter(0, Q)
+            mem.set_reg("ax", 5)
+            ax = yield call(G2, 5, ret_to=G2_RETURN, far=False)
+            mem.wds8(TARGET + 2, (ax & 0xFF) ^ flip, G2_RETURN)
+        return fn
+
+    def test_the_kits_answer_is_replayed_to_the_original(self):
+        m, prover, answers = self.answering_machine(self.q_port())
+        self.assertIsNone(m.run(END_Q, 5, fresh=True))
+        self.assertEqual(prover.summary()[Q]["proved"], 1)
+        self.assertEqual(answers, [False])          # asked once
+        self.assertEqual(m.read(self.target, 5), b"\x00\x77\x34\x00\x99")
+
+    def test_a_divergence_after_the_kits_answer_is_named(self):
+        m, prover, answers = self.answering_machine(self.q_port(flip=1))
+        # bytes #0 and #1: the kit's DS:5004 (replayed to the original) and G2's DS:5001
+        with self.assertRaisesRegex(ProofError, f"^{Q} \\(test\\), call #1 from 0100:00E3, minute 7: written byte #2 "
+                                                "differs: the original wrote 0x34 .*\\(DS:5002\\), the port wrote 0x35"):
+            m.run(END_Q, 5, fresh=True)
+
+    def test_a_site_the_port_did_not_reach_is_named(self):
+        def no_call(mem, variant):                  # G's writes and registers made directly: G's kit site never reached
+            mem.enter(0, P)
+            mem.wds8(TARGET, 7, "0100:0033")
+            mem.wds8(TARGET + 1, 5, "0100:003B")
+            mem.wds8(TARGET + 2, 0x34, G_RETURN)
+            mem.set_reg("ax", 0x1234)
+            mem.set_reg("dx", 0x5678)
+        m, prover, _, _ = self.prove(no_call, kit_site=True)
+        with self.assertRaisesRegex(ProofError, f"the original reached the kit's site {INSIDE_G} \\(site #1\\), which "
+                                                "the port's run did not \\(0 sites\\)"):
+            m.run(END, 5, fresh=True)
+
+    def test_sites_in_another_order_are_named(self):
+        def site_first(mem, variant):
+            mem.site("0100:0060")
+            yield from faithful(mem, variant)
+        m, prover, _, _ = self.prove(site_first, kit_site=True)
+        m.at("0100:0060", lambda replay: None)
+        with self.assertRaisesRegex(ProofError, f"at the kit's site #1 the original reached {INSIDE_G}, the port's run "
+                                                "0100:0060"):
+            m.run(END, 5, fresh=True)
+
+    def test_a_kit_hook_at_the_entry_is_not_a_site_of_the_call(self):
+        m, prover, _, _ = self.prove()
+        entry = []
+        m.at(P, lambda replay: entry.append(replay))        # it ran before the call: the original starts past it
+        self.assertIsNone(m.run(END, 5, fresh=True))
+        self.assertEqual((entry, prover.summary()[P]["proved"]), ([False], 1))
+
+    def test_the_original_runs_on_the_entrys_memory(self):
+        def inc(mem, variant):                      # R's port: the same increment
+            mem.wds8(TARGET, mem.ds8(TARGET) + 1, "0100:0100")
+        self.entry_ip = START_R
+        m, prover, _, _ = self.prove(inc, address=R)
+        self.assertIsNone(m.run(END_R, 5, fresh=True))
+        self.assertEqual((m.read(self.target, 1), prover.summary()[R]["proved"]), (b"\x01", 1))
+
+    def test_a_site_the_original_did_not_reach_is_named(self):
+        def extra_site(mem, variant):
+            yield from faithful(mem, variant)
+            mem.site("0100:0060")
+        m, prover, _, _ = self.prove(extra_site)
+        m.at("0100:0060", lambda replay: None)
+        with self.assertRaisesRegex(ProofError, "the port's run reached the kit's site 0100:0060 \\(site #1\\), which "
+                                                "the original did not"):
+            m.run(END, 5, fresh=True)
+
+    def test_a_site_reached_with_another_stack_is_named(self):
+        def no_frame(mem, variant):                 # P without its push bp: G's frame two bytes higher than the original's
+            mem.set_reg("ax", 5)
+            ax = yield call(G, 5, ret_to=G_RETURN, far=False)
+            mem.wds8(TARGET + 2, ax & 0xFF, G_RETURN)
+        m, prover, _, _ = self.prove(no_frame, kit_site=True)
+        with self.assertRaisesRegex(ProofError, f"the original reached the kit's site {INSIDE_G} \\(#1\\) at "
+                                                "0100:0038 SS:SP 0800:03F6, the port's run at 0100:0038 SS:SP 0800:03F8"):
+            m.run(END, 5, fresh=True)
+
+    def test_a_nested_port_is_compared_as_part_of_its_caller(self):
+        nested = Registry("nested")
+
+        def g_port(mem, variant):
+            mem.wds8(TARGET, 7, "0100:0033")
+            mem.wds8(TARGET + 1, mem.arg(0), "0100:003B")
+            mem.set_reg("dx", 0x5678)
+            return 0x1234
+        nested.port(G, ret="ret 2")(g_port)
+        m, prover, _, _ = self.prove(extra=(nested,))
+        self.assertIsNone(m.run(END, 5, fresh=True))
+        s = prover.summary()
+        self.assertEqual((s[P]["proved"], s[G]["proved"], s[G]["nested"]), (1, 0, 1))
+        nested2 = Registry("nested")
+        nested2.port(G, ret="ret 2")(lambda mem, variant: (g_port(mem, variant), mem.wds8(TARGET + 1, 6, "0100:003B"),
+                                                           0x1234)[-1])
+        m, prover, _, _ = self.prove(extra=(nested2,))
+        with self.assertRaisesRegex(ProofError, f"^{P} \\(test\\), call #1 .*: written byte #2 differs: the original "
+                                                "wrote 0x34 .*, the port wrote 0x06 .*\\(DS:5001\\)"):
+            m.run(END, 5, fresh=True)
+
+    def test_a_kit_write_outside_its_sites_is_refused(self):
+        m, prover, _, _ = self.prove()
+        m.watch(self.target + 1, 1, lambda old, new: m.write(m.DS * 16 + 0x5010, b"\x01"))
+        with self.assertRaisesRegex(port.PortError, "outside a site of its own during a proved call"):
+            m.run(END, 5, fresh=True)
+
+    def test_a_ports_own_key_read_is_refused_under_a_proof(self):
+        from original_match.match import _PortKeys
+
+        class Busy:
+            def in_port_run(self):
+                return True
+
+        class FakeMatch:
+            prover = Busy()
+        with self.assertRaisesRegex(port.PortError, "cannot be proved yet"):
+            _PortKeys(FakeMatch()).key("0791:041A")
+        with self.assertRaisesRegex(port.PortError, "cannot be proved yet"):
+            _PortKeys(FakeMatch()).keypressed("0791:93C2")
 
     def test_a_proof_not_armed_runs_the_port(self):
         m, prover, writes, _ = self.prove(armed=lambda: False)
         self.assertIsNone(m.run(END, 5, fresh=True))
-        self.assertEqual(prover.summary()[P]["proved"], 0)
+        self.assertEqual((prover.summary()[P]["proved"], prover.summary()[P]["before"]), (0, 1))
         self.assertEqual((m.read(self.target, 3), len(writes)), (b"\x07\x05\x34", 3))
+
+
+def off_by_one(mem, variant):
+    """P's port writing [5002] one off."""
+    mem.enter(0, P)
+    mem.set_reg("ax", 5)
+    ax = yield call(G, 5, ret_to=G_RETURN, far=False)
+    mem.wds8(TARGET + 2, (ax & 0xFF) ^ 1, G_RETURN)
 
 
 def rows(*digests):

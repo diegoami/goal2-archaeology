@@ -60,6 +60,10 @@ class Machine:
         # muted_hook(linear) instead.
         self.muted = False
         self.muted_hook = None
+        # ... and while a proved call's port runs, the kit's sites it reaches (site_enter, site_leave around the
+        # handlers) and the kit's own writes (write_tap(linear, data), before they land) are told to the proof.
+        self.site_tap = None
+        self.write_tap = None
         self.uc.hook_add(UC_HOOK_INTR, lambda uc, intno, data: None)
 
     # -- addresses ---------------------------------------------------------------------------------
@@ -79,6 +83,9 @@ class Machine:
         return bytes(self.uc.mem_read(linear, n))
 
     def write(self, linear, data):
+        """The kit's write of guest memory (a proof records it: write_tap)."""
+        if self.write_tap is not None:
+            self.write_tap(linear, bytes(data))
         self.uc.mem_write(linear, bytes(data))
 
     def word_at(self, linear):
@@ -89,7 +96,7 @@ class Machine:
         return int.from_bytes(self.uc.mem_read(self.DS * 16 + off, n), "little")
 
     def wr(self, off, value, n=2):
-        self.uc.mem_write(self.DS * 16 + off, int(value).to_bytes(n, "little"))
+        self.write(self.DS * 16 + off, int(value).to_bytes(n, "little"))
 
     def far(self, off):
         """The linear address a far pointer at DS:off holds."""
@@ -158,22 +165,33 @@ class Machine:
                         self.muted_hook(lin)
                         if self.muted or self.pc() != lin:
                             return              # still the original, or the port it gave way to went elsewhere
-                    for h in list(self._handlers[lin]):
+                    handlers = list(self._handlers[lin])
+                    tap = self.site_tap if any(h is not NOOP for h in handlers) else None
+                    if tap is not None:
+                        tap.site_enter(lin, replay)
+                    stopped = False
+                    for h in handlers:
                         h(replay)
                         if self.stop_reason is not None or self.error is not None:
+                            stopped = True
                             break
-                    else:                       # a port runs after the kit's handlers, only when none stopped: it
-                        runner = self._ports.get(lin)      # never ran before a replay, and once it ran CS:IP is
-                        frame = self.frames[-1] if self.frames else None    # its caller's, so it never runs twice;
-                        if runner is not None:             # so does a port frame's return (port/guest.py)
-                            runner(self)
-                        elif frame is not None and frame.ret_lin == lin and frame.returned(self):
-                            self.frames.pop()
-                            frame.resume(self)
-                        else:
-                            return
-                        if self.stop_reason is not None:   # a site inside the port stopped: the run resumes where
-                            self.no_replay_at = self.pc()  # the port went (its return, a call), where no hook fired yet
+                    if tap is not None:
+                        tap.site_leave(lin, stopped)
+                    if stopped:
+                        return
+                    # a port runs after the kit's handlers, only when none stopped: it never ran before a replay,
+                    # and once it ran CS:IP is its caller's, so it never runs twice; so does a port frame's return
+                    runner = self._ports.get(lin)
+                    frame = self.frames[-1] if self.frames else None
+                    if runner is not None:
+                        runner(self)
+                    elif frame is not None and frame.ret_lin == lin and frame.returned(self):
+                        self.frames.pop()
+                        frame.resume(self)
+                    else:
+                        return
+                    if self.stop_reason is not None:   # a site inside the port stopped: the run resumes where
+                        self.no_replay_at = self.pc()  # the port went (its return, a call), where no hook fired yet
                 except Exception as e:          # stop the emulation; run() re-raises it
                     self.error = e
                     uc.emu_stop()
@@ -233,14 +251,20 @@ class Machine:
         reaching it would (replay False, pc() = the address). A stop they make takes effect at the port's return."""
         lin = self.lin(address)
         saved, self._pc_override = self._pc_override, lin
+        handlers = list(self._handlers.get(lin, ()))
+        tap = self.site_tap if any(h is not NOOP for h in handlers) else None
+        if tap is not None:
+            tap.site_enter(lin, False, fired=True)
         try:
-            for h in list(self._handlers.get(lin, ())):
+            for h in handlers:
                 h(False)
                 if self.error is not None:
                     err, self.error = self.error, None
                     raise err
         finally:
             self._pc_override = saved
+            if tap is not None:
+                tap.site_leave(lin, False, fired=True)
 
     def watch(self, linear, size, handler):
         """Call handler(old, new), the watched `size` bytes at `linear` before and after, at every guest write that

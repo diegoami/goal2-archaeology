@@ -1,28 +1,39 @@
 """The proof mode (T59): every call of a ported routine run side by side with the original's (E021's rule, moved in
-from runtime/emul/watched_match.py Guest.hook(prove=True)).
+from runtime/emul/watched_match.py Guest.hook(prove=True)), the calls that cross the kit's sites and decisions
+included.
 
-At a ported routine's entry, once the proof is armed (Match(prove=...)): the CPU is kept, the ORIGINAL routine runs
-as plain guest code to its return, muted (machine.py: no handler, port or write listener of the kit runs in it, so
-the kit sees nothing of it; another ported routine it calls runs as the original's too), with every byte it writes
-recorded in order; its return state is taken, its writes are undone and the CPU is put back; then the port runs on
-the same state, the kit live, its writes (its own and those of the original's code it calls, port/guest.py) recorded
-the same way. At the port's return the two must be identical: the registers of REGS_RETURNED, and the written bytes
-and their order outside the routine's own dead frame (from the lowest the original's stack reached while it wrote
-up to the caller's SP after the return). The first difference raises ProofError naming the routine, the call, where
-the match is and the byte (or the register); the match goes on from the port's state otherwise. A difference in
-REGS_SCRATCH is counted per register, not an error (Turbo Pascal's convention: they are scratch across a call).
-AX (and DX for a long result) are compared when the port returns a value, a function's result; a port that returns
-None ports a procedure, which has no result in that convention, and its AX and DX are counted as scratch. (E021
-compared them always. The pilot's 8889 is a procedure whose AX the original leaves as its last 86D0 call did, which
-the port does not reproduce; its one caller overwrites AL and AH before it reads AX, seg_0791_14.asm 8BB7-8BC7.)
+Once the proof is armed (Match(prove=...)), at a ported routine's entry:
 
-A call whose original reaches an address where the kit has a handler (a key read, a menu, the tick, an event's
-routine) cannot run muted: the original would need the kit's answer, or the kit would miss what it observes. That
-call is not proved: its original's writes are undone, the CPU put back, the port runs as in an unproved match, and
-the call is counted in `unproved` with the address that stopped it. So is a call reached while another proof runs
-(a ported routine the port calls). The hooks are added once, when the proof is installed (Unicorn keeps a deleted hook
-listed until emu_start returns, E021); a write hook over all memory costs every guest write a Python call, so a
-proved match is slower (locate.py only)."""
+1. The port runs first, live: it is the match (the kit's hooks fire, decisions stop the match and are answered, the
+   guest code it calls runs, port/guest.py). Every byte written meanwhile is recorded in order with the byte it
+   replaced: the guest's (Unicorn's write hook), the port's (write_as) and the kit's own (Machine.write, e.g. the key
+   a key read answers). So is every visit of a kit site (an address where the kit has a handler, or a site a port
+   fires): its address, the guest's CS:IP and SS:SP there, the registers the kit's handlers changed and the bytes they
+   wrote (a site that stopped the match, for a decision or for events, and was replayed on resume is one visit).
+2. At the port's return, its writes are undone and the CPU is put back to the entry; the ORIGINAL routine then runs
+   as plain guest code, muted (machine.py: no handler, port or write listener of the kit runs in it; another ported
+   routine it calls runs as the original's), its writes recorded the same way. At each kit site it reaches, the
+   port's run's visit there is replayed instead of the kit: the same address in the same order, reached with the same
+   CS:IP and SS:SP (a site a port fired from Python: the address only), and the handlers' register changes and
+   writes applied (the writes counted as the original's). The kit therefore answers the original exactly as it
+   answered the port, and is never asked twice: one decision, one event stream.
+3. At the original's return the two must be identical: the registers of REGS_RETURNED, the kit sites (the same
+   visits, none left over), and the written bytes and their order outside the routine's own dead frame (from the
+   lowest the original's stack reached while it wrote up to the caller's SP after the return). The first difference
+   raises ProofError naming the routine, the call, where the match is and the site, byte or register. Otherwise the
+   original's writes are undone, the port's put back with its registers, and the match goes on from the port's state.
+
+A difference in REGS_SCRATCH is counted per register, not an error (Turbo Pascal's convention: they are scratch
+across a call). AX and DX are always compared, as E021 does, but for a (routine, return address) declared in
+RESULT_DEAD with the static evidence that the caller never reads them there (out/T59/liveness.py over the listing);
+a difference there is counted as `dead`, per register. A call made while another proof runs (a ported routine the
+port calls) runs as its port and is compared as part of the outer call (counted `nested`); a call before the proof
+is armed is counted `before`. No call ends otherwise: every armed call is proved or raises ProofError. A port that
+answers a key read itself (mem.read_key, mem.keypressed) is refused under a proof (PortError, match.py): its key would
+have no replay.
+
+The hooks are added once, when the proof is installed (Unicorn keeps a deleted hook listed until emu_start returns,
+E021); a write hook over all memory costs every guest write a Python call, so a proved match is slower (locate.py)."""
 from .mem import PortError
 
 # Compared at a proved call's return (E021 notes.md section 5): AX, DX (the result), and what the caller relies on.
@@ -30,6 +41,17 @@ REGS_RETURNED = ("AX", "DX", "SP", "BP", "SS", "DS", "CS", "IP")
 # Not compared; a difference is counted per register (E021: the owner, 2026-10-11).
 REGS_SCRATCH = ("BX", "CX", "SI", "DI", "ES", "FLAGS")
 REGS_ALL = ("EAX", "EBX", "ECX", "EDX", "ESI", "EDI", "EBP", "ESP", "EFLAGS", "CS", "DS", "ES", "SS", "FS", "GS", "EIP")
+AT_SITE = ("CS", "IP", "SS", "SP")          # where the guest is at a kit site, compared between the two runs
+# Returned registers the caller never reads, per (ported routine, return address): each with its evidence. Only these
+# calls have the registers exempted; the same routine returning elsewhere is compared in full.
+RESULT_DEAD = {
+    ("0791:8889", "0791:8BB7"): (("AX", "DX"), (
+        "8889's one call (calls.tsv: 8AE9 only) is 8BB4, returning to 8BB7. AX: 8BC1/8BC5 write AL and 8BC7 AH before "
+        "8BCC reads AX (seg_0791_14.asm). DX: written before it is read on every path from 8BB7, through 8AE9's "
+        "callees and back to its two callers 7881 and 9564 (calls.tsv; no data reference to 8AE9 in datarefs.tsv), by "
+        "experiments/E036-match-port/out/T59/liveness.py over the listing (liveness-8BB7-b.txt; its controls "
+        "liveness-controls.txt). The pilot's port leaves neither as the original's last 86D0 call does.")),
+}
 # The instructions that write below SP (push, call, pushf, pusha, enter, int): during such a write Unicorn's SP is the
 # value before it (E021, probed 2026-10-12), so the slot written is where the stack reaches. Opcodes after any prefix;
 # FF only with /2, /3 (call) or /6 (push). From watched_match.py.
@@ -39,8 +61,8 @@ PREFIXES = {0x26, 0x2E, 0x36, 0x3E, 0x64, 0x65, 0x66, 0x67, 0xF0, 0xF2, 0xF3}
 
 
 class ProofError(RuntimeError):
-    """A port differs from the original routine at one call (the message names the routine, the call, the byte or
-    the register)."""
+    """A port differs from the original routine at one call (the message names the routine, the call, the site, byte
+    or register)."""
 
 
 def pushes(code):
@@ -56,18 +78,32 @@ def pushes(code):
     return op in PUSH_OPCODES
 
 
+class _Visit:
+    """A kit site the port's run reached."""
+
+    def __init__(self, lin, at, regs, fired):
+        self.lin, self.at, self.regs, self.fired = lin, at, regs, fired
+        self.writes = []            # (linear, bytes) the handlers wrote
+        self.changed = {}           # register -> value after the handlers, for those they changed
+        self.open = False           # stopped (a decision, events): the replay on resume belongs to it
+
+
 class _Call:
     """The proof of one call in progress."""
 
-    def __init__(self, address, number, runner, done, regs, ss, sp, ret_lin, ret_sp):
+    def __init__(self, address, number, runner, done, regs, ss, sp, entry_lin, ret_lin, ret_sp, caller, where):
         self.address, self.number, self.runner, self.done = address, number, runner, done
-        self.regs, self.ss, self.sp, self.ret_lin, self.ret_sp = regs, ss, sp, ret_lin, ret_sp
-        self.phase = "original"
-        self.writes = []            # the original's: (linear, old bytes, new bytes) in order
-        self.model = []             # the port's: (linear, byte) in order
+        self.regs, self.ss, self.sp, self.entry_lin = regs, ss, sp, entry_lin
+        self.ret_lin, self.ret_sp, self.caller, self.where = ret_lin, ret_sp, caller, where
+        self.phase = "port"
+        self.port_writes = []       # (linear, old bytes, new bytes) in order
+        self.visits = []
+        self.writes = []            # the original's, the same way
         self.low = ss * 16 + sp
-        self.original_regs = None
-        self.where = ""
+        self.next_visit = 0
+        self.started = False
+        self.frame = None
+        self.port_regs = None
 
 
 class Prover:
@@ -80,8 +116,8 @@ class Prover:
             raise PortError("one proof per machine")
         self.m, self.armed, self.where = machine, armed, where
         self.state = None
-        self.proved, self.unproved, self.scratch = {}, {}, {}
-        self.first_scratch = {}
+        self._visit = None          # the kit site whose handlers run now, during a proved call's port run
+        self.proved, self.nested, self.before, self.scratch, self.dead = {}, {}, {}, {}, {}
         names = {}
         for reg, _ in installed.loaded:
             for address in reg.entries:
@@ -90,31 +126,39 @@ class Prover:
         for address in names:
             lin = machine.lin(address)
             machine._ports[lin] = self._wrap(address, machine._ports[lin], installed.calls)
-            self.proved[address] = 0
-            self.unproved[address] = {}
-            self.scratch[address] = {r: 0 for r in ("AX", "DX") + REGS_SCRATCH}
+            self.proved[address] = self.nested[address] = self.before[address] = 0
+            self.scratch[address] = {r: 0 for r in REGS_SCRATCH}
+            self.dead[address] = {}
         machine.on_write(0, MEM_SIZE - 1, self._record, always=True)    # once, before the run
+        machine.write_tap = self._host_write
         machine.muted_hook = self._muted_at
 
-    # -- the entry: the original first, muted --------------------------------------------------------------------
+    def in_port_run(self):
+        """Whether a proved call's port is running now (match.py refuses a port's own key reads then)."""
+        return self.state is not None and self.state.phase == "port"
+
+    # -- 1. the port, live, recorded ---------------------------------------------------------------------------
     def _wrap(self, address, runner, calls):
         def run(machine, done=None):
-            if self.state is not None or not self.armed():
-                return runner(machine, done)        # a port called inside a proof, or before the proof starts
+            if self.state is not None:
+                self.nested[address] += 1           # compared as part of the call that holds it
+                return runner(machine, done)
+            if not self.armed():
+                self.before[address] += 1
+                return runner(machine, done)
             m = machine
             far, pop = runner.entry.far, runner.entry.pop
             sp, ss = m.reg("sp"), m.reg("ss")
             ip = m.stack_word(0)
             cs = m.stack_word(2) if far else m.reg("cs")
             st = _Call(address, calls.get(address, 0) + 1, runner, done, {r: m.reg(r) for r in REGS_ALL}, ss, sp,
-                       cs * 16 + ip, (sp + (4 if far else 2) + pop) & 0xFFFF)
-            st.where = self.where()
-            st.caller = m.where(cs, ip)
+                       m.pc(), cs * 16 + ip, (sp + (4 if far else 2) + pop) & 0xFFFF, m.where(cs, ip), self.where())
             self.state = st
-            if st.ret_lin not in m._handlers:     # the return address is where the original's run ends
+            if st.ret_lin not in m._handlers:     # the return address: where the original's run ends
                 from ..machine import NOOP
                 m.at_linear(st.ret_lin, NOOP)
-            m.muted = True                          # the guest now runs the original's entry instruction
+            m.site_tap = self
+            runner(m, self._port_done)
         run.entry = runner.entry
         return run
 
@@ -122,100 +166,174 @@ class Prover:
         st = self.state
         if st is None:
             return
+        m = self.m
         new = (value & ((1 << (8 * size)) - 1)).to_bytes(size, "little")
-        if st.phase == "original":
-            m = self.m
-            st.writes.append((address, m.read(address, size), new))
-            if m.reg("ss") == st.ss:            # how far the stack reached
-                sp = st.ss * 16 + m.reg("sp")
-                if pushes(m.read(m.pc(), 6)) and sp - 16 <= address < sp:
-                    sp = address
-                st.low = min(st.low, sp)
-        elif st.phase == "model":
-            st.model.extend((address + i, b) for i, b in enumerate(new))
+        old = m.read(address, size)
+        if st.phase == "port":
+            st.port_writes.append((address, old, new))
+            return
+        st.started = True
+        st.writes.append((address, old, new))
+        if m.reg("ss") == st.ss:                # how far the original's stack reached
+            sp = st.ss * 16 + m.reg("sp")
+            if pushes(m.read(m.pc(), 6)) and sp - 16 <= address < sp:
+                sp = address
+            st.low = min(st.low, sp)
 
-    def _muted_at(self, lin):
-        """The muted original reached a hooked address: its own return, a site of the kit (the proof gives way), or a
-        port's entry or a guest call's return (guest code here)."""
+    def _host_write(self, linear, data):
+        """The kit's own write (Machine.write) during the port's run: recorded, and kept for the visit's replay."""
+        st = self.state
+        if st is None or st.phase != "port":
+            return
+        st.port_writes.append((linear, self.m.read(linear, len(data)), bytes(data)))
+        if self._visit is not None:
+            self._visit.writes.append((linear, bytes(data)))
+        else:                                   # a write of the kit's outside its handlers: nothing could replay it
+            raise PortError(f"the kit wrote {len(data)} bytes at {self.describe(linear)} outside a site of its own "
+                            "during a proved call: not replayable")
+
+    def _here(self, lin):
+        """`lin` as the listing writes it, by the guest's CS now."""
+        m = self.m
+        cs = m.reg("cs")
+        return m.where(cs, lin - cs * 16) if 0 <= lin - cs * 16 < 0x10000 else f"linear 0x{lin:05X}"
+
+    def site_enter(self, lin, replay, fired=False):
+        """Machine: the kit's handlers at `lin` are about to run (a dispatch, or a site a port fires)."""
         st, m = self.state, self.m
+        last = st.visits[-1] if st.visits else None
+        if replay and last is not None and last.open and last.lin == lin:
+            self._visit = last                  # the resumed half of a visit that stopped
+            return
+        v = _Visit(lin, {r: m.reg(r) for r in AT_SITE}, {r: m.reg(r) for r in REGS_ALL}, fired)
+        v.label = self._here(lin)
+        st.visits.append(v)
+        self._visit = v
+
+    def site_leave(self, lin, stopped, fired=False):
+        m, v = self.m, self._visit
+        self._visit = None
+        if v is None:
+            return
+        now = {r: m.reg(r) for r in REGS_ALL}
+        v.changed = {r: x for r, x in now.items() if x != v.regs[r]}
+        v.open = stopped and not fired
+        if fired and v.changed:
+            raise PortError(f"the kit's site {v.label} fired by a port changed the registers {sorted(v.changed)}: "
+                            "not replayable in a proof")
+
+    def _port_done(self, frame):
+        """The port returned: undo it, put the CPU back to the entry, and let the original run, muted."""
+        st, m = self.state, self.m
+        st.frame, st.port_regs = frame, {r: m.reg(r) for r in REGS_ALL}
+        st.port_returned = {r: m.reg(r) for r in REGS_RETURNED + REGS_SCRATCH}
+        m.site_tap = None
+        st.phase = "original"
+        for address, old, _ in reversed(st.port_writes):
+            m.uc.mem_write(address, old)
+        for r, v in st.regs.items():
+            m.set_reg(r, v)
+        m.muted = True                          # CS:IP is the entry: the guest runs the original next
+
+    # -- 2. the original, muted, with the port's visits replayed ---------------------------------------------------
+    def _muted_at(self, lin):
+        st, m = self.state, self.m
+        if not st.started and lin == st.entry_lin:
+            st.started = True                   # the original's first instruction (its entry's hooks ran already)
+            return
+        st.started = True
         if lin == st.ret_lin and m.reg("ss") == st.ss and m.reg("sp") == st.ret_sp:
             self._original_returned()
         elif m.hooked(lin):
-            self._give_way(m.where(m.reg("cs"), m.reg("ip")))
+            self._replay(lin)
 
-    def _undo(self, st):
-        m = self.m
-        for address, old, _ in reversed(st.writes):
-            m.write(address, old)
-        for r, v in st.regs.items():
-            m.set_reg(r, v)
+    def _head(self, st):
+        return (f"{st.address} ({self.names[st.address]}), call #{st.number} from {st.caller}"
+                + (f", {st.where}" if st.where else ""))
 
-    def _give_way(self, site):
-        st = self.state
-        self._undo(st)
-        self.m.muted = False
-        self.state = None
-        counts = self.unproved[st.address]
-        counts[site] = counts.get(site, 0) + 1
-        st.runner(self.m, st.done)              # the port, as in an unproved match
-
-    # -- the return: the port on the same state, then the comparison ----------------------------------------------
-    def _original_returned(self):
+    def _fail(self, text):
         st, m = self.state, self.m
         m.muted = False
-        st.original_regs = {r: m.reg(r) for r in REGS_RETURNED + REGS_SCRATCH}
-        self._undo(st)
-        st.phase = "model"
-        st.runner(m, self._model_done)
-
-    def _model_done(self, frame):
-        st, m = self.state, self.m
+        m.site_tap = None
         self.state = None
-        try:
-            result = ("AX", "DX") if frame.entry.long else ("AX",)
-            self._compare(st, {r: m.reg(r) for r in REGS_RETURNED + REGS_SCRATCH},
-                          result if frame.value is not None else ())
-        finally:
-            if st.done is not None:
-                st.done(frame)
+        raise ProofError(f"{self._head(st)}: {text}")
+
+    def _replay(self, lin):
+        st, m = self.state, self.m
+        i = st.next_visit
+        if i >= len(st.visits):
+            self._fail(f"the original reached the kit's site {self._here(lin)} (site #{i + 1}), which the port's run "
+                       f"did not ({len(st.visits)} sites)")
+        v = st.visits[i]
+        if v.lin != lin:
+            self._fail(f"at the kit's site #{i + 1} the original reached {self._here(lin)}, the port's run {v.label}")
+        if not v.fired:
+            here = {r: m.reg(r) for r in AT_SITE}
+            if here != v.at:
+                self._fail(f"the original reached the kit's site {self._here(lin)} (#{i + 1}) at "
+                           f"{here['CS']:04X}:{here['IP']:04X} SS:SP {here['SS']:04X}:{here['SP']:04X}, the port's run "
+                           f"at {v.at['CS']:04X}:{v.at['IP']:04X} SS:SP {v.at['SS']:04X}:{v.at['SP']:04X}")
+        for address, data in v.writes:          # the kit's answer, as it gave it to the port's run
+            st.writes.append((address, m.read(address, len(data)), data))
+            m.uc.mem_write(address, data)
+        if not v.fired:
+            for r, x in v.changed.items():
+                m.set_reg(r, x)
+        st.next_visit = i + 1
+
+    # -- 3. the comparison, then the port's state back ---------------------------------------------------------------
+    def _original_returned(self):
+        st, m = self.state, self.m
+        if st.next_visit < len(st.visits):
+            v = st.visits[st.next_visit]
+            self._fail(f"the port's run reached the kit's site {v.label} (site #{st.next_visit + 1}), which "
+                       "the original did not")
+        original_regs = {r: m.reg(r) for r in REGS_RETURNED + REGS_SCRATCH}
+        port_regs = st.port_returned
+        frame = (st.low, st.ss * 16 + m.reg("sp"))
+
+        def live(ws):
+            return [(a + i, n[i]) for a, _, n in ws for i in range(len(n)) if not frame[0] <= a + i < frame[1]]
+        original, port = live(st.writes), live(st.port_writes)
+        for i, (o, p) in enumerate(zip(original, port)):
+            if o != p:
+                self._fail(f"written byte #{i} differs: the original wrote 0x{o[1]:02X} at {self.describe(o[0])}, "
+                           f"the port wrote 0x{p[1]:02X} at {self.describe(p[0])}")
+        if len(original) != len(port):
+            i = min(len(original), len(port))
+            who, extra = ("original", original[i]) if len(original) > i else ("port", port[i])
+            self._fail(f"the {who} writes more: byte #{i}, 0x{extra[1]:02X} at {self.describe(extra[0])} "
+                       f"({len(original)} bytes by the original, {len(port)} by the port)")
+        dead = RESULT_DEAD.get((st.address, st.caller), ((), ""))[0]
+        for r in REGS_RETURNED:
+            if original_regs[r] != port_regs[r]:
+                if r in dead:
+                    self.dead[st.address][r] = self.dead[st.address].get(r, 0) + 1
+                    continue
+                self._fail(f"register {r} at the return: the original 0x{original_regs[r]:04X}, "
+                           f"the port 0x{port_regs[r]:04X}")
+        for r in REGS_SCRATCH:
+            if original_regs[r] != port_regs[r]:
+                self.scratch[st.address][r] += 1
+        for address, old, _ in reversed(st.writes):     # the port's state back: the match goes on from it
+            m.uc.mem_write(address, old)
+        for address, _, new in st.port_writes:
+            m.uc.mem_write(address, new)
+        for r, v in st.port_regs.items():
+            m.set_reg(r, v)
+        m.muted = False
+        self.state = None
+        self.proved[st.address] += 1
+        if st.done is not None:
+            st.done(st.frame)
 
     def describe(self, linear):
         ds = self.m.DS * 16
         where = f" (DS:{linear - ds:04X})" if ds <= linear < ds + 0x10000 else ""
         return f"linear 0x{linear:05X}{where}"
 
-    def _compare(self, st, model_regs, result):
-        """result: the registers the port's value is returned in (none for a procedure's port, which returned None)."""
-        m = self.m
-        compared = tuple(r for r in REGS_RETURNED if r not in ("AX", "DX") or r in result)
-        scratch = REGS_SCRATCH + tuple(r for r in ("AX", "DX") if r not in result)
-        frame = (st.low, st.ss * 16 + m.reg("sp"))
-
-        def live(ws):
-            return [(a, b) for a, b in ws if not frame[0] <= a < frame[1]]
-        original = live([(a + i, n[i]) for a, _, n in st.writes for i in range(len(n))])
-        model = live(st.model)
-        head = (f"{st.address} ({self.names[st.address]}), call #{st.number} from {st.caller}"
-                + (f", {st.where}" if st.where else ""))
-        for i, (o, p) in enumerate(zip(original, model)):
-            if o != p:
-                raise ProofError(f"{head}: written byte #{i} differs: the original wrote 0x{o[1]:02X} at "
-                                 f"{self.describe(o[0])}, the port wrote 0x{p[1]:02X} at {self.describe(p[0])}")
-        if len(original) != len(model):
-            i = min(len(original), len(model))
-            who, extra = ("original", original[i]) if len(original) > i else ("port", model[i])
-            raise ProofError(f"{head}: the {who} writes more: byte #{i}, 0x{extra[1]:02X} at {self.describe(extra[0])} "
-                             f"({len(original)} bytes by the original, {len(model)} by the port)")
-        for r in compared:
-            if st.original_regs[r] != model_regs[r]:
-                raise ProofError(f"{head}: register {r} at the return: the original 0x{st.original_regs[r]:04X}, "
-                                 f"the port 0x{model_regs[r]:04X}")
-        for r in scratch:
-            if st.original_regs[r] != model_regs[r]:
-                self.scratch[st.address][r] += 1
-        self.proved[st.address] += 1
-
     def summary(self):
-        """{address: {"proved": n, "unproved": {site: n}, "scratch": {register: n}}}."""
-        return {a: {"proved": self.proved[a], "unproved": dict(self.unproved[a]),
-                    "scratch": {r: n for r, n in self.scratch[a].items() if n}} for a in self.names}
+        """{address: {"proved", "nested", "before": n, "dead": {register: n}, "scratch": {register: n}}}."""
+        return {a: {"proved": self.proved[a], "nested": self.nested[a], "before": self.before[a],
+                    "dead": dict(self.dead[a]), "scratch": {r: n for r, n in self.scratch[a].items() if n}}
+                for a in self.names}

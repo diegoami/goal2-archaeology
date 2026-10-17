@@ -148,10 +148,20 @@ class _PortKeys:
     def __init__(self, match):
         self.match = match
 
+    def _unprovable(self, site):
+        """Under a proof (port/prove.py) the original's key read is the kit's site, replayed from the port's run; a
+        port that answers its key read itself leaves nothing to replay: refused, never proved blind."""
+        prover = getattr(self.match, "prover", None)
+        if prover is not None and prover.in_port_run():
+            from .port import PortError
+            raise PortError(f"a proved port answers a key read itself at {site}: such a port cannot be proved yet")
+
     def keypressed(self, site):
+        self._unprovable(site)
         return self.match._key_waiting(site)
 
     def key(self, site):
+        self._unprovable(site)
         k = self.match
         m, mem = k.m, k.ports.mem
         if site == SITE_BOARD:
