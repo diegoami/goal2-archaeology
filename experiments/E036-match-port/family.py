@@ -154,8 +154,9 @@ def play(m, spec, deadline):
     return events, decisions, strays, board
 
 
-def run_match(image, spec, mask=(), counts=(), time_limit=DEFAULT_TIME_LIMIT, watch=None):
-    """The record of one match. Never raises for the match's own failure: that is the record's `error`."""
+def run_match(image, spec, mask=(), counts=(), time_limit=DEFAULT_TIME_LIMIT, watch=None, check_writes=True):
+    """The record of one match. Never raises for the match's own failure: that is the record's `error`.
+    check_writes=False leaves the undeclared-write check out (the write watch that finds the ranges needs it so)."""
     from original_match import Match, Fixture
     from original_match.match import VERSION
     cpu0, wall0 = time.process_time(), time.time()
@@ -187,7 +188,7 @@ def run_match(image, spec, mask=(), counts=(), time_limit=DEFAULT_TIME_LIMIT, wa
         before = m.m.read(0, 0x110000)
         events, decisions, strays, board = play(m, spec, time.time() + time_limit)
         result = m.result()
-        outside = undeclared_changes(before, m.m.read(0, 0x110000), allowed_spans(m.m))
+        outside = undeclared_changes(before, m.m.read(0, 0x110000), allowed_spans(m.m)) if check_writes else []
         if outside:
             raise UndeclaredWrite(f"{sum(b - a for a, b in outside)} bytes changed outside the declared ranges, first at "
                                   f"P+0x{outside[0][0] - m.m.load * 16:X}: rerun --find-ranges")
@@ -342,7 +343,7 @@ def find_ranges(image, selected, path, time_limit=3600.0, say=print):
         count = machine.rd_far(GAME_PTR, 0x28)
         info["records"] = [machine.far(COUNTRIES_PTR) - base, machine.far(FIXTURES_PTR) - base + 8 * count]
     for spec in selected:
-        rec = run_match(image, spec, time_limit=time_limit, watch=watch)
+        rec = run_match(image, spec, time_limit=time_limit, watch=watch, check_writes=False)
         if not records.is_completed(rec):
             raise Refused(f"{spec.id} did not complete under the watch ({rec['error'] or rec['strays']})")
         ids.append(spec.id)

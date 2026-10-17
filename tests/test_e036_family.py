@@ -515,6 +515,11 @@ class RunMatch(unittest.TestCase):
                 self.assertRegex(r["error"], r"^UndeclaredWrite: 1 bytes changed outside the declared ranges, first at P\+0x")
                 self.assertIsNone(r["after"])
 
+    def test_the_write_watch_run_leaves_the_undeclared_write_check_out(self):
+        FakeMatch.on_events = [lambda m: m.m.mem.__setitem__(0x1000, m.m.mem[0x1000] ^ 0xFF)]
+        self.assertIsNotNone(self.run_one()["error"])
+        self.assertIsNone(self.run_one(check_writes=False)["error"])
+
     def test_a_write_inside_ds_a_range_or_the_screen_is_no_error(self):
         base, ds = FakeMachine.load * 16, FakeMachine.DS * 16
         inside = [ds, ds + 0xFFFF, 0xB8000, 0xB8000 + 3999, 0x3C750, 0x3D6F0 + 3999]
@@ -556,6 +561,28 @@ class RunMatch(unittest.TestCase):
         self.assertEqual(changed_masked, plain_masked)         # the changed byte is not seen
         self.assertNotEqual(plain_masked[0], plain[0])         # a masked byte reads as zero
         self.assertEqual(plain_masked[1:], plain[1:])          # and no other block moves
+
+
+class SpanArithmetic(unittest.TestCase):
+    def test_merge_joins_spans_within_the_gap(self):
+        self.assertEqual(family.merge([[10, 20], [0, 5], [20, 30], [31, 40]]), [[0, 5], [10, 30], [31, 40]])
+        self.assertEqual(family.merge([[10, 20], [0, 5], [20, 30], [31, 40]], gap=1), [[0, 5], [10, 40]])
+        self.assertEqual(family.merge([[0, 100], [10, 20]]), [[0, 100]])
+        self.assertEqual(family.merge([]), [])
+
+    def test_subtract_cuts_a_span_out(self):
+        self.assertEqual(family.subtract([[0, 100]], [40, 60]), [[0, 40], [60, 100]])
+        self.assertEqual(family.subtract([[0, 100], [200, 300]], [50, 250]), [[0, 50], [250, 300]])
+        self.assertEqual(family.subtract([[0, 10]], [10, 20]), [[0, 10]])
+        self.assertEqual(family.subtract([[0, 10]], [0, 10]), [])
+
+    def test_undeclared_changes_ignore_the_allowed_spans_and_rewrites(self):
+        before = bytes(100)
+        after = bytearray(before)
+        after[5], after[50], after[51], after[90] = 1, 2, 3, 4
+        self.assertEqual(family.undeclared_changes(before, bytes(after), [(0, 10)]), [[50, 52], [90, 91]])
+        self.assertEqual(family.undeclared_changes(before, bytes(after), [(0, 100)]), [])
+        self.assertEqual(family.undeclared_changes(before, before, []), [])
 
 
 class Masks(unittest.TestCase):
@@ -733,6 +760,25 @@ class OneRealMatch(unittest.TestCase):
         self.assertEqual(r["counts"], {"0791:970C": r["ticks"]})
         self.assertTrue(records.is_completed(r))
         self.assertEqual(sum(row[1] for row in r["draws"]["per_minute"]), want_draws)
+
+    def test_the_write_watch_finds_what_is_declared(self):
+        """--find-ranges on the quickest match: every span it saw written outside DS and the screen is in a declared
+        range, and the DS blocks of the screen's buffers are the declared SCREEN_DS_BLOCKS (read from the live pointers)."""
+        with tempfile.TemporaryDirectory() as tmp:
+            out = Path(tmp) / "ranges.json"
+            buf = io.StringIO()
+            with contextlib.redirect_stdout(buf):
+                code = family.main(["--family", "S", "--only", "S/quick-1", "--find-ranges", str(out),
+                                    "--cache", str(IMAGE_FILE.parent)])
+            self.assertEqual(code, 0, buf.getvalue())
+            rep = json.loads(out.read_text())
+        spans = [(s, s + n) for s, n in records.RANGES.values()]
+        self.assertTrue(rep["written_outside_ds_and_screen"])
+        for a, b in rep["written_outside_ds_and_screen"]:
+            self.assertTrue(any(lo <= a and b <= hi for lo, hi in spans), (a, b))
+        self.assertEqual(rep["ds_blocks_of_the_screen"], list(records.SCREEN_DS_BLOCKS))
+        self.assertEqual(rep["records_program_relative"], [records.RANGES["records"][0], sum(records.RANGES["records"])])
+        self.assertEqual(rep["matches"], ["S/quick-1"])
 
     def test_two_workers_play_two_matches_the_same_as_the_reference(self):
         """--workers 2: two processes, one match at a time each, the records the reference holds (its cpu and wall

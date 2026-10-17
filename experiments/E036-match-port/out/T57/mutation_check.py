@@ -3,7 +3,7 @@
 
     python3 -B experiments/E036-match-port/out/T57/mutation_check.py > experiments/E036-match-port/out/T57/mutation-tests-<stamp>.txt
 
-Copies experiments/E036-match-port (without out/) to a temporary tree beside a link to runtime/, takes ONE rule out of
+Copies experiments/E036-match-port (without out/, but with the reference and the range reports) to a temporary tree beside a link to runtime/, takes ONE rule out of
 the copy at a time (a one-line replacement that must match exactly once), and runs tests.test_e036_compare and
 tests.test_e036_family against the copy (E036_DIR). The unmutated copy must pass; each mutated copy must fail at least
 one test, and the failing tests are listed. The working tree is never changed. No match is run (E036_NO_REAL_MATCH=1
@@ -77,6 +77,9 @@ MUTATIONS = [
     ("family.py", 'if time.time() > deadline:', 'if False:', "the time limit"),
     ("family.py", 'os.O_WRONLY | os.O_APPEND | os.O_CREAT', 'os.O_WRONLY | os.O_TRUNC | os.O_CREAT', "a log is appended to, never rewritten"),
     ("family.py", 'todo = todo[:max_new]', 'pass', "--max"),
+    ("family.py", '        if outside:\n            raise UndeclaredWrite', '        if False:\n            raise UndeclaredWrite', "a write outside the declared ranges is an error"),
+    ("family.py", 'if check_writes else []', 'if True else []', "the write watch run leaves the undeclared-write check out"),
+    ("family.py", 'if a <= out[-1][1] + gap:', 'if a < out[-1][1]:', "merge joins spans within the gap"),
     ("family.py", 'return 1 if bad else 0', 'return 0', "the exit status of a match that did not complete"),
     ("family.py", 'if a.find_ranges and Path(a.find_ranges).exists():', 'if False:', "an output is never overwritten"),
 ]
@@ -99,6 +102,8 @@ def main():
         (tree / "experiments").mkdir()
         shutil.copytree(SRC, tree / "experiments/E036-match-port", ignore=shutil.ignore_patterns("out", "__pycache__"))
         (tree / "experiments/E036-match-port/out/T57").mkdir(parents=True)
+        for name in ["reference.jsonl"] + [p.name for p in (SRC / "out/T57").glob("ranges-*.json")]:
+            shutil.copy(SRC / "out/T57" / name, tree / "experiments/E036-match-port/out/T57" / name)
         os.symlink(ROOT / "runtime", tree / "runtime")
         code, failing, ran = run(tree)
         print(f"unmutated copy: exit {code}, {ran} tests, failing: {failing}")
