@@ -917,7 +917,7 @@ void __stdcall16far prepare_unplayed_match(undefined1 *param_1)
     local_3 = local_3 + '\x01';
   }
   *param_1 = 0;
-  DS:0C1E = 0;
+  match_set_up = 0;
   return;
 }
 

@@ -1,0 +1,28 @@
+# E037 tours.py: stage 7 friendlies of 1771:71B2 decoded from static/goal-exe/data/ds_2581_0*.hex
+DS:10C6+4c+(i mod 4), c = 1..4: [[4, 2, 3, 2], [3, 1, 4, 1], [4, 1, 4, 2], [3, 2, 3, 1]]
+DS:10D5+4k+r, k = 1..8, r = 1..4: [[2, 4, 8, 6], [4, 10, 8, 2], [6, 10, 14, 12], [12, 20, 16, 18], [18, 20, 22, 14], [16, 22, 30, 24], [26, 24, 32, 28], [32, 28, 30, 26]]
+fixtures: 320
+loop 1: 256 fixtures, 256 with side B of another continent
+loop 2: 64 fixtures, 0 with side B of another continent
+friendlies per position: [5]
+shapes (side, X = other continent / S = same), and the positions within a continent block that have them:
+  AX AX AX AX BS : 64 positions, block positions [1, 3, 5, 7, 9, 11, 13, 15, 17, 19, 21, 23, 25, 27, 29, 31]
+  BX BX BX BX AS : 64 positions, block positions [2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32]
+
+gap verdicts (finals flag 0, not in a match, not sacked); last played before the first gap: a stage 5 or 6 fixture
+position 1 (continent 1):
+  before friendly 1 (record (kind 1, B continent 2) side A, opponent continent 2): allowed
+  before friendly 2 (record (kind 1, B continent 2) side A, opponent continent 2): refused: cannot alter squad whilst on tour
+  before friendly 3 (record (kind 1, B continent 2) side A, opponent continent 2): refused: cannot alter squad whilst on tour
+  before friendly 4 (record (kind 1, B continent 2) side A, opponent continent 2): refused: cannot alter squad whilst on tour
+  before friendly 5 (record (kind 1, B continent 1) side B, opponent continent 1): allowed
+  after the last friendly, no fixture pending: allowed
+  after the last friendly, next a kind 7 fixture (flag not yet set): allowed
+position 2 (continent 1):
+  before friendly 1 (record (kind 1, B continent 1) side B, opponent continent 2): allowed
+  before friendly 2 (record (kind 1, B continent 1) side B, opponent continent 3): allowed
+  before friendly 3 (record (kind 1, B continent 1) side B, opponent continent 2): allowed
+  before friendly 4 (record (kind 1, B continent 1) side B, opponent continent 4): allowed
+  before friendly 5 (record (kind 1, B continent 1) side A, opponent continent 1): allowed
+  after the last friendly, no fixture pending: allowed
+  after the last friendly, next a kind 7 fixture (flag not yet set): allowed

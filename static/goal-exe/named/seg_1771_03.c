@@ -409,7 +409,7 @@ void performance_text(undefined1 param_1,undefined1 param_2,int param_3)
       local_4 = 9;
     }
     DS:0E86 = local_4;
-    if ((DS:0C1F == '\0') ||
+    if ((in_match_menu_used == 0) ||
        ((uVar3 = squad_slot_of_player(local_a->country,param_3), 0xb < uVar3 &&
         (cVar2 = u214b_set_test_bit(ppVar4->status,3), cVar2 == '\0')))) {
       DS:AAB2 = player_name_colour(ppVar4->position,param_3);
@@ -505,7 +505,7 @@ void draw_mark_text(undefined2 param_1,char param_2)
 {
   undefined1 uVar1;
   
-  if ((DS:0C1E == '\0') || (param_2 == '\0')) {
+  if ((match_set_up == 0) || (param_2 == '\0')) {
     uVar1 = (undefined1)((uint)(param_2 * 0xb) >> 8);
     u214b_write_string_at_attr_var
               ((undefined4 *)&DS:A96E,0xb000,CONCAT11(uVar1,0x3d),CONCAT11(uVar1,0x10),
@@ -606,7 +606,7 @@ void draw_tactics_panel(int param_1)
     local_4 = local_4 + 1;
   }
   local_8 = 0;
-  if (DS:0C1E == '\0') {
+  if (match_set_up == 0) {
     draw_mark_row(&stack0xfffe);
   }
   else {
@@ -958,7 +958,7 @@ void __stdcall16far draw_player_screen(int param_1)
               DS:AAB2 = 0xf;
               iVar3 = squad_slot_of_player(local_a->country,param_1);
               if (iVar3 != 0) {
-                if (DS:0C1E == '\0') {
+                if (match_set_up == 0) {
                   u214b_write_string_at_attr_var
                             ((undefined4 *)&DS:A96E,0xb000,0x3d,10,0x4298,0x7000);
                 }

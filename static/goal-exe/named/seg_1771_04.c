@@ -20,10 +20,10 @@ void __stdcall16far f_1771_4952(int param_1)
     else {
       f_1771_4925(&ppVar2[param_1].position,uVar3);
     }
-    if (DS:0C1F != '\0') {
+    if (in_match_menu_used != 0) {
       DS:9B55 = 1;
     }
-    if (DS:0C1E != '\0') {
+    if (match_set_up != 0) {
       set_marking_words();
     }
   }
@@ -122,8 +122,8 @@ void __stdcall16far edit_own_tactics(char param_1,int param_2)
   local_7 = (player *)CONCAT22(uVar5,ppVar4);
   if (param_2 != 0) {
     u214b_unpack_screen_to_buffer((undefined4 *)&DS:A96E,0xb000,0x46c6,0xb000);
-    if ((((DS:0C1E == '\0') || (((player *)players)[param_2].position < 2)) ||
-        (param_1 == '\0')) || (cVar1 = player_unavailable(param_2), cVar1 != '\0')) {
+    if ((((match_set_up == 0) || (((player *)players)[param_2].position < 2)) || (param_1 == '\0'))
+       || (cVar1 = player_unavailable(param_2), cVar1 != '\0')) {
       cVar1 = '\0';
     }
     else {
@@ -137,7 +137,7 @@ void __stdcall16far edit_own_tactics(char param_1,int param_2)
       u214b_fill_back_attr_70(0x18,0x26,DS:0F38 + 0xb);
       u214b_menu_read_key_and_move(cVar1 + '\x04',0xf38,0xb000);
       if (DS:A976 == '\r') {
-        if (DS:0C1F != '\0') {
+        if (in_match_menu_used != 0) {
           DS:9B55 = 1;
         }
         if (DS:0F38 == 5) {
@@ -262,7 +262,7 @@ void __stdcall16far draw_squad_screen(int param_1,int param_2)
   if (param_1 == 1) {
     u214b_unpack_screen_to_buffer((undefined4 *)&DS:A96E,0xb000,0x1af6,0xb000);
   }
-  if (DS:0C1F == '\0') {
+  if (in_match_menu_used == 0) {
     if ((param_1 == 1) || (cVar1 = is_managed(param_2), cVar1 == '\0')) {
       u214b_unpack_screen_to_buffer((undefined4 *)&DS:A96E,0xb000,0x5a1a,0xb000);
     }
@@ -589,9 +589,10 @@ void __cdecl16far sort_pool_by_position(void)
 }
 
 
-// ---- 1771:55FC  f_1771_55FC  (f_1771_55FC; Ghidra 4000:55FC, __cdecl16far; found by routines.tsv)
+// ---- 1771:55FC  find_next_managed_fixture  (f_1771_55FC; Ghidra 4000:55FC, __cdecl16far; found by routines.tsv)
+// (none) 0 for a sacked manager ([A923]+0x47+m); else sets DS:9B43 to the current manager's country's next pending fixture (the first of the trailing run of list entries whose record +0 >= 0xFE and that are >= [A923]+0x26), 0 when none, and returns DS:9B43 != 0  [established; F031]
 
-undefined2 __cdecl16far f_1771_55FC(void)
+undefined2 __cdecl16far find_next_managed_fixture(void)
 
 {
   uint uVar1;
@@ -615,16 +616,16 @@ undefined2 __cdecl16far f_1771_55FC(void)
       local_5 = local_5 + -1;
     }
     if (local_5 == 0x24) {
-      DS:9B43 = 0;
+      next_fixture_number = 0;
     }
     else {
-      DS:9B43 = pwVar3[uVar1 * 0x24 + local_5];
+      next_fixture_number = pwVar3[uVar1 * 0x24 + local_5];
     }
-    if (DS:9B43 == 0) {
+    if (next_fixture_number == 0) {
       uVar1 = 0;
     }
     else {
-      uVar1 = CONCAT11((char)(DS:9B43 >> 8),1);
+      uVar1 = CONCAT11((char)(next_fixture_number >> 8),1);
     }
     local_3 = (undefined1)uVar1;
   }
@@ -767,7 +768,7 @@ bool __stdcall16far fixture_kind_in_result_set(undefined4 param_1)
 
 
 // ---- 1771:5A38  friendly_continents_differ  (f_1771_5A38; Ghidra 4000:5A38, __stdcall16far; found by routines.tsv)
-// (country word, fixture record) true when the fixture's byte +2 is 1 and the countries' +0x2C (continent) of the word and of the fixture's second country (+6) differ; for the word of the fixture's second country it compares that country with itself, so it is false there  [likely; F027]
+// (country word, fixture record) true when the fixture's byte +2 is 1 and the countries' +0x2C (continent) of the word and of the fixture's second country (+6) differ; for the word of the fixture's second country it compares that country with itself, so it is false there; for a country's own fixture: true exactly for a friendly it plays as side A against a country of another continent (a tour fixture)  [established; F027; F031]
 
 uint __stdcall16far friendly_continents_differ(undefined4 param_1,int param_2)
 

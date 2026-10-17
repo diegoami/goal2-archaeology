@@ -772,8 +772,7 @@ undefined1 managed_retirement_scan(int param_1)
   if ((*(int *)(iVar4 + 0x38) != 0) &&
      (*(char *)(iVar4 + (uint)pcVar7[param_1].manager + -0x33) == '\0')) {
     iVar3 = pcVar7[param_1].manager - 0x80;
-    if ((*(char *)(iVar4 + iVar3 + 0x13) == '\0') && (cVar2 = f_0791_DB38(param_1), cVar2 == '\0'))
-    {
+    if ((*(char *)(iVar4 + iVar3 + 0x13) == '\0') && (cVar2 = on_tour(param_1), cVar2 == '\0')) {
       local_5 = 1;
       while( true ) {
         cVar2 = retirement_test(pcVar7[param_1].squad[local_5 + -1]);
@@ -954,9 +953,10 @@ void f_000E_5AC5(int param_1)
 }
 
 
-// ---- 000E:5CF4  f_000E_5CF4  (f_000E_5CF4; Ghidra 1000:5CF4, __stdcall16near; found by routines.tsv)
+// ---- 000E:5CF4  finals_squad_news  (f_000E_5CF4; Ghidra 1000:5CF4, __stdcall16near; found by routines.tsv)
+// (country) from the main menu's Continue: when the finals flag [A923]+0x13+m and [A923]+0x41+m are 0 and the next fixture's kind is in CS:5CD4 = {3, 7}, shows the 'squad for the finals' news (000E:5AC5, which sets +0x41+m) and returns 1 so the manager stays on the menu once before the finals window closes  [likely; F031]
 
-undefined1 f_000E_5CF4(int param_1)
+undefined1 finals_squad_news(int param_1)
 
 {
   undefined1 uVar1;
@@ -973,13 +973,13 @@ undefined1 f_000E_5CF4(int param_1)
   local_3 = 0;
   if ((*(char *)(iVar2 + (uint)*(byte *)(iVar2 + 1) + 0x13) == '\0') &&
      (*(char *)(iVar2 + (uint)*(byte *)(iVar2 + 1) + 0x41) == '\0')) {
-    cVar3 = f_1771_55FC();
+    cVar3 = find_next_managed_fixture();
     if (cVar3 != '\0') {
-      bVar5 = (byte *)fixtures + DS:9B43 * 8 == (byte *)0x0;
+      bVar5 = (byte *)fixtures + next_fixture_number * 8 == (byte *)0x0;
       sys_set_bit_mask_08DF
                 (0x5cd4,0x4000,
-                 CONCAT11((char)((uint)(DS:9B43 * 8) >> 8),
-                          ((byte *)fixtures + DS:9B43 * 8)[-6]));
+                 CONCAT11((char)(next_fixture_number * 8 >> 8),
+                          ((byte *)fixtures + next_fixture_number * 8)[-6]));
       if (!bVar5) {
         f_000E_5AC5(&stack0xfffe);
         local_3 = 1;
@@ -991,19 +991,20 @@ undefined1 f_000E_5CF4(int param_1)
 }
 
 
-// ---- 000E:5DAF  f_000E_5DAF  (f_000E_5DAF; Ghidra 1000:5DAF, __stdcall16near; found by routines.tsv)
+// ---- 000E:5DAF  news_tour_line  (f_000E_5DAF; Ghidra 1000:5DAF, __stdcall16near; found by routines.tsv)
+// (frame) when 0791:DAF8 holds for the country, writes the line '... TO TOUR' with the continent of the next fixture's side B; returns that  [likely; F031]
 
-bool f_000E_5DAF(int param_1)
+bool news_tour_line(int param_1)
 
 {
   char cVar1;
   undefined2 unaff_SS;
   
-  cVar1 = f_0791_DAF8(*(undefined2 *)(param_1 + 6));
+  cVar1 = next_fixture_is_tour(*(undefined2 *)(param_1 + 6));
   if (cVar1 != '\0') {
-    f_000E_075F((uint)((country *)countries)[*(int *)((byte *)fixtures + DS:9B43 * 8 + -2)].
-                      continent * 8 + 0x6e92,0xb000,0x5da7,0x2000,
-                (int)DS:9B68 + *(int *)(param_1 + 6) * 0x10,
+    f_000E_075F((uint)((country *)countries)
+                      [*(int *)((byte *)fixtures + next_fixture_number * 8 + -2)].continent * 8 +
+                0x6e92,0xb000,0x5da7,0x2000,(int)DS:9B68 + *(int *)(param_1 + 6) * 0x10,
                 (int)((ulong)DS:9B68 >> 0x10));
   }
   return cVar1 != '\0';
@@ -1063,7 +1064,7 @@ void news_failed_to_qualify(int param_1)
   else {
     sys_str_store_max_0644(0x14,param_1 + -0x15,unaff_SS,0x5e4d,0x4000);
   }
-  cVar2 = f_000E_5DAF(param_1);
+  cVar2 = news_tour_line(param_1);
   if (cVar2 == '\0') {
     puVar4 = local_10a;
     uVar5 = unaff_SS;

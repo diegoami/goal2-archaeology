@@ -73,7 +73,22 @@ main session re-runs the check the approval rests on most; a different result is
 CI (the owner, 2026-10-12, to save minutes): no run on a draft PR, so a PR is marked ready before
 its review; a new push cancels the run it supersedes; a push that changes only measured outputs
 (`*.log`, `experiments/**/out/**`) runs nothing, so "green CI" is the newest run that covered the
-PR's code; a push to `main` runs only the quick checks (links, citations, no original file).
+PR's code; a push to `main` runs only the quick checks (links, citations, no original file), except the
+merge commit of a research PR (`Merge pull request #`), whose tree the PR's CI just checked.
+CI tiers (the owner, 2026-10-17, #297): the PR's one job, `checks`, runs what the PR changes oblige
+(`tools/ci_gate.py`). Prose no test reads (`*.md` at the root, `docs/`, `notes/`, `spec/`, except the four
+docs a test reads) gets links, citations and the no-original-file check only. Anything else also gets the
+harness tests, `tests/static` and every unit test except six slow modules (five took about 280 of the 360 seconds
+of the unit suite; the sixth, `test_emul_match`, about 380 once unicorn was installed). The code tier installs
+unicorn 2.1.4 (`runtime/emul/requirements.txt`, pip cache), so the emulator tests run there instead of skipping
+(#304; it adds about 35 s to a code PR's run, `notes/T304/`). A slow module runs only when the PR touches a file it reads (`SLOW_DEPS`, traced with
+an audit hook, `notes/T297/`); a change to the CI files, a manual run and a nightly run on `main` (when
+code landed that day) run all of them, and the nightly run is the net for a path the list misses. A push
+to a PR obliges only what the push changes when the previous head's `checks` passed, else what the whole
+PR does; so a green `checks` on a head always means the whole PR's obligations are met. The checks that
+guard rules 9 (the unit suites), 18 (no original file, the artifact by hash) and 20 (runs and citations
+validate) run in every run that touches the files they read; `python3 tools/ci_minutes.py` prints the
+Actions minutes, and with `--replay-since DATE` what the PRs since then would have cost.
 
 What the review script guarantees, and why:
 - OpenCode starts with stdin closed; without it a run hangs before it starts. (L10)

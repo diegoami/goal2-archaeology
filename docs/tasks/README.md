@@ -88,3 +88,4 @@ exists.
 | T78 | The engine on its own: run_match and the post-match update in Python, no Unicorn (P6) | #289 | T60-T77 |
 | T79 | The fidelity sheet: the original's distributions, and the port's against them (sheet A) | #290 | T78 |
 | T80 | The end state sealed: the engine in pure Python with no GOAL.EXE bytes at run time (end) | #291 | T78, T79 |
+| T81 | Q008 (goal2 T45): when the squad and the reserve pool may exchange records: finals, tours, selection-mode gates | #254 | — |

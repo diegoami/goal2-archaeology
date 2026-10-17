@@ -194,7 +194,7 @@ void __stdcall16far announce_stage_to_manager(int param_1)
       else {
         sys_str_store_max_0644(0x14,local_17,unaff_SS,0x609e,0x7000);
       }
-      cVar1 = f_000E_5DAF(&stack0xfffe);
+      cVar1 = news_tour_line(&stack0xfffe);
       if (cVar1 == '\0') {
         puVar10 = local_131;
         uVar12 = unaff_SS;
@@ -215,7 +215,7 @@ void __stdcall16far announce_stage_to_manager(int param_1)
     else {
       f_000E_062F(0x6053,0x4000,(int)DS:9B68 + param_1 * 0x10,
                   (int)((ulong)DS:9B68 >> 0x10),0x6044,0x4000);
-      cVar1 = f_000E_5DAF(&stack0xfffe);
+      cVar1 = news_tour_line(&stack0xfffe);
       if (cVar1 == '\0') {
         f_000E_075F(0x6062,0x4000,0x6054,0x4000,(int)DS:9B68 + param_1 * 0x10,
                     (int)((ulong)DS:9B68 >> 0x10));
@@ -837,18 +837,18 @@ void __cdecl16near f_000E_724A(void)
                                *(undefined1 *)(local_1f + (uint)*(byte *)(local_1f + 1) + 0x47)),
      cVar1 == '\0')) {
     f_000E_715E(&stack0xfffe,0xd,local_4);
-    cVar1 = f_1771_55FC();
+    cVar1 = find_next_managed_fixture();
     if (cVar1 != '\0') {
       uStack_21 = (undefined2)((ulong)fixtures >> 0x10);
-      local_23 = (byte *)fixtures + DS:9B43 * 8 + -8;
+      local_23 = (byte *)fixtures + next_fixture_number * 8 + -8;
       local_6 = *(undefined2 *)
                  (local_23 +
-                 (*(uint *)((byte *)fixtures + DS:9B43 * 8 + -2) != local_4) * 2 + 4);
+                 (*(uint *)((byte *)fixtures + next_fixture_number * 8 + -2) != local_4) * 2 + 4);
       draw_country_name(3,0x11,local_6);
       f_000E_715E(&stack0xfffe,0x13,local_6);
       puVar3 = local_123;
       uVar2 = unaff_SS;
-      f_1771_580B(((byte *)fixtures)[DS:9B43 * 8 + -6]);
+      f_1771_580B(((byte *)fixtures)[next_fixture_number * 8 + -6]);
       sys_str_store_max_0644(0x14,local_1b,unaff_SS,puVar3,uVar2);
       if ((local_23[2] != 0) &&
          ((local_23[2] == 1 || (cVar1 = stage_uses_finals_table(), cVar1 == '\0')))) {
@@ -994,8 +994,8 @@ void main_menu_loop(void)
         if ((pbVar3[pbVar3[1] + 0x47] != 0) ||
            ((cVar2 = managed_retirement_scan(((byte *)manager_countries)[(pbVar3[1] + 0x80) * 3]),
             cVar2 == '\0' &&
-            (cVar2 = f_000E_5CF4(((byte *)manager_countries)[(((byte *)local_8)[1] + 0x80) * 3]),
-            cVar2 == '\0')))) {
+            (cVar2 = finals_squad_news(((byte *)manager_countries)
+                                       [(((byte *)local_8)[1] + 0x80) * 3]), cVar2 == '\0')))) {
           uVar6 = (undefined2)((ulong)local_8 >> 0x10);
           if (((byte *)local_8)[1] == *local_8) {
             play_round();

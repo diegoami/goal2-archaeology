@@ -2,6 +2,7 @@
 # A bump: move this file and every file it lists aside, run adopt.mjs at the new commit,
 # then carry your changes to the adapted files (and any other) over to the new copies.
 # Verify:  grep -E '^[0-9a-f]{64}  ' harness.lock | sha256sum -c --quiet
+# (CI runs the same check: tests/harness_compat.test.mjs. A changed file is an `adapt` line, with why.)
 commit b8c6cde350031be7437255d402a0286234d8e5a5
 profile full
 copied 2026-10-06 (bumped from 48b788d to b8c6cde, the owner's green light 2026-10-06: minimax support
@@ -30,7 +31,7 @@ chains and jev decisions otherwise as the template's, including the template's n
 adapt docs/environment.md  (Ghidra 12.1.4 and the JDK in ~/tools (T18, T20); the Alibaba Token Plan and
 MiniMax section with the registration table, pricing and the owner's placements (2026-10-06))
 adapt docs/tasks/README.md  (this repository's task index)
-af52af6d14ca0c065ef31cf4d25c58edcb43b4ad7a037da9fb74f4cd9af65dec  .claude/agents/implementer.md
+adapt .claude/agents/implementer.md  (the implementer subagent of CLAUDE.md "Choosing models" (8dc4dc1, #149, 2026-10-12); L106/L107 (a01ff27); L110: a subagent never ends a turn to wait (4567bbf, #219, 2026-10-15); #303: the pin was stale, now recorded)
 adapt .claude/agents/reviewer.md  (rule 9a: undo a mutation by rewriting the saved file, 2026-10-11)
 b129ad9bd8133fe5f6b3c6590efc2bc61d9a57c1bea3f29c1deee6f9166da1e2  .claude/hooks/session-start.sh
 9d2227215dcf47b9dc7c41d5c9b7f8c5b79dd962c3fb8c3f8f625032fa5eefae  .claude/settings.json
@@ -43,7 +44,7 @@ adapt .opencode/agents/implementer.md  (/tmp open to the agent, the owner 2026-1
 adapt .opencode/agents/reviewer.md  (rule 9a: undo a mutation by rewriting the saved file; /tmp open to the agent, 2026-10-11)
 c6ffaa08eb490d11e8f208b7f8ec7a1e291d55c3cee01e58aa84466fe1983f89  docs/jev/blocks-release.md
 46c4f6e3ca23871e59c25366e8acf9818e43113546f0cd107571ae110f6c10cb  docs/jev/breaks-play.md
-325385ce86485b764e18a17dbee408d014b968f78a2e727c5116a8f9becf3511  docs/review-brief.md
+adapt docs/review-brief.md  (reviewer run mechanics: idle limit 1500 s, total 5400 s, a long suite is expected (6ce65fc, #261, 2026-10-17); offline tests: gh retry and network tests skip visibly (9806b0b, #293, 2026-10-17); #303: the pin was stale, now recorded)
 4f1b39c9bc3a6131866898c068aa06f46ae39a096de178fcc65ac3aedf1dd78d  docs/tasks/TEMPLATE.md
 518ad06ab39fdd22407b864ba878acf404ffe9dac5a8e9b19b4d44b574fe6342  tools/harness/guard.mjs
 adapt tools/harness/peek.sh  (new: an OpenCode run's latest steps, from isle-wars-archaeology d1e0082, 2026-10-11)
@@ -58,8 +59,8 @@ a6bf727222667a4c1744a8d01206e3fd36208203d80df117ff1216e08339ecf7  tools/harness/
 adapt tools/harness/lib/opencode.mjs  (the user chooses models, the owner 2026-10-11)
 5005d641b97629f37b2e0e4874ca0e46358d101828169bd7b7d74eff3ee10e4c  tools/harness/lib/post.mjs
 66379ce8b5620f13ac48634a9f54e1eabfd6f451c06161219f6883b541bd3452  tools/harness/lib/review-selftest.mjs
-92025ebf5c187054c3a405aac5b68b4613232eb8e867bb26863ae152254ed0d2  tools/harness/lib/switch.mjs
+adapt tools/harness/lib/switch.mjs  (the roster, the session's family and the dispatch settings of CLAUDE.md "Choosing models" (8dc4dc1, #149, 2026-10-12); --ask and --review-kind (9933d32, #185, 2026-10-13); the partial bump to 610f979 (d09c12a); #303: the pin was stale, now recorded)
 bf717caa54364e8e56a50bab0f07d0212b8300992bc0ad3629cf097ef58e4845  tools/harness/models.mjs
 adapt tools/harness/post-review.mjs  (#264: readReview gets { doneWhen }, so a loose-header recovery's note carries the Done-when accounting, as review.mjs's does)
 adapt tools/harness/review.mjs  (the user chooses models, the owner 2026-10-11)
-a778836225b6407d09220f034fe30b09018e0dc607e868eb4b3a81364164191c  tools/harness/switch-model.mjs
+adapt tools/harness/switch-model.mjs  (the same changes as lib/switch.mjs: #149, #185, the partial bump d09c12a; #303: the pin was stale, now recorded)

@@ -947,9 +947,10 @@ void __stdcall16far f_1771_7812(int param_1,undefined2 param_2,char *param_3)
 }
 
 
-// ---- 1771:78BA  f_1771_78BA  (f_1771_78BA; Ghidra 4000:78BA, __stdcall16near; found by routines.tsv)
+// ---- 1771:78BA  remove_from_fixture_list  (f_1771_78BA; Ghidra 4000:78BA, __stdcall16near; found by routines.tsv)
+// (frame, country) finds the frame's fixture number in the country's 36-word list and removes it: the older entries before it move one word toward the newest end (214B:003C) and the first word becomes 0  [likely; F031]
 
-void f_1771_78BA(int param_1,int param_2)
+void remove_from_fixture_list(int param_1,int param_2)
 
 {
   word *pwVar1;
@@ -974,9 +975,10 @@ void f_1771_78BA(int param_1,int param_2)
 }
 
 
-// ---- 1771:793F  f_1771_793F  (f_1771_793F; Ghidra 4000:793F, __stdcall16near; found by routines.tsv)
+// ---- 1771:793F  append_to_fixture_list  (f_1771_793F; Ghidra 4000:793F, __stdcall16near; found by routines.tsv)
+// (frame) moves DS:9B66's fixture list one word toward the oldest end (214B:003C, 0x47 bytes, the oldest entry dropped), writes the frame's fixture number as its newest entry (7987), then swaps it toward the older end while it is below the entry before it and both are on the same side of DS:6938 = 1361, the first class 1 number (7990-7A73): the list stays in number order within a class  [likely; F031]
 
-void f_1771_793F(int param_1)
+void append_to_fixture_list(int param_1)
 
 {
   word *pwVar1;
