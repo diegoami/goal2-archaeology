@@ -102,6 +102,10 @@ How the main session launches and watches a run (L103):
   agent is watched by its transcript file's size and its worktree; when its worktree holds
   uncommitted work more than 20 minutes newer than its last commit, the main session archives it
   outside the worktree, read-only (it never touches the run's index).
+- The run's exit code comes from the journal, `journalctl --user -u goal2-<task>` ("status=N"), or
+  from the log's last line. With `--collect` the unit is gone once it ends, and
+  `systemctl --user show` then prints `Result=success` and `ExecMainStatus=0` for the missing unit
+  whatever the script returned (#258: checked with a review.mjs run that exited 3).
 - An implementer's PR may be a draft; the main session runs `gh pr ready <pr>` before the review.
 
 ## 4. The implementer brief

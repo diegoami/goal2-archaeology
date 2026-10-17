@@ -70,6 +70,9 @@ environment (`switch-model.mjs --show` prints it); the reviewer is never of that
    [--reviewer <the answer>]`), watched ("Choosing models" rules 9-11). The script reads the session's family from
    `ANTHROPIC_BASE_URL`, so the unit must carry it.
    One review per PR unless the user asks for more. Relay its findings in full (rule 8).
+   Read its exit code from `journalctl --user -u goal2-<task>` ("status=N") or the log's last
+   line: a `--collect` unit is gone once it ends, and `systemctl --user show` then prints
+   `ExecMainStatus=0` whatever the script returned (#258).
    - Exit 0: posted and labelled.
    - Exit 2: a refused model (blocked in `harness.json`, or an unknown name): tell the user.
    - Exit 3: no review came back (OpenCode, the login, the model, a rejected path, or a review
@@ -79,8 +82,8 @@ environment (`switch-model.mjs --show` prints it); the reviewer is never of that
      `--total-timeout-sec`. Another model only when the provider does not answer, and the user
      names it.
    - Exit 4: a review was posted whole under a note (cut off, verdict unreadable, verdicts differ,
-     a finding after the closing verdict, or an approve with a Done-when line unaccounted for or
-     not run, L32). No label was applied. Read it on the PR and decide: apply the label it
+     a finding after the closing verdict, an approve with a Done-when line unaccounted for or
+     not run, L32, or a header that differs from the brief's only in punctuation, #258). No label was applied. Read it on the PR and decide: apply the label it
      supports, ask for a supplementary review of the missing DW lines, or send it to rework.
      Never pay for a second review just because the first was flagged: OpenCode's models do not
      always follow the brief, and the script's reading is the safety net.
