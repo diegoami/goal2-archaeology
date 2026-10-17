@@ -3,14 +3,16 @@ on synthetic programs (no byte of the original).
 
 - GuestCallTests (unicorn): a port that calls a routine still the original's gets the callee's registers back, the
   callee's writes reach the kit's watch and write listeners as a guest's and its kit hooks fire, and the state at the
-  return equals the unported routine's; a guest call's return address in code Unicorn has already translated is still
-  reached (the cache is dropped); a decision a kit hook makes inside the callee stops the run with the port's frame
-  live, the port not going on, and the run resumes exactly (the hook replayed, then the port); Match.save refuses
-  while a port's frame is live; a reach of the return address with another SP is not the call's return.
+  return equals the unported routine's; a far call pushes the segment, and a caller-pops call has its arguments
+  dropped at the return; a guest call's return address in code Unicorn has already translated is still reached (the
+  cache is dropped); a decision a kit hook makes inside the callee stops the run with the port's frame live, the port
+  not going on, and the run resumes exactly (the hook replayed, then the port); Match.save refuses while a port's
+  frame is live; a frame resumes only at its own return address, and a reach of it with another SP is not the call's
+  return.
 - ProofTests (unicorn): a faithful port is proved and the muted original reaches no kit listener; a port writing one
   byte differently, or returning another AX from a function, raises ProofError naming the routine, the call and the
-  byte or register; a call whose original reaches a kit site gives way to the port (counted as not proved); a proof
-  not armed runs the port as is.
+  byte or register; a procedure's port (it returns None) has AX counted as scratch; a call whose original reaches a
+  kit site gives way to the port (counted as not proved); a proof not armed runs the port as is.
 - LocatorTests: the first differing per-minute row of two records, a one-byte divergence located to its call, and
   the grammar and comparison of ported records (records.py, compare.py, family.py --ports/--variant).
 """
@@ -79,10 +81,14 @@ records, families, compare, family, locate = load_scripts(("records", "families"
 # 0100:0041  BA 78 56         mov dx, 0x5678
 # 0100:0044  5D               pop bp
 # 0100:0045  C2 02 00         ret 2
+# 0100:0050  55 89 E5 8A 46 06 A2 03 50 B8 21 43 5D CA 02 00   F(arg), far: [5003] := arg, AX 0x4321, retf 2
+# 0100:0070  55 89 E5 8A 46 04 A2 03 50 5D C3                  H(arg), the caller pops: [5003] := arg, ret
 PROGRAM = {0x0000: bytes([0xE8, 0x0D, 0x00, 0x90, 0x90]),
            0x0010: bytes([0x55, 0x89, 0xE5, 0xB8, 0x05, 0x00, 0x50, 0xE8, 0x16, 0x00, 0xA2, 0x02, 0x50, 0x5D, 0xC3]),
            0x0030: bytes([0x55, 0x89, 0xE5, 0xC6, 0x06, 0x00, 0x50, 0x07, 0x8A, 0x46, 0x04, 0xA2, 0x01, 0x50,
-                          0xB8, 0x34, 0x12, 0xBA, 0x78, 0x56, 0x5D, 0xC2, 0x02, 0x00])}
+                          0xB8, 0x34, 0x12, 0xBA, 0x78, 0x56, 0x5D, 0xC2, 0x02, 0x00]),
+           0x0050: bytes([0x55, 0x89, 0xE5, 0x8A, 0x46, 0x06, 0xA2, 0x03, 0x50, 0xB8, 0x21, 0x43, 0x5D, 0xCA, 0x02, 0x00]),
+           0x0070: bytes([0x55, 0x89, 0xE5, 0x8A, 0x46, 0x04, 0xA2, 0x03, 0x50, 0x5D, 0xC3])}
 CODE = 0x0100
 END = CODE * 16 + 4
 P, G, G_RETURN, INSIDE_G = "0100:0010", "0100:0030", "0100:001A", "0100:0038"
@@ -163,6 +169,33 @@ class GuestCallTests(Synthetic, unittest.TestCase):
         self.assertEqual(self.outcome(m), self.outcome(plain))          # memory, registers and stack as unported
         self.assertEqual((inst.calls, m.frames), ({P: 1}, []))
 
+    def test_a_far_call_pushes_the_segment_and_the_callee_pops_its_argument(self):
+        m = self.machine()
+        got = []
+
+        def fn(mem, variant):
+            sp = mem.reg("sp")
+            ax = yield call("0100:0050", 0x11, ret_to=G_RETURN, far=True)
+            got.append((ax, (sp - mem.reg("sp")) & 0xFFFF, mem.u16(mem.ss_lin(sp - 2)), mem.u16(mem.ss_lin(sp - 4)),
+                        mem.u16(mem.ss_lin(sp - 6))))
+        port.install(m, [(registry(fn), None)])
+        self.assertIsNone(m.run(END, 5, fresh=True))
+        # AX, SP back where the call left it, and the stack: the argument, CS, the return offset (as call far does)
+        self.assertEqual(got, [(0x4321, 0, 0x11, CODE, 0x001A)])
+        self.assertEqual(m.read(self.target + 3, 1), b"\x11")
+
+    def test_a_caller_pops_call_drops_its_arguments(self):
+        m = self.machine()
+        got = []
+
+        def fn(mem, variant):
+            sp = mem.reg("sp")
+            yield call("0100:0070", 0x22, ret_to=G_RETURN, far=False, caller_pops=True)
+            got.append((sp - mem.reg("sp")) & 0xFFFF)                 # the listing's `add sp, 2` after the call
+        port.install(m, [(registry(fn), None)])
+        self.assertIsNone(m.run(END, 5, fresh=True))
+        self.assertEqual((got, m.read(self.target + 3, 1), m.frames), ([0], b"\x22", []))
+
     def test_a_return_address_in_code_already_translated_is_reached(self):
         m = self.machine()
         self.assertIsNone(m.run(END, 5, fresh=True))                    # P's body (001A included) translated
@@ -216,6 +249,23 @@ class GuestCallTests(Synthetic, unittest.TestCase):
         self.assertIsNone(m.run(END, 5))
         self.assertTrue(mt.save().startswith(b"OMK1"))                  # the frame gone, the match saves
 
+    def test_a_frame_resumes_only_at_its_return_address(self):
+        m = self.machine()
+        resumed = []
+
+        class Waiting:                 # a frame whose stack test always holds: only the address may hold it back
+            ret_lin = m.lin("0100:0060")
+
+            def returned(self, machine):
+                return True
+
+            def resume(self, machine):
+                resumed.append(machine.pc())
+        m.at("0100:0003", lambda replay: None)                          # a kit hook the guest reaches
+        m.expect_return(Waiting())
+        self.assertIsNone(m.run(END, 5, fresh=True))
+        self.assertEqual((resumed, len(m.frames)), ([], 1))
+
     def test_the_return_address_with_another_sp_is_not_the_calls_return(self):
         m = self.machine()
         reg = registry()
@@ -238,7 +288,9 @@ class ProofTests(Synthetic, unittest.TestCase):
         self.assertIsNone(m.run(END, 5, fresh=True))
         self.assertEqual(prover.summary(), {P: {"proved": 1, "unproved": {}, "scratch": {}}})
         self.assertEqual(m.read(self.target, 3), b"\x07\x05\x34")
-        self.assertEqual(len(writes), 3)            # the port's run only: the muted original reached no listener
+        # the port's run only, on memory the original's run left as it was: the muted original reached no listener
+        self.assertEqual(writes, [(b"\x00\x00\x00", b"\x07\x00\x00"), (b"\x07\x00\x00", b"\x07\x05\x00"),
+                                  (b"\x07\x05\x00", b"\x07\x05\x34")])
         self.assertEqual((m.reg("ip"), m.reg("sp"), m.frames, m.muted), (4, 0x0400, [], False))
 
     def test_a_one_byte_divergence_is_named(self):
