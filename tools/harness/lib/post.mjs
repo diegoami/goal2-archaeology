@@ -57,8 +57,9 @@ export function combinePlans(plans) {
   return { label: 'status:approved', code: 0, why: null };
 }
 
-export function postComment({ plan, pr, top }) {
-  const bodyFile = path.join(os.tmpdir(), `harness-review-${pr}-${randomBytes(3).toString('hex')}.md`);
+// `dir` is where the body file goes: os.tmpdir() unless the caller knows it is full (#311).
+export function postComment({ plan, pr, top, dir = os.tmpdir() }) {
+  const bodyFile = path.join(dir, `harness-review-${pr}-${randomBytes(3).toString('hex')}.md`);
   fs.writeFileSync(bodyFile, plan.body);
   try { sh('gh', ['pr', 'comment', String(pr), '--body-file', bodyFile], { cwd: top }); } finally { fs.rmSync(bodyFile, { force: true }); }
 }
@@ -90,14 +91,14 @@ export function withdrawApproval({ issue, top, say }) {
 
 // Posts a planned review as one PR comment and applies its label; or, with dryRun, prints both.
 // Exits through `die` with 4 when the review was posted but not acted on.
-export function publish({ plan, pr, issue, applyLabel: apply, dryRun, top, say, die }) {
+export function publish({ plan, pr, issue, applyLabel: apply, dryRun, top, say, die, dir }) {
   for (const r of plan.rewrites) say(`rewrote a closing keyword: ${r}`);
   if (dryRun) {
     say(plan.body);
     say(`dry run: would post the above${apply && plan.label ? `, label ${plan.label}` : ', no label'}, and exit ${plan.code}.`);
     process.exit(0);
   }
-  postComment({ plan, pr, top });
+  postComment({ plan, pr, top, dir });
   if (plan.unaccounted) die(4, `posted: ${plan.first} / approve, not applied: ${plan.unaccounted}. Decide on PR ${pr}: a supplementary review of those lines, or a rework.`);
   if (plan.kind === 'flagged') die(4, `posted: ${plan.first}, flagged (${plan.note}); no label. Read the review on PR ${pr} and decide.`);
   say(`posted: ${plan.first} / ${plan.verdict}`);

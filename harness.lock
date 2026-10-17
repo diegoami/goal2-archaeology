@@ -21,7 +21,7 @@ behavioural+static, research protocol, routing, static-first)
 adapt docs/process.md  (§4 static-first line and §5 gate G0a (U32); §1 reviewer row: Sol at effort low for
 complex tasks, GPT-5.6 Luna for small PRs (L101); §2 milestones (L102, upstream's L58 is this lesson
 promoted); §3 the brief by file (L60), detached launch and the watch, push every 20 min and draft PRs
-(L103); §5 run mechanics and the stop rule after two one-blocker rounds; §13 the named view (T20))
+(L103); §5 run mechanics and the stop rule after two one-blocker rounds; §13 the named view (T20); §5 scratch files go to ~/goal2-review-tmp, never /tmp (#311))
 adapt docs/lessons.md  (upstream L1-L60, then this project's L100-L103)
 adapt harness.json  (this project's models: zai-glm-5.3-flash, zai-glm-5.3 (low), gpt-6.1-sol (low); the
 owner's ali-* and mm-* entries with probes and pricing (2026-10-05/06), the owner's placements of
@@ -41,10 +41,10 @@ adapt .claude/skills/run-task/SKILL.md  (the user chooses models, the owner 2026
 adapt .claude/skills/switch-model/SKILL.md  (the user chooses models, the owner 2026-10-11)
 8a63c4093207e8f96230e8e6c92019c06897434ca8b70f287e76821ff09502d6  .github/pull_request_template.md
 adapt .opencode/agents/implementer.md  (/tmp open to the agent, the owner 2026-10-11)
-adapt .opencode/agents/reviewer.md  (rule 9a: undo a mutation by rewriting the saved file; /tmp open to the agent, 2026-10-11)
+adapt .opencode/agents/reviewer.md  (rule 9a: undo a mutation by rewriting the saved file; /tmp open to the agent, 2026-10-11; ~/goal2-review-tmp open to the agent as the scratch folder on the real disk, #311, 2026-10-17)
 c6ffaa08eb490d11e8f208b7f8ec7a1e291d55c3cee01e58aa84466fe1983f89  docs/jev/blocks-release.md
 46c4f6e3ca23871e59c25366e8acf9818e43113546f0cd107571ae110f6c10cb  docs/jev/breaks-play.md
-adapt docs/review-brief.md  (reviewer run mechanics: idle limit 1500 s, total 5400 s, a long suite is expected (6ce65fc, #261, 2026-10-17); offline tests: gh retry and network tests skip visibly (9806b0b, #293, 2026-10-17); #303: the pin was stale, now recorded)
+adapt docs/review-brief.md  (reviewer run mechanics: idle limit 1500 s, total 5400 s, a long suite is expected (6ce65fc, #261, 2026-10-17); scratch space: the run's folder under ~/goal2-review-tmp, never /tmp (#311, 2026-10-17); offline tests: gh retry and network tests skip visibly (9806b0b, #293, 2026-10-17); #303: the pin was stale, now recorded)
 4f1b39c9bc3a6131866898c068aa06f46ae39a096de178fcc65ac3aedf1dd78d  docs/tasks/TEMPLATE.md
 518ad06ab39fdd22407b864ba878acf404ffe9dac5a8e9b19b4d44b574fe6342  tools/harness/guard.mjs
 adapt tools/harness/peek.sh  (new: an OpenCode run's latest steps, from isle-wars-archaeology d1e0082, 2026-10-11)
@@ -57,10 +57,11 @@ adapt tools/harness/lib/common.mjs  (native Codex session-family detection)
 b65cc055307ca29a94c1f882262395737af1ae776b3561bd32d187740622b9af  tools/harness/lib/jev.mjs
 a6bf727222667a4c1744a8d01206e3fd36208203d80df117ff1216e08339ecf7  tools/harness/lib/models.mjs
 adapt tools/harness/lib/opencode.mjs  (the user chooses models, the owner 2026-10-11)
-5005d641b97629f37b2e0e4874ca0e46358d101828169bd7b7d74eff3ee10e4c  tools/harness/lib/post.mjs
+adapt tools/harness/lib/post.mjs  (#311: postComment and publish take the directory for the comment's body file, so a full /tmp does not lose a finished review at the post)
+adapt tools/harness/lib/scratch.mjs  (new: the reviewer's scratch folder ~/goal2-review-tmp on the real disk, the space check and the harness's own log directory (#311, 2026-10-17))
 66379ce8b5620f13ac48634a9f54e1eabfd6f451c06161219f6883b541bd3452  tools/harness/lib/review-selftest.mjs
 adapt tools/harness/lib/switch.mjs  (the roster, the session's family and the dispatch settings of CLAUDE.md "Choosing models" (8dc4dc1, #149, 2026-10-12); --ask and --review-kind (9933d32, #185, 2026-10-13); the partial bump to 610f979 (d09c12a); #303: the pin was stale, now recorded)
 bf717caa54364e8e56a50bab0f07d0212b8300992bc0ad3629cf097ef58e4845  tools/harness/models.mjs
 adapt tools/harness/post-review.mjs  (#264: readReview gets { doneWhen }, so a loose-header recovery's note carries the Done-when accounting, as review.mjs's does)
-adapt tools/harness/review.mjs  (the user chooses models, the owner 2026-10-11)
+adapt tools/harness/review.mjs  (the user chooses models, the owner 2026-10-11; #311: TMPDIR, TMP and TEMP point at the run's folder under ~/goal2-review-tmp, removed when the run comes back and kept when it fails, and a review is refused when /tmp has under 500 MB free and that disk under 2 GB)
 adapt tools/harness/switch-model.mjs  (the same changes as lib/switch.mjs: #149, #185, the partial bump d09c12a; #303: the pin was stale, now recorded)

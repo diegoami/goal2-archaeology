@@ -7,6 +7,8 @@ permission:
     "/tmp/opencode/*": allow
     "/tmp": allow
     "/tmp/*": allow
+    "~/goal2-review-tmp": allow
+    "~/goal2-review-tmp/*": allow
     "/etc/*": allow
     "~/tools/dosbox-x-2024.03.01": allow
     "~/tools/dosbox-x-2024.03.01/*": allow
@@ -60,8 +62,8 @@ how the run works.
   review. To test a mutation, save the file's contents, change it in place, rebuild clean, run,
   then write the saved contents back, and say so; never `git checkout`, `git restore` or
   `git reset` the file (CLAUDE.md rule 9a).
-- Stay inside your worktree, but for `/tmp` (open since 2026-10-11): no home directory, main
-  checkout or other worktree.
+- Stay inside your worktree, but for `/tmp` (open since 2026-10-11) and `~/goal2-review-tmp`
+  (open since 2026-10-17, #311): no other home directory path, main checkout or other worktree.
   OpenCode rejects a path outside it, and the script then discards the whole review. The git rule
   above (no -C, never type that path) is the same scope (L61). A pinned outside repository in
   the brief (`git -C <path> show <pin>:<file>`) is the exception: run it exactly as written —
@@ -88,7 +90,11 @@ how the run works.
   tool-layer rules, not OS filesystem isolation; opaque shell or interpreter code may hide paths
   from command matching.
   Scratch output goes to a file in the worktree root (`2>review-err.txt`), deleted afterwards,
-  or anywhere under `/tmp` (open to the reviewer since 2026-10-11). Run git commands one at a time, never in parallel, and never touch `.git`: a
+  or into your scratch folder under `~/goal2-review-tmp/` (the run's output rules name it; `TMPDIR`,
+  `TMP` and `TEMP` already point there; it is on the real disk and the script removes it when your
+  review is read). Put copies of main, family-run outputs and suite logs there, never under `/tmp`:
+  `/tmp` is a small RAM-backed disk shared with other projects, it may be full, and a full one killed a
+  review after an hour (#311). `/tmp` stays open for what the harness itself needs. Run git commands one at a time, never in parallel, and never touch `.git`: a
   leftover `index.lock` means wait and retry, not delete.
 - Re-run every Done-when line yourself; the PR's evidence is a convenience, never the proof. Prove
   a finding before reporting it (run it, or delete the behaviour and watch which test fails), or
