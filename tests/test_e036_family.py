@@ -33,6 +33,11 @@ import records  # noqa: E402
 import original_match  # noqa: E402
 from original_match.check import EXPECTED_FAMILY  # noqa: E402
 
+try:
+    import unicorn  # noqa: F401
+    HAVE_UNICORN = True
+except ImportError:             # CI does not install python3-unicorn
+    HAVE_UNICORN = False
 FAMILY_PY = E036 / "family.py"
 IMAGE_FILE = ROOT / ".cache/dl/e0afff6751747233-e006-1000-r0001.sav"
 
@@ -463,6 +468,7 @@ class RunMatch(unittest.TestCase):
         self.assertEqual(pauses, [20, 60])
         self.assertTrue(records.is_completed(r))
 
+    @unittest.skipUnless(HAVE_UNICORN, "unicorn is not installed (family.py imports its hook constant for --count)")
     def test_count_counts_each_execution_of_each_address(self):
         def fire(m):
             m.m.execute("0791:970C", 3)
@@ -709,6 +715,7 @@ class TheRanges(unittest.TestCase):
 
 # ---- one real match ----------------------------------------------------------------------------------------------
 @unittest.skipIf(os.environ.get("E036_NO_REAL_MATCH"), "E036_NO_REAL_MATCH is set (the mutation check runs no match)")
+@unittest.skipUnless(HAVE_UNICORN, "unicorn is not installed")
 @unittest.skipUnless(IMAGE_FILE.is_file(), "the reference image is not in .cache/dl (fetch it with gh, see the kit's README)")
 class OneRealMatch(unittest.TestCase):
     def test_seed_0x1234_is_e032s_record_and_count_counts_the_ticks(self):

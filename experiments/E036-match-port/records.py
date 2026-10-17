@@ -69,14 +69,13 @@ DS_BLOCKS = DS_SIZE // BLOCK
 # sample missed is an error in the record and not a silent gap.
 RANGES = {
     "records": (262990, 93648),         # the country, player, manager, game and fixture arrays (DS:A917 .. A92B + 8n)
-    "w5c8a0": (379040, 1776),           # small writes at a fixed stride, all within 0x5C8A0..0x5CF90
-    "w5eb30": (387888, 64),             # 64 bytes written by some of the 18 matches (notes/T57.md says which)
-    "saved_screen": (388368, 4016),     # DS:7C1E's block: a saved text screen (a 4000-byte page and its 16 bytes)
-}
+    "w5c8a0": (379040, 1776),           # small writes at a fixed stride; DS:7C4C points into it
+    "w5eb30": (387888, 64),             # 64 bytes that three of the kind-200 matches change (notes/T57.md)
+    "pitch_background": (388368, 4016),     # DS:7C1E's block: the pitch picture's background copy, which 8E24
+}                                           # restores cells from (E032 notes), with its 6-byte header and tail
 # The 1 KiB blocks of DS that only the screen's text buffers carry (DS:A96E and DS:A972 point at the two 4000-byte
 # buffers from DS:ED10; block 59 is the first that holds any of it): compare.py --no-screen leaves them out.
 SCREEN_DS_BLOCKS = (59, 60, 61, 62, 63)
-SCREEN_RANGES = ("saved_screen",)       # names of RANGES that only hold a screen's text (compare.py --no-screen leaves them out)
 MASK_SPACES = ("DS", "P")
 P_SIZE = 0x110000                      # the guest memory the kit maps (machine.py MEM_SIZE)
 
@@ -124,7 +123,7 @@ def read_log(path):
             text = f.read().decode("utf-8")
     except (OSError, UnicodeDecodeError) as e:
         raise SchemaError(f"{path}: {e}")
-    if text.startswith("﻿"):
+    if text.startswith("\ufeff"):
         raise SchemaError(f"{path}: starts with a byte-order mark")
     if text and not text.endswith("\n"):
         raise SchemaError(f"{path}: ends with an incomplete line (a run stopped mid-write?)")
@@ -244,10 +243,7 @@ def validate(r):
     for k, v in c.items():
         _str(k, ADDRESS, "counts key")
         _int(v, 0, 10 ** 12, f"counts[{k!r}]")
-    present = [k for k in EVIDENCE if r[k] is not None]
-    if present and len(present) != len(EVIDENCE):
-        raise SchemaError(f"evidence is partly missing: {sorted(set(EVIDENCE) - set(present))} are null")
-    if not present:
+    if all(r[k] is None for k in EVIDENCE):
         if is_completed(r):
             raise SchemaError("a completed record without its evidence")
         return

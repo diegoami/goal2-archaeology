@@ -24,8 +24,9 @@ template counts, the result's digest, the decisions, and after the post-match up
 every 1 KiB of DS and of every range. The first differing field is named, with the minute where the draws give one.
 --expect differ (a falsifier caught): every candidate match must differ from its reference in one of those fields, or
 be a match that did not complete (a falsifier that hangs or errors is caught as well); an identical match is NOT CAUGHT.
---no-screen leaves out what only the screen carries: the board screen's digest and the 1 KiB blocks of DS and the
-ranges that only hold the screen's text buffers.
+--no-screen leaves out what only the screen carries: the board screen's digest and the 1 KiB blocks of DS that only
+hold the screen's two text buffers (records.SCREEN_DS_BLOCKS); the pitch picture's background copy is engine state and
+stays.
 
     python3 -B experiments/E036-match-port/compare.py --e032 --candidate <reference.jsonl>
 prints, per seed, whether F40's ten E032 matches ('F40/e032-*') equal original_match.check's EXPECTED_FAMILY (score,
@@ -96,8 +97,6 @@ def differences(a, b, no_screen=False):
                 out.append((field, where))
         elif field == "after.ranges":
             for name in records.RANGES:
-                if no_screen and name in records.SCREEN_RANGES:
-                    continue
                 where = block_difference(x[name], y[name], name)
                 if where:
                     out.append((f"after.ranges.{name}", where))

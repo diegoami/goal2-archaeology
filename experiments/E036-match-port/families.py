@@ -321,10 +321,10 @@ def discover(directory=FAMILIES_DIR):
     for path in sorted(Path(directory).glob("*.json")):
         fam = load_family(path, policies)
         out[fam.name] = fam
-        for m in fam.matches:
-            if m.id in ids:
-                raise FamilyError(f"{path.name}: the id {m.id!r} is also in {ids[m.id]}")
-            ids[m.id] = path.name
+        clash = sorted({m.id for m in fam.matches} & set(ids))
+        if clash:
+            raise FamilyError(f"{path.name}: the id {clash[0]!r} is also in {ids[clash[0]]}")
+        ids.update({m.id: path.name for m in fam.matches})
     if not out:
         raise FamilyError(f"no family file in {directory}")
     return out

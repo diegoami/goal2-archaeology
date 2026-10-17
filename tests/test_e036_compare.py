@@ -380,12 +380,20 @@ class CommandLine(Base):
         self.assertEqual(self.compare(short, ref=ref, family="ALL").returncode, 2)
 
     def test_each_family_uses_its_own_reference_by_default(self):
-        """Without --reference the reference is the family's declared one (a missing file is malformed, not a pass)."""
+        """Without --reference the reference is the family's declared one: the committed log (T57's) compared with
+        itself passes, and a missing log is malformed, not a pass."""
+        committed = ROOT / FAMILIES["F40"].reference
         for fam in FAMILIES.values():
-            self.assertTrue((ROOT / fam.reference).parent.is_dir(), fam.reference)
-        r = subprocess.run([sys.executable, "-B", str(COMPARE), "--family", "F40", "--candidate", str(self.ref)],
+            self.assertEqual(fam.reference, FAMILIES["F40"].reference)
+        if not committed.is_file():
+            self.skipTest("the reference is not committed in this tree")
+        r = subprocess.run([sys.executable, "-B", str(COMPARE), "--family", "ALL", "--candidate", str(committed)],
                            capture_output=True, text=True, cwd=self.tmp.name)
-        self.assertIn(r.returncode, (0, 2), r.stdout)       # 2 until the reference is committed; 0 against it
+        self.assertEqual(r.returncode, 0, r.stdout[-500:])
+        self.assertIn("62 matches expected identical, 62 pass, 0 fail", r.stdout)
+        missing = subprocess.run([sys.executable, "-B", str(COMPARE), "--family", "F40", "--candidate", str(self.ref),
+                                  "--reference", str(Path(self.tmp.name) / "none.jsonl")], capture_output=True, text=True)
+        self.assertEqual(missing.returncode, 2)
 
     def test_strict_json_and_encoding(self):
         text = [json.dumps(record(m)) for m in F40]
@@ -397,7 +405,7 @@ class CommandLine(Base):
             "-Infinity": good.replace('"cpu_s": 9.5', '"cpu_s": -Infinity', 1),
             "duplicate key": good.replace('"kit": "2"', '"kit": "2", "kit": "2"', 1),
             "no final newline": good.rstrip("\n"),
-            "BOM": "﻿" + good,
+            "BOM": "\ufeff" + good,
         }
         for name, text in variants.items():
             with self.subTest(name):
