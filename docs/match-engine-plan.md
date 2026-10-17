@@ -37,6 +37,18 @@ for this plan on the original's own code in the Unicorn harness. This page holds
   a match; the port then replaces it piece by piece through the same hooks. Whether goal2 takes that is
   goal2's decision (L112; goal2 issue 97).
 
+## The backlog that carries this route out
+
+Option D exists as the original-match kit (`runtime/original_match/`, issues 250 and 252), made without P0's tooling
+or P6's adapter, and goal2 vendors it; the owner's decision stands that the port replaces it piece by piece through the
+same hooks, ending as a pure-Python engine equal to the original draw for draw, with no GOAL.EXE bytes needed at run
+time. The tasks are T57 to T80 (`docs/tasks/README.md`): P0 rebuilt on the kit (T57-T59), the steps split into parts,
+and what this page did not count: the steps call each other's routines (so a port calls the original through guest
+calls), the kit runs all of run_match and the post-match update (the set-up's deeper callees, run_match's tail, `B7FA`,
+the menus and prompts a decision goes through, the quick result from a pause), the display boundary, and the seal (T80).
+The backlog's sizes are E036's (`experiments/E036-match-port/sizes.py`, its current output named in the experiment's
+notes); the figures on this page stay the plan's own estimate.
+
 ## What is known, and what is left
 
 From F013 and the findings after it, and E032's coverage of five whole matches (kick-off to full time):
@@ -91,8 +103,8 @@ that fails has to be changed and measured again. A step of the port is checked o
 
 ## The route, step by step
 
-Each step is one task (`docs/process.md`), merged on its own, implemented by a Claude subagent and
-reviewed by OpenCode (CLAUDE.md "Choosing models"). Every step's exit check is the same mechanism: whole
+Each step is one or more tasks (`docs/process.md`; the backlog above), each merged on its own, implemented by a Claude
+subagent and reviewed by OpenCode (CLAUDE.md "Choosing models"). Every step's exit check is the same mechanism: whole
 watched matches of the original with the step's routines replaced by their ports, compared with the
 unhooked matches of the same seeds, field by field (score, ticks, every main-seed draw by its digest, the
 full-time board's raw statistics, the commentary's template counts), plus two or three falsifiers that

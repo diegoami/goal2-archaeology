@@ -1,0 +1,1180 @@
+{
+ "assumed": {
+  "EXTRA": "hours a porting task adds: T74 the kit's fixture with no managed side (E034 notes: about 1 h), T76 the kit's set-piece taker decision (E033 notes: about 1 h), T77 finding the start states that reach the frontier (the plan's P7 hour)",
+  "FIXED": "estimates of the tasks that are tooling, classification, assembly or measurement, not porting",
+  "PER_TASK": "hours a porting task spends beyond porting: its family checks, unit tests, annotation rows, the regenerated named view and the PR",
+  "PILOT_RATE": "static instructions an hour at the E032 pilot's pace (E032 notes: 40 minutes, self-reported, not logged)",
+  "RATES": "the share of the pilot's pace the rest of the engine allows (the plan's three rates)",
+  "WORKERS": "tasks at once: the machine allows two workers"
+ },
+ "elapsed": {
+  "central": {
+   "longest_chain_hours": 38.8,
+   "plan": {
+    "T57": [
+     0.0,
+     4.0
+    ],
+    "T58": [
+     0.0,
+     5.0
+    ],
+    "T59": [
+     5.0,
+     10.0
+    ],
+    "T60": [
+     21.9,
+     27.5
+    ],
+    "T61": [
+     46.8,
+     50.7
+    ],
+    "T62": [
+     50.8,
+     54.2
+    ],
+    "T63": [
+     28.3,
+     33.3
+    ],
+    "T64": [
+     22.8,
+     28.3
+    ],
+    "T65": [
+     38.2,
+     42.6
+    ],
+    "T66": [
+     37.9,
+     42.4
+    ],
+    "T67": [
+     33.0,
+     37.9
+    ],
+    "T68": [
+     27.5,
+     33.0
+    ],
+    "T69": [
+     50.7,
+     54.6
+    ],
+    "T70": [
+     42.4,
+     46.8
+    ],
+    "T71": [
+     42.6,
+     46.8
+    ],
+    "T72": [
+     54.2,
+     57.3
+    ],
+    "T73": [
+     46.8,
+     50.8
+    ],
+    "T74": [
+     10.0,
+     16.2
+    ],
+    "T75": [
+     16.2,
+     21.9
+    ],
+    "T76": [
+     33.3,
+     38.2
+    ],
+    "T77": [
+     16.2,
+     22.8
+    ],
+    "T78": [
+     57.3,
+     62.3
+    ],
+    "T79": [
+     62.3,
+     65.3
+    ],
+    "T80": [
+     65.3,
+     69.3
+    ]
+   },
+   "two_workers_hours": 69.3
+  },
+  "optimistic": {
+   "longest_chain_hours": 32.9,
+   "plan": {
+    "T57": [
+     0.0,
+     4.0
+    ],
+    "T58": [
+     0.0,
+     5.0
+    ],
+    "T59": [
+     5.0,
+     10.0
+    ],
+    "T60": [
+     21.5,
+     24.8
+    ],
+    "T61": [
+     33.6,
+     36.1
+    ],
+    "T62": [
+     36.2,
+     38.4
+    ],
+    "T63": [
+     25.1,
+     28.1
+    ],
+    "T64": [
+     21.8,
+     25.1
+    ],
+    "T65": [
+     30.9,
+     33.6
+    ],
+    "T66": [
+     28.1,
+     30.9
+    ],
+    "T67": [
+     28.0,
+     30.9
+    ],
+    "T68": [
+     24.8,
+     28.0
+    ],
+    "T69": [
+     36.1,
+     38.6
+    ],
+    "T70": [
+     30.9,
+     33.6
+    ],
+    "T71": [
+     33.6,
+     36.2
+    ],
+    "T72": [
+     38.4,
+     40.4
+    ],
+    "T73": [
+     17.5,
+     21.5
+    ],
+    "T74": [
+     10.0,
+     14.1
+    ],
+    "T75": [
+     14.1,
+     17.5
+    ],
+    "T76": [
+     18.4,
+     21.8
+    ],
+    "T77": [
+     14.1,
+     18.4
+    ],
+    "T78": [
+     40.4,
+     45.4
+    ],
+    "T79": [
+     45.4,
+     48.4
+    ],
+    "T80": [
+     48.4,
+     52.4
+    ]
+   },
+   "two_workers_hours": 52.4
+  },
+  "pessimistic": {
+   "longest_chain_hours": 50.7,
+   "plan": {
+    "T57": [
+     0.0,
+     4.0
+    ],
+    "T58": [
+     0.0,
+     5.0
+    ],
+    "T59": [
+     5.0,
+     10.0
+    ],
+    "T60": [
+     31.0,
+     41.2
+    ],
+    "T61": [
+     74.7,
+     81.5
+    ],
+    "T62": [
+     81.5,
+     87.3
+    ],
+    "T63": [
+     41.8,
+     50.8
+    ],
+    "T64": [
+     31.7,
+     41.8
+    ],
+    "T65": [
+     59.3,
+     67.0
+    ],
+    "T66": [
+     51.2,
+     59.3
+    ],
+    "T67": [
+     50.8,
+     59.6
+    ],
+    "T68": [
+     41.2,
+     51.2
+    ],
+    "T69": [
+     74.8,
+     81.6
+    ],
+    "T70": [
+     59.6,
+     67.3
+    ],
+    "T71": [
+     67.3,
+     74.8
+    ],
+    "T72": [
+     81.6,
+     86.8
+    ],
+    "T73": [
+     86.8,
+     90.8
+    ],
+    "T74": [
+     10.0,
+     20.5
+    ],
+    "T75": [
+     20.5,
+     31.0
+    ],
+    "T76": [
+     67.0,
+     74.7
+    ],
+    "T77": [
+     20.5,
+     31.7
+    ],
+    "T78": [
+     90.8,
+     95.8
+    ],
+    "T79": [
+     95.8,
+     98.8
+    ],
+    "T80": [
+     98.8,
+     102.8
+    ]
+   },
+   "two_workers_hours": 102.8
+  }
+ },
+ "out": {
+  "instructions": 4319,
+  "routines": 98,
+  "why": [
+   "a view the decision API never opens (the in-play poll's Up/Down and Space keys)",
+   "printing and the DOS shell from a menu: never chosen by the decision API",
+   "saving a goal or the summary to disk and its file-name editor: only after a Yes, which the kit never answers (F030)",
+   "six-byte Real arithmetic: called only by the music (214B:1EF1) and the file name's Val (0A6B)",
+   "the action replay's playback: only after a Yes, which the kit never answers (F029, F030)",
+   "the heap and the halt: the Turbo Pascal runtime's, used by code outside a match",
+   "the help viewer (GOAL.HLP), reached only by a key the decision API never sends"
+  ]
+ },
+ "problems": [],
+ "tasks": {
+  "T57": {
+   "hours": {
+    "central": 4.0,
+    "optimistic": 4.0,
+    "pessimistic": 4.0
+   },
+   "instructions": 0,
+   "merge_after": [],
+   "reached_kickoff_to_full_time": 0,
+   "routines": [],
+   "step": "P0a",
+   "title": "seed families and the fail-closed comparison on the kit"
+  },
+  "T58": {
+   "hours": {
+    "central": 5.0,
+    "optimistic": 5.0,
+    "pessimistic": 5.0
+   },
+   "instructions": 555,
+   "merge_after": [],
+   "reached_kickoff_to_full_time": 11,
+   "routines": [
+    "0791:8889",
+    "0791:86D0",
+    "0791:2BE5",
+    "0791:2974",
+    "0791:045D",
+    "0791:2CC5",
+    "0791:2DCA",
+    "23E4:08DF",
+    "214B:0688",
+    "214B:06B1",
+    "214B:06FA"
+   ],
+   "step": "P0b",
+   "title": "the port mode in the kit, with the E032 pilot moved in"
+  },
+  "T59": {
+   "hours": {
+    "central": 5.0,
+    "optimistic": 5.0,
+    "pessimistic": 5.0
+   },
+   "instructions": 43,
+   "merge_after": [
+    "T57",
+    "T58"
+   ],
+   "reached_kickoff_to_full_time": 1,
+   "routines": [
+    "0791:6E11"
+   ],
+   "step": "P0c",
+   "title": "guest calls, a decision under a port, and the divergence locator"
+  },
+  "T60": {
+   "hours": {
+    "central": 5.6,
+    "optimistic": 3.3,
+    "pessimistic": 10.2
+   },
+   "instructions": 1906,
+   "merge_after": [
+    "T59"
+   ],
+   "reached_kickoff_to_full_time": 60,
+   "routines": [
+    "0791:261A",
+    "0791:26A0",
+    "0791:26C2",
+    "0791:26D7",
+    "0791:278A",
+    "0791:287C",
+    "0791:28B2",
+    "0791:2929",
+    "0791:2956",
+    "0791:2996",
+    "0791:29B3",
+    "0791:2A15",
+    "0791:2A6D",
+    "0791:2AA3",
+    "0791:2AD4",
+    "0791:2B0F",
+    "0791:2B28",
+    "0791:2B51",
+    "0791:2B7B",
+    "0791:2BB1",
+    "0791:2C29",
+    "0791:2C54",
+    "0791:2C86",
+    "0791:2CEC",
+    "0791:2D10",
+    "0791:2D6D",
+    "0791:2E00",
+    "0791:2E36",
+    "0791:2E82",
+    "0791:2EB8",
+    "0791:2EF0",
+    "0791:2F28",
+    "214B:0000",
+    "214B:0018",
+    "214B:003C",
+    "214B:007B",
+    "214B:009C",
+    "214B:0147",
+    "214B:0329",
+    "214B:05DB",
+    "214B:05F0",
+    "214B:06D0",
+    "214B:09DA",
+    "214B:0C57",
+    "214B:0C79",
+    "214B:0CA1",
+    "214B:0CCB",
+    "214B:0CF4",
+    "214B:0D1C",
+    "214B:0D56",
+    "214B:1C86",
+    "214B:1D6F",
+    "214B:2000",
+    "214B:2031",
+    "23E4:025D",
+    "23E4:0279",
+    "23E4:0294",
+    "23E4:062A",
+    "23E4:0644",
+    "23E4:0676",
+    "23E4:06B7",
+    "23E4:06E3",
+    "23E4:072F",
+    "23E4:075A",
+    "23E4:0787",
+    "23E4:07DB",
+    "23E4:08BF",
+    "23E4:11E4",
+    "23E4:12F6",
+    "23E4:19B2"
+   ],
+   "step": "P1a",
+   "title": "the runtime primitives and the geometry queries"
+  },
+  "T61": {
+   "hours": {
+    "central": 3.9,
+    "optimistic": 2.5,
+    "pessimistic": 6.8
+   },
+   "instructions": 1215,
+   "merge_after": [
+    "T59"
+   ],
+   "reached_kickoff_to_full_time": 21,
+   "routines": [
+    "1771:0AA7",
+    "1771:0B77",
+    "1771:0E24",
+    "1771:0E6C",
+    "1771:2E20",
+    "1771:2E93",
+    "1771:2FAD",
+    "1771:2FFB",
+    "1771:3041",
+    "1771:3088",
+    "1771:30D9",
+    "1771:3179",
+    "1771:3216",
+    "1771:33CD",
+    "1771:3431",
+    "1771:34E7",
+    "1771:377E",
+    "1771:3A06",
+    "1771:3A82",
+    "1771:3E2F",
+    "1771:3EF8",
+    "1771:5A03"
+   ],
+   "step": "P1b",
+   "title": "the player attributes (1771)"
+  },
+  "T62": {
+   "hours": {
+    "central": 3.4,
+    "optimistic": 2.2,
+    "pessimistic": 5.8
+   },
+   "instructions": 991,
+   "merge_after": [
+    "T59"
+   ],
+   "reached_kickoff_to_full_time": 11,
+   "routines": [
+    "0791:835F",
+    "0791:83A2",
+    "0791:8537",
+    "0791:869F",
+    "0791:8AE9",
+    "0791:8C67",
+    "0791:8CCA",
+    "0791:8CF5",
+    "0791:8E24",
+    "0791:90C5",
+    "0791:9119"
+   ],
+   "step": "P2a",
+   "title": "ball and player motion, the offside line and the referee"
+  },
+  "T63": {
+   "hours": {
+    "central": 5.0,
+    "optimistic": 3.0,
+    "pessimistic": 9.0
+   },
+   "instructions": 1665,
+   "merge_after": [
+    "T59"
+   ],
+   "reached_kickoff_to_full_time": 16,
+   "routines": [
+    "0791:1F3C",
+    "0791:1FDD",
+    "0791:20E3",
+    "0791:2218",
+    "0791:419C",
+    "0791:42CB",
+    "0791:4354",
+    "0791:4438",
+    "0791:44C1",
+    "0791:4532",
+    "0791:4649",
+    "0791:474D",
+    "0791:47C5",
+    "0791:4A28",
+    "0791:4B64",
+    "0791:4D3F"
+   ],
+   "step": "P2b",
+   "title": "positioning, marking and the leaders"
+  },
+  "T64": {
+   "hours": {
+    "central": 5.5,
+    "optimistic": 3.3,
+    "pessimistic": 10.1
+   },
+   "instructions": 1893,
+   "merge_after": [
+    "T59"
+   ],
+   "reached_kickoff_to_full_time": 21,
+   "routines": [
+    "0791:2FB1",
+    "0791:30EA",
+    "0791:3111",
+    "0791:3323",
+    "0791:333F",
+    "0791:34C1",
+    "0791:384C",
+    "0791:3B15",
+    "0791:3B9E",
+    "0791:3BEE",
+    "0791:3C20",
+    "0791:3C3F",
+    "0791:3D38",
+    "0791:3DF6",
+    "0791:3EC5",
+    "0791:3EDF",
+    "0791:3EF8",
+    "0791:3FAD",
+    "0791:408E",
+    "0791:40BC",
+    "0791:4151"
+   ],
+   "step": "P3a",
+   "title": "the ball: passing, launching and shooting"
+  },
+  "T65": {
+   "hours": {
+    "central": 4.4,
+    "optimistic": 2.7,
+    "pessimistic": 7.7
+   },
+   "instructions": 1400,
+   "merge_after": [
+    "T59"
+   ],
+   "reached_kickoff_to_full_time": 17,
+   "routines": [
+    "0791:4DA9",
+    "0791:4E28",
+    "0791:500C",
+    "0791:5049",
+    "0791:533B",
+    "0791:539F",
+    "0791:5474",
+    "0791:5513",
+    "0791:5565",
+    "0791:56D9",
+    "0791:5729",
+    "0791:57AC",
+    "0791:58E1",
+    "0791:593B",
+    "0791:59B3",
+    "0791:5A33",
+    "0791:5A8E"
+   ],
+   "step": "P3b",
+   "title": "the holder's decisions and the contests"
+  },
+  "T66": {
+   "hours": {
+    "central": 4.5,
+    "optimistic": 2.8,
+    "pessimistic": 8.1
+   },
+   "instructions": 1468,
+   "merge_after": [
+    "T59"
+   ],
+   "reached_kickoff_to_full_time": 14,
+   "routines": [
+    "0791:5B36",
+    "0791:5E41",
+    "0791:5EAB",
+    "0791:5F06",
+    "0791:5F8A",
+    "0791:6188",
+    "0791:61EC",
+    "0791:6240",
+    "0791:6337",
+    "0791:6443",
+    "0791:65A4",
+    "0791:65FE",
+    "0791:6755",
+    "0791:67B6"
+   ],
+   "step": "P4a",
+   "title": "duels, play at the ball, the goal and the after-goal swing"
+  },
+  "T67": {
+   "hours": {
+    "central": 4.9,
+    "optimistic": 2.9,
+    "pessimistic": 8.8
+   },
+   "instructions": 1622,
+   "merge_after": [
+    "T59"
+   ],
+   "reached_kickoff_to_full_time": 25,
+   "routines": [
+    "0791:690C",
+    "0791:698E",
+    "0791:69BD",
+    "0791:6AAD",
+    "0791:6AF7",
+    "0791:6B65",
+    "0791:6BF1",
+    "0791:6D4E",
+    "0791:6DEA",
+    "0791:6E6E",
+    "0791:6F01",
+    "0791:6F3E",
+    "0791:6FB6",
+    "0791:6FEE",
+    "0791:7069",
+    "0791:70F6",
+    "0791:715A",
+    "0791:717F",
+    "0791:71E8",
+    "0791:7287",
+    "0791:74C2",
+    "0791:7621",
+    "0791:7881",
+    "0791:798D",
+    "0791:7A43"
+   ],
+   "step": "P4b",
+   "title": "kick-offs, restarts and set pieces, the walk-off and the booking"
+  },
+  "T68": {
+   "hours": {
+    "central": 5.5,
+    "optimistic": 3.2,
+    "pessimistic": 10.0
+   },
+   "instructions": 1868,
+   "merge_after": [
+    "T59"
+   ],
+   "reached_kickoff_to_full_time": 20,
+   "routines": [
+    "0791:7CC5",
+    "0791:7D56",
+    "0791:7E60",
+    "0791:7EEF",
+    "0791:8062",
+    "0791:8206",
+    "0791:82EB",
+    "0791:A260",
+    "0791:A2E6",
+    "0791:A920",
+    "0791:A9B8",
+    "0791:AAE8",
+    "0791:BBFF",
+    "0791:BD03",
+    "0791:BD83",
+    "0791:BF6B",
+    "0791:C173",
+    "0791:C5DC",
+    "0791:C7EB",
+    "0791:C88D"
+   ],
+   "step": "P5a",
+   "title": "fouls, cards, injuries and form; substitutions and the computer manager in play"
+  },
+  "T69": {
+   "hours": {
+    "central": 3.9,
+    "optimistic": 2.5,
+    "pessimistic": 6.8
+   },
+   "instructions": 1209,
+   "merge_after": [
+    "T59"
+   ],
+   "reached_kickoff_to_full_time": 14,
+   "routines": [
+    "0791:1C78",
+    "0791:1D4A",
+    "0791:1E53",
+    "0791:1EB5",
+    "0791:230C",
+    "0791:9564",
+    "0791:970C",
+    "0791:97D0",
+    "0791:983F",
+    "0791:98C4",
+    "0791:9955",
+    "0791:998C",
+    "0791:9A32",
+    "0791:F098"
+   ],
+   "step": "P5b",
+   "title": "the commentary and the match frame (9564 to play_match)"
+  },
+  "T70": {
+   "hours": {
+    "central": 4.4,
+    "optimistic": 2.7,
+    "pessimistic": 7.7
+   },
+   "instructions": 1395,
+   "merge_after": [
+    "T59"
+   ],
+   "reached_kickoff_to_full_time": 1,
+   "routines": [
+    "0791:A4A1",
+    "0791:1073",
+    "0791:A375",
+    "0791:A3B6",
+    "0791:A3DE",
+    "0791:A6E4",
+    "0791:A841",
+    "0791:2648",
+    "0791:AC67",
+    "0791:AD8F",
+    "0791:AFA3",
+    "0791:B11F",
+    "0791:D44C",
+    "1771:517A",
+    "1771:52CC",
+    "1771:580B"
+   ],
+   "step": "P5c",
+   "title": "the per-match set-up (A4A1 and what it reaches)"
+  },
+  "T71": {
+   "hours": {
+    "central": 4.2,
+    "optimistic": 2.6,
+    "pessimistic": 7.5
+   },
+   "instructions": 1347,
+   "merge_after": [
+    "T59"
+   ],
+   "reached_kickoff_to_full_time": 1,
+   "routines": [
+    "0791:F1F6",
+    "0791:CAB0",
+    "0791:CB7D",
+    "0791:BC5D",
+    "0791:D050",
+    "0791:D016",
+    "0791:D032",
+    "0791:E929",
+    "1771:8757",
+    "1771:82BD",
+    "1771:85F7",
+    "1771:59D8"
+   ],
+   "step": "P5d",
+   "title": "run_match and its tail: the man of the match, the group tables, D050, the tactics reset"
+  },
+  "T72": {
+   "hours": {
+    "central": 3.1,
+    "optimistic": 2.0,
+    "pessimistic": 5.2
+   },
+   "instructions": 864,
+   "merge_after": [
+    "T59"
+   ],
+   "reached_kickoff_to_full_time": 0,
+   "routines": [
+    "0791:B7FA",
+    "0791:B6CC",
+    "0791:B71C",
+    "0791:BA4E",
+    "0791:B27F",
+    "0791:B364",
+    "1771:10E7",
+    "1771:3558",
+    "1771:3651",
+    "1771:5A38",
+    "1771:5A8F",
+    "1771:5C60"
+   ],
+   "step": "P5e",
+   "title": "the post-match update B7FA and the pool update BA4E"
+  },
+  "T73": {
+   "hours": {
+    "central": 4.0,
+    "optimistic": 4.0,
+    "pessimistic": 4.0
+   },
+   "instructions": 7015,
+   "merge_after": [
+    "T59"
+   ],
+   "reached_kickoff_to_full_time": 44,
+   "routines": [
+    "0791:0000",
+    "0791:006C",
+    "0791:0106",
+    "0791:0425",
+    "0791:0441",
+    "0791:0481",
+    "0791:04C9",
+    "0791:054C",
+    "0791:05C6",
+    "0791:0691",
+    "0791:0712",
+    "0791:0C65",
+    "0791:15B9",
+    "0791:1829",
+    "0791:8F10",
+    "0791:9079",
+    "0791:94C9",
+    "0791:94E8",
+    "0791:A699",
+    "0791:A75D",
+    "0791:C50C",
+    "1771:0947",
+    "1771:0AF8",
+    "1771:0F58",
+    "1771:0FB1",
+    "1771:11E1",
+    "1771:1289",
+    "1771:13D0",
+    "1771:1527",
+    "1771:157D",
+    "1771:2EE5",
+    "1771:2F37",
+    "1771:3827",
+    "1771:3947",
+    "1771:3AE2",
+    "1771:3B3F",
+    "1771:3BD3",
+    "1771:42BC",
+    "1771:4D8A",
+    "1771:4E22",
+    "1771:50F1",
+    "1771:5AC4",
+    "1771:5C94",
+    "1771:5CCB",
+    "1771:76FA",
+    "1771:77C3",
+    "1771:883F",
+    "1771:8939",
+    "1771:89C1",
+    "1771:89FE",
+    "1771:8A5D",
+    "1771:8A87",
+    "1771:8CA2",
+    "1771:8CCF",
+    "1771:8D84",
+    "1771:8E9A",
+    "1771:9028",
+    "1771:91CE",
+    "1771:937C",
+    "1771:9509",
+    "1771:958D",
+    "214B:00DB",
+    "214B:00FF",
+    "214B:0123",
+    "214B:01A3",
+    "214B:0205",
+    "214B:026D",
+    "214B:02C8",
+    "214B:0350",
+    "214B:0625",
+    "214B:0643",
+    "214B:0661",
+    "214B:0755",
+    "214B:13C5",
+    "214B:1E09",
+    "214B:1E5A",
+    "214B:1E75",
+    "214B:1E8D",
+    "214B:1EA1",
+    "214B:1EBC",
+    "214B:1EF1",
+    "214B:1F87",
+    "2382:0099",
+    "2382:00E7",
+    "2382:016D",
+    "2382:0215",
+    "2382:04FC",
+    "2382:0608"
+   ],
+   "step": "UI-a",
+   "title": "the display boundary: what is drawn, sounded or waited for, removed or stubbed"
+  },
+  "T74": {
+   "hours": {
+    "central": 6.2,
+    "optimistic": 4.1,
+    "pessimistic": 10.5
+   },
+   "instructions": 1766,
+   "merge_after": [
+    "T59"
+   ],
+   "reached_kickoff_to_full_time": 8,
+   "routines": [
+    "0791:9372",
+    "0791:92FC",
+    "0791:ED8A",
+    "0791:7FCF",
+    "1771:1981",
+    "1771:4859",
+    "1771:4925",
+    "1771:4952",
+    "1771:49B8",
+    "1771:4B61",
+    "214B:04F8",
+    "214B:0566",
+    "214B:0723",
+    "214B:08DD",
+    "214B:0983",
+    "214B:0993",
+    "214B:09A7",
+    "214B:13F6",
+    "214B:1452",
+    "214B:14AC",
+    "214B:1507",
+    "214B:1560",
+    "214B:158E",
+    "214B:15B1",
+    "214B:1765",
+    "235C:0000",
+    "235C:000B"
+   ],
+   "step": "UI-b",
+   "title": "the manager's decisions in play: the key poll, the team menu, tactics, positions, marking; a fixture with no managed side"
+  },
+  "T75": {
+   "hours": {
+    "central": 5.7,
+    "optimistic": 3.4,
+    "pessimistic": 10.5
+   },
+   "instructions": 1975,
+   "merge_after": [
+    "T74"
+   ],
+   "reached_kickoff_to_full_time": 1,
+   "routines": [
+    "0791:E44F",
+    "0791:E022",
+    "0791:DEA6",
+    "0791:EA09",
+    "0791:E949",
+    "0791:DAF8",
+    "0791:DB38",
+    "0791:DBFA",
+    "0791:DC7E",
+    "0791:DDCB",
+    "0791:DE27",
+    "0791:DE51",
+    "0791:E2A0",
+    "0791:E2E6",
+    "1771:4FAA",
+    "1771:53E8",
+    "1771:5532",
+    "1771:55FC"
+   ],
+   "step": "UI-c",
+   "title": "the manager's substitutions: SELECT TEAM, the swap and the eleven's check"
+  },
+  "T76": {
+   "hours": {
+    "central": 4.9,
+    "optimistic": 3.4,
+    "pessimistic": 7.7
+   },
+   "instructions": 1192,
+   "merge_after": [
+    "T75"
+   ],
+   "reached_kickoff_to_full_time": 3,
+   "routines": [
+    "0791:CC7B",
+    "0791:CC2E",
+    "0791:0B7C",
+    "0791:9B0C",
+    "0791:9B5B",
+    "0791:A10A",
+    "0791:0C0B",
+    "0791:9B93",
+    "0791:9ED3",
+    "0791:A006"
+   ],
+   "step": "P7a",
+   "title": "the takers and the shoot-out: the captain and set-piece prompts, the yes/no questions, extra time, the order and the kicks"
+  },
+  "T77": {
+   "hours": {
+    "central": 6.6,
+    "optimistic": 4.3,
+    "pessimistic": 11.2
+   },
+   "instructions": 1910,
+   "merge_after": [
+    "T59"
+   ],
+   "reached_kickoff_to_full_time": 0,
+   "routines": [
+    "0791:D733",
+    "0791:D5C1",
+    "0791:B19D",
+    "0791:6ECF",
+    "0791:73BA",
+    "0791:72F2",
+    "0791:7B77",
+    "0791:7B24",
+    "0791:B3B7",
+    "0791:C01A",
+    "0791:C0DF",
+    "0791:C48D",
+    "0791:BEC7",
+    "0791:C24D",
+    "0791:C2A8",
+    "0791:C406",
+    "1771:0BC4"
+   ],
+   "step": "P7b",
+   "title": "the paths a plain match does not reach: the quick result from a pause, penalties, sendings off, the frontier; the family that reaches them"
+  },
+  "T78": {
+   "hours": {
+    "central": 5.0,
+    "optimistic": 5.0,
+    "pessimistic": 5.0
+   },
+   "instructions": 0,
+   "merge_after": [
+    "T60",
+    "T61",
+    "T62",
+    "T63",
+    "T64",
+    "T65",
+    "T66",
+    "T67",
+    "T68",
+    "T69",
+    "T70",
+    "T71",
+    "T72",
+    "T73",
+    "T74",
+    "T75",
+    "T76",
+    "T77"
+   ],
+   "reached_kickoff_to_full_time": 0,
+   "routines": [],
+   "step": "P6",
+   "title": "the engine on its own: no Unicorn"
+  },
+  "T79": {
+   "hours": {
+    "central": 3.0,
+    "optimistic": 3.0,
+    "pessimistic": 3.0
+   },
+   "instructions": 0,
+   "merge_after": [
+    "T78"
+   ],
+   "reached_kickoff_to_full_time": 0,
+   "routines": [],
+   "step": "sheet A",
+   "title": "the fidelity sheet: the original's distributions, and the port's against them"
+  },
+  "T80": {
+   "hours": {
+    "central": 4.0,
+    "optimistic": 4.0,
+    "pessimistic": 4.0
+   },
+   "instructions": 0,
+   "merge_after": [
+    "T78",
+    "T79"
+   ],
+   "reached_kickoff_to_full_time": 0,
+   "routines": [],
+   "step": "end",
+   "title": "the end state sealed: no GOAL.EXE bytes at run time"
+  }
+ },
+ "total_hours": {
+  "central": 111.7,
+  "optimistic": 80.9,
+  "pessimistic": 173.6
+ },
+ "universe": {
+  "instructions": 37618,
+  "routines": 540
+ }
+}

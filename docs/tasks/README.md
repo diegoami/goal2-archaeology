@@ -64,3 +64,27 @@ exists.
 | T54 | Pass one: formations and start positions, the 14 position codes, and the foot test | #196 | — |
 | T55 | Does a watched match keep a copy of the lineup and restore it? (Q037) | #146 | — |
 | T56 | Prompts around a match: how long each waits, the goal-kick taker prompt, the watch-again re-ask, which goals get a replay | #226 | — |
+| T57 | The seed families and the fail-closed comparison on the original-match kit (P0a) | #268 | — |
+| T58 | The port mode in the kit, with the E032 pilot moved in (P0b) | #269 | — |
+| T59 | Guest calls, a decision under a port, and the divergence locator (P0c) | #270 | T57, T58 |
+| T60 | The runtime primitives and the geometry queries, ported (P1a) | #271 | T59 |
+| T61 | The player attributes (segment 1771), ported (P1b) | #272 | T59 |
+| T62 | Ball and player motion, the offside line and the referee, ported (P2a) | #273 | T59 |
+| T63 | Positioning, marking and the leaders, ported (P2b) | #274 | T59 |
+| T64 | The ball: passing, launching and shooting, ported (P3a) | #275 | T59 |
+| T65 | The holder's decisions and the contests, ported (P3b) | #276 | T59 |
+| T66 | Duels, play at the ball, the goal and the after-goal swing, ported (P4a) | #277 | T59 |
+| T67 | Kick-offs, restarts and set pieces, the walk-off and the booking, ported (P4b) | #278 | T59 |
+| T68 | Fouls, cards, injuries and form; substitutions and the computer manager in play, ported (P5a) | #279 | T59 |
+| T69 | The commentary and the match frame (9564 to play_match), ported (P5b) | #280 | T59 |
+| T70 | The per-match set-up (A4A1 and what it reaches), ported (P5c) | #281 | T59 |
+| T71 | run_match and its tail: the man of the match, the group tables, D050, the tactics reset, ported (P5d) | #282 | T59 |
+| T72 | The post-match update B7FA and the pool update BA4E, ported (P5e) | #283 | T59 |
+| T73 | The display boundary: what is drawn, sounded or waited for, removed or stubbed (UI-a) | #284 | T59 |
+| T74 | The manager's decisions in play and a fixture with no managed side, ported (UI-b) | #285 | T59 |
+| T75 | The manager's substitutions: SELECT TEAM, the swap and the eleven's check, ported (UI-c) | #286 | T74 |
+| T76 | The takers and the shoot-out: the captain and set-piece prompts, extra time, the order and the kicks, ported (P7a) | #287 | T75 |
+| T77 | The paths a plain match does not reach (the quick result from a pause, penalties, sendings off, the frontier), ported (P7b) | #288 | T59 |
+| T78 | The engine on its own: run_match and the post-match update in Python, no Unicorn (P6) | #289 | T60-T77 |
+| T79 | The fidelity sheet: the original's distributions, and the port's against them (sheet A) | #290 | T78 |
+| T80 | The end state sealed: the engine in pure Python with no GOAL.EXE bytes at run time (end) | #291 | T78, T79 |

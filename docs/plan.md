@@ -68,6 +68,10 @@ engine's routines replaced by models while matches stay exact (L102).
 | M5 | fouls, cards, injuries, keeper, set pieces (Q024–Q026, Q033) | substituted; offside trap, going in hard, marking | exact; effect tables |
 | M6 | what remains | the whole engine is the model | a batch of seeded matches all exact: the rebuild's engine (G-M4) |
 
+M3-M6 are now carried out by route C of [match-engine-plan.md](match-engine-plan.md): the engine ported from the
+listing and accepted on whole matches identical over seed families, not routine by routine; its tasks are T57 to T80
+([tasks/README.md](tasks/README.md)).
+
 Effect measurements for the bot start right after M0, on the original's code. The owner's sittings
 corroborate (their commentary and the pitch records each savestate holds), and the owner's answers
 (`owner` testimony) give intent and the look of the game; neither replaces the code.
