@@ -16,7 +16,7 @@ import predicate  # noqa: E402
 import tours  # noqa: E402
 
 CASES = os.path.join(HERE, 'cases.tsv')
-CASES_SHA256 = '2fbcf1cba2b2c2920b4a4b12cb8f0c03b6a92fc4ca217de2d17a5832d3221a5b'
+CASES_SHA256 = 'e81b6730685fb3ca63806f37a1a7d5c9f125830c24f328af1920323bd167be89'
 CODES = {
     'allowed': predicate.ALLOWED,
     'finals': predicate.REFUSED_FINALS,
@@ -41,7 +41,7 @@ class Cases(unittest.TestCase):
                 self.assertEqual(predicate.evaluate_row(row), CODES[row['expected']], row['moment'])
                 visited.append(row['id'])
         self.assertEqual(visited, ['C%02d' % k for k in range(1, len(rows) + 1)])
-        self.assertEqual(len(visited), 29)
+        self.assertEqual(len(visited), 33)
 
     def test_evidence_levels(self):
         for row in load():
