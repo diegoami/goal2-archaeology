@@ -11,11 +11,19 @@
 // commit's full SHA where review.mjs reads: write earlier heads short); the numbered block of
 // docs/process.md section 5; the task file, or the issue's title and body, pasted in full; and the two
 // sections of docs/review-brief.md with "Blocking means" filled from --protects and --blocking4.
-// --protects has no default: without it the placeholder remains and nothing is written. Nothing is
-// written if the brief fails checkBrief: the reader review.mjs uses (lib/chain.mjs briefTargets) must
+// --protects has no default: without it the placeholder remains and nothing is written.
+//
+// The head comes from GitHub, and never ahead of it: a brief written seconds after a push named the old head
+// and review.mjs refused it (#234). When the PR's branch exists locally and GitHub's head is not yet the
+// local head, make-brief polls gh (HARNESS_HEAD_WAIT_SEC, default 120; every HARNESS_HEAD_POLL_SEC, default 5)
+// until they agree, and writes nothing if they never do. A local branch that is an ancestor of GitHub's head
+// (stale, not unpushed) or no local branch at all: GitHub's head is used, and the output says so.
+//
+// Nothing is written if the brief fails checkBrief: the reader review.mjs uses (lib/chain.mjs briefTargets) must
 // find only the head, and no `<...>` placeholder may remain outside the pasted text.
 
 import fs from 'node:fs';
+import { spawnSync } from 'node:child_process';
 import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { briefTargets, doneWhenCount } from './lib/chain.mjs';
@@ -31,6 +39,27 @@ const PLACEHOLDER = /<[A-Za-z][^<>]*>/; // may span lines, as "<name it: ...>" d
 const MARK = '\u0000PASTED\u0000';
 
 const fail = (msg) => { throw new Error(msg); };
+
+const sleepMs = (ms) => Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, ms);
+
+// readHead(): GitHub's head now. localHead: the local branch's head, or null. isBehind(local, remote): true
+// when `local` is an ancestor of `remote`. Returns { head, note }; throws if GitHub never shows localHead.
+export function resolveHead({ readHead, localHead, isBehind = () => false, waitMs = 120000, pollMs = 5000, sleep = sleepMs, now = Date.now }) {
+  let head = readHead();
+  if (!localHead) return { head, note: 'no local branch of the PR: the head is the one GitHub shows' };
+  const start = now();
+  let waited = false;
+  while (head !== localHead) {
+    if (isBehind(localHead, head)) return { head, note: `the local branch is behind GitHub's head: the head is the one GitHub shows` };
+    if (now() - start >= waitMs) {
+      fail(`GitHub still shows the PR's head as ${head}, not the local branch's ${localHead}, after ${Math.round(waitMs / 1000)} s: push the branch, or wait and run again (nothing written).`);
+    }
+    waited = true;
+    sleep(pollMs);
+    head = readHead();
+  }
+  return { head, note: waited ? `waited ${Math.round((now() - start) / 1000)} s for GitHub to show the pushed head` : '' };
+}
 
 // The numbered block: the first ```text fence under "## 5." of docs/process.md.
 export function processBlock(processMd) {
@@ -98,7 +127,16 @@ function main() {
   for (const k of ['pr', 'issue', 'reviewer', 'out']) if (!a[k]) fail(`--${k} is required.`);
   for (const k of ['pr', 'issue']) if (!/^\d+$/.test(a[k])) fail(`--${k} takes a number; got ${a[k]}`);
   if (a.round !== undefined && !/^[1-9]\d*$/.test(a.round)) fail(`--round takes a positive number; got ${a.round}`);
-  const head = sh('gh', ['pr', 'view', a.pr, '--json', 'headRefOid', '--jq', '.headRefOid']).toLowerCase();
+  const readHead = () => sh('gh', ['pr', 'view', a.pr, '--json', 'headRefOid', '--jq', '.headRefOid']).toLowerCase();
+  const branch = sh('gh', ['pr', 'view', a.pr, '--json', 'headRefName', '--jq', '.headRefName'], { allowFail: true });
+  const local = branch ? sh('git', ['rev-parse', '--verify', '--quiet', `refs/heads/${branch}^{commit}`], { allowFail: true }).toLowerCase() : '';
+  const isBehind = (l, r) => /^[0-9a-f]{40}$/.test(r) && spawnSync('git', ['merge-base', '--is-ancestor', l, r]).status === 0;
+  const secs = (v, d) => (v !== undefined && v !== '' && Number.isFinite(Number(v)) ? Number(v) : d);
+  const { head, note } = resolveHead({
+    readHead, localHead: /^[0-9a-f]{40}$/.test(local) ? local : null, isBehind,
+    waitMs: secs(process.env.HARNESS_HEAD_WAIT_SEC, 120) * 1000, pollMs: secs(process.env.HARNESS_HEAD_POLL_SEC, 5) * 1000,
+  });
+  if (note) console.error(`make-brief: ${note}.`);
   if (!/^[0-9a-f]{40}$/.test(head)) fail(`PR ${a.pr}'s head SHA could not be read from gh; got: ${head}`);
   let id; let pasted;
   if (a.task) {

@@ -20,9 +20,20 @@ const REVIEW = path.join(here, 'review.mjs');
 const OTHER = 'a'.repeat(40); // some earlier head, full
 
 const FAKE_GH = `
+import fs from 'node:fs';
 const a = process.argv.slice(2).join(' ');
 if (a === '--version') process.exit(0);
-if (/^pr view \\d+ --json headRefOid/.test(a)) console.log(process.env.FAKE_HEAD);
+// FAKE_OLD_UNTIL=N: the first N reads of the head answer FAKE_OLD_HEAD (GitHub not yet showing the push).
+if (/^pr view \\d+ --json headRefOid/.test(a)) {
+  let head = process.env.FAKE_HEAD;
+  if (process.env.FAKE_OLD_UNTIL) {
+    const f = process.env.FAKE_COUNT;
+    const n = fs.existsSync(f) ? Number(fs.readFileSync(f, 'utf8')) : 0;
+    fs.writeFileSync(f, String(n + 1));
+    if (n < Number(process.env.FAKE_OLD_UNTIL)) head = process.env.FAKE_OLD_HEAD;
+  }
+  console.log(head);
+} else if (/^pr view \\d+ --json headRefName/.test(a)) console.log(process.env.FAKE_BRANCH ?? 'no-such-branch');
 else if (/^(pr|issue) view \\d+ --json labels/.test(a)) console.log('');
 else if (/^issue view \\d+ --json title,body/.test(a)) console.log(JSON.stringify({ title: 'a fix', body: 'The body.\\n\\n**Done when:**\\n1. it works\\n2. it is tested\\n' }));
 else { console.error('fake gh: unexpected ' + a); process.exit(1); }
@@ -227,4 +238,50 @@ test('guard: the command line is checked (nothing written)', () => {
   fs.writeFileSync(path.join(tmp, 'T98.md'), 'no title line here\n');
   refuse([...std.slice(0, -1), path.join(tmp, 'T98.md')], /has no "# T<nn>" title line/);
   refuse(std, /head SHA could not be read/, { FAKE_HEAD: 'not-a-sha' });
+});
+
+// #234: a brief written seconds after a push named the head GitHub still showed, and review.mjs refused it.
+// The fake gh answers the old head for the first reads, then the pushed one; the PR's branch is the fixture's
+// local branch, so make-brief must wait for the pushed head and name it.
+test('#234: make-brief waits until GitHub shows the local branch head, then names that head', () => {
+  const out = path.join(tmp, 'race.md');
+  const count = path.join(tmp, 'count.txt');
+  fs.rmSync(count, { force: true });
+  const e = { ...env, FAKE_BRANCH: git('branch', '--show-current'), FAKE_OLD_HEAD: OTHER, FAKE_OLD_UNTIL: '3', FAKE_COUNT: count, HARNESS_HEAD_POLL_SEC: '0.05', HARNESS_HEAD_WAIT_SEC: '30' };
+  const r = spawnSync(process.execPath, [MAKE, '--pr', '1', '--issue', '5', '--reviewer', 'luna', '--protects', 'x', '--out', out], { cwd: repo, env: e, encoding: 'utf8' });
+  assert.equal(r.status, 0, r.stderr);
+  assert.match(r.stderr, /waited .* for GitHub to show the pushed head/);
+  assert.ok(Number(fs.readFileSync(count, 'utf8')) >= 4); // polled past the three stale answers
+  const text = fs.readFileSync(out, 'utf8');
+  assert.match(text, new RegExp(`You review PR #1 at ${head}`));
+  assert.doesNotMatch(text, new RegExp(OTHER));
+  assert.equal(dry(out).status, 0); // and review.mjs accepts it
+});
+
+test('#234: GitHub never showing the local head writes nothing (exit 2)', () => {
+  const out = path.join(tmp, 'never.md');
+  const e = { ...env, FAKE_BRANCH: git('branch', '--show-current'), FAKE_OLD_HEAD: OTHER, FAKE_OLD_UNTIL: '1000000', FAKE_COUNT: path.join(tmp, 'count2.txt'), HARNESS_HEAD_POLL_SEC: '0.05', HARNESS_HEAD_WAIT_SEC: '0.3' };
+  const r = spawnSync(process.execPath, [MAKE, '--pr', '1', '--issue', '5', '--reviewer', 'luna', '--protects', 'x', '--out', out], { cwd: repo, env: e, encoding: 'utf8' });
+  assert.equal(r.status, 2);
+  assert.match(r.stderr, /still shows the PR's head as a{40}/);
+  assert.equal(fs.existsSync(out), false);
+});
+
+test('#234: no local branch, or a local branch behind GitHub, uses GitHub\'s head without waiting and says so', () => {
+  const out = path.join(tmp, 'nolocal.md');
+  const std = ['--pr', '1', '--issue', '5', '--reviewer', 'luna', '--protects', 'x', '--out', out];
+  const none = spawnSync(process.execPath, [MAKE, ...std], { cwd: repo, env, encoding: 'utf8' }); // FAKE_BRANCH unset
+  assert.equal(none.status, 0, none.stderr);
+  assert.match(none.stderr, /no local branch of the PR/);
+  git('branch', 'behind', head);
+  git('checkout', '-q', '-b', 'ahead');
+  fs.writeFileSync(path.join(repo, 'x.txt'), 'x\n');
+  git('add', '-A');
+  git('commit', '-q', '-m', 'ahead');
+  const ahead = git('rev-parse', 'HEAD');
+  const e = { ...env, FAKE_BRANCH: 'behind', FAKE_HEAD: ahead, HARNESS_HEAD_WAIT_SEC: '0' };
+  const behind = spawnSync(process.execPath, [MAKE, ...std], { cwd: repo, env: e, encoding: 'utf8' });
+  assert.equal(behind.status, 0, behind.stderr);
+  assert.match(behind.stderr, /local branch is behind/);
+  assert.match(fs.readFileSync(out, 'utf8'), new RegExp(`at ${ahead}`));
 });
