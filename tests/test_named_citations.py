@@ -100,10 +100,10 @@ class WhatIsACitation(unittest.TestCase):
     def test_every_form(self):
         text = ("`named/seg_0791_09.c:28-67`; `static:static/goal-exe/named/seg_1771_04.c:651`; "
                 "`named/seg_0791_06.c:565–572,656`, `seg_000E_04.c:994`; `named/seg_0791_09.c:540..548`; "
-                "`named/seg_0791_09.c:890..`; and `named/seg_0791_09.c`.")
+                "`named/seg_0791_09.c:890..922`; and `named/seg_0791_09.c`: the whole routine, `named/seg_0791_09.c`. Or 5.")
         self.assertEqual(self.ranges(text), [("seg_0791_09.c", [(28, 67)]), ("seg_1771_04.c", [(651, 651)]),
                                              ("seg_0791_06.c", [(565, 572), (656, 656)]), ("seg_000E_04.c", [(994, 994)]),
-                                             ("seg_0791_09.c", [(540, 548)]), ("seg_0791_09.c", [(890, 890)])])
+                                             ("seg_0791_09.c", [(540, 548)]), ("seg_0791_09.c", [(890, 922)])])
 
     def test_both_ends_of_a_dotted_range_are_cited_lines(self):
         (c,) = nc.citations_in("d.md", "`named/seg_0791_06.c:1087..463`")
@@ -130,12 +130,26 @@ class WhatIsACitation(unittest.TestCase):
     def test_text_that_looks_like_a_citation_and_is_not_parsable_is_an_error(self):
         for bad in ("`named/seg_0791_09.c:12abc`", "`named/seg_0791_09.c:3-4-5`", "`named/seg_0791_09.c:12.5`",
                     "`named/seg_0791_09.c:7–9–11`", "`named/seg_0791_09.c`, lines 5 and 7",
-                    "`named/seg_0791_09.c:5`, `:6x`"):
+                    "`named/seg_0791_09.c:5`, `:6x`",
+                    # the round-2 repros: a colon that is not followed by a line list, and continuations
+                    "See `named/seg_0791_09.c:garbage`.", "`named/seg_0791_09.c:12, 15`", "`named/seg_0791_09.c:12—15`",
+                    "`named/seg_0791_09.c:890..`", "`named/seg_0791_09.c:12:34`", "`named/seg_0791_09.c:12 and 15`",
+                    "`named/seg_0791_09.c:`", "`named/seg_0791_09.c:12-`", "`static:static/goal-exe/named/seg_0791_09.c:x`",
+                    "`named/seg_0791_09.c:5`, `seg_0791_08.c:garbage`",
+                    "`named/seg_0791_05.c:906`;\n(`:12, 15`)", "`named/seg_0791_05.c:906`;\n(`:12 and 15`)",
+                    "`named/seg_0791_05.c:906`;\n(`:12—15`)", "`named/seg_0791_05.c:906`;\n(`:12..`)",
+                    "`named/seg_0791_05.c:906`;\n(`:12"):
             with self.subTest(bad=bad):
                 cites, errors = nc.scan("d.md", bad)
                 self.assertEqual(len(errors), 1, (cites, errors))
                 with self.assertRaises(nc.CitationError):
                     nc.citations_in("d.md", bad)
+
+    def test_a_colon_in_prose_after_a_file_name_is_not_a_citation(self):
+        for ok in ("`named/seg_0791_09.c`: the routine", "named/seg_0791_09.c: the routine", "see named/seg_0791_09.c:",
+                   "`named/seg_0791_09.c`, `named/seg_0791_08.c` and `named/seg_0791_07.c`"):
+            with self.subTest(ok=ok):
+                self.assertEqual(nc.scan("d.md", ok), ([], []))
 
     def test_a_sentence_ending_after_a_citation_is_not_an_error(self):
         self.assertEqual(nc.scan("d.md", "See `named/seg_0791_09.c:12`. And `named/seg_0791_09.c:5-7`, then")[1], [])
@@ -171,13 +185,33 @@ class ChecksOnAThrowawayRepo(unittest.TestCase):
 
     def test_a_dotted_range_is_moved_at_both_ends(self):
         with tempfile.TemporaryDirectory() as tmp:
-            repo = self.start(tmp, "A range (`named/seg_0791_01.c:13..20`), and onward (`named/seg_0791_01.c:30..`).\n")
+            repo = self.start(tmp, "A range (`named/seg_0791_01.c:13..20`), and a long one (`named/seg_0791_01.c:30..38`).\n")
             before = repo.commit("recorded")
             repo.write_named(named_text(extra_top=3))
             self.assertEqual(run("remap", "--base", before, "--apply"), 0)
             self.assertIn("`named/seg_0791_01.c:16..23`", repo.doc())
-            self.assertIn("`named/seg_0791_01.c:33..`", repo.doc())
+            self.assertIn("`named/seg_0791_01.c:33..41`", repo.doc())
             self.assertEqual(nc.check(), ([], 2))
+
+    def test_a_malformed_citation_appended_to_a_document_fails_the_check(self):
+        """Round 2: `` `named/...c:garbage` `` was taken for a file-only reference and passed."""
+        with tempfile.TemporaryDirectory() as tmp:
+            repo = self.start(tmp)
+            for bad in ("See `named/seg_0791_01.c:garbage`.", "See `named/seg_0791_01.c:13, 15`.",
+                        "See `named/seg_0791_01.c:13—15`.", "See `named/seg_0791_01.c:30..`."):
+                with self.subTest(bad=bad):
+                    repo.write_doc(self.DOC + bad + "\n")
+                    self.assertIn("cannot parse", " ".join(nc.check()[0]))
+                    self.assertEqual(run("update"), 1)
+            repo.write_doc(self.DOC)
+            self.assertEqual(nc.check()[0], [])
+
+    def test_the_whole_cited_tail_of_a_range_is_protected_because_open_ranges_are_refused(self):
+        """Round 2: `N..` was recorded as the single line N, so a change further down passed."""
+        with tempfile.TemporaryDirectory() as tmp:
+            repo = self.start(tmp, "From here on (`named/seg_0791_01.c:13..40`).\n")
+            repo.write_named(named_text(interior=27))
+            self.assertEqual(len(nc.check()[0]), 1)
 
     def test_an_abbreviated_citation_is_moved_with_the_one_before_it(self):
         with tempfile.TemporaryDirectory() as tmp:

@@ -317,7 +317,7 @@ Callers of the direct writers (event-result rule chain):
 * `B364` callers: `B602` goal scorer (+1; `named/seg_0791_09.c:654..662`),
   `B7FA` result/bench (`code/seg_0791_19.asm:137..187`), `BA4E`
   managed pool (`named/seg_0791_09.c:847..862`), `BB2F` unplayed
-  fixture (`named/seg_0791_09.c:890..`).
+  fixture (`named/seg_0791_09.c:890..922`).
 * `7CC5` callers: `6443` scorer with flag one (`named/seg_0791_05.c:906..908`);
   `65FE` team-wide goal reaction with flag zero (`:992..1007`);
   `7B77` head (flag 1) and tail (flag 0) for sending-off;

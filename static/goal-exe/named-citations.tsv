@@ -53,7 +53,7 @@ experiments/E019-q017-events-morale/notes.md	seg_0791_07.c:120-167	cea806cc380c0
 experiments/E019-q017-events-morale/notes.md	seg_0791_09.c:540-548	a7fad9285662bc80	 ¦ }
 experiments/E019-q017-events-morale/notes.md	seg_0791_09.c:654-662	3ffc2633d79b1e18	pcVar7 = (country *)countries; ¦ }
 experiments/E019-q017-events-morale/notes.md	seg_0791_09.c:847-862	abdb0a26bc759b2e	word wVar6; ¦ wVar6 = ((word *)pool_indices)[local_4];
-experiments/E019-q017-events-morale/notes.md	seg_0791_09.c:890	7b4100f0b9eec640	int local_5;
+experiments/E019-q017-events-morale/notes.md	seg_0791_09.c:890-922	32b8d5526f6e8074	int local_5; ¦ }
 experiments/E019-q017-events-morale/notes.md	seg_0791_10.c:658-679	85e0f01d4dcdefd6	// both match squads slots 1..20, nonzero player words: rest ¦ ppVar2[wVar1].morale = ((char *)match_form)[local_3 * 0x14 +
 experiments/E019-q017-events-morale/notes.md	seg_0791_12.c:378-395	c7748b446f3517d8	local_3 = '\0'; ¦ }
 experiments/E019-q017-events-morale/notes.md	seg_0791_12.c:420	a98449cca9360ad4	restore_match_player_state();

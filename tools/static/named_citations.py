@@ -31,13 +31,14 @@ preview of its first and last line, as of when the citation was last verified. T
         whose text changed is refused unless --accept: read the lines first.
 
 What counts as a citation (the forms in the repository, and no others): `seg_SSSS_NN.c:` followed by `N`,
-`N-M`, `N–M` (en dash), `N..M`, `N..` (from N on) or a comma list of these (no spaces), written with a
+`N-M`, `N–M` (en dash), `N..M` or a comma list of these (no spaces; an open-ended `N..` is not a form), written with a
 `named/` prefix (`static/goal-exe/named/...`, `static:static/goal-exe/named/...`), or bare after a `named/`
 citation on the same line; and an abbreviated `` `:N–M` `` in backticks, which takes the file of the named
 citation just before it on the same or the previous line. A bare one after `decompiled/`, `code/` or an `.asm`
 file is the raw view's, one with no prefix at all is unreadable, and neither is checked. Text that starts like
-a citation of the named view and is anything else (`:12abc`, `:3-4-5`, `.c, lines 5 and 7`) is an error, not
-skipped. Not scanned: `static/`, `runs/`, `docs/tasks/` (briefs), `tests/`, every `out/` folder and `*.log`
+a citation of the named view is an error, not skipped: any colon directly after a named-view file path must be
+followed by a line list of the forms above, ended by something other than a digit, letter, dash, colon, `..`, `, 15`
+or `and 15` (`:garbage`, `:12abc`, `:3-4-5`, `:12, 15`, `:12—15`, `:890..`, `.c, lines 5 and 7`). Not scanned: `static/`, `runs/`, `docs/tasks/` (briefs), `tests/`, every `out/` folder and `*.log`
 (raw, immutable outputs, game-archaeologist L207), this tool and the manifest.
 """
 from __future__ import annotations
@@ -58,17 +59,17 @@ SKIP_PREFIX = ("static/", "runs/", "docs/tasks/", "tests/")
 SKIP_FILES = {"tools/static/named_citations.py"}
 SEP = " ¦ "
 
-_ITEM = r"[0-9]+(?:(?:[-–]|\.\.)[0-9]+|\.\.)?"
-LINES = rf"{_ITEM}(?:,{_ITEM})*"
-# what may not follow a parsed line list: it would mean the list was read short
-_CUT = r"(?:[0-9A-Za-z_]|\.[0-9]|[-–][0-9])"
+_ITEM = r"[0-9]+(?:(?:[-–]|\.\.)[0-9]+)?"
+LINES = re.compile(rf"{_ITEM}(?:,{_ITEM})*")
+# What may follow a parsed line list: anything that would mean it was read short (more digits or letters, a
+# dot-number or `..` (an open-ended `N..`), a dash of any kind, a colon, `, 15`, `and 15`) is an error.
+_SHORT = re.compile(r"(?:[0-9A-Za-z_]|\.[0-9.]|[-–—]|:|,\s?[0-9]|\s+(?:and|or|to|through|until)\s+[0-9])")
 TOKEN = re.compile(
     r"(?P<pfx>(?:static:)?(?:static/goal-exe/)?(?P<view>named|decompiled|code)/)?"
-    r"(?P<file>seg_(?P<seg>[0-9A-F]{4})_(?P<part>[0-9]{2})\.(?P<ext>c|asm))"
-    rf"(?::(?P<lines>{LINES})(?P<cut>{_CUT})?)?")
-ABBREVIATED = re.compile(rf"(?<=`):(?P<lines>{LINES})(?P<cut>{_CUT})?(?=`)")
+    r"(?P<file>seg_(?P<seg>[0-9A-F]{4})_(?P<part>[0-9]{2})\.(?P<ext>c|asm))")
+ABBREVIATED = re.compile(r"(?<=`):(?=[0-9])")
 LINE_PROSE = re.compile(r"[`)]*,? ?(?:lines?|ll?\.)\s*[0-9]")
-ITEM = re.compile(r"([0-9]+)(?:(-|–|\.\.)([0-9]+)?)?")
+ITEM = re.compile(r"([0-9]+)(?:(-|–|\.\.)([0-9]+))?")
 
 
 class Cite:
@@ -77,11 +78,11 @@ class Cite:
     def __init__(self, doc, line_no, file, span, items, abbreviated=False):
         self.doc, self.line_no, self.file = doc, line_no, file
         self.span = span                      # (start, end) of the lines text within its line
-        self.items = items                    # [(a, sep, b)]: `N`, `N-M` (sep "-", "–" or ".."), `N..` (b None)
+        self.items = items                    # [(a, sep, b)]: `N` (sep and b None), `N-M` (sep "-", "–" or "..")
         self.abbreviated = abbreviated        # no file written: it is the previous citation's
 
     def ranges(self):
-        """The cited (first, last) lines, one pair per item; a single line or `N..` is (N, N)."""
+        """The cited (first, last) lines, one pair per item; a single line is (N, N)."""
         return [(a, a if b is None else b) for a, _sep, b in self.items]
 
     def endpoints(self):
@@ -118,23 +119,39 @@ def parse_items(lines_text):
     return items
 
 
+def lines_after_colon(rest):
+    """What follows the colon of a citation: ("none", None) for prose (the colon ends the text or is followed by a
+    space), ("ok", the line list) or ("error", why). Anything else directly after the colon is not read as prose."""
+    if not rest or rest[0].isspace():
+        return "none", None
+    m = LINES.match(rest)
+    if not m:
+        return "error", f"no line numbers after the colon in `:{rest[:12]}`"
+    if _SHORT.match(rest[m.end():]):
+        return "error", f"`{m.group(0)}` is followed by `{rest[m.end():m.end() + 8]}`: the list is not one of N, N-M, N–M, N..M or a comma list of them"
+    return "ok", m.group(0)
+
+
 def scan(doc, text):
     """([Cite], [error text]): the citations of the named view in `text`, and what looked like one and is not parsable."""
     cites, errors = [], []
     last = None                                  # the last file token: (line number, ext, is named, file)
-    view = None
     for line_no, line in enumerate(text.split("\n"), 1):
         events = [(m.start(), "token", m) for m in TOKEN.finditer(line)]
         events += [(m.start(), "abbreviated", m) for m in ABBREVIATED.finditer(line)]
         view = None
         for _pos, kind, m in sorted(events, key=lambda e: e[0]):
             if kind == "abbreviated":
-                if last and last[1] == "c" and last[2] and line_no - last[0] <= 1:
-                    if m.group("cut"):
-                        errors.append(f"{doc}:{line_no}: cannot parse the lines in `:{m.group('lines')}{m.group('cut')}...`")
-                    else:
-                        cites.append(Cite(doc, line_no, last[3], (m.start("lines"), m.end("lines")),
-                                          parse_items(m.group("lines")), abbreviated=True))
+                if not (last and last[1] == "c" and last[2] and line_no - last[0] <= 1):
+                    continue
+                state, lines_text = lines_after_colon(line[m.end():])
+                if state == "ok" and line[m.end() + len(lines_text):m.end() + len(lines_text) + 1] != "`":
+                    state, lines_text = "error", "an abbreviated citation must end at a backtick"
+                if state == "error":
+                    errors.append(f"{doc}:{line_no}: cannot parse the abbreviated citation at {line[m.start():m.start() + 20]!r}: {lines_text}")
+                elif state == "ok":
+                    cites.append(Cite(doc, line_no, last[3], (m.end(), m.end() + len(lines_text)),
+                                      parse_items(lines_text), abbreviated=True))
                 continue
             if m.group("pfx"):
                 view = m.group("view")
@@ -142,15 +159,15 @@ def scan(doc, text):
             last = (line_no, m.group("ext"), named, m.group("file"))
             if not named:
                 continue
-            if m.group("lines") is None:
-                if LINE_PROSE.match(line[m.end():]):
-                    errors.append(f"{doc}:{line_no}: lines of {m.group('file')} cited in words: {line[m.start():m.end() + 30]!r}")
-                continue
-            if m.group("cut"):
-                errors.append(f"{doc}:{line_no}: cannot parse the lines of {line[m.start():m.end() + 12]!r}")
-                continue
-            cites.append(Cite(doc, line_no, m.group("file"), (m.start("lines"), m.end("lines")),
-                              parse_items(m.group("lines"))))
+            rest = line[m.end():]
+            state, lines_text = lines_after_colon(rest[1:]) if rest.startswith(":") else ("none", None)
+            if state == "error":
+                errors.append(f"{doc}:{line_no}: cannot parse the lines of {line[m.start():m.end() + 14]!r}: {lines_text}")
+            elif state == "ok":
+                cites.append(Cite(doc, line_no, m.group("file"), (m.end() + 1, m.end() + 1 + len(lines_text)),
+                                  parse_items(lines_text)))
+            elif LINE_PROSE.match(rest):
+                errors.append(f"{doc}:{line_no}: lines of {m.group('file')} cited in words: {line[m.start():m.end() + 30]!r}")
     return cites, errors
 
 
@@ -415,7 +432,7 @@ def remap(base, authored, apply):
                 continue
             parts = []
             for (a, sep, b), (_a, _b, fa, na, fb, nb, *_rest) in zip(c.items, where):
-                parts.append(str(na) if sep is None else f"{na}{sep}{nb}" if b is not None else f"{na}..")
+                parts.append(str(na) if sep is None else f"{na}{sep}{nb}")
             edits.append((c, next(iter(files)), ",".join(parts)))
         if apply and edits:
             for c, new_file, new_lines in sorted(edits, key=lambda x: (x[0].line_no, x[0].span[0]), reverse=True):

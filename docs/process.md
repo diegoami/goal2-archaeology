@@ -303,7 +303,10 @@ regenerates `named/` runs
 `python3 tools/static/named_citations.py remap --base <the commit before the regeneration> --apply` (it moves each
 citation to the lines holding the same text and prints old and new), reads the ranges it reports as `approx` or
 whose text changed, then `python3 tools/static/named_citations.py update --accept`. A new citation of a
-named line is recorded with `update`. Only prose and notes are rewritten, never `runs/` or an `out/` folder.
+named line is recorded with `update`. A PR that was open when a regenerated `named/` reached main must, after merging
+main, run `remap --base <the main commit before the regeneration>` on its own citations and then read what `check`
+still reports before `update --accept`; it does not re-record the manifest from the new view as a new baseline, which
+would bless citations that now point at other code. Only prose and notes are rewritten, never `runs/` or an `out/` folder.
 An OpenCode reviewer cannot run Ghidra (it lives under `~/tools`, outside its worktree): the review
 brief says "do NOT run Ghidra", and the main session regenerates `named/` where a check needs it
 (L57). Claude agents and the main session can run it.
