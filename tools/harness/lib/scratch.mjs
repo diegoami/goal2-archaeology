@@ -114,8 +114,26 @@ export function diskDir(dir, opts) {
 }
 
 // A folder of this run's own under the root. `name` is the run's id.
+// The run's folder is created EXCLUSIVELY (non-recursive mkdir: an existing name, a symlink included, is
+// an error), must resolve to root/name (no symlinked parent), and the resolved root and the harness
+// folder must not overlap, so the model cannot make a scratch path that lands in the harness's files.
 export function makeScratch(root, name, opts) {
-  return diskDir(path.join(root, name), opts);
+  diskDir(root, opts);
+  const realRoot = fs.realpathSync(root);
+  const inside = (a, b) => a === b || a.startsWith(b + path.sep);
+  const harness = `${root}-harness`;
+  if (fs.existsSync(harness)) {
+    const realHarness = fs.realpathSync(harness);
+    if (inside(realRoot, realHarness) || inside(realHarness, realRoot)) throw new Error(`Refusing: the scratch folder ${root} and the harness folder ${harness} overlap.`);
+  }
+  const dir = path.join(root, name);
+  fs.mkdirSync(dir);
+  if (!fs.lstatSync(dir).isDirectory() || fs.realpathSync(dir) !== path.join(realRoot, name)) {
+    throw new Error(`Refusing: ${dir} is not a plain folder directly in ${root}.`);
+  }
+  const bad = diskProblem(dir, opts);
+  if (bad) throw new Error(bad);
+  return dir;
 }
 
 // The folder of the harness's own files (OpenCode's output logs, the finished review): a SIBLING of the

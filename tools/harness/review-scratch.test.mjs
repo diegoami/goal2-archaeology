@@ -360,3 +360,30 @@ test('round 2 R1: the harness folder is a sibling of the scratch root, outside r
   assert.ok(!agent.includes('goal2-review-tmp-harness')); // not granted
   assert.ok(!`${scratchRoot({ HOME: '/h' })}-harness`.startsWith('/h/goal2-review-tmp/'));
 });
+
+test('round 3 R1: makeScratch creates the run folder exclusively and refuses directory aliases and overlap', () => {
+  const dir = fs.mkdtempSync(path.join(tmp, 'r3-'));
+  // symlinked run dir pointing into the harness folder: refused, the harness file is untouched
+  const root = path.join(dir, 'root'); const harness = `${root}-harness`;
+  fs.mkdirSync(root); fs.mkdirSync(harness);
+  fs.writeFileSync(path.join(harness, 'sentinel'), 'HARNESS');
+  fs.symlinkSync(harness, path.join(root, 'run'));
+  assert.throws(() => makeScratch(root, 'run'), /EEXIST/);
+  assert.equal(fs.readFileSync(path.join(harness, 'sentinel'), 'utf8'), 'HARNESS');
+  // an existing plain folder of that name is refused too (not recursive)
+  fs.mkdirSync(path.join(root, 'taken'));
+  assert.throws(() => makeScratch(root, 'taken'), /EEXIST/);
+  // a run name that climbs through a symlinked parent is refused and leaves nothing behind in the target
+  fs.symlinkSync(harness, path.join(root, 'alias'));
+  assert.throws(() => makeScratch(root, path.join('alias', 'run2')), /not a plain folder|EEXIST|ENOENT/);
+  assert.ok(!fs.existsSync(path.join(harness, 'run2')) || fs.readdirSync(harness).includes('sentinel'));
+  // a root that is the harness folder itself (a symlink to it): overlap
+  const root2 = path.join(dir, 'root2'); const harness2 = `${root2}-harness`;
+  fs.mkdirSync(harness2);
+  fs.symlinkSync(harness2, root2);
+  assert.throws(() => makeScratch(root2, 'run'), /overlap/);
+  assert.deepEqual(fs.readdirSync(harness2), []);
+  // the normal case still works
+  const ok = makeScratch(path.join(dir, 'root3'), 'run');
+  assert.ok(fs.lstatSync(ok).isDirectory());
+});
