@@ -9,6 +9,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
+import { spawnSync } from 'node:child_process';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import * as chain from './lib/chain.mjs';
 import { planPost } from './lib/post.mjs';
@@ -54,6 +55,16 @@ const CASES = [
   {
     name: 'a reviewer whose name extends the brief\'s is no review', group: 'identity',
     header: 'T32 review (mm).', out: `T32 review (mm3)\n${body()}`, check: (r) => r.kind === 'none',
+  },
+  {
+    name: 'a recovered rework is flagged with its verdict, never labelled', group: 'verdict',
+    out: `${head()}\n${body('rework')}`, opts: { doneWhen: 3 },
+    check: (r) => r.kind === 'flagged' && r.recovered === 'rework' && r.note.includes('otherwise readable: verdict rework'),
+  },
+  {
+    name: 'a recovered user decision is flagged with its verdict, never labelled', group: 'verdict',
+    out: `${head()}\n${body('user decision')}`, opts: { doneWhen: 3 },
+    check: (r) => r.kind === 'flagged' && r.recovered === 'user decision' && r.note.includes('otherwise readable: verdict user decision'),
   },
   {
     name: 'a task whose id extends the brief\'s is no review', group: 'identity',
@@ -153,5 +164,56 @@ for (const m of MUTANTS) {
   test(`too loose (${m.what}): the ${m.group} cases fail`, async () => {
     const mod = await mutated(m.from, m.to);
     assert.ok(failing(mod, m.group).length > 0, `no ${m.group} case failed with the mutation`);
+  });
+}
+
+// post-review.mjs end to end (#264), with a fake gh (HARNESS_GH_EXE): a review whose header differs
+// from the brief's only in punctuation is posted under a note, never labelled, exit 4, and for an
+// approve the note carries the Done-when accounting, as review.mjs's does (readReview opts.doneWhen).
+const POST_REVIEW = fileURLToPath(new URL('./post-review.mjs', import.meta.url));
+function postReview(t, reviewText) {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'post-review-'));
+  t.after(() => fs.rmSync(dir, { recursive: true, force: true }));
+  const calls = path.join(dir, 'calls.jsonl');
+  const bodies = path.join(dir, 'bodies.txt');
+  const gh = path.join(dir, 'gh.mjs');
+  fs.writeFileSync(gh, `import fs from 'node:fs';\nconst a = process.argv.slice(2);\n`
+    + `fs.appendFileSync(${JSON.stringify(calls)}, JSON.stringify(a) + '\\n');\n`
+    + `const i = a.indexOf('--body-file');\n`
+    + `if (i >= 0) fs.appendFileSync(${JSON.stringify(bodies)}, fs.readFileSync(a[i + 1], 'utf8'));\n`);
+  fs.writeFileSync(path.join(dir, 'brief.md'), 'T32 review (MiniMax M3)\nYou review PR 9.\n');
+  fs.writeFileSync(path.join(dir, 'review.md'), reviewText);
+  const r = spawnSync(process.execPath, [POST_REVIEW, '--pr', '9', '--brief', path.join(dir, 'brief.md'),
+    '--review', path.join(dir, 'review.md'), '--by', 'claude (test)', '--issue', '9', '--apply-label',
+    '--done-when', '3'], { encoding: 'utf8', env: { ...process.env, HARNESS_GH_EXE: gh } });
+  const read = (f) => (fs.existsSync(f) ? fs.readFileSync(f, 'utf8') : '');
+  return { status: r.status, stderr: r.stderr, body: read(bodies),
+    calls: read(calls).split('\n').filter(Boolean).map((l) => JSON.parse(l)) };
+}
+const LOOSE = 'T32 review - MiniMax M3';
+const labelCalls = (calls) => calls.filter((c) => c[0] === 'issue');
+
+test('post-review.mjs: a loose-header approve is posted with the Done-when accounting in its note (#264)', (t) => {
+  const r = postReview(t, `${LOOSE}\n${body().replace(/DW2:[^\n]*\n/, '')}`);
+  assert.equal(r.status, 4, r.stderr);
+  assert.ok(r.body.includes('header differs from the brief'), r.body);
+  assert.ok(r.body.includes('no DW line for 2'), r.body);
+  assert.deepEqual(labelCalls(r.calls), []);
+});
+
+test('post-review.mjs: a complete loose-header approve says all Done-when lines are accounted for', (t) => {
+  const r = postReview(t, `${LOOSE}\n${body()}`);
+  assert.equal(r.status, 4, r.stderr);
+  assert.ok(r.body.includes('all 3 Done-when lines accounted for'), r.body);
+  assert.deepEqual(labelCalls(r.calls), []);
+});
+
+for (const verdict of ['rework', 'user decision']) {
+  test(`post-review.mjs: a loose-header ${verdict} is posted under a note, no label, exit 4`, (t) => {
+    const r = postReview(t, `${LOOSE}\n${body(verdict)}`);
+    assert.equal(r.status, 4, r.stderr);
+    assert.ok(r.body.includes(`otherwise readable: verdict ${verdict}`), r.body);
+    assert.equal(r.calls.filter((c) => c[0] === 'pr' && c[1] === 'comment').length, 1);
+    assert.deepEqual(labelCalls(r.calls), []);
   });
 }
