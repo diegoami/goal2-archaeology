@@ -34,13 +34,15 @@ ROOT = Path(__file__).resolve().parents[1]
 OUTPUT_RE = re.compile(r"(\.log$|^experiments/.*/out/)")
 
 # The unit-test modules that take 282 of the 360 seconds of a CI run's unit suite (per-test timestamps of
-# run 39031916644, notes/T297/ci-module-times-20261017.txt), and the repository paths each reads, from an
-# audit-hook trace of the module (notes/T297/slow-module-deps-20261017.json, tracer notes/T297/trace_deps.py),
-# widened to the whole directory where its traced files sit.  A prefix ending in "/" is a directory.  A
-# path missing here lets a PR skip a module it could break: the nightly full run on main (workflow
-# `schedule`) is the net for that.  tests/test_ci_gate.py requires every traced path to be covered and every
-# prefix to exist.  test_emul_match, test_emul_watched and test_emul_skip_ret cost nothing in CI (they skip:
-# "unicorn not installed"), so they are not listed; if CI ever installs unicorn they take about 200 s and join.
+# run 39031916644, notes/T297/ci-module-times-20261017.txt), and test_emul_match, which took nothing in CI
+# until unicorn was installed there (issue #304: it is 187 s on the author's machine, 180 s of them one
+# test).  Each module's list is the repository paths it reads, from an audit-hook trace of the module
+# (notes/T297/slow-module-deps-20261017.json, notes/T304/deps-test_emul_match-20261017.json; tracer
+# notes/T297/trace_deps.py), widened to the whole directory where its traced files sit.  A prefix ending in
+# "/" is a directory.  A path missing here lets a PR skip a module it could break: the nightly full run on
+# main (workflow `schedule`) is the net for that.  tests/test_ci_gate.py requires every traced path to be
+# covered and every prefix to exist.  test_emul_watched (14 s) and test_emul_skip_ret (0.1 s) are cheap and
+# run in the code tier.
 _HUMAN = ("runtime/human/", "runtime/driver/", "experiments/E015-human-playthrough/", "tools/ga.py", "tools/net.py",
           "tools/fetch_saves.py", "tools/validate_runs.py", "tests/netskip.py", "runs/E015/",
           "tests/test_human_keys.py", "tests/test_human_record.py")  # each imports the other
@@ -51,6 +53,9 @@ SLOW_DEPS = {
                            "tests/test_screens_video.py"),
     "test_e032_recheck": ("experiments/E032-match-engine-inventory/", "tests/test_e032_recheck.py"),
     "test_e036_compare": ("experiments/E036-match-port/", "runtime/original_match/", "tests/test_e036_compare.py"),
+    # the E011 watchstart savestate it resumes is a release asset (runs/E011/ names it), not a repository file
+    "test_emul_match": ("runtime/emul/", "runtime/driver/", "runtime/model/", "experiments/E021-m0-whole-match/",
+                        "runs/E011/", "static/goal-exe/code/", "tests/longs_original.py", "tests/test_emul_match.py"),
 }
 SLOW = tuple(SLOW_DEPS)
 
