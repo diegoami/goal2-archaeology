@@ -8,6 +8,7 @@ taken out, next to a runtime/ it can import), which is how these tests were show
 The records are synthetic (digests of the match's id); the real ones are family.py's."""
 import copy
 import hashlib
+import importlib.util
 import json
 import math
 import os
@@ -19,11 +20,34 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 E036 = Path(os.environ.get("E036_DIR", ROOT / "experiments/E036-match-port"))
-sys.path.insert(0, str(E036))
-import compare as compare_module  # noqa: E402
+
+
+def isolated_import(directory, names):
+    """The modules `names` of `directory` (in dependency order), loaded under the names e036_<name>. The whole suite runs
+    in one process and other tests have a `compare` or a `records` of their own, so none of them is touched: while a
+    module executes, its siblings' `import records` finds ours, and afterwards the others' modules are back. sys.path
+    is as it was, with the directory and the kit's runtime/ at its end."""
+    path, saved = list(sys.path), {n: sys.modules.pop(n) for n in names if n in sys.modules}
+    sys.path.insert(0, str(directory))
+    loaded = []
+    try:
+        for n in names:
+            spec = importlib.util.spec_from_file_location("e036_" + n, Path(directory) / f"{n}.py")
+            module = importlib.util.module_from_spec(spec)
+            sys.modules["e036_" + n] = sys.modules[n] = module
+            spec.loader.exec_module(module)
+            loaded.append(module)
+    finally:
+        for n in names:
+            sys.modules.pop(n, None)
+            if n in saved:
+                sys.modules[n] = saved[n]
+        sys.path[:] = path + [str(directory), str(ROOT / "runtime")]
+    return loaded
+
+
+records, families, compare_module, family = isolated_import(E036, ("records", "families", "compare", "family"))
 from original_match.check import EXPECTED_FAMILY  # noqa: E402
-import families  # noqa: E402
-import records  # noqa: E402
 
 COMPARE = E036 / "compare.py"
 FAMILIES = families.discover()

@@ -26,10 +26,8 @@ import unittest
 from pathlib import Path
 from unittest import mock
 
-from tests.test_e036_compare import E036, ROOT, EXPECTED, F40, FAMILIES, IMAGE, dg, incomplete, record, edited  # noqa: E402
-import families  # noqa: E402
-import family  # noqa: E402
-import records  # noqa: E402
+from tests.test_e036_compare import (E036, ROOT, EXPECTED, F40, FAMILIES, IMAGE, dg, incomplete, record, edited,  # noqa: E402
+                                     families, family, records)
 import original_match  # noqa: E402
 from original_match.check import EXPECTED_FAMILY  # noqa: E402
 
@@ -782,21 +780,25 @@ class OneRealMatch(unittest.TestCase):
         self.assertEqual(rep["matches"], ["S/quick-1"])
 
     def test_two_workers_play_two_matches_the_same_as_the_reference(self):
-        """--workers 2: two processes, one match at a time each, the records the reference holds (its cpu and wall
-        times apart): the same match in another process is the same match."""
+        """--workers 2 (run as the script, since a worker process imports it by name): two processes, one match at a
+        time each, the records the reference holds (its cpu and wall times apart): the same match in another process is
+        the same match."""
         committed = ROOT / FAMILIES["F40"].reference
         if not committed.is_file():
             self.skipTest("the reference is not committed in this tree")
         want = {r["id"]: r for r in records.read_log(committed)}
-        selected = [m for m in FAMILIES["S"].matches if m.id in ("S/quick-1", "S/quick-30")]
         with tempfile.TemporaryDirectory() as tmp:
             out = Path(tmp) / "two.jsonl"
-            got = family.run_family(selected, str(out), workers=2, cache=str(IMAGE_FILE.parent), say=lambda *a: None)
-            self.assertEqual(sorted(r["id"] for r in records.read_log(out)), ["S/quick-1", "S/quick-30"])
-        for r in got:
-            self.assertTrue(records.is_completed(r))
-            self.assertEqual({k: v for k, v in r.items() if k not in ("cpu_s", "wall_s")},
-                             {k: v for k, v in want[r["id"]].items() if k not in ("cpu_s", "wall_s")})
+            r = subprocess.run([sys.executable, "-B", str(FAMILY_PY), "--family", "S", "--only", "S/quick-1,S/quick-30",
+                                "--workers", "2", "--out", str(out), "--cache", str(IMAGE_FILE.parent)],
+                               capture_output=True, text=True, cwd=ROOT)
+            self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
+            got = records.read_log(out)
+        self.assertEqual(sorted(x["id"] for x in got), ["S/quick-1", "S/quick-30"])
+        for x in got:
+            self.assertTrue(records.is_completed(x))
+            self.assertEqual({k: v for k, v in x.items() if k not in ("cpu_s", "wall_s")},
+                             {k: v for k, v in want[x["id"]].items() if k not in ("cpu_s", "wall_s")})
 
 
 if __name__ == "__main__":
