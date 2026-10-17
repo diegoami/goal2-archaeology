@@ -374,8 +374,9 @@ check a decompiled routine by compiling a Pascal transcription of it with the sa
 - **The compilers** are the owner's downloads from WinWorldPC (old DOS floppy images; the owner treats them as
   abandonware, as the game, rule 18). They are third-party software: **never committed, run only inside DOSBox-X**.
   They live in `~/projects/goal2-archaeology-keep/tools/turbo-pascal/` on the owner's main computer: `archives/`
-  (the 7z files, with `SHA256SUMS`), `extracted/` (the floppy images of Turbo Pascal 4.0, 5.0, 5.5, 6.0, 7.0 and
-  7.01), and a README. Copy the folder to another computer, check it with `sha256sum -c SHA256SUMS`; if the
+  (the 7z files, including the 5.0 manuals), `extracted/` (the floppy images of Turbo Pascal 4.0, 5.0, 5.5, 6.0, 7.0
+  and 7.01), a README, and `SHA256SUMS` (hashes the archives only). Copy the folder to another computer and check it
+  with `cd tools/turbo-pascal && sha256sum -c SHA256SUMS` (7 lines, all OK); if the
   folder is missing, a session says so to the owner and asks for it; it does not download them itself (the
   WinWorldPC pages need a browser).
 - **7-Zip:** the Python reader `py7zr` cannot read Turbo Pascal 7.0's archive (BCJ2 filter). The official 7-Zip
@@ -383,5 +384,3 @@ check a decompiled routine by compiling a Pascal transcription of it with the sa
   `23babcab045b78016e443f862363e4ab63c77d75bc715c0b3463f6134cbcf318`), unpacked to `~/.local/bin/7zz`, no sudo.
 - **Reko** (0.12.5, a decompiler tried on a few routines and not adopted, `experiments/E035-tp-version/README.md`)
   is not a requirement; the excerpts it produced are committed.
-- **The engine kit** (`runtime/original_match/`) needs the `unicorn` Python package (`pip install unicorn`) and the
-  original files at run time, from the release by hash (`bash setup/goal2-runtime.sh`).
