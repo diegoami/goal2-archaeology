@@ -1,0 +1,17 @@
+{
+  "family": "O8",
+  "reference": "experiments/E036-match-port/out/T57/reference.jsonl",
+  "description": "Four other country pairs (the first managed), calendar number 21, each played twice: one seed as a friendly (kind 1) and another as a qualifier (kind 2, which also updates the competition's table after the match). The speed byte is written 0, as in F40.",
+  "base": {"fixture": [7, 19, 21, 1], "managed": 7, "seed": null, "delay_byte": 0, "substitutions": null, "edits": [], "policy": {"name": "PlayOn", "contexts": ["half_time", "substitution"]}},
+  "edit_sets": {},
+  "matches": [
+    {"id": "O8/c1-c2-friendly", "fixture": [1, 2, 21, 1], "managed": 1, "seed": 4951},
+    {"id": "O8/c1-c2-qualifier", "fixture": [1, 2, 21, 2], "managed": 1, "seed": 9320},
+    {"id": "O8/c30-c44-friendly", "fixture": [30, 44, 21, 1], "managed": 30, "seed": 15420},
+    {"id": "O8/c30-c44-qualifier", "fixture": [30, 44, 21, 2], "managed": 30, "seed": 23130},
+    {"id": "O8/c64-c90-friendly", "fixture": [64, 90, 21, 1], "managed": 64, "seed": 32382},
+    {"id": "O8/c64-c90-qualifier", "fixture": [64, 90, 21, 2], "managed": 64, "seed": 40092},
+    {"id": "O8/c101-c120-friendly", "fixture": [101, 120, 21, 1], "managed": 101, "seed": 45489},
+    {"id": "O8/c101-c120-qualifier", "fixture": [101, 120, 21, 2], "managed": 101, "seed": 54227}
+  ]
+}
