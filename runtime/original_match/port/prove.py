@@ -83,8 +83,10 @@ class _Visit:
 
     def __init__(self, lin, at, regs, fired):
         self.lin, self.at, self.regs, self.fired = lin, at, regs, fired
-        self.writes = []            # (linear, bytes) the handlers wrote
-        self.changed = {}           # register -> value after the handlers, for those they changed
+        # What the kit did with the guest there, in order: ("r", linear, bytes) it read, ("g", register, value) it
+        # read, ("s", register, value) it set, ("w", linear, bytes) it wrote; the reads made between the runs while
+        # the match stood at this site (a decision's answer) included.
+        self.events = []
         self.open = False           # stopped (a decision, events): the replay on resume belongs to it
 
 
@@ -131,7 +133,32 @@ class Prover:
             self.dead[address] = {}
         machine.on_write(0, MEM_SIZE - 1, self._record, always=True)    # once, before the run
         machine.write_tap = self._host_write
+        machine.io_tap = self._io
         machine.muted_hook = self._muted_at
+
+    # The prover's own reads and register changes bypass the machine's taps (they are not the kit's).
+    def _raw(self, linear, n):
+        return bytes(self.m.uc.mem_read(linear, n))
+
+    def _rreg(self, name):
+        from unicorn import x86_const as X
+        return self.m.uc.reg_read(getattr(X, f"UC_X86_REG_{name.upper()}"))
+
+    def _sreg(self, name, value):
+        from unicorn import x86_const as X
+        self.m.uc.reg_write(getattr(X, f"UC_X86_REG_{name.upper()}"), value)
+
+    def _io(self, kind, a, b):
+        """Machine.io_tap: the kit's reads and register changes during a proved call's port run go to the site whose
+        handlers run now, or, between two runs, to the site the match stands at (it stopped there)."""
+        st = self.state
+        if st is None or st.phase != "port":
+            return
+        v = self._visit
+        if v is None and not self.m.running and st.visits and st.visits[-1].open:
+            v = st.visits[-1]
+        if v is not None:
+            v.events.append((kind, a, b))
 
     def in_port_run(self):
         """Whether a proved call's port is running now (match.py refuses a port's own key reads then)."""
@@ -168,15 +195,15 @@ class Prover:
             return
         m = self.m
         new = (value & ((1 << (8 * size)) - 1)).to_bytes(size, "little")
-        old = m.read(address, size)
+        old = self._raw(address, size)
         if st.phase == "port":
             st.port_writes.append((address, old, new))
             return
         st.started = True
         st.writes.append((address, old, new))
-        if m.reg("ss") == st.ss:                # how far the original's stack reached
-            sp = st.ss * 16 + m.reg("sp")
-            if pushes(m.read(m.pc(), 6)) and sp - 16 <= address < sp:
+        if self._rreg("ss") == st.ss:           # how far the original's stack reached
+            sp = st.ss * 16 + self._rreg("sp")
+            if pushes(self._raw(self._rreg("cs") * 16 + self._rreg("ip"), 6)) and sp - 16 <= address < sp:
                 sp = address
             st.low = min(st.low, sp)
 
@@ -185,42 +212,40 @@ class Prover:
         st = self.state
         if st is None or st.phase != "port":
             return
-        st.port_writes.append((linear, self.m.read(linear, len(data)), bytes(data)))
+        st.port_writes.append((linear, self._raw(linear, len(data)), bytes(data)))
         if self._visit is not None:
-            self._visit.writes.append((linear, bytes(data)))
+            self._visit.events.append(("w", linear, bytes(data)))
         else:                                   # a write of the kit's outside its handlers: nothing could replay it
             raise PortError(f"the kit wrote {len(data)} bytes at {self.describe(linear)} outside a site of its own "
                             "during a proved call: not replayable")
 
     def _here(self, lin):
         """`lin` as the listing writes it, by the guest's CS now."""
-        m = self.m
-        cs = m.reg("cs")
-        return m.where(cs, lin - cs * 16) if 0 <= lin - cs * 16 < 0x10000 else f"linear 0x{lin:05X}"
+        cs = self._rreg("cs")
+        return self.m.where(cs, lin - cs * 16) if 0 <= lin - cs * 16 < 0x10000 else f"linear 0x{lin:05X}"
 
     def site_enter(self, lin, replay, fired=False):
         """Machine: the kit's handlers at `lin` are about to run (a dispatch, or a site a port fires)."""
-        st, m = self.state, self.m
+        st = self.state
         last = st.visits[-1] if st.visits else None
         if replay and last is not None and last.open and last.lin == lin:
             self._visit = last                  # the resumed half of a visit that stopped
             return
-        v = _Visit(lin, {r: m.reg(r) for r in AT_SITE}, {r: m.reg(r) for r in REGS_ALL}, fired)
+        v = _Visit(lin, {r: self._rreg(r) for r in AT_SITE}, None, fired)
         v.label = self._here(lin)
+        v.port_at = len(st.port_writes)     # the writes made before it: the original's must be the same (step 3)
         st.visits.append(v)
         self._visit = v
 
     def site_leave(self, lin, stopped, fired=False):
-        m, v = self.m, self._visit
+        v = self._visit
         self._visit = None
         if v is None:
             return
-        now = {r: m.reg(r) for r in REGS_ALL}
-        v.changed = {r: x for r, x in now.items() if x != v.regs[r]}
         v.open = stopped and not fired
-        if fired and v.changed:
-            raise PortError(f"the kit's site {v.label} fired by a port changed the registers {sorted(v.changed)}: "
-                            "not replayable in a proof")
+        if fired and any(e[0] == "s" for e in v.events):
+            raise PortError(f"the kit's site {v.label} fired by a port set registers "
+                            f"{sorted({e[1] for e in v.events if e[0] == 's'})}: not replayable in a proof")
 
     def _port_done(self, frame):
         """The port returned: undo it, put the CPU back to the entry, and let the original run, muted."""
@@ -273,12 +298,28 @@ class Prover:
                 self._fail(f"the original reached the kit's site {self._here(lin)} (#{i + 1}) at "
                            f"{here['CS']:04X}:{here['IP']:04X} SS:SP {here['SS']:04X}:{here['SP']:04X}, the port's run "
                            f"at {v.at['CS']:04X}:{v.at['IP']:04X} SS:SP {v.at['SS']:04X}:{v.at['SP']:04X}")
-        for address, data in v.writes:          # the kit's answer, as it gave it to the port's run
-            st.writes.append((address, m.read(address, len(data)), data))
-            m.uc.mem_write(address, data)
-        if not v.fired:
-            for r, x in v.changed.items():
-                m.set_reg(r, x)
+        # The kit's handlers, again, against the original: every input they read must be the original's (else the
+        # answer recorded is not the one the kit would give it), and their answer (writes, registers) is applied in
+        # the order they made it, so a read after a write of theirs sees it as it did.
+        site = f"the kit's site {v.label} (#{i + 1})"
+        v.orig_at = len(st.writes)
+        for kind, a, b in v.events:
+            if kind == "r":
+                now = self._raw(a, len(b))
+                if now != b:
+                    k = next(j for j in range(len(b)) if now[j] != b[j])
+                    self._fail(f"at {site} the kit read the byte at {self.describe(a + k)}: the port's run gave it "
+                               f"0x{b[k]:02X}, the original has 0x{now[k]:02X}")
+            elif kind == "g":
+                now = self._rreg(a)
+                if now != b:
+                    self._fail(f"at {site} the kit read register {a.upper()}: the port's run gave it 0x{b:04X}, the "
+                               f"original has 0x{now:04X}")
+            elif kind == "s":
+                self._sreg(a, b)
+            else:                               # "w": the kit's write, counted as the original's
+                st.writes.append((a, self._raw(a, len(b)), b))
+                m.uc.mem_write(a, b)
         st.next_visit = i + 1
 
     # -- 3. the comparison, then the port's state back ---------------------------------------------------------------
@@ -304,6 +345,11 @@ class Prover:
             who, extra = ("original", original[i]) if len(original) > i else ("port", port[i])
             self._fail(f"the {who} writes more: byte #{i}, 0x{extra[1]:02X} at {self.describe(extra[0])} "
                        f"({len(original)} bytes by the original, {len(port)} by the port)")
+        for i, v in enumerate(st.visits):      # each site between the same writes in both runs
+            before_o, before_p = len(live(st.writes[:v.orig_at])), len(live(st.port_writes[:v.port_at]))
+            if before_o != before_p:
+                self._fail(f"the kit's site {v.label} (#{i + 1}) came after {before_o} written bytes in the original, "
+                           f"after {before_p} in the port's run")
         dead = RESULT_DEAD.get((st.address, st.caller), ((), ""))[0]
         for r in REGS_RETURNED:
             if original_regs[r] != port_regs[r]:

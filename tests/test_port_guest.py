@@ -104,13 +104,18 @@ PROGRAM = {0x0000: bytes([0xE8, 0x0D, 0x00, 0x90, 0x90]),
            # 0100:0100  R: inc byte ptr [0x5000]; ret                 (its result depends on the memory it starts on)
            0x0100: bytes([0xFE, 0x06, 0x00, 0x50, 0xC3]),
            # 0100:0110  call R; nop; nop                              (the third start)
-           0x0110: bytes([0xE8, 0xED, 0xFF, 0x90, 0x90])}
+           0x0110: bytes([0xE8, 0xED, 0xFF, 0x90, 0x90]),
+           # 0100:0120  T: mov byte ptr [0x5000], 1; nop (0125, a kit site); ret
+           0x0120: bytes([0xC6, 0x06, 0x00, 0x50, 0x01, 0x90, 0xC3]),
+           # 0100:0130  call T; nop; nop                              (the fourth start)
+           0x0130: bytes([0xE8, 0xED, 0xFF, 0x90, 0x90])}
 CODE = 0x0100
 END = CODE * 16 + 4
 P, G, G_RETURN, INSIDE_G = "0100:0010", "0100:0030", "0100:001A", "0100:0038"
 Q, G2, G2_RETURN, K = "0100:00C0", "0100:00A0", "0100:00CA", "0100:0090"
 START_Q, END_Q = 0x00E0, CODE * 16 + 0xE4
 R, START_R, END_R = "0100:0100", 0x0110, CODE * 16 + 0x114
+T, T_SITE, START_T, END_T = "0100:0120", "0100:0125", 0x0130, CODE * 16 + 0x134
 TARGET = 0x5000                        # DS:5000..5004
 
 
@@ -418,29 +423,113 @@ class ProofTests(Synthetic, unittest.TestCase):
             m.run(END, 5)
         self.assertEqual(visits, [False, True])     # the decision was asked once
 
-    def answering_machine(self, fn):
+    def answering_machine(self, fn, reads=lambda m: 0x99):
         """Q (calling G2, which calls K) with Q's port proved, and the kit answering K as it answers a key read: its
-        own write (DS:5004) and its return with AL, in K's place."""
+        own write (DS:5004, of what reads(m) gives: an input it reads from the guest) and its return with AL 0x77, in
+        K's place."""
         self.entry_ip = START_Q
         m, prover, _, _ = self.prove(fn, address=Q)
         answers = []
 
         def answer(replay):
             answers.append(replay)
-            m.wr(TARGET + 4, 0x99, 1)
+            m.wr(TARGET + 4, reads(m) & 0xFF, 1)
             m.set_reg("ax", 0x0077)
             m.return_from(False, 0)
         m.at(K, answer)
         return m, prover, answers
 
     @staticmethod
-    def q_port(flip=0):
+    def q_port(flip=0, ax=5, arg=5, es=None, carry=False):
+        """Q's port: faithful by default; flip the byte it stores, or enter G2 with another AX, argument, ES or CF."""
         def fn(mem, variant):
             mem.enter(0, Q)
-            mem.set_reg("ax", 5)
-            ax = yield call(G2, 5, ret_to=G2_RETURN, far=False)
-            mem.wds8(TARGET + 2, (ax & 0xFF) ^ flip, G2_RETURN)
+            mem.set_reg("ax", ax)
+            if es is not None:
+                mem.set_reg("es", es)
+            if carry:
+                mem.set_reg("eflags", mem.reg("eflags") | 1)
+            got = yield call(G2, arg, ret_to=G2_RETURN, far=False)
+            mem.wds8(TARGET + 2, (got & 0xFF) ^ flip, G2_RETURN)
         return fn
+
+    # The kit's inputs at K (review round 2, R1): AX, a flag, a segment register, a stack argument (Q's to G2: at K's
+    # entry SP+0 is K's return, +2 G2's BP, +4 G2's return, +6 the argument).
+    INPUTS = {"ax": lambda m: m.reg("ax"), "flag": lambda m: m.reg("eflags") & 1, "segment": lambda m: m.reg("es"),
+              "stack": lambda m: m.stack_word(6)}
+
+    def test_the_kits_inputs_faithful_are_proved(self):
+        for name, reads in self.INPUTS.items():
+            m, prover, answers = self.answering_machine(self.q_port(), reads)
+            self.assertIsNone(m.run(END_Q, 5, fresh=True), name)
+            self.assertEqual((prover.summary()[Q]["proved"], answers), (1, [False]), name)
+
+    def test_a_divergence_in_the_kits_input_register_is_named(self):
+        m, prover, answers = self.answering_machine(self.q_port(ax=6), self.INPUTS["ax"])
+        with self.assertRaisesRegex(ProofError, f"^{Q} \\(test\\), call #1 from 0100:00E3, minute 7: at the kit's site "
+                                                f"{K} \\(#1\\) the kit read register AX: the port's run gave it 0x0006, "
+                                                "the original has 0x0005$"):
+            m.run(END_Q, 5, fresh=True)
+        self.assertEqual(answers, [False])          # the wrong answer the port's run got (06) is not certified
+
+    def test_a_divergence_in_a_flag_input_is_named(self):
+        m, prover, _ = self.answering_machine(self.q_port(carry=True), self.INPUTS["flag"])
+        with self.assertRaisesRegex(ProofError, "the kit read register EFLAGS: the port's run gave it 0x0003, the "
+                                                "original has 0x0002"):
+            m.run(END_Q, 5, fresh=True)
+
+    def test_a_divergence_in_a_segment_input_is_named(self):
+        m, prover, _ = self.answering_machine(self.q_port(es=0x1234), self.INPUTS["segment"])
+        with self.assertRaisesRegex(ProofError, "the kit read register ES: the port's run gave it 0x1234, the "
+                                                f"original has 0x{m.DS:04X}"):
+            m.run(END_Q, 5, fresh=True)
+
+    def test_a_divergence_in_a_stack_argument_is_named(self):
+        m, prover, _ = self.answering_machine(self.q_port(arg=6), self.INPUTS["stack"])
+        # the argument Q pushed at SS:03FA (the stub's return 03FE, Q's BP 03FC): a stack byte, outside the comparison
+        # of written bytes (the dead frame), so only the input check sees it
+        with self.assertRaisesRegex(ProofError, f"the kit read the byte at linear 0x{0x8000 + 0x3FA:05X}: the port's "
+                                                "run gave it 0x06, the original has 0x05"):
+            m.run(END_Q, 5, fresh=True)
+
+    def test_a_site_between_other_writes_is_named(self):
+        def t_port(site_first):
+            def fn(mem, variant):
+                if site_first:
+                    mem.site(T_SITE)
+                mem.wds8(TARGET, 1, "0100:0120")
+                if not site_first:
+                    mem.site(T_SITE)
+            return fn
+        for site_first in (False, True):
+            self.entry_ip = START_T
+            m, prover, _, _ = self.prove(t_port(site_first), address=T)
+            m.at(T_SITE, lambda replay: None)
+            if site_first:                          # the same bytes, the same site, in another order
+                with self.assertRaisesRegex(ProofError, f"the kit's site {T_SITE} \\(#1\\) came after 1 written bytes "
+                                                        "in the original, after 0 in the port's run"):
+                    m.run(END_T, 5, fresh=True)
+            else:
+                self.assertIsNone(m.run(END_T, 5, fresh=True))
+                self.assertEqual(prover.summary()[T]["proved"], 1)
+
+    def test_a_divergence_read_while_the_match_stands_at_a_decision_is_named(self):
+        def ax6(mem, variant):                      # P with AX 6 at G's call: G overwrites AX, its writes equal
+            mem.enter(0, P)
+            mem.set_reg("ax", 6)
+            ax = yield call(G, 5, ret_to=G_RETURN, far=False)
+            mem.wds8(TARGET + 2, ax & 0xFF, G_RETURN)
+        for fn, policy_reads in ((ax6, False), (ax6, True)):
+            m, prover, visits = self.decision_machine(fn)
+            self.assertEqual(m.run(END, 5, fresh=True), "decision")
+            if policy_reads:
+                m.reg("ax")                         # the decision's answer reads the guest (as a policy may)
+                with self.assertRaisesRegex(ProofError, f"at the kit's site {INSIDE_G} \\(#1\\) the kit read register "
+                                                        "AX: the port's run gave it 0x0006, the original has 0x0005"):
+                    m.run(END, 5)
+            else:                                   # nothing read AX: no input of the kit's differed
+                self.assertIsNone(m.run(END, 5))
+                self.assertEqual(prover.summary()[P]["proved"], 1)
 
     def test_the_kits_answer_is_replayed_to_the_original(self):
         m, prover, answers = self.answering_machine(self.q_port())

@@ -64,6 +64,11 @@ class Machine:
         # handlers) and the kit's own writes (write_tap(linear, data), before they land) are told to the proof.
         self.site_tap = None
         self.write_tap = None
+        # ... and the reads and register changes of the kit (io_tap(kind, a, b): "r" linear, bytes; "g" register, value
+        # read; "s" register, value set), so a proof can check a site's inputs and replay its answer (port/prove.py).
+        # `running`: inside emu_start (the guest or a hook), not between two runs of the match.
+        self.io_tap = None
+        self.running = False
         self.uc.hook_add(UC_HOOK_INTR, lambda uc, intno, data: None)
 
     # -- addresses ---------------------------------------------------------------------------------
@@ -80,7 +85,11 @@ class Machine:
 
     # -- memory --------------------------------------------------------------------------------------
     def read(self, linear, n):
-        return bytes(self.uc.mem_read(linear, n))
+        """The kit's read of guest memory (every read of the kit's goes through here; a proof records it: io_tap)."""
+        data = bytes(self.uc.mem_read(linear, n))
+        if self.io_tap is not None:
+            self.io_tap("r", linear, data)
+        return data
 
     def write(self, linear, data):
         """The kit's write of guest memory (a proof records it: write_tap)."""
@@ -89,11 +98,11 @@ class Machine:
         self.uc.mem_write(linear, bytes(data))
 
     def word_at(self, linear):
-        return int.from_bytes(self.uc.mem_read(linear, 2), "little")
+        return int.from_bytes(self.read(linear, 2), "little")
 
     def rd(self, off, n=2):
         """The little-endian value of n bytes at DS:off."""
-        return int.from_bytes(self.uc.mem_read(self.DS * 16 + off, n), "little")
+        return int.from_bytes(self.read(self.DS * 16 + off, n), "little")
 
     def wr(self, off, value, n=2):
         self.write(self.DS * 16 + off, int(value).to_bytes(n, "little"))
@@ -104,14 +113,19 @@ class Machine:
 
     def rd_far(self, ptr, off, n=2):
         """The value of n bytes at offset `off` of the record the far pointer DS:ptr points to."""
-        return int.from_bytes(self.uc.mem_read(self.far(ptr) + off, n), "little")
+        return int.from_bytes(self.read(self.far(ptr) + off, n), "little")
 
     # -- registers and the stack ---------------------------------------------------------------------
     def reg(self, name):
-        return self.uc.reg_read(getattr(X, f"UC_X86_REG_{name.upper()}"))
+        value = self.uc.reg_read(getattr(X, f"UC_X86_REG_{name.upper()}"))
+        if self.io_tap is not None:
+            self.io_tap("g", name.lower(), value)
+        return value
 
     def set_reg(self, name, value):
         self.uc.reg_write(getattr(X, f"UC_X86_REG_{name.upper()}"), value)
+        if self.io_tap is not None:
+            self.io_tap("s", name.lower(), value)
 
     def stack_word(self, offset):
         return self.word_at(self.reg("ss") * 16 + ((self.reg("sp") + offset) & 0xFFFF))
@@ -304,10 +318,13 @@ class Machine:
         start = self.pc()
         self._resume_lin = None if fresh or start == self.no_replay_at else start
         self.no_replay_at = None
+        self.running = True
         try:
             self.uc.emu_start(start, until, timeout=int(timeout_s * 1_000_000))
         except UcError as e:
+            self.running = False
             raise GuestError(f"the emulator stopped at {self.where(self.reg('cs'), self.reg('ip'))}: {e}") from e
+        self.running = False
         if self.error is not None:
             err, self.error = self.error, None
             raise err
