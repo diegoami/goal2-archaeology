@@ -1,0 +1,4 @@
+ports: restarts, pilot.bound-36
+1 matches selected, 0 already in experiments/E036-match-port/out/T59/falsifier-pilot-bound-36.jsonl, 1 to run
+F40/e032-0101: NOT COMPLETED (GuestError: the run ended at 0791:93C2 without reaching its end (time limit 60 s)); score None ticks None cpu 63.415 s; port 0791:6E11 called 0; port 0791:8889 called 661414
+1 of 1 matches in experiments/E036-match-port/out/T59/falsifier-pilot-bound-36.jsonl, 1 not completed: ['F40/e032-0101']
