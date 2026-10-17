@@ -60,8 +60,10 @@ MUTATIONS = [
      "            self.io_tap(\"g\", name.lower(), value)", "            pass"),
     ("the kit's register sets not tapped", f"{K}/machine.py",
      "            self.io_tap(\"s\", name.lower(), value)", "            pass"),
-    ("emu_start not marked running", f"{K}/machine.py", "        self.running = True\n        try:",
-     "        self.running = False\n        try:"),
+    # Not listed: "emu_start not marked running" (Machine.running always False). Run in mutations-4056fce.txt, not
+    # caught, and equivalent as the code stands: a visit is open only while the match stands stopped at it, and a
+    # resumed run's first hook is that site's dispatch, which closes it before any kit code reads; so no kit read
+    # inside emu_start meets an open visit, and the flag only makes the rule explicit.
     ("a site's place among the writes not compared", f"{K}/port/prove.py", "            if before_o != before_p:",
      "            if False:"),
     ("a site's address not compared", f"{K}/port/prove.py", "        if v.lin != lin:\n", "        if False:\n"),

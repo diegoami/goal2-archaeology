@@ -289,6 +289,10 @@ changed or stopped; a step a port stops FAILs and the next steps still run).
   the main RNG's N-th draw on side by side with the original's (E021's rule). The port runs first, live (it is the
   match: its decisions are asked and answered once), recording its writes and every kit site it reaches; then it is
   undone and the original runs muted from the same state, the kit's answers at those sites replayed to it in order.
+  An answer is replayed only to the inputs it was given: every byte, register (flags and segments included) and stack
+  word the kit's handlers read at a site, and those it read while the match stood stopped there (a decision's answer),
+  must be the original's when the original reaches the site, else `ProofError` names the site and what differs; each
+  site must also come after the same written bytes in both runs.
   The written bytes in order outside the routine's dead frame, the sites, and the returned registers (AX and DX
   included, but where a routine's result is declared dead at one return address with the listing's evidence) must
   be equal, else `ProofError` names the routine, the call, the site, byte or register; then the port's state is put
