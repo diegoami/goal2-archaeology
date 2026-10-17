@@ -91,6 +91,33 @@ class TimeLimit(Exception):
     pass
 
 
+class UndeclaredWrite(Exception):
+    pass
+
+
+def allowed_spans(machine):
+    """The linear spans a match may change: DS, records.RANGES, and the screen's page and two text buffers."""
+    base = machine.load * 16
+    spans = [(machine.DS * 16, machine.DS * 16 + records.DS_SIZE)]
+    spans += [(base + start, base + start + length) for start, length in records.RANGES.values()]
+    spans += [(machine.far(p), machine.far(p) + SCREEN_BYTES) for p in SCREEN_POINTERS]
+    return spans
+
+
+def undeclared_changes(before, after, spans):
+    """[start, end) linear spans where `after` differs from `before` outside `spans` (a byte written back as it was
+    is no change)."""
+    a, b = bytearray(before), bytearray(after)
+    for lo, hi in spans:
+        a[lo:hi] = bytes(hi - lo)
+        b[lo:hi] = bytes(hi - lo)
+    if a == b:
+        return []
+    changed = [j for i in range(0, len(a), 4096) if a[i:i + 4096] != b[i:i + 4096]
+               for j in range(i, min(i + 4096, len(a))) if a[j] != b[j]]
+    return merge([[j, j + 1] for j in changed], gap=15)
+
+
 def digest_memory(m, mask):
     """{'seed', 'ds', 'ranges'}: the main seed word, one digest per 1 KiB of DS, and of each of records.RANGES,
     after the post-match update, over the mask."""
@@ -146,15 +173,24 @@ def run_match(image, spec, mask=(), counts=(), time_limit=DEFAULT_TIME_LIMIT, wa
         m = Match(image, Fixture(first, second, index=index, kind=kind), managed=spec.managed, seed=spec.seed,
                   record_draws=True, delay_byte=spec.delay_byte, substitutions=spec.substitutions, players=players,
                   countries=countries, timeout_s=min(60, time_limit))
+        if counts:
+            from unicorn import UC_HOOK_CODE
         for address in counts:
-            def count(replay, address=address):
-                if not replay:
-                    seen[address] += 1
-            m.m.at(address, count)
+            # A raw code hook registered after the kit's own: when a kit hook at the address stops the run, Unicorn
+            # leaves the later hooks to the resumed pass, so each execution is counted once (the kit's `at` handlers
+            # run in order and the stopping one ends the pass, which undercounted the tick routine: 3265 of 4146).
+            def count(uc, addr, size, data, address=address):
+                seen[address] += 1
+            m.m.uc.hook_add(UC_HOOK_CODE, count, begin=m.m.lin(address), end=m.m.lin(address))
         if watch is not None:
             watch(m)
+        before = m.m.read(0, 0x110000)
         events, decisions, strays, board = play(m, spec, time.time() + time_limit)
         result = m.result()
+        outside = undeclared_changes(before, m.m.read(0, 0x110000), allowed_spans(m.m))
+        if outside:
+            raise UndeclaredWrite(f"{sum(b - a for a, b in outside)} bytes changed outside the declared ranges, first at "
+                                  f"P+0x{outside[0][0] - m.m.load * 16:X}: rerun --find-ranges")
         draws = m.st["draws"]
         rec["strays"], rec["stopped_at_board"] = strays, board
         n_events, events_sha = records.events_digest(events)

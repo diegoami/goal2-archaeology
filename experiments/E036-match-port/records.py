@@ -63,13 +63,20 @@ N_TEMPLATES = 67                       # match.py/image.py: the game's commentar
 DS_SIZE, BLOCK = 0x10000, 1024         # one digest per 1 KiB of DS
 DS_BLOCKS = DS_SIZE // BLOCK
 # The ranges a match writes outside DS and the screen, as program-relative linear spans (start, length), each
-# digested per 1 KiB. FOUND by a write watch over the matches of ALL's sample (family.py --find-ranges; the result
-# is committed as out/T57/ranges-*.json): see RANGES_FOUND below, which family.py's finder fills and a test checks.
-RANGES = {}
-# The 1 KiB blocks of DS that only the screen's text buffers carry (DS:A96E points at 3C75:0000, 8000 bytes of two
-# pages from DS:ED10; block 59 is the first that holds any of it): compare.py --no-screen leaves them out.
-SCREEN_DS_BLOCKS = ()
-SCREEN_RANGES = ()      # names of RANGES that only hold a screen's text (compare.py --no-screen leaves them out)
+# digested per 1 KiB. FOUND by a write watch over 18 matches that cover the families' paths
+# (out/T57/ranges-20261017.json, family.py --find-ranges; notes/T57.md says what each is). family.py also checks, at the
+# end of every match, that no byte outside DS, these ranges and the screen's three buffers has changed, so a range the
+# sample missed is an error in the record and not a silent gap.
+RANGES = {
+    "records": (262990, 93648),         # the country, player, manager, game and fixture arrays (DS:A917 .. A92B + 8n)
+    "w5c8a0": (379040, 1776),           # small writes at a fixed stride, all within 0x5C8A0..0x5CF90
+    "w5eb30": (387888, 64),             # 64 bytes written by some of the 18 matches (notes/T57.md says which)
+    "saved_screen": (388368, 4016),     # DS:7C1E's block: a saved text screen (a 4000-byte page and its 16 bytes)
+}
+# The 1 KiB blocks of DS that only the screen's text buffers carry (DS:A96E and DS:A972 point at the two 4000-byte
+# buffers from DS:ED10; block 59 is the first that holds any of it): compare.py --no-screen leaves them out.
+SCREEN_DS_BLOCKS = (59, 60, 61, 62, 63)
+SCREEN_RANGES = ("saved_screen",)       # names of RANGES that only hold a screen's text (compare.py --no-screen leaves them out)
 MASK_SPACES = ("DS", "P")
 P_SIZE = 0x110000                      # the guest memory the kit maps (machine.py MEM_SIZE)
 

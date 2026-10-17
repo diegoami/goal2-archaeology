@@ -21,6 +21,7 @@ ROOT = Path(__file__).resolve().parents[1]
 E036 = Path(os.environ.get("E036_DIR", ROOT / "experiments/E036-match-port"))
 sys.path.insert(0, str(E036))
 import compare as compare_module  # noqa: E402
+from original_match.check import EXPECTED_FAMILY  # noqa: E402
 import families  # noqa: E402
 import records  # noqa: E402
 
@@ -418,6 +419,49 @@ class CommandLine(Base):
         self.assertEqual(self.compare(p).returncode, 2)
 
 
+class E032Seeds(Base):
+    """Done-when 2: the reference's ten E032 seeds equal check.py's EXPECTED_FAMILY, printed per seed."""
+
+    def e032_records(self, **change):
+        out = []
+        for seed, (score, ticks, draws, digest) in sorted(EXPECTED_FAMILY.items()):
+            mid = f"F40/e032-{seed:04x}"
+            r = record(mid, score=score, ticks=ticks,
+                       draws={"count": draws, "digest": digest, "per_minute": [[1, draws, dg(mid, "m")]]})
+            out.append(change.get(mid, r))
+        return out
+
+    def run_e032(self, recs, *extra):
+        p = self.log("e.jsonl", recs)
+        return subprocess.run([sys.executable, "-B", str(COMPARE), "--e032", "--candidate", str(p), *extra],
+                              capture_output=True, text=True)
+
+    def test_the_ten_seeds_are_printed_and_equal(self):
+        r = self.run_e032(self.e032_records())
+        self.assertEqual(r.returncode, 0, r.stdout)
+        self.assertEqual(len(r.stdout.strip().splitlines()), 11)
+        self.assertIn("seed 0x0101: score [1, 0] ticks 4279 draws 192967 digest a365b543... equal", r.stdout)
+
+    def test_each_field_that_differs_fails_that_seed(self):
+        for field, bad in (("score", [0, 0]), ("ticks", 1), ("draws", {"count": 5, "digest": dg("x"), "per_minute": [[1, 5, dg("y")]]}),
+                           ("draws", {"count": 192967, "digest": dg("x"), "per_minute": [[1, 192967, dg("y")]]})):
+            mid = "F40/e032-0101"
+            score, ticks, draws, digest = EXPECTED_FAMILY[0x0101]
+            good = record(mid, score=score, ticks=ticks, draws={"count": draws, "digest": digest, "per_minute": [[1, draws, dg("m")]]})
+            with self.subTest(field, bad=bad):
+                r = self.run_e032(self.e032_records(**{mid: dict(good, **{field: bad})}))
+                self.assertEqual(r.returncode, 1, r.stdout)
+                self.assertIn("seed 0x0101", [l for l in r.stdout.splitlines() if "FAIL" in l][0])
+
+    def test_a_missing_incomplete_or_other_match_is_malformed(self):
+        recs = self.e032_records()
+        self.assertEqual(self.run_e032(recs[1:]).returncode, 2)
+        self.assertEqual(self.run_e032([incomplete(recs[0]["id"])] + recs[1:]).returncode, 2)
+        self.assertEqual(self.run_e032([dict(recs[0], spec_sha256=dg("other"))] + recs[1:]).returncode, 2)
+        self.assertEqual(self.run_e032(recs + [recs[0]]).returncode, 2)
+        self.assertEqual(self.run_e032(recs, "--family", "F40").returncode, 2)
+
+
 class LeafFuzz(unittest.TestCase):
     """E032 round 4's class, for these records: every leaf of a record, changed one way at a time, makes it invalid."""
 
@@ -524,6 +568,16 @@ class LeafFuzz(unittest.TestCase):
                 with self.subTest(path=path, change=change):
                     with self.assertRaises(records.SchemaError):
                         records.validate(bad)
+
+    def test_an_error_text_is_one_clean_ascii_line(self):
+        base = incomplete(F40[0])
+        records.validate(base)
+        for bad in ("a\n", "a\nb", " a", "a ", "caf\u00e9", "a\x00", "a\tb", "", "x" * 201, "\u0662"):
+            with self.subTest(repr(bad)):
+                with self.assertRaises(records.SchemaError):
+                    records.validate(dict(base, error=bad))
+        records.validate(dict(base, error="x" * 200))
+        records.validate(dict(base, error="E"))
 
     def test_numbers_are_ints_not_floats_and_floats_are_finite(self):
         base = record(F40[0])

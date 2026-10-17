@@ -36,14 +36,29 @@ family names its own reference (the unhooked kit), so a family added later bring
 
 - `python3 -B experiments/E036-match-port/family.py --family ALL [--ports M,...|all] [--variant M.NAME]
   [--count SSSS:OOOO,...] [--max N] [--workers 1|2] --out experiments/E036-match-port/out/T<nn>/<name>.jsonl`:
-  one record per match; resumable (a rerun with the same `--out` adds only the matches not yet in it, never rewrites one);
-  `--count` counts the executions of any instruction address, a routine's entry or a branch's target (L105's reach count).
+  one record per match (`records.py` is the grammar); resumable (a rerun with the same `--out` adds only the matches not
+  yet in it, never rewrites a line, and refuses a log that is not this run's); `--count` counts the executions of any
+  instruction address, a routine's entry or a branch's target (L105's reach count), skipping the kit's replays.
+  T57 builds `--family`, `--out`, `--max`, `--workers` (the default is one process; two at most), `--count`, `--only ID,...`
+  (a few matches), `--time-limit S` (per match, default 300), `--mask FILE` (a JSON list of `[space, start, length]`, space
+  `DS` or `P`: the bytes zeroed before the memory digests are taken, none by default; the record carries it and
+  compare.py refuses two masks) and `--find-ranges FILE` (the write watch that found `records.RANGES`, out/T57). `--ports` and
+  `--variant` come with T59, and the record grammar grows with them.
   Later: `--engine port --no-unicorn` (T78: the engine on its own, `import unicorn` made to fail first) and
   `--from-records` (T80: the start state given as records, not as an image).
-- `python3 -B experiments/E036-match-port/compare.py --family ALL --candidate <file> [--expect differ] [--no-screen]`:
-  against each family's reference; exit 0 as expected, 1 not, 2 malformed or missing evidence (never a pass).
+- `python3 -B experiments/E036-match-port/compare.py --family ALL --candidate <file> [--reference <file>]
+  [--expect differ] [--no-screen]`: against each family's reference (`--reference` names one log for all); exit 0 as
+  expected, 1 not, 2 malformed or missing evidence (never a pass); names the first differing field, the minute where
+  the draws first differ and the first differing 1 KiB block of memory. `--e032 --candidate <reference>` prints, per
+  seed, F40's ten E032 matches against `check.py`'s `EXPECTED_FAMILY`.
 - `python3 -B experiments/E036-match-port/locate.py --family ALL --candidate <file> --match <id>`: the first differing
-  minute, then the first differing call of a ported routine, proved side by side.
+  minute, then the first differing call of a ported routine, proved side by side (T59).
+
+A family is a file under `families/` (`F40.json`, `O8.json`, `S.json`; `families.py` documents the format): its matches
+(fixture, managed side, seed, declared edits of the records, answer policy) and the path of its reference log. A new
+family or scenario is a new file there, found with no list to edit; a policy a scenario needs that `families.py` does
+not have is a class in a `families/*.py` file (`POLICIES = {name: class}`). A match's spec digest includes its policy's
+code, so a record only compares with a reference made by the same declaration.
 
 ## The rules every porting task follows
 

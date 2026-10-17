@@ -276,12 +276,31 @@ class TheEdits(unittest.TestCase):
 
 
 # ---- the runner over a stand-in for the kit ---------------------------------------------------------------------
+class FakeUnicorn:
+    def __init__(self):
+        self.code_hooks = {}
+
+    def hook_add(self, kind, callback, begin=1, end=0):
+        self.code_hooks.setdefault(begin, []).append((end, callback))
+
+
 class FakeMachine:
     DS, load = 0x2DA4, 0x823
 
     def __init__(self):
         self.mem = bytearray((i * 31 + i // 251) % 256 for i in range(0x110000))
         self.hooks = {}
+        self.uc = FakeUnicorn()
+
+    def lin(self, address):
+        seg, off = address.split(":")
+        return ((self.load + int(seg, 16)) & 0xFFFF) * 16 + int(off, 16)
+
+    def execute(self, address, times=1):
+        """The guest executes `address` `times` times: Unicorn calls every code hook registered there."""
+        for _ in range(times):
+            for _end, cb in self.uc.code_hooks.get(self.lin(address), []):
+                cb(None, self.lin(address), 1, None)
 
     def read(self, linear, n):
         return bytes(self.mem[linear:linear + n])
@@ -292,6 +311,9 @@ class FakeMachine:
 
     def at(self, address, handler):
         self.hooks[address] = handler
+
+    def far(self, off):
+        return {0xA96A: 0xB8000, 0xA96E: 0x3C750, 0xA972: 0x3D6F0}[off]      # the text page and the two text buffers
 
 
 class FakeMatch:
@@ -441,15 +463,14 @@ class RunMatch(unittest.TestCase):
         self.assertEqual(pauses, [20, 60])
         self.assertTrue(records.is_completed(r))
 
-    def test_count_skips_the_replays_the_kits_stops_cause(self):
+    def test_count_counts_each_execution_of_each_address(self):
         def fire(m):
-            for _ in range(3):
-                m.m.hooks["0791:970C"](False)
-            m.m.hooks["0791:970C"](True)
-            m.m.hooks["0791:9B15"](False)
+            m.m.execute("0791:970C", 3)
+            m.m.execute("0791:9B15")
         FakeMatch.on_events = [fire]
         r = self.run_one(counts=["0791:970C", "0791:9B15", "0791:A10A"])
         self.assertEqual(r["counts"], {"0791:970C": 3, "0791:9B15": 1, "0791:A10A": 0})
+        self.assertEqual(self.run_one()["counts"], {})
 
     def test_memory_digests_one_per_kib_of_ds_and_of_each_range(self):
         r = self.run_one()
@@ -476,6 +497,32 @@ class RunMatch(unittest.TestCase):
                              [last // 1024], name)
             self.assertEqual(after["ds"], base["ds"])
 
+    def test_a_write_outside_the_declared_ranges_is_an_error(self):
+        base = FakeMachine.load * 16
+        outside = [base + 5, 0x1000, 0xA0000, 0x10FFFF, base + 262990 - 1,
+                   base + max(s + n for s, n in records.RANGES.values())]
+        for address in outside:
+            FakeMatch.on_events = [lambda m, a=address: m.m.mem.__setitem__(a, m.m.mem[a] ^ 0xFF)]
+            r = self.run_one()
+            with self.subTest(address=hex(address)):
+                records.validate(r)
+                self.assertRegex(r["error"], r"^UndeclaredWrite: 1 bytes changed outside the declared ranges, first at P\+0x")
+                self.assertIsNone(r["after"])
+
+    def test_a_write_inside_ds_a_range_or_the_screen_is_no_error(self):
+        base, ds = FakeMachine.load * 16, FakeMachine.DS * 16
+        inside = [ds, ds + 0xFFFF, 0xB8000, 0xB8000 + 3999, 0x3C750, 0x3D6F0 + 3999]
+        for name, (start, length) in records.RANGES.items():
+            inside += [base + start, base + start + length - 1]
+        for address in inside:
+            FakeMatch.on_events = [lambda m, a=address: m.m.mem.__setitem__(a, m.m.mem[a] ^ 0xFF)]
+            with self.subTest(address=hex(address)):
+                self.assertIsNone(self.run_one()["error"])
+
+    def test_a_byte_written_back_as_it_was_is_no_change(self):
+        FakeMatch.on_events = [lambda m: m.m.mem.__setitem__(0x1000, m.m.mem[0x1000])]
+        self.assertIsNone(self.run_one()["error"])
+
     def test_the_mask_covers_what_it_names_and_nothing_else(self):
         FakeMatch.on_events = [lambda m: m.m.mem.__setitem__(m.m.DS * 16 + 3 * 1024 + 7, 0xEE)]
         masked = self.run_one(mask=[["DS", 3 * 1024 + 7, 1]])
@@ -491,16 +538,18 @@ class RunMatch(unittest.TestCase):
         self.assertEqual(wrong["after"]["ds"][3], unmasked["after"]["ds"][3])
 
     def test_a_p_space_mask_covers_the_ranges(self):
-        if not records.RANGES:
-            self.skipTest("no range declared")
         name, (start, length) = next(iter(records.RANGES.items()))
+        mask = [["P", start + 10, 1]]
         FakeMatch.on_events = [lambda m: m.m.mem.__setitem__(m.m.load * 16 + start + 10, 0xEE)]
         changed = self.run_one()["after"]["ranges"][name]
-        masked = self.run_one(mask=[["P", start + 10, 1]])["after"]["ranges"][name]
+        changed_masked = self.run_one(mask=mask)["after"]["ranges"][name]
         FakeMatch.on_events = []
+        plain_masked = self.run_one(mask=mask)["after"]["ranges"][name]
         plain = self.run_one()["after"]["ranges"][name]
         self.assertNotEqual(changed[0], plain[0])
-        self.assertEqual(masked, plain)
+        self.assertEqual(changed_masked, plain_masked)         # the changed byte is not seen
+        self.assertNotEqual(plain_masked[0], plain[0])         # a masked byte reads as zero
+        self.assertEqual(plain_masked[1:], plain[1:])          # and no other block moves
 
 
 class Masks(unittest.TestCase):
@@ -649,14 +698,17 @@ class TheRanges(unittest.TestCase):
             written_non_screen = set(rep["ds_blocks_written"]) - set(rep["ds_blocks_of_the_screen"])
             self.assertFalse(written_non_screen & set(records.SCREEN_DS_BLOCKS))
 
-    def test_a_declared_range_is_in_the_report(self):
+    def test_a_declared_range_lies_in_a_range_the_report_suggests(self):
         for path in self.reports():
             rep = json.loads(path.read_text())
-            self.assertEqual({k: v for k, v in rep["ranges"].items() if k in records.RANGES},
-                             {k: list(v) for k, v in records.RANGES.items() if k in rep["ranges"]})
+            suggested = [(s, s + n) for s, n in rep["ranges"].values()]
+            for name, (start, length) in records.RANGES.items():
+                with self.subTest(report=path.name, range=name):
+                    self.assertTrue(any(lo <= start and start + length <= hi for lo, hi in suggested))
 
 
 # ---- one real match ----------------------------------------------------------------------------------------------
+@unittest.skipIf(os.environ.get("E036_NO_REAL_MATCH"), "E036_NO_REAL_MATCH is set (the mutation check runs no match)")
 @unittest.skipUnless(IMAGE_FILE.is_file(), "the reference image is not in .cache/dl (fetch it with gh, see the kit's README)")
 class OneRealMatch(unittest.TestCase):
     def test_seed_0x1234_is_e032s_record_and_count_counts_the_ticks(self):

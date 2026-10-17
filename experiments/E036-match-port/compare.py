@@ -27,6 +27,10 @@ be a match that did not complete (a falsifier that hangs or errors is caught as 
 --no-screen leaves out what only the screen carries: the board screen's digest and the 1 KiB blocks of DS and the
 ranges that only hold the screen's text buffers.
 
+    python3 -B experiments/E036-match-port/compare.py --e032 --candidate <reference.jsonl>
+prints, per seed, whether F40's ten E032 matches ('F40/e032-*') equal original_match.check's EXPECTED_FAMILY (score,
+ticks, draws, draws digest): exit 0 when all ten do, 1 when one does not, 2 when one is missing or malformed.
+
 Exit status: 0 when every expected match passes, 1 when one fails its expectation, 2 when the command or a log is
 malformed or evidence is missing (never a pass)."""
 import argparse
@@ -182,19 +186,54 @@ def load(path):
     return out
 
 
+def e032(log, declared):
+    """(lines, ok): the ten matches 'F40/e032-<seed>' of the log against check.py's EXPECTED_FAMILY, per seed. Raises
+    Malformed when one is missing, is not the declared match or did not complete."""
+    from original_match.check import EXPECTED_FAMILY
+    lines, ok = [], True
+    for seed, (score, ticks, draws, digest) in sorted(EXPECTED_FAMILY.items()):
+        mid = f"F40/e032-{seed:04x}"
+        if mid not in log or mid not in declared:
+            raise Malformed(f"{mid} is missing from the log or not a declared match")
+        spec = declared[mid]
+        if spec.seed != seed or log[mid]["spec_sha256"] != spec.sha256:
+            raise Malformed(f"{mid}: not the declared match with seed 0x{seed:04x}")
+        why = completed(log[mid])
+        if why:
+            raise Malformed(f"{mid} is not a completed match ({why})")
+        r = log[mid]
+        got = [r["score"], r["ticks"], r["draws"]["count"], r["draws"]["digest"]]
+        want = [score, ticks, draws, digest]
+        equal = got == want
+        ok = ok and equal
+        lines.append(f"seed 0x{seed:04X}: score {got[0]} ticks {got[1]} draws {got[2]} digest {got[3][:8]}... "
+                     + ("equal to check.py's EXPECTED_FAMILY" if equal else
+                        f"DIFFERS from EXPECTED_FAMILY (score {score} ticks {ticks} draws {draws} digest {digest[:8]}...): FAIL"))
+    lines.append(f"{len(EXPECTED_FAMILY)} E032 seeds, {'all equal' if ok else 'NOT all equal'}")
+    return lines, ok
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
-    ap.add_argument("--family", required=True)
+    ap.add_argument("--family")
     ap.add_argument("--candidate", required=True)
+    ap.add_argument("--e032", action="store_true")
     ap.add_argument("--reference")
     ap.add_argument("--expect", choices=("identical", "differ"), default="identical")
     ap.add_argument("--no-screen", action="store_true")
     a = ap.parse_args(argv)
     try:
+        if a.e032 != (a.family is None) or (a.e032 and (a.reference or a.no_screen or a.expect != "identical")):
+            raise Malformed("give --family (a comparison), or --e032 alone with --candidate (the E032 seeds' check)")
         try:
-            chosen = families.select(a.family, families.discover())
+            declared = families.discover()
+            chosen = families.select(a.family, declared) if not a.e032 else []
         except families.FamilyError as e:
             raise Malformed(str(e))
+        if a.e032:
+            lines, ok = e032(load(a.candidate), {m.id: m for fam in declared.values() for m in fam.matches})
+            print("\n".join(lines))
+            return 0 if ok else 1
         cand = load(a.candidate)
         groups = {}
         for fam in chosen:
