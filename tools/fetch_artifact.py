@@ -113,7 +113,14 @@ def main(argv=None) -> int:
     parser.add_argument("--repo", default=DEFAULT_REPO)
     args = parser.parse_args(argv)
     if not args.check:
-        download(args.set_id, repo=args.repo)
+        try:
+            download(args.set_id, repo=args.repo)
+        except subprocess.CalledProcessError as e:
+            lines = net.text(e.stderr).strip().splitlines()
+            reason = lines[0] if lines else f"gh exited {e.returncode}"
+            print(f"{args.set_id}: could not be downloaded and is not cached ({reason}); "
+                  f"run it again with the network", file=sys.stderr)
+            return 1
     problems = verify(args.set_id)
     if problems:
         print("\n".join(problems))

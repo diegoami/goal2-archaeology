@@ -19,6 +19,11 @@ import subprocess
 import sys
 from pathlib import Path
 
+try:  # imported as tools.fetch_saves, or run as tools/fetch_saves.py with tools/ on the path
+    from tools import net
+except ImportError:
+    import net
+
 REPO_ROOT = Path(__file__).resolve().parents[1]
 CACHE = REPO_ROOT / ".cache" / "saves"
 MANIFEST = REPO_ROOT / "artifacts" / "saves.json"
@@ -67,9 +72,12 @@ def download(names=None, repo: str = DEFAULT_REPO, cache: Path = CACHE) -> None:
     for entry in data["saves"]:
         if names is not None and entry["path"] not in names:
             continue
-        subprocess.run(["gh", "release", "download", data["release"], "--repo", repo,
-                        "-p", entry["path"], "-D", str(cache), "--clobber"],
-                       check=True, capture_output=True, text=True)
+        result = net.run_retrying(
+            ["gh", "release", "download", data["release"], "--repo", repo,
+             "-p", entry["path"], "-D", str(cache), "--clobber"], text=True)
+        if result.returncode != 0:
+            raise subprocess.CalledProcessError(result.returncode, result.args,
+                                                result.stdout, result.stderr)
 
 
 def fetch(repo: str = DEFAULT_REPO, refresh: bool = False, cache: Path = CACHE) -> Path:
