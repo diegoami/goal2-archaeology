@@ -1,0 +1,18 @@
+F
+======================================================================
+FAIL: test_two_workers_play_two_matches_the_same_as_the_reference (tests.test_e036_family.OneRealMatch.test_two_workers_play_two_matches_the_same_as_the_reference)
+--workers 2 (run as the script, since a worker process imports it by name): two processes, one match at a
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/claude-1000/-home-diego-projects-goal2-archaeology/ac733e43-94e5-4285-9047-a49721066df1/scratchpad/main-098adc1/tests/test_e036_family.py", line 800, in test_two_workers_play_two_matches_the_same_as_the_reference
+    self.assertEqual({k: v for k, v in x.items() if k not in ("cpu_s", "wall_s")},
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                     {k: v for k, v in want[x["id"]].items() if k not in ("cpu_s", "wall_s")})
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: {'id'[201 chars]t': '3', 'mask': [], 'error': None, 'stopped_a[19602 chars]: {}} != {'id'[201 chars]t': '2', 'mask': [], 'error': None, 'stopped_a[19602 chars]: {}}
+Diff is 33616 characters long. Set self.maxDiff to None to see it.
+
+----------------------------------------------------------------------
+Ran 1 test in 3.451s
+
+FAILED (failures=1)

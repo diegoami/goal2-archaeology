@@ -165,7 +165,8 @@ the next event unanswered plays on) and after it, and events queued but not yet 
 resumed are the same match: the remaining events (kind, minute, score, data) and the result are equal. No boundary is
 refused on purpose. `save()` still raises `MatchError("save between events, not while the kit drives a screen")` if
 called while the kit is inside one of the original's team screens, which goal2 cannot reach, as no event is taken
-from `events()` in the middle of a screen. The check (E033 `save_boundaries.py`) saves and resumes at the first
+from `events()` in the middle of a screen. Only in the port mode (T59, "Ports" below) does it refuse a boundary: an
+event taken while a port's frame waits on a call of the original's code, and a proved match. The check (E033 `save_boundaries.py`) saves and resumes at the first
 event of every kind a run yields, at every decision before and after its answer and at the last event, over seven
 scenarios (two fixtures, goal2 managing the other country, an injury run, a run with sendings off, a pause with
 every kind of answer and a refused eleven, a quick result with `tick` events).
@@ -276,6 +277,30 @@ changed or stopped; a step a port stops FAILs and the next steps still run).
   suspended).
 - **The replay rule**: a port runs after every kit hook at its entry and only when none of them stopped, so a hook
   replayed on resume (`replay=True`) never runs a port twice.
+- **Guest calls** (T59, `port/guest.py`): a port calls a routine that is still the original's as the listing does,
+  by yielding it: `ax = yield call("0791:8062", *args, ret_to="0791:6E23", far=False)` (the arguments pushed in the
+  order given, then the return address, the instruction after the listing's call; `far=True` for `call far` or
+  `push cs; call near`). The callee runs as guest code: the kit's hooks fire in it, its writes and draws reach the kit,
+  a ported callee runs as its port, and the port resumes, with the callee's AX, when the guest reaches `ret_to` with the
+  stack where the call left it. A decision the kit stops for inside the call stops the match as anywhere else
+  (`Match.port_frames()` names the waiting frames) and the match goes on exactly once it is answered; `save()` refuses
+  with `MatchError` while a port's frame waits. A port that calls nothing is a plain function, as before.
+- **The proof** (T59, `port/prove.py`): `Match(..., ports=[...], prove=N)` runs every call of a ported routine from
+  the main RNG's N-th draw on side by side with the original's (E021's rule). The port runs first, live (it is the
+  match: its decisions are asked and answered once), recording its writes and every kit site it reaches; then it is
+  undone and the original runs muted from the same state, the kit's answers at those sites replayed to it in order.
+  An answer is replayed only to the inputs it was given: every byte, register (flags and segments included) and stack
+  word the kit's handlers read at a site, and those it read while the match stood stopped there (a decision's answer),
+  must be the original's when the original reaches the site, else `ProofError` names the site and what differs; each
+  site must also come after the same written bytes in both runs. The kit's write listeners (`on_write`, `watch`) are
+  proved the same way: each call in the port's run is paired with the original's same write, its inputs (`pc()`
+  included) compared and its answer applied. A ported routine called inside a proved call runs as its port, and its
+  returned registers are compared with the original's same call at its return. A stop made by a write listener or by
+  a site a port fires is refused under a proof (`PortError`).
+  The written bytes in order outside the routine's dead frame, the sites, and the returned registers (AX and DX
+  included, but where a routine's result is declared dead at one return address with the listing's evidence) must
+  be equal, else `ProofError` names the routine, the call, the site, byte or register; then the port's state is put
+  back. A proved match is about seven times slower and is not saved. `experiments/E036-match-port/locate.py` uses it.
 
 ## Limits and costs
 

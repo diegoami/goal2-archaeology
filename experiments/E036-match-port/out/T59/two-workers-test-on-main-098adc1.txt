@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "/tmp/claude-1000/-home-diego-projects-goal2-archaeology/ac733e43-94e5-4285-9047-a49721066df1/scratchpad/main-098adc1/tests/test_e036_family.py", line 29, in <module>
+    from tests.test_e036_compare import (E036, ROOT, EXPECTED, F40, FAMILIES, IMAGE, dg, incomplete, record, edited,  # noqa: E402
+                                         families, family, records)
+ModuleNotFoundError: No module named 'tests'
