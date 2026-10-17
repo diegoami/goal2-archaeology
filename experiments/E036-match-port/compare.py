@@ -253,5 +253,6 @@ def main(argv=None):
     return 0 if ok else 1
 
 
+# T297 probe (a throwaway branch, never merged): a one-line change under experiments/E036-match-port/.
 if __name__ == "__main__":
     sys.exit(main())
