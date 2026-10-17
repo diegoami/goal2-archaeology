@@ -1,0 +1,24 @@
+checks: success 202s
+       1s  Set up job
+       2s  Run actions/checkout@v4
+       0s  Run actions/setup-python@v5
+       3s  Run python3 tools/ci_gate.py decide >> "$GITHUB_OUTPUT"
+       2s  Run actions/setup-node@v4
+       2s  Run python3 tools/check_links.py
+       0s  Run node tools/harness/review.mjs --self-test
+       4s  Run node --test tools/harness/make-brief.test.mjs tools/harness/chain.test.mjs tests/harness_compat.test.mjs
+       5s  Run python3 tools/fetch_artifact.py goal2-67cf27d6
+       4s  Run python3 tools/fetch_artifact.py goal2-a949da2f
+       0s  Run actions/cache@v4
+       2s  Run pip install -r tools/static/requirements.txt -r runtime/emul/requirements.txt
+       6s  Run python3 -m unittest discover -s tests/static -v
+      34s  Run sudo apt-get update && sudo apt-get install -y xvfb xserver-xephyr xinput xdotool x11-utils ffmpeg dosbox-x
+     121s  Run python3 tools/ci_gate.py run-tests --modules=""
+      13s  Run for f in findings/F*.md; do python3 tools/check_citations.py "$f"; done
+       0s  Run ! git ls-files | grep -iE '\.(exe|dat|hlp|hil|pif|bat)$'
+       0s  Post Run actions/cache@v4
+       0s  Post Run actions/setup-node@v4
+       0s  Post Run actions/setup-python@v5
+       1s  Post Run actions/checkout@v4
+       0s  Complete job
+quick: skipped -1s

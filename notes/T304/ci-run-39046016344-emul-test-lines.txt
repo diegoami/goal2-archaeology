@@ -1,0 +1,7 @@
+2026-10-17T15:41:37.1483913Z test_near_return (test_emul_skip_ret.SkipRetNearTests.test_near_return) ... ok
+2026-10-17T15:41:57.8406548Z test_initial_subtick_one_lower_is_rejected (test_emul_watched.MutationTests.test_initial_subtick_one_lower_is_rejected) ... ok
+2026-10-17T15:41:57.8743187Z test_holder_write_preserves_830c (test_emul_watched.ResumeTests.test_holder_write_preserves_830c) ... ok
+2026-10-17T15:41:57.9074094Z test_word_write_would_clobber_830c (test_emul_watched.ResumeTests.test_word_write_would_clobber_830c) ... ok
+2026-10-17T15:41:57.9075710Z test_read_on_its_own_tick_matches (test_emul_watched.TickValuesTests.test_read_on_its_own_tick_matches) ... ok
+2026-10-17T15:41:57.9077319Z test_shifted_by_one_sub_tick_misses (test_emul_watched.TickValuesTests.test_shifted_by_one_sub_tick_misses) ... ok
+2026-10-17T15:41:57.9079161Z test_tick_without_draws_holds_its_value (test_emul_watched.TickValuesTests.test_tick_without_draws_holds_its_value) ... ok
