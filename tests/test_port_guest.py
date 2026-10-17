@@ -10,9 +10,13 @@ on synthetic programs (no byte of the original).
   frame is live; a frame resumes only at its own return address, and a reach of it with another SP is not the call's
   return.
 - ProofTests (unicorn): a faithful port is proved and the muted original reaches no kit listener; a port writing one
-  byte differently, or returning another AX from a function, raises ProofError naming the routine, the call and the
-  byte or register; a procedure's port (it returns None) has AX counted as scratch; a call whose original reaches a
-  kit site gives way to the port (counted as not proved); a proof not armed runs the port as is.
+  byte differently raises ProofError naming the routine, the call and the byte; AX is compared whatever the port
+  returns, and exempted only for the (routine, return address) declared dead (the pilot's one entry); calls crossing
+  a kit site, a decision, and a kit answer (registers and a write in a routine's place) are proved, with the kit asked
+  once, and a divergence after each is named; a site missing, extra, out of order or reached with another stack is
+  named; the kit's hook at the entry is not a site; the original starts on the entry's memory; a nested port is
+  compared inside its caller; a kit write outside its sites and a port's own key read are refused; a proof not armed
+  runs the port as is (round 1 of the review, R1 and R2).
 - LocatorTests: the first differing per-minute row of two records, a one-byte divergence located to its call, and
   the grammar and comparison of ported records (records.py, compare.py, family.py --ports/--variant).
 """

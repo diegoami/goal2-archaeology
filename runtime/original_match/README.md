@@ -286,11 +286,13 @@ changed or stopped; a step a port stops FAILs and the next steps still run).
   (`Match.port_frames()` names the waiting frames) and the match goes on exactly once it is answered; `save()` refuses
   with `MatchError` while a port's frame waits. A port that calls nothing is a plain function, as before.
 - **The proof** (T59, `port/prove.py`): `Match(..., ports=[...], prove=N)` runs every call of a ported routine from
-  the main RNG's N-th draw on side by side with the original's (E021's rule): the original first, muted, then undone,
-  then the port; the written bytes in order outside the routine's dead frame and the returned registers must be
-  equal, else `ProofError` names the routine, the call, the byte or the register. A call whose original reaches a kit
-  site is not proved but counted (`prover.summary()`); a proved match is about seven times slower and is not saved.
-  `experiments/E036-match-port/locate.py` uses it.
+  the main RNG's N-th draw on side by side with the original's (E021's rule). The port runs first, live (it is the
+  match: its decisions are asked and answered once), recording its writes and every kit site it reaches; then it is
+  undone and the original runs muted from the same state, the kit's answers at those sites replayed to it in order.
+  The written bytes in order outside the routine's dead frame, the sites, and the returned registers (AX and DX
+  included, but where a routine's result is declared dead at one return address with the listing's evidence) must
+  be equal, else `ProofError` names the routine, the call, the site, byte or register; then the port's state is put
+  back. A proved match is about seven times slower and is not saved. `experiments/E036-match-port/locate.py` uses it.
 
 ## Limits and costs
 
