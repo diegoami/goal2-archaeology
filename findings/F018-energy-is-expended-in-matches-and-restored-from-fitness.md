@@ -148,7 +148,7 @@ line numbers, not decompiler line numbers. Each paragraph states its own limit.
   (3EF8, `static:static/goal-exe/code/seg_1771_06.asm:715`, F010); player +F overrides only elements 1..4, not marking
   (`static:static/goal-exe/code/seg_0791_04.asm:787`). 47C5 uses the assigned opponent word or selects
   a zone-tested target when the word is zero (`static:static/goal-exe/code/seg_0791_08.asm:190`;
-  `static:static/goal-exe/named/seg_0791_04.c:23`). 4A28 can copy that target's
+  `static:static/goal-exe/named/seg_0791_04.c:296`). 4A28 can copy that target's
   coordinates to pitch +7 after energy/tactic gates
   (`static:static/goal-exe/code/seg_0791_08.asm:553`). Movement toward that target can change the active
   updates counted by 8AE9, but the listing does **not** prove every man-marker
