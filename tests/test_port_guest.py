@@ -692,13 +692,19 @@ class ProofTests(Synthetic, unittest.TestCase):
                                                 "\\(ported call #2 inside\\), which the original did not return from"):
             m.run(END, 5, fresh=True)
 
-    def listener_machine(self, fn, at, observe):
-        """P's port proved, with a kit write listener at `at` (a DS offset) keeping observe(m) at each call."""
+    def listener_machine(self, fn, at, observe, address=P, ret="ret", after=False, size=1):
+        """P's port (or another's) proved, with a kit write listener at `at` (a DS offset, or a linear address
+        when callable(at)) keeping observe(m) at each call; after: the listener added after the proof's own."""
         m = self.machine()
         seen = []
-        m.watch(m.DS * 16 + at, 1, lambda old, new: seen.append(observe(m)))
-        inst = port.install(m, [(registry(fn), None)])
-        return m, Prover(m, inst, where=lambda: "minute 7"), seen
+        lin = at(m) if callable(at) else m.DS * 16 + at
+        inst = port.install(m, [(registry(fn, address, ret), None)])
+        if not after:
+            m.watch(lin, size, lambda old, new: seen.append(observe(m)))
+        prover = Prover(m, inst, where=lambda: "minute 7")
+        if after:
+            m.watch(lin, size, lambda old, new: seen.append(observe(m)))
+        return m, prover, seen
 
     def test_a_write_listeners_input_is_compared(self):
         def p_ax6(mem, variant):                    # P entering G with AX 6, otherwise faithful (R1's repro)
@@ -716,6 +722,71 @@ class ProofTests(Synthetic, unittest.TestCase):
                                                 "port's run gave it 0x0006, the original has 0x0005$"):
             m.run(END, 5, fresh=True)
         self.assertEqual(seen, [6])
+        # a listener added after the proof's own runs after it at a write, and is compared the same
+        m, prover, seen = self.listener_machine(faithful, TARGET, lambda m: m.reg("ax"), after=True)
+        self.assertIsNone(m.run(END, 5, fresh=True))
+        self.assertEqual((prover.summary()[P]["proved"], seen), (1, [5]))
+        m, prover, seen = self.listener_machine(p_ax6, TARGET, lambda m: m.reg("ax"), after=True)
+        with self.assertRaisesRegex(ProofError, "write listener #1 at the write of 1 bytes 0x07 .* the kit read register "
+                                                "AX: the port's run gave it 0x0006, the original has 0x0005$"):
+            m.run(END, 5, fresh=True)
+
+    def test_a_write_split_otherwise_is_named(self):
+        def g_word(mem, variant):                   # G's two byte writes as one word write: the same bytes
+            mem.wds16(TARGET, 0x0500 | 7, "0100:0033")
+            mem.set_reg("dx", 0x5678)
+            return 0x1234
+        m, prover, seen = self.listener_machine(g_word, TARGET, lambda m: 0, address=G, ret="ret 2")
+        with self.assertRaisesRegex(ProofError, f"^{G} \\(test\\), call #1 from {G_RETURN}, minute 7: the kit's write "
+                                                "listener call #1: the port's run gave the write listener #0 at the "
+                                                "write of 2 bytes 0x0507 .*, the original the listener #0 at the write "
+                                                "of 1 bytes 0x07 "):
+            m.run(END, 5, fresh=True)
+
+    def test_a_listener_call_the_original_does_not_make_is_named(self):
+        def g_twice(mem, variant):                  # G's push bp made twice, in its dead frame: no live byte more
+            slot = mem.ss_lin(mem.reg("sp") - 2)
+            mem.w16(slot, mem.reg("bp"), "0100:0030")
+            mem.w16(slot, mem.reg("bp"), "0100:0030")
+            mem.wds8(TARGET, 7, "0100:0033")
+            mem.wds8(TARGET + 1, mem.arg(0), "0100:003B")
+            mem.set_reg("dx", 0x5678)
+            return 0x1234
+        m, prover, seen = self.listener_machine(g_twice, lambda m: 0x8000 + 0x400 - 8, lambda m: 0, address=G,
+                                                ret="ret 2", size=2)
+        with self.assertRaisesRegex(ProofError, "the port's run called the kit's write listener #0 at the write of 2 "
+                                                "bytes .* \\(listener call #2\\), which the original's writes did not "
+                                                "reach$"):
+            m.run(END, 5, fresh=True)
+
+        def g_no_push(mem, variant):                # no write in G's dead frame: the original's push bp is one more
+            mem.wds8(TARGET, 7, "0100:0033")
+            mem.wds8(TARGET + 1, mem.arg(0), "0100:003B")
+            mem.set_reg("dx", 0x5678)
+            return 0x1234
+        m, prover, seen = self.listener_machine(g_no_push, lambda m: 0x8000 + 0x400 - 8, lambda m: 0, address=G,
+                                                ret="ret 2", size=2)
+        with self.assertRaisesRegex(ProofError, "the original's write reached the kit's write listener #0 at the write "
+                                                "of 2 bytes .* \\(listener call #1\\), which the port's run did not "
+                                                "\\(0 listener calls\\)$"):
+            m.run(END, 5, fresh=True)
+
+    def test_a_nested_call_of_another_routine_is_named(self):
+        def h_port(mem, variant):
+            mem.wds8(TARGET + 3, mem.arg(0), "0100:0076")
+            return 0x1234
+        nested = self.g_port()
+        nested.port("0100:0070", ret="ret")(h_port)
+
+        def p_calling_h(mem, variant):              # P's port calling H where P calls G
+            mem.enter(0, P)
+            mem.set_reg("ax", 5)
+            yield call("0100:0070", 5, ret_to=G_RETURN, far=False, caller_pops=True)
+            mem.wds8(TARGET + 2, 0x34, G_RETURN)
+        m, prover, _, _ = self.prove(p_calling_h, extra=(nested,))
+        with self.assertRaisesRegex(ProofError, f"ported call #1 inside: the original's call of {G} from {G_RETURN} "
+                                                f"returned, the port's run's of 0100:0070 from {G_RETURN}$"):
+            m.run(END, 5, fresh=True)
 
     def test_a_write_listeners_pc_is_compared(self):
         def p_elsewhere(mem, variant):              # P's last write said to come from another instruction
@@ -750,6 +821,7 @@ class ProofTests(Synthetic, unittest.TestCase):
         with self.assertRaisesRegex(port.PortError, "write listener #2 at the write of 1 bytes 0x05 .* stopped the "
                                                     "match \\(events\\) during a proved call"):
             m.run(END, 5, fresh=True)
+        self.assertFalse(m.running)                 # raised through run() (Machine.error), not past it
 
     def test_a_fired_site_that_stops_is_refused(self):
         def p_firing(mem, variant):

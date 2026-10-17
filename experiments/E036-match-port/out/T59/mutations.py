@@ -64,6 +64,56 @@ MUTATIONS = [
     # caught, and equivalent as the code stands: a visit is open only while the match stands stopped at it, and a
     # resumed run's first hook is that site's dispatch, which closes it before any kit code reads; so no kit read
     # inside emu_start meets an open visit, and the flag only makes the rule explicit.
+    # Not listed either (round 3): a watch's old bytes read past the tap (Machine.watch). Equivalent: they are the
+    # memory at the write, which differs between the runs only in the dead frame, and a write that reaches the bytes
+    # a watch covers is a call of that listener (its range starts 3 bytes below, and a guest or port write is at most
+    # 4 bytes), paired and compared by itself; the kit's own writes are replayed alike in both runs.
+    # Round 3 (sol-6.1 round 2: the kit's write listeners, a nested port's result, the stops nothing replays)
+    ("the kit's listeners not told to the proof", f"{K}/machine.py",
+     "        tap = self.listen_tap\n        if tap is None:", "        tap = None\n        if tap is None:"),
+    ("a listener's events not kept", f"{K}/port/prove.py", "        self._visit = lv\n        return token",
+     "        return token"),
+    ("the original's listeners before the proof's not replayed", f"{K}/port/prove.py",
+     "        self._listeners_at(address, size, value, before=True)\n", ""),
+    ("the original's listeners after the proof's not replayed", f"{K}/port/prove.py",
+     "        self._listeners_at(address, size, value, before=False)\n", ""),
+    ("a listener call's write not paired", f"{K}/port/prove.py",
+     "            if (lv.index, lv.address, lv.size, lv.value) != (index, address, size, value):", "            if False:"),
+    ("a listener call the port's run did not make accepted", f"{K}/port/prove.py",
+     "            if i >= len(st.listens):\n                st.listen_diff",
+     "            if i >= len(st.listens):\n                return\n                st.listen_diff"),
+    ("a listener pairing's difference dropped", f"{K}/port/prove.py",
+     "        if st.listen_diff is not None:\n            self._fail(st.listen_diff)",
+     "        if False:\n            self._fail(st.listen_diff)"),
+    ("listener calls left over accepted", f"{K}/port/prove.py", "        if st.next_listen < len(st.listens):",
+     "        if False:"),
+    ("pc not compared", f"{K}/port/prove.py",
+     "                now = self._rreg(\"cs\") * 16 + self._rreg(\"ip\")\n                if now != b:",
+     "                now = self._rreg(\"cs\") * 16 + self._rreg(\"ip\")\n                if False:"),
+    ("pc not tapped", f"{K}/machine.py", "            self.io_tap(\"p\", None, pc)", "            pass"),
+    ("a listener's stop accepted", f"{K}/port/prove.py",
+     "        if self.m.stop_reason is not None and self.m.stop_reason != stop_before:", "        if False:"),
+    ("a fired site's stop accepted", f"{K}/port/prove.py",
+     "        if fired and self.m.stop_reason is not None and self.m.stop_reason != v.stop_before:", "        if False:"),
+    ("a write hook's error past run()", f"{K}/machine.py",
+     "            except Exception as e:      # stop the emulation; run() re-raises it\n                self.error = e\n"
+     "                uc.emu_stop()\n        self._writes.append",
+     "            except ZeroDivisionError as e:\n                self.error = e\n"
+     "                uc.emu_stop()\n        self._writes.append"),
+    ("a nested port's returns not kept", f"{K}/port/prove.py",
+     "                    st.nested_returns.append((address, caller, {r: self._rreg(r) for r in REGS_RETURNED}))",
+     "                    pass"),
+    ("the original's nested calls not followed", f"{K}/port/prove.py",
+     "        if lin in m._ports and self.state is not None:", "        if False:"),
+    ("a nested call's routine and caller not compared", f"{K}/port/prove.py",
+     "        if (p_address, p_caller) != (address, caller):", "        if False:"),
+    ("a nested port's result not compared", f"{K}/port/prove.py",
+     "            now = self._rreg(r)\n            if now != p_regs[r]:",
+     "            now = self._rreg(r)\n            if False:"),
+    ("a nested dead result exempted nowhere", f"{K}/port/prove.py",
+     "        dead = RESULT_DEAD.get((address, caller), ((), \"\"))[0]", "        dead = ()"),
+    ("nested calls left over accepted", f"{K}/port/prove.py", "        if st.next_nested < len(st.nested_returns):",
+     "        if False:"),
     ("a site's place among the writes not compared", f"{K}/port/prove.py", "            if before_o != before_p:",
      "            if False:"),
     ("a site's address not compared", f"{K}/port/prove.py", "        if v.lin != lin:\n", "        if False:\n"),
