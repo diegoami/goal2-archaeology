@@ -1,0 +1,153 @@
+..........................F..E.FFF.FF........FEFF.....
+======================================================================
+ERROR: test_a_kit_write_in_a_write_listener_is_replayed (tests.test_port_guest.ProofTests.test_a_kit_write_in_a_write_listener_is_replayed)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2df64d441ee220fe/.cache/tmp/tree-3553a4c/tests/test_port_guest.py", line 814, in test_a_kit_write_in_a_write_listener_is_replayed
+    self.assertIsNone(m.run(END, 5, fresh=True))
+                      ~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2df64d441ee220fe/.cache/tmp/tree-3553a4c/runtime/original_match/machine.py", line 330, in run
+    raise err
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2df64d441ee220fe/.cache/tmp/tree-3553a4c/runtime/original_match/machine.py", line 297, in hook
+    handler(old, bytes(new))
+    ~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2df64d441ee220fe/.cache/tmp/tree-3553a4c/tests/test_port_guest.py", line 813, in <lambda>
+    m.watch(self.target + 1, 1, lambda old, new: m.write(m.DS * 16 + 0x5010, b"\x01"))
+                                                 ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2df64d441ee220fe/.cache/tmp/tree-3553a4c/runtime/original_match/machine.py", line 97, in write
+    self.write_tap(linear, bytes(data))
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2df64d441ee220fe/.cache/tmp/tree-3553a4c/runtime/original_match/port/prove.py", line 226, in _host_write
+    raise PortError(f"the kit wrote {len(data)} bytes at {self.describe(linear)} outside a site of its own "
+                    "during a proved call: not replayable")
+original_match.port.mem.PortError: the kit wrote 1 bytes at linear 0x2A820 (DS:5010) outside a site of its own during a proved call: not replayable
+
+======================================================================
+ERROR: test_a_write_listeners_input_is_compared (tests.test_port_guest.ProofTests.test_a_write_listeners_input_is_compared)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2df64d441ee220fe/.cache/tmp/tree-3553a4c/tests/test_port_guest.py", line 722, in test_a_write_listeners_input_is_compared
+    self.assertEqual((prover.summary()[P]["proved"], seen, prover.listened[P]), (1, [5], 1))
+                                                           ^^^^^^^^^^^^^^^
+AttributeError: 'Prover' object has no attribute 'listened'
+
+======================================================================
+FAIL: test_a_fired_site_that_stops_is_refused (tests.test_port_guest.ProofTests.test_a_fired_site_that_stops_is_refused)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2df64d441ee220fe/.cache/tmp/tree-3553a4c/tests/test_port_guest.py", line 837, in test_a_fired_site_that_stops_is_refused
+    with self.assertRaisesRegex(port.PortError, f"the kit's site {INSIDE_G} fired by a port stopped the match "
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                                                "\\(events\\) during a proved call"):
+                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: PortError not raised
+
+======================================================================
+FAIL: test_a_listener_call_the_original_does_not_make_is_named (tests.test_port_guest.ProofTests.test_a_listener_call_the_original_does_not_make_is_named)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2df64d441ee220fe/.cache/tmp/tree-3553a4c/tests/test_port_guest.py", line 762, in test_a_listener_call_the_original_does_not_make_is_named
+    with self.assertRaisesRegex(ProofError, "the port's run called the kit's write listener #0 at the write of 2 "
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                                            "bytes .* \\(listener call #2\\), which the original's writes did not "
+                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                                            "reach$"):
+                                            ^^^^^^^^^
+AssertionError: ProofError not raised
+
+======================================================================
+FAIL: test_a_nested_call_in_one_run_only_is_named (tests.test_port_guest.ProofTests.test_a_nested_call_in_one_run_only_is_named)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2df64d441ee220fe/.cache/tmp/tree-3553a4c/tests/test_port_guest.py", line 685, in test_a_nested_call_in_one_run_only_is_named
+    with self.assertRaisesRegex(ProofError, f"the original's call of {G} \\(nested\\) from {G_RETURN} returned "
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                                            "\\(ported call #1 inside\\), which the port's run did not make"):
+                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ProofError not raised
+
+======================================================================
+FAIL: test_a_nested_call_of_another_routine_is_named (tests.test_port_guest.ProofTests.test_a_nested_call_of_another_routine_is_named)
+----------------------------------------------------------------------
+original_match.port.prove.ProofError: 0100:0010 (test), call #1 from 0100:0003, minute 7: written byte #0 differs: the original wrote 0x07 at linear 0x2A810 (DS:5000), the port wrote 0x05 at linear 0x2A813 (DS:5003)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2df64d441ee220fe/.cache/tmp/tree-3553a4c/tests/test_port_guest.py", line 792, in test_a_nested_call_of_another_routine_is_named
+    with self.assertRaisesRegex(ProofError, f"ported call #1 inside: the original's call of {G} from {G_RETURN} "
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                                            f"returned, the port's run's of 0100:0070 from {G_RETURN}$"):
+                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: "ported call #1 inside: the original's call of 0100:0030 from 0100:001A returned, the port's run's of 0100:0070 from 0100:001A$" does not match "0100:0010 (test), call #1 from 0100:0003, minute 7: written byte #0 differs: the original wrote 0x07 at linear 0x2A810 (DS:5000), the port wrote 0x05 at linear 0x2A813 (DS:5003)"
+
+======================================================================
+FAIL: test_a_nested_ports_dead_result_is_exempted_where_declared (tests.test_port_guest.ProofTests.test_a_nested_ports_dead_result_is_exempted_where_declared)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2df64d441ee220fe/.cache/tmp/tree-3553a4c/tests/test_port_guest.py", line 671, in test_a_nested_ports_dead_result_is_exempted_where_declared
+    self.assertEqual((prover.summary()[P]["proved"], prover.summary()[G]["dead"]), (1, {"AX": 1}))
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Tuples differ: (1, {}) != (1, {'AX': 1})
+
+First differing element 1:
+{}
+{'AX': 1}
+
+- (1, {})
++ (1, {'AX': 1})
+
+======================================================================
+FAIL: test_a_nested_ports_result_is_compared_at_its_own_return (tests.test_port_guest.ProofTests.test_a_nested_ports_result_is_compared_at_its_own_return)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2df64d441ee220fe/.cache/tmp/tree-3553a4c/tests/test_port_guest.py", line 659, in test_a_nested_ports_result_is_compared_at_its_own_return
+    with self.assertRaisesRegex(ProofError, f"^{P} \\(test\\), call #1 from 0100:0003, minute 7: ported call #1 "
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                                            f"inside, {G} \\(nested\\) from {G_RETURN}: register AX at its return: "
+                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                                            "the original 0x1234, the port 0x9999$"):
+                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ProofError not raised
+
+======================================================================
+FAIL: test_a_write_listener_that_stops_is_refused (tests.test_port_guest.ProofTests.test_a_write_listener_that_stops_is_refused)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2df64d441ee220fe/.cache/tmp/tree-3553a4c/tests/test_port_guest.py", line 826, in test_a_write_listener_that_stops_is_refused
+    with self.assertRaisesRegex(port.PortError, "write listener #2 at the write of 1 bytes 0x05 .* stopped the "
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                                                "match \\(events\\) during a proved call"):
+                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: PortError not raised
+
+======================================================================
+FAIL: test_a_write_listeners_pc_is_compared (tests.test_port_guest.ProofTests.test_a_write_listeners_pc_is_compared)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2df64d441ee220fe/.cache/tmp/tree-3553a4c/tests/test_port_guest.py", line 807, in test_a_write_listeners_pc_is_compared
+    with self.assertRaisesRegex(ProofError, "listener call #3\\) the kit read the instruction's address \\(pc\\): "
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                                            "the port's run gave it 0100:001D, the original is at 0100:001A$"):
+                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ProofError not raised
+
+======================================================================
+FAIL: test_a_write_split_otherwise_is_named (tests.test_port_guest.ProofTests.test_a_write_split_otherwise_is_named)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2df64d441ee220fe/.cache/tmp/tree-3553a4c/tests/test_port_guest.py", line 745, in test_a_write_split_otherwise_is_named
+    with self.assertRaisesRegex(ProofError, f"^{G} \\(test\\), call #1 from {G_RETURN}, minute 7: the kit's write "
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                                            "listener call #1: the port's run gave the write listener #0 at the "
+                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                                            "write of 2 bytes 0x0507 .*, the original the listener #0 at the write "
+                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                                            "of 1 bytes 0x07 "):
+                                            ^^^^^^^^^^^^^^^^^^^
+AssertionError: ProofError not raised
+
+----------------------------------------------------------------------
+Ran 54 tests in 0.462s
+
+FAILED (failures=9, errors=2)
