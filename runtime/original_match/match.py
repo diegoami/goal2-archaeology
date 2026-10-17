@@ -185,7 +185,8 @@ def fresh_state(players_before):
 
 class Match:
     def __init__(self, image, fixture, *, managed=None, captain=None, seed=None, players=None, countries=None,
-                 substitutions=None, ticks=False, record_draws=False, delay_byte=None, timeout_s=60, ports=None):
+                 substitutions=None, ticks=False, record_draws=False, delay_byte=None, timeout_s=60, ports=None,
+                 prove=None):
         """image: an Image of the original (goal2's savestate bytes through Image.from_savestate, e.g. of
         to_savestate(state, template); or GameState.mem through Image.from_memory_component). On the fixture
         tried, the match depended on the image only through its two teams' records (E033 notes, section 2).
@@ -203,7 +204,11 @@ class Match:
         manager (E544 'no more substitutes') and the computer's rule (8062) at 0; a player taken off cannot come
         back (element 3, 1771:3216), so 9 or more is no limit for a bench of 9.
         ports: the port mode (port/, README "Ports"): port modules ('pilot', 'pilot.coin-swapped' for a variant,
-        'all') whose Python routines run in place of the original's; None or empty: the original's code only."""
+        'all') whose Python routines run in place of the original's; None or empty: the original's code only.
+        prove: the proof mode (port/prove.py, T59): None, or N, every call of a ported routine from the main RNG's
+        N-th draw on (0: from the start; N > 0 needs record_draws) is run side by side with the original's, and the
+        first difference raises ProofError; `prover.summary()` counts the proved calls. A proved match cannot be
+        saved."""
         if fixture.kind not in KINDS:
             raise ValueError(f"fixture kind {fixture.kind} is none of the kinds the original's builders write {KINDS}")
         if fixture.first == fixture.second:
@@ -252,7 +257,28 @@ class Match:
         self._names = None
         self._hooks()
         self._install_ports(ports)
+        self._install_proof(prove)
         self._call(RUN_MATCH, RUN_MATCH_RETURN)
+
+    def _install_proof(self, prove):
+        """The proof mode (T59, port/prove.py): the ports' calls from the draw `prove` on, side by side."""
+        self.prover = None
+        if prove is None:
+            return
+        if not self.ports:
+            raise ValueError("prove: a proof needs ports")
+        if isinstance(prove, bool) or not isinstance(prove, int) or prove < 0:
+            raise ValueError("prove: the draw from which calls are proved, 0 or more")
+        if prove and not self.opts["record_draws"]:
+            raise ValueError("prove: from a draw > 0 needs record_draws")
+        from .port.prove import Prover
+        self.prover = Prover(self.m, self.ports, armed=lambda: len(self.st["draws"]) >= prove,
+                             where=lambda: f"minute {self.m.rd(MINUTE)}, after draw {len(self.st['draws'])}")
+
+    def port_frames(self):
+        """The port frames waiting on a call of the original's code now, outermost first (port/guest.py): a
+        decision reached inside such a call is answered with them live."""
+        return [f.describe() for f in self.m.frames]
 
     def _install_ports(self, specs):
         """The port mode (T58): ports run in place of their routines, after the kit's hooks (port/__init__.py)."""
@@ -1179,6 +1205,11 @@ class Match:
         Call it between events."""
         if self._menu is not None and not self.st["over"]:
             raise MatchError("save between events, not while the kit drives a screen")
+        if self.m.frames:              # a port waits on a call of the original's (port/guest.py): its Python frame
+            raise MatchError("a port's frame is live (" + "; ".join(self.port_frames()) + "): save when the match "
+                             "has moved past it (after the next event)")      # is not in the guest's memory
+        if getattr(self, "prover", None) is not None:
+            raise MatchError("a proved match (prove=) is not saved: its proof state is not in the guest's memory")
         snap = self.m.snapshot()
         state = {"st": self.st, "opts": self.opts, "inputs": self.inputs, "side": self.side,
                  "image_sha256": self.image_sha256, "end_lin": self.end_lin, "fixture_ptr": list(self.fixture_ptr),
@@ -1215,5 +1246,6 @@ class Match:
         self._names = None
         self._hooks()
         self._install_ports(self.opts.get("ports"))
+        self.prover = None
         self.m.no_replay_at = state.get("no_replay_at")
         return self

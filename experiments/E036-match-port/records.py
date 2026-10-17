@@ -43,6 +43,11 @@ A record (REQUIRED below; nothing else):
                     1 KiB of each of RANGES (the record arrays, the competition tables, the pitch picture and the
                     rest a match writes outside the screen), taken over the mask
   counts            the executions of each --count address ({} without --count)
+A record of a run with ports (family.py --ports, --variant; T59) has three more keys, all or none (an unported run has
+none, so it can never pass for a ported one, nor the reverse):
+  ports             the port modules installed (port/), sorted, distinct, each a module name
+  variant           null, or "module.name": the variant (a falsifier) of one of `ports`
+  port_calls        {address: calls} of every ported routine (0 when the match never reached it)
 The evidence fields (score .. after) are all null when the match did not reach its result (an error)."""
 import hashlib
 import json
@@ -187,6 +192,31 @@ REQUIRED = ("id", "family", "spec_sha256", "image_sha256", "kit", "mask", "error
             "cpu_s", "wall_s", "score", "ticks", "draws", "board", "templates", "result_sha256", "events",
             "decisions", "after", "counts")
 EVIDENCE = ("score", "ticks", "draws", "board", "templates", "result_sha256", "events", "decisions", "after")
+PORT_KEYS = ("ports", "variant", "port_calls")     # a ported run's (T59): all three or none
+PORT_MODULE = re.compile(r"[a-z][a-z0-9_]{0,31}")
+PORT_VARIANT = re.compile(r"[a-z][a-z0-9_]{0,31}\.[a-z0-9][a-z0-9-]{0,47}")
+
+
+def validate_ports(r):
+    """The keys of a ported run (PORT_KEYS), present in `r`."""
+    p = r["ports"]
+    _list(p, "ports")
+    if not p:
+        raise SchemaError("ports: a ported run names its modules")
+    for i, name in enumerate(p):
+        _str(name, PORT_MODULE, f"ports[{i}]")
+    if p != sorted(set(p)):
+        raise SchemaError(f"ports: {p} is not sorted and distinct")
+    if r["variant"] is not None:
+        _str(r["variant"], PORT_VARIANT, "variant")
+        if r["variant"].split(".")[0] not in p:
+            raise SchemaError(f"variant {r['variant']!r} is not of a module in ports")
+    c = r["port_calls"]
+    if not isinstance(c, dict) or not c:
+        raise SchemaError("port_calls: not a non-empty object")
+    for k, v in c.items():
+        _str(k, ADDRESS, "port_calls key")
+        _int(v, 0, 10 ** 12, f"port_calls[{k!r}]")
 
 
 def is_completed(r):
@@ -216,7 +246,10 @@ def validate(r):
     """Every field of the record, to its leaves. Raises SchemaError."""
     if not isinstance(r, dict):
         raise SchemaError("the record is not an object")
-    _keys(r, REQUIRED, "record")
+    ported = any(k in r for k in PORT_KEYS)
+    _keys(r, REQUIRED + (PORT_KEYS if ported else ()), "record")
+    if ported:
+        validate_ports(r)
     _str(r["id"], RECORD_ID, "id")
     _str(r["family"], FAMILY_NAME, "family")
     if r["id"].split("/")[0] != r["family"]:

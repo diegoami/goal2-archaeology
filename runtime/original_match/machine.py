@@ -22,6 +22,10 @@ DS_PARAGRAPH = 0x2581        # GOAL.EXE's data segment, a paragraph of the load 
 REGS = ("EAX", "EBX", "ECX", "EDX", "ESI", "EDI", "EBP", "ESP", "EFLAGS", "EIP", "CS", "DS", "ES", "SS", "FS", "GS")
 
 
+def NOOP(replay):
+    """The placeholder handler at a port's entry or a guest call's return address where the kit has none."""
+
+
 class GuestError(RuntimeError):
     """The original did something the kit does not declare (an unknown key read, a stray routine)."""
 
@@ -44,10 +48,18 @@ class Machine:
         # The port mode (port/; inert without ports): the write listeners a port's write reaches as a guest write
         # would, the port at a routine's entry, the instruction a port's write or site stands for (pc()), and the
         # address a port returned to before a stop made inside it (not a replay when the run resumes there).
-        self._writes = []          # (begin, end, fn(address, size, value))
+        self._writes = []          # (begin, end, fn(address, size, value), always)
         self._ports = {}           # linear address -> runner(machine)
         self._pc_override = None
         self.no_replay_at = None
+        # Guest calls (T59, port/guest.py): the port frames waiting on a call of the original's code, innermost last;
+        # each resumes when the guest reaches its return address with the stack as the call left it.
+        self.frames = []
+        # The proof mode (T59, port/prove.py): while `muted`, the original runs as plain guest code: no handler, port
+        # or write listener of the kit runs (but those added with always=True); every hooked address goes to
+        # muted_hook(linear) instead.
+        self.muted = False
+        self.muted_hook = None
         self.uc.hook_add(UC_HOOK_INTR, lambda uc, intno, data: None)
 
     # -- addresses ---------------------------------------------------------------------------------
@@ -129,7 +141,12 @@ class Machine:
     # -- hooks and running -------------------------------------------------------------------------------
     def at(self, address, handler):
         """Call handler(replay) when the guest reaches `address` ('SSSS:OOOO'), before its instruction runs."""
-        lin = self.lin(address)
+        self.at_linear(self.lin(address), handler)
+
+    def at_linear(self, lin, handler):
+        """`at` by linear address. Safe while the guest runs (a guest call's return address, T59): Unicorn applies a
+        code hook added mid-run only to code it has not translated yet (probed, Unicorn 2.1.4: notes/T59.md), so the
+        address's translation is dropped and the hook reaches it next time."""
         if lin not in self._handlers:
             self._handlers[lin] = []
 
@@ -137,21 +154,36 @@ class Machine:
                 replay = lin == self._resume_lin
                 self._resume_lin = None
                 try:
+                    if self.muted:              # a proof's original runs (port/prove.py): it decides what this is
+                        self.muted_hook(lin)
+                        if self.muted or self.pc() != lin:
+                            return              # still the original, or the port it gave way to went elsewhere
                     for h in list(self._handlers[lin]):
                         h(replay)
                         if self.stop_reason is not None or self.error is not None:
                             break
                     else:                       # a port runs after the kit's handlers, only when none stopped: it
                         runner = self._ports.get(lin)      # never ran before a replay, and once it ran CS:IP is
-                        if runner is not None:             # its caller's, so it never runs twice
+                        frame = self.frames[-1] if self.frames else None    # its caller's, so it never runs twice;
+                        if runner is not None:             # so does a port frame's return (port/guest.py)
                             runner(self)
-                            if self.stop_reason is not None:   # a site inside the port stopped: the run resumes at
-                                self.no_replay_at = self.pc()  # the return, where no hook has fired yet
+                        elif frame is not None and frame.ret_lin == lin and frame.returned(self):
+                            self.frames.pop()
+                            frame.resume(self)
+                        else:
+                            return
+                        if self.stop_reason is not None:   # a site inside the port stopped: the run resumes where
+                            self.no_replay_at = self.pc()  # the port went (its return, a call), where no hook fired yet
                 except Exception as e:          # stop the emulation; run() re-raises it
                     self.error = e
                     uc.emu_stop()
             self.uc.hook_add(UC_HOOK_CODE, dispatch, begin=lin, end=lin)
+            self.uc.ctl_remove_cache(lin, lin + 1)
         self._handlers[lin].append(handler)
+
+    def hooked(self, lin):
+        """Whether a handler of the kit (not only a port's or a guest call's placeholder) is at `lin`."""
+        return any(h is not NOOP for h in self._handlers.get(lin, ()))
 
     def port(self, address, runner):
         """Run runner(machine) in place of the routine at `address` (the port mode, port/): it runs from the entry,
@@ -161,14 +193,23 @@ class Machine:
             raise ValueError(f"two ports of {address}")
         self._ports[lin] = runner
         if lin not in self._handlers:
-            self.at(address, lambda replay: None)
+            self.at_linear(lin, NOOP)
 
-    def on_write(self, begin, end, fn):
+    def expect_return(self, frame):
+        """A port frame (port/guest.py) waits on a call of the guest: frame.resume(machine) runs when the guest
+        reaches frame.ret_lin and frame.returned(machine), after the kit's handlers there (as a port at an entry)."""
+        if frame.ret_lin not in self._handlers:
+            self.at_linear(frame.ret_lin, NOOP)
+        self.frames.append(frame)
+
+    def on_write(self, begin, end, fn, always=False):
         """Call fn(address, size, value) at every write starting in [begin, end], before it lands: a guest
-        instruction's (Unicorn's write hook) or a port's (write_as)."""
+        instruction's (Unicorn's write hook) or a port's (write_as). While `muted` (a proof's original runs) only
+        a listener added with always=True is called."""
         def hook(uc, access, address, size, value, data):
-            fn(address, size, value)
-        self._writes.append((begin, end, fn))
+            if always or not self.muted:
+                fn(address, size, value)
+        self._writes.append((begin, end, fn, always))
         self.uc.hook_add(UC_HOOK_MEM_WRITE, hook, begin=begin, end=end)
 
     def write_as(self, linear, size, value, at):
@@ -177,8 +218,8 @@ class Machine:
         value &= (1 << (8 * size)) - 1
         saved, self._pc_override = self._pc_override, at
         try:
-            for begin, end, fn in list(self._writes):
-                if begin <= linear <= end:
+            for begin, end, fn, always in list(self._writes):
+                if begin <= linear <= end and (always or not self.muted):
                     fn(linear, size, value)
                     if self.error is not None:       # a watch's handler refused the write
                         err, self.error = self.error, None

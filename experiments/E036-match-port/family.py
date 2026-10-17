@@ -130,8 +130,9 @@ def digest_memory(m, mask):
     return out
 
 
-def play(m, spec, deadline):
-    """Drive a Match with the spec's answer policy; (events, decisions, strays, stopped_at_board)."""
+def play(m, spec, deadline, say=None):
+    """Drive a Match with the spec's answer policy; (events, decisions, strays, stopped_at_board). say(line): told of
+    each decision answered while a port's frame waits on a call of the original's code (T59)."""
     events, decisions, strays, paused, board = [], [], [], set(), False
     policy = spec.policy
     for ev in m.events():
@@ -146,6 +147,10 @@ def play(m, spec, deadline):
         if ev.kind == "decision":
             context = ev.data["context"]
             decisions.append([ev.minute, context])
+            frames = m.port_frames() if getattr(m, "ports", None) else []
+            if frames and say is not None:
+                say(f"{spec.id}: decision {context} at minute {ev.minute} answered with port frames live: "
+                    + "; ".join(frames))
             if context in policy.contexts:
                 policy.answer(m, ev.data)
             else:
@@ -154,9 +159,30 @@ def play(m, spec, deadline):
     return events, decisions, strays, board
 
 
-def run_match(image, spec, mask=(), counts=(), time_limit=DEFAULT_TIME_LIMIT, watch=None, check_writes=True):
+def port_specs(ports, variant):
+    """The kit's port specs for --ports M,...|all and --variant M.NAME (T59, as check.py takes them), checked by the
+    kit (an unknown module or variant is refused before any match), and (modules, variant) as a record names them."""
+    names = [s for s in (ports or "").split(",") if s]
+    if variant is not None:
+        if not records.PORT_VARIANT.fullmatch(variant):
+            raise Refused(f"--variant {variant!r}: MODULE.NAME")
+        names = [s for s in names if s != variant.split(".")[0]] + [variant]
+    if not names:
+        return [], [], None
+    from original_match import port
+    try:
+        specs = port.spec_names(port.load(names))
+    except ValueError as e:
+        raise Refused(f"--ports/--variant: {e}")
+    modules = sorted(s.split(".")[0] for s in specs)
+    return specs, modules, variant
+
+
+def run_match(image, spec, mask=(), counts=(), time_limit=DEFAULT_TIME_LIMIT, watch=None, check_writes=True,
+              ports=(), say=None):
     """The record of one match. Never raises for the match's own failure: that is the record's `error`.
-    check_writes=False leaves the undeclared-write check out (the write watch that finds the ranges needs it so)."""
+    check_writes=False leaves the undeclared-write check out (the write watch that finds the ranges needs it so).
+    ports: the kit's port specs (port_specs); the record then carries ports, variant and port_calls."""
     from original_match import Match, Fixture
     from original_match.match import VERSION
     cpu0, wall0 = time.process_time(), time.time()
@@ -165,7 +191,12 @@ def run_match(image, spec, mask=(), counts=(), time_limit=DEFAULT_TIME_LIMIT, wa
            "cpu_s": 0.0, "wall_s": 0.0, "score": None, "ticks": None, "draws": None, "board": None,
            "templates": None, "result_sha256": None, "events": None, "decisions": None, "after": None,
            "counts": {}}
+    if ports:
+        variants = [s for s in ports if "." in s]
+        rec.update(ports=sorted(s.split(".")[0] for s in ports), variant=variants[0] if variants else None,
+                   port_calls={})
     seen = {a: 0 for a in counts}
+    m = None
     try:
         players = countries = None
         if spec.edits:
@@ -173,7 +204,7 @@ def run_match(image, spec, mask=(), counts=(), time_limit=DEFAULT_TIME_LIMIT, wa
         first, second, index, kind = spec.fixture
         m = Match(image, Fixture(first, second, index=index, kind=kind), managed=spec.managed, seed=spec.seed,
                   record_draws=True, delay_byte=spec.delay_byte, substitutions=spec.substitutions, players=players,
-                  countries=countries, timeout_s=min(60, time_limit))
+                  countries=countries, timeout_s=min(60, time_limit), ports=list(ports) or None)
         if counts:
             from unicorn import UC_HOOK_CODE
         for address in counts:
@@ -186,7 +217,7 @@ def run_match(image, spec, mask=(), counts=(), time_limit=DEFAULT_TIME_LIMIT, wa
         if watch is not None:
             watch(m)
         before = m.m.read(0, 0x110000)
-        events, decisions, strays, board = play(m, spec, time.time() + time_limit)
+        events, decisions, strays, board = play(m, spec, time.time() + time_limit, say)
         result = m.result()
         outside = undeclared_changes(before, m.m.read(0, 0x110000), allowed_spans(m.m)) if check_writes else []
         if outside:
@@ -208,6 +239,11 @@ def run_match(image, spec, mask=(), counts=(), time_limit=DEFAULT_TIME_LIMIT, wa
         rec.update(error=clean_error(e), score=None, ticks=None, draws=None, board=None, templates=None,
                    result_sha256=None, events=None, decisions=None, after=None)
     rec["counts"] = dict(seen)
+    if ports:                   # the calls made, also by a match that stopped (an error record)
+        rec["port_calls"] = dict(m.ports.calls) if m is not None and m.ports else {}
+        if not rec["port_calls"]:
+            from original_match import port
+            rec["port_calls"] = {a: 0 for reg, _ in port.load(ports) for a in reg.entries}
     rec["cpu_s"], rec["wall_s"] = round(time.process_time() - cpu0, 3), round(time.time() - wall0, 3)
     records.validate(rec)       # a record the grammar refuses is a bug here, not evidence
     return rec
@@ -217,22 +253,24 @@ def run_match(image, spec, mask=(), counts=(), time_limit=DEFAULT_TIME_LIMIT, wa
 _worker = {}
 
 
-def _init_worker(cache, mask, counts, time_limit):
+def _init_worker(cache, mask, counts, time_limit, ports=()):
     """A worker finds the declared matches itself (families.discover), so no policy object crosses a process."""
     from original_match import Image
     from original_match.assets import reference_image
     _worker.update(image=Image.from_bytes(reference_image(cache)), mask=mask, counts=counts, time_limit=time_limit,
-                   specs={m.id: m for fam in families.discover().values() for m in fam.matches})
+                   ports=list(ports), specs={m.id: m for fam in families.discover().values() for m in fam.matches})
 
 
 def _run_in_worker(match_id):
-    return run_match(_worker["image"], _worker["specs"][match_id], _worker["mask"], _worker["counts"],
-                     _worker["time_limit"])
+    lines = []
+    rec = run_match(_worker["image"], _worker["specs"][match_id], _worker["mask"], _worker["counts"],
+                    _worker["time_limit"], ports=_worker["ports"], say=lines.append)
+    return rec, lines
 
 
-def existing_records(out, selected, mask):
+def existing_records(out, selected, mask, ports=()):
     """The valid records already in --out, {id: record}. Refuses a file that is not this run's: an invalid line, an
-    id twice or not selected, a spec, mask or image that is not the declared one."""
+    id twice or not selected, a spec, mask, image or ports (with their variant) that is not the declared one."""
     if not Path(out).exists():
         return {}
     try:
@@ -250,6 +288,11 @@ def existing_records(out, selected, mask):
             raise Refused(f"{out}: {r['id']} was run from another declaration or image than the one declared now")
         if r["mask"] != [list(s) for s in mask]:
             raise Refused(f"{out}: {r['id']} was taken over another mask than --mask")
+        variants = [s for s in ports if "." in s]
+        want = (sorted(s.split(".")[0] for s in ports), variants[0] if variants else None) if ports else (None, None)
+        if (r.get("ports"), r.get("variant")) != want:
+            raise Refused(f"{out}: {r['id']} was run with other ports ({r.get('ports')}, variant {r.get('variant')}) "
+                          "than --ports and --variant")
         done[r["id"]] = r
     return done
 
@@ -265,10 +308,10 @@ def append(out, record):
 
 
 def run_family(selected, out, workers=1, max_new=None, cache=DEFAULT_CACHE, mask=(), counts=(),
-               time_limit=DEFAULT_TIME_LIMIT, say=print, run_one=None):
+               time_limit=DEFAULT_TIME_LIMIT, say=print, run_one=None, ports=()):
     """Run the selected matches not yet in `out`; returns the records of every selected match now in `out`.
-    run_one(spec) -> record replaces the kit for a test (one process only)."""
-    done = existing_records(out, selected, mask)
+    run_one(spec) -> record replaces the kit for a test (one process only). ports: the kit's port specs (port_specs)."""
+    done = existing_records(out, selected, mask, ports)
     todo = [s for s in selected if s.id not in done]
     if max_new is not None:
         todo = todo[:max_new]
@@ -279,7 +322,9 @@ def run_family(selected, out, workers=1, max_new=None, cache=DEFAULT_CACHE, mask
         append(out, rec)
         done[rec["id"]] = rec
         state = "completed" if records.is_completed(rec) else f"NOT COMPLETED ({rec['error'] or rec['strays'] or 'no board'})"
-        say(f"{rec['id']}: {state}; score {rec['score']} ticks {rec['ticks']} cpu {rec['cpu_s']} s")
+        extra = "".join(f"; {a} executed {n}" for a, n in rec["counts"].items())
+        extra += "".join(f"; port {a} called {n}" for a, n in sorted(rec.get("port_calls", {}).items()))
+        say(f"{rec['id']}: {state}; score {rec['score']} ticks {rec['ticks']} cpu {rec['cpu_s']} s{extra}")
 
     if run_one is not None:
         for spec in todo:
@@ -289,12 +334,14 @@ def run_family(selected, out, workers=1, max_new=None, cache=DEFAULT_CACHE, mask
         from original_match.assets import reference_image
         image = Image.from_bytes(reference_image(cache))
         for spec in todo:
-            took(run_match(image, spec, mask, counts, time_limit))
+            took(run_match(image, spec, mask, counts, time_limit, ports=ports, say=say))
     else:
         from concurrent.futures import ProcessPoolExecutor
         with ProcessPoolExecutor(max_workers=workers, initializer=_init_worker,
-                                 initargs=(cache, mask, counts, time_limit)) as pool:
-            for rec in pool.map(_run_in_worker, [s.id for s in todo]):
+                                 initargs=(cache, mask, counts, time_limit, list(ports))) as pool:
+            for rec, lines in pool.map(_run_in_worker, [s.id for s in todo]):
+                for line in lines:
+                    say(line)
                 took(rec)
     return [done[s.id] for s in selected if s.id in done]
 
@@ -385,6 +432,9 @@ def main(argv=None):
     ap.add_argument("--mask")
     ap.add_argument("--only")
     ap.add_argument("--cache", default=DEFAULT_CACHE)
+    ap.add_argument("--ports", help="port modules (runtime/original_match/port/) in place of the original's routines: "
+                                    "M,... or all (T59)")
+    ap.add_argument("--variant", help="MODULE.NAME: one of a port module's variants (a falsifier; T59)")
     a = ap.parse_args(argv)
     try:
         if (a.out is None) == (a.find_ranges is None):
@@ -401,6 +451,11 @@ def main(argv=None):
                 raise Refused(f"--only {a.only!r}: distinct ids among the selected matches (unknown: {unknown})")
             selected = [m for m in selected if m.id in ids]
         mask, counts = parse_mask(a.mask), parse_count(a.count)
+        ports = port_specs(a.ports, a.variant)[0]
+        if ports:
+            print(f"ports: {', '.join(ports)}", flush=True)
+        if a.find_ranges and ports:
+            raise Refused("--find-ranges runs the unhooked kit: no --ports or --variant")
         if a.find_ranges:
             if a.find_ranges and Path(a.find_ranges).exists():
                 raise Refused(f"refused: {a.find_ranges} exists (an output is never overwritten)")
@@ -408,7 +463,7 @@ def main(argv=None):
             from original_match.assets import reference_image
             find_ranges(Image.from_bytes(reference_image(a.cache)), selected[:a.max], a.find_ranges)
             return 0
-        recs = run_family(selected, a.out, a.workers, a.max, a.cache, mask, counts, a.time_limit)
+        recs = run_family(selected, a.out, a.workers, a.max, a.cache, mask, counts, a.time_limit, ports=ports)
     except (Refused, families.FamilyError) as e:
         print(f"refused: {e}")
         return 2

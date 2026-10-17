@@ -148,6 +148,8 @@ def check(ref, cand, expected, expect="identical", no_screen=False, image_sha256
         why = completed(ref[mid])
         if why:
             raise Malformed(f"reference {mid} is not a completed match ({why})")
+        if "ports" in ref[mid]:                 # T59: the reference is the unhooked kit, never a ported run
+            raise Malformed(f"reference {mid} was run with ports ({ref[mid]['ports']}): a reference is the unhooked kit")
         if ref[mid]["mask"] != cand[mid]["mask"]:
             raise Malformed(f"{mid}: the reference was taken over mask {ref[mid]['mask']}, the candidate over "
                             f"{cand[mid]['mask']}")
