@@ -1,0 +1,11 @@
+........................................................................play: refused: dosbox-x 2024.03.01 is required, found 2026.01.02 (/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2df64d441ee220fe/.cache/tmp/tmphz8a2nzn/dosbox-x); run: bash setup/dosbox-x-2024.03.01.sh
+................./home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2df64d441ee220fe/runtime/driver/driver.py:362: ResourceWarning: unclosed file <_io.TextIOWrapper name='/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2df64d441ee220fe/.cache/tmp/tmpskj2bsez/work/dosbox.out' mode='w' encoding='UTF-8'>
+  self.dbx = subprocess.Popen(args, env=self.env, stdout=open(self.workdir / "dosbox.out", "w"),
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2df64d441ee220fe/runtime/driver/driver.py:362: ResourceWarning: unclosed file <_io.TextIOWrapper name='/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2df64d441ee220fe/.cache/tmp/tmp5fjjndbu/work/dosbox.out' mode='w' encoding='UTF-8'>
+  self.dbx = subprocess.Popen(args, env=self.env, stdout=open(self.workdir / "dosbox.out", "w"),
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2df64d441ee220fe/runtime/driver/driver.py:362: ResourceWarning: unclosed file <_io.TextIOWrapper name='/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2df64d441ee220fe/.cache/tmp/tmpl1bxzhox/work/dosbox.out' mode='w' encoding='UTF-8'>
+  self.dbx = subprocess.Popen(args, env=self.env, stdout=open(self.workdir / "dosbox.out", "w"),
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+................................................................................................................................................
