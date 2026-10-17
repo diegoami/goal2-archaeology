@@ -20,6 +20,17 @@ Any one is enough; a blocking finding means rework, never approve.
 Not blocking: wording, style, and defects in code the PR did not change: file those as follow-ups.
 When unsure, say how likely the problem is. Rate it blocking only if it is likely and would get
 past what the task protects; otherwise it is a follow-up. (L53)
+Tests and tools that need the network (GitHub, through gh; #236): the tests marked with
+tests/netskip.py (needs_pinned_tools in tests/test_validate_runs.py, test_register_artifact.py,
+test_known_sets.py, test_publish_evidence.py and test_human_record.py; needs_release, with an
+empty cache, in test_fetch_artifact.py, test_known_sets.py and test_human_keys.py), and the tools
+tools/check_citations.py, verify_evidence.py, validate_runs.py, register_artifact.py (all through
+tools/ga.py), fetch_artifact.py and the human recorder's release download. Each of those gh calls
+retries a network failure once; offline those tests skip and print "SKIPPED ... offline, needs the
+network for ...", and a tool fails with gh's
+message ("error connecting to api.github.com", "TLS handshake timeout"). That is your network, not
+the PR: re-run the line when the network answers, and rate it blocking only if it fails online.
+A skipped test proves nothing: never count one as a pass.
 
 ## Report every blocking finding in this one review
 

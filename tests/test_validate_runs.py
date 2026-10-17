@@ -18,6 +18,7 @@ FIXTURES = REPO_ROOT / "tests" / "fixtures"
 sys.path.insert(0, str(REPO_ROOT))
 
 from tools import ga  # noqa: E402
+from tests import netskip  # noqa: E402
 
 
 def run_validate(*paths) -> subprocess.CompletedProcess:
@@ -39,17 +40,20 @@ class ValidateRunsTest(unittest.TestCase):
         self.assertEqual(0, runs_result.returncode, runs_result.stdout + runs_result.stderr)
         self.assertTrue(runs_result.stdout.startswith("ok:"))
 
+    @netskip.needs_pinned_tools
     def test_invalid_example_exits_1(self):
         example = ga.example("invalid/run-1--interpretation-field.json")
         result = run_validate(example)
         self.assertEqual(1, result.returncode, result.stdout + result.stderr)
         self.assertIn("additional property 'reinforcement_rule' not allowed", result.stdout)
 
+    @netskip.needs_pinned_tools
     def test_valid_example_exits_0(self):
         example = ga.example("valid/run-1--seeded-crafted-state.json")
         result = run_validate(example)
         self.assertEqual(0, result.returncode, result.stdout + result.stderr)
 
+    @netskip.needs_pinned_tools
     def test_semantic_rule_is_applied(self):
         # The asset name breaks a rule no schema can express (formats/examples/expected-errors.json).
         example = ga.example("invalid/evidence-manifest-1--bad-asset-name.json")
@@ -57,11 +61,13 @@ class ValidateRunsTest(unittest.TestCase):
         self.assertEqual(1, result.returncode, result.stdout + result.stderr)
         self.assertIn("$.files[0].asset: must be", result.stdout)
 
+    @netskip.needs_pinned_tools
     def test_directory_validates_each_json_document(self):
         result = run_validate(FIXTURES / "runs" / "E900", FIXTURES / "evidence" / "E900")
         self.assertEqual(0, result.returncode, result.stdout + result.stderr)
         self.assertEqual("ok: 2 document(s) valid", result.stdout.strip())
 
+    @netskip.needs_pinned_tools
     def test_missing_path_invalid_json_and_unknown_schema_exit_1(self):
         with tempfile.TemporaryDirectory() as tmp:
             broken = Path(tmp) / "broken.json"
@@ -76,6 +82,7 @@ class ValidateRunsTest(unittest.TestCase):
                               f"{absent}: no such file or directory"],
                              [line.split(": Expecting")[0] for line in result.stdout.splitlines()])
 
+    @netskip.needs_pinned_tools
     def test_duplicate_json_key_is_invalid(self):
         # The pinned validator's loader rejects a duplicate key (which value counts would depend on
         # the reader); the document is otherwise the valid manifest built below.
@@ -98,11 +105,13 @@ class ValidateRunsTest(unittest.TestCase):
             self.assertEqual(1, result.returncode, result.stdout + result.stderr)
             self.assertIn("duplicate key 'title'", result.stdout)
 
+    @netskip.needs_pinned_tools
     def test_valid_evidence_manifest_exits_0(self):
         example = ga.example("valid/evidence-manifest-1--toy-run.json")
         result = run_validate(example)
         self.assertEqual(0, result.returncode, result.stdout + result.stderr)
 
+    @netskip.needs_pinned_tools
     def test_canonical_set_hash_is_exposed(self):
         manifest = {
             "schema": "artifact-set/1",

@@ -23,6 +23,8 @@ EXPERIMENT = "E902"
 RUN_ID = "E902-r0001"
 sys.path.insert(0, str(REPO_ROOT))
 
+from tests import netskip  # noqa: E402
+
 # A fake `gh`: the release is the directory FAKE_GH_RELEASE, and every invocation is appended to
 # FAKE_GH_LOG.
 #   release view <tag> ...      print the directory's file names; exit 1 when it does not exist
@@ -128,6 +130,7 @@ class PublishEvidenceTest(unittest.TestCase):
         self.evidence = self.tmp / "evidence"
         self.fakebin, self.log = fake_gh(self.tmp)
 
+    @netskip.needs_pinned_tools
     def test_publish_creates_the_release_uploads_and_writes_the_manifest_last(self):
         result = run_publish(self.fakebin, self.log, [state_file(self.tmp)], self.evidence)
         self.assertEqual(0, result.returncode, result.stdout + result.stderr)

@@ -39,6 +39,11 @@ import sys
 import types
 from pathlib import Path
 
+try:  # imported as tools.ga, or run as tools/ga.py with tools/ on the path
+    from tools import net
+except ImportError:
+    import net
+
 REPO_ROOT = Path(__file__).resolve().parents[1]
 CACHE = REPO_ROOT / ".cache" / "game-archaeologist"
 ARCHAEOLOGY = REPO_ROOT / "archaeology.json"
@@ -92,9 +97,10 @@ def git_blob_sha(data: bytes) -> str:
 
 
 def _gh_api(path: str):
-    """The parsed JSON from one `gh api` call; a failure is a named `GaError`."""
+    """The parsed JSON from one `gh api` call; a failure is a named `GaError`. A network failure
+    is retried once (`net.run_retrying`, #236)."""
     try:
-        out = subprocess.run(["gh", "api", path], check=False, capture_output=True)
+        out = net.run_retrying(["gh", "api", path])
     except OSError as e:  # gh is not installed, or is not executable
         raise GaError(f"cannot run gh: {e.strerror or e}") from None
     if out.returncode != 0:

@@ -35,6 +35,7 @@ sys.path.insert(0, str(ROOT / "experiments" / "E015-human-playthrough"))
 import extract  # noqa: E402
 import recorder  # noqa: E402
 import savestate  # noqa: E402
+from tests import netskip  # noqa: E402
 
 # ---- the fixture chain (hand-checked) ------------------------------------------------------------
 # F001, written as literals: the text page and guest memory offsets in an inflated component.
@@ -255,6 +256,7 @@ class Extraction(Base):
         self.assertEqual(rec["decoded"][-1]["via"], "R012")
         self.assertTrue(rec["decoded"][-1]["value"].endswith("2561]"))
 
+    @netskip.needs_pinned_tools
     def test_the_record_is_a_valid_run_1_document(self):
         import validate_runs
         session = self.workdir("valid")
@@ -289,6 +291,7 @@ class Extraction(Base):
         self.assertEqual(first.read_bytes(), before)
         self.assertEqual(rec["run_id"], "E015-r0002")
 
+    @netskip.needs_pinned_tools
     def test_a_broken_snapshot_is_skipped_and_the_chain_still_yields_a_record(self):
         session = self.workdir("broken")
         index = write_session(session, CHAIN)
@@ -302,6 +305,7 @@ class Extraction(Base):
         import validate_runs
         self.assertEqual(validate_runs.check(path), [])
 
+    @netskip.needs_pinned_tools
     def test_a_single_state_session_has_no_diffs(self):
         session = self.workdir("single")
         write_session(session, CHAIN[:1])

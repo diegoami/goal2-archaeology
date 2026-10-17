@@ -14,6 +14,10 @@ sys.path.insert(0, str(ROOT / "runtime" / "driver"))
 
 import driver  # noqa: E402
 
+sys.path.insert(0, str(ROOT))
+from tests import netskip  # noqa: E402
+from tools import fetch_artifact  # noqa: E402
+
 PREDECESSOR = "goal2-a949da2f"
 SUCCESSOR = "goal2-67cf27d6"
 SETS = {entry["manifest"]["id"]: entry
@@ -22,6 +26,7 @@ RELEASED = ROOT / ".cache" / "artifacts" / SUCCESSOR
 
 
 class KnownSetsTest(unittest.TestCase):
+    @netskip.needs_pinned_tools
     def test_the_pinned_tool_validates_both_sets(self):
         result = subprocess.run([sys.executable, "tools/register_artifact.py", "validate"],
                                 cwd=ROOT, capture_output=True, text=True)
@@ -47,6 +52,8 @@ class KnownSetsTest(unittest.TestCase):
 @unittest.skipUnless(RELEASED.is_dir(),
                      f"the successor's release copy is not in {RELEASED.relative_to(ROOT)}")
 class DriverSetTest(unittest.TestCase):
+    # A folder left by a fetch that failed offline is not a release copy (#236).
+    @netskip.needs(f"release set {SUCCESSOR}", lambda: fetch_artifact.fetch(SUCCESSOR))
     def test_verify_release_verifies_and_names_the_successor(self):
         self.assertEqual(SUCCESSOR, driver.verify_release(RELEASED))
 

@@ -7,6 +7,10 @@ and byte count. Any mismatch exits 1, so a corrupted download never becomes a ru
 
 `--check` only verifies what is already cached, without downloading.
 
+A download that fails on the network is retried once (`tools/net.py`, #236). When it still fails on
+the network and the cached copy already verifies, the download is skipped with a printed line and
+the set is verified from the cache; with no verified copy the failure stands.
+
 Adapted from diegoami/toy-archaeology tools/fetch_artifact.py at a3056ff: the release is
 `goal2-original` and the repository `diegoami/goal2-archaeology`.
 """
@@ -18,6 +22,11 @@ import json
 import subprocess
 import sys
 from pathlib import Path
+
+try:  # imported as tools.fetch_artifact, or run as tools/fetch_artifact.py with tools/ on the path
+    from tools import net
+except ImportError:
+    import net
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 CACHE = REPO_ROOT / ".cache" / "artifacts"
@@ -70,11 +79,19 @@ def download(set_id: str, repo: str = DEFAULT_REPO) -> Path:
     dest = CACHE / set_id
     dest.mkdir(parents=True, exist_ok=True)
     for entry in known[set_id]["files"]:
-        subprocess.run(
+        result = net.run_retrying(
             ["gh", "release", "download", RELEASE, "--repo", repo,
-             "-p", entry["path"], "-D", str(dest), "--clobber"],
-            check=True,
-        )
+             "-p", entry["path"], "-D", str(dest), "--clobber"])
+        if result.returncode == 0:
+            continue
+        if net.is_network_error(result.stderr) and not verify(set_id):
+            reason = net.text(result.stderr).strip().splitlines()[0]
+            print(f"{set_id}: offline, download skipped ({reason}); "
+                  f"the cached copy is verified by hash instead", file=sys.stderr)
+            return dest
+        sys.stderr.write(net.text(result.stderr))
+        raise subprocess.CalledProcessError(result.returncode, result.args,
+                                            result.stdout, result.stderr)
     return dest
 
 

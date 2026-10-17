@@ -20,8 +20,11 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO_ROOT))
 
 from tools import fetch_artifact  # noqa: E402
+from tests import netskip  # noqa: E402
 
 SET_ID = "goal2-a949da2f"
+# The real set, fetched from the release when the cache lacks it (#236).
+needs_release = netskip.needs(f"release set {SET_ID}", lambda: fetch_artifact.fetch(SET_ID))
 
 # A fake `gh` serving `release download` from FAKE_GH_RELEASE; every call is logged to FAKE_GH_LOG.
 FAKE_GH = """#!/usr/bin/env python3
@@ -47,6 +50,7 @@ shutil.copy(Path(os.environ["FAKE_GH_RELEASE"]) / name, dest / name)
 class FakeReleaseTest(unittest.TestCase):
     """Each test gets an empty cache and a fake `gh` serving the verified set as the release."""
 
+    @needs_release
     def setUp(self):
         self.release = fetch_artifact.fetch(SET_ID)
         tmp = Path(tempfile.mkdtemp())
@@ -142,6 +146,7 @@ class FakeReleaseTest(unittest.TestCase):
                       problems)
 
 
+@needs_release
 class FetchArtifactTest(unittest.TestCase):
     def test_set_verifies_against_known_json(self):
         fetch_artifact.fetch(SET_ID)
