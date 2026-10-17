@@ -77,7 +77,7 @@ PR's code; a push to `main` runs only the quick checks (links, citations, no ori
 
 What the review script guarantees, and why:
 - OpenCode starts with stdin closed; without it a run hangs before it starts. (L10)
-- No session in 180 s, no progress in 600 s, or no exit in 1 h kills the run's process tree (L10);
+- No session in 180 s, no progress in 1500 s, or no exit in 90 min kills the run's process tree (L10);
   `--idle-timeout-sec` and `--total-timeout-sec` lengthen them for one run.
 - The agent is checked on OpenCode's session record (L11); a rejected tool call fails the run (L26),
   and the fix is a wider grant in the agent file, not a re-brief (CLAUDE.md "Choosing models" rule 4).
@@ -175,8 +175,8 @@ Research briefs here also add, under "Blocking means": G0a (U32, CLAUDE.md rule 
 because a static tool was missing, or a finding resting on runs whose Method does not say what
 static analysis was tried, is a contract defect: rework.
 
-Run mechanics, added to every brief here: the session is killed after 600 s without activity; keep
-every shell command under 5 minutes, and work only inside the review worktree. Undo a mutation by
+Run mechanics, added to every brief here: the session is killed after 1500 s without activity; keep
+every shell command under 5 minutes (a long suite excepted: one foreground call, `docs/review-brief.md`), and work only inside the review worktree. Undo a mutation by
 writing back the file's saved contents (read it first, restore it in a `finally`), never with
 `git checkout`, `git restore` or `git reset` of the file: those return the last commit and destroy
 any uncommitted work in it (PR 114 round 1). If a reviewer still

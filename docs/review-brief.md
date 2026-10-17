@@ -36,4 +36,10 @@ every item under "Blocking means", and report all blocking findings together.
   checks those fixes and new code only, not anything you saw but did not report.
 - If you ran out of time or context before covering the whole diff, say which files or
   sections you did not cover. Do not approve in that case.
+
+Run mechanics: some suites in this repository take 7 minutes or more and print nothing meanwhile.
+That is expected, not a hang. Run such a suite once, in one foreground call whose timeout is long
+enough for it. Do not start it in the background and poll it, and do not kill it for being quiet:
+the harness stops a review only after 25 minutes without activity, which one foreground call stays
+well inside.
 ```
