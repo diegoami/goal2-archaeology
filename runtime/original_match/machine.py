@@ -41,6 +41,13 @@ class Machine:
         self.error = None
         self._handlers = {}        # linear address -> [handler]
         self._resume_lin = None
+        # The port mode (port/; inert without ports): the write listeners a port's write reaches as a guest write
+        # would, the port at a routine's entry, the instruction a port's write or site stands for (pc()), and the
+        # address a port returned to before a stop made inside it (not a replay when the run resumes there).
+        self._writes = []          # (begin, end, fn(address, size, value))
+        self._ports = {}           # linear address -> runner(machine)
+        self._pc_override = None
+        self.no_replay_at = None
         self.uc.hook_add(UC_HOOK_INTR, lambda uc, intno, data: None)
 
     # -- addresses ---------------------------------------------------------------------------------
@@ -134,20 +141,74 @@ class Machine:
                         h(replay)
                         if self.stop_reason is not None or self.error is not None:
                             break
+                    else:                       # a port runs after the kit's handlers, only when none stopped: it
+                        runner = self._ports.get(lin)      # never ran before a replay, and once it ran CS:IP is
+                        if runner is not None:             # its caller's, so it never runs twice
+                            runner(self)
+                            if self.stop_reason is not None:   # a site inside the port stopped: the run resumes at
+                                self.no_replay_at = self.pc()  # the return, where no hook has fired yet
                 except Exception as e:          # stop the emulation; run() re-raises it
                     self.error = e
                     uc.emu_stop()
             self.uc.hook_add(UC_HOOK_CODE, dispatch, begin=lin, end=lin)
         self._handlers[lin].append(handler)
 
+    def port(self, address, runner):
+        """Run runner(machine) in place of the routine at `address` (the port mode, port/): it runs from the entry,
+        after every handler `at` the entry, and returns to the caller itself."""
+        lin = self.lin(address)
+        if lin in self._ports:
+            raise ValueError(f"two ports of {address}")
+        self._ports[lin] = runner
+        if lin not in self._handlers:
+            self.at(address, lambda replay: None)
+
+    def on_write(self, begin, end, fn):
+        """Call fn(address, size, value) at every write starting in [begin, end], before it lands: a guest
+        instruction's (Unicorn's write hook) or a port's (write_as)."""
+        def hook(uc, access, address, size, value, data):
+            fn(address, size, value)
+        self._writes.append((begin, end, fn))
+        self.uc.hook_add(UC_HOOK_MEM_WRITE, hook, begin=begin, end=end)
+
+    def write_as(self, linear, size, value, at):
+        """A port's write of `size` bytes at `linear`, as the original's instruction at the linear address `at`
+        makes it: every write listener sees it (with pc() = at) before it lands, as a guest write's hooks would."""
+        value &= (1 << (8 * size)) - 1
+        saved, self._pc_override = self._pc_override, at
+        try:
+            for begin, end, fn in list(self._writes):
+                if begin <= linear <= end:
+                    fn(linear, size, value)
+                    if self.error is not None:       # a watch's handler refused the write
+                        err, self.error = self.error, None
+                        raise err
+        finally:
+            self._pc_override = saved
+        self.uc.mem_write(linear, value.to_bytes(size, "little"))
+
+    def fire(self, address):
+        """A port reaching `address` inside the routine it replaces: the handlers `at` it run as the original's
+        reaching it would (replay False, pc() = the address). A stop they make takes effect at the port's return."""
+        lin = self.lin(address)
+        saved, self._pc_override = self._pc_override, lin
+        try:
+            for h in list(self._handlers.get(lin, ())):
+                h(False)
+                if self.error is not None:
+                    err, self.error = self.error, None
+                    raise err
+        finally:
+            self._pc_override = saved
+
     def watch(self, linear, size, handler):
         """Call handler(old, new), the watched `size` bytes at `linear` before and after, at every guest write that
         touches them, before the write lands (Unicorn calls write hooks first: the old bytes are still in memory).
-        A write that starts up to 3 bytes below the range is caught too."""
-        def hook(uc, access, address, wsize, value, data):
+        A write that starts up to 3 bytes below the range is caught too. A port's write (write_as) is seen the same."""
+        def hook(address, wsize, value):
             if address + wsize <= linear or address >= linear + size:
                 return
-            old = bytes(uc.mem_read(linear, size))
+            old = bytes(self.uc.mem_read(linear, size))
             new = bytearray(old)
             for i in range(wsize):
                 j = address + i - linear
@@ -157,22 +218,27 @@ class Machine:
                 handler(old, bytes(new))
             except Exception as e:
                 self.error = e
-                uc.emu_stop()
-        self.uc.hook_add(UC_HOOK_MEM_WRITE, hook, begin=max(0, linear - 3), end=linear + size - 1)
+                self.uc.emu_stop()
+        self.on_write(max(0, linear - 3), linear + size - 1, hook)
 
     def stop(self, reason):
         self.stop_reason = reason
         self.uc.emu_stop()
 
     def pc(self):
+        """The linear address of the instruction running: during a port's write or site, the listing's."""
+        if self._pc_override is not None:
+            return self._pc_override
         return self.reg("cs") * 16 + self.reg("ip")
 
     def run(self, until, timeout_s=600, fresh=False):
         """Run from CS:IP until the linear address `until` or a stop; returns the stop reason (None at `until`).
-        `fresh`: CS:IP is a new start (a call set up by far_call), not the instruction a stop left unexecuted."""
+        `fresh`: CS:IP is a new start (a call set up by far_call), not the instruction a stop left unexecuted; so is
+        the return a port stopped at (no_replay_at)."""
         self.stop_reason = None
         start = self.pc()
-        self._resume_lin = None if fresh else start
+        self._resume_lin = None if fresh or start == self.no_replay_at else start
+        self.no_replay_at = None
         try:
             self.uc.emu_start(start, until, timeout=int(timeout_s * 1_000_000))
         except UcError as e:

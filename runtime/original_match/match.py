@@ -20,7 +20,8 @@ from .image import (Image, COUNTRIES_PTR, COUNTRY_SIZE, PLAYERS_PTR, PLAYER_SIZE
 from .machine import Machine, GuestError, MEM_SIZE
 from . import screens as S
 
-VERSION = "2"
+VERSION = "3"                  # 3: a saved match names its ports (the port mode, port/); a version 2 save loads, portless
+LOADS = ("2", VERSION)
 
 # -- the calls (route_fixture's own, static/goal-exe/code/seg_000E_09.asm:308 and :396) -------------------------
 RUN_MATCH, RUN_MATCH_RETURN = "0791:F1F6", "000E:6F1D"
@@ -139,6 +140,34 @@ class Event:
         return f"[{self.minute:3d}' {self.score[0]}-{self.score[1]}] {self.kind} {extra}"
 
 
+class _PortKeys:
+    """The kit's key logic for a port's key reads (port/mem.py read_key, keypressed): what the hooks at 214B:08DD and
+    0723 answer from the same site, with 08DD's own writes (seg_214B_02.asm): the pushed-back flag cleared (08EA),
+    the key DS:A976 (0947) and the last key DS:A977 (097C)."""
+
+    def __init__(self, match):
+        self.match = match
+
+    def keypressed(self, site):
+        return self.match._key_waiting(site)
+
+    def key(self, site):
+        k = self.match
+        m, mem = k.m, k.ports.mem
+        if site == SITE_BOARD:
+            k._on_board()
+        if m.rd(PUSHED_BACK, 1):
+            mem.wds8(PUSHED_BACK, 0, "214B:08EA")
+            key = m.rd(KEY, 1)
+        else:
+            key = k._key_for(site)
+            if key is None:
+                return None             # stopped for a decision: mem.read_key refuses it (PortError)
+            mem.wds8(KEY, key, "214B:0947")
+        mem.wds8(KEY + 1, key, "214B:097C")
+        return key
+
+
 def fresh_state(players_before):
     """The kit's state of a match before run_match starts (Match.__init__; E034 builds one at a shoot-out's
     start from a recorded state the same way)."""
@@ -156,7 +185,7 @@ def fresh_state(players_before):
 
 class Match:
     def __init__(self, image, fixture, *, managed=None, captain=None, seed=None, players=None, countries=None,
-                 substitutions=None, ticks=False, record_draws=False, delay_byte=None, timeout_s=60):
+                 substitutions=None, ticks=False, record_draws=False, delay_byte=None, timeout_s=60, ports=None):
         """image: an Image of the original (goal2's savestate bytes through Image.from_savestate, e.g. of
         to_savestate(state, template); or GameState.mem through Image.from_memory_component). On the fixture
         tried, the match depended on the image only through its two teams' records (E033 notes, section 2).
@@ -172,7 +201,9 @@ class Match:
         the set-up's (A4A1: 5 a side for a friendly, kind 1, and 2 for every other kind; F027 section 4) when
         play_match starts; None keeps the original's. The original counts it down (C5DC) and stops both the
         manager (E544 'no more substitutes') and the computer's rule (8062) at 0; a player taken off cannot come
-        back (element 3, 1771:3216), so 9 or more is no limit for a bench of 9."""
+        back (element 3, 1771:3216), so 9 or more is no limit for a bench of 9.
+        ports: the port mode (port/, README "Ports"): port modules ('pilot', 'pilot.coin-swapped' for a variant,
+        'all') whose Python routines run in place of the original's; None or empty: the original's code only."""
         if fixture.kind not in KINDS:
             raise ValueError(f"fixture kind {fixture.kind} is none of the kinds the original's builders write {KINDS}")
         if fixture.first == fixture.second:
@@ -220,7 +251,18 @@ class Match:
         self._result = None
         self._names = None
         self._hooks()
+        self._install_ports(ports)
         self._call(RUN_MATCH, RUN_MATCH_RETURN)
+
+    def _install_ports(self, specs):
+        """The port mode (T58): ports run in place of their routines, after the kit's hooks (port/__init__.py)."""
+        self.ports = None
+        if specs:
+            from . import port
+            self.ports = port.install(self.m, specs, keys=_PortKeys(self))
+            self.opts["ports"] = self.ports.names
+            self.ports.calls.update(self.st.get("port_calls") or {})   # a loaded match goes on counting
+            self.st["port_calls"] = self.ports.calls
 
     # -- inputs ------------------------------------------------------------------------------------------
     def _declare(self, what, linear, raw):
@@ -487,10 +529,9 @@ class Match:
         m.watch(ds + MINUTE, 2, self._on_minute)
         m.watch(ds + S.SUBS_LEFT, 2, self._on_subs_left)
         if self.opts["record_draws"]:
-            from unicorn import UC_HOOK_MEM_WRITE
             lin = m.DS * 16 + SEED
 
-            def seed_write(uc, access, address, size, value, data):
+            def seed_write(address, size, value):     # a guest write or a port's (Machine.on_write)
                 if not self.st["recording"]:
                     return
                 old = m.word_at(lin)
@@ -499,7 +540,7 @@ class Match:
                     if 0 <= address + i - lin < 2:
                         raw[address + i - lin] = (value >> (8 * i)) & 0xFF
                 self.st["draws"].append([m.rd(MINUTE), m.rd(SUBTICK), old, int.from_bytes(raw, "little")])
-            m.uc.hook_add(UC_HOOK_MEM_WRITE, seed_write, begin=lin, end=lin + 1)
+            m.on_write(lin, lin + 1, seed_write)
 
     def _fail(self, message):
         raise GuestError(message + "\n" + self.screen_text())
@@ -519,7 +560,13 @@ class Match:
 
     def _on_keypressed(self, replay):
         m = self.m
-        site = m.where(m.stack_word(2), m.stack_word(0))
+        has = self._key_waiting(m.where(m.stack_word(2), m.stack_word(0)))
+        m.set_reg("ax", (m.reg("ax") & 0xFF00) | (1 if has else 0))
+        m.return_from(True, 0)
+
+    def _key_waiting(self, site):
+        """214B:0723 called from `site`: whether the kit has a key for the original there."""
+        m = self.m
         if site == KP_POLL:
             has = bool(self.st["poll_keys"])
         elif site == KP_WAIT:          # inside 0791:CC2E (near-called within 0791): its caller says whose wait
@@ -530,8 +577,7 @@ class Match:
             has = self._prompt_key("notice") is not None
         else:
             has = False                # replays, save-goal and summary questions, walk-offs: no key (No)
-        m.set_reg("ax", (m.reg("ax") & 0xFF00) | (1 if has else 0))
-        m.return_from(True, 0)
+        return has
 
     def _prompt_key(self, kind):
         p = self.st["prompt"]
@@ -1113,6 +1159,8 @@ class Match:
                              str(self.opts["second"]): self._squad(self.opts["second"])},
         }
         self._result.update(self._competitive(board))
+        if self.ports:                 # the port mode: which ports ran in place of the original, and how often
+            self._result["ports"] = {"names": list(self.ports.names), "calls": dict(self.ports.calls)}
         st["over"] = True
         self._emit("end", score=self._result["score"])
 
@@ -1137,6 +1185,8 @@ class Match:
                  "timeout_s": self.timeout_s, "regs": snap["regs"], "load": snap["load"],
                  "queue": [asdict(e) for e in self._queue], "result": self._result, "version": VERSION,
                  "header": self.image_header.hex()}
+        if self.ports:                 # opts["ports"] names them; a stop a port made resumes at its return as new
+            state["no_replay_at"] = self.m.no_replay_at
         blob = json.dumps(state).encode()
         memory = zlib.compress(snap["memory"] + self.image_tail, 6)
         return b"OMK1" + len(blob).to_bytes(4, "little") + blob + memory
@@ -1147,8 +1197,8 @@ class Match:
             raise ValueError("not a saved match of this kit")
         n = int.from_bytes(data[4:8], "little")
         state = json.loads(data[8:8 + n])
-        if state["version"] != VERSION:
-            raise ValueError(f"saved by kit version {state['version']}, this is {VERSION}")
+        if state["version"] not in LOADS:
+            raise ValueError(f"saved by kit version {state['version']}, this is {VERSION} (it loads {', '.join(LOADS)})")
         memory = zlib.decompress(data[8 + n:])
         self = cls.__new__(cls)
         self.m = Machine(memory, state["load"])
@@ -1164,4 +1214,6 @@ class Match:
         self._result = state["result"]
         self._names = None
         self._hooks()
+        self._install_ports(self.opts.get("ports"))
+        self.m.no_replay_at = state.get("no_replay_at")
         return self
