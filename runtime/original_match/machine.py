@@ -65,9 +65,12 @@ class Machine:
         self.site_tap = None
         self.write_tap = None
         # ... and the reads and register changes of the kit (io_tap(kind, a, b): "r" linear, bytes; "g" register, value
-        # read; "s" register, value set), so a proof can check a site's inputs and replay its answer (port/prove.py).
-        # `running`: inside emu_start (the guest or a hook), not between two runs of the match.
+        # read; "s" register, value set; "p" None, pc() returned), so a proof can check a site's inputs and replay its
+        # answer (port/prove.py). `running`: inside emu_start (the guest or a hook), not between two runs of the match.
+        # listen_tap: told around each call of a kit write listener (not always=True): listen_enter(index in _writes,
+        # address, size, value) returns a token, listen_leave(token) after it (round 3: a listener's inputs are proved).
         self.io_tap = None
+        self.listen_tap = None
         self.running = False
         self.uc.hook_add(UC_HOOK_INTR, lambda uc, intno, data: None)
 
@@ -238,9 +241,17 @@ class Machine:
         """Call fn(address, size, value) at every write starting in [begin, end], before it lands: a guest
         instruction's (Unicorn's write hook) or a port's (write_as). While `muted` (a proof's original runs) only
         a listener added with always=True is called."""
+        index = len(self._writes)
+
         def hook(uc, access, address, size, value, data):
-            if always or not self.muted:
-                fn(address, size, value)
+            try:
+                if always:
+                    fn(address, size, value)
+                elif not self.muted:
+                    self._listen(index, fn, address, size, value)
+            except Exception as e:      # stop the emulation; run() re-raises it
+                self.error = e
+                uc.emu_stop()
         self._writes.append((begin, end, fn, always))
         self.uc.hook_add(UC_HOOK_MEM_WRITE, hook, begin=begin, end=end)
 
@@ -250,15 +261,30 @@ class Machine:
         value &= (1 << (8 * size)) - 1
         saved, self._pc_override = self._pc_override, at
         try:
-            for begin, end, fn, always in list(self._writes):
+            for index, (begin, end, fn, always) in enumerate(list(self._writes)):
                 if begin <= linear <= end and (always or not self.muted):
-                    fn(linear, size, value)
+                    if always:
+                        fn(linear, size, value)
+                    else:
+                        self._listen(index, fn, linear, size, value)
                     if self.error is not None:       # a watch's handler refused the write
                         err, self.error = self.error, None
                         raise err
         finally:
             self._pc_override = saved
         self.uc.mem_write(linear, value.to_bytes(size, "little"))
+
+    def _listen(self, index, fn, address, size, value):
+        """A kit write listener's call, told to listen_tap around it (a proof records its inputs and answer)."""
+        tap = self.listen_tap
+        if tap is None:
+            fn(address, size, value)
+            return
+        token = tap.listen_enter(index, address, size, value)
+        try:
+            fn(address, size, value)
+        finally:
+            tap.listen_leave(token)
 
     def fire(self, address):
         """A port reaching `address` inside the routine it replaces: the handlers `at` it run as the original's
@@ -287,7 +313,7 @@ class Machine:
         def hook(address, wsize, value):
             if address + wsize <= linear or address >= linear + size:
                 return
-            old = bytes(self.uc.mem_read(linear, size))
+            old = self.read(linear, size)           # the kit's read: a proof compares it (io_tap)
             new = bytearray(old)
             for i in range(wsize):
                 j = address + i - linear
@@ -306,9 +332,10 @@ class Machine:
 
     def pc(self):
         """The linear address of the instruction running: during a port's write or site, the listing's."""
-        if self._pc_override is not None:
-            return self._pc_override
-        return self.reg("cs") * 16 + self.reg("ip")
+        pc = self._pc_override if self._pc_override is not None else self.reg("cs") * 16 + self.reg("ip")
+        if self.io_tap is not None:
+            self.io_tap("p", None, pc)
+        return pc
 
     def run(self, until, timeout_s=600, fresh=False):
         """Run from CS:IP until the linear address `until` or a stop; returns the stop reason (None at `until`).

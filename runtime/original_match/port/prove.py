@@ -91,10 +91,19 @@ class _Visit:
     def __init__(self, lin, at, regs, fired):
         self.lin, self.at, self.regs, self.fired = lin, at, regs, fired
         # What the kit did with the guest there, in order: ("r", linear, bytes) it read, ("g", register, value) it
-        # read, ("s", register, value) it set, ("w", linear, bytes) it wrote; the reads made between the runs while
-        # the match stood at this site (a decision's answer) included.
+        # read, ("p", None, linear) pc() it read, ("s", register, value) it set, ("w", linear, bytes) it wrote; the
+        # reads made between the runs while the match stood at this site (a decision's answer) included.
         self.events = []
         self.open = False           # stopped (a decision, events): the replay on resume belongs to it
+
+
+class _Listen:
+    """A call of a kit write listener (Machine.on_write, watch) the port's run made: the listener's index in
+    Machine._writes, the write it was given (before it landed) and what it did, as a _Visit's events."""
+
+    def __init__(self, index, address, size, value, label):
+        self.index, self.address, self.size, self.value, self.label = index, address, size, value, label
+        self.events = []
 
 
 class _Call:
@@ -113,6 +122,12 @@ class _Call:
         self.started = False
         self.frame = None
         self.port_regs = None
+        self.listens = []           # the kit's write listeners called in the port's run, in order (_Listen)
+        self.next_listen = 0
+        self.listen_diff = None     # the first listener call that does not pair up (named after the bytes, step 3)
+        self.nested_returns = []    # the ported calls made inside the port's run: (address, caller, registers) at
+        self.next_nested = 0        # each return, in the order they returned
+        self.orig_nested = []       # the same routines' calls the original is inside: (address, caller, ret_lin, ret_sp)
 
 
 class Prover:
@@ -138,9 +153,11 @@ class Prover:
             self.proved[address] = self.nested[address] = self.before[address] = 0
             self.scratch[address] = {r: 0 for r in REGS_SCRATCH}
             self.dead[address] = {}
+        self._own_index = len(machine._writes)  # the kit's listeners before it run before it at a write, the rest after
         machine.on_write(0, MEM_SIZE - 1, self._record, always=True)    # once, before the run
         machine.write_tap = self._host_write
         machine.io_tap = self._io
+        machine.listen_tap = self
         machine.muted_hook = self._muted_at
 
     # The prover's own reads and register changes bypass the machine's taps (they are not the kit's).
@@ -171,12 +188,52 @@ class Prover:
         """Whether a proved call's port is running now (match.py refuses a port's own key reads then)."""
         return self.state is not None and self.state.phase == "port"
 
+    def _caller_cs(self, runner):
+        """At a routine's entry: the caller's CS (on the stack for a far routine)."""
+        if runner.entry.far:
+            ss, sp = self._rreg("ss"), self._rreg("sp")
+            return int.from_bytes(self._raw(ss * 16 + ((sp + 2) & 0xFFFF), 2), "little")
+        return self._rreg("cs")
+
+    # A kit write listener's call (Machine.listen_tap): in a proved call's port run its inputs and answer are kept
+    # (a _Listen), and compared and replayed at the same write of the original's (_record).
+    def listen_enter(self, index, address, size, value):
+        st = self.state
+        if st is None or st.phase != "port":
+            return None
+        value &= (1 << (8 * size)) - 1
+        lv = _Listen(index, address, size, value, f"write listener #{index} at the write of {size} bytes "
+                                                  f"0x{value:0{2 * size}X} at {self.describe(address)}")
+        st.listens.append(lv)
+        token = (self._visit, self.m.stop_reason)
+        self._visit = lv
+        return token
+
+    def listen_leave(self, token):
+        if token is None:
+            return
+        lv = self._visit
+        self._visit, stop_before = token
+        if self.m.stop_reason is not None and self.m.stop_reason != stop_before:
+            raise PortError(f"the kit's {lv.label} stopped the match ({self.m.stop_reason}) during a proved call: "
+                            "its answer between runs is not replayable")
+
     # -- 1. the port, live, recorded ---------------------------------------------------------------------------
     def _wrap(self, address, runner, calls):
         def run(machine, done=None):
-            if self.state is not None:
-                self.nested[address] += 1           # compared as part of the call that holds it
-                return runner(machine, done)
+            st = self.state
+            if st is not None:
+                # Inside a proved call's port run: its writes and sites are the outer call's; its returned registers
+                # are kept and compared with the original's same call (the n-th ported call to return, step 2).
+                self.nested[address] += 1
+                ip = int.from_bytes(self._raw(self._rreg("ss") * 16 + self._rreg("sp"), 2), "little")
+                caller = self.m.where(self._caller_cs(runner), ip)
+
+                def nested_done(frame):
+                    st.nested_returns.append((address, caller, {r: self._rreg(r) for r in REGS_RETURNED}))
+                    if done is not None:
+                        done(frame)
+                return runner(machine, nested_done)
             if not self.armed():
                 self.before[address] += 1
                 return runner(machine, done)
@@ -201,18 +258,47 @@ class Prover:
         if st is None:
             return
         m = self.m
-        new = (value & ((1 << (8 * size)) - 1)).to_bytes(size, "little")
-        old = self._raw(address, size)
+        value &= (1 << (8 * size)) - 1
+        new = value.to_bytes(size, "little")
         if st.phase == "port":
-            st.port_writes.append((address, old, new))
+            st.port_writes.append((address, self._raw(address, size), new))
             return
         st.started = True
-        st.writes.append((address, old, new))
+        self._listeners_at(address, size, value, before=True)
+        st.writes.append((address, self._raw(address, size), new))
         if self._rreg("ss") == st.ss:           # how far the original's stack reached
             sp = st.ss * 16 + self._rreg("sp")
             if pushes(self._raw(self._rreg("cs") * 16 + self._rreg("ip"), 6)) and sp - 16 <= address < sp:
                 sp = address
             st.low = min(st.low, sp)
+        self._listeners_at(address, size, value, before=False)
+
+    def _listeners_at(self, address, size, value, before):
+        """At the original's write, before it lands: the kit's write listeners it reaches (but muted), in the order
+        Machine calls them (those added before the proof's own listener first: `before`), each matched with the port's
+        run's next listener call, its inputs compared and its answer applied (as at a site)."""
+        st = self.state
+        for index, (begin, end, _, always) in enumerate(list(self.m._writes)):
+            if always or not begin <= address <= end or (index < self._own_index) != before:
+                continue
+            if st.listen_diff is not None:      # the listener calls no longer pair up: the proof fails at the return
+                return
+            i = st.next_listen
+            here = f"listener #{index} at the write of {size} bytes 0x{value:0{2 * size}X} at {self.describe(address)}"
+            # A write that differs (another listener, address, size or value, or one the port's run did not make)
+            # is a written byte that differs: named at the return by the bytes' comparison, which comes first; this
+            # is named only if that comparison finds nothing (step 3).
+            if i >= len(st.listens):
+                st.listen_diff = (f"the original's write reached the kit's write {here} (listener call #{i + 1}), "
+                                  f"which the port's run did not ({len(st.listens)} listener calls)")
+                return
+            lv = st.listens[i]
+            if (lv.index, lv.address, lv.size, lv.value) != (index, address, size, value):
+                st.listen_diff = (f"the kit's write listener call #{i + 1}: the port's run gave the {lv.label}, the "
+                                  f"original the {here}")
+                return
+            self._apply(lv.events, f"the kit's {lv.label} (listener call #{i + 1})")
+            st.next_listen = i + 1
 
     def _host_write(self, linear, data):
         """The kit's own write (Machine.write) during the port's run: recorded, and kept for the visit's replay."""
@@ -239,6 +325,7 @@ class Prover:
             self._visit = last                  # the resumed half of a visit that stopped
             return
         v = _Visit(lin, {r: self._rreg(r) for r in AT_SITE}, None, fired)
+        v.stop_before = self.m.stop_reason
         v.label = self._here(lin)
         v.port_at = len(st.port_writes)     # the writes made before it: the original's must be the same (step 3)
         st.visits.append(v)
@@ -250,6 +337,11 @@ class Prover:
         if v is None:
             return
         v.open = stopped and not fired
+        if fired and self.m.stop_reason is not None and self.m.stop_reason != v.stop_before:
+            # its stop takes effect at the port's return, where the proof has already undone the port's run: what the
+            # match reads there is not the port's state, and nothing could replay it
+            raise PortError(f"the kit's site {v.label} fired by a port stopped the match ({self.m.stop_reason}) during "
+                            "a proved call: not replayable in a proof")
         if fired and any(e[0] == "s" for e in v.events):
             raise PortError(f"the kit's site {v.label} fired by a port set registers "
                             f"{sorted({e[1] for e in v.events if e[0] == 's'})}: not replayable in a proof")
@@ -274,10 +366,51 @@ class Prover:
             st.started = True                   # the original's first instruction (its entry's hooks ran already)
             return
         st.started = True
-        if lin == st.ret_lin and m.reg("ss") == st.ss and m.reg("sp") == st.ret_sp:
+        ss, sp = self._rreg("ss"), self._rreg("sp")
+        if lin == st.ret_lin and ss == st.ss and sp == st.ret_sp:
             self._original_returned()
-        elif m.hooked(lin):
+            return
+        # In the order the port's run met them: a ported call's return (its port returned in Python, before the
+        # guest reached the return address), the kit's site, then a ported routine's entry (its port ran after the
+        # kit's handlers there).
+        if st.orig_nested and st.orig_nested[-1][2:] == (lin, ss, sp):
+            self._nested_returned()
+        if m.hooked(lin):
             self._replay(lin)
+        if lin in m._ports and self.state is not None:
+            runner = m._ports[lin]
+            ip = int.from_bytes(self._raw(ss * 16 + sp, 2), "little")
+            ret_sp = (sp + (4 if runner.entry.far else 2) + runner.entry.pop) & 0xFFFF
+            ret_lin = self._caller_cs(runner) * 16 + ip
+            address = next(a for a in self.names if m.lin(a) == lin)
+            st.orig_nested.append((address, m.where(self._caller_cs(runner), ip), ret_lin, ss, ret_sp))
+            if ret_lin not in m._handlers:
+                from ..machine import NOOP
+                m.at_linear(ret_lin, NOOP)
+
+    def _nested_returned(self):
+        """The original returned from a call of a ported routine it made: compared with the port's run's call of the
+        same rank to return (the routine, the caller, REGS_RETURNED but a declared dead result)."""
+        st = self.state
+        address, caller, _, _, _ = st.orig_nested.pop()
+        i = st.next_nested
+        if i >= len(st.nested_returns):
+            self._fail(f"the original's call of {address} ({self.names[address]}) from {caller} returned (ported call "
+                       f"#{i + 1} inside), which the port's run did not make ({len(st.nested_returns)} ported calls)")
+        p_address, p_caller, p_regs = st.nested_returns[i]
+        if (p_address, p_caller) != (address, caller):
+            self._fail(f"ported call #{i + 1} inside: the original's call of {address} from {caller} returned, the "
+                       f"port's run's of {p_address} from {p_caller}")
+        dead = RESULT_DEAD.get((address, caller), ((), ""))[0]
+        for r in REGS_RETURNED:
+            now = self._rreg(r)
+            if now != p_regs[r]:
+                if r in dead:
+                    self.dead[address][r] = self.dead[address].get(r, 0) + 1
+                    continue
+                self._fail(f"ported call #{i + 1} inside, {address} ({self.names[address]}) from {caller}: register "
+                           f"{r} at its return: the original 0x{now:04X}, the port 0x{p_regs[r]:04X}")
+        st.next_nested = i + 1
 
     def _head(self, st):
         return (f"{st.address} ({self.names[st.address]}), call #{st.number} from {st.caller}"
@@ -308,9 +441,14 @@ class Prover:
         # The kit's handlers, again, against the original: every input they read must be the original's (else the
         # answer recorded is not the one the kit would give it), and their answer (writes, registers) is applied in
         # the order they made it, so a read after a write of theirs sees it as it did.
-        site = f"the kit's site {v.label} (#{i + 1})"
         v.orig_at = len(st.writes)
-        for kind, a, b in v.events:
+        self._apply(v.events, f"the kit's site {v.label} (#{i + 1})")
+        st.next_visit = i + 1
+
+    def _apply(self, events, site):
+        """A site's or a write listener's events against the original: each read compared, each set and write made."""
+        st, m = self.state, self.m
+        for kind, a, b in events:
             if kind == "r":
                 now = self._raw(a, len(b))
                 if now != b:
@@ -322,12 +460,16 @@ class Prover:
                 if now != b:
                     self._fail(f"at {site} the kit read register {a.upper()}: the port's run gave it 0x{b:04X}, the "
                                f"original has 0x{now:04X}")
+            elif kind == "p":
+                now = self._rreg("cs") * 16 + self._rreg("ip")
+                if now != b:
+                    self._fail(f"at {site} the kit read the instruction's address (pc): the port's run gave it "
+                               f"{self._here(b)}, the original is at {self._here(now)}")
             elif kind == "s":
                 self._sreg(a, b)
             else:                               # "w": the kit's write, counted as the original's
                 st.writes.append((a, self._raw(a, len(b)), b))
                 m.uc.mem_write(a, b)
-        st.next_visit = i + 1
 
     # -- 3. the comparison, then the port's state back ---------------------------------------------------------------
     def _original_returned(self):
@@ -336,6 +478,10 @@ class Prover:
             v = st.visits[st.next_visit]
             self._fail(f"the port's run reached the kit's site {v.label} (site #{st.next_visit + 1}), which "
                        "the original did not")
+        if st.next_nested < len(st.nested_returns):
+            address, caller, _ = st.nested_returns[st.next_nested]
+            self._fail(f"the port's run made a call of {address} ({self.names[address]}) from {caller} (ported call "
+                       f"#{st.next_nested + 1} inside), which the original did not return from")
         original_regs = {r: m.reg(r) for r in REGS_RETURNED + REGS_SCRATCH}
         port_regs = st.port_returned
         frame = (st.low, st.ss * 16 + m.reg("sp"))
@@ -352,6 +498,12 @@ class Prover:
             who, extra = ("original", original[i]) if len(original) > i else ("port", port[i])
             self._fail(f"the {who} writes more: byte #{i}, 0x{extra[1]:02X} at {self.describe(extra[0])} "
                        f"({len(original)} bytes by the original, {len(port)} by the port)")
+        if st.listen_diff is not None:
+            self._fail(st.listen_diff)
+        if st.next_listen < len(st.listens):
+            lv = st.listens[st.next_listen]
+            self._fail(f"the port's run called the kit's {lv.label} (listener call #{st.next_listen + 1}), which the "
+                       "original's writes did not reach")
         for i, v in enumerate(st.visits):      # each site between the same writes in both runs
             before_o, before_p = len(live(st.writes[:v.orig_at])), len(live(st.port_writes[:v.port_at]))
             if before_o != before_p:

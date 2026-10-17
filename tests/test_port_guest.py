@@ -624,10 +624,141 @@ class ProofTests(Synthetic, unittest.TestCase):
                                                 "wrote 0x34 .*, the port wrote 0x06 .*\\(DS:5001\\)"):
             m.run(END, 5, fresh=True)
 
-    def test_a_kit_write_outside_its_sites_is_refused(self):
-        m, prover, _, _ = self.prove()
+    # Review round 2: the kit's other observables. A nested port's own result (R2), a write listener's inputs (R1),
+    # and the stops nothing could replay.
+    @staticmethod
+    def g_port(ax=0x1234):
+        def fn(mem, variant):
+            mem.wds8(TARGET, 7, "0100:0033")
+            mem.wds8(TARGET + 1, mem.arg(0), "0100:003B")
+            mem.set_reg("dx", 0x5678)
+            return ax
+        reg = Registry("nested")
+        reg.port(G, ret="ret 2")(fn)
+        return reg
+
+    @staticmethod
+    def p_hiding_g(mem, variant):
+        """P's port that calls G and then stores 0x34 and leaves AX 0x1234 whatever G returned (R2's repro)."""
+        mem.enter(0, P)
+        mem.set_reg("ax", 5)
+        yield call(G, 5, ret_to=G_RETURN, far=False)
+        mem.set_reg("ax", 0x1234)
+        mem.wds8(TARGET + 2, 0x34, G_RETURN)
+
+    def test_a_nested_ports_result_is_compared_at_its_own_return(self):
+        m, prover, _, _ = self.prove(self.p_hiding_g, extra=(self.g_port(),))
+        self.assertIsNone(m.run(END, 5, fresh=True))
+        self.assertEqual((prover.summary()[P]["proved"], prover.summary()[G]["nested"]), (1, 1))
+        m, prover, _, _ = self.prove(self.p_hiding_g, extra=(self.g_port(0x9999),))
+        with self.assertRaisesRegex(ProofError, f"^{P} \\(test\\), call #1 from 0100:0003, minute 7: ported call #1 "
+                                                f"inside, {G} \\(nested\\) from {G_RETURN}: register AX at its return: "
+                                                "the original 0x1234, the port 0x9999$"):
+            m.run(END, 5, fresh=True)
+
+    def test_a_nested_ports_dead_result_is_exempted_where_declared(self):
+        from original_match.port import prove
+        saved = dict(prove.RESULT_DEAD)
+        try:
+            prove.RESULT_DEAD[(G, G_RETURN)] = (("AX",), "a synthetic declaration for the test")
+            m, prover, _, _ = self.prove(self.p_hiding_g, extra=(self.g_port(0x9999),))
+            self.assertIsNone(m.run(END, 5, fresh=True))
+            self.assertEqual((prover.summary()[P]["proved"], prover.summary()[G]["dead"]), (1, {"AX": 1}))
+        finally:
+            prove.RESULT_DEAD.clear()
+            prove.RESULT_DEAD.update(saved)
+
+    def test_a_nested_call_in_one_run_only_is_named(self):
+        def p_without_g(mem, variant):              # G's writes made by P's port itself: no call of G
+            mem.enter(0, P)
+            mem.wds8(TARGET, 7, "0100:0033")
+            mem.wds8(TARGET + 1, 5, "0100:003B")
+            mem.set_reg("ax", 0x1234)
+            mem.set_reg("dx", 0x5678)
+            mem.wds8(TARGET + 2, 0x34, G_RETURN)
+        m, prover, _, _ = self.prove(p_without_g, extra=(self.g_port(),))
+        with self.assertRaisesRegex(ProofError, f"the original's call of {G} \\(nested\\) from {G_RETURN} returned "
+                                                "\\(ported call #1 inside\\), which the port's run did not make"):
+            m.run(END, 5, fresh=True)
+
+        def p_calling_g_twice(mem, variant):
+            mem.enter(0, P)
+            mem.set_reg("ax", 5)
+            yield call(G, 5, ret_to=G_RETURN, far=False)
+            ax = yield call(G, 5, ret_to=G_RETURN, far=False)
+            mem.wds8(TARGET + 2, ax & 0xFF, G_RETURN)
+        m, prover, _, _ = self.prove(p_calling_g_twice, extra=(self.g_port(),))
+        with self.assertRaisesRegex(ProofError, f"the port's run made a call of {G} \\(nested\\) from {G_RETURN} "
+                                                "\\(ported call #2 inside\\), which the original did not return from"):
+            m.run(END, 5, fresh=True)
+
+    def listener_machine(self, fn, at, observe):
+        """P's port proved, with a kit write listener at `at` (a DS offset) keeping observe(m) at each call."""
+        m = self.machine()
+        seen = []
+        m.watch(m.DS * 16 + at, 1, lambda old, new: seen.append(observe(m)))
+        inst = port.install(m, [(registry(fn), None)])
+        return m, Prover(m, inst, where=lambda: "minute 7"), seen
+
+    def test_a_write_listeners_input_is_compared(self):
+        def p_ax6(mem, variant):                    # P entering G with AX 6, otherwise faithful (R1's repro)
+            mem.enter(0, P)
+            mem.set_reg("ax", 6)
+            ax = yield call(G, 5, ret_to=G_RETURN, far=False)
+            mem.wds8(TARGET + 2, ax & 0xFF, G_RETURN)
+        m, prover, seen = self.listener_machine(faithful, TARGET, lambda m: m.reg("ax"))
+        self.assertIsNone(m.run(END, 5, fresh=True))
+        self.assertEqual((prover.summary()[P]["proved"], seen), (1, [5]))
+        m, prover, seen = self.listener_machine(p_ax6, TARGET, lambda m: m.reg("ax"))
+        with self.assertRaisesRegex(ProofError, f"^{P} \\(test\\), call #1 from 0100:0003, minute 7: at the kit's "
+                                                "write listener #0 at the write of 1 bytes 0x07 at linear 0x[0-9A-F]{5} "
+                                                "\\(DS:5000\\) \\(listener call #1\\) the kit read register AX: the "
+                                                "port's run gave it 0x0006, the original has 0x0005$"):
+            m.run(END, 5, fresh=True)
+        self.assertEqual(seen, [6])
+
+    def test_a_write_listeners_pc_is_compared(self):
+        def p_elsewhere(mem, variant):              # P's last write said to come from another instruction
+            mem.enter(0, P)
+            mem.set_reg("ax", 5)
+            ax = yield call(G, 5, ret_to=G_RETURN, far=False)
+            mem.wds8(TARGET + 2, ax & 0xFF, "0100:001D")
+        m, prover, seen = self.listener_machine(faithful, TARGET + 2, lambda m: m.pc())
+        self.assertIsNone(m.run(END, 5, fresh=True))
+        self.assertEqual(seen, [CODE * 16 + 0x1A])
+        m, prover, seen = self.listener_machine(p_elsewhere, TARGET + 2, lambda m: m.pc())
+        # call #3: the watch's range starts 3 bytes below DS:5002, so G's two writes were listener calls #1 and #2
+        with self.assertRaisesRegex(ProofError, "listener call #3\\) the kit read the instruction's address \\(pc\\): "
+                                                "the port's run gave it 0100:001D, the original is at 0100:001A$"):
+            m.run(END, 5, fresh=True)
+
+    def test_a_kit_write_in_a_write_listener_is_replayed(self):
+        m, prover, writes, _ = self.prove()
         m.watch(self.target + 1, 1, lambda old, new: m.write(m.DS * 16 + 0x5010, b"\x01"))
+        self.assertIsNone(m.run(END, 5, fresh=True))
+        self.assertEqual((prover.summary()[P]["proved"], m.read(m.DS * 16 + 0x5010, 1)), (1, b"\x01"))
+
+    def test_a_kit_write_outside_its_sites_is_refused(self):
+        m, prover, visits = self.decision_machine(faithful)
+        self.assertEqual(m.run(END, 5, fresh=True), "decision")
         with self.assertRaisesRegex(port.PortError, "outside a site of its own during a proved call"):
+            m.write(m.DS * 16 + 0x5010, b"\x01")      # between runs, standing at the decision: no handler of a site
+
+    def test_a_write_listener_that_stops_is_refused(self):
+        m, prover, _, _ = self.prove()
+        m.watch(self.target + 1, 1, lambda old, new: m.stop("events"))
+        with self.assertRaisesRegex(port.PortError, "write listener #2 at the write of 1 bytes 0x05 .* stopped the "
+                                                    "match \\(events\\) during a proved call"):
+            m.run(END, 5, fresh=True)
+
+    def test_a_fired_site_that_stops_is_refused(self):
+        def p_firing(mem, variant):
+            mem.site(INSIDE_G)
+            yield from faithful(mem, variant)
+        m, prover, _, _ = self.prove(p_firing)
+        m.at(INSIDE_G, lambda replay: m.stop("events"))
+        with self.assertRaisesRegex(port.PortError, f"the kit's site {INSIDE_G} fired by a port stopped the match "
+                                                    "\\(events\\) during a proved call"):
             m.run(END, 5, fresh=True)
 
     def test_a_ports_own_key_read_is_refused_under_a_proof(self):
