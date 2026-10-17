@@ -1,0 +1,73 @@
+2026-10-17T15:26:32.6750075Z test_ah_is_the_draws_high_byte (test_emul_match.GateReaderTests.test_ah_is_the_draws_high_byte) ... ok
+2026-10-17T15:26:32.6754735Z test_n_follows_278as_value (test_emul_match.GateReaderTests.test_n_follows_278as_value) ... ok
+2026-10-17T15:26:32.6757197Z test_result_registers_and_the_seed_write (test_emul_match.GateReaderTests.test_result_registers_and_the_seed_write) ... ok
+2026-10-17T15:26:32.6759627Z test_the_arguments_reach_278a_in_the_stack_order (test_emul_match.GateReaderTests.test_the_arguments_reach_278a_in_the_stack_order) ... ok
+2026-10-17T15:26:32.6762685Z test_the_falsifiers_change_the_result (test_emul_match.GateReaderTests.test_the_falsifiers_change_the_result) ... ok
+2026-10-17T15:26:32.6765200Z test_the_seed_is_read_through_the_far_pointer (test_emul_match.GateReaderTests.test_the_seed_is_read_through_the_far_pointer) ... ok
+2026-10-17T15:26:32.6768218Z test_the_tally_follows_the_models_own_run (test_emul_match.GateReaderTests.test_the_tally_follows_the_models_own_run) ... ok
+2026-10-17T15:26:32.6773735Z test_lcg_step_returns_far_popping_six (test_emul_match.ListingReturnTests.test_lcg_step_returns_far_popping_six) ... ok
+2026-10-17T15:26:32.6779163Z test_near_routine (test_emul_match.ListingReturnTests.test_near_routine) ... ok
+2026-10-17T15:26:32.6994625Z test_each_stopping_falsifier_is_stopped_naming_the_helper_and_the_call (test_emul_match.LongProofTests.test_each_stopping_falsifier_is_stopped_naming_the_helper_and_the_call) ... ok
+2026-10-17T15:26:32.7186818Z test_the_models_are_proved_with_no_scratch_difference (test_emul_match.LongProofTests.test_the_models_are_proved_with_no_scratch_difference) ... ok
+2026-10-17T15:26:32.7214086Z test_the_scratch_falsifier_is_counted_not_stopped (test_emul_match.LongProofTests.test_the_scratch_falsifier_is_counted_not_stopped) ... WARNING: call #1 of 2000:0279: uncompared register SI at the return: the original 0x0003, the model 0x3333 (counted, not an error; further ones counted only)
+2026-10-17T15:26:32.7362845Z test_tie_a_is_not_stopped_it_changes_no_register (test_emul_match.LongProofTests.test_tie_a_is_not_stopped_it_changes_no_register) ... ok
+2026-10-17T15:26:32.7364485Z test_max_falsifiers (test_emul_match.LongReaderTests.test_max_falsifiers)
+2026-10-17T15:26:32.7367105Z test_max_registers_are_exact (test_emul_match.LongReaderTests.test_max_registers_are_exact)
+2026-10-17T15:26:32.7370012Z test_max_tally_counts_exactly (test_emul_match.LongReaderTests.test_max_tally_counts_exactly)
+2026-10-17T15:26:32.7385464Z test_mul_falsifiers (test_emul_match.LongReaderTests.test_mul_falsifiers)
+2026-10-17T15:26:32.7388155Z test_mul_registers_are_exact (test_emul_match.LongReaderTests.test_mul_registers_are_exact)
+2026-10-17T15:26:32.7390810Z test_mul_tally_counts_exactly (test_emul_match.LongReaderTests.test_mul_tally_counts_exactly)
+2026-10-17T15:26:32.7405703Z test_a_hook_inside_a_proved_original_does_not_fire_but_a_direct_call_does (test_emul_match.NestedProofTests.test_a_hook_inside_a_proved_original_does_not_fire_but_a_direct_call_does) ... ok
+2026-10-17T15:26:32.7429291Z test_a_model_that_misses_the_inner_effect_is_stopped (test_emul_match.NestedProofTests.test_a_model_that_misses_the_inner_effect_is_stopped) ... ok
+2026-10-17T15:26:32.7431927Z test_the_instructions_that_write_below_sp (test_emul_match.PushOpcodeTests.test_the_instructions_that_write_below_sp) ... ok
+2026-10-17T15:26:33.9352702Z test_a_hidden_seed_write_is_in_the_trace_and_fails_the_comparison (test_emul_match.RealGuestTests.test_a_hidden_seed_write_is_in_the_trace_and_fails_the_comparison) ... ok
+2026-10-17T15:26:34.0588513Z test_a_raw_write_to_the_seed_restored_is_stopped (test_emul_match.RealGuestTests.test_a_raw_write_to_the_seed_restored_is_stopped) ... ok
+2026-10-17T15:26:34.1840658Z test_a_write_to_the_sub_tick_restored_is_stopped (test_emul_match.RealGuestTests.test_a_write_to_the_sub_tick_restored_is_stopped) ... ok
+2026-10-17T15:26:34.3073408Z test_a_wrong_step_off_the_main_seed_is_stopped (test_emul_match.RealGuestTests.test_a_wrong_step_off_the_main_seed_is_stopped) ... WARNING: call #1 of 214B:0688: uncompared register BX at the return: the original 0x7ABD, the model 0x0000 (counted, not an error; further ones counted only)
+2026-10-17T15:26:34.3588591Z test_an_undeclared_first_key_read_raises (test_emul_match.RealGuestTests.test_an_undeclared_first_key_read_raises) ... ok
+2026-10-17T15:26:34.6320469Z test_f004_is_proved_at_every_call_with_no_difference (test_emul_match.RealGuestTests.test_f004_is_proved_at_every_call_with_no_difference) ... WARNING: call #1 of 214B:0688: uncompared register BX at the return: the original 0x7ABD, the model 0x0000 (counted, not an error; further ones counted only)
+2026-10-17T15:26:36.3083642Z test_hooked_step_never_runs_and_keeps_the_trajectory (test_emul_match.RealGuestTests.test_hooked_step_never_runs_and_keeps_the_trajectory) ... ok
+2026-10-17T15:26:36.4142080Z test_the_gate_falsifier_is_not_reached_by_e011 (test_emul_match.RealGuestTests.test_the_gate_falsifier_is_not_reached_by_e011) ... WARNING: call #1 of 0791:278A: uncompared register BX at the return: the original 0x001E, the model 0x016A (counted, not an error; further ones counted only)
+2026-10-17T15:32:37.9024214Z test_the_skill_reader_278a_is_proved_by_the_model (test_emul_match.RealGuestTests.test_the_skill_reader_278a_is_proved_by_the_model) ... WARNING: call #1 of 0791:278A: uncompared register BX at the return: the original 0x001E, the model 0x016A (counted, not an error; further ones counted only)
+2026-10-17T15:32:49.0031891Z test_the_skill_reader_falsifiers_are_stopped (test_emul_match.RealGuestTests.test_the_skill_reader_falsifiers_are_stopped) ... ok
+2026-10-17T15:32:49.0034002Z test_available_right_foot_ax_and_dx (test_emul_match.StrengthReaderTests.test_available_right_foot_ax_and_dx) ... ok
+2026-10-17T15:32:49.0036061Z test_foot_zero_in_the_second_position_set (test_emul_match.StrengthReaderTests.test_foot_zero_in_the_second_position_set) ... ok
+2026-10-17T15:32:49.0037815Z test_the_clamp_edges (test_emul_match.StrengthReaderTests.test_the_clamp_edges) ... ok
+2026-10-17T15:32:49.0041399Z test_the_falsifiers_change_the_result (test_emul_match.StrengthReaderTests.test_the_falsifiers_change_the_result) ... ok
+2026-10-17T15:32:49.0043981Z test_the_foot_index_table_is_indexed_by_the_word_mod_3 (test_emul_match.StrengthReaderTests.test_the_foot_index_table_is_indexed_by_the_word_mod_3) ... ok
+2026-10-17T15:32:49.0049237Z test_the_foot_table_decides_the_wrong_foot (test_emul_match.StrengthReaderTests.test_the_foot_table_decides_the_wrong_foot) ... ok
+2026-10-17T15:32:49.0051493Z test_the_form_threshold_edge_0x20 (test_emul_match.StrengthReaderTests.test_the_form_threshold_edge_0x20) ... ok
+2026-10-17T15:32:49.0053659Z test_the_tally_follows_the_models_own_run (test_emul_match.StrengthReaderTests.test_the_tally_follows_the_models_own_run) ... ok
+2026-10-17T15:32:49.0055559Z test_the_word_decides_the_record (test_emul_match.StrengthReaderTests.test_the_word_decides_the_record) ... ok
+2026-10-17T15:32:49.0058138Z test_unavailable_by_energy_leaves_the_high_word_of_the_record_offset (test_emul_match.StrengthReaderTests.test_unavailable_by_energy_leaves_the_high_word_of_the_record_offset) ... ok
+2026-10-17T15:32:49.0060904Z test_unavailable_by_flag_leaves_the_element_minus_one (test_emul_match.StrengthReaderTests.test_unavailable_by_flag_leaves_the_element_minus_one) ... ok
+2026-10-17T15:32:49.0063556Z test_wrong_foot_dx_is_the_remainder_of_the_value_before_halving (test_emul_match.StrengthReaderTests.test_wrong_foot_dx_is_the_remainder_of_the_value_before_halving) ... ok
+2026-10-17T15:32:49.0088080Z test_a_correct_model_is_proved_with_no_difference (test_emul_match.SyntheticHookTests.test_a_correct_model_is_proved_with_no_difference) ... WARNING: call #3 of 2000:0000: uncompared register FLAGS at the return: the original 0x0006, the model 0x0002 (counted, not an error; further ones counted only)
+2026-10-17T15:32:49.0109723Z test_a_correct_model_passes_with_the_output_just_below_the_entry_sp (test_emul_match.SyntheticHookTests.test_a_correct_model_passes_with_the_output_just_below_the_entry_sp) ... WARNING: call #3 of 2000:0000: uncompared register FLAGS at the return: the original 0x0006, the model 0x0002 (counted, not an error; further ones counted only)
+2026-10-17T15:32:49.0130026Z test_a_correct_model_still_passes_with_the_stack_aliased (test_emul_match.SyntheticHookTests.test_a_correct_model_still_passes_with_the_stack_aliased) ... WARNING: call #3 of 2000:0000: uncompared register FLAGS at the return: the original 0x0006, the model 0x0002 (counted, not an error; further ones counted only)
+2026-10-17T15:32:49.0145122Z test_a_model_leaving_another_cx_passes_with_a_warning_count (test_emul_match.SyntheticHookTests.test_a_model_leaving_another_cx_passes_with_a_warning_count) ... ok
+2026-10-17T15:32:49.0167982Z test_a_model_writing_another_byte_is_stopped_with_the_call_and_address (test_emul_match.SyntheticHookTests.test_a_model_writing_another_byte_is_stopped_with_the_call_and_address) ... ok
+2026-10-17T15:32:49.0179724Z test_a_write_through_a_mu_writer_bound_before_the_hook_is_recorded (test_emul_match.SyntheticHookTests.test_a_write_through_a_mu_writer_bound_before_the_hook_is_recorded) ... ok
+2026-10-17T15:32:49.0187766Z test_an_error_in_fn_stops_the_run_and_is_raised (test_emul_match.SyntheticHookTests.test_an_error_in_fn_stops_the_run_and_is_raised) ... ok
+2026-10-17T15:32:49.0200218Z test_an_output_aliased_into_the_stack_segment_below_sp_is_compared (test_emul_match.SyntheticHookTests.test_an_output_aliased_into_the_stack_segment_below_sp_is_compared) ... ok
+2026-10-17T15:32:49.0213525Z test_an_output_aliased_just_below_the_entry_sp_is_compared (test_emul_match.SyntheticHookTests.test_an_output_aliased_just_below_the_entry_sp_is_compared) ... ok
+2026-10-17T15:32:49.0224279Z test_every_fn_write_to_a_watched_word_is_reported (test_emul_match.SyntheticHookTests.test_every_fn_write_to_a_watched_word_is_reported) ... ok
+2026-10-17T15:32:49.0234947Z test_hooked_routine_is_not_executed_and_the_count_is_exact (test_emul_match.SyntheticHookTests.test_hooked_routine_is_not_executed_and_the_count_is_exact) ... ok
+2026-10-17T15:32:49.0258720Z test_the_originals_pushes_local_and_nested_call_are_its_frame (test_emul_match.SyntheticHookTests.test_the_originals_pushes_local_and_nested_call_are_its_frame) ... WARNING: call #3 of 2000:0000: uncompared register FLAGS at the return: the original 0x0006, the model 0x0002 (counted, not an error; further ones counted only)
+2026-10-17T15:32:49.0282743Z test_unhooked_routine_runs_as_guest_code (test_emul_match.SyntheticHookTests.test_unhooked_routine_runs_as_guest_code) ... ok
+2026-10-17T15:32:49.0284439Z test_06d0_al_and_ah_cases (test_emul_match.WrapperReaderTests.test_06d0_al_and_ah_cases)
+2026-10-17T15:32:49.0287881Z test_every_register_and_the_seed_write_of_each_wrapper (test_emul_match.WrapperReaderTests.test_every_register_and_the_seed_write_of_each_wrapper)
+2026-10-17T15:32:49.0295272Z test_falsifier_inverted (test_emul_match.WrapperReaderTests.test_falsifier_inverted)
+2026-10-17T15:32:49.0298011Z test_falsifier_n_plus_1 (test_emul_match.WrapperReaderTests.test_falsifier_n_plus_1)
+2026-10-17T15:32:49.3444741Z test_falsifier_seed_write (test_emul_match.WrapperReaderTests.test_falsifier_seed_write)
+2026-10-17T15:32:49.3447337Z test_falsifier_value_plus_1 (test_emul_match.WrapperReaderTests.test_falsifier_value_plus_1)
+2026-10-17T15:32:49.3450369Z test_n_is_the_first_argument_and_16_bit_free_of_other_args (test_emul_match.WrapperReaderTests.test_n_is_the_first_argument_and_16_bit_free_of_other_args)
+2026-10-17T15:32:49.3454633Z test_the_seed_is_read_through_the_far_pointer (test_emul_match.WrapperReaderTests.test_the_seed_is_read_through_the_far_pointer)
+2026-10-17T15:32:49.3457880Z test_the_tally_counts_exactly (test_emul_match.WrapperReaderTests.test_the_tally_counts_exactly)
+2026-10-17T15:32:49.3543626Z test_near_return (test_emul_skip_ret.SkipRetNearTests.test_near_return) ... ok
+2026-10-17T15:33:09.9952153Z test_initial_subtick_one_lower_is_rejected (test_emul_watched.MutationTests.test_initial_subtick_one_lower_is_rejected) ... ok
+2026-10-17T15:33:10.0287379Z test_holder_write_preserves_830c (test_emul_watched.ResumeTests.test_holder_write_preserves_830c) ... ok
+2026-10-17T15:33:10.0623615Z test_word_write_would_clobber_830c (test_emul_watched.ResumeTests.test_word_write_would_clobber_830c) ... ok
+2026-10-17T15:33:10.0626550Z test_read_on_its_own_tick_matches (test_emul_watched.TickValuesTests.test_read_on_its_own_tick_matches) ... ok
+2026-10-17T15:33:10.0628658Z test_shifted_by_one_sub_tick_misses (test_emul_watched.TickValuesTests.test_shifted_by_one_sub_tick_misses) ... ok
+2026-10-17T15:33:10.0630737Z test_tick_without_draws_holds_its_value (test_emul_watched.TickValuesTests.test_tick_without_draws_holds_its_value) ... ok
