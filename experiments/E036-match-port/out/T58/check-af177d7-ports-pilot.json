@@ -1,0 +1,90 @@
+{
+ "kit": "3",
+ "image_sha256": "e0afff6751747233f6ab8b9ba73dab0790b7509f15257ed7ae24f528b935657d",
+ "reference": {
+  "release": "E006",
+  "asset": "e0afff6751747233-e006-1000-r0001.sav",
+  "sha256": "e0afff6751747233f6ab8b9ba73dab0790b7509f15257ed7ae24f528b935657d"
+ },
+ "checks": {
+  "engine": {
+   "pass": true,
+   "detail": {},
+   "wall_s": 15.5,
+   "cpu_s": 16.2
+  },
+  "interactive": {
+   "pass": true,
+   "detail": {
+    "straight": "0078fad9859d4b4083a88707785e2cf0a49e1b6cddfa48bfec5aa765590e592f",
+    "resumed": "0078fad9859d4b4083a88707785e2cf0a49e1b6cddfa48bfec5aa765590e592f",
+    "expected": "0078fad9859d4b4083a88707785e2cf0a49e1b6cddfa48bfec5aa765590e592f"
+   },
+   "wall_s": 30.3,
+   "cpu_s": 31.8
+  },
+  "goals": {
+   "pass": true,
+   "detail": {
+    "quick from minute 30": {
+     "score": [
+      1,
+      2
+     ],
+     "goals": 3,
+     "goal_events": 3,
+     "taken_back": 0,
+     "problems": []
+    },
+    "seed 70, a goal taken back": {
+     "score": [
+      1,
+      2
+     ],
+     "goals": 3,
+     "goal_events": 4,
+     "taken_back": 1,
+     "problems": []
+    }
+   },
+   "wall_s": 22.4,
+   "cpu_s": 23.7
+  },
+  "knockout": {
+   "pass": true,
+   "detail": {
+    "digests": {
+     "straight": "7de611c6dec2508bf8504a83a2c680fd253c1ff798ad2c9e1e6db79592034049",
+     "resumed at extra time": "7de611c6dec2508bf8504a83a2c680fd253c1ff798ad2c9e1e6db79592034049",
+     "resumed at the order": "7de611c6dec2508bf8504a83a2c680fd253c1ff798ad2c9e1e6db79592034049"
+    },
+    "expected": "7de611c6dec2508bf8504a83a2c680fd253c1ff798ad2c9e1e6db79592034049",
+    "problems": [],
+    "score": [
+     0,
+     0
+    ],
+    "score_90": [
+     0,
+     0
+    ],
+    "shootout": [
+     3,
+     1
+    ],
+    "winner": 0
+   },
+   "wall_s": 72.6,
+   "cpu_s": 76.5
+  },
+  "family": {
+   "pass": true,
+   "detail": {},
+   "wall_s": 176.0,
+   "cpu_s": 186.0
+  }
+ },
+ "ports": [
+  "pilot"
+ ]
+}
