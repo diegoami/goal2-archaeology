@@ -1,0 +1,33 @@
+.F
+======================================================================
+FAIL: test_scripted_sitting_produces_one_burst_snapshot_per_key_group (tests.test_human_keys.GuardTests.test_scripted_sitting_produces_one_burst_snapshot_per_key_group)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2df64d441ee220fe/tests/netskip.py", line 76, in wrapper
+    return obj(self, *args, **kwargs)
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2df64d441ee220fe/tests/test_human_keys.py", line 1288, in test_scripted_sitting_produces_one_burst_snapshot_per_key_group
+    self.assertEqual(r.returncode, 0, (r.stdout + r.stderr)[-4000:])
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 1 != 0 : [21:09:59] session /home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2df64d441ee220fe/scratch/human/sessions/20261017-230959
+[21:09:59] saved game: game/4.GL (169553 bytes, sha256 a2b4b0a6c976a8ee..., newest .GL of the previous sessions): load it in the game
+[21:09:59] dosbox-x started (pid 1209277)
+[21:09:59] game window 6291461 (pid 1209277)
+[21:09:59] pause: F12+P; resume: F12+P again (the recorder presses Pause) or the Pause key
+[21:09:59] F12+S sent to window 6291461
+[21:09:59] live savestate changed or incomplete during capture: retrying
+[21:09:59] staged snapshots/snap-0001-20261017T210959Z.sav (208605 bytes, sha256 74822d161013d747...)
+[21:10:00] F12+S sent to window 6291461
+[21:10:00] burst group (last key +0.401s) requested at +0.659s
+[21:10:00] live savestate changed or incomplete during capture: retrying
+[21:10:00] dosbox-x exited with code -6: the sitting is over
+[21:10:00] dosbox-x exited with code -6 during a savestate
+[21:10:15] done: 1 snapshots, stop window-closed
+XGetInputFocus returned the focused window of 1. This is likely a bug in the X server.
+XGetInputFocus returned the focused window of 1. This is likely a bug in the X server.
+acceptance guard FAILED: request attribution lost: request line 1 (request_s 0.659) staged nothing: no snapshot carries this request's window (evidence-free)
+
+
+----------------------------------------------------------------------
+Ran 2 tests in 32.829s
+
+FAILED (failures=1)
