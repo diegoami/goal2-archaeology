@@ -1,5 +1,6 @@
 """`tools/net.py` retries a `gh` call once when it fails on the network, never on any other
-failure and never twice; `tools/ga.py` and `tools/fetch_artifact.py` call gh through it; and
+failure and never twice; `tools/ga.py`, `tools/fetch_artifact.py`, `tools/fetch_saves.py` and the recorder's
+`ensure_cache` call gh through it (#295); and
 `tests/netskip.py` skips a test that needs the pinned tools, printing its reason, only when the
 fetch failed on the network (#236).
 
@@ -24,7 +25,7 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO_ROOT))
 
 from tests import netskip  # noqa: E402
-from tools import fetch_artifact, ga, net  # noqa: E402
+from tools import fetch_artifact, fetch_saves, ga, net  # noqa: E402
 
 FAKE_GH = """#!/usr/bin/env python3
 import os
@@ -156,6 +157,84 @@ class RecorderRetries(FakeGh):
         self.assertIn("retrying once", err.getvalue())
 
 
+def load_recorder():
+    import importlib.util
+    spec = importlib.util.spec_from_file_location(
+        "human_recorder_net_ensure", REPO_ROOT / "runtime/human/recorder.py")
+    rec = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(rec)
+    return rec
+
+
+class EnsureCacheRetries(FakeGh):
+    """recorder.ensure_cache (reached from --self-test) calls gh through net.run_retrying (#295)."""
+
+    def test_a_timeout_is_retried_exactly_once(self):
+        self.gh(1, TIMEOUT)
+        rec = load_recorder()
+        checks = [SystemExit("cache does not match"), "goal2-67cf27d6"]
+
+        def verify(cache):
+            outcome = checks.pop(0)
+            if isinstance(outcome, BaseException):
+                raise outcome
+            return outcome
+
+        with mock.patch.object(rec.driver, "verify_release", verify), \
+                mock.patch.object(rec.driver, "CACHE", self.tmp / "release"), \
+                contextlib.redirect_stderr(io.StringIO()) as err:
+            self.assertEqual("goal2-67cf27d6", rec.ensure_cache())
+        self.assertEqual(2, self.calls())
+        self.assertIn("retrying once", err.getvalue())
+
+    def test_a_404_is_not_retried_and_is_a_named_error(self):
+        self.gh(5, NOT_FOUND)
+        rec = load_recorder()
+
+        def verify(cache):
+            raise SystemExit("cache does not match")
+
+        with mock.patch.object(rec.driver, "verify_release", verify), \
+                mock.patch.object(rec.driver, "CACHE", self.tmp / "release"), \
+                contextlib.redirect_stderr(io.StringIO()) as err:
+            with self.assertRaises(SystemExit) as raised:
+                rec.ensure_cache()
+        self.assertEqual(1, self.calls())
+        self.assertEqual("", err.getvalue())
+        self.assertIn("release goal2-original could not be downloaded", str(raised.exception))
+
+
+class FetchSavesRetries(FakeGh):
+    """fetch_saves.download calls gh through net.run_retrying (#295)."""
+
+    def setUp(self):
+        super().setUp()
+        self.name = fetch_saves.manifest()["saves"][0]["path"]
+
+    def test_a_timeout_is_retried_exactly_once(self):
+        self.gh(1, TIMEOUT)
+        with contextlib.redirect_stderr(io.StringIO()) as err:
+            fetch_saves.download({self.name}, cache=self.tmp / "saves")
+        self.assertEqual(2, self.calls())
+        self.assertIn("retrying once", err.getvalue())
+
+    def test_a_404_is_not_retried_and_raises(self):
+        self.gh(5, NOT_FOUND)
+        with contextlib.redirect_stderr(io.StringIO()) as err:
+            with self.assertRaises(subprocess.CalledProcessError) as raised:
+                fetch_saves.download({self.name}, cache=self.tmp / "saves")
+        self.assertEqual(1, self.calls())
+        self.assertEqual("", err.getvalue())
+        self.assertIn("Not Found", raised.exception.stderr)
+
+    def test_a_second_network_failure_raises_after_one_retry(self):
+        self.gh(5, TIMEOUT)
+        with contextlib.redirect_stderr(io.StringIO()):
+            with self.assertRaises(subprocess.CalledProcessError):
+                fetch_saves.download({self.name}, cache=self.tmp / "saves")
+        self.assertEqual(2, self.calls())
+
+
 class FetchArtifactOffline(FakeGh):
     SET = "goal2-a949da2f"
 
@@ -172,6 +251,18 @@ class FetchArtifactOffline(FakeGh):
             with self.assertRaises(subprocess.CalledProcessError):
                 fetch_artifact.download(self.SET)
         self.assertEqual(2, self.calls())
+
+    def test_main_offline_with_no_cached_copy_is_a_one_line_named_error_and_exit_1(self):
+        self.gh(5, OFFLINE)
+        with contextlib.redirect_stderr(io.StringIO()) as err:
+            code = fetch_artifact.main([self.SET])
+        self.assertEqual(1, code)
+        self.assertEqual(2, self.calls())
+        last = err.getvalue().strip().splitlines()[-1]
+        self.assertTrue(last.startswith(f"{self.SET}: could not be downloaded and is not cached"),
+                        last)
+        self.assertIn("error connecting to api.github.com", last)
+        self.assertNotIn("Traceback", err.getvalue())
 
     def test_offline_with_a_verified_cache_skips_the_download_and_says_so(self):
         self.gh(5, OFFLINE)

@@ -2177,14 +2177,14 @@ def play(video=False, quit_after=None, res=None, load=None, fresh=False, scale=D
 
 
 def ensure_cache():
-    """Fetch the release copy when missing (gh, as setup/goal2-runtime.sh); a failure is a named
-    error. Self-test only: play() calls verify_release_or_die()."""
+    """Fetch the release copy when missing (gh, as setup/goal2-runtime.sh; a network failure is
+    retried once, #236); a failure is a named error. Self-test only: play() calls verify_release_or_die()."""
     try:
         return driver.verify_release(driver.CACHE)
     except (SystemExit, OSError):
-        r = subprocess.run(["gh", "release", "download", "goal2-original", "--repo",
-                            "diegoami/goal2-archaeology", "-D", str(driver.CACHE), "--clobber"],
-                           capture_output=True, text=True)
+        r = net.run_retrying(["gh", "release", "download", "goal2-original", "--repo",
+                              "diegoami/goal2-archaeology", "-D", str(driver.CACHE), "--clobber"],
+                             text=True)
         if r.returncode != 0:
             raise SystemExit(f"release goal2-original could not be downloaded: {r.stderr.strip()}\n"
                              f"run: bash setup/goal2-runtime.sh")
