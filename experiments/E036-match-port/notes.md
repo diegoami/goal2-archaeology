@@ -12,7 +12,8 @@ status (the issues' labels do).
 - The ports: `runtime/original_match/port/`, one module per task (vendored with the kit, standard library only, no byte of
   the original). Each module registers its own ports, so tasks that run at the same time own different files.
 - The scripts of this experiment (T57, T59): `family.py` (run a family through the kit, with or without ports), `compare.py`
-  (fail closed), `locate.py` (the first differing minute, then the first differing call), the family definitions.
+  (fail closed), `locate.py` (the first differing minute, then the first differing call), the family definitions; a
+  family or scenario a later task adds is a file of its own under `families/`, with its reference.
 - Each task's outputs: `out/T<nn>/`, never deleted or overwritten; each task's notes: `notes/T<nn>.md`.
 - Records hold counts and digests only: no commentary text, no player name, no byte of the image (rule 18).
 
@@ -34,8 +35,10 @@ family names its own reference (the unhooked kit), so a family added later bring
 ## The commands (T57, T58 and T59 build them; the porting tasks use them as written here)
 
 - `python3 -B experiments/E036-match-port/family.py --family ALL [--ports M,...|all] [--variant M.NAME]
-  [--count SSSS:OOOO,...] [--engine kit|port] [--max N] [--workers 1|2] --out experiments/E036-match-port/out/T<nn>/<name>.jsonl`:
+  [--count SSSS:OOOO,...] [--max N] [--workers 1|2] --out experiments/E036-match-port/out/T<nn>/<name>.jsonl`:
   one record per match; resumable (a rerun with the same `--out` adds only the matches not yet in it, never rewrites one).
+  Later: `--engine port --no-unicorn` (T78: the engine on its own, `import unicorn` made to fail first) and
+  `--from-records` (T80: the start state given as records, not as an image).
 - `python3 -B experiments/E036-match-port/compare.py --family ALL --candidate <file> [--expect differ] [--no-screen]`:
   against each family's reference; exit 0 as expected, 1 not, 2 malformed or missing evidence (never a pass).
 - `python3 -B experiments/E036-match-port/locate.py --family ALL --candidate <file> --match <id>`: the first differing
