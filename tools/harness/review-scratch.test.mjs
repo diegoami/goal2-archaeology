@@ -14,7 +14,7 @@ import os from 'node:os';
 import path from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
-import { scratchRoot, rootProblem, spaceProblem, removeScratch, tmpEnv, harnessDir } from './lib/scratch.mjs';
+import { scratchRoot, rootProblem, spaceProblem, removeScratch, tmpEnv, harnessDir, makeScratch, diskProblem, ramFsOf, keepReview } from './lib/scratch.mjs';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const REPO = path.resolve(here, '..', '..');
@@ -28,6 +28,7 @@ if (a === '--version') process.exit(0);
 if (/^pr view \\d+ --json headRefOid/.test(a)) console.log(process.env.FAKE_HEAD);
 else if (/^(pr|issue) view \\d+ --json labels/.test(a)) console.log('');
 else if (/^pr comment \\d+ --body-file /.test(a)) {
+  if (process.env.FAKE_POST_FAIL) { console.error('fake gh: the post failed'); process.exit(1); }
   const f = argv[argv.indexOf('--body-file') + 1];
   fs.writeFileSync(process.env.FAKE_POSTED, fs.readFileSync(f, 'utf8')); // the body file must exist when gh reads it
 } else { console.error('fake gh: unexpected ' + a); process.exit(1); }
@@ -55,6 +56,8 @@ else if (cmd === 'run') {
     existed: fs.existsSync(t), brief,
   }));
   fs.writeFileSync(path.join(t, 'copy-of-main.bin'), Buffer.alloc(1 << 20)); // a reviewer's big scratch file
+  // storage that fails AFTER startup: the file the finished review is kept in cannot be written
+  if (process.env.FAKE_BREAK_KEEP) fs.mkdirSync(path.join(path.dirname(t), 'harness-logs', 'review-' + path.basename(t) + '.md'));
   fs.writeFileSync(state, JSON.stringify([{ id: 'ses_fake', title, directory: process.cwd(), created: Date.now(), updated: Date.now() }]));
   if (process.env.FAKE_FAIL) { console.error('fake model failed'); process.exit(1); }
   const out = [brief.split('\\n')[0], 'approve', 'Final pass done', 'approve'];
@@ -83,7 +86,10 @@ const review = (extra = {}, args = ['--dry-run']) => spawnSync(process.execPath,
 const runFolders = () => (fs.existsSync(root) ? fs.readdirSync(root).filter((n) => /^1-review-[0-9a-f]{8}$/.test(n)) : []);
 
 before(() => {
-  tmp = fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(), 'review-scratch-')));
+  // on the real disk, never the machine's tmpfs: a scratch root there is refused (round 1 of PR 321)
+  const disk = path.join(os.homedir(), 'goal2-review-tmp');
+  fs.mkdirSync(disk, { recursive: true });
+  tmp = fs.realpathSync(fs.mkdtempSync(path.join(disk, 'review-scratch-test-')));
   const origin = path.join(tmp, 'origin.git');
   repo = path.join(tmp, 'repo');
   spawnSync('git', ['init', '-q', '--bare', origin]);
@@ -155,13 +161,50 @@ test('DW2: with /tmp unwritable (TMPDIR of the harness itself unusable) a review
   assert.deepEqual(runFolders(), []);
 });
 
-test('DW2: harnessDir falls back to the scratch root when the temp directory is unwritable or short of room', () => {
+test('DW2: the same with --dry-run: a review completes with /tmp unwritable and nothing of it is in the dead directory', () => {
   const blocker = path.join(tmp, 'a-file-2');
   fs.writeFileSync(blocker, 'x');
-  assert.equal(harnessDir(root, { tmp: path.join(blocker, 'tmp') }), path.join(root, 'harness-logs'));
-  const ok = path.join(tmp, 'roomy');
-  assert.equal(harnessDir(root, { tmp: ok, free: () => 10 * 1024 * 1024 * 1024 }), path.join(ok, 'harness-opencode'));
-  assert.equal(harnessDir(root, { tmp: ok, free: () => 1024 }), path.join(root, 'harness-logs'));
+  const dead = path.join(blocker, 'tmp');
+  const r = review({ TMPDIR: dead, TMP: dead, TEMP: dead });
+  assert.equal(r.status, 0, r.stdout + r.stderr);
+  assert.match(r.stdout, /dry run: would post/);
+  assert.ok(r.stdout.includes(path.join(root, 'harness-logs')), 'the run\'s output logs are on the scratch disk');
+  assert.equal(path.dirname(JSON.parse(fs.readFileSync(envFile, 'utf8')).TMPDIR), root);
+});
+
+test('round 1 R1: the harness\'s own files are on the scratch disk throughout, whatever /tmp is', () => {
+  assert.equal(harnessDir(root), path.join(root, 'harness-logs'));
+  assert.ok(fs.existsSync(path.join(root, 'harness-logs')));
+});
+
+test('round 1 R1: storage failing AFTER startup (the kept-review file cannot be written) still posts, and prints the review whole', () => {
+  const r = review({ FAKE_BREAK_KEEP: '1' }, []);
+  assert.equal(r.status, 0, r.stdout + r.stderr);
+  assert.match(r.stdout, /could not keep the review on disk; it follows whole:\nT99 review \(luna\)\napprove/);
+  assert.match(fs.readFileSync(posted, 'utf8'), /T99 review \(luna\)/); // and it was posted
+});
+
+test('round 1 R1: a post that fails keeps the finished review whole on disk, names it, and exits 1', () => {
+  const r = review({ FAKE_POST_FAIL: '1' }, []);
+  assert.equal(r.status, 1, r.stdout + r.stderr);
+  const m = /kept whole at (\S+\.md); post it with gh pr comment/.exec(r.stderr);
+  assert.ok(m, r.stderr);
+  assert.equal(path.dirname(m[1]), path.join(root, 'harness-logs'));
+  assert.match(fs.readFileSync(m[1], 'utf8'), /^T99 review \(luna\)\napprove[\s\S]*Final pass done[\s\S]*approve/);
+  assert.deepEqual(runFolders(), []); // the scratch is cleaned after the review is kept, not before
+});
+
+test('round 1 R1: a posted review leaves no kept file behind', () => {
+  assert.equal(review({}, []).status, 0);
+  assert.deepEqual(fs.readdirSync(path.join(root, 'harness-logs')).filter((n) => n.startsWith('review-')), []);
+});
+
+test('round 1 R1: keepReview returns null, not a throw, when the disk will not take the file', () => {
+  const blocker = path.join(tmp, 'a-file-3');
+  fs.writeFileSync(blocker, 'x');
+  assert.equal(keepReview(path.join(blocker, 'logs'), 'r1', 'body'), null);
+  const f = keepReview(path.join(root, 'harness-logs'), 'r1', 'body');
+  assert.equal(fs.readFileSync(f, 'utf8'), 'body\n');
 });
 
 test('DW3: both /tmp and the scratch disk short of room refuses the review, naming both, before the model runs', () => {
@@ -206,4 +249,45 @@ test('removeScratch removes only a folder directly inside the root, and tmpEnv s
   assert.throws(() => removeScratch('/a/root', '/a'), /Refusing to remove/);
   assert.throws(() => removeScratch('/a/root', '/a/root/../other'), /Refusing to remove/);
   assert.deepEqual(tmpEnv('/d'), { TMPDIR: '/d', TMP: '/d', TEMP: '/d' });
+});
+
+// round 1 R2: "on disk" is decided by the resolved path and filesystem, not the path as written.
+const shm = '/dev/shm';
+const hasShm = ramFsOf(shm) !== null;
+const unix = { skip: !hasShm && 'no tmpfs at /dev/shm on this machine' };
+
+test('round 1 R2: diskProblem follows symlinks to the real filesystem (injected: anything under /fake-ram is RAM)', () => {
+  const ramFs = (p) => (p.startsWith(path.join(tmp, 'ram-target')) ? 'tmpfs' : null);
+  fs.mkdirSync(path.join(tmp, 'ram-target'), { recursive: true });
+  fs.mkdirSync(path.join(tmp, 'disk-target'), { recursive: true });
+  fs.symlinkSync(path.join(tmp, 'ram-target'), path.join(tmp, 'link-to-ram'));
+  fs.symlinkSync(path.join(tmp, 'disk-target'), path.join(tmp, 'link-to-disk'));
+  assert.match(diskProblem(path.join(tmp, 'link-to-ram'), { ramFs }), /is really .*ram-target, on a tmpfs/);
+  assert.match(diskProblem(path.join(tmp, 'link-to-ram', 'not', 'yet'), { ramFs }), /on a tmpfs/); // a root not made yet
+  assert.equal(diskProblem(path.join(tmp, 'link-to-disk'), { ramFs }), null);
+  assert.equal(diskProblem(path.join(tmp, 'plain-new-dir'), { ramFs }), null);
+  assert.throws(() => makeScratch(path.join(tmp, 'link-to-ram'), 'run', { ramFs }), /on a tmpfs/);
+  assert.throws(() => harnessDir(path.join(tmp, 'link-to-ram'), { ramFs }), /on a tmpfs/);
+});
+
+test('round 1 R2: a scratch root that is a symlink into tmpfs is refused before anything runs (exit 2)', unix, (t) => {
+  const target = fs.mkdtempSync(path.join(shm, 'goal2-scratch-test-'));
+  t.after(() => fs.rmSync(target, { recursive: true, force: true }));
+  fs.symlinkSync(target, root); // the root is a plain name, and /dev/shm is RAM
+  const r = review();
+  assert.equal(r.status, 2, r.stdout + r.stderr);
+  assert.match(r.stderr, /is really .*, on a tmpfs/);
+  assert.equal(fs.existsSync(envFile), false);
+  assert.deepEqual(fs.readdirSync(target), []); // nothing was written there
+});
+
+test('round 1 R2: a harness-logs folder that is a symlink into tmpfs is refused too', unix, (t) => {
+  const target = fs.mkdtempSync(path.join(shm, 'goal2-scratch-test-'));
+  t.after(() => fs.rmSync(target, { recursive: true, force: true }));
+  fs.mkdirSync(root, { recursive: true });
+  fs.symlinkSync(target, path.join(root, 'harness-logs'));
+  const r = review();
+  assert.equal(r.status, 2, r.stdout + r.stderr);
+  assert.match(r.stderr, /on a tmpfs/);
+  assert.equal(fs.existsSync(envFile), false);
 });

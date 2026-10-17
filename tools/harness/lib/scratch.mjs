@@ -1,12 +1,15 @@
-// The reviewer's scratch folder on the real disk (#311). /tmp on this machine is an 11 GB RAM-backed
-// tmpfs shared with other projects; it hit 100% on 2026-10-17 and killed a review of PR 300 after an
-// hour. A review's copies of main, family-run outputs and suite logs go to ~/goal2-review-tmp/<run>
-// instead: .opencode/agents/reviewer.md grants that path (and still /tmp), review.mjs points TMPDIR
-// at the run's folder and removes it when the run ends well, keeps it when the run fails.
+// The reviewer's scratch folder, and everything else a review writes, on the real disk (#311). /tmp on
+// this machine is an 11 GB RAM-backed tmpfs shared with other projects; it hit 100% on 2026-10-17 and
+// killed a review of PR 300 after an hour. A review's copies of main, family-run outputs and suite logs go
+// to ~/goal2-review-tmp/<run>; the harness's own files (OpenCode's output logs, the finished review kept
+// until it is posted) go to ~/goal2-review-tmp/harness-logs. .opencode/agents/reviewer.md grants the
+// scratch path (and still /tmp); review.mjs points TMPDIR at the run's folder and removes it when the run
+// ends well, keeps it when the run fails.
 //
-// The path has no dot element: Ghidra rejects a temp path with one (so not ~/.cache/..., and not a
-// home directory whose path has a dot segment). HARNESS_SCRATCH_ROOT overrides the root (the tests'
-// seam); the reviewer.md grant is the default root, so an override is for tests only.
+// Every directory the harness writes in is chosen by its RESOLVED path and filesystem (diskDir): a root
+// that is, or contains, a symlink into a RAM-backed filesystem is refused, so "on disk" cannot silently be
+// /tmp again. The path as written has no dot element either: Ghidra rejects a temp path with one.
+// HARNESS_SCRATCH_ROOT overrides the root (the tests' seam); the reviewer.md grant is the default root.
 
 import fs from 'node:fs';
 import os from 'node:os';
@@ -17,31 +20,65 @@ export const SCRATCH_NAME = 'goal2-review-tmp';
 // Below these a /tmp-only run is risky: the review is refused only when BOTH are short (#311).
 export const MIN_TMP_MB = 500;
 export const MIN_SCRATCH_MB = 2048;
+// statfs f_type of the filesystems that live in memory (linux/magic.h: TMPFS_MAGIC, RAMFS_MAGIC).
+const RAM_FS = new Map([[0x01021994, 'tmpfs'], [0x858458f6, 'ramfs']]);
 
 export function scratchRoot(env = process.env) {
   if (env.HARNESS_SCRATCH_ROOT) return path.resolve(env.HARNESS_SCRATCH_ROOT);
   return path.join(env.HOME || env.USERPROFILE || os.homedir(), SCRATCH_NAME);
 }
 
-// Why a root cannot be used, or null: every element of the path must be a plain name (Ghidra).
+// Why a root cannot be used by its written path, or null: every element must be a plain name (Ghidra).
 export function rootProblem(root) {
   const bad = root.split(/[\\/]+/).find((p) => p.startsWith('.'));
   return bad ? `the scratch folder ${root} has a dot element (${bad}); Ghidra rejects temp paths with one. Use a path without one (HARNESS_SCRATCH_ROOT).` : null;
 }
 
-// Free bytes on the filesystem holding `p` (its nearest existing ancestor), or null when unknown.
-export function freeBytes(p) {
+// statfs of `p`'s nearest existing ancestor, or null when unknown.
+function statfsOf(p) {
   let dir = path.resolve(p);
   for (;;) {
-    try {
-      const s = fs.statfsSync(dir);
-      return s.bavail * s.bsize;
-    } catch {
+    try { return fs.statfsSync(dir); } catch {
       const up = path.dirname(dir);
       if (up === dir) return null;
       dir = up;
     }
   }
+}
+
+// Free bytes on the filesystem holding `p` (its nearest existing ancestor), or null when unknown.
+export function freeBytes(p) {
+  const s = statfsOf(p);
+  return s ? s.bavail * s.bsize : null;
+}
+
+// The name of the in-memory filesystem holding `p`, or null.
+export function ramFsOf(p) {
+  const s = statfsOf(p);
+  return s ? RAM_FS.get(s.type) ?? null : null;
+}
+
+// The path with every existing symlink followed (the nearest existing ancestor's real path + the rest).
+export function realOf(p) {
+  let dir = path.resolve(p);
+  const rest = [];
+  for (;;) {
+    try { return path.join(fs.realpathSync(dir), ...rest.reverse()); } catch {
+      const up = path.dirname(dir);
+      if (up === dir) return path.resolve(p);
+      rest.push(path.basename(dir));
+      dir = up;
+    }
+  }
+}
+
+// Why `dir` is not a place for a review's files, by where it really is, or null. `ramFs(p)` names the
+// in-memory filesystem under a real path (tmpfs, ramfs) or returns null.
+export function diskProblem(dir, { ramFs = ramFsOf } = {}) {
+  const real = realOf(dir);
+  const ram = ramFs(real);
+  if (ram) return `${dir} is really ${real}, on a ${ram} (RAM-backed, like /tmp): a review's files must go to the real disk. Point HARNESS_SCRATCH_ROOT (default ~/${SCRATCH_NAME}) at a folder on disk, and remove the symlink or mount that sends it there.`;
+  return null;
 }
 
 // null when the review may start; else the message. `free(p)` returns bytes or null (unknown counts as
@@ -67,12 +104,22 @@ export function thresholds(env = process.env) {
 // order; Python's tempfile TMPDIR, TEMP, TMP).
 export const tmpEnv = (dir) => ({ TMPDIR: dir, TMP: dir, TEMP: dir });
 
-// A folder of this run's own under the root. `name` is the run's unit name.
-export function makeScratch(root, name) {
-  const dir = path.join(root, name);
+// Creates `dir` (and parents) and throws unless it really is on disk. Used for every folder the harness
+// writes in: the root, the harness-logs folder, a run's scratch folder. Returns `dir` as given.
+export function diskDir(dir, opts) {
   fs.mkdirSync(dir, { recursive: true });
+  const bad = diskProblem(dir, opts);
+  if (bad) throw new Error(bad);
   return dir;
 }
+
+// A folder of this run's own under the root. `name` is the run's id.
+export function makeScratch(root, name, opts) {
+  return diskDir(path.join(root, name), opts);
+}
+
+// The folder of the harness's own files under the root (OpenCode's output logs, the finished review).
+export const harnessDir = (root, opts) => diskDir(path.join(root, 'harness-logs'), opts);
 
 // Only a folder directly inside `root` is ever removed.
 export function removeScratch(root, dir) {
@@ -80,20 +127,14 @@ export function removeScratch(root, dir) {
   fs.rmSync(dir, { recursive: true, force: true });
 }
 
-// Where the harness's own files go (its OpenCode logs, the review's comment body): os.tmpdir()'s
-// folder while that is writable and has room; else a folder of the scratch root's, which stays after
-// the run, so a full or read-only /tmp does not stop a review or lose it at the post.
-export function harnessDir(root, { tmp = os.tmpdir(), free = freeBytes, minTmpMb = MIN_TMP_MB } = {}) {
-  const preferred = path.join(tmp, 'harness-opencode');
-  const f = free(tmp);
+// Writes the finished review where it survives a failed post. Returns the file, or null when even the
+// disk would not take it (the caller then prints the review whole).
+export function keepReview(dir, runId, body, opts) {
   try {
-    if (f !== null && f < minTmpMb * MB) throw new Error('low');
-    fs.mkdirSync(preferred, { recursive: true });
-    fs.accessSync(preferred, fs.constants.W_OK);
-    return preferred;
+    const file = path.join(diskDir(dir, opts), `review-${runId}.md`);
+    fs.writeFileSync(file, body.endsWith('\n') ? body : `${body}\n`);
+    return file;
   } catch {
-    const dir = path.join(root, 'harness-logs');
-    fs.mkdirSync(dir, { recursive: true });
-    return dir;
+    return null;
   }
 }

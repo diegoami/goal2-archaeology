@@ -250,9 +250,13 @@ folder on the real disk. `/tmp` is an 11 GB RAM-backed tmpfs shared with other p
 and a review of PR 300 died of ENOSPC after an hour. `review.mjs` makes `~/goal2-review-tmp/<pr>-review-<id>`
 for each run, sets `TMPDIR`, `TMP` and `TEMP` to it (the path has no dot element: Ghidra rejects
 temp paths with one), removes it when the run comes back and keeps it, naming it, when the run
-fails. It refuses to start when `/tmp` has under 500 MB free and the scratch disk under 2 GB; if
-`/tmp` is the one short, the harness's own logs and the comment body use `~/goal2-review-tmp/harness-logs`
-instead. A kept folder is removed by hand once its cause is read. `tests/test_agent_permissions.py`
+fails. It refuses to start when `/tmp` has under 500 MB free and the scratch disk under 2 GB. Every
+folder the harness writes in during and after a review is on that disk and is checked by its resolved
+path and filesystem (a root that is a symlink into tmpfs, e.g. `/dev/shm`, is refused, exit 2): the
+run's folder, OpenCode's output logs in `~/goal2-review-tmp/harness-logs`, and the finished review,
+which `review.mjs` writes there first (`review-<run>.md`), posts from that file, and only then removes
+and cleans the run's folder. A post that fails keeps the file and names it. A kept failed-run folder is
+removed by hand once its cause is read. `tests/test_agent_permissions.py`
 fails CI without the grant.
 
 ## The scripts' own data directory

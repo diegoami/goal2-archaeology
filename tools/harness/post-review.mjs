@@ -23,6 +23,7 @@ import fs from 'node:fs';
 import { readReview, doneWhenCount } from './lib/chain.mjs';
 import { planPost, publish } from './lib/post.mjs';
 import { sh, requireTools, parseArgs } from './lib/common.mjs';
+import { scratchRoot, harnessDir } from './lib/scratch.mjs';
 
 const say = (s) => console.log(s);
 const die = (code, s) => { console.error(s); process.exit(code); };
@@ -45,4 +46,7 @@ const plan = planPost({
   read, header, doneWhen, source: 'tools/harness/post-review.mjs',
   signature: `${a.by}, via tools/harness/post-review.mjs`,
 });
-publish({ plan, pr: a.pr, issue: a.issue, applyLabel: a['apply-label'], dryRun: a['dry-run'], top, say, die });
+// the comment's body file goes on disk, not in a /tmp that may be full (#311); the review itself is already in a.review
+let dir;
+try { dir = harnessDir(scratchRoot()); } catch { dir = undefined; }
+publish({ plan, pr: a.pr, issue: a.issue, applyLabel: a['apply-label'], dryRun: a['dry-run'], top, say, die, dir });

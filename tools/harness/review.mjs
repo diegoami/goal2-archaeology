@@ -31,7 +31,10 @@
 //
 // The reviewer's scratch files go to ~/goal2-review-tmp/<run> on the real disk, not /tmp (a shared
 // RAM-backed tmpfs that filled up, #311): TMPDIR, TMP and TEMP point at the run's folder, which is
-// removed when the run comes back and kept when it fails (the message names it). lib/scratch.mjs.
+// removed when the run comes back and kept when it fails (the message names it). OpenCode's logs and the
+// finished review go to ~/goal2-review-tmp/harness-logs too: the review is written there first, posted
+// from that file, then the file and the run's folder go; a failed post keeps the file and names it. Each
+// folder is checked by its resolved path, never a tmpfs. lib/scratch.mjs.
 //
 // A brief naming a commit other than the PR's head as the one to review is refused, exit 2, before
 // anything runs (#23). Only the lines before the pasted task file's title (`# T<nn>`) are read (#32).
@@ -56,7 +59,7 @@ import { readReview, doneWhenCount, briefTargets } from './lib/chain.mjs';
 import { planSwitch, defaultVariant } from './lib/switch.mjs';
 import { planPost, publish } from './lib/post.mjs';
 import { selfTest, SAMPLES } from './lib/review-selftest.mjs';
-import { scratchRoot, rootProblem, spaceProblem, thresholds, tmpEnv, makeScratch, removeScratch, harnessDir } from './lib/scratch.mjs';
+import { scratchRoot, rootProblem, spaceProblem, thresholds, tmpEnv, diskDir, makeScratch, removeScratch, harnessDir, keepReview } from './lib/scratch.mjs';
 import {
   sh, requireTools, repoPaths, loadConfig, parseArgs, envWith, ocArgs, prepareOpenCode, watchLine, sessionFamily,
 } from './lib/common.mjs';
@@ -180,7 +183,8 @@ const rootBad = rootProblem(scratchBase);
 if (rootBad) die(2, `${rootBad} Nothing was run or posted.`);
 const noRoom = spaceProblem({ root: scratchBase, ...thresholds() });
 if (noRoom) die(1, noRoom);
-fs.mkdirSync(scratchBase, { recursive: true });
+// by its resolved path and filesystem: a root that is a symlink into tmpfs is /tmp again (#311 round 1)
+try { diskDir(scratchBase); } catch (e) { die(2, `${e.message} Nothing was run or posted.`); }
 const pre = await prepareOpenCode({ opencode, chain: [reviewer], models: config.models, env: envWith(a.env), cwd: top, log: say });
 for (const p of pre.problems) say(p);
 if (!pre.usable.length) die(3, `OpenCode unavailable: ${pre.problems.join('; ')}. ${fallback}`);
@@ -197,7 +201,10 @@ if (!fs.existsSync(agentFile)) die(2, `The reviewer agent is missing from this c
 const runId = `${a.pr}-review-${randomBytes(4).toString('hex')}`;
 const scratch = path.join(scratchBase, runId);
 const reviewEnv = { ...pre.env, ...tmpEnv(scratch), OPENCODE_CONFIG_DIR: path.join(top, '.opencode'), OPENCODE_DISABLE_PROJECT_CONFIG: '1' };
-const logDir = harnessDir(scratchBase);
+// Everything the harness writes during and after the run goes on disk, never /tmp: OpenCode's output
+// logs and the finished review kept until it is posted (a full /tmp must not lose a finished review).
+let logDir;
+try { logDir = harnessDir(scratchBase); } catch (e) { die(2, `${e.message} Nothing was run or posted.`); }
 const headSha = sh('gh', ['pr', 'view', String(a.pr), '--json', 'headRefOid', '--jq', '.headRefOid'], { cwd: top });
 // A brief that names another commit as the one to review would make the reviewer's tree proof stop
 // it after a billed run (#23): refuse it before any worktree or model run.
@@ -288,8 +295,9 @@ OUTPUT RULES (from tools/harness/review.mjs; they override anything above that c
 say(`attempt: ${reviewer}`);
 let result;
 try { result = await attempt(reviewer); } finally { removeTree(); }
-// A run that failed keeps its scratch folder, so the cause can be read; one that came back is cleaned.
-if (result.ok) removeScratch(scratchBase, scratch);
+// A run that failed keeps its scratch folder, so the cause can be read; one that came back is cleaned
+// when the process ends, whatever the post does, and only AFTER the finished review is kept on disk.
+if (result.ok) process.on('exit', () => { try { removeScratch(scratchBase, scratch); } catch { /* the folder is only scratch */ } });
 else say(`scratch folder kept: ${scratch} (remove it once the cause is read)`);
 if (!result.ok) {
   if (result.detail) say(result.detail.split(/\r?\n/).slice(-20).join('\n'));
@@ -299,4 +307,19 @@ const plan = planPost({
   read: result.value, header: result.value.header, doneWhen, source: 'tools/harness/review.mjs',
   signature: `${reviewer}, via tools/harness/review.mjs (${result.value.model.id})`,
 });
-publish({ plan, pr: a.pr, issue: a.issue, applyLabel: a['apply-label'], dryRun: a['dry-run'], top, say, die, dir: logDir });
+// The finished review is kept on disk FIRST, then posted from that file, then the kept file goes: a write
+// error, or a post that fails, never loses an hour's review. If even the disk will not take it, the
+// review is printed whole.
+const kept = a['dry-run'] ? null : keepReview(logDir, runId, plan.body);
+if (!a['dry-run'] && !kept) say(`could not keep the review on disk; it follows whole:\n${plan.body}`);
+const drop = () => { if (kept) fs.rmSync(kept, { force: true }); };
+try {
+  publish({
+    plan, pr: a.pr, issue: a.issue, applyLabel: a['apply-label'], dryRun: a['dry-run'], top, say,
+    die: (code, msg) => { drop(); die(code, msg); }, // exit 4 means it WAS posted
+    dir: logDir, bodyFile: kept,
+  });
+} catch (e) {
+  die(1, `The review was not posted: ${e.message}\n${kept ? `It is kept whole at ${kept}; post it with gh pr comment ${a.pr} --body-file.` : 'It is printed above.'}`);
+}
+drop();
