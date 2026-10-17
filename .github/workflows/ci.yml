@@ -79,7 +79,7 @@ jobs:
       - if: steps.gate.outputs.code == 'true'
         run: node tools/harness/review.mjs --self-test
       - if: steps.gate.outputs.code == 'true'
-        run: node --test tools/harness/make-brief.test.mjs tools/harness/chain.test.mjs tests/harness_compat.test.mjs
+        run: node --test tools/harness/make-brief.test.mjs tools/harness/chain.test.mjs tools/harness/review-scratch.test.mjs tests/harness_compat.test.mjs
       # G2: the artifact is a release asset; the workflow's token fetches it (never committed).
       # goal2-67cf27d6 is the set the driver and new runs name (it declares the runtime writes,
       # F001); goal2-a949da2f stays fetched for tests/static, whose released-file tests read its
