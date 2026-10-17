@@ -15,8 +15,13 @@ on synthetic programs (no byte of the original).
   a kit site, a decision, and a kit answer (registers and a write in a routine's place) are proved, with the kit asked
   once, and a divergence after each is named; a site missing, extra, out of order or reached with another stack is
   named; the kit's hook at the entry is not a site; the original starts on the entry's memory; a nested port is
-  compared inside its caller; a kit write outside its sites and a port's own key read are refused; a proof not armed
-  runs the port as is (round 1 of the review, R1 and R2).
+  compared inside its caller and its result at its own return (a dead result exempted where declared, a nested call
+  of another routine or in one run only named); a kit write outside its sites and a port's own key read are refused;
+  a proof not armed runs the port as is (round 1 of the review, R1 and R2). The kit's inputs at a site (registers,
+  flags, segments, stack, reads while stopped) are compared before its answer is replayed (round 2). A write
+  listener's inputs (registers, pc) are compared at the original's same write, before or after the proof's own
+  listener, a write split otherwise and a listener call missing or left over are named, a listener's kit write is
+  replayed, and a stop by a listener or by a fired site is refused (round 3).
 - LocatorTests: the first differing per-minute row of two records, a one-byte divergence located to its call, and
   the grammar and comparison of ported records (records.py, compare.py, family.py --ports/--variant).
 """
@@ -714,7 +719,7 @@ class ProofTests(Synthetic, unittest.TestCase):
             mem.wds8(TARGET + 2, ax & 0xFF, G_RETURN)
         m, prover, seen = self.listener_machine(faithful, TARGET, lambda m: m.reg("ax"))
         self.assertIsNone(m.run(END, 5, fresh=True))
-        self.assertEqual((prover.summary()[P]["proved"], seen), (1, [5]))
+        self.assertEqual((prover.summary()[P]["proved"], seen, prover.listened[P]), (1, [5], 1))
         m, prover, seen = self.listener_machine(p_ax6, TARGET, lambda m: m.reg("ax"))
         with self.assertRaisesRegex(ProofError, f"^{P} \\(test\\), call #1 from 0100:0003, minute 7: at the kit's "
                                                 "write listener #0 at the write of 1 bytes 0x07 at linear 0x[0-9A-F]{5} "

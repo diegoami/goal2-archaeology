@@ -12,7 +12,10 @@ Once the proof is armed (Match(prove=...)), at a ported routine's entry:
    read (memory bytes, registers with the flags and segments, stack words: Machine.io_tap), the registers they set and
    the bytes they wrote; the kit's reads made between two runs while the match stands stopped at the site (a
    decision's answer) belong to it (a site that stopped the match, for a decision or for events, and was replayed on
-   resume is one visit). The prover's own reads and register changes bypass the taps.
+   resume is one visit). Every call of a kit write listener (Machine.on_write, watch; Machine.listen_tap) is kept the
+   same way: the listener, the write it was given, and what it read (pc() included), set and wrote. So are the
+   registers each ported routine called inside the port's run returns (a nested call: it runs as its port). The
+   prover's own reads and register changes bypass the taps.
 2. At the port's return, its writes are undone and the CPU is put back to the entry; the ORIGINAL routine then runs
    as plain guest code, muted (machine.py: no handler, port or write listener of the kit runs in it; another ported
    routine it calls runs as the original's), its writes recorded the same way. At each kit site it reaches, the
@@ -22,11 +25,17 @@ Once the proof is armed (Match(prove=...)), at a ported routine's entry:
    raises ProofError naming the site, the byte or register, the port's run's value and the original's), each register
    set and write applied (the writes counted as the original's), so a read after a write of theirs sees it as it did.
    The kit therefore answers the original exactly as it answered the port, only where the original gave it the same
-   inputs, and is never asked twice: one decision, one event stream.
+   inputs, and is never asked twice: one decision, one event stream. At each of the original's writes, the kit's
+   listeners it reaches (muted, they do not run) are taken the same way, in Machine's order: paired with the port's
+   run's next listener call (the same listener and write, else a difference named after the bytes in step 3), its
+   reads compared and its answer applied. At the return of each ported routine the original calls, its registers
+   (REGS_RETURNED, but a declared dead result) are compared with the port's run's call of the same rank to return
+   (the same routine and caller), so an outer port cannot hide a nested port's result.
 3. At the original's return the two must be identical: the registers of REGS_RETURNED, the kit sites (the same
    visits, none left over), and the written bytes and their order outside the routine's own dead frame (from the
    lowest the original's stack reached while it wrote up to the caller's SP after the return), and each site's place
-   among those bytes (the same number of them written before it in both runs). The first difference
+   among those bytes (the same number of them written before it in both runs), then the listener calls (none
+   unpaired, none left over) and the nested calls (none left over). The first difference
    raises ProofError naming the routine, the call, where the match is and the site, byte or register. Otherwise the
    original's writes are undone, the port's put back with its registers, and the match goes on from the port's state.
 
@@ -34,10 +43,12 @@ A difference in REGS_SCRATCH is counted per register, not an error (Turbo Pascal
 across a call). AX and DX are always compared, as E021 does, but for a (routine, return address) declared in
 RESULT_DEAD with the static evidence that the caller never reads them there (out/T59/liveness.py over the listing);
 a difference there is counted as `dead`, per register. A call made while another proof runs (a ported routine the
-port calls) runs as its port and is compared as part of the outer call (counted `nested`); a call before the proof
-is armed is counted `before`. No call ends otherwise: every armed call is proved or raises ProofError. A port that
-answers a key read itself (mem.read_key, mem.keypressed) is refused under a proof (PortError, match.py): its key would
-have no replay.
+port calls) runs as its port, its writes and sites compared as part of the outer call and its result at its own
+return (counted `nested`); a call before the proof is armed is counted `before`. No call ends otherwise: every armed
+call is proved or raises ProofError. Refused under a proof (PortError), as nothing could replay them: a port that
+answers a key read itself (mem.read_key, mem.keypressed; match.py), a kit write outside a site or a listener, a
+register a fired site sets, and a stop made by a write listener or by a site a port fires (it takes effect at the
+port's return, where the port's run is already undone).
 
 The hooks are added once, when the proof is installed (Unicorn keeps a deleted hook listed until emu_start returns,
 E021); a write hook over all memory costs every guest write a Python call, so a proved match is slower (locate.py)."""
@@ -142,6 +153,7 @@ class Prover:
         self.state = None
         self._visit = None          # the kit site whose handlers run now, during a proved call's port run
         self.proved, self.nested, self.before, self.scratch, self.dead = {}, {}, {}, {}, {}
+        self.listened = {}          # per routine: the kit's write listener calls compared in its proved calls
         names = {}
         for reg, _ in installed.loaded:
             for address in reg.entries:
@@ -150,7 +162,7 @@ class Prover:
         for address in names:
             lin = machine.lin(address)
             machine._ports[lin] = self._wrap(address, machine._ports[lin], installed.calls)
-            self.proved[address] = self.nested[address] = self.before[address] = 0
+            self.proved[address] = self.nested[address] = self.before[address] = self.listened[address] = 0
             self.scratch[address] = {r: 0 for r in REGS_SCRATCH}
             self.dead[address] = {}
         self._own_index = len(machine._writes)  # the kit's listeners before it run before it at a write, the rest after
@@ -529,6 +541,7 @@ class Prover:
         m.muted = False
         self.state = None
         self.proved[st.address] += 1
+        self.listened[st.address] += st.next_listen     # the kit's write listener calls compared in it
         if st.done is not None:
             st.done(st.frame)
 
