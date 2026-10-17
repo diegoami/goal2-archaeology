@@ -21,6 +21,11 @@ spec = importlib.util.spec_from_file_location("human_recorder", ROOT / "runtime/
 rec = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(rec)
 sys.path.insert(0, str(ROOT / "experiments" / "E015-human-playthrough"))
+sys.path.insert(0, str(ROOT))
+from tests import netskip  # noqa: E402
+
+# The sittings below fetch the release copy with gh when the cache lacks it (#236).
+needs_release = netskip.needs("the release copy", lambda: rec.verify_release_or_die())
 
 
 def xvfb(first, last, size="1280x800x24"):
@@ -361,6 +366,7 @@ class KeyTests(unittest.TestCase):
                     rec.terminate(proc)
 
 
+@needs_release
 class VideoTests(unittest.TestCase):
     def test_a_video_sitting_records_the_xephyr_window(self):
         # R4: `play.sh --video --quit-after` on private displays; the video grows while it runs
@@ -1265,6 +1271,7 @@ class GuardTests(unittest.TestCase):
 
     @unittest.skipIf(os.environ.get("MUTATION_SWEEP"),
                      "heavy end-to-end scripted sitting; run once in the full suite, skipped per-mutation")
+    @needs_release
     def test_scripted_sitting_produces_one_burst_snapshot_per_key_group(self):
         # R3(b)/R2(c) end to end: scripted_keys.py with N keys at the 0.5-1.5 s human pace must
         # produce N distinct burst snapshots in the index (the pre-fix recorder merged ten groups
@@ -1601,6 +1608,7 @@ class EarlySaveTests(unittest.TestCase):
 
     @unittest.skipIf(os.environ.get("MUTATION_SWEEP"),
                      "heavy end-to-end scripted sitting; run once in the full suite and by the sweep's heavy mutations")
+    @needs_release
     def test_a_save_before_the_watcher_is_refused(self):
         before = set(rec.SESSIONS.glob("*")) if rec.SESSIONS.is_dir() else set()
         try:

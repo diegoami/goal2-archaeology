@@ -95,6 +95,7 @@ sys.path.insert(0, str(ROOT / "runtime" / "driver"))
 import driver  # noqa: E402  (verify_release, host_times, SET_ID, CACHE; config family via Driver)
 sys.path.insert(0, str(ROOT))
 from tools import fetch_saves  # noqa: E402  (the owner's saved games, release goal2-saves)
+from tools import net  # noqa: E402  (one retry of a gh call that fails on the network, #236)
 
 # ---- constants ----------------------------------------------------------------------------------
 # Each one is a rule of the recorder; tests/test_human_record.py fails when any is mutated.
@@ -1885,16 +1886,17 @@ def new_session(when=None, load=None, fresh=False, scale=1, cycles=None):
 
 def verify_release_or_die():
     """The release copy verified against artifacts/known.json, downloaded with gh when the cache
-    is empty (as setup/goal2-runtime.sh does); a mismatch stops everything before any launch."""
+    is empty (as setup/goal2-runtime.sh does), retrying a network failure once (#236); a mismatch
+    stops everything before any launch."""
     try:
         return driver.verify_release(driver.CACHE)
     except (SystemExit, OSError, json.JSONDecodeError):
         if shutil.which("gh") is None:
             raise
         driver.CACHE.mkdir(parents=True, exist_ok=True)
-        r = subprocess.run(["gh", "release", "download", "goal2-original", "--repo",
-                            "diegoami/goal2-archaeology", "-D", str(driver.CACHE), "--clobber"],
-                           capture_output=True, text=True)
+        r = net.run_retrying(["gh", "release", "download", "goal2-original", "--repo",
+                              "diegoami/goal2-archaeology", "-D", str(driver.CACHE), "--clobber"],
+                             text=True)
         if r.returncode != 0:
             raise SystemExit(f"the release copy could not be fetched: {r.stderr.strip()}\n"
                              f"run: bash setup/goal2-runtime.sh")

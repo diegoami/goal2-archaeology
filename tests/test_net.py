@@ -132,6 +132,30 @@ class GaRetries(FakeGh):
         self.assertEqual(2, self.calls())
 
 
+class RecorderRetries(FakeGh):
+    def test_the_release_download_of_a_sitting_retries_a_timeout(self):
+        import importlib.util
+        spec = importlib.util.spec_from_file_location(
+            "human_recorder_net", REPO_ROOT / "runtime/human/recorder.py")
+        rec = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(rec)
+        self.gh(1, TIMEOUT)
+        checks = [SystemExit("cache does not match"), "goal2-67cf27d6"]
+
+        def verify(cache):
+            outcome = checks.pop(0)
+            if isinstance(outcome, BaseException):
+                raise outcome
+            return outcome
+
+        with mock.patch.object(rec.driver, "verify_release", verify), \
+                mock.patch.object(rec.driver, "CACHE", self.tmp / "release"), \
+                contextlib.redirect_stderr(io.StringIO()) as err:
+            self.assertEqual("goal2-67cf27d6", rec.verify_release_or_die())
+        self.assertEqual(2, self.calls())
+        self.assertIn("retrying once", err.getvalue())
+
+
 class FetchArtifactOffline(FakeGh):
     SET = "goal2-a949da2f"
 
@@ -167,19 +191,21 @@ class FetchArtifactOffline(FakeGh):
 
 
 class NetSkip(unittest.TestCase):
-    """A dummy test marked @needs_pinned_tools, run with ga.fetch patched."""
+    """A dummy test marked @needs_pinned_tools (or `needs` with its own probe), run with the
+    probe patched and the per-process state cleared."""
 
     def setUp(self):
-        patch = mock.patch.object(netskip, "_offline", None)
+        patch = mock.patch.dict(netskip._state, clear=True)
         patch.start()
         self.addCleanup(patch.stop)
         self.ran = []
 
-    def run_marked(self, fetch_effect):
+    def run_marked(self, fetch_effect, mark=None):
         ran = self.ran
+        mark = mark or netskip.needs_pinned_tools
 
         class Marked(unittest.TestCase):
-            @netskip.needs_pinned_tools
+            @mark
             def test_marked(self):
                 ran.append(True)
 
@@ -195,16 +221,42 @@ class NetSkip(unittest.TestCase):
         self.assertEqual([], self.ran)
         self.assertEqual(1, len(result.skipped))
         reason = result.skipped[0][1]
-        self.assertEqual("offline, needs the network: gh api repos/x/git/trees/y failed: "
-                         "error connecting to api.github.com", reason)
+        self.assertEqual("offline, needs the network for the pinned game-archaeologist tools: "
+                         "gh api repos/x/git/trees/y failed: error connecting to api.github.com",
+                         reason)
         self.assertIn("SKIPPED ", err)
         self.assertIn(reason, err)
 
-    def test_a_failure_that_is_not_the_network_does_not_skip(self):
+    def test_the_offline_state_is_kept_and_every_later_test_skips_without_a_new_fetch(self):
+        with mock.patch.object(ga, "fetch", side_effect=ga.GaError(OFFLINE)) as fetch:
+            for _ in range(2):
+                with contextlib.redirect_stderr(io.StringIO()), \
+                        self.assertRaises(unittest.SkipTest):
+                    netskip.require("the pinned game-archaeologist tools", lambda: ga.fetch())
+        self.assertEqual(1, fetch.call_count)
+
+    def test_a_failure_that_is_not_the_network_errors_the_test(self):
         result, err = self.run_marked(ga.GaError("blob sha mismatch for tools/x.py"))
-        self.assertEqual([True], self.ran)
+        self.assertEqual([], self.ran)
         self.assertEqual([], result.skipped)
+        self.assertEqual(1, len(result.errors))
+        self.assertIn("blob sha mismatch", result.errors[0][1])
         self.assertEqual("", err)
+
+    def test_a_failed_download_is_skipped_with_the_network_line_of_its_stderr(self):
+        # fetch_artifact raises CalledProcessError, whose own text names only the command: the
+        # reason is the network line of the captured stderr.
+        failure = subprocess.CalledProcessError(1, ["gh", "release", "download"],
+                                                stderr=b"warming up\n" + OFFLINE.encode())
+
+        def probe():
+            raise failure
+
+        result, err = self.run_marked(None, mark=netskip.needs("the release copy", probe))
+        self.assertEqual([], self.ran)
+        self.assertEqual("offline, needs the network for the release copy: "
+                         "error connecting to api.github.com", result.skipped[0][1])
+        self.assertIn(result.skipped[0][1], err)
 
     def test_online_the_test_runs(self):
         result, err = self.run_marked(lambda: Path("/x"))
