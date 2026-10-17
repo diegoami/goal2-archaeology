@@ -37,8 +37,9 @@ ASSUMED = {
                  "the regenerated named view and the PR"),
     "FIXED": ({"T57": 4, "T58": 5, "T59": 5, "T73": 4, "T78": 5, "T79": 3, "T80": 4},
               "estimates of the tasks that are tooling, classification, assembly or measurement, not porting"),
-    "EXTRA": ({"T76": 1, "T77": 1}, "hours a porting task adds: T76 the kit's set-piece taker decision (E033 notes: "
-              "about 1 h), T77 finding the start states that reach the frontier (the plan's P7 hour)"),
+    "EXTRA": ({"T74": 1, "T76": 1, "T77": 1}, "hours a porting task adds: T74 the kit's fixture with no managed side "
+              "(E034 notes: about 1 h), T76 the kit's set-piece taker decision (E033 notes: about 1 h), T77 finding "
+              "the start states that reach the frontier (the plan's P7 hour)"),
     "WORKERS": (WORKERS, "tasks at once: the machine allows two workers"),
 }
 
@@ -86,7 +87,7 @@ TASKS = {   # task: (plan step, title, merge after, routines)
             r("0791", "7CC5", "7D56", "7E60", "7EEF", "8062", "8206", "82EB", "A260", "A2E6", "A920", "A9B8", "AAE8",
               "BBFF", "BD03", "BD83", "BF6B", "C173", "C5DC", "C7EB", "C88D")),
     "T69": ("P5b", "the commentary and the match frame (9564 to play_match)", ["T59"],
-            r("0791", "1829", "1C78", "1D4A", "1E53", "1EB5", "230C", "9564", "970C", "97D0", "983F", "98C4", "9955",
+            r("0791", "1C78", "1D4A", "1E53", "1EB5", "230C", "9564", "970C", "97D0", "983F", "98C4", "9955",
               "998C", "9A32", "F098")),
     "T70": ("P5c", "the per-match set-up (A4A1 and what it reaches)", ["T59"],
             r("0791", "A4A1", "1073", "A375", "A3B6", "A3DE", "A6E4", "A841", "2648", "AC67", "AD8F", "AFA3", "B11F",
@@ -100,7 +101,7 @@ TASKS = {   # task: (plan step, title, merge after, routines)
             + r("1771", "10E7", "3558", "3651", "5A38", "5A8F", "5C60")),
     "T73": ("UI-a", "the display boundary: what is drawn, sounded or waited for, removed or stubbed", ["T59"],
             r("0791", "0000", "006C", "0106", "0425", "0441", "0481", "04C9", "054C", "05C6", "0691", "0712", "0C65",
-              "15B9", "8F10", "9079", "94C9", "94E8", "A699", "A75D", "C50C")
+              "15B9", "1829", "8F10", "9079", "94C9", "94E8", "A699", "A75D", "C50C")
             + r("1771", "0947", "0AF8", "0F58", "0FB1", "11E1", "1289", "13D0", "1527", "157D", "2EE5", "2F37", "3827",
                 "3947", "3AE2", "3B3F", "3BD3", "42BC", "4D8A", "4E22", "50F1", "5AC4", "5C94", "5CCB", "76FA", "77C3",
                 "883F", "8939", "89C1", "89FE", "8A5D", "8A87", "8CA2", "8CCF", "8D84", "8E9A", "9028", "91CE", "937C",
@@ -108,8 +109,8 @@ TASKS = {   # task: (plan step, title, merge after, routines)
             + r("214B", "00DB", "00FF", "0123", "01A3", "0205", "026D", "02C8", "0350", "0625", "0643", "0661", "0755",
                 "13C5", "1E09", "1E5A", "1E75", "1E8D", "1EA1", "1EBC", "1EF1", "1F87")
             + r("2382", "0099", "00E7", "016D", "0215", "04FC", "0608")),
-    "T74": ("UI-b", "the manager's decisions in play: the key poll, the team menu, tactics, positions, marking",
-            ["T59"],
+    "T74": ("UI-b", "the manager's decisions in play: the key poll, the team menu, tactics, positions, marking; a "
+                    "fixture with no managed side", ["T59"],
             r("0791", "9372", "92FC", "ED8A", "7FCF") + r("1771", "1981", "4859", "4925", "4952", "49B8", "4B61")
             + r("214B", "04F8", "0566", "0723", "08DD", "0983", "0993", "09A7", "13F6", "1452", "14AC", "1507", "1560",
                 "158E", "15B1", "1765") + r("235C", "0000", "000B")),
@@ -158,18 +159,35 @@ def tsv(path):
             yield line.split("\t")
 
 
+def tail(hours, deps):
+    """Each task's hours plus the longest chain of tasks that wait for it (the critical-path priority)."""
+    after = {t: [u for u in hours if t in deps[u]] for t in hours}
+    memo = {}
+
+    def rest(t):
+        if t not in memo:
+            memo[t] = hours[t] + max((rest(u) for u in after[t]), default=0.0)
+        return memo[t]
+    return {t: rest(t) for t in hours}
+
+
 def schedule(hours, deps):
-    """Two workers, tasks in index order, each started as soon as a worker is free and its dependencies have
-    finished; returns {task: (start, end)} and the elapsed total."""
+    """Two workers; whenever a worker is free it takes, of the tasks that can start soonest (their dependencies
+    merged), the one with the longest chain behind it (ties: task order); returns {task: (start, end)} and the
+    elapsed total."""
     free = [0.0] * WORKERS
+    prio = tail(hours, deps)
     done, plan, pending = {}, {}, list(hours)
     while pending:
         ready = [t for t in pending if all(d in done for d in deps[t])]
         if not ready:
             raise SystemExit(f"dependency cycle among {pending}")
-        t = ready[0]
         w = min(range(WORKERS), key=lambda i: free[i])
-        start = max(free[w], max((done[d] for d in deps[t]), default=0.0))
+
+        def earliest(u):
+            return max(free[w], max((done[d] for d in deps[u]), default=0.0))
+        t = min(ready, key=lambda u: (earliest(u), -prio[u], pending.index(u)))
+        start = earliest(t)
         end = start + hours[t]
         free[w], done[t], plan[t] = end, end, (round(start, 1), round(end, 1))
         pending.remove(t)
@@ -279,12 +297,13 @@ def main():
           f"OUT (not ported, each with its reason): {len(OUT)} routines, {out_instr:,} static instructions.", ""]
     L += [f"- {w}" for w in sorted(set(OUT.values()))]
     L += ["", "## Elapsed on two workers", "",
-          "| rate | work (hours) | elapsed, two workers in task order | longest dependency chain |",
+          "| rate | work (hours) | elapsed, two workers, longest chain first | longest dependency chain |",
           "| --- | --- | --- | --- |"]
     for label, e in elapsed.items():
         L.append(f"| {label} | {tot[label]} | {e['two_workers_hours']} | {e['longest_chain_hours']} |")
-    L += ["", "Start and end of each task at the central rate (hours from the start): " + ", ".join(
-        f"{t} {s}-{e}" for t, (s, e) in elapsed["central"]["plan"].items()), "", "## Routines per task", ""]
+    order = sorted(elapsed["central"]["plan"].items(), key=lambda kv: (kv[1][0], kv[0]))
+    L += ["", "Start and end of each task at the central rate (hours from the start), in the order taken: " + ", ".join(
+        f"{t} {s}-{e}" for t, (s, e) in order), "", "## Routines per task", ""]
     for t, (step, title, dp, rs) in TASKS.items():
         if rs:
             L.append(f"- {t}: " + ", ".join(f"{a}{' ' + names[a] if names.get(a) else ''}"

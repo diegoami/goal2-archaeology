@@ -38,10 +38,15 @@ counts each task's static instructions (`static/goal-exe/routines.tsv`) and turn
 of the E032 pilot's pace, with every other figure a named assumption. E032's six coverage runs say which routines a match
 reaches between kick-off and full time.
 
-- `out/backlog/sizes-20261017.md` and `.json` (2026-10-17, from `c7e1969`): 540 routines, 37,618 static instructions in the
-  universe; 442 routines (33,299 instructions) in 24 tasks, 98 (4,319) OUT; 0 problems. SHA-256
-  `099228de86c7383b97e6e509c74807923e25588e079fa4791b1fda80f5102d3d` (`.md`),
-  `c7d92f4f4915e8fc8d032864ac3eb48564d2eeb7a40e89a52a648c3e351b0099` (`.json`).
+- Current: `out/backlog/sizes-20261017d.md` and `.json` (2026-10-17, on the tables of `c7e1969`): 540 routines, 37,618
+  static instructions in the universe; 442 routines (33,299 instructions) in 24 tasks, 98 (4,319) OUT; 0 problems; 111.7
+  hours of work at the central rate (80.9 optimistic, 173.6 pessimistic), 65.0 elapsed on two workers (49.5, 96.1).
+  SHA-256 `99f6f447699ee3bd4876874df56ce2b615d54a335568792b8d259a5b6b9bef55` (`.md`),
+  `abf9a5b7cf0a730690604ba7f5a770355adeaedcb4c23355f66283da8a11e534` (`.json`).
+- Superseded, kept: `sizes-20261017` (`099228de…`, `c7d92f4f…`: 1829 counted as commentary, though E032 removed it as
+  display; no hour for the fixture with no managed side); `sizes-20261017b` (`3f8a9723…`, `3537aee1…`: two workers taking
+  the tasks in index order); `sizes-20261017c` (`612cb908…`, `cd5dbdfb…`: the longest chain first, but a worker waited
+  for a task whose dependency had not finished while another could start).
 
 What the sizing found that the plan did not count:
 - The plan's steps call each other's routines (for example `2AA3` calls `emit_commentary 1EB5`, `move_ball 83A2` calls the
