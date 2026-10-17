@@ -208,6 +208,16 @@ class Workflow(unittest.TestCase):
     def test_the_merge_commit_of_a_research_pr_skips_quick_on_main(self):
         self.assertIn("!startsWith(github.event.head_commit.message, 'Merge pull request #')", self.TEXT)
 
+    def test_no_unquoted_if_holds_a_hash(self):
+        """In YAML a ` #` inside a plain scalar starts a comment: the first push of PR 298 made
+        'if: ... startsWith(msg, 'Merge pull request #')' an invalid workflow."""
+        for line in self.TEXT.splitlines():
+            s = line.strip()
+            if s.startswith(("if:", "- if:")):
+                value = s.split("if:", 1)[1].strip()
+                if " #" in value:
+                    self.assertTrue(value.startswith(('"', "'")), line)
+
     def test_a_nightly_full_run_on_main_exists(self):
         self.assertIn("schedule:", self.TEXT)
         self.assertIn("workflow_dispatch:", self.TEXT)
