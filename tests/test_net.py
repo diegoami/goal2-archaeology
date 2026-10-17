@@ -1,5 +1,6 @@
 """`tools/net.py` retries a `gh` call once when it fails on the network, never on any other
-failure and never twice; `tools/ga.py` and `tools/fetch_artifact.py` call gh through it; and
+failure and never twice; `tools/ga.py`, `tools/fetch_artifact.py`, `tools/fetch_saves.py` and the recorder's
+`ensure_cache` call gh through it (#295); and
 `tests/netskip.py` skips a test that needs the pinned tools, printing its reason, only when the
 fetch failed on the network (#236).
 
