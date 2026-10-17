@@ -1,2 +1,4 @@
 F40/e032-0101: ports ['pilot', 'restarts'], variant pilot.coin-swapped; differs: first at score; the draws first differ at minute 0 (reference 726 draws, candidate 731); also ticks, draws.count, draws.digest, events, board.statistics, board.bars and 8 more
 first differing minute: 0 (per-minute row 0; 0 identical draws before it)
+proved re-run from draw 0: 0 s; calls: 0791:6E11 proved 0; 0791:8889 proved 0
+LOCATED: 0791:8889 (pilot), call #1 from 0791:8BB7, minute 0, after draw 0: written byte #2 differs: the original wrote 0x02 at linear 0x35D1B (DS:82DB), the port wrote 0x03 at linear 0x35D1B (DS:82DB)

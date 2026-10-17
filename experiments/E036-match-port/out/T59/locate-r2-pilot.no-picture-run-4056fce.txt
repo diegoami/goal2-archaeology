@@ -1,2 +1,4 @@
 F40/e032-0101: ports ['pilot', 'restarts'], variant pilot.no-picture; differs: first at score; the draws first differ at minute 1 (reference 1640 draws, candidate 1691); also ticks, draws.count, draws.digest, events, board.statistics, board.bars and 9 more
 first differing minute: 1 (per-minute row 1; 726 identical draws before it)
+proved re-run from draw 726: 1 s; calls: 0791:6E11 proved 0; 0791:8889 proved 67, before the proof 1034, declared dead registers differing {'AX': 61, 'DX': 48}, scratch registers differing {'BX': 61, 'CX': 64, 'SI': 8, 'DI': 49, 'ES': 1, 'FLAGS': 62}
+LOCATED: 0791:8889 (pilot), call #1102 from 0791:8BB7, minute 1, after draw 859: the original writes more: byte #6, 0xD8 at linear 0x355A2 (DS:7B62) (11 bytes by the original, 6 by the port)
