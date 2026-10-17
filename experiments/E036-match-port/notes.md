@@ -36,7 +36,8 @@ family names its own reference (the unhooked kit), so a family added later bring
 
 - `python3 -B experiments/E036-match-port/family.py --family ALL [--ports M,...|all] [--variant M.NAME]
   [--count SSSS:OOOO,...] [--max N] [--workers 1|2] --out experiments/E036-match-port/out/T<nn>/<name>.jsonl`:
-  one record per match; resumable (a rerun with the same `--out` adds only the matches not yet in it, never rewrites one).
+  one record per match; resumable (a rerun with the same `--out` adds only the matches not yet in it, never rewrites one);
+  `--count` counts the executions of any instruction address, a routine's entry or a branch's target (L105's reach count).
   Later: `--engine port --no-unicorn` (T78: the engine on its own, `import unicorn` made to fail first) and
   `--from-records` (T80: the start state given as records, not as an image).
 - `python3 -B experiments/E036-match-port/compare.py --family ALL --candidate <file> [--expect differ] [--no-screen]`:

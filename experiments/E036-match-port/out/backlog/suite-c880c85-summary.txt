@@ -1,0 +1,9 @@
+python3 -B -m unittest discover -s tests, from the worktree at c880c85 (2026-10-17; the tree's only later changes are
+markdown files). The full log is kept out of the tree because a test's warning prints a
+player record's bytes (rule 18); its SHA-256 is 4697a5955756f42091a8aa2d8533c4d84f0c1310ef9328227ba14b761d26e2be.
+Its last lines:
+
+----------------------------------------------------------------------
+Ran 1173 tests in 569.957s
+
+OK (skipped=38)
