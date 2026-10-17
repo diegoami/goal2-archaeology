@@ -7,6 +7,7 @@ import path from 'node:path';
 import { randomBytes } from 'node:crypto';
 import { accountDoneWhen } from './chain.mjs';
 import { sh } from './common.mjs';
+import { writeFresh } from './scratch.mjs';
 
 /**
  * What to post for a review that readReview (lib/chain.mjs) read as 'ok' or 'flagged': the body,
@@ -62,7 +63,7 @@ export function combinePlans(plans) {
 export function postComment({ plan, pr, top, dir = os.tmpdir(), bodyFile: kept = null }) {
   if (kept) { sh('gh', ['pr', 'comment', String(pr), '--body-file', kept], { cwd: top }); return; }
   const bodyFile = path.join(dir, `harness-review-${pr}-${randomBytes(3).toString('hex')}.md`);
-  fs.writeFileSync(bodyFile, plan.body);
+  writeFresh(bodyFile, plan.body, { disk: false }); // exclusive, never through a planted symlink (#311)
   try { sh('gh', ['pr', 'comment', String(pr), '--body-file', bodyFile], { cwd: top }); } finally { fs.rmSync(bodyFile, { force: true }); }
 }
 

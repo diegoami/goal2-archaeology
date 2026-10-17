@@ -118,8 +118,36 @@ export function makeScratch(root, name, opts) {
   return diskDir(path.join(root, name), opts);
 }
 
-// The folder of the harness's own files under the root (OpenCode's output logs, the finished review).
-export const harnessDir = (root, opts) => diskDir(path.join(root, 'harness-logs'), opts);
+// The folder of the harness's own files (OpenCode's output logs, the finished review): a SIBLING of the
+// root, `<root>-harness`, outside what reviewer.md grants (`<root>/*`), so the reviewer's tools cannot
+// write there. A model with a shell could still reach it (the grant is a tool-layer rule, not an OS
+// boundary), so every file the harness creates there is also created exclusively (openFresh).
+export const harnessDir = (root, opts) => diskDir(`${root}-harness`, opts);
+
+// Opens a NEW file for writing at a name the model may know. It never follows a symlink and never writes
+// into an existing file: O_EXCL fails on an existing name, a dangling or live symlink included; a name
+// that is taken (planted, or left by an earlier run) is removed as a name (the target is not touched) and
+// created again, and a second collision is an error. `disk` (default) also checks that the folder is
+// really on disk, by its resolved path, at the moment of the write.
+const NOFOLLOW = fs.constants.O_NOFOLLOW ?? 0;
+export function openFresh(file, { disk = true, ramFs } = {}) {
+  if (disk) {
+    const bad = diskProblem(path.dirname(file), ramFs ? { ramFs } : undefined);
+    if (bad) throw new Error(bad);
+  }
+  const flags = fs.constants.O_WRONLY | fs.constants.O_CREAT | fs.constants.O_EXCL | NOFOLLOW;
+  for (let tries = 0; ; tries++) {
+    try { return fs.openSync(file, flags, 0o644); } catch (e) {
+      if (e.code !== 'EEXIST' || tries > 0) throw e;
+      fs.rmSync(file, { force: true });
+    }
+  }
+}
+
+export function writeFresh(file, data, opts) {
+  const fd = openFresh(file, opts);
+  try { fs.writeSync(fd, data); } finally { fs.closeSync(fd); }
+}
 
 // Only a folder directly inside `root` is ever removed.
 export function removeScratch(root, dir) {
@@ -132,7 +160,7 @@ export function removeScratch(root, dir) {
 export function keepReview(dir, runId, body, opts) {
   try {
     const file = path.join(diskDir(dir, opts), `review-${runId}.md`);
-    fs.writeFileSync(file, body.endsWith('\n') ? body : `${body}\n`);
+    writeFresh(file, body.endsWith('\n') ? body : `${body}\n`, opts);
     return file;
   } catch {
     return null;

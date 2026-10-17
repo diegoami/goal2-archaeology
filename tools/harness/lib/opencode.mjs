@@ -27,6 +27,7 @@
 
 import { spawn, spawnSync } from 'node:child_process';
 import { randomBytes } from 'node:crypto';
+import { openFresh, writeFresh, harnessDir, scratchRoot } from './scratch.mjs';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
@@ -310,7 +311,7 @@ function execBounded(cmd, args, { cwd, timeoutMs, env, outFile }) {
   if (timeoutMs <= 0) return Promise.resolve(null);
   return new Promise((resolve) => {
     let child;
-    const fd = outFile ? fs.openSync(outFile, 'w') : null;
+    const fd = outFile ? openFresh(outFile) : null;
     try {
       child = spawnDetached(cmd, args, { cwd, env, stdio: ['ignore', fd ?? 'pipe', 'pipe'] });
     } catch { resolve(null); return; } finally { if (fd !== null) fs.closeSync(fd); }
@@ -419,7 +420,7 @@ export function briefFileName(title) {
 export async function runOpenCodeWatched({
   args, prompt, workDir, title, sessionId = null,
   startupTimeoutMs = 180_000, totalTimeoutMs = 3_600_000, idleTimeoutMs = 600_000, pollMs = 10_000,
-  logDir = path.join(os.tmpdir(), 'harness-opencode'), opencode, env = process.env, log = () => {},
+  logDir = harnessDir(scratchRoot()), opencode, env = process.env, log = () => {},
 }) {
   if (args[0] !== 'run') throw new Error(`runOpenCodeWatched runs 'opencode run'; got '${args[0]}'.`);
   const cmd = opencode ?? resolveOpenCode(env);
@@ -434,7 +435,7 @@ export async function runOpenCodeWatched({
   const outFile = path.join(logDir, `${title}.out.txt`);
   const errFile = path.join(logDir, `${title}.err.txt`);
   const briefFile = path.join(workDir, briefFileName(title));
-  fs.writeFileSync(briefFile, prompt);
+  writeFresh(briefFile, prompt, { disk: false }); // exclusive: the worktree is the model's to write in (#311)
   const files = [outFile, errFile, briefFile];
   const pointer = `Your complete brief for this run is the file ${briefFileName(title)} at the root of this worktree.`
     + ' Read that file first and follow it exactly; never edit, commit or delete it.';
@@ -456,7 +457,8 @@ export async function runOpenCodeWatched({
       ok = true;
     } catch {
       try {
-        fs.copyFileSync(briefFile, keptBrief);
+        fs.rmSync(keptBrief, { force: true }); // a name, never through a planted symlink (#311)
+        fs.copyFileSync(briefFile, keptBrief, fs.constants.COPYFILE_EXCL);
         fs.rmSync(briefFile, { force: true });
         ok = true;
       } catch { /* neither rename nor copy worked */ }
@@ -472,8 +474,8 @@ export async function runOpenCodeWatched({
       throw new Error('The opencode command line exceeds what Windows allows (32767 characters). Shorten the brief.');
     }
 
-    const outFd = fs.openSync(outFile, 'w');
-    const errFd = fs.openSync(errFile, 'w');
+    const outFd = openFresh(outFile);
+    const errFd = openFresh(errFile);
     const startedMs = Date.now();
     try {
       child = spawnDetached(cmd, all, { cwd: workDir, env, stdio: ['ignore', outFd, errFd] });

@@ -14,7 +14,7 @@ import os from 'node:os';
 import path from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
-import { scratchRoot, rootProblem, spaceProblem, removeScratch, tmpEnv, harnessDir, makeScratch, diskProblem, ramFsOf, keepReview } from './lib/scratch.mjs';
+import { openFresh, writeFresh, scratchRoot, rootProblem, spaceProblem, removeScratch, tmpEnv, harnessDir, makeScratch, diskProblem, ramFsOf, keepReview } from './lib/scratch.mjs';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const REPO = path.resolve(here, '..', '..');
@@ -57,7 +57,16 @@ else if (cmd === 'run') {
   }));
   fs.writeFileSync(path.join(t, 'copy-of-main.bin'), Buffer.alloc(1 << 20)); // a reviewer's big scratch file
   // storage that fails AFTER startup: the file the finished review is kept in cannot be written
-  if (process.env.FAKE_BREAK_KEEP) fs.mkdirSync(path.join(path.dirname(t), 'harness-logs', 'review-' + path.basename(t) + '.md'));
+  const harness = path.dirname(t) + '-harness';
+  if (process.env.FAKE_BREAK_KEEP) fs.mkdirSync(path.join(harness, 'review-' + path.basename(t) + '.md'));
+  // symlinks planted, by a model with a shell, at the names the harness will create later; each points at a
+  // file that must stay as it is (here a disk file; the harness must not follow whatever the target is)
+  if (process.env.FAKE_PLANT) {
+    const plant = (name, target) => fs.symlinkSync(path.join(process.env.FAKE_PLANT, target), path.join(harness, name));
+    plant('review-' + path.basename(t) + '.md', 'review-target');
+    plant(title + '.export.json', 'export-target');
+    plant(title + '.brief.md', 'brief-target');
+  }
   fs.writeFileSync(state, JSON.stringify([{ id: 'ses_fake', title, directory: process.cwd(), created: Date.now(), updated: Date.now() }]));
   if (process.env.FAKE_FAIL) { console.error('fake model failed'); process.exit(1); }
   const out = [brief.split('\\n')[0], 'approve', 'Final pass done', 'approve'];
@@ -157,7 +166,7 @@ test('DW2: with /tmp unwritable (TMPDIR of the harness itself unusable) a review
   const seen = JSON.parse(fs.readFileSync(envFile, 'utf8'));
   assert.equal(path.dirname(seen.TMPDIR), root); // the model's TMPDIR is the scratch folder, not the dead one
   assert.match(fs.readFileSync(posted, 'utf8'), /T99 review \(luna\)/); // gh read the body file it was given
-  assert.ok(fs.existsSync(path.join(root, 'harness-logs')), 'the harness\'s own logs moved to the scratch root');
+  assert.ok(fs.existsSync(`${root}-harness`), 'the harness\'s own logs moved to the scratch root');
   assert.deepEqual(runFolders(), []);
 });
 
@@ -168,13 +177,13 @@ test('DW2: the same with --dry-run: a review completes with /tmp unwritable and 
   const r = review({ TMPDIR: dead, TMP: dead, TEMP: dead });
   assert.equal(r.status, 0, r.stdout + r.stderr);
   assert.match(r.stdout, /dry run: would post/);
-  assert.ok(r.stdout.includes(path.join(root, 'harness-logs')), 'the run\'s output logs are on the scratch disk');
+  assert.ok(r.stdout.includes(`${root}-harness`), 'the run\'s output logs are on the scratch disk');
   assert.equal(path.dirname(JSON.parse(fs.readFileSync(envFile, 'utf8')).TMPDIR), root);
 });
 
 test('round 1 R1: the harness\'s own files are on the scratch disk throughout, whatever /tmp is', () => {
-  assert.equal(harnessDir(root), path.join(root, 'harness-logs'));
-  assert.ok(fs.existsSync(path.join(root, 'harness-logs')));
+  assert.equal(harnessDir(root), `${root}-harness`);
+  assert.ok(fs.existsSync(`${root}-harness`));
 });
 
 test('round 1 R1: storage failing AFTER startup (the kept-review file cannot be written) still posts, and prints the review whole', () => {
@@ -189,21 +198,21 @@ test('round 1 R1: a post that fails keeps the finished review whole on disk, nam
   assert.equal(r.status, 1, r.stdout + r.stderr);
   const m = /kept whole at (\S+\.md); post it with gh pr comment/.exec(r.stderr);
   assert.ok(m, r.stderr);
-  assert.equal(path.dirname(m[1]), path.join(root, 'harness-logs'));
+  assert.equal(path.dirname(m[1]), `${root}-harness`);
   assert.match(fs.readFileSync(m[1], 'utf8'), /^T99 review \(luna\)\napprove[\s\S]*Final pass done[\s\S]*approve/);
   assert.deepEqual(runFolders(), []); // the scratch is cleaned after the review is kept, not before
 });
 
 test('round 1 R1: a posted review leaves no kept file behind', () => {
   assert.equal(review({}, []).status, 0);
-  assert.deepEqual(fs.readdirSync(path.join(root, 'harness-logs')).filter((n) => n.startsWith('review-')), []);
+  assert.deepEqual(fs.readdirSync(`${root}-harness`).filter((n) => n.startsWith('review-')), []);
 });
 
 test('round 1 R1: keepReview returns null, not a throw, when the disk will not take the file', () => {
   const blocker = path.join(tmp, 'a-file-3');
   fs.writeFileSync(blocker, 'x');
   assert.equal(keepReview(path.join(blocker, 'logs'), 'r1', 'body'), null);
-  const f = keepReview(path.join(root, 'harness-logs'), 'r1', 'body');
+  const f = keepReview(`${root}-harness`, 'r1', 'body');
   assert.equal(fs.readFileSync(f, 'utf8'), 'body\n');
 });
 
@@ -267,7 +276,8 @@ test('round 1 R2: diskProblem follows symlinks to the real filesystem (injected:
   assert.equal(diskProblem(path.join(tmp, 'link-to-disk'), { ramFs }), null);
   assert.equal(diskProblem(path.join(tmp, 'plain-new-dir'), { ramFs }), null);
   assert.throws(() => makeScratch(path.join(tmp, 'link-to-ram'), 'run', { ramFs }), /on a tmpfs/);
-  assert.throws(() => harnessDir(path.join(tmp, 'link-to-ram'), { ramFs }), /on a tmpfs/);
+  fs.symlinkSync(path.join(tmp, 'ram-target'), path.join(tmp, 'rootr-harness')); // the harness folder of root "rootr"
+  assert.throws(() => harnessDir(path.join(tmp, 'rootr'), { ramFs }), /on a tmpfs/);
 });
 
 test('round 1 R2: a scratch root that is a symlink into tmpfs is refused before anything runs (exit 2)', unix, (t) => {
@@ -285,9 +295,68 @@ test('round 1 R2: a harness-logs folder that is a symlink into tmpfs is refused 
   const target = fs.mkdtempSync(path.join(shm, 'goal2-scratch-test-'));
   t.after(() => fs.rmSync(target, { recursive: true, force: true }));
   fs.mkdirSync(root, { recursive: true });
-  fs.symlinkSync(target, path.join(root, 'harness-logs'));
+  fs.symlinkSync(target, `${root}-harness`);
   const r = review();
   assert.equal(r.status, 2, r.stdout + r.stderr);
   assert.match(r.stderr, /on a tmpfs/);
   assert.equal(fs.existsSync(envFile), false);
+});
+
+// round 2 R1: a file the harness creates at a name the model may know is created exclusively and never
+// through a symlink. Planted symlinks point at SENTINEL files; the target must stay as it is.
+const planted = () => {
+  const dir = path.join(tmp, `plant-${rootN}`);
+  fs.mkdirSync(dir, { recursive: true });
+  for (const n of ['review-target', 'export-target', 'brief-target']) fs.writeFileSync(path.join(dir, n), 'SENTINEL');
+  return dir;
+};
+const untouched = (dir) => ['review-target', 'export-target', 'brief-target'].every((n) => fs.readFileSync(path.join(dir, n), 'utf8') === 'SENTINEL');
+const isRegular = (f) => fs.lstatSync(f).isFile();
+
+test('round 2 R1: openFresh and writeFresh replace a planted symlink (live or dangling) and never write through it', () => {
+  const dir = path.join(tmp, `fresh-${rootN}`);
+  fs.mkdirSync(dir, { recursive: true });
+  fs.writeFileSync(path.join(dir, 'target'), 'SENTINEL');
+  fs.symlinkSync(path.join(dir, 'target'), path.join(dir, 'live'));
+  fs.symlinkSync(path.join(dir, 'nowhere'), path.join(dir, 'dangling'));
+  fs.writeFileSync(path.join(dir, 'old'), 'stale');
+  for (const n of ['live', 'dangling', 'old', 'new']) {
+    writeFresh(path.join(dir, n), 'fresh');
+    assert.equal(fs.readFileSync(path.join(dir, n), 'utf8'), 'fresh', n);
+    assert.ok(isRegular(path.join(dir, n)), n);
+  }
+  assert.equal(fs.readFileSync(path.join(dir, 'target'), 'utf8'), 'SENTINEL');
+  assert.equal(fs.existsSync(path.join(dir, 'nowhere')), false);
+  // and the folder is checked at the moment of the write
+  fs.mkdirSync(path.join(dir, 'ram'));
+  assert.throws(() => openFresh(path.join(dir, 'ram', 'f'), { ramFs: () => 'tmpfs' }), /on a tmpfs/);
+});
+
+test('round 2 R1: symlinks planted at the kept-review and export names are not followed (post fails, the review is kept)', () => {
+  const dir = planted();
+  const r = review({ FAKE_PLANT: dir, FAKE_POST_FAIL: '1' }, []);
+  assert.equal(r.status, 1, r.stdout + r.stderr);
+  const m = /kept whole at (\S+\.md); post it/.exec(r.stderr);
+  assert.ok(m, r.stderr);
+  assert.ok(isRegular(m[1]), 'the kept review is a regular file, not the planted link');
+  assert.match(fs.readFileSync(m[1], 'utf8'), /^T99 review \(luna\)\napprove/);
+  assert.ok(untouched(dir), 'no planted target was written');
+});
+
+test('round 2 R1: a symlink planted at the kept-brief name of a failed run is not followed', () => {
+  const dir = planted();
+  const r = review({ FAKE_PLANT: dir, FAKE_FAIL: '1' });
+  assert.equal(r.status, 3, r.stdout + r.stderr);
+  const briefs = fs.readdirSync(`${root}-harness`).filter((n) => n.endsWith('.brief.md'));
+  assert.equal(briefs.length, 1);
+  assert.ok(isRegular(path.join(`${root}-harness`, briefs[0])));
+  assert.ok(untouched(dir));
+});
+
+test('round 2 R1: the harness folder is a sibling of the scratch root, outside reviewer.md\'s grant', () => {
+  assert.equal(harnessDir(root), `${root}-harness`);
+  const agent = fs.readFileSync(path.join(REPO, '.opencode', 'agents', 'reviewer.md'), 'utf8');
+  assert.ok(agent.includes('"~/goal2-review-tmp/*": allow'));
+  assert.ok(!agent.includes('goal2-review-tmp-harness')); // not granted
+  assert.ok(!`${scratchRoot({ HOME: '/h' })}-harness`.startsWith('/h/goal2-review-tmp/'));
 });
