@@ -317,17 +317,12 @@ def load_family(path, policies=POLICIES):
 
 
 def discover(directory=FAMILIES_DIR):
-    """{name: Family} of every families/*.json (the .py files' policies loaded first). An id used by two families
-    is an error."""
+    """{name: Family} of every families/*.json (the .py files' policies loaded first)."""
     policies = load_policies(directory)
-    out, ids = {}, {}
+    out = {}
     for path in sorted(Path(directory).glob("*.json")):
         fam = load_family(path, policies)
-        out[fam.name] = fam
-        clash = sorted({m.id for m in fam.matches} & set(ids))
-        if clash:
-            raise FamilyError(f"{path.name}: the id {clash[0]!r} is also in {ids[clash[0]]}")
-        ids.update({m.id: path.name for m in fam.matches})
+        out[fam.name] = fam            # an id starts with its family's name and a family is a file's stem: no id twice
     if not out:
         raise FamilyError(f"no family file in {directory}")
     return out

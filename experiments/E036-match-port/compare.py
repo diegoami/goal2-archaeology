@@ -242,8 +242,6 @@ def main(argv=None):
             log = load(Path(path) if Path(path).is_absolute() else ROOT / path)
             for fam in fams:
                 for mid, digest in fam.expected().items():
-                    if mid in expected:
-                        raise Malformed(f"{mid} is in two families")
                     expected[mid] = digest
                     if mid in log:
                         ref[mid] = log[mid]

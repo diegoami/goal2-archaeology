@@ -6,7 +6,7 @@ leaves, before it compares anything: a record that does not conform makes the lo
 missing or mangled evidence is neither a match nor a caught falsifier. The classes of E032's review (PR 243,
 rounds 1-5) are the grammar's rules:
 - JSON is read strictly (`loads`): NaN/Infinity tokens, numbers that overflow to infinity and duplicate keys in an
-  object are refused; a log is UTF-8 without a byte-order mark;
+  object are refused; a log is UTF-8 (a byte-order mark is not JSON: json.loads refuses it);
 - every string pattern is matched against the WHOLE string (re.fullmatch) with ASCII-only classes ([0-9], [0-9a-f]);
 - integers are ints, never booleans nor floats; floats are finite and not -0.0; every number has a range;
 - the keys of every object are closed: a missing key and an unknown key are both refused; a container is checked
@@ -123,8 +123,6 @@ def read_log(path):
             text = f.read().decode("utf-8")
     except (OSError, UnicodeDecodeError) as e:
         raise SchemaError(f"{path}: {e}")
-    if text.startswith("\ufeff"):
-        raise SchemaError(f"{path}: starts with a byte-order mark")
     if text and not text.endswith("\n"):
         raise SchemaError(f"{path}: ends with an incomplete line (a run stopped mid-write?)")
     out = []

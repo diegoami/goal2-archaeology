@@ -35,13 +35,12 @@ MUTATIONS = [
     ("compare.py", 'if no_screen and field in SCREEN_FIELDS:', 'if no_screen:', "--no-screen leaves out more than the screen"),
     ("compare.py", 'if no_screen and field in SCREEN_FIELDS:', 'if False and field in SCREEN_FIELDS:', "--no-screen leaves out nothing"),
     ("compare.py", '"decisions", "after.seed", "after.ds",', '"decisions", "after.seed",', "the DS blocks are not compared"),
-    ("compare.py", '            for name in records.RANGES:\n                if no_screen', '            for name in ():\n                if no_screen', "the ranges are not compared"),
+    ("compare.py", '            for name in records.RANGES:\n                where = block_difference', '            for name in ():\n                where = block_difference', "the ranges are not compared"),
     ("compare.py", 'if draws and diff[0][0] != "draws.per_minute":', 'if False:', "the first differing minute is not named"),
     ("compare.py", 'equal = got == want', 'equal = True', "the E032 seeds are not compared"),
     # records.py
     ("records.py", 'raise SchemaError(f"the JSON token {token} is not a finite number")', 'return 0.0', "NaN and Infinity tokens"),
     ("records.py", '        if k in seen:', '        if False:', "a duplicate key"),
-    ("records.py", 'if text.startswith("\\ufeff"):', 'if False:', "a byte-order mark"),
     ("records.py", 'if text and not text.endswith("\\n"):', 'if False:', "an incomplete last line"),
     ("records.py", 'not pattern.fullmatch(v):', 'not pattern.match(v):', "a pattern matched against a prefix"),
     ("records.py", 'return isinstance(v, int) and not isinstance(v, bool)', 'return isinstance(v, int)', "a boolean for an integer"),
@@ -63,7 +62,6 @@ MUTATIONS = [
     ("families.py", '            check_edit(e, f"{where} edits[{i}]")', '            pass', "an edit is not checked"),
     ("families.py", 'and 1 <= fixture[2] <= 0xFFFF and fixture[3] in KINDS):', 'and 1 <= fixture[2] <= 0xFFFF):', "a fixture kind the builders do not write"),
     ("families.py", 'if m.id in seen:', 'if False:', "an id twice in a family"),
-    ("families.py", 'if clash:', 'if False:', "an id in two families"),
     ("families.py", '            check_edit(e, f"{path.name} edit_sets[{set_name!r}][{i}]")', '            pass', "an edit in an unused edit set is checked"),
     # family.py
     ("family.py", 'strays.append(context)', 'pass', "a stray decision"),
@@ -80,7 +78,7 @@ MUTATIONS = [
     ("family.py", 'todo = todo[:max_new]', 'pass', "--max"),
     ("family.py", '        if outside:\n            raise UndeclaredWrite', '        if False:\n            raise UndeclaredWrite', "a write outside the declared ranges is an error"),
     ("family.py", 'if check_writes else []', 'if True else []', "the write watch run leaves the undeclared-write check out"),
-    ("family.py", 'if a <= out[-1][1] + gap:', 'if a < out[-1][1]:', "merge joins spans within the gap"),
+    ("family.py", 'if out and a <= out[-1][1] + gap:', 'if out and a < out[-1][1]:', "merge joins spans within the gap"),
     ("family.py", 'return 1 if bad else 0', 'return 0', "the exit status of a match that did not complete"),
     ("family.py", 'if a.find_ranges and Path(a.find_ranges).exists():', 'if False:', "an output is never overwritten"),
 ]
