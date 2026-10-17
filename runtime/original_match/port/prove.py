@@ -11,6 +11,10 @@ and their order outside the routine's own dead frame (from the lowest the origin
 up to the caller's SP after the return). The first difference raises ProofError naming the routine, the call, where
 the match is and the byte (or the register); the match goes on from the port's state otherwise. A difference in
 REGS_SCRATCH is counted per register, not an error (Turbo Pascal's convention: they are scratch across a call).
+AX (and DX for a long result) are compared when the port returns a value, a function's result; a port that returns
+None ports a procedure, which has no result in that convention, and its AX and DX are counted as scratch. (E021
+compared them always. The pilot's 8889 is a procedure whose AX the original leaves as its last 86D0 call did, which
+the port does not reproduce; its one caller overwrites AL and AH before it reads AX, seg_0791_14.asm 8BB7-8BC7.)
 
 A call whose original reaches an address where the kit has a handler (a key read, a menu, the tick, an event's
 routine) cannot run muted: the original would need the kit's answer, or the kit would miss what it observes. That
@@ -88,7 +92,7 @@ class Prover:
             machine._ports[lin] = self._wrap(address, machine._ports[lin], installed.calls)
             self.proved[address] = 0
             self.unproved[address] = {}
-            self.scratch[address] = {r: 0 for r in REGS_SCRATCH}
+            self.scratch[address] = {r: 0 for r in ("AX", "DX") + REGS_SCRATCH}
         machine.on_write(0, MEM_SIZE - 1, self._record, always=True)    # once, before the run
         machine.muted_hook = self._muted_at
 
@@ -168,7 +172,9 @@ class Prover:
         st, m = self.state, self.m
         self.state = None
         try:
-            self._compare(st, {r: m.reg(r) for r in REGS_RETURNED + REGS_SCRATCH})
+            result = ("AX", "DX") if frame.entry.long else ("AX",)
+            self._compare(st, {r: m.reg(r) for r in REGS_RETURNED + REGS_SCRATCH},
+                          result if frame.value is not None else ())
         finally:
             if st.done is not None:
                 st.done(frame)
@@ -178,8 +184,11 @@ class Prover:
         where = f" (DS:{linear - ds:04X})" if ds <= linear < ds + 0x10000 else ""
         return f"linear 0x{linear:05X}{where}"
 
-    def _compare(self, st, model_regs):
+    def _compare(self, st, model_regs, result):
+        """result: the registers the port's value is returned in (none for a procedure's port, which returned None)."""
         m = self.m
+        compared = tuple(r for r in REGS_RETURNED if r not in ("AX", "DX") or r in result)
+        scratch = REGS_SCRATCH + tuple(r for r in ("AX", "DX") if r not in result)
         frame = (st.low, st.ss * 16 + m.reg("sp"))
 
         def live(ws):
@@ -197,11 +206,11 @@ class Prover:
             who, extra = ("original", original[i]) if len(original) > i else ("port", model[i])
             raise ProofError(f"{head}: the {who} writes more: byte #{i}, 0x{extra[1]:02X} at {self.describe(extra[0])} "
                              f"({len(original)} bytes by the original, {len(model)} by the port)")
-        for r in REGS_RETURNED:
+        for r in compared:
             if st.original_regs[r] != model_regs[r]:
                 raise ProofError(f"{head}: register {r} at the return: the original 0x{st.original_regs[r]:04X}, "
                                  f"the port 0x{model_regs[r]:04X}")
-        for r in REGS_SCRATCH:
+        for r in scratch:
             if st.original_regs[r] != model_regs[r]:
                 self.scratch[st.address][r] += 1
         self.proved[st.address] += 1

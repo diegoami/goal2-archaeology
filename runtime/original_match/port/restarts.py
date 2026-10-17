@@ -26,11 +26,21 @@ def dead_ball_throw_in(mem, variant):
     side = 0 if ax & 0xFF else 1                          # 6E26-6E2E: al != 0 -> 0, else 1
     if variant == "side-swapped":
         side ^= 1
+    # The registers each callee is entered with are the original's too (AX, DX, DI as the listing leaves them).
     value = mem.ds8(0x8311 + side)                        # 6E30-6E37 cbw; mov di, ax; mov al, [di + 0x8311]; xor ah, ah
+    mem.set_reg("di", side)
+    mem.set_reg("ax", 7)                                  # 6E3A mov al, 7 (AH 0 since 6E37)
     ax = yield call("0791:6BF1", value, 7, ret_to="0791:6E40", far=False)     # 6E39-6E3D push ax; mov al, 7; push ax
-    ax = yield call("0791:2AA3", (ax & 0xFF00) | 0x2B, ret_to="0791:6E46", far=False)   # 6E40-6E43: AH is 6BF1's
-    record = (mem.ds8(0x830B) * 0x16 + 0x80E8) & 0xFFFF   # 6E46-6E52: the pitch record of slot [0x830b]
+    ax = (ax & 0xFF00) | 0x2B                             # 6E40 mov al, 0x2b: AH is 6BF1's
+    mem.set_reg("ax", ax)
+    yield call("0791:2AA3", ax, ret_to="0791:6E46", far=False)            # 6E42-6E43
+    product = mem.ds8(0x830B) * 0x16                      # 6E46-6E4E mov al, [0x830b]; xor ah, ah; mov dx, 0x16; mul dx
+    record = (product + 0x80E8) & 0xFFFF                  # 6E50-6E52: the pitch record of slot [0x830b]
+    mem.set_reg("ax", product & 0xFFFF)
+    mem.set_reg("dx", product >> 16)
+    mem.set_reg("di", record)
     ax = yield call("0791:2BE5", mem.reg("ds"), record, ret_to="0791:6E5C", far=True)   # 6E56-6E59 push ds; push di; push cs
-    toward = 1 if s8(ax & 0xFF) > 0 else 0                # 6E5C-6E64 or al, al; jg
-    yield call("0791:26A0", (ax & 0xFF00) | toward, ret_to="0791:6E6A", far=False)      # 6E66-6E67: AH is 2BE5's
+    ax = (ax & 0xFF00) | (1 if s8(ax & 0xFF) > 0 else 0)  # 6E5C-6E64 or al, al; jg; mov al, 0 or 1: AH is 2BE5's
+    mem.set_reg("ax", ax)
+    yield call("0791:26A0", ax, ret_to="0791:6E6A", far=False)            # 6E66-6E67
     return None                                           # 6E6A-6E6D: AX, DX as 26A0 left them

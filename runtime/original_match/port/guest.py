@@ -114,6 +114,7 @@ class PortFrame:
 
     def _finish(self, value):
         m, entry = self.m, self.entry
+        self.value = value          # None: a procedure's port (the proof then counts AX, DX as scratch, prove.py)
         m.set_reg("sp", self.sp)    # the epilogue: whatever frame the port built (mem.enter) is gone
         m.set_reg("bp", self.bp)
         if value is not None:
