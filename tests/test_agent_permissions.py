@@ -1,5 +1,5 @@
-"""The OpenCode reviewer's outside-the-worktree grants (the owner, 2026-10-11): /tmp and the
-pinned DOSBox-X bundle are open; the owner-authorized timezone read is scoped by tool permissions.
+"""The OpenCode reviewer's outside-the-worktree grants (the owner, 2026-10-11): /tmp, the
+scratch folder ~/goal2-review-tmp (#311) and the pinned DOSBox-X bundle are open; the owner-authorized timezone read is scoped by tool permissions.
 OpenCode needs an /etc/* external-directory gate for /etc/timezone because it requests the parent
 directory glob. Read rules allow only the timezone file, while path-insensitive grep/glob tools
 stay denied. This is an OpenCode tool policy, not an OS sandbox. The reviewer is the one OpenCode
@@ -12,6 +12,8 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 # the one grant outside /tmp: the DOSBox-X 2024.03.01 bundle (#117), the folder and what is in it
 BUNDLE = ("~/tools/dosbox-x-2024.03.01", "~/tools/dosbox-x-2024.03.01/*")
+# and the scratch folder on the real disk (#311): /tmp is a shared RAM-backed tmpfs that filled up
+SCRATCH = ("~/goal2-review-tmp", "~/goal2-review-tmp/*")
 
 
 def grants(agent):
@@ -77,10 +79,26 @@ class AgentTmpGrantTests(unittest.TestCase):
             for p in BUNDLE:
                 self.assertEqual(g.get(p), "allow", (agent, p))
 
+    def test_the_scratch_folder_on_disk_is_open_to_the_reviewer(self):
+        # #311: a review's copies of main and suite logs go here, not to the 11 GB tmpfs that hit 100%
+        for agent in AGENTS:
+            g = grants(agent)
+            for p in SCRATCH:
+                self.assertEqual(g.get(p), "allow", (agent, p))
+                # no dot element: Ghidra rejects a temp path with one
+                self.assertFalse(any(part.startswith(".") for part in p.split("/")), p)
+
+    def test_the_scratch_grant_is_only_that_folder_and_edit_stays_denied(self):
+        for agent in AGENTS:
+            home = {p for p, a in grants(agent).items() if a == "allow" and p.startswith("~")}
+            self.assertEqual(home, set(BUNDLE) | set(SCRATCH), agent)  # no ~ or ~/* grant
+            front = (ROOT / ".opencode" / "agents" / f"{agent}.md").read_text().split("---")[1]
+            self.assertRegex(front, r"(?m)^  edit: deny$")
+
     def test_nothing_else_outside_the_worktree_is_granted(self):
         for agent in AGENTS:
             outside = {p for p, action in grants(agent).items()
-                       if action == "allow" and not under_tmp(p) and p not in BUNDLE}
+                       if action == "allow" and not under_tmp(p) and p not in BUNDLE + SCRATCH}
             # OpenCode 1.18.32 derives /etc/* from a read of /etc/timezone; direct read policy
             # below narrows that backend gate to the single owner-authorized file.
             self.assertEqual(outside, {"/etc/*"}, agent)

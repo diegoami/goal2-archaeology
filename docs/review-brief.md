@@ -53,4 +53,12 @@ That is expected, not a hang. Run such a suite once, in one foreground call whos
 enough for it. Do not start it in the background and poll it, and do not kill it for being quiet:
 the harness stops a review only after 25 minutes without activity, which one foreground call stays
 well inside.
+
+Scratch space: /tmp is a small RAM-backed disk shared with other projects, and it may be full (it
+was at 100% on 2026-10-17 and a review died of ENOSPC after an hour). Put copies of main,
+family-run outputs, suite logs and any other big file in your scratch folder under
+~/goal2-review-tmp/ (the run's rules name it; TMPDIR, TMP and TEMP already point there; it is on the
+real disk, its path has no dot element, and the script removes it when your review is read). Never
+write them under /tmp. If a command fails with "No space left on device", say so in the review and
+move its output to the scratch folder rather than retrying in /tmp.
 ```

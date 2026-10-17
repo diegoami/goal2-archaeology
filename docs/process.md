@@ -172,6 +172,8 @@ You review PR #<n> at <sha>. You did not write it. The task file follows.
 5. Sweep the diff: tests that pass with the behaviour deleted (mutate, rebuild clean, re-take any
    negative result), branches no input reaches, edge comments without a test, <project classes>.
 6. <docs/review-brief.md in full: "Blocking means" for this task, then its one-pass section (L47, L49)>
+Scratch copies and big outputs go to your scratch folder under ~/goal2-review-tmp (TMPDIR points
+there), never /tmp, which may be full (#311).
 Prove each finding (run it, or delete the behaviour and name the test that fails) or label it
 unverified. Your final message is the review: the header; the verdict (approve | approve after
 named fixes | rework | user decision); per Done-when line `DW<k>: ran <command> → <result>` or
@@ -195,7 +197,7 @@ because a static tool was missing, or a finding resting on runs whose Method doe
 static analysis was tried, is a contract defect: rework.
 
 Run mechanics, added to every brief here: the session is killed after 1500 s without activity; keep
-every shell command under 5 minutes (a long suite excepted: one foreground call, `docs/review-brief.md`), and work only inside the review worktree. Undo a mutation by
+every shell command under 5 minutes (a long suite excepted: one foreground call, `docs/review-brief.md`), and work only inside the review worktree and, for scratch files, the run's folder under `~/goal2-review-tmp` (`review.mjs` sets `TMPDIR` there, removes it when the run comes back and keeps it when the run fails; it refuses to start when `/tmp` has under 500 MB free and that disk under 2 GB; #311). Undo a mutation by
 writing back the file's saved contents (read it first, restore it in a `finally`), never with
 `git checkout`, `git restore` or `git reset` of the file: those return the last commit and destroy
 any uncommitted work in it (PR 114 round 1). If a reviewer still
