@@ -1,0 +1,14 @@
+test_the_gate_falsifier_proves_on_e011 (tests.test_emul_match.RealGuestTests.test_the_gate_falsifier_proves_on_e011) ... WARNING: call #1 of 0791:278A: uncompared register BX at the return: the original 0x001E, the model 0x016A (counted, not an error; further ones counted only)
+WARNING: call #1 of 0791:278A: uncompared register CX at the return: the original 0x0010, the model 0x0004 (counted, not an error; further ones counted only)
+WARNING: call #1 of 0791:278A: uncompared register ES at the return: the original 0x2DA4, the model 0x4E5B (counted, not an error; further ones counted only)
+WARNING: call #1 of 0791:278A: uncompared register FLAGS at the return: the original 0x7202, the model 0x7296 (counted, not an error; further ones counted only)
+ok
+
+----------------------------------------------------------------------
+Ran 1 test in 172.813s
+
+OK
+
+real	2m52.916s
+user	3m0.278s
+sys	0m3.177s

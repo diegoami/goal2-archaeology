@@ -29,7 +29,7 @@ try:
     from unicorn import UC_HOOK_CODE  # noqa: E402
     from watched_match import Guest, routine_return  # noqa: E402  (watched_match.py imports unicorn at module level)
 except ModuleNotFoundError:
-    # CI does not install python3-unicorn; the module's tests skip with the reason named.
+    # a machine without unicorn (CI's code tier installs it from runtime/emul/requirements.txt, #304): the module's tests skip with the reason named.
     raise unittest.SkipTest("unicorn not installed")
 
 CODE, ROUTINE = 0x1000, 0x2000
