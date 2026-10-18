@@ -30,16 +30,14 @@ def check_input(path, option):
     """`path` is a regular file this process can open for reading (a symlink to one is fine; a broken link is not)."""
     try:
         mode = os.stat(path).st_mode                # "" is a missing file here, as it is to open()
+        if stat.S_ISREG(mode):
+            open(path, "rb").close()                  # the operation itself, not os.access: it is what the run does
     except FileNotFoundError:
-        _fail(option, path, "does not exist (or is a broken link)")
+        _fail(option, path, "does not exist (or its link points nowhere)")
     except OSError as e:
         _fail(option, path, f"cannot be read ({_reason(e)})")
-    if not stat.S_ISREG(mode):
+    if not stat.S_ISREG(mode):                        # a folder, a FIFO (opening one would wait for a writer), a device
         _fail(option, path, "is not a file")
-    try:
-        open(path, "rb").close()                      # the operation itself, not os.access: it is what the run does
-    except OSError as e:
-        _fail(option, path, f"cannot be read ({_reason(e)})")
 
 
 def read_input(path, option):
