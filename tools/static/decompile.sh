@@ -18,6 +18,7 @@
 # Needs Ghidra 12.1.4 (GHIDRA_HOME, else ~/tools/ghidra_12.1.4_PUBLIC) and a JDK 21 (JAVA_HOME, else
 # ~/tools/jdk-21*), python3 >= 3.11. One Ghidra instance,
 # two CPUs (the machine is shared). KEEP_WORK=1 keeps the work directory (Ghidra's log, raw output).
+# The work directory is $HOME/goal2-ghidra-work/decompile-<random> (GOAL2_GHIDRA_WORK moves the base), removed at the end.
 set -eu
 annotations=
 if [ "${1:-}" = --annotations ] && [ $# -eq 4 ]; then
@@ -70,15 +71,20 @@ case "$java_version" in
 esac
 export JAVA_HOME
 
-work=$(mktemp -d)
-annotate=
-if [ -n "$annotations" ]; then
-  annotate="-postScript GoalAnnotate.java $work/segmap.tsv $annotations"
-fi
+# Ghidra rejects a project path with an element starting with '.' (fix #315), and the worktrees are
+# under <repo>/.claude/: the work directory is in a dot-free folder whatever TMPDIR and the
+# repository's path are (tools/static/ghidra_work.py), and Ghidra's temporary files go there too.
+work=$(python3 "$root/tools/static/ghidra_work.py" new decompile)
+export TMPDIR="$work" TMP="$work" TEMP="$work"
+# removed on any exit from here on, an early failure included, unless KEEP_WORK=1
 if [ "${KEEP_WORK:-0}" = 1 ]; then
   echo "decompile.sh: work directory $work" >&2
 else
   trap 'rm -rf "$work"' EXIT
+fi
+annotate=
+if [ -n "$annotations" ]; then
+  annotate="-postScript GoalAnnotate.java $work/segmap.tsv $annotations"
 fi
 
 python3 "$root/tools/static/unlzexe.py" "$exe" "$work/goal.exe" > /dev/null
