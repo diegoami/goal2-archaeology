@@ -54,6 +54,16 @@ enough for it. Do not start it in the background and poll it, and do not kill it
 the harness stops a review only after 25 minutes without activity, which one foreground call stays
 well inside.
 
+Heavy jobs (#318): two heavy jobs at most run at a time on this machine, for every agent, review and
+worktree. Run a match, a family run, check.py or the unit suite only as `heavy.sh NAME -- COMMAND`
+(`tools/harness/heavy.sh`; it is on your PATH, so run it by name). "heavy: NAME: waiting for a slot
+(k ahead)" is the queue, not a hang: the 25-minute idle limit does not count the time a command waits
+there. A suite stays one foreground call, wrapped: `heavy.sh unit-suite -- python3 -m unittest discover
+-s tests`. A family run takes 15 to 25 minutes under load and may queue first, more than the 1,200 s one
+tool call allows (L121): start it detached, `heavy.sh family -- python3 -B experiments/E036-match-port/family.py
+... > $TMPDIR/family.log 2>&1 &`, and poll the log with `tail -n 5`. Inside a heavy job a second
+`heavy.sh` runs at once (it needs no second slot), so `check.py` under the suite does not wait for itself.
+
 Scratch space: /tmp is a small RAM-backed disk shared with other projects, and it may be full (it
 was at 100% on 2026-10-17 and a review died of ENOSPC after an hour). Put copies of main,
 family-run outputs, suite logs and any other big file in your scratch folder under

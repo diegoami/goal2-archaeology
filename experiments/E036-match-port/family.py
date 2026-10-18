@@ -373,7 +373,8 @@ def find_ranges(image, selected, path, time_limit=3600.0, say=print):
     return report
 
 
-def main(argv=None):
+def parser():
+    """The command line's one definition: main() parses with it, and so does the slot weight (heavy_slot.parsed)."""
     ap = argparse.ArgumentParser(description=__doc__.split("\n\n")[0])
     ap.add_argument("--family", required=True)
     ap.add_argument("--out")
@@ -385,22 +386,46 @@ def main(argv=None):
     ap.add_argument("--mask")
     ap.add_argument("--only")
     ap.add_argument("--cache", default=DEFAULT_CACHE)
-    a = ap.parse_args(argv)
+    return ap
+
+
+def prepare(a):
+    """(selected, mask, counts) for a parsed command line; Refused or families.FamilyError when main() will refuse it."""
+    if (a.out is None) == (a.find_ranges is None):
+        raise Refused("give --out (a family run) or --find-ranges (the write watch), not both and not neither")
+    if a.max is not None and a.max < 1:
+        raise Refused("--max is a number of matches, 1 or more")
+    if not 0 < a.time_limit <= 36000:
+        raise Refused("--time-limit is a number of seconds, up to 36000")
+    selected = [m for fam in families.select(a.family, families.discover()) for m in fam.matches]
+    if a.only is not None:
+        ids = a.only.split(",")
+        unknown = [i for i in ids if i not in {m.id for m in selected}]
+        if unknown or len(set(ids)) != len(ids):
+            raise Refused(f"--only {a.only!r}: distinct ids among the selected matches (unknown: {unknown})")
+        selected = [m for m in selected if m.id in ids]
+    return selected, parse_mask(a.mask), parse_count(a.count)
+
+
+def processes(a, selected, mask):
+    """How many match processes this command runs at once, which is what the slot weight is. The write watch runs its
+    matches one after another in this process, whatever --workers says. A family run with --workers 2 runs the matches
+    not yet in --out (up to --max) in a pool of 2 worker processes, so at most min(workers, matches to run) matches run at
+    once: Python 3.14 (forkserver) starts a worker only for a match to run, and 3.12 (fork) starts both, one idle, which
+    costs no CPU (both checked on this machine). At least 1: the kit is loaded. Other modes: none (checked: the options
+    --count, --mask, --only, --cache, --time-limit change what a match records or which ones, never how many run at once)."""
+    if a.find_ranges:
+        return 1
+    todo = len([s for s in selected if s.id not in existing_records(a.out, selected, mask)])
+    if a.max is not None:
+        todo = min(todo, a.max)
+    return max(1, min(a.workers, todo))
+
+
+def main(argv=None):
+    a = parser().parse_args(argv)
     try:
-        if (a.out is None) == (a.find_ranges is None):
-            raise Refused("give --out (a family run) or --find-ranges (the write watch), not both and not neither")
-        if a.max is not None and a.max < 1:
-            raise Refused("--max is a number of matches, 1 or more")
-        if not 0 < a.time_limit <= 36000:
-            raise Refused("--time-limit is a number of seconds, up to 36000")
-        selected = [m for fam in families.select(a.family, families.discover()) for m in fam.matches]
-        if a.only is not None:
-            ids = a.only.split(",")
-            unknown = [i for i in ids if i not in {m.id for m in selected}]
-            if unknown or len(set(ids)) != len(ids):
-                raise Refused(f"--only {a.only!r}: distinct ids among the selected matches (unknown: {unknown})")
-            selected = [m for m in selected if m.id in ids]
-        mask, counts = parse_mask(a.mask), parse_count(a.count)
+        selected, mask, counts = prepare(a)
         if a.find_ranges:
             if a.find_ranges and Path(a.find_ranges).exists():
                 raise Refused(f"refused: {a.find_ranges} exists (an output is never overwritten)")
@@ -417,5 +442,25 @@ def main(argv=None):
     return 1 if bad else 0
 
 
+def _slot_weight(argv):
+    """The slots this command line needs: the match processes it will start (processes()), derived from main()'s own
+    parser and preparation, or None when main() would refuse the line (no slot; main() then says why)."""
+    import heavy_slot
+    ns = heavy_slot.parsed(parser(), argv)
+    if ns is None:
+        return None
+    try:
+        selected, mask, _ = prepare(ns)
+        return processes(ns, selected, mask)
+    except (Refused, families.FamilyError):
+        return None
+
+
 if __name__ == "__main__":
+    import heavy_slot
+    # a heavy job (#318): one slot per match process, so --workers 2 holds two of the machine's slots; a command line
+    # main() refuses holds none (it prints argparse's message at once)
+    _w = _slot_weight(sys.argv[1:])
+    if _w is not None:
+        heavy_slot.take("family", weight=_w)
     sys.exit(main())
