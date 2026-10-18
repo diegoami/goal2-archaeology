@@ -25,6 +25,7 @@ ROOT = HERE.parent.parent
 sys.path.insert(0, str(ROOT / "tools" / "static"))
 
 import decompiled  # noqa: E402
+import ghidra_work  # noqa: E402
 
 OUT = ROOT / "static" / "goal-exe" / "decompiled"
 ROUTINES = ROOT / "static" / "goal-exe" / "routines.tsv"
@@ -65,13 +66,13 @@ PROBED = ["0791:97D0", "0791:A4A1", "1771:97CC", "1771:10E7", "214B:0688", "2138
 class GhidraMappingTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.work = Path(tempfile.mkdtemp())
+        cls.work = ghidra_work.new_work_dir("mapping-test")  # Ghidra rejects a dotted project path (#315)
         exe = cls.work / "goal.exe"
         subprocess.run([sys.executable, str(ROOT / "tools" / "static" / "unlzexe.py"), str(EXE), str(exe)],
                        check=True, capture_output=True)
         cls.image = exe.read_bytes()
         (cls.work / "project").mkdir()
-        env = dict(os.environ, JAVA_HOME=str(JAVA))
+        env = dict(os.environ, JAVA_HOME=str(JAVA), TMPDIR=str(cls.work), TMP=str(cls.work), TEMP=str(cls.work))
         segmap, probe = cls.work / "segmap.tsv", cls.work / "probe.tsv"
         run = subprocess.run(
             [str(GHIDRA / "support" / "analyzeHeadless"), str(cls.work / "project"), "probe",
