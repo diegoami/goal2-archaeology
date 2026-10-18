@@ -1,3 +1,4 @@
+// #262: ported from diegoami/goal2 PR 178 (squash e0cab8b); its [designed/confirmed: T72…] tags cite that repository's tasks and measurements/.
 // [designed: T72a] Pure protocol contract; production activation belongs to T72.
 // [confirmed: measurements/T72a] V2 envelopes/fields differ from the supported v1 CLI.
 import path from 'node:path';

@@ -24,6 +24,12 @@
 //
 // Every failure of OpenCode itself throws an OpenCodeInfraError with a short `reason`; a fallback
 // chain may move past it. Anything else thrown is a defect of the caller.
+//
+// The above is the v1 (1.18) path, kept as the explicit compatibility path (#262): it runs when the
+// CLI reports 1.x, which is now only when HARNESS_OPENCODE_EXE names a 1.x binary. A 2.x CLI runs
+// through lib/opencode-workflow.mjs instead (an owned private server, the trusted reviewer profile,
+// the shell-operand guard, the complete export); runOpenCodeWatched at the end dispatches on the
+// version the CLI reports, and refuses any other major before anything is billed.
 
 import { spawn, spawnSync } from 'node:child_process';
 import { randomBytes } from 'node:crypto';
@@ -31,14 +37,10 @@ import { openFresh, writeFresh, harnessDir, scratchRoot } from './scratch.mjs';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
+import { OpenCodeInfraError, privateHome, startPrivateServer, settledCatalogue } from './opencode-transport.mjs';
+import { runV2Workflow } from './opencode-workflow.mjs';
 
-export class OpenCodeInfraError extends Error {
-  constructor(reason, message) {
-    super(message);
-    this.name = 'OpenCodeInfraError';
-    this.reason = reason;
-  }
-}
+export { OpenCodeInfraError };
 
 // A failed run on Alibaba's Token Plan whose stderr (OpenCode's own, not the model's output) says the
 // key was refused: an auth.json entry in the data
@@ -194,25 +196,40 @@ export function openCodeHome(env = process.env, { log = () => {} } = {}) {
   return { env: { ...env, ...dirs }, root, dataHome: dirs.XDG_DATA_HOME };
 }
 
-// The OpenCode version the runner drives ("1.18.34"), or null when `--version` gives none. The
-// harness was checked on the 1.18 line, the public CLI. The desktop app ships a 2.x CLI whose run
-// flags, session fields and agent format differ (#26), so any major but 1 is refused before
-// anything is billed.
-export const SUPPORTED_MAJOR = 1;
+// The OpenCode version the runner drives ("1.18.34", "2.0.28"), or null when `--version` gives none
+// (1.x prints the bare number, 2.x `opencode v2.0.28`). Each major has its own protocol
+// (lib/opencode-protocol.mjs): 1.x the 1.18 commands below, 2.x lib/opencode-workflow.mjs. Any other
+// major is refused before anything is billed; so is a 2.x other than the audited build (the guard
+// pins its bytes, lib/opencode-guard.mjs).
+export const SUPPORTED_MAJOR = [1, 2];
+export const majorOf = (version) => Number(String(version ?? '').split('.')[0]);
 export async function openCodeVersion(cmd, { env, cwd, timeoutMs = 30_000 }) {
   const r = await execBounded(cmd, ['--version'], { cwd, env, timeoutMs });
   return r && r.code === 0 ? r.stdout.match(/\bv?(\d+)\.(\d+)\.(\d+)\b/)?.[0].replace(/^v/, '') ?? null : null;
 }
 export function versionProblem(version, exe) {
-  if (version && Number(version.split('.')[0]) === SUPPORTED_MAJOR) return null;
-  return `OpenCode ${version ?? 'gave no version'} at ${exe} is not supported: the harness runs on the public `
-    + `${SUPPORTED_MAJOR}.x CLI (checked on 1.18), and the desktop app's 2.x CLI differs (#26). Point it at a 1.18 CLI: `
-    + '~/.opencode/bin/opencode, npm opencode-ai@1.18, or HARNESS_OPENCODE_EXE';
+  if (version && SUPPORTED_MAJOR.includes(majorOf(version))) return null;
+  return `OpenCode ${version ?? 'gave no version'} at ${exe} is not supported: the harness drives the 2.x CLI `
+    + '(audited on 2.0.28) and, as the explicit compatibility path, a 1.x CLI named by HARNESS_OPENCODE_EXE '
+    + '(checked on 1.18). Anything else is refused before billing.';
 }
 
-// The efforts (variants) OpenCode offers for a model, from `opencode models <provider> --verbose`,
-// which prints each id followed by its JSON; null when they cannot be read.
+// The efforts (variants) OpenCode offers for a model; null when they cannot be read. v1: from
+// `opencode models <provider> --verbose`, which prints each id followed by its JSON. v2 has no such
+// command (tests/fixtures/opencode/v2-live: "Unrecognized flag: --verbose"): the variants come from the
+// model registry of a private server of our own, never the shared background service.
 export async function modelVariants(cmd, id, { env, cwd, timeoutMs = 60_000 }) {
+  const version = await openCodeVersion(cmd, { env, cwd });
+  if (majorOf(version) === 2) {
+    const home = privateHome(env);
+    let server;
+    try {
+      server = await startPrivateServer(cmd, { env: { ...home.env, OPENCODE_DISABLE_PROJECT_CONFIG: '1' }, cwd, timeoutMs });
+      const found = await settledCatalogue(server, { model: { id }, timeoutMs });
+      return found.selected.variants.map((v) => v.id);
+    } catch { return null; } finally { await server?.stop().catch(() => {}); }
+  }
+  if (majorOf(version) !== 1) return null;
   const r = await execBounded(cmd, ['models', id.split('/')[0], '--verbose'], { cwd, env, timeoutMs });
   if (!r || r.code !== 0) return null;
   const at = r.stdout.indexOf(`${id}\n`);
@@ -232,10 +249,28 @@ export async function modelVariants(cmd, id, { env, cwd, timeoutMs = 60_000 }) {
 // an unknown id or a provider that is not logged in stops a run before anything is billed. A
 // provider with no login exits 1 with "Provider not found" (OpenCode 1.18.34); any other failure,
 // or a timeout, is OpenCode's own and lands in `errors`, so it is never reported as a login.
+// v2 has no per-provider form ("Unexpected positional argument"): `opencode models --standalone` lists
+// every model, one provider/model per line, from a private server (never the background service,
+// which a bare `opencode models` would start); the caller passes the v2 environment (privateHome).
 // Returns { listed: Set, errors: Map provider -> message }.
 export async function listedModels(cmd, providers, { env, cwd, timeoutMs = 60_000 }) {
   const listed = new Set();
   const errors = new Map();
+  const version = await openCodeVersion(cmd, { env, cwd });
+  if (versionProblem(version, cmd.exe)) {
+    for (const p of new Set(providers)) errors.set(p, `unsupported OpenCode version ${version ?? '(none)'}`);
+    return { listed, errors };
+  }
+  if (majorOf(version) === 2) {
+    const r = await execBounded(cmd, ['models', '--standalone'], { cwd, env: { ...env, OPENCODE_DISABLE_PROJECT_CONFIG: '1' }, timeoutMs });
+    if (!r || r.code !== 0) {
+      const why = !r ? `did not finish in ${Math.round(timeoutMs / 1000)} s` : `failed with exit ${r.code}: ${r.stderr.replace(/\x1b\[[0-9;]*m/g, '').trim().split(/\r?\n/).at(-1) || '(no output)'}`;
+      for (const p of new Set(providers)) errors.set(p, `\`opencode models --standalone\` ${why}`);
+      return { listed, errors };
+    }
+    for (const l of r.stdout.split(/\r?\n/)) if (l.trim()) listed.add(l.trim());
+    return { listed, errors };
+  }
   for (const p of new Set(providers)) {
     const r = await execBounded(cmd, ['models', p], { cwd, env, timeoutMs });
     if (!r) { errors.set(p, `\`opencode models ${p}\` did not finish in ${Math.round(timeoutMs / 1000)} s`); continue; }
@@ -403,7 +438,7 @@ export function queueTouched(file) {
  *   permissionRejected, permissionHint, files, briefFile, seconds }.
  * A non-zero exit is returned, not thrown: the caller decides.
  */
-export async function runOpenCodeWatched({
+async function runV1Watched({
   args, prompt, workDir, title, sessionId = null,
   startupTimeoutMs = 180_000, totalTimeoutMs = 3_600_000, idleTimeoutMs = 600_000, pollMs = 10_000,
   logDir = harnessDir(scratchRoot()), opencode, env = process.env, log = () => {}, queueFile = null,
@@ -593,4 +628,53 @@ export async function runOpenCodeWatched({
     }
     throw e;
 }
+}
+
+// The audited 2.x build: the shell-operand guard was checked against these bytes (lib/opencode-guard.mjs).
+export const AUDITED_V2 = '2.0.28';
+
+/**
+ * Runs one OpenCode session for `prompt` in workDir, watched, on the protocol of the CLI's own major:
+ * the v1 runner above for 1.x (the explicit compatibility path), lib/opencode-workflow.mjs for 2.x.
+ * The caller names the exact model ({ id, variant?, family }), the agent and, for 2.x, the trusted agent
+ * file of the launching checkout; `args` (ocArgs) is the v1 command line and must agree with them.
+ * Nothing is substituted: a missing or malformed selection, an unsupported major or an unaudited 2.x
+ * build is refused before any server or model starts. Same result shape on both paths, plus, on 2.x,
+ * reviewText (the final assistant text of the complete export), normalized and manifest.
+ */
+export async function runOpenCodeWatched(options) {
+  const env = options.env ?? process.env;
+  const cmd = options.opencode ?? resolveOpenCode(env);
+  const args = options.args ?? [];
+  if (args[0] !== 'run') throw new Error(`runOpenCodeWatched runs 'opencode run'; got '${args[0]}'.`);
+  const get = (key) => {
+    if (!args.includes(key)) return undefined;
+    const value = args[args.indexOf(key) + 1];
+    if (typeof value !== 'string' || !value || value.startsWith('--')) throw new OpenCodeInfraError('selection', `${key} requires its explicit value`);
+    return value;
+  };
+  for (const key of ['--model', '--agent', '--variant']) get(key);
+  const id = get('--model');
+  const model = options.model ?? (id ? { id, ...(get('--variant') ? { variant: get('--variant') } : {}) } : null);
+  const agent = options.agent ?? get('--agent');
+  if (model?.variant != null && (typeof model.variant !== 'string' || !model.variant || /[#\s]/.test(model.variant))) throw new OpenCodeInfraError('selection', 'requires a valid explicit effort or absent effort');
+  const malformedModel = model && (typeof model.id !== 'string' || !/^[^/\s#]+\/[^\s#]+$/.test(model.id));
+  if (malformedModel) throw new OpenCodeInfraError('selection', 'requires the exact selected provider/model');
+  if (agent !== undefined && (typeof agent !== 'string' || !agent)) throw new OpenCodeInfraError('selection', 'requires the exact selected agent');
+  const version = await openCodeVersion(cmd, { env, cwd: options.workDir });
+  const bad = versionProblem(version, cmd.exe);
+  if (bad) throw new OpenCodeInfraError('unsupported version', bad);
+  if (majorOf(version) === 1) {
+    // The v1 command line runs as given, as before #262 (a caller may leave --model and --agent to
+    // OpenCode's defaults); when a selection is named, the command line must say exactly that.
+    if (model && (get('--model') !== model.id || get('--variant') !== (model.variant ?? undefined))) throw new OpenCodeInfraError('selection', 'the v1 command differs from the selected model or effort');
+    if (get('--agent') !== undefined && get('--agent') !== agent) throw new OpenCodeInfraError('selection', 'the v1 command differs from the selected agent');
+    return runV1Watched({ ...options, opencode: cmd });
+  }
+  if (!model) throw new OpenCodeInfraError('selection', 'requires the exact selected provider/model');
+  if (typeof agent !== 'string') throw new OpenCodeInfraError('selection', 'requires the exact selected agent');
+  if (version !== AUDITED_V2) throw new OpenCodeInfraError('unsupported version', `OpenCode ${version}: the shell-operand guard was audited on ${AUDITED_V2} only; revalidate it (tools/harness/opencode-guard/README.md) before running another 2.x`);
+  if (!options.agentFile) throw new OpenCodeInfraError('selection', 'v2 requires the explicit trusted agentFile from the launching checkout');
+  if (typeof model.family !== 'string' || !model.family) throw new OpenCodeInfraError('selection', 'v2 requires the selected policy family');
+  return runV2Workflow({ ...options, model, agent, opencode: cmd, env });
 }

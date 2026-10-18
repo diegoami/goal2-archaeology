@@ -202,6 +202,14 @@ test('the config survey rejects every allow glob that could match a plugin, and 
   assert(live.location.directory);
 });
 
+test('the nonbilling simulator is admitted by the hash of the stub as it is (update the pin with the stub)', async () => {
+  const { testStubSHA256 } = await import(process.env.GUARD_HELPER || '../tools/harness/lib/opencode-guard.mjs');
+  const { createHash } = await import('node:crypto');
+  const stubFile = new URL('helpers/opencode-stub.mjs', import.meta.url);
+  assert.equal(createHash('sha256').update(fs.readFileSync(stubFile)).digest('hex'), testStubSHA256, 'lib/opencode-guard.mjs testStubSHA256 must name tests/helpers/opencode-stub.mjs');
+  assert.equal(pinGuardBinary({ exe: process.execPath, prefix: [fileURLToPath(stubFile)] }), 'explicit hashed Node-test simulator; no native enforcement claim');
+});
+
 test('a wrapper or an unaudited binary fails closed; missing dependencies are never fetched', () => {
   assert.throws(() => pinGuardBinary({ exe: process.execPath, prefix: [] }), /audited OpenCode/);
   assert.throws(() => pinGuardBinary({ exe: process.execPath, prefix: [fileURLToPath(import.meta.url)] }), /wrapped native binaries/);

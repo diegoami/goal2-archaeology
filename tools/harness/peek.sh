@@ -8,7 +8,24 @@
 # start of its input, and the start of each message the model wrote. It reads the session through
 # `opencode export` with the harness's XDG directories (review.mjs runs there),
 # never auth.json. Works while the run is going and after it ends.
+#
+# OpenCode 2 (#262): when the CLI (OPENCODE_BIN, HARNESS_OPENCODE_EXE or the installed one) reports 2.x,
+# this execs tools/harness/peek.mjs, which also takes a run's receipt (run.json) and reads the run's own
+# private data directory, never the shared background service. A 1.x CLI keeps the reader below.
 set -eu
+script_dir=$(cd -- "$(dirname -- "$0")" && pwd)
+if [ -n "${OPENCODE_BIN:-}" ]; then
+  oc=$OPENCODE_BIN
+else
+  oc=$(node --input-type=module -e 'import { pathToFileURL } from "node:url"; const { resolveOpenCode } = await import(pathToFileURL(process.argv[1])); const c = resolveOpenCode(); console.log(c.prefix.length ? c.prefix[0] : c.exe);' "$script_dir/lib/opencode.mjs")
+fi
+case "$oc" in
+  *.mjs|*.js) ver=$(node "$oc" --version 2>/dev/null || true) ;;
+  *) ver=$("$oc" --version 2>/dev/null || true) ;;
+esac
+case "$ver" in
+  *v2.*|2.*) exec node "$script_dir/peek.mjs" "$@" ;;
+esac
 target=${1:?usage: peek.sh ses_XXXX|<run log> [-n N]}; shift
 n=20
 [ "${1:-}" = -n ] && n=$2
@@ -20,15 +37,9 @@ if [ -f "$target" ]; then
 fi
 case "$sid" in ses_*) ;; *) echo "peek.sh: not a session id or a run log: $target" >&2; exit 2 ;; esac
 H=${HARNESS_OPENCODE_HOME:-$HOME/.local/share/harness-opencode}
-# The harness's own binary (review.mjs logs it), never whichever `opencode` comes
+# The harness's own binary (resolved above; review.mjs logs it), never whichever `opencode` comes
 # first on PATH: in a WSL shell that can be the Windows install (/mnt/c/…/npm/opencode), which
 # cannot read this database and answers "Session not found".
-if [ -n "${OPENCODE_BIN:-}" ]; then
-  oc=$OPENCODE_BIN
-else
-  script_dir=$(cd -- "$(dirname -- "$0")" && pwd)
-  oc=$(node --input-type=module -e 'import { pathToFileURL } from "node:url"; const { resolveOpenCode } = await import(pathToFileURL(process.argv[1])); console.log(resolveOpenCode().exe);' "$script_dir/lib/opencode.mjs")
-fi
 [ -x "$oc" ] || { echo "peek.sh: no OpenCode binary at $oc (set OPENCODE_BIN)" >&2; exit 1; }
 out=$(mktemp) err=$(mktemp)
 trap 'rm -f -- "$out" "$err"' EXIT

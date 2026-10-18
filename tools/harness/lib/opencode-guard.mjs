@@ -8,7 +8,7 @@ import { hash, OpenCodeInfraError, startPrivateServer, delay } from './opencode-
 
 const source = fileURLToPath(new URL('../opencode-guard/', import.meta.url));
 export const pinnedBinarySHA256 = '20d305d0140bfe04df7264a4ecb014402b74b6ac0a0f6456ee07ef3325fb4a85';
-const testStubSHA256 = 'afc431481490e60e574691cd5f54b4fb940081452e9ebc441889169be940ddf6';
+export const testStubSHA256 = 'f55e1824f3d909ed7c31a39f55838a79fe5a87b74cec95ed14b7a27bf21dfbc3'; // tests/helpers/opencode-stub.mjs
 export function pinGuardBinary(command) {
   // [designed: T72; tests] Production wrappers are unsupported. Only the exact nonbilling simulator may run inside Node tests.
   if (command.prefix.length) {
