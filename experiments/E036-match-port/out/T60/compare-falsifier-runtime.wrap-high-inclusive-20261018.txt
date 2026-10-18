@@ -1,0 +1,8 @@
+UTC 2026-10-18T16:45:19.902444+00:00
+Command: python3 -B experiments/E036-match-port/out/T60/partial_compare.py experiments/E036-match-port/out/T60/falsifier-runtime.wrap-high-inclusive.jsonl --expect differ
+F40/e032-1234: did not complete: error 'GuestError: team 0: scorer rows [[378, 176]] or eleven changes [] without the score or substitutions-left write that makes them events'; did not stop at the full-time board
+S/quick-30: did not complete: error 'GuestError: team 1: scorer rows [[129, 182]] or eleven changes [] without the score or substitutions-left write that makes them events'; did not stop at the full-time board
+S/ko-42-quick-g19: differs: first at score; the draws first differ at minute 18 (reference 1793 draws, candidate 907); also ticks, draws.count, draws.digest, events, board.statistics, board.bars and 10 more
+all as expected (differ)
+
+exit 0
