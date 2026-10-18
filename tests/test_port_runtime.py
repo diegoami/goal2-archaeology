@@ -6,6 +6,7 @@ branches the 62 matches of ALL never reach (0CCB, 0CF4 mostly, 0676, 072F, 0787,
 the upper clamp, a negative dividend of 0294, a truncated or saturated string) are here. FuzzAgainstOriginal runs each
 port against the original's own code on random inputs when the reference image is in .cache/dl and unicorn is
 installed (T60's out/T60/fuzz.py; CI has neither and skips it)."""
+import os
 import sys
 import unittest
 from pathlib import Path
@@ -515,6 +516,8 @@ class Registry(unittest.TestCase):
 
 
 def _image_available():
+    if os.environ.get("T60_NO_FUZZ"):             # the mutation check (out/T60/mutations.py) runs the hand-worked tests only
+        return False
     try:
         import unicorn  # noqa: F401
     except ImportError:

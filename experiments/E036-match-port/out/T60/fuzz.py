@@ -90,6 +90,10 @@ def final(m):
     return {r: m.reg(r) for r in ("ax", "bx", "cx", "dx", "si", "di", "bp", "sp", "ds", "es", "ss", "cs", "eip", "eflags")}
 
 
+STACK_DETAIL = False
+IGNORE_FRAME = False        # --ignore-frame: leave the callee's dead stack frame out of the memory comparison (T60's first rule)
+
+
 def compare(a, b, mem_a, mem_b, sp_entry, flags):
     problems, scratch = [], []
     for r in STRICT_REGS:
@@ -106,6 +110,8 @@ def compare(a, b, mem_a, mem_b, sp_entry, flags):
     if mem_a != mem_b:
         lo = SS * 16 + (a["sp"] - 0x1800)             # the callee's dead stack frame: below its return SP
         hi = SS * 16 + a["sp"]
+        if not IGNORE_FRAME:                         # the digests of DS include the stack's residue: compare it too
+            lo = hi = 0
         diffs = []
         n = len(mem_a)
         # find differing bytes quickly by blocks
@@ -116,8 +122,12 @@ def compare(a, b, mem_a, mem_b, sp_entry, flags):
                     if mem_a[i] != mem_b[i] and not lo <= i < hi:
                         diffs.append(i)
         if diffs:
-            problems.append("memory: %d bytes differ, first at linear 0x%05X (original %02X, port %02X)"
-                            % (len(diffs), diffs[0], mem_a[diffs[0]], mem_b[diffs[0]]))
+            rel = [d - (SS * 16 + sp_entry) for d in diffs]
+            where = "stack, entry SP%+d.." % rel[0] if all(abs(r) < 0x2100 for r in rel) else "linear 0x%05X" % diffs[0]
+            problems.append("memory: %d bytes differ, first at %s (original %02X, port %02X)"
+                            % (len(diffs), where, mem_a[diffs[0]], mem_b[diffs[0]]))
+            if STACK_DETAIL:
+                problems.append("diff offsets from the entry SP: " + " ".join("%+d" % r for r in rel[:40]))
     return problems, scratch
 
 
@@ -142,10 +152,12 @@ def fuzz(module, routines, n, seed, flags, cache, verbose, variant=None, timeout
         for t in range(n):
             tr = Trial(rnd)
             gen(tr, img)
+            garbage = bytes(rnd.randrange(1, 256) for _ in range(0x2000))
             outs = []
             for m in (mo, mp):
                 m.write(0, memory)
                 m.write(DATA * 16, bytes(0x10000))
+                m.write(SS * 16 + SP0 - 0x2000, garbage)        # old stack bytes: the dead frames overwrite them or not
                 for linear, data in tr.writes:
                     m.write(linear, data)
                 regs = dict(tr.regs)
@@ -185,8 +197,12 @@ def main():
     ap.add_argument("--variant", help="run the port's variant (it must DIFFER from the original: a control)")
     ap.add_argument("--cache", default=".cache/dl")
     ap.add_argument("--timeout", type=float, default=3, help="seconds a run may take before it counts as a guest error")
+    ap.add_argument("--ignore-frame", action="store_true")
+    ap.add_argument("--stack-detail", action="store_true")
     ap.add_argument("-v", action="store_true")
     a = ap.parse_args()
+    global IGNORE_FRAME, STACK_DETAIL
+    IGNORE_FRAME, STACK_DETAIL = a.ignore_frame, a.stack_detail
     registry = port._module_registry(a.module)
     routines = [a.routine] if a.routine else sorted(registry.entries)
     return 1 if fuzz(a.module, routines, a.n, a.seed, a.flags, a.cache, a.v, a.variant, a.timeout) else 0

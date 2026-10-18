@@ -6,6 +6,7 @@ they yield is checked (target, argument words in push order, the return address 
 a chosen AX. The branches ALL does not reach (the skill halving 27F8, the unavailable-slot advance 2A39, the
 opposite-side flag 2A03, the wide x test of 2E00, the clamp of 2022) are here. FuzzAgainstOriginal runs each port
 against the original's code on random inputs when the reference image is in .cache/dl and unicorn is installed."""
+import os
 import sys
 import unittest
 from pathlib import Path
@@ -547,6 +548,8 @@ class Registry(unittest.TestCase):
 
 
 def _image_available():
+    if os.environ.get("T60_NO_FUZZ"):             # the mutation check (out/T60/mutations.py) runs the hand-worked tests only
+        return False
     try:
         import unicorn  # noqa: F401
     except ImportError:
