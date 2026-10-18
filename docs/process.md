@@ -236,11 +236,13 @@ per merge. Triage decides one of:
 Once `breaks-play` is trialled (§12), Jev settles the gate's confident ends; the main session the middle.
 
 Scheduling follows CLAUDE.md rule 23 (the owner, 2026-10-18): the route-C engine port comes first.
-Hardening, defence-in-depth and edge-case work, and a reviewer's deliberate-reflection or
-adversarial-use finding that the port's own code does not use, is not fixed ahead of the port,
-unless it blocks a port task or breaks the proof for ordinary use. It is recorded as a follow-up
-issue stating the known limit and its acceptance (what would close it), plus a docs note where it
-concerns a mechanism; the owner decides when a limit is worth closing.
+Hardening, defence-in-depth and edge-case work on the proof, the harness or the tooling is not fixed
+ahead of the port, unless it blocks a port task or breaks the proof for ordinary use. It is recorded
+as a follow-up issue that states the known limit and its acceptance (what would close it), and,
+where the limit concerns a mechanism, as a note in the docs too. A reviewer's finding that is a
+deliberate-reflection or adversarial-use route, when the port's own code does not use it, is
+likewise a known limit with a follow-up issue and is not reworked again. The owner decides when a
+limit is worth closing.
 
 ## 7. Escalate to the user when
 
