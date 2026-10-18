@@ -38,7 +38,7 @@ MUTATIONS = [
     ("33CD element 8 -> 7", 'dx, p, 0xF, 8, "1771:33F9")', 'dx, p, 0xF, 7, "1771:33F9")'),
     ("33CD clear element 4 -> 3", 'dx, p, 0xF, 4, "1771:340B")', 'dx, p, 0xF, 3, "1771:340B")'),
     ("3431 hardness below 4 -> below 3", "if (ax & 0xFF) < 4:", "if (ax & 0xFF) < 3:"),
-    ("3431 element 1 -> 2", 'p, 0xF, 1, "1771:3495")', 'p, 0xF, 2, "1771:3495")'),
+    ("3431 element 1 -> 3", '2 if variant == "tactic-element-2-for-1" else 1, "1771:3495")', '2 if variant == "tactic-element-2-for-1" else 3, "1771:3495")'),
     ("3431 position 2 +5 below 0xE -> at most", "if p.u8(5) < 0xE:", "if p.u8(5) <= 0xE:"),
     ("3431 element 6 -> 7", 'p, 0xF, 6, "1771:34CF")', 'p, 0xF, 7, "1771:34CF")'),
     ("34E7 +0xF not cleared", 'Rec(mem, PLAYERS, ax).w8(0xF, 0, "1771:3535")', 'Rec(mem, PLAYERS, ax).w8(0xF, 0xFF, "1771:3535")'),
