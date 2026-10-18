@@ -122,12 +122,11 @@ CODE_SEGMENT = 0x0791          # the paragraph of the code segment the routines 
 ZF = 0x40                      # EFLAGS' zero flag: the set test 23E4:08DF (`test byte ptr es:[bx + di], al`) ends with it
 
 
-def go(site, *args, pre=0):
-    """The call of the listing at offset `site`, with the argument words pushed in order (`pre` further words were pushed
-    by hand before: the callee's `ret n` pops them too, see 998C)."""
+def go(site, *args):
+    """The call of the listing at offset `site`, with the argument words pushed in order (the callee pops them)."""
     target, far, ret_to, nargs = SITES[site]
-    if len(args) + pre != nargs:
-        raise PortError(f"call at 0791:{site:04X}: {len(args)} words (+{pre} pushed before), the callee pops {nargs}")
+    if len(args) != nargs:
+        raise PortError(f"call at 0791:{site:04X}: {len(args)} words, the callee pops {nargs}")
     return call(target, *args, ret_to=ret_to, far=far)
 
 
@@ -765,8 +764,10 @@ def start_of_half(mem, variant):
     third = mem.reg("ax")                                  # 99DB push ax
     set_ax(mem, 0)                                         # 99DC
     set_al(mem, 0x3B)                                      # 99DF
-    yield go(0x99E2, third, 0, 0x3B, pre=1)                # 1EB5 emit_commentary(0x3B, 0, 6B65's, first)
-    mem.set_reg("sp", (mem.reg("sp") + 2) & 0xFFFF)        # its `ret 8` pops the first as well
+    # 1EB5's `ret 8` pops four words, the first among them: the call pushes it again, at the address it was pushed
+    # at (the slot the callee left), so the stack is the original's
+    mem.set_reg("sp", (mem.reg("sp") + 2) & 0xFFFF)
+    yield go(0x99E2, first, third, 0, 0x3B)               # 1EB5 emit_commentary(0x3B, 0, 6B65's, first)
     yield go(0x99E5)                                       # 983F
     set_ax(mem, mem.ds16(0x9B3C))                          # 99E8
     mem.wds16(0x832C, mem.ds16(0x9B3C), "0791:99EB")
