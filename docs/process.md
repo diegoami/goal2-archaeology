@@ -193,8 +193,10 @@ harmless metadata read the owner has authorized does not need another permission
 only the read the tool can enforce, test sibling reads and writes as denied, and describe the
 boundary accurately. On OpenCode 1.18.32, `external_directory` checks the parent `/*` for a file
 read, while `grep` and `glob` permission requests omit the target path; where path-specific rules
-are needed, deny those tools and use a path-bearing tool. These are tool-layer controls, not OS
-isolation.
+are needed, deny those tools and use a path-bearing tool. OpenCode 2.0.28 asks the same
+`<dir>/*` for an outside read (its read resource is the absolute path; inside the worktree, the
+relative one), but no longer checks shell file operands; the harness's operand guard restores that
+check (docs/environment.md, "OpenCode 2"). These are tool-layer controls, not OS isolation.
 
 Research briefs here also add, under "Blocking means": G0a (U32, CLAUDE.md rule 22) — runs made
 because a static tool was missing, or a finding resting on runs whose Method does not say what

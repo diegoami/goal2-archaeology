@@ -1,5 +1,23 @@
 # Trusted OpenCode review operand guard
 
+**In this repository (#262).** This package is goal2 PR 178's (squash e0cab8b), its code unchanged but
+for a provenance line in `guard.mjs` and `scanner.mjs`; the text below is goal2's, and its
+`[confirmed: …/T72 …]` tags cite goal2's measurements. Here the guard applies this repository's reviewer
+grants (`lib/opencode-policy.mjs`). What was re-proved here, on the same 2.0.28 binary, is under
+`tests/fixtures/opencode/v2-live/`: the guard active in the loaded plugin inventory (`preflight-*`),
+outside reads rejected and the granted ones kept (`native-reject-*`), a clean review completing
+(`native-complete-*`), cancellation (`native-cancel-*`), and v2 reading the outside file once a guard
+line is removed (`native-controls-*`). goal2's adversarial plugin-source probe
+(`probe-opencode-plugins.mjs`) was not ported; the unit tests cover the pre-import policy overlay and
+the config survey. Setup and the offline check:
+
+```bash
+npm ci --prefix tools/harness/opencode-guard --ignore-scripts --no-audit --no-fund
+node tools/harness/check-opencode-guard.mjs
+```
+
+The rest is goal2's text.
+
 [confirmed: pinned OpenCode v1.18.32/v2.0.28 source and measurements/T72/rework1]
 The legacy shell scanned static FILES operands for external-directory approval.
 Native 2.0.28 retains cwd/directory-changing checks but omits other file operands.
