@@ -26,6 +26,16 @@ form × position × inside/outside table and a mutation for each normalizer stag
 of the FILES commands only; other readers, wrappers and redirections are not checked. The PowerShell
 and cmd paths are unchanged.
 
+**Round 3.** A `$'…'` escape that decodes to NUL (Bash ends the string there), to a byte above 0x7f,
+or to an octal value above 0377 fails closed, as do `\c`, `\u`, `\U` and unknown escapes
+(`native-reject-E2Xw3B` repeats `$'cat\0junk' <outside file>`, rejected).
+
+**Known limits.**
+- #335: `joinContinuations` does not know shell comments, so a quote inside a comment can keep a
+  later backslash-newline from being joined (`# '` newline `c\` newline `at <outside file>` was read
+  as no command). The owner's decision of 2026-10-18 under CLAUDE.md rule 23: recorded, not reworked.
+  Mitigation: a command that contains both a comment and a backslash-newline fails closed.
+
 The rest is goal2's text.
 
 [confirmed: pinned OpenCode v1.18.32/v2.0.28 source and measurements/T72/rework1]

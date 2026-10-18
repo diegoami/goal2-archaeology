@@ -42,7 +42,7 @@ const agentFile = path.resolve(new URL('../../.opencode/agents/reviewer.md', imp
 const header = 'T99 review (loopback)';
 // round 2 (Sol's R1, R2 on PR 332): quoted command names and quoted path fragments are evaluated first
 const external = ['external-cat', 'external-quoted', 'external-nested', 'external-relative', 'external-proc',
-  'quoted-name-R1', 'quoted-fragment-R2', 'empty-fragment-name', 'single-quoted-fragment', 'dynamic-operand'];
+  'quoted-name-R1', 'quoted-fragment-R2', 'empty-fragment-name', 'single-quoted-fragment', 'dynamic-operand', 'ansi-nul-name'];
 const allowed = ['inside-cat', 'tmp-cat', 'scratch-cat', 'quoted-name-inside', ...(fs.existsSync('/etc/timezone') ? ['timezone-cat'] : [])];
 const commands = {
   'external-cat': `cat ${path.join(outside, 'secret.txt')}`, 'external-quoted': `cat "${path.join(outside, 'secret.txt')}"`,
@@ -50,6 +50,7 @@ const commands = {
   'quoted-name-R1': `"cat" ${path.join(outside, 'secret.txt')}`, 'quoted-fragment-R2': `cat "${outside}"/secret.txt`,
   'empty-fragment-name': `c""at ${path.join(outside, 'secret.txt')}`, 'single-quoted-fragment': `cat '${outside}'/secret.txt`,
   'dynamic-operand': `cat "$(printf %s ${outside})"/secret.txt`, 'quoted-name-inside': '"cat" inside.txt',
+  'ansi-nul-name': `$'cat\\0junk' ${path.join(outside, 'secret.txt')}`, // round 3 (Sol's R1): Bash stops at the NUL
   'etc-deny': 'cat /etc/hostname', 'git-deny': 'git push harness-probe-no-remote',
   'inside-cat': 'cat inside.txt', 'tmp-cat': `cat ${tmpFile}`, 'scratch-cat': `cat ${scratchFile}`, 'timezone-cat': 'cat /etc/timezone',
   'active-cancel': `${process.execPath} -e ${JSON.stringify("require('node:fs').writeFileSync('active.pid',String(process.pid));setInterval(()=>{},1000)")}`,

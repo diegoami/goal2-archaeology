@@ -41,6 +41,7 @@ hashes; none sent a prompt to a provider):
   `c""at <outside file>`, `cat '<outside dir>'/secret.txt` and a `$(…)` operand, all rejected, while
   `"cat" inside.txt` returns its contents; `native-complete-pfrsd0` and `native-controls-bQt6x6` repeat
   the clean run and the controls on the new scanner.
+- Round 3 (Sol's R1): `native-reject-E2Xw3B` adds `$'cat\0junk' <outside file>`, rejected.
 - `native-controls-7CuxTr` (`node tools/harness/check-opencode-guard-controls.mjs --out …`): the same
   rejection probe on a scratch copy with one guard line removed: v2 then returns `OUTSIDE_SENTINEL`
   to `cat <outside file>`, so the probe fails on "external-cat must be rejected".

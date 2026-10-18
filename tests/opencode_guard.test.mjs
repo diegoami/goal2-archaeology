@@ -67,6 +67,10 @@ const FAIL_CLOSED = {
   'arithmetic $((…))': '$((1))', 'process substitution': '<(true)', 'locale $"…"': '$"x"', '~user': '~nobody/x',
   'brace {a,b}': '{a,b}', 'expansion in double quotes': '"$X"', 'substitution in double quotes': '"$(echo x)"',
   'glob before a slash': '*/secret.txt', 'dot glob': '.*', 'bracket glob': '[ab]/x',
+  // round 3 (Sol's R1): ANSI-C escapes whose Bash meaning is not reproduced
+  "ANSI-C \\0 (NUL ends the string in Bash)": "$'cat\\0junk'", "ANSI-C \\x00": "$'cat\\x00junk'", "ANSI-C \\000": "$'cat\\000'",
+  "ANSI-C \\c control": "$'ca\\c@t'", "ANSI-C \\u": "$'\\u0063at'", "ANSI-C \\U": "$'\\U00000063at'",
+  "ANSI-C byte above 0x7f": "$'cat\\x80'", "ANSI-C octal above 0377": "$'\\777'", 'ANSI-C unknown escape': "$'ca\\qt'",
 };
 test('every static word form is evaluated before the check: operands, inside and outside', async () => {
   for (const [form, make] of Object.entries(OPERAND_FORMS)) {
@@ -88,6 +92,11 @@ test('a word that cannot be evaluated statically fails closed, as an operand and
     await assert.rejects(() => operandDirectories(`cat ${word}`, root, [root]), /not statically resolvable|unsupported shell grammar/, `${form}: operand`);
     await assert.rejects(() => operandDirectories(`${word} ${fileOut}`, root, [root]), /not statically resolvable|unsupported shell grammar/, `${form}: command name`);
   }
+});
+test('a comment beside a line continuation fails closed (round 3 R2, known limit #335)', async () => {
+  await assert.rejects(() => operandDirectories(`# '\nc\\\nat ${fileOut}`, root, [root]), /known limit #335/);
+  await assert.rejects(() => operandDirectories(`ls;# x\ncat \\\n${fileOut}`, root, [root]), /known limit #335/);
+  assert.deepEqual(await operandDirectories(`# a comment\ncat ${fileIn}`, root, [root]), [], 'a comment alone is fine');
 });
 test('a line continuation inside a word joins it, in the operand and in the command name', async () => {
   assert.deepEqual(await operandDirectories(`cat ${fileOut.slice(0, 6)}\\\n${fileOut.slice(6)}`, root, [root]), [dirOut], 'operand');
@@ -313,6 +322,9 @@ test('guard mutation controls fail the operand, approval, activation, preload an
     ['glob-before-slash stage', 'opencode-guard/scanner.mjs', "if (value.indexOf('/', globAt) >= 0) unresolved('glob before a path separator');", '', 'cannot be evaluated statically', 'glob before a slash'],
     ['dot-glob stage', 'opencode-guard/scanner.mjs', "if (value[slash + 1] === '.' || value[slash + 1] === '[') unresolved('glob that could match . or ..');", '', 'cannot be evaluated statically', 'dot glob'],
     ['option-value stage', 'opencode-guard/scanner.mjs', 'if (eq < 0) continue; // a flag', 'continue; // a flag', 'every static word form', 'option value: outside'],
+    ['ANSI-C NUL stage (round 3 R1)', 'opencode-guard/scanner.mjs', '(v === 0 || v > 0x7f ?', '(v > 0x7f ?', 'cannot be evaluated statically', 'NUL ends the string in Bash'],
+    ['ANSI-C high-byte stage', 'opencode-guard/scanner.mjs', '(v === 0 || v > 0x7f ?', '(v === 0 ?', 'cannot be evaluated statically', 'byte above 0x7f'],
+    ['comment-continuation stage (round 3 R2)', 'opencode-guard/scanner.mjs', "unresolved('a comment beside a line continuation (known limit #335)');", ';', 'comment beside a line continuation', 'Missing expected rejection'],
     ['preload loss', 'lib/opencode-policy.mjs', "resource: 'plugin:*', effect: 'deny'", "resource: 'unrelated:*', effect: 'deny'", 'trusted activation overlay', 'untrusted sources must be denied before import'],
     ['ask-default loss', 'lib/opencode-policy.mjs', "if (!permissions.some((r) => r.action === 'external_directory' && r.resource === '*' && r.effect === 'ask')) {", 'if (false) {', 'must keep its denies', 'must keep external_directory'],
     ['grant contract loss', 'lib/opencode-policy.mjs', 'if (JSON.stringify(grants) !== JSON.stringify(allowedGrants(home)))', 'if (false)', 'must keep its denies', 'Missing expected exception'],

@@ -232,8 +232,12 @@ function ansiC(text, out) {
     if (n === undefined) unresolved('$\'\' trailing backslash');
     if (ANSI[n] !== undefined) { out.push(ANSI[n], false); continue; }
     let m;
-    if ((m = /^x([0-9A-Fa-f]{1,2})/.exec(body.slice(i)))) { out.push(String.fromCharCode(parseInt(m[1], 16)), false); i += m[0].length - 1; continue; }
-    if ((m = /^[0-7]{1,3}/.exec(body.slice(i)))) { out.push(String.fromCharCode(parseInt(m[0], 8) & 0xff), false); i += m[0].length - 1; continue; }
+    // Round 3 (Sol's R1 on PR 332): Bash ends a $'...' string at a decoded NUL, and a byte above 0x7f
+    // is a raw byte, not the character JavaScript would make; neither is reproduced, so both fail
+    // closed, as does an octal value above 0377. \c, \u, \U and any other escape fall to the last line.
+    const byte = (v) => (v === 0 || v > 0x7f ? unresolved(`$'' escape decoding to byte ${v}`) : String.fromCharCode(v));
+    if ((m = /^x([0-9A-Fa-f]{1,2})/.exec(body.slice(i)))) { out.push(byte(parseInt(m[1], 16)), false); i += m[0].length - 1; continue; }
+    if ((m = /^[0-7]{1,3}/.exec(body.slice(i)))) { out.push(byte(parseInt(m[0], 8)), false); i += m[0].length - 1; continue; }
     unresolved(`$'' escape \\${n}`);
   }
 }
@@ -359,6 +363,7 @@ export async function operandDirectories(command, cwd, roots, shell = process.pl
   if (typeof command !== 'string' || typeof cwd !== 'string' || !path.isAbsolute(cwd)) throw Error('malformed shell scan input');
   const ps = /(?:powershell|pwsh)(?:\.exe)?$/i.test(shell);
   const cmd = /(?:^|[\\/])cmd\.exe$/i.test(shell);
+  if (!ps && !cmd && /\\\n/.test(command) && /(^|[\s;&|()])#/.test(command)) unresolved('a comment beside a line continuation (known limit #335)');
   if (!ps && !cmd) command = joinContinuations(command);
   const parser = await parsers();
   const tree = (ps ? parser.ps : parser.bash).parse(command);

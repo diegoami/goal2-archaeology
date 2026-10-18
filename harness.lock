@@ -84,7 +84,7 @@ adapt tools/harness/preflight-opencode.mjs  (nonbilling review transport check u
 adapt tools/harness/probe-opencode-guard.mjs  (native runs against a loopback fake provider: complete, reject, active-cancel; round 2: the R1/R2 rows)
 adapt tools/harness/check-opencode-guard.mjs  (the guard dependencies, offline)
 adapt tools/harness/check-opencode-guard-controls.mjs  (native deletion controls on a scratch copy)
-adapt tools/harness/opencode-guard/  (PR 332 round 2: scanner.mjs evaluates every Bash word statically and fails closed on what it cannot, Sol's R1/R2; goal2 PR 178's trusted plugin:guard.mjs, scanner.mjs (MIT notice in LICENSE.opencode), server.js, native-plugins.json, package.json, package-lock.json, dependency-hashes.json, README.md, .gitignore)
+adapt tools/harness/opencode-guard/  (PR 332 round 2: scanner.mjs evaluates every Bash word statically and fails closed on what it cannot, Sol's R1/R2; round 3: $'' NUL, high bytes and big octals fail closed, a comment beside a backslash-newline fails closed (known limit #335);goal2 PR 178's trusted plugin:guard.mjs, scanner.mjs (MIT notice in LICENSE.opencode), server.js, native-plugins.json, package.json, package-lock.json, dependency-hashes.json, README.md, .gitignore)
 adapt tests/opencode_protocol.test.mjs  (the adapter against the live capture and synthetic outcomes; mutation controls on scratch copies)
 adapt tests/opencode_guard.test.mjs  (the guard and the reviewer policy; round 2: the word-form table and a mutation per normalizer stage; mutation controls on scratch copies)
 adapt tests/opencode_workflow.test.mjs  (the v2 run, peek and review.mjs through the stub; the v1 path; mutation controls; round 2: children get no inherited XDG or OPENCODE variables)

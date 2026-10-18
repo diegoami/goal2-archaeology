@@ -73,7 +73,11 @@ a word that cannot be evaluated statically (`$VAR`, `$(…)`, backticks, `{a,b}`
 could leave its directory) fails closed (PR 332 round 2, Sol's R1 and R2: a quoted `"cat"` or a quoted
 path fragment had escaped the 1.18 code's raw-text check). Its scope is those commands' operands, as in
 1.18: other readers (`head`, `sed`, interpreters), wrappers (`env cat`, `xargs`, `bash -c`) and
-redirections are not checked. It is a static check of the command text, not an OS jail.
+redirections are not checked. It is a static check of the command text, not an OS jail. A `$'…'`
+escape whose Bash meaning is not reproduced (a NUL, a byte above 0x7f, `\c`, `\u`) fails closed (PR 332
+round 3). Known limit #335 (the owner, 2026-10-18, rule 23: recorded, not reworked): the continuation
+joiner does not know comments, so a quote in a comment could hide a later `c\`-newline-`at`; a
+command holding both a comment and a backslash-newline therefore fails closed.
 Its dependencies are exact-pinned (`package-lock.json`, `dependency-hashes.json`: 156 file hashes) and
 installed once per checkout without scripts; the runs check them offline and never fetch:
 
