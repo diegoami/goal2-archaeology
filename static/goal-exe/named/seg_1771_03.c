@@ -73,7 +73,7 @@ LAB_1771_320A:
 
 
 // ---- 1771:3216  player_unavailable  (f_1771_3216; Ghidra 4000:3216, __stdcall16far; found by routines.tsv)
-// returns 0 only when player +0x0E > 0 and bits 8, 6 and 3 of +0x10 are clear, else 1; 377E then gives strength 0 and D733 rerolls a scorer  [likely; read decompiled/seg_1771_02.c; read decompiled/seg_0791_08.c; F021]
+// returns 0 only when player +0x0E > 0 and bits 8, 6 and 3 of +0x10 are clear, else 1; 377E then gives strength 0 and D733 rerolls a scorer  [established; read decompiled/seg_1771_02.c; read decompiled/seg_0791_08.c; F021]
 
 undefined2 __stdcall16far player_unavailable(int param_1)
 
@@ -314,7 +314,7 @@ void __stdcall16far recover_fitness_energy(char param_1,int param_2)
 
 
 // ---- 1771:377E  player_strength  (f_1771_377E; Ghidra 4000:377E, __stdcall16far; found by routines.tsv)
-// a player's match strength: (+4 - 0x3E) + (+0x0E), plus +0x0C when it is below 32 else minus a sixteenth, clamped 0..256, halved when 1771:3179 is true; 0 when 1771:3216 says unavailable  [likely; F002; F007; read decompiled/seg_1771_02.c; F021]
+// a player's match strength: (+4 - 0x3E) + (+0x0E), plus +0x0C when it is below 32 else minus a sixteenth, clamped 0..256, halved when 1771:3179 is true; 0 when 1771:3216 says unavailable  [established; F002; F007; read decompiled/seg_1771_02.c; F021]
 
 int __stdcall16far player_strength(int param_1)
 
@@ -476,7 +476,7 @@ undefined2 __stdcall16far derived_skill(int param_1,int param_2)
 
 
 // ---- 1771:3A82  squad_slot_of_player  (f_1771_3A82; Ghidra 4000:3A82, __stdcall16far; found by routines.tsv)
-// (country, player index): returns the slot 1..20 of that player in the country's word list at +0..+0x27, or 0 when absent  [likely; read decompiled/seg_1771_02.c]
+// (country, player index): returns the slot 1..20 of that player in the country's word list at +0..+0x27, or 0 when absent  [established; F008; read decompiled/seg_1771_02.c]
 
 undefined4 __stdcall16far squad_slot_of_player(uint param_1,int param_2)
 
@@ -640,7 +640,7 @@ void draw_tactics_panel(int param_1)
 
 
 // ---- 1771:3E2F  pick_mark_target  (f_1771_3E2F; Ghidra 4000:3E2F, __stdcall16near; found by routines.tsv)
-// (frame of 3EF8; hi, lo): for the opposing slots 11 down to 2 whose position byte is in [lo, hi], for the rows r = 1..4 of the table at DS:0EE6 + 14 r (indexed by the OPPOSING position; the value is the position code of the own player that marks him), finds the value in the own positions string (own slots 2..11, entries zeroed when taken); on a hit zeroes both entries and records opposing slot -> own slot; 3EF8 calls it for [12,13], [9,11], [5,8], [1,1], [2,4] in that order  [likely; F028; F010]
+// (frame of 3EF8; hi, lo): for the opposing slots 11 down to 2 whose position byte is in [lo, hi], for the rows r = 1..4 of the table at DS:0EE6 + 14 r (indexed by the OPPOSING position; the value is the position code of the own player that marks him), finds the value in the own positions string (own slots 2..11, entries zeroed when taken); on a hit zeroes both entries and records opposing slot -> own slot; 3EF8 calls it for [12,13], [9,11], [5,8], [1,1], [2,4] in that order  [established; F028; F010]
 
 void pick_mark_target(int param_1,uint param_2,uint param_3)
 
@@ -685,7 +685,7 @@ void pick_mark_target(int param_1,uint param_2,uint param_3)
 
 
 // ---- 1771:3EF8  set_marking_words  (f_1771_3EF8; Ghidra 4000:3EF8, __cdecl16far; found by routines.tsv)
-// the marking words (squad words DS:9A3E + 0x28 t + 2 slot): per team it builds the own positions string (slots 2..11; 0 for a sweeper, a player with +0x10 bit 7 (Protect zone, F008) or an unavailable one) and the opponent's, takes out the opposing men already marked by a protect-zone player, runs 1771:3E2F in the order above, then in the last loop (slots 2..11) a player with bit 7 keeps his word, else the word is cleared and, when the team's +0x2D element 8 is set, set to the opponent picked (0 if none); a sweeper in slot 2 gets 0; the keeper (slot 1) is outside the loops; called by 0791:230C, which both engines reach  [likely; F010; F028]
+// the marking words (squad words DS:9A3E + 0x28 t + 2 slot): per team it builds the own positions string (slots 2..11; 0 for a sweeper, a player with +0x10 bit 7 (Protect zone, F008) or an unavailable one) and the opponent's, takes out the opposing men already marked by a protect-zone player, runs 1771:3E2F in the order above, then in the last loop (slots 2..11) a player with bit 7 keeps his word, else the word is cleared and, when the team's +0x2D element 8 is set, set to the opponent picked (0 if none); a sweeper in slot 2 gets 0; the keeper (slot 1) is outside the loops; called by 0791:230C, which both engines reach  [established; F010; F028]
 
 void __cdecl16far set_marking_words(void)
 

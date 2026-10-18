@@ -1,0 +1,853 @@
+heavy: t61-humanmain: waiting for a slot (2 ahead)
+heavy: t61-humanmain: waiting for a slot (1 ahead)
+heavy: t61-humanmain: got slot 0 after 1428 s
+EEEEEEEEEEEEEEEEEF..................F........XGetInputFocus returned the focused window of 1. This is likely a bug in the X server.
+XGetInputFocus returned the focused window of 1. This is likely a bug in the X server.
+..................missing: Xephyr; xinput
+......EE.E..F.FF.....EEEEEEE............EEEEEEEEEEEEEE.....EEEEE...............
+======================================================================
+ERROR: test_a_fast_overwrite_is_superseded_not_staged (tests.test_human_keys.AttributionBypassTests.test_a_fast_overwrite_is_superseded_not_staged)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/tests/test_human_keys.py", line 962, in test_a_fast_overwrite_is_superseded_not_staged
+    session, w, live, state = self._sitting([])
+                              ~~~~~~~~~~~~~^^^^
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/tests/test_human_keys.py", line 944, in _sitting
+    w = rec.Watcher(session, live, "77", fixture.FakeDbx(), {"DISPLAY": ":0"},
+                    clock=self.clock, sleep=self.clock.sleep, xrun=lambda a: None,
+                    alive=lambda: True, log=lambda m: None)
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/runtime/human/recorder.py", line 830, in __init__
+    ww = watch if watch is not None else WriteWatch(self.live)
+                                         ~~~~~~~~~~^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/runtime/human/recorder.py", line 732, in __init__
+    raise OSError(err, f"inotify_add_watch on {Path(path).parent} failed")
+OSError: [Errno 28] inotify_add_watch on /home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/tmp5eyy1ahy failed
+
+======================================================================
+ERROR: test_a_head_jobs_two_saves_in_one_poll_gap_are_refused (tests.test_human_keys.AttributionBypassTests.test_a_head_jobs_two_saves_in_one_poll_gap_are_refused)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/tests/test_human_keys.py", line 1018, in test_a_head_jobs_two_saves_in_one_poll_gap_are_refused
+    session, w, live, state = self._sitting([])
+                              ~~~~~~~~~~~~~^^^^
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/tests/test_human_keys.py", line 944, in _sitting
+    w = rec.Watcher(session, live, "77", fixture.FakeDbx(), {"DISPLAY": ":0"},
+                    clock=self.clock, sleep=self.clock.sleep, xrun=lambda a: None,
+                    alive=lambda: True, log=lambda m: None)
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/runtime/human/recorder.py", line 830, in __init__
+    ww = watch if watch is not None else WriteWatch(self.live)
+                                         ~~~~~~~~~~^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/runtime/human/recorder.py", line 732, in __init__
+    raise OSError(err, f"inotify_add_watch on {Path(path).parent} failed")
+OSError: [Errno 28] inotify_add_watch on /home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/tmp85u1mzp9 failed
+
+======================================================================
+ERROR: test_a_one_save_of_later_write_events_is_not_staged_under_the_earlier_request (tests.test_human_keys.AttributionBypassTests.test_a_one_save_of_later_write_events_is_not_staged_under_the_earlier_request)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/tests/test_human_keys.py", line 991, in test_a_one_save_of_later_write_events_is_not_staged_under_the_earlier_request
+    session, w, live, state = self._sitting([])
+                              ~~~~~~~~~~~~~^^^^
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/tests/test_human_keys.py", line 944, in _sitting
+    w = rec.Watcher(session, live, "77", fixture.FakeDbx(), {"DISPLAY": ":0"},
+                    clock=self.clock, sleep=self.clock.sleep, xrun=lambda a: None,
+                    alive=lambda: True, log=lambda m: None)
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/runtime/human/recorder.py", line 830, in __init__
+    ww = watch if watch is not None else WriteWatch(self.live)
+                                         ~~~~~~~~~~^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/runtime/human/recorder.py", line 732, in __init__
+    raise OSError(err, f"inotify_add_watch on {Path(path).parent} failed")
+OSError: [Errno 28] inotify_add_watch on /home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/tmpykv6x_h_ failed
+
+======================================================================
+ERROR: test_the_stability_fallback_never_restages_consumed_bytes (tests.test_human_keys.AttributionBypassTests.test_the_stability_fallback_never_restages_consumed_bytes)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/tests/test_human_keys.py", line 1038, in test_the_stability_fallback_never_restages_consumed_bytes
+    session, w, live, state = self._sitting([])
+                              ~~~~~~~~~~~~~^^^^
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/tests/test_human_keys.py", line 944, in _sitting
+    w = rec.Watcher(session, live, "77", fixture.FakeDbx(), {"DISPLAY": ":0"},
+                    clock=self.clock, sleep=self.clock.sleep, xrun=lambda a: None,
+                    alive=lambda: True, log=lambda m: None)
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/runtime/human/recorder.py", line 830, in __init__
+    ww = watch if watch is not None else WriteWatch(self.live)
+                                         ~~~~~~~~~~^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/runtime/human/recorder.py", line 732, in __init__
+    raise OSError(err, f"inotify_add_watch on {Path(path).parent} failed")
+OSError: [Errno 28] inotify_add_watch on /home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/tmp_wh9lgay failed
+
+======================================================================
+ERROR: test_a_pipeline_timeout_marks_the_request_skipped (tests.test_human_keys.BurstPipelineTests.test_a_pipeline_timeout_marks_the_request_skipped)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/tests/test_human_keys.py", line 740, in test_a_pipeline_timeout_marks_the_request_skipped
+    w = rec.Watcher(session, live, "77", fixture.FakeDbx(), {"DISPLAY": ":0"},
+                    clock=clock, sleep=clock.sleep, xrun=lambda a: None,
+                    alive=lambda: True, log=lambda m: None)
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/runtime/human/recorder.py", line 830, in __init__
+    ww = watch if watch is not None else WriteWatch(self.live)
+                                         ~~~~~~~~~~^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/runtime/human/recorder.py", line 732, in __init__
+    raise OSError(err, f"inotify_add_watch on {Path(path).parent} failed")
+OSError: [Errno 28] inotify_add_watch on /home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/tmp_xsd82xp failed
+
+======================================================================
+ERROR: test_ten_keys_at_051_s_gaps_are_all_accounted_for (tests.test_human_keys.BurstPipelineTests.test_ten_keys_at_051_s_gaps_are_all_accounted_for)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/tests/test_human_keys.py", line 673, in test_ten_keys_at_051_s_gaps_are_all_accounted_for
+    w = rec.Watcher(session, live, "77", fixture.FakeDbx(), {"DISPLAY": ":0"},
+                    xrun=xrun, alive=lambda: True, log=lambda m: None)
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/runtime/human/recorder.py", line 830, in __init__
+    ww = watch if watch is not None else WriteWatch(self.live)
+                                         ~~~~~~~~~~^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/runtime/human/recorder.py", line 732, in __init__
+    raise OSError(err, f"inotify_add_watch on {Path(path).parent} failed")
+OSError: [Errno 28] inotify_add_watch on /home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/tmpilpvnpu7 failed
+
+======================================================================
+ERROR: test_a_clean_pipeline_sitting_has_no_superseded_requests (tests.test_human_keys.DeferredCaptureTests.test_a_clean_pipeline_sitting_has_no_superseded_requests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/tests/test_human_keys.py", line 897, in test_a_clean_pipeline_sitting_has_no_superseded_requests
+    _, _, entries, _, requests = self._sitting(False, quit_after=8.5)
+                                 ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/tests/test_human_keys.py", line 789, in _sitting
+    w = rec.Watcher(session, live, "77", fixture.FakeDbx(), {"DISPLAY": ":0"},
+                    xrun=xrun, alive=lambda: True, log=lambda m: None)
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/runtime/human/recorder.py", line 830, in __init__
+    ww = watch if watch is not None else WriteWatch(self.live)
+                                         ~~~~~~~~~~^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/runtime/human/recorder.py", line 732, in __init__
+    raise OSError(err, f"inotify_add_watch on {Path(path).parent} failed")
+OSError: [Errno 28] inotify_add_watch on /home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/tmpsdozsqnr failed
+
+======================================================================
+ERROR: test_a_deferred_stage_job_is_marked_superseded_and_never_stages (tests.test_human_keys.DeferredCaptureTests.test_a_deferred_stage_job_is_marked_superseded_and_never_stages)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/tests/test_human_keys.py", line 844, in test_a_deferred_stage_job_is_marked_superseded_and_never_stages
+    session, w, entries, index, requests = self._sitting(True, quit_after=14)
+                                           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/tests/test_human_keys.py", line 789, in _sitting
+    w = rec.Watcher(session, live, "77", fixture.FakeDbx(), {"DISPLAY": ":0"},
+                    xrun=xrun, alive=lambda: True, log=lambda m: None)
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/runtime/human/recorder.py", line 830, in __init__
+    ww = watch if watch is not None else WriteWatch(self.live)
+                                         ~~~~~~~~~~^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/runtime/human/recorder.py", line 732, in __init__
+    raise OSError(err, f"inotify_add_watch on {Path(path).parent} failed")
+OSError: [Errno 28] inotify_add_watch on /home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/tmpkj5mmo46 failed
+
+======================================================================
+ERROR: test_the_guard_rejects_a_superseded_sitting (tests.test_human_keys.DeferredCaptureTests.test_the_guard_rejects_a_superseded_sitting)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/tests/test_human_keys.py", line 872, in test_the_guard_rejects_a_superseded_sitting
+    _, _, _, _, requests = self._sitting(True, quit_after=14)
+                           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/tests/test_human_keys.py", line 789, in _sitting
+    w = rec.Watcher(session, live, "77", fixture.FakeDbx(), {"DISPLAY": ":0"},
+                    xrun=xrun, alive=lambda: True, log=lambda m: None)
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/runtime/human/recorder.py", line 830, in __init__
+    ww = watch if watch is not None else WriteWatch(self.live)
+                                         ~~~~~~~~~~^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/runtime/human/recorder.py", line 732, in __init__
+    raise OSError(err, f"inotify_add_watch on {Path(path).parent} failed")
+OSError: [Errno 28] inotify_add_watch on /home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/tmpljrlgwzn failed
+
+======================================================================
+ERROR: test_a_key_with_no_write_in_10_s_is_sent_again (tests.test_human_keys.EarlySaveRuleTests.test_a_key_with_no_write_in_10_s_is_sent_again)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/tests/test_human_keys.py", line 1516, in test_a_key_with_no_write_in_10_s_is_sent_again
+    line, meta, sends, ok, why = self.hook_sitting(
+                                 ~~~~~~~~~~~~~~~~~^
+        lambda k: [] if k == 1 else [(0.5, 54)])
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/tests/test_human_keys.py", line 1481, in hook_sitting
+    line, meta = self.sitting(folder, early=False, hook=hook, seen=seen)
+                 ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/tests/test_human_keys.py", line 1443, in sitting
+    self.assertEqual(rec.play(), 0)
+                     ~~~~~~~~^^
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/runtime/human/recorder.py", line 2028, in play
+    watch = WriteWatch(session / "state.sav")
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/runtime/human/recorder.py", line 732, in __init__
+    raise OSError(err, f"inotify_add_watch on {Path(path).parent} failed")
+OSError: [Errno 28] inotify_add_watch on /home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/tmpdf1zhce1/s failed
+
+======================================================================
+ERROR: test_a_save_before_the_watcher_is_counted_and_refused (tests.test_human_keys.EarlySaveRuleTests.test_a_save_before_the_watcher_is_counted_and_refused)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/tests/test_human_keys.py", line 1449, in test_a_save_before_the_watcher_is_counted_and_refused
+    line, meta = self.sitting(folder)
+                 ~~~~~~~~~~~~^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/tests/test_human_keys.py", line 1443, in sitting
+    self.assertEqual(rec.play(), 0)
+                     ~~~~~~~~^^
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/runtime/human/recorder.py", line 2028, in play
+    watch = WriteWatch(session / "state.sav")
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/runtime/human/recorder.py", line 732, in __init__
+    raise OSError(err, f"inotify_add_watch on {Path(path).parent} failed")
+OSError: [Errno 28] inotify_add_watch on /home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/tmp8aio29b3/s failed
+
+======================================================================
+ERROR: test_a_save_still_being_written_after_10_s_gets_no_second_key (tests.test_human_keys.EarlySaveRuleTests.test_a_save_still_being_written_after_10_s_gets_no_second_key)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/tests/test_human_keys.py", line 1497, in test_a_save_still_being_written_after_10_s_gets_no_second_key
+    line, meta, sends, ok, why = self.hook_sitting(lambda k: [(1.0, 2), (12.0, 52)])
+                                 ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/tests/test_human_keys.py", line 1481, in hook_sitting
+    line, meta = self.sitting(folder, early=False, hook=hook, seen=seen)
+                 ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/tests/test_human_keys.py", line 1443, in sitting
+    self.assertEqual(rec.play(), 0)
+                     ~~~~~~~~^^
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/runtime/human/recorder.py", line 2028, in play
+    watch = WriteWatch(session / "state.sav")
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/runtime/human/recorder.py", line 732, in __init__
+    raise OSError(err, f"inotify_add_watch on {Path(path).parent} failed")
+OSError: [Errno 28] inotify_add_watch on /home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/tmpox7nz3qr/s failed
+
+======================================================================
+ERROR: test_a_sitting_without_an_early_save_passes_the_same_guard (tests.test_human_keys.EarlySaveRuleTests.test_a_sitting_without_an_early_save_passes_the_same_guard)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/tests/test_human_keys.py", line 1464, in test_a_sitting_without_an_early_save_passes_the_same_guard
+    line, meta = self.sitting(folder, early=False)
+                 ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/tests/test_human_keys.py", line 1443, in sitting
+    self.assertEqual(rec.play(), 0)
+                     ~~~~~~~~^^
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/runtime/human/recorder.py", line 2028, in play
+    watch = WriteWatch(session / "state.sav")
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/runtime/human/recorder.py", line 732, in __init__
+    raise OSError(err, f"inotify_add_watch on {Path(path).parent} failed")
+OSError: [Errno 28] inotify_add_watch on /home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/tmp4kyo_7oa/s failed
+
+======================================================================
+ERROR: test_a_write_that_begins_in_the_last_sleep_before_10_s_gets_no_second_key (tests.test_human_keys.EarlySaveRuleTests.test_a_write_that_begins_in_the_last_sleep_before_10_s_gets_no_second_key) (begin=9.97)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/tests/test_human_keys.py", line 1508, in test_a_write_that_begins_in_the_last_sleep_before_10_s_gets_no_second_key
+    line, meta, sends, ok, why = self.hook_sitting(
+                                 ~~~~~~~~~~~~~~~~~^
+        lambda k, b=begin: [(b, 2), (12.0, 52)] if k == 1 else [(3.0, 54)])
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/tests/test_human_keys.py", line 1481, in hook_sitting
+    line, meta = self.sitting(folder, early=False, hook=hook, seen=seen)
+                 ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/tests/test_human_keys.py", line 1443, in sitting
+    self.assertEqual(rec.play(), 0)
+                     ~~~~~~~~^^
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/runtime/human/recorder.py", line 2028, in play
+    watch = WriteWatch(session / "state.sav")
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/runtime/human/recorder.py", line 732, in __init__
+    raise OSError(err, f"inotify_add_watch on {Path(path).parent} failed")
+OSError: [Errno 28] inotify_add_watch on /home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/tmpyv2r0m_j/s failed
+
+======================================================================
+ERROR: test_a_write_that_begins_in_the_last_sleep_before_10_s_gets_no_second_key (tests.test_human_keys.EarlySaveRuleTests.test_a_write_that_begins_in_the_last_sleep_before_10_s_gets_no_second_key) (begin=10.0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/tests/test_human_keys.py", line 1508, in test_a_write_that_begins_in_the_last_sleep_before_10_s_gets_no_second_key
+    line, meta, sends, ok, why = self.hook_sitting(
+                                 ~~~~~~~~~~~~~~~~~^
+        lambda k, b=begin: [(b, 2), (12.0, 52)] if k == 1 else [(3.0, 54)])
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/tests/test_human_keys.py", line 1481, in hook_sitting
+    line, meta = self.sitting(folder, early=False, hook=hook, seen=seen)
+                 ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/tests/test_human_keys.py", line 1443, in sitting
+    self.assertEqual(rec.play(), 0)
+                     ~~~~~~~~^^
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/runtime/human/recorder.py", line 2028, in play
+    watch = WriteWatch(session / "state.sav")
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/runtime/human/recorder.py", line 732, in __init__
+    raise OSError(err, f"inotify_add_watch on {Path(path).parent} failed")
+OSError: [Errno 28] inotify_add_watch on /home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/tmpqp7ja2st/s failed
+
+======================================================================
+ERROR: test_no_whole_save_in_30_s_fails_the_sitting (tests.test_human_keys.EarlySaveRuleTests.test_no_whole_save_in_30_s_fails_the_sitting)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/tests/test_human_keys.py", line 1530, in test_no_whole_save_in_30_s_fails_the_sitting
+    self.sitting(folder, early=False, hook=writes, seen=seen)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/tests/test_human_keys.py", line 1443, in sitting
+    self.assertEqual(rec.play(), 0)
+                     ~~~~~~~~^^
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/runtime/human/recorder.py", line 2028, in play
+    watch = WriteWatch(session / "state.sav")
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/runtime/human/recorder.py", line 732, in __init__
+    raise OSError(err, f"inotify_add_watch on {Path(path).parent} failed")
+OSError: [Errno 28] inotify_add_watch on /home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/tmp3p5d6f_u/s failed
+
+======================================================================
+ERROR: test_the_hook_waits_for_the_whole_save_through_a_writer_pause (tests.test_human_keys.EarlySaveRuleTests.test_the_hook_waits_for_the_whole_save_through_a_writer_pause)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/tests/test_human_keys.py", line 1488, in test_the_hook_waits_for_the_whole_save_through_a_writer_pause
+    line, meta, sends, ok, why = self.hook_sitting(lambda k: [(0.2, 2), (2.0, 52)])
+                                 ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/tests/test_human_keys.py", line 1481, in hook_sitting
+    line, meta = self.sitting(folder, early=False, hook=hook, seen=seen)
+                 ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/tests/test_human_keys.py", line 1443, in sitting
+    self.assertEqual(rec.play(), 0)
+                     ~~~~~~~~^^
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/runtime/human/recorder.py", line 2028, in play
+    watch = WriteWatch(session / "state.sav")
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/runtime/human/recorder.py", line 732, in __init__
+    raise OSError(err, f"inotify_add_watch on {Path(path).parent} failed")
+OSError: [Errno 28] inotify_add_watch on /home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/tmpn60sm2mt/s failed
+
+======================================================================
+ERROR: test_a_scroll_faster_than_the_save_keeps_one_request_in_flight (tests.test_human_keys.OneSaveInFlightTests.test_a_scroll_faster_than_the_save_keeps_one_request_in_flight)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/tests/test_human_keys.py", line 1769, in test_a_scroll_faster_than_the_save_keeps_one_request_in_flight
+    self._scroll(0.15)
+    ~~~~~~~~~~~~^^^^^^
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/tests/test_human_keys.py", line 1749, in _scroll
+    w, events, index, requests, in_flight = self._sitting(0.8, arrivals, quit_after=9)
+                                            ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/tests/test_human_keys.py", line 1714, in _sitting
+    w = rec.Watcher(session, live, "77", fixture.FakeDbx(), {"DISPLAY": ":0"},
+                    xrun=xrun, alive=lambda: True, log=lambda m: None)
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/runtime/human/recorder.py", line 830, in __init__
+    ww = watch if watch is not None else WriteWatch(self.live)
+                                         ~~~~~~~~~~^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/runtime/human/recorder.py", line 732, in __init__
+    raise OSError(err, f"inotify_add_watch on {Path(path).parent} failed")
+OSError: [Errno 28] inotify_add_watch on /home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/tmpykc7rk6z failed
+
+======================================================================
+ERROR: test_groups_that_settle_in_flight_wait_and_go_out_in_one_request (tests.test_human_keys.OneSaveInFlightTests.test_groups_that_settle_in_flight_wait_and_go_out_in_one_request)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/tests/test_human_keys.py", line 1784, in test_groups_that_settle_in_flight_wait_and_go_out_in_one_request
+    w, events, index, requests, in_flight = self._sitting(2.0, arrivals, quit_after=14)
+                                            ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/tests/test_human_keys.py", line 1714, in _sitting
+    w = rec.Watcher(session, live, "77", fixture.FakeDbx(), {"DISPLAY": ":0"},
+                    xrun=xrun, alive=lambda: True, log=lambda m: None)
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/runtime/human/recorder.py", line 830, in __init__
+    ww = watch if watch is not None else WriteWatch(self.live)
+                                         ~~~~~~~~~~^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/runtime/human/recorder.py", line 732, in __init__
+    raise OSError(err, f"inotify_add_watch on {Path(path).parent} failed")
+OSError: [Errno 28] inotify_add_watch on /home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/tmpi3xsi_h4 failed
+
+======================================================================
+ERROR: test_requests_between_keys_wait_for_the_one_in_flight (tests.test_human_keys.OneSaveInFlightTests.test_requests_between_keys_wait_for_the_one_in_flight)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/tests/test_human_keys.py", line 1774, in test_requests_between_keys_wait_for_the_one_in_flight
+    requests = self._scroll(0.4)
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/tests/test_human_keys.py", line 1749, in _scroll
+    w, events, index, requests, in_flight = self._sitting(0.8, arrivals, quit_after=9)
+                                            ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/tests/test_human_keys.py", line 1714, in _sitting
+    w = rec.Watcher(session, live, "77", fixture.FakeDbx(), {"DISPLAY": ":0"},
+                    xrun=xrun, alive=lambda: True, log=lambda m: None)
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/runtime/human/recorder.py", line 830, in __init__
+    ww = watch if watch is not None else WriteWatch(self.live)
+                                         ~~~~~~~~~~^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/runtime/human/recorder.py", line 732, in __init__
+    raise OSError(err, f"inotify_add_watch on {Path(path).parent} failed")
+OSError: [Errno 28] inotify_add_watch on /home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/tmp20zugzxz failed
+
+======================================================================
+ERROR: test_a_resend_widens_the_window_to_the_last_send (tests.test_human_record.Cadence.test_a_resend_widens_the_window_to_the_last_send)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/tests/test_human_record.py", line 554, in test_a_resend_widens_the_window_to_the_last_send
+    w = recorder.Watcher(session, live, "77", FakeDbx(), {"DISPLAY": ":0"}, clock=clock,
+                         sleep=clock.sleep, xrun=lost_first, alive=lambda: True,
+                         log=lambda m: None)
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/runtime/human/recorder.py", line 830, in __init__
+    ww = watch if watch is not None else WriteWatch(self.live)
+                                         ~~~~~~~~~~^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/runtime/human/recorder.py", line 732, in __init__
+    raise OSError(err, f"inotify_add_watch on {Path(path).parent} failed")
+OSError: [Errno 28] inotify_add_watch on /home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/scratch/test_human_record/request-resend failed
+
+======================================================================
+ERROR: test_a_skipped_snapshot_is_a_request_with_no_entry (tests.test_human_record.Cadence.test_a_skipped_snapshot_is_a_request_with_no_entry)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/tests/test_human_record.py", line 534, in test_a_skipped_snapshot_is_a_request_with_no_entry
+    w = recorder.Watcher(session, live, "77", FakeDbx(), {"DISPLAY": ":0"}, clock=clock,
+                         sleep=clock.sleep, xrun=lambda a: None, alive=lambda: True,
+                         log=lambda m: None)
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/runtime/human/recorder.py", line 830, in __init__
+    ww = watch if watch is not None else WriteWatch(self.live)
+                                         ~~~~~~~~~~^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/runtime/human/recorder.py", line 732, in __init__
+    raise OSError(err, f"inotify_add_watch on {Path(path).parent} failed")
+OSError: [Errno 28] inotify_add_watch on /home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/scratch/test_human_record/request-skipped failed
+
+======================================================================
+ERROR: test_each_entry_carries_its_save_request_window_not_its_staging_time (tests.test_human_record.Cadence.test_each_entry_carries_its_save_request_window_not_its_staging_time)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/tests/test_human_record.py", line 507, in test_each_entry_carries_its_save_request_window_not_its_staging_time
+    w = recorder.Watcher(session, live, "77", FakeDbx(), {"DISPLAY": ":0"}, clock=clock,
+                         sleep=clock.sleep, xrun=slow_send, alive=lambda: True,
+                         log=lambda m: None)
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/runtime/human/recorder.py", line 830, in __init__
+    ww = watch if watch is not None else WriteWatch(self.live)
+                                         ~~~~~~~~~~^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/runtime/human/recorder.py", line 732, in __init__
+    raise OSError(err, f"inotify_add_watch on {Path(path).parent} failed")
+OSError: [Errno 28] inotify_add_watch on /home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/scratch/test_human_record/request-window failed
+
+======================================================================
+ERROR: test_the_shutdown_window_opens_at_the_last_staged_request (tests.test_human_record.Cadence.test_the_shutdown_window_opens_at_the_last_staged_request)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/tests/test_human_record.py", line 569, in test_the_shutdown_window_opens_at_the_last_staged_request
+    w = recorder.Watcher(session, live, "77", FakeDbx(), {"DISPLAY": ":0"}, clock=clock,
+                         sleep=clock.sleep, xrun=key_writes(live), alive=lambda: True,
+                         log=lambda m: None)
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/runtime/human/recorder.py", line 830, in __init__
+    ww = watch if watch is not None else WriteWatch(self.live)
+                                         ~~~~~~~~~~^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/runtime/human/recorder.py", line 732, in __init__
+    raise OSError(err, f"inotify_add_watch on {Path(path).parent} failed")
+OSError: [Errno 28] inotify_add_watch on /home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/scratch/test_human_record/request-shutdown failed
+
+======================================================================
+ERROR: test_ticks_at_the_cadence_from_zero (tests.test_human_record.Cadence.test_ticks_at_the_cadence_from_zero)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/tests/test_human_record.py", line 488, in test_ticks_at_the_cadence_from_zero
+    w = recorder.Watcher(session, live, "77", FakeDbx(), {"DISPLAY": ":0"}, clock=clock,
+                         sleep=clock.sleep, xrun=key_writes(live), alive=lambda: True,
+                         log=lambda m: None)
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/runtime/human/recorder.py", line 830, in __init__
+    ww = watch if watch is not None else WriteWatch(self.live)
+                                         ~~~~~~~~~~^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/runtime/human/recorder.py", line 732, in __init__
+    raise OSError(err, f"inotify_add_watch on {Path(path).parent} failed")
+OSError: [Errno 28] inotify_add_watch on /home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/scratch/test_human_record/cadence failed
+
+======================================================================
+ERROR: test_dead_emulator_during_snapshot_ends_the_loop (tests.test_human_record.CleanTermination.test_dead_emulator_during_snapshot_ends_the_loop)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/tests/test_human_record.py", line 704, in test_dead_emulator_during_snapshot_ends_the_loop
+    w = recorder.Watcher(session, live, "77", FakeDbx(die_at=0.1), {"DISPLAY": ":0"},
+                         clock=clock, sleep=clock.sleep, xrun=lambda a: None,
+                         alive=lambda: True, log=lambda m: None)
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/runtime/human/recorder.py", line 830, in __init__
+    ww = watch if watch is not None else WriteWatch(self.live)
+                                         ~~~~~~~~~~^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/runtime/human/recorder.py", line 732, in __init__
+    raise OSError(err, f"inotify_add_watch on {Path(path).parent} failed")
+OSError: [Errno 28] inotify_add_watch on /home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/scratch/test_human_record/dead failed
+
+======================================================================
+ERROR: test_dead_emulator_raises_a_named_exception_inside_capture (tests.test_human_record.CleanTermination.test_dead_emulator_raises_a_named_exception_inside_capture)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/tests/test_human_record.py", line 718, in test_dead_emulator_raises_a_named_exception_inside_capture
+    w = recorder.Watcher(session, live, "77", FakeDbx(die_at=0.1), {"DISPLAY": ":0"},
+                         clock=clock, sleep=clock.sleep, xrun=lambda a: None,
+                         alive=lambda: True, log=lambda m: None)
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/runtime/human/recorder.py", line 830, in __init__
+    ww = watch if watch is not None else WriteWatch(self.live)
+                                         ~~~~~~~~~~^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/runtime/human/recorder.py", line 732, in __init__
+    raise OSError(err, f"inotify_add_watch on {Path(path).parent} failed")
+OSError: [Errno 28] inotify_add_watch on /home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/scratch/test_human_record/dead-direct failed
+
+======================================================================
+ERROR: test_the_loop_never_sends_a_global_keystroke (tests.test_human_record.FocusGate.test_the_loop_never_sends_a_global_keystroke)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/tests/test_human_record.py", line 410, in test_the_loop_never_sends_a_global_keystroke
+    w = recorder.Watcher(session, live, "77", FakeDbx(), {"DISPLAY": ":0"}, clock=clock,
+                         sleep=clock.sleep, xrun=sends.append, alive=lambda: True,
+                         log=lambda m: None)
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/runtime/human/recorder.py", line 830, in __init__
+    ww = watch if watch is not None else WriteWatch(self.live)
+                                         ~~~~~~~~~~^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/runtime/human/recorder.py", line 732, in __init__
+    raise OSError(err, f"inotify_add_watch on {Path(path).parent} failed")
+OSError: [Errno 28] inotify_add_watch on /home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/scratch/test_human_record/gate failed
+
+======================================================================
+ERROR: test_unchanged_live_file_is_not_staged (tests.test_human_record.FreshWriteGate.test_unchanged_live_file_is_not_staged)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/tests/test_human_record.py", line 685, in test_unchanged_live_file_is_not_staged
+    w = recorder.Watcher(session, live, "27", FakeDbx(), {"DISPLAY": ":0"}, clock=clock,
+                         sleep=clock.sleep, xrun=lambda a: None, alive=lambda: True,
+                         log=lambda m: None)
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/runtime/human/recorder.py", line 830, in __init__
+    ww = watch if watch is not None else WriteWatch(self.live)
+                                         ~~~~~~~~~~^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/runtime/human/recorder.py", line 732, in __init__
+    raise OSError(err, f"inotify_add_watch on {Path(path).parent} failed")
+OSError: [Errno 28] inotify_add_watch on /home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/scratch/test_human_record/fresh failed
+
+======================================================================
+ERROR: test_a_rewrite_invisible_to_coarse_timestamps_is_caught_by_the_second_read (tests.test_human_record.LiveFileReads.test_a_rewrite_invisible_to_coarse_timestamps_is_caught_by_the_second_read)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/tests/test_human_record.py", line 1341, in test_a_rewrite_invisible_to_coarse_timestamps_is_caught_by_the_second_read
+    session, live, w = self.watcher("r2-coarse", lambda a: None)
+                       ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/tests/test_human_record.py", line 1006, in watcher
+    w = recorder.Watcher(session, live, "77", FakeDbx(), {"DISPLAY": ":0"}, clock=clock,
+                         sleep=clock.sleep, xrun=xrun, alive=lambda: True, log=lambda m: None)
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/runtime/human/recorder.py", line 830, in __init__
+    ww = watch if watch is not None else WriteWatch(self.live)
+                                         ~~~~~~~~~~^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/runtime/human/recorder.py", line 732, in __init__
+    raise OSError(err, f"inotify_add_watch on {Path(path).parent} failed")
+OSError: [Errno 28] inotify_add_watch on /home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/scratch/test_human_record/r2-coarse failed
+
+======================================================================
+ERROR: test_a_same_size_rewrite_during_capture_is_never_staged (tests.test_human_record.LiveFileReads.test_a_same_size_rewrite_during_capture_is_never_staged)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/tests/test_human_record.py", line 1044, in test_a_same_size_rewrite_during_capture_is_never_staged
+    session, live, w = self.watcher("r2-samesize", None)
+                       ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/tests/test_human_record.py", line 1006, in watcher
+    w = recorder.Watcher(session, live, "77", FakeDbx(), {"DISPLAY": ":0"}, clock=clock,
+                         sleep=clock.sleep, xrun=xrun, alive=lambda: True, log=lambda m: None)
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/runtime/human/recorder.py", line 830, in __init__
+    ww = watch if watch is not None else WriteWatch(self.live)
+                                         ~~~~~~~~~~^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/runtime/human/recorder.py", line 732, in __init__
+    raise OSError(err, f"inotify_add_watch on {Path(path).parent} failed")
+OSError: [Errno 28] inotify_add_watch on /home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/scratch/test_human_record/r2-samesize failed
+
+======================================================================
+ERROR: test_a_write_that_begins_during_the_reads_is_never_staged (tests.test_human_record.LiveFileReads.test_a_write_that_begins_during_the_reads_is_never_staged)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/tests/test_human_record.py", line 1181, in test_a_write_that_begins_during_the_reads_is_never_staged
+    session, live, w = self.watcher("r5-midread", None, clock=clock)
+                       ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/tests/test_human_record.py", line 1006, in watcher
+    w = recorder.Watcher(session, live, "77", FakeDbx(), {"DISPLAY": ":0"}, clock=clock,
+                         sleep=clock.sleep, xrun=xrun, alive=lambda: True, log=lambda m: None)
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/runtime/human/recorder.py", line 830, in __init__
+    ww = watch if watch is not None else WriteWatch(self.live)
+                                         ~~~~~~~~~~^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/runtime/human/recorder.py", line 732, in __init__
+    raise OSError(err, f"inotify_add_watch on {Path(path).parent} failed")
+OSError: [Errno 28] inotify_add_watch on /home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/scratch/test_human_record/r5-midread failed
+
+======================================================================
+ERROR: test_a_writer_check_that_cannot_be_made_stages_nothing (tests.test_human_record.LiveFileReads.test_a_writer_check_that_cannot_be_made_stages_nothing)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/tests/test_human_record.py", line 1249, in test_a_writer_check_that_cannot_be_made_stages_nothing
+    session, live, w = self.watcher("r4-closed", None)
+                       ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/tests/test_human_record.py", line 1006, in watcher
+    w = recorder.Watcher(session, live, "77", FakeDbx(), {"DISPLAY": ":0"}, clock=clock,
+                         sleep=clock.sleep, xrun=xrun, alive=lambda: True, log=lambda m: None)
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/runtime/human/recorder.py", line 830, in __init__
+    ww = watch if watch is not None else WriteWatch(self.live)
+                                         ~~~~~~~~~~^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/runtime/human/recorder.py", line 732, in __init__
+    raise OSError(err, f"inotify_add_watch on {Path(path).parent} failed")
+OSError: [Errno 28] inotify_add_watch on /home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/scratch/test_human_record/r4-closed failed
+
+======================================================================
+ERROR: test_a_writer_paused_mid_write_is_never_staged (tests.test_human_record.LiveFileReads.test_a_writer_paused_mid_write_is_never_staged)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/tests/test_human_record.py", line 1126, in test_a_writer_paused_mid_write_is_never_staged
+    session, live, w = self.watcher("r4-paused", None, clock=clock)
+                       ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/tests/test_human_record.py", line 1006, in watcher
+    w = recorder.Watcher(session, live, "77", FakeDbx(), {"DISPLAY": ":0"}, clock=clock,
+                         sleep=clock.sleep, xrun=xrun, alive=lambda: True, log=lambda m: None)
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/runtime/human/recorder.py", line 830, in __init__
+    ww = watch if watch is not None else WriteWatch(self.live)
+                                         ~~~~~~~~~~^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/runtime/human/recorder.py", line 732, in __init__
+    raise OSError(err, f"inotify_add_watch on {Path(path).parent} failed")
+OSError: [Errno 28] inotify_add_watch on /home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/scratch/test_human_record/r4-paused failed
+
+======================================================================
+ERROR: test_a_writer_still_rewriting_in_place_is_never_staged (tests.test_human_record.LiveFileReads.test_a_writer_still_rewriting_in_place_is_never_staged)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/tests/test_human_record.py", line 1092, in test_a_writer_still_rewriting_in_place_is_never_staged
+    session, live, w = self.watcher("r1-inplace", None, clock=clock)
+                       ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/tests/test_human_record.py", line 1006, in watcher
+    w = recorder.Watcher(session, live, "77", FakeDbx(), {"DISPLAY": ":0"}, clock=clock,
+                         sleep=clock.sleep, xrun=xrun, alive=lambda: True, log=lambda m: None)
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/runtime/human/recorder.py", line 830, in __init__
+    ww = watch if watch is not None else WriteWatch(self.live)
+                                         ~~~~~~~~~~^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/runtime/human/recorder.py", line 732, in __init__
+    raise OSError(err, f"inotify_add_watch on {Path(path).parent} failed")
+OSError: [Errno 28] inotify_add_watch on /home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/scratch/test_human_record/r1-inplace failed
+
+======================================================================
+ERROR: test_an_event_queue_overflow_counts_as_an_open_session (tests.test_human_record.LiveFileReads.test_an_event_queue_overflow_counts_as_an_open_session)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/tests/test_human_record.py", line 1295, in test_an_event_queue_overflow_counts_as_an_open_session
+    ww = recorder.WriteWatch(f)
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/runtime/human/recorder.py", line 732, in __init__
+    raise OSError(err, f"inotify_add_watch on {Path(path).parent} failed")
+OSError: [Errno 28] inotify_add_watch on /home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/scratch/test_human_record/r4-overflow failed
+
+======================================================================
+ERROR: test_bytes_read_while_a_write_was_in_progress_are_never_staged (tests.test_human_record.LiveFileReads.test_bytes_read_while_a_write_was_in_progress_are_never_staged)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/tests/test_human_record.py", line 1225, in test_bytes_read_while_a_write_was_in_progress_are_never_staged
+    session, live, w = self.watcher("r6-overlap", None)
+                       ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/tests/test_human_record.py", line 1006, in watcher
+    w = recorder.Watcher(session, live, "77", FakeDbx(), {"DISPLAY": ":0"}, clock=clock,
+                         sleep=clock.sleep, xrun=xrun, alive=lambda: True, log=lambda m: None)
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/runtime/human/recorder.py", line 830, in __init__
+    ww = watch if watch is not None else WriteWatch(self.live)
+                                         ~~~~~~~~~~^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/runtime/human/recorder.py", line 732, in __init__
+    raise OSError(err, f"inotify_add_watch on {Path(path).parent} failed")
+OSError: [Errno 28] inotify_add_watch on /home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/scratch/test_human_record/r6-overlap failed
+
+======================================================================
+ERROR: test_no_content_read_of_the_live_file_before_the_key_is_sent (tests.test_human_record.LiveFileReads.test_no_content_read_of_the_live_file_before_the_key_is_sent)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/tests/test_human_record.py", line 1020, in test_no_content_read_of_the_live_file_before_the_key_is_sent
+    session, live, w = self.watcher("r1-noread", None)
+                       ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/tests/test_human_record.py", line 1006, in watcher
+    w = recorder.Watcher(session, live, "77", FakeDbx(), {"DISPLAY": ":0"}, clock=clock,
+                         sleep=clock.sleep, xrun=xrun, alive=lambda: True, log=lambda m: None)
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/runtime/human/recorder.py", line 830, in __init__
+    ww = watch if watch is not None else WriteWatch(self.live)
+                                         ~~~~~~~~~~^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/runtime/human/recorder.py", line 732, in __init__
+    raise OSError(err, f"inotify_add_watch on {Path(path).parent} failed")
+OSError: [Errno 28] inotify_add_watch on /home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/scratch/test_human_record/r1-noread failed
+
+======================================================================
+ERROR: test_one_deadline_bounds_a_capture_that_keeps_racing (tests.test_human_record.LiveFileReads.test_one_deadline_bounds_a_capture_that_keeps_racing)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/tests/test_human_record.py", line 1317, in test_one_deadline_bounds_a_capture_that_keeps_racing
+    session, live, w = self.watcher("r9-deadline", lambda a: None, clock=clock)
+                       ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/tests/test_human_record.py", line 1006, in watcher
+    w = recorder.Watcher(session, live, "77", FakeDbx(), {"DISPLAY": ":0"}, clock=clock,
+                         sleep=clock.sleep, xrun=xrun, alive=lambda: True, log=lambda m: None)
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/runtime/human/recorder.py", line 830, in __init__
+    ww = watch if watch is not None else WriteWatch(self.live)
+                                         ~~~~~~~~~~^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/runtime/human/recorder.py", line 732, in __init__
+    raise OSError(err, f"inotify_add_watch on {Path(path).parent} failed")
+OSError: [Errno 28] inotify_add_watch on /home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/scratch/test_human_record/r9-deadline failed
+
+======================================================================
+ERROR: test_the_shutdown_pass_never_stages_a_file_still_being_written (tests.test_human_record.LiveFileReads.test_the_shutdown_pass_never_stages_a_file_still_being_written)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/tests/test_human_record.py", line 1357, in test_the_shutdown_pass_never_stages_a_file_still_being_written
+    session, live, w = self.watcher("r4-shutdown", lambda a: None, clock=clock)
+                       ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/tests/test_human_record.py", line 1006, in watcher
+    w = recorder.Watcher(session, live, "77", FakeDbx(), {"DISPLAY": ":0"}, clock=clock,
+                         sleep=clock.sleep, xrun=xrun, alive=lambda: True, log=lambda m: None)
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/runtime/human/recorder.py", line 830, in __init__
+    ww = watch if watch is not None else WriteWatch(self.live)
+                                         ~~~~~~~~~~^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/runtime/human/recorder.py", line 732, in __init__
+    raise OSError(err, f"inotify_add_watch on {Path(path).parent} failed")
+OSError: [Errno 28] inotify_add_watch on /home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/scratch/test_human_record/r4-shutdown failed
+
+======================================================================
+ERROR: test_write_watch_follows_the_kernels_write_sessions (tests.test_human_record.LiveFileReads.test_write_watch_follows_the_kernels_write_sessions)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/tests/test_human_record.py", line 1268, in test_write_watch_follows_the_kernels_write_sessions
+    ww = recorder.WriteWatch(f)
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/runtime/human/recorder.py", line 732, in __init__
+    raise OSError(err, f"inotify_add_watch on {Path(path).parent} failed")
+OSError: [Errno 28] inotify_add_watch on /home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/scratch/test_human_record/r4-watch failed
+
+======================================================================
+ERROR: test_shutdown_stage_waits_for_size_stability (tests.test_human_record.ShutdownStageGate.test_shutdown_stage_waits_for_size_stability)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/tests/test_human_record.py", line 737, in test_shutdown_stage_waits_for_size_stability
+    w = recorder.Watcher(session, live, "77", FakeDbx(), {"DISPLAY": ":0"}, clock=clock,
+                         sleep=clock.sleep, xrun=lambda a: None, alive=lambda: True,
+                         log=lambda m: None)
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/runtime/human/recorder.py", line 830, in __init__
+    ww = watch if watch is not None else WriteWatch(self.live)
+                                         ~~~~~~~~~~^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/runtime/human/recorder.py", line 732, in __init__
+    raise OSError(err, f"inotify_add_watch on {Path(path).parent} failed")
+OSError: [Errno 28] inotify_add_watch on /home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/scratch/test_human_record/shutdown-stable failed
+
+======================================================================
+ERROR: test_an_incomplete_zip_is_never_staged (tests.test_human_record.StagingGate.test_an_incomplete_zip_is_never_staged)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/tests/test_human_record.py", line 627, in test_an_incomplete_zip_is_never_staged
+    w = recorder.Watcher(session, live, "77", FakeDbx(), {"DISPLAY": ":0"}, clock=clock,
+                         sleep=clock.sleep, xrun=lambda a: None, alive=lambda: True,
+                         log=lambda m: None)
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/runtime/human/recorder.py", line 830, in __init__
+    ww = watch if watch is not None else WriteWatch(self.live)
+                                         ~~~~~~~~~~^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/runtime/human/recorder.py", line 732, in __init__
+    raise OSError(err, f"inotify_add_watch on {Path(path).parent} failed")
+OSError: [Errno 28] inotify_add_watch on /home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/scratch/test_human_record/incomplete failed
+
+======================================================================
+ERROR: test_only_a_complete_and_size_stable_savestate_is_staged (tests.test_human_record.StagingGate.test_only_a_complete_and_size_stable_savestate_is_staged)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/tests/test_human_record.py", line 609, in test_only_a_complete_and_size_stable_savestate_is_staged
+    w = recorder.Watcher(session, live, "77", FakeDbx(), {"DISPLAY": ":0"}, clock=clock,
+                         sleep=clock.sleep, xrun=lambda a: None, alive=lambda: True,
+                         log=lambda m: None)
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/runtime/human/recorder.py", line 830, in __init__
+    ww = watch if watch is not None else WriteWatch(self.live)
+                                         ~~~~~~~~~~^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/runtime/human/recorder.py", line 732, in __init__
+    raise OSError(err, f"inotify_add_watch on {Path(path).parent} failed")
+OSError: [Errno 28] inotify_add_watch on /home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/scratch/test_human_record/staging failed
+
+======================================================================
+ERROR: test_the_shutdown_pass_stages_the_owners_last_savestate_once (tests.test_human_record.StagingGate.test_the_shutdown_pass_stages_the_owners_last_savestate_once)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/tests/test_human_record.py", line 640, in test_the_shutdown_pass_stages_the_owners_last_savestate_once
+    w = recorder.Watcher(session, live, "77", FakeDbx(), {"DISPLAY": ":0"}, clock=clock,
+                         sleep=clock.sleep, xrun=lambda a: None, alive=lambda: True,
+                         log=lambda m: None)
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/runtime/human/recorder.py", line 830, in __init__
+    ww = watch if watch is not None else WriteWatch(self.live)
+                                         ~~~~~~~~~~^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/runtime/human/recorder.py", line 732, in __init__
+    raise OSError(err, f"inotify_add_watch on {Path(path).parent} failed")
+OSError: [Errno 28] inotify_add_watch on /home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/scratch/test_human_record/shutdown failed
+
+======================================================================
+ERROR: test_stable_polls_boundary_growing_file_does_not_stage (tests.test_human_record.ThresholdBoundaries.test_stable_polls_boundary_growing_file_does_not_stage)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/tests/test_human_record.py", line 840, in test_stable_polls_boundary_growing_file_does_not_stage
+    w = recorder.Watcher(session, live, "77", FakeDbx(), {"DISPLAY": ":0"}, clock=clock,
+                         sleep=clock.sleep, xrun=lambda a: None, alive=lambda: True,
+                         log=lambda m: None)
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/runtime/human/recorder.py", line 830, in __init__
+    ww = watch if watch is not None else WriteWatch(self.live)
+                                         ~~~~~~~~~~^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/runtime/human/recorder.py", line 732, in __init__
+    raise OSError(err, f"inotify_add_watch on {Path(path).parent} failed")
+OSError: [Errno 28] inotify_add_watch on /home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/scratch/test_human_record/stable-polls failed
+
+======================================================================
+FAIL: test_a_save_before_the_watcher_is_refused (tests.test_human_keys.EarlySaveTests.test_a_save_before_the_watcher_is_refused)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/tests/netskip.py", line 76, in wrapper
+    return obj(self, *args, **kwargs)
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/tests/test_human_keys.py", line 1625, in test_a_save_before_the_watcher_is_refused
+    self.assertIn("a save before the first request is owned by no request line", out)
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'a save before the first request is owned by no request line' not found in '[12:21:23] session /home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/scratch/human/sessions/20261018-142123\n[12:21:23] saved game: game/4.GL (169553 bytes, sha256 a2b4b0a6c976a8ee..., newest .GL of the fetched saves (release goal2-saves)): load it in the game\n[12:21:24] the sitting ended on an error:\nTraceback (most recent call last):\n  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/runtime/human/recorder.py", line 2028, in play\n    watch = WriteWatch(session / "state.sav")\n  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/runtime/human/recorder.py", line 732, in __init__\n    raise OSError(err, f"inotify_add_watch on {Path(path).parent} failed")\nOSError: [Errno 28] inotify_add_watch on /home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/scratch/human/sessions/20261018-142123 failed\n\nTraceback (most recent call last):\n  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/runtime/human/recorder.py", line 2292, in <module>\n    sys.exit(main())\n             ~~~~^^\n  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/runtime/human/recorder.py", line 2287, in main\n    return play(video=a.video, quit_after=a.quit_after, res=a.res, load=a.load, fresh=a.fresh,\n                scale=a.scale, cycles=cycles, cadence=cadence)\n  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/runtime/human/recorder.py", line 2028, in play\n    watch = WriteWatch(session / "state.sav")\n  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/runtime/human/recorder.py", line 732, in __init__\n    raise OSError(err, f"inotify_add_watch on {Path(path).parent} failed")\nOSError: [Errno 28] inotify_add_watch on /home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/scratch/human/sessions/20261018-142123 failed\nTraceback (most recent call last):\n  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/experiments/E015-human-playthrough/scripted_keys.py", line 492, in <module>\n    sys.exit(main())\n             ~~~~^^\n  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/experiments/E015-human-playthrough/scripted_keys.py", line 411, in main\n    session, meta = wait_opening(sitting, before)\n                    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^\n  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/experiments/E015-human-playthrough/scripted_keys.py", line 359, in wait_opening\n    raise RuntimeError(f"the sitting exited {rc} {when}{tail}")\nRuntimeError: the sitting exited 1 before its opening snapshot; session.log ends:     raise OSError(err, f"inotify_add_watch on {Path(path).parent} failed") | OSError: [Errno 28] inotify_add_watch on /home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/scratch/human/sessions/20261018-142123 failed | \n'
+
+======================================================================
+FAIL: test_scripted_sitting_produces_one_burst_snapshot_per_key_group (tests.test_human_keys.GuardTests.test_scripted_sitting_produces_one_burst_snapshot_per_key_group)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/tests/netskip.py", line 76, in wrapper
+    return obj(self, *args, **kwargs)
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/tests/test_human_keys.py", line 1288, in test_scripted_sitting_produces_one_burst_snapshot_per_key_group
+    self.assertEqual(r.returncode, 0, (r.stdout + r.stderr)[-4000:])
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 1 != 0 : [12:21:25] session /home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/scratch/human/sessions/20261018-142125
+[12:21:25] saved game: game/4.GL (169553 bytes, sha256 a2b4b0a6c976a8ee..., newest .GL of the fetched saves (release goal2-saves)): load it in the game
+[12:21:25] the sitting ended on an error:
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/runtime/human/recorder.py", line 2028, in play
+    watch = WriteWatch(session / "state.sav")
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/runtime/human/recorder.py", line 732, in __init__
+    raise OSError(err, f"inotify_add_watch on {Path(path).parent} failed")
+OSError: [Errno 28] inotify_add_watch on /home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/scratch/human/sessions/20261018-142125 failed
+
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/runtime/human/recorder.py", line 2292, in <module>
+    sys.exit(main())
+             ~~~~^^
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/runtime/human/recorder.py", line 2287, in main
+    return play(video=a.video, quit_after=a.quit_after, res=a.res, load=a.load, fresh=a.fresh,
+                scale=a.scale, cycles=cycles, cadence=cadence)
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/runtime/human/recorder.py", line 2028, in play
+    watch = WriteWatch(session / "state.sav")
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/runtime/human/recorder.py", line 732, in __init__
+    raise OSError(err, f"inotify_add_watch on {Path(path).parent} failed")
+OSError: [Errno 28] inotify_add_watch on /home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/scratch/human/sessions/20261018-142125 failed
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/experiments/E015-human-playthrough/scripted_keys.py", line 492, in <module>
+    sys.exit(main())
+             ~~~~^^
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/experiments/E015-human-playthrough/scripted_keys.py", line 411, in main
+    session, meta = wait_opening(sitting, before)
+                    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/experiments/E015-human-playthrough/scripted_keys.py", line 359, in wait_opening
+    raise RuntimeError(f"the sitting exited {rc} {when}{tail}")
+RuntimeError: the sitting exited 1 before its opening snapshot; session.log ends:     raise OSError(err, f"inotify_add_watch on {Path(path).parent} failed") | OSError: [Errno 28] inotify_add_watch on /home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/scratch/human/sessions/20261018-142125 failed | 
+
+
+======================================================================
+FAIL: test_the_r4_r1_reproduction_is_refused (tests.test_human_keys.ReproductionWrapperTests.test_the_r4_r1_reproduction_is_refused)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/tests/test_human_keys.py", line 1658, in test_the_r4_r1_reproduction_is_refused
+    self.assertIn("stability fallback", out)
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'stability fallback' not found in 'T35 r4-R1 reproduction: injected clock, _submitted=2, _finished=0, keys a;b;c\nTraceback (most recent call last):\n  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/experiments/E015-human-playthrough/mutate_keys.py", line 615, in <module>\n    sys.exit(main())\n             ~~~~^^\n  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/experiments/E015-human-playthrough/mutate_keys.py", line 606, in main\n    return repro_r4_r1(a)\n  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/experiments/E015-human-playthrough/mutate_keys.py", line 395, in repro_r4_r1\n    for name, staged, logs, lines in _r1_scenarios(args):\n                                     ~~~~~~~~~~~~~^^^^^^\n  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/experiments/E015-human-playthrough/mutate_keys.py", line 359, in _r1_scenarios\n    session, w, live, state, logs = _injected_watcher([], submitted, finished)\n                                    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^\n  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/experiments/E015-human-playthrough/mutate_keys.py", line 330, in _injected_watcher\n    w = rec.Watcher(session, live, "77", _FakeDbx(), {"DISPLAY": ":0"},\n                    clock=clock, sleep=clock.sleep, xrun=lambda a: None,\n                    alive=lambda: True, log=logs.append)\n  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/runtime/human/recorder.py", line 830, in __init__\n    ww = watch if watch is not None else WriteWatch(self.live)\n                                         ~~~~~~~~~~^^^^^^^^^^^\n  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/runtime/human/recorder.py", line 732, in __init__\n    raise OSError(err, f"inotify_add_watch on {Path(path).parent} failed")\nOSError: [Errno 28] inotify_add_watch on /home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/scratch/t35-repro/tmp4kdus5_m failed\n'
+
+======================================================================
+FAIL: test_a_video_sitting_records_the_xephyr_window (tests.test_human_keys.VideoTests.test_a_video_sitting_records_the_xephyr_window)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/tests/netskip.py", line 76, in wrapper
+    return obj(self, *args, **kwargs)
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/tests/test_human_keys.py", line 390, in test_a_video_sitting_records_the_xephyr_window
+    self.assertEqual(sitting.wait(timeout=30), 0)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 1 != 0
+
+======================================================================
+FAIL: test_the_video_films_the_nested_display_not_what_covers_the_window_outside (tests.test_human_keys.VideoTests.test_the_video_films_the_nested_display_not_what_covers_the_window_outside)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/tests/netskip.py", line 76, in wrapper
+    return obj(self, *args, **kwargs)
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/tests/test_human_keys.py", line 437, in test_the_video_films_the_nested_display_not_what_covers_the_window_outside
+    self.assertIsNotNone(session)
+    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+AssertionError: unexpectedly None
+
+----------------------------------------------------------------------
+Ran 141 tests in 43.160s
+
+FAILED (failures=5, errors=46)
