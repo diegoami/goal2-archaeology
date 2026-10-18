@@ -1,0 +1,7 @@
+unmutated: exit 0 (OK)
+0AA7 the result local [bp - 2] wrong: caught (exit 1; FAILED (failures=1))
+3216 the stack block: the set pushed wrong: caught (exit 1; FAILED (failures=1))
+3216 DX after the elements: caught (exit 1; FAILED (failures=2))
+0E6C the loop variable local: caught (exit 1; FAILED (failures=1))
+377E DX after the wrong-foot halving: caught (exit 1; FAILED (failures=1))
+5 mutations run, 0 not caught
