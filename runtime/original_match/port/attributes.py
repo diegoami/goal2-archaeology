@@ -133,6 +133,12 @@ def drop(mem, words):
     mem.set_reg("sp", (mem.reg("sp") + 2 * words) & 0xFFFF)
 
 
+def put(mem, linear, data, at):
+    """`data` stored at `linear` as one write by the original's instruction `at` (a block of dead stack: no watch of the
+    kit covers the stack, and the view's write takes any size)."""
+    mem._write(linear, len(data), int.from_bytes(data, "little"), mem._at(at))
+
+
 # -- the small readers -------------------------------------------------------------------------------------------
 def ptr_local(f, off, rec, at_off, at_seg):
     """The two stores `mov [bp + off], di` and `mov [bp + off + 2], es` that keep a record's far pointer in the frame."""
@@ -280,32 +286,42 @@ def player_leadership(mem, variant):
 @PORTS.port("1771:3216", ret="retf 2")
 def player_unavailable(mem, variant):
     """3216: 1 when +0xE is below 1 (signed) or element 8, 6 or 3 of +0x10 is set, else 0. The hot routine (about 345,000
-    calls a match): the three tests of 214B:0C57 are inline, with the stack bytes their pushes, call and frame leave."""
-    f = mem.enter(6, "1771:3216")                           # 3216-3219
-    ax, dx = mul(mem.arg(0), 0x14)                          # 321C-3222
-    p = Rec(mem, PLAYERS, ax)
-    ptr_local(f, -5, p, "1771:322A", "1771:322D")
-    if s8(p.u8(0xE)) < 1:                                   # 3230-3238: jl
-        f.w8(-1, 1, "1771:3285")
+    calls a match): the three tests of 214B:0C57 are inline, and the bytes the original leaves on the stack (its frame, and
+    the last test's two pushes, far return and 0C57's frame) are written as one block: the 20 bytes below the return
+    address, laid out as the listing's pushes and stores lay them."""
+    e = mem.reg("sp")                                       # SP at the entry: [e] the return address
+    bp = mem.reg("bp")
+    n = mem.u16(mem.ss_lin(e + 4))                          # [bp + 6] as the callee sees it: the argument
+    ax, dx = mul(n, 0x14)                                   # 321C-3222
+    ptr = mem.u32(mem.DS * 16 + PLAYERS)                    # 3224: les di, [0xa91b]
+    off, seg = (ptr + ax) & 0xFFFF, ptr >> 16               # 3228: add di, ax
+    energy = s8(mem.u8((seg << 4) + ((off + 0xE) & 0xFFFF)))
+    base = mem.ss_lin(e - 20)
+    block = bytearray(mem.read(base, 20))                   # the bytes the original leaves unwritten stay as they are
+    block[18:20] = bp.to_bytes(2, "little")                 # 3216: push bp at e - 2
+    block[13:15] = off.to_bytes(2, "little")                # 322A: [bp - 5] = di
+    block[15:17] = seg.to_bytes(2, "little")                # 322D: [bp - 3] = es
+    if energy < 1:                                          # 3230-3238: jl
+        block[17] = 1                                       # 3285: [bp - 1] = al
+        put(mem, base + 12, block[12:], "1771:3285")
         return ret(mem, (ax & 0xFF00) | 1, dx)              # 3283: mov al, 1 (AH of the mul)
-    s = p.u8(0x10)
+    s = mem.u8((seg << 4) + ((off + 0x10) & 0xFFFF))
     elem6 = 5 if variant == "unavailable-bit-6" else 6
-    for elem, shift, push_elem, push_set, call, after in ((8, 7, "323D", "3247", "3248", 0x324D),
-                                                          (6, elem6 - 1, "3254", "325E", "325F", 0x3264),
-                                                          (3, 2, "326B", "3275", "3276", 0x327B)):
+    cs, result, dx = mem.seg(0x1771), 0, 2
+    for elem, shift, after in ((8, 7, 0x324D), (6, elem6 - 1, 0x3264), (3, 2, 0x327B)):
         bit = (s >> shift) & 1                              # 214B:0C57: ((word s) >> (elem - 1)) & 1, AH 0, DX = elem - 1
-        sp, bp = mem.reg("sp"), mem.reg("bp")               # the call's stack: the two pushes, the far return, 0C57's frame
-        mem.w16(mem.ss_lin(sp - 2), elem, "1771:" + push_elem)
-        mem.w16(mem.ss_lin(sp - 4), s, "1771:" + push_set)
-        mem.w16(mem.ss_lin(sp - 6), mem.reg("cs"), "1771:" + call)
-        mem.w16(mem.ss_lin(sp - 8), after, "1771:" + call)
-        mem.w16(mem.ss_lin(sp - 10), bp, "214B:0C57")       # 0C57: push bp
-        mem.w8(mem.ss_lin(sp - 11), bit, "214B:0C6D")       # 0C6D: mov [bp - 1], al
-        if bit:                                             # 324F, 3266, 327D: jne 3283
-            f.w8(-1, 1, "1771:3285")
-            return ret(mem, 1, shift)
-    f.w8(-1, 0, "1771:3285")
-    return ret(mem, 0, 2)                                   # 327F: mov al, 0 (AH 0 from 0C57)
+        if bit or elem == 3:                                # the last of the calls made: its pushes, far return, 0C57's frame
+            block[10:12] = elem.to_bytes(2, "little")       # push ax (the element) at e - 10
+            block[8:10] = s.to_bytes(2, "little")           # push ax (the set, zero-extended) at e - 12
+            block[6:8] = cs.to_bytes(2, "little")           # call far: the return segment at e - 14
+            block[4:6] = after.to_bytes(2, "little")        # the return offset at e - 16
+            block[2:4] = ((e - 2) & 0xFFFF).to_bytes(2, "little")     # 0C57: push bp (3216's frame, bp = e - 2) at e - 18
+            block[1] = bit                                  # 0C6D: [bp - 1] = al at e - 19
+            result, dx = bit, shift
+            break
+    block[17] = result                                      # 3285: [bp - 1] = al
+    put(mem, base, block, "1771:3285")
+    return ret(mem, result, dx)                             # 327F: mov al, 0 (AH 0 from 0C57)
 
 
 @PORTS.port("1771:3A06", ret="retf 4")
