@@ -30,33 +30,44 @@ class GuestError(RuntimeError):
     """The original did something the kit does not declare (an unknown key read, a stray routine)."""
 
 
+# Machine.uc under a proof (round 6, deny by default): the only engine attributes forwarded, constants and queries of
+# the engine's configuration that neither call back into the host nor observe the guest. Everything else, every new
+# Unicorn API included, is refused (PortError); tests.test_port_guest inventories dir() of the engine against this.
+UC_WHITELIST = frozenset(("REG_RANGE_FP", "REG_RANGE_MMR", "REG_RANGE_MSR", "REG_RANGE_XMM", "REG_RANGE_YMM",
+                          "REG_RANGE_ZMM", "ctl_get_arch", "ctl_get_mode", "ctl_get_page_size", "ctl_get_cpu_model"))
+# Outside a proof everything is forwarded, and every use is counted (Machine.foreign_hooks): a proof refuses to start
+# on a machine whose Machine.uc was used at all (not only the uses that install a host callback or share guest memory,
+# UC_FOREIGN: a raw hook, an MMIO range, a host buffer mapped as guest memory, a remap; also a bound method taken
+# before the proof, e.g. a raw reg_read kept by an observer, which no check at call time would see). Unproved runs keep
+# them (family.py --count).
+UC_FOREIGN = frozenset(("hook_add", "hook_del", "mmio_map", "mem_map_ptr", "mem_map", "mem_unmap", "mem_protect"))
+
+
 class _HookGuard:
-    """Machine.uc: the Unicorn engine, but a hook added or deleted through it (a raw callback of a user of the kit's,
-    e.g. family.py --count) is counted, and refused while a proof is installed (round 5: a raw hook would be called in
-    the proof's muted original too, outside its ordered transcript). The machine adds its own hooks on the engine."""
+    """Machine.uc: the Unicorn engine as the kit's users see it. Under a proof (installed, or being constructed) only
+    UC_WHITELIST is forwarded and any other attribute raises PortError naming it; outside one everything is
+    forwarded and every use is counted (Machine.foreign_hooks: a proof refuses such a machine). The kit reaches the guest through Machine's
+    methods (the taps a proof records); the machine, the proof and the port's view use the engine itself
+    (Machine._uc), never this. Nothing is cached, so the check is made at every access."""
 
     def __init__(self, uc, machine):
-        self._engine, self._machine = uc, machine
+        object.__setattr__(self, "_engine", uc)
+        object.__setattr__(self, "_machine", machine)
 
     def __getattr__(self, name):
-        value = getattr(self._engine, name)
-        setattr(self, name, value)          # bound once: mem_read and the rest cost no more than on the engine
-        return value
+        m = self._machine
+        if m.proving:
+            if name not in UC_WHITELIST:
+                from .port.mem import PortError
+                raise PortError(f"Machine.uc.{name} while a proof is installed: refused (deny by default; the kit "
+                                "reads and writes the guest through Machine's methods, which the proof records)")
+        else:
+            m.foreign_hooks += 1
+        return getattr(self._engine, name)
 
-    def _guard(self, what):
-        if self._machine.proving:
-            from .port.mem import PortError
-            raise PortError(f"a raw Unicorn {what} while a proof is installed: its callback would run outside the "
-                            "proof's ordered transcript (and in the muted original): refused")
-        self._machine.foreign_hooks += 1
-
-    def hook_add(self, *args, **kwargs):
-        self._guard("hook_add")
-        return self._engine.hook_add(*args, **kwargs)
-
-    def hook_del(self, *args, **kwargs):
-        self._guard("hook_del")
-        return self._engine.hook_del(*args, **kwargs)
+    def __setattr__(self, name, value):
+        from .port.mem import PortError
+        raise PortError(f"Machine.uc.{name} cannot be set")
 
 
 class Machine:
@@ -67,11 +78,11 @@ class Machine:
             raise ValueError(f"the image holds {len(memory)} bytes of guest memory, {MEM_SIZE} are needed")
         self._uc = Uc(UC_ARCH_X86, UC_MODE_16)
         self.proving = False       # a proof is installed (port/prove.py): no raw hook, no second recorder
-        self.foreign_hooks = 0     # raw hooks added through `uc` by users of the kit (a proof refuses to start then)
+        self.foreign_hooks = 0     # uses of `uc` by users of the kit outside a proof (a proof refuses to start then)
         self._recorder = None      # the proof's write recorder: the one listener that runs in the muted original too
         self.uc = _HookGuard(self._uc, self)
-        self.uc.mem_map(0, MEM_SIZE)
-        self.uc.mem_write(0, bytes(memory[:MEM_SIZE]))
+        self._uc.mem_map(0, MEM_SIZE)
+        self._uc.mem_write(0, bytes(memory[:MEM_SIZE]))
         self.load = load
         self.DS = load + DS_PARAGRAPH
         self.stop_reason = None
@@ -122,7 +133,7 @@ class Machine:
     # -- memory --------------------------------------------------------------------------------------
     def read(self, linear, n):
         """The kit's read of guest memory (every read of the kit's goes through here; a proof records it: io_tap)."""
-        data = bytes(self.uc.mem_read(linear, n))
+        data = bytes(self._uc.mem_read(linear, n))
         if self.io_tap is not None:
             self.io_tap("r", linear, data)
         return data
@@ -131,7 +142,7 @@ class Machine:
         """The kit's write of guest memory (a proof records it: write_tap)."""
         if self.write_tap is not None:
             self.write_tap(linear, bytes(data))
-        self.uc.mem_write(linear, bytes(data))
+        self._uc.mem_write(linear, bytes(data))
 
     def word_at(self, linear):
         return int.from_bytes(self.read(linear, 2), "little")
@@ -153,13 +164,13 @@ class Machine:
 
     # -- registers and the stack ---------------------------------------------------------------------
     def reg(self, name):
-        value = self.uc.reg_read(getattr(X, f"UC_X86_REG_{name.upper()}"))
+        value = self._uc.reg_read(getattr(X, f"UC_X86_REG_{name.upper()}"))
         if self.io_tap is not None:
             self.io_tap("g", name.lower(), value)
         return value
 
     def set_reg(self, name, value):
-        self.uc.reg_write(getattr(X, f"UC_X86_REG_{name.upper()}"), value)
+        self._uc.reg_write(getattr(X, f"UC_X86_REG_{name.upper()}"), value)
         if self.io_tap is not None:
             self.io_tap("s", name.lower(), value)
 
@@ -246,7 +257,7 @@ class Machine:
                     self.error = e
                     uc.emu_stop()
             self._uc.hook_add(UC_HOOK_CODE, dispatch, begin=lin, end=lin)
-            self.uc.ctl_remove_cache(lin, lin + 1)
+            self._uc.ctl_remove_cache(lin, lin + 1)
         self._handlers[lin].append(handler)
 
     def hooked(self, lin):
@@ -318,7 +329,7 @@ class Machine:
                         raise err
         finally:
             self._pc_override = saved
-        self.uc.mem_write(linear, value.to_bytes(size, "little"))
+        self._uc.mem_write(linear, value.to_bytes(size, "little"))
 
     def _listen(self, index, fn, address, size, value):
         """A kit write listener's call, told to listen_tap around it (a proof records its inputs and answer)."""
@@ -369,12 +380,12 @@ class Machine:
                 handler(old, bytes(new))
             except Exception as e:
                 self.error = e
-                self.uc.emu_stop()
+                self._uc.emu_stop()
         self.on_write(max(0, linear - 3), linear + size - 1, hook)
 
     def stop(self, reason):
         self.stop_reason = reason
-        self.uc.emu_stop()
+        self._uc.emu_stop()
 
     def pc(self):
         """The linear address of the instruction running: during a port's write or site, the listing's."""
@@ -393,7 +404,7 @@ class Machine:
         self.no_replay_at = None
         self.running = True
         try:
-            self.uc.emu_start(start, until, timeout=int(timeout_s * 1_000_000))
+            self._uc.emu_start(start, until, timeout=int(timeout_s * 1_000_000))
         except UcError as e:
             self.running = False
             raise GuestError(f"the emulator stopped at {self.where(self.reg('cs'), self.reg('ip'))}: {e}") from e

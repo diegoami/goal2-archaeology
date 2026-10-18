@@ -806,15 +806,21 @@ class ProofTests(Synthetic, unittest.TestCase):
     def test_a_raw_hook_is_refused_under_a_proof(self):
         from unicorn import UC_HOOK_CODE, UC_HOOK_MEM_WRITE
         m, prover = self.bare(faithful, P, "ret")
-        with self.assertRaisesRegex(port.PortError, "raw Unicorn hook_add while a proof is installed"):
+        with self.assertRaisesRegex(port.PortError, "Machine.uc.hook_add while a proof is installed: refused"):
             m.uc.hook_add(UC_HOOK_CODE, lambda uc, a, s, d: None, begin=m.lin(INSIDE_G), end=m.lin(INSIDE_G))
-        with self.assertRaisesRegex(port.PortError, "raw Unicorn hook_del while a proof is installed"):
+        with self.assertRaisesRegex(port.PortError, "Machine.uc.hook_del while a proof is installed: refused"):
             m.uc.hook_del(1)
         m = self.machine()                         # a raw hook first (family.py --count's kind): no proof on it
         m.uc.hook_add(UC_HOOK_MEM_WRITE, lambda uc, acc, a, s, v, d: None, begin=self.G_BP, end=self.G_BP)
         inst = port.install(m, [(registry(faithful), None)])
-        with self.assertRaisesRegex(port.PortError, "1 raw Unicorn hook\\(s\\) were added through Machine.uc"):
+        with self.assertRaisesRegex(port.PortError, "1 use\\(s\\) of Machine.uc \\(the raw engine"):
             Prover(m, inst)
+        m = self.machine()                         # a raw read kept before the proof, to be called during it
+        kept = m.uc.reg_read
+        inst = port.install(m, [(registry(faithful), None)])
+        with self.assertRaisesRegex(port.PortError, "1 use\\(s\\) of Machine.uc \\(the raw engine"):
+            Prover(m, inst)
+        self.assertTrue(callable(kept))
 
     def test_the_taps_are_the_proofs_alone(self):
         for tap in ("site_tap", "write_tap", "io_tap", "listen_tap"):
@@ -826,16 +832,91 @@ class ProofTests(Synthetic, unittest.TestCase):
 
     def test_only_the_machine_and_the_proof_touch_the_engine(self):
         """The kit reaches the guest only through Machine's methods (the taps the proof records): the raw engine's
-        writes, register writes, hooks and runs are used only by machine.py and port/prove.py; port/mem.py reads."""
+        writes, register writes, hooks and runs are used only by machine.py and port/prove.py; port/mem.py reads
+        (the port's own reads, through the engine itself, Machine._uc, round 6); nothing of the kit uses Machine.uc."""
         import re
         kit = ROOT / "runtime/original_match"
-        raw = re.compile(r"\.(_uc\b|uc\.(mem_write|reg_write|hook_add|hook_del|emu_start|emu_stop|ctl_))")
+        engine = re.compile(r"\._uc\b(?!\.mem_read\()")
+        guarded = re.compile(r"\.uc\.")
         for path in sorted(kit.rglob("*.py")):
             rel = path.relative_to(kit).as_posix()
             if rel in ("machine.py", "port/prove.py"):
                 continue
-            hits = [n for n, line in enumerate(path.read_text().splitlines(), 1) if raw.search(line)]
+            lines = path.read_text().splitlines()
+            hits = [n for n, line in enumerate(lines, 1) if guarded.search(line)
+                    or (engine.search(line) if rel == "port/mem.py" else "._uc" in line)]
             self.assertEqual(hits, [], f"{rel} uses the raw engine at lines {hits}")
+
+    # Round 6 (sol-6.1 round 5: R1 an MMIO callback, R2 a raw register read, both past the guard): Machine.uc denies
+    # by default under a proof; the uses that install a callback or share memory are counted before one.
+    def test_an_mmio_callback_is_refused(self):
+        self_m = m = self.machine()                 # the reviewer's reproduction: the target's page remapped as MMIO
+        page = self.target & ~0xFFF
+        host = []
+        buf = bytearray(4096)
+
+        def read(uc, offset, size, data):
+            host.append(("read", offset, self_m.muted))
+            return int.from_bytes(buf[offset:offset + size], "little")
+
+        def write(uc, offset, size, value, data):
+            host.append(("write", offset, self_m.muted))
+            buf[offset:offset + size] = value.to_bytes(size, "little")
+        m.uc.mem_unmap(page, 4096)
+        m.uc.mmio_map(page, 4096, read, None, write, None)
+        inst = port.install(m, [(registry(faithful), None)])
+        with self.assertRaisesRegex(port.PortError, "2 use\\(s\\) of Machine.uc \\(the raw engine"):
+            Prover(m, inst)
+        self.assertEqual(host, [])
+        m, prover = self.bare(faithful, P, "ret")   # and once a proof is installed
+        for name in ("mmio_map", "mem_unmap", "mem_map_ptr", "mem_map", "mem_protect"):
+            with self.assertRaisesRegex(port.PortError, f"Machine.uc.{name} while a proof is installed: refused"):
+                getattr(m.uc, name)
+
+    def test_a_raw_read_by_the_kit_is_refused_and_the_tapped_one_compared(self):
+        from unicorn.x86_const import UC_X86_REG_BX
+
+        def divergent(mem, variant):                # the reviewer's port: BX 99, otherwise faithful
+            mem.set_reg("bx", 99)
+            yield from faithful(mem, variant)
+        m, prover = self.bare(divergent, P, "ret")
+        seen = []
+        m.at(INSIDE_G, lambda replay: seen.append(m.uc.reg_read(UC_X86_REG_BX)))
+        with self.assertRaisesRegex(port.PortError, "Machine.uc.reg_read while a proof is installed: refused"):
+            m.run(END, 5, fresh=True)
+        self.assertEqual(seen, [])
+        for fn, diverges in ((divergent, True), (faithful, False)):    # the kit's own route: Machine.reg, compared
+            m, prover = self.bare(fn, P, "ret")
+            m.at(INSIDE_G, lambda replay, m=m: seen.append(m.reg("bx")))
+            if diverges:
+                with self.assertRaisesRegex(ProofError, f"at the kit's site {INSIDE_G} \\(#1\\) the kit read register "
+                                                        "BX: the port's run gave it 0x0063, the original has 0x0000"):
+                    m.run(END, 5, fresh=True)
+            else:
+                self.assertIsNone(m.run(END, 5, fresh=True))
+                self.assertEqual(prover.summary()[P]["proved"], 1)
+
+    def test_every_engine_attribute_is_whitelisted_or_refused_under_a_proof(self):
+        from original_match import machine
+        m, prover = self.bare(faithful, P, "ret")
+        public = sorted(n for n in dir(m._uc) if not n.startswith("_"))
+        self.assertEqual(sorted(machine.UC_WHITELIST),
+                         ["REG_RANGE_FP", "REG_RANGE_MMR", "REG_RANGE_MSR", "REG_RANGE_XMM", "REG_RANGE_YMM",
+                          "REG_RANGE_ZMM", "ctl_get_arch", "ctl_get_cpu_model", "ctl_get_mode", "ctl_get_page_size"])
+        self.assertTrue(machine.UC_WHITELIST <= set(public) and machine.UC_FOREIGN <= set(public))
+        self.assertFalse(machine.UC_WHITELIST & machine.UC_FOREIGN)
+        for name in public + ["some_future_api"]:
+            if name in machine.UC_WHITELIST:
+                getattr(m.uc, name)
+            else:
+                with self.assertRaisesRegex(port.PortError, f"Machine.uc.{name} while a proof is installed"):
+                    getattr(m.uc, name)
+        with self.assertRaisesRegex(port.PortError, "cannot be set"):
+            m.uc.mem_read = None
+        m = self.machine()                          # outside a proof: every attribute forwarded, every use counted
+        for i, name in enumerate(public, 1):
+            getattr(m.uc, name)
+            self.assertEqual(m.foreign_hooks, i, name)
 
     def test_a_write_listeners_input_is_compared(self):
         def p_ax6(mem, variant):                    # P entering G with AX 6, otherwise faithful (R1's repro)

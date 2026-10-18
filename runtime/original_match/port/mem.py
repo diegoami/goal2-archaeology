@@ -178,7 +178,7 @@ class MachineMem(Mem):
         self._entries = []          # (SP at the entry, far) of the ports running, innermost last
 
     def read(self, linear, n):
-        return bytes(self.m.uc.mem_read(linear, n))
+        return bytes(self.m._uc.mem_read(linear, n))     # the port's own read: the engine, not Machine.uc (T59)
 
     def _write(self, linear, size, value, at_linear):
         self.m.write_as(linear, size, value, at_linear)

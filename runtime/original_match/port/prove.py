@@ -157,6 +157,11 @@ class Prover:
         taken = [n for n in ("site_tap", "write_tap", "io_tap", "listen_tap") if getattr(machine, n) is not None]
         if taken:                              # the taps are the proof's alone: another observer would be unordered
             raise PortError(f"the machine's {', '.join(taken)} is set already: a proof's taps are its own (round 5)")
+        if machine.foreign_hooks:              # callbacks installed before would run in the muted original too
+            raise PortError(f"{machine.foreign_hooks} use(s) of Machine.uc (the raw engine: a hook, an MMIO range, a "
+                            "shared buffer, a bound read kept for later, ...) were made on this machine: a proof "
+                            "cannot order or replay them; prove a machine on which Machine.uc was never used")
+        machine.proving = True                # from here on (construction included) Machine.uc denies by default
         self.m, self.armed, self.where = machine, armed, where
         self.state = None
         self._visit = None          # the kit site whose handlers run now, during a proved call's port run
@@ -174,11 +179,7 @@ class Prover:
             self.scratch[address] = {r: 0 for r in REGS_SCRATCH}
             self.dead[address] = {}
         self._own_index = len(machine._writes)  # the kit's listeners before it run before it at a write, the rest after
-        if machine.foreign_hooks:              # a raw Unicorn callback would run in the muted original too (round 5)
-            raise PortError(f"{machine.foreign_hooks} raw Unicorn hook(s) were added through Machine.uc: a proof "
-                            "cannot order or replay their callbacks; prove a machine without them")
         machine.set_recorder(self._record)    # once, before the run; the one listener called while muted
-        machine.proving = True                # from now on Machine.uc refuses a raw hook
         machine.write_tap = self._host_write
         machine.io_tap = self._io
         machine.listen_tap = self
@@ -186,15 +187,15 @@ class Prover:
 
     # The prover's own reads and register changes bypass the machine's taps (they are not the kit's).
     def _raw(self, linear, n):
-        return bytes(self.m.uc.mem_read(linear, n))
+        return bytes(self.m._uc.mem_read(linear, n))
 
     def _rreg(self, name):
         from unicorn import x86_const as X
-        return self.m.uc.reg_read(getattr(X, f"UC_X86_REG_{name.upper()}"))
+        return self.m._uc.reg_read(getattr(X, f"UC_X86_REG_{name.upper()}"))
 
     def _sreg(self, name, value):
         from unicorn import x86_const as X
-        self.m.uc.reg_write(getattr(X, f"UC_X86_REG_{name.upper()}"), value)
+        self.m._uc.reg_write(getattr(X, f"UC_X86_REG_{name.upper()}"), value)
 
     def _io(self, kind, a, b):
         """Machine.io_tap: the kit's reads and register changes during a proved call's port run go to the site whose
@@ -402,7 +403,7 @@ class Prover:
         m.site_tap = None
         st.phase = "original"
         for address, old, _ in reversed(st.port_writes):
-            m.uc.mem_write(address, old)
+            m._uc.mem_write(address, old)
         for r, v in st.regs.items():
             m.set_reg(r, v)
         m.muted = True                          # CS:IP is the entry: the guest runs the original next
@@ -521,7 +522,7 @@ class Prover:
                 self._sreg(a, b)
             else:                               # "w": the kit's write, counted as the original's
                 st.writes.append((a, self._raw(a, len(b)), b))
-                m.uc.mem_write(a, b)
+                m._uc.mem_write(a, b)
 
     # -- 3. the comparison, then the port's state back ---------------------------------------------------------------
     def _original_returned(self):
@@ -578,9 +579,9 @@ class Prover:
             if original_regs[r] != port_regs[r]:
                 self.scratch[st.address][r] += 1
         for address, old, _ in reversed(st.writes):     # the port's state back: the match goes on from it
-            m.uc.mem_write(address, old)
+            m._uc.mem_write(address, old)
         for address, _, new in st.port_writes:
-            m.uc.mem_write(address, new)
+            m._uc.mem_write(address, new)
         for r, v in st.port_regs.items():
             m.set_reg(r, v)
         m.muted = False
