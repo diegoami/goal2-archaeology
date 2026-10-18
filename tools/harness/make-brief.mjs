@@ -4,7 +4,7 @@
 // the header (PRs 176 and 179).
 //
 //   node tools/harness/make-brief.mjs --pr N --issue N [--task docs/tasks/T<nn>.md] --reviewer NAME
-//     [--round K] [--caveat TEXT]... [--protects TEXT] [--blocking4 TEXT] --out FILE
+//     [--round K [--sample TEXT]] [--caveat TEXT]... [--protects TEXT] [--blocking4 TEXT] --out FILE
 //
 // The brief is: the header alone on line 1 ("T47 review (luna)", or "fix #175 review (luna)" without
 // --task); the round and the caveats after it, never on it; the PR's head SHA, full (and no other
@@ -12,6 +12,9 @@
 // docs/process.md section 5; the task file, or the issue's title and body, pasted in full; and the two
 // sections of docs/review-brief.md with "Blocking means" filled from --protects and --blocking4.
 // --protects has no default: without it the placeholder remains and nothing is written.
+// Rework rounds (the owner, 2026-10-18, #319; docs/review-brief.md "Rework rounds"): from --round 2 the
+// brief names the seeded sample to re-run in place of a full family run, so --sample is required there and
+// refused in a first review. The "Rework rounds" section itself is always pasted.
 //
 // The head comes from GitHub, and never ahead of it: a brief written seconds after a push named the old head
 // and review.mjs refused it (#234). When the PR's branch exists locally and GitHub's head is not yet the
@@ -68,11 +71,11 @@ export function processBlock(processMd) {
   return m[1].split('\n');
 }
 
-// The two sections of docs/review-brief.md: its first ```text fence.
+// The three sections of docs/review-brief.md: its first ```text fence.
 export function briefSections(reviewBriefMd) {
   const m = /```text\n([\s\S]*?)\n```/.exec(reviewBriefMd);
-  if (!m || !/^## Blocking means$/m.test(m[1]) || !/^## Report every blocking finding/m.test(m[1])) {
-    fail('docs/review-brief.md has no ```text block with both sections: make-brief.mjs cannot read it.');
+  if (!m || !/^## Blocking means$/m.test(m[1]) || !/^## Report every blocking finding/m.test(m[1]) || !/^## Rework rounds/m.test(m[1])) {
+    fail('docs/review-brief.md has no ```text block with its three sections: make-brief.mjs cannot read it.');
   }
   return m[1];
 }
@@ -88,13 +91,17 @@ export function buildBrief(o) {
   const lines = processBlock(o.processMd);
   const intro = [`You review PR #${o.pr} at ${o.head}. You did not write it. The task file follows.`];
   if (o.round) intro.push(`This is review round ${o.round}.`);
+  const rework = Number(o.round) >= 2;
+  if (rework && !o.sample) fail(`Round ${o.round} is a rework round: --sample TEXT is required (the seeded sample to re-run in place of a full family run; docs/review-brief.md "Rework rounds").`);
+  if (!rework && o.sample) fail('--sample belongs to a rework round (--round 2 or later); the first review re-runs every Done-when line.');
+  if (rework) intro.push(`Sample for this round: ${o.sample}`);
   for (const c of o.caveats ?? []) intro.push(`Caveat: ${c}`);
   let block = lines.slice(1).join('\n');
   block = once(block, /^You review PR #<n> at <sha>\. You did not write it\. The task file follows\.$/m, intro.join('\n'), 'the "You review PR" line');
   block = once(block, /HEAD is <sha>/, `HEAD is ${o.head}`, '"HEAD is <sha>"');
   block = once(block, /<project classes>/, 'constants with no evidence, a status written into a document', '"<project classes>"');
   block = once(block, /^6\. <docs\/review-brief\.md[^\n]*$/m,
-    '6. Blocking means, and the one-pass rule: the two sections at the end of this brief, in full (L47, L49).', 'item 6');
+    '6. Blocking means, the one-pass rule and the rework-round rule: the three sections at the end of this brief, in full (L47, L49, #319).', 'item 6');
   let sections = briefSections(o.reviewBriefMd);
   if (o.protects) sections = once(sections, /<name it:[\s\S]*?>/, o.protects, '"<name it: ...>"');
   sections = once(sections, /<project-specific items:[\s\S]*?>/,
@@ -153,7 +160,7 @@ function main() {
   const processMd = fs.readFileSync(path.join(ROOT, 'docs', 'process.md'), 'utf8');
   const reviewBriefMd = fs.readFileSync(path.join(ROOT, 'docs', 'review-brief.md'), 'utf8');
   const { text, generated } = buildBrief({
-    header: `${id} review (${a.reviewer})`, pr: a.pr, head, round: a.round, caveats: a.caveat,
+    header: `${id} review (${a.reviewer})`, pr: a.pr, head, round: a.round, sample: a.sample, caveats: a.caveat,
     protects: a.protects, blocking4: a.blocking4, pasted, processMd, reviewBriefMd,
   });
   checkBrief(text, head, generated);

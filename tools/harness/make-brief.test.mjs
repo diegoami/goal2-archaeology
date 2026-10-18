@@ -113,12 +113,12 @@ after(() => { fs.rmSync(tmp, { recursive: true, force: true }); });
 
 test('DW1: a brief for a fixture PR is accepted by review.mjs --dry-run (exit 0), and the model reads it', () => {
   const out = path.join(tmp, 'ok.md');
-  const m = make(['--task', path.join(tmp, 'T99.md'), '--round', '2', '--caveat', `an earlier head was ${OTHER.slice(0, 10)}`, '--protects', 'the fixture guard'], out);
+  const m = make(['--task', path.join(tmp, 'T99.md'), '--round', '2', '--sample', 'F40 seeds 1-5, 2 of O8, 2 of S', '--caveat', `an earlier head was ${OTHER.slice(0, 10)}`, '--protects', 'the fixture guard'], out);
   assert.equal(m.status, 0, m.stderr);
   const text = fs.readFileSync(out, 'utf8');
   assert.equal(text.split('\n')[0], 'T99 review (luna)');
   assert.match(text, new RegExp(`You review PR #1 at ${head}`));
-  assert.match(text, /This is review round 2\./);
+  assert.match(text, /This is review round 2\.\nSample for this round: F40 seeds 1-5, 2 of O8, 2 of S\n/);
   assert.match(text, /# T99 a fixture task[\s\S]*the second thing passes/); // the task, in full
   assert.match(text, /## Blocking means[\s\S]*the fixture guard[\s\S]*## Report every blocking finding/);
   assert.doesNotMatch(text, /<name it|<project-specific/);
@@ -284,4 +284,30 @@ test('#234: no local branch, or a local branch behind GitHub, uses GitHub\'s hea
   assert.equal(behind.status, 0, behind.stderr);
   assert.match(behind.stderr, /local branch is behind/);
   assert.match(fs.readFileSync(out, 'utf8'), new RegExp(`at ${ahead}`));
+});
+
+// #319 (the owner, 2026-10-18): a rework round re-runs a seeded sample, and the brief states it.
+test('#319: the Rework rounds section is pasted in every brief, and a rework round names its sample', () => {
+  const o = { header: 'T99 review (luna)', pr: 1, head, pasted: TASK, protects: 'x', processMd: fs.readFileSync(path.join(REPO, 'docs', 'process.md'), 'utf8'), reviewBriefMd: fs.readFileSync(path.join(REPO, 'docs', 'review-brief.md'), 'utf8') };
+  const first = buildBrief(o);
+  assert.match(first.text, /\n## Rework rounds: what you re-run/);
+  assert.match(first.text, /sha256 against the\nimplementer's manifest/);
+  assert.doesNotMatch(first.text, /^Sample for this round: /m);
+  const one = buildBrief({ ...o, round: '1' });
+  assert.doesNotMatch(one.text, /^Sample for this round: /m);
+  const r2 = buildBrief({ ...o, round: '2', sample: 'F40 seeds 1-5' });
+  assert.match(r2.text, /This is review round 2\.\nSample for this round: F40 seeds 1-5\n/);
+  checkBrief(r2.text, head, r2.generated);
+  assert.throws(() => buildBrief({ ...o, round: '2' }), /rework round: --sample TEXT is required/);
+  assert.throws(() => buildBrief({ ...o, round: '3', sample: '' }), /--sample TEXT is required/);
+  assert.throws(() => buildBrief({ ...o, sample: 'F40 seeds 1-5' }), /--sample belongs to a rework round/);
+  assert.throws(() => buildBrief({ ...o, round: '1', sample: 'F40 seeds 1-5' }), /--sample belongs to a rework round/);
+  // through the command: nothing is written without the sample
+  const out = path.join(tmp, 'nosample.md');
+  const m = make(['--task', path.join(tmp, 'T99.md'), '--protects', 'x', '--round', '2'], out);
+  assert.equal(m.status, 2);
+  assert.match(m.stderr, /--sample TEXT is required/);
+  assert.equal(fs.existsSync(out), false);
+  // the template without the section is refused
+  assert.throws(() => buildBrief({ ...o, reviewBriefMd: o.reviewBriefMd.replace('## Rework rounds', '## Something else') }), /three sections/);
 });

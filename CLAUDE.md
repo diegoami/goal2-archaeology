@@ -32,7 +32,13 @@ indexed in `docs/tasks/README.md`.
 5. The Done-when is not negotiable by the implementer. It stops and reports; it never weakens an
    assertion, skips a test or edits its task file. The main session amends a Done-when on `main`
    with the reason in the commit message.
-6. The reviewer is never the implementer's model family. It re-runs every Done-when line itself.
+6. The reviewer is never the implementer's model family. It re-runs every Done-when line itself in a
+   task's first review. In a rework round it re-runs the seeded sample the brief names (for an engine
+   task: F40 seeds 1-5, 2 of O8, 2 of S), all unit tests and the mutation checks, and verifies the
+   committed full-family outputs by sha256 against the implementer's manifest and by a compare.py run on
+   the committed files; a sample difference or a hash mismatch sends it to the full run. Reason: a full
+   62-match family run is about 15 CPU minutes and reviews took 1-2 hours each round (the owner,
+   2026-10-18, #319; `docs/review-brief.md`, "Rework rounds").
 7. Merge only with an approving review and green CI. Two rework rounds, then escalate. (L38's
    ladder is superseded: the same implementer fixes the class of the findings, not each instance.) With both, merge at once
    without asking (the owner, 2026-10-04): research PRs `--merge` (rule 20), the rest `--squash`.
