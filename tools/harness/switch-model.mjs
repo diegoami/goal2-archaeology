@@ -66,12 +66,15 @@ async function probe(name, entry, opencode, env) {
   let failure = null;
   try {
     const args = ['run', '--dir', dir, '--model', entry.id, ...(entry.variant ? ['--variant', entry.variant] : [])];
+    // v2 (#262) needs the exact selection and a trusted agent: the reviewer of this checkout, in the
+    // probe's own empty repository; v1 runs the command line as before.
     const run = await runOpenCodeWatched({
-      args, prompt: 'Reply with the single word PONG and nothing else.', workDir: dir, title: `probe-${name}`,
+      args, model: entry, agent: 'reviewer', agentFile: path.join(top, '.opencode', 'agents', 'reviewer.md'),
+      prompt: 'Reply with the single word PONG and nothing else.', workDir: dir, title: `probe-${name}`,
       startupTimeoutMs: 120_000, idleTimeoutMs: 120_000, totalTimeoutMs: 300_000, pollMs: 2_000,
       opencode, env, log: () => {},
     });
-    if (run.exitCode !== 0 || !/PONG/i.test(run.stdout)) {
+    if (run.exitCode !== 0 || !/PONG/i.test(run.reviewText ?? run.stdout)) {
       failure = `probe failed (exit ${run.exitCode}): ${run.output.split(/\r?\n/).slice(-5).join(' | ')}`;
     } else say(`probe: ${entry.id} answered PONG in ${run.seconds} s`);
   } catch (e) {

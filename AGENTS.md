@@ -21,10 +21,13 @@ apply to a native Codex session and take precedence over Claude-specific routing
 - Keep `RUN-NOTES.md` as described in `docs/running-notes.md`. Respect the current
   session's filesystem permissions; Claude hook grants do not grant Codex access.
 
-The harness automatically selects a verified OpenCode 1.x backup when the default
-executable reports 2.x. It tries `opencode.bak`, `opencode.exe.bak`, and
-`opencode.1.*.bak` beside the resolved executable and in `~/.opencode/bin`.
-`HARNESS_OPENCODE_EXE` pins an executable and disables automatic replacement.
-The harness retains its isolated XDG data directories to protect against the
-incompatible desktop database. Use the selected executable printed in the review
-log for manual commands and `OPENCODE_BIN` when inspecting a run with `peek.sh`.
+The harness uses the installed OpenCode as found and dispatches on its major
+(#262): 2.x (audited 2.0.28) runs through a private server of its own, the
+reviewer profile translated from this checkout and the shell-operand guard
+(`npm ci --prefix tools/harness/opencode-guard --ignore-scripts --no-audit --no-fund`
+once per checkout); 1.x runs the unchanged 1.18 path, which is now chosen only
+explicitly with `HARNESS_OPENCODE_EXE`. There is no automatic backup search.
+v2 keeps its logins and sessions in its own data root, and the legacy v1 data
+directory is never opened by a v2 process. `peek.sh` takes a session id, a run
+log or a v2 `run.json`; `OPENCODE_BIN` selects the binary it reads with. See
+`docs/environment.md`, "OpenCode 2".

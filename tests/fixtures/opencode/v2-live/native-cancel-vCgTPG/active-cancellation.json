@@ -1,0 +1,67 @@
+{
+  "workerPID": 1755971,
+  "terminated": true,
+  "interrupt": {
+    "interrupted": true
+  },
+  "unrelatedBefore": {
+    "data": {
+      "id": "ses_eb1c579ecffe5oDmoCDow31xHz",
+      "projectID": "cf827eebfe3d37f013263b2847f45eae92368c96",
+      "agent": "reviewer",
+      "model": {
+        "id": "guard",
+        "providerID": "harness-loopback",
+        "variant": "medium"
+      },
+      "cost": 0,
+      "tokens": {
+        "input": 0,
+        "output": 0,
+        "reasoning": 0,
+        "cache": {
+          "read": 0,
+          "write": 0
+        }
+      },
+      "time": {
+        "created": 1792313820695,
+        "updated": 1792313820695
+      },
+      "title": "harness-unrelated-empty",
+      "location": {
+        "directory": "/home/diego/goal2-review-tmp-harness/native-probe-DPgVYf/work"
+      }
+    }
+  },
+  "unrelatedAfter": {
+    "data": {
+      "id": "ses_eb1c579ecffe5oDmoCDow31xHz",
+      "projectID": "cf827eebfe3d37f013263b2847f45eae92368c96",
+      "agent": "reviewer",
+      "model": {
+        "id": "guard",
+        "providerID": "harness-loopback",
+        "variant": "medium"
+      },
+      "cost": 0,
+      "tokens": {
+        "input": 0,
+        "output": 0,
+        "reasoning": 0,
+        "cache": {
+          "read": 0,
+          "write": 0
+        }
+      },
+      "time": {
+        "created": 1792313820695,
+        "updated": 1792313820695
+      },
+      "title": "harness-unrelated-empty",
+      "location": {
+        "directory": "/home/diego/goal2-review-tmp-harness/native-probe-DPgVYf/work"
+      }
+    }
+  }
+}

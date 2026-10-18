@@ -4,6 +4,7 @@ mode: all
 permission:
   edit: deny
   external_directory:
+    "*": ask
     "/tmp/opencode/*": allow
     "/tmp": allow
     "/tmp/*": allow
@@ -69,6 +70,9 @@ how the run works.
   the brief (`git -C <path> show <pin>:<file>`) is the exception: run it exactly as written —
   OpenCode doesn't path-check git -C. Call tools by name from PATH; never inspect where they
   are installed.
+  In `cat`, `rm`, `cp`, `mv`, `mkdir`, `touch`, `chmod`, `chown` and `cd`, write every path
+  literally: a `$VAR`, `$(…)`, backticks, `{a,b}` or a glob before a `/` in their arguments or
+  name cannot be checked, so OpenCode refuses the command and the run is discarded.
   Run every shell command from the worktree root with paths relative to it (`grep -n X src/a.cs`,
   not `cd src && grep -n X a.cs`). Never `cd`, and never write `..` in a command: OpenCode checks
   paths against the worktree root, not against an earlier `cd` in the same command, so
