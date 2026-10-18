@@ -536,6 +536,44 @@ class Skill(unittest.TestCase):
             self.assertEqual(regs["ax"] & 0xFF, 1 if draw == 1 else 0)
 
 
+class StackResidue(unittest.TestCase):
+    """The stack bytes the frames leave below the entry SP (E = 0x2000; the caller's BP is 0x1111 here): the memory digests
+    of a match include the stack segment."""
+
+    def word(self, g, offset):
+        return int.from_bytes(g.mem.memory[0x2000 + offset:0x2000 + offset + 2], "little")
+
+    def test_a_leaf_frame(self):
+        g = Geo()
+        g.ball(5)
+        g.run("0791:2996", ax=0x4400)
+        self.assertEqual(self.word(g, -2), 0x1111, "push bp")
+        self.assertEqual(g.mem.memory[0x2000 - 3], 1, "[bp-1] = AL")
+
+    def test_nested_frames_down_to_2974(self):
+        g = Geo()
+        g.ds_poke(0x8319, bytes([0x10]))
+        g.ds_poke(0x831B, (0x20).to_bytes(2, "little"))
+        off = g.set_rec(2, slot_byte=2, y=5)
+        g.run("0791:2C54", [off, g.ds])
+        cs = g.mem.seg(0x791)
+        # 2C54: bp, then (seg, off, cs, 2C63) for 2BE5, whose frame: bp, the flag word, (seg, off, cs, 2C13) for 2974, bp
+        self.assertEqual([self.word(g, o) for o in (-2, -6, -8, -10, -12, -14, -20, -22, -24, -26, -28)],
+                         [0x1111, g.ds, off, cs, 0x2C63, 0x1FFE, g.ds, off, cs, 0x2C13, 0x1FF2])
+        self.assertEqual(self.word(g, -18) & 0xFF, 1, "the pushed flag word: AL = 1 (0x20 > 0x10)")
+
+    def test_278a_locals(self):
+        g = Geo()
+        off = g.set_rec(3, slot_byte=3, player=2, b11=0x22)
+        g.set_player(2, bC=5, bE=10)
+        g.ds_poke(0x80FC, bytes([1]))
+        g.run("0791:278A", [off, g.ds, 3], answers=[64])
+        bp = 0x2000 - 2
+        loc = lambda o: int.from_bytes(g.mem.memory[bp + o:bp + o + 2], "little")
+        self.assertEqual((loc(-6), loc(-4), loc(-2)), (64, 21, 21), "[bp-6] the skill, [bp-4] and [bp-2] the value")
+        self.assertEqual(loc(-8), S, "[bp-8] the player record's segment")
+
+
 class Registry(unittest.TestCase):
     def test_the_row(self):
         reg = port._module_registry("geometry")

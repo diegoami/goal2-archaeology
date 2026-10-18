@@ -64,8 +64,12 @@ def mutants(text):
 
 
 def run_tests(tmp, test):
-    p = subprocess.run([sys.executable, "-B", "-m", "unittest", test.replace("/", ".")[:-3]], cwd=tmp, capture_output=True,
-                       text=True, env={"PATH": "/usr/bin:/bin", "T60_NO_FUZZ": "1", "HOME": str(tmp)}, timeout=300)
+    try:
+        p = subprocess.run([sys.executable, "-B", "-m", "unittest", test.replace("/", ".")[:-3]], cwd=tmp,
+                           capture_output=True, text=True, env={"PATH": "/usr/bin:/bin", "T60_NO_FUZZ": "1", "HOME": str(tmp)},
+                           timeout=60)
+    except subprocess.TimeoutExpired:            # a mutant that loops is caught by the tests' timeout
+        return False
     return p.returncode == 0
 
 

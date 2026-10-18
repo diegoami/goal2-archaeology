@@ -27,7 +27,7 @@ class Rig:
 
     def __init__(self):
         self.mem = PlainMem(bytearray(SIZE))
-        self.mem.regs.update(ss=0, sp=0x2000, ds=self.mem.DS, eflags=0x202)
+        self.mem.regs.update(ss=0, sp=0x2000, bp=0x1234, ds=self.mem.DS, eflags=0x202)
 
     def poke(self, off, data, seg=S):
         self.mem.memory[seg * 16 + off:seg * 16 + off + len(data)] = bytes(data)
@@ -496,6 +496,78 @@ class Strings(unittest.TestCase):
         for ch, want in ((ord("a"), ord("A")), (ord("z"), ord("Z")), (ord("`"), ord("`")), (ord("{"), ord("{")),
                          (ord("A"), ord("A")), (0x161, ord("A"))):
             self.assertEqual(r.run("23E4:19B2", [ch], ax=0x4400)["ax"], 0x4400 | want)
+
+
+class StackResidue(unittest.TestCase):
+    """The memory digests of a match include the stack segment, so a port writes the bytes the listing's frame leaves below
+    the entry SP (E = 0x2000 here, the caller's BP 0x1234): the saved BP at E-2, locals, the words pushed for the calls."""
+
+    def word(self, r, offset):
+        return int.from_bytes(r.peek(0x2000 + offset, 2, 0), "little")
+
+    def test_the_saved_bp_and_a_byte_local(self):
+        r = Rig()
+        r.run("214B:0C57", [0b0100, 3])                                       # push bp; sub sp, 2; mov [bp-1], al
+        self.assertEqual(self.word(r, -2), 0x1234)
+        self.assertEqual(r.peek(0x2000 - 3, 1, 0), b"\x01", "[bp-1] = the bit")
+        r = Rig()
+        r.run("214B:0000", [0x1111, 1, 0x100, S])
+        self.assertEqual(self.word(r, -2), 0x1234)
+
+    def test_unpack_screen_pushes_ds_bp_and_cx_for_a_run(self):
+        r = Rig()
+        r.poke(0x100, Screens.STREAM)
+        r.run("214B:0147", [0x100, S, 0x2000, S])
+        self.assertEqual([self.word(r, o) for o in (-2, -4, -6, -8)], [0x1234, r.mem.DS, 0x1FFE, 6],
+                         "bp, ds, the frame's bp pushed at 0164, and cx (3 columns) pushed for a run at 018E")
+
+    def test_the_draw_wrapper_frames_down_to_the_seed_pointer(self):
+        r = Draw().draw_rig(0x1234)
+        r.run("214B:06D0", [5])
+        ds = r.mem.DS
+        new = (0x1234 * 0x7ABD + 0x1B0F) & 0xFFFF
+        draw = ((new * 5) >> 16) + 1
+        # 06D0: bp at E-2, [bp-1] at E-3; the seed pointer (segment, offset), n, cs and 06E3 pushed for the call of 0688,
+        # whose frame has bp at E-16, the draw in [bp-2] at E-18, then push ds, push ds (the seed's), push si
+        self.assertEqual([self.word(r, o) for o in (-2, -6, -8, -10, -12, -14, -16, -18, -20, -22, -24)],
+                         [0x1234, ds, 0x7B62, 5, r.mem.seg(0x214B), 0x06E3, 0x1FFE, draw, ds, ds, 0x7B62])
+        self.assertEqual(r.peek(0x2000 - 3, 1, 0), bytes([1 if draw == 1 else 0]))
+
+    def test_str_pad_pushes_cx_and_the_dst_is_not_the_stack(self):
+        r = Rig()
+        r.run("23E4:12F6", [0x14, 0x300, S, 5, 42, 0])                        # width 5: three pads, two digits
+        frame = 0x2000 - 2 - 0x20
+        self.assertEqual(self.word(r, -2), 0x1234)
+        self.assertEqual(r.peek(frame, 2, 0), b"42", "11E4 wrote the digits into the local at bp - 0x20")
+        self.assertEqual(self.word(r, -0x22 - 2), r.mem.DS, "push ds at 130A")
+        self.assertEqual(self.word(r, -0x22 - 4), 2, "push cx at 1330: the digits kept")
+
+    def test_long_multiply_and_divide_push_what_the_listing_pushes(self):
+        r = Rig()
+        r.run("23E4:0279", ax=2, dx=1, cx=4, bx=3)
+        self.assertEqual((self.word(r, -2), self.word(r, -4)), (8, 0), "push ax; push dx after the first mul")
+        r = Rig()
+        r.run("23E4:0294", ax=0xFFF9, dx=0xFFFF, cx=2, bx=0, eflags=0x202 | CF)       # -7 / 2
+        flags_divisor = (0x202 & ~0x8D5) | 0x2 | 0x40 | 0x04                    # or bx, bx: bx = 0 -> ZF, PF
+        flags_dividend = (0x202 & ~0x8D5) | 0x2 | 0x80 | 0x04                   # or dx, dx: 0xFFFF -> SF, PF
+        self.assertEqual([self.word(r, o) for o in (-2, -4, -6)], [0x1234, flags_divisor, flags_dividend])
+
+    def test_wrap_add_pushes_the_bound_it_wraps_on(self):
+        r = Rig()
+        r.poke(0x100, (8).to_bytes(2, "little"))
+        r.run("214B:1C86", [3, 9, 0, 0x100, S])                               # positive wrap: push dx(0), push ax(hi)
+        self.assertEqual((self.word(r, -4), self.word(r, -6)), (0, 9))
+        r = Rig()
+        r.poke(0x100, (0).to_bytes(2, "little"))
+        r.run("214B:1C86", [0xFFFF, 9, 2, 0x100, S])                           # negative wrap: push dx(0), push ax(lo)
+        self.assertEqual((self.word(r, -4), self.word(r, -6)), (0, 2))
+
+    def test_upcase_string_copies_the_clipped_source_into_its_local(self):
+        r = Rig()
+        r.pstr(0x100, b"abc")
+        r.run("214B:009C", [0x100, S, 0x300, S])
+        local = 0x2000 - 2 - 0x51
+        self.assertEqual(r.peek(local, 4, 0), b"\x03abc", "0644 stored the string at bp - 0x51")
 
 
 class Registry(unittest.TestCase):
