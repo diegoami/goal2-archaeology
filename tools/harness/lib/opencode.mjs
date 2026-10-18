@@ -408,6 +408,11 @@ export function briefFileName(title) {
   return `.harness-brief-${title}.md`;
 }
 
+/** When heavy.sh last touched the run's queue file (ms), 0 when there is none (#318). */
+export function queueTouched(file) {
+  try { return fs.statSync(file).mtimeMs; } catch { return 0; }
+}
+
 /**
  * Runs `opencode <args...> --title <title-token> <pointer prompt>` in workDir, watched. The
  * prompt is written to `<workDir>/.harness-brief-<title>.md` and the command line carries only
@@ -420,7 +425,7 @@ export function briefFileName(title) {
 export async function runOpenCodeWatched({
   args, prompt, workDir, title, sessionId = null,
   startupTimeoutMs = 180_000, totalTimeoutMs = 3_600_000, idleTimeoutMs = 600_000, pollMs = 10_000,
-  logDir = harnessDir(scratchRoot()), opencode, env = process.env, log = () => {},
+  logDir = harnessDir(scratchRoot()), opencode, env = process.env, log = () => {}, queueFile = null,
 }) {
   if (args[0] !== 'run') throw new Error(`runOpenCodeWatched runs 'opencode run'; got '${args[0]}'.`);
   const cmd = opencode ?? resolveOpenCode(env);
@@ -545,6 +550,10 @@ export async function runOpenCodeWatched({
         const { session: seen } = await lookupSession(cmd, { workDir, title, startedMs, env, sessionId, timeoutMs: Math.max(0, Math.min(30_000, totalTimeoutMs - elapsed())) });
         if (hasExited()) break;
         if (seen && Number(seen.updated) > lastUpdated) lastUpdated = Number(seen.updated);
+        // Time spent waiting for a heavy-job slot is not idleness (#318): tools/harness/heavy.sh touches
+        // `queueFile` at every poll while the run's command waits, so the clock counts from the last touch.
+        const queued = queueFile ? queueTouched(queueFile) : 0;
+        if (queued > lastUpdated) lastUpdated = queued;
         const idleFor = Date.now() - lastUpdated;
         if (idleFor >= idleTimeoutMs) {
           killTree(child);
