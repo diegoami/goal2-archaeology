@@ -96,7 +96,7 @@ how the run works.
   `/tmp` is a small RAM-backed disk shared with other projects, it may be full, and a full one killed a
   review after an hour (#311). `/tmp` stays open for what the harness itself needs. Run git commands one at a time, never in parallel, and never touch `.git`: a
   leftover `index.lock` means wait and retry, not delete.
-- Re-run every Done-when line yourself; the PR's evidence is a convenience, never the proof. Prove
+- Re-run every Done-when line yourself (in a rework round, the sample the brief's "Rework rounds" section names); the PR's evidence is a convenience, never the proof. Prove
   a finding before reporting it (run it, or delete the behaviour and watch which test fails), or
   label it unverified. A claim that nothing failed is re-taken before it is believed.
 - Rate each finding. It is **blocking** when you proved it and it defeats what the task protects:

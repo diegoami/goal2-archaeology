@@ -1,9 +1,9 @@
 # The review brief's own sections
 
-Every review brief carries these two sections, in full, after the numbered block of
+Every review brief carries these three sections, in full, after the numbered block of
 `process.md` §5 (or, in the review profile, after the brief's numbered lines). The reviewer reads
 the brief in another file, so paste them; never point to this one. Write "Blocking means" for the
-task; paste the second section as it is. (L47, L49)
+task; paste the other two sections as they are. (L47, L49)
 
 ```text
 ## Blocking means
@@ -71,4 +71,21 @@ family-run outputs, suite logs and any other big file in your scratch folder und
 real disk, its path has no dot element, and the script removes it when your review is read). Never
 write them under /tmp. If a command fails with "No space left on device", say so in the review and
 move its output to the scratch folder rather than retrying in /tmp.
+
+## Rework rounds: what you re-run (the owner, 2026-10-18, #319)
+
+The first review of a task or fix (the brief has no "This is review round" line) re-runs every
+Done-when line, a full family run included. In a rework round (the brief says "This is review round"
+2 or later, and names "Sample for this round") you re-run instead:
+- the sample the brief names, in place of the full run of any Done-when line that runs the whole
+  family or sweep;
+- every unit test, every mutation check a Done-when line names, and the check of each finding of the
+  earlier review;
+- every other Done-when line, as in the first review.
+You verify, and do not re-run, the committed full-family outputs: their sha256 against the
+implementer's manifest, and the comparison tool (compare.py for the engine tasks) run on the
+committed files. Account for each such line as `DW<k>: sampled <command> → <result>; hashes ok or
+differ; compare <result>`.
+If the sample differs from the committed output in any way, or a hash does not match, stop sampling:
+run the full line and say so. A sample run that cannot be made is `DW<k>: not run`, never an approval.
 ```

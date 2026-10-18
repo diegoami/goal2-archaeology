@@ -2,7 +2,7 @@
 // Hands one pull request to OpenCode for a review, and posts the result as one PR comment.
 //
 //   node tools/harness/review.mjs --pr 42 --brief brief.md [--reviewer NAME] [--exclude NAME,...]
-//     [--issue 12 --apply-label] [--done-when K] [--dry-run] [--env KEY=VALUE]...
+//     [--issue 12|none --apply-label] [--done-when K] [--dry-run] [--env KEY=VALUE]...
 //     [--total-timeout-sec N] [--idle-timeout-sec N]   override harness.json's limits for this run
 //   node tools/harness/review.mjs --self-test   (the reader's samples and the named-model checks; no model is called)
 //
@@ -125,7 +125,11 @@ if (a['self-test']) {
   process.exit(failures.length ? 1 : 0);
 }
 if (!a.pr || !a.brief) die(2, '--pr and --brief are required.');
-if (a['apply-label'] && !a.issue) die(2, '--apply-label needs --issue.');
+// --issue none: a review with no issue (a planning or backlog PR, #314): no label is read or applied.
+if (a.issue === 'none') {
+  delete a.issue;
+  if (a['apply-label']) { a['apply-label'] = false; say('--issue none: no label is applied.'); }
+} else if (a['apply-label'] && !a.issue) die(2, '--apply-label needs --issue.');
 const limit = (k) => {
   if (a[k] === undefined) return null;
   const n = Number(a[k]);
@@ -134,6 +138,8 @@ const limit = (k) => {
 };
 const totalSec = limit('total-timeout-sec');
 const idleSec = limit('idle-timeout-sec');
+// A launch whose brief builder failed (inside a pipe, L120) names no file: say so, no stack trace (#314).
+if (!fs.existsSync(a.brief) || !fs.statSync(a.brief).isFile()) die(2, `brief file not found: ${a.brief}`);
 const brief = fs.readFileSync(a.brief, 'utf8').split(/\r?\n/);
 const briefHeader = brief[0].trim();
 const doneWhen = a['done-when'] !== undefined ? Number(a['done-when']) : doneWhenCount(brief.join('\n'));
