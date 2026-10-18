@@ -124,62 +124,43 @@ function isWindowsShim(file) {
 // Never the npm shim on Windows: opencode.cmd cannot carry a multi-line prompt through cmd.exe,
 // and killing the shim leaves opencode.exe running. Elsewhere, never the Windows shim either; then
 // OpenCode's own installer location (~/.opencode/bin), which is not always on PATH.
+// Every path is resolved once to the real file (#262, from goal2 PR 178): a relative or symlinked
+// HARNESS_OPENCODE_EXE would otherwise name another file once the run's cwd changes, and the v2 guard
+// pins the real binary's bytes.
 function findOpenCode(env = process.env) {
+  const real = (file) => fs.realpathSync(file);
   if (env.HARNESS_OPENCODE_EXE) {
     // A script (the tests' fake, #2) runs through Node, since Windows cannot execute one.
-    if (fs.existsSync(env.HARNESS_OPENCODE_EXE) && /\.m?js$/.test(env.HARNESS_OPENCODE_EXE)) return { exe: process.execPath, prefix: [env.HARNESS_OPENCODE_EXE] };
-    if (fs.existsSync(env.HARNESS_OPENCODE_EXE)) return { exe: env.HARNESS_OPENCODE_EXE, prefix: [] };
+    if (fs.existsSync(env.HARNESS_OPENCODE_EXE) && /\.m?js$/.test(env.HARNESS_OPENCODE_EXE)) return { exe: process.execPath, prefix: [real(env.HARNESS_OPENCODE_EXE)] };
+    if (fs.existsSync(env.HARNESS_OPENCODE_EXE)) return { exe: real(env.HARNESS_OPENCODE_EXE), prefix: [] };
     throw new OpenCodeInfraError('opencode not found', `HARNESS_OPENCODE_EXE points at a missing file: ${env.HARNESS_OPENCODE_EXE}`);
   }
   const win = process.platform === 'win32';
   for (const dir of (env.PATH || env.Path || '').split(path.delimiter).filter(Boolean)) {
     if (win) {
       const exe = path.join(dir, 'opencode.exe');
-      if (fs.existsSync(exe)) return { exe, prefix: [] };
+      if (fs.existsSync(exe)) return { exe: real(exe), prefix: [] };
       if (fs.existsSync(path.join(dir, 'opencode.cmd'))) {
         const npmExe = path.join(dir, 'node_modules', 'opencode-ai', 'bin', 'opencode.exe');
-        if (fs.existsSync(npmExe)) return { exe: npmExe, prefix: [] };
+        if (fs.existsSync(npmExe)) return { exe: real(npmExe), prefix: [] };
       }
     } else {
       const exe = path.join(dir, 'opencode');
-      if (fs.existsSync(exe) && !isWindowsShim(exe)) return { exe, prefix: [] };
+      if (fs.existsSync(exe) && !isWindowsShim(exe)) return { exe: real(exe), prefix: [] };
     }
   }
   const installed = env.HOME && path.join(env.HOME, '.opencode', 'bin', 'opencode');
-  if (!win && installed && fs.existsSync(installed)) return { exe: installed, prefix: [] };
+  if (!win && installed && fs.existsSync(installed)) return { exe: real(installed), prefix: [] };
   throw new OpenCodeInfraError('opencode not found', 'opencode is not on PATH (set HARNESS_OPENCODE_EXE to the real executable).');
 }
 
-// Resolve before constructing a jail command so every command uses the same 1.x CLI.
-// An explicit executable is authoritative; do not silently replace it.
+// The CLI every command of a run uses, resolved before a jail command is built around it. The installed
+// CLI is used as found, whatever its major: runOpenCodeWatched dispatches on the version it reports
+// (#262). There is no automatic search for a 1.x backup any more: v1 is the explicit compatibility
+// path, chosen with HARNESS_OPENCODE_EXE (e.g. ~/.opencode/bin/opencode.1.18.32.bak), and an explicit
+// executable is authoritative, never replaced.
 export function resolveOpenCode(env = process.env) {
-  const cmd = findOpenCode(env);
-  if (env.HARNESS_OPENCODE_EXE) return cmd;
-  const versionOf = (candidate) => {
-    const r = spawnSync(candidate.exe, [...candidate.prefix, '--version'], {
-      env, encoding: 'utf8', timeout: 5000, stdio: ['ignore', 'pipe', 'pipe'],
-    });
-    return r.status === 0 ? r.stdout.match(/\bv?(\d+)\.(\d+)\.(\d+)\b/)?.[0].replace(/^v/, '') : null;
-  };
-  const version = versionOf(cmd);
-  if (!version?.startsWith('2.')) return cmd;
-  const dirs = [...new Set([path.dirname(cmd.exe),
-    path.dirname(fs.realpathSync(cmd.exe)),
-    path.join(env.HOME || env.USERPROFILE || os.homedir(), '.opencode', 'bin')])];
-  const candidates = dirs.flatMap((dir) => {
-    const names = fs.existsSync(dir) ? fs.readdirSync(dir) : [];
-    return ['opencode.bak', 'opencode.exe.bak',
-      ...names.filter((n) => /^opencode\.1\.[\d.]+\.bak$/.test(n)).sort().reverse()]
-      .map((n) => path.join(dir, n));
-  });
-  for (const exe of candidates) {
-    if (!fs.existsSync(exe) || !fs.statSync(exe).isFile()) continue;
-    const backup = { exe, prefix: [] };
-    if (versionOf(backup)?.startsWith('1.')) return backup;
-  }
-  throw new OpenCodeInfraError('unsupported version',
-    `OpenCode ${version} at ${cmd.exe} has different commands; no working 1.x opencode.bak `
-    + 'or opencode.1.*.bak was found. Set HARNESS_OPENCODE_EXE to a compatible 1.x executable.');
+  return findOpenCode(env);
 }
 
 // The scripts' own OpenCode data directory: XDG_DATA_HOME, XDG_CACHE_HOME and XDG_STATE_HOME, each

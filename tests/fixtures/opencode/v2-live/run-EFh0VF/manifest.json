@@ -1,0 +1,36 @@
+{
+  "evidence": "observed non-billing OpenCode 2 protocol; no run, prompt or generate",
+  "binary": "/home/diego/.opencode/bin/opencode",
+  "binarySHA256": "20d305d0140bfe04df7264a4ecb014402b74b6ac0a0f6456ee07ef3325fb4a85",
+  "probeSHA256": "193456a65997efb0d0500c6774ab065d1a030719004bf124bb817723ebadc396",
+  "model": {
+    "modelId": "minimax/MiniMax-M3",
+    "variant": "thinking"
+  },
+  "artifacts": {
+    "version.json": "c95127d039625565045c5cd8d8806254fb32493f9caf12aa86f03536fc2bc772",
+    "help-run.json": "6d0bd8f8217cb30cbadf2568326412d9f32627333ef0ee0d33876d81626ba771",
+    "help-serve.json": "2601136f1626df8b45e49b73b24358e9f58281e265dbb14ef583ecf50685dc3b",
+    "help-models.json": "37dca1559f0270c4cd0d132a0b7e8d475be60f4b0da0b85e8d9d93f96e3732e7",
+    "help-session-export.json": "0678e71ee0f96d65047db80cc24d6159ecdbce1b10ef612f95d61299e2372f66",
+    "help-session-list.json": "a3978bf3dc1a2934563f668dc2a4e44e5353b0ee0052ad263eec6abecf7b7968",
+    "models-cli.json": "88941322bb7e0f07717be9a25613f31686ca693e1f1ee730db7cb6d98a1218d8",
+    "schema-selected.json": "a00bcbdd426c247cad8d107d1ef4736f0ac42f5a39f61500d6bcd25315935bc4",
+    "readiness.json": "ca7e536bfb3dcb760748aca97bd040a6ed3a9baf0579780d4afb2d9f7282102c",
+    "agents.json": "bbd363117bce10deba640a800b81f78e9c0f7cc47e81beca9b74bb18a385a6c8",
+    "models.json": "7191d917ad3b60344f4a57fbfdc209188d8783e524a694d4da785845bbef06d9",
+    "model-source.json": "5750e5a1c277d13b1311d1af0d22d93625311a09928e8707ae2098c9f160d755",
+    "session-create.json": "00b6b74992d3d9050e99cec2cbac47674b4d222e785c8345d2aac46131b1cf51",
+    "session-list-api.json": "5a88386ad41f4821bffc56b3de5e56f0d3aadad347e9a8ceb8c1ce7a31b84c1f",
+    "session-get-api.json": "00b6b74992d3d9050e99cec2cbac47674b4d222e785c8345d2aac46131b1cf51",
+    "session-export-api.json": "e60e1e13805d226b5c99b513c6d1a300463c5b786d5c22e835195ab2ff416e9f",
+    "messages.json": "d45b59dca04a81c2426ea200c89c93905e2920e462b0d10620c675604ae17d83",
+    "permissions.json": "3b459147c8170c320545247d8ba79c22d55408311adafa4ad737f02c7aa78700",
+    "interrupt.json": "8db9ffd2f73e4147cb1b563db05cc75c92e2cf2a6ada8d202ec048489d20d2e1",
+    "session-list-cli.json": "612d916b830e22ca923ea0eee26a594e1cb61595d2d2a9a1f1ac99be02cdb521",
+    "session-export-cli.json": "e12effd14d6ec4551b954a9685488b20ea39185223b45af8a6be4fae8f2081a1",
+    "old-commands.json": "7194f8951411c02a415d6a955fccfad7de3d273793bb134345afc001656587ce",
+    "lifecycle.json": "187a35711312bb310ab9c43bbb1873300ecc330e9a098f50621c25d640736a5e",
+    "serve-redacted.log": "bf2c0626f31ddb0118705bad546933c00e0365a1595d2b736616a85a6ef1ad50"
+  }
+}
