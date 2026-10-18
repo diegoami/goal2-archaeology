@@ -37,7 +37,7 @@ b129ad9bd8133fe5f6b3c6590efc2bc61d9a57c1bea3f29c1deee6f9166da1e2  .claude/hooks/
 9d2227215dcf47b9dc7c41d5c9b7f8c5b79dd962c3fb8c3f8f625032fa5eefae  .claude/settings.json
 adapt .claude/skills/delegate/SKILL.md  (the user chooses models, /recommend a suggestion only (the owner, 2026-10-11); earlier: /recommend, not /best (f91210b, 2026-10-08))
 218462f453d5432db791c7697d7d34970491af106f8e1d1b95b0e0ef6f86747a  .claude/skills/jev/SKILL.md
-adapt .claude/skills/run-task/SKILL.md  (the user chooses models, the owner 2026-10-11)
+adapt .claude/skills/run-task/SKILL.md  (the user chooses models, the owner 2026-10-11; #314: the no-issue launch)
 adapt .claude/skills/switch-model/SKILL.md  (the user chooses models, the owner 2026-10-11)
 8a63c4093207e8f96230e8e6c92019c06897434ca8b70f287e76821ff09502d6  .github/pull_request_template.md
 adapt .opencode/agents/implementer.md  (/tmp open to the agent, the owner 2026-10-11)
@@ -63,5 +63,5 @@ adapt tools/harness/lib/scratch.mjs  (new: exclusive no-follow creation of the h
 adapt tools/harness/lib/switch.mjs  (the roster, the session's family and the dispatch settings of CLAUDE.md "Choosing models" (8dc4dc1, #149, 2026-10-12); --ask and --review-kind (9933d32, #185, 2026-10-13); the partial bump to 610f979 (d09c12a); #303: the pin was stale, now recorded)
 bf717caa54364e8e56a50bab0f07d0212b8300992bc0ad3629cf097ef58e4845  tools/harness/models.mjs
 adapt tools/harness/post-review.mjs  (#264: readReview gets { doneWhen }, so a loose-header recovery's note carries the Done-when accounting, as review.mjs's does; #311: the comment's body file goes under ~/goal2-review-tmp-harness, created exclusively without following symlinks)
-adapt tools/harness/review.mjs  (the user chooses models, the owner 2026-10-11; #311: TMPDIR, TMP and TEMP point at the run's folder under ~/goal2-review-tmp, removed when the run comes back and kept when it fails; OpenCode's logs and the finished review are written under ~/goal2-review-tmp-harness (a sibling outside the reviewer's grant, files created with O_EXCL and O_NOFOLLOW), the review before it is posted, so a full /tmp loses neither; roots resolving to tmpfs are refused; a review is refused when /tmp has under 500 MB free and that disk under 2 GB)
+adapt tools/harness/review.mjs  (the user chooses models, the owner 2026-10-11; #311: TMPDIR, TMP and TEMP point at the run's folder under ~/goal2-review-tmp, removed when the run comes back and kept when it fails; OpenCode's logs and the finished review are written under ~/goal2-review-tmp-harness (a sibling outside the reviewer's grant, files created with O_EXCL and O_NOFOLLOW), the review before it is posted, so a full /tmp loses neither; roots resolving to tmpfs are refused; a review is refused when /tmp has under 500 MB free and that disk under 2 GB; #314: --issue none is a review with no issue and no label, and a missing brief file stops with "brief file not found" and exit 2)
 adapt tools/harness/switch-model.mjs  (the same changes as lib/switch.mjs: #149, #185, the partial bump d09c12a; #303: the pin was stale, now recorded)

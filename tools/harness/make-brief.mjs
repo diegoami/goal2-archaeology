@@ -3,15 +3,20 @@
 // docs/review-brief.md and the task text, and one launch was refused for a first line that was not
 // the header (PRs 176 and 179).
 //
-//   node tools/harness/make-brief.mjs --pr N --issue N [--task docs/tasks/T<nn>.md] --reviewer NAME
-//     [--round K [--sample TEXT]] [--caveat TEXT]... [--protects TEXT] [--blocking4 TEXT] --out FILE
+//   node tools/harness/make-brief.mjs --pr N --issue N|none [--task docs/tasks/T<nn>.md | --header NAME]
+//     --reviewer NAME [--round K [--sample TEXT]] [--caveat TEXT]... [--protects TEXT] [--blocking4 TEXT] --out FILE
 //
 // The brief is: the header alone on line 1 ("T47 review (luna)", or "fix #175 review (luna)" without
-// --task); the round and the caveats after it, never on it; the PR's head SHA, full (and no other
+// --task, or "NAME review (luna)" with --header NAME); the round and the caveats after it, never on it; the PR's head SHA, full (and no other
 // commit's full SHA where review.mjs reads: write earlier heads short); the numbered block of
 // docs/process.md section 5; the task file, or the issue's title and body, pasted in full; and the three
 // sections of docs/review-brief.md with "Blocking means" filled from --protects and --blocking4.
 // --protects has no default: without it the placeholder remains and nothing is written.
+// A full SHA in the pasted text other than the PR's head is shortened to 10 characters, and the output says how
+// many (an issue body quoting a commit made the brief refused, #314); the head's own SHA is left as written.
+// A review with no task file and no issue (a planning or backlog PR): --issue none and --header NAME
+// ("backlog" gives "backlog review (luna)"); the PR's title and body are pasted in place of the task or the
+// issue, and review.mjs is run with --issue none (no label is applied). --header is refused with --task.
 // A text argument that must carry content (--protects, --blocking4, --sample, --caveat, --reviewer, --task,
 // --out) is trimmed and refused when empty or only whitespace, in buildBrief and again in checkBrief (#324).
 // Rework rounds (the owner, 2026-10-18, #319; docs/review-brief.md "Rework rounds"): from --round 2 the
@@ -35,7 +40,8 @@ import { briefTargets, doneWhenCount } from './lib/chain.mjs';
 import { sh, parseArgs } from './lib/common.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..');
-const HEADER_RE = /^(?:T\d+[a-z]*|fix #\d+) review \([^()\s][^()]*\)$/;
+const HEADER_NAME = /^[A-Za-z0-9][A-Za-z0-9 ._#-]{0,39}$/; // --header NAME: one short line, no parentheses
+const HEADER_RE = /^[A-Za-z0-9][A-Za-z0-9 ._#-]* review \([^()\s][^()]*\)$/;
 const ANY_HEADER = /^(?:T\d+[a-z]*|fix #\d+) review \(/;
 const FULL_SHA = /\b[0-9a-fA-F]{40}\b/g;
 // The reviewer's own instructions in the block use these as templates; they are not placeholders.
@@ -53,7 +59,19 @@ export function content(name, v) {
   return t;
 }
 
-const sleepMs = (ms) => Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, ms);
+// Every full SHA in `text` other than `head` becomes its first 10 characters. Returns { text, shortened }.
+export function shortenShas(text, head) {
+  const h = String(head).toLowerCase();
+  const shortened = [];
+  const out = String(text).replace(FULL_SHA, (s) => {
+    if (s.toLowerCase() === h) return s;
+    if (!shortened.includes(s.slice(0, 10))) shortened.push(s.slice(0, 10));
+    return s.slice(0, 10);
+  });
+  return { text: out, shortened };
+}
+
+const sleepMs =(ms) => Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, ms);
 
 // readHead(): GitHub's head now. localHead: the local branch's head, or null. isBehind(local, remote): true
 // when `local` is an ancestor of `remote`. Returns { head, note }; throws if GitHub never shows localHead.
@@ -96,7 +114,8 @@ const once = (text, re, to, what) => {
 };
 
 // o: { header, pr, head, round, caveats, protects, blocking4, pasted, processMd, reviewBriefMd }
-// Returns { text, generated }: `generated` is the brief with the pasted text left out.
+// Returns { text, generated, shortened }: `generated` is the brief with the pasted text left out; `shortened`
+// lists the full SHAs (10 characters each) cut short in the pasted text.
 export function buildBrief(o) {
   const lines = processBlock(o.processMd);
   const sample = content('sample', o.sample);
@@ -122,7 +141,8 @@ export function buildBrief(o) {
     blocking4 ?? 'a constant with no evidence, a test that passes with the behaviour deleted, a status written into a document',
     '"<project-specific items: ...>"');
   const generated = `${o.header}\n${block}\n\n${MARK}\n\n${sections}`;
-  return { text: generated.replace(MARK, () => o.pasted.replace(/\s+$/, '')), generated: generated.replace(MARK, '') };
+  const { text: pasted, shortened } = shortenShas(o.pasted, o.head);
+  return { text: generated.replace(MARK, () => pasted.replace(/\s+$/, '')), generated: generated.replace(MARK, ''), shortened };
 }
 
 // Throws unless review.mjs would accept `text` for a PR at `head`. `generated` is the brief without the
@@ -130,9 +150,9 @@ export function buildBrief(o) {
 export function checkBrief(text, head, generated = text) {
   const all = text.split(/\r?\n/);
   if (!HEADER_RE.test(all[0])) fail(`The first line must be the review header alone, e.g. "T07 review (luna)" or "fix #175 review (luna)"; got: ${all[0]}`);
-  const again = all.slice(1).find((l) => ANY_HEADER.test(l));
+  const again = all.slice(1).find((l) => ANY_HEADER.test(l) || l === all[0]);
   if (again) fail(`The header appears again below line 1: ${again}`);
-  const headPart = text.split(/^#\s+T\d+\b|^## Issue #\d+:/m)[0];
+  const headPart = text.split(/^#\s+T\d+\b|^## Issue #\d+:|^## PR #\d+:/m)[0];
   const round = Number(/^This is review round (\d+)\.$/m.exec(headPart)?.[1] ?? 1);
   if (round >= 2 && !/^Sample for this round: \S/m.test(headPart)) fail(`Round ${round} is a rework round: the brief must carry "Sample for this round:" followed by text.`);
   if (/^Sample for this round:\s*$/m.test(headPart)) fail('The "Sample for this round:" line is empty.');
@@ -151,10 +171,15 @@ export function checkBrief(text, head, generated = text) {
 
 function main() {
   const a = parseArgs(process.argv.slice(2), { repeatable: ['caveat'] });
-  for (const k of ['pr', 'issue', 'reviewer', 'out']) if (!a[k]) fail(`--${k} is required.`);
-  for (const k of ['reviewer', 'out', 'task', 'protects', 'blocking4', 'sample']) content(k, a[k]);
+  for (const k of ['pr', 'issue', 'reviewer', 'out']) if (!a[k]) fail(`--${k} is required (--issue none for a PR with no issue).`);
+  for (const k of ['reviewer', 'out', 'task', 'header', 'protects', 'blocking4', 'sample']) content(k, a[k]);
   for (const c of a.caveat) content('caveat', c);
-  for (const k of ['pr', 'issue']) if (!/^\d+$/.test(a[k])) fail(`--${k} takes a number; got ${a[k]}`);
+  const noIssue = a.issue === 'none';
+  if (!/^\d+$/.test(a.pr)) fail(`--pr takes a number; got ${a.pr}`);
+  if (!noIssue && !/^\d+$/.test(a.issue)) fail(`--issue takes a number, or none; got ${a.issue}`);
+  if (a.header !== undefined && a.task) fail('--header names a brief with no task file: it cannot be given with --task.');
+  if (a.header !== undefined && !HEADER_NAME.test(a.header.trim())) fail(`--header takes a short name (letters, digits, space, . _ # -, at most 40, no parentheses); got ${a.header}`);
+  if (noIssue && !a.task && a.header === undefined) fail('--issue none needs --header NAME (or --task): the header has no issue number to name.');
   if (a.round !== undefined && !/^[1-9]\d*$/.test(a.round)) fail(`--round takes a positive number; got ${a.round}`);
   const readHead = () => sh('gh', ['pr', 'view', a.pr, '--json', 'headRefOid', '--jq', '.headRefOid']).toLowerCase();
   const branch = sh('gh', ['pr', 'view', a.pr, '--json', 'headRefName', '--jq', '.headRefName'], { allowFail: true });
@@ -174,18 +199,23 @@ function main() {
     id = m[1];
     pasted = fs.readFileSync(a.task, 'utf8');
     if (!/^# T\d+/m.test(pasted)) fail(`${a.task} has no "# T<nn>" title line: review.mjs reads only the lines before it.`);
+  } else if (noIssue) {
+    id = a.header.trim();
+    const j = JSON.parse(sh('gh', ['pr', 'view', a.pr, '--json', 'title,body']));
+    pasted = `## PR #${a.pr}: ${j.title}\n\n${j.body}`;
   } else {
-    id = `fix #${a.issue}`;
+    id = a.header !== undefined ? a.header.trim() : `fix #${a.issue}`;
     const j = JSON.parse(sh('gh', ['issue', 'view', a.issue, '--json', 'title,body']));
     pasted = `## Issue #${a.issue}: ${j.title}\n\n${j.body}`;
   }
   const processMd = fs.readFileSync(path.join(ROOT, 'docs', 'process.md'), 'utf8');
   const reviewBriefMd = fs.readFileSync(path.join(ROOT, 'docs', 'review-brief.md'), 'utf8');
-  const { text, generated } = buildBrief({
+  const { text, generated, shortened } = buildBrief({
     header: `${id} review (${a.reviewer})`, pr: a.pr, head, round: a.round, sample: a.sample, caveats: a.caveat,
     protects: a.protects, blocking4: a.blocking4, pasted, processMd, reviewBriefMd,
   });
   checkBrief(text, head, generated);
+  if (shortened.length) console.error(`make-brief: shortened ${shortened.length} full SHA(s) in the pasted text to 10 characters (only the PR's head stays full): ${shortened.join(', ')}.`);
   fs.writeFileSync(a.out, text.endsWith('\n') ? text : `${text}\n`);
   console.log(`wrote ${a.out}: ${id} review (${a.reviewer}), PR ${a.pr} at ${head}; ${doneWhenCount(text)} Done-when line(s) counted (pass review.mjs --done-when K if that is wrong).`);
 }
