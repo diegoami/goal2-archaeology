@@ -28,10 +28,8 @@ def _reason(e):
 
 def check_input(path, option):
     """`path` is a regular file this process can open for reading (a symlink to one is fine; a broken link is not)."""
-    if path == "":
-        _fail(option, path, "is empty")
     try:
-        mode = os.stat(path).st_mode
+        mode = os.stat(path).st_mode                # "" is a missing file here, as it is to open()
     except FileNotFoundError:
         _fail(option, path, "does not exist (or is a broken link)")
     except OSError as e:

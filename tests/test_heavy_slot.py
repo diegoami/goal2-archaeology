@@ -384,6 +384,20 @@ LOG_PERM = dict(unreadable=R, readonly=R, unwritable_parent=R)
 CACHE = dict(missing=A, empty_folder=A, asset_file=A, asset_link=A, asset_folder=R, asset_broken=R, cache_is_a_file=R,
              under_a_file=R, missing_parent=A)
 CACHE_PERM = dict(asset_unreadable=R, unwritable_folder=R, under_unwritable=R)
+# What a refusal says, by condition (a fragment of the message): the reason, so that a wrong reason that still refuses is caught.
+SAID_INPUT = dict(missing="does not exist", directory="is not a file", empty="does not exist", broken="does not exist",
+                  missing_parent="does not exist", file_in_the_way="cannot be read", unreadable="cannot be read",
+                  unwritable_parent="does not exist")
+SAID_NEW = dict(directory="exists (an output", file="exists (an output", link="exists (an output", broken="exists (an output",
+                empty="is empty", missing_parent="its folder does not exist", file_in_the_way="its folder does not exist",
+                unreadable="exists (an output", readonly="exists (an output", unwritable_parent="its folder is not writable")
+SAID_LOG = dict(directory="is not a file", broken="is a broken link", empty="is empty",
+                file_in_the_way="cannot create its folder (a file is in the way)", unreadable="cannot be read",
+                readonly="is not writable", unwritable_parent="its folder is not writable")
+SAID_CACHE = dict(asset_folder="is not a file", asset_broken="does not exist", asset_unreadable="cannot be read",
+                  cache_is_a_file="cannot create its folder (a file is in the way)",
+                  under_a_file="cannot create its folder (a file is in the way)", unwritable_folder="its folder is not writable",
+                  under_unwritable="its folder is not writable")
 
 
 def build_paths(d, content="[]"):
@@ -487,7 +501,7 @@ class PathOptionsTest(unittest.TestCase):
         self.assertEqual(p.returncode, 2, (argv, out, err))
         self.assertIn(message, out + err, argv)
 
-    def table(self, option, table, paths, validate, entry, run):
+    def table(self, option, table, paths, validate, entry, run, said):
         """validate(path) -> the refusal message or None; entry(path) -> (argv, cwd); run(path) -> the run's operation."""
         for cond, ok in table.items():
             path = paths[cond]
@@ -503,6 +517,7 @@ class PathOptionsTest(unittest.TestCase):
                     pass                       # the run's own later failures (no image, no download) are not the path's
             else:
                 self.assertIsNotNone(why, label)
+                self.assertIn(said[cond], why, label)
                 self.assertTrue(why.startswith(f"{option} {path}"), (label, why))   # the cache: the file in the folder
                 with self.assertRaises(self.fileopts.PathError, msg=label) as cm:
                     run(path)
@@ -528,23 +543,23 @@ class PathOptionsTest(unittest.TestCase):
 
     def test_check_image(self):
         plain, _ = build_paths(self.tmp)
-        self.table("--image", INPUT, plain, self.check_validate("--image"), self.check_entry("--image"), self.load_image)
+        self.table("--image", INPUT, plain, self.check_validate("--image"), self.check_entry("--image"), self.load_image, SAID_INPUT)
 
     @unittest.skipIf(ROOT_USER, "root is not stopped by a file mode")
     def test_check_image_permissions(self):
         _, perm = build_paths(self.tmp)
-        self.table("--image", INPUT_PERM, perm, self.check_validate("--image"), self.check_entry("--image"), self.load_image)
+        self.table("--image", INPUT_PERM, perm, self.check_validate("--image"), self.check_entry("--image"), self.load_image, SAID_INPUT)
 
     def test_check_json(self):
         plain, _ = build_paths(self.tmp)
         self.table("--json", NEW, plain, self.check_validate("--json"), self.check_entry("--json"),
-                   lambda path: self.check.write_report(path, {}))
+                   lambda path: self.check.write_report(path, {}), SAID_NEW)
 
     @unittest.skipIf(ROOT_USER, "root is not stopped by a folder or file mode")
     def test_check_json_permissions(self):
         _, perm = build_paths(self.tmp)
         self.table("--json", NEW_PERM, perm, self.check_validate("--json"), self.check_entry("--json"),
-                   lambda path: self.check.write_report(path, {}))
+                   lambda path: self.check.write_report(path, {}), SAID_NEW)
 
     def reference(self, cache):
         with mock.patch.object(self.assets.subprocess, "run", side_effect=OSError("no gh in this test")):
@@ -552,12 +567,12 @@ class PathOptionsTest(unittest.TestCase):
 
     def test_check_cache(self):
         plain, _ = build_caches(self.tmp)
-        self.table("--cache", CACHE, plain, self.check_validate("--cache"), self.check_entry("--cache"), self.reference)
+        self.table("--cache", CACHE, plain, self.check_validate("--cache"), self.check_entry("--cache"), self.reference, SAID_CACHE)
 
     @unittest.skipIf(ROOT_USER, "root is not stopped by a folder or file mode")
     def test_check_cache_permissions(self):
         _, perm = build_caches(self.tmp)
-        self.table("--cache", CACHE_PERM, perm, self.check_validate("--cache"), self.check_entry("--cache"), self.reference)
+        self.table("--cache", CACHE_PERM, perm, self.check_validate("--cache"), self.check_entry("--cache"), self.reference, SAID_CACHE)
 
     # ---- family.py
     def family_validate(self, extra):
@@ -589,46 +604,60 @@ class PathOptionsTest(unittest.TestCase):
 
     def test_family_out(self):
         plain, _ = build_paths(self.tmp, content="")      # an empty log: nothing to resume
-        self.table("--out", LOG, plain, self.family_validate(self.out_args), self.family_entry(self.out_args), self.run_family)
+        self.table("--out", LOG, plain, self.family_validate(self.out_args), self.family_entry(self.out_args), self.run_family, SAID_LOG)
 
     @unittest.skipIf(ROOT_USER, "root is not stopped by a folder or file mode")
     def test_family_out_permissions(self):
         _, perm = build_paths(self.tmp, content="")
         self.table("--out", LOG_PERM, perm, self.family_validate(self.out_args), self.family_entry(self.out_args),
-                   self.run_family)
+                   self.run_family, SAID_LOG)
 
     def test_family_find_ranges(self):
         plain, _ = build_paths(self.tmp)
         self.table("--find-ranges", NEW, plain, self.family_validate(self.ranges_args), self.family_entry(self.ranges_args),
-                   lambda path: self.family.write_ranges(path, {}))
+                   lambda path: self.family.write_ranges(path, {}), SAID_NEW)
 
     @unittest.skipIf(ROOT_USER, "root is not stopped by a folder or file mode")
     def test_family_find_ranges_permissions(self):
         _, perm = build_paths(self.tmp)
         self.table("--find-ranges", NEW_PERM, perm, self.family_validate(self.ranges_args),
-                   self.family_entry(self.ranges_args), lambda path: self.family.write_ranges(path, {}))
+                   self.family_entry(self.ranges_args), lambda path: self.family.write_ranges(path, {}), SAID_NEW)
 
     def test_family_mask(self):
         plain, _ = build_paths(self.tmp)
         self.table("--mask", INPUT, plain, self.family_validate(self.mask_args), self.family_entry(self.mask_args),
-                   self.family.parse_mask)
+                   self.family.parse_mask, SAID_INPUT)
 
     @unittest.skipIf(ROOT_USER, "root is not stopped by a file mode")
     def test_family_mask_permissions(self):
         _, perm = build_paths(self.tmp)
         self.table("--mask", INPUT_PERM, perm, self.family_validate(self.mask_args), self.family_entry(self.mask_args),
-                   self.family.parse_mask)
+                   self.family.parse_mask, SAID_INPUT)
 
     def test_family_cache(self):
         plain, _ = build_caches(self.tmp)
         self.table("--cache", CACHE, plain, self.family_validate(self.cache_args), self.family_entry(self.cache_args),
-                   self.reference)
+                   self.reference, SAID_CACHE)
 
     @unittest.skipIf(ROOT_USER, "root is not stopped by a folder or file mode")
     def test_family_cache_permissions(self):
         _, perm = build_caches(self.tmp)
         self.table("--cache", CACHE_PERM, perm, self.family_validate(self.cache_args), self.family_entry(self.cache_args),
-                   self.reference)
+                   self.reference, SAID_CACHE)
+
+    def test_a_fifo_is_not_a_file_and_does_not_block(self):
+        """Opening a FIFO for reading waits for a writer: the check must refuse it before it opens anything."""
+        import signal
+        fifo = self.tmp / "fifo"
+        os.mkfifo(fifo)
+        signal.signal(signal.SIGALRM, lambda *a: (_ for _ in ()).throw(AssertionError("check_input opened the FIFO and blocked")))
+        signal.alarm(5)
+        try:
+            with self.assertRaises(self.fileopts.PathError) as cm:
+                self.fileopts.check_input(str(fifo), "--image")
+        finally:
+            signal.alarm(0)
+        self.assertIn("is not a file", str(cm.exception))
 
     def test_every_path_option_is_in_a_table(self):
         """The audit: the options of the three parsers. A new option that names a file fails here until it has a table."""
