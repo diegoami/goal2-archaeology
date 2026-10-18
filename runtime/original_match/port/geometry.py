@@ -22,7 +22,7 @@ attack direction table DS:7920, the side bases DS:0668, the players array far po
 countries array DS:A917 (0xBF each)."""
 from .guest import call
 from .mem import s8, s16
-from .runtime import Regs, M16, draw_is_one, invoke, set_test, wrap_add_byte
+from .runtime import Regs, M16, args, draw_is_one, entry_sp, invoke, set_test, wrap_add_byte
 from . import Registry
 
 PORTS = Registry("geometry", "the geometry queries 0791:261A-2F28: side, slot, direction, ahead/behind, penalty strip, "
@@ -180,7 +180,7 @@ def c2a6d(mem, R, variant=None):
         R.dx = 0x16
         mul(R, 0x16)                                           # 2A7F-2A82
         R.di = (R.ax + PITCH) & M16                            # 2A84-2A86
-        ds = mem.reg("ds")
+        ds = mem.DS
         invoke(mem, R, CS, 0x2A90, c2bb1, ds, R.di, variant, pushes=(ds, R.di))      # 2A8A-2A8D
         R.ah = 0                                               # 2A90 xor ah, ah
     R.local16(-2, R.ax)                                        # 2A92 / 2A99
@@ -244,7 +244,7 @@ def set_message_word(mem, variant):
     """26A0(flag): DS:8308 := 0xEAF (flag) or 0xEAE; DS:8328 := 1. Registers untouched."""
     R = Regs(mem)
     R.enter()                                                  # 26A0
-    if mem.arg(0) & 0xFF:                                      # 26A3
+    if args(mem, 1)[0] & 0xFF:                                 # 26A3
         mem.wds16(0x8308, 0x0EAF, "0791:26A9")
     else:
         mem.wds16(0x8308, 0x0EAE, "0791:26B1")
@@ -259,8 +259,8 @@ def show_message_8304(mem, variant):
     R = Regs(mem)
     R.enter()                                                  # 26C2
     R.di = 0x8304                                              # 26C5
-    R.store()
-    yield call("0791:9079", mem.reg("ds"), 0x8304, ret_to="0791:26CE", far=True)       # 26C8-26CB
+    R.store(stack=True)
+    yield call("0791:9079", mem.DS, 0x8304, ret_to="0791:26CE", far=True)       # 26C8-26CB
     mem.wds8(0x8328, 0, "0791:26CE")
 
 
@@ -269,7 +269,7 @@ def show_message_8304(mem, variant):
 def player_effective_tactic(mem, variant):
     """26D7(rec, k): the player's own setting of element k when k < 5 and element k + 4 of his +0xF is set, else element k
     of the country's +0x2D (side of the slot); each is 214B:0C57's bit k - 1."""
-    off, seg, k = mem.arg(0), mem.arg(1), mem.arg(2)
+    off, seg, k = args(mem, 3)
     R = Regs(mem)
     R.enter(2)                                                 # 26D7-26DC
     sp_frame = R.sp
@@ -313,7 +313,7 @@ def skill_of_pitch_record(mem, variant):
     """278A(rec, element): the engines' only skill reader (runtime/model/keeping.py contest_value, T42, T40): form and
     energy blended, times 1771:3A06's skill (a guest call: T61), div 256, plus skill div 4, the table-controlled keeper
     extra (DS:769[element] or element 1 with DS:8327 in the set {3, 4}), a share of the manager at slot < 0xC."""
-    off, seg, e = mem.arg(0), mem.arg(1), mem.arg(2)
+    off, seg, e = args(mem, 3)
     R = Regs(mem)
     R.enter(0xA)                                               # 278A-278F
     idx = rec16(mem, seg, off, 0xD)
@@ -343,9 +343,9 @@ def skill_of_pitch_record(mem, variant):
         base = (base + R.ax) & M16                             # 27D9
     R.local16(-4, base)
     R.es, R.di = seg, off                                      # 27DC
-    R.store()
+    R.store(stack=True)
     skill = yield call("1771:3A06", idx, e, ret_to="0791:27EB", far=True)      # 27DF-27E6 (T61's)
-    R = Regs(mem)
+    R = Regs(mem, resumed=True)
     R.local16(-6, skill)                                       # 27EB
     R.es, R.di = seg, off                                      # 27EE
     if rec8(mem, seg, off, 0x13) != 0 and variant != "skill-no-halving":      # 27F1
@@ -407,13 +407,13 @@ def skill_of_pitch_record(mem, variant):
 @PORTS.port("0791:287C", ret="retf 6")
 def skill_draw_passes(mem, variant):
     """287C(rec, element): 1 with probability (n - 1) / n, n = 278A / 32 + 1 (214B:06D0 draws; 0 when it is 1)."""
-    off, seg, e = mem.arg(0), mem.arg(1), mem.arg(2)
+    off, seg, e = args(mem, 3)
     R = Regs(mem)
     R.enter(2)                                                 # 287C-2881
     R.es, R.di = seg, off                                      # 2885
-    R.store()
+    R.store(stack=True)
     skill = yield call("0791:278A", e, seg, off, ret_to="0791:288E", far=True)     # 2882-288B
-    R = Regs(mem)
+    R = Regs(mem, resumed=True)
     R.dx = skill % 0x20                                        # 288E-2893 div cx
     R.cx = 0x20
     n = (skill // 0x20 + 1) & M16                              # 2895
@@ -430,8 +430,8 @@ def skill_draw_passes(mem, variant):
 def all_players_in_state(mem, variant):
     """28B2(state): 1 when each of the 22 pitch records has +0x12 = state, or is the ball slot or the second slot, or is a
     player 2956 reports unavailable."""
-    state = mem.arg(0) & 0xFF
-    ds = mem.reg("ds")
+    state = args(mem, 1)[0] & 0xFF
+    ds = mem.DS
     R = Regs(mem)
     R.enter(0xA)                                               # 28B2-28B7
     R.ax = 0                                                   # 28B8
@@ -463,9 +463,9 @@ def all_players_in_state(mem, variant):
                     counted = True
                 else:
                     R.es, R.di = ds, rec                       # 28FB
-                    R.store()
+                    R.store(stack=True)
                     yield call("0791:2956", ds, rec, ret_to="0791:2904", far=True)       # 28FE-2901
-                    R = Regs(mem)
+                    R = Regs(mem, resumed=True)
                     counted = R.al != 0                        # 2904 or al, al; je 290B
         if counted:
             count += 1
@@ -479,7 +479,7 @@ def all_players_in_state(mem, variant):
 @PORTS.port("0791:2929", ret="ret 2")
 def fill_pitch_state(mem, variant):
     """2929(value): +0x12 of each of the 22 pitch records := value."""
-    value = mem.arg(0) & 0xFF
+    value = args(mem, 1)[0] & 0xFF
     R = Regs(mem)
     R.enter(2)                                                 # 2929-292C
     R.local16(-2, 1)                                           # 292F
@@ -498,13 +498,13 @@ def fill_pitch_state(mem, variant):
 @PORTS.port("0791:2956", ret="retf 4")
 def player_unavailable_on_pitch(mem, variant):
     """2956(rec): 1771:3216 of the record's player (+0xD): 1 when he cannot play (T61's, a guest call)."""
-    off, seg = mem.arg(0), mem.arg(1)
+    off, seg = args(mem, 2)
     R = Regs(mem)
     R.enter(2)                                                 # 2956-295B
     R.es, R.di = seg, off                                      # 295C
-    R.store()
+    R.store(stack=True)
     yield call("1771:3216", rec16(mem, seg, off, 0xD), ret_to="0791:2968", far=True)      # 295F-2963
-    R = Regs(mem)
+    R = Regs(mem, resumed=True)
     R.local8(-1, R.al)                                         # 2968: AL as the callee left it
     R.leave()
     R.store()
@@ -557,7 +557,7 @@ def ball_holder_farther_flag(mem, variant):
 def advance_unavailable_ball_slot(mem, variant):
     """2A15: while the ball slot DS:830B is not 0 and its player is unavailable (2956), advance it by 1 inside its side's
     slots (214B:1D6F wraps it between DS:668[side] + 2 and + 0xB)."""
-    ds = mem.reg("ds")
+    ds = mem.DS
     R = Regs(mem)
     R.enter()                                                  # 2A15
     if mem.ds8(BALL_SLOT) == 0:                                # 2A18-2A1D
@@ -569,9 +569,9 @@ def advance_unavailable_ball_slot(mem, variant):
         R.dx = 0x16
         mul(R, 0x16)                                           # 2A24-2A27
         R.di = (R.ax + PITCH) & M16                            # 2A29-2A2B
-        R.store()
+        R.store(stack=True)
         yield call("0791:2956", ds, R.di, ret_to="0791:2A35", far=True)       # 2A2F-2A32
-        R = Regs(mem)
+        R = Regs(mem, resumed=True)
         if R.al == 0:                                          # 2A35 or al, al; je 2A69
             return
         sp_frame = R.sp
@@ -615,8 +615,8 @@ def second_slot_in_side(mem, variant):
 @PORTS.port("0791:2AA3", ret="ret 2")
 def commentary_with_ball_slot(mem, variant):
     """2AA3(code): 1EB5(ball slot's side, its slot in side, 2A6D, code)."""
-    code = mem.arg(0)
-    ds = mem.reg("ds")
+    code, = args(mem, 1)
+    ds = mem.DS
     R = Regs(mem)
     R.enter()                                                  # 2AA3-2AA5
     sp_frame = R.sp
@@ -638,15 +638,15 @@ def commentary_with_ball_slot(mem, variant):
     a4 = R.ax
     R.push(a4)                                                 # 2ACA
     R.sp = sp_frame                                            # the guest call pushes them again, at the same places
-    R.store()
+    R.store(stack=True)
     yield call("0791:1EB5", a1, a2, a3, a4, ret_to="0791:2ACE", far=False)       # 2ACB
 
 
 @PORTS.port("0791:2AD4", ret="ret 2")
 def commentary_with_both_slots(mem, variant):
     """2AD4(code): 1EB5(DS:830C below 0xC, 2A6D, ball slot's slot in side, code)."""
-    code = mem.arg(0)
-    ds = mem.reg("ds")
+    code, = args(mem, 1)
+    ds = mem.DS
     R = Regs(mem)
     R.enter()                                                  # 2AD4-2AD6
     sp_frame = R.sp
@@ -668,14 +668,14 @@ def commentary_with_both_slots(mem, variant):
     b4 = R.ax
     R.push(b4)                                                 # 2B05
     R.sp = sp_frame
-    R.store()
+    R.store(stack=True)
     yield call("0791:1EB5", b1, b2, b3, b4, ret_to="0791:2B09", far=False)       # 2B06
 
 
 @PORTS.port("0791:2B0F", ret="ret 2")
 def commentary_plain(mem, variant):
     """2B0F(code): 1EB5(1, 0, 0, code)."""
-    code = mem.arg(0)
+    code, = args(mem, 1)
     R = Regs(mem)
     R.enter()                                                  # 2B0F-2B11
     R.al = 1                                                   # 2B12
@@ -683,14 +683,14 @@ def commentary_plain(mem, variant):
     R.ax = 0                                                   # 2B15-2B1A
     R.al = code & 0xFF                                         # 2B1B
     w4 = R.ax
-    R.store()
+    R.store(stack=True)
     yield call("0791:1EB5", w1, 0, 0, w4, ret_to="0791:2B22", far=False)       # 2B1F
 
 
 @PORTS.port("0791:2B28", ret="retf 6")
 def commentary_for_record(mem, variant):
     """2B28(rec, code): 1EB5(2974(rec), 2BB1(rec), 0, code)."""
-    off, seg, code = mem.arg(0), mem.arg(1), mem.arg(2)
+    off, seg, code = args(mem, 3)
     R = Regs(mem)
     R.enter()                                                  # 2B28-2B2A
     sp_frame = R.sp
@@ -709,7 +709,7 @@ def commentary_for_record(mem, variant):
     R.push(R.ax)                                               # 2B47
     w4 = R.ax
     R.sp = sp_frame
-    R.store()
+    R.store(stack=True)
     yield call("0791:1EB5", c1, c2, 0, w4, ret_to="0791:2B4B", far=False)       # 2B48
 
 
@@ -717,7 +717,7 @@ def commentary_for_record(mem, variant):
 @PORTS.port("0791:2B51", ret="retf 4")
 def slot_is_on_ball_side(mem, variant):
     """2B51(rec): 2996 = 2974(rec)."""
-    off, seg = mem.arg(0), mem.arg(1)
+    off, seg = args(mem, 2)
     R = Regs(mem)
     R.enter(2)                                                 # 2B51-2B56
     invoke(mem, R, None, 0x2B5A, c2996)                        # 2B57
@@ -736,7 +736,7 @@ def slot_is_on_ball_side(mem, variant):
 @PORTS.port("0791:2B7B", ret="retf 4")
 def energy_gate_chance(mem, variant):
     """2B7B(rec): 214B:06D0(0x21 - signed energy +0xE of the record's player)."""
-    off, seg = mem.arg(0), mem.arg(1)
+    off, seg = args(mem, 2)
     R = Regs(mem)
     R.enter(2)                                                 # 2B7B-2B80
     player_byte(mem, R, seg, off, 0xE)                         # 2B81-2B93
@@ -754,7 +754,7 @@ def energy_gate_chance(mem, variant):
 @PORTS.port("0791:2BB1", ret="retf 4")
 def slot_in_side(mem, variant):
     """2BB1(rec): +6 - 0xB for slots above 0xB, else +6."""
-    off, seg = mem.arg(0), mem.arg(1)
+    off, seg = args(mem, 2)
     R = Regs(mem)
     c2bb1(mem, R, seg, off, variant)
     R.store()
@@ -763,7 +763,7 @@ def slot_in_side(mem, variant):
 @PORTS.port("0791:2C29", ret="retf 4")
 def slot_is_idle_ball_slot(mem, variant):
     """2C29(rec): 1 when the record's slot is the ball slot DS:830B and DS:8302 is 0."""
-    off, seg = mem.arg(0), mem.arg(1)
+    off, seg = args(mem, 2)
     R = Regs(mem)
     R.enter(2)                                                 # 2C29-2C2E
     R.al = mem.ds8(BALL_SLOT)                                  # 2C2F
@@ -777,7 +777,7 @@ def slot_is_idle_ball_slot(mem, variant):
 @PORTS.port("0791:2C54", ret="retf 4")
 def in_own_half(mem, variant):
     """2C54(rec): 1 when y * attack_direction < 0."""
-    off, seg = mem.arg(0), mem.arg(1)
+    off, seg = args(mem, 2)
     R = Regs(mem)
     c2c54(mem, R, seg, off, variant)
     R.store()
@@ -786,8 +786,8 @@ def in_own_half(mem, variant):
 @PORTS.port("0791:2C86", ret="retf 6")
 def mirror_to_team_frame(mem, variant):
     """2C86(rec, word): both bytes of the word (x low, y high, in the argument itself) times the attack direction."""
-    off, seg, word = mem.arg(0), mem.arg(1), mem.arg(2)
-    sp = mem.reg("sp")
+    off, seg, word = args(mem, 3)
+    sp = entry_sp(mem)
     R = Regs(mem)
     R.enter(2)                                                 # 2C86-2C8B
     direction_in_dx(mem, R, seg, off, 0x2C95)                  # 2C8C-2C96
@@ -811,7 +811,7 @@ def mirror_to_team_frame(mem, variant):
 @PORTS.port("0791:2CEC", ret="retf 4")
 def player_at_ball(mem, variant):
     """2CEC(rec): the record's position word equals the ball word DS:82F6."""
-    off, seg = mem.arg(0), mem.arg(1)
+    off, seg = args(mem, 2)
     R = Regs(mem)
     R.enter(2)                                                 # 2CEC-2CF1
     R.es, R.di = seg, off                                      # 2CF2
@@ -826,7 +826,7 @@ def player_at_ball(mem, variant):
 def ball_ahead_of_by(mem, variant):
     """2D10(rec, n): the ball's y * direction (from the low word, signed) > the record's y * direction + n (n unsigned),
     as a 32-bit compare: the high words signed, then the low words unsigned."""
-    off, seg, n = mem.arg(0), mem.arg(1), mem.arg(2)
+    off, seg, n = args(mem, 3)
     R = Regs(mem)
     R.enter(2)                                                 # 2D10-2D15
     direction_in_dx(mem, R, seg, off, 0x2D1F)                  # 2D16-2D20
@@ -867,7 +867,7 @@ def ball_ahead_of_by(mem, variant):
 @PORTS.port("0791:2D6D", ret="retf 6")
 def ahead_of_ball_by(mem, variant):
     """2D6D(rec, n): the record's y * direction > the ball's y * direction + n (n unsigned), the same 32-bit compare."""
-    off, seg, n = mem.arg(0), mem.arg(1), mem.arg(2)
+    off, seg, n = args(mem, 3)
     R = Regs(mem)
     R.enter(2)                                                 # 2D6D-2D72
     direction_in_dx(mem, R, seg, off, 0x2D7C)                  # 2D73-2D7D
@@ -906,7 +906,7 @@ def ahead_of_ball_by(mem, variant):
 @PORTS.port("0791:2E00", ret="ret 2")
 def on_pitch_wide(mem, variant):
     """2E00(word): |x| <= 9 and |y| <= 0x27 (x the low byte, y the high byte)."""
-    word = mem.arg(0)
+    word, = args(mem, 1)
     R = Regs(mem)
     R.enter(2)                                                 # 2E00-2E05
     R.al = word & 0xFF                                         # 2E06
@@ -927,7 +927,7 @@ def on_pitch_wide(mem, variant):
 @PORTS.port("0791:2E36", ret="retf 6")
 def in_own_goal_area(mem, variant):
     """2E36(rec, word): y * direction < 0, |y| >= 0x21 and |x| <= 2 (the word: x low byte, y high byte)."""
-    off, seg, word = mem.arg(0), mem.arg(1), mem.arg(2)
+    off, seg, word = args(mem, 3)
     R = Regs(mem)
     R.enter(2)                                                 # 2E36-2E3B
     direction_in_dx(mem, R, seg, off, 0x2E45)                  # 2E3C-2E46
@@ -956,14 +956,14 @@ def in_own_goal_area(mem, variant):
 def in_penalty_strip(mem, variant):
     """2E82(word): |y| >= 0x19 and |x| <= 5."""
     R = Regs(mem)
-    c2e82(mem, R, mem.arg(0), variant)
+    c2e82(mem, R, args(mem, 1)[0], variant)
     R.store()
 
 
 @PORTS.port("0791:2EB8", ret="retf 6")
 def in_own_goal_strip(mem, variant):
     """2EB8(rec, word): y * direction < 0 and 2E82(word)."""
-    off, seg, word = mem.arg(0), mem.arg(1), mem.arg(2)
+    off, seg, word = args(mem, 3)
     R = Regs(mem)
     R.enter(2)                                                 # 2EB8-2EBD
     direction_in_dx(mem, R, seg, off, 0x2EC7)                  # 2EBE-2EC8
@@ -983,7 +983,7 @@ def in_own_goal_strip(mem, variant):
 @PORTS.port("0791:2EF0", ret="retf 6")
 def in_opposing_goal_strip(mem, variant):
     """2EF0(rec, word): y * direction > 0 and 2E82(word)."""
-    off, seg, word = mem.arg(0), mem.arg(1), mem.arg(2)
+    off, seg, word = args(mem, 3)
     R = Regs(mem)
     R.enter(2)                                                 # 2EF0-2EF5
     direction_in_dx(mem, R, seg, off, 0x2EFF)                  # 2EF6-2F00
@@ -1003,7 +1003,7 @@ def in_opposing_goal_strip(mem, variant):
 @PORTS.port("0791:2F28", ret="retf 4")
 def in_attack_zone(mem, variant):
     """2F28(rec): not in the own half (2C54), |y| >= the player's +6 + 0xC, and |x| <= DS:776[|y| > 0x1C]."""
-    off, seg = mem.arg(0), mem.arg(1)
+    off, seg = args(mem, 2)
     R = Regs(mem)
     R.enter(2)                                                 # 2F28-2F2D
     R.es, R.di = seg, off                                      # 2F2E

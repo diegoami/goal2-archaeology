@@ -27,6 +27,8 @@ Conventions of the listing, used throughout:
 The registers the proof does not compare (BX, CX, SI, DI, ES, the flags) are set where the listing's values are cheap to
 give; the flags only where a caller reads them (the string comparison `23E4:072F`, the direction flag). Every other
 flag is left as it came: a difference there is counted as scratch by the proof, never an error (port/prove.py)."""
+import struct
+
 from . import Registry
 from .mem import PortError, s16
 from .pilot import rand
@@ -46,26 +48,49 @@ STACK_AT = "214B:0000"          # the instruction a stack write names: nothing o
 
 
 # -- the registers and the stack -------------------------------------------------------------------------------------
+def entry_sp(mem):
+    """SP at the entry of the port running: the word at it is the return address."""
+    return mem._entries[-1][0]
+
+
+def args(mem, n):
+    """The first n words of the stack arguments of the routine running (arg 0 nearest the return address): one read."""
+    sp, far = mem._entries[-1]
+    return struct.unpack("<%dH" % n, mem.read(mem.ss_lin(sp + (4 if far else 2)), 2 * n))
+
+
 class Regs:
     """A routine's registers: read from the machine when first used, written back by store() (only those it set). The
     16-bit registers are masked at every assignment; `al` and `ah` are the halves of AX. SP and BP are the stack the
-    listing's code would have at this point (see the module doc); `push`, `enter`, `leave`, `local8`, `local16` write it."""
+    listing's code would have at this point (see the module doc); `push`, `enter`, `leave`, `local8`, `local16` write it,
+    collected and written to memory by flush()/store() in runs (one write for a frame's contiguous words): a direct write of
+    the port to its own frame's locals is preceded by flush()."""
     _NAMES = ("ax", "bx", "cx", "dx", "si", "di", "es", "sp", "bp")
-    __slots__ = ("_mem", "_v", "_dirty", "_flags_on", "_flags_off")
+    __slots__ = ("_mem", "_v", "_dirty", "_flags_on", "_flags_off", "_ss", "_pending", "_bps", "_fresh")
 
-    def __init__(self, mem):
+    def __init__(self, mem, resumed=False):
+        """resumed: after a guest call the machine's SP is where the port left it (stored before the call); else it is
+        the entry's, which the port frame has (no read)."""
+        object.__setattr__(self, "_fresh", not resumed)
         object.__setattr__(self, "_mem", mem)
         object.__setattr__(self, "_v", {})
         object.__setattr__(self, "_dirty", set())
         object.__setattr__(self, "_flags_on", 0)
         object.__setattr__(self, "_flags_off", 0)
+        object.__setattr__(self, "_ss", None)
+        object.__setattr__(self, "_pending", [])
+        object.__setattr__(self, "_bps", [])
 
     def __getattr__(self, name):
         if name not in Regs._NAMES:
             raise AttributeError(name)
         v = self._v.get(name)
         if v is None:
-            v = self._v[name] = self._mem.reg(name) & M16
+            if name == "sp" and self._fresh:
+                v = self._mem._entries[-1][0]
+            else:
+                v = self._mem.reg(name) & M16
+            self._v[name] = v
         return v
 
     def __setattr__(self, name, value):
@@ -91,33 +116,76 @@ class Regs:
     def ah(self, v):
         self.ax = (self.ax & 0xFF) | ((v & 0xFF) << 8)
 
+    @property
+    def ss(self):
+        v = self._ss
+        if v is None:
+            v = self._mem.reg("ss")
+            object.__setattr__(self, "_ss", v)
+        return v
+
     # -- the stack ---------------------------------------------------------------------------------------------------
+    def _put(self, off, data):
+        self._pending.append((self.ss * 16 + (off & M16), data))
+
     def push(self, value):
         sp = (self.sp - 2) & M16
-        mem = self._mem
-        mem.w16(mem.ss_lin(sp), value & M16, STACK_AT)
+        self._pending.append((self.ss * 16 + sp, (value & M16).to_bytes(2, "little")))
         self.sp = sp
 
     def enter(self, size=0):
         """push bp; mov bp, sp; sub sp, size."""
-        self.push(self.bp)
+        bp = self.bp
+        self._bps.append(bp)
+        self.push(bp)
         self.bp = self.sp
         self.sp = self.sp - size
 
     def leave(self):
         """mov sp, bp; pop bp."""
-        mem = self._mem
         self.sp = self.bp
-        self.bp = mem.u16(mem.ss_lin(self.sp))
+        if self._bps:
+            self.bp = self._bps.pop()
+        else:                                          # after a guest call: the frame was written to memory
+            self.flush()
+            self.bp = self._mem.u16(self._mem.ss_lin(self.sp))
         self.sp = self.sp + 2
 
     def local8(self, off, value):
-        mem = self._mem
-        mem.w8(mem.ss_lin(self.bp + off), value & 0xFF, STACK_AT)
+        self._pending.append((self.ss * 16 + ((self.bp + off) & M16), bytes((value & 0xFF,))))
 
     def local16(self, off, value):
+        self._pending.append((self.ss * 16 + ((self.bp + off) & M16), (value & M16).to_bytes(2, "little")))
+
+    def flush(self):
+        """The stack words collected so far, written to memory in order (later writes win), one write per run of bytes."""
+        pend = self._pending
+        if not pend:
+            return
         mem = self._mem
-        mem.w16(mem.ss_lin(self.bp + off), value & M16, STACK_AT)
+        at = mem._at(STACK_AT)
+        if len(pend) == 1:
+            addr, data = pend[0]
+            mem._write(addr, len(data), int.from_bytes(data, "little"), at)
+        else:
+            lo = min(a for a, _ in pend)
+            hi = max(a + len(d) for a, d in pend)
+            buf = bytearray(hi - lo)
+            seen = bytearray(hi - lo)
+            for a, d in pend:
+                buf[a - lo:a - lo + len(d)] = d
+                seen[a - lo:a - lo + len(d)] = b"\x01" * len(d)
+            i, n = 0, hi - lo
+            while i < n:
+                if seen[i]:
+                    j = i
+                    while j < n and seen[j]:
+                        j += 1
+                    mem._write(lo + i, j - i, int.from_bytes(buf[i:j], "little"), at)
+                    i = j
+                else:
+                    i += 1
+        del pend[:]
 
     # -- flags -------------------------------------------------------------------------------------------------------
     def cld(self):
@@ -138,9 +206,13 @@ class Regs:
         self._v.clear()
         self._dirty.clear()
 
-    def store(self):
+    def store(self, stack=False):
+        """The stack words and the registers set, written to the machine. SP and BP only with stack=True (before a guest
+        call: PortFrame puts them back at the port's return)."""
+        self.flush()
         for name in self._dirty:
-            self._mem.set_reg(name, self._v[name])
+            if stack or (name != "sp" and name != "bp"):
+                self._mem.set_reg(name, self._v[name])
         self._dirty.clear()
         if self._flags_on or self._flags_off:
             f = self._mem.reg("eflags")
@@ -255,7 +327,7 @@ def _write_pstring(mem, seg, off, data, at_len, at_move):
 @PORTS.port("214B:0000", ret="retf 8")
 def fill_words(mem, variant):
     """u214b_fill_words(var dest; count; value): `rep stosw` of the value (0003-0010)."""
-    value, count, off, seg = mem.arg(0), mem.arg(1), mem.arg(2), mem.arg(3)
+    value, count, off, seg = args(mem, 4)
     R = Regs(mem)
     R.enter()                                                 # 0000
     R.cx, R.es = count, seg                                   # 0003, 0007
@@ -272,7 +344,7 @@ def fill_words(mem, variant):
 @PORTS.port("214B:0018", ret="retf 8")
 def fill_bytes(mem, variant):
     """u214b_fill_bytes(dest; count; value): words of the byte twice, then the odd byte (001B-0034)."""
-    value, count, off, seg = mem.arg(0), mem.arg(1), mem.arg(2), mem.arg(3)
+    value, count, off, seg = args(mem, 4)
     R = Regs(mem)
     R.enter()
     R.push(count)                                             # 001F push cx
@@ -298,10 +370,10 @@ def fill_bytes(mem, variant):
 def move_bytes(mem, variant):
     """u214b_move_bytes(src; dest; count): words, forward when SI > DI (offsets only, 0057), else backward (005B-0072);
     the odd byte first (the top one backward, the bottom one forward). The backward copy leaves DF set."""
-    n, doff, dseg, soff, sseg = mem.arg(0), mem.arg(1), mem.arg(2), mem.arg(3), mem.arg(4)
+    n, doff, dseg, soff, sseg = args(mem, 5)
     R = Regs(mem)
     R.enter()
-    R.push(mem.reg("ds"))                                     # 003F push ds
+    R.push(mem.DS)                                     # 003F push ds
     R.dx = n & 1                                              # 004C-004E
     R.ax = n                                                  # 0052
     words = n >> 1                                            # 0054
@@ -334,10 +406,10 @@ def move_bytes(mem, variant):
 @PORTS.port("214B:007B", ret="retf 0xa")
 def swap_bytes(mem, variant):
     """u214b_swap_bytes(a; b; count): exchanges count bytes between the two buffers; a count of 0 is 65536 (`loop`)."""
-    n, boff, bseg, aoff, aseg = mem.arg(0), mem.arg(1), mem.arg(2), mem.arg(3), mem.arg(4)
+    n, boff, bseg, aoff, aseg = args(mem, 5)
     R = Regs(mem)
     R.enter()
-    R.push(mem.reg("ds"))                                     # 007E push ds
+    R.push(mem.DS)                                     # 007E push ds
     R.cld()                                                   # 008B
     si, di = aoff, boff
     R.es = bseg
@@ -361,10 +433,10 @@ def swap_bytes(mem, variant):
 def upcase_string(mem, variant):
     """u214b_upcase_string(src; var dest): the length byte as it is, then at most min(length, 0x50) characters upper-cased
     (a-z minus 0x20); 0644 first clips the length to 0x50 into a local (009F-00B0), the copy reads the source again."""
-    soff, sseg, doff, dseg = mem.arg(0), mem.arg(1), mem.arg(2), mem.arg(3)
+    soff, sseg, doff, dseg = args(mem, 4)
     R = Regs(mem)
     R.enter(0x52)                                             # 009C-009F
-    ss = mem.reg("ss")
+    ss = R.ss
     local = (R.bp - 0x51) & M16
     sp0 = R.sp
     for w in (sseg, soff, ss, local, 0x50):                   # 00A2-00AF push es; push di; push ss; push di; push ax
@@ -374,14 +446,15 @@ def upcase_string(mem, variant):
     R.push(0x00B5)
     length = mem.u8(sseg * 16 + soff)                         # 0644 lodsb ... clipped to the maximum 0x50
     clipped = min(length, 0x50)
+    R.flush()
     _write_pstring(mem, ss, local, bytes([clipped]) + mem.read(sseg * 16 + ((soff + 1) & M16), clipped),
                    "23E4:065C", "23E4:0661")                  # the copy into the local
     R.bx = (R.sp) & M16                                       # 0645: SP at the call of 0644
     R.sp = sp0
     R.al = clipped                                            # 0656-065A
-    R.dx = mem.reg("ds")                                      # 0647
+    R.dx = mem.DS                                      # 0647
     R.cld()
-    R.push(mem.reg("ds"))                                     # 00B5 push ds
+    R.push(mem.DS)                                     # 00B5 push ds
     mem.w8(dseg * 16 + doff, length, "214B:00BF")             # 00BF movsb: the unclipped length byte
     count = R.al                                              # 00C0-00C2
     si, di = (soff + 1) & M16, (doff + 1) & M16
@@ -405,7 +478,7 @@ def unpack_screen(mem, R, soff, sseg, doff, dseg):
     0xA0 bytes. Header word = the 1-based first cell, then the rows and the columns as bytes; a byte 0xFF sets the
     attribute (AH) of the next characters, 0 repeats the last cell written (DX) a counted number of times."""
     R.enter()                                                 # 0147
-    R.push(mem.reg("ds"))                                     # 014A push ds
+    R.push(mem.DS)                                     # 014A push ds
     sbase = sseg * 16
     si = soff
     di = doff
@@ -460,7 +533,7 @@ def unpack_screen(mem, R, soff, sseg, doff, dseg):
 
 @PORTS.port("214B:0147", ret="retf 8")
 def unpack_screen_rle(mem, variant):
-    soff, sseg, doff, dseg = mem.arg(0), mem.arg(1), mem.arg(2), mem.arg(3)
+    soff, sseg, doff, dseg = args(mem, 4)
     R = Regs(mem)
     unpack_screen(mem, R, soff, sseg, doff, dseg)
     R.store()
@@ -477,7 +550,7 @@ def unpack_to_buffer(mem, R, voff, vseg, soff, sseg):
 
 @PORTS.port("214B:0329", ret="retf 8")
 def unpack_screen_to_buffer(mem, variant):
-    voff, vseg, soff, sseg = mem.arg(0), mem.arg(1), mem.arg(2), mem.arg(3)
+    voff, vseg, soff, sseg = args(mem, 4)
     R = Regs(mem)
     unpack_to_buffer(mem, R, voff, vseg, soff, sseg)
     R.store()
@@ -486,7 +559,7 @@ def unpack_screen_to_buffer(mem, variant):
 @PORTS.port("214B:05DB", ret="retf")
 def unpack_screen_796a_to_back(mem, variant):
     """05DB: the packed screen at DS:796A into the buffer DS:A96E points at (05DE-05E9)."""
-    ds = mem.reg("ds")
+    ds = mem.DS
     R = Regs(mem)
     R.enter()
     invoke(mem, R, 0x214B, 0x05EC, unpack_to_buffer, 0xA96E, ds, 0x796A, ds, pushes=(ds, 0x796A, ds, 0xA96E))
@@ -497,8 +570,8 @@ def unpack_screen_796a_to_back(mem, variant):
 @PORTS.port("214B:05F0", ret="retf 2")
 def unpack_screen_row_record(mem, variant):
     """05F0(row): DS:79A4 := (row - 1) * 0x50 + 1, then 05DB's unpack with that record as the source (05F6-061C)."""
-    row = mem.arg(0)
-    ds = mem.reg("ds")
+    row, = args(mem, 1)
+    ds = mem.DS
     R = Regs(mem)
     R.enter(4)                                                 # 05F0-05F3
     R.local16(-4, 0x79A4)                                      # 05FB
@@ -517,7 +590,7 @@ def rng_0688(mem, R, seed_off, seed_seg, n):
     """214B:0688(var seed; n) (0688-06AE): the seed word stepped and stored (069F), the draw 1..n in AX = DX."""
     R.enter(2)                                                 # 0688-068B
     sp0 = R.sp
-    R.push(mem.reg("ds"))                                      # 068E
+    R.push(mem.DS)                                      # 068E
     R.push(seed_seg)                                           # 0692 push ds (the seed's segment)
     R.push(seed_off)                                           # 0693 push si
     draw = rand(mem, n)                                        # 0694-06A5: the seed's far pointer is DS:A978 (06D6)
@@ -550,7 +623,7 @@ def draw_is_one(mem, R, n):
 def random_is_one(mem, variant):
     """u214b_random_is_one(n): 0688's draw 1..n; AL is 1 when it is 1 (06E3-06EC), AH and DX the draw's."""
     R = Regs(mem)
-    draw_is_one(mem, R, mem.arg(0))
+    draw_is_one(mem, R, args(mem, 1)[0])
     R.store()
 
 
@@ -588,6 +661,7 @@ def digits_to_es_di(mem, R, es, di, value):
     """23E4:11E4 (near, registers; 11E4-1235): the digits of DX:AX at ES:DI, CX their number. The caller's `call` has
     pushed the return address."""
     R.push(di)                                                 # 11E4 push di
+    R.flush()
     digits = long_to_digits(value)
     R.cld()
     for k, ch in enumerate(digits):
@@ -610,15 +684,16 @@ def sys_long_to_digits(mem, variant):
 def str_of_long_core(mem, R, mx, doff, dseg, width, low, high):
     """23E4:12F6 Str(value:width, s) into string[max] (12F6-133E)."""
     R.enter(0x20)                                              # 12F6-12F9
+    R.flush()
     local = (R.bp - 0x20) & M16
-    ss = mem.reg("ss")
+    ss = R.ss
     sp_frame = R.sp
     R.push(ss)                                                 # 1305 push ss; 1306 pop es
     R.sp = sp_frame
     R.push(0x130A)                                             # 1307 call 11E4
     digits = digits_to_es_di(mem, R, ss, local, (high << 16) | low)
     R.sp = sp_frame
-    R.push(mem.reg("ds"))                                      # 130A push ds
+    R.push(mem.DS)                                      # 130A push ds
     R.push(ss)                                                 # 130D push ss
     R.sp = R.sp + 2                                            # 130E pop ds
     text, pad = str_of_long(((high << 16) | low), width, mx)
@@ -644,7 +719,7 @@ def str_of_long_core(mem, R, mx, doff, dseg, width, low, high):
 @PORTS.port("23E4:12F6", ret="retf 0xc")
 def sys_str_of_long(mem, variant):
     """Str(value:width, s) into string[max] (12F6-133E)."""
-    mx, doff, dseg, width, low, high = (mem.arg(0), mem.arg(1), mem.arg(2), mem.arg(3), mem.arg(4), mem.arg(5))
+    mx, doff, dseg, width, low, high = args(mem, 6)
     R = Regs(mem)
     str_of_long_core(mem, R, mx, doff, dseg, width, low, high)
     R.store()
@@ -653,11 +728,11 @@ def sys_str_of_long(mem, variant):
 @PORTS.port("214B:09DA", ret="retf 4")
 def number_to_string(mem, variant):
     """u214b_number_to_string(value; var s: string[20]): Str(value:0, local), then s := local clipped to 20 (09DD-0A05)."""
-    low, high, doff, dseg = mem.arg(0), mem.arg(1), mem.arg(2), mem.arg(3)
+    low, high, doff, dseg = args(mem, 4)
     R = Regs(mem)
     R.enter(0x16)                                              # 09DA-09DD
     local = (R.bp - 0x15) & M16
-    ss = mem.reg("ss")
+    ss = R.ss
     sp0 = R.sp
     R.ax = 0                                                   # 09E6
     for w in (high, low, 0, ss, local, 0x14):                  # 09E0-09F1
@@ -682,7 +757,7 @@ def store_max_bytes(mem, R, data, dseg, doff, maxlen, sp_at_call):
     """23E4:0644 with the source a Pascal string held in Python (a local of the caller): the registers it leaves."""
     length = min(data[0], maxlen & 0xFF)
     R.al = length
-    R.dx = mem.reg("ds")
+    R.dx = mem.DS
     R.bx = sp_at_call & M16
     R.cld()
     mem.w8(dseg * 16 + doff, length, "23E4:065C")
@@ -707,7 +782,8 @@ def set_test(mem, R, value, k, variant=None):
 def set_test_bit(mem, variant):
     """u214b_set_test_bit(value; k): bit k - 1 of value."""
     R = Regs(mem)
-    set_test(mem, R, mem.arg(0), mem.arg(1), variant)
+    value, k = args(mem, 2)
+    set_test(mem, R, value, k, variant)
     R.store()
 
 
@@ -741,7 +817,7 @@ def set_exclude(mem, R, off, seg, k):
 @PORTS.port("214B:0C79", ret="retf 6")
 def set_include_bit(mem, variant):
     """u214b_set_include_bit(var set; k): Include."""
-    off, seg, k = mem.arg(0), mem.arg(1), mem.arg(2)
+    off, seg, k = args(mem, 3)
     R = Regs(mem)
     set_include(mem, R, off, seg, k)
     R.store()
@@ -750,7 +826,7 @@ def set_include_bit(mem, variant):
 @PORTS.port("214B:0CA1", ret="retf 6")
 def set_exclude_bit(mem, variant):
     """u214b_set_exclude_bit(var set; k): Exclude."""
-    off, seg, k = mem.arg(0), mem.arg(1), mem.arg(2)
+    off, seg, k = args(mem, 3)
     R = Regs(mem)
     set_exclude(mem, R, off, seg, k)
     R.store()
@@ -759,7 +835,7 @@ def set_exclude_bit(mem, variant):
 @PORTS.port("214B:0CCB", ret="retf 8")
 def set_assign_bit(mem, variant):
     """u214b_set_assign_bit(var set; k; include): Include when the byte [bp+6] is not 0, else Exclude (0CCE-0CEB)."""
-    flag, off, seg, k = mem.arg(0), mem.arg(1), mem.arg(2), mem.arg(3)
+    flag, off, seg, k = args(mem, 4)
     R = Regs(mem)
     R.enter()                                                   # 0CCB
     if flag & 0xFF:
@@ -773,7 +849,7 @@ def set_assign_bit(mem, variant):
 @PORTS.port("214B:0CF4", ret="retf 6")
 def set_toggle_bit(mem, variant):
     """u214b_set_toggle_bit(var set; k): xor the element's bit (0CF7-0D13)."""
-    off, seg, k = mem.arg(0), mem.arg(1), mem.arg(2)
+    off, seg, k = args(mem, 3)
     R = Regs(mem)
     R.enter()
     dx, mask = _mask_of(k)
@@ -790,7 +866,7 @@ def set_toggle_bit(mem, variant):
 def min_longint(mem, variant):
     """u214b_min_longint(a, b): the signed 32-bit minimum, a when equal... (0D22-0D4E): the high words compare signed, equal
     high words compare the low words unsigned; a wins when its high word is below, or equal with a low word not above."""
-    b_lo, b_hi, a_lo, a_hi = mem.arg(0), mem.arg(1), mem.arg(2), mem.arg(3)
+    b_lo, b_hi, a_lo, a_hi = args(mem, 4)
     R = Regs(mem)
     R.enter(4)                                                 # 0D1C-0D1F
     ha, hb = (a_hi, b_hi) if variant == "min-unsigned-high" else (s16(a_hi), s16(b_hi))
@@ -812,7 +888,7 @@ def min_longint(mem, variant):
 def max_longint(mem, variant):
     """u214b_max_longint(a, b): a wins when its high word is above (signed), or equal with its low word above (unsigned);
     a tie returns b (0D5C-0D88; T48's value model, runtime/model/longs.py)."""
-    b_lo, b_hi, a_lo, a_hi = mem.arg(0), mem.arg(1), mem.arg(2), mem.arg(3)
+    b_lo, b_hi, a_lo, a_hi = args(mem, 4)
     R = Regs(mem)
     R.enter(4)                                                 # 0D56-0D59
     ha, hb = (a_hi, b_hi) if variant == "max-unsigned-high" else (s16(a_hi), s16(b_hi))
@@ -868,6 +944,7 @@ def wrap_add(mem, v, lo, hi, delta, variant=None):
 def wrap_add_core(mem, R, off, seg, lo, hi, delta, variant=None):
     """214B:1C86 from its `push bp` (the caller pushed the arguments and the return address)."""
     R.enter()                                                   # 1C86
+    R.flush()
     v = mem.u16(seg * 16 + off)
     new, ax, dx, at, pushes = wrap_add(mem, v, lo, hi, delta, variant)
     sp0 = R.sp
@@ -884,7 +961,7 @@ def wrap_add_core(mem, R, off, seg, lo, hi, delta, variant=None):
 def wrap_add_in_range(mem, variant):
     """u214b_wrap_add_in_range(var v: word; lo, hi, delta): v := v + delta, wrapped inside [lo, hi]. The commentary ring's
     counter DS:80EE is written by its 1CBC and 1CF8 (match.py WRITERS)."""
-    delta, hi, lo, off, seg = mem.arg(0), mem.arg(1), mem.arg(2), mem.arg(3), mem.arg(4)
+    delta, hi, lo, off, seg = args(mem, 5)
     R = Regs(mem)
     wrap_add_core(mem, R, off, seg, lo, hi, delta, variant)
     R.store()
@@ -898,7 +975,7 @@ def wrap_add_byte(mem, R, off, seg, lo, hi, delta, variant=None):
     R.es, R.di = seg, off                                       # 1D75
     R.ax = v                                                    # 1D78-1D7B
     R.local16(-2, v)                                            # 1D7D
-    ss = mem.reg("ss")
+    ss = R.ss
     local = (R.bp - 2) & M16
     invoke(mem, R, 0x214B, 0x1D98, wrap_add_core, local, ss, lo & 0xFF, hi & 0xFF, delta, variant,
            pushes=(ss, local, lo & 0xFF, hi & 0xFF, delta))    # 1D80-1D95
@@ -912,7 +989,7 @@ def wrap_add_byte(mem, R, off, seg, lo, hi, delta, variant=None):
 @PORTS.port("214B:1D6F", ret="retf 0xa")
 def wrap_add_in_range_byte(mem, variant):
     """u214b_wrap_add_in_range_byte(var v: byte; lo, hi, delta): the byte through a word local and 1C86."""
-    delta, hi, lo, off, seg = mem.arg(0), mem.arg(1), mem.arg(2), mem.arg(3), mem.arg(4)
+    delta, hi, lo, off, seg = args(mem, 5)
     R = Regs(mem)
     wrap_add_byte(mem, R, off, seg, lo, hi, delta, variant)
     R.store()
@@ -921,7 +998,7 @@ def wrap_add_in_range_byte(mem, variant):
 @PORTS.port("214B:2000", ret="retf 8")
 def clamp_int(mem, variant):
     """u214b_clamp_int(var v: integer; lo, hi): signed, the lower bound first (2003-202B)."""
-    hi, lo, off, seg = mem.arg(0), mem.arg(1), mem.arg(2), mem.arg(3)
+    hi, lo, off, seg = args(mem, 4)
     R = Regs(mem)
     R.enter()                                                  # 2000
     R.es, R.di = seg, off
@@ -941,7 +1018,7 @@ def clamp_int(mem, variant):
 @PORTS.port("214B:2031", ret="retf 8")
 def clamp_byte(mem, variant):
     """u214b_clamp_byte(var v: byte; lo, hi): the signed byte compare (2034-205C)."""
-    hi, lo, off, seg = mem.arg(0), mem.arg(1), mem.arg(2), mem.arg(3)
+    hi, lo, off, seg = args(mem, 4)
     R = Regs(mem)
     R.enter()                                                  # 2031
     R.es, R.di = seg, off
@@ -963,10 +1040,10 @@ def clamp_byte(mem, variant):
 @PORTS.port("23E4:025D", ret="retf 0xa")
 def sys_move(mem, variant):
     """Move(src, dest, count): `rep movsb` forward (025D-0272); DX holds the DS value, BX the SP at the entry."""
-    n, doff, dseg, soff, sseg = mem.arg(0), mem.arg(1), mem.arg(2), mem.arg(3), mem.arg(4)
-    sp = mem.reg("sp")
+    n, doff, dseg, soff, sseg = args(mem, 5)
+    sp = entry_sp(mem)
     R = Regs(mem)
-    R.bx, R.dx = sp, mem.reg("ds")
+    R.bx, R.dx = sp, mem.DS
     R.cld()
     R.si, R.di = _copy_forward(mem, sseg, soff, dseg, doff, n, "23E4:026E")
     R.cx, R.es = 0, dseg
@@ -1057,10 +1134,10 @@ def sys_long_div(mem, variant):
 @PORTS.port("23E4:062A", ret="retf 4")
 def sys_str_store(mem, variant):
     """String assignment, no length limit (062A-0641): the length byte and that many characters."""
-    soff, sseg, doff, dseg = mem.arg(0), mem.arg(1), mem.arg(2), mem.arg(3)
-    sp = mem.reg("sp")
+    soff, sseg, doff, dseg = args(mem, 4)
+    sp = entry_sp(mem)
     R = Regs(mem)
-    R.bx, R.dx = sp, mem.reg("ds")
+    R.bx, R.dx = sp, mem.DS
     R.cld()
     length = mem.u8(sseg * 16 + soff)                          # 0637 lodsb
     R.al = length
@@ -1073,10 +1150,10 @@ def sys_str_store(mem, variant):
 @PORTS.port("23E4:0644", ret="retf 0xa")
 def sys_str_store_max(mem, variant):
     """String assignment to a string[max] (0644-0665): the length clipped to the low byte of max."""
-    mx, doff, dseg, soff, sseg = mem.arg(0), mem.arg(1), mem.arg(2), mem.arg(3), mem.arg(4)
-    sp = mem.reg("sp")
+    mx, doff, dseg, soff, sseg = args(mem, 5)
+    sp = entry_sp(mem)
     R = Regs(mem)
-    R.bx, R.dx = sp, mem.reg("ds")
+    R.bx, R.dx = sp, mem.DS
     R.cld()
     length = mem.u8(sseg * 16 + soff)                          # 0655 lodsb
     if length > (mx & 0xFF):                                   # 0656 cmp al, cl; 0658 jbe 065C
@@ -1114,10 +1191,10 @@ def str_copy(mem, R, sseg, soff, dseg, doff, index, count, at_len="23E4:06AD", a
 @PORTS.port("23E4:0676", ret="retf 8")
 def sys_str_copy(mem, variant):
     """Copy(s, index, count): the index raised to 1, the count limited to what remains (0676-06B4)."""
-    count, index, soff, sseg, doff, dseg = (mem.arg(0), mem.arg(1), mem.arg(2), mem.arg(3), mem.arg(4), mem.arg(5))
-    sp = mem.reg("sp")
+    count, index, soff, sseg, doff, dseg = args(mem, 6)
+    sp = entry_sp(mem)
     R = Regs(mem)
-    R.bx, R.dx = sp, mem.reg("ds")
+    R.bx, R.dx = sp, mem.DS
     str_copy(mem, R, sseg, soff, dseg, doff, index, count)
     R.store()
 
@@ -1140,10 +1217,10 @@ def str_concat(mem, R, sseg, soff, dseg, doff):
 @PORTS.port("23E4:06B7", ret="retf 4")
 def sys_str_concat(mem, variant):
     """Concatenation: the second string appended to the first, which saturates at 255 characters."""
-    soff, sseg, doff, dseg = mem.arg(0), mem.arg(1), mem.arg(2), mem.arg(3)
-    sp = mem.reg("sp")
+    soff, sseg, doff, dseg = args(mem, 4)
+    sp = entry_sp(mem)
     R = Regs(mem)
-    R.bx, R.dx = sp, mem.reg("ds")
+    R.bx, R.dx = sp, mem.DS
     str_concat(mem, R, sseg, soff, dseg, doff)
     R.store()
 
@@ -1152,10 +1229,10 @@ def sys_str_concat(mem, variant):
 def sys_str_pos(mem, variant):
     """Pos(sub, s) (06E3-072C): the 1-based index of the first match, 0 when there is none; an empty sub gives 1 for a
     non-empty s and 0 for an empty one; the scan reads s from its second byte on."""
-    s_off, s_seg, sub_off, sub_seg = mem.arg(0), mem.arg(1), mem.arg(2), mem.arg(3)
-    sp = mem.reg("sp")
+    s_off, s_seg, sub_off, sub_seg = args(mem, 4)
+    sp = entry_sp(mem)
     R = Regs(mem)
-    R.push(mem.reg("ds"))                                      # 06E6 push ds
+    R.push(mem.DS)                                      # 06E6 push ds
     R.sp = R.sp + 2                                            # 072B pop ds
     R.bx = sp
     R.cld()
@@ -1226,10 +1303,10 @@ def sys_str_pos(mem, variant):
 def sys_str_compare(mem, variant):
     """String comparison (072F-0758): the flags of `cmp` of the first against the second over the shorter length, then of
     the lengths. AL and AH are the two lengths."""
-    b_off, b_seg, a_off, a_seg = mem.arg(0), mem.arg(1), mem.arg(2), mem.arg(3)
-    sp = mem.reg("sp")
+    b_off, b_seg, a_off, a_seg = args(mem, 4)
+    sp = entry_sp(mem)
     R = Regs(mem)
-    R.bx, R.dx = sp, mem.reg("ds")
+    R.bx, R.dx = sp, mem.DS
     R.cld()
     la = mem.u8(a_seg * 16 + a_off)                            # 073C lodsb
     lb = mem.u8(b_seg * 16 + b_off)                            # 073D
@@ -1263,8 +1340,8 @@ def sys_str_compare(mem, variant):
 @PORTS.port("23E4:075A", ret="retf 2")
 def sys_char_to_str(mem, variant):
     """Char to string (075A-0769): length 1, then the character."""
-    ch, doff, dseg = mem.arg(0), mem.arg(1), mem.arg(2)
-    sp = mem.reg("sp")
+    ch, doff, dseg = args(mem, 3)
+    sp = entry_sp(mem)
     R = Regs(mem)
     R.bx = sp
     R.cld()
@@ -1310,7 +1387,8 @@ def _insert_delete_frame(mem, R, temp1, temp2, words):
     """The bytes the frame of 0787 / 07DB leaves: the two 256-byte temporaries as they end (the first, the result of
     the concatenations, the second, a Copy) and the words the calls pushed, the last write to each address (the
     sequences are in the listing: 07A3-07D2, 07FD-0828), as offsets from the stack pointer after `sub sp, 0x200`."""
-    ss = mem.reg("ss")
+    ss = R.ss
+    R.flush()
     sp = R.sp
     if temp2 is not None:
         _write_pstring(mem, ss, (R.bp - 0x200) & M16, temp2, "23E4:06AD", "23E4:06B0")
@@ -1323,10 +1401,10 @@ def _insert_delete_frame(mem, R, temp1, temp2, words):
 def sys_str_insert(mem, variant):
     """Insert(src, s, index) into a string[max] (0787-07D8): s := Copy(s, 1, index - 1) + src + Copy(s, index, 255),
     clipped to max by 0644. The two 256-byte temporaries are the routine's locals."""
-    index, mx, soff, sseg, rsoff, rsseg = (mem.arg(0), mem.arg(1), mem.arg(2), mem.arg(3), mem.arg(4), mem.arg(5))
+    index, mx, soff, sseg, rsoff, rsseg = args(mem, 6)
     R = Regs(mem)
     R.enter(0x200)                                             # 0787-078D
-    ss, cs = mem.reg("ss"), mem.seg(0x23E4)
+    ss, cs = R.ss, mem.seg(0x23E4)
     s = _pstr(mem, sseg, soff)
     src = _pstr(mem, rsseg, rsoff)
     first = _py_copy(s, 1, (index - 1) & M16)                  # 07A3 -> 0676 (s, 1, index - 1)
@@ -1346,14 +1424,14 @@ def sys_str_insert(mem, variant):
 def sys_str_delete(mem, variant):
     """Delete(s, index, count) (07DB-082E): nothing when count <= 0, else s := Copy(s, 1, index - 1) + Copy(s, index +
     count, 255) (the sum in 16 bits)."""
-    count, index, soff, sseg = mem.arg(0), mem.arg(1), mem.arg(2), mem.arg(3)
+    count, index, soff, sseg = args(mem, 4)
     R = Regs(mem)
     R.enter(0x200)                                             # 07DB-07E1
     if s16(count) <= 0:                                        # 07E2-07E6 jle 082B
         R.leave()
         R.store()
         return
-    ss, cs = mem.reg("ss"), mem.seg(0x23E4)
+    ss, cs = R.ss, mem.seg(0x23E4)
     s = _pstr(mem, sseg, soff)
     first = _py_copy(s, 1, (index - 1) & M16)                  # 07FD -> 0676
     rest = _py_copy(s, (index + count) & M16, 0xFF)            # 0817 -> 0676 (s, index + count, 255)
@@ -1370,9 +1448,9 @@ def sys_str_delete(mem, variant):
 @PORTS.port("23E4:08BF", ret="retf 0xa")
 def sys_set_compact(mem, variant):
     """Copies bl bytes of a set from byte bh on (08BF-08DC)."""
-    word, doff, dseg, soff, sseg = mem.arg(0), mem.arg(1), mem.arg(2), mem.arg(3), mem.arg(4)
+    word, doff, dseg, soff, sseg = args(mem, 5)
     R = Regs(mem)
-    R.dx = mem.reg("ds")
+    R.dx = mem.DS
     R.bx = word
     R.cld()
     R.si, R.di = _copy_forward(mem, sseg, soff + (word >> 8), dseg, doff, word & 0xFF, "23E4:08D8")
@@ -1384,8 +1462,8 @@ def sys_set_compact(mem, variant):
 @PORTS.port("23E4:19B2", ret="retf 2")
 def sys_upcase(mem, variant):
     """UpCase(c) (19B2-19C2): a-z minus 0x20."""
-    ch = mem.arg(0) & 0xFF
-    sp = mem.reg("sp")
+    ch = args(mem, 1)[0] & 0xFF
+    sp = entry_sp(mem)
     R = Regs(mem)
     R.bx = sp
     if 0x61 <= ch <= 0x7A:

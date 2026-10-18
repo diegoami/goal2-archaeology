@@ -63,6 +63,17 @@ def mutants(text):
                 yield i, code[:m.start()] + text_new + code[m.end():] + (("  #" + comment) if comment else ""), f"{m.group(1)} -> {text_new}"
 
 
+def run_fuzz(tmp, module):
+    """True when fuzz.py finds the mutated module different from the original (exit 1) or the run breaks."""
+    try:
+        p = subprocess.run([sys.executable, "-B", str(tmp / "experiments/E036-match-port/out/T60/fuzz.py"), "--module", module,
+                            "--n", "40", "--timeout", "1", "--cache", str(ROOT / ".cache" / "dl")], cwd=tmp,
+                           capture_output=True, text=True, env={"PATH": "/usr/bin:/bin", "HOME": str(tmp)}, timeout=300)
+    except subprocess.TimeoutExpired:
+        return True
+    return p.returncode != 0
+
+
 def run_tests(tmp, test):
     try:
         p = subprocess.run([sys.executable, "-B", "-m", "unittest", test.replace("/", ".")[:-3]], cwd=tmp,
@@ -76,15 +87,20 @@ def run_tests(tmp, test):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--module", choices=("runtime", "geometry"))
+    ap.add_argument("--fuzz", action="store_true", help="a mutant the hand-worked tests miss is run against the original "
+                    "(fuzz.py, 40 inputs per routine of the module): caught there or not")
     a = ap.parse_args()
     modules = [a.module] if a.module else ["runtime", "geometry"]
     base = ROOT / ".cache" / "tmp"
     base.mkdir(parents=True, exist_ok=True)
-    survivors = total = 0
+    survivors = total = fuzz_caught = 0
     with tempfile.TemporaryDirectory(dir=base) as d:
         tmp = Path(d)
         shutil.copytree(ROOT / "runtime" / "original_match", tmp / "runtime" / "original_match",
                         ignore=shutil.ignore_patterns("__pycache__"))
+        (tmp / "experiments/E036-match-port/out/T60").mkdir(parents=True)
+        for f in ("fuzz.py", "generators.py", "generators_geometry.py"):
+            shutil.copy(ROOT / "experiments/E036-match-port/out/T60" / f, tmp / "experiments/E036-match-port/out/T60" / f)
         (tmp / "tests").mkdir()
         for t in TESTS.values():
             shutil.copy(ROOT / t, tmp / t)
@@ -103,10 +119,15 @@ def main():
                     caught = not all(run_tests(tmp, t) for t in tests)
                     if not caught:
                         survivors += 1
-                        print(f"SURVIVED {FILES[module]}:{i + 1}: {what}: {lines[i].strip()[:110]}")
+                        by_fuzz = a.fuzz and run_fuzz(tmp, module)
+                        if by_fuzz:
+                            fuzz_caught += 1
+                        print(f"{'SURVIVED THE TESTS, CAUGHT BY THE FUZZ' if by_fuzz else 'SURVIVED'} {FILES[module]}:{i + 1}: "
+                              f"{what}: {lines[i].strip()[:110]}", flush=True)
             finally:
                 path.write_text(original)
-    print(f"{total} mutants, {total - survivors} caught, {survivors} survived")
+    print(f"{total} mutants, {total - survivors} caught by the hand-worked tests, {survivors} survived them"
+          + (f", of which {fuzz_caught} caught by the fuzz against the original, {survivors - fuzz_caught} by neither" if a.fuzz else ""))
     return 0
 
 
