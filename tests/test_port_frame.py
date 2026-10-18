@@ -238,6 +238,7 @@ class Harness:
             m.set_reg(reg, v)
         self.calls = []
         self.counts = {}
+        self.effects = {}                          # target -> fn(harness, words): what the real routine does to the memory
         for k, target in enumerate(self.targets):
             m.at(target, lambda replay, target=target, k=k: self.on_call(target, k, replay))
         self.inst = port.install(m, [(sub, variant)])
@@ -249,6 +250,9 @@ class Harness:
         words = tuple(self.m.stack_word((4 if far else 2) + 2 * i) for i in reversed(range(nargs)))   # in pushing order
         self.calls.append((target, words))
         n = self.counts[target] = self.counts.get(target, 0) + 1
+        effect = self.effects.get(target)
+        if effect is not None:
+            effect(self, words)
         script = self.script.get(target)
         if script is not None:                     # the AL the n-th call returns
             value = script(n) if callable(script) else script[min(n, len(script)) - 1]
@@ -435,10 +439,8 @@ class ClockTests(unittest.TestCase):
         self.assertEqual(h.ds(0x831D, size=2), 0x23)
 
 
-def wrap_add(h, replay, words):
+def wrap_add(h, words):
     """The effect of 214B:1C86 on the memory (the stub only returns): *ptr := *ptr + 1, wrapped into 1..200."""
-    if replay:
-        return
     seg, off = words[0], words[1]
     lin = seg * 16 + off
     value = int.from_bytes(h.m.read(lin, 2), "little")
@@ -728,6 +730,223 @@ class PlayMatchTests(unittest.TestCase):
         h.m.at("0791:9A32", lambda replay: replay or h.ds(0x9A3E, 1))
         h.run()
         self.assertEqual(h.names(), ["998C", "9955", "9A32"])
+
+
+def swap_bytes(h, words):
+    """214B:007B(far src, far dst, count): swap `count` bytes (the stub only returns)."""
+    (sseg, soff, dseg, doff, count) = words
+    a, b = sseg * 16 + soff, dseg * 16 + doff
+    x, y = h.m.read(a, count), h.m.read(b, count)
+    h.m.write(a, y)
+    h.m.write(b, x)
+
+
+def swap_squad_slots(h, words):
+    """0791:2218(parent BP): swap words j and k of the side's country record and the two bytes at DS:9B07 + 0x14 i + j, k
+    (the parent's i, j, k are at [bp-1], [bp-3], [bp-5])."""
+    bp = words[0]
+    ss = SS * 16
+    i = h.m.read(ss + bp - 1, 1)[0]
+    j = int.from_bytes(h.m.read(ss + bp - 3, 2), "little")
+    k = int.from_bytes(h.m.read(ss + bp - 5, 2), "little")
+    country = h.ds(0x9B34 + 2 * i, size=2)
+    base = OTHER * 16 + COUNTRIES + 0xBF * country
+    wj, wk = h.m.read(base + 2 * j - 2, 2), h.m.read(base + 2 * k - 2, 2)
+    h.m.write(base + 2 * j - 2, wk)
+    h.m.write(base + 2 * k - 2, wj)
+    bj, bk = h.m.DS * 16 + 0x9B07 + 0x14 * i + j, h.m.DS * 16 + 0x9B07 + 0x14 * i + k
+    x, y = h.m.read(bj, 1), h.m.read(bk, 1)
+    h.m.write(bj, y)
+    h.m.write(bk, x)
+
+
+@unittest.skipIf(Machine is None, "unicorn not installed")
+class CommentaryFlowTests(unittest.TestCase):
+    """1D4A with 1C78 (both ported), 1EB5 with 1E53, and the ring they keep."""
+
+    def machine(self, ports, args, start, **kw):
+        h = Harness(addresses(*ports), args=args, start=start, **kw)
+        h.effects["214B:1C86"] = lambda hh, words: wrap_add(hh, words)
+        h.ds(0x0668, 0)
+        h.ds(0x0669, 11)
+        h.ds(0x9B34, 3, 2)
+        h.ds(0x9B36, 4, 2)
+        h.ds(0xA917, COUNTRIES, 2)
+        h.ds(0xA919, OTHER, 2)
+        h.ds(0xA91B, PLAYERS, 2)
+        h.ds(0xA91D, OTHER, 2)
+        for country in (3, 4):
+            for i in range(20):
+                h.m.write(OTHER * 16 + COUNTRIES + 0xBF * country + 2 * i, (0x1000 * country + 0x10 * (i + 1)).to_bytes(2, "little"))
+        return h
+
+    def ring(self, h, n):
+        return h.m.read(h.m.DS * 16 + 0x7C38 + 6 * n, 6)
+
+    def line(self, side, p2, p1, code):
+        return (side, p2, p1, code)
+
+    def test_the_first_line_is_written_and_the_next_record_marked_empty(self):
+        h = self.machine(("1D4A", "1C78"), self.line(1, 3, 2, 7), "0791:1D4A")
+        h.run()
+        self.assertEqual(h.ds(0x80EE, size=2), 1)
+        # code 7, [bp+8] = 3 -> word 3 of country 4 (0x4030), [bp+6] = 2 -> word 2 (0x4020), side 1
+        self.assertEqual(self.ring(h, 1), bytes([7, 0x30, 0x40, 0x20, 0x40, 1]))
+        self.assertEqual(self.ring(h, 2)[0], 0xFF)
+        self.assertEqual(h.m.reg("ax") & 0xFF, 1)
+        self.assertEqual(h.ds(0x80F2 + 2, size=2), 1)      # the side's bar counter
+        self.assertEqual(h.names(), ["1C86", "1C86"])       # no 1C78 call (it is the port) and none before the first line
+        self.assertEqual(h.calls[0][1], (h.m.DS, 0x80EE, 1, 0xC8, 1))
+
+    def test_a_repeated_line_is_dropped(self):
+        h = self.machine(("1D4A", "1C78"), self.line(1, 3, 2, 7), "0791:1D4A")
+        h.ds(0x80EE, 4, 2)
+        h.m.write(h.m.DS * 16 + 0x7C38 + 24, bytes([7, 0x30, 0x40, 0x20, 0x40, 1]))
+        h.run()
+        self.assertEqual(h.ds(0x80EE, size=2), 4)
+        self.assertEqual(h.names(), [])
+        self.assertEqual(h.m.reg("ax") & 0xFF, 0)
+        self.assertEqual(h.ds(0x80F2 + 2, size=2), 0)
+
+    def test_a_different_line_after_the_first_is_written(self):
+        h = self.machine(("1D4A", "1C78"), self.line(0, 0, 4, 9), "0791:1D4A")
+        h.ds(0x80EE, 4, 2)
+        h.m.write(h.m.DS * 16 + 0x7C38 + 24, bytes([7, 0x30, 0x40, 0x20, 0x40, 1]))
+        h.run()
+        self.assertEqual(h.ds(0x80EE, size=2), 5)
+        self.assertEqual(self.ring(h, 5), bytes([9, 0, 0, 0x40, 0x30, 0]))        # side 0 is country 3: word 4 = 0x3040
+        self.assertEqual(self.ring(h, 6)[0], 0xFF)
+
+    def test_the_counter_wraps_and_the_next_record_is_the_first(self):
+        h = self.machine(("1D4A", "1C78"), self.line(0, 1, 1, 9), "0791:1D4A")
+        h.ds(0x80EE, 200, 2)
+        h.run()
+        self.assertEqual(h.ds(0x80EE, size=2), 1)
+        self.assertEqual(self.ring(h, 1)[0], 9)
+        self.assertEqual(self.ring(h, 2)[0], 0xFF)         # the wrapped copy: 1 + 1 = 2
+
+    def test_the_falsifier_ring_players_swapped_writes_each_players_word_in_the_others_slot(self):
+        h = self.machine(("1D4A", "1C78"), self.line(1, 3, 2, 7), "0791:1D4A", variant="ring-players-swapped")
+        h.run()
+        self.assertEqual(self.ring(h, 1), bytes([7, 0x20, 0x40, 0x30, 0x40, 1]))
+
+    def emit(self, line, **kw):
+        h = self.machine(("1EB5", "1E53", "1D4A", "1C78"), line, "0791:1EB5", **kw)
+        h.ds(0x0720 + 7, 3)                                # the delta of code 7: +3
+        rec = 0x80E8 + 0x16 * (11 + 3)                     # side 1's pitch slot 3
+        h.ds(rec + 0xD, 5, 2)
+        h.m.write(OTHER * 16 + PLAYERS + 0x14 * 5 + 0x12, (100).to_bytes(2, "little"))
+        h.ds(0x7C16, 0x1234, 2)
+        h.ds(0x7C18, 0x5678, 2)
+        h.rating = lambda: int.from_bytes(h.m.read(OTHER * 16 + PLAYERS + 0x14 * 5 + 0x12, 2), "little")
+        return h
+
+    def test_a_new_line_adds_the_rating_redraws_the_last_three_lines_and_copies_the_picture_pointer(self):
+        h = self.emit(self.line(1, 3, 2, 7))
+        h.ds(0x80EE, 4, 2)
+        h.run()
+        self.assertEqual(h.rating(), 103)
+        self.assertEqual(h.ds(0x80EE, size=2), 5)
+        self.assertEqual([c[1] for c in h.calls if c[0] == "0791:1829"], [(5, 4, 0x21), (4, 3, 0x21), (3, 2, 0x21)])
+        self.assertEqual((h.ds(0x7C26, size=2), h.ds(0x7C28, size=2)), (0x1234, 0x5678))
+        self.assertEqual((h.m.reg("ax"), h.m.reg("dx")), (0x1234, 0x5678))
+
+    def test_the_first_line_redraws_only_line_1(self):
+        h = self.emit(self.line(1, 3, 2, 7))
+        h.run()
+        self.assertEqual([c[1] for c in h.calls if c[0] == "0791:1829"], [(1, 4, 0x21)])
+
+    def test_a_repeated_line_still_counts_its_rating_but_draws_nothing(self):
+        h = self.emit(self.line(1, 3, 2, 7))
+        h.ds(0x80EE, 4, 2)
+        h.m.write(h.m.DS * 16 + 0x7C38 + 24, bytes([7, 0x30, 0x40, 0x20, 0x40, 1]))
+        h.run()
+        self.assertEqual(h.rating(), 103)
+        self.assertEqual(h.names(), [])
+        self.assertEqual(h.ds(0x7C26, size=2), 0)
+
+
+@unittest.skipIf(Machine is None, "unicorn not installed")
+class ResortTests(unittest.TestCase):
+    """230C: the eleven and the bench of both sides sorted by position code."""
+
+    def machine(self, eleven, bench=None, variant=None):
+        h = Harness(addresses("230C"), start="0791:230C", variant=variant)
+        h.effects["214B:007B"] = swap_bytes
+        h.effects["0791:2218"] = swap_squad_slots
+        h.ds(0x0668, 0)
+        h.ds(0x0669, 11)
+        h.ds(0x9B34, 3, 2)
+        h.ds(0x9B36, 4, 2)
+        h.ds(0xA917, COUNTRIES, 2)
+        h.ds(0xA919, OTHER, 2)
+        h.ds(0xA91B, PLAYERS, 2)
+        h.ds(0xA91D, OTHER, 2)
+        for side, country in enumerate((3, 4)):
+            for slot in range(1, 21):
+                pid = 100 * country + slot
+                h.m.write(OTHER * 16 + COUNTRIES + 0xBF * country + 2 * (slot - 1), pid.to_bytes(2, "little"))
+                if slot <= 11:
+                    position = eleven[side][slot - 1]
+                else:
+                    position = (bench or (list(range(12, 21)), list(range(12, 21))))[side][slot - 12]
+                h.m.write(OTHER * 16 + PLAYERS + 0x14 * pid + 6, bytes([position]))
+        return h
+
+    def test_one_out_of_order_pair_is_swapped_once_with_its_pitch_records_and_the_marked_slots(self):
+        eleven = ([5, 3] + list(range(6, 15)), list(range(1, 12)))
+        h = self.machine(eleven)
+        h.ds(0x830B, 2)                                    # the slot of position 2 of side 0
+        h.ds(0x830C, 1)
+        h.ds(0x830D, 7)
+        for slot in range(1, 23):
+            h.ds(0x80E8 + 0x16 * slot, slot)               # a mark on each record
+        h.run()
+        ds = h.m.DS
+        swaps = [c for c in h.calls if c[0] == "0791:2218"]
+        self.assertEqual(len(swaps), 1)
+        self.assertEqual([c[1] for c in h.calls if c[0] == "214B:007B"],
+                         [(0x0800, (swaps[0][1][0] + 2 - 0x13) & 0xFFFF, 0x0800, (swaps[0][1][0] + 1 - 0x13) & 0xFFFF, 1),
+                          (ds, 0x80E8 + 0x16 * 2, ds, 0x80E8 + 0x16 * 1, 0x16)])
+        self.assertEqual((h.ds(0x830B), h.ds(0x830C), h.ds(0x830D)), (1, 2, 7))         # followed their players
+        self.assertEqual([h.ds(0x80E8 + 0x16 * s) for s in (1, 2)], [2, 1])               # the two records swapped
+        first_two = [int.from_bytes(h.m.read(OTHER * 16 + COUNTRIES + 0xBF * 3 + 2 * k, 2), "little") for k in (0, 1)]
+        self.assertEqual(first_two, [302, 301])                                          # the squad words swapped by 2218
+        binds = [c[1] for c in h.calls if c[0] == "0791:A260"]
+        self.assertEqual(binds, [(s, ds, 0x80E8 + 0x16 * s) for s in range(1, 23)])
+        self.assertEqual(h.names()[-4:], ["3EF8", "0691", "20E3", "419C"])
+        self.assertEqual((h.ds(0x8109, size=2), h.ds(0x81FB, size=2)), (0, 0))
+
+    def test_the_unavailable_sort_last(self):
+        eleven = (list(range(1, 12)), list(range(1, 12)))
+        h = self.machine(eleven)
+        h.script["1771:3216"] = lambda n: 1 if n == 1 else 0       # side 0's first player is unavailable: code 0xE
+        h.run()
+        swaps = [c for c in h.calls if c[0] == "0791:2218"]
+        self.assertEqual(len(swaps), 10)                    # 0xE goes to the end by one swap per step... of the 10 (k=1) passes
+        positions = [h.m.read(OTHER * 16 + PLAYERS + 0x14 * int.from_bytes(h.m.read(OTHER * 16 + COUNTRIES + 0xBF * 3 + 2 * k, 2), "little") + 6, 1)[0]
+                     for k in range(11)]
+        self.assertEqual(positions, [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 1])          # sorted on the codes; 3216's own flag is not in the player
+
+    def test_the_bench_is_sorted_by_the_players_own_position(self):
+        bench = ([20, 19, 18, 17, 16, 15, 14, 13, 12], [12] * 9)
+        h = self.machine((list(range(1, 12)), list(range(1, 12))), bench=bench)
+        h.run()
+        pids = [int.from_bytes(h.m.read(OTHER * 16 + COUNTRIES + 0xBF * 3 + 2 * k, 2), "little") for k in range(11, 20)]
+        positions = [h.m.read(OTHER * 16 + PLAYERS + 0x14 * p + 6, 1)[0] for p in pids]
+        self.assertEqual(positions, sorted(positions))
+        self.assertGreater(len([c for c in h.calls if c[0] == "0791:2218"]), 0)
+
+    def test_equal_codes_are_not_swapped_but_the_falsifier_sort_ties_swaps_them(self):
+        eleven = ([4] * 11, [4] * 11)
+        self.assertEqual([c for c in self.run_calls(eleven) if c == "0791:2218"], [])
+        tied = [c for c in self.run_calls(eleven, "sort-ties") if c == "0791:2218"]
+        self.assertEqual(len(tied), 2 * 55)                 # every pair k < j of both sides
+
+    def run_calls(self, eleven, variant=None):
+        h = self.machine(eleven, variant=variant)
+        h.run()
+        return [c[0] for c in h.calls]
 
 
 if __name__ == "__main__":
