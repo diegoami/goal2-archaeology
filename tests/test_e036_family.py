@@ -45,9 +45,10 @@ IMAGE_FILE = ROOT / ".cache/dl/e0afff6751747233-e006-1000-r0001.sav"
 # the kit version it was last compared with, and why the records still stand). A declaration holds for exactly those two
 # versions: the next VERSION bump fails the check below until someone compares again and edits the second one (#316).
 DECLARED_KIT_VERSIONS = {
-    "experiments/E036-match-port/out/T57/reference.jsonl": ("2", "3", "T58 moved VERSION to 3 (a saved match names its "
-                                                            "ports); the two matches of the real-match test below play "
-                                                            "the same records but for `kit`"),
+    "experiments/E036-match-port/out/T57/reference.jsonl": ("2", "4", "T69 moved VERSION to 4 for replay of live port "
+                                                            "frames; the two-worker real-match comparison rerun on "
+                                                            "2026-10-18 matches every field except cpu_s, wall_s and kit "
+                                                            "(out/T69/kit4-reference-comparison-aebd9c0.txt)"),
 }
 
 

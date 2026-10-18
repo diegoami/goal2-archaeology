@@ -1,0 +1,7 @@
+test_two_workers_play_two_matches_the_same_as_the_reference (tests.test_e036_family.OneRealMatch.test_two_workers_play_two_matches_the_same_as_the_reference)
+--workers 2 (run as the script, since a worker process imports it by name): two processes, one match at a ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 3.740s
+
+OK
