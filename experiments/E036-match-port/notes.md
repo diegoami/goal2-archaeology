@@ -54,6 +54,14 @@ family names its own reference (the unhooked kit), so a family added later bring
 - `python3 -B experiments/E036-match-port/locate.py --family ALL --candidate <file> --match <id>`: the first differing
   minute, then the first differing call of a ported routine, proved side by side (T59).
 
+**Heavy jobs (#318).** A match run is a heavy job: `family.py` (and `check.py`, `--find-ranges` included) waits for a
+slot of `tools/harness/heavy.sh` as its first act, so at most two run at a time on the machine, across every agent and
+review (harness.json `heavy.slots`), and `--workers 2` holds two slots. It prints `heavy: family: waiting for a slot
+(k ahead)` while it queues and then runs unchanged; inside another heavy job it runs at once. To name the slot or
+run anything else in it: `tools/harness/heavy.sh <name> -- <command>` (a review has `heavy.sh` on its PATH);
+`heavy.sh --status` lists the slots and the queue. The old line "at most one match process at a time" in briefs
+is this rule: do not start a second family run by hand beside the lock. docs/environment.md "Heavy jobs".
+
 A family is a file under `families/` (`F40.json`, `O8.json`, `S.json`; `families.py` documents the format): its matches
 (fixture, managed side, seed, declared edits of the records, answer policy) and the path of its reference log. A new
 family or scenario is a new file there, found with no list to edit; a policy a scenario needs that `families.py` does

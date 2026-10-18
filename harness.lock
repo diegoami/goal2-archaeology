@@ -21,17 +21,17 @@ behavioural+static, research protocol, routing, static-first)
 adapt docs/process.md  (§4 static-first line and §5 gate G0a (U32); §1 reviewer row: Sol at effort low for
 complex tasks, GPT-5.6 Luna for small PRs (L101); §2 milestones (L102, upstream's L58 is this lesson
 promoted); §3 the brief by file (L60), detached launch and the watch, push every 20 min and draft PRs
-(L103); §5 run mechanics and the stop rule after two one-blocker rounds; §13 the named view (T20); §5 scratch files go to ~/goal2-review-tmp, never /tmp (#311))
+(L103); §5 run mechanics and the stop rule after two one-blocker rounds; §13 the named view (T20); §5 scratch files go to ~/goal2-review-tmp, never /tmp (#311); §4 and §5 heavy jobs run through tools/harness/heavy.sh, and the idle limit does not count queue time (#318))
 adapt docs/lessons.md  (upstream L1-L60, then this project's L100-L103)
 adapt harness.json  (this project's models: zai-glm-5.3-flash, zai-glm-5.3 (low), gpt-6.1-sol (low); the
 owner's ali-* and mm-* entries with probes and pricing (2026-10-05/06), the owner's placements of
 2026-10-06 evening (implementer chain + mm-m2.7, ali-qwen-flash; reviewer.hard = zai-glm-5.3, ali-glm,
 ali-qwen-max, deepseek-pro, ali-deepseek-pro-0813, luna; mm-m3 the L38 rung and alternate Sol seat);
-chains and jev decisions otherwise as the template's, including the template's new blocks-release)
+chains and jev decisions otherwise as the template's, including the template's new blocks-release; heavy.slots, the number of heavy jobs at a time for tools/harness/heavy.sh (#318, 2026-10-18))
 adapt docs/environment.md  (Ghidra 12.1.4 and the JDK in ~/tools (T18, T20); the Alibaba Token Plan and
-MiniMax section with the registration table, pricing and the owner's placements (2026-10-06))
+MiniMax section with the registration table, pricing and the owner's placements (2026-10-06); the Heavy jobs section: tools/harness/heavy.sh, its slots, its users and the reviewer's idle clock (#318, 2026-10-18))
 adapt docs/tasks/README.md  (this repository's task index)
-adapt .claude/agents/implementer.md  (the implementer subagent of CLAUDE.md "Choosing models" (8dc4dc1, #149, 2026-10-12); L106/L107 (a01ff27); L110: a subagent never ends a turn to wait (4567bbf, #219, 2026-10-15); #303: the pin was stale, now recorded)
+adapt .claude/agents/implementer.md  (the implementer subagent of CLAUDE.md "Choosing models" (8dc4dc1, #149, 2026-10-12); L106/L107 (a01ff27); L110: a subagent never ends a turn to wait (4567bbf, #219, 2026-10-15); #303: the pin was stale, now recorded; #318: a heavy job runs through tools/harness/heavy.sh)
 adapt .claude/agents/reviewer.md  (rule 9a: undo a mutation by rewriting the saved file, 2026-10-11)
 b129ad9bd8133fe5f6b3c6590efc2bc61d9a57c1bea3f29c1deee6f9166da1e2  .claude/hooks/session-start.sh
 9d2227215dcf47b9dc7c41d5c9b7f8c5b79dd962c3fb8c3f8f625032fa5eefae  .claude/settings.json
@@ -44,7 +44,7 @@ adapt .opencode/agents/implementer.md  (/tmp open to the agent, the owner 2026-1
 adapt .opencode/agents/reviewer.md  (rule 9a: undo a mutation by rewriting the saved file; /tmp open to the agent, 2026-10-11; ~/goal2-review-tmp open to the agent as the scratch folder on the real disk, #311, 2026-10-17)
 c6ffaa08eb490d11e8f208b7f8ec7a1e291d55c3cee01e58aa84466fe1983f89  docs/jev/blocks-release.md
 46c4f6e3ca23871e59c25366e8acf9818e43113546f0cd107571ae110f6c10cb  docs/jev/breaks-play.md
-adapt docs/review-brief.md  (reviewer run mechanics: idle limit 1500 s, total 5400 s, a long suite is expected (6ce65fc, #261, 2026-10-17); scratch space: the run's folder under ~/goal2-review-tmp, never /tmp (#311, 2026-10-17); offline tests: gh retry and network tests skip visibly (9806b0b, #293, 2026-10-17); #303: the pin was stale, now recorded)
+adapt docs/review-brief.md  (reviewer run mechanics: idle limit 1500 s, total 5400 s, a long suite is expected (6ce65fc, #261, 2026-10-17); scratch space: the run's folder under ~/goal2-review-tmp, never /tmp (#311, 2026-10-17); offline tests: gh retry and network tests skip visibly (9806b0b, #293, 2026-10-17); heavy jobs: heavy.sh by name, a queue is not a hang, a family run detached (#318, 2026-10-18); #303: the pin was stale, now recorded)
 4f1b39c9bc3a6131866898c068aa06f46ae39a096de178fcc65ac3aedf1dd78d  docs/tasks/TEMPLATE.md
 518ad06ab39fdd22407b864ba878acf404ffe9dac5a8e9b19b4d44b574fe6342  tools/harness/guard.mjs
 adapt tools/harness/peek.sh  (new: an OpenCode run's latest steps, from isle-wars-archaeology d1e0082, 2026-10-11)
@@ -56,12 +56,13 @@ adapt tools/harness/lib/common.mjs  (native Codex session-family detection)
 2020f3a9dc6295089dde3481f2c08bce6d924fa031dffee1e68b6e0ce884e34a  tools/harness/lib/jail.mjs
 b65cc055307ca29a94c1f882262395737af1ae776b3561bd32d187740622b9af  tools/harness/lib/jev.mjs
 a6bf727222667a4c1744a8d01206e3fd36208203d80df117ff1216e08339ecf7  tools/harness/lib/models.mjs
-adapt tools/harness/lib/opencode.mjs  (the user chooses models, the owner 2026-10-11)
+adapt tools/harness/lib/opencode.mjs  (the user chooses models, the owner 2026-10-11; #318: runOpenCodeWatched takes queueFile, and the idle clock counts from the later of the session's last update and the file's last touch, so time a reviewer's command waits for a heavy-job slot is not idle time)
 adapt tools/harness/lib/post.mjs  (#311: postComment and publish take a directory for the comment's body file and, from review.mjs, the kept file of the finished review as the body, so the post reads a file already on the scratch disk; protects the post from a full /tmp, not from a failed gh call, which keeps the file)
+adapt tools/harness/heavy.sh  (new: #318, 2026-10-18: N slots (harness.json heavy.slots, two) for heavy jobs across every agent, review and worktree, taken with flock on files under ~/.cache/goal2-heavy; a first-come-first-served queue that says "waiting for a slot (k ahead)"; a nested heavy.sh takes no slot; --weight, --status; touches HARNESS_HEAVY_QUEUE_FILE while it waits; tested by tools/harness/heavy.test.mjs and tests/test_heavy_slot.py)
 adapt tools/harness/lib/scratch.mjs  (new: exclusive no-follow creation of the harness's files (openFresh, #311 round 2); the reviewer's scratch folder ~/goal2-review-tmp on the real disk, the space check, and the check that every folder the harness writes in is on a non-RAM filesystem by its resolved path (#311, 2026-10-17))
 66379ce8b5620f13ac48634a9f54e1eabfd6f451c06161219f6883b541bd3452  tools/harness/lib/review-selftest.mjs
 adapt tools/harness/lib/switch.mjs  (the roster, the session's family and the dispatch settings of CLAUDE.md "Choosing models" (8dc4dc1, #149, 2026-10-12); --ask and --review-kind (9933d32, #185, 2026-10-13); the partial bump to 610f979 (d09c12a); #303: the pin was stale, now recorded)
 bf717caa54364e8e56a50bab0f07d0212b8300992bc0ad3629cf097ef58e4845  tools/harness/models.mjs
 adapt tools/harness/post-review.mjs  (#264: readReview gets { doneWhen }, so a loose-header recovery's note carries the Done-when accounting, as review.mjs's does; #311: the comment's body file goes under ~/goal2-review-tmp-harness, created exclusively without following symlinks)
-adapt tools/harness/review.mjs  (the user chooses models, the owner 2026-10-11; #311: TMPDIR, TMP and TEMP point at the run's folder under ~/goal2-review-tmp, removed when the run comes back and kept when it fails; OpenCode's logs and the finished review are written under ~/goal2-review-tmp-harness (a sibling outside the reviewer's grant, files created with O_EXCL and O_NOFOLLOW), the review before it is posted, so a full /tmp loses neither; roots resolving to tmpfs are refused; a review is refused when /tmp has under 500 MB free and that disk under 2 GB)
+adapt tools/harness/review.mjs  (the user chooses models, the owner 2026-10-11; #311: TMPDIR, TMP and TEMP point at the run's folder under ~/goal2-review-tmp, removed when the run comes back and kept when it fails; OpenCode's logs and the finished review are written under ~/goal2-review-tmp-harness (a sibling outside the reviewer's grant, files created with O_EXCL and O_NOFOLLOW), the review before it is posted, so a full /tmp loses neither; roots resolving to tmpfs are refused; a review is refused when /tmp has under 500 MB free and that disk under 2 GB; #318: tools/harness is first on the reviewer's PATH so heavy.sh runs by name, an inherited HARNESS_HEAVY_HELD is cleared, HARNESS_HEAVY_QUEUE_FILE (a file under ~/goal2-review-tmp-harness) is the queue heartbeat the idle clock reads, and the output rules name heavy.sh)
 adapt tools/harness/switch-model.mjs  (the same changes as lib/switch.mjs: #149, #185, the partial bump d09c12a; #303: the pin was stale, now recorded)

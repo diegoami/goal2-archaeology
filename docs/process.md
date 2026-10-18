@@ -149,6 +149,9 @@ You implement <T<nn>>. The task file above is the contract.
 - A defect you find outside the task: report it. A one-file mechanical fix that blocks you may
   ride this PR, declared under Scope in the PR body.
 - Update any document your change makes wrong, in this PR. Never write status into a document.
+- A heavy job (a match run, a family run, check.py, the unit suite) runs as `tools/harness/heavy.sh <name> -- <command>`:
+  two at a time on this machine across every agent and review, the rest queue and say "waiting for a slot (k ahead)"
+  (docs/environment.md "Heavy jobs"). family.py, check.py and `tools/ci_gate.py run-tests` queue themselves.
 - Commit and push after each step, at least every 20 minutes and before any command that runs longer
   than 5 minutes; after your first push, open the PR as a draft (`gh pr create --draft`). A crash then
   loses one step, and the branch shows where you are. (L103)
@@ -196,7 +199,7 @@ Research briefs here also add, under "Blocking means": G0a (U32, CLAUDE.md rule 
 because a static tool was missing, or a finding resting on runs whose Method does not say what
 static analysis was tried, is a contract defect: rework.
 
-Run mechanics, added to every brief here: the session is killed after 1500 s without activity; keep
+Run mechanics, added to every brief here: the session is killed after 1500 s without activity (a command waiting for a slot in `tools/harness/heavy.sh` is not counted: `review.mjs` gives the reviewer `heavy.sh` on its PATH and the idle clock reads the queue, #318; docs/environment.md "Heavy jobs"); keep
 every shell command under 5 minutes (a long suite excepted: one foreground call, `docs/review-brief.md`), and work only inside the review worktree and, for scratch files, the run's folder under `~/goal2-review-tmp` (`review.mjs` sets `TMPDIR` there, removes it when the run comes back and keeps it when the run fails; it refuses to start when `/tmp` has under 500 MB free and that disk under 2 GB; #311). Undo a mutation by
 writing back the file's saved contents (read it first, restore it in a `finally`), never with
 `git checkout`, `git restore` or `git reset` of the file: those return the last commit and destroy
