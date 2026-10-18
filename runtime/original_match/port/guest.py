@@ -17,7 +17,8 @@ routine that does not, the port's frame then dropping them as the listing's `add
 inside the call stops the match as anywhere else and the match goes on exactly when it is answered; the port goes on
 only from the callee's return, never from a stop (the hazard of a nested emulation, which this design does not use).
 
-While a port frame waits, the match cannot be saved (Match.save refuses: a Python frame is not in the guest's memory).
+While a port frame waits, Match.save records an origin checkpoint and public actions; Match.load replays them to
+reconstruct the Python generators and checks the entire resulting guest and kit state against the saved checkpoint.
 A port that makes no call is a plain function, as in T58."""
 import inspect
 

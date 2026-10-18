@@ -158,15 +158,15 @@ knockout example, penalties watched and as quick results, one decided in extra t
 `sending_off`, `injury`, `substitution`, `half_time`, `full_time`, `decision`, `tactics`, `position`,
 `player_tactics`, `substitution_requested`, `refused`, `end`, `tick`, `extra_time`, `shootout` and `shootout_kick`
 (E034 `save_boundaries_competitive.py`: three competitive scenarios, every boundary, the extra-time decisions and the
-shoot-out order before and after their answers). A saved match of kit version 1 is refused by versions 2 and 3;
-version 3 (the port mode: a save names its ports) loads a version 2 save as a match without ports. `save()` accepts all of them, a `decision`
+shoot-out order before and after their answers). Kit version 4 loads version 2 and 3 saves, and refuses version 1.
+Version 2 saves load without ports. `save()` accepts all of them, a `decision`
 before `answer()` included (the loaded match has `m.waiting` set: answer it, as the original is still asking; taking
 the next event unanswered plays on) and after it, and events queued but not yet taken are saved with it. Straight and
 resumed are the same match: the remaining events (kind, minute, score, data) and the result are equal. No boundary is
 refused on purpose. `save()` still raises `MatchError("save between events, not while the kit drives a screen")` if
 called while the kit is inside one of the original's team screens, which goal2 cannot reach, as no event is taken
-from `events()` in the middle of a screen. Only in the port mode (T59, "Ports" below) does it refuse a boundary: an
-event taken while a port's frame waits on a call of the original's code, and a proved match. The check (E033 `save_boundaries.py`) saves and resumes at the first
+from `events()` in the middle of a screen. A proved match is still refused. Live port frames are reconstructed
+by replay on load ("Ports" below). The check (E033 `save_boundaries.py`) saves and resumes at the first
 event of every kind a run yields, at every decision before and after its answer and at the last event, over seven
 scenarios (two fixtures, goal2 managing the other country, an injury run, a run with sendings off, a pause with
 every kind of answer and a refused eleven, a quick result with `tick` events).
@@ -246,7 +246,7 @@ What the kind changes, all the original's own code (E034 notes):
 
 **For goal2: nothing changes until it passes `ports`.** Without `ports` the kit runs only the original's code, as
 before; the folder `port/` comes along when you vendor the kit and does nothing unless named. What the port mode
-changed that goal2 sees anyway: `VERSION` is 3 (a save names its ports; a version 2 save still loads), and
+changed that goal2 sees anyway: `VERSION` is 4 (live port frames use replay on load; version 2 and 3 saves still load), and
 Machine's write hooks go through `Machine.on_write`.
 
 `Match(..., ports=["pilot"])` runs Python translations of the original's routines (goal2-archaeology's E036, route
@@ -283,11 +283,15 @@ changed or stopped; a step a port stops FAILs and the next steps still run).
   `push cs; call near`). The callee runs as guest code: the kit's hooks fire in it, its writes and draws reach the kit,
   a ported callee runs as its port, and the port resumes, with the callee's AX, when the guest reaches `ret_to` with the
   stack where the call left it. A decision the kit stops for inside the call stops the match as anywhere else
-  (`Match.port_frames()` names the waiting frames) and the match goes on exactly once it is answered; `save()` refuses
-  with `MatchError` while a port's frame waits. A port that calls nothing is a plain function, as before.
+  (`Match.port_frames()` names the waiting frames) and the match goes on exactly once it is answered.
+  Saving a live port frame includes an initial checkpoint and the sequence of public `answer()` and `pause()` calls
+  at their event boundaries. Loading replays from that checkpoint to reconstruct the suspended Python generators;
+  it repeats the match up to the save point, increasing load time and save size. It checks every memory byte,
+  register, kit state and pending call against the saved state, raising `MatchError` on divergence. This requires
+  deterministic ports and public inputs; private machine/state edits after play starts are unsupported.
+  A port that calls nothing is a plain function, as before.
   With the frame module (`port/frame.py`, T69: play_match, the halves, the tick loop, the sweep, the clock) installed,
-  those ports' frames wait for the whole of play, so `save()` is possible only before `play_match` and after it, not
-  at a pause or a decision in between.
+  those ports' frames wait for the whole of play; replay permits saving at pauses and decisions in between.
 - **The proof** (T59, `port/prove.py`): `Match(..., ports=[...], prove=N)` runs every call of a ported routine from
   the main RNG's N-th draw on side by side with the original's (E021's rule). The port runs first, live (it is the
   match: its decisions are asked and answered once), recording its writes and every kit site it reaches; then it is

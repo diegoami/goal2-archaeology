@@ -1141,7 +1141,7 @@ class LocatorTests(unittest.TestCase):
         for ports, variant in (("nosuch", None), (None, "pilot.nosuch"), (None, "pilot"), ("guest", None)):
             with self.assertRaises(family.Refused, msg=f"{ports} {variant}"):
                 family.port_specs(ports, variant)
-        self.assertEqual(port.available(), ["pilot", "restarts"])        # the machinery is no port module
+        self.assertEqual(port.available(), ["frame", "pilot", "restarts"])  # the machinery is no port module
 
     def test_a_log_of_other_ports_is_refused(self):
         import tempfile
