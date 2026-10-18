@@ -1,0 +1,16 @@
+{
+  "head": "08f19be",
+  "main_baseline": "ab2704a (T69/main-human-baseline-ab2704a.txt)",
+  "summary": [
+    "Ran 1484 tests in 738.654s",
+    "FAILED (failures=6, errors=46, skipped=17)"
+  ],
+  "baseline_count": 51,
+  "baseline_missing": [],
+  "additional_failures": [
+    [
+      "FAIL",
+      "test_the_ports_options (test_port_guest.LocatorTests.test_the_ports_options)"
+    ]
+  ]
+}
