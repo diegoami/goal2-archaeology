@@ -36,8 +36,9 @@ def main(argv):
         print(f"{a:10} " + " ".join(f"{c:>22}" for c in cells) + f"   {total:>9}   " + (", ".join(none) if none else "-"))
     if len(logs) > 1:
         second = logs[1]
-        bad = [mid for mid in first if mid in second and first[mid]["counts"] != second[mid]["counts"]]
-        print("counts equal in the second log:", "all" if not bad else f"NOT for {bad}")
+        shared = lambda r, other: {a: n for a, n in r["counts"].items() if a in other["counts"]}      # noqa: E731
+        bad = [mid for mid in first if mid in second and shared(first[mid], second[mid]) != shared(second[mid], first[mid])]
+        print("counts equal in the second log (the addresses both counted):", "all" if not bad else f"NOT for {bad}")
     for mid, r in sorted(first.items()):
         calls = r.get("port_calls")
         if calls:
