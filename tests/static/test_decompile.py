@@ -67,6 +67,8 @@ class GhidraMappingTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.work = ghidra_work.new_work_dir("mapping-test")  # Ghidra rejects a dotted project path (#315)
+        # tearDownClass does not run when this method fails; a class cleanup does
+        cls.addClassCleanup(shutil.rmtree, cls.work, ignore_errors=True)
         exe = cls.work / "goal.exe"
         subprocess.run([sys.executable, str(ROOT / "tools" / "static" / "unlzexe.py"), str(EXE), str(exe)],
                        check=True, capture_output=True)
@@ -90,10 +92,6 @@ class GhidraMappingTests(unittest.TestCase):
             cls.rows[addr] = dict(ghidra=ghidra, name=name, bytes=hexbytes,
                                   calls=set(filter(None, calls.split(","))),
                                   data=set(filter(None, data.split(","))))
-
-    @classmethod
-    def tearDownClass(cls):
-        shutil.rmtree(cls.work, ignore_errors=True)
 
     def listing_bytes(self, addr: str, n: int = 8) -> str:
         seg, off = (int(x, 16) for x in addr.split(":"))

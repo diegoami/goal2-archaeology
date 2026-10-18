@@ -22,13 +22,21 @@ import ghidra_work  # noqa: E402
 from test_decompile import EXE  # noqa: E402  (the released GOAL.EXE, or None)
 
 STUB = """#!/bin/sh
-# stands in for Ghidra's analyzeHeadless: $1 is the project folder
+# stands in for Ghidra's analyzeHeadless: $1 is the project folder; records what it was given
 case "/$1/" in
   */.*) echo "ERROR Abort due to Headless analyzer error: Path element starting with '.' is not permitted" >&2; exit 1 ;;
 esac
-echo "$1" > "$STUB_RECORD"
+{
+  echo "PROJECT=$1"
+  echo "TMPDIR=$TMPDIR"
+  echo "TMP=$TMP"
+  echo "TEMP=$TEMP"
+  shift
+  for a in "$@"; do echo "ARG=$a"; done
+} > "$STUB_RECORD"
 exit 1
 """
+NOOP_CHECK = "import sys\nsys.exit(0)\n"  # stands in for check_annotations.py, which is not under test here
 FAKE_JAVA = """#!/bin/sh
 echo 'openjdk version "21.0.12.1" 2026-08-18 LTS' >&2
 """
@@ -112,6 +120,9 @@ class WrapperFromADottedWorktreeTests(unittest.TestCase):
         tools.mkdir(parents=True)
         for name in ("decompile.sh", "unlzexe.py", "ghidra_work.py"):
             shutil.copy2(ROOT / "tools" / "static" / name, tools / name)
+        (tools / "check_annotations.py").write_text(NOOP_CHECK)
+        self.annotations = self.fixture / "annotations"
+        self.annotations.mkdir()
         self.tmp = self.repo / ".cache" / "tmp"
         self.tmp.mkdir(parents=True)
         self.home.mkdir()
@@ -135,21 +146,79 @@ class WrapperFromADottedWorktreeTests(unittest.TestCase):
         path.write_text(text)
         path.chmod(path.stat().st_mode | stat.S_IXUSR)
 
-    def run_wrapper(self, **extra) -> subprocess.CompletedProcess[str]:
-        return subprocess.run(["bash", str(self.repo / "tools" / "static" / "decompile.sh"), str(EXE),
-                               str(self.fixture / "out")], cwd=self.repo, env=dict(self.env, **extra),
-                              capture_output=True, text=True, timeout=120)
+    def run_wrapper(self, *flags, exe=None, **extra) -> subprocess.CompletedProcess[str]:
+        return subprocess.run(["bash", str(self.repo / "tools" / "static" / "decompile.sh"), *flags,
+                               str(exe or EXE), str(self.fixture / "out")], cwd=self.repo,
+                              env=dict(self.env, **extra), capture_output=True, text=True, timeout=120)
+
+    def recorded(self) -> tuple[Path, dict[str, str], list[str]]:
+        """What the stub received: the project folder, TMPDIR/TMP/TEMP, and the other arguments."""
+        lines = self.record.read_text().splitlines()
+        env = dict(line.split("=", 1) for line in lines if not line.startswith("ARG="))
+        args = [line[4:] for line in lines if line.startswith("ARG=")]
+        return Path(env.pop("PROJECT")), env, args
 
     def test_the_project_path_has_no_dot_element_and_the_work_folder_is_cleaned(self):
         self.assertNotEqual(dotted(self.repo), [], "the fixture must sit under a dot element")
         run = self.run_wrapper()
         self.assertNotIn("Path element", run.stderr)
         self.assertTrue(self.record.exists(), run.stderr)  # the stub accepted the project path
-        project = Path(self.record.read_text().strip())
+        project, _, _ = self.recorded()
         self.assertEqual(dotted(project), [], project)
         self.assertEqual(project.parent.parent, self.home / "goal2-ghidra-work")
         self.assertEqual(list((self.home / "goal2-ghidra-work").iterdir()), [], "work folder left behind")
         self.assertEqual(list(self.tmp.iterdir()), [], "nothing was made in the dotted TMPDIR")
+
+    def test_ghidras_temporary_folders_are_the_dot_free_work_folder(self):
+        # the environment says TMPDIR is inside the dotted worktree; TMP and TEMP are set to it too
+        run = self.run_wrapper(TMP=str(self.tmp), TEMP=str(self.tmp))
+        project, env, _ = self.recorded()
+        work = project.parent
+        for name in ("TMPDIR", "TMP", "TEMP"):
+            with self.subTest(name=name):
+                self.assertEqual(Path(env[name]), work, run.stderr)
+                self.assertEqual(dotted(env[name]), [])
+                self.assertEqual(work.parent, self.home / "goal2-ghidra-work")
+
+    def test_ghidra_gets_the_options_the_decompile_needs(self):
+        self.run_wrapper()
+        project, _, args = self.recorded()
+        work = str(project.parent)
+        scripts = self.repo / "static" / "goal-exe" / "routines.tsv"
+        self.assertEqual(project.name, "project")
+        self.assertEqual(args, [
+            "goal", "-import", f"{work}/goal.exe", "-loader", "MzLoader", "-processor", "x86:LE:16:Real Mode",
+            "-scriptPath", str(self.repo / "tools" / "static" / "ghidra"),
+            "-preScript", "GoalSetup.java", str(scripts), f"{work}/segmap.tsv",
+            "-postScript", "GoalDecompile.java", f"{work}/segmap.tsv", f"{work}/raw.txt", "600",
+            "-deleteProject", "-max-cpu", "2"])
+
+    def test_the_annotations_form_adds_the_annotation_script_before_the_decompile(self):
+        self.run_wrapper("--annotations", str(self.annotations))
+        project, _, args = self.recorded()
+        work = str(project.parent)
+        note = ["-postScript", "GoalAnnotate.java", f"{work}/segmap.tsv", str(self.annotations)]
+        at = args.index("GoalAnnotate.java") - 1
+        self.assertEqual(args[at:at + 4], note)
+        self.assertLess(at, args.index("GoalDecompile.java"))
+
+    def test_an_early_failure_after_the_folder_is_made_leaves_nothing(self):
+        garbage = self.fixture / "GOAL.EXE"
+        garbage.write_bytes(b"not an executable")
+        run = self.run_wrapper(exe=garbage)
+        self.assertNotEqual(run.returncode, 0)
+        self.assertFalse(self.record.exists(), "the failure must come before Ghidra")
+        self.assertEqual(list((self.home / "goal2-ghidra-work").iterdir()), [], run.stderr)
+
+    def test_mapping_tests_remove_their_folder_when_the_probe_fails(self):
+        env = dict(self.env, HOME=str(self.home))
+        run = subprocess.run([sys.executable, "-m", "unittest", "test_decompile.GhidraMappingTests"],
+                             cwd=ROOT / "tests" / "static", env=env, capture_output=True, text=True,
+                             timeout=120)
+        self.assertNotEqual(run.returncode, 0, "the stub makes the probe fail")
+        self.assertIn("Ghidra probe failed", run.stderr)
+        self.assertTrue(self.record.exists(), "the stub must have been reached")
+        self.assertEqual(list((self.home / "goal2-ghidra-work").iterdir()), [], run.stderr)
 
     def test_keep_work_keeps_the_folder(self):
         run = self.run_wrapper(KEEP_WORK="1")

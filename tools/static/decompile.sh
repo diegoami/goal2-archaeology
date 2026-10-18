@@ -76,14 +76,15 @@ export JAVA_HOME
 # repository's path are (tools/static/ghidra_work.py), and Ghidra's temporary files go there too.
 work=$(python3 "$root/tools/static/ghidra_work.py" new decompile)
 export TMPDIR="$work" TMP="$work" TEMP="$work"
-annotate=
-if [ -n "$annotations" ]; then
-  annotate="-postScript GoalAnnotate.java $work/segmap.tsv $annotations"
-fi
+# removed on any exit from here on, an early failure included, unless KEEP_WORK=1
 if [ "${KEEP_WORK:-0}" = 1 ]; then
   echo "decompile.sh: work directory $work" >&2
 else
   trap 'rm -rf "$work"' EXIT
+fi
+annotate=
+if [ -n "$annotations" ]; then
+  annotate="-postScript GoalAnnotate.java $work/segmap.tsv $annotations"
 fi
 
 python3 "$root/tools/static/unlzexe.py" "$exe" "$work/goal.exe" > /dev/null
