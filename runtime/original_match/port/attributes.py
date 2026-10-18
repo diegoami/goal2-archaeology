@@ -29,6 +29,7 @@ PORTS = Registry("attributes", "the player attributes of segment 1771: the recor
 PORTS.variant("foot-sets-swapped", "3179 tests the right-foot set CS:3139 where it tests CS:3159 and the reverse (31B6, 31D0)")
 PORTS.variant("unavailable-bit-6", "3216 tests element 5 where it tests element 6 (3251-3264)")
 PORTS.variant("skill-divisor-31", "3A06's divisor 0x20 read as 0x1F (3A71)")
+PORTS.variant("tactic-element-2-for-1", "3431 sets element 2 where it sets element 1 for positions 0, 1, 3, 4 (3483)")
 PORTS.variant("mark-hi-excl", "3E2F's upper bound 'oc > hi' read as 'oc >= hi' (3E6E-3E71)")
 
 PLAYERS, COUNTRIES, MANAGERS = 0xA91B, 0xA917, 0xA91F      # far pointers at DS:xxxx (0AB5, 0ACF, 3F18...)
@@ -480,7 +481,7 @@ def set_player_tactics(mem, variant):
     ax, dx, member = yield from set_test(mem, ax, dx, cs, 0x3411, "1771:346F")      # 3465-346A (the set CS:3411)
     if member:                                              # 346F: je 3497 (not in the set)
         ax, dx = yield from bit_op(mem, "214B:0C79", dx, p, 0xF, 5, "1771:3483")    # 3471-347E
-        ax, dx = yield from bit_op(mem, "214B:0C79", dx, p, 0xF, 1, "1771:3495")    # 3483-3490
+        ax, dx = yield from bit_op(mem, "214B:0C79", dx, p, 0xF, 2 if variant == "tactic-element-2-for-1" else 1, "1771:3495")    # 3483-3490
         return end(mem, ax, dx)
     if pos == 2:                                            # 3497-349F
         if p.u8(5) < 0xE:                                   # 34A4-34A9: jae 34BD

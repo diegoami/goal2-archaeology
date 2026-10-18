@@ -232,7 +232,7 @@ class SimTests(unittest.TestCase):
             e = reg.entries["1771:" + a]
             self.assertEqual((e.far, e.pop), (ret.startswith("retf"), int(ret.split()[1]) if " " in ret else 0), a)
         self.assertEqual(sorted(reg.variants),
-                         ["foot-sets-swapped", "mark-hi-excl", "skill-divisor-31", "unavailable-bit-6"])
+                         ["foot-sets-swapped", "mark-hi-excl", "skill-divisor-31", "tactic-element-2-for-1", "unavailable-bit-6"])
 
     # -- the readers of a record ---------------------------------------------------------------------------------
     def test_manager_bonus_is_the_manager_byte_over_8_plus_16(self):
@@ -666,6 +666,15 @@ class VariantTests(unittest.TestCase):
         feet = literal.FOOT_TABLE[14 * literal.FOOT_INDEX[6 % 3] + 13]
         self.assertNotEqual(feet, 0)
         self.assertEqual((base[0] & 0xFF, mutated[0] & 0xFF), (1, 0))
+
+    def test_tactic_element_2_for_1(self):
+        out = []
+        for v in (None, "tactic-element-2-for-1"):
+            s = Sim(v)
+            s.player(60, f6=0, f5=9, f3=0)
+            s.run("1771:3431", 60)
+            out.append(s.byte(s.PLAYERS_SEG, 0x14 * 60 + 0xF))
+        self.assertEqual(out, [0b0001_0001, 0b0001_0010])        # elements 5 and 1; the variant sets 5 and 2
 
     def test_mark_hi_excl(self):
         def setup(s):
