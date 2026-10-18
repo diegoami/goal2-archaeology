@@ -837,7 +837,7 @@ def in_opposing_goal_strip(mem, variant):
 
 
 @PORTS.port("0791:2F28", ret="retf 4")
-def in_final_third_of_goal(mem, variant):
+def in_attack_zone(mem, variant):
     """2F28(rec): not in the own half (2C54), |y| >= the player's +6 + 0xC, and |x| <= DS:776[|y| > 0x1C]."""
     off, seg = mem.arg(0), mem.arg(1)
     R = Regs(mem)
