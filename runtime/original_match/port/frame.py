@@ -3,8 +3,8 @@ squad re-sort 230C, and the frame from the sweep of the 22 players to play_match
 over the slots), 970C (the clock), 97D0 (the tick loop), 983F (one half), 98C4 (the kick-off sweeps), 9955 (the
 full-time sweeps), 998C (the half's set-up), 9A32 (the half-time sequence) and F098 (play_match).
 
-Written from the listing (static/goal-exe/code/seg_0791_02.asm for 1C78-1EB5, seg_0791_03.asm for 230C,
-seg_0791_15.asm and seg_0791_16.asm for 9564-9A32 and seg_0791_24.asm for F098; the named view
+Written from the listing (static/goal-exe/code/seg_0791_03.asm for 1C78-1EB5, seg_0791_04.asm for 230C,
+seg_0791_15.asm for 9564, seg_0791_16.asm for 970C-9A32 and seg_0791_23.asm for F098; the named view
 static/goal-exe/named/seg_0791_02.c, _08.c and _12.c); the line comments are the listing's offsets. Every routine
 keeps the frame the original builds (`mem.enter`: the locals its callees read, the nested procedures' parent BP) and
 pushes what the listing pushes, so the stack of every guest call is the original's, and the kit's hooks at 970C (the
@@ -194,7 +194,7 @@ def commentary_record_is_new(mem, variant):
     def word(index):                                       # 1CC9-1CD8: es:[di + 2 index - 2]
         return mem.u16(seg * 16 + ((off + ((index << 1) & 0xFFFF) - 2) & 0xFFFF))
     ax = 0
-    p2 = parent.u16(8)                                     # 1CB5-1CB8
+    p2 = parent.u16(8)                                     # 1CB5-1CB8 ([bp+8]: the first named player's slot)
     if p2 == 0:
         ax = 0
         fr.w16(-3, 0, "0791:1CC1")
@@ -202,7 +202,7 @@ def commentary_record_is_new(mem, variant):
         ax = word(p2)
         fr.w16(-3, ax, "0791:1CD8")
     v3 = ax
-    p1 = parent.u16(6)                                     # 1CDB-1CDE
+    p1 = parent.u16(6)                                     # 1CDB-1CDE ([bp+6]: the second's)
     if p1 == 0:
         ax = 0
         fr.w16(-5, 0, "0791:1CE7")

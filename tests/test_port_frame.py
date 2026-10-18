@@ -115,7 +115,7 @@ def plain(parent_args):
     return address and the parent BP on the stack."""
     memory = bytearray(0x110000)
     mem = PlainMem(memory, 0, DS_PARA, {"ss": SS, "sp": 0x2F00, "bp": 0x2E00})
-    code, p1, p2, side = parent_args
+    code, p2, p1, side = parent_args                   # the words at [bp+6] (the second player's slot) and [bp+8] (the first's)
 
     def put(address, data):
         memory[address:address + len(data)] = bytes(data)
@@ -125,8 +125,8 @@ def plain(parent_args):
     put(DS + 0xA91B, PLAYERS.to_bytes(2, "little") + OTHER.to_bytes(2, "little"))      # DS:A91B far pointer
     base = SS * 16
     put(base + 0x3004, [code, 0])
-    put(base + 0x3006, p1.to_bytes(2, "little"))
-    put(base + 0x3008, p2.to_bytes(2, "little"))
+    put(base + 0x3006, p2.to_bytes(2, "little"))
+    put(base + 0x3008, p1.to_bytes(2, "little"))
     put(base + 0x300A, [side, 0])
     put(base + 0x2F00 + 2, (0x3000).to_bytes(2, "little"))            # the parent BP, the entry's [sp + 2]
     mem._entries.append((0x2F00, False))
@@ -809,8 +809,8 @@ class CommentaryFlowTests(unittest.TestCase):
     def ring(self, h, n):
         return h.m.read(h.m.DS * 16 + 0x7C38 + 6 * n, 6)
 
-    def line(self, side, p2, p1, code):
-        return (side, p2, p1, code)
+    def line(self, side, p1, p2, code):                  # the words pushed: [bp+0xA], [bp+8] (player 1), [bp+6], [bp+4]
+        return (side, p1, p2, code)
 
     def test_the_first_line_is_written_and_the_next_record_marked_empty(self):
         h = self.machine(("1D4A", "1C78"), self.line(1, 3, 2, 7), "0791:1D4A")
