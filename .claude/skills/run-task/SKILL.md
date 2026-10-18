@@ -68,7 +68,10 @@ environment (`switch-model.mjs --show` prints it); the reviewer is never of that
    -p StandardInput=null -p StandardOutput=file:<log> -p StandardError=file:<log>
    node tools/harness/review.mjs --pr <pr> --brief <file> --issue <n> --apply-label
    [--reviewer <the answer>]`), watched ("Choosing models" rules 9-11). The script reads the session's family from
-   `ANTHROPIC_BASE_URL`, so the unit must carry it.
+   `ANTHROPIC_BASE_URL`, so the unit must carry it. A PR with no issue and no task file (a planning
+   or backlog PR): `make-brief.mjs --issue none --header <name>` (the PR's title and body are pasted)
+   and `review.mjs --issue none` (no label is applied) (#314). Run the brief builder with `&&`
+   before the launch, never in a pipe: a missing brief stops `review.mjs` with exit 2 (L120).
    One review per PR unless the user asks for more. Relay its findings in full (rule 8).
    Read its exit code from `journalctl --user -u goal2-<task>` ("status=N") or the log's last
    line: a `--collect` unit is gone once it ends, and `systemctl --user show` then prints
