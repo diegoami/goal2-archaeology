@@ -30,12 +30,12 @@ family step then prints each seed (the same, changed, or stopped) and the ports'
 import argparse
 import hashlib
 import json
-import os
 import sys
 import time
 
 from . import Image, Match, Fixture, VERSION
-from .assets import reference_image, REFERENCE
+import fileopts
+from .assets import reference_image, check_cache, REFERENCE
 from . import example
 
 EXPECTED_ENGINE = {"score": [1, 1], "ticks": 4149, "draws": 182188, "seed_at_board": 46625, "man_of_the_match": 127,
@@ -271,14 +271,27 @@ def validate(a):
             specs = port.spec_names(port.load(specs))         # refuses an unknown module or variant before any run
         except ValueError as e:
             raise Refused(str(e))
-    if a.image and not os.path.isfile(a.image):
-        raise Refused(f"--image {a.image}: not a file")
-    if a.json:
-        if os.path.lexists(a.json):                           # the report is opened for creation at the end of the run
-            raise Refused(f"--json {a.json} exists (an output is never overwritten)")
-        if not os.path.isdir(os.path.dirname(a.json) or "."):
-            raise Refused(f"--json {a.json}: its folder does not exist")
+    try:                       # each path option is checked by the operation the run applies to it (runtime/fileopts.py)
+        if a.image is not None:
+            fileopts.check_input(a.image, "--image")
+        else:
+            check_cache(a.cache)
+        if a.json is not None:
+            fileopts.check_new_output(a.json, "--json")
+    except fileopts.PathError as e:
+        raise Refused(str(e))
     return specs
+
+
+def load_image(a):
+    """The image's bytes, as the run reads them: --image, else the reference in --cache."""
+    return fileopts.read_input(a.image, "--image") if a.image is not None else reference_image(a.cache)
+
+
+def write_report(path, report):
+    """The --json report, created exclusively."""
+    with fileopts.create_new_output(path, "--json") as f:
+        json.dump(report, f, indent=1)
 
 
 def _takes_a_slot(argv=None):
@@ -305,7 +318,7 @@ def main(argv=None):
     if specs:
         MATCH = example.Match = ported(specs)
         print(f"ports: {', '.join(specs)}", flush=True)
-    data = open(a.image, "rb").read() if a.image else reference_image(a.cache)
+    data = load_image(a)
     image = Image.from_bytes(data)
     report = {"kit": VERSION, "image_sha256": hashlib.sha256(data).hexdigest(), "reference": REFERENCE, "checks": {}}
     if specs:
@@ -324,9 +337,8 @@ def main(argv=None):
         report["checks"][name] = {"pass": ok, "detail": detail, "wall_s": round(time.time() - t0, 1),
                                   "cpu_s": round(time.process_time() - c0, 1)}
         print(f"{name:12s} {'PASS' if ok else 'FAIL'}  {report['checks'][name]['wall_s']} s  {detail if not ok or name in ('interactive', 'knockout') else ''}")
-    if a.json:
-        with open(a.json, "x") as f:
-            json.dump(report, f, indent=1)
+    if a.json is not None:
+        write_report(a.json, report)
     sys.exit(0 if all(c["pass"] for c in report["checks"].values()) else 1)
 
 

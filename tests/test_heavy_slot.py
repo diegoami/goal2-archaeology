@@ -327,7 +327,7 @@ class RefusedAfterParsingTest(unittest.TestCase):
                 (["--out", "x", "--only", "S/quick-1,S/quick-1"], "distinct ids"),
                 (["--out", "x", "--count", "bad"], "--count 'bad'"),
                 (["--out", "x", "--mask", str(self.tmp / "no-such-mask")], "--mask"),
-                (["--find-ranges", str(existing)], f"{existing} exists (an output is never overwritten)"),
+                (["--find-ranges", str(existing)], f"{existing}: exists (an output is never overwritten)"),
                 (["--out", str(log)], "is not a valid log")):                                          # existing_records
             self.refused_at_once(base + tail, said)
         self.refused_at_once([str(FAMILY), "--family", "NO-SUCH-FAMILY", "--out", "x"], "refused:")  # families.FamilyError
@@ -341,7 +341,7 @@ class RefusedAfterParsingTest(unittest.TestCase):
                 (["--variant", "pilot.no-such-variant"], "has no variant 'no-such-variant'"),
                 (["--ports", "no-such-module"], "no port module 'no-such-module'"),
                 (["--ports", "pilot", "--variant", "pilot.no-such-variant"], "has no variant"),
-                (["--image", str(self.tmp / "no-such-image")], "not a file"),
+                (["--image", str(self.tmp / "no-such-image")], "does not exist"),
                 (["--json", str(existing)], "exists (an output is never overwritten)"),
                 (["--json", str(self.tmp / "no-folder" / "report.json")], "its folder does not exist")):
             self.refused_at_once(["-m", "original_match.check", *tail], said, cwd=ROOT / "runtime")
@@ -363,6 +363,288 @@ class RefusedAfterParsingTest(unittest.TestCase):
         with mock.patch.object(gate, "refusal", return_value="sentinel"), contextlib.redirect_stderr(io.StringIO()) as err:
             self.assertEqual(gate.main(["run-tests"]), 2)
         self.assertIn("sentinel", err.getvalue())
+
+
+ROOT_USER = hasattr(os, "geteuid") and os.geteuid() == 0     # root opens and creates what a mode forbids: no such condition
+
+# Every input/output path option of the three entry points (ci_gate.py has none), by what the run does with it. A condition
+# is a path in a folder made for the test; the table says whether the run can use it (A) or not (R).
+#   INPUT      --image, --mask       read: a regular file this process can open
+#   NEW        --json, --find-ranges created exclusively: nothing there, its folder an existing writable folder
+#   LOG        --out                 appended to (read first if there): a file read and writable, or a path whose nearest
+#                                    existing folder is writable (the run makes the missing folders)
+#   CACHE      --cache               a folder: the reference file in it is readable, or it is missing and the folder can be made
+A, R = True, False
+INPUT = dict(missing=R, directory=R, file=A, link=A, broken=R, empty=R, missing_parent=R, file_in_the_way=R)
+NEW = dict(missing=A, directory=R, file=R, link=R, broken=R, empty=R, missing_parent=R, file_in_the_way=R)
+LOG = dict(missing=A, directory=R, file=A, link=A, broken=R, empty=R, missing_parent=A, file_in_the_way=R)
+INPUT_PERM = dict(unreadable=R, readonly=A, unwritable_parent=R)
+NEW_PERM = dict(unreadable=R, readonly=R, unwritable_parent=R)
+LOG_PERM = dict(unreadable=R, readonly=R, unwritable_parent=R)
+CACHE = dict(missing=A, empty_folder=A, asset_file=A, asset_link=A, asset_folder=R, asset_broken=R, cache_is_a_file=R,
+             under_a_file=R, missing_parent=A)
+CACHE_PERM = dict(asset_unreadable=R, unwritable_folder=R, under_unwritable=R)
+
+
+def build_paths(d, content="[]"):
+    """The conditions of INPUT, NEW and LOG as paths under `d`, and the permission ones as a second dict."""
+    d = Path(d)
+    (d / "adir").mkdir()
+    (d / "afile").write_text(content)
+    (d / "link").symlink_to(d / "afile")
+    (d / "broken").symlink_to(d / "nowhere")
+    (d / "unreadable").write_text(content)
+    (d / "unreadable").chmod(0)
+    (d / "readonly").write_text(content)
+    (d / "readonly").chmod(0o444)
+    (d / "ro").mkdir()
+    (d / "ro").chmod(0o555)
+    plain = dict(missing=d / "new", directory=d / "adir", file=d / "afile", link=d / "link", broken=d / "broken",
+                 empty="", missing_parent=d / "nodir" / "new", file_in_the_way=d / "afile" / "new")
+    perm = dict(unreadable=d / "unreadable", readonly=d / "readonly", unwritable_parent=d / "ro" / "new")
+    return {k: str(v) for k, v in plain.items()}, {k: str(v) for k, v in perm.items()}
+
+
+def build_caches(d):
+    """The conditions of CACHE as cache folders under `d` (the reference file's name is assets.REFERENCE['asset'])."""
+    from original_match.assets import REFERENCE
+    d, name = Path(d), REFERENCE["asset"]
+    plain, perm = {}, {}
+
+    def cache(key, into, make=None):
+        folder = d / key
+        if make:
+            folder.mkdir(parents=True)
+            make(folder)
+        into[key] = str(folder)
+
+    cache("missing", plain)
+    cache("empty_folder", plain, lambda f: None)
+    cache("asset_file", plain, lambda f: (f / name).write_bytes(b"x"))
+    cache("asset_link", plain, lambda f: ((f / "t").write_bytes(b"x"), (f / name).symlink_to(f / "t")))
+    cache("asset_folder", plain, lambda f: (f / name).mkdir())
+    cache("asset_broken", plain, lambda f: (f / name).symlink_to(f / "nowhere"))
+    (d / "afile").write_text("x")
+    plain["cache_is_a_file"] = str(d / "afile")
+    plain["under_a_file"] = str(d / "afile" / "c")
+    plain["missing_parent"] = str(d / "nodir" / "c")
+    cache("asset_unreadable", perm, lambda f: ((f / name).write_bytes(b"x"), (f / name).chmod(0)))
+    cache("unwritable_folder", perm, lambda f: f.chmod(0o555))
+    (d / "ro").mkdir()
+    (d / "ro").chmod(0o555)
+    perm["under_unwritable"] = str(d / "ro" / "c")
+    return plain, perm
+
+
+@unittest.skipUnless(USABLE, "tools/harness/heavy.sh is not executable")
+class PathOptionsTest(unittest.TestCase):
+    """#328 round 2: every path option is checked before the slot by the operation the run applies to it
+    (runtime/fileopts.py). Per option and per path condition: the entry point's own validation accepts or refuses it as the
+    table says; a refused one is answered at once by the real script while a slot is held; and the run's own operation
+    fails with the same message (an accepted one does not fail on the path). The permission conditions are separate tests,
+    skipped only as root, who is not stopped by a mode."""
+
+    @classmethod
+    def setUpClass(cls):
+        sys.path.insert(0, str(FAMILY.parent))
+        import family
+        from original_match import check, assets
+        import fileopts
+        cls.family, cls.check, cls.assets, cls.fileopts = family, check, assets, fileopts
+
+    def setUp(self):
+        self._dir = tempfile.TemporaryDirectory()
+        self.tmp = Path(self._dir.name)
+
+        def clean():
+            for p in self.tmp.rglob("*"):
+                try:
+                    p.chmod(0o755 if p.is_dir() else 0o644)      # a folder at 555 or a file at 0 would stop the cleanup
+                except OSError:
+                    pass
+            self._dir.cleanup()
+        self.addCleanup(clean)
+        self.env = env_for(self.tmp / "locks")
+        # the only slot, held for as long as the test lasts: `exec sleep` so that terminating the holder frees it
+        self.holder = subprocess.Popen([str(HEAVY), "holder", "--", "sh", "-c", "echo up; exec sleep 300"], env=self.env,
+                                       stdout=subprocess.PIPE, text=True)
+        self.addCleanup(self.holder.stdout.close)
+        self.addCleanup(self.holder.wait)
+        self.addCleanup(self.holder.terminate)
+        self.assertEqual(self.holder.stdout.readline(), "up\n")
+
+    def answered_at_once(self, argv, cwd, message):
+        """The script refuses `argv` with exit 2 and `message` while the slot is held, without waiting for it."""
+        p = subprocess.Popen([sys.executable, *argv], env=self.env, cwd=cwd, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+                             text=True)
+        try:
+            out, err = p.communicate(timeout=10)       # a line that queued would wait here for the 300 s holder
+        except subprocess.TimeoutExpired:
+            p.kill()
+            p.communicate()
+            self.fail(f"{argv} waited for the slot instead of being refused")
+        self.assertNotIn("waiting", out + err, argv)
+        self.assertEqual(p.returncode, 2, (argv, out, err))
+        self.assertIn(message, out + err, argv)
+
+    def table(self, option, table, paths, validate, entry, run):
+        """validate(path) -> the refusal message or None; entry(path) -> (argv, cwd); run(path) -> the run's operation."""
+        for cond, ok in table.items():
+            path = paths[cond]
+            label = f"{option} {cond} {path!r}"
+            why = validate(path)
+            if ok:
+                self.assertIsNone(why, label)
+                try:
+                    run(path)
+                except self.fileopts.PathError as e:
+                    self.fail(f"{label}: validation accepts it, the run refuses it: {e}")
+                except Exception:
+                    pass                       # the run's own later failures (no image, no download) are not the path's
+            else:
+                self.assertIsNotNone(why, label)
+                self.assertTrue(why.startswith(f"{option} {path}"), (label, why))   # the cache: the file in the folder
+                with self.assertRaises(self.fileopts.PathError, msg=label) as cm:
+                    run(path)
+                self.assertEqual(str(cm.exception), why, label)           # the same condition fails identically in the run
+                argv, cwd = entry(path)
+                self.answered_at_once(argv, cwd, why)
+
+    # ---- check.py
+    def check_validate(self, option):
+        def validate(path):
+            ns = self.check.parser().parse_args([option, path])
+            try:
+                self.check.validate(ns)
+            except self.check.Refused as e:
+                return str(e)
+        return validate
+
+    def check_entry(self, option):
+        return lambda path: (["-m", "original_match.check", option, path], ROOT / "runtime")
+
+    def load_image(self, path):
+        return self.check.load_image(self.check.parser().parse_args(["--image", path]))
+
+    def test_check_image(self):
+        plain, _ = build_paths(self.tmp)
+        self.table("--image", INPUT, plain, self.check_validate("--image"), self.check_entry("--image"), self.load_image)
+
+    @unittest.skipIf(ROOT_USER, "root is not stopped by a file mode")
+    def test_check_image_permissions(self):
+        _, perm = build_paths(self.tmp)
+        self.table("--image", INPUT_PERM, perm, self.check_validate("--image"), self.check_entry("--image"), self.load_image)
+
+    def test_check_json(self):
+        plain, _ = build_paths(self.tmp)
+        self.table("--json", NEW, plain, self.check_validate("--json"), self.check_entry("--json"),
+                   lambda path: self.check.write_report(path, {}))
+
+    @unittest.skipIf(ROOT_USER, "root is not stopped by a folder or file mode")
+    def test_check_json_permissions(self):
+        _, perm = build_paths(self.tmp)
+        self.table("--json", NEW_PERM, perm, self.check_validate("--json"), self.check_entry("--json"),
+                   lambda path: self.check.write_report(path, {}))
+
+    def reference(self, cache):
+        with mock.patch.object(self.assets.subprocess, "run", side_effect=OSError("no gh in this test")):
+            return self.assets.reference_image(cache)
+
+    def test_check_cache(self):
+        plain, _ = build_caches(self.tmp)
+        self.table("--cache", CACHE, plain, self.check_validate("--cache"), self.check_entry("--cache"), self.reference)
+
+    @unittest.skipIf(ROOT_USER, "root is not stopped by a folder or file mode")
+    def test_check_cache_permissions(self):
+        _, perm = build_caches(self.tmp)
+        self.table("--cache", CACHE_PERM, perm, self.check_validate("--cache"), self.check_entry("--cache"), self.reference)
+
+    # ---- family.py
+    def family_validate(self, extra):
+        def validate(path):
+            ns = self.family.parser().parse_args(["--family", "S", *extra(path)])
+            try:
+                self.family.prepare(ns)
+            except self.fileopts.PathError as e:
+                return str(e)
+        return validate
+
+    def family_entry(self, extra):
+        return lambda path: ([str(FAMILY), "--family", "S", *extra(path)], ROOT)
+
+    def run_family(self, path):
+        self.family.run_family([], path, run_one=lambda spec: None, say=lambda *a: None)
+
+    def out_args(self, path):
+        return ["--out", path]
+
+    def ranges_args(self, path):
+        return ["--find-ranges", path]
+
+    def mask_args(self, path):
+        return ["--out", str(self.tmp / "out.jsonl"), "--mask", path]
+
+    def cache_args(self, path):
+        return ["--out", str(self.tmp / "out.jsonl"), "--cache", path]
+
+    def test_family_out(self):
+        plain, _ = build_paths(self.tmp, content="")      # an empty log: nothing to resume
+        self.table("--out", LOG, plain, self.family_validate(self.out_args), self.family_entry(self.out_args), self.run_family)
+
+    @unittest.skipIf(ROOT_USER, "root is not stopped by a folder or file mode")
+    def test_family_out_permissions(self):
+        _, perm = build_paths(self.tmp, content="")
+        self.table("--out", LOG_PERM, perm, self.family_validate(self.out_args), self.family_entry(self.out_args),
+                   self.run_family)
+
+    def test_family_find_ranges(self):
+        plain, _ = build_paths(self.tmp)
+        self.table("--find-ranges", NEW, plain, self.family_validate(self.ranges_args), self.family_entry(self.ranges_args),
+                   lambda path: self.family.write_ranges(path, {}))
+
+    @unittest.skipIf(ROOT_USER, "root is not stopped by a folder or file mode")
+    def test_family_find_ranges_permissions(self):
+        _, perm = build_paths(self.tmp)
+        self.table("--find-ranges", NEW_PERM, perm, self.family_validate(self.ranges_args),
+                   self.family_entry(self.ranges_args), lambda path: self.family.write_ranges(path, {}))
+
+    def test_family_mask(self):
+        plain, _ = build_paths(self.tmp)
+        self.table("--mask", INPUT, plain, self.family_validate(self.mask_args), self.family_entry(self.mask_args),
+                   self.family.parse_mask)
+
+    @unittest.skipIf(ROOT_USER, "root is not stopped by a file mode")
+    def test_family_mask_permissions(self):
+        _, perm = build_paths(self.tmp)
+        self.table("--mask", INPUT_PERM, perm, self.family_validate(self.mask_args), self.family_entry(self.mask_args),
+                   self.family.parse_mask)
+
+    def test_family_cache(self):
+        plain, _ = build_caches(self.tmp)
+        self.table("--cache", CACHE, plain, self.family_validate(self.cache_args), self.family_entry(self.cache_args),
+                   self.reference)
+
+    @unittest.skipIf(ROOT_USER, "root is not stopped by a folder or file mode")
+    def test_family_cache_permissions(self):
+        _, perm = build_caches(self.tmp)
+        self.table("--cache", CACHE_PERM, perm, self.family_validate(self.cache_args), self.family_entry(self.cache_args),
+                   self.reference)
+
+    def test_every_path_option_is_in_a_table(self):
+        """The audit: the options of the three parsers. A new option that names a file fails here until it has a table."""
+        listed = {"--image", "--json", "--cache", "--out", "--find-ranges", "--mask"}
+        others = {"--family", "--max", "--workers", "--time-limit", "--count", "--only", "--ports", "--variant", "--modules",
+                  "--help", "-h"}
+        seen = set()
+        for parser in (self.family.parser(), self.check.parser()):
+            seen |= {o for a in parser._actions for o in a.option_strings}
+        spec = importlib.util.spec_from_file_location("ci_gate_328b", ROOT / "tools" / "ci_gate.py")
+        gate = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(gate)
+        for sub in gate.parser()._subparsers._group_actions[0].choices.values():
+            seen |= {o for a in sub._actions for o in a.option_strings}
+        self.assertEqual(seen - listed - others, set())
+        self.assertTrue(listed <= seen)
 
 
 if __name__ == "__main__":

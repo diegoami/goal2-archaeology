@@ -43,6 +43,7 @@ ROOT = HERE.parents[1]
 sys.path.insert(0, str(ROOT / "runtime"))
 sys.path.insert(0, str(HERE))
 import families  # noqa: E402
+import fileopts  # noqa: E402
 import records  # noqa: E402
 
 DEFAULT_CACHE = ".cache/dl"
@@ -55,6 +56,9 @@ COUNTRIES_PTR, FIXTURES_PTR, GAME_PTR = 0xA917, 0xA92B, 0xA923   # image.py
 
 class Refused(Exception):
     """A command the script will not run (exit 2)."""
+
+
+REFUSALS = (Refused, families.FamilyError, fileopts.PathError)    # what main() prints as "refused: ..." and the slot step skips
 
 
 def clean_error(e):
@@ -78,8 +82,9 @@ def parse_count(arg):
 def parse_mask(path):
     if path is None:
         return []
+    data = fileopts.read_input(path, "--mask")
     try:
-        mask = records.loads(Path(path).read_bytes().decode("utf-8"))
+        mask = records.loads(data.decode("utf-8"))
         records.validate_mask(mask)
     except (OSError, ValueError) as e:
         raise Refused(f"--mask {path}: {e}")
@@ -256,6 +261,7 @@ def existing_records(out, selected, mask):
 
 def append(out, record):
     """One line, appended and synced: a record is never rewritten."""
+    fileopts.check_log_output(out, "--out")
     fd = os.open(out, os.O_WRONLY | os.O_APPEND | os.O_CREAT, 0o644)
     try:
         os.write(fd, (records.dumps(record) + "\n").encode())
@@ -268,6 +274,7 @@ def run_family(selected, out, workers=1, max_new=None, cache=DEFAULT_CACHE, mask
                time_limit=DEFAULT_TIME_LIMIT, say=print, run_one=None):
     """Run the selected matches not yet in `out`; returns the records of every selected match now in `out`.
     run_one(spec) -> record replaces the kit for a test (one process only)."""
+    fileopts.check_log_output(out, "--out")     # the check prepare() applied before the slot
     done = existing_records(out, selected, mask)
     todo = [s for s in selected if s.id not in done]
     if max_new is not None:
@@ -325,6 +332,12 @@ def subtract(spans, cut):
     return out
 
 
+def write_ranges(path, report):
+    """The --find-ranges output, created exclusively (the same check prepare() applies before the slot)."""
+    with fileopts.create_new_output(path, "--find-ranges") as f:
+        json.dump(report, f, indent=1)
+
+
 def find_ranges(image, selected, path, time_limit=3600.0, say=print):
     """Play the selected matches under a write watch on all guest memory and write the report to the new file `path`."""
     from unicorn import UC_HOOK_MEM_WRITE
@@ -367,8 +380,7 @@ def find_ranges(image, selected, path, time_limit=3600.0, say=print):
               "ds_blocks_written": ds_blocks, "ds_blocks_of_the_screen": screen_blocks,
               "ranges": {"records": [rec_lo, rec_hi - rec_lo], **{f"w{a:05x}": [a, -(-(b - a) // 16) * 16]
                                                                  for a, b in other}}}
-    with open(path, "x") as f:
-        json.dump(report, f, indent=1)
+    write_ranges(path, report)
     say(f"ranges found: {report['ranges']}")
     return report
 
@@ -400,8 +412,14 @@ def prepare(a):
         raise Refused("--max is a number of matches, 1 or more")
     if not 0 < a.time_limit <= 36000:
         raise Refused("--time-limit is a number of seconds, up to 36000")
-    if a.find_ranges and Path(a.find_ranges).exists():    # here, not in main(): the slot step runs prepare() too (#328)
-        raise Refused(f"refused: {a.find_ranges} exists (an output is never overwritten)")
+    # each path option is checked by the operation the run applies to it (runtime/fileopts.py), here and not in main(): the slot
+    # step runs prepare() too (#328)
+    if a.find_ranges is not None:
+        fileopts.check_new_output(a.find_ranges, "--find-ranges")
+    if a.out is not None:
+        fileopts.check_log_output(a.out, "--out")
+    from original_match.assets import check_cache
+    check_cache(a.cache)
     selected = [m for fam in families.select(a.family, families.discover()) for m in fam.matches]
     if a.only is not None:
         ids = a.only.split(",")
@@ -437,7 +455,7 @@ def main(argv=None):
             find_ranges(Image.from_bytes(reference_image(a.cache)), selected[:a.max], a.find_ranges)
             return 0
         recs = run_family(selected, a.out, a.workers, a.max, a.cache, mask, counts, a.time_limit)
-    except (Refused, families.FamilyError) as e:
+    except REFUSALS as e:
         print(f"refused: {e}")
         return 2
     bad = [r["id"] for r in recs if not records.is_completed(r)]
@@ -455,7 +473,7 @@ def _slot_weight(argv):
     try:
         selected, mask, _ = prepare(ns)
         return processes(ns, selected, mask)
-    except (Refused, families.FamilyError):
+    except REFUSALS:
         return None
 
 
