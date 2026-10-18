@@ -711,6 +711,85 @@ class ProofTests(Synthetic, unittest.TestCase):
             m.watch(lin, size, lambda old, new: seen.append(observe(m)))
         return m, prover, seen
 
+    # Round 4 (sol-6.1, round 3's R1): the kit's observed events (sites, listener calls, nested entries and returns)
+    # are compared as ONE ordered transcript; a listener on a write in the otherwise dead frame (G's saved BP at SS:03F6)
+    # moved across a site or a nested return was proved before.
+    G_BP = 0x8000 + 0x3F6
+
+    def bare(self, fn, address, ret, extra=()):
+        """As prove(), without its watch on TARGET: the listener at G_BP is the only one (the reviewer's setting)."""
+        m = self.machine()
+        inst = port.install(m, [(registry(fn, address, ret), None)] + [(r, None) for r in extra])
+        return m, Prover(m, inst, where=lambda: "minute 7")
+
+    def observed(self, m):
+        seen = []
+        m.on_write(self.G_BP, self.G_BP, lambda a, n, v: seen.append("listener"))
+        m.at(INSIDE_G, lambda replay: seen.append("site"))
+        return seen
+
+    def test_a_listener_call_moved_across_a_site_is_named(self):
+        def g_port(bp_first):
+            def fn(mem, variant):
+                bp_slot = (mem.ss_lin(mem.reg("sp") - 2), mem.reg("bp"))
+                if bp_first:
+                    mem.w16(*bp_slot, "0100:0030")         # 0030 push bp, as the original
+                mem.wds8(TARGET, 7, "0100:0033")
+                mem.site(INSIDE_G)
+                if not bp_first:
+                    mem.w16(*bp_slot, "0100:0030")         # the reviewer's reproduction: after the site
+                mem.wds8(TARGET + 1, mem.arg(0), "0100:003B")
+                mem.set_reg("dx", 0x5678)
+                return 0x1234
+            return fn
+        plain = self.machine()
+        order = self.observed(plain)
+        self.assertIsNone(plain.run(END, 5, fresh=True))
+        self.assertEqual(order, ["listener", "site"])                  # the original's order
+        for bp_first in (True, False):
+            m, prover = self.bare(g_port(bp_first), G, "ret 2")
+            seen = self.observed(m)
+            if bp_first:
+                self.assertIsNone(m.run(END, 5, fresh=True))
+                self.assertEqual((seen, prover.summary()[G]["proved"]), (["listener", "site"], 1))
+            else:
+                with self.assertRaisesRegex(ProofError, f"^{G} \\(test\\), call #1 from {G_RETURN}, minute 7: the kit's "
+                                                        "observed event #1 differs in order: the original's is the kit's "
+                                                        "listener #1 at the write of 2 bytes .* at linear 0x083F6, the "
+                                                        f"port's run's the kit's site {INSIDE_G}$"):
+                    m.run(END, 5, fresh=True)
+
+    def test_a_listener_call_moved_across_a_nested_return_is_named(self):
+        def g_nested(bp_inside):
+            def fn(mem, variant):
+                if bp_inside:
+                    mem.w16(mem.ss_lin(mem.reg("sp") - 2), mem.reg("bp"), "0100:0030")
+                mem.wds8(TARGET, 7, "0100:0033")
+                mem.wds8(TARGET + 1, mem.arg(0), "0100:003B")
+                mem.set_reg("dx", 0x5678)
+                return 0x1234
+            return fn
+
+        def p_port(bp_inside):
+            def fn(mem, variant):
+                yield from faithful(mem, variant)
+                if not bp_inside:                           # G's saved BP written by P's port after G returned
+                    mem.w16(0x8000 + 0x3F6, 0x03FC, "0100:0030")
+            return fn
+        for bp_inside in (True, False):
+            nested = Registry("nested")
+            nested.port(G, ret="ret 2")(g_nested(bp_inside))
+            m, prover = self.bare(p_port(bp_inside), P, "ret", extra=(nested,))
+            m.on_write(self.G_BP, self.G_BP, lambda a, n, v: None)
+            if bp_inside:
+                self.assertIsNone(m.run(END, 5, fresh=True))
+                self.assertEqual(prover.summary()[P]["proved"], 1)
+            else:
+                with self.assertRaisesRegex(ProofError, "the kit's observed event #2 differs in order: the original's "
+                                                        "is the kit's listener #.* at linear 0x083F6, the port's run's "
+                                                        f"the return of {G} to {G_RETURN}"):
+                    m.run(END, 5, fresh=True)
+
     def test_a_write_listeners_input_is_compared(self):
         def p_ax6(mem, variant):                    # P entering G with AX 6, otherwise faithful (R1's repro)
             mem.enter(0, P)

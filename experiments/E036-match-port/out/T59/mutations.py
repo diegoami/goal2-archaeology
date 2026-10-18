@@ -152,6 +152,13 @@ MUTATIONS = [
      "    _keys(r, REQUIRED + tuple(k for k in PORT_KEYS if k in r), \"record\")"),
     ("the machinery listed as ports", f"{K}/port/__init__.py", "NOT_PORT_MODULES = (\"mem\", \"guest\", \"prove\")",
      "NOT_PORT_MODULES = (\"mem\",)"),
+    # round 4: one ordered transcript of the kit's observed events
+    ("the observed events' order not compared", f"{K}/port/prove.py",
+     "        if st.order_diff is not None:          # every event the kit observed, in one order (round 4)\n"
+     "            self._fail(st.order_diff)\n", ""),
+    ("an event out of order taken as the next", f"{K}/port/prove.py",
+     "        if i < len(st.transcript) and st.transcript[i][0] == key:",
+     "        if i < len(st.transcript):"),
 ]
 
 

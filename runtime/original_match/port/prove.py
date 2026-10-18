@@ -139,6 +139,12 @@ class _Call:
         self.nested_returns = []    # the ported calls made inside the port's run: (address, caller, registers) at
         self.next_nested = 0        # each return, in the order they returned
         self.orig_nested = []       # the same routines' calls the original is inside: (address, caller, ret_lin, ret_sp)
+        # ONE ordered transcript of everything the kit observes in the port's run (round 4): each site visit, each
+        # write listener call, each nested ported call's entry and return, as (key, label) in the order they came;
+        # the original's must come in the same order (checked as they come, named at the return: step 3).
+        self.transcript = []
+        self.next_event = 0
+        self.order_diff = None
 
 
 class Prover:
@@ -196,6 +202,24 @@ class Prover:
         if v is not None:
             v.events.append((kind, a, b))
 
+    def _observed(self, key, label):
+        """The port's run: an event the kit observes, in the transcript."""
+        self.state.transcript.append((key, label))
+
+    def _expect(self, key, label):
+        """The original: its next event the kit would observe must be the transcript's next; the first that is not is
+        kept and named at the return, after the written bytes (a write that differs is named as such first)."""
+        st = self.state
+        if st.order_diff is not None:
+            return
+        i = st.next_event
+        if i < len(st.transcript) and st.transcript[i][0] == key:
+            st.next_event = i + 1
+            return
+        theirs = st.transcript[i][1] if i < len(st.transcript) else f"nothing ({len(st.transcript)} events)"
+        st.order_diff = (f"the kit's observed event #{i + 1} differs in order: the original's is {label}, the port's "
+                         f"run's {theirs}")
+
     def in_port_run(self):
         """Whether a proved call's port is running now (match.py refuses a port's own key reads then)."""
         return self.state is not None and self.state.phase == "port"
@@ -217,6 +241,7 @@ class Prover:
         lv = _Listen(index, address, size, value, f"write listener #{index} at the write of {size} bytes "
                                                   f"0x{value:0{2 * size}X} at {self.describe(address)}")
         st.listens.append(lv)
+        self._observed(("listen", index, address, size, value), f"the kit's {lv.label}")
         token = (self._visit, self.m.stop_reason)
         self._visit = lv
         return token
@@ -240,9 +265,12 @@ class Prover:
                 self.nested[address] += 1
                 ip = int.from_bytes(self._raw(self._rreg("ss") * 16 + self._rreg("sp"), 2), "little")
                 caller = self.m.where(self._caller_cs(runner), ip)
+                self._observed(("enter", address, caller), f"the entry of {address} called from {caller}")
 
                 def nested_done(frame):
                     st.nested_returns.append((address, caller, {r: self._rreg(r) for r in REGS_RETURNED}))
+                    if self.state is st and st.phase == "port":
+                        self._observed(("return", address, caller), f"the return of {address} to {caller}")
                     if done is not None:
                         done(frame)
                 return runner(machine, nested_done)
@@ -304,6 +332,7 @@ class Prover:
                 st.listen_diff = (f"the original's write reached the kit's write {here} (listener call #{i + 1}), "
                                   f"which the port's run did not ({len(st.listens)} listener calls)")
                 return
+            self._expect(("listen", index, address, size, value), f"the kit's {here}")
             lv = st.listens[i]
             if (lv.index, lv.address, lv.size, lv.value) != (index, address, size, value):
                 st.listen_diff = (f"the kit's write listener call #{i + 1}: the port's run gave the {lv.label}, the "
@@ -341,6 +370,7 @@ class Prover:
         v.label = self._here(lin)
         v.port_at = len(st.port_writes)     # the writes made before it: the original's must be the same (step 3)
         st.visits.append(v)
+        self._observed(("site", lin), f"the kit's site {v.label}")
         self._visit = v
 
     def site_leave(self, lin, stopped, fired=False):
@@ -395,7 +425,9 @@ class Prover:
             ret_sp = (sp + (4 if runner.entry.far else 2) + runner.entry.pop) & 0xFFFF
             ret_lin = self._caller_cs(runner) * 16 + ip
             address = next(a for a in self.names if m.lin(a) == lin)
-            st.orig_nested.append((address, m.where(self._caller_cs(runner), ip), ret_lin, ss, ret_sp))
+            caller = m.where(self._caller_cs(runner), ip)
+            self._expect(("enter", address, caller), f"the entry of {address} called from {caller}")
+            st.orig_nested.append((address, caller, ret_lin, ss, ret_sp))
             if ret_lin not in m._handlers:
                 from ..machine import NOOP
                 m.at_linear(ret_lin, NOOP)
@@ -405,6 +437,7 @@ class Prover:
         same rank to return (the routine, the caller, REGS_RETURNED but a declared dead result)."""
         st = self.state
         address, caller, _, _, _ = st.orig_nested.pop()
+        self._expect(("return", address, caller), f"the return of {address} to {caller}")
         i = st.next_nested
         if i >= len(st.nested_returns):
             self._fail(f"the original's call of {address} ({self.names[address]}) from {caller} returned (ported call "
@@ -437,6 +470,7 @@ class Prover:
 
     def _replay(self, lin):
         st, m = self.state, self.m
+        self._expect(("site", lin), f"the kit's site {self._here(lin)}")
         i = st.next_visit
         if i >= len(st.visits):
             self._fail(f"the original reached the kit's site {self._here(lin)} (site #{i + 1}), which the port's run "
@@ -521,6 +555,11 @@ class Prover:
             if before_o != before_p:
                 self._fail(f"the kit's site {v.label} (#{i + 1}) came after {before_o} written bytes in the original, "
                            f"after {before_p} in the port's run")
+        if st.order_diff is not None:          # every event the kit observed, in one order (round 4)
+            self._fail(st.order_diff)
+        if st.next_event < len(st.transcript):
+            self._fail(f"the port's run's kit event #{st.next_event + 1}, {st.transcript[st.next_event][1]}, has none "
+                       "in the original")
         dead = RESULT_DEAD.get((st.address, st.caller), ((), ""))[0]
         for r in REGS_RETURNED:
             if original_regs[r] != port_regs[r]:
