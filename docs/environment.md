@@ -226,6 +226,15 @@ repository; nothing else does:
 - A JDK 21: Temurin 21.0.12.1 (`~/tools/jdk-21.0.12.1+1`, or set `JAVA_HOME`). The script refuses
   another major version, and the output's README records the exact one.
 
+Ghidra refuses a project path with an element that starts with `.` ("Path element starting with '.'
+is not permitted"), and the harness's isolated worktrees are under `<repo>/.claude/worktrees/`. So
+Ghidra's project, input and temporary files never go under the repository or `TMPDIR`: the wrapper and
+`GhidraMappingTests` make `$HOME/goal2-ghidra-work/<unit>-<random>` (`tools/static/ghidra_work.py`;
+`GOAL2_GHIDRA_WORK` names another absolute base), set `TMPDIR`, `TMP` and `TEMP` to it for Ghidra, and
+remove it afterwards (`KEEP_WORK=1` keeps it). A base whose resolved path has a dot element (a `HOME`
+under `.something`, a link into one) stops the run with that reason (fix #315). No manual `TMPDIR` is
+needed in an agent worktree.
+
 Ghidra runs headless with `-max-cpu 2`, one instance at a time (the machine is shared). Without
 them, `tests/static/test_decompile.py` skips its Ghidra tests and says why. One run takes about
 six minutes on two CPUs: start it in the background.

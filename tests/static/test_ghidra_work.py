@@ -160,7 +160,7 @@ class WrapperFromADottedWorktreeTests(unittest.TestCase):
     def test_a_dotted_work_base_stops_the_wrapper_with_the_reason(self):
         run = self.run_wrapper(GOAL2_GHIDRA_WORK=str(self.fixture / ".dotted"))
         self.assertNotEqual(run.returncode, 0)
-        self.assertIn("element starting with '.'", run.stderr)
+        self.assertIn("ghidra_work.py: Ghidra's work folder", run.stderr)
         self.assertFalse(self.record.exists())
 
 
