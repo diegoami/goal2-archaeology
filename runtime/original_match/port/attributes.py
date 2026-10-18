@@ -26,7 +26,7 @@ from .mem import s8, s16
 from . import Registry
 
 PORTS = Registry("attributes", "the player attributes of segment 1771: the records' readers, tactics and marking (T61)")
-PORTS.variant("foot-right-3", "3179's right-footed wrong-position set {3, 7, 10} (CS:3139) without 7 (31C0)")
+PORTS.variant("foot-sets-swapped", "3179 tests the right-foot set CS:3139 where it tests CS:3159 and the reverse (31B6, 31D0)")
 PORTS.variant("unavailable-bit-6", "3216 tests element 5 where it tests element 6 (3251-3264)")
 PORTS.variant("skill-divisor-31", "3A06's divisor 0x20 read as 0x1F (3A71)")
 PORTS.variant("mark-hi-excl", "3E2F's upper bound 'oc > hi' read as 'oc >= hi' (3E6E-3E71)")
@@ -35,13 +35,9 @@ PLAYERS, COUNTRIES, MANAGERS = 0xA91B, 0xA917, 0xA91F      # far pointers at DS:
 TEAM_COUNTRY = 0x9B34       # the two teams' countries, words (3F0F: [di - 0x64cc])
 MARK_BASE = 0x9A3E          # the marking word of slot s of team t: DS:9A3E + 0x28 t + 2 s (3F31: [di - 0x65c0])
 
-# The sets of the code segment (23E4:08DF reads bit e of byte e >> 3 of a 32-byte set), each cited by its data row in
-# the listing: 3139 = 88 04 (bits 3, 7, 10), 3159 = 10 09 (bits 4, 8, 11), 3411 = 1B 00 (bits 0, 1, 3, 4); the rest of
-# each row is zero.
-RIGHT_FOOT_BAD = frozenset({3, 7, 10})          # CS:3139 (read at 31B6)
-LEFT_FOOT_BAD = frozenset({4, 8, 11})           # CS:3159 (read at 31D0)
-TACTIC_POSITIONS = frozenset({0, 1, 3, 4})      # CS:3411 (read at 3465)
-S_SET_WRITE, S_CLEAR_WRITE = "214B:0C98", "214B:0CC2"   # the writes of the set-element helpers 0C79 and 0CA1
+# The sets of the code segment 23E4:08DF reads (bit e of byte e >> 3 of a 32-byte set) are the original's data, passed as
+# pointers: CS:3139 = 88 04 (elements 3, 7, 10: positions a right foot plays badly), CS:3159 = 10 09 (4, 8, 11: left),
+# CS:3411 = 1B 00 (0, 1, 3, 4: the positions that take elements 5 and 1), each row 32 bytes with the rest zero.
 
 
 # -- the view of a record ------------------------------------------------------------------------------------------
@@ -80,31 +76,24 @@ def idiv(a, b):
     return q & 0xFFFF, (a - q * b) & 0xFFFF
 
 
-# -- the runtime helpers the routines call inline, with the registers they leave -------------------------------------
-def bit_test(setword, elem):
-    """214B:0C57 (0C5D-0C6D): ((word set) >> (elem - 1)) & 1, `shr ax, cl`: (AX, DX): AX the bit, DX = elem - 1."""
-    cl = (elem - 1) & 0xFFFF
-    return ((setword & 0xFFFF) >> (cl & 0x1F)) & 1, cl
+# -- the runtime helpers the routines call (still the original's, T60): guest calls with the listing's arguments --------
+def bit_test(mem, dx, setbyte, elem, ret_to):
+    """214B:0C57(elem, set) as the listing calls it (`mov ax, elem; push ax; mov al, [set]; xor ah, ah; push ax; call far`):
+    (AX, DX) it leaves; AL is the element's bit, AH 0."""
+    return (yield from gcall(mem, setbyte, dx, "214B:0C57", elem, setbyte, ret_to=ret_to))
 
 
-def bit_set(old, elem):
-    """214B:0C79 (0C7C-0C98): the byte with element elem set, (byte, AX, DX): AX the byte (AH 0), DX the mask."""
-    mask = (1 << ((elem - 1) & 0x1F)) & 0xFFFF
-    new = (old | mask) & 0xFF
-    return new, (old | mask) & 0xFFFF, mask
+def bit_op(mem, target, dx, rec, k, elem, ret_to):
+    """214B:0C79 (set) or 0CA1 (clear) of element `elem` of the byte at record offset k (`mov ax, elem; push ax; les di,
+    [bp - n]; add di, k; push es; push di; call far`)."""
+    return (yield from gcall(mem, elem, dx, target, elem, rec.seg, (rec.off + k) & 0xFFFF, ret_to=ret_to))
 
 
-def bit_clear(old, elem):
-    """214B:0CA1 (0CA4-0CC2): the byte with element elem cleared, (byte, AX, DX): AX the byte (AH 0), DX the mask."""
-    mask = ~(1 << ((elem - 1) & 0x1F)) & 0xFFFF
-    return old & mask & 0xFF, old & mask & 0xFFFF, mask
-
-
-def cs_set_has(members, e, ax):
-    """23E4:08DF on a set of the code segment (08E5-08FA): whether the low byte of the pushed word is a member, and the
-    AX it leaves: AL = 1 << (e & 7) (08F6-08F8), AH as it was."""
-    e &= 0xFF
-    return e in members, (ax & 0xFF00) | (1 << (e & 7))
+def set_test(mem, ax, dx, set_seg, set_off, ret_to):
+    """23E4:08DF(ax, set far pointer): (AX, DX, member); `ax` is the word the listing pushes (its low byte is the element).
+    The result is the zero flag (`test byte es:[bx + di], al`): a member when it is clear."""
+    ax, dx = yield from gcall(mem, ax, dx, "23E4:08DF", ax, set_seg, set_off, ret_to=ret_to)
+    return ax, dx, not (mem.reg("eflags") & 0x40)
 
 
 def regs(mem, ax, dx):
@@ -145,34 +134,49 @@ def drop(mem, words):
 
 
 # -- the small readers -------------------------------------------------------------------------------------------
+def ptr_local(f, off, rec, at_off, at_seg):
+    """The two stores `mov [bp + off], di` and `mov [bp + off + 2], es` that keep a record's far pointer in the frame."""
+    f.w16(off, rec.off, at_off)
+    f.w16(off + 2, rec.seg, at_seg)
+
+
 @PORTS.port("1771:0AA7", ret="retf 2")
 def manager_bonus(mem, variant):
     """0AA7: the manager's match bonus: idiv 8 of the manager byte at [DS:A91F] + 3 * (country +0x2E), plus 0x10."""
+    f = mem.enter(6, "1771:0AA7")                           # 0AA7-0AAA
     ax, dx = mul(mem.arg(0), 0xBF)                          # 0AAD-0AB3
-    b = Rec(mem, COUNTRIES, ax).u8(0x2E)                    # 0AB5-0AC8: xor ah, ah
-    ax, dx = mul(b, 3)                                      # 0ACA-0ACD
-    m = Rec(mem, MANAGERS, ax).u8(1)                        # 0ACF-0AD9: xor ah, ah
-    return ret(mem, m // 8 + 0x10, m % 8)                   # 0ADB-0AE1: cdq, idiv 8 (DX is the remainder), add ax, 0x10
+    c = Rec(mem, COUNTRIES, ax)
+    ptr_local(f, -6, c, "1771:0ABB", "1771:0ABE")           # 0ABB, 0ABE
+    ax, dx = mul(c.u8(0x2E), 3)                             # 0AC1-0ACD (xor ah, ah)
+    m = Rec(mem, MANAGERS, ax).u8(1)                        # 0ACF-0AD9 (xor ah, ah)
+    f.w16(-2, m // 8 + 0x10, "1771:0AE4")                   # 0ADB-0AE4: cdq, idiv 8 (DX the remainder), add ax, 0x10
+    return ret(mem, m // 8 + 0x10, m % 8)
 
 
 @PORTS.port("1771:0B77", ret="retf 2")
 def is_managed(mem, variant):
     """0B77: the country's +0x2E above 0x80 (ja)."""
+    f = mem.enter(2, "1771:0B77")                           # 0B77-0B7A
     ax, dx = mul(mem.arg(0), 0xBF)                          # 0B7D-0B83
     managed = Rec(mem, COUNTRIES, ax).u8(0x2E) > 0x80       # 0B85-0B90
-    return ret(mem, (ax & 0xFF00) | managed, dx)            # 0B92/0B96: mov al, 0/1, AH from the mul
+    f.w8(-1, managed, "1771:0B98")                          # 0B92/0B96, 0B98
+    return ret(mem, (ax & 0xFF00) | managed, dx)
 
 
 @PORTS.port("1771:0E24", ret="ret 2")
 def country_colour(mem, variant):
     """0E24 (near): 0x0F when the country is managed (0B77), else the byte DS:6905[country +0x2C]."""
     country = mem.arg(0)
-    mem.enter(6, "1771:0E24")                               # 0E24-0E27
+    f = mem.enter(6, "1771:0E24")                           # 0E24-0E27
     ax, dx = mul(country, 0xBF)                             # 0E2A-0E30
+    c = Rec(mem, COUNTRIES, ax)
+    ptr_local(f, -5, c, "1771:0E38", "1771:0E3B")
     ax, dx = yield from gcall(mem, ax, dx, "1771:0B77", country, ret_to="1771:0E45")   # 0E3E-0E42 push; push cs; call
     if ax & 0xFF:                                           # 0E45-0E47
-        return ret(mem, (ax & 0xFF00) | 0x0F, dx)           # 0E49: [bp - 1] = 0xF; 0E61 mov al, [bp - 1]
-    colour = mem.ds8(0x6905 + Rec(mem, COUNTRIES, mul(country, 0xBF)[0]).u8(0x2C))   # 0E4F-0E5A (xor ah, ah)
+        f.w8(-1, 0x0F, "1771:0E49")
+        return ret(mem, (ax & 0xFF00) | 0x0F, dx)           # 0E61 mov al, [bp - 1]
+    colour = mem.ds8(0x6905 + c.u8(0x2C))                   # 0E4F-0E5A (xor ah, ah)
+    f.w8(-1, colour, "1771:0E5E")
     return ret(mem, colour, dx)
 
 
@@ -180,87 +184,127 @@ def country_colour(mem, variant):
 def player_name_colour(mem, variant):
     """2E20: 6 when +0x0E is 0, 5 when element 8 or 6 of +0x10 is set, else DS:699A[position]."""
     pos, n = mem.arg(0), mem.arg(1)                         # [bp + 6], [bp + 8]
+    f = mem.enter(6, "1771:2E20")                           # 2E20-2E23
     ax, dx = mul(n, 0x14)                                   # 2E26-2E2C
     p = Rec(mem, PLAYERS, ax)
+    ptr_local(f, -5, p, "1771:2E34", "1771:2E37")
     if p.u8(0xE) == 0:                                      # 2E3A-2E42
-        return ret(mem, (ax & 0xFF00) | 6, dx)              # 2E44
-    flags = p.u8(0x10)
-    ax, dx = bit_test(flags, 8)                             # 2E4A-2E58 (214B:0C57 leaves AH 0)
-    if not ax:
-        ax, dx = bit_test(flags, 6)                         # 2E61-2E6F
-    if ax:
-        return ret(mem, 5, dx)                              # 2E78
-    return ret(mem, mem.ds8(0x699A + pos), dx)              # 2E7E-2E85: AL from the table, AH 0 (0C57)
+        f.w8(-1, 6, "1771:2E44")
+        return ret(mem, (ax & 0xFF00) | 6, dx)
+    ax, dx = yield from bit_test(mem, dx, p.u8(0x10), 8, "1771:2E5D")           # 2E4A-2E58
+    if not (ax & 0xFF):
+        ax, dx = yield from bit_test(mem, dx, p.u8(0x10), 6, "1771:2E74")       # 2E61-2E6F
+    if ax & 0xFF:
+        f.w8(-1, 5, "1771:2E78")                            # 2E78
+        return ret(mem, (ax & 0xFF00) | 5, dx)
+    colour = mem.ds8(0x699A + pos)                          # 2E7E-2E85: AL from the table, AH the callee's
+    f.w8(-1, colour, "1771:2E85")
+    return ret(mem, (ax & 0xFF00) | colour, dx)
 
 
 @PORTS.port("1771:2FAD", ret="retf 2")
 def player_height(mem, variant):
     """2FAD: DS:0E46[+7] + DS:0E54[n mod 12]."""
     n = mem.arg(0)
+    f = mem.enter(6, "1771:2FAD")                           # 2FAD-2FB0
     ax, dx = mul(n, 0x14)                                   # 2FB3-2FB9
     p = Rec(mem, PLAYERS, ax)
+    ptr_local(f, -6, p, "1771:2FC1", "1771:2FC4")
     dx = mem.ds8(0xE54 + n % 12)                            # 2FC7-2FDA: div 12, xchg dx, ax; mov dx, ax
-    ax = mem.ds8(0xE46 + p.u8(7)) + dx                      # 2FDF-2FED
+    ax = mem.ds8(0xE46 + p.u8(7)) + dx                      # 2FDC-2FED
+    f.w16(-2, ax, "1771:2FEF")
     return ret(mem, ax, dx)
 
 
 @PORTS.port("1771:2FFB", ret="retf 2")
 def player_hardness(mem, variant):
     """2FFB: +5 minus bit 0 of +3."""
+    f = mem.enter(6, "1771:2FFB")                           # 2FFB-2FFE
     ax, dx = mul(mem.arg(0), 0x14)                          # 3001-3007
     p = Rec(mem, PLAYERS, ax)
+    ptr_local(f, -5, p, "1771:300F", "1771:3012")
     dx = p.u8(3) & 1                                        # 3015-3028 (shr al, 1; jb; mov dx, ax)
-    return ret(mem, p.u8(5) - dx, dx)                       # 302A-3035: sub ax, dx (16 bits); AL stored and reloaded
+    ax = (p.u8(5) - dx) & 0xFFFF                            # 302A-3033: sub ax, dx (16 bits)
+    f.w8(-1, ax, "1771:3035")                               # 3035: AL stored and reloaded
+    return ret(mem, ax, dx)
 
 
 @PORTS.port("1771:3041", ret="retf 2")
 def is_two_footed(mem, variant):
     """3041: +5 + +2 == 30."""
+    f = mem.enter(6, "1771:3041")                           # 3041-3044
     ax, dx = mul(mem.arg(0), 0x14)                          # 3047-304D
     p = Rec(mem, PLAYERS, ax)
+    ptr_local(f, -5, p, "1771:3055", "1771:3058")
     dx = p.u8(5)                                            # 305B-3064: mov dx, ax
     total = p.u8(2) + dx                                    # 3066-306F
-    return ret(mem, (total & 0xFF00) | (total == 0x1E), dx)     # 3071-307C: mov al, 0/1, AH of the sum
+    flag = total == 0x1E                                    # 3071-307C: mov al, 0/1, AH of the sum
+    f.w8(-1, flag, "1771:307C")
+    return ret(mem, (total & 0xFF00) | flag, dx)
 
 
 @PORTS.port("1771:3088", ret="retf 2")
 def foot_index(mem, variant):
     """3088: DS:0E60[14 * DS:0E7C[n mod 3] + +7]."""
     n = mem.arg(0)
+    f = mem.enter(6, "1771:3088")                           # 3088-308B
     ax, dx = mul(n, 0x14)                                   # 308E-3094
-    bx = Rec(mem, PLAYERS, ax).u8(7)                        # 30A2-30AB
+    p = Rec(mem, PLAYERS, ax)
+    ptr_local(f, -5, p, "1771:309C", "1771:309F")
+    bx = p.u8(7)                                            # 30A2-30AB
     row = mem.ds8(0xE7C + n % 3)                            # 30AD-30BE: div 3, xchg, xor ah, ah
     ax, dx = mul(row, 0xE)                                  # 30C0-30C3
-    return ret(mem, (ax & 0xFF00) | mem.ds8(0xE60 + ((ax + bx) & 0xFFFF)), dx)   # 30C5-30CD: AH of the mul
+    value = mem.ds8(0xE60 + ((ax + bx) & 0xFFFF))           # 30C5-30C9
+    f.w8(-1, value, "1771:30CD")
+    return ret(mem, (ax & 0xFF00) | value, dx)              # 30D0: AH of the mul
 
 
 @PORTS.port("1771:30D9", ret="retf 2")
 def player_leadership(mem, variant):
     """30D9: ((+3) - (+5)) mod 8 (idiv: the remainder keeps the dividend's sign), halved (div 2) when +1 < 0x15."""
+    f = mem.enter(8, "1771:30D9")                           # 30D9-30DC
     ax, dx = mul(mem.arg(0), 0x14)                          # 30DF-30E5
     p = Rec(mem, PLAYERS, ax)
+    ptr_local(f, -8, p, "1771:30ED", "1771:30F0")
     dx = p.u8(5)                                            # 30F6-30FC: mov dx, ax
     quotient, remainder = idiv(p.u8(3) - dx, 8)             # 30FE-310D: sub ax, dx; cdq; idiv 8
-    if p.u8(1) >= 0x15:                                     # 3116-311B: jae
-        return ret(mem, remainder, quotient)                # 310F: xchg dx, ax
-    return ret(mem, remainder // 2, remainder % 2)          # 311D-3127: xor dx, dx; div 2
+    f.w16(-4, remainder, "1771:3110")                       # 310F-3110: xchg dx, ax; mov [bp - 4], ax
+    if p.u8(1) >= 0x15:                                     # 3113-311B: jae 312A
+        f.w16(-2, remainder, "1771:312D")
+        return ret(mem, remainder, quotient)
+    f.w16(-4, remainder // 2, "1771:3127")                  # 311D-3127: xor dx, dx; div 2
+    f.w16(-2, remainder // 2, "1771:312D")
+    return ret(mem, remainder // 2, remainder % 2)
 
 
 @PORTS.port("1771:3216", ret="retf 2")
 def player_unavailable(mem, variant):
-    """3216: 1 when +0xE is below 1 (signed) or element 8, 6 or 3 of +0x10 is set, else 0."""
+    """3216: 1 when +0xE is below 1 (signed) or element 8, 6 or 3 of +0x10 is set, else 0. The hot routine (about 345,000
+    calls a match): the three tests of 214B:0C57 are inline, with the stack bytes their pushes, call and frame leave."""
+    f = mem.enter(6, "1771:3216")                           # 3216-3219
     ax, dx = mul(mem.arg(0), 0x14)                          # 321C-3222
     p = Rec(mem, PLAYERS, ax)
+    ptr_local(f, -5, p, "1771:322A", "1771:322D")
     if s8(p.u8(0xE)) < 1:                                   # 3230-3238: jl
+        f.w8(-1, 1, "1771:3285")
         return ret(mem, (ax & 0xFF00) | 1, dx)              # 3283: mov al, 1 (AH of the mul)
     s = p.u8(0x10)
-    if (s >> 7) & 1:                                        # 323A-324F: element 8
-        return ret(mem, 1, 7)
     elem6 = 5 if variant == "unavailable-bit-6" else 6
-    if (s >> (elem6 - 1)) & 1:                              # 3251-3266: element 6
-        return ret(mem, 1, elem6 - 1)
-    if (s >> 2) & 1:                                        # 3268-327D: element 3
-        return ret(mem, 1, 2)
+    for elem, shift, push_elem, push_set, call, after in ((8, 7, "323D", "3247", "3248", 0x324D),
+                                                          (6, elem6 - 1, "3254", "325E", "325F", 0x3264),
+                                                          (3, 2, "326B", "3275", "3276", 0x327B)):
+        bit = (s >> shift) & 1                              # 214B:0C57: ((word s) >> (elem - 1)) & 1, AH 0, DX = elem - 1
+        sp, bp = mem.reg("sp"), mem.reg("bp")               # the call's stack: the two pushes, the far return, 0C57's frame
+        mem.w16(mem.ss_lin(sp - 2), elem, "1771:" + push_elem)
+        mem.w16(mem.ss_lin(sp - 4), s, "1771:" + push_set)
+        mem.w16(mem.ss_lin(sp - 6), mem.reg("cs"), "1771:" + call)
+        mem.w16(mem.ss_lin(sp - 8), after, "1771:" + call)
+        mem.w16(mem.ss_lin(sp - 10), bp, "214B:0C57")       # 0C57: push bp
+        mem.w8(mem.ss_lin(sp - 11), bit, "214B:0C6D")       # 0C6D: mov [bp - 1], al
+        if bit:                                             # 324F, 3266, 327D: jne 3283
+            f.w8(-1, 1, "1771:3285")
+            return ret(mem, 1, shift)
+    f.w8(-1, 0, "1771:3285")
     return ret(mem, 0, 2)                                   # 327F: mov al, 0 (AH 0 from 0C57)
 
 
@@ -268,38 +312,52 @@ def player_unavailable(mem, variant):
 def derived_skill(mem, variant):
     """3A06: DS:6DCD[12 * (+5) + DS:6D25[12 * (+7) + element]] * ((+4) + 1) div 32."""
     element, n = mem.arg(0), mem.arg(1)                     # [bp + 6], [bp + 8]
+    f = mem.enter(0xA, "1771:3A06")                         # 3A06-3A09
     ax, dx = mul(n, 0x14)                                   # 3A0C-3A12
     p = Rec(mem, PLAYERS, ax)
+    ptr_local(f, -0xA, p, "1771:3A1A", "1771:3A1D")
     scale = p.u8(4) + 1                                     # 3A20-3A2C
+    f.w16(-6, scale, "1771:3A2C")
     cx = mem.ds8(0x6D25 + ((p.u8(7) * 12 + element) & 0xFFFF))      # 3A2F-3A4C (mul 12: DX 0, no overflow)
     t = mem.ds8(0x6DCD + ((p.u8(5) * 12 + cx) & 0xFFFF))    # 3A4E-3A64
+    f.w16(-4, t, "1771:3A66")
     product = (t * scale) & 0xFFFF                          # 3A69-3A6C: mul; xor dx, dx drops the high word
     divisor = 0x1F if variant == "skill-divisor-31" else 0x20
-    return ret(mem, product // divisor, product % divisor)  # 3A6F-3A76: div 0x20
+    f.w16(-2, product // divisor, "1771:3A76")              # 3A6F-3A76: div 0x20
+    return ret(mem, product // divisor, product % divisor)
 
 
 @PORTS.port("1771:3A82", ret="retf 4")
 def squad_slot_of_player(mem, variant):
     """3A82: the slot 1..20 of a player word in the country's word list, or 0."""
     country, player = mem.arg(0), mem.arg(1)                # [bp + 6], [bp + 8]
+    f = mem.enter(8, "1771:3A82")                           # 3A82-3A85
     ax, dx = mul(country, 0xBF)                             # 3A88-3A8E
     c = Rec(mem, COUNTRIES, ax)
-    found = 0
+    ptr_local(f, -8, c, "1771:3A96", "1771:3A99")
+    f.w16(-2, 0, "1771:3A9E")
+    found, slot = 0, 0
     for slot in range(1, 0x15):                             # 3AA1-3AC6
         if c.u16(2 * slot - 2) == player:
             found = slot
+            f.w16(-2, found, "1771:3AC1")
             break
+    f.w16(-4, slot, "1771:3AA8")                            # the loop variable stays where the loop ended
     return ret(mem, found, dx)
 
 
 @PORTS.port("1771:5A03", ret="retf 4")
 def fixture_kind_in_result_set(mem, variant):
     """5A03: whether the fixture's +2 is in the set DS:0F3E (through 23E4:08DF)."""
-    ax0, dx0 = mem.reg("ax"), mem.reg("dx")                 # the caller's (the listing never writes AX's high byte or DX)
-    kind = mem.u8(((mem.arg(1) << 4) + ((mem.arg(0) + 2) & 0xFFFF)))     # 5A09-5A15: les di, [bp + 6]; [di + 2]
-    e = kind & 0xFF
-    member = mem.u8(mem.DS * 16 + ((0xF3E + (e >> 3)) & 0xFFFF)) & (1 << (e & 7))       # 5A1A-5A1F -> 08DF
-    return ret(mem, (ax0 & 0xFF00) | (1 if member else 0), dx0)    # 5A24-5A2C
+    ax, dx = mem.reg("ax"), mem.reg("dx")                   # the caller's (the listing never writes AX's high byte or DX)
+    off, seg = mem.arg(0), mem.arg(1)                       # 5A09: les di, [bp + 6]
+    f = mem.enter(6, "1771:5A03")                           # 5A03-5A06
+    f.w16(-5, off, "1771:5A0C")
+    f.w16(-3, seg, "1771:5A0F")
+    ax = (ax & 0xFF00) | mem.u8((seg << 4) + ((off + 2) & 0xFFFF))      # 5A12-5A15: mov al, es:[di + 2]; push ax
+    ax, dx, member = yield from set_test(mem, ax, dx, mem.reg("ds"), 0xF3E, "1771:5A24")     # 5A19-5A1F
+    f.w8(-1, 1 if member else 0, "1771:5A2C")               # 5A24-5A2C
+    return ret(mem, (ax & 0xFF00) | (1 if member else 0), dx)
 
 
 # -- the two routines that build Pascal strings (the helpers of 23E4 and 214B stay the original's: T60) ------------------
@@ -336,17 +394,21 @@ def formation_label(mem, variant):
     bp, ss, cs = mem.reg("bp"), mem.reg("ss"), mem.seg(0x1771)
     ax, dx = mul(country, 0xBF)                             # 0E73-0E79
     c = Rec(mem, COUNTRIES, ax)
-    ax = 0                                                  # 0E87-0E8C: the four counts [bp - 4 .. bp - 1] := 0
+    ptr_local(f, -0xA, c, "1771:0E81", "1771:0E84")
+    ax = 0                                                  # 0E87-0E8F: the four counts [bp - 4 .. bp - 1] := 0, i := 1
     f.w16(-4, 0, "1771:0E89")
     f.w16(-2, 0, "1771:0E8C")
     for i in range(1, 12):                                  # 0E8F-0EE8
+        f.w16(-6, i, "1771:0E96" if i > 1 else "1771:0E8F")
         ax = 2 * i
         w = c.u16(2 * i - 2)                                # 0E99-0EA3
         ax, dx = yield from gcall(mem, ax, dx, "1771:3216", w, ret_to="1771:0EAB")          # 0EA3-0EA8
         if ax & 0xFF:                                       # 0EAB-0EAD: unavailable
             continue
         ax, dx = mul(w, 0x14)                               # 0EAF-0EC0
-        code = mem.ds8(0xD5C + Rec(mem, PLAYERS, ax).u8(6))     # 0EC2-0EDD (xor ah, ah)
+        q = Rec(mem, PLAYERS, ax)
+        ptr_local(f, -0xE, q, "1771:0EC8", "1771:0ECB")
+        code = mem.ds8(0xD5C + q.u8(6))                     # 0ECE-0EDD (xor ah, ah)
         ax = code
         f.w8(code - 4, f.u8(code - 4) + 1, "1771:0EE1")     # 0EDF-0EE1: inc byte [bp + di - 4]
     counts = [f.u8(-4), f.u8(-3), f.u8(-2), f.u8(-1)]
@@ -375,13 +437,12 @@ def formation_label(mem, variant):
 @PORTS.port("1771:33CD", ret="retf 2")
 def force_tactic4_off(mem, variant):
     """33CD: set element 8 and clear element 4 of the player's +0xF (214B:0C79, 0CA1)."""
-    n = mem.arg(0)
-    ax, dx = mul(n, 0x14)                                   # 33D3-33D9
+    f = mem.enter(4, "1771:33CD")                           # 33CD-33D0
+    ax, dx = mul(mem.arg(0), 0x14)                          # 33D3-33D9
     p = Rec(mem, PLAYERS, ax)
-    byte, ax, dx = bit_set(p.u8(0xF), 8)                    # 33E7-33F4
-    p.w8(0xF, byte, S_SET_WRITE)
-    byte, ax, dx = bit_clear(p.u8(0xF), 4)                  # 33F9-3406
-    p.w8(0xF, byte, S_CLEAR_WRITE)
+    ptr_local(f, -4, p, "1771:33E1", "1771:33E4")
+    ax, dx = yield from bit_op(mem, "214B:0C79", dx, p, 0xF, 8, "1771:33F9")    # 33E7-33F4
+    ax, dx = yield from bit_op(mem, "214B:0CA1", dx, p, 0xF, 4, "1771:340B")    # 33F9-3406
     return end(mem, ax, dx)
 
 
@@ -390,25 +451,26 @@ def set_player_tactics(mem, variant):
     """3431: from the player's own fields: element 8 on and 4 off when the hardness is below 4 (33CD), then by the
     position code (the set CS:3411): elements 5 and 1, or for position 2 elements 5 (when +5 < 0xE), 6 and 2."""
     n = mem.arg(0)
-    mem.enter(4, "1771:3431")                               # 3431-3434
+    f = mem.enter(4, "1771:3431")                           # 3431-3434
     ax, dx = mul(n, 0x14)                                   # 3437-343D
     p = Rec(mem, PLAYERS, ax)
+    ptr_local(f, -4, p, "1771:3445", "1771:3448")
     ax, dx = yield from gcall(mem, ax, dx, "1771:2FFB", n, ret_to="1771:3452")      # 344B-344F
     if (ax & 0xFF) < 4:                                     # 3452: cmp al, 4; jae
         ax, dx = yield from gcall(mem, ax, dx, "1771:33CD", n, ret_to="1771:345D")  # 3456-345A
     pos = p.u8(6)                                           # 345D-3464: mov al, [di + 6]
     ax = (ax & 0xFF00) | pos
-    in_set, ax = cs_set_has(TACTIC_POSITIONS, pos, ax)      # 3465-346A (23E4:08DF; AL = 1 << (e & 7))
-    if in_set:                                              # 346F: je 3497 (not in the set)
-        for elem in (5, 1):                                 # 3471-348E
-            byte, ax, dx = bit_set(p.u8(0xF), elem)
-            p.w8(0xF, byte, S_SET_WRITE)
+    cs = mem.reg("cs")
+    ax, dx, member = yield from set_test(mem, ax, dx, cs, 0x3411, "1771:346F")      # 3465-346A (the set CS:3411)
+    if member:                                              # 346F: je 3497 (not in the set)
+        ax, dx = yield from bit_op(mem, "214B:0C79", dx, p, 0xF, 5, "1771:3483")    # 3471-347E
+        ax, dx = yield from bit_op(mem, "214B:0C79", dx, p, 0xF, 1, "1771:3495")    # 3483-3490
         return end(mem, ax, dx)
     if pos == 2:                                            # 3497-349F
-        elems = (6, 2) if p.u8(5) >= 0xE else (5, 6, 2)     # 34A1-34A9: element 5 only when +5 < 0xE
-        for elem in elems:                                  # 34AB-34DC
-            byte, ax, dx = bit_set(p.u8(0xF), elem)
-            p.w8(0xF, byte, S_SET_WRITE)
+        if p.u8(5) < 0xE:                                   # 34A4-34A9: jae 34BD
+            ax, dx = yield from bit_op(mem, "214B:0C79", dx, p, 0xF, 5, "1771:34BD")    # 34AB-34B8
+        ax, dx = yield from bit_op(mem, "214B:0C79", dx, p, 0xF, 6, "1771:34CF")        # 34BD-34CA
+        ax, dx = yield from bit_op(mem, "214B:0C79", dx, p, 0xF, 2, "1771:34E1")        # 34CF-34DC
     return end(mem, ax, dx)
 
 
@@ -416,10 +478,12 @@ def set_player_tactics(mem, variant):
 def reset_own_tactics(mem, variant):
     """34E7: the +0xF of each of a country's players (squad slots 1..20, a word 0 is empty) cleared, then 3431."""
     country = mem.arg(0)
-    mem.enter(6, "1771:34E7")
+    f = mem.enter(6, "1771:34E7")                           # 34E7-34EA
     ax, dx = mul(country, 0xBF)                             # 34ED-34F3
     c = Rec(mem, COUNTRIES, ax)
+    ptr_local(f, -6, c, "1771:34FB", "1771:34FE")
     for slot in range(1, 0x15):                             # 3501-3550
+        f.w16(-2, slot, "1771:3501" if slot == 1 else "1771:3508")
         ax = (2 * slot) & 0xFFFF                            # 350B-350E: shl ax, 1
         word = c.u16(2 * slot - 2)                          # 3510-3515
         if word == 0:                                       # 351A: je 354C
@@ -437,26 +501,33 @@ def out_of_place_flag(mem, variant):
     """3179: 1 when the player plays on the wrong foot for the position (3088, 3041, the sets CS:3139 and CS:3159) or
     when exactly one of +6 and +7 is 0."""
     n = mem.arg(0)
-    mem.enter(6, "1771:3179")
+    f = mem.enter(6, "1771:3179")                           # 3179-317C
     ax, dx = mul(n, 0x14)                                   # 317F-3185
     p = Rec(mem, PLAYERS, ax)
+    ptr_local(f, -6, p, "1771:318D", "1771:3190")
     ax, dx = yield from gcall(mem, ax, dx, "1771:3088", n, ret_to="1771:319A")      # 3193-3197
     foot = ax & 0xFF                                        # 319A: [bp - 2] = al
+    f.w8(-2, foot, "1771:319A")
     ax, dx = yield from gcall(mem, ax, dx, "1771:3041", n, ret_to="1771:31A4")      # 319D-31A1
-    # Nothing after 3041 changes AH or DX (08DF leaves them), so they are 3041's whatever the path.
-    keep = ax & 0xFF00
+    cs = mem.reg("cs")
     flag = None
-    if not (ax & 0xFF) and foot != 0:                       # 31A4-31AC
-        right = RIGHT_FOOT_BAD - {7} if variant == "foot-right-3" else RIGHT_FOOT_BAD
-        if p.u8(6) in right:                                # 31AE-31C0: 08DF on CS:3139
+    if not (ax & 0xFF) and foot != 0:                       # 31A4-31AC: not two-footed, a foot
+        ax = (ax & 0xFF00) | p.u8(6)                        # 31AE-31B5
+        right = 0x3159 if variant == "foot-sets-swapped" else 0x3139
+        ax, dx, member = yield from set_test(mem, ax, dx, cs, right, "1771:31C0")       # 31B6-31BB: the set CS:3139
+        if member:                                          # 31C0: jne 3208
             flag = 1
     if flag is None and foot == 0:                          # 31C2-31DA
-        if p.u8(6) in LEFT_FOOT_BAD:                        # 08DF on CS:3159
+        ax = (ax & 0xFF00) | p.u8(6)                        # 31C8-31CF
+        left = 0x3139 if variant == "foot-sets-swapped" else 0x3159
+        ax, dx, member = yield from set_test(mem, ax, dx, cs, left, "1771:31DA")        # 31D0-31D5: the set CS:3159
+        if member:                                          # 31DA: jne 3208
             flag = 1
     if flag is None:
         p6, p7 = p.u8(6), p.u8(7)                           # 31DC-3202
         flag = 1 if (p6 == 0) != (p7 == 0) else 0
-    return ret(mem, keep | flag, dx)                        # 3204/3208, 320A-3210
+    f.w8(-1, flag, "1771:320A")
+    return ret(mem, (ax & 0xFF00) | flag, dx)               # 3204/3208, 320A-3210
 
 
 @PORTS.port("1771:377E", ret="retf 2")
@@ -464,12 +535,14 @@ def player_strength(mem, variant):
     """377E: (+4 - 0x3E) + s8(+0xE), then plus s8(+0xC) when that is below 0x20 else minus a sixteenth, clamped 0..0x100,
     halved when 3179 says so; 0 when 3216 says unavailable. (T43's model: runtime/model/quick_engine.py.)"""
     n = mem.arg(0)
-    mem.enter(8, "1771:377E")
+    f = mem.enter(8, "1771:377E")                           # 377E-3781
     ax, dx = mul(n, 0x14)                                   # 3784-378A
     p = Rec(mem, PLAYERS, ax)
+    ptr_local(f, -8, p, "1771:3792", "1771:3795")
     ax, dx = yield from gcall(mem, ax, dx, "1771:3216", n, ret_to="1771:379F")      # 3798-379C
     if ax & 0xFF:                                           # 379F-37A1
-        return ret(mem, 0, dx)                              # 37A3-37A8
+        f.w16(-2, 0, "1771:37A5")                           # 37A3-37A8
+        return ret(mem, 0, dx)
     dx = s8(p.u8(0xE)) & 0xFFFF                             # 37AA-37B2: cwde; mov dx, ax
     v = (p.u8(4) - 0x3E + dx) & 0xFFFF                      # 37B4-37C2
     ax = v
@@ -485,13 +558,16 @@ def player_strength(mem, variant):
         v, ax = 0, 0
     elif s16(v) > 0x100:                                    # 37F5-37FC
         v = 0x100
+    f.w16(-4, v, "1771:3801")                               # the clamped value, as [bp - 4] holds it at 3801
     ax, dx = yield from gcall(mem, ax, dx, "1771:3179", n, ret_to="1771:3808")      # 3801-3805
     if ax & 0xFF:                                           # 3808-380A
         q, dx = idiv(s16(v), 2)                             # 380C-3813: cdq; idiv 2
         v = q
         ax = q
+        f.w16(-4, v, "1771:3815")
     else:
         ax = v
+    f.w16(-2, v, "1771:381B")
     return ret(mem, v, dx)                                  # 3818-3821 (AX = v in both cases)
 
 
@@ -511,7 +587,9 @@ def pick_mark_target(mem, variant):
     target = (mem.arg(0) - 0x10) & 0xFFFF                   # 3E9F-3EA2: [bp + 4] + 0xFFF0
     ss = mem.reg("ss")
     for r in range(1, 5):                                   # 3E36-3EEF
+        f.w16(-4, r, "1771:3E36" if r == 1 else "1771:3E3D")
         for j in range(11, 1, -1):                          # 3E40-3EE6
+            f.w16(-2, j, "1771:3E40" if j == 11 else "1771:3E47")
             oc = parent.u8(j - 0x1C)                        # 3E4D-3E56 (xor ah, ah)
             ax = oc
             if oc < lo:                                     # 3E58-3E5D
@@ -527,6 +605,7 @@ def pick_mark_target(mem, variant):
             ax, dx = yield from gcall(mem, ax, dx, "23E4:06E3", ss, pattern, ss, target, ret_to="1771:3EAD")  # 3EA5-3EA8
             pos = (ax + 1) & 0xFFFF                         # 3EAD: inc ax
             ax = pos
+            f.w16(-6, pos, "1771:3EAE")
             if pos <= 1:                                    # 3EB1-3EB5: jbe
                 continue
             parent.w8(pos - 0x11, 0, "1771:3EBF")           # 3EB7-3EBF
@@ -548,8 +627,10 @@ def set_marking_words(mem, variant):
     ax = dx = 0
     for t in (0, 1):                                        # 3EFE-3F04, 4250-4256
         other = 1 - t
+        f.w8(-5, t, "1771:3EFE" if t == 0 else "1771:3F04")
         ax, dx = mul(mem.ds16(TEAM_COUNTRY + 2 * t), 0xBF)                  # 3F0F-3F16
         mine = Rec(mem, COUNTRIES, ax)
+        ptr_local(f, -0x2A, mine, "1771:3F1E", "1771:3F21")
         ax = dx = 0
         mem.w16(DS + ((MARK_BASE + 0x28 * t + 2) & 0xFFFF), 0, "1771:3F31")  # 3F24-3F31: slot 1's word := 0
         ax, dx = mul(mine.u16(2), 0x14)                     # 3F35-3F3F: slot 2's player
@@ -560,11 +641,13 @@ def set_marking_words(mem, variant):
         f.w8(-0x1B, 10, "1771:3F63")
         for j in range(2, 12):                              # 3F67-4054
             w = mine.u16(2 * j - 2)
+            f.w16(-2, j, "1771:3F67" if j == 2 else "1771:3F6E")
             ax, dx = mul(w, 0x14)                           # 3F71-3F82
             q = Rec(mem, PLAYERS, ax)
+            ptr_local(f, -0x2E, q, "1771:3F8A", "1771:3F8D")
             unusable = q.u8(6) == 1                         # 3F93: je 3FC7
             if not unusable:
-                ax, dx = bit_test(q.u8(0x10), 7)            # 3F9A-3FA8
+                ax, dx = yield from bit_test(mem, dx, q.u8(0x10), 7, "1771:3FAD")      # 3F9A-3FA8
                 unusable = bool(ax & 0xFF)
             if not unusable:
                 ax, dx = yield from gcall(mem, ax, dx, "1771:3216", w, ret_to="1771:3FC3")      # 3FB1-3FC0
@@ -576,9 +659,11 @@ def set_marking_words(mem, variant):
                 f.w8(j - 0x11, ax & 0xFF, "1771:3FDA")
             ax, dx = mul(mem.ds16(TEAM_COUNTRY + 2 * other), 0xBF)          # 3FDD-3FF5 (cmp [bp - 5], 0; mov al, 0/1; cwde)
             opponents = Rec(mem, COUNTRIES, ax)
+            ptr_local(f, -0x2E, opponents, "1771:3FFD", "1771:4000")
             ow = opponents.u16(2 * j - 2)                   # 4003-400D
             ax, dx = mul(ow, 0x14)                          # 400D-4014
             oq = Rec(mem, PLAYERS, ax)
+            ptr_local(f, -0x32, oq, "1771:401C", "1771:401F")
             ax, dx = yield from gcall(mem, ax, dx, "1771:3216", ow, ret_to="1771:4034")     # 4022-4031
             if ax & 0xFF:                                   # 4034-4036
                 f.w8(j - 0x1C, 0, "1771:403B")              # 4038-403B
@@ -586,12 +671,15 @@ def set_marking_words(mem, variant):
                 ax = (ax & 0xFF00) | oq.u8(6)               # 4041-4044
                 f.w8(j - 0x1C, ax & 0xFF, "1771:404B")
         for j in range(2, 12):                              # 4057-40FD: the protect-zone men take their own marker's man
+            f.w16(-2, j, "1771:4057" if j == 2 else "1771:405E")
             ax, dx = mul(mine.u16(2 * j - 2), 0x14)         # 4061-4072
             q = Rec(mem, PLAYERS, ax)
-            ax, dx = bit_test(q.u8(0x10), 7)                # 4080-408E
+            ptr_local(f, -0x2E, q, "1771:407A", "1771:407D")
+            ax, dx = yield from bit_test(mem, dx, q.u8(0x10), 7, "1771:4093")      # 4080-408E
             if not (ax & 0xFF):                             # 4093: je 40F7
                 continue
             for k in range(2, 12):                          # 4097-40F5
+                f.w16(-4, k, "1771:4097" if k == 2 else "1771:409E")
                 ax, dx = mul(t, 0x28)                       # 40A8-40B3
                 bx = mem.ds16(MARK_BASE + 0x28 * t + 2 * j)           # 40B5
                 ax, dx = mul(mem.ds16(TEAM_COUNTRY + 2 * other), 0xBF)  # 40C0-40D8
@@ -602,16 +690,18 @@ def set_marking_words(mem, variant):
         for hi, lo, ret_to in ((0xD, 0xC, "411D"), (0xB, 9, "4129"), (8, 5, "4135"), (1, 1, "4141"), (4, 2, "414D")):
             ax, dx = yield from gcall(mem, hi, dx, "1771:3E2F", lo, hi, bp, ret_to="1771:" + ret_to, far=False)  # 4111-414A
         for j in range(2, 12):                              # 414D-424D
+            f.w16(-2, j, "1771:414D" if j == 2 else "1771:4154")
             ax, dx = mul(mine.u16(2 * j - 2), 0x14)         # 4157-416A
             q = Rec(mem, PLAYERS, ax)
-            ax, dx = bit_test(q.u8(0x10), 7)                # 4176-4184
+            ptr_local(f, -0x2E, q, "1771:4170", "1771:4173")
+            ax, dx = yield from bit_test(mem, dx, q.u8(0x10), 7, "1771:4189")      # 4176-4184
             if not (ax & 0xFF):                             # 418B: jne 41A7
                 ax, dx = (0, 0)                             # 418D-41A3: AX := 0 (cwde; mul 0x28; xor ax, ax)
                 mem.w16(DS + ((MARK_BASE + 0x28 * t + 2 * j) & 0xFFFF), 0, "1771:41A3")
-            ax, dx = bit_test(q.u8(0x10), 7)                # 41A7-41B5
+            ax, dx = yield from bit_test(mem, dx, q.u8(0x10), 7, "1771:41BA")      # 41A7-41B5
             if ax & 0xFF:                                   # 41BA: je 41C1; jmp 4247
                 continue
-            ax, dx = bit_test(mine.u8(0x2D), 8)             # 41C1-41CF: team tactics, element 8
+            ax, dx = yield from bit_test(mem, dx, mine.u8(0x2D), 8, "1771:41D4")   # 41C1-41CF: team tactics, element 8
             if not (ax & 0xFF):                             # 41D4
                 continue
             mark = f.u8(j - 0x27)                           # 41D8-41DF: jbe 422D
