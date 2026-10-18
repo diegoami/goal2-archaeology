@@ -2,6 +2,8 @@
 
 runtime/heavy_slot.py's `take` re-runs the command under heavy.sh, so it waits behind the machine's other heavy
 jobs; the real script runs here in a throwaway lock folder. Each rule has a test that fails without it."""
+import contextlib
+import io
 import os
 import subprocess
 import sys
@@ -107,14 +109,36 @@ class FamilyWorkersTest(unittest.TestCase):
         import family
         cls.family = family
 
-    def test_workers_read_from_the_command_line(self):
-        w = self.family._workers
-        self.assertEqual(w(["--family", "ALL"]), 1)
-        self.assertEqual(w(["--workers", "2", "--out", "x"]), 2)
-        self.assertEqual(w(["--workers=2"]), 2)
-        self.assertEqual(w(["--workers", "1"]), 1)
-        self.assertEqual(w(["--workers", "7"]), 1)               # main() refuses it; no slots are held for it
-        self.assertEqual(w(["--workers"]), 1)
+    OUT = ["--family", "S", "--out", "never-written.jsonl"]
+
+    def run_main(self, argv):
+        """The `workers` main() hands to run_family for this command line (run_family stubbed: no match runs)."""
+        seen = []
+        stub = mock.patch.object(self.family, "run_family", side_effect=lambda sel, out, workers, *a, **k: seen.append(workers) or [])
+        with stub, contextlib.redirect_stdout(io.StringIO()):
+            self.assertEqual(self.family.main(argv), 0)
+        return seen[0]
+
+    def test_the_weight_is_the_workers_main_uses_whatever_the_spelling(self):
+        # each spelling argparse accepts: the last of a repeated option wins, --opt=value, an abbreviation
+        for tail, workers in ((["--workers", "2"], 2), (["--workers=2"], 2), (["--workers", "1", "--workers", "2"], 2),
+                              (["--workers", "2", "--workers", "1"], 1), (["--workers=1", "--workers=2"], 2),
+                              (["--work", "2"], 2), (["--wor=2"], 2), (["--workers", "2", "--wor", "1"], 1), ([], 1)):
+            argv = self.OUT + tail
+            self.assertEqual(self.family._workers(argv), self.run_main(argv), argv)   # the two cannot disagree
+            self.assertEqual(self.family._workers(argv), workers, argv)
+
+    def test_a_command_line_main_refuses_holds_no_slot(self):
+        for argv in (self.OUT + ["--workers", "0"], self.OUT + ["--workers", "-1"], self.OUT + ["--workers", "3"],
+                     self.OUT + ["--workers", "x"], self.OUT + ["--workers"], self.OUT + ["--workers", "1", "--workers", "9"],
+                     self.OUT + ["--bogus"], ["--out", "x"], ["--help"]):
+            self.assertIsNone(self.family._workers(argv), argv)   # argparse's own error then speaks, once, from main()
+
+    def test_parsed_prints_nothing_and_returns_none_on_a_refused_line(self):
+        err = io.StringIO()
+        with contextlib.redirect_stderr(err):
+            self.assertIsNone(heavy_slot.parsed(self.family.parser(), ["--workers", "3"]))
+        self.assertEqual(err.getvalue(), "")
 
 
 @unittest.skipUnless(USABLE, "tools/harness/heavy.sh is not executable")
@@ -142,6 +166,28 @@ class EntryPointsTest(unittest.TestCase):
                                    capture_output=True, text=True, timeout=60)
                 self.assertIn("heavy: unit-suite: waiting for a slot", r.stderr)
                 self.assertEqual(r.returncode, 2)
+            finally:
+                holder.wait()
+                holder.stdout.close()
+
+    def test_a_command_line_the_script_refuses_does_not_queue(self):
+        # the slot is held for SUITE_HOLD s; a refused line must answer at once with argparse's message, not wait for it
+        with tempfile.TemporaryDirectory() as d:
+            env = env_for(Path(d) / "locks")
+            holder = subprocess.Popen([str(HEAVY), "holder", "--", "sh", "-c", f"echo up; sleep {SUITE_HOLD}"], env=env,
+                                      stdout=subprocess.PIPE, text=True)
+            try:
+                self.assertEqual(holder.stdout.readline(), "up\n")
+                for argv in ([str(ROOT / "tools" / "ci_gate.py"), "run-tests", "--bogus"],
+                             [str(FAMILY), "--family", "S", "--out", "x", "--workers", "1", "--workers", "9"],
+                             ["-m", "original_match.check", "--bogus"]):
+                    t0 = time.time()
+                    r = subprocess.run([sys.executable, *argv], env=env, cwd=ROOT / "runtime" if argv[0] == "-m" else ROOT,
+                                       capture_output=True, text=True, timeout=60)
+                    self.assertNotEqual(r.returncode, 0, argv)
+                    self.assertNotIn("waiting", r.stderr, argv)
+                    self.assertLess(time.time() - t0, SUITE_HOLD - 1, argv)
+                    self.assertEqual(r.stderr.count("error:"), 1, argv)       # argparse speaks once
             finally:
                 holder.wait()
                 holder.stdout.close()

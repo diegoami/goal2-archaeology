@@ -373,7 +373,8 @@ def find_ranges(image, selected, path, time_limit=3600.0, say=print):
     return report
 
 
-def main(argv=None):
+def parser():
+    """The command line's one definition: main() parses with it, and so does the slot weight (heavy_slot.parsed)."""
     ap = argparse.ArgumentParser(description=__doc__.split("\n\n")[0])
     ap.add_argument("--family", required=True)
     ap.add_argument("--out")
@@ -385,7 +386,11 @@ def main(argv=None):
     ap.add_argument("--mask")
     ap.add_argument("--only")
     ap.add_argument("--cache", default=DEFAULT_CACHE)
-    a = ap.parse_args(argv)
+    return ap
+
+
+def main(argv=None):
+    a = parser().parse_args(argv)
     try:
         if (a.out is None) == (a.find_ranges is None):
             raise Refused("give --out (a family run) or --find-ranges (the write watch), not both and not neither")
@@ -418,16 +423,18 @@ def main(argv=None):
 
 
 def _workers(argv):
-    """--workers from the command line (1 when it is absent or unreadable: main() reports it)."""
-    for i, arg in enumerate(argv):
-        value = arg[len("--workers="):] if arg.startswith("--workers=") else argv[i + 1] if arg == "--workers" and i + 1 < len(argv) else None
-        if value in ("1", "2"):
-            return int(value)
-    return 1
+    """The number of match processes this command line will run: --workers as main()'s own parser reads it (the last of
+    a repeated option, --workers=N, an abbreviation), or None when that parser would refuse the line."""
+    import heavy_slot
+    ns = heavy_slot.parsed(parser(), argv)
+    return None if ns is None else ns.workers
 
 
 if __name__ == "__main__":
     import heavy_slot
-    # a heavy job (#318): one slot per match process, so --workers 2 holds two of the machine's slots
-    heavy_slot.take("family", weight=_workers(sys.argv[1:]))
+    # a heavy job (#318): one slot per match process, so --workers 2 holds two of the machine's slots; a command line
+    # main() refuses holds none (it prints argparse's message at once)
+    _w = _workers(sys.argv[1:])
+    if _w is not None:
+        heavy_slot.take("family", weight=_w)
     sys.exit(main())

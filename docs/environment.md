@@ -253,7 +253,7 @@ A `heavy.sh` started inside a heavy job (`HARNESS_HEAVY_HELD` is set) runs its c
 second slot, so `check.py` called by the unit suite cannot deadlock a full machine.
 
 Who uses it: `experiments/E036-match-port/family.py` (weight = `--workers`), `runtime/original_match/check.py` and
-`tools/ci_gate.py run-tests` queue themselves when run as scripts (`runtime/heavy_slot.py`; not in CI, where the
+`tools/ci_gate.py run-tests` queue themselves when run as scripts (`runtime/heavy_slot.py`; each reads its slot weight and whether to queue at all with the same argparse parser its `main()` uses, `heavy_slot.parsed`, so a repeated `--workers`, `--workers=2` or an abbreviation weighs what the run uses, and a command line `main()` refuses holds no slot; not in CI, where the
 runner is not this machine, nor when `HARNESS_HEAVY_OFF` is set). The unit suite run by hand is
 `tools/harness/heavy.sh unit-suite -- python3 -m unittest discover -s tests`. A review: `review.mjs` puts
 `tools/harness/` of the main checkout first on the reviewer's PATH (a PR that predates the script has it too),

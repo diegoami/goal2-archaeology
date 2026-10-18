@@ -237,7 +237,8 @@ def knockout(image):
                 "score": r["score"], "score_90": r["score_90"], "shootout": so and so["score"], "winner": r["winner"]}
 
 
-def main(argv=None):
+def parser():
+    """The command line's one definition: main() parses with it, and so does the heavy-job slot (heavy_slot.parsed)."""
     ap = argparse.ArgumentParser(description=__doc__.split("\n\n")[0])
     ap.add_argument("--image", help="a savestate or Memory component (default: the reference, fetched by hash)")
     ap.add_argument("--cache", default=".cache")
@@ -246,6 +247,11 @@ def main(argv=None):
     ap.add_argument("--ports", help="the port mode: port modules (port/) to run in place of the original's routines, "
                                     "comma-separated, or all")
     ap.add_argument("--variant", help="the port mode: MODULE.NAME, one of a port module's variants (a falsifier)")
+    return ap
+
+
+def main(argv=None):
+    ap = parser()
     a = ap.parse_args(argv)
     global MATCH
     specs = [s for s in (a.ports or "").split(",") if s]
@@ -287,5 +293,6 @@ if __name__ == "__main__":
     from pathlib import Path
     sys.path.insert(0, str(Path(__file__).resolve().parents[1]))    # runtime/
     import heavy_slot
-    heavy_slot.take("check")   # a heavy job (#318): waits for a slot of tools/harness/heavy.sh
+    if heavy_slot.parsed(parser()) is not None:    # a command line main() refuses holds no slot
+        heavy_slot.take("check")   # a heavy job (#318): waits for a slot of tools/harness/heavy.sh
     main()
