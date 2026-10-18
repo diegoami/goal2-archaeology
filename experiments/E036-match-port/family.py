@@ -390,13 +390,18 @@ def parser():
 
 
 def prepare(a):
-    """(selected, mask, counts) for a parsed command line; Refused or families.FamilyError when main() will refuse it."""
+    """(selected, mask, counts) for a parsed command line; Refused or families.FamilyError when main() will refuse it.
+    The one place a parsed command line is refused: main() calls it, and so does the slot step (_slot_weight), so a refused
+    line is answered at once and never queues for a slot (#328). Run-time refusals (a match under the watch that does not
+    complete) are not here: they need the run."""
     if (a.out is None) == (a.find_ranges is None):
         raise Refused("give --out (a family run) or --find-ranges (the write watch), not both and not neither")
     if a.max is not None and a.max < 1:
         raise Refused("--max is a number of matches, 1 or more")
     if not 0 < a.time_limit <= 36000:
         raise Refused("--time-limit is a number of seconds, up to 36000")
+    if a.find_ranges and Path(a.find_ranges).exists():    # here, not in main(): the slot step runs prepare() too (#328)
+        raise Refused(f"refused: {a.find_ranges} exists (an output is never overwritten)")
     selected = [m for fam in families.select(a.family, families.discover()) for m in fam.matches]
     if a.only is not None:
         ids = a.only.split(",")
@@ -427,8 +432,6 @@ def main(argv=None):
     try:
         selected, mask, counts = prepare(a)
         if a.find_ranges:
-            if a.find_ranges and Path(a.find_ranges).exists():
-                raise Refused(f"refused: {a.find_ranges} exists (an output is never overwritten)")
             from original_match import Image
             from original_match.assets import reference_image
             find_ranges(Image.from_bytes(reference_image(a.cache)), selected[:a.max], a.find_ranges)

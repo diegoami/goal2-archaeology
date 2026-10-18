@@ -30,6 +30,7 @@ family step then prints each seed (the same, changed, or stopped) and the ports'
 import argparse
 import hashlib
 import json
+import os
 import sys
 import time
 
@@ -250,18 +251,58 @@ def parser():
     return ap
 
 
+class Refused(Exception):
+    """A command line that parses but that main() will not run."""
+
+
+def validate(a):
+    """The spec names to run (--ports and --variant, as the saved match keeps them) for a parsed command line, or Refused.
+    The one definition of every refusal after parsing: main() calls it, and so does the heavy-job slot (_takes_a_slot), so
+    a refused line is answered at once and never queues for a slot (#328). A refusal that needs the run (the reference
+    image not in the cache and not downloadable) is not here."""
+    specs = [s for s in (a.ports or "").split(",") if s]
+    if a.variant:
+        if "." not in a.variant:
+            raise Refused("--variant is MODULE.NAME")
+        specs = [s for s in specs if s != a.variant.split(".")[0]] + [a.variant]
+    if specs:
+        from . import port
+        try:
+            specs = port.spec_names(port.load(specs))         # refuses an unknown module or variant before any run
+        except ValueError as e:
+            raise Refused(str(e))
+    if a.image and not os.path.isfile(a.image):
+        raise Refused(f"--image {a.image}: not a file")
+    if a.json:
+        if os.path.lexists(a.json):                           # the report is opened for creation at the end of the run
+            raise Refused(f"--json {a.json} exists (an output is never overwritten)")
+        if not os.path.isdir(os.path.dirname(a.json) or "."):
+            raise Refused(f"--json {a.json}: its folder does not exist")
+    return specs
+
+
+def _takes_a_slot(argv=None):
+    """Whether main() will run this command line (argparse and validate both accept it), so that it waits for a slot."""
+    import heavy_slot
+    ns = heavy_slot.parsed(parser(), argv)
+    if ns is None:
+        return False
+    try:
+        validate(ns)
+    except Refused:
+        return False
+    return True
+
+
 def main(argv=None):
     ap = parser()
     a = ap.parse_args(argv)
     global MATCH
-    specs = [s for s in (a.ports or "").split(",") if s]
-    if a.variant:
-        if "." not in a.variant:
-            ap.error("--variant is MODULE.NAME")
-        specs = [s for s in specs if s != a.variant.split(".")[0]] + [a.variant]
+    try:
+        specs = validate(a)
+    except Refused as e:
+        ap.error(str(e))
     if specs:
-        from . import port
-        specs = port.spec_names(port.load(specs))         # refuses an unknown module or variant before any run
         MATCH = example.Match = ported(specs)
         print(f"ports: {', '.join(specs)}", flush=True)
     data = open(a.image, "rb").read() if a.image else reference_image(a.cache)
@@ -293,6 +334,6 @@ if __name__ == "__main__":
     from pathlib import Path
     sys.path.insert(0, str(Path(__file__).resolve().parents[1]))    # runtime/
     import heavy_slot
-    if heavy_slot.parsed(parser()) is not None:    # a command line main() refuses holds no slot
+    if _takes_a_slot():    # a command line main() refuses (argparse or validate) holds no slot
         heavy_slot.take("check")   # a heavy job (#318): waits for a slot of tools/harness/heavy.sh
     main()

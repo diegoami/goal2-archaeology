@@ -3,6 +3,7 @@
 runtime/heavy_slot.py's `take` re-runs the command under heavy.sh, so it waits behind the machine's other heavy
 jobs; the real script runs here in a throwaway lock folder. Each rule has a test that fails without it."""
 import contextlib
+import importlib.util
 import io
 import os
 import subprocess
@@ -230,19 +231,28 @@ class EntryPointsTest(unittest.TestCase):
             self.assertIn("heavy_slot", tail, rel)
             self.assertIn(f'take("{name}"', tail, rel)
 
-    def test_the_unit_suite_waits_in_the_queue(self):
+    def test_a_valid_command_line_waits_in_the_queue(self):
+        """Each entry point queues a line it will run (the refused ones do not: RefusedAfterParsingTest). #328 changed the
+        unit suite's old test, which used a refused line (--modules nope) to see the wait."""
         with tempfile.TemporaryDirectory() as d:
             env = env_for(Path(d) / "locks")
             holder = subprocess.Popen([str(HEAVY), "holder", "--", "sh", "-c", f"echo up; sleep {SUITE_HOLD}"], env=env,
                                       stdout=subprocess.PIPE, text=True)
             try:
                 self.assertEqual(holder.stdout.readline(), "up\n")
-                # a module that is not slow is refused, but only after the wait: the job was queued
-                gate = str(ROOT / "tools" / "ci_gate.py")
-                r = subprocess.run([sys.executable, gate, "run-tests", "--modules", "nope"], env=env,
-                                   capture_output=True, text=True, timeout=60)
-                self.assertIn("heavy: unit-suite: waiting for a slot", r.stderr)
-                self.assertEqual(r.returncode, 2)
+                for name, argv, cwd in (
+                        ("unit-suite", [str(ROOT / "tools" / "ci_gate.py"), "run-tests"], ROOT),
+                        ("family", [str(FAMILY), "--family", "S", "--find-ranges", str(Path(d) / "never-written.json")], ROOT),
+                        ("check", ["-m", "original_match.check"], ROOT / "runtime")):
+                    p = subprocess.Popen([sys.executable, *argv], env=env, cwd=cwd, stdout=subprocess.DEVNULL,
+                                         stderr=subprocess.PIPE, text=True)
+                    try:
+                        line = p.stderr.readline()      # blocks until it says it waits (the holder keeps the slot)
+                        self.assertIn(f"heavy: {name}: waiting for a slot", line, argv)
+                    finally:
+                        p.terminate()
+                        p.wait()
+                        p.stderr.close()
             finally:
                 holder.wait()
                 holder.stdout.close()
@@ -268,6 +278,91 @@ class EntryPointsTest(unittest.TestCase):
             finally:
                 holder.wait()
                 holder.stdout.close()
+
+
+@unittest.skipUnless(USABLE, "tools/harness/heavy.sh is not executable")
+class RefusedAfterParsingTest(unittest.TestCase):
+    """#328: a command line an entry point refuses after argparse answers at once while the slot is held. Each entry point
+    has ONE validation (ci_gate.refusal, family.prepare, check.validate) that main() and the slot step share; the cases
+    below enumerate every refusal that function can make, so a refusal moved back into main() fails here."""
+
+    def setUp(self):
+        self._dir = tempfile.TemporaryDirectory()
+        self.addCleanup(self._dir.cleanup)
+        self.tmp = Path(self._dir.name)
+        self.env = env_for(self.tmp / "locks")
+        self.holder = subprocess.Popen([str(HEAVY), "holder", "--", "sh", "-c", f"echo up; sleep {SUITE_HOLD}"], env=self.env,
+                                       stdout=subprocess.PIPE, text=True)
+        self.addCleanup(self.holder.stdout.close)
+        self.addCleanup(self.holder.wait)
+        self.assertEqual(self.holder.stdout.readline(), "up\n")        # it has the only slot for SUITE_HOLD s
+
+    def refused_at_once(self, argv, said, cwd=ROOT):
+        t0 = time.time()
+        r = subprocess.run([sys.executable, *argv], env=self.env, cwd=cwd, capture_output=True, text=True, timeout=60)
+        out = r.stdout + r.stderr
+        self.assertNotIn("waiting", out, argv)
+        self.assertLess(time.time() - t0, SUITE_HOLD - 1, argv)           # answered while the slot was still held
+        self.assertEqual(r.returncode, 2, (argv, out))
+        self.assertIn(said, out, argv)
+
+    def test_ci_gate_refusals(self):
+        gate = str(ROOT / "tools" / "ci_gate.py")
+        self.refused_at_once([gate, "run-tests", "--modules", "nope"], "not slow modules: ['nope']")
+        self.refused_at_once([gate, "run-tests", "--modules", "nope,also-not"], "not slow modules: ['also-not', 'nope']")
+
+    def test_family_refusals(self):
+        log = self.tmp / "log.jsonl"
+        log.write_text("not json\n")
+        existing = self.tmp / "ranges.json"
+        existing.write_text("{}")
+        base = [str(FAMILY), "--family", "S"]
+        for tail, said in (
+                ([], "give --out (a family run) or --find-ranges"),                                   # neither
+                (["--out", "x", "--find-ranges", "y"], "give --out (a family run) or --find-ranges"),  # both
+                (["--out", "x", "--max", "0"], "--max is a number of matches"),
+                (["--out", "x", "--time-limit", "0"], "--time-limit is a number of seconds"),
+                (["--out", "x", "--time-limit", "36001"], "--time-limit is a number of seconds"),
+                (["--out", "x", "--only", "S/no-such-match"], "--only 'S/no-such-match'"),
+                (["--out", "x", "--only", "S/quick-1,S/quick-1"], "distinct ids"),
+                (["--out", "x", "--count", "bad"], "--count 'bad'"),
+                (["--out", "x", "--mask", str(self.tmp / "no-such-mask")], "--mask"),
+                (["--find-ranges", str(existing)], f"{existing} exists (an output is never overwritten)"),
+                (["--out", str(log)], "is not a valid log")):                                          # existing_records
+            self.refused_at_once(base + tail, said)
+        self.refused_at_once([str(FAMILY), "--family", "NO-SUCH-FAMILY", "--out", "x"], "refused:")  # families.FamilyError
+
+    def test_check_refusals(self):
+        existing = self.tmp / "report.json"
+        existing.write_text("{}")
+        for tail, said in (
+                (["--variant", "bad"], "--variant is MODULE.NAME"),
+                (["--variant", "no-such-module.v"], "no port module 'no-such-module'"),
+                (["--variant", "pilot.no-such-variant"], "has no variant 'no-such-variant'"),
+                (["--ports", "no-such-module"], "no port module 'no-such-module'"),
+                (["--ports", "pilot", "--variant", "pilot.no-such-variant"], "has no variant"),
+                (["--image", str(self.tmp / "no-such-image")], "not a file"),
+                (["--json", str(existing)], "exists (an output is never overwritten)"),
+                (["--json", str(self.tmp / "no-folder" / "report.json")], "its folder does not exist")):
+            self.refused_at_once(["-m", "original_match.check", *tail], said, cwd=ROOT / "runtime")
+
+    def test_main_asks_the_same_validation(self):
+        """The slot step and main() share one function: main() refuses through it, so the two cannot diverge."""
+        sys.path.insert(0, str(ROOT / "runtime"))
+        from original_match import check
+        with mock.patch.object(check, "validate", side_effect=check.Refused("sentinel")), \
+                contextlib.redirect_stderr(io.StringIO()) as err, self.assertRaises(SystemExit) as cm:
+            check.main(["--json", str(self.tmp / "unused.json")])
+        self.assertEqual(cm.exception.code, 2)
+        self.assertIn("sentinel", err.getvalue())
+        with mock.patch.object(check, "validate", side_effect=check.Refused("sentinel")):
+            self.assertFalse(check._takes_a_slot([]))
+        spec = importlib.util.spec_from_file_location("ci_gate_328", ROOT / "tools" / "ci_gate.py")
+        gate = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(gate)
+        with mock.patch.object(gate, "refusal", return_value="sentinel"), contextlib.redirect_stderr(io.StringIO()) as err:
+            self.assertEqual(gate.main(["run-tests"]), 2)
+        self.assertIn("sentinel", err.getvalue())
 
 
 if __name__ == "__main__":
