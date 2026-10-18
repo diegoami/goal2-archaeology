@@ -20,7 +20,7 @@ from original_match.port.guest import PortFrame  # noqa: E402
 HOT = [("runtime", "214B:0C57"), ("geometry", "0791:2996"), ("geometry", "0791:26D7"), ("geometry", "0791:2B51"),
        ("geometry", "0791:2CEC"), ("geometry", "0791:2C29"), ("geometry", "0791:2BB1"), ("geometry", "0791:2D10"),
        ("geometry", "0791:2C86"), ("geometry", "0791:278A"), ("runtime", "214B:06D0"), ("runtime", "214B:2031"),
-       ("runtime", "23E4:0279"), ("runtime", "23E4:0294"), ("runtime", "23E4:0644"), ("runtime", "214B:0D56")]
+       ("runtime", "23E4:0279"), ("runtime", "23E4:0644"), ("runtime", "214B:0D56")]
 
 
 def main(n=3000):
@@ -31,6 +31,8 @@ def main(n=3000):
         rnd = random.Random(1)
         tr = fuzz.Trial(rnd)
         generators.GENERATORS[address](tr, img)
+        if address == "23E4:0294":
+            tr.regs["cx"] = 7                                # a divisor that is not zero
         for lin, d in tr.writes:
             m.write(lin, d)
         mem = inst.mem
