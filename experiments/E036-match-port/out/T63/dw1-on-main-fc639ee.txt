@@ -1,0 +1,4 @@
+COMMAND: python3 -B experiments/E036-match-port/family.py --family ALL --ports positioning --out experiments/E036-match-port/out/T63/main-must-not-run.jsonl
+refused: --ports/--variant: no port module 'positioning' (there are: attributes, pilot, restarts)
+
+exit 2
