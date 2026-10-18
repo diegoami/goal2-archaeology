@@ -421,6 +421,11 @@ class SimTests(unittest.TestCase):
         s.player(8, f4=255, fE=127, fC=31, f5=8, f6=0, f7=0, f10=0)      # 255 - 62 + 127 + 31 = 351: clamped to 0x100
         self.assertEqual(s.run("1771:377E", 8)[0], 0x100)
 
+    def test_strength_below_zero_is_clamped_to_zero(self):
+        s = Sim()
+        s.player(8, f4=10, fE=1, fC=0, f5=8, f6=0, f7=0, f10=0)         # 10 - 62 + 1 = -51
+        self.assertEqual(s.run("1771:377E", 8)[0], 0)
+
     def test_strength_wrong_foot_is_a_sixteenth_up_to_idiv(self):
         s = Sim()
         s.player(8, f4=74, fE=31, fC=0x7F, f5=8, f6=0, f7=0, f10=0)     # form 0x7F is high: v - v idiv 16
@@ -564,6 +569,22 @@ class SimTests(unittest.TestCase):
         # team 0: own slots 2 and 3 (position 5) mark the opposing slots 11 (position 13) and 10 (12); the rest hold 0
         self.assertEqual(self.words(s, 0), [0, team1[10], team1[9], 0, 0, 0, 0, 0, 0, 0, 0])
         self.assertEqual(self.words(s, 1), [0] * 11)               # team 1 has no one in position 5 to mark team 0's 5s
+
+    def test_set_marking_words_a_protect_zone_man_keeps_his_word_and_takes_his_man_out(self):
+        s, team0, team1 = self.marking_scene()
+        s.player(team0[3], f6=6, fE=9, f10=0x40)                 # slot 4: element 7 (Protect zone)
+        s.ds_word(0x9A3E + 2 * 4, team1[6])                      # his marking word names the opposing slot 7
+        s.run("1771:3EF8")
+        words = self.words(s, 0)
+        self.assertEqual(words[3], team1[6])                     # kept
+        self.assertEqual(words[1:3], [team1[10], team1[9]])      # the others as without him
+        s2, _, _ = self.marking_scene()
+        s2.player(team0[3], f6=6, fE=9, f10=0x40)
+        s2.player(team1[10], f6=6)                               # the opposing slot 11 no longer an attacker
+        s2.ds_word(0x9A3E + 2 * 4, team1[10])                    # ... but named by the protect-zone man: also out of the choice
+        s2.player(team1[10], f6=13)
+        s2.run("1771:3EF8")
+        self.assertEqual(self.words(s2, 0)[1:3], [team1[9], 0])  # slot 11 taken out: slot 2 marks slot 10, slot 3 has none
 
     def test_set_marking_words_does_not_pick_an_unavailable_opponent(self):
         s, team0, team1 = self.marking_scene(opp_unavailable=True)
