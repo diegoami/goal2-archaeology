@@ -121,7 +121,8 @@ def compare(a, b, mem_a, mem_b, sp_entry, flags):
     return problems, scratch
 
 
-def fuzz(module, routines, n, seed, flags, cache, verbose, variant=None):
+def fuzz(module, routines, n, seed, flags, cache, verbose, variant=None, timeout=3):
+    import generators_geometry  # noqa: F401  (registers the geometry generators)
     from generators import GENERATORS
     img, memory = setup(cache)
     mo, _ = make_machine(img, memory, None)
@@ -149,7 +150,7 @@ def fuzz(module, routines, n, seed, flags, cache, verbose, variant=None):
                     m.write(linear, data)
                 regs = dict(tr.regs)
                 try:
-                    sp, reason = run_one(m, entry.far, address, tr.args, regs)
+                    sp, reason = run_one(m, entry.far, address, tr.args, regs, timeout)
                     outs.append((final(m), bytes(m._uc.mem_read(0, MEM_SIZE)), sp, None))
                 except Exception as e:          # a guest error: the same on both is not a difference
                     outs.append((None, None, None, f"{type(e).__name__}: {str(e)[:100]}"))
@@ -183,11 +184,12 @@ def main():
     ap.add_argument("--flags", action="store_true")
     ap.add_argument("--variant", help="run the port's variant (it must DIFFER from the original: a control)")
     ap.add_argument("--cache", default=".cache/dl")
+    ap.add_argument("--timeout", type=float, default=3, help="seconds a run may take before it counts as a guest error")
     ap.add_argument("-v", action="store_true")
     a = ap.parse_args()
     registry = port._module_registry(a.module)
     routines = [a.routine] if a.routine else sorted(registry.entries)
-    return 1 if fuzz(a.module, routines, a.n, a.seed, a.flags, a.cache, a.v, a.variant) else 0
+    return 1 if fuzz(a.module, routines, a.n, a.seed, a.flags, a.cache, a.v, a.variant, a.timeout) else 0
 
 
 if __name__ == "__main__":

@@ -25,9 +25,9 @@ from .pilot import rand
 PORTS = Registry("runtime", "214B's fills, moves, set bits, long min/max, wrap-add, clamps, screen unpackers and "
                             "23E4's Move, long multiply/divide, Pascal strings, Str, UpCase (T60)")
 PORTS.variant("wrap-high-inclusive", "1C86's upper-bound test `jb` read as `jbe` (1CB4): a sum equal to the bound wraps")
-PORTS.variant("clamp-high-off", "2000's upper clamp compares `jl` for `jle` (201F): a value equal to the bound is cut")
-PORTS.variant("max-ties-a", "0D56's tie (equal longs) returns a, not b (0D6B jbe -> jb)")
-PORTS.variant("min-ties-b", "0D1C's tie (equal longs) returns b, not a (0D31 jbe -> jb)")
+PORTS.variant("clamp-high-uses-lo", "2000's upper clamp stores the lower bound ([bp+8]) for the upper ([bp+6]) at 2022")
+PORTS.variant("max-unsigned-high", "0D56 compares the high words unsigned (0D64 jg -> ja, 0D66 jl -> jb)")
+PORTS.variant("min-unsigned-high", "0D1C compares the high words unsigned (0D2A jg -> ja, 0D2C jl -> jb)")
 PORTS.variant("bit-shift-1", "0C57 tests bit k, not bit k-1 (0C60 dec ax removed)")
 
 M16 = 0xFFFF
@@ -393,14 +393,19 @@ def unpack_screen_row_record(mem, variant):
 
 
 # -- 214B: the draw ----------------------------------------------------------------------------------------------
+def draw_is_one(mem, R, n):
+    """214B:06D0 as a call from a port (the routines of geometry.py): the draw 1..n through 0688 (the seed word stepped
+    and stored, 069F), AX = DX = the draw, then AL = 1 when it is 1 (06E3-06EC)."""
+    draw = rand(mem, n)                                       # 06D6-06E0 -> 0688
+    R.ax, R.dx = draw, draw
+    R.al = 1 if draw == 1 else 0
+
+
 @PORTS.port("214B:06D0", ret="retf 2")
 def random_is_one(mem, variant):
     """u214b_random_is_one(n): 0688's draw 1..n; AL is 1 when it is 1 (06E3-06EC), AH and DX the draw's."""
-    n = mem.arg(0)
     R = Regs(mem)
-    draw = rand(mem, n)                                       # 06D6-06E0 -> 0688: AX = DX = the draw
-    R.ax, R.dx = draw, draw
-    R.al = 1 if draw == 1 else 0                              # 06E3-06EC
+    draw_is_one(mem, R, mem.arg(0))
     R.store()
 
 
@@ -461,14 +466,18 @@ def store_max_bytes(mem, R, data, dseg, doff, maxlen, sp_at_call):
 
 
 # -- 214B: the set bits (Pascal sets of at most 16 elements in a byte or word) ------------------------------------------
-@PORTS.port("214B:0C57", ret="retf 4")
-def set_test_bit(mem, variant):
-    """u214b_set_test_bit(value; k): bit k - 1 of value (0C5D-0C6A); a shift of 16 or more gives 0."""
-    value, k = mem.arg(0), mem.arg(1)
-    R = Regs(mem)
+def set_test(R, value, k, variant=None):
+    """214B:0C57 as a call from a port: bit k - 1 of the word value (0C5D-0C6A); a shift of 16 or more gives 0."""
     dx = (k - (0 if variant == "bit-shift-1" else 1)) & M16     # 0C5D-0C61
     R.dx, R.cx = dx, dx
     R.ax = (value >> shift_count(dx & 0xFF)) & 1               # 0C68-0C6A shr ax, cl; and ax, 1
+
+
+@PORTS.port("214B:0C57", ret="retf 4")
+def set_test_bit(mem, variant):
+    """u214b_set_test_bit(value; k): bit k - 1 of value."""
+    R = Regs(mem)
+    set_test(R, mem.arg(0), mem.arg(1), variant)
     R.store()
 
 
@@ -545,12 +554,11 @@ def min_longint(mem, variant):
     high words compare the low words unsigned; a wins when its high word is below, or equal with a low word not above."""
     b_lo, b_hi, a_lo, a_hi = mem.arg(0), mem.arg(1), mem.arg(2), mem.arg(3)
     R = Regs(mem)
-    if s16(a_hi) > s16(b_hi):                                  # 0D27 jg -> b (0D33)
+    ha, hb = (a_hi, b_hi) if variant == "min-unsigned-high" else (s16(a_hi), s16(b_hi))
+    if ha > hb:                                                # 0D27 jg -> b (0D33)
         pick_a = False
-    elif s16(a_hi) < s16(b_hi):                                # 0D2C jl -> a (0D40)
+    elif ha < hb:                                              # 0D2C jl -> a (0D40)
         pick_a = True
-    elif variant == "min-ties-b":
-        pick_a = a_lo < b_lo
     else:
         pick_a = a_lo <= b_lo                                  # 0D2E-0D31 jbe -> a
     lo, hi = (a_lo, a_hi) if pick_a else (b_lo, b_hi)
@@ -564,12 +572,11 @@ def max_longint(mem, variant):
     a tie returns b (0D5C-0D88; T48's value model, runtime/model/longs.py)."""
     b_lo, b_hi, a_lo, a_hi = mem.arg(0), mem.arg(1), mem.arg(2), mem.arg(3)
     R = Regs(mem)
-    if s16(a_hi) > s16(b_hi):                                  # 0D64 jg -> a
+    ha, hb = (a_hi, b_hi) if variant == "max-unsigned-high" else (s16(a_hi), s16(b_hi))
+    if ha > hb:                                                # 0D64 jg -> a
         pick_a = True
-    elif s16(a_hi) < s16(b_hi):                                # 0D66 jl -> b
+    elif ha < hb:                                              # 0D66 jl -> b
         pick_a = False
-    elif variant == "max-ties-a":
-        pick_a = a_lo >= b_lo
     else:
         pick_a = a_lo > b_lo                                   # 0D68-0D6B jbe -> b
     lo, hi = (a_lo, a_hi) if pick_a else (b_lo, b_hi)
@@ -628,17 +635,22 @@ def wrap_add_in_range(mem, variant):
     R.store()
 
 
-@PORTS.port("214B:1D6F", ret="retf 0xa")
-def wrap_add_in_range_byte(mem, variant):
-    """u214b_wrap_add_in_range_byte(var v: byte; lo, hi, delta): the byte through a word local and 1C86 (1D75-1DA1)."""
-    delta, hi, lo, off, seg = mem.arg(0), mem.arg(1), mem.arg(2), mem.arg(3), mem.arg(4)
-    R = Regs(mem)
+def wrap_add_byte(mem, R, off, seg, lo, hi, delta, variant=None):
+    """214B:1D6F as a call from a port: the byte through a word local and 1C86 (1D75-1DA1)."""
     v = mem.u8(seg * 16 + off)
     new, ax, dx, _ = wrap_add(mem, v, lo & 0xFF, hi & 0xFF, delta, variant)
     R.ax, R.dx = ax, dx
     R.al = new & 0xFF                                          # 1D98 mov al, [bp-2]
     R.es, R.di = seg, off
     mem.w8(seg * 16 + off, new & 0xFF, "214B:1D9E")
+
+
+@PORTS.port("214B:1D6F", ret="retf 0xa")
+def wrap_add_in_range_byte(mem, variant):
+    """u214b_wrap_add_in_range_byte(var v: byte; lo, hi, delta): the byte through a word local and 1C86."""
+    delta, hi, lo, off, seg = mem.arg(0), mem.arg(1), mem.arg(2), mem.arg(3), mem.arg(4)
+    R = Regs(mem)
+    wrap_add_byte(mem, R, off, seg, lo, hi, delta, variant)
     R.store()
 
 
@@ -653,9 +665,8 @@ def clamp_int(mem, variant):
         ax = lo
         mem.w16(seg * 16 + off, ax, "214B:2014")
     ax = mem.u16(seg * 16 + off)                               # 201A
-    above = s16(ax) >= s16(hi) if variant == "clamp-high-off" else s16(ax) > s16(hi)    # 201D-201F jle 202B
-    if above:
-        ax = hi
+    if s16(ax) > s16(hi):                                      # 201D-201F cmp ax, [bp+6]; jle 202B
+        ax = lo if variant == "clamp-high-uses-lo" else hi
         mem.w16(seg * 16 + off, ax, "214B:2028")
     R.ax = ax
     R.store()
