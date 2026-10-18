@@ -150,7 +150,7 @@ You implement <T<nn>>. The task file above is the contract.
   ride this PR, declared under Scope in the PR body.
 - Update any document your change makes wrong, in this PR. Never write status into a document.
 - A heavy job (a match run, a family run, check.py, the unit suite) runs as `tools/harness/heavy.sh <name> -- <command>`:
-  two at a time on this machine across every agent and review, the rest queue and say "waiting for a slot (k ahead)"
+  four at a time on this machine across every agent and review, the rest queue and say "waiting for a slot (k ahead)"
   (docs/environment.md "Heavy jobs"). family.py, check.py and `tools/ci_gate.py run-tests` queue themselves.
 - Commit and push after each step, at least every 20 minutes and before any command that runs longer
   than 5 minutes; after your first push, open the PR as a draft (`gh pr create --draft`). A crash then

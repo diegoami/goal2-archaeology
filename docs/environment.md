@@ -333,8 +333,8 @@ Up to four agents and three reviews ran at once on 2026-10-17: load average 6.8 
 runs took one to two hours, one hit its limits, and the idle watch fired "possibly stuck" for work that was only
 slow. "At most one match process at a time" was only a line in briefs; since #318 a lock enforces it.
 
-`tools/harness/heavy.sh <name> -- <command>` takes one of N slots (harness.json `heavy.slots`, two; why two, a 1 s poll and a 5 s stale-ticket age: measurements and sources in `notes/318-heavy/README.md`; the
-environment variable `HARNESS_HEAVY_SLOTS` overrides it), then runs the command in place of itself (its exit status
+`tools/harness/heavy.sh <name> -- <command>` takes one of N slots (harness.json `heavy.slots`, four since the owner's decision of 2026-10-18, two before; the four is a policy, not yet measured for throughput or memory with four matches at once; why a 1 s poll and a 5 s stale-ticket age: measurements and sources in `notes/318-heavy/README.md`; the
+environment variable `HARNESS_HEAVY_SLOTS` overrides it. N is read once, when `heavy.sh` starts: a job already queued keeps the N it started with, so a change of the value reaches new invocations only and a new job queues behind older ones that still use the old N), then runs the command in place of itself (its exit status
 and output are the command's). With every slot taken it queues, first come first served, and prints
 `heavy: <name>: waiting for a slot (k ahead)` on stderr, k being the jobs queued before it. The slots and the queue
 are files in `~/.cache/goal2-heavy` (`HARNESS_HEAVY_DIR`), locked with `flock`, so they are shared by every
@@ -351,8 +351,8 @@ runner is not this machine, nor when `HARNESS_HEAVY_OFF` is set). The unit suite
 names the command in its rules, clears an inherited `HARNESS_HEAVY_HELD`, and sets `HARNESS_HEAVY_QUEUE_FILE`,
 a file that `heavy.sh` touches at every poll while the reviewer's command waits; `lib/opencode.mjs` counts the
 idle limit from the later of the session's last update and that touch, so queue time is not idle time. The
-review itself holds no slot (a review that held one while its reviewer waited for another would deadlock two
-reviews on two slots). `tools/harness/heavy.test.mjs` and `tests/test_heavy_slot.py` test it.
+review itself holds no slot (a review that held one while its reviewer waited for another would deadlock four
+reviews on four slots). `tools/harness/heavy.test.mjs` and `tests/test_heavy_slot.py` test it.
 
 ## OpenCode's agent permissions
 
