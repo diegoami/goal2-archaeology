@@ -214,4 +214,8 @@ def main(argv):
 
 
 if __name__ == "__main__":
+    if sys.argv[1:2] == ["run-tests"]:    # the unit suite is a heavy job (#318); `decide` is not
+        sys.path.insert(0, str(ROOT / "runtime"))
+        import heavy_slot
+        heavy_slot.take("unit-suite")
     sys.exit(main(sys.argv[1:]))

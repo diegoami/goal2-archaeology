@@ -417,5 +417,17 @@ def main(argv=None):
     return 1 if bad else 0
 
 
+def _workers(argv):
+    """--workers from the command line (1 when it is absent or unreadable: main() reports it)."""
+    for i, arg in enumerate(argv):
+        value = arg[len("--workers="):] if arg.startswith("--workers=") else argv[i + 1] if arg == "--workers" and i + 1 < len(argv) else None
+        if value in ("1", "2"):
+            return int(value)
+    return 1
+
+
 if __name__ == "__main__":
+    import heavy_slot
+    # a heavy job (#318): one slot per match process, so --workers 2 holds two of the machine's slots
+    heavy_slot.take("family", weight=_workers(sys.argv[1:]))
     sys.exit(main())
