@@ -1,0 +1,20 @@
+heavy: check: waiting for a slot (14 ahead)
+heavy: check: waiting for a slot (13 ahead)
+heavy: check: waiting for a slot (11 ahead)
+heavy: check: waiting for a slot (10 ahead)
+heavy: check: waiting for a slot (9 ahead)
+heavy: check: waiting for a slot (8 ahead)
+heavy: check: waiting for a slot (7 ahead)
+heavy: check: waiting for a slot (6 ahead)
+heavy: check: waiting for a slot (5 ahead)
+heavy: check: waiting for a slot (4 ahead)
+heavy: check: waiting for a slot (3 ahead)
+heavy: check: waiting for a slot (2 ahead)
+heavy: check: waiting for a slot (1 ahead)
+heavy: check: waiting for a slot (0 ahead)
+heavy: check: got slot 1 after 9397 s
+ports: frame
+engine       PASS  46.7 s  
+interactive  FAIL  80.3 s  {'stopped': "MatchError: a port's frame is live (0791:F098 waiting on its call of 0791:9A32 (returning to 0791:F0A7); 0791:9A32 waiting on its call of 0791:983F (returning to 0791:9B08); 0791:983F waiting on its call of 0791:"}
+goals        PASS  73.3 s  
+knockout     FAIL  107.3 s  {'stopped': "MatchError: a port's frame is live (0791:F098 waiting on its call of 0791:9B0C (returning to 0791:F114)): save at a later event, once the call has returned"}
