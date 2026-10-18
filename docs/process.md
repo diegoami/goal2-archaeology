@@ -235,6 +235,10 @@ per merge. Triage decides one of:
 
 Once `breaks-play` is trialled (§12), Jev settles the gate's confident ends; the main session the middle.
 
+Scheduling follows CLAUDE.md rule 23 (the owner, 2026-10-18): the route-C engine port comes first;
+a hardening or reflection finding is filed as a known limit with its acceptance, not fixed ahead of
+the port, unless it blocks a port task or breaks the proof for ordinary use.
+
 ## 7. Escalate to the user when
 
 A design question; a Done-when would have to weaken; a third rework round, except the narrow one
