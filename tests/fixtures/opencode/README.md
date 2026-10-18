@@ -15,6 +15,28 @@ make a new run.
   succeeding on v2: through the managed background service (`serve --service`), which that command
   starts when none runs. The probe no longer runs it.
 
+The same binary, driven by the harness itself (each folder's JSON names the binary, policy and guard
+hashes; none sent a prompt to a provider):
+
+- `preflight-q4Sij9` (`node tools/harness/preflight-opencode.mjs --out tests/fixtures/opencode/v2-live`):
+  the review transport up to generation: the guard staged and active (`plugins.json`), this checkout's
+  reviewer translated and loaded as `profile.json` (v2's defaults first, then our rules), the selected
+  MiniMax-M3 `thinking` advertised, catalogue parity, an owned empty session exported with zero usage,
+  peeked privately, interrupted as a no-op, and an unrelated private server's session unchanged.
+- `native-complete-*`, `native-reject-*`, `native-cancel-*`
+  (`node tools/harness/probe-opencode-guard.mjs [--complete|--active-cancel] --out …`): real review
+  sessions whose only model is a deterministic fake provider on 127.0.0.1 (zero tokens; no provider
+  contacted). `complete`: a clean review comes back through `run --server`, its final text read from the
+  export. `reject`: outside-file reads (plain, quoted, nested, relative, /proc) are rejected by the guard,
+  `/etc/hostname` and `git push` by the native denies, while worktree, /tmp, ~/goal2-review-tmp and
+  /etc/timezone reads return their contents. `cancel`: the idle limit interrupts a live tool, its worker
+  dies, and an unrelated session on the same database survives. `native-cancel-vCgTPG` is the first
+  cancel run, kept: the cancellation passed, then the probe stopped on a missing usage record, which
+  opencode-workflow.mjs now takes from the session info when the export is refused.
+- `native-controls-7CuxTr` (`node tools/harness/check-opencode-guard-controls.mjs --out …`): the same
+  rejection probe on a scratch copy with one guard line removed: v2 then returns `OUTSIDE_SENTINEL`
+  to `cat <outside file>`, so the probe fails on "external-cat must be rejected".
+
 The other files are synthetic and schema-shaped (ported from goal2's T72a fixtures): they are not
 observed model or tool execution and carry no billed usage. `tests/opencode_protocol.test.mjs` gives
 them the live capture's session id and directory before use.

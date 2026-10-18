@@ -27,7 +27,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { randomBytes } from 'node:crypto';
-import { command, normalizeSession } from './opencode-protocol.mjs';
+import { command, normalizeSession, usage } from './opencode-protocol.mjs';
 import { privateHome, startPrivateServer, settledCatalogue, capture, spawnOwned, killOwned, delay, hash, OpenCodeInfraError } from './opencode-transport.mjs';
 import { reviewerPolicy, trustedReviewEnv, verifyReviewer } from './opencode-policy.mjs';
 import { stageGuard, baselinePlugins, readyPlugins, verifyPlugins, selectGuardPlugins, pinGuardBinary, inspectConfig, catalogueParity } from './opencode-guard.mjs';
@@ -94,6 +94,9 @@ export async function runV2Workflow({ opencode, model, agent, agentFile, prompt,
   const exportFinal = async () => {
     const result = await server.request(`/api/experimental/session/${manifest.sessionID}/export`, { timeoutMs: 5000, outFile: files['export-response.json'] });
     raw = JSON.parse(server.redact(JSON.stringify(result.data))); json(files['export.json'], raw);
+    // The session's own usage counts even when the export is not a complete turn (a cancelled run's
+    // assistant message never finished, and normalizeSession refuses it below).
+    try { manifest.usage = { cost: raw.info.cost, tokens: usage(raw.info.tokens), source: 'session info' }; } catch (e) { manifest.usageError = e.message; }
     normalized = normalizeSession(2, raw, expected());
     fs.writeFileSync(files['assistant.txt'], normalized.assistantText);
     fs.writeFileSync(files['final.txt'], finalReviewText(normalized));

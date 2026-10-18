@@ -26,7 +26,9 @@ function workflowOptions(mode = 'complete') {
   const dir = fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(), 'harness-workflow-')));
   return { args: ['run'], model: selection, agent: 'reviewer', agentFile,
     opencode: { exe: process.execPath, prefix: [stub] }, prompt: 'Synthetic nonbilling brief', workDir: dir, title: 'stub',
-    startupTimeoutMs: mode === 'startup' ? 700 : 4000, totalTimeoutMs: 8000, idleTimeoutMs: 350, pollMs: 20, logDir: path.join(dir, 'receipts'),
+    // generous limits for runs that must succeed (the suites run in parallel); short ones where a limit is the subject
+    startupTimeoutMs: mode === 'startup' ? 700 : ['family', 'effort', 'agent', 'policy'].includes(mode) ? 2500 : 15000,
+    totalTimeoutMs: 30000, idleTimeoutMs: ['idle', 'active'].includes(mode) ? 350 : 5000, pollMs: 20, logDir: path.join(dir, 'receipts'),
     env: { ...process.env, HARNESS_OPENCODE_HOME: path.join(dir, 'runtime'), STUB_MODE: mode, STUB_TRACE: path.join(dir, 'trace.jsonl') } };
 }
 const traceOf = (options) => (fs.existsSync(options.env.STUB_TRACE) ? fs.readFileSync(options.env.STUB_TRACE, 'utf8') : '');
@@ -119,11 +121,11 @@ test('the heavy-job queue file keeps the idle clock from firing while a command 
   const options = workflowOptions('idle');
   const queueFile = path.join(options.workDir, 'run.queue'); fs.writeFileSync(queueFile, '');
   const toucher = setInterval(() => { const t = new Date(); fs.utimesSync(queueFile, t, t); }, 50);
-  options.idleTimeoutMs = 300; options.totalTimeoutMs = 2500; options.queueFile = queueFile;
+  options.idleTimeoutMs = 300; options.totalTimeoutMs = 6000; options.queueFile = queueFile;
   try {
     await assert.rejects(() => runOpenCodeWatched(options), (e) => { assert.equal(e.reason, 'total-timeout', e.message); return true; });
   } finally { clearInterval(toucher); }
-  const idle = workflowOptions('idle'); idle.idleTimeoutMs = 300; idle.totalTimeoutMs = 2500; idle.queueFile = path.join(idle.workDir, 'none.queue');
+  const idle = workflowOptions('idle'); idle.idleTimeoutMs = 300; idle.totalTimeoutMs = 20000; idle.queueFile = path.join(idle.workDir, 'none.queue');
   await assert.rejects(() => runOpenCodeWatched(idle), (e) => { assert.equal(e.reason, 'idle', e.message); return true; });
 });
 
@@ -142,7 +144,10 @@ test('export identity, rejection, completion and JSON checks refuse approval-loo
       assert.match(e.message, new RegExp(expected), mode); assert(fs.existsSync(e.manifest), mode);
       assert.match(e.message, /files kept: /, mode);
       const receipt = JSON.parse(fs.readFileSync(e.manifest)); assert.equal(receipt.phase, 'failed', mode);
-      assert(fs.existsSync(receipt.files['export-response.json']), mode); return true;
+      assert(fs.existsSync(receipt.files['export-response.json']), mode);
+      // usage is accounted from the session's own info even when the export is refused (a cancelled turn)
+      if (['malformed', 'wrong-model', 'partial', 'rejected', 'nonzero'].includes(mode)) assert.equal(receipt.usage?.tokens?.input, 10, `${mode}: usage kept`);
+      return true;
     });
   }
 });
