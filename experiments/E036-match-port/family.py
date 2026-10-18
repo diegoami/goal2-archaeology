@@ -327,7 +327,7 @@ def run_family(selected, out, workers=1, max_new=None, cache=DEFAULT_CACHE, mask
         append(out, rec)
         done[rec["id"]] = rec
         state = "completed" if records.is_completed(rec) else f"NOT COMPLETED ({rec['error'] or rec['strays'] or 'no board'})"
-        extra = "".join(f"; {a} executed {n}" for a, n in rec["counts"].items())
+        extra = "".join(f"; {a} executed {n}" for a, n in rec.get("counts", {}).items())
         extra += "".join(f"; port {a} called {n}" for a, n in sorted(rec.get("port_calls", {}).items()))
         say(f"{rec['id']}: {state}; score {rec['score']} ticks {rec['ticks']} cpu {rec['cpu_s']} s{extra}")
 
