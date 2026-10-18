@@ -79,7 +79,7 @@ CI tiers (the owner, 2026-10-17, #297): the PR's one job, `checks`, runs what th
 (`tools/ci_gate.py`). Prose no test reads (`*.md` at the root, `docs/`, `notes/`, `spec/`, except the four
 docs a test reads) gets links, citations and the no-original-file check only. Anything else also gets the
 harness tests, `tests/static` and every unit test except six slow modules (five took about 280 of the 360 seconds
-of the unit suite; the sixth, `test_emul_match`, about 380 once unicorn was installed). The code tier installs
+of the unit suite; the sixth, `test_emul_match`, about 380 once unicorn was installed; since #310 a pull request's run of it takes about 36, its 361 s proved test running only in the nightly, manual and local runs, `notes/310-emul-match-time/`). The code tier installs
 unicorn 2.1.4 (`runtime/emul/requirements.txt`, pip cache), so the emulator tests run there instead of skipping
 (#304; it adds about 35 s to a code PR's run, `notes/T304/`). A slow module runs only when the PR touches a file it reads (`SLOW_DEPS`, traced with
 an audit hook, `notes/T297/`); a change to the CI files, a manual run and a nightly run on `main` (when
