@@ -35,7 +35,8 @@ if (/^pr view \\d+ --json headRefOid/.test(a)) {
   console.log(head);
 } else if (/^pr view \\d+ --json headRefName/.test(a)) console.log(process.env.FAKE_BRANCH ?? 'no-such-branch');
 else if (/^(pr|issue) view \\d+ --json labels/.test(a)) console.log('');
-else if (/^issue view \\d+ --json title,body/.test(a)) console.log(JSON.stringify({ title: 'a fix', body: 'The body.\\n\\n**Done when:**\\n1. it works\\n2. it is tested\\n' }));
+else if (/^issue view \\d+ --json title,body/.test(a)) console.log(JSON.stringify({ title: 'a fix', body: process.env.FAKE_ISSUE_BODY ?? 'The body.\\n\\n**Done when:**\\n1. it works\\n2. it is tested\\n' }));
+else if (/^pr view \\d+ --json title,body/.test(a)) console.log(JSON.stringify({ title: 'a backlog', body: process.env.FAKE_PR_BODY ?? 'The plan.\\n\\n**Done when:**\\n1. it is read\\n' }));
 else { console.error('fake gh: unexpected ' + a); process.exit(1); }
 `;
 
@@ -360,4 +361,74 @@ test('#324: an empty or whitespace-only text argument is refused (build, check a
   assert.equal(r.status, 2);
   assert.match(r.stderr, /--reviewer must carry text/);
   assert.equal(fs.existsSync(out), false);
+});
+
+// #314 (1): an issue or PR body that quotes full SHAs made make-brief refuse the brief; it now shortens every
+// full SHA other than the head in the pasted text (the head stays full) and says so.
+test('#314: full SHAs other than the head in the pasted text are shortened to 10 characters, and the output says so', () => {
+  const o = { header: 'fix #5 review (luna)', pr: 1, head, protects: 'x', processMd: fs.readFileSync(path.join(REPO, 'docs', 'process.md'), 'utf8'), reviewBriefMd: fs.readFileSync(path.join(REPO, 'docs', 'review-brief.md'), 'utf8') };
+  const other = 'b'.repeat(40);
+  const body = `## Issue #5: a fix\n\nThe fix of ${OTHER} at ${other}, and the head ${head.toUpperCase()} stays.\n`;
+  const built = buildBrief({ ...o, pasted: body });
+  assert.deepEqual(built.shortened, ['a'.repeat(10), 'b'.repeat(10)]);
+  assert.doesNotMatch(built.text, new RegExp(OTHER));
+  assert.doesNotMatch(built.text, new RegExp(other));
+  assert.ok(built.text.includes(`The fix of ${'a'.repeat(10)} at ${'b'.repeat(10)}, and the head ${head.toUpperCase()} stays.`));
+  checkBrief(built.text, head, built.generated); // review.mjs's reader finds only the head
+  // on the command line: the brief is written, the note is printed, and review.mjs accepts the brief
+  const out = path.join(tmp, 'shas.md');
+  const m = run(MAKE, ['--pr', '1', '--issue', '5', '--reviewer', 'luna', '--protects', 'x', '--out', out], { env: { ...env, FAKE_ISSUE_BODY: `Quotes ${OTHER} and at ${other}.\n\n**Done when:**\n1. it works\n` } });
+  assert.equal(m.status, 0, m.stderr);
+  assert.match(m.stderr, /shortened 2 full SHA\(s\) in the pasted text to 10 characters/);
+  const text = fs.readFileSync(out, 'utf8');
+  assert.ok(text.includes(`Quotes ${'a'.repeat(10)} and at ${'b'.repeat(10)}.`));
+  assert.equal(dry(out).status, 0);
+});
+
+// #314 (2): a PR with no task file and no issue: --issue none and --header NAME.
+test('#314: --header NAME with --issue none pastes the PR, names the header, and review.mjs accepts it with no label', () => {
+  const out = path.join(tmp, 'backlog.md');
+  const argv = ['--pr', '1', '--issue', 'none', '--header', 'backlog', '--reviewer', 'luna', '--protects', 'the plan', '--out', out];
+  const m = run(MAKE, argv, { env: { ...env, FAKE_PR_BODY: `The plan, from ${OTHER}.\n\n**Done when:**\n1. it is read\n2. it is checked\n` } });
+  assert.equal(m.status, 0, m.stderr);
+  const text = fs.readFileSync(out, 'utf8');
+  assert.equal(text.split('\n')[0], 'backlog review (luna)');
+  assert.match(text, /## PR #1: a backlog\n\nThe plan, from aaaaaaaaaa\./);
+  const r = run(REVIEW, ['--pr', '1', '--brief', out, '--issue', 'none', '--apply-label', '--dry-run']);
+  assert.equal(r.status, 0, r.stdout + r.stderr);
+  assert.match(r.stdout, /--issue none: no label is applied/);
+  // --header with an issue number names the header too
+  const withIssue = path.join(tmp, 'hdr-issue.md');
+  assert.equal(run(MAKE, ['--pr', '1', '--issue', '5', '--header', 'plan 2', '--reviewer', 'luna', '--protects', 'x', '--out', withIssue]).status, 0);
+  assert.equal(fs.readFileSync(withIssue, 'utf8').split('\n')[0], 'plan 2 review (luna)');
+  // refused, and nothing written
+  const refuse = (extra, re) => {
+    const o2 = path.join(tmp, 'refused.md');
+    const x = run(MAKE, ['--pr', '1', '--reviewer', 'luna', '--protects', 'x', '--out', o2, ...extra]);
+    assert.equal(x.status, 2, extra.join(' '));
+    assert.match(x.stderr, re);
+    assert.equal(fs.existsSync(o2), false);
+  };
+  refuse(['--issue', 'none'], /--issue none needs --header NAME/);
+  refuse(['--issue', 'none', '--header', 'a (b)'], /--header takes a short name/);
+  refuse(['--issue', 'none', '--header', 'x', '--task', path.join(tmp, 'T99.md')], /cannot be given with --task/);
+  refuse(['--issue', 'abc'], /--issue takes a number, or none/);
+  // the checker accepts a custom header and still refuses it repeated below line 1
+  const head1 = (t) => t.split(/^## PR #1:/m)[0];
+  checkBrief(text, head, head1(text));
+  const dup = text.replace('You review PR', 'backlog review (luna)\nYou review PR');
+  assert.throws(() => checkBrief(dup, head, head1(dup)), /header appears again/);
+});
+
+// #314 (3): a launch whose brief builder failed (inside a pipe) reached review.mjs with a missing file, and
+// it died with a node stack trace.
+test('#314: review.mjs names a missing brief file and exits 2, with no stack trace', () => {
+  const missing = path.join(tmp, 'no-such-brief.md');
+  const r = run(REVIEW, ['--pr', '1', '--brief', missing, '--dry-run']);
+  assert.equal(r.status, 2, r.stdout + r.stderr);
+  assert.equal(r.stderr.trim(), `brief file not found: ${missing}`);
+  assert.doesNotMatch(r.stderr, /node:internal|ENOENT|at Object/);
+  const dir = run(REVIEW, ['--pr', '1', '--brief', tmp, '--dry-run']); // a directory is not a brief either
+  assert.equal(dir.status, 2);
+  assert.match(dir.stderr, /^brief file not found: /);
 });
