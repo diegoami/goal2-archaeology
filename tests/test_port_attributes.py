@@ -306,6 +306,16 @@ class SimTests(unittest.TestCase):
         s.player(40, f3=4, f5=19, f1=0x10)                    # halved unsigned: 0xFFF9 div 2
         self.assertEqual(s.run("1771:30D9", 40), (0xFFF9 // 2, 1))
 
+    def test_leadership_is_halved_only_below_age_0x15(self):
+        s = Sim()
+        for age, halved in ((0x14, True), (0x15, False), (0x16, False)):
+            s.player(41, f3=21, f5=4, f1=age)                    # 21 - 4 = 17 mod 8 = 1 (16 would give a remainder of 0)
+            self.assertEqual(s.run("1771:30D9", 41)[0], (1 // 2) if halved else 1, age)
+        s.player(41, f3=26, f5=4, f1=0x14)                         # 22 mod 8 = 6, halved to 3
+        self.assertEqual(s.run("1771:30D9", 41)[0], 3)
+        s.player(41, f3=26, f5=4, f1=0x15)
+        self.assertEqual(s.run("1771:30D9", 41)[0], 6)
+
     def test_fixture_kind_in_result_set(self):
         s = Sim()
         fixture = s.lin(0x7000, 0x10)
@@ -406,6 +416,8 @@ class SimTests(unittest.TestCase):
         self.assertEqual(plain, 100 - 0x3E + 20)
         s.player(8, f4=100, fE=20, fC=0, f5=8, f6=0, f7=1, f10=0)        # +6 zero, +7 not: out of place
         self.assertEqual(s.run("1771:377E", 8), (plain // 2, 0))
+        s.player(8, f4=101, fE=20, fC=0, f5=8, f6=0, f7=1, f10=0)        # 59 is odd: 29, the remainder 1 stays in DX
+        self.assertEqual(s.run("1771:377E", 8), (29, 1))
         s.player(8, f4=255, fE=127, fC=31, f5=8, f6=0, f7=0, f10=0)      # 255 - 62 + 127 + 31 = 351: clamped to 0x100
         self.assertEqual(s.run("1771:377E", 8)[0], 0x100)
 
@@ -451,7 +463,9 @@ class SimTests(unittest.TestCase):
         s.player(61, f6=0, f5=9, f0f=0xFF)
         s.player(62, f6=9, f5=9, f0f=0xFF)
         s.player(63, f0f=0xAA)                                          # not in the squad: untouched
+        s.player(0, f0f=0xAA, f6=0)                                     # word 0 is an empty slot: player 0 is never touched
         s.run("1771:34E7", 4)
+        self.assertEqual(s.byte(s.PLAYERS_SEG, 0xF), 0xAA)
         self.assertEqual(s.byte(s.PLAYERS_SEG, 0x14 * 61 + 0xF), (1 << 4) | 1)       # position 0: elements 5 and 1
         self.assertEqual(s.byte(s.PLAYERS_SEG, 0x14 * 62 + 0xF), 0)                  # position 9: none
         self.assertEqual(s.byte(s.PLAYERS_SEG, 0x14 * 63 + 0xF), 0xAA)
@@ -490,6 +504,8 @@ class SimTests(unittest.TestCase):
         for slot, code in zip(range(2, 12), (12, 0, 0, 0, 0, 0, 0, 0, 0, 13)):    # the opponents' (12 and 13 are attackers)
             mem.memory[base + slot - 0x1C] = code
         s.ds_bytes(0xEE6 + 14 * 1, bytes([0, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5]))   # row 1: every opposing position -> own 5
+        for r in (2, 3, 4):
+            s.ds_bytes(0xEE6 + 14 * r, bytes([99] * 14))
         s.mem.regs.update(ax=0x2222, dx=0x3333)
         s.run("1771:3E2F", 0x0C, 0x0D, bp)                             # lo 0xC, hi 0xD, the parent BP (a near call)
         # opponent slot 11 (position 13), then 2 (position 12), found in the order slot 11 down to 2: each takes the first '5'
@@ -500,6 +516,64 @@ class SimTests(unittest.TestCase):
         self.assertEqual(opp[9], 0)                                    # slot 11's opponent taken
         self.assertEqual(own[0:2], [0, 0])                             # own slots 2 and 3 (position 5) are the markers
         self.assertEqual((marks[0], marks[1]), (11, 2))                # own slot 2 marks opponent 11, slot 3 opponent 2
+
+    def test_pick_mark_target_tries_the_four_rows_in_turn(self):
+        s = Sim()
+        mem = s.mem
+        bp = 0x4100
+        base = mem.ss_lin(bp)
+        mem.memory[base - 0x10] = 10
+        mem.memory[base - 0x1B] = 10
+        for slot in range(2, 12):
+            mem.memory[base + slot - 0x11] = 3 if slot == 6 else 4                 # own positions: only slot 6 holds code 3
+            mem.memory[base + slot - 0x1C] = 13 if slot == 9 else 0                # one opponent, in [12, 13]
+        for r, value in ((1, 99), (2, 99), (3, 99), (4, 3)):                       # only row 4 maps position 13 to own 3
+            s.ds_bytes(0xEE6 + 14 * r, bytes([value] * 14))
+        s.run("1771:3E2F", 0x0C, 0x0D, bp)
+        self.assertEqual(mem.memory[base + 6 - 0x11], 0)                           # own slot 6 is the marker
+        self.assertEqual(mem.memory[base + 9 - 0x1C], 0)
+        self.assertEqual(mem.memory[base + 6 - 0x27], 9)
+
+    def marking_scene(self, tactics0=0x80, opp_unavailable=False):
+        s = Sim()
+        s.ds_word(0x9B34, 1)
+        s.ds_word(0x9B36, 2)
+        s.ds_bytes(0xEE6 + 14 * 1, bytes([5] * 14))                  # row 1: every opposing position -> own 5
+        for r in (2, 3, 4):
+            s.ds_bytes(0xEE6 + 14 * r, bytes([99] * 14))
+        team0 = [1 + k for k in range(11)]
+        team1 = [201 + k for k in range(11)]
+        s.squad(1, team0, tactics=tactics0)
+        s.squad(2, team1, tactics=0x80)
+        for k, w in enumerate(team0):                                # slot 1 the keeper; slots 2, 3 hold 5, the others 6
+            s.player(w, f6=(0 if k == 0 else 5 if k < 3 else 6), fE=9, f10=0)
+        for k, w in enumerate(team1):                                # the opposing slots 10 and 11 are attackers 12 and 13
+            s.player(w, f6=(0 if k < 9 else 12 if k == 9 else 13), fE=9, f10=0)
+        if opp_unavailable:
+            s.player(team1[10], fE=0)
+        for word in range(0x9A3E, 0x9A3E + 0x50, 2):
+            s.ds_word(word, 0xBEEF)
+        return s, team0, team1
+
+    def words(self, s, team):
+        return [s.mem.u16(s.ds + 0x9A3E + 0x28 * team + 2 * slot) for slot in range(1, 12)]
+
+    def test_set_marking_words_marks_the_opponents_attackers_by_the_first_own_men(self):
+        s, team0, team1 = self.marking_scene()
+        s.run("1771:3EF8")
+        # team 0: own slots 2 and 3 (position 5) mark the opposing slots 11 (position 13) and 10 (12); the rest hold 0
+        self.assertEqual(self.words(s, 0), [0, team1[10], team1[9], 0, 0, 0, 0, 0, 0, 0, 0])
+        self.assertEqual(self.words(s, 1), [0] * 11)               # team 1 has no one in position 5 to mark team 0's 5s
+
+    def test_set_marking_words_does_not_pick_an_unavailable_opponent(self):
+        s, team0, team1 = self.marking_scene(opp_unavailable=True)
+        s.run("1771:3EF8")
+        self.assertEqual(self.words(s, 0), [0, team1[9], 0, 0, 0, 0, 0, 0, 0, 0, 0])
+
+    def test_set_marking_words_needs_element_8_of_the_team_tactics(self):
+        s, team0, team1 = self.marking_scene(tactics0=0x40)      # element 7 only
+        s.run("1771:3EF8")
+        self.assertEqual(self.words(s, 0), [0] * 11)
 
     def test_set_marking_words_clears_slot_1_and_marks_the_opponents(self):
         s = Sim()
@@ -625,7 +699,7 @@ class DifferentialTests(unittest.TestCase):
 
     def test_every_routine_equals_the_originals_on_random_states(self):
         for address, rt in sorted(self.routines.items()):
-            for k in range(3):
+            for k in range(15):
                 args, regs, problems, _ = self.diff.case(self.image, rt, "T61-unit", k, self.specs)
                 self.assertEqual(problems, [], (address, k, args))
 
