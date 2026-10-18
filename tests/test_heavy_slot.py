@@ -109,7 +109,7 @@ class FamilyWorkersTest(unittest.TestCase):
         import family
         cls.family = family
 
-    OUT = ["--family", "S", "--out", "never-written.jsonl"]
+    OUT = ["--family", "S", "--out", "never-written.jsonl"]    # S has many matches: more than 2 to run
 
     def run_main(self, argv):
         """The `workers` main() hands to run_family for this command line (run_family stubbed: no match runs)."""
@@ -125,14 +125,91 @@ class FamilyWorkersTest(unittest.TestCase):
                               (["--workers", "2", "--workers", "1"], 1), (["--workers=1", "--workers=2"], 2),
                               (["--work", "2"], 2), (["--wor=2"], 2), (["--workers", "2", "--wor", "1"], 1), ([], 1)):
             argv = self.OUT + tail
-            self.assertEqual(self.family._workers(argv), self.run_main(argv), argv)   # the two cannot disagree
-            self.assertEqual(self.family._workers(argv), workers, argv)
+            self.assertEqual(self.family._slot_weight(argv), self.run_main(argv), argv)   # the two cannot disagree
+            self.assertEqual(self.family._slot_weight(argv), workers, argv)
+
+    def actual_processes(self, argv, done):
+        """How many match processes main() really runs at once for this command line, seen from what it calls (nothing
+        real runs): the pool (a stand-in that records its size and the matches it is given), the sequential loop of a
+        --workers 1 run (one process: this one), or the write watch (also one loop in this process). `done`: the matches
+        already in --out."""
+        seen = {"pool": None}
+
+        class Pool:
+            def __init__(self, max_workers, **k):
+                seen["pool"] = [max_workers, 0]
+
+            def __enter__(self):
+                return self
+
+            def __exit__(self, *a):
+                return False
+
+            def map(self, fn, items):
+                items = list(items)
+                seen["pool"][1] = len(items)
+                return []
+
+        def match(image, spec, *a, **k):
+            return {"id": spec.id, "error": None, "stopped_at_board": True, "strays": [], "score": [0, 0], "ticks": 0, "cpu_s": 0}
+
+        with mock.patch("concurrent.futures.ProcessPoolExecutor", Pool), mock.patch.object(self.family, "find_ranges"), \
+                mock.patch.object(self.family, "existing_records", return_value=done), mock.patch.object(self.family, "run_match", match), \
+                mock.patch.object(self.family, "append"), mock.patch("original_match.assets.reference_image", return_value=b""), \
+                mock.patch("original_match.Image"), contextlib.redirect_stdout(io.StringIO()):
+            self.family.main(argv)
+        return min(seen["pool"]) if seen["pool"] else 1       # at most that many matches at once, or the one in this process
+
+    def test_the_weight_is_the_load_of_the_mode_not_the_workers_option(self):
+        ids = ["S/quick-1", "S/quick-30"]
+        cases = (
+            # (argv, matches still to run, the weight)
+            (self.OUT + ["--workers", "2"], None, 2),
+            (self.OUT + ["--workers", "1"], None, 1),
+            # the write watch runs its matches one by one in this process, whatever --workers says
+            (["--family", "S", "--find-ranges", "ranges-never-written.json", "--workers", "2"], None, 1),
+            (["--family", "S", "--find-ranges", "ranges-never-written.json", "--workers", "2", "--only", ids[0]], None, 1),
+            # two workers over one match to run run one match
+            (self.OUT + ["--workers", "2", "--only", ids[0]], None, 1),
+            (self.OUT + ["--workers", "2", "--max", "1"], None, 1),
+            (self.OUT + ["--workers", "2", "--only", ",".join(ids)], None, 2),
+            # a resumed run: everything but one match is already in --out
+            (self.OUT + ["--workers", "2"], [ids[0]], 1),
+            (self.OUT + ["--workers", "2"], ids, 2),
+        )
+        for argv, todo, weight in cases:
+            done = self.done_but(todo)
+            with mock.patch.object(self.family, "existing_records", return_value=done):
+                got = self.family._slot_weight(argv)
+            self.assertEqual(got, weight, argv)
+            self.assertEqual(got, self.actual_processes(argv, done), argv)    # and it is what main() really runs
+
+    def done_but(self, todo_ids):
+        if todo_ids is None:
+            return {}
+        return {m.id: {"error": None, "stopped_at_board": True, "strays": []} for fam in self.family.families.select("S", self.family.families.discover()) for m in fam.matches
+                if m.id not in todo_ids}
 
     def test_a_command_line_main_refuses_holds_no_slot(self):
         for argv in (self.OUT + ["--workers", "0"], self.OUT + ["--workers", "-1"], self.OUT + ["--workers", "3"],
                      self.OUT + ["--workers", "x"], self.OUT + ["--workers"], self.OUT + ["--workers", "1", "--workers", "9"],
                      self.OUT + ["--bogus"], ["--out", "x"], ["--help"]):
-            self.assertIsNone(self.family._workers(argv), argv)   # argparse's own error then speaks, once, from main()
+            self.assertIsNone(self.family._slot_weight(argv), argv)   # argparse's own error then speaks, once, from main()
+
+    def test_a_line_main_refuses_after_parsing_holds_no_slot_either(self):
+        self.assertIsNone(self.family._slot_weight(["--family", "NO-SUCH-FAMILY", "--out", "x"]))     # families.FamilyError
+        self.assertIsNone(self.family._slot_weight(["--family", "S", "--out", "x", "--only", "S/no-such-match"]))
+        self.assertIsNone(self.family._slot_weight(["--family", "S", "--out", "x", "--max", "0"]))
+        with mock.patch.object(self.family, "existing_records", side_effect=self.family.Refused("not this run's log")):
+            self.assertIsNone(self.family._slot_weight(self.OUT))
+
+    def test_check_py_runs_in_one_process_in_every_mode(self):
+        """Audit of #318 round 3: check.py's modes (--family, --ports, --variant, --image, --json) run their matches one after
+        another in the one process, so its weight is 1; this fails when it gains a pool or a child process, whose weight
+        must then be derived like family.py's."""
+        text = (ROOT / "runtime" / "original_match" / "check.py").read_text()
+        for word in ("ProcessPool", "multiprocessing", "subprocess", "Popen", "os.fork", "Thread"):
+            self.assertNotIn(word, text, word)
 
     def test_parsed_prints_nothing_and_returns_none_on_a_refused_line(self):
         err = io.StringIO()
