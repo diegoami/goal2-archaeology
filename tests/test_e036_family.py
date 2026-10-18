@@ -30,14 +30,39 @@ from tests.test_e036_compare import (E036, ROOT, EXPECTED, F40, FAMILIES, IMAGE,
                                      families, family, records)
 import original_match  # noqa: E402
 from original_match.check import EXPECTED_FAMILY  # noqa: E402
+from original_match.match import VERSION as KIT_VERSION  # noqa: E402
 
 try:
     import unicorn  # noqa: F401
     HAVE_UNICORN = True
-except ImportError:             # CI does not install python3-unicorn
+except ImportError:             # a machine without unicorn (CI's code tier installs it, #304)
     HAVE_UNICORN = False
 FAMILY_PY = E036 / "family.py"
 IMAGE_FILE = ROOT / ".cache/dl/e0afff6751747233-e006-1000-r0001.sav"
+
+# A committed reference records the kit's VERSION it was made with (never rewritten: rule 20). When the kit moves on, the
+# reference is compared apart from that field, and the move is declared here: reference -> (the kit version it records,
+# the kit version it was last compared with, and why the records still stand). A declaration holds for exactly those two
+# versions: the next VERSION bump fails the check below until someone compares again and edits the second one (#316).
+DECLARED_KIT_VERSIONS = {
+    "experiments/E036-match-port/out/T57/reference.jsonl": ("2", "3", "T58 moved VERSION to 3 (a saved match names its "
+                                                            "ports); the two matches of the real-match test below play "
+                                                            "the same records but for `kit`"),
+}
+
+
+def undeclared_kit_versions(references, version, declared):
+    """The references (paths from ROOT) whose records name a kit version other than `version` with no declaration for
+    exactly (that version, `version`): a list of (path, what it says)."""
+    problems = []
+    for rel in sorted(references):
+        recorded = {r["kit"] for r in records.read_log(ROOT / rel)}
+        if recorded == {version}:
+            continue
+        if len(recorded) == 1 and declared.get(rel, (None, None))[:2] == (next(iter(recorded)), version):
+            continue
+        problems.append((rel, f"records kit {sorted(recorded)}, the kit is {version!r}, declared {declared.get(rel)!r}"))
+    return problems
 
 
 # ---- the families --------------------------------------------------------------------------------------------
@@ -739,6 +764,45 @@ class TheRanges(unittest.TestCase):
                     self.assertTrue(any(lo <= start and start + length <= hi for lo, hi in suggested))
 
 
+# ---- the committed references and the kit's version ------------------------------------------------------------------
+class TheReferences(unittest.TestCase):
+    """#316: a reference is recorded with the kit's VERSION of its day; when VERSION moves, the comparison leaves the
+    `kit` field out and the move is declared, so that a move nobody looked at fails here."""
+    REF = "experiments/E036-match-port/out/T57/reference.jsonl"
+
+    def test_every_committed_reference_names_the_kits_version_or_declares_the_difference(self):
+        refs = {f.reference for f in FAMILIES.values() if (ROOT / f.reference).is_file()}
+        self.assertTrue(refs)
+        self.assertEqual(undeclared_kit_versions(refs, KIT_VERSION, DECLARED_KIT_VERSIONS), [])
+
+    def test_a_declaration_is_not_stale(self):
+        for rel, (recorded, compared, why) in DECLARED_KIT_VERSIONS.items():
+            with self.subTest(reference=rel):
+                self.assertTrue((ROOT / rel).is_file())
+                self.assertNotEqual(recorded, compared)
+                self.assertEqual(compared, KIT_VERSION, "the kit moved on: compare the reference again, then edit this")
+                self.assertTrue(why)
+
+    def test_a_different_version_with_no_declaration_is_found(self):
+        self.assertEqual(undeclared_kit_versions([self.REF], "2", {}), [])
+        (bad,) = undeclared_kit_versions([self.REF], "3", {})
+        self.assertEqual(bad[0], self.REF)
+
+    def test_a_declaration_for_another_pair_of_versions_does_not_cover_it(self):
+        decl = {self.REF: ("2", "3", "why")}
+        self.assertEqual(undeclared_kit_versions([self.REF], "3", decl), [])
+        self.assertEqual(len(undeclared_kit_versions([self.REF], "4", decl)), 1)       # the kit moved again
+        self.assertEqual(len(undeclared_kit_versions([self.REF], "3", {self.REF: ("1", "3", "why")})), 1)  # not its version
+
+    def test_a_reference_of_mixed_versions_is_found(self):
+        recs = records.read_log(ROOT / self.REF)[:2]
+        with tempfile.TemporaryDirectory() as tmp:
+            lines = [json.dumps(dict(r, kit=k)) for r, k in zip(recs, ("2", "3"))]
+            (Path(tmp) / "mixed.jsonl").write_text("\n".join(lines) + "\n")
+            with mock.patch(f"{__name__}.ROOT", Path(tmp)):
+                self.assertEqual(len(undeclared_kit_versions(["mixed.jsonl"], "3", {"mixed.jsonl": ("2", "3", "why")})), 1)
+
+
 # ---- one real match ----------------------------------------------------------------------------------------------
 @unittest.skipIf(os.environ.get("E036_NO_REAL_MATCH"), "E036_NO_REAL_MATCH is set (the mutation check runs no match)")
 @unittest.skipUnless(HAVE_UNICORN, "unicorn is not installed")
@@ -781,8 +845,8 @@ class OneRealMatch(unittest.TestCase):
 
     def test_two_workers_play_two_matches_the_same_as_the_reference(self):
         """--workers 2 (run as the script, since a worker process imports it by name): two processes, one match at a
-        time each, the records the reference holds (its cpu and wall times apart): the same match in another process is
-        the same match."""
+        time each, the records the reference holds (its cpu and wall times apart, and its `kit`, which the kit's later
+        VERSION moves; TheReferences declares that): the same match in another process is the same match."""
         committed = ROOT / FAMILIES["F40"].reference
         if not committed.is_file():
             self.skipTest("the reference is not committed in this tree")
@@ -797,8 +861,9 @@ class OneRealMatch(unittest.TestCase):
         self.assertEqual(sorted(x["id"] for x in got), ["S/quick-1", "S/quick-30"])
         for x in got:
             self.assertTrue(records.is_completed(x))
-            self.assertEqual({k: v for k, v in x.items() if k not in ("cpu_s", "wall_s")},
-                             {k: v for k, v in want[x["id"]].items() if k not in ("cpu_s", "wall_s")})
+            self.assertEqual(x["kit"], KIT_VERSION)
+            self.assertEqual({k: v for k, v in x.items() if k not in ("cpu_s", "wall_s", "kit")},
+                             {k: v for k, v in want[x["id"]].items() if k not in ("cpu_s", "wall_s", "kit")})
 
 
 if __name__ == "__main__":

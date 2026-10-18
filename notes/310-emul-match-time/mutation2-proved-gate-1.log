@@ -1,0 +1,31 @@
+MUTATION in tests/test_emul_match.py: 'gate=frozenset({0x18})), ticks=3000)' -> 'gate=frozenset({1})), ticks=3000)'
+WARNING: call #1 of 0791:278A: uncompared register BX at the return: the original 0x001E, the model 0x016A (counted, not an error; further ones counted only)
+WARNING: call #1 of 0791:278A: uncompared register CX at the return: the original 0x0010, the model 0x0004 (counted, not an error; further ones counted only)
+WARNING: call #1 of 0791:278A: uncompared register ES at the return: the original 0x2DA4, the model 0x4E5B (counted, not an error; further ones counted only)
+WARNING: call #1 of 0791:278A: uncompared register FLAGS at the return: the original 0x7202, the model 0x7296 (counted, not an error; further ones counted only)
+E
+======================================================================
+ERROR: test_the_gate_falsifier_proves_on_e011 (tests.test_emul_match.RealGuestTests.test_the_gate_falsifier_proves_on_e011)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a43ef11c1d29a1ca4/tests/test_emul_match.py", line 456, in test_the_gate_falsifier_proves_on_e011
+    m = self.prove_reader(skill_reader(gate=frozenset({1})), ticks=3000)
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a43ef11c1d29a1ca4/tests/test_emul_match.py", line 408, in prove_reader
+    m.run(max_ticks=ticks)
+    ~~~~~^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a43ef11c1d29a1ca4/runtime/emul/watched_match.py", line 653, in run
+    self.emulate(board, timeout_s)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a43ef11c1d29a1ca4/runtime/emul/watched_match.py", line 454, in emulate
+    raise self.error
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a43ef11c1d29a1ca4/runtime/emul/watched_match.py", line 424, in at_return
+    raise ProofError(f"call #{call} of {key}: register {r} at the return: the original"
+                     f" 0x{original_regs[r]:04X}, the model 0x{model_regs[r]:04X}")
+watched_match.ProofError: call #6685 of 0791:278A: register AX at the return: the original 0x0044, the model 0x0082
+
+----------------------------------------------------------------------
+Ran 1 test in 10.371s
+
+FAILED (errors=1)
+
+exit status 1, 10.5 s

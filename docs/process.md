@@ -79,7 +79,7 @@ CI tiers (the owner, 2026-10-17, #297): the PR's one job, `checks`, runs what th
 (`tools/ci_gate.py`). Prose no test reads (`*.md` at the root, `docs/`, `notes/`, `spec/`, except the four
 docs a test reads) gets links, citations and the no-original-file check only. Anything else also gets the
 harness tests, `tests/static` and every unit test except six slow modules (five took about 280 of the 360 seconds
-of the unit suite; the sixth, `test_emul_match`, about 380 once unicorn was installed). The code tier installs
+of the unit suite; the sixth, `test_emul_match`, about 380 once unicorn was installed; since #310 a pull request's run of it takes about 36, its 361 s proved test running only in the nightly, manual and local runs, `notes/310-emul-match-time/`). The code tier installs
 unicorn 2.1.4 (`runtime/emul/requirements.txt`, pip cache), so the emulator tests run there instead of skipping
 (#304; it adds about 35 s to a code PR's run, `notes/T304/`). A slow module runs only when the PR touches a file it reads (`SLOW_DEPS`, traced with
 an audit hook, `notes/T297/`); a change to the CI files, a manual run and a nightly run on `main` (when
@@ -149,6 +149,9 @@ You implement <T<nn>>. The task file above is the contract.
 - A defect you find outside the task: report it. A one-file mechanical fix that blocks you may
   ride this PR, declared under Scope in the PR body.
 - Update any document your change makes wrong, in this PR. Never write status into a document.
+- A heavy job (a match run, a family run, check.py, the unit suite) runs as `tools/harness/heavy.sh <name> -- <command>`:
+  two at a time on this machine across every agent and review, the rest queue and say "waiting for a slot (k ahead)"
+  (docs/environment.md "Heavy jobs"). family.py, check.py and `tools/ci_gate.py run-tests` queue themselves.
 - Commit and push after each step, at least every 20 minutes and before any command that runs longer
   than 5 minutes; after your first push, open the PR as a draft (`gh pr create --draft`). A crash then
   loses one step, and the branch shows where you are. (L103)
@@ -166,6 +169,7 @@ You implement <T<nn>>. The task file above is the contract.
 You review PR #<n> at <sha>. You did not write it. The task file follows.
 0. Prove the tree: HEAD is <sha> and the diff against origin/main is the PR's; findings name its files.
 1. Re-run every Done-when line yourself, and account for each (L32). The PR's evidence is no proof.
+   (A rework round re-runs the sample the brief names: its "Rework rounds" section, #319.)
 2. [evidence-driven] Every constant traces to a fixture, report or investigation; a [designed] one says what was searched.
 3. [seeded] No wall clock, unseeded random or order-dependent iteration in rule code.
 4. Every changed file and behaviour is one the task asks for (L44); docs it makes wrong are updated.
@@ -196,7 +200,7 @@ Research briefs here also add, under "Blocking means": G0a (U32, CLAUDE.md rule 
 because a static tool was missing, or a finding resting on runs whose Method does not say what
 static analysis was tried, is a contract defect: rework.
 
-Run mechanics, added to every brief here: the session is killed after 1500 s without activity; keep
+Run mechanics, added to every brief here: the session is killed after 1500 s without activity (a command waiting for a slot in `tools/harness/heavy.sh` is not counted: `review.mjs` gives the reviewer `heavy.sh` on its PATH and the idle clock reads the queue, #318; docs/environment.md "Heavy jobs"); keep
 every shell command under 5 minutes (a long suite excepted: one foreground call, `docs/review-brief.md`), and work only inside the review worktree and, for scratch files, the run's folder under `~/goal2-review-tmp` (`review.mjs` sets `TMPDIR` there, removes it when the run comes back and keeps it when the run fails; it refuses to start when `/tmp` has under 500 MB free and that disk under 2 GB; #311). Undo a mutation by
 writing back the file's saved contents (read it first, restore it in a `finally`), never with
 `git checkout`, `git restore` or `git reset` of the file: those return the last commit and destroy

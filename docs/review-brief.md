@@ -1,9 +1,9 @@
 # The review brief's own sections
 
-Every review brief carries these two sections, in full, after the numbered block of
+Every review brief carries these three sections, in full, after the numbered block of
 `process.md` §5 (or, in the review profile, after the brief's numbered lines). The reviewer reads
 the brief in another file, so paste them; never point to this one. Write "Blocking means" for the
-task; paste the second section as it is. (L47, L49)
+task; paste the other two sections as they are. (L47, L49)
 
 ```text
 ## Blocking means
@@ -54,6 +54,16 @@ enough for it. Do not start it in the background and poll it, and do not kill it
 the harness stops a review only after 25 minutes without activity, which one foreground call stays
 well inside.
 
+Heavy jobs (#318): two heavy jobs at most run at a time on this machine, for every agent, review and
+worktree. Run a match, a family run, check.py or the unit suite only as `heavy.sh NAME -- COMMAND`
+(`tools/harness/heavy.sh`; it is on your PATH, so run it by name). "heavy: NAME: waiting for a slot
+(k ahead)" is the queue, not a hang: the 25-minute idle limit does not count the time a command waits
+there. A suite stays one foreground call, wrapped: `heavy.sh unit-suite -- python3 -m unittest discover
+-s tests`. A family run takes 15 to 25 minutes under load and may queue first, more than the 1,200 s one
+tool call allows (L121): start it detached, `heavy.sh family -- python3 -B experiments/E036-match-port/family.py
+... > $TMPDIR/family.log 2>&1 &`, and poll the log with `tail -n 5`. Inside a heavy job a second
+`heavy.sh` runs at once (it needs no second slot), so `check.py` under the suite does not wait for itself.
+
 Scratch space: /tmp is a small RAM-backed disk shared with other projects, and it may be full (it
 was at 100% on 2026-10-17 and a review died of ENOSPC after an hour). Put copies of main,
 family-run outputs, suite logs and any other big file in your scratch folder under
@@ -61,4 +71,21 @@ family-run outputs, suite logs and any other big file in your scratch folder und
 real disk, its path has no dot element, and the script removes it when your review is read). Never
 write them under /tmp. If a command fails with "No space left on device", say so in the review and
 move its output to the scratch folder rather than retrying in /tmp.
+
+## Rework rounds: what you re-run (the owner, 2026-10-18, #319)
+
+The first review of a task or fix (the brief has no "This is review round" line) re-runs every
+Done-when line, a full family run included. In a rework round (the brief says "This is review round"
+2 or later, and names "Sample for this round") you re-run instead:
+- the sample the brief names, in place of the full run of any Done-when line that runs the whole
+  family or sweep;
+- every unit test, every mutation check a Done-when line names, and the check of each finding of the
+  earlier review;
+- every other Done-when line, as in the first review.
+You verify, and do not re-run, the committed full-family outputs: their sha256 against the
+implementer's manifest, and the comparison tool (compare.py for the engine tasks) run on the
+committed files. Account for each such line as `DW<k>: sampled <command> → <result>; hashes ok or
+differ; compare <result>`.
+If the sample differs from the committed output in any way, or a hash does not match, stop sampling:
+run the full line and say so. A sample run that cannot be made is `DW<k>: not run`, never an approval.
 ```

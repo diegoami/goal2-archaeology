@@ -16,6 +16,7 @@
 import contextlib
 import io
 import json
+import os
 import sys
 import unittest
 from pathlib import Path
@@ -28,7 +29,7 @@ try:
     from unicorn import UC_HOOK_CODE  # noqa: E402
     from watched_match import Guest, routine_return  # noqa: E402  (watched_match.py imports unicorn at module level)
 except ModuleNotFoundError:
-    # CI does not install python3-unicorn; the module's tests skip with the reason named.
+    # a machine without unicorn (CI's code tier installs it from runtime/emul/requirements.txt, #304): the module's tests skip with the reason named.
     raise unittest.SkipTest("unicorn not installed")
 
 CODE, ROUTINE = 0x1000, 0x2000
@@ -422,8 +423,35 @@ class RealGuestTests(unittest.TestCase):
 
     def test_the_gate_falsifier_is_not_reached_by_e011(self):
         # T42 DW2 as amended (2026-10-12): no 278A call in E011 reaches the 282D-2837 keeper set
-        # test with an event in {3, 4, 0x18}, so the pre-T40 gate proves; #164 tracks a match
-        # that reaches it, and then this test must expect a ProofError
+        # test (element 1, extra table 0) with an event (DS:8327) in {3, 4, 0x18}, so the pre-T40 gate
+        # proves; #164 tracks a match that reaches it, and then this test must expect the keeper
+        # extra. Issue #310: the claim is about the calls the ORIGINAL makes, so it is read from them,
+        # on the plain match to full time (about 35 s), not by proving 28,000 calls (the proved run of
+        # the first 3000 ticks, 230 s, is test_the_gate_falsifier_proves_on_e011 below, which a
+        # pull request's CI does not run).
+        from check import SKILL_READER, keeping
+        from watched_match import WatchedMatch
+        m = WatchedMatch(watchstart_or_skip(self))
+        events = {}                                  # DS:8327 at each element-1 call -> calls
+
+        def at_entry(uc, address, size, data):
+            if m.arg(2) == keeping.KEEPING_ELEMENT:
+                event = m.rd(0x8327, 1)
+                events[event] = events.get(event, 0) + 1
+        lin = m.lin(SKILL_READER)
+        m.mu.hook_add(UC_HOOK_CODE, at_entry, begin=lin, end=lin)
+        m.run()
+        self.assertEqual(len(m.tick_marks), 4149)    # the whole match (91 minutes), not a slice of it
+        self.assertEqual(set(events) & (keeping.KEEPER_EVENTS | {0x18}), set())
+        self.assertEqual(events, {1: 13})            # and the check saw the element-1 calls (it is not vacuous)
+
+    @unittest.skipIf(os.environ.get("GITHUB_EVENT_NAME") == "pull_request",
+                     "issue #310: the proved run takes 230 s (361 s on CI's runner); a pull request's CI runs the"
+                     " direct check above, and the nightly, manual and local runs this one")
+    def test_the_gate_falsifier_proves_on_e011(self):
+        # the same claim by the proof: the model with the pre-T40 gate (event == 0x18) agrees with the
+        # original at every 278A call of the first 3000 ticks (28,055 calls); a ProofError here means a
+        # call reached the gate, and #164's test above has failed too
         from check import SKILL_READER, skill_reader
         m = self.prove_reader(skill_reader(gate=frozenset({0x18})), ticks=3000)
         self.assertGreater(m.proved_calls[SKILL_READER], 0)

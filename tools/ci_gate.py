@@ -189,13 +189,18 @@ def run_tests(modules):
     return 0 if unittest.TextTestRunner(verbosity=2).run(select_suite(modules)).wasSuccessful() else 1
 
 
-def main(argv):
+def parser():
+    """The command line's one definition: main() parses with it, and so does the heavy-job slot (heavy_slot.parsed)."""
     ap = argparse.ArgumentParser()
     sub = ap.add_subparsers(dest="cmd", required=True)
     sub.add_parser("decide")
     rt = sub.add_parser("run-tests")
     rt.add_argument("--modules", default="", help="comma-separated SLOW modules to run besides the others")
-    a = ap.parse_args(argv)
+    return ap
+
+
+def main(argv):
+    a = parser().parse_args(argv)
     if a.cmd == "run-tests":
         mods = [m for m in a.modules.split(",") if m]
         unknown = set(mods) - set(SLOW)
@@ -214,4 +219,9 @@ def main(argv):
 
 
 if __name__ == "__main__":
+    sys.path.insert(0, str(ROOT / "runtime"))
+    import heavy_slot
+    _ns = heavy_slot.parsed(parser())
+    if _ns is not None and _ns.cmd == "run-tests":    # the unit suite is a heavy job (#318); `decide` is not
+        heavy_slot.take("unit-suite")
     sys.exit(main(sys.argv[1:]))

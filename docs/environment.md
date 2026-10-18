@@ -226,6 +226,15 @@ repository; nothing else does:
 - A JDK 21: Temurin 21.0.12.1 (`~/tools/jdk-21.0.12.1+1`, or set `JAVA_HOME`). The script refuses
   another major version, and the output's README records the exact one.
 
+Ghidra refuses a project path with an element that starts with `.` ("Path element starting with '.'
+is not permitted"), and the harness's isolated worktrees are under `<repo>/.claude/worktrees/`. So
+Ghidra's project, input and temporary files never go under the repository or `TMPDIR`: the wrapper and
+`GhidraMappingTests` make `$HOME/goal2-ghidra-work/<unit>-<random>` (`tools/static/ghidra_work.py`;
+`GOAL2_GHIDRA_WORK` names another absolute base), set `TMPDIR`, `TMP` and `TEMP` to it for Ghidra, and
+remove it afterwards (`KEEP_WORK=1` keeps it). A base whose resolved path has a dot element (a `HOME`
+under `.something`, a link into one) stops the run with that reason (fix #315). No manual `TMPDIR` is
+needed in an agent worktree.
+
 Ghidra runs headless with `-max-cpu 2`, one instance at a time (the machine is shared). Without
 them, `tests/static/test_decompile.py` skips its Ghidra tests and says why. One run takes about
 six minutes on two CPUs: start it in the background.
@@ -235,6 +244,33 @@ six minutes on two CPUs: start it in the background.
 Isle-wars' sessions run DOSBox-X and Xvfb on the same machine. Use another display than `:99` (a
 stray `Xvfb :99` belongs to neither project), and stop only processes you started, by PID: never
 `pkill dosbox-x` or `pkill Xvfb`.
+
+## Heavy jobs
+
+Up to four agents and three reviews ran at once on 2026-10-17: load average 6.8 to 7, reviews of 62-match
+runs took one to two hours, one hit its limits, and the idle watch fired "possibly stuck" for work that was only
+slow. "At most one match process at a time" was only a line in briefs; since #318 a lock enforces it.
+
+`tools/harness/heavy.sh <name> -- <command>` takes one of N slots (harness.json `heavy.slots`, two; why two, a 1 s poll and a 5 s stale-ticket age: measurements and sources in `notes/318-heavy/README.md`; the
+environment variable `HARNESS_HEAVY_SLOTS` overrides it), then runs the command in place of itself (its exit status
+and output are the command's). With every slot taken it queues, first come first served, and prints
+`heavy: <name>: waiting for a slot (k ahead)` on stderr, k being the jobs queued before it. The slots and the queue
+are files in `~/.cache/goal2-heavy` (`HARNESS_HEAVY_DIR`), locked with `flock`, so they are shared by every
+worktree and every process of the machine, and a job that dies, even killed with SIGKILL, frees its slot at once.
+`heavy.sh --status` lists the slots and the queue; `--weight K` holds K slots (a job that runs K processes).
+A `heavy.sh` started inside a heavy job (`HARNESS_HEAVY_HELD` is set) runs its command at once and takes no
+second slot, so `check.py` called by the unit suite cannot deadlock a full machine.
+
+Who uses it: `experiments/E036-match-port/family.py` (weight = the match processes it runs at once: `--workers`, but at most the matches still to run, and 1 for `--find-ranges`, which runs its matches one after another), `runtime/original_match/check.py` and
+`tools/ci_gate.py run-tests` queue themselves when run as scripts (`runtime/heavy_slot.py`; each reads its slot weight and whether to queue at all with the same argparse parser its `main()` uses, `heavy_slot.parsed`, so a repeated `--workers`, `--workers=2` or an abbreviation weighs what the run uses, and a command line `main()` refuses holds no slot; `check.py` is one process in every mode; the unit suite is one job, and a test of it that starts its own processes (the two-workers test, the human recorder's display stack) is not counted again; not in CI, where the
+runner is not this machine, nor when `HARNESS_HEAVY_OFF` is set). The unit suite run by hand is
+`tools/harness/heavy.sh unit-suite -- python3 -m unittest discover -s tests`. A review: `review.mjs` puts
+`tools/harness/` of the main checkout first on the reviewer's PATH (a PR that predates the script has it too),
+names the command in its rules, clears an inherited `HARNESS_HEAVY_HELD`, and sets `HARNESS_HEAVY_QUEUE_FILE`,
+a file that `heavy.sh` touches at every poll while the reviewer's command waits; `lib/opencode.mjs` counts the
+idle limit from the later of the session's last update and that touch, so queue time is not idle time. The
+review itself holds no slot (a review that held one while its reviewer waited for another would deadlock two
+reviews on two slots). `tools/harness/heavy.test.mjs` and `tests/test_heavy_slot.py` test it.
 
 ## OpenCode's agent permissions
 

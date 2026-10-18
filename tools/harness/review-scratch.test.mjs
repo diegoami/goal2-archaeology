@@ -54,6 +54,8 @@ else if (cmd === 'run') {
   fs.writeFileSync(process.env.FAKE_ENV, JSON.stringify({
     TMPDIR: process.env.TMPDIR, TMP: process.env.TMP, TEMP: process.env.TEMP, osTmpdir: os.tmpdir(),
     existed: fs.existsSync(t), brief,
+    queue: process.env.HARNESS_HEAVY_QUEUE_FILE, queueExisted: fs.existsSync(process.env.HARNESS_HEAVY_QUEUE_FILE ?? ''),
+    held: process.env.HARNESS_HEAVY_HELD, searchPath: process.env.PATH,
   }));
   fs.writeFileSync(path.join(t, 'copy-of-main.bin'), Buffer.alloc(1 << 20)); // a reviewer's big scratch file
   // storage that fails AFTER startup: the file the finished review is kept in cannot be written
@@ -145,6 +147,19 @@ test('DW1: review.mjs sets TMPDIR, TMP and TEMP to a folder of the run under the
   assert.ok(seen.brief.includes(seen.TMPDIR), 'the run\'s rules name the scratch folder');
   assert.match(seen.brief, /never under \/tmp/);
   assert.deepEqual(runFolders(), []); // and removed once the review was read, with its 1 MB file
+});
+
+test('#318: the reviewer gets heavy.sh on its PATH, a queue file for the idle clock, no inherited heavy slot, and a rule naming the command', () => {
+  const r = review({ HARNESS_HEAVY_HELD: 'outer' }); // this script was itself started inside a heavy job
+  assert.equal(r.status, 0, r.stdout + r.stderr);
+  const seen = JSON.parse(fs.readFileSync(envFile, 'utf8'));
+  assert.equal(seen.searchPath.split(path.delimiter)[0], path.join(repo, 'tools', 'harness'));
+  assert.equal(seen.held, ''); // else the reviewer's heavy jobs would skip the queue
+  assert.equal(path.dirname(seen.queue), `${root}-harness`);
+  assert.equal(seen.queueExisted, true);
+  assert.equal(fs.existsSync(seen.queue), false, 'removed when the run comes back');
+  assert.match(seen.brief, /heavy\.sh <name> -- <command>/);
+  assert.match(seen.brief, /idle limit does not count it/);
 });
 
 test('DW1: a run that fails keeps its folder (the message names it) and the file in it', () => {

@@ -2,7 +2,7 @@
 // Hands one pull request to OpenCode for a review, and posts the result as one PR comment.
 //
 //   node tools/harness/review.mjs --pr 42 --brief brief.md [--reviewer NAME] [--exclude NAME,...]
-//     [--issue 12 --apply-label] [--done-when K] [--dry-run] [--env KEY=VALUE]...
+//     [--issue 12|none --apply-label] [--done-when K] [--dry-run] [--env KEY=VALUE]...
 //     [--total-timeout-sec N] [--idle-timeout-sec N]   override harness.json's limits for this run
 //   node tools/harness/review.mjs --self-test   (the reader's samples and the named-model checks; no model is called)
 //
@@ -36,6 +36,13 @@
 // from that file, then the file and the run's folder go; a failed post keeps the file and names it. Each
 // folder is checked by its resolved path, never a tmpfs. lib/scratch.mjs.
 //
+// Heavy jobs (#318): the reviewer runs a match, a family, check.py or the unit suite as
+// `heavy.sh <name> -- <command>`, which queues it behind the other agents' and reviews' heavy jobs (two at a time
+// on this machine; harness.json's heavy.slots). heavy.sh is on the reviewer's PATH from THIS checkout, so a PR
+// that predates the script has it too; the HARNESS_HEAVY_HELD of a heavy job this script was started in is
+// cleared; and while a command waits in the queue it touches the run's queue file, which the idle limit reads
+// (lib/opencode.mjs): the idle limit does not count queue time.
+//
 // A brief naming a commit other than the PR's head as the one to review is refused, exit 2, before
 // anything runs (#23). Only the lines before the pasted task file's title (`# T<nn>`) are read (#32).
 //
@@ -59,7 +66,7 @@ import { readReview, doneWhenCount, briefTargets } from './lib/chain.mjs';
 import { planSwitch, defaultVariant } from './lib/switch.mjs';
 import { planPost, publish } from './lib/post.mjs';
 import { selfTest, SAMPLES } from './lib/review-selftest.mjs';
-import { scratchRoot, rootProblem, spaceProblem, thresholds, tmpEnv, diskDir, makeScratch, removeScratch, harnessDir, keepReview } from './lib/scratch.mjs';
+import { scratchRoot, rootProblem, spaceProblem, thresholds, tmpEnv, diskDir, makeScratch, writeFresh, removeScratch, harnessDir, keepReview } from './lib/scratch.mjs';
 import {
   sh, requireTools, repoPaths, loadConfig, parseArgs, envWith, ocArgs, prepareOpenCode, watchLine, sessionFamily,
 } from './lib/common.mjs';
@@ -118,7 +125,11 @@ if (a['self-test']) {
   process.exit(failures.length ? 1 : 0);
 }
 if (!a.pr || !a.brief) die(2, '--pr and --brief are required.');
-if (a['apply-label'] && !a.issue) die(2, '--apply-label needs --issue.');
+// --issue none: a review with no issue (a planning or backlog PR, #314): no label is read or applied.
+if (a.issue === 'none') {
+  delete a.issue;
+  if (a['apply-label']) { a['apply-label'] = false; say('--issue none: no label is applied.'); }
+} else if (a['apply-label'] && !a.issue) die(2, '--apply-label needs --issue.');
 const limit = (k) => {
   if (a[k] === undefined) return null;
   const n = Number(a[k]);
@@ -127,6 +138,8 @@ const limit = (k) => {
 };
 const totalSec = limit('total-timeout-sec');
 const idleSec = limit('idle-timeout-sec');
+// A launch whose brief builder failed (inside a pipe, L120) names no file: say so, no stack trace (#314).
+if (!fs.existsSync(a.brief) || !fs.statSync(a.brief).isFile()) die(2, `brief file not found: ${a.brief}`);
 const brief = fs.readFileSync(a.brief, 'utf8').split(/\r?\n/);
 const briefHeader = brief[0].trim();
 const doneWhen = a['done-when'] !== undefined ? Number(a['done-when']) : doneWhenCount(brief.join('\n'));
@@ -200,7 +213,10 @@ if (!fs.existsSync(agentFile)) die(2, `The reviewer agent is missing from this c
 // reviewer runs as TMPDIR, TMP and TEMP; removed when the run ends well, kept when it fails (#311).
 const runId = `${a.pr}-review-${randomBytes(4).toString('hex')}`;
 const scratch = path.join(scratchBase, runId);
-const reviewEnv = { ...pre.env, ...tmpEnv(scratch), OPENCODE_CONFIG_DIR: path.join(top, '.opencode'), OPENCODE_DISABLE_PROJECT_CONFIG: '1' };
+const reviewEnv = {
+  ...pre.env, ...tmpEnv(scratch), OPENCODE_CONFIG_DIR: path.join(top, '.opencode'), OPENCODE_DISABLE_PROJECT_CONFIG: '1',
+  PATH: `${path.join(top, 'tools', 'harness')}${path.delimiter}${(pre.env ?? process.env).PATH ?? ''}`, HARNESS_HEAVY_HELD: '',
+};
 // Everything the harness writes during and after the run goes on disk, never /tmp: OpenCode's output
 // logs and the finished review kept until it is posted (a full /tmp must not lose a finished review).
 let logDir;
@@ -262,12 +278,20 @@ OUTPUT RULES (from tools/harness/review.mjs; they override anything above that c
   your own worktree only (L61): a Done-when line may send git at a pinned repository outside it
   (git -C <path> show <pin>:<file>); run that exactly as written — OpenCode does not path-check
   git -C — and read a granted outside path only with the L59 recipe.
+- Heavy jobs: run a match, a family run, check.py or the unit suite only as
+  \`heavy.sh <name> -- <command>\` (on your PATH; run it by name). It lets two heavy jobs run at a time on this
+  machine and queues the rest; "heavy: <name>: waiting for a slot (k ahead)" is the queue, not a hang, and the
+  idle limit does not count it. One tool call stops at 1,200 s (L121): start a family run detached
+  (\`heavy.sh <name> -- <command> > ${scratch}/<name>.log 2>&1 &\`) and poll its log with tail.
 - Scratch space: /tmp is a small RAM-backed disk shared with other projects, and it may be full.
   Put copies of main, family-run outputs and suite logs in ${scratch} (TMPDIR, TMP and TEMP
   already point there), never under /tmp. The script removes that folder when your review is read.
 `;
       newTree();
       makeScratch(scratchBase, runId);
+      // heavy.sh touches this file while a command of the reviewer waits in the queue (#318); created here, removed below
+      const queueFile = path.join(logDir, `${runId}.queue`);
+      writeFresh(queueFile, '');
       const watch = watchLine(m, model);
       if (watch) say(watch);
       let run;
@@ -275,11 +299,14 @@ OUTPUT RULES (from tools/harness/review.mjs; they override anything above that c
         run = await runOpenCodeWatched({
           args: ocArgs(worktree, rev.agent, model), prompt, workDir: worktree, title: `pr${a.pr}-${fileSafe(m)}`,
           startupTimeoutMs: rev.startupTimeoutSec * 1000, idleTimeoutMs: (idleSec ?? rev.idleTimeoutSec) * 1000,
-          totalTimeoutMs: (totalSec ?? rev.totalTimeoutSec) * 1000, opencode, env: reviewEnv, log: say, logDir,
+          totalTimeoutMs: (totalSec ?? rev.totalTimeoutSec) * 1000, opencode, env: { ...reviewEnv, HARNESS_HEAVY_QUEUE_FILE: queueFile },
+          log: say, logDir, queueFile,
         });
       } catch (e) {
         if (!(e instanceof OpenCodeInfraError)) throw e;
         return { ok: false, reason: e.reason, detail: e.message };
+      } finally {
+        fs.rmSync(queueFile, { force: true });
       }
       // OpenCode's own error stream on a failed run, never the model's output (Luna's R1, round 2).
       if (run.exitCode !== 0) return { ok: false, reason: keyProblem(run.stderr, model.id, reviewEnv.XDG_DATA_HOME) ?? `exit ${run.exitCode}`, detail: run.output };

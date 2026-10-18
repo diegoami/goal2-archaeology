@@ -8,7 +8,7 @@ speaker and keyboard, and the keyboard is answered by the kit's own hooks (match
 Stopping: a hook calls `stop(reason)`; Unicorn then leaves the instruction at the hooked address unexecuted, and
 every hook at that address fires again when the run resumes there (probed: E033 notes, section 3). Handlers are
 told so (`replay=True` on that first call after a resume) and those that count things skip it."""
-try:                     # the kit imports without unicorn (goal2's quick path, CI); a match needs it
+try:                     # the kit imports without unicorn (a checkout that lacks it; the CI code tier installs it, #304); a match needs it
     from unicorn import Uc, UcError, UC_ARCH_X86, UC_MODE_16, UC_HOOK_CODE, UC_HOOK_INTR, UC_HOOK_MEM_WRITE
     from unicorn import x86_const as X
 except ImportError:
