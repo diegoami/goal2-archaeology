@@ -159,6 +159,13 @@ MUTATIONS = [
     ("an event out of order taken as the next", f"{K}/port/prove.py",
      "        if i < len(st.transcript) and st.transcript[i][0] == key:",
      "        if i < len(st.transcript):"),
+    # round 5: nothing of the kit's runs in the muted original; raw hooks and the taps are refused under a proof
+    ("a listener flag to run while muted", f"{K}/machine.py", "    def on_write(self, begin, end, fn):",
+     "    def on_write(self, begin, end, fn, always=False):"),
+    ("a second recorder accepted", f"{K}/machine.py", "        if self._recorder is not None:", "        if False:"),
+    ("a raw hook accepted under a proof", f"{K}/machine.py", "        if self._machine.proving:", "        if False:"),
+    ("a machine with raw hooks proved", f"{K}/port/prove.py", "        if machine.foreign_hooks:", "        if False:"),
+    ("a proof over taps already set", f"{K}/port/prove.py", "        if taken:", "        if False:"),
 ]
 
 

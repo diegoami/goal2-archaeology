@@ -152,9 +152,11 @@ class Prover:
     (Match: from a given draw on); where() describes the match's point for a message (the minute, the draw)."""
 
     def __init__(self, machine, installed, armed=lambda: True, where=lambda: ""):
-        from ..machine import MEM_SIZE
         if machine.muted_hook is not None:
             raise PortError("one proof per machine")
+        taken = [n for n in ("site_tap", "write_tap", "io_tap", "listen_tap") if getattr(machine, n) is not None]
+        if taken:                              # the taps are the proof's alone: another observer would be unordered
+            raise PortError(f"the machine's {', '.join(taken)} is set already: a proof's taps are its own (round 5)")
         self.m, self.armed, self.where = machine, armed, where
         self.state = None
         self._visit = None          # the kit site whose handlers run now, during a proved call's port run
@@ -172,7 +174,11 @@ class Prover:
             self.scratch[address] = {r: 0 for r in REGS_SCRATCH}
             self.dead[address] = {}
         self._own_index = len(machine._writes)  # the kit's listeners before it run before it at a write, the rest after
-        machine.on_write(0, MEM_SIZE - 1, self._record, always=True)    # once, before the run
+        if machine.foreign_hooks:              # a raw Unicorn callback would run in the muted original too (round 5)
+            raise PortError(f"{machine.foreign_hooks} raw Unicorn hook(s) were added through Machine.uc: a proof "
+                            "cannot order or replay their callbacks; prove a machine without them")
+        machine.set_recorder(self._record)    # once, before the run; the one listener called while muted
+        machine.proving = True                # from now on Machine.uc refuses a raw hook
         machine.write_tap = self._host_write
         machine.io_tap = self._io
         machine.listen_tap = self
@@ -318,8 +324,8 @@ class Prover:
         Machine calls them (those added before the proof's own listener first: `before`), each matched with the port's
         run's next listener call, its inputs compared and its answer applied (as at a site)."""
         st = self.state
-        for index, (begin, end, _, always) in enumerate(list(self.m._writes)):
-            if always or not begin <= address <= end or (index < self._own_index) != before:
+        for index, (begin, end, _, recorder) in enumerate(list(self.m._writes)):
+            if recorder or not begin <= address <= end or (index < self._own_index) != before:
                 continue
             if st.listen_diff is not None:      # the listener calls no longer pair up: the proof fails at the return
                 return

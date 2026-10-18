@@ -790,6 +790,53 @@ class ProofTests(Synthetic, unittest.TestCase):
                                                         f"the return of {G} to {G_RETURN}"):
                     m.run(END, 5, fresh=True)
 
+    # Round 5 (sol-6.1, round 4's R1): a write listener called while muted (the old always=True) was outside the
+    # transcript and ran in the muted original too; raw Unicorn hooks likewise. The recorder is the proof's alone.
+    def test_no_listener_of_the_kits_runs_in_the_muted_original(self):
+        m = self.machine()
+        with self.assertRaises(TypeError):         # the reviewer's reproduction cannot be written any more
+            m.on_write(self.G_BP, self.G_BP, lambda a, n, v: None, always=True)
+        m, prover = self.bare(faithful, P, "ret")
+        with self.assertRaisesRegex(port.PortError, "write recorder already"):
+            m.set_recorder(lambda a, n, v: None)
+        seen = self.observed(m)                    # an ordinary listener: in the port's run only, compared there
+        self.assertIsNone(m.run(END, 5, fresh=True))
+        self.assertEqual((seen, prover.summary()[P]["proved"]), (["listener", "site"], 1))
+
+    def test_a_raw_hook_is_refused_under_a_proof(self):
+        from unicorn import UC_HOOK_CODE, UC_HOOK_MEM_WRITE
+        m, prover = self.bare(faithful, P, "ret")
+        with self.assertRaisesRegex(port.PortError, "raw Unicorn hook_add while a proof is installed"):
+            m.uc.hook_add(UC_HOOK_CODE, lambda uc, a, s, d: None, begin=m.lin(INSIDE_G), end=m.lin(INSIDE_G))
+        with self.assertRaisesRegex(port.PortError, "raw Unicorn hook_del while a proof is installed"):
+            m.uc.hook_del(1)
+        m = self.machine()                         # a raw hook first (family.py --count's kind): no proof on it
+        m.uc.hook_add(UC_HOOK_MEM_WRITE, lambda uc, acc, a, s, v, d: None, begin=self.G_BP, end=self.G_BP)
+        inst = port.install(m, [(registry(faithful), None)])
+        with self.assertRaisesRegex(port.PortError, "1 raw Unicorn hook\\(s\\) were added through Machine.uc"):
+            Prover(m, inst)
+
+    def test_the_taps_are_the_proofs_alone(self):
+        for tap in ("site_tap", "write_tap", "io_tap", "listen_tap"):
+            m = self.machine()
+            setattr(m, tap, lambda *a: None)
+            inst = port.install(m, [(registry(faithful), None)])
+            with self.assertRaisesRegex(port.PortError, f"the machine's {tap} is set already"):
+                Prover(m, inst)
+
+    def test_only_the_machine_and_the_proof_touch_the_engine(self):
+        """The kit reaches the guest only through Machine's methods (the taps the proof records): the raw engine's
+        writes, register writes, hooks and runs are used only by machine.py and port/prove.py; port/mem.py reads."""
+        import re
+        kit = ROOT / "runtime/original_match"
+        raw = re.compile(r"\.(_uc\b|uc\.(mem_write|reg_write|hook_add|hook_del|emu_start|emu_stop|ctl_))")
+        for path in sorted(kit.rglob("*.py")):
+            rel = path.relative_to(kit).as_posix()
+            if rel in ("machine.py", "port/prove.py"):
+                continue
+            hits = [n for n, line in enumerate(path.read_text().splitlines(), 1) if raw.search(line)]
+            self.assertEqual(hits, [], f"{rel} uses the raw engine at lines {hits}")
+
     def test_a_write_listeners_input_is_compared(self):
         def p_ax6(mem, variant):                    # P entering G with AX 6, otherwise faithful (R1's repro)
             mem.enter(0, P)

@@ -30,13 +30,46 @@ class GuestError(RuntimeError):
     """The original did something the kit does not declare (an unknown key read, a stray routine)."""
 
 
+class _HookGuard:
+    """Machine.uc: the Unicorn engine, but a hook added or deleted through it (a raw callback of a user of the kit's,
+    e.g. family.py --count) is counted, and refused while a proof is installed (round 5: a raw hook would be called in
+    the proof's muted original too, outside its ordered transcript). The machine adds its own hooks on the engine."""
+
+    def __init__(self, uc, machine):
+        self._engine, self._machine = uc, machine
+
+    def __getattr__(self, name):
+        value = getattr(self._engine, name)
+        setattr(self, name, value)          # bound once: mem_read and the rest cost no more than on the engine
+        return value
+
+    def _guard(self, what):
+        if self._machine.proving:
+            from .port.mem import PortError
+            raise PortError(f"a raw Unicorn {what} while a proof is installed: its callback would run outside the "
+                            "proof's ordered transcript (and in the muted original): refused")
+        self._machine.foreign_hooks += 1
+
+    def hook_add(self, *args, **kwargs):
+        self._guard("hook_add")
+        return self._engine.hook_add(*args, **kwargs)
+
+    def hook_del(self, *args, **kwargs):
+        self._guard("hook_del")
+        return self._engine.hook_del(*args, **kwargs)
+
+
 class Machine:
     def __init__(self, memory, load):
         if Uc is None:
             raise ModuleNotFoundError("original_match needs the unicorn package to run a match: pip install unicorn")
         if len(memory) < MEM_SIZE:
             raise ValueError(f"the image holds {len(memory)} bytes of guest memory, {MEM_SIZE} are needed")
-        self.uc = Uc(UC_ARCH_X86, UC_MODE_16)
+        self._uc = Uc(UC_ARCH_X86, UC_MODE_16)
+        self.proving = False       # a proof is installed (port/prove.py): no raw hook, no second recorder
+        self.foreign_hooks = 0     # raw hooks added through `uc` by users of the kit (a proof refuses to start then)
+        self._recorder = None      # the proof's write recorder: the one listener that runs in the muted original too
+        self.uc = _HookGuard(self._uc, self)
         self.uc.mem_map(0, MEM_SIZE)
         self.uc.mem_write(0, bytes(memory[:MEM_SIZE]))
         self.load = load
@@ -48,7 +81,7 @@ class Machine:
         # The port mode (port/; inert without ports): the write listeners a port's write reaches as a guest write
         # would, the port at a routine's entry, the instruction a port's write or site stands for (pc()), and the
         # address a port returned to before a stop made inside it (not a replay when the run resumes there).
-        self._writes = []          # (begin, end, fn(address, size, value), always)
+        self._writes = []          # (begin, end, fn(address, size, value), the proof's recorder)
         self._ports = {}           # linear address -> runner(machine)
         self._pc_override = None
         self.no_replay_at = None
@@ -56,7 +89,7 @@ class Machine:
         # each resumes when the guest reaches its return address with the stack as the call left it.
         self.frames = []
         # The proof mode (T59, port/prove.py): while `muted`, the original runs as plain guest code: no handler, port
-        # or write listener of the kit runs (but those added with always=True); every hooked address goes to
+        # or write listener of the kit runs (only the proof's recorder, set_recorder); every hooked address goes to
         # muted_hook(linear) instead.
         self.muted = False
         self.muted_hook = None
@@ -67,12 +100,12 @@ class Machine:
         # ... and the reads and register changes of the kit (io_tap(kind, a, b): "r" linear, bytes; "g" register, value
         # read; "s" register, value set; "p" None, pc() returned), so a proof can check a site's inputs and replay its
         # answer (port/prove.py). `running`: inside emu_start (the guest or a hook), not between two runs of the match.
-        # listen_tap: told around each call of a kit write listener (not always=True): listen_enter(index in _writes,
+        # listen_tap: told around each call of a kit write listener (not the recorder): listen_enter(index in _writes,
         # address, size, value) returns a token, listen_leave(token) after it (round 3: a listener's inputs are proved).
         self.io_tap = None
         self.listen_tap = None
         self.running = False
-        self.uc.hook_add(UC_HOOK_INTR, lambda uc, intno, data: None)
+        self._uc.hook_add(UC_HOOK_INTR, lambda uc, intno, data: None)
 
     # -- addresses ---------------------------------------------------------------------------------
     def seg(self, paragraph):
@@ -212,7 +245,7 @@ class Machine:
                 except Exception as e:          # stop the emulation; run() re-raises it
                     self.error = e
                     uc.emu_stop()
-            self.uc.hook_add(UC_HOOK_CODE, dispatch, begin=lin, end=lin)
+            self._uc.hook_add(UC_HOOK_CODE, dispatch, begin=lin, end=lin)
             self.uc.ctl_remove_cache(lin, lin + 1)
         self._handlers[lin].append(handler)
 
@@ -237,23 +270,36 @@ class Machine:
             self.at_linear(frame.ret_lin, NOOP)
         self.frames.append(frame)
 
-    def on_write(self, begin, end, fn, always=False):
+    def on_write(self, begin, end, fn):
         """Call fn(address, size, value) at every write starting in [begin, end], before it lands: a guest
-        instruction's (Unicorn's write hook) or a port's (write_as). While `muted` (a proof's original runs) only
-        a listener added with always=True is called."""
+        instruction's (Unicorn's write hook) or a port's (write_as), told to listen_tap around each call (a proof's
+        transcript). Not while `muted` (a proof's original runs): there the proof replays it. No listener of the kit's
+        runs while muted (round 5: the old always=True flag is gone; only the proof's recorder, set_recorder, does)."""
+        self._add_write(begin, end, fn, False)
+
+    def set_recorder(self, fn):
+        """The proof's write recorder (port/prove.py), reserved: the one write listener called also while `muted`,
+        at every write of all memory, in its place among the listeners. One per machine."""
+        if self._recorder is not None:
+            from .port.mem import PortError
+            raise PortError("the machine has its write recorder already (one proof per machine)")
+        self._recorder = fn
+        self._add_write(0, MEM_SIZE - 1, fn, True)
+
+    def _add_write(self, begin, end, fn, recorder):
         index = len(self._writes)
 
         def hook(uc, access, address, size, value, data):
             try:
-                if always:
+                if recorder:
                     fn(address, size, value)
                 elif not self.muted:
                     self._listen(index, fn, address, size, value)
             except Exception as e:      # stop the emulation; run() re-raises it
                 self.error = e
                 uc.emu_stop()
-        self._writes.append((begin, end, fn, always))
-        self.uc.hook_add(UC_HOOK_MEM_WRITE, hook, begin=begin, end=end)
+        self._writes.append((begin, end, fn, recorder))
+        self._uc.hook_add(UC_HOOK_MEM_WRITE, hook, begin=begin, end=end)
 
     def write_as(self, linear, size, value, at):
         """A port's write of `size` bytes at `linear`, as the original's instruction at the linear address `at`
@@ -261,9 +307,9 @@ class Machine:
         value &= (1 << (8 * size)) - 1
         saved, self._pc_override = self._pc_override, at
         try:
-            for index, (begin, end, fn, always) in enumerate(list(self._writes)):
-                if begin <= linear <= end and (always or not self.muted):
-                    if always:
+            for index, (begin, end, fn, recorder) in enumerate(list(self._writes)):
+                if begin <= linear <= end and (recorder or not self.muted):
+                    if recorder:
                         fn(linear, size, value)
                     else:
                         self._listen(index, fn, linear, size, value)
