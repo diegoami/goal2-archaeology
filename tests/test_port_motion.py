@@ -348,6 +348,17 @@ class UpdatePlayer(unittest.TestCase):
         self.assertEqual(t.calls[0].args, (t.entry_sp - 2,))
         self.assertEqual((t.calls[0].ret_to, t.calls[0].far), ("0791:8BB7", False))
 
+    def test_state_0a_calls_73ba_before_the_run_step_and_sprite(self):
+        # seg_0791_14.asm:8B97-8BA4: state 0x0A takes the 73BA call at 8BA1.
+        # Keep the expectation independent of HANDLERS: this branch may be absent from ALL.
+        t = self.t
+        t.put8(self.r + 0x12, 0x0A)
+        t.run(motion.update_player, [t.DS, REC],
+              callees={"0791:73BA": ret(0), "0791:8889": ret(0), "0791:8537": ret(0)})
+        self.assertEqual(t.targets(), ["0791:73BA", "0791:8889", "0791:8537"])
+        self.assertEqual((t.calls[0].args, t.calls[0].ret_to, t.calls[0].far),
+                         ((t.DS, REC), "0791:8BA4", True))
+
     def test_the_activity_counts_unsigned_run_directions_below_5(self):
         for run, plus in ((0, 1), (4, 1), (5, 0), (0x80, 0), (0xFF, 0)):
             self.setUp()
