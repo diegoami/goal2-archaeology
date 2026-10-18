@@ -1,0 +1,25 @@
+....................................................................................E...........................................................................................
+======================================================================
+ERROR: test_the_weight_is_the_load_of_the_mode_not_the_workers_option (tests.test_heavy_slot.FamilyWorkersTest.test_the_weight_is_the_load_of_the_mode_not_the_workers_option)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2df64d441ee220fe/tests/test_heavy_slot.py", line 185, in test_the_weight_is_the_load_of_the_mode_not_the_workers_option
+    self.assertEqual(got, self.actual_processes(argv, done), argv)    # and it is what main() really runs
+                          ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2df64d441ee220fe/tests/test_heavy_slot.py", line 160, in actual_processes
+    self.family.main(argv)
+    ~~~~~~~~~~~~~~~~^^^^^^
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2df64d441ee220fe/experiments/E036-match-port/family.py", line 503, in main
+    recs = run_family(selected, a.out, a.workers, a.max, a.cache, mask, counts, a.time_limit, ports=ports)
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2df64d441ee220fe/experiments/E036-match-port/family.py", line 342, in run_family
+    took(run_match(image, spec, mask, counts, time_limit, ports=ports, say=say))
+    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2df64d441ee220fe/experiments/E036-match-port/family.py", line 330, in took
+    extra = "".join(f"; {a} executed {n}" for a, n in rec["counts"].items())
+                                                      ~~~^^^^^^^^^^
+KeyError: 'counts'
+
+----------------------------------------------------------------------
+Ran 176 tests in 29.572s
+
+FAILED (errors=1)
