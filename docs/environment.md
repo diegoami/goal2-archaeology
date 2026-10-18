@@ -16,6 +16,8 @@ nothing. You need:
   `"jail": { "enabled": true }` in `harness.json` and bubblewrap installed on Linux or WSL
   (`sudo apt install bubblewrap`), reviewers run without your GitHub credentials; enabled where
   bwrap cannot run, the review hook and `review.mjs` print a warning. Off, only the guard stops a push.
+  With OpenCode 2 the jail is not supported yet: the operand guard is pinned to the native binary's
+  bytes, and a wrapped binary is refused before anything is billed (#262); use the v1 path to jail.
 - The other keys below, as user environment variables. On Windows, in PowerShell:
   `[Environment]::SetEnvironmentVariable("ELEVENLABS_API_KEY", "<key>", "User")`.
   Then restart the terminal and Claude Code, so they see it.

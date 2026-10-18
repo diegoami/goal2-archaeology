@@ -60,6 +60,11 @@ try {
   server = await startPrivateServer(cmd, { env, cwd });
   save('actual-config.json', inspectConfig(await server.request('/api/config'), guard));
   save('plugins.json', (await readyPlugins(server, guard)).map((p) => ({ id: p.id, source: p.source?.type, status: p.state?.status })));
+  // The inside root of v2's file checks and of the guard: the run's own directory, also for a git
+  // worktree (its project directory; the main checkout is only the "canonical" name, never inside).
+  const location = await server.request('/api/location');
+  assert.equal(location.directory, cwd); assert.equal(location.project?.directory, cwd);
+  save('location.json', location);
   const schema = await server.request('/openapi.json');
   save('schema-identity.json', { source: '/openapi.json', sha256: hash(JSON.stringify(schema)), version: schema.info?.version });
   const found = await settledCatalogue(server, { model: { id: modelId, ...(variant ? { variant } : {}), family }, agent: 'reviewer', verifyAgent: (profile) => verifyReviewer(profile, policy, 'reviewer') });

@@ -23,6 +23,9 @@ hashes; none sent a prompt to a provider):
   reviewer translated and loaded as `profile.json` (v2's defaults first, then our rules), the selected
   MiniMax-M3 `thinking` advertised, catalogue parity, an owned empty session exported with zero usage,
   peeked privately, interrupted as a no-op, and an unrelated private server's session unchanged.
+  `preflight-a5ERJV` repeats it with `location.json`: run from this git worktree, v2's project
+  directory (the inside root of its file checks and of the guard) is the worktree itself; the main
+  checkout appears only as `canonical`.
 - `native-complete-*`, `native-reject-*`, `native-cancel-*`
   (`node tools/harness/probe-opencode-guard.mjs [--complete|--active-cancel] --out …`): real review
   sessions whose only model is a deterministic fake provider on 127.0.0.1 (zero tokens; no provider
