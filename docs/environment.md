@@ -67,7 +67,13 @@ changes, so a reviewer's `cat <a file outside the worktree>` would run
 (`tests/fixtures/opencode/v2-live/native-controls-7CuxTr`). `tools/harness/opencode-guard`, a trusted
 plugin (goal2 PR 178's, MIT notice in `LICENSE.opencode`), restores that check with pinned Bash and
 PowerShell grammars: an operand outside the worktree and the granted folders makes the shell request
-`ask`, which a noninteractive run rejects. It is a static check of the command text, not an OS jail.
+`ask`, which a noninteractive run rejects. Every word of those commands, the name included, is first
+evaluated as Bash would (quotes, backslashes, `$'…'`, adjacent fragments, line continuations, `~`);
+a word that cannot be evaluated statically (`$VAR`, `$(…)`, backticks, `{a,b}`, `~user`, a glob that
+could leave its directory) fails closed (PR 332 round 2, Sol's R1 and R2: a quoted `"cat"` or a quoted
+path fragment had escaped the 1.18 code's raw-text check). Its scope is those commands' operands, as in
+1.18: other readers (`head`, `sed`, interpreters), wrappers (`env cat`, `xargs`, `bash -c`) and
+redirections are not checked. It is a static check of the command text, not an OS jail.
 Its dependencies are exact-pinned (`package-lock.json`, `dependency-hashes.json`: 156 file hashes) and
 installed once per checkout without scripts; the runs check them offline and never fetch:
 

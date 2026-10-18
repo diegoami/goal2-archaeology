@@ -39,6 +39,67 @@ test('the 1.18 FILES grammar finds quoted, nested, relative and multi-command op
   await assert.rejects(() => operandDirectories("cat 'broken", root, [root]), /unsupported shell grammar/);
 });
 
+// #262 round 2 (Sol's R1, R2): every word is evaluated to its static value first, in the command
+// position and in the operands; what cannot be evaluated fails closed. Each row: a form, applied to an
+// inside and an outside path (operands) or to the command name (with an outside operand).
+const dirOut = outside; const fileOut = `${outside}/secret.txt`; const fileIn = `${root}/inside.txt`;
+const frag = (p) => { const i = p.lastIndexOf('/'); return [p.slice(0, i), p.slice(i)]; };
+const OPERAND_FORMS = {
+  plain: (p) => p,
+  'single quotes': (p) => `'${p}'`,
+  'double quotes': (p) => `"${p}"`,
+  'backslash escapes': (p) => p.replaceAll('/', '\\/'),
+  'quoted directory fragment (R2)': (p) => { const [d, f] = frag(p); return `"${d}"${f}`; },
+  'single-quoted directory fragment': (p) => { const [d, f] = frag(p); return `'${d}'${f}`; },
+  'three fragments "a"\'b\'c': (p) => `"${p.slice(0, 3)}"'${p.slice(3, 8)}'${p.slice(8)}`,
+  'ANSI-C quoting': (p) => `$'${p}'`,
+  'ANSI-C hex escape for a slash': (p) => `$'${p.replaceAll('/', '\\x2f')}'`,
+  'ANSI-C octal escape for a slash': (p) => `$'${p.replaceAll('/', '\\057')}'`,
+  'empty fragments': (p) => `""${p}''`,
+  'option value': (p) => `--target-directory=${p}`,
+};
+const COMMAND_FORMS = {
+  'double-quoted name (R1)': '"cat"', 'single-quoted name': "'cat'", 'empty fragment c""at': 'c""at', "split c'a't": "c'a't",
+  'backslash \\cat': '\\cat', "ANSI-C $'cat'": "$'cat'", 'path /bin/cat': '/bin/cat', 'relative ./cat': './cat',
+};
+const FAIL_CLOSED = {
+  'parameter $X': '$X', 'parameter ${X}': '${X}', 'command substitution $(…)': '$(echo x)', 'backticks': '`echo x`',
+  'arithmetic $((…))': '$((1))', 'process substitution': '<(true)', 'locale $"…"': '$"x"', '~user': '~nobody/x',
+  'brace {a,b}': '{a,b}', 'expansion in double quotes': '"$X"', 'substitution in double quotes': '"$(echo x)"',
+  'glob before a slash': '*/secret.txt', 'dot glob': '.*', 'bracket glob': '[ab]/x',
+};
+test('every static word form is evaluated before the check: operands, inside and outside', async () => {
+  for (const [form, make] of Object.entries(OPERAND_FORMS)) {
+    assert.deepEqual(await operandDirectories(`cat ${make(fileOut)}`, root, [root]), [dirOut], `${form}: outside`);
+    assert.deepEqual(await operandDirectories(`cat ${make(fileIn)}`, root, [root]), [], `${form}: inside`);
+  }
+  assert.deepEqual(await operandDirectories('cat ~/harness-guard-test-not-granted/secret.txt', root, [root]), [dirOut], 'tilde');
+  assert.deepEqual(await operandDirectories(`cat -- ${fileOut}`, root, [root]), [dirOut], 'after --');
+  assert.deepEqual(await operandDirectories('cd', root, [root]), [home], 'a bare cd goes home');
+});
+test('every static form of the command name is the command it names', async () => {
+  for (const [form, name] of Object.entries(COMMAND_FORMS)) {
+    assert.deepEqual(await operandDirectories(`${name} ${fileOut}`, root, [root]), [dirOut], form);
+    assert.deepEqual(await operandDirectories(`${name} inside.txt`, root, [root]), [], `${form}: inside`);
+  }
+});
+test('a word that cannot be evaluated statically fails closed, as an operand and as the command name', async () => {
+  for (const [form, word] of Object.entries(FAIL_CLOSED)) {
+    await assert.rejects(() => operandDirectories(`cat ${word}`, root, [root]), /not statically resolvable|unsupported shell grammar/, `${form}: operand`);
+    await assert.rejects(() => operandDirectories(`${word} ${fileOut}`, root, [root]), /not statically resolvable|unsupported shell grammar/, `${form}: command name`);
+  }
+});
+test('a line continuation inside a word joins it, in the operand and in the command name', async () => {
+  assert.deepEqual(await operandDirectories(`cat ${fileOut.slice(0, 6)}\\\n${fileOut.slice(6)}`, root, [root]), [dirOut], 'operand');
+  assert.deepEqual(await operandDirectories(`c\\\nat ${fileOut}`, root, [root]), [dirOut], 'command name');
+  assert.deepEqual(await operandDirectories(`cat "${fileOut.slice(0, 6)}\\\n${fileOut.slice(6)}"`, root, [root]), [dirOut], 'inside double quotes');
+});
+test('what the guard allowed stays allowed: inside globs, other commands\' dynamic words', async () => {
+  for (const command of ['cat docs/*.md', 'cat src/a?.js', 'ls $X', 'echo "$HOME" $(date)', 'rm -rf build', 'chmod +x run.sh', `mkdir -p ${root}/out`, 'git -C x log', '[ -f x ] && cat x']) {
+    assert.deepEqual(await operandDirectories(command, root, [root]), [], command);
+  }
+});
+
 test('the translated reviewer keeps this repository\'s grants and asks for every other outside folder', () => {
   for (const directory of ['/tmp', '/tmp/opencode', '/tmp/another', path.join(home, 'goal2-review-tmp'), path.join(home, 'goal2-review-tmp/1-review-abcd'),
     '/etc', path.join(home, 'tools/dosbox-x-2024.03.01'), path.join(home, 'tools/dosbox-x-2024.03.01/bin')]) {
@@ -237,6 +298,21 @@ test('guard mutation controls fail the operand, approval, activation, preload an
     ['approval loss', 'opencode-guard/guard.mjs', "if (!matches || scanned.outcome !== 'allow') {", 'if (false) {', 'native hooks turn', 'Expected values to be strictly equal'],
     ['activation loss', 'lib/opencode-guard.mjs', 'package: guard.directory,', "package: '/untrusted-source',", 'trusted activation overlay', 'trusted guard must be activated'],
     ['catalogue readiness loss', 'lib/opencode-guard.mjs', 'const deadline = Date.now() + timeoutMs;\n  let previous;', "return catalogueProjection((await baseline.request('/api/model')).data);\n  let previous;", 'full catalogue parity', 'selected readiness must not end discovery'],
+    // the static word normalizer (round 2): each stage removed makes its own row fail
+    ['single-quote stage', 'opencode-guard/scanner.mjs', "case 'raw_string': for (const ch of node.text.slice(1, -1))", "case 'raw_string': for (const ch of node.text)", 'every static word form', 'single quotes: outside'],
+    ['double-quote stage', 'opencode-guard/scanner.mjs', `if (child.type === '"') continue;`, `if (child.type === '"') { out.push('"', false); continue; }`, 'every static word form', 'double quotes: outside'],
+    ['ANSI-C stage', 'opencode-guard/scanner.mjs', "case 'ansi_c_string': ansiC(node.text, out); return;", "case 'ansi_c_string': for (const ch of node.text) out.push(ch, false); return;", 'every static word form', 'ANSI-C quoting: outside'],
+    ['ANSI-C hex stage', 'opencode-guard/scanner.mjs', 'if ((m = /^x([0-9A-Fa-f]{1,2})/.exec(body.slice(i))))', 'if (false)', 'every static word form', 'not statically resolvable'],
+    ['concatenation stage', 'opencode-guard/scanner.mjs', 'for (let i = 0; i < node.childCount; i++) collect(node.child(i), out, first && i === 0);', 'collect(node.child(0), out, first);', 'every static word form', 'quoted directory fragment (R2): outside'],
+    ['backslash stage', 'opencode-guard/scanner.mjs', "if (c === '\\\\') {\n      if (i + 1 >= text.length)", "if (false) {\n      if (i + 1 >= text.length)", 'every static word form', 'backslash escapes: outside'],
+    ['tilde stage', 'opencode-guard/scanner.mjs', 'for (const ch of os.homedir()) out.push(ch, false);', "out.push('~', false);", 'every static word form', 'tilde'],
+    ['command-name stage (R1)', 'opencode-guard/scanner.mjs', 'const name = path.posix.basename(head.value);', 'const name = nameNode.text;', 'static form of the command name', 'double-quoted name (R1)'],
+    ['continuation stage', 'opencode-guard/scanner.mjs', 'if (!ps && !cmd) command = joinContinuations(command);', '', 'line continuation', 'operand'],
+    ['fail-closed default', 'opencode-guard/scanner.mjs', 'default: unresolved(node.type);', 'default: return;', 'cannot be evaluated statically', 'Missing expected rejection'],
+    ['fail-closed double-quoted expansion', 'opencode-guard/scanner.mjs', "if (child.type !== 'string_content') unresolved(`${child.type} in a double-quoted string`);", "if (child.type !== 'string_content') continue;", 'cannot be evaluated statically', 'expansion in double quotes'],
+    ['glob-before-slash stage', 'opencode-guard/scanner.mjs', "if (value.indexOf('/', globAt) >= 0) unresolved('glob before a path separator');", '', 'cannot be evaluated statically', 'glob before a slash'],
+    ['dot-glob stage', 'opencode-guard/scanner.mjs', "if (value[slash + 1] === '.' || value[slash + 1] === '[') unresolved('glob that could match . or ..');", '', 'cannot be evaluated statically', 'dot glob'],
+    ['option-value stage', 'opencode-guard/scanner.mjs', 'if (eq < 0) continue; // a flag', 'continue; // a flag', 'every static word form', 'option value: outside'],
     ['preload loss', 'lib/opencode-policy.mjs', "resource: 'plugin:*', effect: 'deny'", "resource: 'unrelated:*', effect: 'deny'", 'trusted activation overlay', 'untrusted sources must be denied before import'],
     ['ask-default loss', 'lib/opencode-policy.mjs', "if (!permissions.some((r) => r.action === 'external_directory' && r.resource === '*' && r.effect === 'ask')) {", 'if (false) {', 'must keep its denies', 'must keep external_directory'],
     ['grant contract loss', 'lib/opencode-policy.mjs', 'if (JSON.stringify(grants) !== JSON.stringify(allowedGrants(home)))', 'if (false)', 'must keep its denies', 'Missing expected exception'],

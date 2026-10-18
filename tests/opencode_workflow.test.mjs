@@ -22,6 +22,9 @@ const selection = { id: 'minimax/MiniMax-M3', family: 'minimax', variant: 'think
 const stat = (pid) => `/proc/${pid}/stat`;
 const gone = (pid) => !fs.existsSync(stat(pid)) || fs.readFileSync(stat(pid), 'utf8').split(' ')[2] === 'Z';
 
+// The developer's shell may carry XDG_* or OPENCODE_* of its own (a v1 data directory, a config): the
+// children get none of them, so CI and a local run see the same thing (Sol's DW4 note on PR 332).
+const hermetic = () => Object.fromEntries(Object.entries(process.env).filter(([k]) => !/^(XDG_(DATA|CACHE|STATE|CONFIG)_HOME|OPENCODE_\w+|HARNESS_OPENCODE_\w+|STUB_\w+)$/.test(k)));
 function workflowOptions(mode = 'complete') {
   const dir = fs.realpathSync(fs.mkdtempSync(path.join(os.tmpdir(), 'harness-workflow-')));
   return { args: ['run'], model: selection, agent: 'reviewer', agentFile,
@@ -29,7 +32,7 @@ function workflowOptions(mode = 'complete') {
     // generous limits for runs that must succeed (the suites run in parallel); short ones where a limit is the subject
     startupTimeoutMs: mode === 'startup' ? 700 : ['family', 'effort', 'agent', 'policy'].includes(mode) ? 2500 : 15000,
     totalTimeoutMs: 30000, idleTimeoutMs: ['idle', 'active'].includes(mode) ? 350 : 5000, pollMs: 20, logDir: path.join(dir, 'receipts'),
-    env: { ...process.env, HARNESS_OPENCODE_HOME: path.join(dir, 'runtime'), STUB_MODE: mode, STUB_TRACE: path.join(dir, 'trace.jsonl') } };
+    env: { ...hermetic(), HARNESS_OPENCODE_HOME: path.join(dir, 'runtime'), STUB_MODE: mode, STUB_TRACE: path.join(dir, 'trace.jsonl') } };
 }
 const traceOf = (options) => (fs.existsSync(options.env.STUB_TRACE) ? fs.readFileSync(options.env.STUB_TRACE, 'utf8') : '');
 
@@ -153,7 +156,7 @@ test('export identity, rejection, completion and JSON checks refuse approval-loo
 });
 
 test('startup, idle and total limits end with a failure receipt; an unrelated server and its session survive', async () => {
-  const sentinel = await startPrivateServer({ exe: process.execPath, prefix: [stub] }, { env: { ...process.env, XDG_DATA_HOME: fs.mkdtempSync(path.join(os.tmpdir(), 'harness-sentinel-')), OPENCODE_CONFIG_CONTENT: '{}' }, cwd: os.tmpdir(), timeoutMs: 700 });
+  const sentinel = await startPrivateServer({ exe: process.execPath, prefix: [stub] }, { env: { ...hermetic(), XDG_DATA_HOME: fs.mkdtempSync(path.join(os.tmpdir(), 'harness-sentinel-')), OPENCODE_CONFIG_CONTENT: '{}' }, cwd: os.tmpdir(), timeoutMs: 700 });
   try {
     for (const [mode, reason] of [['startup', 'startup'], ['idle', 'idle'], ['total', 'total-timeout']]) {
       const options = workflowOptions(mode); if (mode === 'total') { options.totalTimeoutMs = 1500; options.idleTimeoutMs = 0; }
@@ -303,7 +306,7 @@ test('spawn errors are explicit infrastructure failures before any generation', 
 });
 
 test('resume refuses a missing or wrong-major root as an ownership error before a database opens', () => {
-  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'harness-ownership-')); const env = { ...process.env, HARNESS_OPENCODE_HOME: dir };
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'harness-ownership-')); const env = { ...hermetic(), HARNESS_OPENCODE_HOME: dir };
   assert.throws(() => privateHome(env, { resumeRoot: path.join(dir, 'missing') }), (e) => e.reason === 'ownership');
   const home = privateHome(env);
   fs.writeFileSync(path.join(home.root, 'data-home'), path.join(dir, 'data'));
@@ -335,7 +338,7 @@ if (/^pr view \\d+ --json headRefOid/.test(a)) console.log(process.env.FAKE_HEAD
 else if (/^(pr|issue) view \\d+ --json labels/.test(a)) console.log('');
 else { console.error('fake gh: unexpected ' + a); process.exit(1); }`);
     const brief = path.join(tmp, 'brief.md'); fs.writeFileSync(brief, 'T99 review (mm-m3)\nSynthetic read-only review.\n');
-    const env = { ...process.env, FAKE_HEAD: head, HARNESS_GH_EXE: path.join(tmp, 'gh.mjs'), HARNESS_OPENCODE_EXE: stub,
+    const env = { ...hermetic(), FAKE_HEAD: head, HARNESS_GH_EXE: path.join(tmp, 'gh.mjs'), HARNESS_OPENCODE_EXE: stub,
       HARNESS_OPENCODE_HOME: path.join(tmp, 'ochome'), HARNESS_SESSION_FAMILY: 'claude', ANTHROPIC_BASE_URL: '', HARNESS_SCRATCH_ROOT: path.join(tmp, 'scratch'),
       STUB_TRACE: path.join(tmp, 'trace.jsonl'), STUB_FINAL: 'T99 review (mm-m3)\napprove\nDW1: ran stub → pass\nFinal pass done\napprove\n' };
     delete env.STUB_VERSION; delete env.STUB_MODE;

@@ -41,7 +41,7 @@ adapt .claude/skills/run-task/SKILL.md  (the user chooses models, the owner 2026
 adapt .claude/skills/switch-model/SKILL.md  (the user chooses models, the owner 2026-10-11)
 8a63c4093207e8f96230e8e6c92019c06897434ca8b70f287e76821ff09502d6  .github/pull_request_template.md
 adapt .opencode/agents/implementer.md  (/tmp open to the agent, the owner 2026-10-11)
-adapt .opencode/agents/reviewer.md  (rule 9a: undo a mutation by rewriting the saved file; /tmp open to the agent, 2026-10-11; ~/goal2-review-tmp open to the agent as the scratch folder on the real disk, #311, 2026-10-17; a rework round re-runs the brief's sample, #319, 2026-10-18; #262: external_directory "*": ask stated in the file, since OpenCode 2 defaults to allow)
+adapt .opencode/agents/reviewer.md  (rule 9a: undo a mutation by rewriting the saved file; /tmp open to the agent, 2026-10-11; ~/goal2-review-tmp open to the agent as the scratch folder on the real disk, #311, 2026-10-17; a rework round re-runs the brief's sample, #319, 2026-10-18; #262: external_directory "*": ask stated in the file, since OpenCode 2 defaults to allow; PR 332 round 2: literal paths in the FILES commands)
 c6ffaa08eb490d11e8f208b7f8ec7a1e291d55c3cee01e58aa84466fe1983f89  docs/jev/blocks-release.md
 46c4f6e3ca23871e59c25366e8acf9818e43113546f0cd107571ae110f6c10cb  docs/jev/breaks-play.md
 adapt docs/review-brief.md  (reviewer run mechanics: idle limit 1500 s, total 5400 s, a long suite is expected (6ce65fc, #261, 2026-10-17); scratch space: the run's folder under ~/goal2-review-tmp, never /tmp (#311, 2026-10-17); "Rework rounds" section: a rework round re-runs the brief's seeded sample and verifies the committed outputs by hash (the owner, #319, 2026-10-18); heavy jobs: heavy.sh by name, a queue is not a hang, a family run detached (#318, 2026-10-18); offline tests: gh retry and network tests skip visibly (9806b0b, #293, 2026-10-17); #303: the pin was stale, now recorded)
@@ -81,13 +81,13 @@ adapt tools/harness/lib/opencode-peek.mjs  (peek of a v2 run from its receipt, g
 adapt tools/harness/peek.mjs  (the v2 half of peek.sh)
 adapt tools/harness/probe-opencode.mjs  (nonbilling capture of the installed CLI's protocol; writes tests/fixtures/opencode/v2-live/run-*)
 adapt tools/harness/preflight-opencode.mjs  (nonbilling review transport check up to generation)
-adapt tools/harness/probe-opencode-guard.mjs  (native runs against a loopback fake provider: complete, reject, active-cancel)
+adapt tools/harness/probe-opencode-guard.mjs  (native runs against a loopback fake provider: complete, reject, active-cancel; round 2: the R1/R2 rows)
 adapt tools/harness/check-opencode-guard.mjs  (the guard dependencies, offline)
 adapt tools/harness/check-opencode-guard-controls.mjs  (native deletion controls on a scratch copy)
-adapt tools/harness/opencode-guard/  (goal2 PR 178's trusted plugin: guard.mjs, scanner.mjs (MIT notice in LICENSE.opencode), server.js, native-plugins.json, package.json, package-lock.json, dependency-hashes.json, README.md, .gitignore)
+adapt tools/harness/opencode-guard/  (PR 332 round 2: scanner.mjs evaluates every Bash word statically and fails closed on what it cannot, Sol's R1/R2; goal2 PR 178's trusted plugin:guard.mjs, scanner.mjs (MIT notice in LICENSE.opencode), server.js, native-plugins.json, package.json, package-lock.json, dependency-hashes.json, README.md, .gitignore)
 adapt tests/opencode_protocol.test.mjs  (the adapter against the live capture and synthetic outcomes; mutation controls on scratch copies)
-adapt tests/opencode_guard.test.mjs  (the guard and the reviewer policy; mutation controls on scratch copies)
-adapt tests/opencode_workflow.test.mjs  (the v2 run, peek and review.mjs through the stub; the v1 path; mutation controls)
+adapt tests/opencode_guard.test.mjs  (the guard and the reviewer policy; round 2: the word-form table and a mutation per normalizer stage; mutation controls on scratch copies)
+adapt tests/opencode_workflow.test.mjs  (the v2 run, peek and review.mjs through the stub; the v1 path; mutation controls; round 2: children get no inherited XDG or OPENCODE variables)
 adapt tests/helpers/opencode-stub.mjs  (the nonbilling v2/v1 simulator, from goal2 PR 178; its absent-flag lookup fixed)
 adapt tests/fixtures/opencode/  (live nonbilling captures v2-live/, and the synthetic outcomes from goal2 T72a; README.md says which is which)
 adapt tests/harness_compat.test.mjs  (#262: the backup-selection tests replaced by the used-as-found, explicit-pin and real-path tests)

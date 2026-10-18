@@ -16,6 +16,16 @@ npm ci --prefix tools/harness/opencode-guard --ignore-scripts --no-audit --no-fu
 node tools/harness/check-opencode-guard.mjs
 ```
 
+**Changed here (PR 332 round 2).** `scanner.mjs`'s Bash path no longer compares raw source text: every
+word, the command name included, is evaluated to its static value first (quotes, backslash escapes,
+`$'…'`, adjacent fragments, line continuations, `~`/`~/`), and a word it cannot evaluate statically
+fails closed (`ask`). Sol showed, on the native binary, that `"cat" <outside file>` and
+`cat "<outside dir>"/file` had read the outside file. `tests/opencode_guard.test.mjs` holds the
+form × position × inside/outside table and a mutation for each normalizer stage;
+`native-reject-jDKeDo` repeats the risky rows on the native binary. Scope, as in 1.18: the operands
+of the FILES commands only; other readers, wrappers and redirections are not checked. The PowerShell
+and cmd paths are unchanged.
+
 The rest is goal2's text.
 
 [confirmed: pinned OpenCode v1.18.32/v2.0.28 source and measurements/T72/rework1]

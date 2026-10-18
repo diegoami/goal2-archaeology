@@ -198,10 +198,168 @@ export function externalEffect(directory, rules) {
   const resource = path.join(directory, '*').replaceAll('\\', '/');
   return rules.findLast(rule => rule.action === 'external_directory' && matches(resource, rule.resource))?.effect || 'ask';
 }
+// #262 round 2 (Sol's R1, R2 on PR 332): every Bash word is evaluated to its static value before any
+// check, in the command position and in the operands; a word whose value cannot be established
+// statically makes the whole scan fail, which the guard turns into `ask` (a noninteractive run then
+// rejects). The 1.18 code compared the raw source text, so a quoted command name or a quoted path
+// fragment escaped the check. Static forms: plain words with backslash escapes, '...', "..." without
+// expansions, $'...' with the escapes decoded below, adjacent fragments, and a leading ~ or ~/.
+// Everything else fails closed: $VAR, ${...}, $(...), `...`, $((...)), <(...), $"...", ~user, an
+// unquoted { or }, and a glob whose pattern could leave its directory.
+export class Unresolved extends Error {}
+const unresolved = (why) => { throw new Unresolved(`not statically resolvable: ${why}`); };
+const GLOB = new Set(['*', '?', '[']);
+// A plain word: backslash escapes; unescaped glob characters are kept and marked (positions in `glob`).
+function plainWord(text, out) {
+  for (let i = 0; i < text.length; i++) {
+    const c = text[i];
+    if (c === '\\') {
+      if (i + 1 >= text.length) unresolved('trailing backslash');
+      if (text[i + 1] !== '\n') out.push(text[i + 1], false); // a line continuation is nothing
+      i++;
+    } else if (c === '$' || c === '`') unresolved('expansion');
+    else if (c === '{' || c === '}') unresolved('brace');
+    else out.push(c, GLOB.has(c));
+  }
+}
+const ANSI = { a: '\x07', b: '\b', e: '\x1b', E: '\x1b', f: '\f', n: '\n', r: '\r', t: '\t', v: '\v', '\\': '\\', "'": "'", '"': '"', '?': '?' };
+function ansiC(text, out) {
+  const body = text.slice(2, -1);
+  for (let i = 0; i < body.length; i++) {
+    const c = body[i];
+    if (c !== '\\') { out.push(c, false); continue; }
+    const n = body[++i];
+    if (n === undefined) unresolved('$\'\' trailing backslash');
+    if (ANSI[n] !== undefined) { out.push(ANSI[n], false); continue; }
+    let m;
+    if ((m = /^x([0-9A-Fa-f]{1,2})/.exec(body.slice(i)))) { out.push(String.fromCharCode(parseInt(m[1], 16)), false); i += m[0].length - 1; continue; }
+    if ((m = /^[0-7]{1,3}/.exec(body.slice(i)))) { out.push(String.fromCharCode(parseInt(m[0], 8) & 0xff), false); i += m[0].length - 1; continue; }
+    unresolved(`$'' escape \\${n}`);
+  }
+}
+// The characters of one word node into `out` ({ chars, glob }).
+function collect(node, out, first) {
+  switch (node.type) {
+    case 'word': case 'number': {
+      if (first && node.text.startsWith('~')) {
+        const m = /^~(\/|$)/.exec(node.text);
+        if (!m) unresolved('~user');
+        for (const ch of os.homedir()) out.push(ch, false);
+        plainWord(node.text.slice(1), out);
+      } else plainWord(node.text, out);
+      return;
+    }
+    case 'raw_string': for (const ch of node.text.slice(1, -1)) out.push(ch, false); return;
+    case 'ansi_c_string': ansiC(node.text, out); return;
+    case 'string':
+      for (let i = 0; i < node.childCount; i++) {
+        const child = node.child(i);
+        if (child.type === '"') continue;
+        if (child.type !== 'string_content') unresolved(`${child.type} in a double-quoted string`);
+        const text = child.text;
+        for (let j = 0; j < text.length; j++) {
+          if (text[j] === '\\' && '$`"\\\n'.includes(text[j + 1] ?? '')) { if (text[j + 1] !== '\n') out.push(text[j + 1], false); j++; }
+          else if (text[j] === '$' || text[j] === '`') unresolved('expansion in a double-quoted string');
+          else out.push(text[j], false);
+        }
+      }
+      return;
+    case 'concatenation':
+      for (let i = 0; i < node.childCount; i++) collect(node.child(i), out, first && i === 0);
+      return;
+    default: unresolved(node.type);
+  }
+}
+// The static value of a word node: { value, globAt } (globAt: index of the first unquoted glob character, or -1).
+export function staticWord(node) {
+  const chars = []; let globAt = -1;
+  const out = { push(ch, glob) { if (glob && globAt < 0) globAt = chars.length; chars.push(ch); } };
+  collect(node, out, true);
+  return { value: chars.join(''), globAt };
+}
+const WORD_TYPES = new Set(['word', 'number', 'string', 'raw_string', 'ansi_c_string', 'concatenation', 'simple_expansion', 'expansion', 'command_substitution', 'process_substitution', 'arithmetic_expansion', 'translated_string', 'brace_expression']);
+// The words of a command: its name and arguments (redirections and assignments are not arguments);
+// any other child (a stray `$` of $"...", an unknown node) fails closed.
+function bashWords(node) {
+  const words = [];
+  for (let i = 0; i < node.childCount; i++) {
+    const child = node.child(i);
+    if (child.type === 'command_name') { words.push(child.child(0)); continue; }
+    if (child.type === 'variable_assignment' || child.type === 'file_redirect' || child.type === 'herestring_redirect' || child.type === 'heredoc_redirect' || child.type === 'comment') continue;
+    if (!WORD_TYPES.has(child.type)) unresolved(`${child.type} in a command`);
+    words.push(child);
+  }
+  return words;
+}
+// The file a static operand can name: its directory for a glob whose pattern stays in its last path
+// component and cannot match `.` or `..`; any other glob fails closed.
+function operandPath({ value, globAt }) {
+  if (globAt < 0) return { file: value, glob: false };
+  const slash = value.lastIndexOf('/', globAt);
+  if (value.indexOf('/', globAt) >= 0) unresolved('glob before a path separator');
+  if (value[slash + 1] === '.' || value[slash + 1] === '[') unresolved('glob that could match . or ..');
+  return { file: slash < 0 ? '.' : value.slice(0, slash + 1) || '/', glob: true };
+}
+async function bashOperandDirectories(tree, cwd, roots, directories) {
+  for (const node of tree.rootNode.descendantsOfType('command')) {
+    let nameNode = null;
+    for (let i = 0; i < node.childCount && !nameNode; i++) if (node.child(i).type === 'command_name') nameNode = node.child(i).child(0);
+    if (!nameNode) continue; // assignments or redirections only
+    // The command name must have a static value: a name that cannot be established could be any command.
+    const head = staticWord(nameNode);
+    if (head.globAt >= 0 && head.value !== '[') unresolved('glob in the command name');
+    const name = path.posix.basename(head.value);
+    if (!FILES.has(name)) continue;
+    const words = bashWords(node);
+    if (name === 'cd' && words.length === 1) directories.add(os.homedir()); // a bare cd goes home
+    let operandsOnly = false;
+    for (const word of words.slice(1)) {
+      const parsed = staticWord(word);
+      let { value } = parsed;
+      if (!operandsOnly && value === '--') { operandsOnly = true; continue; }
+      if (!operandsOnly && value.startsWith('-')) {
+        const eq = value.indexOf('=');
+        if (eq < 0) continue; // a flag; --opt=value is checked as a path
+        if (parsed.globAt >= 0 && parsed.globAt < eq) unresolved('glob in an option name');
+        value = value.slice(eq + 1); parsed.globAt = parsed.globAt < 0 ? -1 : parsed.globAt - eq - 1;
+      }
+      if (!operandsOnly && name === 'chmod' && value.startsWith('+')) continue;
+      if (!value) continue;
+      const { file, glob } = operandPath({ value, globAt: parsed.globAt });
+      const absolute = path.resolve(cwd, file);
+      if (roots.some((root) => contains(root, absolute))) continue;
+      const isDirectory = glob || await fs.stat(absolute).then((stat) => stat.isDirectory()).catch((error) => {
+        if (error.code === 'ENOENT' || error.code === 'ENOTDIR') return false;
+        throw error;
+      });
+      directories.add(isDirectory ? absolute : path.dirname(absolute));
+    }
+  }
+}
+// Bash removes a backslash-newline before it splits words (outside single quotes and $'...'), so
+// `ca\<newline>t` is `cat`; tree-sitter splits the word there instead. Join first, as Bash does.
+export function joinContinuations(text) {
+  let out = ''; let single = false; let ansi = false; let double = false;
+  for (let i = 0; i < text.length; i++) {
+    const c = text[i];
+    if (single) { out += c; if (c === "'") single = false; continue; }
+    if (ansi) { out += c; if (c === '\\') { out += text[++i] ?? ''; } else if (c === "'") ansi = false; continue; }
+    if (c === '\\') {
+      if (text[i + 1] === '\n') { i++; continue; }
+      out += c + (text[++i] ?? ''); continue;
+    }
+    if (!double && c === '$' && text[i + 1] === "'") { out += "$'"; i++; ansi = true; continue; }
+    if (!double && c === "'") single = true;
+    if (c === '"') double = !double;
+    out += c;
+  }
+  return out;
+}
 export async function operandDirectories(command, cwd, roots, shell = process.platform === 'win32' ? 'powershell.exe' : '/bin/bash') {
   if (typeof command !== 'string' || typeof cwd !== 'string' || !path.isAbsolute(cwd)) throw Error('malformed shell scan input');
   const ps = /(?:powershell|pwsh)(?:\.exe)?$/i.test(shell);
   const cmd = /(?:^|[\\/])cmd\.exe$/i.test(shell);
+  if (!ps && !cmd) command = joinContinuations(command);
   const parser = await parsers();
   const tree = (ps ? parser.ps : parser.bash).parse(command);
   if (!tree || tree.rootNode.hasError) {
@@ -210,6 +368,7 @@ export async function operandDirectories(command, cwd, roots, shell = process.pl
   }
   const directories = new Set();
   try {
+    if (!ps && !cmd) { await bashOperandDirectories(tree, cwd, roots, directories); return [...directories]; }
     for (const node of tree.rootNode.descendantsOfType('command')) {
       const list = parts(node);
       const name = ps || cmd ? list[0]?.text.toLowerCase() : list[0]?.text;

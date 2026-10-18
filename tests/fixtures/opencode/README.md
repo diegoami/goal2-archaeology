@@ -36,6 +36,11 @@ hashes; none sent a prompt to a provider):
   dies, and an unrelated session on the same database survives. `native-cancel-vCgTPG` is the first
   cancel run, kept: the cancellation passed, then the probe stopped on a missing usage record, which
   opencode-workflow.mjs now takes from the session info when the export is refused.
+- Round 2 (PR 332, Sol's R1 and R2), after the scanner evaluates every word statically:
+  `native-reject-jDKeDo` adds `"cat" <outside file>` (R1), `cat "<outside dir>"/secret.txt` (R2),
+  `c""at <outside file>`, `cat '<outside dir>'/secret.txt` and a `$(…)` operand, all rejected, while
+  `"cat" inside.txt` returns its contents; `native-complete-pfrsd0` and `native-controls-bQt6x6` repeat
+  the clean run and the controls on the new scanner.
 - `native-controls-7CuxTr` (`node tools/harness/check-opencode-guard-controls.mjs --out …`): the same
   rejection probe on a scratch copy with one guard line removed: v2 then returns `OUTSIDE_SENTINEL`
   to `cat <outside file>`, so the probe fails on "external-cat must be rejected".

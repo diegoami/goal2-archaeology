@@ -40,11 +40,16 @@ const tmpFile = `/tmp/harness-guard-${tag}.txt`; fs.writeFileSync(tmpFile, 'TMP_
 const scratchFile = path.join(scratchRoot(), `harness-guard-${tag}.txt`); fs.mkdirSync(scratchRoot(), { recursive: true }); fs.writeFileSync(scratchFile, 'SCRATCH_SENTINEL\n', { flag: 'wx' });
 const agentFile = path.resolve(new URL('../../.opencode/agents/reviewer.md', import.meta.url).pathname);
 const header = 'T99 review (loopback)';
-const external = ['external-cat', 'external-quoted', 'external-nested', 'external-relative', 'external-proc'];
-const allowed = ['inside-cat', 'tmp-cat', 'scratch-cat', ...(fs.existsSync('/etc/timezone') ? ['timezone-cat'] : [])];
+// round 2 (Sol's R1, R2 on PR 332): quoted command names and quoted path fragments are evaluated first
+const external = ['external-cat', 'external-quoted', 'external-nested', 'external-relative', 'external-proc',
+  'quoted-name-R1', 'quoted-fragment-R2', 'empty-fragment-name', 'single-quoted-fragment', 'dynamic-operand'];
+const allowed = ['inside-cat', 'tmp-cat', 'scratch-cat', 'quoted-name-inside', ...(fs.existsSync('/etc/timezone') ? ['timezone-cat'] : [])];
 const commands = {
   'external-cat': `cat ${path.join(outside, 'secret.txt')}`, 'external-quoted': `cat "${path.join(outside, 'secret.txt')}"`,
   'external-nested': `echo $(cat ${path.join(outside, 'secret.txt')})`, 'external-relative': 'cat ../outside/secret.txt', 'external-proc': 'cat /proc/self/comm',
+  'quoted-name-R1': `"cat" ${path.join(outside, 'secret.txt')}`, 'quoted-fragment-R2': `cat "${outside}"/secret.txt`,
+  'empty-fragment-name': `c""at ${path.join(outside, 'secret.txt')}`, 'single-quoted-fragment': `cat '${outside}'/secret.txt`,
+  'dynamic-operand': `cat "$(printf %s ${outside})"/secret.txt`, 'quoted-name-inside': '"cat" inside.txt',
   'etc-deny': 'cat /etc/hostname', 'git-deny': 'git push harness-probe-no-remote',
   'inside-cat': 'cat inside.txt', 'tmp-cat': `cat ${tmpFile}`, 'scratch-cat': `cat ${scratchFile}`, 'timezone-cat': 'cat /etc/timezone',
   'active-cancel': `${process.execPath} -e ${JSON.stringify("require('node:fs').writeFileSync('active.pid',String(process.pid));setInterval(()=>{},1000)")}`,
