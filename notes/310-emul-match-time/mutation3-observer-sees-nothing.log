@@ -1,0 +1,19 @@
+MUTATION in tests/test_emul_match.py: 'if m.arg(2) == keeping.KEEPING_ELEMENT:' -> 'if m.arg(2) == 99:'
+F
+======================================================================
+FAIL: test_the_gate_falsifier_is_not_reached_by_e011 (tests.test_emul_match.RealGuestTests.test_the_gate_falsifier_is_not_reached_by_e011)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a43ef11c1d29a1ca4/tests/test_emul_match.py", line 446, in test_the_gate_falsifier_is_not_reached_by_e011
+    self.assertEqual(events, {1: 13})            # and the check saw the element-1 calls (it is not vacuous)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+AssertionError: {} != {1: 13}
+- {}
++ {1: 13}
+
+----------------------------------------------------------------------
+Ran 1 test in 34.592s
+
+FAILED (failures=1)
+
+exit status 1, 34.7 s

@@ -1,0 +1,140 @@
+2026-10-18T08:41:29.6594973Z ##[group]GITHUB_TOKEN Permissions
+2026-10-18T08:41:31.7717071Z   GH_TOKEN: ***
+2026-10-18T08:41:33.7729366Z   GH_TOKEN: ***
+2026-10-18T08:41:33.9089801Z   GH_TOKEN: ***
+2026-10-18T08:41:34.0427378Z   GH_TOKEN: ***
+2026-10-18T08:41:34.4674134Z   GH_TOKEN: ***
+2026-10-18T08:41:35.0934178Z   GH_TOKEN: ***
+2026-10-18T08:41:35.1560156Z   GH_TOKEN: ***
+2026-10-18T08:42:08.9371133Z   GH_TOKEN: ***
+2026-10-18T08:42:14.9831816Z   GH_TOKEN: ***
+2026-10-18T08:42:20.4858135Z   GH_TOKEN: ***
+2026-10-18T08:42:21.4819629Z   GH_TOKEN: ***
+2026-10-18T08:42:22.4779211Z   GH_TOKEN: ***
+2026-10-18T08:42:26.3231924Z Ran 115 tests in 3.621s
+2026-10-18T08:42:26.3233794Z OK (skipped=6)
+2026-10-18T08:42:26.3522111Z   GH_TOKEN: ***
+2026-10-18T08:42:48.0459852Z   GH_TOKEN: ***
+2026-10-18T08:42:48.0461461Z ##[endgroup]
+2026-10-18T08:43:18.1108348Z test_a_blank_line_is_skipped_but_a_broken_one_is_not (test_e036_compare.CommandLine.test_a_blank_line_is_skipped_but_a_broken_one_is_not) ... ok
+2026-10-18T08:43:18.6877794Z test_all_asks_for_every_family (test_e036_compare.CommandLine.test_all_asks_for_every_family) ... ok
+2026-10-18T08:43:18.6878368Z test_each_family_uses_its_own_reference_by_default (test_e036_compare.CommandLine.test_each_family_uses_its_own_reference_by_default)
+2026-10-18T08:43:19.6920397Z test_strict_json_and_encoding (test_e036_compare.CommandLine.test_strict_json_and_encoding) ... ok
+2026-10-18T08:43:20.0023607Z test_unknown_family_and_missing_files_are_malformed (test_e036_compare.CommandLine.test_unknown_family_and_missing_files_are_malformed) ... ok
+2026-10-18T08:43:20.4123939Z test_a_candidate_over_the_same_mask_as_its_reference_passes (test_e036_compare.CompareFailsClosed.test_a_candidate_over_the_same_mask_as_its_reference_passes) ... ok
+2026-10-18T08:43:20.4125028Z test_a_container_is_checked_down_to_its_contents (test_e036_compare.CompareFailsClosed.test_a_container_is_checked_down_to_its_contents)
+2026-10-18T08:43:20.7454785Z test_a_duplicate_match_is_malformed (test_e036_compare.CompareFailsClosed.test_a_duplicate_match_is_malformed) ... ok
+2026-10-18T08:43:20.8647130Z test_a_duplicate_reference_match_is_malformed (test_e036_compare.CompareFailsClosed.test_a_duplicate_reference_match_is_malformed) ... ok
+2026-10-18T08:43:22.3580727Z test_a_malformed_leaf_in_the_candidate_is_malformed_not_a_difference (test_e036_compare.CompareFailsClosed.test_a_malformed_leaf_in_the_candidate_is_malformed_not_a_difference) ... ok
+2026-10-18T08:43:22.5618317Z test_a_missing_match_is_malformed (test_e036_compare.CompareFailsClosed.test_a_missing_match_is_malformed) ... ok
+2026-10-18T08:43:22.7854868Z test_a_missing_reference_match_is_malformed (test_e036_compare.CompareFailsClosed.test_a_missing_reference_match_is_malformed) ... ok
+2026-10-18T08:43:23.3861155Z test_an_errored_candidate_with_equal_fields_fails (test_e036_compare.CompareFailsClosed.test_an_errored_candidate_with_equal_fields_fails) ... ok
+2026-10-18T08:43:23.5930330Z test_an_incomplete_candidate_without_evidence_fails (test_e036_compare.CompareFailsClosed.test_an_incomplete_candidate_without_evidence_fails) ... ok
+2026-10-18T08:43:24.2180404Z test_an_incomplete_reference_is_malformed (test_e036_compare.CompareFailsClosed.test_an_incomplete_reference_is_malformed) ... ok
+2026-10-18T08:43:24.4257354Z test_an_unexpected_match_is_malformed (test_e036_compare.CompareFailsClosed.test_an_unexpected_match_is_malformed) ... ok
+2026-10-18T08:43:24.4257967Z test_an_unknown_key_is_refused (test_e036_compare.CompareFailsClosed.test_an_unknown_key_is_refused)
+2026-10-18T08:43:26.0523249Z test_another_declaration_image_or_mask_is_refused (test_e036_compare.CompareFailsClosed.test_another_declaration_image_or_mask_is_refused) ... ok
+2026-10-18T08:43:26.1928458Z test_completion_keys_missing_are_malformed (test_e036_compare.CompareFailsClosed.test_completion_keys_missing_are_malformed) ... ok
+2026-10-18T08:43:29.5711301Z test_each_compared_field_fails_when_it_differs (test_e036_compare.CompareFailsClosed.test_each_compared_field_fails_when_it_differs) ... ok
+2026-10-18T08:43:29.7550013Z test_empty_candidate_is_malformed (test_e036_compare.CompareFailsClosed.test_empty_candidate_is_malformed) ... ok
+2026-10-18T08:43:30.7448509Z test_every_range_and_the_first_differing_block_is_named (test_e036_compare.CompareFailsClosed.test_every_range_and_the_first_differing_block_is_named) ... ok
+2026-10-18T08:43:30.9810512Z test_evidence_beside_an_error_or_partial_evidence_is_refused (test_e036_compare.CompareFailsClosed.test_evidence_beside_an_error_or_partial_evidence_is_refused) ... ok
+2026-10-18T08:43:31.1866257Z test_falsifier_caught_by_difference_or_failure (test_e036_compare.CompareFailsClosed.test_falsifier_caught_by_difference_or_failure) ... ok
+2026-10-18T08:43:31.3909649Z test_falsifier_not_caught_on_an_identical_candidate (test_e036_compare.CompareFailsClosed.test_falsifier_not_caught_on_an_identical_candidate) ... ok
+2026-10-18T08:43:31.5976968Z test_identical_family_passes (test_e036_compare.CompareFailsClosed.test_identical_family_passes) ... ok
+2026-10-18T08:43:32.7241417Z test_missing_evidence_is_neither_identical_nor_caught (test_e036_compare.CompareFailsClosed.test_missing_evidence_is_neither_identical_nor_caught) ... ok
+2026-10-18T08:43:34.5291264Z test_no_screen_leaves_out_only_the_screen (test_e036_compare.CompareFailsClosed.test_no_screen_leaves_out_only_the_screen) ... ok
+2026-10-18T08:43:34.7439759Z test_one_uncaught_match_fails_the_falsifier (test_e036_compare.CompareFailsClosed.test_one_uncaught_match_fails_the_falsifier) ... ok
+2026-10-18T08:43:34.8337542Z test_the_draws_per_minute_must_add_up (test_e036_compare.CompareFailsClosed.test_the_draws_per_minute_must_add_up) ... ok
+2026-10-18T08:43:35.2555097Z test_the_first_differing_minute_is_named (test_e036_compare.CompareFailsClosed.test_the_first_differing_minute_is_named) ... ok
+2026-10-18T08:43:35.4204355Z test_the_range_digests_must_have_the_exact_count (test_e036_compare.CompareFailsClosed.test_the_range_digests_must_have_the_exact_count) ... ok
+2026-10-18T08:43:35.6632255Z test_the_reference_may_hold_more_matches (test_e036_compare.CompareFailsClosed.test_the_reference_may_hold_more_matches) ... ok
+2026-10-18T08:43:36.1318669Z test_unsorted_or_overlapping_masks_are_refused (test_e036_compare.CompareFailsClosed.test_unsorted_or_overlapping_masks_are_refused) ... ok
+2026-10-18T08:43:36.4700436Z test_a_missing_incomplete_or_other_match_is_malformed (test_e036_compare.E032Seeds.test_a_missing_incomplete_or_other_match_is_malformed) ... ok
+2026-10-18T08:43:36.8793245Z test_each_field_that_differs_fails_that_seed (test_e036_compare.E032Seeds.test_each_field_that_differs_fails_that_seed) ... ok
+2026-10-18T08:43:36.9892180Z test_the_ten_seeds_are_printed_and_equal (test_e036_compare.E032Seeds.test_the_ten_seeds_are_printed_and_equal) ... ok
+2026-10-18T08:43:36.9896955Z test_an_error_text_is_one_clean_ascii_line (test_e036_compare.LeafFuzz.test_an_error_text_is_one_clean_ascii_line) ... ok
+2026-10-18T08:43:37.0006500Z test_every_key_removed_and_every_unknown_key_added_is_invalid (test_e036_compare.LeafFuzz.test_every_key_removed_and_every_unknown_key_added_is_invalid) ... ok
+2026-10-18T08:43:37.8221500Z test_every_leaf_changed_is_invalid (test_e036_compare.LeafFuzz.test_every_leaf_changed_is_invalid) ... ok
+2026-10-18T08:43:37.8275217Z test_every_list_one_element_longer_or_shorter_is_invalid_where_the_length_is_fixed (test_e036_compare.LeafFuzz.test_every_list_one_element_longer_or_shorter_is_invalid_where_the_length_is_fixed) ... ok
+2026-10-18T08:43:37.8283074Z test_numbers_are_ints_not_floats_and_floats_are_finite (test_e036_compare.LeafFuzz.test_numbers_are_ints_not_floats_and_floats_are_finite) ... ok
+2026-10-18T08:43:37.8299974Z test_the_valid_synthetic_record_is_valid (test_e036_compare.LeafFuzz.test_the_valid_synthetic_record_is_valid) ... ok
+2026-10-18T08:43:37.8300739Z test_dumps_refuses_non_finite (test_e036_compare.StrictLoads.test_dumps_refuses_non_finite) ... ok
+2026-10-18T08:43:37.8302434Z test_loads_refuses_what_json_loads_accepts (test_e036_compare.StrictLoads.test_loads_refuses_what_json_loads_accepts) ... ok
+2026-10-18T08:43:44.5762801Z test_ah_is_the_draws_high_byte (test_emul_match.GateReaderTests.test_ah_is_the_draws_high_byte) ... ok
+2026-10-18T08:43:44.5764739Z test_n_follows_278as_value (test_emul_match.GateReaderTests.test_n_follows_278as_value) ... ok
+2026-10-18T08:43:44.5765540Z test_result_registers_and_the_seed_write (test_emul_match.GateReaderTests.test_result_registers_and_the_seed_write) ... ok
+2026-10-18T08:43:44.5766501Z test_the_arguments_reach_278a_in_the_stack_order (test_emul_match.GateReaderTests.test_the_arguments_reach_278a_in_the_stack_order) ... ok
+2026-10-18T08:43:44.5767462Z test_the_falsifiers_change_the_result (test_emul_match.GateReaderTests.test_the_falsifiers_change_the_result) ... ok
+2026-10-18T08:43:44.5768330Z test_the_seed_is_read_through_the_far_pointer (test_emul_match.GateReaderTests.test_the_seed_is_read_through_the_far_pointer) ... ok
+2026-10-18T08:43:44.5769106Z test_the_tally_follows_the_models_own_run (test_emul_match.GateReaderTests.test_the_tally_follows_the_models_own_run) ... ok
+2026-10-18T08:43:44.5776423Z test_lcg_step_returns_far_popping_six (test_emul_match.ListingReturnTests.test_lcg_step_returns_far_popping_six) ... ok
+2026-10-18T08:43:44.5779962Z test_near_routine (test_emul_match.ListingReturnTests.test_near_routine) ... ok
+2026-10-18T08:43:44.5894744Z test_each_stopping_falsifier_is_stopped_naming_the_helper_and_the_call (test_emul_match.LongProofTests.test_each_stopping_falsifier_is_stopped_naming_the_helper_and_the_call) ... ok
+2026-10-18T08:43:44.5980284Z test_the_models_are_proved_with_no_scratch_difference (test_emul_match.LongProofTests.test_the_models_are_proved_with_no_scratch_difference) ... ok
+2026-10-18T08:43:44.6008946Z test_the_scratch_falsifier_is_counted_not_stopped (test_emul_match.LongProofTests.test_the_scratch_falsifier_is_counted_not_stopped) ... WARNING: call #1 of 2000:0279: uncompared register SI at the ret
+2026-10-18T08:43:44.6075451Z test_tie_a_is_not_stopped_it_changes_no_register (test_emul_match.LongProofTests.test_tie_a_is_not_stopped_it_changes_no_register) ... ok
+2026-10-18T08:43:44.6076248Z test_max_falsifiers (test_emul_match.LongReaderTests.test_max_falsifiers)
+2026-10-18T08:43:44.6077604Z test_max_registers_are_exact (test_emul_match.LongReaderTests.test_max_registers_are_exact)
+2026-10-18T08:43:44.6079202Z test_max_tally_counts_exactly (test_emul_match.LongReaderTests.test_max_tally_counts_exactly)
+2026-10-18T08:43:44.6082623Z test_mul_falsifiers (test_emul_match.LongReaderTests.test_mul_falsifiers)
+2026-10-18T08:43:44.6084075Z test_mul_registers_are_exact (test_emul_match.LongReaderTests.test_mul_registers_are_exact)
+2026-10-18T08:43:44.6093675Z test_mul_tally_counts_exactly (test_emul_match.LongReaderTests.test_mul_tally_counts_exactly)
+2026-10-18T08:43:44.6098803Z test_a_hook_inside_a_proved_original_does_not_fire_but_a_direct_call_does (test_emul_match.NestedProofTests.test_a_hook_inside_a_proved_original_does_not_fire_but_a_direct_call_does) ... ok
+2026-10-18T08:43:44.6108102Z test_a_model_that_misses_the_inner_effect_is_stopped (test_emul_match.NestedProofTests.test_a_model_that_misses_the_inner_effect_is_stopped) ... ok
+2026-10-18T08:43:44.6108989Z test_the_instructions_that_write_below_sp (test_emul_match.PushOpcodeTests.test_the_instructions_that_write_below_sp) ... ok
+2026-10-18T08:43:45.3852467Z test_a_hidden_seed_write_is_in_the_trace_and_fails_the_comparison (test_emul_match.RealGuestTests.test_a_hidden_seed_write_is_in_the_trace_and_fails_the_comparison) ... ok
+2026-10-18T08:43:45.4592557Z test_a_raw_write_to_the_seed_restored_is_stopped (test_emul_match.RealGuestTests.test_a_raw_write_to_the_seed_restored_is_stopped) ... ok
+2026-10-18T08:43:45.5324158Z test_a_write_to_the_sub_tick_restored_is_stopped (test_emul_match.RealGuestTests.test_a_write_to_the_sub_tick_restored_is_stopped) ... ok
+2026-10-18T08:43:45.6050466Z test_a_wrong_step_off_the_main_seed_is_stopped (test_emul_match.RealGuestTests.test_a_wrong_step_off_the_main_seed_is_stopped) ... WARNING: call #1 of 214B:0688: uncompared register BX at the return: t
+2026-10-18T08:43:45.6388934Z test_an_undeclared_first_key_read_raises (test_emul_match.RealGuestTests.test_an_undeclared_first_key_read_raises) ... ok
+2026-10-18T08:43:45.7921596Z test_f004_is_proved_at_every_call_with_no_difference (test_emul_match.RealGuestTests.test_f004_is_proved_at_every_call_with_no_difference) ... WARNING: call #1 of 214B:0688: uncompared register BX at t
+2026-10-18T08:43:46.5993600Z test_hooked_step_never_runs_and_keeps_the_trajectory (test_emul_match.RealGuestTests.test_hooked_step_never_runs_and_keeps_the_trajectory) ... ok
+2026-10-18T08:44:14.6900043Z test_the_gate_falsifier_is_not_reached_by_e011 (test_emul_match.RealGuestTests.test_the_gate_falsifier_is_not_reached_by_e011) ... ok
+2026-10-18T08:44:14.6901663Z test_the_gate_falsifier_proves_on_e011 (test_emul_match.RealGuestTests.test_the_gate_falsifier_proves_on_e011) ... skipped "issue #310: the proved run takes 230 s (361 s on CI's runner); a pull request
+2026-10-18T08:44:14.7558320Z test_the_skill_reader_278a_is_proved_by_the_model (test_emul_match.RealGuestTests.test_the_skill_reader_278a_is_proved_by_the_model) ... WARNING: call #1 of 0791:278A: uncompared register BX at the ret
+2026-10-18T08:44:20.7171102Z test_the_skill_reader_falsifiers_are_stopped (test_emul_match.RealGuestTests.test_the_skill_reader_falsifiers_are_stopped) ... ok
+2026-10-18T08:44:20.7172330Z test_available_right_foot_ax_and_dx (test_emul_match.StrengthReaderTests.test_available_right_foot_ax_and_dx) ... ok
+2026-10-18T08:44:20.7173640Z test_foot_zero_in_the_second_position_set (test_emul_match.StrengthReaderTests.test_foot_zero_in_the_second_position_set) ... ok
+2026-10-18T08:44:20.7174509Z test_the_clamp_edges (test_emul_match.StrengthReaderTests.test_the_clamp_edges) ... ok
+2026-10-18T08:44:20.7175675Z test_the_falsifiers_change_the_result (test_emul_match.StrengthReaderTests.test_the_falsifiers_change_the_result) ... ok
+2026-10-18T08:44:20.7176908Z test_the_foot_index_table_is_indexed_by_the_word_mod_3 (test_emul_match.StrengthReaderTests.test_the_foot_index_table_is_indexed_by_the_word_mod_3) ... ok
+2026-10-18T08:44:20.7178905Z test_the_foot_table_decides_the_wrong_foot (test_emul_match.StrengthReaderTests.test_the_foot_table_decides_the_wrong_foot) ... ok
+2026-10-18T08:44:20.7179810Z test_the_form_threshold_edge_0x20 (test_emul_match.StrengthReaderTests.test_the_form_threshold_edge_0x20) ... ok
+2026-10-18T08:44:20.7181170Z test_the_tally_follows_the_models_own_run (test_emul_match.StrengthReaderTests.test_the_tally_follows_the_models_own_run) ... ok
+2026-10-18T08:44:20.7182725Z test_the_word_decides_the_record (test_emul_match.StrengthReaderTests.test_the_word_decides_the_record) ... ok
+2026-10-18T08:44:20.7184083Z test_unavailable_by_energy_leaves_the_high_word_of_the_record_offset (test_emul_match.StrengthReaderTests.test_unavailable_by_energy_leaves_the_high_word_of_the_record_offset) ... ok
+2026-10-18T08:44:20.7185308Z test_unavailable_by_flag_leaves_the_element_minus_one (test_emul_match.StrengthReaderTests.test_unavailable_by_flag_leaves_the_element_minus_one) ... ok
+2026-10-18T08:44:20.7186763Z test_wrong_foot_dx_is_the_remainder_of_the_value_before_halving (test_emul_match.StrengthReaderTests.test_wrong_foot_dx_is_the_remainder_of_the_value_before_halving) ... ok
+2026-10-18T08:44:20.7200935Z test_a_correct_model_is_proved_with_no_difference (test_emul_match.SyntheticHookTests.test_a_correct_model_is_proved_with_no_difference) ... WARNING: call #3 of 2000:0000: uncompared register FLAGS at 
+2026-10-18T08:44:20.7212774Z test_a_correct_model_passes_with_the_output_just_below_the_entry_sp (test_emul_match.SyntheticHookTests.test_a_correct_model_passes_with_the_output_just_below_the_entry_sp) ... WARNING: call #3 of 2000
+2026-10-18T08:44:20.7226776Z test_a_correct_model_still_passes_with_the_stack_aliased (test_emul_match.SyntheticHookTests.test_a_correct_model_still_passes_with_the_stack_aliased) ... WARNING: call #3 of 2000:0000: uncompared regi
+2026-10-18T08:44:20.7238117Z test_a_model_leaving_another_cx_passes_with_a_warning_count (test_emul_match.SyntheticHookTests.test_a_model_leaving_another_cx_passes_with_a_warning_count) ... ok
+2026-10-18T08:44:20.7256676Z test_a_model_writing_another_byte_is_stopped_with_the_call_and_address (test_emul_match.SyntheticHookTests.test_a_model_writing_another_byte_is_stopped_with_the_call_and_address) ... ok
+2026-10-18T08:44:20.7264128Z test_a_write_through_a_mu_writer_bound_before_the_hook_is_recorded (test_emul_match.SyntheticHookTests.test_a_write_through_a_mu_writer_bound_before_the_hook_is_recorded) ... ok
+2026-10-18T08:44:20.7268512Z test_an_error_in_fn_stops_the_run_and_is_raised (test_emul_match.SyntheticHookTests.test_an_error_in_fn_stops_the_run_and_is_raised) ... ok
+2026-10-18T08:44:20.7275688Z test_an_output_aliased_into_the_stack_segment_below_sp_is_compared (test_emul_match.SyntheticHookTests.test_an_output_aliased_into_the_stack_segment_below_sp_is_compared) ... ok
+2026-10-18T08:44:20.7282571Z test_an_output_aliased_just_below_the_entry_sp_is_compared (test_emul_match.SyntheticHookTests.test_an_output_aliased_just_below_the_entry_sp_is_compared) ... ok
+2026-10-18T08:44:20.7288676Z test_every_fn_write_to_a_watched_word_is_reported (test_emul_match.SyntheticHookTests.test_every_fn_write_to_a_watched_word_is_reported) ... ok
+2026-10-18T08:44:20.7297531Z test_hooked_routine_is_not_executed_and_the_count_is_exact (test_emul_match.SyntheticHookTests.test_hooked_routine_is_not_executed_and_the_count_is_exact) ... ok
+2026-10-18T08:44:20.7312423Z test_the_originals_pushes_local_and_nested_call_are_its_frame (test_emul_match.SyntheticHookTests.test_the_originals_pushes_local_and_nested_call_are_its_frame) ... WARNING: call #3 of 2000:0000: uncom
+2026-10-18T08:44:20.7331604Z test_unhooked_routine_runs_as_guest_code (test_emul_match.SyntheticHookTests.test_unhooked_routine_runs_as_guest_code) ... ok
+2026-10-18T08:44:20.7332761Z test_06d0_al_and_ah_cases (test_emul_match.WrapperReaderTests.test_06d0_al_and_ah_cases)
+2026-10-18T08:44:20.7336904Z test_every_register_and_the_seed_write_of_each_wrapper (test_emul_match.WrapperReaderTests.test_every_register_and_the_seed_write_of_each_wrapper)
+2026-10-18T08:44:20.7344002Z test_falsifier_inverted (test_emul_match.WrapperReaderTests.test_falsifier_inverted)
+2026-10-18T08:44:20.7345348Z test_falsifier_n_plus_1 (test_emul_match.WrapperReaderTests.test_falsifier_n_plus_1)
+2026-10-18T08:44:20.8808357Z test_falsifier_seed_write (test_emul_match.WrapperReaderTests.test_falsifier_seed_write)
+2026-10-18T08:44:20.8809872Z test_falsifier_value_plus_1 (test_emul_match.WrapperReaderTests.test_falsifier_value_plus_1)
+2026-10-18T08:44:20.8811633Z test_n_is_the_first_argument_and_16_bit_free_of_other_args (test_emul_match.WrapperReaderTests.test_n_is_the_first_argument_and_16_bit_free_of_other_args)
+2026-10-18T08:44:20.8813705Z test_the_seed_is_read_through_the_far_pointer (test_emul_match.WrapperReaderTests.test_the_seed_is_read_through_the_far_pointer)
+2026-10-18T08:44:20.8815473Z test_the_tally_counts_exactly (test_emul_match.WrapperReaderTests.test_the_tally_counts_exactly)
+2026-10-18T08:44:32.6986168Z test_initial_subtick_one_lower_is_rejected (test_emul_watched.MutationTests.test_initial_subtick_one_lower_is_rejected) ... ok
+2026-10-18T08:44:32.7217938Z test_holder_write_preserves_830c (test_emul_watched.ResumeTests.test_holder_write_preserves_830c) ... ok
+2026-10-18T08:44:32.7450821Z test_word_write_would_clobber_830c (test_emul_watched.ResumeTests.test_word_write_would_clobber_830c) ... ok
+2026-10-18T08:44:32.7451726Z test_read_on_its_own_tick_matches (test_emul_watched.TickValuesTests.test_read_on_its_own_tick_matches) ... ok
+2026-10-18T08:44:32.7453628Z test_shifted_by_one_sub_tick_misses (test_emul_watched.TickValuesTests.test_shifted_by_one_sub_tick_misses) ... ok
+2026-10-18T08:44:32.7454333Z test_tick_without_draws_holds_its_value (test_emul_watched.TickValuesTests.test_tick_without_draws_holds_its_value) ... ok
+2026-10-18T08:45:18.8019224Z Ran 1203 tests in 149.658s
+2026-10-18T08:45:18.8019434Z OK (skipped=40)
+2026-10-18T08:45:18.8449980Z   GH_TOKEN: ***
+2026-10-18T08:45:31.0615787Z   GH_TOKEN: ***

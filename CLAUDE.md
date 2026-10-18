@@ -96,6 +96,17 @@ indexed in `docs/tasks/README.md`.
     rests on runs says in its Method what static analysis was tried and why it was not enough. A
     missing tool is never the reason: install it, or stop and report. A review treats runs made
     because a tool was missing as a contract defect (gate G0a): rework.
+23. **The engine migration comes first** (the owner, 2026-10-18): "As a rule, work toward the engine
+    migration first and document reflection or hardening issues." The route-C engine port (the port
+    of the watched match engine, T57-T80 in `docs/backlog.md`) has priority over everything else.
+    Hardening, defence-in-depth and edge-case work on the proof, the harness or the tooling (for
+    example the reflection routes to the raw Unicorn engine, #333; refusals that wait for a slot,
+    #328) is not fixed ahead of the port, unless it blocks a port task or breaks the proof for
+    ordinary use. It is recorded as a follow-up issue that states the known limit and its acceptance
+    (what would close it), and, where the limit concerns a mechanism, as a note in the docs too. A
+    reviewer's finding that is a deliberate-reflection or adversarial-use route, when the port's own
+    code does not use it, is likewise a known limit with a follow-up issue and is not reworked
+    again. The owner decides when a limit is worth closing.
 
 ## Choosing models: who implements, who reviews (the owner, 2026-10-11 and 2026-10-12)
 These rules replace every other model-choice rule in this project: the morning of 2026-10-11's

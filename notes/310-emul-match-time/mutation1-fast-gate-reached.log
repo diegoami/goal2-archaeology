@@ -1,0 +1,18 @@
+MUTATION in runtime/model/keeping.py: 'KEEPER_EVENTS = frozenset({3, 4})' -> 'KEEPER_EVENTS = frozenset({1, 3, 4})'
+F
+======================================================================
+FAIL: test_the_gate_falsifier_is_not_reached_by_e011 (tests.test_emul_match.RealGuestTests.test_the_gate_falsifier_is_not_reached_by_e011)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a43ef11c1d29a1ca4/tests/test_emul_match.py", line 445, in test_the_gate_falsifier_is_not_reached_by_e011
+    self.assertEqual(set(events) & (keeping.KEEPER_EVENTS | {0x18}), set())
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Items in the first set but not the second:
+1
+
+----------------------------------------------------------------------
+Ran 1 test in 32.503s
+
+FAILED (failures=1)
+
+exit status 1, 32.6 s

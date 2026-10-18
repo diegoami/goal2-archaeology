@@ -16,8 +16,10 @@ A port module registers its own ports (no shared table, so tasks running at the 
 
 A port runs from its routine's entry, after every hook the kit has there (Machine.port), reads and writes only through
 `mem` (port/mem.py), fires the kit's sites inside the routine with mem.site(), answers its key reads with
-mem.read_key() and mem.keypressed(), and returns as the listing's `ret n` / `retf n`. The module holds no byte of the
-original: only addresses, offsets and constants, each citing its listing line."""
+mem.read_key() and mem.keypressed(), and returns as the listing's `ret n` / `retf n`. A port that calls a routine
+still the original's is a generator yielding guest.call(...) (port/guest.py, T59); prove.py runs a port side by side
+with the original (T59). The module holds no byte of the original: only addresses, offsets and constants, each citing
+its listing line."""
 import importlib
 import pkgutil
 import re
@@ -65,9 +67,13 @@ class Registry:
         self.variants[name] = what
 
 
+NOT_PORT_MODULES = ("mem", "guest", "prove")     # the view, the guest calls and the proof (T59): machinery, no ports
+
+
 def available():
-    """The port modules of this package (each a file of its own, mem excluded)."""
-    return sorted(m.name for m in pkgutil.iter_modules(__path__) if m.name != "mem" and not m.name.startswith("_"))
+    """The port modules of this package (each a file of its own, the machinery excluded)."""
+    return sorted(m.name for m in pkgutil.iter_modules(__path__)
+                  if m.name not in NOT_PORT_MODULES and not m.name.startswith("_"))
 
 
 def _module_registry(name):
@@ -123,22 +129,14 @@ class Installed:
 
 
 def runner(entry, variant, mem, calls):
-    def run(machine):
+    """The port at its entry: a PortFrame (port/guest.py, T59) runs it and returns to the caller, at once for a plain
+    function, after its last guest call for a generator; done(frame) is called at that return (the proof, prove.py)."""
+    from .guest import PortFrame
+
+    def run(machine, done=None):
         calls[entry.address] = calls.get(entry.address, 0) + 1
-        sp, bp = machine.reg("sp"), machine.reg("bp")
-        mem._entries.append((sp, entry.far))
-        try:
-            value = entry.fn(mem, variant)
-        finally:
-            mem._entries.pop()
-        machine.set_reg("sp", sp)       # the epilogue: whatever frame the port built (mem.enter) is gone
-        machine.set_reg("bp", bp)
-        if value is not None:
-            value = int(value)
-            machine.set_reg("ax", value & 0xFFFF)
-            if entry.long:
-                machine.set_reg("dx", (value >> 16) & 0xFFFF)
-        machine.return_from(entry.far, entry.pop)
+        PortFrame(machine, mem, entry, variant, done).start()
+    run.entry = entry
     return run
 
 

@@ -35,7 +35,7 @@ from original_match.match import VERSION as KIT_VERSION  # noqa: E402
 try:
     import unicorn  # noqa: F401
     HAVE_UNICORN = True
-except ImportError:             # CI does not install python3-unicorn
+except ImportError:             # a machine without unicorn (CI's code tier installs it, #304)
     HAVE_UNICORN = False
 FAMILY_PY = E036 / "family.py"
 IMAGE_FILE = ROOT / ".cache/dl/e0afff6751747233-e006-1000-r0001.sav"

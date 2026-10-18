@@ -1,0 +1,108 @@
+test_ah_is_the_draws_high_byte (tests.test_emul_match.GateReaderTests.test_ah_is_the_draws_high_byte) ... ok
+test_n_follows_278as_value (tests.test_emul_match.GateReaderTests.test_n_follows_278as_value) ... ok
+test_result_registers_and_the_seed_write (tests.test_emul_match.GateReaderTests.test_result_registers_and_the_seed_write) ... ok
+test_the_arguments_reach_278a_in_the_stack_order (tests.test_emul_match.GateReaderTests.test_the_arguments_reach_278a_in_the_stack_order) ... ok
+test_the_falsifiers_change_the_result (tests.test_emul_match.GateReaderTests.test_the_falsifiers_change_the_result) ... ok
+test_the_seed_is_read_through_the_far_pointer (tests.test_emul_match.GateReaderTests.test_the_seed_is_read_through_the_far_pointer) ... ok
+test_the_tally_follows_the_models_own_run (tests.test_emul_match.GateReaderTests.test_the_tally_follows_the_models_own_run) ... ok
+test_lcg_step_returns_far_popping_six (tests.test_emul_match.ListingReturnTests.test_lcg_step_returns_far_popping_six) ... ok
+test_near_routine (tests.test_emul_match.ListingReturnTests.test_near_routine) ... ok
+test_each_stopping_falsifier_is_stopped_naming_the_helper_and_the_call (tests.test_emul_match.LongProofTests.test_each_stopping_falsifier_is_stopped_naming_the_helper_and_the_call) ... ok
+test_the_models_are_proved_with_no_scratch_difference (tests.test_emul_match.LongProofTests.test_the_models_are_proved_with_no_scratch_difference) ... ok
+test_the_scratch_falsifier_is_counted_not_stopped (tests.test_emul_match.LongProofTests.test_the_scratch_falsifier_is_counted_not_stopped) ... WARNING: call #1 of 2000:0279: uncompared register SI at the return: the original 0x0003, the model 0x3333 (counted, not an error; further ones counted only)
+ok
+test_tie_a_is_not_stopped_it_changes_no_register (tests.test_emul_match.LongProofTests.test_tie_a_is_not_stopped_it_changes_no_register) ... ok
+test_max_falsifiers (tests.test_emul_match.LongReaderTests.test_max_falsifiers)
+Kills: min not applied (returns the max), min applied on a tie, tie-a changing a non-tie, tie-a ... ok
+test_max_registers_are_exact (tests.test_emul_match.LongReaderTests.test_max_registers_are_exact)
+Kills: the arguments taken in another order (a/b swapped, lo/hi swapped), AX/DX/ES from the wrong word, ES ... ok
+test_max_tally_counts_exactly (tests.test_emul_match.LongReaderTests.test_max_tally_counts_exactly)
+Kills: any counter's condition or increment. Eight calls: a wins 4 ((5,3) (0x20000,0x10005) (-1,-2) (0,-1)), ... ok
+test_mul_falsifiers (tests.test_emul_match.LongReaderTests.test_mul_falsifiers)
+Kills: product+1 adding to AX only (no carry into DX), adding 2, or changing the scratch registers; the ... ok
+test_mul_registers_are_exact (tests.test_emul_match.LongReaderTests.test_mul_registers_are_exact)
+Kills: the operands taken from other registers (CX is the LOW word of the second operand), a term ... ok
+test_mul_tally_counts_exactly (tests.test_emul_match.LongReaderTests.test_mul_tally_counts_exactly)
+Kills: any counter's condition or increment. Seven calls (3,0,0,5) (2,3,5,7) (0xFFFF,0,0,2) (0,0,0xFFFF,0xFFFF) ... ok
+test_a_hook_inside_a_proved_original_does_not_fire_but_a_direct_call_does (tests.test_emul_match.NestedProofTests.test_a_hook_inside_a_proved_original_does_not_fire_but_a_direct_call_does) ... ok
+test_a_model_that_misses_the_inner_effect_is_stopped (tests.test_emul_match.NestedProofTests.test_a_model_that_misses_the_inner_effect_is_stopped) ... ok
+test_the_instructions_that_write_below_sp (tests.test_emul_match.PushOpcodeTests.test_the_instructions_that_write_below_sp) ... ok
+test_a_hidden_seed_write_is_in_the_trace_and_fails_the_comparison (tests.test_emul_match.RealGuestTests.test_a_hidden_seed_write_is_in_the_trace_and_fails_the_comparison) ... ok
+test_a_raw_write_to_the_seed_restored_is_stopped (tests.test_emul_match.RealGuestTests.test_a_raw_write_to_the_seed_restored_is_stopped) ... ok
+test_a_write_to_the_sub_tick_restored_is_stopped (tests.test_emul_match.RealGuestTests.test_a_write_to_the_sub_tick_restored_is_stopped) ... ok
+test_a_wrong_step_off_the_main_seed_is_stopped (tests.test_emul_match.RealGuestTests.test_a_wrong_step_off_the_main_seed_is_stopped) ... WARNING: call #1 of 214B:0688: uncompared register BX at the return: the original 0x7ABD, the model 0x0000 (counted, not an error; further ones counted only)
+WARNING: call #1 of 214B:0688: uncompared register SI at the return: the original 0x7B64, the model 0x6130 (counted, not an error; further ones counted only)
+WARNING: call #1 of 214B:0688: uncompared register DI at the return: the original 0x7B64, the model 0x7B62 (counted, not an error; further ones counted only)
+WARNING: call #1 of 214B:0688: uncompared register FLAGS at the return: the original 0x7202, the model 0x7206 (counted, not an error; further ones counted only)
+ok
+test_an_undeclared_first_key_read_raises (tests.test_emul_match.RealGuestTests.test_an_undeclared_first_key_read_raises) ... ok
+test_f004_is_proved_at_every_call_with_no_difference (tests.test_emul_match.RealGuestTests.test_f004_is_proved_at_every_call_with_no_difference) ... WARNING: call #1 of 214B:0688: uncompared register BX at the return: the original 0x7ABD, the model 0x0000 (counted, not an error; further ones counted only)
+WARNING: call #1 of 214B:0688: uncompared register SI at the return: the original 0x7B64, the model 0x6130 (counted, not an error; further ones counted only)
+WARNING: call #1 of 214B:0688: uncompared register DI at the return: the original 0x7B64, the model 0x7B62 (counted, not an error; further ones counted only)
+WARNING: call #1 of 214B:0688: uncompared register FLAGS at the return: the original 0x7202, the model 0x7206 (counted, not an error; further ones counted only)
+ok
+test_hooked_step_never_runs_and_keeps_the_trajectory (tests.test_emul_match.RealGuestTests.test_hooked_step_never_runs_and_keeps_the_trajectory) ... ok
+test_the_gate_falsifier_is_not_reached_by_e011 (tests.test_emul_match.RealGuestTests.test_the_gate_falsifier_is_not_reached_by_e011) ... ok
+test_the_gate_falsifier_proves_on_e011 (tests.test_emul_match.RealGuestTests.test_the_gate_falsifier_proves_on_e011) ... skipped "issue #310: the proved run takes 230 s (361 s on CI's runner); a pull request's CI runs the direct check above, and the nightly, manual and local runs this one"
+test_the_skill_reader_278a_is_proved_by_the_model (tests.test_emul_match.RealGuestTests.test_the_skill_reader_278a_is_proved_by_the_model) ... WARNING: call #1 of 0791:278A: uncompared register BX at the return: the original 0x001E, the model 0x016A (counted, not an error; further ones counted only)
+WARNING: call #1 of 0791:278A: uncompared register CX at the return: the original 0x0010, the model 0x0004 (counted, not an error; further ones counted only)
+WARNING: call #1 of 0791:278A: uncompared register ES at the return: the original 0x2DA4, the model 0x4E5B (counted, not an error; further ones counted only)
+WARNING: call #1 of 0791:278A: uncompared register FLAGS at the return: the original 0x7202, the model 0x7296 (counted, not an error; further ones counted only)
+ok
+test_the_skill_reader_falsifiers_are_stopped (tests.test_emul_match.RealGuestTests.test_the_skill_reader_falsifiers_are_stopped) ... ok
+test_available_right_foot_ax_and_dx (tests.test_emul_match.StrengthReaderTests.test_available_right_foot_ax_and_dx) ... ok
+test_foot_zero_in_the_second_position_set (tests.test_emul_match.StrengthReaderTests.test_foot_zero_in_the_second_position_set) ... ok
+test_the_clamp_edges (tests.test_emul_match.StrengthReaderTests.test_the_clamp_edges) ... ok
+test_the_falsifiers_change_the_result (tests.test_emul_match.StrengthReaderTests.test_the_falsifiers_change_the_result) ... ok
+test_the_foot_index_table_is_indexed_by_the_word_mod_3 (tests.test_emul_match.StrengthReaderTests.test_the_foot_index_table_is_indexed_by_the_word_mod_3) ... ok
+test_the_foot_table_decides_the_wrong_foot (tests.test_emul_match.StrengthReaderTests.test_the_foot_table_decides_the_wrong_foot) ... ok
+test_the_form_threshold_edge_0x20 (tests.test_emul_match.StrengthReaderTests.test_the_form_threshold_edge_0x20) ... ok
+test_the_tally_follows_the_models_own_run (tests.test_emul_match.StrengthReaderTests.test_the_tally_follows_the_models_own_run) ... ok
+test_the_word_decides_the_record (tests.test_emul_match.StrengthReaderTests.test_the_word_decides_the_record) ... ok
+test_unavailable_by_energy_leaves_the_high_word_of_the_record_offset (tests.test_emul_match.StrengthReaderTests.test_unavailable_by_energy_leaves_the_high_word_of_the_record_offset) ... ok
+test_unavailable_by_flag_leaves_the_element_minus_one (tests.test_emul_match.StrengthReaderTests.test_unavailable_by_flag_leaves_the_element_minus_one) ... ok
+test_wrong_foot_dx_is_the_remainder_of_the_value_before_halving (tests.test_emul_match.StrengthReaderTests.test_wrong_foot_dx_is_the_remainder_of_the_value_before_halving) ... ok
+test_a_correct_model_is_proved_with_no_difference (tests.test_emul_match.SyntheticHookTests.test_a_correct_model_is_proved_with_no_difference) ... WARNING: call #3 of 2000:0000: uncompared register FLAGS at the return: the original 0x0006, the model 0x0002 (counted, not an error; further ones counted only)
+ok
+test_a_correct_model_passes_with_the_output_just_below_the_entry_sp (tests.test_emul_match.SyntheticHookTests.test_a_correct_model_passes_with_the_output_just_below_the_entry_sp) ... WARNING: call #3 of 2000:0000: uncompared register FLAGS at the return: the original 0x0006, the model 0x0002 (counted, not an error; further ones counted only)
+ok
+test_a_correct_model_still_passes_with_the_stack_aliased (tests.test_emul_match.SyntheticHookTests.test_a_correct_model_still_passes_with_the_stack_aliased) ... WARNING: call #3 of 2000:0000: uncompared register FLAGS at the return: the original 0x0006, the model 0x0002 (counted, not an error; further ones counted only)
+ok
+test_a_model_leaving_another_cx_passes_with_a_warning_count (tests.test_emul_match.SyntheticHookTests.test_a_model_leaving_another_cx_passes_with_a_warning_count) ... ok
+test_a_model_writing_another_byte_is_stopped_with_the_call_and_address (tests.test_emul_match.SyntheticHookTests.test_a_model_writing_another_byte_is_stopped_with_the_call_and_address) ... ok
+test_a_write_through_a_mu_writer_bound_before_the_hook_is_recorded (tests.test_emul_match.SyntheticHookTests.test_a_write_through_a_mu_writer_bound_before_the_hook_is_recorded) ... ok
+test_an_error_in_fn_stops_the_run_and_is_raised (tests.test_emul_match.SyntheticHookTests.test_an_error_in_fn_stops_the_run_and_is_raised) ... ok
+test_an_output_aliased_into_the_stack_segment_below_sp_is_compared (tests.test_emul_match.SyntheticHookTests.test_an_output_aliased_into_the_stack_segment_below_sp_is_compared) ... ok
+test_an_output_aliased_just_below_the_entry_sp_is_compared (tests.test_emul_match.SyntheticHookTests.test_an_output_aliased_just_below_the_entry_sp_is_compared) ... ok
+test_every_fn_write_to_a_watched_word_is_reported (tests.test_emul_match.SyntheticHookTests.test_every_fn_write_to_a_watched_word_is_reported) ... ok
+test_hooked_routine_is_not_executed_and_the_count_is_exact (tests.test_emul_match.SyntheticHookTests.test_hooked_routine_is_not_executed_and_the_count_is_exact) ... ok
+test_the_originals_pushes_local_and_nested_call_are_its_frame (tests.test_emul_match.SyntheticHookTests.test_the_originals_pushes_local_and_nested_call_are_its_frame) ... WARNING: call #3 of 2000:0000: uncompared register FLAGS at the return: the original 0x0006, the model 0x0002 (counted, not an error; further ones counted only)
+ok
+test_unhooked_routine_runs_as_guest_code (tests.test_emul_match.SyntheticHookTests.test_unhooked_routine_runs_as_guest_code) ... ok
+test_06d0_al_and_ah_cases (tests.test_emul_match.WrapperReaderTests.test_06d0_al_and_ah_cases)
+Kills: AL = draw & 0xFF (B: draw 1199 -> AL would be 0xAF), AH from the wrong byte, AL true on the ... ok
+test_every_register_and_the_seed_write_of_each_wrapper (tests.test_emul_match.WrapperReaderTests.test_every_register_and_the_seed_write_of_each_wrapper)
+Kills, per wrapper: AX = low byte only, AX = 0, AX + 1, DX = 0, DX = draw + 1, AH dropped (06D0), ... ok
+test_falsifier_inverted (tests.test_emul_match.WrapperReaderTests.test_falsifier_inverted)
+Kills: AL not flipped, AH or DX disturbed, the seed write dropped or changed. ... ok
+test_falsifier_n_plus_1 (tests.test_emul_match.WrapperReaderTests.test_falsifier_n_plus_1)
+Kills: the falsifier not adding 1 to n, adding it on the wrong wrapper's draw (06B1 case D: n = 3 ... ok
+test_falsifier_seed_write (tests.test_emul_match.WrapperReaderTests.test_falsifier_seed_write)
+Kills: the seed write kept, or the registers changed when it is dropped. ... ok
+test_falsifier_value_plus_1 (tests.test_emul_match.WrapperReaderTests.test_falsifier_value_plus_1)
+Kills: AX not + 1, DX also + 1, the seed write dropped or changed. ... ok
+test_n_is_the_first_argument_and_16_bit_free_of_other_args (tests.test_emul_match.WrapperReaderTests.test_n_is_the_first_argument_and_16_bit_free_of_other_args)
+Kills: n read from arg(1) or arg(2) (GateGuest gives (n, 0x...)), n ignored. ... ok
+test_the_seed_is_read_through_the_far_pointer (tests.test_emul_match.WrapperReaderTests.test_the_seed_is_read_through_the_far_pointer)
+Kills: the seed read from DS:7B62 (the decoy 0xBEEF), the pointer's segment or offset swapped. ... ok
+test_the_tally_counts_exactly (tests.test_emul_match.WrapperReaderTests.test_the_tally_counts_exactly)
+Kills: any counter's condition or increment. Six calls A-F per wrapper: 'n+1 changes the draw' is ... ok
+
+----------------------------------------------------------------------
+Ran 67 tests in 44.960s
+
+OK (skipped=1)
+
+real	0m45.086s
+user	0m46.549s
+sys	0m1.151s

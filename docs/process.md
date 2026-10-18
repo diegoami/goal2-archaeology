@@ -79,7 +79,7 @@ CI tiers (the owner, 2026-10-17, #297): the PR's one job, `checks`, runs what th
 (`tools/ci_gate.py`). Prose no test reads (`*.md` at the root, `docs/`, `notes/`, `spec/`, except the four
 docs a test reads) gets links, citations and the no-original-file check only. Anything else also gets the
 harness tests, `tests/static` and every unit test except six slow modules (five took about 280 of the 360 seconds
-of the unit suite; the sixth, `test_emul_match`, about 380 once unicorn was installed). The code tier installs
+of the unit suite; the sixth, `test_emul_match`, about 380 once unicorn was installed; since #310 a pull request's run of it takes about 36, its 361 s proved test running only in the nightly, manual and local runs, `notes/310-emul-match-time/`). The code tier installs
 unicorn 2.1.4 (`runtime/emul/requirements.txt`, pip cache), so the emulator tests run there instead of skipping
 (#304; it adds about 35 s to a code PR's run, `notes/T304/`). A slow module runs only when the PR touches a file it reads (`SLOW_DEPS`, traced with
 an audit hook, `notes/T297/`); a change to the CI files, a manual run and a nightly run on `main` (when
@@ -236,6 +236,15 @@ per merge. Triage decides one of:
 - **fold** into a task not yet ready, or **close**, with the reason.
 
 Once `breaks-play` is trialled (§12), Jev settles the gate's confident ends; the main session the middle.
+
+Scheduling follows CLAUDE.md rule 23 (the owner, 2026-10-18): the route-C engine port comes first.
+Hardening, defence-in-depth and edge-case work on the proof, the harness or the tooling is not fixed
+ahead of the port, unless it blocks a port task or breaks the proof for ordinary use. It is recorded
+as a follow-up issue that states the known limit and its acceptance (what would close it), and,
+where the limit concerns a mechanism, as a note in the docs too. A reviewer's finding that is a
+deliberate-reflection or adversarial-use route, when the port's own code does not use it, is
+likewise a known limit with a follow-up issue and is not reworked again. The owner decides when a
+limit is worth closing.
 
 ## 7. Escalate to the user when
 
