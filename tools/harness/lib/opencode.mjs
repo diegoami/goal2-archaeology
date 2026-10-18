@@ -24,6 +24,12 @@
 //
 // Every failure of OpenCode itself throws an OpenCodeInfraError with a short `reason`; a fallback
 // chain may move past it. Anything else thrown is a defect of the caller.
+//
+// The above is the v1 (1.18) path, kept as the explicit compatibility path (#262): it runs when the
+// CLI reports 1.x, which is now only when HARNESS_OPENCODE_EXE names a 1.x binary. A 2.x CLI runs
+// through lib/opencode-workflow.mjs instead (an owned private server, the trusted reviewer profile,
+// the shell-operand guard, the complete export); runOpenCodeWatched at the end dispatches on the
+// version the CLI reports, and refuses any other major before anything is billed.
 
 import { spawn, spawnSync } from 'node:child_process';
 import { randomBytes } from 'node:crypto';
@@ -31,14 +37,10 @@ import { openFresh, writeFresh, harnessDir, scratchRoot } from './scratch.mjs';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
+import { OpenCodeInfraError, privateHome, startPrivateServer, settledCatalogue } from './opencode-transport.mjs';
+import { runV2Workflow } from './opencode-workflow.mjs';
 
-export class OpenCodeInfraError extends Error {
-  constructor(reason, message) {
-    super(message);
-    this.name = 'OpenCodeInfraError';
-    this.reason = reason;
-  }
-}
+export { OpenCodeInfraError };
 
 // A failed run on Alibaba's Token Plan whose stderr (OpenCode's own, not the model's output) says the
 // key was refused: an auth.json entry in the data
@@ -124,62 +126,43 @@ function isWindowsShim(file) {
 // Never the npm shim on Windows: opencode.cmd cannot carry a multi-line prompt through cmd.exe,
 // and killing the shim leaves opencode.exe running. Elsewhere, never the Windows shim either; then
 // OpenCode's own installer location (~/.opencode/bin), which is not always on PATH.
+// Every path is resolved once to the real file (#262, from goal2 PR 178): a relative or symlinked
+// HARNESS_OPENCODE_EXE would otherwise name another file once the run's cwd changes, and the v2 guard
+// pins the real binary's bytes.
 function findOpenCode(env = process.env) {
+  const real = (file) => fs.realpathSync(file);
   if (env.HARNESS_OPENCODE_EXE) {
     // A script (the tests' fake, #2) runs through Node, since Windows cannot execute one.
-    if (fs.existsSync(env.HARNESS_OPENCODE_EXE) && /\.m?js$/.test(env.HARNESS_OPENCODE_EXE)) return { exe: process.execPath, prefix: [env.HARNESS_OPENCODE_EXE] };
-    if (fs.existsSync(env.HARNESS_OPENCODE_EXE)) return { exe: env.HARNESS_OPENCODE_EXE, prefix: [] };
+    if (fs.existsSync(env.HARNESS_OPENCODE_EXE) && /\.m?js$/.test(env.HARNESS_OPENCODE_EXE)) return { exe: process.execPath, prefix: [real(env.HARNESS_OPENCODE_EXE)] };
+    if (fs.existsSync(env.HARNESS_OPENCODE_EXE)) return { exe: real(env.HARNESS_OPENCODE_EXE), prefix: [] };
     throw new OpenCodeInfraError('opencode not found', `HARNESS_OPENCODE_EXE points at a missing file: ${env.HARNESS_OPENCODE_EXE}`);
   }
   const win = process.platform === 'win32';
   for (const dir of (env.PATH || env.Path || '').split(path.delimiter).filter(Boolean)) {
     if (win) {
       const exe = path.join(dir, 'opencode.exe');
-      if (fs.existsSync(exe)) return { exe, prefix: [] };
+      if (fs.existsSync(exe)) return { exe: real(exe), prefix: [] };
       if (fs.existsSync(path.join(dir, 'opencode.cmd'))) {
         const npmExe = path.join(dir, 'node_modules', 'opencode-ai', 'bin', 'opencode.exe');
-        if (fs.existsSync(npmExe)) return { exe: npmExe, prefix: [] };
+        if (fs.existsSync(npmExe)) return { exe: real(npmExe), prefix: [] };
       }
     } else {
       const exe = path.join(dir, 'opencode');
-      if (fs.existsSync(exe) && !isWindowsShim(exe)) return { exe, prefix: [] };
+      if (fs.existsSync(exe) && !isWindowsShim(exe)) return { exe: real(exe), prefix: [] };
     }
   }
   const installed = env.HOME && path.join(env.HOME, '.opencode', 'bin', 'opencode');
-  if (!win && installed && fs.existsSync(installed)) return { exe: installed, prefix: [] };
+  if (!win && installed && fs.existsSync(installed)) return { exe: real(installed), prefix: [] };
   throw new OpenCodeInfraError('opencode not found', 'opencode is not on PATH (set HARNESS_OPENCODE_EXE to the real executable).');
 }
 
-// Resolve before constructing a jail command so every command uses the same 1.x CLI.
-// An explicit executable is authoritative; do not silently replace it.
+// The CLI every command of a run uses, resolved before a jail command is built around it. The installed
+// CLI is used as found, whatever its major: runOpenCodeWatched dispatches on the version it reports
+// (#262). There is no automatic search for a 1.x backup any more: v1 is the explicit compatibility
+// path, chosen with HARNESS_OPENCODE_EXE (e.g. ~/.opencode/bin/opencode.1.18.32.bak), and an explicit
+// executable is authoritative, never replaced.
 export function resolveOpenCode(env = process.env) {
-  const cmd = findOpenCode(env);
-  if (env.HARNESS_OPENCODE_EXE) return cmd;
-  const versionOf = (candidate) => {
-    const r = spawnSync(candidate.exe, [...candidate.prefix, '--version'], {
-      env, encoding: 'utf8', timeout: 5000, stdio: ['ignore', 'pipe', 'pipe'],
-    });
-    return r.status === 0 ? r.stdout.match(/\bv?(\d+)\.(\d+)\.(\d+)\b/)?.[0].replace(/^v/, '') : null;
-  };
-  const version = versionOf(cmd);
-  if (!version?.startsWith('2.')) return cmd;
-  const dirs = [...new Set([path.dirname(cmd.exe),
-    path.dirname(fs.realpathSync(cmd.exe)),
-    path.join(env.HOME || env.USERPROFILE || os.homedir(), '.opencode', 'bin')])];
-  const candidates = dirs.flatMap((dir) => {
-    const names = fs.existsSync(dir) ? fs.readdirSync(dir) : [];
-    return ['opencode.bak', 'opencode.exe.bak',
-      ...names.filter((n) => /^opencode\.1\.[\d.]+\.bak$/.test(n)).sort().reverse()]
-      .map((n) => path.join(dir, n));
-  });
-  for (const exe of candidates) {
-    if (!fs.existsSync(exe) || !fs.statSync(exe).isFile()) continue;
-    const backup = { exe, prefix: [] };
-    if (versionOf(backup)?.startsWith('1.')) return backup;
-  }
-  throw new OpenCodeInfraError('unsupported version',
-    `OpenCode ${version} at ${cmd.exe} has different commands; no working 1.x opencode.bak `
-    + 'or opencode.1.*.bak was found. Set HARNESS_OPENCODE_EXE to a compatible 1.x executable.');
+  return findOpenCode(env);
 }
 
 // The scripts' own OpenCode data directory: XDG_DATA_HOME, XDG_CACHE_HOME and XDG_STATE_HOME, each
@@ -213,25 +196,40 @@ export function openCodeHome(env = process.env, { log = () => {} } = {}) {
   return { env: { ...env, ...dirs }, root, dataHome: dirs.XDG_DATA_HOME };
 }
 
-// The OpenCode version the runner drives ("1.18.34"), or null when `--version` gives none. The
-// harness was checked on the 1.18 line, the public CLI. The desktop app ships a 2.x CLI whose run
-// flags, session fields and agent format differ (#26), so any major but 1 is refused before
-// anything is billed.
-export const SUPPORTED_MAJOR = 1;
+// The OpenCode version the runner drives ("1.18.34", "2.0.28"), or null when `--version` gives none
+// (1.x prints the bare number, 2.x `opencode v2.0.28`). Each major has its own protocol
+// (lib/opencode-protocol.mjs): 1.x the 1.18 commands below, 2.x lib/opencode-workflow.mjs. Any other
+// major is refused before anything is billed; so is a 2.x other than the audited build (the guard
+// pins its bytes, lib/opencode-guard.mjs).
+export const SUPPORTED_MAJOR = [1, 2];
+export const majorOf = (version) => Number(String(version ?? '').split('.')[0]);
 export async function openCodeVersion(cmd, { env, cwd, timeoutMs = 30_000 }) {
   const r = await execBounded(cmd, ['--version'], { cwd, env, timeoutMs });
   return r && r.code === 0 ? r.stdout.match(/\bv?(\d+)\.(\d+)\.(\d+)\b/)?.[0].replace(/^v/, '') ?? null : null;
 }
 export function versionProblem(version, exe) {
-  if (version && Number(version.split('.')[0]) === SUPPORTED_MAJOR) return null;
-  return `OpenCode ${version ?? 'gave no version'} at ${exe} is not supported: the harness runs on the public `
-    + `${SUPPORTED_MAJOR}.x CLI (checked on 1.18), and the desktop app's 2.x CLI differs (#26). Point it at a 1.18 CLI: `
-    + '~/.opencode/bin/opencode, npm opencode-ai@1.18, or HARNESS_OPENCODE_EXE';
+  if (version && SUPPORTED_MAJOR.includes(majorOf(version))) return null;
+  return `OpenCode ${version ?? 'gave no version'} at ${exe} is not supported: the harness drives the 2.x CLI `
+    + '(audited on 2.0.28) and, as the explicit compatibility path, a 1.x CLI named by HARNESS_OPENCODE_EXE '
+    + '(checked on 1.18). Anything else is refused before billing.';
 }
 
-// The efforts (variants) OpenCode offers for a model, from `opencode models <provider> --verbose`,
-// which prints each id followed by its JSON; null when they cannot be read.
+// The efforts (variants) OpenCode offers for a model; null when they cannot be read. v1: from
+// `opencode models <provider> --verbose`, which prints each id followed by its JSON. v2 has no such
+// command (tests/fixtures/opencode/v2-live: "Unrecognized flag: --verbose"): the variants come from the
+// model registry of a private server of our own, never the shared background service.
 export async function modelVariants(cmd, id, { env, cwd, timeoutMs = 60_000 }) {
+  const version = await openCodeVersion(cmd, { env, cwd });
+  if (majorOf(version) === 2) {
+    const home = privateHome(env);
+    let server;
+    try {
+      server = await startPrivateServer(cmd, { env: { ...home.env, OPENCODE_DISABLE_PROJECT_CONFIG: '1' }, cwd, timeoutMs });
+      const found = await settledCatalogue(server, { model: { id }, timeoutMs });
+      return found.selected.variants.map((v) => v.id);
+    } catch { return null; } finally { await server?.stop().catch(() => {}); }
+  }
+  if (majorOf(version) !== 1) return null;
   const r = await execBounded(cmd, ['models', id.split('/')[0], '--verbose'], { cwd, env, timeoutMs });
   if (!r || r.code !== 0) return null;
   const at = r.stdout.indexOf(`${id}\n`);
@@ -251,10 +249,28 @@ export async function modelVariants(cmd, id, { env, cwd, timeoutMs = 60_000 }) {
 // an unknown id or a provider that is not logged in stops a run before anything is billed. A
 // provider with no login exits 1 with "Provider not found" (OpenCode 1.18.34); any other failure,
 // or a timeout, is OpenCode's own and lands in `errors`, so it is never reported as a login.
+// v2 has no per-provider form ("Unexpected positional argument"): `opencode models --standalone` lists
+// every model, one provider/model per line, from a private server (never the background service,
+// which a bare `opencode models` would start); the caller passes the v2 environment (privateHome).
 // Returns { listed: Set, errors: Map provider -> message }.
 export async function listedModels(cmd, providers, { env, cwd, timeoutMs = 60_000 }) {
   const listed = new Set();
   const errors = new Map();
+  const version = await openCodeVersion(cmd, { env, cwd });
+  if (versionProblem(version, cmd.exe)) {
+    for (const p of new Set(providers)) errors.set(p, `unsupported OpenCode version ${version ?? '(none)'}`);
+    return { listed, errors };
+  }
+  if (majorOf(version) === 2) {
+    const r = await execBounded(cmd, ['models', '--standalone'], { cwd, env: { ...env, OPENCODE_DISABLE_PROJECT_CONFIG: '1' }, timeoutMs });
+    if (!r || r.code !== 0) {
+      const why = !r ? `did not finish in ${Math.round(timeoutMs / 1000)} s` : `failed with exit ${r.code}: ${r.stderr.replace(/\x1b\[[0-9;]*m/g, '').trim().split(/\r?\n/).at(-1) || '(no output)'}`;
+      for (const p of new Set(providers)) errors.set(p, `\`opencode models --standalone\` ${why}`);
+      return { listed, errors };
+    }
+    for (const l of r.stdout.split(/\r?\n/)) if (l.trim()) listed.add(l.trim());
+    return { listed, errors };
+  }
   for (const p of new Set(providers)) {
     const r = await execBounded(cmd, ['models', p], { cwd, env, timeoutMs });
     if (!r) { errors.set(p, `\`opencode models ${p}\` did not finish in ${Math.round(timeoutMs / 1000)} s`); continue; }
@@ -422,7 +438,7 @@ export function queueTouched(file) {
  *   permissionRejected, permissionHint, files, briefFile, seconds }.
  * A non-zero exit is returned, not thrown: the caller decides.
  */
-export async function runOpenCodeWatched({
+async function runV1Watched({
   args, prompt, workDir, title, sessionId = null,
   startupTimeoutMs = 180_000, totalTimeoutMs = 3_600_000, idleTimeoutMs = 600_000, pollMs = 10_000,
   logDir = harnessDir(scratchRoot()), opencode, env = process.env, log = () => {}, queueFile = null,
@@ -612,4 +628,53 @@ export async function runOpenCodeWatched({
     }
     throw e;
 }
+}
+
+// The audited 2.x build: the shell-operand guard was checked against these bytes (lib/opencode-guard.mjs).
+export const AUDITED_V2 = '2.0.28';
+
+/**
+ * Runs one OpenCode session for `prompt` in workDir, watched, on the protocol of the CLI's own major:
+ * the v1 runner above for 1.x (the explicit compatibility path), lib/opencode-workflow.mjs for 2.x.
+ * The caller names the exact model ({ id, variant?, family }), the agent and, for 2.x, the trusted agent
+ * file of the launching checkout; `args` (ocArgs) is the v1 command line and must agree with them.
+ * Nothing is substituted: a missing or malformed selection, an unsupported major or an unaudited 2.x
+ * build is refused before any server or model starts. Same result shape on both paths, plus, on 2.x,
+ * reviewText (the final assistant text of the complete export), normalized and manifest.
+ */
+export async function runOpenCodeWatched(options) {
+  const env = options.env ?? process.env;
+  const cmd = options.opencode ?? resolveOpenCode(env);
+  const args = options.args ?? [];
+  if (args[0] !== 'run') throw new Error(`runOpenCodeWatched runs 'opencode run'; got '${args[0]}'.`);
+  const get = (key) => {
+    if (!args.includes(key)) return undefined;
+    const value = args[args.indexOf(key) + 1];
+    if (typeof value !== 'string' || !value || value.startsWith('--')) throw new OpenCodeInfraError('selection', `${key} requires its explicit value`);
+    return value;
+  };
+  for (const key of ['--model', '--agent', '--variant']) get(key);
+  const id = get('--model');
+  const model = options.model ?? (id ? { id, ...(get('--variant') ? { variant: get('--variant') } : {}) } : null);
+  const agent = options.agent ?? get('--agent');
+  if (model?.variant != null && (typeof model.variant !== 'string' || !model.variant || /[#\s]/.test(model.variant))) throw new OpenCodeInfraError('selection', 'requires a valid explicit effort or absent effort');
+  const malformedModel = model && (typeof model.id !== 'string' || !/^[^/\s#]+\/[^\s#]+$/.test(model.id));
+  if (malformedModel) throw new OpenCodeInfraError('selection', 'requires the exact selected provider/model');
+  if (agent !== undefined && (typeof agent !== 'string' || !agent)) throw new OpenCodeInfraError('selection', 'requires the exact selected agent');
+  const version = await openCodeVersion(cmd, { env, cwd: options.workDir });
+  const bad = versionProblem(version, cmd.exe);
+  if (bad) throw new OpenCodeInfraError('unsupported version', bad);
+  if (majorOf(version) === 1) {
+    // The v1 command line runs as given, as before #262 (a caller may leave --model and --agent to
+    // OpenCode's defaults); when a selection is named, the command line must say exactly that.
+    if (model && (get('--model') !== model.id || get('--variant') !== (model.variant ?? undefined))) throw new OpenCodeInfraError('selection', 'the v1 command differs from the selected model or effort');
+    if (get('--agent') !== undefined && get('--agent') !== agent) throw new OpenCodeInfraError('selection', 'the v1 command differs from the selected agent');
+    return runV1Watched({ ...options, opencode: cmd });
+  }
+  if (!model) throw new OpenCodeInfraError('selection', 'requires the exact selected provider/model');
+  if (typeof agent !== 'string') throw new OpenCodeInfraError('selection', 'requires the exact selected agent');
+  if (version !== AUDITED_V2) throw new OpenCodeInfraError('unsupported version', `OpenCode ${version}: the shell-operand guard was audited on ${AUDITED_V2} only; revalidate it (tools/harness/opencode-guard/README.md) before running another 2.x`);
+  if (!options.agentFile) throw new OpenCodeInfraError('selection', 'v2 requires the explicit trusted agentFile from the launching checkout');
+  if (typeof model.family !== 'string' || !model.family) throw new OpenCodeInfraError('selection', 'v2 requires the selected policy family');
+  return runV2Workflow({ ...options, model, agent, opencode: cmd, env });
 }

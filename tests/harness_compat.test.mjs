@@ -19,27 +19,27 @@ function fixture(t, version = 'opencode v2.0.3') {
   return { dir, binary, exe, env: { PATH: dir, HOME: dir } };
 }
 const unix = { skip: process.platform === 'win32' };
-test('v2 selects verified opencode.bak without adding v2 flags', unix, (t) => {
+// #262: the installed CLI is used as found, whatever its major; runOpenCodeWatched dispatches on its
+// version. There is no automatic search for a 1.x backup: v1 is chosen explicitly (HARNESS_OPENCODE_EXE).
+test('an installed v2 CLI is used as found, never swapped for a 1.x backup', unix, (t) => {
   const f = fixture(t);
-  const backup = f.binary('opencode.bak', '1.18.34');
-  assert.deepEqual(resolveOpenCode(f.env), { exe: backup, prefix: [] });
+  f.binary('opencode.bak', '1.18.34'); f.binary('opencode.1.18.32.bak', '1.18.32');
+  assert.deepEqual(resolveOpenCode(f.env), { exe: fs.realpathSync(f.exe), prefix: [] });
 });
-test('v1 stays selected even when a backup exists', unix, (t) => {
+test('an installed v1 CLI stays selected', unix, (t) => {
   const f = fixture(t, '1.18.34'); f.binary('opencode.bak', '1.18.32');
-  assert.equal(resolveOpenCode(f.env).exe, f.exe);
+  assert.equal(resolveOpenCode(f.env).exe, fs.realpathSync(f.exe));
 });
-test('incompatible backup is skipped for versioned 1.x backup', unix, (t) => {
-  const f = fixture(t); f.binary('opencode.bak', '2.1.0');
-  const backup = f.binary('opencode.1.18.32.bak', '1.18.32');
-  assert.equal(resolveOpenCode(f.env).exe, backup);
+test('explicit executable pin remains authoritative (the explicit v1 compatibility path)', unix, (t) => {
+  const f = fixture(t); const backup = f.binary('opencode.1.18.32.bak', '1.18.32');
+  assert.equal(resolveOpenCode({ ...f.env, HARNESS_OPENCODE_EXE: backup }).exe, fs.realpathSync(backup));
 });
-test('v2 without a compatible backup stops with actionable error', unix, (t) => {
-  const f = fixture(t); f.binary('opencode.bak', 'garbage');
-  assert.throws(() => resolveOpenCode(f.env), /no working 1.x opencode.bak/);
-});
-test('explicit executable pin remains authoritative', unix, (t) => {
-  const f = fixture(t); f.binary('opencode.bak', '1.18.34');
-  assert.equal(resolveOpenCode({ ...f.env, HARNESS_OPENCODE_EXE: f.exe }).exe, f.exe);
+test('a symlinked or relative explicit executable resolves to its real absolute file', unix, (t) => {
+  const f = fixture(t); const link = path.join(f.dir, 'opencode-link');
+  fs.symlinkSync(f.exe, link);
+  assert.equal(resolveOpenCode({ ...f.env, HARNESS_OPENCODE_EXE: link }).exe, fs.realpathSync(f.exe));
+  const rel = path.relative(process.cwd(), f.exe);
+  assert.equal(resolveOpenCode({ ...f.env, HARNESS_OPENCODE_EXE: rel }).exe, fs.realpathSync(f.exe));
 });
 test('Codex family detection prevents OpenAI reviews, with explicit override first', () => {
   assert.equal(sessionFamily({ CODEX_THREAD_ID: 'thread', ANTHROPIC_BASE_URL: 'https://api.z.ai/api/anthropic' }), 'openai');

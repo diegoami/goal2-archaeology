@@ -1,0 +1,11 @@
+{
+  "args": [
+    "session",
+    "export",
+    "--standalone",
+    "ses_eb1dcc3ecffeWOcZzhk6XlmB9m"
+  ],
+  "code": 0,
+  "stdout": "{\n  \"info\": {\n    \"id\": \"ses_eb1dcc3ecffeWOcZzhk6XlmB9m\",\n    \"projectID\": \"0a6377dc937c3201bf1fddd0ebcca4fa824cf3b6\",\n    \"agent\": \"build\",\n    \"model\": {\n      \"id\": \"MiniMax-M3\",\n      \"providerID\": \"minimax\",\n      \"variant\": \"thinking\"\n    },\n    \"cost\": 0,\n    \"tokens\": {\n      \"input\": 0,\n      \"output\": 0,\n      \"reasoning\": 0,\n      \"cache\": {\n        \"read\": 0,\n        \"write\": 0\n      }\n    },\n    \"time\": {\n      \"created\": 1792312294430,\n      \"updated\": 1792312294430\n    },\n    \"title\": \"harness-probe-owned-empty-never-prompted\",\n    \"location\": {\n      \"directory\": \"/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-ac2fe581160f1a4c3\"\n    }\n  },\n  \"messages\": []\n}\n",
+  "stderr": ""
+}

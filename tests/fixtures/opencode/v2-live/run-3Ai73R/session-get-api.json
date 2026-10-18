@@ -1,0 +1,30 @@
+{
+  "data": {
+    "id": "ses_eb1dc32c8ffe7K175iENlBQJ06",
+    "projectID": "0a6377dc937c3201bf1fddd0ebcca4fa824cf3b6",
+    "agent": "build",
+    "model": {
+      "id": "MiniMax-M3",
+      "providerID": "minimax",
+      "variant": "thinking"
+    },
+    "cost": 0,
+    "tokens": {
+      "input": 0,
+      "output": 0,
+      "reasoning": 0,
+      "cache": {
+        "read": 0,
+        "write": 0
+      }
+    },
+    "time": {
+      "created": 1792312331595,
+      "updated": 1792312331595
+    },
+    "title": "harness-probe-owned-empty-never-prompted",
+    "location": {
+      "directory": "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-ac2fe581160f1a4c3"
+    }
+  }
+}

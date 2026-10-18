@@ -4,6 +4,7 @@ import { spawnSync } from 'node:child_process';
 import fs from 'node:fs';
 import path from 'node:path';
 import { openCodeHome, listedModels, loginHint, openCodeVersion, versionProblem } from './opencode.mjs';
+import { privateHome } from './opencode-transport.mjs';
 
 // The command that runs a tool. HARNESS_GH_EXE names the gh to run (the tests' fake, #2); a .mjs or
 // .js one runs through Node, since Windows cannot execute a script.
@@ -99,20 +100,37 @@ export function ensureAgent({ top, commonDir, worktree, agent }) {
 // does not list (an unknown id, or a provider not logged in in that directory) is dropped, with the
 // command that fixes it. Quota is not checked (the owner, 2026-10-11: the model named runs).
 // Returns { env, usable, problems }.
+// The version is read BEFORE any data directory is opened (#262): a v2 process never opens the legacy
+// v1 directory (whose database a 2.x would migrate, IC2 #540) and never copies auth.json; it lists models
+// from the v2-only root (lib/opencode-transport.mjs privateHome), where its logins live. The returned
+// env is the caller's for v2 (the run makes its own private root), the legacy one for v1.
 export async function prepareOpenCode({ opencode, chain, models, env, cwd, log }) {
-  const oc = openCodeHome(env, { log });
-  const version = await openCodeVersion(opencode, { env: oc.env, cwd });
-  log(`opencode: ${version ?? 'unknown version'} (${opencode.exe})`);
+  const version = await openCodeVersion(opencode, { env, cwd });
+  log(`opencode: ${version ?? 'unknown version'} (${opencode.binary ?? opencode.exe})`);
   const bad = versionProblem(version, opencode.exe);
-  if (bad) return { env: oc.env, usable: [], problems: [bad], version };
+  if (bad) return { env, usable: [], problems: [bad], version };
+  const v2 = version.startsWith('2.');
+  const oc = v2 ? (() => { const h = privateHome(env); return { env: h.env, dataHome: h.env.XDG_DATA_HOME }; })() : openCodeHome(env, { log });
+  if (v2) log(`opencode: v2 data directory ${oc.dataHome} (provider logins and sessions; the legacy v1 directory is not opened)`);
   const { listed, errors } = await listedModels(opencode, chain.map((m) => models[m].id.split('/')[0]), { env: oc.env, cwd });
   const problems = [];
   const usable = chain.filter((m) => {
     if (listed.has(models[m].id)) return true;
-    problems.push(`${m}: ${loginHint(models[m].id, listed, oc.dataHome, errors)}`);
+    problems.push(`${m}: ${v2 ? loginHintV2(models[m].id, listed, oc.dataHome, errors) : loginHint(models[m].id, listed, oc.dataHome, errors)}`);
     return false;
   });
-  return { env: oc.env, usable, problems, version };
+  return { env: v2 ? env : oc.env, usable, problems, version };
+}
+
+// Why a v2 catalogue lacks a model, and the one-time login that fixes it (never a credential copy).
+export function loginHintV2(modelId, listed, dataHome, errors = new Map()) {
+  const provider = modelId.split('/')[0];
+  if (errors.has(provider)) return `${errors.get(provider)}. That is OpenCode failing in ${dataHome}, not a missing login; nothing billed`;
+  if ([...listed].some((id) => id.startsWith(`${provider}/`))) return `${modelId} is not in \`opencode models --standalone\`: check the id in harness.json; nothing billed`;
+  const db = path.join(dataHome, 'opencode', 'opencode.db');
+  return `${provider} lists no models in the v2 data directory ${dataHome}: log in once there, in a terminal of your own `
+    + `(XDG_DATA_HOME="${dataHome}" OPENCODE_DB="${db}" opencode auth login --standalone ${provider}), or set its API key in the environment. `
+    + 'Nothing billed, no other model tried';
 }
 
 // The family of the main session, and so of every Claude Code agent it spawns (an agent runs through

@@ -23,5 +23,6 @@ owner's decisions are U14–U20 there.
 Private: GOAL2 is treated as abandonware (U17), and nothing of it goes to a public repository.
 
 Codex starts from [AGENTS.md](AGENTS.md); Claude starts from [CLAUDE.md](CLAUDE.md).
-The harness falls back from OpenCode 2.x to a verified 1.x `opencode.bak` or
-`opencode.1.*.bak`. `HARNESS_OPENCODE_EXE` pins a specific executable.
+The harness runs the installed OpenCode 2 (audited 2.0.28) through its own private server, the
+trusted reviewer profile and a shell-operand guard; `HARNESS_OPENCODE_EXE` naming a 1.x binary selects
+the explicit 1.18 compatibility path ([docs/environment.md](docs/environment.md), "OpenCode 2").

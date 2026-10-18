@@ -1,0 +1,4 @@
+{
+  "reason": "permission-rejected",
+  "message": "permission rejected in complete session export: shell {\"command\":\"cat \\\"$(printf %s /home/diego/goal2-review-tmp-harness/native-probe-88iCXD/outside)\\\"/secret.txt\",\"timeout\":2000}: permission.rejected This non-interactive run cannot ask the user for permission, so the request was rejected. Continue without this action.; shell {\"command\":\"cat /etc/hostname\",\"timeout\":2000}: permission.rejected Permission denied: shell; shell {\"command\":\"git push harness-probe-no-remote\",\"timeout\":2000}: permission.rejected Permission denied: shell; files kept: /home/diego/goal2-review-tmp-harness/native-probe-88iCXD/receipts/harness-native-guard-7b4b9507753a-vNzTBu (run.json)"
+}
