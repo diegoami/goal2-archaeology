@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# heavy.sh: one or two heavy jobs at a time on this machine, across every agent, review and worktree (#318).
+# heavy.sh: up to four heavy jobs at a time on this machine, across every agent, review and worktree (#318).
 #
 #   tools/harness/heavy.sh [--weight K] [--slots N] <name> -- <command> [args...]
 #   tools/harness/heavy.sh --status
@@ -16,7 +16,9 @@
 # at once and takes no slot: the outer job already holds one, and a second would deadlock a full machine.
 #
 # --weight K holds K slots (a job that runs K processes at a time, as family.py --workers K). N is --slots,
-# else $HARNESS_HEAVY_SLOTS, else harness.json's heavy.slots, else 2. The slots and the queue live in
+# else $HARNESS_HEAVY_SLOTS, else harness.json's heavy.slots, else 4. N is read once, when the script
+# starts: a job already queued keeps the N it started with (it looks only at slot files 0 to N-1), so a change of
+# the value reaches new invocations only. The slots and the queue live in
 # $HARNESS_HEAVY_DIR (default ~/.cache/goal2-heavy), shared by every worktree of the machine.
 #
 # While it waits it touches $HARNESS_HEAVY_QUEUE_FILE (when set) every poll: review.mjs sets it, and its
@@ -52,10 +54,13 @@ if [ -z "$slots" ]; then
     try { const c = JSON.parse(require("fs").readFileSync(process.argv[1], "utf8")); process.stdout.write(String(c.heavy?.slots ?? "")); } catch {}
   ' "$here/../../harness.json" 2>/dev/null)"
 fi
-# [designed] two slots: the limit already written for this machine (family.py: --workers 2 "the most the shared machine allows",
-# T57); one match is 1.04 cores and 129 MB (notes/318-heavy/rss-F40-e032-0101-20261018.log). Throughput at 2, 4, 8 matches was not
-# measured. Unlike the rest it is a policy, and harness.json heavy.slots is where the owner changes it.
-[ -n "$slots" ] || slots=2
+# [designed] four slots (the owner, 2026-10-18; the first value, two, was the limit family.py wrote for this machine, T57). What
+# changed and why: with two slots busy the load average stayed at 3-5 on this machine (32 cores, 21 GB RAM), and four implementers'
+# proof runs queued 13 deep and starved a review (#338). Measured: one match is 1.04 cores and 129 MB resident
+# (notes/318-heavy/rss-F40-e032-0101-20261018.log), so the most this allows, four match processes, is about 0.5 GB. NOT measured:
+# throughput or memory with four matches running at once (2, 4 or 8 simultaneous matches were never timed). Unlike the rest it
+# is a policy, and harness.json heavy.slots is where the owner changes it; the fallback here must equal it (heavy.test.mjs).
+[ -n "$slots" ] || slots=4
 case "$slots" in ''|*[!0-9]*|0) die "the number of slots must be a positive whole number; got '$slots'" ;; esac
 case "$weight" in ''|*[!0-9]*|0) die "--weight must be a positive whole number; got '$weight'" ;; esac
 

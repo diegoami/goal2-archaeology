@@ -1,0 +1,20 @@
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: external-cat must be rejected
++ actual - expected
+
++ 'completed'
+- 'error'
+
+    at file:///home/diego/harness-guard-control-approval-loss-SytkMY/tools/harness/probe-opencode-guard.mjs:127:68 {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: 'completed',
+  expected: 'error',
+  operator: 'strictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.21.0

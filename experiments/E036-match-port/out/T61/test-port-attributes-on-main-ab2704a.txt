@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/tests/test_port_attributes.py", line 23, in <module>
+    from original_match.port import attributes  # noqa: E402
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ImportError: cannot import name 'attributes' from 'original_match.port' (/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a2a6dc1e1543f7802/.cache/tmp/onmain/runtime/original_match/port/__init__.py)

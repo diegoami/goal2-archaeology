@@ -1,0 +1,37 @@
+[
+  {
+    "id": "inside-cat",
+    "command": "cat inside.txt",
+    "status": "completed",
+    "error": null,
+    "text": "INSIDE_SENTINEL\n"
+  },
+  {
+    "id": "tmp-cat",
+    "command": "cat /tmp/harness-guard-a68a72af0687fa18.txt",
+    "status": "completed",
+    "error": null,
+    "text": "TMP_SENTINEL\n"
+  },
+  {
+    "id": "scratch-cat",
+    "command": "cat /home/diego/goal2-review-tmp/harness-guard-a68a72af0687fa18.txt",
+    "status": "completed",
+    "error": null,
+    "text": "SCRATCH_SENTINEL\n"
+  },
+  {
+    "id": "quoted-name-inside",
+    "command": "\"cat\" inside.txt",
+    "status": "completed",
+    "error": null,
+    "text": "INSIDE_SENTINEL\n"
+  },
+  {
+    "id": "timezone-cat",
+    "command": "cat /etc/timezone",
+    "status": "completed",
+    "error": null,
+    "text": "Europe/Berlin\n"
+  }
+]

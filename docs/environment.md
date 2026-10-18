@@ -9,11 +9,15 @@ Locally there is no network policy and no environment settings, and the session-
 nothing. You need:
 - Node 20 or later.
 - `gh`, logged in (`gh auth login`). It needs no `GH_TOKEN`.
-- OpenCode 1.18 (`opencode --version`), logged in to OpenCode Go (next section).
+- OpenCode 2 (`opencode --version`: the audited `opencode v2.0.28`), with the guard's dependencies set
+  up and the reviewer's provider logged in for the v2 data directory (the next section). OpenCode 1.18
+  is the explicit compatibility path only.
 - Optional: the credential jail (`tools/harness/lib/jail.mjs`, #68), off by default. With
   `"jail": { "enabled": true }` in `harness.json` and bubblewrap installed on Linux or WSL
   (`sudo apt install bubblewrap`), reviewers run without your GitHub credentials; enabled where
   bwrap cannot run, the review hook and `review.mjs` print a warning. Off, only the guard stops a push.
+  With OpenCode 2 the jail is not supported yet: the operand guard is pinned to the native binary's
+  bytes, and a wrapped binary is refused before anything is billed (#262); use the v1 path to jail.
 - The other keys below, as user environment variables. On Windows, in PowerShell:
   `[Environment]::SetEnvironmentVariable("ELEVENLABS_API_KEY", "<key>", "User")`.
   Then restart the terminal and Claude Code, so they see it.
@@ -26,10 +30,88 @@ which cannot use the run's Linux paths and survives the kill of a timed-out run:
 tests failed through it. The runner skips the shim and falls back to `~/.opencode/bin/opencode`;
 `HARNESS_OPENCODE_EXE` overrides both. WSL and Windows keep separate logins: log in from WSL.
 
-**On Windows**, `npm install -g opencode-ai@1.18`.
+**On Windows**, the guard's byte pin is the Linux build (next section): run reviews from WSL, or use
+the v1 compatibility path (`npm install -g opencode-ai@1.18`, then `HARNESS_OPENCODE_EXE`).
 
-Then run `npm test` in the harness repository. The tests against the real OpenCode run wherever
-`opencode` is installed. Then do the first-session check at the end of this page.
+Then run the harness tests (`.github/workflows/ci.yml` lists them; none calls a model) and the
+nonbilling preflight of the next section, then the first-session check at the end of this page.
+
+## OpenCode 2, the default (#262)
+
+`review.mjs`, `switch-model.mjs` and `peek.sh` use the installed OpenCode as found. `runOpenCodeWatched`
+(`tools/harness/lib/opencode.mjs`) dispatches on the major it reports, through an explicit adapter
+(`lib/opencode-protocol.mjs`): 2.x runs `lib/opencode-workflow.mjs`, 1.x the 1.18 runner, anything
+else is refused before billing. What v2 changed, from the nonbilling capture of the installed binary
+(`tests/fixtures/opencode/v2-live/run-3Ai73R`, README beside it): `run` has no `--dir` and no
+`--variant` (the effort rides the model, `provider/model#variant`; the directory is the working
+directory), `models` takes no provider and no `--verbose`, the export is `session export`, and a CLI
+command without `--standalone` or `--server` talks to a shared background service (`serve --service`),
+which it starts when none runs. Agent permissions are ordered `{ action, resource, effect }` rules with
+v2's defaults first, beginning with allow-all.
+
+A v2 review, before anything is generated: the binary must be the audited 2.0.28 (its SHA-256 is pinned
+in `lib/opencode-guard.mjs`; another build is refused until the guard is revalidated); the reviewer's
+permissions are translated from THIS checkout's `.opencode/agents/reviewer.md`
+(`lib/opencode-policy.mjs`) and the profile the server loaded must end with exactly those rules; the
+run starts its own private server (`serve --stdio`, a generated password, never the shared service);
+the selected model, effort and family must be advertised, with no substitution. Then a session unique
+to the run is created and `opencode run --server <ours> --session <it>` sends the brief's pointer. The
+review is read from the complete session export, never the console; a rejected tool call, an
+incomplete turn or any identity mismatch (session, directory, agent, model, effort) fails the run. A
+limit interrupts only that session at that server and recovers its export; another session or the
+shared service is never touched.
+
+**The shell-operand guard.** OpenCode 1.18 asked for `external_directory` approval for the file operands
+of `cat`, `rm`, `cp`, `mv`, `mkdir`, `touch`, `chmod`, `chown` and `cd`; 2.0.28 checks only directory
+changes, so a reviewer's `cat <a file outside the worktree>` would run
+(`tests/fixtures/opencode/v2-live/native-controls-7CuxTr`). `tools/harness/opencode-guard`, a trusted
+plugin (goal2 PR 178's, MIT notice in `LICENSE.opencode`), restores that check with pinned Bash and
+PowerShell grammars: an operand outside the worktree and the granted folders makes the shell request
+`ask`, which a noninteractive run rejects. Every word of those commands, the name included, is first
+evaluated as Bash would (quotes, backslashes, `$'…'`, adjacent fragments, line continuations, `~`);
+a word that cannot be evaluated statically (`$VAR`, `$(…)`, backticks, `{a,b}`, `~user`, a glob that
+could leave its directory) fails closed (PR 332 round 2, Sol's R1 and R2: a quoted `"cat"` or a quoted
+path fragment had escaped the 1.18 code's raw-text check). Its scope is those commands' operands, as in
+1.18: other readers (`head`, `sed`, interpreters), wrappers (`env cat`, `xargs`, `bash -c`) and
+redirections are not checked. It is a static check of the command text, not an OS jail. A `$'…'`
+escape whose Bash meaning is not reproduced (a NUL, a byte above 0x7f, `\c`, `\u`) fails closed (PR 332
+round 3). Known limit #335 (the owner, 2026-10-18, rule 23: recorded, not reworked): the continuation
+joiner does not know comments, so a quote in a comment could hide a later `c\`-newline-`at`; a
+command holding both a comment and a backslash-newline therefore fails closed.
+Its dependencies are exact-pinned (`package-lock.json`, `dependency-hashes.json`: 156 file hashes) and
+installed once per checkout without scripts; the runs check them offline and never fetch:
+
+```bash
+npm ci --prefix tools/harness/opencode-guard --ignore-scripts --no-audit --no-fund
+node tools/harness/check-opencode-guard.mjs
+```
+
+**Nonbilling checks** (none sends a prompt to a provider):
+
+```bash
+node tools/harness/probe-opencode.mjs --out <dir>             # the CLI's protocol: help, an empty session, old commands failing
+node tools/harness/preflight-opencode.mjs --out <dir>         # the review transport up to generation (MiniMax key in the environment)
+node tools/harness/probe-opencode-guard.mjs --complete --out <dir>       # a real run against a loopback fake model
+node tools/harness/probe-opencode-guard.mjs --out <dir>                  # outside reads rejected, granted ones kept
+node tools/harness/probe-opencode-guard.mjs --active-cancel --out <dir>  # cancellation spares other sessions
+node tools/harness/check-opencode-guard-controls.mjs --out <dir>         # without the guard, v2 reads the outside file
+```
+
+**Receipts.** Each v2 run keeps, under `~/goal2-review-tmp-harness/<title>-*/` (outside the reviewer's
+grant; review.mjs's log names `run.json`): `run.json` (binary, policy, guard and source hashes; session,
+directory, model, agent, PR head; phase, usage, duration; every file's SHA-256), the raw export
+response, `export.json`, `final.txt`, `assistant.txt`, stdout and stderr, the brief, the loaded profile
+and model, the plugin inventory, the baseline, and the guard's scan log. They are kept on every outcome;
+the only text removed is the run server's own generated password, if anything echoed it. `peek.sh`
+takes a session id, a run log or a `run.json`: a finished run is read from its retained export, a
+running one through a private `session export --standalone` against its own data directory.
+
+**The v1 compatibility path.** Set `HARNESS_OPENCODE_EXE` to a 1.x binary (here
+`~/.opencode/bin/opencode.1.18.32.bak`, kept, never deleted) and the harness runs the unchanged 1.18
+runner with its own legacy data directory (next section); `peek.sh` then reads with the 1.x binary
+(`OPENCODE_BIN` or `HARNESS_OPENCODE_EXE`). There is no automatic search for a backup any more. The
+cloud session-start hook still installs `opencode-ai@1.18`, so cloud sessions use this path: the
+guard's byte pin is the Linux native 2.0.28, and an npm build is a different binary until revalidated.
 
 ## OpenCode Go
 
@@ -251,8 +333,8 @@ Up to four agents and three reviews ran at once on 2026-10-17: load average 6.8 
 runs took one to two hours, one hit its limits, and the idle watch fired "possibly stuck" for work that was only
 slow. "At most one match process at a time" was only a line in briefs; since #318 a lock enforces it.
 
-`tools/harness/heavy.sh <name> -- <command>` takes one of N slots (harness.json `heavy.slots`, two; why two, a 1 s poll and a 5 s stale-ticket age: measurements and sources in `notes/318-heavy/README.md`; the
-environment variable `HARNESS_HEAVY_SLOTS` overrides it), then runs the command in place of itself (its exit status
+`tools/harness/heavy.sh <name> -- <command>` takes one of N slots (harness.json `heavy.slots`, four since the owner's decision of 2026-10-18, two before; the four is a policy, not yet measured for throughput or memory with four matches at once; why a 1 s poll and a 5 s stale-ticket age: measurements and sources in `notes/318-heavy/README.md`; the
+environment variable `HARNESS_HEAVY_SLOTS` overrides it. N is read once, when `heavy.sh` starts: a job already queued keeps the N it started with, so a change of the value reaches new invocations only and a new job queues behind older ones that still use the old N), then runs the command in place of itself (its exit status
 and output are the command's). With every slot taken it queues, first come first served, and prints
 `heavy: <name>: waiting for a slot (k ahead)` on stderr, k being the jobs queued before it. The slots and the queue
 are files in `~/.cache/goal2-heavy` (`HARNESS_HEAVY_DIR`), locked with `flock`, so they are shared by every
@@ -262,15 +344,15 @@ A `heavy.sh` started inside a heavy job (`HARNESS_HEAVY_HELD` is set) runs its c
 second slot, so `check.py` called by the unit suite cannot deadlock a full machine.
 
 Who uses it: `experiments/E036-match-port/family.py` (weight = the match processes it runs at once: `--workers`, but at most the matches still to run, and 1 for `--find-ranges`, which runs its matches one after another), `runtime/original_match/check.py` and
-`tools/ci_gate.py run-tests` queue themselves when run as scripts (`runtime/heavy_slot.py`; each reads its slot weight and whether to queue at all with the same argparse parser its `main()` uses, `heavy_slot.parsed`, so a repeated `--workers`, `--workers=2` or an abbreviation weighs what the run uses, and a command line `main()` refuses holds no slot; `check.py` is one process in every mode; the unit suite is one job, and a test of it that starts its own processes (the two-workers test, the human recorder's display stack) is not counted again; not in CI, where the
+`tools/ci_gate.py run-tests` queue themselves when run as scripts (`runtime/heavy_slot.py`; each reads its slot weight and whether to queue at all with the same argparse parser its `main()` uses, `heavy_slot.parsed`, so a repeated `--workers`, `--workers=2` or an abbreviation weighs what the run uses, and a command line `main()` refuses holds no slot and is answered at once, whether argparse or the entry point's one validation refuses it (`ci_gate.refusal`, `family.prepare`, `check.validate`: `main()` and the slot step both call it, #328). That includes every path option: `--image`, `--mask`, `--json`, `--find-ranges`, `--out` and `--cache` are checked by `runtime/fileopts.py`, the same helper the run opens them with (an input is a regular file that opens for reading; a new output has nothing at its path, even a broken link, and an existing, writable folder; `--out` is a readable, writable file or has a writable folder above it; the `--cache` reference is readable or its folder can be made), so a missing, unreadable or unwritable path is refused before the queue. What only the run can know is not checked and can still fail after the queue: the reference image's SHA-256, its download (`gh`, the network), a match that does not complete, and a file system that changes between the check and the run; `check.py` is one process in every mode; the unit suite is one job, and a test of it that starts its own processes (the two-workers test, the human recorder's display stack) is not counted again; not in CI, where the
 runner is not this machine, nor when `HARNESS_HEAVY_OFF` is set). The unit suite run by hand is
 `tools/harness/heavy.sh unit-suite -- python3 -m unittest discover -s tests`. A review: `review.mjs` puts
 `tools/harness/` of the main checkout first on the reviewer's PATH (a PR that predates the script has it too),
 names the command in its rules, clears an inherited `HARNESS_HEAVY_HELD`, and sets `HARNESS_HEAVY_QUEUE_FILE`,
 a file that `heavy.sh` touches at every poll while the reviewer's command waits; `lib/opencode.mjs` counts the
 idle limit from the later of the session's last update and that touch, so queue time is not idle time. The
-review itself holds no slot (a review that held one while its reviewer waited for another would deadlock two
-reviews on two slots). `tools/harness/heavy.test.mjs` and `tests/test_heavy_slot.py` test it.
+review itself holds no slot (a review that held one while its reviewer waited for another would deadlock four
+reviews on four slots). `tools/harness/heavy.test.mjs` and `tests/test_heavy_slot.py` test it.
 
 ## OpenCode's agent permissions
 
@@ -299,7 +381,26 @@ fails CI without the grant.
 
 ## The scripts' own data directory
 
-`review.mjs` and `switch-model.mjs` run OpenCode with a data directory of their own, so OpenCode's
+**OpenCode 2** (#262): `HARNESS_OPENCODE_HOME` (default `~/.local/share/harness-opencode`) holds a
+v2-only root, `v2/`. Provider logins and sessions live in its one database, `v2/data/opencode/opencode.db`
+(set as `OPENCODE_DB`, so an inherited path cannot reach the legacy one); each run has its own cache,
+state, receipt index and protocol marker under `v2/runs/run-*`. A v2 process never opens the legacy
+`data/` below and never copies `auth.json`. A provider that needs a login is logged in once for that
+root, in your own terminal (the harness never passes secrets on a command line); a provider whose key is
+in the environment (MiniMax) needs nothing:
+
+```bash
+XDG_DATA_HOME="$HOME/.local/share/harness-opencode/v2/data" \
+  OPENCODE_DB="$HOME/.local/share/harness-opencode/v2/data/opencode/opencode.db" \
+  opencode auth login --standalone openai
+```
+
+Check it with the same two variables and `opencode models --standalone`. On 2026-10-18 that root (made
+by goal2's runs) listed `opencode-go` and `minimax` but not `openai`: the default reviewers (Luna, Sol)
+need this login before their first v2 review; until then they run on the v1 path. When a model is not
+listed, the scripts exit 3 with this command and bill nothing.
+
+**OpenCode 1.18** (the explicit compatibility path): `review.mjs` and `switch-model.mjs` run OpenCode with a data directory of their own, so OpenCode's
 desktop app (2.x) can never migrate their database to a schema the 1.x CLI cannot read (IC2 #540,
 "no such column: project_id"). It is `~/.local/share/harness-opencode`, with `data/`, `cache/` and
 `state/` set as `XDG_DATA_HOME`, `XDG_CACHE_HOME` and `XDG_STATE_HOME` for OpenCode's processes only.
@@ -370,22 +471,26 @@ session on the web (and does nothing locally). It:
 - installs `opencode-ai@1.18` with npm and `gh` with apt, if they are missing;
 - reports which keys are set, as the session's first context.
 
-It never fails the session. OpenCode is pinned to the 1.18 line because the runner's assumptions were
-checked against it:
+It never fails the session. OpenCode is pinned to the 1.18 line, so cloud sessions run the v1
+compatibility path (#262: the v2 guard is pinned to the Linux native 2.0.28 binary, not an npm build).
+The v1 runner's assumptions were checked against 1.18:
 - the `run` flags;
 - `session list --format json`, with `id`, `title`, `directory`, `created` and `updated`;
 - `export`, whose `info.agent` names the agent that actually ran.
 
 Change the pin only after running the tools against the new version.
 
-On your machine, install the same things yourself: `npm install -g opencode-ai@1.18`, `gh`, and
-Node 20 or later.
+On your machine, install OpenCode 2 with its own installer (`~/.opencode/bin`), `gh`, and Node 20 or
+later, and set up the guard (the OpenCode 2 section above); keep a 1.18 binary for the compatibility path.
 
 ## First session: check it works
 
 1. The hook's report shows every key `set`, and no setup notes.
 2. The hook's report says OpenAI is logged in (the default reviewer), and `opencode models openai`
-   lists `harness.json`'s `luna` id. If an id differs, edit `harness.json`.
+   lists `harness.json`'s `luna` id. If an id differs, edit `harness.json`. On a desktop with
+   OpenCode 2: `node tools/harness/check-opencode-guard.mjs` passes, `opencode models --standalone`
+   with the v2 data directory's variables lists the reviewer's id, and
+   `node tools/harness/preflight-opencode.mjs --out <dir>` passes (nothing billed).
 3. Jev: put two lines such as `{"id": 1, "state": {"title": "Game crashes on load"}}` in
    `items.jsonl`, then run `node tools/harness/jev.mjs ask --decision breaks-play --in items.jsonl`.
    It should print `asked 2 of 2`.

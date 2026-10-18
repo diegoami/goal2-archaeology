@@ -34,7 +34,8 @@ import sys
 import time
 
 from . import Image, Match, Fixture, VERSION
-from .assets import reference_image, REFERENCE
+import fileopts
+from .assets import reference_image, check_cache, REFERENCE
 from . import example
 
 EXPECTED_ENGINE = {"score": [1, 1], "ticks": 4149, "draws": 182188, "seed_at_board": 46625, "man_of_the_match": 127,
@@ -250,21 +251,74 @@ def parser():
     return ap
 
 
+class Refused(Exception):
+    """A command line that parses but that main() will not run."""
+
+
+def validate(a):
+    """The spec names to run (--ports and --variant, as the saved match keeps them) for a parsed command line, or Refused.
+    The one definition of every refusal after parsing: main() calls it, and so does the heavy-job slot (_takes_a_slot), so
+    a refused line is answered at once and never queues for a slot (#328). A refusal that needs the run (the reference
+    image not in the cache and not downloadable) is not here."""
+    specs = [s for s in (a.ports or "").split(",") if s]
+    if a.variant:
+        if "." not in a.variant:
+            raise Refused("--variant is MODULE.NAME")
+        specs = [s for s in specs if s != a.variant.split(".")[0]] + [a.variant]
+    if specs:
+        from . import port
+        try:
+            specs = port.spec_names(port.load(specs))         # refuses an unknown module or variant before any run
+        except ValueError as e:
+            raise Refused(str(e))
+    try:                       # each path option is checked by the operation the run applies to it (runtime/fileopts.py)
+        if a.image is not None:
+            fileopts.check_input(a.image, "--image")
+        else:
+            check_cache(a.cache)
+        if a.json is not None:
+            fileopts.check_new_output(a.json, "--json")
+    except fileopts.PathError as e:
+        raise Refused(str(e))
+    return specs
+
+
+def load_image(a):
+    """The image's bytes, as the run reads them: --image, else the reference in --cache."""
+    return fileopts.read_input(a.image, "--image") if a.image is not None else reference_image(a.cache)
+
+
+def write_report(path, report):
+    """The --json report, created exclusively."""
+    with fileopts.create_new_output(path, "--json") as f:
+        json.dump(report, f, indent=1)
+
+
+def _takes_a_slot(argv=None):
+    """Whether main() will run this command line (argparse and validate both accept it), so that it waits for a slot."""
+    import heavy_slot
+    ns = heavy_slot.parsed(parser(), argv)
+    if ns is None:
+        return False
+    try:
+        validate(ns)
+    except Refused:
+        return False
+    return True
+
+
 def main(argv=None):
     ap = parser()
     a = ap.parse_args(argv)
     global MATCH
-    specs = [s for s in (a.ports or "").split(",") if s]
-    if a.variant:
-        if "." not in a.variant:
-            ap.error("--variant is MODULE.NAME")
-        specs = [s for s in specs if s != a.variant.split(".")[0]] + [a.variant]
+    try:
+        specs = validate(a)
+    except Refused as e:
+        ap.error(str(e))
     if specs:
-        from . import port
-        specs = port.spec_names(port.load(specs))         # refuses an unknown module or variant before any run
         MATCH = example.Match = ported(specs)
         print(f"ports: {', '.join(specs)}", flush=True)
-    data = open(a.image, "rb").read() if a.image else reference_image(a.cache)
+    data = load_image(a)
     image = Image.from_bytes(data)
     report = {"kit": VERSION, "image_sha256": hashlib.sha256(data).hexdigest(), "reference": REFERENCE, "checks": {}}
     if specs:
@@ -283,9 +337,8 @@ def main(argv=None):
         report["checks"][name] = {"pass": ok, "detail": detail, "wall_s": round(time.time() - t0, 1),
                                   "cpu_s": round(time.process_time() - c0, 1)}
         print(f"{name:12s} {'PASS' if ok else 'FAIL'}  {report['checks'][name]['wall_s']} s  {detail if not ok or name in ('interactive', 'knockout') else ''}")
-    if a.json:
-        with open(a.json, "x") as f:
-            json.dump(report, f, indent=1)
+    if a.json is not None:
+        write_report(a.json, report)
     sys.exit(0 if all(c["pass"] for c in report["checks"].values()) else 1)
 
 
@@ -293,6 +346,6 @@ if __name__ == "__main__":
     from pathlib import Path
     sys.path.insert(0, str(Path(__file__).resolve().parents[1]))    # runtime/
     import heavy_slot
-    if heavy_slot.parsed(parser()) is not None:    # a command line main() refuses holds no slot
+    if _takes_a_slot():    # a command line main() refuses (argparse or validate) holds no slot
         heavy_slot.take("check")   # a heavy job (#318): waits for a slot of tools/harness/heavy.sh
     main()

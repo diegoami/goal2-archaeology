@@ -54,7 +54,7 @@ enough for it. Do not start it in the background and poll it, and do not kill it
 the harness stops a review only after 25 minutes without activity, which one foreground call stays
 well inside.
 
-Heavy jobs (#318): two heavy jobs at most run at a time on this machine, for every agent, review and
+Heavy jobs (#318): four heavy jobs at most run at a time on this machine, for every agent, review and
 worktree. Run a match, a family run, check.py or the unit suite only as `heavy.sh NAME -- COMMAND`
 (`tools/harness/heavy.sh`; it is on your PATH, so run it by name). "heavy: NAME: waiting for a slot
 (k ahead)" is the queue, not a hang: the 25-minute idle limit does not count the time a command waits

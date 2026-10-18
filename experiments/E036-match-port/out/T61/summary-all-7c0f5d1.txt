@@ -1,0 +1,96 @@
+62 matches in both logs (62 counted, 62 ported)
+routine      name                       matches   calls/match min-max (mean)        total   ported = counted
+1771:0AA7  manager_bonus               62/62       176-915       (      298.4)        18499   yes
+1771:0B77  is_managed                  62/62       156-1107      (      292.9)        18157   yes
+1771:0E24  country_colour              62/62        10-686       (       30.3)         1878   yes
+1771:0E6C  formation_label             62/62         6-282       (       12.1)          751   yes
+1771:2E20  player_name_colour          62/62        84-8591      (      317.9)        19707   yes
+1771:2E93  player_name                 62/62        79-8588      (      310.4)        19243   yes
+1771:2FAD  player_height               62/62         2-532       (       20.8)         1287   yes
+1771:2FFB  player_hardness             62/62       103-795       (      202.2)        12534   yes
+1771:3041  is_two_footed               62/62       309-2516      (      616.0)        38193   yes
+1771:3088  foot_index                  62/62       306-2513      (      612.3)        37962   yes
+1771:30D9  player_leadership           62/62       273-1946      (      447.4)        27738   yes
+1771:3179  out_of_place_flag           62/62       292-2495      (      589.1)        36524   yes
+1771:3216  player_unavailable          62/62      6707-534049    (   340344.5)     21101360   yes
+1771:33CD  force_tactic4_off           62/62         8-115       (       41.1)         2547   yes
+1771:3431  set_player_tactics          62/62        62-462       (      126.5)         7841   yes
+1771:34E7  reset_own_tactics           62/62         1-1         (        1.0)           62   yes
+1771:377E  player_strength             62/62        42-2154      (      299.2)        18553   yes
+1771:3A06  derived_skill               62/62      1185-59981     (    41907.2)      2598247   yes
+1771:3A82  squad_slot_of_player        62/62         3-893       (       38.6)         2393   yes
+1771:3E2F  pick_mark_target            62/62        70-400       (      117.6)         7290   yes
+1771:3EF8  set_marking_words           62/62         7-40        (       11.8)          729   yes
+1771:5A03  fixture_kind_in_result_set  62/62         8-147       (       15.7)          975   yes
+
+F40: 40 matches
+   1771:0AA7 manager_bonus              40/40     199-313     (     277.5)
+   1771:0B77 is_managed                 40/40     243-310     (     274.1)
+   1771:0E24 country_colour             40/40      10-14      (      11.3)
+   1771:0E6C formation_label            40/40       6-6       (       6.0)
+   1771:2E20 player_name_colour         40/40      84-144     (     108.5)
+   1771:2E93 player_name                40/40      79-133     (      99.2)
+   1771:2FAD player_height              40/40       2-10      (       4.8)
+   1771:2FFB player_hardness            40/40     103-265     (     170.3)
+   1771:3041 is_two_footed              40/40     309-582     (     442.3)
+   1771:3088 foot_index                 40/40     306-575     (     437.5)
+   1771:30D9 player_leadership          40/40     296-482     (     418.8)
+   1771:3179 out_of_place_flag          40/40     292-561     (     422.0)
+   1771:3216 player_unavailable         40/40  329373-382085  (  347522.7)
+   1771:33CD force_tactic4_off          40/40      21-72      (      39.8)
+   1771:3431 set_player_tactics         40/40      62-205     (     111.6)
+   1771:34E7 reset_own_tactics          40/40       1-1       (       1.0)
+   1771:377E player_strength            40/40      64-240     (     137.7)
+   1771:3A06 derived_skill              40/40   37452-55214   (   43308.8)
+   1771:3A82 squad_slot_of_player       40/40       3-19      (       8.3)
+   1771:3E2F pick_mark_target           40/40      80-130     (     114.2)
+   1771:3EF8 set_marking_words          40/40       8-13      (      11.4)
+   1771:5A03 fixture_kind_in_result_set 40/40       8-17      (      12.4)
+O8: 8 matches
+   1771:0AA7 manager_bonus               8/8      176-245     (     222.0)
+   1771:0B77 is_managed                  8/8      156-324     (     268.5)
+   1771:0E24 country_colour              8/8       10-41      (      25.9)
+   1771:0E6C formation_label             8/8        6-6       (       6.0)
+   1771:2E20 player_name_colour          8/8       85-182     (     113.5)
+   1771:2E93 player_name                 8/8       80-175     (     108.5)
+   1771:2FAD player_height               8/8        2-16      (       5.8)
+   1771:2FFB player_hardness             8/8      138-527     (     279.2)
+   1771:3041 is_two_footed               8/8      351-519     (     434.5)
+   1771:3088 foot_index                  8/8      351-519     (     434.5)
+   1771:30D9 player_leadership           8/8      273-389     (     338.8)
+   1771:3179 out_of_place_flag           8/8      339-513     (     423.2)
+   1771:3216 player_unavailable          8/8   320486-477314  (  374477.8)
+   1771:33CD force_tactic4_off           8/8       20-115     (      53.5)
+   1771:3431 set_player_tactics          8/8       82-462     (     227.0)
+   1771:34E7 reset_own_tactics           8/8        1-1       (       1.0)
+   1771:377E player_strength             8/8      110-288     (     194.5)
+   1771:3A06 derived_skill               8/8    42825-57245   (   48899.5)
+   1771:3A82 squad_slot_of_player        8/8        3-31      (      10.8)
+   1771:3E2F pick_mark_target            8/8       70-100     (      90.0)
+   1771:3EF8 set_marking_words           8/8        7-10      (       9.0)
+   1771:5A03 fixture_kind_in_result_set  8/8        8-18      (      13.8)
+S: 14 matches
+   1771:0AA7 manager_bonus              14/14     222-915     (     401.7)
+   1771:0B77 is_managed                 14/14     187-1107    (     360.2)
+   1771:0E24 country_colour             14/14      10-686     (      87.1)
+   1771:0E6C formation_label            14/14       6-282     (      33.1)
+   1771:2E20 player_name_colour         14/14      91-8591    (    1032.9)
+   1771:2E93 player_name                14/14      84-8588    (    1029.0)
+   1771:2FAD player_height              14/14       2-532     (      74.8)
+   1771:2FFB player_hardness            14/14     107-795     (     249.2)
+   1771:3041 is_two_footed              14/14     353-2516    (    1216.0)
+   1771:3088 foot_index                 14/14     350-2513    (    1213.2)
+   1771:30D9 player_leadership          14/14     335-1946    (     591.1)
+   1771:3179 out_of_place_flag          14/14     314-2495    (    1161.4)
+   1771:3216 player_unavailable         14/14    6707-534049  (  300330.8)
+   1771:33CD force_tactic4_off          14/14       8-57      (      37.6)
+   1771:3431 set_player_tactics         14/14      62-162     (     111.4)
+   1771:34E7 reset_own_tactics          14/14       1-1       (       1.0)
+   1771:377E player_strength            14/14      42-2154    (     820.6)
+   1771:3A06 derived_skill              14/14    1185-59981   (   33907.1)
+   1771:3A82 squad_slot_of_player       14/14       3-893     (     141.0)
+   1771:3E2F pick_mark_target           14/14      90-400     (     142.9)
+   1771:3EF8 set_marking_words          14/14       9-40      (      14.3)
+   1771:5A03 fixture_kind_in_result_set 14/14      10-147     (      26.2)
+
+22 of 22 routines: the port's calls equal the counted entries in every match

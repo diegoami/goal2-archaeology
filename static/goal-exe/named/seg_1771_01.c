@@ -711,7 +711,7 @@ undefined1 country_colour(int param_1)
 
 
 // ---- 1771:0E6C  formation_label  (f_1771_0E6C; Ghidra 4000:0E6C, __stdcall16far; found by routines.tsv)
-// (country, dest): counts the available players (3216) of squad slots 1..11 by DS:0D5C[+6] (0 keeper, 1 codes 1..4, 2 codes 5..11, 3 codes 12, 13) and stores 'defence-midfield-attack' (the constant 01 2D at 0E6A as separator) in the string at dest; 157D draws it at column 0x21, row 0xC of the team panel  [likely; F028; read decompiled/seg_1771_01.c]
+// (country, dest): counts the available players (3216) of squad slots 1..11 by DS:0D5C[+6] (0 keeper, 1 codes 1..4, 2 codes 5..11, 3 codes 12, 13) and stores 'defence-midfield-attack' (the constant 01 2D at 0E6A as separator) in the string at dest; 157D draws it at column 0x21, row 0xC of the team panel  [established; F028; read decompiled/seg_1771_01.c]
 
 void __stdcall16far formation_label(int param_1,undefined4 param_2)
 

@@ -37,11 +37,18 @@
 // folder is checked by its resolved path, never a tmpfs. lib/scratch.mjs.
 //
 // Heavy jobs (#318): the reviewer runs a match, a family, check.py or the unit suite as
-// `heavy.sh <name> -- <command>`, which queues it behind the other agents' and reviews' heavy jobs (two at a time
+// `heavy.sh <name> -- <command>`, which queues it behind the other agents' and reviews' heavy jobs (four at a time
 // on this machine; harness.json's heavy.slots). heavy.sh is on the reviewer's PATH from THIS checkout, so a PR
 // that predates the script has it too; the HARNESS_HEAVY_HELD of a heavy job this script was started in is
 // cleared; and while a command waits in the queue it touches the run's queue file, which the idle limit reads
 // (lib/opencode.mjs): the idle limit does not count queue time.
+//
+// OpenCode 2 (#262): the installed 2.x CLI runs through lib/opencode-workflow.mjs: a private server of
+// this run's own (never the managed background service), the reviewer profile translated from THIS
+// checkout's agent file and checked as loaded, the shell-operand guard, a session unique to the run, and
+// the review read from the complete session export (never the console). Its receipts stay under
+// ~/goal2-review-tmp-harness/<title>-*/ (run.json names them; tools/harness/peek.sh reads it). A 1.x CLI
+// runs only when HARNESS_OPENCODE_EXE names one: the explicit v1 compatibility path, unchanged.
 //
 // A brief naming a commit other than the PR's head as the one to review is refused, exit 2, before
 // anything runs (#23). Only the lines before the pasted task file's title (`# T<nn>`) are read (#32).
@@ -187,7 +194,7 @@ try { opencode = resolveOpenCode(); } catch (e) {
 // harness.json turns it on (jail.enabled); where it is on but cannot run, the log says so first.
 const jail = config.jail?.enabled === true ? credentialJail() : { off: 'harness.json does not enable it', quiet: true };
 if (jail.off && !jail.quiet) say(OFF_WARNING(jail.off));
-else if (!jail.off) opencode = { exe: jail.exe, prefix: [...jail.args, '--', opencode.exe, ...opencode.prefix] };
+else if (!jail.off) opencode = { binary: opencode.exe, exe: jail.exe, prefix: [...jail.args, '--', opencode.exe, ...opencode.prefix] }; // v2 refuses a wrapped binary (lib/opencode-guard.mjs)
 // /tmp is a RAM-backed tmpfs shared with other projects, and a full one killed a review after an hour
 // (#311): the reviewer's scratch files go to a folder on the real disk (lib/scratch.mjs). A review
 // starts unless /tmp AND that disk are both short of room.
@@ -279,7 +286,7 @@ OUTPUT RULES (from tools/harness/review.mjs; they override anything above that c
   (git -C <path> show <pin>:<file>); run that exactly as written — OpenCode does not path-check
   git -C — and read a granted outside path only with the L59 recipe.
 - Heavy jobs: run a match, a family run, check.py or the unit suite only as
-  \`heavy.sh <name> -- <command>\` (on your PATH; run it by name). It lets two heavy jobs run at a time on this
+  \`heavy.sh <name> -- <command>\` (on your PATH; run it by name). It lets four heavy jobs run at a time on this
   machine and queues the rest; "heavy: <name>: waiting for a slot (k ahead)" is the queue, not a hang, and the
   idle limit does not count it. One tool call stops at 1,200 s (L121): start a family run detached
   (\`heavy.sh <name> -- <command> > ${scratch}/<name>.log 2>&1 &\`) and poll its log with tail.
@@ -297,7 +304,10 @@ OUTPUT RULES (from tools/harness/review.mjs; they override anything above that c
       let run;
       try {
         run = await runOpenCodeWatched({
-          args: ocArgs(worktree, rev.agent, model), prompt, workDir: worktree, title: `pr${a.pr}-${fileSafe(m)}`,
+          // The exact selection and the trusted agent file of THIS checkout; on v2 the head is re-proved and
+          // the run's receipts (run.json, the export, final.txt) are kept under logDir (#262).
+          args: ocArgs(worktree, rev.agent, model), model, agent: rev.agent, agentFile, reviewedHead: headSha, reviewPR: String(a.pr),
+          prompt, workDir: worktree, title: `pr${a.pr}-${fileSafe(m)}`,
           startupTimeoutMs: rev.startupTimeoutSec * 1000, idleTimeoutMs: (idleSec ?? rev.idleTimeoutSec) * 1000,
           totalTimeoutMs: (totalSec ?? rev.totalTimeoutSec) * 1000, opencode, env: { ...reviewEnv, HARNESS_HEAVY_QUEUE_FILE: queueFile },
           log: say, logDir, queueFile,
@@ -314,7 +324,8 @@ OUTPUT RULES (from tools/harness/review.mjs; they override anything above that c
       if (run.permissionRejected) {
         return { ok: false, reason: `permission rejected: ${run.permissionRejected}${run.permissionHint ? `; ${run.permissionHint}` : ''}`, detail: run.output };
       }
-      const read = readReview(run.stdout, header, { doneWhen });
+      // v2: the final assistant text of the complete export, never the console (#262); v1: as before.
+      const read = readReview(run.reviewText ?? run.stdout, header, { doneWhen });
       if (read.kind === 'none') return { ok: false, reason: read.reason, detail: run.output };
       return { ok: true, value: { ...read, header, model } };
 };

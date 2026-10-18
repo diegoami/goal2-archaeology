@@ -1,0 +1,74 @@
+{
+  "modelsProvider": {
+    "args": [
+      "models",
+      "minimax"
+    ],
+    "code": 1,
+    "stdout": "DESCRIPTION\n  List all available models\n\nUSAGE\n  opencode models [flags]\n\nFLAGS\n  --standalone       Run with a private server instead of the background service\n  --server string    Connect to a server URL instead of the background service\n\nGLOBAL FLAGS\n  --help, -h                                                          Show help information\n  --version, -v                                                       Show version information\n  --wizard                                                            Start wizard mode for a command\n  --completions <bash|zsh|fish|sh>                                    Print shell completion script (choices: bash, zsh, fish, sh)\n  --log-level <all|trace|debug|info|warn|warning|error|fatal|none>    Sets the minimum log level (choices: all, trace, debug, info, warn, warning, error, fatal, none)\n  --print-logs                                                        Print logs to stderr (server logs require --standalone)\n",
+    "stderr": "\nERROR\n  Unexpected positional argument: \"minimax\"\n"
+  },
+  "modelsVerbose": {
+    "args": [
+      "models",
+      "minimax",
+      "--verbose"
+    ],
+    "code": 1,
+    "stdout": "DESCRIPTION\n  List all available models\n\nUSAGE\n  opencode models [flags]\n\nFLAGS\n  --standalone       Run with a private server instead of the background service\n  --server string    Connect to a server URL instead of the background service\n\nGLOBAL FLAGS\n  --help, -h                                                          Show help information\n  --version, -v                                                       Show version information\n  --wizard                                                            Start wizard mode for a command\n  --completions <bash|zsh|fish|sh>                                    Print shell completion script (choices: bash, zsh, fish, sh)\n  --log-level <all|trace|debug|info|warn|warning|error|fatal|none>    Sets the minimum log level (choices: all, trace, debug, info, warn, warning, error, fatal, none)\n  --print-logs                                                        Print logs to stderr (server logs require --standalone)\n",
+    "stderr": "\nERROR\n  Unrecognized flag: --verbose in command opencode models\n"
+  },
+  "topLevelExport": {
+    "args": [
+      "export",
+      "ses_eb1dcc3ecffeWOcZzhk6XlmB9m"
+    ],
+    "code": 1,
+    "stdout": "DESCRIPTION\n  OpenCode command line interface\n\nUSAGE\n  opencode <subcommand> [flags] [<directory>]\n\nARGUMENTS\n  directory string    Directory to start OpenCode in (optional)\n\nFLAGS\n  --standalone            Run with a private server instead of the background service\n  --server string         Connect to a server URL instead of the background service\n  --auto                  Auto-approve permissions that are not explicitly denied\n  --continue, -c          Continue the last session\n  --session, -s string    Session ID to continue, or to create if it does not exist\n  --prompt string         Prompt to use\n\nGLOBAL FLAGS\n  --help, -h                                                          Show help information\n  --version, -v                                                       Show version information\n  --wizard                                                            Start wizard mode for a command\n  --completions <bash|zsh|fish|sh>                                    Print shell completion script (choices: bash, zsh, fish, sh)\n  --log-level <all|trace|debug|info|warn|warning|error|fatal|none>    Sets the minimum log level (choices: all, trace, debug, info, warn, warning, error, fatal, none)\n  --print-logs                                                        Print logs to stderr (server logs require --standalone)\n\nSUBCOMMANDS\n  upgrade, update    Upgrade OpenCode to the latest or a specific version\n  uninstall          Uninstall OpenCode, keeping session data, configuration, and state\n  acp                Start an Agent Client Protocol server\n  api                Make a request to the running server\n  debug              Debugging and troubleshooting tools\n  auth               manage integrations and credentials\n  mcp                Manage MCP (Model Context Protocol) servers\n  plugin             Manage plugins\n  models             List all available models\n  stats              Show shareable usage statistics\n  mini               Start the minimal interactive interface\n  run                Run OpenCode with a message\n  session            Manage sessions\n  service            Manage the background server\n  reload             Reload configuration\n  pair               Print one-time links to connect a browser or app\n  serve              Start the v2 API and web server\n",
+    "stderr": "\nERROR\n  Unexpected positional argument: \"ses_eb1dcc3ecffeWOcZzhk6XlmB9m\"\n"
+  },
+  "runDir": {
+    "args": [
+      "run",
+      "--dir",
+      "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-ac2fe581160f1a4c3",
+      "--model",
+      "harness-probe-none/none",
+      "--title",
+      "never",
+      "never sent"
+    ],
+    "code": 1,
+    "stdout": "DESCRIPTION\n  Run OpenCode with a message\n\nUSAGE\n  opencode run [flags] [<message...>]\n\nARGUMENTS\n  message... string    Message to send (optional)\n\nFLAGS\n  --standalone            Run with a private server instead of the background service\n  --server string         Connect to a server URL instead of the background service\n  --continue, -c          Continue the last session\n  --session, -s string    Session ID to continue, or to create if it does not exist\n  --fork                  Fork the session before continuing\n  --model, -m string      Model to use in the format provider/model#variant\n  --agent string          Agent to use\n  --format choice         Output format (choices: default, json)\n  --file, -f string       File to attach to the message\n  --title string          Session title\n  --thinking              Show thinking blocks\n  --auto                  Auto-approve permissions that are not explicitly denied\n\nGLOBAL FLAGS\n  --help, -h                                                          Show help information\n  --version, -v                                                       Show version information\n  --wizard                                                            Start wizard mode for a command\n  --completions <bash|zsh|fish|sh>                                    Print shell completion script (choices: bash, zsh, fish, sh)\n  --log-level <all|trace|debug|info|warn|warning|error|fatal|none>    Sets the minimum log level (choices: all, trace, debug, info, warn, warning, error, fatal, none)\n  --print-logs                                                        Print logs to stderr (server logs require --standalone)\n",
+    "stderr": "\nERROR\n  Unrecognized flag: --dir in command opencode run\n"
+  },
+  "runVariant": {
+    "args": [
+      "run",
+      "--standalone",
+      "--model",
+      "harness-probe-none/none",
+      "--variant",
+      "high",
+      "--title",
+      "never",
+      "never sent"
+    ],
+    "code": 1,
+    "stdout": "DESCRIPTION\n  Run OpenCode with a message\n\nUSAGE\n  opencode run [flags] [<message...>]\n\nARGUMENTS\n  message... string    Message to send (optional)\n\nFLAGS\n  --standalone            Run with a private server instead of the background service\n  --server string         Connect to a server URL instead of the background service\n  --continue, -c          Continue the last session\n  --session, -s string    Session ID to continue, or to create if it does not exist\n  --fork                  Fork the session before continuing\n  --model, -m string      Model to use in the format provider/model#variant\n  --agent string          Agent to use\n  --format choice         Output format (choices: default, json)\n  --file, -f string       File to attach to the message\n  --title string          Session title\n  --thinking              Show thinking blocks\n  --auto                  Auto-approve permissions that are not explicitly denied\n\nGLOBAL FLAGS\n  --help, -h                                                          Show help information\n  --version, -v                                                       Show version information\n  --wizard                                                            Start wizard mode for a command\n  --completions <bash|zsh|fish|sh>                                    Print shell completion script (choices: bash, zsh, fish, sh)\n  --log-level <all|trace|debug|info|warn|warning|error|fatal|none>    Sets the minimum log level (choices: all, trace, debug, info, warn, warning, error, fatal, none)\n  --print-logs                                                        Print logs to stderr (server logs require --standalone)\n",
+    "stderr": "\nERROR\n  Unrecognized flag: --variant in command opencode run\n"
+  },
+  "sessionListLimit": {
+    "args": [
+      "session",
+      "list",
+      "--format",
+      "json",
+      "-n",
+      "20"
+    ],
+    "code": 0,
+    "stdout": "[\n  {\n    \"id\": \"ses_eb1dcc3ecffeWOcZzhk6XlmB9m\",\n    \"title\": \"harness-probe-owned-empty-never-prompted\",\n    \"updated\": 1792312294430,\n    \"created\": 1792312294430,\n    \"projectId\": \"0a6377dc937c3201bf1fddd0ebcca4fa824cf3b6\",\n    \"directory\": \"/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-ac2fe581160f1a4c3\"\n  }\n]\n",
+    "stderr": ""
+  }
+}

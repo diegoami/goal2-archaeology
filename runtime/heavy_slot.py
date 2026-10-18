@@ -5,7 +5,7 @@
         sys.exit(main())
 
 `take` re-runs the whole command (sys.orig_argv, so `-m pkg.mod` and `-B` survive) under heavy.sh, which holds
-`weight` of the machine's slots (harness.json heavy.slots, two by default) for as long as the command runs, and
+`weight` of the machine's slots (harness.json heavy.slots, four by default) for as long as the command runs, and
 says "heavy: <name>: waiting for a slot (k ahead)" while it queues. It returns, running the command as it is,
 when the command already is inside a heavy job (HARNESS_HEAVY_HELD: the outer job holds the slot), in CI (CI is
 set: a runner is not this machine), when HARNESS_HEAVY_OFF is set, or when heavy.sh or flock is missing."""

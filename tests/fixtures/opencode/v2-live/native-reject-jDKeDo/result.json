@@ -1,0 +1,31 @@
+{
+  "classification": "actual native OpenCode 2 dispatch with a deterministic loopback provider; no provider contacted; the fake reports zero tokens",
+  "externalModelCalls": 0,
+  "requests": 2,
+  "receipt": "/home/diego/goal2-review-tmp-harness/native-probe-1g7rMT/receipts/harness-native-guard-ad74a2941307-jyoD75/run.json",
+  "binarySHA256": "20d305d0140bfe04df7264a4ecb014402b74b6ac0a0f6456ee07ef3325fb4a85",
+  "policySHA256": "41879b3a0f8331ff05a16027a00c70b66dec32f215603b55df6c28a642b42c0d",
+  "guardSHA256": "db3b1af8e2331df8df9d01f733a69b8ad3f03e12bb54ae6c18aee82502abebf9",
+  "probeSHA256": "626380430aa225ab7ea14061e95512d38067d1d6df8effd0d023d74ce3473baa",
+  "calls": [
+    "external-cat",
+    "external-quoted",
+    "external-nested",
+    "external-relative",
+    "external-proc",
+    "quoted-name-R1",
+    "quoted-fragment-R2",
+    "empty-fragment-name",
+    "single-quoted-fragment",
+    "dynamic-operand",
+    "etc-deny",
+    "git-deny",
+    "inside-cat",
+    "tmp-cat",
+    "scratch-cat",
+    "quoted-name-inside",
+    "timezone-cat"
+  ],
+  "shellScans": 17,
+  "passed": true
+}

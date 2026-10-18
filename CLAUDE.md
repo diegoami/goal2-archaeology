@@ -96,6 +96,17 @@ indexed in `docs/tasks/README.md`.
     rests on runs says in its Method what static analysis was tried and why it was not enough. A
     missing tool is never the reason: install it, or stop and report. A review treats runs made
     because a tool was missing as a contract defect (gate G0a): rework.
+23. **The engine migration comes first** (the owner, 2026-10-18): "As a rule, work toward the engine
+    migration first and document reflection or hardening issues." The route-C engine port (the port
+    of the watched match engine, T57-T80 in `docs/backlog.md`) has priority over everything else.
+    Hardening, defence-in-depth and edge-case work on the proof, the harness or the tooling (for
+    example the reflection routes to the raw Unicorn engine, #333; refusals that wait for a slot,
+    #328) is not fixed ahead of the port, unless it blocks a port task or breaks the proof for
+    ordinary use. It is recorded as a follow-up issue that states the known limit and its acceptance
+    (what would close it), and, where the limit concerns a mechanism, as a note in the docs too. A
+    reviewer's finding that is a deliberate-reflection or adversarial-use route, when the port's own
+    code does not use it, is likewise a known limit with a follow-up issue and is not reworked
+    again. The owner decides when a limit is worth closing.
 
 ## Choosing models: who implements, who reviews (the owner, 2026-10-11 and 2026-10-12)
 These rules replace every other model-choice rule in this project: the morning of 2026-10-11's
@@ -162,17 +173,17 @@ a rule that names a model. No quota, tier or difficulty table picks a model.
 5. A failed run is diagnosed and fixed, not silently re-routed: another model only when the
    provider does not answer, and the user names it. The PR records who implemented and which
    model reviewed.
-5a. **OpenCode 2.x is permitted when it works** (the owner, 2026-10-13, T174 round 3). The
-   harness's `runOpenCodeWatched` refuses any non-1.x CLI with `OpenCode gave no version ...
-   desktop app's 2.x CLI differs (#26)`; that is a harness-compatibility check, not a
-   correctness one. When the wrapper refuses 2.x but `opencode run` itself runs the brief
-   end-to-end and produces a readable review (the way Malpaco did for T10: `opencode run
-   --model provider/model#variant --title ... --auto -f <brief>` invoked directly, bypassing
-   `runOpenCodeWatched`), trust the run, not the version check. Two ways in: call the wrapper
-   with `HARNESS_OPENCODE_EXE=<a 1.18.x binary, e.g. /home/diego/.opencode/bin/opencode.1.18.32.bak>`,
-   or call `opencode run` directly and replicate what `review.mjs` does (detached worktree at
-   the PR head, reviewer agent, post the result, apply the label). Do not silently re-route to
-   a different model because of the version check.
+5a. **OpenCode 2.x is permitted when it works** (the owner, 2026-10-13, T174 round 3). Since #262 the
+   harness drives the installed 2.x itself (audited 2.0.28: a private server, the trusted reviewer
+   profile, the shell-operand guard, the review read from the complete export; docs/environment.md,
+   "OpenCode 2"); it refuses an unaudited 2.x build or an unknown major before billing. The 1.18
+   path stays, chosen explicitly with
+   `HARNESS_OPENCODE_EXE=<a 1.18.x binary, e.g. /home/diego/.opencode/bin/opencode.1.18.32.bak>`.
+   When the harness refuses but `opencode run` itself runs the brief end to end and produces a
+   readable review (the way Malpaco did for T10), trust the run, not the version check: call
+   `opencode run` directly and replicate what `review.mjs` does (detached worktree at the PR head,
+   reviewer agent, post the result, apply the label). Do not silently re-route to a different model
+   because of the version check.
 6. These rules work whatever model the orchestrator itself runs on; they never name it.
 7. **Still in force:** the effort rule (a heavy model, Opus, GPT-6.1 Sol, GLM-5.3, MiMo v2.6 Pro
    or MiniMax-M3, at `medium` at most and `low` when medium is not needed; a light model at
@@ -205,7 +216,9 @@ a rule that names a model. No quota, tier or difficulty table picks a model.
     `tools/harness/peek.sh ses_… [-n 20]` (or the run log's path), and repeat the id in every update
     (the owner, 2026-10-11, after isle-wars-archaeology d1e0082).
 11. On a "possibly stuck" flag: check the process is alive, read its newest session messages
-    (`opencode export <ses_...>`, or `/run-task` step 3's session reader); a long build or test step
+    (`tools/harness/peek.sh <ses_...|run.json>`, which reads v2 runs, and v1 runs with a 1.x
+    `OPENCODE_BIN`, or `/run-task` step 3's
+    session reader; v1's `opencode export` does not exist on 2.x); a long build or test step
     is not stuck. A dead or 20-minute-silent run is stuck: stop it, but only if it is ours (the
     machine is shared).
 12. When a run ends, read its final message before doing anything else. A review that stopped on

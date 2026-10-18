@@ -388,7 +388,7 @@ address	name	confidence	status	file	line	ghidra_address	found_in	note
 1771:0B77	is_managed	established	decompiled	seg_1771_01.c	573	4000:0B77	routines.tsv	
 1771:0BC4	compute_team_line_strengths	established	decompiled	seg_1771_01.c	589	4000:0BC4	routines.tsv	
 1771:0E24	country_colour	established	decompiled	seg_1771_01.c	689	4000:0E24	routines.tsv	
-1771:0E6C	formation_label	likely	decompiled	seg_1771_01.c	713	4000:0E6C	routines.tsv	
+1771:0E6C	formation_label	established	decompiled	seg_1771_01.c	713	4000:0E6C	routines.tsv	
 1771:0F58	draw_country_name	likely	decompiled	seg_1771_01.c	772	4000:0F58	routines.tsv	
 1771:0FB1			decompiled	seg_1771_01.c	797	4000:0FB1	routines.tsv	
 1771:101A			decompiled	seg_1771_01.c	821	4000:101A	routines.tsv	
@@ -418,7 +418,7 @@ address	name	confidence	status	file	line	ghidra_address	found_in	note
 1771:3088	foot_index	established	decompiled	seg_1771_02.c	1065	4000:3088	routines.tsv	
 1771:30D9	player_leadership	established	decompiled	seg_1771_03.c	4	4000:30D9	routines.tsv	
 1771:3179	out_of_place_flag	established	decompiled	seg_1771_03.c	24	4000:3179	routines.tsv	
-1771:3216	player_unavailable	likely	decompiled	seg_1771_03.c	75	4000:3216	routines.tsv	
+1771:3216	player_unavailable	established	decompiled	seg_1771_03.c	75	4000:3216	routines.tsv	
 1771:3291	roll_peak_age	established	decompiled	seg_1771_03.c	97	4000:3291	routines.tsv	
 1771:32EB	compute_ability	established	decompiled	seg_1771_03.c	118	4000:32EB	routines.tsv	
 1771:33CD	force_tactic4_off	established	decompiled	seg_1771_03.c	150	4000:33CD	routines.tsv	
@@ -426,16 +426,16 @@ address	name	confidence	status	file	line	ghidra_address	found_in	note
 1771:34E7	reset_own_tactics	established	decompiled	seg_1771_03.c	203	4000:34E7	routines.tsv	
 1771:3558	roll_fitness_energy	established	decompiled	seg_1771_03.c	228	4000:3558	routines.tsv	
 1771:3651	recover_fitness_energy	established	decompiled	seg_1771_03.c	266	4000:3651	routines.tsv	
-1771:377E	player_strength	likely	decompiled	seg_1771_03.c	316	4000:377E	routines.tsv	
+1771:377E	player_strength	established	decompiled	seg_1771_03.c	316	4000:377E	routines.tsv	
 1771:3827	performance_text	likely	decompiled	seg_1771_03.c	360	4000:3827	routines.tsv	
 1771:3947	draw_skill_bars	established	decompiled	seg_1771_03.c	427	4000:3947	routines.tsv	
 1771:3A06	derived_skill	established	decompiled	seg_1771_03.c	459	4000:3A06	routines.tsv	
-1771:3A82	squad_slot_of_player	likely	decompiled	seg_1771_03.c	478	4000:3A82	routines.tsv	
+1771:3A82	squad_slot_of_player	established	decompiled	seg_1771_03.c	478	4000:3A82	routines.tsv	
 1771:3AE2	draw_mark_text	established	decompiled	seg_1771_03.c	500	4000:3AE2	routines.tsv	
 1771:3B3F	draw_mark_row	established	decompiled	seg_1771_03.c	521	4000:3B3F	routines.tsv	
 1771:3BD3	draw_tactics_panel	established	decompiled	seg_1771_03.c	551	4000:3BD3	routines.tsv	
-1771:3E2F	pick_mark_target	likely	decompiled	seg_1771_03.c	642	4000:3E2F	routines.tsv	
-1771:3EF8	set_marking_words	likely	decompiled	seg_1771_03.c	687	4000:3EF8	routines.tsv	
+1771:3E2F	pick_mark_target	established	decompiled	seg_1771_03.c	642	4000:3E2F	routines.tsv	
+1771:3EF8	set_marking_words	established	decompiled	seg_1771_03.c	687	4000:3EF8	routines.tsv	
 1771:42BC	draw_player_screen	established	decompiled	seg_1771_03.c	805	4000:42BC	routines.tsv	
 1771:4859			decompiled	seg_1771_03.c	1004	4000:4859	routines.tsv	
 1771:4925			decompiled	seg_1771_03.c	1056	4000:4925	routines.tsv	

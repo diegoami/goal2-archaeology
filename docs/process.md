@@ -150,7 +150,7 @@ You implement <T<nn>>. The task file above is the contract.
   ride this PR, declared under Scope in the PR body.
 - Update any document your change makes wrong, in this PR. Never write status into a document.
 - A heavy job (a match run, a family run, check.py, the unit suite) runs as `tools/harness/heavy.sh <name> -- <command>`:
-  two at a time on this machine across every agent and review, the rest queue and say "waiting for a slot (k ahead)"
+  four at a time on this machine across every agent and review, the rest queue and say "waiting for a slot (k ahead)"
   (docs/environment.md "Heavy jobs"). family.py, check.py and `tools/ci_gate.py run-tests` queue themselves.
 - Commit and push after each step, at least every 20 minutes and before any command that runs longer
   than 5 minutes; after your first push, open the PR as a draft (`gh pr create --draft`). A crash then
@@ -193,8 +193,10 @@ harmless metadata read the owner has authorized does not need another permission
 only the read the tool can enforce, test sibling reads and writes as denied, and describe the
 boundary accurately. On OpenCode 1.18.32, `external_directory` checks the parent `/*` for a file
 read, while `grep` and `glob` permission requests omit the target path; where path-specific rules
-are needed, deny those tools and use a path-bearing tool. These are tool-layer controls, not OS
-isolation.
+are needed, deny those tools and use a path-bearing tool. OpenCode 2.0.28 asks the same
+`<dir>/*` for an outside read (its read resource is the absolute path; inside the worktree, the
+relative one), but no longer checks shell file operands; the harness's operand guard restores that
+check (docs/environment.md, "OpenCode 2"). These are tool-layer controls, not OS isolation.
 
 Research briefs here also add, under "Blocking means": G0a (U32, CLAUDE.md rule 22) — runs made
 because a static tool was missing, or a finding resting on runs whose Method does not say what
@@ -234,6 +236,15 @@ per merge. Triage decides one of:
 - **fold** into a task not yet ready, or **close**, with the reason.
 
 Once `breaks-play` is trialled (§12), Jev settles the gate's confident ends; the main session the middle.
+
+Scheduling follows CLAUDE.md rule 23 (the owner, 2026-10-18): the route-C engine port comes first.
+Hardening, defence-in-depth and edge-case work on the proof, the harness or the tooling is not fixed
+ahead of the port, unless it blocks a port task or breaks the proof for ordinary use. It is recorded
+as a follow-up issue that states the known limit and its acceptance (what would close it), and,
+where the limit concerns a mechanism, as a note in the docs too. A reviewer's finding that is a
+deliberate-reflection or adversarial-use route, when the port's own code does not use it, is
+likewise a known limit with a follow-up issue and is not reworked again. The owner decides when a
+limit is worth closing.
 
 ## 7. Escalate to the user when
 
