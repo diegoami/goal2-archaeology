@@ -52,6 +52,7 @@ RULES = [
     ("9A32: the board not restored", "    yield go(0x9AC1, backup[1], backup[0], screen[1], screen[0], 0xFA0)    # and back\n", ""),
     ("9A32: the kick-off side not swapped", "other = 1 if mem.ds8(0x831A) == 0 else 0", "other = 0 if mem.ds8(0x831A) == 0 else 1"),
     ("F098: the winner byte > -> <", "mem.w8(lin + 3, 1 if mem.u8(lin + 1) > mem.u8(lin) else 0, at_win)", "mem.w8(lin + 3, 1 if mem.u8(lin + 1) < mem.u8(lin) else 0, at_win)"),
+    ("F098: AX after the winner byte not set", "            set_al(mem, winner)\n            mem.w8(lin + 3, winner, at_win)", "            mem.w8(lin + 3, winner, at_win)"),
     ("F098: the draw byte 2 -> 3", 'mem.w8(lin + 3, 2, at_draw)', 'mem.w8(lin + 3, 3, at_draw)'),
     ("F098: the shoot-out winner > -> <", "winner = 1 if mem.ds8(0x9B3D) > mem.ds8(0x9B3C) else 0       # F17C-F189", "winner = 1 if mem.ds8(0x9B3D) < mem.ds8(0x9B3C) else 0       # F17C-F189"),
     ("F098: 98C4 called when the scores are level", "        if mem.ds8(0x9B3D) != mem.ds8(0x9B3C):             # F19F-F1A6", "        if mem.ds8(0x9B3D) == mem.ds8(0x9B3C):             # F19F-F1A6"),

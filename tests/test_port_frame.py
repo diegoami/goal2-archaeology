@@ -756,6 +756,9 @@ class PlayMatchTests(unittest.TestCase):
         h.m.at("0791:9A32", lambda replay: replay or h.ds(0x9A3E, 1))
         h.run()
         self.assertEqual(h.names(), ["998C", "9955", "9A32"])
+        # AX as the listing leaves it: AX := the score (F0A7), AL := the first goal byte (F0C4), the second (F0DD), the
+        # winner byte (F0E9); a routine that ends in a call has the callee's
+        self.assertEqual(h.m.reg("ax"), 0x0100)
 
 
 def swap_bytes(h, words):

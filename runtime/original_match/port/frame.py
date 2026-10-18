@@ -789,7 +789,7 @@ def pre_half_sequence(mem, variant):
         fr.w16(-4, ds, "0791:9A53")
         index = mem.u16(ds * 16 + ((rec + 0xD) & 0xFFFF))
         seg, off = far_record(mem, PLAYERS, index, 0x14)
-        product = set_product(mem, index, 0x14)
+        set_product(mem, index, 0x14)
         fr.w16(-0xA, off, "0791:9A68")
         fr.w16(-8, seg, "0791:9A6B")
         energy = seg * 16 + ((off + 0xE) & 0xFFFF)
@@ -848,10 +848,15 @@ def play_match(mem, variant):
         off, seg, lin = record()
         fr.w16(-4, off, "0791:F0BB")
         fr.w16(-2, seg, "0791:F0BE")
-        if mem.u8(lin) == mem.u8(lin + 1):
+        first, second = mem.u8(lin), mem.u8(lin + 1)
+        set_al(mem, first)                                 # F0C4 mov al, es:[di]
+        if first == second:                                # F0CA
             mem.w8(lin + 3, 2, at_draw)
         else:
-            mem.w8(lin + 3, 1 if mem.u8(lin + 1) > mem.u8(lin) else 0, at_win)
+            set_al(mem, second)                            # F0DD
+            winner = 1 if second > first else 0            # F0E4-F0ED ja
+            set_al(mem, winner)
+            mem.w8(lin + 3, winner, at_win)
     score = set_ax(mem, mem.ds16(0x9B3C))                  # F0A7
     mem.w16(record()[2], score, "0791:F0B1")
     settle("0791:F0D3", "0791:F0F2")
