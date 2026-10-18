@@ -237,6 +237,7 @@ class Harness:
                        ("es", m.DS), ("ax", 0), ("dx", 0)):
             m.set_reg(reg, v)
         self.calls = []
+        self.sps = []                              # SP at each stub's entry: the depth of the callee's frame
         self.counts = {}
         self.effects = {}                          # target -> fn(harness, words): what the real routine does to the memory
         for k, target in enumerate(self.targets):
@@ -249,6 +250,7 @@ class Harness:
         _, far, _, nargs = self.rows[target]
         words = tuple(self.m.stack_word((4 if far else 2) + 2 * i) for i in reversed(range(nargs)))   # in pushing order
         self.calls.append((target, words))
+        self.sps.append(self.m.reg("sp"))
         n = self.counts[target] = self.counts.get(target, 0) + 1
         effect = self.effects.get(target)
         if effect is not None:
@@ -271,6 +273,15 @@ class Harness:
 
     def names(self):
         return [c[0].split(":")[1] for c in self.calls]
+
+    def depths(self, bottom):
+        """Words below `bottom` (the routine's SP after its prologue) each callee's return address is at, less its
+        arguments' words: 0 for a near call with no arguments pushed under it, the far return address one more."""
+        out = []
+        for (target, words), sp in zip(self.calls, self.sps):
+            _, far, _, nargs = self.rows[target]
+            out.append((bottom - sp - 2 * nargs - (4 if far else 2)) // 2)
+        return out
 
 
 def addresses(*names):
@@ -422,6 +433,14 @@ class ClockTests(unittest.TestCase):
         self.assertEqual(h.calls[1], ("0791:2B0F", (0x3F,)))
         self.assertEqual(h.ds(0x8326), 1)
 
+    def test_a_target_below_the_tenths_is_not_reached(self):
+        h = self.harness()
+        h.ds(0x831D, 0, 2)
+        h.ds(0x831B, 10, 2)
+        h.ds(0x8321, 4, 2)
+        h.ds(0x8319, 5)                                    # 9 tenths left after the minute, the target 5
+        self.assertEqual(self.result(h), 0)
+
     def test_a_negative_target_is_never_reached(self):
         h = self.harness()
         h.ds(0x831D, 0, 2)
@@ -516,6 +535,9 @@ class SweepTests(unittest.TestCase):
             ("0791:2956", (ds, 0x80E8 + 0x16 * 3)), ("0791:8AE9", (ds, 0x80E8 + 0x16 * 3)),
             ("0791:94E8", ()), ("0791:8F10", (ds, 0x82F6)), ("0791:9372", ())])
         self.assertEqual((h.ds(0x80F6 + 2, size=2), h.ds(0x80F6, size=2)), (1, 0))   # direction 5 = 7920 + 1: the same
+        # the frame of 9564: the driver's SP 0x400, its return address, the saved BP and 8 bytes of locals: every callee's
+        # frame is at the depth its arguments give (the slot word pushed at 9581 is popped at 95A7)
+        self.assertEqual(h.depths(STACK_TOP - 2 - 2 - 8), [0] * len(h.calls))
 
     def test_the_falsifier_possession_swapped_counts_the_other_side(self):
         h = self.play_on(variant="possession-swapped")
@@ -530,6 +552,7 @@ class SweepTests(unittest.TestCase):
         h.ds(0x899 + 0x16 + 1, 0)
         h.run()
         self.assertEqual(h.calls[0], ("23E4:08DF", (0, 0x791, 0x9544)))      # the gate asks DS:8327 first; slot 1 stays pushed under it
+        self.assertEqual(h.depths(STACK_TOP - 2 - 2 - 8)[:2], [1, 0])        # one word under the gate's call, none after the pop
         self.assertEqual(h.names()[1], "83A2")
 
     def test_a_slot_over_the_gate_is_skipped_to_its_own_player(self):
@@ -621,6 +644,9 @@ class HalfTests(unittest.TestCase):
         self.assertEqual(h.names(), ["2996", "2996", "2996", "6B65", "1EB5", "983F"])
         self.assertEqual(h.calls[3][1], (0, 1))            # 6B65(the second 2996's AX, 1)
         self.assertEqual(h.calls[4][1], (1, 9, 0, 0x3B))   # 1EB5 pops four words: the first 2996's AX, 6B65's AX, 0, 0x3B
+        # 998C's frame: SP 0x400, the return address, the saved BP, 4 bytes of locals; the first 2996's word stays under
+        # the second 2996 and 6B65 (their frames are one word lower), and is taken back by 1EB5's `ret 8` (983F's is not)
+        self.assertEqual(h.depths(STACK_TOP - 2 - 2 - 4), [0, 0, 1, 1, 0, 0])
         self.assertEqual((h.ds(0x831B, size=2), h.ds(0x8319), h.ds(0x830B), h.ds(0x832C, size=2)), (0x5B, 0x2D, 21, 0x0302))
 
     def half_time(self, **kw):
@@ -917,8 +943,17 @@ class ResortTests(unittest.TestCase):
         self.assertEqual(h.names()[-4:], ["3EF8", "0691", "20E3", "419C"])
         self.assertEqual((h.ds(0x8109, size=2), h.ds(0x81FB, size=2)), (0, 0))
 
+    def test_a_sorted_squad_swaps_nothing_and_clears_the_two_words(self):
+        h = self.machine((list(range(1, 12)), list(range(1, 12))))
+        h.ds(0x8109, 5, 2)
+        h.ds(0x81FB, 6, 2)
+        h.run()
+        self.assertEqual([n for n in h.names() if n in ("2218", "007B")], [])
+        self.assertEqual(h.names().count("A260"), 22)
+        self.assertEqual((h.ds(0x8109, size=2), h.ds(0x81FB, size=2)), (0, 0))
+
     def test_the_unavailable_sort_last(self):
-        eleven = (list(range(1, 12)), list(range(1, 12)))
+        eleven = (list(range(1, 11)) + [13], list(range(1, 12)))
         h = self.machine(eleven)
         h.script["1771:3216"] = lambda n: 1 if n == 1 else 0       # side 0's first player is unavailable: code 0xE
         h.run()
@@ -926,7 +961,7 @@ class ResortTests(unittest.TestCase):
         self.assertEqual(len(swaps), 10)                    # 0xE goes to the end by one swap per step... of the 10 (k=1) passes
         positions = [h.m.read(OTHER * 16 + PLAYERS + 0x14 * int.from_bytes(h.m.read(OTHER * 16 + COUNTRIES + 0xBF * 3 + 2 * k, 2), "little") + 6, 1)[0]
                      for k in range(11)]
-        self.assertEqual(positions, [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 1])          # sorted on the codes; 3216's own flag is not in the player
+        self.assertEqual(positions, [2, 3, 4, 5, 6, 7, 8, 9, 10, 13, 1])          # sorted on the codes (0xE after 13); the player keeps its own
 
     def test_the_bench_is_sorted_by_the_players_own_position(self):
         bench = ([20, 19, 18, 17, 16, 15, 14, 13, 12], [12] * 9)
@@ -947,6 +982,42 @@ class ResortTests(unittest.TestCase):
         h = self.machine(eleven, variant=variant)
         h.run()
         return [c[0] for c in h.calls]
+
+
+@unittest.skipIf(Machine is None, "unicorn not installed")
+class PortsCallingPortsTests(unittest.TestCase):
+    """The frame's ports call each other through the guest (97D0 calls 9564 and 970C): a callee that is a port runs as one
+    inside the caller's guest call, and the caller goes on at its return."""
+
+    def test_the_tick_loop_calls_the_sweep_and_the_clock_as_ports(self):
+        h = Harness(addresses("97D0", "970C", "9564"), args=(1,), start="0791:97D0")
+        h.ds(0x8302, 0)                                    # play off: the sweep is its second half only
+        h.ds(0x8325, 1)
+        h.ds(0x831D, 3, 2)                                 # the clock only counts its sub-tick down
+        h.run()                                            # (run() checks SP and BP: every frame left)
+        self.assertEqual(h.inst.calls, {"0791:97D0": 1, "0791:970C": 1, "0791:9564": 1})
+        self.assertEqual(h.names(), ["2956", "8AE9", "2FB1", "94E8", "8F10", "9372"] * 22 + ["8CF5", "9119"])
+        self.assertEqual(h.ds(0x831D, size=2), 2)
+        self.assertEqual(h.m.frames, [])
+
+    def test_a_stop_in_a_stub_under_two_frames_resumes_both(self):
+        h = Harness(addresses("97D0", "970C", "9564"), args=(1,), start="0791:97D0")
+        h.ds(0x8302, 0)
+        h.ds(0x8325, 1)
+        h.ds(0x831D, 3, 2)
+        stops = []
+
+        def stop_at_poll(replay):                          # the kit's decision: stop the run in the middle of the sweep
+            if not replay and h.counts.get("0791:9372") == 5 and not stops:
+                stops.append(len(h.m.frames))
+                h.m.stop("decision")
+        h.m.at("0791:9372", stop_at_poll)
+        h.m.run(h.end, 20, fresh=True)
+        self.assertEqual(h.m.stop_reason, "decision")
+        self.assertEqual(stops, [2])                       # 97D0's frame and 9564's, waiting on their calls
+        h.m.run(h.end, 20)
+        self.assertEqual(h.names().count("9372"), 22)
+        self.assertEqual((h.m.reg("sp"), h.m.frames), (STACK_TOP, []))
 
 
 if __name__ == "__main__":
