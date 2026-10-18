@@ -78,6 +78,10 @@ code, so a record only compares with a reference made by the same declaration.
    without an error. A routine it calls that is still the original's is called as the listing calls it, `yield
    call(target, *args, ret_to=..., far=...)` (T59, port/guest.py), with the registers the listing hands the callee. A ported routine that holds one of the kit's sites (`match.py`: key-read return addresses, the polls,
    `F2E3`, `9B15`, `9D67`, `A1EF`, the table reads) fires it at the listing's point.
+2a. The stack is part of the acceptance (T60): the family digests cover the stack segment, so a port writes the frame the
+   listing's code writes (saved BP, locals, the pushes and return addresses of the calls it makes, and the callees'
+   frames), not only the data it changes. The proof leaves the dead frame out; the family comparison does not.
+   `out/T60/fuzz.py` checks a port against the original on random inputs with the frame included.
 3. Accepted when ALL is identical with the task's ports and again with every port on `main` (after rebasing), and three
    falsifiers are caught, each on a branch the families reach (counted with `--count` first, L105); a branch no family
    reaches gets a unit test on a synthetic memory view with the listing's values.
