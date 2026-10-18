@@ -1,0 +1,5 @@
+AX at 0791:6E26: LIVE (expected LIVE: 6E26 or al, al reads 2996's result)
+DX at 0791:2BF9: LIVE (expected LIVE: 2BF9 cmp dx, bx)
+AX at 0791:2A9F: LIVE (expected LIVE: 2A6D's result, read by its caller 2AA3 at 2AC6 push ax (after the return))
+DX at 0791:2C13: DEAD (expected DEAD: 2C13 pop dx writes DX before 2C14 reads DL)
+controls all as expected

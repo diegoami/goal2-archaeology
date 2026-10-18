@@ -21,7 +21,7 @@ from original_match.port.mem import PlainMem  # noqa: E402
 from original_match.machine import Machine, MEM_SIZE  # noqa: E402
 try:
     import unicorn  # noqa: F401
-except ImportError:                    # CI does not install python3-unicorn
+except ImportError:                    # a machine without unicorn (CI's code tier installs it, #304)
     Machine = None
 
 # 0100:0000  E8 0D 00         call 0x0010

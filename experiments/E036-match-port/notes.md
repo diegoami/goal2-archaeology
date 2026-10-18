@@ -42,8 +42,9 @@ family names its own reference (the unhooked kit), so a family added later bring
   T57 builds `--family`, `--out`, `--max`, `--workers` (the default is one process; two at most), `--count`, `--only ID,...`
   (a few matches), `--time-limit S` (per match, default 300), `--mask FILE` (a JSON list of `[space, start, length]`, space
   `DS` or `P`: the bytes zeroed before the memory digests are taken, none by default; the record carries it and
-  compare.py refuses two masks) and `--find-ranges FILE` (the write watch that found `records.RANGES`, out/T57). `--ports` and
-  `--variant` come with T59, and the record grammar grows with them.
+  compare.py refuses two masks) and `--find-ranges FILE` (the write watch that found `records.RANGES`, out/T57). T59
+  builds `--ports` and `--variant` (the kit's port mode; the record then carries `ports`, `variant` and `port_calls`, and
+  compare.py refuses a ported reference).
   Later: `--engine port --no-unicorn` (T78: the engine on its own, `import unicorn` made to fail first) and
   `--from-records` (T80: the start state given as records, not as an image).
 - `python3 -B experiments/E036-match-port/compare.py --family ALL --candidate <file> [--reference <file>]
@@ -51,8 +52,9 @@ family names its own reference (the unhooked kit), so a family added later bring
   expected, 1 not, 2 malformed or missing evidence (never a pass); names the first differing field, the minute where
   the draws first differ and the first differing 1 KiB block of memory. `--e032 --candidate <reference>` prints, per
   seed, F40's ten E032 matches against `check.py`'s `EXPECTED_FAMILY`.
-- `python3 -B experiments/E036-match-port/locate.py --family ALL --candidate <file> --match <id>`: the first differing
-  minute, then the first differing call of a ported routine, proved side by side (T59).
+- `python3 -B experiments/E036-match-port/locate.py --family ALL --candidate <file> --match <id> [--out <new file>]`:
+  the first differing minute, then the first differing call of a ported routine, proved side by side (T59; the kit's
+  `Match(prove=N)`, port/prove.py): the routine, its call, the byte or the register. Exit 0 located, 1 not, 2 refused.
 
 **Heavy jobs (#318).** A match run is a heavy job: `family.py` (and `check.py`, `--find-ranges` included) waits for a
 slot of `tools/harness/heavy.sh` as its first act, so at most two run at a time on the machine, across every agent and
@@ -73,7 +75,8 @@ code, so a record only compares with a reference made by the same declaration.
 1. Static first (rule 22): the named view `static/goal-exe/named/`, then `code/`; each constant cites its listing line
    (rule 17).
 2. A port reads and writes only through the port's memory view (T58): a write that bypasses it loses an event or a draw
-   without an error. A ported routine that holds one of the kit's sites (`match.py`: key-read return addresses, the polls,
+   without an error. A routine it calls that is still the original's is called as the listing calls it, `yield
+   call(target, *args, ret_to=..., far=...)` (T59, port/guest.py), with the registers the listing hands the callee. A ported routine that holds one of the kit's sites (`match.py`: key-read return addresses, the polls,
    `F2E3`, `9B15`, `9D67`, `A1EF`, the table reads) fires it at the listing's point.
 3. Accepted when ALL is identical with the task's ports and again with every port on `main` (after rebasing), and three
    falsifiers are caught, each on a branch the families reach (counted with `--count` first, L105); a branch no family

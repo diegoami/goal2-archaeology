@@ -151,7 +151,7 @@ class ImageTests(unittest.TestCase):
 from original_match.machine import Machine  # noqa: E402  (imports without unicorn; a Machine needs it)
 try:
     import unicorn  # noqa: F401
-except ImportError:                    # CI does not install python3-unicorn
+except ImportError:                    # a machine without unicorn (CI's code tier installs it, #304)
     Machine = None
 
 

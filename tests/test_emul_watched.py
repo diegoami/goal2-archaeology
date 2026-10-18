@@ -24,7 +24,7 @@ sys.path.insert(0, str(ROOT / "runtime/emul"))
 try:
     from watched import WatchedHalf  # noqa: E402  (watched.py imports unicorn at module level)
 except ModuleNotFoundError:
-    # CI does not install python3-unicorn; the module's tests skip with the reason named.
+    # a machine without unicorn (CI's code tier installs it from runtime/emul/requirements.txt, #304): the module's tests skip with the reason named.
     raise unittest.SkipTest("unicorn not installed")
 
 
