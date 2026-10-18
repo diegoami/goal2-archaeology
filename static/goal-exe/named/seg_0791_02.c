@@ -543,9 +543,10 @@ void __cdecl16near f_0791_2648(void)
 }
 
 
-// ---- 0791:26A0  f_0791_26A0  (f_0791_26A0; Ghidra 2000:26A0, __stdcall16near; found by routines.tsv)
+// ---- 0791:26A0  set_message_word  (f_0791_26A0; Ghidra 2000:26A0, __stdcall16near; found by routines.tsv)
+// (flag byte): DS:8308 := 0x0EAF when the flag is not 0, else 0x0EAE, then DS:8328 := 1; touches no register  [likely; read code/seg_0791_04.asm:752]
 
-void f_0791_26A0(char param_1)
+void set_message_word(char param_1)
 
 {
   if (param_1 == '\0') {
@@ -559,9 +560,10 @@ void f_0791_26A0(char param_1)
 }
 
 
-// ---- 0791:26C2  f_0791_26C2  (f_0791_26C2; Ghidra 2000:26C2, __cdecl16near; found by routines.tsv)
+// ---- 0791:26C2  show_message_8304  (f_0791_26C2; Ghidra 2000:26C2, __cdecl16near; found by routines.tsv)
+// calls 0791:9079 with the far pointer DS:8304, then DS:8328 := 0 (26A0's partner)  [likely; read code/seg_0791_04.asm:768]
 
-void __cdecl16near f_0791_26C2(void)
+void __cdecl16near show_message_8304(void)
 
 {
   f_0791_9079(0x8304,0xb000);
@@ -663,9 +665,10 @@ bool __stdcall16far skill_draw_passes(undefined4 param_1,undefined2 param_2)
 }
 
 
-// ---- 0791:28B2  f_0791_28B2  (f_0791_28B2; Ghidra 2000:28B2, __stdcall16near; found by routines.tsv)
+// ---- 0791:28B2  all_players_in_state  (f_0791_28B2; Ghidra 2000:28B2, __stdcall16near; found by routines.tsv)
+// (state byte): 1 when each of the 22 pitch records has +0x12 = state, or is the slot DS:830B or DS:830C, or 0791:2956 reports its player unavailable; else 0  [likely; read code/seg_0791_04.asm:974]
 
-bool f_0791_28B2(char param_1)
+bool all_players_in_state(char param_1)
 
 {
   char cVar1;
@@ -688,9 +691,10 @@ bool f_0791_28B2(char param_1)
 }
 
 
-// ---- 0791:2929  f_0791_2929  (f_0791_2929; Ghidra 2000:2929, __stdcall16near; found by routines.tsv)
+// ---- 0791:2929  fill_pitch_state  (f_0791_2929; Ghidra 2000:2929, __stdcall16near; found by routines.tsv)
+// (value byte): +0x12 of each of the 22 pitch records := value  [likely; read code/seg_0791_04.asm:1030]
 
-void f_0791_2929(undefined1 param_1)
+void fill_pitch_state(undefined1 param_1)
 
 {
   int local_4;
@@ -735,9 +739,10 @@ bool __cdecl16near ball_holder_is_side0(void)
 }
 
 
-// ---- 0791:29B3  f_0791_29B3  (f_0791_29B3; Ghidra 2000:29B3, __cdecl16near; found by routines.tsv)
+// ---- 0791:29B3  ball_holder_farther_flag  (f_0791_29B3; Ghidra 2000:29B3, __cdecl16near; found by routines.tsv)
+// DS:80FB := 1 when |y| of the record at the ball slot DS:830B is at least |y| of the record at slot DS:0668[2996 flag] + 1 (the other side's first slot), else 0; returns it  [likely; read code/seg_0791_04.asm:1103]
 
-undefined2 __cdecl16near f_0791_29B3(void)
+undefined2 __cdecl16near ball_holder_farther_flag(void)
 
 {
   char cVar1;
@@ -759,9 +764,10 @@ undefined2 __cdecl16near f_0791_29B3(void)
 }
 
 
-// ---- 0791:2A15  f_0791_2A15  (f_0791_2A15; Ghidra 2000:2A15, __cdecl16near; found by routines.tsv)
+// ---- 0791:2A15  advance_unavailable_ball_slot  (f_0791_2A15; Ghidra 2000:2A15, __cdecl16near; found by routines.tsv)
+// unless DS:830B is 0: while 0791:2956 reports the player at the ball slot unavailable, advances DS:830B by 1 inside its side's slots with 214B:1D6F, wrapping between DS:0668[2996 flag] + 2 and + 0xB  [likely; read code/seg_0791_05.asm:6]
 
-void __cdecl16near f_0791_2A15(void)
+void __cdecl16near advance_unavailable_ball_slot(void)
 
 {
   char cVar1;
@@ -785,9 +791,10 @@ void __cdecl16near f_0791_2A15(void)
 }
 
 
-// ---- 0791:2A6D  f_0791_2A6D  (f_0791_2A6D; Ghidra 2000:2A6D, __cdecl16near; found by routines.tsv)
+// ---- 0791:2A6D  second_slot_in_side  (f_0791_2A6D; Ghidra 2000:2A6D, __cdecl16near; found by routines.tsv)
+// slot_in_side (2BB1) of the pitch record at slot DS:830C, or 0 when DS:830C is 0  [likely; read code/seg_0791_05.asm:51]
 
-undefined1 __cdecl16near f_0791_2A6D(void)
+undefined1 __cdecl16near second_slot_in_side(void)
 
 {
   undefined1 uVar1;
@@ -802,9 +809,10 @@ undefined1 __cdecl16near f_0791_2A6D(void)
 }
 
 
-// ---- 0791:2AA3  f_0791_2AA3  (f_0791_2AA3; Ghidra 2000:2AA3, __stdcall16near; found by routines.tsv)
+// ---- 0791:2AA3  commentary_with_ball_slot  (f_0791_2AA3; Ghidra 2000:2AA3, __stdcall16near; found by routines.tsv)
+// (code byte): emit_commentary 1EB5 with 2996, 2BB1 of the ball slot's record, 2A6D and the code  [likely; read code/seg_0791_05.asm:80]
 
-void f_0791_2AA3(undefined1 param_1)
+void commentary_with_ball_slot(undefined1 param_1)
 
 {
   undefined2 uVar1;
@@ -814,15 +822,16 @@ void f_0791_2AA3(undefined1 param_1)
   uVar1 = ball_holder_is_side0();
   uVar2 = slot_in_side((pitch *)pitch_records + DS:830B,0xb000);
   uVar2 = uVar2 & 0xff;
-  uVar3 = f_0791_2A6D(uVar2,uVar1);
+  uVar3 = second_slot_in_side(uVar2,uVar1);
   emit_commentary(param_1,uVar3,uVar2,uVar1);
   return;
 }
 
 
-// ---- 0791:2AD4  f_0791_2AD4  (f_0791_2AD4; Ghidra 2000:2AD4, __stdcall16near; found by routines.tsv)
+// ---- 0791:2AD4  commentary_with_both_slots  (f_0791_2AD4; Ghidra 2000:2AD4, __stdcall16near; found by routines.tsv)
+// (code byte): emit_commentary 1EB5 with (DS:830C below 0xC), 2A6D, 2BB1 of the ball slot's record and the code  [likely; read code/seg_0791_05.asm:107]
 
-void f_0791_2AD4(undefined1 param_1)
+void commentary_with_both_slots(undefined1 param_1)
 
 {
   undefined1 uVar1;
@@ -830,16 +839,17 @@ void f_0791_2AD4(undefined1 param_1)
   undefined2 uVar3;
   
   uVar2 = (uint)(DS:830C < 0xc);
-  uVar3 = f_0791_2A6D(uVar2);
+  uVar3 = second_slot_in_side(uVar2);
   uVar1 = slot_in_side((pitch *)pitch_records + DS:830B,0xb000);
   emit_commentary(param_1,uVar1,uVar3,uVar2);
   return;
 }
 
 
-// ---- 0791:2B0F  f_0791_2B0F  (f_0791_2B0F; Ghidra 2000:2B0F, __stdcall16near; found by routines.tsv)
+// ---- 0791:2B0F  commentary_plain  (f_0791_2B0F; Ghidra 2000:2B0F, __stdcall16near; found by routines.tsv)
+// (code byte): emit_commentary 1EB5 with 1, 0, 0 and the code  [likely; read code/seg_0791_05.asm:140]
 
-void f_0791_2B0F(undefined1 param_1)
+void commentary_plain(undefined1 param_1)
 
 {
   emit_commentary(param_1,0,0,1);
@@ -847,9 +857,10 @@ void f_0791_2B0F(undefined1 param_1)
 }
 
 
-// ---- 0791:2B28  f_0791_2B28  (f_0791_2B28; Ghidra 2000:2B28, __stdcall16far; found by routines.tsv)
+// ---- 0791:2B28  commentary_for_record  (f_0791_2B28; Ghidra 2000:2B28, __stdcall16far; found by routines.tsv)
+// (pitch, code byte): emit_commentary 1EB5 with 2974(pitch), 2BB1(pitch), 0 and the code  [likely; read code/seg_0791_05.asm:157]
 
-void __stdcall16far f_0791_2B28(undefined4 param_1,undefined1 param_2)
+void __stdcall16far commentary_for_record(undefined4 param_1,undefined1 param_2)
 
 {
   undefined1 uVar1;
@@ -941,9 +952,10 @@ undefined2 __stdcall16far attack_direction(undefined4 param_1)
 }
 
 
-// ---- 0791:2C29  f_0791_2C29  (f_0791_2C29; Ghidra 2000:2C29, __stdcall16far; found by routines.tsv)
+// ---- 0791:2C29  slot_is_idle_ball_slot  (f_0791_2C29; Ghidra 2000:2C29, __stdcall16far; found by routines.tsv)
+// (pitch): 1 when the record's slot (+6) is the ball slot DS:830B and DS:8302 is 0  [likely; read code/seg_0791_05.asm:297]
 
-undefined1 __stdcall16far f_0791_2C29(undefined4 param_1)
+undefined1 __stdcall16far slot_is_idle_ball_slot(undefined4 param_1)
 
 {
   undefined1 uVar1;
@@ -958,9 +970,10 @@ undefined1 __stdcall16far f_0791_2C29(undefined4 param_1)
 }
 
 
-// ---- 0791:2C54  f_0791_2C54  (f_0791_2C54; Ghidra 2000:2C54, __stdcall16far; found by routines.tsv)
+// ---- 0791:2C54  in_own_half  (f_0791_2C54; Ghidra 2000:2C54, __stdcall16far; found by routines.tsv)
+// (pitch): 1 when the record's y times attack_direction (2BE5) is negative: he stands in his own half; 2F28 asks it  [likely; read code/seg_0791_05.asm:320]
 
-undefined4 __stdcall16far f_0791_2C54(undefined4 param_1)
+undefined4 __stdcall16far in_own_half(undefined4 param_1)
 
 {
   long lVar1;
@@ -1010,117 +1023,4 @@ undefined2 __stdcall16far player_at_ball(int *param_1)
 
 {
   return CONCAT11((char)((uint)*param_1 >> 8),*param_1 == ball_record._0_2_);
-}
-
-
-// ---- 0791:2D10  ball_ahead_of_by  (f_0791_2D10; Ghidra 2000:2D10, __stdcall16far; found by routines.tsv)
-// (pitch, n): 1 when the ball's y times the side's direction exceeds the record's y times the direction plus n, i.e. the ball is more than n cells ahead of him in his team's frame; T52: (pitch, n): 1 when ball y * attack_direction exceeds the player's y * attack_direction by more than n (the ball is more than n rows nearer the player's attacking end)  [likely; F028; read code/seg_0791_05.asm; F026; read named/seg_0791_02.c]
-
-undefined2 __stdcall16far ball_ahead_of_by(undefined4 param_1,uint param_2)
-
-{
-  char cVar1;
-  undefined1 uVar2;
-  uint uVar3;
-  uint uVar4;
-  int iVar5;
-  int iVar6;
-  undefined2 uVar7;
-  
-  uVar7 = (undefined2)((ulong)param_1 >> 0x10);
-  iVar6 = (int)param_1;
-  cVar1 = attack_direction(iVar6,uVar7);
-  uVar3 = (int)*(char *)(iVar6 + 1) * (int)cVar1;
-  uVar4 = param_2 + uVar3;
-  iVar5 = ((int)uVar3 >> 0xf) + (uint)CARRY2(param_2,uVar3);
-  cVar1 = attack_direction(iVar6,uVar7);
-  uVar3 = (int)(char)ball_record.y * (int)cVar1;
-  if ((iVar5 < (int)uVar3 >> 0xf) ||
-     ((iVar5 <= (int)uVar3 >> 0xf && (uVar4 <= uVar3 && uVar3 - uVar4 != 0)))) {
-    uVar2 = 1;
-  }
-  else {
-    uVar2 = 0;
-  }
-  return CONCAT11((char)(uVar3 >> 8),uVar2);
-}
-
-
-// ---- 0791:2D6D  ahead_of_ball_by  (f_0791_2D6D; Ghidra 2000:2D6D, __stdcall16far; found by routines.tsv)
-// (pitch, n): 1 when the record's y times the direction exceeds the ball's y times the direction plus n, i.e. he is more than n cells ahead of the ball; T52: (pitch, n): 1 when the player's y * attack_direction exceeds the ball's y * attack_direction by more than n  [likely; F028; read code/seg_0791_05.asm; F026; read named/seg_0791_02.c]
-
-undefined2 __stdcall16far ahead_of_ball_by(undefined4 param_1,uint param_2)
-
-{
-  char cVar1;
-  undefined1 uVar2;
-  uint uVar3;
-  uint uVar4;
-  int iVar5;
-  int iVar6;
-  undefined2 uVar7;
-  
-  uVar7 = (undefined2)((ulong)param_1 >> 0x10);
-  iVar6 = (int)param_1;
-  cVar1 = attack_direction(iVar6,uVar7);
-  uVar3 = (int)*(char *)(iVar6 + 1) * (int)cVar1;
-  iVar5 = (int)uVar3 >> 0xf;
-  cVar1 = attack_direction(iVar6,uVar7);
-  uVar4 = (int)(char)ball_record.y * (int)cVar1;
-  iVar6 = ((int)uVar4 >> 0xf) + (uint)CARRY2(param_2,uVar4);
-  if ((iVar6 < iVar5) || ((iVar6 <= iVar5 && (param_2 + uVar4 < uVar3)))) {
-    uVar2 = 1;
-  }
-  else {
-    uVar2 = 0;
-  }
-  return CONCAT11((char)(param_2 + uVar4 >> 8),uVar2);
-}
-
-
-// ---- 0791:2DCA  f_0791_2DCA  (f_0791_2DCA; Ghidra 2000:2DCA, __stdcall16near; found by routines.tsv)
-
-uint f_0791_2DCA(undefined2 param_1)
-
-{
-  uint uVar1;
-  
-  uVar1 = (uint)(char)param_1;
-  if ((int)uVar1 < 0) {
-    uVar1 = -uVar1;
-  }
-  if ((int)uVar1 < 9) {
-    uVar1 = (uint)param_1._1_1_;
-    if ((int)uVar1 < 0) {
-      uVar1 = -uVar1;
-    }
-    if ((int)uVar1 < 0x26) {
-      return CONCAT11((char)(uVar1 >> 8),1);
-    }
-  }
-  return uVar1 & 0xff00;
-}
-
-
-// ---- 0791:2E00  f_0791_2E00  (f_0791_2E00; Ghidra 2000:2E00, __stdcall16near; found by routines.tsv)
-
-uint f_0791_2E00(undefined2 param_1)
-
-{
-  uint uVar1;
-  
-  uVar1 = (uint)(char)param_1;
-  if ((int)uVar1 < 0) {
-    uVar1 = -uVar1;
-  }
-  if ((int)uVar1 < 10) {
-    uVar1 = (uint)param_1._1_1_;
-    if ((int)uVar1 < 0) {
-      uVar1 = -uVar1;
-    }
-    if ((int)uVar1 < 0x28) {
-      return CONCAT11((char)(uVar1 >> 8),1);
-    }
-  }
-  return uVar1 & 0xff00;
 }
