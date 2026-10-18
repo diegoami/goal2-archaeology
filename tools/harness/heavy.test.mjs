@@ -20,12 +20,23 @@ const REPO = path.resolve(here, '..', '..');
 const HEAVY = path.join(here, 'heavy.sh');
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
+// [designed] timing constants of these tests (nothing here is evidence about the machine; the defaults of heavy.sh are
+// justified in heavy.sh and notes/318-heavy/). What was tried: a first run with 0.6 s jobs and 250 ms between
+// submissions let job 1 finish before job 4 was submitted, so the "2 ahead" case never happened; 1.5 s jobs made it
+// happen on every one of five runs. A job lasts at least 10 polls so that "is queued" and "waited for" are not decided
+// by one poll's phase; submissions are at least 2 polls apart so each ticket exists before the next is made.
+const POLL_S = 0.1;           // heavy.sh's poll in these tests; its default (1 s) would make the suite 10x slower
+const HOLD_S = 1.5;           // how long the jobs of the order tests hold a slot
+const GAP_MS = 250;           // between submissions in the order test
+const IDLE_MS = 2000;         // the idle limit of the two idle tests (the reviewer's real one is 1500 s)
+const IDLE_HOLD_S = 4.5;      // how long the idle tests' holder keeps the only slot: more than twice the idle limit
+
 let tmp; let seq = 0;
 before(() => { tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'heavy-test-')); });
 after(() => { fs.rmSync(tmp, { recursive: true, force: true }); });
 // one lock folder per test, so tests never queue behind one another
 const lockEnv = (extra = {}) => ({
-  ...process.env, HARNESS_HEAVY_DIR: path.join(tmp, `locks-${++seq}`), HARNESS_HEAVY_SLOTS: '2', HARNESS_HEAVY_POLL: '0.1',
+  ...process.env, HARNESS_HEAVY_DIR: path.join(tmp, `locks-${++seq}`), HARNESS_HEAVY_SLOTS: '2', HARNESS_HEAVY_POLL: String(POLL_S),
   HARNESS_HEAVY_HELD: '', ...extra,
 });
 
@@ -46,11 +57,38 @@ function job(env, name, seconds, { weight = 1, command } = {}) {
   return j;
 }
 
+// The values these tests and heavy.sh depend on, tied to each other and to the measurements: a change that breaks a
+// relation fails here instead of leaving a stale rationale in a comment.
+const HEAVY_SRC = fs.readFileSync(HEAVY, 'utf8');
+const defaultOf = (name) => Number(new RegExp(`\\$\\{${name}:-([0-9.]+)\\}`).exec(HEAVY_SRC)?.[1]);
+test('the constants relate as their comments say: the test timings, heavy.sh\'s defaults, harness.json, the measurements', () => {
+  const poll = defaultOf('HARNESS_HEAVY_POLL');
+  const stale = defaultOf('HARNESS_HEAVY_STALE_SEC');
+  const cfg = JSON.parse(fs.readFileSync(path.join(REPO, 'harness.json'), 'utf8'));
+  assert.ok(poll > 0 && stale > 0, 'both defaults are readable in heavy.sh');
+  // the slots: harness.json's heavy.slots and the script's fallback are the same two
+  assert.equal(cfg.heavy.slots, 2);
+  assert.match(HEAVY_SRC, /\[ -n "\$slots" \] \|\| slots=2\n/);
+  // the touch interval is the poll: far below the reviewer's idle limit and below opencode.mjs's own idle poll
+  // (idleTimeoutMs / 5), so a touch always lands inside one idle check
+  assert.ok(poll * 100 <= cfg.reviewer.idleTimeoutSec, `poll ${poll} s vs the idle limit ${cfg.reviewer.idleTimeoutSec} s`);
+  // the stale age: file times are whole seconds (stat %Y), so an entry a few ms old can read as 1 s old; and it must
+  // exceed, by two orders of magnitude, the longest create-to-lock gap measured (all cores busy)
+  const worst = Math.max(...[...fs.readFileSync(path.join(REPO, 'notes', '318-heavy', 'window-20261018.log'), 'utf8')
+    .matchAll(/worst_create_to_lock_us=(\d+)/g)].map((m) => Number(m[1])));
+  assert.ok(worst > 0, 'the window measurement is committed');
+  assert.ok(stale >= 2, 'stale age is at least 2 whole seconds');
+  assert.ok(stale * 1e6 >= 100 * worst, `stale ${stale} s vs the measured window ${worst} us`);
+  // the tests' own timings (comment above)
+  assert.ok(HOLD_S >= 10 * POLL_S && GAP_MS >= 2 * POLL_S * 1000);
+  assert.ok(IDLE_HOLD_S * 1000 > 2 * IDLE_MS, 'the holder outlasts the idle limit, so the no-queue-file run is killed');
+});
+
 test('DW1: three jobs, two slots: the third waits ("waiting for a slot (0 ahead)") and runs when one ends', async () => {
   const env = lockEnv();
-  const a = job(env, 'a', 1.5);
+  const a = job(env, 'a', HOLD_S);
   await a.startedP;
-  const b = job(env, 'b', 1.5);
+  const b = job(env, 'b', HOLD_S);
   await b.startedP;
   const c = job(env, 'c', 0.2);
   await Promise.all([a.done, b.done, c.done]);
@@ -67,7 +105,7 @@ test('DW1: three jobs, two slots: the third waits ("waiting for a slot (0 ahead)
 test('DW1b: the queue is first come first served, and says how many are ahead', async () => {
   const env = lockEnv({ HARNESS_HEAVY_SLOTS: '1' });
   const jobs = [];
-  for (let i = 1; i <= 4; i++) { jobs.push(job(env, `j${i}`, 1.5)); await sleep(250); }
+  for (let i = 1; i <= 4; i++) { jobs.push(job(env, `j${i}`, HOLD_S)); await sleep(GAP_MS); }
   await Promise.all(jobs.map((j) => j.done));
   const starts = jobs.map((j) => j.started);
   assert.deepEqual([...starts].sort((x, y) => x - y), starts, 'started in the order they were submitted');
@@ -95,7 +133,7 @@ test('a job started inside a heavy job runs at once and takes no slot (no deadlo
 
 test('--weight 2 holds both slots: another job waits for it; a weight over the slots is refused', async () => {
   const env = lockEnv();
-  const w = job(env, 'w', 1.2, { weight: 2 });
+  const w = job(env, 'w', 1.2, { weight: 2 }); // 12 polls: x is seen waiting before w ends
   await w.startedP;
   const x = job(env, 'x', 0.1);
   await Promise.all([w.done, x.done]);
@@ -111,7 +149,7 @@ test('a job killed with SIGKILL frees its slot', async () => {
   const a = job(env, 'victim', 0, { command: ['sh', '-c', 'echo started; exec sleep 30'] });
   await a.startedP;
   const b = job(env, 'next', 0.1);
-  await sleep(500);
+  await sleep(500); // five polls: the queued job has polled and is still queued
   assert.equal(b.started, null, 'next is queued while the slot is held');
   a.child.kill('SIGKILL'); // heavy.sh exec'd into sh, then sleep: the process is the holder
   await b.done;
@@ -121,15 +159,15 @@ test('a job killed with SIGKILL frees its slot', async () => {
 
 test('a queued job killed with SIGKILL leaves no entry that blocks the one behind it', async () => {
   const env = lockEnv({ HARNESS_HEAVY_SLOTS: '1', HARNESS_HEAVY_STALE_SEC: '0' });
-  const holder = job(env, 'holder', 2.5);
+  const holder = job(env, 'holder', 2.5); // outlasts the 0.4 + 1.2 + 0.3 s the test spends before the job behind starts
   await holder.startedP;
   const dead = job(env, 'dead', 0.1);
-  await sleep(400);
+  await sleep(400); // four polls: the waiter's ticket exists and it has polled
   dead.child.kill('SIGKILL');
   await dead.done;
-  await sleep(1200); // an entry younger than the stale limit (whole seconds) is kept
+  await sleep(1200); // more than one whole second (file times are whole seconds, STALE_SEC=0 needs age > 0 s); an entry younger than the stale limit (whole seconds) is kept
   const behind = job(env, 'behind', 0.1);
-  await sleep(300);
+  await sleep(300); // three polls: the job behind has counted the queue
   assert.match(behind.stderr, /waiting for a slot \(0 ahead\)/, 'the dead entry is not counted ahead');
   await Promise.all([holder.done, behind.done]);
   assert.equal(behind.code, 0);
@@ -144,7 +182,7 @@ test('while it waits it touches $HARNESS_HEAVY_QUEUE_FILE (review.mjs\'s idle cl
   const a = job(env, 'a', 1);
   await a.startedP;
   const b = job(env, 'b', 0.1);
-  await sleep(500);
+  await sleep(500); // five polls, so the queue file has been touched several times
   assert.ok(Date.now() - fs.statSync(queue).mtimeMs < 1000, 'touched within the last second');
   await Promise.all([a.done, b.done]);
 });
@@ -196,12 +234,12 @@ async function idleRun(withQueueFile) {
   const queueFile = path.join(work, 'queue-file');
   fs.writeFileSync(queueFile, '');
   const runEnv = { ...env, FAKE_STATE: path.join(work, 'state.json'), HEAVY_SH: HEAVY, HARNESS_HEAVY_QUEUE_FILE: queueFile };
-  const holder = job(env, 'holder', 4.5); // holds the only slot for 4.5 s, longer than the 2 s idle limit
+  const holder = job(env, 'holder', IDLE_HOLD_S); // holds the only slot for more than twice the idle limit
   await holder.startedP;
   try {
     return await runOpenCodeWatched({
       args: ['run'], prompt: 'brief', workDir: work, title: 'idle-test', opencode: { exe: process.execPath, prefix: [oc] },
-      startupTimeoutMs: 20_000, totalTimeoutMs: 60_000, idleTimeoutMs: 2000, pollMs: 200, logDir: work, env: runEnv,
+      startupTimeoutMs: 20_000, totalTimeoutMs: 60_000, idleTimeoutMs: IDLE_MS, pollMs: 200, logDir: work, env: runEnv,
       ...(withQueueFile ? { queueFile } : {}),
     });
   } finally { await holder.done; }

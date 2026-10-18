@@ -29,7 +29,7 @@
   },
   "heavy": {
     "slots": 2,
-    "note": "How many heavy jobs (match runs, family runs, check.py, the unit suite) run at a time on this machine, across every agent, review and worktree; the rest queue first come first served (tools/harness/heavy.sh, #318). HARNESS_HEAVY_SLOTS overrides it."
+    "note": "[designed] two: the limit family.py already states for this machine (T57); see notes/318-heavy/README.md. How many heavy jobs (match runs, family runs, check.py, the unit suite) run at a time on this machine, across every agent, review and worktree; the rest queue first come first served (tools/harness/heavy.sh, #318). HARNESS_HEAVY_SLOTS overrides it."
   },
   "blocked": [],
   "models": {

@@ -20,9 +20,20 @@ FAMILY = ROOT / "experiments" / "E036-match-port" / "family.py"
 USABLE = HEAVY.is_file() and os.access(HEAVY, os.X_OK)
 
 
+# [designed] timing constants (nothing here is evidence about the machine; heavy.sh's defaults are justified in heavy.sh
+# and notes/318-heavy/). POLL: 0.1 s instead of the default 1 s, so a queued job notices a freed slot in about 0.05 s and the
+# tests stay short. HOLD: a holder keeps the only slot 2 s (about 20 polls, and well over the 0.1-0.3 s a Python child
+# takes to start); the probe is asserted to wait more than 0.8 s, not 2 s, so a slow `up` read cannot make it flaky.
+# The unit-suite test holds 3 s because ci_gate.py's interpreter start-up comes before its first poll.
+POLL = "0.1"
+HOLD = 2
+SUITE_HOLD = 3
+MIN_WAIT = 0.8
+
+
 def env_for(lock_dir, **extra):
     env = {k: v for k, v in os.environ.items() if k not in ("CI", "HARNESS_HEAVY_HELD", "HARNESS_HEAVY_OFF")}
-    env.update(HARNESS_HEAVY_DIR=str(lock_dir), HARNESS_HEAVY_SLOTS="1", HARNESS_HEAVY_POLL="0.1",
+    env.update(HARNESS_HEAVY_DIR=str(lock_dir), HARNESS_HEAVY_SLOTS="1", HARNESS_HEAVY_POLL=POLL,
                PYTHONPATH=str(ROOT / "runtime"))
     env.update(extra)
     return env
@@ -44,14 +55,14 @@ class TakeTest(unittest.TestCase):
                                 stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
 
     def test_a_job_waits_for_the_slot_a_heavy_job_holds_and_then_runs(self):
-        holder = subprocess.Popen([str(HEAVY), "holder", "--", "sh", "-c", "echo up; sleep 2"], env=env_for(self.locks),
+        holder = subprocess.Popen([str(HEAVY), "holder", "--", "sh", "-c", f"echo up; sleep {HOLD}"], env=env_for(self.locks),
                                   stdout=subprocess.PIPE, text=True)
         self.addCleanup(holder.stdout.close)
         self.addCleanup(holder.wait)
         self.assertEqual(holder.stdout.readline(), "up\n")       # the holder has the only slot
         t0 = time.time()
         out, err = self.probe().communicate(timeout=30)
-        self.assertGreater(time.time() - t0, 0.8, "the probe ran while the slot was held")
+        self.assertGreater(time.time() - t0, MIN_WAIT, "the probe ran while the slot was held")
         self.assertIn("heavy: probe: waiting for a slot (0 ahead)", err)
         self.assertEqual(out, "held=probe\n")                    # it ran inside its own heavy job
 
@@ -78,6 +89,13 @@ class TakeTest(unittest.TestCase):
                 mock.patch("heavy_slot.os.execv") as execv:
             heavy_slot.take("x", weight=2, argv=["python3", "-m", "pkg.mod", "--a"])
         execv.assert_called_once_with(str(HEAVY), [str(HEAVY), "--weight", "2", "x", "--", "python3", "-m", "pkg.mod", "--a"])
+
+
+class ConstantsTest(unittest.TestCase):
+    def test_the_timings_relate_as_their_comment_says(self):
+        self.assertLess(MIN_WAIT, HOLD)               # the probe must be able to see the wait
+        self.assertGreaterEqual(HOLD, 10 * float(POLL))
+        self.assertGreater(SUITE_HOLD, 1)             # more than interpreter start-up plus a few polls
 
 
 class FamilyWorkersTest(unittest.TestCase):
@@ -114,7 +132,7 @@ class EntryPointsTest(unittest.TestCase):
     def test_the_unit_suite_waits_in_the_queue(self):
         with tempfile.TemporaryDirectory() as d:
             env = env_for(Path(d) / "locks")
-            holder = subprocess.Popen([str(HEAVY), "holder", "--", "sh", "-c", "echo up; sleep 3"], env=env,
+            holder = subprocess.Popen([str(HEAVY), "holder", "--", "sh", "-c", f"echo up; sleep {SUITE_HOLD}"], env=env,
                                       stdout=subprocess.PIPE, text=True)
             try:
                 self.assertEqual(holder.stdout.readline(), "up\n")

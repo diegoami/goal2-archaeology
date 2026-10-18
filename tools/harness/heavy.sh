@@ -22,7 +22,7 @@
 # While it waits it touches $HARNESS_HEAVY_QUEUE_FILE (when set) every poll: review.mjs sets it, and its
 # idle limit does not count the time the reviewer's command spends in the queue (lib/opencode.mjs).
 # $HARNESS_HEAVY_POLL is the poll interval in seconds (default 1); a queue entry whose job died is removed
-# once it is $HARNESS_HEAVY_STALE_SEC (default 5) seconds old.
+# once it is $HARNESS_HEAVY_STALE_SEC (default 5) seconds old. Why those numbers: notes/318-heavy/README.md.
 #
 # Exit status: the command's; 2 for a refused command line (a weight over the slots, no command).
 
@@ -52,6 +52,9 @@ if [ -z "$slots" ]; then
     try { const c = JSON.parse(require("fs").readFileSync(process.argv[1], "utf8")); process.stdout.write(String(c.heavy?.slots ?? "")); } catch {}
   ' "$here/../../harness.json" 2>/dev/null)"
 fi
+# [designed] two slots: the limit already written for this machine (family.py: --workers 2 "the most the shared machine allows",
+# T57); one match is 1.04 cores and 129 MB (notes/318-heavy/rss-F40-e032-0101-20261018.log). Throughput at 2, 4, 8 matches was not
+# measured. Unlike the rest it is a policy, and harness.json heavy.slots is where the owner changes it.
 [ -n "$slots" ] || slots=2
 case "$slots" in ''|*[!0-9]*|0) die "the number of slots must be a positive whole number; got '$slots'" ;; esac
 case "$weight" in ''|*[!0-9]*|0) die "--weight must be a positive whole number; got '$weight'" ;; esac
@@ -89,15 +92,24 @@ case "$name" in *[!A-Za-z0-9._-]*|'') die "the job's name uses letters, digits, 
 # Inside a heavy job: the outer job holds the slot.
 if [ -n "${HARNESS_HEAVY_HELD:-}" ]; then exec "$@"; fi
 
+# [designed] poll 1 s: measured in notes/318-heavy/poll-20261018-run2.log (six runs per interval): a waiter costs 0.30% of a core
+# at 1 s (0.17% at 2 s, 0.69% at 0.5 s, 2.52% at 0.1 s) and starts 0.6 s on average after the slot frees (0.7 s at 2 s,
+# 0.25 s at 0.5 s, 0.06 s at 0.1 s), against a match of 13.1 s on average and reviews and suites of minutes. It is also the
+# touch interval of $HARNESS_HEAVY_QUEUE_FILE, 1500 times finer than the reviewer's idle limit (harness.json 1500 s).
+# [designed] stale 5 s: a live waiter's ticket is locked for its whole wait, so age only matters in the gap between creating
+# a ticket and locking it: 16.4 ms at worst over 2000 tickets with all 32 cores busy (window-20261018.log). File times are
+# whole seconds, so a ticket a few ms old can read 1 s old: the value must be at least 2; 5 is 300 times the worst gap.
+# tools/harness/heavy.test.mjs fails if these defaults drift from those relations.
 poll="${HARNESS_HEAVY_POLL:-1}"
 stale="${HARNESS_HEAVY_STALE_SEC:-5}"
 queue_file="${HARNESS_HEAVY_QUEUE_FILE:-}"
+# the 19 digits of the nanosecond clock sort as text (the queue order) until the year 2286
 ticket="$dir/queue/$(date +%s%N)-$$-$name"
 exec {tfd}>"$ticket" || die "cannot create $ticket"
 flock -n "$tfd" || die "cannot lock $ticket"
 cleanup() { rm -f "$ticket"; }
 trap cleanup EXIT
-trap 'exit 143' TERM
+trap 'exit 143' TERM   # 128 + signal number, the shell convention: the ticket is removed by the EXIT trap
 trap 'exit 130' INT
 
 # Tickets whose owner died (the file is not locked, and it is no longer new) are removed.

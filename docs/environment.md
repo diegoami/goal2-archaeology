@@ -242,7 +242,7 @@ Up to four agents and three reviews ran at once on 2026-10-17: load average 6.8 
 runs took one to two hours, one hit its limits, and the idle watch fired "possibly stuck" for work that was only
 slow. "At most one match process at a time" was only a line in briefs; since #318 a lock enforces it.
 
-`tools/harness/heavy.sh <name> -- <command>` takes one of N slots (harness.json `heavy.slots`, two; the
+`tools/harness/heavy.sh <name> -- <command>` takes one of N slots (harness.json `heavy.slots`, two; why two, a 1 s poll and a 5 s stale-ticket age: measurements and sources in `notes/318-heavy/README.md`; the
 environment variable `HARNESS_HEAVY_SLOTS` overrides it), then runs the command in place of itself (its exit status
 and output are the command's). With every slot taken it queues, first come first served, and prints
 `heavy: <name>: waiting for a slot (k ahead)` on stderr, k being the jobs queued before it. The slots and the queue
