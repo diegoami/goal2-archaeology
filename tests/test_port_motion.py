@@ -251,13 +251,14 @@ class PlayerSprite(unittest.TestCase):
         self.assertEqual(t.u16(r + 2), 0x0302)
         self.assertEqual(t.targets(), ["0791:2C29"])
 
-    def test_no_restore_variant_leaves_the_old_cell(self):
+    def test_no_draw_variant_restores_the_old_cell_and_draws_nothing(self):
         t = Machine()
         self.record(t, 0x0302, 0x0201)
         t.put16(t.cell(BACK_SEG, 1, 2), 0x0D2E)
         t.put16(t.cell(PIC_SEG, 1, 2), 0x0F41)
-        t.run(motion.move_player_sprite, [t.DS, REC], callees=self.callees(), variant="no-restore")
-        self.assertEqual(t.u16(t.cell(PIC_SEG, 1, 2)), 0x0F41)
+        t.put16(t.cell(PIC_SEG, 2, 3), 0x0D2E)
+        t.run(motion.move_player_sprite, [t.DS, REC], callees=self.callees(), variant="no-draw")
+        self.assertEqual((t.u16(t.cell(PIC_SEG, 1, 2)), t.u16(t.cell(PIC_SEG, 2, 3))), (0x0D2E, 0x0D2E))
 
     def test_no_position_draws_nothing(self):
         t = Machine()

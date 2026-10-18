@@ -32,7 +32,7 @@ from .mem import s8, s16
 from . import Registry
 
 PORTS = Registry("motion", "ball and player motion, the offside line and the referee (row T62)")
-PORTS.variant("no-restore", "8537's restore of the player's old cell from the background (8547-859D) skipped")
+PORTS.variant("no-draw", "8537's draw of the player's sprite at its new cell (85BB-8602) skipped: the picture")
 PORTS.variant("offside-max", "8CF5's jge at 8D92 read as jle: the line taken at the most advanced player")
 PORTS.variant("referee-still", "9119's step towards its target and its blocking test (9249-92EA) skipped")
 
@@ -240,9 +240,8 @@ def move_player_sprite(mem, variant):
     ax = old
     if old != no_position and old != mem.u16(rec):        # 853D-8554
         row, col = mem.u8(rec + 2), mem.u8(rec + 3)
-        if variant != "no-restore":
-            bx = mem.u16(cell(mem, BACKGROUND, row, col))                    # 8556-8577
-            mem.w16(cell(mem, PICTURE, row, col), bx, "0791:859D")           # 857C-859D
+        bx = mem.u16(cell(mem, BACKGROUND, row, col))                        # 8556-8577
+        mem.w16(cell(mem, PICTURE, row, col), bx, "0791:859D")               # 857C-859D
         ax, dx = cell_mul(row)
         mem.set_reg("dx", dx)
     pos = mem.u16(rec)
@@ -252,7 +251,8 @@ def move_player_sprite(mem, variant):
         held = 1 if (mem.u8(rec + 4) == 1 and mem.ds8(0x830B) == mem.u8(rec + 6)) else 0     # 85BB-85D5
         bx = (held + mem.u16(rec + 4)) & 0xFFFF           # 85D7-85E0 xor ah, ah; add ax, es:[di + 4]
         row, col = mem.u8(rec), mem.u8(rec + 1)
-        mem.w16(cell(mem, PICTURE, row, col), bx, "0791:8602")               # 85E2-8602 the sprite drawn
+        if variant != "no-draw":
+            mem.w16(cell(mem, PICTURE, row, col), bx, "0791:8602")           # 85E2-8602 the sprite drawn
         ax, dx = cell_mul(row)
         mem.set_reg("dx", dx)
     regs(mem, ax)
