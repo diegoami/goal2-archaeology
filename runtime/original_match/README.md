@@ -301,6 +301,16 @@ changed or stopped; a step a port stops FAILs and the next steps still run).
   included, but where a routine's result is declared dead at one return address with the listing's evidence) must
   be equal, else `ProofError` names the routine, the call, the site, byte or register; then the port's state is put
   back. A proved match is about seven times slower and is not saved. `experiments/E036-match-port/locate.py` uses it.
+  **What the proof guarantees, and what it does not.** It catches accidental divergence by ports and by kit handlers
+  written in the ordinary way: every observation or callback route that goes through Machine's public API (its
+  methods, `Machine.uc`, the taps, the sites and the write listeners) is compared or refused. It does not catch
+  deliberate reflection, because in-process Python cannot be sandboxed against its own code: private attributes
+  (`Machine._uc`, `Machine.uc._engine`), `vars()`, `object.__getattribute__`, the `__self__` of a whitelisted bound
+  method, `gc`, `ctypes`, frame inspection. Four such routes are known and were accepted by the owner on 2026-10-18
+  (follow-up issue #333): `m._uc`, `m.uc._engine`, `vars(m.uc)["_engine"]` and `object.__getattribute__(m.uc,
+  "_engine")` reach the engine past the denial and past the pre-proof count (a raw `hook_add` made through
+  `m.uc._engine` before the `Prover` is built is accepted); and `m.uc.ctl_get_arch.__self__` is the engine, through
+  which a kit handler could `reg_read` unchecked. A port or a kit handler must never use any of them.
 
 ## Limits and costs
 
