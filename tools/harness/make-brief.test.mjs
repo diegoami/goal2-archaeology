@@ -113,12 +113,12 @@ after(() => { fs.rmSync(tmp, { recursive: true, force: true }); });
 
 test('DW1: a brief for a fixture PR is accepted by review.mjs --dry-run (exit 0), and the model reads it', () => {
   const out = path.join(tmp, 'ok.md');
-  const m = make(['--task', path.join(tmp, 'T99.md'), '--round', '2', '--caveat', `an earlier head was ${OTHER.slice(0, 10)}`, '--protects', 'the fixture guard'], out);
+  const m = make(['--task', path.join(tmp, 'T99.md'), '--round', '2', '--sample', 'F40 seeds 1-5, 2 of O8, 2 of S', '--caveat', `an earlier head was ${OTHER.slice(0, 10)}`, '--protects', 'the fixture guard'], out);
   assert.equal(m.status, 0, m.stderr);
   const text = fs.readFileSync(out, 'utf8');
   assert.equal(text.split('\n')[0], 'T99 review (luna)');
   assert.match(text, new RegExp(`You review PR #1 at ${head}`));
-  assert.match(text, /This is review round 2\./);
+  assert.match(text, /This is review round 2\.\nSample for this round: F40 seeds 1-5, 2 of O8, 2 of S\n/);
   assert.match(text, /# T99 a fixture task[\s\S]*the second thing passes/); // the task, in full
   assert.match(text, /## Blocking means[\s\S]*the fixture guard[\s\S]*## Report every blocking finding/);
   assert.doesNotMatch(text, /<name it|<project-specific/);
@@ -284,4 +284,80 @@ test('#234: no local branch, or a local branch behind GitHub, uses GitHub\'s hea
   assert.equal(behind.status, 0, behind.stderr);
   assert.match(behind.stderr, /local branch is behind/);
   assert.match(fs.readFileSync(out, 'utf8'), new RegExp(`at ${ahead}`));
+});
+
+// #319 (the owner, 2026-10-18): a rework round re-runs a seeded sample, and the brief states it.
+test('#319: the Rework rounds section is pasted in every brief, and a rework round names its sample', () => {
+  const o = { header: 'T99 review (luna)', pr: 1, head, pasted: TASK, protects: 'x', processMd: fs.readFileSync(path.join(REPO, 'docs', 'process.md'), 'utf8'), reviewBriefMd: fs.readFileSync(path.join(REPO, 'docs', 'review-brief.md'), 'utf8') };
+  const first = buildBrief(o);
+  assert.match(first.text, /\n## Rework rounds: what you re-run/);
+  assert.match(first.text, /sha256 against the\nimplementer's manifest/);
+  assert.doesNotMatch(first.text, /^Sample for this round: /m);
+  const one = buildBrief({ ...o, round: '1' });
+  assert.doesNotMatch(one.text, /^Sample for this round: /m);
+  const r2 = buildBrief({ ...o, round: '2', sample: 'F40 seeds 1-5' });
+  assert.match(r2.text, /This is review round 2\.\nSample for this round: F40 seeds 1-5\n/);
+  checkBrief(r2.text, head, r2.generated);
+  assert.throws(() => buildBrief({ ...o, round: '2' }), /rework round: --sample TEXT is required/);
+  assert.throws(() => buildBrief({ ...o, round: '3', sample: '' }), /--sample must carry text/);
+  assert.throws(() => buildBrief({ ...o, sample: 'F40 seeds 1-5' }), /--sample belongs to a rework round/);
+  assert.throws(() => buildBrief({ ...o, round: '1', sample: 'F40 seeds 1-5' }), /--sample belongs to a rework round/);
+  // through the command: nothing is written without the sample
+  const out = path.join(tmp, 'nosample.md');
+  const m = make(['--task', path.join(tmp, 'T99.md'), '--protects', 'x', '--round', '2'], out);
+  assert.equal(m.status, 2);
+  assert.match(m.stderr, /--sample TEXT is required/);
+  assert.equal(fs.existsSync(out), false);
+  // the template without the section is refused
+  assert.throws(() => buildBrief({ ...o, reviewBriefMd: o.reviewBriefMd.replace('## Rework rounds', '## Something else') }), /three sections/);
+});
+
+// #324 round 1 (R1): a text argument that must carry content is refused when empty or only whitespace,
+// in the build path (buildBrief), in the check path (checkBrief on a brief written by hand) and on the command line.
+test('#324: an empty or whitespace-only text argument is refused (build, check and command line)', () => {
+  const o = { header: 'T99 review (luna)', pr: 1, head, pasted: TASK, protects: 'x', processMd: fs.readFileSync(path.join(REPO, 'docs', 'process.md'), 'utf8'), reviewBriefMd: fs.readFileSync(path.join(REPO, 'docs', 'review-brief.md'), 'utf8') };
+  for (const blank of ['', ' ', ' \t ', '\n']) {
+    assert.throws(() => buildBrief({ ...o, round: '2', sample: blank }), /--sample must carry text/);
+    assert.throws(() => buildBrief({ ...o, protects: blank }), /--protects must carry text/);
+    assert.throws(() => buildBrief({ ...o, blocking4: blank }), /--blocking4 must carry text/);
+    assert.throws(() => buildBrief({ ...o, caveats: ['fine', blank] }), /--caveat must carry text/);
+  }
+  // the value is trimmed
+  const t = buildBrief({ ...o, round: '2', sample: '  F40 seeds 1-5  ', protects: ' the guard ' });
+  assert.match(t.text, /^Sample for this round: F40 seeds 1-5$/m);
+  assert.match(t.text, /can be got past: the guard\./);
+  // checkBrief on a brief written by hand: a rework round with no sample, or an empty one, an empty caveat, an empty protects
+  const built = buildBrief({ ...o, round: '2', sample: 'F40 seeds 1-5', caveats: ['c'] });
+  const good = built.text;
+  const chk = (text) => checkBrief(text, head, text.replace(TASK.trim(), ''));
+  chk(good);
+  assert.throws(() => chk(good.replace('Sample for this round: F40 seeds 1-5\n', '')), /rework round: the brief must carry "Sample for this round:"/);
+  assert.throws(() => chk(good.replace('Sample for this round: F40 seeds 1-5', 'Sample for this round:   ')), /rework round: the brief must carry/);
+  assert.throws(() => chk(good.replace('Caveat: c', 'Caveat:  ')), /"Caveat:" line is empty/);
+  assert.throws(() => chk(good.replace('can be got past: x.', 'can be got past: .')), /names nothing/);
+  // the first review needs no sample
+  chk(buildBrief(o).text);
+  // the command line: nothing is written for any of them
+  const T = path.join(tmp, 'T99.md');
+  const out = path.join(tmp, 'blank.md');
+  const cases = [
+    [['--round', '2', '--sample', '  '], /--sample must carry text/],
+    [['--protects', '  '], /--protects must carry text/],
+    [['--protects', 'x', '--blocking4', ' '], /--blocking4 must carry text/],
+    [['--protects', 'x', '--caveat', ' '], /--caveat must carry text/],
+  ];
+  for (const [extra, re] of cases) {
+    const argv = ['--task', T, ...(extra.includes('--protects') ? [] : ['--protects', 'x']), ...extra];
+    const m = make(argv, out);
+    assert.equal(m.status, 2, extra.join(' '));
+    assert.match(m.stderr, re);
+    assert.equal(fs.existsSync(out), false);
+  }
+  const blankTask = make(['--protects', 'x', '--task', ' '], out);
+  assert.equal(blankTask.status, 2);
+  assert.match(blankTask.stderr, /--task must carry text/);
+  const r = run(MAKE, ['--pr', '1', '--issue', '5', '--reviewer', ' ', '--protects', 'x', '--task', T, '--out', out]);
+  assert.equal(r.status, 2);
+  assert.match(r.stderr, /--reviewer must carry text/);
+  assert.equal(fs.existsSync(out), false);
 });
