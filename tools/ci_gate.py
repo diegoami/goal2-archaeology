@@ -199,15 +199,28 @@ def parser():
     return ap
 
 
+def modules_of(a):
+    return [m for m in a.modules.split(",") if m]
+
+
+def refusal(a):
+    """Why main() refuses a command line that parsed, or None. The one definition of every refusal after parsing: main()
+    asks it, and so does the heavy-job slot, so a refused line is answered at once and never queues (#328)."""
+    if a.cmd == "run-tests":
+        unknown = set(modules_of(a)) - set(SLOW)
+        if unknown:
+            return f"not slow modules: {sorted(unknown)}"
+    return None
+
+
 def main(argv):
     a = parser().parse_args(argv)
+    why = refusal(a)
+    if why:
+        print(why, file=sys.stderr)
+        return 2
     if a.cmd == "run-tests":
-        mods = [m for m in a.modules.split(",") if m]
-        unknown = set(mods) - set(SLOW)
-        if unknown:
-            print(f"not slow modules: {sorted(unknown)}", file=sys.stderr)
-            return 2
-        return run_tests(mods)
+        return run_tests(modules_of(a))
     env = {k: os.environ.get(k, "") for k in ("EVENT", "ACTION", "BASE", "HEAD", "BEFORE", "REPO")}
     ob, why = decide(env)
     print(f"tier={name_of(ob)} ({why})", file=sys.stderr)
@@ -222,6 +235,7 @@ if __name__ == "__main__":
     sys.path.insert(0, str(ROOT / "runtime"))
     import heavy_slot
     _ns = heavy_slot.parsed(parser())
-    if _ns is not None and _ns.cmd == "run-tests":    # the unit suite is a heavy job (#318); `decide` is not
+    # the unit suite is a heavy job (#318); `decide` is not, and a line main() refuses (parser or refusal()) holds no slot
+    if _ns is not None and _ns.cmd == "run-tests" and refusal(_ns) is None:
         heavy_slot.take("unit-suite")
     sys.exit(main(sys.argv[1:]))
