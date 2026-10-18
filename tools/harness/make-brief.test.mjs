@@ -389,7 +389,7 @@ test('#314: full SHAs other than the head in the pasted text are shortened to 10
 test('#314: --header NAME with --issue none pastes the PR, names the header, and review.mjs accepts it with no label', () => {
   const out = path.join(tmp, 'backlog.md');
   const argv = ['--pr', '1', '--issue', 'none', '--header', 'backlog', '--reviewer', 'luna', '--protects', 'the plan', '--out', out];
-  const m = run(MAKE, argv, { env: { ...env, FAKE_PR_BODY: `The plan, from ${OTHER}.\n\n**Done when:**\n1. it is read\n2. it is checked\n` } });
+  const m = run(MAKE, argv, { env: { ...env, FAKE_PR_BODY: `The plan, from ${OTHER.slice(0, 10)}.\n\n**Done when:**\n1. it is read\n2. it is checked\n` } });
   assert.equal(m.status, 0, m.stderr);
   const text = fs.readFileSync(out, 'utf8');
   assert.equal(text.split('\n')[0], 'backlog review (luna)');
