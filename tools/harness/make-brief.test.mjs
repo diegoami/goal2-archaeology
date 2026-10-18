@@ -299,7 +299,7 @@ test('#319: the Rework rounds section is pasted in every brief, and a rework rou
   assert.match(r2.text, /This is review round 2\.\nSample for this round: F40 seeds 1-5\n/);
   checkBrief(r2.text, head, r2.generated);
   assert.throws(() => buildBrief({ ...o, round: '2' }), /rework round: --sample TEXT is required/);
-  assert.throws(() => buildBrief({ ...o, round: '3', sample: '' }), /--sample TEXT is required/);
+  assert.throws(() => buildBrief({ ...o, round: '3', sample: '' }), /--sample must carry text/);
   assert.throws(() => buildBrief({ ...o, sample: 'F40 seeds 1-5' }), /--sample belongs to a rework round/);
   assert.throws(() => buildBrief({ ...o, round: '1', sample: 'F40 seeds 1-5' }), /--sample belongs to a rework round/);
   // through the command: nothing is written without the sample
@@ -310,4 +310,54 @@ test('#319: the Rework rounds section is pasted in every brief, and a rework rou
   assert.equal(fs.existsSync(out), false);
   // the template without the section is refused
   assert.throws(() => buildBrief({ ...o, reviewBriefMd: o.reviewBriefMd.replace('## Rework rounds', '## Something else') }), /three sections/);
+});
+
+// #324 round 1 (R1): a text argument that must carry content is refused when empty or only whitespace,
+// in the build path (buildBrief), in the check path (checkBrief on a brief written by hand) and on the command line.
+test('#324: an empty or whitespace-only text argument is refused (build, check and command line)', () => {
+  const o = { header: 'T99 review (luna)', pr: 1, head, pasted: TASK, protects: 'x', processMd: fs.readFileSync(path.join(REPO, 'docs', 'process.md'), 'utf8'), reviewBriefMd: fs.readFileSync(path.join(REPO, 'docs', 'review-brief.md'), 'utf8') };
+  for (const blank of ['', ' ', ' \t ', '\n']) {
+    assert.throws(() => buildBrief({ ...o, round: '2', sample: blank }), /--sample must carry text/);
+    assert.throws(() => buildBrief({ ...o, protects: blank }), /--protects must carry text/);
+    assert.throws(() => buildBrief({ ...o, blocking4: blank }), /--blocking4 must carry text/);
+    assert.throws(() => buildBrief({ ...o, caveats: ['fine', blank] }), /--caveat must carry text/);
+  }
+  // the value is trimmed
+  const t = buildBrief({ ...o, round: '2', sample: '  F40 seeds 1-5  ', protects: ' the guard ' });
+  assert.match(t.text, /^Sample for this round: F40 seeds 1-5$/m);
+  assert.match(t.text, /can be got past: the guard\./);
+  // checkBrief on a brief written by hand: a rework round with no sample, or an empty one, an empty caveat, an empty protects
+  const built = buildBrief({ ...o, round: '2', sample: 'F40 seeds 1-5', caveats: ['c'] });
+  const good = built.text;
+  const chk = (text) => checkBrief(text, head, text.replace(TASK.trim(), ''));
+  chk(good);
+  assert.throws(() => chk(good.replace('Sample for this round: F40 seeds 1-5\n', '')), /rework round: the brief must carry "Sample for this round:"/);
+  assert.throws(() => chk(good.replace('Sample for this round: F40 seeds 1-5', 'Sample for this round:   ')), /rework round: the brief must carry/);
+  assert.throws(() => chk(good.replace('Caveat: c', 'Caveat:  ')), /"Caveat:" line is empty/);
+  assert.throws(() => chk(good.replace('can be got past: x.', 'can be got past: .')), /names nothing/);
+  // the first review needs no sample
+  chk(buildBrief(o).text);
+  // the command line: nothing is written for any of them
+  const T = path.join(tmp, 'T99.md');
+  const out = path.join(tmp, 'blank.md');
+  const cases = [
+    [['--round', '2', '--sample', '  '], /--sample must carry text/],
+    [['--protects', '  '], /--protects must carry text/],
+    [['--protects', 'x', '--blocking4', ' '], /--blocking4 must carry text/],
+    [['--protects', 'x', '--caveat', ' '], /--caveat must carry text/],
+  ];
+  for (const [extra, re] of cases) {
+    const argv = ['--task', T, ...(extra.includes('--protects') ? [] : ['--protects', 'x']), ...extra];
+    const m = make(argv, out);
+    assert.equal(m.status, 2, extra.join(' '));
+    assert.match(m.stderr, re);
+    assert.equal(fs.existsSync(out), false);
+  }
+  const blankTask = make(['--protects', 'x', '--task', ' '], out);
+  assert.equal(blankTask.status, 2);
+  assert.match(blankTask.stderr, /--task must carry text/);
+  const r = run(MAKE, ['--pr', '1', '--issue', '5', '--reviewer', ' ', '--protects', 'x', '--task', T, '--out', out]);
+  assert.equal(r.status, 2);
+  assert.match(r.stderr, /--reviewer must carry text/);
+  assert.equal(fs.existsSync(out), false);
 });

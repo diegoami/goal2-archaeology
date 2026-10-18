@@ -9,9 +9,11 @@
 // The brief is: the header alone on line 1 ("T47 review (luna)", or "fix #175 review (luna)" without
 // --task); the round and the caveats after it, never on it; the PR's head SHA, full (and no other
 // commit's full SHA where review.mjs reads: write earlier heads short); the numbered block of
-// docs/process.md section 5; the task file, or the issue's title and body, pasted in full; and the two
+// docs/process.md section 5; the task file, or the issue's title and body, pasted in full; and the three
 // sections of docs/review-brief.md with "Blocking means" filled from --protects and --blocking4.
 // --protects has no default: without it the placeholder remains and nothing is written.
+// A text argument that must carry content (--protects, --blocking4, --sample, --caveat, --reviewer, --task,
+// --out) is trimmed and refused when empty or only whitespace, in buildBrief and again in checkBrief (#324).
 // Rework rounds (the owner, 2026-10-18, #319; docs/review-brief.md "Rework rounds"): from --round 2 the
 // brief names the seeded sample to re-run in place of a full family run, so --sample is required there and
 // refused in a first review. The "Rework rounds" section itself is always pasted.
@@ -42,6 +44,14 @@ const PLACEHOLDER = /<[A-Za-z][^<>]*>/; // may span lines, as "<name it: ...>" d
 const MARK = '\u0000PASTED\u0000';
 
 const fail = (msg) => { throw new Error(msg); };
+
+// A text argument given as empty or whitespace carries nothing: refused, never passed on as if it did.
+export function content(name, v) {
+  if (v === undefined) return undefined;
+  const t = typeof v === 'string' ? v.trim() : '';
+  if (!t) fail(`--${name} must carry text: it is empty or only whitespace.`);
+  return t;
+}
 
 const sleepMs = (ms) => Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, ms);
 
@@ -89,13 +99,17 @@ const once = (text, re, to, what) => {
 // Returns { text, generated }: `generated` is the brief with the pasted text left out.
 export function buildBrief(o) {
   const lines = processBlock(o.processMd);
+  const sample = content('sample', o.sample);
+  const protects = content('protects', o.protects);
+  const blocking4 = content('blocking4', o.blocking4);
+  const caveats = (o.caveats ?? []).map((c) => content('caveat', c));
   const intro = [`You review PR #${o.pr} at ${o.head}. You did not write it. The task file follows.`];
   if (o.round) intro.push(`This is review round ${o.round}.`);
   const rework = Number(o.round) >= 2;
-  if (rework && !o.sample) fail(`Round ${o.round} is a rework round: --sample TEXT is required (the seeded sample to re-run in place of a full family run; docs/review-brief.md "Rework rounds").`);
-  if (!rework && o.sample) fail('--sample belongs to a rework round (--round 2 or later); the first review re-runs every Done-when line.');
-  if (rework) intro.push(`Sample for this round: ${o.sample}`);
-  for (const c of o.caveats ?? []) intro.push(`Caveat: ${c}`);
+  if (rework && !sample) fail(`Round ${o.round} is a rework round: --sample TEXT is required (the seeded sample to re-run in place of a full family run; docs/review-brief.md "Rework rounds").`);
+  if (!rework && sample) fail('--sample belongs to a rework round (--round 2 or later); the first review re-runs every Done-when line.');
+  if (rework) intro.push(`Sample for this round: ${sample}`);
+  for (const c of caveats) intro.push(`Caveat: ${c}`);
   let block = lines.slice(1).join('\n');
   block = once(block, /^You review PR #<n> at <sha>\. You did not write it\. The task file follows\.$/m, intro.join('\n'), 'the "You review PR" line');
   block = once(block, /HEAD is <sha>/, `HEAD is ${o.head}`, '"HEAD is <sha>"');
@@ -103,9 +117,9 @@ export function buildBrief(o) {
   block = once(block, /^6\. <docs\/review-brief\.md[^\n]*$/m,
     '6. Blocking means, the one-pass rule and the rework-round rule: the three sections at the end of this brief, in full (L47, L49, #319).', 'item 6');
   let sections = briefSections(o.reviewBriefMd);
-  if (o.protects) sections = once(sections, /<name it:[\s\S]*?>/, o.protects, '"<name it: ...>"');
+  if (protects) sections = once(sections, /<name it:[\s\S]*?>/, protects, '"<name it: ...>"');
   sections = once(sections, /<project-specific items:[\s\S]*?>/,
-    o.blocking4 ?? 'a constant with no evidence, a test that passes with the behaviour deleted, a status written into a document',
+    blocking4 ?? 'a constant with no evidence, a test that passes with the behaviour deleted, a status written into a document',
     '"<project-specific items: ...>"');
   const generated = `${o.header}\n${block}\n\n${MARK}\n\n${sections}`;
   return { text: generated.replace(MARK, () => o.pasted.replace(/\s+$/, '')), generated: generated.replace(MARK, '') };
@@ -118,6 +132,12 @@ export function checkBrief(text, head, generated = text) {
   if (!HEADER_RE.test(all[0])) fail(`The first line must be the review header alone, e.g. "T07 review (luna)" or "fix #175 review (luna)"; got: ${all[0]}`);
   const again = all.slice(1).find((l) => ANY_HEADER.test(l));
   if (again) fail(`The header appears again below line 1: ${again}`);
+  const headPart = text.split(/^#\s+T\d+\b|^## Issue #\d+:/m)[0];
+  const round = Number(/^This is review round (\d+)\.$/m.exec(headPart)?.[1] ?? 1);
+  if (round >= 2 && !/^Sample for this round: \S/m.test(headPart)) fail(`Round ${round} is a rework round: the brief must carry "Sample for this round:" followed by text.`);
+  if (/^Sample for this round:\s*$/m.test(headPart)) fail('The "Sample for this round:" line is empty.');
+  if (/^Caveat:\s*$/m.test(headPart)) fail('A "Caveat:" line is empty.');
+  if (/^2\. What this task protects can be got past:\s*[.\n]/m.test(text)) fail('"What this task protects" names nothing: --protects is empty.');
   const left = PLACEHOLDER.exec(generated.replace(TEMPLATE_WORDS, ''))?.[0].replace(/\s+/g, ' ');
   if (left) fail(`A placeholder remains: ${left.slice(0, 70)} (give --protects, or the flag it belongs to)`);
   const h = head.toLowerCase();
@@ -132,6 +152,8 @@ export function checkBrief(text, head, generated = text) {
 function main() {
   const a = parseArgs(process.argv.slice(2), { repeatable: ['caveat'] });
   for (const k of ['pr', 'issue', 'reviewer', 'out']) if (!a[k]) fail(`--${k} is required.`);
+  for (const k of ['reviewer', 'out', 'task', 'protects', 'blocking4', 'sample']) content(k, a[k]);
+  for (const c of a.caveat) content('caveat', c);
   for (const k of ['pr', 'issue']) if (!/^\d+$/.test(a[k])) fail(`--${k} takes a number; got ${a[k]}`);
   if (a.round !== undefined && !/^[1-9]\d*$/.test(a.round)) fail(`--round takes a positive number; got ${a.round}`);
   const readHead = () => sh('gh', ['pr', 'view', a.pr, '--json', 'headRefOid', '--jq', '.headRefOid']).toLowerCase();
