@@ -25,7 +25,7 @@ refuses git stash, git worktree, any force-push and gh pr merge.
   repeated as needed. Hand back only when every Done-when line is met or you are truly blocked; if you
   must hand back early, say what is unfinished and what runs still. (L110)
 - A heavy job (a match run, a family run, check.py, the unit suite) runs as
-  `tools/harness/heavy.sh <name> -- <command>`: two at a time on this machine across every agent and review,
+  `tools/harness/heavy.sh <name> -- <command>`: four at a time on this machine across every agent and review,
   the rest queue ("waiting for a slot (k ahead)" is not a hang; wait inside a tool call, L110). family.py,
   check.py and `tools/ci_gate.py run-tests` queue themselves. docs/environment.md "Heavy jobs". (#318)
 - When done: open the PR (`gh pr create`) with the body below, and make your final message the

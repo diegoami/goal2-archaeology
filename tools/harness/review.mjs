@@ -37,7 +37,7 @@
 // folder is checked by its resolved path, never a tmpfs. lib/scratch.mjs.
 //
 // Heavy jobs (#318): the reviewer runs a match, a family, check.py or the unit suite as
-// `heavy.sh <name> -- <command>`, which queues it behind the other agents' and reviews' heavy jobs (two at a time
+// `heavy.sh <name> -- <command>`, which queues it behind the other agents' and reviews' heavy jobs (four at a time
 // on this machine; harness.json's heavy.slots). heavy.sh is on the reviewer's PATH from THIS checkout, so a PR
 // that predates the script has it too; the HARNESS_HEAVY_HELD of a heavy job this script was started in is
 // cleared; and while a command waits in the queue it touches the run's queue file, which the idle limit reads
@@ -286,7 +286,7 @@ OUTPUT RULES (from tools/harness/review.mjs; they override anything above that c
   (git -C <path> show <pin>:<file>); run that exactly as written — OpenCode does not path-check
   git -C — and read a granted outside path only with the L59 recipe.
 - Heavy jobs: run a match, a family run, check.py or the unit suite only as
-  \`heavy.sh <name> -- <command>\` (on your PATH; run it by name). It lets two heavy jobs run at a time on this
+  \`heavy.sh <name> -- <command>\` (on your PATH; run it by name). It lets four heavy jobs run at a time on this
   machine and queues the rest; "heavy: <name>: waiting for a slot (k ahead)" is the queue, not a hang, and the
   idle limit does not count it. One tool call stops at 1,200 s (L121): start a family run detached
   (\`heavy.sh <name> -- <command> > ${scratch}/<name>.log 2>&1 &\`) and poll its log with tail.

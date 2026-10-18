@@ -1,6 +1,6 @@
 // Tests for the heavy-job lock (#318):  node --test tools/harness/heavy.test.mjs
 //
-// tools/harness/heavy.sh lets N heavy jobs (default 2) run at a time across every agent, review and
+// tools/harness/heavy.sh lets N heavy jobs (default 4) run at a time across every agent, review and
 // worktree, queues the rest first come first served, and tells the queued job how many are ahead. The
 // real script runs here, in a throwaway lock folder (HARNESS_HEAVY_DIR); no model is called. The last
 // two tests run lib/opencode.mjs's idle watch against a fake OpenCode whose command waits in the real
@@ -66,9 +66,11 @@ test('the constants relate as their comments say: the test timings, heavy.sh\'s 
   const stale = defaultOf('HARNESS_HEAVY_STALE_SEC');
   const cfg = JSON.parse(fs.readFileSync(path.join(REPO, 'harness.json'), 'utf8'));
   assert.ok(poll > 0 && stale > 0, 'both defaults are readable in heavy.sh');
-  // the slots: harness.json's heavy.slots and the script's fallback are the same two
-  assert.equal(cfg.heavy.slots, 2);
-  assert.match(HEAVY_SRC, /\[ -n "\$slots" \] \|\| slots=2\n/);
+  // the slots: harness.json's heavy.slots and the script's fallback are the same four (the owner, 2026-10-18; it was two)
+  const fallback = Number(/\[ -n "\$slots" \] \|\| slots=([0-9]+)\n/.exec(HEAVY_SRC)?.[1]);
+  assert.equal(fallback, cfg.heavy.slots, 'the script\'s fallback and harness.json heavy.slots differ');
+  assert.equal(cfg.heavy.slots, 4);
+  assert.equal(fallback, 4);
   // the touch interval is the poll: far below the reviewer's idle limit and below opencode.mjs's own idle poll
   // (idleTimeoutMs / 5), so a touch always lands inside one idle check
   assert.ok(poll * 100 <= cfg.reviewer.idleTimeoutSec, `poll ${poll} s vs the idle limit ${cfg.reviewer.idleTimeoutSec} s`);
@@ -187,7 +189,7 @@ test('while it waits it touches $HARNESS_HEAVY_QUEUE_FILE (review.mjs\'s idle cl
   await Promise.all([a.done, b.done]);
 });
 
-test('the number of slots comes from harness.json (heavy.slots), default 2; --status shows the slots', () => {
+test('the number of slots comes from harness.json (heavy.slots), default 4; --status shows the slots', () => {
   const mk = (cfg) => {
     const root = fs.mkdtempSync(path.join(tmp, 'tree-'));
     fs.mkdirSync(path.join(root, 'tools', 'harness'), { recursive: true });
@@ -199,12 +201,32 @@ test('the number of slots comes from harness.json (heavy.slots), default 2; --st
   const env = (extra) => { const e = lockEnv(extra); delete e.HARNESS_HEAVY_SLOTS; return e; };
   const status = (script) => spawnSync(script, ['--status'], { env: env(), encoding: 'utf8' }).stdout;
   assert.match(status(mk({ heavy: { slots: 3 } })), /0 of 3 slots busy/);
-  assert.match(status(mk({})), /0 of 2 slots busy/);
-  assert.match(status(mk(null)), /0 of 2 slots busy/);
-  assert.match(status(mk({ heavy: { slots: 4 } })), /slot 3: free/);
+  assert.match(status(mk({})), /0 of 4 slots busy/);
+  assert.match(status(mk(null)), /0 of 4 slots busy/);
+  assert.match(status(mk({ heavy: { slots: 5 } })), /slot 4: free/);
   assert.match(status(HEAVY), new RegExp(`0 of ${JSON.parse(fs.readFileSync(path.join(REPO, 'harness.json'), 'utf8')).heavy.slots} slots busy`));
   const bad = spawnSync(HEAVY, ['--slots', 'x', 'a', '--', 'true'], { env: env(), encoding: 'utf8' });
   assert.equal(bad.status, 2);
+});
+
+test('a job queued with N=2 keeps N=2 when a new job starts with N=4: it never takes slot 2 or 3, and the new job queues behind it', async () => {
+  // the value is read once, at start (heavy.sh header): raising heavy.slots reaches new invocations only (#338)
+  const env2 = lockEnv();
+  const env4 = { ...env2, HARNESS_HEAVY_SLOTS: '4' };
+  const a = job(env2, 'a', HOLD_S);
+  await a.startedP;
+  const b = job(env2, 'b', 3 * HOLD_S);    // outlasts w and n, so slot 1 stays taken and n's slot is 2
+  await b.startedP;
+  const w = job(env2, 'w', 0.2);           // queued with N=2: slots 2 and 3 are free, but it looks only at 0 and 1
+  await sleep(GAP_MS);
+  const n = job(env4, 'n', 0.2);           // started with N=4: free slots 2 and 3, yet the queue head is w
+  await Promise.all([a.done, b.done, w.done, n.done]);
+  assert.ok(w.started >= a.ended - 50, `w started ${a.ended - w.started} ms before slot 0 freed`);
+  assert.match(w.stderr, /heavy: w: got slot 0 after/);
+  assert.match(n.stderr, /heavy: n: waiting for a slot \(1 ahead\)/);
+  assert.ok(n.started >= w.started - 50, 'n did not pass w in the queue');
+  assert.match(n.stderr, /heavy: n: got slot 2 after/, 'a job started with N=4 does use slot 2');
+  assert.ok(n.started < b.ended, 'n ran in slot 2 while b still held slot 1');
 });
 
 // ---- the idle limit does not count the queue ----------------------------------------------------------------
