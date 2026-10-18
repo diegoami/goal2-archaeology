@@ -285,6 +285,9 @@ changed or stopped; a step a port stops FAILs and the next steps still run).
   stack where the call left it. A decision the kit stops for inside the call stops the match as anywhere else
   (`Match.port_frames()` names the waiting frames) and the match goes on exactly once it is answered; `save()` refuses
   with `MatchError` while a port's frame waits. A port that calls nothing is a plain function, as before.
+  With the frame module (`port/frame.py`, T69: play_match, the halves, the tick loop, the sweep, the clock) installed,
+  those ports' frames wait for the whole of play, so `save()` is possible only before `play_match` and after it, not
+  at a pause or a decision in between.
 - **The proof** (T59, `port/prove.py`): `Match(..., ports=[...], prove=N)` runs every call of a ported routine from
   the main RNG's N-th draw on side by side with the original's (E021's rule). The port runs first, live (it is the
   match: its decisions are asked and answered once), recording its writes and every kit site it reaches; then it is
