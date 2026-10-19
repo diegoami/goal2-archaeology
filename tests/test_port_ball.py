@@ -194,5 +194,132 @@ class BallWrappers(unittest.TestCase):
             self.assertEqual(r.mem.regs["ax"], expected)
 
 
+class LongTargets(unittest.TestCase):
+    def test_long_ball_keeps_floor_and_product_words_live_across_guest_calls(self):
+        r = Rig()
+        r.w8(0x82F6, 1)
+        r.w8(0x82F7, 2)
+        r.w8(0x78A, 11)
+        r.w8(0x78B, 22)
+        def answer(request, mem):
+            if request.target == "0791:278A":
+                self.assertEqual(request.args, (2, 0x4000, 0x123))
+                self.assertEqual(mem.regs["sp"], 0x2FF8)
+                self.assertEqual((mem.u16(0x2FF8), mem.u16(0x2FFA)), (30, 0))
+                return 108
+            if request.target == "214B:06B1":
+                self.assertEqual(request.args, (27,))
+                self.assertEqual(mem.regs["sp"], 0x2FF8)
+                return 25
+            if request.target == "214B:0D56":
+                self.assertEqual(request.args, (0, 30, 0, 25))
+                self.assertEqual(mem.regs["sp"], 0x2FFC)
+                mem.regs["dx"] = 0
+                return 30
+            if request.target == "0791:2BE5":
+                self.assertEqual(mem.regs["sp"], 0x2FF8)
+                self.assertEqual((mem.u16(0x2FF8), mem.u16(0x2FFA)), (30, 0))
+                return 0xFFFF
+            if request.target == "23E4:0279":
+                self.assertEqual((mem.regs["ax"], mem.regs["dx"], mem.regs["cx"], mem.regs["bx"]),
+                                 (0xFFFF, 0xFFFF, 30, 0))
+                mem.regs["dx"] = 0xFFFF
+                return 0xFFE2                                  # -1 * 30
+            if request.target == "0791:34C1":
+                self.assertEqual(request.args, (0xE401, 10, 0x4000, 0x123))
+                self.assertEqual(mem.ds8(0x830C), 255)
+                r.w8(0x830C, 0)
+                return 0
+            self.assertEqual((request.target, request.args, request.ret_to, request.far),
+                             ("0791:2AA3", (22,), "0791:3B93", False))
+            return 0xF00D
+        r.run("0791:3B15", [0x123, 0x4000], answer)
+        self.assertEqual((r.mem.ds8(0x8303), r.mem.ds8(0x830C)), (1, 0))
+        self.assertEqual(len(r.calls), 7)
+
+    def test_long_kick_uses_each_parallel_mode_row_and_preserves_commentary_ah(self):
+        for event, selector, divisor, floor, chosen, point, template in (
+                (11, 4, 4, 30, 10, 0x2001, 0xAB18),
+                (9, 2, 5, 40, 9, 0x2A01, 0xAB17)):
+            r = Rig()
+            for off, value in ((0x82F6, 1), (0x82F7, 2), (0x796, 4), (0x797, 2),
+                               (0x798, 4), (0x799, 5), (0x79A, 10), (0x79B, 9), (0x79C, 30), (0x79D, 40)):
+                r.w8(off, value)
+            def answer(request, mem):
+                if request.target == "0791:278A":
+                    self.assertEqual(request.args, (selector, 0x4000, 0x123))
+                    self.assertEqual(mem.regs["sp"], 0x2FF4)
+                    self.assertEqual([mem.u16(0x2FF4 + 2*i) for i in range(3)], [divisor, floor, 0])
+                    return 100
+                if request.target == "214B:06B1":
+                    self.assertEqual(request.args, (100 // divisor,))
+                    return 3
+                if request.target == "214B:0D56":
+                    self.assertEqual(request.args, (0, floor, 0, 3))
+                    mem.regs["dx"] = 0
+                    return floor
+                if request.target == "0791:2BE5":
+                    self.assertEqual(mem.regs["sp"], 0x2FF6)
+                    self.assertEqual(mem.u16(0x2FF6), floor)
+                    return 1
+                if request.target == "23E4:0279":
+                    self.assertEqual((mem.regs["ax"], mem.regs["cx"], mem.regs["bx"]), (1, floor, 0))
+                    mem.regs["dx"] = 0
+                    return floor
+                if request.target == "0791:34C1":
+                    self.assertEqual(request.args, (point, chosen, 0x4000, 0x123))
+                    return 0xAB00
+                self.assertEqual(request.target, "0791:2AA3")
+                self.assertEqual(request.args, (template,))
+                return 0
+            r.run("0791:3EF8", [0x123, 0x4000, event], answer)
+            self.assertEqual(r.mem.ds8(0x8303), 1)
+
+    def test_target_slot_point_stays_on_stack_while_half_is_queried(self):
+        for half, event in ((0, 7), (1, 8)):
+            r = Rig()
+            r.record(2, -3, 4)
+            r.w8(0x78C, 7)
+            r.w8(0x78D, 8)
+            def answer(request, mem):
+                if request.target == "0791:2C54":
+                    self.assertEqual((mem.regs["sp"], mem.u16(0x2FFC)), (0x2FFC, 0x04FD))
+                    return half
+                if request.target == "0791:34C1":
+                    self.assertEqual(request.args, (0x04FD, event, 0x4000, 0x123))
+                    self.assertEqual(mem.regs["sp"], 0x2FFE)
+                    return 0xABCD
+                if request.target == "0791:2AA3":
+                    self.assertEqual(request.args, (0xAB03,))
+                    return 0
+                if request.target == "214B:06FA":
+                    return 1
+                self.assertEqual((request.target, request.args), ("0791:4D3F", (0x4000, 0x123)))
+                return 0x1234
+            r.run("0791:3B9E", [0x123, 0x4000, 2], answer)
+            self.assertEqual((r.mem.ds8(0x8303), r.mem.ds8(0x830C)), (1, 2))
+            self.assertEqual(r.mem.regs["ax"], 0x1234)
+
+
+class AdvancedStrip(unittest.TestCase):
+    def test_strict_marker_and_strip_thresholds_on_both_sides(self):
+        for x, y, marker, own, side, expected in (
+                (3, 20, 19, 0, 0, 1), (-3, -20, -19, 0, 1, 1),
+                (4, 20, 19, 0, 0, 0), (3, 35, 19, 0, 0, 0),
+                (3, 19, 19, 0, 0, 0), (3, 20, 19, 1, 0, 0)):
+            r = Rig()
+            r.record(2, x, y)
+            r.w8(0x830B, 2)
+            r.w8(0x82E3 + (6 if side == 0 else 0), marker)
+            def answer(request, mem):
+                if request.target == "0791:2C54":
+                    return own
+                self.assertEqual((request.target, request.ret_to, request.far), ("0791:2996", "0791:40E8", False))
+                return side
+            r.run("0791:40BC", answer=answer)
+            self.assertEqual(r.mem.regs["ax"] & 255, expected, (x, y, marker, own, side))
+            self.assertEqual(len(r.calls), 1 if own else 2)
+
+
 if __name__ == "__main__":
     unittest.main()
