@@ -10,6 +10,7 @@ prove, and the list says which lines.
 Operators: < <-> <=, > <-> >=, == <-> !=, and <-> or, + <-> -, << <-> >>, an integer literal +1 (decimal or hex, not
 inside a string, not a listing address). The worktree is never edited: the copies live under .cache/tmp."""
 import argparse
+import os
 import re
 import shutil
 import subprocess
@@ -64,14 +65,28 @@ def mutants(text):
 
 
 def run_fuzz(tmp, module):
-    """True when fuzz.py finds the mutated module different from the original (exit 1) or the run breaks."""
+    """Count only a completed differential run reporting an actual difference.
+
+    An import failure, missing dependency, or harness timeout is not evidence
+    against a mutant. Abort the measurement rather than turning it into a kill.
+    """
+    env = os.environ.copy()
+    env.pop("T60_NO_FUZZ", None)
     try:
         p = subprocess.run([sys.executable, "-B", str(tmp / "experiments/E036-match-port/out/T60/fuzz.py"), "--module", module,
                             "--n", "40", "--timeout", "1", "--cache", str(ROOT / ".cache" / "dl")], cwd=tmp,
-                           capture_output=True, text=True, env={"PATH": "/usr/bin:/bin", "HOME": str(tmp)}, timeout=300)
-    except subprocess.TimeoutExpired:
-        return True
-    return p.returncode != 0
+                           capture_output=True, text=True, env=env, timeout=300)
+    except subprocess.TimeoutExpired as error:
+        raise RuntimeError("fuzz infrastructure timeout; mutant not classified") from error
+    summaries = re.findall(r"^[0-9A-F]{4}:[0-9A-F]{4}: (\d+) trials \((\d+) ended in the same guest error\), (\d+) differ,", p.stdout, re.M)
+    if p.returncode not in (0, 1) or not summaries or p.stderr.strip() or "no generator" in p.stdout:
+        raise RuntimeError("fuzz did not complete; mutant not classified:\n" + p.stdout + p.stderr)
+    if any(int(trials) == int(errors) for trials, errors, _ in summaries):
+        raise RuntimeError("fuzz had no successful trial for a routine; mutant not classified")
+    different = any(int(differ) for _, _, differ in summaries)
+    if p.returncode != int(different):
+        raise RuntimeError("fuzz exit disagrees with differential result; mutant not classified")
+    return different
 
 
 def run_tests(tmp, test):
@@ -98,8 +113,9 @@ def main():
         tmp = Path(d)
         shutil.copytree(ROOT / "runtime" / "original_match", tmp / "runtime" / "original_match",
                         ignore=shutil.ignore_patterns("__pycache__"))
+        shutil.copy(ROOT / "runtime" / "fileopts.py", tmp / "runtime" / "fileopts.py")
         (tmp / "experiments/E036-match-port/out/T60").mkdir(parents=True)
-        for f in ("fuzz.py", "generators.py", "generators_geometry.py"):
+        for f in ("fuzz.py", "generators.py", "generators_geometry.py", "mutations.py"):
             shutil.copy(ROOT / "experiments/E036-match-port/out/T60" / f, tmp / "experiments/E036-match-port/out/T60" / f)
         (tmp / "tests").mkdir()
         for t in TESTS.values():
@@ -111,6 +127,9 @@ def main():
             tests = [TESTS["runtime"], TESTS["geometry"]]
             assert all(run_tests(tmp, t) for t in tests), "the unmutated copy must pass"
             print(f"== {FILES[module]}: unmutated copy passes {', '.join(tests)}")
+            if a.fuzz:
+                assert not run_fuzz(tmp, module), "the unmutated copy must NOT be caught by fuzz"
+                print(f"== {FILES[module]}: unmutated copy passes actual differential fuzz", flush=True)
             try:
                 for i, new_line, what in mutants(original):
                     total += 1

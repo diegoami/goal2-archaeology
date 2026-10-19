@@ -9,6 +9,9 @@ installed (T60's out/T60/fuzz.py; CI has neither and skips it)."""
 import os
 import sys
 import unittest
+from unittest import mock
+import importlib.util
+import subprocess
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -62,6 +65,24 @@ class Rig:
 
     def writes(self):
         return self.mem.regs
+
+
+class MutationEvidence(unittest.TestCase):
+    def test_fuzz_runner_distinguishes_real_differences_from_launch_failures(self):
+        path = ROOT / "experiments/E036-match-port/out/T60/mutations.py"
+        spec = importlib.util.spec_from_file_location("t60_mutation_evidence", path)
+        runner = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(runner)
+        summary = "23E4:0294: 40 trials (0 ended in the same guest error), {} differ, scratch registers differing: none\n"
+        for exit_code, output, expected in ((0, summary.format(0), False), (1, summary.format(1), True)):
+            with mock.patch.object(runner.subprocess, "run", return_value=subprocess.CompletedProcess([], exit_code, output, "")):
+                self.assertIs(runner.run_fuzz(ROOT, "runtime"), expected)
+        with mock.patch.object(runner.subprocess, "run", return_value=subprocess.CompletedProcess([], 1, "", "ModuleNotFoundError: fileopts")):
+            with self.assertRaisesRegex(RuntimeError, "not classified"):
+                runner.run_fuzz(ROOT, "runtime")
+        with mock.patch.object(runner.subprocess, "run", side_effect=subprocess.TimeoutExpired([], 300)):
+            with self.assertRaisesRegex(RuntimeError, "not classified"):
+                runner.run_fuzz(ROOT, "runtime")
 
 
 class FillAndMove(unittest.TestCase):
@@ -360,6 +381,22 @@ class WrapAndClamp(unittest.TestCase):
 
 
 class LongArithmetic(unittest.TestCase):
+    def test_divide_full_width_remainders(self):
+        # 0294-02FA: exercise high-word rotation and the carry when a negative
+        # remainder whose low word is zero is negated back (02DD-02E4).
+        for dividend in (-0x20000, -0x80000000, 0x7FFFFFFF, -0x70000001, 0x10000):
+            for divisor in (1, -1, 0x30000, -0x30000, 0x40000001, 0x7FFFFFFF):
+                with self.subTest(dividend=dividend, divisor=divisor):
+                    r = Rig()
+                    ud, uv = dividend & 0xFFFFFFFF, divisor & 0xFFFFFFFF
+                    regs = r.run("23E4:0294", ax=ud & 0xFFFF, dx=ud >> 16, cx=uv & 0xFFFF, bx=uv >> 16)
+                    quotient = abs(dividend) // abs(divisor)
+                    if (dividend < 0) != (divisor < 0):
+                        quotient = -quotient
+                    remainder = dividend - quotient * divisor
+                    self.assertEqual(regs["dx"] << 16 | regs["ax"], quotient & 0xFFFFFFFF)
+                    self.assertEqual(regs["bx"] << 16 | regs["cx"], remainder & 0xFFFFFFFF)
+
     def test_long_multiply_low_32_bits_and_the_cross_terms(self):
         r = Rig()
         regs = r.run("23E4:0279", ax=2, dx=1, cx=4, bx=3)                     # 0x10002 * 0x30004
@@ -384,6 +421,33 @@ class LongArithmetic(unittest.TestCase):
 
 
 class Strings(unittest.TestCase):
+    def test_compare_byte_sign_and_overflow_for_characters_and_lengths(self):
+        # 074F CMPSB and 0753 CMP AL,AH both set 8-bit SF/OF, not 9-bit flags.
+        for a, b, want in ((b"\x80", b"\x01", 0x800), (b"\x01", b"\x80", 0x880 | CF),
+                            (b"x" * 128, b"x", 0x800), (b"x", b"x" * 128, 0x880 | CF),
+                            (b"", b"", ZF)):
+            with self.subTest(lengths=(len(a), len(b)), first=(a[:1], b[:1])):
+                r = Rig()
+                r.pstr(0x100, a)
+                r.pstr(0x400, b)
+                regs = r.run("23E4:072F", [0x400, S, 0x100, S])
+                self.assertEqual(regs["eflags"] & (0x800 | SF | ZF | CF), want)
+                if not a and not b:
+                    self.assertEqual(regs["cx"], 0)
+
+    def test_insert_saturation_and_length_byte_preserve_the_following_byte(self):
+        # 0787 builds Copy + source + Copy using 06B7's saturating 255-byte
+        # temporaries. Check both insert positions and the temporary's tail.
+        for index in (1, 251):
+            r = Rig()
+            r.pstr(0x100, b"1234567890")
+            r.pstr(0x400, b"x" * 250)
+            r.poke(0x500, b"\xEE")
+            r.run("23E4:0787", [index, 255, 0x400, S, 0x100, S])
+            want = (b"1234567890" + b"x" * 250)[:255] if index == 1 else b"x" * 250 + b"12345"
+            self.assertEqual(r.peek(0x400, 256), b"\xFF" + want)
+            self.assertEqual(r.peek(0x500, 1), b"\xEE")
+
     def test_move_and_str_store(self):
         r = Rig()
         r.poke(0x100, b"abcdef")

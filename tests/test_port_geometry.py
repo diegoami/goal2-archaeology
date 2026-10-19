@@ -543,6 +543,18 @@ class StackResidue(unittest.TestCase):
     def word(self, g, offset):
         return int.from_bytes(g.mem.memory[0x2000 + offset:0x2000 + offset + 2], "little")
 
+    def test_advance_wrap_uses_side_one_table_entry_and_literal_pushes(self):
+        g = Geo()
+        # For slot11, 2996 returns1: DS:0669 is the base0, not the byte
+        # before the table. Distinct adjacent memory exposes a reversed index.
+        g.ds_poke(0x667, b"\x40")
+        g.ball(11)
+        g.run("0791:2A15", answers=[1, 0])
+        self.assertEqual(g.ds_peek(0x830B), b"\x02")
+        # The final four arguments sit below the initial BP and pointer pair.
+        self.assertEqual([self.word(g, off) for off in (-8, -10, -12, -14, -16)],
+                         [2, 11, 1, g.mem.seg(0x791), 0x2A67])
+
     def test_a_leaf_frame(self):
         g = Geo()
         g.ball(5)
