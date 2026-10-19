@@ -626,5 +626,135 @@ class MoveBallToSlot(unittest.TestCase):
             self.assertEqual(r.mem.ds8(0x8303), 1)
 
 
+class LaunchBall(unittest.TestCase):
+    @staticmethod
+    def setup():
+        r = Rig()
+        r.w8(0x7920, 255)
+        r.w8(0x7921, 1)
+        r.w8(0x830C, 3)
+        r.mem.w8(r.mem.addr(0x4000, 0x129), 2, "0791:34C1")
+        return r
+
+    def math_answer(self, request, mem, divide_override=None):
+        from original_match.port.mem import s16
+        if request.target == "23E4:0294":
+            self.assertEqual(mem.regs["sp"], 0x2FF4)
+            self.assertEqual((mem.u16(0x2FF4), mem.u16(0x2FF6)), (2, 0))
+            value = mem.regs["ax"] if divide_override is None else divide_override
+            if divide_override is None:value //= mem.regs["cx"]
+            mem.regs["dx"] = value >> 16
+            return value & 0xFFFF
+        if request.target == "214B:0D56":
+            high1, low1, high2, low2 = request.args
+            value = max((high1 << 16) | low1, (high2 << 16) | low2)
+            mem.regs["dx"] = value >> 16
+            return value & 0xFFFF
+        if request.target == "23E4:0279":
+            value = s16(mem.regs["ax"]) * mem.regs["cx"]
+            self.assertEqual(mem.regs["dx"], 0xFFFF if s16(mem.regs["ax"]) < 0 else 0)
+            mem.regs["dx"] = (value >> 16) & 0xFFFF
+            return value & 0xFFFF
+        if request.target == "214B:1EA1":
+            self.assertEqual(request.args, (10, 1))
+            return 0
+        if request.target == "0791:333F":
+            self.assertEqual(request.args, (0x2FFE,))
+            return 0xAB00
+        self.fail("unexpected call " + request.target)
+
+    def test_signed_launch_from_both_sides_and_velocity_ratio(self):
+        for x, y, expected in ((-8, 4, (255, 1, 6, 250, 6)),
+                                (8, -4, (1, 255, 6, 6, 250)),
+                                (4, 8, (1, 2, 4, 4, 8)),
+                                (-4, -8, (255, 254, 4, 252, 248))):
+            r = self.setup()
+            def answer(request, mem):
+                if request.target == "23E4:08DF":
+                    mem.regs["eflags"] = 0x242
+                    return 0
+                return self.math_answer(request, mem)
+            regs = r.run("0791:34C1", [0x123, 0x4000, 8, ((y & 255) << 8) | (x & 255)], answer)
+            actual = (r.mem.ds8(0x82FC), r.mem.ds8(0x82FE), r.mem.ds16(0x8300),
+                      r.mem.ds8(0x8313), r.mem.ds8(0x8314))
+            self.assertEqual(actual, expected)
+            self.assertEqual((r.mem.ds8(0x830D), regs["ax"]), (3, 0xAB03))
+
+    def test_event_membership_uses_zf_and_keeps_long_bound_live(self):
+        for event, expected in ((1, 13), (3, 15)):
+            r = self.setup()
+            r.w8(0x779 + event, 9)
+            r.mem.w8(r.mem.addr(0x4000, 0x134), 7, "0791:34C1")
+            def answer(request, mem):
+                if request.target == "23E4:08DF":
+                    self.assertEqual(request.args[-2], mem.seg(0x0791))
+                    selected = (event == 1 and request.args[-1] == 0x3481) or (event == 3 and request.args[-1] == 0x34A1)
+                    mem.regs["eflags"] = 0x202 if selected else 0x242
+                    return 0                                  # AX does not carry the membership result
+                if request.target == "0791:278A":
+                    self.assertEqual(request.args, (9, 0x4000, 0x123))
+                    self.assertEqual(mem.regs["sp"], 0x2FF4)
+                    self.assertEqual((mem.u16(0x2FF4), mem.u16(0x2FF6)), (13, 0))
+                    return 17 if event == 1 else 45
+                return self.math_answer(request, mem)
+            r.run("0791:34C1", [0x123, 0x4000, event, 8], answer)
+            self.assertEqual(r.mem.ds16(0x8300), expected)
+
+    def test_event6_rewrites_argument_to_long_pass_or_keeper_event(self):
+        for target, keeper, own_strip, event in ((21, 0, 0, 7), (8, 1, 1, 8), (8, 1, 0, 6)):
+            r = self.setup()
+            r.w8(0x830C, 2)                                 # no miscue branch
+            def answer(request, mem):
+                if request.target == "0791:045D":return keeper
+                if request.target == "0791:2EB8":return own_strip
+                if request.target == "23E4:08DF":
+                    self.assertEqual(request.args[0] & 255, event)
+                    mem.regs["eflags"] = 0x242
+                    return 0
+                return self.math_answer(request, mem)
+            r.run("0791:34C1", [0x123, 0x4000, 6, target], answer)
+            self.assertEqual(r.mem.ds8(0x8327), event)
+            if event != 6:self.assertEqual(r.mem.u16(0x3008), event)
+
+    def test_miscue_shortening_sideways_and_drop_vertical_branches(self):
+        cases = ((0, 8, 1, 0, 3, (0, 1, 5, 1)),
+                 (0, 8, 0, 1, 3, (0, 1, 5, 1)),
+                 (0, 8, 0, 0, 0, (1, 2, 2, 2)),
+                 (8, 0, 0, 0, 0, (1, 1, 4, 2)),
+                 (8, 4, 0, 0, 0, (1, 0, 12, 1)))
+        for x, y, coin, flag, draw, expected in cases:
+            r = self.setup()
+            r.w8(0x8323, flag)
+            coin_count = [0]
+            def answer(request, mem):
+                if request.target == "23E4:08DF":
+                    mem.regs["eflags"] = 0x242
+                    return 0
+                if request.target in ("0791:287C", "0791:045D"):return 0
+                if request.target == "214B:06FA":
+                    coin_count[0] += 1
+                    return coin if coin_count[0] == 1 else 1
+                if request.target == "214B:06B1":
+                    self.assertEqual(request.args, (4,))
+                    return draw
+                return self.math_answer(request, mem)
+            r.run("0791:34C1", [0x123, 0x4000, 5, (y << 8) | x], answer)
+            self.assertEqual((r.mem.ds16(0x82FC), r.mem.ds16(0x82FE),
+                              r.mem.ds16(0x8300), coin_count[0]), expected)
+            self.assertEqual((r.mem.ds8(0x830C), r.mem.ds8(0x8323)), (0, 0))
+
+    def test_long_division_high_word_is_forwarded_to_maximum(self):
+        r = self.setup()
+        def answer(request, mem):
+            if request.target == "23E4:08DF":
+                mem.regs["eflags"] = 0x242
+                return 0
+            if request.target == "214B:0D56":
+                self.assertEqual(request.args, (0, 2, 1, 0x2345))
+            return self.math_answer(request, mem, divide_override=0x12345)
+        r.run("0791:34C1", [0x123, 0x4000, 8, 8], answer)
+        self.assertEqual((r.mem.ds16(0x8300), r.mem.ds8(0x8313)), (0x2345, 0x45))
+
+
 if __name__ == "__main__":
     unittest.main()

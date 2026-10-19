@@ -10,6 +10,9 @@ from .runtime import Regs
 from .geometry import cbw, cwd, mul, imul
 
 PORTS = Registry("ball", "ball, passing and shooting (T64)")
+PORTS.variant("launch-reverse-x", "3528/35E6: reverse the chosen horizontal launch velocity")
+PORTS.variant("pass-always-replace", "3273: accept a replacement receiver even when its coin is zero")
+PORTS.variant("shot-skip-jitter", "3C4D–3C5F: omit the two jitter coins and ball-x adjustment")
 M16 = 0xFFFF
 
 
@@ -714,7 +717,7 @@ def shot_or_header(mem, variant):
     r = Regs(mem)
     r.enter()
     mem.wds8(0x830C, 0, "0791:3C42")
-    if event != 2:
+    if event != 2 and variant != "shot-skip-jitter":
         r.store(stack=True)
         yield call("214B:06FA", ret_to="0791:3C52", far=True)
         r = Regs(mem, resumed=True)
@@ -1105,7 +1108,7 @@ def pick_pass_target(mem, variant):
                         r.store(stack=True)
                         yield call("214B:06FA", ret_to="0791:3271", far=True)
                         r = Regs(mem, resumed=True)
-                        accept = r.al != 0
+                        accept = r.al != 0 or variant == "pass-always-replace"
                 if accept:
                     r.ax = local16(mem, r, -4)
                     r.dx = 0x16
@@ -1420,5 +1423,322 @@ def move_ball_to_slot(mem, variant):
         r = Regs(mem, resumed=True)
         if clear_slot:
             mem.wds8(0x830C, 0, "0791:3AEE" if ret_to == "0791:3AEE" else "0791:3B02")
+    r.leave()
+    r.store()
+
+
+@PORTS.port("0791:34C1", ret="retf 8")
+def launch_ball(mem, variant):
+    """34C1–384B: launch vectors, event membership, skill/miscue, long arithmetic."""
+    off, seg, event, target = (mem.arg(i) for i in range(4))
+    r = Regs(mem)
+    r.enter(6)
+    r.es, r.di = seg, off
+    mem.w8(mem.addr(seg, off + 0xF), 5, "0791:34CA")
+    r.ax = target
+    r.local16(-2, r.ax)
+    mem.wds8(0x8302, 1, "0791:34D5")
+    r.es, r.di = seg, off
+    r.al = mem.u8(mem.addr(seg, off + 6))
+    mem.wds8(0x830B, r.al, "0791:34E1")
+    r.al = mem.ds8(0x82F6)
+    r.local8(-2, local8(mem, r, -2) - r.al)
+    r.al = mem.ds8(0x82F7)
+    r.local8(-1, local8(mem, r, -1) - r.al)
+    r.ax = 0
+    mem.wds16(0x82FC, 0, "0791:34F2")
+    r.ax = 0
+    mem.wds16(0x82FE, 0, "0791:34F7")
+    r.al = local8(mem, r, -1)
+    cbw(r)
+    if s16(r.ax) < 0:
+        r.ax = -r.ax
+    r.dx = r.ax
+    r.al = local8(mem, r, -2)
+    cbw(r)
+    if s16(r.ax) < 0:
+        r.ax = -r.ax
+    if s16(r.ax) > s16(r.dx):
+        r.al = int(s8(local8(mem, r, -2)) > 0)
+        cbw(r)
+        r.di = r.ax
+        r.al = mem.ds8((0x7920 + r.di) & M16)
+        cbw(r)
+        if variant == "launch-reverse-x":
+            r.ax = -r.ax
+        mem.wds16(0x82FC, r.ax, "0791:3528")
+        r.al = local8(mem, r, -2)
+        cbw(r)
+        if s16(r.ax) < 0:
+            r.ax = -r.ax
+        mem.wds16(0x8300, r.ax, "0791:3535")
+        r.al = local8(mem, r, -2)
+        cbw(r)
+        if s16(r.ax) < 0:
+            r.ax = -r.ax
+        cwd(r)
+        r.cx = 2
+        value = s16(r.ax)
+        r.ax, r.dx = value // 2, value % 2
+        r.dx = r.ax
+        r.al = local8(mem, r, -1)
+        cbw(r)
+        if s16(r.ax) < 0:
+            r.ax = -r.ax
+        if s16(r.ax) >= s16(r.dx):
+            r.al = int(s8(local8(mem, r, -1)) > 0)
+            cbw(r)
+            r.di = r.ax
+            r.al = mem.ds8((0x7920 + r.di) & M16)
+            cbw(r)
+            mem.wds16(0x82FE, r.ax, "0791:356C")
+            r.al = local8(mem, r, -1)
+            cbw(r)
+            if s16(r.ax) < 0:
+                r.ax = -r.ax
+            mem.wds16(0x8300, mem.ds16(0x8300) + r.ax, "0791:3579")
+    else:
+        r.al = int(s8(local8(mem, r, -1)) > 0)
+        cbw(r)
+        r.di = r.ax
+        r.al = mem.ds8((0x7920 + r.di) & M16)
+        cbw(r)
+        mem.wds16(0x82FE, r.ax, "0791:3594")
+        r.al = local8(mem, r, -1)
+        cbw(r)
+        if s16(r.ax) < 0:
+            r.ax = -r.ax
+        mem.wds16(0x8300, r.ax, "0791:35A1")
+        r.al = local8(mem, r, -2)
+        cbw(r)
+        if s16(r.ax) < 0:
+            r.ax = -r.ax
+        if s16(r.ax) > 0:
+            r.al = local8(mem, r, -1)
+            cbw(r)
+            if s16(r.ax) < 0:
+                r.ax = -r.ax
+            cwd(r)
+            r.cx = 2
+            value = s16(r.ax)
+            r.ax, r.dx = value // 2, value % 2
+            r.dx = r.ax
+            r.al = local8(mem, r, -2)
+            cbw(r)
+            if s16(r.ax) < 0:
+                r.ax = -r.ax
+            if s16(r.ax) >= s16(r.dx):
+                r.al = int(s8(local8(mem, r, -2)) > 0)
+                cbw(r)
+                r.di = r.ax
+                r.al = mem.ds8((0x7920 + r.di) & M16)
+                cbw(r)
+                if variant == "launch-reverse-x":
+                    r.ax = -r.ax
+                mem.wds16(0x82FC, r.ax, "0791:35E6")
+                r.al = local8(mem, r, -2)
+                cbw(r)
+                if s16(r.ax) < 0:
+                    r.ax = -r.ax
+                mem.wds16(0x8300, mem.ds16(0x8300) + r.ax, "0791:35F3")
+                r.al = local8(mem, r, -2)
+                cbw(r)
+                if s16(r.ax) < 0:
+                    r.ax = -r.ax
+                cwd(r)
+                r.cx = 2
+                value = s16(r.ax)
+                r.ax, r.dx = value // 2, value % 2
+                r.dx = r.ax
+                r.al = local8(mem, r, -1)
+                cbw(r)
+                if s16(r.ax) < 0:
+                    r.ax = -r.ax
+                if s16(r.ax) >= s16(r.dx):
+                    r.ax = mem.ds16(0x82FE) << 1
+                    mem.wds16(0x82FE, r.ax, "0791:361C")
+    if event == 6:
+        if mem.ds16(0x8300) > 20:
+            event = 7
+            r.local16(0xA, event)                               # 362C writes the caller's event argument
+        else:
+            r.es, r.di = seg, off
+            r.al = mem.u8(mem.addr(seg, off + 6))
+            r.ah = 0
+            r.store(stack=True)
+            yield call("0791:045D", r.ax, ret_to="0791:3640", far=False)
+            r = Regs(mem, resumed=True)
+            if r.al:
+                r.es, r.di = seg, off
+                r.store(stack=True)
+                yield call("0791:2EB8", mem.ds16(0x82F6), seg, off, ret_to="0791:3651", far=True)
+                r = Regs(mem, resumed=True)
+                if r.al:
+                    event = 8
+                    r.local16(0xA, event)                       # 3655
+    r.al = event
+    mem.wds8(0x8327, r.al, "0791:365D")
+    r.al = event
+    element = r.ax
+    r.di = 0x3481
+    r.store(stack=True)
+    yield call("23E4:08DF", element, mem.seg(0x0791), r.di, ret_to="0791:366E", far=True)
+    r = Regs(mem, resumed=True)
+    kind = 1 if not (mem.reg("eflags") & 0x40) else 0
+    if not kind:
+        r.al = event
+        element = r.ax
+        r.di = 0x34A1
+        r.store(stack=True)
+        yield call("23E4:08DF", element, mem.seg(0x0791), r.di, ret_to="0791:36BE", far=True)
+        r = Regs(mem, resumed=True)
+        kind = 2 if not (mem.reg("eflags") & 0x40) else 0
+    if kind:
+        r.ax = mem.ds16(0x8300) + 5
+        r.dx = 0
+        bound = r.ax
+        r.push(r.dx)
+        r.push(r.ax)                                           # 3678/3679 or36C8/36C9 held across skill
+        r.di = event
+        r.al = mem.ds8((0x779 + r.di) & M16)
+        r.ah = 0
+        skill = r.ax
+        r.es, r.di = seg, off
+        r.store(stack=True)
+        yield call("0791:278A", skill, seg, off,
+                   ret_to="0791:368D" if kind == 1 else "0791:36DD", far=True)
+        r = Regs(mem, resumed=True)
+        if kind == 1:
+            r.dx = r.ax
+            r.es, r.di = seg, off
+            r.al = mem.u8(mem.addr(seg, off + 0x11))
+            r.ah = 0
+            r.ax = r.ax + r.dx
+        r.dx, r.cx = 0, 3
+        value = r.ax
+        r.ax, r.dx = value // 3, value % 3
+        r.dx = 0
+        value = r.ax
+        r.sp = r.sp + 4                                       # full Call re-pushes the held bound
+        r.store(stack=True)
+        yield call("214B:0D56", 0, bound, 0, value,
+                   ret_to="0791:36AA" if kind == 1 else "0791:36ED", far=True)
+        r = Regs(mem, resumed=True)
+        mem.wds16(0x8300, r.ax, "0791:36AA" if kind == 1 else "0791:36ED")
+    elif event != 8 and mem.ds16(0x8300) > 1:
+        r.al = mem.ds8(0x830B)
+        if r.al != mem.ds8(0x830C):
+            r.di = event
+            r.al = mem.ds8((0x779 + r.di) & M16)
+            r.ah = 0
+            skill = r.ax
+            r.es, r.di = seg, off
+            r.store(stack=True)
+            yield call("0791:287C", skill, seg, off, ret_to="0791:3725", far=True)
+            r = Regs(mem, resumed=True)
+            if r.al == 0:
+                mem.wds8(0x830C, 0, "0791:372C")
+                r.es, r.di = seg, off
+                r.al = mem.u8(mem.addr(seg, off + 6))
+                r.ah = 0
+                r.store(stack=True)
+                yield call("0791:045D", r.ax, ret_to="0791:373E", far=False)
+                r = Regs(mem, resumed=True)
+                if r.al == 0:
+                    r.store(stack=True)
+                    yield call("214B:06FA", ret_to="0791:374A", far=True)
+                    r = Regs(mem, resumed=True)
+                    if r.al != 0 or mem.ds8(0x8323) != 0:
+                        r.ax = mem.ds16(0x8300)
+                        r.dx, r.cx = 0, 2
+                        value = r.ax
+                        r.ax, r.dx = value // 2, value % 2
+                        r.store(stack=True)
+                        yield call("214B:06B1", r.ax, ret_to="0791:3765", far=True)
+                        r = Regs(mem, resumed=True)
+                        mem.wds16(0x8300, mem.ds16(0x8300) - r.ax, "0791:3765")
+                    elif mem.ds16(0x82FC) == 0:
+                        r.store(stack=True)
+                        yield call("214B:06FA", ret_to="0791:3777", far=True)
+                        r = Regs(mem, resumed=True)
+                        cbw(r)
+                        r.di = r.ax
+                        r.al = mem.ds8((0x7920 + r.di) & M16)
+                        cbw(r)
+                        mem.wds16(0x82FC, r.ax, "0791:377F")
+                        r.al = int(s16(mem.ds16(0x82FE)) > 0)
+                        cbw(r)
+                        r.di = r.ax
+                        r.al = mem.ds8((0x7920 + r.di) & M16)
+                        cbw(r)
+                        mem.wds16(0x82FE, mem.ds16(0x82FE) + r.ax, "0791:3797")
+                    else:
+                        r.ax = mem.ds16(0x82FE)
+                        if s16(r.ax) < 0:
+                            r.ax = -r.ax
+                        if r.ax == 1:
+                            r.ax = 0
+                            mem.wds16(0x82FE, 0, "0791:37AD")
+                        else:
+                            r.store(stack=True)
+                            yield call("214B:06FA", ret_to="0791:37B7", far=True)
+                            r = Regs(mem, resumed=True)
+                            cbw(r)
+                            r.di = r.ax
+                            r.al = mem.ds8((0x7920 + r.di) & M16)
+                            cbw(r)
+                            mem.wds16(0x82FE, r.ax, "0791:37BF")
+    mem.wds8(0x8323, 0, "0791:37C2")
+    r.ax, r.dx = 2, 0
+    r.push(r.dx)
+    r.push(r.ax)                                               # 37CC/37CD held across long division
+    r.ax = mem.ds16(0x82FE)
+    if s16(r.ax) < 0:
+        r.ax = -r.ax
+    r.dx = r.ax
+    r.ax = mem.ds16(0x82FC)
+    if s16(r.ax) < 0:
+        r.ax = -r.ax
+    r.ax = r.ax + r.dx
+    cwd(r)
+    r.cx, r.bx = r.ax, r.dx
+    r.ax, r.dx = mem.ds16(0x8300), 0
+    r.store(stack=True)
+    yield call("23E4:0294", ret_to="0791:37F3", far=True)
+    r = Regs(mem, resumed=True)
+    high, low = r.dx, r.ax
+    r.sp = r.sp + 4
+    r.store(stack=True)
+    yield call("214B:0D56", 0, 2, high, low, ret_to="0791:37FA", far=True)
+    r = Regs(mem, resumed=True)
+    mem.wds16(0x8300, r.ax, "0791:37FA")
+    r.ax = mem.ds16(0x82F6)
+    mem.wds16(0x8313, r.ax, "0791:3800")
+    r.ax, r.dx = mem.ds16(0x8300), 0
+    r.cx, r.bx = r.ax, r.dx
+    r.ax = mem.ds16(0x82FE)
+    cwd(r)
+    r.store(stack=True)
+    yield call("23E4:0279", ret_to="0791:3815", far=True)
+    r = Regs(mem, resumed=True)
+    mem.wds8(0x8314, mem.ds8(0x8314) + r.al, "0791:3815")
+    r.ax, r.dx = mem.ds16(0x8300), 0
+    r.cx, r.bx = r.ax, r.dx
+    r.ax = mem.ds16(0x82FC)
+    cwd(r)
+    r.store(stack=True)
+    yield call("23E4:0279", ret_to="0791:382B", far=True)
+    r = Regs(mem, resumed=True)
+    mem.wds8(0x8313, mem.ds8(0x8313) + r.al, "0791:382B")
+    r.ax = 1
+    r.store(stack=True)
+    yield call("214B:1EA1", 10, 1, ret_to="0791:383C", far=True)
+    r = Regs(mem, resumed=True)
+    parent = r.bp
+    r.store(stack=True)
+    yield call("0791:333F", parent, ret_to="0791:3840", far=False)
+    r = Regs(mem, resumed=True)
+    r.al = mem.ds8(0x830C)
+    mem.wds8(0x830D, r.al, "0791:3843")
     r.leave()
     r.store()
