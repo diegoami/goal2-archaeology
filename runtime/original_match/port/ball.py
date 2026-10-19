@@ -544,3 +544,162 @@ def holder_in_advanced_central_strip(mem, variant):
     r.al = local8(mem, r, -1)
     r.leave()
     r.store()
+
+
+@PORTS.port("0791:3FAD", ret="retf 6")
+def clear_to_random_target(mem, variant):
+    """3FAD–408B: narrow long clearance or wide random target, preserving draws."""
+    off, seg, event = mem.arg(0), mem.arg(1), mem.arg(2)
+    r = Regs(mem)
+    r.enter(2)
+    r.store(stack=True)
+    yield call("214B:06FA", ret_to="0791:3FB8", far=True)
+    r = Regs(mem, resumed=True)
+    wide = r.al != 0
+    if not wide:
+        r.es, r.di = seg, off
+        r.al = mem.u8(mem.addr(seg, off + 6))
+        r.ah = 0
+        r.store(stack=True)
+        yield call("0791:045D", r.ax, ret_to="0791:3FC9", far=False)
+        r = Regs(mem, resumed=True)
+        wide = r.al != 0
+    if wide:
+        r.es, r.di = seg, off
+        r.al = int(s8(mem.u8(mem.addr(seg, off))) > 0)
+        cbw(r)
+        r.di = r.ax
+        r.al = mem.ds8((0x7920 + r.di) & M16)
+        cbw(r)
+        r.cx = 12
+        imul(r, r.cx)
+        r.local8(-2, r.al)
+        r.ax = 40
+        r.store(stack=True)
+        yield call("214B:06B1", 40, ret_to="0791:3FF5", far=True)
+        r = Regs(mem, resumed=True)
+        r.dx = r.ax
+        r.es, r.di = seg, off
+        r.al = int(s8(mem.u8(mem.addr(seg, off + 1))) > 0)
+        cbw(r)
+        r.di = r.ax
+        r.al = mem.ds8((0x7920 + r.di) & M16)
+        cbw(r)
+        imul(r, r.dx)
+        r.local8(-1, r.al)
+    else:
+        r.ax = 8
+        r.store(stack=True)
+        yield call("214B:06B1", 8, ret_to="0791:401F", far=True)
+        r = Regs(mem, resumed=True)
+        r.ax = r.ax + 2
+        r.dx = r.ax
+        r.es, r.di = seg, off
+        r.al = int(s8(mem.u8(mem.addr(seg, off))) > 0)
+        cbw(r)
+        r.di = r.ax
+        r.al = mem.ds8((0x7920 + r.di) & M16)
+        cbw(r)
+        imul(r, r.dx)
+        r.local8(-2, r.al)
+        r.es, r.di = seg, off
+        r.al = int(s8(mem.u8(mem.addr(seg, off + 1))) > 0)
+        cbw(r)
+        r.di = r.ax
+        r.al = mem.ds8((0x7920 + r.di) & M16)
+        cbw(r)
+        r.cx = 50
+        imul(r, r.cx)
+        r.local8(-1, r.al)
+    point = local16(mem, r, -2)
+    r.es, r.di = seg, off
+    r.store(stack=True)
+    yield call("0791:34C1", point, event, seg, off, ret_to="0791:406F", far=True)
+    r = Regs(mem, resumed=True)
+    mem.wds8(0x8303, 1, "0791:406F")
+    r.al = 0x16 if event == 11 else 0x15
+    r.store(stack=True)
+    yield call("0791:2AA3", r.ax, ret_to="0791:4080" if event == 11 else "0791:4088", far=False)
+    r = Regs(mem, resumed=True)
+    r.leave()
+    r.store()
+
+
+@PORTS.port("0791:3DF6", ret="retf 4")
+def cross_to_candidate_or_random_point(mem, variant):
+    """3DF6–3EC2: use3D38's output point, drawing a target only if zero."""
+    off, seg = mem.arg(0), mem.arg(1)
+    r = Regs(mem)
+    r.enter(2)
+    r.ax = 0
+    r.local16(-2, r.ax)
+    outoff = (r.bp - 2) & M16
+    r.di = outoff
+    r.es, r.di = seg, off
+    r.al = mem.u8(mem.addr(seg, off + 6))
+    r.ah = 0
+    r.store(stack=True)
+    yield call("0791:3D38", r.ss, outoff, r.ax, ret_to="0791:3E13", far=False)
+    r = Regs(mem, resumed=True)
+    if local16(mem, r, -2) == 0:
+        r.store(stack=True)
+        yield call("0791:261A", ret_to="0791:3E1C", far=False)
+        r = Regs(mem, resumed=True)
+        cwd(r)
+        r.cx = 4
+        dividend = s16(r.ax)
+        quotient = abs(dividend) // 4
+        if dividend < 0:
+            quotient = -quotient
+        r.ax, r.dx = quotient, dividend - quotient * 4
+        r.ax = r.ax + 4
+        r.dx = r.ax
+        r.es, r.di = seg, off
+        r.al = int(s8(mem.u8(mem.addr(seg, off))) < 0)
+        cbw(r)
+        r.di = r.ax
+        r.al = mem.ds8((0x7920 + r.di) & M16)
+        cbw(r)
+        imul(r, r.dx)
+        r.local8(-2, r.al)
+        r.ax = 10
+        r.store(stack=True)
+        yield call("214B:06B1", 10, ret_to="0791:3E4C", far=True)
+        r = Regs(mem, resumed=True)
+        r.ax = r.ax + 24
+        r.dx = r.ax
+        r.es, r.di = seg, off
+        r.al = int(s8(mem.u8(mem.addr(seg, off + 1))) > 0)
+        cbw(r)
+        r.di = r.ax
+        r.al = mem.ds8((0x7920 + r.di) & M16)
+        cbw(r)
+        imul(r, r.dx)
+        r.local8(-1, r.al)
+    mem.wds8(0x830C, 0xFF, "0791:3E6E")
+    point = local16(mem, r, -2)
+    r.ax = 5
+    r.es, r.di = seg, off
+    r.store(stack=True)
+    yield call("0791:34C1", point, 5, seg, off, ret_to="0791:3E83", far=True)
+    r = Regs(mem, resumed=True)
+    r.al = int(mem.ds8(0x830C) == 0)
+    cbw(r)
+    r.di = r.ax
+    r.al = mem.ds8((0x794 + r.di) & M16)
+    r.store(stack=True)
+    yield call("0791:2AA3", r.ax, ret_to="0791:3E9B", far=False)
+    r = Regs(mem, resumed=True)
+    mem.wds8(0x830C, 0, "0791:3E9B")
+    r.ax = 8
+    r.store(stack=True)
+    yield call("214B:06D0", 8, ret_to="0791:3EA9", far=True)
+    r = Regs(mem, resumed=True)
+    r.al = int(r.al == 0)
+    mem.wds8(0x8303, r.al, "0791:3EB3")
+    r.es, r.di = seg, off
+    r.store(stack=True)
+    yield call("0791:4D3F", seg, off, ret_to="0791:3EBF", far=True)
+    r = Regs(mem, resumed=True)
+    r.leave()
+    r.store()

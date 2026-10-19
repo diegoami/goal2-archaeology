@@ -321,5 +321,75 @@ class AdvancedStrip(unittest.TestCase):
             self.assertEqual(len(r.calls), 1 if own else 2)
 
 
+class ClearanceTargets(unittest.TestCase):
+    def test_narrow_wide_and_keeper_paths_preserve_short_circuit_draw_order(self):
+        for coin, keeper, x, y, bound, point in (
+                (1, 0, 0, 0, 40, 0xFBF4), (0, 1, 0, 0, 40, 0xFBF4),
+                (0, 0, 1, -1, 8, 0xCE07), (0, 0, -1, 1, 8, 0x32F9)):
+            r = Rig()
+            for k, value in ((0, x), (1, y), (6, 2)):
+                r.mem.memory[0x40123 + k] = value & 255
+            r.w8(0x7920, 255)
+            r.w8(0x7921, 1)
+            def answer(request, mem):
+                if request.target == "214B:06FA":
+                    return coin
+                if request.target == "0791:045D":
+                    self.assertEqual(request.args, (2,))
+                    return keeper
+                if request.target == "214B:06B1":
+                    self.assertEqual(request.args, (bound,))
+                    return 5
+                if request.target == "0791:34C1":
+                    self.assertEqual(request.args, (point, 11, 0x4000, 0x123))
+                    return 0xAB00
+                self.assertEqual((request.target, request.args, request.far), ("0791:2AA3", (0xAB16,), False))
+                return 0
+            r.run("0791:3FAD", [0x123, 0x4000, 11], answer)
+            self.assertEqual([c[0] for c in r.calls],
+                             ["214B:06FA"] + ([] if coin else ["0791:045D"]) +
+                             ["214B:06B1", "0791:34C1", "0791:2AA3"])
+            self.assertEqual(r.mem.ds8(0x8303), 1)
+
+    def test_cross_uses_candidate_point_without_target_draws_and_inverts_high_ball_draw(self):
+        for candidate, high_draw in ((False, 0), (True, 1)):
+            r = Rig()
+            for k, value in ((0, 1), (1, -1), (6, 2)):
+                r.mem.memory[0x40123 + k] = value & 255
+            for off, value in ((0x7920, 255), (0x7921, 1), (0x794, 11), (0x795, 22)):
+                r.w8(off, value)
+            def answer(request, mem):
+                if request.target == "0791:3D38":
+                    self.assertEqual(request.args, (0, 0x2FFC, 2))
+                    self.assertFalse(request.far)
+                    if candidate:
+                        mem.memory[0x2FFC:0x2FFE] = b"\x34\x12"
+                    return 0
+                if request.target == "0791:261A":
+                    self.assertFalse(candidate)
+                    return 8
+                if request.target == "214B:06B1":
+                    self.assertFalse(candidate)
+                    self.assertEqual(request.args, (10,))
+                    return 5
+                if request.target == "0791:34C1":
+                    self.assertEqual(request.args, (0x1234 if candidate else 0xE3FA, 5, 0x4000, 0x123))
+                    if candidate:
+                        r.w8(0x830C, 0)
+                    return 0
+                if request.target == "0791:2AA3":
+                    self.assertEqual(request.args, (22 if candidate else 11,))
+                    return 0
+                if request.target == "214B:06D0":
+                    self.assertEqual(request.args, (8,))
+                    return high_draw
+                self.assertEqual(request.target, "0791:4D3F")
+                return 0x4444
+            r.run("0791:3DF6", [0x123, 0x4000], answer)
+            self.assertEqual(r.mem.ds8(0x830C), 0)
+            self.assertEqual(r.mem.ds8(0x8303), 1 - high_draw)
+            self.assertEqual(r.mem.regs["ax"], 0x4444)
+
+
 if __name__ == "__main__":
     unittest.main()
