@@ -14,10 +14,12 @@ M16 = 0xFFFF
 
 
 def local8(mem, r, offset):
+    r.flush()
     return mem.u8(mem.ss_lin((r.bp + offset) & M16))
 
 
 def local16(mem, r, offset):
+    r.flush()
     return mem.u16(mem.ss_lin((r.bp + offset) & M16))
 
 

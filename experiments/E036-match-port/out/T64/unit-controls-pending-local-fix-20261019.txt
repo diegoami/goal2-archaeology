@@ -1,0 +1,99 @@
+test_strict_marker_and_strip_thresholds_on_both_sides (tests.test_port_ball.AdvancedStrip.test_strict_marker_and_strip_thresholds_on_both_sides) ... ok
+test_counter_side_stride_byte_wrap_and_match_mode_gate (tests.test_port_ball.BallWrappers.test_counter_side_stride_byte_wrap_and_match_mode_gate) ... ok
+test_keeper_strip_gate_returns_local_boolean_with_last_callee_high_byte (tests.test_port_ball.BallWrappers.test_keeper_strip_gate_returns_local_boolean_with_last_callee_high_byte) ... ok
+test_offside_short_circuits_the_random_draw (tests.test_port_ball.BallWrappers.test_offside_short_circuits_the_random_draw) ... ok
+test_pass_and_clearance_keep_coin_branches_and_call_sites (tests.test_port_ball.BallWrappers.test_pass_and_clearance_keep_coin_branches_and_call_sites) ... ok
+test_selected_receiver_preserves_full_ax_as_the_target_word (tests.test_port_ball.BallWrappers.test_selected_receiver_preserves_full_ax_as_the_target_word) ... ok
+test_shot_and_header_template_push_preserves_the_incoming_high_byte (tests.test_port_ball.BallWrappers.test_shot_and_header_template_push_preserves_the_incoming_high_byte) ... ok
+test_cross_uses_candidate_point_without_target_draws_and_inverts_high_ball_draw (tests.test_port_ball.ClearanceTargets.test_cross_uses_candidate_point_without_target_draws_and_inverts_high_ball_draw) ... ok
+test_narrow_wide_and_keeper_paths_preserve_short_circuit_draw_order (tests.test_port_ball.ClearanceTargets.test_narrow_wide_and_keeper_paths_preserve_short_circuit_draw_order) ... ok
+test_long_ball_keeps_floor_and_product_words_live_across_guest_calls (tests.test_port_ball.LongTargets.test_long_ball_keeps_floor_and_product_words_live_across_guest_calls) ... ok
+test_long_kick_uses_each_parallel_mode_row_and_preserves_commentary_ah (tests.test_port_ball.LongTargets.test_long_kick_uses_each_parallel_mode_row_and_preserves_commentary_ah) ... ok
+test_target_slot_point_stays_on_stack_while_half_is_queried (tests.test_port_ball.LongTargets.test_target_slot_point_stays_on_stack_while_half_is_queried) ... ok
+test_direction_product_is_a_live_stack_word_during_second_call (tests.test_port_ball.NearestBall.test_direction_product_is_a_live_stack_word_during_second_call) ... ok
+test_nearest_keeps_first_tie_and_excludes_holder_unavailable_and_state13 (tests.test_port_ball.NearestBall.test_nearest_keeps_first_tie_and_excludes_holder_unavailable_and_state13) ... ok
+test_no_candidate_clears_both_nearest_arrays (tests.test_port_ball.NearestBall.test_no_candidate_clears_both_nearest_arrays) ... ok
+test_side_base_and_relative_word_wrap (tests.test_port_ball.RelativeSlot.test_side_base_and_relative_word_wrap) ... ok
+
+----------------------------------------------------------------------
+Ran 16 tests in 0.005s
+
+OK
+Baseline: all16 synthetic tests pass.
+test_direction_product_is_a_live_stack_word_during_second_call (tests.test_port_ball.NearestBall.test_direction_product_is_a_live_stack_word_during_second_call) ... FAIL
+test_nearest_keeps_first_tie_and_excludes_holder_unavailable_and_state13 (tests.test_port_ball.NearestBall.test_nearest_keeps_first_tie_and_excludes_holder_unavailable_and_state13) ... FAIL
+test_no_candidate_clears_both_nearest_arrays (tests.test_port_ball.NearestBall.test_no_candidate_clears_both_nearest_arrays) ... FAIL
+
+======================================================================
+FAIL: test_direction_product_is_a_live_stack_word_during_second_call (tests.test_port_ball.NearestBall.test_direction_product_is_a_live_stack_word_during_second_call)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/task-T64-port-ball/tests/test_port_ball.py", line 111, in test_direction_product_is_a_live_stack_word_during_second_call
+    self.assertEqual(r.mem.ds8(0x830F), 13)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 0 != 13
+
+======================================================================
+FAIL: test_nearest_keeps_first_tie_and_excludes_holder_unavailable_and_state13 (tests.test_port_ball.NearestBall.test_nearest_keeps_first_tie_and_excludes_holder_unavailable_and_state13)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/task-T64-port-ball/tests/test_port_ball.py", line 76, in test_nearest_keeps_first_tie_and_excludes_holder_unavailable_and_state13
+    self.assertEqual((r.mem.ds8(0x8311), r.mem.ds8(0x8312)), (13, 2))
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Tuples differ: (0, 2) != (13, 2)
+
+First differing element 0:
+0
+13
+
+- (0, 2)
+?  ^
+
++ (13, 2)
+?  ^^
+
+
+======================================================================
+FAIL: test_no_candidate_clears_both_nearest_arrays (tests.test_port_ball.NearestBall.test_no_candidate_clears_both_nearest_arrays)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/task-T64-port-ball/tests/test_port_ball.py", line 89, in test_no_candidate_clears_both_nearest_arrays
+    self.assertEqual([r.mem.ds8(off) for off in (0x830F, 0x8310, 0x8311, 0x8312)], [0, 0, 0, 0])
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: [0, 238, 0, 238] != [0, 0, 0, 0]
+
+First differing element 1:
+238
+0
+
+- [0, 238, 0, 238]
++ [0, 0, 0, 0]
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.002s
+
+FAILED (failures=3)
+Historical stale-local helpers: all3 nearest tests fail assertions, no setup errors.
+test_direction_product_is_a_live_stack_word_during_second_call (tests.test_port_ball.NearestBall.test_direction_product_is_a_live_stack_word_during_second_call) ... FAIL
+
+======================================================================
+FAIL: test_direction_product_is_a_live_stack_word_during_second_call (tests.test_port_ball.NearestBall.test_direction_product_is_a_live_stack_word_during_second_call)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/task-T64-port-ball/tests/test_port_ball.py", line 109, in test_direction_product_is_a_live_stack_word_during_second_call
+    r.run("0791:2FB1", answer=answer)
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/task-T64-port-ball/tests/test_port_ball.py", line 45, in run
+    sent = answer(request, self.mem) if answer else 0
+           ~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/task-T64-port-ball/tests/test_port_ball.py", line 105, in answer
+    self.assertEqual(mem.regs["sp"], 0x2FEE)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 12272 != 12270
+
+----------------------------------------------------------------------
+Ran 1 test in 0.000s
+
+FAILED (failures=1)
+Omitting3099: live-word test fails an assertion, no setup errors.
+T64 synthetic controls PASS: baseline16 and both behavioral controls; source files untouched.

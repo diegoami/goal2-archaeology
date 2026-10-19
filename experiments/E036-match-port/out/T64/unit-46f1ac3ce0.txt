@@ -1,0 +1,53 @@
+heavy: T64-first-unit: waiting for a slot (2 ahead)
+heavy: T64-first-unit: waiting for a slot (1 ahead)
+heavy: T64-first-unit: got slot 3 after 1409 s
+FFF.
+======================================================================
+FAIL: test_direction_product_is_a_live_stack_word_during_second_call (tests.test_port_ball.NearestBall.test_direction_product_is_a_live_stack_word_during_second_call)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/task-T64-port-ball/.cache/unit-46f1ac3ce0/tests/test_port_ball.py", line 109, in test_direction_product_is_a_live_stack_word_during_second_call
+    self.assertEqual(r.mem.ds8(0x830F), 13)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 0 != 13
+
+======================================================================
+FAIL: test_nearest_keeps_first_tie_and_excludes_holder_unavailable_and_state13 (tests.test_port_ball.NearestBall.test_nearest_keeps_first_tie_and_excludes_holder_unavailable_and_state13)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/task-T64-port-ball/.cache/unit-46f1ac3ce0/tests/test_port_ball.py", line 74, in test_nearest_keeps_first_tie_and_excludes_holder_unavailable_and_state13
+    self.assertEqual((r.mem.ds8(0x8311), r.mem.ds8(0x8312)), (13, 2))
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Tuples differ: (0, 2) != (13, 2)
+
+First differing element 0:
+0
+13
+
+- (0, 2)
+?  ^
+
++ (13, 2)
+?  ^^
+
+
+======================================================================
+FAIL: test_no_candidate_clears_both_nearest_arrays (tests.test_port_ball.NearestBall.test_no_candidate_clears_both_nearest_arrays)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/task-T64-port-ball/.cache/unit-46f1ac3ce0/tests/test_port_ball.py", line 87, in test_no_candidate_clears_both_nearest_arrays
+    self.assertEqual([r.mem.ds8(off) for off in (0x830F, 0x8310, 0x8311, 0x8312)], [0, 0, 0, 0])
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: [0, 238, 0, 238] != [0, 0, 0, 0]
+
+First differing element 1:
+238
+0
+
+- [0, 238, 0, 238]
++ [0, 0, 0, 0]
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.019s
+
+FAILED (failures=3)
