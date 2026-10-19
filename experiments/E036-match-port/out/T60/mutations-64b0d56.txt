@@ -1,0 +1,529 @@
+== runtime/original_match/port/runtime.py: unmutated copy passes tests/test_port_runtime.py, tests/test_port_geometry.py
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:45: 0x0010 -> 0x11: CF, PF, AF, ZF, SF, OF, DF = 0x0001, 0x0004, 0x0010, 0x0040, 0x0080, 0x0800, 0x0400
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:45: 0x0800 -> 0x801: CF, PF, AF, ZF, SF, OF, DF = 0x0001, 0x0004, 0x0010, 0x0040, 0x0080, 0x0800, 0x0400
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:45: 0x0400 -> 0x401: CF, PF, AF, ZF, SF, OF, DF = 0x0001, 0x0004, 0x0010, 0x0040, 0x0080, 0x0800, 0x0400
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:78: 0 -> 1: object.__setattr__(self, "_flags_on", 0)
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:79: 0 -> 1: object.__setattr__(self, "_flags_off", 0)
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:113: >> -> <<: return self.ax >> 8
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:113: 8 -> 9: return self.ax >> 8
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:129: + -> -: self._pending.append((self.ss * 16 + (off & M16), data))
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:129: 16 -> 17: self._pending.append((self.ss * 16 + (off & M16), data))
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:133: 16 -> 17: self._pending.append((self.ss * 16 + sp, (value & M16).to_bytes(2, "little")))
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:152: + -> -: self.sp = self.sp + 2
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:152: 2 -> 3: self.sp = self.sp + 2
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:155: 16 -> 17: self._pending.append((self.ss * 16 + ((self.bp + off) & M16), bytes((value & 0xFF,))))
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:158: 16 -> 17: self._pending.append((self.ss * 16 + ((self.bp + off) & M16), (value & M16).to_bytes(2, "little")))
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:173: - -> +: buf = bytearray(hi - lo)
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:174: - -> +: seen = bytearray(hi - lo)
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:183: 1 -> 2: j += 1
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:187: 1 -> 2: i += 1
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:214: and -> or: if stack or (name != "sp" and name != "bp"):
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:220: 0 -> 1: object.__setattr__(self, "_flags_on", 0)
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:221: 0 -> 1: object.__setattr__(self, "_flags_off", 0)
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:240: << -> >>: mask = (1 << bits) - 1
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:240: 1 -> 2: mask = (1 << bits) - 1
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:244: - -> +: sign = 1 << (bits - 1)
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:244: << -> >>: sign = 1 << (bits - 1)
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:244: 1 -> 2: sign = 1 << (bits - 1)
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:244: 1 -> 2: sign = 1 << (bits - 1)
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:248: == -> !=: if bin(r & 0xFF).count("1") % 2 == 0:
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:248: 0xFF -> 0x100: if bin(r & 0xFF).count("1") % 2 == 0:
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:248: 2 -> 3: if bin(r & 0xFF).count("1") % 2 == 0:
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:261: 16 -> 17: def add_flags(a, b, bits=16):
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:263: - -> +: mask = (1 << bits) - 1
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:263: << -> >>: mask = (1 << bits) - 1
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:263: 1 -> 2: mask = (1 << bits) - 1
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:263: 1 -> 2: mask = (1 << bits) - 1
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:266: + -> -: r = (a + b) & mask
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:267: - -> +: sign = 1 << (bits - 1)
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:267: << -> >>: sign = 1 << (bits - 1)
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:267: 1 -> 2: sign = 1 << (bits - 1)
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:267: 1 -> 2: sign = 1 << (bits - 1)
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:268: 0 -> 1: f = 0
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:269: > -> >=: if a + b > mask:
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:269: + -> -: if a + b > mask:
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:271: == -> !=: if bin(r & 0xFF).count("1") % 2 == 0:
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:271: 0xFF -> 0x100: if bin(r & 0xFF).count("1") % 2 == 0:
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:271: 2 -> 3: if bin(r & 0xFF).count("1") % 2 == 0:
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:275: == -> !=: if r == 0:
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:306: <= -> <: if n <= 0:
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:308: + -> -: sl, dl = sseg * 16 + (soff & M16), dseg * 16 + (doff & M16)
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:308: + -> -: sl, dl = sseg * 16 + (soff & M16), dseg * 16 + (doff & M16)
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:308: 16 -> 17: sl, dl = sseg * 16 + (soff & M16), dseg * 16 + (doff & M16)
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:308: 16 -> 17: sl, dl = sseg * 16 + (soff & M16), dseg * 16 + (doff & M16)
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:309: <= -> <: if n > 8 and soff + n <= 0x10000 and doff + n <= 0x10000 and (sl + n <= dl or dl + n <= sl):
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:309: <= -> <: if n > 8 and soff + n <= 0x10000 and doff + n <= 0x10000 and (sl + n <= dl or dl + n <= sl):
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:309: <= -> <: if n > 8 and soff + n <= 0x10000 and doff + n <= 0x10000 and (sl + n <= dl or dl + n <= sl):
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:309: <= -> <: if n > 8 and soff + n <= 0x10000 and doff + n <= 0x10000 and (sl + n <= dl or dl + n <= sl):
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:309: > -> >=: if n > 8 and soff + n <= 0x10000 and doff + n <= 0x10000 and (sl + n <= dl or dl + n <= sl):
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:309: and -> or: if n > 8 and soff + n <= 0x10000 and doff + n <= 0x10000 and (sl + n <= dl or dl + n <= sl):
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:309: and -> or: if n > 8 and soff + n <= 0x10000 and doff + n <= 0x10000 and (sl + n <= dl or dl + n <= sl):
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:309: and -> or: if n > 8 and soff + n <= 0x10000 and doff + n <= 0x10000 and (sl + n <= dl or dl + n <= sl):
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:309: or -> and: if n > 8 and soff + n <= 0x10000 and doff + n <= 0x10000 and (sl + n <= dl or dl + n <= sl):
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:309: + -> -: if n > 8 and soff + n <= 0x10000 and doff + n <= 0x10000 and (sl + n <= dl or dl + n <= sl):
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:309: + -> -: if n > 8 and soff + n <= 0x10000 and doff + n <= 0x10000 and (sl + n <= dl or dl + n <= sl):
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:309: + -> -: if n > 8 and soff + n <= 0x10000 and doff + n <= 0x10000 and (sl + n <= dl or dl + n <= sl):
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:309: + -> -: if n > 8 and soff + n <= 0x10000 and doff + n <= 0x10000 and (sl + n <= dl or dl + n <= sl):
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:309: 8 -> 9: if n > 8 and soff + n <= 0x10000 and doff + n <= 0x10000 and (sl + n <= dl or dl + n <= sl):
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:309: 0x10000 -> 0x10001: if n > 8 and soff + n <= 0x10000 and doff + n <= 0x10000 and (sl + n <= dl or dl + n <= sl):
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:309: 0x10000 -> 0x10001: if n > 8 and soff + n <= 0x10000 and doff + n <= 0x10000 and (sl + n <= dl or dl + n <= sl):
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:312: + -> -: mem.w8(dl + k, data[k], at)
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:316: + -> -: return (soff + n) & M16, (doff + n) & M16
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:316: + -> -: return (soff + n) & M16, (doff + n) & M16
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:321: 16 -> 17: mem.w8(seg * 16 + (off & M16), data[0], at_len)
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:323: 16 -> 17: mem.w8(seg * 16 + ((off + 1 + k) & M16), data[1 + k], at_move)
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:362: + -> -: di = (di + 1) & M16
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:362: 1 -> 2: di = (di + 1) & M16
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:363: 0 -> 1: R.di, R.cx = di, 0
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:364: + -> -: R.sp = R.sp + 2                                           # 002F pop cx
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:364: 2 -> 3: R.sp = R.sp + 2                                           # 002F pop cx
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:382: > -> >=: if si > di:                                               # 0057 cmp si, di; 0059 ja 006C
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:400: 0 -> 1: R.si, R.di, R.cx = si, di, 0
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:401: + -> -: R.sp = R.sp + 2                                           # 0074 pop ds
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:401: 2 -> 3: R.sp = R.sp + 2                                           # 0074 pop ds
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:426: 0 -> 1: R.si, R.di, R.cx = si, di, 0
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:427: + -> -: R.sp = R.sp + 2                                           # 0095 pop ds
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:427: 2 -> 3: R.sp = R.sp + 2                                           # 0095 pop ds
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:438: 0x52 -> 0x53: R.enter(0x52)                                             # 009C-009F
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:442: 0x50 -> 0x51: for w in (sseg, soff, ss, local, 0x50):                   # 00A2-00AF push es; push di; push ss; push di; push
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:444: 0x50 -> 0x51: R.ax = 0x50                                               # 00AC
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:445: 0x214B -> 0x214c: R.push(mem.seg(0x214B))                                   # 00B0 call far 0644: the return address
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:446: 0x00B5 -> 0xb6: R.push(0x00B5)
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:469: 0 -> 1: R.cx, R.si, R.di, R.es = 0, si, di, dseg
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:470: + -> -: R.sp = R.sp + 2                                           # 00D4 pop ds
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:470: 2 -> 3: R.sp = R.sp + 2                                           # 00D4 pop ds
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:490: 0 -> 1: dx = 0                                                    # 0158
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:491: 0 -> 1: ax = 0                                                    # 015A
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:492: 0xFF00 -> 0xff01: ax = (ax & 0xFF00) | mem.u8(sbase + si)                   # 015C lodsb
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:495: 0xFF00 -> 0xff01: ax = (ax & 0xFF00) | mem.u8(sbase + si)                   # 015F lodsb
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:508: 0xFF00 -> 0xff01: ax = (ax & 0xFF00) | mem.u8(sbase + si)       # 0189 lodsb
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:510: 0xFF -> 0x100: ax = ((ax & 0xFF) << 8) | (ax & 0xFF)         # 018A mov ah, al: the attribute is the byte, AL too
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:513: + -> -: R.sp = R.sp + 2
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:513: 2 -> 3: R.sp = R.sp + 2
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:528: + -> -: R.sp = R.sp + 4                                           # 019B pop bp; 019C pop ds
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:528: 4 -> 5: R.sp = R.sp + 4                                           # 019B pop bp; 019C pop ds
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:546: 0x214B -> 0x214c: invoke(mem, R, 0x214B, 0x033D, lambda m, r: unpack_screen(m, r, soff, sseg, doff, dseg),
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:546: 0x033D -> 0x33e: invoke(mem, R, 0x214B, 0x033D, lambda m, r: unpack_screen(m, r, soff, sseg, doff, dseg),
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:565: 0x214B -> 0x214c: invoke(mem, R, 0x214B, 0x05EC, unpack_to_buffer, 0xA96E, ds, 0x796A, ds, pushes=(ds, 0x796A, ds, 0xA96E))
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:565: 0x05EC -> 0x5ed: invoke(mem, R, 0x214B, 0x05EC, unpack_to_buffer, 0xA96E, ds, 0x796A, ds, pushes=(ds, 0x796A, ds, 0xA96E))
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:565: 0x796A -> 0x796b: invoke(mem, R, 0x214B, 0x05EC, unpack_to_buffer, 0xA96E, ds, 0x796A, ds, pushes=(ds, 0x796A, ds, 0xA96E))
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:565: 0xA96E -> 0xa96f: invoke(mem, R, 0x214B, 0x05EC, unpack_to_buffer, 0xA96E, ds, 0x796A, ds, pushes=(ds, 0x796A, ds, 0xA96E))
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:576: 4 -> 5: R.enter(4)                                                 # 05F0-05F3
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:577: 4 -> 5: R.local16(-4, 0x79A4)                                      # 05FB
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:577: 0x79A4 -> 0x79a5: R.local16(-4, 0x79A4)                                      # 05FB
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:578: 2 -> 3: R.local16(-2, ds)                                          # 05FE
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:580: >> -> <<: R.dx = product >> 16
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:580: 16 -> 17: R.dx = product >> 16
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:583: 0x214B -> 0x214c: invoke(mem, R, 0x214B, 0x061F, unpack_to_buffer, 0xA96E, ds, 0x79A4, ds, pushes=(ds, 0x79A4, ds, 0xA96E))
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:583: 0x061F -> 0x620: invoke(mem, R, 0x214B, 0x061F, unpack_to_buffer, 0xA96E, ds, 0x79A4, ds, pushes=(ds, 0x79A4, ds, 0xA96E))
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:583: 0x79A4 -> 0x79a5: invoke(mem, R, 0x214B, 0x061F, unpack_to_buffer, 0xA96E, ds, 0x79A4, ds, pushes=(ds, 0x79A4, ds, 0xA96E))
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:583: 0xA96E -> 0xa96f: invoke(mem, R, 0x214B, 0x061F, unpack_to_buffer, 0xA96E, ds, 0x79A4, ds, pushes=(ds, 0x79A4, ds, 0xA96E))
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:618: 1 -> 2: R.local8(-1, R.al)                                         # 06EE
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:626: 1 -> 2: draw_is_one(mem, R, args(mem, 1)[0])
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:631: 1000000000 -> 1000000001: POWERS_OF_TEN = (1000000000, 100000000, 10000000, 1000000, 100000, 10000, 1000, 100, 10, 1)    # 23E4:1236, 4 
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:631: 100000000 -> 100000001: POWERS_OF_TEN = (1000000000, 100000000, 10000000, 1000000, 100000, 10000, 1000, 100, 10, 1)    # 23E4:1236, 4 
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:631: 10000000 -> 10000001: POWERS_OF_TEN = (1000000000, 100000000, 10000000, 1000000, 100000, 10000, 1000, 100, 10, 1)    # 23E4:1236, 4 
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:631: 1000000 -> 1000001: POWERS_OF_TEN = (1000000000, 100000000, 10000000, 1000000, 100000, 10000, 1000, 100, 10, 1)    # 23E4:1236, 4 
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:631: 100000 -> 100001: POWERS_OF_TEN = (1000000000, 100000000, 10000000, 1000000, 100000, 10000, 1000, 100, 10, 1)    # 23E4:1236, 4 
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:631: 10000 -> 10001: POWERS_OF_TEN = (1000000000, 100000000, 10000000, 1000000, 100000, 10000, 1000, 100, 10, 1)    # 23E4:1236, 4 
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:631: 1000 -> 1001: POWERS_OF_TEN = (1000000000, 100000000, 10000000, 1000000, 100000, 10000, 1000, 100, 10, 1)    # 23E4:1236, 4 
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:631: 100 -> 101: POWERS_OF_TEN = (1000000000, 100000000, 10000000, 1000000, 100000, 10000, 1000, 100, 10, 1)    # 23E4:1236, 4 
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:631: 10 -> 11: POWERS_OF_TEN = (1000000000, 100000000, 10000000, 1000000, 100000, 10000, 1000, 100, 10, 1)    # 23E4:1236, 4 
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:631: 1 -> 2: POWERS_OF_TEN = (1000000000, 100000000, 10000000, 1000000, 100000, 10000, 1000, 100, 10, 1)    # 23E4:1236, 4 
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:650: > -> >=: if ax > dx:                                               # 1318-131C
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:652: > -> >=: if cx > dx:                                               # 131E-1322 (cx is signed here)
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:654: < -> <=: if ax < cx:                                               # 1324-1328
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:668: == -> !=: at = "23E4:11F8" if ch == 0x2D else "23E4:122B"
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:668: 0x2D -> 0x2e: at = "23E4:11F8" if ch == 0x2D else "23E4:122B"
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:670: + -> -: R.sp = R.sp + 2                                            # 1232 pop di
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:670: 2 -> 3: R.sp = R.sp + 2                                            # 1232 pop di
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:672: 0 -> 1: R.bx, R.dx, R.si, R.cx = 0, 0, 0x125E, len(digits)
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:672: 0 -> 1: R.bx, R.dx, R.si, R.cx = 0, 0, 0x125E, len(digits)
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:693: 0x130A -> 0x130b: R.push(0x130A)                                             # 1307 call 11E4
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:694: << -> >>: digits = digits_to_es_di(mem, R, ss, local, (high << 16) | low)
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:694: 16 -> 17: digits = digits_to_es_di(mem, R, ss, local, (high << 16) | low)
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:704: + -> -: R.sp = R.sp + 2
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:704: 2 -> 3: R.sp = R.sp + 2
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:710: << -> >>: R.ax = (((pad >> 8) & 0xFF) << 8 | 0x20) if pad else 0
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:710: >> -> <<: R.ax = (((pad >> 8) & 0xFF) << 8 | 0x20) if pad else 0
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:710: 8 -> 9: R.ax = (((pad >> 8) & 0xFF) << 8 | 0x20) if pad else 0
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:710: 0xFF -> 0x100: R.ax = (((pad >> 8) & 0xFF) << 8 | 0x20) if pad else 0
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:710: 8 -> 9: R.ax = (((pad >> 8) & 0xFF) << 8 | 0x20) if pad else 0
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:710: 0x20 -> 0x21: R.ax = (((pad >> 8) & 0xFF) << 8 | 0x20) if pad else 0
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:710: 0 -> 1: R.ax = (((pad >> 8) & 0xFF) << 8 | 0x20) if pad else 0
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:712: 0 -> 1: R.cx, R.es, R.bx = 0, dseg, 0
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:712: 0 -> 1: R.cx, R.es, R.bx = 0, dseg, 0
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:713: + -> -: R.di = (doff + 1 + pad + len(keep)) & M16
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:713: + -> -: R.di = (doff + 1 + pad + len(keep)) & M16
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:713: + -> -: R.di = (doff + 1 + pad + len(keep)) & M16
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:713: 1 -> 2: R.di = (doff + 1 + pad + len(keep)) & M16
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:733: 0x16 -> 0x17: R.enter(0x16)                                              # 09DA-09DD
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:734: - -> +: local = (R.bp - 0x15) & M16
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:734: 0x15 -> 0x16: local = (R.bp - 0x15) & M16
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:737: 0 -> 1: R.ax = 0                                                   # 09E6
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:738: 0 -> 1: for w in (high, low, 0, ss, local, 0x14):                  # 09E0-09F1
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:738: 0x14 -> 0x15: for w in (high, low, 0, ss, local, 0x14):                  # 09E0-09F1
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:740: 0x214B -> 0x214c: R.push(mem.seg(0x214B))                                    # 09F2 call far 12F6
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:741: 0x09F7 -> 0x9f8: R.push(0x09F7)
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:742: 0 -> 1: text, _ = str_of_long(((high << 16) | low), 0, 0x14)
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:742: 0x14 -> 0x15: text, _ = str_of_long(((high << 16) | low), 0, 0x14)
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:743: 0x14 -> 0x15: str_of_long_core(mem, R, 0x14, local, ss, 0, low, high)    # writes the string into the local
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:743: 0 -> 1: str_of_long_core(mem, R, 0x14, local, ss, 0, low, high)    # writes the string into the local
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:745: 0x14 -> 0x15: for w in (ss, local, dseg, doff, 0x14):                    # 09F7-0A04
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:747: 0x14 -> 0x15: R.ax = 0x14                                                # 0A01
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:748: 0x214B -> 0x214c: R.push(mem.seg(0x214B))                                    # 0A05 call far 0644
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:749: 0x0A0A -> 0xa0b: R.push(0x0A0A)
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:750: 0x14 -> 0x15: store_max_bytes(mem, R, text, dseg, doff, 0x14, R.sp)
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:766: + -> -: R.cx, R.di, R.es = 0, (doff + 1 + length) & M16, dseg
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:766: + -> -: R.cx, R.di, R.es = 0, (doff + 1 + length) & M16, dseg
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:766: 0 -> 1: R.cx, R.di, R.es = 0, (doff + 1 + length) & M16, dseg
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:766: 1 -> 2: R.cx, R.di, R.es = 0, (doff + 1 + length) & M16, dseg
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:773: 2 -> 3: R.enter(2)                                                  # 0C57-0C5A
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:774: 0 -> 1: dx = (k - (0 if variant == "bit-shift-1" else 1)) & M16     # 0C5D-0C61
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:842: 0x214B -> 0x214c: invoke(mem, R, 0x214B, 0x0CE0, set_include, off, seg, k, pushes=(k, seg, off))        # 0CD4-0CDD
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:842: 0x0CE0 -> 0xce1: invoke(mem, R, 0x214B, 0x0CE0, set_include, off, seg, k, pushes=(k, seg, off))        # 0CD4-0CDD
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:844: 0x214B -> 0x214c: invoke(mem, R, 0x214B, 0x0CEE, set_exclude, off, seg, k, pushes=(k, seg, off))        # 0CE2-0CEB
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:844: 0x0CEE -> 0xcef: invoke(mem, R, 0x214B, 0x0CEE, set_exclude, off, seg, k, pushes=(k, seg, off))        # 0CE2-0CEB
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:871: 4 -> 5: R.enter(4)                                                 # 0D1C-0D1F
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:873: > -> >=: if ha > hb:                                                # 0D27 jg -> b (0D33)
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:878: <= -> <: pick_a = a_lo <= b_lo                                  # 0D2E-0D31 jbe -> a
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:880: 4 -> 5: R.local16(-4, lo)                                          # 0D38 / 0D45
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:881: 2 -> 3: R.local16(-2, hi)                                          # 0D3B / 0D48
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:893: 4 -> 5: R.enter(4)                                                 # 0D56-0D59
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:895: > -> >=: if ha > hb:                                                # 0D64 jg -> a
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:900: > -> >=: pick_a = a_lo > b_lo                                   # 0D68-0D6B jbe -> b
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:902: 4 -> 5: R.local16(-4, lo)                                          # 0D72 / 0D7F
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:903: 2 -> 3: R.local16(-2, hi)                                          # 0D75 / 0D82
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:906: == -> !=: flags = sub_flags(a_lo, b_lo, 16) if s16(a_hi) == s16(b_hi) else sub_flags(a_hi, b_hi, 16)    # the last cmp
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:906: 16 -> 17: flags = sub_flags(a_lo, b_lo, 16) if s16(a_hi) == s16(b_hi) else sub_flags(a_hi, b_hi, 16)    # the last cmp
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:906: 16 -> 17: flags = sub_flags(a_lo, b_lo, 16) if s16(a_hi) == s16(b_hi) else sub_flags(a_hi, b_hi, 16)    # the last cmp
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:919: > -> >=: if s16(delta) > 0:                                         # 1C89 cmp [bp+6], 0; jle 1CFD
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:925: <= -> <: wrap = hi <= t_lo
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:931: >> -> <<: return result & M16, result & M16, result >> 16, "214B:1CF8", (0, hi)       # 1CC6 push dx; 1CC7 push ax
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:931: 16 -> 17: return result & M16, result & M16, result >> 16, "214B:1CF8", (0, hi)       # 1CC6 push dx; 1CC7 push ax
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:932: 0 -> 1: if s16(0) < s16(t_hi):                                     # 1D1A cmp dx, bx; jl 1D24 -> no wrap
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:937: > -> >=: wrap = lo > t_lo                                       # 1D20-1D22 cmp ax, cx; ja 1D2F
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:939: 0 -> 1: return (v + delta) & M16, delta & M16, 0, "214B:1D2A", ()
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:941: >> -> <<: return result & M16, result & M16, result >> 16, "214B:1D66", (0, lo)       # 1D34 push dx; 1D35 push ax
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:941: 16 -> 17: return result & M16, result & M16, result >> 16, "214B:1D66", (0, lo)       # 1D34 push dx; 1D35 push ax
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:973: 2 -> 3: R.enter(2)                                                  # 1D6F-1D72
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:980: 0x214B -> 0x214c: invoke(mem, R, 0x214B, 0x1D98, wrap_add_core, local, ss, lo & 0xFF, hi & 0xFF, delta, variant,
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:980: 0x1D98 -> 0x1d99: invoke(mem, R, 0x214B, 0x1D98, wrap_add_core, local, ss, lo & 0xFF, hi & 0xFF, delta, variant,
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:981: 0xFF -> 0x100: pushes=(ss, local, lo & 0xFF, hi & 0xFF, delta))    # 1D80-1D95
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:981: 0xFF -> 0x100: pushes=(ss, local, lo & 0xFF, hi & 0xFF, delta))    # 1D80-1D95
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:983: 0xFF00 -> 0xff01: R.ax = (R.ax & 0xFF00) | (new & 0xFF)                       # 1D98 mov al, [bp-2]
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:1006: < -> <=: if s16(ax) < s16(lo):                                      # 2009 cmp ax, [bp+8]; jge 2017
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:1010: > -> >=: if s16(ax) > s16(hi):                                      # 201D-201F cmp ax, [bp+6]; jle 202B
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:1026: 0x100 -> 0x101: s8_ = lambda b: b - 0x100 if b & 0x80 else b
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:1027: < -> <=: if s8_(al) < s8_(lo & 0xFF):                               # 203A cmp al, [bp+8]; jge 2048
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:1027: 0xFF -> 0x100: if s8_(al) < s8_(lo & 0xFF):                               # 203A cmp al, [bp+8]; jge 2048
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:1031: > -> >=: if s8_(al) > s8_(hi & 0xFF):                               # 204E cmp al, [bp+6]; jle 205C
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:1062: >> -> <<: R.push(low >> 16)                                          # 0280 push dx
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:1062: 16 -> 17: R.push(low >> 16)                                          # 0280 push dx
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:1063: + -> -: R.sp = R.sp + 4                                            # 028D pop dx; 028E pop ax
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:1063: 4 -> 5: R.sp = R.sp + 4                                            # 028D pop dx; 028E pop ax
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:1066: >> -> <<: partial = ((low >> 16) + bx_out) & M16                     # 028F add dx, bx
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:1066: 16 -> 17: partial = ((low >> 16) + bx_out) & M16                     # 028F add dx, bx
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:1085: 0x8000 -> 0x8001: divisor_negative = bool(bx & 0x8000)                       # 029B-029E
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:1089: + -> -: bx = (bx + (cx >> 16)) & M16
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:1089: >> -> <<: bx = (bx + (cx >> 16)) & M16
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:1089: 16 -> 17: bx = (bx + (cx >> 16)) & M16
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:1102: 15 -> 16: carry, cx = cx >> 15, ((cx << 1) | carry) & M16        # 02C4 rcl cx, 1
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:1103: << -> >>: carry, bx = bx >> 15, ((bx << 1) | carry) & M16        # 02C6 rcl bx, 1
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:1103: >> -> <<: carry, bx = bx >> 15, ((bx << 1) | carry) & M16        # 02C6 rcl bx, 1
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:1103: 15 -> 16: carry, bx = bx >> 15, ((bx << 1) | carry) & M16        # 02C6 rcl bx, 1
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:1103: 1 -> 2: carry, bx = bx >> 15, ((bx << 1) | carry) & M16        # 02C6 rcl bx, 1
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:1108: 1 -> 2: carry = 1 if t < 0 else 0
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:1121: + -> -: bx = (bx + (cx >> 16)) & M16
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:1121: >> -> <<: bx = (bx + (cx >> 16)) & M16
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:1121: 16 -> 17: bx = (bx + (cx >> 16)) & M16
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:1126: + -> -: dx = (dx + (ax >> 16)) & M16
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:1126: >> -> <<: dx = (dx + (ax >> 16)) & M16
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:1126: 16 -> 17: dx = (dx + (ax >> 16)) & M16
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:1128: + -> -: R.sp = R.sp + 6                                            # the pops: 02DA popf, 02E7 / 02EC popf, 02F9 pop b
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:1128: 6 -> 7: R.sp = R.sp + 6                                            # the pops: 02DA popf, 02E7 / 02EC popf, 02F9 pop b
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:1146: 0 -> 1: R.cx, R.es = 0, dseg
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:1159: > -> >=: if length > (mx & 0xFF):                                   # 0656 cmp al, cl; 0658 jbe 065C
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:1159: 0xFF -> 0x100: if length > (mx & 0xFF):                                   # 0656 cmp al, cl; 0658 jbe 065C
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:1164: 0 -> 1: R.cx, R.es = 0, dseg
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:1181: < -> <=: if s16(cx) < 0:                                        # 069D-06A1
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:1183: > -> >=: if ax > cx:                                            # 06A3-06A5 cmp ax, cx; jbe 06AD
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:1188: 0 -> 1: R.cx, R.es = 0, dseg
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:1209: > -> >=: if total > 0xFF:                                           # 06CD jae 06D7 not taken
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:1214: 0 -> 1: R.cx, R.es = 0, dseg
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:1236: + -> -: R.sp = R.sp + 2                                            # 072B pop ds
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:1236: 2 -> 3: R.sp = R.sp + 2                                            # 072B pop ds
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:1246: 0 -> 1: R.cx, R.si, R.di = 0, si, di
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:1252: 0xFF00 -> 0xff01: ax = (ax & 0xFF00) | sublen
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:1258: + -> -: si = (si + 1) & M16
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:1258: 1 -> 2: si = (si + 1) & M16
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:1259: 0xFF00 -> 0xff01: ax = (ax & 0xFF00) | ch
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:1269: - -> +: dx = (cx - ax) & M16                                   # 0708-070A
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:1273: 1 -> 2: dx = (dx + 1) & M16                                # 070E
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:1277: 0 -> 1: compared = 0
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:1283: 1 -> 2: compared += 1
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:1293: - -> +: dx = (dx - 1) & M16                            # 071C
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:1314: <= -> <: cl = la if la <= lb else lb                                # 0743-0747
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:1324: 8 -> 9: flags = sub_flags(a, b, 8)
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:1335: 0 -> 1: R.cx = 0
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:1336: 8 -> 9: R.arith(sub_flags(la, lb, 8))                              # 0753 cmp al, ah
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:1351: + -> -: R.es, R.di = dseg, (doff + 2) & M16
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:1351: 2 -> 3: R.es, R.di = dseg, (doff + 2) & M16
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:1366: <= -> <: if s16(cx) <= 0:
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:1367: 1 -> 2: cx = 1
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:1368: < -> <=: if ax < cx:
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:1372: < -> <=: count = 0 if s16(count) < 0 else count
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:1372: 0 -> 1: count = 0 if s16(count) < 0 else count
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:1372: 0 -> 1: count = 0 if s16(count) < 0 else count
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:1373: > -> >=: if ax > count:
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:1381: > -> >=: if total > 0xFF:
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:1382: + -> -: return bytes([0xFF]) + a[1:] + b[1:1 + 0xFF - a[0]]
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:1382: + -> -: return bytes([0xFF]) + a[1:] + b[1:1 + 0xFF - a[0]]
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:1382: + -> -: return bytes([0xFF]) + a[1:] + b[1:1 + 0xFF - a[0]]
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:1382: - -> +: return bytes([0xFF]) + a[1:] + b[1:1 + 0xFF - a[0]]
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:1382: 0xFF -> 0x100: return bytes([0xFF]) + a[1:] + b[1:1 + 0xFF - a[0]]
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:1382: 0xFF -> 0x100: return bytes([0xFF]) + a[1:] + b[1:1 + 0xFF - a[0]]
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:1382: 0 -> 1: return bytes([0xFF]) + a[1:] + b[1:1 + 0xFF - a[0]]
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:1394: - -> +: _write_pstring(mem, ss, (R.bp - 0x200) & M16, temp2, "23E4:06AD", "23E4:06B0")
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:1394: 0x200 -> 0x201: _write_pstring(mem, ss, (R.bp - 0x200) & M16, temp2, "23E4:06AD", "23E4:06B0")
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:1395: - -> +: _write_pstring(mem, ss, (R.bp - 0x100) & M16, temp1, "23E4:06CA", "23E4:06DC")
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:1395: 0x100 -> 0x101: _write_pstring(mem, ss, (R.bp - 0x100) & M16, temp1, "23E4:06CA", "23E4:06DC")
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:1397: + -> -: mem.w16(mem.ss_lin((sp + off) & M16), value & M16, STACK_AT)
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:1406: 0x200 -> 0x201: R.enter(0x200)                                             # 0787-078D
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:1407: 0x23E4 -> 0x23e5: ss, cs = R.ss, mem.seg(0x23E4)
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:1412: 0xFF -> 0x100: rest = _py_copy(s, index, 0xFF)                            # 07C2 -> 0676 (s, index, 255)
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:1414: - -> +: T1 = (R.bp - 0x100) & M16
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:1414: 0x100 -> 0x101: T1 = (R.bp - 0x100) & M16
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:1415: 2 -> 3: _insert_delete_frame(mem, R, first, rest, ((-2, ss), (-4, T1), (-6, sseg), (-8, soff), (-10, mx), (-12, cs),
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:1415: 4 -> 5: _insert_delete_frame(mem, R, first, rest, ((-2, ss), (-4, T1), (-6, sseg), (-8, soff), (-10, mx), (-12, cs),
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:1415: 6 -> 7: _insert_delete_frame(mem, R, first, rest, ((-2, ss), (-4, T1), (-6, sseg), (-8, soff), (-10, mx), (-12, cs),
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:1415: 8 -> 9: _insert_delete_frame(mem, R, first, rest, ((-2, ss), (-4, T1), (-6, sseg), (-8, soff), (-10, mx), (-12, cs),
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:1415: 10 -> 11: _insert_delete_frame(mem, R, first, rest, ((-2, ss), (-4, T1), (-6, sseg), (-8, soff), (-10, mx), (-12, cs),
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:1415: 12 -> 13: _insert_delete_frame(mem, R, first, rest, ((-2, ss), (-4, T1), (-6, sseg), (-8, soff), (-10, mx), (-12, cs),
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:1416: 14 -> 15: (-14, 0x07D5), (-16, 0x00FF), (-18, cs), (-20, 0x07C5)))
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:1416: 0x07D5 -> 0x7d6: (-14, 0x07D5), (-16, 0x00FF), (-18, cs), (-20, 0x07C5)))
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:1416: 16 -> 17: (-14, 0x07D5), (-16, 0x00FF), (-18, cs), (-20, 0x07C5)))
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:1416: 0x00FF -> 0x100: (-14, 0x07D5), (-16, 0x00FF), (-18, cs), (-20, 0x07C5)))
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:1416: 18 -> 19: (-14, 0x07D5), (-16, 0x00FF), (-18, cs), (-20, 0x07C5)))
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:1416: 20 -> 21: (-14, 0x07D5), (-16, 0x00FF), (-18, cs), (-20, 0x07C5)))
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:1416: 0x07C5 -> 0x7c6: (-14, 0x07D5), (-16, 0x00FF), (-18, cs), (-20, 0x07C5)))
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:1417: 0xFF -> 0x100: R.ax = 0xFF                                                # 07BD mov ax, 0xff: AH is 0 for the whole chain
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:1418: - -> +: store_max_bytes(mem, R, first, sseg, soff, mx, R.sp - 14)
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:1418: 14 -> 15: store_max_bytes(mem, R, first, sseg, soff, mx, R.sp - 14)
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:1429: 0x200 -> 0x201: R.enter(0x200)                                             # 07DB-07E1
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:1434: 0x23E4 -> 0x23e5: ss, cs = R.ss, mem.seg(0x23E4)
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:1437: 0xFF -> 0x100: rest = _py_copy(s, (index + count) & M16, 0xFF)            # 0817 -> 0676 (s, index + count, 255)
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:1439: - -> +: T1 = (R.bp - 0x100) & M16
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:1439: 0x100 -> 0x101: T1 = (R.bp - 0x100) & M16
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:1440: 2 -> 3: _insert_delete_frame(mem, R, first, rest, ((-2, ss), (-4, T1), (-6, sseg), (-8, soff), (-10, 0x00FF), (-12, cs
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:1440: 4 -> 5: _insert_delete_frame(mem, R, first, rest, ((-2, ss), (-4, T1), (-6, sseg), (-8, soff), (-10, 0x00FF), (-12, cs
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:1440: 6 -> 7: _insert_delete_frame(mem, R, first, rest, ((-2, ss), (-4, T1), (-6, sseg), (-8, soff), (-10, 0x00FF), (-12, cs
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:1440: 8 -> 9: _insert_delete_frame(mem, R, first, rest, ((-2, ss), (-4, T1), (-6, sseg), (-8, soff), (-10, 0x00FF), (-12, cs
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:1440: 10 -> 11: _insert_delete_frame(mem, R, first, rest, ((-2, ss), (-4, T1), (-6, sseg), (-8, soff), (-10, 0x00FF), (-12, cs
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:1440: 0x00FF -> 0x100: _insert_delete_frame(mem, R, first, rest, ((-2, ss), (-4, T1), (-6, sseg), (-8, soff), (-10, 0x00FF), (-12, cs
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:1440: 12 -> 13: _insert_delete_frame(mem, R, first, rest, ((-2, ss), (-4, T1), (-6, sseg), (-8, soff), (-10, 0x00FF), (-12, cs
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:1441: 14 -> 15: (-14, 0x082B), (-16, 0x00FF), (-18, cs), (-20, 0x081A)))
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:1441: 0x082B -> 0x82c: (-14, 0x082B), (-16, 0x00FF), (-18, cs), (-20, 0x081A)))
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:1441: 16 -> 17: (-14, 0x082B), (-16, 0x00FF), (-18, cs), (-20, 0x081A)))
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:1441: 0x00FF -> 0x100: (-14, 0x082B), (-16, 0x00FF), (-18, cs), (-20, 0x081A)))
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:1441: 18 -> 19: (-14, 0x082B), (-16, 0x00FF), (-18, cs), (-20, 0x081A)))
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:1441: 20 -> 21: (-14, 0x082B), (-16, 0x00FF), (-18, cs), (-20, 0x081A)))
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:1441: 0x081A -> 0x81b: (-14, 0x082B), (-16, 0x00FF), (-18, cs), (-20, 0x081A)))
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:1443: - -> +: store_max_bytes(mem, R, first, sseg, soff, 0xFF, R.sp - 14)
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:1443: 14 -> 15: store_max_bytes(mem, R, first, sseg, soff, 0xFF, R.sp - 14)
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:1457: 0 -> 1: R.cx, R.es = 0, dseg
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:1465: 1 -> 2: ch = args(mem, 1)[0] & 0xFF
+== runtime/original_match/port/geometry.py: unmutated copy passes tests/test_port_runtime.py, tests/test_port_geometry.py
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:59: 0x8000 -> 0x8001: R.dx = 0xFFFF if R.ax & 0x8000 else 0
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:65: >> -> <<: R.ax, R.dx = p & M16, p >> 16
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:65: 16 -> 17: R.ax, R.dx = p & M16, p >> 16
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:71: 16 -> 17: R.ax, R.dx = p & M16, (p >> 16) & M16
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:93: 0x14 -> 0x15: R.dx = 0x14
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:105: 2 -> 3: R.enter(2)                                                 # 2974-2979
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:107: < -> <=: R.al = 1 if rec8(mem, seg, off, 6) < 0xC else 0
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:107: 0xC -> 0xd: R.al = 1 if rec8(mem, seg, off, 6) < 0xC else 0
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:108: 1 -> 2: R.local8(-1, R.al)                                         # 298A
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:114: 2 -> 3: R.enter(2)                                                 # 2996-299B
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:122: 2 -> 3: R.enter(2)                                                 # 2BB1-2BB6
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:125: 0xC -> 0xd: if slot > (0xC if variant == "slot-side-12" else 0xB):    # 2BBA cmp [di+6], 0xb; jbe 2BD2
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:129: 1 -> 2: R.local8(-1, R.al)                                         # 2BCD / 2BD9
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:137: 0x8319 -> 0x831a: R.al = mem.ds8(0x8319)                                     # 2BEB
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:142: 0 -> 1: R.dx = 0                                                   # 2BF7
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:143: > -> >=: if s16(R.dx) > s16(R.bx):                                  # 2BF9 cmp dx, bx; jg 2C07
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:144: 1 -> 2: flag = 1
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:146: 0 -> 1: flag = 0
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:148: > -> >=: flag = 1 if R.ax > R.cx else 0                         # 2BFF cmp ax, cx; ja 2C07
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:148: 0 -> 1: flag = 1 if R.ax > R.cx else 0                         # 2BFF cmp ax, cx; ja 2C07
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:155: + -> -: R.sp = R.sp + 2
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:155: 2 -> 3: R.sp = R.sp + 2
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:160: 1 -> 2: R.local8(-1, R.al)                                         # 2C1D
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:174: 2 -> 3: R.enter(2)                                                 # 2A6D-2A72
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:180: 0x16 -> 0x17: R.dx = 0x16
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:184: 0x2A90 -> 0x2a91: invoke(mem, R, CS, 0x2A90, c2bb1, ds, R.di, variant, pushes=(ds, R.di))      # 2A8A-2A8D
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:186: 2 -> 3: R.local16(-2, R.ax)                                        # 2A92 / 2A99
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:192: 2 -> 3: R.enter(2)                                                 # 2E82-2E87
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:204: 1 -> 2: R.local8(-1, R.al)                                         # 2EAC
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:217: 0 -> 1: R.al = 1 if s16(R.ax) <= 0 else 0
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:217: 0 -> 1: R.al = 1 if s16(R.ax) <= 0 else 0
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:220: 1 -> 2: R.local8(-1, R.al)                                         # 2C7A
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:229: 2 -> 3: R.enter(2)                                                 # 261A-261D
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:233: 2 -> 3: R.local16(-2, R.ax)                                        # 262A
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:247: 1 -> 2: if args(mem, 1)[0] & 0xFF:                                 # 26A3
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:261: 0x8304 -> 0x8305: R.di = 0x8304                                              # 26C5
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:274: 2 -> 3: R.enter(2)                                                 # 26D7-26DC
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:276: < -> <=: if k < 5:                                                  # 26DD cmp [bp+0xa], 5; jae 2732
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:279: + -> -: invoke(mem, R, CS, 0x2708, set_test, own, (k + 4) & M16, pushes=((k + 4) & M16, own))        # 26E6-2703
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:279: 0x2708 -> 0x2709: invoke(mem, R, CS, 0x2708, set_test, own, (k + 4) & M16, pushes=((k + 4) & M16, own))        # 26E6-2703
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:279: 4 -> 5: invoke(mem, R, CS, 0x2708, set_test, own, (k + 4) & M16, pushes=((k + 4) & M16, own))        # 26E6-2703
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:283: 0x272D -> 0x272e: invoke(mem, R, CS, 0x272D, set_test, own, k, pushes=(k, own))      # 270C-2728
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:284: 1 -> 2: R.local8(-1, R.al)                                 # 2730
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:290: 0x273E -> 0x273f: invoke(mem, R, CS, 0x273E, c2974, seg, off, pushes=(seg, off))      # 2738-273B
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:294: 0xBF -> 0xc0: R.dx = 0xBF
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:299: 0 -> 1: R.ah = 0
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:303: 0x275E -> 0x275f: R.push(0x275E)
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:306: 1 -> 2: R.local8(-1, R.al)                                         # 275E
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:318: 0xA -> 0xb: R.enter(0xA)                                               # 278A-278F
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:321: 0x14 -> 0x15: R.dx = 0x14
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:326: 0xA -> 0xb: R.local16(-0xA, pdi)                                       # 27A2
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:330: 0 -> 1: R.ax = 0
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:331: 0 -> 1: base = 0
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:337: 4 -> 5: R.local16(-4, base)                                        # 27BB / 27C2
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:339: 0x20 -> 0x21: base = (base + 0x20) & M16                             # 27CB
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:344: 4 -> 5: R.local16(-4, base)
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:352: 2 -> 3: R.cx = 2
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:353: 2 -> 3: R.dx = skill % 2                                       # 27FB-2800 div cx
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:356: 6 -> 7: R.local16(-6, skill)                                   # 2802
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:357: 4 -> 5: R.cx = 4
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:359: 4 -> 5: R.dx = skill % 4
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:362: 0 -> 1: R.dx = 0
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:363: 0x100 -> 0x101: R.cx = 0x100                                               # 2817-2819
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:379: 0x2841 -> 0x2842: R.push(0x2841)
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:381: + -> -: member = (mem.u8(mem.addr(mem.seg(0x791), CS_KEEPER_EVENTS + (el >> 3))) >> (el & 7)) & 1     # -> 23E4:08DF
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:381: 3 -> 4: member = (mem.u8(mem.addr(mem.seg(0x791), CS_KEEPER_EVENTS + (el >> 3))) >> (el & 7)) & 1     # -> 23E4:08DF
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:382: >> -> <<: R.bx = el >> 3
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:382: 3 -> 4: R.bx = el >> 3
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:383: 0xFF00 -> 0xff01: R.cx = (R.cx & 0xFF00) | (el & 7)
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:383: 7 -> 8: R.cx = (R.cx & 0xFF00) | (el & 7)
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:384: << -> >>: R.al = (1 << (el & 7)) & 0xFF
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:384: 1 -> 2: R.al = (1 << (el & 7)) & 0xFF
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:384: 7 -> 8: R.al = (1 << (el & 7)) & 0xFF
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:384: 0xFF -> 0x100: R.al = (1 << (el & 7)) & 0xFF
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:385: 0x791 -> 0x792: R.es, R.di = mem.seg(0x791), CS_KEEPER_EVENTS
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:392: 4 -> 5: R.local16(-4, base)
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:396: 0 -> 1: R.dx = 0
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:397: 0x10 -> 0x11: R.cx = 0x10
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:398: 0x10 -> 0x11: R.ax, R.dx = base // 0x10, base % 0x10                 # 2868
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:412: 2 -> 3: R.enter(2)                                                 # 287C-2881
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:417: 0x20 -> 0x21: R.dx = skill % 0x20                                        # 288E-2893 div cx
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:418: 0x20 -> 0x21: R.cx = 0x20
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:419: 0x20 -> 0x21: n = (skill // 0x20 + 1) & M16                              # 2895
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:421: 0x289C -> 0x289d: invoke(mem, R, CS, 0x289C, draw_is_one, n, pushes=(n,))    # 2896-2897 -> 214B:06D0
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:423: 1 -> 2: R.local8(-1, R.al)                                         # 28A6
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:433: 1 -> 2: state = args(mem, 1)[0] & 0xFF
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:436: 0xA -> 0xb: R.enter(0xA)                                               # 28B2-28B7
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:437: 0 -> 1: R.ax = 0                                                   # 28B8
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:439: 5 -> 6: R.local16(-5, 0)                                           # 28BA
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:439: 0 -> 1: R.local16(-5, 0)                                           # 28BA
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:440: 3 -> 4: R.local16(-3, 1)                                           # 28BD
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:440: 1 -> 2: R.local16(-3, 1)                                           # 28BD
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:442: > -> >=: if i > 1:
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:443: 3 -> 4: R.local16(-3, i)                                   # 28C4 inc word ptr [bp-3]
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:445: 0x16 -> 0x17: R.dx = 0x16
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:449: 9 -> 10: R.local16(-9, rec)                                     # 28D5
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:450: 7 -> 8: R.local16(-7, ds)                                      # 28D8
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:472: 5 -> 6: R.local16(-5, count)                               # 2908
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:474: 1 -> 2: R.local8(-1, R.al)                                         # 291D
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:482: 1 -> 2: value = args(mem, 1)[0] & 0xFF
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:484: 2 -> 3: R.enter(2)                                                 # 2929-292C
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:485: 2 -> 3: R.local16(-2, 1)                                           # 292F
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:485: 1 -> 2: R.local16(-2, 1)                                           # 292F
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:486: 0xFF00 -> 0xff01: R.cx = (R.cx & 0xFF00) | value                             # 2939
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:489: 0x16 -> 0x17: R.dx = 0x16
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:493: 2 -> 3: R.local16(-2, 0x16)                                        # 2936 inc word ptr [bp-2] (22 times)
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:493: 0x16 -> 0x17: R.local16(-2, 0x16)                                        # 2936 inc word ptr [bp-2] (22 times)
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:503: 2 -> 3: R.enter(2)                                                 # 2956-295B
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:508: 1 -> 2: R.local8(-1, R.al)                                         # 2968: AL as the callee left it
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:526: 2 -> 3: R.enter(2)                                                 # 29B3-29B8
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:527: 0x29BC -> 0x29bd: invoke(mem, R, None, 0x29BC, c2996)                        # 29B9
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:528: 1 -> 2: R.al = 0 if R.al != 0 else 1                               # 29BC-29C6
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:531: + -> -: R.al = mem.ds8(SIDE_BASES + R.di)                          # 29C9
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:534: 0x16 -> 0x17: R.dx = 0x16
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:543: 0x16 -> 0x17: R.dx = 0x16
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:551: 1 -> 2: R.local8(-1, R.al)                                         # 2A0B
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:569: 0x16 -> 0x17: R.dx = 0x16
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:581: 0x2A41 -> 0x2a42: invoke(mem, R, None, 0x2A41, c2996)                    # 2A3E
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:584: + -> -: R.al = mem.ds8(SIDE_BASES + R.di)
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:585: 0 -> 1: R.ah = 0
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:589: 0x2A51 -> 0x2a52: invoke(mem, R, None, 0x2A51, c2996)                    # 2A4E
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:592: + -> -: R.al = mem.ds8(SIDE_BASES + R.di)
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:593: 0 -> 1: R.ah = 0
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:597: 1 -> 2: R.ax = 1                                               # 2A5E
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:598: 1 -> 2: R.push(1)                                              # 2A61
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:600: 0x2A67 -> 0x2a68: R.push(0x2A67)
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:623: 0x2AA9 -> 0x2aaa: invoke(mem, R, None, 0x2AA9, c2996)                        # 2AA6
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:627: 0x16 -> 0x17: R.dx = 0x16
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:630: 0x2AC0 -> 0x2ac1: invoke(mem, R, CS, 0x2AC0, c2bb1, ds, R.di, variant, pushes=(ds, R.di))        # 2ABA-2ABD
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:634: 0x2AC6 -> 0x2ac7: invoke(mem, R, None, 0x2AC6, c2a6d, variant)               # 2AC3
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:653: < -> <=: R.al = 1 if mem.ds8(SECOND_SLOT) < 0xC else 0              # 2AD7-2AE2
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:653: 1 -> 2: R.al = 1 if mem.ds8(SECOND_SLOT) < 0xC else 0              # 2AD7-2AE2
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:653: 0xC -> 0xd: R.al = 1 if mem.ds8(SECOND_SLOT) < 0xC else 0              # 2AD7-2AE2
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:656: 0x2AE8 -> 0x2ae9: invoke(mem, R, None, 0x2AE8, c2a6d, variant)               # 2AE5
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:660: 0x16 -> 0x17: R.dx = 0x16
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:663: 0x2AFF -> 0x2b00: invoke(mem, R, CS, 0x2AFF, c2bb1, ds, R.di, variant, pushes=(ds, R.di))        # 2AF9-2AFC
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:683: 0 -> 1: R.ax = 0                                                   # 2B15-2B1A
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:698: 0x2B34 -> 0x2b35: invoke(mem, R, CS, 0x2B34, c2974, seg, off, pushes=(seg, off))      # 2B2E-2B31
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:702: 0x2B3E -> 0x2b3f: invoke(mem, R, CS, 0x2B3E, c2bb1, seg, off, variant, pushes=(seg, off))        # 2B38-2B3B
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:706: 0 -> 1: R.ax = 0                                                   # 2B41
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:707: 0 -> 1: R.push(0)                                                  # 2B43
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:722: 2 -> 3: R.enter(2)                                                 # 2B51-2B56
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:723: 0x2B5A -> 0x2b5b: invoke(mem, R, None, 0x2B5A, c2996)                        # 2B57
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:727: 0x2B64 -> 0x2b65: invoke(mem, R, CS, 0x2B64, c2974, seg, off, pushes=(seg, off))      # 2B5E-2B61
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:729: + -> -: R.sp = R.sp + 2
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:729: 2 -> 3: R.sp = R.sp + 2
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:731: 1 -> 2: R.local8(-1, R.al)                                         # 2B6F
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:741: 2 -> 3: R.enter(2)                                                 # 2B7B-2B80
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:745: 0x20 -> 0x21: R.ax = 0x20 if variant == "energy-gate-32" else 0x21       # 2B9A
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:748: 0x2BA5 -> 0x2ba6: invoke(mem, R, CS, 0x2BA5, draw_is_one, n, pushes=(n,))    # 2B9F-2BA0 -> 214B:06D0
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:749: 1 -> 2: R.local8(-1, R.al)                                         # 2BA5
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:768: 2 -> 3: R.enter(2)                                                 # 2C29-2C2E
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:772: 1 -> 2: R.local8(-1, R.al)                                         # 2C48
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:792: 2 -> 3: R.enter(2)                                                 # 2C86-2C8B
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:793: 0x2C95 -> 0x2c96: direction_in_dx(mem, R, seg, off, 0x2C95)                  # 2C8C-2C96
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:799: 0x2CAA -> 0x2cab: direction_in_dx(mem, R, seg, off, 0x2CAA)                  # 2CA1-2CAB
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:806: 2 -> 3: R.local16(-2, R.ax)                                        # 2CB9
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:816: 2 -> 3: R.enter(2)                                                 # 2CEC-2CF1
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:820: 1 -> 2: R.local8(-1, R.al)                                         # 2D04
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:831: 2 -> 3: R.enter(2)                                                 # 2D10-2D15
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:832: 0x2D1F -> 0x2d20: direction_in_dx(mem, R, seg, off, 0x2D1F)                  # 2D16-2D20
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:846: 0x2D45 -> 0x2d46: direction_in_dx(mem, R, seg, off, 0x2D45)                  # 2D3C-2D46
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:852: + -> -: R.sp = R.sp + 4
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:852: 4 -> 5: R.sp = R.sp + 4
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:862: 1 -> 2: R.local8(-1, R.al)                                         # 2D61
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:872: 2 -> 3: R.enter(2)                                                 # 2D6D-2D72
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:873: 0x2D7C -> 0x2d7d: direction_in_dx(mem, R, seg, off, 0x2D7C)                  # 2D73-2D7D
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:882: 0x2D95 -> 0x2d96: direction_in_dx(mem, R, seg, off, 0x2D95)                  # 2D8C-2D96
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:893: + -> -: R.sp = R.sp + 4
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:893: 4 -> 5: R.sp = R.sp + 4
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:901: 1 -> 2: R.local8(-1, R.al)                                         # 2DBE
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:911: 2 -> 3: R.enter(2)                                                 # 2E00-2E05
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:922: 1 -> 2: R.local8(-1, R.al)                                         # 2E2A
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:932: 2 -> 3: R.enter(2)                                                 # 2E36-2E3B
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:933: 0x2E45 -> 0x2e46: direction_in_dx(mem, R, seg, off, 0x2E45)                  # 2E3C-2E46
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:950: 1 -> 2: R.local8(-1, R.al)                                         # 2E76
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:959: 1 -> 2: c2e82(mem, R, args(mem, 1)[0], variant)
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:968: 2 -> 3: R.enter(2)                                                 # 2EB8-2EBD
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:969: 0x2EC7 -> 0x2ec8: direction_in_dx(mem, R, seg, off, 0x2EC7)                  # 2EBE-2EC8
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:970: 8 -> 9: R.al = word >> 8                                           # 2ECA
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:976: 0x2EDA -> 0x2edb: invoke(mem, R, None, 0x2EDA, c2e82, word, variant, pushes=(word,))      # 2ED4-2ED7
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:978: 1 -> 2: R.local8(-1, R.al)                                         # 2EE4
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:988: 2 -> 3: R.enter(2)                                                 # 2EF0-2EF5
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:989: 0x2EFF -> 0x2f00: direction_in_dx(mem, R, seg, off, 0x2EFF)                  # 2EF6-2F00
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:990: 8 -> 9: R.al = word >> 8                                           # 2F02
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:993: <= -> <: if s16(R.ax) <= 0:                                         # 2F08 or ax, ax; jle 2F16
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:996: 0x2F12 -> 0x2f13: invoke(mem, R, None, 0x2F12, c2e82, word, variant, pushes=(word,))      # 2F0C-2F0F
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:997: 0 -> 1: R.al = 1 if R.al != 0 else 0                           # 2F12-2F1A
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:998: 1 -> 2: R.local8(-1, R.al)                                         # 2F1C
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:1008: 2 -> 3: R.enter(2)                                                 # 2F28-2F2D
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:1010: 0x2F37 -> 0x2f38: invoke(mem, R, CS, 0x2F37, c2c54, seg, off, variant, pushes=(seg, off))      # 2F31-2F34
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:1039: 1 -> 2: R.local8(-1, R.al)                                         # 2FA5
+1544 mutants, 1018 caught by the hand-worked tests, 526 survived them, of which 526 caught by the fuzz against the original, 0 by neither
