@@ -391,5 +391,136 @@ class ClearanceTargets(unittest.TestCase):
             self.assertEqual(r.mem.regs["ax"], 0x4444)
 
 
+class ShotAndHeaderFlow(unittest.TestCase):
+    def test_header_skips_jitter_draws_preserves_commentary_high_byte_and_wraps_stat(self):
+        r = Rig()
+        r.w8(0x78F, 4)
+        r.w8(0x7B8B, 255)
+        def answer(request, mem):
+            if request.target == "0791:287C":
+                self.assertEqual(request.args, (4, 0x4000, 0x123))
+                return 1
+            if request.target == "0791:2C86":return 0xF234
+            if request.target == "0791:34C1":
+                self.assertEqual(request.args, (0xF234, 2, 0x4000, 0x123))
+                return 0xAB00
+            if request.target == "0791:2AA3":
+                self.assertEqual(request.args, (0xAB56,))
+                return 0
+            self.assertEqual(request.target, "0791:2974")
+            return 1
+        r.run("0791:3C3F", [0x123, 0x4000, 2, 0x56], answer)
+        self.assertEqual([c[0] for c in r.calls],
+                         ["0791:287C", "0791:2C86", "0791:34C1", "0791:2AA3", "0791:2974"])
+        self.assertEqual((r.mem.ds8(0x80FB), r.mem.ds8(0x8303), r.mem.ds8(0x7B8B)), (1, 1, 0))
+
+    def test_shot_coin_word_is_live_and_all_failed_gates_reach_last_draw(self):
+        r = Rig()
+        r.w8(0x82F6, 255)
+        r.w8(0x8326, 1)
+        def answer(request, mem):
+            if request.ret_to == "0791:3C52":return 0xAB00
+            if request.ret_to == "0791:3C5A":
+                self.assertEqual(mem.regs["sp"], 0x2FFC)
+                self.assertEqual(mem.u16(0x2FFC), 0)
+                return 0xCD01
+            if request.ret_to == "0791:3CF2":return 1
+            if request.target == "214B:06D0":
+                self.assertIn(request.args, ((4,), (3,)))
+            return 0
+        r.run("0791:3C3F", [0x123, 0x4000, 1, 0x56], answer)
+        self.assertEqual(r.mem.ds8(0x82F6), 0)
+        self.assertEqual((r.mem.ds8(0x80FB), r.mem.ds8(0x8303)), (0, 0))
+        self.assertEqual([c[0] for c in r.calls], ["214B:06FA", "214B:06FA", "0791:287C",
+                         "214B:06D0", "0791:29B3", "0791:2C86", "0791:34C1", "0791:2AA3",
+                         "214B:06FA", "214B:06D0"])
+
+    def test_shot_four_short_circuits_skill_and_late_one_in_three_draw(self):
+        r = Rig()
+        r.w8(0x8324, 1)
+        r.w8(0x8326, 1)
+        r.run("0791:3C3F", [0x123, 0x4000, 4, 0x56],
+              lambda request, mem: 1 if request.target == "214B:06FA" else 0)
+        self.assertEqual([c[0] for c in r.calls], ["214B:06FA", "214B:06FA", "0791:2C86",
+                         "0791:34C1", "0791:2AA3", "214B:06FA"])
+        self.assertEqual((r.mem.ds8(0x80FB), r.mem.ds8(0x8303)), (0, 1))
+
+
+class CrossTarget(unittest.TestCase):
+    def test_membership_uses_guest_zf_then_unavailability_and_goal_strip(self):
+        r = Rig()
+        # Synthetic player array, with nonzero AX high byte from slot's long product.
+        r.mem.wds16(0xA91B, 0x400, "0791:3D38")
+        r.mem.wds16(0xA91D, 0x4000, "0791:3D38")
+        r.mem.w8(r.mem.addr(0x4000, 0x1806), 4, "0791:3D38")
+        for slot in range(2, 12):
+            r.record(slot, slot, -slot)
+            r.mem.wds16(0x80E8 + slot * 22 + 13, 0x100, "0791:3D38")
+        active = [None]
+        def answer(request, mem):
+            if request.target == "0791:2996":return 1
+            if request.target == "23E4:08DF":
+                active[0] = (mem.u16(mem.ss_lin(mem.regs["bp"] - 8)) - 0x80E8) // 22
+                self.assertEqual(request.args, (0x1404, mem.seg(0x0791), 0x3D18))
+                mem.regs["eflags"] = 0x242 if active[0] == 3 else 0x202
+                return 0xFFFF                                # AX is deliberately unrelated to membership
+            if request.target == "1771:3216":
+                self.assertEqual(request.args, (0x100,))
+                return int(active[0] == 4)
+            self.assertEqual(request.target, "0791:2EF0")
+            self.assertEqual(request.args[1:], (mem.DS, 0x80E8 + active[0] * 22))
+            return int(active[0] != 5)
+        regs = r.run("0791:3D38", [2, 0x100, 0x4000], answer)
+        self.assertEqual(r.mem.u16(r.mem.addr(0x4000, 0x100)), 0xFA06)
+        self.assertEqual(regs["ax"], 0xFA06)
+        self.assertEqual(sum(c[0] == "23E4:08DF" for c in r.calls), 4)
+        self.assertEqual(sum(c[0] == "1771:3216" for c in r.calls), 3)
+        self.assertEqual(sum(c[0] == "0791:2EF0" for c in r.calls), 2)
+
+    def test_no_candidate_preserves_caller_output(self):
+        r = Rig()
+        r.mem.w16(r.mem.addr(0x4000, 0x100), 0xABCD, "0791:3D38")
+        def answer(request, mem):
+            if request.target == "0791:2996":return 1
+            self.assertEqual(request.target, "23E4:08DF")
+            mem.regs["eflags"] = 0x242
+            return 1
+        r.run("0791:3D38", [2, 0x100, 0x4000], answer)
+        self.assertEqual(r.mem.u16(r.mem.addr(0x4000, 0x100)), 0xABCD)
+        self.assertEqual(sum(c[0] == "23E4:08DF" for c in r.calls), 9)
+
+
+class NestedOffside(unittest.TestCase):
+    def test_first_launch_only_sets_clock_and_preserves_ax(self):
+        r = Rig()
+        r.mem.regs["ax"] = 0xABCD
+        regs = r.run("0791:333F", [0x2000])
+        self.assertEqual(r.calls, [])
+        self.assertEqual(r.mem.ds8(0x8325), 1)
+        self.assertEqual(regs["ax"], 0xABCD)
+
+    def test_nested_parent_pointer_and_signed_side_direction(self):
+        for direction in (1, -1):
+            r = Rig()
+            r.w8(0x8325, 1)
+            r.w8(0x8329, 0xAA)
+            r.w8(0x82E9, 5 * direction)
+            r.record(2, 3, 9 * direction)
+            r.mem.w16(0x2006, 0x123, "0791:333F")
+            r.mem.w16(0x2008, 0x4000, "0791:333F")
+            r.mem.w8(r.mem.addr(0x4000, 0x129), 13, "0791:333F")
+            def answer(request, mem):
+                if request.target == "0791:30EA":
+                    self.assertEqual(request.args[1:], (0x4000, 0x123))
+                    return 3 if request.args[0] == 11 else 2
+                if request.target == "0791:2996":return 0
+                self.assertEqual(request.target, "0791:2BE5")
+                self.assertEqual(request.args, (mem.DS, 0x80E8 + 2 * 22))
+                return direction & 0xFF
+            r.run("0791:333F", [0x2000], answer)
+            self.assertEqual((r.mem.ds8(0x830E), r.mem.ds8(0x8329)), (2, 0))
+            self.assertEqual(r.mem.ds16(0x8317), ((9 * direction & 255) << 8) | 3)
+
+
 if __name__ == "__main__":
     unittest.main()
