@@ -33,6 +33,8 @@ class Rig:
         self.mem._entries.append((0x3000, entry.far))
         try:
             gen = entry.fn(self.mem, None)
+            if gen is None:
+                return self.mem.regs
             sent = None
             while True:
                 try:
@@ -120,6 +122,76 @@ class RelativeSlot(unittest.TestCase):
             regs = r.run("0791:30EA", [0x123, 0x4000, index], answer)
             self.assertEqual(regs["ax"], expected)
             self.assertEqual(r.mem.u16(0x2FFC), expected)         # local at bp-2
+
+
+class BallWrappers(unittest.TestCase):
+    def test_selected_receiver_preserves_full_ax_as_the_target_word(self):
+        r = Rig()
+        answers = iter((0xAB12, 0xCD34))
+        regs = r.run("0791:3323", [0x123, 0x4000], lambda request, mem: next(answers))
+        self.assertEqual(r.calls, [
+            ("0791:3111", (0x4000, 0x123), "0791:332F", True),
+            ("0791:384C", (0xAB12, 0x4000, 0x123), "0791:3339", True)])
+        self.assertEqual(regs["ax"], 0xCD34)
+
+    def test_offside_short_circuits_the_random_draw(self):
+        r = Rig()
+        r.w8(0x830E, 1)
+        r.run("0791:3BEE", [0x123, 0x4000])
+        self.assertEqual(r.calls, [("0791:82EB", (), "0791:3BFB", False)])
+
+    def test_pass_and_clearance_keep_coin_branches_and_call_sites(self):
+        cases = (("0791:3BEE", 0, "0791:3323", "0791:3C1A", (0x4000, 0x123)),
+                 ("0791:3BEE", 1, "0791:3B15", "0791:3C0F", (0x4000, 0x123)),
+                 ("0791:408E", 0, "0791:3EF8", "0791:40B6", (11, 0x4000, 0x123)),
+                 ("0791:408E", 1, "0791:3FAD", "0791:40A7", (11, 0x4000, 0x123)))
+        for address, coin, target, ret, args in cases:
+            r = Rig()
+            r.run(address, [0x123, 0x4000], lambda request, mem: coin if request.target == "214B:06FA" else 0)
+            self.assertEqual(len(r.calls), 2)
+            self.assertEqual(r.calls[0], ("214B:06FA", (), "0791:3C02" if address == "0791:3BEE" else "0791:4096", True))
+            self.assertEqual(r.calls[1], (target, args, ret, True))
+
+    def test_shot_and_header_template_push_preserves_the_incoming_high_byte(self):
+        for address, words, template, event, ret in (
+                ("0791:3EC5", [0x123, 0x4000, 0xAA56], 0x9A56, 1, "0791:3ED9"),
+                ("0791:3EDF", [0x123, 0x4000], 0x9A14, 2, "0791:3EF2")):
+            r = Rig()
+            r.mem.regs["ax"] = 0x9ABC
+            def answer(request, mem):
+                self.assertEqual(mem.regs["ax"], event)
+                return 0xDE34
+            r.run(address, words, answer)
+            self.assertEqual(r.calls, [("0791:3C3F", (template, event, 0x4000, 0x123), ret, True)])
+            self.assertEqual(r.mem.regs["ax"], 0xDE34)
+
+    def test_counter_side_stride_byte_wrap_and_match_mode_gate(self):
+        for side, off in ((0, 0x7B82), (1, 0x7B8C)):
+            r = Rig()
+            r.w8(off, 255)
+            r.run("0791:3C20", [side])
+            self.assertEqual(r.mem.ds8(off), 0)
+            self.assertEqual((r.mem.regs["ax"], r.mem.regs["dx"]), (side * 10, 0))
+        r = Rig()
+        r.w8(0x8326, 1)
+        r.w8(0x7B82, 7)
+        r.mem.regs.update(ax=0x1234, dx=0x5678)
+        r.run("0791:3C20", [0])
+        self.assertEqual(r.mem.ds8(0x7B82), 7)
+        self.assertEqual((r.mem.regs["ax"], r.mem.regs["dx"]), (0x1234, 0x5678))
+
+    def test_keeper_strip_gate_returns_local_boolean_with_last_callee_high_byte(self):
+        for inside, expected in ((0, 0xAB00), (1, 0xCD01)):
+            r = Rig()
+            r.w8(0x830B, 2)
+            r.record(2, -3, 4)
+            answers = iter((0xAB00 | inside, 0xCD42))
+            r.run("0791:4151", answer=lambda request, mem: next(answers))
+            self.assertEqual(r.calls[0], ("0791:2EB8", (0x04FD, r.mem.DS, 0x8114), "0791:4180", True))
+            self.assertEqual(len(r.calls), 1 + inside)
+            if inside:
+                self.assertEqual(r.calls[1], ("0791:3FAD", (9, r.mem.DS, 0x8114), "0791:4191", True))
+            self.assertEqual(r.mem.regs["ax"], expected)
 
 
 if __name__ == "__main__":
