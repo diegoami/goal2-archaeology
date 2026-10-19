@@ -29,6 +29,11 @@ controls = (
     ("0791:333F", ball.mark_offside_candidate,
      'mem.wds8(0x8325, 1, "0791:334C")', 'mem.wds8(0x8325, 0, "0791:334C")',
      tests.NestedOffside, "test_first_launch_only_sets_clock_and_preserves_ax"),
+    ("0791:34C1", ball.launch_ball, "high, low = r.dx, r.ax", "high, low = 0, r.ax",
+     tests.LaunchBall, "test_long_division_high_word_is_forwarded_to_maximum"),
+    ("0791:384C", ball.move_ball_to_slot,
+     "r.push(r.ax)                                           # 38A0:", "None                                                 # 38A0:",
+     tests.MoveBallToSlot, "test_self_target_keeps_incremented_draw_live_and_divides_toward_zero"),
 )
 for address, function, old, new, case, method in controls:
     source = inspect.getsource(function)
