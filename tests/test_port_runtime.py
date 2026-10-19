@@ -448,6 +448,20 @@ class Strings(unittest.TestCase):
             self.assertEqual(r.peek(0x400, 256), b"\xFF" + want)
             self.assertEqual(r.peek(0x500, 1), b"\xEE")
 
+    def test_insert_and_delete_with_nonpositive_index(self):
+        # 07A3/07FD pass index-1 to Copy(0676). Its signed negative
+        # count becomes zero, while the suffix index is raised to one.
+        for index in (0, 0xFFFF):
+            r = Rig()
+            r.pstr(0x100, b"abcd")
+            r.pstr(0x400, b"XY")
+            r.run("23E4:0787", [index, 255, 0x100, S, 0x400, S])
+            self.assertEqual(r.peek(0x100, 7), b"\x06XYabcd", hex(index))
+            r.pstr(0x100, b"abcd")
+            r.run("23E4:07DB", [2, index, 0x100, S])
+            want = b"bcd" if index == 0 else b"abcd"
+            self.assertEqual(r.peek(0x100, len(want) + 1), bytes([len(want)]) + want, hex(index))
+
     def test_move_and_str_store(self):
         r = Rig()
         r.poke(0x100, b"abcdef")

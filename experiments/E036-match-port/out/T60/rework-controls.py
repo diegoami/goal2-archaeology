@@ -15,6 +15,7 @@ ROOT = Path(__file__).resolve().parents[4]
 OLD = '321d8469c48c7598279230105558d7a493be479c'
 TESTS = ('tests/test_port_runtime.py', 'tests/test_port_geometry.py')
 CASES = [
+    ('negative Copy count inside Insert/Delete', 'runtime', 'count = 0 if s16(count) < 0 else count', 'count = 1 if s16(count) < 0 else count', 0),
     ('side-one base address', 'geometry', 'R.al = mem.ds8(SIDE_BASES + R.di)', 'R.al = mem.ds8(SIDE_BASES - R.di)', 0),
     ('lower bound AH', 'geometry', '        R.ah = 0', '        R.ah = 1', 0),
     ('upper bound AH', 'geometry', '        R.ah = 0', '        R.ah = 1', 1),
@@ -76,7 +77,7 @@ def main():
             print('historical broken fuzz classifier: new regression fails as intended',flush=True)
         finally:
             path.write_text(original)
-    print('all eight behavioral controls and broken-classifier control detected')
+    print(f'all {len(CASES)} behavioral controls and broken-classifier control detected')
 
 if __name__ == '__main__':
     main()
