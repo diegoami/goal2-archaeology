@@ -292,6 +292,16 @@ changed or stopped; a step a port stops FAILs and the next steps still run).
   A port that calls nothing is a plain function, as before.
   With the frame module (`port/frame.py`, T69: play_match, the halves, the tick loop, the sweep, the clock) installed,
   those ports' frames wait for the whole of play; replay permits saving at pauses and decisions in between.
+- **The stack** (T60, `port/runtime.py` `Regs`): the memory digests a family run takes (records.py: DS, 64 KiB from
+  the data segment) include the stack segment, so the bytes a routine's frame leaves below SP (the saved BP, the locals,
+  the arguments and return addresses it pushed for the routines it calls, and those routines' frames) are part of what
+  a ported match must equal at its end: S/quick-30 with the first geometry ports differed in 102 bytes of old string
+  residue the original's frames had overwritten and the ports' had not. The proof (below) leaves the dead frame out,
+  so it does not see this; the family comparison does. A port therefore writes its frame as the listing's code
+  does: `R.enter(n)` / `R.leave()`, `R.push(w)`, `R.local8(off, v)`, and `invoke(...)` for a call of another routine
+  written in Python (its pushes, the return address, the callee's frame). `experiments/E036-match-port/out/T60/fuzz.py`
+  compares a port against the original on random inputs, the dead frame included (the stack is pre-filled with random
+  bytes, so a missing or extra write shows).
 - **The proof** (T59, `port/prove.py`): `Match(..., ports=[...], prove=N)` runs every call of a ported routine from
   the main RNG's N-th draw on side by side with the original's (E021's rule). The port runs first, live (it is the
   match: its decisions are asked and answered once), recording its writes and every kit site it reaches; then it is

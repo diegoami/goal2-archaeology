@@ -1,0 +1,41 @@
+fuzz runs in the scratch tree
+ESCAPES BOTH [11E4 port] runtime.py:668: == -> !=: at = "23E4:11F8" if ch == 0x2D else "23E4:122B"
+ESCAPES BOTH [11E4 port] runtime.py:668: 0x2D -> 0x2e: at = "23E4:11F8" if ch == 0x2D else "23E4:122B"
+ESCAPES BOTH [11E4 port] runtime.py:670: + -> -: R.sp = R.sp + 2                                            # 1232 pop di
+ESCAPES BOTH [11E4 port] runtime.py:670: 2 -> 3: R.sp = R.sp + 2                                            # 1232 pop di
+ESCAPES BOTH [11E4 port] runtime.py:672: 0 -> 1: R.bx, R.dx, R.si, R.cx = 0, 0, 0x125E, len(digits)
+ESCAPES BOTH [1C86 neg] runtime.py:932: 0 -> 1: if s16(0) < s16(t_hi):                                     # 1D1A cmp dx, bx; jl 1D24 -> no wrap
+ESCAPES BOTH [2000] runtime.py:1006: < -> <=: if s16(ax) < s16(lo):                                      # 2009 cmp ax, [bp+8]; jge 2017
+ESCAPES BOTH [2000] runtime.py:1010: > -> >=: if s16(ax) > s16(hi):                                      # 201D-201F cmp ax, [bp+6]; jle 202B
+ESCAPES BOTH [0294] runtime.py:1103: >> -> <<: carry, bx = bx >> 15, ((bx << 1) | carry) & M16        # 02C6 rcl bx, 1
+ESCAPES BOTH [0294] runtime.py:1103: 15 -> 16: carry, bx = bx >> 15, ((bx << 1) | carry) & M16        # 02C6 rcl bx, 1
+ESCAPES BOTH [0294] runtime.py:1108: 1 -> 2: carry = 1 if t < 0 else 0
+ESCAPES BOTH [0294] runtime.py:1128: + -> -: R.sp = R.sp + 6                                            # the pops: 02DA popf, 02E7 / 02EC popf, 02F9 pop bp
+ESCAPES BOTH [0294] runtime.py:1128: 6 -> 7: R.sp = R.sp + 6                                            # the pops: 02DA popf, 02E7 / 02EC popf, 02F9 pop bp
+ESCAPES BOTH [0676] runtime.py:1181: < -> <=: if s16(cx) < 0:                                        # 069D-06A1
+ESCAPES BOTH [0676] runtime.py:1183: > -> >=: if ax > cx:                                            # 06A3-06A5 cmp ax, cx; jbe 06AD
+ESCAPES BOTH [0676] runtime.py:1188: 0 -> 1: R.cx, R.es = 0, dseg
+ESCAPES BOTH [072F] runtime.py:1314: <= -> <: cl = la if la <= lb else lb                                # 0743-0747
+ESCAPES BOTH [0787/07DB] runtime.py:1372: < -> <=: count = 0 if s16(count) < 0 else count
+ESCAPES BOTH [0787/07DB] runtime.py:1372: 0 -> 1: count = 0 if s16(count) < 0 else count
+ESCAPES BOTH [0787/07DB] runtime.py:1373: > -> >=: if ax > count:
+ESCAPES BOTH [0787/07DB] runtime.py:1381: > -> >=: if total > 0xFF:
+ESCAPES BOTH [0787/07DB] runtime.py:1382: - -> +: return bytes([0xFF]) + a[1:] + b[1:1 + 0xFF - a[0]]
+ESCAPES BOTH [0787/07DB] runtime.py:1382: 0xFF -> 0x100: return bytes([0xFF]) + a[1:] + b[1:1 + 0xFF - a[0]]
+ESCAPES BOTH [0787/07DB] runtime.py:1412: 0xFF -> 0x100: rest = _py_copy(s, index, 0xFF)                            # 07C2 -> 0676 (s, index, 255)
+ESCAPES BOTH [0787/07DB] runtime.py:1418: - -> +: store_max_bytes(mem, R, first, sseg, soff, mx, R.sp - 14)
+ESCAPES BOTH [0787/07DB] runtime.py:1418: 14 -> 15: store_max_bytes(mem, R, first, sseg, soff, mx, R.sp - 14)
+ESCAPES BOTH [0787/07DB] runtime.py:1437: 0xFF -> 0x100: rest = _py_copy(s, (index + count) & M16, 0xFF)            # 0817 -> 0676 (s, index + count, 255)
+ESCAPES BOTH [0787/07DB] runtime.py:1443: - -> +: store_max_bytes(mem, R, first, sseg, soff, 0xFF, R.sp - 14)
+ESCAPES BOTH [0787/07DB] runtime.py:1443: 14 -> 15: store_max_bytes(mem, R, first, sseg, soff, 0xFF, R.sp - 14)
+ESCAPES BOTH [08BF] runtime.py:1457: 0 -> 1: R.cx, R.es = 0, dseg
+ESCAPES BOTH [2A6D] geometry.py:180: 0x16 -> 0x17: R.dx = 0x16
+ESCAPES BOTH [2E82] geometry.py:192: 2 -> 3: R.enter(2)                                                 # 2E82-2E87
+ESCAPES BOTH [278A halving] geometry.py:352: 2 -> 3: R.cx = 2
+ESCAPES BOTH [278A halving] geometry.py:353: 2 -> 3: R.dx = skill % 2                                       # 27FB-2800 div cx
+ESCAPES BOTH [2A15] geometry.py:569: 0x16 -> 0x17: R.dx = 0x16
+ESCAPES BOTH [2A15] geometry.py:581: 0x2A41 -> 0x2a42: invoke(mem, R, None, 0x2A41, c2996)                    # 2A3E
+ESCAPES BOTH [2A15] geometry.py:589: 0x2A51 -> 0x2a52: invoke(mem, R, None, 0x2A51, c2996)                    # 2A4E
+ESCAPES BOTH [2A15] geometry.py:597: 1 -> 2: R.ax = 1                                               # 2A5E
+ESCAPES BOTH [2E82 port] geometry.py:959: 1 -> 2: c2e82(mem, R, args(mem, 1)[0], variant)
+310 mutants, 98 survived hand tests, 39 survived hand tests AND fuzz

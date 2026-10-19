@@ -1,0 +1,8 @@
+UTC 2026-10-18T16:45:20.455384+00:00
+Command: python3 -B experiments/E036-match-port/out/T60/partial_compare.py experiments/E036-match-port/out/T60/falsifier-geometry.own-half-zero.jsonl --expect differ
+F40/e032-1234: differs: first at score; the draws first differ at minute 1 (reference 2686 draws, candidate 1663); also ticks, draws.count, draws.digest, events, board.statistics, board.bars and 9 more
+S/quick-30: differs: first at score; the draws first differ at minute 1 (reference 1730 draws, candidate 2852); also ticks, draws.count, draws.digest, events, board.statistics, board.bars and 9 more
+S/ko-42-quick-g19: differs: first at score; the draws first differ at minute 1 (reference 1683 draws, candidate 2987); also ticks, draws.count, draws.digest, events, board.statistics, board.bars and 10 more
+all as expected (differ)
+
+exit 0

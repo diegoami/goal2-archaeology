@@ -1,0 +1,32 @@
+{
+  "utc": "2026-10-19T12:49:38.063246+00:00",
+  "port_source_unchanged_from": "321d846",
+  "runtime_full_fuzz": "incomplete timeout; not a kill",
+  "runtime_hand": "980 total;673 caught;307 survived, pre-final-negative-index test",
+  "geometry_full": "564 total;378 hand;91 actual fuzz;95 survived, pre-final test",
+  "targeted_review_ranges": "310 total;98 survive hand;39 survive both, pre-final test",
+  "final_units": "100 PASS, including actual image fuzz",
+  "controls": "9 formerly-surviving behavioral changes detected; historical broken classifier detected",
+  "full_suite": "1579 PASS13skips at ba20973; final extra test not included",
+  "files": {
+    "experiments/E036-match-port/out/T60/all.jsonl": "ca8598185781c0ef98213069f5969d1e6c084b12ee2439e306c802be3f183fff",
+    "experiments/E036-match-port/out/T60/controls-final-r1-20261019.txt": "1a82dca45651396a788ed6ff514a64c52625281dc2a6a9fe09147fe238a673ef",
+    "experiments/E036-match-port/out/T60/evidence-sha256-20261018.json": "5ad0da1c1ca43748a9c9d7ea5081b55dc991a251f05734eca3a916460c6bbd81",
+    "experiments/E036-match-port/out/T60/full-suite-rework-ba20973.txt": "45fdd57b32bff3b6933d15cdf18c9a9c004ae6c66804ca8c8a45051642b5f098",
+    "experiments/E036-match-port/out/T60/mutations-geometry-rework-ba20973.txt": "b24deb340d09d6cc45039ee172137c914be975d30ced8c51c78451213a751367",
+    "experiments/E036-match-port/out/T60/mutations-runtime-hand-95eb3f6.txt": "02dc6cf9269ce7eb370ee70e6ee7f0aa657ef363cffd8f1591c2ce1e626221d5",
+    "experiments/E036-match-port/out/T60/mutations-runtime-rework-ba20973.txt": "eb7dba4fc1b40abece94d4d1bccbd0dc9d0bc37b00a946d4d4c14f5e15738e53",
+    "experiments/E036-match-port/out/T60/mutations.py": "a05253cb1e957d3f1b1bd094e6e6df3d37fd3254631b7a71fa9b99c46b367428",
+    "experiments/E036-match-port/out/T60/own.jsonl": "511572bef2adeb5da0a51e8a2871d3c3e2f429d1103ac61e5ec67bdd1fc51fbb",
+    "experiments/E036-match-port/out/T60/rework-controls-ba20973.txt": "a7eede2805a2da339d3bac91b1bf26d64cfcb25dcbdd71b6612d862dce17300f",
+    "experiments/E036-match-port/out/T60/rework-controls.py": "991d5ecb73310a8072687e6925fac54b15d102eb334c741c1c297c3900840fb5",
+    "experiments/E036-match-port/out/T60/rework-unreached.py": "1b5e639f90579661f9c0b0055caca095f047732bc083d255f0714a92444227c6",
+    "experiments/E036-match-port/out/T60/unit-final-r1-20261019.txt": "957274a842e06d9a2e312ff038146898fb24250cb849ee94b1d84af99ea9c69f",
+    "experiments/E036-match-port/out/T60/unit-rework-ba20973.txt": "0eb615a8b03f7a32a82a5ca9a84e2fa144e300ac737d5ef2ee8b0aaaf79bc7fd",
+    "experiments/E036-match-port/out/T60/unreached-rework-dd15f59.txt": "9c7af46b938b31f830dc7e77c7b9022cf4a7185d187938a11e4de697f920358f",
+    "runtime/original_match/port/geometry.py": "a665d830ed16c00833a27216393a3b6f406251f44cef1f7fc9e80f7eb6bd3e81",
+    "runtime/original_match/port/runtime.py": "0a03827635ec11e2edf31fe9344ac56363bd6aadbe15e09f8ccfee4c384e6b1d",
+    "tests/test_port_geometry.py": "6ffb297b23a4eaa6c90b135f70323b337967622eed76e65c491b647d2ef9546c",
+    "tests/test_port_runtime.py": "407ee852640a67edc90dfe1aab50755f542c976ef6fd7e7af065abf1b86d5588"
+  }
+}

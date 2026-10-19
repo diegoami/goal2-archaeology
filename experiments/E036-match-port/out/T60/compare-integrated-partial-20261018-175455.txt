@@ -1,0 +1,12 @@
+a: 1/31 records at this checkpoint
+COMMAND: python3 -B experiments/E036-match-port/out/T60/partial_compare.py experiments/E036-match-port/out/T60/all-main-20261018-a.jsonl
+F40/e032-0101: identical
+all as expected (identical)
+
+exit 0
+b: 1/31 records at this checkpoint
+COMMAND: python3 -B experiments/E036-match-port/out/T60/partial_compare.py experiments/E036-match-port/out/T60/all-main-20261018-b.jsonl
+F40/e032-1234: identical
+all as expected (identical)
+
+exit 0
