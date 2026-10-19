@@ -1,0 +1,189 @@
+== runtime/original_match/port/geometry.py: unmutated copy passes tests/test_port_runtime.py, tests/test_port_geometry.py
+== runtime/original_match/port/geometry.py: unmutated copy passes actual differential fuzz
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:59: 0x8000 -> 0x8001: R.dx = 0xFFFF if R.ax & 0x8000 else 0
+SURVIVED runtime/original_match/port/geometry.py:65: >> -> <<: R.ax, R.dx = p & M16, p >> 16
+SURVIVED runtime/original_match/port/geometry.py:65: 16 -> 17: R.ax, R.dx = p & M16, p >> 16
+SURVIVED runtime/original_match/port/geometry.py:71: 16 -> 17: R.ax, R.dx = p & M16, (p >> 16) & M16
+SURVIVED runtime/original_match/port/geometry.py:93: 0x14 -> 0x15: R.dx = 0x14
+SURVIVED runtime/original_match/port/geometry.py:105: 2 -> 3: R.enter(2)                                                 # 2974-2979
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:107: < -> <=: R.al = 1 if rec8(mem, seg, off, 6) < 0xC else 0
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:107: 0xC -> 0xd: R.al = 1 if rec8(mem, seg, off, 6) < 0xC else 0
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:108: 1 -> 2: R.local8(-1, R.al)                                         # 298A
+SURVIVED runtime/original_match/port/geometry.py:114: 2 -> 3: R.enter(2)                                                 # 2996-299B
+SURVIVED runtime/original_match/port/geometry.py:122: 2 -> 3: R.enter(2)                                                 # 2BB1-2BB6
+SURVIVED runtime/original_match/port/geometry.py:125: 0xC -> 0xd: if slot > (0xC if variant == "slot-side-12" else 0xB):    # 2BBA cmp [di+6], 0xb; jbe 2BD2
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:129: 1 -> 2: R.local8(-1, R.al)                                         # 2BCD / 2BD9
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:137: 0x8319 -> 0x831a: R.al = mem.ds8(0x8319)                                     # 2BEB
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:142: 0 -> 1: R.dx = 0                                                   # 2BF7
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:143: > -> >=: if s16(R.dx) > s16(R.bx):                                  # 2BF9 cmp dx, bx; jg 2C07
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:144: 1 -> 2: flag = 1
+SURVIVED runtime/original_match/port/geometry.py:146: 0 -> 1: flag = 0
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:148: > -> >=: flag = 1 if R.ax > R.cx else 0                         # 2BFF cmp ax, cx; ja 2C07
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:148: 0 -> 1: flag = 1 if R.ax > R.cx else 0                         # 2BFF cmp ax, cx; ja 2C07
+SURVIVED runtime/original_match/port/geometry.py:155: + -> -: R.sp = R.sp + 2
+SURVIVED runtime/original_match/port/geometry.py:155: 2 -> 3: R.sp = R.sp + 2
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:160: 1 -> 2: R.local8(-1, R.al)                                         # 2C1D
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:174: 2 -> 3: R.enter(2)                                                 # 2A6D-2A72
+SURVIVED runtime/original_match/port/geometry.py:180: 0x16 -> 0x17: R.dx = 0x16
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:184: 0x2A90 -> 0x2a91: invoke(mem, R, CS, 0x2A90, c2bb1, ds, R.di, variant, pushes=(ds, R.di))      # 2A8A-2A8D
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:186: 2 -> 3: R.local16(-2, R.ax)                                        # 2A92 / 2A99
+SURVIVED runtime/original_match/port/geometry.py:192: 2 -> 3: R.enter(2)                                                 # 2E82-2E87
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:204: 1 -> 2: R.local8(-1, R.al)                                         # 2EAC
+SURVIVED runtime/original_match/port/geometry.py:217: 0 -> 1: R.al = 1 if s16(R.ax) <= 0 else 0
+SURVIVED runtime/original_match/port/geometry.py:217: 0 -> 1: R.al = 1 if s16(R.ax) <= 0 else 0
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:220: 1 -> 2: R.local8(-1, R.al)                                         # 2C7A
+SURVIVED runtime/original_match/port/geometry.py:229: 2 -> 3: R.enter(2)                                                 # 261A-261D
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:233: 2 -> 3: R.local16(-2, R.ax)                                        # 262A
+SURVIVED runtime/original_match/port/geometry.py:247: 1 -> 2: if args(mem, 1)[0] & 0xFF:                                 # 26A3
+SURVIVED runtime/original_match/port/geometry.py:261: 0x8304 -> 0x8305: R.di = 0x8304                                              # 26C5
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:274: 2 -> 3: R.enter(2)                                                 # 26D7-26DC
+SURVIVED runtime/original_match/port/geometry.py:276: < -> <=: if k < 5:                                                  # 26DD cmp [bp+0xa], 5; jae 2732
+SURVIVED runtime/original_match/port/geometry.py:279: + -> -: invoke(mem, R, CS, 0x2708, set_test, own, (k + 4) & M16, pushes=((k + 4) & M16, own))        # 26E6-2703
+SURVIVED runtime/original_match/port/geometry.py:279: 0x2708 -> 0x2709: invoke(mem, R, CS, 0x2708, set_test, own, (k + 4) & M16, pushes=((k + 4) & M16, own))        # 26E6-2703
+SURVIVED runtime/original_match/port/geometry.py:279: 4 -> 5: invoke(mem, R, CS, 0x2708, set_test, own, (k + 4) & M16, pushes=((k + 4) & M16, own))        # 26E6-2703
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:283: 0x272D -> 0x272e: invoke(mem, R, CS, 0x272D, set_test, own, k, pushes=(k, own))      # 270C-2728
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:284: 1 -> 2: R.local8(-1, R.al)                                 # 2730
+SURVIVED runtime/original_match/port/geometry.py:290: 0x273E -> 0x273f: invoke(mem, R, CS, 0x273E, c2974, seg, off, pushes=(seg, off))      # 2738-273B
+SURVIVED runtime/original_match/port/geometry.py:294: 0xBF -> 0xc0: R.dx = 0xBF
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:299: 0 -> 1: R.ah = 0
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:303: 0x275E -> 0x275f: R.push(0x275E)
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:306: 1 -> 2: R.local8(-1, R.al)                                         # 275E
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:318: 0xA -> 0xb: R.enter(0xA)                                               # 278A-278F
+SURVIVED runtime/original_match/port/geometry.py:321: 0x14 -> 0x15: R.dx = 0x14
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:326: 0xA -> 0xb: R.local16(-0xA, pdi)                                       # 27A2
+SURVIVED runtime/original_match/port/geometry.py:330: 0 -> 1: R.ax = 0
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:331: 0 -> 1: base = 0
+SURVIVED runtime/original_match/port/geometry.py:337: 4 -> 5: R.local16(-4, base)                                        # 27BB / 27C2
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:339: 0x20 -> 0x21: base = (base + 0x20) & M16                             # 27CB
+SURVIVED runtime/original_match/port/geometry.py:344: 4 -> 5: R.local16(-4, base)
+SURVIVED runtime/original_match/port/geometry.py:352: 2 -> 3: R.cx = 2
+SURVIVED runtime/original_match/port/geometry.py:353: 2 -> 3: R.dx = skill % 2                                       # 27FB-2800 div cx
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:356: 6 -> 7: R.local16(-6, skill)                                   # 2802
+SURVIVED runtime/original_match/port/geometry.py:357: 4 -> 5: R.cx = 4
+SURVIVED runtime/original_match/port/geometry.py:359: 4 -> 5: R.dx = skill % 4
+SURVIVED runtime/original_match/port/geometry.py:362: 0 -> 1: R.dx = 0
+SURVIVED runtime/original_match/port/geometry.py:363: 0x100 -> 0x101: R.cx = 0x100                                               # 2817-2819
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:379: 0x2841 -> 0x2842: R.push(0x2841)
+SURVIVED runtime/original_match/port/geometry.py:381: + -> -: member = (mem.u8(mem.addr(mem.seg(0x791), CS_KEEPER_EVENTS + (el >> 3))) >> (el & 7)) & 1     # -> 23E4:08DF
+SURVIVED runtime/original_match/port/geometry.py:381: 3 -> 4: member = (mem.u8(mem.addr(mem.seg(0x791), CS_KEEPER_EVENTS + (el >> 3))) >> (el & 7)) & 1     # -> 23E4:08DF
+SURVIVED runtime/original_match/port/geometry.py:382: >> -> <<: R.bx = el >> 3
+SURVIVED runtime/original_match/port/geometry.py:382: 3 -> 4: R.bx = el >> 3
+SURVIVED runtime/original_match/port/geometry.py:383: 0xFF00 -> 0xff01: R.cx = (R.cx & 0xFF00) | (el & 7)
+SURVIVED runtime/original_match/port/geometry.py:383: 7 -> 8: R.cx = (R.cx & 0xFF00) | (el & 7)
+SURVIVED runtime/original_match/port/geometry.py:384: << -> >>: R.al = (1 << (el & 7)) & 0xFF
+SURVIVED runtime/original_match/port/geometry.py:384: 1 -> 2: R.al = (1 << (el & 7)) & 0xFF
+SURVIVED runtime/original_match/port/geometry.py:384: 7 -> 8: R.al = (1 << (el & 7)) & 0xFF
+SURVIVED runtime/original_match/port/geometry.py:384: 0xFF -> 0x100: R.al = (1 << (el & 7)) & 0xFF
+SURVIVED runtime/original_match/port/geometry.py:385: 0x791 -> 0x792: R.es, R.di = mem.seg(0x791), CS_KEEPER_EVENTS
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:392: 4 -> 5: R.local16(-4, base)
+SURVIVED runtime/original_match/port/geometry.py:396: 0 -> 1: R.dx = 0
+SURVIVED runtime/original_match/port/geometry.py:397: 0x10 -> 0x11: R.cx = 0x10
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:398: 0x10 -> 0x11: R.ax, R.dx = base // 0x10, base % 0x10                 # 2868
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:412: 2 -> 3: R.enter(2)                                                 # 287C-2881
+SURVIVED runtime/original_match/port/geometry.py:417: 0x20 -> 0x21: R.dx = skill % 0x20                                        # 288E-2893 div cx
+SURVIVED runtime/original_match/port/geometry.py:418: 0x20 -> 0x21: R.cx = 0x20
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:419: 0x20 -> 0x21: n = (skill // 0x20 + 1) & M16                              # 2895
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:421: 0x289C -> 0x289d: invoke(mem, R, CS, 0x289C, draw_is_one, n, pushes=(n,))    # 2896-2897 -> 214B:06D0
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:423: 1 -> 2: R.local8(-1, R.al)                                         # 28A6
+SURVIVED runtime/original_match/port/geometry.py:433: 1 -> 2: state = args(mem, 1)[0] & 0xFF
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:436: 0xA -> 0xb: R.enter(0xA)                                               # 28B2-28B7
+SURVIVED runtime/original_match/port/geometry.py:437: 0 -> 1: R.ax = 0                                                   # 28B8
+SURVIVED runtime/original_match/port/geometry.py:439: 5 -> 6: R.local16(-5, 0)                                           # 28BA
+SURVIVED runtime/original_match/port/geometry.py:439: 0 -> 1: R.local16(-5, 0)                                           # 28BA
+SURVIVED runtime/original_match/port/geometry.py:440: 3 -> 4: R.local16(-3, 1)                                           # 28BD
+SURVIVED runtime/original_match/port/geometry.py:440: 1 -> 2: R.local16(-3, 1)                                           # 28BD
+SURVIVED runtime/original_match/port/geometry.py:442: > -> >=: if i > 1:
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:443: 3 -> 4: R.local16(-3, i)                                   # 28C4 inc word ptr [bp-3]
+SURVIVED runtime/original_match/port/geometry.py:445: 0x16 -> 0x17: R.dx = 0x16
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:449: 9 -> 10: R.local16(-9, rec)                                     # 28D5
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:450: 7 -> 8: R.local16(-7, ds)                                      # 28D8
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:472: 5 -> 6: R.local16(-5, count)                               # 2908
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:474: 1 -> 2: R.local8(-1, R.al)                                         # 291D
+SURVIVED runtime/original_match/port/geometry.py:482: 1 -> 2: value = args(mem, 1)[0] & 0xFF
+SURVIVED runtime/original_match/port/geometry.py:484: 2 -> 3: R.enter(2)                                                 # 2929-292C
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:485: 2 -> 3: R.local16(-2, 1)                                           # 292F
+SURVIVED runtime/original_match/port/geometry.py:485: 1 -> 2: R.local16(-2, 1)                                           # 292F
+SURVIVED runtime/original_match/port/geometry.py:486: 0xFF00 -> 0xff01: R.cx = (R.cx & 0xFF00) | value                             # 2939
+SURVIVED runtime/original_match/port/geometry.py:489: 0x16 -> 0x17: R.dx = 0x16
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:493: 2 -> 3: R.local16(-2, 0x16)                                        # 2936 inc word ptr [bp-2] (22 times)
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:493: 0x16 -> 0x17: R.local16(-2, 0x16)                                        # 2936 inc word ptr [bp-2] (22 times)
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:503: 2 -> 3: R.enter(2)                                                 # 2956-295B
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:508: 1 -> 2: R.local8(-1, R.al)                                         # 2968: AL as the callee left it
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:526: 2 -> 3: R.enter(2)                                                 # 29B3-29B8
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:527: 0x29BC -> 0x29bd: invoke(mem, R, None, 0x29BC, c2996)                        # 29B9
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:528: 1 -> 2: R.al = 0 if R.al != 0 else 1                               # 29BC-29C6
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:531: + -> -: R.al = mem.ds8(SIDE_BASES + R.di)                          # 29C9
+SURVIVED runtime/original_match/port/geometry.py:534: 0x16 -> 0x17: R.dx = 0x16
+SURVIVED runtime/original_match/port/geometry.py:543: 0x16 -> 0x17: R.dx = 0x16
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:551: 1 -> 2: R.local8(-1, R.al)                                         # 2A0B
+SURVIVED runtime/original_match/port/geometry.py:569: 0x16 -> 0x17: R.dx = 0x16
+SURVIVED runtime/original_match/port/geometry.py:581: 0x2A41 -> 0x2a42: invoke(mem, R, None, 0x2A41, c2996)                    # 2A3E
+SURVIVED runtime/original_match/port/geometry.py:589: 0x2A51 -> 0x2a52: invoke(mem, R, None, 0x2A51, c2996)                    # 2A4E
+SURVIVED runtime/original_match/port/geometry.py:597: 1 -> 2: R.ax = 1                                               # 2A5E
+SURVIVED runtime/original_match/port/geometry.py:623: 0x2AA9 -> 0x2aaa: invoke(mem, R, None, 0x2AA9, c2996)                        # 2AA6
+SURVIVED runtime/original_match/port/geometry.py:627: 0x16 -> 0x17: R.dx = 0x16
+SURVIVED runtime/original_match/port/geometry.py:630: 0x2AC0 -> 0x2ac1: invoke(mem, R, CS, 0x2AC0, c2bb1, ds, R.di, variant, pushes=(ds, R.di))        # 2ABA-2ABD
+SURVIVED runtime/original_match/port/geometry.py:634: 0x2AC6 -> 0x2ac7: invoke(mem, R, None, 0x2AC6, c2a6d, variant)               # 2AC3
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:653: < -> <=: R.al = 1 if mem.ds8(SECOND_SLOT) < 0xC else 0              # 2AD7-2AE2
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:653: 1 -> 2: R.al = 1 if mem.ds8(SECOND_SLOT) < 0xC else 0              # 2AD7-2AE2
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:653: 0xC -> 0xd: R.al = 1 if mem.ds8(SECOND_SLOT) < 0xC else 0              # 2AD7-2AE2
+SURVIVED runtime/original_match/port/geometry.py:656: 0x2AE8 -> 0x2ae9: invoke(mem, R, None, 0x2AE8, c2a6d, variant)               # 2AE5
+SURVIVED runtime/original_match/port/geometry.py:660: 0x16 -> 0x17: R.dx = 0x16
+SURVIVED runtime/original_match/port/geometry.py:663: 0x2AFF -> 0x2b00: invoke(mem, R, CS, 0x2AFF, c2bb1, ds, R.di, variant, pushes=(ds, R.di))        # 2AF9-2AFC
+SURVIVED runtime/original_match/port/geometry.py:683: 0 -> 1: R.ax = 0                                                   # 2B15-2B1A
+SURVIVED runtime/original_match/port/geometry.py:698: 0x2B34 -> 0x2b35: invoke(mem, R, CS, 0x2B34, c2974, seg, off, pushes=(seg, off))      # 2B2E-2B31
+SURVIVED runtime/original_match/port/geometry.py:702: 0x2B3E -> 0x2b3f: invoke(mem, R, CS, 0x2B3E, c2bb1, seg, off, variant, pushes=(seg, off))        # 2B38-2B3B
+SURVIVED runtime/original_match/port/geometry.py:706: 0 -> 1: R.ax = 0                                                   # 2B41
+SURVIVED runtime/original_match/port/geometry.py:707: 0 -> 1: R.push(0)                                                  # 2B43
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:722: 2 -> 3: R.enter(2)                                                 # 2B51-2B56
+SURVIVED runtime/original_match/port/geometry.py:723: 0x2B5A -> 0x2b5b: invoke(mem, R, None, 0x2B5A, c2996)                        # 2B57
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:727: 0x2B64 -> 0x2b65: invoke(mem, R, CS, 0x2B64, c2974, seg, off, pushes=(seg, off))      # 2B5E-2B61
+SURVIVED runtime/original_match/port/geometry.py:729: + -> -: R.sp = R.sp + 2
+SURVIVED runtime/original_match/port/geometry.py:729: 2 -> 3: R.sp = R.sp + 2
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:731: 1 -> 2: R.local8(-1, R.al)                                         # 2B6F
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:741: 2 -> 3: R.enter(2)                                                 # 2B7B-2B80
+SURVIVED runtime/original_match/port/geometry.py:745: 0x20 -> 0x21: R.ax = 0x20 if variant == "energy-gate-32" else 0x21       # 2B9A
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:748: 0x2BA5 -> 0x2ba6: invoke(mem, R, CS, 0x2BA5, draw_is_one, n, pushes=(n,))    # 2B9F-2BA0 -> 214B:06D0
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:749: 1 -> 2: R.local8(-1, R.al)                                         # 2BA5
+SURVIVED runtime/original_match/port/geometry.py:768: 2 -> 3: R.enter(2)                                                 # 2C29-2C2E
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:772: 1 -> 2: R.local8(-1, R.al)                                         # 2C48
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:792: 2 -> 3: R.enter(2)                                                 # 2C86-2C8B
+SURVIVED runtime/original_match/port/geometry.py:793: 0x2C95 -> 0x2c96: direction_in_dx(mem, R, seg, off, 0x2C95)                  # 2C8C-2C96
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:799: 0x2CAA -> 0x2cab: direction_in_dx(mem, R, seg, off, 0x2CAA)                  # 2CA1-2CAB
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:806: 2 -> 3: R.local16(-2, R.ax)                                        # 2CB9
+SURVIVED runtime/original_match/port/geometry.py:816: 2 -> 3: R.enter(2)                                                 # 2CEC-2CF1
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:820: 1 -> 2: R.local8(-1, R.al)                                         # 2D04
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:831: 2 -> 3: R.enter(2)                                                 # 2D10-2D15
+SURVIVED runtime/original_match/port/geometry.py:832: 0x2D1F -> 0x2d20: direction_in_dx(mem, R, seg, off, 0x2D1F)                  # 2D16-2D20
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:846: 0x2D45 -> 0x2d46: direction_in_dx(mem, R, seg, off, 0x2D45)                  # 2D3C-2D46
+SURVIVED runtime/original_match/port/geometry.py:852: + -> -: R.sp = R.sp + 4
+SURVIVED runtime/original_match/port/geometry.py:852: 4 -> 5: R.sp = R.sp + 4
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:862: 1 -> 2: R.local8(-1, R.al)                                         # 2D61
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:872: 2 -> 3: R.enter(2)                                                 # 2D6D-2D72
+SURVIVED runtime/original_match/port/geometry.py:873: 0x2D7C -> 0x2d7d: direction_in_dx(mem, R, seg, off, 0x2D7C)                  # 2D73-2D7D
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:882: 0x2D95 -> 0x2d96: direction_in_dx(mem, R, seg, off, 0x2D95)                  # 2D8C-2D96
+SURVIVED runtime/original_match/port/geometry.py:893: + -> -: R.sp = R.sp + 4
+SURVIVED runtime/original_match/port/geometry.py:893: 4 -> 5: R.sp = R.sp + 4
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:901: 1 -> 2: R.local8(-1, R.al)                                         # 2DBE
+SURVIVED runtime/original_match/port/geometry.py:911: 2 -> 3: R.enter(2)                                                 # 2E00-2E05
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:922: 1 -> 2: R.local8(-1, R.al)                                         # 2E2A
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:932: 2 -> 3: R.enter(2)                                                 # 2E36-2E3B
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:933: 0x2E45 -> 0x2e46: direction_in_dx(mem, R, seg, off, 0x2E45)                  # 2E3C-2E46
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:950: 1 -> 2: R.local8(-1, R.al)                                         # 2E76
+SURVIVED runtime/original_match/port/geometry.py:959: 1 -> 2: c2e82(mem, R, args(mem, 1)[0], variant)
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:968: 2 -> 3: R.enter(2)                                                 # 2EB8-2EBD
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:969: 0x2EC7 -> 0x2ec8: direction_in_dx(mem, R, seg, off, 0x2EC7)                  # 2EBE-2EC8
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:970: 8 -> 9: R.al = word >> 8                                           # 2ECA
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:976: 0x2EDA -> 0x2edb: invoke(mem, R, None, 0x2EDA, c2e82, word, variant, pushes=(word,))      # 2ED4-2ED7
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:978: 1 -> 2: R.local8(-1, R.al)                                         # 2EE4
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:988: 2 -> 3: R.enter(2)                                                 # 2EF0-2EF5
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:989: 0x2EFF -> 0x2f00: direction_in_dx(mem, R, seg, off, 0x2EFF)                  # 2EF6-2F00
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:990: 8 -> 9: R.al = word >> 8                                           # 2F02
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:993: <= -> <: if s16(R.ax) <= 0:                                         # 2F08 or ax, ax; jle 2F16
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:996: 0x2F12 -> 0x2f13: invoke(mem, R, None, 0x2F12, c2e82, word, variant, pushes=(word,))      # 2F0C-2F0F
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:997: 0 -> 1: R.al = 1 if R.al != 0 else 0                           # 2F12-2F1A
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:998: 1 -> 2: R.local8(-1, R.al)                                         # 2F1C
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:1008: 2 -> 3: R.enter(2)                                                 # 2F28-2F2D
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:1010: 0x2F37 -> 0x2f38: invoke(mem, R, CS, 0x2F37, c2c54, seg, off, variant, pushes=(seg, off))      # 2F31-2F34
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/geometry.py:1039: 1 -> 2: R.local8(-1, R.al)                                         # 2FA5
+564 mutants, 378 caught by the hand-worked tests, 186 survived them, of which 91 caught by the fuzz against the original, 95 by neither

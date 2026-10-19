@@ -1,0 +1,65 @@
+heavy: t60-memdiff: waiting for a slot (0 ahead)
+heavy: t60-memdiff: got slot 0 after 48 s
+final registers (unhooked / ported): {'ss': ('0x3875', '0x3875'), 'sp': ('0x3ec8', '0x3ec8'), 'bp': ('0x3ede', '0x3ede'), 'ds': ('0x2da4', '0x2da4')}
+102 bytes differ
+linear 0x3C1B7 DS+0xE777 SS+0x3A67 (SP-relative -1121): unhooked 00, ported 42
+linear 0x3C1B8 DS+0xE778 SS+0x3A68 (SP-relative -1120): unhooked 78, ported 6C
+linear 0x3C1B9 DS+0xE779 SS+0x3A69 (SP-relative -1119): unhooked 3A, ported 61
+linear 0x3C290 DS+0xE850 SS+0x3B40 (SP-relative -904): unhooked 50, ported 0C
+linear 0x3C291 DS+0xE851 SS+0x3B41 (SP-relative -903): unhooked 3B, ported 00
+linear 0x3C2A7 DS+0xE867 SS+0x3B57 (SP-relative -881): unhooked 00, ported 24
+linear 0x3C2A8 DS+0xE868 SS+0x3B58 (SP-relative -880): unhooked 68, ported 0E
+linear 0x3C2A9 DS+0xE869 SS+0x3B59 (SP-relative -879): unhooked 3B, ported 00
+linear 0x3C350 DS+0xE910 SS+0x3C00 (SP-relative -712): unhooked 28, ported 20
+linear 0x3C351 DS+0xE911 SS+0x3C01 (SP-relative -711): unhooked 3C, ported 20
+linear 0x3C352 DS+0xE912 SS+0x3C02 (SP-relative -710): unhooked F7, ported 20
+linear 0x3C353 DS+0xE913 SS+0x3C03 (SP-relative -709): unhooked 09, ported 20
+linear 0x3C354 DS+0xE914 SS+0x3C04 (SP-relative -708): unhooked 0A, ported 20
+linear 0x3C355 DS+0xE915 SS+0x3C05 (SP-relative -707): unhooked 0A, ported 20
+linear 0x3C356 DS+0xE916 SS+0x3C06 (SP-relative -706): unhooked 6E, ported 20
+linear 0x3C357 DS+0xE917 SS+0x3C07 (SP-relative -705): unhooked 29, ported 20
+linear 0x3C358 DS+0xE918 SS+0x3C08 (SP-relative -704): unhooked 14, ported 20
+linear 0x3C359 DS+0xE919 SS+0x3C09 (SP-relative -703): unhooked 00, ported 20
+linear 0x3C35A DS+0xE91A SS+0x3C0A (SP-relative -702): unhooked 38, ported 20
+linear 0x3C35B DS+0xE91B SS+0x3C0B (SP-relative -701): unhooked 3C, ported 20
+linear 0x3C35C DS+0xE91C SS+0x3C0C (SP-relative -700): unhooked 75, ported 20
+linear 0x3C35D DS+0xE91D SS+0x3C0D (SP-relative -699): unhooked 38, ported 6C
+linear 0x3C35E DS+0xE91E SS+0x3C0E (SP-relative -698): unhooked 13, ported 20
+linear 0x3C35F DS+0xE91F SS+0x3C0F (SP-relative -697): unhooked 3C, ported 20
+linear 0x3C360 DS+0xE920 SS+0x3C10 (SP-relative -696): unhooked 75, ported 20
+linear 0x3C361 DS+0xE921 SS+0x3C11 (SP-relative -695): unhooked 38, ported 20
+linear 0x3C363 DS+0xE923 SS+0x3C13 (SP-relative -693): unhooked 01, ported 20
+linear 0x3C38A DS+0xE94A SS+0x3C3A (SP-relative -654): unhooked 75, ported 67
+linear 0x3C38B DS+0xE94B SS+0x3C3B (SP-relative -653): unhooked 38, ported 61
+linear 0x3C38C DS+0xE94C SS+0x3C3C (SP-relative -652): unhooked A4, ported 6E
+linear 0x3C38D DS+0xE94D SS+0x3C3D (SP-relative -651): unhooked 2D, ported 20
+linear 0x3C38E DS+0xE94E SS+0x3C3E (SP-relative -650): unhooked 31, ported 20
+linear 0x3C3FA DS+0xE9BA SS+0x3CAA (SP-relative -542): unhooked A4, ported 4C
+linear 0x3C3FB DS+0xE9BB SS+0x3CAB (SP-relative -541): unhooked 2D, ported 59
+linear 0x3C438 DS+0xE9F8 SS+0x3CE8 (SP-relative -480): unhooked 75, ported 6F
+linear 0x3C439 DS+0xE9F9 SS+0x3CE9 (SP-relative -479): unhooked 38, ported 72
+linear 0x3C43A DS+0xE9FA SS+0x3CEA (SP-relative -478): unhooked A4, ported 20
+linear 0x3C43B DS+0xE9FB SS+0x3CEB (SP-relative -477): unhooked 2D, ported 54
+linear 0x3C43C DS+0xE9FC SS+0x3CEC (SP-relative -476): unhooked 75, ported 61
+linear 0x3C43D DS+0xE9FD SS+0x3CED (SP-relative -475): unhooked 38, ported 67
+linear 0x3C43E DS+0xE9FE SS+0x3CEE (SP-relative -474): unhooked A4, ported 67
+linear 0x3C43F DS+0xE9FF SS+0x3CEF (SP-relative -473): unhooked 2D, ported 61
+linear 0x3C440 DS+0xEA00 SS+0x3CF0 (SP-relative -472): unhooked 31, ported 72
+linear 0x3C458 DS+0xEA18 SS+0x3D08 (SP-relative -448): unhooked A4, ported 61
+linear 0x3C459 DS+0xEA19 SS+0x3D09 (SP-relative -447): unhooked 2D, ported A5
+linear 0x3C45C DS+0xEA1C SS+0x3D0C (SP-relative -444): unhooked 34, ported B4
+linear 0x3C45D DS+0xEA1D SS+0x3D0D (SP-relative -443): unhooked 3D, ported 0F
+linear 0x3C45E DS+0xEA1E SS+0x3D0E (SP-relative -442): unhooked F7, ported CE
+linear 0x3C45F DS+0xEA1F SS+0x3D0F (SP-relative -441): unhooked 09, ported 08
+linear 0x3C460 DS+0xEA20 SS+0x3D10 (SP-relative -440): unhooked 38, ported A4
+linear 0x3C461 DS+0xEA21 SS+0x3D11 (SP-relative -439): unhooked 3D, ported 2D
+linear 0x3C462 DS+0xEA22 SS+0x3D12 (SP-relative -438): unhooked F7, ported 17
+linear 0x3C463 DS+0xEA23 SS+0x3D13 (SP-relative -437): unhooked 09, ported 3D
+linear 0x3C464 DS+0xEA24 SS+0x3D14 (SP-relative -436): unhooked 0A, ported 75
+linear 0x3C465 DS+0xEA25 SS+0x3D15 (SP-relative -435): unhooked 0A, ported 38
+linear 0x3C466 DS+0xEA26 SS+0x3D16 (SP-relative -434): unhooked 75, ported 94
+linear 0x3C467 DS+0xEA27 SS+0x3D17 (SP-relative -433): unhooked 38, ported 01
+linear 0x3C468 DS+0xEA28 SS+0x3D18 (SP-relative -432): unhooked A4, ported 01
+linear 0x3C469 DS+0xEA29 SS+0x3D19 (SP-relative -431): unhooked 2D, ported 3E
+linear 0x3C46A DS+0xEA2A SS+0x3D1A (SP-relative -430): unhooked 30, ported 75
+span DS+0xE777 .. DS+0xEB9F

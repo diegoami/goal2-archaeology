@@ -1097,7 +1097,7 @@ void __stdcall16far sys_set_expand_0831(uint param_1,undefined1 *param_2,undefin
 
 
 // ---- 23E4:08BF  sys_set_compact_08BF  (f_23E4_08BF; Ghidra A000:08BF, __stdcall16far; found by routines.tsv)
-// Copies a byte range (offset, count) out of a 32-byte set into a smaller set  [guess; read decompiled/seg_23E4_01.c]
+// (word bh:bl, dest, src): copies bl bytes of the source from byte bh on to the destination (a set held in fewer bytes)  [likely; read code/seg_23E4_01.asm:1036]
 
 void __stdcall16far sys_set_compact_08BF(uint param_1,undefined1 *param_2,undefined4 param_3)
 

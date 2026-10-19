@@ -1,0 +1,124 @@
+== runtime/original_match/port/runtime.py: unmutated copy passes tests/test_port_runtime.py, tests/test_port_geometry.py
+== runtime/original_match/port/runtime.py: unmutated copy passes actual differential fuzz
+SURVIVED runtime/original_match/port/runtime.py:45: 0x0400 -> 0x401: CF, PF, AF, ZF, SF, OF, DF = 0x0001, 0x0004, 0x0010, 0x0040, 0x0080, 0x0800, 0x0400
+SURVIVED runtime/original_match/port/runtime.py:78: 0 -> 1: object.__setattr__(self, "_flags_on", 0)
+SURVIVED runtime/original_match/port/runtime.py:79: 0 -> 1: object.__setattr__(self, "_flags_off", 0)
+SURVIVED runtime/original_match/port/runtime.py:113: >> -> <<: return self.ax >> 8
+SURVIVED runtime/original_match/port/runtime.py:113: 8 -> 9: return self.ax >> 8
+SURVIVED runtime/original_match/port/runtime.py:129: + -> -: self._pending.append((self.ss * 16 + (off & M16), data))
+SURVIVED runtime/original_match/port/runtime.py:129: 16 -> 17: self._pending.append((self.ss * 16 + (off & M16), data))
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:133: 16 -> 17: self._pending.append((self.ss * 16 + sp, (value & M16).to_bytes(2, "little")))
+SURVIVED runtime/original_match/port/runtime.py:152: + -> -: self.sp = self.sp + 2
+SURVIVED runtime/original_match/port/runtime.py:152: 2 -> 3: self.sp = self.sp + 2
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:155: 16 -> 17: self._pending.append((self.ss * 16 + ((self.bp + off) & M16), bytes((value & 0xFF,))))
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:158: 16 -> 17: self._pending.append((self.ss * 16 + ((self.bp + off) & M16), (value & M16).to_bytes(2, "little")))
+SURVIVED runtime/original_match/port/runtime.py:173: - -> +: buf = bytearray(hi - lo)
+SURVIVED runtime/original_match/port/runtime.py:174: - -> +: seen = bytearray(hi - lo)
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:183: 1 -> 2: j += 1
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:187: 1 -> 2: i += 1
+SURVIVED runtime/original_match/port/runtime.py:214: and -> or: if stack or (name != "sp" and name != "bp"):
+SURVIVED runtime/original_match/port/runtime.py:220: 0 -> 1: object.__setattr__(self, "_flags_on", 0)
+SURVIVED runtime/original_match/port/runtime.py:221: 0 -> 1: object.__setattr__(self, "_flags_off", 0)
+SURVIVED runtime/original_match/port/runtime.py:240: << -> >>: mask = (1 << bits) - 1
+SURVIVED runtime/original_match/port/runtime.py:240: 1 -> 2: mask = (1 << bits) - 1
+SURVIVED runtime/original_match/port/runtime.py:248: == -> !=: if bin(r & 0xFF).count("1") % 2 == 0:
+SURVIVED runtime/original_match/port/runtime.py:248: 0xFF -> 0x100: if bin(r & 0xFF).count("1") % 2 == 0:
+SURVIVED runtime/original_match/port/runtime.py:248: 2 -> 3: if bin(r & 0xFF).count("1") % 2 == 0:
+SURVIVED runtime/original_match/port/runtime.py:261: 16 -> 17: def add_flags(a, b, bits=16):
+SURVIVED runtime/original_match/port/runtime.py:263: - -> +: mask = (1 << bits) - 1
+SURVIVED runtime/original_match/port/runtime.py:263: << -> >>: mask = (1 << bits) - 1
+SURVIVED runtime/original_match/port/runtime.py:263: 1 -> 2: mask = (1 << bits) - 1
+SURVIVED runtime/original_match/port/runtime.py:263: 1 -> 2: mask = (1 << bits) - 1
+SURVIVED runtime/original_match/port/runtime.py:266: + -> -: r = (a + b) & mask
+SURVIVED runtime/original_match/port/runtime.py:267: - -> +: sign = 1 << (bits - 1)
+SURVIVED runtime/original_match/port/runtime.py:267: << -> >>: sign = 1 << (bits - 1)
+SURVIVED runtime/original_match/port/runtime.py:267: 1 -> 2: sign = 1 << (bits - 1)
+SURVIVED runtime/original_match/port/runtime.py:267: 1 -> 2: sign = 1 << (bits - 1)
+SURVIVED runtime/original_match/port/runtime.py:268: 0 -> 1: f = 0
+SURVIVED runtime/original_match/port/runtime.py:269: > -> >=: if a + b > mask:
+SURVIVED runtime/original_match/port/runtime.py:269: + -> -: if a + b > mask:
+SURVIVED runtime/original_match/port/runtime.py:271: == -> !=: if bin(r & 0xFF).count("1") % 2 == 0:
+SURVIVED runtime/original_match/port/runtime.py:271: 0xFF -> 0x100: if bin(r & 0xFF).count("1") % 2 == 0:
+SURVIVED runtime/original_match/port/runtime.py:271: 2 -> 3: if bin(r & 0xFF).count("1") % 2 == 0:
+SURVIVED runtime/original_match/port/runtime.py:275: == -> !=: if r == 0:
+SURVIVED runtime/original_match/port/runtime.py:306: <= -> <: if n <= 0:
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:308: + -> -: sl, dl = sseg * 16 + (soff & M16), dseg * 16 + (doff & M16)
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:308: + -> -: sl, dl = sseg * 16 + (soff & M16), dseg * 16 + (doff & M16)
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:308: 16 -> 17: sl, dl = sseg * 16 + (soff & M16), dseg * 16 + (doff & M16)
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:308: 16 -> 17: sl, dl = sseg * 16 + (soff & M16), dseg * 16 + (doff & M16)
+SURVIVED runtime/original_match/port/runtime.py:309: <= -> <: if n > 8 and soff + n <= 0x10000 and doff + n <= 0x10000 and (sl + n <= dl or dl + n <= sl):
+SURVIVED runtime/original_match/port/runtime.py:309: <= -> <: if n > 8 and soff + n <= 0x10000 and doff + n <= 0x10000 and (sl + n <= dl or dl + n <= sl):
+SURVIVED runtime/original_match/port/runtime.py:309: <= -> <: if n > 8 and soff + n <= 0x10000 and doff + n <= 0x10000 and (sl + n <= dl or dl + n <= sl):
+SURVIVED runtime/original_match/port/runtime.py:309: <= -> <: if n > 8 and soff + n <= 0x10000 and doff + n <= 0x10000 and (sl + n <= dl or dl + n <= sl):
+SURVIVED runtime/original_match/port/runtime.py:309: > -> >=: if n > 8 and soff + n <= 0x10000 and doff + n <= 0x10000 and (sl + n <= dl or dl + n <= sl):
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:309: and -> or: if n > 8 and soff + n <= 0x10000 and doff + n <= 0x10000 and (sl + n <= dl or dl + n <= sl):
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:309: and -> or: if n > 8 and soff + n <= 0x10000 and doff + n <= 0x10000 and (sl + n <= dl or dl + n <= sl):
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:309: and -> or: if n > 8 and soff + n <= 0x10000 and doff + n <= 0x10000 and (sl + n <= dl or dl + n <= sl):
+SURVIVED runtime/original_match/port/runtime.py:309: or -> and: if n > 8 and soff + n <= 0x10000 and doff + n <= 0x10000 and (sl + n <= dl or dl + n <= sl):
+SURVIVED runtime/original_match/port/runtime.py:309: + -> -: if n > 8 and soff + n <= 0x10000 and doff + n <= 0x10000 and (sl + n <= dl or dl + n <= sl):
+SURVIVED runtime/original_match/port/runtime.py:309: + -> -: if n > 8 and soff + n <= 0x10000 and doff + n <= 0x10000 and (sl + n <= dl or dl + n <= sl):
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:309: + -> -: if n > 8 and soff + n <= 0x10000 and doff + n <= 0x10000 and (sl + n <= dl or dl + n <= sl):
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:309: + -> -: if n > 8 and soff + n <= 0x10000 and doff + n <= 0x10000 and (sl + n <= dl or dl + n <= sl):
+SURVIVED runtime/original_match/port/runtime.py:309: 8 -> 9: if n > 8 and soff + n <= 0x10000 and doff + n <= 0x10000 and (sl + n <= dl or dl + n <= sl):
+SURVIVED runtime/original_match/port/runtime.py:309: 0x10000 -> 0x10001: if n > 8 and soff + n <= 0x10000 and doff + n <= 0x10000 and (sl + n <= dl or dl + n <= sl):
+SURVIVED runtime/original_match/port/runtime.py:309: 0x10000 -> 0x10001: if n > 8 and soff + n <= 0x10000 and doff + n <= 0x10000 and (sl + n <= dl or dl + n <= sl):
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:312: + -> -: mem.w8(dl + k, data[k], at)
+SURVIVED runtime/original_match/port/runtime.py:316: + -> -: return (soff + n) & M16, (doff + n) & M16
+SURVIVED runtime/original_match/port/runtime.py:316: + -> -: return (soff + n) & M16, (doff + n) & M16
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:321: 16 -> 17: mem.w8(seg * 16 + (off & M16), data[0], at_len)
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:323: 16 -> 17: mem.w8(seg * 16 + ((off + 1 + k) & M16), data[1 + k], at_move)
+SURVIVED runtime/original_match/port/runtime.py:362: + -> -: di = (di + 1) & M16
+SURVIVED runtime/original_match/port/runtime.py:362: 1 -> 2: di = (di + 1) & M16
+SURVIVED runtime/original_match/port/runtime.py:363: 0 -> 1: R.di, R.cx = di, 0
+SURVIVED runtime/original_match/port/runtime.py:364: + -> -: R.sp = R.sp + 2                                           # 002F pop cx
+SURVIVED runtime/original_match/port/runtime.py:364: 2 -> 3: R.sp = R.sp + 2                                           # 002F pop cx
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:382: > -> >=: if si > di:                                               # 0057 cmp si, di; 0059 ja 006C
+SURVIVED runtime/original_match/port/runtime.py:400: 0 -> 1: R.si, R.di, R.cx = si, di, 0
+SURVIVED runtime/original_match/port/runtime.py:401: + -> -: R.sp = R.sp + 2                                           # 0074 pop ds
+SURVIVED runtime/original_match/port/runtime.py:401: 2 -> 3: R.sp = R.sp + 2                                           # 0074 pop ds
+SURVIVED runtime/original_match/port/runtime.py:426: 0 -> 1: R.si, R.di, R.cx = si, di, 0
+SURVIVED runtime/original_match/port/runtime.py:427: + -> -: R.sp = R.sp + 2                                           # 0095 pop ds
+SURVIVED runtime/original_match/port/runtime.py:427: 2 -> 3: R.sp = R.sp + 2                                           # 0095 pop ds
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:438: 0x52 -> 0x53: R.enter(0x52)                                             # 009C-009F
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:442: 0x50 -> 0x51: for w in (sseg, soff, ss, local, 0x50):                   # 00A2-00AF push es; push di; push ss; push di; push
+SURVIVED runtime/original_match/port/runtime.py:444: 0x50 -> 0x51: R.ax = 0x50                                               # 00AC
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:445: 0x214B -> 0x214c: R.push(mem.seg(0x214B))                                   # 00B0 call far 0644: the return address
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:446: 0x00B5 -> 0xb6: R.push(0x00B5)
+SURVIVED runtime/original_match/port/runtime.py:469: 0 -> 1: R.cx, R.si, R.di, R.es = 0, si, di, dseg
+SURVIVED runtime/original_match/port/runtime.py:470: + -> -: R.sp = R.sp + 2                                           # 00D4 pop ds
+SURVIVED runtime/original_match/port/runtime.py:470: 2 -> 3: R.sp = R.sp + 2                                           # 00D4 pop ds
+SURVIVED THE TESTS, CAUGHT BY THE FUZZ runtime/original_match/port/runtime.py:490: 0 -> 1: dx = 0                                                    # 0158
+SURVIVED runtime/original_match/port/runtime.py:491: 0 -> 1: ax = 0                                                    # 015A
+SURVIVED runtime/original_match/port/runtime.py:492: 0xFF00 -> 0xff01: ax = (ax & 0xFF00) | mem.u8(sbase + si)                   # 015C lodsb
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a0823e826357e7e81/experiments/E036-match-port/out/T60/mutations.py", line 76, in run_fuzz
+    p = subprocess.run([sys.executable, "-B", str(tmp / "experiments/E036-match-port/out/T60/fuzz.py"), "--module", module,
+                        "--n", "40", "--timeout", "1", "--cache", str(ROOT / ".cache" / "dl")], cwd=tmp,
+                       capture_output=True, text=True, env=env, timeout=300)
+  File "/usr/lib/python3.14/subprocess.py", line 557, in run
+    stdout, stderr = process.communicate(input, timeout=timeout)
+                     ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/subprocess.py", line 1221, in communicate
+    stdout, stderr = self._communicate(input, endtime, timeout)
+                     ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/subprocess.py", line 2154, in _communicate
+    self._check_timeout(endtime, orig_timeout, stdout, stderr)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/subprocess.py", line 1268, in _check_timeout
+    raise TimeoutExpired(
+    ...<2 lines>...
+            stderr=b''.join(stderr_seq) if stderr_seq else None)
+subprocess.TimeoutExpired: Command '['/usr/bin/python3', '-B', '/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a0823e826357e7e81/.cache/tmp/tmpl6896i0_/experiments/E036-match-port/out/T60/fuzz.py', '--module', 'runtime', '--n', '40', '--timeout', '1', '--cache', '/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a0823e826357e7e81/.cache/dl']' timed out after 300 seconds
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a0823e826357e7e81/experiments/E036-match-port/out/T60/mutations.py", line 154, in <module>
+    sys.exit(main())
+             ~~~~^^
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a0823e826357e7e81/experiments/E036-match-port/out/T60/mutations.py", line 141, in main
+    by_fuzz = a.fuzz and run_fuzz(tmp, module)
+                         ~~~~~~~~^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a0823e826357e7e81/experiments/E036-match-port/out/T60/mutations.py", line 80, in run_fuzz
+    raise RuntimeError("fuzz infrastructure timeout; mutant not classified") from error
+RuntimeError: fuzz infrastructure timeout; mutant not classified

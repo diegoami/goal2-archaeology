@@ -1,0 +1,12 @@
+Captured from heavy.sh T60-final-controls -- python3 -B experiments/E036-match-port/out/T60/rework-controls.py
+negative Copy count inside Insert/Delete previous_exit 0 corrected_exit 1
+side-one base address previous_exit 0 corrected_exit 1
+lower bound AH previous_exit 0 corrected_exit 1
+upper bound AH previous_exit 0 corrected_exit 1
+saturated insert length byte previous_exit 0 corrected_exit 1
+character compare width previous_exit 0 corrected_exit 1
+length compare width previous_exit 0 corrected_exit 1
+negative remainder carry previous_exit 0 corrected_exit 1
+division high-word rotation previous_exit 0 corrected_exit 1
+historical broken fuzz classifier: new regression fails as intended
+all 9 behavioral controls and broken-classifier control detected

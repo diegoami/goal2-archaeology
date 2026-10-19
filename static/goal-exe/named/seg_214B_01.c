@@ -815,7 +815,7 @@ void __stdcall16far u214b_wait_key_in_set(undefined4 param_1)
 
 
 // ---- 214B:09DA  u214b_number_to_string  (f_214B_09DA; Ghidra 7000:09DA, __stdcall16far; found by routines.tsv)
-// Converts a number to a 20-char string (Str-style call in 23E4:12F6) and copies it to the result  [guess; read decompiled/seg_214B_01.c]
+// (long value, var s: string[20]): Str(value:0) into a local through 23E4:12F6, then s := local clipped to 20 by 23E4:0644  [likely; read code/seg_214B_02.asm:132]
 
 void __stdcall16far u214b_number_to_string(undefined2 param_1,undefined2 param_2,undefined4 param_3)
 

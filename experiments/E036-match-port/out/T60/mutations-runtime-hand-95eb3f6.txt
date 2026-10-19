@@ -1,0 +1,309 @@
+== runtime/original_match/port/runtime.py: unmutated copy passes tests/test_port_runtime.py, tests/test_port_geometry.py
+SURVIVED runtime/original_match/port/runtime.py:45: 0x0400 -> 0x401: CF, PF, AF, ZF, SF, OF, DF = 0x0001, 0x0004, 0x0010, 0x0040, 0x0080, 0x0800, 0x0400
+SURVIVED runtime/original_match/port/runtime.py:78: 0 -> 1: object.__setattr__(self, "_flags_on", 0)
+SURVIVED runtime/original_match/port/runtime.py:79: 0 -> 1: object.__setattr__(self, "_flags_off", 0)
+SURVIVED runtime/original_match/port/runtime.py:113: >> -> <<: return self.ax >> 8
+SURVIVED runtime/original_match/port/runtime.py:113: 8 -> 9: return self.ax >> 8
+SURVIVED runtime/original_match/port/runtime.py:129: + -> -: self._pending.append((self.ss * 16 + (off & M16), data))
+SURVIVED runtime/original_match/port/runtime.py:129: 16 -> 17: self._pending.append((self.ss * 16 + (off & M16), data))
+SURVIVED runtime/original_match/port/runtime.py:133: 16 -> 17: self._pending.append((self.ss * 16 + sp, (value & M16).to_bytes(2, "little")))
+SURVIVED runtime/original_match/port/runtime.py:152: + -> -: self.sp = self.sp + 2
+SURVIVED runtime/original_match/port/runtime.py:152: 2 -> 3: self.sp = self.sp + 2
+SURVIVED runtime/original_match/port/runtime.py:155: 16 -> 17: self._pending.append((self.ss * 16 + ((self.bp + off) & M16), bytes((value & 0xFF,))))
+SURVIVED runtime/original_match/port/runtime.py:158: 16 -> 17: self._pending.append((self.ss * 16 + ((self.bp + off) & M16), (value & M16).to_bytes(2, "little")))
+SURVIVED runtime/original_match/port/runtime.py:173: - -> +: buf = bytearray(hi - lo)
+SURVIVED runtime/original_match/port/runtime.py:174: - -> +: seen = bytearray(hi - lo)
+SURVIVED runtime/original_match/port/runtime.py:183: 1 -> 2: j += 1
+SURVIVED runtime/original_match/port/runtime.py:187: 1 -> 2: i += 1
+SURVIVED runtime/original_match/port/runtime.py:214: and -> or: if stack or (name != "sp" and name != "bp"):
+SURVIVED runtime/original_match/port/runtime.py:220: 0 -> 1: object.__setattr__(self, "_flags_on", 0)
+SURVIVED runtime/original_match/port/runtime.py:221: 0 -> 1: object.__setattr__(self, "_flags_off", 0)
+SURVIVED runtime/original_match/port/runtime.py:240: << -> >>: mask = (1 << bits) - 1
+SURVIVED runtime/original_match/port/runtime.py:240: 1 -> 2: mask = (1 << bits) - 1
+SURVIVED runtime/original_match/port/runtime.py:248: == -> !=: if bin(r & 0xFF).count("1") % 2 == 0:
+SURVIVED runtime/original_match/port/runtime.py:248: 0xFF -> 0x100: if bin(r & 0xFF).count("1") % 2 == 0:
+SURVIVED runtime/original_match/port/runtime.py:248: 2 -> 3: if bin(r & 0xFF).count("1") % 2 == 0:
+SURVIVED runtime/original_match/port/runtime.py:261: 16 -> 17: def add_flags(a, b, bits=16):
+SURVIVED runtime/original_match/port/runtime.py:263: - -> +: mask = (1 << bits) - 1
+SURVIVED runtime/original_match/port/runtime.py:263: << -> >>: mask = (1 << bits) - 1
+SURVIVED runtime/original_match/port/runtime.py:263: 1 -> 2: mask = (1 << bits) - 1
+SURVIVED runtime/original_match/port/runtime.py:263: 1 -> 2: mask = (1 << bits) - 1
+SURVIVED runtime/original_match/port/runtime.py:266: + -> -: r = (a + b) & mask
+SURVIVED runtime/original_match/port/runtime.py:267: - -> +: sign = 1 << (bits - 1)
+SURVIVED runtime/original_match/port/runtime.py:267: << -> >>: sign = 1 << (bits - 1)
+SURVIVED runtime/original_match/port/runtime.py:267: 1 -> 2: sign = 1 << (bits - 1)
+SURVIVED runtime/original_match/port/runtime.py:267: 1 -> 2: sign = 1 << (bits - 1)
+SURVIVED runtime/original_match/port/runtime.py:268: 0 -> 1: f = 0
+SURVIVED runtime/original_match/port/runtime.py:269: > -> >=: if a + b > mask:
+SURVIVED runtime/original_match/port/runtime.py:269: + -> -: if a + b > mask:
+SURVIVED runtime/original_match/port/runtime.py:271: == -> !=: if bin(r & 0xFF).count("1") % 2 == 0:
+SURVIVED runtime/original_match/port/runtime.py:271: 0xFF -> 0x100: if bin(r & 0xFF).count("1") % 2 == 0:
+SURVIVED runtime/original_match/port/runtime.py:271: 2 -> 3: if bin(r & 0xFF).count("1") % 2 == 0:
+SURVIVED runtime/original_match/port/runtime.py:275: == -> !=: if r == 0:
+SURVIVED runtime/original_match/port/runtime.py:306: <= -> <: if n <= 0:
+SURVIVED runtime/original_match/port/runtime.py:308: + -> -: sl, dl = sseg * 16 + (soff & M16), dseg * 16 + (doff & M16)
+SURVIVED runtime/original_match/port/runtime.py:308: + -> -: sl, dl = sseg * 16 + (soff & M16), dseg * 16 + (doff & M16)
+SURVIVED runtime/original_match/port/runtime.py:308: 16 -> 17: sl, dl = sseg * 16 + (soff & M16), dseg * 16 + (doff & M16)
+SURVIVED runtime/original_match/port/runtime.py:308: 16 -> 17: sl, dl = sseg * 16 + (soff & M16), dseg * 16 + (doff & M16)
+SURVIVED runtime/original_match/port/runtime.py:309: <= -> <: if n > 8 and soff + n <= 0x10000 and doff + n <= 0x10000 and (sl + n <= dl or dl + n <= sl):
+SURVIVED runtime/original_match/port/runtime.py:309: <= -> <: if n > 8 and soff + n <= 0x10000 and doff + n <= 0x10000 and (sl + n <= dl or dl + n <= sl):
+SURVIVED runtime/original_match/port/runtime.py:309: <= -> <: if n > 8 and soff + n <= 0x10000 and doff + n <= 0x10000 and (sl + n <= dl or dl + n <= sl):
+SURVIVED runtime/original_match/port/runtime.py:309: <= -> <: if n > 8 and soff + n <= 0x10000 and doff + n <= 0x10000 and (sl + n <= dl or dl + n <= sl):
+SURVIVED runtime/original_match/port/runtime.py:309: > -> >=: if n > 8 and soff + n <= 0x10000 and doff + n <= 0x10000 and (sl + n <= dl or dl + n <= sl):
+SURVIVED runtime/original_match/port/runtime.py:309: and -> or: if n > 8 and soff + n <= 0x10000 and doff + n <= 0x10000 and (sl + n <= dl or dl + n <= sl):
+SURVIVED runtime/original_match/port/runtime.py:309: and -> or: if n > 8 and soff + n <= 0x10000 and doff + n <= 0x10000 and (sl + n <= dl or dl + n <= sl):
+SURVIVED runtime/original_match/port/runtime.py:309: and -> or: if n > 8 and soff + n <= 0x10000 and doff + n <= 0x10000 and (sl + n <= dl or dl + n <= sl):
+SURVIVED runtime/original_match/port/runtime.py:309: or -> and: if n > 8 and soff + n <= 0x10000 and doff + n <= 0x10000 and (sl + n <= dl or dl + n <= sl):
+SURVIVED runtime/original_match/port/runtime.py:309: + -> -: if n > 8 and soff + n <= 0x10000 and doff + n <= 0x10000 and (sl + n <= dl or dl + n <= sl):
+SURVIVED runtime/original_match/port/runtime.py:309: + -> -: if n > 8 and soff + n <= 0x10000 and doff + n <= 0x10000 and (sl + n <= dl or dl + n <= sl):
+SURVIVED runtime/original_match/port/runtime.py:309: + -> -: if n > 8 and soff + n <= 0x10000 and doff + n <= 0x10000 and (sl + n <= dl or dl + n <= sl):
+SURVIVED runtime/original_match/port/runtime.py:309: + -> -: if n > 8 and soff + n <= 0x10000 and doff + n <= 0x10000 and (sl + n <= dl or dl + n <= sl):
+SURVIVED runtime/original_match/port/runtime.py:309: 8 -> 9: if n > 8 and soff + n <= 0x10000 and doff + n <= 0x10000 and (sl + n <= dl or dl + n <= sl):
+SURVIVED runtime/original_match/port/runtime.py:309: 0x10000 -> 0x10001: if n > 8 and soff + n <= 0x10000 and doff + n <= 0x10000 and (sl + n <= dl or dl + n <= sl):
+SURVIVED runtime/original_match/port/runtime.py:309: 0x10000 -> 0x10001: if n > 8 and soff + n <= 0x10000 and doff + n <= 0x10000 and (sl + n <= dl or dl + n <= sl):
+SURVIVED runtime/original_match/port/runtime.py:312: + -> -: mem.w8(dl + k, data[k], at)
+SURVIVED runtime/original_match/port/runtime.py:316: + -> -: return (soff + n) & M16, (doff + n) & M16
+SURVIVED runtime/original_match/port/runtime.py:316: + -> -: return (soff + n) & M16, (doff + n) & M16
+SURVIVED runtime/original_match/port/runtime.py:321: 16 -> 17: mem.w8(seg * 16 + (off & M16), data[0], at_len)
+SURVIVED runtime/original_match/port/runtime.py:323: 16 -> 17: mem.w8(seg * 16 + ((off + 1 + k) & M16), data[1 + k], at_move)
+SURVIVED runtime/original_match/port/runtime.py:362: + -> -: di = (di + 1) & M16
+SURVIVED runtime/original_match/port/runtime.py:362: 1 -> 2: di = (di + 1) & M16
+SURVIVED runtime/original_match/port/runtime.py:363: 0 -> 1: R.di, R.cx = di, 0
+SURVIVED runtime/original_match/port/runtime.py:364: + -> -: R.sp = R.sp + 2                                           # 002F pop cx
+SURVIVED runtime/original_match/port/runtime.py:364: 2 -> 3: R.sp = R.sp + 2                                           # 002F pop cx
+SURVIVED runtime/original_match/port/runtime.py:382: > -> >=: if si > di:                                               # 0057 cmp si, di; 0059 ja 006C
+SURVIVED runtime/original_match/port/runtime.py:400: 0 -> 1: R.si, R.di, R.cx = si, di, 0
+SURVIVED runtime/original_match/port/runtime.py:401: + -> -: R.sp = R.sp + 2                                           # 0074 pop ds
+SURVIVED runtime/original_match/port/runtime.py:401: 2 -> 3: R.sp = R.sp + 2                                           # 0074 pop ds
+SURVIVED runtime/original_match/port/runtime.py:426: 0 -> 1: R.si, R.di, R.cx = si, di, 0
+SURVIVED runtime/original_match/port/runtime.py:427: + -> -: R.sp = R.sp + 2                                           # 0095 pop ds
+SURVIVED runtime/original_match/port/runtime.py:427: 2 -> 3: R.sp = R.sp + 2                                           # 0095 pop ds
+SURVIVED runtime/original_match/port/runtime.py:438: 0x52 -> 0x53: R.enter(0x52)                                             # 009C-009F
+SURVIVED runtime/original_match/port/runtime.py:442: 0x50 -> 0x51: for w in (sseg, soff, ss, local, 0x50):                   # 00A2-00AF push es; push di; push ss; push di; push
+SURVIVED runtime/original_match/port/runtime.py:444: 0x50 -> 0x51: R.ax = 0x50                                               # 00AC
+SURVIVED runtime/original_match/port/runtime.py:445: 0x214B -> 0x214c: R.push(mem.seg(0x214B))                                   # 00B0 call far 0644: the return address
+SURVIVED runtime/original_match/port/runtime.py:446: 0x00B5 -> 0xb6: R.push(0x00B5)
+SURVIVED runtime/original_match/port/runtime.py:469: 0 -> 1: R.cx, R.si, R.di, R.es = 0, si, di, dseg
+SURVIVED runtime/original_match/port/runtime.py:470: + -> -: R.sp = R.sp + 2                                           # 00D4 pop ds
+SURVIVED runtime/original_match/port/runtime.py:470: 2 -> 3: R.sp = R.sp + 2                                           # 00D4 pop ds
+SURVIVED runtime/original_match/port/runtime.py:490: 0 -> 1: dx = 0                                                    # 0158
+SURVIVED runtime/original_match/port/runtime.py:491: 0 -> 1: ax = 0                                                    # 015A
+SURVIVED runtime/original_match/port/runtime.py:492: 0xFF00 -> 0xff01: ax = (ax & 0xFF00) | mem.u8(sbase + si)                   # 015C lodsb
+SURVIVED runtime/original_match/port/runtime.py:495: 0xFF00 -> 0xff01: ax = (ax & 0xFF00) | mem.u8(sbase + si)                   # 015F lodsb
+SURVIVED runtime/original_match/port/runtime.py:508: 0xFF00 -> 0xff01: ax = (ax & 0xFF00) | mem.u8(sbase + si)       # 0189 lodsb
+SURVIVED runtime/original_match/port/runtime.py:510: 0xFF -> 0x100: ax = ((ax & 0xFF) << 8) | (ax & 0xFF)         # 018A mov ah, al: the attribute is the byte, AL too
+SURVIVED runtime/original_match/port/runtime.py:513: + -> -: R.sp = R.sp + 2
+SURVIVED runtime/original_match/port/runtime.py:513: 2 -> 3: R.sp = R.sp + 2
+SURVIVED runtime/original_match/port/runtime.py:528: + -> -: R.sp = R.sp + 4                                           # 019B pop bp; 019C pop ds
+SURVIVED runtime/original_match/port/runtime.py:528: 4 -> 5: R.sp = R.sp + 4                                           # 019B pop bp; 019C pop ds
+SURVIVED runtime/original_match/port/runtime.py:546: 0x214B -> 0x214c: invoke(mem, R, 0x214B, 0x033D, lambda m, r: unpack_screen(m, r, soff, sseg, doff, dseg),
+SURVIVED runtime/original_match/port/runtime.py:546: 0x033D -> 0x33e: invoke(mem, R, 0x214B, 0x033D, lambda m, r: unpack_screen(m, r, soff, sseg, doff, dseg),
+SURVIVED runtime/original_match/port/runtime.py:565: 0x214B -> 0x214c: invoke(mem, R, 0x214B, 0x05EC, unpack_to_buffer, 0xA96E, ds, 0x796A, ds, pushes=(ds, 0x796A, ds, 0xA96E))
+SURVIVED runtime/original_match/port/runtime.py:565: 0x05EC -> 0x5ed: invoke(mem, R, 0x214B, 0x05EC, unpack_to_buffer, 0xA96E, ds, 0x796A, ds, pushes=(ds, 0x796A, ds, 0xA96E))
+SURVIVED runtime/original_match/port/runtime.py:565: 0x796A -> 0x796b: invoke(mem, R, 0x214B, 0x05EC, unpack_to_buffer, 0xA96E, ds, 0x796A, ds, pushes=(ds, 0x796A, ds, 0xA96E))
+SURVIVED runtime/original_match/port/runtime.py:565: 0xA96E -> 0xa96f: invoke(mem, R, 0x214B, 0x05EC, unpack_to_buffer, 0xA96E, ds, 0x796A, ds, pushes=(ds, 0x796A, ds, 0xA96E))
+SURVIVED runtime/original_match/port/runtime.py:576: 4 -> 5: R.enter(4)                                                 # 05F0-05F3
+SURVIVED runtime/original_match/port/runtime.py:577: 4 -> 5: R.local16(-4, 0x79A4)                                      # 05FB
+SURVIVED runtime/original_match/port/runtime.py:577: 0x79A4 -> 0x79a5: R.local16(-4, 0x79A4)                                      # 05FB
+SURVIVED runtime/original_match/port/runtime.py:578: 2 -> 3: R.local16(-2, ds)                                          # 05FE
+SURVIVED runtime/original_match/port/runtime.py:580: >> -> <<: R.dx = product >> 16
+SURVIVED runtime/original_match/port/runtime.py:580: 16 -> 17: R.dx = product >> 16
+SURVIVED runtime/original_match/port/runtime.py:583: 0x214B -> 0x214c: invoke(mem, R, 0x214B, 0x061F, unpack_to_buffer, 0xA96E, ds, 0x79A4, ds, pushes=(ds, 0x79A4, ds, 0xA96E))
+SURVIVED runtime/original_match/port/runtime.py:583: 0x061F -> 0x620: invoke(mem, R, 0x214B, 0x061F, unpack_to_buffer, 0xA96E, ds, 0x79A4, ds, pushes=(ds, 0x79A4, ds, 0xA96E))
+SURVIVED runtime/original_match/port/runtime.py:583: 0x79A4 -> 0x79a5: invoke(mem, R, 0x214B, 0x061F, unpack_to_buffer, 0xA96E, ds, 0x79A4, ds, pushes=(ds, 0x79A4, ds, 0xA96E))
+SURVIVED runtime/original_match/port/runtime.py:583: 0xA96E -> 0xa96f: invoke(mem, R, 0x214B, 0x061F, unpack_to_buffer, 0xA96E, ds, 0x79A4, ds, pushes=(ds, 0x79A4, ds, 0xA96E))
+SURVIVED runtime/original_match/port/runtime.py:618: 1 -> 2: R.local8(-1, R.al)                                         # 06EE
+SURVIVED runtime/original_match/port/runtime.py:626: 1 -> 2: draw_is_one(mem, R, args(mem, 1)[0])
+SURVIVED runtime/original_match/port/runtime.py:631: 1000000000 -> 1000000001: POWERS_OF_TEN = (1000000000, 100000000, 10000000, 1000000, 100000, 10000, 1000, 100, 10, 1)    # 23E4:1236, 4 
+SURVIVED runtime/original_match/port/runtime.py:631: 100000000 -> 100000001: POWERS_OF_TEN = (1000000000, 100000000, 10000000, 1000000, 100000, 10000, 1000, 100, 10, 1)    # 23E4:1236, 4 
+SURVIVED runtime/original_match/port/runtime.py:631: 10000000 -> 10000001: POWERS_OF_TEN = (1000000000, 100000000, 10000000, 1000000, 100000, 10000, 1000, 100, 10, 1)    # 23E4:1236, 4 
+SURVIVED runtime/original_match/port/runtime.py:631: 1000000 -> 1000001: POWERS_OF_TEN = (1000000000, 100000000, 10000000, 1000000, 100000, 10000, 1000, 100, 10, 1)    # 23E4:1236, 4 
+SURVIVED runtime/original_match/port/runtime.py:631: 100000 -> 100001: POWERS_OF_TEN = (1000000000, 100000000, 10000000, 1000000, 100000, 10000, 1000, 100, 10, 1)    # 23E4:1236, 4 
+SURVIVED runtime/original_match/port/runtime.py:631: 10000 -> 10001: POWERS_OF_TEN = (1000000000, 100000000, 10000000, 1000000, 100000, 10000, 1000, 100, 10, 1)    # 23E4:1236, 4 
+SURVIVED runtime/original_match/port/runtime.py:631: 1000 -> 1001: POWERS_OF_TEN = (1000000000, 100000000, 10000000, 1000000, 100000, 10000, 1000, 100, 10, 1)    # 23E4:1236, 4 
+SURVIVED runtime/original_match/port/runtime.py:631: 100 -> 101: POWERS_OF_TEN = (1000000000, 100000000, 10000000, 1000000, 100000, 10000, 1000, 100, 10, 1)    # 23E4:1236, 4 
+SURVIVED runtime/original_match/port/runtime.py:631: 10 -> 11: POWERS_OF_TEN = (1000000000, 100000000, 10000000, 1000000, 100000, 10000, 1000, 100, 10, 1)    # 23E4:1236, 4 
+SURVIVED runtime/original_match/port/runtime.py:631: 1 -> 2: POWERS_OF_TEN = (1000000000, 100000000, 10000000, 1000000, 100000, 10000, 1000, 100, 10, 1)    # 23E4:1236, 4 
+SURVIVED runtime/original_match/port/runtime.py:650: > -> >=: if ax > dx:                                               # 1318-131C
+SURVIVED runtime/original_match/port/runtime.py:652: > -> >=: if cx > dx:                                               # 131E-1322 (cx is signed here)
+SURVIVED runtime/original_match/port/runtime.py:654: < -> <=: if ax < cx:                                               # 1324-1328
+SURVIVED runtime/original_match/port/runtime.py:668: == -> !=: at = "23E4:11F8" if ch == 0x2D else "23E4:122B"
+SURVIVED runtime/original_match/port/runtime.py:668: 0x2D -> 0x2e: at = "23E4:11F8" if ch == 0x2D else "23E4:122B"
+SURVIVED runtime/original_match/port/runtime.py:670: + -> -: R.sp = R.sp + 2                                            # 1232 pop di
+SURVIVED runtime/original_match/port/runtime.py:670: 2 -> 3: R.sp = R.sp + 2                                            # 1232 pop di
+SURVIVED runtime/original_match/port/runtime.py:672: 0 -> 1: R.bx, R.dx, R.si, R.cx = 0, 0, 0x125E, len(digits)
+SURVIVED runtime/original_match/port/runtime.py:672: 0 -> 1: R.bx, R.dx, R.si, R.cx = 0, 0, 0x125E, len(digits)
+SURVIVED runtime/original_match/port/runtime.py:693: 0x130A -> 0x130b: R.push(0x130A)                                             # 1307 call 11E4
+SURVIVED runtime/original_match/port/runtime.py:694: << -> >>: digits = digits_to_es_di(mem, R, ss, local, (high << 16) | low)
+SURVIVED runtime/original_match/port/runtime.py:694: 16 -> 17: digits = digits_to_es_di(mem, R, ss, local, (high << 16) | low)
+SURVIVED runtime/original_match/port/runtime.py:704: + -> -: R.sp = R.sp + 2
+SURVIVED runtime/original_match/port/runtime.py:704: 2 -> 3: R.sp = R.sp + 2
+SURVIVED runtime/original_match/port/runtime.py:710: << -> >>: R.ax = (((pad >> 8) & 0xFF) << 8 | 0x20) if pad else 0
+SURVIVED runtime/original_match/port/runtime.py:710: >> -> <<: R.ax = (((pad >> 8) & 0xFF) << 8 | 0x20) if pad else 0
+SURVIVED runtime/original_match/port/runtime.py:710: 8 -> 9: R.ax = (((pad >> 8) & 0xFF) << 8 | 0x20) if pad else 0
+SURVIVED runtime/original_match/port/runtime.py:710: 0xFF -> 0x100: R.ax = (((pad >> 8) & 0xFF) << 8 | 0x20) if pad else 0
+SURVIVED runtime/original_match/port/runtime.py:710: 8 -> 9: R.ax = (((pad >> 8) & 0xFF) << 8 | 0x20) if pad else 0
+SURVIVED runtime/original_match/port/runtime.py:710: 0x20 -> 0x21: R.ax = (((pad >> 8) & 0xFF) << 8 | 0x20) if pad else 0
+SURVIVED runtime/original_match/port/runtime.py:710: 0 -> 1: R.ax = (((pad >> 8) & 0xFF) << 8 | 0x20) if pad else 0
+SURVIVED runtime/original_match/port/runtime.py:712: 0 -> 1: R.cx, R.es, R.bx = 0, dseg, 0
+SURVIVED runtime/original_match/port/runtime.py:712: 0 -> 1: R.cx, R.es, R.bx = 0, dseg, 0
+SURVIVED runtime/original_match/port/runtime.py:713: + -> -: R.di = (doff + 1 + pad + len(keep)) & M16
+SURVIVED runtime/original_match/port/runtime.py:713: + -> -: R.di = (doff + 1 + pad + len(keep)) & M16
+SURVIVED runtime/original_match/port/runtime.py:713: + -> -: R.di = (doff + 1 + pad + len(keep)) & M16
+SURVIVED runtime/original_match/port/runtime.py:713: 1 -> 2: R.di = (doff + 1 + pad + len(keep)) & M16
+SURVIVED runtime/original_match/port/runtime.py:733: 0x16 -> 0x17: R.enter(0x16)                                              # 09DA-09DD
+SURVIVED runtime/original_match/port/runtime.py:734: - -> +: local = (R.bp - 0x15) & M16
+SURVIVED runtime/original_match/port/runtime.py:734: 0x15 -> 0x16: local = (R.bp - 0x15) & M16
+SURVIVED runtime/original_match/port/runtime.py:737: 0 -> 1: R.ax = 0                                                   # 09E6
+SURVIVED runtime/original_match/port/runtime.py:738: 0 -> 1: for w in (high, low, 0, ss, local, 0x14):                  # 09E0-09F1
+SURVIVED runtime/original_match/port/runtime.py:738: 0x14 -> 0x15: for w in (high, low, 0, ss, local, 0x14):                  # 09E0-09F1
+SURVIVED runtime/original_match/port/runtime.py:740: 0x214B -> 0x214c: R.push(mem.seg(0x214B))                                    # 09F2 call far 12F6
+SURVIVED runtime/original_match/port/runtime.py:741: 0x09F7 -> 0x9f8: R.push(0x09F7)
+SURVIVED runtime/original_match/port/runtime.py:742: 0 -> 1: text, _ = str_of_long(((high << 16) | low), 0, 0x14)
+SURVIVED runtime/original_match/port/runtime.py:742: 0x14 -> 0x15: text, _ = str_of_long(((high << 16) | low), 0, 0x14)
+SURVIVED runtime/original_match/port/runtime.py:743: 0x14 -> 0x15: str_of_long_core(mem, R, 0x14, local, ss, 0, low, high)    # writes the string into the local
+SURVIVED runtime/original_match/port/runtime.py:743: 0 -> 1: str_of_long_core(mem, R, 0x14, local, ss, 0, low, high)    # writes the string into the local
+SURVIVED runtime/original_match/port/runtime.py:745: 0x14 -> 0x15: for w in (ss, local, dseg, doff, 0x14):                    # 09F7-0A04
+SURVIVED runtime/original_match/port/runtime.py:747: 0x14 -> 0x15: R.ax = 0x14                                                # 0A01
+SURVIVED runtime/original_match/port/runtime.py:748: 0x214B -> 0x214c: R.push(mem.seg(0x214B))                                    # 0A05 call far 0644
+SURVIVED runtime/original_match/port/runtime.py:749: 0x0A0A -> 0xa0b: R.push(0x0A0A)
+SURVIVED runtime/original_match/port/runtime.py:750: 0x14 -> 0x15: store_max_bytes(mem, R, text, dseg, doff, 0x14, R.sp)
+SURVIVED runtime/original_match/port/runtime.py:766: + -> -: R.cx, R.di, R.es = 0, (doff + 1 + length) & M16, dseg
+SURVIVED runtime/original_match/port/runtime.py:766: + -> -: R.cx, R.di, R.es = 0, (doff + 1 + length) & M16, dseg
+SURVIVED runtime/original_match/port/runtime.py:766: 0 -> 1: R.cx, R.di, R.es = 0, (doff + 1 + length) & M16, dseg
+SURVIVED runtime/original_match/port/runtime.py:766: 1 -> 2: R.cx, R.di, R.es = 0, (doff + 1 + length) & M16, dseg
+SURVIVED runtime/original_match/port/runtime.py:773: 2 -> 3: R.enter(2)                                                  # 0C57-0C5A
+SURVIVED runtime/original_match/port/runtime.py:774: 0 -> 1: dx = (k - (0 if variant == "bit-shift-1" else 1)) & M16     # 0C5D-0C61
+SURVIVED runtime/original_match/port/runtime.py:842: 0x214B -> 0x214c: invoke(mem, R, 0x214B, 0x0CE0, set_include, off, seg, k, pushes=(k, seg, off))        # 0CD4-0CDD
+SURVIVED runtime/original_match/port/runtime.py:842: 0x0CE0 -> 0xce1: invoke(mem, R, 0x214B, 0x0CE0, set_include, off, seg, k, pushes=(k, seg, off))        # 0CD4-0CDD
+SURVIVED runtime/original_match/port/runtime.py:844: 0x214B -> 0x214c: invoke(mem, R, 0x214B, 0x0CEE, set_exclude, off, seg, k, pushes=(k, seg, off))        # 0CE2-0CEB
+SURVIVED runtime/original_match/port/runtime.py:844: 0x0CEE -> 0xcef: invoke(mem, R, 0x214B, 0x0CEE, set_exclude, off, seg, k, pushes=(k, seg, off))        # 0CE2-0CEB
+SURVIVED runtime/original_match/port/runtime.py:871: 4 -> 5: R.enter(4)                                                 # 0D1C-0D1F
+SURVIVED runtime/original_match/port/runtime.py:873: > -> >=: if ha > hb:                                                # 0D27 jg -> b (0D33)
+SURVIVED runtime/original_match/port/runtime.py:878: <= -> <: pick_a = a_lo <= b_lo                                  # 0D2E-0D31 jbe -> a
+SURVIVED runtime/original_match/port/runtime.py:880: 4 -> 5: R.local16(-4, lo)                                          # 0D38 / 0D45
+SURVIVED runtime/original_match/port/runtime.py:881: 2 -> 3: R.local16(-2, hi)                                          # 0D3B / 0D48
+SURVIVED runtime/original_match/port/runtime.py:893: 4 -> 5: R.enter(4)                                                 # 0D56-0D59
+SURVIVED runtime/original_match/port/runtime.py:895: > -> >=: if ha > hb:                                                # 0D64 jg -> a
+SURVIVED runtime/original_match/port/runtime.py:900: > -> >=: pick_a = a_lo > b_lo                                   # 0D68-0D6B jbe -> b
+SURVIVED runtime/original_match/port/runtime.py:902: 4 -> 5: R.local16(-4, lo)                                          # 0D72 / 0D7F
+SURVIVED runtime/original_match/port/runtime.py:903: 2 -> 3: R.local16(-2, hi)                                          # 0D75 / 0D82
+SURVIVED runtime/original_match/port/runtime.py:906: == -> !=: flags = sub_flags(a_lo, b_lo, 16) if s16(a_hi) == s16(b_hi) else sub_flags(a_hi, b_hi, 16)    # the last cmp
+SURVIVED runtime/original_match/port/runtime.py:906: 16 -> 17: flags = sub_flags(a_lo, b_lo, 16) if s16(a_hi) == s16(b_hi) else sub_flags(a_hi, b_hi, 16)    # the last cmp
+SURVIVED runtime/original_match/port/runtime.py:906: 16 -> 17: flags = sub_flags(a_lo, b_lo, 16) if s16(a_hi) == s16(b_hi) else sub_flags(a_hi, b_hi, 16)    # the last cmp
+SURVIVED runtime/original_match/port/runtime.py:919: > -> >=: if s16(delta) > 0:                                         # 1C89 cmp [bp+6], 0; jle 1CFD
+SURVIVED runtime/original_match/port/runtime.py:925: <= -> <: wrap = hi <= t_lo
+SURVIVED runtime/original_match/port/runtime.py:931: >> -> <<: return result & M16, result & M16, result >> 16, "214B:1CF8", (0, hi)       # 1CC6 push dx; 1CC7 push ax
+SURVIVED runtime/original_match/port/runtime.py:931: 16 -> 17: return result & M16, result & M16, result >> 16, "214B:1CF8", (0, hi)       # 1CC6 push dx; 1CC7 push ax
+SURVIVED runtime/original_match/port/runtime.py:932: 0 -> 1: if s16(0) < s16(t_hi):                                     # 1D1A cmp dx, bx; jl 1D24 -> no wrap
+SURVIVED runtime/original_match/port/runtime.py:937: > -> >=: wrap = lo > t_lo                                       # 1D20-1D22 cmp ax, cx; ja 1D2F
+SURVIVED runtime/original_match/port/runtime.py:939: 0 -> 1: return (v + delta) & M16, delta & M16, 0, "214B:1D2A", ()
+SURVIVED runtime/original_match/port/runtime.py:941: >> -> <<: return result & M16, result & M16, result >> 16, "214B:1D66", (0, lo)       # 1D34 push dx; 1D35 push ax
+SURVIVED runtime/original_match/port/runtime.py:941: 16 -> 17: return result & M16, result & M16, result >> 16, "214B:1D66", (0, lo)       # 1D34 push dx; 1D35 push ax
+SURVIVED runtime/original_match/port/runtime.py:973: 2 -> 3: R.enter(2)                                                  # 1D6F-1D72
+SURVIVED runtime/original_match/port/runtime.py:980: 0x214B -> 0x214c: invoke(mem, R, 0x214B, 0x1D98, wrap_add_core, local, ss, lo & 0xFF, hi & 0xFF, delta, variant,
+SURVIVED runtime/original_match/port/runtime.py:980: 0x1D98 -> 0x1d99: invoke(mem, R, 0x214B, 0x1D98, wrap_add_core, local, ss, lo & 0xFF, hi & 0xFF, delta, variant,
+SURVIVED runtime/original_match/port/runtime.py:981: 0xFF -> 0x100: pushes=(ss, local, lo & 0xFF, hi & 0xFF, delta))    # 1D80-1D95
+SURVIVED runtime/original_match/port/runtime.py:981: 0xFF -> 0x100: pushes=(ss, local, lo & 0xFF, hi & 0xFF, delta))    # 1D80-1D95
+SURVIVED runtime/original_match/port/runtime.py:983: 0xFF00 -> 0xff01: R.ax = (R.ax & 0xFF00) | (new & 0xFF)                       # 1D98 mov al, [bp-2]
+SURVIVED runtime/original_match/port/runtime.py:1006: < -> <=: if s16(ax) < s16(lo):                                      # 2009 cmp ax, [bp+8]; jge 2017
+SURVIVED runtime/original_match/port/runtime.py:1010: > -> >=: if s16(ax) > s16(hi):                                      # 201D-201F cmp ax, [bp+6]; jle 202B
+SURVIVED runtime/original_match/port/runtime.py:1026: 0x100 -> 0x101: s8_ = lambda b: b - 0x100 if b & 0x80 else b
+SURVIVED runtime/original_match/port/runtime.py:1027: < -> <=: if s8_(al) < s8_(lo & 0xFF):                               # 203A cmp al, [bp+8]; jge 2048
+SURVIVED runtime/original_match/port/runtime.py:1027: 0xFF -> 0x100: if s8_(al) < s8_(lo & 0xFF):                               # 203A cmp al, [bp+8]; jge 2048
+SURVIVED runtime/original_match/port/runtime.py:1031: > -> >=: if s8_(al) > s8_(hi & 0xFF):                               # 204E cmp al, [bp+6]; jle 205C
+SURVIVED runtime/original_match/port/runtime.py:1062: >> -> <<: R.push(low >> 16)                                          # 0280 push dx
+SURVIVED runtime/original_match/port/runtime.py:1062: 16 -> 17: R.push(low >> 16)                                          # 0280 push dx
+SURVIVED runtime/original_match/port/runtime.py:1063: + -> -: R.sp = R.sp + 4                                            # 028D pop dx; 028E pop ax
+SURVIVED runtime/original_match/port/runtime.py:1063: 4 -> 5: R.sp = R.sp + 4                                            # 028D pop dx; 028E pop ax
+SURVIVED runtime/original_match/port/runtime.py:1066: >> -> <<: partial = ((low >> 16) + bx_out) & M16                     # 028F add dx, bx
+SURVIVED runtime/original_match/port/runtime.py:1066: 16 -> 17: partial = ((low >> 16) + bx_out) & M16                     # 028F add dx, bx
+SURVIVED runtime/original_match/port/runtime.py:1103: >> -> <<: carry, bx = bx >> 15, ((bx << 1) | carry) & M16        # 02C6 rcl bx, 1
+SURVIVED runtime/original_match/port/runtime.py:1103: 15 -> 16: carry, bx = bx >> 15, ((bx << 1) | carry) & M16        # 02C6 rcl bx, 1
+SURVIVED runtime/original_match/port/runtime.py:1108: 1 -> 2: carry = 1 if t < 0 else 0
+SURVIVED runtime/original_match/port/runtime.py:1128: + -> -: R.sp = R.sp + 6                                            # the pops: 02DA popf, 02E7 / 02EC popf, 02F9 pop b
+SURVIVED runtime/original_match/port/runtime.py:1128: 6 -> 7: R.sp = R.sp + 6                                            # the pops: 02DA popf, 02E7 / 02EC popf, 02F9 pop b
+SURVIVED runtime/original_match/port/runtime.py:1146: 0 -> 1: R.cx, R.es = 0, dseg
+SURVIVED runtime/original_match/port/runtime.py:1159: > -> >=: if length > (mx & 0xFF):                                   # 0656 cmp al, cl; 0658 jbe 065C
+SURVIVED runtime/original_match/port/runtime.py:1159: 0xFF -> 0x100: if length > (mx & 0xFF):                                   # 0656 cmp al, cl; 0658 jbe 065C
+SURVIVED runtime/original_match/port/runtime.py:1164: 0 -> 1: R.cx, R.es = 0, dseg
+SURVIVED runtime/original_match/port/runtime.py:1181: < -> <=: if s16(cx) < 0:                                        # 069D-06A1
+SURVIVED runtime/original_match/port/runtime.py:1183: > -> >=: if ax > cx:                                            # 06A3-06A5 cmp ax, cx; jbe 06AD
+SURVIVED runtime/original_match/port/runtime.py:1188: 0 -> 1: R.cx, R.es = 0, dseg
+SURVIVED runtime/original_match/port/runtime.py:1209: > -> >=: if total > 0xFF:                                           # 06CD jae 06D7 not taken
+SURVIVED runtime/original_match/port/runtime.py:1214: 0 -> 1: R.cx, R.es = 0, dseg
+SURVIVED runtime/original_match/port/runtime.py:1236: + -> -: R.sp = R.sp + 2                                            # 072B pop ds
+SURVIVED runtime/original_match/port/runtime.py:1236: 2 -> 3: R.sp = R.sp + 2                                            # 072B pop ds
+SURVIVED runtime/original_match/port/runtime.py:1246: 0 -> 1: R.cx, R.si, R.di = 0, si, di
+SURVIVED runtime/original_match/port/runtime.py:1252: 0xFF00 -> 0xff01: ax = (ax & 0xFF00) | sublen
+SURVIVED runtime/original_match/port/runtime.py:1258: + -> -: si = (si + 1) & M16
+SURVIVED runtime/original_match/port/runtime.py:1258: 1 -> 2: si = (si + 1) & M16
+SURVIVED runtime/original_match/port/runtime.py:1259: 0xFF00 -> 0xff01: ax = (ax & 0xFF00) | ch
+SURVIVED runtime/original_match/port/runtime.py:1269: - -> +: dx = (cx - ax) & M16                                   # 0708-070A
+SURVIVED runtime/original_match/port/runtime.py:1273: 1 -> 2: dx = (dx + 1) & M16                                # 070E
+SURVIVED runtime/original_match/port/runtime.py:1277: 0 -> 1: compared = 0
+SURVIVED runtime/original_match/port/runtime.py:1283: 1 -> 2: compared += 1
+SURVIVED runtime/original_match/port/runtime.py:1293: - -> +: dx = (dx - 1) & M16                            # 071C
+SURVIVED runtime/original_match/port/runtime.py:1314: <= -> <: cl = la if la <= lb else lb                                # 0743-0747
+SURVIVED runtime/original_match/port/runtime.py:1351: + -> -: R.es, R.di = dseg, (doff + 2) & M16
+SURVIVED runtime/original_match/port/runtime.py:1351: 2 -> 3: R.es, R.di = dseg, (doff + 2) & M16
+SURVIVED runtime/original_match/port/runtime.py:1366: <= -> <: if s16(cx) <= 0:
+SURVIVED runtime/original_match/port/runtime.py:1367: 1 -> 2: cx = 1
+SURVIVED runtime/original_match/port/runtime.py:1368: < -> <=: if ax < cx:
+SURVIVED runtime/original_match/port/runtime.py:1372: < -> <=: count = 0 if s16(count) < 0 else count
+SURVIVED runtime/original_match/port/runtime.py:1372: 0 -> 1: count = 0 if s16(count) < 0 else count
+SURVIVED runtime/original_match/port/runtime.py:1372: 0 -> 1: count = 0 if s16(count) < 0 else count
+SURVIVED runtime/original_match/port/runtime.py:1373: > -> >=: if ax > count:
+SURVIVED runtime/original_match/port/runtime.py:1381: > -> >=: if total > 0xFF:
+SURVIVED runtime/original_match/port/runtime.py:1382: - -> +: return bytes([0xFF]) + a[1:] + b[1:1 + 0xFF - a[0]]
+SURVIVED runtime/original_match/port/runtime.py:1382: 0xFF -> 0x100: return bytes([0xFF]) + a[1:] + b[1:1 + 0xFF - a[0]]
+SURVIVED runtime/original_match/port/runtime.py:1394: - -> +: _write_pstring(mem, ss, (R.bp - 0x200) & M16, temp2, "23E4:06AD", "23E4:06B0")
+SURVIVED runtime/original_match/port/runtime.py:1394: 0x200 -> 0x201: _write_pstring(mem, ss, (R.bp - 0x200) & M16, temp2, "23E4:06AD", "23E4:06B0")
+SURVIVED runtime/original_match/port/runtime.py:1395: - -> +: _write_pstring(mem, ss, (R.bp - 0x100) & M16, temp1, "23E4:06CA", "23E4:06DC")
+SURVIVED runtime/original_match/port/runtime.py:1395: 0x100 -> 0x101: _write_pstring(mem, ss, (R.bp - 0x100) & M16, temp1, "23E4:06CA", "23E4:06DC")
+SURVIVED runtime/original_match/port/runtime.py:1397: + -> -: mem.w16(mem.ss_lin((sp + off) & M16), value & M16, STACK_AT)
+SURVIVED runtime/original_match/port/runtime.py:1406: 0x200 -> 0x201: R.enter(0x200)                                             # 0787-078D
+SURVIVED runtime/original_match/port/runtime.py:1407: 0x23E4 -> 0x23e5: ss, cs = R.ss, mem.seg(0x23E4)
+SURVIVED runtime/original_match/port/runtime.py:1412: 0xFF -> 0x100: rest = _py_copy(s, index, 0xFF)                            # 07C2 -> 0676 (s, index, 255)
+SURVIVED runtime/original_match/port/runtime.py:1414: - -> +: T1 = (R.bp - 0x100) & M16
+SURVIVED runtime/original_match/port/runtime.py:1414: 0x100 -> 0x101: T1 = (R.bp - 0x100) & M16
+SURVIVED runtime/original_match/port/runtime.py:1415: 2 -> 3: _insert_delete_frame(mem, R, first, rest, ((-2, ss), (-4, T1), (-6, sseg), (-8, soff), (-10, mx), (-12, cs),
+SURVIVED runtime/original_match/port/runtime.py:1415: 4 -> 5: _insert_delete_frame(mem, R, first, rest, ((-2, ss), (-4, T1), (-6, sseg), (-8, soff), (-10, mx), (-12, cs),
+SURVIVED runtime/original_match/port/runtime.py:1415: 6 -> 7: _insert_delete_frame(mem, R, first, rest, ((-2, ss), (-4, T1), (-6, sseg), (-8, soff), (-10, mx), (-12, cs),
+SURVIVED runtime/original_match/port/runtime.py:1415: 8 -> 9: _insert_delete_frame(mem, R, first, rest, ((-2, ss), (-4, T1), (-6, sseg), (-8, soff), (-10, mx), (-12, cs),
+SURVIVED runtime/original_match/port/runtime.py:1415: 10 -> 11: _insert_delete_frame(mem, R, first, rest, ((-2, ss), (-4, T1), (-6, sseg), (-8, soff), (-10, mx), (-12, cs),
+SURVIVED runtime/original_match/port/runtime.py:1415: 12 -> 13: _insert_delete_frame(mem, R, first, rest, ((-2, ss), (-4, T1), (-6, sseg), (-8, soff), (-10, mx), (-12, cs),
+SURVIVED runtime/original_match/port/runtime.py:1416: 14 -> 15: (-14, 0x07D5), (-16, 0x00FF), (-18, cs), (-20, 0x07C5)))
+SURVIVED runtime/original_match/port/runtime.py:1416: 0x07D5 -> 0x7d6: (-14, 0x07D5), (-16, 0x00FF), (-18, cs), (-20, 0x07C5)))
+SURVIVED runtime/original_match/port/runtime.py:1416: 16 -> 17: (-14, 0x07D5), (-16, 0x00FF), (-18, cs), (-20, 0x07C5)))
+SURVIVED runtime/original_match/port/runtime.py:1416: 0x00FF -> 0x100: (-14, 0x07D5), (-16, 0x00FF), (-18, cs), (-20, 0x07C5)))
+SURVIVED runtime/original_match/port/runtime.py:1416: 18 -> 19: (-14, 0x07D5), (-16, 0x00FF), (-18, cs), (-20, 0x07C5)))
+SURVIVED runtime/original_match/port/runtime.py:1416: 20 -> 21: (-14, 0x07D5), (-16, 0x00FF), (-18, cs), (-20, 0x07C5)))
+SURVIVED runtime/original_match/port/runtime.py:1416: 0x07C5 -> 0x7c6: (-14, 0x07D5), (-16, 0x00FF), (-18, cs), (-20, 0x07C5)))
+SURVIVED runtime/original_match/port/runtime.py:1417: 0xFF -> 0x100: R.ax = 0xFF                                                # 07BD mov ax, 0xff: AH is 0 for the whole chain
+SURVIVED runtime/original_match/port/runtime.py:1418: - -> +: store_max_bytes(mem, R, first, sseg, soff, mx, R.sp - 14)
+SURVIVED runtime/original_match/port/runtime.py:1418: 14 -> 15: store_max_bytes(mem, R, first, sseg, soff, mx, R.sp - 14)
+SURVIVED runtime/original_match/port/runtime.py:1429: 0x200 -> 0x201: R.enter(0x200)                                             # 07DB-07E1
+SURVIVED runtime/original_match/port/runtime.py:1434: 0x23E4 -> 0x23e5: ss, cs = R.ss, mem.seg(0x23E4)
+SURVIVED runtime/original_match/port/runtime.py:1437: 0xFF -> 0x100: rest = _py_copy(s, (index + count) & M16, 0xFF)            # 0817 -> 0676 (s, index + count, 255)
+SURVIVED runtime/original_match/port/runtime.py:1439: - -> +: T1 = (R.bp - 0x100) & M16
+SURVIVED runtime/original_match/port/runtime.py:1439: 0x100 -> 0x101: T1 = (R.bp - 0x100) & M16
+SURVIVED runtime/original_match/port/runtime.py:1440: 2 -> 3: _insert_delete_frame(mem, R, first, rest, ((-2, ss), (-4, T1), (-6, sseg), (-8, soff), (-10, 0x00FF), (-12, cs
+SURVIVED runtime/original_match/port/runtime.py:1440: 4 -> 5: _insert_delete_frame(mem, R, first, rest, ((-2, ss), (-4, T1), (-6, sseg), (-8, soff), (-10, 0x00FF), (-12, cs
+SURVIVED runtime/original_match/port/runtime.py:1440: 6 -> 7: _insert_delete_frame(mem, R, first, rest, ((-2, ss), (-4, T1), (-6, sseg), (-8, soff), (-10, 0x00FF), (-12, cs
+SURVIVED runtime/original_match/port/runtime.py:1440: 8 -> 9: _insert_delete_frame(mem, R, first, rest, ((-2, ss), (-4, T1), (-6, sseg), (-8, soff), (-10, 0x00FF), (-12, cs
+SURVIVED runtime/original_match/port/runtime.py:1440: 10 -> 11: _insert_delete_frame(mem, R, first, rest, ((-2, ss), (-4, T1), (-6, sseg), (-8, soff), (-10, 0x00FF), (-12, cs
+SURVIVED runtime/original_match/port/runtime.py:1440: 0x00FF -> 0x100: _insert_delete_frame(mem, R, first, rest, ((-2, ss), (-4, T1), (-6, sseg), (-8, soff), (-10, 0x00FF), (-12, cs
+SURVIVED runtime/original_match/port/runtime.py:1440: 12 -> 13: _insert_delete_frame(mem, R, first, rest, ((-2, ss), (-4, T1), (-6, sseg), (-8, soff), (-10, 0x00FF), (-12, cs
+SURVIVED runtime/original_match/port/runtime.py:1441: 14 -> 15: (-14, 0x082B), (-16, 0x00FF), (-18, cs), (-20, 0x081A)))
+SURVIVED runtime/original_match/port/runtime.py:1441: 0x082B -> 0x82c: (-14, 0x082B), (-16, 0x00FF), (-18, cs), (-20, 0x081A)))
+SURVIVED runtime/original_match/port/runtime.py:1441: 16 -> 17: (-14, 0x082B), (-16, 0x00FF), (-18, cs), (-20, 0x081A)))
+SURVIVED runtime/original_match/port/runtime.py:1441: 0x00FF -> 0x100: (-14, 0x082B), (-16, 0x00FF), (-18, cs), (-20, 0x081A)))
+SURVIVED runtime/original_match/port/runtime.py:1441: 18 -> 19: (-14, 0x082B), (-16, 0x00FF), (-18, cs), (-20, 0x081A)))
+SURVIVED runtime/original_match/port/runtime.py:1441: 20 -> 21: (-14, 0x082B), (-16, 0x00FF), (-18, cs), (-20, 0x081A)))
+SURVIVED runtime/original_match/port/runtime.py:1441: 0x081A -> 0x81b: (-14, 0x082B), (-16, 0x00FF), (-18, cs), (-20, 0x081A)))
+SURVIVED runtime/original_match/port/runtime.py:1443: - -> +: store_max_bytes(mem, R, first, sseg, soff, 0xFF, R.sp - 14)
+SURVIVED runtime/original_match/port/runtime.py:1443: 14 -> 15: store_max_bytes(mem, R, first, sseg, soff, 0xFF, R.sp - 14)
+SURVIVED runtime/original_match/port/runtime.py:1457: 0 -> 1: R.cx, R.es = 0, dseg
+SURVIVED runtime/original_match/port/runtime.py:1465: 1 -> 2: ch = args(mem, 1)[0] & 0xFF
+980 mutants, 673 caught by the hand-worked tests, 307 survived them
