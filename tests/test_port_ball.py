@@ -563,5 +563,68 @@ class PassTarget(unittest.TestCase):
         self.assertEqual([c[1][0] for c in r.calls if c[0] == "0791:30EA"], [2, 11, 11, 2])
 
 
+class MoveBallToSlot(unittest.TestCase):
+    def test_offside_and_own_goal_strip_short_circuit_launch(self):
+        for offside in (0, 1):
+            r = Rig()
+            r.w8(0x830E, offside)
+            r.run("0791:384C", [0x123, 0x4000, 2], lambda request, mem: 1)
+            self.assertEqual([c[0] for c in r.calls], ["0791:82EB"] if offside else ["0791:2EB8"])
+
+    def test_self_target_keeps_incremented_draw_live_and_divides_toward_zero(self):
+        r = Rig()
+        r.w8(0x80FA, 1)
+        r.w8(0x830B, 2)
+        r.record(2, 4, 5)
+        r.mem.w8(r.mem.addr(0x4000, 0x129), 2, "0791:384C")
+        def answer(request, mem):
+            if request.target == "0791:2EB8":return 0
+            if request.target == "0791:261A":return 2
+            if request.target == "0791:2BE5":
+                self.assertEqual(request.ret_to, "0791:38AA")
+                self.assertEqual(mem.regs["sp"], 0x2FF8)
+                self.assertEqual(mem.u16(0x2FF8), 3)
+                return 0xFF
+            if request.target == "0791:34C1":
+                self.assertEqual(request.args, (0x0404, 11, 0x4000, 0x123))
+                self.assertEqual(mem.ds8(0x80E8 + 2 * 22 + 18), 5)
+                mem.wds16(0x8313, 0x0607, "0791:3947")
+                return 0
+            self.assertEqual(request.target, "0791:835F")
+            return 5
+        r.run("0791:384C", [0x123, 0x4000, 2], answer)
+        self.assertEqual(r.mem.ds8(0x8303), 0)
+        self.assertEqual([c[0] for c in r.calls],
+                         ["0791:2EB8", "0791:261A", "0791:2BE5", "0791:34C1", "0791:835F"])
+
+    def test_other_target_random_adjustment_has_strict_absolute_25_boundary(self):
+        for y in (24, -24, 25, -25):
+            r = Rig()
+            r.w8(0x80FA, 1)
+            r.record(3, 4, y)
+            r.mem.w8(r.mem.addr(0x4000, 0x129), 2, "0791:384C")
+            r.mem.wds16(0xA91B, 0x2000, "0791:384C")
+            r.mem.w8(0x2006, 8, "0791:384C")
+            def answer(request, mem):
+                if request.target == "0791:2EB8":return 0
+                if request.target == "214B:06B1":
+                    self.assertEqual(request.args, (8,))
+                    return 7
+                if request.target == "0791:2BE5":
+                    self.assertEqual(request.ret_to, "0791:38FC")
+                    self.assertEqual(mem.regs["sp"], 0x2FF8)
+                    self.assertEqual(mem.u16(0x2FF8), 7)
+                    return 0xFF
+                if request.target == "0791:34C1":
+                    adjusted = y - 1 if abs(y) < 25 else y
+                    self.assertEqual(request.args[0], ((adjusted & 255) << 8) | 4)
+                    return 0
+                self.assertEqual(request.target, "0791:835F")
+                return 21
+            r.run("0791:384C", [0x123, 0x4000, 3], answer)
+            self.assertEqual(sum(c[0] == "214B:06B1" for c in r.calls), int(abs(y) < 25))
+            self.assertEqual(r.mem.ds8(0x8303), 1)
+
+
 if __name__ == "__main__":
     unittest.main()
