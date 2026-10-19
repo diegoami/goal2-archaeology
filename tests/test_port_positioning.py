@@ -186,6 +186,36 @@ class PositioningTests(unittest.TestCase):
         self.assertEqual([c[1][-1] for c in calls], [2, 1, 2])
         self.assertEqual([c[2] for c in calls], ["0791:2270", "0791:22B9", "0791:2306"])
 
+    def test_marking_comparisons_keep_listing_pushes_live_across_guest_calls(self):
+        sim = Sim()
+        sim.byte(0x0668, bytes([0, 11]))
+        sim.word(0x9B36, 0)
+        sim.word(0x9A42, 2)
+        sim.word(2, 2, seg=0x5000)  # Country slot 2 names player 2.
+        sim.word(0x80E8 + 0x16 * 13, 0x0A0B)
+        snapshots = []
+        answers = {"0791:494D": 5, "0791:496A": 21,
+                   "0791:4980": 5, "0791:499D": 21}
+
+        def skill(request):
+            snapshots.append((request.ret_to, sim.mem.reg("sp"),
+                              sim.mem.u16(sim.mem.ss_lin(sim.mem.reg("sp")))))
+            return answers[request.ret_to]
+
+        def direction(request):
+            snapshots.append((request.ret_to, sim.mem.reg("sp"),
+                              sim.mem.u16(sim.mem.ss_lin(sim.mem.reg("sp")))))
+            return 1
+
+        sim.answers.update({"0791:2996": 1, "1771:3216": 0, "0791:2C54": 0,
+                            "0791:278A": skill, "214B:06B1": 2, "0791:2BE5": direction})
+        sim.run("0791:47C5", 0x3e00)
+        by_site = {site: (sp, top) for site, sp, top in snapshots}
+        self.assertEqual(by_site["0791:496A"], (by_site["0791:494D"][0] - 2, 5))
+        self.assertEqual(by_site["0791:499D"], (by_site["0791:4980"][0] - 2, 5))
+        self.assertEqual(by_site["0791:49C0"], (by_site["0791:494D"][0] - 2, 2))
+        self.assertEqual(sim.mem.reg("sp"), 0x3f00)
+
 
 if __name__ == "__main__":
     unittest.main()

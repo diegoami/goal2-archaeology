@@ -61,6 +61,21 @@ def dsrec(mem, off):
     return mem.addr(mem.DS, off)
 
 
+def push_word(mem, value, at):
+    """Keep a listing push live across the next guest call, including its stack word."""
+    sp = (mem.reg("sp") - 2) & 0xffff
+    mem.w16(mem.ss_lin(sp), value, f"0791:{at}")
+    mem.set_reg("sp", sp)
+
+
+def pop_dx(mem):
+    sp = mem.reg("sp")
+    value = mem.u16(mem.ss_lin(sp))
+    mem.set_reg("sp", (sp + 2) & 0xffff)
+    mem.set_reg("dx", value)
+    return value
+
+
 def guest(mem, target, *args, at, far=True, ax=None, dx=None):
     if ax is not None:
         mem.set_reg("ax", ax & 0xffff)
@@ -331,15 +346,21 @@ def choose_marking_target(mem, variant):
                 return (mem.reg("ax") & 0xff00)
             f.w16(-5, 1, "0791:4937")
             ours = yield from same(mem, "278A", 5, seg, off, at="494D")
+            push_word(mem, ours, "494D")
             theirs = yield from same(mem, "278A", 8, mem.DS, (0x80E8 + 0x16 * opp_slot) & 0xffff,
                                      at="496A")
+            ours = pop_dx(mem)
             if theirs > ours:
                 ours = yield from same(mem, "278A", 5, seg, off, at="4980")
+                push_word(mem, ours, "4980")
                 theirs = yield from same(mem, "278A", 8, mem.DS, (0x80E8 + 0x16 * opp_slot) & 0xffff,
                                          at="499D")
+                ours = pop_dx(mem)
                 f.w16(-5, ((theirs - ours) & 0xffff) // 16 + 1, "0791:49A7")
             draw = yield from far(mem, "214B:06B1", f.u16(-5), at="49B2")
+            push_word(mem, draw, "49B2")
             direction = yield from same(mem, "2BE5", seg, off, at="49C0")
+            draw = pop_dx(mem)
             parent.w8(-1, parent.u8(-1) - s8(direction & 0xff) * s8(draw & 0xff), "0791:49C7")
             f.w8(-1, 1, "0791:49CB")
             return (mem.reg("ax") & 0xff00) | 1
@@ -504,8 +525,10 @@ def pick_marker_by_skill(mem, variant):
             winner_slot = yield from near(mem, "A920", element, winner, at="2092")
             incumbent = yield from same(mem, "278A", element, mem.DS,
                                         (0x80E8 + 0x16 * winner_slot) & 0xffff, at="20A3")
+            push_word(mem, incumbent, "20A3")
             challenger = yield from same(mem, "278A", element, mem.DS,
                                          (0x80E8 + 0x16 * pitch_slot) & 0xffff, at="20B0")
+            incumbent = pop_dx(mem)
             if challenger <= incumbent:
                 continue
         mem.wds16(mark_off, player_id, "0791:20D0")
