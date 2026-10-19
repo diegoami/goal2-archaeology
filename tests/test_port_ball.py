@@ -522,5 +522,46 @@ class NestedOffside(unittest.TestCase):
             self.assertEqual(r.mem.ds16(0x8317), ((9 * direction & 255) << 8) | 3)
 
 
+class PassTarget(unittest.TestCase):
+    def test_mode_distance_ties_and_replacement_coin_order(self):
+        for long_mode, coin, expected, coins in ((0, 0, 4, 1), (0, 1, 3, 1), (1, 1, 4, 0)):
+            r = Rig()
+            r.w8(0x778, 10)
+            r.w8(0x779, 5)
+            r.mem.w8(r.mem.addr(0x4000, 0x129), 2, "0791:3111")
+            r.record(3, 8, 0)
+            r.record(4, -8, 0)
+            def answer(request, mem):
+                if request.target == "0791:26D7":
+                    self.assertEqual(request.args, (3, 0x4000, 0x123))
+                    return long_mode
+                if request.target == "0791:2C54":return 0
+                if request.target == "0791:261A":return 0
+                if request.target == "0791:30EA":
+                    self.assertEqual(request.args[1:], (0x4000, 0x123))
+                    return 4 if request.args[0] == 11 else 2
+                if request.target == "214B:06FA":return coin
+                self.assertIn(request.target, ("0791:2956", "0791:2D10"))
+                return 0
+            regs = r.run("0791:3111", [0x123, 0x4000], answer)
+            self.assertEqual(regs["ax"], expected)
+            self.assertEqual(sum(c[0] == "214B:06FA" for c in r.calls), coins)
+            self.assertEqual(sum(c[0] == "0791:2C54" for c in r.calls), int(not long_mode))
+
+    def test_fallback_returns_last_available_even_in_state13(self):
+        r = Rig()
+        r.mem.w8(r.mem.addr(0x4000, 0x129), 2, "0791:3111")
+        def answer(request, mem):
+            if request.target == "0791:30EA":return 4 if request.args[0] == 11 else 2
+            if request.target == "0791:2956":
+                slot = (request.args[-1] - 0x80E8) // 22
+                return int(slot == 3)
+            if request.target == "214B:06FA":self.fail("fallback must not draw coins")
+            return 0
+        regs = r.run("0791:3111", [0x123, 0x4000], answer)
+        self.assertEqual(regs["ax"], 4)
+        self.assertEqual([c[1][0] for c in r.calls if c[0] == "0791:30EA"], [2, 11, 11, 2])
+
+
 if __name__ == "__main__":
     unittest.main()
