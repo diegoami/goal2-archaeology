@@ -1,0 +1,757 @@
+{
+  "scope": "Static call argument bytes and near/far convention only; no stack-resumption or match-equivalence proof.",
+  "source_sha256": "5e6db519298391f47a2586159e2e220be232f7aff5958552c2d61e6f74bef4eb",
+  "calls": [
+    {
+      "line": 144,
+      "target": "23E4:0279",
+      "expected_return": [
+        "retf",
+        0
+      ],
+      "listing_returns": [
+        [
+          "retf",
+          0
+        ]
+      ],
+      "matches": true
+    },
+    {
+      "line": 154,
+      "target": "0791:2BE5",
+      "expected_return": [
+        "retf",
+        4
+      ],
+      "listing_returns": [
+        [
+          "retf",
+          4
+        ]
+      ],
+      "matches": true
+    },
+    {
+      "line": 176,
+      "target": "0791:2E00",
+      "expected_return": [
+        "ret",
+        2
+      ],
+      "listing_returns": [
+        [
+          "ret",
+          2
+        ]
+      ],
+      "matches": true
+    },
+    {
+      "line": 181,
+      "target": "0791:8F10",
+      "expected_return": [
+        "retf",
+        4
+      ],
+      "listing_returns": [
+        [
+          "retf",
+          4
+        ]
+      ],
+      "matches": true
+    },
+    {
+      "line": 182,
+      "target": "0791:2DCA",
+      "expected_return": [
+        "ret",
+        2
+      ],
+      "listing_returns": [
+        [
+          "ret",
+          2
+        ]
+      ],
+      "matches": true
+    },
+    {
+      "line": 186,
+      "target": "0791:0441",
+      "expected_return": [
+        "ret",
+        2
+      ],
+      "listing_returns": [
+        [
+          "ret",
+          2
+        ]
+      ],
+      "matches": true
+    },
+    {
+      "line": 259,
+      "target": "0791:2C29",
+      "expected_return": [
+        "retf",
+        4
+      ],
+      "listing_returns": [
+        [
+          "retf",
+          4
+        ]
+      ],
+      "matches": true
+    },
+    {
+      "line": 266,
+      "target": "0791:045D",
+      "expected_return": [
+        "ret",
+        2
+      ],
+      "listing_returns": [
+        [
+          "ret",
+          2
+        ]
+      ],
+      "matches": true
+    },
+    {
+      "line": 288,
+      "target": "0791:8F10",
+      "expected_return": [
+        "retf",
+        4
+      ],
+      "listing_returns": [
+        [
+          "retf",
+          4
+        ]
+      ],
+      "matches": true
+    },
+    {
+      "line": 320,
+      "target": "0791:8889",
+      "expected_return": [
+        "ret",
+        2
+      ],
+      "listing_returns": [
+        [
+          "ret",
+          2
+        ]
+      ],
+      "matches": true
+    },
+    {
+      "line": 341,
+      "target": "0791:8537",
+      "expected_return": [
+        "retf",
+        4
+      ],
+      "listing_returns": [
+        [
+          "retf",
+          4
+        ]
+      ],
+      "matches": true
+    },
+    {
+      "line": 360,
+      "target": "0791:2BE5",
+      "expected_return": [
+        "retf",
+        4
+      ],
+      "listing_returns": [
+        [
+          "retf",
+          4
+        ]
+      ],
+      "matches": true
+    },
+    {
+      "line": 374,
+      "target": "0791:8C67",
+      "expected_return": [
+        "ret",
+        4
+      ],
+      "listing_returns": [
+        [
+          "ret",
+          4
+        ]
+      ],
+      "matches": true
+    },
+    {
+      "line": 377,
+      "target": "0791:8C67",
+      "expected_return": [
+        "ret",
+        4
+      ],
+      "listing_returns": [
+        [
+          "ret",
+          4
+        ]
+      ],
+      "matches": true
+    },
+    {
+      "line": 526,
+      "target": "214B:2031",
+      "expected_return": [
+        "retf",
+        8
+      ],
+      "listing_returns": [
+        [
+          "retf",
+          8
+        ]
+      ],
+      "matches": true
+    },
+    {
+      "line": 540,
+      "target": "0791:8E24",
+      "expected_return": [
+        "retf",
+        4
+      ],
+      "listing_returns": [
+        [
+          "retf",
+          4
+        ]
+      ],
+      "matches": true
+    },
+    {
+      "line": 171,
+      "target": "0791:835F",
+      "expected_return": [
+        "retf",
+        4
+      ],
+      "listing_returns": [
+        [
+          "retf",
+          4
+        ]
+      ],
+      "matches": true
+    },
+    {
+      "line": 269,
+      "target": "0791:2EB8",
+      "expected_return": [
+        "retf",
+        6
+      ],
+      "listing_returns": [
+        [
+          "retf",
+          6
+        ]
+      ],
+      "matches": true
+    },
+    {
+      "line": 319,
+      "target": "0791:57AC",
+      "expected_return": [
+        "retf",
+        4
+      ],
+      "listing_returns": [
+        [
+          "retf",
+          4
+        ]
+      ],
+      "matches": true
+    },
+    {
+      "line": 319,
+      "target": "0791:58E1",
+      "expected_return": [
+        "retf",
+        4
+      ],
+      "listing_returns": [
+        [
+          "retf",
+          4
+        ]
+      ],
+      "matches": true
+    },
+    {
+      "line": 319,
+      "target": "0791:69BD",
+      "expected_return": [
+        "retf",
+        4
+      ],
+      "listing_returns": [
+        [
+          "retf",
+          4
+        ]
+      ],
+      "matches": true
+    },
+    {
+      "line": 319,
+      "target": "0791:6AAD",
+      "expected_return": [
+        "retf",
+        4
+      ],
+      "listing_returns": [
+        [
+          "retf",
+          4
+        ]
+      ],
+      "matches": true
+    },
+    {
+      "line": 319,
+      "target": "0791:6AF7",
+      "expected_return": [
+        "retf",
+        4
+      ],
+      "listing_returns": [
+        [
+          "retf",
+          4
+        ]
+      ],
+      "matches": true
+    },
+    {
+      "line": 319,
+      "target": "0791:6240",
+      "expected_return": [
+        "retf",
+        4
+      ],
+      "listing_returns": [
+        [
+          "retf",
+          4
+        ]
+      ],
+      "matches": true
+    },
+    {
+      "line": 319,
+      "target": "0791:7069",
+      "expected_return": [
+        "retf",
+        4
+      ],
+      "listing_returns": [
+        [
+          "retf",
+          4
+        ]
+      ],
+      "matches": true
+    },
+    {
+      "line": 319,
+      "target": "0791:7287",
+      "expected_return": [
+        "retf",
+        4
+      ],
+      "listing_returns": [
+        [
+          "retf",
+          4
+        ]
+      ],
+      "matches": true
+    },
+    {
+      "line": 319,
+      "target": "0791:715A",
+      "expected_return": [
+        "retf",
+        4
+      ],
+      "listing_returns": [
+        [
+          "retf",
+          4
+        ]
+      ],
+      "matches": true
+    },
+    {
+      "line": 319,
+      "target": "0791:73BA",
+      "expected_return": [
+        "retf",
+        4
+      ],
+      "listing_returns": [
+        [
+          "retf",
+          4
+        ]
+      ],
+      "matches": true
+    },
+    {
+      "line": 319,
+      "target": "0791:7621",
+      "expected_return": [
+        "retf",
+        4
+      ],
+      "listing_returns": [
+        [
+          "retf",
+          4
+        ]
+      ],
+      "matches": true
+    },
+    {
+      "line": 327,
+      "target": "0791:2CEC",
+      "expected_return": [
+        "retf",
+        4
+      ],
+      "listing_returns": [
+        [
+          "retf",
+          4
+        ]
+      ],
+      "matches": true
+    },
+    {
+      "line": 398,
+      "target": "0791:2BE5",
+      "expected_return": [
+        "retf",
+        4
+      ],
+      "listing_returns": [
+        [
+          "retf",
+          4
+        ]
+      ],
+      "matches": true
+    },
+    {
+      "line": 420,
+      "target": "0791:8E24",
+      "expected_return": [
+        "retf",
+        4
+      ],
+      "listing_returns": [
+        [
+          "retf",
+          4
+        ]
+      ],
+      "matches": true
+    },
+    {
+      "line": 467,
+      "target": "0791:8E24",
+      "expected_return": [
+        "retf",
+        4
+      ],
+      "listing_returns": [
+        [
+          "retf",
+          4
+        ]
+      ],
+      "matches": true
+    },
+    {
+      "line": 487,
+      "target": "0791:8E24",
+      "expected_return": [
+        "retf",
+        4
+      ],
+      "listing_returns": [
+        [
+          "retf",
+          4
+        ]
+      ],
+      "matches": true
+    },
+    {
+      "line": 500,
+      "target": "214B:06B1",
+      "expected_return": [
+        "retf",
+        2
+      ],
+      "listing_returns": [
+        [
+          "retf",
+          2
+        ]
+      ],
+      "matches": true
+    },
+    {
+      "line": 504,
+      "target": "214B:0D1C",
+      "expected_return": [
+        "retf",
+        8
+      ],
+      "listing_returns": [
+        [
+          "retf",
+          8
+        ]
+      ],
+      "matches": true
+    },
+    {
+      "line": 511,
+      "target": "214B:06B1",
+      "expected_return": [
+        "retf",
+        2
+      ],
+      "listing_returns": [
+        [
+          "retf",
+          2
+        ]
+      ],
+      "matches": true
+    },
+    {
+      "line": 515,
+      "target": "214B:0D56",
+      "expected_return": [
+        "retf",
+        8
+      ],
+      "listing_returns": [
+        [
+          "retf",
+          8
+        ]
+      ],
+      "matches": true
+    },
+    {
+      "line": 537,
+      "target": "23E4:08DF",
+      "expected_return": [
+        "retf",
+        6
+      ],
+      "listing_returns": [
+        [
+          "retf",
+          6
+        ]
+      ],
+      "matches": true
+    },
+    {
+      "line": 197,
+      "target": "0791:82EB",
+      "expected_return": [
+        "ret",
+        0
+      ],
+      "listing_returns": [
+        [
+          "ret",
+          0
+        ]
+      ],
+      "matches": true
+    },
+    {
+      "line": 208,
+      "target": "0791:698E",
+      "expected_return": [
+        "ret",
+        0
+      ],
+      "listing_returns": [
+        [
+          "ret",
+          0
+        ]
+      ],
+      "matches": true
+    },
+    {
+      "line": 210,
+      "target": "0791:690C",
+      "expected_return": [
+        "ret",
+        0
+      ],
+      "listing_returns": [
+        [
+          "ret",
+          0
+        ]
+      ],
+      "matches": true
+    },
+    {
+      "line": 215,
+      "target": "0791:6E11",
+      "expected_return": [
+        "ret",
+        0
+      ],
+      "listing_returns": [
+        [
+          "ret",
+          0
+        ]
+      ],
+      "matches": true
+    },
+    {
+      "line": 276,
+      "target": "0791:2BE5",
+      "expected_return": [
+        "retf",
+        4
+      ],
+      "listing_returns": [
+        [
+          "retf",
+          4
+        ]
+      ],
+      "matches": true
+    },
+    {
+      "line": 337,
+      "target": "0791:869F",
+      "expected_return": [
+        "retf",
+        4
+      ],
+      "listing_returns": [
+        [
+          "retf",
+          4
+        ]
+      ],
+      "matches": true
+    },
+    {
+      "line": 429,
+      "target": "0791:90C5",
+      "expected_return": [
+        "retf",
+        8
+      ],
+      "listing_returns": [
+        [
+          "retf",
+          8
+        ]
+      ],
+      "matches": true
+    },
+    {
+      "line": 220,
+      "target": "0791:6E6E",
+      "expected_return": [
+        "ret",
+        0
+      ],
+      "listing_returns": [
+        [
+          "ret",
+          0
+        ]
+      ],
+      "matches": true
+    },
+    {
+      "line": 222,
+      "target": "0791:2996",
+      "expected_return": [
+        "ret",
+        0
+      ],
+      "listing_returns": [
+        [
+          "ret",
+          0
+        ]
+      ],
+      "matches": true
+    },
+    {
+      "line": 227,
+      "target": "0791:6F01",
+      "expected_return": [
+        "ret",
+        4
+      ],
+      "listing_returns": [
+        [
+          "ret",
+          4
+        ]
+      ],
+      "matches": true
+    },
+    {
+      "line": 335,
+      "target": "0791:2AD4",
+      "expected_return": [
+        "ret",
+        2
+      ],
+      "listing_returns": [
+        [
+          "ret",
+          2
+        ]
+      ],
+      "matches": true
+    }
+  ],
+  "mismatches": []
+}
