@@ -1,0 +1,2281 @@
+{
+  "scope": "Read-only literal call target, following return address and push-cs/far convention; conservative union for branch alternatives. Does not prove branch-to-return correlation, arguments/registers/held words or runtime resumption.",
+  "source_sha256": "6b5f17ee9af3bf7dbb2bae4bd5ae00e1a012f6d6cf6e6e3c2cdd8464a7e2c72a",
+  "listing_sha256": {
+    "static/goal-exe/code/seg_0791_13.asm": "e5d4454db0deeb4b617cb1ff626b8ca505bb1b61b970b4c8e5952385481a8025",
+    "static/goal-exe/code/seg_0791_06.asm": "b7debdb96455259d2dca1e10096d42fb6ae843b79105eda4c5e7b7cf7b34ceb6",
+    "static/goal-exe/code/seg_0791_11.asm": "a5aebf13faf14469141d8edb9a0878b0a56b7267451694622801732f522603ec",
+    "static/goal-exe/code/seg_0791_16.asm": "970a6ea902b38abd5e437aed568fc1833caf6bac00e25194be1f3f39504ea4e1",
+    "static/goal-exe/code/seg_0791_07.asm": "1cee0aa8db2d9e0be1e885f1f535eca11f450cbee9421366182528e540d94804",
+    "static/goal-exe/code/seg_0791_21.asm": "c0a1f37f3b6b13092012d3007a333b27c1a2194eeccd2eba5637b291be3b3358",
+    "static/goal-exe/code/seg_0791_15.asm": "39083ebcc1fba0fc0c377bd9656189ceb0e0a328d0940583c774e910967e1abf",
+    "static/goal-exe/code/seg_0791_14.asm": "032e2d6f22d6db5981e2a11f43298924a53e15d080e1d73d1fb375ddbe400abd",
+    "static/goal-exe/code/seg_0791_19.asm": "9a67e02197e7b3796be1cf653ed6ffff35a9939cbe0044dee57f639971063ed8",
+    "static/goal-exe/code/seg_0791_20.asm": "9ed1e3aa1aca8370004fc286911f2cf55003c084f03f95f8e39b56bf438361f9",
+    "static/goal-exe/code/seg_0791_04.asm": "e792ecf585f96d070d1adb1a240b523b1b37823294e55e1381b1b9f1962b745b",
+    "static/goal-exe/code/seg_0791_05.asm": "0635bc395cd69ffe2c77ead9aaaf786f36eedeee5496daae8f43127ce4aed474",
+    "static/goal-exe/code/seg_0791_24.asm": "f081cd651518cc3f56bea9e53bdf0545f766da0334f18e990c08be0f5c128bc2",
+    "static/goal-exe/code/seg_0791_17.asm": "e8ca718382b8b72b2a9d1ede8d24bf6bf0bf2e899b3cc70d91a5435d076f6c44",
+    "static/goal-exe/code/seg_0791_03.asm": "960a08fdcaa6f4115a4702c48a454b097fe0194db91c76ea5a4a9818bbfca0a3",
+    "static/goal-exe/code/seg_0791_09.asm": "1236aa3fcb2d30080e22d9a4bee4398c52d09fc3010e133bc124e318f7e89ac0",
+    "static/goal-exe/code/seg_0791_22.asm": "a914346b919764a8232d3a9f7979d5193a20bce6a8829e48d9b74fb9b806464b",
+    "static/goal-exe/code/seg_0791_02.asm": "57849ee0856cb014c748370434588b99cd5151ce14d785a125c3a4350e04eb8b",
+    "static/goal-exe/code/seg_0791_08.asm": "6932ef5507b1fa923e7fcec51e4abb0c091d413571c80d0d3798cb1382119acd",
+    "static/goal-exe/code/seg_0791_12.asm": "51e9bb66b774cb145dea8d8986ee4dbcb3c6b74b1a79e47808fe28909916b108",
+    "static/goal-exe/code/seg_0791_01.asm": "a785c7efdfb54bab19ca5b3eea73a19548a61a46512f79c653559e1cba080688",
+    "static/goal-exe/code/seg_0791_10.asm": "dabf426d52c0c137574a07b97044e43868ebe0e0e49b4b7367be05e98842c88c",
+    "static/goal-exe/code/seg_0791_18.asm": "e19061df86a89389539ddc48b0497b1f04742062851deca434838b600387d397",
+    "static/goal-exe/code/seg_0791_23.asm": "49e12bb8534566ad1e6b4b22e2f088ce483d4518f8d2b8cf28fefb3c7f9b9cde"
+  },
+  "calls": [
+    {
+      "function": "find_nearest_to_ball",
+      "line": 72,
+      "possible_targets": [
+        "0791:2956"
+      ],
+      "ret_to": "0791:3013",
+      "far": true,
+      "listing_call": {
+        "site": "0791:3010",
+        "target": "0791:2956",
+        "far": true,
+        "path": "static/goal-exe/code/seg_0791_05.asm",
+        "line": 856
+      },
+      "matches": true
+    },
+    {
+      "function": "find_nearest_to_ball",
+      "line": 112,
+      "possible_targets": [
+        "0791:2BE5"
+      ],
+      "ret_to": "0791:3090",
+      "far": true,
+      "listing_call": {
+        "site": "0791:308D",
+        "target": "0791:2BE5",
+        "far": true,
+        "path": "static/goal-exe/code/seg_0791_05.asm",
+        "line": 913
+      },
+      "matches": true
+    },
+    {
+      "function": "find_nearest_to_ball",
+      "line": 122,
+      "possible_targets": [
+        "0791:2BE5"
+      ],
+      "ret_to": "0791:30A3",
+      "far": true,
+      "listing_call": {
+        "site": "0791:30A0",
+        "target": "0791:2BE5",
+        "far": true,
+        "path": "static/goal-exe/code/seg_0791_05.asm",
+        "line": 924
+      },
+      "matches": true
+    },
+    {
+      "function": "slot_in_record_side",
+      "line": 161,
+      "possible_targets": [
+        "0791:2974"
+      ],
+      "ret_to": "0791:30F9",
+      "far": true,
+      "listing_call": {
+        "site": "0791:30F6",
+        "target": "0791:2974",
+        "far": true,
+        "path": "static/goal-exe/code/seg_0791_05.asm",
+        "line": 967
+      },
+      "matches": true
+    },
+    {
+      "function": "pass_to_selected_receiver",
+      "line": 181,
+      "possible_targets": [
+        "0791:3111"
+      ],
+      "ret_to": "0791:332F",
+      "far": true,
+      "listing_call": {
+        "site": "0791:332C",
+        "target": "0791:3111",
+        "far": true,
+        "path": "static/goal-exe/code/seg_0791_06.asm",
+        "line": 14
+      },
+      "matches": true
+    },
+    {
+      "function": "pass_to_selected_receiver",
+      "line": 186,
+      "possible_targets": [
+        "0791:384C"
+      ],
+      "ret_to": "0791:3339",
+      "far": true,
+      "listing_call": {
+        "site": "0791:3336",
+        "target": "0791:384C",
+        "far": true,
+        "path": "static/goal-exe/code/seg_0791_06.asm",
+        "line": 20
+      },
+      "matches": true
+    },
+    {
+      "function": "choose_pass_or_long_ball",
+      "line": 200,
+      "possible_targets": [
+        "0791:82EB"
+      ],
+      "ret_to": "0791:3BFB",
+      "far": false,
+      "listing_call": {
+        "site": "0791:3BF8",
+        "target": "0791:82EB",
+        "far": false,
+        "path": "static/goal-exe/code/seg_0791_06.asm",
+        "line": 1034
+      },
+      "matches": true
+    },
+    {
+      "function": "choose_pass_or_long_ball",
+      "line": 203,
+      "possible_targets": [
+        "214B:06FA"
+      ],
+      "ret_to": "0791:3C02",
+      "far": true,
+      "listing_call": {
+        "site": "0791:3BFD",
+        "target": "214B:06FA",
+        "far": true,
+        "path": "static/goal-exe/code/seg_0791_06.asm",
+        "line": 1037
+      },
+      "matches": true
+    },
+    {
+      "function": "choose_pass_or_long_ball",
+      "line": 208,
+      "possible_targets": [
+        "0791:3323",
+        "0791:3B15"
+      ],
+      "ret_to": "0791:3C0F",
+      "far": true,
+      "listing_call": {
+        "site": "0791:3C0C",
+        "target": "0791:3B15",
+        "far": true,
+        "path": "static/goal-exe/code/seg_0791_06.asm",
+        "line": 1044
+      },
+      "matches": true
+    },
+    {
+      "function": "choose_pass_or_long_ball",
+      "line": 208,
+      "possible_targets": [
+        "0791:3323",
+        "0791:3B15"
+      ],
+      "ret_to": "0791:3C1A",
+      "far": true,
+      "listing_call": {
+        "site": "0791:3C17",
+        "target": "0791:3323",
+        "far": true,
+        "path": "static/goal-exe/code/seg_0791_06.asm",
+        "line": 1051
+      },
+      "matches": true
+    },
+    {
+      "function": "take_shot",
+      "line": 243,
+      "possible_targets": [
+        "0791:3C3F"
+      ],
+      "ret_to": "0791:3ED9",
+      "far": true,
+      "listing_call": {
+        "site": "0791:3ED6",
+        "target": "0791:3C3F",
+        "far": true,
+        "path": "static/goal-exe/code/seg_0791_07.asm",
+        "line": 198
+      },
+      "matches": true
+    },
+    {
+      "function": "take_header",
+      "line": 260,
+      "possible_targets": [
+        "0791:3C3F"
+      ],
+      "ret_to": "0791:3EF2",
+      "far": true,
+      "listing_call": {
+        "site": "0791:3EEF",
+        "target": "0791:3C3F",
+        "far": true,
+        "path": "static/goal-exe/code/seg_0791_07.asm",
+        "line": 215
+      },
+      "matches": true
+    },
+    {
+      "function": "choose_clearance",
+      "line": 273,
+      "possible_targets": [
+        "214B:06FA"
+      ],
+      "ret_to": "0791:4096",
+      "far": true,
+      "listing_call": {
+        "site": "0791:4091",
+        "target": "214B:06FA",
+        "far": true,
+        "path": "static/goal-exe/code/seg_0791_07.asm",
+        "line": 424
+      },
+      "matches": true
+    },
+    {
+      "function": "choose_clearance",
+      "line": 279,
+      "possible_targets": [
+        "0791:3EF8",
+        "0791:3FAD"
+      ],
+      "ret_to": "0791:40A7",
+      "far": true,
+      "listing_call": {
+        "site": "0791:40A4",
+        "target": "0791:3FAD",
+        "far": true,
+        "path": "static/goal-exe/code/seg_0791_07.asm",
+        "line": 433
+      },
+      "matches": true
+    },
+    {
+      "function": "choose_clearance",
+      "line": 279,
+      "possible_targets": [
+        "0791:3EF8",
+        "0791:3FAD"
+      ],
+      "ret_to": "0791:40B6",
+      "far": true,
+      "listing_call": {
+        "site": "0791:40B3",
+        "target": "0791:3EF8",
+        "far": true,
+        "path": "static/goal-exe/code/seg_0791_07.asm",
+        "line": 442
+      },
+      "matches": true
+    },
+    {
+      "function": "keeper_clearance_if_in_strip",
+      "line": 302,
+      "possible_targets": [
+        "0791:2EB8"
+      ],
+      "ret_to": "0791:4180",
+      "far": true,
+      "listing_call": {
+        "site": "0791:417D",
+        "target": "0791:2EB8",
+        "far": true,
+        "path": "static/goal-exe/code/seg_0791_07.asm",
+        "line": 548
+      },
+      "matches": true
+    },
+    {
+      "function": "keeper_clearance_if_in_strip",
+      "line": 308,
+      "possible_targets": [
+        "0791:3FAD"
+      ],
+      "ret_to": "0791:4191",
+      "far": true,
+      "listing_call": {
+        "site": "0791:418E",
+        "target": "0791:3FAD",
+        "far": true,
+        "path": "static/goal-exe/code/seg_0791_07.asm",
+        "line": 557
+      },
+      "matches": true
+    },
+    {
+      "function": "long_ball_target",
+      "line": 330,
+      "possible_targets": [
+        "0791:278A"
+      ],
+      "ret_to": "0791:3B35",
+      "far": true,
+      "listing_call": {
+        "site": "0791:3B32",
+        "target": "0791:278A",
+        "far": true,
+        "path": "static/goal-exe/code/seg_0791_06.asm",
+        "line": 938
+      },
+      "matches": true
+    },
+    {
+      "function": "long_ball_target",
+      "line": 335,
+      "possible_targets": [
+        "214B:06B1"
+      ],
+      "ret_to": "0791:3B42",
+      "far": true,
+      "listing_call": {
+        "site": "0791:3B3D",
+        "target": "214B:06B1",
+        "far": true,
+        "path": "static/goal-exe/code/seg_0791_06.asm",
+        "line": 943
+      },
+      "matches": true
+    },
+    {
+      "function": "long_ball_target",
+      "line": 342,
+      "possible_targets": [
+        "214B:0D56"
+      ],
+      "ret_to": "0791:3B4A",
+      "far": true,
+      "listing_call": {
+        "site": "0791:3B45",
+        "target": "214B:0D56",
+        "far": true,
+        "path": "static/goal-exe/code/seg_0791_06.asm",
+        "line": 947
+      },
+      "matches": true
+    },
+    {
+      "function": "long_ball_target",
+      "line": 348,
+      "possible_targets": [
+        "0791:2BE5"
+      ],
+      "ret_to": "0791:3B55",
+      "far": true,
+      "listing_call": {
+        "site": "0791:3B52",
+        "target": "0791:2BE5",
+        "far": true,
+        "path": "static/goal-exe/code/seg_0791_06.asm",
+        "line": 954
+      },
+      "matches": true
+    },
+    {
+      "function": "long_ball_target",
+      "line": 354,
+      "possible_targets": [
+        "23E4:0279"
+      ],
+      "ret_to": "0791:3B5E",
+      "far": true,
+      "listing_call": {
+        "site": "0791:3B59",
+        "target": "23E4:0279",
+        "far": true,
+        "path": "static/goal-exe/code/seg_0791_06.asm",
+        "line": 959
+      },
+      "matches": true
+    },
+    {
+      "function": "long_ball_target",
+      "line": 362,
+      "possible_targets": [
+        "0791:34C1"
+      ],
+      "ret_to": "0791:3B76",
+      "far": true,
+      "listing_call": {
+        "site": "0791:3B73",
+        "target": "0791:34C1",
+        "far": true,
+        "path": "static/goal-exe/code/seg_0791_06.asm",
+        "line": 969
+      },
+      "matches": true
+    },
+    {
+      "function": "long_ball_target",
+      "line": 370,
+      "possible_targets": [
+        "0791:2AA3"
+      ],
+      "ret_to": "0791:3B93",
+      "far": false,
+      "listing_call": {
+        "site": "0791:3B90",
+        "target": "0791:2AA3",
+        "far": false,
+        "path": "static/goal-exe/code/seg_0791_06.asm",
+        "line": 982
+      },
+      "matches": true
+    },
+    {
+      "function": "launch_to_slot_with_half_event",
+      "line": 391,
+      "possible_targets": [
+        "0791:2C54"
+      ],
+      "ret_to": "0791:3BBE",
+      "far": true,
+      "listing_call": {
+        "site": "0791:3BBB",
+        "target": "0791:2C54",
+        "far": true,
+        "path": "static/goal-exe/code/seg_0791_06.asm",
+        "line": 1003
+      },
+      "matches": true
+    },
+    {
+      "function": "launch_to_slot_with_half_event",
+      "line": 401,
+      "possible_targets": [
+        "0791:34C1"
+      ],
+      "ret_to": "0791:3BD1",
+      "far": true,
+      "listing_call": {
+        "site": "0791:3BCE",
+        "target": "0791:34C1",
+        "far": true,
+        "path": "static/goal-exe/code/seg_0791_06.asm",
+        "line": 1013
+      },
+      "matches": true
+    },
+    {
+      "function": "launch_to_slot_with_half_event",
+      "line": 405,
+      "possible_targets": [
+        "0791:2AA3"
+      ],
+      "ret_to": "0791:3BD7",
+      "far": false,
+      "listing_call": {
+        "site": "0791:3BD4",
+        "target": "0791:2AA3",
+        "far": false,
+        "path": "static/goal-exe/code/seg_0791_06.asm",
+        "line": 1016
+      },
+      "matches": true
+    },
+    {
+      "function": "launch_to_slot_with_half_event",
+      "line": 408,
+      "possible_targets": [
+        "214B:06FA"
+      ],
+      "ret_to": "0791:3BDC",
+      "far": true,
+      "listing_call": {
+        "site": "0791:3BD7",
+        "target": "214B:06FA",
+        "far": true,
+        "path": "static/goal-exe/code/seg_0791_06.asm",
+        "line": 1017
+      },
+      "matches": true
+    },
+    {
+      "function": "launch_to_slot_with_half_event",
+      "line": 413,
+      "possible_targets": [
+        "0791:4D3F"
+      ],
+      "ret_to": "0791:3BE8",
+      "far": true,
+      "listing_call": {
+        "site": "0791:3BE5",
+        "target": "0791:4D3F",
+        "far": true,
+        "path": "static/goal-exe/code/seg_0791_06.asm",
+        "line": 1023
+      },
+      "matches": true
+    },
+    {
+      "function": "long_kick_target",
+      "line": 449,
+      "possible_targets": [
+        "0791:278A"
+      ],
+      "ret_to": "0791:3F4B",
+      "far": true,
+      "listing_call": {
+        "site": "0791:3F48",
+        "target": "0791:278A",
+        "far": true,
+        "path": "static/goal-exe/code/seg_0791_07.asm",
+        "line": 260
+      },
+      "matches": true
+    },
+    {
+      "function": "long_kick_target",
+      "line": 455,
+      "possible_targets": [
+        "214B:06B1"
+      ],
+      "ret_to": "0791:3F56",
+      "far": true,
+      "listing_call": {
+        "site": "0791:3F51",
+        "target": "214B:06B1",
+        "far": true,
+        "path": "static/goal-exe/code/seg_0791_07.asm",
+        "line": 265
+      },
+      "matches": true
+    },
+    {
+      "function": "long_kick_target",
+      "line": 460,
+      "possible_targets": [
+        "214B:0D56"
+      ],
+      "ret_to": "0791:3F5E",
+      "far": true,
+      "listing_call": {
+        "site": "0791:3F59",
+        "target": "214B:0D56",
+        "far": true,
+        "path": "static/goal-exe/code/seg_0791_07.asm",
+        "line": 269
+      },
+      "matches": true
+    },
+    {
+      "function": "long_kick_target",
+      "line": 466,
+      "possible_targets": [
+        "0791:2BE5"
+      ],
+      "ret_to": "0791:3F69",
+      "far": true,
+      "listing_call": {
+        "site": "0791:3F66",
+        "target": "0791:2BE5",
+        "far": true,
+        "path": "static/goal-exe/code/seg_0791_07.asm",
+        "line": 276
+      },
+      "matches": true
+    },
+    {
+      "function": "long_kick_target",
+      "line": 472,
+      "possible_targets": [
+        "23E4:0279"
+      ],
+      "ret_to": "0791:3F72",
+      "far": true,
+      "listing_call": {
+        "site": "0791:3F6D",
+        "target": "23E4:0279",
+        "far": true,
+        "path": "static/goal-exe/code/seg_0791_07.asm",
+        "line": 281
+      },
+      "matches": true
+    },
+    {
+      "function": "long_kick_target",
+      "line": 484,
+      "possible_targets": [
+        "0791:34C1"
+      ],
+      "ret_to": "0791:3F8E",
+      "far": true,
+      "listing_call": {
+        "site": "0791:3F8B",
+        "target": "0791:34C1",
+        "far": true,
+        "path": "static/goal-exe/code/seg_0791_07.asm",
+        "line": 294
+      },
+      "matches": true
+    },
+    {
+      "function": "long_kick_target",
+      "line": 490,
+      "possible_targets": [
+        "0791:2AA3"
+      ],
+      "ret_to": "0791:3F9F",
+      "far": false,
+      "listing_call": {
+        "site": "0791:3F9C",
+        "target": "0791:2AA3",
+        "far": false,
+        "path": "static/goal-exe/code/seg_0791_07.asm",
+        "line": 300
+      },
+      "matches": true
+    },
+    {
+      "function": "long_kick_target",
+      "line": 490,
+      "possible_targets": [
+        "0791:2AA3"
+      ],
+      "ret_to": "0791:3FA7",
+      "far": false,
+      "listing_call": {
+        "site": "0791:3FA4",
+        "target": "0791:2AA3",
+        "far": false,
+        "path": "static/goal-exe/code/seg_0791_07.asm",
+        "line": 305
+      },
+      "matches": true
+    },
+    {
+      "function": "holder_in_advanced_central_strip",
+      "line": 511,
+      "possible_targets": [
+        "0791:2C54"
+      ],
+      "ret_to": "0791:40E1",
+      "far": true,
+      "listing_call": {
+        "site": "0791:40DE",
+        "target": "0791:2C54",
+        "far": true,
+        "path": "static/goal-exe/code/seg_0791_07.asm",
+        "line": 465
+      },
+      "matches": true
+    },
+    {
+      "function": "holder_in_advanced_central_strip",
+      "line": 516,
+      "possible_targets": [
+        "0791:2996"
+      ],
+      "ret_to": "0791:40E8",
+      "far": false,
+      "listing_call": {
+        "site": "0791:40E5",
+        "target": "0791:2996",
+        "far": false,
+        "path": "static/goal-exe/code/seg_0791_07.asm",
+        "line": 468
+      },
+      "matches": true
+    },
+    {
+      "function": "clear_to_random_target",
+      "line": 561,
+      "possible_targets": [
+        "214B:06FA"
+      ],
+      "ret_to": "0791:3FB8",
+      "far": true,
+      "listing_call": {
+        "site": "0791:3FB3",
+        "target": "214B:06FA",
+        "far": true,
+        "path": "static/goal-exe/code/seg_0791_07.asm",
+        "line": 316
+      },
+      "matches": true
+    },
+    {
+      "function": "clear_to_random_target",
+      "line": 622,
+      "possible_targets": [
+        "0791:34C1"
+      ],
+      "ret_to": "0791:406F",
+      "far": true,
+      "listing_call": {
+        "site": "0791:406C",
+        "target": "0791:34C1",
+        "far": true,
+        "path": "static/goal-exe/code/seg_0791_07.asm",
+        "line": 403
+      },
+      "matches": true
+    },
+    {
+      "function": "clear_to_random_target",
+      "line": 627,
+      "possible_targets": [
+        "0791:2AA3"
+      ],
+      "ret_to": "0791:4080",
+      "far": false,
+      "listing_call": {
+        "site": "0791:407D",
+        "target": "0791:2AA3",
+        "far": false,
+        "path": "static/goal-exe/code/seg_0791_07.asm",
+        "line": 409
+      },
+      "matches": true
+    },
+    {
+      "function": "clear_to_random_target",
+      "line": 627,
+      "possible_targets": [
+        "0791:2AA3"
+      ],
+      "ret_to": "0791:4088",
+      "far": false,
+      "listing_call": {
+        "site": "0791:4085",
+        "target": "0791:2AA3",
+        "far": false,
+        "path": "static/goal-exe/code/seg_0791_07.asm",
+        "line": 414
+      },
+      "matches": true
+    },
+    {
+      "function": "clear_to_random_target",
+      "line": 569,
+      "possible_targets": [
+        "0791:045D"
+      ],
+      "ret_to": "0791:3FC9",
+      "far": false,
+      "listing_call": {
+        "site": "0791:3FC6",
+        "target": "0791:045D",
+        "far": false,
+        "path": "static/goal-exe/code/seg_0791_07.asm",
+        "line": 323
+      },
+      "matches": true
+    },
+    {
+      "function": "clear_to_random_target",
+      "line": 584,
+      "possible_targets": [
+        "214B:06B1"
+      ],
+      "ret_to": "0791:3FF5",
+      "far": true,
+      "listing_call": {
+        "site": "0791:3FF0",
+        "target": "214B:06B1",
+        "far": true,
+        "path": "static/goal-exe/code/seg_0791_07.asm",
+        "line": 344
+      },
+      "matches": true
+    },
+    {
+      "function": "clear_to_random_target",
+      "line": 598,
+      "possible_targets": [
+        "214B:06B1"
+      ],
+      "ret_to": "0791:401F",
+      "far": true,
+      "listing_call": {
+        "site": "0791:401A",
+        "target": "214B:06B1",
+        "far": true,
+        "path": "static/goal-exe/code/seg_0791_07.asm",
+        "line": 364
+      },
+      "matches": true
+    },
+    {
+      "function": "cross_to_candidate_or_random_point",
+      "line": 647,
+      "possible_targets": [
+        "0791:3D38"
+      ],
+      "ret_to": "0791:3E13",
+      "far": false,
+      "listing_call": {
+        "site": "0791:3E10",
+        "target": "0791:3D38",
+        "far": false,
+        "path": "static/goal-exe/code/seg_0791_07.asm",
+        "line": 101
+      },
+      "matches": true
+    },
+    {
+      "function": "cross_to_candidate_or_random_point",
+      "line": 689,
+      "possible_targets": [
+        "0791:34C1"
+      ],
+      "ret_to": "0791:3E83",
+      "far": true,
+      "listing_call": {
+        "site": "0791:3E80",
+        "target": "0791:34C1",
+        "far": true,
+        "path": "static/goal-exe/code/seg_0791_07.asm",
+        "line": 152
+      },
+      "matches": true
+    },
+    {
+      "function": "cross_to_candidate_or_random_point",
+      "line": 696,
+      "possible_targets": [
+        "0791:2AA3"
+      ],
+      "ret_to": "0791:3E9B",
+      "far": false,
+      "listing_call": {
+        "site": "0791:3E98",
+        "target": "0791:2AA3",
+        "far": false,
+        "path": "static/goal-exe/code/seg_0791_07.asm",
+        "line": 164
+      },
+      "matches": true
+    },
+    {
+      "function": "cross_to_candidate_or_random_point",
+      "line": 701,
+      "possible_targets": [
+        "214B:06D0"
+      ],
+      "ret_to": "0791:3EA9",
+      "far": true,
+      "listing_call": {
+        "site": "0791:3EA4",
+        "target": "214B:06D0",
+        "far": true,
+        "path": "static/goal-exe/code/seg_0791_07.asm",
+        "line": 168
+      },
+      "matches": true
+    },
+    {
+      "function": "cross_to_candidate_or_random_point",
+      "line": 707,
+      "possible_targets": [
+        "0791:4D3F"
+      ],
+      "ret_to": "0791:3EBF",
+      "far": true,
+      "listing_call": {
+        "site": "0791:3EBC",
+        "target": "0791:4D3F",
+        "far": true,
+        "path": "static/goal-exe/code/seg_0791_07.asm",
+        "line": 181
+      },
+      "matches": true
+    },
+    {
+      "function": "cross_to_candidate_or_random_point",
+      "line": 651,
+      "possible_targets": [
+        "0791:261A"
+      ],
+      "ret_to": "0791:3E1C",
+      "far": false,
+      "listing_call": {
+        "site": "0791:3E19",
+        "target": "0791:261A",
+        "far": false,
+        "path": "static/goal-exe/code/seg_0791_07.asm",
+        "line": 104
+      },
+      "matches": true
+    },
+    {
+      "function": "cross_to_candidate_or_random_point",
+      "line": 672,
+      "possible_targets": [
+        "214B:06B1"
+      ],
+      "ret_to": "0791:3E4C",
+      "far": true,
+      "listing_call": {
+        "site": "0791:3E47",
+        "target": "214B:06B1",
+        "far": true,
+        "path": "static/goal-exe/code/seg_0791_07.asm",
+        "line": 126
+      },
+      "matches": true
+    },
+    {
+      "function": "shot_or_header",
+      "line": 761,
+      "possible_targets": [
+        "0791:2C86"
+      ],
+      "ret_to": "0791:3CB7",
+      "far": true,
+      "listing_call": {
+        "site": "0791:3CB4",
+        "target": "0791:2C86",
+        "far": true,
+        "path": "static/goal-exe/code/seg_0791_06.asm",
+        "line": 1131
+      },
+      "matches": true
+    },
+    {
+      "function": "shot_or_header",
+      "line": 766,
+      "possible_targets": [
+        "0791:34C1"
+      ],
+      "ret_to": "0791:3CC4",
+      "far": true,
+      "listing_call": {
+        "site": "0791:3CC1",
+        "target": "0791:34C1",
+        "far": true,
+        "path": "static/goal-exe/code/seg_0791_06.asm",
+        "line": 1138
+      },
+      "matches": true
+    },
+    {
+      "function": "shot_or_header",
+      "line": 770,
+      "possible_targets": [
+        "0791:2AA3"
+      ],
+      "ret_to": "0791:3CCB",
+      "far": false,
+      "listing_call": {
+        "site": "0791:3CC8",
+        "target": "0791:2AA3",
+        "far": false,
+        "path": "static/goal-exe/code/seg_0791_06.asm",
+        "line": 1141
+      },
+      "matches": true
+    },
+    {
+      "function": "shot_or_header",
+      "line": 722,
+      "possible_targets": [
+        "214B:06FA"
+      ],
+      "ret_to": "0791:3C52",
+      "far": true,
+      "listing_call": {
+        "site": "0791:3C4D",
+        "target": "214B:06FA",
+        "far": true,
+        "path": "static/goal-exe/code/seg_0791_06.asm",
+        "line": 1081
+      },
+      "matches": true
+    },
+    {
+      "function": "shot_or_header",
+      "line": 727,
+      "possible_targets": [
+        "214B:06FA"
+      ],
+      "ret_to": "0791:3C5A",
+      "far": true,
+      "listing_call": {
+        "site": "0791:3C55",
+        "target": "214B:06FA",
+        "far": true,
+        "path": "static/goal-exe/code/seg_0791_06.asm",
+        "line": 1084
+      },
+      "matches": true
+    },
+    {
+      "function": "shot_or_header",
+      "line": 743,
+      "possible_targets": [
+        "0791:287C"
+      ],
+      "ret_to": "0791:3C89",
+      "far": true,
+      "listing_call": {
+        "site": "0791:3C86",
+        "target": "0791:287C",
+        "far": true,
+        "path": "static/goal-exe/code/seg_0791_06.asm",
+        "line": 1108
+      },
+      "matches": true
+    },
+    {
+      "function": "shot_or_header",
+      "line": 775,
+      "possible_targets": [
+        "0791:2974"
+      ],
+      "ret_to": "0791:3CDB",
+      "far": true,
+      "listing_call": {
+        "site": "0791:3CD8",
+        "target": "0791:2974",
+        "far": true,
+        "path": "static/goal-exe/code/seg_0791_06.asm",
+        "line": 1148
+      },
+      "matches": true
+    },
+    {
+      "function": "shot_or_header",
+      "line": 786,
+      "possible_targets": [
+        "214B:06FA"
+      ],
+      "ret_to": "0791:3CF2",
+      "far": true,
+      "listing_call": {
+        "site": "0791:3CED",
+        "target": "214B:06FA",
+        "far": true,
+        "path": "static/goal-exe/code/seg_0791_06.asm",
+        "line": 1157
+      },
+      "matches": true
+    },
+    {
+      "function": "shot_or_header",
+      "line": 749,
+      "possible_targets": [
+        "214B:06D0"
+      ],
+      "ret_to": "0791:3C96",
+      "far": true,
+      "listing_call": {
+        "site": "0791:3C91",
+        "target": "214B:06D0",
+        "far": true,
+        "path": "static/goal-exe/code/seg_0791_06.asm",
+        "line": 1113
+      },
+      "matches": true
+    },
+    {
+      "function": "shot_or_header",
+      "line": 792,
+      "possible_targets": [
+        "214B:06D0"
+      ],
+      "ret_to": "0791:3D05",
+      "far": true,
+      "listing_call": {
+        "site": "0791:3D00",
+        "target": "214B:06D0",
+        "far": true,
+        "path": "static/goal-exe/code/seg_0791_06.asm",
+        "line": 1165
+      },
+      "matches": true
+    },
+    {
+      "function": "shot_or_header",
+      "line": 754,
+      "possible_targets": [
+        "0791:29B3"
+      ],
+      "ret_to": "0791:3C9D",
+      "far": false,
+      "listing_call": {
+        "site": "0791:3C9A",
+        "target": "0791:29B3",
+        "far": false,
+        "path": "static/goal-exe/code/seg_0791_06.asm",
+        "line": 1116
+      },
+      "matches": true
+    },
+    {
+      "function": "find_cross_target",
+      "line": 808,
+      "possible_targets": [
+        "0791:2996"
+      ],
+      "ret_to": "0791:3D41",
+      "far": false,
+      "listing_call": {
+        "site": "0791:3D3E",
+        "target": "0791:2996",
+        "far": false,
+        "path": "static/goal-exe/code/seg_0791_07.asm",
+        "line": 11
+      },
+      "matches": true
+    },
+    {
+      "function": "find_cross_target",
+      "line": 817,
+      "possible_targets": [
+        "0791:2996"
+      ],
+      "ret_to": "0791:3D53",
+      "far": false,
+      "listing_call": {
+        "site": "0791:3D50",
+        "target": "0791:2996",
+        "far": false,
+        "path": "static/goal-exe/code/seg_0791_07.asm",
+        "line": 18
+      },
+      "matches": true
+    },
+    {
+      "function": "find_cross_target",
+      "line": 847,
+      "possible_targets": [
+        "23E4:08DF"
+      ],
+      "ret_to": "0791:3DB2",
+      "far": true,
+      "listing_call": {
+        "site": "0791:3DAD",
+        "target": "23E4:08DF",
+        "far": true,
+        "path": "static/goal-exe/code/seg_0791_07.asm",
+        "line": 56
+      },
+      "matches": true
+    },
+    {
+      "function": "find_cross_target",
+      "line": 854,
+      "possible_targets": [
+        "1771:3216"
+      ],
+      "ret_to": "0791:3DC0",
+      "far": true,
+      "listing_call": {
+        "site": "0791:3DBB",
+        "target": "1771:3216",
+        "far": true,
+        "path": "static/goal-exe/code/seg_0791_07.asm",
+        "line": 60
+      },
+      "matches": true
+    },
+    {
+      "function": "find_cross_target",
+      "line": 860,
+      "possible_targets": [
+        "0791:2EF0"
+      ],
+      "ret_to": "0791:3DD3",
+      "far": true,
+      "listing_call": {
+        "site": "0791:3DD0",
+        "target": "0791:2EF0",
+        "far": true,
+        "path": "static/goal-exe/code/seg_0791_07.asm",
+        "line": 69
+      },
+      "matches": true
+    },
+    {
+      "function": "mark_offside_candidate",
+      "line": 891,
+      "possible_targets": [
+        "0791:30EA"
+      ],
+      "ret_to": "0791:3365",
+      "far": true,
+      "listing_call": {
+        "site": "0791:3362",
+        "target": "0791:30EA",
+        "far": true,
+        "path": "static/goal-exe/code/seg_0791_06.asm",
+        "line": 42
+      },
+      "matches": true
+    },
+    {
+      "function": "mark_offside_candidate",
+      "line": 900,
+      "possible_targets": [
+        "0791:30EA"
+      ],
+      "ret_to": "0791:3379",
+      "far": true,
+      "listing_call": {
+        "site": "0791:3376",
+        "target": "0791:30EA",
+        "far": true,
+        "path": "static/goal-exe/code/seg_0791_06.asm",
+        "line": 51
+      },
+      "matches": true
+    },
+    {
+      "function": "mark_offside_candidate",
+      "line": 924,
+      "possible_targets": [
+        "0791:2996"
+      ],
+      "ret_to": "0791:33CB",
+      "far": false,
+      "listing_call": {
+        "site": "0791:33C8",
+        "target": "0791:2996",
+        "far": false,
+        "path": "static/goal-exe/code/seg_0791_06.asm",
+        "line": 85
+      },
+      "matches": true
+    },
+    {
+      "function": "mark_offside_candidate",
+      "line": 952,
+      "possible_targets": [
+        "0791:2BE5"
+      ],
+      "ret_to": "0791:341A",
+      "far": true,
+      "listing_call": {
+        "site": "0791:3417",
+        "target": "0791:2BE5",
+        "far": true,
+        "path": "static/goal-exe/code/seg_0791_06.asm",
+        "line": 126
+      },
+      "matches": true
+    },
+    {
+      "function": "pick_pass_target",
+      "line": 994,
+      "possible_targets": [
+        "0791:26D7"
+      ],
+      "ret_to": "0791:3124",
+      "far": true,
+      "listing_call": {
+        "site": "0791:3121",
+        "target": "0791:26D7",
+        "far": true,
+        "path": "static/goal-exe/code/seg_0791_05.asm",
+        "line": 990
+      },
+      "matches": true
+    },
+    {
+      "function": "pick_pass_target",
+      "line": 1013,
+      "possible_targets": [
+        "0791:261A"
+      ],
+      "ret_to": "0791:3152",
+      "far": false,
+      "listing_call": {
+        "site": "0791:314F",
+        "target": "0791:261A",
+        "far": false,
+        "path": "static/goal-exe/code/seg_0791_05.asm",
+        "line": 1014
+      },
+      "matches": true
+    },
+    {
+      "function": "pick_pass_target",
+      "line": 1030,
+      "possible_targets": [
+        "0791:30EA"
+      ],
+      "ret_to": "0791:317E",
+      "far": true,
+      "listing_call": {
+        "site": "0791:317B",
+        "target": "0791:30EA",
+        "far": true,
+        "path": "static/goal-exe/code/seg_0791_05.asm",
+        "line": 1033
+      },
+      "matches": true
+    },
+    {
+      "function": "pick_pass_target",
+      "line": 1036,
+      "possible_targets": [
+        "0791:30EA"
+      ],
+      "ret_to": "0791:318E",
+      "far": true,
+      "listing_call": {
+        "site": "0791:318B",
+        "target": "0791:30EA",
+        "far": true,
+        "path": "static/goal-exe/code/seg_0791_05.asm",
+        "line": 1041
+      },
+      "matches": true
+    },
+    {
+      "function": "pick_pass_target",
+      "line": 1000,
+      "possible_targets": [
+        "0791:2C54"
+      ],
+      "ret_to": "0791:3131",
+      "far": true,
+      "listing_call": {
+        "site": "0791:312E",
+        "target": "0791:2C54",
+        "far": true,
+        "path": "static/goal-exe/code/seg_0791_05.asm",
+        "line": 997
+      },
+      "matches": true
+    },
+    {
+      "function": "pick_pass_target",
+      "line": 1134,
+      "possible_targets": [
+        "0791:30EA"
+      ],
+      "ret_to": "0791:32B6",
+      "far": true,
+      "listing_call": {
+        "site": "0791:32B3",
+        "target": "0791:30EA",
+        "far": true,
+        "path": "static/goal-exe/code/seg_0791_05.asm",
+        "line": 1176
+      },
+      "matches": true
+    },
+    {
+      "function": "pick_pass_target",
+      "line": 1140,
+      "possible_targets": [
+        "0791:30EA"
+      ],
+      "ret_to": "0791:32C6",
+      "far": true,
+      "listing_call": {
+        "site": "0791:32C3",
+        "target": "0791:30EA",
+        "far": true,
+        "path": "static/goal-exe/code/seg_0791_05.asm",
+        "line": 1184
+      },
+      "matches": true
+    },
+    {
+      "function": "pick_pass_target",
+      "line": 1007,
+      "possible_targets": [
+        "0791:045D"
+      ],
+      "ret_to": "0791:3142",
+      "far": false,
+      "listing_call": {
+        "site": "0791:313F",
+        "target": "0791:045D",
+        "far": false,
+        "path": "static/goal-exe/code/seg_0791_05.asm",
+        "line": 1004
+      },
+      "matches": true
+    },
+    {
+      "function": "pick_pass_target",
+      "line": 1051,
+      "possible_targets": [
+        "0791:2956"
+      ],
+      "ret_to": "0791:31C3",
+      "far": true,
+      "listing_call": {
+        "site": "0791:31C0",
+        "target": "0791:2956",
+        "far": true,
+        "path": "static/goal-exe/code/seg_0791_05.asm",
+        "line": 1066
+      },
+      "matches": true
+    },
+    {
+      "function": "pick_pass_target",
+      "line": 1060,
+      "possible_targets": [
+        "0791:2D10"
+      ],
+      "ret_to": "0791:31E2",
+      "far": true,
+      "listing_call": {
+        "site": "0791:31DF",
+        "target": "0791:2D10",
+        "far": true,
+        "path": "static/goal-exe/code/seg_0791_05.asm",
+        "line": 1081
+      },
+      "matches": true
+    },
+    {
+      "function": "pick_pass_target",
+      "line": 1154,
+      "possible_targets": [
+        "0791:2956"
+      ],
+      "ret_to": "0791:32F5",
+      "far": true,
+      "listing_call": {
+        "site": "0791:32F2",
+        "target": "0791:2956",
+        "far": true,
+        "path": "static/goal-exe/code/seg_0791_05.asm",
+        "line": 1205
+      },
+      "matches": true
+    },
+    {
+      "function": "pick_pass_target",
+      "line": 1109,
+      "possible_targets": [
+        "214B:06FA"
+      ],
+      "ret_to": "0791:3271",
+      "far": true,
+      "listing_call": {
+        "site": "0791:326C",
+        "target": "214B:06FA",
+        "far": true,
+        "path": "static/goal-exe/code/seg_0791_05.asm",
+        "line": 1144
+      },
+      "matches": true
+    },
+    {
+      "function": "move_ball_to_slot",
+      "line": 1198,
+      "possible_targets": [
+        "0791:2EB8"
+      ],
+      "ret_to": "0791:3887",
+      "far": true,
+      "listing_call": {
+        "site": "0791:3884",
+        "target": "0791:2EB8",
+        "far": true,
+        "path": "static/goal-exe/code/seg_0791_06.asm",
+        "line": 627
+      },
+      "matches": true
+    },
+    {
+      "function": "move_ball_to_slot",
+      "line": 1271,
+      "possible_targets": [
+        "0791:34C1"
+      ],
+      "ret_to": "0791:3935",
+      "far": true,
+      "listing_call": {
+        "site": "0791:3932",
+        "target": "0791:34C1",
+        "far": true,
+        "path": "static/goal-exe/code/seg_0791_06.asm",
+        "line": 706
+      },
+      "matches": true
+    },
+    {
+      "function": "move_ball_to_slot",
+      "line": 1271,
+      "possible_targets": [
+        "0791:34C1"
+      ],
+      "ret_to": "0791:3947",
+      "far": true,
+      "listing_call": {
+        "site": "0791:3944",
+        "target": "0791:34C1",
+        "far": true,
+        "path": "static/goal-exe/code/seg_0791_06.asm",
+        "line": 716
+      },
+      "matches": true
+    },
+    {
+      "function": "move_ball_to_slot",
+      "line": 1375,
+      "possible_targets": [
+        "0791:835F"
+      ],
+      "ret_to": "0791:3A68",
+      "far": true,
+      "listing_call": {
+        "site": "0791:3A65",
+        "target": "0791:835F",
+        "far": true,
+        "path": "static/goal-exe/code/seg_0791_06.asm",
+        "line": 843
+      },
+      "matches": true
+    },
+    {
+      "function": "move_ball_to_slot",
+      "line": 1183,
+      "possible_targets": [
+        "0791:82EB"
+      ],
+      "ret_to": "0791:385C",
+      "far": false,
+      "listing_call": {
+        "site": "0791:3859",
+        "target": "0791:82EB",
+        "far": false,
+        "path": "static/goal-exe/code/seg_0791_06.asm",
+        "line": 609
+      },
+      "matches": true
+    },
+    {
+      "function": "move_ball_to_slot",
+      "line": 1209,
+      "possible_targets": [
+        "0791:261A"
+      ],
+      "ret_to": "0791:389F",
+      "far": false,
+      "listing_call": {
+        "site": "0791:389C",
+        "target": "0791:261A",
+        "far": false,
+        "path": "static/goal-exe/code/seg_0791_06.asm",
+        "line": 637
+      },
+      "matches": true
+    },
+    {
+      "function": "move_ball_to_slot",
+      "line": 1215,
+      "possible_targets": [
+        "0791:2BE5"
+      ],
+      "ret_to": "0791:38AA",
+      "far": true,
+      "listing_call": {
+        "site": "0791:38A7",
+        "target": "0791:2BE5",
+        "far": true,
+        "path": "static/goal-exe/code/seg_0791_06.asm",
+        "line": 644
+      },
+      "matches": true
+    },
+    {
+      "function": "move_ball_to_slot",
+      "line": 1283,
+      "possible_targets": [
+        "214B:06D0"
+      ],
+      "ret_to": "0791:3971",
+      "far": true,
+      "listing_call": {
+        "site": "0791:396C",
+        "target": "214B:06D0",
+        "far": true,
+        "path": "static/goal-exe/code/seg_0791_06.asm",
+        "line": 733
+      },
+      "matches": true
+    },
+    {
+      "function": "move_ball_to_slot",
+      "line": 1295,
+      "possible_targets": [
+        "214B:06FA"
+      ],
+      "ret_to": "0791:3997",
+      "far": true,
+      "listing_call": {
+        "site": "0791:3992",
+        "target": "214B:06FA",
+        "far": true,
+        "path": "static/goal-exe/code/seg_0791_06.asm",
+        "line": 748
+      },
+      "matches": true
+    },
+    {
+      "function": "move_ball_to_slot",
+      "line": 1314,
+      "possible_targets": [
+        "23E4:0279"
+      ],
+      "ret_to": "0791:39CD",
+      "far": true,
+      "listing_call": {
+        "site": "0791:39C8",
+        "target": "23E4:0279",
+        "far": true,
+        "path": "static/goal-exe/code/seg_0791_06.asm",
+        "line": 772
+      },
+      "matches": true
+    },
+    {
+      "function": "move_ball_to_slot",
+      "line": 1323,
+      "possible_targets": [
+        "23E4:0279"
+      ],
+      "ret_to": "0791:39E2",
+      "far": true,
+      "listing_call": {
+        "site": "0791:39DD",
+        "target": "23E4:0279",
+        "far": true,
+        "path": "static/goal-exe/code/seg_0791_06.asm",
+        "line": 780
+      },
+      "matches": true
+    },
+    {
+      "function": "move_ball_to_slot",
+      "line": 1328,
+      "possible_targets": [
+        "0791:2DCA"
+      ],
+      "ret_to": "0791:39EB",
+      "far": false,
+      "listing_call": {
+        "site": "0791:39E8",
+        "target": "0791:2DCA",
+        "far": false,
+        "path": "static/goal-exe/code/seg_0791_06.asm",
+        "line": 783
+      },
+      "matches": true
+    },
+    {
+      "function": "move_ball_to_slot",
+      "line": 1361,
+      "possible_targets": [
+        "23E4:0279"
+      ],
+      "ret_to": "0791:3A47",
+      "far": true,
+      "listing_call": {
+        "site": "0791:3A42",
+        "target": "23E4:0279",
+        "far": true,
+        "path": "static/goal-exe/code/seg_0791_06.asm",
+        "line": 828
+      },
+      "matches": true
+    },
+    {
+      "function": "move_ball_to_slot",
+      "line": 1370,
+      "possible_targets": [
+        "23E4:0279"
+      ],
+      "ret_to": "0791:3A5C",
+      "far": true,
+      "listing_call": {
+        "site": "0791:3A57",
+        "target": "23E4:0279",
+        "far": true,
+        "path": "static/goal-exe/code/seg_0791_06.asm",
+        "line": 836
+      },
+      "matches": true
+    },
+    {
+      "function": "move_ball_to_slot",
+      "line": 1422,
+      "possible_targets": [
+        "0791:2AA3"
+      ],
+      "ret_to": "0791:3AB4",
+      "far": false,
+      "listing_call": {
+        "site": "0791:3AB1",
+        "target": "0791:2AA3",
+        "far": false,
+        "path": "static/goal-exe/code/seg_0791_06.asm",
+        "line": 875
+      },
+      "matches": true
+    },
+    {
+      "function": "move_ball_to_slot",
+      "line": 1422,
+      "possible_targets": [
+        "0791:2AA3"
+      ],
+      "ret_to": "0791:3AD0",
+      "far": false,
+      "listing_call": {
+        "site": "0791:3ACD",
+        "target": "0791:2AA3",
+        "far": false,
+        "path": "static/goal-exe/code/seg_0791_06.asm",
+        "line": 887
+      },
+      "matches": true
+    },
+    {
+      "function": "move_ball_to_slot",
+      "line": 1422,
+      "possible_targets": [
+        "0791:2AA3"
+      ],
+      "ret_to": "0791:3ADF",
+      "far": false,
+      "listing_call": {
+        "site": "0791:3ADC",
+        "target": "0791:2AA3",
+        "far": false,
+        "path": "static/goal-exe/code/seg_0791_06.asm",
+        "line": 894
+      },
+      "matches": true
+    },
+    {
+      "function": "move_ball_to_slot",
+      "line": 1422,
+      "possible_targets": [
+        "0791:2AA3"
+      ],
+      "ret_to": "0791:3AEE",
+      "far": false,
+      "listing_call": {
+        "site": "0791:3AEB",
+        "target": "0791:2AA3",
+        "far": false,
+        "path": "static/goal-exe/code/seg_0791_06.asm",
+        "line": 901
+      },
+      "matches": true
+    },
+    {
+      "function": "move_ball_to_slot",
+      "line": 1422,
+      "possible_targets": [
+        "0791:2AA3"
+      ],
+      "ret_to": "0791:3B02",
+      "far": false,
+      "listing_call": {
+        "site": "0791:3AFF",
+        "target": "0791:2AA3",
+        "far": false,
+        "path": "static/goal-exe/code/seg_0791_06.asm",
+        "line": 909
+      },
+      "matches": true
+    },
+    {
+      "function": "move_ball_to_slot",
+      "line": 1422,
+      "possible_targets": [
+        "0791:2AA3"
+      ],
+      "ret_to": "0791:3B0F",
+      "far": false,
+      "listing_call": {
+        "site": "0791:3B0C",
+        "target": "0791:2AA3",
+        "far": false,
+        "path": "static/goal-exe/code/seg_0791_06.asm",
+        "line": 915
+      },
+      "matches": true
+    },
+    {
+      "function": "move_ball_to_slot",
+      "line": 1244,
+      "possible_targets": [
+        "214B:06B1"
+      ],
+      "ret_to": "0791:38F2",
+      "far": true,
+      "listing_call": {
+        "site": "0791:38ED",
+        "target": "214B:06B1",
+        "far": true,
+        "path": "static/goal-exe/code/seg_0791_06.asm",
+        "line": 675
+      },
+      "matches": true
+    },
+    {
+      "function": "move_ball_to_slot",
+      "line": 1249,
+      "possible_targets": [
+        "0791:2BE5"
+      ],
+      "ret_to": "0791:38FC",
+      "far": true,
+      "listing_call": {
+        "site": "0791:38F9",
+        "target": "0791:2BE5",
+        "far": true,
+        "path": "static/goal-exe/code/seg_0791_06.asm",
+        "line": 681
+      },
+      "matches": true
+    },
+    {
+      "function": "move_ball_to_slot",
+      "line": 1335,
+      "possible_targets": [
+        "0791:287C"
+      ],
+      "ret_to": "0791:39FC",
+      "far": true,
+      "listing_call": {
+        "site": "0791:39F9",
+        "target": "0791:287C",
+        "far": true,
+        "path": "static/goal-exe/code/seg_0791_06.asm",
+        "line": 792
+      },
+      "matches": true
+    },
+    {
+      "function": "move_ball_to_slot",
+      "line": 1383,
+      "possible_targets": [
+        "0791:835F"
+      ],
+      "ret_to": "0791:3A7F",
+      "far": true,
+      "listing_call": {
+        "site": "0791:3A7C",
+        "target": "0791:835F",
+        "far": true,
+        "path": "static/goal-exe/code/seg_0791_06.asm",
+        "line": 853
+      },
+      "matches": true
+    },
+    {
+      "function": "move_ball_to_slot",
+      "line": 1396,
+      "possible_targets": [
+        "214B:06FA"
+      ],
+      "ret_to": "0791:3AA9",
+      "far": true,
+      "listing_call": {
+        "site": "0791:3AA4",
+        "target": "214B:06FA",
+        "far": true,
+        "path": "static/goal-exe/code/seg_0791_06.asm",
+        "line": 870
+      },
+      "matches": true
+    },
+    {
+      "function": "move_ball_to_slot",
+      "line": 1387,
+      "possible_targets": [
+        "214B:06FA"
+      ],
+      "ret_to": "0791:3A89",
+      "far": true,
+      "listing_call": {
+        "site": "0791:3A84",
+        "target": "214B:06FA",
+        "far": true,
+        "path": "static/goal-exe/code/seg_0791_06.asm",
+        "line": 856
+      },
+      "matches": true
+    },
+    {
+      "function": "move_ball_to_slot",
+      "line": 1407,
+      "possible_targets": [
+        "0791:2DCA"
+      ],
+      "ret_to": "0791:3AC5",
+      "far": false,
+      "listing_call": {
+        "site": "0791:3AC2",
+        "target": "0791:2DCA",
+        "far": false,
+        "path": "static/goal-exe/code/seg_0791_06.asm",
+        "line": 882
+      },
+      "matches": true
+    },
+    {
+      "function": "launch_ball",
+      "line": 1585,
+      "possible_targets": [
+        "23E4:08DF"
+      ],
+      "ret_to": "0791:366E",
+      "far": true,
+      "listing_call": {
+        "site": "0791:3669",
+        "target": "23E4:08DF",
+        "far": true,
+        "path": "static/goal-exe/code/seg_0791_06.asm",
+        "line": 391
+      },
+      "matches": true
+    },
+    {
+      "function": "launch_ball",
+      "line": 1707,
+      "possible_targets": [
+        "23E4:0294"
+      ],
+      "ret_to": "0791:37F3",
+      "far": true,
+      "listing_call": {
+        "site": "0791:37EE",
+        "target": "23E4:0294",
+        "far": true,
+        "path": "static/goal-exe/code/seg_0791_06.asm",
+        "line": 566
+      },
+      "matches": true
+    },
+    {
+      "function": "launch_ball",
+      "line": 1712,
+      "possible_targets": [
+        "214B:0D56"
+      ],
+      "ret_to": "0791:37FA",
+      "far": true,
+      "listing_call": {
+        "site": "0791:37F5",
+        "target": "214B:0D56",
+        "far": true,
+        "path": "static/goal-exe/code/seg_0791_06.asm",
+        "line": 569
+      },
+      "matches": true
+    },
+    {
+      "function": "launch_ball",
+      "line": 1722,
+      "possible_targets": [
+        "23E4:0279"
+      ],
+      "ret_to": "0791:3815",
+      "far": true,
+      "listing_call": {
+        "site": "0791:3810",
+        "target": "23E4:0279",
+        "far": true,
+        "path": "static/goal-exe/code/seg_0791_06.asm",
+        "line": 579
+      },
+      "matches": true
+    },
+    {
+      "function": "launch_ball",
+      "line": 1730,
+      "possible_targets": [
+        "23E4:0279"
+      ],
+      "ret_to": "0791:382B",
+      "far": true,
+      "listing_call": {
+        "site": "0791:3826",
+        "target": "23E4:0279",
+        "far": true,
+        "path": "static/goal-exe/code/seg_0791_06.asm",
+        "line": 587
+      },
+      "matches": true
+    },
+    {
+      "function": "launch_ball",
+      "line": 1735,
+      "possible_targets": [
+        "214B:1EA1"
+      ],
+      "ret_to": "0791:383C",
+      "far": true,
+      "listing_call": {
+        "site": "0791:3837",
+        "target": "214B:1EA1",
+        "far": true,
+        "path": "static/goal-exe/code/seg_0791_06.asm",
+        "line": 593
+      },
+      "matches": true
+    },
+    {
+      "function": "launch_ball",
+      "line": 1739,
+      "possible_targets": [
+        "0791:333F"
+      ],
+      "ret_to": "0791:3840",
+      "far": false,
+      "listing_call": {
+        "site": "0791:383D",
+        "target": "0791:333F",
+        "far": false,
+        "path": "static/goal-exe/code/seg_0791_06.asm",
+        "line": 595
+      },
+      "matches": true
+    },
+    {
+      "function": "launch_ball",
+      "line": 1593,
+      "possible_targets": [
+        "23E4:08DF"
+      ],
+      "ret_to": "0791:36BE",
+      "far": true,
+      "listing_call": {
+        "site": "0791:36B9",
+        "target": "23E4:08DF",
+        "far": true,
+        "path": "static/goal-exe/code/seg_0791_06.asm",
+        "line": 427
+      },
+      "matches": true
+    },
+    {
+      "function": "launch_ball",
+      "line": 1608,
+      "possible_targets": [
+        "0791:278A"
+      ],
+      "ret_to": "0791:368D",
+      "far": true,
+      "listing_call": {
+        "site": "0791:368A",
+        "target": "0791:278A",
+        "far": true,
+        "path": "static/goal-exe/code/seg_0791_06.asm",
+        "line": 406
+      },
+      "matches": true
+    },
+    {
+      "function": "launch_ball",
+      "line": 1608,
+      "possible_targets": [
+        "0791:278A"
+      ],
+      "ret_to": "0791:36DD",
+      "far": true,
+      "listing_call": {
+        "site": "0791:36DA",
+        "target": "0791:278A",
+        "far": true,
+        "path": "static/goal-exe/code/seg_0791_06.asm",
+        "line": 442
+      },
+      "matches": true
+    },
+    {
+      "function": "launch_ball",
+      "line": 1624,
+      "possible_targets": [
+        "214B:0D56"
+      ],
+      "ret_to": "0791:36AA",
+      "far": true,
+      "listing_call": {
+        "site": "0791:36A5",
+        "target": "214B:0D56",
+        "far": true,
+        "path": "static/goal-exe/code/seg_0791_06.asm",
+        "line": 418
+      },
+      "matches": true
+    },
+    {
+      "function": "launch_ball",
+      "line": 1624,
+      "possible_targets": [
+        "214B:0D56"
+      ],
+      "ret_to": "0791:36ED",
+      "far": true,
+      "listing_call": {
+        "site": "0791:36E8",
+        "target": "214B:0D56",
+        "far": true,
+        "path": "static/goal-exe/code/seg_0791_06.asm",
+        "line": 449
+      },
+      "matches": true
+    },
+    {
+      "function": "launch_ball",
+      "line": 1569,
+      "possible_targets": [
+        "0791:045D"
+      ],
+      "ret_to": "0791:3640",
+      "far": false,
+      "listing_call": {
+        "site": "0791:363D",
+        "target": "0791:045D",
+        "far": false,
+        "path": "static/goal-exe/code/seg_0791_06.asm",
+        "line": 371
+      },
+      "matches": true
+    },
+    {
+      "function": "launch_ball",
+      "line": 1574,
+      "possible_targets": [
+        "0791:2EB8"
+      ],
+      "ret_to": "0791:3651",
+      "far": true,
+      "listing_call": {
+        "site": "0791:364E",
+        "target": "0791:2EB8",
+        "far": true,
+        "path": "static/goal-exe/code/seg_0791_06.asm",
+        "line": 379
+      },
+      "matches": true
+    },
+    {
+      "function": "launch_ball",
+      "line": 1637,
+      "possible_targets": [
+        "0791:287C"
+      ],
+      "ret_to": "0791:3725",
+      "far": true,
+      "listing_call": {
+        "site": "0791:3722",
+        "target": "0791:287C",
+        "far": true,
+        "path": "static/goal-exe/code/seg_0791_06.asm",
+        "line": 474
+      },
+      "matches": true
+    },
+    {
+      "function": "launch_ball",
+      "line": 1645,
+      "possible_targets": [
+        "0791:045D"
+      ],
+      "ret_to": "0791:373E",
+      "far": false,
+      "listing_call": {
+        "site": "0791:373B",
+        "target": "0791:045D",
+        "far": false,
+        "path": "static/goal-exe/code/seg_0791_06.asm",
+        "line": 484
+      },
+      "matches": true
+    },
+    {
+      "function": "launch_ball",
+      "line": 1649,
+      "possible_targets": [
+        "214B:06FA"
+      ],
+      "ret_to": "0791:374A",
+      "far": true,
+      "listing_call": {
+        "site": "0791:3745",
+        "target": "214B:06FA",
+        "far": true,
+        "path": "static/goal-exe/code/seg_0791_06.asm",
+        "line": 489
+      },
+      "matches": true
+    },
+    {
+      "function": "launch_ball",
+      "line": 1657,
+      "possible_targets": [
+        "214B:06B1"
+      ],
+      "ret_to": "0791:3765",
+      "far": true,
+      "listing_call": {
+        "site": "0791:3760",
+        "target": "214B:06B1",
+        "far": true,
+        "path": "static/goal-exe/code/seg_0791_06.asm",
+        "line": 500
+      },
+      "matches": true
+    },
+    {
+      "function": "launch_ball",
+      "line": 1662,
+      "possible_targets": [
+        "214B:06FA"
+      ],
+      "ret_to": "0791:3777",
+      "far": true,
+      "listing_call": {
+        "site": "0791:3772",
+        "target": "214B:06FA",
+        "far": true,
+        "path": "static/goal-exe/code/seg_0791_06.asm",
+        "line": 506
+      },
+      "matches": true
+    },
+    {
+      "function": "launch_ball",
+      "line": 1684,
+      "possible_targets": [
+        "214B:06FA"
+      ],
+      "ret_to": "0791:37B7",
+      "far": true,
+      "listing_call": {
+        "site": "0791:37B2",
+        "target": "214B:06FA",
+        "far": true,
+        "path": "static/goal-exe/code/seg_0791_06.asm",
+        "line": 537
+      },
+      "matches": true
+    }
+  ],
+  "mismatches": []
+}
