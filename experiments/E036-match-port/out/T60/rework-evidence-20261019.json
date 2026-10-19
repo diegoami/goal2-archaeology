@@ -1,0 +1,20 @@
+{
+  "utc": "2026-10-19T10:08:44.208998+00:00",
+  "code_commit": "ba20973",
+  "runtime_mutations": "INCOMPLETE: fuzz subprocess timeout after300s; not counted as kill",
+  "geometry_mutations": "564 generated:378hand,91fuzz,95survived; survivors require classification, no all-killedclaim",
+  "suite": "1579testsPASS13skips840.809s",
+  "files": {
+    "experiments/E036-match-port/out/T60/full-suite-rework-ba20973.txt": "45fdd57b32bff3b6933d15cdf18c9a9c004ae6c66804ca8c8a45051642b5f098",
+    "experiments/E036-match-port/out/T60/mutations-geometry-rework-ba20973.txt": "b24deb340d09d6cc45039ee172137c914be975d30ced8c51c78451213a751367",
+    "experiments/E036-match-port/out/T60/mutations-runtime-rework-ba20973.txt": "eb7dba4fc1b40abece94d4d1bccbd0dc9d0bc37b00a946d4d4c14f5e15738e53",
+    "experiments/E036-match-port/out/T60/mutations.py": "a05253cb1e957d3f1b1bd094e6e6df3d37fd3254631b7a71fa9b99c46b367428",
+    "experiments/E036-match-port/out/T60/rework-controls-ba20973.txt": "a7eede2805a2da339d3bac91b1bf26d64cfcb25dcbdd71b6612d862dce17300f",
+    "experiments/E036-match-port/out/T60/rework-controls.py": "e9d2938d5341a629cdc358604ec22949475493c537de2a6f1ca4bff489b0004d",
+    "experiments/E036-match-port/out/T60/unit-rework-ba20973.txt": "0eb615a8b03f7a32a82a5ca9a84e2fa144e300ac737d5ef2ee8b0aaaf79bc7fd",
+    "runtime/original_match/port/geometry.py": "a665d830ed16c00833a27216393a3b6f406251f44cef1f7fc9e80f7eb6bd3e81",
+    "runtime/original_match/port/runtime.py": "0a03827635ec11e2edf31fe9344ac56363bd6aadbe15e09f8ccfee4c384e6b1d",
+    "tests/test_port_geometry.py": "6ffb297b23a4eaa6c90b135f70323b337967622eed76e65c491b647d2ef9546c",
+    "tests/test_port_runtime.py": "23c44ce4b792aa29ad71a439b9e70a428f4239278ef139f732be1847909a9b86"
+  }
+}
