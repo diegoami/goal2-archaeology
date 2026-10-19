@@ -76,6 +76,19 @@ def pop_dx(mem):
     return value
 
 
+def pop_ax(mem):
+    sp = mem.reg("sp")
+    value = mem.u16(mem.ss_lin(sp))
+    mem.set_reg("sp", (sp + 2) & 0xffff)
+    mem.set_reg("ax", value)
+    return value
+
+
+def drop_words(mem, count):
+    """Hand pre-pushed arguments to a Call, which writes those same words at this SP."""
+    mem.set_reg("sp", (mem.reg("sp") + 2 * count) & 0xffff)
+
+
 def guest(mem, target, *args, at, far=True, ax=None, dx=None):
     if ax is not None:
         mem.set_reg("ax", ax & 0xffff)
@@ -110,7 +123,9 @@ def depth_step_attack(mem, variant):
     seg, off = local_far(parent, 6)
     p = mem.addr(seg, off)
     group = yield from same(mem, "42CB", seg, off, at="4549")
+    push_word(mem, group, "4549")
     tactic = yield from same(mem, "26D7", 7, seg, off, at="455B", ax=7)
+    group = pop_ax(mem)
     limit = mem.ds8(0x07DB + ((s8(tactic & 0xff) * 4 + group) & 0xffff))
     if s8(r8(mem, p, 0xc)) < limit + (variant == "depth-plus-one"):
         group = yield from same(mem, "42CB", seg, off, at="458D")
@@ -142,8 +157,12 @@ def depth_step_defend(mem, variant):
     seg, off = local_far(parent, 6)
     p = mem.addr(seg, off)
     group = yield from same(mem, "42CB", seg, off, at="4660")
+    push_word(mem, group, "4660")
     t6 = yield from same(mem, "26D7", 6, seg, off, at="4672", ax=6)
+    push_word(mem, s8(t6 & 0xff) * 4, "4677")
     t5 = yield from same(mem, "26D7", 5, seg, off, at="4689", ax=5)
+    pop_ax(mem)
+    group = pop_ax(mem)
     limit = mem.ds8(0x07CB + ((s8(t5 & 0xff) * 8 + s8(t6 & 0xff) * 4 + group) & 0xffff))
     if s8(r8(mem, p, 0xc)) > limit:
         group = yield from same(mem, "42CB", seg, off, at="46BE")
@@ -449,10 +468,18 @@ def update_player_destination(mem, variant):
             w8(mem, p, 0xc, -0x26 - s8(r8(mem, p, 10)) + draw, "4C49")
     else:
         own = yield from same(mem, "2B51", seg, off, at="4C59")
+        if own & 0xff:
+            push_word(mem, 0, "4C62")
+            push_word(mem, 20, "4C63")
         group = yield from same(mem, "42CB", seg, off, at="4C6D" if own & 0xff else "4CCA")
         if own & 0xff:
+            push_word(mem, group, "4C6D")
             t7 = yield from same(mem, "26D7", 7, seg, off, at="4C7B", ax=7)
+            group = pop_ax(mem)
             limit = mem.ds8(0x07DB + ((s8(t7 & 0xff) * 4 + group) & 0xffff))
+            # 0D56 pops all four long-argument words; Call writes the two already
+            # pushed at 4C62/4C63 again at their original addresses.
+            drop_words(mem, 2)
             maximum = yield from far(mem, "214B:0D56", 0, 20, 0, limit, at="4C94", ax=limit, dx=0)
             w8(mem, p, 0xc, maximum, "4C97")
             ahead = yield from same(mem, "2D6D", 0x28, seg, off, at="4CA8", ax=0x28)
@@ -460,14 +487,24 @@ def update_player_destination(mem, variant):
                 direction = yield from same(mem, "2BE5", seg, off, at="4CB5")
                 w8(mem, p, 0xc, -s8(direction & 0xff), "4CBB")
         else:
+            push_word(mem, group, "4CCA")
             t6 = yield from same(mem, "26D7", 6, seg, off, at="4CD8", ax=6)
+            push_word(mem, s8(t6 & 0xff) * 4, "4CDD")
             t5 = yield from same(mem, "26D7", 5, seg, off, at="4CEB", ax=5)
+            pop_ax(mem)
+            group = pop_ax(mem)
             limit = mem.ds8(0x07CB + ((s8(t5 & 0xff) * 8 + s8(t6 & 0xff) * 4 + group) & 0xffff))
             w8(mem, p, 0xc, limit, "4CFF")
+            # The destination pointer and zero lower bound are pushed before
+            # 0D1C computes the upper bound, and stay live under that guest call.
+            push_word(mem, seg, "4D0A")
+            push_word(mem, (off + 0xc) & 0xffff, "4D0B")
+            push_word(mem, 0, "4D0E")
             ball_limit = abs(s8(mem.ds8(0x82F7))) * 2
             upper = yield from far(mem, "214B:0D1C", 0, 42, (ball_limit >> 16) & 0xffff,
                                    ball_limit & 0xffff, at="4D2A", ax=ball_limit & 0xffff,
                                    dx=(ball_limit >> 16) & 0xffff)
+            drop_words(mem, 3)
             yield from far(mem, "214B:2031", seg, (off + 0xc) & 0xffff, 0, upper,
                            at="4D30", ax=upper)
     yield from same(mem, "4A28", seg, off, at="4D39")

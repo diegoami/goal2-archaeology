@@ -216,6 +216,83 @@ class PositioningTests(unittest.TestCase):
         self.assertEqual(by_site["0791:49C0"], (by_site["0791:494D"][0] - 2, 2))
         self.assertEqual(sim.mem.reg("sp"), 0x3f00)
 
+    def test_depth_table_calls_keep_group_and_tactic_words_on_guest_stack(self):
+        for entry, group_site, tactic_sites in (
+            ("0791:4532", "0791:4549", ("0791:455B",)),
+            ("0791:4649", "0791:4660", ("0791:4672", "0791:4689")),
+        ):
+            with self.subTest(entry=entry):
+                sim = Sim()
+                sim.record(0xc, 100 if entry.endswith("4532") else 0)
+                seen = {}
+
+                def group(request):
+                    seen[request.ret_to] = (sim.mem.reg("sp"), None)
+                    return 2
+
+                def tactic(request):
+                    sp = sim.mem.reg("sp")
+                    seen[request.ret_to] = (sp, sim.mem.u16(sim.mem.ss_lin(sp)))
+                    return 1 if request.args[0] == 6 else 0
+
+                sim.answers.update({"0791:42CB": group, "0791:26D7": tactic})
+                sim.run(entry, 0x3e00)
+                base = seen[group_site][0]
+                self.assertEqual(seen[tactic_sites[0]], (base - 2, 2))
+                if len(tactic_sites) == 2:
+                    self.assertEqual(seen[tactic_sites[1]], (base - 4, 4))
+
+    def test_marking_slot_skill_comparison_keeps_incumbent_on_guest_stack(self):
+        sim = Sim()
+        sim.byte(0x0764, 9)  # Candidate slots 10 and 11.
+        sim.word(0x80E8 + 0x16 * 10 + 0xd, 10)
+        sim.word(0x80E8 + 0x16 * 11 + 0xd, 11)
+        seen = {}
+
+        def skill(request):
+            sp = sim.mem.reg("sp")
+            seen[request.ret_to] = (sp, sim.mem.u16(sim.mem.ss_lin(sp)))
+            return 7 if request.ret_to == "0791:20A3" else 9
+
+        sim.answers.update({"1771:3216": 0, "0791:A920": 10, "0791:278A": skill})
+        sim.run("0791:1FDD", 0, 5, 2)
+        self.assertEqual(seen["0791:20B0"], (seen["0791:20A3"][0] - 2, 7))
+        self.assertEqual(sim.mem.ds16(0x997A), 11)
+
+    def test_destination_long_calls_keep_pre_pushed_words_on_guest_stack(self):
+        for own in (0, 1):
+            with self.subTest(own=own):
+                sim = Sim()
+                sim.record(0x12, 0)
+                seen = {}
+
+                def snapshot(request):
+                    sp = sim.mem.reg("sp")
+                    seen[request.ret_to] = (sp, sim.mem.u16(sim.mem.ss_lin(sp)),
+                                            sim.mem.u16(sim.mem.ss_lin(sp + 2)))
+                    return {"0791:4C6D": 2, "0791:4CCA": 2,
+                            "0791:4C7B": 0, "0791:4CD8": 1,
+                            "0791:4CEB": 0, "0791:4C94": 20,
+                            "0791:4D2A": 30, "0791:4D30": 0}[request.ret_to]
+
+                sim.answers.update({"0791:045D": 0, "0791:2B51": own,
+                                    "0791:42CB": snapshot, "0791:26D7": snapshot,
+                                    "214B:0D56": snapshot, "214B:0D1C": snapshot,
+                                    "214B:2031": snapshot, "0791:2D6D": 0,
+                                    "0791:4A28": 0})
+                sim.run("0791:4B64", 0x7000, 0)
+                if own:
+                    base = seen["0791:4C94"][0]
+                    self.assertEqual(base, 0x3ef6)  # retf 4 entry, push BP, no locals.
+                    self.assertEqual(seen["0791:4C6D"][:2], (base - 4, 20))
+                    self.assertEqual(seen["0791:4C7B"][:2], (base - 6, 2))
+                else:
+                    base = seen["0791:4D30"][0]
+                    self.assertEqual(base, 0x3ef6)
+                    self.assertEqual(seen["0791:4CD8"][:2], (base - 2, 2))
+                    self.assertEqual(seen["0791:4CEB"][:2], (base - 4, 4))
+                    self.assertEqual(seen["0791:4D2A"][:2], (base - 6, 0))
+
 
 if __name__ == "__main__":
     unittest.main()
