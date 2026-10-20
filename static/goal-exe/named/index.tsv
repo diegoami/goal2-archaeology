@@ -83,7 +83,7 @@ address	name	confidence	status	file	line	ghidra_address	found_in	note
 0791:15B9	snapshot_match_state	established	decompiled	seg_0791_01.c	994	2000:15B9	routines.tsv	
 0791:1829			decompiled	seg_0791_02.c	4	2000:1829	routines.tsv	
 0791:1A04			failed			2000:1A04	routines.tsv	Exception while decompiling 2000:1a04: ghidra.program.model.address.AddressOutOfBoundsException: Offset must be between 0x0 and 0x10ffef, got 0xb0002e8e instead!
-0791:1C78	commentary_record_is_new	likely	decompiled	seg_0791_02.c	72	2000:1C78	routines.tsv	
+0791:1C78	commentary_record_is_new	established	decompiled	seg_0791_02.c	72	2000:1C78	routines.tsv	
 0791:1D4A	write_commentary_line	established	decompiled	seg_0791_02.c	124	2000:1D4A	routines.tsv	
 0791:1E53	apply_perf_delta	established	decompiled	seg_0791_02.c	175	2000:1E53	routines.tsv	
 0791:1EB5	emit_commentary	established	decompiled	seg_0791_02.c	193	2000:1EB5	routines.tsv	
@@ -255,67 +255,67 @@ address	name	confidence	status	file	line	ghidra_address	found_in	note
 0791:970C	match_clock	established	decompiled	seg_0791_08.c	354	2000:970C	routines.tsv	
 0791:97D0	match_tick_loop	established	decompiled	seg_0791_08.c	401	2000:97D0	routines.tsv	
 0791:983F	run_one_half	established	decompiled	seg_0791_08.c	440	2000:983F	routines.tsv	
-0791:98C4			decompiled	seg_0791_08.c	481	2000:98C4	routines.tsv	
-0791:9955			decompiled	seg_0791_08.c	515	2000:9955	routines.tsv	
-0791:998C			decompiled	seg_0791_08.c	538	2000:998C	routines.tsv	
-0791:9A32	pre_half_sequence	established	decompiled	seg_0791_08.c	563	2000:9A32	routines.tsv	
-0791:9B0C			decompiled	seg_0791_08.c	615	2000:9B0C	routines.tsv	
-0791:9B5B			decompiled	seg_0791_08.c	638	2000:9B5B	routines.tsv	
-0791:9B93	pick_shootout_takers_managed	established	decompiled	seg_0791_08.c	653	2000:9B93	routines.tsv	
-0791:9ED3	pick_shootout_takers	established	decompiled	seg_0791_08.c	766	2000:9ED3	routines.tsv	
-0791:A006	play_shootout_kick	established	decompiled	seg_0791_08.c	811	2000:A006	routines.tsv	
-0791:A10A	penalty_shootout	established	decompiled	seg_0791_08.c	850	2000:A10A	routines.tsv	
-0791:A260	bind_pitch_player	established	decompiled	seg_0791_08.c	912	2000:A260	routines.tsv	
-0791:A2E6	initialize_pitch_player	established	decompiled	seg_0791_08.c	942	2000:A2E6	routines.tsv	
-0791:A375			decompiled	seg_0791_08.c	974	2000:A375	routines.tsv	
-0791:A3B6			decompiled	seg_0791_08.c	994	2000:A3B6	routines.tsv	
-0791:A3DE	prepare_computer_sides	established	decompiled	seg_0791_08.c	1009	2000:A3DE	routines.tsv	
-0791:A4A1	match_setup	established	decompiled	seg_0791_08.c	1054	2000:A4A1	routines.tsv	
-0791:A699			decompiled	seg_0791_09.c	4	2000:A699	routines.tsv	
-0791:A6E4	host_country	likely	decompiled	seg_0791_09.c	26	2000:A6E4	routines.tsv	
-0791:A75D			decompiled	seg_0791_09.c	61	2000:A75D	routines.tsv	
-0791:A841			decompiled	seg_0791_09.c	109	2000:A841	routines.tsv	
-0791:A920			decompiled	seg_0791_09.c	158	2000:A920	routines.tsv	
-0791:A9B8	pick_best_bench_keeper	established	decompiled	seg_0791_09.c	189	2000:A9B8	routines.tsv	
-0791:AAE8	pick_bench_by_formation	established	decompiled	seg_0791_09.c	251	2000:AAE8	routines.tsv	
-0791:AC67	bench_best_for_position	likely	decompiled	seg_0791_09.c	323	2000:AC67	routines.tsv	
-0791:AD8F	swap_bench_into_slot	likely	decompiled	seg_0791_09.c	362	2000:AD8F	routines.tsv	
-0791:AFA3	fill_starters_from_bench	likely	decompiled	seg_0791_09.c	456	2000:AFA3	routines.tsv	
-0791:B11F	choose_computer_lineup	likely	decompiled	seg_0791_09.c	518	2000:B11F	routines.tsv	
-0791:B15F	result_needs_winner	likely	decompiled	seg_0791_09.c	539	2000:B15F	routines.tsv	
-0791:B19D	roll_quick_goals	established	decompiled	seg_0791_09.c	561	2000:B19D	routines.tsv	
-0791:B27F	post_fixture_status_update	established	decompiled	seg_0791_09.c	603	2000:B27F	routines.tsv	
-0791:B364	adjust_player_confidence	established	decompiled	seg_0791_09.c	637	2000:B364	routines.tsv	
-0791:B3B7	update_top_scorers	likely	decompiled	seg_0791_09.c	659	2000:B3B7	routines.tsv	
-0791:B602	credit_silent_match_scorers	established	decompiled	seg_0791_09.c	734	2000:B602	routines.tsv	
-0791:B6CC	add_manager_delta	established	decompiled	seg_0791_09.c	777	2000:B6CC	routines.tsv	
-0791:B71C	fixture_confidence_delta	established	decompiled	seg_0791_09.c	799	2000:B71C	routines.tsv	
-0791:B7FA	update_fixture_player_state	established	decompiled	seg_0791_09.c	844	2000:B7FA	routines.tsv	
-0791:BA4E	update_pool_player_state	established	decompiled	seg_0791_09.c	941	2000:BA4E	routines.tsv	
-0791:BB2F	prepare_unplayed_match	established	decompiled	seg_0791_09.c	982	2000:BB2F	routines.tsv	
-0791:BBFF	set_team_tactics	established	decompiled	seg_0791_09.c	1030	2000:BBFF	routines.tsv	
-0791:BC5D	reset_team_tactics	established	decompiled	seg_0791_10.c	4	2000:BC5D	routines.tsv	
-0791:BD03	team_strength_greater	established	decompiled	seg_0791_10.c	34	2000:BD03	routines.tsv	
-0791:BD83	computer_tactic_change	established	decompiled	seg_0791_10.c	60	2000:BD83	routines.tsv	
-0791:BEC7	convert_forward_to_striker	established	decompiled	seg_0791_10.c	106	2000:BEC7	routines.tsv	
-0791:BF6B	computer_tactic_shift	established	decompiled	seg_0791_10.c	151	2000:BF6B	routines.tsv	
-0791:C01A	computer_include_tactics	established	decompiled	seg_0791_10.c	186	2000:C01A	routines.tsv	
-0791:C0DF	computer_exclude_tactics	established	decompiled	seg_0791_10.c	226	2000:C0DF	routines.tsv	
-0791:C173	update_computer_tactics	established	decompiled	seg_0791_10.c	258	2000:C173	routines.tsv	
-0791:C24D			decompiled	seg_0791_10.c	311	2000:C24D	routines.tsv	
-0791:C2A8			decompiled	seg_0791_10.c	336	2000:C2A8	routines.tsv	
-0791:C406			decompiled	seg_0791_10.c	392	2000:C406	routines.tsv	
-0791:C48D	remove_from_pitch	likely	decompiled	seg_0791_10.c	425	2000:C48D	routines.tsv	
-0791:C50C	show_computer_substitution_notice	likely	decompiled	seg_0791_10.c	456	2000:C50C	routines.tsv	
-0791:C5DC	refresh_pitch_slot	established	decompiled	seg_0791_10.c	490	2000:C5DC	routines.tsv	
-0791:C7EB	map_bench_roles	established	decompiled	seg_0791_10.c	564	2000:C7EB	routines.tsv	
-0791:C88D	substitute_player	established	decompiled	seg_0791_10.c	594	2000:C88D	routines.tsv	
-0791:CAB0	select_man_of_the_match	established	decompiled	seg_0791_10.c	656	2000:CAB0	routines.tsv	
-0791:CB7D	restore_match_player_state	established	decompiled	seg_0791_10.c	713	2000:CB7D	routines.tsv	
-0791:CC2E	wait_or_key	established	decompiled	seg_0791_10.c	750	2000:CC2E	routines.tsv	
-0791:CC7B	choose_captain_or_taker	likely	decompiled	seg_0791_10.c	770	2000:CC7B	routines.tsv	
-0791:D016			decompiled	seg_0791_10.c	897	2000:D016	routines.tsv	
-0791:D032			decompiled	seg_0791_10.c	914	2000:D032	routines.tsv	
+0791:98C4	restart_and_sweep	likely	decompiled	seg_0791_08.c	481	2000:98C4	routines.tsv	
+0791:9955	half_end_sweeps	likely	decompiled	seg_0791_08.c	516	2000:9955	routines.tsv	
+0791:998C	first_half	established	decompiled	seg_0791_08.c	540	2000:998C	routines.tsv	
+0791:9A32	pre_half_sequence	established	decompiled	seg_0791_08.c	566	2000:9A32	routines.tsv	
+0791:9B0C			decompiled	seg_0791_08.c	618	2000:9B0C	routines.tsv	
+0791:9B5B			decompiled	seg_0791_08.c	641	2000:9B5B	routines.tsv	
+0791:9B93	pick_shootout_takers_managed	established	decompiled	seg_0791_08.c	656	2000:9B93	routines.tsv	
+0791:9ED3	pick_shootout_takers	established	decompiled	seg_0791_08.c	769	2000:9ED3	routines.tsv	
+0791:A006	play_shootout_kick	established	decompiled	seg_0791_08.c	814	2000:A006	routines.tsv	
+0791:A10A	penalty_shootout	established	decompiled	seg_0791_08.c	853	2000:A10A	routines.tsv	
+0791:A260	bind_pitch_player	established	decompiled	seg_0791_08.c	915	2000:A260	routines.tsv	
+0791:A2E6	initialize_pitch_player	established	decompiled	seg_0791_08.c	945	2000:A2E6	routines.tsv	
+0791:A375			decompiled	seg_0791_08.c	977	2000:A375	routines.tsv	
+0791:A3B6			decompiled	seg_0791_08.c	997	2000:A3B6	routines.tsv	
+0791:A3DE	prepare_computer_sides	established	decompiled	seg_0791_08.c	1012	2000:A3DE	routines.tsv	
+0791:A4A1	match_setup	established	decompiled	seg_0791_09.c	4	2000:A4A1	routines.tsv	
+0791:A699			decompiled	seg_0791_09.c	83	2000:A699	routines.tsv	
+0791:A6E4	host_country	likely	decompiled	seg_0791_09.c	105	2000:A6E4	routines.tsv	
+0791:A75D			decompiled	seg_0791_09.c	140	2000:A75D	routines.tsv	
+0791:A841			decompiled	seg_0791_09.c	188	2000:A841	routines.tsv	
+0791:A920			decompiled	seg_0791_09.c	237	2000:A920	routines.tsv	
+0791:A9B8	pick_best_bench_keeper	established	decompiled	seg_0791_09.c	268	2000:A9B8	routines.tsv	
+0791:AAE8	pick_bench_by_formation	established	decompiled	seg_0791_09.c	330	2000:AAE8	routines.tsv	
+0791:AC67	bench_best_for_position	likely	decompiled	seg_0791_09.c	402	2000:AC67	routines.tsv	
+0791:AD8F	swap_bench_into_slot	likely	decompiled	seg_0791_09.c	441	2000:AD8F	routines.tsv	
+0791:AFA3	fill_starters_from_bench	likely	decompiled	seg_0791_09.c	535	2000:AFA3	routines.tsv	
+0791:B11F	choose_computer_lineup	likely	decompiled	seg_0791_09.c	597	2000:B11F	routines.tsv	
+0791:B15F	result_needs_winner	likely	decompiled	seg_0791_09.c	618	2000:B15F	routines.tsv	
+0791:B19D	roll_quick_goals	established	decompiled	seg_0791_09.c	640	2000:B19D	routines.tsv	
+0791:B27F	post_fixture_status_update	established	decompiled	seg_0791_09.c	682	2000:B27F	routines.tsv	
+0791:B364	adjust_player_confidence	established	decompiled	seg_0791_09.c	716	2000:B364	routines.tsv	
+0791:B3B7	update_top_scorers	likely	decompiled	seg_0791_09.c	738	2000:B3B7	routines.tsv	
+0791:B602	credit_silent_match_scorers	established	decompiled	seg_0791_09.c	813	2000:B602	routines.tsv	
+0791:B6CC	add_manager_delta	established	decompiled	seg_0791_09.c	856	2000:B6CC	routines.tsv	
+0791:B71C	fixture_confidence_delta	established	decompiled	seg_0791_09.c	878	2000:B71C	routines.tsv	
+0791:B7FA	update_fixture_player_state	established	decompiled	seg_0791_09.c	923	2000:B7FA	routines.tsv	
+0791:BA4E	update_pool_player_state	established	decompiled	seg_0791_09.c	1020	2000:BA4E	routines.tsv	
+0791:BB2F	prepare_unplayed_match	established	decompiled	seg_0791_10.c	4	2000:BB2F	routines.tsv	
+0791:BBFF	set_team_tactics	established	decompiled	seg_0791_10.c	52	2000:BBFF	routines.tsv	
+0791:BC5D	reset_team_tactics	established	decompiled	seg_0791_10.c	77	2000:BC5D	routines.tsv	
+0791:BD03	team_strength_greater	established	decompiled	seg_0791_10.c	107	2000:BD03	routines.tsv	
+0791:BD83	computer_tactic_change	established	decompiled	seg_0791_10.c	133	2000:BD83	routines.tsv	
+0791:BEC7	convert_forward_to_striker	established	decompiled	seg_0791_10.c	179	2000:BEC7	routines.tsv	
+0791:BF6B	computer_tactic_shift	established	decompiled	seg_0791_10.c	224	2000:BF6B	routines.tsv	
+0791:C01A	computer_include_tactics	established	decompiled	seg_0791_10.c	259	2000:C01A	routines.tsv	
+0791:C0DF	computer_exclude_tactics	established	decompiled	seg_0791_10.c	299	2000:C0DF	routines.tsv	
+0791:C173	update_computer_tactics	established	decompiled	seg_0791_10.c	331	2000:C173	routines.tsv	
+0791:C24D			decompiled	seg_0791_10.c	384	2000:C24D	routines.tsv	
+0791:C2A8			decompiled	seg_0791_10.c	409	2000:C2A8	routines.tsv	
+0791:C406			decompiled	seg_0791_10.c	465	2000:C406	routines.tsv	
+0791:C48D	remove_from_pitch	likely	decompiled	seg_0791_10.c	498	2000:C48D	routines.tsv	
+0791:C50C	show_computer_substitution_notice	likely	decompiled	seg_0791_10.c	529	2000:C50C	routines.tsv	
+0791:C5DC	refresh_pitch_slot	established	decompiled	seg_0791_10.c	563	2000:C5DC	routines.tsv	
+0791:C7EB	map_bench_roles	established	decompiled	seg_0791_10.c	637	2000:C7EB	routines.tsv	
+0791:C88D	substitute_player	established	decompiled	seg_0791_10.c	667	2000:C88D	routines.tsv	
+0791:CAB0	select_man_of_the_match	established	decompiled	seg_0791_10.c	729	2000:CAB0	routines.tsv	
+0791:CB7D	restore_match_player_state	established	decompiled	seg_0791_10.c	786	2000:CB7D	routines.tsv	
+0791:CC2E	wait_or_key	established	decompiled	seg_0791_10.c	823	2000:CC2E	routines.tsv	
+0791:CC7B	choose_captain_or_taker	likely	decompiled	seg_0791_10.c	843	2000:CC7B	routines.tsv	
+0791:D016			decompiled	seg_0791_10.c	970	2000:D016	routines.tsv	
+0791:D032			decompiled	seg_0791_10.c	987	2000:D032	routines.tsv	
 0791:D050			decompiled	seg_0791_11.c	4	2000:D050	routines.tsv	
 0791:D44C	second_team_is_host	likely	decompiled	seg_0791_11.c	135	2000:D44C	routines.tsv	
 0791:D47E	quick_result_silent	established	decompiled	seg_0791_11.c	150	2000:D47E	routines.tsv	
@@ -338,7 +338,7 @@ address	name	confidence	status	file	line	ghidra_address	found_in	note
 0791:E949			decompiled	seg_0791_12.c	76	2000:E949	routines.tsv	
 0791:EA09	first_team_valid	likely	decompiled	seg_0791_12.c	97	2000:EA09	routines.tsv	
 0791:ED8A	in_match_menu	likely	decompiled	seg_0791_12.c	245	2000:ED8A	routines.tsv	
-0791:F098	play_match	likely	decompiled	seg_0791_12.c	387	2000:F098	routines.tsv	
+0791:F098	play_match	established	decompiled	seg_0791_12.c	387	2000:F098	routines.tsv	
 0791:F1F6	run_match	established	decompiled	seg_0791_12.c	440	2000:F1F6	routines.tsv	
 0791:F3F2	unit_0791_init	established	decompiled	seg_0791_12.c	545	2000:F3F2	routines.tsv	
 16D6:0000			decompiled	seg_16D6_01.c	4	3000:0000	routines.tsv	

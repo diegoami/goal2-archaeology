@@ -478,9 +478,10 @@ void __cdecl16near run_one_half(void)
 }
 
 
-// ---- 0791:98C4  f_0791_98C4  (f_0791_98C4; Ghidra 2000:98C4, __cdecl16near; found by routines.tsv)
+// ---- 0791:98C4  restart_and_sweep  (f_0791_98C4; Ghidra 2000:98C4, __cdecl16near; found by routines.tsv)
+// a restart and the sweeps that settle it, called by play_match F098 (F1A8) when the quick result is off and the final scores differ (DS:9B3D != DS:9B3C), before 9955: 6BF1(DS:0668[s] + rand(10) + 1, 3) with s = 1 when DS:9B3D > DS:9B3C, DS:8325 := 1, state byte +0x12 := 6 on every pitch record where 2B51 holds, repick_kickoff_keeper 6337, then while watched (DS:9A3E clear) sweeps 9564 until 28B2(1) returns non-zero (every record in state 1 or excepted), the speaker off (214B:1E8D); what the restart is for was not read  [likely; F013; read code/seg_0791_16.asm]
 
-void __cdecl16near f_0791_98C4(void)
+void __cdecl16near restart_and_sweep(void)
 
 {
   char cVar1;
@@ -512,9 +513,10 @@ void __cdecl16near f_0791_98C4(void)
 }
 
 
-// ---- 0791:9955  f_0791_9955  (f_0791_9955; Ghidra 2000:9955, __cdecl16near; found by routines.tsv)
+// ---- 0791:9955  half_end_sweeps  (f_0791_9955; Ghidra 2000:9955, __cdecl16near; found by routines.tsv)
+// the sweeps that close a half, called by play_match F098 after the first half and after the second (after 98C4 when it runs): DS:8325 := 0, when watched (DS:9A3E clear) 2929(3), DS:8302 := 0, then sweeps 9564 until 28B2(4) returns non-zero (every record in state 4 or excepted), the speaker off (214B:1E8D)  [likely; F013; read code/seg_0791_16.asm]
 
-void __cdecl16near f_0791_9955(void)
+void __cdecl16near half_end_sweeps(void)
 
 {
   char cVar1;
@@ -535,9 +537,10 @@ void __cdecl16near f_0791_9955(void)
 }
 
 
-// ---- 0791:998C  f_0791_998C  (f_0791_998C; Ghidra 2000:998C, __cdecl16near; found by routines.tsv)
+// ---- 0791:998C  first_half  (f_0791_998C; Ghidra 2000:998C, __cdecl16near; found by routines.tsv)
+// the first half: DS:831B := 0x5B and DS:8319 := 0x2D (the clock's tenths and target), DS:830B := DS:0668[DS:831A] + 10 (the kick-off slot), emit_commentary 1EB5 with code 0x3B (the match's first line; players 0 and 6B65(2996(), 1), side 2996()), run_one_half 983F, then DS:832C := DS:9B3C  [established; F013; read code/seg_0791_16.asm]
 
-void __cdecl16near f_0791_998C(void)
+void __cdecl16near first_half(void)
 
 {
   char cVar1;
@@ -1047,84 +1050,5 @@ void prepare_computer_sides(undefined4 param_1)
     if (local_3 == '\x01') break;
     local_3 = local_3 + '\x01';
   }
-  return;
-}
-
-
-// ---- 0791:A4A1  match_setup  (f_0791_A4A1; Ghidra 2000:A4A1, __stdcall16near; found by routines.tsv)
-// per-match set-up: clears the commentary ring and the quick flags, draws the kick-off side; also clears the tactic-change flags DS:8332 + t and DS:8334 + t  [established; F005; F010]
-
-void match_setup(undefined4 param_1)
-
-{
-  char cVar1;
-  undefined2 uVar2;
-  char local_5;
-  int local_4;
-  
-  uVar2 = (undefined2)((ulong)param_1 >> 0x10);
-  prepare_computer_sides((int)param_1,uVar2);
-  DS:832C = 0xffff;
-  f_0791_1073();
-  u214b_fill_bytes(0,0x28,(char *)match_form + 1,0xb000);
-  man_of_the_match = 0;
-  DS:8332 = 0;
-  DS:8334 = 0;
-  pitch_records[0]._6_2_ = 0;
-  u214b_fill_bytes(0xff,0x4b0,0x7c3e,0xb000);
-  u214b_fill_bytes(0,0x14,(char *)match_stats,0xb000);
-  u214b_fill_bytes(0,0x42,0x7bd4,0xb000);
-  u214b_fill_bytes(0,4,0x80f2,0xb000);
-  u214b_fill_bytes(0,4,0x80f6,0xb000);
-  u214b_fill_bytes(0,0x50,0x9a40,0xb000);
-  fixture_not_friendly = *(char *)((int)param_1 + 2) != '\x01';
-  DS:831A = u214b_random_coin_flip();
-  DS:830C = 0;
-  DS:830E = 0;
-  DS:830D = 0;
-  pitch_records[0].state = 0;
-  DS:7C39 = 0;
-  f_0791_A375((ball *)&ball_record,0xb000);
-  f_0791_A3B6((sprite *)&referee_record,0xb000);
-  f_0791_A3B6(0x8304,0xb000);
-  for (local_4 = 1; initialize_pitch_player((pitch *)pitch_records + local_4,0xb000,local_4),
-      local_4 != 0x16; local_4 = local_4 + 1) {
-  }
-  in_match_menu_used = 0;
-  DS:8326 = 0;
-  DS:9B41 = 1;
-  local_5 = '\0';
-  while( true ) {
-    *(undefined1 *)((int)&pitch_records[0].destination + 1 + (int)local_5) = 0;
-    f_0791_A3B6(local_5 * 6 + -0x7d1e,0xb000);
-    ((char *)substitutions_left)[local_5] = *(char *)((char)fixture_not_friendly + 0x66b);
-    if (local_5 == '\x01') break;
-    local_5 = local_5 + '\x01';
-  }
-  resort_pitch_and_bench();
-  find_nearest_to_ball();
-  DS:9B40 = 0;
-  DS:831D = 0;
-  DS:831F = 0;
-  added_time = 0;
-  DS:8325 = 0;
-  DS:8324 = 0;
-  DS:8327 = 0;
-  DS:8328 = 0;
-  DS:832A = 100;
-  cVar1 = is_managed(DS:9B36);
-  if ((cVar1 == '\0') && (cVar1 = is_managed(DS:9B34), cVar1 == '\0')) {
-    pitch_records[0].activity._1_1_ = 0;
-  }
-  else {
-    pitch_records[0].activity._1_1_ = 1;
-  }
-  match_set_up = 1;
-  u214b_fill_bytes(0,0x14,0x9978,0xb000);
-  DS:9A3E = 0;
-  DS:9A3F = 0;
-  f_0791_A841();
-  DS:7C37 = 0;
-  DS:7C38 = 0;
   return;
 }
