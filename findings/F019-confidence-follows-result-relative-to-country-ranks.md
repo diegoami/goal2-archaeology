@@ -42,8 +42,8 @@ unless its original-routine check is explicitly stated.
 
 - The help's result-relative player confidence is **player +0xC**, the byte
   already called morale/form. B7FA passes its result term to B364, whose
-  player store is +0xC (`static:static/goal-exe/named/seg_0791_09.c:227`;
-  `static:static/goal-exe/named/seg_0791_08.c:1111`). B364 adds a signed word to the signed
+  player store is +0xC (`static:static/goal-exe/code/seg_0791_19.asm:143`;
+  `static:static/goal-exe/code/seg_0791_18.asm:650`). B364 adds a signed word to the signed
   byte, with signed-word wrapping and a separate clamp to 1..32 on every
   call (`static:static/goal-exe/code/seg_0791_18.asm:621` onward). It is not team morale (Q017).
 
