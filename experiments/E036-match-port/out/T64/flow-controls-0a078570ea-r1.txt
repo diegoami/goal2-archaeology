@@ -6,3 +6,153 @@ heavy: T64-full-flow-controls: waiting for a slot (4 ahead)
 heavy: T64-full-flow-controls: waiting for a slot (3 ahead)
 heavy: T64-full-flow-controls: waiting for a slot (2 ahead)
 heavy: T64-full-flow-controls: waiting for a slot (1 ahead)
+heavy: T64-full-flow-controls: got slot 2 after 11376 s
+test_strict_marker_and_strip_thresholds_on_both_sides (tests.test_port_ball.AdvancedStrip.test_strict_marker_and_strip_thresholds_on_both_sides) ... ok
+test_counter_side_stride_byte_wrap_and_match_mode_gate (tests.test_port_ball.BallWrappers.test_counter_side_stride_byte_wrap_and_match_mode_gate) ... ok
+test_keeper_strip_gate_returns_local_boolean_with_last_callee_high_byte (tests.test_port_ball.BallWrappers.test_keeper_strip_gate_returns_local_boolean_with_last_callee_high_byte) ... ok
+test_offside_short_circuits_the_random_draw (tests.test_port_ball.BallWrappers.test_offside_short_circuits_the_random_draw) ... ok
+test_pass_and_clearance_keep_coin_branches_and_call_sites (tests.test_port_ball.BallWrappers.test_pass_and_clearance_keep_coin_branches_and_call_sites) ... ok
+test_selected_receiver_preserves_full_ax_as_the_target_word (tests.test_port_ball.BallWrappers.test_selected_receiver_preserves_full_ax_as_the_target_word) ... ok
+test_shot_and_header_template_push_preserves_the_incoming_high_byte (tests.test_port_ball.BallWrappers.test_shot_and_header_template_push_preserves_the_incoming_high_byte) ... ok
+test_cross_uses_candidate_point_without_target_draws_and_inverts_high_ball_draw (tests.test_port_ball.ClearanceTargets.test_cross_uses_candidate_point_without_target_draws_and_inverts_high_ball_draw) ... ok
+test_narrow_wide_and_keeper_paths_preserve_short_circuit_draw_order (tests.test_port_ball.ClearanceTargets.test_narrow_wide_and_keeper_paths_preserve_short_circuit_draw_order) ... ok
+test_membership_uses_guest_zf_then_unavailability_and_goal_strip (tests.test_port_ball.CrossTarget.test_membership_uses_guest_zf_then_unavailability_and_goal_strip) ... ok
+test_no_candidate_preserves_caller_output (tests.test_port_ball.CrossTarget.test_no_candidate_preserves_caller_output) ... ok
+test_event6_rewrites_argument_to_long_pass_or_keeper_event (tests.test_port_ball.LaunchBall.test_event6_rewrites_argument_to_long_pass_or_keeper_event) ... ok
+test_event_membership_uses_zf_and_keeps_long_bound_live (tests.test_port_ball.LaunchBall.test_event_membership_uses_zf_and_keeps_long_bound_live) ... ok
+test_long_division_high_word_is_forwarded_to_maximum (tests.test_port_ball.LaunchBall.test_long_division_high_word_is_forwarded_to_maximum) ... ok
+test_miscue_shortening_sideways_and_drop_vertical_branches (tests.test_port_ball.LaunchBall.test_miscue_shortening_sideways_and_drop_vertical_branches) ... ok
+test_signed_launch_from_both_sides_and_velocity_ratio (tests.test_port_ball.LaunchBall.test_signed_launch_from_both_sides_and_velocity_ratio) ... ok
+test_long_ball_keeps_floor_and_product_words_live_across_guest_calls (tests.test_port_ball.LongTargets.test_long_ball_keeps_floor_and_product_words_live_across_guest_calls) ... ok
+test_long_kick_uses_each_parallel_mode_row_and_preserves_commentary_ah (tests.test_port_ball.LongTargets.test_long_kick_uses_each_parallel_mode_row_and_preserves_commentary_ah) ... ok
+test_target_slot_point_stays_on_stack_while_half_is_queried (tests.test_port_ball.LongTargets.test_target_slot_point_stays_on_stack_while_half_is_queried) ... ok
+test_offside_and_own_goal_strip_short_circuit_launch (tests.test_port_ball.MoveBallToSlot.test_offside_and_own_goal_strip_short_circuit_launch) ... ok
+test_other_target_random_adjustment_has_strict_absolute_25_boundary (tests.test_port_ball.MoveBallToSlot.test_other_target_random_adjustment_has_strict_absolute_25_boundary) ... ok
+test_self_target_keeps_incremented_draw_live_and_divides_toward_zero (tests.test_port_ball.MoveBallToSlot.test_self_target_keeps_incremented_draw_live_and_divides_toward_zero) ... ok
+test_direction_product_is_a_live_stack_word_during_second_call (tests.test_port_ball.NearestBall.test_direction_product_is_a_live_stack_word_during_second_call) ... ok
+test_nearest_keeps_first_tie_and_excludes_holder_unavailable_and_state13 (tests.test_port_ball.NearestBall.test_nearest_keeps_first_tie_and_excludes_holder_unavailable_and_state13) ... ok
+test_no_candidate_clears_both_nearest_arrays (tests.test_port_ball.NearestBall.test_no_candidate_clears_both_nearest_arrays) ... ok
+test_first_launch_only_sets_clock_and_preserves_ax (tests.test_port_ball.NestedOffside.test_first_launch_only_sets_clock_and_preserves_ax) ... ok
+test_nested_parent_pointer_and_signed_side_direction (tests.test_port_ball.NestedOffside.test_nested_parent_pointer_and_signed_side_direction) ... ok
+test_fallback_returns_last_available_even_in_state13 (tests.test_port_ball.PassTarget.test_fallback_returns_last_available_even_in_state13) ... ok
+test_mode_distance_ties_and_replacement_coin_order (tests.test_port_ball.PassTarget.test_mode_distance_ties_and_replacement_coin_order) ... ok
+test_side_base_and_relative_word_wrap (tests.test_port_ball.RelativeSlot.test_side_base_and_relative_word_wrap) ... ok
+test_header_skips_jitter_draws_preserves_commentary_high_byte_and_wraps_stat (tests.test_port_ball.ShotAndHeaderFlow.test_header_skips_jitter_draws_preserves_commentary_high_byte_and_wraps_stat) ... ok
+test_shot_coin_word_is_live_and_all_failed_gates_reach_last_draw (tests.test_port_ball.ShotAndHeaderFlow.test_shot_coin_word_is_live_and_all_failed_gates_reach_last_draw) ... ok
+test_shot_four_short_circuits_skill_and_late_one_in_three_draw (tests.test_port_ball.ShotAndHeaderFlow.test_shot_four_short_circuits_skill_and_late_one_in_three_draw) ... ok
+
+----------------------------------------------------------------------
+Ran 33 tests in 0.012s
+
+OK
+Baseline: 33 synthetic tests PASS
+test_shot_coin_word_is_live_and_all_failed_gates_reach_last_draw (tests.test_port_ball.ShotAndHeaderFlow.test_shot_coin_word_is_live_and_all_failed_gates_reach_last_draw) ... FAIL
+
+======================================================================
+FAIL: test_shot_coin_word_is_live_and_all_failed_gates_reach_last_draw (tests.test_port_ball.ShotAndHeaderFlow.test_shot_coin_word_is_live_and_all_failed_gates_reach_last_draw)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/task-T64-port-ball/.cache/unit-0a078570ea/tests/test_port_ball.py", line 431, in test_shot_coin_word_is_live_and_all_failed_gates_reach_last_draw
+    r.run("0791:3C3F", [0x123, 0x4000, 1, 0x56], answer)
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/task-T64-port-ball/.cache/unit-0a078570ea/tests/test_port_ball.py", line 45, in run
+    sent = answer(request, self.mem) if answer else 0
+           ~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/task-T64-port-ball/.cache/unit-0a078570ea/tests/test_port_ball.py", line 424, in answer
+    self.assertEqual(mem.regs["sp"], 0x2FFC)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 12286 != 12284
+
+----------------------------------------------------------------------
+Ran 1 test in 0.001s
+
+FAILED (failures=1)
+0791:3C3F control caught by assertion, no setup errors
+test_membership_uses_guest_zf_then_unavailability_and_goal_strip (tests.test_port_ball.CrossTarget.test_membership_uses_guest_zf_then_unavailability_and_goal_strip) ... FAIL
+
+======================================================================
+FAIL: test_membership_uses_guest_zf_then_unavailability_and_goal_strip (tests.test_port_ball.CrossTarget.test_membership_uses_guest_zf_then_unavailability_and_goal_strip)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/task-T64-port-ball/.cache/unit-0a078570ea/tests/test_port_ball.py", line 474, in test_membership_uses_guest_zf_then_unavailability_and_goal_strip
+    self.assertEqual(r.mem.u16(r.mem.addr(0x4000, 0x100)), 0xFA06)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 64771 != 64006
+
+----------------------------------------------------------------------
+Ran 1 test in 0.000s
+
+FAILED (failures=1)
+0791:3D38 control caught by assertion, no setup errors
+test_first_launch_only_sets_clock_and_preserves_ax (tests.test_port_ball.NestedOffside.test_first_launch_only_sets_clock_and_preserves_ax) ... FAIL
+
+======================================================================
+FAIL: test_first_launch_only_sets_clock_and_preserves_ax (tests.test_port_ball.NestedOffside.test_first_launch_only_sets_clock_and_preserves_ax)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/task-T64-port-ball/.cache/unit-0a078570ea/tests/test_port_ball.py", line 499, in test_first_launch_only_sets_clock_and_preserves_ax
+    self.assertEqual(r.mem.ds8(0x8325), 1)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 0 != 1
+
+----------------------------------------------------------------------
+Ran 1 test in 0.000s
+
+FAILED (failures=1)
+0791:333F control caught by assertion, no setup errors
+test_long_division_high_word_is_forwarded_to_maximum (tests.test_port_ball.LaunchBall.test_long_division_high_word_is_forwarded_to_maximum) ... FAIL
+
+======================================================================
+FAIL: test_long_division_high_word_is_forwarded_to_maximum (tests.test_port_ball.LaunchBall.test_long_division_high_word_is_forwarded_to_maximum)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/task-T64-port-ball/.cache/unit-0a078570ea/tests/test_port_ball.py", line 755, in test_long_division_high_word_is_forwarded_to_maximum
+    r.run("0791:34C1", [0x123, 0x4000, 8, 8], answer)
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/task-T64-port-ball/.cache/unit-0a078570ea/tests/test_port_ball.py", line 45, in run
+    sent = answer(request, self.mem) if answer else 0
+           ~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/task-T64-port-ball/.cache/unit-0a078570ea/tests/test_port_ball.py", line 753, in answer
+    self.assertEqual(request.args, (0, 2, 1, 0x2345))
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Tuples differ: (0, 2, 0, 9029) != (0, 2, 1, 9029)
+
+First differing element 2:
+0
+1
+
+- (0, 2, 0, 9029)
+?        ^
+
++ (0, 2, 1, 9029)
+?        ^
+
+
+----------------------------------------------------------------------
+Ran 1 test in 0.001s
+
+FAILED (failures=1)
+0791:34C1 control caught by assertion, no setup errors
+test_self_target_keeps_incremented_draw_live_and_divides_toward_zero (tests.test_port_ball.MoveBallToSlot.test_self_target_keeps_incremented_draw_live_and_divides_toward_zero) ... FAIL
+
+======================================================================
+FAIL: test_self_target_keeps_incremented_draw_live_and_divides_toward_zero (tests.test_port_ball.MoveBallToSlot.test_self_target_keeps_incremented_draw_live_and_divides_toward_zero)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/task-T64-port-ball/.cache/unit-0a078570ea/tests/test_port_ball.py", line 595, in test_self_target_keeps_incremented_draw_live_and_divides_toward_zero
+    r.run("0791:384C", [0x123, 0x4000, 2], answer)
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/task-T64-port-ball/.cache/unit-0a078570ea/tests/test_port_ball.py", line 45, in run
+    sent = answer(request, self.mem) if answer else 0
+           ~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "/home/diego/projects/goal2-archaeology/.claude/worktrees/task-T64-port-ball/.cache/unit-0a078570ea/tests/test_port_ball.py", line 585, in answer
+    self.assertEqual(mem.regs["sp"], 0x2FF8)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 12282 != 12280
+
+----------------------------------------------------------------------
+Ran 1 test in 0.000s
+
+FAILED (failures=1)
+0791:384C control caught by assertion, no setup errors
+T64 flow controls PASS; source files untouched
