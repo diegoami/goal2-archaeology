@@ -1,0 +1,36 @@
+detached suite PATH excludes NVM node: None
+X tools: {'Xvfb': '/usr/bin/Xvfb', 'xinput': '/usr/bin/xinput', 'xmodmap': None}
+static_skip_count 30
+11 needs Xvfb, xinput and xmodmap
+2 the successor's release copy is not in .cache/artifacts/goal2-67cf27d6
+17 node is not installed
+test_driver_keys.KeySending.test_a_custom_save_hold_is_honoured_at_call_time :: needs Xvfb, xinput and xmodmap
+test_driver_keys.KeySending.test_a_function_key_is_sent_as_itself_without_alt :: needs Xvfb, xinput and xmodmap
+test_driver_keys.KeySending.test_a_key_that_would_need_a_modifier_or_does_not_exist_is_refused :: needs Xvfb, xinput and xmodmap
+test_driver_keys.KeySending.test_a_raw_key_the_display_cannot_send_is_refused_before_the_emulator_starts :: needs Xvfb, xinput and xmodmap
+test_driver_keys.KeySending.test_an_upper_case_letter_is_sent_with_shift_around_it_and_nothing_else :: needs Xvfb, xinput and xmodmap
+test_driver_keys.KeySending.test_every_function_key_arrives_alone :: needs Xvfb, xinput and xmodmap
+test_driver_keys.KeySending.test_legacy_keys_is_the_old_fault_kept_to_reproduce_it :: needs Xvfb, xinput and xmodmap
+test_driver_keys.KeySending.test_the_default_hold_of_the_savestate_key_is_the_old_read_pace :: needs Xvfb, xinput and xmodmap
+test_driver_keys.KeySending.test_the_keys_the_callers_send_are_single_keys :: needs Xvfb, xinput and xmodmap
+test_driver_keys.KeySending.test_the_savestate_key_is_one_key_and_never_f12_or_alt :: needs Xvfb, xinput and xmodmap
+test_driver_keys.KeySending.test_the_sendable_check_never_opens_a_display_the_driver_did_not_start :: needs Xvfb, xinput and xmodmap
+test_known_sets.DriverSetTest.test_the_driver_constants_set_id_is_the_successor :: the successor's release copy is not in .cache/artifacts/goal2-67cf27d6
+test_known_sets.DriverSetTest.test_verify_release_verifies_and_names_the_successor :: the successor's release copy is not in .cache/artifacts/goal2-67cf27d6
+test_switch_model.SwitchDispatch.test_a_missing_dispatch_block_is_created :: node is not installed
+test_switch_model.SwitchDispatch.test_ask_and_review_kind_together :: node is not installed
+test_switch_model.SwitchDispatch.test_ask_maybe_refused :: node is not installed
+test_switch_model.SwitchDispatch.test_ask_on_and_off :: node is not installed
+test_switch_model.SwitchDispatch.test_blocked_model_refused :: node is not installed
+test_switch_model.SwitchDispatch.test_dry_run_writes_nothing :: node is not installed
+test_switch_model.SwitchDispatch.test_inherited_property_name_is_not_a_model :: node is not installed
+test_switch_model.SwitchDispatch.test_other_keys_are_untouched :: node is not installed
+test_switch_model.SwitchDispatch.test_review_kind_needs_a_model :: node is not installed
+test_switch_model.SwitchDispatch.test_review_kind_research :: node is not installed
+test_switch_model.SwitchDispatch.test_review_kind_sets_the_reviewer_for_that_kind_only :: node is not installed
+test_switch_model.SwitchDispatch.test_session_family_refused :: node is not installed
+test_switch_model.SwitchDispatch.test_show_after_a_change :: node is not installed
+test_switch_model.SwitchDispatch.test_show_prints_the_dispatch_line :: node is not installed
+test_switch_model.SwitchDispatch.test_show_without_a_dispatch_block :: node is not installed
+test_switch_model.SwitchDispatch.test_unknown_kind_refused :: node is not installed
+test_switch_model.SwitchDispatch.test_unknown_model_refused :: node is not installed
