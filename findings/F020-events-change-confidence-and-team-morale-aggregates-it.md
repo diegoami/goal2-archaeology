@@ -213,7 +213,7 @@ paragraph's listing citations are physical line numbers.
 | Routine | Reads / writes | Listing lines |
 | --- | --- | --- |
 | `0791:7CC5` `adjust_player_form` | reads live +C; writes clamp(s8(live)+delta,1,255); nonzero flag writes min(32,s8(new live)) to DS:9B07[side*20+slot] | `static:static/goal-exe/code/seg_0791_13.asm:484` |
-| `0791:B364` (F019 result rule) | reads/writes signed +C, clamp [1, 32] | `static:static/goal-exe/code/seg_0791_18.asm:621`; `static:static/goal-exe/named/seg_0791_08.c:1119` |
+| `0791:B364` (F019 result rule) | reads/writes signed +C, clamp [1, 32] | `static:static/goal-exe/code/seg_0791_18.asm:621`; `static:static/goal-exe/code/seg_0791_18.asm:650` |
 | `0791:798D` booking | sets +0x10 bit 5, increments side bookings, calls `1771:33CD force_tactic4_off` for unmanaged sides; does **not** write +0xC | `static:static/goal-exe/code/seg_0791_13.asm:115` |
 | `0791:7B77` `send_off` head | `7CC5(pitch, 0xfffe, 1)` → sent-off player: +0xC += -2, clamp [1,255], DS:9B07 set | `static:static/goal-exe/code/seg_0791_13.asm:386` |
 | `0791:7B77` `send_off` tail | `7CC5(pitch, 2, 0)` per available pitch player of the OTHER team (slots 1..11) → +0xC += +2, clamp [1,255], DS:9B07 NOT updated | `static:static/goal-exe/code/seg_0791_13.asm:430` |
