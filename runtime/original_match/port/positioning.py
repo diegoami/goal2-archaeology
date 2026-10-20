@@ -348,12 +348,13 @@ def choose_marking_target(mem, variant):
     if mark:
         f.w16(-3, 2, "0791:48AB")
         for slot in range(2, 12):
-            f.w16(-3, slot, "0791:49D3")
             player_id = r16(mem, c, (slot - 1) * 2)
             if player_id != mark:
+                f.w16(-3, slot + 1, "0791:49D3")
                 continue
             unavailable = yield from far(mem, "1771:3216", player_id, at="48E2")
             if unavailable & 0xff:
+                f.w16(-3, slot + 1, "0791:49D3")
                 continue
             opp_slot = mem.ds8(0x0668 + side) + slot
             parent.w16(-4, opp_slot, "0791:48FB")
@@ -559,7 +560,9 @@ def pick_marker_by_skill(mem, variant):
             continue
         winner = mem.ds16(mark_off)
         if winner:
-            winner_slot = yield from near(mem, "A920", element, winner, at="2092")
+            push_word(mem, element, "2074")
+            winner_slot = yield from near(mem, "A920", winner, at="2092")
+            drop_words(mem, 1)
             incumbent = yield from same(mem, "278A", element, mem.DS,
                                         (0x80E8 + 0x16 * winner_slot) & 0xffff, at="20A3")
             push_word(mem, incumbent, "20A3")

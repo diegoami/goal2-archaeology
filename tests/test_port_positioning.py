@@ -78,9 +78,24 @@ class Sim:
             except StopIteration as stopped:
                 return stopped.value
             self.calls.append((request.target, request.args, request.ret_to))
+            before = self.mem.reg("sp")
             source = self.answers[request.target]
             answer = source(request) if callable(source) else source
+            sp = before
+            for value in list(request.args) + ([self.mem.seg(0x0791)] if request.far else []) + [0xfffe]:
+                sp = (sp - 2) & 0xffff
+                self.mem.w16(self.mem.ss_lin(sp), value, request.ret_to)
+            self.mem.set_reg("sp", sp)
             self.mem.set_reg("ax", answer)
+            # A920's listing ends in ret 2 (seg_0791_17.asm), although its
+            # caller has already pushed the next routine's element argument.
+            pop_words = 1 if request.target == "0791:A920" else len(request.args)
+            returned_sp = (sp + (4 if request.far else 2) + 2 * pop_words) & 0xffff
+            expected_sp = before if not request.caller_pops else (before - 2 * len(request.args)) & 0xffff
+            if returned_sp != expected_sp:
+                raise AssertionError(f"{request.ret_to}: {request.target} returned SP {returned_sp:04X}, "
+                                     f"expected {expected_sp:04X}")
+            self.mem.set_reg("sp", returned_sp)
 
 
 class PositioningTests(unittest.TestCase):
@@ -104,10 +119,15 @@ class PositioningTests(unittest.TestCase):
                 sim = Sim()
                 sim.answers.update({"0791:42CB": group, "0791:26D7": lambda c: tactic if c.args[0] == 7 else 1,
                                     "0791:2D10": 1, "214B:06FA": 1})
-                sim.record(0xc, 30 + index - 1)
+                limit = 30 + index
+                sim.byte(0x07DB + index, limit)
+                sim.record(0xc, limit - 1)
                 self.assertEqual(sim.run("0791:4532", 0x3e00) & 0xff, int(group < 4), index)
-                sim.record(0xc, 30 + index)
+                self.assertEqual(sum(c[0] == "0791:42CB" for c in sim.calls), 2, index)
+                sim.calls.clear()
+                sim.record(0xc, limit)
                 self.assertEqual(sim.run("0791:4532", 0x3e00) & 0xff, 0, index)
+                self.assertEqual(sum(c[0] == "0791:42CB" for c in sim.calls), 1, index)
 
     def test_defend_reads_every_depth_table_row(self):
         for t5 in range(2):
@@ -118,10 +138,15 @@ class PositioningTests(unittest.TestCase):
                     sim.answers.update({"0791:42CB": group,
                                         "0791:26D7": lambda c: t5 if c.args[0] == 5 else t6,
                                         "0791:2D6D": 1, "0791:2D10": 0})
-                    sim.record(0xc, 10 + index + 1)
+                    limit = 10 + index
+                    sim.byte(0x07CB + index, limit)
+                    sim.record(0xc, limit + 1)
                     self.assertEqual(sim.run("0791:4649", 0x3e00) & 0xff, int(group < 4), index)
-                    sim.record(0xc, 10 + index)
+                    self.assertEqual(sum(c[0] == "0791:42CB" for c in sim.calls), 2, index)
+                    sim.calls.clear()
+                    sim.record(0xc, limit)
                     self.assertEqual(sim.run("0791:4649", 0x3e00) & 0xff, 0, index)
+                    self.assertEqual(sum(c[0] == "0791:42CB" for c in sim.calls), 1, index)
 
     def test_sweeper_uses_fifteen_cell_draw_outside_state_nine(self):
         sim = Sim()
@@ -137,9 +162,11 @@ class PositioningTests(unittest.TestCase):
         sim = Sim()
         sim.byte(0x0668, bytes([0, 11]))
         sim.word(0x9B34, 0)
-        sim.word(0x9A3E + 0x28 + 2 * (2 - 11), 0)
+        sim.word(0x9A42, 99)
         sim.answers.update({"0791:2996": 1, "1771:3216": 1})
         self.assertEqual(sim.run("0791:47C5", 0x3e00) & 0xff, 0)
+        self.assertEqual(sim.mem.ds16(0x9A42), 0)
+        self.assertEqual(sim.mem.u16(sim.mem.ss_lin(0x3ef7)), 12)
         self.assertFalse(any(c[0] == "0791:4438" for c in sim.calls))
 
     def test_keeper_outside_goal_strip_does_not_draw(self):
@@ -214,6 +241,7 @@ class PositioningTests(unittest.TestCase):
         self.assertEqual(by_site["0791:496A"], (by_site["0791:494D"][0] - 2, 5))
         self.assertEqual(by_site["0791:499D"], (by_site["0791:4980"][0] - 2, 5))
         self.assertEqual(by_site["0791:49C0"], (by_site["0791:494D"][0] - 2, 2))
+        self.assertEqual(sim.mem.u16(sim.mem.ss_lin(0x3ef7)), 2)
         self.assertEqual(sim.mem.reg("sp"), 0x3f00)
 
     def test_depth_table_calls_keep_group_and_tactic_words_on_guest_stack(self):
@@ -254,10 +282,40 @@ class PositioningTests(unittest.TestCase):
             seen[request.ret_to] = (sp, sim.mem.u16(sim.mem.ss_lin(sp)))
             return 7 if request.ret_to == "0791:20A3" else 9
 
-        sim.answers.update({"1771:3216": 0, "0791:A920": 10, "0791:278A": skill})
+        def incumbent_slot(request):
+            sp = sim.mem.reg("sp")
+            seen[request.ret_to] = (sp, sim.mem.u16(sim.mem.ss_lin(sp)))
+            return 10
+
+        sim.answers.update({"1771:3216": 0, "0791:A920": incumbent_slot, "0791:278A": skill})
         sim.run("0791:1FDD", 0, 5, 2)
+        self.assertEqual(seen["0791:2092"][1], 5)
+        self.assertEqual([c[2] for c in sim.calls if c[0] == "0791:278A"],
+                         ["0791:20A3", "0791:20B0"])
         self.assertEqual(seen["0791:20B0"], (seen["0791:20A3"][0] - 2, 7))
         self.assertEqual(sim.mem.ds16(0x997A), 11)
+
+    def test_marking_assignment_continues_after_marker_calls(self):
+        sim = Sim()
+        sim.word(0x9B34, 0)
+        sim.word(0x9B36, 0)
+        sim.byte(0x0764, bytes([9, 9]))
+        sim.byte(0x0764 + 2, bytes([9, 11, 11, 11]))
+        sim.word(0x80E8 + 0x16 * 10 + 0xd, 10)
+        sim.word(0x80E8 + 0x16 * 11 + 0xd, 11)
+
+        def marker(request):
+            return sim.run("0791:1FDD", *request.args)
+
+        sim.answers.update({"1771:0B77": 0, "0791:1F3C": 7,
+                            "0791:1FDD": marker, "1771:3216": 0,
+                            "0791:A920": 10, "0791:278A": lambda c: 7 if c.ret_to == "0791:20A3" else 9,
+                            "1771:30D9": 3})
+        sim.run("0791:20E3")
+        self.assertGreaterEqual(sum(c[2] == "0791:20B0" for c in sim.calls), 1)
+        self.assertEqual(sum(c[0] == "0791:1FDD" for c in sim.calls), 8)
+        self.assertEqual(sum(c[0] == "1771:30D9" for c in sim.calls), 22)
+        self.assertIn(("0791:1FDD", (1, 11, 5), "0791:216C"), sim.calls)
 
     def test_destination_long_calls_keep_pre_pushed_words_on_guest_stack(self):
         for own in (0, 1):
