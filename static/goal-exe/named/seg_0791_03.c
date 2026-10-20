@@ -314,9 +314,10 @@ void __cdecl16near find_nearest_to_ball(void)
 }
 
 
-// ---- 0791:30EA  f_0791_30EA  (f_0791_30EA; Ghidra 2000:30EA, __stdcall16far; found by routines.tsv)
+// ---- 0791:30EA  slot_in_record_side  (f_0791_30EA; Ghidra 2000:30EA, __stdcall16far; found by routines.tsv)
+// side base selected by2974 plus the caller's relative slot  [likely; read code/seg_0791_05.asm:958-978]
 
-int __stdcall16far f_0791_30EA(undefined4 param_1,int param_2)
+int __stdcall16far slot_in_record_side(undefined4 param_1,int param_2)
 
 {
   char cVar1;
@@ -357,8 +358,8 @@ char __stdcall16far pick_pass_target(char *param_1)
   iVar4 = draw_table_byte();
   local_c = (uint)*(byte *)(bVar2 + 0x778) + iVar4;
   cVar1 = pcVar7[6];
-  uVar5 = f_0791_30EA(pcVar7,uVar8,2);
-  local_6 = f_0791_30EA(pcVar7,uVar8,0xb);
+  uVar5 = slot_in_record_side(pcVar7,uVar8,2);
+  local_6 = slot_in_record_side(pcVar7,uVar8,0xb);
   if (uVar5 <= local_6) {
     while( true ) {
       if (((((byte)pcVar7[6] != local_6) &&
@@ -385,8 +386,8 @@ char __stdcall16far pick_pass_target(char *param_1)
     }
   }
   if (pcVar7[6] == cVar1) {
-    uVar5 = f_0791_30EA(pcVar7,uVar8,0xb);
-    local_6 = f_0791_30EA(pcVar7,uVar8,2);
+    uVar5 = slot_in_record_side(pcVar7,uVar8,0xb);
+    local_6 = slot_in_record_side(pcVar7,uVar8,2);
     if (local_6 <= uVar5) {
       while( true ) {
         if (((byte)pcVar7[6] != local_6) &&
@@ -403,9 +404,10 @@ char __stdcall16far pick_pass_target(char *param_1)
 }
 
 
-// ---- 0791:3323  f_0791_3323  (f_0791_3323; Ghidra 2000:3323, __stdcall16far; found by routines.tsv)
+// ---- 0791:3323  pass_to_selected_receiver  (f_0791_3323; Ghidra 2000:3323, __stdcall16far; found by routines.tsv)
+// select a receiver, then pass with the full returned AX  [likely; read code/seg_0791_06.asm:6-24]
 
-void __stdcall16far f_0791_3323(undefined4 param_1)
+void __stdcall16far pass_to_selected_receiver(undefined4 param_1)
 
 {
   undefined2 uVar1;
@@ -418,9 +420,10 @@ void __stdcall16far f_0791_3323(undefined4 param_1)
 }
 
 
-// ---- 0791:333F  f_0791_333F  (f_0791_333F; Ghidra 2000:333F, __stdcall16near; found by routines.tsv)
+// ---- 0791:333F  mark_offside_candidate  (f_0791_333F; Ghidra 2000:333F, __stdcall16near; found by routines.tsv)
+// nested launch procedure; its pointer lives in the parent frame  [likely; read code/seg_0791_06.asm:25-178]
 
-void f_0791_333F(int param_1)
+void mark_offside_candidate(int param_1)
 
 {
   char cVar1;
@@ -434,10 +437,10 @@ void f_0791_333F(int param_1)
     DS:8325 = '\x01';
   }
   else {
-    uVar2 = f_0791_30EA((int)*(undefined4 *)(param_1 + 6),
-                        (int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10),0xb);
-    local_4 = f_0791_30EA((int)*(undefined4 *)(param_1 + 6),
-                          (int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10),1);
+    uVar2 = slot_in_record_side((int)*(undefined4 *)(param_1 + 6),
+                                (int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10),0xb);
+    local_4 = slot_in_record_side((int)*(undefined4 *)(param_1 + 6),
+                                  (int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10),1);
     if (local_4 <= uVar2) {
       do {
         if (((*(char *)((int)&pitch_records[0].side + local_4 * 0x16) !=
@@ -663,7 +666,7 @@ void __stdcall16far launch_ball(undefined4 param_1,uint param_2,undefined2 param
   cVar1 = sys_long_mul_0279();
   DS:8313 = CONCAT11(DS:8314,DS:8313 + cVar1);
   u214b_beep_tone_delay(1,10);
-  f_0791_333F(&stack0xfffe);
+  mark_offside_candidate(&stack0xfffe);
   DS:830D = DS:830C;
   return;
 }
@@ -845,9 +848,10 @@ void __stdcall16far long_ball_target(undefined4 param_1)
 }
 
 
-// ---- 0791:3B9E  f_0791_3B9E  (f_0791_3B9E; Ghidra 2000:3B9E, __stdcall16far; found by routines.tsv)
+// ---- 0791:3B9E  launch_to_slot_with_half_event  (f_0791_3B9E; Ghidra 2000:3B9E, __stdcall16far; found by routines.tsv)
+// target slot point, event selected by the passer's half  [likely; read code/seg_0791_06.asm:988-1027]
 
-void __stdcall16far f_0791_3B9E(undefined4 param_1,int param_2)
+void __stdcall16far launch_to_slot_with_half_event(undefined4 param_1,int param_2)
 
 {
   char cVar1;
@@ -870,9 +874,10 @@ void __stdcall16far f_0791_3B9E(undefined4 param_1,int param_2)
 }
 
 
-// ---- 0791:3BEE  f_0791_3BEE  (f_0791_3BEE; Ghidra 2000:3BEE, __stdcall16far; found by routines.tsv)
+// ---- 0791:3BEE  choose_pass_or_long_ball  (f_0791_3BEE; Ghidra 2000:3BEE, __stdcall16far; found by routines.tsv)
+// existing offside goes to82EB without drawing  [likely; read code/seg_0791_06.asm:1028-1056]
 
-void __stdcall16far f_0791_3BEE(undefined4 param_1)
+void __stdcall16far choose_pass_or_long_ball(undefined4 param_1)
 
 {
   char cVar1;
@@ -882,7 +887,7 @@ void __stdcall16far f_0791_3BEE(undefined4 param_1)
     cVar1 = u214b_random_coin_flip();
     uVar2 = (undefined2)((ulong)param_1 >> 0x10);
     if (cVar1 == '\0') {
-      f_0791_3323((int)param_1,uVar2);
+      pass_to_selected_receiver((int)param_1,uVar2);
     }
     else {
       long_ball_target((int)param_1,uVar2);
@@ -895,9 +900,10 @@ void __stdcall16far f_0791_3BEE(undefined4 param_1)
 }
 
 
-// ---- 0791:3C20  f_0791_3C20  (f_0791_3C20; Ghidra 2000:3C20, __stdcall16near; found by routines.tsv)
+// ---- 0791:3C20  count_on_target  (f_0791_3C20; Ghidra 2000:3C20, __stdcall16near; found by routines.tsv)
+// increment the side's statistic only outside8326 mode  [likely; read code/seg_0791_06.asm:1057-1073]
 
-void f_0791_3C20(char param_1)
+void count_on_target(char param_1)
 
 {
   if (DS:8326 == '\0') {
@@ -955,9 +961,10 @@ void __stdcall16far shot_or_header(undefined4 param_1,int param_2,undefined1 par
 }
 
 
-// ---- 0791:3D38  f_0791_3D38  (f_0791_3D38; Ghidra 2000:3D38, __stdcall16near; found by routines.tsv)
+// ---- 0791:3D38  find_cross_target  (f_0791_3D38; Ghidra 2000:3D38, __stdcall16near; found by routines.tsv)
+// scan the holder's side; membership is returned in ZF  [likely; read code/seg_0791_07.asm:6-86]
 
-void f_0791_3D38(uint param_1,undefined2 *param_2)
+void find_cross_target(uint param_1,undefined2 *param_2)
 
 {
   int iVar1;
@@ -1010,9 +1017,10 @@ void f_0791_3D38(uint param_1,undefined2 *param_2)
 }
 
 
-// ---- 0791:3DF6  f_0791_3DF6  (f_0791_3DF6; Ghidra 2000:3DF6, __stdcall16far; found by routines.tsv)
+// ---- 0791:3DF6  cross_to_candidate_or_random_point  (f_0791_3DF6; Ghidra 2000:3DF6, __stdcall16far; found by routines.tsv)
+// use3D38's output point, drawing a target only if zero  [likely; read code/seg_0791_07.asm:87-185]
 
-void __stdcall16far f_0791_3DF6(char *param_1)
+void __stdcall16far cross_to_candidate_or_random_point(char *param_1)
 
 {
   char cVar1;
@@ -1025,7 +1033,7 @@ void __stdcall16far f_0791_3DF6(char *param_1)
   local_4 = 0;
   uVar4 = (undefined2)((ulong)param_1 >> 0x10);
   pcVar3 = (char *)param_1;
-  f_0791_3D38(pcVar3[6],&local_4,unaff_SS);
+  find_cross_target(pcVar3[6],&local_4,unaff_SS);
   if (local_4 == 0) {
     iVar2 = draw_table_byte();
     local_4 = CONCAT11(local_4._1_1_,
@@ -1045,9 +1053,10 @@ void __stdcall16far f_0791_3DF6(char *param_1)
 }
 
 
-// ---- 0791:3EC5  f_0791_3EC5  (f_0791_3EC5; Ghidra 2000:3EC5, __stdcall16far; found by routines.tsv)
+// ---- 0791:3EC5  take_shot  (f_0791_3EC5; Ghidra 2000:3EC5, __stdcall16far; found by routines.tsv)
+// event1 with the caller's low-byte commentary template  [likely; read code/seg_0791_07.asm:186-202]
 
-void __stdcall16far f_0791_3EC5(undefined4 param_1,undefined1 param_2)
+void __stdcall16far take_shot(undefined4 param_1,undefined1 param_2)
 
 {
   shot_or_header((int)param_1,(int)((ulong)param_1 >> 0x10),1,param_2);
@@ -1055,9 +1064,10 @@ void __stdcall16far f_0791_3EC5(undefined4 param_1,undefined1 param_2)
 }
 
 
-// ---- 0791:3EDF  f_0791_3EDF  (f_0791_3EDF; Ghidra 2000:3EDF, __stdcall16far; found by routines.tsv)
+// ---- 0791:3EDF  take_header  (f_0791_3EDF; Ghidra 2000:3EDF, __stdcall16far; found by routines.tsv)
+// event2, commentary14h, with incoming AH preserved  [likely; read code/seg_0791_07.asm:203-219]
 
-void __stdcall16far f_0791_3EDF(undefined4 param_1)
+void __stdcall16far take_header(undefined4 param_1)
 
 {
   shot_or_header((int)param_1,(int)((ulong)param_1 >> 0x10),2,0x14);
@@ -1111,9 +1121,10 @@ void __stdcall16far long_kick_target(undefined4 param_1,int param_2)
 }
 
 
-// ---- 0791:3FAD  f_0791_3FAD  (f_0791_3FAD; Ghidra 2000:3FAD, __stdcall16far; found by routines.tsv)
+// ---- 0791:3FAD  clear_to_random_target  (f_0791_3FAD; Ghidra 2000:3FAD, __stdcall16far; found by routines.tsv)
+// narrow long clearance or wide random target, preserving draws  [likely; read code/seg_0791_07.asm:311-419]
 
-void __stdcall16far f_0791_3FAD(char *param_1,int param_2)
+void __stdcall16far clear_to_random_target(char *param_1,int param_2)
 
 {
   char cVar1;
@@ -1148,9 +1159,10 @@ void __stdcall16far f_0791_3FAD(char *param_1,int param_2)
 }
 
 
-// ---- 0791:408E  f_0791_408E  (f_0791_408E; Ghidra 2000:408E, __stdcall16far; found by routines.tsv)
+// ---- 0791:408E  choose_clearance  (f_0791_408E; Ghidra 2000:408E, __stdcall16far; found by routines.tsv)
+// coin chooses either long clearance with event11  [likely; read code/seg_0791_07.asm:420-447]
 
-void __stdcall16far f_0791_408E(undefined4 param_1)
+void __stdcall16far choose_clearance(undefined4 param_1)
 
 {
   char cVar1;
@@ -1162,73 +1174,7 @@ void __stdcall16far f_0791_408E(undefined4 param_1)
     long_kick_target((int)param_1,uVar2,0xb);
   }
   else {
-    f_0791_3FAD((int)param_1,uVar2,0xb);
+    clear_to_random_target((int)param_1,uVar2,0xb);
   }
   return;
-}
-
-
-// ---- 0791:40BC  f_0791_40BC  (f_0791_40BC; Ghidra 2000:40BC, __cdecl16near; found by routines.tsv)
-
-uint __cdecl16near f_0791_40BC(void)
-
-{
-  int iVar1;
-  char cVar2;
-  uint uVar3;
-  int iVar4;
-  undefined4 local_7;
-  
-  iVar1 = (uint)DS:830B * 0x16;
-  local_7 = (pitch *)CONCAT22(0xb000,(pitch *)pitch_records + DS:830B);
-  uVar3 = in_own_half((pitch *)pitch_records + DS:830B,0xb000);
-  if ((char)uVar3 == '\0') {
-    cVar2 = ball_holder_is_side0();
-    iVar4 = (int)(char)((undefined1 *)&DS:82E3)[(cVar2 == '\0') * 6];
-    if (iVar4 < 0) {
-      iVar4 = -iVar4;
-    }
-    uVar3 = (uint)*(char *)((int)&pitch_records[0].y + iVar1);
-    if ((int)uVar3 < 0) {
-      uVar3 = -uVar3;
-    }
-    if (iVar4 < (int)uVar3) {
-      uVar3 = (uint)*(char *)((int)&pitch_records[0].y + iVar1);
-      if ((int)uVar3 < 0) {
-        uVar3 = -uVar3;
-      }
-      if ((int)uVar3 < 0x23) {
-        uVar3 = (uint)(char)local_7->x;
-        if ((int)uVar3 < 0) {
-          uVar3 = -uVar3;
-        }
-        if ((int)uVar3 < 4) {
-          return CONCAT11((char)(uVar3 >> 8),1);
-        }
-      }
-    }
-  }
-  return uVar3 & 0xff00;
-}
-
-
-// ---- 0791:4151  f_0791_4151  (f_0791_4151; Ghidra 2000:4151, __cdecl16near; found by routines.tsv)
-
-bool __cdecl16near f_0791_4151(void)
-
-{
-  undefined2 uVar1;
-  char cVar2;
-  pitch *ppVar3;
-  undefined4 local_7;
-  
-  ppVar3 = (pitch *)pitch_records + DS:830B;
-  local_7 = (pitch *)CONCAT22(0xb000,ppVar3);
-  uVar1._0_1_ = local_7->x;
-  uVar1._1_1_ = local_7->y;
-  cVar2 = in_own_goal_strip(ppVar3,0xb000,uVar1);
-  if (cVar2 != '\0') {
-    f_0791_3FAD(ppVar3,0xb000,9);
-  }
-  return cVar2 != '\0';
 }
