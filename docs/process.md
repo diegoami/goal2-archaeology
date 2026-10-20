@@ -1,6 +1,8 @@
 # Process
 
-`CLAUDE.md` holds the rules, this file how they run, `/run-task` the procedure; each rule cites its lesson.
+[designed: owner, 2026-10-20] How a task runs; the rules are in `CLAUDE.md`. The earlier process
+(review harness, family rule, worktrees, Jev, lessons register) is kept on the branch `local`;
+sections keep their numbers because other files cite them.
 
 ## 0. Order of work
 
@@ -17,20 +19,12 @@ Tag capability jumps, not phases. Release notes come from GitHub when the tag is
 
 ## 1. Roles
 
-| Role | Who | Does |
-| --- | --- | --- |
-| Main session | Claude, the session the user talks to | Plans, writes task files, runs `/run-task`, triages, merges, reports |
-| Implementer | The **`implementer` subagent** spawned inside Claude Code (worktree isolation) on a model of its own, not the orchestrator's (Opus spawns Sonnet; under Z.AI `sonnet` is GLM-5.3 Flash), or **the main session** directly, in its own worktree, where the provider cannot spawn one; asked before each implementation (CLAUDE.md "Choosing models" rule 1). *Superseded: OpenCode via `implement.mjs` (removed), the GLM/DeepSeek/Sonnet chain (L42), L46's heavier-model rule, the user asked before each run.* | One task, one branch, one PR, in its own worktree |
-| Reviewer | **One OpenCode run** via `tools/harness/review.mjs`, on the model the user names at the question before the review, `harness.json`'s `reviewer.default` (GPT-5.6 Luna) proposed first (`sol-6.1` for hard research, rule 21); never the session's family (L27), never a blocked model. Exit 3: read the final message, fix the cause, run again; exit 4: the main session reads the flagged review and decides (L28). *Superseded: the quota-checked Sol / Luna / Opus order (L50, L51, L101), the Claude fallback, the user asked at every review.* | Re-runs the Done-when, audits scope and evidence, posts one PR comment, applies the label |
-| Decider | Jev via `tools/harness/jev.mjs` (the `/jev` skill) | Repeated yes/no decisions over many items, at the confident ends only (§12) |
-| Generator | Models on OpenRouter (images, other families) and ElevenLabs (speech, sound, music) | Assets, each committed with a sidecar naming provider, model, prompt, date and cost |
-
-Before each implementation and each review the main session asks the user one question, with
-`harness.json`'s default proposed first (CLAUDE.md "Choosing models"); no quota, tier or chain picks a model, and the
-roster changes through `/switch-model`. The implementer's family is the session's, read from the
-Anthropic environment variables (`lib/common.mjs` `sessionFamily`; the orchestrator is Claude, or GLM
-through Z.AI, MiniMax or Kimi when Claude's tokens are out), and the reviewer is never of it. Model ids come
-from `harness.json`, `models.mjs` or `opencode models`, never memory (L25).
+The main session (Claude Code or Codex, locally or in a cloud session) plans, writes task files,
+implements or spawns the `implementer` subagent, runs the checks, merges and reports. Reviews are
+optional per PR (`tools/review_pr.sh`, any model) and mandatory in spirit at milestones
+(`tools/milestone_review.sh`, [milestone-review.md](milestone-review.md)). Ghidra and the pinned
+tools under `~/tools` are run by whoever has them; a cloud session gets DOSBox-X 2024.03.01 from
+`tools/cloud_setup.sh` ([cloud.md](cloud.md)).
 
 ## 2. Task files
 
@@ -66,62 +60,25 @@ Scope, Done when, Hazards, Implementer, Reviewer, Merge after. Rules:
 
 ## 3. The loop
 
-`ready → implement → review → approved + green CI → squash merge → follow-up → unblock → report`.
-Rework sends the full review back to the same branch, at most two rounds (one for a fix), then
-escalates. The implementer script resumes a pushed branch; it never starts over. Before a merge the
-main session re-runs the check the approval rests on most; a different result is rework. (L46)
-CI (the owner, 2026-10-12, to save minutes): no run on a draft PR, so a PR is marked ready before
-its review; a new push cancels the run it supersedes; a push that changes only measured outputs
-(`*.log`, `experiments/**/out/**`) runs nothing, so "green CI" is the newest run that covered the
-PR's code; a push to `main` runs only the quick checks (links, citations, no original file), except the
-merge commit of a research PR (`Merge pull request #`), whose tree the PR's CI just checked.
-CI tiers (the owner, 2026-10-17, #297): the PR's one job, `checks`, runs what the PR changes oblige
-(`tools/ci_gate.py`). Prose no test reads (`*.md` at the root, `docs/`, `notes/`, `spec/`, except the four
-docs a test reads) gets links, citations and the no-original-file check only. Anything else also gets the
-harness tests, `tests/static` and every unit test except six slow modules (five took about 280 of the 360 seconds
-of the unit suite; the sixth, `test_emul_match`, about 380 once unicorn was installed; since #310 a pull request's run of it takes about 36, its 361 s proved test running only in the nightly, manual and local runs, `notes/310-emul-match-time/`). The code tier installs
-unicorn 2.1.4 (`runtime/emul/requirements.txt`, pip cache), so the emulator tests run there instead of skipping
-(#304; it adds about 35 s to a code PR's run, `notes/T304/`). A slow module runs only when the PR touches a file it reads (`SLOW_DEPS`, traced with
-an audit hook, `notes/T297/`); a change to the CI files, a manual run and a nightly run on `main` (when
-code landed that day) run all of them, and the nightly run is the net for a path the list misses. A push
-to a PR obliges only what the push changes when the previous head's `checks` passed, else what the whole
-PR does; so a green `checks` on a head always means the whole PR's obligations are met. The checks that
-guard rules 9 (the unit suites), 18 (no original file, the artifact by hash) and 20 (runs and citations
-validate) run in every run that touches the files they read; `python3 tools/ci_minutes.py` prints the
-Actions minutes, and with `--replay-since DATE` what the PRs since then would have cost.
+`ready → implement → (optional review) → green CI → merge → follow-ups → report`
 
-What the review script guarantees, and why:
-- OpenCode starts with stdin closed; without it a run hangs before it starts. (L10)
-- No session in 180 s, no progress in 1500 s, or no exit in 90 min kills the run's process tree (L10);
-  `--idle-timeout-sec` and `--total-timeout-sec` lengthen them for one run.
-- The agent is checked on OpenCode's session record (L11); a rejected tool call fails the run (L26),
-  and the fix is a wider grant in the agent file, not a re-brief (CLAUDE.md "Choosing models" rule 4).
-- The brief passes by file: the runner writes it to `.harness-brief-<title>.md` at the review
-  worktree's root and the command line carries only a pointer, so a long brief cannot exceed the
-  command-line limit; the file is never committed, and on failure it is kept with the logs. (L60)
-- The model runs at the effort its `harness.json` entry names (a heavy model at low, a light one
-  at high), in the scripts' own data directory (L27, L29). One model, one run; no chain. The model
-  is `reviewer.default`, or `--reviewer` (a harness.json key or `provider/model[@variant]`).
-- Exit 0: posted and labelled. 2: a refused model (DeepSeek, an unknown name). 3: no review, nothing
-  posted: read the final message ("Choosing models" rule 12), fix the cause, run again. 4: posted under a note, no
-  label: the main session reads it and decides.
+1. **Check** the task is ready and its Merge-after tasks are merged; its Done-when lines fail on `main`.
+2. **Implement** on the work branch (below) with §4's brief; commit and push after each step and
+   open the PR as a draft after the first push.
+3. **Review, when warranted** (a finding, a game rule or constant, the engine port, the proof):
+   `tools/review_pr.sh <pr> <cli> <model>` posts one review comment. Rework goes to the same branch;
+   non-blocking findings become one `T<nn> follow-up` issue.
+4. **Checks**: every Done-when line on the PR head, and green CI (`.github/workflows/ci.yml`; its
+   gate, `tools/ci_gate.py`, picks what the change obliges).
+5. **Merge** with a merge commit: `gh pr merge <pr> --merge --match-head-commit <sha>`; then locally
+   `git switch main && git pull`, in a cloud session `git pull --ff-only origin main`.
 
-How the main session launches and watches a run (L103):
-- Detached from its own session, so a restart of Claude Code does not kill the run, in the form of
-  CLAUDE.md "Choosing models" rule 9: `systemd-run --user --unit=goal2-<task> --collect -E PATH="$PATH"
-  -E MINIMAX_API_KEY -E ANTHROPIC_BASE_URL -E HARNESS_SESSION_FAMILY -p WorkingDirectory=<repo> -p StandardInput=null -p StandardOutput=file:<log>
-  -p StandardError=file:<log> <review.mjs command>`. A unit gets only the
-  environment it is given, so each key a run needs is passed with `-E`; never a `bash -c` or
-  `bash -lc` script (the safety check flags it).
-- The watch follows the unit (`systemctl --user is-active goal2-<task>`). A Claude implementer
-  agent is watched by its transcript file's size and its worktree; when its worktree holds
-  uncommitted work more than 20 minutes newer than its last commit, the main session archives it
-  outside the worktree, read-only (it never touches the run's index).
-- The run's exit code comes from the journal, `journalctl --user -u goal2-<task>` ("status=N"), or
-  from the log's last line. With `--collect` the unit is gone once it ends, and
-  `systemctl --user show` then prints `Result=success` and `ExecMainStatus=0` for the missing unit
-  whatever the script returned (#258: checked with a review.mjs run that exited 3).
-- An implementer's PR may be a draft; the main session runs `gh pr ready <pr>` before the review.
+**Branches.** [designed: owner, 2026-10-20, as in goal2 and malpaco] Locally each task has its own
+branch, `task/T<nn>-<slug>` from `origin/main`. A cloud session starts on its own `claude/…` branch
+and may push only there, so that branch is the work branch for every task of the session, one PR per
+task, brought level with `git pull --ff-only origin main` before each. Every PR merges with a merge
+commit (research PRs need their commits, rule 20; a cloud branch then fast-forwards). A PR still open
+when a session ends is continued by the next session.
 
 ## 4. The implementer brief
 
@@ -149,8 +106,8 @@ You implement <T<nn>>. The task file above is the contract.
 - A defect you find outside the task: report it. A one-file mechanical fix that blocks you may
   ride this PR, declared under Scope in the PR body.
 - Update any document your change makes wrong, in this PR. Never write status into a document.
-- A heavy job (a match run, a family run, check.py, the unit suite) runs as `tools/harness/heavy.sh <name> -- <command>`:
-  four at a time on this machine across every agent and review, the rest queue and say "waiting for a slot (k ahead)"
+- A heavy job (a match run, a family run, check.py, the unit suite) runs as `tools/heavy.sh <name> -- <command>`:
+  four at a time on a machine, the rest queue and say "waiting for a slot (k ahead)"
   (docs/environment.md "Heavy jobs"). family.py, check.py and `tools/ci_gate.py run-tests` queue themselves.
 - Commit and push after each step, at least every 20 minutes and before any command that runs longer
   than 5 minutes; after your first push, open the PR as a draft (`gh pr create --draft`). A crash then
@@ -162,68 +119,14 @@ You implement <T<nn>>. The task file above is the contract.
   the tail of its output; Docs changed.
 ```
 
-## 5. The reviewer brief
+## 5. Reviews
 
-```text
-<T<nn>> review (<model>)
-You review PR #<n> at <sha>. You did not write it. The task file follows.
-0. Prove the tree: HEAD is <sha> and the diff against origin/main is the PR's; findings name its files.
-1. Re-run every Done-when line yourself, and account for each (L32). The PR's evidence is no proof.
-   (A rework round re-runs the sample the brief names: its "Rework rounds" section, #319.)
-2. [evidence-driven] Every constant traces to a fixture, report or investigation; a [designed] one says what was searched.
-3. [seeded] No wall clock, unseeded random or order-dependent iteration in rule code.
-4. Every changed file and behaviour is one the task asks for (L44); docs it makes wrong are updated.
-5. Sweep the diff: tests that pass with the behaviour deleted (mutate, rebuild clean, re-take any
-   negative result), branches no input reaches, edge comments without a test, <project classes>.
-6. <docs/review-brief.md in full: "Blocking means" for this task, then its one-pass section (L47, L49)>
-Scratch copies and big outputs go to your scratch folder under ~/goal2-review-tmp (TMPDIR points
-there), never /tmp, which may be full (#311).
-Prove each finding (run it, or delete the behaviour and name the test that fails) or label it
-unverified. Your final message is the review: the header; the verdict (approve | approve after
-named fixes | rework | user decision); per Done-when line `DW<k>: ran <command> → <result>` or
-`DW<k>: not run — <reason>`; the findings R1..Rn (file:line, blocking or not); the verdict again
-last. Never post it: the script posts it and applies the label.
-```
-
-Write the brief with `tools/harness/make-brief.mjs` (usage in its header), never by hand: it fills this block and `docs/review-brief.md` and refuses a brief `review.mjs` would refuse.
-
-Every review brief states the timezone and timestamp convention (L108): include the owner's
-supplied timezone and use UTC ISO 8601 for evidence logs unless the task needs local time. A
-harmless metadata read the owner has authorized does not need another permission question. Grant
-only the read the tool can enforce, test sibling reads and writes as denied, and describe the
-boundary accurately. On OpenCode 1.18.32, `external_directory` checks the parent `/*` for a file
-read, while `grep` and `glob` permission requests omit the target path; where path-specific rules
-are needed, deny those tools and use a path-bearing tool. OpenCode 2.0.28 asks the same
-`<dir>/*` for an outside read (its read resource is the absolute path; inside the worktree, the
-relative one), but no longer checks shell file operands; the harness's operand guard restores that
-check (docs/environment.md, "OpenCode 2"). These are tool-layer controls, not OS isolation.
-
-Research briefs here also add, under "Blocking means": G0a (U32, CLAUDE.md rule 22) — runs made
-because a static tool was missing, or a finding resting on runs whose Method does not say what
-static analysis was tried, is a contract defect: rework.
-
-Run mechanics, added to every brief here: the session is killed after 1500 s without activity (a command waiting for a slot in `tools/harness/heavy.sh` is not counted: `review.mjs` gives the reviewer `heavy.sh` on its PATH and the idle clock reads the queue, #318; docs/environment.md "Heavy jobs"); keep
-every shell command under 5 minutes (a long suite excepted: one foreground call, `docs/review-brief.md`), and work only inside the review worktree and, for scratch files, the run's folder under `~/goal2-review-tmp` (`review.mjs` sets `TMPDIR` there, removes it when the run comes back and keeps it when the run fails; it refuses to start when `/tmp` has under 500 MB free and that disk under 2 GB; #311). Undo a mutation by
-writing back the file's saved contents (read it first, restore it in a `finally`), never with
-`git checkout`, `git restore` or `git reset` of the file: those return the last commit and destroy
-any uncommitted work in it (PR 114 round 1). If a reviewer still
-reports one blocker per round, stop after the second such round: the main session goes through the
-whole diff for the same class of problem before the next review, and records the pattern in
-`docs/model-trials.md` (L101).
-
-Practical, not theoretical (the owner, 2026-10-05, after T12 took 4 rounds over a bypass no run
-showed): a theoretical bypass is blocking only if it makes a claim false as worded, not merely
-unproven. Accept what is about 80-90% likely, worded with its confidence and what remains
-possible; narrow a claim's wording rather than add runs or rounds, and file stronger evidence as
-a follow-up.
-
-Before merging an approval that carries non-blocking findings, the main session reads them: a
-proven way past what the task protects is rework whatever the reviewer rated it; it says so on the
-PR and records it in `docs/model-trials.md` (L47: GLM-5.3 proved three guard bypasses, rated them
-non-blocking and approved).
-
-For a Claude reviewer, the main session also runs `/code-review <pr>` on architecture tasks,
-always with the PR number: a bare invocation from an agent reviews the wrong tree. (L8)
+A review re-runs every Done-when line, proves its findings (a command, or a mutation a test fails
+on) or labels them unverified, and posts one comment on the PR. Blocking means a claim false as
+worded or a defect a user of the spec would hit; a theoretical bypass of tooling is a follow-up
+(CLAUDE.md rule 23). For an engine task a rework review may re-run the seeded sample (F40 seeds 1-5,
+2 of O8, 2 of S), the unit tests and the mutation checks, and verify committed family outputs by
+sha256, instead of the full 62-match family run (#319).
 
 ## 6. Bugs, fixes, triage
 
@@ -231,14 +134,13 @@ Bugs and non-blocking review findings are filed with `triage:needed`: one `T<nn>
 per merge. Triage decides one of:
 - **fix**: no ruleset value, fixture value, seeded measurement or golden line changes outside the
   bug's own reproduction. The bug issue is the contract; its Done-when is its reproduction as a
-  failing-then-passing test; one review round. (L4)
+  failing-then-passing test; an optional review. (L4)
 - **correction task**: anything that changes an outcome.
 - **fold** into a task not yet ready, or **close**, with the reason.
 
-Once `breaks-play` is trialled (§12), Jev settles the gate's confident ends; the main session the middle.
 
 Scheduling follows CLAUDE.md rule 23 (the owner, 2026-10-18): the route-C engine port comes first.
-Hardening, defence-in-depth and edge-case work on the proof, the harness or the tooling is not fixed
+Hardening, defence-in-depth and edge-case work on the proof or the tooling is not fixed
 ahead of the port, unless it blocks a port task or breaks the proof for ordinary use. It is recorded
 as a follow-up issue that states the known limit and its acceptance (what would close it), and,
 where the limit concerns a mechanism, as a note in the docs too. A reviewer's finding that is a
@@ -246,29 +148,22 @@ deliberate-reflection or adversarial-use route, when the port's own code does no
 likewise a known limit with a follow-up issue and is not reworked again. The owner decides when a
 limit is worth closing.
 
-## 7. Escalate to the user when
+## 7. Escalate to the owner
 
-A design question; a Done-when would have to weaken; a third rework round, except the narrow one
-the main session may grant itself when the remaining findings are small and change no result
-(CLAUDE.md rule 7); anything destructive (force-push, rewriting `main`, deleting an issue); a new
-external dependency.
+A design question; a Done-when that would have to weaken; anything destructive (force-push,
+rewriting `main`, deleting an issue or a release asset); a new external dependency.
 
 ## 8. Labels
 
-`task`, `bug`, `fix`, `triage:needed`, `post-playable`,
-`status:{ready,in-progress,in-review,rework,approved,blocked,escalated,merged}`,
-`review-round:{1,2}`, and `model:<name>` on a PR whose implementer was not the default.
+`task`, `bug`, `fix`, `triage:needed`, `milestone-review`, `review`,
+`status:{ready,in-progress,in-review,rework,blocked,escalated,merged}`.
 
-## 9. Measure
+## 9. Autonomous runs
 
-After each merge, one PR comment records each Claude agent's token total (from its completion
-notice), each OpenCode run's model and duration, and the review rounds. After 10–20 tasks, compare
-the rework rate with the baseline in `docs/lessons.md` before changing models. (L13)
-
-## 10. Adding a rule
-
-A rule enters `CLAUDE.md` or this file only with a lesson in `docs/lessons.md`: a failure in a real
-run, or the owner's decision with its basis. Plausible rules without either stay out. (L14)
+[designed: owner, 2026-10-20] A session may work the backlog on its own (`docs/backlog.md`, the
+engine port first, rule 23): it takes the ready tasks in order, implements, checks and merges them
+without asking, and stops only for a design decision, a Done-when that would weaken, and each
+milestone (milestone issue, independent review).
 
 ## 11. For a reverse-engineering project
 
@@ -290,13 +185,6 @@ run, or the owner's decision with its basis. Plausible rules without either stay
   into "any normal play fills it" and "needs a specific moment". Ask for a moment by name only
   when nothing else covers it.
 
-## 12. Delegating decisions to Jev
-
-Jev takes a decision only when it recurs over many items, its answers are known up front, and a
-trial against labels has set its cutoffs, recorded in `harness.json` with the numbers. It answers
-the confident ends and the main session the middle; a person's decision outranks both. Without its
-key it is off. `/jev` has the procedure. (L24)
-
 ## 13. The named view
 
 `static/goal-exe/named/` is `decompiled/` with names: routines, the `player` and `country` records
@@ -310,9 +198,8 @@ raw baseline; where the two views disagree, the listing decides.
 Each research task adds or corrects the rows for what it establishes, with its finding as basis,
 runs `python3 tools/static/check_annotations.py`, and regenerates `named/` in its PR with the command
 in `static/goal-exe/named/README.md`. Only rows change by hand; `named/` never does.
-An OpenCode reviewer cannot run Ghidra (it lives under `~/tools`, outside its worktree): the review
-brief says "do NOT run Ghidra", and the main session regenerates `named/` where a check needs it
-(L57). Claude agents and the main session can run it.
+A reviewer without Ghidra (it lives under `~/tools`) does not run it; the main session regenerates
+`named/` where a check needs it (L57).
 
 ## 14. Sending findings to goal2
 
@@ -331,7 +218,7 @@ a correction or a wish.
 - *question*: open; the register row's last column names it (Q-number or issue).
 - *wish or design*: not a rule. It goes in the handover only (research never decides design, L16).
 
-**2. A branch in goal2**, made in a worktree of goal2, never in its main checkout, named
+**2. A branch in goal2** (goal2 works without worktrees since 2026-10-20), named
 `docs/register-<topic>-<date>`. It changes `docs/assumptions.md` and adds the handover file of step 3, and nothing else: new rows, or a changed row
 when a finding replaces an `assumed` one (its Source becomes `finding F<nn>`, its Replaced-by is
 emptied). Each row is a rule plus its Source, Live and Replaced-by cells in goal2's own columns.

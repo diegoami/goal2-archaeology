@@ -1,0 +1,45 @@
+# Working in a cloud session
+
+[designed: owner, 2026-10-20] goal2-archaeology runs from any fresh checkout, a Claude Code on the
+web session included, with the original game running in DOSBox-X 2024.03.01 headless.
+
+## Secrets of the cloud environment
+
+- `GH_TOKEN`: a fine-grained GitHub token for `diegoami/goal2-archaeology` with read and write
+  access to contents, issues and pull requests. Without it `gh` cannot open or merge PRs.
+- Optional, for reviews by other model families from the cloud: the API keys of the CLI that
+  `tools/review_pr.sh` or `tools/milestone_review.sh` calls.
+
+The original game needs no secret: its files are assets of this repository's public releases
+(CLAUDE.md rule 18), fetched and verified by hash.
+
+## Network
+
+`archive.ubuntu.com` (the pinned DOSBox-X packages) and the image's own apt mirrors, `pypi.org`
+and `files.pythonhosted.org`, and GitHub (`github.com`, `api.github.com`, `codeload.github.com`,
+`objects.githubusercontent.com`, `uploads.github.com`) for the code and the release assets.
+
+## What happens at session start
+
+The session-start hook (`.claude/hooks/session-start.sh`, cloud sessions only) runs
+`tools/cloud_setup.sh`, which mirrors CI: Xvfb, Xephyr, xinput, xdotool, ffmpeg and the
+distribution's `dosbox-x` (for its libraries) from apt; DOSBox-X 2024.03.01 from
+`setup/dosbox-x-2024.03.01.sh` when apt offers another version; the Python requirements; the
+artifact sets `goal2-67cf27d6` and `goal2-a949da2f`; and an **emulator probe**: the game boots to
+its title screen, whose digest must equal the one in `runs/E001/E001-r0001.json`, then two
+driver cycles (`runtime/driver/cycle.py --dry`) run end to end. It reports the branch, gh's login
+and the DOSBox-X version; its log is `.cache/cloud-setup.log`. Elsewhere run `tools/cloud_setup.sh`
+and `source .cache/cloud.env` by hand.
+
+## Branches
+
+The session starts on its own `claude/…` branch, the work branch for every task of the session;
+every PR merges with a merge commit (process.md §3).
+
+## Limits
+
+- Runs are CPU-bound; a cloud session has few cores, so heavy jobs queue through `tools/heavy.sh`.
+- Ghidra (Java, about 500 MB) is not installed by the setup; static work reads the committed
+  `static/goal-exe/` views, and regenerating them stays local unless Ghidra is added.
+- A probe failure means the emulator differs here: no run made in that session counts until it is
+  understood.

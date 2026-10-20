@@ -1,5 +1,9 @@
 # Environment
 
+> [designed: owner, 2026-10-20] The review harness, OpenCode setup and worktrees described below were
+> removed (CLAUDE.md, "the branch `local`"); read "worktree" as the checkout at hand. DOSBox-X,
+> Ghidra and the runtime sections still apply; cloud sessions: [cloud.md](cloud.md).
+
 What a session needs so the main session can delegate. Everything here is optional: each missing
 piece turns one delegate off, and the main session falls back to Claude (the scripts exit 3).
 
