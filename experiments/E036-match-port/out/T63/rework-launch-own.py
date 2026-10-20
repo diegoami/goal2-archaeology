@@ -7,7 +7,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[4]
 OUT = Path("experiments/E036-match-port/out/T63")
-STAMP = "rework-cbbfb28"
+STAMP = "rework-cbbfb28-r2"
 
 
 def main():
@@ -16,6 +16,9 @@ def main():
         parts = shlex.split(recorded)
         assert parts[:6] == ["tools/harness/heavy.sh", "--weight", "2", f"t63-all-main53-{half}",
                              "--", "python3"], parts[:6]
+        # The recorded line also contains its old shell redirection; it is not
+        # an argument to family.py. Keep the failed first launch logs intact.
+        parts = parts[:parts.index(">")]
         command = ["/usr/bin/python3", *parts[6:]]
         command[command.index("--ports") + 1] = "positioning"
         candidate = OUT / f"own-{STAMP}-{half}.jsonl"
