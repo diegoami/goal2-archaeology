@@ -1,0 +1,4 @@
+reviewed source 92f861d6242799cc6f51bc0ef72d3176785603eb; current rework tests; exit 1
+failures: test_empty_marking_slot_is_cleared_without_candidate, test_marking_assignment_continues_after_marker_calls, test_marking_slot_skill_comparison_keeps_incumbent_on_guest_stack
+Ran 14 tests in 0.014s
+FAILED (failures=3)
