@@ -39,7 +39,9 @@ every PR merges with a merge commit (process.md §3).
 ## Limits
 
 - Runs are CPU-bound; a cloud session has few cores, so heavy jobs queue through `tools/heavy.sh`.
-- Ghidra (Java, about 500 MB) is not installed by the setup; static work reads the committed
-  `static/goal-exe/` views, and regenerating them stays local unless Ghidra is added.
+- Ghidra is installed on demand, not at session start: a task that regenerates `static/goal-exe/decompiled/`
+  or `named/` (process.md §13) first runs `bash setup/ghidra-12.1.4.sh` (Ghidra 12.1.4 and Temurin
+  21.0.12.1, sha256 pinned, about 780 MB), then `tools/static/decompile.sh` as the views' READMEs say,
+  in the background (about 6 minutes on two CPUs).
 - A probe failure means the emulator differs here: no run made in that session counts until it is
   understood.

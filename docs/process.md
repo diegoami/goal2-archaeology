@@ -198,8 +198,8 @@ raw baseline; where the two views disagree, the listing decides.
 Each research task adds or corrects the rows for what it establishes, with its finding as basis,
 runs `python3 tools/static/check_annotations.py`, and regenerates `named/` in its PR with the command
 in `static/goal-exe/named/README.md`. Only rows change by hand; `named/` never does.
-A reviewer without Ghidra (it lives under `~/tools`) does not run it; the main session regenerates
-`named/` where a check needs it (L57).
+Ghidra is installed on demand with `bash setup/ghidra-12.1.4.sh` (a cloud session too, `docs/cloud.md`);
+a reviewer without it does not run it, and the main session regenerates `named/` where a check needs it (L57).
 
 ## 14. Sending findings to goal2
 

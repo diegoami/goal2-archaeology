@@ -311,6 +311,9 @@ repository; nothing else does:
   `GHIDRA_HOME`). The script refuses another version.
 - A JDK 21: Temurin 21.0.12.1 (`~/tools/jdk-21.0.12.1+1`, or set `JAVA_HOME`). The script refuses
   another major version, and the output's README records the exact one.
+- [designed: owner, 2026-10-20] `bash setup/ghidra-12.1.4.sh` installs both on demand (official
+  GitHub releases, sha256 pinned, about 780 MB, under a minute on a fast link) into `~/tools`, or
+  `$TOOLS`; a cloud session runs it when a task regenerates `decompiled/` or `named/`.
 
 Ghidra refuses a project path with an element that starts with `.` ("Path element starting with '.'
 is not permitted"), and the harness's isolated worktrees are under `<repo>/.claude/worktrees/`. So
