@@ -8,3 +8,5 @@ heavy: family: waiting for a slot (0 ahead)
 heavy: family: got slot 0 1 after 12149 s
 ports: attributes, geometry, motion, pilot, restarts, runtime
 31 matches selected, 0 already in experiments/E036-match-port/out/T62/all-main53-20261019-resumed-b.jsonl, 31 to run
+/usr/lib/python3.14/multiprocessing/resource_tracker.py:396: UserWarning: resource_tracker: There appear to be 5 leaked semaphore objects to clean up at shutdown: {'/mp-m0wp_nv8', '/mp-k6llip3a', '/mp-7ipxprkf', '/mp-1na9_3bn', '/mp-h7vig7kn'}
+  warnings.warn(
