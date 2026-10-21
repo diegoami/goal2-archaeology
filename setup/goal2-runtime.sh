@@ -64,8 +64,20 @@ if [ $? -ne 0 ]; then
   if need gh "gh (to download release $TAG)"; then
     echo "release     downloading $TAG into .cache/goal2"
     mkdir -p .cache/goal2
+    # [designed: owner, 2026-10-21] gh's release commands use GraphQL, which a cloud session's proxy
+    # blocks: then each file comes over plain HTTPS from the public release (verified below either way).
     gh release download "$TAG" --repo "$REPO" -D .cache/goal2 --clobber >/dev/null 2>&1 \
-      || missing+=("release $TAG (gh release download failed: is gh logged in with access to $REPO?)")
+      || SET="$SET" python3 - "$PWD" "$REPO" "$TAG" <<'PY' \
+      || missing+=("release $TAG (gh release download and the HTTPS download both failed)")
+import json, os, shutil, sys, urllib.request
+root, repo, tag = sys.argv[1:4]
+m = next(e["manifest"] for e in json.load(open(root + "/artifacts/known.json"))["sets"]
+         if e["manifest"]["id"] == os.environ["SET"])
+for f in m["files"]:
+    url = f"https://github.com/{repo}/releases/download/{tag}/{f['path']}"
+    with urllib.request.urlopen(url, timeout=120) as r, open(root + "/.cache/goal2/" + f["path"], "wb") as out:
+        shutil.copyfileobj(r, out)
+PY
   fi
 else
   echo "release     .cache/goal2 already matches artifacts/known.json"

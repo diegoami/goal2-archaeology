@@ -96,7 +96,7 @@ else
 fi
 
 say "GitHub"
-gh auth status >/dev/null 2>&1 && echo "gh is logged in" || echo "gh is not logged in: set GH_TOKEN (docs/cloud.md)"
+gh api user --jq .login >/dev/null 2>&1 && echo "gh is logged in" || echo "gh is not logged in: set GH_TOKEN (docs/cloud.md)"
 
 cat > .cache/cloud.env <<EOF
 # written by tools/cloud_setup.sh

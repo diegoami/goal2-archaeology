@@ -71,7 +71,7 @@ Scope, Done when, Hazards, Implementer, Reviewer, Merge after. Rules:
 4. **Checks**: every Done-when line on the PR head, and green CI (`.github/workflows/ci.yml`; its
    gate, `tools/ci_gate.py`, picks what the change obliges).
 5. **Merge** with a merge commit: `gh pr merge <pr> --merge --match-head-commit <sha>`; then locally
-   `git switch main && git pull`, in a cloud session `git pull --ff-only origin main`.
+   `git switch main && git pull`, in a cloud session `git pull --ff-only origin main` (a cloud session merges through the REST API: `docs/cloud.md`, "GitHub from a cloud session").
 
 **Branches.** [designed: owner, 2026-10-20, as in goal2 and malpaco] Locally each task has its own
 branch, `task/T<nn>-<slug>` from `origin/main`. A cloud session starts on its own `claude/…` branch

@@ -22,7 +22,8 @@ The original game needs no secret: its files are assets of this repository's pub
 
 `archive.ubuntu.com` (the pinned DOSBox-X packages) and the image's own apt mirrors, `pypi.org`
 and `files.pythonhosted.org`, and GitHub (`github.com`, `api.github.com`, `codeload.github.com`,
-`objects.githubusercontent.com`, `uploads.github.com`) for the code and the release assets.
+`objects.githubusercontent.com`, `release-assets.githubusercontent.com`, `uploads.github.com`) for
+the code and the release assets.
 
 ## What happens at session start
 
@@ -44,6 +45,22 @@ then copies its non-git state to Drive:
 `rclone copy .cache/states goal2drive:goal2-archaeology/checkpoint-<YYYY-MM-DD>/states` (start states only; the caches of
 old review runs are not handed over, 2026-10-21).
 The cloud session's setup pulls the newest checkpoint; it continues each PR from its pushed head.
+
+## GitHub from a cloud session
+
+[designed: owner, 2026-10-21, after the first goal2-archaeology cloud run] The session's proxy lets
+only GitHub's REST API through: `gh`'s GraphQL commands (`gh pr create`, `gh pr merge`, `gh pr view`,
+`gh issue list`, `gh release download`, `gh auth status`) fail with 403. Use the session's built-in
+GitHub tools, or `gh api` (REST), for example:
+
+- merge with the merge commit process.md §3 asks for, pinned to the checked head:
+  `gh api -X PUT repos/diegoami/goal2-archaeology/pulls/<n>/merge -f merge_method=merge -f sha=<head sha>`
+  (goal2 squashes only locally; a cloud session always merges like this);
+- open a PR: `gh api repos/diegoami/goal2-archaeology/pulls -f title=... -f head=<branch> -f base=main -F draft=true -f body=@<file>`;
+- the login check: `gh api user --jq .login`.
+
+Release assets come over plain HTTPS from the public release (the setup falls back to it); their
+downloads redirect to `release-assets.githubusercontent.com`, which the network settings must allow.
 
 ## Branches
 
