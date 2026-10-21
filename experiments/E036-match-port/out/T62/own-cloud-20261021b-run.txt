@@ -1,0 +1,4 @@
+COMMAND: python3 -B experiments/E036-match-port/family.py --family ALL --ports motion --count 0791:835F,0791:83A2,0791:8537,0791:869F,0791:8AE9,0791:8C67,0791:8CCA,0791:8CF5,0791:8E24,0791:90C5,0791:9119 --workers 2 --time-limit 3000 --out experiments/E036-match-port/out/T62/own-cloud-20261021b.jsonl
+HEAD: 6761685dafe1915f8808844d38bacbd128e2a88b  started 2026-10-21T22:19:36Z
+ports: motion
+62 matches selected, 0 already in experiments/E036-match-port/out/T62/own-cloud-20261021b.jsonl, 62 to run
