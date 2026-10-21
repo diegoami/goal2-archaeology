@@ -44,7 +44,7 @@ class Classify(unittest.TestCase):
             "docs/match-engine-plan.md": FAST,
             "findings/F001.md": FAST,
             "runs/E014/E014-r0001.json": FAST,
-            "tools/harness/review.mjs": FAST,
+            "tools/check_links.py": FAST,
             ".opencode/agents/reviewer.md": FAST,
             "tests/test_model_ageing.py": FAST,
             "tests/static/test_map.py": FAST,
@@ -81,7 +81,7 @@ class Classify(unittest.TestCase):
                 self.assertEqual(G.classify(path), want)
 
     def test_a_change_obliges_the_union_of_its_files(self):
-        self.assertEqual(G.obligations(["CLAUDE.md", "tools/harness/review.mjs"]), FAST)
+        self.assertEqual(G.obligations(["CLAUDE.md", "tools/check_links.py"]), FAST)
         self.assertEqual(G.obligations(["CLAUDE.md", "tools/screens/x.py", "a.log"]), fast_plus(VID))
         self.assertEqual(G.obligations(["tools/screens/x.py", "tools/net.py"]), fast_plus(VID, KEYS, REC))
         self.assertEqual(G.obligations(["a.log"]), NOTHING)
@@ -151,7 +151,7 @@ class Decide(unittest.TestCase):
         try:
             G.git = lambda *a: Out("CLAUDE.md\ndocs/tasks/T9.md\n\nnotes/x.md\n")
             self.assertEqual(G.decide({"EVENT": "schedule"})[0], NOTHING)
-            G.git = lambda *a: Out("CLAUDE.md\n\ntools/harness/review.mjs\n")
+            G.git = lambda *a: Out("CLAUDE.md\n\ntools/check_links.py\n")
             self.assertEqual(G.decide({"EVENT": "schedule"})[0], G.ALL)
             G.git = lambda *a: Out("")
             self.assertEqual(G.decide({"EVENT": "schedule"})[0], NOTHING)
@@ -162,7 +162,7 @@ class Decide(unittest.TestCase):
         for action in ("opened", "reopened", "ready_for_review"):
             ob, calls = self.ob(["CLAUDE.md"], None, True, ACTION=action)
             self.assertEqual((ob, calls), (DOCS, []))
-        ob, _ = self.ob(["CLAUDE.md", "tools/harness/x.mjs"], None, True, ACTION="ready_for_review")
+        ob, _ = self.ob(["CLAUDE.md", "tools/x.py"], None, True, ACTION="ready_for_review")
         self.assertEqual(ob, FAST)
 
     def test_a_docs_push_to_a_code_pr_runs_docs_when_the_previous_head_passed(self):
@@ -180,8 +180,8 @@ class Decide(unittest.TestCase):
         self.assertEqual(ob, fast_plus(VID))
 
     def test_an_output_only_push_runs_nothing_only_after_a_pass(self):
-        self.assertEqual(self.ob(["tools/harness/x.mjs", "a.log"], ["a.log"], True)[0], NOTHING)
-        self.assertEqual(self.ob(["tools/harness/x.mjs", "a.log"], ["a.log"], False)[0], FAST)
+        self.assertEqual(self.ob(["tools/x.py", "a.log"], ["a.log"], True)[0], NOTHING)
+        self.assertEqual(self.ob(["tools/x.py", "a.log"], ["a.log"], False)[0], FAST)
 
     def test_a_push_that_obliges_all_the_pr_does_does_not_ask(self):
         ob, _ = G.decide(ENV, fake_diff(["runtime/driver/a.py", "CLAUDE.md"], ["runtime/driver/a.py"]), must_not_ask)
@@ -191,11 +191,11 @@ class Decide(unittest.TestCase):
         self.assertEqual(G.decide(ENV, fake_diff(None, None), must_not_ask)[0], G.ALL)
 
     def test_a_force_push_whose_old_head_is_gone_takes_the_whole_pr(self):
-        ob, _ = G.decide(ENV, fake_diff(["tools/harness/x.mjs"], None), must_not_ask)
+        ob, _ = G.decide(ENV, fake_diff(["tools/x.py"], None), must_not_ask)
         self.assertEqual(ob, FAST)
 
     def test_no_before_takes_the_whole_pr(self):
-        ob, _ = G.decide({**ENV, "BEFORE": ""}, fake_diff(["tools/harness/x.mjs"], ["CLAUDE.md"]), must_not_ask)
+        ob, _ = G.decide({**ENV, "BEFORE": ""}, fake_diff(["tools/x.py"], ["CLAUDE.md"]), must_not_ask)
         self.assertEqual(ob, FAST)
 
 

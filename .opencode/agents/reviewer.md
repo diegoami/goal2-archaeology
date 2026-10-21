@@ -1,5 +1,5 @@
 ---
-description: Read-only reviewer of one goal2-archaeology pull request, started by tools/review_pr.sh on the model the owner or main session picks. It reads, runs and tests in the checkout at the PR head and prints its review; the script posts it.
+description: Read-only reviewer of one goal2-archaeology pull request, started by tools/review_pr.sh on the model the owner or main session picks. It reads, runs and tests in the checkout at the PR head and posts its review itself as one PR comment.
 mode: all
 permission:
   edit: deny
@@ -30,11 +30,9 @@ permission:
     "git commit *": deny
     "git -C * commit *": deny
     "gh pr merge *": deny
-    "gh pr comment *": deny
-    "gh pr review *": deny
+    "gh pr close *": deny
     "gh pr edit *": deny
     "gh issue edit *": deny
-    "gh issue comment *": deny
     "* /etc": deny
     "* /etc/*": deny
     "* > /etc": deny
@@ -60,9 +58,13 @@ the code, the run records and the decompiled game; the PR body and commit messag
 - Blocking means a claim false as worded or a defect a user of the spec would hit; a theoretical
   bypass of tooling is a follow-up (CLAUDE.md rule 23). Report every blocking finding in this one
   review; write "Final pass done" before the closing verdict.
-- Never edit, commit, push, label, comment or merge: the script posts your final message.
+- Never edit, commit, push, label, close or merge. Your only write is your review, posted once as one PR
+  comment (below).
 
-Your final message is the review and nothing else:
+Write the review to a file under `/tmp` and post it once, as one comment on the PR, through the REST
+API (it works locally and in a cloud session):
+`gh api repos/diegoami/goal2-archaeology/issues/<n>/comments -F body=@<file>`. Then make your final message the
+same review. Its shape:
 
 ```text
 <PR #n> review (<model>)
