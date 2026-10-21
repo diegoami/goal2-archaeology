@@ -1,0 +1,28 @@
+{
+  "recorded_at": "2026-10-21T21:35:16.784702+00:00",
+  "owner_latest_instruction": "STOP ALL reviews, queued runs, T64 remaining batches, T69 pending jobs; commit/push completed evidence, checkpoint missing runs, verify state backup, stop. Supersedes prior finish-entire-pipeline instruction.",
+  "all_owned_jobs_stopped": true,
+  "heavy_slots_busy": 0,
+  "heavy_queued": 0,
+  "missing_runs": [],
+  "review_policy": "Port PRs merge on required checks plus green CI; one milestone review covers port stage. Per-PR reviews cancelled, no final approval, do not restart.",
+  "state_backup": {
+    "remote": "goal2drive:goal2-archaeology/checkpoint-2026-10-21/states/T63",
+    "source_manifest": {
+      "source": "/home/diego/projects/goal2-archaeology/.claude/worktrees/task-T63-port-positioning/.cache/states",
+      "exists": true,
+      "files": {
+        "driver/title.json": {
+          "sha256": "068a99dba8afc522cfab4406684a915d4dc1cf390b0e824ff73fbe32b71e7cec",
+          "bytes": 2082
+        },
+        "driver/title.sav": {
+          "sha256": "748f0f2d46b225ba5a6fa26d35cb11a2412ed9093afd8ed73474415eb3f463aa",
+          "bytes": 140774
+        }
+      }
+    },
+    "verified": "rclone download check: 7 matching files, zero differences"
+  },
+  "no_automatic_resumption": true
+}
