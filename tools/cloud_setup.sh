@@ -70,6 +70,31 @@ else
   echo "emulator probe: FAILED (python3 runtime/driver/cycle.py --runs 2 --start-state title --dry shows why)"
 fi
 
+say "checkpoint from the owner's Drive (the non-git state of interrupted work; docs/cloud.md)"
+# GOAL2_RCLONE_TOKEN: the whole JSON of rclone.conf's `token = {...}` (refresh_token included), the
+# same secret goal2's cloud sessions use; the remote sees only the owner's goal2 folder.
+DRIVE_FOLDER=12fgdrQUQB4pHdq0ibY-NP-aU8jgNaRzc
+if [ -n "${GOAL2_RCLONE_TOKEN:-}" ]; then
+  command -v rclone >/dev/null || { [ "$root" = yes ] && apt-get install -y -qq rclone >/dev/null 2>&1; }
+  if ! printf '%s' "$GOAL2_RCLONE_TOKEN" | python3 -c "import json,sys; sys.exit(0 if json.load(sys.stdin).get('refresh_token') else 1)" 2>/dev/null; then
+    echo "GOAL2_RCLONE_TOKEN is not the whole token JSON (with refresh_token); no Drive checkpoint pulled"
+  elif rclone config create goal2drive drive scope=drive root_folder_id="$DRIVE_FOLDER" token="$GOAL2_RCLONE_TOKEN" \
+         ${RCLONE_DRIVE_CLIENT_ID:+client_id="$RCLONE_DRIVE_CLIENT_ID"} \
+         ${RCLONE_DRIVE_CLIENT_SECRET:+client_secret="$RCLONE_DRIVE_CLIENT_SECRET"} --non-interactive >/dev/null; then
+    latest=$(rclone lsf --dirs-only goal2drive:goal2-archaeology 2>/dev/null | grep '^checkpoint-' | sort | tail -1)
+    if [ -n "$latest" ]; then
+      rclone copy "goal2drive:goal2-archaeology/$latest" .cache && echo "Drive checkpoint ${latest%/} copied into .cache/" \
+        || echo "copying the Drive checkpoint ${latest%/} failed"
+    else
+      echo "no checkpoint-* folder under goal2drive:goal2-archaeology"
+    fi
+  else
+    echo "could not create the goal2drive remote"
+  fi
+else
+  echo "GOAL2_RCLONE_TOKEN is not set: no Drive checkpoint (fine when nothing was handed over)"
+fi
+
 say "GitHub"
 gh auth status >/dev/null 2>&1 && echo "gh is logged in" || echo "gh is not logged in: set GH_TOKEN (docs/cloud.md)"
 

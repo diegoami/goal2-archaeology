@@ -7,6 +7,11 @@ web session included, with the original game running in DOSBox-X 2024.03.01 head
 
 - `GH_TOKEN`: a fine-grained GitHub token for `diegoami/goal2-archaeology` with read and write
   access to contents, issues and pull requests. Without it `gh` cannot open or merge PRs.
+- `GOAL2_RCLONE_TOKEN` (optional): the whole JSON after `token = ` of the `goal2drive` remote in a
+  configured machine's `~/.config/rclone/rclone.conf`, the same secret as goal2's. With it, the setup
+  copies the newest `goal2-archaeology/checkpoint-<date>` folder of the owner's Drive into `.cache/`:
+  the non-git state (review caches, start states) a local session handed over. Everything a result
+  rests on is in git already (rule 20).
 - Optional, for reviews by other model families from the cloud: the API keys of the CLI that
   `tools/review_pr.sh` or `tools/milestone_review.sh` calls.
 
@@ -30,6 +35,14 @@ its title screen, whose digest must equal the one in `runs/E001/E001-r0001.json`
 driver cycles (`runtime/driver/cycle.py --dry`) run end to end. It reports the branch, gh's login
 and the DOSBox-X version; its log is `.cache/cloud-setup.log`. Elsewhere run `tools/cloud_setup.sh`
 and `source .cache/cloud.env` by hand.
+
+## Handing work over from a local session
+
+The local session stops at a checkpoint: it pushes every commit and measured output (rule 20),
+posts a checkpoint comment on each open PR (head SHA, what is done, what remains, the next command),
+then copies its non-git state to Drive:
+`rclone copy .cache goal2drive:goal2-archaeology/checkpoint-<YYYY-MM-DD> --include "review-*/**" --include "states/**"`.
+The cloud session's setup pulls the newest checkpoint; it continues each PR from its pushed head.
 
 ## Branches
 

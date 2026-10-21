@@ -128,6 +128,12 @@ worded or a defect a user of the spec would hit; a theoretical bypass of tooling
 2 of O8, 2 of S), the unit tests and the mutation checks, and verify committed family outputs by
 sha256, instead of the full 62-match family run (#319).
 
+**The engine port's PRs** (T57-T80, `docs/backlog.md`). [designed: owner, 2026-10-21] They merge
+on their checks: every Done-when line (the seeded F40/O8/S samples, the unit tests, the mutation
+checks) on the PR head and green CI, with no per-PR review loop. One independent milestone review
+([milestone-review.md](milestone-review.md)) covers each stage of the port, its findings becoming
+issues. This replaced review loops of 1-2 hours per round, about 20 hours for T62-T64 and T69.
+
 ## 6. Bugs, fixes, triage
 
 Bugs and non-blocking review findings are filed with `triage:needed`: one `T<nn> follow-up` issue
