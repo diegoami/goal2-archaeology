@@ -21,3 +21,5 @@ heavy: family: waiting for a slot (0 ahead)
 heavy: family: got slot 0 3 after 16998 s
 ports: ball.launch-reverse-x
 20 matches selected, 0 already in experiments/E036-match-port/out/T64/fz-launch-reverse-x-20261020T163810Z-1.jsonl, 20 to run
+/usr/lib/python3.14/multiprocessing/resource_tracker.py:396: UserWarning: resource_tracker: There appear to be 5 leaked semaphore objects to clean up at shutdown: {'/mp-cph67s50', '/mp-tmskaijt', '/mp-o9wmkex5', '/mp-i5xch871', '/mp-m7_xwn6i'}
+  warnings.warn(
