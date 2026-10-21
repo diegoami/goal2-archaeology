@@ -45,6 +45,9 @@ then copies its non-git state to Drive:
 `rclone copy .cache/states goal2drive:goal2-archaeology/checkpoint-<YYYY-MM-DD>/states` (start states only; the caches of
 old review runs are not handed over, 2026-10-21).
 The cloud session's setup pulls the newest checkpoint; it continues each PR from its pushed head.
+A checkpoint may keep states per task (`states/T<nn>/driver/…`, with a `manifest.json`): before
+working on task T<nn>, copy its folder into place (`cp -rn .cache/states/T<nn>/* .cache/states/`), so
+the driver finds `.cache/states/driver/` as the local session left it.
 
 ## GitHub from a cloud session
 
