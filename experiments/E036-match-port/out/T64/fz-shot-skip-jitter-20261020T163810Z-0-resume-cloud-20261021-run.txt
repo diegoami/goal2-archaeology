@@ -1,0 +1,4 @@
+COMMAND: family.py --family F40 --only F40/e032-0101,F40/e032-2345,F40/e032-4c1d,F40/e032-8e05,F40/e032-c3c3,F40/more-0042,F40/more-3a5c,F40/more-7f31,F40/more-b4d2,F40/more-d00d,F40/edit-0101,F40/edit-2345,F40/edit-4c1d,F40/edit-8e05,F40/edit-c3c3,F40/edit-0042,F40/edit-3a5c,F40/edit-7f31,F40/edit-b4d2,F40/edit-d00d --ports ball --workers 2 --time-limit 3000 --count 0791:2FB1,0791:30EA,0791:3111,0791:3323,0791:333F,0791:34C1,0791:384C,0791:3B15,0791:3B9E,0791:3BEE,0791:3C20,0791:3C3F,0791:3D38,0791:3DF6,0791:3EC5,0791:3EDF,0791:3EF8,0791:3FAD,0791:408E,0791:40BC,0791:4151 --variant ball.shot-skip-jitter --out experiments/E036-match-port/out/T64/fz-shot-skip-jitter-20261020T163810Z-0.jsonl
+HEAD: 156cfb41185767361d70ba7f08feda2c6778d648 started 2026-10-21T22:53:07Z
+ports: ball.shot-skip-jitter
+20 matches selected, 4 already in experiments/E036-match-port/out/T64/fz-shot-skip-jitter-20261020T163810Z-0.jsonl, 16 to run
