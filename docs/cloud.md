@@ -10,7 +10,7 @@ web session included, with the original game running in DOSBox-X 2024.03.01 head
 - `GOAL2_RCLONE_TOKEN` (optional): the whole JSON after `token = ` of the `goal2drive` remote in a
   configured machine's `~/.config/rclone/rclone.conf`, the same secret as goal2's. With it, the setup
   copies the newest `goal2-archaeology/checkpoint-<date>` folder of the owner's Drive into `.cache/`:
-  the non-git state (review caches, start states) a local session handed over. Everything a result
+  the non-git state (start states) a local session handed over. Everything a result
   rests on is in git already (rule 20).
 - Optional, for reviews by other model families from the cloud: the API keys of the CLI that
   `tools/review_pr.sh` or `tools/milestone_review.sh` calls.
@@ -41,7 +41,8 @@ and `source .cache/cloud.env` by hand.
 The local session stops at a checkpoint: it pushes every commit and measured output (rule 20),
 posts a checkpoint comment on each open PR (head SHA, what is done, what remains, the next command),
 then copies its non-git state to Drive:
-`rclone copy .cache goal2drive:goal2-archaeology/checkpoint-<YYYY-MM-DD> --include "review-*/**" --include "states/**"`.
+`rclone copy .cache/states goal2drive:goal2-archaeology/checkpoint-<YYYY-MM-DD>/states` (start states only; the caches of
+old review runs are not handed over, 2026-10-21).
 The cloud session's setup pulls the newest checkpoint; it continues each PR from its pushed head.
 
 ## Branches
