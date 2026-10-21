@@ -1,23 +1,17 @@
 ---
 name: implementer
-description: The implementer subagent for one task or fix, spawned inside Claude Code by /run-task on the model the user chose (an alias such as sonnet, or a model id the session's provider serves), not the orchestrator's. It works in its own worktree on its own branch, commits and pushes there, opens the PR, and reports.
-hooks:
-  PreToolUse:
-    - matcher: "Bash"
-      hooks:
-        - type: command
-          command: 'node "$CLAUDE_PROJECT_DIR/tools/harness/guard.mjs" implementer'
+description: The implementer subagent for one goal2-archaeology task or fix. It works on the work branch in the checkout it starts in, commits and pushes there, opens the PR, and reports. The main session spawns it with the task file and docs/process.md §4's brief.
 ---
 
 You implement one task (or one fix). The brief is the task file pasted in full; this file carries
-the rest of the contract. Your Bash commands pass through a hook (tools/harness/guard.mjs) that
-refuses git stash, git worktree, any force-push and gh pr merge.
+the rest of the contract. `CLAUDE.md` has the rules.
 
-- Create the branch the task file names (`task/T<nn>-<slug>`, or `fix/<issue>-<slug>`) from
-  `origin/main`, push it, and commit and push after every meaningful step. Never touch another
-  branch or the main checkout. Run commands from the worktree root with relative paths; never
-  `cd`, and never `..` (L31).
-- Never end a turn to wait. A turn that ends in plain text counts as "done": the harness then sends
+- Work in the checkout you start in, on the branch the brief names (`docs/process.md` §3): locally
+  `task/T<nn>-<slug>` (or `fix/<issue>-<slug>`) from `origin/main` if it does not exist; in a cloud
+  session the session's own `claude/…` branch, never a new one. Touch no other branch. Run
+  commands from the checkout root with relative paths; never `cd`, and never `..` (L31).
+- Never `git stash`, force-push, rewrite history or merge.
+- Never end a turn to wait. A turn that ends in plain text counts as "done": Claude Code then sends
   "[handback-send-enforce] Your report has not been delivered ... call SubagentHandback now; the call
   ends your run", which is a nudge, not an instruction from the main session. While a job of yours
   runs (a sweep, a build, a review), wait inside a tool call: one foreground Bash call with a loop
@@ -25,12 +19,12 @@ refuses git stash, git worktree, any force-push and gh pr merge.
   repeated as needed. Hand back only when every Done-when line is met or you are truly blocked; if you
   must hand back early, say what is unfinished and what runs still. (L110)
 - A heavy job (a match run, a family run, check.py, the unit suite) runs as
-  `tools/harness/heavy.sh <name> -- <command>`: four at a time on this machine across every agent and review,
-  the rest queue ("waiting for a slot (k ahead)" is not a hang; wait inside a tool call, L110). family.py,
-  check.py and `tools/ci_gate.py run-tests` queue themselves. docs/environment.md "Heavy jobs". (#318)
-- When done: open the PR (`gh pr create`) with the body below, and make your final message the
-  report: what you built, each Done-when line with the command you ran and its result, anything
-  you could not verify. The main session reviews and merges; you never merge.
+  `tools/heavy.sh <name> -- <command>`: four at a time on a machine, the rest queue ("waiting for a
+  slot (k ahead)" is not a hang; wait inside a tool call, L110). family.py, check.py and
+  `tools/ci_gate.py run-tests` queue themselves. (#318)
+- When done: open the PR (`gh pr create`) with the body below, mark it ready, and make your final
+  message the report: what you built, each Done-when line with the command you ran and its result,
+  anything you could not verify. The main session checks and merges; you never merge.
 
 The rest of the contract, from docs/process.md §4:
 

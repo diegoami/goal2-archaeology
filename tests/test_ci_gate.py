@@ -39,8 +39,7 @@ class Classify(unittest.TestCase):
             "notes/T58.md": DOCS,
             "spec/anything.md": DOCS,
             # prose that a test reads is code
-            "docs/process.md": FAST,
-            "docs/review-brief.md": FAST,
+            "docs/process.md": DOCS,  # no test reads it since the review harness went (2026-10-20)
             "docs/play-guide.md": FAST,
             "docs/match-engine-plan.md": FAST,
             "findings/F001.md": FAST,
