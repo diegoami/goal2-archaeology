@@ -11,8 +11,9 @@ A download that fails on the network is retried once (`tools/net.py`, #236). Whe
 the network and the cached copy already verifies, the download is skipped with a printed line and
 the set is verified from the cache; with no verified copy the failure stands.
 
-[designed: owner, 2026-10-21] When `gh release download` fails (a cloud session's proxy allows only
-GitHub's REST API, and gh's release commands use GraphQL), each file is downloaded over plain HTTPS
+[designed: owner, 2026-10-21] When `gh release download` fails other than on the network (a cloud
+session's proxy allows only GitHub's REST API, and gh's release commands use GraphQL), each file is
+downloaded over plain HTTPS
 from the public release instead (`https://github.com/<repo>/releases/download/<tag>/<name>`); the
 sha256 check is the same either way.
 
@@ -103,7 +104,9 @@ def download(set_id: str, repo: str = DEFAULT_REPO) -> Path:
              "-p", entry["path"], "-D", str(dest), "--clobber"])
         if result.returncode == 0:
             continue
-        if https_download(repo, RELEASE, entry["path"], dest):
+        # Only a failure that is not the network (a cloud proxy's 403 on gh's GraphQL) falls back to
+        # HTTPS; when the network itself is down, the offline handling below applies as before.
+        if not net.is_network_error(result.stderr) and https_download(repo, RELEASE, entry["path"], dest):
             continue
         if net.is_network_error(result.stderr) and not verify(set_id):
             reason = net.text(result.stderr).strip().splitlines()[0]
