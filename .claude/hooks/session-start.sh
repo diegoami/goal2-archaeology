@@ -6,7 +6,7 @@ set -uo pipefail
 cd "${CLAUDE_PROJECT_DIR:-.}" || exit 0
 log=.cache/cloud-setup.log
 mkdir -p .cache
-if tools/cloud_setup.sh >"$log" 2>&1; then echo "Setup: done."; else echo "Setup: failed; see $log."; fi
+if bash tools/cloud_setup.sh >"$log" 2>&1; then echo "Setup: done."; else echo "Setup: failed; see $log."; fi
 # Every later Bash call of the session gets the PATH and display settings.
 [ -n "${CLAUDE_ENV_FILE:-}" ] && [ -f .cache/cloud.env ] && grep '^export' .cache/cloud.env >>"$CLAUDE_ENV_FILE"
 if gh api user --jq .login >/dev/null 2>&1; then gh_login="logged in"; else gh_login="NOT logged in: add a GH_TOKEN secret (docs/cloud.md)"; fi
