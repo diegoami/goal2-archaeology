@@ -75,7 +75,13 @@ kept on the branch `local`.
     rests on runs says in its Method what static analysis was tried and why it was not enough. A
     missing tool is never the reason: install it, or stop and report. A review treats runs made
     because a tool was missing as a contract defect (gate G0a): rework.
-23. **The engine migration comes first** (the owner, 2026-10-18): "As a rule, work toward the engine
+23. [designed: owner, 2026-10-22] **goal2's first version runs the original's whole game under Unicorn**
+    (goal2 #308, stage 3): requests from goal2 for it (where the state lives in memory, key waits and
+    timed prompts, screens; process.md §15) come before new port tasks. The independent executable
+    stays the long-term goal, so the engine port continues after them, as its track; the port PRs in
+    flight on 2026-10-22 (T62, T63, T64, T69) finish as decided on them. The rule below is the port's
+    own order within that track.
+    **The engine migration comes first** (the owner, 2026-10-18): "As a rule, work toward the engine
     migration first and document reflection or hardening issues." The route-C engine port (the port
     of the watched match engine, T57-T80 in `docs/backlog.md`) has priority over everything else.
     Hardening, defence-in-depth and edge-case work on the proof or the tooling (for
