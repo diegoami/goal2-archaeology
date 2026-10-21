@@ -23,8 +23,9 @@ whistle (ret 2), 2BE5 (retf 4, by `push cs; call near`), 82EB, 690C, 698E, 6E11,
 (retf 4), 045D (ret 2), 2EB8 (retf 6), the state handlers of 8AE9 (57AC, 58E1, 69BD, 6AAD, 6AF7, 6240, 7069, 7287,
 715A, 73BA, 7621: retf 4), 8889 (ret 2, 8AE9's BP), 2CEC (retf 4), 2AD4 (ret 2), 214B:06B1 (retf 2), 214B:0D1C and
 0D56 (retf 8), 214B:2031 (retf 8) and 23E4:08DF (retf 6; the answer in ZF). A routine of the row calls another of the
-row the same way, so its port runs there and is counted. Each callee is entered with the AX and DX the listing leaves
-(the high byte of a pushed word too: the proof compares AX and DX, port/prove.py); BX, CX, SI, DI and ES are scratch.
+row the same way, so its port runs there and is counted. Guest-call inputs follow the listing; BX, CX, SI, DI and ES
+are scratch. On three referee paths the incoming AX of the nested port 8E24 differs from the listing; 8E24 never
+reads that incoming value and sets AX and DX before returning. No claim of identical unused entry registers is made.
 The locals of a frame are not written (the dead frame); each port that calls builds the listing's frame (mem.enter) so
 every callee runs at the original's SP. The module holds no byte of the original."""
 from .guest import call
