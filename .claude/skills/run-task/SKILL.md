@@ -3,6 +3,11 @@ name: run-task
 description: Run tasks or fixes end to end. A subagent spawned on a model of its own (or the main session directly) implements and one OpenCode model of another family reviews, each after one question to the user; the main session watches, merges and reports. Main session only.
 ---
 
+Engine port stage exception: see `docs/process.md` section 3 (owner, 2026-10-21;
+L123). Port PRs use their checks plus green CI and one milestone review for the stage;
+skip the individual port PR review dispatch and approval gates in this workflow.
+
+
 # /run-task [T<nn> | #<issue> ...]
 
 Read `docs/process.md` §3–§6 first. Given ids, run them in order; given none, take the first

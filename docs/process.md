@@ -66,6 +66,15 @@ Scope, Done when, Hazards, Implementer, Reviewer, Merge after. Rules:
 
 ## 3. The loop
 
+**Engine port stage (owner, 2026-10-21; L123).** Port PRs merge when their required
+checks pass and CI is green; one milestone review covers the port stage. This replaces
+the per-PR reviewer dispatch, independent approval and review-round gates for these PRs.
+Keep the task checks, raw evidence, comparisons, CI obligations and source-freeze rules.
+Existing completed reviews remain supporting evidence; cancelled reviews are not approvals.
+Do not dispatch another per-PR review to satisfy the old gate. The milestone reviewer and
+its timing still require the owner's choice under the model-selection rules.
+
+
 `ready → implement → review → approved + green CI → squash merge → follow-up → unblock → report`.
 Rework sends the full review back to the same branch, at most two rounds (one for a fix), then
 escalates. The implementer script resumes a pushed branch; it never starts over. Before a merge the

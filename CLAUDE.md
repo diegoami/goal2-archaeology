@@ -9,6 +9,12 @@ The process is `docs/process.md`; read it before running a task. Tasks are `docs
 indexed in `docs/tasks/README.md`.
 
 ## Rules
+
+**Engine port stage exception (owner, 2026-10-21; L123):** port PRs merge on their
+required checks plus green CI. One milestone review covers the port stage; an individual
+port PR does not require a separate model review. This overrides the per-PR review and
+approval gates below for the port stage only. See `docs/process.md`, section 3.
+
 1. The main session plans, runs `/run-task`, triages and talks to the user. A subagent it spawns
    implements (or it does itself), and OpenCode reviews, asking the user before each ("Choosing
    models" below); repeated decisions
