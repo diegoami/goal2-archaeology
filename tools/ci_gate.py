@@ -8,7 +8,7 @@ A change is classified by the files it touches into what it obliges CI to run:
 
   nothing  only measured outputs (`*.log`, `experiments/**/out/**`).
   quick    prose no test reads (docs): links, citations and the no-original-file check.
-  code     anything else: also the harness tests, tests/static and every unit test except SLOW.
+  code     anything else: also tests/static and every unit test except SLOW.
   modules  a file one of the SLOW test modules reads obliges that module (SLOW_DEPS); the CI
            definition, a manual run and a nightly run on main oblige all of them.
 
@@ -62,11 +62,9 @@ SLOW = tuple(SLOW_DEPS)
 # What the CI definition itself obliges: everything.
 EVERYTHING_PATHS = (".github/", "tools/ci_gate.py")
 
-# Prose that some test or harness script reads (make-brief.mjs reads docs/process.md section 5
-# and docs/review-brief.md; test_e031_checks the play guide; test_e032_compare the plan).
+# Prose that some test reads (test_e031_checks the play guide; test_e032_compare the plan). The
+# review harness that read docs/process.md and docs/review-brief.md was removed (2026-10-20).
 DOCS_READ_BY_TESTS = (
-    "docs/process.md",
-    "docs/review-brief.md",
     "docs/play-guide.md",
     "docs/match-engine-plan.md",
 )
