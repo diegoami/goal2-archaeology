@@ -1,0 +1,2 @@
+COMMAND: tools/heavy.sh suite -- python3 -B -m unittest discover -s tests; HEAD 1669c66c1d0d94f54d0f4de43af272a38c4fd48e
+heavy: suite: waiting for a slot (1 ahead)
