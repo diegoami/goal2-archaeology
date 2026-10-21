@@ -1,0 +1,28 @@
+{
+  "recorded_at": "2026-10-21T21:35:16.784546+00:00",
+  "owner_latest_instruction": "STOP ALL reviews, queued runs, T64 remaining batches, T69 pending jobs; commit/push completed evidence, checkpoint missing runs, verify state backup, stop. Supersedes prior finish-entire-pipeline instruction.",
+  "all_owned_jobs_stopped": true,
+  "heavy_slots_busy": 0,
+  "heavy_queued": 0,
+  "missing_runs": [],
+  "review_policy": "Port PRs merge on required checks plus green CI; one milestone review covers port stage. Per-PR reviews cancelled, no final approval, do not restart.",
+  "state_backup": {
+    "remote": "goal2drive:goal2-archaeology/checkpoint-2026-10-21/states/T62",
+    "source_manifest": {
+      "source": "/home/diego/projects/goal2-archaeology/.claude/worktrees/agent-a55a365b32cd67a36/.cache/states",
+      "exists": true,
+      "files": {
+        "driver/title.json": {
+          "sha256": "1596d2ffe88bbba4fdb363675adb6d8f07f4a1bdc8f2379ace27da1ce3c61f9e",
+          "bytes": 2085
+        },
+        "driver/title.sav": {
+          "sha256": "484e8221dd69c6f93f6361f3540389d90c549ad45d46b528e1a01b21f9075ec3",
+          "bytes": 141704
+        }
+      }
+    },
+    "verified": "rclone download check: 7 matching files, zero differences"
+  },
+  "no_automatic_resumption": true
+}
