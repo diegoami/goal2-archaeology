@@ -90,3 +90,4 @@ exists.
 | T80 | The end state sealed: the engine in pure Python with no GOAL.EXE bytes at run time (end) | #291 | T78, T79 |
 | T81 | Q008 (goal2 T45): when the squad and the reserve pool may exchange records: finals, tours, selection-mode gates | #254 | — |
 | T82 | goal2 request (stage 3, G10): a savestate at the new-game screens in the key read, and the interrupts to the first manager menu | #367 | — |
+| T83 | goal2 request (stage 3): the start year as an input to the core: a state before the DOS date read, and the path to the title's read | #369 | — |

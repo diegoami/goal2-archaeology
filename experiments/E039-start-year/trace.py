@@ -125,6 +125,7 @@ def main(argv=None):
     ap.add_argument("--keys", required=True)
     ap.add_argument("--key-polls", default="")
     ap.add_argument("--time", default="10:00:00.00")
+    ap.add_argument("--compare", help="a DOSBox-X savestate of the end screen: E038 trace.py's compare at the end")
     ap.add_argument("--out")
     a = ap.parse_args(argv)
     hms, _, hh = a.time.partition(".")
@@ -136,6 +137,9 @@ def main(argv=None):
     print("stop:", t.stop)
     result = {"argv": list(sys.argv[1:] if argv is None else argv), "stop": t.stop, "events": t.events,
               "final_screen": t.text(), "final": t.fields(), "seed": f"{t.ds(e038.SEED):04X}", "seed2": f"{t.ds(e038.SEED2):04X}"}
+    if a.compare:
+        result["compare"] = e038.compare(t, Path(a.compare).read_bytes())
+        print(json.dumps({k: v for k, v in result["compare"].items() if k != "dosbox_screen"})[:1500])
     if a.out:
         Path(a.out).write_text(json.dumps(result, indent=1, ensure_ascii=False) + "\n")
     return 0
