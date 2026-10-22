@@ -96,7 +96,7 @@ def read_entry(mem, load, regs):
 
 
 class Trace:
-    def __init__(self, data, keys, time, date=(2026, 10, 4, 0)):
+    def __init__(self, data, keys, time, date=(2026, 10, 4, 0), key_polls=(), game=None, hundredths=0):
         c = components(data)
         self.regs0 = cpu_regs(c["CPU"])
         mem = bytearray(c["Memory"][MEM_BASE:MEM_BASE + MEM_SIZE])
@@ -115,7 +115,10 @@ class Trace:
                        ("ES", self.DS), ("CS", self.seg(READKEY[0])), ("IP", READKEY[1])):
             mu.reg_write(getattr(X, f"UC_X86_REG_{n}"), val)
         self.keys = list(keys)
-        self.time, self.date = time, date
+        self.key_polls = set(key_polls)   # poll sites answered "a key waits" while keys remain
+        self.time, self.date, self.hundredths = time, date, hundredths
+        self.game = Path(game or Path(__file__).resolve().parents[2] / ".cache" / "goal2")   # the verified release copy
+        self.files = {}                   # DOS handle -> [bytes, position, name]
         self.events = []                  # every read, interrupt and Intr call, in order
         self.reads = 0
         self.stop = None
@@ -151,14 +154,25 @@ class Trace:
         a = self.ds(SCREEN_PTR + 2) * 16 + self.ds(SCREEN_PTR)
         return decode(bytes(self.mu.mem_read(a, 4000)))
 
-    def chain(self, bp, depth=6):
-        """The caller frames from a routine's BP: return addresses as the listing writes them (far frames assumed
-        when the word above the IP is a code segment of the program)."""
+    def chain(self, bp, depth=6, cs=None):
+        """The callers' return addresses up the BP chain from a frame whose code segment is `cs` (default the
+        current one), as the listing writes them (run.py `callers`): a frame is near when the call before its return
+        address in the current segment is `E8` and the word above it does not name a segment whose bytes before it are a
+        `call far` (9A) or `push cs; call` (0E E8); its caller is then in the same segment; else far."""
         out, ss = [], self.r("SS") * 16
+        cs = self.r("CS") if cs is None else cs
         for _ in range(depth):
-            ip, cs = self.word(ss + bp + 2), self.word(ss + bp + 4)
+            ip, fcs = self.word(ss + bp + 2), self.word(ss + bp + 4)
+            far = bytes(self.mu.mem_read(fcs * 16 + ((ip - 5) & 0xFFFF), 5))
+            near = not (far[0] == 0x9A or far[1:3] == b"\x0e\xe8") and \
+                self.mu.mem_read(cs * 16 + ((ip - 3) & 0xFFFF), 1)[0] == 0xE8
+            if not near:
+                cs = fcs
             rel = (cs - self.load) & 0xFFFF
-            out.append(f"{rel:04X}:{ip:04X}" if rel < 0x2581 else f"near {ip:04X}")
+            if rel >= 0x2581:
+                out.append(f"{cs:04X}:{ip:04X} (outside the program)")
+                break
+            out.append(f"{rel:04X}:{ip:04X}" + (" (near)" if near else ""))
             nb = self.word(ss + bp)
             if nb <= bp:
                 break
@@ -179,7 +193,7 @@ class Trace:
             return
         sp = self.r("SP")
         bp_caller = self.r("BP")
-        ev = {"kind": "read", "site": site, "callers": self.chain(bp_caller), "ss_sp_at_08DD": f"{self.r('SS'):04X}:{sp:04X}",
+        ev = {"kind": "read", "site": site, "callers": self.chain(bp_caller, cs=self.stack(2)), "ss_sp_at_08DD": f"{self.r('SS'):04X}:{sp:04X}",
               "seed": f"{self.ds(SEED):04X}", "seed2": f"{self.ds(SEED2):04X}", "screen": self.text()}
         self.reads += 1
         if not self.keys:
@@ -200,32 +214,72 @@ class Trace:
         last = self.events[-1] if self.events else None
         if last and last["kind"] == "poll" and last["site"] == site:
             last["count"] += 1
+            if site in self.key_polls and self.keys:
+                self.events.append({"kind": "poll", "site": site, "count": 1, "answer": "no key"})
         else:
             self.events.append({"kind": "poll", "site": site, "count": 1, "answer": "no key"})
-        self.w("EAX", self.r("EAX") & 0xFF00)
+        has = int(site in self.key_polls and bool(self.keys))
+        if has:
+            self.events[-1]["answer"] = "a key waits (the next read takes it)"
+        self.w("EAX", (self.r("EAX") & 0xFF00) | has)
         self.ret_far(0)
 
     # -- interrupts ---------------------------------------------------------------------------------------
     def serve(self, n, regs, how):
         """Serve interrupt n with the register dict `regs` (AX..FLAGS words); returns (regs out, note) or None."""
-        ah = regs["AX"] >> 8
+        ah, al = regs["AX"] >> 8, regs["AX"] & 0xFF
         out = dict(regs)
+        ok = lambda: out.__setitem__("FLAGS", out["FLAGS"] & ~1)  # noqa: E731  CF clear
         if n == 0x21 and ah == 0x2C:
             h, m, s = self.time
-            out["CX"], out["DX"] = (h << 8) | m, (s << 8) | 0
-            return out, f"get time: CH:CL = {h}:{m:02d}, DH:DL = {s}.00 (served from --time)"
+            out["CX"], out["DX"] = (h << 8) | m, (s << 8) | self.hundredths
+            return out, f"get time: CH:CL = {h}:{m:02d}, DH:DL = {s}.{self.hundredths:02d} (served from --time)"
         if n == 0x21 and ah == 0x2A:
             y, mo, d, wd = self.date
             out["CX"], out["DX"], out["AX"] = y, (mo << 8) | d, (regs["AX"] & 0xFF00) | wd
-            return out, f"get date: {y}-{mo:02d}-{d:02d} weekday {wd} (served)"
+            return out, f"get date: CX = {y}, DH:DL = {mo}:{d}, AL = weekday {wd} (served)"
+        if n == 0x21 and ah == 0x3D:
+            name = self.asciiz(regs["DS"], regs["DX"])
+            path = next((p for p in self.game.iterdir() if p.name.upper() == name.upper().lstrip("C:\\")), None)
+            if path is None:
+                out["AX"], out["FLAGS"] = 2, out["FLAGS"] | 1
+                return out, f"open {name!r} mode {al:02X}: not found, CF set, AX 2"
+            h = min(set(range(5, 20)) - set(self.files))
+            self.files[h] = [path.read_bytes(), 0, name]
+            out["AX"] = h
+            ok()
+            return out, f"open {name!r} mode {al:02X}: handle {h} ({len(self.files[h][0])} bytes)"
+        if n == 0x21 and ah in (0x3E, 0x3F, 0x42) and regs["BX"] in self.files:
+            f = self.files[regs["BX"]]
+            if ah == 0x3E:
+                del self.files[regs["BX"]]
+                ok()
+                return out, f"close handle {regs['BX']} ({f[2]})"
+            if ah == 0x3F:
+                chunk = f[0][f[1]:f[1] + regs["CX"]]
+                self.mu.mem_write(regs["DS"] * 16 + regs["DX"], chunk)
+                f[1] += len(chunk)
+                out["AX"] = len(chunk)
+                ok()
+                return out, f"read handle {regs['BX']} ({f[2]}): {regs['CX']} bytes asked, {len(chunk)} read to {regs['DS']:04X}:{regs['DX']:04X}, at offset {f[1] - len(chunk)}"
+            off = (regs["CX"] << 16) | regs["DX"]
+            base = (0, f[1], len(f[0]))[al]
+            f[1] = (base + (off if off < 0x80000000 else off - (1 << 32))) & 0xFFFFFFFF
+            out["DX"], out["AX"] = f[1] >> 16, f[1] & 0xFFFF
+            ok()
+            return out, f"seek handle {regs['BX']} ({f[2]}) mode {al} by {off:#x}: position {f[1]}"
         if n == 0x10:
             return out, "video BIOS: logged, nothing written (no effect served)"
         return None
 
-    def log_int(self, n, regs, pc, how, served):
+    def asciiz(self, seg, off):
+        b = bytes(self.mu.mem_read(seg * 16 + off, 80))
+        return b.split(b"\0")[0].decode("cp437")
+
+    def log_int(self, n, regs, pc, how, served, cs=None):
         ev = {"kind": "interrupt", "via": how, "int": f"{n:02X}", "ah": f"{regs['AX'] >> 8:02X}", "al": f"{regs['AX'] & 0xFF:02X}",
               "regs_in": {k: f"{regs[k]:04X}" for k in ("AX", "BX", "CX", "DX", "SI", "DI", "DS", "ES")}, "at": pc,
-              "callers": self.chain(self.r("BP"))}
+              "callers": self.chain(self.r("BP"), cs=cs)}
         if served is None:
             ev["served"] = "NOT SERVED: the trace stops"
         else:
@@ -243,7 +297,8 @@ class Trace:
         pc = self.where(self.stack(2), self.stack(0))
         if n == 0x16 and (regs["AX"] >> 8) in (0, 1) and pc in ("214B:0904", "214B:073A"):
             raise RuntimeError(f"INT 16h from {pc} reached Intr: 214B:08DD/0723 should have been answered")
-        served = self.log_int(n, regs, pc + " (Intr 235C:000B, return address)", "Intr", self.serve(n, regs, "Intr"))
+        served = self.log_int(n, regs, pc + " (Intr 235C:000B, return address)", "Intr", self.serve(n, regs, "Intr"),
+                              cs=self.stack(2))
         if served is None:
             self.stop = f"unserved INT {n:02X}h AH={regs['AX'] >> 8:02X} via Intr at {pc}"
             uc.emu_stop()
@@ -256,13 +311,19 @@ class Trace:
         at = (ip - 2) & 0xFFFF
         regs = {k: self.r(k) for k in ("AX", "BX", "CX", "DX", "BP", "SI", "DI", "DS", "ES")}
         regs["FLAGS"] = self.r("EFLAGS") & 0xFFFF
-        served = self.log_int(n, regs, self.where(cs, at), "int", self.serve(n, regs, "int"))
+        # A frameless far routine (23E4:11D7 is one) has its return at SS:SP; its caller's frame is BP.
+        rcs = self.stack(2)
+        top = (rcs - self.load) & 0xFFFF < 0x2581
+        served = self.log_int(n, regs, self.where(cs, at), "int", self.serve(n, regs, "int"), cs=rcs if top else None)
+        if top:
+            self.events[-1]["callers"].insert(0, f"{self.where(rcs, self.stack(0))} (far return at SS:SP)")
         if served is None:
             self.stop = f"unserved INT {n:02X}h AH={regs['AX'] >> 8:02X} at {self.where(cs, at)}"
             uc.emu_stop()
             return
         for k in ("AX", "BX", "CX", "DX"):
             self.w(k, served[0][k])
+        self.w("EFLAGS", (self.r("EFLAGS") & ~1) | (served[0]["FLAGS"] & 1))
 
     def run(self, budget=4_000_000_000):
         start = self.seg(READKEY[0]) * 16 + READKEY[1]
@@ -275,23 +336,70 @@ class Trace:
         return self
 
 
+def ranges(a, b, base):
+    """The differing byte ranges of a and b, as [start, end) offsets from base, hex."""
+    out, i, n = [], 0, min(len(a), len(b))
+    while i < n:
+        if a[i] != b[i]:
+            j = i
+            while j < n and a[j] != b[j]:
+                j += 1
+            out.append(f"{base + i:05X}-{base + j:05X}")
+            i = j
+        else:
+            i += 1
+    return out
+
+
+def compare(t, data):
+    """The trace's end against a DOSBox-X savestate of the same screen: screens, seed words, the game arrays (F007's
+    far pointers DS:A91B, DS:A917) and GOAL.EXE's data segment (64 KiB from DS:0000)."""
+    c = components(data)
+    mem = c["Memory"][MEM_BASE:MEM_BASE + MEM_SIZE]
+    v = c["Vga"]
+    page = bytes(b for i in range(2000) for b in (v[VGA_TEXT_BASE + CELL * i], v[VGA_TEXT_BASE + CELL * i + 1]))
+    ds = t.DS * 16
+    mine = bytes(t.mu.mem_read(0, MEM_SIZE))
+    word = lambda m, off: int.from_bytes(m[ds + off:ds + off + 2], "little")  # noqa: E731
+    out = {"screen_equal": decode(page) == t.text(), "screen_bytes_equal": page == bytes(t.mu.mem_read(0xB8000, 4000)),
+           "seed": [f"{word(mine, SEED):04X}", f"{word(mem, SEED):04X}"], "seed2": [f"{word(mine, SEED2):04X}", f"{word(mem, SEED2):04X}"]}
+    for name, ptr, size in (("players", 0xA91B, 0x14 * 3061), ("countries", 0xA917, 0xBF * 129)):
+        a, b = word(mine, ptr + 2) * 16 + word(mine, ptr), word(mem, ptr + 2) * 16 + word(mem, ptr)
+        out[name] = {"pointer": [f"{a:05X}", f"{b:05X}"], "equal": mine[a:a + size] == mem[b:b + size],
+                     "differ": ranges(mine[a:a + size], mem[b:b + size], 0)[:20]}
+    out["data_segment_differs"] = ranges(mine[ds:ds + 0x10000], mem[ds:ds + 0x10000], 0)
+    out["conventional_differs"] = ranges(mine[:0xA0000], mem[:0xA0000], 0)[:60]
+    if not out["screen_equal"]:
+        out["dosbox_screen"] = decode(page)
+    return out
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("savestate")
     ap.add_argument("--keys", required=True, help="key codes in hex, comma separated, as 08DD returns them (0D Enter)")
-    ap.add_argument("--time", default="10:00:00", help="HH:MM:SS the INT 21h AH=2Ch answer gives")
+    ap.add_argument("--time", default="10:00:00.00", help="HH:MM:SS.hh the INT 21h AH=2Ch answer gives")
+    ap.add_argument("--key-polls", default="", help="poll sites (SSSS:OOOO, the return address of 214B:0723) "
+                    "answered 'a key waits' while keys remain; every other poll is answered 'no key'")
+    ap.add_argument("--compare", help="a savestate of the same screen from DOSBox-X: compare the end with it")
     ap.add_argument("--out", help="write the events as JSON here")
     a = ap.parse_args(argv)
     keys = [int(k, 16) for k in a.keys.split(",") if k]
-    t = Trace(Path(a.savestate).read_bytes(), keys, tuple(int(x) for x in a.time.split(":"))).run()
+    hms, _, hh = a.time.partition(".")
+    t = Trace(Path(a.savestate).read_bytes(), keys, tuple(int(x) for x in hms.split(":")),
+              key_polls=[k for k in a.key_polls.split(",") if k], hundredths=int(hh or 0)).run()
     for ev in t.events:
         e = {k: v for k, v in ev.items() if k != "screen"}
         print(json.dumps(e))
     print("stop:", t.stop)
     print(t.text())
+    result = {"argv": list(sys.argv[1:] if argv is None else argv), "stop": t.stop, "events": t.events,
+              "final_screen": t.text(), "seed": f"{t.ds(SEED):04X}", "seed2": f"{t.ds(SEED2):04X}"}
+    if a.compare:
+        result["compare"] = compare(t, Path(a.compare).read_bytes())
+        print(json.dumps(result["compare"], indent=1))
     if a.out:
-        Path(a.out).write_text(json.dumps({"stop": t.stop, "events": t.events, "final_screen": t.text(),
-                                           "seed": f"{t.ds(SEED):04X}", "seed2": f"{t.ds(SEED2):04X}"}, indent=1, ensure_ascii=False) + "\n")
+        Path(a.out).write_text(json.dumps(result, indent=1, ensure_ascii=False) + "\n")
     return 0
 
 
