@@ -2,7 +2,7 @@
 // Headings give listing addresses (SEGMENT:OFFSET, as in ../code/). DS:XXXX is the data segment 2581. A segment number written in the code (a far pointer's segment, a far call's) is Ghidra's: listing=Ghidra 0000=0000, 000E=1000, 0791=2000, 16D6=3000, 1771=4000, 2138=5000, 2139=6000, 214B=7000, 235C=8000, 2382=9000, 23E4=A000, 2581=B000.
 
 // ---- 0791:5049  energy_chance_branch  (f_0791_5049; Ghidra 2000:5049, __stdcall16near; found by routines.tsv)
-// a watched-engine decision of update_player: after the 26D7 and coin tests it calls 4E28 when a coin or random-is-one(signed +0xE idiv 2) succeeds (seg_0791_09.asm:330-361); energy is the only player byte it reads; what 4E28 does is not established  [likely; F021; read code/seg_0791_09.asm]
+// T65 (ported, exact on ALL): the holder's turn, nested in 57AC: 0 unless 2C29; then 474D, and for a keeper (045D) 3BEE at |y| = 0x1A, else the throw direction +8 = -0x1A * direction and +7 = rand(9) - 5 unless |+8| = 0x1A; else 4354, then in 40BC's strip a destination 2C86(DS:0646) and, when 500C or (|x| < 2 and row * direction > 0x14 + draw), a header (3EDF, ball moving DS:8303) or a shot (3EC5, 0x11); else near goal (2F28) and (DS:8303, or 500C, or random_is_one(DS:07E5[position])) a header when 2EF0, a shot 0x12 on random_is_one(DS:07E5[position]) or a shot 0x11 when still; else deep (row * direction < -0x14) random_is_one(4) chooses 3EF8(9) over 4E28, otherwise 4E28 when (element 2 and a coin) or random_is_one(energy +0xE idiv 2); DS:8303 cleared after a strip or goal attempt; returns 1  [established; F021; read code/seg_0791_09.asm]
 
 undefined1 energy_chance_branch(int param_1)
 
@@ -54,7 +54,8 @@ undefined1 energy_chance_branch(int param_1)
     cVar1 = in_attack_zone((int)*(undefined4 *)(param_1 + 6),
                            (int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10));
     if ((cVar1 != '\0') &&
-       (((DS:8303 != '\0' || (cVar1 = f_0791_500C(&stack0xfffe), cVar1 != '\0')) ||
+       (((DS:8303 != '\0' ||
+         (cVar1 = defending_keeper_in_state13(&stack0xfffe), cVar1 != '\0')) ||
         (cVar1 = u214b_random_is_one(*(undefined1 *)
                                       (((player *)players)
                                        [*(int *)((int)*(undefined4 *)(param_1 + 6) + 0xd)].position
@@ -117,7 +118,7 @@ undefined1 energy_chance_branch(int param_1)
                     ((int)*(undefined4 *)(param_1 + 6),
                      (int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10),DS:0646);
   *(undefined2 *)((int)*(undefined4 *)(param_1 + 6) + 7) = uVar3;
-  cVar1 = f_0791_500C(&stack0xfffe);
+  cVar1 = defending_keeper_in_state13(&stack0xfffe);
   if (cVar1 == '\0') {
     iVar2 = (int)*(char *)*(undefined4 *)(param_1 + 6);
     if (iVar2 < 0) {
@@ -147,11 +148,12 @@ LAB_0791_519F:
 }
 
 
-// ---- 0791:533B  f_0791_533B  (f_0791_533B; Ghidra 2000:533B, __stdcall16near; found by routines.tsv)
+// ---- 0791:533B  pass_receiver_destination  (f_0791_533B; Ghidra 2000:533B, __stdcall16near; found by routines.tsv)
+// T65 (ported, exact on ALL): nested in 57AC: 0 unless the record's slot is the pass target DS:830C; then 1, the destination +7 being the ball DS:82F6 for a keeper or with DS:8300 < 10, else DS:8313  [likely; read code/seg_0791_09.asm]
 
 /* WARNING: Globals starting with '_' overlap smaller symbols at the same address */
 
-undefined2 f_0791_533B(int param_1)
+undefined2 pass_receiver_destination(int param_1)
 
 {
   undefined2 uVar1;
@@ -185,7 +187,7 @@ undefined2 f_0791_533B(int param_1)
 
 
 // ---- 0791:539F  foul_outcome_line  (f_0791_539F; Ghidra 2000:539F, __stdcall16near; found by routines.tsv)
-// 8303-set path: 2EB8 nonzero -> 408E (0x16-0x18); else 5E41 then the 2AA3(0x0E) 'wins the ball' and 2AA3(0x21) pair — the bail lines of 5565's challenge duel  [likely; F014]
+// T65 (ported, exact on ALL): the challenger won the ball (5474, 5513), nested two levels in 57AC: nothing for a keeper holder (045D(DS:830B)); else 4D3F on the holder's pitch record; with DS:8303 clear the beep 214B:1EA1(0x64, 5), then a coin or 287C(3) of the challenger: 869F and commentary 0x0E; with DS:8303 set and 2EB8(DS:82F6) the clearance 408E; else 5E41 and the commentary pair 0x0E, 0x21  [established; F014; read code/seg_0791_09.asm]
 
 void foul_outcome_line(int param_1)
 
@@ -230,7 +232,7 @@ void foul_outcome_line(int param_1)
 
 
 // ---- 0791:5474  tackle_roll  (f_0791_5474; Ghidra 2000:5474, __stdcall16near; found by routines.tsv)
-// the tackle roll of 5565: holder 06B1(278A(holder pitch, DS:07F6[DS:8303])) against challenger 06B1(278A(challenger pitch, DS:07F4[DS:8303]) * DS:07F8[x]), x = 0 when DS:8303 = 0 and 2C54 is true else 1; the challenger wins when its roll is the larger, then 539F and return 1  [established; F022]
+// T65 (ported, exact on ALL): the tackle roll of 5565: holder 06B1(278A(holder pitch, DS:07F6[DS:8303])) against challenger 06B1(278A(challenger pitch, DS:07F4[DS:8303]) * DS:07F8[x]), x = 0 when DS:8303 = 0 and 2C54 is true else 1; the challenger wins when its roll is the larger, then 539F and return 1  [established; F022; read code/seg_0791_09.asm]
 
 bool tackle_roll(int param_1)
 
@@ -269,9 +271,10 @@ LAB_0791_54CA:
 }
 
 
-// ---- 0791:5513  f_0791_5513  (f_0791_5513; Ghidra 2000:5513, __stdcall16near; found by routines.tsv)
+// ---- 0791:5513  challenge_foul_gate  (f_0791_5513; Ghidra 2000:5513, __stdcall16near; found by routines.tsv)
+// T65 (ported, exact on ALL): nested two levels in 57AC (called by 5565): when challenger_would_foul (4DA9) on the record, a coin chooses watched_foul_sequence 8206(slot) or foul_outcome_line 539F, and it returns 1; else 0  [established; F026; read code/seg_0791_09.asm]
 
-undefined1 f_0791_5513(int param_1)
+undefined1 challenge_foul_gate(int param_1)
 
 {
   undefined4 uVar1;
@@ -298,7 +301,7 @@ undefined1 f_0791_5513(int param_1)
 
 
 // ---- 0791:5565  challenge_duel  (f_0791_5565; Ghidra 2000:5565, __stdcall16near; found by routines.tsv)
-// the challenge duel of update_player: with DS:8303 set it emits 2B28(0x41) 'challenge by' then runs 5474/5513/4151 to 045D(DS:830B) at 5692-5697 — the ONE silent bail: the holder's pitch slot (DS:830B) 1 or 12, a side's slot 1, skips 56CB via jne 56D0 — then 4D3F at 56A3, whose return is never tested (56A6's DS:8303 test is the branch, so a goalkeeper challenger still gets the +10), then 56CB writes +10 to the challenger's +0x12 with no ring line (the completed challenge nets 0); every other bail is the next ring line (539F's 0x0E/0x21 pair, 408E's 0x16-0x18, 8206's 0x35-0x37, 3FAD(9)'s 0x15)  [established; F014]
+// T65 (ported, exact on ALL; the +10 of 56CB is to the word +0x12 of the challenger's player record, DS:A91B): the challenge duel of update_player: with DS:8303 set it emits 2B28(0x41) 'challenge by' then runs 5474/5513/4151 to 045D(DS:830B) at 5692-5697 — the ONE silent bail: the holder's pitch slot (DS:830B) 1 or 12, a side's slot 1, skips 56CB via jne 56D0 — then 4D3F at 56A3, whose return is never tested (56A6's DS:8303 test is the branch, so a goalkeeper challenger still gets the +10), then 56CB writes +10 to the challenger's +0x12 with no ring line (the completed challenge nets 0); every other bail is the next ring line (539F's 0x0E/0x21 pair, 408E's 0x16-0x18, 8206's 0x35-0x37, 3FAD(9)'s 0x15)  [established; F014; read code/seg_0791_09.asm]
 
 undefined1 challenge_duel(int param_1)
 
@@ -345,7 +348,7 @@ undefined1 challenge_duel(int param_1)
                      (int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10),0x41);
         }
         cVar3 = tackle_roll(&stack0xfffe);
-        if ((((cVar3 == '\0') && (cVar3 = f_0791_5513(&stack0xfffe), cVar3 == '\0')) &&
+        if ((((cVar3 == '\0') && (cVar3 = challenge_foul_gate(&stack0xfffe), cVar3 == '\0')) &&
             (cVar3 = keeper_clearance_if_in_strip(), cVar3 == '\0')) &&
            (cVar3 = is_keeper_slot(DS:830B), cVar3 == '\0')) {
           begin_chase((int)*(undefined4 *)(param_1 + 6),
@@ -373,9 +376,10 @@ undefined1 challenge_duel(int param_1)
 }
 
 
-// ---- 0791:56D9  f_0791_56D9  (f_0791_56D9; Ghidra 2000:56D9, __stdcall16near; found by routines.tsv)
+// ---- 0791:56D9  offside_call  (f_0791_56D9; Ghidra 2000:56D9, __stdcall16near; found by routines.tsv)
+// T65 (ported, exact on ALL): nested in 57AC: with an offside player DS:830E, 26A0(direction of DS:830E's record < 0) and, once (DS:8329), the commentary 0x42 (2B0F); always returns 0  [likely; read code/seg_0791_09.asm]
 
-int f_0791_56D9(void)
+int offside_call(void)
 
 {
   char cVar1;
@@ -400,7 +404,7 @@ int f_0791_56D9(void)
 
 
 // ---- 0791:5729  chase_ball_gate  (f_0791_5729; Ghidra 2000:5729, __stdcall16near; found by routines.tsv)
-// the defending player's go-to-the-ball test in 57AC: 0 for a keeper slot or a slot on the ball's side; else 1 when 2EB8 (the ball position test) holds and (2EF0 holds, or effective element 6 is clear), else 0; so with sag back (element 6 clear) a defender close to the ball goes for it, with stand ground (set) only when 2EF0 holds  [likely; F026; read named/seg_0791_04.c]
+// T65 (ported, exact on ALL): the defending player's go-to-the-ball test in 57AC: 0 for a keeper slot or a slot on the ball's side; else 1 when 2EB8 (the ball position test) holds and (2EF0 holds, or effective element 6 is clear), else 0; so with sag back (element 6 clear) a defender close to the ball goes for it, with stand ground (set) only when 2EF0 holds  [established; F026; read named/seg_0791_04.c; read code/seg_0791_09.asm]
 
 undefined2 chase_ball_gate(int param_1)
 
@@ -456,7 +460,7 @@ LAB_0791_57A0:
 
 
 // ---- 0791:57AC  play_state_update  (f_0791_57AC; Ghidra 2000:57AC, __stdcall16far; found by routines.tsv)
-// state 5 (play) update of a non-holder: after the energy, foul and duel branches, the destination is the ball or 4A28's; then 474D; with a keeper holding the ball (045D(DS:830B) and DS:8302 = 0) 4B64 replaces it all; the shortcut term DS:830C != 0 and 2BB1 != 2 and code != 1 is never true for a sweeper or slot 2; T52: the per-update decision of a pitch record in state 5, called by update_player: 56D9, energy_chance_branch, 533B and challenge_duel first; then with a goalkeeper holding the ball 4B64, else the destination: the ball (or the marking destination update_marking_destination) by DS:8325, 830C, slot_is_on_ball_side, chase_ball_gate and 44C1 conditions, then 474D (the depth offset) and handle_player_at_ball when DS:8302 is set  [likely; F028; read decompiled/seg_0791_04.c; F026; read named/seg_0791_04.c]
+// T65 (ported, exact on ALL; DS:8327 = 5 with the ball moving sends the record to the ball before the other tests, 57F5): state 5 (play) update of a non-holder: after the energy, foul and duel branches, the destination is the ball or 4A28's; then 474D; with a keeper holding the ball (045D(DS:830B) and DS:8302 = 0) 4B64 replaces it all; the shortcut term DS:830C != 0 and 2BB1 != 2 and code != 1 is never true for a sweeper or slot 2; T52: the per-update decision of a pitch record in state 5, called by update_player: 56D9, energy_chance_branch, 533B and challenge_duel first; then with a goalkeeper holding the ball 4B64, else the destination: the ball (or the marking destination update_marking_destination) by DS:8325, 830C, slot_is_on_ball_side, chase_ball_gate and 44C1 conditions, then 474D (the depth offset) and handle_player_at_ball when DS:8302 is set  [established; F028; read decompiled/seg_0791_04.c; F026; read named/seg_0791_04.c; read code/seg_0791_09.asm]
 
 void __stdcall16far play_state_update(undefined4 param_1)
 
@@ -465,9 +469,9 @@ void __stdcall16far play_state_update(undefined4 param_1)
   int iVar2;
   undefined2 uVar3;
   
-  cVar1 = f_0791_56D9(&stack0xfffe);
+  cVar1 = offside_call(&stack0xfffe);
   if ((((cVar1 == '\0') && (cVar1 = energy_chance_branch(&stack0xfffe), cVar1 == '\0')) &&
-      (cVar1 = f_0791_533B(&stack0xfffe), cVar1 == '\0')) &&
+      (cVar1 = pass_receiver_destination(&stack0xfffe), cVar1 == '\0')) &&
      (cVar1 = challenge_duel(&stack0xfffe), cVar1 == '\0')) {
     cVar1 = is_keeper_slot(DS:830B);
     iVar2 = (int)param_1;
@@ -506,9 +510,10 @@ void __stdcall16far play_state_update(undefined4 param_1)
 }
 
 
-// ---- 0791:58E1  f_0791_58E1  (f_0791_58E1; Ghidra 2000:58E1, __stdcall16far; found by routines.tsv)
+// ---- 0791:58E1  chase_countdown  (f_0791_58E1; Ghidra 2000:58E1, __stdcall16far; found by routines.tsv)
+// T65 (ported, exact on ALL): (pitch record): state 5 at once for a keeper with DS:8302 set and the ball still (DS:8300 = 0); else the countdown +0x10 runs down by 1, and at 0 the state +0x12 becomes 5; the destination +7 becomes the record's own point  [likely; read code/seg_0791_09.asm]
 
-void __stdcall16far f_0791_58E1(undefined2 *param_1)
+void __stdcall16far chase_countdown(undefined2 *param_1)
 
 {
   char cVar1;
@@ -534,9 +539,10 @@ void __stdcall16far f_0791_58E1(undefined2 *param_1)
 }
 
 
-// ---- 0791:593B  f_0791_593B  (f_0791_593B; Ghidra 2000:593B, __stdcall16near; found by routines.tsv)
+// ---- 0791:593B  woodwork_bounce  (f_0791_593B; Ghidra 2000:593B, __stdcall16near; found by routines.tsv)
+// T65 (ported, exact on ALL): nested in 59B3 (parent BP, template): random_is_one(DS:07FC[DS:8324]), not in mode DS:8327 = 5 and, for template 0x1B, not on a coin: velocities DS:82FC/82FE negated, speed DS:8300 = max(1, speed div 4), the template said (2AA3), the parent's result set and DS:8324 cleared  [likely; read code/seg_0791_09.asm]
 
-void f_0791_593B(int param_1,char param_2)
+void woodwork_bounce(int param_1,char param_2)
 
 {
   char cVar1;
@@ -557,7 +563,7 @@ void f_0791_593B(int param_1,char param_2)
 
 
 // ---- 0791:59B3  check_woodwork  (f_0791_59B3; Ghidra 2000:59B3, __cdecl16near; found by routines.tsv)
-// when the ball is moving (DS:8300 != 0), the holder is not a keeper (045D: slot 1 or 12), abs(y) = 0x25 and abs(x) < 2: 593B may bounce it back (velocities DS:82FC/82FE negated, speed /4, commentary from table DS:07FA) and the routine then returns 1  [guess; read decompiled/seg_0791_04.c; read decompiled/seg_0791_01.c]
+// T65 (ported, exact on ALL; with DS:8325 and DS:8324 both clear it returns its local byte unwritten, 59C5): when the ball is moving (DS:8300 != 0), the holder is not a keeper (045D: slot 1 or 12), abs(y) = 0x25 and abs(x) < 2: 593B may bounce it back (velocities DS:82FC/82FE negated, speed /4, commentary from table DS:07FA) and the routine then returns 1  [likely; read decompiled/seg_0791_04.c; read decompiled/seg_0791_01.c; read code/seg_0791_09.asm]
 
 undefined1 __cdecl16near check_woodwork(void)
 
@@ -590,7 +596,7 @@ undefined1 __cdecl16near check_woodwork(void)
           else {
             cVar1 = '\0';
           }
-          f_0791_593B(&stack0xfffe,*(undefined1 *)(cVar1 + 0x7fa));
+          woodwork_bounce(&stack0xfffe,*(undefined1 *)(cVar1 + 0x7fa));
         }
       }
     }
@@ -599,9 +605,10 @@ undefined1 __cdecl16near check_woodwork(void)
 }
 
 
-// ---- 0791:5A33  f_0791_5A33  (f_0791_5A33; Ghidra 2000:5A33, __stdcall16near; found by routines.tsv)
+// ---- 0791:5A33  saved_line  (f_0791_5A33; Ghidra 2000:5A33, __stdcall16near; found by routines.tsv)
+// T65 (ported, exact on ALL): nested in 5A8E (parent BP, template): the record's slot takes the ball (DS:830B), the template is said (2AA3); in play (DS:8326 clear) the saves byte DS:7B83 + 10 * side grows and DS:8327 is cleared, else DS:830B is the byte at the parent's BP-2; DS:8324 cleared  [likely; read code/seg_0791_10.asm]
 
-void f_0791_5A33(int param_1,undefined1 param_2)
+void saved_line(int param_1,undefined1 param_2)
 
 {
   char cVar1;
@@ -626,7 +633,7 @@ void f_0791_5A33(int param_1,undefined1 param_2)
 
 
 // ---- 0791:5A8E  write_save_line  (f_0791_5A8E; Ghidra 2000:5A8E, __stdcall16near; found by routines.tsv)
-// writes the `saved by X` commentary line (template 0x1D = 29) via 5A33 and clears the ball phase; the win branch of 5B36's save duel, reached also from its coin-flip branch  [established; F015; read code/seg_0791_10.asm]
+// T65 (ported, exact on ALL): writes the `saved by X` commentary line (template 0x1D = 29) via 5A33 and clears the ball phase; the win branch of 5B36's save duel, reached also from its coin-flip branch  [established; F015; read code/seg_0791_10.asm]
 
 void write_save_line(int param_1)
 
@@ -645,7 +652,7 @@ void write_save_line(int param_1)
     uVar2 = 0;
     ball_record.timer = 0;
   }
-  f_0791_5A33(param_1,CONCAT11(uVar2,0x1d));
+  saved_line(param_1,CONCAT11(uVar2,0x1d));
   cVar1 = in_own_goal_strip((int)*(undefined4 *)(param_1 + 6),
                             (int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10),
                             *(undefined2 *)*(undefined4 *)(param_1 + 6));
@@ -753,14 +760,14 @@ void __stdcall16far duel_line(undefined2 *param_1)
       ball_record.vel_y = -ball_record.vel_y;
       ball_record.vel_x = -ball_record.vel_x;
       ball_record.timer = u214b_max_longint(ball_record.timer / 4,0,1,0);
-      f_0791_5A33(&stack0xfffe,0x1e);
+      saved_line(&stack0xfffe,0x1e);
       return;
     }
     if (iVar4 == 2) {
       cVar2 = u214b_random_coin_flip();
       ball_record.vel_x = (word)((char *)form_delta)[cVar2];
       ball_record.timer = u214b_max_longint(ball_record.timer / 4,0,1,0);
-      f_0791_5A33(&stack0xfffe,0x1f);
+      saved_line(&stack0xfffe,0x1f);
       return;
     }
     write_save_line(&stack0xfffe);
@@ -898,171 +905,5 @@ void f_0791_5F06(int param_1)
     commentary_with_ball_slot(CONCAT11(extraout_AH,0x20));
   }
   DS:8303 = u214b_random_coin_flip();
-  return;
-}
-
-
-// ---- 0791:5F8A  react_off_ball  (f_0791_5F8A; Ghidra 2000:5F8A, __stdcall16near; found by routines.tsv)
-// (frame of 6188): the reactions of a non-holder, gated by 8325/8324, by 835F(ball) above 10 (far) and DS:8303: 287C with elements 4 (aerial, near), 3 (far), 9 (near, 2F28 true) or DS:0804[2B51()] (DS:8300 non-zero), each success passing to 408E, 3EDF, 5F06, 3EC5 or the commentary tail  [likely; F022]
-
-void react_off_ball(int param_1)
-
-{
-  char cVar1;
-  uint uVar2;
-  undefined2 unaff_SS;
-  
-  cVar1 = slot_is_on_ball_side
-                    ((int)*(undefined4 *)(param_1 + 6),
-                     (int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10));
-  if ((((cVar1 != '\0') || (cVar1 = is_keeper_slot(DS:830B), cVar1 == '\0')) ||
-      (ball_record.timer == 0)) && ((DS:8325 != '\0' || (DS:8324 != '\0')))) {
-    uVar2 = ball_travel((ball *)&ball_record,0xb000);
-    *(bool *)(param_1 + -1) = 10 < uVar2;
-    if (DS:8303 == '\0') {
-      if (*(char *)(param_1 + -1) == '\0') {
-        if (((*(char *)(param_1 + -1) == '\0') &&
-            (cVar1 = in_attack_zone((int)*(undefined4 *)(param_1 + 6),
-                                    (int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10)),
-            cVar1 != '\0')) &&
-           (cVar1 = skill_draw_passes((int)*(undefined4 *)(param_1 + 6),
-                                      (int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10),9),
-           cVar1 != '\0')) {
-          cVar1 = slot_is_on_ball_side
-                            ((int)*(undefined4 *)(param_1 + 6),
-                             (int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10));
-          cVar1 = u214b_random_is_one(*(undefined1 *)(cVar1 + 0x808));
-          if (cVar1 != '\0') {
-            cVar1 = slot_is_on_ball_side
-                              ((int)*(undefined4 *)(param_1 + 6),
-                               (int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10));
-            take_shot((int)*(undefined4 *)(param_1 + 6),
-                      (int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10),
-                      CONCAT11(cVar1 >> 7,*(undefined1 *)(cVar1 + 0x806)));
-            return;
-          }
-        }
-        if (ball_record.timer != 0) {
-          cVar1 = slot_is_on_ball_side
-                            ((int)*(undefined4 *)(param_1 + 6),
-                             (int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10));
-          cVar1 = skill_draw_passes((int)*(undefined4 *)(param_1 + 6),
-                                    (int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10),
-                                    *(undefined1 *)(cVar1 + 0x804));
-          if (cVar1 == '\0') {
-            return;
-          }
-        }
-        cVar1 = slot_is_on_ball_side
-                          ((int)*(undefined4 *)(param_1 + 6),
-                           (int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10));
-        if (cVar1 == '\0') {
-          commentary_for_record
-                    ((int)*(undefined4 *)(param_1 + 6),
-                     (int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10),0x22);
-        }
-        else if (DS:830B == *(char *)((int)*(undefined4 *)(param_1 + 6) + 6)) {
-          commentary_for_record
-                    ((int)*(undefined4 *)(param_1 + 6),
-                     (int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10),0x19);
-        }
-        else {
-          commentary_for_record
-                    ((int)*(undefined4 *)(param_1 + 6),
-                     (int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10),0x23);
-        }
-        take_possession((int)*(undefined4 *)(param_1 + 6),
-                        (int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10));
-      }
-      else {
-        cVar1 = skill_draw_passes((int)*(undefined4 *)(param_1 + 6),
-                                  (int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10),3);
-        if (cVar1 != '\0') {
-          f_0791_5F06(&stack0xfffe);
-        }
-      }
-    }
-    else if ((*(char *)(param_1 + -1) == '\0') &&
-            (cVar1 = skill_draw_passes((int)*(undefined4 *)(param_1 + 6),
-                                       (int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10),4),
-            cVar1 != '\0')) {
-      cVar1 = in_own_goal_strip((int)*(undefined4 *)(param_1 + 6),
-                                (int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10),ball_record._0_2_
-                               );
-      if (cVar1 == '\0') {
-        cVar1 = in_opposing_goal_strip
-                          ((int)*(undefined4 *)(param_1 + 6),
-                           (int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10),ball_record._0_2_);
-        if (cVar1 == '\0') {
-          f_0791_5F06(&stack0xfffe);
-        }
-        else {
-          take_header((int)*(undefined4 *)(param_1 + 6),
-                      (int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10));
-        }
-      }
-      else {
-        choose_clearance((int)*(undefined4 *)(param_1 + 6),
-                         (int)((ulong)*(undefined4 *)(param_1 + 6) >> 0x10));
-      }
-    }
-  }
-  return;
-}
-
-
-// ---- 0791:6188  handle_player_at_ball  (f_0791_6188; Ghidra 2000:6188, __stdcall16far; found by routines.tsv)
-// watched match only (DS:9A3E = 0), state +0x12 not 13, player on the ball square (2CEC): a keeper calls 5B36, another player not already holding (DS:830B) calls 5F8A  [likely; read decompiled/seg_0791_04.c]
-
-void __stdcall16far handle_player_at_ball(undefined4 param_1)
-
-{
-  char cVar1;
-  int iVar2;
-  undefined2 uVar3;
-  
-  if ((DS:9A3E == '\0') &&
-     (uVar3 = (undefined2)((ulong)param_1 >> 0x10), iVar2 = (int)param_1,
-     *(char *)(iVar2 + 0x12) != '\r')) {
-    cVar1 = player_at_ball(iVar2,uVar3);
-    if (cVar1 != '\0') {
-      cVar1 = is_keeper_slot(*(undefined1 *)(iVar2 + 6));
-      if (cVar1 == '\0') {
-        if (((DS:8326 == '\0') && (DS:830C == '\0')) &&
-           (DS:830B != *(char *)(iVar2 + 6))) {
-          react_off_ball(&stack0xfffe);
-        }
-      }
-      else {
-        duel_line(iVar2,uVar3);
-      }
-    }
-  }
-  return;
-}
-
-
-// ---- 0791:61EC  f_0791_61EC  (f_0791_61EC; Ghidra 2000:61EC, __cdecl16near; found by routines.tsv)
-
-void __cdecl16near f_0791_61EC(void)
-
-{
-  char cVar1;
-  undefined1 extraout_AH;
-  
-  DS:8325 = 0;
-  check_substitutions();
-  if (DS:7C39 == '\0') {
-    cVar1 = ball_holder_is_side0();
-    cVar1 = *(char *)((cVar1 == '\0') + 0x668);
-  }
-  else {
-    cVar1 = ball_holder_is_side0();
-    cVar1 = *(char *)(cVar1 + 0x668);
-  }
-  DS:830B = cVar1 + '\n';
-  DS:7C39 = 0;
-  advance_unavailable_ball_slot();
-  fill_pitch_state(CONCAT11(extraout_AH,1));
   return;
 }
