@@ -1,0 +1,43 @@
+test_5f3c_moving_ball_not_in_the_set_goes_to_5eab (tests.test_port_duels.Deflection.test_5f3c_moving_ball_not_in_the_set_goes_to_5eab)
+The reached twin of 5F66 (5F3C): ZF set: 5EAB and nothing else. ... ok
+test_5f66_moving_ball_in_the_set_deflects_with_line_0x20 (tests.test_port_duels.Deflection.test_5f66_moving_ball_in_the_set_deflects_with_line_0x20)
+5F2C-5F3A, 5F4F-5F6C: the ball moving and DS:8327 in the set at 0791:5EE6 (08DF leaves ZF clear): 5E41 on ... ok
+test_goal_stands (tests.test_port_duels.GoalScored.test_goal_stands)
+The reached twin: DS:830E clear: record_goal(side of DS:830B's record, DS:830B, the minute), after_goal, the ... ok
+test_goal_taken_back (tests.test_port_duels.GoalScored.test_goal_taken_back)
+6879-68C3: with DS:830E set the line is said, the score goes up at 685C and back down at 68B3, 82EB and the ... ok
+test_5b43_5b4a_nothing_with_8325_and_8324_clear (tests.test_port_duels.KeeperAtBall.test_5b43_5b4a_nothing_with_8325_and_8324_clear)
+5B3C-5B4A: with DS:8325 and DS:8324 both clear 5B36 returns at once. ... ok
+test_5b8f_5bad_moving_ball_duel_a_keeper_save (tests.test_port_duels.KeeperAtBall.test_5b8f_5bad_moving_ball_duel_a_keeper_save)
+5B88-5B8F, 5BAD-5BE6, 5C3E: in his strip with the ball moving (DS:8303) the line is 0x41; the holder's ... ok
+test_5b95_still_ball_duel (tests.test_port_duels.KeeperAtBall.test_5b95_still_ball_duel)
+The reached twin of 5B8F/5BAD (5B95, 5BEF): ball still: line 0x0D, the holder's 278A(holder, 0xA) against ... ok
+test_5c5a_foul_coin_to_8206 (tests.test_port_duels.KeeperAtBall.test_5c5a_foul_coin_to_8206)
+5C51-5C67: the duel lost and 4DA9 true: the coin true calls 8206 with the keeper's slot byte. ... ok
+test_5c69_foul_coin_false_saves (tests.test_port_duels.KeeperAtBall.test_5c69_foul_coin_false_saves)
+The reached twin of 5C5A (5C69): the coin false is the save 5A8E. ... ok
+test_5ce3_penalty_element_for_event_4 (tests.test_port_duels.KeeperAtBall.test_5ce3_penalty_element_for_event_4)
+5CC6-5D0C: a penalty (DS:8324) with random_is_one(3) true and DS:8327 = 4: the holder's 278A element is ... ok
+test_5d78_keeper_roll_negative_misses (tests.test_port_duels.KeeperAtBall.test_5d78_keeper_roll_negative_misses)
+5D6F-5D78: the keeper's roll is sign-extended (cwd): a roll of 0x8000 is below the ball's long, the high ... ok
+test_634a_keeper_holding_gives_the_ball_to_a_random_slot (tests.test_port_duels.KickOffKeeper.test_634a_keeper_holding_gives_the_ball_to_a_random_slot)
+634A-6394: DS:830B a keeper slot (045D): the keeper's destination 2C86(+9), DS:830B := DS:0668[2996] + ... ok
+test_6397_outfield_holder_keeps_the_ball (tests.test_port_duels.KickOffKeeper.test_6397_outfield_holder_keeps_the_ball)
+The reached twin of 634A (6397): 045D false: only the holder's destination. ... ok
+test_6141_holder_side_record_is_the_holder_line_0x19 (tests.test_port_duels.OffBall.test_6141_holder_side_record_is_the_holder_line_0x19)
+6131-6151: a loose ball (DS:8300 = 0) with 2B51 true and DS:830B the record's slot: line 0x19, then 869F. ... ok
+test_eleventh_goal_cap (tests.test_port_duels.RecordGoal.test_eleventh_goal_cap)
+6503-6508: with DS:80F0 + side at 11 the count stays (no write at 6510) and the row written is the ... ok
+test_goal_of_the_scorers_side (tests.test_port_duels.RecordGoal.test_goal_of_the_scorers_side)
+The reached twin: line 0x26, the scorer's goals +1 (6484), 5A03 then B3B7, form +1 (DS:7920[1]), the count ... ok
+test_own_goal_line_0x27_other_side_credited_no_scorer_goal (tests.test_port_duels.RecordGoal.test_own_goal_line_0x27_other_side_credited_no_scorer_goal)
+645D-646A, 64E7-64FA, 6588, 6590: an own goal (DS:7C39 set) says 0x27, gives the scorer no goal and no top ... ok
+test_tenth_goal_counts (tests.test_port_duels.RecordGoal.test_tenth_goal_counts)
+The reached twin: below 11 the count grows (6510). ... ok
+test_68d6_with_0c20_set_the_flag_is_kept_in_the_fixture (tests.test_port_duels.ReplayFlag.test_68d6_with_0c20_set_the_flag_is_kept_in_the_fixture)
+68D6-68E2: after a goal that stands with DS:0C20 set: DS:0C20 := 0, the fixture's +0x3F := DS:7C3C and no ... ok
+
+----------------------------------------------------------------------
+Ran 19 tests in 0.144s
+
+OK
