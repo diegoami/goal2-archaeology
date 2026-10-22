@@ -1,0 +1,7 @@
+module absent (main before T65): exit 1, FAILED (errors=9), caught
+4F16: pass returns to 4F14: exit 1, FAILED (failures=1), caught
+5180: header kept DS:8303: exit 1, FAILED (failures=1), caught
+5224: 2EF0 result ignored: exit 1, FAILED (failures=1), caught
+53AF: keeper test dropped: exit 1, FAILED (failures=1), caught
+4DFC: held roll not pushed: exit 1, FAILED (failures=1), caught
+all controls caught
