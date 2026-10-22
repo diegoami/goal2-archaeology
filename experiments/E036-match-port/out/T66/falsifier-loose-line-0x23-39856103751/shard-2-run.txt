@@ -1,0 +1,9 @@
+COMMAND: python3 -B experiments/E036-match-port/family.py --family O8 --only O8/c64-c90-friendly,O8/c64-c90-qualifier --workers 2 --time-limit 6000 --stretch-limit 600 --checkpoint .cache/checkpoints --out shard/shard-2.jsonl --ports duels --variant duels.loose-line-0x23
+HEAD: 8b6fc7ce2fec983f4f289ebb91624089bb9273ef runner 4 CPUs  AMD EPYC 7763 64-Core Processor started 2026-10-22T21:18:24Z
+ports: duels.loose-line-0x23
+2 matches selected, 0 already in shard/shard-2.jsonl, 2 to run
+O8/c64-c90-friendly: completed; score [0, 1] ticks 4323 cpu 70.423 s; port 0791:5B36 called 11; port 0791:5E41 called 43; port 0791:5EAB called 28; port 0791:5F06 called 34; port 0791:5F8A called 372; port 0791:6188 called 100064; port 0791:61EC called 2; port 0791:6240 called 197; port 0791:6337 called 2; port 0791:6443 called 1; port 0791:65A4 called 1; port 0791:65FE called 1; port 0791:6755 called 0; port 0791:67B6 called 1
+O8/c64-c90-qualifier: decision substitution at minute 90 answered with port frames live: 0791:6188 waiting on its call of 0791:5F8A (returning to 0791:61E6); 0791:5F8A waiting on its call of 0791:5F06 (returning to 0791:6053); 0791:5F06 waiting on its call of 0791:5EAB (returning to 0791:5F4D); 0791:5EAB waiting on its call of 0791:384C (returning to 0791:5EDB)
+O8/c64-c90-qualifier: completed; score [1, 2] ticks 4367 cpu 71.654 s; port 0791:5B36 called 18; port 0791:5E41 called 30; port 0791:5EAB called 36; port 0791:5F06 called 42; port 0791:5F8A called 310; port 0791:6188 called 101146; port 0791:61EC called 4; port 0791:6240 called 1070; port 0791:6337 called 4; port 0791:6443 called 3; port 0791:65A4 called 3; port 0791:65FE called 3; port 0791:6755 called 0; port 0791:67B6 called 3
+2 of 2 matches in shard/shard-2.jsonl, 0 not completed
+exit 0 finished 2026-10-22T21:19:26Z
