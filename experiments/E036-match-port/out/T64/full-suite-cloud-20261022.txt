@@ -996,4 +996,463 @@ read 11: t=0.001 831F=1 seed=0001 score=[0, 0] ft=False key=team screen
 read 12: t=0.001 831F=1 seed=0001 score=[0, 0] ft=False key=team screen
 read 13: t=0.001 831F=1 seed=0001 score=[0, 0] ft=False key=team screen
 key not acted on within 10 reads; aborting
-..............................................
+.....................................................................................................................................................................................................................................................................................................................................................................................E.EEEEEE..............................EEE.EEEEE
+======================================================================
+ERROR: test_a_broken_snapshot_is_skipped_and_the_chain_still_yields_a_record (test_human_record.Extraction.test_a_broken_snapshot_is_skipped_and_the_chain_still_yields_a_record)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/user/goal2-archaeology/tests/netskip.py", line 75, in wrapper
+    require(what, probe, self.id())
+    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/goal2-archaeology/tests/netskip.py", line 52, in require
+    probe()
+    ~~~~~^^
+  File "/home/user/goal2-archaeology/tests/netskip.py", line 81, in <lambda>
+    needs_pinned_tools = needs("the pinned game-archaeologist tools", lambda: ga.fetch())
+                                                                              ~~~~~~~~^^
+  File "/home/user/goal2-archaeology/tools/ga.py", line 243, in fetch
+    wanted = _wanted(repo, commit)
+  File "/home/user/goal2-archaeology/tools/ga.py", line 117, in _wanted
+    tree = _gh_api(f"repos/{repo}/git/trees/{commit}?recursive=1")
+  File "/home/user/goal2-archaeology/tools/ga.py", line 108, in _gh_api
+    raise GaError(f"gh api {path} failed: {message or f'exit {out.returncode}'}") from None
+tools.ga.GaError: gh api repos/diegoami/game-archaeologist/git/trees/7d10d70d8ee4da80e6a8cf10c9a7abfd8483d09d?recursive=1 failed: gh: GitHub access to this repository is not enabled for this session. Use add_repo to request access. If add_repo answers that read access is already available and you need GitHub API or write access, call add_repo again with access:"push" to attach the repository with credentials. (HTTP 403)
+
+======================================================================
+ERROR: test_a_single_state_session_has_no_diffs (test_human_record.Extraction.test_a_single_state_session_has_no_diffs)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/user/goal2-archaeology/tests/netskip.py", line 75, in wrapper
+    require(what, probe, self.id())
+    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/goal2-archaeology/tests/netskip.py", line 52, in require
+    probe()
+    ~~~~~^^
+  File "/home/user/goal2-archaeology/tests/netskip.py", line 81, in <lambda>
+    needs_pinned_tools = needs("the pinned game-archaeologist tools", lambda: ga.fetch())
+                                                                              ~~~~~~~~^^
+  File "/home/user/goal2-archaeology/tools/ga.py", line 243, in fetch
+    wanted = _wanted(repo, commit)
+  File "/home/user/goal2-archaeology/tools/ga.py", line 117, in _wanted
+    tree = _gh_api(f"repos/{repo}/git/trees/{commit}?recursive=1")
+  File "/home/user/goal2-archaeology/tools/ga.py", line 108, in _gh_api
+    raise GaError(f"gh api {path} failed: {message or f'exit {out.returncode}'}") from None
+tools.ga.GaError: gh api repos/diegoami/game-archaeologist/git/trees/7d10d70d8ee4da80e6a8cf10c9a7abfd8483d09d?recursive=1 failed: gh: GitHub access to this repository is not enabled for this session. Use add_repo to request access. If add_repo answers that read access is already available and you need GitHub API or write access, call add_repo again with access:"push" to attach the repository with credentials. (HTTP 403)
+
+======================================================================
+ERROR: test_the_record_is_a_valid_run_1_document (test_human_record.Extraction.test_the_record_is_a_valid_run_1_document)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/user/goal2-archaeology/tests/netskip.py", line 75, in wrapper
+    require(what, probe, self.id())
+    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/goal2-archaeology/tests/netskip.py", line 52, in require
+    probe()
+    ~~~~~^^
+  File "/home/user/goal2-archaeology/tests/netskip.py", line 81, in <lambda>
+    needs_pinned_tools = needs("the pinned game-archaeologist tools", lambda: ga.fetch())
+                                                                              ~~~~~~~~^^
+  File "/home/user/goal2-archaeology/tools/ga.py", line 243, in fetch
+    wanted = _wanted(repo, commit)
+  File "/home/user/goal2-archaeology/tools/ga.py", line 117, in _wanted
+    tree = _gh_api(f"repos/{repo}/git/trees/{commit}?recursive=1")
+  File "/home/user/goal2-archaeology/tools/ga.py", line 108, in _gh_api
+    raise GaError(f"gh api {path} failed: {message or f'exit {out.returncode}'}") from None
+tools.ga.GaError: gh api repos/diegoami/game-archaeologist/git/trees/7d10d70d8ee4da80e6a8cf10c9a7abfd8483d09d?recursive=1 failed: gh: GitHub access to this repository is not enabled for this session. Use add_repo to request access. If add_repo answers that read access is already available and you need GitHub API or write access, call add_repo again with access:"push" to attach the repository with credentials. (HTTP 403)
+
+======================================================================
+ERROR: test_the_pinned_tool_validates_both_sets (test_known_sets.KnownSetsTest.test_the_pinned_tool_validates_both_sets)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/user/goal2-archaeology/tests/netskip.py", line 75, in wrapper
+    require(what, probe, self.id())
+    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/goal2-archaeology/tests/netskip.py", line 52, in require
+    probe()
+    ~~~~~^^
+  File "/home/user/goal2-archaeology/tests/netskip.py", line 81, in <lambda>
+    needs_pinned_tools = needs("the pinned game-archaeologist tools", lambda: ga.fetch())
+                                                                              ~~~~~~~~^^
+  File "/home/user/goal2-archaeology/tools/ga.py", line 243, in fetch
+    wanted = _wanted(repo, commit)
+  File "/home/user/goal2-archaeology/tools/ga.py", line 117, in _wanted
+    tree = _gh_api(f"repos/{repo}/git/trees/{commit}?recursive=1")
+  File "/home/user/goal2-archaeology/tools/ga.py", line 108, in _gh_api
+    raise GaError(f"gh api {path} failed: {message or f'exit {out.returncode}'}") from None
+tools.ga.GaError: gh api repos/diegoami/game-archaeologist/git/trees/7d10d70d8ee4da80e6a8cf10c9a7abfd8483d09d?recursive=1 failed: gh: GitHub access to this repository is not enabled for this session. Use add_repo to request access. If add_repo answers that read access is already available and you need GitHub API or write access, call add_repo again with access:"push" to attach the repository with credentials. (HTTP 403)
+
+======================================================================
+ERROR: test_publish_creates_the_release_uploads_and_writes_the_manifest_last (test_publish_evidence.PublishEvidenceTest.test_publish_creates_the_release_uploads_and_writes_the_manifest_last)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/user/goal2-archaeology/tests/netskip.py", line 75, in wrapper
+    require(what, probe, self.id())
+    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/goal2-archaeology/tests/netskip.py", line 52, in require
+    probe()
+    ~~~~~^^
+  File "/home/user/goal2-archaeology/tests/netskip.py", line 81, in <lambda>
+    needs_pinned_tools = needs("the pinned game-archaeologist tools", lambda: ga.fetch())
+                                                                              ~~~~~~~~^^
+  File "/home/user/goal2-archaeology/tools/ga.py", line 243, in fetch
+    wanted = _wanted(repo, commit)
+  File "/home/user/goal2-archaeology/tools/ga.py", line 117, in _wanted
+    tree = _gh_api(f"repos/{repo}/git/trees/{commit}?recursive=1")
+  File "/home/user/goal2-archaeology/tools/ga.py", line 108, in _gh_api
+    raise GaError(f"gh api {path} failed: {message or f'exit {out.returncode}'}") from None
+tools.ga.GaError: gh api repos/diegoami/game-archaeologist/git/trees/7d10d70d8ee4da80e6a8cf10c9a7abfd8483d09d?recursive=1 failed: gh: GitHub access to this repository is not enabled for this session. Use add_repo to request access. If add_repo answers that read access is already available and you need GitHub API or write access, call add_repo again with access:"push" to attach the repository with credentials. (HTTP 403)
+
+======================================================================
+ERROR: test_check_rehashes_a_copy_against_a_known_json_entry (test_register_artifact.RegisterArtifactTest.test_check_rehashes_a_copy_against_a_known_json_entry)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/user/goal2-archaeology/tests/netskip.py", line 75, in wrapper
+    require(what, probe, self.id())
+    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/goal2-archaeology/tests/netskip.py", line 52, in require
+    probe()
+    ~~~~~^^
+  File "/home/user/goal2-archaeology/tests/netskip.py", line 81, in <lambda>
+    needs_pinned_tools = needs("the pinned game-archaeologist tools", lambda: ga.fetch())
+                                                                              ~~~~~~~~^^
+  File "/home/user/goal2-archaeology/tools/ga.py", line 243, in fetch
+    wanted = _wanted(repo, commit)
+  File "/home/user/goal2-archaeology/tools/ga.py", line 117, in _wanted
+    tree = _gh_api(f"repos/{repo}/git/trees/{commit}?recursive=1")
+  File "/home/user/goal2-archaeology/tools/ga.py", line 108, in _gh_api
+    raise GaError(f"gh api {path} failed: {message or f'exit {out.returncode}'}") from None
+tools.ga.GaError: gh api repos/diegoami/game-archaeologist/git/trees/7d10d70d8ee4da80e6a8cf10c9a7abfd8483d09d?recursive=1 failed: gh: GitHub access to this repository is not enabled for this session. Use add_repo to request access. If add_repo answers that read access is already available and you need GitHub API or write access, call add_repo again with access:"push" to attach the repository with credentials. (HTTP 403)
+
+======================================================================
+ERROR: test_manifest_registers_a_directory_and_runtime_writes_leave_files (test_register_artifact.RegisterArtifactTest.test_manifest_registers_a_directory_and_runtime_writes_leave_files)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/user/goal2-archaeology/tests/netskip.py", line 75, in wrapper
+    require(what, probe, self.id())
+    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/goal2-archaeology/tests/netskip.py", line 52, in require
+    probe()
+    ~~~~~^^
+  File "/home/user/goal2-archaeology/tests/netskip.py", line 81, in <lambda>
+    needs_pinned_tools = needs("the pinned game-archaeologist tools", lambda: ga.fetch())
+                                                                              ~~~~~~~~^^
+  File "/home/user/goal2-archaeology/tools/ga.py", line 243, in fetch
+    wanted = _wanted(repo, commit)
+  File "/home/user/goal2-archaeology/tools/ga.py", line 117, in _wanted
+    tree = _gh_api(f"repos/{repo}/git/trees/{commit}?recursive=1")
+  File "/home/user/goal2-archaeology/tools/ga.py", line 108, in _gh_api
+    raise GaError(f"gh api {path} failed: {message or f'exit {out.returncode}'}") from None
+tools.ga.GaError: gh api repos/diegoami/game-archaeologist/git/trees/7d10d70d8ee4da80e6a8cf10c9a7abfd8483d09d?recursive=1 failed: gh: GitHub access to this repository is not enabled for this session. Use add_repo to request access. If add_repo answers that read access is already available and you need GitHub API or write access, call add_repo again with access:"push" to attach the repository with credentials. (HTTP 403)
+
+======================================================================
+ERROR: test_manifest_the_schema_rejects_exits_1 (test_register_artifact.RegisterArtifactTest.test_manifest_the_schema_rejects_exits_1)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/user/goal2-archaeology/tests/netskip.py", line 75, in wrapper
+    require(what, probe, self.id())
+    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/goal2-archaeology/tests/netskip.py", line 52, in require
+    probe()
+    ~~~~~^^
+  File "/home/user/goal2-archaeology/tests/netskip.py", line 81, in <lambda>
+    needs_pinned_tools = needs("the pinned game-archaeologist tools", lambda: ga.fetch())
+                                                                              ~~~~~~~~^^
+  File "/home/user/goal2-archaeology/tools/ga.py", line 243, in fetch
+    wanted = _wanted(repo, commit)
+  File "/home/user/goal2-archaeology/tools/ga.py", line 117, in _wanted
+    tree = _gh_api(f"repos/{repo}/git/trees/{commit}?recursive=1")
+  File "/home/user/goal2-archaeology/tools/ga.py", line 108, in _gh_api
+    raise GaError(f"gh api {path} failed: {message or f'exit {out.returncode}'}") from None
+tools.ga.GaError: gh api repos/diegoami/game-archaeologist/git/trees/7d10d70d8ee4da80e6a8cf10c9a7abfd8483d09d?recursive=1 failed: gh: GitHub access to this repository is not enabled for this session. Use add_repo to request access. If add_repo answers that read access is already available and you need GitHub API or write access, call add_repo again with access:"push" to attach the repository with credentials. (HTTP 403)
+
+======================================================================
+ERROR: test_no_subcommand_is_a_usage_error (test_register_artifact.RegisterArtifactTest.test_no_subcommand_is_a_usage_error)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/user/goal2-archaeology/tests/netskip.py", line 75, in wrapper
+    require(what, probe, self.id())
+    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/goal2-archaeology/tests/netskip.py", line 52, in require
+    probe()
+    ~~~~~^^
+  File "/home/user/goal2-archaeology/tests/netskip.py", line 81, in <lambda>
+    needs_pinned_tools = needs("the pinned game-archaeologist tools", lambda: ga.fetch())
+                                                                              ~~~~~~~~^^
+  File "/home/user/goal2-archaeology/tools/ga.py", line 243, in fetch
+    wanted = _wanted(repo, commit)
+  File "/home/user/goal2-archaeology/tools/ga.py", line 117, in _wanted
+    tree = _gh_api(f"repos/{repo}/git/trees/{commit}?recursive=1")
+  File "/home/user/goal2-archaeology/tools/ga.py", line 108, in _gh_api
+    raise GaError(f"gh api {path} failed: {message or f'exit {out.returncode}'}") from None
+tools.ga.GaError: gh api repos/diegoami/game-archaeologist/git/trees/7d10d70d8ee4da80e6a8cf10c9a7abfd8483d09d?recursive=1 failed: gh: GitHub access to this repository is not enabled for this session. Use add_repo to request access. If add_repo answers that read access is already available and you need GitHub API or write access, call add_repo again with access:"push" to attach the repository with credentials. (HTTP 403)
+
+======================================================================
+ERROR: test_special_file_in_the_directory_fails_manifest (test_register_artifact.RegisterArtifactTest.test_special_file_in_the_directory_fails_manifest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/user/goal2-archaeology/tests/netskip.py", line 75, in wrapper
+    require(what, probe, self.id())
+    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/goal2-archaeology/tests/netskip.py", line 52, in require
+    probe()
+    ~~~~~^^
+  File "/home/user/goal2-archaeology/tests/netskip.py", line 81, in <lambda>
+    needs_pinned_tools = needs("the pinned game-archaeologist tools", lambda: ga.fetch())
+                                                                              ~~~~~~~~^^
+  File "/home/user/goal2-archaeology/tools/ga.py", line 243, in fetch
+    wanted = _wanted(repo, commit)
+  File "/home/user/goal2-archaeology/tools/ga.py", line 117, in _wanted
+    tree = _gh_api(f"repos/{repo}/git/trees/{commit}?recursive=1")
+  File "/home/user/goal2-archaeology/tools/ga.py", line 108, in _gh_api
+    raise GaError(f"gh api {path} failed: {message or f'exit {out.returncode}'}") from None
+tools.ga.GaError: gh api repos/diegoami/game-archaeologist/git/trees/7d10d70d8ee4da80e6a8cf10c9a7abfd8483d09d?recursive=1 failed: gh: GitHub access to this repository is not enabled for this session. Use add_repo to request access. If add_repo answers that read access is already available and you need GitHub API or write access, call add_repo again with access:"push" to attach the repository with credentials. (HTTP 403)
+
+======================================================================
+ERROR: test_symbolic_link_out_of_the_directory_fails_manifest (test_register_artifact.RegisterArtifactTest.test_symbolic_link_out_of_the_directory_fails_manifest)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/user/goal2-archaeology/tests/netskip.py", line 75, in wrapper
+    require(what, probe, self.id())
+    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/goal2-archaeology/tests/netskip.py", line 52, in require
+    probe()
+    ~~~~~^^
+  File "/home/user/goal2-archaeology/tests/netskip.py", line 81, in <lambda>
+    needs_pinned_tools = needs("the pinned game-archaeologist tools", lambda: ga.fetch())
+                                                                              ~~~~~~~~^^
+  File "/home/user/goal2-archaeology/tools/ga.py", line 243, in fetch
+    wanted = _wanted(repo, commit)
+  File "/home/user/goal2-archaeology/tools/ga.py", line 117, in _wanted
+    tree = _gh_api(f"repos/{repo}/git/trees/{commit}?recursive=1")
+  File "/home/user/goal2-archaeology/tools/ga.py", line 108, in _gh_api
+    raise GaError(f"gh api {path} failed: {message or f'exit {out.returncode}'}") from None
+tools.ga.GaError: gh api repos/diegoami/game-archaeologist/git/trees/7d10d70d8ee4da80e6a8cf10c9a7abfd8483d09d?recursive=1 failed: gh: GitHub access to this repository is not enabled for this session. Use add_repo to request access. If add_repo answers that read access is already available and you need GitHub API or write access, call add_repo again with access:"push" to attach the repository with credentials. (HTTP 403)
+
+======================================================================
+ERROR: test_canonical_set_hash_is_exposed (test_validate_runs.ValidateRunsTest.test_canonical_set_hash_is_exposed)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/user/goal2-archaeology/tests/netskip.py", line 75, in wrapper
+    require(what, probe, self.id())
+    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/goal2-archaeology/tests/netskip.py", line 52, in require
+    probe()
+    ~~~~~^^
+  File "/home/user/goal2-archaeology/tests/netskip.py", line 81, in <lambda>
+    needs_pinned_tools = needs("the pinned game-archaeologist tools", lambda: ga.fetch())
+                                                                              ~~~~~~~~^^
+  File "/home/user/goal2-archaeology/tools/ga.py", line 243, in fetch
+    wanted = _wanted(repo, commit)
+  File "/home/user/goal2-archaeology/tools/ga.py", line 117, in _wanted
+    tree = _gh_api(f"repos/{repo}/git/trees/{commit}?recursive=1")
+  File "/home/user/goal2-archaeology/tools/ga.py", line 108, in _gh_api
+    raise GaError(f"gh api {path} failed: {message or f'exit {out.returncode}'}") from None
+tools.ga.GaError: gh api repos/diegoami/game-archaeologist/git/trees/7d10d70d8ee4da80e6a8cf10c9a7abfd8483d09d?recursive=1 failed: gh: GitHub access to this repository is not enabled for this session. Use add_repo to request access. If add_repo answers that read access is already available and you need GitHub API or write access, call add_repo again with access:"push" to attach the repository with credentials. (HTTP 403)
+
+======================================================================
+ERROR: test_directory_validates_each_json_document (test_validate_runs.ValidateRunsTest.test_directory_validates_each_json_document)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/user/goal2-archaeology/tests/netskip.py", line 75, in wrapper
+    require(what, probe, self.id())
+    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/goal2-archaeology/tests/netskip.py", line 52, in require
+    probe()
+    ~~~~~^^
+  File "/home/user/goal2-archaeology/tests/netskip.py", line 81, in <lambda>
+    needs_pinned_tools = needs("the pinned game-archaeologist tools", lambda: ga.fetch())
+                                                                              ~~~~~~~~^^
+  File "/home/user/goal2-archaeology/tools/ga.py", line 243, in fetch
+    wanted = _wanted(repo, commit)
+  File "/home/user/goal2-archaeology/tools/ga.py", line 117, in _wanted
+    tree = _gh_api(f"repos/{repo}/git/trees/{commit}?recursive=1")
+  File "/home/user/goal2-archaeology/tools/ga.py", line 108, in _gh_api
+    raise GaError(f"gh api {path} failed: {message or f'exit {out.returncode}'}") from None
+tools.ga.GaError: gh api repos/diegoami/game-archaeologist/git/trees/7d10d70d8ee4da80e6a8cf10c9a7abfd8483d09d?recursive=1 failed: gh: GitHub access to this repository is not enabled for this session. Use add_repo to request access. If add_repo answers that read access is already available and you need GitHub API or write access, call add_repo again with access:"push" to attach the repository with credentials. (HTTP 403)
+
+======================================================================
+ERROR: test_duplicate_json_key_is_invalid (test_validate_runs.ValidateRunsTest.test_duplicate_json_key_is_invalid)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/user/goal2-archaeology/tests/netskip.py", line 75, in wrapper
+    require(what, probe, self.id())
+    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/goal2-archaeology/tests/netskip.py", line 52, in require
+    probe()
+    ~~~~~^^
+  File "/home/user/goal2-archaeology/tests/netskip.py", line 81, in <lambda>
+    needs_pinned_tools = needs("the pinned game-archaeologist tools", lambda: ga.fetch())
+                                                                              ~~~~~~~~^^
+  File "/home/user/goal2-archaeology/tools/ga.py", line 243, in fetch
+    wanted = _wanted(repo, commit)
+  File "/home/user/goal2-archaeology/tools/ga.py", line 117, in _wanted
+    tree = _gh_api(f"repos/{repo}/git/trees/{commit}?recursive=1")
+  File "/home/user/goal2-archaeology/tools/ga.py", line 108, in _gh_api
+    raise GaError(f"gh api {path} failed: {message or f'exit {out.returncode}'}") from None
+tools.ga.GaError: gh api repos/diegoami/game-archaeologist/git/trees/7d10d70d8ee4da80e6a8cf10c9a7abfd8483d09d?recursive=1 failed: gh: GitHub access to this repository is not enabled for this session. Use add_repo to request access. If add_repo answers that read access is already available and you need GitHub API or write access, call add_repo again with access:"push" to attach the repository with credentials. (HTTP 403)
+
+======================================================================
+ERROR: test_invalid_example_exits_1 (test_validate_runs.ValidateRunsTest.test_invalid_example_exits_1)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/user/goal2-archaeology/tests/netskip.py", line 75, in wrapper
+    require(what, probe, self.id())
+    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/goal2-archaeology/tests/netskip.py", line 52, in require
+    probe()
+    ~~~~~^^
+  File "/home/user/goal2-archaeology/tests/netskip.py", line 81, in <lambda>
+    needs_pinned_tools = needs("the pinned game-archaeologist tools", lambda: ga.fetch())
+                                                                              ~~~~~~~~^^
+  File "/home/user/goal2-archaeology/tools/ga.py", line 243, in fetch
+    wanted = _wanted(repo, commit)
+  File "/home/user/goal2-archaeology/tools/ga.py", line 117, in _wanted
+    tree = _gh_api(f"repos/{repo}/git/trees/{commit}?recursive=1")
+  File "/home/user/goal2-archaeology/tools/ga.py", line 108, in _gh_api
+    raise GaError(f"gh api {path} failed: {message or f'exit {out.returncode}'}") from None
+tools.ga.GaError: gh api repos/diegoami/game-archaeologist/git/trees/7d10d70d8ee4da80e6a8cf10c9a7abfd8483d09d?recursive=1 failed: gh: GitHub access to this repository is not enabled for this session. Use add_repo to request access. If add_repo answers that read access is already available and you need GitHub API or write access, call add_repo again with access:"push" to attach the repository with credentials. (HTTP 403)
+
+======================================================================
+ERROR: test_missing_path_invalid_json_and_unknown_schema_exit_1 (test_validate_runs.ValidateRunsTest.test_missing_path_invalid_json_and_unknown_schema_exit_1)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/user/goal2-archaeology/tests/netskip.py", line 75, in wrapper
+    require(what, probe, self.id())
+    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/goal2-archaeology/tests/netskip.py", line 52, in require
+    probe()
+    ~~~~~^^
+  File "/home/user/goal2-archaeology/tests/netskip.py", line 81, in <lambda>
+    needs_pinned_tools = needs("the pinned game-archaeologist tools", lambda: ga.fetch())
+                                                                              ~~~~~~~~^^
+  File "/home/user/goal2-archaeology/tools/ga.py", line 243, in fetch
+    wanted = _wanted(repo, commit)
+  File "/home/user/goal2-archaeology/tools/ga.py", line 117, in _wanted
+    tree = _gh_api(f"repos/{repo}/git/trees/{commit}?recursive=1")
+  File "/home/user/goal2-archaeology/tools/ga.py", line 108, in _gh_api
+    raise GaError(f"gh api {path} failed: {message or f'exit {out.returncode}'}") from None
+tools.ga.GaError: gh api repos/diegoami/game-archaeologist/git/trees/7d10d70d8ee4da80e6a8cf10c9a7abfd8483d09d?recursive=1 failed: gh: GitHub access to this repository is not enabled for this session. Use add_repo to request access. If add_repo answers that read access is already available and you need GitHub API or write access, call add_repo again with access:"push" to attach the repository with credentials. (HTTP 403)
+
+======================================================================
+ERROR: test_semantic_rule_is_applied (test_validate_runs.ValidateRunsTest.test_semantic_rule_is_applied)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/user/goal2-archaeology/tests/netskip.py", line 75, in wrapper
+    require(what, probe, self.id())
+    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/goal2-archaeology/tests/netskip.py", line 52, in require
+    probe()
+    ~~~~~^^
+  File "/home/user/goal2-archaeology/tests/netskip.py", line 81, in <lambda>
+    needs_pinned_tools = needs("the pinned game-archaeologist tools", lambda: ga.fetch())
+                                                                              ~~~~~~~~^^
+  File "/home/user/goal2-archaeology/tools/ga.py", line 243, in fetch
+    wanted = _wanted(repo, commit)
+  File "/home/user/goal2-archaeology/tools/ga.py", line 117, in _wanted
+    tree = _gh_api(f"repos/{repo}/git/trees/{commit}?recursive=1")
+  File "/home/user/goal2-archaeology/tools/ga.py", line 108, in _gh_api
+    raise GaError(f"gh api {path} failed: {message or f'exit {out.returncode}'}") from None
+tools.ga.GaError: gh api repos/diegoami/game-archaeologist/git/trees/7d10d70d8ee4da80e6a8cf10c9a7abfd8483d09d?recursive=1 failed: gh: GitHub access to this repository is not enabled for this session. Use add_repo to request access. If add_repo answers that read access is already available and you need GitHub API or write access, call add_repo again with access:"push" to attach the repository with credentials. (HTTP 403)
+
+======================================================================
+ERROR: test_valid_evidence_manifest_exits_0 (test_validate_runs.ValidateRunsTest.test_valid_evidence_manifest_exits_0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/user/goal2-archaeology/tests/netskip.py", line 75, in wrapper
+    require(what, probe, self.id())
+    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/goal2-archaeology/tests/netskip.py", line 52, in require
+    probe()
+    ~~~~~^^
+  File "/home/user/goal2-archaeology/tests/netskip.py", line 81, in <lambda>
+    needs_pinned_tools = needs("the pinned game-archaeologist tools", lambda: ga.fetch())
+                                                                              ~~~~~~~~^^
+  File "/home/user/goal2-archaeology/tools/ga.py", line 243, in fetch
+    wanted = _wanted(repo, commit)
+  File "/home/user/goal2-archaeology/tools/ga.py", line 117, in _wanted
+    tree = _gh_api(f"repos/{repo}/git/trees/{commit}?recursive=1")
+  File "/home/user/goal2-archaeology/tools/ga.py", line 108, in _gh_api
+    raise GaError(f"gh api {path} failed: {message or f'exit {out.returncode}'}") from None
+tools.ga.GaError: gh api repos/diegoami/game-archaeologist/git/trees/7d10d70d8ee4da80e6a8cf10c9a7abfd8483d09d?recursive=1 failed: gh: GitHub access to this repository is not enabled for this session. Use add_repo to request access. If add_repo answers that read access is already available and you need GitHub API or write access, call add_repo again with access:"push" to attach the repository with credentials. (HTTP 403)
+
+======================================================================
+ERROR: test_valid_example_exits_0 (test_validate_runs.ValidateRunsTest.test_valid_example_exits_0)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/user/goal2-archaeology/tests/netskip.py", line 75, in wrapper
+    require(what, probe, self.id())
+    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/goal2-archaeology/tests/netskip.py", line 52, in require
+    probe()
+    ~~~~~^^
+  File "/home/user/goal2-archaeology/tests/netskip.py", line 81, in <lambda>
+    needs_pinned_tools = needs("the pinned game-archaeologist tools", lambda: ga.fetch())
+                                                                              ~~~~~~~~^^
+  File "/home/user/goal2-archaeology/tools/ga.py", line 243, in fetch
+    wanted = _wanted(repo, commit)
+  File "/home/user/goal2-archaeology/tools/ga.py", line 117, in _wanted
+    tree = _gh_api(f"repos/{repo}/git/trees/{commit}?recursive=1")
+  File "/home/user/goal2-archaeology/tools/ga.py", line 108, in _gh_api
+    raise GaError(f"gh api {path} failed: {message or f'exit {out.returncode}'}") from None
+tools.ga.GaError: gh api repos/diegoami/game-archaeologist/git/trees/7d10d70d8ee4da80e6a8cf10c9a7abfd8483d09d?recursive=1 failed: gh: GitHub access to this repository is not enabled for this session. Use add_repo to request access. If add_repo answers that read access is already available and you need GitHub API or write access, call add_repo again with access:"push" to attach the repository with credentials. (HTTP 403)
+
+======================================================================
+FAIL: test_no_alt_is_held_and_f10_arrives_as_f10 (test_driver_keys.EndToEnd.test_no_alt_is_held_and_f10_arrives_as_f10)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/user/goal2-archaeology/tests/test_driver_keys.py", line 505, in test_no_alt_is_held_and_f10_arrives_as_f10
+    self.assertEqual(4, len(rows), p.stdout + p.stderr)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 4 != 0 : Traceback (most recent call last):
+  File "/home/user/goal2-archaeology/experiments/fix-244-driver-keys/probe.py", line 87, in <module>
+    sys.exit(main())
+             ~~~~^^
+  File "/home/user/goal2-archaeology/experiments/fix-244-driver-keys/probe.py", line 62, in main
+    d.launch(None)
+    ~~~~~~~~^^^^^^
+  File "/home/user/goal2-archaeology/runtime/driver/driver.py", line 368, in launch
+    sc = self.wait_screen(lambda sc: TITLE_TEXT in sc.text(), timeout, "title screen")
+  File "/home/user/goal2-archaeology/runtime/driver/driver.py", line 573, in wait_screen
+    sc = self.screen()
+  File "/home/user/goal2-archaeology/runtime/driver/driver.py", line 561, in screen
+    return self.read()[1].screen()
+           ~~~~~~~~~^^
+  File "/home/user/goal2-archaeology/runtime/driver/driver.py", line 554, in read
+    data = self.save_state()
+  File "/home/user/goal2-archaeology/runtime/driver/driver.py", line 533, in save_state
+    raise RuntimeError(f"dosbox-x exited with code {self.dbx.returncode} during a savestate")
+RuntimeError: dosbox-x exited with code -11 during a savestate
+
+
+======================================================================
+FAIL: test_unreadable_formats_directory_is_a_named_error (test_ga.GaFetchTest.test_unreadable_formats_directory_is_a_named_error)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/user/goal2-archaeology/tests/test_ga.py", line 226, in test_unreadable_formats_directory_is_a_named_error
+    with self.assertRaises(ga.GaError) as raised:
+         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+AssertionError: GaError not raised
+
+======================================================================
+FAIL: test_unreadable_tools_directory_is_a_named_error (test_ga.GaFetchTest.test_unreadable_tools_directory_is_a_named_error)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/user/goal2-archaeology/tests/test_ga.py", line 211, in test_unreadable_tools_directory_is_a_named_error
+    with self.assertRaises(ga.GaError) as raised:
+         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+AssertionError: GaError not raised
+
+======================================================================
+FAIL: test_the_record_names_no_home_directory (test_human_record.Extraction.test_the_record_names_no_home_directory)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/user/goal2-archaeology/tests/test_human_record.py", line 275, in test_the_record_names_no_home_directory
+    self.assertTrue(str(session).startswith(home + "/"))
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true
+
+----------------------------------------------------------------------
+Ran 1668 tests in 1037.634s
+
+FAILED (failures=4, errors=19, skipped=33)
+exit 1
